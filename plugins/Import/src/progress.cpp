@@ -38,6 +38,19 @@ CProgressPageDlg::CProgressPageDlg() :
 	m_timer.OnEvent = Callback(this, &CProgressPageDlg::OnTimer);
 }
 
+int CProgressPageDlg::Resizer(UTILRESIZECONTROL *urc)
+{
+	switch (urc->wId) {
+	case IDC_PROGRESS:
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
+
+	case IDC_STATUS:
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+	}
+
+	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
+}
+
 bool CProgressPageDlg::OnInitDialog()
 {
 	pDlg = this;

@@ -35,6 +35,14 @@ bool CIntroPageDlg::OnInitDialog()
 	return true;
 }
 
+int CIntroPageDlg::Resizer(UTILRESIZECONTROL *urc)
+{
+	if (urc->wId == -1)
+		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
+
+	return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
+}
+
 void CIntroPageDlg::OnNext()
 {
 	PostMessage(m_hwndParent, WIZM_GOTOPAGE, 0, (LPARAM)new CMirandaPageDlg());
@@ -53,6 +61,11 @@ bool CFinishedPageDlg::OnInitDialog()
 	SendMessage(m_hwndParent, WIZM_SETCANCELTEXT, 0, (LPARAM)TranslateT("Finish"));
 	CheckDlgButton(m_hwnd, IDC_DONTLOADPLUGIN, BST_UNCHECKED);
 	return true;
+}
+
+int CFinishedPageDlg::Resizer(UTILRESIZECONTROL*)
+{
+	return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
 }
 
 void CFinishedPageDlg::OnNext()
@@ -76,6 +89,7 @@ CWizardPageDlg::CWizardPageDlg(int iDlgId) :
 	btnCancel(this, IDCANCEL)
 {
 	m_autoClose = 0; // disable built-in IDOK & IDCANCEL handlers;
+	m_forceResizable = true;
 
 	btnOk.OnClick = Callback(this, &CWizardPageDlg::onClick_Ok);
 	btnCancel.OnClick = Callback(this, &CWizardPageDlg::onClick_Cancel);
@@ -92,6 +106,7 @@ class CWizardDlg : public CDlgBase
 {
 	CWizardPageDlg *m_pFirstPage;
 	HWND hwndPage = nullptr;
+	int m_splitterX = 0, m_splitterY = 0;
 
 public:
 	CWizardDlg(CWizardPageDlg *pPage) :
@@ -103,6 +118,8 @@ public:
 
 	bool OnInitDialog() override
 	{
+		Utils_RestoreWindowPosition(m_hwnd, 0, IMPORT_MODULE, "wiz");
+
 		Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_IMPORT));
 		g_hwndWizard = m_hwnd;
 
@@ -111,8 +128,26 @@ public:
 		return true;
 	}
 
+	int Resizer(UTILRESIZECONTROL *urc) override
+	{
+		switch (urc->wId) {
+		case IDC_SPLITTER:
+			m_splitterX = urc->dlgNewSize.cx;
+			m_splitterY = urc->dlgNewSize.cy - (urc->dlgOriginalSize.cy - urc->rcItem.top);
+			return RD_ANCHORX_WIDTH | RD_ANCHORY_BOTTOM;
+
+		case IDOK:
+		case IDCANCEL:
+		case IDC_BACK:
+			return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
+		}
+
+		return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
+	}
+
 	bool OnClose() override
 	{
+		Utils_SaveWindowPosition(m_hwnd, 0, IMPORT_MODULE, "wiz");
 		if (hwndPage)
 			DestroyWindow(hwndPage);
 		return true;
@@ -143,7 +178,7 @@ public:
 				pPage->Show();
 				hwndPage = pPage->GetHwnd();
 			}
-			SetWindowPos(hwndPage, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+			SetWindowPos(hwndPage, nullptr, 0, 0, m_splitterX, m_splitterY, SWP_NOZORDER);
 			if (bFirstLaunch)
 				ShowWindow(m_hwnd, SW_SHOW);
 			break;
@@ -189,7 +224,13 @@ public:
 			break;
 		}
 
-		return CDlgBase::DlgProc(uMsg, wParam, lParam);
+		INT_PTR res = CDlgBase::DlgProc(uMsg, wParam, lParam);
+		if (uMsg == WM_SIZE && hwndPage) {
+			SetWindowPos(hwndPage, 0, 0, 0, m_splitterX, m_splitterY, SWP_NOZORDER | SWP_NOACTIVATE);
+			SendMessage(hwndPage, WM_SIZE, wParam, lParam);
+		}
+
+		return res;
 	}
 };
 

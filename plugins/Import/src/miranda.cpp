@@ -63,6 +63,24 @@ bool CMirandaPageDlg::OnInitDialog()
 	return true;
 }
 
+int CMirandaPageDlg::Resizer(UTILRESIZECONTROL *urc)
+{
+	switch (urc->wId) {
+	case IDC_STATICTEXT1:
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
+
+	case IDC_STATICTEXT2:
+		return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
+
+	case IDC_FILENAME:
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_BOTTOM;
+
+	case IDC_LIST:
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+	}
+	return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
+}
+
 void CMirandaPageDlg::OnDestroy()
 {
 	for (int i = SendDlgItemMessage(m_hwnd, IDC_LIST, LB_GETCOUNT, 0, 0) - 1; i >= 0; i--)
@@ -176,6 +194,19 @@ bool CMirandaOptionsPageDlg::OnInitDialog()
 	EnableWindow(GetDlgItem(m_hwnd, IDC_STATIC_CUSTOM), TRUE);
 	CheckDlgButton(m_hwnd, IDC_RADIO_ALL, BST_CHECKED);
 	return true;
+}
+
+int CMirandaOptionsPageDlg::Resizer(UTILRESIZECONTROL *urc)
+{
+	switch (urc->wId) {
+	case IDC_STATIC_ALL:
+	case IDC_STATIC_CONTACTS:
+	case IDC_STATIC_CUSTOM:
+	case IDC_STATICTEXT1:
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
+	}
+
+	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 }
 
 void CMirandaOptionsPageDlg::onClick_Back(CCtrlButton*)

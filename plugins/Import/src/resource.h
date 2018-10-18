@@ -23,6 +23,10 @@
 #define IDC_FILENAME                    1007
 #define IDC_PROGRESS                    1008
 #define IDC_STATUS                      1009
+#define IDC_SPLITTER							 1010
+#define IDC_STATICTEXT1						 1011
+#define IDC_STATICTEXT2						 1012
+#define IDC_STATICTEXT3						 1013
 #define IDC_RADIO_ALL                   1016
 #define IDC_RADIO_CONTACTS              1017
 #define IDC_RADIO_CUSTOM                1018
@@ -31,7 +35,6 @@
 #define IDC_STATIC_CUSTOM               1021
 #define IDC_RADIO_COMPLETE              1022
 #define IDC_DATETIMEPICKER              1023
-#define IDC_STATIC_ALL2                 1023
 #define IDC_IN_FT                       1024
 #define IDC_CONTACTS                    1025
 #define IDC_SYSTEM                      1026
@@ -48,7 +51,6 @@
 #define IDC_ALL                         1037
 #define IDC_MSG                         1038
 #define IDC_URL                         1039
-#define IDC_FILE                        1040
 #define IDC_FT                          1040
 #define IDC_OPEN_FILE                   1042
 #define IDC_CHECK_DUPS                  1043

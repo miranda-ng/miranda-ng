@@ -97,6 +97,7 @@ class CIntroPageDlg : public CWizardPageDlg
 {
 public:
 	CIntroPageDlg();
+	int Resizer(UTILRESIZECONTROL *urc) override;
 
 	bool OnInitDialog() override;
 	void OnNext() override;
@@ -109,6 +110,7 @@ class CProgressPageDlg : public CWizardPageDlg
 
 public:
 	CProgressPageDlg();
+	int Resizer(UTILRESIZECONTROL *urc) override;
 
 	bool OnInitDialog() override;
 	void OnDestroy() override;
@@ -130,6 +132,7 @@ class CMirandaPageDlg : public CWizardPageDlg
 
 public:
 	CMirandaPageDlg();
+	int Resizer(UTILRESIZECONTROL *urc) override;
 
 	bool OnInitDialog() override;
 	void OnDestroy() override;
@@ -147,6 +150,7 @@ class CMirandaOptionsPageDlg : public CWizardPageDlg
 
 public:
 	CMirandaOptionsPageDlg();
+	int Resizer(UTILRESIZECONTROL *urc) override;
 
 	bool OnInitDialog() override;
 	void OnNext() override;
@@ -179,6 +183,7 @@ class CFinishedPageDlg : public CWizardPageDlg
 {
 public:
 	CFinishedPageDlg();
+	int Resizer(UTILRESIZECONTROL *urc) override;
 
 	bool OnInitDialog() override;
 	void OnNext() override;
