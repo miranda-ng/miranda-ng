@@ -215,7 +215,11 @@ static int Backup(wchar_t *backup_filename)
 		bZip = g_plugin.use_zip != 0;
 		RotateBackups(backupfolder, dbname);
 
-		CMStringW wszFileName(VARSW(g_plugin.file_mask));
+		CMStringW wszFileName;
+		if (ServiceExists(MS_VARS_FORMATSTRING))
+			wszFileName = VARSW(ptrW(variables_parse(g_plugin.file_mask, nullptr, 0)));
+		else
+			wszFileName = VARSW(g_plugin.file_mask);
 
 		wchar_t buffer[MAX_PATH];
 		DWORD size = _countof(buffer);

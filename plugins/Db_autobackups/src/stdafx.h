@@ -22,6 +22,7 @@ namespace fs = std::experimental::filesystem;
 #include <m_icolib.h>
 #include <m_autobackups.h>
 #include <m_gui.h>
+#include <m_variables.h>
 
 #include <m_folders.h>
 #include <m_cloudfile.h>
