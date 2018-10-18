@@ -21,8 +21,19 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
-{}
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
+	backup_types(MODULENAME, "BackupType", BT_PERIODIC),
+	period(MODULENAME, "Period", 1),
+	period_type(MODULENAME, "PeriodType", PT_DAYS),
+	num_backups(MODULENAME, "NumBackups", 3),
+	disable_progress(MODULENAME, "NoProgress", 0),
+	disable_popups(MODULENAME, "NoPopups", 0),
+	use_zip(MODULENAME, "UseZip", 0),
+	backup_profile(MODULENAME, "BackupProfile", 0),
+	use_cloudfile(MODULENAME, "UseCloudFile", 0),
+	cloudfile_service(MODULENAME, "CloudFileService", nullptr)
+{
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -58,7 +69,7 @@ static INT_PTR DBSaveAs(WPARAM, LPARAM)
 
 static int FoldersGetBackupPath(WPARAM, LPARAM)
 {
-	FoldersGetCustomPathT(hFolder, options.folder, _countof(options.folder), DIR SUB_DIR);
+	FoldersGetCustomPathT(hFolder, g_plugin.folder, _countof(g_plugin.folder), DIR SUB_DIR);
 	return 0;
 }
 
@@ -86,15 +97,14 @@ static int ModulesLoad(WPARAM, LPARAM)
 		FoldersGetBackupPath(0, 0);
 	}
 	else {
-		DBVARIANT dbv;
-		if (!db_get_ws(0, MODULENAME, "Folder", &dbv)) {
-			wcsncpy_s(options.folder, dbv.pwszVal, _TRUNCATE);
-			db_free(&dbv);
-		}
-		else mir_snwprintf(options.folder, L"%s%s", DIR, SUB_DIR);
+		ptrW wszFolder(g_plugin.getWStringA("Folder"));
+		if (wszFolder)
+			wcsncpy_s(g_plugin.folder, wszFolder, _TRUNCATE);
+		else
+			mir_snwprintf(g_plugin.folder, L"%s%s", DIR, SUB_DIR);
 	}
 
-	if (options.backup_types & BT_START)
+	if (g_plugin.backup_types & BT_START)
 		BackupStart(nullptr);
 	return 0;
 }
@@ -103,8 +113,8 @@ static int ModulesLoad(WPARAM, LPARAM)
 // for setting changed event not cleared. the backup on exit function will write to the db, calling those hooks.
 static int PreShutdown(WPARAM, LPARAM)
 {
-	if (options.backup_types & BT_EXIT) {
-		options.disable_popups = 1; // Don't try to show popups on exit
+	if (g_plugin.backup_types & BT_EXIT) {
+		g_plugin.disable_popups = 1; // Don't try to show popups on exit
 		BackupStart(nullptr);
 	}
 	return 0;

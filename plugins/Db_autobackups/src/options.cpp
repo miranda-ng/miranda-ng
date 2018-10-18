@@ -1,21 +1,5 @@
 #include "stdafx.h"
 
-Options::Options() :
-	backup_types(MODULENAME, "BackupType", BT_PERIODIC),
-	period(MODULENAME, "Period", 1),
-	period_type(MODULENAME, "PeriodType", PT_DAYS),
-	num_backups(MODULENAME, "NumBackups", 3),
-	disable_progress(MODULENAME, "NoProgress", 0),
-	disable_popups(MODULENAME, "NoPopups", 0),
-	use_zip(MODULENAME, "UseZip", 0),
-	backup_profile(MODULENAME, "BackupProfile", 0),
-	use_cloudfile(MODULENAME, "UseCloudFile", 0),
-	cloudfile_service(MODULENAME, "CloudFileService", nullptr)
-{
-}
-
-Options options;
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 class COptionsDlg : public CDlgBase
@@ -55,9 +39,9 @@ class COptionsDlg : public CDlgBase
 			m_cloudFileService.Enable(m_useCloudFile.IsChecked());
 			UseZip_OnChange(0);
 
-			BYTE backupTypes = options.backup_types;
+			BYTE backupTypes = g_plugin.backup_types;
 			if (backupTypes == BT_DISABLED)
-				backupTypes = options.backup_types.Default();
+				backupTypes = g_plugin.backup_types.Default();
 			m_backupOnStart.SetState(backupTypes & BT_START ? TRUE : FALSE);
 			m_backupOnExit.SetState(backupTypes & BT_EXIT ? TRUE : FALSE);
 			m_backupPeriodic.SetState(backupTypes & BT_PERIODIC ? TRUE : FALSE);
@@ -102,7 +86,7 @@ class COptionsDlg : public CDlgBase
 		switch (uMsg) {
 		case BFFM_INITIALIZED:
 			wchar_t backupfolder[MAX_PATH];
-			PathToAbsoluteW(VARSW(options.folder), backupfolder);
+			PathToAbsoluteW(VARSW(g_plugin.folder), backupfolder);
 			SendMessage(hwnd, BFFM_SETSELECTION, TRUE, (LPARAM)backupfolder);
 			break;
 		}
@@ -114,7 +98,7 @@ class COptionsDlg : public CDlgBase
 		CCtrlCombo &combo = *(CCtrlCombo*)param;
 		int pos = combo.GetCount();
 		combo.InsertString(serviceInfo->userName, pos, (LPARAM)serviceInfo->accountName);
-		if (mir_strcmp(serviceInfo->accountName, options.cloudfile_service) == 0)
+		if (mir_strcmp(serviceInfo->accountName, g_plugin.cloudfile_service) == 0)
 			combo.SetCurSel(pos);
 		return 0;
 	}
@@ -152,13 +136,13 @@ public:
 		m_useZip(this, IDC_CHK_USEZIP), m_useCloudFile(this, IDC_CLOUDFILE),
 		m_cloudFileService(this, IDC_CLOUDFILESEVICE)
 	{
-		CreateLink(m_period, options.period);
-		CreateLink(m_numBackups, options.num_backups);
-		CreateLink(m_disableProgress, options.disable_progress);
-		CreateLink(m_disablePopups, options.disable_popups);
-		CreateLink(m_useZip, options.use_zip);
-		CreateLink(m_backupProfile, options.backup_profile);
-		CreateLink(m_useCloudFile, options.use_cloudfile);
+		CreateLink(m_period, g_plugin.period);
+		CreateLink(m_numBackups, g_plugin.num_backups);
+		CreateLink(m_disableProgress, g_plugin.disable_progress);
+		CreateLink(m_disablePopups, g_plugin.disable_popups);
+		CreateLink(m_useZip, g_plugin.use_zip);
+		CreateLink(m_backupProfile, g_plugin.backup_profile);
+		CreateLink(m_useCloudFile, g_plugin.use_cloudfile);
 
 		m_disable.OnChange = Callback(this, &COptionsDlg::Disable_OnChange);
 		m_backupOnStart.OnChange = Callback(this, &COptionsDlg::BackupType_OnChange);
@@ -174,20 +158,20 @@ public:
 
 	bool OnInitDialog() override
 	{
-		m_disable.SetState(options.backup_types == BT_DISABLED);
-		m_backupOnStart.SetState(options.backup_types & BT_START ? TRUE : FALSE);
-		m_backupOnExit.SetState(options.backup_types & BT_EXIT ? TRUE : FALSE);
-		m_backupPeriodic.SetState(options.backup_types & BT_PERIODIC ? TRUE : FALSE);
+		m_disable.SetState(g_plugin.backup_types == BT_DISABLED);
+		m_backupOnStart.SetState(g_plugin.backup_types & BT_START ? TRUE : FALSE);
+		m_backupOnExit.SetState(g_plugin.backup_types & BT_EXIT ? TRUE : FALSE);
+		m_backupPeriodic.SetState(g_plugin.backup_types & BT_PERIODIC ? TRUE : FALSE);
 
 		m_period.SetRange(60, 1);
 
 		m_numBackups.SetRange(9999, 1);
-		m_numBackups.SetPosition(options.num_backups);
+		m_numBackups.SetPosition(g_plugin.num_backups);
 
 		m_periodType.AddString(TranslateT("days"));
 		m_periodType.AddString(TranslateT("hours"));
 		m_periodType.AddString(TranslateT("minutes"));
-		m_periodType.SetCurSel(options.period_type);
+		m_periodType.SetCurSel(g_plugin.period_type);
 
 		if (ServiceExists(MS_FOLDERS_GET_PATH)) {
 			m_folder.Hide();
@@ -195,7 +179,7 @@ public:
 			m_foldersPageLink.Show();
 		}
 		else {
-			m_folder.SetText(options.folder);
+			m_folder.SetText(g_plugin.folder);
 
 			wchar_t tszTooltipText[4096];
 			mir_snwprintf(tszTooltipText, L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
@@ -242,11 +226,11 @@ public:
 		else
 			backupTypes &= ~BT_PERIODIC;
 
-		options.backup_types = backupTypes;
+		g_plugin.backup_types = backupTypes;
 
 		SetBackupTimer();
 
-		options.period_type = m_periodType.GetCurSel();
+		g_plugin.period_type = m_periodType.GetCurSel();
 
 		ptrW folder(m_folder.GetText());
 
@@ -260,11 +244,11 @@ public:
 			return false;
 		}
 
-		wcsncpy_s(options.folder, folder, _TRUNCATE);
-		db_set_ws(0, MODULENAME, "Folder", folder);
+		wcsncpy_s(g_plugin.folder, folder, _TRUNCATE);
+		g_plugin.setWString("Folder", folder);
 
 		int currentService = m_cloudFileService.GetCurSel();
-		options.cloudfile_service = currentService >= 0
+		g_plugin.cloudfile_service = currentService >= 0
 			? (char*)m_cloudFileService.GetItemData(currentService)
 			: nullptr;
 		return true;
@@ -292,9 +276,7 @@ public:
 
 	void BackupType_OnChange(CCtrlBase*)
 	{
-		if (!m_backupOnStart.IsChecked() &&
-			!m_backupOnExit.IsChecked() &&
-			!m_backupPeriodic.IsChecked()) {
+		if (!m_backupOnStart.IsChecked() && !m_backupOnExit.IsChecked() && !m_backupPeriodic.IsChecked()) {
 			m_disable.SetState(TRUE);
 			SetDialogState();
 		}

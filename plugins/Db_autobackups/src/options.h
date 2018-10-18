@@ -38,20 +38,3 @@ enum PeriodType
 	PT_HOURS,
 	PT_MINUTES
 };
-
-struct Options
-{
-	CMOption<BYTE>	backup_types;
-	CMOption<WORD>	period;
-	CMOption<BYTE>	period_type;
-	wchar_t			folder[MAX_PATH];
-	CMOption<WORD>	num_backups;
-	CMOption<BYTE>	disable_progress;
-	CMOption<BYTE>	disable_popups;
-	CMOption<BYTE>	use_zip;
-	CMOption<BYTE>	backup_profile;
-	CMOption<BYTE>	use_cloudfile;
-	CMOption<char*>	cloudfile_service;
-
-	Options();
-};
