@@ -18,6 +18,7 @@ class COptionsDlg : public CDlgBase
 		m_backup.Enable(bEnabled);
 		m_folder.Enable(bEnabled);
 		m_browseFolder.Enable(bEnabled);
+		m_filemask.Enable(bEnabled);
 		m_foldersPageLink.Enable(bEnabled);
 		m_disableProgress.Enable(bEnabled);
 		m_disablePopups.Enable(bEnabled);
@@ -110,7 +111,7 @@ class COptionsDlg : public CDlgBase
 	CCtrlButton m_backup;
 	CCtrlSpin m_period;
 	CCtrlCombo m_periodType;
-	CCtrlEdit m_folder;
+	CCtrlEdit m_folder, m_filemask;
 	CCtrlButton m_browseFolder;
 	CCtrlHyperlink m_foldersPageLink;
 	CCtrlSpin m_numBackups;
@@ -130,7 +131,7 @@ public:
 		m_backupOnExit(this, IDC_RAD_EXIT), m_backupPeriodic(this, IDC_RAD_PERIODIC),
 		m_backup(this, IDC_BUT_NOW), m_backupProfile(this, IDC_BACKUPPROFILE),
 		m_period(this, SPIN_PERIOD), m_periodType(this, IDC_PT),
-		m_folder(this, IDC_ED_FOLDER), m_browseFolder(this, IDC_BUT_BROWSE),
+		m_folder(this, IDC_ED_FOLDER), m_browseFolder(this, IDC_BUT_BROWSE), m_filemask(this, IDC_FILEMASK),
 		m_foldersPageLink(this, IDC_LNK_FOLDERS, nullptr), m_numBackups(this, SPIN_NUMBACKUPS),
 		m_disableProgress(this, IDC_CHK_NOPROG), m_disablePopups(this, IDC_CHK_NOPOPUP),
 		m_useZip(this, IDC_CHK_USEZIP), m_useCloudFile(this, IDC_CLOUDFILE),
@@ -141,6 +142,7 @@ public:
 		CreateLink(m_disableProgress, g_plugin.disable_progress);
 		CreateLink(m_disablePopups, g_plugin.disable_popups);
 		CreateLink(m_useZip, g_plugin.use_zip);
+		CreateLink(m_filemask, g_plugin.file_mask);
 		CreateLink(m_backupProfile, g_plugin.backup_profile);
 		CreateLink(m_useCloudFile, g_plugin.use_cloudfile);
 

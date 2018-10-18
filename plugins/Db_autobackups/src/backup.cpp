@@ -215,13 +215,19 @@ static int Backup(wchar_t *backup_filename)
 		bZip = g_plugin.use_zip != 0;
 		RotateBackups(backupfolder, dbname);
 
-		SYSTEMTIME st;
-		GetLocalTime(&st);
+		CMStringW wszFileName(VARSW(g_plugin.file_mask));
 
-		wchar_t buffer[MAX_COMPUTERNAME_LENGTH + 1];
+		wchar_t buffer[MAX_PATH];
 		DWORD size = _countof(buffer);
 		GetComputerName(buffer, &size);
-		mir_snwprintf(dest_file, L"%s\\%s_%02d.%02d.%02d@%02d-%02d-%02d_%s.%s", backupfolder, dbname, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, buffer, bZip ? L"zip" : L"dat");
+		wszFileName.Replace(L"%compname%", buffer);
+
+		SYSTEMTIME st;
+		GetLocalTime(&st);
+		mir_snwprintf(buffer, L"%02d.%02d.%02d@%02d-%02d-%02d", st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
+		wszFileName.Replace(L"%currtime%", buffer);
+
+		mir_snwprintf(dest_file, L"%s\\%s.%s", backupfolder, wszFileName.c_str(), bZip ? L"zip" : L"dat");
 	}
 	else {
 		wcsncpy_s(dest_file, backup_filename, _TRUNCATE);

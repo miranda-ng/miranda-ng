@@ -26,6 +26,7 @@ CMPlugin::CMPlugin() :
 	period(MODULENAME, "Period", 1),
 	period_type(MODULENAME, "PeriodType", PT_DAYS),
 	num_backups(MODULENAME, "NumBackups", 3),
+	file_mask(MODULENAME, "FileMask", L"%miranda_profilename%.dat_%currtime%_%compname%"),
 	disable_progress(MODULENAME, "NoProgress", 0),
 	disable_popups(MODULENAME, "NoPopups", 0),
 	use_zip(MODULENAME, "UseZip", 0),
