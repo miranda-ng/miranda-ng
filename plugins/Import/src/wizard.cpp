@@ -219,6 +219,14 @@ public:
 			SetDlgItemText(m_hwnd, IDCANCEL, (wchar_t*)lParam);
 			break;
 
+		case WM_GETMINMAXINFO:
+			{
+				LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;
+				lpMMI->ptMinTrackSize.x = 330;
+				lpMMI->ptMinTrackSize.y = 232;
+			}
+			return 1;
+
 		case WM_COMMAND:
 			SendMessage(hwndPage, WM_COMMAND, wParam, lParam);
 			break;
