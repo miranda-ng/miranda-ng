@@ -228,6 +228,7 @@ public:
 		if (uMsg == WM_SIZE && hwndPage) {
 			SetWindowPos(hwndPage, 0, 0, 0, m_splitterX, m_splitterY, SWP_NOZORDER | SWP_NOACTIVATE);
 			SendMessage(hwndPage, WM_SIZE, wParam, lParam);
+			InvalidateRect(hwndPage, 0, 0);
 		}
 
 		return res;
