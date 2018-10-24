@@ -476,10 +476,10 @@ typedef struct MDBX_lockinfo {
    (uint16_t)(MDBX_LOCKINFO_WHOLE_SIZE + MDBX_CACHELINE_SIZE - 1))
 
 #define MDBX_DATA_MAGIC ((MDBX_MAGIC << 8) + MDBX_DATA_VERSION)
-#define MDBX_DATA_DEBUG ((MDBX_MAGIC << 8) + 255)
+#define MDBX_DATA_MAGIC_DEVEL ((MDBX_MAGIC << 8) + 255)
 
 #define MDBX_LOCK_MAGIC ((MDBX_MAGIC << 8) + MDBX_LOCK_VERSION)
-#define MDBX_LOCK_DEBUG ((MDBX_MAGIC << 8) + 255)
+#define MDBX_LOCK_MAGIC_DEVEL ((MDBX_MAGIC << 8) + 255)
 
 #ifndef MDBX_ASSUME_MALLOC_OVERHEAD
 #define MDBX_ASSUME_MALLOC_OVERHEAD (sizeof(void *) * 2u)
@@ -870,6 +870,9 @@ void mdbx_panic(const char *fmt, ...)
 #endif /* NDEBUG */
 #endif /* MDBX_DEBUG */
 
+LIBMDBX_API void mdbx_assert_fail(const MDBX_env *env, const char *msg,
+                                  const char *func, int line);
+
 #define mdbx_print(fmt, ...)                                                   \
   mdbx_debug_log(MDBX_DBG_PRINT, NULL, 0, fmt, ##__VA_ARGS__)
 
@@ -968,6 +971,9 @@ void mdbx_panic(const char *fmt, ...)
 
 /* assert(3) variant in transaction context */
 #define mdbx_tassert(txn, expr) mdbx_assert((txn)->mt_env, expr)
+
+#undef assert
+#define assert(expr) mdbx_assert(NULL, expr)
 
 /*----------------------------------------------------------------------------*/
 /* Internal prototypes */

@@ -26,11 +26,29 @@
 
 static void mdbx_winnt_import(void);
 
+#ifdef MDBX_BUILD_DLL
+/* DEBUG/CHECKED builds still require MSVC's CRT for runtime checks.
+ *
+ * Therefore we don't define dll's entry point for debug/checked builds by MSVC.
+ * In this case MSVC's will automatically use DllMainCRTStartup() from CRT
+ * library, which also automatically call DllMain() from our mdbx.dll
+ *
+ * On the other side, for RELEASE builds
+ * we explicitly define DllMain() as the entry point and don't linking with
+ * any CRT libraries (IgnoreAllDefaultLibraries = Yes). */
+#if !defined(_MSC_VER) || defined(NDEBUG)
+#pragma comment(linker, "/ENTRY:DllMain")
+#endif
+
+BOOL APIENTRY DllMain(HANDLE module, DWORD reason, LPVOID reserved)
+#else
 #if !MDBX_CONFIG_MANUAL_TLS_CALLBACK
 static
 #endif /* !MDBX_CONFIG_MANUAL_TLS_CALLBACK */
     void NTAPI
-    mdbx_dll_callback(PVOID module, DWORD reason, PVOID reserved) {
+    mdbx_dll_callback(PVOID module, DWORD reason, PVOID reserved)
+#endif /* MDBX_BUILD_DLL */
+{
   (void)reserved;
   switch (reason) {
   case DLL_PROCESS_ATTACH:
@@ -47,9 +65,12 @@ static
     mdbx_rthc_thread_dtor(module);
     break;
   }
+#ifdef MDBX_BUILD_DLL
+  return TRUE;
+#endif
 }
 
-#if !MDBX_CONFIG_MANUAL_TLS_CALLBACK
+#if !defined(MDBX_BUILD_DLL) && !MDBX_CONFIG_MANUAL_TLS_CALLBACK
 /* *INDENT-OFF* */
 /* clang-format off */
 #if defined(_MSC_VER)
@@ -87,7 +108,7 @@ static
 #endif
 /* *INDENT-ON* */
 /* clang-format on */
-#endif /* !MDBX_CONFIG_MANUAL_TLS_CALLBACK */
+#endif /* !defined(MDBX_BUILD_DLL) && !MDBX_CONFIG_MANUAL_TLS_CALLBACK */
 
 /*----------------------------------------------------------------------------*/
 
@@ -191,12 +212,12 @@ static int suspend_and_append(mdbx_handle_array_t **array,
                               const DWORD ThreadId) {
   const unsigned limit = (*array)->limit;
   if ((*array)->count == limit) {
-    void *ptr = realloc((limit > ARRAY_LENGTH((*array)->handles))
-                            ? *array
-                            : /* don't free initial array on the stack */ NULL,
-                        sizeof(mdbx_handle_array_t) +
-                            sizeof(HANDLE) *
-                                (limit * 2 - ARRAY_LENGTH((*array)->handles)));
+    void *ptr = mdbx_realloc(
+        (limit > ARRAY_LENGTH((*array)->handles))
+            ? *array
+            : /* don't free initial array on the stack */ NULL,
+        sizeof(mdbx_handle_array_t) +
+            sizeof(HANDLE) * (limit * 2 - ARRAY_LENGTH((*array)->handles)));
     if (!ptr)
       return MDBX_ENOMEM;
     if (limit == ARRAY_LENGTH((*array)->handles))
@@ -205,12 +226,19 @@ static int suspend_and_append(mdbx_handle_array_t **array,
     (*array)->limit = limit * 2;
   }
 
-  HANDLE hThread = OpenThread(THREAD_SUSPEND_RESUME, FALSE, ThreadId);
+  HANDLE hThread = OpenThread(THREAD_SUSPEND_RESUME | THREAD_QUERY_INFORMATION,
+                              FALSE, ThreadId);
   if (hThread == NULL)
     return GetLastError();
+
   if (SuspendThread(hThread) == -1) {
+    int err = GetLastError();
+    DWORD ExitCode;
+    if (err == /* workaround for Win10 UCRT bug */ ERROR_ACCESS_DENIED ||
+        !GetExitCodeThread(hThread, &ExitCode) || ExitCode != STILL_ACTIVE)
+      err = MDBX_SUCCESS;
     CloseHandle(hThread);
-    return GetLastError();
+    return err;
   }
 
   (*array)->handles[(*array)->count++] = hThread;
@@ -295,9 +323,15 @@ int mdbx_suspend_threads_before_remap(MDBX_env *env,
 int mdbx_resume_threads_after_remap(mdbx_handle_array_t *array) {
   int rc = MDBX_SUCCESS;
   for (unsigned i = 0; i < array->count; ++i) {
-    if (ResumeThread(array->handles[i]) == -1)
-      rc = GetLastError();
-    CloseHandle(array->handles[i]);
+    const HANDLE hThread = array->handles[i];
+    if (ResumeThread(hThread) == -1) {
+      const int err = GetLastError();
+      DWORD ExitCode;
+      if (err != /* workaround for Win10 UCRT bug */ ERROR_ACCESS_DENIED &&
+          GetExitCodeThread(hThread, &ExitCode) && ExitCode == STILL_ACTIVE)
+        rc = err;
+    }
+    CloseHandle(hThread);
   }
   return rc;
 }

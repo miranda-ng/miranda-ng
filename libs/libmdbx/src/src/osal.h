@@ -28,10 +28,16 @@
 #pragma warning(disable : 4577) /* 'noexcept' used with no exception handling  \
                                  * mode specified; termination on exception is \
                                  * not guaranteed. Specify /EHsc */
+#endif                          /* _MSC_VER (warnings) */
+
+#if defined(_WIN32) || defined(_WIN64)
 #if !defined(_CRT_SECURE_NO_WARNINGS)
 #define _CRT_SECURE_NO_WARNINGS
 #endif
-#endif /* _MSC_VER (warnings) */
+#if !defined(_NO_CRT_STDIO_INLINE) && defined(MDBX_BUILD_DLL)
+#define _NO_CRT_STDIO_INLINE
+#endif
+#endif /* Windows */
 
 /*----------------------------------------------------------------------------*/
 /* C99 includes */
@@ -84,7 +90,47 @@ typedef struct {
   HANDLE event;
 } mdbx_condmutex_t;
 typedef CRITICAL_SECTION mdbx_fastmutex_t;
+
+#ifdef MDBX_AVOID_CRT
+#ifndef mdbx_malloc
+static inline void *mdbx_malloc(size_t bytes) {
+  return LocalAlloc(LMEM_FIXED, bytes);
+}
+#endif /* mdbx_malloc */
+
+#ifndef mdbx_calloc
+static inline void *mdbx_calloc(size_t nelem, size_t size) {
+  return LocalAlloc(LMEM_FIXED | LMEM_ZEROINIT, nelem * size);
+}
+#endif /* mdbx_calloc */
+
+#ifndef mdbx_realloc
+static inline void *mdbx_realloc(void *ptr, size_t bytes) {
+  return LocalReAlloc(ptr, bytes, LMEM_MOVEABLE);
+}
+#endif /* mdbx_realloc */
+
+#ifndef mdbx_free
+#define mdbx_free LocalFree
+#endif /* mdbx_free */
 #else
+#define mdbx_malloc malloc
+#define mdbx_calloc calloc
+#define mdbx_realloc realloc
+#define mdbx_free free
+#define mdbx_strdup _strdup
+#endif /* MDBX_AVOID_CRT */
+
+#ifndef snprintf
+#define snprintf _snprintf /* ntdll */
+#endif
+
+#ifndef vsnprintf
+#define vsnprintf _vsnprintf /* ntdll */
+#endif
+
+#else /*----------------------------------------------------------------------*/
+
 #include <pthread.h>
 #include <signal.h>
 #include <sys/file.h>
@@ -103,6 +149,11 @@ typedef struct {
   pthread_cond_t cond;
 } mdbx_condmutex_t;
 typedef pthread_mutex_t mdbx_fastmutex_t;
+#define mdbx_malloc malloc
+#define mdbx_calloc calloc
+#define mdbx_realloc realloc
+#define mdbx_free free
+#define mdbx_strdup strdup
 #endif /* Platform */
 
 /* *INDENT-OFF* */
@@ -379,35 +430,13 @@ static __inline void mdbx_invalidate_cache(void *addr, size_t nbytes) {
 /*----------------------------------------------------------------------------*/
 /* libc compatibility stuff */
 
-#ifndef mdbx_assert_fail
-void mdbx_assert_fail(const MDBX_env *env, const char *msg, const char *func,
-                      int line);
-#endif /* mdbx_assert_fail */
-
 #if __GLIBC_PREREQ(2, 1)
 #define mdbx_asprintf asprintf
+#define mdbx_vasprintf vasprintf
 #else
-int mdbx_asprintf(char **strp, const char *fmt, ...);
+__printf_args(2, 3) int mdbx_asprintf(char **strp, const char *fmt, ...);
+int mdbx_vasprintf(char **strp, const char *fmt, va_list ap);
 #endif
-
-#ifdef _MSC_VER
-
-#ifndef snprintf
-#define snprintf(buffer, buffer_size, format, ...)                             \
-  _snprintf_s(buffer, buffer_size, _TRUNCATE, format, __VA_ARGS__)
-#endif /* snprintf */
-
-#ifndef vsnprintf
-#define vsnprintf(buffer, buffer_size, format, args)                           \
-  _vsnprintf_s(buffer, buffer_size, _TRUNCATE, format, args)
-#endif /* vsnprintf */
-
-#ifdef _ASSERTE
-#undef assert
-#define assert _ASSERTE
-#endif
-
-#endif /* _MSC_VER */
 
 /*----------------------------------------------------------------------------*/
 /* OS abstraction layer stuff */
@@ -428,13 +457,9 @@ static __inline size_t mdbx_syspagesize(void) {
 #endif
 }
 
-static __inline char *mdbx_strdup(const char *str) {
-#ifdef _MSC_VER
-  return _strdup(str);
-#else
-  return strdup(str);
+#ifndef mdbx_strdup
+LIBMDBX_API char *mdbx_strdup(const char *str);
 #endif
-}
 
 static __inline int mdbx_get_errno(void) {
 #if defined(_WIN32) || defined(_WIN64)
@@ -445,8 +470,12 @@ static __inline int mdbx_get_errno(void) {
   return rc;
 }
 
+#ifndef mdbx_memalign_alloc
 int mdbx_memalign_alloc(size_t alignment, size_t bytes, void **result);
+#endif
+#ifndef mdbx_memalign_free
 void mdbx_memalign_free(void *ptr);
+#endif
 
 int mdbx_condmutex_init(mdbx_condmutex_t *condmutex);
 int mdbx_condmutex_lock(mdbx_condmutex_t *condmutex);
@@ -564,14 +593,12 @@ int mdbx_rpid_set(MDBX_env *env);
 int mdbx_rpid_clear(MDBX_env *env);
 
 #if defined(_WIN32) || defined(_WIN64)
-typedef struct MDBX_srwlock {
-  union {
-    struct {
-      long volatile readerCount;
-      long volatile writerCount;
-    };
-    RTL_SRWLOCK native;
+typedef union MDBX_srwlock {
+  struct {
+    long volatile readerCount;
+    long volatile writerCount;
   };
+  RTL_SRWLOCK native;
 } MDBX_srwlock;
 
 typedef void(WINAPI *MDBX_srwlock_function)(MDBX_srwlock *);
@@ -652,6 +679,7 @@ static __inline uint32_t mdbx_atomic_add32(volatile uint32_t *p, uint32_t v) {
   return __sync_fetch_and_add(p, v);
 #else
 #ifdef _MSC_VER
+  STATIC_ASSERT(sizeof(volatile long) == sizeof(volatile uint32_t));
   return _InterlockedExchangeAdd((volatile long *)p, v);
 #endif
 #ifdef __APPLE__
@@ -692,7 +720,8 @@ static __inline bool mdbx_atomic_compare_and_swap32(volatile uint32_t *p,
   return __sync_bool_compare_and_swap(p, c, v);
 #else
 #ifdef _MSC_VER
-  return c == _InterlockedCompareExchange((volatile long*)p, v, c);
+  STATIC_ASSERT(sizeof(volatile long) == sizeof(volatile uint32_t));
+  return c == _InterlockedCompareExchange((volatile long *)p, v, c);
 #endif
 #ifdef __APPLE__
   return c == OSAtomicCompareAndSwap32Barrier(c, v, (volatile int32_t *)p);
