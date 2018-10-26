@@ -113,9 +113,7 @@ struct CContactCache : public MZeroedObject
 	wchar_t* getNormalizedStatusMsg(const wchar_t *src, bool fStripAll = false);
 	HICON    getIcon(int& iSize) const;
 
-	/*
-	 * input history
-	 */
+	// input history
 	void     saveHistory(int iHistorySize = 0);
 	void     inputHistoryEvent(WPARAM wParam);
 
@@ -129,7 +127,7 @@ private:
 	void     releaseAlloced();
 
 	MCONTACT m_hContact, m_hSub;
-	int      m_iStatus, m_iOldStatus, m_iMetaStatus;
+	int      m_iOldStatus = ID_STATUS_OFFLINE, m_iMetaStatus;
 	char    *m_szMetaProto;
 	wchar_t *m_szAccount;
 	wchar_t  m_szNick[80], m_szUIN[80];
