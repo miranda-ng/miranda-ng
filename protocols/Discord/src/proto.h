@@ -85,11 +85,13 @@ struct CDiscordUser : public MZeroedObject
 	SnowFlake guildId;
 	SnowFlake channelId;
 	SnowFlake lastReadId;
+	SnowFlake parentId;
 	bool      bIsPrivate;
+	bool      bIsGroup;
 
 	CDiscordMessage lastMsg;
 
-	CMStringW wszUsername;
+	CMStringW wszUsername, wszChannelName, wszTopic;
 	int       iDiscriminator;
 };
 
@@ -122,6 +124,7 @@ struct CDiscordGuild : public MZeroedObject
 	SnowFlake id, ownerId;
 	CMStringW wszName;
 	MCONTACT hContact;
+	MGROUP groupId;
 
 	GCSessionInfoBase *pParentSi;
 	OBJLIST<CDiscordGuildMember> arChatUsers;
@@ -142,6 +145,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	void __cdecl ServerThread(void*);
 	void __cdecl SearchThread(void *param);
 	void __cdecl SendMessageAckThread(void* param);
+	void __cdecl BatchChatCreate(void* param);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// session control
@@ -255,6 +259,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	void Chat_ProcessLogMenu(GCHOOK *gch);
 
 	void BuildStatusList(const CDiscordGuild *pGuild, const CMStringW &wszChannelId);
+	void CreateChat(CDiscordGuild *pGuild, CDiscordUser *pUser);
 	void ParseSpecialChars(SESSION_INFO *si, CMStringW &str);
 
 	//////////////////////////////////////////////////////////////////////////////////////

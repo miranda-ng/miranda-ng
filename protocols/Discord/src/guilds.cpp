@@ -59,6 +59,50 @@ void CDiscordProto::ProcessRole(CDiscordGuild *guild, const JSONNode &role)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static void sttSetGroupName(MCONTACT hContact, const wchar_t *pwszGroupName)
+{
+	ptrW wszOldName(db_get_wsa(hContact, "CList", "Group"));
+	if (wszOldName == nullptr)
+		db_set_ws(hContact, "CList", "Group", pwszGroupName);
+}
+
+void CDiscordProto::BatchChatCreate(void *param)
+{
+	CDiscordGuild *pGuild = (CDiscordGuild*)param;
+
+	for (auto &it : arUsers)
+		if (it->guildId == pGuild->id && !it->bIsPrivate)
+			CreateChat(pGuild, it);
+}
+
+void CDiscordProto::CreateChat(CDiscordGuild *pGuild, CDiscordUser *pUser)
+{
+	GCSessionInfoBase *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, pUser->wszUsername, pUser->wszChannelName);
+	si->pParent = pGuild->pParentSi;
+	pUser->hContact = si->hContact;
+
+	if (pUser->parentId) {
+		CDiscordUser *pParent = FindUserByChannel(pUser->parentId);
+		if (pParent != nullptr)
+			sttSetGroupName(pUser->hContact, pParent->wszChannelName);
+	}
+	else sttSetGroupName(pUser->hContact, Clist_GroupGetName(pGuild->groupId));
+
+	BuildStatusList(pGuild, pUser->wszUsername);
+
+	Chat_Control(m_szModuleName, pUser->wszUsername, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
+	Chat_Control(m_szModuleName, pUser->wszUsername, SESSION_ONLINE);
+
+	if (!pUser->wszTopic.IsEmpty()) {
+		Chat_SetStatusbarText(m_szModuleName, pUser->wszUsername, pUser->wszTopic);
+
+		GCEVENT gce = { m_szModuleName, pUser->wszUsername, GC_EVENT_TOPIC };
+		gce.time = time(0);
+		gce.ptszText = pUser->wszTopic;
+		Chat_Event(&gce);
+	}
+}
+
 void CDiscordProto::ProcessGuild(const JSONNode &p)
 {
 	SnowFlake guildId = ::getId(p["id"]);
@@ -72,6 +116,7 @@ void CDiscordProto::ProcessGuild(const JSONNode &p)
 	}
 	pGuild->ownerId = ::getId(p["owner_id"]);
 	pGuild->wszName = p["name"].as_mstring();
+	pGuild->groupId = Clist_GroupCreate(Clist_GroupExists(m_wszDefaultGroup), pGuild->wszName);
 
 	GCSessionInfoBase *si = Chat_NewSession(GCW_SERVER, m_szModuleName, pGuild->wszName, pGuild->wszName, pGuild);
 	Chat_Control(m_szModuleName, pGuild->wszName, WINDOW_HIDDEN);
@@ -92,6 +137,8 @@ void CDiscordProto::ProcessGuild(const JSONNode &p)
 	const JSONNode &channels = p["channels"];
 	for (auto itc = channels.begin(); itc != channels.end(); ++itc)
 		ProcessGuildChannel(pGuild, *itc);
+
+	ForkThread(&CDiscordProto::BatchChatCreate, pGuild);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -100,47 +147,48 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 {
 	CMStringW wszChannelId = pch["id"].as_mstring();
 	SnowFlake channelId = _wtoi64(wszChannelId);
-	CMStringW wszChannelName = pGuild->wszName + L"#" + pch["name"].as_mstring();
+	CMStringW wszName = pch["name"].as_mstring();
+	CDiscordUser *pUser;
 
 	// filter our all channels but the text ones
-	if (pch["type"].as_int() != 0)
-		return nullptr;
+	switch (pch["type"].as_int()) {
+	case 4: // channel group
+		pUser = FindUserByChannel(channelId);
+		if (pUser == nullptr) {
+			// missing channel - create it
+			pUser = new CDiscordUser(channelId);
+			pUser->bIsPrivate = false;
+			pUser->channelId = channelId;
+			pUser->bIsGroup = true;
+			arUsers.insert(pUser);
 
-	CMStringW wszTopic = pch["topic"].as_mstring();
+			MGROUP grpId = Clist_GroupCreate(pGuild->groupId, wszName);
+			pUser->wszChannelName = Clist_GroupGetName(grpId);
+		}
+		return pUser;
 
-	GCSessionInfoBase *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszChannelId, wszChannelName);
-	si->pParent = pGuild->pParentSi;
-	BuildStatusList(pGuild, wszChannelId);
+	case 0: // text channel
+		pUser = FindUserByChannel(channelId);
+		if (pUser == nullptr) {
+			// missing channel - create it
+			pUser = new CDiscordUser(channelId);
+			pUser->bIsPrivate = false;
+			pUser->channelId = channelId;
+			arUsers.insert(pUser);
+		}
+		pUser->wszUsername = wszChannelId;
+		pUser->wszChannelName = L"#" + wszName;
+		pUser->wszTopic = pch["topic"].as_mstring();
+		pUser->guildId = pGuild->id;
+		pUser->lastMsg = CDiscordMessage(::getId(pch["last_message_id"]));
+		pUser->parentId = _wtoi64(pch["parent_id"].as_mstring());
 
-	Chat_Control(m_szModuleName, wszChannelId, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
-	Chat_Control(m_szModuleName, wszChannelId, SESSION_ONLINE);
-
-	if (!wszTopic.IsEmpty()) {
-		Chat_SetStatusbarText(m_szModuleName, wszChannelId, wszTopic);
-
-		GCEVENT gce = { m_szModuleName, wszChannelId, GC_EVENT_TOPIC };
-		gce.time = time(0);
-		gce.ptszText = wszTopic;
-		Chat_Event(&gce);
+		setId(pUser->hContact, DB_KEY_ID, channelId);
+		setId(pUser->hContact, DB_KEY_CHANNELID, channelId);
+		return pUser;
 	}
 
-	CDiscordUser *pUser = FindUserByChannel(channelId);
-	if (pUser == nullptr) {
-		// missing channel - create it
-		pUser = new CDiscordUser(channelId);
-		pUser->bIsPrivate = false;
-		pUser->hContact = si->hContact;
-		pUser->id = channelId;
-		pUser->channelId = channelId;
-		arUsers.insert(pUser);
-	}
-	pUser->wszUsername = wszChannelId;
-	pUser->guildId = pGuild->id;
-	pUser->lastMsg = CDiscordMessage(::getId(pch["last_message_id"]));
-
-	setId(pUser->hContact, DB_KEY_ID, channelId);
-	setId(pUser->hContact, DB_KEY_CHANNELID, channelId);
-	return pUser;
+	return nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
