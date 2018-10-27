@@ -194,7 +194,7 @@ void CDiscordProto::OnCommandGuildDeleted(const JSONNode &pRoot)
 
 	auto T = arUsers.rev_iter();
 	for (auto &it : T)
-		if (it->guildId == pGuild->id) {
+		if (it->pGuild == pGuild) {
 			Chat_Terminate(m_szModuleName, it->wszUsername, true);
 			arUsers.remove(T.indexOf(&it));
 		}
@@ -220,7 +220,7 @@ void CDiscordProto::OnCommandGuildMemberRemoved(const JSONNode &pRoot)
 	CMStringW wszUserId = pRoot["user"]["id"].as_mstring();
 
 	for (auto &pUser : arUsers) {
-		if (pUser->guildId != pGuild->id)
+		if (pUser->pGuild != pGuild)
 			continue;
 
 		GCEVENT gce = { m_szModuleName, pUser->wszUsername, GC_EVENT_PART };
@@ -246,7 +246,7 @@ void CDiscordProto::OnCommandGuildMemberUpdated(const JSONNode &pRoot)
 		gm->wszNick = pRoot["user"]["username"].as_mstring() + L"#" + pRoot["user"]["discriminator"].as_mstring();
 
 	for (auto &it : arUsers) {
-		if (it->guildId != pGuild->id)
+		if (it->pGuild != pGuild)
 			continue;
 
 		CMStringW wszOldNick;
@@ -295,7 +295,7 @@ void CDiscordProto::OnCommandRoleDeleted(const JSONNode &pRoot)
 			it->position--;
 
 	for (auto &it : arUsers) {
-		if (it->guildId != pGuild->id)
+		if (it->pGuild != pGuild)
 			continue;
 
 		SESSION_INFO *si = g_chatApi.SM_FindSession(it->wszUsername, m_szModuleName);
@@ -368,9 +368,9 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 				return;
 			}
 
-			CDiscordGuild *pGuild = FindGuild(pUser->guildId);
+			CDiscordGuild *pGuild = pUser->pGuild;
 			if (pGuild == nullptr) {
-				debugLogA("message to unknown guild %lld ignored", pUser->guildId);
+				debugLogA("message to unknown guild ignored");
 				return;
 			}
 

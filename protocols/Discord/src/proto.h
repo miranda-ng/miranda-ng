@@ -79,16 +79,18 @@ struct CDiscordUser : public MZeroedObject
 		id(_id)
 		{}
 
+	~CDiscordUser();
+
 	SnowFlake id;
 	MCONTACT  hContact;
 
-	SnowFlake guildId;
 	SnowFlake channelId;
 	SnowFlake lastReadId;
 	SnowFlake parentId;
 	bool      bIsPrivate;
 	bool      bIsGroup;
 
+	struct CDiscordGuild *pGuild;
 	CDiscordMessage lastMsg;
 
 	CMStringW wszUsername, wszChannelName, wszTopic;
@@ -125,6 +127,7 @@ struct CDiscordGuild : public MZeroedObject
 	CMStringW wszName;
 	MCONTACT hContact;
 	MGROUP groupId;
+	LIST<CDiscordUser> arChannels;
 
 	GCSessionInfoBase *pParentSi;
 	OBJLIST<CDiscordGuildMember> arChatUsers;

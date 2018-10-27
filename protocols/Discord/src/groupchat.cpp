@@ -140,7 +140,7 @@ void CDiscordProto::Chat_ProcessLogMenu(GCHOOK *gch)
 		es.recentCount = 5;
 		if (EnterString(&es)) {
 			JSONNode root; root << WCHAR_PARAM("nick", es.ptszResult);
-			CMStringA szUrl(FORMAT, "/guilds/%lld/members/@me/nick", pUser->guildId);
+			CMStringA szUrl(FORMAT, "/guilds/%lld/members/@me/nick", pUser->pGuild->id);
 			Push(new AsyncHttpRequest(this, REQUEST_PATCH, szUrl, nullptr, &root));
 			mir_free(es.ptszResult);
 		}

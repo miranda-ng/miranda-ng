@@ -17,6 +17,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+int compareUsers(const CDiscordUser *p1, const CDiscordUser *p2);
+
 static int compareRoles(const CDiscordRole *p1, const CDiscordRole *p2)
 {
 	return compareInt64(p1->id, p2->id);
@@ -29,6 +31,7 @@ static int compareChatUsers(const CDiscordGuildMember *p1, const CDiscordGuildMe
 
 CDiscordGuild::CDiscordGuild(SnowFlake _id)
 	: id(_id),
+	arChannels(10, compareUsers),
 	arChatUsers(30, compareChatUsers),
 	arRoles(10, compareRoles)
 {
@@ -36,6 +39,12 @@ CDiscordGuild::CDiscordGuild(SnowFlake _id)
 
 CDiscordGuild::~CDiscordGuild()
 {
+}
+
+CDiscordUser::~CDiscordUser()
+{
+	if (pGuild != nullptr)
+		pGuild->arChannels.remove(this);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -70,8 +79,8 @@ void CDiscordProto::BatchChatCreate(void *param)
 {
 	CDiscordGuild *pGuild = (CDiscordGuild*)param;
 
-	for (auto &it : arUsers)
-		if (it->guildId == pGuild->id && !it->bIsPrivate)
+	for (auto &it : pGuild->arChannels)
+		if (!it->bIsPrivate)
 			CreateChat(pGuild, it);
 }
 
@@ -161,6 +170,7 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 			pUser->channelId = channelId;
 			pUser->bIsGroup = true;
 			arUsers.insert(pUser);
+			pGuild->arChannels.insert(pUser);
 
 			MGROUP grpId = Clist_GroupCreate(pGuild->groupId, wszName);
 			pUser->wszChannelName = Clist_GroupGetName(grpId);
@@ -176,10 +186,14 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 			pUser->channelId = channelId;
 			arUsers.insert(pUser);
 		}
+
+		if (pGuild->arChannels.find(pUser) == nullptr)
+			pGuild->arChannels.insert(pUser);
+
 		pUser->wszUsername = wszChannelId;
 		pUser->wszChannelName = L"#" + wszName;
 		pUser->wszTopic = pch["topic"].as_mstring();
-		pUser->guildId = pGuild->id;
+		pUser->pGuild = pGuild;
 		pUser->lastMsg = CDiscordMessage(::getId(pch["last_message_id"]));
 		pUser->parentId = _wtoi64(pch["parent_id"].as_mstring());
 
@@ -273,8 +287,8 @@ void CDiscordProto::ParseGuildContents(CDiscordGuild *pGuild, const JSONNode &pR
 		AddGuildUser(pGuild, *pm);
 
 	// retrieve missing histories
-	for (auto &it : arUsers) {
-		if (it->bIsPrivate || it->guildId != pGuild->id)
+	for (auto &it : pGuild->arChannels) {
+		if (it->bIsPrivate)
 			continue;
 
 		SnowFlake oldMsgId = getId(it->hContact, DB_KEY_LASTMSGID);
