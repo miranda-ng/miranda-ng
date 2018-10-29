@@ -43,8 +43,8 @@ static handlers[] = // these structures must me sorted alphabetically
 	{ L"GUILD_SYNC", &CDiscordProto::OnCommandGuildSync },
 
 	{ L"MESSAGE_ACK", &CDiscordProto::OnCommandMessageAck },
-	{ L"MESSAGE_CREATE", &CDiscordProto::OnCommandMessage },
-	{ L"MESSAGE_UPDATE", &CDiscordProto::OnCommandMessage },
+	{ L"MESSAGE_CREATE", &CDiscordProto::OnCommandMessageCreate },
+	{ L"MESSAGE_UPDATE", &CDiscordProto::OnCommandMessageUpdate },
 
 	{ L"PRESENCE_UPDATE", &CDiscordProto::OnCommandPresence },
 
@@ -309,7 +309,17 @@ void CDiscordProto::OnCommandRoleDeleted(const JSONNode &pRoot)
 /////////////////////////////////////////////////////////////////////////////////////////
 // reading a new message
 
-void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
+void CDiscordProto::OnCommandMessageCreate(const JSONNode &pRoot)
+{
+	OnCommandMessage(pRoot, true);
+}
+
+void CDiscordProto::OnCommandMessageUpdate(const JSONNode &pRoot)
+{
+	OnCommandMessage(pRoot, false);
+}
+
+void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 {
 	CMStringW wszMessageId = pRoot["id"].as_mstring();
 	CMStringW wszUserId = pRoot["author"]["id"].as_mstring();
@@ -340,6 +350,21 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 	}
 	else {
 		CMStringW wszText = PrepareMessageText(pRoot);
+
+		if (!bIsNew) {
+			MEVENT hOldEvent = db_event_getById(m_szModuleName, szMsgId);
+			if (hOldEvent) {
+				DBEVENTINFO dbei = {};
+				dbei.cbBlob = db_event_getBlobSize(hOldEvent);
+				dbei.pBlob = (BYTE*)mir_alloc(dbei.cbBlob);
+				if (!db_event_get(hOldEvent, &dbei)) {
+					ptrW wszOldText(DbEvent_GetTextW(&dbei, CP_UTF8));
+					if (wszOldText)
+						wszText.Insert(0, wszOldText);
+				}
+				mir_free(dbei.pBlob);
+			}
+		}
 
 		const JSONNode &edited = pRoot["edited_timestamp"];
 		if (!edited.isnull())

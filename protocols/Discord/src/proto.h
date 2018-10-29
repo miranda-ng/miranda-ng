@@ -336,7 +336,9 @@ public:
 	void OnCommandGuildSync(const JSONNode&);
 	void OnCommandFriendAdded(const JSONNode&);
 	void OnCommandFriendRemoved(const JSONNode&);
-	void OnCommandMessage(const JSONNode&);
+	void OnCommandMessage(const JSONNode&, bool);
+	void OnCommandMessageCreate(const JSONNode&);
+	void OnCommandMessageUpdate(const JSONNode&);
 	void OnCommandMessageAck(const JSONNode&);
 	void OnCommandPresence(const JSONNode&);
 	void OnCommandReady(const JSONNode&);
