@@ -88,6 +88,8 @@ CDiscordProto::~CDiscordProto()
 	Netlib_CloseHandle(m_hNetlibUser);
 	m_hNetlibUser = nullptr;
 
+	arUsers.destroy();
+
 	m_arHttpQueue.destroy();
 	::CloseHandle(m_evRequestsQueue);
 }

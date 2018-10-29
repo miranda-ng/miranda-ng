@@ -183,7 +183,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	HNETLIBCONN m_hGatewayConnection;      // gateway connection
 	
 	void __cdecl GatewayThread(void*);
-	void  GatewayThreadWorker(void);
+	bool  GatewayThreadWorker(void);
 	
 	void  GatewaySend(const JSONNode&, int opCode = 1);
 	void  GatewayProcess(const JSONNode&);

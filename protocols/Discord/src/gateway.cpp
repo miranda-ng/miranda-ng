@@ -129,11 +129,12 @@ void CDiscordProto::GatewaySend(const JSONNode &pRoot, int opCode)
 
 void CDiscordProto::GatewayThread(void*)
 {
-	GatewayThreadWorker();
+	while (GatewayThreadWorker())
+		;
 	ShutdownSession();
 }
 
-void CDiscordProto::GatewayThreadWorker()
+bool CDiscordProto::GatewayThreadWorker()
 {
 	// connect to the gateway server
 	if (!mir_strncmp(m_szGateway, "wss://", 6))
@@ -155,7 +156,7 @@ void CDiscordProto::GatewayThreadWorker()
 	m_hGatewayConnection = Netlib_OpenConnection(m_hGatewayNetlibUser, &conn);
 	if (m_hGatewayConnection == nullptr) {
 		debugLogA("Gateway connection failed to connect to %s:%d, exiting", m_szGateway.c_str(), conn.wPort);
-		return;
+		return false;
 	}
 	{
 		CMStringA szBuf;
@@ -171,7 +172,7 @@ void CDiscordProto::GatewayThreadWorker()
 		szBuf.AppendFormat("\r\n");
 		if (Netlib_Send(m_hGatewayConnection, szBuf, szBuf.GetLength(), MSG_DUMPASTEXT) == SOCKET_ERROR) {
 			debugLogA("Error establishing gateway connection to %s:%d, send failed", m_szGateway.c_str(), conn.wPort);
-			return;
+			return false;
 		}
 	}
 	{
@@ -179,13 +180,13 @@ void CDiscordProto::GatewayThreadWorker()
 		int bufSize = Netlib_Recv(m_hGatewayConnection, buf, _countof(buf), MSG_DUMPASTEXT);
 		if (bufSize <= 0) {
 			debugLogA("Error establishing gateway connection to %s:%d, read failed", m_szGateway.c_str(), conn.wPort);
-			return;
+			return false;
 		}
 
 		int status = 0;
 		if (sscanf(buf, "HTTP/1.1 %d", &status) != 1 || status != 101) {
 			debugLogA("Error establishing gateway connection to %s:%d, status %d", m_szGateway.c_str(), conn.wPort, status);
-			return;
+			return false;
 		}
 	}
 
@@ -257,7 +258,7 @@ void CDiscordProto::GatewayThreadWorker()
 
 			case 8: // close
 				debugLogA("server required to exit");
-				bExit = true;
+				bExit = true; // simply reconnect, don't exit
 				break;
 
 			case 9: // ping
@@ -293,6 +294,7 @@ void CDiscordProto::GatewayThreadWorker()
 
 	Netlib_CloseHandle(m_hGatewayConnection);
 	m_hGatewayConnection = nullptr;
+	return bExit;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
