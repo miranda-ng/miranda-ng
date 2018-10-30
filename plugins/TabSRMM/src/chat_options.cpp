@@ -184,17 +184,17 @@ void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour, char *szM
 
 	if (colour) {
 		mir_snprintf(str, "Font%dCol", db_idx);
-		*colour = M.GetDword(szMod, str, fol[i].defColour);
+		*colour = db_get_dw(0, szMod, str, fol[i].defColour);
 	}
 
 	if (lf) {
 		mir_snprintf(str, "Font%dSize", db_idx);
-		lf->lfHeight = (char)M.GetByte(szMod, str, fol[i].defSize);
+		lf->lfHeight = (char)db_get_b(0, szMod, str, fol[i].defSize);
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
 		lf->lfOrientation = 0;
 		mir_snprintf(str, "Font%dSty", db_idx);
-		int style = M.GetByte(szMod, str, fol[i].defStyle);
+		int style = db_get_b(0, szMod, str, fol[i].defStyle);
 		if (i == MSGFONTID_MESSAGEAREA && section == FONTSECTION_IM && M.GetByte("inputFontFix", 1) == 1) {
 			lf->lfWeight = FW_NORMAL;
 			lf->lfItalic = 0;
@@ -208,7 +208,7 @@ void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour, char *szM
 			lf->lfStrikeOut = style & FONTF_STRIKEOUT ? 1 : 0;
 		}
 		mir_snprintf(str, "Font%dSet", db_idx);
-		lf->lfCharSet = M.GetByte(szMod, str, fol[i].defCharset);
+		lf->lfCharSet = db_get_b(0, szMod, str, fol[i].defCharset);
 		lf->lfOutPrecision = OUT_DEFAULT_PRECIS;
 		lf->lfClipPrecision = CLIP_DEFAULT_PRECIS;
 		lf->lfQuality = DEFAULT_QUALITY;
@@ -562,9 +562,9 @@ class CChatSettingsDlg : public CChatBaseOptionDlg
 			tvis.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 			tvis.item.pszText = TranslateW(branch[i].szDescr);
 			if (branch[i].iMode)
-				tvis.item.iImage = tvis.item.iSelectedImage = ((((M.GetDword(CHAT_MODULE, branch[i].szDBName, defaultval) & branch[i].iMode) & branch[i].iMode) != 0) ? IMG_CHECK : IMG_NOCHECK);
+				tvis.item.iImage = tvis.item.iSelectedImage = ((((db_get_dw(0, CHAT_MODULE, branch[i].szDBName, defaultval) & branch[i].iMode) & branch[i].iMode) != 0) ? IMG_CHECK : IMG_NOCHECK);
 			else
-				tvis.item.iImage = tvis.item.iSelectedImage = ((M.GetByte(CHAT_MODULE, branch[i].szDBName, branch[i].bDefault) != 0) ? IMG_CHECK : IMG_NOCHECK);
+				tvis.item.iImage = tvis.item.iSelectedImage = ((db_get_dw(0, CHAT_MODULE, branch[i].szDBName, branch[i].bDefault) != 0) ? IMG_CHECK : IMG_NOCHECK);
 			branch[i].hItem = treeCheck.InsertItem(&tvis);
 		}
 	}
@@ -682,7 +682,7 @@ public:
 		SendDlgItemMessage(m_hwnd, IDC_CHAT_SPIN2, UDM_SETRANGE, 0, MAKELONG(5000, 0));
 		SendDlgItemMessage(m_hwnd, IDC_CHAT_SPIN2, UDM_SETPOS, 0, MAKELONG(db_get_w(0, CHAT_MODULE, "LogLimit", 100), 0));
 		SendDlgItemMessage(m_hwnd, IDC_CHAT_SPIN3, UDM_SETRANGE, 0, MAKELONG(255, 10));
-		SendDlgItemMessage(m_hwnd, IDC_CHAT_SPIN3, UDM_SETPOS, 0, MAKELONG(M.GetByte(CHAT_MODULE, "NicklistRowDist", 12), 0));
+		SendDlgItemMessage(m_hwnd, IDC_CHAT_SPIN3, UDM_SETPOS, 0, MAKELONG(db_get_b(0, CHAT_MODULE, "NicklistRowDist", 12), 0));
 		SetDlgItemText(m_hwnd, IDC_LOGTIMESTAMP, g_Settings.pszTimeStampLog);
 		SetDlgItemText(m_hwnd, IDC_TIMESTAMP, g_Settings.pszTimeStamp);
 		SetDlgItemText(m_hwnd, IDC_OUTSTAMP, g_Settings.pszOutgoingNick);
@@ -799,7 +799,7 @@ public:
 
 		if (g_chatApi.hListBkgBrush)
 			DeleteObject(g_chatApi.hListBkgBrush);
-		g_chatApi.hListBkgBrush = CreateSolidBrush(M.GetDword(CHAT_MODULE, "ColorNicklistBG", SRMSGDEFSET_BKGCOLOUR));
+		g_chatApi.hListBkgBrush = CreateSolidBrush(db_get_dw(0, CHAT_MODULE, "ColorNicklistBG", SRMSGDEFSET_BKGCOLOUR));
 		return true;
 	}
 
@@ -925,10 +925,10 @@ public:
 
 	bool OnInitDialog() override
 	{
-		DWORD dwFilterFlags = M.GetDword(CHAT_MODULE, "FilterFlags", GC_EVENT_ALL);
-		DWORD dwTrayFlags = M.GetDword(CHAT_MODULE, "TrayIconFlags", GC_EVENT_HIGHLIGHT);
-		DWORD dwPopupFlags = M.GetDword(CHAT_MODULE, "PopupFlags", GC_EVENT_HIGHLIGHT);
-		DWORD dwLogFlags = M.GetDword(CHAT_MODULE, "DiskLogFlags", GC_EVENT_ALL);
+		DWORD dwFilterFlags = db_get_dw(0, CHAT_MODULE, "FilterFlags", GC_EVENT_ALL);
+		DWORD dwTrayFlags = db_get_dw(0, CHAT_MODULE, "TrayIconFlags", GC_EVENT_HIGHLIGHT);
+		DWORD dwPopupFlags = db_get_dw(0, CHAT_MODULE, "PopupFlags", GC_EVENT_HIGHLIGHT);
+		DWORD dwLogFlags = db_get_dw(0, CHAT_MODULE, "DiskLogFlags", GC_EVENT_ALL);
 
 		for (int i = 0; i < _countof(_eventorder); i++) {
 			if (_eventorder[i] != GC_EVENT_HIGHLIGHT) {
@@ -945,7 +945,7 @@ public:
 
 		SendDlgItemMessage(m_hwnd, IDC_LOGICONTYPE, CB_SETCURSEL, (g_Settings.bLogSymbols ? 2 : (g_Settings.dwIconFlags ? 1 : 0)), 0);
 
-		CheckDlgButton(m_hwnd, IDC_TRAYONLYFORINACTIVE, M.GetByte(CHAT_MODULE, "TrayIconInactiveOnly", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_TRAYONLYFORINACTIVE, db_get_b(0, CHAT_MODULE, "TrayIconInactiveOnly", 0) ? BST_CHECKED : BST_UNCHECKED);
 		return true;
 	}
 
@@ -1007,13 +1007,13 @@ public:
 		if (wszText)
 			edtNick.SetText(wszText);
 
-		DWORD dwFlags = M.GetByte(CHAT_MODULE, "HighlightEnabled", CMUCHighlight::MATCH_TEXT);
+		DWORD dwFlags = db_get_b(0, CHAT_MODULE, "HighlightEnabled", CMUCHighlight::MATCH_TEXT);
 
 		chkNick.SetState(dwFlags & CMUCHighlight::MATCH_NICKNAME); onChange_Nick(0);
 		chkText.SetState(dwFlags & CMUCHighlight::MATCH_TEXT); onChange_Text(0);
 		
 		::CheckDlgButton(m_hwnd, IDC_HIGHLIGHTNICKUID, dwFlags & CMUCHighlight::MATCH_UIN ? BST_CHECKED : BST_UNCHECKED);
-		::CheckDlgButton(m_hwnd, IDC_HIGHLIGHTME, M.GetByte(CHAT_MODULE, "HighlightMe", 1) ? BST_CHECKED : BST_UNCHECKED);
+		::CheckDlgButton(m_hwnd, IDC_HIGHLIGHTME, db_get_b(0, CHAT_MODULE, "HighlightMe", 1) ? BST_CHECKED : BST_UNCHECKED);
 		return true;
 	}
 

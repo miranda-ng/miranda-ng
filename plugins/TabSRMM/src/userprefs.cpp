@@ -181,12 +181,12 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			}
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_ISFAVORITE)) {
-				if (!M.GetByte(hContact, "isFavorite", 0))
+				if (!M.IsFavorite(hContact))
 					AddContactToFavorites(hContact, nullptr, nullptr, nullptr, 0, nullptr, 1, PluginConfig.g_hMenuFavorites);
 			}
 			else DeleteMenu(PluginConfig.g_hMenuFavorites, hContact, MF_BYCOMMAND);
 
-			db_set_b(hContact, SRMSGMOD_T, "isFavorite", (WORD)(IsDlgButtonChecked(hwndDlg, IDC_ISFAVORITE) ? 1 : 0));
+			M.SetFavorite(hContact, IsDlgButtonChecked(hwndDlg, IDC_ISFAVORITE) != 0);
 			db_set_b(hContact, SRMSGMOD_T, "splitoverride", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_PRIVATESPLITTER) ? 1 : 0));
 
 			db_set_b(hContact, TEMPLATES_MODULE, "enabled", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_TEMPLOVERRIDE)));

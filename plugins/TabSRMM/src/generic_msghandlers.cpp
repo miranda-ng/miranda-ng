@@ -337,24 +337,24 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 	case IDC_INFOPANELMENU:
 		submenu = GetSubMenu(PluginConfig.g_hMenuContext, 7);
 		GetWindowRect(GetDlgItem(m_hwnd, IDC_NAME), &rc);
-
-		EnableMenuItem(submenu, ID_FAVORITES_ADDCONTACTTOFAVORITES, !m_cache->isFavorite() ? MF_ENABLED : MF_GRAYED);
-		EnableMenuItem(submenu, ID_FAVORITES_REMOVECONTACTFROMFAVORITES, !m_cache->isFavorite() ? MF_GRAYED : MF_ENABLED);
-
+		{
+			bool bIsFavorite = M.IsFavorite(m_hContact);
+			EnableMenuItem(submenu, ID_FAVORITES_ADDCONTACTTOFAVORITES, !bIsFavorite ? MF_ENABLED : MF_GRAYED);
+			EnableMenuItem(submenu, ID_FAVORITES_REMOVECONTACTFROMFAVORITES, bIsFavorite ? MF_ENABLED : MF_GRAYED);
+		}
 		iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hwnd, nullptr);
 
 		switch (iSelection) {
 		case ID_FAVORITES_ADDCONTACTTOFAVORITES:
-			db_set_b(m_hContact, SRMSGMOD_T, "isFavorite", 1);
+			M.SetFavorite(m_hContact, 1);
 			AddContactToFavorites(m_hContact, m_cache->getNick(), m_cache->getProto(), m_wszStatus, m_wStatus, Skin_LoadProtoIcon(m_cache->getProto(), m_cache->getStatus()), 1, PluginConfig.g_hMenuFavorites);
 			break;
 		
 		case ID_FAVORITES_REMOVECONTACTFROMFAVORITES:
-			db_set_b(m_hContact, SRMSGMOD_T, "isFavorite", 0);
+			M.SetFavorite(m_hContact, 0);
 			DeleteMenu(PluginConfig.g_hMenuFavorites, m_hContact, MF_BYCOMMAND);
 			break;
 		}
-		m_cache->updateFavorite();
 		break;
 
 	case IDC_SENDMENU:
@@ -500,7 +500,7 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 
 	case IDC_SELFTYPING:
 		if (m_hContact) {
-			int iCurrentTypingMode = db_get_b(m_hContact, SRMSGMOD, SRMSGSET_TYPING, M.GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
+			int iCurrentTypingMode = db_get_b(m_hContact, SRMSGMOD, SRMSGSET_TYPING, db_get_b(0, SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
 
 			if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON && iCurrentTypingMode) {
 				DM_NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
@@ -780,8 +780,8 @@ HWND CTabBaseDlg::DM_CreateClist()
 	if (hItem)
 		SendMessage(hwndClist, CLM_SETCHECKMARK, (WPARAM)hItem, 1);
 
-	SendMessage(hwndClist, CLM_SETHIDEEMPTYGROUPS, M.GetByte("CList", "HideEmptyGroups", SETTING_USEGROUPS_DEFAULT), 0);
-	SendMessage(hwndClist, CLM_SETUSEGROUPS, M.GetByte("CList", "UseGroups", SETTING_USEGROUPS_DEFAULT), 0);
+	SendMessage(hwndClist, CLM_SETHIDEEMPTYGROUPS, db_get_b(0, "CList", "HideEmptyGroups", SETTING_USEGROUPS_DEFAULT), 0);
+	SendMessage(hwndClist, CLM_SETUSEGROUPS, db_get_b(0, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT), 0);
 	SendMessage(hwndClist, CLM_FIRST + 106, 0, 1);
 	SendMessage(hwndClist, CLM_AUTOREBUILD, 0, 0);
 	if (hwndClist)
@@ -903,7 +903,7 @@ void CTabBaseDlg::DM_NotifyTyping(int mode)
 		return;
 
 	// allow supression of sending out TN for the contact (NOTE: for metacontacts, do NOT use the subcontact handle)
-	if (!db_get_b(hContact, SRMSGMOD, SRMSGSET_TYPING, M.GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)))
+	if (!db_get_b(hContact, SRMSGMOD, SRMSGSET_TYPING, db_get_b(0, SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)))
 		return;
 
 	if (szProto == nullptr) // should not, but who knows...
@@ -929,7 +929,7 @@ void CTabBaseDlg::DM_NotifyTyping(int mode)
 
 	// don't send to contacts which are not permanently added to the contact list,
 	// unless the option to ignore added status is set.
-	if (db_get_b(m_hContact, "CList", "NotOnList", 0) && !M.GetByte(SRMSGMOD, SRMSGSET_TYPINGUNKNOWN, SRMSGDEFSET_TYPINGUNKNOWN))
+	if (db_get_b(m_hContact, "CList", "NotOnList", 0) && !db_get_b(0, SRMSGMOD, SRMSGSET_TYPINGUNKNOWN, SRMSGDEFSET_TYPINGUNKNOWN))
 		return;
 
 	// End user check
@@ -1329,7 +1329,7 @@ void CTabBaseDlg::DrawStatusIcons(HDC hDC, const RECT &rc, int gap)
 				if (!isChat() || m_si->iType == GCW_PRIVMESS) {
 					DrawIconEx(hDC, x, y, PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING], PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, 0, nullptr, DI_NORMAL);
 
-					DrawIconEx(hDC, x, y, db_get_b(m_hContact, SRMSGMOD, SRMSGSET_TYPING, M.GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)) ?
+					DrawIconEx(hDC, x, y, db_get_b(m_hContact, SRMSGMOD, SRMSGSET_TYPING, db_get_b(0, SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)) ?
 						PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled, PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, 0, nullptr, DI_NORMAL);
 				}
 				else CSkin::DrawDimmedIcon(hDC, x, y, PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING], 50);

@@ -97,43 +97,42 @@ public:
 	 * database functions
 	 */
 
-	static DWORD __forceinline GetDword(const char *szModule, const char *szSetting, DWORD uDefault)
-	{
-		return db_get_dw(0, szModule, szSetting, uDefault);
-	}
 	static DWORD __forceinline GetDword(const char *szSetting, DWORD uDefault)
-	{
-		return db_get_dw(0, SRMSGMOD_T, szSetting, uDefault);
+	{	return db_get_dw(0, SRMSGMOD_T, szSetting, uDefault);
 	}
 	static DWORD __forceinline GetDword(const MCONTACT hContact, const char *szSetting, DWORD uDefault)
-	{
-		return db_get_dw(hContact, SRMSGMOD_T, szSetting, uDefault);
+	{	return db_get_dw(hContact, SRMSGMOD_T, szSetting, uDefault);
 	}
 
 	static int __forceinline GetByte(const char *szSetting, int uDefault)
-	{
-		return db_get_b(0, SRMSGMOD_T, szSetting, uDefault);
-	}
-	static int __forceinline GetByte(const char *szModule, const char *szSetting, int uDefault)
-	{
-		return db_get_b(0, szModule, szSetting, uDefault);
+	{	return db_get_b(0, SRMSGMOD_T, szSetting, uDefault);
 	}
 	static int __forceinline GetByte(const MCONTACT hContact, const char *szSetting, int uDefault)
-	{
-		return db_get_b(hContact, SRMSGMOD_T, szSetting, uDefault);
+	{	return db_get_b(hContact, SRMSGMOD_T, szSetting, uDefault);
 	}
 
 	static bool __forceinline GetBool(const char *szSetting, bool bDefault)
-	{
-		return db_get_b(0, SRMSGMOD_T, szSetting, bDefault) != 0;
+	{	return db_get_b(0, SRMSGMOD_T, szSetting, bDefault) != 0;
 	}
 	static bool __forceinline GetBool(const char *szModule, const char *szSetting, bool bDefault)
-	{
-		return db_get_b(0, szModule, szSetting, bDefault) != 0;
+	{	return db_get_b(0, szModule, szSetting, bDefault) != 0;
 	}
 	static bool __forceinline GetBool(const MCONTACT hContact, const char *szSetting, bool bDefault)
-	{
-		return db_get_b(hContact, SRMSGMOD_T, szSetting, bDefault) != 0;
+	{	return db_get_b(hContact, SRMSGMOD_T, szSetting, bDefault) != 0;
+	}
+
+	static bool __forceinline IsFavorite(const MCONTACT hContact)
+	{	return db_get_b(hContact, SRMSGMOD_T, "isFavorite", false);
+	}
+	static void __forceinline SetFavorite(const MCONTACT hContact, bool bValue)
+	{	db_set_b(hContact, SRMSGMOD_T, "isFavorite", bValue);
+	}
+
+	static DWORD __forceinline IsRecent(const MCONTACT hContact)
+	{	return db_get_dw(hContact, SRMSGMOD_T, "isRecent", 0);
+	}
+	static void __forceinline SetRecent(const MCONTACT hContact, DWORD dwValue)
+	{	db_set_dw(hContact, SRMSGMOD_T, "isRecent", dwValue);
 	}
 
 	/*
@@ -148,9 +147,6 @@ public:
 	LPCTSTR getUserDir();
 	void    configureCustomFolders();
 	INT_PTR foldersPathChanged();
-
-	void    startTimer();
-	void    stopTimer(const char *szMsg = nullptr);
 
 	__forceinline __int64 getTimerStart() const { return m_tStart; }
 	__forceinline __int64 getTimerStop() const { return m_tStop; }

@@ -65,7 +65,7 @@ static void PU_CleanUp()
 
 static void CheckForRemoveMask()
 {
-	if (!M.GetByte(MODULE, "firsttime", 0) && (nen_options.maskActL & MASK_REMOVE || nen_options.maskActR & MASK_REMOVE || nen_options.maskActTE & MASK_REMOVE)) {
+	if (!db_get_b(0, MODULE, "firsttime", 0) && (nen_options.maskActL & MASK_REMOVE || nen_options.maskActR & MASK_REMOVE || nen_options.maskActTE & MASK_REMOVE)) {
 		MessageBox(nullptr, TranslateT("One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as \"new\". If you don't want this behavior, please review the 'Event notifications' settings page."), TranslateT("TabSRMM warning message"), MB_OK | MB_ICONSTOP);
 		db_set_b(0, MODULE, "firsttime", 1);
 	}
@@ -74,37 +74,37 @@ static void CheckForRemoveMask()
 
 int TSAPI NEN_ReadOptions(NEN_OPTIONS *options)
 {
-	options->bPreview = (BOOL)M.GetByte(MODULE, OPT_PREVIEW, TRUE);
-	options->bDefaultColorMsg = (BOOL)M.GetByte(MODULE, OPT_COLDEFAULT_MESSAGE, TRUE);
-	options->bDefaultColorOthers = (BOOL)M.GetByte(MODULE, OPT_COLDEFAULT_OTHERS, TRUE);
-	options->bDefaultColorErr = (BOOL)M.GetByte(MODULE, OPT_COLDEFAULT_ERR, TRUE);
-	options->colBackMsg = (COLORREF)M.GetDword(MODULE, OPT_COLBACK_MESSAGE, DEFAULT_COLBACK);
-	options->colTextMsg = (COLORREF)M.GetDword(MODULE, OPT_COLTEXT_MESSAGE, DEFAULT_COLTEXT);
-	options->colBackOthers = (COLORREF)M.GetDword(MODULE, OPT_COLBACK_OTHERS, DEFAULT_COLBACK);
-	options->colTextOthers = (COLORREF)M.GetDword(MODULE, OPT_COLTEXT_OTHERS, DEFAULT_COLTEXT);
-	options->colBackErr = (COLORREF)M.GetDword(MODULE, OPT_COLBACK_ERR, DEFAULT_COLBACK);
-	options->colTextErr = (COLORREF)M.GetDword(MODULE, OPT_COLTEXT_ERR, DEFAULT_COLTEXT);
-	options->maskActL = (UINT)M.GetByte(MODULE, OPT_MASKACTL, DEFAULT_MASKACTL);
-	options->maskActR = (UINT)M.GetByte(MODULE, OPT_MASKACTR, DEFAULT_MASKACTR);
-	options->maskActTE = (UINT)M.GetByte(MODULE, OPT_MASKACTTE, DEFAULT_MASKACTR) & (MASK_OPEN | MASK_DISMISS);
-	options->bMergePopup = (BOOL)M.GetByte(MODULE, OPT_MERGEPOPUP, 0);
-	options->iDelayMsg = (int)M.GetDword(MODULE, OPT_DELAY_MESSAGE, DEFAULT_DELAY);
-	options->iDelayOthers = (int)M.GetDword(MODULE, OPT_DELAY_OTHERS, DEFAULT_DELAY);
-	options->iDelayErr = (int)M.GetDword(MODULE, OPT_DELAY_ERR, DEFAULT_DELAY);
+	options->bPreview = (BOOL)db_get_b(0, MODULE, OPT_PREVIEW, TRUE);
+	options->bDefaultColorMsg = (BOOL)db_get_b(0, MODULE, OPT_COLDEFAULT_MESSAGE, TRUE);
+	options->bDefaultColorOthers = (BOOL)db_get_b(0, MODULE, OPT_COLDEFAULT_OTHERS, TRUE);
+	options->bDefaultColorErr = (BOOL)db_get_b(0, MODULE, OPT_COLDEFAULT_ERR, TRUE);
+	options->colBackMsg = db_get_dw(0, MODULE, OPT_COLBACK_MESSAGE, DEFAULT_COLBACK);
+	options->colTextMsg = db_get_dw(0, MODULE, OPT_COLTEXT_MESSAGE, DEFAULT_COLTEXT);
+	options->colBackOthers = db_get_dw(0, MODULE, OPT_COLBACK_OTHERS, DEFAULT_COLBACK);
+	options->colTextOthers = db_get_dw(0, MODULE, OPT_COLTEXT_OTHERS, DEFAULT_COLTEXT);
+	options->colBackErr = db_get_dw(0, MODULE, OPT_COLBACK_ERR, DEFAULT_COLBACK);
+	options->colTextErr = db_get_dw(0, MODULE, OPT_COLTEXT_ERR, DEFAULT_COLTEXT);
+	options->maskActL = (UINT)db_get_b(0, MODULE, OPT_MASKACTL, DEFAULT_MASKACTL);
+	options->maskActR = (UINT)db_get_b(0, MODULE, OPT_MASKACTR, DEFAULT_MASKACTR);
+	options->maskActTE = (UINT)db_get_b(0, MODULE, OPT_MASKACTTE, DEFAULT_MASKACTR) & (MASK_OPEN | MASK_DISMISS);
+	options->bMergePopup = (BOOL)db_get_b(0, MODULE, OPT_MERGEPOPUP, 0);
+	options->iDelayMsg = db_get_dw(0, MODULE, OPT_DELAY_MESSAGE, DEFAULT_DELAY);
+	options->iDelayOthers = db_get_dw(0, MODULE, OPT_DELAY_OTHERS, DEFAULT_DELAY);
+	options->iDelayErr = db_get_dw(0, MODULE, OPT_DELAY_ERR, DEFAULT_DELAY);
 	options->iDelayDefault = (int)DBGetContactSettingRangedWord(0, "Popup", "Seconds", SETTING_LIFETIME_DEFAULT, SETTING_LIFETIME_MIN, SETTING_LIFETIME_MAX);
-	options->bShowHeaders = (BYTE)M.GetByte(MODULE, OPT_SHOW_HEADERS, FALSE);
-	options->bNoRSS = (BOOL)M.GetByte(MODULE, OPT_NORSS, FALSE);
-	options->iDisable = (BYTE)M.GetByte(MODULE, OPT_DISABLE, 0);
-	options->iMUCDisable = (BYTE)M.GetByte(MODULE, OPT_MUCDISABLE, 0);
-	options->dwStatusMask = (DWORD)M.GetDword(MODULE, "statusmask", (DWORD)-1);
-	options->bTraySupport = (BOOL)M.GetByte(MODULE, "traysupport", 0);
-	options->bWindowCheck = (BOOL)M.GetByte(MODULE, OPT_WINDOWCHECK, 0);
-	options->bNoRSS = (BOOL)M.GetByte(MODULE, OPT_NORSS, 0);
-	options->iLimitPreview = (int)M.GetDword(MODULE, OPT_LIMITPREVIEW, 0);
+	options->bShowHeaders = (BYTE)db_get_b(0, MODULE, OPT_SHOW_HEADERS, FALSE);
+	options->bNoRSS = (BOOL)db_get_b(0, MODULE, OPT_NORSS, FALSE);
+	options->iDisable = (BYTE)db_get_b(0, MODULE, OPT_DISABLE, 0);
+	options->iMUCDisable = (BYTE)db_get_b(0, MODULE, OPT_MUCDISABLE, 0);
+	options->dwStatusMask = db_get_dw(0, MODULE, "statusmask", (DWORD)-1);
+	options->bTraySupport = (BOOL)db_get_b(0, MODULE, "traysupport", 0);
+	options->bWindowCheck = (BOOL)db_get_b(0, MODULE, OPT_WINDOWCHECK, 0);
+	options->bNoRSS = (BOOL)db_get_b(0, MODULE, OPT_NORSS, 0);
+	options->iLimitPreview = db_get_dw(0, MODULE, OPT_LIMITPREVIEW, 0);
 	options->wMaxFavorites = 15;
 	options->wMaxRecent = 15;
-	options->dwRemoveMask = M.GetDword(MODULE, OPT_REMOVEMASK, 0);
-	options->bDisableNonMessage = M.GetByte(MODULE, "disablenonmessage", 0);
+	options->dwRemoveMask = db_get_dw(0, MODULE, OPT_REMOVEMASK, 0);
+	options->bDisableNonMessage = db_get_b(0, MODULE, "disablenonmessage", 0);
 	CheckForRemoveMask();
 	return 0;
 }
@@ -548,7 +548,7 @@ static INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPA
 				break;
 
 			case IDC_POPUPSTATUSMODES:
-				CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CHOOSESTATUSMODES), hWnd, DlgProcSetupStatusModes, M.GetDword(MODULE, "statusmask", (DWORD)-1));
+				CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CHOOSESTATUSMODES), hWnd, DlgProcSetupStatusModes, db_get_dw(0, MODULE, "statusmask", (DWORD)-1));
 				break;
 
 			default:

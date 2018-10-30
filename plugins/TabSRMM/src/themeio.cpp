@@ -199,23 +199,23 @@ void TSAPI WriteThemeToINI(const wchar_t *szIniFilenameT, CSrmmWindow *dat)
 				db_free(&dbv);
 			}
 			mir_snprintf(szTemp, "Font%dCol", firstIndex + i);
-			WritePrivateProfileStringA(szAppname, "Color", _itoa(M.GetDword(szModule, szTemp, 0), szBuf, 10), szIniFilename);
+			WritePrivateProfileStringA(szAppname, "Color", _itoa(db_get_dw(0, szModule, szTemp, 0), szBuf, 10), szIniFilename);
 			mir_snprintf(szTemp, "Font%dSty", firstIndex + i);
-			WritePrivateProfileStringA(szAppname, "Style", _itoa(M.GetByte(szModule, szTemp, 0), szBuf, 10), szIniFilename);
+			WritePrivateProfileStringA(szAppname, "Style", _itoa(db_get_b(0, szModule, szTemp, 0), szBuf, 10), szIniFilename);
 			mir_snprintf(szTemp, "Font%dSize", firstIndex + i);
-			WritePrivateProfileStringA(szAppname, "Size", _itoa(M.GetByte(szModule, szTemp, 0), szBuf, 10), szIniFilename);
+			WritePrivateProfileStringA(szAppname, "Size", _itoa(db_get_b(0, szModule, szTemp, 0), szBuf, 10), szIniFilename);
 			mir_snprintf(szTemp, "Font%dSet", firstIndex + i);
-			WritePrivateProfileStringA(szAppname, "Set", _itoa(M.GetByte(szModule, szTemp, 0), szBuf, 10), szIniFilename);
+			WritePrivateProfileStringA(szAppname, "Set", _itoa(db_get_b(0, szModule, szTemp, 0), szBuf, 10), szIniFilename);
 		}
 		n++;
 	}
 	def = SRMSGDEFSET_BKGCOLOUR;
 
 	for (auto &it : _extSettings)
-		WritePrivateProfileStringA(it.szIniSection, it.szIniName, _itoa(M.GetDword(it.szDbModule, it.szDbSetting, it.dwDef), szBuf, 10), szIniFilename);
+		WritePrivateProfileStringA(it.szIniSection, it.szIniName, _itoa(db_get_dw(0, it.szDbModule, it.szDbSetting, it.dwDef), szBuf, 10), szIniFilename);
 
 	for (auto &it : _extSettings_v5)
-		WritePrivateProfileStringA(it.szIniSection, it.szIniName, _itoa(M.GetDword(it.szDbModule, it.szDbSetting, it.dwDef), szBuf, 10), szIniFilename);
+		WritePrivateProfileStringA(it.szIniSection, it.szIniName, _itoa(db_get_dw(0, it.szDbModule, it.szDbSetting, it.dwDef), szBuf, 10), szIniFilename);
 
 	WritePrivateProfileStringA("Message Log", "VGrid", _itoa(M.GetByte("wantvgrid", 0), szBuf, 10), szIniFilename);
 	WritePrivateProfileStringA("Message Log", "ExtraMicroLF", _itoa(M.GetByte("extramicrolf", 0), szBuf, 10), szIniFilename);

@@ -71,7 +71,6 @@ void CContactCache::initPhaseTwo()
 		if (m_isMeta)
 			updateMeta();
 		updateNick();
-		updateFavorite();
 	}
 	else {
 		m_szAccount = C_INVALID_ACCOUNT;
@@ -167,7 +166,7 @@ bool CContactCache::updateUIN()
 void CContactCache::updateStats(int iType, size_t value)
 {
 	if (m_stats == nullptr)
-		allocStats();
+		m_stats = new TSessionStats();
 
 	switch (iType) {
 	case TSessionStats::UPDATE_WITH_LAST_RCV:
@@ -189,14 +188,6 @@ void CContactCache::updateStats(int iType, size_t value)
 		m_stats->messageCount++;
 		m_stats->iSentBytes += (unsigned int)value;
 		break;
-	}
-}
-
-void CContactCache::allocStats()
-{
-	if (m_stats == nullptr) {
-		m_stats = new TSessionStats;
-		memset(m_stats, 0, sizeof(TSessionStats));
 	}
 }
 
@@ -387,17 +378,6 @@ void CContactCache::deletedHandler()
 
 	releaseAlloced();
 	m_hContact = INVALID_CONTACT_ID;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// udpate favorite or recent state.runs when user manually adds
-// or removes a user from that list or when database setting is
-// changed from elsewhere
-
-void CContactCache::updateFavorite()
-{
-	m_isFavorite = M.GetBool(m_hContact, "isFavorite", false);
-	m_isRecent = M.GetDword(m_hContact, "isRecent", 0) ? true : false;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

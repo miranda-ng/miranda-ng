@@ -99,12 +99,12 @@ void LoadDefaultTemplates()
 	LTR_Active = LTR_Default;
 	RTL_Active = RTL_Default;
 
-	if (M.GetByte(RTLTEMPLATES_MODULE, "setup", 0) < 2) {
+	if (db_get_b(0, RTLTEMPLATES_MODULE, "setup", 0) < 2) {
 		for (int i = 0; i <= TMPL_ERRMSG; i++)
 			db_set_ws(0, RTLTEMPLATES_MODULE, TemplateNames[i], RTL_Default.szTemplates[i]);
 		db_set_b(0, RTLTEMPLATES_MODULE, "setup", 2);
 	}
-	if (M.GetByte(TEMPLATES_MODULE, "setup", 0) < 2) {
+	if (db_get_b(0, TEMPLATES_MODULE, "setup", 0) < 2) {
 		for (int i = 0; i <= TMPL_ERRMSG; i++)
 			db_set_ws(0, TEMPLATES_MODULE, TemplateNames[i], LTR_Default.szTemplates[i]);
 		db_set_b(0, TEMPLATES_MODULE, "setup", 2);

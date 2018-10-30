@@ -688,7 +688,7 @@ public:
 	{
 		DWORD dwFlags = M.GetDword("mwflags", MWF_LOG_DEFAULT);
 
-		switch (M.GetByte(SRMSGMOD, SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY)) {
+		switch (db_get_b(0, SRMSGMOD, SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY)) {
 		case LOADHISTORY_UNREAD:
 			chkLoadUnread.SetState(true);
 			break;
@@ -859,7 +859,7 @@ class COptTypingDlg : public CDlgBase
 
 	void ResetCList()
 	{
-		if (!M.GetByte("CList", "UseGroups", SETTING_USEGROUPS_DEFAULT))
+		if (!db_get_b(0, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT))
 			SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_SETUSEGROUPS, FALSE, 0);
 		else
 			SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_SETUSEGROUPS, TRUE, 0);
@@ -868,11 +868,11 @@ class COptTypingDlg : public CDlgBase
 
 	void RebuildList()
 	{
-		BYTE defType = M.GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW);
+		BYTE defType = db_get_b(0, SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW);
 		if (hItemNew && defType)
 			SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItemNew, 1);
 
-		if (hItemUnknown && M.GetByte(SRMSGMOD, SRMSGSET_TYPINGUNKNOWN, SRMSGDEFSET_TYPINGUNKNOWN))
+		if (hItemUnknown && db_get_b(0, SRMSGMOD, SRMSGSET_TYPINGUNKNOWN, SRMSGDEFSET_TYPINGUNKNOWN))
 			SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItemUnknown, 1);
 
 		for (auto &hContact : Contacts()) {
@@ -926,15 +926,15 @@ public:
 		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_CLIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_CLIST), GWL_STYLE) | (CLS_SHOWHIDDEN));
 		ResetCList();
 
-		CheckDlgButton(m_hwnd, IDC_SHOWNOTIFY, M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_TYPEFLASHWIN, M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGWINFLASH, SRMSGDEFSET_SHOWTYPINGWINFLASH) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_SHOWNOTIFY, db_get_b(0, SRMSGMOD, SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_TYPEFLASHWIN, db_get_b(0, SRMSGMOD, SRMSGSET_SHOWTYPINGWINFLASH, SRMSGDEFSET_SHOWTYPINGWINFLASH) ? BST_CHECKED : BST_UNCHECKED);
 
-		CheckDlgButton(m_hwnd, IDC_TYPENOWIN, M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGNOWINOPEN, 1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_TYPEWIN, M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGWINOPEN, 1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_NOTIFYTRAY, M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_NOTIFYBALLOON, M.GetByte(SRMSGMOD, "ShowTypingBalloon", 0));
+		CheckDlgButton(m_hwnd, IDC_TYPENOWIN, db_get_b(0, SRMSGMOD, SRMSGSET_SHOWTYPINGNOWINOPEN, 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_TYPEWIN, db_get_b(0, SRMSGMOD, SRMSGSET_SHOWTYPINGWINOPEN, 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_NOTIFYTRAY, db_get_b(0, SRMSGMOD, SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_NOTIFYBALLOON, db_get_b(0, SRMSGMOD, "ShowTypingBalloon", 0));
 
-		CheckDlgButton(m_hwnd, IDC_NOTIFYPOPUP, M.GetByte(SRMSGMOD, "ShowTypingPopup", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_NOTIFYPOPUP, db_get_b(0, SRMSGMOD, "ShowTypingPopup", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		Utils::enableDlgControl(m_hwnd, IDC_TYPEWIN, IsDlgButtonChecked(m_hwnd, IDC_NOTIFYTRAY) != 0);
 		Utils::enableDlgControl(m_hwnd, IDC_TYPENOWIN, IsDlgButtonChecked(m_hwnd, IDC_NOTIFYTRAY) != 0);
@@ -1393,11 +1393,11 @@ DWORD OptCheckBox_LoadValue(struct OptCheckBox *cb)
 	case CBVT_NONE:
 		switch (cb->dbType) {
 		case DBVT_BYTE:
-			return M.GetByte(cb->dbModule, cb->dbSetting, cb->defValue);
+			return db_get_b(0, cb->dbModule, cb->dbSetting, cb->defValue);
 		case DBVT_WORD:
 			return db_get_w(0, cb->dbModule, cb->dbSetting, cb->defValue);
 		case DBVT_DWORD:
-			return M.GetDword(cb->dbModule, cb->dbSetting, cb->defValue);
+			return db_get_dw(0, cb->dbModule, cb->dbSetting, cb->defValue);
 		}
 		break;
 

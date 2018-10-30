@@ -963,7 +963,7 @@ LONG_PTR CALLBACK CTabBaseDlg::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM
 							pContainer->dwFlags & CNT_NOSOUND ? TranslateT("disabled") : TranslateT("enabled"));
 
 					else if (sid->dwId == MSG_ICON_UTN && (!dat->isChat() || dat->m_si->iType == GCW_PRIVMESS)) {
-						int mtnStatus = db_get_b(dat->m_hContact, SRMSGMOD, SRMSGSET_TYPING, M.GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
+						int mtnStatus = db_get_b(dat->m_hContact, SRMSGMOD, SRMSGSET_TYPING, db_get_b(0, SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
 						mir_snwprintf(wBuf, TranslateT("Sending typing notifications is %s."),
 							mtnStatus ? TranslateT("enabled") : TranslateT("disabled"));
 					}

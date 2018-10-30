@@ -32,12 +32,14 @@
 #define C_INVALID_ACCOUNT L"<account error>"
 #define HISTORY_INITIAL_ALLOCSIZE 300
 
-struct TInputHistory {
+struct TInputHistory
+{
 	wchar_t*	szText;
 	size_t	lLen;
 };
 
-struct TSessionStats {
+struct TSessionStats : public MZeroedObject
+{
 	enum {
 		BYTES_RECEIVED = 1,
 		BYTES_SENT = 2,
@@ -75,8 +77,6 @@ struct CContactCache : public MZeroedObject
 	
 	__forceinline bool     isMeta() const { return m_isMeta; }
 	__forceinline bool     isSubContact() const { return cc->IsSub(); }
-	__forceinline bool     isFavorite() const { return m_isFavorite; }
-	__forceinline bool     isRecent() const { return m_isRecent; }
 	
 	__forceinline LPCWSTR  getRealAccount() const { return m_szAccount ? m_szAccount : C_INVALID_ACCOUNT; }
 	__forceinline LPCWSTR  getUIN() const { return m_szUIN; }
@@ -109,7 +109,7 @@ struct CContactCache : public MZeroedObject
 	void     resetMeta();
 	void     closeWindow();
 	void     deletedHandler();
-	void     updateFavorite();
+
 	wchar_t* getNormalizedStatusMsg(const wchar_t *src, bool fStripAll = false);
 	HICON    getIcon(int& iSize) const;
 
@@ -121,7 +121,6 @@ struct CContactCache : public MZeroedObject
 	static int cacheUpdateMetaChanged(WPARAM wParam, LPARAM lParam);
 
 private:
-	void     allocStats();
 	void     initPhaseTwo();
 	void     allocHistory();
 	void     releaseAlloced();
@@ -136,8 +135,6 @@ private:
 	DWORD    m_idleTS;
 	bool     m_isMeta;
 	bool     m_isValid;
-	bool     m_isFavorite;
-	bool     m_isRecent;
 	int      m_nMax;
 	int      m_iHistoryCurrent, m_iHistoryTop, m_iHistorySize;
 

@@ -214,7 +214,7 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 		hContact = hMeta;
 	}
 
-	if (hwnd && M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING))
+	if (hwnd && db_get_b(0, SRMSGMOD, SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING))
 		preTyping = SendMessage(hwnd, DM_TYPING, 0, mode);
 
 	if (hwnd && IsWindowVisible(hwnd))
@@ -229,10 +229,10 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 			return 0;
 	}
 
-	if (M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST)) {
-		if (!hwnd && !M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGNOWINOPEN, 1))
+	if (db_get_b(0, SRMSGMOD, SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST)) {
+		if (!hwnd && !db_get_b(0, SRMSGMOD, SRMSGSET_SHOWTYPINGNOWINOPEN, 1))
 			fShowOnClist = false;
-		if (hwnd && !M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGWINOPEN, 1))
+		if (hwnd && !db_get_b(0, SRMSGMOD, SRMSGSET_SHOWTYPINGWINOPEN, 1))
 			fShowOnClist = false;
 	}
 	else fShowOnClist = false;
@@ -240,7 +240,7 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 	if ((!foundWin || !(pContainer->dwFlags & CNT_NOSOUND)) && preTyping != (mode != 0))
 		Skin_PlaySound(mode ? "TNStart" : "TNStop");
 
-	if (M.GetByte(SRMSGMOD, "ShowTypingPopup", 0)) {
+	if (db_get_b(0, SRMSGMOD, "ShowTypingPopup", 0)) {
 		BOOL fShow = false;
 		int  iMode = M.GetByte("MTN_PopupMode", 0);
 
@@ -272,7 +272,7 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 	if (mode) {
 		wchar_t szTip[256];
 		mir_snwprintf(szTip, TranslateT("%s is typing a message"), Clist_GetContactDisplayName(hContact));
-		if (fShowOnClist && M.GetByte(SRMSGMOD, "ShowTypingBalloon", 0))
+		if (fShowOnClist && db_get_b(0, SRMSGMOD, "ShowTypingBalloon", 0))
 			Clist_TrayNotifyW(nullptr, TranslateT("Typing notification"), szTip, NIIF_INFO, 1000 * 4);
 
 		if (fShowOnClist) {

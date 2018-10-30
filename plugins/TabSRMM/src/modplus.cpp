@@ -86,7 +86,7 @@ static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 	CMStringW pwszFormatedText;
 
 	if (cbcd->flags & BBCF_RIGHTBUTTON) {
-		int menulimit = M.GetByte("tabmodplus", "MenuCount", 0);
+		int menulimit = db_get_b(0, "tabmodplus", "MenuCount", 0);
 		if (menulimit != 0) {
 			HMENU hMenu = CreatePopupMenu();
 			LIST<wchar_t> arMenuLines(1);

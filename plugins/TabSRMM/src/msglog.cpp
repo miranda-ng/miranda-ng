@@ -147,11 +147,11 @@ void TSAPI CacheLogFonts()
 	ReleaseDC(PluginConfig.g_hwndHotkeyHandler, hdc);
 	PluginConfig.hFontCaption = CInfoPanel::m_ipConfig.hFonts[IPFONTCOUNT - 1];
 
-	PluginConfig.crIncoming = M.GetDword(FONTMODULE, "inbg", SRMSGDEFSET_BKGINCOLOUR);
-	PluginConfig.crOutgoing = M.GetDword(FONTMODULE, "outbg", SRMSGDEFSET_BKGOUTCOLOUR);
-	PluginConfig.crStatus = M.GetDword(FONTMODULE, "statbg", SRMSGDEFSET_BKGCOLOUR);
-	PluginConfig.crOldIncoming = M.GetDword(FONTMODULE, "oldinbg", SRMSGDEFSET_BKGINCOLOUR);
-	PluginConfig.crOldOutgoing = M.GetDword(FONTMODULE, "oldoutbg", SRMSGDEFSET_BKGOUTCOLOUR);
+	PluginConfig.crIncoming = db_get_dw(0, FONTMODULE, "inbg", SRMSGDEFSET_BKGINCOLOUR);
+	PluginConfig.crOutgoing = db_get_dw(0, FONTMODULE, "outbg", SRMSGDEFSET_BKGOUTCOLOUR);
+	PluginConfig.crStatus = db_get_dw(0, FONTMODULE, "statbg", SRMSGDEFSET_BKGCOLOUR);
+	PluginConfig.crOldIncoming = db_get_dw(0, FONTMODULE, "oldinbg", SRMSGDEFSET_BKGINCOLOUR);
+	PluginConfig.crOldOutgoing = db_get_dw(0, FONTMODULE, "oldoutbg", SRMSGDEFSET_BKGOUTCOLOUR);
 }
 
 void FreeLogFonts()

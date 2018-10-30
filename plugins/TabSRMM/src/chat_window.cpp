@@ -669,7 +669,7 @@ void CChatRoomDlg::onClick_Filter(CCtrlButton *pButton)
 
 	m_btnFilter.SendMsg(BUTTONSETOVERLAYICON, (LPARAM)(m_bFilterEnabled ? PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled), 0);
 
-	if (m_bFilterEnabled && M.GetByte(CHAT_MODULE, "RightClickFilter", 0) == 0) {
+	if (m_bFilterEnabled && db_get_b(0, CHAT_MODULE, "RightClickFilter", 0) == 0) {
 		ShowFilterMenu();
 		return;
 	}
@@ -842,7 +842,7 @@ void CChatRoomDlg::UpdateOptions()
 		if (m_si->iType == GCW_CHATROOM)
 			m_btnChannelMgr.Enable(pInfo->bChanMgr);
 	}
-	m_log.SendMsg(EM_SETBKGNDCOLOR, 0, M.GetDword(FONTMODULE, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR));
+	m_log.SendMsg(EM_SETBKGNDCOLOR, 0, db_get_dw(0, FONTMODULE, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR));
 
 	DM_InitRichEdit();
 	m_btnOk.SendMsg(BUTTONSETASNORMAL, TRUE, 0);
@@ -2157,7 +2157,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			// Typing support for GCW_PRIVMESS sessions
 			if (m_si->iType == GCW_PRIVMESS) {
 				if (m_hContact) {
-					int iCurrentTypingMode = db_get_b(m_hContact, SRMSGMOD, SRMSGSET_TYPING, M.GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
+					int iCurrentTypingMode = db_get_b(m_hContact, SRMSGMOD, SRMSGSET_TYPING, db_get_b(0, SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
 
 					if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON && iCurrentTypingMode) {
 						DM_NotifyTyping(PROTOTYPE_SELFTYPING_OFF);

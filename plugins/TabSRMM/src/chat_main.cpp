@@ -81,11 +81,11 @@ static void OnCreateModule(MODULEINFO *mi)
 
 static void OnLoadSettings()
 {
-	g_Settings.dwIconFlags = M.GetDword(CHAT_MODULE, "IconFlags", 0x0000);
+	g_Settings.dwIconFlags = db_get_dw(0, CHAT_MODULE, "IconFlags", 0x0000);
 	g_Settings.bOpenInDefault = M.GetBool(CHAT_MODULE, "DefaultContainer", true);
-	g_Settings.UserListColors[CHAT_STATUS_NORMAL] = M.GetDword(CHATFONT_MODULE, "Font18Col", RGB(0, 0, 0));
-	g_Settings.UserListColors[CHAT_STATUS_AWAY] = M.GetDword(CHATFONT_MODULE, "Font19Col", RGB(170, 170, 170));
-	g_Settings.UserListColors[CHAT_STATUS_OFFLINE] = M.GetDword(CHATFONT_MODULE, "Font5Col", RGB(160, 90, 90));
+	g_Settings.UserListColors[CHAT_STATUS_NORMAL] = db_get_dw(0, CHATFONT_MODULE, "Font18Col", RGB(0, 0, 0));
+	g_Settings.UserListColors[CHAT_STATUS_AWAY] = db_get_dw(0, CHATFONT_MODULE, "Font19Col", RGB(170, 170, 170));
+	g_Settings.UserListColors[CHAT_STATUS_OFFLINE] = db_get_dw(0, CHATFONT_MODULE, "Font5Col", RGB(160, 90, 90));
 	g_Settings.bBBCodeInPopups = M.GetBool(CHAT_MODULE, "BBCodeInPopups", false);
 	g_Settings.bClassicIndicators = M.GetBool(CHAT_MODULE, "ClassicIndicators", false);
 	g_Settings.bLogClassicIndicators = M.GetBool(CHAT_MODULE, "LogClassicIndicators", false);
@@ -129,15 +129,15 @@ static void OnLoadSettings()
 
 	int ih = Chat_GetTextPixelSize(L"AQGglo", g_Settings.UserListFonts[CHAT_STATUS_NORMAL], false);
 	int ih2 = Chat_GetTextPixelSize(L"AQGglo", g_Settings.UserListFonts[CHAT_STATUS_AWAY], false);
-	g_Settings.iNickListFontHeight = max(M.GetByte(CHAT_MODULE, "NicklistRowDist", 12), (ih > ih2 ? ih : ih2));
+	g_Settings.iNickListFontHeight = max(db_get_b(0, CHAT_MODULE, "NicklistRowDist", 12), (ih > ih2 ? ih : ih2));
 
 	for (int i = 0; i < 5; i++) {
 		char szBuf[40];
 		mir_snprintf(szBuf, "NickColor%d", i);
-		g_Settings.nickColors[i] = M.GetDword(CHAT_MODULE, szBuf, g_Settings.UserListColors[0]);
+		g_Settings.nickColors[i] = db_get_dw(0, CHAT_MODULE, szBuf, g_Settings.UserListColors[0]);
 	}
-	g_Settings.nickColors[5] = M.GetDword(CHAT_MODULE, "NickColor5", GetSysColor(COLOR_HIGHLIGHT));
-	g_Settings.nickColors[6] = M.GetDword(CHAT_MODULE, "NickColor6", GetSysColor(COLOR_HIGHLIGHTTEXT));
+	g_Settings.nickColors[5] = db_get_dw(0, CHAT_MODULE, "NickColor5", GetSysColor(COLOR_HIGHLIGHT));
+	g_Settings.nickColors[6] = db_get_dw(0, CHAT_MODULE, "NickColor6", GetSysColor(COLOR_HIGHLIGHTTEXT));
 
 	if (g_Settings.SelectionBGBrush)
 		DeleteObject(g_Settings.SelectionBGBrush);
@@ -192,8 +192,8 @@ static void CheckUpdate()
 	}
 
 	if (compat == 2) {
-		COLORREF color0 = M.GetDword(CHAT_MODULE, "NickColor2", 0);
-		COLORREF color2 = M.GetDword(CHAT_MODULE, "NickColor0", 0);
+		COLORREF color0 = db_get_dw(0, CHAT_MODULE, "NickColor2", 0);
+		COLORREF color2 = db_get_dw(0, CHAT_MODULE, "NickColor0", 0);
 		db_set_dw(0, CHAT_MODULE, "NickColor0", color0);
 		db_set_dw(0, CHAT_MODULE, "NickColor2", color2);
 		compat++;

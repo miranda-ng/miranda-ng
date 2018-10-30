@@ -487,7 +487,7 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
  */
 void Chat_SetFilters(SESSION_INFO *si)
 {
-	DWORD dwFlags_default = M.GetDword(CHAT_MODULE, "FilterFlags", GC_EVENT_ALL);
+	DWORD dwFlags_default = db_get_dw(0, CHAT_MODULE, "FilterFlags", GC_EVENT_ALL);
 	DWORD dwFlags_local = db_get_dw(si->hContact, CHAT_MODULE, "FilterFlags", GC_EVENT_ALL);
 	DWORD dwMask = db_get_dw(si->hContact, CHAT_MODULE, "FilterMask", 0);
 
@@ -501,7 +501,7 @@ void Chat_SetFilters(SESSION_INFO *si)
 		}
 	}
 
-	dwFlags_default = M.GetDword(CHAT_MODULE, "PopupFlags", GC_EVENT_HIGHLIGHT);
+	dwFlags_default = db_get_dw(0, CHAT_MODULE, "PopupFlags", GC_EVENT_HIGHLIGHT);
 	dwFlags_local = db_get_dw(si->hContact, CHAT_MODULE, "PopupFlags", GC_EVENT_HIGHLIGHT);
 	dwMask = db_get_dw(si->hContact, CHAT_MODULE, "PopupMask", 0);
 
@@ -512,11 +512,11 @@ void Chat_SetFilters(SESSION_INFO *si)
 			si->iLogPopupFlags = (dwFlags_local & dwBit) ? si->iLogPopupFlags | dwBit : si->iLogPopupFlags & ~dwBit;
 	}
 
-	dwFlags_default = M.GetDword(CHAT_MODULE, "TrayIconFlags", GC_EVENT_HIGHLIGHT);
+	dwFlags_default = db_get_dw(0, CHAT_MODULE, "TrayIconFlags", GC_EVENT_HIGHLIGHT);
 	dwFlags_local = db_get_dw(si->hContact, CHAT_MODULE, "TrayIconFlags", GC_EVENT_HIGHLIGHT);
 	dwMask = db_get_dw(si->hContact, CHAT_MODULE, "TrayIconMask", 0);
 
-	si->iDiskLogFlags = M.GetDword(CHAT_MODULE, "DiskLogFlags", GC_EVENT_ALL);
+	si->iDiskLogFlags = db_get_dw(0, CHAT_MODULE, "DiskLogFlags", GC_EVENT_ALL);
 
 	si->iLogTrayFlags = dwFlags_default;
 	for (int i = 0; i < 32; i++) {

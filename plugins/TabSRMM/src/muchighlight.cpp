@@ -58,8 +58,8 @@ void CMUCHighlight::init()
 	if (0 == db_get_ws(0, CHAT_MODULE, "HighlightNames", &dbv))
 		m_NickPatternString = dbv.pwszVal;
 
-	m_dwFlags = M.GetByte(CHAT_MODULE, "HighlightEnabled", MATCH_TEXT);
-	m_fHighlightMe = (M.GetByte(CHAT_MODULE, "HighlightMe", 1) ? true : false);
+	m_dwFlags = db_get_b(0, CHAT_MODULE, "HighlightEnabled", MATCH_TEXT);
+	m_fHighlightMe = (db_get_b(0, CHAT_MODULE, "HighlightMe", 1) ? true : false);
 
 	tokenize(m_TextPatternString, m_TextPatterns, m_iTextPatterns);
 	tokenize(m_NickPatternString, m_NickPatterns, m_iNickPatterns);

@@ -506,23 +506,23 @@ int TN_ModuleInit()
 {
 	hPopupsList = WindowList_Create();
 
-	OnePopup = M.GetByte(TypigModule, SET_ONEPOPUP, DEF_ONEPOPUP);
-	ShowMenu = M.GetByte(TypigModule, SET_SHOWDISABLEMENU, DEF_SHOWDISABLEMENU);
+	OnePopup = db_get_b(0, TypigModule, SET_ONEPOPUP, DEF_ONEPOPUP);
+	ShowMenu = db_get_b(0, TypigModule, SET_SHOWDISABLEMENU, DEF_SHOWDISABLEMENU);
 
-	int i = M.GetByte(TypigModule, SET_DISABLED, DEF_DISABLED);
+	int i = db_get_b(0, TypigModule, SET_DISABLED, DEF_DISABLED);
 	Disabled = i & 1;
 	StartDisabled = i & 2;
 	StopDisabled = i & 4;
 
-	ColorMode = M.GetByte(TypigModule, SET_COLOR_MODE, DEF_COLOR_MODE);
-	TimeoutMode = M.GetByte(TypigModule, SET_TIMEOUT_MODE, DEF_TIMEOUT_MODE);
-	Timeout = M.GetByte(TypigModule, SET_TIMEOUT, DEF_TIMEOUT);
-	TimeoutMode2 = M.GetByte(TypigModule, SET_TIMEOUT_MODE2, DEF_TIMEOUT_MODE2);
-	Timeout2 = M.GetByte(TypigModule, SET_TIMEOUT2, DEF_TIMEOUT2);
+	ColorMode = db_get_b(0, TypigModule, SET_COLOR_MODE, DEF_COLOR_MODE);
+	TimeoutMode = db_get_b(0, TypigModule, SET_TIMEOUT_MODE, DEF_TIMEOUT_MODE);
+	Timeout = db_get_b(0, TypigModule, SET_TIMEOUT, DEF_TIMEOUT);
+	TimeoutMode2 = db_get_b(0, TypigModule, SET_TIMEOUT_MODE2, DEF_TIMEOUT_MODE2);
+	Timeout2 = db_get_b(0, TypigModule, SET_TIMEOUT2, DEF_TIMEOUT2);
 
-	if (!(M.GetDword(TypigModule, colorPicker[0].desc, 1) && !M.GetDword(TypigModule, colorPicker[0].desc, 0)))
+	if (!(db_get_dw(0, TypigModule, colorPicker[0].desc, 1) && !db_get_dw(0, TypigModule, colorPicker[0].desc, 0)))
 		for (auto &it : colorPicker)
-			it.color = M.GetDword(TypigModule, it.desc, 0);
+			it.color = db_get_dw(0, TypigModule, it.desc, 0);
 
 	mir_snwprintf(szStart, TranslateT("...is typing a message."));
 	mir_snwprintf(szStop, TranslateT("...has stopped typing."));

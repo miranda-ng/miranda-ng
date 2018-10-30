@@ -1768,7 +1768,7 @@ void CSkin::setupAeroSkins()
 
 	fib = (FIBITMAP *)Image_Load(tszFilename, IMGL_RETURNDIB);
 
-	COLORREF glowColor = M.GetDword(FONTMODULE, "aeroGlow", RGB(40, 40, 255));
+	COLORREF glowColor = db_get_dw(0, FONTMODULE, "aeroGlow", RGB(40, 40, 255));
 	hbm = FreeImage_CreateHBITMAPFromDIB(fib);
 	CImageItem::Colorize(hbm, GetRValue(glowColor), GetGValue(glowColor), GetBValue(glowColor));
 	CImageItem::PreMultiply(hbm, 1);
@@ -2150,7 +2150,7 @@ void CTabBaseDlg::RenderToolbarBG(HDC hdc, const RECT &rcWindow) const
 	bool	 bAero = M.isAero();
 	bool	 fTbColorsValid = PluginConfig.m_tbBackgroundHigh && PluginConfig.m_tbBackgroundLow;
 	BYTE	 bAlphaOffset = 0;
-	BOOL 	fMustDrawNonThemed = ((bAero || fTbColorsValid) && !M.GetByte(SRMSGMOD_T, "forceThemedToolbar", 0));
+	BOOL 	fMustDrawNonThemed = ((bAero || fTbColorsValid) && !db_get_b(0, SRMSGMOD_T, "forceThemedToolbar", 0));
 	RECT 	rc, rcToolbar;
 	POINT	pt;
 
@@ -2366,7 +2366,7 @@ void CSkin::initAeroEffect()
 void CSkin::setAeroEffect(LRESULT effect)
 {
 	if (effect == -1)
-		effect = static_cast<LRESULT>(M.GetDword(SRMSGMOD_T, "aerostyle", AERO_EFFECT_NONE));
+		effect = static_cast<LRESULT>(db_get_dw(0, SRMSGMOD_T, "aerostyle", AERO_EFFECT_NONE));
 
 	if (effect >= 0 && effect < AERO_EFFECT_LAST)
 		m_aeroEffect = (UINT)effect;

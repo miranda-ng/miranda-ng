@@ -146,7 +146,7 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 	m_bLogStatusChanges = M.GetBool("logstatuschanges", false);
 	m_bUseDividers = M.GetBool("usedividers", false);
 	m_bDividersUsePopupConfig = M.GetBool("div_popupconfig", false);
-	m_MsgTimeout = M.GetDword(SRMSGMOD, SRMSGSET_MSGTIMEOUT, SRMSGDEFSET_MSGTIMEOUT);
+	m_MsgTimeout = db_get_dw(0, SRMSGMOD, SRMSGSET_MSGTIMEOUT, SRMSGDEFSET_MSGTIMEOUT);
 
 	if (m_MsgTimeout < SRMSGSET_MSGTIMEOUT_MIN)
 		m_MsgTimeout = SRMSGSET_MSGTIMEOUT_MIN;
@@ -162,36 +162,36 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 	m_SendFormat = M.GetByte("sendformat", 0);
 	m_TabAppearance = M.GetDword("tabconfig", TCF_FLASHICON | TCF_SINGLEROWTABCONTROL);
 	m_panelHeight = (DWORD)M.GetDword("panelheight", CInfoPanel::DEGRADE_THRESHOLD);
-	m_MUCpanelHeight = M.GetDword(CHAT_MODULE, "panelheight", CInfoPanel::DEGRADE_THRESHOLD);
+	m_MUCpanelHeight = db_get_dw(0, CHAT_MODULE, "panelheight", CInfoPanel::DEGRADE_THRESHOLD);
 	m_bIdleDetect = M.GetBool("dimIconsForIdleContacts", true);
 	m_smcxicon = m_smcyicon = 16;
 	m_PasteAndSend = M.GetByte("pasteandsend", 1);
 	m_LangPackCP = Langpack_GetDefaultCodePage();
 	m_visualMessageSizeIndicator = M.GetByte("msgsizebar", 0);
 	m_autoSplit = M.GetByte("autosplit", 0);
-	m_FlashOnMTN = M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGWINFLASH, SRMSGDEFSET_SHOWTYPINGWINFLASH);
+	m_FlashOnMTN = db_get_b(0, SRMSGMOD, SRMSGSET_SHOWTYPINGWINFLASH, SRMSGDEFSET_SHOWTYPINGWINFLASH);
 	if (m_MenuBar == nullptr) {
 		m_MenuBar = ::LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_MENUBAR));
 		TranslateMenu(m_MenuBar);
 	}
 
-	m_ipBackgroundGradient = M.GetDword(FONTMODULE, "ipfieldsbg", 0x62caff);
+	m_ipBackgroundGradient = db_get_dw(0, FONTMODULE, "ipfieldsbg", 0x62caff);
 	if (0 == m_ipBackgroundGradient)
 		m_ipBackgroundGradient = 0x62caff;
 
-	m_ipBackgroundGradientHigh = M.GetDword(FONTMODULE, "ipfieldsbgHigh", 0xf0f0f0);
+	m_ipBackgroundGradientHigh = db_get_dw(0, FONTMODULE, "ipfieldsbgHigh", 0xf0f0f0);
 	if (0 == m_ipBackgroundGradientHigh)
 		m_ipBackgroundGradientHigh = 0xf0f0f0;
 
-	m_tbBackgroundHigh = M.GetDword(FONTMODULE, "tbBgHigh", 0);
-	m_tbBackgroundLow = M.GetDword(FONTMODULE, "tbBgLow", 0);
-	m_fillColor = M.GetDword(FONTMODULE, "fillColor", 0);
+	m_tbBackgroundHigh = db_get_dw(0, FONTMODULE, "tbBgHigh", 0);
+	m_tbBackgroundLow = db_get_dw(0, FONTMODULE, "tbBgLow", 0);
+	m_fillColor = db_get_dw(0, FONTMODULE, "fillColor", 0);
 	if (CSkin::m_BrushFill) {
 		::DeleteObject(CSkin::m_BrushFill);
 		CSkin::m_BrushFill = nullptr;
 	}
-	m_genericTxtColor = M.GetDword(FONTMODULE, "genericTxtClr", GetSysColor(COLOR_BTNTEXT));
-	m_cRichBorders = M.GetDword(FONTMODULE, "cRichBorders", 0);
+	m_genericTxtColor = db_get_dw(0, FONTMODULE, "genericTxtClr", GetSysColor(COLOR_BTNTEXT));
+	m_cRichBorders = db_get_dw(0, FONTMODULE, "cRichBorders", 0);
 
 	::memcpy(&globalContainerSettings, &_cnt_default, sizeof(TContainerSettings));
 	Utils::ReadContainerSettingsFromDB(0, &globalContainerSettings);
@@ -356,11 +356,6 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 
 	if (!c->isValid())
 		c->resetMeta(); // restart constructor
-
-	// catch own relevant settings
-	if (!strcmp(cws->szModule, SRMSGMOD_T))
-		if (!strcmp(setting, "isFavorite") || !strcmp(setting, "isRecent"))
-			c->updateFavorite();
 
 	// neither clist nor contact's settings -> skip
 	if (strcmp(cws->szModule, "CList") && strcmp(cws->szModule, szProto))

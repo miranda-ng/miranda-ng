@@ -662,7 +662,7 @@ bool CSrmmWindow::OnInitDialog()
 
 	GetMyNick();
 
-	m_iMultiSplit = (int)M.GetDword(SRMSGMOD, "multisplit", 150);
+	m_iMultiSplit = db_get_dw(0, SRMSGMOD, "multisplit", 150);
 	m_nTypeMode = PROTOTYPE_SELFTYPING_OFF;
 	SetTimer(m_hwnd, TIMERID_TYPE, 1000, nullptr);
 	m_iLastEventType = 0xffffffff;
@@ -1044,13 +1044,11 @@ void CSrmmWindow::UpdateTitle()
 			m_pContainer->UpdateTitle(m_hContact);
 
 		UpdateTrayMenuState(this, TRUE);
-		if (m_cache->isFavorite())
-			AddContactToFavorites(m_hContact, m_cache->getNick(), szActProto, m_wszStatus, m_wStatus,
-			Skin_LoadProtoIcon(m_cache->getProto(), m_cache->getStatus()), 0, PluginConfig.g_hMenuFavorites);
+		if (M.IsFavorite(m_hContact))
+			AddContactToFavorites(m_hContact, m_cache->getNick(), szActProto, m_wszStatus, m_wStatus, Skin_LoadProtoIcon(m_cache->getProto(), m_cache->getStatus()), 0, PluginConfig.g_hMenuFavorites);
 
-		if (m_cache->isRecent())
-			AddContactToFavorites(m_hContact, m_cache->getNick(), szActProto, m_wszStatus, m_wStatus,
-			Skin_LoadProtoIcon(m_cache->getProto(), m_cache->getStatus()), 0, PluginConfig.g_hMenuRecent);
+		if (M.IsRecent(m_hContact))
+			AddContactToFavorites(m_hContact, m_cache->getNick(), szActProto, m_wszStatus, m_wStatus, Skin_LoadProtoIcon(m_cache->getProto(), m_cache->getStatus()), 0, PluginConfig.g_hMenuRecent);
 
 		m_pPanel.Invalidate();
 		if (m_pWnd)

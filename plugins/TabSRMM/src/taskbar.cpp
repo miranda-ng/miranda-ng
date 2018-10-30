@@ -372,7 +372,7 @@ void CProxyWindow::sendPreview()
 	HBITMAP hbmRich = CSkin::CreateAeroCompatibleBitmap(rcRich, hdcRich);
 	HBITMAP hbmRichOld = reinterpret_cast<HBITMAP>(::SelectObject(hdcRich, hbmRich));
 
-	COLORREF clr = fIsChat ? M.GetDword(FONTMODULE, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR) : m_dat->m_pContainer->theme.inbg;
+	COLORREF clr = fIsChat ? db_get_dw(0, FONTMODULE, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR) : m_dat->m_pContainer->theme.inbg;
 	HBRUSH br = ::CreateSolidBrush(clr);
 	::FillRect(hdcRich, &rcRich, br);
 	::DeleteObject(br);

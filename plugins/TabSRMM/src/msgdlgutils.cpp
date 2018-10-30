@@ -1116,7 +1116,7 @@ void CTabBaseDlg::FindFirstEvent()
 {
 	int historyMode = db_get_b(m_hContact, SRMSGMOD, SRMSGSET_LOADHISTORY, -1);
 	if (historyMode == -1)
-		historyMode = (int)M.GetByte(SRMSGMOD, SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY);
+		historyMode = (int)db_get_b(0, SRMSGMOD, SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY);
 
 	m_hDbEventFirst = db_event_firstUnread(m_hContact);
 
@@ -1453,16 +1453,16 @@ int CTabBaseDlg::MsgWindowDrawHandler(DRAWITEMSTRUCT *dis)
 void TSAPI LoadThemeDefaults(TContainerData *pContainer)
 {
 	memset(&pContainer->theme, 0, sizeof(TLogTheme));
-	pContainer->theme.bg = M.GetDword(FONTMODULE, SRMSGSET_BKGCOLOUR, GetSysColor(COLOR_WINDOW));
+	pContainer->theme.bg = db_get_dw(0, FONTMODULE, SRMSGSET_BKGCOLOUR, GetSysColor(COLOR_WINDOW));
 	pContainer->theme.statbg = PluginConfig.crStatus;
 	pContainer->theme.oldinbg = PluginConfig.crOldIncoming;
 	pContainer->theme.oldoutbg = PluginConfig.crOldOutgoing;
 	pContainer->theme.inbg = PluginConfig.crIncoming;
 	pContainer->theme.outbg = PluginConfig.crOutgoing;
-	pContainer->theme.hgrid = M.GetDword(FONTMODULE, "hgrid", RGB(224, 224, 224));
+	pContainer->theme.hgrid = db_get_dw(0, FONTMODULE, "hgrid", RGB(224, 224, 224));
 	pContainer->theme.left_indent = M.GetDword("IndentAmount", 20) * 15;
 	pContainer->theme.right_indent = M.GetDword("RightIndent", 20) * 15;
-	pContainer->theme.inputbg = M.GetDword(FONTMODULE, "inputbg", SRMSGDEFSET_BKGCOLOUR);
+	pContainer->theme.inputbg = db_get_dw(0, FONTMODULE, "inputbg", SRMSGDEFSET_BKGCOLOUR);
 
 	for (int i = 1; i <= 5; i++) {
 		char szTemp[40];
