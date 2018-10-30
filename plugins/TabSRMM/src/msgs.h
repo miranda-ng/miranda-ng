@@ -130,13 +130,12 @@ struct TitleBtn {
 #define NR_BUTTONBARICONS 37//MaD: 29
 #define NR_SIDEBARICONS 2
 
-class CTaskbarInteract;
+class CContactCache;
 class CMenuBar;
-class CSideBar;
 class CProxyWindow;
+class CSideBar;
+class CTaskbarInteract;
 class CThumbBase;
-
-struct CContactCache;
 
 #define STICK_ICON_MSG 10
 

@@ -57,8 +57,31 @@ struct TSessionStats : public MZeroedObject
 	BOOL     bWritten;
 };
 
-struct CContactCache : public MZeroedObject
+class CContactCache : public MZeroedObject
 {
+	MCONTACT m_hContact, m_hSub;
+	int      m_iOldStatus = ID_STATUS_OFFLINE, m_iMetaStatus;
+	char    *m_szMetaProto;
+	wchar_t *m_szAccount;
+	wchar_t  m_szNick[80], m_szUIN[80];
+	wchar_t *m_szStatusMsg, *m_xStatusMsg, *m_ListeningInfo;
+	BYTE     m_xStatus;
+	DWORD    m_idleTS;
+	bool     m_isMeta;
+	bool     m_isValid;
+	int      m_nMax;
+	int      m_iHistoryCurrent, m_iHistoryTop, m_iHistorySize;
+
+	CSrmmWindow *m_dat;
+	TSessionStats *m_stats;
+	TInputHistory *m_history;
+	DBCachedContact *cc;
+
+	void initPhaseTwo();
+	void allocHistory();
+	void releaseAlloced();
+
+public:
 	CContactCache(MCONTACT hContact);
 	~CContactCache()
 	{
@@ -119,29 +142,6 @@ struct CContactCache : public MZeroedObject
 
 	static CContactCache* getContactCache(MCONTACT hContact);
 	static int cacheUpdateMetaChanged(WPARAM wParam, LPARAM lParam);
-
-private:
-	void     initPhaseTwo();
-	void     allocHistory();
-	void     releaseAlloced();
-
-	MCONTACT m_hContact, m_hSub;
-	int      m_iOldStatus = ID_STATUS_OFFLINE, m_iMetaStatus;
-	char    *m_szMetaProto;
-	wchar_t *m_szAccount;
-	wchar_t  m_szNick[80], m_szUIN[80];
-	wchar_t *m_szStatusMsg, *m_xStatusMsg, *m_ListeningInfo;
-	BYTE     m_xStatus;
-	DWORD    m_idleTS;
-	bool     m_isMeta;
-	bool     m_isValid;
-	int      m_nMax;
-	int      m_iHistoryCurrent, m_iHistoryTop, m_iHistorySize;
-
-	CSrmmWindow *m_dat;
-	TSessionStats *m_stats;
-	TInputHistory *m_history;
-	DBCachedContact *cc;
 };
 
 #endif /* __CONTACTCACHE_H */
