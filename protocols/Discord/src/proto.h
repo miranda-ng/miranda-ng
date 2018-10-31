@@ -321,6 +321,7 @@ public:
 	// Events
 
 	int  __cdecl OnOptionsInit(WPARAM, LPARAM);
+	int  __cdecl OnAccountChanged(WPARAM, LPARAM);
 	int  __cdecl OnDbEventRead(WPARAM, LPARAM);
 	
 	//////////////////////////////////////////////////////////////////////////////////////

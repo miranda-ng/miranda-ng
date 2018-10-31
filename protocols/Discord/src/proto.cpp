@@ -49,7 +49,7 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	m_wszEmail(this, "Email", L""),
 	m_wszDefaultGroup(this, "GroupName", DB_KEYVAL_GROUP),
 	m_bHideGroupchats(this, "HideChats", true),
-	m_bUseGuildGroups(this, "UseGuildGroups", true)
+	m_bUseGuildGroups(this, "UseGuildGroups", false)
 {
 	// Services
 	CreateProtoService(PS_CREATEACCMGRUI, &CDiscordProto::SvcCreateAccMgrUI);
@@ -62,6 +62,7 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	// Events
 	HookProtoEvent(ME_OPT_INITIALISE, &CDiscordProto::OnOptionsInit);
 	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CDiscordProto::OnDbEventRead);
+	HookProtoEvent(ME_PROTO_ACCLISTCHANGED, &CDiscordProto::OnAccountChanged);
 
 	// database
 	db_set_resident(m_szModuleName, "XStatusMsg");
@@ -452,6 +453,19 @@ int CDiscordProto::OnDbEventRead(WPARAM, LPARAM hDbEvent)
 				arMarkReadQueue.insert(pUser);
 		}
 	}
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int CDiscordProto::OnAccountChanged(WPARAM iAction, LPARAM lParam)
+{
+	if (iAction == PRAC_ADDED) {
+		PROTOACCOUNT *pa = (PROTOACCOUNT*)lParam;
+		if (pa && pa->ppro == this)
+			m_bUseGuildGroups = true;
+	}
+
 	return 0;
 }
 

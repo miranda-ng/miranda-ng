@@ -164,6 +164,9 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 	// filter our all channels but the text ones
 	switch (pch["type"].as_int()) {
 	case 4: // channel group
+		if (!m_bUseGuildGroups) // ignore groups when they aren't enabled
+			return nullptr;
+
 		pUser = FindUserByChannel(channelId);
 		if (pUser == nullptr) {
 			// missing channel - create it
@@ -172,12 +175,11 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 			pUser->channelId = channelId;
 			pUser->bIsGroup = true;
 			arUsers.insert(pUser);
+
 			pGuild->arChannels.insert(pUser);
 
-			if (m_bUseGuildGroups) {
-				MGROUP grpId = Clist_GroupCreate(pGuild->groupId, wszName);
-				pUser->wszChannelName = Clist_GroupGetName(grpId);
-			}
+			MGROUP grpId = Clist_GroupCreate(pGuild->groupId, wszName);
+			pUser->wszChannelName = Clist_GroupGetName(grpId);
 		}
 		return pUser;
 
