@@ -46,7 +46,7 @@ static int compareModules(const MODULEINFO *p1, const MODULEINFO *p2)
 	return mir_strcmp(p1->pszModule, p2->pszModule);
 }
 
-LIST<MODULEINFO> g_arModules(5, compareModules);
+static OBJLIST<MODULEINFO> g_arModules(5, compareModules);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -508,7 +508,14 @@ GCModuleInfoBase::GCModuleInfoBase()
 {}
 
 GCModuleInfoBase::~GCModuleInfoBase()
-{}
+{
+	if (g_chatApi.OnDestroyModule)
+		g_chatApi.OnDestroyModule((MODULEINFO*)this);
+
+	mir_free(pszModule);
+	mir_free(ptszModDispName);
+	mir_free(pszHeader);
+}
 
 MODULEINFO* MM_AddModule(const char *pszModule)
 {
@@ -559,15 +566,7 @@ MODULEINFO* MM_FindModule(const char *pszModule)
 
 static BOOL MM_RemoveAll(void)
 {
-	for (auto &mi : g_arModules) {
-		if (g_chatApi.OnDestroyModule)
-			g_chatApi.OnDestroyModule(mi);
-
-		mir_free(mi->pszModule);
-		mir_free(mi->ptszModDispName);
-		mir_free(mi->pszHeader);
-		delete mi;
-	}
+	g_arModules.destroy();
 	return TRUE;
 }
 
