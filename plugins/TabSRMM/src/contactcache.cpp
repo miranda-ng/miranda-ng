@@ -536,7 +536,7 @@ size_t CContactCache::getMaxMessageLength()
 
 bool CContactCache::updateStatus(int iStatus)
 {
-	bool bRet = m_iOldStatus != iStatus;
-	m_iOldStatus = iStatus;
-	return bRet;
+	m_iOldStatus = m_iStatus;
+	m_iStatus = iStatus;
+	return m_iOldStatus != iStatus;
 }

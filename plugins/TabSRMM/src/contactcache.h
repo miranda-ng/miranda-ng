@@ -60,7 +60,7 @@ struct TSessionStats : public MZeroedObject
 class CContactCache : public MZeroedObject
 {
 	MCONTACT m_hContact, m_hSub;
-	int      m_iOldStatus = ID_STATUS_OFFLINE, m_iMetaStatus;
+	int      m_iStatus = ID_STATUS_OFFLINE, m_iOldStatus = ID_STATUS_OFFLINE, m_iMetaStatus;
 	char    *m_szMetaProto;
 	wchar_t *m_szAccount;
 	wchar_t  m_szNick[80], m_szUIN[80];
@@ -89,7 +89,8 @@ public:
 	}
 
 	__forceinline bool     isValid() const { return m_isValid; }
-	__forceinline int      getActiveStatus() const { return m_isMeta ? m_iMetaStatus : getStatus(); }
+	__forceinline int      getActiveStatus() const { return m_isMeta ? m_iMetaStatus : m_iStatus; }
+	__forceinline int      getStatus(void) const { return m_iStatus; }
 	__forceinline int      getOldStatus() const { return m_iOldStatus; }
 	__forceinline LPCWSTR  getNick() const { return m_szNick; }
 	__forceinline MCONTACT getContact() const { return m_hContact; }
@@ -112,11 +113,6 @@ public:
 	__forceinline int      getSessionMsgCount() const { return (int)m_stats->messageCount; }
 
 	__forceinline CSrmmWindow* getDat() const { return m_dat; }
-
-	int getStatus(void) const
-	{
-		return db_get_w(m_hContact, cc->szProto, "Status", ID_STATUS_OFFLINE);
-	}
 
 	size_t getMaxMessageLength();
 	void   updateStats(int iType, size_t value = 0);
