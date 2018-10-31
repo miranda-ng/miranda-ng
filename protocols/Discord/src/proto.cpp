@@ -41,13 +41,15 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	PROTO<CDiscordProto>(proto_name, username),
 	m_arHttpQueue(10, compareRequests),
 	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr)),
-	m_wszDefaultGroup(this, DB_KEY_GROUP, DB_KEYVAL_GROUP),
-	m_wszEmail(this, DB_KEY_EMAIL, L""),
-	m_bHideGroupchats(this, DB_KEY_HIDECHATS, true),
+	arUsers(10, compareUsers),
 	arGuilds(1, compareGuilds),
 	arMarkReadQueue(1, compareUsers),
 	arOwnMessages(1, compareMessages),
-	arUsers(10, compareUsers)
+
+	m_wszEmail(this, "Email", L""),
+	m_wszDefaultGroup(this, "GroupName", DB_KEYVAL_GROUP),
+	m_bHideGroupchats(this, "HideChats", true),
+	m_bUseGuildGroups(this, "UseGuildGroups", true)
 {
 	// Services
 	CreateProtoService(PS_CREATEACCMGRUI, &CDiscordProto::SvcCreateAccMgrUI);

@@ -90,12 +90,14 @@ void CDiscordProto::CreateChat(CDiscordGuild *pGuild, CDiscordUser *pUser)
 	si->pParent = pGuild->pParentSi;
 	pUser->hContact = si->hContact;
 
-	if (pUser->parentId) {
-		CDiscordUser *pParent = FindUserByChannel(pUser->parentId);
-		if (pParent != nullptr)
-			sttSetGroupName(pUser->hContact, pParent->wszChannelName);
+	if (m_bUseGuildGroups) {
+		if (pUser->parentId) {
+			CDiscordUser *pParent = FindUserByChannel(pUser->parentId);
+			if (pParent != nullptr)
+				sttSetGroupName(pUser->hContact, pParent->wszChannelName);
+		}
+		else sttSetGroupName(pUser->hContact, Clist_GroupGetName(pGuild->groupId));
 	}
-	else sttSetGroupName(pUser->hContact, Clist_GroupGetName(pGuild->groupId));
 
 	BuildStatusList(pGuild, pUser->wszUsername);
 
@@ -172,8 +174,10 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 			arUsers.insert(pUser);
 			pGuild->arChannels.insert(pUser);
 
-			MGROUP grpId = Clist_GroupCreate(pGuild->groupId, wszName);
-			pUser->wszChannelName = Clist_GroupGetName(grpId);
+			if (m_bUseGuildGroups) {
+				MGROUP grpId = Clist_GroupCreate(pGuild->groupId, wszName);
+				pUser->wszChannelName = Clist_GroupGetName(grpId);
+			}
 		}
 		return pUser;
 
@@ -191,7 +195,10 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 			pGuild->arChannels.insert(pUser);
 
 		pUser->wszUsername = wszChannelId;
-		pUser->wszChannelName = L"#" + wszName;
+		if (m_bUseGuildGroups)
+			pUser->wszChannelName = L"#" + wszName;
+		else
+			pUser->wszChannelName = pGuild->wszName + L"#" + wszName;
 		pUser->wszTopic = pch["topic"].as_mstring();
 		pUser->pGuild = pGuild;
 		pUser->lastMsg = CDiscordMessage(::getId(pch["last_message_id"]));

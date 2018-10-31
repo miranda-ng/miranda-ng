@@ -168,7 +168,7 @@ void CDiscordProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*
 	setByte(0, DB_KEY_MFA, root["mfa_enabled"].as_bool());
 	setDword(0, DB_KEY_DISCR, _wtoi(root["discriminator"].as_mstring()));
 	setWString(0, DB_KEY_NICK, root["username"].as_mstring());
-	setWString(0, DB_KEY_EMAIL, root["email"].as_mstring());
+	m_wszEmail = root["email"].as_mstring();
 
 	m_ownId = id;
 	for (int i = 0; i < pReply->headersCount; i++) {

@@ -46,18 +46,15 @@ extern IconItem g_iconList[];
 extern HWND g_hwndHeartbeat;
 
 #define DB_KEY_ID        "id"
-#define DB_KEY_EMAIL     "Email"
 #define DB_KEY_PASSWORD  "Password"
 #define DB_KEY_DISCR     "Discriminator"
 #define DB_KEY_MFA       "MfaEnabled"
 #define DB_KEY_NICK      "Nick"
 #define DB_KEY_AVHASH    "AvatarHash"
-#define DB_KEY_HIDECHATS "HideChats"
 #define DB_KEY_CHANNELID "ChannelID"
 #define DB_KEY_LASTMSGID "LastMessageID"
 #define DB_KEY_REQAUTH   "ReqAuth"
 
-#define DB_KEY_GROUP    "GroupName"
 #define DB_KEYVAL_GROUP L"Discord"
 
 #include "version.h"
