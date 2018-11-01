@@ -4,13 +4,17 @@ enum {
 	SQL_CTC_STMT_COUNT = 0,
 	SQL_CTC_STMT_ADD,
 	SQL_CTC_STMT_DELETE,
+	SQL_CTC_STMT_DELETESETTINGS,
+	SQL_CTC_STMT_DELETEEVENTS,
 	SQL_CTC_STMT_NUM
 };
 
 static char *ctc_stmts[SQL_CTC_STMT_NUM] = {
 	"select count(1) from contacts limit 1;",
 	"insert into contacts values (null);",
-	"delete from contacts where id = ?;"
+	"delete from contacts where id = ?;",
+	"delete from settings where contact_id = ?;",
+	"delete from events where contact_id = ?;"
 };
 
 static sqlite3_stmt *ctc_stmts_prep[SQL_CTC_STMT_NUM] = { 0 };
@@ -94,10 +98,27 @@ LONG CDbxSQLite::DeleteContact(MCONTACT hContact)
 
 	{
 		mir_cslock lock(m_csDbAccess);
-		sqlite3_stmt *stmt = ctc_stmts_prep[SQL_CTC_STMT_DELETE];
+
+		sqlite3_stmt *stmt = ctc_stmts_prep[SQL_CTC_STMT_DELETEEVENTS];
 		sqlite3_bind_int64(stmt, 1, hContact);
 		int rc = sqlite3_step(stmt);
-		assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
+		assert(rc == SQLITE_DONE);
+		sqlite3_reset(stmt);
+		if (rc != SQLITE_DONE)
+			return 1;
+
+		stmt = ctc_stmts_prep[SQL_CTC_STMT_DELETESETTINGS];
+		sqlite3_bind_int64(stmt, 1, hContact);
+		rc = sqlite3_step(stmt);
+		assert(rc == SQLITE_DONE);
+		sqlite3_reset(stmt);
+		if (rc != SQLITE_DONE)
+			return 1;
+
+		stmt = ctc_stmts_prep[SQL_CTC_STMT_DELETE];
+		sqlite3_bind_int64(stmt, 1, hContact);
+		rc = sqlite3_step(stmt);
+		assert(rc == SQLITE_DONE);
 		sqlite3_reset(stmt);
 		if (rc != SQLITE_DONE)
 			return 1;

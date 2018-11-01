@@ -102,7 +102,7 @@ BOOL CDbxSQLite::Compact()
 	return 0;
 }
 
-BOOL CDbxSQLite::Backup(const wchar_t *profile)
+BOOL CDbxSQLite::Backup(LPCWSTR profile)
 {
 	sqlite3 *database = nullptr;
 	ptrA path(mir_utf8encodeW(profile));

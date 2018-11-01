@@ -17,8 +17,6 @@ enum {
 	SQL_EVT_STMT_FINDPREV,
 	SQL_EVT_STMT_GETIDBYSRVID,
 	SQL_EVT_STMT_SETSRVID,
-	SQL_EVT_STMT_MERGE,
-	SQL_EVT_STMT_SPLIT,
 	SQL_EVT_STMT_NUM
 };
 
@@ -39,8 +37,6 @@ static char *evt_stmts[SQL_EVT_STMT_NUM] = {
 	"select id, timestamp from events where contact_id = ?1 and id <> ?2 and timestamp < (select timestamp from events where contact_id = ?1 and id = ?2 limit 1) order by timestamp desc, id desc limit 1;",
 	"select id, timestamp from events where module = ? and server_id = ? limit 1;",
 	"update events set server_id = ? where id = ?;",
-	"insert into contact_events(contact_id, event_id, timestamp) select ?1, event_id, timestamp from contact_events where contact_id = ?2 order by timestamp, event_id;",
-	"delete from contact_events where contact_id = ? and event_id in (select event_id from contact_events where contact_id = ?);",
 };
 
 static sqlite3_stmt *evt_stmts_prep[SQL_EVT_STMT_NUM] = { 0 };
@@ -702,27 +698,9 @@ BOOL CDbxSQLite::SetEventId(LPCSTR, MEVENT hDbEvent, LPCSTR szId)
 BOOL CDbxSQLite::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 {
 	return TRUE;
-	/*mir_cslock lock(m_csDbAccess);
-	sqlite3_stmt *stmt = evt_stmts_prep[SQL_EVT_STMT_MERGE];
-	sqlite3_bind_int64(stmt, 1, ccMeta->contactID);
-	sqlite3_bind_int64(stmt, 2, ccSub->contactID);
-	int rc = sqlite3_step(stmt);
-	assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
-	sqlite3_reset(stmt);
-	ccMeta->first = ccMeta->unread = ccMeta->last = 0;
-	return (rc != SQLITE_DONE);*/
 }
 
 BOOL CDbxSQLite::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 {
 	return TRUE;
-	/*mir_cslock lock(m_csDbAccess);
-	sqlite3_stmt *stmt = evt_stmts_prep[SQL_EVT_STMT_MERGE];
-	sqlite3_bind_int64(stmt, 1, ccMeta->contactID);
-	sqlite3_bind_int64(stmt, 2, ccSub->contactID);
-	int rc = sqlite3_step(stmt);
-	assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
-	sqlite3_reset(stmt);
-	ccMeta->first = ccMeta->unread = ccMeta->last = 0;
-	return (rc != SQLITE_DONE);*/
 }
