@@ -98,7 +98,7 @@ static INT_PTR ServiceMode(WPARAM wParam, LPARAM)
 	if (wParam == 1) {
 		ptrW wszFullName(Utils_ReplaceVarsW(L"%miranda_userdata%\\%miranda_profilename%.dat.bak"));
 		if (!_waccess(wszFullName, 0)) {
-			g_iImportOptions = IOPT_ADDUNKNOWN + IOPT_COMPLETE + IOPT_CHECKDUPS;
+			g_iImportOptions = IOPT_ADDUNKNOWN + IOPT_COMPLETE;
 			wcsncpy_s(importFile, MAX_PATH, wszFullName, _TRUNCATE);
 			RunWizard(new CProgressPageDlg(), true);
 		}
