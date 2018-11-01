@@ -81,6 +81,13 @@ class CSoundOptionsDlg : public CDlgBase
 		return nullptr;
 	}
 
+	void SelectAll(bool bSelect)
+	{
+		for (HTREEITEM hItem = m_tree.GetRoot(); hItem; hItem = m_tree.GetNextSibling(hItem))
+			for (HTREEITEM hItem2 = m_tree.GetChild(hItem); hItem2; hItem2 = m_tree.GetNextSibling(hItem2))
+				m_tree.SetCheckState(hItem2, bSelect);
+	}
+
 	void ShowHidePane(bool bShow)
 	{
 		int iCommand = (bShow) ? SW_SHOW : SW_HIDE;
@@ -113,6 +120,7 @@ public:
 
 		chkSounds.OnChange = Callback(this, &CSoundOptionsDlg::onChange_Sounds);
 
+		m_tree.OnBuildMenu = Callback(this, &CSoundOptionsDlg::onMenu_Tree);
 		m_tree.OnSelChanged = Callback(this, &CSoundOptionsDlg::onChanged_Tree);
 	}
 
@@ -280,6 +288,22 @@ public:
 			}
 			ShowHidePane(true);
 		}
+	}
+
+	void onMenu_Tree(CCtrlBase*)
+	{
+		POINT pt;
+		GetCursorPos(&pt);
+
+		HMENU hMenu = CreatePopupMenu();
+		AppendMenu(hMenu, MF_STRING, 1, TranslateT("Select all"));
+		AppendMenu(hMenu, MF_STRING, 2, TranslateT("Unselect all"));
+
+		switch (TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, nullptr)) {
+			case 1: SelectAll(true); break;
+			case 2: SelectAll(false); break;
+		}
+		DestroyMenu(hMenu);
 	}
 
 	void RebuildTree()
