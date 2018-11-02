@@ -147,6 +147,7 @@ public:
 class CMirandaOptionsPageDlg : public CWizardPageDlg
 {
 	CCtrlButton btnBack;
+	CCtrlCheck chkDups;
 
 public:
 	CMirandaOptionsPageDlg();

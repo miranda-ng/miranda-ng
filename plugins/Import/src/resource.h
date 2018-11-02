@@ -23,10 +23,10 @@
 #define IDC_FILENAME                    1007
 #define IDC_PROGRESS                    1008
 #define IDC_STATUS                      1009
-#define IDC_SPLITTER							 1010
-#define IDC_STATICTEXT1						 1011
-#define IDC_STATICTEXT2						 1012
-#define IDC_STATICTEXT3						 1013
+#define IDC_SPLITTER                    1010
+#define IDC_STATICTEXT1                 1011
+#define IDC_STATICTEXT2                 1012
+#define IDC_STATICTEXT3                 1013
 #define IDC_RADIO_ALL                   1016
 #define IDC_RADIO_CONTACTS              1017
 #define IDC_RADIO_CUSTOM                1018
@@ -61,9 +61,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        115
+#define _APS_NEXT_RESOURCE_VALUE        116
 #define _APS_NEXT_COMMAND_VALUE         40002
-#define _APS_NEXT_CONTROL_VALUE         1044
+#define _APS_NEXT_CONTROL_VALUE         1045
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

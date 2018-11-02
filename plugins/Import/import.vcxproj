@@ -53,7 +53,10 @@
   <ItemGroup>
     <ClInclude Include="src\dbrw\*.h" />
   </ItemGroup>
-   <ItemDefinitionGroup>
+  <ItemGroup>
+    <Image Include="res\import.ico" />
+  </ItemGroup>
+  <ItemDefinitionGroup>
     <ClCompile>
       <ExceptionHandling>Sync</ExceptionHandling>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\libs\sqlite3\src;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>

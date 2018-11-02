@@ -223,7 +223,7 @@ public:
 			{
 				LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;
 				lpMMI->ptMinTrackSize.x = 330;
-				lpMMI->ptMinTrackSize.y = 232;
+				lpMMI->ptMinTrackSize.y = 286;
 			}
 			return 1;
 

@@ -178,7 +178,8 @@ void CMirandaPageDlg::SearchForLists(const wchar_t *mirandaPath, const wchar_t *
 
 CMirandaOptionsPageDlg::CMirandaOptionsPageDlg() :
 	CWizardPageDlg(IDD_OPTIONS),
-	btnBack(this, IDC_BACK)
+	btnBack(this, IDC_BACK),
+	chkDups(this, IDC_CHECK_DUPS)
 {
 	btnBack.OnClick = Callback(this, &CMirandaOptionsPageDlg::onClick_Back);
 }
@@ -216,20 +217,24 @@ void CMirandaOptionsPageDlg::onClick_Back(CCtrlButton*)
 
 void CMirandaOptionsPageDlg::OnNext()
 {
+	int iFlags = chkDups.IsChecked() ? IOPT_CHECKDUPS : 0;
+
 	if (IsDlgButtonChecked(m_hwnd, IDC_RADIO_COMPLETE)) {
-		g_iImportOptions = IOPT_ADDUNKNOWN | IOPT_COMPLETE | IOPT_CHECKDUPS;
+		g_iImportOptions = IOPT_ADDUNKNOWN | IOPT_COMPLETE | iFlags;
 		PostMessage(m_hwndParent, WIZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)new CProgressPageDlg());
 	}
 	else if (IsDlgButtonChecked(m_hwnd, IDC_RADIO_ALL)) {
-		g_iImportOptions = IOPT_HISTORY | IOPT_SYSTEM | IOPT_GROUPS | IOPT_CONTACTS | IOPT_CHECKDUPS;
+		g_iImportOptions = IOPT_HISTORY | IOPT_SYSTEM | IOPT_GROUPS | IOPT_CONTACTS | iFlags;
 		PostMessage(m_hwndParent, WIZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)new CProgressPageDlg());
 	}
 	else if (IsDlgButtonChecked(m_hwnd, IDC_RADIO_CONTACTS)) {
 		g_iImportOptions = IOPT_CONTACTS;
 		PostMessage(m_hwndParent, WIZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)new CProgressPageDlg());
 	}
-	else if (IsDlgButtonChecked(m_hwnd, IDC_RADIO_CUSTOM))
+	else if (IsDlgButtonChecked(m_hwnd, IDC_RADIO_CUSTOM)) {
+		g_iImportOptions = iFlags;
 		PostMessage(m_hwndParent, WIZM_GOTOPAGE, IDD_ADVOPTIONS, (LPARAM)new CMirandaAdvOptionsPageDlg());
+	}
 }
 
 //=======================================================================================
@@ -281,7 +286,8 @@ void CMirandaAdvOptionsPageDlg::onClick_Back(CCtrlButton*)
 
 void CMirandaAdvOptionsPageDlg::OnNext()
 {
-	g_iImportOptions = 0;
+	// clear all another flags but duplicates
+	g_iImportOptions &= IOPT_CHECKDUPS;
 
 	if (IsDlgButtonChecked(m_hwnd, IDC_CONTACTS))
 		g_iImportOptions |= IOPT_CONTACTS | IOPT_GROUPS;
