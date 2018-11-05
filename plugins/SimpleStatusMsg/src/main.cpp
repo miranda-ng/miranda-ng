@@ -58,18 +58,15 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SRAWAY
 
 static wchar_t* GetWinampSong(void)
 {
-	wchar_t *szTitle, *pstr, *res = nullptr;
 	HWND hwndWinamp = FindWindow(L"STUDIO", nullptr);
-	int iTitleLen;
-
 	if (hwndWinamp == nullptr)
 		hwndWinamp = FindWindow(L"Winamp v1.x", nullptr);
 
 	if (hwndWinamp == nullptr)
 		return nullptr;
 
-	iTitleLen = GetWindowTextLength(hwndWinamp);
-	szTitle = (wchar_t *)mir_alloc((iTitleLen + 1) * sizeof(wchar_t));
+	int iTitleLen = GetWindowTextLength(hwndWinamp);
+	wchar_t *szTitle = (wchar_t *)mir_alloc((iTitleLen + 1) * sizeof(wchar_t));
 	if (szTitle == nullptr)
 		return nullptr;
 
@@ -78,7 +75,7 @@ static wchar_t* GetWinampSong(void)
 		return nullptr;
 	}
 
-	pstr = wcsstr(szTitle, L" - Winamp");
+	wchar_t *pstr = wcsstr(szTitle, L" - Winamp");
 	if (pstr == nullptr) {
 		mir_free(szTitle);
 		return nullptr;
@@ -101,7 +98,7 @@ static wchar_t* GetWinampSong(void)
 	}
 
 	pstr += 2;
-	res = mir_wstrdup(pstr);
+	wchar_t *res = mir_wstrdup(pstr);
 	mir_free(szTitle);
 
 	return res;
