@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2017-2018 Leonid Yuriev <leo@yuriev.ru>
  * and other libmdbx authors: please see AUTHORS file.
  * All rights reserved.
@@ -184,7 +184,7 @@ void osal_killall_actors(void) {
 int osal_actor_poll(mdbx_pid_t &pid, unsigned timeout) {
   struct timespec ts;
   ts.tv_nsec = 0;
-  ts.tv_sec = timeout;
+  ts.tv_sec = (timeout > INT_MAX) ? INT_MAX : timeout;
 retry:
   int status, options = WNOHANG;
 #ifdef WUNTRACED
@@ -300,4 +300,8 @@ std::string osal_tempdir(void) {
   if (access("/dev/shm/", R_OK | W_OK | X_OK) == 0)
     return "/dev/shm/";
   return "";
+}
+
+int osal_removefile(const std::string &pathname) {
+  return unlink(pathname.c_str()) ? errno : MDBX_SUCCESS;
 }
