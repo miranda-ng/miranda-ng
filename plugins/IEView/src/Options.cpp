@@ -42,7 +42,6 @@ struct
 }
 static tabPages[] =
 {
-	{ IEViewGeneralOptDlgProc, IDD_GENERAL_OPTIONS, LPGENW("General") },
 	{ IEViewSRMMOptDlgProc, IDD_SRMM_OPTIONS, LPGENW("Message Log") },
 	{ IEViewGroupChatsOptDlgProc, IDD_SRMM_OPTIONS, LPGENW("Group chats") },
 	{ IEViewHistoryOptDlgProc, IDD_SRMM_OPTIONS, LPGENW("History") }
@@ -324,23 +323,19 @@ static void UpdateHistoryProtoInfo(HWND hwndDlg, ProtocolSettings *proto)
 
 static void RefreshProtoIcons()
 {
-	int i;
-	ProtocolSettings *proto;
-	if (hProtocolImageList != nullptr) {
+	if (hProtocolImageList != nullptr)
 		ImageList_RemoveAll(hProtocolImageList);
-	}
-	else {
-		for (i = 0, proto = Options::getProtocolSettings(); proto != nullptr; proto = proto->getNext(), i++);
-		hProtocolImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON),
-			ILC_MASK | ILC_COLOR32, i, 0);
-	}
-	for (i = 0, proto = Options::getProtocolSettings(); proto != nullptr; proto = proto->getNext(), i++) {
+	else
+		hProtocolImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_MASK | ILC_COLOR32, 0, 0);
+
+	ProtocolSettings *proto = Options::getProtocolSettings();
+	for (int i = 0; proto != nullptr; proto = proto->getNext(), i++) {
 		HICON hIcon = nullptr;
 		if (i > 0) {
 			hIcon = (HICON)CallProtoService(proto->getProtocolName(), PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
-			if (hIcon == nullptr) {
+			if (hIcon == nullptr)
 				hIcon = (HICON)CallProtoService(proto->getProtocolName(), PS_LOADICON, PLI_PROTOCOL, 0);
-			}
+
 			ImageList_AddIcon(hProtocolImageList, hIcon);
 			DestroyIcon(hIcon);
 		}
@@ -354,12 +349,11 @@ static void RefreshProtoIcons()
 
 static void RefreshIcons()
 {
-	if (hImageList != nullptr) {
+	if (hImageList != nullptr)
 		ImageList_RemoveAll(hImageList);
-	}
-	else {
+	else
 		hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_MASK | ILC_COLOR32, 0, 0);
-	}
+
 	ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[3].hIcolib));
 	ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[2].hIcolib));
 	ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[1].hIcolib));
@@ -368,13 +362,12 @@ static void RefreshIcons()
 
 static void RefreshProtoList(HWND hwndDlg, int mode, bool protoTemplates)
 {
-	int i;
 	HTREEITEM hItem = nullptr;
 	HWND hProtoList = GetDlgItem(hwndDlg, IDC_PROTOLIST);
 	TreeView_DeleteAllItems(hProtoList);
 	TreeView_SetImageList(hProtoList, hProtocolImageList, TVSIL_NORMAL);
-	ProtocolSettings *proto;
-	for (i = 0, proto = Options::getProtocolSettings(); proto != nullptr; proto = proto->getNext(), i++) {
+	ProtocolSettings *proto = Options::getProtocolSettings();
+	for (int i = 0; proto != nullptr; proto = proto->getNext(), i++) {
 		char protoName[128];
 		TVINSERTSTRUCT tvi = {};
 		tvi.hParent = TVI_ROOT;
@@ -401,13 +394,14 @@ static void RefreshProtoList(HWND hwndDlg, int mode, bool protoTemplates)
 			tvi.item.state = INDEXTOSTATEIMAGEMASK(proto->isHistoryEnableTemp() ? 2 : 1);
 			break;
 		}
-		if (i == 0) {
+
+		if (i == 0)
 			hItem = TreeView_InsertItem(hProtoList, &tvi);
-		}
-		else {
+		else
 			TreeView_InsertItem(hProtoList, &tvi);
-		}
-		if (!protoTemplates) break;
+
+		if (!protoTemplates)
+			break;
 	}
 	//	UpdateSRMMProtoInfo(hwndDlg, Options::getProtocolSettings());
 	TreeView_SelectItem(hProtoList, hItem);
@@ -415,17 +409,17 @@ static void RefreshProtoList(HWND hwndDlg, int mode, bool protoTemplates)
 
 static bool BrowseFile(HWND hwndDlg, char *filter, char *defExt, char *path, int maxLen)
 {
-	OPENFILENAMEA ofn = { 0 };
 	GetWindowTextA(hwndDlg, path, maxLen);
-	ofn.lStructSize = sizeof(OPENFILENAME);//_SIZE_VERSION_400;
+	
+	OPENFILENAMEA ofn = {};
+	ofn.lStructSize = sizeof(OPENFILENAME);
 	ofn.hwndOwner = hwndDlg;
-	ofn.hInstance = nullptr;
-	ofn.lpstrFilter = filter;//"Templates (*.ivt)\0*.ivt\0All Files\0*.*\0\0";
+	ofn.lpstrFilter = filter;
 	ofn.lpstrFile = path;
 	ofn.Flags = OFN_FILEMUSTEXIST;
 	ofn.nMaxFile = maxLen;
 	ofn.nMaxFileTitle = maxLen;
-	ofn.lpstrDefExt = defExt;//"ivt";
+	ofn.lpstrDefExt = defExt;
 	if (GetOpenFileNameA(&ofn)) {
 		SetWindowTextA(hwndDlg, path);
 		return true;
@@ -439,17 +433,17 @@ int IEViewOptInit(WPARAM wParam, LPARAM)
 	odp.szGroup.w = LPGENW("Message sessions");
 	odp.szTitle.w = LPGENW("IEView");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
-	odp.pszTemplate = MAKEINTRESOURCEA(tabPages[0].dlgId);
-	odp.pfnDlgProc = tabPages[0].dlgProc;
-	odp.szTab.w = tabPages[0].tabName;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_GENERAL_OPTIONS);
+	odp.pfnDlgProc = IEViewGeneralOptDlgProc;
+	odp.szTab.w = LPGENW("General");
 	g_plugin.addOptions(wParam, &odp);
 
 	odp.szGroup.w = LPGENW("Skins");
 	odp.szTitle.w = LPGENW("IEView");
-	for (size_t i = 1; i < _countof(tabPages); i++) {
-		odp.pszTemplate = MAKEINTRESOURCEA(tabPages[i].dlgId);
-		odp.pfnDlgProc = tabPages[i].dlgProc;
-		odp.szTab.w = tabPages[i].tabName;
+	for (auto &it : tabPages) {
+		odp.pszTemplate = MAKEINTRESOURCEA(it.dlgId);
+		odp.pfnDlgProc = it.dlgProc;
+		odp.szTab.w = it.tabName;
 		g_plugin.addOptions(wParam, &odp);
 	}
 	return 0;
@@ -518,7 +512,6 @@ static INT_PTR CALLBACK IEViewGeneralOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 		return TRUE;
 
 	case WM_COMMAND:
-	{
 		switch (LOWORD(wParam)) {
 		case IDC_ENABLE_BBCODES:
 		case IDC_ENABLE_FLASH:
@@ -532,8 +525,8 @@ static INT_PTR CALLBACK IEViewGeneralOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 			EnableWindow(GetDlgItem(hwndDlg, IDC_EMBED_SIZE), IsDlgButtonChecked(hwndDlg, IDC_ENABLE_EMBED));
 			break;
 		}
-	}
-	break;
+		break;
+
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
@@ -567,17 +560,16 @@ static INT_PTR CALLBACK IEViewSRMMOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 {
 	BOOL bChecked;
 	char path[MAX_PATH], filter[MAX_PATH];
+
 	switch (msg) {
 	case WM_INITDIALOG:
-	{
 		MarkInitialized(2);
 		TranslateDialogDefault(hwndDlg);
 		srmmCurrentProtoItem = nullptr;
 		RefreshProtoList(hwndDlg, 0, true);
 		return TRUE;
-	}
+
 	case WM_COMMAND:
-	{
 		switch (LOWORD(wParam)) {
 		case IDC_BACKGROUND_IMAGE_FILENAME:
 		case IDC_EXTERNALCSS_FILENAME:
@@ -642,39 +634,41 @@ static INT_PTR CALLBACK IEViewSRMMOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			Utils_OpenUrl("https://miranda-ng.org/addons/category/16");
 			break;
 		}
-	}
-	break;
+		break;
+
 	case UM_CHECKSTATECHANGE:
-	{
-		ProtocolSettings *proto = (ProtocolSettings *)GetItemParam((HWND)wParam, (HTREEITEM)lParam);
-		if (proto != nullptr)
-			if (strcmpi(proto->getProtocolName(), "_default_"))
-				proto->setSRMMEnableTemp(0 != TreeView_GetCheckState((HWND)wParam, (HTREEITEM)lParam));
+		{
+			ProtocolSettings *proto = (ProtocolSettings *)GetItemParam((HWND)wParam, (HTREEITEM)lParam);
+			if (proto != nullptr)
+				if (strcmpi(proto->getProtocolName(), "_default_"))
+					proto->setSRMMEnableTemp(0 != TreeView_GetCheckState((HWND)wParam, (HTREEITEM)lParam));
 
-		if ((HTREEITEM)lParam != TreeView_GetSelection((HWND)wParam))
-			TreeView_SelectItem((HWND)wParam, (HTREEITEM)lParam);
-		else
-			UpdateSRMMProtoInfo(hwndDlg, proto);
+			if ((HTREEITEM)lParam != TreeView_GetSelection((HWND)wParam))
+				TreeView_SelectItem((HWND)wParam, (HTREEITEM)lParam);
+			else
+				UpdateSRMMProtoInfo(hwndDlg, proto);
 
-		MarkChanges(2, hwndDlg);
-	}
-	break;
+			MarkChanges(2, hwndDlg);
+		}
+		break;
+
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->idFrom == IDC_PROTOLIST) {
 			switch (((LPNMHDR)lParam)->code) {
 			case NM_CLICK:
-			{
-				TVHITTESTINFO ht = { 0 };
-				DWORD dwpos = GetMessagePos();
-				POINTSTOPOINT(ht.pt, MAKEPOINTS(dwpos));
-				MapWindowPoints(HWND_DESKTOP, ((LPNMHDR)lParam)->hwndFrom, &ht.pt, 1);
-				TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &ht);
-				if (TVHT_ONITEMSTATEICON & ht.flags) {
-					PostMessage(hwndDlg, UM_CHECKSTATECHANGE, (WPARAM)((LPNMHDR)lParam)->hwndFrom, (LPARAM)ht.hItem);
-					return FALSE;
+				{
+					TVHITTESTINFO ht = { 0 };
+					DWORD dwpos = GetMessagePos();
+					POINTSTOPOINT(ht.pt, MAKEPOINTS(dwpos));
+					MapWindowPoints(HWND_DESKTOP, ((LPNMHDR)lParam)->hwndFrom, &ht.pt, 1);
+					TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &ht);
+					if (TVHT_ONITEMSTATEICON & ht.flags) {
+						PostMessage(hwndDlg, UM_CHECKSTATECHANGE, (WPARAM)((LPNMHDR)lParam)->hwndFrom, (LPARAM)ht.hItem);
+						return FALSE;
+					}
 				}
-			}
-			break;
+				break;
+
 			case TVN_KEYDOWN:
 				if (((LPNMTVKEYDOWN)lParam)->wVKey == VK_SPACE)
 					PostMessage(hwndDlg, UM_CHECKSTATECHANGE, (WPARAM)((LPNMHDR)lParam)->hwndFrom,
@@ -777,37 +771,37 @@ static INT_PTR CALLBACK IEViewHistoryOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 		break;
 
 	case UM_CHECKSTATECHANGE:
-	{
-		ProtocolSettings *proto = (ProtocolSettings *)GetItemParam((HWND)wParam, (HTREEITEM)lParam);
-		if (proto != nullptr)
-			if (strcmpi(proto->getProtocolName(), "_default_"))
-				proto->setHistoryEnableTemp(0 != TreeView_GetCheckState((HWND)wParam, (HTREEITEM)lParam));
+		{
+			ProtocolSettings *proto = (ProtocolSettings *)GetItemParam((HWND)wParam, (HTREEITEM)lParam);
+			if (proto != nullptr)
+				if (strcmpi(proto->getProtocolName(), "_default_"))
+					proto->setHistoryEnableTemp(0 != TreeView_GetCheckState((HWND)wParam, (HTREEITEM)lParam));
 
-		if ((HTREEITEM)lParam != TreeView_GetSelection((HWND)wParam))
-			TreeView_SelectItem((HWND)wParam, (HTREEITEM)lParam);
-		else
-			UpdateHistoryProtoInfo(hwndDlg, proto);
+			if ((HTREEITEM)lParam != TreeView_GetSelection((HWND)wParam))
+				TreeView_SelectItem((HWND)wParam, (HTREEITEM)lParam);
+			else
+				UpdateHistoryProtoInfo(hwndDlg, proto);
 
-		MarkChanges(4, hwndDlg);
-	}
-	break;
+			MarkChanges(4, hwndDlg);
+		}
+		break;
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->idFrom == IDC_PROTOLIST) {
 			switch (((LPNMHDR)lParam)->code) {
 			case NM_CLICK:
-			{
-				TVHITTESTINFO ht = { 0 };
-				DWORD dwpos = GetMessagePos();
-				POINTSTOPOINT(ht.pt, MAKEPOINTS(dwpos));
-				MapWindowPoints(HWND_DESKTOP, ((LPNMHDR)lParam)->hwndFrom, &ht.pt, 1);
-				TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &ht);
-				if (TVHT_ONITEMSTATEICON & ht.flags) {
-					PostMessage(hwndDlg, UM_CHECKSTATECHANGE, (WPARAM)((LPNMHDR)lParam)->hwndFrom, (LPARAM)ht.hItem);
-					return FALSE;
+				{
+					TVHITTESTINFO ht = { 0 };
+					DWORD dwpos = GetMessagePos();
+					POINTSTOPOINT(ht.pt, MAKEPOINTS(dwpos));
+					MapWindowPoints(HWND_DESKTOP, ((LPNMHDR)lParam)->hwndFrom, &ht.pt, 1);
+					TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &ht);
+					if (TVHT_ONITEMSTATEICON & ht.flags) {
+						PostMessage(hwndDlg, UM_CHECKSTATECHANGE, (WPARAM)((LPNMHDR)lParam)->hwndFrom, (LPARAM)ht.hItem);
+						return FALSE;
+					}
 				}
-			}
-			break;
+				break;
 			case TVN_KEYDOWN:
 				if (((LPNMTVKEYDOWN)lParam)->wVKey == VK_SPACE)
 					PostMessage(hwndDlg, UM_CHECKSTATECHANGE, (WPARAM)((LPNMHDR)lParam)->hwndFrom,
@@ -910,38 +904,38 @@ static INT_PTR CALLBACK IEViewGroupChatsOptDlgProc(HWND hwndDlg, UINT msg, WPARA
 		break;
 
 	case UM_CHECKSTATECHANGE:
-	{
-		ProtocolSettings *proto = (ProtocolSettings *)GetItemParam((HWND)wParam, (HTREEITEM)lParam);
-		if (proto != nullptr)
-			if (strcmpi(proto->getProtocolName(), "_default_"))
-				proto->setChatEnableTemp(0 != TreeView_GetCheckState((HWND)wParam, (HTREEITEM)lParam));
+		{
+			ProtocolSettings *proto = (ProtocolSettings *)GetItemParam((HWND)wParam, (HTREEITEM)lParam);
+			if (proto != nullptr)
+				if (strcmpi(proto->getProtocolName(), "_default_"))
+					proto->setChatEnableTemp(0 != TreeView_GetCheckState((HWND)wParam, (HTREEITEM)lParam));
 
-		if ((HTREEITEM)lParam != TreeView_GetSelection((HWND)wParam)) {
-			TreeView_SelectItem((HWND)wParam, (HTREEITEM)lParam);
+			if ((HTREEITEM)lParam != TreeView_GetSelection((HWND)wParam)) {
+				TreeView_SelectItem((HWND)wParam, (HTREEITEM)lParam);
+			}
+			else {
+				UpdateChatProtoInfo(hwndDlg, proto);
+			}
+			MarkChanges(8, hwndDlg);
 		}
-		else {
-			UpdateChatProtoInfo(hwndDlg, proto);
-		}
-		MarkChanges(8, hwndDlg);
-	}
-	break;
+		break;
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->idFrom == IDC_PROTOLIST) {
 			switch (((LPNMHDR)lParam)->code) {
 			case NM_CLICK:
-			{
-				TVHITTESTINFO ht = { 0 };
-				DWORD dwpos = GetMessagePos();
-				POINTSTOPOINT(ht.pt, MAKEPOINTS(dwpos));
-				MapWindowPoints(HWND_DESKTOP, ((LPNMHDR)lParam)->hwndFrom, &ht.pt, 1);
-				TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &ht);
-				if (TVHT_ONITEMSTATEICON & ht.flags) {
-					PostMessage(hwndDlg, UM_CHECKSTATECHANGE, (WPARAM)((LPNMHDR)lParam)->hwndFrom, (LPARAM)ht.hItem);
-					return FALSE;
+				{
+					TVHITTESTINFO ht = { 0 };
+					DWORD dwpos = GetMessagePos();
+					POINTSTOPOINT(ht.pt, MAKEPOINTS(dwpos));
+					MapWindowPoints(HWND_DESKTOP, ((LPNMHDR)lParam)->hwndFrom, &ht.pt, 1);
+					TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &ht);
+					if (TVHT_ONITEMSTATEICON & ht.flags) {
+						PostMessage(hwndDlg, UM_CHECKSTATECHANGE, (WPARAM)((LPNMHDR)lParam)->hwndFrom, (LPARAM)ht.hItem);
+						return FALSE;
+					}
 				}
-			}
-			break;
+				break;
 			case TVN_KEYDOWN:
 				if (((LPNMTVKEYDOWN)lParam)->wVKey == VK_SPACE)
 					PostMessage(hwndDlg, UM_CHECKSTATECHANGE, (WPARAM)((LPNMHDR)lParam)->hwndFrom,
@@ -972,7 +966,7 @@ bool Options::bSmileyAdd = false;
 int  Options::avatarServiceFlags = 0;
 int  Options::generalFlags;
 
-ProtocolSettings *Options::protocolList = nullptr;
+ProtocolSettings* Options::protocolList = nullptr;
 
 ProtocolSettings::ProtocolSettings(const char *protocolName)
 {
@@ -1085,162 +1079,12 @@ void ProtocolSettings::copyFromTemp()
 	setHistoryEnable(isHistoryEnableTemp());
 }
 
-void ProtocolSettings::setNext(ProtocolSettings *_next)
-{
-	next = _next;
-}
-
-const char *ProtocolSettings::getProtocolName()
-{
-	return protocolName;
-}
-
-ProtocolSettings * ProtocolSettings::getNext()
-{
-	return next;
-}
-
-void ProtocolSettings::setSRMMBackgroundFilename(const char *filename)
-{
-	replaceStr(srmmBackgroundFilename, filename);
-}
-
-void ProtocolSettings::setSRMMBackgroundFilenameTemp(const char *filename)
-{
-	replaceStr(srmmBackgroundFilenameTemp, filename);
-}
-
-void ProtocolSettings::setSRMMCssFilename(const char *filename)
-{
-	replaceStr(srmmCssFilename, filename);
-}
-
-void ProtocolSettings::setSRMMCssFilenameTemp(const char *filename)
-{
-	replaceStr(srmmCssFilenameTemp, filename);
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void ProtocolSettings::setSRMMTemplateFilename(const char *filename)
 {
 	replaceStr(srmmTemplateFilename, filename);
 	TemplateMap::loadTemplates(getSRMMTemplateFilename(), getSRMMTemplateFilename(), false);
-}
-
-void ProtocolSettings::setSRMMTemplateFilenameTemp(const char *filename)
-{
-	replaceStr(srmmTemplateFilenameTemp, filename);
-}
-
-const char *ProtocolSettings::getSRMMBackgroundFilename()
-{
-	return srmmBackgroundFilename;
-}
-
-const char *ProtocolSettings::getSRMMBackgroundFilenameTemp()
-{
-	return srmmBackgroundFilenameTemp;
-}
-
-const char *ProtocolSettings::getSRMMCssFilename()
-{
-	return srmmCssFilename;
-}
-
-const char *ProtocolSettings::getSRMMCssFilenameTemp()
-{
-	return srmmCssFilenameTemp;
-}
-
-const char *ProtocolSettings::getSRMMTemplateFilename()
-{
-	return srmmTemplateFilename;
-}
-
-const char *ProtocolSettings::getSRMMTemplateFilenameTemp()
-{
-	return srmmTemplateFilenameTemp;
-}
-
-void ProtocolSettings::setSRMMEnable(bool enable)
-{
-	this->srmmEnable = enable;
-}
-
-bool ProtocolSettings::isSRMMEnable()
-{
-	return srmmEnable;
-}
-
-void ProtocolSettings::setSRMMEnableTemp(bool enable)
-{
-	this->srmmEnableTemp = enable;
-}
-
-bool ProtocolSettings::isSRMMEnableTemp()
-{
-	return srmmEnableTemp;
-}
-
-void ProtocolSettings::setSRMMMode(int mode)
-{
-	this->srmmMode = mode;
-}
-
-int ProtocolSettings::getSRMMMode()
-{
-	return srmmMode;
-}
-
-void ProtocolSettings::setSRMMModeTemp(int mode)
-{
-	this->srmmModeTemp = mode;
-}
-
-int ProtocolSettings::getSRMMModeTemp()
-{
-	return srmmModeTemp;
-}
-
-void ProtocolSettings::setSRMMFlags(int flags)
-{
-	this->srmmFlags = flags;
-}
-
-int ProtocolSettings::getSRMMFlags()
-{
-	return srmmFlags;
-}
-
-void ProtocolSettings::setSRMMFlagsTemp(int flags)
-{
-	this->srmmFlagsTemp = flags;
-}
-
-int ProtocolSettings::getSRMMFlagsTemp()
-{
-	return srmmFlagsTemp;
-}
-
-/* */
-
-void ProtocolSettings::setChatBackgroundFilename(const char *filename)
-{
-	replaceStr(chatBackgroundFilename, filename);
-}
-
-void ProtocolSettings::setChatBackgroundFilenameTemp(const char *filename)
-{
-	replaceStr(chatBackgroundFilenameTemp, filename);
-}
-
-void ProtocolSettings::setChatCssFilename(const char *filename)
-{
-	replaceStr(chatCssFilename, filename);
-}
-
-void ProtocolSettings::setChatCssFilenameTemp(const char *filename)
-{
-	replaceStr(chatCssFilenameTemp, filename);
 }
 
 void ProtocolSettings::setChatTemplateFilename(const char *filename)
@@ -1249,223 +1093,13 @@ void ProtocolSettings::setChatTemplateFilename(const char *filename)
 	TemplateMap::loadTemplates(getChatTemplateFilename(), getChatTemplateFilename(), false);
 }
 
-void ProtocolSettings::setChatTemplateFilenameTemp(const char *filename)
-{
-	replaceStr(chatTemplateFilenameTemp, filename);
-}
-
-const char *ProtocolSettings::getChatBackgroundFilename()
-{
-	return chatBackgroundFilename;
-}
-
-const char *ProtocolSettings::getChatBackgroundFilenameTemp()
-{
-	return chatBackgroundFilenameTemp;
-}
-
-const char *ProtocolSettings::getChatCssFilename()
-{
-	return chatCssFilename;
-}
-
-const char *ProtocolSettings::getChatCssFilenameTemp()
-{
-	return chatCssFilenameTemp;
-}
-
-const char *ProtocolSettings::getChatTemplateFilename()
-{
-	return chatTemplateFilename;
-}
-
-const char *ProtocolSettings::getChatTemplateFilenameTemp()
-{
-	return chatTemplateFilenameTemp;
-}
-
-void ProtocolSettings::setChatEnable(bool enable)
-{
-	this->chatEnable = enable;
-}
-
-bool ProtocolSettings::isChatEnable()
-{
-	return chatEnable;
-}
-
-void ProtocolSettings::setChatEnableTemp(bool enable)
-{
-	this->chatEnableTemp = enable;
-}
-
-bool ProtocolSettings::isChatEnableTemp()
-{
-	return chatEnableTemp;
-}
-
-void ProtocolSettings::setChatMode(int mode)
-{
-	this->chatMode = mode;
-}
-
-int ProtocolSettings::getChatMode()
-{
-	return chatMode;
-}
-
-void ProtocolSettings::setChatModeTemp(int mode)
-{
-	this->chatModeTemp = mode;
-}
-
-int ProtocolSettings::getChatModeTemp()
-{
-	return chatModeTemp;
-}
-
-void ProtocolSettings::setChatFlags(int flags)
-{
-	this->chatFlags = flags;
-}
-
-int ProtocolSettings::getChatFlags()
-{
-	return chatFlags;
-}
-
-void ProtocolSettings::setChatFlagsTemp(int flags)
-{
-	this->chatFlagsTemp = flags;
-}
-
-int ProtocolSettings::getChatFlagsTemp()
-{
-	return chatFlagsTemp;
-}
-
-/* */
-
-void ProtocolSettings::setHistoryBackgroundFilename(const char *filename)
-{
-	replaceStr(historyBackgroundFilename, filename);
-}
-
-void ProtocolSettings::setHistoryBackgroundFilenameTemp(const char *filename)
-{
-	replaceStr(historyBackgroundFilenameTemp, filename);
-}
-
-void ProtocolSettings::setHistoryCssFilename(const char *filename)
-{
-	replaceStr(historyCssFilename, filename);
-}
-
-void ProtocolSettings::setHistoryCssFilenameTemp(const char *filename)
-{
-	replaceStr(historyCssFilenameTemp, filename);
-}
-
 void ProtocolSettings::setHistoryTemplateFilename(const char *filename)
 {
 	replaceStr(historyTemplateFilename, filename);
 	TemplateMap::loadTemplates(getHistoryTemplateFilename(), getHistoryTemplateFilename(), false);
 }
 
-void ProtocolSettings::setHistoryTemplateFilenameTemp(const char *filename)
-{
-	replaceStr(historyTemplateFilenameTemp, filename);
-}
-
-const char *ProtocolSettings::getHistoryBackgroundFilename()
-{
-	return historyBackgroundFilename;
-}
-
-const char *ProtocolSettings::getHistoryBackgroundFilenameTemp()
-{
-	return historyBackgroundFilenameTemp;
-}
-
-const char *ProtocolSettings::getHistoryCssFilename()
-{
-	return historyCssFilename;
-}
-
-const char *ProtocolSettings::getHistoryCssFilenameTemp()
-{
-	return historyCssFilenameTemp;
-}
-
-const char *ProtocolSettings::getHistoryTemplateFilename()
-{
-	return historyTemplateFilename;
-}
-
-const char *ProtocolSettings::getHistoryTemplateFilenameTemp()
-{
-	return historyTemplateFilenameTemp;
-}
-
-void ProtocolSettings::setHistoryEnable(bool enable)
-{
-	this->historyEnable = enable;
-}
-
-bool ProtocolSettings::isHistoryEnable()
-{
-	return historyEnable;
-}
-
-void ProtocolSettings::setHistoryEnableTemp(bool enable)
-{
-	this->historyEnableTemp = enable;
-}
-
-bool ProtocolSettings::isHistoryEnableTemp()
-{
-	return historyEnableTemp;
-}
-
-void ProtocolSettings::setHistoryMode(int mode)
-{
-	this->historyMode = mode;
-}
-
-int ProtocolSettings::getHistoryMode()
-{
-	return historyMode;
-}
-
-void ProtocolSettings::setHistoryModeTemp(int mode)
-{
-	this->historyModeTemp = mode;
-}
-
-int ProtocolSettings::getHistoryModeTemp()
-{
-	return historyModeTemp;
-}
-
-void ProtocolSettings::setHistoryFlags(int flags)
-{
-	this->historyFlags = flags;
-}
-
-int ProtocolSettings::getHistoryFlags()
-{
-	return historyFlags;
-}
-
-void ProtocolSettings::setHistoryFlagsTemp(int flags)
-{
-	this->historyFlagsTemp = flags;
-}
-
-int ProtocolSettings::getHistoryFlagsTemp()
-{
-	return historyFlagsTemp;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void Options::init()
 {
@@ -1655,12 +1289,12 @@ int Options::getAvatarServiceFlags()
 	return avatarServiceFlags;
 }
 
-ProtocolSettings * Options::getProtocolSettings()
+ProtocolSettings* Options::getProtocolSettings()
 {
 	return protocolList;
 }
 
-ProtocolSettings * Options::getProtocolSettings(const char *protocolName)
+ProtocolSettings* Options::getProtocolSettings(const char *protocolName)
 {
 	for (ProtocolSettings *proto = protocolList; proto != nullptr; proto = proto->getNext())
 		if (!strcmpi(proto->getProtocolName(), protocolName))
