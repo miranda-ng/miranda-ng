@@ -915,28 +915,32 @@ void CChatRoomDlg::UpdateTitle()
 			wcsncpy_s(m_wszTitle, szNick, _TRUNCATE);
 	}
 
-	wchar_t szTemp[100];
+	CMStringW wszTitle;
 	HICON hIcon = nullptr;
 	int nUsers = m_si->getUserList().getCount();
 
 	switch (m_si->iType) {
 	case GCW_CHATROOM:
 		hIcon = Skin_LoadProtoIcon(m_si->pszModule, (m_wStatus <= ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : m_wStatus);
-		mir_snwprintf(szTemp,
-			(nUsers == 1) ? TranslateT("%s: chat room (%u user%s)") : TranslateT("%s: chat room (%u users%s)"),
+		wszTitle.Format((nUsers == 1) ? TranslateT("%s: chat room (%u user%s)") : TranslateT("%s: chat room (%u users%s)"),
 			szNick, nUsers, m_bFilterEnabled ? TranslateT(", event filter active") : L"");
 		break;
+
 	case GCW_PRIVMESS:
 		hIcon = Skin_LoadProtoIcon(m_si->pszModule, (m_wStatus <= ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : m_wStatus);
 		if (nUsers == 1)
-			mir_snwprintf(szTemp, TranslateT("%s: message session"), szNick);
+			wszTitle.Format(TranslateT("%s: message session"), szNick);
 		else
-			mir_snwprintf(szTemp, TranslateT("%s: message session (%u users)"), szNick, nUsers);
+			wszTitle.Format(TranslateT("%s: message session (%u users)"), szNick, nUsers);
 		break;
+
 	case GCW_SERVER:
-		mir_snwprintf(szTemp, L"%s: Server", szNick);
+		wszTitle.Format(L"%s: Server", szNick);
 		hIcon = LoadIconEx("window");
 		break;
+
+	default:
+		return;
 	}
 
 	if (m_pWnd) {
@@ -953,7 +957,7 @@ void CChatRoomDlg::UpdateTitle()
 		item.pszText = m_wszTitle;
 		TabCtrl_SetItem(m_hwndParent, m_iTabID, &item);
 	}
-	SetWindowText(m_hwnd, szTemp);
+	SetWindowText(m_hwnd, wszTitle);
 	if (m_pContainer->m_hwndActive == m_hwnd) {
 		m_pContainer->UpdateTitle(0, this);
 		UpdateStatusBar();
