@@ -23,29 +23,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define UM_CHECKSTATECHANGE (WM_USER+100)
 HANDLE hHookOptionsChanged;
-static INT_PTR CALLBACK IEViewGeneralOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-static INT_PTR CALLBACK IEViewSRMMOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-static INT_PTR CALLBACK IEViewGroupChatsOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-static INT_PTR CALLBACK IEViewHistoryOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-#define OPTIONS_PAGES 4
+
 static ProtocolSettings *srmmCurrentProtoItem = nullptr;
 static ProtocolSettings *chatCurrentProtoItem = nullptr;
 static ProtocolSettings *historyCurrentProtoItem = nullptr;
 static HIMAGELIST hProtocolImageList = nullptr;
 static HIMAGELIST hImageList = nullptr;
-
-struct
-{
-	DLGPROC dlgProc;
-	DWORD dlgId;
-	wchar_t *tabName;
-}
-static tabPages[] =
-{
-	{ IEViewSRMMOptDlgProc, IDD_SRMM_OPTIONS, LPGENW("Message Log") },
-	{ IEViewGroupChatsOptDlgProc, IDD_SRMM_OPTIONS, LPGENW("Group chats") },
-	{ IEViewHistoryOptDlgProc, IDD_SRMM_OPTIONS, LPGENW("History") }
-};
 
 static LPARAM GetItemParam(HWND hwndTreeView, HTREEITEM hItem)
 {
@@ -425,28 +408,6 @@ static bool BrowseFile(HWND hwndDlg, char *filter, char *defExt, char *path, int
 		return true;
 	}
 	return false;
-}
-
-int IEViewOptInit(WPARAM wParam, LPARAM)
-{
-	OPTIONSDIALOGPAGE odp = {};
-	odp.szGroup.w = LPGENW("Message sessions");
-	odp.szTitle.w = LPGENW("IEView");
-	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_GENERAL_OPTIONS);
-	odp.pfnDlgProc = IEViewGeneralOptDlgProc;
-	odp.szTab.w = LPGENW("General");
-	g_plugin.addOptions(wParam, &odp);
-
-	odp.szGroup.w = LPGENW("Skins");
-	odp.szTitle.w = LPGENW("IEView");
-	for (auto &it : tabPages) {
-		odp.pszTemplate = MAKEINTRESOURCEA(it.dlgId);
-		odp.pfnDlgProc = it.dlgProc;
-		odp.szTab.w = it.tabName;
-		g_plugin.addOptions(wParam, &odp);
-	}
-	return 0;
 }
 
 static int initialized = 0;
@@ -960,6 +921,45 @@ static INT_PTR CALLBACK IEViewGroupChatsOptDlgProc(HWND hwndDlg, UINT msg, WPARA
 	}
 	return FALSE;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct
+{
+	DLGPROC dlgProc;
+	DWORD dlgId;
+	wchar_t *tabName;
+}
+static tabPages[] =
+{
+	{ IEViewSRMMOptDlgProc, IDD_SRMM_OPTIONS, LPGENW("Message Log") },
+	{ IEViewGroupChatsOptDlgProc, IDD_SRMM_OPTIONS, LPGENW("Group chats") },
+	{ IEViewHistoryOptDlgProc, IDD_SRMM_OPTIONS, LPGENW("History") }
+};
+
+int IEViewOptInit(WPARAM wParam, LPARAM)
+{
+	OPTIONSDIALOGPAGE odp = {};
+	odp.szGroup.w = LPGENW("Message sessions");
+	odp.szTitle.w = LPGENW("IEView");
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_GENERAL_OPTIONS);
+	odp.pfnDlgProc = IEViewGeneralOptDlgProc;
+	odp.szTab.w = LPGENW("General");
+	g_plugin.addOptions(wParam, &odp);
+
+	odp.szGroup.w = LPGENW("Skins");
+	odp.szTitle.w = LPGENW("IEView");
+	for (auto &it : tabPages) {
+		odp.pszTemplate = MAKEINTRESOURCEA(it.dlgId);
+		odp.pfnDlgProc = it.dlgProc;
+		odp.szTab.w = it.tabName;
+		g_plugin.addOptions(wParam, &odp);
+	}
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 bool Options::isInited = false;
 bool Options::bSmileyAdd = false;
