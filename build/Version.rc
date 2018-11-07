@@ -1,7 +1,8 @@
 /////////////////////////////////////////////////////////////////////////////
 
 #include "..\..\include\m_version.h"
-#define APSTUDIO_READONLY_SYMBOLS
+
+#define APSTUDIO_READONLY_SYMBOLS
 #include "afxres.h"
 #undef APSTUDIO_READONLY_SYMBOLS
 
