@@ -69,11 +69,10 @@ void LoadName(HWND hWnd)
 		SetWindowText(hWnd, TranslateT("System History"));
 		return;
 	}
-	wchar_t *szOther = GetContactName(data->contact);
+
 	wchar_t buffer[1024];
-	sntprintf(buffer, 1024, L"'%s' - IEHistory", szOther);
+	sntprintf(buffer, 1024, L"'%s' - IEHistory", ptrW(Contact_GetInfo(CNF_DISPLAY, data->contact)).get());
 	SetWindowText(hWnd, buffer);
-	mir_free(szOther);
 }
 
 int LoadIEView(HWND hWnd)

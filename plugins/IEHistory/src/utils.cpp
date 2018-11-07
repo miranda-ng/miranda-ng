@@ -75,16 +75,6 @@ int Info(char *title, char *format, ...)
 }
 
 /*
-returns the name of a contact
-*/
-
-wchar_t* GetContactName(MCONTACT contact)
-{
-	ptrW name(Contact_GetInfo(CNF_DISPLAY, contact));
-	return (name) ? wcsdup(name) : nullptr;
-}
-
-/*
 Moves a control with regard to certain anchors (like delphi, c#, ...)
 Somebody please improve on this code ...
 */
