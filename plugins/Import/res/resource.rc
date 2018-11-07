@@ -161,7 +161,7 @@ END
 
 IDR_LIST MENU
 BEGIN
-    POPUP "Context1"
+    POPUP ""
     BEGIN
         MENUITEM "Copy",                        IDM_COPY
     END
