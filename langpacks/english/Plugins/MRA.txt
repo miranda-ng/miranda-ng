@@ -178,6 +178,7 @@
 [Mail.ru xStatus]
 [Mail.ru extra info]
 [E-mail address]
+[You cannot send when you are offline.]
 ;file \protocols\MRA\src\Mra_functions.cpp
 [Unread mail is available: %lu/%lu messages]
 [From: %S\r\nSubject: %S\r\n%s]

@@ -2,13 +2,12 @@
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.1.0.1
+;  Version: 0.1.0.2
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Database autobackuper plugin.]
 ;file \plugins\Db_autobackups\res\db_autobackups.rc
 [Automatic backups]
-[Backup NOW]
 [Disabled]
 [When Miranda starts]
 [When Miranda exits]
@@ -17,11 +16,13 @@
 [Backup to folder:]
 [Browse...]
 [Go to the "Options -> Customize -> Folders" to change settings]
+[Backup file mask]
 [Compress backup to zip-archive]
 [Backup profile folder]
 [Disable progress bar]
 [Disable popups]
 [Use CloudFile]
+[Backup NOW]
 [Backup progress]
 [Cancel]
 ;file \plugins\Db_autobackups\src\backup.cpp
