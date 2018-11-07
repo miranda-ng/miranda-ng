@@ -222,7 +222,7 @@ void IEView::setBorder()
 {
 	LONG style = GetWindowLongPtr(hwnd, GWL_EXSTYLE);
 	LONG oldStyle = style;
-	if (Options::getGeneralFlags() & Options::GENERAL_NO_BORDER) {
+	if (Options::generalFlags & Options::GENERAL_NO_BORDER) {
 #ifndef GECKO
 		style &= ~(WS_EX_STATICEDGE);
 #endif

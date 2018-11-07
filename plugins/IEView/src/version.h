@@ -1,5 +1,5 @@
 #define __MAJOR_VERSION          1
-#define __MINOR_VERSION          5
+#define __MINOR_VERSION          6
 #define __RELEASE_NUM            0
 #define __BUILD_NUM              1
 

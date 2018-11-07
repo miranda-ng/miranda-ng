@@ -53,7 +53,7 @@ bool HTMLBuilder::encode(MCONTACT hContact, const char *proto, const wchar_t *te
 		}
 		level++;
 	case 1:
-		if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_BBCODES) && (flags & ENF_BBCODES)) {
+		if ((Options::generalFlags & Options::GENERAL_ENABLE_BBCODES) && (flags & ENF_BBCODES)) {
 			token = TextToken::tokenizeBBCodes(text);
 			break;
 		}
@@ -62,7 +62,7 @@ bool HTMLBuilder::encode(MCONTACT hContact, const char *proto, const wchar_t *te
 		token = TextToken::tokenizeLinks(text);
 		break;
 	case 3:
-		if ((flags & ENF_SMILEYS) || ((Options::getGeneralFlags() & Options::GENERAL_SMILEYINNAMES) && (flags & ENF_NAMESMILEYS)))
+		if ((flags & ENF_SMILEYS) || ((Options::generalFlags & Options::GENERAL_SMILEYINNAMES) && (flags & ENF_NAMESMILEYS)))
 			token = TextToken::tokenizeSmileys(hContact, proto, text, isSent);
 		break;
 	}
@@ -343,7 +343,7 @@ ProtocolSettings* HTMLBuilder::getSRMMProtocolSettings(const char *protocolName)
 {
 	ProtocolSettings *protoSettings = Options::getProtocolSettings(protocolName);
 	if (protoSettings == nullptr || !protoSettings->isSRMMEnable())
-		protoSettings = Options::getProtocolSettings();
+		protoSettings = Options::getDefaultSettings();
 
 	return protoSettings;
 }
@@ -357,7 +357,7 @@ ProtocolSettings* HTMLBuilder::getHistoryProtocolSettings(const char *protocolNa
 {
 	ProtocolSettings *protoSettings = Options::getProtocolSettings(protocolName);
 	if (protoSettings == nullptr || !protoSettings->isHistoryEnable())
-		protoSettings = Options::getProtocolSettings();
+		protoSettings = Options::getDefaultSettings();
 
 	return protoSettings;
 }
@@ -367,14 +367,14 @@ ProtocolSettings* HTMLBuilder::getHistoryProtocolSettings(MCONTACT hContact)
 	if (hContact != NULL)
 		return getHistoryProtocolSettings(ptrA(getRealProto(hContact)));
 
-	return Options::getProtocolSettings();
+	return Options::getDefaultSettings();
 }
 
 ProtocolSettings* HTMLBuilder::getChatProtocolSettings(const char *protocolName)
 {
 	ProtocolSettings *protoSettings = Options::getProtocolSettings(protocolName);
 	if (protoSettings == nullptr || !protoSettings->isChatEnable())
-		protoSettings = Options::getProtocolSettings();
+		protoSettings = Options::getDefaultSettings();
 
 	return protoSettings;
 }

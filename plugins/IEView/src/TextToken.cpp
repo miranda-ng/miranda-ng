@@ -296,7 +296,7 @@ TextToken* TextToken::tokenizeSmileys(MCONTACT hContact, const char *proto, cons
 {
 	TextToken *firstToken = nullptr, *lastToken = nullptr;
 	int l = (int)mir_wstrlen(text);
-	if (!Options::isSmileyAdd())
+	if (!Options::bHasSmileyAdd)
 		return new TextToken(TEXT, text, l);
 
 	SMADD_BATCHPARSE2 sp;
@@ -514,7 +514,7 @@ void TextToken::toString(CMStringW &str)
 		eLink = htmlEncode(wlink);
 		{
 			const wchar_t *linkPrefix = type == WWWLINK ? L"http://" : L"";
-			if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_EMBED)) {
+			if ((Options::generalFlags & Options::GENERAL_ENABLE_EMBED)) {
 				wchar_t *match = wcsstr(wlink, L"youtube.com");
 				if (match != nullptr) {
 					match = wcsstr(match + 11, L"v=");
@@ -524,10 +524,8 @@ void TextToken::toString(CMStringW &str)
 						int len = match2 != nullptr ? match2 - match : (int)mir_wstrlen(match);
 						match = mir_wstrdup(match);
 						match[len] = 0;
-						int width = 0;
-						int height = 0;
-						int Embedsize = Options::getEmbedsize();
-						switch (Embedsize) {
+						int width, height;
+						switch (Options::getEmbedSize()) {
 						case 0:
 							width = 320;
 							height = 205;
@@ -544,7 +542,9 @@ void TextToken::toString(CMStringW &str)
 							width = 640;
 							height = 390;
 							break;
-
+						default:
+							width = height = 0;
+							break;
 						};
 
 						str.AppendFormat(L"<div><object width=\"%d\" height=\"%d\">\
@@ -563,7 +563,7 @@ void TextToken::toString(CMStringW &str)
 		break;
 	case SMILEY:
 		eText = htmlEncode(wtext);
-		if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_FLASH) && (wcsstr(wlink, L".swf") != nullptr)) {
+		if ((Options::generalFlags & Options::GENERAL_ENABLE_FLASH) && (wcsstr(wlink, L".swf") != nullptr)) {
 			str.AppendFormat(L"<span title=\"%s\" class=\"img\"><object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" \
 				 	codebase=\"http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0\" >\
 					<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></span>",
@@ -595,7 +595,7 @@ void TextToken::toString(CMStringW &str)
 				break;
 			case BB_IMG:
 				eText = htmlEncode(wtext);
-				if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_FLASH) && eText != nullptr && (wcsstr(eText, L".swf") != nullptr)) {
+				if ((Options::generalFlags & Options::GENERAL_ENABLE_FLASH) && eText != nullptr && (wcsstr(eText, L".swf") != nullptr)) {
 					str.AppendFormat(L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" \
 							codebase=\"http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0\" width=\"100%%\" >\
 							<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></div>",
@@ -611,7 +611,7 @@ void TextToken::toString(CMStringW &str)
 			case BB_BIMG:
 				eText = htmlEncode(mir_ptr<wchar_t>(Utils::toAbsolute(wtext)));
 
-				if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_FLASH) && (wcsstr(eText, L".swf") != nullptr)) {
+				if ((Options::generalFlags & Options::GENERAL_ENABLE_FLASH) && (wcsstr(eText, L".swf") != nullptr)) {
 					str.AppendFormat(L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" \
 						 	codebase=\"http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0\" width=\"100%%\" >\
 							<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></div>",

@@ -38,7 +38,7 @@ char* TemplateHTMLBuilder::getAvatar(MCONTACT hContact, const char *szProto)
 	wchar_t tmpPath[MAX_PATH];
 	wchar_t *result = nullptr;
 
-	if (Options::getAvatarServiceFlags() == Options::AVATARSERVICE_PRESENT) {
+	if (Options::bHasAvs) {
 		AVATARCACHEENTRY *ace;
 		if (hContact == NULL)
 			ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETMYAVATAR, 0, (LPARAM)szProto);

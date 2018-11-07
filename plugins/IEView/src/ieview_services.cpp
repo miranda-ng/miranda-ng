@@ -108,6 +108,6 @@ INT_PTR HandleIENavigate(WPARAM, LPARAM lParam)
 
 INT_PTR ReloadOptions(WPARAM, LPARAM)
 {
-	Options::Reload();
+	Options::reload();
 	return 0;
 }
