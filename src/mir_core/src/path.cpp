@@ -39,8 +39,10 @@ MIR_CORE_DLL(int) PathIsAbsolute(const char *path)
 
 MIR_CORE_DLL(int) PathToRelative(const char *pSrc, char *pOut, const char *pBase)
 {
-	if (!pSrc || !pSrc[0] || strlen(pSrc) > MAX_PATH)
+	if (!pSrc || !pSrc[0] || strlen(pSrc) > MAX_PATH) {
+		*pOut = 0;
 		return 0;
+	}
 
 	if (!PathIsAbsolute(pSrc))
 		strncpy_s(pOut, MAX_PATH, pSrc, _TRUNCATE);
