@@ -156,27 +156,18 @@ BOOL CDbxMDBX::Compact()
 {
 	CMStringW wszTmpFile(FORMAT, L"%s.tmp", m_tszProfileName);
 
-	HANDLE pFile = ::CreateFile(wszTmpFile, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
-	if (pFile == nullptr) {
-		Netlib_Logf(0, "Temporary file <%S> cannot be created", wszTmpFile.c_str());
-		return 1;
-	}
-
 	mir_cslock lck(m_csDbAccess);
-	int res = mdbx_env_copy2fd(m_env, pFile, MDBX_CP_COMPACT);
-	CloseHandle(pFile);
+	int res = Backup(wszTmpFile);
+	if (res)
+		return res;
 
-	if (res == MDBX_SUCCESS) {
-		mdbx_env_close(m_env);
+	mdbx_env_close(m_env);
 
-		DeleteFileW(m_tszProfileName);
-		MoveFileW(wszTmpFile, m_tszProfileName);
+	DeleteFileW(m_tszProfileName);
+	MoveFileW(wszTmpFile, m_tszProfileName);
 
-		Map();
-		Load();
-	}
-	else DeleteFileW(wszTmpFile);
-
+	Map();
+	Load();
 	return 0;
 }
 
@@ -189,12 +180,22 @@ BOOL CDbxMDBX::Backup(const wchar_t *pwszPath)
 	}
 
 	int res = mdbx_env_copy2fd(m_env, pFile, MDBX_CP_COMPACT);
-	CloseHandle(pFile);
-	if (res == MDBX_SUCCESS)
-		return 0;
+	if (res != MDBX_SUCCESS) {
+		Netlib_Logf(0, "CDbxMDBX::Backup: mdbx_env_copy2fd failed with error code %d", res);
+LBL_Fail:
+		CloseHandle(pFile);
+		DeleteFileW(pwszPath);
+		return res;
+	}
 
-	DeleteFileW(pwszPath);
-	return res;
+	res = FlushFileBuffers(pFile);
+	if (res == 0) {
+		Netlib_Logf(0, "CDbxMDBX::Backup: FlushFileBuffers failed with error code %d (%d)", GetLastError());
+		goto LBL_Fail;
+	}
+
+	CloseHandle(pFile);
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
