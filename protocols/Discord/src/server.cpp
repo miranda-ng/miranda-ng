@@ -67,7 +67,7 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 	if (!pUser->bIsPrivate) {
 		si = g_chatApi.SM_FindSession(pUser->wszUsername, m_szModuleName);
 		if (si == nullptr) {
-			debugLogA("nessage to unknown channel %lld ignored", pUser->channelId);
+			debugLogA("message to unknown channel %lld ignored", pUser->channelId);
 			return;
 		}
 	}
