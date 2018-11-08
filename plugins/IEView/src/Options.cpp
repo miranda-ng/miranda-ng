@@ -485,7 +485,7 @@ static INT_PTR CALLBACK IEViewGeneralOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 				i |= Options::GENERAL_ENABLE_EMBED;
 
 			Options::generalFlags = i;
-			db_set_dw(NULL, ieviewModuleName, DBS_BASICFLAGS, i);
+			g_plugin.setDword(DBS_BASICFLAGS, i);
 
 			ApplyChanges(1);
 			Options::setEmbedSize(SendDlgItemMessage(hwndDlg, IDC_EMBED_SIZE, CB_GETCURSEL, 0, 0));
@@ -620,7 +620,7 @@ static INT_PTR CALLBACK IEViewSRMMOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				break;
 
 			case TVN_SELCHANGED:
-				ProtocolSettings * proto = (ProtocolSettings *)GetItemParam(GetDlgItem(hwndDlg, IDC_PROTOLIST), (HTREEITEM)nullptr);
+				ProtocolSettings *proto = (ProtocolSettings*)GetItemParam(GetDlgItem(hwndDlg, IDC_PROTOLIST), (HTREEITEM)nullptr);
 				SaveSRMMProtoSettings(hwndDlg, srmmCurrentProtoItem);
 				UpdateSRMMProtoInfo(hwndDlg, proto);
 				break;
@@ -739,7 +739,7 @@ static INT_PTR CALLBACK IEViewHistoryOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 			switch (((LPNMHDR)lParam)->code) {
 			case NM_CLICK:
 				{
-					TVHITTESTINFO ht = { 0 };
+					TVHITTESTINFO ht = {};
 					DWORD dwpos = GetMessagePos();
 					POINTSTOPOINT(ht.pt, MAKEPOINTS(dwpos));
 					MapWindowPoints(HWND_DESKTOP, ((LPNMHDR)lParam)->hwndFrom, &ht.pt, 1);
@@ -857,7 +857,7 @@ static INT_PTR CALLBACK IEViewGroupChatsOptDlgProc(HWND hwndDlg, UINT msg, WPARA
 
 	case UM_CHECKSTATECHANGE:
 		{
-			ProtocolSettings *proto = (ProtocolSettings *)GetItemParam((HWND)wParam, (HTREEITEM)lParam);
+			ProtocolSettings *proto = (ProtocolSettings*)GetItemParam((HWND)wParam, (HTREEITEM)lParam);
 			if (proto != nullptr)
 				if (proto->getProtocolName() != nullptr)
 					proto->setChatEnable(0 != TreeView_GetCheckState((HWND)wParam, (HTREEITEM)lParam));
@@ -877,7 +877,7 @@ static INT_PTR CALLBACK IEViewGroupChatsOptDlgProc(HWND hwndDlg, UINT msg, WPARA
 			switch (((LPNMHDR)lParam)->code) {
 			case NM_CLICK:
 				{
-					TVHITTESTINFO ht = { 0 };
+					TVHITTESTINFO ht = {};
 					DWORD dwpos = GetMessagePos();
 					POINTSTOPOINT(ht.pt, MAKEPOINTS(dwpos));
 					MapWindowPoints(HWND_DESKTOP, ((LPNMHDR)lParam)->hwndFrom, &ht.pt, 1);
@@ -998,7 +998,7 @@ void Options::init()
 	isInited = true;
 	DBVARIANT dbv;
 
-	generalFlags = db_get_dw(NULL, ieviewModuleName, DBS_BASICFLAGS, 13);
+	generalFlags = g_plugin.getDword(DBS_BASICFLAGS, 13);
 
 	/* TODO: move to buildProtocolList method */
 	int protoCount;
@@ -1027,32 +1027,30 @@ void Options::init()
 			szProto = "_default_";
 
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_ENABLE);
-		proto->setSRMMEnable(i == 0 ? true : 0 != db_get_b(NULL, ieviewModuleName, dbsName, FALSE));
+		proto->setSRMMEnable(i == 0 ? true : 0 != g_plugin.getByte(dbsName, FALSE));
+		
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_MODE);
-		proto->setSRMMMode(db_get_b(NULL, ieviewModuleName, dbsName, FALSE));
+		proto->setSRMMMode(g_plugin.getByte(dbsName, FALSE));
+		
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_FLAGS);
-		proto->setSRMMFlags(db_get_dw(NULL, ieviewModuleName, dbsName, 16128));
+		proto->setSRMMFlags(g_plugin.getDword(dbsName, 16128));
+		
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_BACKGROUND);
-		if (!db_get_s(NULL, ieviewModuleName, dbsName, &dbv)) {
-			strncpy_s(tmpPath, dbv.pszVal, _TRUNCATE);
-			if (strncmp(tmpPath, "http://", 7))
-				PathToAbsolute(dbv.pszVal, tmpPath);
-
+		if (!g_plugin.getString(dbsName, &dbv)) {
+			PathToAbsolute(dbv.pszVal, tmpPath);
 			proto->setSRMMBackgroundFilename(tmpPath);
 			db_free(&dbv);
 		}
+		
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_CSS);
-		if (!db_get_s(NULL, ieviewModuleName, dbsName, &dbv)) {
-			strncpy_s(tmpPath, dbv.pszVal, _TRUNCATE);
-			if (strncmp(tmpPath, "http://", 7))
-				PathToAbsolute(dbv.pszVal, tmpPath);
-
+		if (!g_plugin.getString(dbsName, &dbv)) {
+			PathToAbsolute(dbv.pszVal, tmpPath);
 			proto->setSRMMCssFilename(tmpPath);
 			db_free(&dbv);
 		}
+		
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_TEMPLATE);
-		if (!db_get_s(NULL, ieviewModuleName, dbsName, &dbv)) {
-			strncpy_s(tmpPath, dbv.pszVal, _TRUNCATE);
+		if (!g_plugin.getString(dbsName, &dbv)) {
 			PathToAbsolute(dbv.pszVal, tmpPath);
 			proto->setSRMMTemplateFilename(tmpPath);
 			db_free(&dbv);
@@ -1060,32 +1058,34 @@ void Options::init()
 
 		/* Group chat settings */
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_ENABLE);
-		proto->setChatEnable(i == 0 ? true : 0 != db_get_b(NULL, ieviewModuleName, dbsName, FALSE));
+		proto->setChatEnable(i == 0 ? true : 0 != g_plugin.getByte(dbsName, FALSE));
+		
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_MODE);
-		proto->setChatMode(db_get_b(NULL, ieviewModuleName, dbsName, FALSE));
+		proto->setChatMode(g_plugin.getByte(dbsName, FALSE));
+		
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_FLAGS);
-		proto->setChatFlags(db_get_dw(NULL, ieviewModuleName, dbsName, 16128));
+		proto->setChatFlags(g_plugin.getDword(dbsName, 16128));
+		
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_BACKGROUND);
-		if (!db_get_s(NULL, ieviewModuleName, dbsName, &dbv)) {
-			strncpy_s(tmpPath, dbv.pszVal, _TRUNCATE);
+		if (!g_plugin.getString(dbsName, &dbv)) {
 			if (strncmp(tmpPath, "http://", 7))
 				PathToAbsolute(dbv.pszVal, tmpPath);
 
 			proto->setChatBackgroundFilename(tmpPath);
 			db_free(&dbv);
 		}
+		
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_CSS);
-		if (!db_get_s(NULL, ieviewModuleName, dbsName, &dbv)) {
-			strncpy_s(tmpPath, dbv.pszVal, _TRUNCATE);
+		if (!g_plugin.getString(dbsName, &dbv)) {
 			if (strncmp(tmpPath, "http://", 7))
 				PathToAbsolute(dbv.pszVal, tmpPath);
 
 			proto->setChatCssFilename(tmpPath);
 			db_free(&dbv);
 		}
+		
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_TEMPLATE);
-		if (!db_get_s(NULL, ieviewModuleName, dbsName, &dbv)) {
-			strncpy_s(tmpPath, dbv.pszVal, _TRUNCATE);
+		if (!g_plugin.getString(dbsName, &dbv)) {
 			PathToAbsolute(dbv.pszVal, tmpPath);
 			proto->setChatTemplateFilename(tmpPath);
 			db_free(&dbv);
@@ -1093,32 +1093,34 @@ void Options::init()
 
 		/* History settings */
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_ENABLE);
-		proto->setHistoryEnable(i == 0 ? true : 0 != db_get_b(NULL, ieviewModuleName, dbsName, FALSE));
+		proto->setHistoryEnable(i == 0 ? true : 0 != g_plugin.getByte(dbsName, FALSE));
+		
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_MODE);
-		proto->setHistoryMode(db_get_b(NULL, ieviewModuleName, dbsName, FALSE));
+		proto->setHistoryMode(g_plugin.getByte(dbsName, FALSE));
+		
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_FLAGS);
-		proto->setHistoryFlags(db_get_dw(NULL, ieviewModuleName, dbsName, 16128));
+		proto->setHistoryFlags(g_plugin.getDword(dbsName, 16128));
+		
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_BACKGROUND);
-		if (!db_get_s(NULL, ieviewModuleName, dbsName, &dbv)) {
-			strncpy_s(tmpPath, dbv.pszVal, _TRUNCATE);
+		if (!g_plugin.getString(dbsName, &dbv)) {
 			if (strncmp(tmpPath, "http://", 7))
 				PathToAbsolute(dbv.pszVal, tmpPath);
 
 			proto->setHistoryBackgroundFilename(tmpPath);
 			db_free(&dbv);
 		}
+		
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_CSS);
-		if (!db_get_s(NULL, ieviewModuleName, dbsName, &dbv)) {
-			strncpy_s(tmpPath, dbv.pszVal, _TRUNCATE);
+		if (!g_plugin.getString(dbsName, &dbv)) {
 			if (strncmp(tmpPath, "http://", 7))
 				PathToAbsolute(dbv.pszVal, tmpPath);
 
 			proto->setHistoryCssFilename(tmpPath);
 			db_free(&dbv);
 		}
+		
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_TEMPLATE);
-		if (!db_get_s(NULL, ieviewModuleName, dbsName, &dbv)) {
-			strncpy_s(tmpPath, dbv.pszVal, _TRUNCATE);
+		if (!g_plugin.getString(dbsName, &dbv)) {
 			PathToAbsolute(dbv.pszVal, tmpPath);
 			proto->setHistoryTemplateFilename(tmpPath);
 			db_free(&dbv);
@@ -1140,12 +1142,12 @@ void Options::uninit()
 
 void Options::setEmbedSize(int size)
 {
-	db_set_dw(NULL, ieviewModuleName, "Embedsize", (DWORD)size);
+	g_plugin.setDword("Embedsize", (DWORD)size);
 }
 
 int Options::getEmbedSize()
 {
-	return db_get_dw(NULL, ieviewModuleName, "Embedsize", 0);
+	return g_plugin.getDword("Embedsize", 0);
 }
 
 ProtocolSettings* Options::getDefaultSettings()
@@ -1172,69 +1174,69 @@ void Options::saveProtocolSettings()
 		/* SRMM settings */
 		char dbsName[256], tmpPath[MAX_PATH];
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_ENABLE);
-		db_set_b(NULL, ieviewModuleName, dbsName, it->isSRMMEnable());
+		g_plugin.setByte(dbsName, it->isSRMMEnable());
+		
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_MODE);
-		db_set_b(NULL, ieviewModuleName, dbsName, it->getSRMMMode());
+		g_plugin.setByte(dbsName, it->getSRMMMode());
+		
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_FLAGS);
-		db_set_dw(NULL, ieviewModuleName, dbsName, it->getSRMMFlags());
+		g_plugin.setDword(dbsName, it->getSRMMFlags());
+		
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_BACKGROUND);
-		strncpy_s(tmpPath, it->getSRMMBackgroundFilename(), _TRUNCATE);
 		PathToRelative(it->getSRMMBackgroundFilename(), tmpPath);
-		db_set_s(NULL, ieviewModuleName, dbsName, tmpPath);
+		g_plugin.setString(dbsName, tmpPath);
 
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_CSS);
-		strncpy_s(tmpPath, it->getSRMMCssFilename(), _TRUNCATE);
 		PathToRelative(it->getSRMMCssFilename(), tmpPath);
-		db_set_s(NULL, ieviewModuleName, dbsName, tmpPath);
+		g_plugin.setString(dbsName, tmpPath);
 
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_TEMPLATE);
-		strncpy_s(tmpPath, it->getSRMMTemplateFilename(), _TRUNCATE);
 		PathToRelative(it->getSRMMTemplateFilename(), tmpPath);
-		db_set_s(NULL, ieviewModuleName, dbsName, tmpPath);
+		g_plugin.setString(dbsName, tmpPath);
 
 		/* Group Chat settings */
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_ENABLE);
-		db_set_b(NULL, ieviewModuleName, dbsName, it->isChatEnable());
+		g_plugin.setByte(dbsName, it->isChatEnable());
+		
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_MODE);
-		db_set_b(NULL, ieviewModuleName, dbsName, it->getChatMode());
+		g_plugin.setByte(dbsName, it->getChatMode());
+		
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_FLAGS);
-		db_set_dw(NULL, ieviewModuleName, dbsName, it->getChatFlags());
+		g_plugin.setDword(dbsName, it->getChatFlags());
+		
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_BACKGROUND);
-		strncpy_s(tmpPath, it->getChatBackgroundFilename(), _TRUNCATE);
 		PathToRelative(it->getChatBackgroundFilename(), tmpPath);
-		db_set_s(NULL, ieviewModuleName, dbsName, tmpPath);
+		g_plugin.setString(dbsName, tmpPath);
 
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_CSS);
-		strncpy_s(tmpPath, it->getChatCssFilename(), _TRUNCATE);
 		PathToRelative(it->getChatCssFilename(), tmpPath);
-		db_set_s(NULL, ieviewModuleName, dbsName, tmpPath);
+		g_plugin.setString(dbsName, tmpPath);
 
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_TEMPLATE);
-		strncpy_s(tmpPath, it->getChatTemplateFilename(), _TRUNCATE);
 		PathToRelative(it->getChatTemplateFilename(), tmpPath);
-		db_set_s(NULL, ieviewModuleName, dbsName, tmpPath);
+		g_plugin.setString(dbsName, tmpPath);
 
 		/* History settings */
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_ENABLE);
-		db_set_b(NULL, ieviewModuleName, dbsName, it->isHistoryEnable());
+		g_plugin.setByte(dbsName, it->isHistoryEnable());
+
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_MODE);
-		db_set_b(NULL, ieviewModuleName, dbsName, it->getHistoryMode());
+		g_plugin.setByte(dbsName, it->getHistoryMode());
+
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_FLAGS);
-		db_set_dw(NULL, ieviewModuleName, dbsName, it->getHistoryFlags());
+		g_plugin.setDword(dbsName, it->getHistoryFlags());
+
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_BACKGROUND);
-		strncpy_s(tmpPath, it->getHistoryBackgroundFilename(), _TRUNCATE);
 		PathToRelative(it->getHistoryBackgroundFilename(), tmpPath);
-		db_set_s(NULL, ieviewModuleName, dbsName, tmpPath);
+		g_plugin.setString(dbsName, tmpPath);
 
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_CSS);
-		strncpy_s(tmpPath, it->getHistoryCssFilename(), _TRUNCATE);
 		PathToRelative(it->getHistoryCssFilename(), tmpPath);
-		db_set_s(NULL, ieviewModuleName, dbsName, tmpPath);
+		g_plugin.setString(dbsName, tmpPath);
 
 		mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_TEMPLATE);
-		strncpy_s(tmpPath, it->getHistoryTemplateFilename(), _TRUNCATE);
 		PathToRelative(it->getHistoryTemplateFilename(), tmpPath);
-		db_set_s(NULL, ieviewModuleName, dbsName, tmpPath);
+		g_plugin.setString(dbsName, tmpPath);
 	}
 
 	reload();
