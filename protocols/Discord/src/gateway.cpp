@@ -204,6 +204,7 @@ bool CDiscordProto::GatewayThreadWorker()
 		int bufSize = Netlib_Recv(m_hGatewayConnection, (char*)buf + offset, _countof(buf) - offset, MSG_NODUMP);
 		if (bufSize == 0) {
 			debugLogA("Gateway connection gracefully closed");
+			bExit = !m_bTerminated;
 			break;
 		}
 		if (bufSize < 0) {
@@ -228,6 +229,7 @@ bool CDiscordProto::GatewayThreadWorker()
 				int result = Netlib_Recv(m_hGatewayConnection, (char*)buf, _countof(buf), MSG_NODUMP);
 				if (result == 0) {
 					debugLogA("Gateway connection gracefully closed");
+					bExit = !m_bTerminated;
 					break;
 				}
 				if (result < 0) {
