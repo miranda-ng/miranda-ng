@@ -198,25 +198,17 @@ static void RenameDbProto(MCONTACT hContact, MCONTACT hContactNew, char* oldName
 	FreeModuleSettingLL(&settinglist);
 } // end code from dbe++
 
-static void ShowPopup(char* szText, wchar_t* tszText, MCONTACT hContact)
+static void ShowPopup(const wchar_t *pwszText, MCONTACT hContact)
 {
-	POPUPDATAT ppd = { 0 };
-	wchar_t* text = nullptr;
+	if (!pwszText) return;
 
-	if (tszText)
-		text = mir_wstrdup(tszText);
-	else if (szText)
-		text = mir_a2u(szText);
-	if (!text) return;
-
+	POPUPDATAT ppd = {};
 	ppd.lchIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	ppd.lchContact = hContact;
 	wcsncpy(ppd.lptzContactName, Clist_GetContactDisplayName(hContact), MAX_CONTACTNAME - 1);
-	wcsncpy(ppd.lptzText, text, MAX_SECONDLINE - 1);
+	wcsncpy(ppd.lptzText, pwszText, MAX_SECONDLINE - 1);
 	ppd.iSeconds = -1;
-
 	PUAddPopupT(&ppd);
-	mir_free(text);
 }
 
 BOOL DirectoryExists(MCONTACT hContact)
@@ -227,21 +219,14 @@ BOOL DirectoryExists(MCONTACT hContact)
 	return (attr != -1) && (attr&FILE_ATTRIBUTE_DIRECTORY);
 }
 
-void CopyToClipboard(HWND, LPSTR pszMsg, LPTSTR ptszMsg)
+void CopyToClipboard(const wchar_t *pwszMsg)
 {
-	LPTSTR buf = nullptr;
-	if (ptszMsg)
-		buf = mir_wstrdup(ptszMsg);
-	else if (pszMsg)
-		buf = mir_a2u(pszMsg);
-
-	if (buf == nullptr)
+	if (pwszMsg == nullptr)
 		return;
 
-	HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (mir_wstrlen(buf) + 1) * sizeof(wchar_t));
-	LPTSTR lptstrCopy = (LPTSTR)GlobalLock(hglbCopy);
-	mir_wstrcpy(lptstrCopy, buf);
-	mir_free(buf);
+	HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (mir_wstrlen(pwszMsg) + 1) * sizeof(wchar_t));
+	LPWSTR lptstrCopy = (LPWSTR)GlobalLock(hglbCopy);
+	mir_wstrcpy(lptstrCopy, pwszMsg);
 	GlobalUnlock(hglbCopy);
 
 	if (OpenClipboard(nullptr) == NULL)
@@ -263,23 +248,32 @@ BOOL isMetaContact(MCONTACT hContact)
 	return FALSE;
 }
 
-void GetID(MCONTACT hContact, LPSTR szProto, LPSTR szID, size_t dwIDSize)
+void GetID(MCONTACT hContact, LPSTR szProto, LPWSTR szID, size_t dwIDSize)
 {
 	DBVARIANT dbv_uniqueid;
 	LPCSTR uID = Proto_GetUniqueId(szProto);
 
 	szID[0] = 0;
 	if (uID && db_get(hContact, szProto, uID, &dbv_uniqueid) == 0) {
-		if (dbv_uniqueid.type == DBVT_DWORD)
-			mir_snprintf(szID, dwIDSize, "%u", dbv_uniqueid.dVal);
-		else if (dbv_uniqueid.type == DBVT_WORD)
-			mir_snprintf(szID, dwIDSize, "%u", dbv_uniqueid.wVal);
-		else if (dbv_uniqueid.type == DBVT_BLOB) {
-			CMStringA tmp(' ', dbv_uniqueid.cpbVal * 2 + 1);
-			bin2hex(dbv_uniqueid.pbVal, dbv_uniqueid.cpbVal, tmp.GetBuffer());
-			strncpy_s(szID, dwIDSize, tmp, _TRUNCATE);
+		switch (dbv_uniqueid.type) {
+		case DBVT_DWORD:
+			mir_snwprintf(szID, dwIDSize, L"%u", dbv_uniqueid.dVal);
+			break;
+		case DBVT_WORD:
+			mir_snwprintf(szID, dwIDSize, L"%u", dbv_uniqueid.wVal);
+			break;
+		case DBVT_ASCIIZ:
+			wcsncpy_s(szID, dwIDSize, _A2T(dbv_uniqueid.pszVal), _TRUNCATE);
+			break;
+		case DBVT_WCHAR:
+			wcsncpy_s(szID, dwIDSize, dbv_uniqueid.pwszVal, _TRUNCATE);
+			break;
+		case DBVT_BLOB:
+			CMStringW tmp(' ', dbv_uniqueid.cpbVal * 2 + 1);
+			bin2hexW(dbv_uniqueid.pbVal, dbv_uniqueid.cpbVal, tmp.GetBuffer());
+			wcsncpy_s(szID, dwIDSize, tmp, _TRUNCATE);
+			break;
 		}
-		else strncpy_s(szID, dwIDSize, (char*)dbv_uniqueid.pszVal, _TRUNCATE);
 
 		db_free(&dbv_uniqueid);
 	}
@@ -330,26 +324,12 @@ BOOL MirVerExists(MCONTACT hContact)
 	return mir_wstrlen(msg) != 0;
 }
 
-void getIP(MCONTACT hContact, LPSTR szProto, LPSTR szIP)
-{
-	char szmIP[64] = { 0 };
-	char szrIP[64] = { 0 };
-	DWORD mIP = db_get_dw(hContact, szProto, "IP", 0);
-	DWORD rIP = db_get_dw(hContact, szProto, "RealIP", 0);
-	if (mIP)
-		mir_snprintf(szmIP, "External IP: %d.%d.%d.%d\r\n", mIP >> 24, (mIP >> 16) & 0xFF, (mIP >> 8) & 0xFF, mIP & 0xFF);
-	if (rIP)
-		mir_snprintf(szrIP, "Internal IP: %d.%d.%d.%d\r\n", rIP >> 24, (rIP >> 16) & 0xFF, (rIP >> 8) & 0xFF, rIP & 0xFF);
-	mir_strcpy(szIP, szrIP);
-	mir_strcat(szIP, szmIP);
-}
-
-LPTSTR getMirVer(MCONTACT hContact)
+LPWSTR getMirVer(MCONTACT hContact)
 {
 	LPSTR szProto = GetContactProto(hContact);
 	if (!szProto) return nullptr;
 
-	LPTSTR msg = db_get_wsa(hContact, szProto, "MirVer");
+	LPWSTR msg = db_get_wsa(hContact, szProto, "MirVer");
 	if (msg) {
 		if (msg[0] != 0)
 			return msg;
@@ -492,17 +472,16 @@ static void ModifyCopyID(MCONTACT hContact, BOOL bShowID, BOOL bTrimID)
 		hIconCID = hIcon;
 	}
 
-	wchar_t buffer[256];
-	char szID[256];
-	GetID(hContact, szProto, (LPSTR)&szID, _countof(szID));
+	wchar_t buffer[256], szID[256];
+	GetID(hContact, szProto, szID, _countof(szID));
 	if (szID[0]) {
 		if (bShowID) {
-			if (bTrimID && (mir_strlen(szID) > MAX_IDLEN)) {
+			if (bTrimID && (mir_wstrlen(szID) > MAX_IDLEN)) {
 				szID[MAX_IDLEN - 2] = szID[MAX_IDLEN - 1] = szID[MAX_IDLEN] = '.';
 				szID[MAX_IDLEN + 1] = 0;
 			}
 
-			mir_snwprintf(buffer, L"%s [%S]", TranslateT("Copy ID"), szID);
+			mir_snwprintf(buffer, L"%s [%s]", TranslateT("Copy ID"), szID);
 			Menu_ModifyItem(hmenuCopyID, buffer, hIconCID);
 		}
 		else Menu_ModifyItem(hmenuCopyID, LPGENW("Copy ID"), hIconCID);
@@ -554,7 +533,7 @@ static void ModifyCopyMirVer(MCONTACT hContact)
 {
 	HICON hMenuIcon = nullptr;
 	if (ServiceExists(MS_FP_GETCLIENTICONT)) {
-		LPTSTR msg = getMirVer(hContact);
+		LPWSTR msg = getMirVer(hContact);
 		if (msg) {
 			hMenuIcon = Finger_GetClientIcon(msg, 1);
 			mir_free(msg);
@@ -565,11 +544,8 @@ static void ModifyCopyMirVer(MCONTACT hContact)
 	Menu_ModifyItem(hmenuCopyMirVer, nullptr, hMenuIcon);
 }
 
-static INT_PTR onCopyID(WPARAM wparam, LPARAM lparam)
+static INT_PTR onCopyID(WPARAM hContact, LPARAM)
 {
-	char szID[256], buffer[256];
-
-	MCONTACT hContact = (MCONTACT)wparam;
 	if (isMetaContact(hContact)) {
 		MCONTACT hC = db_mc_getMostOnline(hContact);
 		if (!hContact)
@@ -581,86 +557,88 @@ static INT_PTR onCopyID(WPARAM wparam, LPARAM lparam)
 	if (szProto == nullptr)
 		return 0;
 
-	GetID(hContact, szProto, (LPSTR)&szID, _countof(szID));
+	wchar_t szID[256], buffer[256];
+	GetID(hContact, szProto, szID, _countof(szID));
 
 	if (db_get_dw(NULL, MODULENAME, "flags", vf_default) & VF_CIDN) {
 		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
-
 		if (!pa->bOldProto)
-			mir_snprintf(buffer, "%s: %s", pa->szProtoName, szID);
+			mir_snwprintf(buffer, L"%s: %s", pa->tszAccountName, szID);
 		else
-			mir_snprintf(buffer, "%s: %s", szProto, szID);
+			mir_snwprintf(buffer, L"%S: %s", szProto, szID);
 	}
-	else
-		strncpy(buffer, szID, _countof(buffer) - 1);
+	else wcsncpy_s(buffer, szID, _TRUNCATE);
 
-	CopyToClipboard((HWND)lparam, buffer, nullptr);
+	CopyToClipboard(buffer);
 	if (CTRL_IS_PRESSED && bPopupService)
-		ShowPopup(buffer, nullptr, hContact);
+		ShowPopup(buffer, hContact);
 
 	return 0;
 }
 
-static INT_PTR onCopyStatusMsg(WPARAM wparam, LPARAM lparam)
+static INT_PTR onCopyStatusMsg(WPARAM hContact, LPARAM)
 {
-	MCONTACT hContact = (MCONTACT)wparam;
-	char par[32];
-	wchar_t buffer[2048];
 	DWORD flags = db_get_dw(NULL, MODULENAME, "flags", vf_default);
 
-	LPSTR module = GetContactProto((MCONTACT)wparam);
+	LPSTR module = GetContactProto(hContact);
 	if (!module)
 		return 0;
 
-	buffer[0] = 0;
+	CMStringW wszBuffer;
 	for (auto &it : statusMsg) {
+		char par[32];
 		if (it.flag & 8)
 			mir_snprintf(par, "%s/%s", module, it.name);
 		else
 			strncpy(par, it.name, _countof(par) - 1);
 
-		LPTSTR msg = db_get_wsa(hContact, (it.module) ? it.module : module, par);
+		ptrW msg(db_get_wsa(hContact, (it.module) ? it.module : module, par));
 		if (msg) {
 			if (wcslen(msg)) {
 				if (flags & VF_SMNAME) {
-					mir_wstrncat(buffer, TranslateW(it.fullName), (_countof(buffer) - wcslen(buffer) - 1));
-					mir_wstrncat(buffer, L": ", (_countof(buffer) - wcslen(buffer) - 1));
+					wszBuffer.Append(TranslateW(it.fullName));
+					wszBuffer.Append(L": ");
 				}
-				mir_wstrncat(buffer, msg, (_countof(buffer) - wcslen(buffer) - 1));
-				mir_wstrncat(buffer, L"\r\n", (_countof(buffer) - wcslen(buffer) - 1));
+				wszBuffer.Append(msg);
+				wszBuffer.Append(L"\r\n");
 			}
-			mir_free(msg);
 		}
 	}
 
-	CopyToClipboard((HWND)lparam, nullptr, buffer);
+	CopyToClipboard(wszBuffer);
 	if (CTRL_IS_PRESSED && bPopupService)
-		ShowPopup(nullptr, buffer, hContact);
+		ShowPopup(wszBuffer, hContact);
 
 	return 0;
 }
 
-static INT_PTR onCopyIP(WPARAM wparam, LPARAM lparam)
+static INT_PTR onCopyIP(WPARAM hContact, LPARAM)
 {
-	char *szProto = GetContactProto((MCONTACT)wparam);
+	char *szProto = GetContactProto(hContact);
 
-	char szIP[128];
-	getIP((MCONTACT)wparam, szProto, (LPSTR)&szIP);
+	CMStringW wszBuffer;
+	DWORD mIP = db_get_dw(hContact, szProto, "IP", 0);
+	if (mIP)
+		wszBuffer.AppendFormat(L"External IP: %d.%d.%d.%d\r\n", mIP >> 24, (mIP >> 16) & 0xFF, (mIP >> 8) & 0xFF, mIP & 0xFF);
 
-	CopyToClipboard((HWND)lparam, szIP, nullptr);
+	DWORD rIP = db_get_dw(hContact, szProto, "RealIP", 0);
+	if (rIP)
+		wszBuffer.AppendFormat(L"Internal IP: %d.%d.%d.%d\r\n", rIP >> 24, (rIP >> 16) & 0xFF, (rIP >> 8) & 0xFF, rIP & 0xFF);
+
+	CopyToClipboard(wszBuffer);
 	if (CTRL_IS_PRESSED && bPopupService)
-		ShowPopup(szIP, nullptr, (MCONTACT)wparam);
+		ShowPopup(wszBuffer, hContact);
 
 	return 0;
 }
 
-static INT_PTR onCopyMirVer(WPARAM wparam, LPARAM lparam)
+static INT_PTR onCopyMirVer(WPARAM hContact, LPARAM)
 {
-	LPTSTR msg = getMirVer((MCONTACT)wparam);
+	LPWSTR msg = getMirVer(hContact);
 	if (msg) {
-		CopyToClipboard((HWND)lparam, _T2A(msg), nullptr);
+		CopyToClipboard(msg);
 		if (CTRL_IS_PRESSED && bPopupService)
-			ShowPopup(_T2A(msg), nullptr, (MCONTACT)wparam);
+			ShowPopup(msg, hContact);
 
 		mir_free(msg);
 	}
@@ -673,22 +651,22 @@ static INT_PTR OpenIgnoreOptions(WPARAM, LPARAM)
 	return 0;
 }
 
-static INT_PTR onRecvFiles(WPARAM wparam, LPARAM)
+static INT_PTR onRecvFiles(WPARAM hContact, LPARAM)
 {
 	char path[MAX_PATH];
-	CallService(MS_FILE_GETRECEIVEDFILESFOLDER, wparam, (LPARAM)&path);
+	CallService(MS_FILE_GETRECEIVEDFILESFOLDER, hContact, (LPARAM)&path);
 	ShellExecuteA(nullptr, "open", path, nullptr, nullptr, SW_SHOW);
 	return 0;
 }
 
-static INT_PTR onChangeProto(WPARAM wparam, LPARAM lparam)
+static INT_PTR onChangeProto(WPARAM hContact, LPARAM lparam)
 {
-	MCONTACT hContact = (MCONTACT)wparam, hContactNew;
 	char *szOldProto = GetContactProto(hContact);
 	char *szNewProto = (char *)lparam;
 	if (!mir_strcmp(szOldProto, szNewProto))
 		return 0;
 
+	MCONTACT hContactNew;
 	if (CTRL_IS_PRESSED) {
 		hContactNew = hContact;
 		RenameDbProto(hContact, hContactNew, szOldProto, szNewProto, 1);
@@ -705,9 +683,7 @@ static INT_PTR onChangeProto(WPARAM wparam, LPARAM lparam)
 		else
 			return 0;
 	}
-	if (MessageBox(nullptr, TranslateT("Do you want to send authorization request\nto new contact?"),
-		L"Miranda NG", MB_OKCANCEL | MB_SETFOREGROUND | MB_TOPMOST) == IDOK)
-
+	if (MessageBox(nullptr, TranslateT("Do you want to send authorization request\nto new contact?"), L"Miranda NG", MB_OKCANCEL | MB_SETFOREGROUND | MB_TOPMOST) == IDOK)
 		onSendAuthRequest((WPARAM)hContactNew, 0);
 
 	return 0;
