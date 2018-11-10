@@ -103,6 +103,8 @@ int LoadDefaultModules(void)
 	
 	// the database will select which db plugin to use, or fail if no profile is selected
 	if (LoadDatabaseModule()) return 1;
+	if (LoadNetlibModule()) return 1;
+	if (LoadSslModule()) return 1;
 
 	// database is available here
 	InitIni();
@@ -137,8 +139,6 @@ int LoadDefaultModules(void)
 	if (LoadSendRecvAuthModule()) return 1;
 	if (LoadDescButtonModule()) return 1;
 	if (LoadOptionsModule()) return 1;
-	if (LoadNetlibModule()) return 1;
-	if (LoadSslModule()) return 1;
 	if (LoadProtocolsModule()) return 1;
 
 	LoadDbAccounts();                    // retrieves the account array from a database
