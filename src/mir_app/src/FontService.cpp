@@ -451,12 +451,6 @@ MIR_APP_DLL(int) Effect_Get(const char *szGroup, const char *szName, FONTEFFECT 
 
 int OptInit(WPARAM, LPARAM);
 
-static int OnModulesLoaded(WPARAM, LPARAM)
-{
-	HookEvent(ME_OPT_INITIALISE, OptInit);
-	return 0;
-}
-
 static int OnPreShutdown(WPARAM, LPARAM)
 {
 	DestroyHookableEvent(hFontReloadEvent);
@@ -498,7 +492,7 @@ int LoadFontserviceModule(void)
 	g_plugin.addFont(&fontid);
 
 	// do last for silly dyna plugin
-	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	HookEvent(ME_OPT_INITIALISE, OptInit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 	return 0;
 }

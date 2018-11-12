@@ -47,13 +47,6 @@ static bool clistRebuildAlreadyCalled = false, clistApplyAlreadyCalled = false;
 
 int InitOptionsCallback(WPARAM wParam, LPARAM lParam);
 
-// Called when all the modules are loaded
-int ModulesLoaded(WPARAM, LPARAM)
-{
-	HookEvent(ME_OPT_INITIALISE, InitOptionsCallback);
-	return 0;
-}
-
 int ConvertToClistSlot(int slot)
 {
 	if (slot < 0)
@@ -483,7 +476,7 @@ void LoadExtraIconsModule()
 	g_plugin.registerIcon(LPGEN("Contact list"), iconList);
 
 	// Hooks
-	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_OPT_INITIALISE, InitOptionsCallback);
 
 	HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, ClistExtraListRebuild);
 	HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, ClistExtraImageApply);

@@ -800,12 +800,6 @@ static INT_PTR BroadcastMessage(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-static int SrmmModulesLoaded(WPARAM, LPARAM)
-{
-	HookEvent(ME_OPT_INITIALISE, SrmmOptionsInit);
-	return 0;
-}
-
 static void CALLBACK SrmmLoadToolbar()
 {
 	NotifyEventHooks(hHookToolBarLoadedEvt, 0, 0);
@@ -826,7 +820,7 @@ void LoadSrmmToolbarModule()
 {
 	CreateServiceFunction("SRMsg/BroadcastMessage", BroadcastMessage);
 
-	HookEvent(ME_SYSTEM_MODULESLOADED, SrmmModulesLoaded);
+	HookEvent(ME_OPT_INITIALISE, SrmmOptionsInit);
 
 	Miranda_WaitOnHandle(SrmmLoadToolbar);
 

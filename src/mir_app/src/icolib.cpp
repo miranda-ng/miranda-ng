@@ -772,12 +772,6 @@ MIR_APP_DLL(int) IcoLib_AddRef(HICON hIcon)
 	return 1;
 }
 
-static int SkinSystemModulesLoaded(WPARAM, LPARAM)
-{
-	HookEvent(ME_OPT_INITIALISE, SkinOptionsInit);
-	return 0;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Module initialization and finalization procedure
 
@@ -790,7 +784,7 @@ int LoadIcoLibModule(void)
 	hIcons2ChangedEvent = CreateHookableEvent(ME_SKIN2_ICONSCHANGED);
 	hIconsChangedEvent = CreateHookableEvent(ME_SKIN_ICONSCHANGED);
 
-	HookEvent(ME_SYSTEM_MODULESLOADED, SkinSystemModulesLoaded);
+	HookEvent(ME_OPT_INITIALISE, SkinOptionsInit);
 	return 0;
 }
 

@@ -446,16 +446,10 @@ MIR_APP_DLL(int) Skin_PlaySound(const char *pszSoundName)
 	return 0;
 }
 
-static int SkinSystemModulesLoaded(WPARAM, LPARAM)
-{
-	HookEvent(ME_OPT_INITIALISE, SkinOptionsInit);
-	return 0;
-}
-
 int LoadSkinSounds(void)
 {
-	HookEvent(ME_SYSTEM_MODULESLOADED, SkinSystemModulesLoaded); // because options module isn't loaded yet
-	
+	HookEvent(ME_OPT_INITIALISE, SkinOptionsInit);
+
 	hPlayEvent = CreateHookableEvent(ME_SKIN_PLAYINGSOUND);
 	SetHookDefaultForHookableEvent(hPlayEvent, Skin_PlaySoundDefault);
 	return 0;

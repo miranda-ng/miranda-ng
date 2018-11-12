@@ -481,11 +481,14 @@ MIR_APP_DLL(void) Miranda_GetVersionText(char *pDest, size_t cbSize)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+extern HANDLE hOptionsInitEvent;
+
 int LoadSystemModule(void)
 {
 	hShutdownEvent = CreateHookableEvent(ME_SYSTEM_SHUTDOWN);
 	hPreShutdownEvent = CreateHookableEvent(ME_SYSTEM_PRESHUTDOWN);
 	hModulesLoadedEvent = CreateHookableEvent(ME_SYSTEM_MODULESLOADED);
 	hOkToExitEvent = CreateHookableEvent(ME_SYSTEM_OKTOEXIT);
+	hOptionsInitEvent = CreateHookableEvent(ME_OPT_INITIALISE);
 	return 0;
 }

@@ -303,12 +303,6 @@ void UnregisterHotkeys()
 			UnregisterHotKey(g_hwndHotkeyHost, p->idHotkey);
 }
 
-static int sttModulesLoaded(WPARAM, LPARAM)
-{
-	HookEvent(ME_OPT_INITIALISE, HotkeyOptionsInit);
-	return 0;
-}
-
 ///////////////////////////////////////////////////////////////////////////////
 // Hotkey manager
 
@@ -343,7 +337,7 @@ int LoadSkinHotkeys(void)
 
 	hEvChanged = CreateHookableEvent(ME_HOTKEYS_CHANGED);
 
-	HookEvent(ME_SYSTEM_MODULESLOADED, sttModulesLoaded);
+	HookEvent(ME_OPT_INITIALISE, HotkeyOptionsInit);
 
 	for (int i = 0; i < _countof(oldSettings); i++) {
 		char szSetting[100];

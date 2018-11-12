@@ -36,7 +36,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int LangpackOptionsInit(WPARAM, LPARAM);
 
-static HANDLE hOptionsInitEvent;
+HANDLE hOptionsInitEvent;
 static class COptionsDlg *pOptionsDlg = nullptr;
 
 // Thread for search keywords in dialogs
@@ -1285,7 +1285,6 @@ int ShutdownOptionsModule(WPARAM, LPARAM)
 
 int LoadOptionsModule(void)
 {
-	hOptionsInitEvent = CreateHookableEvent(ME_OPT_INITIALISE);
 	HookEvent(ME_OPT_INITIALISE, LangpackOptionsInit);
 
 	HookEvent(ME_SYSTEM_MODULELOAD, OptDynamicLoadOptions);

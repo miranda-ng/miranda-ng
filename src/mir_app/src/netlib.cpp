@@ -452,10 +452,10 @@ int LoadNetlibModule(void)
 	WSADATA wsadata;
 	WSAStartup(MAKEWORD(2, 2), &wsadata);
 
-	HookEvent(ME_OPT_INITIALISE, NetlibOptInitialise);
-
 	hConnectionHeaderMutex = CreateMutex(nullptr, FALSE, nullptr);
 	NetlibLogInit();
+
+	HookEvent(ME_OPT_INITIALISE, NetlibOptInitialise);
 
 	connectionTimeout = 0;
 
