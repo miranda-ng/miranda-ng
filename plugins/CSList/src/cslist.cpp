@@ -49,7 +49,8 @@ static PLUGININFOEX pluginInfoEx =
 
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODNAME, pluginInfoEx)
-{}
+{
+}
 
 //====[ LOADER ]=============================================================
 
@@ -267,7 +268,7 @@ CSWindow::CSWindow(char *protoName)
 {
 	m_protoName = protoName;
 	m_handle = nullptr;
-	m_bExtraIcons = getByte("AllowExtraIcons", DEFAULT_ALLOW_EXTRA_ICONS);
+	m_bExtraIcons = g_plugin.getByte("AllowExtraIcons", DEFAULT_ALLOW_EXTRA_ICONS);
 	m_itemslist = new CSItemsList(m_protoName);
 	m_listview = nullptr;
 	m_addModifyDlg = nullptr;
@@ -277,8 +278,7 @@ CSWindow::CSWindow(char *protoName)
 
 void __fastcall SAFE_FREE(void** p)
 {
-	if (*p)
-	{
+	if (*p) {
 		free(*p);
 		*p = nullptr;
 	}
@@ -344,7 +344,7 @@ void CSWindow::initButtons()
 
 void CSWindow::loadWindowPosition()
 {
-	if (getByte("RememberWindowPosition", DEFAULT_REMEMBER_WINDOW_POSITION))
+	if (g_plugin.getByte("RememberWindowPosition", DEFAULT_REMEMBER_WINDOW_POSITION))
 		Utils_RestoreWindowPosition(m_handle, NULL, MODNAME, "Position");
 }
 
@@ -363,8 +363,7 @@ BOOL CSWindow::itemPassedFilter(ListItem< StatusItem >* li)
 	wchar_t filter[MAX_PATH];
 	GetDlgItemText(m_handle, IDC_FILTER_FIELD, filter, _countof(filter));
 
-	if (mir_wstrlen(filter))
-	{
+	if (mir_wstrlen(filter)) {
 		wchar_t title[EXTRASTATUS_TITLE_LIMIT], message[EXTRASTATUS_MESSAGE_LIMIT];
 		mir_wstrcpy(title, li->m_item->m_tszTitle); mir_wstrcpy(message, li->m_item->m_tszMessage);
 		if (strpos(wcslwr(title), wcslwr(filter)) == -1)
@@ -385,8 +384,7 @@ void CSWindow::toggleFilter()
 	SetForegroundWindow(hFilter);
 	if (isEnabled)
 		SetFocus(hFilter);
-	else
-	{
+	else {
 		wchar_t filterText[255];
 		GetDlgItemText(m_handle, IDC_FILTER_FIELD, filterText, _countof(filterText));
 		if (filterText[0] != 0)
@@ -498,14 +496,12 @@ void CSAMWindow::checkFieldLimit(WORD action, WORD item)
 	BOOL type = (item == IDC_MESSAGE) ? TRUE : FALSE;
 	unsigned int limit = type ? EXTRASTATUS_MESSAGE_LIMIT : EXTRASTATUS_TITLE_LIMIT;
 
-	if (action == EN_CHANGE)
-	{
+	if (action == EN_CHANGE) {
 		wchar_t* ptszInputText = (wchar_t*)mir_alloc((limit + 8) * sizeof(wchar_t));
 
 		GetDlgItemText(m_handle, item, ptszInputText, limit + 8);
 
-		if (mir_wstrlen(ptszInputText) > limit)
-		{
+		if (mir_wstrlen(ptszInputText) > limit) {
 			wchar_t tszPopupTip[MAX_PATH];
 			EDITBALLOONTIP ebt = { 0 };
 			ebt.cbStruct = sizeof(ebt);
@@ -710,69 +706,66 @@ void CSItemsList::loadItems(char *protoName)
 {
 	char dbSetting[32];
 	mir_snprintf(dbSetting, "%s_ItemsCount", protoName);
-	unsigned int itemsCount = getWord(dbSetting, DEFAULT_ITEMS_COUNT);
+	unsigned int itemsCount = g_plugin.getWord(dbSetting, DEFAULT_ITEMS_COUNT);
 
 	for (unsigned int i = 1; i <= itemsCount; i++) {
 		StatusItem* item = new StatusItem();
 		DBVARIANT dbv;
 		mir_snprintf(dbSetting, "%s_Item%dIcon", protoName, i);
-		item->m_iIcon = getByte(dbSetting, DEFAULT_ITEM_ICON);
+		item->m_iIcon = g_plugin.getByte(dbSetting, DEFAULT_ITEM_ICON);
 
 		mir_snprintf(dbSetting, "%s_Item%dTitle", protoName, i);
-		if (!getWString(dbSetting, &dbv)) {
+		if (!g_plugin.getWString(dbSetting, &dbv)) {
 			mir_wstrcpy(item->m_tszTitle, dbv.pwszVal);
 			db_free(&dbv);
 		}
 		else item->m_tszTitle[0] = 0;
 
 		mir_snprintf(dbSetting, "%s_Item%dMessage", protoName, i);
-		if (!getWString(dbSetting, &dbv)) {
+		if (!g_plugin.getWString(dbSetting, &dbv)) {
 			mir_wstrcpy(item->m_tszMessage, dbv.pwszVal);
 			db_free(&dbv);
 		}
 		else item->m_tszMessage[0] = 0;
 
 		mir_snprintf(dbSetting, "%s_Item%dFavourite", protoName, i);
-		item->m_bFavourite = (BOOL)getByte(dbSetting, DEFAULT_ITEM_IS_FAVOURITE);
+		item->m_bFavourite = (BOOL)g_plugin.getByte(dbSetting, DEFAULT_ITEM_IS_FAVOURITE);
 
 		m_list->add(item);
 	}
 }
-
 
 void CSItemsList::saveItems(char *protoName)
 {
 	unsigned int i;
 	char dbSetting[32];
 	mir_snprintf(dbSetting, "%s_ItemsCount", protoName);
-	unsigned int oldItemsCount = getWord(dbSetting, DEFAULT_ITEMS_COUNT);
+	unsigned int oldItemsCount = g_plugin.getWord(dbSetting, DEFAULT_ITEMS_COUNT);
 
-	for (i = 1; i <= m_list->getCount(); i++)
-	{
-		StatusItem* item = m_list->get(i - 1);
+	for (i = 1; i <= m_list->getCount(); i++) {
+		StatusItem *item = m_list->get(i - 1);
 		mir_snprintf(dbSetting, "%s_Item%dIcon", protoName, i);
-		setByte(dbSetting, item->m_iIcon);
+		g_plugin.setByte(dbSetting, item->m_iIcon);
 		mir_snprintf(dbSetting, "%s_Item%dTitle", protoName, i);
-		setWString(dbSetting, item->m_tszTitle);
+		g_plugin.setWString(dbSetting, item->m_tszTitle);
 		mir_snprintf(dbSetting, "%s_Item%dMessage", protoName, i);
-		setWString(dbSetting, item->m_tszMessage);
+		g_plugin.setWString(dbSetting, item->m_tszMessage);
 		mir_snprintf(dbSetting, "%s_Item%dFavourite", protoName, i);
-		setByte(dbSetting, item->m_bFavourite);
+		g_plugin.setByte(dbSetting, item->m_bFavourite);
 	}
 
 	mir_snprintf(dbSetting, "%s_ItemsCount", protoName);
-	setWord(dbSetting, m_list->getCount());
+	g_plugin.setWord(dbSetting, m_list->getCount());
 
-	for (; i <= oldItemsCount; i++)
-	{
+	for (; i <= oldItemsCount; i++) {
 		mir_snprintf(dbSetting, "%s_Item%dIcon", protoName, i);
-		deleteSetting(dbSetting);
+		g_plugin.delSetting(dbSetting);
 		mir_snprintf(dbSetting, "%s_Item%dTitle", protoName, i);
-		deleteSetting(dbSetting);
+		g_plugin.delSetting(dbSetting);
 		mir_snprintf(dbSetting, "%s_Item%dMessage", protoName, i);
-		deleteSetting(dbSetting);
+		g_plugin.delSetting(dbSetting);
 		mir_snprintf(dbSetting, "%s_Item%dFavourite", protoName, i);
-		deleteSetting(dbSetting);
+		g_plugin.delSetting(dbSetting);
 	}
 }
 
@@ -823,7 +816,7 @@ INT_PTR CALLBACK CSWindowProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpa
 			break;
 
 		case IDC_REMOVE:
-			if (getByte("ConfirmDeletion", DEFAULT_PLUGIN_CONFIRM_ITEMS_DELETION))
+			if (g_plugin.getByte("ConfirmDeletion", DEFAULT_PLUGIN_CONFIRM_ITEMS_DELETION))
 				if (MessageBox(hwnd, TranslateT("Do you really want to delete selected item?"), TranslateW(MODULENAME), MB_YESNO | MB_DEFBUTTON2 | MB_ICONQUESTION) == IDNO)
 					break;
 
@@ -835,18 +828,18 @@ INT_PTR CALLBACK CSWindowProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpa
 			break;
 
 		case IDC_FAVOURITE:
-		{
-			int selection = csw->m_listview->getPositionInList();
-			StatusItem* f = new StatusItem(*csw->m_itemslist->m_list->get(selection));
-			f->m_bFavourite = !f->m_bFavourite;
-			csw->m_itemslist->m_list->remove(selection);
-			selection = csw->m_itemslist->m_list->add(f);
-			csw->m_bSomethingChanged = TRUE;
-			csw->m_listview->reinitItems(csw->m_itemslist->m_list->getListHead());
-			csw->m_listview->setFullFocusedSelection(selection);
-			csw->toggleButtons();
-		}
-		break;
+			{
+				int selection = csw->m_listview->getPositionInList();
+				StatusItem* f = new StatusItem(*csw->m_itemslist->m_list->get(selection));
+				f->m_bFavourite = !f->m_bFavourite;
+				csw->m_itemslist->m_list->remove(selection);
+				selection = csw->m_itemslist->m_list->add(f);
+				csw->m_bSomethingChanged = TRUE;
+				csw->m_listview->reinitItems(csw->m_itemslist->m_list->getListHead());
+				csw->m_listview->setFullFocusedSelection(selection);
+				csw->toggleButtons();
+			}
+			break;
 
 		case IDC_UNDO:
 			csw->m_itemslist->m_list->destroy();
@@ -858,24 +851,24 @@ INT_PTR CALLBACK CSWindowProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpa
 			break;
 
 		case IDC_IMPORT:
-		{
-			int result = getByte("DeleteAfterImport", DEFAULT_PLUGIN_DELETE_AFTER_IMPORT);
-			if (result == TRUE)
-				result = IDYES;
-			else {
-				result = MessageBox(hwnd,
-					TranslateT("Do you want old database entries to be deleted after Import?"),
-					TranslateW(MODULENAME), MB_YESNOCANCEL | MB_DEFBUTTON2 | MB_ICONQUESTION);
-				if (result == IDCANCEL)
-					break;
-			}
+			{
+				int result = g_plugin.getByte("DeleteAfterImport", DEFAULT_PLUGIN_DELETE_AFTER_IMPORT);
+				if (result == TRUE)
+					result = IDYES;
+				else {
+					result = MessageBox(hwnd,
+						TranslateT("Do you want old database entries to be deleted after Import?"),
+						TranslateW(MODULENAME), MB_YESNOCANCEL | MB_DEFBUTTON2 | MB_ICONQUESTION);
+					if (result == IDCANCEL)
+						break;
+				}
 
-			importCustomStatuses(csw, result);
-			csw->m_bSomethingChanged = TRUE;
-			csw->toggleButtons();
-			csw->toggleEmptyListMessage();
-		}
-		break;
+				importCustomStatuses(csw, result);
+				csw->m_bSomethingChanged = TRUE;
+				csw->toggleButtons();
+				csw->toggleEmptyListMessage();
+			}
+			break;
 
 		case IDC_FILTER:
 			csw->toggleFilter();
@@ -979,24 +972,24 @@ INT_PTR CALLBACK CSOptionsProc(HWND hwnd, UINT message, WPARAM, LPARAM lparam)
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwnd);
 		CheckDlgButton(hwnd, IDC_CONFIRM_DELETION,
-			getByte("ConfirmDeletion", DEFAULT_PLUGIN_CONFIRM_ITEMS_DELETION) ?
+			g_plugin.getByte("ConfirmDeletion", DEFAULT_PLUGIN_CONFIRM_ITEMS_DELETION) ?
 			BST_CHECKED : BST_UNCHECKED);
 
 		CheckDlgButton(hwnd, IDC_DELETE_AFTER_IMPORT,
-			getByte("DeleteAfterImport", DEFAULT_PLUGIN_DELETE_AFTER_IMPORT) ?
+			g_plugin.getByte("DeleteAfterImport", DEFAULT_PLUGIN_DELETE_AFTER_IMPORT) ?
 			BST_CHECKED : BST_UNCHECKED);
 
 		CheckDlgButton(hwnd, IDC_REMEMBER_POSITION,
-			getByte("RememberWindowPosition", DEFAULT_REMEMBER_WINDOW_POSITION) ?
+			g_plugin.getByte("RememberWindowPosition", DEFAULT_REMEMBER_WINDOW_POSITION) ?
 			BST_CHECKED : BST_UNCHECKED);
 		return TRUE;
 
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lparam)->code) {
 		case PSN_APPLY:
-			setByte("ConfirmDeletion", IsDlgButtonChecked(hwnd, IDC_CONFIRM_DELETION) ? 1 : 0);
-			setByte("DeleteAfterImport", IsDlgButtonChecked(hwnd, IDC_DELETE_AFTER_IMPORT) ? 1 : 0);
-			setByte("RememberWindowPosition", IsDlgButtonChecked(hwnd, IDC_REMEMBER_POSITION) ? 1 : 0);
+			g_plugin.setByte("ConfirmDeletion", IsDlgButtonChecked(hwnd, IDC_CONFIRM_DELETION) ? 1 : 0);
+			g_plugin.setByte("DeleteAfterImport", IsDlgButtonChecked(hwnd, IDC_DELETE_AFTER_IMPORT) ? 1 : 0);
+			g_plugin.setByte("RememberWindowPosition", IsDlgButtonChecked(hwnd, IDC_REMEMBER_POSITION) ? 1 : 0);
 
 			Menu_ReloadProtoMenus();
 			break;
