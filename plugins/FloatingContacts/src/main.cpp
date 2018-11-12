@@ -82,7 +82,7 @@ PLUGININFOEX pluginInfoEx =
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULE, pluginInfoEx)
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
 {}
 
 /////////////////////////////////////////////////////////////////////////////
@@ -218,7 +218,7 @@ static int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	DBCONTACTWRITESETTING *pdbcws = (DBCONTACTWRITESETTING*)lParam;
 
 	if (hContact == NULL) {
-		if ((0 == strcmp(pdbcws->szModule, "CLC")) || (0 == strcmp(pdbcws->szModule, MODULE))) {
+		if ((0 == strcmp(pdbcws->szModule, "CLC")) || (0 == strcmp(pdbcws->szModule, MODULENAME))) {
 			LoadDBSettings();
 			ApplyOptionsChanges();
 		}
@@ -560,7 +560,7 @@ static void CreateBackgroundBrush()
 	}
 
 	if (g_plugin.getByte("BkUseBitmap", FLT_DEFAULT_BKGNDUSEBITMAP)) {
-		ptrW tszBitmapName(db_get_wsa(NULL, MODULE, "BkBitmap"));
+		ptrW tszBitmapName(g_plugin.getWStringA("BkBitmap"));
 		if (tszBitmapName != NULL)
 			hBmpBackground = Bitmap_Load(tszBitmapName);
 	}
@@ -612,34 +612,32 @@ BOOL IsStatusVisible(int status)
 
 void RegHotkey(MCONTACT hContact, HWND hwnd)
 {
-	char szBuf[MAX_PATH] = { 0 };
+	ptrA szHotKey(g_plugin.getStringA(hContact, "Hotkey"));
+	if (!szHotKey)
+		return;
+	
+	if (szHotKey[0] == '\0')
+		return;
 
-	DBVARIANT dbv;
-	if (db_get_s(hContact, MODULE, "Hotkey", &dbv)) return;
-	strncpy(szBuf, dbv.pszVal, MAX_PATH - 1);
-	db_free(&dbv);
+	UINT nModifiers = 0;
+	char chKey = 0;
+	char szMod[2][20] = { 0 };
+	char szKey[20] = { 0 };
 
-	if (szBuf[0] != '\0') {
-		UINT nModifiers = 0;
-		char chKey = 0;
-		char szMod[2][20] = { 0 };
-		char szKey[20] = { 0 };
+	sscanf(szHotKey, "%[^'+']+%[^'+']+%[^'+']", szMod[0], szMod[1], szKey);
 
-		sscanf(szBuf, "%[^'+']+%[^'+']+%[^'+']", szMod[0], szMod[1], szKey);
-
-		for (int i = 0; i < 2; i++) {
-			if (0 == strncmp(szMod[i], "ALT", 19))
-				nModifiers = nModifiers | MOD_ALT;
-			else if (0 == strncmp(szMod[i], "CTRL", 19))
-				nModifiers = nModifiers | MOD_CONTROL;
-			else if (0 == strncmp(szMod[i], "SHIFT", 19))
-				nModifiers = nModifiers | MOD_SHIFT;
-		}
-
-		chKey = szKey[0];
-
-		RegisterHotKey(hwnd, (INT_PTR)hwnd, nModifiers, VkKeyScan(chKey));
+	for (int i = 0; i < 2; i++) {
+		if (0 == strncmp(szMod[i], "ALT", 19))
+			nModifiers = nModifiers | MOD_ALT;
+		else if (0 == strncmp(szMod[i], "CTRL", 19))
+			nModifiers = nModifiers | MOD_CONTROL;
+		else if (0 == strncmp(szMod[i], "SHIFT", 19))
+			nModifiers = nModifiers | MOD_SHIFT;
 	}
+
+	chKey = szKey[0];
+
+	RegisterHotKey(hwnd, (INT_PTR)hwnd, nModifiers, VkKeyScan(chKey));
 }
 
 ///////////////////////////////////////////////////////
@@ -654,7 +652,7 @@ void SaveContactsPos()
 		it->GetThumbRect(&rc);
 
 		if (0 == GetLastError())
-			db_set_dw(it->hContact, MODULE, "ThumbsPos", DB_POS_MAKE_XY(rc.left, rc.top));
+			g_plugin.setDword(it->hContact, "ThumbsPos", DB_POS_MAKE_XY(rc.left, rc.top));
 	}
 }
 
@@ -710,38 +708,36 @@ static void LoadMenus()
 	CMenuItem mi(&g_plugin);
 
 	// Remove thumb menu item
-	CreateServiceFunction(MODULE "/RemoveThumb", OnContactMenu_Remove);
 	SET_UID(mi, 0xbab83df0, 0xe126, 0x4d9a, 0xbc, 0xc3, 0x2b, 0xea, 0x84, 0x90, 0x58, 0xc8);
 	mi.position = 0xFFFFF;
 	mi.flags = CMIF_UNICODE;
 	mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_HIDE));
 	mi.name.w = LPGENW("Remove thumb");
-	mi.pszService = MODULE "/RemoveThumb";
+	mi.pszService = MODULENAME "/RemoveThumb";
 	hMenuItemRemove = Menu_AddContactMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, OnContactMenu_Remove);
 
 	// Hide all thumbs main menu item
-	CreateServiceFunction(MODULE "/MainHideAllThumbs", OnMainMenu_HideAll);
 	SET_UID(mi, 0x9ce9983f, 0x782a, 0x4ec1, 0xb5, 0x9b, 0x41, 0x4e, 0x9d, 0x92, 0x8e, 0xcb);
-	mi.pszService = MODULE "/MainHideAllThumbs";
+	mi.pszService = MODULENAME "/MainHideAllThumbs";
 	int i = (fcOpt.bHideAll) ? 0 : 1;
 	mi.hIcolibItem = g_iconList[i].hIcolib;
 	mi.name.w = g_iconList[i].tszDescr;
 	hMainMenuItemHideAll = Menu_AddMainMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, OnMainMenu_HideAll);
 
 	// Register hotkeys
 	HOTKEYDESC hkd = {};
 	hkd.szSection.a = "Floating Contacts";
 
-	hkd.pszName = MODULE "/MainHideAllThumbs";
+	hkd.pszName = hkd.pszService = MODULENAME "/MainHideAllThumbs";
 	hkd.szDescription.a = LPGEN("Show/Hide all thumbs");
-	hkd.pszService = MODULE "/MainHideAllThumbs";
 	g_plugin.addHotkey(&hkd);
 
-	CreateServiceFunction(MODULE "/HideWhenCListShow", OnHotKey_HideWhenCListShow);
-	hkd.pszName = MODULE "/HideWhenCListShow";
+	hkd.pszName = hkd.pszService = MODULENAME "/HideWhenCListShow";
 	hkd.szDescription.a = LPGEN("Hide when contact list is shown");
-	hkd.pszService = MODULE "/HideWhenCListShow";
 	g_plugin.addHotkey(&hkd);
+	CreateServiceFunction(hkd.pszService, OnHotKey_HideWhenCListShow);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -752,7 +748,7 @@ static void LoadContact(MCONTACT hContact)
 	if (hContact == NULL)
 		return;
 
-	DWORD	dwPos = db_get_dw(hContact, MODULE, "ThumbsPos", (DWORD)-1);
+	DWORD	dwPos = g_plugin.getDword(hContact, "ThumbsPos", (DWORD)-1);
 	if (dwPos != -1) {
 		wchar_t	*ptName = Clist_GetContactDisplayName(hContact);
 		if (ptName != nullptr) {
@@ -902,7 +898,7 @@ static int OnPreshutdown(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
-	g_plugin.registerIconW(LPGENW("Floating contacts"), g_iconList, MODULE);
+	g_plugin.registerIconW(LPGENW("Floating contacts"), g_iconList, MODULENAME);
 	LoadMenus();
 	InitOptions();
 
@@ -916,7 +912,7 @@ int CMPlugin::Load()
 
 		char szId[20];
 		mir_snprintf(szId, "Font%d", i);
-		FontService_RegisterFont(MODULE, szId, LPGENW("Floating contacts"), s_fonts[i], nullptr, nullptr, i + 1, false, &lf, defColor);
+		FontService_RegisterFont(MODULENAME, szId, LPGENW("Floating contacts"), s_fonts[i], nullptr, nullptr, i + 1, false, &lf, defColor);
 	}
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoded);

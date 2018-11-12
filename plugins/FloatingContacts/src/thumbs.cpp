@@ -320,7 +320,7 @@ void ThumbInfo::RefreshContactStatus(int idStatus)
 
 void ThumbInfo::DeleteContactPos()
 {
-	db_unset(hContact, MODULE, "ThumbsPos");
+	g_plugin.delSetting(hContact, "ThumbsPos");
 }
 
 void ThumbInfo::OnLButtonDown()

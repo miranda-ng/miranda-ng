@@ -32,7 +32,7 @@
 
 /////////////////////////////////////////////////////////////////////////////
 
-#define MODULE "FloatingContacts"
+#define MODULENAME "FloatingContacts"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {

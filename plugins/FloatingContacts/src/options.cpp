@@ -179,11 +179,9 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 		CheckDlgButton(hwndDlg, IDC_BITMAP, g_plugin.getByte("BkUseBitmap", FLT_DEFAULT_BKGNDUSEBITMAP) ? BST_CHECKED : BST_UNCHECKED);
 		SendMessage(hwndDlg, M_REFRESHBKGBOXES, 0, 0);
 		{
-			DBVARIANT dbv;
-			if (!db_get_ws(NULL, MODULE, "BkBitmap", &dbv)) {
-				SetDlgItemText(hwndDlg, IDC_FILENAME, dbv.pwszVal);
-				db_free(&dbv);
-			}
+			ptrW wszBitmap(g_plugin.getWStringA("BkBitmap"));
+			if (wszBitmap)
+				SetDlgItemText(hwndDlg, IDC_FILENAME, wszBitmap);
 
 			WORD bmpUse = (WORD)g_plugin.getWord("BkBitmapOpt", FLT_DEFAULT_BKGNDBITMAPOPT);
 			CheckDlgButton(hwndDlg, IDC_STRETCHH, ((bmpUse & CLB_STRETCHH) ? BST_CHECKED : BST_UNCHECKED));
