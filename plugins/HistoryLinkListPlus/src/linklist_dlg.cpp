@@ -45,18 +45,18 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		TranslateDialogDefault(hDlg);
 		TranslateMenu(listMenu);
 
-		hContact = ((db_get_b(0, LINKLIST_MODULE, LINKLIST_SAVESPECIAL, 0) == 0) ? NULL : DlgParam->hContact);
-		if (db_get_b(hContact, LINKLIST_MODULE, LINKLIST_FIRST, 0) == 0) {
+		hContact = ((g_plugin.getByte(LINKLIST_SAVESPECIAL) == 0) ? NULL : DlgParam->hContact);
+		if (g_plugin.getByte(hContact, LINKLIST_FIRST, 0) == 0) {
 			// First use of this plugin! Set default size!
-			db_set_dw(hContact, LINKLIST_MODULE, "LinklistWidth", 400);
-			db_set_dw(hContact, LINKLIST_MODULE, "LinklistHeight", 450);
-			db_set_dw(hContact, LINKLIST_MODULE, "LinklistX", 0);
-			db_set_dw(hContact, LINKLIST_MODULE, "LinklistY", 0);
+			g_plugin.setDword(hContact, "LinklistWidth", 400);
+			g_plugin.setDword(hContact, "LinklistHeight", 450);
+			g_plugin.setDword(hContact, "LinklistX", 0);
+			g_plugin.setDword(hContact, "LinklistY", 0);
 
-			db_set_b(hContact, LINKLIST_MODULE, LINKLIST_FIRST, 1);
+			g_plugin.setByte(hContact, LINKLIST_FIRST, 1);
 		}
 
-		DlgParam->splitterPosNew = (int)db_get_dw(hContact, LINKLIST_MODULE, LINKLIST_SPLITPOS, -1);
+		DlgParam->splitterPosNew = g_plugin.getDword(hContact, LINKLIST_SPLITPOS, -1);
 
 		GetWindowRect(GetDlgItem(hDlg, IDC_MAIN), &rc);
 		DlgParam->minSize.cx = rc.right - rc.left;
@@ -101,7 +101,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			LPTSTR link;
 			ENLINK *pENLink = (ENLINK*)lParam;
 
-			BYTE mouseEvent = db_get_b(0, LINKLIST_MODULE, LINKLIST_MOUSE_EVENT, 0xFF);
+			BYTE mouseEvent = g_plugin.getByte(LINKLIST_MOUSE_EVENT, 0xFF);
 
 			switch (pENLink->msg) {
 			case WM_MOUSEMOVE:
@@ -120,7 +120,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				if (wcsstr(link, L"mailto:") != nullptr)
 					ShellExecute(HWND_TOP, nullptr, link, nullptr, nullptr, SW_SHOWNORMAL);
 				else {
-					bool openNewWindow = db_get_b(0, LINKLIST_MODULE, LINKLIST_OPEN_WINDOW, 0xFF) != 0xFF;
+					bool openNewWindow = g_plugin.getByte(LINKLIST_OPEN_WINDOW, 0xFF) != 0xFF;
 					Utils_OpenUrlW(link, openNewWindow);
 				}
 				mir_free(link);
@@ -132,7 +132,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				hSubMenu = GetSubMenu(hPopup, 0);
 
 				// Disable Menuoption if "mouse over" events are active
-				mouseEvent = db_get_b(0, LINKLIST_MODULE, LINKLIST_MOUSE_EVENT, 0xFF);
+				mouseEvent = g_plugin.getByte(LINKLIST_MOUSE_EVENT, 0xFF);
 				if (mouseEvent == 0x01)
 					EnableMenuItem(hSubMenu, IDM_SHOWMESSAGE, MF_BYCOMMAND | MF_DISABLED | MF_GRAYED);
 				TranslateMenu(hSubMenu);
@@ -341,9 +341,9 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_DESTROY:
 		if (DlgParam != nullptr) {
-			hContact = ((db_get_b(0, LINKLIST_MODULE, LINKLIST_SAVESPECIAL, 0) == 0) ? NULL : DlgParam->hContact);
+			hContact = ((g_plugin.getByte(LINKLIST_SAVESPECIAL, 0) == 0) ? NULL : DlgParam->hContact);
 			Utils_SaveWindowPosition(hDlg, hContact, LINKLIST_MODULE, "Linklist");
-			db_set_dw(0, LINKLIST_MODULE, LINKLIST_SPLITPOS, DlgParam->splitterPosNew);
+			g_plugin.setDword(LINKLIST_SPLITPOS, DlgParam->splitterPosNew);
 			RemoveList(DlgParam->listStart);
 			mir_free(DlgParam);
 		}
@@ -426,7 +426,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 	switch (message) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hDlg);
-		useDefault = db_get_b(0, LINKLIST_MODULE, LINKLIST_USE_DEF, 0xFF);
+		useDefault = g_plugin.getByte(LINKLIST_USE_DEF, 0xFF);
 		if (useDefault == 0x01) {
 			int mCol = GetMirandaColour(&colourSet);
 			if (mCol == 0) {
@@ -707,9 +707,9 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			// Write Settings to Database
 			if (IsDlgButtonChecked(hDlg, IDC_CHECK1) == BST_CHECKED)
-				db_set_b(0, LINKLIST_MODULE, LINKLIST_USE_DEF, 0x01);
+				g_plugin.setByte(LINKLIST_USE_DEF, 0x01);
 			else {
-				db_set_b(0, LINKLIST_MODULE, LINKLIST_USE_DEF, 0x00);
+				g_plugin.setByte(LINKLIST_USE_DEF, 0x00);
 				colourSet.incoming = SendDlgItemMessage(hDlg, IDC_INCOMING, CPM_GETCOLOUR, 0, 0);
 				colourSet.outgoing = SendDlgItemMessage(hDlg, IDC_OUTGOING, CPM_GETCOLOUR, 0, 0);
 				colourSet.background = SendDlgItemMessage(hDlg, IDC_BACKGROUND, CPM_GETCOLOUR, 0, 0);
