@@ -647,7 +647,8 @@ int onShutdown(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
-	InitOptions();
+	LoadOptions();
+	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 
 	CreateServiceFunction("BuddyExpectator/actionReturned", ContactReturnedAction);
 	CreateServiceFunction("BuddyExpectator/actionStillAbsent", ContactStillAbsentAction);

@@ -3,11 +3,6 @@
 CMPlugin g_plugin;
 HINSTANCE hmiranda = nullptr;
 
-HANDLE hkOptInit = nullptr;
-HANDLE hkTopToolbarInit = nullptr; 
-HANDLE hkModulesLoaded = nullptr;
-HANDLE hkFontChange = nullptr;
-HANDLE hkColorChange = nullptr;
 HMODULE hRichedDll = nullptr;
 
 extern TREEELEMENT *g_Stickies;
@@ -144,8 +139,6 @@ int OnTopToolBarInit(WPARAM, LPARAM)
 	ttb.pszService = MODULENAME"/MenuCommandNewReminder";
 	ttb.name = ttb.pszTooltipUp = LPGEN("Add New Reminder");
 	g_plugin.addTTB(&ttb);
-
-	UnhookEvent(hkTopToolbarInit);
 	return 0;
 }
 
@@ -251,9 +244,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	addMenuItem(mi);
 
 	// register misc
-	hkOptInit = HookEvent(ME_OPT_INITIALISE, OnOptInitialise);
-	hkTopToolbarInit = HookEvent("TopToolBar/ModuleLoaded", OnTopToolBarInit);
-	UnhookEvent(hkModulesLoaded);
+	HookEvent("TopToolBar/ModuleLoaded", OnTopToolBarInit);
 
 	// init vars and load all data
 	InitSettings();
@@ -284,7 +275,8 @@ int CMPlugin::Load()
 	InitServices();
 	WS_Init();
 
-	hkModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	HookEvent(ME_OPT_INITIALISE, OnOptInitialise);
 	InitIcons();
 
 	return 0;
@@ -301,11 +293,6 @@ int CMPlugin::Unload()
 	DestroyMsgWindow();
 	WS_CleanUp();
 	TermSettings();
-
-	UnhookEvent(hkFontChange);
-	UnhookEvent(hkColorChange);
-
-	UnhookEvent(hkOptInit);
 
 	IcoLib_ReleaseIcon(g_hReminderIcon);
 	DeleteObject(hBodyFont);

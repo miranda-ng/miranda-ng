@@ -21,8 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_HISTORY_DLG_HANDLERS_H
 #define M_HISTORY_DLG_HANDLERS_H
 
-#include "stdafx.h"
-
 #define LOAD_IN_BACKGROUND 0x00000001
 
 struct HistoryWindowData{
@@ -44,7 +42,6 @@ struct SearchWindowData{
 };
 
 INT_PTR CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK SearchDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 #endif //M_HISTORY_DLG_HANDLERS_H

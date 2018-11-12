@@ -156,18 +156,18 @@ int onModulesLoaded(WPARAM, LPARAM)
 	for (auto &hContact : Contacts())
 		onExtraImageApplying((WPARAM)hContact, 1);
 
-	HookEvent(ME_OPT_INITIALISE, onOptInitialise);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, onPrebuildContactMenu);
-
 	return 0;
 }
 
 int CMPlugin::Load()
 {
-	HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
+	HookEvent(ME_DB_CONTACT_ADDED, onDBContactAdded);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
 	HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, onExtraImageApplying);
-	HookEvent(ME_DB_CONTACT_ADDED, onDBContactAdded);
+	HookEvent(ME_OPT_INITIALISE, onOptInitialise);
+	HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
+
 	CreateServiceFunction("AuthState/MenuItem", onAuthMenuSelected);
 
 	CMenuItem mi(&g_plugin);

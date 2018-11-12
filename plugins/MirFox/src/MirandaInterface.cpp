@@ -5,11 +5,6 @@
 // Miranda - handle from DllMain
 CMPlugin g_plugin;
 
-//Miranda - Langpack
-
-//Miranda - HANDLE to hooked protocols ACK
-HANDLE hProtoAck;
-
 //popup classes handles
 HANDLE hPopupNotify;
 HANDLE hPopupError;
@@ -136,10 +131,10 @@ static int OnShutdown(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
+	HookEvent(ME_OPT_INITIALISE, OptInit);
+	HookEvent(ME_PROTO_ACK, MirandaUtils::onProtoAck);
 	HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
 	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
-
-	hProtoAck = HookEvent(ME_PROTO_ACK, MirandaUtils::onProtoAck);
 
 	// Ensure that the common control DLL is loaded. needed to use ICC_LISTVIEW_CLASSES control in options TODO move to InitOptions();?
 	INITCOMMONCONTROLSEX icex = { 0 };
@@ -150,7 +145,6 @@ int CMPlugin::Load()
 	mirfoxMiranda.getMirfoxData().Plugin_Terminated = false;
 	mirfoxMiranda.getMirfoxData().setPluginState(MFENUM_PLUGIN_STATE_INIT);
 	mirfoxMiranda.onMirandaInterfaceLoad();
-	InitOptions();
 
 	if (mirfoxMiranda.getMirfoxData().getPluginState() != MFENUM_PLUGIN_STATE_ERROR)
 		mirfoxMiranda.getMirfoxData().setPluginState(MFENUM_PLUGIN_STATE_WORK);
@@ -166,7 +160,7 @@ int CMPlugin::Unload()
 
 	// wait for csmThread, msgQueueThread and userActionThread's end
 	mirfoxMiranda.getMirfoxData().Plugin_Terminated = true;
-	UnhookEvent(hProtoAck);
+
 	int counter = 0;
 	const int UNLOAD_WAIT_TIME = 50;		//[ms]
 	const int MAX_UNLOAD_WAIT_COUNTER = 10;	//10 * 50ms = 0,5s
@@ -180,6 +174,5 @@ int CMPlugin::Unload()
 	MFLogger::getInstance()->log(L"Unload: last log");
 
 	mirfoxMiranda.onMirandaInterfaceUnload();
-	DeinitOptions();
 	return 0;
 }

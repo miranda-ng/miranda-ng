@@ -222,7 +222,7 @@ INT_PTR SendMessageCmd(MCONTACT hContact, wchar_t *msg);
 void LoadMsgLogIcons(void);
 void FreeMsgLogIcons(void);
 
-void InitOptions(void);
+int OptInitialise(WPARAM, LPARAM);
 
 #define MSGFONTID_MYMSG       0
 #define MSGFONTID_YOURMSG     1

@@ -28,8 +28,6 @@ HFONT hFontTitle, hFontLabels, hFontValues, hFontTrayTitle;
 
 // hooked here so it's in the main thread
 HANDLE hAvChangeEvent, hShowTipEvent, hHideTipEvent, hAckEvent, hFramesSBShow, hFramesSBHide;
-HANDLE hSettingChangedEvent, hEventDeleted;
-HANDLE hReloadFonts = nullptr;
 
 HANDLE hFolderChanged, hSkinFolder;
 wchar_t SKIN_FOLDER[256];
@@ -221,7 +219,7 @@ static void InitFonts()
 	g_plugin.addFont(&fontValues);
 	g_plugin.addFont(&fontTrayTitle);
 
-	hReloadFonts = HookEvent(ME_FONT_RELOAD, ReloadFont);
+	HookEvent(ME_FONT_RELOAD, ReloadFont);
 }
 
 static int ModulesLoaded(WPARAM, LPARAM)
@@ -271,8 +269,6 @@ int Shutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-HANDLE hEventPreShutdown, hEventModulesLoaded;
-
 static INT_PTR ReloadSkin(WPARAM wParam, LPARAM lParam)
 {
 	LoadOptions();
@@ -312,7 +308,6 @@ int CMPlugin::Load()
 
 	InitTranslations();
 	InitMessagePump();
-	InitOptions();
 
 	// for compatibility with mToolTip status tooltips
 	CreateServiceFunction("mToolTip/ShowTip", ShowTip);
@@ -320,12 +315,11 @@ int CMPlugin::Load()
 	CreateServiceFunction("mToolTip/HideTip", HideTip);
 	CreateServiceFunction("mToolTip/ReloadSkin", ReloadSkin);
 
-	hEventPreShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, Shutdown);
-	hEventModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-
-	hSettingChangedEvent = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SettingChanged);
-	hEventDeleted = HookEvent(ME_DB_EVENT_DELETED, EventDeleted);
-
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SettingChanged);
+	HookEvent(ME_DB_EVENT_DELETED, EventDeleted);
+	HookEvent(ME_OPT_INITIALISE, OptInit);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, Shutdown);
 	return 0;
 }
 
@@ -333,12 +327,6 @@ int CMPlugin::Load()
 
 int CMPlugin::Unload()
 {
-	UnhookEvent(hSettingChangedEvent);
-	UnhookEvent(hEventDeleted);
-	UnhookEvent(hEventPreShutdown);
-	UnhookEvent(hEventModulesLoaded);
-	UnhookEvent(hReloadFonts);
-
 	DeinitOptions();
 	DeleteObject(hFontTitle);
 	DeleteObject(hFontLabels);

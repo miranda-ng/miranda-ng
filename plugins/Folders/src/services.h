@@ -29,6 +29,7 @@ extern wchar_t szMirandaPath[MAX_FOLDERS_PATH];
 extern wchar_t szUserDataPath[MAX_FOLDERS_PATH];
 
 int InitServices();
-void InitOptions();
+
+int OnOptionsInitialize(WPARAM, LPARAM);
 
 #endif //M_FOLDERS_PROVIDED_SERVICES_H

@@ -483,76 +483,6 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 	return 0;
 }
 
-INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hWnd);
-		{
-			int count = db_get_dw(NULL, MODULENAME, "EventsToLoad", 0);
-			EnableWindow(GetDlgItem(hWnd, IDC_EVENTS_COUNT), count > 0);
-			EnableWindow(GetDlgItem(hWnd, IDC_SHOW_LAST_FIRST), count > 0);
-
-			CheckDlgButton(hWnd, IDC_LOAD_ALL, count <= 0 ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hWnd, IDC_LOAD_NUMBER, count > 0 ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hWnd, IDC_ENABLE_RTL, db_get_b(NULL, MODULENAME, "EnableRTL", 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hWnd, IDC_SHOW_LAST_FIRST, db_get_b(NULL, MODULENAME, "ShowLastPageFirst", 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hWnd, IDC_LOAD_BACKGROUND, db_get_b(NULL, MODULENAME, "UseWorkerThread", 0) ? BST_CHECKED : BST_UNCHECKED);
-
-			wchar_t buffer[40];
-			_itow_s(count, buffer, 10);
-			SetDlgItemText(hWnd, IDC_EVENTS_COUNT, buffer);
-		}
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_LOAD_ALL:
-			EnableWindow(GetDlgItem(hWnd, IDC_EVENTS_COUNT), FALSE);
-			EnableWindow(GetDlgItem(hWnd, IDC_SHOW_LAST_FIRST), FALSE);
-			SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
-			break;
-
-		case IDC_LOAD_NUMBER:
-			EnableWindow(GetDlgItem(hWnd, IDC_EVENTS_COUNT), TRUE);
-			EnableWindow(GetDlgItem(hWnd, IDC_SHOW_LAST_FIRST), TRUE);
-			SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
-			break;
-
-		case IDC_ENABLE_RTL:
-		case IDC_SHOW_LAST_FIRST:
-		case IDC_EVENTS_COUNT:
-		case IDC_LOAD_BACKGROUND:
-			SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
-			break;
-		}
-		break;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY:
-				long count;
-				if (IsDlgButtonChecked(hWnd, IDC_LOAD_ALL))
-					count = 0;
-				else {
-					wchar_t buffer[1024];
-					GetDlgItemText(hWnd, IDC_EVENTS_COUNT, buffer, _countof(buffer));
-					count = _wtol(buffer);
-					count = (count < 0) ? 0 : count;
-				}
-				db_set_b(NULL, MODULENAME, "ShowLastPageFirst", IsDlgButtonChecked(hWnd, IDC_SHOW_LAST_FIRST));
-				db_set_b(NULL, MODULENAME, "EnableRTL", IsDlgButtonChecked(hWnd, IDC_ENABLE_RTL));
-				db_set_b(NULL, MODULENAME, "UseWorkerThread", IsDlgButtonChecked(hWnd, IDC_LOAD_BACKGROUND));
-				db_set_dw(NULL, MODULENAME, "EventsToLoad", count);
-			}
-		}
-		break;
-	}
-	return 0;
-}
-
 INT_PTR CALLBACK SearchDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	SearchWindowData *data = (SearchWindowData *)GetWindowLongPtr(hWnd, DWLP_USER);
@@ -669,5 +599,90 @@ INT_PTR CALLBACK SearchDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		}
 		break;
 	}
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// options
+
+static INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hWnd);
+		{
+			int count = db_get_dw(NULL, MODULENAME, "EventsToLoad", 0);
+			EnableWindow(GetDlgItem(hWnd, IDC_EVENTS_COUNT), count > 0);
+			EnableWindow(GetDlgItem(hWnd, IDC_SHOW_LAST_FIRST), count > 0);
+
+			CheckDlgButton(hWnd, IDC_LOAD_ALL, count <= 0 ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hWnd, IDC_LOAD_NUMBER, count > 0 ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hWnd, IDC_ENABLE_RTL, db_get_b(NULL, MODULENAME, "EnableRTL", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hWnd, IDC_SHOW_LAST_FIRST, db_get_b(NULL, MODULENAME, "ShowLastPageFirst", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hWnd, IDC_LOAD_BACKGROUND, db_get_b(NULL, MODULENAME, "UseWorkerThread", 0) ? BST_CHECKED : BST_UNCHECKED);
+
+			wchar_t buffer[40];
+			_itow_s(count, buffer, 10);
+			SetDlgItemText(hWnd, IDC_EVENTS_COUNT, buffer);
+		}
+		break;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDC_LOAD_ALL:
+			EnableWindow(GetDlgItem(hWnd, IDC_EVENTS_COUNT), FALSE);
+			EnableWindow(GetDlgItem(hWnd, IDC_SHOW_LAST_FIRST), FALSE);
+			SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
+			break;
+
+		case IDC_LOAD_NUMBER:
+			EnableWindow(GetDlgItem(hWnd, IDC_EVENTS_COUNT), TRUE);
+			EnableWindow(GetDlgItem(hWnd, IDC_SHOW_LAST_FIRST), TRUE);
+			SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
+			break;
+
+		case IDC_ENABLE_RTL:
+		case IDC_SHOW_LAST_FIRST:
+		case IDC_EVENTS_COUNT:
+		case IDC_LOAD_BACKGROUND:
+			SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
+			break;
+		}
+		break;
+
+	case WM_NOTIFY:
+		switch (((LPNMHDR)lParam)->idFrom) {
+		case 0:
+			switch (((LPNMHDR)lParam)->code) {
+			case PSN_APPLY:
+				long count;
+				if (IsDlgButtonChecked(hWnd, IDC_LOAD_ALL))
+					count = 0;
+				else {
+					wchar_t buffer[1024];
+					GetDlgItemText(hWnd, IDC_EVENTS_COUNT, buffer, _countof(buffer));
+					count = _wtol(buffer);
+					count = (count < 0) ? 0 : count;
+				}
+				db_set_b(NULL, MODULENAME, "ShowLastPageFirst", IsDlgButtonChecked(hWnd, IDC_SHOW_LAST_FIRST));
+				db_set_b(NULL, MODULENAME, "EnableRTL", IsDlgButtonChecked(hWnd, IDC_ENABLE_RTL));
+				db_set_b(NULL, MODULENAME, "UseWorkerThread", IsDlgButtonChecked(hWnd, IDC_LOAD_BACKGROUND));
+				db_set_dw(NULL, MODULENAME, "EventsToLoad", count);
+			}
+		}
+		break;
+	}
+	return 0;
+}
+
+int OnOptionsInitialize(WPARAM wParam, LPARAM)
+{
+	OPTIONSDIALOGPAGE odp = {};
+	odp.position = 100000000;
+	odp.szTitle.w = LPGENW("History");
+	odp.pfnDlgProc = OptionsDlgProc;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_HISTORY);
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

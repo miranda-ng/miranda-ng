@@ -151,6 +151,7 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	InitContactsCache();
 
 	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &CIcqProto::OnPreBuildStatusMenu);
+	HookProtoEvent(ME_OPT_INITIALISE, &CIcqProto::OnOptionsInit);
 
 	// Register netlib users
 	wchar_t szBuffer[MAX_PATH + 64];
@@ -250,7 +251,6 @@ void CIcqProto::OnModulesLoaded()
 	// Startup Auto Info-Update thread
 	icq_InitInfoUpdate();
 
-	HookProtoEvent(ME_OPT_INITIALISE, &CIcqProto::OnOptionsInit);
 	HookProtoEvent(ME_USERINFO_INITIALISE, &CIcqProto::OnUserInfoInit);
 	HookProtoEvent(ME_IDLE_CHANGED, &CIcqProto::OnIdleChanged);
 

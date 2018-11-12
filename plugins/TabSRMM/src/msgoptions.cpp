@@ -1292,67 +1292,6 @@ static fontSettings[MSGDLGFONTCOUNT + 1];
 
 #define SRFONTSETTINGMODULE FONTMODULE
 
-static int OptInitialise(WPARAM wParam, LPARAM lParam)
-{
-	if (PluginConfig.g_bPopupAvail)
-		TN_OptionsInitialize(wParam, lParam);
-
-	// message sessions' options
-	OPTIONSDIALOGPAGE odpnew = {};
-	odpnew.position = 910000000;
-	odpnew.flags = ODPF_BOLDGROUPS;
-	odpnew.szTitle.a = LPGEN("Message sessions");
-
-	odpnew.szTab.a = LPGEN("General");
-	odpnew.pDialog = new COptMainDlg();
-	g_plugin.addOptions(wParam, &odpnew);
-
-	odpnew.szTab.a = LPGEN("Tabs and layout");
-	odpnew.pDialog = new COptTabbedDlg();
-	g_plugin.addOptions(wParam, &odpnew);
-
-	odpnew.szTab.a = LPGEN("Containers");
-	odpnew.pDialog = new COptContainersDlg();
-	g_plugin.addOptions(wParam, &odpnew);
-
-	odpnew.szTab.a = LPGEN("Message log");
-	odpnew.pDialog = new COptLogDlg();
-	g_plugin.addOptions(wParam, &odpnew);
-
-	odpnew.szTab.a = LPGEN("Advanced tweaks");
-	odpnew.pDialog = new COptAdvancedDlg();
-	g_plugin.addOptions(wParam, &odpnew);
-
-	odpnew.szGroup.a = LPGEN("Message sessions");
-	odpnew.szTitle.a = LPGEN("Typing notify");
-	odpnew.pDialog = new COptTypingDlg();
-	g_plugin.addOptions(wParam, &odpnew);
-
-	// skin options
-	OPTIONSDIALOGPAGE odp = {};
-	odp.flags = ODPF_BOLDGROUPS;
-	odp.position = 910000000;
-	odp.szGroup.a = LPGEN("Skins");
-	odp.szTitle.a = LPGEN("Message window");
-
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SKIN);
-	odp.szTab.a = LPGEN("Load and apply");
-	odp.pfnDlgProc = DlgProcSkinOpts;
-	g_plugin.addOptions(wParam, &odp);
-
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_TABCONFIG);
-	odp.szTab.a = LPGEN("Window layout tweaks");
-	odp.pfnDlgProc = DlgProcTabConfig;
-	g_plugin.addOptions(wParam, &odp);
-
-	// popup options
-	Popup_Options(wParam);
-
-	// group chats
-	Chat_Options(wParam);
-	return 0;
-}
-
 enum
 {
 	CBVT_NONE,
@@ -1463,12 +1402,6 @@ void OptCheckBox_Save(HWND hwnd, OptCheckBox *cb)
 	}
 }
 
-int TSAPI InitOptions(void)
-{
-	HookEvent(ME_OPT_INITIALISE, OptInitialise);
-	return 0;
-}
-
 INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	DWORD dwStatusMask = GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -1526,4 +1459,67 @@ INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		break;
 	}
 	return FALSE;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int OptInitialise(WPARAM wParam, LPARAM lParam)
+{
+	if (PluginConfig.g_bPopupAvail)
+		TN_OptionsInitialize(wParam, lParam);
+
+	// message sessions' options
+	OPTIONSDIALOGPAGE odpnew = {};
+	odpnew.position = 910000000;
+	odpnew.flags = ODPF_BOLDGROUPS;
+	odpnew.szTitle.a = LPGEN("Message sessions");
+
+	odpnew.szTab.a = LPGEN("General");
+	odpnew.pDialog = new COptMainDlg();
+	g_plugin.addOptions(wParam, &odpnew);
+
+	odpnew.szTab.a = LPGEN("Tabs and layout");
+	odpnew.pDialog = new COptTabbedDlg();
+	g_plugin.addOptions(wParam, &odpnew);
+
+	odpnew.szTab.a = LPGEN("Containers");
+	odpnew.pDialog = new COptContainersDlg();
+	g_plugin.addOptions(wParam, &odpnew);
+
+	odpnew.szTab.a = LPGEN("Message log");
+	odpnew.pDialog = new COptLogDlg();
+	g_plugin.addOptions(wParam, &odpnew);
+
+	odpnew.szTab.a = LPGEN("Advanced tweaks");
+	odpnew.pDialog = new COptAdvancedDlg();
+	g_plugin.addOptions(wParam, &odpnew);
+
+	odpnew.szGroup.a = LPGEN("Message sessions");
+	odpnew.szTitle.a = LPGEN("Typing notify");
+	odpnew.pDialog = new COptTypingDlg();
+	g_plugin.addOptions(wParam, &odpnew);
+
+	// skin options
+	OPTIONSDIALOGPAGE odp = {};
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.position = 910000000;
+	odp.szGroup.a = LPGEN("Skins");
+	odp.szTitle.a = LPGEN("Message window");
+
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SKIN);
+	odp.szTab.a = LPGEN("Load and apply");
+	odp.pfnDlgProc = DlgProcSkinOpts;
+	g_plugin.addOptions(wParam, &odp);
+
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_TABCONFIG);
+	odp.szTab.a = LPGEN("Window layout tweaks");
+	odp.pfnDlgProc = DlgProcTabConfig;
+	g_plugin.addOptions(wParam, &odp);
+
+	// popup options
+	Popup_Options(wParam);
+
+	// group chats
+	Chat_Options(wParam);
+	return 0;
 }

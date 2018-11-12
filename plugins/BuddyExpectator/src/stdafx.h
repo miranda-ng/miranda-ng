@@ -60,4 +60,7 @@ extern HANDLE hExtraIcon;
 void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD);
 extern DWORD timer_id;
 
+void LoadOptions();
+int OptionsInit(WPARAM wParam, LPARAM);
+
 #endif

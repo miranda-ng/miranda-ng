@@ -69,6 +69,9 @@ CSteamProto::CSteamProto(const char* protoName, const wchar_t* userName)
 	// custom db events API
 	CreateProtoService(STEAM_DB_GETEVENTTEXT_CHATSTATES, &CSteamProto::OnGetEventTextChatStates);
 
+	// hooks
+	HookProtoEvent(ME_OPT_INITIALISE, &CSteamProto::OnOptionsInit);
+
 	// netlib support
 	wchar_t name[128];
 	mir_snwprintf(name, TranslateT("%s connection"), m_tszUserName);

@@ -276,7 +276,6 @@ int RegisterPOP3Plugin(WPARAM, LPARAM)
 		}
 		break;
 	}
-	//HookEvent(ME_OPT_INITIALISE,POP3OptInit);
 
 	HACCOUNT Finder;
 	DBVARIANT dbv;
@@ -300,7 +299,7 @@ int RegisterPOP3Plugin(WPARAM, LPARAM)
 		}
 
 		if (!Finder->hContact && (Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT)) {
-			//No account contact found, have to create one
+			// No account contact found, have to create one
 			Finder->hContact = db_add_contact();
 			Proto_AddToContact(Finder->hContact, YAMN_DBMODULE);
 			db_set_s(Finder->hContact, YAMN_DBMODULE, "Id", Finder->Name);

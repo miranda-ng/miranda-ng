@@ -114,6 +114,11 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID)
 
 int CMPlugin::Load()
 {
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, SmsRebuildContactMenu);
+	HookEvent(ME_DB_EVENT_ADDED, handleNewMessage);
+	HookEvent(ME_OPT_INITIALISE, OptInitialise);
+	HookEvent(ME_PROTO_ACK, handleAckSMS);
+	HookEvent(ME_PROTO_ACCLISTCHANGED, RefreshAccountList);
 	HookEvent(ME_SYSTEM_MODULESLOADED,OnModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN,OnPreShutdown);
 

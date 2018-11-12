@@ -191,7 +191,8 @@ typedef struct {
 
 extern OPTIONS opt;
 
-void InitOptions();
+int OptInit(WPARAM wParam, LPARAM);
+
 void LoadOptions();
 void SaveOptions();
 void DeinitOptions();

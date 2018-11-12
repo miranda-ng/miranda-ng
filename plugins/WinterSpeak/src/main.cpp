@@ -4,12 +4,12 @@ CMPlugin g_plugin;
 
 SpeakConfig   *g_speak_config = nullptr;
 SpeakAnnounce *g_speak_announce = nullptr;
-HANDLE         g_dialog_options_initialise;
 HANDLE         g_event_status_change;
 HANDLE         g_event_message_added;
 HANDLE         g_protocol_ack;
 
-PLUGININFOEX pluginInfoEx={
+PLUGININFOEX pluginInfoEx =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -24,7 +24,8 @@ PLUGININFOEX pluginInfoEx={
 
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>("speak_config", pluginInfoEx)
-{}
+{
+}
 
 //-----------------------------------------------------------------------------
 // Description : External hook
@@ -73,8 +74,7 @@ int dialogOptionsInitialise(WPARAM wParam, LPARAM)
 	odp.szGroup.w = LPGENW("Speak");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 
-	if (g_speak_config)
-	{
+	if (g_speak_config) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONFIG);
 		odp.szTitle.w = LPGENW("Engine/Voice");
 		odp.pfnDlgProc = DialogConfigEngine::process;
@@ -86,8 +86,7 @@ int dialogOptionsInitialise(WPARAM wParam, LPARAM)
 		g_plugin.addOptions(wParam, &odp);
 	}
 
-	if (g_speak_announce)
-	{
+	if (g_speak_announce) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_ANNOUNCE);
 		odp.szTitle.w = LPGENW("Announce");
 		odp.pfnDlgProc = AnnounceDialog::process;
@@ -100,8 +99,7 @@ int dialogOptionsInitialise(WPARAM wParam, LPARAM)
 
 int CMPlugin::Load()
 {
-	if (!g_speak_config)
-	{
+	if (!g_speak_config) {
 		g_speak_config = new SpeakConfig(g_plugin.getInst());
 
 		// expose to allow miranda + plugins to access my speak routines
@@ -109,8 +107,7 @@ int CMPlugin::Load()
 		CreateServiceFunction(MS_SPEAK_MESSAGE, message);
 	}
 
-	if (!g_speak_announce)
-	{
+	if (!g_speak_announce) {
 		g_speak_announce = new SpeakAnnounce(g_plugin.getInst());
 
 		// tap into contact setting change event
@@ -125,8 +122,7 @@ int CMPlugin::Load()
 	}
 
 	// a option dialog box request has occured
-	g_dialog_options_initialise = HookEvent(ME_OPT_INITIALISE, dialogOptionsInitialise);
-
+	HookEvent(ME_OPT_INITIALISE, dialogOptionsInitialise);
 	return 0;
 }
 
@@ -134,16 +130,12 @@ int CMPlugin::Load()
 
 int CMPlugin::Unload()
 {
-	UnhookEvent(g_dialog_options_initialise);
-
-	if (g_speak_config)
-	{
+	if (g_speak_config) {
 		delete g_speak_config;
 		g_speak_config = nullptr;
 	}
 
-	if (g_speak_announce)
-	{
+	if (g_speak_announce) {
 		UnhookEvent(g_event_status_change);
 		UnhookEvent(g_event_message_added);
 		UnhookEvent(g_protocol_ack);

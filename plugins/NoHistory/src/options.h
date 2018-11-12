@@ -3,6 +3,6 @@
 
 extern DWORD event_timeout;
 
-void InitOptions();
+int OptInit(WPARAM, LPARAM);
 
 #endif

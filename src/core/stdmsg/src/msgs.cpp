@@ -555,16 +555,16 @@ int LoadSendRecvMessageModule(void)
 	}
 
 	InitGlobals();
-	InitOptions();
 
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 	HookEvent(ME_DB_EVENT_ADDED, MessageEventAdded);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, MessageSettingChanged);
 	HookEvent(ME_DB_CONTACT_DELETED, ContactDeleted);
-	HookEvent(ME_SYSTEM_MODULESLOADED, SplitmsgModulesLoaded);
-	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
+	HookEvent(ME_OPT_INITIALISE, OptInitialise);
 	HookEvent(ME_PROTO_CONTACTISTYPING, TypingMessage);
+	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
+	HookEvent(ME_SYSTEM_MODULESLOADED, SplitmsgModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreshutdownSendRecv);
-	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 
 	CreateServiceFunction(MS_MSG_SENDMESSAGE, SendMessageCommand);
 	CreateServiceFunction(MS_MSG_SENDMESSAGEW, SendMessageCommand_W);

@@ -866,6 +866,7 @@ void InitAssocList(void)
 	icc.dwSize = sizeof(icc);
 	icc.dwICC = ICC_LISTVIEW_CLASSES;
 	InitCommonControlsEx(&icc);
+	
 	HookEvent(ME_OPT_INITIALISE, AssocListOptInit);
 
 	// Services

@@ -93,9 +93,6 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	myGlobals.PopupActionsExist = ServiceExists(MS_POPUP_REGISTERACTIONS);
 
-	// options
-	OptionsLoadModule();
-
 	// create services to receive string lists of languages and timezones
 	SvcConstantsLoadModule();
 
@@ -205,6 +202,7 @@ int CMPlugin::Load()
 	SvcReminderLoadModule();
 
 	// Now the module is loaded! Start initializing certain things
+	HookEvent(ME_OPT_INITIALISE, OnInitOptions);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_TTB_MODULELOADED, OnTopToolBarLoaded);
 	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);

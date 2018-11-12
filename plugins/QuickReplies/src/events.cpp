@@ -30,7 +30,6 @@ int iNumber = 0;
 
 int OnModulesLoaded(WPARAM, LPARAM)
 {
-	HookEvent(ME_OPT_INITIALISE, OnOptInitialized);
 	HookEvent(ME_MSG_BUTTONPRESSED, OnButtonPressed);
 
 	g_plugin.registerIcon("TabSRMM/Quick Replies", iconList);

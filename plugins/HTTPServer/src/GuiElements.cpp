@@ -28,8 +28,6 @@ static HANDLE hShowStatisticsViewService = nullptr;
 static HANDLE hShareNewFileMenuItem = nullptr;
 static HANDLE hShowStatisticsViewMenuItem = nullptr;
 
-static HANDLE hEventOptionsInitialize = nullptr;
-
 HWND hwndStatsticView = nullptr;
 bool bLastAutoRefress = false;
 
@@ -1454,8 +1452,6 @@ void InitGuiElements()
 		mi.pszService = MS_SHOW_STATISTICS_VIEW;
 		hShowStatisticsViewMenuItem = Menu_AddMainMenuItem(&mi);
 	}
-
-	hEventOptionsInitialize = HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 
 	bShowPopups = db_get_b(NULL, MODULENAME, "ShowPopups", bShowPopups) != 0;
 }

@@ -40,16 +40,8 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 	HookEvent(ME_PROTO_ACK, OnProtoAck);
 
-	// options
-	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialized);
-
 	// srfile
 	HookEvent(ME_FILEDLG_CANCELED, OnFileDialogCanceled);
-
-	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu);
-
-	HookEvent(ME_MSG_WINDOWEVENT, OnSrmmWindowOpened);
-	HookEvent(ME_MSG_BUTTONPRESSED, OnSrmmButtonPressed);
 
 	HookTemporaryEvent(ME_MSG_TOOLBARLOADED, OnSrmmToolbarLoaded);
 	return 0;

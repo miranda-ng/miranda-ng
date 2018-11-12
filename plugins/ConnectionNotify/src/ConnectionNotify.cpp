@@ -2,15 +2,10 @@
 
 CMPlugin	g_plugin;
 
-//PLUGINLINK *pluginLink=NULL;
-HANDLE hOptInit = nullptr;
 static HWND hTimerWnd = (HWND)nullptr;
 static UINT TID = (UINT)12021;
-//HANDLE hHookModulesLoaded=NULL;
 HANDLE hCheckEvent = nullptr;
 HANDLE hCheckHook = nullptr;
-HANDLE hHookModulesLoaded = nullptr;
-HANDLE hHookPreShutdown = nullptr;
 HANDLE hConnectionCheckThread = nullptr;
 HANDLE hFilterOptionsThread = nullptr;
 HANDLE killCheckThreadEvent = nullptr;
@@ -861,13 +856,9 @@ int CMPlugin::Load()
 
 	g_plugin.addSound(PLUGINNAME_NEWSOUND, PLUGINNAMEW, LPGENW("New Connection Notification"));
 	
-	hOptInit = HookEvent(ME_OPT_INITIALISE, ConnectionNotifyOptInit);//register service to hook option call
-	assert(hOptInit);
-	
-	hHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, modulesloaded);//hook event that all plugins are loaded
-	assert(hHookModulesLoaded);
-	
-	hHookPreShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, preshutdown);
+	HookEvent(ME_OPT_INITIALISE, ConnectionNotifyOptInit); // register service to hook option call
+	HookEvent(ME_SYSTEM_MODULESLOADED, modulesloaded); // hook event that all plugins are loaded
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, preshutdown);
 	return 0;
 }
 
@@ -876,15 +867,11 @@ int CMPlugin::Load()
 int CMPlugin::Unload()
 {
 	WaitForSingleObjectEx(hConnectionCheckThread, INFINITE, FALSE);
-	if (hConnectionCheckThread)CloseHandle(hConnectionCheckThread);
-	if (hCheckEvent)DestroyHookableEvent(hCheckEvent);
-	if (hOptInit) UnhookEvent(hOptInit);
-	if (hCheckHook)UnhookEvent(hCheckHook);
-	if (hHookModulesLoaded)UnhookEvent(hHookModulesLoaded);
-	if (hHookPreShutdown)UnhookEvent(hHookPreShutdown);
-	if (killCheckThreadEvent)
-		CloseHandle(killCheckThreadEvent);
-	//if (hCurrentEditMutex) CloseHandle(hCurrentEditMutex);
+
+	if (hConnectionCheckThread) CloseHandle(hConnectionCheckThread);
+	if (hCheckEvent) DestroyHookableEvent(hCheckEvent);
+	if (hCheckHook) UnhookEvent(hCheckHook);
+	if (killCheckThreadEvent) CloseHandle(killCheckThreadEvent);
 	if (hExceptionsMutex) CloseHandle(hExceptionsMutex);
 
 	#ifdef _DEBUG

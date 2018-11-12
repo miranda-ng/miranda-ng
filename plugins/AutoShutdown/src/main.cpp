@@ -74,15 +74,14 @@ int CMPlugin::Load()
 	InitShutdownSvc();
 	InitWatcher(); /* before InitSettingsDlg() */
 	InitSettingsDlg();
-	InitOptions();
 
+	HookEvent(ME_OPT_INITIALISE, OptInit);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ShutdownModulesLoaded);
 	return 0;
 }
 
 int CMPlugin::Unload()
 {
-	UninitOptions();
 	UninitWatcher(); /* before UninitFrame() */
 	UninitFrame();
 	UninitShutdownSvc();

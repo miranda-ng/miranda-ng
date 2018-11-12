@@ -606,13 +606,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 	CreateServiceFunction(MS_AWAYSYS_SETSTATUSMODE, SetStatusMode);
 
 	HookEvent(ME_TTB_MODULELOADED, Create_TopToolbar);
-	HookEvent(ME_OPT_INITIALISE, OptsDlgInit);
-	HookEvent(ME_CLIST_STATUSMODECHANGE, StatusChanged);
 	HookEvent(ME_CS_STATUSCHANGEEX, CSStatusChange); // for compatibility with StartupStatus and AdvancedAutoAway
-	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, DBSettingChanged);
-	HookEvent(ME_DB_EVENT_FILTER_ADD, MsgEventAdded);
-	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PreBuildContactMenu);
-	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
 	HookEvent(ME_IDLE_CHANGED, IdleChangeEvent);
 	
 	g_hReadWndList = WindowList_Create();
@@ -703,6 +697,12 @@ int MirandaLoaded(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
+	HookEvent(ME_CLIST_STATUSMODECHANGE, StatusChanged);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PreBuildContactMenu);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, DBSettingChanged);
+	HookEvent(ME_DB_EVENT_FILTER_ADD, MsgEventAdded);
+	HookEvent(ME_OPT_INITIALISE, OptsDlgInit);
+	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
 	HookEvent(ME_SYSTEM_MODULESLOADED, MirandaLoaded);
 
 	g_plugin.registerIcon(MODULENAME, iconList, "nas");

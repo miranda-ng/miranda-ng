@@ -172,7 +172,6 @@ int CMPlugin::Load()
 
 	HookEvent(ME_OPT_INITIALISE, InitOptionsDlg);
 	HookEvent(ME_DB_EVENT_ADDED, DBUpdate);
-
 	return 0;
 }
 

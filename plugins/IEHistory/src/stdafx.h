@@ -53,7 +53,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "version.h"
 
 #include "utils.h"
-#include "events.h"
 #include "dlgHandlers.h"
 
 #define _strcat strcat_s

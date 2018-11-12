@@ -22,54 +22,21 @@ Boston, MA 02111-1307, USA.
 
 // Prototypes /////////////////////////////////////////////////////////////////////////////////////
 
-HANDLE hOptHook = nullptr;
-
-
 Options opts;
 
-static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-
-
-
 // Functions //////////////////////////////////////////////////////////////////////////////////////
-
 
 // Initializations needed by options
 void LoadOptions()
 {
-	opts.last_sent_enable = db_get_b(NULL, MODULENAME, "EnableLastSentTo", TRUE);
-	opts.last_sent_msg_type = db_get_w(NULL, MODULENAME, "MsgTypeRec", TYPE_GLOBAL);
-	opts.hide_from_offline_proto = db_get_b(NULL, MODULENAME, "HideOfflineFromOfflineProto", TRUE);
-	opts.group_append = db_get_b(NULL, MODULENAME, "AppendGroupName", FALSE);
-	opts.group_column = db_get_b(NULL, MODULENAME, "GroupColumn", FALSE);
-	opts.group_column_left = db_get_b(NULL, MODULENAME, "GroupColumnLeft", FALSE);
-	opts.hide_subcontacts = db_get_b(NULL, MODULENAME, "HideSubcontacts", TRUE);
-	opts.keep_subcontacts_from_offline = db_get_b(NULL, MODULENAME, "KeepSubcontactsFromOffline", TRUE);
-}
-
-int InitOptionsCallback(WPARAM wParam, LPARAM)
-{
-	OPTIONSDIALOGPAGE odp = {};
-	odp.szGroup.w = LPGENW("Contacts");
-	odp.szTitle.w = LPGENW("Quick Contacts");
-	odp.pfnDlgProc = OptionsDlgProc;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
-	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
-	g_plugin.addOptions(wParam, &odp);
-	return 0;
-}
-
-void InitOptions()
-{
-	LoadOptions();
-
-	hOptHook = HookEvent(ME_OPT_INITIALISE, InitOptionsCallback);
-}
-
-// Deinitializations needed by options
-void DeInitOptions()
-{
-	UnhookEvent(hOptHook);
+	opts.last_sent_enable = g_plugin.getByte("EnableLastSentTo", TRUE);
+	opts.last_sent_msg_type = g_plugin.getWord("MsgTypeRec", TYPE_GLOBAL);
+	opts.hide_from_offline_proto = g_plugin.getByte("HideOfflineFromOfflineProto", TRUE);
+	opts.group_append = g_plugin.getByte("AppendGroupName", FALSE);
+	opts.group_column = g_plugin.getByte("GroupColumn", FALSE);
+	opts.group_column_left = g_plugin.getByte("GroupColumnLeft", FALSE);
+	opts.hide_subcontacts = g_plugin.getByte("HideSubcontacts", TRUE);
+	opts.keep_subcontacts_from_offline = g_plugin.getByte("KeepSubcontactsFromOffline", TRUE);
 }
 
 // Options page
@@ -129,4 +96,16 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	}
 
 	return ret;
+}
+
+int InitOptionsCallback(WPARAM wParam, LPARAM)
+{
+	OPTIONSDIALOGPAGE odp = {};
+	odp.szGroup.w = LPGENW("Contacts");
+	odp.szTitle.w = LPGENW("Quick Contacts");
+	odp.pfnDlgProc = OptionsDlgProc;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
+	g_plugin.addOptions(wParam, &odp);
+	return 0;
 }

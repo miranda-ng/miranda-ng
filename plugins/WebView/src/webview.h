@@ -213,6 +213,7 @@ int  ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contact
 INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 int  DataDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL * urc);
+int OptInitialise(WPARAM, LPARAM);
 
 void Filter(char *truncated);
 void TxtclrLoop();

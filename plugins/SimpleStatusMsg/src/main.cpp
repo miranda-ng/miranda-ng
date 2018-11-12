@@ -1562,7 +1562,6 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 	RegisterHotkey();
 
-	HookEvent(ME_OPT_INITIALISE, InitOptions);
 	h_statusmodechange = HookEvent(ME_CLIST_STATUSMODECHANGE, ChangeStatusMessage);
 	HookEvent(ME_PROTO_ACK, ProcessProtoAck);
 	HookEvent(ME_IDLE_CHANGED, OnIdleChanged);
@@ -1676,6 +1675,8 @@ int CMPlugin::Load()
 	accounts = (PROTOACCOUNTS *)mir_alloc(sizeof(PROTOACCOUNTS));
 
 	db_set_w(NULL, "CList", "Status", (WORD)ID_STATUS_OFFLINE);
+
+	HookEvent(ME_OPT_INITIALISE, InitOptions);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccListChanged);
 

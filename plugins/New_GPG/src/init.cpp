@@ -16,6 +16,22 @@
 
 #include "stdafx.h"
 
+int GpgOptInit(WPARAM, LPARAM);
+int OnPreBuildContactMenu(WPARAM, LPARAM);
+
+INT_PTR RecvMsgSvc(WPARAM, LPARAM);
+INT_PTR SendMsgSvc(WPARAM, LPARAM);
+INT_PTR onSendFile(WPARAM, LPARAM);
+
+int HookSendMsg(WPARAM, LPARAM);
+int GetJabberInterface(WPARAM, LPARAM);
+int onProtoAck(WPARAM, LPARAM);
+int onWindowEvent(WPARAM, LPARAM);
+int onIconPressed(WPARAM, LPARAM);
+
+void InitCheck();
+void FirstRun();
+
 // global variables
 CMPlugin g_plugin;
 
@@ -88,21 +104,6 @@ void init_vars()
 
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
-	int GpgOptInit(WPARAM, LPARAM);
-	int OnPreBuildContactMenu(WPARAM, LPARAM);
-
-	INT_PTR RecvMsgSvc(WPARAM, LPARAM);
-	INT_PTR SendMsgSvc(WPARAM, LPARAM);
-	INT_PTR onSendFile(WPARAM, LPARAM);
-
-	int HookSendMsg(WPARAM, LPARAM);
-	int GetJabberInterface(WPARAM, LPARAM);
-	int onProtoAck(WPARAM, LPARAM);
-	int onWindowEvent(WPARAM, LPARAM);
-	int onIconPressed(WPARAM, LPARAM);
-
-	void InitCheck();
-	void FirstRun();
 	FirstRun();
 	if (!db_get_b(NULL, MODULENAME, "FirstRun", 1))
 		InitCheck();
@@ -120,17 +121,10 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	sid.szTooltip = LPGEN("GPG Turn on encryption");
 	Srmm_AddIcon(&sid, &g_plugin);
 
-	if (globals.bJabberAPI)
+	if (globals.bJabberAPI) {
 		GetJabberInterface(0, 0);
-
-	HookEvent(ME_OPT_INITIALISE, GpgOptInit);
-	HookEvent(ME_DB_EVENT_FILTER_ADD, HookSendMsg);
-	if (globals.bJabberAPI)
 		HookEvent(ME_PROTO_ACCLISTCHANGED, GetJabberInterface);
-
-	HookEvent(ME_PROTO_ACK, onProtoAck);
-
-	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPreBuildContactMenu);
+	}
 
 	HookEvent(ME_MSG_WINDOWEVENT, onWindowEvent);
 	HookEvent(ME_MSG_ICONPRESSED, onIconPressed);
@@ -146,6 +140,10 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPreBuildContactMenu);
+	HookEvent(ME_DB_EVENT_FILTER_ADD, HookSendMsg);
+	HookEvent(ME_OPT_INITIALISE, GpgOptInit);
+	HookEvent(ME_PROTO_ACK, onProtoAck);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
 	init_vars();

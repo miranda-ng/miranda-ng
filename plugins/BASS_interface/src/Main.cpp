@@ -549,7 +549,6 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 	LoadBassLibrary(CurrBassPath);
 
-	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 	HookEvent(ME_FOLDERS_PATH_CHANGED, OnFoldersChanged);
 	return 0;
 }
@@ -590,9 +589,10 @@ static IconItem iconList[] =
 
 int CMPlugin::Load()
 {
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnSettingChanged);
+	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
-	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnSettingChanged);
 
 	g_plugin.registerIcon(MODULENAME, iconList);
 	return 0;

@@ -36,6 +36,7 @@ CToxProto::CToxProto(const char* protoName, const wchar_t* userName)
 	CreateServiceFunction(MODULE "/GetEventIcon", &CToxProto::EventGetIcon);
 
 	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CToxProto::OnPrebuildContactMenu);
+	HookProtoEvent(ME_OPT_INITIALISE, &CToxProto::OnOptionsInit);
 	HookProtoEvent(ME_PROTO_ACCLISTCHANGED, &CToxProto::OnAccountRenamed);
 
 	m_hTimerQueue = CreateTimerQueue();
@@ -51,9 +52,8 @@ void CToxProto::OnModulesLoaded()
 {
 	Clist_GroupCreate(0, m_defaultGroup);
 
-	HookProtoEvent(ME_OPT_INITIALISE, &CToxProto::OnOptionsInit);
-	HookProtoEvent(ME_USERINFO_INITIALISE, &CToxProto::OnUserInfoInit);
 	HookProtoEvent(ME_MSG_PRECREATEEVENT, &CToxProto::OnPreCreateMessage);
+	HookProtoEvent(ME_USERINFO_INITIALISE, &CToxProto::OnUserInfoInit);
 
 	InitCustomDbEvents();
 }

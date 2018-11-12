@@ -13,7 +13,6 @@ There is no warranty.
 CMPlugin	g_plugin;
 
 UINT hTimer;
-HANDLE hMirandaStarted, hOptionsInitial;
 HNETLIBUSER hNetlibUser;
 NOTIFYICONDATA niData;
 optionSettings opt;
@@ -127,8 +126,8 @@ int CMPlugin::Load()
 		db_set_dw(it->hContact, MODULENAME, "Status", ID_STATUS_NONEW);
 
 	hTimer = SetTimer(nullptr, 0, opt.circleTime * 60000, TimerProc);
-	hMirandaStarted = HookEvent(ME_SYSTEM_MODULESLOADED, OnMirandaStart);
-	hOptionsInitial = HookEvent(ME_OPT_INITIALISE, OptInit);
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnMirandaStart);
+	HookEvent(ME_OPT_INITIALISE, OptInit);
 
 	CreateServiceFunction(MODULENAME "/MenuCommand", PluginMenuCommand);
 
@@ -159,8 +158,5 @@ int CMPlugin::Unload()
 	g_accs.destroy();
 
 	Netlib_CloseHandle(hNetlibUser);
-
-	UnhookEvent(hMirandaStarted);
-	UnhookEvent(hOptionsInitial);
 	return 0;
 }

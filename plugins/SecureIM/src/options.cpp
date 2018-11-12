@@ -1684,13 +1684,21 @@ BOOL LoadImportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
 	return TRUE;
 }
 
-int onRegisterOptions(WPARAM wParam, LPARAM)
+int onRegisterOptions(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = {};
+	odp.szTitle.a = MODULENAME;
+
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSTAB);
-	odp.szTitle.a = (char*)MODULENAME;
 	odp.szGroup.a = LPGEN("Services");
 	odp.pfnDlgProc = OptionsDlgProc;
 	g_plugin.addOptions(wParam, &odp);
+
+	if (bPopupExists) {
+		odp.pszTemplate = MAKEINTRESOURCE(IDD_POPUP);
+		odp.szGroup.a = LPGEN("Popups");
+		odp.pfnDlgProc = PopOptionsDlgProc;
+		g_plugin.addOptions(wParam, &odp);
+	}
 	return 0;
 }

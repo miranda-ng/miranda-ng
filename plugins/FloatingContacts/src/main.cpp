@@ -863,7 +863,6 @@ static int OnModulesLoded(WPARAM, LPARAM)
 	HookEvent(ME_CLUI_CONTACTDRAGSTOP, OnContactDragStop);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
 	HookEvent(ME_DB_CONTACT_DELETED, OnContactDeleted);
-	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialize);
 	HookEvent(ME_CLIST_STATUSMODECHANGE, OnStatusModeChange);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu);
 
@@ -922,6 +921,7 @@ int CMPlugin::Load()
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreshutdown);
+	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialize);
 	return 0;
 }
 

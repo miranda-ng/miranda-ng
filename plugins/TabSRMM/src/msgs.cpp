@@ -37,6 +37,7 @@ HMODULE g_hIconDLL = nullptr, g_hMsftedit;
 
 static void UnloadIcons();
 
+int OptInitialise(WPARAM wParam, LPARAM lParam);
 void Chat_AddIcons();
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1051,7 +1052,7 @@ int LoadSendRecvMessageModule(void)
 	Skin = new CSkin;
 	sendLater = new CSendLater;
 
-	InitOptions();
+	HookEvent(ME_OPT_INITIALISE, OptInitialise);
 
 	InitAPI();
 

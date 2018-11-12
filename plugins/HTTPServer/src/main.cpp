@@ -42,8 +42,8 @@ const char* pszDefaultShares[] = {
 	nullptr, nullptr
 };
 
-void ConnectionOpen(HANDLE hNewConnection, DWORD dwRemoteIP);
-int PreShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/);
+int OptionsInitialize(WPARAM, LPARAM);
+int PreShutdown(WPARAM, LPARAM);
 
 HNETLIBUSER hNetlibUser;
 HANDLE hDirectBoundPort;
@@ -74,7 +74,6 @@ int nMaxConnectionsPerUser = -1;
 int nDefaultDownloadLimit = -1;
 
 bool bIsOnline = true;
-static HANDLE hEventProtoAck = nullptr;
 
 bool bLimitOnlyWhenOnline = true;
 
@@ -330,7 +329,7 @@ bool bReadConfigurationFile()
 bool bWriteConfigurationFile()
 {
 	CLFileShareListAccess clCritSection;
-	char szBuf[1000], temp[200];
+	char szBuf[1000];
 	mir_strcpy(szBuf, szPluginPath);
 	mir_strcat(szBuf, szConfigFile);
 	HANDLE hFile = CreateFile(szBuf, GENERIC_WRITE, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
@@ -833,7 +832,8 @@ int CMPlugin::Load()
 			db_set_b(NULL, MODULENAME, "IndexCreationMode", (BYTE)indexCreationMode);
 		}
 
-	hEventProtoAck = HookEvent(ME_PROTO_ACK, nProtoAck);
+	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
+	HookEvent(ME_PROTO_ACK, nProtoAck);
 	return 0;
 }
 

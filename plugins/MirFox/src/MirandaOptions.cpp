@@ -667,8 +667,8 @@ INT_PTR CALLBACK DlgProcOpts_Tab3(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
  *
  * called from: options.cpp.InitOptions()
  */
-int OptInit(WPARAM wParam, LPARAM) {
-
+int OptInit(WPARAM wParam, LPARAM)
+{
 	OPTIONSDIALOGPAGE odp = {};
 	odp.position = -790000000;
 	odp.szTitle.a = LPGEN(PLUGIN_OPTIONS_NAME);
@@ -693,24 +693,4 @@ int OptInit(WPARAM wParam, LPARAM) {
 	odp.pfnDlgProc = DlgProcOpts_Tab3;
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
-}
-
-
-
-HANDLE hEventOptInit;
-
-/**
- *
- * called from: MirfoxMiranda.cpp.Load(PLUGINLINK *link)
- */
-void InitOptions() {
-	hEventOptInit = HookEvent(ME_OPT_INITIALISE, OptInit);
-}
-
-/**
- *
- * called from: MirfoxMiranda.cpp.Unload()
- */
-void DeinitOptions() {
-	UnhookEvent(hEventOptInit);
 }

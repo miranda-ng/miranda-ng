@@ -606,7 +606,6 @@ static int MirandaLoaded(WPARAM, LPARAM)
 	g_hWinHook = SetWinEventHook(EVENT_OBJECT_CREATE, EVENT_OBJECT_SHOW, nullptr, WinEventProc, GetCurrentProcessId(), 0, 0);
 
 	HookEvent(ME_TTB_MODULELOADED, TopToolbarInit);
-	HookEvent(ME_OPT_INITIALISE, OptsDlgInit);
 	HookEvent(ME_MSG_WINDOWEVENT, MsgWinOpening);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, EnumProtos);
 	HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
@@ -680,6 +679,7 @@ int CMPlugin::Load()
 	CreateServiceFunction(MS_BOSSKEY_HIDE, BossKeyHideMiranda); // Create service
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, MirandaLoaded);
+	HookEvent(ME_OPT_INITIALISE, OptsDlgInit);
 	return 0;
 }
 

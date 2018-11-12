@@ -244,6 +244,7 @@ int CMPlugin::Load()
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, DBSettingChanged);
 	HookEvent(ME_DB_CONTACT_DELETED, SiteDeleted);
+	HookEvent(ME_OPT_INITIALISE, OptInitialise);
 
 	db_set_b(NULL, MODULENAME, HAS_CRASHED_KEY, 1);
 	return 0;

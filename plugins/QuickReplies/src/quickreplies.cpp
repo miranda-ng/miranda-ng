@@ -46,5 +46,6 @@ CMPlugin::CMPlugin() :
 int CMPlugin::Load()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	HookEvent(ME_OPT_INITIALISE, OnOptInitialized);
 	return 0;
 }

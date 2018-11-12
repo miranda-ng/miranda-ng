@@ -38,7 +38,6 @@ MinecraftDynmapProto::MinecraftDynmapProto(const char* proto_name, const wchar_t
 
 	CreateProtoService(PS_CREATEACCMGRUI, &MinecraftDynmapProto::SvcCreateAccMgrUI);
 
-	// HookProtoEvent(ME_OPT_INITIALISE, &MinecraftDynmapProto::OnOptionsInit);
 	HookProtoEvent(ME_GC_EVENT, &MinecraftDynmapProto::OnChatEvent);
 
 	// Create standard network connection

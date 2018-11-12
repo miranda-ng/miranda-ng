@@ -6,7 +6,7 @@
 
 class CTooltip;
 
-class CTooltipNotify  
+class CTooltipNotify : public MNonCopyable
 {
 private:
 	struct STooltipData;
@@ -31,11 +31,6 @@ public:
 	int ProtoContactIsTyping(WPARAM wParam, LPARAM lParam);
 	
 	static CTooltipNotify *GetObjInstance() { return s_pInstance; }
-
-private:
-	// prohibit copying
-	CTooltipNotify(const CTooltipNotify& rhs);
-	CTooltipNotify& operator= (const CTooltipNotify& rhs);
 
 private:
 	static CTooltipNotify *s_pInstance;

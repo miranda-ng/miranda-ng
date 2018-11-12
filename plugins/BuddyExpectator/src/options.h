@@ -52,6 +52,4 @@ typedef struct {
 
 extern Options options;
 
-void InitOptions();
-
 #endif

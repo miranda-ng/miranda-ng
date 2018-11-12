@@ -243,7 +243,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 	return 0;
 }
 
-static int OnOptionsInitialize(WPARAM wParam, LPARAM)
+int OnOptionsInitialize(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 100000000;
@@ -254,9 +254,4 @@ static int OnOptionsInitialize(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = DlgProcOpts;
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
-}
-
-void InitOptions()
-{
-	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialize);
 }

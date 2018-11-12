@@ -114,7 +114,6 @@ void  TSAPI LoadIconTheme();
 
 int DbEventIsForMsgWindow(DBEVENTINFO *dbei);
 
-int   TSAPI InitOptions(void);
 int   TSAPI DbEventIsShown(DBEVENTINFO *dbei);
 
 // custom tab control

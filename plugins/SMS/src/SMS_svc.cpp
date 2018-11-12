@@ -18,12 +18,6 @@ int LoadServices(void)
 
 int LoadModules(void)
 {
-	HookEvent(ME_OPT_INITIALISE, OptInitialise);
-	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, SmsRebuildContactMenu);
-	HookEvent(ME_PROTO_ACK, handleAckSMS);
-	HookEvent(ME_DB_EVENT_ADDED, handleNewMessage);
-	HookEvent(ME_PROTO_ACCLISTCHANGED, RefreshAccountList);
-
 	char szServiceFunction[MAX_PATH];
 	mir_snprintf(szServiceFunction, "%s%s", MODULENAME, SMS_SEND);
 

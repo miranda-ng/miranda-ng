@@ -3,9 +3,6 @@
 // min allowed alpha (don't want 0 because it's a waste of resources as well as might confuse user)
 #define MIN_ALPHA 30
 
-extern HANDLE hkFontChange;
-extern HANDLE hkColorChange;
-
 BOOL g_CloseAfterAddReminder, g_UseDefaultPlaySound;
 HICON g_hReminderIcon = nullptr;
 
@@ -268,8 +265,8 @@ void RegisterFontServiceFonts()
 		g_plugin.addColor(&colorid);
 	}
 
-	hkFontChange = HookEvent(ME_FONT_RELOAD, FS_FontsChanged);
-	hkColorChange = HookEvent(ME_COLOUR_RELOAD, FS_ColorChanged);
+	HookEvent(ME_FONT_RELOAD, FS_FontsChanged);
+	HookEvent(ME_COLOUR_RELOAD, FS_ColorChanged);
 }
 
 void LoadNRFont(int i, LOGFONT *lf, COLORREF *colour)

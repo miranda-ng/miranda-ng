@@ -268,10 +268,10 @@ int CMPlugin::Load()
 	InitCommonControlsEx(&icex); 	
 	
 	InitIcons();
-	InitOptions();
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 	HookEvent(ME_DB_EVENT_ADDED, OnDatabaseEventAdd);
+	HookEvent(ME_OPT_INITIALISE, OptInit);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 
 	CreateServiceFunction(MS_NOHISTORY_TOGGLE, ServiceToggle);

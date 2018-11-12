@@ -258,7 +258,6 @@ static int CustomButtonPressed(WPARAM, LPARAM lParam)
 static int PluginInit(WPARAM, LPARAM)
 {
 	g_bStartup = 1;
-	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 	HookEvent(ME_MSG_BUTTONPRESSED, CustomButtonPressed);
 	HookEvent(ME_MSG_WINDOWPOPUP, InputMenuPopup);
 
@@ -279,5 +278,6 @@ int CMPlugin::Load()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, PluginInit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
+	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 	return 0;
 }

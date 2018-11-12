@@ -213,10 +213,6 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-	// Options initialize hook
-	HookEvent(ME_OPT_INITIALISE, OptInit);
-	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, PlugDisableHook);
-
 	// Service to call splash
 	CreateServiceFunction(MS_SHOWSPLASH, ShowSplashService);
 
@@ -230,10 +226,11 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 int CMPlugin::Load()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_OPT_INITIALISE, OptInit);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, PlugDisableHook);
 
 	SplashMain();
 	mir_free(szMirDir);
-
 	return 0;
 }
 

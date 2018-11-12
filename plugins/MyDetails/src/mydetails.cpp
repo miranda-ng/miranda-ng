@@ -131,14 +131,15 @@ static int MainUninit(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
+	g_plugin.registerIcon(LPGEN("My details"), iconList);
+
 	// Hook event to load messages and show first one
 	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, MainUninit);
+	HookEvent(ME_OPT_INITIALISE, InitOptionsCallback);
 
 	// Options
-	InitOptions();
-
-	g_plugin.registerIcon(LPGEN("My details"), iconList);
+	LoadOptions();
 
 	// Register services
 	CreateServiceFunction(MS_MYDETAILS_SETMYNICKNAME, PluginCommand_SetMyNickname);

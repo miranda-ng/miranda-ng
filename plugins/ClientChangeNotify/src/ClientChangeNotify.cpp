@@ -313,10 +313,6 @@ static int MirandaLoaded(WPARAM, LPARAM)
 	COptPage PopupOptPage(g_PopupOptPage);
 	PopupOptPage.DBToMem();
 	RecompileRegexps(*(TCString*)PopupOptPage.GetValue(IDC_POPUPOPTDLG_IGNORESTRINGS));
-	HookEvent(ME_OPT_INITIALISE, OptionsDlgInit);
-	HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);
-	HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);
-	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);
 
 	g_plugin.addSound(CLIENTCHANGED_SOUND, nullptr, LPGENW("ClientChangeNotify: Client changed"));
 
@@ -346,6 +342,10 @@ static int MirandaLoaded(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);
+	HookEvent(ME_OPT_INITIALISE, OptionsDlgInit);
+	HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);
+	HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);
 	HookEvent(ME_SYSTEM_MODULESLOADED, MirandaLoaded);
 
 	InitOptions();

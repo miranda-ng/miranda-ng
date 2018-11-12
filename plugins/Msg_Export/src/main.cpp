@@ -105,11 +105,6 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 	bReadMirandaDirAndPath();
 	UpdateFileToColWidth();
 
-	HookEvent(ME_DB_EVENT_ADDED, nExportEvent);
-	HookEvent(ME_DB_EVENT_EDITED, nExportEvent);
-	HookEvent(ME_DB_CONTACT_DELETED, nContactDeleted);
-	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
-
 	if (!g_bReplaceHistory) {
 		CMenuItem mi(&g_plugin);
 		SET_UID(mi, 0x701c543, 0xd078, 0x41dd, 0x95, 0xe3, 0x96, 0x49, 0x8a, 0x72, 0xc7, 0x50);
@@ -139,6 +134,10 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 
 int CMPlugin::Load()
 {
+	HookEvent(ME_DB_EVENT_ADDED, nExportEvent);
+	HookEvent(ME_DB_EVENT_EDITED, nExportEvent);
+	HookEvent(ME_DB_CONTACT_DELETED, nContactDeleted);
+	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
 
 	nMaxLineWidth = getWord("MaxLineWidth", nMaxLineWidth);

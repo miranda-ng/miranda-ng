@@ -49,7 +49,8 @@ int CMPlugin::Load()
 {
 	InitServices();
 	InitEvents();
-	InitOptions();
+
+	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialize);
 	return 0;
 }
 

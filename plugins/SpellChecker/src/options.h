@@ -50,8 +50,7 @@ struct Options
 
 extern Options opts;
 
-// Initializations needed by options
-void InitOptions();
+int InitOptionsCallback(WPARAM, LPARAM);
 
 // Loads the options from DB
 // It don't need to be called, except in some rare cases

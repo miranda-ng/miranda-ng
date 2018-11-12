@@ -911,10 +911,6 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	hThread = mir_forkthread(FlashThreadFunction);
 
-	HookEvent(ME_MC_ENABLED, OnMetaChanged);
-	HookEvent(ME_DB_EVENT_ADDED, PluginMessageEventHook);
-	HookEvent(ME_OPT_INITIALISE, InitializeOptions);
-
 	CreateServiceFunction(MS_KBDNOTIFY_ENABLE, EnableService);
 	CreateServiceFunction(MS_KBDNOTIFY_DISABLE, DisableService);
 	CreateServiceFunction(MS_KBDNOTIFY_STARTBLINK, StartBlinkService);
@@ -929,6 +925,9 @@ int CMPlugin::Load()
 	GetWindowsVersion();
 	OpenKeyboardDevice();
 
+	HookEvent(ME_MC_ENABLED, OnMetaChanged);
+	HookEvent(ME_DB_EVENT_ADDED, PluginMessageEventHook);
+	HookEvent(ME_OPT_INITIALISE, InitializeOptions);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreshutdown);
 	return 0;

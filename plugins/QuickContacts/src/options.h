@@ -43,17 +43,10 @@ extern Options opts;
 
 
 // Initializations needed by options
-void InitOptions();
-
-// Deinitializations needed by options
-void DeInitOptions();
-
+int InitOptionsCallback(WPARAM, LPARAM);
 
 // Loads the options from DB
 // It don't need to be called, except in some rare cases
 void LoadOptions();
-
-
-
 
 #endif // __OPTIONS_H__

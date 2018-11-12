@@ -22,31 +22,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "dlg_handlers.h"
 #include "hooked_events.h"
 
-HANDLE hModulesLoaded;
-HANDLE hOptionsInitialise;
-HANDLE hPreShutdown;
-
 UINT_PTR hCheckTimer = NULL;
 UINT_PTR hReconnectTimer = NULL;
 UINT_PTR hFirstCheckTimer = NULL;
 
 int HookEvents()
 {
-	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	hOptionsInitialise = HookEvent(ME_OPT_INITIALISE, OnOptionsInitialise);
-	hPreShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, OnSystemPreShutdown);
-	
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialise);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnSystemPreShutdown);
 	return 0;
 }
 
 int UnhookEvents()
 {
-	UnhookEvent(hModulesLoaded);
-	UnhookEvent(hOptionsInitialise);
-	UnhookEvent(hPreShutdown);
-	
 	KillTimers();
-	
 	return 0;
 }
 
@@ -63,9 +53,8 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	mi.name.w = LPGENW("Check exchange mailbox");
 	Menu_AddMainMenuItem(&mi);
 	
-	hEmailsDlg = nullptr; //CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EMAILS), NULL, DlgProcEmails); //create emails window
+	hEmailsDlg = nullptr;
 	FirstTimeCheck();	
-//	CheckEmail();
 	return 0;
 }
 

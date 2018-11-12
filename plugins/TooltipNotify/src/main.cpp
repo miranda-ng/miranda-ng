@@ -4,12 +4,6 @@
 
 #include "stdafx.h"
 
-static HANDLE g_hContactSettingChanged = nullptr;
-static HANDLE g_hOptionsInitialize = nullptr;
-static HANDLE g_hModulesLoaded = nullptr;
-static HANDLE g_hProtoAck = nullptr;
-static HANDLE g_hProtoContactIsTyping = nullptr;
-
 // Main global object
 static CTooltipNotify *g_pTooltipNotify = nullptr;
 
@@ -59,20 +53,19 @@ static int InitializeOptions(WPARAM wParam, LPARAM lParam)
 
 static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	g_hContactSettingChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);
-	g_hProtoAck = HookEvent(ME_PROTO_ACK, ProtoAck);
-	g_hProtoContactIsTyping = HookEvent(ME_PROTO_CONTACTISTYPING, ProtoContactIsTyping);
-	g_hOptionsInitialize = HookEvent(ME_OPT_INITIALISE, InitializeOptions);
-
 	return CTooltipNotify::GetObjInstance()->ModulesLoaded(wParam, lParam);
 }
 
 int CMPlugin::Load()
 {
 	g_pTooltipNotify = new CTooltipNotify();
-	assert(g_pTooltipNotify!=nullptr);
+	assert(g_pTooltipNotify != nullptr);
 	
-	g_hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);
+	HookEvent(ME_OPT_INITIALISE, InitializeOptions);
+	HookEvent(ME_PROTO_ACK, ProtoAck);
+	HookEvent(ME_PROTO_CONTACTISTYPING, ProtoContactIsTyping);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	return 0;
 }
 
@@ -80,12 +73,6 @@ int CMPlugin::Load()
 
 int CMPlugin::Unload()
 {
-	if (g_hContactSettingChanged) UnhookEvent(g_hContactSettingChanged);
-	if (g_hProtoContactIsTyping) UnhookEvent(g_hProtoContactIsTyping);
-	if (g_hProtoAck) UnhookEvent(g_hProtoAck);
-	if (g_hOptionsInitialize) UnhookEvent(g_hOptionsInitialize);
-	if (g_hModulesLoaded) UnhookEvent(g_hModulesLoaded);
 	delete g_pTooltipNotify;
-
 	return 0;
 }

@@ -86,7 +86,7 @@ int CMPlugin::Load()
 	mi.name.w = LPGENW("&System History");
 	Menu_AddMainMenuItem(&mi);
 
-	HookEvents();
+	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialize);
 	return 0;
 }
 

@@ -2120,17 +2120,8 @@ int OptInit(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-HANDLE hEventOptInit;
-
-void InitOptions()
-{
-	hEventOptInit = HookEvent(ME_OPT_INITIALISE, OptInit);
-}
-
 void DeinitOptions()
 {
-	UnhookEvent(hEventOptInit);
-
 	DIListNode *di_node = opt.diList;
 	while (opt.diList) {
 		di_node = opt.diList;

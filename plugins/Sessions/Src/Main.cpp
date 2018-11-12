@@ -745,7 +745,6 @@ static void CALLBACK LaunchSessions()
 static int PluginInit(WPARAM, LPARAM)
 {
 	HookEvent(ME_MSG_WINDOWEVENT, OnSrmmWindowEvent);
-	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 	HookEvent(ME_TTB_MODULELOADED, CreateButtons);
 
 	// Hotkeys
@@ -846,6 +845,7 @@ int CMPlugin::Load()
 	HookEvent(ME_SYSTEM_MODULESLOADED, PluginInit);
 	HookEvent(ME_SYSTEM_OKTOEXIT, OkToExit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, SessionPreShutdown);
+	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 
 	// Icons
 	g_plugin.registerIcon(MODULENAME, iconList);

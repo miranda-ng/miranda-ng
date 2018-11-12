@@ -24,10 +24,6 @@ Boston, MA 02111-1307, USA.
 
 CMPlugin g_plugin;
 
-HANDLE hModulesLoaded = nullptr;
-HANDLE hEventAdded = nullptr;
-HANDLE hHotkeyPressed = nullptr;
-
 INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam);
 void FreeContacts();
 
@@ -57,8 +53,6 @@ CMPlugin::CMPlugin() :
 
 static int ModulesLoaded(WPARAM, LPARAM)
 {
-	InitOptions();
-
 	// Get number of protocols
 	Proto_EnumAccounts(&opts.num_protos, nullptr);
 
@@ -139,22 +133,25 @@ static int EventAdded(WPARAM wparam, LPARAM hDbEvent)
 	DBEVENTINFO dbei = {};
 	db_event_get(hDbEvent, &dbei);
 	if (!(dbei.flags & DBEF_SENT) || (dbei.flags & DBEF_READ)
-		|| !db_get_b(NULL, MODULENAME, "EnableLastSentTo", 0)
-		|| db_get_w(NULL, MODULENAME, "MsgTypeRec", TYPE_GLOBAL) != TYPE_GLOBAL)
+		|| !g_plugin.getByte("EnableLastSentTo", 0)
+		|| g_plugin.getWord("MsgTypeRec", TYPE_GLOBAL) != TYPE_GLOBAL)
 		return 0;
 
-	db_set_dw(NULL, MODULENAME, "LastSentTo", (UINT_PTR)wparam);
+	g_plugin.setDword("LastSentTo", (UINT_PTR)wparam);
 	return 0;
 }
 
 int CMPlugin::Load()
 {
+	LoadOptions();
+
+	// services
 	CreateServiceFunction(MS_QC_SHOW_DIALOG, ShowDialog);
 
 	// hooks
-	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	hEventAdded = HookEvent(ME_DB_EVENT_ADDED, EventAdded);
-
+	HookEvent(ME_DB_EVENT_ADDED, EventAdded);
+	HookEvent(ME_OPT_INITIALISE, InitOptionsCallback);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	return 0;
 }
 
@@ -163,10 +160,5 @@ int CMPlugin::Load()
 int CMPlugin::Unload()
 {
 	FreeContacts();
-
-	DeInitOptions();
-
-	UnhookEvent(hModulesLoaded);
-	UnhookEvent(hEventAdded);
 	return 0;
 }

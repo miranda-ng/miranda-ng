@@ -1278,5 +1278,3 @@ static int Openfile(wchar_t *outputFile, int selection)
 	mir_wstrcpy(outputFile, filename);
 	return 1;
 }
-
-////////////////////////////////////////////////////////////////////////////////

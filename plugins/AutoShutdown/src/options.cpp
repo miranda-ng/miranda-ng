@@ -21,11 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-/* Option Page */
-static HANDLE hHookOptInit;
-/* Trigger */
-static HANDLE hHookModulesLoaded;
-
 /************************* Option Page ********************************/
 
 #define M_ENABLE_SUBCTLS  (WM_APP+111)
@@ -103,7 +98,7 @@ static INT_PTR CALLBACK ShutdownOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 	return FALSE;
 }
 
-static int ShutdownOptInit(WPARAM wParam, LPARAM)
+int OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SHUTDOWN);
@@ -115,20 +110,4 @@ static int ShutdownOptInit(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = ShutdownOptDlgProc;
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
-}
-
-/************************* Misc ***************************************/
-
-void InitOptions(void)
-{
-	/* Option Page */
-	hHookOptInit = HookEvent(ME_OPT_INITIALISE, ShutdownOptInit);
-}
-
-void UninitOptions(void)
-{
-	/* Option Page */
-	UnhookEvent(hHookOptInit);
-	/* Trigger */
-	UnhookEvent(hHookModulesLoaded);
 }

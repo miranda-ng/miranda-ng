@@ -583,7 +583,7 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int OptInitialise(WPARAM wParam, LPARAM)
+int OptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 910000000;
@@ -608,9 +608,4 @@ static int OptInitialise(WPARAM wParam, LPARAM)
 
 	ChatOptionsInitialize(wParam);
 	return 0;
-}
-
-void InitOptions(void)
-{
-	HookEvent(ME_OPT_INITIALISE, OptInitialise);
 }

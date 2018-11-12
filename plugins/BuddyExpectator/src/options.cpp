@@ -426,10 +426,10 @@ static INT_PTR CALLBACK PopupOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 	return 0;
 }
 
-/**
- * Init options panel
- */
-static int OptionsInit(WPARAM wParam, LPARAM)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Init options
+
+int OptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.szGroup.w = LPGENW("Contacts");
@@ -448,6 +448,9 @@ static int OptionsInit(WPARAM wParam, LPARAM)
 
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// UserInfo initalization
 
 INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 {
@@ -534,11 +537,4 @@ int UserinfoInit(WPARAM wparam, LPARAM lparam)
 		g_plugin.addUserInfo(wparam, &uip);
 	}
 	return 0;
-}
-
-
-void InitOptions()
-{
-	LoadOptions();
-	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 }

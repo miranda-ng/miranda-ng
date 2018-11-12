@@ -88,7 +88,6 @@ int CMPlugin::Load()
 	HookEvent(ME_OPT_INITIALISE, OptInit);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
-
 	return 0;
 }
 

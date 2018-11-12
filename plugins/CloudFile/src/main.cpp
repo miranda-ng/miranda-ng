@@ -29,6 +29,10 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 int CMPlugin::Load()
 {
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu);
+	HookEvent(ME_MSG_WINDOWEVENT, OnSrmmWindowOpened);
+	HookEvent(ME_MSG_BUTTONPRESSED, OnSrmmButtonPressed);
+	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialized);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
 	InitializeIcons();

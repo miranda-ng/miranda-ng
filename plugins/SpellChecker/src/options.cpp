@@ -73,13 +73,6 @@ int InitOptionsCallback(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-void InitOptions()
-{
-	LoadOptions();
-
-	HookEvent(ME_OPT_INITIALISE, InitOptionsCallback);
-}
-
 void LoadOptions()
 {
 	LoadOpts(optionsControls, _countof(optionsControls), MODULENAME);

@@ -121,8 +121,6 @@ VOID fill_filter(void)
 
 int onModulesLoaded(WPARAM, LPARAM)
 {
-	HookEvent(ME_OPT_INITIALISE, onOptInitialise);
-
 	fill_filter();
 
 	// Set initial value for all contacts
@@ -153,11 +151,11 @@ int CMPlugin::Load()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
+	HookEvent(ME_OPT_INITIALISE, onOptInitialise);
 
 	//IcoLib support
 	g_plugin.registerIcon(LPGEN("Ignore State"), iconList);
 
 	hExtraIcon = ExtraIcon_RegisterIcolib("ignore", LPGEN("Ignore State"), "ignore_full");
-
 	return 0;
 }

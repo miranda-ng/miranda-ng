@@ -1,6 +1,5 @@
 #include "stdafx.h"
 
-HANDLE hOptInitialize, hModulesLoaded, hDBContactAdded, hDBEventAdded, hDBEventFilterAdd;
 time_t last_queue_check = 0;
 
 CMPlugin g_plugin;
@@ -27,12 +26,6 @@ CMPlugin::CMPlugin() :
 /////////////////////////////////////////////////////////////////////////////////////////
 
 extern int OnOptInitialize(WPARAM wParam, LPARAM lParam);
-
-int OnModulesLoaded(WPARAM, LPARAM)
-{
-	hOptInitialize = HookEvent(ME_OPT_INITIALISE, OnOptInitialize);
-	return 0;
-}
 
 int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 {
@@ -515,8 +508,8 @@ int CMPlugin::Load()
 		}
 	}
 
-	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	hDBEventFilterAdd = HookEvent(ME_DB_EVENT_FILTER_ADD, OnDBEventFilterAdd);
+	HookEvent(ME_DB_EVENT_FILTER_ADD, OnDBEventFilterAdd);
+	HookEvent(ME_OPT_INITIALISE, OnOptInitialize);
 	return 0;
 }
 
@@ -525,10 +518,5 @@ int CMPlugin::Load()
 int CMPlugin::Unload()
 {
 	RemoveNotOnListSettings();
-	UnhookEvent(hOptInitialize);
-	UnhookEvent(hModulesLoaded);
-	UnhookEvent(hDBContactAdded);
-	UnhookEvent(hDBEventAdded);
-	UnhookEvent(hDBEventFilterAdd);
 	return 0;
 }

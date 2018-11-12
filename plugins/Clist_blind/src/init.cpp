@@ -138,9 +138,9 @@ int CMPlugin::Load()
 
 	CreateServiceFunction(MS_CLIST_GETSTATUSMODE, GetStatusMode);
 
-	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccountsChanged);
 	HookEvent(ME_OPT_INITIALISE, OnOptsInit);
+	HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccountsChanged);
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
 	InitCustomMenus();
 	return 0;

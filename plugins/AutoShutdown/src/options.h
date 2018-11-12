@@ -22,5 +22,4 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #pragma once
 
 /* Misc */
-void InitOptions(void);
-void UninitOptions(void);
+int OptInit(WPARAM, LPARAM);

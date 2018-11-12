@@ -3,8 +3,6 @@
 
 #include "MirandaInterface.h"
 
-void InitOptions();
-
-void DeinitOptions();
+int OptInit(WPARAM, LPARAM);
 
 #endif //#ifndef _MIRANDA_OPTIONS_INC

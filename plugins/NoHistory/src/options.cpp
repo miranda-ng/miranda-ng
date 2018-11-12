@@ -229,8 +229,3 @@ int OptInit(WPARAM wParam, LPARAM)
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
-
-void InitOptions()
-{
-	HookEvent(ME_OPT_INITIALISE, OptInit);
-}

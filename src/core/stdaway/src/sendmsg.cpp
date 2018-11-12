@@ -540,9 +540,6 @@ static int AwayMsgSendAccountsChanged(WPARAM, LPARAM)
 static int AwayMsgSendModulesLoaded(WPARAM, LPARAM)
 {
 	AwayMsgSendAccountsChanged(0, 0);
-
-	HookEvent(ME_CLIST_STATUSMODECHANGE, StatusModeChange);
-	HookEvent(ME_OPT_INITIALISE, AwayMsgOptInitialise);
 	return 0;
 }
 
@@ -554,8 +551,10 @@ static INT_PTR sttGetAwayMessageT(WPARAM wParam, LPARAM lParam)
 
 int LoadAwayMessageSending(void)
 {
-	HookEvent(ME_SYSTEM_MODULESLOADED, AwayMsgSendModulesLoaded);
+	HookEvent(ME_CLIST_STATUSMODECHANGE, StatusModeChange);
+	HookEvent(ME_OPT_INITIALISE, AwayMsgOptInitialise);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, AwayMsgSendAccountsChanged);
+	HookEvent(ME_SYSTEM_MODULESLOADED, AwayMsgSendModulesLoaded);
 
 	CreateServiceFunction(MS_AWAYMSG_GETSTATUSMSGW, sttGetAwayMessageT);
 	return 0;

@@ -1024,7 +1024,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 * @retval	MIR_OK
 **/
 
-static int OnInitOptions(WPARAM wParam, LPARAM)
+int OnInitOptions(WPARAM wParam, LPARAM)
 {
 	DlgContactInfoInitTreeIcons();
 
@@ -1071,17 +1071,4 @@ static int OnInitOptions(WPARAM wParam, LPARAM)
 		g_plugin.addOptions(wParam, &odp);
 	}
 	return MIR_OK;
-}
-
-/**
-* This function loads the options module.
-*
-* @param	none
-*
-* @retval	nothing
-**/
-
-void OptionsLoadModule()
-{
-	HookEvent(ME_OPT_INITIALISE, OnInitOptions);
 }

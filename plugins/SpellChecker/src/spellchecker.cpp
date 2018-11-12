@@ -118,8 +118,6 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	}
 	else flagsDllFolder = Utils_ReplaceVarsW(FLAGS_DLL_FOLDER);
 
-	InitOptions();
-
 	GetAvaibleDictionaries(languages, dictionariesFolder, customDictionariesFolder);
 
 	LoadOptions();
@@ -231,6 +229,9 @@ int CMPlugin::Load()
 	// hooks
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
+	HookEvent(ME_OPT_INITIALISE, InitOptionsCallback);
+
+	LoadOptions();
 
 	CreateServiceFunction(MS_SPELLCHECKER_ADD_RICHEDIT, AddContactTextBoxService);
 	CreateServiceFunction(MS_SPELLCHECKER_REMOVE_RICHEDIT, RemoveContactTextBoxService);

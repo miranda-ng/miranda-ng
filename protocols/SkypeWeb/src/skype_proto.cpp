@@ -45,6 +45,9 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 	CreateProtoService("/IncomingCallCLE", &CSkypeProto::OnIncomingCallCLE);
 	CreateProtoService("/IncomingCallPP", &CSkypeProto::OnIncomingCallPP);
 
+	HookProtoEvent(ME_OPT_INITIALISE, &CSkypeProto::OnOptionsInit);
+	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CSkypeProto::OnDbEventRead);
+
 	m_tszAvatarFolder = std::wstring(VARSW(L"%miranda_avatarcache%")) + L"\\" + m_tszUserName;
 	DWORD dwAttributes = GetFileAttributes(m_tszAvatarFolder.c_str());
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
@@ -85,9 +88,7 @@ void CSkypeProto::OnModulesLoaded()
 {
 	setAllContactStatuses(ID_STATUS_OFFLINE, true);
 
-	HookProtoEvent(ME_OPT_INITIALISE, &CSkypeProto::OnOptionsInit);
 	HookProtoEvent(ME_MSG_PRECREATEEVENT, &CSkypeProto::OnPreCreateMessage);
-	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CSkypeProto::OnDbEventRead);
 
 	InitDBEvents();
 	InitPopups();

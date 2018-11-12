@@ -288,7 +288,7 @@ void CALLBACK Countdownfunc(HWND, UINT, UINT_PTR, DWORD)
 
 /*****************************************************************************/
 
-static int OptInitialise(WPARAM wParam, LPARAM)
+int OptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
@@ -330,8 +330,6 @@ void FontSettings(void)
 /*****************************************************************************/
 int ModulesLoaded(WPARAM, LPARAM)
 {
-	HookEvent(ME_OPT_INITIALISE, OptInitialise);
-
 	hHookDisplayDataAlert = CreateHookableEvent(ME_DISPLAYDATA_ALERT);
 	HookEvent(ME_DISPLAYDATA_ALERT, DataWndAlertCommand);
 

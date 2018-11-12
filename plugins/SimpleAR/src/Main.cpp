@@ -260,7 +260,7 @@ int CMPlugin::Load()
 	mi.pszService = MODULENAME"/ToggleAutoanswer";
 	hToggle = Menu_AddContactMenuItem(&mi);
 
-	//add hook
+	// add hook
 	HookEvent(ME_OPT_INITIALISE, OptInit);
 	HookEvent(ME_DB_EVENT_ADDED, addEvent);
 	HookEvent(ME_SYSTEM_MODULESLOADED, CheckDefaults);

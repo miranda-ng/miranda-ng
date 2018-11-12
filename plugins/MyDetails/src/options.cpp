@@ -171,10 +171,3 @@ int InitOptionsCallback(WPARAM wParam, LPARAM)
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
-
-void InitOptions()
-{
-	LoadOptions();
-
-	HookEvent(ME_OPT_INITIALISE, InitOptionsCallback);
-}

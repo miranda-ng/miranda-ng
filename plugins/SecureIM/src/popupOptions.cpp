@@ -1,5 +1,26 @@
 #include "commonheaders.h"
 
+static void RefreshPopupOptionsDlg(HWND hec, HWND hdc, HWND hss, HWND hsr, HWND hks, HWND hkr)
+{
+	// ec checkbox
+	SendMessage(hec, BM_SETCHECK, db_get_b(0, MODULENAME, "ec", 1), 0L);
+
+	// dc checkbox
+	SendMessage(hdc, BM_SETCHECK, db_get_b(0, MODULENAME, "dc", 1), 0L);
+
+	// ks checkbox
+	SendMessage(hks, BM_SETCHECK, db_get_b(0, MODULENAME, "ks", 1), 0L);
+
+	// kr checkbox
+	SendMessage(hkr, BM_SETCHECK, db_get_b(0, MODULENAME, "kr", 1), 0L);
+
+	//ss checkbox
+	SendMessage(hss, BM_SETCHECK, db_get_b(0, MODULENAME, "ss", 0), 0L);
+
+	//sr checkbox
+	SendMessage(hsr, BM_SETCHECK, db_get_b(0, MODULENAME, "sr", 0), 0L);
+}
+
 INT_PTR CALLBACK PopOptionsDlgProc(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM lParam)
 {
 	char getTimeout[5];
@@ -136,38 +157,4 @@ INT_PTR CALLBACK PopOptionsDlgProc(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 		return FALSE;
 	}
 	return TRUE;
-}
-
-void RefreshPopupOptionsDlg(HWND hec, HWND hdc, HWND hss, HWND hsr, HWND hks, HWND hkr)
-{
-	// ec checkbox
-	SendMessage(hec, BM_SETCHECK, db_get_b(0, MODULENAME, "ec", 1), 0L);
-
-	// dc checkbox
-	SendMessage(hdc, BM_SETCHECK, db_get_b(0, MODULENAME, "dc", 1), 0L);
-
-	// ks checkbox
-	SendMessage(hks, BM_SETCHECK, db_get_b(0, MODULENAME, "ks", 1), 0L);
-
-	// kr checkbox
-	SendMessage(hkr, BM_SETCHECK, db_get_b(0, MODULENAME, "kr", 1), 0L);
-
-	//ss checkbox
-	SendMessage(hss, BM_SETCHECK, db_get_b(0, MODULENAME, "ss", 0), 0L);
-
-	//sr checkbox
-	SendMessage(hsr, BM_SETCHECK, db_get_b(0, MODULENAME, "sr", 0), 0L);
-}
-
-int onRegisterPopOptions(WPARAM wParam, LPARAM)
-{
-	if (bPopupExists) {
-		OPTIONSDIALOGPAGE odp = {};
-		odp.pszTemplate = MAKEINTRESOURCE(IDD_POPUP);
-		odp.szTitle.a = (char*)MODULENAME;
-		odp.szGroup.a = LPGEN("Popups");
-		odp.pfnDlgProc = PopOptionsDlgProc;
-		g_plugin.addOptions(wParam, &odp);
-	}
-	return 0;
 }

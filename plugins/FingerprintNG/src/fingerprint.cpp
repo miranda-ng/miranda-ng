@@ -887,8 +887,6 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 	//Hook necessary events
 	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconsChanged);
-	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
-	HookEvent(ME_OPT_INITIALISE, OnOptInitialise);
 	HookEvent(ME_MSG_WINDOWEVENT, OnSrmmWindowEvent);
 
 	HookEvent(ME_MC_DEFAULTTCHANGED, OnExtraImageApply);
@@ -911,6 +909,8 @@ int OnModulesLoaded(WPARAM, LPARAM)
 void InitFingerModule()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	HookEvent(ME_OPT_INITIALISE, OnOptInitialise);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
 
 	CreateServiceFunction(MS_FP_SAMECLIENTSW, ServiceSameClientsW);
 	CreateServiceFunction(MS_FP_GETCLIENTDESCRW, ServiceGetClientDescrW);

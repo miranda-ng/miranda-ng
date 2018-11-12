@@ -62,6 +62,7 @@ GaduProto::GaduProto(const char *pszProtoName, const wchar_t *tszUserName) :
 	CreateProtoService(PS_LEAVECHAT, &GaduProto::leavechat);
 
 	HookProtoEvent(ME_DB_CONTACT_SETTINGCHANGED, &GaduProto::dbsettingchanged);
+	HookProtoEvent(ME_OPT_INITIALISE, &GaduProto::options_init);
 
 	// Offline contacts and clear logon time
 	setalloffline();
@@ -704,7 +705,6 @@ int GaduProto::UserIsTyping(MCONTACT hContact, int type)
 
 void GaduProto::OnModulesLoaded()
 {
-	HookProtoEvent(ME_OPT_INITIALISE, &GaduProto::options_init);
 	HookProtoEvent(ME_USERINFO_INITIALISE, &GaduProto::details_init);
 
 	// Init misc stuff

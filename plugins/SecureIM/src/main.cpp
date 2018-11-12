@@ -206,11 +206,6 @@ static int onModulesLoaded(WPARAM, LPARAM)
 		g_IEC[i] = (HANDLE)-1;
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, onRebuildContactMenu);
-
-	// hook init options
-	HookEvent(ME_OPT_INITIALISE, onRegisterOptions);
-	if (bPopupExists)
-		HookEvent(ME_OPT_INITIALISE, onRegisterPopOptions);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
 	HookEvent(ME_DB_CONTACT_ADDED, onContactAdded);
 	HookEvent(ME_DB_CONTACT_DELETED, onContactDeleted);
@@ -323,6 +318,7 @@ int CMPlugin::Load(void)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, onShutdown);
 	HookEvent(ME_SYSTEM_MODULELOAD, onModuleLoad);
 	HookEvent(ME_SYSTEM_MODULEUNLOAD, onModuleLoad);
+	HookEvent(ME_OPT_INITIALISE, onRegisterOptions);
 
 	g_hEvent[0] = CreateHookableEvent(MODULENAME"/Disabled");
 	g_hEvent[1] = CreateHookableEvent(MODULENAME"/Established");

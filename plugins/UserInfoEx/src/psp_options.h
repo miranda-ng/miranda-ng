@@ -31,5 +31,6 @@ struct MenuOptionsList
 	int idEXIMPORT;
 };
 
-void OptionsLoadModule();
+int OnInitOptions(WPARAM, LPARAM);
+
 #endif /* _UINFOEX_OPTIONS_H_INCLUDED_ */

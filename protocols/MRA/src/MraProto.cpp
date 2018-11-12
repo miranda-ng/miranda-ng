@@ -32,6 +32,10 @@ CMraProto::CMraProto(const char* _module, const wchar_t* _displayName) :
 	CreateProtoService(PS_SEND_NUDGE, &CMraProto::MraSendNudge);
 	CreateProtoService(PS_GETUNREADEMAILCOUNT, &CMraProto::GetUnreadEmailCount);
 
+	HookProtoEvent(ME_OPT_INITIALISE, &CMraProto::OnOptionsInit);
+	HookProtoEvent(ME_DB_CONTACT_DELETED, &CMraProto::MraContactDeleted);
+	HookProtoEvent(ME_DB_CONTACT_SETTINGCHANGED, &CMraProto::MraDbSettingChanged);
+
 	m_heNudgeReceived = CreateProtoEvent(PE_NUDGE);
 
 	wchar_t name[MAX_PATH];
@@ -80,9 +84,6 @@ INT_PTR CMraProto::MraCreateAccMgrUI(WPARAM, LPARAM lParam)
 void CMraProto::OnModulesLoaded()
 {
 	HookProtoEvent(ME_CLIST_EXTRA_IMAGE_APPLY, &CMraProto::MraExtraIconsApply);
-	HookProtoEvent(ME_OPT_INITIALISE, &CMraProto::OnOptionsInit);
-	HookProtoEvent(ME_DB_CONTACT_DELETED, &CMraProto::MraContactDeleted);
-	HookProtoEvent(ME_DB_CONTACT_SETTINGCHANGED, &CMraProto::MraDbSettingChanged);
 	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CMraProto::MraRebuildContactMenu);
 	HookProtoEvent(ME_WAT_NEWSTATUS, &CMraProto::MraMusicChanged);
 	HookProtoEvent(ME_CLIST_GROUPCHANGE, &CMraProto::OnGroupChanged);

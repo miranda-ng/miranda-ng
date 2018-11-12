@@ -357,9 +357,6 @@ static int EventModulesLoaded(WPARAM, LPARAM)
 	g_pSettings = new SettingsSerializer(con::ModHistoryStats);
 	g_pSettings->readFromDB();
 
-	// integrate into options dialog
-	HookEvent(ME_OPT_INITIALISE, EventOptInitialise);
-
 	// integrate with icolib
 	IconLib::init();
 	IconLib::registerCallback(MenuIconsChanged, 0);
@@ -424,9 +421,9 @@ int CMPlugin::Load()
 	CreateServiceFunction(MS_HISTORYSTATS_ISEXCLUDED, SvcIsExcluded);
 	CreateServiceFunction(MS_HISTORYSTATS_SETEXCLUDE, SvcSetExclude);
 
-	// hook "modules loaded" to perform further initialization
+	// hooks
+	HookEvent(ME_OPT_INITIALISE, EventOptInitialise);
 	HookEvent(ME_SYSTEM_MODULESLOADED, EventModulesLoaded);
-
 	return 0;
 }
 
