@@ -294,13 +294,13 @@ static char* CreateRTFHeader()
 	else
 		colour = GetSysColor(COLOR_HOTLIGHT);
 	buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
-	colour = db_get_dw(0, SRMM_MODULE, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR);
+	colour = g_plugin.getDword(SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR);
 	buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
-	colour = db_get_dw(0, SRMM_MODULE, SRMSGSET_INCOMINGBKGCOLOUR, SRMSGDEFSET_INCOMINGBKGCOLOUR);
+	colour = g_plugin.getDword(SRMSGSET_INCOMINGBKGCOLOUR, SRMSGDEFSET_INCOMINGBKGCOLOUR);
 	buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
-	colour = db_get_dw(0, SRMM_MODULE, SRMSGSET_OUTGOINGBKGCOLOUR, SRMSGDEFSET_OUTGOINGBKGCOLOUR);
+	colour = g_plugin.getDword(SRMSGSET_OUTGOINGBKGCOLOUR, SRMSGDEFSET_OUTGOINGBKGCOLOUR);
 	buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
-	colour = db_get_dw(0, SRMM_MODULE, SRMSGSET_LINECOLOUR, SRMSGDEFSET_LINECOLOUR);
+	colour = g_plugin.getDword(SRMSGSET_LINECOLOUR, SRMSGDEFSET_LINECOLOUR);
 	buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
 	buf.Append("}");
 	return buf.Detach();
@@ -847,9 +847,9 @@ void LoadMsgLogIcons(void)
 	RECT rc;
 
 	g_hImageList = ImageList_Create(10, 10, ILC_COLOR32 | ILC_MASK, _countof(pLogIconBmpBits), 0);
-	HBRUSH hBkgBrush = CreateSolidBrush(db_get_dw(0, SRMM_MODULE, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR));
-	HBRUSH hInBkgBrush = CreateSolidBrush(db_get_dw(0, SRMM_MODULE, SRMSGSET_INCOMINGBKGCOLOUR, SRMSGDEFSET_INCOMINGBKGCOLOUR));
-	HBRUSH hOutBkgBrush = CreateSolidBrush(db_get_dw(0, SRMM_MODULE, SRMSGSET_OUTGOINGBKGCOLOUR, SRMSGDEFSET_OUTGOINGBKGCOLOUR));
+	HBRUSH hBkgBrush = CreateSolidBrush(g_plugin.getDword(SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR));
+	HBRUSH hInBkgBrush = CreateSolidBrush(g_plugin.getDword(SRMSGSET_INCOMINGBKGCOLOUR, SRMSGDEFSET_INCOMINGBKGCOLOUR));
+	HBRUSH hOutBkgBrush = CreateSolidBrush(g_plugin.getDword(SRMSGSET_OUTGOINGBKGCOLOUR, SRMSGDEFSET_OUTGOINGBKGCOLOUR));
 
 	BITMAPINFOHEADER bih = { sizeof(bih) };
 	bih.biBitCount = 24;

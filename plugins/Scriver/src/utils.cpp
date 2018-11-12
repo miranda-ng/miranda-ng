@@ -337,7 +337,7 @@ void SetButtonsPos(HWND hwndDlg, MCONTACT hContact, bool bShow)
 	pt.y -= 20;
 
 	int iLeftX = 2, iRightX = rc.right - rc.left - 2;
-	int iGap = db_get_b(0, SRMM_MODULE, "ButtonsBarGap", 1);
+	int iGap = g_plugin.getByte("ButtonsBarGap", 1);
 
 	CustomButtonData *cbd;
 	for (int i = 0; cbd = Srmm_GetNthButton(i); i++) {

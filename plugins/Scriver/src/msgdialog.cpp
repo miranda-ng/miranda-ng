@@ -196,7 +196,7 @@ bool CSrmmWindow::OnInitDialog()
 	m_lastEventTime = time(0);
 	m_startTime = time(0);
 
-	m_bUseRtl = db_get_b(m_hContact, SRMM_MODULE, "UseRTL", 0) != 0;
+	m_bUseRtl = g_plugin.getByte(m_hContact, "UseRTL", 0) != 0;
 	m_bUseIEView = g_dat.ieviewInstalled ? (g_dat.flags & SMF_USEIEVIEW) != 0 : false;
 
 	PARAFORMAT2 pf2;
@@ -289,7 +289,7 @@ bool CSrmmWindow::OnInitDialog()
 
 	bool notifyUnread = false;
 	if (m_hContact) {
-		int historyMode = db_get_b(0, SRMM_MODULE, SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY);
+		int historyMode = g_plugin.getByte(SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY);
 		// This finds the first message to display, it works like shit
 		m_hDbEventFirst = db_event_firstUnread(m_hContact);
 		if (m_hDbEventFirst != 0) {
@@ -303,7 +303,7 @@ bool CSrmmWindow::OnInitDialog()
 		MEVENT hPrevEvent;
 		switch (historyMode) {
 		case LOADHISTORY_COUNT:
-			for (int i = db_get_w(0, SRMM_MODULE, SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT); i > 0; i--) {
+			for (int i = g_plugin.getWord(SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT); i > 0; i--) {
 				if (m_hDbEventFirst == 0)
 					hPrevEvent = db_event_last(m_hContact);
 				else
@@ -327,7 +327,7 @@ bool CSrmmWindow::OnInitDialog()
 				db_event_get(m_hDbEventFirst, &dbei);
 				hPrevEvent = db_event_prev(m_hContact, m_hDbEventFirst);
 			}
-			DWORD firstTime = dbei.timestamp - 60 * db_get_w(0, SRMM_MODULE, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME);
+			DWORD firstTime = dbei.timestamp - 60 * g_plugin.getWord(SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME);
 			for (;;) {
 				if (hPrevEvent == 0)
 					break;
@@ -408,7 +408,7 @@ void CSrmmWindow::OnDestroy()
 	if (hFont != nullptr && hFont != (HFONT)m_btnOk.SendMsg(WM_GETFONT, 0, 0))
 		DeleteObject(hFont);
 
-	db_set_b(m_hContact, SRMM_MODULE, "UseRTL", m_bUseRtl);
+	g_plugin.setByte(m_hContact, "UseRTL", m_bUseRtl);
 	if (m_hContact && (g_dat.flags & SMF_DELTEMP)) {
 		m_hContact = INVALID_CONTACT_ID; // to prevent recursion
 
@@ -469,7 +469,7 @@ void CSrmmWindow::onClick_Ok(CCtrlButton *pButton)
 
 	m_message.SetText(L"");
 	EnableWindow(GetDlgItem(m_hwnd, IDOK), FALSE);
-	if (db_get_b(0, SRMM_MODULE, SRMSGSET_AUTOMIN, SRMSGDEFSET_AUTOMIN))
+	if (g_plugin.getByte(SRMSGSET_AUTOMIN, SRMSGDEFSET_AUTOMIN))
 		ShowWindow(m_hwndParent, SW_MINIMIZE);
 
 	if (pButton == nullptr)
@@ -620,7 +620,7 @@ bool CSrmmWindow::IsTypingNotificationSupported()
 
 bool CSrmmWindow::IsTypingNotificationEnabled()
 {
-	if (!db_get_b(m_hContact, SRMM_MODULE, SRMSGSET_TYPING, db_get_b(0, SRMM_MODULE, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)))
+	if (!g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)))
 		return FALSE;
 
 	DWORD protoStatus = Proto_GetStatus(m_szProto);
@@ -635,7 +635,7 @@ bool CSrmmWindow::IsTypingNotificationEnabled()
 		return FALSE;
 
 	if (db_get_b(m_hContact, "CList", "NotOnList", 0)
-		&& !db_get_b(0, SRMM_MODULE, SRMSGSET_TYPINGUNKNOWN, SRMSGDEFSET_TYPINGUNKNOWN))
+		&& !g_plugin.getByte(SRMSGSET_TYPINGUNKNOWN, SRMSGDEFSET_TYPINGUNKNOWN))
 		return FALSE;
 	return TRUE;
 }
@@ -775,8 +775,7 @@ void CSrmmWindow::UpdateStatusBar()
 		Srmm_ModifyIcon(m_hContact, &sid);
 		sid.dwId = 1;
 		if (IsTypingNotificationSupported() && g_dat.flags2 & SMF2_SHOWTYPINGSWITCH)
-			sid.flags = (db_get_b(m_hContact, SRMM_MODULE, SRMSGSET_TYPING,
-			db_get_b(0, SRMM_MODULE, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW))) ? 0 : MBF_DISABLED;
+			sid.flags = (g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW))) ? 0 : MBF_DISABLED;
 		else
 			sid.flags = MBF_HIDDEN;
 
@@ -1210,9 +1209,9 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		SendMessage(m_hwnd, DM_GETAVATAR, 0, 0);
 		SetDialogToType();
 		{
-			COLORREF colour = db_get_dw(0, SRMM_MODULE, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR);
+			COLORREF colour = g_plugin.getDword(SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR);
 			m_log.SendMsg(EM_SETBKGNDCOLOR, 0, colour);
-			colour = db_get_dw(0, SRMM_MODULE, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
+			colour = g_plugin.getDword(SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
 			m_message.SendMsg(EM_SETBKGNDCOLOR, 0, colour);
 			InvalidateRect(m_message.GetHwnd(), nullptr, FALSE);
 
@@ -1278,9 +1277,8 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			sid.szModule = SRMM_MODULE;
 			sid.dwId = 1;
 
-			BYTE typingNotify = (db_get_b(m_hContact, SRMM_MODULE, SRMSGSET_TYPING,
-				db_get_b(0, SRMM_MODULE, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)));
-			db_set_b(m_hContact, SRMM_MODULE, SRMSGSET_TYPING, (BYTE)!typingNotify);
+			BYTE typingNotify = (g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)));
+			g_plugin.setByte(m_hContact, SRMSGSET_TYPING, (BYTE)!typingNotify);
 			sid.flags = typingNotify ? MBF_DISABLED : 0;
 			Srmm_ModifyIcon(m_hContact, &sid);
 		}

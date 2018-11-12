@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void CSrmmWindow::SetupInfobar()
 {
-	DWORD colour = db_get_dw(0, SRMM_MODULE, SRMSGSET_INFOBARBKGCOLOUR, SRMSGDEFSET_INFOBARBKGCOLOUR);
+	DWORD colour = g_plugin.getDword(SRMSGSET_INFOBARBKGCOLOUR, SRMSGDEFSET_INFOBARBKGCOLOUR);
 
 	SendDlgItemMessage(m_hwndInfo, IDC_INFOBAR_NAME, EM_SETBKGNDCOLOR, 0, colour);
 	SendDlgItemMessage(m_hwndInfo, IDC_INFOBAR_STATUS, EM_SETBKGNDCOLOR, 0, colour);

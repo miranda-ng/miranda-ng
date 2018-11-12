@@ -623,20 +623,20 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 	switch (msg) {
 	case WM_INITDIALOG:
 		{
-			int savePerContact = db_get_b(0, SRMM_MODULE, SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT);
+			int savePerContact = g_plugin.getByte(SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT);
 			NewMessageWindowLParam *newData = (NewMessageWindowLParam *)lParam;
 			dat = (ParentWindowData *)mir_alloc(sizeof(ParentWindowData));
 			dat->hContact = newData->hContact;
 			dat->nFlash = 0;
-			dat->nFlashMax = db_get_b(0, SRMM_MODULE, SRMSGSET_FLASHCOUNT, SRMSGDEFSET_FLASHCOUNT);
+			dat->nFlashMax = g_plugin.getByte(SRMSGSET_FLASHCOUNT, SRMSGDEFSET_FLASHCOUNT);
 			dat->childrenCount = 0;
 			dat->hwnd = hwndDlg;
 			dat->mouseLBDown = 0;
 			dat->windowWasCascaded = 0;
 			dat->bMinimized = 0;
 			dat->bVMaximized = 0;
-			dat->iSplitterX = db_get_dw(0, SRMM_MODULE, "splitterx", -1);
-			dat->iSplitterY = db_get_dw(0, SRMM_MODULE, "splittery", -1);
+			dat->iSplitterX = g_plugin.getDword("splitterx", -1);
+			dat->iSplitterY = g_plugin.getDword("splittery", -1);
 			dat->flags2 = g_dat.flags2;
 			dat->hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, nullptr, WS_CHILD | WS_VISIBLE | SBARS_SIZEGRIP, 0, 0, 0, 0, hwndDlg, nullptr, g_plugin.getInst(), nullptr);
 			dat->isChat = newData->isChat;
@@ -666,11 +666,11 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 			SetContainerWindowStyle(dat);
 
 			MCONTACT hSContact = savePerContact ? dat->hContact : 0;
-			dat->bTopmost = db_get_b(hSContact, SRMM_MODULE, SRMSGSET_TOPMOST, SRMSGDEFSET_TOPMOST);
+			dat->bTopmost = g_plugin.getByte(hSContact, SRMSGSET_TOPMOST, SRMSGDEFSET_TOPMOST);
 			if (ScriverRestoreWindowPosition(hwndDlg, hSContact, SRMM_MODULE, (newData->isChat && !savePerContact) ? "chat" : "", 0, SW_HIDE))
 				SetWindowPos(hwndDlg, nullptr, 0, 0, 450, 300, SWP_NOZORDER | SWP_NOMOVE | SWP_HIDEWINDOW);
 
-			if (!savePerContact && db_get_b(0, SRMM_MODULE, SRMSGSET_CASCADE, SRMSGDEFSET_CASCADE))
+			if (!savePerContact && g_plugin.getByte(SRMSGSET_CASCADE, SRMSGDEFSET_CASCADE))
 				WindowList_Broadcast(g_dat.hParentWindowList, DM_CASCADENEWWINDOW, (WPARAM)hwndDlg, (LPARAM)&dat->windowWasCascaded);
 
 			PostMessage(hwndDlg, WM_SIZE, 0, 0);
@@ -1010,13 +1010,13 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 			}
 		}
 
-		db_set_dw(0, SRMM_MODULE, "splitterx", dat->iSplitterX);
-		db_set_dw(0, SRMM_MODULE, "splittery", dat->iSplitterY);
+		g_plugin.setDword("splitterx", dat->iSplitterX);
+		g_plugin.setDword("splittery", dat->iSplitterY);
 
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		WindowList_Remove(g_dat.hParentWindowList, hwndDlg);
 		{
-			int savePerContact = db_get_b(0, SRMM_MODULE, SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT);
+			int savePerContact = g_plugin.getByte(SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT);
 			MCONTACT hContact = (savePerContact) ? dat->hContact : 0;
 
 			WINDOWPLACEMENT wp = { sizeof(wp) };
@@ -1025,15 +1025,15 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 			char *szNamePrefix = (!savePerContact && dat->isChat) ? "chat" : "";
 			if (!dat->windowWasCascaded) {
 				mir_snprintf(szSettingName, "%sx", szNamePrefix);
-				db_set_dw(hContact, SRMM_MODULE, szSettingName, wp.rcNormalPosition.left);
+				g_plugin.setDword(hContact, szSettingName, wp.rcNormalPosition.left);
 				mir_snprintf(szSettingName, "%sy", szNamePrefix);
-				db_set_dw(hContact, SRMM_MODULE, szSettingName, wp.rcNormalPosition.top);
+				g_plugin.setDword(hContact, szSettingName, wp.rcNormalPosition.top);
 			}
 			mir_snprintf(szSettingName, "%swidth", szNamePrefix);
-			db_set_dw(hContact, SRMM_MODULE, szSettingName, wp.rcNormalPosition.right - wp.rcNormalPosition.left);
+			g_plugin.setDword(hContact, szSettingName, wp.rcNormalPosition.right - wp.rcNormalPosition.left);
 			mir_snprintf(szSettingName, "%sheight", szNamePrefix);
-			db_set_dw(hContact, SRMM_MODULE, szSettingName, wp.rcNormalPosition.bottom - wp.rcNormalPosition.top);
-			db_set_b(hContact, SRMM_MODULE, SRMSGSET_TOPMOST, (BYTE)dat->bTopmost);
+			g_plugin.setDword(hContact, szSettingName, wp.rcNormalPosition.bottom - wp.rcNormalPosition.top);
+			g_plugin.setByte(hContact, SRMSGSET_TOPMOST, (BYTE)dat->bTopmost);
 			if (g_dat.lastParent == dat)
 				g_dat.lastParent = dat->prev;
 

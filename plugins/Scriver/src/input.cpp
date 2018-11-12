@@ -224,7 +224,7 @@ int CScriverWindow::InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			return FALSE;
 		}
 
-		if ((wParam == VK_UP || wParam == VK_DOWN) && isCtrl && !db_get_b(0, SRMM_MODULE, SRMSGSET_AUTOCLOSE, SRMSGDEFSET_AUTOCLOSE)) {
+		if ((wParam == VK_UP || wParam == VK_DOWN) && isCtrl && !g_plugin.getByte(SRMSGSET_AUTOCLOSE, SRMSGDEFSET_AUTOCLOSE)) {
 			if (cmdList && hwnd == m_message.GetHwnd()) {
 				TCmdList *cmdListNew = nullptr;
 				if (wParam == VK_UP) {
