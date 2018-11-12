@@ -165,7 +165,7 @@ void MinecraftDynmapProto::SetChatStatus(int status)
 		ptrA nick(db_get_sa(NULL, m_szModuleName, MINECRAFTDYNMAP_KEY_NAME));
 		if (!nick) {
 			nick = mir_strdup(Translate("You"));
-			db_set_s(NULL, m_szModuleName, MINECRAFTDYNMAP_KEY_NAME, nick);
+			db_set_s(0, m_szModuleName, MINECRAFTDYNMAP_KEY_NAME, nick);
 		}
 		m_nick = nick;
 

@@ -57,6 +57,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SHVIEW_THUMBNAIL 0x702D
 #endif
 
+#define MODULENAME "AVS_Settings"          // db settings module path
+#define PPICT_MODULE "AVS_ProtoPics"   // protocol pictures are saved here
+
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();

@@ -163,10 +163,10 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 		ms = (osdmsg*)mir_alloc(sizeof(osdmsg));
 		ms->text = mir_wstrdup((wchar_t *)wParam);
 		if (lParam == 0)
-			lParam = db_get_dw(NULL, MODULENAME, "timeout", DEFAULT_TIMEOUT);
+			lParam = g_plugin.getDword("timeout", DEFAULT_TIMEOUT);
 		ms->timeout = lParam;
 		ms->callback = nullptr;
-		ms->color = db_get_dw(NULL, MODULENAME, "clr_msg", DEFAULT_CLRMSG);
+		ms->color = g_plugin.getDword("clr_msg", DEFAULT_CLRMSG);
 		ms->param = 0;
 		SendMessage(hwnd, WM_USER + 4, (WPARAM)ms, 0);
 		mir_free(ms->text);
@@ -278,15 +278,15 @@ int MainInit(WPARAM, LPARAM)
 
 	g_hWnd = CreateWindowEx(WS_EX_LAYERED | WS_EX_TOOLWINDOW, szClassName, L"WannaBeOSD",
 		WS_POPUP,
-		db_get_dw(NULL, MODULENAME, "winxpos", DEFAULT_WINXPOS),
-		db_get_dw(NULL, MODULENAME, "winypos", DEFAULT_WINYPOS),
-		db_get_dw(NULL, MODULENAME, "winx", DEFAULT_WINX),
-		db_get_dw(NULL, MODULENAME, "winy", DEFAULT_WINY),
+		g_plugin.getDword("winxpos", DEFAULT_WINXPOS),
+		g_plugin.getDword("winypos", DEFAULT_WINYPOS),
+		g_plugin.getDword("winx", DEFAULT_WINX),
+		g_plugin.getDword("winy", DEFAULT_WINY),
 		HWND_DESKTOP, nullptr, g_plugin.getInst(), nullptr);
 
 	SetWindowLongPtr(g_hWnd, GWLP_USERDATA, 0);
 
-	SetLayeredWindowAttributes(g_hWnd, db_get_dw(NULL, MODULENAME, "bkclr", DEFAULT_BKCLR), db_get_b(NULL, MODULENAME, "alpha", DEFAULT_ALPHA), (db_get_b(NULL, MODULENAME, "transparent", DEFAULT_TRANPARENT) ? LWA_COLORKEY : 0) | LWA_ALPHA);
+	SetLayeredWindowAttributes(g_hWnd, g_plugin.getDword("bkclr", DEFAULT_BKCLR), g_plugin.getByte("alpha", DEFAULT_ALPHA), (g_plugin.getByte("transparent", DEFAULT_TRANPARENT) ? LWA_COLORKEY : 0) | LWA_ALPHA);
 
 	CreateServiceFunction("OSD/Announce", OSDAnnounce);
 

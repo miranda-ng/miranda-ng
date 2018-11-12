@@ -89,10 +89,10 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 	hFillListEvent = HookEvent(MODULENAME "/ListReload", FillList);
 
-	if (!db_get_b(0, MODULENAME, "PingPlugImport", 0)) {
+	if (!g_plugin.getByte("PingPlugImport", 0)) {
 		if (db_get_dw(0, "PingPlug", "NumEntries", 0)) {
 			import_ping_addresses();
-			db_set_b(0, MODULENAME, "PingPlugImport", 1);
+			g_plugin.setByte("PingPlugImport", 1);
 		}
 	}
 
@@ -119,7 +119,7 @@ static IconItem iconList[] =
 int CMPlugin::Load()
 {
 	use_raw_ping = false;
-	db_set_b(0, MODULENAME, "UsingRawSockets", (BYTE)use_raw_ping);
+	g_plugin.setByte("UsingRawSockets", (BYTE)use_raw_ping);
 
 	hWakeEvent = CreateEvent(nullptr, FALSE, FALSE, L"Local\\ThreadWaitEvent");
 

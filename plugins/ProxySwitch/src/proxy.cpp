@@ -82,7 +82,7 @@ char Get_Miranda_Proxy_Status(void)
 
 	Create_Proxy_Settings_List(&ps);
 	for (i = 0; i < ps.count; i++) {
-		p = db_get_b(NULL, ps.item[i].ModuleName, ps.item[i].SettingName, FALSE);
+		p = db_get_b(0, ps.item[i].ModuleName, ps.item[i].SettingName, FALSE);
 		if (proxy == PROXY_NO_CONFIG) {
 			proxy = p;
 			continue;
@@ -109,7 +109,7 @@ void Set_Miranda_Proxy_Status(char proxy)
 	Create_Proxy_Settings_List(&ps);
 	for (i = 0; i < ps.count; i++) {
 		if (ps.item[i].SettingName[0] != 0)
-			db_set_b(NULL, ps.item[i].ModuleName, ps.item[i].SettingName, proxy);
+			db_set_b(0, ps.item[i].ModuleName, ps.item[i].SettingName, proxy);
 		ZeroMemory(&nlus, sizeof(nlus));
 		nlus.cbSize = sizeof(nlus);
 		if (Netlib_GetUserSettingsByName(ps.item[i].ModuleName, &nlus)) {

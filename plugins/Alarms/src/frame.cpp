@@ -46,12 +46,12 @@ LRESULT CALLBACK FrameContainerWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 
 	case WM_SHOWWINDOW:
 		if (wParam) {
-			db_set_b(0, MODULENAME, "ReminderFrameVisible", 1);
+			g_plugin.setByte("ReminderFrameVisible", 1);
 			Utils_RestoreWindowPosition(hwnd, 0, MODULENAME, "reminders_window");
 			PostMessage(hwnd, WM_SIZE, 0, 0);
 		}
 		else {
-			db_set_b(0, MODULENAME, "ReminderFrameVisible", 0);
+			g_plugin.setByte("ReminderFrameVisible", 0);
 			Utils_SaveWindowPosition(hwnd, 0, MODULENAME, "reminders_window");
 		}
 		break;
@@ -542,7 +542,7 @@ int CreateFrame()
 				else ShowWindow(hwnd_frame, SW_HIDE);
 			}
 			else {
-				if (db_get_b(0, MODULENAME, "ReminderFrameVisible", 1) == 1) {
+				if (g_plugin.getByte("ReminderFrameVisible", 1) == 1) {
 					ShowWindow(hwnd_frame, SW_SHOW);
 					RefreshReminderFrame();
 				}

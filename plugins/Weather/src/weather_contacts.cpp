@@ -345,7 +345,7 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			if ((BYTE)IsDlgButtonChecked(hwndDlg, IDC_DEFA)) {	// if default station is set
 				mir_wstrcpy(opt.Default, str);
 				opt.DefStn = hContact;
-				db_set_ws(NULL, WEATHERPROTONAME, "Default", opt.Default);
+				db_set_ws(0, WEATHERPROTONAME, "Default", opt.Default);
 			}
 			GetDlgItemText(hwndDlg, IDC_NAME, city, _countof(city));
 			db_set_ws(hContact, WEATHERPROTONAME, "Nick", city);
@@ -461,7 +461,7 @@ int ContactDeleted(WPARAM wParam, LPARAM)
 				mir_snwprintf(str, TranslateT("%s is now the default weather station"), (wchar_t*)tszNick);
 				MessageBox(nullptr, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
 			}
-			db_set_ws(NULL, WEATHERPROTONAME, "Default", opt.Default);
+			db_set_ws(0, WEATHERPROTONAME, "Default", opt.Default);
 			return 0;		// exit this function quickly
 		}
 	}
@@ -469,7 +469,7 @@ int ContactDeleted(WPARAM wParam, LPARAM)
 	// got here if no more weather station left
 	opt.Default[0] = 0;	// no default station
 	opt.DefStn = NULL;
-	db_set_ws(NULL, WEATHERPROTONAME, "Default", opt.Default);
+	db_set_ws(0, WEATHERPROTONAME, "Default", opt.Default);
 	return 0;
 }
 

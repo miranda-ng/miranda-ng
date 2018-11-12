@@ -368,9 +368,9 @@ int setParseOptions(struct ParseOptions *po)
 		po = &gParseOpts;
 
 	memset(po, 0, sizeof(struct ParseOptions));
-	if (!db_get_b(NULL, MODULENAME, SETTING_STRIPALL, 0)) {
-		po->bStripEOL = db_get_b(NULL, MODULENAME, SETTING_STRIPCRLF, 0);
-		po->bStripWS = db_get_b(NULL, MODULENAME, SETTING_STRIPWS, 0);
+	if (!g_plugin.getByte(SETTING_STRIPALL, 0)) {
+		po->bStripEOL = g_plugin.getByte(SETTING_STRIPCRLF, 0);
+		po->bStripWS = g_plugin.getByte(SETTING_STRIPWS, 0);
 	}
 	else po->bStripAll = TRUE;
 
@@ -418,10 +418,10 @@ int LoadVarModule()
 
 	log_debugA("Variables: Internal tokens registered");
 
-	if (db_get_b(NULL, MODULENAME, SETTING_PARSEATSTARTUP, 0)) {
+	if (g_plugin.getByte(SETTING_PARSEATSTARTUP, 0)) {
 		FORMATINFO fi = { 0 };
 		fi.cbSize = sizeof(fi);
-		fi.szFormat.w = db_get_wsa(NULL, MODULENAME, SETTING_STARTUPTEXT);
+		fi.szFormat.w = g_plugin.getWStringA(SETTING_STARTUPTEXT);
 		if (fi.szFormat.w != nullptr) {
 			mir_free(formatString(&fi));
 			mir_free(fi.szFormat.w);

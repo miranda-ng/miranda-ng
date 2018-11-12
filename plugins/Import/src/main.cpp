@@ -72,11 +72,11 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mi.pszService = MS_IMPORT_CONTACT;
 	Menu_AddContactMenuItem(&mi);
 
-	if (!db_get_b(NULL, IMPORT_MODULE, IMP_KEY_FR, 0)) {
+	if (!g_plugin.getByte(IMP_KEY_FR, 0)) {
 		// Only autorun import wizard if at least one protocol is installed
 		if (Accounts().getCount() > 0) {
 			CallService(MS_IMPORT_SERVICE, 0, 0);
-			db_set_b(NULL, IMPORT_MODULE, IMP_KEY_FR, 1);
+			g_plugin.setByte(IMP_KEY_FR, 1);
 		}
 	}
 	return 0;

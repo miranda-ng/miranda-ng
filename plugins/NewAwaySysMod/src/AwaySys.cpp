@@ -491,7 +491,7 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 	}
 	else if (!mir_wstrcmp(ai->argv.w[0], VAR_MYNICK)) {
 		if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_MYNICKPERPROTO) && VarParseData.szProto)
-			Result = db_get_s(NULL, VarParseData.szProto, "Nick", (wchar_t*)nullptr);
+			Result = db_get_s(0, VarParseData.szProto, "Nick", (wchar_t*)nullptr);
 
 		if (Result == nullptr)
 			Result = Clist_GetContactDisplayName(0);
@@ -710,18 +710,18 @@ int CMPlugin::Load()
 	InitCommonControls();
 	InitOptions(); // must be called before we hook CallService
 
-	if (db_get_b(NULL, MODULENAME, DB_SETTINGSVER, 0) < 1) { // change all %nas_message% variables to %extratext% if it wasn't done before
-		TCString Str = db_get_s(NULL, MODULENAME, "PopupsFormat", L"");
+	if (g_plugin.getByte(DB_SETTINGSVER, 0) < 1) { // change all %nas_message% variables to %extratext% if it wasn't done before
+		TCString Str = db_get_s(0, MODULENAME, "PopupsFormat", L"");
 		if (Str.GetLen())
-			db_set_ws(NULL, MODULENAME, "PopupsFormat", Str.Replace(L"nas_message", L"extratext"));
+			g_plugin.setWString("PopupsFormat", Str.Replace(L"nas_message", L"extratext"));
 
-		Str = db_get_s(NULL, MODULENAME, "ReplyPrefix", L"");
+		Str = db_get_s(0, MODULENAME, "ReplyPrefix", L"");
 		if (Str.GetLen())
-			db_set_ws(NULL, MODULENAME, "ReplyPrefix", Str.Replace(L"nas_message", L"extratext"));
+			g_plugin.setWString("ReplyPrefix", Str.Replace(L"nas_message", L"extratext"));
 	}
-	if (db_get_b(NULL, MODULENAME, DB_SETTINGSVER, 0) < 2) { // disable autoreply for not-on-list contacts, as such contact may be a spam bot
-		db_set_b(NULL, MODULENAME, ContactStatusToDBSetting(0, DB_ENABLEREPLY, 0, INVALID_CONTACT_ID), 0);
-		db_set_b(NULL, MODULENAME, DB_SETTINGSVER, 2);
+	if (g_plugin.getByte(DB_SETTINGSVER, 0) < 2) { // disable autoreply for not-on-list contacts, as such contact may be a spam bot
+		g_plugin.setByte(ContactStatusToDBSetting(0, DB_ENABLEREPLY, 0, INVALID_CONTACT_ID), 0);
+		g_plugin.setByte(DB_SETTINGSVER, 2);
 	}
 	return 0;
 }

@@ -135,7 +135,7 @@ static BYTE EnableControls(HWND hDlg, const int *idCtrl, int countCtrl, BYTE bEn
  **/
 static BYTE DBGetCheckBtn(HWND hDlg, const int idCtrl, LPCSTR pszSetting, BYTE bDefault)
 {
-	BYTE val = (db_get_b(NULL, MODULENAME, pszSetting, bDefault) & 1) == 1;
+	BYTE val = (g_plugin.getByte(pszSetting, bDefault) & 1) == 1;
 	CheckDlgButton(hDlg, idCtrl, val ? BST_CHECKED : BST_UNCHECKED);
 	return val;
 }
@@ -153,9 +153,9 @@ static BYTE DBGetCheckBtn(HWND hDlg, const int idCtrl, LPCSTR pszSetting, BYTE b
 static BYTE DBWriteCheckBtn(HWND hDlg, const int idCtrl, LPCSTR pszSetting)
 {
 	BYTE val = IsDlgButtonChecked(hDlg, idCtrl);
-	int Temp = db_get_b(NULL, MODULENAME, pszSetting, 0);
+	int Temp = g_plugin.getByte(pszSetting, 0);
 	Temp &= ~1;
-	db_set_b(NULL, MODULENAME, pszSetting, Temp |= val);
+	g_plugin.setByte(pszSetting, Temp |= val);
 	return val;
 }
 
@@ -172,7 +172,7 @@ static BYTE DBWriteCheckBtn(HWND hDlg, const int idCtrl, LPCSTR pszSetting)
  **/
 static void DBGetColor(HWND hDlg, const int idCtrl, LPCSTR pszSetting, DWORD bDefault)
 {
-	SendDlgItemMessage(hDlg, idCtrl, CPM_SETCOLOUR, 0, db_get_dw(NULL, MODULENAME, pszSetting, bDefault));
+	SendDlgItemMessage(hDlg, idCtrl, CPM_SETCOLOUR, 0, g_plugin.getDword(pszSetting, bDefault));
 }
 
 /**
@@ -187,7 +187,7 @@ static void DBGetColor(HWND hDlg, const int idCtrl, LPCSTR pszSetting, DWORD bDe
  **/
 static void DBWriteColor(HWND hDlg, const int idCtrl, LPCSTR pszSetting)
 {
-	db_set_dw(NULL, MODULENAME, pszSetting, (DWORD)SendDlgItemMessage(hDlg, idCtrl, CPM_GETCOLOUR, 0, 0));
+	g_plugin.setDword(pszSetting, (DWORD)SendDlgItemMessage(hDlg, idCtrl, CPM_GETCOLOUR, 0, 0));
 }
 
 /**
@@ -209,8 +209,10 @@ static BYTE DBWriteEditByte(HWND hDlg, const int idCtrl, LPCSTR pszSetting, BYTE
 	BOOL t;
 
 	v = (BYTE)GetDlgItemInt(hDlg, idCtrl, &t, FALSE);
-	if (t && (v != db_get_b(NULL, MODULENAME, pszSetting, defVal)))
-		return db_set_b(NULL, MODULENAME, pszSetting, v) == 0;
+	if (t && (v != g_plugin.getByte(pszSetting, defVal))) {
+		g_plugin.setByte(pszSetting, v);
+		return true;
+	}
 	return FALSE;
 }
 
@@ -233,8 +235,10 @@ static BYTE DBWriteEditWord(HWND hDlg, const int idCtrl, LPCSTR pszSetting, WORD
 	BOOL t;
 
 	v = (WORD)GetDlgItemInt(hDlg, idCtrl, &t, FALSE);
-	if (t && (v != db_get_w(NULL, MODULENAME, pszSetting, defVal)))
-		return db_set_w(NULL, MODULENAME, pszSetting, v) == 0;
+	if (t && (v != g_plugin.getWord(pszSetting, defVal))) {
+		g_plugin.setWord(pszSetting, v);
+		return true;
+	}
 	return FALSE;
 }
 
@@ -256,8 +260,10 @@ static BYTE DBWriteComboByte(HWND hDlg, const int idCtrl, LPCSTR pszSetting, BYT
 	BYTE v;
 
 	v = (BYTE)SendDlgItemMessage(hDlg, idCtrl, CB_GETCURSEL, NULL, NULL);
-	if (v != db_get_b(NULL, MODULENAME, pszSetting, defVal))
-		return db_set_b(NULL, MODULENAME, pszSetting, v) == 0;
+	if (v != g_plugin.getByte(pszSetting, defVal)) {
+		g_plugin.setByte(pszSetting, v);
+		return true;
+	}
 	return FALSE;
 }
 
@@ -279,7 +285,7 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 
 			// menu item settings
 			for (auto &it : ctrl_Menu) {
-				int flag = db_get_b(NULL, MODULENAME, it.pszKey, 2);
+				int flag = g_plugin.getByte(it.pszKey, 2);
 				// check button and enable / disable control
 				int idEnable[] = { it.idCheckbox + 1, it.idNONE, it.idALL, it.idEXIMPORT };
 				EnableControls(hDlg, idEnable, _countof(idEnable), DBGetCheckBtn(hDlg, it.idCheckbox, it.pszKey, 0));
@@ -313,7 +319,7 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 				flag |= IsDlgButtonChecked(hDlg, it.idNONE) ? 2 : 0;
 				flag |= IsDlgButtonChecked(hDlg, it.idALL) ? 4 : 0;
 				flag |= IsDlgButtonChecked(hDlg, it.idEXIMPORT) ? 8 : 0;
-				db_set_b(NULL, MODULENAME, it.pszKey, (BYTE)flag);
+				g_plugin.setByte(it.pszKey, (BYTE)flag);
 			}
 
 			RebuildMenu();
@@ -324,14 +330,14 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 			bool valNew = IsDlgButtonChecked(hDlg, CHECK_OPT_FLAGSUNKNOWN) != 0;
 			if (g_bUseUnknownFlag != valNew) {
 				g_bUseUnknownFlag = valNew;
-				db_set_b(NULL, MODNAMEFLAGS, "UseUnknownFlag", valNew);
+				db_set_b(0, MODNAMEFLAGS, "UseUnknownFlag", valNew);
 				FlagsClistChange = true;
 				FlagsMsgWndChange = true;
 			}
 			valNew = IsDlgButtonChecked(hDlg, CHECK_OPT_FLAGSMSGSTATUS) != 0;
 			if (g_bShowStatusIconFlag != valNew) {
 				g_bShowStatusIconFlag = valNew;
-				db_set_b(NULL, MODNAMEFLAGS, "ShowStatusIconFlag", valNew);
+				db_set_b(0, MODNAMEFLAGS, "ShowStatusIconFlag", valNew);
 				FlagsMsgWndChange = true;
 			}
 
@@ -347,7 +353,7 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 
 			// misc
 			BYTE bEnabled = IsDlgButtonChecked(hDlg, CHECK_OPT_ZODIACAVATAR);
-			db_set_b(NULL, MODULENAME, SET_ZODIAC_AVATARS, bEnabled);
+			g_plugin.setByte(SET_ZODIAC_AVATARS, bEnabled);
 			NServices::NAvatar::Enable(bEnabled);
 		}
 		break;
@@ -615,7 +621,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 				bInitialized = 0;
 
 				// set reminder options
-				BYTE bEnabled = db_get_b(NULL, MODULENAME, SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED);
+				BYTE bEnabled = g_plugin.getByte(SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED);
 				SendDlgItemMessage(hDlg, EDIT_REMIND_ENABLED, CB_SETCURSEL, bEnabled, NULL);
 				DlgProc_ReminderOpts(hDlg, WM_COMMAND, MAKEWPARAM(EDIT_REMIND_ENABLED, CBN_SELCHANGE),
 					(LPARAM)GetDlgItem(hDlg, EDIT_REMIND_ENABLED));
@@ -626,16 +632,16 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 				DBGetCheckBtn(hDlg, CHECK_REMIND_STARTUP, SET_REMIND_CHECKON_STARTUP, FALSE);
 				DBGetCheckBtn(hDlg, CHECK_REMIND_SECURED, SET_REMIND_SECUREBIRTHDAY, FALSE);
 
-				SetDlgItemInt(hDlg, EDIT_REMIND, db_get_w(NULL, MODULENAME, SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET), FALSE);
-				SetDlgItemInt(hDlg, EDIT_REMIND_SOUNDOFFSET, db_get_b(NULL, MODULENAME, SET_REMIND_SOUNDOFFSET, DEFVAL_REMIND_SOUNDOFFSET), FALSE);
-				SetDlgItemInt(hDlg, EDIT_REMIND2, db_get_w(NULL, MODULENAME, SET_REMIND_NOTIFYINTERVAL, DEFVAL_REMIND_NOTIFYINTERVAL), FALSE);
+				SetDlgItemInt(hDlg, EDIT_REMIND, g_plugin.getWord(SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET), FALSE);
+				SetDlgItemInt(hDlg, EDIT_REMIND_SOUNDOFFSET, g_plugin.getByte(SET_REMIND_SOUNDOFFSET, DEFVAL_REMIND_SOUNDOFFSET), FALSE);
+				SetDlgItemInt(hDlg, EDIT_REMIND2, g_plugin.getWord(SET_REMIND_NOTIFYINTERVAL, DEFVAL_REMIND_NOTIFYINTERVAL), FALSE);
 
-				SendDlgItemMessage(hDlg, EDIT_BIRTHMODULE, CB_SETCURSEL, db_get_b(NULL, MODULENAME, SET_REMIND_BIRTHMODULE, DEFVAL_REMIND_BIRTHMODULE), NULL);
+				SendDlgItemMessage(hDlg, EDIT_BIRTHMODULE, CB_SETCURSEL, g_plugin.getByte(SET_REMIND_BIRTHMODULE, DEFVAL_REMIND_BIRTHMODULE), NULL);
 
 				MTime mtLast;
 				wchar_t szTime[MAX_PATH];
 
-				mtLast.DBGetStamp(NULL, MODULENAME, SET_REMIND_LASTCHECK);
+				mtLast.DBGetStamp(0, MODULENAME, SET_REMIND_LASTCHECK);
 				mtLast.UTCToLocal();
 				mtLast.TimeFormat(szTime, _countof(szTime));
 
@@ -661,7 +667,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 				bReminderCheck = DBWriteEditWord(hDlg, EDIT_REMIND, SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET);
 
 				// save primary birthday module
-				BYTE bOld = db_get_b(NULL, MODULENAME, SET_REMIND_BIRTHMODULE, DEFVAL_REMIND_BIRTHMODULE);  //    = 1
+				BYTE bOld = g_plugin.getByte(SET_REMIND_BIRTHMODULE, DEFVAL_REMIND_BIRTHMODULE);  //    = 1
 				BYTE bNew = (BYTE)ComboBox_GetCurSel(GetDlgItem(hDlg, EDIT_BIRTHMODULE));
 				if (bOld != bNew) {
 					// keep the database clean
@@ -675,8 +681,8 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 
 				// update current reminder state
 				BYTE bNewVal = (BYTE)SendDlgItemMessage(hDlg, EDIT_REMIND_ENABLED, CB_GETCURSEL, NULL, NULL);
-				if (db_get_b(NULL, MODULENAME, SET_REMIND_ENABLED, 1) != bNewVal) {
-					db_set_b(NULL, MODULENAME, SET_REMIND_ENABLED, bNewVal);
+				if (g_plugin.getByte(SET_REMIND_ENABLED, 1) != bNewVal) {
+					g_plugin.setByte(SET_REMIND_ENABLED, bNewVal);
 					if (bNewVal == REMIND_OFF) {
 						SvcReminderEnable(FALSE);
 						bReminderCheck = FALSE;
@@ -729,7 +735,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 			if (bInitialized && HIWORD(wParam) == EN_UPDATE) {
 				BOOL t;
 				WORD v = (WORD)GetDlgItemInt(hDlg, LOWORD(wParam), &t, FALSE);
-				if (t && (v != db_get_w(NULL, MODULENAME, SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET)))
+				if (t && (v != g_plugin.getWord(SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET)))
 					NotifyParentOfChange(hDlg);
 			}
 			break;
@@ -739,7 +745,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 			if (bInitialized && HIWORD(wParam) == EN_UPDATE) {
 				BOOL t;
 				BYTE v = (BYTE)GetDlgItemInt(hDlg, LOWORD(wParam), &t, FALSE);
-				if (t && (v != db_get_b(NULL, MODULENAME, SET_REMIND_SOUNDOFFSET, DEFVAL_REMIND_SOUNDOFFSET)))
+				if (t && (v != g_plugin.getByte(SET_REMIND_SOUNDOFFSET, DEFVAL_REMIND_SOUNDOFFSET)))
 					NotifyParentOfChange(hDlg);
 			}
 			break;
@@ -749,7 +755,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 			if (bInitialized && HIWORD(wParam) == EN_UPDATE) {
 				BOOL t;
 				WORD v = (WORD)GetDlgItemInt(hDlg, LOWORD(wParam), &t, FALSE);
-				if (t && (v != db_get_w(NULL, MODULENAME, SET_REMIND_NOTIFYINTERVAL, DEFVAL_REMIND_NOTIFYINTERVAL)))
+				if (t && (v != g_plugin.getWord(SET_REMIND_NOTIFYINTERVAL, DEFVAL_REMIND_NOTIFYINTERVAL)))
 					NotifyParentOfChange(hDlg);
 			}
 		}
@@ -792,7 +798,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 				// set colortype checkboxes and color controls
 				DBGetColor(hDlg, CLR_BBACK, SET_POPUP_BIRTHDAY_COLOR_BACK, RGB(192, 180, 30));
 				DBGetColor(hDlg, CLR_BTEXT, SET_POPUP_BIRTHDAY_COLOR_TEXT, RGB(0, 0, 0));
-				switch (db_get_b(NULL, MODULENAME, SET_POPUP_BIRTHDAY_COLORTYPE, POPUP_COLOR_CUSTOM)) {
+				switch (g_plugin.getByte(SET_POPUP_BIRTHDAY_COLORTYPE, POPUP_COLOR_CUSTOM)) {
 				case POPUP_COLOR_DEFAULT:
 					CheckDlgButton(hDlg, CHECK_OPT_POPUP_DEFCLR, BST_CHECKED);
 					break;
@@ -803,7 +809,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 
 				DBGetColor(hDlg, CLR_ABACK, SET_POPUP_ANNIVERSARY_COLOR_BACK, RGB(90, 190, 130));
 				DBGetColor(hDlg, CLR_ATEXT, SET_POPUP_ANNIVERSARY_COLOR_TEXT, RGB(0, 0, 0));
-				switch (db_get_b(NULL, MODULENAME, SET_POPUP_ANNIVERSARY_COLORTYPE, POPUP_COLOR_CUSTOM)) {
+				switch (g_plugin.getByte(SET_POPUP_ANNIVERSARY_COLORTYPE, POPUP_COLOR_CUSTOM)) {
 				case POPUP_COLOR_DEFAULT:
 					CheckDlgButton(hDlg, CHECK_OPT_POPUP_ADEFCLR, BST_CHECKED);
 					break;
@@ -816,7 +822,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 					SendMessage(hDlg, WM_COMMAND, MAKEWPARAM(CHECK_OPT_POPUP_ADEFCLR, BN_CLICKED), NULL);
 				}
 				// set delay values
-				bDelay = db_get_b(NULL, MODULENAME, SET_POPUP_DELAY, 0);
+				bDelay = g_plugin.getByte(SET_POPUP_DELAY, 0);
 				switch (bDelay) {
 				case 0:
 					CheckDlgButton(hDlg, RADIO_OPT_POPUP_DEFAULT, BST_CHECKED);
@@ -846,7 +852,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 			// save popup style for birthdays
 			DBWriteColor(hDlg, CLR_BBACK, SET_POPUP_BIRTHDAY_COLOR_BACK);
 			DBWriteColor(hDlg, CLR_BTEXT, SET_POPUP_BIRTHDAY_COLOR_TEXT);
-			db_set_b(NULL, MODULENAME, SET_POPUP_BIRTHDAY_COLORTYPE, 
+			g_plugin.setByte(SET_POPUP_BIRTHDAY_COLORTYPE, 
 				IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_DEFCLR)
 				? POPUP_COLOR_DEFAULT
 				: IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_WINCLR)
@@ -856,7 +862,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 			// save popup style for anniversaries
 			DBWriteColor(hDlg, CLR_ABACK, SET_POPUP_ANNIVERSARY_COLOR_BACK);
 			DBWriteColor(hDlg, CLR_ATEXT, SET_POPUP_ANNIVERSARY_COLOR_TEXT);
-			db_set_b(NULL, MODULENAME, SET_POPUP_ANNIVERSARY_COLORTYPE, 
+			g_plugin.setByte(SET_POPUP_ANNIVERSARY_COLORTYPE, 
 				IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_ADEFCLR)
 				? POPUP_COLOR_DEFAULT
 				: IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_AWINCLR)
@@ -865,14 +871,14 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 
 			// save delay
 			if (IsDlgButtonChecked(hDlg, RADIO_OPT_POPUP_PERMANENT))
-				db_set_b(NULL, MODULENAME, SET_POPUP_DELAY, 255);
+				g_plugin.setByte(SET_POPUP_DELAY, 255);
 			else if (IsDlgButtonChecked(hDlg, RADIO_OPT_POPUP_CUSTOM)) {
 				wchar_t szDelay[4];
 				GetDlgItemText(hDlg, EDIT_DELAY, szDelay, _countof(szDelay));
-				db_set_b(NULL, MODULENAME, SET_POPUP_DELAY, (BYTE)wcstol(szDelay, nullptr, 10));
+				g_plugin.setByte(SET_POPUP_DELAY, (BYTE)wcstol(szDelay, nullptr, 10));
 			}
 			else
-				db_unset(NULL, MODULENAME, SET_POPUP_DELAY);
+				g_plugin.delSetting(SET_POPUP_DELAY);
 		}
 		break;
 
@@ -881,7 +887,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 		case BTN_PREVIEW:
 			{
 				POPUPDATAT ppd = { 0 };
-				ppd.iSeconds = (int)db_get_b(NULL, MODULENAME, SET_POPUP_DELAY, 0);
+				ppd.iSeconds = (int)g_plugin.getByte(SET_POPUP_DELAY, 0);
 				mir_wstrncpy(ppd.lptzText, TranslateT("This is the reminder message"), MAX_SECONDLINE);
 
 				// Birthday

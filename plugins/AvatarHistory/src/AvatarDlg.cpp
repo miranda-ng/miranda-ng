@@ -116,7 +116,7 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARA
 			AvatarDialogData *data = (struct AvatarDialogData*) lParam;
 			SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)createDefaultOverlayedIcon(TRUE));
 			SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)createDefaultOverlayedIcon(FALSE));
-			if (db_get_b(NULL, MODULENAME, "LogToHistory", AVH_DEF_LOGTOHISTORY))
+			if (g_plugin.getByte("LogToHistory", AVH_DEF_LOGTOHISTORY))
 				FillAvatarListFromDB(hwndList, data->hContact);
 			else if (opts.log_store_as_hash)
 				FillAvatarListFromFolder(hwndList, data->hContact);
@@ -310,7 +310,7 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARA
 				wchar_t avfolder[MAX_PATH];
 				MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 				GetContactFolder(avfolder, hContact);
-				ShellExecute(nullptr, db_get_b(NULL, MODULENAME, "OpenFolderMethod", 0) ? L"explore" : L"open", avfolder, nullptr, nullptr, SW_SHOWNORMAL);
+				ShellExecute(nullptr, g_plugin.getByte("OpenFolderMethod", 0) ? L"explore" : L"open", avfolder, nullptr, nullptr, SW_SHOWNORMAL);
 				return TRUE;
 			}
 			break;

@@ -32,23 +32,23 @@ CMPlugin::CMPlugin() :
 void LoadOptions()
 {
 	memset(&Options, 0, sizeof(Options));
-	Options.MessageRead = (BOOL)db_get_b(NULL, MODULENAME, "MessageRead", FALSE);
-	Options.MessageSend = (BOOL)db_get_b(NULL, MODULENAME, "MessageSend", TRUE);
-	Options.UrlRead = (BOOL)db_get_b(NULL, MODULENAME, "UrlRead", FALSE);
-	Options.UrlSend = (BOOL)db_get_b(NULL, MODULENAME, "UrlSend", TRUE);
-	Options.FileRead = (BOOL)db_get_b(NULL, MODULENAME, "FileRead", FALSE);
-	Options.FileSend = (BOOL)db_get_b(NULL, MODULENAME, "FileSend", TRUE);
-	Options.ChangeTo = (INT)db_get_dw(NULL, MODULENAME, "ChangeTo", ID_STATUS_ONLINE);
-	Options.IfOffline = (BOOL)db_get_b(NULL, MODULENAME, "IfOffline", FALSE);
-	Options.IfOnline = (BOOL)db_get_b(NULL, MODULENAME, "IfOnline", FALSE);
-	Options.IfAway = (BOOL)db_get_b(NULL, MODULENAME, "IfAway", TRUE);
-	Options.IfNA = (BOOL)db_get_b(NULL, MODULENAME, "IfNA", TRUE);
-	Options.IfOccupied = (BOOL)db_get_b(NULL, MODULENAME, "IfOccupied", FALSE);
-	Options.IfDND = (BOOL)db_get_b(NULL, MODULENAME, "IfDND", FALSE);
-	Options.IfFreeforchat = (BOOL)db_get_b(NULL, MODULENAME, "IfFreeforchat", FALSE);
-	Options.IfInvisible = (BOOL)db_get_b(NULL, MODULENAME, "IfInvisible", FALSE);
-	Options.IfOnthephone = (BOOL)db_get_b(NULL, MODULENAME, "IfOnthephone", FALSE);
-	Options.IfOuttolunch = (BOOL)db_get_b(NULL, MODULENAME, "IfOuttolunch", FALSE);
+	Options.MessageRead = (BOOL)g_plugin.getByte("MessageRead", FALSE);
+	Options.MessageSend = (BOOL)g_plugin.getByte("MessageSend", TRUE);
+	Options.UrlRead = (BOOL)g_plugin.getByte("UrlRead", FALSE);
+	Options.UrlSend = (BOOL)g_plugin.getByte("UrlSend", TRUE);
+	Options.FileRead = (BOOL)g_plugin.getByte("FileRead", FALSE);
+	Options.FileSend = (BOOL)g_plugin.getByte("FileSend", TRUE);
+	Options.ChangeTo = (INT)g_plugin.getDword("ChangeTo", ID_STATUS_ONLINE);
+	Options.IfOffline = (BOOL)g_plugin.getByte("IfOffline", FALSE);
+	Options.IfOnline = (BOOL)g_plugin.getByte("IfOnline", FALSE);
+	Options.IfAway = (BOOL)g_plugin.getByte("IfAway", TRUE);
+	Options.IfNA = (BOOL)g_plugin.getByte("IfNA", TRUE);
+	Options.IfOccupied = (BOOL)g_plugin.getByte("IfOccupied", FALSE);
+	Options.IfDND = (BOOL)g_plugin.getByte("IfDND", FALSE);
+	Options.IfFreeforchat = (BOOL)g_plugin.getByte("IfFreeforchat", FALSE);
+	Options.IfInvisible = (BOOL)g_plugin.getByte("IfInvisible", FALSE);
+	Options.IfOnthephone = (BOOL)g_plugin.getByte("IfOnthephone", FALSE);
+	Options.IfOuttolunch = (BOOL)g_plugin.getByte("IfOuttolunch", FALSE);
 }
 
 static int StatusChangeGetMessage(WPARAM, LPARAM hDbEvent)
@@ -283,23 +283,23 @@ static INT_PTR CALLBACK DlgProcStatusChangeOpts(HWND hwndDlg, UINT msg, WPARAM w
 				return TRUE;
 			
 			case PSN_APPLY:
-				db_set_b(NULL, MODULENAME, "MessageRead", (BYTE)Options.MessageRead);
-				db_set_b(NULL, MODULENAME, "MessageSend", (BYTE)Options.MessageSend);
-				db_set_b(NULL, MODULENAME, "UrlRead", (BYTE)Options.UrlRead);
-				db_set_b(NULL, MODULENAME, "UrlSend", (BYTE)Options.UrlSend);
-				db_set_b(NULL, MODULENAME, "FileRead", (BYTE)Options.FileRead);
-				db_set_b(NULL, MODULENAME, "FileSend", (BYTE)Options.FileSend);
-				db_set_dw(NULL, MODULENAME, "ChangeTo", (DWORD)Options.ChangeTo);
-				db_set_b(NULL, MODULENAME, "IfOffline", (BYTE)Options.IfOffline);
-				db_set_b(NULL, MODULENAME, "IfOnline", (BYTE)Options.IfOnline);
-				db_set_b(NULL, MODULENAME, "IfAway", (BYTE)Options.IfAway);
-				db_set_b(NULL, MODULENAME, "IfNA", (BYTE)Options.IfNA);
-				db_set_b(NULL, MODULENAME, "IfDND", (BYTE)Options.IfDND);
-				db_set_b(NULL, MODULENAME, "IfOccupied", (BYTE)Options.IfOccupied);
-				db_set_b(NULL, MODULENAME, "IfFreeforchat", (BYTE)Options.IfFreeforchat);
-				db_set_b(NULL, MODULENAME, "IfInvisible", (BYTE)Options.IfInvisible);
-				db_set_b(NULL, MODULENAME, "IfOnthephone", (BYTE)Options.IfOnthephone);
-				db_set_b(NULL, MODULENAME, "IfOuttolunch", (BYTE)Options.IfOuttolunch);
+				g_plugin.setByte("MessageRead", (BYTE)Options.MessageRead);
+				g_plugin.setByte("MessageSend", (BYTE)Options.MessageSend);
+				g_plugin.setByte("UrlRead", (BYTE)Options.UrlRead);
+				g_plugin.setByte("UrlSend", (BYTE)Options.UrlSend);
+				g_plugin.setByte("FileRead", (BYTE)Options.FileRead);
+				g_plugin.setByte("FileSend", (BYTE)Options.FileSend);
+				g_plugin.setDword("ChangeTo", (DWORD)Options.ChangeTo);
+				g_plugin.setByte("IfOffline", (BYTE)Options.IfOffline);
+				g_plugin.setByte("IfOnline", (BYTE)Options.IfOnline);
+				g_plugin.setByte("IfAway", (BYTE)Options.IfAway);
+				g_plugin.setByte("IfNA", (BYTE)Options.IfNA);
+				g_plugin.setByte("IfDND", (BYTE)Options.IfDND);
+				g_plugin.setByte("IfOccupied", (BYTE)Options.IfOccupied);
+				g_plugin.setByte("IfFreeforchat", (BYTE)Options.IfFreeforchat);
+				g_plugin.setByte("IfInvisible", (BYTE)Options.IfInvisible);
+				g_plugin.setByte("IfOnthephone", (BYTE)Options.IfOnthephone);
+				g_plugin.setByte("IfOuttolunch", (BYTE)Options.IfOuttolunch);
 				return TRUE;
 			}
 			break;

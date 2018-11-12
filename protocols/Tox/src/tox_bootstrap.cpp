@@ -26,7 +26,7 @@ void CToxProto::BootstrapNodesFromDb(Tox *tox, bool isIPv6)
 {
 	char module[MAX_PATH];
 	mir_snprintf(module, "%s_Nodes", m_szModuleName);
-	int nodeCount = db_get_w(NULL, module, TOX_SETTINGS_NODE_COUNT, 0);
+	int nodeCount = db_get_w(0, module, TOX_SETTINGS_NODE_COUNT, 0);
 	if (nodeCount == 0)
 		return;
 
@@ -35,7 +35,7 @@ void CToxProto::BootstrapNodesFromDb(Tox *tox, bool isIPv6)
 		mir_snprintf(setting, TOX_SETTINGS_NODE_IPV4, i);
 		ptrA address(db_get_sa(NULL, module, setting));
 		mir_snprintf(setting, TOX_SETTINGS_NODE_PORT, i);
-		int port = db_get_w(NULL, module, setting, 33445);
+		int port = db_get_w(0, module, setting, 33445);
 		mir_snprintf(setting, TOX_SETTINGS_NODE_PKEY, i);
 		ptrA pubKey(db_get_sa(NULL, module, setting));
 		BootstrapUdpNode(tox, address, port, pubKey);

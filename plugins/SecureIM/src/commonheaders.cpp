@@ -43,30 +43,30 @@ int myDBWriteStringEncode(MCONTACT hContact, const char *szModule, const char *s
 
 void GetFlags()
 {
-	bSFT = db_get_b(0, MODULENAME, "sft", 0);
-	bSOM = db_get_b(0, MODULENAME, "som", 0);
-	bASI = db_get_b(0, MODULENAME, "asi", 0);
-	bMCD = db_get_b(0, MODULENAME, "mcd", 0);
-	bSCM = db_get_b(0, MODULENAME, "scm", 0);
-	bDGP = db_get_b(0, MODULENAME, "dgp", 0);
-	bAIP = db_get_b(0, MODULENAME, "aip", 0);
-	bNOL = db_get_b(0, MODULENAME, "nol", 0);
-	bAAK = db_get_b(0, MODULENAME, "aak", 0);
-	bMCM = db_get_b(0, MODULENAME, "mcm", 0);
+	bSFT = g_plugin.getByte("sft", 0);
+	bSOM = g_plugin.getByte("som", 0);
+	bASI = g_plugin.getByte("asi", 0);
+	bMCD = g_plugin.getByte("mcd", 0);
+	bSCM = g_plugin.getByte("scm", 0);
+	bDGP = g_plugin.getByte("dgp", 0);
+	bAIP = g_plugin.getByte("aip", 0);
+	bNOL = g_plugin.getByte("nol", 0);
+	bAAK = g_plugin.getByte("aak", 0);
+	bMCM = g_plugin.getByte("mcm", 0);
 }
 
 void SetFlags()
 {
-	db_set_b(0, MODULENAME, "sft", bSFT);
-	db_set_b(0, MODULENAME, "som", bSOM);
-	db_set_b(0, MODULENAME, "asi", bASI);
-	db_set_b(0, MODULENAME, "mcd", bMCD);
-	db_set_b(0, MODULENAME, "scm", bSCM);
-	db_set_b(0, MODULENAME, "dgp", bDGP);
-	db_set_b(0, MODULENAME, "aip", bAIP);
-	db_set_b(0, MODULENAME, "nol", bNOL);
-	db_set_b(0, MODULENAME, "aak", bAAK);
-	db_set_b(0, MODULENAME, "mcm", bMCM);
+	g_plugin.setByte("sft", bSFT);
+	g_plugin.setByte("som", bSOM);
+	g_plugin.setByte("asi", bASI);
+	g_plugin.setByte("mcd", bMCD);
+	g_plugin.setByte("scm", bSCM);
+	g_plugin.setByte("dgp", bDGP);
+	g_plugin.setByte("aip", bAIP);
+	g_plugin.setByte("nol", bNOL);
+	g_plugin.setByte("aak", bAAK);
+	g_plugin.setByte("mcm", bMCM);
 }
 
 int msgbox(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType)

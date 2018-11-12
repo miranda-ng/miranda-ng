@@ -97,7 +97,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				if (!cursel) {
 					PROTOACCOUNT *pa = (PROTOACCOUNT *)SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_PROTO, CB_GETITEMDATA, cursel, 0);
 					DBVARIANT dbv = { 0 };
-					if (!db_get_ws(NULL, MODULENAME, pa->szModuleName, &dbv)) {
+					if (!g_plugin.getWString(pa->szModuleName, &dbv)) {
 						EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_BUTTON_TEST_PLAY), TRUE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_BUTTON_RESET_SOUND), TRUE);
 						SetDlgItemText(hwndDlg, IDC_OPT_LABEL_SOUND, PathFindFileName(dbv.pwszVal));
@@ -111,7 +111,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					size_t value_max_len = mir_strlen(pa->szModuleName) + 8;
 					char *value = (char *)mir_alloc(sizeof(char) * value_max_len);
 					mir_snprintf(value, value_max_len, "%s_ignore", pa->szModuleName);
-					CheckDlgButton(hwndDlg, IDC_OPT_IGNORE_SOUND, db_get_b(NULL, MODULENAME, value, 0) ? BST_CHECKED : BST_UNCHECKED);
+					CheckDlgButton(hwndDlg, IDC_OPT_IGNORE_SOUND, g_plugin.getByte(value, 0) ? BST_CHECKED : BST_UNCHECKED);
 					mir_free(value);
 				}
 				else {
@@ -200,7 +200,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				isIgnoreSound = 0;
 				if (p == nullptr) {
 					DBVARIANT dbv;
-					if (!db_get_ws(NULL, MODULENAME, pa->szModuleName, &dbv)) {
+					if (!g_plugin.getWString(pa->szModuleName, &dbv)) {
 						wchar_t longpath[MAX_PATH];
 						PathToAbsoluteW(dbv.pwszVal, longpath);
 						Skin_PlaySoundFile(longpath);
@@ -250,11 +250,11 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					delete p;
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				}
-				db_unset(NULL, MODULENAME, pa->szModuleName);
+				g_plugin.delSetting(pa->szModuleName);
 				size_t value_max_len = mir_strlen(pa->szModuleName) + 8;
 				char *value = (char *)mir_alloc(sizeof(char) * value_max_len);
 				mir_snprintf(value, value_max_len, "%s_ignore", pa->szModuleName);
-				db_unset(NULL, MODULENAME, value);
+				g_plugin.delSetting(value);
 				mir_free(value);
 			}
 			else {
@@ -279,7 +279,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				XSN_Data *p = XSN_Users.find((XSN_Data *)&pa->szModuleName);
 				if (p == nullptr) {
 					DBVARIANT dbv;
-					if (!db_get_ws(NULL, MODULENAME, pa->szModuleName, &dbv)) {
+					if (!g_plugin.getWString(pa->szModuleName, &dbv)) {
 						wchar_t longpath[MAX_PATH];
 						PathToAbsoluteW(dbv.pwszVal, longpath);
 						XSN_Users.insert(new XSN_Data((LPARAM)pa->szModuleName, longpath, IsDlgButtonChecked(hwndDlg, IDC_OPT_IGNORE_SOUND) ? 1 : 0, 0));
@@ -322,7 +322,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					if (it->iscontact)
 						db_set_ws(it->hContact, MODULENAME, SETTINGSKEY, shortpath);
 					else
-						db_set_ws(NULL, MODULENAME, (LPCSTR)it->hContact, shortpath);
+						g_plugin.setWString((LPCSTR)it->hContact, shortpath);
 				}
 				if (it->iscontact)
 					db_set_b(it->hContact, MODULENAME, SETTINGSIGNOREKEY, it->ignore);
@@ -330,7 +330,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					size_t value_max_len = mir_strlen((const char*)it->hContact) + 8;
 					char *value = (char *)mir_alloc(sizeof(char) * value_max_len);
 					mir_snprintf(value, value_max_len, "%s_ignore", (const char*)it->hContact);
-					db_set_b(NULL, MODULENAME, value, it->ignore);
+					g_plugin.setByte(value, it->ignore);
 					mir_free(value);
 				}
 			}

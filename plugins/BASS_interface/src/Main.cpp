@@ -92,7 +92,7 @@ static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
 	case ID_STATUS_ONLINE:       currstat <<= 1;
 	}
 
-	if (!db_get_b(NULL, "Skin", "UseSound", 0))
+	if (!db_get_b(0, "Skin", "UseSound", 0))
 		doPlay = FALSE;
 
 	if (QuietTime)
@@ -192,7 +192,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_SETCURSEL, 0, 0);
 
 			BASS_DEVICEINFO info;
-			ptrW tszDeviceName(db_get_wsa(NULL, MODULENAME, OPT_OUTDEVICE));
+			ptrW tszDeviceName(g_plugin.getWStringA(OPT_OUTDEVICE));
 			for (int i = 1; BASS_GetDeviceInfo(i + newBass, &info); i++) {
 				SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_ADDSTRING, 0, _A2T(info.name));
 				if (!mir_wstrcmp(tszDeviceName, _A2T(info.name)))
@@ -221,29 +221,29 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				SYSTEMTIME systime = { 0 };
 
 				GetDlgItemText(hwndDlg, IDC_OUTDEVICE, tmp, _countof(tmp));
-				db_set_ws(NULL, MODULENAME, OPT_OUTDEVICE, tmp);
+				g_plugin.setWString(OPT_OUTDEVICE, tmp);
 
 				Volume = (DWORD)SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_GETPOS, 0, 0);
-				db_set_b(NULL, MODULENAME, OPT_VOLUME, Volume);
+				g_plugin.setByte(OPT_VOLUME, Volume);
 
 				sndLimSnd = SendDlgItemMessage(hwndDlg, IDC_MAXCHANNEL, CB_GETCURSEL, 0, 0) + 1;
 				if (sndLimSnd > MAXCHAN)
 					sndLimSnd = MAXCHAN;
-				db_set_b(NULL, MODULENAME, OPT_MAXCHAN, sndLimSnd);
+				g_plugin.setByte(OPT_MAXCHAN, sndLimSnd);
 
 				QuietTime = IsDlgButtonChecked(hwndDlg, IDC_QUIETTIME) == BST_CHECKED;
-				db_set_b(NULL, MODULENAME, OPT_QUIETTIME, QuietTime);
+				g_plugin.setByte(OPT_QUIETTIME, QuietTime);
 
 				SendDlgItemMessage(hwndDlg, IDC_TIME1, DTM_GETSYSTEMTIME, 0, (LPARAM)&systime);
 				TimeWrd1 = MAKEWORD(systime.wMinute, systime.wHour);
-				db_set_w(NULL, MODULENAME, OPT_TIME1, TimeWrd1);
+				g_plugin.setWord(OPT_TIME1, TimeWrd1);
 
 				SendDlgItemMessage(hwndDlg, IDC_TIME2, DTM_GETSYSTEMTIME, 0, (LPARAM)&systime);
 				TimeWrd2 = MAKEWORD(systime.wMinute, systime.wHour);
-				db_set_w(NULL, MODULENAME, OPT_TIME2, TimeWrd2);
+				g_plugin.setWord(OPT_TIME2, TimeWrd2);
 
 				EnPreview = IsDlgButtonChecked(hwndDlg, IDC_PREVIEW) == BST_CHECKED;
-				db_set_b(NULL, MODULENAME, OPT_PREVIEW, EnPreview);
+				g_plugin.setByte(OPT_PREVIEW, EnPreview);
 
 				StatMask = 0;
 				for (int i = IDC_CHECKBOX10; i > IDC_CHECKBOX1 - 1; i--) {
@@ -252,7 +252,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 						StatMask |= 1;
 				}
 
-				db_set_w(NULL, MODULENAME, OPT_STATUS, StatMask);
+				g_plugin.setWord(OPT_STATUS, StatMask);
 
 				device = SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_GETCURSEL, 0, 0);
 				if (device == 0)
@@ -358,7 +358,7 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		SendMessage(hwndMute, BUTTONSETASFLATBTN, 1, 0);
 		SendMessage(hwndMute, BUTTONSETCUSTOMPAINT, 0, (LPARAM)&fnPainter);
 
-		EnableFrameIcon(db_get_b(NULL, "Skin", "UseSound", 0) != 0);
+		EnableFrameIcon(db_get_b(0, "Skin", "UseSound", 0) != 0);
 
 		hwndSlider = CreateWindow(TRACKBAR_CLASS, L"", WS_CHILD | WS_VISIBLE | TBS_NOTICKS | TBS_TOOLTIPS, 21, 1, 100, 20,
 			hwnd, (HMENU)nullptr, (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE), nullptr);
@@ -369,8 +369,8 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 	case WM_COMMAND:
 		if ((HWND)lParam == hwndMute) {
-			bool useSound = !db_get_b(NULL, "Skin", "UseSound", 0);
-			db_set_b(NULL, "Skin", "UseSound", useSound);
+			bool useSound = !db_get_b(0, "Skin", "UseSound", 0);
+			db_set_b(0, "Skin", "UseSound", useSound);
 			EnableFrameIcon(useSound);
 		}
 		break;
@@ -379,7 +379,7 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		if (hBass != nullptr)
 			if (LOWORD(wParam) == SB_ENDSCROLL || LOWORD(wParam) == SB_THUMBTRACK) {
 				Volume = (DWORD)SendMessage(hwndSlider, TBM_GETPOS, 0, 0);
-				db_set_b(NULL, MODULENAME, OPT_VOLUME, Volume);
+				g_plugin.setByte(OPT_VOLUME, Volume);
 				BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100);
 				SendMessage(hwndOptSlider, TBM_SETPOS, TRUE, Volume);
 				Preview = TRUE;
@@ -486,26 +486,26 @@ void LoadBassLibrary(const wchar_t *ptszPath)
 		DBVARIANT dbv = { 0 };
 
 		BASS_DEVICEINFO info;
-		if (!db_get_ws(NULL, MODULENAME, OPT_OUTDEVICE, &dbv))
+		if (!g_plugin.getWString(OPT_OUTDEVICE, &dbv))
 			for (size_t i = 1; BASS_GetDeviceInfo((DWORD)i, &info); i++)
 				if (!mir_wstrcmp(dbv.pwszVal, _A2T(info.name)))
 					device = (int)i;
 
 		db_free(&dbv);
 
-		sndLimSnd = db_get_b(NULL, MODULENAME, OPT_MAXCHAN, MAXCHAN);
+		sndLimSnd = g_plugin.getByte(OPT_MAXCHAN, MAXCHAN);
 		if (sndLimSnd > MAXCHAN)
 			sndLimSnd = MAXCHAN;
 
-		TimeWrd1 = db_get_w(NULL, MODULENAME, OPT_TIME1, 0);
-		TimeWrd2 = db_get_w(NULL, MODULENAME, OPT_TIME2, 0);
-		QuietTime = db_get_b(NULL, MODULENAME, OPT_QUIETTIME, 0);
-		EnPreview = db_get_b(NULL, MODULENAME, OPT_PREVIEW, 0);
-		StatMask = db_get_w(NULL, MODULENAME, OPT_STATUS, 0x3ff);
+		TimeWrd1 = g_plugin.getWord(OPT_TIME1, 0);
+		TimeWrd2 = g_plugin.getWord(OPT_TIME2, 0);
+		QuietTime = g_plugin.getByte(OPT_QUIETTIME, 0);
+		EnPreview = g_plugin.getByte(OPT_PREVIEW, 0);
+		StatMask = g_plugin.getWord(OPT_STATUS, 0x3ff);
 
 		BASS_Init(device, 44100, 0, g_clistApi.hwndContactList, nullptr);
 
-		Volume = db_get_b(NULL, MODULENAME, OPT_VOLUME, 33);
+		Volume = g_plugin.getByte(OPT_VOLUME, 33);
 		BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100);
 		hPlaySound = HookEvent(ME_SKIN_PLAYINGSOUND, OnPlaySnd);
 		CreateFrame();
@@ -537,9 +537,9 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	}
 	else {
 		DBVARIANT dbv;
-		if (db_get_ws(NULL, MODULENAME, OPT_BASSPATH, &dbv)) {
+		if (g_plugin.getWString(OPT_BASSPATH, &dbv)) {
 			mir_wstrncpy(CurrBassPath, VARSW(L"Plugins\\BASS\\bass.dll"), _countof(CurrBassPath));
-			db_set_ws(NULL, MODULENAME, OPT_BASSPATH, CurrBassPath);
+			g_plugin.setWString(OPT_BASSPATH, CurrBassPath);
 		}
 		else {
 			mir_wstrcpy(CurrBassPath, dbv.pwszVal);

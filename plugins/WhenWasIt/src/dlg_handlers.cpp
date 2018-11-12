@@ -347,35 +347,35 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 					commonData.cDlgTimeout = wcstol(buffer, &stop, 10);
 					if (*stop) { commonData.cDlgTimeout = POPUP_TIMEOUT; }
 
-					db_set_b(NULL, MODULENAME, "IgnoreSubcontacts", commonData.bIgnoreSubcontacts);
-					db_set_b(NULL, MODULENAME, "UsePopups", commonData.bUsePopups);
-					db_set_b(NULL, MODULENAME, "UseDialog", commonData.bUseDialog);
-					db_set_w(NULL, MODULENAME, "CheckInterval", commonData.checkInterval);
-					db_set_w(NULL, MODULENAME, "DaysInAdvance", commonData.daysInAdvance);
-					db_set_w(NULL, MODULENAME, "DaysAfter", commonData.daysAfter);
-					db_set_w(NULL, MODULENAME, "PopupTimeout", commonData.popupTimeout);
-					db_set_w(NULL, MODULENAME, "PopupTimeoutToday", commonData.popupTimeoutToday);
+					g_plugin.setByte("IgnoreSubcontacts", commonData.bIgnoreSubcontacts);
+					g_plugin.setByte("UsePopups", commonData.bUsePopups);
+					g_plugin.setByte("UseDialog", commonData.bUseDialog);
+					g_plugin.setWord("CheckInterval", commonData.checkInterval);
+					g_plugin.setWord("DaysInAdvance", commonData.daysInAdvance);
+					g_plugin.setWord("DaysAfter", commonData.daysAfter);
+					g_plugin.setWord("PopupTimeout", commonData.popupTimeout);
+					g_plugin.setWord("PopupTimeoutToday", commonData.popupTimeoutToday);
 
-					db_set_b(NULL, MODULENAME, "ShowCurrentAge", commonData.cShowAgeMode);
-					db_set_b(NULL, MODULENAME, "NoBirthdaysPopup", commonData.bNoBirthdaysPopup);
+					g_plugin.setByte("ShowCurrentAge", commonData.cShowAgeMode);
+					g_plugin.setByte("NoBirthdaysPopup", commonData.bNoBirthdaysPopup);
 
-					db_set_b(NULL, MODULENAME, "OpenInBackground", commonData.bOpenInBackground);
+					g_plugin.setByte("OpenInBackground", commonData.bOpenInBackground);
 
-					db_set_b(NULL, MODULENAME, "SoundNearDays", commonData.cSoundNearDays);
+					g_plugin.setByte("SoundNearDays", commonData.cSoundNearDays);
 
-					db_set_b(NULL, MODULENAME, "DefaultModule", commonData.cDefaultModule);
+					g_plugin.setByte("DefaultModule", commonData.cDefaultModule);
 
-					db_set_b(NULL, MODULENAME, "PopupLeftClick", commonData.lPopupClick);
-					db_set_b(NULL, MODULENAME, "PopupRightClick", commonData.rPopupClick);
+					g_plugin.setByte("PopupLeftClick", commonData.lPopupClick);
+					g_plugin.setByte("PopupRightClick", commonData.rPopupClick);
 
-					db_set_dw(NULL, MODULENAME, "Foreground", commonData.foreground);
-					db_set_dw(NULL, MODULENAME, "Background", commonData.background);
+					g_plugin.setDword("Foreground", commonData.foreground);
+					g_plugin.setDword("Background", commonData.background);
 
-					db_set_b(NULL, MODULENAME, "OncePerDay", commonData.bOncePerDay);
+					g_plugin.setByte("OncePerDay", commonData.bOncePerDay);
 
-					db_set_w(NULL, MODULENAME, "DlgTimeout", commonData.cDlgTimeout);
+					g_plugin.setWord("DlgTimeout", commonData.cDlgTimeout);
 
-					db_set_b(NULL, MODULENAME, "NotifyFor", commonData.notifyFor);
+					g_plugin.setByte("NotifyFor", commonData.notifyFor);
 
 					RefreshAllContactListIcons();
 
@@ -746,7 +746,7 @@ INT_PTR CALLBACK DlgProcBirthdays(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 			ListView_InsertColumn(hList, 5, &col);
 
 			LoadBirthdays(hWnd, 0);
-			int column = db_get_b(NULL, MODULENAME, "SortColumn", 0);
+			int column = g_plugin.getByte("SortColumn", 0);
 
 			BirthdaysSortParams params = {};
 			params.hList = GetDlgItem(hWnd, IDC_BIRTHDAYS_LIST);
@@ -818,7 +818,7 @@ INT_PTR CALLBACK DlgProcBirthdays(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 			case LVN_COLUMNCLICK:
 				LPNMLISTVIEW lv = (LPNMLISTVIEW)lParam;
 				int column = lv->iSubItem;
-				db_set_b(NULL, MODULENAME, "SortColumn", column);
+				g_plugin.setByte("SortColumn", column);
 				BirthdaysSortParams params = {};
 				params.hList = GetDlgItem(hWnd, IDC_BIRTHDAYS_LIST);
 				params.column = column;

@@ -334,7 +334,7 @@ void LoadNotes(BOOL bIsStartup)
 
 	g_Stickies = nullptr;
 
-	int NotesCount = db_get_dw(0, MODULENAME, "NotesData", 0);
+	int NotesCount = g_plugin.getDword("NotesData", 0);
 
 	for (int I = 0; I < NotesCount; I++) {
 		char *DelPos;
@@ -625,17 +625,17 @@ void PurgeNotes(void)
 {
 	char ValueName[16];
 
-	int NotesCount = db_get_dw(0, MODULENAME, "NotesData", 0);
+	int NotesCount = g_plugin.getDword("NotesData", 0);
 	for (int I = 0; I < NotesCount; I++) {
 		mir_snprintf(ValueName, "NotesData%d", I);
-		db_unset(0, MODULENAME, ValueName);
+		g_plugin.delSetting(ValueName);
 	}
 }
 
 void DeleteNotes(void)
 {
 	PurgeNotes();
-	db_set_dw(0, MODULENAME, "NotesData", 0);
+	g_plugin.setDword("NotesData", 0);
 	PurgeNotesTree();
 	NOTIFY_LIST();
 }
@@ -679,9 +679,9 @@ static void JustSaveNotesEx(STICKYNOTE *pModified = nullptr)
 	int scrollV;
 	char *tData;
 
-	const int OldNotesCount = db_get_dw(0, MODULENAME, "NotesData", 0);
+	const int OldNotesCount = g_plugin.getDword("NotesData", 0);
 
-	db_set_dw(0, MODULENAME, "NotesData", NotesCount);
+	g_plugin.setDword("NotesData", NotesCount);
 
 	for (TREEELEMENT *TTE = g_Stickies; TTE; TTE = (TREEELEMENT*)TTE->next, I++) {
 		STICKYNOTE *pNote = (STICKYNOTE*)TTE->ptrdata;
@@ -798,7 +798,7 @@ static void JustSaveNotesEx(STICKYNOTE *pModified = nullptr)
 	// delete any left over DB note entries
 	for (; I < OldNotesCount; I++) {
 		mir_snprintf(ValueName, "NotesData%d", I);
-		db_unset(0, MODULENAME, ValueName);
+		g_plugin.delSetting(ValueName);
 	}
 
 	NOTIFY_LIST();

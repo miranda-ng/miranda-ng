@@ -93,14 +93,14 @@ int UpdateTimers()
 {
 	KillTimers();
 	int interval;
-	interval = db_get_dw(NULL, MODULENAME, "Interval", DEFAULT_INTERVAL);
+	interval = g_plugin.getDword("Interval", DEFAULT_INTERVAL);
 	interval *= 1000; //go from miliseconds to seconds
 	hCheckTimer = SetTimer(nullptr, 0, interval, (TIMERPROC) OnCheckTimer);
 	
-	int bReconnect = db_get_b(NULL, MODULENAME, "Reconnect", 0);
+	int bReconnect = g_plugin.getByte("Reconnect", 0);
 	if (bReconnect) //user wants to forcefully reconnect every x minutes
 		{
-			interval = db_get_dw(NULL, MODULENAME, "ReconnectInterval", DEFAULT_RECONNECT_INTERVAL);
+			interval = g_plugin.getDword("ReconnectInterval", DEFAULT_RECONNECT_INTERVAL);
 			interval *= 1000 * 60; //go from miliseconds to seconds to minutes
 			hReconnectTimer = SetTimer(nullptr, 0, interval, (TIMERPROC) OnReconnectTimer);
 		}
@@ -132,7 +132,7 @@ VOID CALLBACK OnCheckTimer(HWND, UINT, UINT_PTR, DWORD)
 		else{
 			exchangeServer.Connect();
 		}*/
-	int bCheck = db_get_b(NULL, MODULENAME, "Check", 1);
+	int bCheck = g_plugin.getByte("Check", 1);
 	
 	if (bCheck) //only check if we were told to
 		{

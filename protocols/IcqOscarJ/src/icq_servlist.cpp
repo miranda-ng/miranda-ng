@@ -1242,7 +1242,7 @@ void* CIcqProto::collectGroups(int *count)
 static int GroupLinksEnumProc(const char *szSetting, void *lParam)
 {
 	// check link target, add if match
-	if (db_get_w(NULL, ((char**)lParam)[2], szSetting, 0) == (WORD)((char**)lParam)[1]) {
+	if (db_get_w(0, ((char**)lParam)[2], szSetting, 0) == (WORD)((char**)lParam)[1]) {
 		char** block = (char**)SAFE_MALLOC(2 * sizeof(char*));
 		block[1] = null_strdup(szSetting);
 		block[0] = ((char**)lParam)[0];
@@ -1325,7 +1325,7 @@ WORD CIcqProto::getServListGroupLinkID(const char *szPath)
 	char szModule[MAX_PATH];
 	mir_snprintf(szModule, "%sGroups", m_szModuleName);
 
-	WORD wGroupId = db_get_w(NULL, szModule, szPath, 0);
+	WORD wGroupId = db_get_w(0, szModule, szPath, 0);
 
 	if (wGroupId && !CheckServerID(wGroupId, 0)) { // known, check if still valid, if not remove
 		debugLogA("Removing group \"%s\" from cache...", szPath);
@@ -1342,7 +1342,7 @@ void CIcqProto::setServListGroupLinkID(const char *szPath, WORD wGroupID)
 	mir_snprintf(szModule, "%sGroups", m_szModuleName);
 
 	if (wGroupID)
-		db_set_w(NULL, szModule, szPath, wGroupID);
+		db_set_w(0, szModule, szPath, wGroupID);
 	else
 		db_unset(NULL, szModule, szPath);
 }

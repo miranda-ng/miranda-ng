@@ -584,12 +584,12 @@ void LoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst)
 	}
 	ReleaseDC(hwnd, hdc);
 
-	dat->min_row_heigh = (int)db_get_b(NULL, "CLC", "RowHeight", CLCDEFAULT_ROWHEIGHT);
-	dat->group_row_height = (int)db_get_b(NULL, "CLC", "GRowHeight", CLCDEFAULT_ROWHEIGHT);
+	dat->min_row_heigh = (int)db_get_b(0, "CLC", "RowHeight", CLCDEFAULT_ROWHEIGHT);
+	dat->group_row_height = (int)db_get_b(0, "CLC", "GRowHeight", CLCDEFAULT_ROWHEIGHT);
 	dat->row_border = 0;
-	dat->rightMargin = db_get_b(NULL, "CLC", "RightMargin", CLCDEFAULT_LEFTMARGIN);
-	dat->bkColour = db_get_b(NULL, "CLC", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS) ?
-		GetSysColor(COLOR_3DFACE) : db_get_dw(NULL, "CLC", "BkColour", CLCDEFAULT_BKCOLOUR);
+	dat->rightMargin = db_get_b(0, "CLC", "RightMargin", CLCDEFAULT_LEFTMARGIN);
+	dat->bkColour = db_get_b(0, "CLC", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS) ?
+		GetSysColor(COLOR_3DFACE) : db_get_dw(0, "CLC", "BkColour", CLCDEFAULT_BKCOLOUR);
 
 	coreCli.pfnLoadClcOptions(hwnd, dat, bFirst);
 
@@ -616,7 +616,7 @@ void LoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst)
 		}
 	}
 
-	if (db_get_b(NULL, "CLCExt", "EXBK_FillWallpaper", 0)) {
+	if (db_get_b(0, "CLCExt", "EXBK_FillWallpaper", 0)) {
 		char wpbuf[MAX_PATH];
 		if (dat->hBmpBackground) {
 			DeleteObject(dat->hBmpBackground);

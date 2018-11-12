@@ -202,7 +202,7 @@ INT_PTR GetCaps(WPARAM wParam, LPARAM)
 	case PFLAGNUM_1:
 		return PF1_BASICSEARCH | PF1_ADDSEARCHRES | PF1_VISLIST;
 	case PFLAGNUM_2:
-		return db_get_b(NULL, MODULENAME, HIDE_STATUS_ICON_KEY, 0) ? 0 : (PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND); 
+		return g_plugin.getByte(HIDE_STATUS_ICON_KEY, 0) ? 0 : (PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND); 
 	case PFLAGNUM_3:
 		return 0;
 	case PFLAGNUM_4:
@@ -247,14 +247,14 @@ INT_PTR SetStatus(WPARAM wParam, LPARAM)
 	ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldStatus, wParam);
 
 	// Make sure no contact has offline status for any reason on first time run     
-	if ( db_get_b(NULL, MODULENAME, "FirstTime", 100) == 100) {
+	if ( g_plugin.getByte("FirstTime", 100) == 100) {
 		for (auto &hContact : Contacts(MODULENAME))
 			db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);
 
-		db_set_b(NULL, MODULENAME, "FirstTime", 1);
+		g_plugin.setByte("FirstTime", 1);
 	}
 
-	db_set_b(NULL, MODULENAME, OFFLINE_STATUS, bpStatus == ID_STATUS_OFFLINE);
+	g_plugin.setByte(OFFLINE_STATUS, bpStatus == ID_STATUS_OFFLINE);
 	return 0;
 }
 

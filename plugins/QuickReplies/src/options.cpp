@@ -69,14 +69,14 @@ INT_PTR CALLBACK DlgProcOptionsPage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_REPLIES), MessageEditSubclassProc);
 
 			mir_snprintf(key, "ImmediatelySend_%x", iNumber);
-			CheckDlgButton(hwndDlg, IDC_IMMEDIATELY, db_get_w(NULL, MODULENAME, key, 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_IMMEDIATELY, g_plugin.getWord(key, 1) ? BST_CHECKED : BST_UNCHECKED);
 
 			mir_snprintf(key, "RepliesCount_%x", iNumber);
-			count = db_get_w(NULL, MODULENAME, key, 0);
+			count = g_plugin.getWord(key, 0);
 
 			for (int i = 0; i < count; i++) {
 				mir_snprintf(key, "Reply_%x_%x", iNumber, i);
-				wchar_t *value = db_get_wsa(NULL, MODULENAME, key);
+				wchar_t *value = g_plugin.getWStringA(key);
 				if (value) {
 					replies.Append(value);
 					replies.Append(L"\r\n");
@@ -113,11 +113,11 @@ INT_PTR CALLBACK DlgProcOptionsPage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 					wchar_t *tszReplies;
 
 					mir_snprintf(key, "RepliesCount_%x", iNumber);
-					count = db_get_b(NULL, MODULENAME, key, 0);
+					count = g_plugin.getByte(key, 0);
 
 					for (int i = 0; i < count; i++) {
 						mir_snprintf(key, "Reply_%x_%x", iNumber, i);
-						db_unset(NULL, MODULENAME, key);
+						g_plugin.delSetting(key);
 					}
 
 					int length = SendDlgItemMessage(hwndDlg, IDC_REPLIES, WM_GETTEXTLENGTH, 0, 0);
@@ -133,17 +133,17 @@ INT_PTR CALLBACK DlgProcOptionsPage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 						int pos = -1, prev = 0;
 						while ((pos = replies.Find(L"\r\n", prev)) != -1) {
 							mir_snprintf(key, "Reply_%x_%x", iNumber, count++);
-							db_set_ws(NULL, MODULENAME, key, replies.Mid(prev, pos - prev).GetBuffer());
+							g_plugin.setWString(key, replies.Mid(prev, pos - prev).GetBuffer());
 							prev = pos + 2;
 						}
 					}
 					mir_free(tszReplies);
 
 					mir_snprintf(key, "RepliesCount_%x", iNumber);
-					db_set_w(NULL, MODULENAME, key, count);
+					g_plugin.setWord(key, count);
 
 					mir_snprintf(key, "ImmediatelySend_%x", iNumber);
-					db_set_b(NULL, MODULENAME, key, IsDlgButtonChecked(hwndDlg, IDC_IMMEDIATELY));
+					g_plugin.setByte(key, IsDlgButtonChecked(hwndDlg, IDC_IMMEDIATELY));
 
 					return TRUE;
 				}

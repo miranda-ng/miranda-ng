@@ -604,6 +604,6 @@ void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const wcha
 	if (len > 8192)
 		free(dst);
 
-	if (db_get_b(0, MODULENAME, "ShowCrashMessageBox", 1) && msg && IDYES == MessageBox(nullptr, msg, L"Miranda Crash Dumper", MB_YESNO | MB_ICONERROR | MB_TASKMODAL | MB_DEFBUTTON2 | MB_TOPMOST))
+	if (g_plugin.getByte("ShowCrashMessageBox", 1) && msg && IDYES == MessageBox(nullptr, msg, L"Miranda Crash Dumper", MB_YESNO | MB_ICONERROR | MB_TASKMODAL | MB_DEFBUTTON2 | MB_TOPMOST))
 		StoreStringToClip(buffer);
 }

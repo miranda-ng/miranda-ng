@@ -105,43 +105,43 @@ static INT_PTR APIENTRY OptWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			case PSN_APPLY:
 				BOOL bSuccess = FALSE;
 
-				fcOpt.bHideOffline = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_CHK_HIDE_OFFLINE);
-				db_set_b(NULL, MODULE, "HideOffline", (BYTE)fcOpt.bHideOffline);
+				fcOpt.bHideOffline = IsDlgButtonChecked(hwndDlg, IDC_CHK_HIDE_OFFLINE);
+				g_plugin.setByte("HideOffline", (BYTE)fcOpt.bHideOffline);
 
-				fcOpt.bHideAll = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_CHK_HIDE_ALL);
-				db_set_b(NULL, MODULE, "HideAll", (BYTE)fcOpt.bHideAll);
+				fcOpt.bHideAll = IsDlgButtonChecked(hwndDlg, IDC_CHK_HIDE_ALL);
+				g_plugin.setByte("HideAll", (BYTE)fcOpt.bHideAll);
 
-				fcOpt.bHideWhenFullscreen = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_CHK_HIDE_WHEN_FULSCREEN);
-				db_set_b(NULL, MODULE, "HideWhenFullscreen", (BYTE)fcOpt.bHideWhenFullscreen);
+				fcOpt.bHideWhenFullscreen = IsDlgButtonChecked(hwndDlg, IDC_CHK_HIDE_WHEN_FULSCREEN);
+				g_plugin.setByte("HideWhenFullscreen", (BYTE)fcOpt.bHideWhenFullscreen);
 
-				fcOpt.bMoveTogether = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_CHK_STICK);
-				db_set_b(NULL, MODULE, "MoveTogether", (BYTE)fcOpt.bMoveTogether);
+				fcOpt.bMoveTogether = IsDlgButtonChecked(hwndDlg, IDC_CHK_STICK);
+				g_plugin.setByte("MoveTogether", (BYTE)fcOpt.bMoveTogether);
 
-				fcOpt.bFixedWidth = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_CHK_WIDTH);
-				db_set_b(NULL, MODULE, "FixedWidth", (BYTE)fcOpt.bFixedWidth);
+				fcOpt.bFixedWidth = IsDlgButtonChecked(hwndDlg, IDC_CHK_WIDTH);
+				g_plugin.setByte("FixedWidth", (BYTE)fcOpt.bFixedWidth);
 				fcOpt.nThumbWidth = GetDlgItemInt(hwndDlg, IDC_TXT_WIDTH, &bSuccess, FALSE);
-				db_set_dw(NULL, MODULE, "Width", fcOpt.nThumbWidth);
+				g_plugin.setDword("Width", fcOpt.nThumbWidth);
 
 				if (bEnableTip) {
-					fcOpt.bShowTip = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_CHK_TIP);
-					db_set_b(NULL, MODULE, "ShowTip", (BYTE)fcOpt.bShowTip);
+					fcOpt.bShowTip = IsDlgButtonChecked(hwndDlg, IDC_CHK_TIP);
+					g_plugin.setByte("ShowTip", (BYTE)fcOpt.bShowTip);
 					fcOpt.TimeIn = GetDlgItemInt(hwndDlg, IDC_TXT_TIMEIN, &bSuccess, FALSE);
-					db_set_w(NULL, MODULE, "TimeIn", fcOpt.TimeIn);
+					g_plugin.setWord("TimeIn", fcOpt.TimeIn);
 				}
 
-				fcOpt.bToTop = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_CHK_TOTOP);
-				db_set_b(NULL, MODULE, "ToTop", (BYTE)fcOpt.bToTop);
+				fcOpt.bToTop = IsDlgButtonChecked(hwndDlg, IDC_CHK_TOTOP);
+				g_plugin.setByte("ToTop", (BYTE)fcOpt.bToTop);
 				fcOpt.ToTopTime = GetDlgItemInt(hwndDlg, IDC_TXT_TOTOPTIME, &bSuccess, FALSE);
-				db_set_w(NULL, MODULE, "ToTopTime", fcOpt.ToTopTime);
+				g_plugin.setWord("ToTopTime", fcOpt.ToTopTime);
 
-				fcOpt.bHideWhenCListShow = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_CHK_HIDE_WHEN_CLISTSHOW);
-				db_set_b(NULL, MODULE, "HideWhenCListShow", (BYTE)fcOpt.bHideWhenCListShow);
+				fcOpt.bHideWhenCListShow = IsDlgButtonChecked(hwndDlg, IDC_CHK_HIDE_WHEN_CLISTSHOW);
+				g_plugin.setByte("HideWhenCListShow", (BYTE)fcOpt.bHideWhenCListShow);
 
-				fcOpt.bUseSingleClick = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_CHK_SINGLECLK);
-				db_set_b(NULL, MODULE, "UseSingleClick", (BYTE)fcOpt.bUseSingleClick);
+				fcOpt.bUseSingleClick = IsDlgButtonChecked(hwndDlg, IDC_CHK_SINGLECLK);
+				g_plugin.setByte("UseSingleClick", (BYTE)fcOpt.bUseSingleClick);
 
-				fcOpt.bShowIdle = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_CHK_SHOWIDLE);
-				db_set_b(NULL, MODULE, "ShowIdle", (BYTE)fcOpt.bShowIdle);
+				fcOpt.bShowIdle = IsDlgButtonChecked(hwndDlg, IDC_CHK_SHOWIDLE);
+				g_plugin.setByte("ShowIdle", (BYTE)fcOpt.bShowIdle);
 
 				ApplyOptionsChanges();
 				OnStatusChanged();
@@ -164,19 +164,19 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		// Border
-		CheckDlgButton(hwndDlg, IDC_DRAWBORDER, db_get_b(NULL, MODULE, "DrawBorder", FLT_DEFAULT_DRAWBORDER) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DRAWBORDER, g_plugin.getByte("DrawBorder", FLT_DEFAULT_DRAWBORDER) ? BST_CHECKED : BST_UNCHECKED);
 		SendMessage(hwndDlg, M_REFRESHBORDERPICKERS, 0, 0);
 		SendDlgItemMessage(hwndDlg, IDC_LTEDGESCOLOR, CPM_SETDEFAULTCOLOUR, 0, FLT_DEFAULT_LTEDGESCOLOR);
-		SendDlgItemMessage(hwndDlg, IDC_LTEDGESCOLOR, CPM_SETCOLOUR, 0, db_get_dw(NULL, MODULE, "LTEdgesColor", FLT_DEFAULT_LTEDGESCOLOR));
+		SendDlgItemMessage(hwndDlg, IDC_LTEDGESCOLOR, CPM_SETCOLOUR, 0, g_plugin.getDword("LTEdgesColor", FLT_DEFAULT_LTEDGESCOLOR));
 		SendDlgItemMessage(hwndDlg, IDC_RBEDGESCOLOR, CPM_SETDEFAULTCOLOUR, 0, FLT_DEFAULT_RBEDGESCOLOR);
-		SendDlgItemMessage(hwndDlg, IDC_RBEDGESCOLOR, CPM_SETCOLOUR, 0, db_get_dw(NULL, MODULE, "RBEdgesColor", FLT_DEFAULT_RBEDGESCOLOR));
+		SendDlgItemMessage(hwndDlg, IDC_RBEDGESCOLOR, CPM_SETCOLOUR, 0, g_plugin.getDword("RBEdgesColor", FLT_DEFAULT_RBEDGESCOLOR));
 
 		// Background
 		CheckDlgButton(hwndDlg, IDC_CHK_WIDTH, (fcOpt.bFixedWidth ? BST_CHECKED : BST_UNCHECKED));
 
 		SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_SETDEFAULTCOLOUR, 0, FLT_DEFAULT_BKGNDCOLOR);
-		SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_SETCOLOUR, 0, db_get_dw(NULL, MODULE, "BkColor", FLT_DEFAULT_BKGNDCOLOR));
-		CheckDlgButton(hwndDlg, IDC_BITMAP, db_get_b(NULL, MODULE, "BkUseBitmap", FLT_DEFAULT_BKGNDUSEBITMAP) ? BST_CHECKED : BST_UNCHECKED);
+		SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_SETCOLOUR, 0, g_plugin.getDword("BkColor", FLT_DEFAULT_BKGNDCOLOR));
+		CheckDlgButton(hwndDlg, IDC_BITMAP, g_plugin.getByte("BkUseBitmap", FLT_DEFAULT_BKGNDUSEBITMAP) ? BST_CHECKED : BST_UNCHECKED);
 		SendMessage(hwndDlg, M_REFRESHBKGBOXES, 0, 0);
 		{
 			DBVARIANT dbv;
@@ -185,7 +185,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 				db_free(&dbv);
 			}
 
-			WORD bmpUse = (WORD)db_get_w(NULL, MODULE, "BkBitmapOpt", FLT_DEFAULT_BKGNDBITMAPOPT);
+			WORD bmpUse = (WORD)g_plugin.getWord("BkBitmapOpt", FLT_DEFAULT_BKGNDBITMAPOPT);
 			CheckDlgButton(hwndDlg, IDC_STRETCHH, ((bmpUse & CLB_STRETCHH) ? BST_CHECKED : BST_UNCHECKED));
 			CheckDlgButton(hwndDlg, IDC_STRETCHV, ((bmpUse & CLB_STRETCHV) ? BST_CHECKED : BST_UNCHECKED));
 			CheckDlgButton(hwndDlg, IDC_TILEH, ((bmpUse & CLBF_TILEH) ? BST_CHECKED : BST_UNCHECKED));
@@ -195,7 +195,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 			SHAutoComplete(GetDlgItem(hwndDlg, IDC_FILENAME), 1);
 
 			// Windows 2K/XP
-			BYTE btOpacity = (BYTE)db_get_b(NULL, MODULE, "Opacity", 100);
+			BYTE btOpacity = (BYTE)g_plugin.getByte("Opacity", 100);
 			SendDlgItemMessage(hwndDlg, IDC_SLIDER_OPACITY, TBM_SETRANGE, TRUE, MAKELONG(0, 100));
 			SendDlgItemMessage(hwndDlg, IDC_SLIDER_OPACITY, TBM_SETPOS, TRUE, btOpacity);
 
@@ -280,30 +280,30 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 		if (0 == ((LPNMHDR)lParam)->idFrom) {
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_RESET:
-				fcOpt.thumbAlpha = (BYTE)((double)db_get_b(NULL, MODULE, "Opacity", 100) * 2.55);
+				fcOpt.thumbAlpha = (BYTE)((double)g_plugin.getByte("Opacity", 100) * 2.55);
 				SetThumbsOpacity(fcOpt.thumbAlpha);
 				break;
 
 			case PSN_APPLY:
 				// Border
-				db_set_b(NULL, MODULE, "DrawBorder", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DRAWBORDER));
+				g_plugin.setByte("DrawBorder", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DRAWBORDER));
 
 				COLORREF col = SendDlgItemMessage(hwndDlg, IDC_LTEDGESCOLOR, CPM_GETCOLOUR, 0, 0);
-				db_set_dw(NULL, MODULE, "LTEdgesColor", col);
+				g_plugin.setDword("LTEdgesColor", col);
 				col = SendDlgItemMessage(hwndDlg, IDC_RBEDGESCOLOR, CPM_GETCOLOUR, 0, 0);
-				db_set_dw(NULL, MODULE, "RBEdgesColor", col);
+				g_plugin.setDword("RBEdgesColor", col);
 
-				db_set_b(NULL, MODULE, "Opacity", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SLIDER_OPACITY, TBM_GETPOS, 0, 0));
+				g_plugin.setByte("Opacity", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SLIDER_OPACITY, TBM_GETPOS, 0, 0));
 
 				// Backgroud
 				col = SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_GETCOLOUR, 0, 0);
-				db_set_dw(NULL, MODULE, "BkColor", col);
+				g_plugin.setDword("BkColor", col);
 
-				db_set_b(NULL, MODULE, "BkUseBitmap", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
+				g_plugin.setByte("BkUseBitmap", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
 
 				wchar_t str[MAX_PATH];
 				GetDlgItemText(hwndDlg, IDC_FILENAME, str, _countof(str));
-				db_set_ws(NULL, MODULE, "BkBitmap", str);
+				g_plugin.setWString("BkBitmap", str);
 
 				WORD flags = 0;
 				if (IsDlgButtonChecked(hwndDlg, IDC_STRETCHH))
@@ -316,7 +316,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 					flags |= CLBF_TILEV;
 				if (IsDlgButtonChecked(hwndDlg, IDC_PROPORTIONAL))
 					flags |= CLBF_PROPORTIONAL;
-				db_set_w(NULL, MODULE, "BkBitmapOpt", flags);
+				g_plugin.setWord("BkBitmapOpt", flags);
 
 				ApplyOptionsChanges();
 				OnStatusChanged();

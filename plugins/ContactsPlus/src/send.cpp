@@ -200,7 +200,7 @@ static void SetAllContactChecks(HWND hwndList, MCONTACT hReceiver) // doubtful n
 	if (szProto == nullptr)
 		return;
 
-	if (db_get_b(NULL, "CList", "HideEmptyGroups", SETTING_USEGROUPS_DEFAULT))
+	if (db_get_b(0, "CList", "HideEmptyGroups", SETTING_USEGROUPS_DEFAULT))
 		SendMessage(hwndList, CLM_SETHIDEEMPTYGROUPS, TRUE, 0);
 	else
 		SendMessage(hwndList, CLM_SETHIDEEMPTYGROUPS, FALSE, 0);
@@ -333,7 +333,7 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				if (!wndData->SendContacts(hwndDlg))
 					break;
 
-				SetTimer(hwndDlg, TIMERID_MSGSEND, db_get_dw(NULL, "SRMsg", "MessageTimeout", TIMEOUT_MSGSEND), nullptr);
+				SetTimer(hwndDlg, TIMERID_MSGSEND, db_get_dw(0, "SRMsg", "MessageTimeout", TIMEOUT_MSGSEND), nullptr);
 			}
 			break;
 

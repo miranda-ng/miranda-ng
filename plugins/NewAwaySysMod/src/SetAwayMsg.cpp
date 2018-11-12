@@ -520,12 +520,12 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			MinContactSplitterX = rcMsgDlg.right - rc.left + 1;
 
 			// [try] getting dialog position
-			int DlgPosX = db_get_dw(NULL, MODULENAME, SAM_DB_DLGPOSX, -1);
-			int DlgPosY = db_get_dw(NULL, MODULENAME, SAM_DB_DLGPOSY, -1);
-			int DlgSizeX = db_get_dw(NULL, MODULENAME, SAM_DB_DLGSIZEX, -1);
-			int DlgSizeY = db_get_dw(NULL, MODULENAME, SAM_DB_DLGSIZEY, -1);
-			int MsgSplitterX = db_get_dw(NULL, MODULENAME, SAM_DB_MSGSPLITTERPOS, -1);
-			int ContactSplitterX = db_get_dw(NULL, MODULENAME, SAM_DB_CONTACTSPLITTERPOS, -1);
+			int DlgPosX = g_plugin.getDword(SAM_DB_DLGPOSX, -1);
+			int DlgPosY = g_plugin.getDword(SAM_DB_DLGPOSY, -1);
+			int DlgSizeX = g_plugin.getDword(SAM_DB_DLGSIZEX, -1);
+			int DlgSizeY = g_plugin.getDword(SAM_DB_DLGSIZEY, -1);
+			int MsgSplitterX = g_plugin.getDword(SAM_DB_MSGSPLITTERPOS, -1);
+			int ContactSplitterX = g_plugin.getDword(SAM_DB_CONTACTSPLITTERPOS, -1);
 			if (DlgPosX >= 0 && DlgPosY >= 0 && DlgSizeX > 0 && DlgSizeY > 0 && MsgSplitterX > 0 && ContactSplitterX > 0) {
 				RECT rcWorkArea, rcIntersect;
 				SystemParametersInfo(SPI_GETWORKAREA, 0, &rcWorkArea, 0);
@@ -939,12 +939,12 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 		{
 			RECT rcRect;
 			GetWindowRect(hwndDlg, &rcRect);
-			db_set_dw(NULL, MODULENAME, SAM_DB_DLGPOSX, rcRect.left);
-			db_set_dw(NULL, MODULENAME, SAM_DB_DLGPOSY, rcRect.top);
-			db_set_dw(NULL, MODULENAME, SAM_DB_DLGSIZEX, rcRect.right - rcRect.left);
-			db_set_dw(NULL, MODULENAME, SAM_DB_DLGSIZEY, rcRect.bottom - rcRect.top);
-			db_set_dw(NULL, MODULENAME, SAM_DB_MSGSPLITTERPOS, g_MsgSplitterX);
-			db_set_dw(NULL, MODULENAME, SAM_DB_CONTACTSPLITTERPOS, g_ContactSplitterX);
+			g_plugin.setDword(SAM_DB_DLGPOSX, rcRect.left);
+			g_plugin.setDword(SAM_DB_DLGPOSY, rcRect.top);
+			g_plugin.setDword(SAM_DB_DLGSIZEX, rcRect.right - rcRect.left);
+			g_plugin.setDword(SAM_DB_DLGSIZEY, rcRect.bottom - rcRect.top);
+			g_plugin.setDword(SAM_DB_MSGSPLITTERPOS, g_MsgSplitterX);
+			g_plugin.setDword(SAM_DB_CONTACTSPLITTERPOS, g_ContactSplitterX);
 			g_SetAwayMsgPage.PageToMemToDB();
 		}
 		break;

@@ -211,9 +211,9 @@ INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LP
 					pszNameLay = GetNameOfLayout(hklLayouts[i]);
 
 					if (mir_wstrcmp(ptszMemLay, ptszGenLay) != 0)
-						db_set_ws(NULL, MODULENAME, pszNameLay, ptszMemLay);
+						g_plugin.setWString(pszNameLay, ptszMemLay);
 					else
-						db_unset(NULL, MODULENAME, pszNameLay);
+						g_plugin.delSetting(pszNameLay);
 
 					mir_free(pszNameLay);
 					mir_free(ptszGenLay);

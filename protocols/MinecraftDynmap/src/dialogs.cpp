@@ -59,7 +59,7 @@ static void StoreDBText(MinecraftDynmapProto* ppro, HWND hwnd, int idCtrl, const
 
 	GetDlgItemText(hwnd, idCtrl, tstr, _countof(tstr));
 	if (tstr[0] != '\0') {
-		db_set_ws(NULL, ppro->m_szModuleName, szSetting, tstr);
+		db_set_ws(0, ppro->m_szModuleName, szSetting, tstr);
 	} else {
 		db_unset(NULL, ppro->m_szModuleName, szSetting);
 	}

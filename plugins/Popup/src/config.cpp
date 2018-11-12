@@ -46,7 +46,7 @@ void LoadOptions()
 {
 	memset(&PopupOptions, 0, sizeof(PopupOptions));
 #if defined(_DEBUG)
-	PopupOptions.debug = db_get_b(NULL, MODULENAME, "debug", FALSE);
+	PopupOptions.debug = g_plugin.getByte("debug", FALSE);
 #endif
 
 	// Load Popup Options
@@ -132,7 +132,7 @@ static void CopyModule(const char *szModule, const char *szNewModule)
 
 void UpgradeDb()
 {
-	if (db_get_b(NULL, "Compatibility", "Popup+ Opts", 0) == 1)
+	if (db_get_b(0, "Compatibility", "Popup+ Opts", 0) == 1)
 		return;
 
 	CopyModule("PopUp", "Popup");
@@ -140,5 +140,5 @@ void UpgradeDb()
 	CopyModule("PopUpActions", "PopupActions");
 	CopyModule("PopUpNotifications", "PopupNotifications");
 
-	db_set_b(NULL, "Compatibility", "Popup+ Opts", 1);
+	db_set_b(0, "Compatibility", "Popup+ Opts", 1);
 }

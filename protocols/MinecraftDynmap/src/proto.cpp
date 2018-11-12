@@ -175,7 +175,7 @@ bool MinecraftDynmapProto::handleError(const std::string &method, const std::str
 	increment_error();
 	debugLogA("!!!!! Quitting %s() with error: %s", method.c_str(), !error.empty() ? error.c_str() : "Something went wrong");
 
-	if (!force_disconnect && error_count_ <= (UINT)db_get_b(NULL, m_szModuleName, MINECRAFTDYNMAP_KEY_TIMEOUTS_LIMIT, MINECRAFTDYNMAP_TIMEOUTS_LIMIT)) {
+	if (!force_disconnect && error_count_ <= (UINT)db_get_b(0, m_szModuleName, MINECRAFTDYNMAP_KEY_TIMEOUTS_LIMIT, MINECRAFTDYNMAP_TIMEOUTS_LIMIT)) {
 		return true;
 	}
 

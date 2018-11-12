@@ -154,7 +154,7 @@ INT_PTR OpenUrl(WPARAM wParam, LPARAM)
 
 INT_PTR CopyLinkToClipboard(WPARAM, LPARAM)
 {
-	ptrW tmp(db_get_wsa(NULL, MODULENAME, "Username"));
+	ptrW tmp(g_plugin.getWStringA("Username"));
 	if (tmp != NULL) {
 		wchar_t buffer[MAX_PATH];
 		mir_snwprintf(buffer, L"https://vi.miranda-ng.org/detail/%s", tmp);
@@ -336,7 +336,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	if (servicemode)
 		ViewVersionInfo(0, 0);
-	else if (db_get_b(NULL, MODULENAME, "UploadChanged", 0) && !ProcessVIHash(false))
+	else if (g_plugin.getByte("UploadChanged", 0) && !ProcessVIHash(false))
 		UploadVersionInfo(0, 0xa1);
 
 	return 0;
@@ -355,9 +355,9 @@ int CMPlugin::Load()
 	if (hMsftedit == nullptr)
 		return 1;
 
-	clsdates = db_get_b(NULL, MODULENAME, "ClassicDates", 1) != 0;
-	dtsubfldr = db_get_b(NULL, MODULENAME, "SubFolders", 1) != 0;
-	catchcrashes = db_get_b(NULL, MODULENAME, "CatchCrashes", 1) != 0;
+	clsdates = g_plugin.getByte("ClassicDates", 1) != 0;
+	dtsubfldr = g_plugin.getByte("SubFolders", 1) != 0;
+	catchcrashes = g_plugin.getByte("CatchCrashes", 1) != 0;
 
 	profname = Utils_ReplaceVarsW(L"%miranda_profilename%.dat");
 	profpath = Utils_ReplaceVarsW(L"%miranda_userdata%");

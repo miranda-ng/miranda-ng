@@ -95,13 +95,13 @@ INT_PTR CALLBACK ExitDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 			SavePosition(hdlg, "ExitDlg");
 			SaveSessionDate();
 			SaveSessionHandles(0, 0);
-			db_set_b(NULL, MODULENAME, "lastempty", 0);
+			g_plugin.setByte("lastempty", 0);
 			DestroyWindow(hdlg);
 			break;
 
 		case IDCANCEL:
 			SavePosition(hdlg, "ExitDlg");
-			db_set_b(NULL, MODULENAME, "lastempty", 1);
+			g_plugin.setByte("lastempty", 1);
 			DestroyWindow(hdlg);
 			break;
 		}
@@ -261,7 +261,7 @@ INT_PTR CALLBACK LoadSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hdlg);
 		{
-			int iDelay = db_get_w(NULL, MODULENAME, "StartupModeDelay", 1500);
+			int iDelay = g_plugin.getWord("StartupModeDelay", 1500);
 			if (g_hghostw == TRUE)
 				SetTimer(hdlg, TIMERID_LOAD, iDelay, nullptr);
 			else {
@@ -426,7 +426,7 @@ int SaveSessionHandles(WPARAM, LPARAM lparam)
 	}
 	if (lparam == 1) {
 		g_ses_count++;
-		db_set_b(0, MODULENAME, "UserSessionsCount", (BYTE)g_ses_count);
+		g_plugin.setByte("UserSessionsCount", (BYTE)g_ses_count);
 	}
 	return 0;
 }
@@ -450,8 +450,8 @@ INT_PTR OpenSessionsManagerWindow(WPARAM, LPARAM)
 	}
 
 	ptrW
-		tszSession(db_get_wsa(NULL, MODULENAME, "SessionDate_0")),
-		tszUserSession(db_get_wsa(NULL, MODULENAME, "UserSessionDsc_0"));
+		tszSession(g_plugin.getWStringA("SessionDate_0")),
+		tszUserSession(g_plugin.getWStringA("UserSessionDsc_0"));
 	if (g_bIncompletedSave || tszSession || tszUserSession) {
 		g_hDlg = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WLCMDIALOG), nullptr, LoadSessionDlgProc);
 		return 0;
@@ -479,9 +479,9 @@ int SaveSessionDate()
 
 		char szSetting[256];
 		mir_snprintf(szSetting, "%s_%d", "SessionDate", 0);
-		wchar_t *ptszSaveSessionDate = db_get_wsa(NULL, MODULENAME, szSetting);
+		wchar_t *ptszSaveSessionDate = g_plugin.getWStringA(szSetting);
 
-		db_set_ws(NULL, MODULENAME, szSetting, szSessionTime);
+		g_plugin.setWString(szSetting, szSessionTime);
 		mir_free(szSessionTime);
 
 		if (ptszSaveSessionDate)
@@ -493,7 +493,7 @@ int SaveSessionDate()
 			mir_free(szDateBuf);
 	}
 	if (g_bCrashRecovery)
-		db_set_b(NULL, MODULENAME, "lastSaveCompleted", 1);
+		g_plugin.setByte("lastSaveCompleted", 1);
 	return 0;
 }
 
@@ -504,11 +504,11 @@ int SaveUserSessionName(wchar_t *szUSessionName)
 
 	char szSetting[256];
 	mir_snprintf(szSetting, "%s_%u", "UserSessionDsc", 0);
-	wchar_t *ptszUserSessionName = db_get_wsa(NULL, MODULENAME, szSetting);
+	wchar_t *ptszUserSessionName = g_plugin.getWStringA(szSetting);
 	if (ptszUserSessionName)
 		ResaveSettings("UserSessionDsc", 1, 255, ptszUserSessionName);
 
-	db_set_ws(NULL, MODULENAME, szSetting, szUSessionName);
+	g_plugin.setWString(szSetting, szUSessionName);
 	return 0;
 }
 
@@ -590,30 +590,30 @@ int DelUserDefSession(int ses_count)
 
 	char szSessionName[256];
 	mir_snprintf(szSessionName, "%s_%u", "UserSessionDsc", ses_count);
-	db_unset(NULL, MODULENAME, szSessionName);
+	g_plugin.delSetting(szSessionName);
 
 	mir_snprintf(szSessionName, "%s_%u", "FavUserSession", ses_count);
-	db_unset(NULL, MODULENAME, szSessionName);
+	g_plugin.delSetting(szSessionName);
 
 	for (int i = ses_count + 1;; i++) {
 		mir_snprintf(szSessionName, "%s_%u", "UserSessionDsc", i);
-		ptrW szSessionNameBuf(db_get_wsa(NULL, MODULENAME, szSessionName));
+		ptrW szSessionNameBuf(g_plugin.getWStringA(szSessionName));
 
 		mir_snprintf(szSessionName, "%s_%u", "UserSessionDsc", i - 1);
 		if (szSessionNameBuf) {
 			MarkUserDefSession(i - 1, IsMarkedUserDefSession(i));
-			db_set_ws(NULL, MODULENAME, szSessionName, szSessionNameBuf);
+			g_plugin.setWString(szSessionName, szSessionNameBuf);
 		}
 		else {
-			db_unset(NULL, MODULENAME, szSessionName);
+			g_plugin.delSetting(szSessionName);
 
 			mir_snprintf(szSessionName, "%s_%u", "FavUserSession", i - 1);
-			db_unset(NULL, MODULENAME, szSessionName);
+			g_plugin.delSetting(szSessionName);
 			break;
 		}
 	}
 	g_ses_count--;
-	db_set_b(0, MODULENAME, "UserSessionsCount", (BYTE)g_ses_count);
+	g_plugin.setByte("UserSessionsCount", (BYTE)g_ses_count);
 	return 0;
 }
 
@@ -626,17 +626,17 @@ int DeleteAutoSession(int ses_count)
 
 	char szSessionName[256];
 	mir_snprintf(szSessionName, "%s_%u", "SessionDate", ses_count);
-	db_unset(NULL, MODULENAME, szSessionName);
+	g_plugin.delSetting(szSessionName);
 
 	for (int i = ses_count + 1;; i++) {
 		mir_snprintf(szSessionName, "%s_%u", "SessionDate", i);
-		ptrW szSessionNameBuf(db_get_wsa(NULL, MODULENAME, szSessionName));
+		ptrW szSessionNameBuf(g_plugin.getWStringA(szSessionName));
 
 		mir_snprintf(szSessionName, "%s_%u", "SessionDate", i - 1);
 		if (szSessionNameBuf)
-			db_set_ws(NULL, MODULENAME, szSessionName, szSessionNameBuf);
+			g_plugin.setWString(szSessionName, szSessionNameBuf);
 		else {
-			db_unset(NULL, MODULENAME, szSessionName);
+			g_plugin.delSetting(szSessionName);
 			break;
 		}
 	}
@@ -651,23 +651,23 @@ int SessionPreShutdown(WPARAM, LPARAM)
 	if (g_hDlg)  DestroyWindow(g_hDlg);
 	if (g_hSDlg) DestroyWindow(g_hSDlg);
 
-	db_set_b(NULL, MODULENAME, "lastSaveCompleted", 1);
+	g_plugin.setByte("lastSaveCompleted", 1);
 	return 0;
 }
 
 int OkToExit(WPARAM, LPARAM)
 {
-	int exitmode = db_get_b(NULL, MODULENAME, "ShutdownMode", 2);
+	int exitmode = g_plugin.getByte("ShutdownMode", 2);
 	DONT = 1;
 	if (exitmode == 2 && session_list[0] != 0) {
 		SaveSessionDate();
 		SaveSessionHandles(0, 0);
-		db_set_b(NULL, MODULENAME, "lastempty", 0);
+		g_plugin.setByte("lastempty", 0);
 	}
 	else if (exitmode == 1 && session_list[0] != 0) {
 		DialogBox(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EXDIALOG), nullptr, ExitDlgProc);
 	}
-	else db_set_b(NULL, MODULENAME, "lastempty", 1);
+	else g_plugin.setByte("lastempty", 1);
 	return 0;
 }
 
@@ -731,7 +731,7 @@ static int CreateButtons(WPARAM, LPARAM)
 
 static void CALLBACK LaunchSessions()
 {
-	int startup = db_get_b(NULL, MODULENAME, "StartupMode", 3);
+	int startup = g_plugin.getByte("StartupMode", 3);
 	if (startup == 1 || (startup == 3 && isLastTRUE == TRUE)) {
 		StartUp = TRUE;
 		g_hDlg = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WLCMDIALOG), nullptr, LoadSessionDlgProc);
@@ -815,15 +815,15 @@ int CMPlugin::Load()
 
 	Miranda_WaitOnHandle(LaunchSessions);
 
-	g_ses_count = db_get_b(NULL, MODULENAME, "UserSessionsCount", 0);
-	g_ses_limit = db_get_b(NULL, MODULENAME, "TrackCount", 10);
-	g_bExclHidden = db_get_b(NULL, MODULENAME, "ExclHidden", 0) != 0;
-	g_bWarnOnHidden = db_get_b(NULL, MODULENAME, "WarnOnHidden", 0) != 0;
-	g_bOtherWarnings = db_get_b(NULL, MODULENAME, "OtherWarnings", 1) != 0;
-	g_bCrashRecovery = db_get_b(NULL, MODULENAME, "CrashRecovery", 0) != 0;
+	g_ses_count = g_plugin.getByte("UserSessionsCount", 0);
+	g_ses_limit = g_plugin.getByte("TrackCount", 10);
+	g_bExclHidden = g_plugin.getByte("ExclHidden", 0) != 0;
+	g_bWarnOnHidden = g_plugin.getByte("WarnOnHidden", 0) != 0;
+	g_bOtherWarnings = g_plugin.getByte("OtherWarnings", 1) != 0;
+	g_bCrashRecovery = g_plugin.getByte("CrashRecovery", 0) != 0;
 
 	if (g_bCrashRecovery)
-		g_bIncompletedSave = db_get_b(NULL, MODULENAME, "lastSaveCompleted", 0) == 0;
+		g_bIncompletedSave = g_plugin.getByte("lastSaveCompleted", 0) == 0;
 
 	if (g_bIncompletedSave) {
 		int i = 0;
@@ -837,9 +837,9 @@ int CMPlugin::Load()
 	if (!session_list_recovered[0])
 		g_bIncompletedSave = false;
 
-	db_set_b(NULL, MODULENAME, "lastSaveCompleted", 0);
+	g_plugin.setByte("lastSaveCompleted", 0);
 
-	if (!db_get_b(NULL, MODULENAME, "lastempty", 1) || g_bIncompletedSave)
+	if (!g_plugin.getByte("lastempty", 1) || g_bIncompletedSave)
 		isLastTRUE = true;
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, PluginInit);

@@ -57,31 +57,31 @@ void ServerList::saveToDb() const
 	DB::setWordF(0, MODULENAME, "Port%d", opt.selected, ftp->m_iPort);
 	DB::setByteF(0, MODULENAME, "Passive%d", opt.selected, ftp->m_bPassive);
 	DB::setByteF(0, MODULENAME, "Enabled%d", opt.selected, ftp->m_bEnabled);
-	db_set_b(0, MODULENAME, "Selected", opt.selected);
-	db_set_b(0, MODULENAME, "Default", opt.defaultFTP);
+	g_plugin.setByte("Selected", opt.selected);
+	g_plugin.setByte("Default", opt.defaultFTP);
 }
 
 ServerList::FTP::FTP(int index)
 {
-	ptrA Name(db_get_sa(NULL, MODULENAME, CMStringA(FORMAT, "Name%d", index)));
+	ptrA Name(g_plugin.getStringA(CMStringA(FORMAT, "Name%d", index)));
 	if (Name)
 		mir_snwprintf(m_stzName, TranslateT("FTP Server %d"), index + 1);
-	ptrA Pass(db_get_sa(NULL, MODULENAME, CMStringA(FORMAT, "Password%d", index)));
+	ptrA Pass(g_plugin.getStringA(CMStringA(FORMAT, "Password%d", index)));
 	if (Pass)
 		strncpy_s(m_szPass, Pass, _TRUNCATE);
-	ptrA Server(db_get_sa(NULL, MODULENAME, CMStringA(FORMAT, "Server%d", index)));
+	ptrA Server(g_plugin.getStringA(CMStringA(FORMAT, "Server%d", index)));
 	if (Server)
 		strncpy_s(m_szServer, Server, _TRUNCATE);
-	ptrA User(db_get_sa(NULL, MODULENAME, CMStringA(FORMAT, "User%d", index)));
+	ptrA User(g_plugin.getStringA(CMStringA(FORMAT, "User%d", index)));
 	if (User)
 		strncpy_s(m_szUser, User, _TRUNCATE);
-	ptrA Url(db_get_sa(NULL, MODULENAME, CMStringA(FORMAT, "Url%d", index)));
+	ptrA Url(g_plugin.getStringA(CMStringA(FORMAT, "Url%d", index)));
 	if (Url)
 		strncpy_s(m_szUrl, Url, _TRUNCATE);
-	ptrA Dir(db_get_sa(NULL, MODULENAME, CMStringA(FORMAT, "Dir%d", index)));
+	ptrA Dir(g_plugin.getStringA(CMStringA(FORMAT, "Dir%d", index)));
 	if (Dir)
 		strncpy_s(m_szDir, Dir, _TRUNCATE);
-	ptrA Chmod(db_get_sa(NULL, MODULENAME, CMStringA(FORMAT, "Chmod%d", index)));
+	ptrA Chmod(g_plugin.getStringA(CMStringA(FORMAT, "Chmod%d", index)));
 	if (Chmod)
 		strncpy_s(m_szChmod, Chmod, _TRUNCATE);
 	m_ftpProto = (FTP::EProtoType)DB::getWordF(0, MODULENAME, "FtpProto%d", index, FTP::FT_STANDARD);

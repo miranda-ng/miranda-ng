@@ -351,7 +351,7 @@ int MirandaUtils::on_hook_OpenMW(WPARAM wParam, LPARAM lParam)
 	}
 
 	// show and focus window
-	if (db_get_b(0, MODULENAME, "doNotFocusWhenOpenMW", 0) == 1){
+	if (g_plugin.getByte("doNotFocusWhenOpenMW", 0) == 1){
 		delete param;
 		return 0;
 	}
@@ -467,7 +467,7 @@ void MirandaUtils::translateOldDBNames() {
 	//settings			"clientsProfilesFilterCheckbox", "clientsProfilesFilterString"
 	int opt1KeyValue = db_get_b(0, OLD_PLUGIN_DB_ID, "clientsProfilesFilterCheckbox", 0);
 	if (opt1KeyValue != 0){
-		db_set_b(0, MODULENAME, "clientsProfilesFilterCheckbox", opt1KeyValue);
+		g_plugin.setByte("clientsProfilesFilterCheckbox", opt1KeyValue);
 		db_unset(0, OLD_PLUGIN_DB_ID, "clientsProfilesFilterCheckbox");
 		logger->log(L"TranslateOldDBNames:  'clientsProfilesFilterCheckbox' db entry found and moved");
 	} else {
@@ -479,7 +479,7 @@ void MirandaUtils::translateOldDBNames() {
 	INT_PTR opt2Result = db_get_s(0, OLD_PLUGIN_DB_ID, "clientsProfilesFilterString", &opt2Dbv, DBVT_WCHAR);
 	if (opt2Result == 0){	//success
 		std::wstring clientsProfilesFilterString = opt2Dbv.pwszVal;
-		db_set_ws(0, MODULENAME, "clientsProfilesFilterString", clientsProfilesFilterString.c_str());
+		g_plugin.setWString("clientsProfilesFilterString", clientsProfilesFilterString.c_str());
 		db_unset(0, OLD_PLUGIN_DB_ID, "clientsProfilesFilterString");
 		logger->log(L"TranslateOldDBNames:  'clientsProfilesFilterString' db entry found and moved");
 		db_free(&opt2Dbv);
@@ -493,7 +493,7 @@ void MirandaUtils::translateOldDBNames() {
 		mirandaAccountDBKey += pa->szModuleName;
 		int keyValue = db_get_b(0, OLD_PLUGIN_DB_ID, mirandaAccountDBKey.c_str(), 0);
 		if (keyValue != 0){
-			db_set_b(0, MODULENAME, mirandaAccountDBKey.c_str(), keyValue);
+			g_plugin.setByte(mirandaAccountDBKey.c_str(), keyValue);
 			db_unset(0, OLD_PLUGIN_DB_ID, mirandaAccountDBKey.c_str());
 			logger->log(L"TranslateOldDBNames:  ACCOUNT db entry found and moved");
 		}

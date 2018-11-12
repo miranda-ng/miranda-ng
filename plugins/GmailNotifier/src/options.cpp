@@ -84,7 +84,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		}
 		{
 			DBVARIANT dbv;
-			if (!db_get_s(NULL, MODULENAME, "OpenUsePrgPath", &dbv)) {
+			if (!g_plugin.getString("OpenUsePrgPath", &dbv)) {
 				mir_strcpy(str, dbv.pszVal);
 				db_free(&dbv);
 			}
@@ -216,20 +216,20 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			if (opt.circleTime > 0) {
 				KillTimer(nullptr, hTimer);
 				hTimer = SetTimer(nullptr, 0, opt.circleTime * 60000, TimerProc);
-				db_set_dw(NULL, MODULENAME, "circleTime", opt.circleTime);
+				g_plugin.setDword("circleTime", opt.circleTime);
 			}
 			opt.notifierOnTray = IsDlgButtonChecked(hwndDlg, IDC_OPTTRAY);
 			opt.notifierOnPop = IsDlgButtonChecked(hwndDlg, IDC_OPTPOP);
-			db_set_dw(NULL, MODULENAME, "notifierOnTray", opt.notifierOnTray);
-			db_set_dw(NULL, MODULENAME, "notifierOnPop", opt.notifierOnPop);
+			g_plugin.setDword("notifierOnTray", opt.notifierOnTray);
+			g_plugin.setDword("notifierOnPop", opt.notifierOnPop);
 
 			opt.popupDuration = GetDlgItemInt(hwndDlg, IDC_DURATION, nullptr, TRUE);
-			db_set_dw(NULL, MODULENAME, "popupDuration", opt.popupDuration);
+			g_plugin.setDword("popupDuration", opt.popupDuration);
 
 			opt.popupBgColor = SendDlgItemMessage(hwndDlg, IDC_BGCOLOR, CPM_GETCOLOUR, 0, opt.popupBgColor);
 			opt.popupTxtColor = SendDlgItemMessage(hwndDlg, IDC_TEXTCOLOR, CPM_GETCOLOUR, 0, opt.popupBgColor);
-			db_set_dw(NULL, MODULENAME, "popupBgColor", opt.popupBgColor);
-			db_set_dw(NULL, MODULENAME, "popupTxtColor", opt.popupTxtColor);
+			g_plugin.setDword("popupBgColor", opt.popupBgColor);
+			g_plugin.setDword("popupTxtColor", opt.popupTxtColor);
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_SYSDEF) == BST_CHECKED)
 				opt.OpenUsePrg = 0;
@@ -240,8 +240,8 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			}
 			GetDlgItemTextA(hwndDlg, IDC_PRG, str, _countof(str));
 
-			db_set_dw(NULL, MODULENAME, "OpenUsePrg", opt.OpenUsePrg);
-			db_set_s(NULL, MODULENAME, "OpenUsePrgPath", str);
+			g_plugin.setDword("OpenUsePrg", opt.OpenUsePrg);
+			g_plugin.setString("OpenUsePrgPath", str);
 
 			opt.ShowCustomIcon = IsDlgButtonChecked(hwndDlg, IDC_SHOWICON);
 			opt.UseOnline = IsDlgButtonChecked(hwndDlg, IDC_ONLINE);
@@ -252,10 +252,10 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			else if (IsDlgButtonChecked(hwndDlg, IDC_AUTOLOGIN) == BST_INDETERMINATE)
 				opt.AutoLogin = 2;
 			opt.LogThreads = IsDlgButtonChecked(hwndDlg, IDC_LOGTHREADS);
-			db_set_dw(NULL, MODULENAME, "ShowCustomIcon", opt.ShowCustomIcon);
-			db_set_dw(NULL, MODULENAME, "UseOnline", opt.UseOnline);
-			db_set_dw(NULL, MODULENAME, "AutoLogin", opt.AutoLogin);
-			db_set_dw(NULL, MODULENAME, "LogThreads", opt.LogThreads);
+			g_plugin.setDword("ShowCustomIcon", opt.ShowCustomIcon);
+			g_plugin.setDword("UseOnline", opt.UseOnline);
+			g_plugin.setDword("AutoLogin", opt.AutoLogin);
+			g_plugin.setDword("LogThreads", opt.LogThreads);
 
 			ID_STATUS_NONEW = opt.UseOnline ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
 			for (auto &it : g_accs)

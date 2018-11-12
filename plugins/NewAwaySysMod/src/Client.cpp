@@ -88,7 +88,7 @@ void ChangeProtoMessages(char* szProto, int iMode, const TCString &Msg)
 	}
 	else { // change message of all protocols
 		for (auto &pa : Accounts()) {
-			if (!db_get_b(NULL, pa->szModuleName, "LockMainStatus", 0)) {
+			if (!db_get_b(0, pa->szModuleName, "LockMainStatus", 0)) {
 				if (Msg == nullptr)
 					CurMsg = GetDynamicStatMsg(INVALID_CONTACT_ID, pa->szModuleName);
 
@@ -119,8 +119,8 @@ void ChangeProtoMessages(char* szProto, int iMode, const TCString &Msg)
 
 	for (int i = 0; i < _countof(StatusDbSettings); i++) {
 		if (iMode == StatusDbSettings[i].Status) {
-			db_set_ws(NULL, "SRAway", CString(StatusDbSettings[i].Setting) + "Msg", CurMsg);
-			db_set_ws(NULL, "SRAway", CString(StatusDbSettings[i].Setting) + "Default", CurMsg); // TODO: make it more accurate, and change not only here, but when changing status messages through UpdateMsgsTimerFunc too; and when changing messages through AutoAway() ?
+			db_set_ws(0, "SRAway", CString(StatusDbSettings[i].Setting) + "Msg", CurMsg);
+			db_set_ws(0, "SRAway", CString(StatusDbSettings[i].Setting) + "Default", CurMsg); // TODO: make it more accurate, and change not only here, but when changing status messages through UpdateMsgsTimerFunc too; and when changing messages through AutoAway() ?
 			break;
 		}
 	}

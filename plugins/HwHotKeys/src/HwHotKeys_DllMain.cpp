@@ -88,9 +88,9 @@ CMPlugin::CMPlugin() :
 int CMPlugin::Load()
 {
 	// загружаем (из БД) настройки плагина
-	code_Close = db_get_dw(0, MODULENAME, "Close", 0);
-	code_HideShow = db_get_dw(0, MODULENAME, "HideShow", 0);
-	code_ReadMsg = db_get_dw(0, MODULENAME, "ReadMsg", 0);
+	code_Close = g_plugin.getDword("Close", 0);
+	code_HideShow = g_plugin.getDword("HideShow", 0);
+	code_ReadMsg = g_plugin.getDword("ReadMsg", 0);
 
 	// регистрация диалога опций
 	HookEvent(ME_OPT_INITIALISE, initializeOptions);

@@ -55,9 +55,9 @@ int ModulesLoaded(WPARAM, LPARAM)
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE))
 		AssocMgr_AddNewUrlTypeW("mirpu:", TranslateT("Plugin updater URI scheme"), g_plugin.getInst(), IDI_PLGLIST, MODULENAME "/ParseUri", 0);
 
-	int iRestartCount = db_get_b(NULL, MODULENAME, DB_SETTING_RESTART_COUNT, 2);
+	int iRestartCount = g_plugin.getByte(DB_SETTING_RESTART_COUNT, 2);
 	if (iRestartCount > 0)
-		db_set_b(NULL, MODULENAME, DB_SETTING_RESTART_COUNT, iRestartCount - 1);
+		g_plugin.setByte(DB_SETTING_RESTART_COUNT, iRestartCount - 1);
 	else
 		EmptyFolder(); // silently
 

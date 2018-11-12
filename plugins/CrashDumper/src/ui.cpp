@@ -187,15 +187,15 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		TranslateDialogDefault(hwndDlg);
 		{
 			DBVARIANT dbv;
-			if (db_get_s(NULL, MODULENAME, "Username", &dbv) == 0) {
+			if (g_plugin.getString("Username", &dbv) == 0) {
 				SetDlgItemTextA(hwndDlg, IDC_USERNAME, dbv.pszVal);
 				db_free(&dbv);
 			}
-			if (db_get_s(NULL, MODULENAME, "Password", &dbv) == 0) {
+			if (g_plugin.getString("Password", &dbv) == 0) {
 				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, dbv.pszVal);
 				db_free(&dbv);
 			}
-			CheckDlgButton(hwndDlg, IDC_UPLOADCHN, db_get_b(NULL, MODULENAME, "UploadChanged", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_UPLOADCHN, g_plugin.getByte("UploadChanged", 0) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_CLASSICDATES, clsdates ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_DATESUBFOLDER, dtsubfldr ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_CATCHCRASHES, catchcrashes ? BST_CHECKED : BST_UNCHECKED);
@@ -230,28 +230,28 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		if (((LPNMHDR)lParam)->code == (unsigned)PSN_APPLY) {
 			char szSetting[100];
 			GetDlgItemTextA(hwndDlg, IDC_USERNAME, szSetting, _countof(szSetting));
-			db_set_s(NULL, MODULENAME, "Username", szSetting);
+			g_plugin.setString("Username", szSetting);
 
 			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, szSetting, _countof(szSetting));
-			db_set_s(NULL, MODULENAME, "Password", szSetting);
+			g_plugin.setString("Password", szSetting);
 
-			db_set_b(NULL, MODULENAME, "UploadChanged", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_UPLOADCHN));
+			g_plugin.setByte("UploadChanged", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_UPLOADCHN));
 
 			clsdates = IsDlgButtonChecked(hwndDlg, IDC_CLASSICDATES) == BST_CHECKED;
 			if (clsdates)
-				db_set_b(NULL, MODULENAME, "ClassicDates", 1);
+				g_plugin.setByte("ClassicDates", 1);
 			else
-				db_set_b(NULL, MODULENAME, "ClassicDates", 0);
+				g_plugin.setByte("ClassicDates", 0);
 			dtsubfldr = IsDlgButtonChecked(hwndDlg, IDC_DATESUBFOLDER) == BST_CHECKED;
 			if (dtsubfldr)
-				db_set_b(NULL, MODULENAME, "SubFolders", 1);
+				g_plugin.setByte("SubFolders", 1);
 			else
-				db_set_b(NULL, MODULENAME, "SubFolders", 0);
+				g_plugin.setByte("SubFolders", 0);
 			catchcrashes = IsDlgButtonChecked(hwndDlg, IDC_CATCHCRASHES) == BST_CHECKED;
 			if (catchcrashes)
-				db_set_b(NULL, MODULENAME, "CatchCrashes", 1);
+				g_plugin.setByte("CatchCrashes", 1);
 			else
-				db_set_b(NULL, MODULENAME, "CatchCrashes", 0);
+				g_plugin.setByte("CatchCrashes", 0);
 		}
 		break;
 	}

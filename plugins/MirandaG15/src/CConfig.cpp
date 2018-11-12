@@ -32,78 +32,78 @@ void CConfig::Shutdown()
 
 void CConfig::LoadSettings()
 {
-	m_abBoolSettings[SKIP_DRIVER_ERROR] = db_get_dw(NULL, "MirandaG15", "SkipDriverError", 0) != 0;
+	m_abBoolSettings[SKIP_DRIVER_ERROR] = db_get_dw(0, "MirandaG15", "SkipDriverError", 0) != 0;
 
-	m_abBoolSettings[SCREENSAVER_LOCK] = db_get_dw(NULL, "MirandaG15", "ScreensaverLock", 1) != 0;
-	m_abBoolSettings[NOTIFY_SHOWPROTO] = db_get_dw(NULL, "MirandaG15", "NotifyShowProto", 0) != 0;
-	m_abBoolSettings[NOTIFY_NICKCUTOFF] = db_get_dw(NULL, "MirandaG15", "NotifyNickCutoff", 0) != 0;
-	m_abBoolSettings[NOTIFY_CHANNELCUTOFF] = db_get_dw(NULL, "MirandaG15", "NotifyChannelCutoff", 0) != 0;
+	m_abBoolSettings[SCREENSAVER_LOCK] = db_get_dw(0, "MirandaG15", "ScreensaverLock", 1) != 0;
+	m_abBoolSettings[NOTIFY_SHOWPROTO] = db_get_dw(0, "MirandaG15", "NotifyShowProto", 0) != 0;
+	m_abBoolSettings[NOTIFY_NICKCUTOFF] = db_get_dw(0, "MirandaG15", "NotifyNickCutoff", 0) != 0;
+	m_abBoolSettings[NOTIFY_CHANNELCUTOFF] = db_get_dw(0, "MirandaG15", "NotifyChannelCutoff", 0) != 0;
 
-	m_abBoolSettings[TRANSITIONS] = db_get_dw(NULL, "MirandaG15", "Transitions", 0) != 0;
-	m_abBoolSettings[TIMESTAMP_SECONDS] = db_get_dw(NULL, "MirandaG15", "TimestampSeconds", 0) != 0;
-	m_abBoolSettings[SESSION_TIMESTAMPS] = db_get_dw(NULL, "MirandaG15", "SessionTimestamps", 0) != 0;
-	m_abBoolSettings[NOTIFY_TIMESTAMPS] = db_get_dw(NULL, "MirandaG15", "NotifyTimestamps", 0) != 0;
+	m_abBoolSettings[TRANSITIONS] = db_get_dw(0, "MirandaG15", "Transitions", 0) != 0;
+	m_abBoolSettings[TIMESTAMP_SECONDS] = db_get_dw(0, "MirandaG15", "TimestampSeconds", 0) != 0;
+	m_abBoolSettings[SESSION_TIMESTAMPS] = db_get_dw(0, "MirandaG15", "SessionTimestamps", 0) != 0;
+	m_abBoolSettings[NOTIFY_TIMESTAMPS] = db_get_dw(0, "MirandaG15", "NotifyTimestamps", 0) != 0;
 
-	m_abBoolSettings[CONTROL_BACKLIGHTS] = db_get_dw(NULL, "MirandaG15", "ControlBacklights", 0) != 0;
-	m_abBoolSettings[HOOK_VOLUMEWHEEL] = db_get_dw(NULL, "MirandaG15", "HookVolumeWheel", 0) != 0;
+	m_abBoolSettings[CONTROL_BACKLIGHTS] = db_get_dw(0, "MirandaG15", "ControlBacklights", 0) != 0;
+	m_abBoolSettings[HOOK_VOLUMEWHEEL] = db_get_dw(0, "MirandaG15", "HookVolumeWheel", 0) != 0;
 
-	m_abBoolSettings[CLIST_SELECTION] = db_get_dw(NULL, "MirandaG15", "CListSelection", 1) != 0;
-	m_abBoolSettings[CLIST_COLUMNS] = db_get_dw(NULL, "MirandaG15", "CListColumns", 0) != 0;
-	m_abBoolSettings[CLIST_HIDEOFFLINE] = db_get_dw(NULL, "MirandaG15", "CListHideOffline", 1) != 0;
-	m_abBoolSettings[CLIST_USEIGNORE] = db_get_dw(NULL, "MirandaG15", "CListUseIgnore", 1) != 0;
-	m_abBoolSettings[CLIST_USEGROUPS] = db_get_dw(NULL, "MirandaG15", "CListUseGroups", 1) != 0;
-	m_abBoolSettings[CLIST_SHOWPROTO] = db_get_dw(NULL, "MirandaG15", "CListShowProto", 1) != 0;
-	m_abBoolSettings[CLIST_DRAWLINES] = db_get_dw(NULL, "MirandaG15", "CListDrawLines", 1) != 0;
-	m_abBoolSettings[CLIST_COUNTERS] = db_get_dw(NULL, "MirandaG15", "CListCounters", 1) != 0;
-	m_abBoolSettings[CLIST_POSITION] = db_get_dw(NULL, "MirandaG15", "CListPosition", 0) != 0;
+	m_abBoolSettings[CLIST_SELECTION] = db_get_dw(0, "MirandaG15", "CListSelection", 1) != 0;
+	m_abBoolSettings[CLIST_COLUMNS] = db_get_dw(0, "MirandaG15", "CListColumns", 0) != 0;
+	m_abBoolSettings[CLIST_HIDEOFFLINE] = db_get_dw(0, "MirandaG15", "CListHideOffline", 1) != 0;
+	m_abBoolSettings[CLIST_USEIGNORE] = db_get_dw(0, "MirandaG15", "CListUseIgnore", 1) != 0;
+	m_abBoolSettings[CLIST_USEGROUPS] = db_get_dw(0, "MirandaG15", "CListUseGroups", 1) != 0;
+	m_abBoolSettings[CLIST_SHOWPROTO] = db_get_dw(0, "MirandaG15", "CListShowProto", 1) != 0;
+	m_abBoolSettings[CLIST_DRAWLINES] = db_get_dw(0, "MirandaG15", "CListDrawLines", 1) != 0;
+	m_abBoolSettings[CLIST_COUNTERS] = db_get_dw(0, "MirandaG15", "CListCounters", 1) != 0;
+	m_abBoolSettings[CLIST_POSITION] = db_get_dw(0, "MirandaG15", "CListPosition", 0) != 0;
 
-	m_abBoolSettings[NOTIFY_IRC_MESSAGES] = db_get_dw(NULL, "MirandaG15", "NotifyIRCMessages", 1) != 0;
-	m_abBoolSettings[NOTIFY_IRC_USERS] = db_get_dw(NULL, "MirandaG15", "NotifyIRCUsers", 0) != 0;
-	m_abBoolSettings[NOTIFY_IRC_EMOTES] = db_get_dw(NULL, "MirandaG15", "NotifyIRCEmotes", 0) != 0;
-	m_abBoolSettings[NOTIFY_IRC_NOTICES] = db_get_dw(NULL, "MirandaG15", "NotifyIRCNotices", 1) != 0;
-	m_abBoolSettings[NOTIFY_IRC_CHANNEL] = db_get_dw(NULL, "MirandaG15", "NotifyIRCChannel", 0) != 0;
-	m_abBoolSettings[NOTIFY_IRC_STATUS] = db_get_dw(NULL, "MirandaG15", "NotifyIRCStatus", 0) != 0;
+	m_abBoolSettings[NOTIFY_IRC_MESSAGES] = db_get_dw(0, "MirandaG15", "NotifyIRCMessages", 1) != 0;
+	m_abBoolSettings[NOTIFY_IRC_USERS] = db_get_dw(0, "MirandaG15", "NotifyIRCUsers", 0) != 0;
+	m_abBoolSettings[NOTIFY_IRC_EMOTES] = db_get_dw(0, "MirandaG15", "NotifyIRCEmotes", 0) != 0;
+	m_abBoolSettings[NOTIFY_IRC_NOTICES] = db_get_dw(0, "MirandaG15", "NotifyIRCNotices", 1) != 0;
+	m_abBoolSettings[NOTIFY_IRC_CHANNEL] = db_get_dw(0, "MirandaG15", "NotifyIRCChannel", 0) != 0;
+	m_abBoolSettings[NOTIFY_IRC_STATUS] = db_get_dw(0, "MirandaG15", "NotifyIRCStatus", 0) != 0;
 
-	m_abBoolSettings[NOTIFY_PROTO_STATUS] = db_get_dw(NULL, "MirandaG15", "NotifyProtoStatus", 0) != 0;
-	m_abBoolSettings[NOTIFY_PROTO_SIGNON] = db_get_dw(NULL, "MirandaG15", "NotifyProtoSignOn", 1) != 0;
-	m_abBoolSettings[NOTIFY_PROTO_SIGNOFF] = db_get_dw(NULL, "MirandaG15", "NotifyProtoSignOff", 1) != 0;
-	m_abBoolSettings[NOTIFY_MESSAGES] = db_get_dw(NULL, "MirandaG15", "NotifyMessages", 1) != 0;
-	m_abBoolSettings[NOTIFY_SIGNON] = db_get_dw(NULL, "MirandaG15", "NotifySignOn", 1) != 0;
-	m_abBoolSettings[NOTIFY_SIGNOFF] = db_get_dw(NULL, "MirandaG15", "NotifySignOff", 1) != 0;
-	m_abBoolSettings[NOTIFY_STATUS] = db_get_dw(NULL, "MirandaG15", "NotifyStatus", 0) != 0;
-	m_abBoolSettings[NOTIFY_SKIP_MESSAGES] = db_get_dw(NULL, "MirandaG15", "NotifySkipMessages", 1) != 0;
-	m_abBoolSettings[NOTIFY_SKIP_SIGNON] = db_get_dw(NULL, "MirandaG15", "NotifySkipSignOn", 0) != 0;
-	m_abBoolSettings[NOTIFY_SKIP_SIGNOFF] = db_get_dw(NULL, "MirandaG15", "NotifySkipSignOff", 0) != 0;
-	m_abBoolSettings[NOTIFY_SKIP_STATUS] = db_get_dw(NULL, "MirandaG15", "NotifySkipStatus", 1) != 0;
-	m_abBoolSettings[NOTIFY_NO_SKIP_REPLY] = db_get_dw(NULL, "MirandaG15", "NotifyNoSkipReply", 1) != 0;
-	m_abBoolSettings[NOTIFY_URL] = db_get_dw(NULL, "MirandaG15", "NotifyURL", 1) != 0;
-	m_abBoolSettings[NOTIFY_FILE] = db_get_dw(NULL, "MirandaG15", "NotifyFile", 1) != 0;
-	m_abBoolSettings[NOTIFY_CONTACTS] = db_get_dw(NULL, "MirandaG15", "NotifyContacts", 1) != 0;
+	m_abBoolSettings[NOTIFY_PROTO_STATUS] = db_get_dw(0, "MirandaG15", "NotifyProtoStatus", 0) != 0;
+	m_abBoolSettings[NOTIFY_PROTO_SIGNON] = db_get_dw(0, "MirandaG15", "NotifyProtoSignOn", 1) != 0;
+	m_abBoolSettings[NOTIFY_PROTO_SIGNOFF] = db_get_dw(0, "MirandaG15", "NotifyProtoSignOff", 1) != 0;
+	m_abBoolSettings[NOTIFY_MESSAGES] = db_get_dw(0, "MirandaG15", "NotifyMessages", 1) != 0;
+	m_abBoolSettings[NOTIFY_SIGNON] = db_get_dw(0, "MirandaG15", "NotifySignOn", 1) != 0;
+	m_abBoolSettings[NOTIFY_SIGNOFF] = db_get_dw(0, "MirandaG15", "NotifySignOff", 1) != 0;
+	m_abBoolSettings[NOTIFY_STATUS] = db_get_dw(0, "MirandaG15", "NotifyStatus", 0) != 0;
+	m_abBoolSettings[NOTIFY_SKIP_MESSAGES] = db_get_dw(0, "MirandaG15", "NotifySkipMessages", 1) != 0;
+	m_abBoolSettings[NOTIFY_SKIP_SIGNON] = db_get_dw(0, "MirandaG15", "NotifySkipSignOn", 0) != 0;
+	m_abBoolSettings[NOTIFY_SKIP_SIGNOFF] = db_get_dw(0, "MirandaG15", "NotifySkipSignOff", 0) != 0;
+	m_abBoolSettings[NOTIFY_SKIP_STATUS] = db_get_dw(0, "MirandaG15", "NotifySkipStatus", 1) != 0;
+	m_abBoolSettings[NOTIFY_NO_SKIP_REPLY] = db_get_dw(0, "MirandaG15", "NotifyNoSkipReply", 1) != 0;
+	m_abBoolSettings[NOTIFY_URL] = db_get_dw(0, "MirandaG15", "NotifyURL", 1) != 0;
+	m_abBoolSettings[NOTIFY_FILE] = db_get_dw(0, "MirandaG15", "NotifyFile", 1) != 0;
+	m_abBoolSettings[NOTIFY_CONTACTS] = db_get_dw(0, "MirandaG15", "NotifyContacts", 1) != 0;
 
-	m_abBoolSettings[SESSION_SCROLL_MAXIMIZED] = db_get_dw(NULL, "MirandaG15", "SessionScrollMaximized", 1) != 0;
-	m_abBoolSettings[SESSION_REPLY_MAXIMIZED] = db_get_dw(NULL, "MirandaG15", "SessionReplyMaximized", 1) != 0;
-	m_abBoolSettings[SESSION_LOADDB] = db_get_dw(NULL, "MirandaG15", "SessionLoadDB", 0) != 0;
-	m_abBoolSettings[SESSION_MARKREAD] = db_get_dw(NULL, "MirandaG15", "SessionMarkRead", 1) != 0;
-	m_abBoolSettings[SESSION_SENDRETURN] = db_get_dw(NULL, "MirandaG15", "SessionSendReturn", 0) != 0;
-	m_abBoolSettings[SESSION_SHOWTYPING] = db_get_dw(NULL, "MirandaG15", "SessionShowTyping", 1) != 0;
-	m_abBoolSettings[SESSION_SENDTYPING] = db_get_dw(NULL, "MirandaG15", "SessionSendTyping", 1) != 0;
-	m_abBoolSettings[SESSION_SYMBOLS] = db_get_dw(NULL, "MirandaG15", "SessionSymbols", 0) != 0;
-	m_abBoolSettings[SESSION_CLOSE] = db_get_dw(NULL, "MirandaG15", "SessionClose", 1) != 0;
+	m_abBoolSettings[SESSION_SCROLL_MAXIMIZED] = db_get_dw(0, "MirandaG15", "SessionScrollMaximized", 1) != 0;
+	m_abBoolSettings[SESSION_REPLY_MAXIMIZED] = db_get_dw(0, "MirandaG15", "SessionReplyMaximized", 1) != 0;
+	m_abBoolSettings[SESSION_LOADDB] = db_get_dw(0, "MirandaG15", "SessionLoadDB", 0) != 0;
+	m_abBoolSettings[SESSION_MARKREAD] = db_get_dw(0, "MirandaG15", "SessionMarkRead", 1) != 0;
+	m_abBoolSettings[SESSION_SENDRETURN] = db_get_dw(0, "MirandaG15", "SessionSendReturn", 0) != 0;
+	m_abBoolSettings[SESSION_SHOWTYPING] = db_get_dw(0, "MirandaG15", "SessionShowTyping", 1) != 0;
+	m_abBoolSettings[SESSION_SENDTYPING] = db_get_dw(0, "MirandaG15", "SessionSendTyping", 1) != 0;
+	m_abBoolSettings[SESSION_SYMBOLS] = db_get_dw(0, "MirandaG15", "SessionSymbols", 0) != 0;
+	m_abBoolSettings[SESSION_CLOSE] = db_get_dw(0, "MirandaG15", "SessionClose", 1) != 0;
 
-	m_abBoolSettings[SHOW_LABELS] = db_get_dw(NULL, "MirandaG15", "ShowLabels", 1) != 0;
-	m_abBoolSettings[MAXIMIZED_TITLE] = db_get_dw(NULL, "MirandaG15", "MaximizedTitle", 0) != 0;
-	m_abBoolSettings[MAXIMIZED_LABELS] = db_get_dw(NULL, "MirandaG15", "MaximizedLabels", 1) != 0;
+	m_abBoolSettings[SHOW_LABELS] = db_get_dw(0, "MirandaG15", "ShowLabels", 1) != 0;
+	m_abBoolSettings[MAXIMIZED_TITLE] = db_get_dw(0, "MirandaG15", "MaximizedTitle", 0) != 0;
+	m_abBoolSettings[MAXIMIZED_LABELS] = db_get_dw(0, "MirandaG15", "MaximizedLabels", 1) != 0;
 
-	m_aiIntSettings[NOTIFY_CHANNELCUTOFF_OFFSET] = db_get_dw(NULL, "MirandaG15", "NotifyChannelCutoffOffset", 10);
-	m_aiIntSettings[NOTIFY_NICKCUTOFF_OFFSET] = db_get_dw(NULL, "MirandaG15", "NotifyNickCutoffOffset", 10);
-	m_aiIntSettings[NOTIFY_DURATION] = db_get_dw(NULL, "MirandaG15", "NotifyDuration", 4);
-	m_aiIntSettings[NOTIFY_LOGSIZE] = db_get_dw(NULL, "MirandaG15", "NotifyLogSize", 10);
-	m_aiIntSettings[SESSION_LOGSIZE] = db_get_dw(NULL, "MirandaG15", "SessionLogSize", 10);
-	m_aiIntSettings[SESSION_AUTOSCROLL] = db_get_dw(NULL, "MirandaG15", "SessionAutoScroll", SESSION_AUTOSCROLL_FIRST);
-	m_aiIntSettings[SESSION_CLOSETIMER] = db_get_dw(NULL, "MirandaG15", "SessionCloseTimer", 15);
-	m_aiIntSettings[NOTIFY_TITLE] = db_get_dw(NULL, "MirandaG15", "NotifyTitle", NOTIFY_TITLE_NAME);
-	m_aiIntSettings[CLIST_GA] = db_get_dw(NULL, "MirandaG15", "CListGA", CLIST_GA_NONE);
-	m_aiIntSettings[DEVICE] = db_get_dw(NULL, "MirandaG15", "Device", 0);
+	m_aiIntSettings[NOTIFY_CHANNELCUTOFF_OFFSET] = db_get_dw(0, "MirandaG15", "NotifyChannelCutoffOffset", 10);
+	m_aiIntSettings[NOTIFY_NICKCUTOFF_OFFSET] = db_get_dw(0, "MirandaG15", "NotifyNickCutoffOffset", 10);
+	m_aiIntSettings[NOTIFY_DURATION] = db_get_dw(0, "MirandaG15", "NotifyDuration", 4);
+	m_aiIntSettings[NOTIFY_LOGSIZE] = db_get_dw(0, "MirandaG15", "NotifyLogSize", 10);
+	m_aiIntSettings[SESSION_LOGSIZE] = db_get_dw(0, "MirandaG15", "SessionLogSize", 10);
+	m_aiIntSettings[SESSION_AUTOSCROLL] = db_get_dw(0, "MirandaG15", "SessionAutoScroll", SESSION_AUTOSCROLL_FIRST);
+	m_aiIntSettings[SESSION_CLOSETIMER] = db_get_dw(0, "MirandaG15", "SessionCloseTimer", 15);
+	m_aiIntSettings[NOTIFY_TITLE] = db_get_dw(0, "MirandaG15", "NotifyTitle", NOTIFY_TITLE_NAME);
+	m_aiIntSettings[CLIST_GA] = db_get_dw(0, "MirandaG15", "CListGA", CLIST_GA_NONE);
+	m_aiIntSettings[DEVICE] = db_get_dw(0, "MirandaG15", "Device", 0);
 
 	for (int i = 0; i < FONT_SETTINGS; i++)
 		LoadFontSettings(i);
@@ -122,86 +122,86 @@ void CConfig::LoadSettings()
 		pProtoFilter->strName = toTstring(pa->szModuleName);
 
 		strSetting = L"ProtoFilter_" + pProtoFilter->strName;
-		pProtoFilter->bNotificationFilter = db_get_dw(NULL, "MirandaG15", toNarrowString(strSetting).c_str(), 1) != 0;
+		pProtoFilter->bNotificationFilter = db_get_dw(0, "MirandaG15", toNarrowString(strSetting).c_str(), 1) != 0;
 		strSetting = L"ProtoCListFilter_" + pProtoFilter->strName;
-		pProtoFilter->bContactlistFilter = db_get_dw(NULL, "MirandaG15", toNarrowString(strSetting).c_str(), 1) != 0;
+		pProtoFilter->bContactlistFilter = db_get_dw(0, "MirandaG15", toNarrowString(strSetting).c_str(), 1) != 0;
 		m_ProtoList.push_back(pProtoFilter);
 	}
 }
 
 void CConfig::SaveSettings()
 {
-	db_set_dw(NULL, "MirandaG15", "SkipDriverError", m_abBoolSettings[SKIP_DRIVER_ERROR]);
+	db_set_dw(0, "MirandaG15", "SkipDriverError", m_abBoolSettings[SKIP_DRIVER_ERROR]);
 
-	db_set_dw(NULL, "MirandaG15", "ScreensaverLock", m_abBoolSettings[SCREENSAVER_LOCK]);
-	db_set_dw(NULL, "MirandaG15", "NotifyShowProto", m_abBoolSettings[NOTIFY_SHOWPROTO]);
-	db_set_dw(NULL, "MirandaG15", "NotifyChannelCutoff", m_abBoolSettings[NOTIFY_CHANNELCUTOFF]);
-	db_set_dw(NULL, "MirandaG15", "NotifyNickCutoff", m_abBoolSettings[NOTIFY_NICKCUTOFF]);
-	db_set_dw(NULL, "MirandaG15", "Transitions", m_abBoolSettings[TRANSITIONS]);
-	db_set_dw(NULL, "MirandaG15", "TimestampSeconds", m_abBoolSettings[TIMESTAMP_SECONDS]);
-	db_set_dw(NULL, "MirandaG15", "SessionTimestamps", m_abBoolSettings[SESSION_TIMESTAMPS]);
-	db_set_dw(NULL, "MirandaG15", "NotifyTimestamps", m_abBoolSettings[NOTIFY_TIMESTAMPS]);
+	db_set_dw(0, "MirandaG15", "ScreensaverLock", m_abBoolSettings[SCREENSAVER_LOCK]);
+	db_set_dw(0, "MirandaG15", "NotifyShowProto", m_abBoolSettings[NOTIFY_SHOWPROTO]);
+	db_set_dw(0, "MirandaG15", "NotifyChannelCutoff", m_abBoolSettings[NOTIFY_CHANNELCUTOFF]);
+	db_set_dw(0, "MirandaG15", "NotifyNickCutoff", m_abBoolSettings[NOTIFY_NICKCUTOFF]);
+	db_set_dw(0, "MirandaG15", "Transitions", m_abBoolSettings[TRANSITIONS]);
+	db_set_dw(0, "MirandaG15", "TimestampSeconds", m_abBoolSettings[TIMESTAMP_SECONDS]);
+	db_set_dw(0, "MirandaG15", "SessionTimestamps", m_abBoolSettings[SESSION_TIMESTAMPS]);
+	db_set_dw(0, "MirandaG15", "NotifyTimestamps", m_abBoolSettings[NOTIFY_TIMESTAMPS]);
 
-	db_set_dw(NULL, "MirandaG15", "ControlBacklights", m_abBoolSettings[CONTROL_BACKLIGHTS]);
-	db_set_dw(NULL, "MirandaG15", "HookVolumeWheel", m_abBoolSettings[HOOK_VOLUMEWHEEL]);
+	db_set_dw(0, "MirandaG15", "ControlBacklights", m_abBoolSettings[CONTROL_BACKLIGHTS]);
+	db_set_dw(0, "MirandaG15", "HookVolumeWheel", m_abBoolSettings[HOOK_VOLUMEWHEEL]);
 
-	db_set_dw(NULL, "MirandaG15", "CListSelection", m_abBoolSettings[CLIST_SELECTION]);
-	db_set_dw(NULL, "MirandaG15", "CListColumns", m_abBoolSettings[CLIST_COLUMNS]);
-	db_set_dw(NULL, "MirandaG15", "CListHideOffline", m_abBoolSettings[CLIST_HIDEOFFLINE]);
-	db_set_dw(NULL, "MirandaG15", "CListUseIgnore", m_abBoolSettings[CLIST_USEIGNORE]);
-	db_set_dw(NULL, "MirandaG15", "CListUseGroups", m_abBoolSettings[CLIST_USEGROUPS]);
-	db_set_dw(NULL, "MirandaG15", "CListShowProto", m_abBoolSettings[CLIST_SHOWPROTO]);
-	db_set_dw(NULL, "MirandaG15", "CListDrawLines", m_abBoolSettings[CLIST_DRAWLINES]);
-	db_set_dw(NULL, "MirandaG15", "CListCounters", m_abBoolSettings[CLIST_COUNTERS]);
-	db_set_dw(NULL, "MirandaG15", "CListPosition", m_abBoolSettings[CLIST_POSITION]);
+	db_set_dw(0, "MirandaG15", "CListSelection", m_abBoolSettings[CLIST_SELECTION]);
+	db_set_dw(0, "MirandaG15", "CListColumns", m_abBoolSettings[CLIST_COLUMNS]);
+	db_set_dw(0, "MirandaG15", "CListHideOffline", m_abBoolSettings[CLIST_HIDEOFFLINE]);
+	db_set_dw(0, "MirandaG15", "CListUseIgnore", m_abBoolSettings[CLIST_USEIGNORE]);
+	db_set_dw(0, "MirandaG15", "CListUseGroups", m_abBoolSettings[CLIST_USEGROUPS]);
+	db_set_dw(0, "MirandaG15", "CListShowProto", m_abBoolSettings[CLIST_SHOWPROTO]);
+	db_set_dw(0, "MirandaG15", "CListDrawLines", m_abBoolSettings[CLIST_DRAWLINES]);
+	db_set_dw(0, "MirandaG15", "CListCounters", m_abBoolSettings[CLIST_COUNTERS]);
+	db_set_dw(0, "MirandaG15", "CListPosition", m_abBoolSettings[CLIST_POSITION]);
 
-	db_set_dw(NULL, "MirandaG15", "NotifyIRCMessages", m_abBoolSettings[NOTIFY_IRC_MESSAGES]);
-	db_set_dw(NULL, "MirandaG15", "NotifyIRCUsers", m_abBoolSettings[NOTIFY_IRC_USERS]);
-	db_set_dw(NULL, "MirandaG15", "NotifyIRCEmotes", m_abBoolSettings[NOTIFY_IRC_EMOTES]);
-	db_set_dw(NULL, "MirandaG15", "NotifyIRCNotices", m_abBoolSettings[NOTIFY_IRC_NOTICES]);
-	db_set_dw(NULL, "MirandaG15", "NotifyIRCChannel", m_abBoolSettings[NOTIFY_IRC_CHANNEL]);
-	db_set_dw(NULL, "MirandaG15", "NotifyIRCStatus", m_abBoolSettings[NOTIFY_IRC_STATUS]);
+	db_set_dw(0, "MirandaG15", "NotifyIRCMessages", m_abBoolSettings[NOTIFY_IRC_MESSAGES]);
+	db_set_dw(0, "MirandaG15", "NotifyIRCUsers", m_abBoolSettings[NOTIFY_IRC_USERS]);
+	db_set_dw(0, "MirandaG15", "NotifyIRCEmotes", m_abBoolSettings[NOTIFY_IRC_EMOTES]);
+	db_set_dw(0, "MirandaG15", "NotifyIRCNotices", m_abBoolSettings[NOTIFY_IRC_NOTICES]);
+	db_set_dw(0, "MirandaG15", "NotifyIRCChannel", m_abBoolSettings[NOTIFY_IRC_CHANNEL]);
+	db_set_dw(0, "MirandaG15", "NotifyIRCStatus", m_abBoolSettings[NOTIFY_IRC_STATUS]);
 
-	db_set_dw(NULL, "MirandaG15", "NotifyProtoStatus", m_abBoolSettings[NOTIFY_PROTO_STATUS]);
-	db_set_dw(NULL, "MirandaG15", "NotifyProtoSignOn", m_abBoolSettings[NOTIFY_PROTO_SIGNON]);
-	db_set_dw(NULL, "MirandaG15", "NotifyProtoSignOff", m_abBoolSettings[NOTIFY_PROTO_SIGNOFF]);
-	db_set_dw(NULL, "MirandaG15", "NotifyMessages", m_abBoolSettings[NOTIFY_MESSAGES]);
-	db_set_dw(NULL, "MirandaG15", "NotifySignOn", m_abBoolSettings[NOTIFY_SIGNON]);
-	db_set_dw(NULL, "MirandaG15", "NotifySignOff", m_abBoolSettings[NOTIFY_SIGNOFF]);
-	db_set_dw(NULL, "MirandaG15", "NotifyStatus", m_abBoolSettings[NOTIFY_STATUS]);
-	db_set_dw(NULL, "MirandaG15", "NotifySkipMessages", m_abBoolSettings[NOTIFY_SKIP_MESSAGES]);
-	db_set_dw(NULL, "MirandaG15", "NotifySkipSignOn", m_abBoolSettings[NOTIFY_SKIP_SIGNON]);
-	db_set_dw(NULL, "MirandaG15", "NotifySkipSignOff", m_abBoolSettings[NOTIFY_SKIP_SIGNOFF]);
-	db_set_dw(NULL, "MirandaG15", "NotifySkipStatus", m_abBoolSettings[NOTIFY_SKIP_STATUS]);
-	db_set_dw(NULL, "MirandaG15", "NotifyNoSkipReply", m_abBoolSettings[NOTIFY_NO_SKIP_REPLY]);
-	db_set_dw(NULL, "MirandaG15", "NotifyURL", m_abBoolSettings[NOTIFY_URL]);
-	db_set_dw(NULL, "MirandaG15", "NotifyFile", m_abBoolSettings[NOTIFY_FILE]);
-	db_set_dw(NULL, "MirandaG15", "NotifyContacts", m_abBoolSettings[NOTIFY_CONTACTS]);
+	db_set_dw(0, "MirandaG15", "NotifyProtoStatus", m_abBoolSettings[NOTIFY_PROTO_STATUS]);
+	db_set_dw(0, "MirandaG15", "NotifyProtoSignOn", m_abBoolSettings[NOTIFY_PROTO_SIGNON]);
+	db_set_dw(0, "MirandaG15", "NotifyProtoSignOff", m_abBoolSettings[NOTIFY_PROTO_SIGNOFF]);
+	db_set_dw(0, "MirandaG15", "NotifyMessages", m_abBoolSettings[NOTIFY_MESSAGES]);
+	db_set_dw(0, "MirandaG15", "NotifySignOn", m_abBoolSettings[NOTIFY_SIGNON]);
+	db_set_dw(0, "MirandaG15", "NotifySignOff", m_abBoolSettings[NOTIFY_SIGNOFF]);
+	db_set_dw(0, "MirandaG15", "NotifyStatus", m_abBoolSettings[NOTIFY_STATUS]);
+	db_set_dw(0, "MirandaG15", "NotifySkipMessages", m_abBoolSettings[NOTIFY_SKIP_MESSAGES]);
+	db_set_dw(0, "MirandaG15", "NotifySkipSignOn", m_abBoolSettings[NOTIFY_SKIP_SIGNON]);
+	db_set_dw(0, "MirandaG15", "NotifySkipSignOff", m_abBoolSettings[NOTIFY_SKIP_SIGNOFF]);
+	db_set_dw(0, "MirandaG15", "NotifySkipStatus", m_abBoolSettings[NOTIFY_SKIP_STATUS]);
+	db_set_dw(0, "MirandaG15", "NotifyNoSkipReply", m_abBoolSettings[NOTIFY_NO_SKIP_REPLY]);
+	db_set_dw(0, "MirandaG15", "NotifyURL", m_abBoolSettings[NOTIFY_URL]);
+	db_set_dw(0, "MirandaG15", "NotifyFile", m_abBoolSettings[NOTIFY_FILE]);
+	db_set_dw(0, "MirandaG15", "NotifyContacts", m_abBoolSettings[NOTIFY_CONTACTS]);
 
-	db_set_dw(NULL, "MirandaG15", "SessionScrollMaximized", m_abBoolSettings[SESSION_SCROLL_MAXIMIZED]);
-	db_set_dw(NULL, "MirandaG15", "SessionReplyMaximized", m_abBoolSettings[SESSION_REPLY_MAXIMIZED]);
-	db_set_dw(NULL, "MirandaG15", "SessionShowTyping", m_abBoolSettings[SESSION_SHOWTYPING]);
-	db_set_dw(NULL, "MirandaG15", "SessionSendTyping", m_abBoolSettings[SESSION_SENDTYPING]);
-	db_set_dw(NULL, "MirandaG15", "SessionLoadDB", m_abBoolSettings[SESSION_LOADDB]);
-	db_set_dw(NULL, "MirandaG15", "SessionSendReturn", m_abBoolSettings[SESSION_SENDRETURN]);
-	db_set_dw(NULL, "MirandaG15", "SessionMarkRead", m_abBoolSettings[SESSION_MARKREAD]);
-	db_set_dw(NULL, "MirandaG15", "SessionSymbols", m_abBoolSettings[SESSION_SYMBOLS]);
-	db_set_dw(NULL, "MirandaG15", "SessionClose", m_abBoolSettings[SESSION_CLOSE]);
+	db_set_dw(0, "MirandaG15", "SessionScrollMaximized", m_abBoolSettings[SESSION_SCROLL_MAXIMIZED]);
+	db_set_dw(0, "MirandaG15", "SessionReplyMaximized", m_abBoolSettings[SESSION_REPLY_MAXIMIZED]);
+	db_set_dw(0, "MirandaG15", "SessionShowTyping", m_abBoolSettings[SESSION_SHOWTYPING]);
+	db_set_dw(0, "MirandaG15", "SessionSendTyping", m_abBoolSettings[SESSION_SENDTYPING]);
+	db_set_dw(0, "MirandaG15", "SessionLoadDB", m_abBoolSettings[SESSION_LOADDB]);
+	db_set_dw(0, "MirandaG15", "SessionSendReturn", m_abBoolSettings[SESSION_SENDRETURN]);
+	db_set_dw(0, "MirandaG15", "SessionMarkRead", m_abBoolSettings[SESSION_MARKREAD]);
+	db_set_dw(0, "MirandaG15", "SessionSymbols", m_abBoolSettings[SESSION_SYMBOLS]);
+	db_set_dw(0, "MirandaG15", "SessionClose", m_abBoolSettings[SESSION_CLOSE]);
 
-	db_set_dw(NULL, "MirandaG15", "ShowLabels", m_abBoolSettings[SHOW_LABELS]);
-	db_set_dw(NULL, "MirandaG15", "MaximizedTitle", m_abBoolSettings[MAXIMIZED_TITLE]);
-	db_set_dw(NULL, "MirandaG15", "MaximizedLabels", m_abBoolSettings[MAXIMIZED_LABELS]);
+	db_set_dw(0, "MirandaG15", "ShowLabels", m_abBoolSettings[SHOW_LABELS]);
+	db_set_dw(0, "MirandaG15", "MaximizedTitle", m_abBoolSettings[MAXIMIZED_TITLE]);
+	db_set_dw(0, "MirandaG15", "MaximizedLabels", m_abBoolSettings[MAXIMIZED_LABELS]);
 
-	db_set_dw(NULL, "MirandaG15", "NotifyChannelCutoffOffset", m_aiIntSettings[NOTIFY_CHANNELCUTOFF_OFFSET]);
-	db_set_dw(NULL, "MirandaG15", "NotifyNickCutoffOffset", m_aiIntSettings[NOTIFY_NICKCUTOFF_OFFSET]);
-	db_set_dw(NULL, "MirandaG15", "NotifyDuration", m_aiIntSettings[NOTIFY_DURATION]);
-	db_set_dw(NULL, "MirandaG15", "NotifyLogSize", m_aiIntSettings[NOTIFY_LOGSIZE]);
-	db_set_dw(NULL, "MirandaG15", "SessionLogSize", m_aiIntSettings[SESSION_LOGSIZE]);
-	db_set_dw(NULL, "MirandaG15", "NotifyTitle", m_aiIntSettings[NOTIFY_TITLE]);
-	db_set_dw(NULL, "MirandaG15", "SessionAutoScroll", m_aiIntSettings[SESSION_AUTOSCROLL]);
-	db_set_dw(NULL, "MirandaG15", "SessionCloseTimer", m_aiIntSettings[SESSION_CLOSETIMER]);
-	db_set_dw(NULL, "MirandaG15", "CListGA", m_aiIntSettings[CLIST_GA]);
-	db_set_dw(NULL, "MirandaG15", "Device", m_aiIntSettings[DEVICE]);
+	db_set_dw(0, "MirandaG15", "NotifyChannelCutoffOffset", m_aiIntSettings[NOTIFY_CHANNELCUTOFF_OFFSET]);
+	db_set_dw(0, "MirandaG15", "NotifyNickCutoffOffset", m_aiIntSettings[NOTIFY_NICKCUTOFF_OFFSET]);
+	db_set_dw(0, "MirandaG15", "NotifyDuration", m_aiIntSettings[NOTIFY_DURATION]);
+	db_set_dw(0, "MirandaG15", "NotifyLogSize", m_aiIntSettings[NOTIFY_LOGSIZE]);
+	db_set_dw(0, "MirandaG15", "SessionLogSize", m_aiIntSettings[SESSION_LOGSIZE]);
+	db_set_dw(0, "MirandaG15", "NotifyTitle", m_aiIntSettings[NOTIFY_TITLE]);
+	db_set_dw(0, "MirandaG15", "SessionAutoScroll", m_aiIntSettings[SESSION_AUTOSCROLL]);
+	db_set_dw(0, "MirandaG15", "SessionCloseTimer", m_aiIntSettings[SESSION_CLOSETIMER]);
+	db_set_dw(0, "MirandaG15", "CListGA", m_aiIntSettings[CLIST_GA]);
+	db_set_dw(0, "MirandaG15", "Device", m_aiIntSettings[DEVICE]);
 
 	// Save font settings
 	for (int i = 0; i < FONT_SETTINGS; i++)
@@ -212,9 +212,9 @@ void CConfig::SaveSettings()
 	tstring strSetting = L"";
 	while (iter != m_ProtoList.end()) {
 		strSetting = L"ProtoFilter_" + (*iter)->strName;
-		db_set_dw(NULL, "MirandaG15", toNarrowString(strSetting).c_str(), (*iter)->bNotificationFilter);
+		db_set_dw(0, "MirandaG15", toNarrowString(strSetting).c_str(), (*iter)->bNotificationFilter);
 		strSetting = L"ProtoCListFilter_" + (*iter)->strName;
-		db_set_dw(NULL, "MirandaG15", toNarrowString(strSetting).c_str(), (*iter)->bContactlistFilter);
+		db_set_dw(0, "MirandaG15", toNarrowString(strSetting).c_str(), (*iter)->bContactlistFilter);
 		iter++;
 	}
 
@@ -282,7 +282,7 @@ void CConfig::SaveFontSettings(int iFont)
 
 	// Height
 	mir_snprintf(szSetting, "Font%dHeight", iFont);
-	db_set_b(NULL, "MirandaG15", szSetting, m_logfont[iFont].lfHeight);
+	db_set_b(0, "MirandaG15", szSetting, m_logfont[iFont].lfHeight);
 	
 	// Style
 	int style = 0;
@@ -291,15 +291,15 @@ void CConfig::SaveFontSettings(int iFont)
 	if (m_logfont[iFont].lfItalic)
 		style |= FONTF_ITALIC;
 	mir_snprintf(szSetting, "Font%dStyle", iFont);
-	db_set_b(NULL, "MirandaG15", szSetting, style);
+	db_set_b(0, "MirandaG15", szSetting, style);
 	
 	// Charset
 	mir_snprintf(szSetting, "Font%dCharset", iFont);
-	db_set_b(NULL, "MirandaG15", szSetting, m_logfont[iFont].lfCharSet);
+	db_set_b(0, "MirandaG15", szSetting, m_logfont[iFont].lfCharSet);
 	
 	// Name
 	mir_snprintf(szSetting, "Font%dName", iFont);
-	db_set_ws(NULL, "MirandaG15", szSetting, m_logfont[iFont].lfFaceName);
+	db_set_ws(0, "MirandaG15", szSetting, m_logfont[iFont].lfFaceName);
 
 	UpdateFontSettings(iFont);
 }
@@ -318,15 +318,15 @@ void CConfig::LoadFontSettings(int iFont)
 	m_logfont[iFont].lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 	// Height
 	mir_snprintf(szSetting, "Font%dHeight", iFont);
-	m_logfont[iFont].lfHeight = (char)db_get_b(NULL, "MirandaG15", szSetting, -MulDiv(6, 96, 72));
+	m_logfont[iFont].lfHeight = (char)db_get_b(0, "MirandaG15", szSetting, -MulDiv(6, 96, 72));
 	// Style
 	mir_snprintf(szSetting, "Font%dStyle", iFont);
-	int style = db_get_b(NULL, "MirandaG15", szSetting, 0);
+	int style = db_get_b(0, "MirandaG15", szSetting, 0);
 	m_logfont[iFont].lfWeight = style & FONTF_BOLD ? FW_BOLD : FW_NORMAL;
 	m_logfont[iFont].lfItalic = style & FONTF_ITALIC ? 1 : 0;
 	// Charset
 	mir_snprintf(szSetting, "Font%dCharset", iFont);
-	m_logfont[iFont].lfCharSet = db_get_b(NULL, "MirandaG15", szSetting, DEFAULT_CHARSET);
+	m_logfont[iFont].lfCharSet = db_get_b(0, "MirandaG15", szSetting, DEFAULT_CHARSET);
 	// Name
 	mir_snprintf(szSetting, "Font%dName", iFont);
 	DBVARIANT dbv;

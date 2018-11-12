@@ -54,7 +54,7 @@ wstring& GetDlgItemString(HWND hwnd, int id)
 std::string &GetProtoList()
 {
 	static std::string s;
-	return s = DBGetContactSettingStringPAN_A(NULL, MODULENAME, "protoList", "ICQ\r\n");
+	return s = DBGetContactSettingStringPAN_A(0, MODULENAME, "protoList", "ICQ\r\n");
 }
 
 bool ProtoInList(const char *szProto)
@@ -67,9 +67,9 @@ bool ProtoInList(const char *szProto)
 
 void DeleteCListGroupsByName(wchar_t* szGroupName)
 {
-	BYTE ConfirmDelete = db_get_b(NULL, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT);
+	BYTE ConfirmDelete = db_get_b(0, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT);
 	if (ConfirmDelete)
-		db_set_b(NULL, "CList", "ConfirmDelete", 0);
+		db_set_b(0, "CList", "ConfirmDelete", 0);
 
 	wchar_t *szGroup;
 	for (int i = 1; (szGroup = Clist_GroupGetName(i, nullptr)) != nullptr; i++)
@@ -77,7 +77,7 @@ void DeleteCListGroupsByName(wchar_t* szGroupName)
 			Clist_GroupDelete(i);
 
 	if (ConfirmDelete)
-		db_set_b(NULL, "CList", "ConfirmDelete", ConfirmDelete);
+		db_set_b(0, "CList", "ConfirmDelete", ConfirmDelete);
 }
 
 int RemoveTmp(WPARAM, LPARAM)

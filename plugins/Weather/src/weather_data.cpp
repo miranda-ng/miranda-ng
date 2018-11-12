@@ -175,7 +175,7 @@ void EraseAllInfo()
 		}
 	}
 	// save option in case of default station changed
-	db_set_ws(NULL, WEATHERPROTONAME, "Default", opt.Default);
+	db_set_ws(0, WEATHERPROTONAME, "Default", opt.Default);
 }
 
 void ConvertDataValue(WIDATAITEM *UpdateData, wchar_t *Data)

@@ -58,7 +58,7 @@ struct DLGTEMPLATEEX
 #define MAX_STRING_LENGTH	10000
 #define LINE_LENGTH 10000
 #define msg(a,b)	MessageBoxA(0,a,b,MB_OK);
-#define TIMER	(db_get_w(NULL, MODNAME, "Timer", 1) * 1000)
+#define TIMER	(db_get_w(0, MODNAME, "Timer", 1) * 1000)
 /* ERROR VALUES */
 #define ERROR_NO_LINE_AFTER_VAR_F -1
 #define ERROR_LINE_NOT_READ -2

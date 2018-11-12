@@ -76,7 +76,7 @@ void CFinishedPageDlg::OnNext()
 void CFinishedPageDlg::OnCancel()
 {
 	if (IsDlgButtonChecked(m_hwnd, IDC_DONTLOADPLUGIN))
-		db_set_b(NULL, "PluginDisable", "import", 1);
+		db_set_b(0, "PluginDisable", "import", 1);
 
 	CWizardPageDlg::OnCancel();
 }

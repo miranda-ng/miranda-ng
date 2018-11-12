@@ -241,7 +241,7 @@ class CDlgUpdProgress : public CUpdProgress
 					{ ICO_BTN_DOWNARROW,	BM_SETIMAGE,	IDSKIP		},
 					{ ICO_BTN_CANCEL,		BM_SETIMAGE,	IDCANCEL	}
 				};
-				IcoLib_SetCtrlIcons(hWnd, idIcon, db_get_b(NULL, MODULENAME, SET_ICONS_BUTTONS, 1) ? 2 : 1);
+				IcoLib_SetCtrlIcons(hWnd, idIcon, g_plugin.getByte(SET_ICONS_BUTTONS, 1) ? 2 : 1);
 	
 				SendDlgItemMessage(hWnd, IDCANCEL,	BUTTONTRANSLATE, NULL, NULL);
 				SendDlgItemMessage(hWnd, IDSKIP,	BUTTONTRANSLATE, NULL, NULL);
@@ -390,7 +390,7 @@ public:
 		: CUpdProgress(data)
 	{
 		_szText = nullptr;
-		_bBBCode = db_get_b(NULL, "Popup", "UseMText", FALSE);
+		_bBBCode = db_get_b(0, "Popup", "UseMText", FALSE);
 
 		_popupButtons[0].cbSize = sizeof(POPUPACTION);
 		_popupButtons[0].flags = PAF_ENABLED;
@@ -690,7 +690,7 @@ public:
 
 		if (Size() && !_pProgress)
 		{
-			if (ServiceExists(MS_POPUP_CHANGETEXTT) && db_get_b(NULL, MODULENAME, "PopupProgress", FALSE))
+			if (ServiceExists(MS_POPUP_CHANGETEXTT) && g_plugin.getByte("PopupProgress", FALSE))
 			{
 				_pProgress = new CPopupUpdProgress(this);
 			}

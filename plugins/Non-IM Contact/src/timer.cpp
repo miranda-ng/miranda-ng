@@ -13,13 +13,13 @@ void timerFunc(void*)
 {
 	char text[512], fn[16], szFileName[MAX_PATH], temp[MAX_PATH];
 
-	int timerCount = db_get_w(NULL, MODNAME, "timerCount", 1) + 1;
+	int timerCount = db_get_w(0, MODNAME, "timerCount", 1) + 1;
 
 	if (LCStatus == ID_STATUS_OFFLINE) {
 		killTimer();
 		return;
 	}
-	db_set_w(NULL, MODNAME, "timerCount", (WORD)timerCount);
+	db_set_w(0, MODNAME, "timerCount", (WORD)timerCount);
 
 	/* update the web pages*/
 	for (int i = 0;; i++) {
@@ -29,7 +29,7 @@ void timerFunc(void*)
 
 		if (!strncmp("http://", text, mir_strlen("http://")) || !strncmp("https://", text, mir_strlen("https://"))) {
 			mir_snprintf(fn, "fn%d_timer", i);
-			int timer = db_get_w(NULL, MODNAME, fn, 60);
+			int timer = db_get_w(0, MODNAME, fn, 60);
 			if (timer && !(timerCount % timer)) {
 				if (!InternetDownloadFile(text)) {
 					mir_snprintf(szFileName, "%s\\plugins\\fn%d.html", getMimDir(temp), i);
@@ -77,7 +77,7 @@ int startTimer(int interval)
 int killTimer()
 {
 	if (timerId != 0) {
-		db_set_w(NULL, MODNAME, "timerCount", 0);
+		db_set_w(0, MODNAME, "timerCount", 0);
 		KillTimer(nullptr, timerId);
 		timerId = 0;
 	}

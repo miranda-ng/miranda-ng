@@ -68,41 +68,41 @@ void InitPopupList()
 	int index = 0;
 	PopupsList[index].ID = index;
 	PopupsList[index].Icon = SKINICON_OTHER_MIRANDA;
-	PopupsList[index].colorBack = db_get_dw(NULL, MODULENAME, "Popups0Bg", COLOR_BG_FIRSTDEFAULT);
-	PopupsList[index].colorText = db_get_dw(NULL, MODULENAME, "Popups0Tx", COLOR_TX_DEFAULT);
+	PopupsList[index].colorBack = g_plugin.getDword("Popups0Bg", COLOR_BG_FIRSTDEFAULT);
+	PopupsList[index].colorText = g_plugin.getDword("Popups0Tx", COLOR_TX_DEFAULT);
 
 	index = 1;
 	PopupsList[index].ID = index;
 	PopupsList[index].Icon = SKINICON_OTHER_MIRANDA;
-	PopupsList[index].colorBack = db_get_dw(NULL, MODULENAME, "Popups1Bg", COLOR_BG_SECONDDEFAULT);
-	PopupsList[index].colorText = db_get_dw(NULL, MODULENAME, "Popups1Tx", COLOR_TX_DEFAULT);
+	PopupsList[index].colorBack = g_plugin.getDword("Popups1Bg", COLOR_BG_SECONDDEFAULT);
+	PopupsList[index].colorText = g_plugin.getDword("Popups1Tx", COLOR_TX_DEFAULT);
 
 	index = 2;
 	PopupsList[index].ID = index;
 	PopupsList[index].Icon = SKINICON_OTHER_MIRANDA;
-	PopupsList[index].colorBack = db_get_dw(NULL, MODULENAME, "Popups2Bg", COLOR_BG_FIRSTDEFAULT);
-	PopupsList[index].colorText = db_get_dw(NULL, MODULENAME, "Popups2Tx", COLOR_TX_DEFAULT);
+	PopupsList[index].colorBack = g_plugin.getDword("Popups2Bg", COLOR_BG_FIRSTDEFAULT);
+	PopupsList[index].colorText = g_plugin.getDword("Popups2Tx", COLOR_TX_DEFAULT);
 
 	index = 3;
 	PopupsList[index].ID = index;
 	PopupsList[index].Icon = SKINICON_OTHER_MIRANDA;
-	PopupsList[index].colorBack = db_get_dw(NULL, MODULENAME, "Popups3Bg", COLOR_BG_SECONDDEFAULT);
-	PopupsList[index].colorText = db_get_dw(NULL, MODULENAME, "Popups3Tx", COLOR_TX_DEFAULT);
+	PopupsList[index].colorBack = g_plugin.getDword("Popups3Bg", COLOR_BG_SECONDDEFAULT);
+	PopupsList[index].colorText = g_plugin.getDword("Popups3Tx", COLOR_TX_DEFAULT);
 }
 
 void LoadOptions()
 {
-	MyOptions.DefColors = db_get_b(NULL, MODULENAME, "DefColors", DEFAULT_COLORS);
-	MyOptions.LeftClickAction = db_get_b(NULL, MODULENAME, "LeftClickAction", DEFAULT_POPUP_LCLICK);
-	MyOptions.RightClickAction = db_get_b(NULL, MODULENAME, "RightClickAction", DEFAULT_POPUP_RCLICK);
-	MyOptions.Timeout = db_get_dw(NULL, MODULENAME, "Timeout", DEFAULT_TIMEOUT_VALUE);
-	UpdateOnStartup = db_get_b(NULL, MODULENAME, "UpdateOnStartup", DEFAULT_UPDATEONSTARTUP);
-	OnlyOnceADay = db_get_b(NULL, MODULENAME, "OnlyOnceADay", DEFAULT_ONLYONCEADAY);
-	UpdateOnPeriod = db_get_b(NULL, MODULENAME, "UpdateOnPeriod", DEFAULT_UPDATEONPERIOD);
-	Period = db_get_dw(NULL, MODULENAME, "Period", DEFAULT_PERIOD);
-	PeriodMeasure = db_get_b(NULL, MODULENAME, "PeriodMeasure", DEFAULT_PERIODMEASURE);
-	Reminder = db_get_b(NULL, MODULENAME, "Reminder", DEFAULT_REMINDER);
-	FileCount = db_get_dw(NULL, MODULENAME, "FileCount", DEFAULT_FILECOUNT);
+	MyOptions.DefColors = g_plugin.getByte("DefColors", DEFAULT_COLORS);
+	MyOptions.LeftClickAction = g_plugin.getByte("LeftClickAction", DEFAULT_POPUP_LCLICK);
+	MyOptions.RightClickAction = g_plugin.getByte("RightClickAction", DEFAULT_POPUP_RCLICK);
+	MyOptions.Timeout = g_plugin.getDword("Timeout", DEFAULT_TIMEOUT_VALUE);
+	UpdateOnStartup = g_plugin.getByte("UpdateOnStartup", DEFAULT_UPDATEONSTARTUP);
+	OnlyOnceADay = g_plugin.getByte("OnlyOnceADay", DEFAULT_ONLYONCEADAY);
+	UpdateOnPeriod = g_plugin.getByte("UpdateOnPeriod", DEFAULT_UPDATEONPERIOD);
+	Period = g_plugin.getDword("Period", DEFAULT_PERIOD);
+	PeriodMeasure = g_plugin.getByte("PeriodMeasure", DEFAULT_PERIODMEASURE);
+	Reminder = g_plugin.getByte("Reminder", DEFAULT_REMINDER);
+	FileCount = g_plugin.getDword("FileCount", DEFAULT_FILECOUNT);
 }
 
 BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
@@ -164,7 +164,7 @@ BOOL Exists(LPCTSTR strName)
 BOOL IsPluginDisabled(wchar_t* filename)
 {
 	char* fname = mir_u2a(filename);
-	int res = db_get_b(NULL, "PluginDisable", fname, 0);
+	int res = db_get_b(0, "PluginDisable", fname, 0);
 	mir_free(fname);
 	return res;
 }
@@ -185,19 +185,19 @@ static void CheckUpdates(void *)
 	if (!Exists(tszRoot))
 		CreateDirectory(tszRoot, nullptr);
 	Files.clear();
-	Reminder = db_get_b(NULL, MODULENAME, "Reminder", DEFAULT_REMINDER);
-	FileCount = db_get_dw(NULL, MODULENAME, "FileCount", DEFAULT_FILECOUNT);
+	Reminder = g_plugin.getByte("Reminder", DEFAULT_REMINDER);
+	FileCount = g_plugin.getDword("FileCount", DEFAULT_FILECOUNT);
 
 	// Load files info
-	ptrW tszDownloadURL(db_get_wsa(NULL, MODULENAME, "File_VersionURL"));
+	ptrW tszDownloadURL(g_plugin.getWStringA("File_VersionURL"));
 	if (!tszDownloadURL) { // URL is not set
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("URL for checking updates not found.");
-		if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODULENAME, "Popups1", DEFAULT_POPUP_ENABLED)) {
+		if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(0, "Popup", "ModuleIsEnabled", 1) && g_plugin.getByte("Popups1", DEFAULT_POPUP_ENABLED)) {
 			Number = 1;
 			show_popup(nullptr, Title, Text, Number, 0);
 		}
-		else if (db_get_b(NULL, MODULENAME, "Popups1M", DEFAULT_MESSAGE_ENABLED))
+		else if (g_plugin.getByte("Popups1M", DEFAULT_MESSAGE_ENABLED))
 			MessageBox(nullptr, Text, Title, MB_ICONSTOP);
 		hCheckThread = nullptr;
 		return;
@@ -221,14 +221,14 @@ static void CheckUpdates(void *)
 		FILEINFO FileInfo = { L"", L"", L"", L"", L"", L"", L"", { L"", L"" } };
 
 		mir_snprintf(szKey, "File_%d_CurrentVersion", CurrentFile + 1);
-		ptrW tszCurVer(db_get_wsa(NULL, MODULENAME, szKey));
+		ptrW tszCurVer(g_plugin.getWStringA(szKey));
 		if (tszCurVer)
 			mir_wstrncpy(FileInfo.tszCurVer, tszCurVer, _countof(FileInfo.tszCurVer));
 		else 
 			mir_wstrncpy(FileInfo.tszCurVer, L"", _countof(FileInfo.tszCurVer));
 
 		mir_snprintf(szKey, "File_%d_LastVersion", CurrentFile + 1);
-		ptrW tszLastVer(db_get_wsa(NULL, MODULENAME, szKey));
+		ptrW tszLastVer(g_plugin.getWStringA(szKey));
 		if (tszLastVer)
 			mir_wstrncpy(FileInfo.tszLastVer, tszLastVer, _countof(FileInfo.tszLastVer));
 		else
@@ -248,11 +248,11 @@ static void CheckUpdates(void *)
 		if (wcsstr(tszBuff, L"\\")) { //check update name
 			Title = TranslateT("Pack Updater");
 			Text = TranslateT("Name of Update's file is not supported.");
-			if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODULENAME, "Popups1", DEFAULT_POPUP_ENABLED)) {
+			if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(0, "Popup", "ModuleIsEnabled", 1) && g_plugin.getByte("Popups1", DEFAULT_POPUP_ENABLED)) {
 				Number = 1;
 				show_popup(nullptr, Title, Text, Number, 0);
 			}
-			else if (db_get_b(NULL, MODULENAME, "Popups1M", DEFAULT_MESSAGE_ENABLED))
+			else if (g_plugin.getByte("Popups1M", DEFAULT_MESSAGE_ENABLED))
 				MessageBox(nullptr, Text, Title, MB_ICONINFORMATION);
 			continue;
 		} // end check update name
@@ -322,7 +322,7 @@ static void CheckUpdates(void *)
 			// Save last version
 			mir_wstrncpy(Files[CurrentFile].tszLastVer, Files[CurrentFile].tszNewVer, _countof(Files[CurrentFile].tszLastVer));
 			mir_snprintf(szKey, "File_%d_LastVersion", CurrentFile + 1);
-			db_set_ws(NULL, MODULENAME, szKey, Files[CurrentFile].tszLastVer);
+			g_plugin.setWString(szKey, Files[CurrentFile].tszLastVer);
 		} // end compare versions
 	} //end checking all files in for ()
 
@@ -339,22 +339,22 @@ static void CheckUpdates(void *)
 	if (!UpdatesCount && !Silent) {
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("No updates found.");
-		if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODULENAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
+		if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(0, "Popup", "ModuleIsEnabled", 1) && g_plugin.getByte("Popups2", DEFAULT_POPUP_ENABLED)) {
 			Number = 2;
 			show_popup(nullptr, Title, Text, Number, 0);
 		}
-		else if (db_get_b(NULL, MODULENAME, "Popups2M", DEFAULT_MESSAGE_ENABLED))
+		else if (g_plugin.getByte("Popups2M", DEFAULT_MESSAGE_ENABLED))
 			MessageBox(nullptr, Text, Title, MB_ICONINFORMATION);
 	}
 
 	if (!FileCount) {
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("No files for update.");
-		if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODULENAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
+		if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(0, "Popup", "ModuleIsEnabled", 1) && g_plugin.getByte("Popups2", DEFAULT_POPUP_ENABLED)) {
 			Number = 2;
 			show_popup(nullptr, Title, Text, Number, 0);
 		}
-		else if (db_get_b(NULL, MODULENAME, "Popups2M", DEFAULT_MESSAGE_ENABLED))
+		else if (g_plugin.getByte("Popups2M", DEFAULT_MESSAGE_ENABLED))
 			MessageBox(nullptr, Text, Title, MB_ICONINFORMATION);
 	}
 	hCheckThread = nullptr;
@@ -365,16 +365,16 @@ void DoCheck(int iFlag)
 	if (hCheckThread != nullptr) {
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("Update checking already started!");
-		if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODULENAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
+		if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(0, "Popup", "ModuleIsEnabled", 1) && g_plugin.getByte("Popups2", DEFAULT_POPUP_ENABLED)) {
 			Number = 2;
 			show_popup(nullptr, Title, Text, Number, 0);
 		}
-		else if (db_get_b(NULL, MODULENAME, "Popups2M", DEFAULT_MESSAGE_ENABLED))
+		else if (g_plugin.getByte("Popups2M", DEFAULT_MESSAGE_ENABLED))
 			MessageBox(nullptr, Text, Title, MB_ICONINFORMATION);
 	}
 	else if (iFlag) {
 		hCheckThread = mir_forkthread(CheckUpdates);
-		db_set_dw(NULL, MODULENAME, "LastUpdate", time(0));
+		g_plugin.setDword("LastUpdate", time(0));
 	}
 }
 
@@ -382,7 +382,7 @@ BOOL AllowUpdateOnStartup()
 {
 	if (OnlyOnceADay) {
 		time_t now = time(0);
-		time_t was = db_get_dw(NULL, MODULENAME, "LastUpdate", 0);
+		time_t was = g_plugin.getDword("LastUpdate", 0);
 
 		if ((now - was) < 86400)
 			return FALSE;

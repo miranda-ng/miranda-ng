@@ -32,57 +32,57 @@ Options options;
 
 void LoadOptions()
 {
-	options.iAbsencePeriod = db_get_dw(NULL, MODULENAME, "iAbsencePeriod", 14);
-	options.iAbsencePeriod2 = db_get_dw(NULL, MODULENAME, "iAbsencePeriod2", 30 * 3);
-	options.iSilencePeriod = db_get_dw(NULL, MODULENAME, "iSilencePeriod", 30);
+	options.iAbsencePeriod = g_plugin.getDword("iAbsencePeriod", 14);
+	options.iAbsencePeriod2 = g_plugin.getDword("iAbsencePeriod2", 30 * 3);
+	options.iSilencePeriod = g_plugin.getDword("iSilencePeriod", 30);
 
-	options.iShowPopup = db_get_b(NULL, MODULENAME, "iShowPopUp", 1);
-	options.iShowEvent = db_get_b(NULL, MODULENAME, "iShowEvent", 0);
-	options.iShowUDetails = db_get_b(NULL, MODULENAME, "iShowUDetails", 0);
-	options.iShowMessageWindow = db_get_b(NULL, MODULENAME, "iShowMessageWindow", 1);
+	options.iShowPopup = g_plugin.getByte("iShowPopUp", 1);
+	options.iShowEvent = g_plugin.getByte("iShowEvent", 0);
+	options.iShowUDetails = g_plugin.getByte("iShowUDetails", 0);
+	options.iShowMessageWindow = g_plugin.getByte("iShowMessageWindow", 1);
 
-	options.iPopupColorBack = db_get_dw(NULL, MODULENAME, "iPopUpColorBack", DEF_COLOR_BACK);
-	options.iPopupColorFore = db_get_dw(NULL, MODULENAME, "iPopUpColorFore", DEF_COLOR_FORE);
+	options.iPopupColorBack = g_plugin.getDword("iPopUpColorBack", DEF_COLOR_BACK);
+	options.iPopupColorFore = g_plugin.getDword("iPopUpColorFore", DEF_COLOR_FORE);
 
-	options.iUsePopupColors = db_get_b(NULL, MODULENAME, "iUsePopupColors", 0);
-	options.iUseWinColors = db_get_b(NULL, MODULENAME, "iUseWinColors", 0);
-	options.iPopupDelay = db_get_b(NULL, MODULENAME, "iPopUpDelay", 0);
+	options.iUsePopupColors = g_plugin.getByte("iUsePopupColors", 0);
+	options.iUseWinColors = g_plugin.getByte("iUseWinColors", 0);
+	options.iPopupDelay = g_plugin.getByte("iPopUpDelay", 0);
 
-	options.iShowPopup2 = db_get_b(NULL, MODULENAME, "iShowPopUp2", 1);
-	options.iShowEvent2 = db_get_b(NULL, MODULENAME, "iShowEvent2", 0);
-	options.action2 = (GoneContactAction)db_get_b(NULL, MODULENAME, "Action2", (BYTE)GCA_NOACTION);
-	options.notifyFirstOnline = db_get_b(NULL, MODULENAME, "bShowFirstSight", 0) ? true : false;
-	options.hideInactive = db_get_b(NULL, MODULENAME, "bHideInactive", 0) ? true : false;
-	options.enableMissYou = db_get_b(NULL, MODULENAME, "bMissYouEnabled", 1) ? true : false;
+	options.iShowPopup2 = g_plugin.getByte("iShowPopUp2", 1);
+	options.iShowEvent2 = g_plugin.getByte("iShowEvent2", 0);
+	options.action2 = (GoneContactAction)g_plugin.getByte("Action2", (BYTE)GCA_NOACTION);
+	options.notifyFirstOnline = g_plugin.getByte("bShowFirstSight", 0) ? true : false;
+	options.hideInactive = g_plugin.getByte("bHideInactive", 0) ? true : false;
+	options.enableMissYou = g_plugin.getByte("bMissYouEnabled", 1) ? true : false;
 }
 
 void SaveOptions()
 {
-	db_set_dw(NULL, MODULENAME, "iAbsencePeriod", options.iAbsencePeriod);
-	db_set_dw(NULL, MODULENAME, "iAbsencePeriod2", options.iAbsencePeriod2);
-	db_set_dw(NULL, MODULENAME, "iSilencePeriod", options.iSilencePeriod);
+	g_plugin.setDword("iAbsencePeriod", options.iAbsencePeriod);
+	g_plugin.setDword("iAbsencePeriod2", options.iAbsencePeriod2);
+	g_plugin.setDword("iSilencePeriod", options.iSilencePeriod);
 
-	db_set_b(NULL, MODULENAME, "iShowPopUp", options.iShowPopup);
-	db_set_b(NULL, MODULENAME, "iShowEvent", options.iShowEvent);
-	db_set_b(NULL, MODULENAME, "iShowUDetails", options.iShowUDetails);
-	db_set_b(NULL, MODULENAME, "iShowMessageWindow", options.iShowMessageWindow);
+	g_plugin.setByte("iShowPopUp", options.iShowPopup);
+	g_plugin.setByte("iShowEvent", options.iShowEvent);
+	g_plugin.setByte("iShowUDetails", options.iShowUDetails);
+	g_plugin.setByte("iShowMessageWindow", options.iShowMessageWindow);
 
-	db_set_b(NULL, MODULENAME, "iShowPopUp2", options.iShowPopup2);
-	db_set_b(NULL, MODULENAME, "iShowEvent2", options.iShowEvent2);
-	db_set_b(NULL, MODULENAME, "Action2", (BYTE)options.action2);
-	db_set_b(NULL, MODULENAME, "bShowFirstSight", options.notifyFirstOnline ? 1 : 0);
-	db_set_b(NULL, MODULENAME, "bHideInactive", options.hideInactive ? 1 : 0);
-	db_set_b(NULL, MODULENAME, "bMissYouEnabled", options.enableMissYou ? 1 : 0);
+	g_plugin.setByte("iShowPopUp2", options.iShowPopup2);
+	g_plugin.setByte("iShowEvent2", options.iShowEvent2);
+	g_plugin.setByte("Action2", (BYTE)options.action2);
+	g_plugin.setByte("bShowFirstSight", options.notifyFirstOnline ? 1 : 0);
+	g_plugin.setByte("bHideInactive", options.hideInactive ? 1 : 0);
+	g_plugin.setByte("bMissYouEnabled", options.enableMissYou ? 1 : 0);
 }
 
 void SavePopupOptions()
 {
-	db_set_dw(NULL, MODULENAME, "iPopUpColorBack", options.iPopupColorBack);
-	db_set_dw(NULL, MODULENAME, "iPopUpColorFore", options.iPopupColorFore);
+	g_plugin.setDword("iPopUpColorBack", options.iPopupColorBack);
+	g_plugin.setDword("iPopUpColorFore", options.iPopupColorFore);
 
-	db_set_b(NULL, MODULENAME, "iUsePopupColors", options.iUsePopupColors);
-	db_set_b(NULL, MODULENAME, "iUseWinColors", options.iUseWinColors);
-	db_set_b(NULL, MODULENAME, "iPopUpDelay", options.iPopupDelay);
+	g_plugin.setByte("iUsePopupColors", options.iUsePopupColors);
+	g_plugin.setByte("iUseWinColors", options.iUseWinColors);
+	g_plugin.setByte("iPopUpDelay", options.iPopupDelay);
 }
 
 /**

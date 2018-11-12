@@ -1017,7 +1017,7 @@ bool bIsExportEnabled(MCONTACT hContact)
 	const char *szProto = GetContactProto(hContact);
 	char szTemp[500];
 	mir_snprintf(szTemp, "DisableProt_%s", szProto);
-	if (!db_get_b(NULL, MODULENAME, szTemp, 1))
+	if (!g_plugin.getByte(szTemp, 1))
 		return false;
 
 	return true;

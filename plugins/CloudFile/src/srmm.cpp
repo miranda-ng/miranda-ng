@@ -42,7 +42,7 @@ int OnSrmmButtonPressed(WPARAM, LPARAM lParam)
 		return 0;
 
 	if (cbc->flags != BBCF_ARROWCLICKED) {
-		ptrA defaultService(db_get_sa(NULL, MODULENAME, "DefaultService"));
+		ptrA defaultService(g_plugin.getStringA("DefaultService"));
 		if (defaultService) {
 			CCloudService *service = FindService(defaultService);
 			if (service)

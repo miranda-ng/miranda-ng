@@ -662,11 +662,11 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 	char dbSetting[64];
 	mir_snprintf(dbSetting, "%s_enabled", szProto);
 	// this proto is not set for status message notifications
-	if (db_get_b(NULL, MODULE, dbSetting, 1) == 0)
+	if (db_get_b(0, MODULE, dbSetting, 1) == 0)
 		goto skip_notify;
 	mir_snprintf(dbSetting, "%d", IDC_CHK_STATUS_MESSAGE);
 	// status message change notifications are disabled
-	if (db_get_b(NULL, MODULE, dbSetting, 1) == 0)
+	if (db_get_b(0, MODULE, dbSetting, 1) == 0)
 		goto skip_notify;
 
 	if (SkipHiddenContact(hContact))
@@ -840,7 +840,7 @@ int StatusModeChanged(WPARAM wParam, LPARAM lParam)
 			BYTE hlpDisableSound = db_get_b(0, MODULE, szSetting, 0);
 
 			if (hlpDisableSound != opt.SoundAutoDisabled) {
-				BYTE hlpUseSound = db_get_b(NULL, "Skin", "UseSound", 1);
+				BYTE hlpUseSound = db_get_b(0, "Skin", "UseSound", 1);
 				opt.SoundAutoDisabled = hlpDisableSound;
 
 				if (hlpDisableSound) {
@@ -868,8 +868,8 @@ void InitStatusList()
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserOnline", MAX_SKINSOUNDNAME);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Online"), MAX_SKINSOUNDDESC);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundFile, L"global.wav", MAX_PATH);
-	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40072bg", COLOR_BG_AVAILDEFAULT);
-	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40072tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = db_get_dw(0, MODULE, "40072bg", COLOR_BG_AVAILDEFAULT);
+	StatusList[index].colorText = db_get_dw(0, MODULE, "40072tx", COLOR_TX_DEFAULT);
 
 	//Offline
 	index = Index(ID_STATUS_OFFLINE);
@@ -880,8 +880,8 @@ void InitStatusList()
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserOffline", MAX_SKINSOUNDNAME);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Offline"), MAX_SKINSOUNDDESC);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundFile, L"offline.wav", MAX_PATH);
-	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40071bg", COLOR_BG_NAVAILDEFAULT);
-	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40071tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = db_get_dw(0, MODULE, "40071bg", COLOR_BG_NAVAILDEFAULT);
+	StatusList[index].colorText = db_get_dw(0, MODULE, "40071tx", COLOR_TX_DEFAULT);
 
 	//Invisible
 	index = Index(ID_STATUS_INVISIBLE);
@@ -892,8 +892,8 @@ void InitStatusList()
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserInvisible", MAX_SKINSOUNDNAME);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Invisible"), MAX_SKINSOUNDDESC);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundFile, L"invisible.wav", MAX_PATH);
-	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40078bg", COLOR_BG_AVAILDEFAULT);
-	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40078tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = db_get_dw(0, MODULE, "40078bg", COLOR_BG_AVAILDEFAULT);
+	StatusList[index].colorText = db_get_dw(0, MODULE, "40078tx", COLOR_TX_DEFAULT);
 
 	//Free for chat
 	index = Index(ID_STATUS_FREECHAT);
@@ -904,8 +904,8 @@ void InitStatusList()
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserFreeForChat", MAX_SKINSOUNDNAME);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Free for chat"), MAX_SKINSOUNDDESC);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundFile, L"free4chat.wav", MAX_PATH);
-	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40077bg", COLOR_BG_AVAILDEFAULT);
-	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40077tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = db_get_dw(0, MODULE, "40077bg", COLOR_BG_AVAILDEFAULT);
+	StatusList[index].colorText = db_get_dw(0, MODULE, "40077tx", COLOR_TX_DEFAULT);
 
 	//Away
 	index = Index(ID_STATUS_AWAY);
@@ -916,8 +916,8 @@ void InitStatusList()
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserAway", MAX_SKINSOUNDNAME);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Away"), MAX_SKINSOUNDDESC);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundFile, L"away.wav", MAX_PATH);
-	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40073bg", COLOR_BG_NAVAILDEFAULT);
-	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40073tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = db_get_dw(0, MODULE, "40073bg", COLOR_BG_NAVAILDEFAULT);
+	StatusList[index].colorText = db_get_dw(0, MODULE, "40073tx", COLOR_TX_DEFAULT);
 
 	//NA
 	index = Index(ID_STATUS_NA);
@@ -928,8 +928,8 @@ void InitStatusList()
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserNA", MAX_SKINSOUNDNAME);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Not available"), MAX_SKINSOUNDDESC);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundFile, L"na.wav", MAX_PATH);
-	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40075bg", COLOR_BG_NAVAILDEFAULT);
-	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40075tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = db_get_dw(0, MODULE, "40075bg", COLOR_BG_NAVAILDEFAULT);
+	StatusList[index].colorText = db_get_dw(0, MODULE, "40075tx", COLOR_TX_DEFAULT);
 
 	//Occupied
 	index = Index(ID_STATUS_OCCUPIED);
@@ -940,8 +940,8 @@ void InitStatusList()
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserOccupied", MAX_SKINSOUNDNAME);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Occupied"), MAX_SKINSOUNDDESC);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundFile, L"occupied.wav", MAX_PATH);
-	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40076bg", COLOR_BG_NAVAILDEFAULT);
-	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40076tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = db_get_dw(0, MODULE, "40076bg", COLOR_BG_NAVAILDEFAULT);
+	StatusList[index].colorText = db_get_dw(0, MODULE, "40076tx", COLOR_TX_DEFAULT);
 
 	//Do not disturb
 	index = Index(ID_STATUS_DND);
@@ -952,8 +952,8 @@ void InitStatusList()
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserDND", MAX_SKINSOUNDNAME);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Do not disturb"), MAX_SKINSOUNDDESC);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundFile, L"dnd.wav", MAX_PATH);
-	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40074bg", COLOR_BG_NAVAILDEFAULT);
-	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40074tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = db_get_dw(0, MODULE, "40074bg", COLOR_BG_NAVAILDEFAULT);
+	StatusList[index].colorText = db_get_dw(0, MODULE, "40074tx", COLOR_TX_DEFAULT);
 
 	//Out to lunch
 	index = Index(ID_STATUS_OUTTOLUNCH);
@@ -964,8 +964,8 @@ void InitStatusList()
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserOutToLunch", MAX_SKINSOUNDNAME);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Out to lunch"), MAX_SKINSOUNDDESC);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundFile, L"lunch.wav", MAX_PATH);
-	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40080bg", COLOR_BG_NAVAILDEFAULT);
-	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40080tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = db_get_dw(0, MODULE, "40080bg", COLOR_BG_NAVAILDEFAULT);
+	StatusList[index].colorText = db_get_dw(0, MODULE, "40080tx", COLOR_TX_DEFAULT);
 
 	//On the phone
 	index = Index(ID_STATUS_ONTHEPHONE);
@@ -976,18 +976,18 @@ void InitStatusList()
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserOnThePhone", MAX_SKINSOUNDNAME);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: On the phone"), MAX_SKINSOUNDDESC);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundFile, L"phone.wav", MAX_PATH);
-	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40079bg", COLOR_BG_NAVAILDEFAULT);
-	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40079tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = db_get_dw(0, MODULE, "40079bg", COLOR_BG_NAVAILDEFAULT);
+	StatusList[index].colorText = db_get_dw(0, MODULE, "40079tx", COLOR_TX_DEFAULT);
 
 	//Extra status
 	index = Index(ID_STATUS_EXTRASTATUS);
-	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40081bg", COLOR_BG_AVAILDEFAULT);
-	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40081tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = db_get_dw(0, MODULE, "40081bg", COLOR_BG_AVAILDEFAULT);
+	StatusList[index].colorText = db_get_dw(0, MODULE, "40081tx", COLOR_TX_DEFAULT);
 
 	//Status message
 	index = Index(ID_STATUS_STATUSMSG);
-	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40082bg", COLOR_BG_AVAILDEFAULT);
-	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40082tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = db_get_dw(0, MODULE, "40082bg", COLOR_BG_AVAILDEFAULT);
+	StatusList[index].colorText = db_get_dw(0, MODULE, "40082tx", COLOR_TX_DEFAULT);
 
 	//From offline
 	index = ID_STATUS_FROMOFFLINE;
@@ -1052,7 +1052,7 @@ int ProtoAck(WPARAM, LPARAM lParam)
 		char *szProto = (char *)ack->szModule;
 		if (newStatus == ID_STATUS_OFFLINE) {
 			//The protocol switched to offline. Disable the popups for this protocol
-			db_set_b(NULL, MODULE, szProto, 0);
+			db_set_b(0, MODULE, szProto, 0);
 		}
 		else if (oldStatus < ID_STATUS_ONLINE && newStatus >= ID_STATUS_ONLINE) {
 			//The protocol changed from a disconnected status to a connected status.
@@ -1131,7 +1131,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	for (auto &pa : Accounts())
 		if (pa->IsEnabled())
-			db_set_b(NULL, MODULE, pa->szModuleName, 0);
+			db_set_b(0, MODULE, pa->szModuleName, 0);
 
 	return 0;
 }

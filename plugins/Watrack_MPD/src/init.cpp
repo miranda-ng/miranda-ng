@@ -53,9 +53,9 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	nlu.szSettingsModule = __PLUGIN_NAME;
 	ghNetlibUser = Netlib_RegisterUser(&nlu);
 
-	gbPort = db_get_w(NULL, MODULENAME, "Port", 6600);
-	gbHost = UniGetContactSettingUtf(NULL, MODULENAME, "Server", L"127.0.0.1");
-	gbPassword = UniGetContactSettingUtf(NULL, MODULENAME, "Password", L"");
+	gbPort = g_plugin.getWord("Port", 6600);
+	gbHost = UniGetContactSettingUtf(0, MODULENAME, "Server", L"127.0.0.1");
+	gbPassword = UniGetContactSettingUtf(0, MODULENAME, "Password", L"");
 
 	if (ServiceExists(MS_WAT_PLAYER))
 		bWatrackService = TRUE;

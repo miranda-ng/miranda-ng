@@ -128,5 +128,5 @@ void CFolderItem::WriteDataToDatabase()
 	strcat_s(szSettingName, sizeof(szSettingName), m_szName);
 
 	if (m_tszFormat)
-		db_set_ws(NULL, ModuleName, szSettingName, m_tszFormat);
+		db_set_ws(0, ModuleName, szSettingName, m_tszFormat);
 }

@@ -145,14 +145,14 @@ INT_PTR svcEnableDisableMenuCommand(WPARAM, LPARAM)
 		// The module is enabled.
 		// The action to do is "disable popups" (show disabled) and we must write "enable popup" in the new item.
 		PopupOptions.ModuleIsEnabled = FALSE;
-		db_set_b(NULL, "Popup", "ModuleIsEnabled", FALSE);
+		db_set_b(0, "Popup", "ModuleIsEnabled", FALSE);
 		Menu_ModifyItem(hMenuItem, LPGENW("Enable Popups"), hIcon = GetIconHandle(IDI_NOPOPUP));
 	}
 	else {
 		// The module is disabled.
 		// The action to do is enable popups (show enabled), then write "disable popup" in the new item.
 		PopupOptions.ModuleIsEnabled = TRUE;
-		db_set_b(NULL, "Popup", "ModuleIsEnabled", TRUE);
+		db_set_b(0, "Popup", "ModuleIsEnabled", TRUE);
 		Menu_ModifyItem(hMenuItem, LPGENW("Disable Popups"), hIcon = GetIconHandle(IDI_POPUP));
 	}
 
@@ -323,7 +323,7 @@ int CMPlugin::Load()
 	CreateServiceFunction(MS_POPUP_GETSTATUS, GetStatus);
 
 #if defined(_DEBUG)
-	PopupOptions.debug = db_get_b(NULL, MODULENAME, "debug", FALSE);
+	PopupOptions.debug = g_plugin.getByte("debug", FALSE);
 #else
 	PopupOptions.debug = false;
 #endif

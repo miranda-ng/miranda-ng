@@ -597,7 +597,7 @@ void CIcqProto::setUserInfo()
 	//MIM/PackName
 	bool bHasPackName = false;
 	DBVARIANT dbv;
-	if (!db_get_s(NULL, "ICQCaps", "PackName", &dbv)) {
+	if (!db_get_s(0, "ICQCaps", "PackName", &dbv)) {
 		//MIM/PackName
 		bHasPackName = true;
 		wAdditionalData += 16;

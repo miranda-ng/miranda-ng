@@ -74,7 +74,7 @@ void ShowPopup(MCONTACT hContact, const wchar_t *title, const wchar_t *descripti
 
 void ShowDebugPopup(MCONTACT hContact, const wchar_t *title, const wchar_t *description)
 {
-	if (db_get_b(NULL, MODULENAME, "Debug", 0)) {
+	if (g_plugin.getByte("Debug", 0)) {
 		ShowPopup(hContact, title, description);
 	}
 }

@@ -162,7 +162,7 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		return 0;
 
 	case WM_LBUTTONDOWN:
-		if (db_get_b(NULL, "CLUI", "ClientAreaDrag", 0)) {
+		if (db_get_b(0, "CLUI", "ClientAreaDrag", 0)) {
 			POINT pt;
 			GetCursorPos(&pt);
 			return SendMessage(GetParent(hwnd), WM_SYSCOMMAND, SC_MOVE|HTCAPTION, MAKELPARAM(pt.x, pt.y));
@@ -289,18 +289,18 @@ void CALLBACK OnEventFire()
 
 int LoadBackgroundOptions()
 {
-	bkColour = db_get_dw(NULL, TTB_OPTDIR, "BkColour", TTBDEFAULT_BKCOLOUR);
+	bkColour = db_get_dw(0, TTB_OPTDIR, "BkColour", TTBDEFAULT_BKCOLOUR);
 	if (hBmpBackground) {
 		DeleteObject(hBmpBackground);
 		hBmpBackground = nullptr;
 	}
 
-	if (db_get_b(NULL, TTB_OPTDIR, "UseBitmap", TTBDEFAULT_USEBITMAP)) {
+	if (db_get_b(0, TTB_OPTDIR, "UseBitmap", TTBDEFAULT_USEBITMAP)) {
 		ptrW tszBitmapName(db_get_wsa(NULL, TTB_OPTDIR, "BkBitmap"));
 		if (tszBitmapName != NULL)
 			hBmpBackground = Bitmap_Load(tszBitmapName);
 	}
-	backgroundBmpUse = db_get_w(NULL, TTB_OPTDIR, "BkBmpUse", TTBDEFAULT_BKBMPUSE);
+	backgroundBmpUse = db_get_w(0, TTB_OPTDIR, "BkBmpUse", TTBDEFAULT_BKBMPUSE);
 
 	RECT rc;
 	GetClientRect(g_ctrl->hWnd, &rc);

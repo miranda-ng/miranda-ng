@@ -65,12 +65,12 @@ SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 
 static void LoadDBCheckState(HWND hwndDlg, int idCtrl, LPCSTR szSetting, BYTE bDef)
 {
-	CheckDlgButton(hwndDlg, idCtrl, db_get_b(NULL, MODULENAME, szSetting, bDef) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, idCtrl, g_plugin.getByte(szSetting, bDef) ? BST_CHECKED : BST_UNCHECKED);
 }
 
 static void StoreDBCheckState(HWND hwndDlg, int idCtrl, LPCSTR szSetting)
 {
-	db_set_b(NULL, MODULENAME, szSetting, (BYTE)IsDlgButtonChecked(hwndDlg, idCtrl));
+	g_plugin.setByte(szSetting, (BYTE)IsDlgButtonChecked(hwndDlg, idCtrl));
 }
 
 static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)

@@ -3,22 +3,22 @@
 static void RefreshPopupOptionsDlg(HWND hec, HWND hdc, HWND hss, HWND hsr, HWND hks, HWND hkr)
 {
 	// ec checkbox
-	SendMessage(hec, BM_SETCHECK, db_get_b(0, MODULENAME, "ec", 1), 0L);
+	SendMessage(hec, BM_SETCHECK, g_plugin.getByte("ec", 1), 0L);
 
 	// dc checkbox
-	SendMessage(hdc, BM_SETCHECK, db_get_b(0, MODULENAME, "dc", 1), 0L);
+	SendMessage(hdc, BM_SETCHECK, g_plugin.getByte("dc", 1), 0L);
 
 	// ks checkbox
-	SendMessage(hks, BM_SETCHECK, db_get_b(0, MODULENAME, "ks", 1), 0L);
+	SendMessage(hks, BM_SETCHECK, g_plugin.getByte("ks", 1), 0L);
 
 	// kr checkbox
-	SendMessage(hkr, BM_SETCHECK, db_get_b(0, MODULENAME, "kr", 1), 0L);
+	SendMessage(hkr, BM_SETCHECK, g_plugin.getByte("kr", 1), 0L);
 
 	//ss checkbox
-	SendMessage(hss, BM_SETCHECK, db_get_b(0, MODULENAME, "ss", 0), 0L);
+	SendMessage(hss, BM_SETCHECK, g_plugin.getByte("ss", 0), 0L);
 
 	//sr checkbox
-	SendMessage(hsr, BM_SETCHECK, db_get_b(0, MODULENAME, "sr", 0), 0L);
+	SendMessage(hsr, BM_SETCHECK, g_plugin.getByte("sr", 0), 0L);
 }
 
 INT_PTR CALLBACK PopOptionsDlgProc(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM lParam)
@@ -41,34 +41,34 @@ INT_PTR CALLBACK PopOptionsDlgProc(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 		char *timeout;
 
 		//set timeout value for Key
-		if (db_get_s(0, MODULENAME, "timeoutKey", &dbv) == 0) timeout = dbv.pszVal;
+		if (g_plugin.getString("timeoutKey", &dbv) == 0) timeout = dbv.pszVal;
 		else timeout = "0";
 		SetDlgItemText(hDlg, IDC_TIMEKEY, timeout);
 		db_free(&dbv);
 
 		//set timeout value for SEC
-		if (db_get_s(0, MODULENAME, "timeoutSec", &dbv) == 0) timeout = dbv.pszVal;
+		if (g_plugin.getString("timeoutSec", &dbv) == 0) timeout = dbv.pszVal;
 		else timeout = "0";
 		SetDlgItemText(hDlg, IDC_TIMESEC, timeout);
 		db_free(&dbv);
 
 		//set timeout value for SR
-		if (db_get_s(0, MODULENAME, "timeoutSR", &dbv) == 0) timeout = dbv.pszVal;
+		if (g_plugin.getString("timeoutSR", &dbv) == 0) timeout = dbv.pszVal;
 		else timeout = "0";
 		SetDlgItemText(hDlg, IDC_TIMESR, timeout);
 		db_free(&dbv);
 
 		//key color
-		SendDlgItemMessage(hDlg, IDC_BACKKEY, CPM_SETCOLOUR, 0, db_get_dw(0, MODULENAME, "colorKeyb", RGB(230, 230, 255)));
-		SendDlgItemMessage(hDlg, IDC_TEXTKEY, CPM_SETCOLOUR, 0, db_get_dw(0, MODULENAME, "colorKeyt", RGB(0, 0, 0)));
+		SendDlgItemMessage(hDlg, IDC_BACKKEY, CPM_SETCOLOUR, 0, g_plugin.getDword("colorKeyb", RGB(230, 230, 255)));
+		SendDlgItemMessage(hDlg, IDC_TEXTKEY, CPM_SETCOLOUR, 0, g_plugin.getDword("colorKeyt", RGB(0, 0, 0)));
 
 		//Session color
-		SendDlgItemMessage(hDlg, IDC_BACKSEC, CPM_SETCOLOUR, 0, db_get_dw(0, MODULENAME, "colorSecb", RGB(255, 255, 200)));
-		SendDlgItemMessage(hDlg, IDC_TEXTSEC, CPM_SETCOLOUR, 0, db_get_dw(0, MODULENAME, "colorSect", RGB(0, 0, 0)));
+		SendDlgItemMessage(hDlg, IDC_BACKSEC, CPM_SETCOLOUR, 0, g_plugin.getDword("colorSecb", RGB(255, 255, 200)));
+		SendDlgItemMessage(hDlg, IDC_TEXTSEC, CPM_SETCOLOUR, 0, g_plugin.getDword("colorSect", RGB(0, 0, 0)));
 
 		//SR color
-		SendDlgItemMessage(hDlg, IDC_BACKSR, CPM_SETCOLOUR, 0, db_get_dw(0, MODULENAME, "colorSRb", RGB(200, 255, 200)));
-		SendDlgItemMessage(hDlg, IDC_TEXTSR, CPM_SETCOLOUR, 0, db_get_dw(0, MODULENAME, "colorSRt", RGB(0, 0, 0)));
+		SendDlgItemMessage(hDlg, IDC_BACKSR, CPM_SETCOLOUR, 0, g_plugin.getDword("colorSRb", RGB(200, 255, 200)));
+		SendDlgItemMessage(hDlg, IDC_TEXTSR, CPM_SETCOLOUR, 0, g_plugin.getDword("colorSRt", RGB(0, 0, 0)));
 		break;
 
 	case WM_COMMAND:
@@ -78,22 +78,22 @@ INT_PTR CALLBACK PopOptionsDlgProc(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 
 			switch (LOWORD(wParam)) {
 			case IDC_BACKKEY:
-				db_set_dw(0, MODULENAME, "colorKeyb", color);
+				g_plugin.setDword("colorKeyb", color);
 				break;
 			case IDC_TEXTKEY:
-				db_set_dw(0, MODULENAME, "colorKeyt", color);
+				g_plugin.setDword("colorKeyt", color);
 				break;
 			case IDC_BACKSEC:
-				db_set_dw(0, MODULENAME, "colorSecb", color);
+				g_plugin.setDword("colorSecb", color);
 				break;
 			case IDC_TEXTSEC:
-				db_set_dw(0, MODULENAME, "colorSect", color);
+				g_plugin.setDword("colorSect", color);
 				break;
 			case IDC_BACKSR:
-				db_set_dw(0, MODULENAME, "colorSRb", color);
+				g_plugin.setDword("colorSRb", color);
 				break;
 			case IDC_TEXTSR:
-				db_set_dw(0, MODULENAME, "colorSRt", color);
+				g_plugin.setDword("colorSRt", color);
 				break;
 			}
 			return TRUE;
@@ -108,45 +108,45 @@ INT_PTR CALLBACK PopOptionsDlgProc(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 			break;
 		case IDC_EC:
 			//set ec checkbox value
-			db_set_b(0, MODULENAME, "ec", (BYTE)(SendMessage(hec, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
+			g_plugin.setByte("ec", (BYTE)(SendMessage(hec, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
 			break;
 		case IDC_DC:
 			//set dc checkbox value
-			db_set_b(0, MODULENAME, "dc", (BYTE)(SendMessage(hdc, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
+			g_plugin.setByte("dc", (BYTE)(SendMessage(hdc, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
 			break;
 		case IDC_SS:
 			//set ss checkbox value
-			db_set_b(0, MODULENAME, "ss", (BYTE)(SendMessage(hss, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
+			g_plugin.setByte("ss", (BYTE)(SendMessage(hss, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
 			break;
 		case IDC_SR:
 			//set sr checkbox value
-			db_set_b(0, MODULENAME, "sr", (BYTE)(SendMessage(hsr, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
+			g_plugin.setByte("sr", (BYTE)(SendMessage(hsr, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
 			break;
 		case IDC_KS:
 			//set indicator checkbox value
-			db_set_b(0, MODULENAME, "ks", (BYTE)(SendMessage(hks, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
+			g_plugin.setByte("ks", (BYTE)(SendMessage(hks, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
 			break;
 		case IDC_KR:
 			//set indicator checkbox value
-			db_set_b(0, MODULENAME, "kr", (BYTE)(SendMessage(hkr, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
+			g_plugin.setByte("kr", (BYTE)(SendMessage(hkr, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
 			break;
 		case IDC_TIMEKEY:
 			//set timeout value
 			GetDlgItemText(hDlg, IDC_TIMEKEY, getTimeout, _countof(getTimeout));
 			mir_itoa(atoi(getTimeout), getTimeout, 10);
-			db_set_s(0, MODULENAME, "timeoutKey", getTimeout);
+			g_plugin.setString("timeoutKey", getTimeout);
 			break;
 		case IDC_TIMESEC:
 			//set timeout value
 			GetDlgItemText(hDlg, IDC_TIMESEC, getTimeout, _countof(getTimeout));
 			mir_itoa(atoi(getTimeout), getTimeout, 10);
-			db_set_s(0, MODULENAME, "timeoutSec", getTimeout);
+			g_plugin.setString("timeoutSec", getTimeout);
 			break;
 		case IDC_TIMESR:
 			//set timeout value
 			GetDlgItemText(hDlg, IDC_TIMESR, getTimeout, _countof(getTimeout));
 			mir_itoa(atoi(getTimeout), getTimeout, 10);
-			db_set_s(0, MODULENAME, "timeoutSR", getTimeout);
+			g_plugin.setString("timeoutSR", getTimeout);
 			break;
 		}
 

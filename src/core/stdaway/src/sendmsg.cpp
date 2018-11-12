@@ -70,12 +70,12 @@ static const char* StatusModeToDbSetting(int status, const char *suffix)
 
 static bool GetStatusModeByte(int status, const char *suffix, bool bDefault = false)
 {
-	return db_get_b(NULL, MODULENAME, StatusModeToDbSetting(status, suffix), bDefault) != 0;
+	return g_plugin.getByte(StatusModeToDbSetting(status, suffix), bDefault) != 0;
 }
 
 static void SetStatusModeByte(int status, const char *suffix, BYTE value)
 {
-	db_set_b(NULL, MODULENAME, StatusModeToDbSetting(status, suffix), value);
+	g_plugin.setByte(StatusModeToDbSetting(status, suffix), value);
 }
 
 static wchar_t* GetAwayMessage(int statusMode, char *szProto)
@@ -88,11 +88,11 @@ static wchar_t* GetAwayMessage(int statusMode, char *szProto)
 
 	DBVARIANT dbv;
 	if (GetStatusModeByte(statusMode, "UsePrev")) {
-		if (db_get_ws(NULL, MODULENAME, StatusModeToDbSetting(statusMode, "Msg"), &dbv))
+		if (g_plugin.getWString(StatusModeToDbSetting(statusMode, "Msg"), &dbv))
 			dbv.pwszVal = mir_wstrdup(GetDefaultMessage(statusMode));
 	}
 	else {
-		if (db_get_ws(NULL, MODULENAME, StatusModeToDbSetting(statusMode, "Default"), &dbv))
+		if (g_plugin.getWString(StatusModeToDbSetting(statusMode, "Default"), &dbv))
 			dbv.pwszVal = mir_wstrdup(GetDefaultMessage(statusMode));
 
 		for (int i = 0; dbv.pwszVal[i]; i++) {
@@ -265,7 +265,7 @@ static INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 				wchar_t str[1024];
 				GetDlgItemText(hwndDlg, IDC_MSG, str, _countof(str));
 				ChangeAllProtoMessages(dat->szProto, dat->statusMode, str);
-				db_set_ws(NULL, MODULENAME, StatusModeToDbSetting(dat->statusMode, "Msg"), str);
+				g_plugin.setWString(StatusModeToDbSetting(dat->statusMode, "Msg"), str);
 				DestroyWindow(hwndDlg);
 			}
 			else PostMessage(hwndDlg, WM_CLOSE, 0, 0);
@@ -388,8 +388,8 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				dat->info[j].usePrevious = GetStatusModeByte(it, "UsePrev");
 
 				DBVARIANT dbv;
-				if (db_get_ws(NULL, MODULENAME, StatusModeToDbSetting(it, "Default"), &dbv))
-					if (db_get_ws(NULL, MODULENAME, StatusModeToDbSetting(it, "Msg"), &dbv))
+				if (g_plugin.getWString(StatusModeToDbSetting(it, "Default"), &dbv))
+					if (g_plugin.getWString(StatusModeToDbSetting(it, "Msg"), &dbv))
 						dbv.pwszVal = mir_wstrdup(GetDefaultMessage(it));
 				mir_wstrcpy(dat->info[j].msg, dbv.pwszVal);
 				mir_free(dbv.pwszVal);
@@ -494,7 +494,7 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 						SetStatusModeByte(status, "Ignore", (BYTE)dat->info[i].ignore);
 						SetStatusModeByte(status, "NoDlg", (BYTE)dat->info[i].noDialog);
 						SetStatusModeByte(status, "UsePrev", (BYTE)dat->info[i].usePrevious);
-						db_set_ws(NULL, MODULENAME, StatusModeToDbSetting(status, "Default"), dat->info[i].msg);
+						g_plugin.setWString(StatusModeToDbSetting(status, "Default"), dat->info[i].msg);
 					}
 					return TRUE;
 				}

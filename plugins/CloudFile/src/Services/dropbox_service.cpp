@@ -103,7 +103,7 @@ void CDropboxService::RequestAccessTokenThread(void *param)
 	}
 
 	node = root.at("access_token");
-	db_set_s(NULL, GetAccountName(), "TokenSecret", node.as_string().c_str());
+	db_set_s(0, GetAccountName(), "TokenSecret", node.as_string().c_str());
 
 	SetDlgItemTextA(hwndDlg, IDC_OAUTH_CODE, "");
 
@@ -133,7 +133,7 @@ void CDropboxService::HandleJsonError(JSONNode &node)
 auto CDropboxService::UploadFile(const char *data, size_t size, const std::string &path)
 {
 	ptrA token(getStringA("TokenSecret"));
-	BYTE strategy = db_get_b(NULL, MODULENAME, "ConflictStrategy", OnConflict::REPLACE);
+	BYTE strategy = g_plugin.getByte("ConflictStrategy", OnConflict::REPLACE);
 	DropboxAPI::UploadFileRequest request(token, path.c_str(), data, size, (OnConflict)strategy);
 	NLHR_PTR response(request.Send(m_hConnection));
 
@@ -162,7 +162,7 @@ void CDropboxService::UploadFileChunk(const std::string &sessionId, const char *
 auto CDropboxService::CommitUploadSession(const std::string &sessionId, const char *data, size_t size, size_t offset, const std::string &path)
 {
 	ptrA token(getStringA("TokenSecret"));
-	BYTE strategy = db_get_b(NULL, MODULENAME, "ConflictStrategy", OnConflict::REPLACE);
+	BYTE strategy = g_plugin.getByte("ConflictStrategy", OnConflict::REPLACE);
 	DropboxAPI::CommitUploadSessionRequest request(token, sessionId.c_str(), offset, path.c_str(), data, size, (OnConflict)strategy);
 	NLHR_PTR response(request.Send(m_hConnection));
 

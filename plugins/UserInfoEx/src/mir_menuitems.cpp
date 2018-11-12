@@ -73,10 +73,10 @@ void RebuildContact()
 	SvcHomepageRebuildMenu();
 
 	// load options
-	int flag = db_get_b(NULL, MODULENAME, SET_MI_CONTACT, MCAS_NOTINITIATED);
+	int flag = g_plugin.getByte(SET_MI_CONTACT, MCAS_NOTINITIATED);
 	if (flag == MCAS_NOTINITIATED) {
 		flag = MCAS_EXIMPORT | TRUE;
-		db_set_b(NULL, MODULENAME, SET_MI_CONTACT, flag);
+		g_plugin.setByte(SET_MI_CONTACT, flag);
 	}
 
 	// delete all MenuItems and set all bytes 0 to avoid problems
@@ -166,10 +166,10 @@ void RebuildMain()
 	static HGENMENU hMenuItem[8] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
 
 	// load options
-	int flag = db_get_b(NULL, MODULENAME, SET_MI_MAIN, MCAS_NOTINITIATED);
+	int flag = g_plugin.getByte(SET_MI_MAIN, MCAS_NOTINITIATED);
 	if (flag == MCAS_NOTINITIATED) {
 		flag = MCAS_ALL | TRUE;
-		db_set_b(NULL, MODULENAME, SET_MI_MAIN, flag);
+		g_plugin.setByte(SET_MI_MAIN, flag);
 	}
 
 	// delete all MenuItems and set all bytes 0 to avoid problems
@@ -240,8 +240,8 @@ void RebuildMain()
 	// reminder
 	mi.root = mhRoot;
 	const BYTE bRemindMenus =
-		db_get_b(NULL, MODULENAME, SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED) &&
-		db_get_b(NULL, MODULENAME, SET_REMIND_MENUENABLED, DEFVAL_REMIND_MENUENABLED);
+		g_plugin.getByte(SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED) &&
+		g_plugin.getByte(SET_REMIND_MENUENABLED, DEFVAL_REMIND_MENUENABLED);
 	if (bRemindMenus) {
 		// make backup of each protocol based birthday
 		SET_UID(mi, 0x67980bea, 0x8fca, 0x4642, 0x96, 0x78, 0x6a, 0xc0, 0xe3, 0x74, 0x4c, 0x2a);
@@ -300,10 +300,10 @@ void RebuildGroup()
 	static HGENMENU hMenuItem[3] = { nullptr, nullptr, nullptr };
 
 	// load options
-	flag = db_get_b(NULL, MODULENAME, SET_MI_GROUP, MCAS_NOTINITIATED);
+	flag = g_plugin.getByte(SET_MI_GROUP, MCAS_NOTINITIATED);
 	if (flag == MCAS_NOTINITIATED) {
 		flag = MCAS_EXIMPORT | TRUE;
-		db_set_b(NULL, MODULENAME, SET_MI_GROUP, flag);
+		g_plugin.setByte(SET_MI_GROUP, flag);
 	}
 
 	// delete all MenuItems and set all bytes 0 to avoid problems
@@ -391,10 +391,10 @@ void RebuildSubGroup()
 	static HGENMENU hMenuItem[3] = { nullptr, nullptr, nullptr };
 
 	// load options
-	flag = db_get_b(NULL, MODULENAME, SET_MI_SUBGROUP, MCAS_NOTINITIATED);
+	flag = g_plugin.getByte(SET_MI_SUBGROUP, MCAS_NOTINITIATED);
 	if (flag == MCAS_NOTINITIATED) {
 		flag = MCAS_DISABLED | TRUE;
-		db_set_b(NULL, MODULENAME, SET_MI_SUBGROUP, flag);
+		g_plugin.setByte(SET_MI_SUBGROUP, flag);
 	}
 
 	// delete all MenuItems and set all bytes 0 to avoid problems
@@ -499,10 +499,10 @@ INT_PTR RebuildAccount(WPARAM, LPARAM lParam)
 		RemoveMenuItems(hMenuItemAccount, mItems * g_clistApi.menuProtos->getCount());
 
 	// load options
-	int flag = db_get_b(NULL, MODULENAME, SET_MI_ACCOUNT, MCAS_NOTINITIATED);
+	int flag = g_plugin.getByte(SET_MI_ACCOUNT, MCAS_NOTINITIATED);
 	if (flag == MCAS_NOTINITIATED) {
 		flag = MCAS_EXIMPORT | TRUE;
-		db_set_b(NULL, MODULENAME, SET_MI_ACCOUNT, flag);
+		g_plugin.setByte(SET_MI_ACCOUNT, flag);
 	}
 
 	// loop for all account names

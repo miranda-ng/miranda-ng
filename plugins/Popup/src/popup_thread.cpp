@@ -152,7 +152,7 @@ static LRESULT CALLBACK PopupThreadManagerWndProc(HWND hwnd, UINT message, WPARA
 	switch (message) {
 	case UTM_STOP_THREAD:
 		gTerminating = true;
-		if (db_get_b(NULL, MODULENAME, "FastExit", 0))
+		if (g_plugin.getByte("FastExit", 0))
 			for (auto &it : popupList)
 				PUDeletePopup(it->getHwnd());
 		PostQuitMessage(0);

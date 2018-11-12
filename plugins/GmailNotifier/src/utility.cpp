@@ -40,7 +40,7 @@ BOOL GetBrowser(char *str)
 	else if (opt.OpenUsePrg == 0)
 		strKey = strDefault;
 	else {
-		if (!db_get_s(NULL, MODULENAME, "OpenUsePrgPath", &dbv)) {
+		if (!g_plugin.getString("OpenUsePrgPath", &dbv)) {
 			mir_strcpy(str, dbv.pszVal);
 			db_free(&dbv);
 		}

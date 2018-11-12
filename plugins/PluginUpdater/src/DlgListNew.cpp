@@ -368,7 +368,7 @@ static FILEINFO* ServerEntryToFileInfo(const ServListEntry &hash, const wchar_t*
 	FileInfo->File.CRCsum = hash.m_crc;
 	// Load list of checked Plugins from database
 	Netlib_LogfW(hNetlibUser, L"File %s found", FileInfo->tszOldName);
-	FileInfo->bEnabled = db_get_b(NULL, DB_MODULE_NEW_FILES, _T2A(FileInfo->tszOldName)) != 0;
+	FileInfo->bEnabled = db_get_b(0, DB_MODULE_NEW_FILES, _T2A(FileInfo->tszOldName)) != 0;
 	return FileInfo;
 }
 

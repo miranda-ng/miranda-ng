@@ -399,7 +399,7 @@ int ThreadData::sendMessage(int, const char *email, int netId, const char *parMs
 				char* p;
 
 				DBVARIANT dbv;
-				if (!db_get_s(NULL, "SRMsg", "Font0", &dbv)) {
+				if (!db_get_s(0, "SRMsg", "Font0", &dbv)) {
 					for (p = dbv.pszVal; *p; p++)
 						if (BYTE(*p) >= 128 || *p < 32)
 							break;
@@ -410,13 +410,13 @@ int ThreadData::sendMessage(int, const char *email, int netId, const char *parMs
 					}
 				}
 
-				int  tStyle = db_get_b(NULL, "SRMsg", "Font0Sty", 0);
+				int  tStyle = db_get_b(0, "SRMsg", "Font0Sty", 0);
 				p = tFontStyle;
 				if (tStyle & 1) *p++ = 'B';
 				if (tStyle & 2) *p++ = 'I';
 				*p = 0;
 
-				tFontColor = db_get_dw(NULL, "SRMsg", "Font0Col", 0);
+				tFontColor = db_get_dw(0, "SRMsg", "Font0Col", 0);
 			}
 			else tFontStyle[0] = 0;
 		}

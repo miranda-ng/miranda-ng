@@ -873,7 +873,7 @@ public:
 			sItem.lParam = (LPARAM)pa->szModuleName;
 			listProtos.InsertItem(&sItem);
 
-			listProtos.SetCheckState(sItem.iItem, db_get_b(NULL, MODULENAME, szTemp, 1));
+			listProtos.SetCheckState(sItem.iItem, g_plugin.getByte(szTemp, 1));
 
 			sItem.iItem++;
 		}
@@ -888,7 +888,7 @@ public:
 			g_enRenameAction = eDAAutomatic;
 		else if (chkFcNothing.GetState() == BST_CHECKED)
 			g_enRenameAction = eDANothing;
-		db_set_b(NULL, MODULENAME, "RenameAction", (BYTE)g_enRenameAction);
+		g_plugin.setByte("RenameAction", (BYTE)g_enRenameAction);
 
 		if (chkFdPrompt.GetState() == BST_CHECKED)
 			g_enDeleteAction = eDAPromptUser;
@@ -896,7 +896,7 @@ public:
 			g_enDeleteAction = eDAAutomatic;
 		else if (chkFdNothing.GetState() == BST_CHECKED)
 			g_enDeleteAction = eDANothing;
-		db_set_b(NULL, MODULENAME, "DeleteAction", (BYTE)g_enDeleteAction);
+		g_plugin.setByte("DeleteAction", (BYTE)g_enDeleteAction);
 
 		int nCount = listProtos.GetItemCount();
 		for (int nCur = 0; nCur < nCount; nCur++) {
@@ -907,9 +907,9 @@ public:
 				char szTemp[200];
 				mir_snprintf(szTemp, "DisableProt_%s", (char*)sItem.lParam);
 				if (listProtos.GetCheckState(nCur))
-					db_unset(NULL, MODULENAME, szTemp); // default is Enabled !!
+					g_plugin.delSetting(szTemp); // default is Enabled !!
 				else
-					db_set_b(NULL, MODULENAME, szTemp, 0);
+					g_plugin.setByte(szTemp, 0);
 			}
 		}
 		return true;

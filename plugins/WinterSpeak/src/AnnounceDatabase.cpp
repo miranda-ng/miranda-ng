@@ -65,18 +65,18 @@ void AnnounceDatabase::setEventFlag(EventFlag flag, bool state)
 //------------------------------------------------------------------------------
 void AnnounceDatabase::load()
 {
-	m_status_flags = db_get_dw(NULL, SPEAK, STATUS_FLAGS, 0xffff);
-	m_event_flags  = db_get_dw(NULL, SPEAK, EVENT_FLAGS, 0xffff);
-	m_max_msg      = db_get_dw(NULL, SPEAK, MAX_MSG_SIZE, 50);
+	m_status_flags = db_get_dw(0, SPEAK, STATUS_FLAGS, 0xffff);
+	m_event_flags  = db_get_dw(0, SPEAK, EVENT_FLAGS, 0xffff);
+	m_max_msg      = db_get_dw(0, SPEAK, MAX_MSG_SIZE, 50);
 }
 
 //------------------------------------------------------------------------------
 void 
 AnnounceDatabase::save()
 {
-	db_set_dw(NULL, SPEAK, STATUS_FLAGS, m_status_flags);
-	db_set_dw(NULL, SPEAK, EVENT_FLAGS, m_event_flags);
-	db_set_dw(NULL, SPEAK, MAX_MSG_SIZE, m_max_msg);
+	db_set_dw(0, SPEAK, STATUS_FLAGS, m_status_flags);
+	db_set_dw(0, SPEAK, EVENT_FLAGS, m_event_flags);
+	db_set_dw(0, SPEAK, MAX_MSG_SIZE, m_max_msg);
 }
 
 //==============================================================================

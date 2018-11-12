@@ -35,10 +35,10 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		LPNMHDR phdr = (LPNMHDR)(lParam);
 		if (phdr->idFrom == 0 && phdr->code == PSN_APPLY) {
 			LastUCOpt.HideOffline = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_HIDEOFFLINE);
-			db_set_b(NULL, MODULENAME, dbLastUC_HideOfflineContacts, (BYTE)LastUCOpt.HideOffline);
+			g_plugin.setByte(dbLastUC_HideOfflineContacts, (BYTE)LastUCOpt.HideOffline);
 
 			LastUCOpt.WindowAutoSize = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_WINDOWAUTOSIZE);
-			db_set_b(NULL, MODULENAME, dbLastUC_WindowAutosize, (BYTE)LastUCOpt.WindowAutoSize);
+			g_plugin.setByte(dbLastUC_WindowAutosize, (BYTE)LastUCOpt.WindowAutoSize);
 
 			GetDlgItemTextA(hwndDlg, IDC_SHOWNCONTACTS, str, _countof(str));
 			LastUCOpt.MaxShownContacts= atoi(str);

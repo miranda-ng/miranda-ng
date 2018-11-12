@@ -111,7 +111,7 @@ void Utils::curlSetOpt(CURL *hCurl, ServerList::FTP *ftp, char *url, struct curl
 	if (ftp->m_bPassive)
 		curl_easy_setopt(hCurl, CURLOPT_FTPPORT, 0);
 	else {
-		ptrA localip(db_get_sa(NULL, MODULENAME, "LocalIP"));
+		ptrA localip(g_plugin.getStringA("LocalIP"));
 		if (localip)
 			curl_easy_setopt(hCurl, CURLOPT_FTPPORT, localip);
 		else

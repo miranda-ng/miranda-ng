@@ -113,7 +113,7 @@ void RegisterIcons()
 	for (i = 0; i < DEFAULT_KN_FP_OVERLAYS_COUNT; i++)
 		Prepare(&def_kn_fp_overlays_mask[i], true);
 
-	if (db_get_b(NULL, MODULENAME, "GroupMirandaVersion", 0)) {
+	if (g_plugin.getByte("GroupMirandaVersion", 0)) {
 		for (i = 0; i < DEFAULT_KN_FP_OVERLAYS2_COUNT; i++)
 			Prepare(&def_kn_fp_overlays2_mask[i], true);
 	}
@@ -124,7 +124,7 @@ void RegisterIcons()
 			Prepare(&def_kn_fp_overlays2_mask[i], false);
 	}
 
-	if (db_get_b(NULL, MODULENAME, "GroupOverlaysUnicode", 1)) {
+	if (g_plugin.getByte("GroupOverlaysUnicode", 1)) {
 		for (i = 0; i < DEFAULT_KN_FP_OVERLAYS3_COUNT; i++)
 			Prepare(&def_kn_fp_overlays3_mask[i], true);
 	}
@@ -855,7 +855,7 @@ static int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 
 static int OnSrmmWindowEvent(WPARAM, LPARAM lParam)
 {
-	if (!db_get_b(NULL, MODULENAME, "StatusBarIcon", 1))
+	if (!g_plugin.getByte("StatusBarIcon", 1))
 		return 0;
 
 	MessageWindowEventData *event = (MessageWindowEventData *)lParam;
@@ -895,7 +895,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 	RegisterIcons();
 
-	if (db_get_b(NULL, MODULENAME, "StatusBarIcon", 1)) {
+	if (g_plugin.getByte("StatusBarIcon", 1)) {
 		StatusIconData sid = {};
 		sid.szModule = MODULENAME;
 		sid.flags = MBF_HIDDEN;

@@ -63,8 +63,8 @@ void LoadOptions()
 	LoadOpts(pageControls, _countof(pageControls), MODULENAME);
 
 	// This is created here to assert that this key always exists
-	opts.refresh_status_message_timer = db_get_w(NULL, "MyDetails", "RefreshStatusMessageTimer", 12);
-	db_set_w(NULL, "MyDetails", "RefreshStatusMessageTimer", opts.refresh_status_message_timer);
+	opts.refresh_status_message_timer = db_get_w(0, "MyDetails", "RefreshStatusMessageTimer", 12);
+	db_set_w(0, "MyDetails", "RefreshStatusMessageTimer", opts.refresh_status_message_timer);
 
 	SetCycleTime();
 	RefreshFrameAndCalcRects();

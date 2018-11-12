@@ -232,8 +232,8 @@ static int SortProc(CPsTreeItem **item1, CPsTreeItem **item2)
 static INT_PTR ShowDialog(WPARAM wParam, LPARAM)
 {
 	// update some cached settings
-	myGlobals.ShowPropsheetColours = db_get_b(NULL, MODULENAME, SET_PROPSHEET_SHOWCOLOURS, TRUE);
-	myGlobals.WantAeroAdaption = db_get_b(NULL, MODULENAME, SET_PROPSHEET_AEROADAPTION, TRUE);
+	myGlobals.ShowPropsheetColours = g_plugin.getByte(SET_PROPSHEET_SHOWCOLOURS, TRUE);
+	myGlobals.WantAeroAdaption = g_plugin.getByte(SET_PROPSHEET_AEROADAPTION, TRUE);
 
 	// allow only one dialog per user
 	if (HWND hWnd = WindowList_Find(g_hWindowList, wParam)) {
@@ -247,9 +247,9 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM)
 	bool bScanMetaSubContacts = false;
 
 	// init the treeview options
-	if (db_get_b(NULL, MODULENAME, SET_PROPSHEET_SORTITEMS, FALSE))
+	if (g_plugin.getByte(SET_PROPSHEET_SORTITEMS, FALSE))
 		psh._dwFlags |= PSTVF_SORTTREE;
-	if (db_get_b(NULL, MODULENAME, SET_PROPSHEET_GROUPS, TRUE))
+	if (g_plugin.getByte(SET_PROPSHEET_GROUPS, TRUE))
 		psh._dwFlags |= PSTVF_GROUPS;
 
 	// create imagelist
@@ -409,7 +409,7 @@ static int InitDetails(WPARAM wParam, LPARAM lParam)
 {
 	CPsHdr *pPsh = (CPsHdr *)wParam;
 	if (!(pPsh->_dwFlags & PSF_PROTOPAGESONLY)) {
-		BYTE bChangeDetailsEnabled = myGlobals.CanChangeDetails && db_get_b(NULL, MODULENAME, SET_PROPSHEET_CHANGEMYDETAILS, FALSE);
+		BYTE bChangeDetailsEnabled = myGlobals.CanChangeDetails && g_plugin.getByte(SET_PROPSHEET_CHANGEMYDETAILS, FALSE);
 		if (lParam || bChangeDetailsEnabled) {
 			OPTIONSDIALOGPAGE odp = {};
 			odp.flags = ODPF_ICON | ODPF_UNICODE;
@@ -935,7 +935,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				{ ICO_BTN_APPLY,	BM_SETIMAGE,	IDAPPLY		}
 			};
 
-			const int numIconsToSet = db_get_b(NULL, MODULENAME, SET_ICONS_BUTTONS, 1) ? _countof(idIcon) : 1;
+			const int numIconsToSet = g_plugin.getByte(SET_ICONS_BUTTONS, 1) ? _countof(idIcon) : 1;
 
 			IcoLib_SetCtrlIcons(hDlg, idIcon, numIconsToSet);
 
@@ -1033,7 +1033,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			case ACKTYPE_GETINFO:
 				// is contact the owner of the dialog or any metasubcontact of the owner? skip handling otherwise!
 				if (ack->hContact != pPs->hContact) {
-					if (!db_get_b(NULL, MODULENAME, SET_META_SCAN, TRUE))
+					if (!g_plugin.getByte(SET_META_SCAN, TRUE))
 						break;
 
 					for (i = 0; i < pPs->nSubContacts; i++) {
@@ -1100,7 +1100,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			if (hContact != pPs->hContact) {
 				if (pPs->hContact != db_mc_getMeta(hContact))
 					break;
-				if (!db_get_b(NULL, MODULENAME, SET_META_SCAN, TRUE))
+				if (!g_plugin.getByte(SET_META_SCAN, TRUE))
 					break;
 			}
 
@@ -1294,7 +1294,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				g_clistApi.pfnInvalidateDisplayNameCacheEntry(pPs->hContact);
 
 				// need to upload owners settings
-				if (!pPs->hContact && myGlobals.CanChangeDetails && db_get_b(NULL, MODULENAME, SET_PROPSHEET_CHANGEMYDETAILS, FALSE)) {
+				if (!pPs->hContact && myGlobals.CanChangeDetails && g_plugin.getByte(SET_PROPSHEET_CHANGEMYDETAILS, FALSE)) {
 					if (pPs->pUpload = new CPsUpload(pPs, LOWORD(wParam) == IDOK)) {
 						if (pPs->pUpload->UploadFirst() == CPsUpload::UPLOAD_CONTINUE)
 							break;

@@ -553,8 +553,8 @@ void DisablePlugins()
 			// Disable it
 			if (name[0] != '\0') {
 				CharLowerA(name);
-				if (db_get_b(NULL, PLUGINDISABLELIST, name, 0) != 1) {
-					db_set_b(NULL, PLUGINDISABLELIST, name, 1);
+				if (db_get_b(0, PLUGINDISABLELIST, name, 0) != 1) {
+					db_set_b(0, PLUGINDISABLELIST, name, 1);
 				}
 			}
 

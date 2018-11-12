@@ -121,9 +121,9 @@ static int ProcessEvent(WPARAM hContact, LPARAM lParam)
 	size_t value_max_len = mir_strlen(pa->szModuleName) + 8;
 	char *value = (char *)mir_alloc(sizeof(char) * value_max_len);
 	mir_snprintf(value, value_max_len, "%s_ignore", pa->szModuleName);
-	isIgnoreAccSound = db_get_b(NULL, MODULENAME, value, 0);
+	isIgnoreAccSound = g_plugin.getByte(value, 0);
 	mir_free(value);
-	if (!isIgnoreAccSound && !db_get_ws(NULL, MODULENAME, pa->szModuleName, &dbv)) {
+	if (!isIgnoreAccSound && !g_plugin.getWString(pa->szModuleName, &dbv)) {
 		wchar_t PlaySoundPath[MAX_PATH] = { 0 };
 		PathToAbsoluteW(dbv.pwszVal, PlaySoundPath);
 		isAccSound = 0;
@@ -165,9 +165,9 @@ static int ProcessChatEvent(WPARAM, LPARAM lParam)
 			size_t value_max_len = mir_strlen(pa->szModuleName) + 8;
 			char *value = (char *)mir_alloc(sizeof(char) * value_max_len);
 			mir_snprintf(value, value_max_len, "%s_ignore", pa->szModuleName);
-			isIgnoreAccSound = db_get_b(NULL, MODULENAME, value, 0);
+			isIgnoreAccSound = g_plugin.getByte(value, 0);
 			mir_free(value);
-			if (!isIgnoreAccSound && !db_get_ws(NULL, MODULENAME, pa->szModuleName, &dbv)) {
+			if (!isIgnoreAccSound && !g_plugin.getWString(pa->szModuleName, &dbv)) {
 				wchar_t PlaySoundPath[MAX_PATH] = { 0 };
 				PathToAbsoluteW(dbv.pwszVal, PlaySoundPath);
 				isAccSound = 0;

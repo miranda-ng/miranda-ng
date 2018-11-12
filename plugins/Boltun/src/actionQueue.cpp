@@ -77,7 +77,7 @@ static bool NotifyTyping(MCONTACT hContact)
 {
 	int res = db_get_b(hContact, "SRMsg", "SupportTyping", 2);
 	if (res == 2)
-		res = db_get_b(NULL, "SRMsg", "DefaultTyping", 1);
+		res = db_get_b(0, "SRMsg", "DefaultTyping", 1);
 	return res != 0;
 }
 

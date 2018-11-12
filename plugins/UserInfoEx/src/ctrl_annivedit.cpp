@@ -41,7 +41,7 @@ CAnnivEditCtrl::CAnnivEditCtrl(HWND hDlg, WORD idCtrl, LPCSTR pszSetting)
 	_hBtnEdit = GetDlgItem(hDlg, BTN_EDIT);
 	_hBtnMenu = GetDlgItem(hDlg, BTN_MENU);
 	_hwndDate = GetDlgItem(hDlg, EDIT_ANNIVERSARY_DATE);
-	_ReminderEnabled = db_get_b(NULL, MODULENAME, SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED);
+	_ReminderEnabled = g_plugin.getByte(SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED);
 
 	_pDates = nullptr;
 	_curDate = 0;
@@ -148,7 +148,7 @@ void CAnnivEditCtrl::EnableCurrentItem()
 			= !hContact ||
 				(pCurrent->Flags() & CTRLF_HASCUSTOM) || 
 				!(pCurrent->Flags() & (CTRLF_HASPROTO|CTRLF_HASMETA)) ||
-				!db_get_b(NULL, MODULENAME, SET_PROPSHEET_PCBIREADONLY, 0);
+				!g_plugin.getByte(SET_PROPSHEET_PCBIREADONLY, 0);
 
 		EnableWindow(_hBtnEdit, bEnabled);
 		EnableWindow(_hBtnDel, bEnabled);
@@ -540,7 +540,7 @@ void CAnnivEditCtrl::OnReminderChecked()
 	{
 		if (IsDlgButtonChecked(_hwndDlg, RADIO_REMIND1))
 		{
-			_itow(db_get_b(NULL, MODULENAME, SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET), buf, 10);
+			_itow(g_plugin.getByte(SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET), buf, 10);
 			EnableWindow(GetDlgItem(_hwndDlg, EDIT_REMIND), FALSE);
 			EnableWindow(GetDlgItem(_hwndDlg, SPIN_REMIND), FALSE);
 			state = BST_INDETERMINATE;
@@ -549,7 +549,7 @@ void CAnnivEditCtrl::OnReminderChecked()
 		{
 			if (pCurrent->RemindOffset() == (WORD)-1)
 			{
-				_itow(db_get_b(NULL, MODULENAME, SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET), buf, 10);
+				_itow(g_plugin.getByte(SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET), buf, 10);
 			}
 			else
 			{

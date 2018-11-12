@@ -84,10 +84,10 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					if (TreeView_GetCheckState(hTree, tvi.hItem)) flags |= 1 << (tvi.lParam - 1);
 					tvi.hItem = TreeView_GetNextSibling(hTree, tvi.hItem);
 				}
-				db_set_dw(NULL, MODULENAME, "Filter", flags);
+				g_plugin.setDword("Filter", flags);
 
 				bUseMirandaSettings = IsDlgButtonChecked(hwndDlg, IDC_IGNORE_IGNOREALL) ? 1 : 0;
-				db_set_b(NULL, MODULENAME, "UseMirandaSettings", bUseMirandaSettings);
+				g_plugin.setByte("UseMirandaSettings", bUseMirandaSettings);
 
 				fill_filter();
 			}

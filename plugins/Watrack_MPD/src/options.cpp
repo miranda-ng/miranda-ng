@@ -25,11 +25,11 @@ public:
 
 	bool OnInitDialog() override
 	{
-		edit_PORT.SetInt(db_get_w(NULL, MODULENAME, "Port", 6600));
-		wchar_t *tmp = UniGetContactSettingUtf(NULL, MODULENAME, "Server", L"127.0.0.1");
+		edit_PORT.SetInt(g_plugin.getWord("Port", 6600));
+		wchar_t *tmp = UniGetContactSettingUtf(0, MODULENAME, "Server", L"127.0.0.1");
 		edit_SERVER.SetText(tmp);
 		mir_free(tmp);
-		tmp = UniGetContactSettingUtf(NULL, MODULENAME, "Password", L"");
+		tmp = UniGetContactSettingUtf(0, MODULENAME, "Password", L"");
 		edit_PASSWORD.SetText(tmp);
 		mir_free(tmp);
 		return true;
@@ -37,11 +37,11 @@ public:
 
 	bool OnApply() override
 	{
-		db_set_w(NULL, MODULENAME, "Port", (WORD)edit_PORT.GetInt());
+		g_plugin.setWord("Port", (WORD)edit_PORT.GetInt());
 		gbPort = edit_PORT.GetInt();
-		db_set_ws(NULL, MODULENAME, "Server", edit_SERVER.GetText());
+		g_plugin.setWString("Server", edit_SERVER.GetText());
 		mir_wstrcpy(gbHost, edit_SERVER.GetText());
-		db_set_ws(NULL, MODULENAME, "Password", edit_PASSWORD.GetText());
+		g_plugin.setWString("Password", edit_PASSWORD.GetText());
 		mir_wstrcpy(gbPassword, edit_PASSWORD.GetText());
 		return true;
 	}

@@ -170,7 +170,7 @@ void LoadOptions()
 	LoadOpts(optionsControls, _countof(optionsControls), MODULENAME);
 	LoadOpts(popupsControls, _countof(popupsControls), MODULENAME);
 
-	opts.log_per_contact_folders = db_get_b(NULL, MODULENAME, "LogPerContactFolders", 0);
-	opts.log_keep_same_folder = db_get_b(NULL, MODULENAME, "LogKeepSameFolder", 0);
-	opts.log_store_as_hash = db_get_b(NULL, MODULENAME, "StoreAsHash", 1);
+	opts.log_per_contact_folders = g_plugin.getByte("LogPerContactFolders", 0);
+	opts.log_keep_same_folder = g_plugin.getByte("LogKeepSameFolder", 0);
+	opts.log_store_as_hash = g_plugin.getByte("StoreAsHash", 1);
 }

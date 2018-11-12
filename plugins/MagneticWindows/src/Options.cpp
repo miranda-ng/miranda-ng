@@ -64,9 +64,9 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				Options.SnapWidth = SendDlgItemMessage(hwndDlg, IDC_SLIDER_SNAPWIDTH, TBM_GETPOS, 0, 0);
 				Options.ScriverWorkAround = (IsDlgButtonChecked(hwndDlg, IDC_CHK_SCRIVERWORKAROUND) == TRUE);
 
-				db_set_b(NULL, MODULENAME, "DoSnap", Options.DoSnap);
-				db_set_b(NULL, MODULENAME, "SnapWidth", Options.SnapWidth);
-				db_set_b(NULL, MODULENAME, "ScriverWorkAround", Options.ScriverWorkAround);
+				g_plugin.setByte("DoSnap", Options.DoSnap);
+				g_plugin.setByte("SnapWidth", Options.SnapWidth);
+				g_plugin.setByte("ScriverWorkAround", Options.ScriverWorkAround);
 				break;
 			}
 		}
@@ -89,7 +89,7 @@ int InitOptions(WPARAM wParam, LPARAM)
 
 void LoadOptions()
 {
-	Options.DoSnap = db_get_b(NULL, MODULENAME, "DoSnap", 1) != 0;
-	Options.SnapWidth = db_get_b(NULL, MODULENAME, "SnapWidth", cDefaultSnapWidth);
-	Options.ScriverWorkAround = db_get_b(NULL, MODULENAME, "ScriverWorkAround", 0) != 0;
+	Options.DoSnap = g_plugin.getByte("DoSnap", 1) != 0;
+	Options.SnapWidth = g_plugin.getByte("SnapWidth", cDefaultSnapWidth);
+	Options.ScriverWorkAround = g_plugin.getByte("ScriverWorkAround", 0) != 0;
 }

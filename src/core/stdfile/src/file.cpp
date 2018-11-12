@@ -101,7 +101,7 @@ void PushFileEvent(MCONTACT hContact, MEVENT hdbe, LPARAM lParam)
 	cle.hContact = hContact;
 	cle.hDbEvent = hdbe;
 	cle.lParam = lParam;
-	if (db_get_b(NULL, MODULENAME, "AutoAccept", 0) && !db_get_b(hContact, "CList", "NotOnList", 0)) {
+	if (g_plugin.getByte("AutoAccept", 0) && !db_get_b(hContact, "CList", "NotOnList", 0)) {
 		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILERECV), NULL, DlgProcRecvFile, (LPARAM)&cle);
 	}
 	else {

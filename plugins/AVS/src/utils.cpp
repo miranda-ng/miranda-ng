@@ -79,7 +79,7 @@ int CreateAvatarInCache(MCONTACT hContact, AVATARCACHEENTRY *ace, const char *sz
 
 	if (szProto == nullptr) {
 		char *proto = GetContactProto(hContact);
-		if (proto == nullptr || !db_get_b(NULL, AVS_MODULE, proto, 1))
+		if (proto == nullptr || !g_plugin.getByte(proto, 1))
 			return -1;
 
 		if (db_get_b(hContact, "ContactPhoto", "Locked", 0) && (tszValue = db_get_wsa(hContact, "ContactPhoto", "Backup")))
@@ -114,7 +114,7 @@ int CreateAvatarInCache(MCONTACT hContact, AVATARCACHEENTRY *ace, const char *sz
 			// startup and everytime they are changed.
 			if (szProto[0] == '\0') {
 				// Global avatar
-				if (tszValue = db_get_wsa(NULL, AVS_MODULE, "GlobalUserAvatarFile"))
+				if (tszValue = g_plugin.getWStringA("GlobalUserAvatarFile"))
 					MyPathToAbsolute(tszValue, tszFilename);
 				else
 					return -10;
@@ -164,7 +164,7 @@ int CreateAvatarInCache(MCONTACT hContact, AVATARCACHEENTRY *ace, const char *sz
 	ace->bmHeight = bminfo.bmHeight;
 	ace->bmWidth = bminfo.bmWidth;
 
-	BOOL noTransparency = db_get_b(0, AVS_MODULE, "RemoveAllTransparency", 0);
+	BOOL noTransparency = g_plugin.getByte("RemoveAllTransparency", 0);
 
 	// Calc image hash
 	if (hContact != 0 && hContact != INVALID_CONTACT_ID) {
@@ -179,7 +179,7 @@ int CreateAvatarInCache(MCONTACT hContact, AVATARCACHEENTRY *ace, const char *sz
 		}
 
 		// Make transparent?
-		if (!noTransparency && !isTransparentImage && db_get_b(hContact, "ContactPhoto", "MakeTransparentBkg", db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0))) {
+		if (!noTransparency && !isTransparentImage && db_get_b(hContact, "ContactPhoto", "MakeTransparentBkg", g_plugin.getByte("MakeTransparentBkg", 0))) {
 			if (MakeTransparentBkg(hContact, &ace->hbmPic)) {
 				ace->dwFlags |= AVS_CUSTOMTRANSPBKG | AVS_HASTRANSPARENCY;
 				GetObject(ace->hbmPic, sizeof(bminfo), &bminfo);
@@ -188,7 +188,7 @@ int CreateAvatarInCache(MCONTACT hContact, AVATARCACHEENTRY *ace, const char *sz
 		}
 	}
 	else if (hContact == INVALID_CONTACT_ID) { // My avatars
-		if (!noTransparency && !isTransparentImage && db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0) && db_get_b(0, AVS_MODULE, "MakeMyAvatarsTransparent", 0)) {
+		if (!noTransparency && !isTransparentImage && g_plugin.getByte("MakeTransparentBkg", 0) && g_plugin.getByte("MakeMyAvatarsTransparent", 0)) {
 			if (MakeTransparentBkg(0, &ace->hbmPic)) {
 				ace->dwFlags |= AVS_CUSTOMTRANSPBKG | AVS_HASTRANSPARENCY;
 				GetObject(ace->hbmPic, sizeof(bminfo), &bminfo);
@@ -197,7 +197,7 @@ int CreateAvatarInCache(MCONTACT hContact, AVATARCACHEENTRY *ace, const char *sz
 		}
 	}
 
-	if (db_get_b(0, AVS_MODULE, "MakeGrayscale", 0))
+	if (g_plugin.getByte("MakeGrayscale", 0))
 		ace->hbmPic = MakeGrayscale(ace->hbmPic);
 
 	if (noTransparency) {
@@ -428,7 +428,7 @@ int ChangeAvatar(MCONTACT hContact, bool fLoad, bool fNotifyHist, int pa_format)
 void DeleteGlobalUserAvatar()
 {
 	DBVARIANT dbv = { 0 };
-	if (db_get_ws(NULL, AVS_MODULE, "GlobalUserAvatarFile", &dbv))
+	if (g_plugin.getWString("GlobalUserAvatarFile", &dbv))
 		return;
 
 	wchar_t szFilename[MAX_PATH];
@@ -436,7 +436,7 @@ void DeleteGlobalUserAvatar()
 	db_free(&dbv);
 
 	DeleteFile(szFilename);
-	db_unset(NULL, AVS_MODULE, "GlobalUserAvatarFile");
+	g_plugin.delSetting("GlobalUserAvatarFile");
 }
 
 void SetIgnoreNotify(char *protocol, BOOL ignore)

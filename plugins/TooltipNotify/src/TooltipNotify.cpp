@@ -126,11 +126,11 @@ int CTooltipNotify::ModulesLoaded(WPARAM, LPARAM)
 	ValidateSettings();
 
 	if (m_sOptions.bFirstRun) {
-		db_set_b(NULL, "SkinSoundsOff", SND_ONLINE, 1);
-		db_set_b(NULL, "SkinSoundsOff", SND_OFFLINE, 1);
-		db_set_b(NULL, "SkinSoundsOff", SND_OTHER, 1);
-		db_set_b(NULL, "SkinSoundsOff", SND_TYPING, 1);
-		db_set_b(NULL, MODULENAME, "firstrun", 0);
+		db_set_b(0, "SkinSoundsOff", SND_ONLINE, 1);
+		db_set_b(0, "SkinSoundsOff", SND_OFFLINE, 1);
+		db_set_b(0, "SkinSoundsOff", SND_OTHER, 1);
+		db_set_b(0, "SkinSoundsOff", SND_TYPING, 1);
+		g_plugin.setByte("firstrun", 0);
 	}
 
 	g_plugin.addSound(SND_ONLINE,  LPGENW("Tooltip Notify"), LPGENW("Online"),  L"online.wav");
@@ -176,9 +176,9 @@ int CTooltipNotify::ProtoAck(WPARAM, LPARAM lParam)
 	char *szProtocol = (char *)ack->szModule;
 
 	if (wNewStatus == ID_STATUS_OFFLINE) {
-		BYTE bProtoActive = db_get_b(NULL, MODULENAME, szProtocol, ProtoUserBit | ProtoIntBit);
+		BYTE bProtoActive = g_plugin.getByte(szProtocol, ProtoUserBit | ProtoIntBit);
 		bProtoActive &= ~ProtoIntBit;
-		db_set_b(NULL, MODULENAME, szProtocol, bProtoActive);
+		g_plugin.setByte(szProtocol, bProtoActive);
 	}
 	else {
 		if (wOldStatus < ID_STATUS_ONLINE && wNewStatus > ID_STATUS_OFFLINE) {
@@ -208,7 +208,7 @@ int CTooltipNotify::ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	const char *pszProto = cws->szModule;
-	if (db_get_b(NULL, MODULENAME, pszProto, ProtoUserBit | ProtoIntBit) != (ProtoUserBit | ProtoIntBit))
+	if (g_plugin.getByte(pszProto, ProtoUserBit | ProtoIntBit) != (ProtoUserBit | ProtoIntBit))
 		return 0;
 
 	if (db_get_b(hContact, "CList", "NotOnList", 0) && m_sOptions.bIgnoreUnknown)
@@ -356,9 +356,9 @@ void CTooltipNotify::OnConnectionTimer(HWND, UINT, UINT_PTR idEvent, DWORD)
 	MapTimerIdProtoIter iter = FindProtoByTimer(idEvent);
 	assert(iter != m_mapTimerIdProto.end());
 
-	BYTE bProtoActive = db_get_b(NULL, MODULENAME, iter->proto, ProtoUserBit | ProtoIntBit);
+	BYTE bProtoActive = g_plugin.getByte(iter->proto, ProtoUserBit | ProtoIntBit);
 	bProtoActive |= ProtoIntBit;
-	db_set_b(NULL, MODULENAME, iter->proto, bProtoActive);
+	g_plugin.setByte(iter->proto, bProtoActive);
 
 	free((char*)iter->proto);
 	m_mapTimerIdProto.erase(iter);
@@ -389,10 +389,10 @@ static arSettings[] =
 void CTooltipNotify::MigrateSettings()
 {
 	for (int i = 0; i < _countof(arSettings); i++) {
-		int val = db_get_w(NULL, MODULENAME, arSettings[i].szOldSetting, -1);
+		int val = g_plugin.getWord(arSettings[i].szOldSetting, -1);
 		if (val != -1) {
-			db_set_w(NULL, MODULENAME, arSettings[i].szNewSetting, val);
-			db_unset(NULL, MODULENAME, arSettings[i].szOldSetting);
+			g_plugin.setWord(arSettings[i].szNewSetting, val);
+			g_plugin.delSetting(arSettings[i].szOldSetting);
 		}
 	}
 }
@@ -401,47 +401,47 @@ void CTooltipNotify::MigrateSettings()
 
 void CTooltipNotify::LoadSettings()
 {
-	m_sOptions.bFirstRun = db_get_b(NULL, MODULENAME, "firstrun", DEF_SETTING_FIRSTRUN);
-	m_sOptions.bOffline = db_get_b(NULL, MODULENAME, "offline", DEF_SETTING_OFFLINE);
-	m_sOptions.bOnline = db_get_b(NULL, MODULENAME, "online", DEF_SETTING_ONLINE);
-	m_sOptions.bOther = db_get_b(NULL, MODULENAME, "other", DEF_SETTING_OTHER);
-	m_sOptions.bTyping = db_get_b(NULL, MODULENAME, "typing", DEF_SETTING_TYPING);
-	m_sOptions.bIdle = db_get_b(NULL, MODULENAME, "idle", DEF_SETTING_TYPING);
-	m_sOptions.bX2 = db_get_b(NULL, MODULENAME, "x2", DEF_SETTING_X2);
-	m_sOptions.bConjSOLN = db_get_b(NULL, MODULENAME, "conjsoln", DEF_SETTING_CONJSOLN);
-	m_sOptions.bAutoPos = db_get_b(NULL, MODULENAME, "autopos", DEF_SETTING_DEF_POS);
-	m_sOptions.bBallonTip = db_get_b(NULL, MODULENAME, "balloontip", DEF_SETTING_BALLONTIP);
-	m_sOptions.bTransp = db_get_b(NULL, MODULENAME, "transp", DEF_SETTING_TRANSP);
-	m_sOptions.bAlpha = db_get_b(NULL, MODULENAME, "alpha", DEF_SETTING_ALPHA);
-	m_sOptions.bTranspInput = db_get_b(NULL, MODULENAME, "transpinput", DEF_SETTING_TRANSP_INPUT);
-	m_sOptions.bPrefixProto = db_get_b(NULL, MODULENAME, "prfxproto", DEF_SETTING_PREFIX_PROTO);
-	m_sOptions.bLDblClick = db_get_b(NULL, MODULENAME, "ldblclick", DEF_SETTING_LDBLCLICK);
-	m_sOptions.wDuration = db_get_w(NULL, MODULENAME, "duration", DEF_SETTING_DURATION);
-	m_sOptions.wStartupDelay = db_get_w(NULL, MODULENAME, "suprconndelay", DEF_SETTING_STARTUP_DELAY);
-	m_sOptions.bIgnoreUnknown = db_get_b(NULL, MODULENAME, "ignoreunknown", DEF_SETTING_IGNORE_UNKNOWN);
-	m_sOptions.bIgnoreNew = db_get_b(NULL, MODULENAME, "ignorenew", DEF_SETTING_IGNORE_NEW);
+	m_sOptions.bFirstRun = g_plugin.getByte("firstrun", DEF_SETTING_FIRSTRUN);
+	m_sOptions.bOffline = g_plugin.getByte("offline", DEF_SETTING_OFFLINE);
+	m_sOptions.bOnline = g_plugin.getByte("online", DEF_SETTING_ONLINE);
+	m_sOptions.bOther = g_plugin.getByte("other", DEF_SETTING_OTHER);
+	m_sOptions.bTyping = g_plugin.getByte("typing", DEF_SETTING_TYPING);
+	m_sOptions.bIdle = g_plugin.getByte("idle", DEF_SETTING_TYPING);
+	m_sOptions.bX2 = g_plugin.getByte("x2", DEF_SETTING_X2);
+	m_sOptions.bConjSOLN = g_plugin.getByte("conjsoln", DEF_SETTING_CONJSOLN);
+	m_sOptions.bAutoPos = g_plugin.getByte("autopos", DEF_SETTING_DEF_POS);
+	m_sOptions.bBallonTip = g_plugin.getByte("balloontip", DEF_SETTING_BALLONTIP);
+	m_sOptions.bTransp = g_plugin.getByte("transp", DEF_SETTING_TRANSP);
+	m_sOptions.bAlpha = g_plugin.getByte("alpha", DEF_SETTING_ALPHA);
+	m_sOptions.bTranspInput = g_plugin.getByte("transpinput", DEF_SETTING_TRANSP_INPUT);
+	m_sOptions.bPrefixProto = g_plugin.getByte("prfxproto", DEF_SETTING_PREFIX_PROTO);
+	m_sOptions.bLDblClick = g_plugin.getByte("ldblclick", DEF_SETTING_LDBLCLICK);
+	m_sOptions.wDuration = g_plugin.getWord("duration", DEF_SETTING_DURATION);
+	m_sOptions.wStartupDelay = g_plugin.getWord("suprconndelay", DEF_SETTING_STARTUP_DELAY);
+	m_sOptions.bIgnoreUnknown = g_plugin.getByte("ignoreunknown", DEF_SETTING_IGNORE_UNKNOWN);
+	m_sOptions.bIgnoreNew = g_plugin.getByte("ignorenew", DEF_SETTING_IGNORE_NEW);
 }
 
 void CTooltipNotify::SaveSettings()
 {
-	db_set_w(NULL, MODULENAME, "duration", m_sOptions.wDuration);
-	db_set_w(NULL, MODULENAME, "suprconndelay", m_sOptions.wStartupDelay);
-	db_set_b(NULL, MODULENAME, "offline", m_sOptions.bOffline);
-	db_set_b(NULL, MODULENAME, "online", m_sOptions.bOnline);
-	db_set_b(NULL, MODULENAME, "other", m_sOptions.bOther);
-	db_set_b(NULL, MODULENAME, "typing", m_sOptions.bTyping);
-	db_set_b(NULL, MODULENAME, "idle", m_sOptions.bIdle);
-	db_set_b(NULL, MODULENAME, "prfxproto", m_sOptions.bPrefixProto);
-	db_set_b(NULL, MODULENAME, "x2", m_sOptions.bX2);
-	db_set_b(NULL, MODULENAME, "conjsoln", m_sOptions.bConjSOLN);
-	db_set_b(NULL, MODULENAME, "autopos", m_sOptions.bAutoPos);
-	db_set_b(NULL, MODULENAME, "balloontip", m_sOptions.bBallonTip);
-	db_set_b(NULL, MODULENAME, "transp", m_sOptions.bTransp);
-	db_set_b(NULL, MODULENAME, "alpha", m_sOptions.bAlpha);
-	db_set_b(NULL, MODULENAME, "transpinput", m_sOptions.bTranspInput);
-	db_set_b(NULL, MODULENAME, "ldblclick", m_sOptions.bLDblClick);
-	db_set_b(NULL, MODULENAME, "ignoreunknown", m_sOptions.bIgnoreUnknown);
-	db_set_b(NULL, MODULENAME, "ignorenew", m_sOptions.bIgnoreNew);
+	g_plugin.setWord("duration", m_sOptions.wDuration);
+	g_plugin.setWord("suprconndelay", m_sOptions.wStartupDelay);
+	g_plugin.setByte("offline", m_sOptions.bOffline);
+	g_plugin.setByte("online", m_sOptions.bOnline);
+	g_plugin.setByte("other", m_sOptions.bOther);
+	g_plugin.setByte("typing", m_sOptions.bTyping);
+	g_plugin.setByte("idle", m_sOptions.bIdle);
+	g_plugin.setByte("prfxproto", m_sOptions.bPrefixProto);
+	g_plugin.setByte("x2", m_sOptions.bX2);
+	g_plugin.setByte("conjsoln", m_sOptions.bConjSOLN);
+	g_plugin.setByte("autopos", m_sOptions.bAutoPos);
+	g_plugin.setByte("balloontip", m_sOptions.bBallonTip);
+	g_plugin.setByte("transp", m_sOptions.bTransp);
+	g_plugin.setByte("alpha", m_sOptions.bAlpha);
+	g_plugin.setByte("transpinput", m_sOptions.bTranspInput);
+	g_plugin.setByte("ldblclick", m_sOptions.bLDblClick);
+	g_plugin.setByte("ignoreunknown", m_sOptions.bIgnoreUnknown);
+	g_plugin.setByte("ignorenew", m_sOptions.bIgnoreNew);
 }
 
 
@@ -643,7 +643,7 @@ BOOL CTooltipNotify::ProtosDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM)
 
 				ListView_InsertItem(GetDlgItem(hDlg, IDC_PROTOS), &lvi);
 
-				BYTE bProtoState = db_get_b(NULL, MODULENAME, pa->szModuleName, ProtoUserBit | ProtoIntBit);
+				BYTE bProtoState = g_plugin.getByte(pa->szModuleName, ProtoUserBit | ProtoIntBit);
 				BOOL bProtoEnabled = (bProtoState & ProtoUserBit) != 0; 
 				ListView_SetCheckState(GetDlgItem(hDlg, IDC_PROTOS), lvi.iItem, bProtoEnabled);
 			}
@@ -664,13 +664,13 @@ BOOL CTooltipNotify::ProtosDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM)
 					szMultiByteProto, sizeof(szMultiByteProto), nullptr, nullptr);
 				szMultiByteProto[lLen] = '\0';
 
-				BYTE bProtoState = db_get_b(NULL, MODULENAME, szMultiByteProto, ProtoUserBit | ProtoIntBit);
+				BYTE bProtoState = g_plugin.getByte(szMultiByteProto, ProtoUserBit | ProtoIntBit);
 
 
 				BOOL bProtoEnabled = ListView_GetCheckState(GetDlgItem(hDlg, IDC_PROTOS), i);
 				bProtoState = bProtoEnabled ? bProtoState | ProtoUserBit : bProtoState&~ProtoUserBit;
 
-				db_set_b(NULL, MODULENAME, szMultiByteProto, bProtoState);
+				g_plugin.setByte(szMultiByteProto, bProtoState);
 
 			}
 
@@ -695,7 +695,7 @@ BOOL CTooltipNotify::ProtosDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM)
 
 void CTooltipNotify::ResetCList(HWND hwndDlg)
 {
-	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT), 0);
+	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, db_get_b(0, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT), 0);
 	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETHIDEEMPTYGROUPS, 1, 0);
 }
 

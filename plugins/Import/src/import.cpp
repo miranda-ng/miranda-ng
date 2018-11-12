@@ -485,19 +485,19 @@ bool ImportAccounts(OBJLIST<char> &arSkippedModules)
 		itoa(400 + p->iSrcIndex, szSetting, 10);
 		int iVal = myGetD(NULL, "Protocols", szSetting, 1);
 		itoa(400 + p->pa->iOrder, szSetting, 10);
-		db_set_dw(NULL, "Protocols", szSetting, iVal);
+		db_set_dw(0, "Protocols", szSetting, iVal);
 		p->pa->bIsVisible = iVal != 0;
 
 		itoa(600 + p->iSrcIndex, szSetting, 10);
 		iVal = myGetD(NULL, "Protocols", szSetting, 1);
 		itoa(600 + p->pa->iOrder, szSetting, 10);
-		db_set_dw(NULL, "Protocols", szSetting, iVal);
+		db_set_dw(0, "Protocols", szSetting, iVal);
 		p->pa->bIsEnabled = iVal != 0;
 
 		if (p->tszSrcName == NULL) {
 			p->pa->tszAccountName = mir_a2u(p->pa->szModuleName);
 			itoa(800 + p->pa->iOrder, szSetting, 10);
-			db_set_ws(NULL, "Protocols", szSetting, p->pa->tszAccountName);
+			db_set_ws(0, "Protocols", szSetting, p->pa->tszAccountName);
 		}
 
 		if (bImportSysAll)

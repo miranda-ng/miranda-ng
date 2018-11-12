@@ -39,14 +39,14 @@ void GetLoginStr(char* user, size_t szuser, char* pass)
 {
 	DBVARIANT dbv;
 
-	if (db_get_s(NULL, MODULENAME, "Username", &dbv) == 0) {
+	if (g_plugin.getString("Username", &dbv) == 0) {
 		strncpy_s(user, szuser, dbv.pszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
 	else
 		user[0] = 0;
 
-	if (db_get_s(NULL, MODULENAME, "Password", &dbv) == 0) {
+	if (g_plugin.getString("Password", &dbv) == 0) {
 		BYTE hash[16];
 		mir_md5_state_t context;
 
@@ -129,7 +129,7 @@ bool InternetDownloadFile(const char *szUrl, VerTrnsfr* szReq)
 			// if the recieved code is 200 OK
 			switch (nlhrReply->resultCode) {
 			case 200:
-				if (db_get_b(NULL, MODULENAME, "UploadChanged", 0))
+				if (g_plugin.getByte("UploadChanged", 0))
 					ProcessVIHash(true);
 
 				ShowMessage(1, TranslateT("Version Info upload successful."));
@@ -242,11 +242,11 @@ bool ProcessVIHash(bool store)
 	arrayToHex(hash, sizeof(hash), hashstr);
 
 	if (store) {
-		db_set_s(NULL, MODULENAME, "VIHash", hashstr);
+		g_plugin.setString("VIHash", hashstr);
 		return true;
 	}
 
-	ptrA VIHash(db_get_sa(NULL, MODULENAME, "VIHash"));
+	ptrA VIHash(g_plugin.getStringA("VIHash"));
 	if (VIHash == NULL)
 		return false;
 

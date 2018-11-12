@@ -101,7 +101,7 @@ void InitMenuItems()
 
 	CMStringA frmt;
 	for (int i = 0; i < ServerList::FTP_COUNT; i++) {
-		ptrA Name(db_get_sa(NULL, MODULENAME, frmt.Format("Name%d", i)));
+		ptrA Name(g_plugin.getStringA(frmt.Format("Name%d", i)));
 		if (Name)
 			mir_snwprintf(stzName, TranslateT("FTP Server %d"), i + 1);
 

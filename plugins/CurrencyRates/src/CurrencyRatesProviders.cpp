@@ -47,7 +47,7 @@ void CCurrencyRatesProviders::InitProviders()
 	CreateProviders();
 
 	const WORD nCurrentVersion = 17;
-	WORD nVersion = db_get_w(NULL, CURRENCYRATES_MODULE_NAME, LAST_RUN_VERSION, 1);
+	WORD nVersion = db_get_w(0, CURRENCYRATES_MODULE_NAME, LAST_RUN_VERSION, 1);
 
 	for (auto &hContact : Contacts(CURRENCYRATES_MODULE_NAME)) {
 		TCurrencyRatesProviderPtr pProvider = GetContactProviderPtr(hContact);
@@ -58,7 +58,7 @@ void CCurrencyRatesProviders::InitProviders()
 		}
 	}
 
-	db_set_w(NULL, CURRENCYRATES_MODULE_NAME, LAST_RUN_VERSION, nCurrentVersion);
+	db_set_w(0, CURRENCYRATES_MODULE_NAME, LAST_RUN_VERSION, nCurrentVersion);
 }
 
 CCurrencyRatesProviders::TCurrencyRatesProviderPtr CCurrencyRatesProviders::GetContactProviderPtr(MCONTACT hContact)const

@@ -76,9 +76,9 @@ static INT_PTR CALLBACK DlgProcNoSoundOpts(HWND hwndDlg, UINT msg, WPARAM, LPARA
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_NOBLINK), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_NOBLINK), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_NOCLCBLINK), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_NOCLCBLINK), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 
-		FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_NOSOUND), statusValues, sizeof(statusValues) / sizeof(statusValues[0]), db_get_dw(NULL, MODULENAME, "NoSound", DEFAULT_NOSOUND));
-		FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_NOBLINK), statusValues, sizeof(statusValues) / sizeof(statusValues[0]), db_get_dw(NULL, MODULENAME, "NoBlink", DEFAULT_NOBLINK));
-		FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_NOCLCBLINK), statusValues, sizeof(statusValues) / sizeof(statusValues[0]), db_get_dw(NULL, MODULENAME, "NoCLCBlink", DEFAULT_NOCLCBLINK));
+		FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_NOSOUND), statusValues, sizeof(statusValues) / sizeof(statusValues[0]), g_plugin.getDword("NoSound", DEFAULT_NOSOUND));
+		FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_NOBLINK), statusValues, sizeof(statusValues) / sizeof(statusValues[0]), g_plugin.getDword("NoBlink", DEFAULT_NOBLINK));
+		FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_NOCLCBLINK), statusValues, sizeof(statusValues) / sizeof(statusValues[0]), g_plugin.getDword("NoCLCBlink", DEFAULT_NOCLCBLINK));
 		return TRUE;
 	
 	case WM_COMMAND:
@@ -111,12 +111,12 @@ static INT_PTR CALLBACK DlgProcNoSoundOpts(HWND hwndDlg, UINT msg, WPARAM, LPARA
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				db_set_dw(NULL, MODULENAME, "NoSound", MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_NOSOUND)));
-				db_set_dw(NULL, MODULENAME, "NoBlink", MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_NOBLINK)));
-				db_set_dw(NULL, MODULENAME, "NoCLCBlink", MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_NOCLCBLINK)));
+				g_plugin.setDword("NoSound", MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_NOSOUND)));
+				g_plugin.setDword("NoBlink", MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_NOBLINK)));
+				g_plugin.setDword("NoCLCBlink", MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_NOCLCBLINK)));
 
-				test = db_get_w(NULL, "CList", "Status", 0);
-				SetNotify(Proto_Status2Flag(db_get_w(NULL, "CList", "Status", 0)));
+				test = db_get_w(0, "CList", "Status", 0);
+				SetNotify(Proto_Status2Flag(db_get_w(0, "CList", "Status", 0)));
 				return TRUE;
 			}
 			break;

@@ -103,23 +103,23 @@ static void LoadOpt(OptPageControl *ctrl, char *module)
 	wchar_t tmp[1024];
 	switch (ctrl->type) {
 	case CONTROL_CHECKBOX:
-		*((BYTE *)ctrl->var) = db_get_b(NULL, module, ctrl->setting, ctrl->dwDefValue);
+		*((BYTE *)ctrl->var) = db_get_b(0, module, ctrl->setting, ctrl->dwDefValue);
 		break;
 
 	case CONTROL_SPIN:
-		*((WORD *)ctrl->var) = db_get_w(NULL, module, ctrl->setting, ctrl->dwDefValue);
+		*((WORD *)ctrl->var) = db_get_w(0, module, ctrl->setting, ctrl->dwDefValue);
 		break;
 
 	case CONTROL_COLOR:
-		*((COLORREF *)ctrl->var) = (COLORREF)db_get_dw(NULL, module, ctrl->setting, ctrl->dwDefValue);
+		*((COLORREF *)ctrl->var) = (COLORREF)db_get_dw(0, module, ctrl->setting, ctrl->dwDefValue);
 		break;
 
 	case CONTROL_RADIO:
-		*((WORD *)ctrl->var) = db_get_w(NULL, module, ctrl->setting, ctrl->dwDefValue);
+		*((WORD *)ctrl->var) = db_get_w(0, module, ctrl->setting, ctrl->dwDefValue);
 		break;
 
 	case CONTROL_COMBO:
-		*((WORD *)ctrl->var) = db_get_w(NULL, module, ctrl->setting, ctrl->dwDefValue);
+		*((WORD *)ctrl->var) = db_get_w(0, module, ctrl->setting, ctrl->dwDefValue);
 		break;
 
 	case CONTROL_PROTOCOL_LIST:
@@ -130,7 +130,7 @@ static void LoadOpt(OptPageControl *ctrl, char *module)
 		break;
 
 	case CONTROL_INT:
-		*((int *)ctrl->var) = (int)db_get_dw(NULL, module, ctrl->setting, ctrl->dwDefValue);
+		*((int *)ctrl->var) = (int)db_get_dw(0, module, ctrl->setting, ctrl->dwDefValue);
 		break;
 
 	case CONTROL_FILE:
@@ -167,25 +167,25 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 
 			switch (ctrl->type) {
 			case CONTROL_CHECKBOX:
-				CheckDlgButton(hwndDlg, ctrl->nID, db_get_b(NULL, module, ctrl->setting, ctrl->dwDefValue) == 1 ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hwndDlg, ctrl->nID, db_get_b(0, module, ctrl->setting, ctrl->dwDefValue) == 1 ? BST_CHECKED : BST_UNCHECKED);
 				break;
 
 			case CONTROL_SPIN:
 				SendDlgItemMessage(hwndDlg, ctrl->nIDSpin, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, ctrl->nID), 0);
 				SendDlgItemMessage(hwndDlg, ctrl->nIDSpin, UDM_SETRANGE, 0, MAKELONG(ctrl->max, ctrl->min));
-				SendDlgItemMessage(hwndDlg, ctrl->nIDSpin, UDM_SETPOS, 0, MAKELONG(db_get_w(NULL, module, ctrl->setting, ctrl->dwDefValue), 0));
+				SendDlgItemMessage(hwndDlg, ctrl->nIDSpin, UDM_SETPOS, 0, MAKELONG(db_get_w(0, module, ctrl->setting, ctrl->dwDefValue), 0));
 				break;
 
 			case CONTROL_COLOR:
-				SendDlgItemMessage(hwndDlg, ctrl->nID, CPM_SETCOLOUR, 0, (COLORREF)db_get_dw(NULL, module, ctrl->setting, ctrl->dwDefValue));
+				SendDlgItemMessage(hwndDlg, ctrl->nID, CPM_SETCOLOUR, 0, (COLORREF)db_get_dw(0, module, ctrl->setting, ctrl->dwDefValue));
 				break;
 
 			case CONTROL_RADIO:
-				CheckDlgButton(hwndDlg, ctrl->nID, db_get_w(NULL, module, ctrl->setting, ctrl->dwDefValue) == ctrl->value ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hwndDlg, ctrl->nID, db_get_w(0, module, ctrl->setting, ctrl->dwDefValue) == ctrl->value ? BST_CHECKED : BST_UNCHECKED);
 				break;
 
 			case CONTROL_COMBO:
-				SendDlgItemMessage(hwndDlg, ctrl->nID, CB_SETCURSEL, db_get_w(NULL, module, ctrl->setting, ctrl->dwDefValue), 0);
+				SendDlgItemMessage(hwndDlg, ctrl->nID, CB_SETCURSEL, db_get_w(0, module, ctrl->setting, ctrl->dwDefValue), 0);
 				break;
 
 			case CONTROL_PROTOCOL_LIST:
@@ -217,7 +217,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 						char *setting = (char *)mir_alloc(128 * sizeof(char));
 						mir_snprintf(setting, 128, ctrl->setting, pa->szModuleName);
 
-						BOOL show = (BOOL)db_get_b(NULL, module, setting, ctrl->dwDefValue);
+						BOOL show = (BOOL)db_get_b(0, module, setting, ctrl->dwDefValue);
 
 						lvi.lParam = (LPARAM)setting;
 						lvi.pszText = pa->tszAccountName;
@@ -236,7 +236,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 				break;
 
 			case CONTROL_INT:
-				SetDlgItemInt(hwndDlg, ctrl->nID, db_get_dw(NULL, module, ctrl->setting, ctrl->dwDefValue), ctrl->min <= 0);
+				SetDlgItemInt(hwndDlg, ctrl->nID, db_get_dw(0, module, ctrl->setting, ctrl->dwDefValue), ctrl->min <= 0);
 				SendDlgItemMessage(hwndDlg, ctrl->nID, EM_LIMITTEXT, 9, 0);
 				break;
 
@@ -313,24 +313,24 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 
 					switch (ctrl->type) {
 					case CONTROL_CHECKBOX:
-						db_set_b(NULL, module, ctrl->setting, (BYTE)IsDlgButtonChecked(hwndDlg, ctrl->nID));
+						db_set_b(0, module, ctrl->setting, (BYTE)IsDlgButtonChecked(hwndDlg, ctrl->nID));
 						break;
 
 					case CONTROL_SPIN:
-						db_set_w(NULL, module, ctrl->setting, (WORD)SendDlgItemMessage(hwndDlg, ctrl->nIDSpin, UDM_GETPOS, 0, 0));
+						db_set_w(0, module, ctrl->setting, (WORD)SendDlgItemMessage(hwndDlg, ctrl->nIDSpin, UDM_GETPOS, 0, 0));
 						break;
 
 					case CONTROL_COLOR:
-						db_set_dw(NULL, module, ctrl->setting, (DWORD)SendDlgItemMessage(hwndDlg, ctrl->nID, CPM_GETCOLOUR, 0, 0));
+						db_set_dw(0, module, ctrl->setting, (DWORD)SendDlgItemMessage(hwndDlg, ctrl->nID, CPM_GETCOLOUR, 0, 0));
 						break;
 
 					case CONTROL_RADIO:
 						if (IsDlgButtonChecked(hwndDlg, ctrl->nID))
-							db_set_w(NULL, module, ctrl->setting, (BYTE)ctrl->value);
+							db_set_w(0, module, ctrl->setting, (BYTE)ctrl->value);
 						break;
 
 					case CONTROL_COMBO:
-						db_set_w(NULL, module, ctrl->setting, (WORD)SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETCURSEL, 0, 0));
+						db_set_w(0, module, ctrl->setting, (WORD)SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETCURSEL, 0, 0));
 						break;
 
 					case CONTROL_PROTOCOL_LIST:
@@ -345,14 +345,14 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 								ListView_GetItem(hwndProtocols, &lvi);
 
 								char *setting = (char *)lvi.lParam;
-								db_set_b(NULL, module, setting, (BYTE)ListView_GetCheckState(hwndProtocols, k));
+								db_set_b(0, module, setting, (BYTE)ListView_GetCheckState(hwndProtocols, k));
 							}
 						}
 						break;
 
 					case CONTROL_TEXT:
 						GetDlgItemText(hwndDlg, ctrl->nID, tmp, _countof(tmp));
-						db_set_ws(NULL, module, ctrl->setting, tmp);
+						db_set_ws(0, module, ctrl->setting, tmp);
 						break;
 
 					case CONTROL_INT:
@@ -365,7 +365,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 								val = min(val, ctrl->max);
 							if (ctrl->min != 0)
 								val = max(val, ctrl->min);
-							db_set_dw(NULL, module, ctrl->setting, val);
+							db_set_dw(0, module, ctrl->setting, val);
 						}
 						break;
 
@@ -374,18 +374,18 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 						{
 							wchar_t rel[1024];
 							PathToRelative(rel, 1024, tmp);
-							db_set_ws(NULL, module, ctrl->setting, rel);
+							db_set_ws(0, module, ctrl->setting, rel);
 						}
 						break;
 
 					case CONTROL_COMBO_TEXT:
 						GetDlgItemText(hwndDlg, ctrl->nID, tmp, _countof(tmp));
-						db_set_ws(NULL, module, ctrl->setting, tmp);
+						db_set_ws(0, module, ctrl->setting, tmp);
 						break;
 
 					case CONTROL_COMBO_ITEMDATA:
 						int sel = SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETCURSEL, 0, 0);
-						db_set_ws(NULL, module, ctrl->setting, (wchar_t *)SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETITEMDATA, (WPARAM)sel, 0));
+						db_set_ws(0, module, ctrl->setting, (wchar_t *)SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETITEMDATA, (WPARAM)sel, 0));
 						break;
 					}
 

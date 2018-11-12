@@ -91,14 +91,14 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 #define ListView_SetSelectionMark( x, y )     0
 #endif
 
-#define getByte(setting, error)           db_get_b(NULL, MODNAME, setting, error)
-#define setByte(setting, value)           db_set_b(NULL, MODNAME, setting, value)
-#define getWord(setting, error)           db_get_w(NULL, MODNAME, setting, error)
-#define setWord(setting, value)           db_set_w(NULL, MODNAME, setting, value)
-#define getDword(setting, error)          db_get_dw(NULL, MODNAME, setting, error)
-#define setDword(setting, value)          db_set_dw(NULL, MODNAME, setting, value)
+#define getByte(setting, error)           db_get_b(0, MODNAME, setting, error)
+#define setByte(setting, value)           db_set_b(0, MODNAME, setting, value)
+#define getWord(setting, error)           db_get_w(0, MODNAME, setting, error)
+#define setWord(setting, value)           db_set_w(0, MODNAME, setting, value)
+#define getDword(setting, error)          db_get_dw(0, MODNAME, setting, error)
+#define setDword(setting, value)          db_set_dw(0, MODNAME, setting, value)
 #define getWString(setting, dest)         db_get_ws(NULL, MODNAME, setting, dest)
-#define setWString(setting, value)        db_set_ws(NULL, MODNAME, setting, value)
+#define setWString(setting, value)        db_set_ws(0, MODNAME, setting, value)
 #define deleteSetting(setting)            db_unset(NULL, MODNAME, setting)
 
 // --

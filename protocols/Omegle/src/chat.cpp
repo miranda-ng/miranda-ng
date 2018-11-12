@@ -287,7 +287,7 @@ void OmegleProto::SetChatStatus(int status)
 		facy.nick_ = db_get_wsa(NULL, m_szModuleName, OMEGLE_KEY_NAME);
 		if (facy.nick_ == NULL) {
 			facy.nick_ = mir_wstrdup(TranslateT("You"));
-			db_set_ws(NULL, m_szModuleName, OMEGLE_KEY_NAME, facy.nick_);
+			db_set_ws(0, m_szModuleName, OMEGLE_KEY_NAME, facy.nick_);
 		}
 
 		// Add self contact

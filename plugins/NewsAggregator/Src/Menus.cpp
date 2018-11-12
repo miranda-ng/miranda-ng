@@ -30,7 +30,7 @@ void InitMenu()
 
 	SET_UID(mi, 0x3ec91864, 0xefa7, 0x4994, 0xb7, 0x75, 0x6c, 0x96, 0xcb, 0x29, 0x2f, 0x93);
 	mi.position = 10100001;
-	if (db_get_b(NULL, MODULENAME, "AutoUpdate", 1))
+	if (g_plugin.getByte("AutoUpdate", 1))
 		mi.name.w = LPGENW("Auto Update Enabled");
 	else
 		mi.name.w = LPGENW("Auto Update Disabled");
@@ -79,5 +79,5 @@ void InitMenu()
 	mi.pszService = MS_NEWSAGGREGATOR_CHANGEFEED;
 	hService2[6] = Menu_AddContactMenuItem(&mi, MODULENAME);
 
-	Menu_ModifyItem(hService2[0], nullptr, GetIconHandle(db_get_b(NULL, MODULENAME, "AutoUpdate", 1) ? "enabled" : "disabled"));
+	Menu_ModifyItem(hService2[0], nullptr, GetIconHandle(g_plugin.getByte("AutoUpdate", 1) ? "enabled" : "disabled"));
 }

@@ -128,14 +128,14 @@ void CGDriveService::RequestAccessTokenThread(void *param)
 	}
 
 	node = root.at("access_token");
-	db_set_s(NULL, GetAccountName(), "TokenSecret", node.as_string().c_str());
+	db_set_s(0, GetAccountName(), "TokenSecret", node.as_string().c_str());
 
 	node = root.at("expires_in");
 	time_t expiresIn = time(0) + node.as_int();
-	db_set_dw(NULL, GetAccountName(), "ExpiresIn", expiresIn);
+	db_set_dw(0, GetAccountName(), "ExpiresIn", expiresIn);
 
 	node = root.at("refresh_token");
-	db_set_s(NULL, GetAccountName(), "RefreshToken", node.as_string().c_str());
+	db_set_s(0, GetAccountName(), "RefreshToken", node.as_string().c_str());
 
 	SetDlgItemTextA(hwndDlg, IDC_OAUTH_CODE, "");
 

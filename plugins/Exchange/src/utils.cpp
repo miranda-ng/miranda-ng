@@ -113,7 +113,7 @@ int GetStringFromDatabase(char *szSettingName, wchar_t *szError, wchar_t *szResu
 	DBVARIANT dbv = { 0 };
 	int res = 1;
 	dbv.type = DBVT_ASCIIZ;
-	if (db_get_ws(NULL, MODULENAME, szSettingName, &dbv) == 0) {
+	if (g_plugin.getWString(szSettingName, &dbv) == 0) {
 		res = 0;
 		size_t tmp = mir_wstrlen(dbv.pwszVal);
 		size_t len = (tmp < size - 1) ? tmp : size - 1;

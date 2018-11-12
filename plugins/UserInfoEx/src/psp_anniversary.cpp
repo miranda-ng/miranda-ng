@@ -44,7 +44,7 @@ static INT_PTR CALLBACK DlgProc_AnniversaryEditor(HWND hDlg, UINT uMsg, WPARAM w
 		SetUserData(hDlg, lParam);
 
 		// set icons
-		if (db_get_b(NULL, MODULENAME, SET_ICONS_BUTTONS, 1)) {
+		if (g_plugin.getByte(SET_ICONS_BUTTONS, 1)) {
 			SendDlgItemMessage(hDlg, IDOK, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_BTN_OK));
 			SendDlgItemMessage(hDlg, IDCANCEL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_BTN_CANCEL));
 		}

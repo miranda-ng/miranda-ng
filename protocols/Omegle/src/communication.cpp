@@ -146,7 +146,7 @@ bool Omegle_client::handle_error(const std::string &method, bool force_disconnec
 
 	if (force_disconnect)
 		result = false;
-	else if (error_count_ <= (UINT)db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_TIMEOUTS_LIMIT, OMEGLE_TIMEOUTS_LIMIT))
+	else if (error_count_ <= (UINT)db_get_b(0, parent->m_szModuleName, OMEGLE_KEY_TIMEOUTS_LIMIT, OMEGLE_TIMEOUTS_LIMIT))
 		result = true;
 	else
 		result = false;
@@ -167,7 +167,7 @@ std::string Omegle_client::get_server(bool not_last)
 {
 	int q = not_last ? 1 : 0;
 
-	int server = db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_SERVER, 0);
+	int server = db_get_b(0, parent->m_szModuleName, OMEGLE_KEY_SERVER, 0);
 	if (server < 0 || server >= (int)(_countof(servers) - q))
 		server = 0;
 
@@ -181,7 +181,7 @@ std::string Omegle_client::get_server(bool not_last)
 
 std::string Omegle_client::get_language()
 {
-	int language = db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_LANGUAGE, 0);
+	int language = db_get_b(0, parent->m_szModuleName, OMEGLE_KEY_LANGUAGE, 0);
 	if (language < 0 || language >= (_countof(languages)))
 		language = 0;
 
@@ -314,10 +314,10 @@ bool Omegle_client::start()
 		else {
 			data = "&ask=" + utils::url::encode(this->question_);
 			data += "&cansavequestion=";
-			data += db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_REUSE_QUESTION, 0) ? "1" : "0";
+			data += db_get_b(0, parent->m_szModuleName, OMEGLE_KEY_REUSE_QUESTION, 0) ? "1" : "0";
 		}
 	}
-	else if (db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_MEET_COMMON, 0))
+	else if (db_get_b(0, parent->m_szModuleName, OMEGLE_KEY_MEET_COMMON, 0))
 	{
 		DBVARIANT dbv;
 		if (!db_get_utf(NULL, parent->m_szModuleName, OMEGLE_KEY_INTERESTS, &dbv))
@@ -363,7 +363,7 @@ bool Omegle_client::start()
 		}
 	}
 
-	if (db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_SERVER_INFO, 0))
+	if (db_get_b(0, parent->m_szModuleName, OMEGLE_KEY_SERVER_INFO, 0))
 	{
 		std::string count = get_page(OMEGLE_REQUEST_COUNT);
 		if (!count.empty()) {
@@ -598,7 +598,7 @@ bool Omegle_client::events()
 				Srmm_SetStatusText(parent->GetChatHandle(), nullptr);
 
 				// Stranger disconnected
-				if (db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_DONT_STOP, 0))
+				if (db_get_b(0, parent->m_szModuleName, OMEGLE_KEY_DONT_STOP, 0))
 				{
 					Skin_PlaySound("StrangerChange");
 					parent->NewChat();
@@ -616,7 +616,7 @@ bool Omegle_client::events()
 				parent->UpdateChat(nullptr, strT);
 
 				// Stranger disconnected
-				if (db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_DONT_STOP, 0))
+				if (db_get_b(0, parent->m_szModuleName, OMEGLE_KEY_DONT_STOP, 0))
 				{
 					Skin_PlaySound("StrangerChange");
 					parent->NewChat();
@@ -644,7 +644,7 @@ bool Omegle_client::events()
 		
 		if (newStranger && !spy_mode_) {
 			// We got new stranger in this event, lets say him "Hi message" if enabled			
-			if (db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_HI_ENABLED, 0)) {
+			if (db_get_b(0, parent->m_szModuleName, OMEGLE_KEY_HI_ENABLED, 0)) {
 				DBVARIANT dbv;
 				if (!db_get_utf(NULL, parent->m_szModuleName, OMEGLE_KEY_HI, &dbv)) {
 					std::vector<std::string> messages;

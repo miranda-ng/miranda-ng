@@ -248,7 +248,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	CallService(MS_CLC_SETINFOTIPHOVERTIME, opt.iTimeIn, 0);
 
 	// set Miranda start timestamp
-	db_set_dw(0, MODULENAME, "MirandaStartTS", (DWORD)time(0));
+	g_plugin.setDword("MirandaStartTS", (DWORD)time(0));
 	return 0;
 }
 
@@ -279,8 +279,8 @@ static INT_PTR ReloadSkin(WPARAM wParam, LPARAM lParam)
 	ReloadFont(0, 0);
 	SaveOptions();
 
-	db_set_b(0, MODULENAME, "SkinEngine", opt.skinMode);
-	db_set_ws(0, MODULENAME, "SkinName", opt.szSkinName);
+	g_plugin.setByte("SkinEngine", opt.skinMode);
+	g_plugin.setWString("SkinName", opt.szSkinName);
 
 	DestroySkinBitmap();
 

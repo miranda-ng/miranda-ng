@@ -33,9 +33,9 @@ static DWORD GetMask(MCONTACT hContact)
 			mask=0;
 		else {
 			if(db_get_b(hContact, "CList", "Hidden", 0) || db_get_b(hContact, "CList", "NotOnList", 0))
-				mask = db_get_dw(NULL, MODULENAME, "Mask1", 0);
+				mask = g_plugin.getDword("Mask1", 0);
 			else
-				mask = db_get_dw(NULL, MODULENAME, "Default1", 0);
+				mask = g_plugin.getDword("Default1", 0);
 		}
 	}
 	return mask;

@@ -645,11 +645,11 @@ void GetDefaultLang()
 	Profile_GetSetting(L"Language/DefaultLanguage", tszLangName);
 	if (tszLangName[0]) {
 		if (!mir_wstrcmpi(tszLangName, L"default")) {
-			db_set_ws(NULL, "Langpack", "Current", L"default");
+			db_set_ws(0, "Langpack", "Current", L"default");
 			return;
 		}
 		if (!LoadLangPack(tszLangName)) {
-			db_set_ws(NULL, "Langpack", "Current", tszLangName);
+			db_set_ws(0, "Langpack", "Current", tszLangName);
 			return;
 		}
 	}
@@ -659,7 +659,7 @@ void GetDefaultLang()
 	if (GetLocaleInfo(MAKELCID(GetUserDefaultUILanguage(), SORT_DEFAULT), LOCALE_SENGLANGUAGE, tszLangName, _countof(tszLangName))) {
 		mir_snwprintf(tszPath, L"langpack_%s.txt", wcslwr(tszLangName));
 		if (!LoadLangPack(tszPath)) {
-			db_set_ws(NULL, "Langpack", "Current", tszPath);
+			db_set_ws(0, "Langpack", "Current", tszPath);
 			return;
 		}
 	}
@@ -676,13 +676,13 @@ void GetDefaultLang()
 				continue;
 
 			if (!LoadLangPack(fd.cFileName)) {
-				db_set_ws(NULL, "Langpack", "Current", fd.cFileName);
+				db_set_ws(0, "Langpack", "Current", fd.cFileName);
 				break;
 			}
 		} while (FindNextFile(hFind, &fd));
 		FindClose(hFind);
 	}
-	else db_set_ws(NULL, "Langpack", "Current", L"default");
+	else db_set_ws(0, "Langpack", "Current", L"default");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

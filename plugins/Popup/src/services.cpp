@@ -138,7 +138,7 @@ INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 		if (PopupOptions.DisableWhenFullscreen && (bShowMode != PU_SHOWMODE_FULLSCREEN) && IsFullScreen())
 			return -1;
 
-		if (db_get_dw(NULL, MODULENAME, LPGEN("Global Status"), 0) & Proto_Status2Flag_My(CallService(MS_CLIST_GETSTATUSMODE, 0, 0)))
+		if (g_plugin.getDword(LPGEN("Global Status"), 0) & Proto_Status2Flag_My(CallService(MS_CLIST_GETSTATUSMODE, 0, 0)))
 			return -1;
 
 		if ((disableWhen & 0x0000FFFF) & Proto_Status2Flag_My(CallService(MS_CLIST_GETSTATUSMODE, 0, 0)))
@@ -147,7 +147,7 @@ INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 		if (proto) {
 			char prefix[128];
 			mir_snprintf(prefix, LPGEN("Protocol Status") "/%s", GetContactProto(ppd->lchContact));
-			if (db_get_dw(NULL, MODULENAME, prefix, 0) & Proto_Status2Flag_My(Proto_GetStatus(proto)))
+			if (g_plugin.getDword(prefix, 0) & Proto_Status2Flag_My(Proto_GetStatus(proto)))
 				return -1;
 			if (((disableWhen >> 16) & 0xFFFF0000) & Proto_Status2Flag_My(Proto_GetStatus(proto)))
 				return -1;
@@ -379,7 +379,7 @@ INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 
 	// we ignore pc->colorText and use fonts.text as default (if no setting found in DB)
 	mir_snprintf(setting, "%s/TextCol", ptd->pupClass.pszName);
-	ptd->pupClass.colorText = (COLORREF)db_get_dw(NULL, PU_MODULCLASS, setting, fonts.clText/*pc->colorText*/);
+	ptd->pupClass.colorText = (COLORREF)db_get_dw(0, PU_MODULCLASS, setting, fonts.clText/*pc->colorText*/);
 	
 	FontIDW fid = {};
 	mir_snwprintf(fid.group, L"%S/%s", PU_FNT_AND_COLOR, ptd->pszDescription);
@@ -397,7 +397,7 @@ INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 
 	// we ignore pc->colorBack and use fonts.clBack as default (if no setting found in DB)
 	mir_snprintf(setting, "%s/BgCol", ptd->pupClass.pszName);
-	ptd->pupClass.colorBack = (COLORREF)db_get_dw(NULL, PU_MODULCLASS, setting, (DWORD)fonts.clBack/*pc->colorBack*/);
+	ptd->pupClass.colorBack = (COLORREF)db_get_dw(0, PU_MODULCLASS, setting, (DWORD)fonts.clBack/*pc->colorBack*/);
 	
 	ColourIDW cid = {};
 	mir_snwprintf(cid.group, L"%S/%s", PU_FNT_AND_COLOR, ptd->pszDescription);

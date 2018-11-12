@@ -229,7 +229,7 @@ bool UpdateAlarm(SYSTEMTIME &time, Occurrence occ, int selected_days)
 
 void LoadAlarms()
 {
-	int num_alarms = db_get_w(0, MODULENAME, "Count", 0);
+	int num_alarms = g_plugin.getWord("Count", 0);
 	char buff[256];
 	DBVARIANT dbv;
 	ALARM alarm;
@@ -243,69 +243,69 @@ void LoadAlarms()
 		memset(&alarm, 0, sizeof(ALARM));
 
 		mir_snprintf(buff, "Title%d", i);
-		if (!db_get_ws(0, MODULENAME, buff, &dbv)) {
+		if (!g_plugin.getWString(buff, &dbv)) {
 			alarm.szTitle = mir_wstrdup(dbv.pwszVal);
 			db_free(&dbv);
 		}
 		mir_snprintf(buff, "Desc%d", i);
-		if (!db_get_ws(0, MODULENAME, buff, &dbv)) {
+		if (!g_plugin.getWString(buff, &dbv)) {
 			alarm.szDesc = mir_wstrdup(dbv.pwszVal);
 			db_free(&dbv);
 		}
 		mir_snprintf(buff, "Occ%d", i);
-		alarm.occurrence = (Occurrence)db_get_w(0, MODULENAME, buff, 0);
+		alarm.occurrence = (Occurrence)g_plugin.getWord(buff, 0);
 
 		mir_snprintf(buff, "STHour%d", i);
-		alarm.time.wHour = db_get_w(0, MODULENAME, buff, 0);
+		alarm.time.wHour = g_plugin.getWord(buff, 0);
 		mir_snprintf(buff, "STMinute%d", i);
-		alarm.time.wMinute = db_get_w(0, MODULENAME, buff, 0);
+		alarm.time.wMinute = g_plugin.getWord(buff, 0);
 		mir_snprintf(buff, "STSecond%d", i);
-		alarm.time.wSecond = db_get_w(0, MODULENAME, buff, 0);
+		alarm.time.wSecond = g_plugin.getWord(buff, 0);
 
 		switch (alarm.occurrence) {
 
 		case OC_ONCE:
 			mir_snprintf(buff, "STYear%d", i);
-			alarm.time.wYear = db_get_w(0, MODULENAME, buff, 0);
+			alarm.time.wYear = g_plugin.getWord(buff, 0);
 			mir_snprintf(buff, "STMonth%d", i);
-			alarm.time.wMonth = db_get_w(0, MODULENAME, buff, 0);
+			alarm.time.wMonth = g_plugin.getWord(buff, 0);
 			mir_snprintf(buff, "STDay%d", i);
-			alarm.time.wDay = db_get_w(0, MODULENAME, buff, 0);
+			alarm.time.wDay = g_plugin.getWord(buff, 0);
 			break;
 		case OC_WEEKLY:
 			mir_snprintf(buff, "STDayOfWeek%d", i);
-			alarm.time.wDayOfWeek = db_get_w(0, MODULENAME, buff, 0);
+			alarm.time.wDayOfWeek = g_plugin.getWord(buff, 0);
 			break;
 		case OC_WEEKDAYS:
 			break;
 		case OC_SELECTED_DAYS:
 			mir_snprintf(buff, "SelectedDays%d", i);
-			alarm.day_mask = db_get_dw(0, MODULENAME, buff, alarm.day_mask);
+			alarm.day_mask = g_plugin.getDword(buff, alarm.day_mask);
 			break;
 		case OC_DAILY:
 			break;
 		case OC_MONTHLY:
 			mir_snprintf(buff, "STDay%d", i);
-			alarm.time.wDay = db_get_w(0, MODULENAME, buff, 0);
+			alarm.time.wDay = g_plugin.getWord(buff, 0);
 			break;
 		case OC_YEARLY:
 			mir_snprintf(buff, "STMonth%d", i);
-			alarm.time.wMonth = db_get_w(0, MODULENAME, buff, 0);
+			alarm.time.wMonth = g_plugin.getWord(buff, 0);
 			mir_snprintf(buff, "STDay%d", i);
-			alarm.time.wDay = db_get_w(0, MODULENAME, buff, 0);
+			alarm.time.wDay = g_plugin.getWord(buff, 0);
 			break;
 		}
 
 		if (UpdateAlarm(alarm.time, alarm.occurrence, alarm.day_mask)) {
 			mir_snprintf(buff, "ActionFlags%d", i);
-			alarm.action = (unsigned short)db_get_dw(0, MODULENAME, buff, AAF_POPUP | AAF_SOUND);
+			alarm.action = (unsigned short)g_plugin.getDword(buff, AAF_POPUP | AAF_SOUND);
 			if (alarm.action & AAF_COMMAND) {
 				mir_snprintf(buff, "ActionCommand%d", i);
-				if (!db_get_ws(0, MODULENAME, buff, &dbv)) {
+				if (!g_plugin.getWString(buff, &dbv)) {
 					alarm.szCommand = mir_wstrdup(dbv.pwszVal);
 					db_free(&dbv);
 					mir_snprintf(buff, "ActionParams%d", i);
-					if (!db_get_ws(0, MODULENAME, buff, &dbv)) {
+					if (!g_plugin.getWString(buff, &dbv)) {
 						alarm.szCommandParams = mir_wstrdup(dbv.pwszVal);
 						db_free(&dbv);
 					}
@@ -313,22 +313,22 @@ void LoadAlarms()
 			}
 
 			mir_snprintf(buff, "SoundNum%d", i);
-			alarm.sound_num = (int)db_get_b(0, MODULENAME, buff, 1);
+			alarm.sound_num = (int)g_plugin.getByte(buff, 1);
 
 			mir_snprintf(buff, "Snoozer%d", i);
-			alarm.snoozer = db_get_b(0, MODULENAME, buff, 0) == 1;
+			alarm.snoozer = g_plugin.getByte(buff, 0) == 1;
 
 			mir_snprintf(buff, "Hidden%d", i);
-			alarm.flags |= (db_get_b(0, MODULENAME, buff, 0) == 1 ? ALF_HIDDEN : 0);
+			alarm.flags |= (g_plugin.getByte(buff, 0) == 1 ? ALF_HIDDEN : 0);
 
 			mir_snprintf(buff, "Suspended%d", i);
-			alarm.flags |= (db_get_b(0, MODULENAME, buff, 0) == 1 ? ALF_SUSPENDED : 0);
+			alarm.flags |= (g_plugin.getByte(buff, 0) == 1 ? ALF_SUSPENDED : 0);
 
 			mir_snprintf(buff, "NoStartup%d", i);
-			alarm.flags |= (db_get_b(0, MODULENAME, buff, 0) == 1 ? ALF_NOSTARTUP : 0);
+			alarm.flags |= (g_plugin.getByte(buff, 0) == 1 ? ALF_NOSTARTUP : 0);
 
 			mir_snprintf(buff, "Flags%d", i);
-			alarm.flags = db_get_dw(0, MODULENAME, buff, alarm.flags);
+			alarm.flags = g_plugin.getDword(buff, alarm.flags);
 
 			alarm.id = next_alarm_id++;
 			alarms.push_back(&alarm);
@@ -394,7 +394,7 @@ void SaveAlarms()
 		db_enum_settings(0, &db_enum_settings_sub_cb, MODULENAME, &settings);
 		for (std::list<char*>::iterator i = settings.begin(), end = settings.end(); i != end; ++i)
 		{
-			db_unset(0, MODULENAME, *i);
+			g_plugin.delSetting(*i);
 			mir_free(*i);
 		}
 	}
@@ -403,18 +403,18 @@ void SaveAlarms()
 	ALARM *i;
 	for (alarms.reset(); i = alarms.current(); alarms.next(), index++) {
 		mir_snprintf(buff, "Title%d", index);
-		db_set_ws(0, MODULENAME, buff, i->szTitle);
+		g_plugin.setWString(buff, i->szTitle);
 		mir_snprintf(buff, "Desc%d", index);
-		db_set_ws(0, MODULENAME, buff, i->szDesc);
+		g_plugin.setWString(buff, i->szDesc);
 		mir_snprintf(buff, "Occ%d", index);
-		db_set_w(0, MODULENAME, buff, i->occurrence);
+		g_plugin.setWord(buff, i->occurrence);
 
 		mir_snprintf(buff, "STHour%d", index);
-		db_set_w(0, MODULENAME, buff, i->time.wHour);
+		g_plugin.setWord(buff, i->time.wHour);
 		mir_snprintf(buff, "STMinute%d", index);
-		db_set_w(0, MODULENAME, buff, i->time.wMinute);
+		g_plugin.setWord(buff, i->time.wMinute);
 		mir_snprintf(buff, "STSecond%d", index);
-		db_set_w(0, MODULENAME, buff, i->time.wSecond);
+		g_plugin.setWord(buff, i->time.wSecond);
 
 		switch (i->occurrence) {
 		case OC_DAILY:
@@ -423,47 +423,47 @@ void SaveAlarms()
 			break;
 		case OC_SELECTED_DAYS:
 			mir_snprintf(buff, "SelectedDays%d", index);
-			db_set_dw(0, MODULENAME, buff, i->day_mask);
+			g_plugin.setDword(buff, i->day_mask);
 			break;
 		case OC_WEEKLY:
 			mir_snprintf(buff, "STDayOfWeek%d", index);
-			db_set_w(0, MODULENAME, buff, i->time.wDayOfWeek);
+			g_plugin.setWord(buff, i->time.wDayOfWeek);
 			break;
 
 		case OC_ONCE:
 			mir_snprintf(buff, "STYear%d", index);
-			db_set_w(0, MODULENAME, buff, i->time.wYear);
+			g_plugin.setWord(buff, i->time.wYear);
 		case OC_YEARLY:
 			mir_snprintf(buff, "STMonth%d", index);
-			db_set_w(0, MODULENAME, buff, i->time.wMonth);
+			g_plugin.setWord(buff, i->time.wMonth);
 		case OC_MONTHLY:
 			mir_snprintf(buff, "STDay%d", index);
-			db_set_w(0, MODULENAME, buff, i->time.wDay);
+			g_plugin.setWord(buff, i->time.wDay);
 			break;
 		}
 		mir_snprintf(buff, "ActionFlags%d", index);
-		db_set_dw(0, MODULENAME, buff, i->action);
+		g_plugin.setDword(buff, i->action);
 		if (i->action & AAF_COMMAND) {
 			if (mir_wstrlen(i->szCommand)) {
 				mir_snprintf(buff, "ActionCommand%d", index);
-				db_set_ws(0, MODULENAME, buff, i->szCommand);
+				g_plugin.setWString(buff, i->szCommand);
 				if (mir_wstrlen(i->szCommandParams)) {
 					mir_snprintf(buff, "ActionParams%d", index);
-					db_set_ws(0, MODULENAME, buff, i->szCommandParams);
+					g_plugin.setWString(buff, i->szCommandParams);
 				}
 			}
 		}
 
 		mir_snprintf(buff, "SoundNum%d", index);
-		db_set_b(0, MODULENAME, buff, i->sound_num);
+		g_plugin.setByte(buff, i->sound_num);
 
 		mir_snprintf(buff, "Snoozer%d", index);
-		db_set_b(0, MODULENAME, buff, i->snoozer ? 1 : 0);
+		g_plugin.setByte(buff, i->snoozer ? 1 : 0);
 
 		mir_snprintf(buff, "Flags%d", index);
-		db_set_dw(0, MODULENAME, buff, i->flags);
+		g_plugin.setDword(buff, i->flags);
 	}
-	db_set_w(0, MODULENAME, "Count", index);
+	g_plugin.setWord("Count", index);
 }
 
 void copy_list(AlarmList &copy)
@@ -692,7 +692,7 @@ void DoAlarm(ALARM *alarm)
 void WriteLastCheckTime()
 {
 	// save last-check time
-	db_set_blob(NULL, MODULENAME, "LastCheck", &last_check, sizeof(SYSTEMTIME));
+	db_set_blob(0, MODULENAME, "LastCheck", &last_check, sizeof(SYSTEMTIME));
 	last_saved_check = last_check;
 }
 
@@ -785,7 +785,7 @@ void InitList()
 	DBVARIANT dbv;
 	dbv.type = DBVT_BLOB;
 	dbv.cpbVal = sizeof(SYSTEMTIME);
-	if (!db_get(NULL, MODULENAME, "LastCheck", &dbv)) {
+	if (!db_get(0, MODULENAME, "LastCheck", &dbv)) {
 		memcpy(&last_check, dbv.pbVal, sizeof(SYSTEMTIME));
 		db_free(&dbv);
 	}

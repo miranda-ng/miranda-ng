@@ -84,7 +84,7 @@ void GetData(void *param)
 	url[0] = '\0';
 
 	if (!Startingup)
-		db_set_b(NULL, MODULENAME, HAS_CRASHED_KEY, 1);
+		g_plugin.setByte(HAS_CRASHED_KEY, 1);
 
 	if (!db_get_s(hContact, MODULENAME, START_STRING_KEY, &dbv)) {
 		strncpy_s(tempstring, _countof(tempstring), dbv.pszVal, _TRUNCATE);
@@ -119,7 +119,7 @@ void GetData(void *param)
 
 	nlhr.headers = headers;
 
-	if ( db_get_b(NULL, MODULENAME, NO_PROTECT_KEY, 0)) // disable 
+	if ( g_plugin.getByte(NO_PROTECT_KEY, 0)) // disable 
 		AlreadyDownloading = 0;
 
 	// //try site////
@@ -421,7 +421,7 @@ LBL_Stop:			wchar_t *statusText = TranslateT("Processing data stopped by user.")
 
 					//data in popup 
 					if (TherewasAlert)
-						if ( db_get_b(NULL, MODULENAME, DATA_POPUP_KEY, 0))
+						if ( g_plugin.getByte(DATA_POPUP_KEY, 0))
 							WAlertPopup(hContact, _A2T(truncated));  
 
 					if (db_get_b(hContact, MODULENAME, STOP_KEY, 1) == 1)
@@ -472,7 +472,7 @@ LBL_Stop:			wchar_t *statusText = TranslateT("Processing data stopped by user.")
 
 		// update window if the update only on alert option isn't ticked or
 		// there was an alert or the update button was clicked
-		if ((!(db_get_b(NULL, MODULENAME, UPDATE_ONALERT_KEY, 0))) || (TherewasAlert == 1) || (PosButnClick == 1)) {
+		if ((!(g_plugin.getByte(UPDATE_ONALERT_KEY, 0))) || (TherewasAlert == 1) || (PosButnClick == 1)) {
 			SendToRichEdit(hwndDlg, truncated, TextClr, BackgoundClr);
 
 			if (TherewasAlert) {
@@ -483,8 +483,8 @@ LBL_Stop:			wchar_t *statusText = TranslateT("Processing data stopped by user.")
 					SendDlgItemMessage(hwndDlg, IDC_DATA, EM_EXSETSEL, 0, (LPARAM)&sel2);
 					SetFocus(GetDlgItem(hwndDlg, IDC_DATA));
 
-					DWORD HiBackgoundClr = db_get_dw(NULL, MODULENAME, BG_COLOR_KEY, Def_color_bg);
-					DWORD HiTextClr = db_get_dw(NULL, MODULENAME, TXT_COLOR_KEY, Def_color_txt);
+					DWORD HiBackgoundClr = g_plugin.getDword(BG_COLOR_KEY, Def_color_bg);
+					DWORD HiTextClr = g_plugin.getDword(TXT_COLOR_KEY, Def_color_txt);
 
 					CHARFORMAT2 Format;
 					memset(&Format, 0, sizeof(Format));
@@ -507,5 +507,5 @@ LBL_Stop:			wchar_t *statusText = TranslateT("Processing data stopped by user.")
 	EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE_BUTTON), 1);
 
 	if (!Startingup)
-		db_set_b(NULL, MODULENAME, HAS_CRASHED_KEY, 0);
+		g_plugin.setByte(HAS_CRASHED_KEY, 0);
 }

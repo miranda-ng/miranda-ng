@@ -498,7 +498,7 @@ int ShowMenu(bool centered)
 	szMenu.cy = max(szMenu.cy, szColumn.cy);
 	szColumn.cx = szColumn.cy = 0;
 
-	int maxWidth = GetSystemMetrics(SM_CXSCREEN) * db_get_b(NULL, "FavContacts", "MenuWidth", 66) / 100;
+	int maxWidth = GetSystemMetrics(SM_CXSCREEN) * db_get_b(0, "FavContacts", "MenuWidth", 66) / 100;
 	if (szMenu.cx > maxWidth) {
 		g_widthMultiplier = (float)maxWidth / szMenu.cx;
 		szMenu.cx *= g_widthMultiplier;

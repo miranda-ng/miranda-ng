@@ -291,7 +291,7 @@ INT_PTR CALLBACK CCNErrorDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM)
 
 	case WM_DESTROY:
 		if (IsDlgButtonChecked(hwndDlg, IDC_DONTREMIND))
-			db_set_b(NULL, MODULENAME, DB_NO_FINGERPRINT_ERROR, 1);
+			g_plugin.setByte(DB_NO_FINGERPRINT_ERROR, 1);
 		break;
 	}
 	return 0;
@@ -334,7 +334,7 @@ static int MirandaLoaded(WPARAM, LPARAM)
 	}
 
 	// seems that Fingerprint is not installed
-	if (!bFingerprintExists && !db_get_b(NULL, MODULENAME, DB_NO_FINGERPRINT_ERROR, 0))
+	if (!bFingerprintExists && !g_plugin.getByte(DB_NO_FINGERPRINT_ERROR, 0))
 		CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CCN_ERROR), nullptr, CCNErrorDlgProc);
 
 	return 0;
@@ -350,13 +350,12 @@ int CMPlugin::Load()
 
 	InitOptions();
 
-	if (db_get_b(NULL, MODULENAME, DB_SETTINGSVER, 0) < 1) {
-		TCString Str;
-		Str = db_get_s(NULL, MODULENAME, DB_IGNORESUBSTRINGS, L"");
+	if (g_plugin.getByte(DB_SETTINGSVER, 0) < 1) {
+		TCString Str = db_get_s(0, MODULENAME, DB_IGNORESUBSTRINGS, L"");
 		if (Str.GetLen()) // fix incorrect regexp from v0.1.1.0
-			db_set_ws(NULL, MODULENAME, DB_IGNORESUBSTRINGS, Str.Replace(L"/Miranda[0-9A-F]{8}/", L"/[0-9A-F]{8}(\\W|$)/"));
+			g_plugin.setWString(DB_IGNORESUBSTRINGS, Str.Replace(L"/Miranda[0-9A-F]{8}/", L"/[0-9A-F]{8}(\\W|$)/"));
 
-		db_set_b(NULL, MODULENAME, DB_SETTINGSVER, 1);
+		g_plugin.setByte(DB_SETTINGSVER, 1);
 	}
 	return 0;
 }

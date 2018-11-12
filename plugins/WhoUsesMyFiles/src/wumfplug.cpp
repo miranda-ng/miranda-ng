@@ -35,38 +35,38 @@ void LoadOptions()
 	DBVARIANT dbv = { 0 };
 	dbv.type = DBVT_WCHAR;
 	memset(&WumfOptions, 0, sizeof(WumfOptions));
-	if (db_get_ws(NULL, MODULENAME, OPT_FILE, &dbv) == 0) {
+	if (g_plugin.getWString(OPT_FILE, &dbv) == 0) {
 		wcsncpy(WumfOptions.LogFile, dbv.pwszVal, 255);
 		db_free(&dbv);
 	}
 	else
 		WumfOptions.LogFile[0] = '\0';
 
-	WumfOptions.PopupsEnabled = db_get_b(NULL, MODULENAME, POPUPS_ENABLED, TRUE);
+	WumfOptions.PopupsEnabled = g_plugin.getByte(POPUPS_ENABLED, TRUE);
 
-	WumfOptions.UseDefColor = db_get_b(NULL, MODULENAME, COLOR_DEF, TRUE);
-	WumfOptions.UseWinColor = db_get_b(NULL, MODULENAME, COLOR_WIN, FALSE);
-	WumfOptions.SelectColor = db_get_b(NULL, MODULENAME, COLOR_SET, FALSE);
+	WumfOptions.UseDefColor = g_plugin.getByte(COLOR_DEF, TRUE);
+	WumfOptions.UseWinColor = g_plugin.getByte(COLOR_WIN, FALSE);
+	WumfOptions.SelectColor = g_plugin.getByte(COLOR_SET, FALSE);
 
-	WumfOptions.ColorText = db_get_dw(NULL, MODULENAME, COLOR_TEXT, RGB(0, 0, 0));
-	WumfOptions.ColorBack = db_get_dw(NULL, MODULENAME, COLOR_BACK, RGB(255, 255, 255));
+	WumfOptions.ColorText = g_plugin.getDword(COLOR_TEXT, RGB(0, 0, 0));
+	WumfOptions.ColorBack = g_plugin.getDword(COLOR_BACK, RGB(255, 255, 255));
 
-	WumfOptions.DelayDef = db_get_b(NULL, MODULENAME, DELAY_DEF, TRUE);
-	WumfOptions.DelayInf = db_get_b(NULL, MODULENAME, DELAY_INF, FALSE);
-	WumfOptions.DelaySet = db_get_b(NULL, MODULENAME, DELAY_SET, FALSE);
-	WumfOptions.DelaySec = db_get_b(NULL, MODULENAME, DELAY_SEC, 0);
+	WumfOptions.DelayDef = g_plugin.getByte(DELAY_DEF, TRUE);
+	WumfOptions.DelayInf = g_plugin.getByte(DELAY_INF, FALSE);
+	WumfOptions.DelaySet = g_plugin.getByte(DELAY_SET, FALSE);
+	WumfOptions.DelaySec = g_plugin.getByte(DELAY_SEC, 0);
 	if (!ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		WumfOptions.DelayDef = TRUE;
 		WumfOptions.DelaySet = FALSE;
 		WumfOptions.DelayInf = FALSE;
 	}
-	WumfOptions.LogToFile = db_get_b(NULL, MODULENAME, LOG_INTO_FILE, FALSE);
-	WumfOptions.LogFolders = db_get_b(NULL, MODULENAME, LOG_FOLDER, TRUE);
-	WumfOptions.AlertFolders = db_get_b(NULL, MODULENAME, ALERT_FOLDER, TRUE);
-	WumfOptions.LogUNC = db_get_b(NULL, MODULENAME, LOG_UNC, FALSE);
-	WumfOptions.AlertUNC = db_get_b(NULL, MODULENAME, ALERT_UNC, FALSE);
-	WumfOptions.LogComp = db_get_b(NULL, MODULENAME, LOG_COMP, FALSE);
-	WumfOptions.AlertComp = db_get_b(NULL, MODULENAME, ALERT_COMP, FALSE);
+	WumfOptions.LogToFile = g_plugin.getByte(LOG_INTO_FILE, FALSE);
+	WumfOptions.LogFolders = g_plugin.getByte(LOG_FOLDER, TRUE);
+	WumfOptions.AlertFolders = g_plugin.getByte(ALERT_FOLDER, TRUE);
+	WumfOptions.LogUNC = g_plugin.getByte(LOG_UNC, FALSE);
+	WumfOptions.AlertUNC = g_plugin.getByte(ALERT_UNC, FALSE);
+	WumfOptions.LogComp = g_plugin.getByte(LOG_COMP, FALSE);
+	WumfOptions.AlertComp = g_plugin.getByte(ALERT_COMP, FALSE);
 }
 
 void ExecuteMenu(HWND hWnd)
@@ -199,7 +199,7 @@ static INT_PTR WumfMenuCommand(WPARAM, LPARAM)
 		Menu_ModifyItem(hMenuItem, LPGENW("Disable WUMF popups"), LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_POPUP)));
 	}
 
-	db_set_b(NULL, MODULENAME, POPUPS_ENABLED, (BYTE)WumfOptions.PopupsEnabled);
+	g_plugin.setByte(POPUPS_ENABLED, (BYTE)WumfOptions.PopupsEnabled);
 	return 0;
 }
 

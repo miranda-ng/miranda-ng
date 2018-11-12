@@ -1579,7 +1579,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		}
 
 		if (dwItems & TRAYTIP_FAVCONTACTS) {
-			if (db_get_dw(0, MODULENAME, "FavouriteContactsCount", 0)) {
+			if (g_plugin.getDword("FavouriteContactsCount", 0)) {
 				wchar_t swzName[256];
 				wchar_t swzStatus[256];
 				bool bTitlePainted = false;
@@ -1633,7 +1633,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		}
 
 		if (dwItems & TRAYTIP_MIRANDA_UPTIME) {
-			if (TimestampToTimeDifference(NULL, MODULENAME, "MirandaStartTS", buff, 64)) {
+			if (TimestampToTimeDifference(0, MODULENAME, "MirandaStartTS", buff, 64)) {
 				AddRow(pwd, TranslateT("Other"), L"", nullptr, false, false, !bFirstItem, true, nullptr);
 				AddRow(pwd, TranslateT("Miranda uptime:"), buff, nullptr, false, false, false);
 			}

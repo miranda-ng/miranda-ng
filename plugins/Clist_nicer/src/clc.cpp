@@ -133,7 +133,7 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 				if (!__strcmp(cws->szSetting, "Status")) {
 					if (!db_get_b(hContact, "CList", "Hidden", 0))
 						if (cws->value.wVal == ID_STATUS_OFFLINE)
-							if (db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT))
+							if (db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT))
 								return 0;
 
 					SendMessage(g_clistApi.hwndContactTree, INTM_STATUSCHANGED, hContact, lParam);
@@ -156,12 +156,12 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 		}
 	}
 	else if (!__strcmp(cws->szModule, "Skin") && !__strcmp(cws->szSetting, "UseSound")) {
-		cfg::dat.soundsOff = db_get_b(NULL, cws->szModule, cws->szSetting, 0) ? 0 : 1;
+		cfg::dat.soundsOff = db_get_b(0, cws->szModule, cws->szSetting, 0) ? 0 : 1;
 		ClcSetButtonState(IDC_TBSOUND, cfg::dat.soundsOff ? BST_CHECKED : BST_UNCHECKED);
 		SetButtonStates();
 	}
 	else if (!__strcmp(cws->szModule, "CList") && !__strcmp(cws->szSetting, "UseGroups")) {
-		ClcSetButtonState(IDC_TBHIDEGROUPS, db_get_b(NULL, cws->szModule, cws->szSetting, SETTING_USEGROUPS_DEFAULT));
+		ClcSetButtonState(IDC_TBHIDEGROUPS, db_get_b(0, cws->szModule, cws->szSetting, SETTING_USEGROUPS_DEFAULT));
 		SetButtonStates();
 	}
 	else if (!__strcmp(cws->szModule, "TopToolBar") && !__strcmp(cws->szSetting, "UseFlatButton")) {

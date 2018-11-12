@@ -49,7 +49,7 @@ static int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 	if ((newStatus == ID_STATUS_ONLINE || newStatus == ID_STATUS_FREECHAT) &&
 	   oldStatus != ID_STATUS_ONLINE && oldStatus != ID_STATUS_FREECHAT) {
 		{
-			DWORD ticked = db_get_dw(NULL, MODULENAME, cws->szModule, GetTickCount());
+			DWORD ticked = g_plugin.getDword(cws->szModule, GetTickCount());
 			// only play the sound (or show event) if this event happens at least 10 secs after the proto went from offline
 			if (GetTickCount() - ticked > (1000*10)) {
 				wchar_t tooltip[256];
@@ -77,7 +77,7 @@ static int UserOnlineAck(WPARAM, LPARAM lParam)
 	ACKDATA * ack = (ACKDATA*) lParam;
 	if (ack != nullptr && ack->szModule && ack->type == ACKTYPE_STATUS && ack->result == ACKRESULT_SUCCESS && ack->hProcess == (HANDLE)ID_STATUS_OFFLINE) {
 		// if going from offline to any other mode, remember when it happened.
-		db_set_dw(NULL, MODULENAME, ack->szModule, GetTickCount());
+		g_plugin.setDword(ack->szModule, GetTickCount());
 	}
 	return 0;
 }
@@ -86,7 +86,7 @@ static int UserOnlineModulesLoaded(WPARAM, LPARAM)
 {
 	for (auto &pa : Accounts())
 		if (pa->IsEnabled())
-			db_set_dw(NULL, MODULENAME, pa->szModuleName, GetTickCount());
+			g_plugin.setDword(pa->szModuleName, GetTickCount());
 
 	return 0;
 }
@@ -100,7 +100,7 @@ static int UserOnlineAccountsChanged(WPARAM eventCode, LPARAM lParam)
 	case PRAC_CHECKED:
 		// reset the counter
 		if (pa->IsEnabled())
-			db_set_dw(NULL, MODULENAME, pa->szModuleName, GetTickCount());
+			g_plugin.setDword(pa->szModuleName, GetTickCount());
 		break;
 	}
 	return 0;

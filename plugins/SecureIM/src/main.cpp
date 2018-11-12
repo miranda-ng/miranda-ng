@@ -86,25 +86,25 @@ static int onModulesLoaded(WPARAM, LPARAM)
 		char pub_key[4096]; int pub_len;
 
 		mir_exp->rsa_get_keypair(CPP_MODE_RSA_4096, (PBYTE)&priv_key, &priv_len, (PBYTE)&pub_key, &pub_len);
-		db_set_blob(NULL, MODULENAME, "rsa_priv", priv_key, priv_len);
-		db_set_blob(NULL, MODULENAME, "rsa_pub", &pub_key, pub_len);
-		db_unset(NULL, MODULENAME, "rsa_priv_2048");
-		db_unset(NULL, MODULENAME, "rsa_pub_2048");
+		db_set_blob(0, MODULENAME, "rsa_priv", priv_key, priv_len);
+		db_set_blob(0, MODULENAME, "rsa_pub", &pub_key, pub_len);
+		g_plugin.delSetting("rsa_priv_2048");
+		g_plugin.delSetting("rsa_pub_2048");
 		rsa_4096 = 1;
 	}
 
 	if (!rsa_4096)
 		mir_forkthread(sttGenerateRSA);
 
-	mir_exp->rsa_set_timeout(db_get_w(0, MODULENAME, "ket", 10));
+	mir_exp->rsa_set_timeout(g_plugin.getWord("ket", 10));
 
 	Sent_NetLog("pgp_init");
 
-	bPGP = db_get_b(0, MODULENAME, "pgp", 0);
+	bPGP = g_plugin.getByte("pgp", 0);
 	if (bPGP) { //PGP
 		bPGPloaded = pgp_init();
-		bUseKeyrings = db_get_b(0, MODULENAME, "ukr", 1);
-		LPSTR priv = db_get_sa(0, MODULENAME, "pgpPrivKey");
+		bUseKeyrings = g_plugin.getByte("ukr", 1);
+		LPSTR priv = g_plugin.getStringA("pgpPrivKey");
 		if (priv) {
 			bPGPprivkey = true;
 			if (bPGPloaded)
@@ -118,24 +118,24 @@ static int onModulesLoaded(WPARAM, LPARAM)
 				bPGPkeyrings = pgp_open_keyrings(PubRingPath, SecRingPath);
 			}
 			else {
-				LPSTR tmp = db_get_sa(0, MODULENAME, "pgpPubRing");
+				LPSTR tmp = g_plugin.getStringA("pgpPubRing");
 				if (tmp) {
 					strncpy(PubRingPath, tmp, sizeof(PubRingPath));
 					mir_free(tmp);
 				}
-				if (tmp = db_get_sa(0, MODULENAME, "pgpSecRing")) {
+				if (tmp = g_plugin.getStringA("pgpSecRing")) {
 					strncpy(SecRingPath, tmp, sizeof(SecRingPath));
 					mir_free(tmp);
 				}
 				if (PubRingPath[0] && SecRingPath[0]) {
 					bPGPkeyrings = pgp_open_keyrings(PubRingPath, SecRingPath);
 					if (bPGPkeyrings) {
-						db_set_s(0, MODULENAME, "pgpPubRing", PubRingPath);
-						db_set_s(0, MODULENAME, "pgpSecRing", SecRingPath);
+						g_plugin.setString("pgpPubRing", PubRingPath);
+						g_plugin.setString("pgpSecRing", SecRingPath);
 					}
 					else {
-						db_unset(0, MODULENAME, "pgpPubRing");
-						db_unset(0, MODULENAME, "pgpSecRing");
+						g_plugin.delSetting("pgpPubRing");
+						g_plugin.delSetting("pgpSecRing");
 					}
 				}
 			}
@@ -144,32 +144,32 @@ static int onModulesLoaded(WPARAM, LPARAM)
 
 	Sent_NetLog("gpg_init");
 
-	bGPG = db_get_b(0, MODULENAME, "gpg", 0);
+	bGPG = g_plugin.getByte("gpg", 0);
 	if (bGPG) { //GPG
 		bGPGloaded = gpg_init();
 
 		char gpgexec[MAX_PATH], gpghome[MAX_PATH];
 		gpgexec[0] = '\0'; gpghome[0] = '\0';
 
-		LPSTR tmp = db_get_sa(0, MODULENAME, "gpgExec");
+		LPSTR tmp = g_plugin.getStringA("gpgExec");
 		if (tmp) {
 			strncpy(gpgexec, tmp, sizeof(gpgexec)-1);
 			mir_free(tmp);
 		}
-		if (tmp = db_get_sa(0, MODULENAME, "gpgHome")) {
+		if (tmp = g_plugin.getStringA("gpgHome")) {
 			strncpy(gpghome, tmp, sizeof(gpghome)-1);
 			mir_free(tmp);
 		}
 
-		if (db_get_b(0, MODULENAME, "gpgLogFlag", 0)) {
-			if (tmp = db_get_sa(0, MODULENAME, "gpgLog")) {
+		if (g_plugin.getByte("gpgLogFlag", 0)) {
+			if (tmp = g_plugin.getStringA("gpgLog")) {
 				gpg_set_log(tmp);
 				mir_free(tmp);
 			}
 		}
 
-		if (db_get_b(0, MODULENAME, "gpgTmpFlag", 0)) {
-			if (tmp = db_get_sa(0, MODULENAME, "gpgTmp")) {
+		if (g_plugin.getByte("gpgTmpFlag", 0)) {
+			if (tmp = g_plugin.getStringA("gpgTmp")) {
 				gpg_set_tmp(tmp);
 				mir_free(tmp);
 			}
@@ -177,17 +177,17 @@ static int onModulesLoaded(WPARAM, LPARAM)
 
 		bGPGkeyrings = gpg_open_keyrings(gpgexec, gpghome);
 		if (bGPGkeyrings) {
-			db_set_s(0, MODULENAME, "gpgExec", gpgexec);
-			db_set_s(0, MODULENAME, "gpgHome", gpghome);
+			g_plugin.setString("gpgExec", gpgexec);
+			g_plugin.setString("gpgHome", gpghome);
 		}
 		else {
-			db_unset(0, MODULENAME, "gpgExec");
-			db_unset(0, MODULENAME, "gpgHome");
+			g_plugin.delSetting("gpgExec");
+			g_plugin.delSetting("gpgHome");
 		}
 
-		bSavePass = db_get_b(0, MODULENAME, "gpgSaveFlag", 0);
+		bSavePass = g_plugin.getByte("gpgSaveFlag", 0);
 		if (bSavePass) {
-			if (tmp = db_get_sa(0, MODULENAME, "gpgSave")) {
+			if (tmp = g_plugin.getStringA("gpgSave")) {
 				gpg_set_passphrases(tmp);
 				mir_free(tmp);
 			}
@@ -247,10 +247,10 @@ static int onShutdown(WPARAM, LPARAM)
 {
 	if (bSavePass) {
 		LPSTR tmp = gpg_get_passphrases();
-		db_set_s(0, MODULENAME, "gpgSave", tmp);
+		g_plugin.setString("gpgSave", tmp);
 		LocalFree(tmp);
 	}
-	else db_unset(0, MODULENAME, "gpgSave");
+	else g_plugin.delSetting("gpgSave");
 
 	if (bPGPloaded) pgp_done();
 	if (bGPGloaded) gpg_done();

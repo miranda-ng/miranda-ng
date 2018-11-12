@@ -321,7 +321,7 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TEXT_HEADER), GWLP_USERDATA, (LONG_PTR)hBoldFont);
 		}
 		{
-			countdown = db_get_w(NULL, MODULENAME, "ConfirmDlgCountdown", SETTING_CONFIRMDLGCOUNTDOWN_DEFAULT);
+			countdown = g_plugin.getWord("ConfirmDlgCountdown", SETTING_CONFIRMDLGCOUNTDOWN_DEFAULT);
 			if (countdown < 3)
 				countdown = SETTING_CONFIRMDLGCOUNTDOWN_DEFAULT;
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TEXT_HEADER), GWLP_USERDATA, countdown);
@@ -416,7 +416,7 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 INT_PTR ServiceShutdown(WPARAM wParam, LPARAM lParam)
 {
 	/* passing 0 as wParam is only to be used internally, undocumented */
-	if (!wParam) wParam = db_get_b(NULL, MODULENAME, "ShutdownType", SETTING_SHUTDOWNTYPE_DEFAULT);
+	if (!wParam) wParam = g_plugin.getByte("ShutdownType", SETTING_SHUTDOWNTYPE_DEFAULT);
 	if (!IsShutdownTypeEnabled((BYTE)wParam)) return 1; /* does shutdownType range check */
 	if ((BOOL)lParam && hwndShutdownDlg != nullptr) return 2;
 
@@ -428,7 +428,7 @@ INT_PTR ServiceShutdown(WPARAM wParam, LPARAM lParam)
 	/* tell others */
 	NotifyEventHooks(hEventShutdown, wParam, lParam);
 	/* show dialog */
-	if (lParam && db_get_b(NULL, MODULENAME, "ShowConfirmDlg", SETTING_SHOWCONFIRMDLG_DEFAULT))
+	if (lParam && g_plugin.getByte("ShowConfirmDlg", SETTING_SHOWCONFIRMDLG_DEFAULT))
 		if (CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SHUTDOWNNOW), nullptr, ShutdownDlgProc, (BYTE)wParam) != nullptr)
 			return 0;
 	/* show error */

@@ -69,7 +69,7 @@ void getDefaultMessage(HWND hwnd, UINT control, MCONTACT hContact)
 		SetDlgItemText(hwnd, control, dbv.pwszVal);
 		db_free(&dbv);
 	}
-	else if (!db_get_ws(NULL, MODULENAME, "PounceMsg", &dbv)) {
+	else if (!g_plugin.getWString("PounceMsg", &dbv)) {
 		SetDlgItemText(hwnd, control, dbv.pwszVal);
 		db_free(&dbv);
 	}
@@ -318,12 +318,12 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
 			mir_snwprintf(msg, TranslateT("The Message    (%d Characters)"), GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE)));
 			SetDlgItemText(hwnd, GRP_MSG, msg);
 
-			db_set_w(wi->hContact, MODULENAME, "SendIfMyStatusIsFLAG", (WORD)db_get_w(NULL, MODULENAME, "SendIfMyStatusIsFLAG", 0));
-			db_set_w(wi->hContact, MODULENAME, "SendIfTheirStatusIsFLAG", (WORD)db_get_w(NULL, MODULENAME, "SendIfTheirStatusIsFLAG", 0));
-			db_set_b(wi->hContact, MODULENAME, "Reuse", (BYTE)db_get_b(NULL, MODULENAME, "Reuse", 0));
-			db_set_b(wi->hContact, MODULENAME, "GiveUpDays", (BYTE)db_get_b(NULL, MODULENAME, "GiveUpDays", 0));
-			db_set_dw(wi->hContact, MODULENAME, "GiveUpDate", (DWORD)db_get_dw(NULL, MODULENAME, "GiveUpDate", 0));
-			db_set_w(wi->hContact, MODULENAME, "ConfirmTimeout", (WORD)db_get_w(NULL, MODULENAME, "ConfirmTimeout", 0));
+			db_set_w(wi->hContact, MODULENAME, "SendIfMyStatusIsFLAG", (WORD)g_plugin.getWord("SendIfMyStatusIsFLAG", 0));
+			db_set_w(wi->hContact, MODULENAME, "SendIfTheirStatusIsFLAG", (WORD)g_plugin.getWord("SendIfTheirStatusIsFLAG", 0));
+			db_set_b(wi->hContact, MODULENAME, "Reuse", (BYTE)g_plugin.getByte("Reuse", 0));
+			db_set_b(wi->hContact, MODULENAME, "GiveUpDays", (BYTE)g_plugin.getByte("GiveUpDays", 0));
+			db_set_dw(wi->hContact, MODULENAME, "GiveUpDate", (DWORD)g_plugin.getDword("GiveUpDate", 0));
+			db_set_w(wi->hContact, MODULENAME, "ConfirmTimeout", (WORD)g_plugin.getWord("ConfirmTimeout", 0));
 			break;
 
 		case IDC_SETTINGS:
@@ -394,8 +394,8 @@ INT_PTR CALLBACK BuddyPounceOptionsDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, 
 			SetDlgItemText(hwnd, GRP_MSG, msg);
 			populateSettingsList(GetDlgItem(hwnd, IDC_SETTINGS));
 			SendDlgItemMessage(hwnd, IDC_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG((short)1024, (short)0));
-			CheckDlgButton(hwnd, IDC_USEADVANCED, db_get_b(NULL, MODULENAME, "UseAdvanced", 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwnd, IDC_SHOWDELIVERYMSGS, db_get_b(NULL, MODULENAME, "ShowDeliveryMessages", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwnd, IDC_USEADVANCED, g_plugin.getByte("UseAdvanced", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwnd, IDC_SHOWDELIVERYMSGS, g_plugin.getByte("ShowDeliveryMessages", 1) ? BST_CHECKED : BST_UNCHECKED);
 			db_set_b(wi->hContact, MODULENAME, "LastSetting", 0);
 		}
 		return FALSE;
@@ -419,8 +419,8 @@ INT_PTR CALLBACK BuddyPounceOptionsDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, 
 					mir_free(text);
 				}
 				else db_unset(hContact, MODULENAME, "PounceMsg");
-				db_set_b(NULL, MODULENAME, "UseAdvanced", (BYTE)IsDlgButtonChecked(hwnd, IDC_USEADVANCED));
-				db_set_b(NULL, MODULENAME, "ShowDeliveryMessages", (BYTE)IsDlgButtonChecked(hwnd, IDC_SHOWDELIVERYMSGS));
+				g_plugin.setByte("UseAdvanced", (BYTE)IsDlgButtonChecked(hwnd, IDC_USEADVANCED));
+				g_plugin.setByte("ShowDeliveryMessages", (BYTE)IsDlgButtonChecked(hwnd, IDC_SHOWDELIVERYMSGS));
 
 				if (wi->SendIfMy) DestroyWindow(wi->SendIfMy);
 				if (wi->SendWhenThey) DestroyWindow(wi->SendWhenThey);

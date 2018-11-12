@@ -263,14 +263,14 @@ static void RestoreOldSettings(void)
 		CallService(MS_POPUP_QUERY, PUQS_ENABLEPOPUPS, 0);
 
 	if (g_bOldSetting & OLD_SOUND)
-		db_set_b(NULL, "Skin", "UseSound", 1);
+		db_set_b(0, "Skin", "UseSound", 1);
 
 	if (g_bOldSetting & OLD_FLTCONT) // show Floating contacts if needed
 	{
 		if (ServiceExists("FloatingContacts/MainHideAllThumbs"))
 			CallService("FloatingContacts/MainHideAllThumbs", 0, 0);
 		else
-			db_set_b(NULL, "FloatingContacts", "HideAll", 0);
+			db_set_b(0, "FloatingContacts", "HideAll", 0);
 	}
 	g_bOldSetting = 0;
 }
@@ -303,7 +303,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 			if (g_wMask & OPT_CHANGESTATUS) // is this even needed?
 			{
-				BYTE bReqMode = db_get_b(NULL, MOD_NAME, "stattype", 2);
+				BYTE bReqMode = db_get_b(0, MOD_NAME, "stattype", 2);
 				unsigned uMode = (STATUS_ARR_TO_ID[bReqMode]);
 				DBVARIANT dbVar;
 				if (g_wMask & OPT_USEDEFMSG || db_get_ws(NULL, MOD_NAME, "statmsg", &dbVar)) {
@@ -336,16 +336,16 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			}
 
 			// disable sounds
-			if ((g_wMask & OPT_DISABLESNDS) && db_get_b(NULL, "Skin", "UseSound", 1)) {
+			if ((g_wMask & OPT_DISABLESNDS) && db_get_b(0, "Skin", "UseSound", 1)) {
 				// save current
 				g_bOldSetting |= OLD_SOUND;
-				db_set_b(NULL, "Skin", "UseSound", 0);
+				db_set_b(0, "Skin", "UseSound", 0);
 			}
 
 			g_bWindowHidden = true;
 
 			g_bOldSetting |= OLD_WASHIDDEN;
-			db_set_b(NULL, MOD_NAME, "OldSetting", g_bOldSetting);
+			db_set_b(0, MOD_NAME, "OldSetting", g_bOldSetting);
 		}
 		return 0;
 
@@ -356,7 +356,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 			if (g_wMask & OPT_REQPASS) {  //password request
 				DBVARIANT dbVar;
-				if (!db_get_s(NULL, MOD_NAME, "password", &dbVar)) {
+				if (!db_get_s(0, MOD_NAME, "password", &dbVar)) {
 					g_fPassRequested = true;
 
 					strncpy(g_password, dbVar.pszVal, MAXPASSLEN);
@@ -405,7 +405,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			PostMessage(hWnd, WM_MOUSEMOVE, 0, (LPARAM)MAKELONG(2, 2)); // reset core's IDLE
 			g_bWindowHidden = false;
 
-			db_set_b(NULL, MOD_NAME, "OldSetting", 0);
+			db_set_b(0, MOD_NAME, "OldSetting", 0);
 		}
 		return 0;
 	}
@@ -473,7 +473,7 @@ static wchar_t *HokeyVkToName(WORD vkKey)
 
 static wchar_t *GetBossKeyText(void)
 {
-	WORD wHotKey = db_get_w(NULL, "SkinHotKeys", "Hide/Show Miranda", HOTKEYCODE(HOTKEYF_CONTROL, VK_F12));
+	WORD wHotKey = db_get_w(0, "SkinHotKeys", "Hide/Show Miranda", HOTKEYCODE(HOTKEYF_CONTROL, VK_F12));
 
 	BYTE key = LOBYTE(wHotKey);
 	BYTE shift = HIBYTE(wHotKey);
@@ -599,7 +599,7 @@ static int EnumProtos(WPARAM, LPARAM)
 
 static int MirandaLoaded(WPARAM, LPARAM)
 {
-	g_wMask = db_get_w(NULL, MOD_NAME, "optsmask", DEFAULTSETTING);
+	g_wMask = db_get_w(0, MOD_NAME, "optsmask", DEFAULTSETTING);
 
 	RegisterCoreHotKeys();
 
@@ -660,18 +660,18 @@ static int MirandaLoaded(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
-	g_wMaskAdv = db_get_w(NULL, MOD_NAME, "optsmaskadv", 0);
-	g_bOldSetting = db_get_b(NULL, MOD_NAME, "OldSetting", 0);
+	g_wMaskAdv = db_get_w(0, MOD_NAME, "optsmaskadv", 0);
+	g_bOldSetting = db_get_b(0, MOD_NAME, "OldSetting", 0);
 
 	if ((g_bOldSetting & OLD_POPUP) && !(g_wMaskAdv & OPT_RESTORE)) // Restore popup settings if Miranda was crushed or killed in hidden mode and "Restore hiding on startup after failure" option is disabled
 	{
-		if (db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) == 0)
-			db_set_b(NULL, "Popup", "ModuleIsEnabled", 1);
+		if (db_get_b(0, "Popup", "ModuleIsEnabled", 1) == 0)
+			db_set_b(0, "Popup", "ModuleIsEnabled", 1);
 	}
-	if (g_wMaskAdv & OPT_HIDEONSTART && db_get_b(NULL, "Popup", "ModuleIsEnabled", 0)) // hack for disabling popup on startup if "Hide Miranda on startup" is enabled
+	if (g_wMaskAdv & OPT_HIDEONSTART && db_get_b(0, "Popup", "ModuleIsEnabled", 0)) // hack for disabling popup on startup if "Hide Miranda on startup" is enabled
 	{
 		g_bOldSetting |= OLD_POPUP;
-		db_set_b(NULL, "Popup", "ModuleIsEnabled", 0);
+		db_set_b(0, "Popup", "ModuleIsEnabled", 0);
 	}
 
 	g_plugin.registerIcon("BossKey", iconList);

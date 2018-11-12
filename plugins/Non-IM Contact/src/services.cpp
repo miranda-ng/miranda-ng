@@ -55,11 +55,11 @@ int SetLCStatus(WPARAM wParam, LPARAM)
 {
 	int oldStatus = LCStatus;
 	LCStatus = wParam;
-	db_set_w(NULL, MODNAME, "Status", (WORD)wParam);
-	db_set_w(NULL, MODNAME, "timerCount", 0);
-	if (LCStatus == ID_STATUS_OFFLINE || (LCStatus == ID_STATUS_AWAY && !db_get_b(NULL, MODNAME, "AwayAsStatus", 0)) || !db_get_w(NULL, MODNAME, "Timer", 1))
+	db_set_w(0, MODNAME, "Status", (WORD)wParam);
+	db_set_w(0, MODNAME, "timerCount", 0);
+	if (LCStatus == ID_STATUS_OFFLINE || (LCStatus == ID_STATUS_AWAY && !db_get_b(0, MODNAME, "AwayAsStatus", 0)) || !db_get_w(0, MODNAME, "Timer", 1))
 		killTimer();
-	else if (db_get_w(NULL, MODNAME, "Timer", 1))
+	else if (db_get_w(0, MODNAME, "Timer", 1))
 		startTimer(TIMER);
 
 	for (auto &hContact : Contacts(MODNAME)) {
@@ -79,9 +79,9 @@ int SetLCStatus(WPARAM wParam, LPARAM)
 			break;
 
 		case ID_STATUS_AWAY:
-			if (db_get_b(NULL, MODNAME, "AwayAsStatus", 0) && (db_get_b(hContact, MODNAME, "AlwaysVisible", 0) || (db_get_w(hContact, MODNAME, "Icon", ID_STATUS_ONLINE) == ID_STATUS_AWAY)))
+			if (db_get_b(0, MODNAME, "AwayAsStatus", 0) && (db_get_b(hContact, MODNAME, "AlwaysVisible", 0) || (db_get_w(hContact, MODNAME, "Icon", ID_STATUS_ONLINE) == ID_STATUS_AWAY)))
 				db_set_w(hContact, MODNAME, "Status", (WORD)db_get_w(hContact, MODNAME, "Icon", ID_STATUS_ONLINE));
-			else if (!db_get_b(NULL, MODNAME, "AwayAsStatus", 0))
+			else if (!db_get_b(0, MODNAME, "AwayAsStatus", 0))
 				db_set_w(hContact, MODNAME, "Status", (WORD)db_get_w(hContact, MODNAME, "Icon", ID_STATUS_ONLINE));
 			else
 				db_set_w(hContact, MODNAME, "Status", ID_STATUS_OFFLINE);

@@ -214,23 +214,23 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDBEvent)
 int CMPlugin::Load()
 {
 	// Load plugin options from DB
-	hForwardFrom = (MCONTACT)db_get_dw(NULL, MODULENAME, "ForwardFrom", 0);
-	hForwardTo = (MCONTACT)db_get_dw(NULL, MODULENAME, "ForwardTo", 0);
+	hForwardFrom = (MCONTACT)g_plugin.getDword("ForwardFrom", 0);
+	hForwardTo = (MCONTACT)g_plugin.getDword("ForwardTo", 0);
 
-	iForwardOnStatus = db_get_dw(NULL, MODULENAME, "ForwardOnStatus", STATUS_OFFLINE | STATUS_AWAY | STATUS_NA);
+	iForwardOnStatus = g_plugin.getDword("ForwardOnStatus", STATUS_OFFLINE | STATUS_AWAY | STATUS_NA);
 
-	wchar_t *szForwardTemplate = db_get_wsa(NULL, MODULENAME, "ForwardTemplate");
+	wchar_t *szForwardTemplate = g_plugin.getWStringA("ForwardTemplate");
 	if (szForwardTemplate){
 		wcsncpy(tszForwardTemplate, szForwardTemplate, _countof(tszForwardTemplate));
 		mir_free(szForwardTemplate);
 	}
 	else wcsncpy(tszForwardTemplate, L"%u: %m", MAXTEMPLATESIZE-1);
 
-	iSplit          = db_get_dw(NULL, MODULENAME, "Split", 0);
-	iSplitMaxSize   = db_get_dw(NULL, MODULENAME, "SplitMaxSize", 100);
-	iSendParts      = db_get_dw(NULL, MODULENAME, "SendParts", 0);
-	iMarkRead       = db_get_dw(NULL, MODULENAME, "MarkRead", 0);
-	iSendAndHistory = db_get_dw(NULL, MODULENAME, "SendAndHistory", 1);
+	iSplit          = g_plugin.getDword("Split", 0);
+	iSplitMaxSize   = g_plugin.getDword("SplitMaxSize", 100);
+	iSendParts      = g_plugin.getDword("SendParts", 0);
+	iMarkRead       = g_plugin.getDword("MarkRead", 0);
+	iSendAndHistory = g_plugin.getDword("SendAndHistory", 1);
 
 	// hook events
 	HookEvent(ME_DB_EVENT_ADDED, MessageEventAdded);

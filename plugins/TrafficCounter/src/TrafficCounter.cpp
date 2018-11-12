@@ -158,37 +158,37 @@ void SaveSettings(BYTE OnlyCnt)
 	unsigned short int i;
 
 	// Сохраняем счётчик времени онлайна
-	db_set_dw(NULL, MODULENAME, SETTINGS_TOTAL_ONLINE_TIME, OverallInfo.Total.Timer);
+	g_plugin.setDword(SETTINGS_TOTAL_ONLINE_TIME, OverallInfo.Total.Timer);
 
 	if (OnlyCnt) return;
 
 	// Для каждого протокола сохраняем флаги
 	for (i = 0; i < NumberOfAccounts; i++) {
 		if (!ProtoList[i].name) continue;
-		db_set_b(NULL, ProtoList[i].name, SETTINGS_PROTO_FLAGS, ProtoList[i].Flags);
+		db_set_b(0, ProtoList[i].name, SETTINGS_PROTO_FLAGS, ProtoList[i].Flags);
 	}
 
 	//settings for notification
-	db_set_dw(NULL, MODULENAME, SETTINGS_POPUP_BKCOLOR, Traffic_PopupBkColor);
-	db_set_dw(NULL, MODULENAME, SETTINGS_POPUP_FONTCOLOR, Traffic_PopupFontColor);
+	g_plugin.setDword(SETTINGS_POPUP_BKCOLOR, Traffic_PopupBkColor);
+	g_plugin.setDword(SETTINGS_POPUP_FONTCOLOR, Traffic_PopupFontColor);
 	//
-	db_set_b(NULL, MODULENAME, SETTINGS_POPUP_NOTIFY_TIME_VALUE, Traffic_Notify_time_value);
+	g_plugin.setByte(SETTINGS_POPUP_NOTIFY_TIME_VALUE, Traffic_Notify_time_value);
 	//
-	db_set_w(NULL, MODULENAME, SETTINGS_POPUP_NOTIFY_SIZE_VALUE, Traffic_Notify_size_value);
+	g_plugin.setWord(SETTINGS_POPUP_NOTIFY_SIZE_VALUE, Traffic_Notify_size_value);
 	//
 	//popup timeout
-	db_set_b(NULL, MODULENAME, SETTINGS_POPUP_TIMEOUT_DEFAULT, Traffic_PopupTimeoutDefault);
-	db_set_b(NULL, MODULENAME, SETTINGS_POPUP_TIMEOUT_VALUE, Traffic_PopupTimeoutValue);
+	g_plugin.setByte(SETTINGS_POPUP_TIMEOUT_DEFAULT, Traffic_PopupTimeoutDefault);
+	g_plugin.setByte(SETTINGS_POPUP_TIMEOUT_VALUE, Traffic_PopupTimeoutValue);
 	//
 	// Формат счётчиков
-	db_set_ws(NULL, MODULENAME, SETTINGS_COUNTER_FORMAT, Traffic_CounterFormat);
+	g_plugin.setWString(SETTINGS_COUNTER_FORMAT, Traffic_CounterFormat);
 
-	db_set_ws(NULL, MODULENAME, SETTINGS_TOOLTIP_FORMAT, Traffic_TooltipFormat);
+	g_plugin.setWString(SETTINGS_TOOLTIP_FORMAT, Traffic_TooltipFormat);
 
-	db_set_b(NULL, MODULENAME, SETTINGS_ADDITION_SPACE, Traffic_AdditionSpace);
+	g_plugin.setByte(SETTINGS_ADDITION_SPACE, Traffic_AdditionSpace);
 	// Сохраняем флаги
-	db_set_dw(NULL, MODULENAME, SETTINGS_WHAT_DRAW, unOptions.Flags);
-	db_set_w(NULL, MODULENAME, SETTINGS_STAT_ACC_OPT, Stat_SelAcc);
+	g_plugin.setDword(SETTINGS_WHAT_DRAW, unOptions.Flags);
+	g_plugin.setWord(SETTINGS_STAT_ACC_OPT, Stat_SelAcc);
 }
 
 /*--------------------------------------------------------------------------------------------*/
@@ -256,8 +256,8 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 	DWORD SummarySession, SummaryTotal;
 
 	BYTE ClistModernPresent = (GetModuleHandleA("clist_modern.dll") || GetModuleHandleA("clist_modern_dora.dll"))
-		&& !db_get_b(NULL, "ModernData", "DisableEngine", 0)
-		&& db_get_b(NULL, "ModernData", "EnableLayering", 1);
+		&& !db_get_b(0, "ModernData", "DisableEngine", 0)
+		&& db_get_b(0, "ModernData", "EnableLayering", 1);
 
 	GetClientRect(hwnd, &rect);
 	int height = rect.bottom - rect.top;
@@ -611,8 +611,8 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 
 	case WM_PAINT:
 		{
-			if (!db_get_b(NULL, "ModernData", "DisableEngine", 0)
-				&& db_get_b(NULL, "ModernData", "EnableLayering", 1)
+			if (!db_get_b(0, "ModernData", "DisableEngine", 0)
+				&& db_get_b(0, "ModernData", "EnableLayering", 1)
 				&& ServiceExists(MS_SKINENG_INVALIDATEFRAMEIMAGE))
 				CallService(MS_SKINENG_INVALIDATEFRAMEIMAGE, (WPARAM)TrafficHwnd, 0);
 			else {
@@ -627,7 +627,7 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 		return 1;
 
 	case WM_LBUTTONDOWN:
-		if (db_get_b(NULL, "CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT)) {
+		if (db_get_b(0, "CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT)) {
 			POINT p;
 			ClientToScreen(GetParent(hwnd), &p);
 			return SendMessage(GetParent(hwnd), WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(p.x, p.y));
@@ -852,7 +852,7 @@ INT_PTR MenuCommand_TrafficShowHide(WPARAM, LPARAM)
 		ShowWindow(TrafficHwnd, unOptions.FrameIsVisible ? SW_SHOW : SW_HIDE);
 	else
 		CallService(MS_CLIST_FRAMES_SHFRAME, Traffic_FrameID, 0);
-	db_set_dw(NULL, MODULENAME, SETTINGS_WHAT_DRAW, unOptions.Flags);
+	g_plugin.setDword(SETTINGS_WHAT_DRAW, unOptions.Flags);
 	//
 	return 0;
 }
@@ -924,7 +924,7 @@ void CreateProtocolList(void)
 		auto &p = ProtoList[i++];
 		p.name = mir_strdup(pa->szModuleName);
 		p.tszAccountName = mir_wstrdup(pa->tszAccountName);
-		p.Flags = db_get_b(NULL, p.name, SETTINGS_PROTO_FLAGS, 3);
+		p.Flags = db_get_b(0, p.name, SETTINGS_PROTO_FLAGS, 3);
 		p.Enabled = pa->IsEnabled();
 
 		Stat_ReadFile(p);
@@ -963,8 +963,8 @@ int UpdateFonts(WPARAM, LPARAM)
 	Traffic_BkColor = Colour_GetW(TrafficBackgroundColorID);
 
 	// Ключевой цвет
-	UseKeyColor = db_get_b(NULL, "ModernSettings", "UseKeyColor", 1);
-	KeyColor = db_get_dw(NULL, "ModernSettings", "KeyColor", 0);
+	UseKeyColor = db_get_b(0, "ModernSettings", "UseKeyColor", 1);
+	KeyColor = db_get_dw(0, "ModernSettings", "KeyColor", 0);
 
 	UpdateTrafficWindowSize();
 	return 0;
@@ -1053,37 +1053,37 @@ static int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 	ModuleLoad(0, 0);
 
 	// Читаем флаги
-	unOptions.Flags = db_get_dw(NULL, MODULENAME, SETTINGS_WHAT_DRAW, 0x0882);
-	Stat_SelAcc = db_get_w(NULL, MODULENAME, SETTINGS_STAT_ACC_OPT, 0x01);
+	unOptions.Flags = g_plugin.getDword(SETTINGS_WHAT_DRAW, 0x0882);
+	Stat_SelAcc = g_plugin.getWord(SETTINGS_STAT_ACC_OPT, 0x01);
 
 	// settings for notification
-	Traffic_PopupBkColor = db_get_dw(NULL, MODULENAME, SETTINGS_POPUP_BKCOLOR, RGB(200, 255, 200));
-	Traffic_PopupFontColor = db_get_dw(NULL, MODULENAME, SETTINGS_POPUP_FONTCOLOR, RGB(0, 0, 0));
-	Traffic_Notify_time_value = db_get_b(NULL, MODULENAME, SETTINGS_POPUP_NOTIFY_TIME_VALUE, 10);
-	Traffic_Notify_size_value = db_get_w(NULL, MODULENAME, SETTINGS_POPUP_NOTIFY_SIZE_VALUE, 100);
+	Traffic_PopupBkColor = g_plugin.getDword(SETTINGS_POPUP_BKCOLOR, RGB(200, 255, 200));
+	Traffic_PopupFontColor = g_plugin.getDword(SETTINGS_POPUP_FONTCOLOR, RGB(0, 0, 0));
+	Traffic_Notify_time_value = g_plugin.getByte(SETTINGS_POPUP_NOTIFY_TIME_VALUE, 10);
+	Traffic_Notify_size_value = g_plugin.getWord(SETTINGS_POPUP_NOTIFY_SIZE_VALUE, 100);
 
 	// popup timeout
-	Traffic_PopupTimeoutDefault = db_get_b(NULL, MODULENAME, SETTINGS_POPUP_TIMEOUT_DEFAULT, 1);
-	Traffic_PopupTimeoutValue = db_get_b(NULL, MODULENAME, SETTINGS_POPUP_TIMEOUT_VALUE, 5);
+	Traffic_PopupTimeoutDefault = g_plugin.getByte(SETTINGS_POPUP_TIMEOUT_DEFAULT, 1);
+	Traffic_PopupTimeoutValue = g_plugin.getByte(SETTINGS_POPUP_TIMEOUT_VALUE, 5);
 
 	// Формат счётчика для каждого активного протокола
-	ptrW wszFormat(db_get_wsa(NULL, MODULENAME, SETTINGS_COUNTER_FORMAT));
+	ptrW wszFormat(g_plugin.getWStringA(SETTINGS_COUNTER_FORMAT));
 	if (mir_wstrlen(wszFormat) > 0)
 		mir_wstrncpy(Traffic_CounterFormat, wszFormat, _countof(Traffic_CounterFormat));
 	else
 		mir_wstrcpy(Traffic_CounterFormat, wszDefaultFormat);
 
 	// Формат всплывающих подсказок
-	wszFormat = db_get_wsa(NULL, MODULENAME, SETTINGS_TOOLTIP_FORMAT);
+	wszFormat = g_plugin.getWStringA(SETTINGS_TOOLTIP_FORMAT);
 	if (mir_wstrlen(wszFormat) > 0)
 		mir_wstrncpy(Traffic_TooltipFormat, wszFormat, _countof(Traffic_TooltipFormat));
 	else
 		mir_wstrcpy(Traffic_TooltipFormat, L"Traffic Counter");
 
-	Traffic_AdditionSpace = db_get_b(NULL, MODULENAME, SETTINGS_ADDITION_SPACE, 0);
+	Traffic_AdditionSpace = g_plugin.getByte(SETTINGS_ADDITION_SPACE, 0);
 
 	// Счётчик времени онлайна
-	OverallInfo.Total.Timer = db_get_dw(NULL, MODULENAME, SETTINGS_TOTAL_ONLINE_TIME, 0);
+	OverallInfo.Total.Timer = g_plugin.getDword(SETTINGS_TOTAL_ONLINE_TIME, 0);
 
 	//register traffic font
 	mir_wstrcpy(TrafficFontID.group, LPGENW("Traffic counter"));

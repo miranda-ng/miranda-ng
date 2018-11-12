@@ -43,7 +43,7 @@ static INT_PTR CALLBACK AddModDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARA
 				GetDlgItemTextA(hwnd, IDC_MODNAME, modulename, _countof(modulename));
 				if (IsDlgButtonChecked(hwnd, CHK_ADD2ALL)) {
 					// null contact
-					db_set_b(NULL, modulename, "(Default)", 0);
+					db_set_b(0, modulename, "(Default)", 0);
 					for (auto &hContact : Contacts())
 						db_set_b(hContact, modulename, "(Default)", 0);
 				}

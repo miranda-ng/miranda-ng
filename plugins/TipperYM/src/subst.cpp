@@ -78,7 +78,7 @@ bool CheckContactType(MCONTACT hContact, const DISPLAYITEM &di)
 
 void StripBBCodesInPlace(wchar_t *ptszText)
 {
-	if (!db_get_b(0, MODULENAME, "StripBBCodes", 1))
+	if (!g_plugin.getByte("StripBBCodes", 1))
 		return;
 
 	if (ptszText == nullptr)

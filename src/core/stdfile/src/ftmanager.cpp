@@ -163,7 +163,7 @@ static INT_PTR CALLBACK FtMgrPageDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 		if (i == dat->wnds->realCount)
 			PostMessage(GetParent(hwnd), WM_TIMER, 1, NULL);
 
-		if(dat->runningCount == 0 && wParam == ACKRESULT_SUCCESS && db_get_b(NULL, MODULENAME, "AutoClose", 0))
+		if(dat->runningCount == 0 && wParam == ACKRESULT_SUCCESS && g_plugin.getByte("AutoClose", 0))
 			ShowWindow(hwndFtMgr, SW_HIDE);
 		break;
 
@@ -414,7 +414,7 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case WM_CLOSE:
 		ShowWindow(hwnd, SW_HIDE);
-		if (db_get_b(NULL, MODULENAME, "AutoClear", 1)) {
+		if (g_plugin.getByte("AutoClear", 1)) {
 			PostMessage(dat->hwndIncoming, WM_FT_CLEANUP, 0, 0);
 			PostMessage(dat->hwndOutgoing, WM_FT_CLEANUP, 0, 0);
 		}
@@ -476,7 +476,7 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 HWND FtMgr_Show(bool bForceActivate, bool bFromMenu)
 {
-	bool bAutoMin = db_get_b(NULL, MODULENAME, "AutoMin", 0) != 0; /* lqbe */
+	bool bAutoMin = g_plugin.getByte("AutoMin", 0) != 0; /* lqbe */
 
 	bool bJustCreated = (hwndFtMgr == nullptr);
 	if (bJustCreated)
@@ -520,7 +520,7 @@ void FtMgr_ShowPage(int page)
 
 HWND FtMgr_AddTransfer(FileDlgData *fdd)
 {
-	bool bForceActivate = fdd->send || !db_get_b(NULL, MODULENAME, "AutoAccept", 0);
+	bool bForceActivate = fdd->send || !g_plugin.getByte("AutoAccept", 0);
 	TFtMgrData *dat = (TFtMgrData*)GetWindowLongPtr(FtMgr_Show(bForceActivate, false), GWLP_USERDATA);
 	if (dat == nullptr)
 		return nullptr;

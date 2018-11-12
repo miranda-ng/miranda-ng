@@ -47,11 +47,11 @@ CMPlugin::CMPlugin() :
 void LoadDBSettings()
 {
 	memset(&LastUCOpt, 0, sizeof(LastUCOpt));
-	LastUCOpt.MaxShownContacts = (INT)db_get_b(NULL, MODULENAME, dbLastUC_MaxShownContacts, 0);
-	LastUCOpt.HideOffline = db_get_b(NULL, MODULENAME, dbLastUC_HideOfflineContacts, 0);
-	LastUCOpt.WindowAutoSize = db_get_b(NULL, MODULENAME, dbLastUC_WindowAutosize, 0);
+	LastUCOpt.MaxShownContacts = (INT)g_plugin.getByte(dbLastUC_MaxShownContacts, 0);
+	LastUCOpt.HideOffline = g_plugin.getByte(dbLastUC_HideOfflineContacts, 0);
+	LastUCOpt.WindowAutoSize = g_plugin.getByte(dbLastUC_WindowAutosize, 0);
 
-	ptrA szFormat(db_get_sa(NULL, MODULENAME, dbLastUC_DateTimeFormat));
+	ptrA szFormat(g_plugin.getStringA(dbLastUC_DateTimeFormat));
 	if (szFormat)
 		LastUCOpt.DateTimeFormat = szFormat;
 	else
@@ -205,7 +205,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 			std::wstring str;
 			char strtim[256 + 16];
 
-			ptrA szFormat(db_get_sa(NULL, MODULENAME, dbLastUC_DateTimeFormat));
+			ptrA szFormat(g_plugin.getStringA(dbLastUC_DateTimeFormat));
 			if (!szFormat)
 				szFormat = mir_strdup(dbLastUC_DateTimeFormatDefault);
 
@@ -252,7 +252,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 
 					char szSettingName[64];
 					mir_snprintf(szSettingName, "%swidth", dbLastUC_WindowPosPrefix);
-					int width = db_get_dw(NULL, MODULENAME, szSettingName, -1);
+					int width = g_plugin.getDword(szSettingName, -1);
 
 					int right = rect.left - 6;
 					if (!IsWindowVisible(g_clistApi.hwndContactList)) right = rect.right;

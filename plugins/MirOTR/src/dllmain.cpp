@@ -39,8 +39,8 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 	HookEvent(ME_MSG_WINDOWEVENT, WindowEvent);
 
-	if (options.bHaveSecureIM && !db_get_b(0, MODULENAME, "sim_warned", 0)) {
-		db_set_b(0, MODULENAME, "sim_warned", 1);
+	if (options.bHaveSecureIM && !g_plugin.getByte("sim_warned", 0)) {
+		g_plugin.setByte("sim_warned", 1);
 		options.default_policy = OTRL_POLICY_MANUAL_MOD;
 		SaveOptions();
 		MessageBox(nullptr, TranslateW(LANG_OTR_SECUREIM_TEXT), TranslateW(LANG_OTR_SECUREIM_TITLE), 0x30);
@@ -67,10 +67,10 @@ int CMPlugin::Load()
 	Proto_RegisterModule(PROTOTYPE_ENCRYPTION, MODULENAME);
 
 	// remove us as a filter to all contacts - fix filter type problem
-	if(db_get_b(0, MODULENAME, "FilterOrderFix", 0) != 2) {
+	if(g_plugin.getByte("FilterOrderFix", 0) != 2) {
 		for (auto &hContact : Contacts())
 			Proto_RemoveFromContact(hContact, MODULENAME);
-		db_set_b(0, MODULENAME, "FilterOrderFix", 2);
+		g_plugin.setByte("FilterOrderFix", 2);
 	}
 
 	// create our services

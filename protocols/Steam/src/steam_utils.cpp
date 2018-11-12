@@ -51,7 +51,7 @@ void CSteamProto::ShowNotification(const wchar_t *caption, const wchar_t *messag
 	if (Miranda_IsTerminated())
 		return;
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1))
+	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(0, "Popup", "ModuleIsEnabled", 1))
 	{
 		POPUPDATAT ppd = { 0 };
 		ppd.lchContact = hContact;

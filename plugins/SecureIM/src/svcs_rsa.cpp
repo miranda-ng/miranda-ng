@@ -151,8 +151,8 @@ void sttGenerateRSA(LPVOID)
 	mir_exp->rsa_gen_keypair(CPP_MODE_RSA_4096);
 	mir_exp->rsa_get_keypair(CPP_MODE_RSA_4096, (PBYTE)&priv_key, &priv_len, (PBYTE)&pub_key, &pub_len);
 
-	db_set_blob(NULL, MODULENAME, "rsa_priv", priv_key, priv_len);
-	db_set_blob(NULL, MODULENAME, "rsa_pub", pub_key, pub_len);
+	db_set_blob(0, MODULENAME, "rsa_priv", priv_key, priv_len);
+	db_set_blob(0, MODULENAME, "rsa_pub", pub_key, pub_len);
 	rsa_4096 = 1;
 }
 

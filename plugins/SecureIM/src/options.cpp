@@ -678,8 +678,8 @@ INT_PTR CALLBACK DlgProcOptionsPGP(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 			PubRingPath[0] = '\0'; SecRingPath[0] = '\0';
 			bPGPkeyrings = pgp_open_keyrings(PubRingPath, SecRingPath);
 			if (bPGPkeyrings && PubRingPath[0] && SecRingPath[0]) {
-				db_set_s(0, MODULENAME, "pgpPubRing", PubRingPath);
-				db_set_s(0, MODULENAME, "pgpSecRing", SecRingPath);
+				g_plugin.setString("pgpPubRing", PubRingPath);
+				g_plugin.setString("pgpSecRing", SecRingPath);
 			}
 			SetDlgItemText(hDlg, IDC_KEYRING_STATUS, bPGPkeyrings ? Translate(sim216) : Translate(sim217));
 		}
@@ -700,11 +700,11 @@ INT_PTR CALLBACK DlgProcOptionsPGP(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 			if (ShowSelectKeyDlg(hDlg, KeyPath)) {
 				char *priv = LoadKeys(KeyPath, true);
 				if (priv) {
-					db_set_s(0, MODULENAME, "tpgpPrivKey", priv);
+					g_plugin.setString("tpgpPrivKey", priv);
 					mir_free(priv);
 				}
 				else {
-					db_unset(0, MODULENAME, "tpgpPrivKey");
+					g_plugin.delSetting("tpgpPrivKey");
 				}
 			}
 		}
@@ -940,12 +940,12 @@ void RefreshGeneralDlg(HWND hDlg, BOOL iInit)
 	char timeout[10];
 
 	// Key Exchange Timeout
-	UINT data = db_get_w(0, MODULENAME, "ket", 10);
+	UINT data = g_plugin.getWord("ket", 10);
 	mir_itoa(data, timeout, 10);
 	SetDlgItemText(hDlg, IDC_KET, timeout);
 
 	// Offline Key Timeout
-	data = db_get_w(0, MODULENAME, "okt", 2);
+	data = g_plugin.getWord("okt", 2);
 	mir_itoa(data, timeout, 10);
 	SetDlgItemText(hDlg, IDC_OKT, timeout);
 
@@ -1086,27 +1086,27 @@ void RefreshPGPDlg(HWND hDlg, BOOL iInit)
 
 void RefreshGPGDlg(HWND hDlg, BOOL iInit)
 {
-	LPSTR path = db_get_sa(0, MODULENAME, "gpgExec");
+	LPSTR path = g_plugin.getStringA("gpgExec");
 	if (path) {
 		SetDlgItemText(hDlg, IDC_GPGEXECUTABLE_EDIT, path);
 		mir_free(path);
 	}
-	path = db_get_sa(0, MODULENAME, "gpgHome");
+	path = g_plugin.getStringA("gpgHome");
 	if (path) {
 		SetDlgItemText(hDlg, IDC_GPGHOME_EDIT, path);
 		mir_free(path);
 	}
-	BOOL bGPGLogFlag = db_get_b(0, MODULENAME, "gpgLogFlag", 0);
+	BOOL bGPGLogFlag = g_plugin.getByte("gpgLogFlag", 0);
 	CheckDlgButton(hDlg, IDC_LOGGINGON_CBOX, (bGPGLogFlag) ? BST_CHECKED : BST_UNCHECKED);
-	path = db_get_sa(0, MODULENAME, "gpgLog");
+	path = g_plugin.getStringA("gpgLog");
 	if (path) {
 		SetDlgItemText(hDlg, IDC_GPGLOGFILE_EDIT, path);
 		mir_free(path);
 	}
 	CheckDlgButton(hDlg, IDC_SAVEPASS_CBOX, (bSavePass) ? BST_CHECKED : BST_UNCHECKED);
-	BOOL bGPGTmpFlag = db_get_b(0, MODULENAME, "gpgTmpFlag", 0);
+	BOOL bGPGTmpFlag = g_plugin.getByte("gpgTmpFlag", 0);
 	CheckDlgButton(hDlg, IDC_TMPPATHON_CBOX, (bGPGTmpFlag) ? BST_CHECKED : BST_UNCHECKED);
-	path = db_get_sa(0, MODULENAME, "gpgTmp");
+	path = g_plugin.getStringA("gpgTmp");
 	if (path) {
 		SetDlgItemText(hDlg, IDC_GPGTMPPATH_EDIT, path);
 		mir_free(path);
@@ -1215,15 +1215,15 @@ void ApplyGeneralSettings(HWND hDlg)
 	// Key Exchange Timeout
 	GetDlgItemText(hDlg, IDC_KET, timeout, 5);
 	tmp = atoi(timeout); if (tmp > 65535) tmp = 65535;
-	db_set_w(0, MODULENAME, "ket", tmp);
-	mir_exp->rsa_set_timeout(db_get_w(0, MODULENAME, "ket", 10));
+	g_plugin.setWord("ket", tmp);
+	mir_exp->rsa_set_timeout(g_plugin.getWord("ket", 10));
 	mir_itoa(tmp, timeout, 10);
 	SetDlgItemText(hDlg, IDC_KET, timeout);
 
 	// Offline Key Timeout
 	GetDlgItemText(hDlg, IDC_OKT, timeout, 5);
 	tmp = atoi(timeout); if (tmp > 65535) tmp = 65535;
-	db_set_w(0, MODULENAME, "okt", tmp);
+	g_plugin.setWord("okt", tmp);
 	mir_itoa(tmp, timeout, 10);
 	SetDlgItemText(hDlg, IDC_OKT, timeout);
 
@@ -1246,12 +1246,12 @@ void ApplyGeneralSettings(HWND hDlg)
 		i = (IsDlgButtonChecked(hDlg, IDC_PGP) == BST_CHECKED);
 		if (i != bPGP) {
 			bPGP = i; tmp++;
-			db_set_b(0, MODULENAME, "pgp", bPGP);
+			g_plugin.setByte("pgp", bPGP);
 		}
 		i = (IsDlgButtonChecked(hDlg, IDC_GPG) == BST_CHECKED);
 		if (i != bGPG) {
 			bGPG = i; tmp++;
-			db_set_b(0, MODULENAME, "gpg", bGPG);
+			g_plugin.setByte("gpg", bGPG);
 		}
 		if (tmp) msgbox1(hDlg, sim224, MODULENAME, MB_OK | MB_ICONINFORMATION);
 	}
@@ -1305,21 +1305,21 @@ void ApplyProtoSettings(HWND hDlg)
 		i = ListView_GetNextItem(hLV, i, LVNI_ALL);
 	}
 
-	db_set_s(0, MODULENAME, "protos", szNames);
+	g_plugin.setString("protos", szNames);
 }
 
 void ApplyPGPSettings(HWND hDlg)
 {
 	bUseKeyrings = !(IsDlgButtonChecked(hDlg, IDC_NO_KEYRINGS) == BST_CHECKED);
-	db_set_b(0, MODULENAME, "ukr", bUseKeyrings);
+	g_plugin.setByte("ukr", bUseKeyrings);
 
-	char *priv = db_get_sa(0, MODULENAME, "tpgpPrivKey");
+	char *priv = g_plugin.getStringA("tpgpPrivKey");
 	if (priv) {
 		bPGPprivkey = true;
 		pgp_set_priv_key(priv);
-		db_set_s(0, MODULENAME, "pgpPrivKey", priv);
+		g_plugin.setString("pgpPrivKey", priv);
 		mir_free(priv);
-		db_unset(0, MODULENAME, "tpgpPrivKey");
+		g_plugin.delSetting("tpgpPrivKey");
 	}
 }
 
@@ -1328,24 +1328,24 @@ void ApplyGPGSettings(HWND hDlg)
 	char tmp[256];
 
 	GetDlgItemText(hDlg, IDC_GPGEXECUTABLE_EDIT, tmp, _countof(tmp));
-	db_set_s(0, MODULENAME, "gpgExec", tmp);
+	g_plugin.setString("gpgExec", tmp);
 	GetDlgItemText(hDlg, IDC_GPGHOME_EDIT, tmp, _countof(tmp));
-	db_set_s(0, MODULENAME, "gpgHome", tmp);
+	g_plugin.setString("gpgHome", tmp);
 
 	bSavePass = (IsDlgButtonChecked(hDlg, IDC_SAVEPASS_CBOX) == BST_CHECKED);
-	db_set_b(0, MODULENAME, "gpgSaveFlag", bSavePass);
+	g_plugin.setByte("gpgSaveFlag", bSavePass);
 
 	BOOL bgpgLogFlag = (IsDlgButtonChecked(hDlg, IDC_LOGGINGON_CBOX) == BST_CHECKED);
-	db_set_b(0, MODULENAME, "gpgLogFlag", bgpgLogFlag);
+	g_plugin.setByte("gpgLogFlag", bgpgLogFlag);
 	GetDlgItemText(hDlg, IDC_GPGLOGFILE_EDIT, tmp, _countof(tmp));
-	db_set_s(0, MODULENAME, "gpgLog", tmp);
+	g_plugin.setString("gpgLog", tmp);
 	if (bgpgLogFlag)	gpg_set_log(tmp);
 	else gpg_set_log(nullptr);
 
 	BOOL bgpgTmpFlag = (IsDlgButtonChecked(hDlg, IDC_TMPPATHON_CBOX) == BST_CHECKED);
-	db_set_b(0, MODULENAME, "gpgTmpFlag", bgpgTmpFlag);
+	g_plugin.setByte("gpgTmpFlag", bgpgTmpFlag);
 	GetDlgItemText(hDlg, IDC_GPGTMPPATH_EDIT, tmp, _countof(tmp));
-	db_set_s(0, MODULENAME, "gpgTmp", tmp);
+	g_plugin.setString("gpgTmp", tmp);
 	if (bgpgTmpFlag)	gpg_set_tmp(tmp);
 	else gpg_set_tmp(nullptr);
 
@@ -1550,14 +1550,14 @@ void ListView_Sort(HWND hLV, LPARAM lParamSort)
 	char t[32];
 	mir_snprintf(t, "os%02x", (UINT)lParamSort & 0xF0);
 	if ((lParamSort & 0x0F) == 0)
-		lParamSort = (int)db_get_b(0, MODULENAME, t, lParamSort + 1);
+		lParamSort = (int)g_plugin.getByte(t, lParamSort + 1);
 
-	db_set_b(0, MODULENAME, t, (BYTE)lParamSort);
+	g_plugin.setByte(t, (BYTE)lParamSort);
 
 	// restore sort order
 	mir_snprintf(t, "os%02x", (UINT)lParamSort);
-	int m = db_get_b(0, MODULENAME, t, 0);
-	if (bChangeSortOrder) { m = !m; db_set_b(0, MODULENAME, t, m); }
+	int m = g_plugin.getByte(t, 0);
+	if (bChangeSortOrder) { m = !m; g_plugin.setByte(t, m); }
 
 	ListView_SortItems(hLV, &CompareFunc, lParamSort | (m << 8));
 }

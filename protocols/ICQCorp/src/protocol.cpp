@@ -195,7 +195,7 @@ bool ICQ::logon(unsigned short logonStatus)
 	DBVARIANT dbv;
 	char str[128];
 
-	if (!db_get_s(NULL, protoName, "Server", &dbv)) {
+	if (!db_get_s(0, protoName, "Server", &dbv)) {
 		lstrcpyA(str, dbv.pszVal);
 		db_free(&dbv);
 	}
@@ -208,7 +208,7 @@ bool ICQ::logon(unsigned short logonStatus)
 		return false;
 
 	if (!udpSocket.connected()) {
-		if (!udpSocket.setDestination(str, db_get_w(NULL, protoName, "Port", 4000)))
+		if (!udpSocket.setDestination(str, db_get_w(0, protoName, "Port", 4000)))
 			return false;
 		udpSocket.openConnection();
 	}
@@ -218,8 +218,8 @@ bool ICQ::logon(unsigned short logonStatus)
 
 	updateContactList();
 
-	dwUIN = db_get_dw(NULL, protoName, "UIN", 0);
-	if (!db_get_s(NULL, protoName, "Password", &dbv)) {
+	dwUIN = db_get_dw(0, protoName, "UIN", 0);
+	if (!db_get_s(0, protoName, "Password", &dbv)) {
 		lstrcpyA(str, dbv.pszVal);
 		db_free(&dbv);
 	}
@@ -763,7 +763,7 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 			>> timedataStamp
 			>> newCommand;
 
-		db_set_dw(NULL, protoName, "LastBroadcastTime", timedataStamp);
+		db_set_dw(0, protoName, "LastBroadcastTime", timedataStamp);
 		timedataStamp = TimeZone_ToLocal(timedataStamp);
 
 		processSystemMessage(packet, checkUin, newCommand, timedataStamp);
@@ -1061,7 +1061,7 @@ void ICQ::requestSystemMsg()
 
 void ICQ::requestBroadcastMsg()
 {
-	unsigned int timeStamp = db_get_dw(NULL, protoName, "LastBroadcastTime", 0);
+	unsigned int timeStamp = db_get_dw(0, protoName, "LastBroadcastTime", 0);
 
 	Packet packet;
 	packet << ICQ_VERSION

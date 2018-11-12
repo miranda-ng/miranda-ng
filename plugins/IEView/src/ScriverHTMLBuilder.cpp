@@ -89,29 +89,29 @@ void ScriverHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
 	DBVARIANT dbv;
 	if (colour) {
 		mir_snprintf(str, "SRMFont%dCol", i);
-		*colour = db_get_dw(NULL, SRMMMOD, str, 0x000000);
+		*colour = db_get_dw(0, SRMMMOD, str, 0x000000);
 	}
 	if (lf) {
 		mir_snprintf(str, "SRMFont%dSize", i);
-		lf->lfHeight = (char)db_get_b(NULL, SRMMMOD, str, 10);
+		lf->lfHeight = (char)db_get_b(0, SRMMMOD, str, 10);
 		lf->lfHeight = abs(lf->lfHeight);
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
 		lf->lfOrientation = 0;
 		mir_snprintf(str, "SRMFont%dSty", i);
-		style = db_get_b(NULL, SRMMMOD, str, 0);
+		style = db_get_b(0, SRMMMOD, str, 0);
 		lf->lfWeight = style & FONTF_BOLD ? FW_BOLD : FW_NORMAL;
 		lf->lfItalic = style & FONTF_ITALIC ? 1 : 0;
 		lf->lfUnderline = style & FONTF_UNDERLINE ? 1 : 0;
 		lf->lfStrikeOut = 0;
 		mir_snprintf(str, "SRMFont%dSet", i);
-		lf->lfCharSet = db_get_b(NULL, SRMMMOD, str, DEFAULT_CHARSET);
+		lf->lfCharSet = db_get_b(0, SRMMMOD, str, DEFAULT_CHARSET);
 		lf->lfOutPrecision = OUT_DEFAULT_PRECIS;
 		lf->lfClipPrecision = CLIP_DEFAULT_PRECIS;
 		lf->lfQuality = DEFAULT_QUALITY;
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 		mir_snprintf(str, "SRMFont%d", i);
-		if (db_get_s(NULL, SRMMMOD, str, &dbv))
+		if (db_get_s(0, SRMMMOD, str, &dbv))
 			strncpy_s(lf->lfFaceName, "Verdana", _TRUNCATE);
 		else {
 			strncpy_s(lf->lfFaceName, dbv.pszVal, _TRUNCATE);
@@ -196,10 +196,10 @@ void ScriverHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 		ReleaseDC(nullptr, hdc);
 		str.Append("<html><head>");
 		str.Append("<style type=\"text/css\">\n");
-		COLORREF bkgColor = db_get_dw(NULL, SRMMMOD, "BkgColour", 0xFFFFFF);
-		COLORREF inColor = db_get_dw(NULL, SRMMMOD, "IncomingBkgColour", 0xFFFFFF);
-		COLORREF outColor = db_get_dw(NULL, SRMMMOD, "OutgoingBkgColour", 0xFFFFFF);
-		COLORREF lineColor = db_get_dw(NULL, SRMMMOD, "LineColour", 0xFFFFFF);
+		COLORREF bkgColor = db_get_dw(0, SRMMMOD, "BkgColour", 0xFFFFFF);
+		COLORREF inColor = db_get_dw(0, SRMMMOD, "IncomingBkgColour", 0xFFFFFF);
+		COLORREF outColor = db_get_dw(0, SRMMMOD, "OutgoingBkgColour", 0xFFFFFF);
+		COLORREF lineColor = db_get_dw(0, SRMMMOD, "LineColour", 0xFFFFFF);
 		bkgColor = (((bkgColor & 0xFF) << 16) | (bkgColor & 0xFF00) | ((bkgColor & 0xFF0000) >> 16));
 		inColor = (((inColor & 0xFF) << 16) | (inColor & 0xFF00) | ((inColor & 0xFF0000) >> 16));
 		outColor = (((outColor & 0xFF) << 16) | (outColor & 0xFF00) | ((outColor & 0xFF0000) >> 16));
@@ -262,18 +262,18 @@ void ScriverHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 {
 	bool showColon;
-	DWORD dwFlags = db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWTIME, 0) ? SMF_LOG_SHOWTIME : 0;
-	dwFlags |= !db_get_b(NULL, SRMMMOD, SRMSGSET_HIDENAMES, 0) ? SMF_LOG_SHOWNICK : 0;
-	dwFlags |= db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWDATE, 0) ? SMF_LOG_SHOWDATE : 0;
-	dwFlags |= db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWLOGICONS, 0) ? SMF_LOG_SHOWICONS : 0;
-	dwFlags |= db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWSTATUSCHANGES, 0) ? SMF_LOG_SHOWSTATUSCHANGES : 0;
-	dwFlags |= db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWSECONDS, 0) ? SMF_LOG_SHOWSECONDS : 0;
-	dwFlags |= db_get_b(NULL, SRMMMOD, SRMSGSET_USERELATIVEDATE, 0) ? SMF_LOG_USERELATIVEDATE : 0;
-	dwFlags |= db_get_b(NULL, SRMMMOD, SRMSGSET_USELONGDATE, 0) ? SMF_LOG_USELONGDATE : 0;
-	dwFlags |= db_get_b(NULL, SRMMMOD, SRMSGSET_GROUPMESSAGES, 0) ? SMF_LOG_GROUPMESSAGES : 0;
-	dwFlags |= db_get_b(NULL, SRMMMOD, SRMSGSET_MARKFOLLOWUPS, 0) ? SMF_LOG_MARKFOLLOWUPS : 0;
-	dwFlags |= db_get_b(NULL, SRMMMOD, SRMSGSET_MESSAGEONNEWLINE, 0) ? SMF_LOG_MSGONNEWLINE : 0;
-	dwFlags |= db_get_b(NULL, SRMMMOD, SRMSGSET_DRAWLINES, 0) ? SMF_LOG_DRAWLINES : 0;
+	DWORD dwFlags = db_get_b(0, SRMMMOD, SRMSGSET_SHOWTIME, 0) ? SMF_LOG_SHOWTIME : 0;
+	dwFlags |= !db_get_b(0, SRMMMOD, SRMSGSET_HIDENAMES, 0) ? SMF_LOG_SHOWNICK : 0;
+	dwFlags |= db_get_b(0, SRMMMOD, SRMSGSET_SHOWDATE, 0) ? SMF_LOG_SHOWDATE : 0;
+	dwFlags |= db_get_b(0, SRMMMOD, SRMSGSET_SHOWLOGICONS, 0) ? SMF_LOG_SHOWICONS : 0;
+	dwFlags |= db_get_b(0, SRMMMOD, SRMSGSET_SHOWSTATUSCHANGES, 0) ? SMF_LOG_SHOWSTATUSCHANGES : 0;
+	dwFlags |= db_get_b(0, SRMMMOD, SRMSGSET_SHOWSECONDS, 0) ? SMF_LOG_SHOWSECONDS : 0;
+	dwFlags |= db_get_b(0, SRMMMOD, SRMSGSET_USERELATIVEDATE, 0) ? SMF_LOG_USERELATIVEDATE : 0;
+	dwFlags |= db_get_b(0, SRMMMOD, SRMSGSET_USELONGDATE, 0) ? SMF_LOG_USELONGDATE : 0;
+	dwFlags |= db_get_b(0, SRMMMOD, SRMSGSET_GROUPMESSAGES, 0) ? SMF_LOG_GROUPMESSAGES : 0;
+	dwFlags |= db_get_b(0, SRMMMOD, SRMSGSET_MARKFOLLOWUPS, 0) ? SMF_LOG_MARKFOLLOWUPS : 0;
+	dwFlags |= db_get_b(0, SRMMMOD, SRMSGSET_MESSAGEONNEWLINE, 0) ? SMF_LOG_MSGONNEWLINE : 0;
+	dwFlags |= db_get_b(0, SRMMMOD, SRMSGSET_DRAWLINES, 0) ? SMF_LOG_DRAWLINES : 0;
 
 	ptrA szRealProto(getRealProto(event->hContact));
 	IEVIEWEVENTDATA* eventData = event->eventData;

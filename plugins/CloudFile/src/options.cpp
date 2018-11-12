@@ -21,7 +21,7 @@ bool COptionsMainDlg::OnInitDialog()
 {
 	CDlgBase::OnInitDialog();
 
-	ptrA defaultService(db_get_sa(NULL, MODULENAME, "DefaultService"));
+	ptrA defaultService(g_plugin.getStringA("DefaultService"));
 	int iItem = m_defaultService.AddString(TranslateT("None"));
 	m_defaultService.SetCurSel(iItem);
 
@@ -31,7 +31,7 @@ bool COptionsMainDlg::OnInitDialog()
 			m_defaultService.SetCurSel(iItem);
 	}
 
-	BYTE strategy = db_get_b(NULL, MODULENAME, "ConflictStrategy", OnConflict::REPLACE);
+	BYTE strategy = g_plugin.getByte("ConflictStrategy", OnConflict::REPLACE);
 	switch (strategy)
 	{
 	case OnConflict::RENAME:
@@ -58,16 +58,16 @@ bool COptionsMainDlg::OnApply()
 	int iItem = m_defaultService.GetCurSel();
 	CCloudService *service = (CCloudService*)m_defaultService.GetItemData(iItem);
 	if (service)
-		db_set_s(NULL, MODULENAME, "DefaultService", service->GetAccountName());
+		g_plugin.setString("DefaultService", service->GetAccountName());
 	else
-		db_unset(NULL, MODULENAME, "DefaultService");
+		g_plugin.delSetting("DefaultService");
 
 	if (m_renameOnConflict.GetState())
-		db_set_b(NULL, MODULENAME, "ConflictStrategy", OnConflict::RENAME);
+		g_plugin.setByte("ConflictStrategy", OnConflict::RENAME);
 	else if (m_repalceOnConflict.GetState())
-		db_set_b(NULL, MODULENAME, "ConflictStrategy", OnConflict::REPLACE);
+		g_plugin.setByte("ConflictStrategy", OnConflict::REPLACE);
 	else
-		db_unset(NULL, MODULENAME, "ConflictStrategy");
+		g_plugin.delSetting("ConflictStrategy");
 	return true;
 }
 

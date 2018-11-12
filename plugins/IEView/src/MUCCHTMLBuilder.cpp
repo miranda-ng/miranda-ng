@@ -47,29 +47,29 @@ void MUCCHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
 	DBVARIANT dbv;
 	if (colour) {
 		mir_snprintf(str, "Font%dCol", i);
-		*colour = db_get_dw(NULL, MUCCMOD, str, 0x000000);
+		*colour = db_get_dw(0, MUCCMOD, str, 0x000000);
 	}
 	if (lf) {
 		mir_snprintf(str, "Font%dSize", i);
-		lf->lfHeight = (char)db_get_b(NULL, MUCCMOD, str, 10);
+		lf->lfHeight = (char)db_get_b(0, MUCCMOD, str, 10);
 		lf->lfHeight = abs(lf->lfHeight);
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
 		lf->lfOrientation = 0;
 		mir_snprintf(str, "Font%dStyle", i);
-		style = db_get_b(NULL, MUCCMOD, str, 0);
+		style = db_get_b(0, MUCCMOD, str, 0);
 		lf->lfWeight = style & FONTF_BOLD ? FW_BOLD : FW_NORMAL;
 		lf->lfItalic = style & FONTF_ITALIC ? 1 : 0;
 		lf->lfUnderline = style & FONTF_UNDERLINE ? 1 : 0;
 		lf->lfStrikeOut = 0;
 		mir_snprintf(str, "Font%dSet", i);
-		lf->lfCharSet = db_get_b(NULL, MUCCMOD, str, DEFAULT_CHARSET);
+		lf->lfCharSet = db_get_b(0, MUCCMOD, str, DEFAULT_CHARSET);
 		lf->lfOutPrecision = OUT_DEFAULT_PRECIS;
 		lf->lfClipPrecision = CLIP_DEFAULT_PRECIS;
 		lf->lfQuality = DEFAULT_QUALITY;
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 		mir_snprintf(str, "Font%dFace", i);
-		if (db_get_s(NULL, MUCCMOD, str, &dbv))
+		if (db_get_s(0, MUCCMOD, str, &dbv))
 			strncpy_s(lf->lfFaceName, "Verdana", _TRUNCATE);
 		else {
 			strncpy_s(lf->lfFaceName, dbv.pszVal, _TRUNCATE);
@@ -133,7 +133,7 @@ void MUCCHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 		ReleaseDC(nullptr, hdc);
 		str.Append("<html><head>");
 		str.Append("<style type=\"text/css\">\n");
-		COLORREF bkgColor = db_get_dw(NULL, MUCCMOD, "BackgroundLog", 0xFFFFFF);
+		COLORREF bkgColor = db_get_dw(0, MUCCMOD, "BackgroundLog", 0xFFFFFF);
 		COLORREF inColor, outColor;
 		bkgColor = (((bkgColor & 0xFF) << 16) | (bkgColor & 0xFF00) | ((bkgColor & 0xFF0000) >> 16));
 		inColor = outColor = bkgColor;

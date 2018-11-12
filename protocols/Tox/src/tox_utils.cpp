@@ -104,7 +104,7 @@ void CToxProto::ShowNotification(const wchar_t *caption, const wchar_t *message,
 		return;
 	}
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(0, "Popup", "ModuleIsEnabled", 1)) {
 		POPUPDATAT ppd = { 0 };
 		ppd.lchContact = hContact;
 		wcsncpy(ppd.lpwzContactName, caption, MAX_CONTACTNAME);

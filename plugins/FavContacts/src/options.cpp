@@ -22,36 +22,36 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void LoadOptions()
 {
-	g_Options.bSecondLine = db_get_b(NULL, "FavContacts", "SecondLine", 1);
-	g_Options.bAvatars = db_get_b(NULL, "FavContacts", "Avatars", 1);
-	g_Options.bAvatarBorder = db_get_b(NULL, "FavContacts", "AvatarBorder", 0);
-	g_Options.wAvatarRadius = db_get_w(NULL, "FavContacts", "AvatarRadius", 3);
-	g_Options.bNoTransparentBorder = db_get_b(NULL, "FavContacts", "NoTransparentBorder",
-		!db_get_b(NULL, "FavContacts", "AvatarBorderTransparent", 1));
-	g_Options.bSysColors = db_get_b(NULL, "FavContacts", "SysColors", 0);
-	g_Options.bCenterHotkey = db_get_b(NULL, "FavContacts", "CenterHotkey", 1);
-	g_Options.bUseGroups = db_get_b(NULL, "FavContacts", "UseGroups", 0);
-	g_Options.bUseColumns = db_get_b(NULL, "FavContacts", "UseColumns", 1);
-	g_Options.bRightAvatars = db_get_b(NULL, "FavContacts", "RightAvatars", 0);
-	g_Options.bDimIdle = db_get_b(NULL, "FavContacts", "DimIdle", 1);
+	g_Options.bSecondLine = db_get_b(0, "FavContacts", "SecondLine", 1);
+	g_Options.bAvatars = db_get_b(0, "FavContacts", "Avatars", 1);
+	g_Options.bAvatarBorder = db_get_b(0, "FavContacts", "AvatarBorder", 0);
+	g_Options.wAvatarRadius = db_get_w(0, "FavContacts", "AvatarRadius", 3);
+	g_Options.bNoTransparentBorder = db_get_b(0, "FavContacts", "NoTransparentBorder",
+		!db_get_b(0, "FavContacts", "AvatarBorderTransparent", 1));
+	g_Options.bSysColors = db_get_b(0, "FavContacts", "SysColors", 0);
+	g_Options.bCenterHotkey = db_get_b(0, "FavContacts", "CenterHotkey", 1);
+	g_Options.bUseGroups = db_get_b(0, "FavContacts", "UseGroups", 0);
+	g_Options.bUseColumns = db_get_b(0, "FavContacts", "UseColumns", 1);
+	g_Options.bRightAvatars = db_get_b(0, "FavContacts", "RightAvatars", 0);
+	g_Options.bDimIdle = db_get_b(0, "FavContacts", "DimIdle", 1);
 
-	g_Options.wMaxRecent = db_get_b(NULL, "FavContacts", "MaxRecent", 10);
+	g_Options.wMaxRecent = db_get_b(0, "FavContacts", "MaxRecent", 10);
 }
 
 static void sttSaveOptions()
 {
-	db_set_b(NULL, "FavContacts", "SecondLine", g_Options.bSecondLine);
-	db_set_b(NULL, "FavContacts", "Avatars", g_Options.bAvatars);
-	db_set_b(NULL, "FavContacts", "AvatarBorder", g_Options.bAvatarBorder);
-	db_set_w(NULL, "FavContacts", "AvatarRadius", g_Options.wAvatarRadius);
-	db_set_b(NULL, "FavContacts", "NoTransparentBorder", g_Options.bNoTransparentBorder);
-	db_set_b(NULL, "FavContacts", "SysColors", g_Options.bSysColors);
-	db_set_b(NULL, "FavContacts", "CenterHotkey", g_Options.bCenterHotkey);
-	db_set_b(NULL, "FavContacts", "UseGroups", g_Options.bUseGroups);
-	db_set_b(NULL, "FavContacts", "UseColumns", g_Options.bUseColumns);
-	db_set_b(NULL, "FavContacts", "RightAvatars", g_Options.bRightAvatars);
-	db_set_b(NULL, "FavContacts", "DimIdle", g_Options.bDimIdle);
-	db_set_w(NULL, "FavContacts", "MaxRecent", g_Options.wMaxRecent);
+	db_set_b(0, "FavContacts", "SecondLine", g_Options.bSecondLine);
+	db_set_b(0, "FavContacts", "Avatars", g_Options.bAvatars);
+	db_set_b(0, "FavContacts", "AvatarBorder", g_Options.bAvatarBorder);
+	db_set_w(0, "FavContacts", "AvatarRadius", g_Options.wAvatarRadius);
+	db_set_b(0, "FavContacts", "NoTransparentBorder", g_Options.bNoTransparentBorder);
+	db_set_b(0, "FavContacts", "SysColors", g_Options.bSysColors);
+	db_set_b(0, "FavContacts", "CenterHotkey", g_Options.bCenterHotkey);
+	db_set_b(0, "FavContacts", "UseGroups", g_Options.bUseGroups);
+	db_set_b(0, "FavContacts", "UseColumns", g_Options.bUseColumns);
+	db_set_b(0, "FavContacts", "RightAvatars", g_Options.bRightAvatars);
+	db_set_b(0, "FavContacts", "DimIdle", g_Options.bDimIdle);
+	db_set_w(0, "FavContacts", "MaxRecent", g_Options.wMaxRecent);
 }
 
 static void sttResetListOptions(HWND hwndList)

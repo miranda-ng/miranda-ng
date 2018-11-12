@@ -127,14 +127,14 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_EXT, 'D');
 	g_plugin.addHotkey(&hkd);
 
-	g_bUsePopups = db_get_b(NULL, MODULENAME, "UsePopUps", 0) != 0;
+	g_bUsePopups = g_plugin.getByte("UsePopUps", 0) != 0;
 
 	// Load the name order
 	for (int i = 0; i < NAMEORDERCOUNT; i++)
 		nameOrder[i] = i;
 
 	DBVARIANT dbv = { 0 };
-	if (!db_get_s(NULL, "Contact", "NameOrder", &dbv, DBVT_BLOB)) {
+	if (!db_get_s(0, "Contact", "NameOrder", &dbv, DBVT_BLOB)) {
 		memcpy(nameOrder, dbv.pbVal, dbv.cpbVal);
 		db_free(&dbv);
 	}
@@ -517,7 +517,7 @@ void loadListSettings(HWND hwnd, ColumnsSettings *cs)
 	int i = 0;
 	while (cs[i].name) {
 		sLC.pszText = TranslateW(cs[i].name);
-		sLC.cx = db_get_w(NULL, MODULENAME, cs[i].dbname, cs[i].defsize);
+		sLC.cx = g_plugin.getWord(cs[i].dbname, cs[i].defsize);
 		ListView_InsertColumn(hwnd, cs[i].index, &sLC);
 		i++;
 	}
@@ -532,7 +532,7 @@ void saveListSettings(HWND hwnd, ColumnsSettings *cs)
 	while (cs[i].name) {
 		if (ListView_GetColumn(hwnd, cs[i].index, &sLC)) {
 			mir_snprintf(tmp, cs[i].dbname, i);
-			db_set_w(NULL, MODULENAME, tmp, (WORD)sLC.cx);
+			g_plugin.setWord(tmp, (WORD)sLC.cx);
 		}
 		i++;
 	}

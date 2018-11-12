@@ -47,7 +47,7 @@ void ChangeMenuItem1()
 {
 	// Enable or Disable auto updates
 	LPCTSTR ptszName;
-	if (!db_get_b(NULL, MODULENAME, DISABLE_AUTOUPDATE_KEY, 0))
+	if (!g_plugin.getByte(DISABLE_AUTOUPDATE_KEY, 0))
 		ptszName = LPGENW("Auto update enabled");
 	else
 		ptszName = LPGENW("Auto update disabled");
@@ -62,7 +62,7 @@ void ChangeMenuItemCountdown()
 	HICON hIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_UPDATEALL));
 
 	wchar_t countername[100];
-	mir_snwprintf(countername, TranslateT("%d minutes to update"), db_get_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0));
+	mir_snwprintf(countername, TranslateT("%d minutes to update"), g_plugin.getDword(COUNTDOWN_KEY, 0));
 
 	Menu_ModifyItem(hMenuItemCountdown, countername, hIcon, CMIF_KEEPUNTRANSLATED);
 }
@@ -114,7 +114,7 @@ void BGclrLoop()
 void StartUpdate(void*)
 {
 	StartUpDelay = 1;
-	Sleep(((db_get_dw(NULL, MODULENAME, START_DELAY_KEY, 0)) * SECOND));
+	Sleep(((g_plugin.getDword(START_DELAY_KEY, 0)) * SECOND));
 
 	for (auto &hContact : Contacts(MODULENAME))
 		GetData((void*)hContact);
@@ -145,8 +145,8 @@ INT_PTR MarkAllReadMenuCommand(WPARAM, LPARAM)
 /*****************************************************************************/
 void InitialiseGlobals(void)
 {
-	Xposition = db_get_dw(NULL, MODULENAME, Xpos_WIN_KEY, 0);
-	Yposition = db_get_dw(NULL, MODULENAME, Ypos_WIN_KEY, 0);
+	Xposition = g_plugin.getDword(Xpos_WIN_KEY, 0);
+	Yposition = g_plugin.getDword(Ypos_WIN_KEY, 0);
 
 	if (Yposition == -32000)
 		Yposition = 100;
@@ -154,11 +154,11 @@ void InitialiseGlobals(void)
 	if (Xposition == -32000)
 		Xposition = 100;
 
-	BackgoundClr = db_get_dw(NULL, MODULENAME, BG_COLOR_KEY, Def_color_bg);
-	TextClr = db_get_dw(NULL, MODULENAME, TXT_COLOR_KEY, Def_color_txt);
+	BackgoundClr = g_plugin.getDword(BG_COLOR_KEY, Def_color_bg);
+	TextClr = g_plugin.getDword(TXT_COLOR_KEY, Def_color_txt);
 
-	WindowHeight = db_get_dw(NULL, MODULENAME, WIN_HEIGHT_KEY, Def_win_height);
-	WindowWidth = db_get_dw(NULL, MODULENAME, WIN_WIDTH_KEY, Def_win_width);
+	WindowHeight = g_plugin.getDword(WIN_HEIGHT_KEY, Def_win_height);
+	WindowWidth = g_plugin.getDword(WIN_WIDTH_KEY, Def_win_width);
 }
 
 /*****************************************************************************/
@@ -187,7 +187,7 @@ int Doubleclick(WPARAM wParam, LPARAM)
 			HWND hTopmost = db_get_b(hContact, MODULENAME, ON_TOP_KEY, 0) ? HWND_TOPMOST : HWND_NOTOPMOST;
 			SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM)((HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_STICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0)));
 
-			if (db_get_b(NULL, MODULENAME, SAVE_INDIVID_POS_KEY, 0))
+			if (g_plugin.getByte(SAVE_INDIVID_POS_KEY, 0))
 				SetWindowPos(hwndDlg, hTopmost,
 					db_get_dw(hContact, MODULENAME, "WVx", 100), // Xposition,
 					db_get_dw(hContact, MODULENAME, "WVy", 100), // Yposition,
@@ -200,7 +200,7 @@ int Doubleclick(WPARAM wParam, LPARAM)
 		ShowWindow(hwndDlg, SW_SHOW);
 		SetActiveWindow(hwndDlg);
 
-		if (db_get_b(NULL, MODULENAME, UPDATE_ON_OPEN_KEY, 0)) {
+		if (g_plugin.getByte(UPDATE_ON_OPEN_KEY, 0)) {
 			if (db_get_b(hContact, MODULENAME, ENABLE_ALERTS_KEY, 0))
 				mir_forkthread(ReadFromFile, (void*)hContact);
 			else
@@ -227,28 +227,28 @@ int SendToRichEdit(HWND hWindow, char *truncated, COLORREF rgbText, COLORREF rgb
 	cfFM.cbSize = sizeof(CHARFORMAT2);
 	cfFM.dwMask = CFM_COLOR | CFM_CHARSET | CFM_FACE | ENM_LINK | ENM_MOUSEEVENTS | CFM_BOLD | CFM_ITALIC | CFM_UNDERLINE | CFM_SIZE;
 
-	if (db_get_b(NULL, MODULENAME, FONT_BOLD_KEY, 0))
+	if (g_plugin.getByte(FONT_BOLD_KEY, 0))
 		bold = CFE_BOLD;
 
-	if (db_get_b(NULL, MODULENAME, FONT_ITALIC_KEY, 0))
+	if (g_plugin.getByte(FONT_ITALIC_KEY, 0))
 		italic = CFE_ITALIC;
 
-	if (db_get_b(NULL, MODULENAME, FONT_UNDERLINE_KEY, 0))
+	if (g_plugin.getByte(FONT_UNDERLINE_KEY, 0))
 		underline = CFE_UNDERLINE;
 
 	cfFM.dwEffects = bold | italic | underline;
 
-	if (!db_get_ws(NULL, MODULENAME, FONT_FACE_KEY, &dbv)) {
+	if (!g_plugin.getWString(FONT_FACE_KEY, &dbv)) {
 		mir_wstrcpy(cfFM.szFaceName, dbv.pwszVal);
 		db_free(&dbv);
 	}
 	else mir_wstrcpy(cfFM.szFaceName, Def_font_face);
 
 	HDC hDC = GetDC(hWindow);
-	cfFM.yHeight = (BYTE)MulDiv(abs(g_lf.lfHeight), 120, GetDeviceCaps(GetDC(hWindow), LOGPIXELSY)) * (db_get_b(NULL, MODULENAME, FONT_SIZE_KEY, 14));
+	cfFM.yHeight = (BYTE)MulDiv(abs(g_lf.lfHeight), 120, GetDeviceCaps(GetDC(hWindow), LOGPIXELSY)) * (g_plugin.getByte(FONT_SIZE_KEY, 14));
 	ReleaseDC(hWindow, hDC);
 
-	cfFM.bCharSet = db_get_b(NULL, MODULENAME, FONT_SCRIPT_KEY, 0);
+	cfFM.bCharSet = g_plugin.getByte(FONT_SCRIPT_KEY, 0);
 	cfFM.bPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 	cfFM.crTextColor = rgbText;
 	cfFM.crBackColor = rgbBack;
@@ -263,25 +263,25 @@ int SendToRichEdit(HWND hWindow, char *truncated, COLORREF rgbText, COLORREF rgb
 /*****************************************************************************/
 void CALLBACK timerfunc(HWND, UINT, UINT_PTR, DWORD)
 {
-	db_set_b(NULL, MODULENAME, HAS_CRASHED_KEY, 0);
+	g_plugin.setByte(HAS_CRASHED_KEY, 0);
 
-	if (!(db_get_b(NULL, MODULENAME, OFFLINE_STATUS, 1)))
-		if (!(db_get_b(NULL, MODULENAME, DISABLE_AUTOUPDATE_KEY, 0)))
+	if (!(g_plugin.getByte(OFFLINE_STATUS, 1)))
+		if (!(g_plugin.getByte(DISABLE_AUTOUPDATE_KEY, 0)))
 			mir_forkthread(ContactLoop);
 
-	db_set_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0);
+	g_plugin.setDword(COUNTDOWN_KEY, 0);
 }
 
 /*****************************************************************************/
 void CALLBACK Countdownfunc(HWND, UINT, UINT_PTR, DWORD)
 {
-	DWORD timetemp = db_get_dw(NULL, MODULENAME, COUNTDOWN_KEY, 100);
+	DWORD timetemp = g_plugin.getDword(COUNTDOWN_KEY, 100);
 	if (timetemp <= 0) {
-		timetemp = db_get_dw(NULL, MODULENAME, REFRESH_KEY, TIME);
-		db_set_dw(NULL, MODULENAME, COUNTDOWN_KEY, timetemp);
+		timetemp = g_plugin.getDword(REFRESH_KEY, TIME);
+		g_plugin.setDword(COUNTDOWN_KEY, timetemp);
 	}
 
-	db_set_dw(NULL, MODULENAME, COUNTDOWN_KEY, timetemp - 1);
+	g_plugin.setDword(COUNTDOWN_KEY, timetemp - 1);
 
 	ChangeMenuItemCountdown();
 }
@@ -346,7 +346,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	h_font = CreateFontIndirect(&g_lf);
 
 	// get data on startup
-	if (db_get_b(NULL, MODULENAME, UPDATE_ONSTART_KEY, 0))
+	if (g_plugin.getByte(UPDATE_ONSTART_KEY, 0))
 		mir_forkthread(StartUpdate);
 
 	return 0;
@@ -365,7 +365,7 @@ INT_PTR DataWndMenuCommand(WPARAM wParam, LPARAM)
 	HWND hTopmost = db_get_b(hContact, MODULENAME, ON_TOP_KEY, 0) ? HWND_TOPMOST : HWND_NOTOPMOST;
 	hwndDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DISPLAY_DATA), nullptr, DlgProcDisplayData, (LPARAM)hContact);
 	SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_STICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
-	if (db_get_b(NULL, MODULENAME, SAVE_INDIVID_POS_KEY, 0))
+	if (g_plugin.getByte(SAVE_INDIVID_POS_KEY, 0))
 		SetWindowPos(hwndDlg, hTopmost,
 			db_get_dw(hContact, MODULENAME, "WVx", 100), // Xposition,
 			db_get_dw(hContact, MODULENAME, "WVy", 100), // Yposition,
@@ -377,7 +377,7 @@ INT_PTR DataWndMenuCommand(WPARAM wParam, LPARAM)
 	ShowWindow(hwndDlg, SW_SHOW);
 	SetActiveWindow(hwndDlg);
 
-	if (db_get_b(NULL, MODULENAME, UPDATE_ON_OPEN_KEY, 0)) {
+	if (g_plugin.getByte(UPDATE_ON_OPEN_KEY, 0)) {
 		if (db_get_b(hContact, MODULENAME, ENABLE_ALERTS_KEY, 0))
 			mir_forkthread(ReadFromFile, (void*)hContact);
 		else
@@ -398,10 +398,10 @@ INT_PTR UpdateAllMenuCommand(WPARAM, LPARAM)
 /*****************************************************************************/
 INT_PTR AutoUpdateMCmd(WPARAM, LPARAM)
 {
-	if (db_get_b(NULL, MODULENAME, DISABLE_AUTOUPDATE_KEY, 0))
-		db_set_b(NULL, MODULENAME, DISABLE_AUTOUPDATE_KEY, 0);
+	if (g_plugin.getByte(DISABLE_AUTOUPDATE_KEY, 0))
+		g_plugin.setByte(DISABLE_AUTOUPDATE_KEY, 0);
 	else
-		db_set_b(NULL, MODULENAME, DISABLE_AUTOUPDATE_KEY, 1);
+		g_plugin.setByte(DISABLE_AUTOUPDATE_KEY, 1);
 
 	ChangeMenuItem1();
 	return 0;
@@ -410,7 +410,7 @@ INT_PTR AutoUpdateMCmd(WPARAM, LPARAM)
 /*****************************************************************************/
 INT_PTR AddContactMenuCommand(WPARAM, LPARAM)
 {
-	db_set_s(NULL, "FindAdd", "LastSearched", MODULENAME);
+	db_set_s(0, "FindAdd", "LastSearched", MODULENAME);
 	CallService(MS_FINDADD_FINDADD, 0, 0);
 	return 0;
 }

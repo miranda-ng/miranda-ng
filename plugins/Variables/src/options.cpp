@@ -26,15 +26,15 @@ static INT_PTR CALLBACK SetOptsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		TranslateDialogDefault(hwndDlg);
 
 		DBVARIANT dbv;
-		if (!db_get_ws(NULL, MODULENAME, SETTING_STARTUPTEXT, &dbv)) {
+		if (!g_plugin.getWString(SETTING_STARTUPTEXT, &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_FORMATTEXT, dbv.pwszVal);
 			db_free(&dbv);
 		}
 
-		CheckDlgButton(hwndDlg, IDC_PARSEATSTARTUP, db_get_b(NULL, MODULENAME, SETTING_PARSEATSTARTUP, 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_STRIPCRLF, db_get_b(NULL, MODULENAME, SETTING_STRIPCRLF, 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_STRIPWS, db_get_b(NULL, MODULENAME, SETTING_STRIPWS, 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_STRIPALL, db_get_b(NULL, MODULENAME, SETTING_STRIPALL, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_PARSEATSTARTUP, g_plugin.getByte(SETTING_PARSEATSTARTUP, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_STRIPCRLF, g_plugin.getByte(SETTING_STRIPCRLF, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_STRIPWS, g_plugin.getByte(SETTING_STRIPWS, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_STRIPALL, g_plugin.getByte(SETTING_STRIPALL, 0) ? BST_CHECKED : BST_UNCHECKED);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_STRIPCRLF), IsDlgButtonChecked(hwndDlg, IDC_STRIPALL) ? FALSE : TRUE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_STRIPWS), IsDlgButtonChecked(hwndDlg, IDC_STRIPALL) ? FALSE : TRUE);
 		variables_skin_helpbutton(hwndDlg, IDC_SHOWHELP);
@@ -90,14 +90,14 @@ static INT_PTR CALLBACK SetOptsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					break;
 
 				if (GetDlgItemText(hwndDlg, IDC_FORMATTEXT, szFormatText, len + 1) != 0)
-					db_set_ws(NULL, MODULENAME, SETTING_STARTUPTEXT, szFormatText);
+					g_plugin.setWString(SETTING_STARTUPTEXT, szFormatText);
 
 				mir_free(szFormatText);
 			}
-			db_set_b(NULL, MODULENAME, SETTING_PARSEATSTARTUP, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_PARSEATSTARTUP) ? 1 : 0));
-			db_set_b(NULL, MODULENAME, SETTING_STRIPCRLF, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_STRIPCRLF) ? 1 : 0));
-			db_set_b(NULL, MODULENAME, SETTING_STRIPWS, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_STRIPWS) ? 1 : 0));
-			db_set_b(NULL, MODULENAME, SETTING_STRIPALL, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_STRIPALL) ? 1 : 0));
+			g_plugin.setByte(SETTING_PARSEATSTARTUP, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_PARSEATSTARTUP) ? 1 : 0));
+			g_plugin.setByte(SETTING_STRIPCRLF, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_STRIPCRLF) ? 1 : 0));
+			g_plugin.setByte(SETTING_STRIPWS, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_STRIPWS) ? 1 : 0));
+			g_plugin.setByte(SETTING_STRIPALL, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_STRIPALL) ? 1 : 0));
 		}
 		break;
 

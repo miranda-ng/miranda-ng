@@ -45,7 +45,7 @@ INT_PTR CurrencyRatesMenu_RefreshAll(WPARAM, LPARAM)
 INT_PTR CurrencyRatesMenu_EnableDisable(WPARAM, LPARAM)
 {
 	g_bAutoUpdate = (g_bAutoUpdate) ? false : true;
-	db_set_b(NULL, CURRENCYRATES_MODULE_NAME, DB_STR_AUTO_UPDATE, g_bAutoUpdate);
+	db_set_b(0, CURRENCYRATES_MODULE_NAME, DB_STR_AUTO_UPDATE, g_bAutoUpdate);
 
 	const CModuleInfo::TCurrencyRatesProvidersPtr& pProviders = CModuleInfo::GetCurrencyRateProvidersPtr();
 	const CCurrencyRatesProviders::TCurrencyRatesProviders& rapProviders = pProviders->GetProviders();
@@ -194,7 +194,7 @@ int CurrencyRatesEventFunc_OnModulesLoaded(WPARAM, LPARAM)
 
 	HookEvent(ME_TTB_MODULELOADED, CurrencyRates_OnToolbarLoaded);
 
-	g_bAutoUpdate = 1 == db_get_b(NULL, CURRENCYRATES_MODULE_NAME, DB_STR_AUTO_UPDATE, 1);
+	g_bAutoUpdate = 1 == db_get_b(0, CURRENCYRATES_MODULE_NAME, DB_STR_AUTO_UPDATE, 1);
 
 	InitMenu();
 

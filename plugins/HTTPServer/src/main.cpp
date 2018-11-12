@@ -644,7 +644,7 @@ INT_PTR nToggelAcceptConnections(WPARAM wparam, LPARAM /*lparam*/)
 	else return 0; // no changes;
 
 	if (!bShutdownInProgress)
-		db_set_b(NULL, MODULENAME, "AcceptConnections", hDirectBoundPort != nullptr);
+		g_plugin.setByte("AcceptConnections", hDirectBoundPort != nullptr);
 
 	return 0;
 }
@@ -701,7 +701,7 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 	nlu.szDescriptiveName.a = Translate("HTTP Server");
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 
-	if (db_get_b(NULL, MODULENAME, "AcceptConnections", 1))
+	if (g_plugin.getByte("AcceptConnections", 1))
 		nToggelAcceptConnections(0, 0);
 
 	InitGuiElements();
@@ -765,7 +765,7 @@ int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/)
 	}
 	pclFirstNode = nullptr;
 
-	db_set_b(NULL, MODULENAME, "IndexCreationMode", (BYTE)indexCreationMode);
+	g_plugin.setByte("IndexCreationMode", (BYTE)indexCreationMode);
 	FreeIndexHTMLTemplate();
 	return 0;
 }
@@ -809,13 +809,13 @@ int CMPlugin::Load()
 	if (!bInitMimeHandling())
 		MessageBox(nullptr, "Failed to read configuration file : " szMimeTypeConfigFile, MSG_BOX_TITEL, MB_OK);
 
-	nMaxUploadSpeed = db_get_dw(NULL, MODULENAME, "MaxUploadSpeed", nMaxUploadSpeed);
-	nMaxConnectionsTotal = db_get_dw(NULL, MODULENAME, "MaxConnectionsTotal", nMaxConnectionsTotal);
-	nMaxConnectionsPerUser = db_get_dw(NULL, MODULENAME, "MaxConnectionsPerUser", nMaxConnectionsPerUser);
-	bLimitOnlyWhenOnline = db_get_b(NULL, MODULENAME, "LimitOnlyWhenOnline", bLimitOnlyWhenOnline) != 0;
-	indexCreationMode = (eIndexCreationMode)db_get_b(NULL, MODULENAME, "IndexCreationMode", 2);
+	nMaxUploadSpeed = g_plugin.getDword("MaxUploadSpeed", nMaxUploadSpeed);
+	nMaxConnectionsTotal = g_plugin.getDword("MaxConnectionsTotal", nMaxConnectionsTotal);
+	nMaxConnectionsPerUser = g_plugin.getDword("MaxConnectionsPerUser", nMaxConnectionsPerUser);
+	bLimitOnlyWhenOnline = g_plugin.getByte("LimitOnlyWhenOnline", bLimitOnlyWhenOnline) != 0;
+	indexCreationMode = (eIndexCreationMode)g_plugin.getByte("IndexCreationMode", 2);
 
-	if (db_get_b(NULL, MODULENAME, "AddAcceptConMenuItem", 1)) {
+	if (g_plugin.getByte("AddAcceptConMenuItem", 1)) {
 		CMenuItem mi(&g_plugin);
 		SET_UID(mi, 0xf0a68784, 0xc30e, 0x4245, 0xb6, 0x2b, 0xb8, 0x71, 0x7e, 0xe6, 0xe1, 0x73);
 		mi.flags = CMIF_UNICODE;
@@ -829,7 +829,7 @@ int CMPlugin::Load()
 	if (indexCreationMode == INDEX_CREATION_HTML || indexCreationMode == INDEX_CREATION_DETECT)
 		if (!LoadIndexHTMLTemplate()) {
 			indexCreationMode = INDEX_CREATION_DISABLE;
-			db_set_b(NULL, MODULENAME, "IndexCreationMode", (BYTE)indexCreationMode);
+			g_plugin.setByte("IndexCreationMode", (BYTE)indexCreationMode);
 		}
 
 	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);

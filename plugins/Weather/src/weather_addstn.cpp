@@ -113,7 +113,7 @@ INT_PTR WeatherAddToList(WPARAM, LPARAM lParam)
 			db_free(&dbv);
 			MessageBox(nullptr, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
 		}
-		db_set_ws(NULL, WEATHERPROTONAME, "Default", opt.Default);
+		db_set_ws(0, WEATHERPROTONAME, "Default", opt.Default);
 	}
 	// display the Edit Settings dialog box
 	EditSettings(hContact, 0);
@@ -426,7 +426,7 @@ int NameSearch(wchar_t *name, const int searchId)
 // add a new weather station via find/add dialog
 int WeatherAdd(WPARAM, LPARAM)
 {
-	db_set_s(NULL, "FindAdd", "LastSearched", "Weather");
+	db_set_s(0, "FindAdd", "LastSearched", "Weather");
 	CallService(MS_FINDADD_FINDADD, 0, 0);
 	return 0;
 }

@@ -37,7 +37,7 @@ int NewsAggrInit(WPARAM, LPARAM)
 		mir_wstrncpy(tszRoot, VARSW(L"%miranda_userdata%\\Avatars\\" _A2W(DEFAULT_AVATARS_FOLDER)), _countof(tszRoot));
 
 	for (auto &hContact : Contacts(MODULENAME)) {
-		if (!db_get_b(NULL, MODULENAME, "StartupRetrieve", 1))
+		if (!g_plugin.getByte("StartupRetrieve", 1))
 			db_set_dw(hContact, MODULENAME, "LastCheck", time(0));
 		db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);
 	}
@@ -209,7 +209,7 @@ INT_PTR NewsAggrGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	// otherwise, cached avatar is used
 	if ((wParam & GAIF_FORCE) && db_get_dw(pai->hContact, MODULENAME, "UpdateTime", DEFAULT_UPDATE_TIME))
 		UpdateListAdd(pai->hContact);
-	if (db_get_b(NULL, MODULENAME, "AutoUpdate", 1) != 0 && !ThreadRunning)
+	if (g_plugin.getByte("AutoUpdate", 1) != 0 && !ThreadRunning)
 		mir_forkthread(UpdateThreadProc, (void *)TRUE);
 
 	wchar_t *ptszImageURL = db_get_wsa(pai->hContact, MODULENAME, "ImageURL");
@@ -239,14 +239,14 @@ void UpdateMenu(bool State)
 		Menu_ModifyItem(hService2[0], LPGENW("Auto Update Disabled"), GetIconHandle("disabled"));
 
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTBButton, State ? TTBST_PUSHED : 0);
-	db_set_b(NULL, MODULENAME, "AutoUpdate", !State);
+	g_plugin.setByte("AutoUpdate", !State);
 }
 
 // update the newsaggregator auto-update menu item when click on it
 INT_PTR EnableDisable(WPARAM, LPARAM)
 {
-	UpdateMenu(db_get_b(NULL, MODULENAME, "AutoUpdate", 1) != 0);
-	NewsAggrSetStatus(db_get_b(NULL, MODULENAME, "AutoUpdate", 1) ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE, 0);
+	UpdateMenu(g_plugin.getByte("AutoUpdate", 1) != 0);
+	NewsAggrSetStatus(g_plugin.getByte("AutoUpdate", 1) ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE, 0);
 	return 0;
 }
 
@@ -259,7 +259,7 @@ int OnToolbarLoaded(WPARAM, LPARAM)
 	ttb.pszTooltipDn = LPGEN("Auto Update Disabled");
 	ttb.hIconHandleUp = GetIconHandle("enabled");
 	ttb.hIconHandleDn = GetIconHandle("disabled");
-	ttb.dwFlags = (db_get_b(NULL, MODULENAME, "AutoUpdate", 1) ? 0 : TTBBF_PUSHED) | TTBBF_ASPUSHBUTTON | TTBBF_VISIBLE;
+	ttb.dwFlags = (g_plugin.getByte("AutoUpdate", 1) ? 0 : TTBBF_PUSHED) | TTBBF_ASPUSHBUTTON | TTBBF_VISIBLE;
 	hTBButton = g_plugin.addTTB(&ttb);
 	return 0;
 }

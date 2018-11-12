@@ -91,22 +91,22 @@ void saveSettingsConnections(struct CONNECTION *connHead)
 	while (tmp != nullptr) {
 
 		mir_snprintf(buff, "%dFilterIntIp", i);
-		db_set_ws(NULL, PLUGINNAME, buff, tmp->strIntIp);
+		db_set_ws(0, PLUGINNAME, buff, tmp->strIntIp);
 		mir_snprintf(buff, "%dFilterExtIp", i);
-		db_set_ws(NULL, PLUGINNAME, buff, tmp->strExtIp);
+		db_set_ws(0, PLUGINNAME, buff, tmp->strExtIp);
 		mir_snprintf(buff, "%dFilterPName", i);
-		db_set_ws(NULL, PLUGINNAME, buff, tmp->PName);
+		db_set_ws(0, PLUGINNAME, buff, tmp->PName);
 		mir_snprintf(buff, "%dFilterIntPort", i);
-		db_set_dw(NULL, PLUGINNAME, buff, tmp->intIntPort);
+		db_set_dw(0, PLUGINNAME, buff, tmp->intIntPort);
 		mir_snprintf(buff, "%dFilterExtPort", i);
-		db_set_dw(NULL, PLUGINNAME, buff, tmp->intExtPort);
+		db_set_dw(0, PLUGINNAME, buff, tmp->intExtPort);
 		mir_snprintf(buff, "%dFilterAction", i);
-		db_set_dw(NULL, PLUGINNAME, buff, tmp->Pid);
+		db_set_dw(0, PLUGINNAME, buff, tmp->Pid);
 		i++;
 		tmp = tmp->next;
 	}
 	settingFiltersCount = i;
-	db_set_dw(NULL, PLUGINNAME, "FiltersCount", settingFiltersCount);
+	db_set_dw(0, PLUGINNAME, "FiltersCount", settingFiltersCount);
 
 }
 
@@ -149,16 +149,16 @@ struct CONNECTION* LoadSettingsConnections()
 //called to load settings from database
 void LoadSettings()
 {
-	settingInterval = (INT)db_get_dw(NULL, PLUGINNAME, "Interval", 500);
-	settingInterval1 = (INT)db_get_dw(NULL, PLUGINNAME, "PopupInterval", 0);
-	settingResolveIp = db_get_b(NULL, PLUGINNAME, "ResolveIp", TRUE);
-	settingDefaultAction = db_get_b(NULL, PLUGINNAME, "FilterDefaultAction", TRUE);
+	settingInterval = (INT)db_get_dw(0, PLUGINNAME, "Interval", 500);
+	settingInterval1 = (INT)db_get_dw(0, PLUGINNAME, "PopupInterval", 0);
+	settingResolveIp = db_get_b(0, PLUGINNAME, "ResolveIp", TRUE);
+	settingDefaultAction = db_get_b(0, PLUGINNAME, "FilterDefaultAction", TRUE);
 
-	settingSetColours = db_get_b(NULL, PLUGINNAME, "PopupSetColours", 0);
-	settingBgColor = (COLORREF)db_get_dw(NULL, PLUGINNAME, "PopupBgColor", (DWORD)0xFFFFFF);
-	settingFgColor = (COLORREF)db_get_dw(NULL, PLUGINNAME, "PopupFgColor", (DWORD)0x000000);
-	settingFiltersCount = (INT)db_get_dw(NULL, PLUGINNAME, "FiltersCount", 0);
-	settingStatusMask = (WORD)db_get_w(NULL, PLUGINNAME, "StatusMask", 16);
+	settingSetColours = db_get_b(0, PLUGINNAME, "PopupSetColours", 0);
+	settingBgColor = (COLORREF)db_get_dw(0, PLUGINNAME, "PopupBgColor", (DWORD)0xFFFFFF);
+	settingFgColor = (COLORREF)db_get_dw(0, PLUGINNAME, "PopupFgColor", (DWORD)0x000000);
+	settingFiltersCount = (INT)db_get_dw(0, PLUGINNAME, "FiltersCount", 0);
+	settingStatusMask = (WORD)db_get_w(0, PLUGINNAME, "StatusMask", 16);
 	for (int i = 0; i < STATUS_COUNT; i++) {
 		char buff[128];
 		mir_snprintf(buff, "Status%d", i);
@@ -506,13 +506,13 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 				return TRUE;
 
 			case PSN_APPLY:
-				db_set_dw(NULL, PLUGINNAME, "Interval", settingInterval);
-				db_set_dw(NULL, PLUGINNAME, "PopupInterval", settingInterval1);
-				db_set_b(NULL, PLUGINNAME, "PopupSetColours", settingSetColours);
-				db_set_dw(NULL, PLUGINNAME, "PopupBgColor", (DWORD)settingBgColor);
-				db_set_dw(NULL, PLUGINNAME, "PopupFgColor", (DWORD)settingFgColor);
-				db_set_b(NULL, PLUGINNAME, "ResolveIp", settingResolveIp);
-				db_set_b(NULL, PLUGINNAME, "FilterDefaultAction", settingDefaultAction);
+				db_set_dw(0, PLUGINNAME, "Interval", settingInterval);
+				db_set_dw(0, PLUGINNAME, "PopupInterval", settingInterval1);
+				db_set_b(0, PLUGINNAME, "PopupSetColours", settingSetColours);
+				db_set_dw(0, PLUGINNAME, "PopupBgColor", (DWORD)settingBgColor);
+				db_set_dw(0, PLUGINNAME, "PopupFgColor", (DWORD)settingFgColor);
+				db_set_b(0, PLUGINNAME, "ResolveIp", settingResolveIp);
+				db_set_b(0, PLUGINNAME, "FilterDefaultAction", settingDefaultAction);
 
 				for (int i = 0; i < STATUS_COUNT; i++) {
 					char buff[128];

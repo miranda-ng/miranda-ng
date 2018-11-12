@@ -29,26 +29,26 @@ int InitServices()
 {
 	Log("%s", "Entering function " __FUNCTION__);
 
-	commonData.foreground = db_get_dw(NULL, MODULENAME, "Foreground", FOREGROUND_COLOR);
-	commonData.background = db_get_dw(NULL, MODULENAME, "Background", BACKGROUND_COLOR);
-	commonData.checkInterval = db_get_w(NULL, MODULENAME, "CheckInterval", CHECK_INTERVAL);
-	commonData.daysInAdvance = db_get_w(NULL, MODULENAME, "DaysInAdvance", DAYS_TO_NOTIFY);
-	commonData.daysAfter = db_get_w(NULL, MODULENAME, "DaysAfter", DAYS_TO_NOTIFY_AFTER);
-	commonData.popupTimeout = db_get_w(NULL, MODULENAME, "PopupTimeout", POPUP_TIMEOUT);
-	commonData.popupTimeoutToday = db_get_w(NULL, MODULENAME, "PopupTimeoutToday", commonData.popupTimeout);
-	commonData.bUsePopups = db_get_b(NULL, MODULENAME, "UsePopups", TRUE);
-	commonData.bUseDialog = db_get_b(NULL, MODULENAME, "UseDialog", TRUE);
-	commonData.bIgnoreSubcontacts = db_get_b(NULL, MODULENAME, "IgnoreSubcontacts", FALSE);
-	commonData.cShowAgeMode = db_get_b(NULL, MODULENAME, "ShowCurrentAge", FALSE);
-	commonData.bNoBirthdaysPopup = db_get_b(NULL, MODULENAME, "NoBirthdaysPopup", FALSE);
-	commonData.bOpenInBackground = db_get_b(NULL, MODULENAME, "OpenInBackground", FALSE);
-	commonData.cSoundNearDays = db_get_b(NULL, MODULENAME, "SoundNearDays", BIRTHDAY_NEAR_DEFAULT_DAYS);
-	commonData.cDefaultModule = db_get_b(NULL, MODULENAME, "DefaultModule", 0);
-	commonData.lPopupClick = db_get_b(NULL, MODULENAME, "PopupLeftClick", 2);
-	commonData.rPopupClick = db_get_b(NULL, MODULENAME, "PopupRightClick", 1);
-	commonData.bOncePerDay = db_get_b(NULL, MODULENAME, "OncePerDay", 0);
-	commonData.cDlgTimeout = db_get_w(NULL, MODULENAME, "DlgTimeout", POPUP_TIMEOUT);
-	commonData.notifyFor = db_get_b(NULL, MODULENAME, "NotifyFor", 0);
+	commonData.foreground = g_plugin.getDword("Foreground", FOREGROUND_COLOR);
+	commonData.background = g_plugin.getDword("Background", BACKGROUND_COLOR);
+	commonData.checkInterval = g_plugin.getWord("CheckInterval", CHECK_INTERVAL);
+	commonData.daysInAdvance = g_plugin.getWord("DaysInAdvance", DAYS_TO_NOTIFY);
+	commonData.daysAfter = g_plugin.getWord("DaysAfter", DAYS_TO_NOTIFY_AFTER);
+	commonData.popupTimeout = g_plugin.getWord("PopupTimeout", POPUP_TIMEOUT);
+	commonData.popupTimeoutToday = g_plugin.getWord("PopupTimeoutToday", commonData.popupTimeout);
+	commonData.bUsePopups = g_plugin.getByte("UsePopups", TRUE);
+	commonData.bUseDialog = g_plugin.getByte("UseDialog", TRUE);
+	commonData.bIgnoreSubcontacts = g_plugin.getByte("IgnoreSubcontacts", FALSE);
+	commonData.cShowAgeMode = g_plugin.getByte("ShowCurrentAge", FALSE);
+	commonData.bNoBirthdaysPopup = g_plugin.getByte("NoBirthdaysPopup", FALSE);
+	commonData.bOpenInBackground = g_plugin.getByte("OpenInBackground", FALSE);
+	commonData.cSoundNearDays = g_plugin.getByte("SoundNearDays", BIRTHDAY_NEAR_DEFAULT_DAYS);
+	commonData.cDefaultModule = g_plugin.getByte("DefaultModule", 0);
+	commonData.lPopupClick = g_plugin.getByte("PopupLeftClick", 2);
+	commonData.rPopupClick = g_plugin.getByte("PopupRightClick", 1);
+	commonData.bOncePerDay = g_plugin.getByte("OncePerDay", 0);
+	commonData.cDlgTimeout = g_plugin.getWord("DlgTimeout", POPUP_TIMEOUT);
+	commonData.notifyFor = g_plugin.getByte("NotifyFor", 0);
 
 	CreateServiceFunction(MS_WWI_CHECK_BIRTHDAYS, CheckBirthdaysService);
 	CreateServiceFunction(MS_WWI_LIST_SHOW, ShowListService);
@@ -104,7 +104,7 @@ INT_PTR CheckBirthdaysService(WPARAM, LPARAM lParam)
 	SYSTEMTIME today;
 	GetLocalTime(&today);
 
-	DWORD lastChecked = db_get_dw(NULL, MODULENAME, "LastChecked", 0); //get last checked date
+	DWORD lastChecked = g_plugin.getDword("LastChecked", 0); //get last checked date
 	int lcDay = LOBYTE(LOWORD(lastChecked));
 	int lcMonth = HIBYTE(LOWORD(lastChecked));
 	int lcYear = HIWORD(lastChecked);
@@ -131,7 +131,7 @@ INT_PTR CheckBirthdaysService(WPARAM, LPARAM lParam)
 	commonData.daysAfter = savedDaysAfter; //restore previous value
 
 	if (lParam) //if not forced - i.e. timer check
-		db_set_dw(NULL, MODULENAME, "LastChecked", MAKELONG(MAKEWORD(today.wDay, today.wMonth), today.wYear)); //write the value in DB so we don't check again today
+		g_plugin.setDword("LastChecked", MAKELONG(MAKEWORD(today.wDay, today.wMonth), today.wYear)); //write the value in DB so we don't check again today
 
 	return 0;
 }
@@ -170,7 +170,7 @@ void __cdecl RefreshUserDetailsWorkerThread(void*)
 	Thread_SetName("WhenWasIt: RefreshUserDetailsWorkerThread");
 
 	ShowPopupMessage(TranslateT("WhenWasIt"), TranslateT("Starting to refresh user details"), hRefreshUserDetails);
-	int delay = db_get_w(NULL, MODULENAME, "UpdateDelay", REFRESH_DETAILS_DELAY);
+	int delay = g_plugin.getWord("UpdateDelay", REFRESH_DETAILS_DELAY);
 
 	MCONTACT hContact = db_find_first();
 	while (hContact != NULL) {

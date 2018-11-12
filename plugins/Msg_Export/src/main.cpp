@@ -144,12 +144,12 @@ int CMPlugin::Load()
 	if (nMaxLineWidth > 0 && nMaxLineWidth < 5)
 		nMaxLineWidth = 5;
 
-	g_sExportDir = _DBGetStringW(NULL, MODULENAME, "ExportDir", L"%dbpath%\\MsgExport\\");
-	g_sDefaultFile = _DBGetStringW(NULL, MODULENAME, "DefaultFile", L"%nick%.txt");
+	g_sExportDir = _DBGetStringW(0, MODULENAME, "ExportDir", L"%dbpath%\\MsgExport\\");
+	g_sDefaultFile = _DBGetStringW(0, MODULENAME, "DefaultFile", L"%nick%.txt");
 
-	g_sTimeFormat = _DBGetStringW(NULL, MODULENAME, "TimeFormat", L"d s");
+	g_sTimeFormat = _DBGetStringW(0, MODULENAME, "TimeFormat", L"d s");
 
-	sFileViewerPrg = _DBGetStringW(NULL, MODULENAME, "FileViewerPrg", L"");
+	sFileViewerPrg = _DBGetStringW(0, MODULENAME, "FileViewerPrg", L"");
 	g_bUseIntViewer = getBool("UseInternalViewer", true);
 
 	g_bUseJson = getBool("UseJson", false);

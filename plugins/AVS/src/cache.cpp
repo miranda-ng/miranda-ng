@@ -72,7 +72,7 @@ CacheNode* FindAvatarInCache(MCONTACT hContact, bool add, bool findAny)
 		return nullptr;
 
 	char *szProto = GetContactProto(hContact);
-	if (szProto == nullptr || !db_get_b(NULL, AVS_MODULE, szProto, 1))
+	if (szProto == nullptr || !g_plugin.getByte(szProto, 1))
 		return nullptr;
 
 	CacheNode *cc;
@@ -222,7 +222,7 @@ void PicLoader(LPVOID)
 {
 	Thread_SetName("AVS: PicLoader");
 
-	DWORD dwDelay = db_get_dw(NULL, AVS_MODULE, "picloader_sleeptime", 80);
+	DWORD dwDelay = g_plugin.getDword("picloader_sleeptime", 80);
 
 	if (dwDelay < 30)
 		dwDelay = 30;

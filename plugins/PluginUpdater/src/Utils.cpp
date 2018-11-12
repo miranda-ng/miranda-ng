@@ -25,20 +25,20 @@ HANDLE hPipe = nullptr;
 /////////////////////////////////////////////////////////////////////////////////////
 void LoadOptions()
 {
-	PopupOptions.DefColors = db_get_b(NULL, MODULENAME, "DefColors", DEFAULT_COLORS);
-	PopupOptions.LeftClickAction= db_get_b(NULL, MODULENAME, "LeftClickAction", DEFAULT_POPUP_LCLICK);
-	PopupOptions.RightClickAction = db_get_b(NULL, MODULENAME, "RightClickAction", DEFAULT_POPUP_RCLICK);
-	PopupOptions.Timeout = db_get_dw(NULL, MODULENAME, "Timeout", DEFAULT_TIMEOUT_VALUE);
+	PopupOptions.DefColors = g_plugin.getByte("DefColors", DEFAULT_COLORS);
+	PopupOptions.LeftClickAction= g_plugin.getByte("LeftClickAction", DEFAULT_POPUP_LCLICK);
+	PopupOptions.RightClickAction = g_plugin.getByte("RightClickAction", DEFAULT_POPUP_RCLICK);
+	PopupOptions.Timeout = g_plugin.getDword("Timeout", DEFAULT_TIMEOUT_VALUE);
 
-	opts.bUpdateOnStartup = db_get_b(NULL, MODULENAME, "UpdateOnStartup", DEFAULT_UPDATEONSTARTUP);
-	opts.bOnlyOnceADay = db_get_b(NULL, MODULENAME, "OnlyOnceADay", DEFAULT_ONLYONCEADAY);
-	opts.bUpdateOnPeriod = db_get_b(NULL, MODULENAME, "UpdateOnPeriod", DEFAULT_UPDATEONPERIOD);
-	opts.Period = db_get_dw(NULL, MODULENAME, "Period", DEFAULT_PERIOD);
-	opts.bPeriodMeasure = db_get_b(NULL, MODULENAME, "PeriodMeasure", DEFAULT_PERIODMEASURE);
-	opts.bForceRedownload = db_get_b(NULL, MODULENAME, DB_SETTING_REDOWNLOAD, 0);
-	opts.bSilentMode = db_get_b(NULL, MODULENAME, "SilentMode", 0);
-	opts.bBackup = db_get_b(NULL, MODULENAME, "Backup", 0);
-	opts.bChangePlatform = db_get_b(NULL, MODULENAME, DB_SETTING_CHANGEPLATFORM, 0);
+	opts.bUpdateOnStartup = g_plugin.getByte("UpdateOnStartup", DEFAULT_UPDATEONSTARTUP);
+	opts.bOnlyOnceADay = g_plugin.getByte("OnlyOnceADay", DEFAULT_ONLYONCEADAY);
+	opts.bUpdateOnPeriod = g_plugin.getByte("UpdateOnPeriod", DEFAULT_UPDATEONPERIOD);
+	opts.Period = g_plugin.getDword("Period", DEFAULT_PERIOD);
+	opts.bPeriodMeasure = g_plugin.getByte("PeriodMeasure", DEFAULT_PERIODMEASURE);
+	opts.bForceRedownload = g_plugin.getByte(DB_SETTING_REDOWNLOAD, 0);
+	opts.bSilentMode = g_plugin.getByte("SilentMode", 0);
+	opts.bBackup = g_plugin.getByte("Backup", 0);
+	opts.bChangePlatform = g_plugin.getByte(DB_SETTING_CHANGEPLATFORM, 0);
 }
 
 IconItem iconList[] =
@@ -205,14 +205,14 @@ bool ParseHashes(const wchar_t *ptszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 	DeleteFile(tszTmpIni);
 
 	if (bDoNotSwitchToStable) {
-		db_set_b(NULL, MODULENAME, DB_SETTING_DONT_SWITCH_TO_STABLE, 1);
+		g_plugin.setByte(DB_SETTING_DONT_SWITCH_TO_STABLE, 1);
 		// Reset setting if needed
-		int UpdateMode = db_get_b(NULL, MODULENAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE);
+		int UpdateMode = g_plugin.getByte(DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE);
 		if (UpdateMode == UPDATE_MODE_STABLE)
-			db_set_b(NULL, MODULENAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK);
+			g_plugin.setByte(DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK);
 	}
 	else
-		db_set_b(NULL, MODULENAME, DB_SETTING_DONT_SWITCH_TO_STABLE, 0);
+		g_plugin.setByte(DB_SETTING_DONT_SWITCH_TO_STABLE, 0);
 
 	return true;
 }

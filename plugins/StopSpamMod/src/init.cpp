@@ -83,33 +83,33 @@ extern wstring DBGetContactSettingStringPAN(MCONTACT hContact, char const * szMo
 
 void InitVars()
 {
-	gbSpammersGroup = DBGetContactSettingStringPAN(NULL, MODULENAME, "SpammersGroup", L"Spammers");
-	gbAnswer = DBGetContactSettingStringPAN(NULL, MODULENAME, "answer", L"nospam");
-	gbInfTalkProtection = db_get_b(NULL, MODULENAME, "infTalkProtection", 0);
-	gbAddPermanent = db_get_b(NULL, MODULENAME, "addPermanent", 0);
-	gbMaxQuestCount = db_get_dw(NULL, MODULENAME, "maxQuestCount", 5);
-	gbHandleAuthReq = db_get_b(NULL, MODULENAME, "handleAuthReq", 1);
-	gbQuestion = DBGetContactSettingStringPAN(NULL, MODULENAME, "question", TranslateW(defQuestion));
-	gbAnswer = DBGetContactSettingStringPAN(NULL, MODULENAME, "answer", L"nospam");
-	gbCongratulation = DBGetContactSettingStringPAN(NULL, MODULENAME, "congratulation", TranslateW(defCongrats));
-	gbAuthRepl = DBGetContactSettingStringPAN(NULL, MODULENAME, "authrepl", TranslateW(defAuthReply));
-	gbSpecialGroup = db_get_b(NULL, MODULENAME, "SpecialGroup", 0);
-	gbHideContacts = db_get_b(NULL, MODULENAME, "HideContacts", 0);
-	gbIgnoreContacts = db_get_b(NULL, MODULENAME, "IgnoreContacts", 0);
-	gbExclude = db_get_b(NULL, MODULENAME, "ExcludeContacts", 1);
-	gbDelExcluded = db_get_b(NULL, MODULENAME, "DelExcluded", 0);
-	gbDelAllTempory = db_get_b(NULL, MODULENAME, "DelAllTempory", 0);
-	gbCaseInsensitive = db_get_b(NULL, MODULENAME, "CaseInsensitive", 0);
-	gbRegexMatch = db_get_b(NULL, MODULENAME, "RegexMatch", 0);
-	gbInvisDisable = db_get_b(NULL, MODULENAME, "DisableInInvis", 0);
-	gbIgnoreURL = db_get_b(NULL, MODULENAME, "IgnoreURL", 0);
-	gbAutoAuthGroup = DBGetContactSettingStringPAN(NULL, MODULENAME, "AutoAuthGroup", L"Not Spammers");
-	gbAutoAuth = db_get_b(NULL, MODULENAME, "AutoAuth", 0);
-	gbAutoAddToServerList = db_get_b(NULL, MODULENAME, "AutoAddToServerList", 0);
-	gbAutoReqAuth = db_get_b(NULL, MODULENAME, "AutoReqAuth", 0);
-	gbLogToFile = db_get_b(NULL, MODULENAME, "LogSpamToFile", 0);
-	gbHistoryLog = db_get_b(NULL, MODULENAME, "HistoryLog", 0);
-	gbMathExpression = db_get_b(NULL, MODULENAME, "MathExpression", 0);
+	gbSpammersGroup = DBGetContactSettingStringPAN(0, MODULENAME, "SpammersGroup", L"Spammers");
+	gbAnswer = DBGetContactSettingStringPAN(0, MODULENAME, "answer", L"nospam");
+	gbInfTalkProtection = g_plugin.getByte("infTalkProtection", 0);
+	gbAddPermanent = g_plugin.getByte("addPermanent", 0);
+	gbMaxQuestCount = g_plugin.getDword("maxQuestCount", 5);
+	gbHandleAuthReq = g_plugin.getByte("handleAuthReq", 1);
+	gbQuestion = DBGetContactSettingStringPAN(0, MODULENAME, "question", TranslateW(defQuestion));
+	gbAnswer = DBGetContactSettingStringPAN(0, MODULENAME, "answer", L"nospam");
+	gbCongratulation = DBGetContactSettingStringPAN(0, MODULENAME, "congratulation", TranslateW(defCongrats));
+	gbAuthRepl = DBGetContactSettingStringPAN(0, MODULENAME, "authrepl", TranslateW(defAuthReply));
+	gbSpecialGroup = g_plugin.getByte("SpecialGroup", 0);
+	gbHideContacts = g_plugin.getByte("HideContacts", 0);
+	gbIgnoreContacts = g_plugin.getByte("IgnoreContacts", 0);
+	gbExclude = g_plugin.getByte("ExcludeContacts", 1);
+	gbDelExcluded = g_plugin.getByte("DelExcluded", 0);
+	gbDelAllTempory = g_plugin.getByte("DelAllTempory", 0);
+	gbCaseInsensitive = g_plugin.getByte("CaseInsensitive", 0);
+	gbRegexMatch = g_plugin.getByte("RegexMatch", 0);
+	gbInvisDisable = g_plugin.getByte("DisableInInvis", 0);
+	gbIgnoreURL = g_plugin.getByte("IgnoreURL", 0);
+	gbAutoAuthGroup = DBGetContactSettingStringPAN(0, MODULENAME, "AutoAuthGroup", L"Not Spammers");
+	gbAutoAuth = g_plugin.getByte("AutoAuth", 0);
+	gbAutoAddToServerList = g_plugin.getByte("AutoAddToServerList", 0);
+	gbAutoReqAuth = g_plugin.getByte("AutoReqAuth", 0);
+	gbLogToFile = g_plugin.getByte("LogSpamToFile", 0);
+	gbHistoryLog = g_plugin.getByte("HistoryLog", 0);
+	gbMathExpression = g_plugin.getByte("MathExpression", 0);
 }
 
 static int OnSystemModulesLoaded(WPARAM, LPARAM)

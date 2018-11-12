@@ -340,11 +340,11 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID param)
 		break;
 
 	case 2: // restore saved
-		if (GetValueA(NULL, MODULENAME, "LastModule", SelectedModule, _countof(SelectedModule))) {
-			hSelectedContact = db_get_dw(NULL, MODULENAME, "LastContact", INVALID_CONTACT_ID);
+		if (GetValueA(0, MODULENAME, "LastModule", SelectedModule, _countof(SelectedModule))) {
+			hSelectedContact = g_plugin.getDword("LastContact", INVALID_CONTACT_ID);
 			if (hSelectedContact != INVALID_CONTACT_ID)
 				Select = 1;
-			GetValueA(NULL, MODULENAME, "LastSetting", SelectedSetting, _countof(SelectedSetting));
+			GetValueA(0, MODULENAME, "LastSetting", SelectedSetting, _countof(SelectedSetting));
 		}
 		break;
 
@@ -403,7 +403,7 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID param)
 			insertItem(hContact, module->name, contact);
 		}
 
-		if (db_get_b(NULL, MODULENAME, "ExpandSettingsOnOpen", 0))
+		if (g_plugin.getByte("ExpandSettingsOnOpen", 0))
 			TreeView_Expand(hwnd2Tree, contact, TVE_EXPAND);
 
 		if (Select && hSelectedContact == NULL) {
@@ -711,7 +711,7 @@ void moduleListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to t
 			break;
 
 		case MENU_DELETE_CONTACT:
-			if (db_get_b(NULL, "CList", "ConfirmDelete", 1)) {
+			if (db_get_b(0, "CList", "ConfirmDelete", 1)) {
 				wchar_t str[MSG_SIZE];
 				mir_snwprintf(str, TranslateT("Are you sure you want to delete contact \"%s\"?"), text);
 				if (dlg(str, MB_YESNO | MB_ICONEXCLAMATION) == IDNO)

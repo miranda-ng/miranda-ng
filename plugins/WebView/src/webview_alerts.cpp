@@ -35,19 +35,19 @@ int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		if (message == WM_COMMAND) { // left click
 			if(hContact != NULL) { 
 				// open data window
-				if ( db_get_b(NULL, MODULENAME, LCLK_WINDOW_KEY, 0)) {
+				if ( g_plugin.getByte(LCLK_WINDOW_KEY, 0)) {
 					NotifyEventHooks(hHookDisplayDataAlert, (int) hContact, 0);
 					mir_forkthread(GetData, (void*)hContact);
 					PUDeletePopup(hWnd);
 				}
 				// open url
-				if (db_get_b(NULL, MODULENAME, LCLK_WEB_PGE_KEY, 0)) {
+				if (g_plugin.getByte(LCLK_WEB_PGE_KEY, 0)) {
 					Utils_OpenUrlW(url);
 					PUDeletePopup(hWnd);
 					db_set_w(wParam, MODULENAME, "Status", ID_STATUS_ONLINE); 
 				}
 				// dismiss
-				if (db_get_b(NULL, MODULENAME, LCLK_DISMISS_KEY, 1))
+				if (g_plugin.getByte(LCLK_DISMISS_KEY, 1))
 					PUDeletePopup(hWnd);
 			}	
 			else if (hContact == NULL)
@@ -56,19 +56,19 @@ int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		else if (message == WM_CONTEXTMENU) { // right click
 			if (hContact != NULL) {   
 				// open datA window
-				if (db_get_b(NULL, MODULENAME, RCLK_WINDOW_KEY, 0)) {
+				if (g_plugin.getByte(RCLK_WINDOW_KEY, 0)) {
 					NotifyEventHooks(hHookDisplayDataAlert, (int) hContact, 0);
 					mir_forkthread(GetData, (void*)hContact);
 					PUDeletePopup(hWnd);
 				}
 				// open url
-				if (db_get_b(NULL, MODULENAME, RCLK_WEB_PGE_KEY, 1)) {
+				if (g_plugin.getByte(RCLK_WEB_PGE_KEY, 1)) {
 					Utils_OpenUrlW(url);
 					PUDeletePopup(hWnd);
 					db_set_w(wParam, MODULENAME, "Status", ID_STATUS_ONLINE); 
 				}
 				// dismiss
-				if ( db_get_b(NULL, MODULENAME, RCLK_DISMISS_KEY, 0))
+				if ( g_plugin.getByte(RCLK_DISMISS_KEY, 0))
 					PUDeletePopup(hWnd);
 			}
 			else if(hContact == NULL)
@@ -130,21 +130,21 @@ int PopupAlert(WPARAM wParam, LPARAM lParam)
 	else if (mir_wstrlen(displaytext) < MAX_SECONDLINE)
 		mir_snwprintf(ppd.lptzText, displaytext);
 
-	if ( db_get_b(NULL, MODULENAME, POP_USECUSTCLRS_KEY, 0)) {
-		ppd.colorBack = db_get_dw(NULL, MODULENAME, POP_BG_CLR_KEY, Def_color_bg);
-		ppd.colorText = db_get_dw(NULL, MODULENAME, POP_TXT_CLR_KEY, Def_color_txt);
+	if ( g_plugin.getByte(POP_USECUSTCLRS_KEY, 0)) {
+		ppd.colorBack = g_plugin.getDword(POP_BG_CLR_KEY, Def_color_bg);
+		ppd.colorText = g_plugin.getDword(POP_TXT_CLR_KEY, Def_color_txt);
 	}
-	else if ( db_get_b(NULL, MODULENAME, POP_USEWINCLRS_KEY, 0)) {
+	else if ( g_plugin.getByte(POP_USEWINCLRS_KEY, 0)) {
 		ppd.colorBack = GetSysColor(COLOR_BTNFACE);
 		ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
 	}
-	else if ( db_get_b(NULL, MODULENAME, POP_USESAMECLRS_KEY, 1)) {
+	else if ( g_plugin.getByte(POP_USESAMECLRS_KEY, 1)) {
 		ppd.colorBack = BackgoundClr;
 		ppd.colorText = TextClr;
 	}
 
 	ppd.PluginWindowProc = nullptr;
-	ppd.iSeconds = db_get_dw(NULL, MODULENAME, POP_DELAY_KEY, 0);
+	ppd.iSeconds = g_plugin.getDword(POP_DELAY_KEY, 0);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT))
 		CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, 0);
@@ -183,15 +183,15 @@ int ErrorMsgs(WPARAM wParam, LPARAM lParam)
 	MCONTACT hContact = wParam;
 	wchar_t newdisplaytext[2000], *displaytext = (wchar_t*)lParam;
 
-	if (db_get_b(NULL, MODULENAME, SUPPRESS_ERR_KEY, 0))
+	if (g_plugin.getByte(SUPPRESS_ERR_KEY, 0))
 		return 0;
 
 	wchar_t *ptszContactName = Clist_GetContactDisplayName(hContact);
-	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, MODULENAME, ERROR_POPUP_KEY, 0)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPT) && g_plugin.getByte(ERROR_POPUP_KEY, 0)) {
 		mir_snwprintf(newdisplaytext, L"%s\n%s", ptszContactName, displaytext);
 		PUShowMessageT(newdisplaytext, SM_WARNING);
 	}
-	else if ( ServiceExists("OSD/Announce") && db_get_b(NULL, MODULENAME, ERROR_POPUP_KEY, 0)) {
+	else if ( ServiceExists("OSD/Announce") && g_plugin.getByte(ERROR_POPUP_KEY, 0)) {
 		mir_snwprintf(newdisplaytext, L"%s: %s", ptszContactName, TranslateW(displaytext));
 		CallService("OSD/Announce", (WPARAM)newdisplaytext, 0);
 	}
@@ -766,7 +766,7 @@ int DataWndAlertCommand(WPARAM wParam, LPARAM)
 	HWND hwndDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DISPLAY_DATA), nullptr, DlgProcDisplayData, hContact);
 	HWND hTopmost = db_get_b(hContact, MODULENAME, ON_TOP_KEY, 0) ? HWND_TOPMOST : HWND_NOTOPMOST;
 	SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) ((HICON) LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_STICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0)));
-	if ( db_get_b(NULL, MODULENAME, SAVE_INDIVID_POS_KEY, 0))
+	if ( g_plugin.getByte(SAVE_INDIVID_POS_KEY, 0))
 		SetWindowPos(hwndDlg, hTopmost,
 			db_get_dw(hContact, MODULENAME, "WVx", 100), // Xposition,
 			db_get_dw(hContact, MODULENAME, "WVy", 100), // Yposition,

@@ -46,34 +46,34 @@ void OptAdv_UnregisterVfx()
 void LoadOption_AdvOpts()
 {
 	// History
-	PopupOptions.EnableHistory = db_get_b(NULL, MODULENAME, "EnableHistory", TRUE);
-	PopupOptions.HistorySize = db_get_w(NULL, MODULENAME, "HistorySize", SETTING_HISTORYSIZE_DEFAULT);
-	PopupOptions.UseHppHistoryLog = db_get_b(NULL, MODULENAME, "UseHppHistoryLog", TRUE);
+	PopupOptions.EnableHistory = g_plugin.getByte("EnableHistory", TRUE);
+	PopupOptions.HistorySize = g_plugin.getWord("HistorySize", SETTING_HISTORYSIZE_DEFAULT);
+	PopupOptions.UseHppHistoryLog = g_plugin.getByte("UseHppHistoryLog", TRUE);
 
 	// Avatars
-	PopupOptions.avatarBorders = db_get_b(NULL, MODULENAME, "AvatarBorders", TRUE);
-	PopupOptions.avatarPNGBorders = db_get_b(NULL, MODULENAME, "AvatarPNGBorders", FALSE);
-	PopupOptions.avatarRadius = db_get_b(NULL, MODULENAME, "AvatarRadius", 2);
-	PopupOptions.avatarSize = db_get_w(NULL, MODULENAME, "AvatarSize", SETTING_AVTSIZE_DEFAULT);
-	PopupOptions.EnableAvatarUpdates = db_get_b(NULL, MODULENAME, "EnableAvatarUpdates", FALSE);
+	PopupOptions.avatarBorders = g_plugin.getByte("AvatarBorders", TRUE);
+	PopupOptions.avatarPNGBorders = g_plugin.getByte("AvatarPNGBorders", FALSE);
+	PopupOptions.avatarRadius = g_plugin.getByte("AvatarRadius", 2);
+	PopupOptions.avatarSize = g_plugin.getWord("AvatarSize", SETTING_AVTSIZE_DEFAULT);
+	PopupOptions.EnableAvatarUpdates = g_plugin.getByte("EnableAvatarUpdates", FALSE);
 
 	// Monitor
-	PopupOptions.Monitor = db_get_b(NULL, MODULENAME, "Monitor", SETTING_MONITOR_DEFAULT);
+	PopupOptions.Monitor = g_plugin.getByte("Monitor", SETTING_MONITOR_DEFAULT);
 
 	// Transparency
-	PopupOptions.UseTransparency = db_get_b(NULL, MODULENAME, "UseTransparency", TRUE);
-	PopupOptions.Alpha = db_get_b(NULL, MODULENAME, "Alpha", SETTING_ALPHA_DEFAULT);
-	PopupOptions.OpaqueOnHover = db_get_b(NULL, MODULENAME, "OpaqueOnHover", TRUE);
+	PopupOptions.UseTransparency = g_plugin.getByte("UseTransparency", TRUE);
+	PopupOptions.Alpha = g_plugin.getByte("Alpha", SETTING_ALPHA_DEFAULT);
+	PopupOptions.OpaqueOnHover = g_plugin.getByte("OpaqueOnHover", TRUE);
 
 	// Effects
-	PopupOptions.UseAnimations = db_get_b(NULL, MODULENAME, "UseAnimations", TRUE);
-	PopupOptions.UseEffect = db_get_b(NULL, MODULENAME, "Fade", TRUE);
-	PopupOptions.Effect = (LPTSTR)DBGetContactSettingStringX(NULL, MODULENAME, "Effect", "", DBVT_WCHAR);
-	PopupOptions.FadeIn = db_get_dw(NULL, MODULENAME, "FadeInTime", SETTING_FADEINTIME_DEFAULT);
-	PopupOptions.FadeOut = db_get_dw(NULL, MODULENAME, "FadeOutTime", SETTING_FADEOUTTIME_DEFAULT);
+	PopupOptions.UseAnimations = g_plugin.getByte("UseAnimations", TRUE);
+	PopupOptions.UseEffect = g_plugin.getByte("Fade", TRUE);
+	PopupOptions.Effect = (LPTSTR)DBGetContactSettingStringX(0, MODULENAME, "Effect", "", DBVT_WCHAR);
+	PopupOptions.FadeIn = g_plugin.getDword("FadeInTime", SETTING_FADEINTIME_DEFAULT);
+	PopupOptions.FadeOut = g_plugin.getDword("FadeOutTime", SETTING_FADEOUTTIME_DEFAULT);
 
 	// other old stuff
-	PopupOptions.MaxPopups = db_get_w(NULL, MODULENAME, "MaxPopups", 20);
+	PopupOptions.MaxPopups = g_plugin.getWord("MaxPopups", 20);
 }
 
 INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -492,31 +492,31 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			case PSN_APPLY:
 				// History
-				db_set_b(NULL, MODULENAME, "EnableHistory", (BYTE)PopupOptions.EnableHistory);
-				db_set_w(NULL, MODULENAME, "HistorySize", PopupOptions.HistorySize);
+				g_plugin.setByte("EnableHistory", (BYTE)PopupOptions.EnableHistory);
+				g_plugin.setWord("HistorySize", PopupOptions.HistorySize);
 				PopupHistoryResize();
-				db_set_b(NULL, MODULENAME, "UseHppHistoryLog", PopupOptions.UseHppHistoryLog);
+				g_plugin.setByte("UseHppHistoryLog", PopupOptions.UseHppHistoryLog);
 				// Avatars
-				db_set_b(NULL, MODULENAME, "AvatarBorders", PopupOptions.avatarBorders);
-				db_set_b(NULL, MODULENAME, "AvatarPNGBorders", PopupOptions.avatarPNGBorders);
-				db_set_b(NULL, MODULENAME, "AvatarRadius", PopupOptions.avatarRadius);
-				db_set_w(NULL, MODULENAME, "AvatarSize", PopupOptions.avatarSize);
-				db_set_b(NULL, MODULENAME, "EnableAvatarUpdates", PopupOptions.EnableAvatarUpdates);
+				g_plugin.setByte("AvatarBorders", PopupOptions.avatarBorders);
+				g_plugin.setByte("AvatarPNGBorders", PopupOptions.avatarPNGBorders);
+				g_plugin.setByte("AvatarRadius", PopupOptions.avatarRadius);
+				g_plugin.setWord("AvatarSize", PopupOptions.avatarSize);
+				g_plugin.setByte("EnableAvatarUpdates", PopupOptions.EnableAvatarUpdates);
 				// Monitor
-				db_set_b(NULL, MODULENAME, "Monitor", PopupOptions.Monitor);
+				g_plugin.setByte("Monitor", PopupOptions.Monitor);
 				// Transparency
-				db_set_b(NULL, MODULENAME, "UseTransparency", PopupOptions.UseTransparency);
-				db_set_b(NULL, MODULENAME, "Alpha", PopupOptions.Alpha);
-				db_set_b(NULL, MODULENAME, "OpaqueOnHover", PopupOptions.OpaqueOnHover);
+				g_plugin.setByte("UseTransparency", PopupOptions.UseTransparency);
+				g_plugin.setByte("Alpha", PopupOptions.Alpha);
+				g_plugin.setByte("OpaqueOnHover", PopupOptions.OpaqueOnHover);
 
 				// Effects
-				db_set_b(NULL, MODULENAME, "UseAnimations", PopupOptions.UseAnimations);
-				db_set_b(NULL, MODULENAME, "Fade", PopupOptions.UseEffect);
-				db_set_ws(NULL, MODULENAME, "Effect", PopupOptions.Effect);
-				db_set_dw(NULL, MODULENAME, "FadeInTime", PopupOptions.FadeIn);
-				db_set_dw(NULL, MODULENAME, "FadeOutTime", PopupOptions.FadeOut);
+				g_plugin.setByte("UseAnimations", PopupOptions.UseAnimations);
+				g_plugin.setByte("Fade", PopupOptions.UseEffect);
+				g_plugin.setWString("Effect", PopupOptions.Effect);
+				g_plugin.setDword("FadeInTime", PopupOptions.FadeIn);
+				g_plugin.setDword("FadeOutTime", PopupOptions.FadeOut);
 				// other old stuff
-				db_set_w(NULL, MODULENAME, "MaxPopups", (BYTE)PopupOptions.MaxPopups);
+				g_plugin.setWord("MaxPopups", (BYTE)PopupOptions.MaxPopups);
 			}
 			return TRUE;
 		}

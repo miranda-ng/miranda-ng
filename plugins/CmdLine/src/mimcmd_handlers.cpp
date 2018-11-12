@@ -432,26 +432,26 @@ void HandleSoundsCommand(PCommand command, TArgument *argv, int argc, PReply rep
 
 	switch (argc) {
 	case 2:
-		state = db_get_b(NULL, "Skin", "UseSound", 1);
+		state = db_get_b(0, "Skin", "UseSound", 1);
 		Set2StateReply(reply, state, 0, LPGENW("Sounds are currently enabled."), L"", LPGENW("Sounds are currently disabled."), L"");
 		break;
 
 	case 3:
 		switch (Get2StateValue(argv[2])) {
 		case STATE_ON:
-			db_set_b(NULL, "Skin", "UseSound", 1);
+			db_set_b(0, "Skin", "UseSound", 1);
 			state = TRUE;
 			break;
 
 		case STATE_OFF:
-			db_set_b(NULL, "Skin", "UseSound", 0);
+			db_set_b(0, "Skin", "UseSound", 0);
 			state = FALSE;
 			break;
 
 		case STATE_TOGGLE:
-			state = db_get_b(NULL, "Skin", "UseSound", 1);
+			state = db_get_b(0, "Skin", "UseSound", 1);
 			state = 1 - state;
-			db_set_b(NULL, "Skin", "UseSound", state);
+			db_set_b(0, "Skin", "UseSound", state);
 			break;
 
 		default:
@@ -811,28 +811,28 @@ void HandleDatabaseCommand(PCommand command, TArgument *argv, int argc, PReply r
 
 				switch (type) {
 				case VALUE_STRING:
-					db_set_s(NULL, module, key, (char *)value);
+					db_set_s(0, module, key, (char *)value);
 					wrote = Translate("string");
 
 					break;
 
 				case VALUE_BYTE:
-					db_set_b(NULL, module, key, (*(char *)value));
+					db_set_b(0, module, key, (*(char *)value));
 					wrote = Translate("byte");
 					break;
 
 				case VALUE_WORD:
-					db_set_w(NULL, module, key, (*(WORD *)value));
+					db_set_w(0, module, key, (*(WORD *)value));
 					wrote = Translate("word");
 					break;
 
 				case VALUE_DWORD:
-					db_set_dw(NULL, module, key, (*(DWORD *)value));
+					db_set_dw(0, module, key, (*(DWORD *)value));
 					wrote = Translate("dword");
 					break;
 
 				case VALUE_WIDE:
-					db_set_ws(NULL, module, key, (WCHAR *)value);
+					db_set_ws(0, module, key, (WCHAR *)value);
 					wrote = Translate("wide string");
 					break;
 
@@ -944,7 +944,7 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 		switch (argc) {
 		case 4:
 			{
-				int value = db_get_b(NULL, module, "NLUseProxy", 0);
+				int value = db_get_b(0, module, "NLUseProxy", 0);
 
 				reply->code = MIMRES_SUCCESS;
 				mir_snwprintf(buffer, L"%S proxy status is %s", protocol, (value) ? L"enabled" : L"disabled");
@@ -956,14 +956,14 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 				int state = Get2StateValue(argv[4]);
 				switch (state) {
 				case STATE_OFF:
-					db_set_b(NULL, module, "NLUseProxy", 0);
+					db_set_b(0, module, "NLUseProxy", 0);
 
 					reply->code = MIMRES_SUCCESS;
 					mir_snwprintf(buffer, TranslateT("'%S' proxy was disabled."), protocol);
 					break;
 
 				case STATE_ON:
-					db_set_b(NULL, module, "NLUseProxy", 1);
+					db_set_b(0, module, "NLUseProxy", 1);
 
 					reply->code = MIMRES_SUCCESS;
 					mir_snwprintf(buffer, TranslateT("'%S' proxy was enabled."), protocol);
@@ -971,9 +971,9 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 
 				case STATE_TOGGLE:
 					{
-						int value = db_get_b(NULL, module, "NLUseProxy", 0);
+						int value = db_get_b(0, module, "NLUseProxy", 0);
 						value = 1 - value;
-						db_set_b(NULL, module, "NLUseProxy", value);
+						db_set_b(0, module, "NLUseProxy", value);
 
 						reply->code = MIMRES_SUCCESS;
 						mir_snwprintf(buffer, (value) ? TranslateT("'%S' proxy was enabled.") : TranslateT("'%S' proxy was disabled."), protocol);
@@ -998,8 +998,8 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 			{
 				char host[256], type[256];
 				GetStringFromDatabase(NULL, module, "NLProxyServer", "<unknown>", host, _countof(host));
-				int port = db_get_w(NULL, module, "NLProxyPort", 0);
-				PrettyProxyType(db_get_b(NULL, module, "NLProxyType", 0), type, _countof(type));
+				int port = db_get_w(0, module, "NLProxyPort", 0);
+				PrettyProxyType(db_get_b(0, module, "NLProxyType", 0), type, _countof(type));
 
 				reply->code = MIMRES_SUCCESS;
 				mir_snwprintf(buffer, TranslateT("%S proxy server: %S %S:%d."), protocol, type, host, port);
@@ -1014,9 +1014,9 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 				long port = wcstol(argv[6], &stop, 10);
 
 				if ((*stop == 0) && (type > 0)) {
-					db_set_s(NULL, module, "NLProxyServer", host);
-					db_set_w(NULL, module, "NLProxyPort", port);
-					db_set_b(NULL, module, "NLProxyType", type);
+					db_set_s(0, module, "NLProxyServer", host);
+					db_set_w(0, module, "NLProxyPort", port);
+					db_set_b(0, module, "NLProxyType", type);
 
 					reply->code = MIMRES_SUCCESS;
 					mir_snwprintf(buffer, TranslateT("%S proxy set to %s %S:%d."), protocol, argv[4], host, port);

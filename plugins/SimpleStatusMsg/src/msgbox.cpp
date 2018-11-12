@@ -229,7 +229,7 @@ HWND WINAPI CreateRecentComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 	else
 		cbei.mask = CBEIF_LPARAM | CBEIF_TEXT | CBEIF_IMAGE | CBEIF_SELECTEDIMAGE;
 
-	int j = db_get_w(NULL, MODULENAME, "LMMsg", 1);
+	int j = g_plugin.getWord("LMMsg", 1);
 
 	for (int i = 1; i <= data->max_hist_msgs; ++i) {
 		// history messages
@@ -238,7 +238,7 @@ HWND WINAPI CreateRecentComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 		mir_snprintf(buff, "SMsg%d", j);
 		j--;
 
-		wchar_t *tszStatusMsg = db_get_wsa(NULL, MODULENAME, buff);
+		wchar_t *tszStatusMsg = g_plugin.getWStringA(buff);
 		if (tszStatusMsg != nullptr) {
 			if (*tszStatusMsg != '\0') {
 				found = TRUE;
@@ -332,7 +332,7 @@ HWND WINAPI CreateRecentComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 	for (int i = 1; i <= data->num_def_msgs; ++i) {
 		// predefined messages
 		mir_snprintf(buff, "DefMsg%d", i);
-		wchar_t *tszStatusMsg = db_get_wsa(NULL, MODULENAME, buff);
+		wchar_t *tszStatusMsg = g_plugin.getWStringA(buff);
 		if (tszStatusMsg != nullptr) {
 			if (*tszStatusMsg != '\0') {
 				cbei.iItem = -1;
@@ -353,7 +353,7 @@ HWND WINAPI CreateRecentComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 		}
 	}
 
-	if (db_get_b(NULL, MODULENAME, "PutDefInList", 0)) {
+	if (g_plugin.getByte("PutDefInList", 0)) {
 		cbei.iItem = -1;
 		cbei.pszText = (LPTSTR)GetDefaultMessage(data->m_iStatus);
 		if (data->m_iDlgFlags & DLG_SHOW_LIST_ICONS) {
@@ -640,9 +640,9 @@ void ClearHistory(struct MsgBoxData *data, int cur_sel)
 
 	for (i = 1; i <= data->max_hist_msgs; i++) {
 		mir_snprintf(text, "SMsg%d", i);
-		db_set_ws(NULL, MODULENAME, text, L"");
+		g_plugin.setWString(text, L"");
 	}
-	db_set_s(NULL, MODULENAME, "LastMsg", "");
+	g_plugin.setString("LastMsg", "");
 	for (i = 0; i < accounts->count; i++) {
 		auto *pa = accounts->pa[i];
 		if (!pa->IsEnabled())
@@ -655,9 +655,9 @@ void ClearHistory(struct MsgBoxData *data, int cur_sel)
 			continue;
 
 		mir_snprintf(buff2, "Last%sMsg", pa->szModuleName);
-		db_set_s(NULL, MODULENAME, buff2, "");
+		g_plugin.setString(buff2, "");
 	}
-	db_set_w(NULL, MODULENAME, "LMMsg", (WORD)data->max_hist_msgs);
+	g_plugin.setWord("LMMsg", (WORD)data->max_hist_msgs);
 	SendMessage(data->recent_cbex, CB_SETCURSEL, -1, 0);
 	num_items = SendMessage(data->recent_cbex, CB_GETCOUNT, 0, 0);
 	if (num_items == CB_ERR)
@@ -685,7 +685,7 @@ void DisplayCharsCount(struct MsgBoxData *dlg_data, HWND hwndDlg)
 		return;
 
 	len = GetDlgItemText(hwndDlg, IDC_EDIT1, msg, _countof(msg));
-	if (db_get_b(NULL, MODULENAME, "RemoveCR", 0)) {
+	if (g_plugin.getByte("RemoveCR", 0)) {
 		int index, num_lines = SendDlgItemMessage(hwndDlg, IDC_EDIT1, EM_GETLINECOUNT, 0, 0);
 		for (int i = 1; i < num_lines; ++i) {
 			index = SendDlgItemMessage(hwndDlg, IDC_EDIT1, EM_LINEINDEX, (WPARAM)i, 0);
@@ -706,7 +706,7 @@ void SetEditControlText(struct MsgBoxData *data, HWND hwndDlg, int iStatus)
 	num_start -= data->num_def_msgs + 1;
 
 	mir_snprintf(setting, "%sFlags", data->m_szProto ? data->m_szProto : "");
-	flags = db_get_b(NULL, MODULENAME, (char *)StatusModeToDbSetting(iStatus, setting), STATUS_DEFAULT);
+	flags = g_plugin.getByte((char *)StatusModeToDbSetting(iStatus, setting), STATUS_DEFAULT);
 
 	if (flags & STATUS_LAST_MSG) {
 		if (data->m_szProto)
@@ -714,10 +714,10 @@ void SetEditControlText(struct MsgBoxData *data, HWND hwndDlg, int iStatus)
 		else
 			mir_snprintf(setting, "LastMsg");
 
-		char *szSetting = db_get_sa(NULL, MODULENAME, setting);
+		char *szSetting = g_plugin.getStringA(setting);
 		if (szSetting != nullptr) {
 			if (*szSetting != '\0') {
-				wchar_t *tszStatusMsg = db_get_wsa(NULL, MODULENAME, szSetting);
+				wchar_t *tszStatusMsg = g_plugin.getWStringA(szSetting);
 				if (tszStatusMsg != nullptr) {
 					if (*tszStatusMsg != '\0') {
 						SetDlgItemText(hwndDlg, IDC_EDIT1, tszStatusMsg);
@@ -734,7 +734,7 @@ void SetEditControlText(struct MsgBoxData *data, HWND hwndDlg, int iStatus)
 	else if (flags & STATUS_DEFAULT_MSG) {
 		SetDlgItemText(hwndDlg, IDC_EDIT1, GetDefaultMessage(iStatus));
 
-		if (db_get_b(NULL, MODULENAME, "PutDefInList", 0)) {
+		if (g_plugin.getByte("PutDefInList", 0)) {
 			fcursel = SendMessage(data->recent_cbex, CB_FINDSTRINGEXACT, num_start, (LPARAM)GetDefaultMessage(iStatus));
 			if (fcursel != CB_ERR)
 				SendMessage(data->recent_cbex, CB_SETCURSEL, (WPARAM)fcursel, 0);
@@ -932,9 +932,9 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			HookEventMessage(ME_SYSTEM_PRESHUTDOWN, hwndDlg, DM_SIMPAWAY_SHUTDOWN);
 			HookEventMessage(ME_SKIN2_ICONSCHANGED, hwndDlg, DM_SIMPAWAY_CHANGEICONS);
 
-			copy_init_data->num_def_msgs = db_get_w(NULL, MODULENAME, "DefMsgCount", 0);
-			copy_init_data->max_hist_msgs = db_get_b(NULL, MODULENAME, "MaxHist", 10);
-			copy_init_data->m_iDlgFlags = db_get_b(NULL, MODULENAME, "DlgFlags", DLG_SHOW_DEFAULT);
+			copy_init_data->num_def_msgs = g_plugin.getWord("DefMsgCount", 0);
+			copy_init_data->max_hist_msgs = g_plugin.getByte("MaxHist", 10);
+			copy_init_data->m_iDlgFlags = g_plugin.getByte("DlgFlags", DLG_SHOW_DEFAULT);
 			copy_init_data->m_szProto = init_data->m_szProto;
 			copy_init_data->m_iStatus = init_data->m_iStatus;
 			copy_init_data->m_iStatusModes = init_data->m_iStatusModes;
@@ -1045,8 +1045,8 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				}
 			}
 
-			if (db_get_b(NULL, MODULENAME, "AutoClose", 1) && init_data->m_bOnEvent) {
-				copy_init_data->m_iCountdown = db_get_b(NULL, MODULENAME, "DlgTime", 5);
+			if (g_plugin.getByte("AutoClose", 1) && init_data->m_bOnEvent) {
+				copy_init_data->m_iCountdown = g_plugin.getByte("DlgTime", 5);
 				SendMessage(hwndDlg, WM_TIMER, 0, 0);
 				SetTimer(hwndDlg, 1, 1000, nullptr);
 			}
@@ -1068,15 +1068,15 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 			mir_free(init_data);
 
-			if (!db_get_b(NULL, MODULENAME, "WinCentered", 1)) {
+			if (!g_plugin.getByte("WinCentered", 1)) {
 				WINDOWPLACEMENT wp;
 				int x, y;
 
 				wp.length = sizeof(wp);
 				GetWindowPlacement(hwndDlg, &wp);
 
-				x = (int)db_get_dw(NULL, MODULENAME, "Winx", -1);
-				y = (int)db_get_dw(NULL, MODULENAME, "Winy", -1);
+				x = (int)g_plugin.getDword("Winx", -1);
+				y = (int)g_plugin.getDword("Winy", -1);
 
 				if (x != -1) {
 					OffsetRect(&wp.rcNormalPosition, x - wp.rcNormalPosition.left, y - wp.rcNormalPosition.top);
@@ -1127,13 +1127,13 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 					char szSetting[80];
 					if (msgbox_data->m_szProto) {
 						mir_snprintf(szSetting, "Last%sMsg", msgbox_data->m_szProto);
-						db_set_s(NULL, MODULENAME, szSetting, "");
+						g_plugin.setString(szSetting, "");
 
 						mir_snprintf(szSetting, "%sMsg", msgbox_data->m_szProto);
-						db_set_ws(NULL, "SRAway", StatusModeToDbSetting(msgbox_data->m_iStatus, szSetting), L"");
+						db_set_ws(0, "SRAway", StatusModeToDbSetting(msgbox_data->m_iStatus, szSetting), L"");
 					}
 					else {
-						db_set_s(NULL, MODULENAME, "LastMsg", "");
+						g_plugin.setString("LastMsg", "");
 						for (int j = 0; j < accounts->count; j++) {
 							auto *pa = accounts->pa[j];
 							if (!pa->IsEnabled())
@@ -1142,21 +1142,21 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 							if (!CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
 								continue;
 
-							if (db_get_b(NULL, pa->szModuleName, "LockMainStatus", 0))
+							if (db_get_b(0, pa->szModuleName, "LockMainStatus", 0))
 								continue;
 
 							if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 								continue;
 
 							mir_snprintf(szSetting, "Last%sMsg", pa->szModuleName);
-							db_set_s(NULL, MODULENAME, szSetting, "");
+							g_plugin.setString(szSetting, "");
 
 							mir_snprintf(szSetting, "%sMsg", pa->szModuleName);
 							iStatus = msgbox_data->m_bOnStartup ? GetStartupStatus(pa->szModuleName) : GetCurrentStatus(pa->szModuleName);
-							db_set_ws(NULL, "SRAway", StatusModeToDbSetting(iStatus, szSetting), L"");
+							db_set_ws(0, "SRAway", StatusModeToDbSetting(iStatus, szSetting), L"");
 						}
 
-						db_set_ws(NULL, "SRAway", StatusModeToDbSetting(msgbox_data->m_iStatus, "Msg"), L""); // for compatibility with some plugins
+						db_set_ws(0, "SRAway", StatusModeToDbSetting(msgbox_data->m_iStatus, "Msg"), L""); // for compatibility with some plugins
 					}
 
 					if (bCurrentStatus)
@@ -1172,19 +1172,19 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 					for (int i = 1; i <= msgbox_data->max_hist_msgs; i++) {
 						mir_snprintf(buff, "SMsg%d", i);
-						wchar_t *tszStatusMsg = db_get_wsa(NULL, MODULENAME, buff);
+						wchar_t *tszStatusMsg = g_plugin.getWStringA(buff);
 						if (tszStatusMsg != nullptr) {
 							if (!mir_wstrcmp(tszStatusMsg, tszMsg)) {
 								found = true;
 								if (msgbox_data->m_szProto) {
 									mir_snprintf(buff2, "Last%sMsg", msgbox_data->m_szProto);
-									db_set_s(NULL, MODULENAME, buff2, buff);
+									g_plugin.setString(buff2, buff);
 
 									mir_snprintf(buff2, "%sMsg", msgbox_data->m_szProto);
-									db_set_ws(NULL, "SRAway", StatusModeToDbSetting(msgbox_data->m_iStatus, buff2), tszMsg);
+									db_set_ws(0, "SRAway", StatusModeToDbSetting(msgbox_data->m_iStatus, buff2), tszMsg);
 								}
 								else {
-									db_set_s(NULL, MODULENAME, "LastMsg", buff);
+									g_plugin.setString("LastMsg", buff);
 									for (int j = 0; j < accounts->count; j++) {
 										auto *pa = accounts->pa[j];
 										if (!pa->IsEnabled())
@@ -1193,18 +1193,18 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 										if (!CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
 											continue;
 
-										if (db_get_b(NULL, pa->szModuleName, "LockMainStatus", 0))
+										if (db_get_b(0, pa->szModuleName, "LockMainStatus", 0))
 											continue;
 
 										if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 											continue;
 
 										mir_snprintf(buff2, "Last%sMsg", pa->szModuleName);
-										db_set_s(NULL, MODULENAME, buff2, buff);
+										g_plugin.setString(buff2, buff);
 
 										mir_snprintf(buff2, "%sMsg", pa->szModuleName);
 										iStatus = msgbox_data->m_bOnStartup ? GetStartupStatus(pa->szModuleName) : GetCurrentStatus(pa->szModuleName);
-										db_set_ws(NULL, "SRAway", StatusModeToDbSetting(iStatus, buff2), tszMsg);
+										db_set_ws(0, "SRAway", StatusModeToDbSetting(iStatus, buff2), tszMsg);
 									}
 								}
 								mir_free(tszStatusMsg);
@@ -1215,7 +1215,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 					}
 
 					if (!found) {
-						int last_modified_msg = db_get_w(NULL, MODULENAME, "LMMsg", msgbox_data->max_hist_msgs);
+						int last_modified_msg = g_plugin.getWord("LMMsg", msgbox_data->max_hist_msgs);
 
 						if (last_modified_msg == msgbox_data->max_hist_msgs)
 							last_modified_msg = 1;
@@ -1223,17 +1223,17 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 							last_modified_msg++;
 
 						mir_snprintf(buff, "SMsg%d", last_modified_msg);
-						db_set_ws(NULL, MODULENAME, buff, tszMsg);
+						g_plugin.setWString(buff, tszMsg);
 
 						if (msgbox_data->m_szProto) {
 							mir_snprintf(buff2, "Last%sMsg", msgbox_data->m_szProto);
-							db_set_s(NULL, MODULENAME, buff2, buff);
+							g_plugin.setString(buff2, buff);
 
 							mir_snprintf(buff2, "%sMsg", msgbox_data->m_szProto);
-							db_set_ws(NULL, "SRAway", StatusModeToDbSetting(msgbox_data->m_iStatus, buff2), tszMsg);
+							db_set_ws(0, "SRAway", StatusModeToDbSetting(msgbox_data->m_iStatus, buff2), tszMsg);
 						}
 						else {
-							db_set_s(NULL, MODULENAME, "LastMsg", buff);
+							g_plugin.setString("LastMsg", buff);
 							for (int j = 0; j < accounts->count; j++) {
 								auto *pa = accounts->pa[j];
 								if (!pa->IsEnabled())
@@ -1242,25 +1242,25 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 								if (!CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
 									continue;
 
-								if (db_get_b(NULL, pa->szModuleName, "LockMainStatus", 0))
+								if (db_get_b(0, pa->szModuleName, "LockMainStatus", 0))
 									continue;
 
 								if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 									continue;
 
 								mir_snprintf(buff2, "Last%sMsg", pa->szModuleName);
-								db_set_s(NULL, MODULENAME, buff2, buff);
+								g_plugin.setString(buff2, buff);
 
 								mir_snprintf(buff2, "%sMsg", pa->szModuleName);
 								iStatus = msgbox_data->m_bOnStartup ? GetStartupStatus(pa->szModuleName) : GetCurrentStatus(pa->szModuleName);
-								db_set_ws(NULL, "SRAway", StatusModeToDbSetting(iStatus, buff2), tszMsg);
+								db_set_ws(0, "SRAway", StatusModeToDbSetting(iStatus, buff2), tszMsg);
 							}
 						}
-						db_set_w(NULL, MODULENAME, "LMMsg", (WORD)last_modified_msg);
+						g_plugin.setWord("LMMsg", (WORD)last_modified_msg);
 					}
 
 					if (!msgbox_data->m_szProto)
-						db_set_ws(NULL, "SRAway", StatusModeToDbSetting(msgbox_data->m_iStatus, "Msg"), tszMsg); // for compatibility with some plugins
+						db_set_ws(0, "SRAway", StatusModeToDbSetting(msgbox_data->m_iStatus, "Msg"), tszMsg); // for compatibility with some plugins
 
 					if (bCurrentStatus)
 						SetStatusMessage(msgbox_data->m_szProto, msgbox_data->m_iInitialStatus, ID_STATUS_CURRENT, tszMsg, msgbox_data->m_bOnStartup);
@@ -1387,7 +1387,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 					if (LOWORD(histitem.lParam) == HISTORY_MSG) {
 						char szSetting[16];
 						mir_snprintf(szSetting, "SMsg%d", (int)HIWORD(histitem.lParam));
-						db_set_ws(NULL, MODULENAME, szSetting, L"");
+						g_plugin.setWString(szSetting, L"");
 						SendMessage(msgbox_data->recent_cbex, CBEM_DELETEITEM, (WPARAM)msgbox_data->curr_sel_msg, 0);
 					}
 					if (LOWORD(histitem.lParam) == PREDEFINED_MSG) {
@@ -1499,7 +1499,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 				if (LOWORD(histitem.lParam) == HISTORY_MSG) {
 					mir_snprintf(buff, "SMsg%d", (int)HIWORD(histitem.lParam));
-					db_set_ws(NULL, MODULENAME, buff, L"");
+					g_plugin.setWString(buff, L"");
 				}
 				else if (LOWORD(histitem.lParam) == PREDEFINED_MSG)
 					msgbox_data->m_bPredefChanged = TRUE;
@@ -1570,8 +1570,8 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			WINDOWPLACEMENT wp;
 			wp.length = sizeof(wp);
 			GetWindowPlacement(hwndDlg, &wp);
-			db_set_dw(NULL, MODULENAME, "Winx", wp.rcNormalPosition.left);
-			db_set_dw(NULL, MODULENAME, "Winy", wp.rcNormalPosition.top);
+			g_plugin.setDword("Winx", wp.rcNormalPosition.left);
+			g_plugin.setDword("Winy", wp.rcNormalPosition.top);
 
 			if (msgbox_data->m_bPredefChanged) {
 				int i, num_items, new_num_def_msgs = 0;
@@ -1591,13 +1591,13 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 					mir_snprintf(buff, "DefMsg%d", i);
 					if (LOWORD(cbitem.lParam) == PREDEFINED_MSG) {
 						new_num_def_msgs++;
-						db_set_ws(NULL, MODULENAME, buff, text);
+						g_plugin.setWString(buff, text);
 					}
 					else
-						db_unset(NULL, MODULENAME, buff);
+						g_plugin.delSetting(buff);
 					num_items--;
 				}
-				db_set_w(NULL, MODULENAME, "DefMsgCount", (WORD)new_num_def_msgs);
+				g_plugin.setWord("DefMsgCount", (WORD)new_num_def_msgs);
 			}
 
 			ImageList_Destroy(msgbox_data->status_icons);

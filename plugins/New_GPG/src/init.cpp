@@ -70,34 +70,34 @@ void InitIconLib();
 
 void init_vars()
 {
-	globals.bAppendTags = db_get_b(NULL, MODULENAME, "bAppendTags", 0) != 0;
-	globals.bStripTags = db_get_b(NULL, MODULENAME, "bStripTags", 0) != 0;
-	globals.inopentag = UniGetContactSettingUtf(NULL, MODULENAME, "szInOpenTag", L"<GPGdec>");
-	globals.inclosetag = UniGetContactSettingUtf(NULL, MODULENAME, "szInCloseTag", L"</GPGdec>");
-	globals.outopentag = UniGetContactSettingUtf(NULL, MODULENAME, "szOutOpenTag", L"<GPGenc>");
-	globals.outclosetag = UniGetContactSettingUtf(NULL, MODULENAME, "szOutCloseTag", L"</GPGenc>");
-	globals.bDebugLog = db_get_b(NULL, MODULENAME, "bDebugLog", 0) != 0;
-	globals.bAutoExchange = db_get_b(NULL, MODULENAME, "bAutoExchange", 0) != 0;
-	globals.bSameAction = db_get_b(NULL, MODULENAME, "bSameAction", 0) != 0;
-	globals.password = UniGetContactSettingUtf(NULL, MODULENAME, "szKeyPassword", L"");
+	globals.bAppendTags = g_plugin.getByte("bAppendTags", 0) != 0;
+	globals.bStripTags = g_plugin.getByte("bStripTags", 0) != 0;
+	globals.inopentag = UniGetContactSettingUtf(0, MODULENAME, "szInOpenTag", L"<GPGdec>");
+	globals.inclosetag = UniGetContactSettingUtf(0, MODULENAME, "szInCloseTag", L"</GPGdec>");
+	globals.outopentag = UniGetContactSettingUtf(0, MODULENAME, "szOutOpenTag", L"<GPGenc>");
+	globals.outclosetag = UniGetContactSettingUtf(0, MODULENAME, "szOutCloseTag", L"</GPGenc>");
+	globals.bDebugLog = g_plugin.getByte("bDebugLog", 0) != 0;
+	globals.bAutoExchange = g_plugin.getByte("bAutoExchange", 0) != 0;
+	globals.bSameAction = g_plugin.getByte("bSameAction", 0) != 0;
+	globals.password = UniGetContactSettingUtf(0, MODULENAME, "szKeyPassword", L"");
 	globals.debuglog.init();
-	globals.bJabberAPI = db_get_b(NULL, MODULENAME, "bJabberAPI", true) != 0;
-	globals.bPresenceSigning = db_get_b(NULL, MODULENAME, "bPresenceSigning", 0) != 0;
-	globals.bFileTransfers = db_get_b(NULL, MODULENAME, "bFileTransfers", 0) != 0;
-	globals.firstrun_rect.left = db_get_dw(NULL, MODULENAME, "FirstrunWindowX", 0);
-	globals.firstrun_rect.top = db_get_dw(NULL, MODULENAME, "FirstrunWindowY", 0);
-	globals.key_password_rect.left = db_get_dw(NULL, MODULENAME, "PasswordWindowX", 0);
-	globals.key_password_rect.top = db_get_dw(NULL, MODULENAME, "PasswordWindowY", 0);
-	globals.key_gen_rect.left = db_get_dw(NULL, MODULENAME, "KeyGenWindowX", 0);
-	globals.key_gen_rect.top = db_get_dw(NULL, MODULENAME, "KeyGenWindowY", 0);
-	globals.load_key_rect.left = db_get_dw(NULL, MODULENAME, "LoadKeyWindowX", 0);
-	globals.load_key_rect.top = db_get_dw(NULL, MODULENAME, "LoadKeyWindowY", 0);
-	globals.import_key_rect.left = db_get_dw(NULL, MODULENAME, "ImportKeyWindowX", 0);
-	globals.import_key_rect.top = db_get_dw(NULL, MODULENAME, "ImportKeyWindowY", 0);
-	globals.new_key_rect.left = db_get_dw(NULL, MODULENAME, "NewKeyWindowX", 0);
-	globals.new_key_rect.top = db_get_dw(NULL, MODULENAME, "NewKeyWindowY", 0);
-	globals.load_existing_key_rect.left = db_get_dw(NULL, MODULENAME, "LoadExistingKeyWindowX", 0);
-	globals.load_existing_key_rect.top = db_get_dw(NULL, MODULENAME, "LoadExistingKeyWindowY", 0);
+	globals.bJabberAPI = g_plugin.getByte("bJabberAPI", true) != 0;
+	globals.bPresenceSigning = g_plugin.getByte("bPresenceSigning", 0) != 0;
+	globals.bFileTransfers = g_plugin.getByte("bFileTransfers", 0) != 0;
+	globals.firstrun_rect.left = g_plugin.getDword("FirstrunWindowX", 0);
+	globals.firstrun_rect.top = g_plugin.getDword("FirstrunWindowY", 0);
+	globals.key_password_rect.left = g_plugin.getDword("PasswordWindowX", 0);
+	globals.key_password_rect.top = g_plugin.getDword("PasswordWindowY", 0);
+	globals.key_gen_rect.left = g_plugin.getDword("KeyGenWindowX", 0);
+	globals.key_gen_rect.top = g_plugin.getDword("KeyGenWindowY", 0);
+	globals.load_key_rect.left = g_plugin.getDword("LoadKeyWindowX", 0);
+	globals.load_key_rect.top = g_plugin.getDword("LoadKeyWindowY", 0);
+	globals.import_key_rect.left = g_plugin.getDword("ImportKeyWindowX", 0);
+	globals.import_key_rect.top = g_plugin.getDword("ImportKeyWindowY", 0);
+	globals.new_key_rect.left = g_plugin.getDword("NewKeyWindowX", 0);
+	globals.new_key_rect.top = g_plugin.getDword("NewKeyWindowY", 0);
+	globals.load_existing_key_rect.left = g_plugin.getDword("LoadExistingKeyWindowX", 0);
+	globals.load_existing_key_rect.top = g_plugin.getDword("LoadExistingKeyWindowY", 0);
 	globals.tabsrmm_used = isTabsrmmUsed();
 	globals.bold_font = CreateFont(14, 0, 0, 0, 600, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, L"Arial");
 }
@@ -105,7 +105,7 @@ void init_vars()
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	FirstRun();
-	if (!db_get_b(NULL, MODULENAME, "FirstRun", 1))
+	if (!g_plugin.getByte("FirstRun", 1))
 		InitCheck();
 
 	StatusIconData sid = {};

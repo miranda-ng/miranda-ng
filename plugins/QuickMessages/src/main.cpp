@@ -263,10 +263,10 @@ static int PluginInit(WPARAM, LPARAM)
 
 	HookTemporaryEvent(ME_MSG_TOOLBARLOADED, RegisterCustomButton);
 
-	g_bRClickAuto = db_get_b(NULL, MODULENAME, "RClickAuto", 0);
-	g_bLClickAuto = db_get_b(NULL, MODULENAME, "LClickAuto", 0);
-	g_iButtonsCount = db_get_b(NULL, MODULENAME, "ButtonsCount", 0);
-	g_bQuickMenu = db_get_b(NULL, MODULENAME, "QuickMenu", 1);
+	g_bRClickAuto = g_plugin.getByte("RClickAuto", 0);
+	g_bLClickAuto = g_plugin.getByte("LClickAuto", 0);
+	g_iButtonsCount = g_plugin.getByte("ButtonsCount", 0);
+	g_bQuickMenu = g_plugin.getByte("QuickMenu", 1);
 
 	InitButtonsList();
 

@@ -711,7 +711,7 @@ void CAppletManager::SendTypingNotification(MCONTACT hContact, bool bEnable)
 	// Don't send to protocols that are offline
 	// Don't send to users who are not visible and
 	// Don't send to users who are not on the visible list when you are in invisible mode.
-	if (!db_get_b(hContact, "SRMsg", "SupportTyping", db_get_b(NULL, "SRMsg", "DefaultTyping", 1)))
+	if (!db_get_b(hContact, "SRMsg", "SupportTyping", db_get_b(0, "SRMsg", "DefaultTyping", 1)))
 		return;
 
 	char *szProto = GetContactProto(hContact);
@@ -732,7 +732,7 @@ void CAppletManager::SendTypingNotification(MCONTACT hContact, bool bEnable)
 	if (protoCaps & PF1_INVISLIST && protoStatus == ID_STATUS_INVISIBLE && db_get_w(hContact, szProto, "ApparentMode", 0) != ID_STATUS_ONLINE)
 		return;
 	if (db_get_b(hContact, "CList", "NotOnList", 0)
-		&& !db_get_b(NULL, "SRMsg", "UnknownTyping", 1))
+		&& !db_get_b(0, "SRMsg", "UnknownTyping", 1))
 		return;
 	// End user check
 	CallService(MS_PROTO_SELFISTYPING, hContact, bEnable ? PROTOTYPE_SELFTYPING_ON : PROTOTYPE_SELFTYPING_OFF);

@@ -208,12 +208,12 @@ void LoadConfig()
 		mir_snprintf(szNameFG, "FG%d", indx);
 		mir_snprintf(szNameBG, "BG%d", indx);
 		mir_snprintf(szNameTO, "TO%d", indx);
-		options.FG[indx] = db_get_dw(NULL, MODULENAME, szNameFG, optionsDefault.FG[indx]);
-		options.BG[indx] = db_get_dw(NULL, MODULENAME, szNameBG, optionsDefault.BG[indx]);
-		options.Timeout[indx] = db_get_dw(NULL, MODULENAME, szNameTO, (DWORD)optionsDefault.Timeout[indx]);
+		options.FG[indx] = g_plugin.getDword(szNameFG, optionsDefault.FG[indx]);
+		options.BG[indx] = g_plugin.getDword(szNameBG, optionsDefault.BG[indx]);
+		options.Timeout[indx] = g_plugin.getDword(szNameTO, (DWORD)optionsDefault.Timeout[indx]);
 	}
 
-	options.Sound = db_get_b(NULL, MODULENAME, "Sound", (DWORD)optionsDefault.Sound);
+	options.Sound = g_plugin.getByte("Sound", (DWORD)optionsDefault.Sound);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -314,7 +314,7 @@ void Click(HWND hWnd,BOOL execute)
 	deletePopupsHandles((&(getEl(pid->id))->pq),TRUE);
 
 	if(settingNewest && (pid->id > settingNewestID) ){
-		db_set_dw(NULL, MODULENAME, "LNNewestID", settingNewestID=pid->id);
+		g_plugin.setDword("LNNewestID", settingNewestID=pid->id);
 	}
 	if(execute && settingCommand[0] ) {
 		char tmpcommand[2*MAX_SETTING_STR];
@@ -694,7 +694,7 @@ void checkthread(void*)
 
 		// remember newest id depending on options set
 		if (settingNewest&&settingEvenNonClicked && (noteID > settingNewestID))
-			db_set_dw(NULL, MODULENAME, "LNNewestID", settingNewestID = noteID);
+			g_plugin.setDword("LNNewestID", settingNewestID = noteID);
 
 		//if(((!settingOnceOnly||(settingOnceOnly&&settingNonClickedOnly))&&existElem(noteID))||(settingNewest&&settingNewestID>=noteID))
 		//continue;
@@ -963,66 +963,66 @@ static void lookupLotusDefaultSettings(HWND hwndDlg)
 // get variables values stored in db.
 static void LoadSettings()
 {
-	settingInterval = (INT)db_get_dw(NULL, MODULENAME, "LNInterval", 15);
-	settingInterval1 = (INT)db_get_dw(NULL, MODULENAME, "LNInterval1", 0);
-	settingKeepConnection = db_get_b(NULL, MODULENAME, "LNKeepConnection", 1);
+	settingInterval = (INT)g_plugin.getDword("LNInterval", 15);
+	settingInterval1 = (INT)g_plugin.getDword("LNInterval1", 0);
+	settingKeepConnection = g_plugin.getByte("LNKeepConnection", 1);
 
 	DBVARIANT dbv;
-	if (!db_get_s(NULL, MODULENAME, "LNDatabase", &dbv)) {
+	if (!g_plugin.getString("LNDatabase", &dbv)) {
 		strncpy_s(settingDatabase, _countof(settingDatabase), dbv.pszVal, _countof(settingDatabase));
 		db_free(&dbv);
 	}
-	if (!db_get_s(NULL, MODULENAME, "LNServer", &dbv)) {
+	if (!g_plugin.getString("LNServer", &dbv)) {
 		strncpy_s(settingServer, _countof(settingServer), dbv.pszVal, _countof(settingServer));
 		db_free(&dbv);
 	}
-	if (!db_get_s(NULL, MODULENAME, "LNServerSec", &dbv)) {
+	if (!g_plugin.getString("LNServerSec", &dbv)) {
 		strncpy_s(settingServerSec, _countof(settingServerSec), dbv.pszVal, _countof(settingServerSec));
 		db_free(&dbv);
 	}
-	if (!db_get_s(NULL, MODULENAME, "LNPassword", &dbv)) {
+	if (!g_plugin.getString("LNPassword", &dbv)) {
 		strncpy_s(settingPassword, _countof(settingPassword), dbv.pszVal, _countof(settingPassword));
 		db_free(&dbv);
 	}
-	if (!db_get_s(NULL, MODULENAME, "LNCommand", &dbv, DBVT_ASCIIZ)) {
+	if (!g_plugin.getString("LNCommand", &dbv)) {
 		strncpy_s(settingCommand, _countof(settingCommand), dbv.pszVal, _countof(settingCommand));
 		db_free(&dbv);
 	}
-	if (!db_get_s(NULL, MODULENAME, "LNParameters", &dbv, DBVT_ASCIIZ)) {
+	if (!g_plugin.getString("LNParameters", &dbv)) {
 		strncpy_s(settingParameters, _countof(settingParameters), dbv.pszVal, _countof(settingParameters));
 		db_free(&dbv);
 	}
 
-	if (!db_get_ws(NULL, MODULENAME, "LNFilterSender", &dbv)) {
+	if (!g_plugin.getWString("LNFilterSender", &dbv)) {
 		wcsncpy_s(settingFilterSender, dbv.pwszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
-	if (!db_get_ws(NULL, MODULENAME, "LNFilterSubject", &dbv)) {
+	if (!g_plugin.getWString("LNFilterSubject", &dbv)) {
 		wcsncpy_s(settingFilterSubject, dbv.pwszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
-	if (!db_get_ws(NULL, MODULENAME, "LNFilterTo", &dbv)) {
+	if (!g_plugin.getWString("LNFilterTo", &dbv)) {
 		wcsncpy_s(settingFilterTo, dbv.pwszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
 
-	settingOnceOnly = db_get_b(NULL, MODULENAME, "LNOnceOnly", 0);
+	settingOnceOnly = g_plugin.getByte("LNOnceOnly", 0);
 
-	settingNonClickedOnly = db_get_b(NULL, MODULENAME, "LNNonClickedOnly", 1);
-	settingShowError = db_get_b(NULL, MODULENAME, "LNShowError", 1);
-	settingSetColours = db_get_b(NULL, MODULENAME, "LNSetColours", 0);
-	settingBgColor = (COLORREF)db_get_dw(NULL, MODULENAME, "LNBgColor", (DWORD)0xFFFFFF);
-	settingFgColor = (COLORREF)db_get_dw(NULL, MODULENAME, "LNFgColor", (DWORD)0x000000);
-	settingNewest = db_get_b(NULL, MODULENAME, "LNNewest", 0);
-	settingEvenNonClicked = db_get_b(NULL, MODULENAME, "LNEvenNonClicked", 0);
-	settingNewestID = (DWORD)db_get_dw(NULL, MODULENAME, "LNNewestID", 0);
-	settingIniAnswer = db_get_b(NULL, MODULENAME, "LNIniAnswer", 0);
-	settingIniCheck = db_get_b(NULL, MODULENAME, "LNIniCheck", 0);
+	settingNonClickedOnly = g_plugin.getByte("LNNonClickedOnly", 1);
+	settingShowError = g_plugin.getByte("LNShowError", 1);
+	settingSetColours = g_plugin.getByte("LNSetColours", 0);
+	settingBgColor = (COLORREF)g_plugin.getDword("LNBgColor", (DWORD)0xFFFFFF);
+	settingFgColor = (COLORREF)g_plugin.getDword("LNFgColor", (DWORD)0x000000);
+	settingNewest = g_plugin.getByte("LNNewest", 0);
+	settingEvenNonClicked = g_plugin.getByte("LNEvenNonClicked", 0);
+	settingNewestID = (DWORD)g_plugin.getDword("LNNewestID", 0);
+	settingIniAnswer = g_plugin.getByte("LNIniAnswer", 0);
+	settingIniCheck = g_plugin.getByte("LNIniCheck", 0);
 
 	for (int i = 0; i < STATUS_COUNT; i++) {
 		char buff[128];
 		mir_snprintf(buff, "LNStatus%d", i);
-		settingStatus[i] = (db_get_b(0, MODULENAME, buff, 0) == 1);
+		settingStatus[i] = (g_plugin.getByte(buff, 0) == 1);
 	}
 	//lookupLotusDefaultSettings();
 }
@@ -1031,30 +1031,30 @@ static void SaveSettings(HWND hwndDlg)
 {
 	char buff[128];
 	GetDlgItemTextA(hwndDlg, IDC_SERVER, settingServer, _countof(settingServer));
-	db_set_s(NULL, MODULENAME, "LNServer", settingServer);
-	db_set_s(NULL, MODULENAME, "LNServerSec", settingServerSec);
-	db_set_s(NULL, MODULENAME, "LNPassword", settingPassword);
-	db_set_s(NULL, MODULENAME, "LNDatabase", settingDatabase);
-	db_set_dw(NULL, MODULENAME, "LNInterval", settingInterval);
-	db_set_dw(NULL, MODULENAME, "LNInterval1", settingInterval1);
-	db_set_b(NULL, MODULENAME, "LNKeepConnection", settingKeepConnection);
-	db_set_s(NULL, MODULENAME, "LNCommand", settingCommand);
-	db_set_s(NULL, MODULENAME, "LNParameters", settingParameters);
-	db_set_b(NULL, MODULENAME, "LNOnceOnly", settingOnceOnly);
-	db_set_b(NULL, MODULENAME, "LNNonClickedOnly", settingNonClickedOnly);
-	db_set_b(NULL, MODULENAME, "LNShowError", settingShowError);
-	db_set_b(NULL, MODULENAME, "LNSetColours", settingSetColours);
-	db_set_dw(NULL, MODULENAME, "LNBgColor", (DWORD)settingBgColor);
-	db_set_dw(NULL, MODULENAME, "LNFgColor", (DWORD)settingFgColor);
-	db_set_b(NULL, MODULENAME, "LNNewest", settingNewest);
-	db_set_b(NULL, MODULENAME, "LNEvenNonClicked", settingEvenNonClicked);
-	db_set_b(NULL, MODULENAME, "LNIniCheck", settingIniCheck);
-	db_set_b(NULL, MODULENAME, "LNIniAnswer", settingIniAnswer);
+	g_plugin.setString("LNServer", settingServer);
+	g_plugin.setString("LNServerSec", settingServerSec);
+	g_plugin.setString("LNPassword", settingPassword);
+	g_plugin.setString("LNDatabase", settingDatabase);
+	g_plugin.setDword("LNInterval", settingInterval);
+	g_plugin.setDword("LNInterval1", settingInterval1);
+	g_plugin.setByte("LNKeepConnection", settingKeepConnection);
+	g_plugin.setString("LNCommand", settingCommand);
+	g_plugin.setString("LNParameters", settingParameters);
+	g_plugin.setByte("LNOnceOnly", settingOnceOnly);
+	g_plugin.setByte("LNNonClickedOnly", settingNonClickedOnly);
+	g_plugin.setByte("LNShowError", settingShowError);
+	g_plugin.setByte("LNSetColours", settingSetColours);
+	g_plugin.setDword("LNBgColor", (DWORD)settingBgColor);
+	g_plugin.setDword("LNFgColor", (DWORD)settingFgColor);
+	g_plugin.setByte("LNNewest", settingNewest);
+	g_plugin.setByte("LNEvenNonClicked", settingEvenNonClicked);
+	g_plugin.setByte("LNIniCheck", settingIniCheck);
+	g_plugin.setByte("LNIniAnswer", settingIniAnswer);
 
 	for (int i = 0; i < STATUS_COUNT; i++) {
 		mir_snprintf(buff, "LNStatus%d", i);
 		settingStatus[i] = (ListView_GetCheckState(GetDlgItem(hwndDlg, IDC_STATUS), i) ? TRUE : FALSE);
-		db_set_b(0, MODULENAME, buff, settingStatus[i] ? 1 : 0);
+		g_plugin.setByte(buff, settingStatus[i] ? 1 : 0);
 	}
 
 	settingFilterSender[0] = 0;
@@ -1064,7 +1064,7 @@ static void SaveSettings(HWND hwndDlg)
 		wcscat_s(settingFilterSender, _countof(settingFilterSender), text);
 		wcscat_s(settingFilterSender, _countof(settingFilterSender), TEXT(";"));
 	}
-	db_set_ws(NULL, MODULENAME, "LNFilterSender", settingFilterSender);
+	g_plugin.setWString("LNFilterSender", settingFilterSender);
 
 	settingFilterSubject[0] = 0;
 	for (int i = 0; i < SendDlgItemMessage(hwndDlg, IDC_FILTER_SUBJECT, CB_GETCOUNT, 0, 0); i++) {
@@ -1073,7 +1073,7 @@ static void SaveSettings(HWND hwndDlg)
 		wcscat_s(settingFilterSubject, _countof(settingFilterSubject), text);
 		wcscat_s(settingFilterSubject, _countof(settingFilterSubject), TEXT(";"));
 	}
-	db_set_ws(NULL, MODULENAME, "LNFilterSubject", settingFilterSubject);
+	g_plugin.setWString("LNFilterSubject", settingFilterSubject);
 
 	settingFilterTo[0] = 0;
 	for (int i = 0; i < SendDlgItemMessage(hwndDlg, IDC_FILTER_TO, CB_GETCOUNT, 0, 0); i++) {
@@ -1082,7 +1082,7 @@ static void SaveSettings(HWND hwndDlg)
 		wcscat_s(settingFilterTo, _countof(settingFilterTo), text);
 		wcscat_s(settingFilterTo, _countof(settingFilterTo), TEXT(";"));
 	}
-	db_set_ws(NULL, MODULENAME, "LNFilterTo", settingFilterTo);
+	g_plugin.setWString("LNFilterTo", settingFilterTo);
 }
 
 //callback function to speak with user interactions in options page

@@ -54,7 +54,7 @@ void LoadFilenames()
 
 void LoadOptions()
 {
-	options.default_policy = db_get_w(0, MODULENAME, "DefaultPolicy", OTRL_POLICY_OPPORTUNISTIC);
+	options.default_policy = g_plugin.getWord("DefaultPolicy", OTRL_POLICY_OPPORTUNISTIC);
 	// deal with changed flags in proto.h and new interpretation of 'manual' mode (see common.h)
 	switch(options.default_policy) {
 	case OTRL_POLICY_MANUAL:
@@ -69,13 +69,13 @@ void LoadOptions()
 		options.default_policy = OTRL_POLICY_OPPORTUNISTIC;
 		break;
 	}
-	options.err_method = (ErrorDisplay)db_get_w(0, MODULENAME, "ErrorDisplay", ED_POP);
-	options.prefix_messages = (db_get_b(0, MODULENAME, "PrefixMessages", 0) == 1);
-	options.msg_inline = (db_get_b(0, MODULENAME, "MsgInline", 0) == 1);
-	options.msg_popup = (db_get_b(0, MODULENAME, "MsgPopup", 1) == 1);
-	options.delete_history = (db_get_b(0, MODULENAME, "NoHistory", 0) == 1);
-	options.delete_systeminfo = (db_get_b(0, MODULENAME, "NoSystemHistory", 0) == 1);
-	options.autoshow_verify = (db_get_b(0, MODULENAME, "AutoShowVerify", 1) == 1);
+	options.err_method = (ErrorDisplay)g_plugin.getWord("ErrorDisplay", ED_POP);
+	options.prefix_messages = (g_plugin.getByte("PrefixMessages", 0) == 1);
+	options.msg_inline = (g_plugin.getByte("MsgInline", 0) == 1);
+	options.msg_popup = (g_plugin.getByte("MsgPopup", 1) == 1);
+	options.delete_history = (g_plugin.getByte("NoHistory", 0) == 1);
+	options.delete_systeminfo = (g_plugin.getByte("NoSystemHistory", 0) == 1);
+	options.autoshow_verify = (g_plugin.getByte("AutoShowVerify", 1) == 1);
 
 	DBVARIANT dbv;
 	if (!db_get_utf(0, MODULENAME, "Prefix", &dbv)) {
@@ -84,8 +84,8 @@ void LoadOptions()
 	} else
 		mir_strncpy(options.prefix, OPTIONS_DEFAULT_PREFIX, OPTIONS_PREFIXLEN);
 
-	options.end_offline = (db_get_b(0, MODULENAME, "EndOffline", 1) == 1);
-	options.end_window_close = (db_get_b(0, MODULENAME, "EndWindowClose", 0) == 1);
+	options.end_offline = (g_plugin.getByte("EndOffline", 1) == 1);
+	options.end_window_close = (g_plugin.getByte("EndWindowClose", 0) == 1);
 
 	options.bHavePopups = 0 != ServiceExists(MS_POPUP_ADDPOPUPT) && ServiceExists(MS_POPUP_SHOWMESSAGE);
 	options.bHaveSecureIM = 0 != ServiceExists("SecureIM/IsContactSecured");
@@ -95,20 +95,20 @@ void LoadOptions()
 
 void SaveOptions()
 {
-	db_set_w(0, MODULENAME, "DefaultPolicy", options.default_policy);
-	db_set_w(0, MODULENAME, "ErrorDisplay", (int)options.err_method);
-	db_set_b(0, MODULENAME, "PrefixMessages", options.prefix_messages ? 1 : 0);
-	db_set_b(0, MODULENAME, "MsgInline", options.msg_inline ? 1 : 0);
-	db_set_b(0, MODULENAME, "MsgPopup", options.msg_popup ? 1 : 0);
+	g_plugin.setWord("DefaultPolicy", options.default_policy);
+	g_plugin.setWord("ErrorDisplay", (int)options.err_method);
+	g_plugin.setByte("PrefixMessages", options.prefix_messages ? 1 : 0);
+	g_plugin.setByte("MsgInline", options.msg_inline ? 1 : 0);
+	g_plugin.setByte("MsgPopup", options.msg_popup ? 1 : 0);
 
-	db_set_b(0, MODULENAME, "NoHistory", options.delete_history ? 1 : 0);
-	db_set_b(0, MODULENAME, "NoSystemHistory", options.delete_systeminfo ? 1 : 0);
-	db_set_b(0, MODULENAME, "AutoShowVerify", options.autoshow_verify ? 1 : 0);
+	g_plugin.setByte("NoHistory", options.delete_history ? 1 : 0);
+	g_plugin.setByte("NoSystemHistory", options.delete_systeminfo ? 1 : 0);
+	g_plugin.setByte("AutoShowVerify", options.autoshow_verify ? 1 : 0);
 
 	db_set_utf(0, MODULENAME, "Prefix", options.prefix);
 
-	db_set_b(0, MODULENAME, "EndOffline", options.end_offline ? 1 : 0);
-	db_set_b(0, MODULENAME, "EndWindowClose", options.end_window_close ? 1 : 0);
+	g_plugin.setByte("EndOffline", options.end_offline ? 1 : 0);
+	g_plugin.setByte("EndWindowClose", options.end_window_close ? 1 : 0);
 }
 
 extern "C" void set_context_contact(void *, ConnContext *context)

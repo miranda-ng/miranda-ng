@@ -744,8 +744,8 @@ void CMLan::ParsePacket(TPacket& pak, u_char* buf, int len)
 
 void CMLan::LoadSettings()
 {
-	m_RequiredIp = db_get_dw(NULL, PROTONAME, "ipaddr", 0);
-	m_UseHostName = db_get_b(NULL, PROTONAME, "UseHostName", 1) != 0;
+	m_RequiredIp = db_get_dw(0, PROTONAME, "ipaddr", 0);
+	m_UseHostName = db_get_b(0, PROTONAME, "UseHostName", 1) != 0;
 	if (m_UseHostName) {
 		m_nameLen = MAX_HOSTNAME_LEN;
 		GetComputerName(m_name, &m_nameLen);
@@ -773,9 +773,9 @@ void CMLan::LoadSettings()
 
 void CMLan::SaveSettings()
 {
-	db_set_dw(NULL, PROTONAME, "ipaddr", m_RequiredIp);
-	db_set_b(NULL, PROTONAME, "UseHostName", m_UseHostName);
-	db_set_ws(NULL, PROTONAME, "Nick", m_name);
+	db_set_dw(0, PROTONAME, "ipaddr", m_RequiredIp);
+	db_set_b(0, PROTONAME, "UseHostName", m_UseHostName);
+	db_set_ws(0, PROTONAME, "Nick", m_name);
 }
 
 //////////////////////////////////////////////////////////////////////////

@@ -153,22 +153,22 @@ void SaveModuleSettings(int buttonnum, ButtonData* bd)
 	char szMEntry[256] = { '\0' };
 
 	mir_snprintf(szMEntry, "EntryName_%u_%u", buttonnum, bd->dwPos);
-	db_set_ws(NULL, MODULENAME, szMEntry, bd->pszName);
+	g_plugin.setWString(szMEntry, bd->pszName);
 
 	mir_snprintf(szMEntry, "EntryValue_%u_%u", buttonnum, bd->dwPos);
 	if (bd->pszValue)
-		db_set_ws(NULL, MODULENAME, szMEntry, bd->pszValue);
+		g_plugin.setWString(szMEntry, bd->pszValue);
 	else
-		db_unset(NULL, MODULENAME, szMEntry);
+		g_plugin.delSetting(szMEntry);
 
 	mir_snprintf(szMEntry, "EntryRel_%u_%u", buttonnum, bd->dwPos);
-	db_set_b(NULL, MODULENAME, szMEntry, bd->fEntryType);
+	g_plugin.setByte(szMEntry, bd->fEntryType);
 
 	mir_snprintf(szMEntry, "EntryToQMenu_%u_%u", buttonnum, bd->dwPos);
-	db_set_b(NULL, MODULENAME, szMEntry, bd->bInQMenu);
+	g_plugin.setByte(szMEntry, bd->bInQMenu);
 
 	mir_snprintf(szMEntry, "EntryIsServiceName_%u_%u", buttonnum, bd->dwPos);
-	db_set_b(NULL, MODULENAME, szMEntry, bd->bIsServName);
+	g_plugin.setByte(szMEntry, bd->bIsServName);
 }
 
 void CleanSettings(int buttonnum, int from)
@@ -177,24 +177,24 @@ void CleanSettings(int buttonnum, int from)
 	DBVARIANT dbv = { 0 };
 	if (from == -1) {
 		mir_snprintf(szMEntry, "ButtonName_%u", buttonnum);
-		db_unset(NULL, MODULENAME, szMEntry);
+		g_plugin.delSetting(szMEntry);
 		mir_snprintf(szMEntry, "ButtonValue_%u", buttonnum);
-		db_unset(NULL, MODULENAME, szMEntry);
+		g_plugin.delSetting(szMEntry);
 		mir_snprintf(szMEntry, "RCEntryIsServiceName_%u", buttonnum);
-		db_unset(NULL, MODULENAME, szMEntry);
+		g_plugin.delSetting(szMEntry);
 	}
 
 	mir_snprintf(szMEntry, "EntryName_%u_%u", buttonnum, from);
-	while (!db_get_ws(NULL, MODULENAME, szMEntry, &dbv)) {
-		db_unset(NULL, MODULENAME, szMEntry);
+	while (!g_plugin.getWString(szMEntry, &dbv)) {
+		g_plugin.delSetting(szMEntry);
 		mir_snprintf(szMEntry, "EntryValue_%u_%u", buttonnum, from);
-		db_unset(NULL, MODULENAME, szMEntry);
+		g_plugin.delSetting(szMEntry);
 		mir_snprintf(szMEntry, "EntryRel_%u_%u", buttonnum, from);
-		db_unset(NULL, MODULENAME, szMEntry);
+		g_plugin.delSetting(szMEntry);
 		mir_snprintf(szMEntry, "EntryToQMenu_%u_%u", buttonnum, from);
-		db_unset(NULL, MODULENAME, szMEntry);
+		g_plugin.delSetting(szMEntry);
 		mir_snprintf(szMEntry, "EntryIsServiceName_%u_%u", buttonnum, from);
-		db_unset(NULL, MODULENAME, szMEntry);
+		g_plugin.delSetting(szMEntry);
 
 		mir_snprintf(szMEntry, "EntryName_%u_%u", buttonnum, ++from);
 	}
@@ -219,7 +219,7 @@ BYTE getEntryByte(int buttonnum, int entrynum, BOOL mode)
 		mir_snprintf(szMEntry, "RCEntryIsServiceName_%u", buttonnum);
 		break;
 	}
-	return db_get_b(NULL, MODULENAME, szMEntry, 0);
+	return g_plugin.getByte(szMEntry, 0);
 }
 
 static HANDLE AddIcon(char* szIcoName)
@@ -270,7 +270,7 @@ void InitButtonsList()
 		ListData* ld = nullptr;
 		if (!(pszBName = getMenuEntry(i, 0, 3))) {
 			g_iButtonsCount = i;
-			db_set_b(NULL, MODULENAME, "ButtonsCount", (BYTE)g_iButtonsCount);
+			g_plugin.setByte("ButtonsCount", (BYTE)g_iButtonsCount);
 			break;
 		}
 
@@ -352,7 +352,7 @@ wchar_t* getMenuEntry(int buttonnum, int entrynum, BYTE mode)
 		break;
 	}
 
-	if (!db_get_ws(NULL, MODULENAME, szMEntry, &dbv)) {
+	if (!g_plugin.getWString(szMEntry, &dbv)) {
 		if (mir_wstrlen(dbv.pwszVal))
 			buffer = mir_wstrdup(dbv.pwszVal);
 		db_free(&dbv);

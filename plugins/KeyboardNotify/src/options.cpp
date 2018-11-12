@@ -65,10 +65,10 @@ void exportThemes(const wchar_t *filename)
 	fwprintf(fExport, TranslateT("\n; Automatically generated Keyboard Notify Theme file\n\n\n"));
 
 	wchar_t *szTheme;
-	for (int i = 0; szTheme = db_get_wsa(NULL, MODULENAME, fmtDBSettingName("theme%d", i)); i++) {
+	for (int i = 0; szTheme = g_plugin.getWStringA(fmtDBSettingName("theme%d", i)); i++) {
 		fwprintf(fExport, L"[%s]\n", szTheme);
 		mir_free(szTheme);
-		if (szTheme = db_get_wsa(NULL, MODULENAME, fmtDBSettingName("custom%d", i))) {
+		if (szTheme = g_plugin.getWStringA(fmtDBSettingName("custom%d", i))) {
 			fwprintf(fExport, L"%s\n\n", szTheme);
 			mir_free(szTheme);
 		}
@@ -551,7 +551,7 @@ static INT_PTR CALLBACK DlgProcProtoOptions(HWND hwndDlg, UINT msg, WPARAM, LPAR
 				for (int i = 0; i < ListView_GetItemCount(hList); i++) {
 					lvItem.iItem = i;
 					ListView_GetItem(hList, &lvItem);
-					db_set_b(NULL, MODULENAME, (char *)lvItem.lParam, (BYTE)ListView_GetCheckState(hList, lvItem.iItem));
+					g_plugin.setByte((char *)lvItem.lParam, (BYTE)ListView_GetCheckState(hList, lvItem.iItem));
 				}
 			}
 
@@ -750,21 +750,21 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				db_set_b(NULL, MODULENAME, "onmsg", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONMESSAGE) == BST_CHECKED ? 1 : 0));
-				db_set_b(NULL, MODULENAME, "onurl", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONURL) == BST_CHECKED ? 1 : 0));
-				db_set_b(NULL, MODULENAME, "onfile", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONFILE) == BST_CHECKED ? 1 : 0));
-				db_set_b(NULL, MODULENAME, "onother", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONOTHER) == BST_CHECKED ? 1 : 0));
+				g_plugin.setByte("onmsg", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONMESSAGE) == BST_CHECKED ? 1 : 0));
+				g_plugin.setByte("onurl", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONURL) == BST_CHECKED ? 1 : 0));
+				g_plugin.setByte("onfile", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONFILE) == BST_CHECKED ? 1 : 0));
+				g_plugin.setByte("onother", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONOTHER) == BST_CHECKED ? 1 : 0));
 
-				db_set_b(NULL, MODULENAME, "fscreenmode", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_FSCREEN) == BST_CHECKED ? 1 : 0));
-				db_set_b(NULL, MODULENAME, "ssaverrunning", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SSAVER) == BST_CHECKED ? 1 : 0));
-				db_set_b(NULL, MODULENAME, "wstationlocked", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_LOCKED) == BST_CHECKED ? 1 : 0));
-				db_set_b(NULL, MODULENAME, "procsrunning", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_PGMS) == BST_CHECKED ? 1 : 0));
-				db_set_b(NULL, MODULENAME, "wstationactive", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ACTIVE) == BST_CHECKED ? 1 : 0));
+				g_plugin.setByte("fscreenmode", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_FSCREEN) == BST_CHECKED ? 1 : 0));
+				g_plugin.setByte("ssaverrunning", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SSAVER) == BST_CHECKED ? 1 : 0));
+				g_plugin.setByte("wstationlocked", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_LOCKED) == BST_CHECKED ? 1 : 0));
+				g_plugin.setByte("procsrunning", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_PGMS) == BST_CHECKED ? 1 : 0));
+				g_plugin.setByte("wstationactive", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ACTIVE) == BST_CHECKED ? 1 : 0));
 
-				db_set_b(NULL, MODULENAME, "ifmsgopen", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IFOPEN) == BST_CHECKED ? 1 : 0));
-				db_set_b(NULL, MODULENAME, "ifmsgnottop", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IFNOTTOP) == BST_CHECKED ? 1 : 0));
-				db_set_b(NULL, MODULENAME, "ifmsgolder", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IFOLDER) == BST_CHECKED ? 1 : 0));
-				db_set_w(NULL, MODULENAME, "secsolder", (WORD)SendDlgItemMessage(hwndDlg, IDC_OLDERSPIN, UDM_GETPOS, 0, 0));
+				g_plugin.setByte("ifmsgopen", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IFOPEN) == BST_CHECKED ? 1 : 0));
+				g_plugin.setByte("ifmsgnottop", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IFNOTTOP) == BST_CHECKED ? 1 : 0));
+				g_plugin.setByte("ifmsgolder", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IFOLDER) == BST_CHECKED ? 1 : 0));
+				g_plugin.setWord("secsolder", (WORD)SendDlgItemMessage(hwndDlg, IDC_OLDERSPIN, UDM_GETPOS, 0, 0));
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_UNTILBLK) == BST_CHECKED)
 					untilMap |= UNTIL_NBLINKS;
@@ -774,9 +774,9 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 					untilMap |= UNTIL_EVENTSOPEN;
 				if (IsDlgButtonChecked(hwndDlg, IDC_UNTILCOND) == BST_CHECKED)
 					untilMap |= UNTIL_CONDITIONS;
-				db_set_b(NULL, MODULENAME, "funtil", untilMap);
-				db_set_w(NULL, MODULENAME, "nblinks", (WORD)SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_GETPOS, 0, 0));
-				db_set_b(NULL, MODULENAME, "mirorwin", (BYTE)SendDlgItemMessage(hwndDlg, IDC_MIRORWIN, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_MIRORWIN, CB_GETCURSEL, 0, 0), 0));
+				g_plugin.setByte("funtil", untilMap);
+				g_plugin.setWord("nblinks", (WORD)SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_GETPOS, 0, 0));
+				g_plugin.setByte("mirorwin", (BYTE)SendDlgItemMessage(hwndDlg, IDC_MIRORWIN, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_MIRORWIN, CB_GETCURSEL, 0, 0), 0));
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_ONLINE) == BST_CHECKED)
 					statusMap |= MAP_ONLINE;
@@ -798,21 +798,21 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 					statusMap |= MAP_OUTTOLUNCH;
 				if (IsDlgButtonChecked(hwndDlg, IDC_OFFLINE) == BST_CHECKED)
 					statusMap |= MAP_OFFLINE;
-				db_set_w(NULL, MODULENAME, "status", statusMap);
+				g_plugin.setWord("status", statusMap);
 
-				db_set_w(NULL, MODULENAME, "remcheck", (WORD)SendDlgItemMessage(hwndDlg, IDC_REMCHECK, UDM_GETPOS, 0, 0));
+				g_plugin.setWord("remcheck", (WORD)SendDlgItemMessage(hwndDlg, IDC_REMCHECK, UDM_GETPOS, 0, 0));
 
 				int i = 0;
 				for (int j = 0; j < ProcessListAux.count; j++)
 					if (ProcessListAux.szFileName[j])
-						db_set_ws(NULL, MODULENAME, fmtDBSettingName("process%d", i++), ProcessListAux.szFileName[j]);
-				db_set_w(NULL, MODULENAME, "processcount", (WORD)i);
-				while (!db_unset(NULL, MODULENAME, fmtDBSettingName("process%d", i++)));
+						g_plugin.setWString(fmtDBSettingName("process%d", i++), ProcessListAux.szFileName[j]);
+				g_plugin.setWord("processcount", (WORD)i);
+				while (!g_plugin.delSetting(fmtDBSettingName("process%d", i++)));
 
 				if (XstatusListAux)
 					for (i = 0; i < ProtoList.protoCount; i++)
 						for (int j = 0; j < (int)XstatusListAux[i].count; j++)
-							db_set_b(NULL, MODULENAME, fmtDBSettingName("%sxstatus%d", ProtoList.protoInfo[i].szProto, j), (BYTE)XstatusListAux[i].enabled[j]);
+							g_plugin.setByte(fmtDBSettingName("%sxstatus%d", ProtoList.protoInfo[i].szProto, j), (BYTE)XstatusListAux[i].enabled[j]);
 
 				LoadSettings();
 
@@ -863,7 +863,7 @@ static INT_PTR CALLBACK DlgProcEffectOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 		CheckDlgButton(hwndDlg, IDC_CUSTOM, bFlashEffect == FLASH_CUSTOM ? BST_CHECKED : BST_UNCHECKED);
 
 		wchar_t *szTheme;
-		for (int i = 0; szTheme = db_get_wsa(NULL, MODULENAME, fmtDBSettingName("theme%d", i)); i++) {
+		for (int i = 0; szTheme = g_plugin.getWStringA(fmtDBSettingName("theme%d", i)); i++) {
 			int index = SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)szTheme);
 			mir_free(szTheme);
 			if (index != CB_ERR && index != CB_ERRSPACE)
@@ -941,33 +941,33 @@ static INT_PTR CALLBACK DlgProcEffectOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				db_set_b(NULL, MODULENAME, "fnum", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_NUM) == BST_CHECKED ? 1 : 0));
-				db_set_b(NULL, MODULENAME, "fcaps", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CAPS) == BST_CHECKED ? 1 : 0));
-				db_set_b(NULL, MODULENAME, "fscroll", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SCROLL) == BST_CHECKED ? 1 : 0));
+				g_plugin.setByte("fnum", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_NUM) == BST_CHECKED ? 1 : 0));
+				g_plugin.setByte("fcaps", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CAPS) == BST_CHECKED ? 1 : 0));
+				g_plugin.setByte("fscroll", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SCROLL) == BST_CHECKED ? 1 : 0));
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_INTURN) == BST_CHECKED)
-					db_set_b(NULL, MODULENAME, "feffect", FLASH_INTURN);
+					g_plugin.setByte("feffect", FLASH_INTURN);
 				else if (IsDlgButtonChecked(hwndDlg, IDC_INSEQUENCE) == BST_CHECKED)
-					db_set_b(NULL, MODULENAME, "feffect", FLASH_INSEQUENCE);
+					g_plugin.setByte("feffect", FLASH_INSEQUENCE);
 				else if (IsDlgButtonChecked(hwndDlg, IDC_CUSTOM) == BST_CHECKED)
-					db_set_b(NULL, MODULENAME, "feffect", FLASH_CUSTOM);
+					g_plugin.setByte("feffect", FLASH_CUSTOM);
 				else if (IsDlgButtonChecked(hwndDlg, IDC_TRILLIAN) == BST_CHECKED)
-					db_set_b(NULL, MODULENAME, "feffect", FLASH_TRILLIAN);
+					g_plugin.setByte("feffect", FLASH_TRILLIAN);
 				else
-					db_set_b(NULL, MODULENAME, "feffect", FLASH_SAMETIME);
-				db_set_b(NULL, MODULENAME, "order", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_GETCURSEL, 0, 0), 0));
-				db_set_w(NULL, MODULENAME, "custom", (WORD)SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_GETCURSEL, 0, 0), 0));
+					g_plugin.setByte("feffect", FLASH_SAMETIME);
+				g_plugin.setByte("order", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_GETCURSEL, 0, 0), 0));
+				g_plugin.setWord("custom", (WORD)SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_GETCURSEL, 0, 0), 0));
 
-				db_set_b(NULL, MODULENAME, "ledsmsg", trillianLedsMsg);
-				db_set_b(NULL, MODULENAME, "ledsfile", trillianLedsFile);
-				db_set_b(NULL, MODULENAME, "ledsurl", trillianLedsURL);
-				db_set_b(NULL, MODULENAME, "ledsother", trillianLedsOther);
+				g_plugin.setByte("ledsmsg", trillianLedsMsg);
+				g_plugin.setByte("ledsfile", trillianLedsFile);
+				g_plugin.setByte("ledsurl", trillianLedsURL);
+				g_plugin.setByte("ledsother", trillianLedsOther);
 
-				db_set_w(NULL, MODULENAME, "sdelay", (WORD)SendDlgItemMessage(hwndDlg, IDC_DELAYSPIN, UDM_GETPOS, 0, 0));
+				g_plugin.setWord("sdelay", (WORD)SendDlgItemMessage(hwndDlg, IDC_DELAYSPIN, UDM_GETPOS, 0, 0));
 
-				db_set_b(NULL, MODULENAME, "speed", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SPEED, TBM_GETPOS, 0, 0));
+				g_plugin.setByte("speed", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SPEED, TBM_GETPOS, 0, 0));
 
-				db_set_b(NULL, MODULENAME, "keypresses", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_KEYPRESSES) == BST_CHECKED ? 1 : 0));
+				g_plugin.setByte("keypresses", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_KEYPRESSES) == BST_CHECKED ? 1 : 0));
 
 				LoadSettings();
 
@@ -999,11 +999,11 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 		SendDlgItemMessage(hwndDlg, IDC_CUSTOMSTRING, EM_LIMITTEXT, MAX_PATH, 0);
 
 		wchar_t *szTheme;
-		for (int i = 0; szTheme = db_get_wsa(NULL, MODULENAME, fmtDBSettingName("theme%d", i)); i++) {
+		for (int i = 0; szTheme = g_plugin.getWStringA(fmtDBSettingName("theme%d", i)); i++) {
 			int index = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)szTheme);
 			mir_free(szTheme);
 			if (index != CB_ERR && index != CB_ERRSPACE) {
-				wchar_t *str = db_get_wsa(NULL, MODULENAME, fmtDBSettingName("custom%d", i));
+				wchar_t *str = g_plugin.getWStringA(fmtDBSettingName("custom%d", i));
 				if (str)
 					SendDlgItemMessage(hwndDlg, IDC_THEME, CB_SETITEMDATA, (WPARAM)index, (LPARAM)str);
 			}
@@ -1224,7 +1224,7 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				if (szTheme = db_get_wsa(NULL, MODULENAME, fmtDBSettingName("theme%d", wCustomTheme))) {
+				if (szTheme = g_plugin.getWStringA(fmtDBSettingName("theme%d", wCustomTheme))) {
 					mir_wstrcpy(theme, szTheme);
 					mir_free(szTheme);
 				}
@@ -1237,12 +1237,12 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 				count = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETCOUNT, 0, 0);
 				for (int i = 0; i < count; i++) {
 					SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETLBTEXT, (WPARAM)i, (LPARAM)themeAux);
-					db_set_ws(NULL, MODULENAME, fmtDBSettingName("theme%d", i), themeAux);
+					g_plugin.setWString(fmtDBSettingName("theme%d", i), themeAux);
 					wchar_t *str = (wchar_t *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)i, 0);
 					if (str)
-						db_set_ws(NULL, MODULENAME, fmtDBSettingName("custom%d", i), str);
+						g_plugin.setWString(fmtDBSettingName("custom%d", i), str);
 					else
-						db_set_ws(NULL, MODULENAME, fmtDBSettingName("custom%d", i), L"");
+						g_plugin.setWString(fmtDBSettingName("custom%d", i), L"");
 
 					if (!mir_wstrcmp(theme, themeAux))
 						wCustomTheme = i;
@@ -1251,14 +1251,14 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 					SendDlgItemMessage(hwndEffect, IDC_SCUSTOM, CB_INSERTSTRING, (WPARAM)i, (LPARAM)themeAux);
 					SendDlgItemMessage(hwndEffect, IDC_SCUSTOM, CB_SETITEMDATA, (WPARAM)i, (LPARAM)i);
 				}
-				for (int i = count; !db_unset(NULL, MODULENAME, fmtDBSettingName("theme%d", i)); i++)
-					db_unset(NULL, MODULENAME, fmtDBSettingName("custom%d", i));
+				for (int i = count; !g_plugin.delSetting(fmtDBSettingName("theme%d", i)); i++)
+					g_plugin.delSetting(fmtDBSettingName("custom%d", i));
 
-				db_set_w(NULL, MODULENAME, "custom", wCustomTheme);
+				g_plugin.setWord("custom", wCustomTheme);
 				// Still updating here the the Flashing tab's controls
 				SendDlgItemMessage(hwndEffect, IDC_SCUSTOM, CB_SETCURSEL, (WPARAM)wCustomTheme, 0);
 
-				db_set_b(NULL, MODULENAME, "override", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_OVERRIDE) == BST_CHECKED ? 1 : 0));
+				g_plugin.setByte("override", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_OVERRIDE) == BST_CHECKED ? 1 : 0));
 
 				return TRUE;
 			} // switch code

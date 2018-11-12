@@ -264,10 +264,10 @@ int Init(WPARAM, LPARAM)
 	HGENMENU hMenu = Menu_AddMainMenuItem(&mi);
 	hSvcShowMyIP = CreateServiceFunction(mi.pszService, ShowMyIPAddrs);
 
-	int opt_showMyIP = db_get_b(NULL, MODULENAME, "ShowMyIP", 100);
+	int opt_showMyIP = g_plugin.getByte("ShowMyIP", 100);
 	if (opt_showMyIP != 100) {
 		Menu_SetVisible(hMenu, opt_showMyIP != 0);
-		db_unset(NULL, MODULENAME, "ShowMyIP");
+		g_plugin.delSetting("ShowMyIP");
 	}
 
 	hMenuRoot = mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Proxy settings && interfaces"), 0xC0000000);
@@ -287,10 +287,10 @@ int Init(WPARAM, LPARAM)
 	Menu_AddMainMenuItem(&mi);
 	hSvcProxyEnable = CreateServiceFunction(mi.pszService, ProxyEnable);
 
-	int opt_showProxyIP = db_get_b(NULL, MODULENAME, "ShowProxyIP", 100);
+	int opt_showProxyIP = g_plugin.getByte("ShowProxyIP", 100);
 	if (opt_showProxyIP != 100) {
 		Menu_SetVisible(mi.root, opt_showProxyIP != 0);
-		db_unset(NULL, MODULENAME, "ShowProxyIP");
+		g_plugin.delSetting("ShowProxyIP");
 	}
 
 	UpdateInterfacesMenu();

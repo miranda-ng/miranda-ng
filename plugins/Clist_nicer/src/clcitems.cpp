@@ -142,7 +142,7 @@ void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 	RowHeight::Clear(dat);
 	RowHeight::getMaxRowHeight(dat, hwnd);
 
-	dat->SelectMode = db_get_b(NULL, "CLC", "SelectMode", 0);
+	dat->SelectMode = db_get_b(0, "CLC", "SelectMode", 0);
 
 	coreCli.pfnRebuildEntireList(hwnd, dat);
 }

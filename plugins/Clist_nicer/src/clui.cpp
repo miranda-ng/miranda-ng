@@ -144,7 +144,7 @@ static void LayoutButtons(HWND hwnd, RECT *rc)
 
 static int FS_FontsChanged(WPARAM, LPARAM)
 {
-	COLORREF clr_cluiframes = db_get_dw(NULL, "CLUI", "clr_frameborder", RGB(40, 40, 40));
+	COLORREF clr_cluiframes = db_get_dw(0, "CLUI", "clr_frameborder", RGB(40, 40, 40));
 
 	if (g_hPenCLUIFrames)
 		DeleteObject(g_hPenCLUIFrames);
@@ -161,9 +161,9 @@ static HWND PreCreateCLC(HWND parent)
 {
 	g_clistApi.hwndContactTree = CreateWindow(CLISTCONTROL_CLASSW, L"",
 		WS_CHILD | CLS_CONTACTLIST
-		| (db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) ? CLS_USEGROUPS : 0)
-		| (db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? CLS_HIDEOFFLINE : 0)
-		| (db_get_b(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) ? CLS_HIDEEMPTYGROUPS : 0)
+		| (db_get_b(0, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) ? CLS_USEGROUPS : 0)
+		| (db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? CLS_HIDEOFFLINE : 0)
+		| (db_get_b(0, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) ? CLS_HIDEEMPTYGROUPS : 0)
 		| CLS_MULTICOLUMN,
 		0, 0, 0, 0, parent, nullptr, g_plugin.getInst(), (LPVOID)0xff00ff00);
 
@@ -342,7 +342,7 @@ void IcoLibReloadIcons()
 void ConfigureCLUIGeometry(int mode)
 {
 	RECT rcStatus;
-	DWORD clmargins = db_get_dw(NULL, "CLUI", "clmargins", 0);
+	DWORD clmargins = db_get_dw(0, "CLUI", "clmargins", 0);
 
 	cfg::dat.bCLeft = LOBYTE(LOWORD(clmargins));
 	cfg::dat.bCRight = HIBYTE(LOWORD(clmargins));
@@ -450,10 +450,10 @@ void SetButtonStates()
 					SendMessage(buttonItem->hWnd, BM_SETCHECK, cfg::dat.soundsOff ? BST_CHECKED : BST_UNCHECKED, 0);
 					break;
 				case IDC_STBHIDEOFFLINE:
-					SendMessage(buttonItem->hWnd, BM_SETCHECK, db_get_b(NULL, "CList", "HideOffline", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
+					SendMessage(buttonItem->hWnd, BM_SETCHECK, db_get_b(0, "CList", "HideOffline", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
 					break;
 				case IDC_STBHIDEGROUPS:
-					SendMessage(buttonItem->hWnd, BM_SETCHECK, db_get_b(NULL, "CList", "UseGroups", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
+					SendMessage(buttonItem->hWnd, BM_SETCHECK, db_get_b(0, "CList", "UseGroups", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
 					break;
 				}
 			}
@@ -547,23 +547,23 @@ void BlitWallpaper(HDC hdc, RECT *rc, struct ClcData *dat)
 
 void ReloadThemedOptions()
 {
-	cfg::dat.bSkinnedStatusBar = db_get_b(NULL, "CLUI", "sb_skinned", 0);
-	cfg::dat.bUsePerProto = db_get_b(NULL, "CLCExt", "useperproto", 0);
-	cfg::dat.bOverridePerStatusColors = db_get_b(NULL, "CLCExt", "override_status", 0);
-	cfg::dat.bRowSpacing = db_get_b(NULL, "CLC", "RowGap", 0);
-	cfg::dat.bApplyIndentToBg = db_get_b(NULL, "CLCExt", "applyindentbg", 0);
-	cfg::dat.bWallpaperMode = db_get_b(NULL, "CLUI", "UseBkSkin", 1);
-	cfg::dat.bClipBorder = db_get_b(NULL, "CLUI", "clipborder", 0);
-	cfg::dat.cornerRadius = db_get_b(NULL, "CLCExt", "CornerRad", 6);
-	cfg::dat.gapBetweenFrames = (BYTE)db_get_dw(NULL, "CLUIFrames", "GapBetweenFrames", 1);
-	cfg::dat.bUseDCMirroring = db_get_b(NULL, "CLC", "MirrorDC", 0);
-	cfg::dat.bGroupAlign = db_get_b(NULL, "CLC", "GroupAlign", 0);
+	cfg::dat.bSkinnedStatusBar = db_get_b(0, "CLUI", "sb_skinned", 0);
+	cfg::dat.bUsePerProto = db_get_b(0, "CLCExt", "useperproto", 0);
+	cfg::dat.bOverridePerStatusColors = db_get_b(0, "CLCExt", "override_status", 0);
+	cfg::dat.bRowSpacing = db_get_b(0, "CLC", "RowGap", 0);
+	cfg::dat.bApplyIndentToBg = db_get_b(0, "CLCExt", "applyindentbg", 0);
+	cfg::dat.bWallpaperMode = db_get_b(0, "CLUI", "UseBkSkin", 1);
+	cfg::dat.bClipBorder = db_get_b(0, "CLUI", "clipborder", 0);
+	cfg::dat.cornerRadius = db_get_b(0, "CLCExt", "CornerRad", 6);
+	cfg::dat.gapBetweenFrames = (BYTE)db_get_dw(0, "CLUIFrames", "GapBetweenFrames", 1);
+	cfg::dat.bUseDCMirroring = db_get_b(0, "CLC", "MirrorDC", 0);
+	cfg::dat.bGroupAlign = db_get_b(0, "CLC", "GroupAlign", 0);
 	if (cfg::dat.hBrushColorKey)
 		DeleteObject(cfg::dat.hBrushColorKey);
 	cfg::dat.hBrushColorKey = CreateSolidBrush(RGB(255, 0, 255));
-	cfg::dat.bWantFastGradients = db_get_b(NULL, "CLCExt", "FastGradients", 0);
-	cfg::dat.titleBarHeight = db_get_b(NULL, "CLCExt", "frame_height", DEFAULT_TITLEBAR_HEIGHT);
-	cfg::dat.group_padding = db_get_dw(NULL, "CLCExt", "grp_padding", 0);
+	cfg::dat.bWantFastGradients = db_get_b(0, "CLCExt", "FastGradients", 0);
+	cfg::dat.titleBarHeight = db_get_b(0, "CLCExt", "frame_height", DEFAULT_TITLEBAR_HEIGHT);
+	cfg::dat.group_padding = db_get_dw(0, "CLCExt", "grp_padding", 0);
 }
 
 static RECT rcWindow = { 0 };
@@ -577,7 +577,7 @@ static void sttProcessResize(HWND hwnd, NMCLISTCONTROL *nmc)
 	if (disableautoupd)
 		return;
 
-	if (!db_get_b(NULL, "CLUI", "AutoSize", 0))
+	if (!db_get_b(0, "CLUI", "AutoSize", 0))
 		return;
 
 	if (Docking_IsDocked(0, 0))
@@ -585,7 +585,7 @@ static void sttProcessResize(HWND hwnd, NMCLISTCONTROL *nmc)
 	if (hFrameContactTree == 0)
 		return;
 
-	maxHeight = db_get_b(NULL, "CLUI", "MaxSizeHeight", 75);
+	maxHeight = db_get_b(0, "CLUI", "MaxSizeHeight", 75);
 	rcOld = rcWindow;
 
 	GetWindowRect(hwnd, &rcWindow);
@@ -615,7 +615,7 @@ static void sttProcessResize(HWND hwnd, NMCLISTCONTROL *nmc)
 
 	if (newHeight > (rcWorkArea.bottom - rcWorkArea.top) * maxHeight / 100)
 		newHeight = (rcWorkArea.bottom - rcWorkArea.top) * maxHeight / 100;
-	if (db_get_b(NULL, "CLUI", "AutoSizeUpward", 0)) {
+	if (db_get_b(0, "CLUI", "AutoSizeUpward", 0)) {
 		rcWindow.top = rcWindow.bottom - newHeight;
 		if (rcWindow.top < rcWorkArea.top) rcWindow.top = rcWorkArea.top;
 	}
@@ -730,7 +730,7 @@ static int ServiceParamsOK(ButtonItem *item, WPARAM *wParam, LPARAM *lParam, MCO
 static void ShowCLUI(HWND hwnd)
 {
 	int state = old_cliststate;
-	int onTop = db_get_b(NULL, "CList", "OnTop", SETTING_ONTOP_DEFAULT);
+	int onTop = db_get_b(0, "CList", "OnTop", SETTING_ONTOP_DEFAULT);
 
 	SendMessage(hwnd, WM_SETREDRAW, FALSE, FALSE);
 
@@ -775,8 +775,8 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 	case WM_CREATE:
 		{
 			int flags = WS_CHILD | CCS_BOTTOM;
-			flags |= db_get_b(NULL, "CLUI", "ShowSBar", 1) ? WS_VISIBLE : 0;
-			flags |= db_get_b(NULL, "CLUI", "ShowGrip", 1) ? SBARS_SIZEGRIP : 0;
+			flags |= db_get_b(0, "CLUI", "ShowSBar", 1) ? WS_VISIBLE : 0;
+			flags |= db_get_b(0, "CLUI", "ShowGrip", 1) ? SBARS_SIZEGRIP : 0;
 			g_clistApi.hwndStatus = CreateWindow(STATUSCLASSNAME, nullptr, flags, 0, 0, 0, 0, hwnd, nullptr, g_plugin.getInst(), nullptr);
 			if (flags & WS_VISIBLE) {
 				ShowWindow(g_clistApi.hwndStatus, SW_SHOW);
@@ -786,8 +786,8 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			SetClassLong(g_clistApi.hwndStatus, GCL_STYLE, GetClassLong(g_clistApi.hwndStatus, GCL_STYLE) & ~(CS_VREDRAW | CS_HREDRAW));
 		}
 		g_oldSize.cx = g_oldSize.cy = 0;
-		old_cliststate = db_get_b(NULL, "CList", "State", SETTING_STATE_NORMAL);
-		db_set_b(NULL, "CList", "State", SETTING_STATE_HIDDEN);
+		old_cliststate = db_get_b(0, "CList", "State", SETTING_STATE_NORMAL);
+		db_set_b(0, "CList", "State", SETTING_STATE_HIDDEN);
 		SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~WS_VISIBLE);
 		SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | WS_CLIPCHILDREN);
 		if (!cfg::dat.bFirstRun)
@@ -822,13 +822,13 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		break;
 
 	case M_CREATECLC: {
-			if (db_get_b(NULL, "CLUI", "useskin", 0))
+			if (db_get_b(0, "CLUI", "useskin", 0))
 				IMG_LoadItems();
 			CreateButtonBar(hwnd);
 			SendMessage(hwnd, WM_SETREDRAW, FALSE, FALSE);
 			{
 				LONG style;
-				BYTE windowStyle = db_get_b(NULL, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_TOOLWINDOW);
+				BYTE windowStyle = db_get_b(0, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_TOOLWINDOW);
 				ShowWindow(g_clistApi.hwndContactList, SW_HIDE);
 				style = GetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE);
 				if (windowStyle != SETTING_WINDOWSTYLE_DEFAULT) {
@@ -837,7 +837,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				}
 				else {
 					style &= ~(WS_EX_TOOLWINDOW | WS_EX_WINDOWEDGE);
-					if (db_get_b(NULL, "CList", "AlwaysHideOnTB", 1))
+					if (db_get_b(0, "CList", "AlwaysHideOnTB", 1))
 						style &= ~WS_EX_APPWINDOW;
 					else
 						style |= WS_EX_APPWINDOW;
@@ -866,13 +866,13 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					Tweak_It(cfg::clcdat->bkColour);
 			}
 
-			db_set_b(NULL, "CList", "State", old_cliststate);
+			db_set_b(0, "CList", "State", old_cliststate);
 
-			if (db_get_b(NULL, "CList", "AutoApplyLastViewMode", 0)) {
+			if (db_get_b(0, "CList", "AutoApplyLastViewMode", 0)) {
 				DBVARIANT dbv = { 0 };
-				if (!db_get_s(NULL, "CList", "LastViewMode", &dbv)) {
+				if (!db_get_s(0, "CList", "LastViewMode", &dbv)) {
 					if (mir_strlen(dbv.pszVal) > 2) {
-						if (db_get_dw(NULL, CLVM_MODULE, dbv.pszVal, -1) != 0xffffffff)
+						if (db_get_dw(0, CLVM_MODULE, dbv.pszVal, -1) != 0xffffffff)
 							ApplyViewMode((char *)dbv.pszVal);
 					}
 					db_free(&dbv);
@@ -1115,11 +1115,11 @@ skipbg:
 
 				// if docked, dont remember pos (except for width)
 				if (!Clist_IsDocked()) {
-					db_set_dw(NULL, "CList", "Height", (DWORD)(rc.bottom - rc.top));
-					db_set_dw(NULL, "CList", "x", (DWORD)rc.left);
-					db_set_dw(NULL, "CList", "y", (DWORD)rc.top);
+					db_set_dw(0, "CList", "Height", (DWORD)(rc.bottom - rc.top));
+					db_set_dw(0, "CList", "x", (DWORD)rc.left);
+					db_set_dw(0, "CList", "y", (DWORD)rc.top);
 				}
-				db_set_dw(NULL, "CList", "Width", (DWORD)(rc.right - rc.left));
+				db_set_dw(0, "CList", "Width", (DWORD)(rc.right - rc.left));
 			}
 		}
 		return TRUE;
@@ -1129,8 +1129,8 @@ skipbg:
 		return 0;
 
 	case CLUIINTM_REMOVEFROMTASKBAR: {
-			BYTE windowStyle = db_get_b(NULL, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT);
-			if (windowStyle == SETTING_WINDOWSTYLE_DEFAULT && db_get_b(NULL, "CList", "AlwaysHideOnTB", 0))
+			BYTE windowStyle = db_get_b(0, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT);
+			if (windowStyle == SETTING_WINDOWSTYLE_DEFAULT && db_get_b(0, "CList", "AlwaysHideOnTB", 0))
 				RemoveFromTaskBar(hwnd);
 			return 0;
 		}
@@ -1152,7 +1152,7 @@ skipbg:
 				SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), cfg::dat.alpha, LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
 				transparentFocus = 1;
 			}
-			SetWindowPos(g_clistApi.hwndContactList, db_get_b(NULL, "CList", "OnTop", SETTING_ONTOP_DEFAULT) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOREDRAW | SWP_NOSENDCHANGING);
+			SetWindowPos(g_clistApi.hwndContactList, db_get_b(0, "CList", "OnTop", SETTING_ONTOP_DEFAULT) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOREDRAW | SWP_NOSENDCHANGING);
 		}
 		PostMessage(hwnd, CLUIINTM_REMOVEFROMTASKBAR, 0, 0);
 		return DefWindowProc(hwnd, msg, wParam, lParam);
@@ -1175,7 +1175,7 @@ skipbg:
 
 			GetWindowRect(hwnd, &r);
 			GetCursorPos(&pt);
-			if (pt.y <= r.bottom && pt.y >= r.bottom - clip - 6 && !db_get_b(NULL, "CLUI", "AutoSize", 0)) {
+			if (pt.y <= r.bottom && pt.y >= r.bottom - clip - 6 && !db_get_b(0, "CLUI", "AutoSize", 0)) {
 				if (pt.x > r.left + clip + 10 && pt.x < r.right - clip - 10)
 					return HTBOTTOM;
 				if (pt.x < r.left + clip + 10)
@@ -1183,7 +1183,7 @@ skipbg:
 				if (pt.x > r.right - clip - 10)
 					return HTBOTTOMRIGHT;
 			}
-			else if (pt.y >= r.top && pt.y <= r.top + 3 && !db_get_b(NULL, "CLUI", "AutoSize", 0)) {
+			else if (pt.y >= r.top && pt.y <= r.top + 3 && !db_get_b(0, "CLUI", "AutoSize", 0)) {
 				if (pt.x > r.left + clip + 10 && pt.x < r.right - clip - 10)
 					return HTTOP;
 				if (pt.x < r.left + clip + 10)
@@ -1286,14 +1286,14 @@ skipbg:
 
 	case WM_SYSCOMMAND:
 		{
-			BYTE bWindowStyle = db_get_b(NULL, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT);
+			BYTE bWindowStyle = db_get_b(0, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT);
 			if (SETTING_WINDOWSTYLE_DEFAULT == bWindowStyle) {
 				if (wParam == SC_RESTORE) {
 					CallWindowProc(DefWindowProc, hwnd, msg, wParam, lParam);
 					SendMessage(hwnd, WM_SIZE, 0, 0);
 					SendMessage(hwnd, CLUIINTM_REDRAW, 0, 0);
 					SendMessage(hwnd, CLUIINTM_STATUSBARUPDATE, 0, 0);
-					db_set_b(NULL, "CList", "State", SETTING_STATE_NORMAL);
+					db_set_b(0, "CList", "State", SETTING_STATE_NORMAL);
 					break;
 				}
 			}
@@ -1302,8 +1302,8 @@ skipbg:
 				return 0;
 
 			if (wParam == SC_MINIMIZE) {
-				if (SETTING_WINDOWSTYLE_DEFAULT == bWindowStyle && !db_get_b(NULL, "CList", "AlwaysHideOnTB", 0)) {
-					db_set_b(NULL, "CList", "State", SETTING_STATE_MINIMIZED);
+				if (SETTING_WINDOWSTYLE_DEFAULT == bWindowStyle && !db_get_b(0, "CList", "AlwaysHideOnTB", 0)) {
+					db_set_b(0, "CList", "State", SETTING_STATE_MINIMIZED);
 					break;
 				}
 				g_clistApi.pfnShowHide();
@@ -1437,8 +1437,8 @@ skipbg:
 				case IDC_TBSOUND:
 				case IDC_STBSOUND:
 					cfg::dat.soundsOff = !cfg::dat.soundsOff;
-					db_set_b(NULL, "CLUI", "NoSounds", (BYTE)cfg::dat.soundsOff);
-					db_set_b(NULL, "Skin", "UseSound", (BYTE)(cfg::dat.soundsOff ? 0 : 1));
+					db_set_b(0, "CLUI", "NoSounds", (BYTE)cfg::dat.soundsOff);
+					db_set_b(0, "Skin", "UseSound", (BYTE)(cfg::dat.soundsOff ? 0 : 1));
 					return 0;
 
 				case IDC_TBSELECTVIEWMODE:
@@ -1523,7 +1523,7 @@ buttons_done:
 			}
 			if (dwOldFlags != cfg::dat.dwFlags) {
 				InvalidateRect(g_clistApi.hwndContactTree, nullptr, FALSE);
-				db_set_dw(NULL, "CLUI", "Frameflags", cfg::dat.dwFlags);
+				db_set_dw(0, "CLUI", "Frameflags", cfg::dat.dwFlags);
 				if ((dwOldFlags & (CLUI_FRAME_SHOWBOTTOMBUTTONS | CLUI_FRAME_CLISTSUNKEN)) != (cfg::dat.dwFlags & (CLUI_FRAME_SHOWBOTTOMBUTTONS | CLUI_FRAME_CLISTSUNKEN))) {
 					ConfigureFrame();
 					ConfigureCLUIGeometry(1);
@@ -1562,7 +1562,7 @@ buttons_done:
 					if ((hitFlags & (CLCHT_NOWHERE | CLCHT_INLEFTMARGIN | CLCHT_BELOWITEMS)) == 0)
 						break;
 					
-					if (db_get_b(NULL, "CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT)) {
+					if (db_get_b(0, "CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT)) {
 						POINT pt;
 						pt = nm->pt;
 						ClientToScreen(g_clistApi.hwndContactTree, &pt);
@@ -1597,7 +1597,7 @@ buttons_done:
 			GetWindowRect(g_clistApi.hwndStatus, &rc);
 			if (PtInRect(&rc, pt)) {
 				HMENU hMenu;
-				if (db_get_b(NULL, "CLUI", "SBarRightClk", 0))
+				if (db_get_b(0, "CLUI", "SBarRightClk", 0))
 					hMenu = Menu_GetMainMenu();
 				else
 					hMenu = Menu_GetStatusMenu();
@@ -1638,7 +1638,7 @@ buttons_done:
 
 				int nParts = SendMessage(g_clistApi.hwndStatus, SB_GETPARTS, 0, 0);
 				SIZE textSize;
-				BYTE showOpts = db_get_b(NULL, "CLUI", "SBarShow", 1);
+				BYTE showOpts = db_get_b(0, "CLUI", "SBarShow", 1);
 
 				SetBkMode(dis->hDC, TRANSPARENT);
 				int x = dis->rcItem.left;
@@ -1672,7 +1672,7 @@ buttons_done:
 					DrawIconEx(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - 16) >> 1, hIcon, 16, 16, 0, nullptr, DI_NORMAL);
 					IcoLib_ReleaseIcon(hIcon);
 
-					if (db_get_b(NULL, "CLUI", "sbar_showlocked", 1)) {
+					if (db_get_b(0, "CLUI", "sbar_showlocked", 1)) {
 						if (pa->bIsLocked) {
 							hIcon = Skin_LoadIcon(SKINICON_OTHER_STATUS_LOCKED);
 							if (hIcon != nullptr) {
@@ -1716,7 +1716,7 @@ buttons_done:
 		return 0;
 
 	case WM_CLOSE:
-		if (SETTING_WINDOWSTYLE_DEFAULT == db_get_b(NULL, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT) && !db_get_b(NULL, "CList", "AlwaysHideOnTB", 0)) {
+		if (SETTING_WINDOWSTYLE_DEFAULT == db_get_b(0, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT) && !db_get_b(0, "CList", "AlwaysHideOnTB", 0)) {
 			PostMessage(hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
 			return 0;
 		}
@@ -1816,11 +1816,11 @@ void LoadCLUIModule(void)
 	wndclass.lpszClassName = L"EventAreaClass";
 	RegisterClass(&wndclass);
 
-	oldhideoffline = db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
-	cluiPos.left = db_get_dw(NULL, "CList", "x", 600);
-	cluiPos.top = db_get_dw(NULL, "CList", "y", 200);
-	cluiPos.right = db_get_dw(NULL, "CList", "Width", 150);
-	cluiPos.bottom = db_get_dw(NULL, "CList", "Height", 350);
+	oldhideoffline = db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
+	cluiPos.left = db_get_dw(0, "CList", "x", 600);
+	cluiPos.top = db_get_dw(0, "CList", "y", 200);
+	cluiPos.right = db_get_dw(0, "CList", "Width", 150);
+	cluiPos.bottom = db_get_dw(0, "CList", "Height", 350);
 
 	LoadExtraIconModule();
 	LoadCLUIFramesModule();
@@ -1828,7 +1828,7 @@ void LoadCLUIModule(void)
 	CreateServiceFunction(MS_CLUI_SHOWMAINMENU, CLN_ShowMainMenu);
 	CreateServiceFunction(MS_CLUI_SHOWSTATUSMENU, CLN_ShowStatusMenu);
 
-	if (db_get_b(NULL, "CLUI", "FloaterMode", 0)) {
+	if (db_get_b(0, "CLUI", "FloaterMode", 0)) {
 		MessageBox(nullptr,
 			TranslateT("You need the FloatingContacts plugin, cause the embedded floating contacts were removed."),
 			TranslateT("Warning"), MB_OK | MB_ICONWARNING);

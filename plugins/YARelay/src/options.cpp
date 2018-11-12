@@ -168,15 +168,15 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 					iSplitMaxSize = 1;
 
 				// write to database
-				db_set_dw(NULL, MODULENAME, "ForwardFrom", (DWORD)hForwardFrom);
-				db_set_dw(NULL, MODULENAME, "ForwardTo", (DWORD)hForwardTo);
-				db_set_dw(NULL, MODULENAME, "ForwardOnStatus", iForwardOnStatus);
-				db_set_ws(NULL, MODULENAME, "ForwardTemplate", tszForwardTemplate);
-				db_set_dw(NULL, MODULENAME, "Split", iSplit);
-				db_set_dw(NULL, MODULENAME, "SplitMaxSize", iSplitMaxSize);
-				db_set_dw(NULL, MODULENAME, "SendParts", iSendParts);
-				db_set_dw(NULL, MODULENAME, "MarkRead", iMarkRead);
-				db_set_dw(NULL, MODULENAME, "SendAndHistory", iSendAndHistory);
+				g_plugin.setDword("ForwardFrom", (DWORD)hForwardFrom);
+				g_plugin.setDword("ForwardTo", (DWORD)hForwardTo);
+				g_plugin.setDword("ForwardOnStatus", iForwardOnStatus);
+				g_plugin.setWString("ForwardTemplate", tszForwardTemplate);
+				g_plugin.setDword("Split", iSplit);
+				g_plugin.setDword("SplitMaxSize", iSplitMaxSize);
+				g_plugin.setDword("SendParts", iSendParts);
+				g_plugin.setDword("MarkRead", iMarkRead);
+				g_plugin.setDword("SendAndHistory", iSendAndHistory);
 				return TRUE;
 			}			
 			break;

@@ -80,11 +80,11 @@ void ConfigDatabase::load()
 {
 	m_voice_desc.engine = DBGetContactSettingString(SPEAK, ENGINE, L"");
 	m_voice_desc.voice  = DBGetContactSettingString(SPEAK, VOICE, L"");
-	m_voice_desc.volume = db_get_dw(NULL, SPEAK, VOLUME, 50);
-	m_voice_desc.pitch  = db_get_dw(NULL, SPEAK, PITCH, 50);
-	m_voice_desc.rate   = db_get_dw(NULL, SPEAK, RATE, 50);
+	m_voice_desc.volume = db_get_dw(0, SPEAK, VOLUME, 50);
+	m_voice_desc.pitch  = db_get_dw(0, SPEAK, PITCH, 50);
+	m_voice_desc.rate   = db_get_dw(0, SPEAK, RATE, 50);
 
-	m_active_flags = db_get_dw(NULL, SPEAK, ACTIVE_FLAGS, 0xffff);
+	m_active_flags = db_get_dw(0, SPEAK, ACTIVE_FLAGS, 0xffff);
 
 	m_welcome_msg = DBGetContactSettingString(SPEAK, WELCOME_MSG, L"Welcome to Miranda");
 
@@ -95,22 +95,22 @@ void ConfigDatabase::load()
 	}
 
 	// load unknown users setting
-	m_active_users[0].status = (db_get_b(NULL, SPEAK, ACTIVE_STATE, true) != 0);
-	m_active_users[0].message = (db_get_b(NULL, SPEAK, ACTIVE_MSG, true) != 0);
+	m_active_users[0].status = (db_get_b(0, SPEAK, ACTIVE_STATE, true) != 0);
+	m_active_users[0].message = (db_get_b(0, SPEAK, ACTIVE_MSG, true) != 0);
 }
 
 //------------------------------------------------------------------------------
 void ConfigDatabase::save()
 {
-	db_set_ws(NULL, SPEAK, ENGINE, m_voice_desc.engine.c_str());
-	db_set_ws(NULL, SPEAK, VOICE, m_voice_desc.voice.c_str());
-	db_set_dw(NULL, SPEAK, VOLUME, m_voice_desc.volume);
-	db_set_dw(NULL, SPEAK, PITCH, m_voice_desc.pitch);
-	db_set_dw(NULL, SPEAK, RATE, m_voice_desc.rate);
+	db_set_ws(0, SPEAK, ENGINE, m_voice_desc.engine.c_str());
+	db_set_ws(0, SPEAK, VOICE, m_voice_desc.voice.c_str());
+	db_set_dw(0, SPEAK, VOLUME, m_voice_desc.volume);
+	db_set_dw(0, SPEAK, PITCH, m_voice_desc.pitch);
+	db_set_dw(0, SPEAK, RATE, m_voice_desc.rate);
 
-	db_set_dw(NULL, SPEAK, ACTIVE_FLAGS, m_active_flags);
+	db_set_dw(0, SPEAK, ACTIVE_FLAGS, m_active_flags);
 
-	db_set_ws(NULL, SPEAK, WELCOME_MSG, m_welcome_msg.c_str());
+	db_set_ws(0, SPEAK, WELCOME_MSG, m_welcome_msg.c_str());
 
 	for (ActiveUsersMap::iterator i = m_active_users.begin(); i != m_active_users.end(); ++i)
 	{

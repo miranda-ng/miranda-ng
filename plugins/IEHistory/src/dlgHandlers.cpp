@@ -241,8 +241,8 @@ int LoadEvents(HWND hWnd)
 {
 	HistoryWindowData *data = (HistoryWindowData *)GetWindowLongPtr(hWnd, DWLP_USER);
 	int count = db_event_count(data->contact);
-	int bLastFirst = db_get_b(NULL, MODULENAME, "ShowLastPageFirst", 0);
-	int bRTL = db_get_b(NULL, MODULENAME, "EnableRTL", 0);
+	int bLastFirst = g_plugin.getByte("ShowLastPageFirst", 0);
+	int bRTL = g_plugin.getByte("EnableRTL", 0);
 	bRTL = db_get_b(data->contact, "Tab_SRMsg", "RTL", bRTL);
 	data->bEnableRTL = bRTL;
 	data->count = count;
@@ -362,7 +362,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 		TranslateDialogDefault(hWnd);
 		SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
 		{
-			int bRTL = db_get_b(NULL, MODULENAME, "EnableRTL", 0);
+			int bRTL = g_plugin.getByte("EnableRTL", 0);
 			if (bRTL)
 				SetWindowLongPtr(hWnd, GWL_EXSTYLE, WS_EX_RTLREADING);
 
@@ -392,7 +392,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 		LoadEvents(hWnd);
 		{
 			bool bAll = (data->itemsPerPage <= 0) || (data->itemsPerPage >= data->count);
-			int bLastFirst = db_get_b(NULL, MODULENAME, "ShowLastPageFirst", 0);
+			int bLastFirst = g_plugin.getByte("ShowLastPageFirst", 0);
 			if (!bLastFirst) {
 				EnableWindow(GetDlgItem(hWnd, IDC_PREV), FALSE);
 				EnableWindow(GetDlgItem(hWnd, IDC_NEXT), !bAll);
@@ -611,15 +611,15 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hWnd);
 		{
-			int count = db_get_dw(NULL, MODULENAME, "EventsToLoad", 0);
+			int count = g_plugin.getDword("EventsToLoad", 0);
 			EnableWindow(GetDlgItem(hWnd, IDC_EVENTS_COUNT), count > 0);
 			EnableWindow(GetDlgItem(hWnd, IDC_SHOW_LAST_FIRST), count > 0);
 
 			CheckDlgButton(hWnd, IDC_LOAD_ALL, count <= 0 ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hWnd, IDC_LOAD_NUMBER, count > 0 ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hWnd, IDC_ENABLE_RTL, db_get_b(NULL, MODULENAME, "EnableRTL", 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hWnd, IDC_SHOW_LAST_FIRST, db_get_b(NULL, MODULENAME, "ShowLastPageFirst", 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hWnd, IDC_LOAD_BACKGROUND, db_get_b(NULL, MODULENAME, "UseWorkerThread", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hWnd, IDC_ENABLE_RTL, g_plugin.getByte("EnableRTL", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hWnd, IDC_SHOW_LAST_FIRST, g_plugin.getByte("ShowLastPageFirst", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hWnd, IDC_LOAD_BACKGROUND, g_plugin.getByte("UseWorkerThread", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 			wchar_t buffer[40];
 			_itow_s(count, buffer, 10);
@@ -664,10 +664,10 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 					count = _wtol(buffer);
 					count = (count < 0) ? 0 : count;
 				}
-				db_set_b(NULL, MODULENAME, "ShowLastPageFirst", IsDlgButtonChecked(hWnd, IDC_SHOW_LAST_FIRST));
-				db_set_b(NULL, MODULENAME, "EnableRTL", IsDlgButtonChecked(hWnd, IDC_ENABLE_RTL));
-				db_set_b(NULL, MODULENAME, "UseWorkerThread", IsDlgButtonChecked(hWnd, IDC_LOAD_BACKGROUND));
-				db_set_dw(NULL, MODULENAME, "EventsToLoad", count);
+				g_plugin.setByte("ShowLastPageFirst", IsDlgButtonChecked(hWnd, IDC_SHOW_LAST_FIRST));
+				g_plugin.setByte("EnableRTL", IsDlgButtonChecked(hWnd, IDC_ENABLE_RTL));
+				g_plugin.setByte("UseWorkerThread", IsDlgButtonChecked(hWnd, IDC_LOAD_BACKGROUND));
+				g_plugin.setDword("EventsToLoad", count);
 			}
 		}
 		break;

@@ -48,13 +48,13 @@ public:
 
 	bool OnApply() override
 	{
-		db_set_dw(NULL, MODULENAME, "maxQuestCount", gbMaxQuestCount = edit_MAXQUESTCOUNT.GetInt());
-		db_set_b(NULL, MODULENAME, "infTalkProtection", gbInfTalkProtection = chk_INFTALKPROT.GetState());
-		db_set_b(NULL, MODULENAME, "addPermanent", gbAddPermanent = chk_ADDPERMANENT.GetState());
-		db_set_b(NULL, MODULENAME, "handleAuthReq", gbHandleAuthReq = chk_HANDLEAUTHREQ.GetState());
-		db_set_b(NULL, MODULENAME, "HideContacts", gbHideContacts = chk_HIDECONTACTS.GetState());
-		db_set_b(NULL, MODULENAME, "IgnoreContacts", gbIgnoreContacts = chk_IGNORESPAMMERS.GetState());
-		db_set_b(NULL, MODULENAME, "LogSpamToFile", gbLogToFile = chk_LOGSPAMTOFILE.GetState());
+		g_plugin.setDword("maxQuestCount", gbMaxQuestCount = edit_MAXQUESTCOUNT.GetInt());
+		g_plugin.setByte("infTalkProtection", gbInfTalkProtection = chk_INFTALKPROT.GetState());
+		g_plugin.setByte("addPermanent", gbAddPermanent = chk_ADDPERMANENT.GetState());
+		g_plugin.setByte("handleAuthReq", gbHandleAuthReq = chk_HANDLEAUTHREQ.GetState());
+		g_plugin.setByte("HideContacts", gbHideContacts = chk_HIDECONTACTS.GetState());
+		g_plugin.setByte("IgnoreContacts", gbIgnoreContacts = chk_IGNORESPAMMERS.GetState());
+		g_plugin.setByte("LogSpamToFile", gbLogToFile = chk_LOGSPAMTOFILE.GetState());
 		return true;
 	}
 
@@ -91,14 +91,14 @@ public:
 
 	bool OnApply() override
 	{
-		db_set_ws(NULL, MODULENAME, "question", edit_QUESTION.GetText());
-		gbQuestion = DBGetContactSettingStringPAN(NULL, MODULENAME, "question", TranslateW(defQuestion));
-		db_set_ws(NULL, MODULENAME, "answer", edit_ANSWER.GetText());
-		gbAnswer = DBGetContactSettingStringPAN(NULL, MODULENAME, "answer", L"nospam");
-		db_set_ws(NULL, MODULENAME, "authrepl", edit_AUTHREPL.GetText());
-		gbAuthRepl = DBGetContactSettingStringPAN(NULL, MODULENAME, "authrepl", TranslateW(defAuthReply));
-		db_set_ws(NULL, MODULENAME, "congratulation", edit_CONGRATULATION.GetText());
-		gbCongratulation = DBGetContactSettingStringPAN(NULL, MODULENAME, "congratulation", TranslateW(defCongrats));
+		g_plugin.setWString("question", edit_QUESTION.GetText());
+		gbQuestion = DBGetContactSettingStringPAN(0, MODULENAME, "question", TranslateW(defQuestion));
+		g_plugin.setWString("answer", edit_ANSWER.GetText());
+		gbAnswer = DBGetContactSettingStringPAN(0, MODULENAME, "answer", L"nospam");
+		g_plugin.setWString("authrepl", edit_AUTHREPL.GetText());
+		gbAuthRepl = DBGetContactSettingStringPAN(0, MODULENAME, "authrepl", TranslateW(defAuthReply));
+		g_plugin.setWString("congratulation", edit_CONGRATULATION.GetText());
+		gbCongratulation = DBGetContactSettingStringPAN(0, MODULENAME, "congratulation", TranslateW(defCongrats));
 		return true;
 	}
 
@@ -152,7 +152,7 @@ public:
 			out << str << "\r\n";
 			mir_free(str);
 		}
-		db_set_s(NULL, MODULENAME, "protoList", out.str().c_str());
+		g_plugin.setString("protoList", out.str().c_str());
 		return true;
 	}
 
@@ -230,38 +230,38 @@ public:
 
 	bool OnApply() override
 	{
-		db_set_b(NULL, MODULENAME, "CaseInsensitive", gbCaseInsensitive = chk_CASE_INSENSITIVE.GetState());
-		db_set_b(NULL, MODULENAME, "DisableInInvis", gbInvisDisable = chk_INVIS_DISABLE.GetState());
+		g_plugin.setByte("CaseInsensitive", gbCaseInsensitive = chk_CASE_INSENSITIVE.GetState());
+		g_plugin.setByte("DisableInInvis", gbInvisDisable = chk_INVIS_DISABLE.GetState());
 		{
 			static wstring NewGroupName = edit_SPECIALGROUPNAME.GetText(), CurrentGroupName;
-			CurrentGroupName = gbSpammersGroup = DBGetContactSettingStringPAN(NULL, MODULENAME, "SpammersGroup", L"0");
+			CurrentGroupName = gbSpammersGroup = DBGetContactSettingStringPAN(0, MODULENAME, "SpammersGroup", L"0");
 			if (mir_wstrcmp(CurrentGroupName.c_str(), NewGroupName.c_str()) != 0) {
 				bool GroupExist = Clist_GroupExists(NewGroupName.c_str()) != NULL;
-				db_set_ws(NULL, MODULENAME, "SpammersGroup", NewGroupName.c_str());
-				gbSpammersGroup = DBGetContactSettingStringPAN(NULL, MODULENAME, "SpammersGroup", L"Spammers");
+				g_plugin.setWString("SpammersGroup", NewGroupName.c_str());
+				gbSpammersGroup = DBGetContactSettingStringPAN(0, MODULENAME, "SpammersGroup", L"Spammers");
 				if (!GroupExist && gbSpecialGroup)
 					Clist_GroupCreate(0, gbSpammersGroup.c_str());
 			}
 		}
-		db_set_b(NULL, MODULENAME, "SpecialGroup", gbSpecialGroup = chk_SPECIALGROUP.GetState());
-		db_set_b(NULL, MODULENAME, "ExcludeContacts", gbExclude = chk_EXCLUDE.GetState());
-		db_set_b(NULL, MODULENAME, "DelExcluded", gbDelExcluded = chk_REMOVE_TMP.GetState());
-		db_set_b(NULL, MODULENAME, "DelAllTempory", gbDelAllTempory = chk_REMOVE_TMP_ALL.GetState());
-		db_set_b(NULL, MODULENAME, "IgnoreURL", gbIgnoreURL = chk_IGNOREURL.GetState());
+		g_plugin.setByte("SpecialGroup", gbSpecialGroup = chk_SPECIALGROUP.GetState());
+		g_plugin.setByte("ExcludeContacts", gbExclude = chk_EXCLUDE.GetState());
+		g_plugin.setByte("DelExcluded", gbDelExcluded = chk_REMOVE_TMP.GetState());
+		g_plugin.setByte("DelAllTempory", gbDelAllTempory = chk_REMOVE_TMP_ALL.GetState());
+		g_plugin.setByte("IgnoreURL", gbIgnoreURL = chk_IGNOREURL.GetState());
 
-		db_set_b(NULL, MODULENAME, "AutoAuth", gbAutoAuth = chk_AUTOAUTH.GetState());
-		db_set_b(NULL, MODULENAME, "AutoAddToServerList", gbAutoAddToServerList = chk_ADDTOSRVLST.GetState());
-		db_set_b(NULL, MODULENAME, "AutoReqAuth", gbAutoReqAuth = chk_REQAUTH.GetState());
-		db_set_b(NULL, MODULENAME, "RegexMatch", gbRegexMatch = chk_REGEX.GetState());
-		db_set_b(NULL, MODULENAME, "HistoryLog", gbHistoryLog = chk_HISTORY_LOG.GetState());
-		db_set_b(NULL, MODULENAME, "MathExpression", gbMathExpression = chk_MATH_QUESTION.GetState());
+		g_plugin.setByte("AutoAuth", gbAutoAuth = chk_AUTOAUTH.GetState());
+		g_plugin.setByte("AutoAddToServerList", gbAutoAddToServerList = chk_ADDTOSRVLST.GetState());
+		g_plugin.setByte("AutoReqAuth", gbAutoReqAuth = chk_REQAUTH.GetState());
+		g_plugin.setByte("RegexMatch", gbRegexMatch = chk_REGEX.GetState());
+		g_plugin.setByte("HistoryLog", gbHistoryLog = chk_HISTORY_LOG.GetState());
+		g_plugin.setByte("MathExpression", gbMathExpression = chk_MATH_QUESTION.GetState());
 		{
 			static wstring NewAGroupName = edit_AUTOADDGROUP.GetText(), CurrentAGroupName;
-			CurrentAGroupName = gbAutoAuthGroup = DBGetContactSettingStringPAN(NULL, MODULENAME, "AutoAuthGroup", L"0");
+			CurrentAGroupName = gbAutoAuthGroup = DBGetContactSettingStringPAN(0, MODULENAME, "AutoAuthGroup", L"0");
 			if (mir_wstrcmp(CurrentAGroupName.c_str(), NewAGroupName.c_str()) != 0) {
 				bool GroupExist = Clist_GroupExists(NewAGroupName.c_str()) != NULL;
-				db_set_ws(NULL, MODULENAME, "AutoAuthGroup", NewAGroupName.c_str());
-				gbAutoAuthGroup = DBGetContactSettingStringPAN(NULL, MODULENAME, "AutoAuthGroup", L"Not Spammers");
+				g_plugin.setWString("AutoAuthGroup", NewAGroupName.c_str());
+				gbAutoAuthGroup = DBGetContactSettingStringPAN(0, MODULENAME, "AutoAuthGroup", L"Not Spammers");
 				if (!GroupExist && gbAutoAddToServerList)
 					Clist_GroupCreate(0, gbAutoAuthGroup.c_str());
 			}

@@ -811,77 +811,77 @@ void GetListInfo(BYTE params, LISTELEMENT *listStart, LPCTSTR searchString, size
 void GetListOptions(LISTOPTIONS *options)
 {
 
-	options->openNewWindow = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_OPEN_WINDOW, 0xFF);
+	options->openNewWindow = db_get_b(0, LINKLIST_MODULE, LINKLIST_OPEN_WINDOW, 0xFF);
 	if (options->openNewWindow == 0xFF)
 	{
 		// No DB entry for this Plugin
-		db_set_b(NULL, LINKLIST_MODULE, LINKLIST_OPEN_WINDOW, 0x00);
+		db_set_b(0, LINKLIST_MODULE, LINKLIST_OPEN_WINDOW, 0x00);
 		options->openNewWindow = 0x00;
 	}
 
 
-	options->updateWindow = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_UPDATE_WINDOW, 0xFF);
+	options->updateWindow = db_get_b(0, LINKLIST_MODULE, LINKLIST_UPDATE_WINDOW, 0xFF);
 	if (options->updateWindow == 0xFF)
 	{
 		// No DB entry for this Plugin
-		db_set_b(NULL, LINKLIST_MODULE, LINKLIST_UPDATE_WINDOW, 0x00);
+		db_set_b(0, LINKLIST_MODULE, LINKLIST_UPDATE_WINDOW, 0x00);
 		options->updateWindow = 0x00;
 	}
 
-	options->mouseEvent = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_MOUSE_EVENT, 0xFF);
+	options->mouseEvent = db_get_b(0, LINKLIST_MODULE, LINKLIST_MOUSE_EVENT, 0xFF);
 	if (options->mouseEvent == 0xFF)
 	{
 		// No DB entry for this Plugin
-		db_set_b(NULL, LINKLIST_MODULE, LINKLIST_MOUSE_EVENT, 0x00);
+		db_set_b(0, LINKLIST_MODULE, LINKLIST_MOUSE_EVENT, 0x00);
 		options->mouseEvent = 0x00;
 	}
 
-	options->saveSpecial = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_SAVESPECIAL, 0xFF);
+	options->saveSpecial = db_get_b(0, LINKLIST_MODULE, LINKLIST_SAVESPECIAL, 0xFF);
 	if (options->saveSpecial == 0xFF)
 	{
 		// No DB entry for this Plugin
-		db_set_b(NULL, LINKLIST_MODULE, LINKLIST_SAVESPECIAL, 0x00);
+		db_set_b(0, LINKLIST_MODULE, LINKLIST_SAVESPECIAL, 0x00);
 		options->saveSpecial = 0x00;
 	}
 
 
-	options->showDate = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_SHOW_DATE, 0xFF);
+	options->showDate = db_get_b(0, LINKLIST_MODULE, LINKLIST_SHOW_DATE, 0xFF);
 	if (options->showDate == 0xFF)
 	{
 		// No DB entry for this Plugin
-		db_set_b(NULL, LINKLIST_MODULE, LINKLIST_SHOW_DATE, 0x01);
+		db_set_b(0, LINKLIST_MODULE, LINKLIST_SHOW_DATE, 0x01);
 		options->showDate = 0x01;
 	}
 
-	options->showLine = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_SHOW_LINE, 0xFF);
+	options->showLine = db_get_b(0, LINKLIST_MODULE, LINKLIST_SHOW_LINE, 0xFF);
 	if (options->showLine == 0xFF)
 	{
 		// No DB entry for this Plugin
-		db_set_b(NULL, LINKLIST_MODULE, LINKLIST_SHOW_LINE, 0x01);
+		db_set_b(0, LINKLIST_MODULE, LINKLIST_SHOW_LINE, 0x01);
 		options->showLine = 0x01;
 	}
 
-	options->showTime = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_SHOW_TIME, 0xFF);
+	options->showTime = db_get_b(0, LINKLIST_MODULE, LINKLIST_SHOW_TIME, 0xFF);
 	if (options->showTime == 0xFF)
 	{
 		// No DB entry for this Plugin
-		db_set_b(NULL, LINKLIST_MODULE, LINKLIST_SHOW_TIME, 0x01);
+		db_set_b(0, LINKLIST_MODULE, LINKLIST_SHOW_TIME, 0x01);
 		options->showTime = 0x01;
 	}
 
-	options->showDirection = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_SHOW_DIRECTION, 0xFF);
+	options->showDirection = db_get_b(0, LINKLIST_MODULE, LINKLIST_SHOW_DIRECTION, 0xFF);
 	if (options->showDirection == 0xFF)
 	{
 		// No DB entry for this Plugin
-		db_set_b(NULL, LINKLIST_MODULE, LINKLIST_SHOW_DIRECTION, 0x01);
+		db_set_b(0, LINKLIST_MODULE, LINKLIST_SHOW_DIRECTION, 0x01);
 		options->showDirection = 0x01;
 	}
 
-	options->showType = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_SHOW_TYPE, 0xFF);
+	options->showType = db_get_b(0, LINKLIST_MODULE, LINKLIST_SHOW_TYPE, 0xFF);
 	if (options->showType == 0xFF)
 	{
 		// No DB entry for this Plugin
-		db_set_b(NULL, LINKLIST_MODULE, LINKLIST_SHOW_TYPE, 0x01);
+		db_set_b(0, LINKLIST_MODULE, LINKLIST_SHOW_TYPE, 0x01);
 		options->showType = 0x01;
 	}
 
@@ -890,15 +890,15 @@ void GetListOptions(LISTOPTIONS *options)
 
 void SetListOptions(LISTOPTIONS *options)
 {
-	db_set_b(NULL, LINKLIST_MODULE, LINKLIST_OPEN_WINDOW, options->openNewWindow);
-	db_set_b(NULL, LINKLIST_MODULE, LINKLIST_UPDATE_WINDOW, options->updateWindow);
-	db_set_b(NULL, LINKLIST_MODULE, LINKLIST_MOUSE_EVENT, options->mouseEvent);
-	db_set_b(NULL, LINKLIST_MODULE, LINKLIST_SAVESPECIAL, options->saveSpecial);
-	db_set_b(NULL, LINKLIST_MODULE, LINKLIST_SHOW_DATE, options->showDate);
-	db_set_b(NULL, LINKLIST_MODULE, LINKLIST_SHOW_LINE, options->showLine);
-	db_set_b(NULL, LINKLIST_MODULE, LINKLIST_SHOW_TIME, options->showTime);
-	db_set_b(NULL, LINKLIST_MODULE, LINKLIST_SHOW_DIRECTION, options->showDirection);
-	db_set_b(NULL, LINKLIST_MODULE, LINKLIST_SHOW_TYPE, options->showType);
+	db_set_b(0, LINKLIST_MODULE, LINKLIST_OPEN_WINDOW, options->openNewWindow);
+	db_set_b(0, LINKLIST_MODULE, LINKLIST_UPDATE_WINDOW, options->updateWindow);
+	db_set_b(0, LINKLIST_MODULE, LINKLIST_MOUSE_EVENT, options->mouseEvent);
+	db_set_b(0, LINKLIST_MODULE, LINKLIST_SAVESPECIAL, options->saveSpecial);
+	db_set_b(0, LINKLIST_MODULE, LINKLIST_SHOW_DATE, options->showDate);
+	db_set_b(0, LINKLIST_MODULE, LINKLIST_SHOW_LINE, options->showLine);
+	db_set_b(0, LINKLIST_MODULE, LINKLIST_SHOW_TIME, options->showTime);
+	db_set_b(0, LINKLIST_MODULE, LINKLIST_SHOW_DIRECTION, options->showDirection);
+	db_set_b(0, LINKLIST_MODULE, LINKLIST_SHOW_TYPE, options->showType);
 }
 
 /*
@@ -946,11 +946,11 @@ void GetColour(MYCOLOURSET *colourSet)
 	DWORD colour;
 	BYTE useDefault;
 
-	useDefault = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_USE_DEF, 0xFF);
+	useDefault = db_get_b(0, LINKLIST_MODULE, LINKLIST_USE_DEF, 0xFF);
 	if (useDefault == 0xFF)
 	{
 		// No DB entry for this Plugin
-		db_set_b(NULL, LINKLIST_MODULE, LINKLIST_USE_DEF, 0x01);
+		db_set_b(0, LINKLIST_MODULE, LINKLIST_USE_DEF, 0x01);
 		useDefault = 0x01;
 	}
 
@@ -959,51 +959,51 @@ void GetColour(MYCOLOURSET *colourSet)
 		// Use Miranda-IM Default colours
 		// CHANGED AT MIRANDA 0.4!!!!
 		// Use SRMM... if it is not there try SRMsg (older Miranda Versions)
-		colour = db_get_dw(NULL, "SRMM", "SRMFont1Col", 0xFF000000);
+		colour = db_get_dw(0, "SRMM", "SRMFont1Col", 0xFF000000);
 		if (colour != 0xFF000000)
 			colourSet->incoming = colour;
 		else
 		{
-			colour = db_get_dw(NULL, "SRMsg", "Font3Col", 0xFF000000);
+			colour = db_get_dw(0, "SRMsg", "Font3Col", 0xFF000000);
 			if (colour != 0xFF000000)
 				colourSet->incoming = colour;
 			else
 			{
-				db_set_b(NULL, LINKLIST_MODULE, LINKLIST_USE_DEF, 0x00);
+				db_set_b(0, LINKLIST_MODULE, LINKLIST_USE_DEF, 0x00);
 				useDefault = 0x00;
 			}
 		}
 
 		// SRMM
-		colour = db_get_dw(NULL, "SRMM", "SRMFont0Col", 0xFF000000);
+		colour = db_get_dw(0, "SRMM", "SRMFont0Col", 0xFF000000);
 		if (colour != 0xFF000000)
 			colourSet->outgoing = colour;
 		else
 		{
 			// SRMsg
-			colour = db_get_dw(NULL, "SRMsg", "Font0Col", 0xFF000000);
+			colour = db_get_dw(0, "SRMsg", "Font0Col", 0xFF000000);
 			if (colour != 0xFF000000)
 				colourSet->outgoing = colour;
 			else
 			{
-				db_set_b(NULL, LINKLIST_MODULE, LINKLIST_USE_DEF, 0x00);
+				db_set_b(0, LINKLIST_MODULE, LINKLIST_USE_DEF, 0x00);
 				useDefault = 0x00;
 			}
 		}
 
 		// SRMM
-		colour = db_get_dw(NULL, "SRMM", "BkgColour", 0xFF000000);
+		colour = db_get_dw(0, "SRMM", "BkgColour", 0xFF000000);
 		if (colour != 0xFF000000)
 			colourSet->background = colour;
 		else
 		{
 			// SRMsg
-			colour = db_get_dw(NULL, "SRMsg", "BkgColour", 0xFF000000);
+			colour = db_get_dw(0, "SRMsg", "BkgColour", 0xFF000000);
 			if (colour != 0xFF000000)
 				colourSet->background = colour;
 			else
 			{
-				db_set_b(NULL, LINKLIST_MODULE, LINKLIST_USE_DEF, 0x00);
+				db_set_b(0, LINKLIST_MODULE, LINKLIST_USE_DEF, 0x00);
 				useDefault = 0x00;
 			}
 		}
@@ -1013,25 +1013,25 @@ void GetColour(MYCOLOURSET *colourSet)
 	if (useDefault == 0x00)
 	{
 		// Use Plugin user defined or default colours
-		colour = db_get_dw(NULL, LINKLIST_MODULE, LINKLIST_IN_COL, 0xFF000000);
+		colour = db_get_dw(0, LINKLIST_MODULE, LINKLIST_IN_COL, 0xFF000000);
 		if (colour != 0xFF000000)
 			colourSet->incoming = colour;
 		else
 			colourSet->incoming = IN_COL_DEF;
 
-		colour = db_get_dw(NULL, LINKLIST_MODULE, LINKLIST_OUT_COL, 0xFF000000);
+		colour = db_get_dw(0, LINKLIST_MODULE, LINKLIST_OUT_COL, 0xFF000000);
 		if (colour != 0xFF000000)
 			colourSet->outgoing = colour;
 		else
 			colourSet->outgoing = OUT_COL_DEF;
 
-		colour = db_get_dw(NULL, LINKLIST_MODULE, LINKLIST_BG_COL, 0xFF000000);
+		colour = db_get_dw(0, LINKLIST_MODULE, LINKLIST_BG_COL, 0xFF000000);
 		if (colour != 0xFF000000)
 			colourSet->background = colour;
 		else
 			colourSet->background = BG_COL_DEF;
 
-		colour = db_get_dw(NULL, LINKLIST_MODULE, LINKLIST_TXT_COL, 0xFF000000);
+		colour = db_get_dw(0, LINKLIST_MODULE, LINKLIST_TXT_COL, 0xFF000000);
 		if (colour != 0xFF000000)
 			colourSet->text = colour;
 		else
@@ -1048,39 +1048,39 @@ void GetDBColour(MYCOLOURSET *colourSet)
 	DWORD colour;
 
 	// Use Plugin user defined or default colours
-	colour = db_get_dw(NULL, LINKLIST_MODULE, LINKLIST_IN_COL, 0xFF000000);
+	colour = db_get_dw(0, LINKLIST_MODULE, LINKLIST_IN_COL, 0xFF000000);
 	if (colour != 0xFF000000)
 		colourSet->incoming = colour;
 	else
 	{
-		db_set_dw(NULL, LINKLIST_MODULE, LINKLIST_IN_COL, IN_COL_DEF);
+		db_set_dw(0, LINKLIST_MODULE, LINKLIST_IN_COL, IN_COL_DEF);
 		colourSet->incoming = IN_COL_DEF;
 	}
 
-	colour = db_get_dw(NULL, LINKLIST_MODULE, LINKLIST_OUT_COL, 0xFF000000);
+	colour = db_get_dw(0, LINKLIST_MODULE, LINKLIST_OUT_COL, 0xFF000000);
 	if (colour != 0xFF000000)
 		colourSet->outgoing = colour;
 	else
 	{
-		db_set_dw(NULL, LINKLIST_MODULE, LINKLIST_OUT_COL, OUT_COL_DEF);
+		db_set_dw(0, LINKLIST_MODULE, LINKLIST_OUT_COL, OUT_COL_DEF);
 		colourSet->outgoing = OUT_COL_DEF;
 	}
 
-	colour = db_get_dw(NULL, LINKLIST_MODULE, LINKLIST_BG_COL, 0xFF000000);
+	colour = db_get_dw(0, LINKLIST_MODULE, LINKLIST_BG_COL, 0xFF000000);
 	if (colour != 0xFF000000)
 		colourSet->background = colour;
 	else
 	{
-		db_set_dw(NULL, LINKLIST_MODULE, LINKLIST_BG_COL, BG_COL_DEF);
+		db_set_dw(0, LINKLIST_MODULE, LINKLIST_BG_COL, BG_COL_DEF);
 		colourSet->background = BG_COL_DEF;
 	}
 
-	colour = db_get_dw(NULL, LINKLIST_MODULE, LINKLIST_TXT_COL, 0xFF000000);
+	colour = db_get_dw(0, LINKLIST_MODULE, LINKLIST_TXT_COL, 0xFF000000);
 	if (colour != 0xFF000000)
 		colourSet->text = colour;
 	else
 	{
-		db_set_dw(NULL, LINKLIST_MODULE, LINKLIST_TXT_COL, TXT_COL_DEF);
+		db_set_dw(0, LINKLIST_MODULE, LINKLIST_TXT_COL, TXT_COL_DEF);
 		colourSet->text = TXT_COL_DEF;
 	}
 }
@@ -1094,12 +1094,12 @@ int GetMirandaColour(MYCOLOURSET *colourSet)
 
 	// Use Miranda-IM Default colours
 	// Try SRMM (Miranda 0.4) .... or SRMsg... for older versions
-	colour = db_get_dw(NULL, "SRMM", "SRMFont1Col", 0xFF000000);
+	colour = db_get_dw(0, "SRMM", "SRMFont1Col", 0xFF000000);
 	if (colour != 0xFF000000)
 		colourSet->incoming = colour;
 	else
 	{
-		colour = db_get_dw(NULL, "SRMsg", "Font3Col", 0xFF000000);
+		colour = db_get_dw(0, "SRMsg", "Font3Col", 0xFF000000);
 		if (colour != 0xFF000000)
 			colourSet->incoming = colour;
 		else
@@ -1107,24 +1107,24 @@ int GetMirandaColour(MYCOLOURSET *colourSet)
 	}
 
 
-	colour = db_get_dw(NULL, "SRMM", "SRMFont0Col", 0xFF000000);
+	colour = db_get_dw(0, "SRMM", "SRMFont0Col", 0xFF000000);
 	if (colour != 0xFF000000)
 		colourSet->outgoing = colour;
 	else
 	{
-		colour = db_get_dw(NULL, "SRMsg", "Font0Col", 0xFF000000);
+		colour = db_get_dw(0, "SRMsg", "Font0Col", 0xFF000000);
 		if (colour != 0xFF000000)
 			colourSet->outgoing = colour;
 		else
 			return 1;
 	}
 
-	colour = db_get_dw(NULL, "SRMM", "BkgColour", 0xFF000000);
+	colour = db_get_dw(0, "SRMM", "BkgColour", 0xFF000000);
 	if (colour != 0xFF000000)
 		colourSet->background = colour;
 	else
 	{
-		colour = db_get_dw(NULL, "SRMsg", "BkgColour", 0xFF000000);
+		colour = db_get_dw(0, "SRMsg", "BkgColour", 0xFF000000);
 		if (colour != 0xFF000000)
 			colourSet->background = colour;
 		else
@@ -1141,21 +1141,21 @@ Write user defined colours to the database
 */
 void SetDBColour(MYCOLOURSET *colourSet)
 {
-	db_set_dw(NULL, LINKLIST_MODULE, LINKLIST_IN_COL, colourSet->incoming);
-	db_set_dw(NULL, LINKLIST_MODULE, LINKLIST_OUT_COL, colourSet->outgoing);
-	db_set_dw(NULL, LINKLIST_MODULE, LINKLIST_BG_COL, colourSet->background);
-	db_set_dw(NULL, LINKLIST_MODULE, LINKLIST_TXT_COL, colourSet->text);
+	db_set_dw(0, LINKLIST_MODULE, LINKLIST_IN_COL, colourSet->incoming);
+	db_set_dw(0, LINKLIST_MODULE, LINKLIST_OUT_COL, colourSet->outgoing);
+	db_set_dw(0, LINKLIST_MODULE, LINKLIST_BG_COL, colourSet->background);
+	db_set_dw(0, LINKLIST_MODULE, LINKLIST_TXT_COL, colourSet->text);
 }
 
 BYTE GetUpdateSetting(void)
 {
 	BYTE updateWindow;
 
-	updateWindow = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_UPDATE_WINDOW, 0xFF);
+	updateWindow = db_get_b(0, LINKLIST_MODULE, LINKLIST_UPDATE_WINDOW, 0xFF);
 	if (updateWindow == 0xFF)
 	{
 		// No DB entry for this Plugin
-		db_set_b(NULL, LINKLIST_MODULE, LINKLIST_UPDATE_WINDOW, 0x00);
+		db_set_b(0, LINKLIST_MODULE, LINKLIST_UPDATE_WINDOW, 0x00);
 		return 0;
 	}
 	if (updateWindow == 0x00)

@@ -514,50 +514,50 @@ int PingOptInit(WPARAM wParam, LPARAM)
 }
 
 void LoadOptions() {
-	options.ping_period = db_get_dw(NULL, MODULENAME, "PingPeriod", DEFAULT_PING_PERIOD);
+	options.ping_period = g_plugin.getDword("PingPeriod", DEFAULT_PING_PERIOD);
 
-	options.ping_timeout = db_get_dw(NULL, MODULENAME, "PingTimeout", DEFAULT_PING_TIMEOUT);
+	options.ping_timeout = g_plugin.getDword("PingTimeout", DEFAULT_PING_TIMEOUT);
 	CallService(MODULENAME "/SetPingTimeout", (WPARAM)options.ping_timeout, 0);
-	options.show_popup = (db_get_b(NULL, MODULENAME, "ShowPopup", DEFAULT_SHOW_POPUP ? 1 : 0) == 1);
-	options.show_popup2 = (db_get_b(NULL, MODULENAME, "ShowPopup2", DEFAULT_SHOW_POPUP2 ? 1 : 0) == 1);
-	options.block_reps = (db_get_b(NULL, MODULENAME, "BlockReps", DEFAULT_BLOCK_REPS ? 1 : 0) == 1);
-	options.logging = (db_get_b(NULL, MODULENAME, "LoggingEnabled", DEFAULT_LOGGING_ENABLED ? 1 : 0) == 1);
+	options.show_popup = (g_plugin.getByte("ShowPopup", DEFAULT_SHOW_POPUP ? 1 : 0) == 1);
+	options.show_popup2 = (g_plugin.getByte("ShowPopup2", DEFAULT_SHOW_POPUP2 ? 1 : 0) == 1);
+	options.block_reps = (g_plugin.getByte("BlockReps", DEFAULT_BLOCK_REPS ? 1 : 0) == 1);
+	options.logging = (g_plugin.getByte("LoggingEnabled", DEFAULT_LOGGING_ENABLED ? 1 : 0) == 1);
 
-	options.no_test_icon = (db_get_b(NULL, MODULENAME, "NoTestStatus", DEFAULT_NO_TEST_ICON ? 1 : 0) == 1);
+	options.no_test_icon = (g_plugin.getByte("NoTestStatus", DEFAULT_NO_TEST_ICON ? 1 : 0) == 1);
 
-	options.indent = db_get_w(NULL, MODULENAME, "Indent", 0);
-	options.row_height = db_get_w(NULL, MODULENAME, "RowHeight", GetSystemMetrics(SM_CYSMICON));
+	options.indent = g_plugin.getWord("Indent", 0);
+	options.row_height = g_plugin.getWord("RowHeight", GetSystemMetrics(SM_CYSMICON));
 
-	options.retries = db_get_dw(NULL, MODULENAME, "Retries", 0);
+	options.retries = g_plugin.getDword("Retries", 0);
 
 	CallService(MODULENAME "/GetLogFilename", (WPARAM)MAX_PATH, (LPARAM)options.log_filename);
 
 	ICMP::get_instance()->set_timeout(options.ping_timeout * 1000);
 
-	options.attach_to_clist = (db_get_b(NULL, MODULENAME, "AttachToClist", DEFAULT_ATTACH_TO_CLIST ? 1 : 0) == 1);
-	options.log_csv = (db_get_b(NULL, MODULENAME, "LogCSV", 0) == 1);
+	options.attach_to_clist = (g_plugin.getByte("AttachToClist", DEFAULT_ATTACH_TO_CLIST ? 1 : 0) == 1);
+	options.log_csv = (g_plugin.getByte("LogCSV", 0) == 1);
 }
 
 void SaveOptions() {
-	db_set_dw(NULL, MODULENAME, "PingPeriod", options.ping_period);
-	db_set_dw(NULL, MODULENAME, "PingTimeout", options.ping_timeout);
+	g_plugin.setDword("PingPeriod", options.ping_period);
+	g_plugin.setDword("PingTimeout", options.ping_timeout);
 	CallService(MODULENAME "/SetPingTimeout", (WPARAM)options.ping_timeout, 0);
-	db_set_b(NULL, MODULENAME, "ShowPopup", options.show_popup ? 1 : 0);
-	db_set_b(NULL, MODULENAME, "ShowPopup2", options.show_popup2 ? 1 : 0);
-	db_set_b(NULL, MODULENAME, "BlockReps", options.block_reps ? 1 : 0);
-	db_set_b(NULL, MODULENAME, "LoggingEnabled", options.logging ? 1 : 0);
+	g_plugin.setByte("ShowPopup", options.show_popup ? 1 : 0);
+	g_plugin.setByte("ShowPopup2", options.show_popup2 ? 1 : 0);
+	g_plugin.setByte("BlockReps", options.block_reps ? 1 : 0);
+	g_plugin.setByte("LoggingEnabled", options.logging ? 1 : 0);
 
-	db_set_b(NULL, MODULENAME, "NoTestStatus", options.no_test_icon ? 1 : 0);
+	g_plugin.setByte("NoTestStatus", options.no_test_icon ? 1 : 0);
 
-	db_set_w(NULL, MODULENAME, "Indent", options.indent);
-	db_set_w(NULL, MODULENAME, "RowHeight", options.row_height);
+	g_plugin.setWord("Indent", options.indent);
+	g_plugin.setWord("RowHeight", options.row_height);
 
-	db_set_dw(NULL, MODULENAME, "Retries", (DWORD)options.retries);
+	g_plugin.setDword("Retries", (DWORD)options.retries);
 
 	CallService(MODULENAME "/SetLogFilename", (WPARAM)MAX_PATH, (LPARAM)options.log_filename);
 
 	ICMP::get_instance()->set_timeout(options.ping_timeout * 1000);
 
-	db_set_b(NULL, MODULENAME, "AttachToClist", options.attach_to_clist ? 1 : 0);
-	db_set_b(NULL, MODULENAME, "LogCSV", options.log_csv ? 1 : 0);
+	g_plugin.setByte("AttachToClist", options.attach_to_clist ? 1 : 0);
+	g_plugin.setByte("LogCSV", options.log_csv ? 1 : 0);
 }

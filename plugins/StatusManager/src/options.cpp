@@ -81,7 +81,7 @@ static bool IsSubPluginEnabled(const char *name)
 void InitCommonOptions()
 {
 	// if this options dialog was never filled, apply default options
-	if (db_get_b(0, MODULENAME, AAAMODULENAME "_enabled", -1) == -1) {
+	if (g_plugin.getByte(AAAMODULENAME "_enabled", -1) == -1) {
 		g_AAAEnabled = IsSubPluginEnabled(AAAMODULENAME);
 		g_KSEnabled = IsSubPluginEnabled(KSMODULENAME);
 		g_SSEnabled = IsSubPluginEnabled(SSMODULENAME);

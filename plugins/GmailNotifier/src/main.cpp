@@ -99,24 +99,24 @@ int CMPlugin::Load()
 	CreateProtoServiceFunction(MODULENAME, PS_GETNAME, GetName);
 	CreateServiceFunction("GmailMNotifier/Notifying", Notifying);
 
-	opt.circleTime = db_get_dw(NULL, MODULENAME, "circleTime", 30);
-	opt.notifierOnTray = db_get_dw(NULL, MODULENAME, "notifierOnTray", TRUE);
-	opt.notifierOnPop = db_get_dw(NULL, MODULENAME, "notifierOnPop", TRUE);
-	opt.popupDuration = db_get_dw(NULL, MODULENAME, "popupDuration", -1);
-	opt.popupBgColor = db_get_dw(NULL, MODULENAME, "popupBgColor", RGB(173, 206, 247));
-	opt.popupTxtColor = db_get_dw(NULL, MODULENAME, "popupTxtColor", RGB(0, 0, 0));
-	opt.OpenUsePrg = db_get_dw(NULL, MODULENAME, "OpenUsePrg", 0);
-	opt.ShowCustomIcon = db_get_dw(NULL, MODULENAME, "ShowCustomIcon", FALSE);
-	opt.UseOnline = db_get_dw(NULL, MODULENAME, "UseOnline", FALSE);
-	opt.AutoLogin = db_get_dw(NULL, MODULENAME, "AutoLogin", TRUE);
-	opt.LogThreads = db_get_dw(NULL, MODULENAME, "LogThreads", FALSE);
+	opt.circleTime = g_plugin.getDword("circleTime", 30);
+	opt.notifierOnTray = g_plugin.getDword("notifierOnTray", TRUE);
+	opt.notifierOnPop = g_plugin.getDword("notifierOnPop", TRUE);
+	opt.popupDuration = g_plugin.getDword("popupDuration", -1);
+	opt.popupBgColor = g_plugin.getDword("popupBgColor", RGB(173, 206, 247));
+	opt.popupTxtColor = g_plugin.getDword("popupTxtColor", RGB(0, 0, 0));
+	opt.OpenUsePrg = g_plugin.getDword("OpenUsePrg", 0);
+	opt.ShowCustomIcon = g_plugin.getDword("ShowCustomIcon", FALSE);
+	opt.UseOnline = g_plugin.getDword("UseOnline", FALSE);
+	opt.AutoLogin = g_plugin.getDword("AutoLogin", TRUE);
+	opt.LogThreads = g_plugin.getDword("LogThreads", FALSE);
 
 	DBVARIANT dbv;
-	if (db_get_s(NULL, "SkinIcons", "core_status_" MODULENAME "4", &dbv)) {
-		db_set_s(NULL, "SkinIcons", "core_status_" MODULENAME "0", "plugins\\GmailNotifier.dll,2");
-		db_set_s(NULL, "SkinIcons", "core_status_" MODULENAME "1", "plugins\\GmailNotifier.dll,2");
-		db_set_s(NULL, "SkinIcons", "core_status_" MODULENAME "2", "plugins\\GmailNotifier.dll,0");
-		db_set_s(NULL, "SkinIcons", "core_status_" MODULENAME "4", "plugins\\GmailNotifier.dll,1");
+	if (db_get_s(0, "SkinIcons", "core_status_" MODULENAME "4", &dbv)) {
+		db_set_s(0, "SkinIcons", "core_status_" MODULENAME "0", "plugins\\GmailNotifier.dll,2");
+		db_set_s(0, "SkinIcons", "core_status_" MODULENAME "1", "plugins\\GmailNotifier.dll,2");
+		db_set_s(0, "SkinIcons", "core_status_" MODULENAME "2", "plugins\\GmailNotifier.dll,0");
+		db_set_s(0, "SkinIcons", "core_status_" MODULENAME "4", "plugins\\GmailNotifier.dll,1");
 	}
 	else db_free(&dbv);
 

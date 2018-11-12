@@ -81,7 +81,7 @@ static BOOL PollProtocolCanHaveAvatar(const char *szProto)
 // Return true if this protocol has to be checked
 static BOOL PollCheckProtocol(const char *szProto)
 {
-	return db_get_b(NULL, AVS_MODULE, szProto, 1);
+	return g_plugin.getByte(szProto, 1);
 }
 
 // Return true if this contact can have avatar requested
@@ -156,7 +156,7 @@ void ProcessAvatarInfo(MCONTACT hContact, int type, PROTO_AVATAR_INFORMATION *pa
 	else if (type == GAIR_NOAVATAR) {
 		db_unset(hContact, "ContactPhoto", "NeedUpdate");
 
-		if (db_get_b(NULL, AVS_MODULE, "RemoveAvatarWhenContactRemoves", 1)) {
+		if (g_plugin.getByte("RemoveAvatarWhenContactRemoves", 1)) {
 			// Delete settings
 			db_unset(hContact, "ContactPhoto", "RFile");
 			if (!db_get_b(hContact, "ContactPhoto", "Locked", 0))

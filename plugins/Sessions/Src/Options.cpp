@@ -160,19 +160,19 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 
 			hIcon = (bChecked = IsMarkedUserDefSession(opses_count)) ? hMarked : hNotMarked;
 
-			SetDlgItemInt(hdlg, IDC_TRACK, g_ses_limit = db_get_b(NULL, MODULENAME, "TrackCount", 10), FALSE);
+			SetDlgItemInt(hdlg, IDC_TRACK, g_ses_limit = g_plugin.getByte("TrackCount", 10), FALSE);
 			SendDlgItemMessage(hdlg, IDC_SPIN1, UDM_SETRANGE, 0, MAKELONG(10, 1));
 			SendDlgItemMessage(hdlg, IDC_SPIN1, UDM_SETPOS, 0, GetDlgItemInt(hdlg, IDC_TRACK, nullptr, FALSE));
 
 			SendDlgItemMessage(hdlg, IDC_OPCLIST, LB_RESETCONTENT, 0, 0);
-			SetDlgItemInt(hdlg, IDC_STARTDELAY, db_get_w(NULL, MODULENAME, "StartupModeDelay", 1500), FALSE);
-			int startupmode = db_get_b(NULL, MODULENAME, "StartupMode", 3);
-			int exitmode = db_get_b(NULL, MODULENAME, "ShutdownMode", 2);
+			SetDlgItemInt(hdlg, IDC_STARTDELAY, g_plugin.getWord("StartupModeDelay", 1500), FALSE);
+			int startupmode = g_plugin.getByte("StartupMode", 3);
+			int exitmode = g_plugin.getByte("ShutdownMode", 2);
 
-			g_bExclHidden = db_get_b(NULL, MODULENAME, "ExclHidden", 0) != 0;
-			g_bWarnOnHidden = db_get_b(NULL, MODULENAME, "WarnOnHidden", 0) != 0;
-			g_bOtherWarnings = db_get_b(NULL, MODULENAME, "OtherWarnings", 1) != 0;
-			g_bCrashRecovery = db_get_b(NULL, MODULENAME, "CrashRecovery", 0) != 0;
+			g_bExclHidden = g_plugin.getByte("ExclHidden", 0) != 0;
+			g_bWarnOnHidden = g_plugin.getByte("WarnOnHidden", 0) != 0;
+			g_bOtherWarnings = g_plugin.getByte("OtherWarnings", 1) != 0;
+			g_bCrashRecovery = g_plugin.getByte("CrashRecovery", 0) != 0;
 
 			CheckDlgButton(hdlg, IDC_EXCLHIDDEN, g_bExclHidden ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hdlg, IDC_LASTHIDDENWARN, g_bWarnOnHidden ? BST_CHECKED : BST_UNCHECKED);
@@ -242,30 +242,30 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 		case PSN_APPLY:
 			{
 				int iDelay = GetDlgItemInt(hdlg, IDC_STARTDELAY, nullptr, FALSE);
-				db_set_w(0, MODULENAME, "StartupModeDelay", (WORD)iDelay);
-				db_set_b(0, MODULENAME, "TrackCount", (BYTE)(g_ses_limit = GetDlgItemInt(hdlg, IDC_TRACK, nullptr, FALSE)));
+				g_plugin.setWord("StartupModeDelay", (WORD)iDelay);
+				g_plugin.setByte("TrackCount", (BYTE)(g_ses_limit = GetDlgItemInt(hdlg, IDC_TRACK, nullptr, FALSE)));
 				if (IsDlgButtonChecked(hdlg, IDC_REXSAVE))
-					db_set_b(NULL, MODULENAME, "ShutdownMode", 2);
+					g_plugin.setByte("ShutdownMode", 2);
 				else if (IsDlgButtonChecked(hdlg, IDC_REXDSAVE))
-					db_set_b(NULL, MODULENAME, "ShutdownMode", 0);
+					g_plugin.setByte("ShutdownMode", 0);
 				else if (IsDlgButtonChecked(hdlg, IDC_REXASK))
-					db_set_b(NULL, MODULENAME, "ShutdownMode", 1);
+					g_plugin.setByte("ShutdownMode", 1);
 
 				if (IsDlgButtonChecked(hdlg, IDC_STARTDIALOG)) {
 					if (BST_UNCHECKED == IsDlgButtonChecked(hdlg, IDC_CHECKLAST))
-						db_set_b(NULL, MODULENAME, "StartupMode", 1);
+						g_plugin.setByte("StartupMode", 1);
 					else
-						db_set_b(NULL, MODULENAME, "StartupMode", 3);
+						g_plugin.setByte("StartupMode", 3);
 				}
 				else if (IsDlgButtonChecked(hdlg, IDC_RLOADLAST))
-					db_set_b(NULL, MODULENAME, "StartupMode", 2);
+					g_plugin.setByte("StartupMode", 2);
 				else if (IsDlgButtonChecked(hdlg, IDC_RNOTHING))
-					db_set_b(NULL, MODULENAME, "StartupMode", 0);
+					g_plugin.setByte("StartupMode", 0);
 
-				db_set_b(NULL, MODULENAME, "ExclHidden", (BYTE)(IsDlgButtonChecked(hdlg, IDC_EXCLHIDDEN) ? (g_bExclHidden = 1) : (g_bExclHidden = 0)));
-				db_set_b(NULL, MODULENAME, "WarnOnHidden", (BYTE)(IsDlgButtonChecked(hdlg, IDC_LASTHIDDENWARN) ? (g_bWarnOnHidden = 1) : (g_bWarnOnHidden = 0)));
-				db_set_b(NULL, MODULENAME, "OtherWarnings", (BYTE)(IsDlgButtonChecked(hdlg, IDC_WARNINGS) ? (g_bOtherWarnings = 1) : (g_bOtherWarnings = 0)));
-				db_set_b(NULL, MODULENAME, "CrashRecovery", (BYTE)(IsDlgButtonChecked(hdlg, IDC_CRASHRECOVERY) ? (g_bCrashRecovery = 1) : (g_bCrashRecovery = 0)));
+				g_plugin.setByte("ExclHidden", (BYTE)(IsDlgButtonChecked(hdlg, IDC_EXCLHIDDEN) ? (g_bExclHidden = 1) : (g_bExclHidden = 0)));
+				g_plugin.setByte("WarnOnHidden", (BYTE)(IsDlgButtonChecked(hdlg, IDC_LASTHIDDENWARN) ? (g_bWarnOnHidden = 1) : (g_bWarnOnHidden = 0)));
+				g_plugin.setByte("OtherWarnings", (BYTE)(IsDlgButtonChecked(hdlg, IDC_WARNINGS) ? (g_bOtherWarnings = 1) : (g_bOtherWarnings = 0)));
+				g_plugin.setByte("CrashRecovery", (BYTE)(IsDlgButtonChecked(hdlg, IDC_CRASHRECOVERY) ? (g_bCrashRecovery = 1) : (g_bCrashRecovery = 0)));
 			}
 			return 1;
 

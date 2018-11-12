@@ -5,7 +5,7 @@ void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags,
 	if (Miranda_IsTerminated())
 		return;
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(0, "Popup", "ModuleIsEnabled", 1)) {
 		POPUPDATAT ppd = { 0 };
 		ppd.lchContact = hContact;
 		wcsncpy(ppd.lpwzContactName, caption, MAX_CONTACTNAME);
@@ -102,12 +102,12 @@ void PasteToClipboard(const wchar_t *data)
 
 void Report(MCONTACT hContact, const wchar_t *data)
 {
-	if (db_get_b(NULL, MODULENAME, "UrlAutoSend", 1))
+	if (g_plugin.getByte("UrlAutoSend", 1))
 		SendToContact(hContact, data);
 
-	if (db_get_b(NULL, MODULENAME, "UrlPasteToMessageInputArea", 0))
+	if (g_plugin.getByte("UrlPasteToMessageInputArea", 0))
 		PasteToInputArea(hContact, data);
 
-	if (db_get_b(NULL, MODULENAME, "UrlCopyToClipboard", 0))
+	if (g_plugin.getByte("UrlCopyToClipboard", 0))
 		PasteToClipboard(data);
 }

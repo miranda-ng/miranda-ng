@@ -52,8 +52,8 @@ INT_PTR TTBInternalStatusMenuButt(WPARAM, LPARAM)
 
 INT_PTR TTBInternalSoundsOnOff(WPARAM, LPARAM)
 {
-	int newVal = !(db_get_b(NULL, "Skin", "UseSound", 1));
-	db_set_b(NULL, "Skin", "UseSound", (BYTE)newVal);
+	int newVal = !(db_get_b(0, "Skin", "UseSound", 1));
+	db_set_b(0, "Skin", "UseSound", (BYTE)newVal);
 	return 0;
 }
 
@@ -159,16 +159,16 @@ void InitInternalButtons()
 	hExit = g_plugin.addTTB(&ttb);
 
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hShowHideOffline,
-		db_get_b(NULL, "CList", "HideOffline", 0) ? 0 : TTBST_PUSHED);
+		db_get_b(0, "CList", "HideOffline", 0) ? 0 : TTBST_PUSHED);
 
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hGroups,
-		db_get_b(NULL, "CList", "UseGroups", 1) ? TTBST_PUSHED : 0);
+		db_get_b(0, "CList", "UseGroups", 1) ? TTBST_PUSHED : 0);
 
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hSounds,
-		db_get_b(NULL, "Skin", "UseSound", 1) ? TTBST_PUSHED : 0);
+		db_get_b(0, "Skin", "UseSound", 1) ? TTBST_PUSHED : 0);
 
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hMetaContacts,
-		db_get_b(NULL, "MetaContacts", "Enabled", 1) ? TTBST_PUSHED : 0);
+		db_get_b(0, "MetaContacts", "Enabled", 1) ? TTBST_PUSHED : 0);
 
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnSettingChanging);
 }

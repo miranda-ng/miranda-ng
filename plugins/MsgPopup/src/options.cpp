@@ -103,11 +103,11 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 				mir_snprintf(szNameBG, "BG%d", indx);
 				mir_snprintf(szNameTO, "TO%d", indx);
 
-				DBWriteContactSettingDwordDef(NULL, MODULENAME, szNameFG, options.FG[indx], optionsDefault.FG[indx]);
-				DBWriteContactSettingDwordDef(NULL, MODULENAME, szNameBG, options.BG[indx], optionsDefault.BG[indx]);
-				DBWriteContactSettingDwordDef(NULL, MODULENAME, szNameTO, options.Timeout[indx], (DWORD)optionsDefault.Timeout[indx]);
+				DBWriteContactSettingDwordDef(0, MODULENAME, szNameFG, options.FG[indx], optionsDefault.FG[indx]);
+				DBWriteContactSettingDwordDef(0, MODULENAME, szNameBG, options.BG[indx], optionsDefault.BG[indx]);
+				DBWriteContactSettingDwordDef(0, MODULENAME, szNameTO, options.Timeout[indx], (DWORD)optionsDefault.Timeout[indx]);
 			}
-			DBWriteContactSettingDwordDef(NULL, MODULENAME, "Sound", options.Sound, optionsDefault.Sound);
+			DBWriteContactSettingDwordDef(0, MODULENAME, "Sound", options.Sound, optionsDefault.Sound);
 
 			break;
 		}

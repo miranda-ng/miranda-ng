@@ -142,47 +142,47 @@ int OptInit(WPARAM wParam, LPARAM)
 
 void LoadSettings(void) 
 {
-	ptrW wszStr(db_get_wsa(NULL, MODULENAME, "UseProxyIPNets"));
+	ptrW wszStr(g_plugin.getWStringA("UseProxyIPNets"));
 	if (!wszStr)
 		opt_useProxy[0] = 0;
 	else
 		wcsncpy_s(opt_useProxy, wszStr, _TRUNCATE);
 
-	wszStr = db_get_wsa(NULL, MODULENAME, "NoProxyIPNets");
+	wszStr = g_plugin.getWStringA("NoProxyIPNets");
 	if (!wszStr)
 		opt_noProxy[0] = 0;
 	else
 		wcsncpy_s(opt_noProxy, wszStr, _TRUNCATE);
 
-	wszStr = db_get_wsa(NULL, MODULENAME, "HideInterfaces");
+	wszStr = g_plugin.getWStringA("HideInterfaces");
 	if (!wszStr)
 		opt_hideIntf[0] = 0;
 	else
 		wcsncpy_s(opt_hideIntf, wszStr, _TRUNCATE);
 	
-	opt_miranda = db_get_b(NULL, MODULENAME, "ManageMirandaProxy", TRUE);
-	opt_ie = db_get_b(NULL, MODULENAME, "ManageIEProxy", FALSE);
-	opt_firefox = db_get_b(NULL, MODULENAME, "ManageFirefoxProxy", FALSE) && Firefox_Installed();
-	opt_alwayReconnect = db_get_b(NULL, MODULENAME, "AlwaysReconnect", FALSE);
-	opt_popups = db_get_b(NULL, MODULENAME, "PopupEnabled", TRUE);
-	opt_defaultColors = db_get_b(NULL, MODULENAME, "PopupDefaultColors", TRUE);
-	opt_showProxyState = db_get_b(NULL, MODULENAME, "ShowProxyStatus", TRUE);
-	opt_bgColor = db_get_dw(NULL, MODULENAME, "PopupBgColor", GetSysColor(COLOR_BTNFACE));
-	opt_txtColor = db_get_dw(NULL, MODULENAME, "PopupTxtColor", GetSysColor(COLOR_WINDOWTEXT));
+	opt_miranda = g_plugin.getByte("ManageMirandaProxy", TRUE);
+	opt_ie = g_plugin.getByte("ManageIEProxy", FALSE);
+	opt_firefox = g_plugin.getByte("ManageFirefoxProxy", FALSE) && Firefox_Installed();
+	opt_alwayReconnect = g_plugin.getByte("AlwaysReconnect", FALSE);
+	opt_popups = g_plugin.getByte("PopupEnabled", TRUE);
+	opt_defaultColors = g_plugin.getByte("PopupDefaultColors", TRUE);
+	opt_showProxyState = g_plugin.getByte("ShowProxyStatus", TRUE);
+	opt_bgColor = g_plugin.getDword("PopupBgColor", GetSysColor(COLOR_BTNFACE));
+	opt_txtColor = g_plugin.getDword("PopupTxtColor", GetSysColor(COLOR_WINDOWTEXT));
 }
 
 void SaveSettings(void)
 {
-	db_set_ws(NULL, MODULENAME, "UseProxyIPNets", opt_useProxy);
-	db_set_ws(NULL, MODULENAME, "NoProxyIPNets", opt_noProxy);
-	db_set_ws(NULL, MODULENAME, "HideInterfaces", opt_hideIntf);
-	db_set_b(NULL, MODULENAME, "ManageMirandaProxy", (BYTE)opt_miranda);
-	db_set_b(NULL, MODULENAME, "ManageIEProxy", (BYTE)opt_ie);
-	db_set_b(NULL, MODULENAME, "ManageFirefoxProxy", (BYTE)opt_firefox);
-	db_set_b(NULL, MODULENAME, "AlwaysReconnect", (BYTE)opt_alwayReconnect);
-	db_set_b(NULL, MODULENAME, "PopupEnabled", (BYTE)opt_popups);
-	db_set_b(NULL, MODULENAME, "PopupDefaultColors", (BYTE)opt_defaultColors);
-	db_set_b(NULL, MODULENAME, "ShowProxyStatus", (BYTE)opt_showProxyState);
-	db_set_dw(NULL, MODULENAME, "PopupBgColor", (DWORD)opt_bgColor);
-	db_set_dw(NULL, MODULENAME, "PopupTxtColor", (DWORD)opt_txtColor);
+	g_plugin.setWString("UseProxyIPNets", opt_useProxy);
+	g_plugin.setWString("NoProxyIPNets", opt_noProxy);
+	g_plugin.setWString("HideInterfaces", opt_hideIntf);
+	g_plugin.setByte("ManageMirandaProxy", (BYTE)opt_miranda);
+	g_plugin.setByte("ManageIEProxy", (BYTE)opt_ie);
+	g_plugin.setByte("ManageFirefoxProxy", (BYTE)opt_firefox);
+	g_plugin.setByte("AlwaysReconnect", (BYTE)opt_alwayReconnect);
+	g_plugin.setByte("PopupEnabled", (BYTE)opt_popups);
+	g_plugin.setByte("PopupDefaultColors", (BYTE)opt_defaultColors);
+	g_plugin.setByte("ShowProxyStatus", (BYTE)opt_showProxyState);
+	g_plugin.setDword("PopupBgColor", (DWORD)opt_bgColor);
+	g_plugin.setDword("PopupTxtColor", (DWORD)opt_txtColor);
 }

@@ -156,10 +156,10 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				EnableWindow(GetDlgItem(hwnd, IDC_TIMER), 1);
 				wchar_t string[512];
 				SetDlgItemText(hwnd, IDC_TIMER, _itow(db_get_w(hContact, MODNAME, "Timer", 15), string, 10));
-				if (!db_get_w(NULL, MODNAME, "Timer", 1))
+				if (!db_get_w(0, MODNAME, "Timer", 1))
 					SetDlgItemText(hwnd, IDC_TIMER_INTERVAL_MSG, TranslateT("Non-IM Contact protocol timer is Disabled"));
 				else {
-					mir_snwprintf(string, TranslateT("Timer intervals... Non-IM Contact Protocol timer is %d seconds"), db_get_w(NULL, MODNAME, "Timer", 1));
+					mir_snwprintf(string, TranslateT("Timer intervals... Non-IM Contact Protocol timer is %d seconds"), db_get_w(0, MODNAME, "Timer", 1));
 					SetDlgItemText(hwnd, IDC_TIMER_INTERVAL_MSG, string);
 				}
 			}

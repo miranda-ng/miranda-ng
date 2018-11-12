@@ -32,7 +32,7 @@ int MsgAck(WPARAM, LPARAM lParam)
 
 	if (ack && ack->type == ACKTYPE_MESSAGE) {
 		if (ack->hProcess == (HANDLE)WindowList_Find(hWindowList, ack->hContact)) {
-			if (db_get_b(NULL, MODULENAME, "ShowDeliveryMessages", 1))
+			if (g_plugin.getByte("ShowDeliveryMessages", 1))
 				CreateMessageAcknowlegedWindow(ack->hContact, ack->result == ACKRESULT_SUCCESS);
 			if (ack->result == ACKRESULT_SUCCESS) {
 				// wrtie it to the DB
@@ -164,7 +164,7 @@ int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 
 INT_PTR BuddyPounceMenuCommand(WPARAM hContact, LPARAM)
 {
-	if (db_get_b(NULL, MODULENAME, "UseAdvanced", 0) || db_get_b(hContact, MODULENAME, "UseAdvanced", 0))
+	if (g_plugin.getByte("UseAdvanced", 0) || db_get_b(hContact, MODULENAME, "UseAdvanced", 0))
 		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_POUNCE), nullptr, BuddyPounceDlgProc, hContact);
 	else
 		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_POUNCE_SIMPLE), nullptr, BuddyPounceSimpleDlgProc, hContact);
@@ -176,10 +176,10 @@ INT_PTR AddSimpleMessage(WPARAM wParam, LPARAM lParam)
 	MCONTACT hContact = wParam;
 	wchar_t* message = (wchar_t*)lParam;
 	db_set_ws(hContact, MODULENAME, "PounceMsg", message);
-	db_set_w(hContact, MODULENAME, "SendIfMyStatusIsFLAG", (WORD)db_get_w(NULL, MODULENAME, "SendIfMyStatusIsFLAG", 1));
-	db_set_w(hContact, MODULENAME, "SendIfTheirStatusIsFLAG", (WORD)db_get_w(NULL, MODULENAME, "SendIfTheirStatusIsFLAG", 1));
-	db_set_b(hContact, MODULENAME, "Reuse", (BYTE)db_get_b(NULL, MODULENAME, "Reuse", 0));
-	db_set_b(hContact, MODULENAME, "GiveUpDays", (BYTE)db_get_b(NULL, MODULENAME, "GiveUpDays", 0));
+	db_set_w(hContact, MODULENAME, "SendIfMyStatusIsFLAG", (WORD)g_plugin.getWord("SendIfMyStatusIsFLAG", 1));
+	db_set_w(hContact, MODULENAME, "SendIfTheirStatusIsFLAG", (WORD)g_plugin.getWord("SendIfTheirStatusIsFLAG", 1));
+	db_set_b(hContact, MODULENAME, "Reuse", (BYTE)g_plugin.getByte("Reuse", 0));
+	db_set_b(hContact, MODULENAME, "GiveUpDays", (BYTE)g_plugin.getByte("GiveUpDays", 0));
 	db_set_dw(hContact, MODULENAME, "GiveUpDate", (DWORD)(db_get_b(hContact, MODULENAME, "GiveUpDays", 0)*SECONDSINADAY));
 	return 0;
 }

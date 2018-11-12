@@ -14,25 +14,25 @@ void showPopup(LPCSTR lpzText, MCONTACT hContact, HICON hIcon, UINT type)
 	DBVARIANT dbv;
 
 	if (type == 0) {
-		colorBack = db_get_dw(0, MODULENAME, "colorKeyb", RGB(230, 230, 255));
-		colorText = db_get_dw(0, MODULENAME, "colorKeyt", RGB(0, 0, 0));
-		if (!db_get_s(0, MODULENAME, "timeoutKey", &dbv)) {
+		colorBack = g_plugin.getDword("colorKeyb", RGB(230, 230, 255));
+		colorText = g_plugin.getDword("colorKeyt", RGB(0, 0, 0));
+		if (!g_plugin.getString("timeoutKey", &dbv)) {
 			timeout = atoi(dbv.pszVal);
 			db_free(&dbv);
 		}
 	}
 	else if (type == 1) {
-		colorBack = db_get_dw(0, MODULENAME, "colorSecb", RGB(255, 255, 200));
-		colorText = db_get_dw(0, MODULENAME, "colorSect", RGB(0, 0, 0));
-		if (!db_get_s(0, MODULENAME, "timeoutSec", &dbv)) {
+		colorBack = g_plugin.getDword("colorSecb", RGB(255, 255, 200));
+		colorText = g_plugin.getDword("colorSect", RGB(0, 0, 0));
+		if (!g_plugin.getString("timeoutSec", &dbv)) {
 			timeout = atoi(dbv.pszVal);
 			db_free(&dbv);
 		}
 	}
 	else if (type >= 2) {
-		colorBack = db_get_dw(0, MODULENAME, "colorSRb", RGB(200, 255, 200));
-		colorText = db_get_dw(0, MODULENAME, "colorSRt", RGB(0, 0, 0));
-		if (!db_get_s(0, MODULENAME, "timeoutSR", &dbv)) {
+		colorBack = g_plugin.getDword("colorSRb", RGB(200, 255, 200));
+		colorText = g_plugin.getDword("colorSRt", RGB(0, 0, 0));
+		if (!g_plugin.getString("timeoutSR", &dbv)) {
 			timeout = atoi(dbv.pszVal);
 			db_free(&dbv);
 		}
@@ -54,50 +54,50 @@ void showPopup(LPCSTR lpzText, MCONTACT hContact, HICON hIcon, UINT type)
 
 void showPopupDCmsg(MCONTACT hContact, LPCSTR msg)
 {
-	if (db_get_b(0, MODULENAME, "dc", 1))
+	if (g_plugin.getByte("dc", 1))
 		showPopup(msg, hContact, g_hPOP[POP_PU_DIS], 1);
 }
 
 void showPopupDC(MCONTACT hContact)
 {
-	if (db_get_b(0, MODULENAME, "dc", 1))
+	if (g_plugin.getByte("dc", 1))
 		showPopup(sim006, hContact, g_hPOP[POP_PU_DIS], 1);
 }
 
 void showPopupEC(MCONTACT hContact)
 {
-	if (db_get_b(0, MODULENAME, "ec", 1))
+	if (g_plugin.getByte("ec", 1))
 		showPopup(sim001, hContact, g_hPOP[POP_PU_EST], 1);
 }
 
 void showPopupKS(MCONTACT hContact)
 {
-	if (db_get_b(0, MODULENAME, "ks", 1))
+	if (g_plugin.getByte("ks", 1))
 		showPopup(sim007, hContact, g_hPOP[POP_PU_PRC], 0);
 }
 
 void showPopupKRmsg(MCONTACT hContact, LPCSTR msg)
 {
-	if (db_get_b(0, MODULENAME, "kr", 1))
+	if (g_plugin.getByte("kr", 1))
 		showPopup(msg, hContact, g_hPOP[POP_PU_PRC], 0);
 }
 
 void showPopupKR(MCONTACT hContact)
 {
-	if (db_get_b(0, MODULENAME, "kr", 1))
+	if (g_plugin.getByte("kr", 1))
 		showPopup(sim008, hContact, g_hPOP[POP_PU_PRC], 0);
 }
 
 void showPopupSM(MCONTACT hContact)
 {
-	if (db_get_b(0, MODULENAME, "ss", 0))
+	if (g_plugin.getByte("ss", 0))
 		showPopup(sim009, hContact, g_hPOP[POP_PU_MSS], 2);
 	Skin_PlaySound("OutgoingSecureMessage");
 }
 
 void showPopupRM(MCONTACT hContact)
 {
-	if (db_get_b(0, MODULENAME, "sr", 0))
+	if (g_plugin.getByte("sr", 0))
 		showPopup(sim010, hContact, g_hPOP[POP_PU_MSR], 2);
 	Skin_PlaySound("IncomingSecureMessage");
 }

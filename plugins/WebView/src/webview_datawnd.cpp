@@ -240,7 +240,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, SB_SETPARTS, _countof(partWidth), (LPARAM)partWidth);
 			SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, SB_SETTEXT, 1 | SBT_OWNERDRAW, 0);
 
-			if ( db_get_b(NULL, MODULENAME, SAVE_INDIVID_POS_KEY, 0))
+			if ( g_plugin.getByte(SAVE_INDIVID_POS_KEY, 0))
 				Utils_RestoreWindowPosition(hwndDlg, hContact2, MODULENAME, "WV");
 		}
 		break;
@@ -476,13 +476,13 @@ void SavewinSettings(void)
 	if (Xposition == -32000)
 		Xposition = 100;
 
-	db_set_dw(NULL, MODULENAME, Xpos_WIN_KEY,   Xposition);
-	db_set_dw(NULL, MODULENAME, Ypos_WIN_KEY,   Yposition);
+	g_plugin.setDword(Xpos_WIN_KEY,   Xposition);
+	g_plugin.setDword(Ypos_WIN_KEY,   Yposition);
 
-	db_set_dw(NULL, MODULENAME, BG_COLOR_KEY,   BackgoundClr);
-	db_set_dw(NULL, MODULENAME, TXT_COLOR_KEY,  TextClr);
-	db_set_dw(NULL, MODULENAME, WIN_HEIGHT_KEY, WindowHeight);
-	db_set_dw(NULL, MODULENAME, WIN_WIDTH_KEY,  WindowWidth);
+	g_plugin.setDword(BG_COLOR_KEY,   BackgoundClr);
+	g_plugin.setDword(TXT_COLOR_KEY,  TextClr);
+	g_plugin.setDword(WIN_HEIGHT_KEY, WindowHeight);
+	g_plugin.setDword(WIN_WIDTH_KEY,  WindowWidth);
 
 }
 

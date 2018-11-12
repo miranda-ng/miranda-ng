@@ -9,8 +9,8 @@ LPSTR splitMsg(LPSTR szMsg, int iLen)
 	LPSTR out = (LPSTR)mir_alloc(len * 2);
 	LPSTR buf = out;
 
-	WORD msg_id = db_get_w(0, MODULENAME, "msgid", 0) + 1;
-	db_set_w(0, MODULENAME, "msgid", msg_id);
+	WORD msg_id = g_plugin.getWord("msgid", 0) + 1;
+	g_plugin.setWord("msgid", msg_id);
 
 	size_t part_all = (len + iLen - 1) / iLen;
 	for (size_t part_num = 0; part_num<part_all; part_num++) {

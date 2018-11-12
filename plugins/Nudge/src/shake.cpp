@@ -4,17 +4,17 @@ void CShake::Load(void)
 {
 	Shaking = false;
 	ShakingChat = false;
-	nScaleClist = db_get_dw(NULL, MODULENAME, "ScaleClist", 5);
-	nScaleChat = db_get_dw(NULL, MODULENAME, "ScaleChat", 2);
-	nMoveClist = db_get_dw(NULL, MODULENAME, "MoveClist", 15);
-	nMoveChat = db_get_dw(NULL, MODULENAME, "MoveChat", 15);
+	nScaleClist = g_plugin.getDword("ScaleClist", 5);
+	nScaleChat = g_plugin.getDword("ScaleChat", 2);
+	nMoveClist = g_plugin.getDword("MoveClist", 15);
+	nMoveChat = g_plugin.getDword("MoveChat", 15);
 }
 void CShake::Save(void)
 {
-	db_set_dw(NULL, MODULENAME, "ScaleClist", this->nScaleClist);
-	db_set_dw(NULL, MODULENAME, "ScaleChat", this->nScaleChat);
-	db_set_dw(NULL, MODULENAME, "MoveClist", this->nMoveClist);
-	db_set_dw(NULL, MODULENAME, "MoveChat", this->nMoveChat);
+	g_plugin.setDword("ScaleClist", this->nScaleClist);
+	g_plugin.setDword("ScaleChat", this->nScaleChat);
+	g_plugin.setDword("MoveClist", this->nMoveClist);
+	g_plugin.setDword("MoveChat", this->nMoveChat);
 }
 
 void __cdecl ShakeChatWindow(void *Param)

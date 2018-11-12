@@ -201,8 +201,8 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 							auto from = rSection.GetCurrencyRate(nFrom);
 							auto to = rSection.GetCurrencyRate(nTo);
 
-							db_set_ws(NULL, CURRENCYRATES_MODULE_NAME, DB_STR_CC_CURRENCYRATE_FROM_ID, from.GetID().c_str());
-							db_set_ws(NULL, CURRENCYRATES_MODULE_NAME, DB_STR_CC_CURRENCYRATE_TO_ID, to.GetID().c_str());
+							db_set_ws(0, CURRENCYRATES_MODULE_NAME, DB_STR_CC_CURRENCYRATE_FROM_ID, from.GetID().c_str());
+							db_set_ws(0, CURRENCYRATES_MODULE_NAME, DB_STR_CC_CURRENCYRATE_TO_ID, to.GetID().c_str());
 
 							const auto pProvider = get_currency_converter_provider();
 							assert(pProvider);

@@ -187,7 +187,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	RegisterFontServiceFonts();
 	RegisterKeyBindings();
 
-	g_AddContListMI = (BOOL)db_get_dw(0, MODULENAME, "AddContactMenuItems", 1);
+	g_AddContListMI = (BOOL)g_plugin.getDword("AddContactMenuItems", 1);
 
 	// register menus
 	CMenuItem mi(&g_plugin);

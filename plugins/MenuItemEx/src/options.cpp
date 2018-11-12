@@ -28,7 +28,7 @@ static const checkboxes[] = {
 
 INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 {
-	DWORD flags = db_get_dw(NULL, MODULENAME, "flags", vf_default);
+	DWORD flags = g_plugin.getDword("flags", vf_default);
 	wchar_t buffer[64] = { 0 };
 	int i;
 
@@ -68,7 +68,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 			for (auto &it : checkboxes)
 				mod_flags |= IsDlgButtonChecked(hdlg, it.idc) ? it.flag : 0;
 
-			db_set_dw(NULL, MODULENAME, "flags", mod_flags);
+			g_plugin.setDword("flags", mod_flags);
 			return 1;
 		}
 		break;

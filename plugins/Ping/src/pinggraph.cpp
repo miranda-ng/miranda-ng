@@ -242,7 +242,7 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		{
 			char buff[30];
 			mir_snprintf(buff, "WindowHandle%d", wd->item_id);
-			db_set_dw(0, MODULENAME, buff, 0);
+			g_plugin.setDword(buff, 0);
 		}
 		delete wd;
 	}
@@ -255,7 +255,7 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 INT_PTR ShowGraph(WPARAM wParam, LPARAM lParam) {
 	char buff[30];
 	mir_snprintf(buff, "WindowHandle%d", (DWORD)wParam);
-	HWND hGraphWnd = (HWND)db_get_dw(0, MODULENAME, buff, 0);
+	HWND hGraphWnd = (HWND)g_plugin.getDword(buff, 0);
 	if (hGraphWnd) {
 		ShowWindow(hGraphWnd, SW_SHOW);
 		SetWindowPos(hGraphWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
@@ -291,10 +291,10 @@ INT_PTR ShowGraph(WPARAM wParam, LPARAM lParam) {
 	wd->item_id = (DWORD)wParam; // wParam is destination id
 	wd->hwnd_chk_grid = nullptr;
 	wd->hwnd_chk_stat = nullptr;
-	wd->show_grid = db_get_b(0, MODULENAME, "ShowGridLines", 0) ? true : false;
-	wd->show_stat = db_get_b(0, MODULENAME, "ShowStats", 1) ? true : false;
+	wd->show_grid = g_plugin.getByte("ShowGridLines", 0) ? true : false;
+	wd->show_stat = g_plugin.getByte("ShowStats", 1) ? true : false;
 
-	db_set_dw(0, MODULENAME, buff, (UINT_PTR)hGraphWnd);
+	g_plugin.setDword(buff, (UINT_PTR)hGraphWnd);
 
 	SetWindowLongPtr(hGraphWnd, GWLP_USERDATA, (LONG_PTR)wd);
 
@@ -315,11 +315,11 @@ void graphs_cleanup() {
 
 	for (int i = 0; i < list_size; i++) {
 		mir_snprintf(buff, "WindowHandle%d", i);
-		if (hwnd = (HWND)db_get_dw(0, MODULENAME, buff, 0)) {
+		if (hwnd = (HWND)g_plugin.getDword(buff, 0)) {
 			DestroyWindow(hwnd);
-			db_set_dw(0, MODULENAME, buff, 0);
+			g_plugin.setDword(buff, 0);
 			mir_snprintf(buff, "WindowWasOpen%d", i);
-			db_set_b(0, MODULENAME, buff, 1);
+			g_plugin.setByte(buff, 1);
 		}
 	}
 }
@@ -331,10 +331,10 @@ void graphs_init() {
 	CallService(MODULENAME "/GetPingList", 0, (LPARAM)&pl);
 	for (pinglist_it i = pl.begin(); i != pl.end(); ++i) {
 		mir_snprintf(buff, "WindowHandle%d", i->item_id); // clean up from possible crash
-		db_set_dw(0, MODULENAME, buff, 0);
+		g_plugin.setDword(buff, 0);
 		mir_snprintf(buff, "WindowWasOpen%d", i->item_id); // restore windows that were open on shutdown
-		if (db_get_b(0, MODULENAME, buff, 0)) {
-			db_set_b(0, MODULENAME, buff, 0);
+		if (g_plugin.getByte(buff, 0)) {
+			g_plugin.setByte(buff, 0);
 			ShowGraph((WPARAM)i->item_id, (LPARAM)i->pszLabel);
 		}
 	}

@@ -560,7 +560,7 @@ static INT_PTR onCopyID(WPARAM hContact, LPARAM)
 	wchar_t szID[256], buffer[256];
 	GetID(hContact, szProto, szID, _countof(szID));
 
-	if (db_get_dw(NULL, MODULENAME, "flags", vf_default) & VF_CIDN) {
+	if (g_plugin.getDword("flags", vf_default) & VF_CIDN) {
 		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 		if (!pa->bOldProto)
 			mir_snwprintf(buffer, L"%s: %s", pa->tszAccountName, szID);
@@ -578,7 +578,7 @@ static INT_PTR onCopyID(WPARAM hContact, LPARAM)
 
 static INT_PTR onCopyStatusMsg(WPARAM hContact, LPARAM)
 {
-	DWORD flags = db_get_dw(NULL, MODULENAME, "flags", vf_default);
+	DWORD flags = g_plugin.getDword("flags", vf_default);
 
 	LPSTR module = GetContactProto(hContact);
 	if (!module)
@@ -704,7 +704,7 @@ static int isIgnored(MCONTACT hContact, int type)
 
 static INT_PTR onIgnore(WPARAM wparam, LPARAM lparam)
 {
-	if (db_get_b(NULL, MODULENAME, "ignorehide", 0) && (lparam == IGNOREEVENT_ALL))
+	if (g_plugin.getByte("ignorehide", 0) && (lparam == IGNOREEVENT_ALL))
 		db_set_b((MCONTACT)wparam, "CList", "Hidden", (isIgnored((MCONTACT)wparam, lparam) ? (byte)0 : (byte)1));
 
 	CallService(isIgnored((MCONTACT)wparam, lparam) ? MS_IGNORE_UNIGNORE : MS_IGNORE_IGNORE, wparam, lparam);
@@ -739,7 +739,7 @@ static void ModifySubmenuItem(HGENMENU hItem, int checked, int hidden)
 // called when the contact-menu is built
 static int BuildMenu(WPARAM wparam, LPARAM)
 {
-	DWORD flags = db_get_dw(NULL, MODULENAME, "flags", vf_default);
+	DWORD flags = g_plugin.getDword("flags", vf_default);
 	int j = 0, all = 0, hide = 0;
 	BOOL bIsOnline = FALSE, bShowAll = CTRL_IS_PRESSED;
 	MCONTACT hContact = (MCONTACT)wparam;

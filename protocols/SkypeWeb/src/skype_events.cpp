@@ -24,7 +24,7 @@ INT_PTR CSkypeProto::GetEventText(WPARAM pEvent, LPARAM datatype)
 
 	CMStringA szText;
 
-	BOOL bUseBB = db_get_b(NULL, dbei->szModule, "UseBBCodes", 1);
+	BOOL bUseBB = db_get_b(0, dbei->szModule, "UseBBCodes", 1);
 	switch (dbei->eventType) {
 	case SKYPE_DB_EVENT_TYPE_EDITED_MESSAGE:
 		{

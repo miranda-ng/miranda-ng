@@ -231,8 +231,8 @@ BOOL ResaveSettings(char *szName, int iFirst, int iLimit, wchar_t *szBuffer)
 		char szNameBuf[256];
 		mir_snprintf(szNameBuf, "%s_%u", szName, i);
 
-		wchar_t *ptszTemp = db_get_wsa(NULL, MODULENAME, szNameBuf);
-		db_set_ws(NULL, MODULENAME, szNameBuf, szBuffer);
+		wchar_t *ptszTemp = g_plugin.getWStringA(szNameBuf);
+		g_plugin.setWString(szNameBuf, szBuffer);
 		mir_free(szBuffer);
 
 		BYTE marked = IsMarkedUserDefSession(i);
@@ -298,7 +298,7 @@ int LoadSessionToCombobox(HWND hdlg, BOOL mode, int iLimit, char* pszSetting, in
 
 	for (int i = 0; i < iLimit; i++) {
 		mir_snprintf(szBuffer, "%s_%u", pszSetting, i);
-		wchar_t *pszBuffer = db_get_wsa(NULL, MODULENAME, szBuffer);
+		wchar_t *pszBuffer = g_plugin.getWStringA(szBuffer);
 		if (pszBuffer) {
 			if (!IsMarkedUserDefSession(i + iFirstNum) || mode == 1) {
 				index = SendDlgItemMessage(hdlg, IDC_LIST, CB_ADDSTRING, 0, (LPARAM)pszBuffer);
@@ -327,7 +327,7 @@ int FillFavoritesMenu(HMENU hMenu, int iLimit)
 		if (IsMarkedUserDefSession(i)) {
 			char szBuffer[256];
 			mir_snprintf(szBuffer, "%s_%u", "UserSessionDsc", i);
-			wchar_t *pszBuffer = db_get_wsa(NULL, MODULENAME, szBuffer);
+			wchar_t *pszBuffer = g_plugin.getWStringA(szBuffer);
 			if (pszBuffer) {
 				AppendMenu(hMenu, MF_STRING, i + 1, pszBuffer);
 				iItems++;
@@ -362,14 +362,14 @@ void RenameUserDefSession(int ses_count, wchar_t* ptszNewName)
 {
 	char szSession[256];
 	mir_snprintf(szSession, "%s_%u", "UserSessionDsc", ses_count);
-	db_set_ws(NULL, MODULENAME, szSession, ptszNewName);
+	g_plugin.setWString(szSession, ptszNewName);
 }
 
 int MarkUserDefSession(int ses_count, BYTE bCheck)
 {
 	char szSessionName[256];
 	mir_snprintf(szSessionName, "%s_%u", "FavUserSession", ses_count);
-	db_set_b(NULL, MODULENAME, szSessionName, bCheck);
+	g_plugin.setByte(szSessionName, bCheck);
 	return 0;
 }
 
@@ -377,7 +377,7 @@ BYTE IsMarkedUserDefSession(int ses_count)
 {
 	char szSessionName[256];
 	mir_snprintf(szSessionName, "%s_%u", "FavUserSession", ses_count);
-	return db_get_b(NULL, MODULENAME, szSessionName, 0);
+	return g_plugin.getByte(szSessionName, 0);
 }
 
 void SavePosition(HWND hwnd, char *wndName)
@@ -386,17 +386,17 @@ void SavePosition(HWND hwnd, char *wndName)
 	GetWindowRect(hwnd, &rc);
 	char buffer[512];
 	mir_snprintf(buffer, "%sPosX", wndName);
-	db_set_dw(0, MODULENAME, buffer, rc.left);
+	g_plugin.setDword(buffer, rc.left);
 	mir_snprintf(buffer, "%sPosY", wndName);
-	db_set_dw(0, MODULENAME, buffer, rc.top);
+	g_plugin.setDword(buffer, rc.top);
 }
 
 void LoadPosition(HWND hWnd, char *wndName)
 {
 	char buffer[512];
 	mir_snprintf(buffer, "%sPosX", wndName);
-	int x = db_get_dw(0, MODULENAME, buffer, ((GetSystemMetrics(SM_CXSCREEN)) / 2) - 130);
+	int x = g_plugin.getDword(buffer, ((GetSystemMetrics(SM_CXSCREEN)) / 2) - 130);
 	mir_snprintf(buffer, "%sPosY", wndName);
-	int y = db_get_dw(0, MODULENAME, buffer, ((GetSystemMetrics(SM_CYSCREEN)) / 2) - 80);
+	int y = g_plugin.getDword(buffer, ((GetSystemMetrics(SM_CYSCREEN)) / 2) - 80);
 	SetWindowPos(hWnd, nullptr, x, y, 0, 0, SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOSIZE);
 }

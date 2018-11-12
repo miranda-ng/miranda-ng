@@ -160,10 +160,10 @@ void PurgeReminders(void)
 {
 	char ValueName[32];
 
-	int ReminderCount = db_get_dw(0, MODULENAME, "RemindersData", 0);
+	int ReminderCount = g_plugin.getDword("RemindersData", 0);
 	for (int I = 0; I < ReminderCount; I++) {
 		mir_snprintf(ValueName, "RemindersData%d", I);
-		db_unset(0, MODULENAME, ValueName);
+		g_plugin.delSetting(ValueName);
 	}
 }
 
@@ -174,11 +174,11 @@ void JustSaveReminders(void)
 	char ValueName[32];
 	int ReminderCount;
 
-	const int OldReminderCount = db_get_dw(0, MODULENAME, "RemindersData", 0);
+	const int OldReminderCount = g_plugin.getDword("RemindersData", 0);
 
 	ReminderCount = TreeGetCount(RemindersList);
 
-	db_set_dw(0, MODULENAME, "RemindersData", ReminderCount);
+	g_plugin.setDword("RemindersData", ReminderCount);
 
 	for (TREEELEMENT *TTE = RemindersList; TTE; TTE = (TREEELEMENT *)TTE->next, I++) {
 		REMINDERDATA *pReminder = (REMINDERDATA *)TTE->ptrdata;
@@ -237,7 +237,7 @@ void JustSaveReminders(void)
 	// delete any left over DB reminder entries
 	for (; I < OldReminderCount; I++) {
 		mir_snprintf(ValueName, "RemindersData%d", I);
-		db_unset(0, MODULENAME, ValueName);
+		g_plugin.delSetting(ValueName);
 	}
 }
 
@@ -249,7 +249,7 @@ void LoadReminders(void)
 	BOOL GenerateUids = FALSE;
 
 	RemindersList = nullptr;
-	int RemindersCount = db_get_dw(0, MODULENAME, "RemindersData", 0);
+	int RemindersCount = g_plugin.getDword("RemindersData", 0);
 
 	for (int I = 0; I < RemindersCount; I++) {
 		Size = 65535;
@@ -429,7 +429,7 @@ void SaveReminders(void)
 void DeleteReminders(void)
 {
 	PurgeReminders();
-	db_set_dw(0, MODULENAME, "RemindersData", 0);
+	g_plugin.setDword("RemindersData", 0);
 	PurgeReminderTree();
 }
 
@@ -465,10 +465,10 @@ static void Skin_PlaySoundPoly(LPCSTR pszSoundName)
 		return;
 	}
 
-	if (db_get_b(NULL, "SkinSoundsOff", pszSoundName, 0) == 0) {
+	if (db_get_b(0, "SkinSoundsOff", pszSoundName, 0) == 0) {
 		DBVARIANT dbv;
 
-		if (db_get_s(NULL, "SkinSounds", pszSoundName, &dbv) == 0) {
+		if (db_get_s(0, "SkinSounds", pszSoundName, &dbv) == 0) {
 			char szFull[MAX_PATH];
 
 			PathToAbsolute(dbv.pszVal, szFull);

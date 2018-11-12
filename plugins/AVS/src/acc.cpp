@@ -565,7 +565,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				DeleteObject(hbrush);
 			}
 
-			if (data->hContact == NULL && data->proto[0] == 0 && db_get_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1))
+			if (data->hContact == NULL && data->proto[0] == 0 && g_plugin.getByte("GlobalUserAvatarNotConsistent", 1))
 				DrawText(hdc, data->hFont, rc, TranslateT("Protocols have different avatars"));
 
 			// Has an animated gif

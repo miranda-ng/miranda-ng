@@ -209,7 +209,7 @@ void ParseFontPart(FILE *fp, wchar_t *buff)
 							if (mir_wstrlen(pch) > 32)
 								pch[32] = 0;
 
-							db_set_ws(0, MODULENAME, szSetting, pch);
+							g_plugin.setWString(szSetting, pch);
 						}
 					} 
 					else if (wcsstr(buff, L"color"))
@@ -226,7 +226,7 @@ void ParseFontPart(FILE *fp, wchar_t *buff)
 								{
 									BYTE b = _wtoi(pch);
 									COLORREF color = RGB(r, g ,b);
-									db_set_dw(0, MODULENAME, szSetting, color);
+									g_plugin.setDword(szSetting, color);
 								}
 							}
 						}
@@ -237,7 +237,7 @@ void ParseFontPart(FILE *fp, wchar_t *buff)
 						{
 							HDC hdc = GetDC(nullptr);
 							int size = -MulDiv(_wtoi(pch), GetDeviceCaps(hdc, LOGPIXELSY), 72);
-							db_set_b(0, MODULENAME, szSetting, (BYTE)size);
+							g_plugin.setByte(szSetting, (BYTE)size);
 							ReleaseDC(nullptr, hdc);
 						}
 					} 
@@ -253,7 +253,7 @@ void ParseFontPart(FILE *fp, wchar_t *buff)
 							if (wcsstr(pch, L"font_underline"))
 								effect |= DBFONTF_UNDERLINE;
 
-							db_set_b(0, MODULENAME, szSetting, effect);
+							g_plugin.setByte(szSetting, effect);
 						}
 					}
 				}

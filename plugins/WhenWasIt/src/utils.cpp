@@ -135,7 +135,7 @@ int GetStringFromDatabase(MCONTACT hContact, char *szModule, char *szSettingName
 
 int GetStringFromDatabase(char *szSettingName, char *szError, char *szResult, size_t size)
 {
-	return GetStringFromDatabase(NULL, MODULENAME, szSettingName, szError, szResult, size);
+	return GetStringFromDatabase(0, MODULENAME, szSettingName, szError, szResult, size);
 }
 
 wchar_t* GetContactID(MCONTACT hContact)

@@ -283,7 +283,7 @@ int CMPlugin::Load()
 	CoInitialize(nullptr);
 
 	// Is first run?
-	if (db_get_b(NULL, MODULENAME, "FirstRun", 1)) {
+	if (g_plugin.getByte("FirstRun", 1)) {
 		// Show dialog
 		int ret = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FIRST_RUN), nullptr, FirstRunDlgProc, 0);
 		if (ret == 0)
@@ -291,29 +291,29 @@ int CMPlugin::Load()
 
 		// Write settings
 
-		db_set_b(NULL, MODULENAME, "LogToDisk", 1);
+		g_plugin.setByte("LogToDisk", 1);
 
 		if (ret == IDC_MIR_SAME)
-			db_set_b(NULL, MODULENAME, "LogKeepSameFolder", 1);
+			g_plugin.setByte("LogKeepSameFolder", 1);
 		else
-			db_set_b(NULL, MODULENAME, "LogKeepSameFolder", 0);
+			g_plugin.setByte("LogKeepSameFolder", 0);
 
 		if (ret == IDC_MIR_SHORT || ret == IDC_SHORT || ret == IDC_DUP)
-			db_set_b(NULL, MODULENAME, "LogPerContactFolders", 1);
+			g_plugin.setByte("LogPerContactFolders", 1);
 		else
-			db_set_b(NULL, MODULENAME, "LogPerContactFolders", 0);
+			g_plugin.setByte("LogPerContactFolders", 0);
 
 		if (ret == IDC_DUP)
-			db_set_b(NULL, MODULENAME, "StoreAsHash", 0);
+			g_plugin.setByte("StoreAsHash", 0);
 		else
-			db_set_b(NULL, MODULENAME, "StoreAsHash", 1);
+			g_plugin.setByte("StoreAsHash", 1);
 
 		if (ret == IDC_MIR_SAME || ret == IDC_MIR_PROTO || ret == IDC_MIR_SHORT)
-			db_set_b(NULL, MODULENAME, "LogToHistory", 1);
+			g_plugin.setByte("LogToHistory", 1);
 		else
-			db_set_b(NULL, MODULENAME, "LogToHistory", 0);
+			g_plugin.setByte("LogToHistory", 0);
 
-		db_set_b(NULL, MODULENAME, "FirstRun", 0);
+		g_plugin.setByte("FirstRun", 0);
 	}
 
 	LoadOptions();

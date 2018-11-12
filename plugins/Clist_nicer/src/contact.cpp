@@ -128,11 +128,11 @@ void MF_UpdateThread(LPVOID)
 
 void MF_InitCheck(void)
 {
-	BYTE bMsgFrequency = db_get_b(NULL, "CList", "fhistdata", 0);
+	BYTE bMsgFrequency = db_get_b(0, "CList", "fhistdata", 0);
 	if (!bMsgFrequency) {
 		for (auto &hContact : Contacts())
 			MF_CalcFrequency(hContact, 100, 0);
-		db_set_b(NULL, "CList", "fhistdata", 1);
+		db_set_b(0, "CList", "fhistdata", 1);
 	}
 }
 

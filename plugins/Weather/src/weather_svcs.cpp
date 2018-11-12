@@ -218,7 +218,7 @@ void UpdateMenu(BOOL State)
 {
 	// update option setting
 	opt.CAutoUpdate = State;
-	db_set_b(NULL, WEATHERPROTONAME, "AutoUpdate", (BYTE)State);
+	db_set_b(0, WEATHERPROTONAME, "AutoUpdate", (BYTE)State);
 
 	if (State) { // to enable auto-update
 		Menu_ModifyItem(hEnableDisableMenu, LPGENW("Auto Update Enabled"), GetIconHandle("main"));
@@ -236,7 +236,7 @@ void UpdatePopupMenu(BOOL State)
 {
 	// update option setting
 	opt.UsePopup = State;
-	db_set_b(NULL, WEATHERPROTONAME, "UsePopup", (BYTE)opt.UsePopup);
+	db_set_b(0, WEATHERPROTONAME, "UsePopup", (BYTE)opt.UsePopup);
 
 	if (State) // to enable popup
 		Menu_ModifyItem(hEnableDisablePopupMenu, LPGENW("Disable &weather notification"), GetIconHandle("popup"));

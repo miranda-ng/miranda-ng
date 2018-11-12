@@ -55,8 +55,8 @@ CMPlugin::CMPlugin() :
 
 INT_PTR ToggleEnable(WPARAM, LPARAM)
 {
-	BOOL fEnabled = !db_get_b(NULL, MODULENAME, KEY_ENABLED, 1);
-	db_set_b(NULL, MODULENAME, KEY_ENABLED, fEnabled);
+	BOOL fEnabled = !g_plugin.getByte(KEY_ENABLED, 1);
+	g_plugin.setByte(KEY_ENABLED, fEnabled);
 
 	if (fEnabled)
 		Menu_ModifyItem(hEnableMenu, LPGENW("Disable Auto&reply"), iconList[0].hIcolib);
@@ -90,12 +90,12 @@ INT OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 
 INT CheckDefaults(WPARAM, LPARAM)
 {
-	interval = db_get_w(NULL, MODULENAME, KEY_REPEATINTERVAL, 300);
+	interval = g_plugin.getWord(KEY_REPEATINTERVAL, 300);
 
-	wchar_t *ptszVal = db_get_wsa(NULL, MODULENAME, KEY_HEADING);
+	wchar_t *ptszVal = g_plugin.getWStringA(KEY_HEADING);
 	if (ptszVal == nullptr)
 		// Heading not set
-		db_set_ws(NULL, MODULENAME, KEY_HEADING, TranslateT("Dear %user%, the owner left the following message:"));
+		g_plugin.setWString(KEY_HEADING, TranslateT("Dear %user%, the owner left the following message:"));
 	else
 		mir_free(ptszVal);
 
@@ -105,7 +105,7 @@ INT CheckDefaults(WPARAM, LPARAM)
 		else {
 			char szStatus[6] = { 0 };
 			mir_snprintf(szStatus, "%d", c);
-			ptszVal = db_get_wsa(NULL, MODULENAME, szStatus);
+			ptszVal = g_plugin.getWStringA(szStatus);
 			if (ptszVal == nullptr) {
 				wchar_t *ptszDefault;
 				if (c < ID_STATUS_FREECHAT)
@@ -116,7 +116,7 @@ INT CheckDefaults(WPARAM, LPARAM)
 				else
 					ptszDefault = nullptr;
 				if (ptszDefault)
-					db_set_ws(NULL, MODULENAME, szStatus, TranslateW(ptszDefault));
+					g_plugin.setWString(szStatus, TranslateW(ptszDefault));
 			}
 			else
 				mir_free(ptszVal);
@@ -126,7 +126,7 @@ INT CheckDefaults(WPARAM, LPARAM)
 	if (ServiceExists(MS_VARS_FORMATSTRING))
 		gbVarsServiceExist = TRUE;
 
-	BOOL fEnabled = db_get_b(NULL, MODULENAME, KEY_ENABLED, 1);
+	BOOL fEnabled = g_plugin.getByte(KEY_ENABLED, 1);
 	if (fEnabled)
 		Menu_ModifyItem(hEnableMenu, LPGENW("Disable Auto&reply"), iconList[0].hIcolib);
 	else
@@ -136,7 +136,7 @@ INT CheckDefaults(WPARAM, LPARAM)
 
 INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 {
-	BOOL fEnabled = db_get_b(NULL, MODULENAME, KEY_ENABLED, 1);
+	BOOL fEnabled = g_plugin.getByte(KEY_ENABLED, 1);
 	if (!fEnabled || !hContact || !hDBEvent)
 		return FALSE;	/// unspecifyed error
 
@@ -180,7 +180,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 
 				char szStatus[6] = { 0 };
 				mir_snprintf(szStatus, "%d", status);
-				ptszVal = db_get_wsa(NULL, MODULENAME, szStatus);
+				ptszVal = g_plugin.getWStringA(szStatus);
 				if (ptszVal) {
 					if (*ptszVal) {
 						CMStringW ptszTemp;
@@ -193,7 +193,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 
 						msgLen += mir_wstrlen(ptszVal);
 
-						wchar_t *ptszHead = db_get_wsa(NULL, MODULENAME, KEY_HEADING);
+						wchar_t *ptszHead = g_plugin.getWStringA(KEY_HEADING);
 						if (ptszHead != nullptr) {
 							ptszTemp = ptszHead;
 							ptszTemp.Replace(L"%user%", ptszNick);

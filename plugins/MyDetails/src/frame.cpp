@@ -291,7 +291,7 @@ int CreateFrame()
 		Frame.height = 100;
 		frame_id = g_plugin.addFrame(&Frame);
 
-		if (db_get_b(NULL, "MyDetails", "ForceHideFrame", 0)) {
+		if (db_get_b(0, "MyDetails", "ForceHideFrame", 0)) {
 			int flags = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, frame_id), 0);
 			if (flags & F_VISIBLE)
 				CallService(MS_CLIST_FRAMES_SHFRAME, frame_id, 0);
@@ -299,7 +299,7 @@ int CreateFrame()
 			db_unset(NULL, "MyDetails", "ForceHideFrame");
 		}
 
-		if (db_get_b(NULL, "MyDetails", "ForceShowFrame", 0)) {
+		if (db_get_b(0, "MyDetails", "ForceShowFrame", 0)) {
 			int flags = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, frame_id), 0);
 			if (!(flags & F_VISIBLE))
 				CallService(MS_CLIST_FRAMES_SHFRAME, frame_id, 0);
@@ -345,7 +345,7 @@ int CreateFrame()
 		hMenuShowHideFrame = Menu_AddMainMenuItem(&mi);
 		Menu_ConfigureItem(hMenuShowHideFrame, MCI_OPT_EXECPARAM, -0x7FFFFFFF);
 
-		if (db_get_b(0, MODULENAME, SETTING_FRAME_VISIBLE, 1) == 1) {
+		if (g_plugin.getByte(SETTING_FRAME_VISIBLE, 1) == 1) {
 			ShowWindow(hwnd_container, SW_SHOW);
 			FixMainMenu();
 		}
@@ -391,7 +391,7 @@ LRESULT CALLBACK FrameContainerWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 		return TRUE;
 
 	case WM_CLOSE:
-		db_set_b(0, MODULENAME, SETTING_FRAME_VISIBLE, 0);
+		g_plugin.setByte(SETTING_FRAME_VISIBLE, 0);
 		ShowWindow(hwnd, SW_HIDE);
 		FixMainMenu();
 		return TRUE;
@@ -1544,7 +1544,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		data->get_status_messages = false;
 		data->showing_menu = false;
 
-		data->protocol_number = db_get_w(NULL, "MyDetails", "ProtocolNumber", 0);
+		data->protocol_number = db_get_w(0, "MyDetails", "ProtocolNumber", 0);
 		if (data->protocol_number >= protocols->GetSize())
 			data->protocol_number = 0;
 
@@ -2191,7 +2191,7 @@ INT_PTR ShowHideFrameFunc(WPARAM, LPARAM)
 			SendMessage(hwnd_container, WM_CLOSE, 0, 0);
 		else {
 			ShowWindow(hwnd_container, SW_SHOW);
-			db_set_b(0, MODULENAME, SETTING_FRAME_VISIBLE, 1);
+			g_plugin.setByte(SETTING_FRAME_VISIBLE, 1);
 		}
 
 		FixMainMenu();
@@ -2209,7 +2209,7 @@ INT_PTR ShowFrameFunc(WPARAM, LPARAM)
 	else {
 		if (!MyDetailsFrameVisible()) {
 			ShowWindow(hwnd_container, SW_SHOW);
-			db_set_b(0, MODULENAME, SETTING_FRAME_VISIBLE, 1);
+			g_plugin.setByte(SETTING_FRAME_VISIBLE, 1);
 
 			FixMainMenu();
 		}
@@ -2301,7 +2301,7 @@ void SetStatusMessageRefreshTime(HWND hwnd)
 {
 	KillTimer(hwnd, ID_STATUSMESSAGE_TIMER);
 
-	opts.refresh_status_message_timer = db_get_w(NULL, "MyDetails", "RefreshStatusMessageTimer", 12);
+	opts.refresh_status_message_timer = db_get_w(0, "MyDetails", "RefreshStatusMessageTimer", 12);
 	if (opts.refresh_status_message_timer > 0)
 		SetTimer(hwnd, ID_STATUSMESSAGE_TIMER, opts.refresh_status_message_timer * 1000, nullptr);
 }
@@ -2317,7 +2317,7 @@ INT_PTR PluginCommand_ShowNextProtocol(WPARAM, LPARAM)
 	if (data->protocol_number >= protocols->GetSize())
 		data->protocol_number = 0;
 
-	db_set_w(NULL, "MyDetails", "ProtocolNumber", data->protocol_number);
+	db_set_w(0, "MyDetails", "ProtocolNumber", data->protocol_number);
 
 	data->recalc_rectangles = true;
 
@@ -2339,7 +2339,7 @@ INT_PTR PluginCommand_ShowPreviousProtocol(WPARAM, LPARAM)
 	if (data->protocol_number < 0)
 		data->protocol_number = protocols->GetSize() - 1;
 
-	db_set_w(NULL, "MyDetails", "ProtocolNumber", data->protocol_number);
+	db_set_w(0, "MyDetails", "ProtocolNumber", data->protocol_number);
 
 	data->recalc_rectangles = true;
 
@@ -2373,7 +2373,7 @@ INT_PTR PluginCommand_ShowProtocol(WPARAM, LPARAM lParam)
 	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLongPtr(hwnd_frame, GWLP_USERDATA);
 
 	data->protocol_number = proto_num;
-	db_set_w(NULL, "MyDetails", "ProtocolNumber", data->protocol_number);
+	db_set_w(0, "MyDetails", "ProtocolNumber", data->protocol_number);
 
 	data->recalc_rectangles = true;
 

@@ -71,16 +71,16 @@ static int AutoAwayEvent(WPARAM, LPARAM lParam)
 				continue;
 
 			// save old status of account and set to given status
-			db_set_w(NULL, MODULENAME, pa->szModuleName, pa->iRealStatus);
+			g_plugin.setWord(pa->szModuleName, pa->iRealStatus);
 			Proto_SetStatus(pa->szModuleName, status);
 		}
 		else {
-			int oldstatus = db_get_w(NULL, MODULENAME, pa->szModuleName, 0);
+			int oldstatus = g_plugin.getWord(pa->szModuleName, 0);
 			if (oldstatus != ID_STATUS_ONLINE && oldstatus != ID_STATUS_FREECHAT)
 				continue;
 
 			// returning from idle and this accout was set away, set it back
-			db_unset(NULL, MODULENAME, pa->szModuleName);
+			g_plugin.delSetting(pa->szModuleName);
 			if (!mii.aaLock)
 				Proto_SetStatus(pa->szModuleName, oldstatus);
 		}

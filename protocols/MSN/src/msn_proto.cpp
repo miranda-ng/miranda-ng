@@ -105,10 +105,10 @@ CMsnProto::CMsnProto(const char* aProtoName, const wchar_t* aUserName) :
 		delSetting("LoginServer");
 
 	if (MyOptions.SlowSend) {
-		if (db_get_dw(NULL, "SRMsg", "MessageTimeout", 10000) < 60000)
-			db_set_dw(NULL, "SRMsg", "MessageTimeout", 60000);
-		if (db_get_dw(NULL, "SRMM", "MessageTimeout", 10000) < 60000)
-			db_set_dw(NULL, "SRMM", "MessageTimeout", 60000);
+		if (db_get_dw(0, "SRMsg", "MessageTimeout", 10000) < 60000)
+			db_set_dw(0, "SRMsg", "MessageTimeout", 60000);
+		if (db_get_dw(0, "SRMM", "MessageTimeout", 10000) < 60000)
+			db_set_dw(0, "SRMM", "MessageTimeout", 60000);
 	}
 
 	mailsoundname = (char*)mir_alloc(64);

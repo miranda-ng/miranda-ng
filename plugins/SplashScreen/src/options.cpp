@@ -24,16 +24,16 @@ wchar_t szPath2Spash[MAX_PATH], szSoundFilePath[MAX_PATH];
 // Reads values from db
 void ReadDbConfig()
 {
-	options.active = db_get_b(NULL, MODULENAME, "Active", 1);
-	options.playsnd = db_get_b(NULL, MODULENAME, "PlaySound", 0);
-	options.fadein = db_get_b(NULL, MODULENAME, "FadeIn", 1);
-	options.fadeout = db_get_b(NULL, MODULENAME, "FadeOut", 1);
-	options.showtime = db_get_dw(NULL, MODULENAME, "TimeToShow", 2000);
-	options.fisteps = db_get_dw(NULL, MODULENAME, "FadeinSpeed", 5);
-	options.fosteps = db_get_dw(NULL, MODULENAME, "FadeoutSpeed", 5);
-	options.inheritGS = db_get_b(NULL, MODULENAME, "InheritGlobalSound", 1);
-	options.showversion = db_get_b(NULL, MODULENAME, "ShowVersion", 0);
-	options.random = db_get_b(NULL, MODULENAME, "Random", 0);
+	options.active = g_plugin.getByte("Active", 1);
+	options.playsnd = g_plugin.getByte("PlaySound", 0);
+	options.fadein = g_plugin.getByte("FadeIn", 1);
+	options.fadeout = g_plugin.getByte("FadeOut", 1);
+	options.showtime = g_plugin.getDword("TimeToShow", 2000);
+	options.fisteps = g_plugin.getDword("FadeinSpeed", 5);
+	options.fosteps = g_plugin.getDword("FadeoutSpeed", 5);
+	options.inheritGS = g_plugin.getByte("InheritGlobalSound", 1);
+	options.showversion = g_plugin.getByte("ShowVersion", 0);
+	options.random = g_plugin.getByte("Random", 0);
 }
 
 BOOL Exists(LPCTSTR strName)
@@ -53,21 +53,21 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		wchar_t inBuf[80];
 		{
 			DBVARIANT dbv = { 0 };
-			if (!db_get_ws(NULL, MODULENAME, "Path", &dbv)) {
+			if (!g_plugin.getWString("Path", &dbv)) {
 				mir_wstrcpy(inBuf, dbv.pwszVal);
 				db_free(&dbv);
 			}
 			else mir_wstrcpy(inBuf, L"splash\\splash.png");
 			SetDlgItemText(hwndDlg, IDC_SPLASHPATH, inBuf);
 
-			if (!db_get_ws(NULL, MODULENAME, "Sound", &dbv)) {
+			if (!g_plugin.getWString("Sound", &dbv)) {
 				mir_wstrcpy(inBuf, dbv.pwszVal);
 				db_free(&dbv);
 			}
 			else mir_wstrcpy(inBuf, L"sounds\\startup.wav");
 			SetDlgItemText(hwndDlg, IDC_SNDPATH, inBuf);
 
-			if (!db_get_ws(NULL, MODULENAME, "VersionPrefix", &dbv)) {
+			if (!g_plugin.getWString("VersionPrefix", &dbv)) {
 				mir_wstrcpy(inBuf, dbv.pwszVal);
 				db_free(&dbv);
 			}
@@ -243,86 +243,86 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				GetDlgItemText(hwndDlg, IDC_SPLASHPATH, tmp, _countof(tmp));
-				db_set_ws(NULL, MODULENAME, "Path", tmp);
+				g_plugin.setWString("Path", tmp);
 
 				GetDlgItemText(hwndDlg, IDC_SNDPATH, tmp, _countof(tmp));
-				db_set_ws(NULL, MODULENAME, "Sound", tmp);
+				g_plugin.setWString("Sound", tmp);
 
 				GetDlgItemText(hwndDlg, IDC_VERSIONPREFIX, tmp, _countof(tmp));
-				db_set_ws(NULL, MODULENAME, "VersionPrefix", tmp);
+				g_plugin.setWString("VersionPrefix", tmp);
 				mir_wstrcpy(szPrefix, tmp);
 
 				GetDlgItemText(hwndDlg, IDC_SHOWTIME, tmp, _countof(tmp));
-				db_set_dw(NULL, MODULENAME, "TimeToShow", _wtoi(tmp));
+				g_plugin.setDword("TimeToShow", _wtoi(tmp));
 				options.showtime = _wtoi(tmp);
 
 				GetDlgItemText(hwndDlg, IDC_FISTEP, tmp, _countof(tmp));
-				db_set_dw(NULL, MODULENAME, "FadeinSpeed", _wtoi(tmp));
+				g_plugin.setDword("FadeinSpeed", _wtoi(tmp));
 				options.fisteps = _wtoi(tmp);
 
 				GetDlgItemText(hwndDlg, IDC_FOSTEP, tmp, _countof(tmp));
-				db_set_dw(NULL, MODULENAME, "FadeoutSpeed", _wtoi(tmp));
+				g_plugin.setDword("FadeoutSpeed", _wtoi(tmp));
 				options.fosteps = _wtoi(tmp);
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_ACTIVE)) {
-					db_set_b(NULL, MODULENAME, "Active", 1);
+					g_plugin.setByte("Active", 1);
 					options.active = 1;
 				}
 				else {
-					db_set_b(NULL, MODULENAME, "Active", 0);
+					g_plugin.setByte("Active", 0);
 					options.active = 0;
 				}
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_PLAYSND)) {
-					db_set_b(NULL, MODULENAME, "PlaySound", 1);
+					g_plugin.setByte("PlaySound", 1);
 					options.playsnd = 1;
-					db_set_b(NULL, MODULENAME, "InheritGlobalSound", 1);
+					g_plugin.setByte("InheritGlobalSound", 1);
 					options.inheritGS = 1;
 				}
 				else {
-					db_set_b(NULL, MODULENAME, "PlaySound", 0);
+					g_plugin.setByte("PlaySound", 0);
 					options.playsnd = 0;
-					db_set_b(NULL, MODULENAME, "InheritGlobalSound", 0);
+					g_plugin.setByte("InheritGlobalSound", 0);
 					options.inheritGS = 0;
 				}
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_PLAYSND) == BST_INDETERMINATE) {
-					db_set_b(NULL, MODULENAME, "PlaySound", 1);
+					g_plugin.setByte("PlaySound", 1);
 					options.playsnd = 1;
-					db_set_b(NULL, MODULENAME, "InheritGlobalSound", 0);
+					g_plugin.setByte("InheritGlobalSound", 0);
 					options.inheritGS = 0;
 				}
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_FADEIN)) {
-					db_set_b(NULL, MODULENAME, "FadeIn", 1);
+					g_plugin.setByte("FadeIn", 1);
 					options.fadein = 1;
 				}
 				else {
-					db_set_b(NULL, MODULENAME, "FadeIn", 0);
+					g_plugin.setByte("FadeIn", 0);
 					options.fadein = 0;
 				}
 				if (IsDlgButtonChecked(hwndDlg, IDC_FADEOUT)) {
-					db_set_b(NULL, MODULENAME, "FadeOut", 1);
+					g_plugin.setByte("FadeOut", 1);
 					options.fadeout = 1;
 				}
 				else {
-					db_set_b(NULL, MODULENAME, "FadeOut", 0);
+					g_plugin.setByte("FadeOut", 0);
 					options.fadeout = 0;
 				}
 				if (IsDlgButtonChecked(hwndDlg, IDC_RANDOM)) {
-					db_set_b(NULL, MODULENAME, "Random", 1);
+					g_plugin.setByte("Random", 1);
 					options.random = 1;
 				}
 				else {
-					db_set_b(NULL, MODULENAME, "Random", 0);
+					g_plugin.setByte("Random", 0);
 					options.random = 0;
 				}
 				if (IsDlgButtonChecked(hwndDlg, IDC_SHOWVERSION)) {
-					db_set_b(NULL, MODULENAME, "ShowVersion", 1);
+					g_plugin.setByte("ShowVersion", 1);
 					options.showversion = 1;
 				}
 				else {
-					db_set_b(NULL, MODULENAME, "ShowVersion", 0);
+					g_plugin.setByte("ShowVersion", 0);
 					options.showversion = 0;
 				}
 				return TRUE;

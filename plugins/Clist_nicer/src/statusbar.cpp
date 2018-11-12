@@ -87,7 +87,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			HDC hdc = BeginPaint(hwnd, &ps);
 			HDC hdcMem = CreateCompatibleDC(hdc);
 			RECT rcClient, rcWindow;
-			BYTE windowStyle = db_get_b(NULL, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT);
+			BYTE windowStyle = db_get_b(0, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT);
 			LONG b_offset = cfg::dat.bClipBorder + (windowStyle == SETTING_WINDOWSTYLE_NOBORDER ? 2 : (windowStyle == SETTING_WINDOWSTYLE_THINBORDER ? 1 : 0));
 
 			GetClientRect(hwnd, &rcClient);
@@ -154,7 +154,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 						if (NotifyEventHooks(hStatusBarShowToolTipEvent, (WPARAM)PD->RealName, 0) > 0) // a plugin handled this event
 							tooltip_active = TRUE;
-						else if (db_get_dw(NULL, "mToolTip", "ShowStatusTip", 0)) {
+						else if (db_get_dw(0, "mToolTip", "ShowStatusTip", 0)) {
 							PROTOACCOUNT *pa = Proto_GetAccount(PD->RealName);
 							if (pa == nullptr)
 								break;

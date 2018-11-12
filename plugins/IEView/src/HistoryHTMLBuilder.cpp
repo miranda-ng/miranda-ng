@@ -96,34 +96,34 @@ void HistoryHTMLBuilder::loadMsgDlgFont(const char *dbSetting, LOGFONTA * lf, CO
 	DBVARIANT dbv;
 	if (bkgColour) {
 		mir_snprintf(str, "Back.%s", dbSetting);
-		*bkgColour = db_get_dw(NULL, HPPMOD, str, 0xFFFFFF);
+		*bkgColour = db_get_dw(0, HPPMOD, str, 0xFFFFFF);
 	}
 	if (colour) {
 		mir_snprintf(str, "Font.%s.Color", dbSetting);
-		*colour = db_get_dw(NULL, HPPMOD, str, 0x000000);
+		*colour = db_get_dw(0, HPPMOD, str, 0x000000);
 	}
 	if (lf) {
 		mir_snprintf(str, "Font.%s.Size", dbSetting);
-		lf->lfHeight = (char)db_get_b(NULL, HPPMOD, str, 10);
+		lf->lfHeight = (char)db_get_b(0, HPPMOD, str, 10);
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
 		lf->lfOrientation = 0;
 		mir_snprintf(str, "Font.%s.Style.Bold", dbSetting);
-		style = db_get_b(NULL, HPPMOD, str, 0);
+		style = db_get_b(0, HPPMOD, str, 0);
 		lf->lfWeight = style & FONTF_BOLD ? FW_BOLD : FW_NORMAL;
 		mir_snprintf(str, "Font.%s.Style.Italic", dbSetting);
-		style = db_get_b(NULL, HPPMOD, str, 0) << 1;
+		style = db_get_b(0, HPPMOD, str, 0) << 1;
 		lf->lfItalic = style & FONTF_ITALIC ? 1 : 0;
 		lf->lfUnderline = style & FONTF_UNDERLINE ? 1 : 0;
 		lf->lfStrikeOut = 0;
 		mir_snprintf(str, "Font.%s.Charset", dbSetting);
-		lf->lfCharSet = db_get_b(NULL, HPPMOD, str, DEFAULT_CHARSET);
+		lf->lfCharSet = db_get_b(0, HPPMOD, str, DEFAULT_CHARSET);
 		lf->lfOutPrecision = OUT_DEFAULT_PRECIS;
 		lf->lfClipPrecision = CLIP_DEFAULT_PRECIS;
 		lf->lfQuality = DEFAULT_QUALITY;
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 		mir_snprintf(str, "Font.%s.Name", dbSetting);
-		if (db_get_s(NULL, HPPMOD, str, &dbv))
+		if (db_get_s(0, HPPMOD, str, &dbv))
 			strncpy_s(lf->lfFaceName, "Verdana", _TRUNCATE);
 		else {
 			strncpy_s(lf->lfFaceName, dbv.pszVal, _TRUNCATE);
@@ -165,7 +165,7 @@ void HistoryHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 	else {
 		str.Append("<html><head>");
 		str.Append("<style type=\"text/css\">\n");
-		COLORREF lineColor = db_get_dw(NULL, HPPMOD, "LineColour", 0xFFFFFF);
+		COLORREF lineColor = db_get_dw(0, HPPMOD, "LineColour", 0xFFFFFF);
 		lineColor = 0;
 		bkgColor = 0xFFFFFF;
 		if (protoSettings->getHistoryFlags() & Options::LOG_IMAGE_ENABLED)
@@ -220,7 +220,7 @@ void HistoryHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 
 void HistoryHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 {
-	DWORD dwFlags = db_get_b(NULL, HPPMOD, SRMSGSET_SHOWICONS, 0) ? SMF_LOG_SHOWICONS : 0;
+	DWORD dwFlags = db_get_b(0, HPPMOD, SRMSGSET_SHOWICONS, 0) ? SMF_LOG_SHOWICONS : 0;
 	ptrA szRealProto(getRealProto(event->hContact));
 	IEVIEWEVENTDATA* eventData = event->eventData;
 	for (int eventIdx = 0; eventData != nullptr && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {

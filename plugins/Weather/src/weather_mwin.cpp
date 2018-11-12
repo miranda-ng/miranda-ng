@@ -154,7 +154,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 					}
 				}
 
-				clr = db_get_dw(NULL, WEATHERPROTONAME, "ColorMwinFrame", GetSysColor(COLOR_3DFACE));
+				clr = db_get_dw(0, WEATHERPROTONAME, "ColorMwinFrame", GetSysColor(COLOR_3DFACE));
 				fntc = Font_GetW(_A2W(WEATHERPROTONAME), LPGENW("Frame Font"), &lfnt);
 				fntc1 = Font_GetW(_A2W(WEATHERPROTONAME), LPGENW("Frame Title Font"), &lfnt1);
 

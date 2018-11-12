@@ -36,7 +36,7 @@ CExchangeServer::~CExchangeServer()
 
 int CExchangeServer::Connect(int bForceConnect)
 {
-	int maxRetries = db_get_b(NULL, MODULENAME, "MaxRetries", MAX_EXCHANGE_CONNECT_RETRIES);
+	int maxRetries = g_plugin.getByte("MaxRetries", MAX_EXCHANGE_CONNECT_RETRIES);
 	if (bForceConnect) {
 		bTryConnect = 1;
 		cConnections = 0;
@@ -67,7 +67,7 @@ int CExchangeServer::Connect(int bForceConnect)
 		GetStringFromDatabase("Password", L"", password, _countof(password));
 		GetStringFromDatabase("Server", L"", server, _countof(server));
 
-		int port = db_get_dw(NULL, MODULENAME, "Port", EXCHANGE_PORT);
+		int port = g_plugin.getDword("Port", EXCHANGE_PORT);
 		if (mir_wstrlen(server) > 0) //only connect if there's a server to connect to
 			return DoConnect(user, password, server, port);			
 
@@ -139,13 +139,13 @@ void InitSocketAddr(sockaddr_in *addrServer, char *szServer)
 	else
 		memcpy(&(addrServer->sin_addr), hp->h_addr, hp->h_length);		
 
-	int port = db_get_dw(NULL, MODULENAME, "Port", EXCHANGE_PORT);
+	int port = g_plugin.getDword("Port", EXCHANGE_PORT);
 	addrServer->sin_port = htons(port);
 }
 
 int CExchangeServer::IsServerAvailable()
 {
-	if (!db_get_b(NULL, MODULENAME, "UsePortCheck", 1))
+	if (!g_plugin.getByte("UsePortCheck", 1))
 		return 1;
 
 	SOCKET sServer = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -294,7 +294,7 @@ int CExchangeServer::Check(int bNoEmailsNotify)
 
 int ShowMessage(wchar_t *message, int cUnreadEmails)
 {
-	int usePopups = ServiceExists(MS_POPUP_ADDPOPUPT) ? db_get_b(NULL, MODULENAME, "UsePopups", 0) : 0;
+	int usePopups = ServiceExists(MS_POPUP_ADDPOPUPT) ? g_plugin.getByte("UsePopups", 0) : 0;
 	if (usePopups)
 		return ShowPopupMessage(TranslateT("Exchange email"), message, cUnreadEmails);
 

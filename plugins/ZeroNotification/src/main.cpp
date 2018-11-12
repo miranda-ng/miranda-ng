@@ -37,7 +37,7 @@ CMPlugin::CMPlugin() :
 
 static void UpdateMenuItem()
 {
-	Menu_ModifyItem(noSoundMenu, db_get_b(NULL, "Skin", "UseSound", 1) ? DISABLE_SOUND : ENABLE_SOUND);
+	Menu_ModifyItem(noSoundMenu, db_get_b(0, "Skin", "UseSound", 1) ? DISABLE_SOUND : ENABLE_SOUND);
 }
 
 // Called when the sound setting in the database is changed
@@ -51,9 +51,9 @@ static int SoundSettingChanged(WPARAM, LPARAM lParam)
 
 int SetNotify(const long status)
 {
-	db_set_b(NULL, "Skin", "UseSound", (BYTE)!(db_get_dw(NULL, MODULENAME, "NoSound", DEFAULT_NOSOUND) & status));
-	db_set_b(NULL, "CList", "DisableTrayFlash", (BYTE)(db_get_dw(NULL, MODULENAME, "NoBlink", DEFAULT_NOBLINK) & status));
-	db_set_b(NULL, "CList", "NoIconBlink", (BYTE)(db_get_dw(NULL, MODULENAME, "NoCLCBlink", DEFAULT_NOCLCBLINK) & status));
+	db_set_b(0, "Skin", "UseSound", (BYTE)!(g_plugin.getDword("NoSound", DEFAULT_NOSOUND) & status));
+	db_set_b(0, "CList", "DisableTrayFlash", (BYTE)(g_plugin.getDword("NoBlink", DEFAULT_NOBLINK) & status));
+	db_set_b(0, "CList", "NoIconBlink", (BYTE)(g_plugin.getDword("NoCLCBlink", DEFAULT_NOCLCBLINK) & status));
 
 	UpdateMenuItem();
 	return 0;
@@ -93,10 +93,10 @@ int CMPlugin::Load()
 	noSoundMenu = Menu_AddMainMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, NoSoundMenuCommand);
 
-	int bHideMenu = db_get_b(NULL, MODULENAME, "HideMenu", 100);
+	int bHideMenu = g_plugin.getByte("HideMenu", 100);
 	if (bHideMenu != 100) {
 		Menu_SetVisible(noSoundMenu, !bHideMenu);
-		db_unset(0, MODULENAME, "HideMenu");
+		g_plugin.delSetting("HideMenu");
 	}
 
 	UpdateMenuItem();

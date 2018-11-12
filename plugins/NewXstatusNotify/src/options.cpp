@@ -285,7 +285,7 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX2; i++) {
 				char status[8];
 				mir_snprintf(status, "%d", i);
-				db_set_b(NULL, MODULE, status, (BYTE)IsDlgButtonChecked(hwndDlg, i));
+				db_set_b(0, MODULE, status, (BYTE)IsDlgButtonChecked(hwndDlg, i));
 			}
 			opt.FromOffline = IsDlgButtonChecked(hwndDlg, IDC_CHK_FROMOFFLINE);
 
@@ -475,7 +475,7 @@ INT_PTR CALLBACK DlgProcAutoDisableOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++) {
 			char str[8];
 			mir_snprintf(str, "s%d", i);
-			CheckDlgButton(hwndDlg, (i + 2000), db_get_b(NULL, MODULE, str, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, (i + 2000), db_get_b(0, MODULE, str, 0) ? BST_CHECKED : BST_UNCHECKED);
 		}
 
 		return TRUE;
@@ -489,13 +489,13 @@ INT_PTR CALLBACK DlgProcAutoDisableOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++) {
 				char str[8];
 				mir_snprintf(str, "p%d", i);
-				db_set_b(NULL, MODULE, str, IsDlgButtonChecked(hwndDlg, i));
+				db_set_b(0, MODULE, str, IsDlgButtonChecked(hwndDlg, i));
 			}
 
 			for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++) {
 				char str[8];
 				mir_snprintf(str, "s%d", i);
-				db_set_b(NULL, MODULE, str, IsDlgButtonChecked(hwndDlg, i + 2000));
+				db_set_b(0, MODULE, str, IsDlgButtonChecked(hwndDlg, i + 2000));
 			}
 
 			SaveOptions();
@@ -722,7 +722,7 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 					char dbSetting[128];
 					mir_snprintf(dbSetting, "%s_enabled", pa->szModuleName);
-					ListView_SetCheckState(hList, lvItem.iItem, db_get_b(NULL, MODULE, dbSetting, TRUE));
+					ListView_SetCheckState(hList, lvItem.iItem, db_get_b(0, MODULE, dbSetting, TRUE));
 					lvItem.iItem++;
 				}
 			}
@@ -830,7 +830,7 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 				char dbSetting[128];
 				mir_snprintf(dbSetting, "%s_enabled", (char *)lvItem.lParam);
-				db_set_b(NULL, MODULE, dbSetting, (BYTE)ListView_GetCheckState(hList, lvItem.iItem));
+				db_set_b(0, MODULE, dbSetting, (BYTE)ListView_GetCheckState(hList, lvItem.iItem));
 			}
 		}
 

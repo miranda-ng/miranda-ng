@@ -32,7 +32,7 @@ static void SelectAll(HWND hDlg, bool bEnable)
 
 	for (auto &it : todo) {
 		ListView_SetCheckState(hwndList, todo.indexOf(&it), bEnable);
-		db_set_b(NULL, DB_MODULE_FILES, StrToLower(_T2A(it->tszOldName)), it->bEnabled = bEnable);
+		db_set_b(0, DB_MODULE_FILES, StrToLower(_T2A(it->tszOldName)), it->bEnabled = bEnable);
 	}
 }
 
@@ -122,7 +122,7 @@ static void ApplyUpdates(void *param)
 	}
 	Skin_PlaySound("updatecompleted");
 
-	db_set_b(NULL, MODULENAME, DB_SETTING_RESTART_COUNT, 5);
+	g_plugin.setByte(DB_SETTING_RESTART_COUNT, 5);
 
 	if (opts.bBackup)
 		CallService(MS_AB_BACKUP, 0, 0);
@@ -130,28 +130,28 @@ static void ApplyUpdates(void *param)
 	if (opts.bChangePlatform) {
 		wchar_t mirandaPath[MAX_PATH];
 		GetModuleFileName(nullptr, mirandaPath, _countof(mirandaPath));
-		db_set_ws(NULL, MODULENAME, "OldBin2", mirandaPath);
+		g_plugin.setWString("OldBin2", mirandaPath);
 
-		db_unset(NULL, MODULENAME, DB_SETTING_CHANGEPLATFORM);
+		g_plugin.delSetting(DB_SETTING_CHANGEPLATFORM);
 	}
 	else {
-		ptrW oldbin(db_get_wsa(NULL, MODULENAME, "OldBin2"));
+		ptrW oldbin(g_plugin.getWStringA("OldBin2"));
 		if (oldbin) {
 			SafeDeleteFile(oldbin);
-			db_unset(NULL, MODULENAME, "OldBin2");
+			g_plugin.delSetting("OldBin2");
 		}
 	}
 
 	if (opts.bForceRedownload) {
 		opts.bForceRedownload = 0;
-		db_unset(NULL, MODULENAME, DB_SETTING_REDOWNLOAD);
+		g_plugin.delSetting(DB_SETTING_REDOWNLOAD);
 	}
 
 	// 5) Prepare Restart
 	int rc = MessageBox(hDlg, TranslateT("Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit."), TranslateT("Plugin Updater"), MB_YESNO | MB_ICONQUESTION);
 	PostMessage(hDlg, WM_CLOSE, 0, 0);
 	if (rc == IDYES) {
-		BOOL bRestartCurrentProfile = db_get_b(NULL, MODULENAME, "RestartCurrentProfile", 1) ? 1 : 0;
+		BOOL bRestartCurrentProfile = g_plugin.getByte("RestartCurrentProfile", 1) ? 1 : 0;
 		if (opts.bChangePlatform) {
 			wchar_t mirstartpath[MAX_PATH];
 
@@ -292,7 +292,7 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 						ListView_GetItem(hwndList, &lvI);
 
 						FILEINFO *p = (FILEINFO*)lvI.lParam;
-						db_set_b(NULL, DB_MODULE_FILES, StrToLower(_T2A(p->tszOldName)), p->bEnabled = ListView_GetCheckState(hwndList, nmlv->iItem));
+						db_set_b(0, DB_MODULE_FILES, StrToLower(_T2A(p->tszOldName)), p->bEnabled = ListView_GetCheckState(hwndList, nmlv->iItem));
 
 						// Toggle the Download button
 						bool enableOk = false;
@@ -366,7 +366,7 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 		delete (OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, 0);
 
-		db_set_dw(NULL, MODULENAME, DB_SETTING_LAST_UPDATE, time(0));
+		g_plugin.setDword(DB_SETTING_LAST_UPDATE, time(0));
 
 		mir_forkthread(InitTimer);
 		break;
@@ -457,19 +457,19 @@ static void DlgUpdateSilent(void *param)
 	Skin_PlaySound("updatecompleted");
 
 	opts.bForceRedownload = false;
-	db_unset(NULL, MODULENAME, DB_SETTING_REDOWNLOAD);
+	g_plugin.delSetting(DB_SETTING_REDOWNLOAD);
 
 	opts.bChangePlatform = false;
-	db_unset(NULL, MODULENAME, DB_SETTING_CHANGEPLATFORM);
+	g_plugin.delSetting(DB_SETTING_CHANGEPLATFORM);
 
-	db_set_b(NULL, MODULENAME, DB_SETTING_RESTART_COUNT, 5);
-	db_set_b(NULL, MODULENAME, DB_SETTING_NEED_RESTART, 1);
+	g_plugin.setByte(DB_SETTING_RESTART_COUNT, 5);
+	g_plugin.setByte(DB_SETTING_NEED_RESTART, 1);
 
 	// 5) Prepare Restart
 	wchar_t tszTitle[100];
 	mir_snwprintf(tszTitle, TranslateT("%d component(s) was updated"), count);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1))
+	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(0, "Popup", "ModuleIsEnabled", 1))
 		ShowPopup(tszTitle,TranslateT("You need to restart your Miranda to apply installed updates."),POPUP_TYPE_MSG);
 	else {
 		if (Clist_TrayNotifyW(MODULEA, tszTitle, TranslateT("You need to restart your Miranda to apply installed updates."), NIIF_INFO, 30000)) {
@@ -478,7 +478,7 @@ static void DlgUpdateSilent(void *param)
 			mir_snwprintf(tszText, L"%s\n\n%s", TranslateT("You need to restart your Miranda to apply installed updates."), TranslateT("Would you like to restart it now?"));
 
 			if (MessageBox(nullptr, tszText, tszTitle, MB_ICONINFORMATION | MB_YESNO) == IDYES)
-				CallServiceSync(MS_SYSTEM_RESTART, db_get_b(NULL, MODULENAME, "RestartCurrentProfile", 1) ? 1 : 0, 0);
+				CallServiceSync(MS_SYSTEM_RESTART, g_plugin.getByte("RestartCurrentProfile", 1) ? 1 : 0, 0);
 		}
 	}
 }
@@ -742,7 +742,7 @@ static int ScanFolder(const wchar_t *tszFolder, size_t cbBaseLen, const wchar_t 
 				*p++ = '/';
 
 			// remember whether the user has decided not to update this component with this particular new version
-			FileInfo->bEnabled = db_get_b(NULL, DB_MODULE_FILES, StrToLower(_T2A(FileInfo->tszOldName)), 1);
+			FileInfo->bEnabled = db_get_b(0, DB_MODULE_FILES, StrToLower(_T2A(FileInfo->tszOldName)), 1);
 
 			FileInfo->File.CRCsum = MyCRC;
 			UpdateFiles->insert(FileInfo);
@@ -807,7 +807,7 @@ static void DoCheck(bool bSilent = true)
 	else {
 		opts.bSilent = bSilent;
 
-		db_set_dw(NULL, MODULENAME, DB_SETTING_LAST_UPDATE, time(0));
+		g_plugin.setDword(DB_SETTING_LAST_UPDATE, time(0));
 	
 		hCheckThread = mir_forkthread(CheckUpdates);
 	}
@@ -845,7 +845,7 @@ void CheckUpdateOnStartup()
 	if (opts.bUpdateOnStartup) {
 		if (opts.bOnlyOnceADay) {
 			time_t now = time(0),
-				was = db_get_dw(NULL, MODULENAME, DB_SETTING_LAST_UPDATE, 0);
+				was = g_plugin.getDword(DB_SETTING_LAST_UPDATE, 0);
 
 			if ((now - was) < 86400)
 				return;
@@ -892,7 +892,7 @@ void InitTimer(void *type)
 	case 0: // default, plan next check relative to last check
 		{
 			time_t now = time(0);
-			time_t was = db_get_dw(NULL, MODULENAME, DB_SETTING_LAST_UPDATE, 0);
+			time_t was = g_plugin.getDword(DB_SETTING_LAST_UPDATE, 0);
 
 			interval = PeriodToMilliseconds(opts.Period, opts.bPeriodMeasure);
 			interval -= (now - was) * 1000;

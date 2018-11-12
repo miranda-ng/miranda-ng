@@ -11,7 +11,7 @@ static INT_PTR Service_GetCaps(WPARAM wParam, LPARAM)
 	if (wParam == PFLAGNUM_2)
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND;
 	if (wParam == PFLAGNUM_5) {
-		if (db_get_b(NULL, YAMN_DBMODULE, YAMN_SHOWASPROTO, 1))
+		if (db_get_b(0, YAMN_DBMODULE, YAMN_SHOWASPROTO, 1))
 			return PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND;
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND;
 	}
@@ -292,7 +292,7 @@ HBITMAP LoadBmpFromIcon(HICON hIcon)
 
 int AddTopToolbarIcon(WPARAM, LPARAM)
 {
-	if (db_get_b(NULL, YAMN_DBMODULE, YAMN_TTBFCHECK, 1)) {
+	if (db_get_b(0, YAMN_DBMODULE, YAMN_TTBFCHECK, 1)) {
 		if (ServiceExists(MS_TTB_REMOVEBUTTON) && hTTButton == nullptr) {
 			TTBButton btn = {};
 			btn.pszService = MS_YAMN_FORCECHECK;
@@ -318,11 +318,11 @@ int Shutdown(WPARAM, LPARAM)
 {
 	CallService(MS_TTB_REMOVEBUTTON, (WPARAM)hTTButton, 0);
 
-	db_set_dw(NULL, YAMN_DBMODULE, YAMN_DBMSGPOSX, HeadPosX);
-	db_set_dw(NULL, YAMN_DBMODULE, YAMN_DBMSGPOSY, HeadPosY);
-	db_set_dw(NULL, YAMN_DBMODULE, YAMN_DBMSGSIZEX, HeadSizeX);
-	db_set_dw(NULL, YAMN_DBMODULE, YAMN_DBMSGSIZEY, HeadSizeY);
-	db_set_w(NULL, YAMN_DBMODULE, YAMN_DBMSGPOSSPLIT, HeadSplitPos);
+	db_set_dw(0, YAMN_DBMODULE, YAMN_DBMSGPOSX, HeadPosX);
+	db_set_dw(0, YAMN_DBMODULE, YAMN_DBMSGPOSY, HeadPosY);
+	db_set_dw(0, YAMN_DBMODULE, YAMN_DBMSGSIZEX, HeadSizeX);
+	db_set_dw(0, YAMN_DBMODULE, YAMN_DBMSGSIZEY, HeadSizeY);
+	db_set_w(0, YAMN_DBMODULE, YAMN_DBMSGPOSSPLIT, HeadSplitPos);
 	YAMNVar.Shutdown = TRUE;
 	KillTimer(nullptr, SecTimer);
 

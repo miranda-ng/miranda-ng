@@ -87,7 +87,7 @@ void CluiProtocolStatusChanged(int, const char*)
 		partCount = toshow;
 	}
 	else {
-		BYTE showOpts = db_get_b(NULL, "CLUI", "SBarShow", 1);
+		BYTE showOpts = db_get_b(0, "CLUI", "SBarShow", 1);
 		wchar_t szName[32];
 
 		HDC hdc = GetDC(nullptr);
@@ -134,7 +134,7 @@ void CluiProtocolStatusChanged(int, const char*)
 	SendMessage(g_clistApi.hwndStatus, SB_SIMPLE, FALSE, 0);
 
 	partWidths[partCount - 1] = -1;
-	BYTE windowStyle = db_get_b(NULL, "CLUI", "WindowStyle", 0);
+	BYTE windowStyle = db_get_b(0, "CLUI", "WindowStyle", 0);
 	SendMessage(g_clistApi.hwndStatus, SB_SETMINHEIGHT, 18 + cfg::dat.bClipBorder + ((windowStyle == SETTING_WINDOWSTYLE_THINBORDER || windowStyle == SETTING_WINDOWSTYLE_NOBORDER) ? 3 : 0), 0);
 	SendMessage(g_clistApi.hwndStatus, SB_SETPARTS, partCount, (LPARAM)partWidths);
 
@@ -154,7 +154,7 @@ void CluiProtocolStatusChanged(int, const char*)
 		PD->protopos = partCount;
 
 		int flags = SBT_OWNERDRAW;
-		if (db_get_b(NULL, "CLUI", "SBarBevel", 1) == 0)
+		if (db_get_b(0, "CLUI", "SBarBevel", 1) == 0)
 			flags |= SBT_NOBORDERS;
 		SendMessageA(g_clistApi.hwndStatus, SB_SETTEXTA, partCount | flags, (LPARAM)PD);
 		

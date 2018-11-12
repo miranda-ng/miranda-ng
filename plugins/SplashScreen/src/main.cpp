@@ -77,14 +77,14 @@ void SplashMain()
 
 	if (bstartup & (options.active == 1)) {
 		DBVARIANT dbv = { 0 };
-		if (!db_get_ws(NULL, MODULENAME, "VersionPrefix", &dbv)) {
+		if (!g_plugin.getWString("VersionPrefix", &dbv)) {
 			mir_wstrcpy(szPrefix, dbv.pwszVal);
 			db_free(&dbv);
 		}
 		else
 			mir_wstrcpy(szPrefix, L"");
 
-		if (!db_get_ws(NULL, MODULENAME, "Path", &dbv)) {
+		if (!g_plugin.getWString("Path", &dbv)) {
 			mir_wstrcpy(inBuf, dbv.pwszVal);
 			db_free(&dbv);
 		}
@@ -101,7 +101,7 @@ void SplashMain()
 		else
 			mir_wstrcpy(szSplashFile, inBuf);
 
-		if (!db_get_ws(NULL, MODULENAME, "Sound", &dbv)) {
+		if (!g_plugin.getWString("Sound", &dbv)) {
 			mir_wstrcpy(inBuf, dbv.pwszVal);
 			db_free(&dbv);
 		}
@@ -192,10 +192,10 @@ int PlugDisableHook(WPARAM wParam, LPARAM lParam)
 
 	if (options.inheritGS) {
 		if (!strcmp(cws->szModule, "Skin") && !strcmp(cws->szSetting, "UseSound"))
-			db_set_b(NULL, MODULENAME, "PlaySound", cws->value.bVal);
+			g_plugin.setByte("PlaySound", cws->value.bVal);
 
 		if (!strcmp(cws->szModule, "PluginDisable") && !strcmp(cws->szSetting, _T2A(szDllName)))
-			db_set_b(NULL, MODULENAME, "Active", cws->value.bVal);
+			g_plugin.setByte("Active", cws->value.bVal);
 	}
 
 	return 0;

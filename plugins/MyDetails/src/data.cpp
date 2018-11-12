@@ -442,7 +442,7 @@ void ProtocolArray::SetNicks(const wchar_t *nick)
 
 	mir_wstrncpy(default_nick, nick, _countof(default_nick));
 
-	db_set_ws(0, MODULENAME, SETTING_DEFAULT_NICK, nick);
+	g_plugin.setWString(SETTING_DEFAULT_NICK, nick);
 
 	for (int i = 0; i < buffer_len; i++)
 		buffer[i]->SetNick(default_nick);
@@ -462,11 +462,11 @@ void ProtocolArray::SetStatusMsgs(const wchar_t *message)
 
 void ProtocolArray::SetStatusMsgs(int status, const wchar_t *message)
 {
-	db_set_ws(NULL, "SRAway", StatusModeToDbSetting(status, "Msg"), message);
+	db_set_ws(0, "SRAway", StatusModeToDbSetting(status, "Msg"), message);
 
 	// Save default also
-	if (!db_get_b(NULL, "SRAway", StatusModeToDbSetting(status, "UsePrev"), 0))
-		db_set_ws(NULL, "SRAway", StatusModeToDbSetting(status, "Default"), message);
+	if (!db_get_b(0, "SRAway", StatusModeToDbSetting(status, "UsePrev"), 0))
+		db_set_ws(0, "SRAway", StatusModeToDbSetting(status, "Default"), message);
 
 	for (int i = 0; i < buffer_len; i++)
 		if (buffer[i]->status == status)
@@ -475,7 +475,7 @@ void ProtocolArray::SetStatusMsgs(int status, const wchar_t *message)
 
 void ProtocolArray::GetDefaultNick()
 {
-	ptrW tszNick(db_get_wsa(0, MODULENAME, SETTING_DEFAULT_NICK));
+	ptrW tszNick(g_plugin.getWStringA(SETTING_DEFAULT_NICK));
 	if (tszNick)
 		mir_wstrncpy(default_nick, tszNick, _countof(default_nick));
 	else

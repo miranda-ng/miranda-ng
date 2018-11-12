@@ -91,7 +91,7 @@ static INT_PTR CALLBACK extratextDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPA
 // dialog box for the %subject% selection
 void ResetCList(HWND hwndDlg)
 {
-	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT), 0);
+	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, db_get_b(0, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT), 0);
 	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETHIDEEMPTYGROUPS, 1, 0);
 }
 
@@ -127,7 +127,7 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 			MCONTACT hItem, hContact = wParam;
 			log_debugA("VARM_SETSUBJECT: %u", hContact);
 			if (hContact == INVALID_CONTACT_ID) {
-				wchar_t *tszContact = db_get_wsa(NULL, MODULENAME, SETTING_SUBJECT);
+				wchar_t *tszContact = g_plugin.getWStringA(SETTING_SUBJECT);
 				log_debugA("VARM_SETSUBJECT: %s", tszContact);
 				if (tszContact != nullptr) {
 					hContact = getContactFromString(tszContact, CI_PROTOID);
@@ -196,13 +196,13 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 		break;
 
 	case WM_DESTROY:
-		db_unset(NULL, MODULENAME, SETTING_SUBJECT);
+		g_plugin.delSetting(SETTING_SUBJECT);
 
 		MCONTACT hContact = (MCONTACT)SendMessage(hwndDlg, VARM_GETSUBJECT, 0, 0);
 		if (hContact != NULL) {
 			wchar_t *tszContact = encodeContactToString(hContact);
 			if (tszContact != nullptr) {
-				db_set_ws(NULL, MODULENAME, SETTING_SUBJECT, tszContact);
+				g_plugin.setWString(SETTING_SUBJECT, tszContact);
 				mir_free(tszContact);
 		}	}
 		break;
@@ -583,7 +583,7 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 		memset(dat, 0, sizeof(INPUTDLGDATA));
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 		// splitter things
-		dat->splitterPos = (INT_PTR)db_get_dw(NULL, MODULENAME, SETTING_SPLITTERPOS, -1);
+		dat->splitterPos = (INT_PTR)g_plugin.getDword(SETTING_SPLITTERPOS, -1);
 		{
 			RECT rc;
 			POINT pt;
@@ -718,7 +718,7 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 		KillTimer(hwndDlg, IDT_PARSE);
 		if (dat == nullptr)
 			break;
-		db_set_dw(NULL, MODULENAME, SETTING_SPLITTERPOS, dat->splitterPos);
+		g_plugin.setDword(SETTING_SPLITTERPOS, dat->splitterPos);
 		mir_free(dat);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		break;

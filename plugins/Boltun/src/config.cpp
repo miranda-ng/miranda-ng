@@ -61,22 +61,22 @@ inline const wchar_t* SetString(char* key, const wchar_t* value)
 	size_t len = mir_wstrlen(value) + 1;
 	wchar_t* val = new wchar_t[len];
 	wcscpy_s(val, len, value);
-	db_set_ws(NULL, BOLTUN_KEY, key, val);
+	db_set_ws(0, BOLTUN_KEY, key, val);
 	return val;
 }
 
 #define BUILDETTERS(x, str, def) \
 	const bool BoltunConfig::Get##x() { \
-	return db_get_dw(NULL, BOLTUN_KEY, str, def) != 0; } \
+	return db_get_dw(0, BOLTUN_KEY, str, def) != 0; } \
 	const bool BoltunConfig::Set##x(const bool value) { \
-	db_set_dw(NULL, BOLTUN_KEY, str, value); \
+	db_set_dw(0, BOLTUN_KEY, str, value); \
 	return value; }
 
 #define BUILDINTETTERS(x, str, def) \
 	const int BoltunConfig::Get##x() { \
-	return db_get_dw(NULL, BOLTUN_KEY, str, def); } \
+	return db_get_dw(0, BOLTUN_KEY, str, def); } \
 	const int BoltunConfig::Set##x(const int value) { \
-	db_set_dw(NULL, BOLTUN_KEY, str, value); \
+	db_set_dw(0, BOLTUN_KEY, str, value); \
 	return value; }
 
 #define BUILDSTRETTERS(x, str, def) \

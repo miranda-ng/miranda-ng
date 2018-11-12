@@ -396,26 +396,26 @@ int DBLoadFrameSettingsAtPos(int pos, int Frameid)
 {
 	CMStringA buf;
 
-	Frames[Frameid].collapsed = 0 != db_get_b(NULL, CLUIFrameModule, buf.Format("Collapse%d", pos), Frames[Frameid].collapsed);
+	Frames[Frameid].collapsed = 0 != db_get_b(0, CLUIFrameModule, buf.Format("Collapse%d", pos), Frames[Frameid].collapsed);
 
-	Frames[Frameid].Locked = 0 != db_get_b(NULL, CLUIFrameModule, buf.Format("Locked%d", pos), Frames[Frameid].Locked);
-	Frames[Frameid].visible = 0 != db_get_b(NULL, CLUIFrameModule, buf.Format("Visible%d", pos), Frames[Frameid].visible);
-	Frames[Frameid].TitleBar.ShowTitleBar = 0 != db_get_b(NULL, CLUIFrameModule, buf.Format("TBVisile%d", pos), Frames[Frameid].TitleBar.ShowTitleBar);
+	Frames[Frameid].Locked = 0 != db_get_b(0, CLUIFrameModule, buf.Format("Locked%d", pos), Frames[Frameid].Locked);
+	Frames[Frameid].visible = 0 != db_get_b(0, CLUIFrameModule, buf.Format("Visible%d", pos), Frames[Frameid].visible);
+	Frames[Frameid].TitleBar.ShowTitleBar = 0 != db_get_b(0, CLUIFrameModule, buf.Format("TBVisile%d", pos), Frames[Frameid].TitleBar.ShowTitleBar);
 
-	Frames[Frameid].height = db_get_w(NULL, CLUIFrameModule, buf.Format("Height%d", pos), Frames[Frameid].height);
-	Frames[Frameid].HeightWhenCollapsed = db_get_w(NULL, CLUIFrameModule, buf.Format("HeightCollapsed%d", pos), 0);
-	Frames[Frameid].align = db_get_w(NULL, CLUIFrameModule, buf.Format("Align%d", pos), Frames[Frameid].align);
+	Frames[Frameid].height = db_get_w(0, CLUIFrameModule, buf.Format("Height%d", pos), Frames[Frameid].height);
+	Frames[Frameid].HeightWhenCollapsed = db_get_w(0, CLUIFrameModule, buf.Format("HeightCollapsed%d", pos), 0);
+	Frames[Frameid].align = db_get_w(0, CLUIFrameModule, buf.Format("Align%d", pos), Frames[Frameid].align);
 
 	Frames[Frameid].FloatingPos.x = DBGetContactSettingRangedWord(0, CLUIFrameModule, buf.Format("FloatX%d", pos), 100, 0, 1024);
 	Frames[Frameid].FloatingPos.y = DBGetContactSettingRangedWord(0, CLUIFrameModule, buf.Format("FloatY%d", pos), 100, 0, 1024);
 	Frames[Frameid].FloatingSize.x = DBGetContactSettingRangedWord(0, CLUIFrameModule, buf.Format("FloatW%d", pos), 100, 0, 1024);
 	Frames[Frameid].FloatingSize.y = DBGetContactSettingRangedWord(0, CLUIFrameModule, buf.Format("FloatH%d", pos), 100, 0, 1024);
 
-	Frames[Frameid].floating = 0 != db_get_b(NULL, CLUIFrameModule, buf.Format("Floating%d", pos), 0);
-	Frames[Frameid].order = db_get_w(NULL, CLUIFrameModule, buf.Format("Order%d", pos), 0);
+	Frames[Frameid].floating = 0 != db_get_b(0, CLUIFrameModule, buf.Format("Floating%d", pos), 0);
+	Frames[Frameid].order = db_get_w(0, CLUIFrameModule, buf.Format("Order%d", pos), 0);
 
-	Frames[Frameid].UseBorder = 0 != db_get_b(NULL, CLUIFrameModule, buf.Format("UseBorder%d", pos), Frames[Frameid].UseBorder);
-	Frames[Frameid].Skinned = 0 != db_get_b(NULL, CLUIFrameModule, buf.Format("Skinned%d", pos), Frames[Frameid].Skinned);
+	Frames[Frameid].UseBorder = 0 != db_get_b(0, CLUIFrameModule, buf.Format("UseBorder%d", pos), Frames[Frameid].UseBorder);
+	Frames[Frameid].Skinned = 0 != db_get_b(0, CLUIFrameModule, buf.Format("Skinned%d", pos), Frames[Frameid].Skinned);
 	return 0;
 }
 
@@ -430,20 +430,20 @@ int DBStoreFrameSettingsAtPos(int pos, int Frameid)
 	db_set_b(0, CLUIFrameModule, buf.Format("Visible%d", pos), (BYTE)btoint(Frames[Frameid].visible));
 	db_set_b(0, CLUIFrameModule, buf.Format("TBVisile%d", pos), (BYTE)btoint(Frames[Frameid].TitleBar.ShowTitleBar));
 
-	db_set_w(NULL, CLUIFrameModule, buf.Format("Height%d", pos), (WORD)Frames[Frameid].height);
-	db_set_w(NULL, CLUIFrameModule, buf.Format("HeightCollapsed%d", pos), (WORD)Frames[Frameid].HeightWhenCollapsed);
-	db_set_w(NULL, CLUIFrameModule, buf.Format("Align%d", pos), (WORD)Frames[Frameid].align);
+	db_set_w(0, CLUIFrameModule, buf.Format("Height%d", pos), (WORD)Frames[Frameid].height);
+	db_set_w(0, CLUIFrameModule, buf.Format("HeightCollapsed%d", pos), (WORD)Frames[Frameid].HeightWhenCollapsed);
+	db_set_w(0, CLUIFrameModule, buf.Format("Align%d", pos), (WORD)Frames[Frameid].align);
 	//FloatingPos
-	db_set_w(NULL, CLUIFrameModule, buf.Format("FloatX%d", pos), (WORD)Frames[Frameid].FloatingPos.x);
-	db_set_w(NULL, CLUIFrameModule, buf.Format("FloatY%d", pos), (WORD)Frames[Frameid].FloatingPos.y);
-	db_set_w(NULL, CLUIFrameModule, buf.Format("FloatW%d", pos), (WORD)Frames[Frameid].FloatingSize.x);
+	db_set_w(0, CLUIFrameModule, buf.Format("FloatX%d", pos), (WORD)Frames[Frameid].FloatingPos.x);
+	db_set_w(0, CLUIFrameModule, buf.Format("FloatY%d", pos), (WORD)Frames[Frameid].FloatingPos.y);
+	db_set_w(0, CLUIFrameModule, buf.Format("FloatW%d", pos), (WORD)Frames[Frameid].FloatingSize.x);
 	db_set_w(0, CLUIFrameModule, buf.Format("FloatH%d", pos), (WORD)Frames[Frameid].FloatingSize.y);
 
 	db_set_b(0, CLUIFrameModule, buf.Format("Floating%d", pos), (BYTE)btoint(Frames[Frameid].floating));
 	db_set_b(0, CLUIFrameModule, buf.Format("UseBorder%d", pos), (BYTE)btoint(Frames[Frameid].UseBorder));
 	db_set_w(0, CLUIFrameModule, buf.Format("Order%d", pos), (WORD)Frames[Frameid].order);
 
-	db_set_b(NULL, CLUIFrameModule, buf.Format("Skinned%d", pos), Frames[Frameid].Skinned);
+	db_set_b(0, CLUIFrameModule, buf.Format("Skinned%d", pos), Frames[Frameid].Skinned);
 	return 0;
 }
 
@@ -469,7 +469,7 @@ int CLUIFramesLoadFrameSettings(int Frameid)
 	if (Frameid < 0 || Frameid >= nFramescount)
 		return -1;
 
-	int maxstored = db_get_w(NULL, CLUIFrameModule, "StoredFrames", -1);
+	int maxstored = db_get_w(0, CLUIFrameModule, "StoredFrames", -1);
 	if (maxstored == -1)
 		return 0;
 
@@ -489,7 +489,7 @@ int CLUIFramesStoreFrameSettings(int Frameid)
 	if (Frameid < 0 || Frameid >= nFramescount)
 		return -1;
 
-	int maxstored = db_get_w(NULL, CLUIFrameModule, "StoredFrames", -1);
+	int maxstored = db_get_w(0, CLUIFrameModule, "StoredFrames", -1);
 	if (maxstored == -1)
 		maxstored = 0;
 
@@ -500,7 +500,7 @@ int CLUIFramesStoreFrameSettings(int Frameid)
 	}
 
 	DBStoreFrameSettingsAtPos(storpos, Frameid);
-	db_set_w(NULL, CLUIFrameModule, "StoredFrames", (WORD)maxstored);
+	db_set_w(0, CLUIFrameModule, "StoredFrames", (WORD)maxstored);
 	return 0;
 }
 
@@ -1210,7 +1210,7 @@ INT_PTR CLUIFramesCollapseUnCollapseFrame(WPARAM wParam, LPARAM)
 		if (Clist_IsDocked())
 			return 0;
 
-		if (db_get_b(NULL, "CLUI", "AutoSize", 0))
+		if (db_get_b(0, "CLUI", "AutoSize", 0))
 			return 0;
 
 		GetWindowRect(g_clistApi.hwndContactList, &rc);
@@ -1593,7 +1593,7 @@ INT_PTR CLUIFramesAddFrame(WPARAM wParam, LPARAM lParam)
 	// create frame
 	Frames[nFramescount].TitleBar.hwnd =
 		CreateWindow(CLUIFrameTitleBarClassName, Frames[nFramescount].name,
-		(db_get_b(NULL, CLUIFrameModule, "RemoveAllTitleBarBorders", 1) ? 0 : WS_BORDER)
+		(db_get_b(0, CLUIFrameModule, "RemoveAllTitleBarBorders", 1) ? 0 : WS_BORDER)
 		| WS_CHILD | WS_CLIPCHILDREN | (Frames[nFramescount].TitleBar.ShowTitleBar ? WS_VISIBLE : 0) |
 		WS_CLIPCHILDREN, 0, 0, 0, 0, g_clistApi.hwndContactList, nullptr, g_plugin.getInst(), nullptr);
 
@@ -2116,19 +2116,19 @@ boolean AlignCOLLIconToLeft; //will hide frame icon
 
 int OnFrameTitleBarBackgroundChange()
 {
-	AlignCOLLIconToLeft = db_get_b(NULL, "FrameTitleBar", "AlignCOLLIconToLeft", 0);
-	bkColour = db_get_dw(NULL, "FrameTitleBar", "BkColour", CLCDEFAULT_BKCOLOUR);
+	AlignCOLLIconToLeft = db_get_b(0, "FrameTitleBar", "AlignCOLLIconToLeft", 0);
+	bkColour = db_get_dw(0, "FrameTitleBar", "BkColour", CLCDEFAULT_BKCOLOUR);
 
 	if (hBmpBackground) {
 		DeleteObject(hBmpBackground);
 		hBmpBackground = nullptr;
 	}
-	if (db_get_b(NULL, "FrameTitleBar", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
+	if (db_get_b(0, "FrameTitleBar", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
 		ptrW tszBitmapName(db_get_wsa(NULL, "FrameTitleBar", "BkBitmap"));
 		if (tszBitmapName != NULL)
 			hBmpBackground = Bitmap_Load(tszBitmapName);
 	}
-	backgroundBmpUse = db_get_w(NULL, "FrameTitleBar", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
+	backgroundBmpUse = db_get_w(0, "FrameTitleBar", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
 
 	CLUIFramesOnClistResize(0, 0);
 	return 0;
@@ -2362,7 +2362,7 @@ LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			}
 
 			if ((!(wParam&MK_CONTROL)) && Frames[framepos].Locked && (!(Frames[framepos].floating))) {
-				if (db_get_b(NULL, "CLUI", "ClientAreaDrag", 0)) {
+				if (db_get_b(0, "CLUI", "ClientAreaDrag", 0)) {
 					POINT pt;
 					GetCursorPos(&pt);
 					return SendMessage(GetParent(hwnd), WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));
@@ -3009,7 +3009,7 @@ int LoadCLUIFramesModule(void)
 	OnFrameTitleBarBackgroundChange();
 
 	FramesSysNotStarted = FALSE;
-	g_hPenCLUIFrames = CreatePen(PS_SOLID, 1, db_get_dw(NULL, "CLUI", "clr_frameborder", GetSysColor(COLOR_3DDKSHADOW)));
+	g_hPenCLUIFrames = CreatePen(PS_SOLID, 1, db_get_dw(0, "CLUI", "clr_frameborder", GetSysColor(COLOR_3DDKSHADOW)));
 	return 0;
 }
 

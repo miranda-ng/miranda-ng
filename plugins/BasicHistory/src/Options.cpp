@@ -272,58 +272,58 @@ void Options::Load(void)
 		g_plugin.addHotkey(&hid);
 	}
 
-	showContacts = db_get_b(0, MODULENAME, "showContacts", 0) ? true : false;
-	showContactGroups = db_get_b(0, MODULENAME, "showContactGroups", 1) ? true : false;
-	noFindBorder = db_get_b(0, MODULENAME, "noFindBorder", 0) ? true : false;
-	groupNewOnTop = db_get_b(0, MODULENAME, "groupNewOnTop", 1) ? true : false;
-	groupShowEvents = db_get_b(0, MODULENAME, "groupShowEvents", 1) ? true : false;
-	groupShowTime = db_get_b(0, MODULENAME, "groupShowTime", 1) ? true : false;
-	groupShowName = db_get_b(0, MODULENAME, "groupShowName", 0) ? true : false;
-	groupShowMessage = db_get_b(0, MODULENAME, "groupShowMessage", 1) ? true : false;
-	groupMessageLen = db_get_dw(0, MODULENAME, "groupMessageLen", 43);
+	showContacts = g_plugin.getByte("showContacts", 0) ? true : false;
+	showContactGroups = g_plugin.getByte("showContactGroups", 1) ? true : false;
+	noFindBorder = g_plugin.getByte("noFindBorder", 0) ? true : false;
+	groupNewOnTop = g_plugin.getByte("groupNewOnTop", 1) ? true : false;
+	groupShowEvents = g_plugin.getByte("groupShowEvents", 1) ? true : false;
+	groupShowTime = g_plugin.getByte("groupShowTime", 1) ? true : false;
+	groupShowName = g_plugin.getByte("groupShowName", 0) ? true : false;
+	groupShowMessage = g_plugin.getByte("groupShowMessage", 1) ? true : false;
+	groupMessageLen = g_plugin.getDword("groupMessageLen", 43);
 	if (groupMessageLen < 5) groupMessageLen = 5;
-	groupTime = db_get_dw(0, MODULENAME, "groupTime", 5);
+	groupTime = g_plugin.getDword("groupTime", 5);
 	if (groupTime < 1) groupTime = 1;
-	groupMessagesNumber = db_get_dw(0, MODULENAME, "groupMessagesNumber", 100);
+	groupMessagesNumber = g_plugin.getDword("groupMessagesNumber", 100);
 	if (groupMessagesNumber < 1) groupMessagesNumber = 1;
-	messagesNewOnTop = db_get_b(0, MODULENAME, "messagesNewOnTop", 0) ? true : false;
-	messagesShowDate = db_get_b(0, MODULENAME, "messagesShowDate", 0) ? true : false;
-	messagesShowSec = db_get_b(0, MODULENAME, "messagesShowSec", 0) ? true : false;
-	messagesShowName = db_get_b(0, MODULENAME, "messagesShowName", 1) ? true : false;
-	messagesShowEvents = db_get_b(0, MODULENAME, "messagesShowEvents", 0) ? true : false;
-	messagesUseSmileys = db_get_b(0, MODULENAME, "messagesUseSmileys", 1) ? true : false;
-	searchForInList = db_get_b(0, MODULENAME, "searchForInList", 1) ? true : false;
-	searchForInMess = db_get_b(0, MODULENAME, "searchForInMess", 1) ? true : false;
-	searchMatchCase = db_get_b(0, MODULENAME, "searchMatchCase", 0) ? true : false;
-	searchMatchWhole = db_get_b(0, MODULENAME, "searchMatchWhole", 0) ? true : false;
-	searchOnlyIn = db_get_b(0, MODULENAME, "searchOnlyIn", 0) ? true : false;
-	searchOnlyOut = db_get_b(0, MODULENAME, "searchOnlyOut", 0) ? true : false;
-	searchOnlyGroup = db_get_b(0, MODULENAME, "searchOnlyGroup", 0) ? true : false;
-	searchAllContacts = db_get_b(0, MODULENAME, "searchAllContacts", 0) ? true : false;
-	schedulerAlerts = db_get_b(0, MODULENAME, "schedulerAlerts", 1) ? true : false;
-	schedulerHistoryAlerts = db_get_b(0, MODULENAME, "schedulerHistoryAlerts", 1) ? true : false;
+	messagesNewOnTop = g_plugin.getByte("messagesNewOnTop", 0) ? true : false;
+	messagesShowDate = g_plugin.getByte("messagesShowDate", 0) ? true : false;
+	messagesShowSec = g_plugin.getByte("messagesShowSec", 0) ? true : false;
+	messagesShowName = g_plugin.getByte("messagesShowName", 1) ? true : false;
+	messagesShowEvents = g_plugin.getByte("messagesShowEvents", 0) ? true : false;
+	messagesUseSmileys = g_plugin.getByte("messagesUseSmileys", 1) ? true : false;
+	searchForInList = g_plugin.getByte("searchForInList", 1) ? true : false;
+	searchForInMess = g_plugin.getByte("searchForInMess", 1) ? true : false;
+	searchMatchCase = g_plugin.getByte("searchMatchCase", 0) ? true : false;
+	searchMatchWhole = g_plugin.getByte("searchMatchWhole", 0) ? true : false;
+	searchOnlyIn = g_plugin.getByte("searchOnlyIn", 0) ? true : false;
+	searchOnlyOut = g_plugin.getByte("searchOnlyOut", 0) ? true : false;
+	searchOnlyGroup = g_plugin.getByte("searchOnlyGroup", 0) ? true : false;
+	searchAllContacts = g_plugin.getByte("searchAllContacts", 0) ? true : false;
+	schedulerAlerts = g_plugin.getByte("schedulerAlerts", 1) ? true : false;
+	schedulerHistoryAlerts = g_plugin.getByte("schedulerHistoryAlerts", 1) ? true : false;
 
-	defFilter = db_get_b(0, MODULENAME, "defFilter", defFilter);
-	int filtersCount = db_get_dw(0, MODULENAME, "customFiltersCount", 0);
+	defFilter = g_plugin.getByte("defFilter", defFilter);
+	int filtersCount = g_plugin.getDword("customFiltersCount", 0);
 	for (int i = 0; i < filtersCount; ++i) {
 		char buf[256];
 		FilterOptions fo;
 		mir_snprintf(buf, "filterName_%d", i);
 		DBVARIANT nameV;
-		if (!db_get_ws(0, MODULENAME, buf, &nameV)) {
+		if (!g_plugin.getWString(buf, &nameV)) {
 			fo.name = nameV.pwszVal;
 			db_free(&nameV);
 		}
 		else break;
 		mir_snprintf(buf, "filterInOut_%d", i);
-		int inOut = db_get_b(0, MODULENAME, buf, 0);
+		int inOut = g_plugin.getByte(buf, 0);
 		if (inOut == 1)
 			fo.onlyIncomming = true;
 		else if (inOut == 2)
 			fo.onlyOutgoing = true;
 		mir_snprintf(buf, "filterEvents_%d", i);
 		DBVARIANT eventsV;
-		if (!db_get_s(0, MODULENAME, buf, &eventsV)) {
+		if (!g_plugin.getString(buf, &eventsV)) {
 			int k = 0;
 			char* id = eventsV.pszVal;
 			while (eventsV.pszVal[k]) {
@@ -346,7 +346,7 @@ void Options::Load(void)
 		defFilter = 0;
 
 		DBVARIANT defFilterStrV;
-		if (!db_get_ws(0, MODULENAME, "defFilterStr", &defFilterStrV)) {
+		if (!g_plugin.getWString("defFilterStr", &defFilterStrV)) {
 			std::wstring filterName = defFilterStrV.pwszVal;
 			for (int i = 0; i < (int)customFilters.size(); ++i) {
 				if (filterName == customFilters[i].name) {
@@ -358,43 +358,43 @@ void Options::Load(void)
 		}
 	}
 
-	codepageTxt = db_get_dw(0, MODULENAME, "codepageTxt", CP_UTF8);
-	codepageHtml1 = db_get_dw(0, MODULENAME, "codepageHtml1", CP_UTF8);
-	codepageHtml2 = db_get_dw(0, MODULENAME, "codepageHtml2", CP_UTF8);
+	codepageTxt = g_plugin.getDword("codepageTxt", CP_UTF8);
+	codepageHtml1 = g_plugin.getDword("codepageHtml1", CP_UTF8);
+	codepageHtml2 = g_plugin.getDword("codepageHtml2", CP_UTF8);
 	DBVARIANT encodingV;
-	if (!db_get_ws(0, MODULENAME, "encodingTxt", &encodingV)) {
+	if (!g_plugin.getWString("encodingTxt", &encodingV)) {
 		encodingTxt = encodingV.pwszVal;
 		db_free(&encodingV);
 	}
 	else encodingTxt = L"UTF-8";
 
-	if (!db_get_ws(0, MODULENAME, "encodingHtml1", &encodingV)) {
+	if (!g_plugin.getWString("encodingHtml1", &encodingV)) {
 		encodingHtml1 = encodingV.pwszVal;
 		db_free(&encodingV);
 	}
 	else encodingHtml1 = L"UTF-8";
 
-	if (!db_get_ws(0, MODULENAME, "encodingHtml2", &encodingV)) {
+	if (!g_plugin.getWString("encodingHtml2", &encodingV)) {
 		encodingHtml2 = encodingV.pwszVal;
 		db_free(&encodingV);
 	}
 	else encodingHtml2 = L"UTF-8";
 
-	exportHtml1ShowDate = db_get_b(0, MODULENAME, "exportHtml1ShowDate", 1) ? true : false;
-	exportHtml2ShowDate = db_get_b(0, MODULENAME, "exportHtml2ShowDate", 0) ? true : false;
-	exportHtml2UseSmileys = db_get_b(0, MODULENAME, "exportHtml2UseSmileys", 1) ? true : false;
-	if (!db_get_ws(0, MODULENAME, "extCssHtml2", &encodingV)) {
+	exportHtml1ShowDate = g_plugin.getByte("exportHtml1ShowDate", 1) ? true : false;
+	exportHtml2ShowDate = g_plugin.getByte("exportHtml2ShowDate", 0) ? true : false;
+	exportHtml2UseSmileys = g_plugin.getByte("exportHtml2UseSmileys", 1) ? true : false;
+	if (!g_plugin.getWString("extCssHtml2", &encodingV)) {
 		extCssHtml2 = encodingV.pwszVal;
 		db_free(&encodingV);
 	}
 	else extCssHtml2 = L"";
 
-	if (!db_get_ws(0, MODULENAME, "ftpLogPath", &encodingV)) {
+	if (!g_plugin.getWString("ftpLogPath", &encodingV)) {
 		ftpLogPath = encodingV.pwszVal;
 		db_free(&encodingV);
 	}
 
-	if (!db_get_ws(0, MODULENAME, "ftpExePath", &encodingV)) {
+	if (!g_plugin.getWString("ftpExePath", &encodingV)) {
 		ftpExePath = encodingV.pwszVal;
 		db_free(&encodingV);
 	}
@@ -415,51 +415,51 @@ COLORREF Options::GetColor(Colors colorId)
 
 void Options::Save()
 {
-	db_set_b(0, MODULENAME, "showContacts", showContacts ? 1 : 0);
-	db_set_b(0, MODULENAME, "showContactGroups", showContactGroups ? 1 : 0);
-	db_set_b(0, MODULENAME, "noFindBorder", noFindBorder ? 1 : 0);
-	db_set_b(0, MODULENAME, "groupNewOnTop", groupNewOnTop ? 1 : 0);
-	db_set_b(0, MODULENAME, "groupShowEvents", groupShowEvents ? 1 : 0);
-	db_set_b(0, MODULENAME, "groupShowTime", groupShowTime ? 1 : 0);
-	db_set_b(0, MODULENAME, "groupShowName", groupShowName ? 1 : 0);
-	db_set_b(0, MODULENAME, "groupShowMessage", groupShowMessage ? 1 : 0);
+	g_plugin.setByte("showContacts", showContacts ? 1 : 0);
+	g_plugin.setByte("showContactGroups", showContactGroups ? 1 : 0);
+	g_plugin.setByte("noFindBorder", noFindBorder ? 1 : 0);
+	g_plugin.setByte("groupNewOnTop", groupNewOnTop ? 1 : 0);
+	g_plugin.setByte("groupShowEvents", groupShowEvents ? 1 : 0);
+	g_plugin.setByte("groupShowTime", groupShowTime ? 1 : 0);
+	g_plugin.setByte("groupShowName", groupShowName ? 1 : 0);
+	g_plugin.setByte("groupShowMessage", groupShowMessage ? 1 : 0);
 	if (groupMessageLen < 5)
 		groupMessageLen = 5;
-	db_set_dw(0, MODULENAME, "groupMessageLen", groupMessageLen);
+	g_plugin.setDword("groupMessageLen", groupMessageLen);
 	if (groupTime < 1)
 		groupTime = 1;
-	db_set_dw(0, MODULENAME, "groupTime", groupTime);
+	g_plugin.setDword("groupTime", groupTime);
 	if (groupMessagesNumber < 1)
 		groupMessagesNumber = 1;
-	db_set_dw(0, MODULENAME, "groupMessagesNumber", groupMessagesNumber);
-	db_set_b(0, MODULENAME, "messagesNewOnTop", messagesNewOnTop ? 1 : 0);
-	db_set_b(0, MODULENAME, "messagesShowDate", messagesShowDate ? 1 : 0);
-	db_set_b(0, MODULENAME, "messagesShowSec", messagesShowSec ? 1 : 0);
-	db_set_b(0, MODULENAME, "messagesShowName", messagesShowName ? 1 : 0);
-	db_set_b(0, MODULENAME, "messagesShowEvents", messagesShowEvents ? 1 : 0);
-	db_set_b(0, MODULENAME, "messagesUseSmileys", messagesUseSmileys ? 1 : 0);
-	db_set_b(0, MODULENAME, "searchForInList", searchForInList ? 1 : 0);
-	db_set_b(0, MODULENAME, "searchForInMess", searchForInMess ? 1 : 0);
-	db_set_b(0, MODULENAME, "searchMatchCase", searchMatchCase ? 1 : 0);
-	db_set_b(0, MODULENAME, "searchMatchWhole", searchMatchWhole ? 1 : 0);
-	db_set_b(0, MODULENAME, "searchOnlyIn", searchOnlyIn ? 1 : 0);
-	db_set_b(0, MODULENAME, "searchOnlyOut", searchOnlyOut ? 1 : 0);
-	db_set_b(0, MODULENAME, "searchOnlyGroup", searchOnlyGroup ? 1 : 0);
-	db_set_b(0, MODULENAME, "searchAllContacts", searchAllContacts ? 1 : 0);
-	db_set_b(0, MODULENAME, "schedulerAlerts", schedulerAlerts ? 1 : 0);
-	db_set_b(0, MODULENAME, "schedulerHistoryAlerts", schedulerHistoryAlerts ? 1 : 0);
+	g_plugin.setDword("groupMessagesNumber", groupMessagesNumber);
+	g_plugin.setByte("messagesNewOnTop", messagesNewOnTop ? 1 : 0);
+	g_plugin.setByte("messagesShowDate", messagesShowDate ? 1 : 0);
+	g_plugin.setByte("messagesShowSec", messagesShowSec ? 1 : 0);
+	g_plugin.setByte("messagesShowName", messagesShowName ? 1 : 0);
+	g_plugin.setByte("messagesShowEvents", messagesShowEvents ? 1 : 0);
+	g_plugin.setByte("messagesUseSmileys", messagesUseSmileys ? 1 : 0);
+	g_plugin.setByte("searchForInList", searchForInList ? 1 : 0);
+	g_plugin.setByte("searchForInMess", searchForInMess ? 1 : 0);
+	g_plugin.setByte("searchMatchCase", searchMatchCase ? 1 : 0);
+	g_plugin.setByte("searchMatchWhole", searchMatchWhole ? 1 : 0);
+	g_plugin.setByte("searchOnlyIn", searchOnlyIn ? 1 : 0);
+	g_plugin.setByte("searchOnlyOut", searchOnlyOut ? 1 : 0);
+	g_plugin.setByte("searchOnlyGroup", searchOnlyGroup ? 1 : 0);
+	g_plugin.setByte("searchAllContacts", searchAllContacts ? 1 : 0);
+	g_plugin.setByte("schedulerAlerts", schedulerAlerts ? 1 : 0);
+	g_plugin.setByte("schedulerHistoryAlerts", schedulerHistoryAlerts ? 1 : 0);
 	if (defFilter < 0 || defFilter - 2 >= (int)customFilters.size())
 		defFilter = 0;
-	db_set_b(0, MODULENAME, "defFilter", defFilter < 2 ? defFilter : 2);
+	g_plugin.setByte("defFilter", defFilter < 2 ? defFilter : 2);
 	if (defFilter >= 2)
-		db_set_ws(0, MODULENAME, "defFilterStr", customFilters[defFilter - 2].name.c_str());
-	db_set_dw(0, MODULENAME, "customFiltersCount", (DWORD)customFilters.size());
+		g_plugin.setWString("defFilterStr", customFilters[defFilter - 2].name.c_str());
+	g_plugin.setDword("customFiltersCount", (DWORD)customFilters.size());
 	for (int i = 0; i < (int)customFilters.size(); ++i) {
 		char buf[256];
 		mir_snprintf(buf, "filterName_%d", i);
-		db_set_ws(0, MODULENAME, buf, customFilters[i].name.c_str());
+		g_plugin.setWString(buf, customFilters[i].name.c_str());
 		mir_snprintf(buf, "filterInOut_%d", i);
-		db_set_b(0, MODULENAME, buf, customFilters[i].onlyIncomming ? 1 : (customFilters[i].onlyOutgoing ? 2 : 0));
+		g_plugin.setByte(buf, customFilters[i].onlyIncomming ? 1 : (customFilters[i].onlyOutgoing ? 2 : 0));
 		std::string events;
 		for (std::vector<int>::iterator it = customFilters[i].events.begin(); it != customFilters[i].events.end(); ++it) {
 			_itoa_s(*it, buf, 16);
@@ -468,24 +468,24 @@ void Options::Save()
 		}
 
 		mir_snprintf(buf, "filterEvents_%d", i);
-		db_set_s(0, MODULENAME, buf, events.c_str());
+		g_plugin.setString(buf, events.c_str());
 	}
 
-	db_set_dw(0, MODULENAME, "codepageTxt", codepageTxt);
-	db_set_dw(0, MODULENAME, "codepageHtml1", codepageHtml1);
-	db_set_dw(0, MODULENAME, "codepageHtml2", codepageHtml2);
-	db_set_ws(0, MODULENAME, "encodingTxt", encodingTxt.c_str());
-	db_set_ws(0, MODULENAME, "encodingHtml1", encodingHtml1.c_str());
-	db_set_ws(0, MODULENAME, "encodingHtml2", encodingHtml2.c_str());
-	db_set_b(0, MODULENAME, "exportHtml1ShowDate", exportHtml1ShowDate ? 1 : 0);
-	db_set_b(0, MODULENAME, "exportHtml2ShowDate", exportHtml2ShowDate ? 1 : 0);
-	db_set_b(0, MODULENAME, "exportHtml2UseSmileys", exportHtml2UseSmileys ? 1 : 0);
-	db_set_ws(0, MODULENAME, "extCssHtml2", extCssHtml2.c_str());
-	db_set_ws(0, MODULENAME, "ftpLogPath", ftpLogPath.c_str());
+	g_plugin.setDword("codepageTxt", codepageTxt);
+	g_plugin.setDword("codepageHtml1", codepageHtml1);
+	g_plugin.setDword("codepageHtml2", codepageHtml2);
+	g_plugin.setWString("encodingTxt", encodingTxt.c_str());
+	g_plugin.setWString("encodingHtml1", encodingHtml1.c_str());
+	g_plugin.setWString("encodingHtml2", encodingHtml2.c_str());
+	g_plugin.setByte("exportHtml1ShowDate", exportHtml1ShowDate ? 1 : 0);
+	g_plugin.setByte("exportHtml2ShowDate", exportHtml2ShowDate ? 1 : 0);
+	g_plugin.setByte("exportHtml2UseSmileys", exportHtml2UseSmileys ? 1 : 0);
+	g_plugin.setWString("extCssHtml2", extCssHtml2.c_str());
+	g_plugin.setWString("ftpLogPath", ftpLogPath.c_str());
 	if (ftpExePath != ftpExePathDef)
-		db_set_ws(0, MODULENAME, "ftpExePath", ftpExePath.c_str());
+		g_plugin.setWString("ftpExePath", ftpExePath.c_str());
 	else
-		db_unset(0, MODULENAME, "ftpExePath");
+		g_plugin.delSetting("ftpExePath");
 }
 
 void Options::SaveTasks(std::list<TaskOptions>* tasks)
@@ -497,51 +497,51 @@ void Options::SaveTasks(std::list<TaskOptions>* tasks)
 	char buf[256];
 	for (std::list<TaskOptions>::iterator it = tasks->begin(); it != tasks->end(); ++it) {
 		mir_snprintf(buf, "Task_compress_%d", i);
-		db_set_b(0, MODULENAME, buf, it->compress);
+		g_plugin.setByte(buf, it->compress);
 		mir_snprintf(buf, "Task_useFtp_%d", i);
-		db_set_b(0, MODULENAME, buf, it->useFtp);
+		g_plugin.setByte(buf, it->useFtp);
 		mir_snprintf(buf, "Task_isSystem_%d", i);
-		db_set_b(0, MODULENAME, buf, it->isSystem);
+		g_plugin.setByte(buf, it->isSystem);
 		mir_snprintf(buf, "Task_active_%d", i);
-		db_set_b(0, MODULENAME, buf, it->active);
+		g_plugin.setByte(buf, it->active);
 		mir_snprintf(buf, "Task_exportImported_%d", i);
-		db_set_b(0, MODULENAME, buf, it->exportImported);
+		g_plugin.setByte(buf, it->exportImported);
 		mir_snprintf(buf, "Task_type_%d", i);
-		db_set_b(0, MODULENAME, buf, it->type);
+		g_plugin.setByte(buf, it->type);
 		mir_snprintf(buf, "Task_eventUnit_%d", i);
-		db_set_b(0, MODULENAME, buf, it->eventUnit);
+		g_plugin.setByte(buf, it->eventUnit);
 		mir_snprintf(buf, "Task_trigerType_%d", i);
-		db_set_b(0, MODULENAME, buf, it->trigerType);
+		g_plugin.setByte(buf, it->trigerType);
 		mir_snprintf(buf, "Task_exportType_%d", i);
-		db_set_b(0, MODULENAME, buf, it->exportType);
+		g_plugin.setByte(buf, it->exportType);
 		mir_snprintf(buf, "Task_importType_%d", i);
-		db_set_b(0, MODULENAME, buf, it->importType);
+		g_plugin.setByte(buf, it->importType);
 		mir_snprintf(buf, "Task_eventDeltaTime_%d", i);
-		db_set_dw(0, MODULENAME, buf, it->eventDeltaTime);
+		g_plugin.setDword(buf, it->eventDeltaTime);
 		mir_snprintf(buf, "Task_filterId_%d", i);
-		db_set_dw(0, MODULENAME, buf, it->filterId);
+		g_plugin.setDword(buf, it->filterId);
 		mir_snprintf(buf, "Task_dayTime_%d", i);
-		db_set_dw(0, MODULENAME, buf, it->dayTime);
+		g_plugin.setDword(buf, it->dayTime);
 		mir_snprintf(buf, "Task_dayOfWeek_%d", i);
-		db_set_dw(0, MODULENAME, buf, it->dayOfWeek);
+		g_plugin.setDword(buf, it->dayOfWeek);
 		mir_snprintf(buf, "Task_dayOfMonth_%d", i);
-		db_set_dw(0, MODULENAME, buf, it->dayOfMonth);
+		g_plugin.setDword(buf, it->dayOfMonth);
 		mir_snprintf(buf, "Task_deltaTime_%d", i);
-		db_set_dw(0, MODULENAME, buf, it->deltaTime);
+		g_plugin.setDword(buf, it->deltaTime);
 		mir_snprintf(buf, "Task_lastExport_low_%d", i);
-		db_set_dw(0, MODULENAME, buf, (int)it->lastExport);
+		g_plugin.setDword(buf, (int)it->lastExport);
 		mir_snprintf(buf, "Task_lastExport_hi_%d", i);
-		db_set_dw(0, MODULENAME, buf, ((unsigned long long int)it->lastExport) >> 32);
+		g_plugin.setDword(buf, ((unsigned long long int)it->lastExport) >> 32);
 		mir_snprintf(buf, "Task_ftpName_%d", i);
-		db_set_ws(0, MODULENAME, buf, it->ftpName.c_str());
+		g_plugin.setWString(buf, it->ftpName.c_str());
 		mir_snprintf(buf, "Task_filterName_%d", i);
-		db_set_ws(0, MODULENAME, buf, it->filterName.c_str());
+		g_plugin.setWString(buf, it->filterName.c_str());
 		mir_snprintf(buf, "Task_filePath_%d", i);
-		db_set_ws(0, MODULENAME, buf, it->filePath.c_str());
+		g_plugin.setWString(buf, it->filePath.c_str());
 		mir_snprintf(buf, "Task_taskName_%d", i);
-		db_set_ws(0, MODULENAME, buf, it->taskName.c_str());
+		g_plugin.setWString(buf, it->taskName.c_str());
 		mir_snprintf(buf, "Task_zipPassword_%d", i);
-		db_set_s(0, MODULENAME, buf, it->zipPassword.c_str());
+		g_plugin.setString(buf, it->zipPassword.c_str());
 
 		mir_snprintf(buf, "IsInTask_%d", i);
 		for (auto &hContact : Contacts())
@@ -554,49 +554,49 @@ void Options::SaveTasks(std::list<TaskOptions>* tasks)
 		taskOptions.push_back(*it);
 	}
 
-	db_set_dw(0, MODULENAME, "Task_count", i);
+	g_plugin.setDword("Task_count", i);
 
 	for (i = (int)tasks->size(); i < oldTaskNr; ++i) {
 		mir_snprintf(buf, "Task_compress_%d", i);
-		db_unset(NULL, MODULENAME, buf);
+		g_plugin.delSetting(buf);
 		mir_snprintf(buf, "Task_useFtp_%d", i);
-		db_unset(NULL, MODULENAME, buf);
+		g_plugin.delSetting(buf);
 		mir_snprintf(buf, "Task_isSystem_%d", i);
-		db_unset(NULL, MODULENAME, buf);
+		g_plugin.delSetting(buf);
 		mir_snprintf(buf, "Task_active_%d", i);
-		db_unset(NULL, MODULENAME, buf);
+		g_plugin.delSetting(buf);
 		mir_snprintf(buf, "Task_type_%d", i);
-		db_unset(NULL, MODULENAME, buf);
+		g_plugin.delSetting(buf);
 		mir_snprintf(buf, "Task_eventUnit_%d", i);
-		db_unset(NULL, MODULENAME, buf);
+		g_plugin.delSetting(buf);
 		mir_snprintf(buf, "Task_trigerType_%d", i);
-		db_unset(NULL, MODULENAME, buf);
+		g_plugin.delSetting(buf);
 		mir_snprintf(buf, "Task_exportType_%d", i);
-		db_unset(NULL, MODULENAME, buf);
+		g_plugin.delSetting(buf);
 		mir_snprintf(buf, "Task_eventDeltaTime_%d", i);
-		db_unset(NULL, MODULENAME, buf);
+		g_plugin.delSetting(buf);
 		mir_snprintf(buf, "Task_filterId_%d", i);
-		db_unset(NULL, MODULENAME, buf);
+		g_plugin.delSetting(buf);
 		mir_snprintf(buf, "Task_dayTime_%d", i);
-		db_unset(NULL, MODULENAME, buf);
+		g_plugin.delSetting(buf);
 		mir_snprintf(buf, "Task_dayOfWeek_%d", i);
-		db_unset(NULL, MODULENAME, buf);
+		g_plugin.delSetting(buf);
 		mir_snprintf(buf, "Task_dayOfMonth_%d", i);
-		db_unset(NULL, MODULENAME, buf);
+		g_plugin.delSetting(buf);
 		mir_snprintf(buf, "Task_deltaTime_%d", i);
-		db_unset(NULL, MODULENAME, buf);
+		g_plugin.delSetting(buf);
 		mir_snprintf(buf, "Task_lastExport_low_%d", i);
-		db_unset(NULL, MODULENAME, buf);
+		g_plugin.delSetting(buf);
 		mir_snprintf(buf, "Task_lastExport_hi_%d", i);
-		db_unset(NULL, MODULENAME, buf);
+		g_plugin.delSetting(buf);
 		mir_snprintf(buf, "Task_ftpName_%d", i);
-		db_unset(NULL, MODULENAME, buf);
+		g_plugin.delSetting(buf);
 		mir_snprintf(buf, "Task_filterName_%d", i);
-		db_unset(NULL, MODULENAME, buf);
+		g_plugin.delSetting(buf);
 		mir_snprintf(buf, "Task_filePath_%d", i);
-		db_unset(NULL, MODULENAME, buf);
+		g_plugin.delSetting(buf);
 		mir_snprintf(buf, "Task_taskName_%d", i);
-		db_unset(NULL, MODULENAME, buf);
+		g_plugin.delSetting(buf);
 
 		mir_snprintf(buf, "IsInTask_%d", i);
 		for (auto &hContact : Contacts())
@@ -609,77 +609,77 @@ void Options::SaveTaskTime(TaskOptions& to)
 	int i = to.orderNr;
 	char buf[256];
 	mir_snprintf(buf, "Task_lastExport_low_%d", i);
-	db_set_dw(0, MODULENAME, buf, (int)to.lastExport);
+	g_plugin.setDword(buf, (int)to.lastExport);
 	mir_snprintf(buf, "Task_lastExport_hi_%d", i);
-	db_set_dw(0, MODULENAME, buf, ((unsigned long long int)to.lastExport) >> 32);
+	g_plugin.setDword(buf, ((unsigned long long int)to.lastExport) >> 32);
 }
 
 void Options::LoadTasks()
 {
-	int taskCount = db_get_dw(0, MODULENAME, "Task_count", 0);
+	int taskCount = g_plugin.getDword("Task_count", 0);
 	char buf[256];
 	for (int i = 0; i < taskCount; ++i) {
 		TaskOptions to;
 		mir_snprintf(buf, "Task_compress_%d", i);
-		to.compress = db_get_b(0, MODULENAME, buf, to.compress) != 0;
+		to.compress = g_plugin.getByte(buf, to.compress) != 0;
 		mir_snprintf(buf, "Task_useFtp_%d", i);
-		to.useFtp = db_get_b(0, MODULENAME, buf, to.useFtp) != 0;
+		to.useFtp = g_plugin.getByte(buf, to.useFtp) != 0;
 		mir_snprintf(buf, "Task_isSystem_%d", i);
-		to.isSystem = db_get_b(0, MODULENAME, buf, to.isSystem) != 0;
+		to.isSystem = g_plugin.getByte(buf, to.isSystem) != 0;
 		mir_snprintf(buf, "Task_active_%d", i);
-		to.active = db_get_b(0, MODULENAME, buf, to.active) != 0;
+		to.active = g_plugin.getByte(buf, to.active) != 0;
 		mir_snprintf(buf, "Task_exportImported_%d", i);
-		to.exportImported = db_get_b(0, MODULENAME, buf, to.exportImported) != 0;
+		to.exportImported = g_plugin.getByte(buf, to.exportImported) != 0;
 		mir_snprintf(buf, "Task_type_%d", i);
-		to.type = (TaskOptions::TaskType)db_get_b(0, MODULENAME, buf, to.type);
+		to.type = (TaskOptions::TaskType)g_plugin.getByte(buf, to.type);
 		mir_snprintf(buf, "Task_eventUnit_%d", i);
-		to.eventUnit = (TaskOptions::EventUnit)db_get_b(0, MODULENAME, buf, to.eventUnit);
+		to.eventUnit = (TaskOptions::EventUnit)g_plugin.getByte(buf, to.eventUnit);
 		mir_snprintf(buf, "Task_trigerType_%d", i);
-		to.trigerType = (TaskOptions::TrigerType)db_get_b(0, MODULENAME, buf, to.trigerType);
+		to.trigerType = (TaskOptions::TrigerType)g_plugin.getByte(buf, to.trigerType);
 		mir_snprintf(buf, "Task_exportType_%d", i);
-		to.exportType = (IExport::ExportType)db_get_b(0, MODULENAME, buf, to.exportType);
+		to.exportType = (IExport::ExportType)g_plugin.getByte(buf, to.exportType);
 		mir_snprintf(buf, "Task_importType_%d", i);
-		to.importType = (IImport::ImportType)db_get_b(0, MODULENAME, buf, to.importType);
+		to.importType = (IImport::ImportType)g_plugin.getByte(buf, to.importType);
 		mir_snprintf(buf, "Task_eventDeltaTime_%d", i);
-		to.eventDeltaTime = db_get_dw(0, MODULENAME, buf, to.eventDeltaTime);
+		to.eventDeltaTime = g_plugin.getDword(buf, to.eventDeltaTime);
 		mir_snprintf(buf, "Task_filterId_%d", i);
-		to.filterId = db_get_dw(0, MODULENAME, buf, to.filterId);
+		to.filterId = g_plugin.getDword(buf, to.filterId);
 		mir_snprintf(buf, "Task_dayTime_%d", i);
-		to.dayTime = db_get_dw(0, MODULENAME, buf, to.dayTime);
+		to.dayTime = g_plugin.getDword(buf, to.dayTime);
 		mir_snprintf(buf, "Task_dayOfWeek_%d", i);
-		to.dayOfWeek = db_get_dw(0, MODULENAME, buf, to.dayOfWeek);
+		to.dayOfWeek = g_plugin.getDword(buf, to.dayOfWeek);
 		mir_snprintf(buf, "Task_dayOfMonth_%d", i);
-		to.dayOfMonth = db_get_dw(0, MODULENAME, buf, to.dayOfMonth);
+		to.dayOfMonth = g_plugin.getDword(buf, to.dayOfMonth);
 		mir_snprintf(buf, "Task_deltaTime_%d", i);
-		to.deltaTime = db_get_dw(0, MODULENAME, buf, to.deltaTime);
+		to.deltaTime = g_plugin.getDword(buf, to.deltaTime);
 		unsigned long long int le = to.lastExport;
 		mir_snprintf(buf, "Task_lastExport_low_%d", i);
-		to.lastExport = db_get_dw(0, MODULENAME, buf, (int)le) & 0xffffffff;
+		to.lastExport = g_plugin.getDword(buf, (int)le) & 0xffffffff;
 		mir_snprintf(buf, "Task_lastExport_hi_%d", i);
-		to.lastExport |= ((unsigned long long int)db_get_dw(0, MODULENAME, buf, le >> 32)) << 32;
+		to.lastExport |= ((unsigned long long int)g_plugin.getDword(buf, le >> 32)) << 32;
 		mir_snprintf(buf, "Task_ftpName_%d", i);
 		DBVARIANT var;
-		if (!db_get_ws(0, MODULENAME, buf, &var)) {
+		if (!g_plugin.getWString(buf, &var)) {
 			to.ftpName = var.pwszVal;
 			db_free(&var);
 		}
 		mir_snprintf(buf, "Task_filterName_%d", i);
-		if (!db_get_ws(0, MODULENAME, buf, &var)) {
+		if (!g_plugin.getWString(buf, &var)) {
 			to.filterName = var.pwszVal;
 			db_free(&var);
 		}
 		mir_snprintf(buf, "Task_filePath_%d", i);
-		if (!db_get_ws(0, MODULENAME, buf, &var)) {
+		if (!g_plugin.getWString(buf, &var)) {
 			to.filePath = var.pwszVal;
 			db_free(&var);
 		}
 		mir_snprintf(buf, "Task_taskName_%d", i);
-		if (!db_get_ws(0, MODULENAME, buf, &var)) {
+		if (!g_plugin.getWString(buf, &var)) {
 			to.taskName = var.pwszVal;
 			db_free(&var);
 		}
 		mir_snprintf(buf, "Task_zipPassword_%d", i);
-		if (!db_get_s(0, MODULENAME, buf, &var)) {
+		if (!g_plugin.getString(buf, &var)) {
 			to.zipPassword = var.pszVal;
 			db_free(&var);
 		}

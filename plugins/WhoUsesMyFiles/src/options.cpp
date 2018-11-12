@@ -241,24 +241,24 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 				return TRUE;
 
 			case PSN_APPLY:
-				db_set_dw(NULL, MODULENAME, COLOR_TEXT, (DWORD)WumfOptions.ColorText);
-				db_set_dw(NULL, MODULENAME, COLOR_BACK, (DWORD)WumfOptions.ColorBack);
-				db_set_b(NULL, MODULENAME, COLOR_DEF, (BYTE)WumfOptions.UseDefColor);
-				db_set_b(NULL, MODULENAME, COLOR_WIN, (BYTE)WumfOptions.UseWinColor);
-				db_set_b(NULL, MODULENAME, COLOR_SET, (BYTE)WumfOptions.SelectColor );
-				db_set_b(NULL, MODULENAME, DELAY_DEF, (BYTE)WumfOptions.DelayDef);
-				db_set_b(NULL, MODULENAME, DELAY_INF, (BYTE)WumfOptions.DelayInf);
-				db_set_b(NULL, MODULENAME, DELAY_SET, (BYTE)WumfOptions.DelaySet);
-				db_set_b(NULL, MODULENAME, DELAY_SEC, (BYTE)WumfOptions.DelaySec);
-				db_set_b(NULL, MODULENAME, LOG_INTO_FILE, (BYTE)WumfOptions.LogToFile);
-				db_set_b(NULL, MODULENAME, LOG_FOLDER, (BYTE)WumfOptions.LogFolders);
-				db_set_b(NULL, MODULENAME, ALERT_FOLDER, (BYTE)WumfOptions.AlertFolders);
-				db_set_b(NULL, MODULENAME, LOG_UNC, (BYTE)WumfOptions.LogUNC);
-				db_set_b(NULL, MODULENAME, ALERT_UNC, (BYTE)WumfOptions.AlertUNC);
-				db_set_b(NULL, MODULENAME, LOG_COMP, (BYTE)WumfOptions.LogComp);
-				db_set_b(NULL, MODULENAME, ALERT_COMP, (BYTE)WumfOptions.AlertComp);
+				g_plugin.setDword(COLOR_TEXT, (DWORD)WumfOptions.ColorText);
+				g_plugin.setDword(COLOR_BACK, (DWORD)WumfOptions.ColorBack);
+				g_plugin.setByte(COLOR_DEF, (BYTE)WumfOptions.UseDefColor);
+				g_plugin.setByte(COLOR_WIN, (BYTE)WumfOptions.UseWinColor);
+				g_plugin.setByte(COLOR_SET, (BYTE)WumfOptions.SelectColor );
+				g_plugin.setByte(DELAY_DEF, (BYTE)WumfOptions.DelayDef);
+				g_plugin.setByte(DELAY_INF, (BYTE)WumfOptions.DelayInf);
+				g_plugin.setByte(DELAY_SET, (BYTE)WumfOptions.DelaySet);
+				g_plugin.setByte(DELAY_SEC, (BYTE)WumfOptions.DelaySec);
+				g_plugin.setByte(LOG_INTO_FILE, (BYTE)WumfOptions.LogToFile);
+				g_plugin.setByte(LOG_FOLDER, (BYTE)WumfOptions.LogFolders);
+				g_plugin.setByte(ALERT_FOLDER, (BYTE)WumfOptions.AlertFolders);
+				g_plugin.setByte(LOG_UNC, (BYTE)WumfOptions.LogUNC);
+				g_plugin.setByte(ALERT_UNC, (BYTE)WumfOptions.AlertUNC);
+				g_plugin.setByte(LOG_COMP, (BYTE)WumfOptions.LogComp);
+				g_plugin.setByte(ALERT_COMP, (BYTE)WumfOptions.AlertComp);
 				GetDlgItemText(hwndDlg, IDC_FILE, WumfOptions.LogFile, _countof(WumfOptions.LogFile));
-				db_set_ws(NULL, MODULENAME, OPT_FILE, WumfOptions.LogFile);
+				g_plugin.setWString(OPT_FILE, WumfOptions.LogFile);
 			}
 		}
 		break;

@@ -37,7 +37,7 @@ CDlgEncryptedFileMsgBox::CDlgEncryptedFileMsgBox() :
 void CDlgEncryptedFileMsgBox::onClick_IGNORE(CCtrlButton*)
 {
 	if (chk_REMEMBER.GetState()) {
-		db_set_b(NULL, MODULENAME, "bSameAction", 1);
+		g_plugin.setByte("bSameAction", 1);
 		globals.bSameAction = true;
 	}
 	this->Close();
@@ -47,9 +47,9 @@ void CDlgEncryptedFileMsgBox::onClick_DECRYPT(CCtrlButton*)
 {
 	globals.bDecryptFiles = true;
 	if (chk_REMEMBER.GetState()) {
-		db_set_b(NULL, MODULENAME, "bFileTransfers", 1);
+		g_plugin.setByte("bFileTransfers", 1);
 		globals.bFileTransfers = true;
-		db_set_b(NULL, MODULENAME, "bSameAction", 0);
+		g_plugin.setByte("bSameAction", 0);
 		globals.bSameAction = false;
 	}
 	this->Close();
@@ -114,7 +114,7 @@ void CDlgChangePasswdMsgBox::onClick_OK(CCtrlButton*)
 	new_pass = toUTF8(edit_NEW_PASSWD1.GetText());
 	old_pass = toUTF8(edit_OLD_PASSWD.GetText());
 	bool old_pass_match = false;
-	wchar_t *pass = UniGetContactSettingUtf(NULL, MODULENAME, "szKeyPassword", L"");
+	wchar_t *pass = UniGetContactSettingUtf(0, MODULENAME, "szKeyPassword", L"");
 	if (!mir_wstrcmp(pass, edit_OLD_PASSWD.GetText()))
 		old_pass_match = true;
 	mir_free(pass);
@@ -124,7 +124,7 @@ void CDlgChangePasswdMsgBox::onClick_OK(CCtrlButton*)
 			string dbsetting = "szKey_";
 			dbsetting += toUTF8(globals.key_id_global);
 			dbsetting += "_Password";
-			pass = UniGetContactSettingUtf(NULL, MODULENAME, dbsetting.c_str(), L"");
+			pass = UniGetContactSettingUtf(0, MODULENAME, dbsetting.c_str(), L"");
 			if (!mir_wstrcmp(pass, edit_OLD_PASSWD.GetText()))
 				old_pass_match = true;
 			mir_free(pass);
@@ -230,7 +230,7 @@ bool CDlgFirstRun::OnInitDialog()
 	combo_ACCOUNT.SelectString(TranslateT("Default"));
 	string keyinfo = Translate("key ID");
 	keyinfo += ": ";
-	char *keyid = UniGetContactSettingUtf(NULL, MODULENAME, "KeyID", "");
+	char *keyid = UniGetContactSettingUtf(0, MODULENAME, "KeyID", "");
 	keyinfo += (mir_strlen(keyid) > 0) ? keyid : Translate("not set");
 	mir_free(keyid);
 	lbl_KEY_ID.SetTextA(keyinfo.c_str());
@@ -445,32 +445,32 @@ void CDlgFirstRun::onClick_DELETE_KEY(CCtrlButton*)
 	{
 		char *buf = mir_strdup(combo_ACCOUNT.GetTextA());
 		if (!mir_strcmp(buf, Translate("Default"))) {
-			db_unset(NULL, MODULENAME, "GPGPubKey");
-			db_unset(NULL, MODULENAME, "KeyID");
-			db_unset(NULL, MODULENAME, "KeyComment");
-			db_unset(NULL, MODULENAME, "KeyMainName");
-			db_unset(NULL, MODULENAME, "KeyMainEmail");
-			db_unset(NULL, MODULENAME, "KeyType");
+			g_plugin.delSetting("GPGPubKey");
+			g_plugin.delSetting("KeyID");
+			g_plugin.delSetting("KeyComment");
+			g_plugin.delSetting("KeyMainName");
+			g_plugin.delSetting("KeyMainEmail");
+			g_plugin.delSetting("KeyType");
 		}
 		else {
 			std::string acc_str = buf;
 			acc_str += "_GPGPubKey";
-			db_unset(NULL, MODULENAME, acc_str.c_str());
+			g_plugin.delSetting(acc_str.c_str());
 			acc_str = buf;
 			acc_str += "_KeyMainName";
-			db_unset(NULL, MODULENAME, acc_str.c_str());
+			g_plugin.delSetting(acc_str.c_str());
 			acc_str = buf;
 			acc_str += "_KeyID";
-			db_unset(NULL, MODULENAME, acc_str.c_str());
+			g_plugin.delSetting(acc_str.c_str());
 			acc_str = buf;
 			acc_str += "_KeyComment";
-			db_unset(NULL, MODULENAME, acc_str.c_str());
+			g_plugin.delSetting(acc_str.c_str());
 			acc_str = buf;
 			acc_str += "_KeyMainEmail";
-			db_unset(NULL, MODULENAME, acc_str.c_str());
+			g_plugin.delSetting(acc_str.c_str());
 			acc_str = buf;
 			acc_str += "_KeyType";
-			db_unset(NULL, MODULENAME, acc_str.c_str());
+			g_plugin.delSetting(acc_str.c_str());
 		}
 		if (buf)
 			mir_free(buf);
@@ -520,20 +520,20 @@ void CDlgFirstRun::onClick_OK(CCtrlButton*)
 		{
 			char *buf = mir_strdup(combo_ACCOUNT.GetTextA());
 			if (!mir_strcmp(buf, Translate("Default"))) {
-				db_set_s(NULL, MODULENAME, "GPGPubKey", out.c_str());
-				db_set_ws(NULL, MODULENAME, "KeyMainName", name);
-				db_set_ws(NULL, MODULENAME, "KeyID", fp);
+				g_plugin.setString("GPGPubKey", out.c_str());
+				g_plugin.setWString("KeyMainName", name);
+				g_plugin.setWString("KeyID", fp);
 			}
 			else {
 				std::string acc_str = buf;
 				acc_str += "_GPGPubKey";
-				db_set_s(NULL, MODULENAME, acc_str.c_str(), out.c_str());
+				g_plugin.setString(acc_str.c_str(), out.c_str());
 				acc_str = buf;
 				acc_str += "_KeyMainName";
-				db_set_ws(NULL, MODULENAME, acc_str.c_str(), name);
+				g_plugin.setWString(acc_str.c_str(), name);
 				acc_str = buf;
 				acc_str += "_KeyID";
-				db_set_ws(NULL, MODULENAME, acc_str.c_str(), fp);
+				g_plugin.setWString(acc_str.c_str(), fp);
 			}
 			if (!mir_strcmp(buf, Translate("Default"))) {
 				wstring keyinfo = TranslateT("Default private key ID");
@@ -552,7 +552,7 @@ void CDlgFirstRun::onClick_OK(CCtrlButton*)
 			dbsetting += keyid;
 			mir_free(keyid);
 			dbsetting += "_Password";
-			db_set_ws(NULL, MODULENAME, dbsetting.c_str(), passwd);
+			g_plugin.setWString(dbsetting.c_str(), passwd);
 		}
 		mir_free(passwd);
 		delete[] name;
@@ -569,7 +569,7 @@ void CDlgFirstRun::onChange_ACCOUNT(CCtrlCombo*)
 	if (!mir_strcmp(buf, Translate("Default"))) {
 		string keyinfo = Translate("key ID");
 		keyinfo += ": ";
-		char *keyid = UniGetContactSettingUtf(NULL, MODULENAME, "KeyID", "");
+		char *keyid = UniGetContactSettingUtf(0, MODULENAME, "KeyID", "");
 		keyinfo += (mir_strlen(keyid) > 0) ? keyid : Translate("not set");
 		mir_free(keyid);
 		lbl_KEY_ID.SetTextA(keyinfo.c_str());
@@ -579,7 +579,7 @@ void CDlgFirstRun::onChange_ACCOUNT(CCtrlCombo*)
 		keyinfo += ": ";
 		std::string acc_str = buf;
 		acc_str += "_KeyID";
-		char *keyid = UniGetContactSettingUtf(NULL, MODULENAME, acc_str.c_str(), "");
+		char *keyid = UniGetContactSettingUtf(0, MODULENAME, acc_str.c_str(), "");
 		keyinfo += (mir_strlen(keyid) > 0) ? keyid : Translate("not set");
 		mir_free(keyid);
 		lbl_KEY_ID.SetTextA(keyinfo.c_str());
@@ -605,8 +605,8 @@ void CDlgFirstRun::onChange_KEY_LIST(CCtrlListView::TEventInfo *ev) //TODO: chec
 void CDlgFirstRun::OnDestroy()
 {
 	GetWindowRect(m_hwnd, &globals.firstrun_rect);
-	db_set_dw(NULL, MODULENAME, "FirstrunWindowX", globals.firstrun_rect.left);
-	db_set_dw(NULL, MODULENAME, "FirstrunWindowY", globals.firstrun_rect.top);
+	g_plugin.setDword("FirstrunWindowX", globals.firstrun_rect.left);
+	g_plugin.setDword("FirstrunWindowY", globals.firstrun_rect.top);
 }
 
 void CDlgFirstRun::refresh_key_list()
@@ -730,7 +730,7 @@ void CDlgFirstRun::refresh_key_list()
 					setting += pa->szModuleName;
 					setting += ")";
 					setting += "_KeyID";
-					wchar_t *str = UniGetContactSettingUtf(NULL, MODULENAME, setting.c_str(), L"");
+					wchar_t *str = UniGetContactSettingUtf(0, MODULENAME, setting.c_str(), L"");
 					if (key_id == str) {
 						if (!accs.empty())
 							accs += L",";
@@ -798,7 +798,7 @@ bool CDlgGpgBinOpts::OnInitDialog()
 	{
 		ptrW tmp;
 		if (!gpg_exists) {
-			tmp = UniGetContactSettingUtf(NULL, MODULENAME, "szGpgBinPath", (SHGetValueW(HKEY_CURRENT_USER, L"Software\\GNU\\GnuPG", L"gpgProgram", 0, (void*)path.c_str(), &len) == ERROR_SUCCESS) ? path.c_str() : L"");
+			tmp = UniGetContactSettingUtf(0, MODULENAME, "szGpgBinPath", (SHGetValueW(HKEY_CURRENT_USER, L"Software\\GNU\\GnuPG", L"gpgProgram", 0, (void*)path.c_str(), &len) == ERROR_SUCCESS) ? path.c_str() : L"");
 			if (tmp[0])
 				if (!boost::filesystem::exists((wchar_t*)tmp))
 					MessageBox(nullptr, TranslateT("Wrong GPG binary location found in system.\nPlease choose another location"), TranslateT("Warning"), MB_OK);
@@ -807,7 +807,7 @@ bool CDlgGpgBinOpts::OnInitDialog()
 
 		edit_BIN_PATH.SetText(tmp);
 		if (gpg_exists/* && lang_exists*/) {
-			db_set_ws(NULL, MODULENAME, "szGpgBinPath", tmp);
+			g_plugin.setWString("szGpgBinPath", tmp);
 			string out;
 			DWORD code;
 			std::vector<wstring> cmd;
@@ -821,7 +821,7 @@ bool CDlgGpgBinOpts::OnInitDialog()
 			globals.gpg_valid = true;
 			gpg_launcher(params);
 			globals.gpg_valid = _gpg_valid; //TODO: check this
-			db_unset(NULL, MODULENAME, "szGpgBinPath");
+			g_plugin.delSetting("szGpgBinPath");
 			string::size_type p1 = out.find("(GnuPG) ");
 			if (p1 != string::npos) {
 				p1 += mir_strlen("(GnuPG) ");
@@ -837,7 +837,7 @@ bool CDlgGpgBinOpts::OnInitDialog()
 		}
 	}
 	{
-		ptrW tmp(UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L""));
+		ptrW tmp(UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L""));
 		if (!tmp[0]) {
 			wchar_t mir_path[MAX_PATH];
 			PathToAbsoluteW(L"\\", mir_path);
@@ -864,7 +864,7 @@ bool CDlgGpgBinOpts::OnInitDialog()
 void CDlgGpgBinOpts::onClick_SET_BIN_PATH(CCtrlButton*)
 {
 	GetFilePath(L"Choose gpg.exe", "szGpgBinPath", L"*.exe", L"EXE Executables");
-	CMStringW tmp(ptrW(UniGetContactSettingUtf(NULL, MODULENAME, "szGpgBinPath", L"gpg.exe")));
+	CMStringW tmp(ptrW(UniGetContactSettingUtf(0, MODULENAME, "szGpgBinPath", L"gpg.exe")));
 	edit_BIN_PATH.SetText(tmp);
 	wchar_t mir_path[MAX_PATH];
 	PathToAbsoluteW(L"\\", mir_path);
@@ -877,7 +877,7 @@ void CDlgGpgBinOpts::onClick_SET_BIN_PATH(CCtrlButton*)
 void CDlgGpgBinOpts::onClick_SET_HOME_DIR(CCtrlButton*)
 {
 	GetFolderPath(L"Set home directory");
-	CMStringW tmp(ptrW(UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L"")));
+	CMStringW tmp(ptrW(UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L"")));
 	edit_HOME_DIR.SetText(tmp);
 	wchar_t mir_path[MAX_PATH];
 	PathToAbsoluteW(L"\\", mir_path);
@@ -893,7 +893,7 @@ void CDlgGpgBinOpts::onClick_OK(CCtrlButton*)
 	if (gpg_validate_paths(edit_BIN_PATH.GetText(), edit_HOME_DIR.GetText())) {
 		gpg_save_paths(edit_BIN_PATH.GetText(), edit_HOME_DIR.GetText());
 		globals.gpg_valid = true;
-		db_set_b(NULL, MODULENAME, "FirstRun", 0);
+		g_plugin.setByte("FirstRun", 0);
 		this->Hide();
 		CDlgFirstRun *d = new CDlgFirstRun;
 		d->Show();
@@ -907,9 +907,9 @@ void CDlgGpgBinOpts::onClick_GENERATE_RANDOM(CCtrlButton*)
 		gpg_save_paths(edit_BIN_PATH.GetText(), edit_HOME_DIR.GetText());
 		globals.gpg_valid = true;
 		if (gpg_use_new_random_key()) {
-			db_set_b(NULL, MODULENAME, "bAutoExchange", globals.bAutoExchange = chk_AUTO_EXCHANGE.GetState());
+			g_plugin.setByte("bAutoExchange", globals.bAutoExchange = chk_AUTO_EXCHANGE.GetState());
 			globals.gpg_valid = true;
-			db_set_b(NULL, MODULENAME, "FirstRun", 0);
+			g_plugin.setByte("FirstRun", 0);
 			this->Close();
 		}
 	}
@@ -957,8 +957,8 @@ bool CDlgNewKey::OnInitDialog()
 void CDlgNewKey::OnDestroy()
 {
 	GetWindowRect(m_hwnd, &globals.new_key_rect);
-	db_set_dw(NULL, MODULENAME, "NewKeyWindowX", globals.new_key_rect.left);
-	db_set_dw(NULL, MODULENAME, "NewKeyWindowY", globals.new_key_rect.top);
+	g_plugin.setDword("NewKeyWindowX", globals.new_key_rect.left);
+	g_plugin.setDword("NewKeyWindowY", globals.new_key_rect.top);
 }
 
 void CDlgNewKey::onClick_IMPORT(CCtrlButton*)
@@ -1081,7 +1081,7 @@ void CDlgKeyGen::onClick_OK(CCtrlButton*)
 			mir_free(tmp);
 		}
 		{ //generating key file
-			wchar_t *tmp = UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L"");
+			wchar_t *tmp = UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L"");
 			char  *tmp2;// = mir_u2a(tmp);
 			path = tmp;
 			mir_free(tmp);
@@ -1175,8 +1175,8 @@ void CDlgKeyGen::onClick_CANCEL(CCtrlButton*)
 void CDlgKeyGen::OnDestroy()
 {
 	GetWindowRect(m_hwnd, &globals.key_gen_rect);
-	db_set_dw(NULL, MODULENAME, "KeyGenWindowX", globals.key_gen_rect.left);
-	db_set_dw(NULL, MODULENAME, "KeyGenWindowY", globals.key_gen_rect.top);
+	g_plugin.setDword("KeyGenWindowX", globals.key_gen_rect.left);
+	g_plugin.setDword("KeyGenWindowY", globals.key_gen_rect.top);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1298,8 +1298,8 @@ bool CDlgLoadExistingKey::OnInitDialog()
 void CDlgLoadExistingKey::OnDestroy()
 {
 	GetWindowRect(m_hwnd, &globals.load_existing_key_rect);
-	db_set_dw(NULL, MODULENAME, "LoadExistingKeyWindowX", globals.load_existing_key_rect.left);
-	db_set_dw(NULL, MODULENAME, "LoadExistingKeyWindowY", globals.load_existing_key_rect.top);
+	g_plugin.setDword("LoadExistingKeyWindowX", globals.load_existing_key_rect.left);
+	g_plugin.setDword("LoadExistingKeyWindowY", globals.load_existing_key_rect.top);
 }
 
 void CDlgLoadExistingKey::onClick_OK(CCtrlButton*)
@@ -1382,8 +1382,8 @@ bool CDlgImportKey::OnInitDialog()
 void CDlgImportKey::OnDestroy()
 {
 	GetWindowRect(m_hwnd, &globals.import_key_rect);
-	db_set_dw(NULL, MODULENAME, "ImportKeyWindowX", globals.import_key_rect.left);
-	db_set_dw(NULL, MODULENAME, "ImportKeyWindowY", globals.import_key_rect.top);
+	g_plugin.setDword("ImportKeyWindowX", globals.import_key_rect.left);
+	g_plugin.setDword("ImportKeyWindowY", globals.import_key_rect.top);
 }
 
 void CDlgImportKey::onClick_IMPORT(CCtrlButton*)
@@ -1438,8 +1438,8 @@ void CDlgKeyPasswordMsgBox::OnDestroy()
 {
 	mir_free(inkeyid);
 	GetWindowRect(m_hwnd, &globals.key_password_rect);
-	db_set_dw(NULL, MODULENAME, "PasswordWindowX", globals.key_password_rect.left);
-	db_set_dw(NULL, MODULENAME, "PasswordWindowY", globals.key_password_rect.top);
+	g_plugin.setDword("PasswordWindowX", globals.key_password_rect.left);
+	g_plugin.setDword("PasswordWindowY", globals.key_password_rect.top);
 }
 
 void CDlgKeyPasswordMsgBox::onClick_OK(CCtrlButton*)
@@ -1452,10 +1452,10 @@ void CDlgKeyPasswordMsgBox::onClick_OK(CCtrlButton*)
 				string dbsetting = "szKey_";
 				dbsetting += inkeyid;
 				dbsetting += "_Password";
-				db_set_ws(NULL, MODULENAME, dbsetting.c_str(), tmp);
+				g_plugin.setWString(dbsetting.c_str(), tmp);
 			}
 			else
-				db_set_ws(NULL, MODULENAME, "szKeyPassword", tmp);
+				g_plugin.setWString("szKeyPassword", tmp);
 		}
 		if (globals.password)
 			mir_free(globals.password);

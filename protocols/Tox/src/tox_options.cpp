@@ -462,7 +462,7 @@ void CToxOptionsNodeList::ReloadNodeList()
 
 	char module[MAX_PATH], setting[MAX_PATH];
 	mir_snprintf(module, "%s_Nodes", m_proto->m_szModuleName);
-	int nodeCount = db_get_w(NULL, module, TOX_SETTINGS_NODE_COUNT, 0);
+	int nodeCount = db_get_w(0, module, TOX_SETTINGS_NODE_COUNT, 0);
 	for (int i = 0; i < nodeCount; i++) {
 		mir_snprintf(setting, TOX_SETTINGS_NODE_IPV4, i);
 		ptrW value(db_get_wsa(NULL, module, setting));
@@ -473,7 +473,7 @@ void CToxOptionsNodeList::ReloadNodeList()
 		m_nodes.SetItem(iItem, 1, value);
 
 		mir_snprintf(setting, TOX_SETTINGS_NODE_PORT, i);
-		int port = db_get_w(NULL, module, setting, 0);
+		int port = db_get_w(0, module, setting, 0);
 		if (port > 0) {
 			char portNum[10];
 			itoa(port, portNum, 10);
@@ -516,27 +516,27 @@ bool CToxOptionsNodeList::OnApply()
 		lvi.iSubItem = 0;
 		m_nodes.GetItem(&lvi);
 		mir_snprintf(setting, TOX_SETTINGS_NODE_IPV4, iItem);
-		db_set_s(NULL, module, setting, _T2A(lvi.pszText));
+		db_set_s(0, module, setting, _T2A(lvi.pszText));
 
 		lvi.iSubItem = 1;
 		m_nodes.GetItem(&lvi);
 		mir_snprintf(setting, TOX_SETTINGS_NODE_IPV6, iItem);
-		db_set_s(NULL, module, setting, _T2A(lvi.pszText));
+		db_set_s(0, module, setting, _T2A(lvi.pszText));
 
 		lvi.iSubItem = 2;
 		m_nodes.GetItem(&lvi);
 		mir_snprintf(setting, TOX_SETTINGS_NODE_PORT, iItem);
-		db_set_w(NULL, module, setting, _wtoi(lvi.pszText));
+		db_set_w(0, module, setting, _wtoi(lvi.pszText));
 
 		lvi.iSubItem = 3;
 		m_nodes.GetItem(&lvi);
 		mir_snprintf(setting, TOX_SETTINGS_NODE_PKEY, iItem);
-		db_set_s(NULL, module, setting, _T2A(lvi.pszText));
+		db_set_s(0, module, setting, _T2A(lvi.pszText));
 
 		iItem++;
 	}
 	itemCount = iItem;
-	int nodeCount = db_get_b(NULL, module, TOX_SETTINGS_NODE_COUNT, 0);
+	int nodeCount = db_get_b(0, module, TOX_SETTINGS_NODE_COUNT, 0);
 	for (iItem = itemCount; iItem < nodeCount; iItem++) {
 		mir_snprintf(setting, TOX_SETTINGS_NODE_IPV4, iItem);
 		db_unset(NULL, module, setting);
@@ -547,7 +547,7 @@ bool CToxOptionsNodeList::OnApply()
 		mir_snprintf(setting, TOX_SETTINGS_NODE_PKEY, iItem);
 		db_unset(NULL, module, setting);
 	}
-	db_set_b(NULL, module, TOX_SETTINGS_NODE_COUNT, itemCount);
+	db_set_b(0, module, TOX_SETTINGS_NODE_COUNT, itemCount);
 	return true;
 }
 

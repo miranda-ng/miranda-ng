@@ -107,9 +107,9 @@ static IconItem iconList[] =
 
 VOID fill_filter(void)
 {
-	bUseMirandaSettings = db_get_b(NULL, MODULENAME, "UseMirandaSettings", 0);
+	bUseMirandaSettings = g_plugin.getByte("UseMirandaSettings", 0);
 
-	currentFilter = bUseMirandaSettings ? db_get_dw(NULL, "Ignore", "Default1", 0) : db_get_dw(NULL, MODULENAME, "Filter", 0x8);
+	currentFilter = bUseMirandaSettings ? db_get_dw(0, "Ignore", "Default1", 0) : g_plugin.getDword("Filter", 0x8);
 
 	for (int i = 0; i < _countof(ii); i++) {
 		if (checkState((ii[i].type)))

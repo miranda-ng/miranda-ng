@@ -176,9 +176,9 @@ bool SvcHomepageEnableExtraIcons(bool bEnable, bool bUpdateDB)
 
 	if (bUpdateDB) {
 		bChanged = g_eiHome != bEnable;
-		db_set_b(NULL, MODULENAME, SET_CLIST_EXTRAICON_HOMEPAGE, g_eiHome = bEnable);
+		g_plugin.setByte(SET_CLIST_EXTRAICON_HOMEPAGE, g_eiHome = bEnable);
 	}
-	else bChanged = g_eiHome = db_get_b(NULL, MODULENAME, SET_CLIST_EXTRAICON_HOMEPAGE, DEFVAL_CLIST_EXTRAICON_HOMEPAGE) != 0;
+	else bChanged = g_eiHome = g_plugin.getByte(SET_CLIST_EXTRAICON_HOMEPAGE, DEFVAL_CLIST_EXTRAICON_HOMEPAGE) != 0;
 
 	if (g_eiHome) {
 		// hook events

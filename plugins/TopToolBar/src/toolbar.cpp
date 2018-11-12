@@ -623,9 +623,9 @@ static LRESULT CALLBACK TTBButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 int LoadToolbarModule()
 {
 	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
-		if (!db_get_b(NULL, TTB_OPTDIR, "WarningDone", 0))
+		if (!db_get_b(0, TTB_OPTDIR, "WarningDone", 0))
 			MessageBox(nullptr, TranslateT("Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- Clist nicer\nYou can get them at https://wiki.miranda-ng.org/Download"), TranslateT("TopToolBar"), 0);
-		db_set_b(NULL, TTB_OPTDIR, "WarningDone", 1);
+		db_set_b(0, TTB_OPTDIR, "WarningDone", 1);
 		return 1;
 	}
 

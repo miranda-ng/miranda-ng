@@ -438,6 +438,6 @@ int DbSettingChanged(WPARAM hContact, LPARAM lParam)
 
 int ReloadColour(WPARAM, LPARAM)
 {
-	opt.SelWndBkgClr = db_get_dw(NULL, "SmileyAdd", "SelWndBkgClr", GetSysColor(COLOR_WINDOW));
+	opt.SelWndBkgClr = db_get_dw(0, "SmileyAdd", "SelWndBkgClr", GetSysColor(COLOR_WINDOW));
 	return 0;
 }

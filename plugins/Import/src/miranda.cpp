@@ -268,7 +268,7 @@ CMirandaAdvOptionsPageDlg::CMirandaAdvOptionsPageDlg() :
 
 bool CMirandaAdvOptionsPageDlg::OnInitDialog()
 {
-	dwSinceDate = db_get_dw(NULL, IMPORT_MODULE, "ImportSinceTS", time(0));
+	dwSinceDate = g_plugin.getDword("ImportSinceTS", time(0));
 	struct tm *TM = localtime(&dwSinceDate);
 
 	struct _SYSTEMTIME ST = { 0 };
@@ -329,7 +329,7 @@ void CMirandaAdvOptionsPageDlg::OnNext()
 
 			dwSinceDate = mktime(&TM);
 
-			db_set_dw(NULL, IMPORT_MODULE, "ImportSinceTS", dwSinceDate);
+			g_plugin.setDword("ImportSinceTS", dwSinceDate);
 		}
 	}
 

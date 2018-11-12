@@ -319,7 +319,7 @@ BOOL MakeTransparentBkg(MCONTACT hContact, HBITMAP *hBitmap)
 	GetObject(*hBitmap, sizeof(bmp), &bmp);
 	int width = bmp.bmWidth;
 	int height = bmp.bmHeight;
-	int colorDiff = db_get_w(hContact, "ContactPhoto", "TranspBkgColorDiff", db_get_w(0, AVS_MODULE, "TranspBkgColorDiff", 10));
+	int colorDiff = db_get_w(hContact, "ContactPhoto", "TranspBkgColorDiff", g_plugin.getWord("TranspBkgColorDiff", 10));
 
 	// Min 5x5 to easy things in loop
 	if (width <= 4 || height <= 4)
@@ -414,7 +414,7 @@ BOOL MakeTransparentBkg(MCONTACT hContact, HBITMAP *hBitmap)
 		if (foundBkg[i])
 			count++;
 
-	if (count < db_get_w(hContact, "ContactPhoto", "TranspBkgNumPoints", db_get_w(0, AVS_MODULE, "TranspBkgNumPoints", 5))) {
+	if (count < db_get_w(hContact, "ContactPhoto", "TranspBkgNumPoints", g_plugin.getWord("TranspBkgNumPoints", 5))) {
 		if (hBmpTmp != *hBitmap)
 			DeleteObject(hBmpTmp);
 		free(p);
@@ -440,7 +440,7 @@ BOOL MakeTransparentBkg(MCONTACT hContact, HBITMAP *hBitmap)
 	}
 
 	if (maxCount < db_get_w(hContact, "ContactPhoto", "TranspBkgNumPoints",
-		db_get_w(0, AVS_MODULE, "TranspBkgNumPoints", 5))) {
+		g_plugin.getWord("TranspBkgNumPoints", 5))) {
 		// Not enought corners with the same color
 		if (hBmpTmp != *hBitmap) DeleteObject(hBmpTmp);
 		free(p);
@@ -480,7 +480,7 @@ BOOL MakeTransparentBkg(MCONTACT hContact, HBITMAP *hBitmap)
 	}
 
 	// Set alpha from borders
-	bool transpProportional = (db_get_b(NULL, AVS_MODULE, "MakeTransparencyProportionalToColorDiff", 0) != 0);
+	bool transpProportional = (g_plugin.getByte("MakeTransparencyProportionalToColorDiff", 0) != 0);
 
 	int *stack = (int *)malloc(width * height * 2 * sizeof(int));
 	if (stack == nullptr) {

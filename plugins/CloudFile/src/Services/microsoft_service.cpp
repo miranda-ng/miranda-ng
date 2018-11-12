@@ -65,7 +65,7 @@ void COneDriveService::Login(HWND owner)
 		JSONNode root = GetJsonResponse(response);
 
 		JSONNode node = root.at("access_token");
-		db_set_s(NULL, GetAccountName(), "TokenSecret", node.as_string().c_str());
+		db_set_s(0, GetAccountName(), "TokenSecret", node.as_string().c_str());
 
 		node = root.at("expires_in");
 		time_t expiresIn = time(0) + node.as_int();
@@ -154,7 +154,7 @@ void COneDriveService::HandleJsonError(JSONNode &node)
 auto COneDriveService::UploadFile(const std::string &parentId, const std::string &fileName, const char *data, size_t size)
 {
 	ptrA token(getStringA("TokenSecret"));
-	BYTE strategy = db_get_b(NULL, MODULENAME, "ConflictStrategy", OnConflict::REPLACE);
+	BYTE strategy = g_plugin.getByte("ConflictStrategy", OnConflict::REPLACE);
 	OneDriveAPI::UploadFileRequest *request = !parentId.empty()
 		? new OneDriveAPI::UploadFileRequest(token, parentId.c_str(), fileName.c_str(), data, size, (OnConflict)strategy)
 		: new OneDriveAPI::UploadFileRequest(token, fileName.c_str(), data, size, (OnConflict)strategy);
@@ -168,7 +168,7 @@ auto COneDriveService::UploadFile(const std::string &parentId, const std::string
 auto COneDriveService::CreateUploadSession(const std::string &parentId, const std::string &fileName)
 {
 	ptrA token(getStringA("TokenSecret"));
-	BYTE strategy = db_get_b(NULL, MODULENAME, "ConflictStrategy", OnConflict::REPLACE);
+	BYTE strategy = g_plugin.getByte("ConflictStrategy", OnConflict::REPLACE);
 	OneDriveAPI::CreateUploadSessionRequest *request = !parentId.empty()
 		? new OneDriveAPI::CreateUploadSessionRequest(token, parentId.c_str(), fileName.c_str(), (OnConflict)strategy)
 		: new OneDriveAPI::CreateUploadSessionRequest(token, fileName.c_str(), (OnConflict)strategy);

@@ -155,7 +155,7 @@ namespace NServices
 		 **/
 		void OnModulesLoaded()
 		{
-			Enable(db_get_b(NULL, MODULENAME, SET_ZODIAC_AVATARS, FALSE));
+			Enable(g_plugin.getByte(SET_ZODIAC_AVATARS, FALSE));
 		}
 
 	} /* namespace NAvatar */

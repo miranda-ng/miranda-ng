@@ -34,7 +34,7 @@ char* BuildSetting(int historyLast)
 
 void HistoryWrite(MCONTACT hContact)
 {
-	int historyMax = db_get_w(NULL, S_MOD, "HistoryMax", 10);
+	int historyMax = db_get_w(0, S_MOD, "HistoryMax", 10);
 	if (historyMax < 0)
 		historyMax = 0;
 	else if (historyMax > 99)
@@ -68,7 +68,7 @@ void HistoryWrite(MCONTACT hContact)
 void LoadHistoryList(MCONTACT hContact, HWND hwnd, int nList)
 {
 	SendDlgItemMessage(hwnd, nList, LB_RESETCONTENT, 0, 0);
-	int historyMax = db_get_w(NULL, S_MOD, "HistoryMax", 10);
+	int historyMax = db_get_w(0, S_MOD, "HistoryMax", 10);
 	if (historyMax < 0)
 		historyMax = 0;
 	else if (historyMax > 99)

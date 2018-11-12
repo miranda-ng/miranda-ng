@@ -69,7 +69,7 @@ void GaduProto::disconnect()
 				gg_EnterCriticalSection(&modemsg_mutex, "disconnect", 6, "modemsg_mutex", 1);
 				szMsg = mir_utf8encodeW(modemsg.online);
 				gg_LeaveCriticalSection(&modemsg_mutex, "disconnect", 6, 1, "modemsg_mutex", 1);
-				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_ONLINE, "Default"), &dbv, DBVT_WCHAR)) {
+				if (!szMsg && !db_get_s(0, "SRAway", gg_status2db(ID_STATUS_ONLINE, "Default"), &dbv, DBVT_WCHAR)) {
 					if (dbv.pwszVal && *(dbv.pwszVal))
 						szMsg = mir_utf8encodeW(dbv.pwszVal);
 					db_free(&dbv);
@@ -80,7 +80,7 @@ void GaduProto::disconnect()
 				gg_EnterCriticalSection(&modemsg_mutex, "disconnect", 7, "modemsg_mutex", 1);
 				szMsg = mir_utf8encodeW(modemsg.away);
 				gg_LeaveCriticalSection(&modemsg_mutex, "disconnect", 7, 1, "modemsg_mutex", 1);
-				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_AWAY, "Default"), &dbv, DBVT_WCHAR)) {
+				if (!szMsg && !db_get_s(0, "SRAway", gg_status2db(ID_STATUS_AWAY, "Default"), &dbv, DBVT_WCHAR)) {
 					if (dbv.pwszVal && *(dbv.pwszVal))
 						szMsg = mir_utf8encodeW(dbv.pwszVal);
 					db_free(&dbv);
@@ -91,7 +91,7 @@ void GaduProto::disconnect()
 				gg_EnterCriticalSection(&modemsg_mutex, "disconnect", 8, "modemsg_mutex", 1);
 				szMsg = mir_utf8encodeW(modemsg.dnd);
 				gg_LeaveCriticalSection(&modemsg_mutex, "disconnect", 8, 1, "modemsg_mutex", 1);
-				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_DND, "Default"), &dbv, DBVT_WCHAR)) {
+				if (!szMsg && !db_get_s(0, "SRAway", gg_status2db(ID_STATUS_DND, "Default"), &dbv, DBVT_WCHAR)) {
 					if (dbv.pwszVal && *(dbv.pwszVal))
 						szMsg = mir_utf8encodeW(dbv.pwszVal);
 					db_free(&dbv);
@@ -102,7 +102,7 @@ void GaduProto::disconnect()
 				gg_EnterCriticalSection(&modemsg_mutex, "disconnect", 9, "modemsg_mutex", 1);
 				szMsg = mir_utf8encodeW(modemsg.freechat);
 				gg_LeaveCriticalSection(&modemsg_mutex, "disconnect", 9, 1, "modemsg_mutex", 1);
-				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_FREECHAT, "Default"), &dbv, DBVT_WCHAR)) {
+				if (!szMsg && !db_get_s(0, "SRAway", gg_status2db(ID_STATUS_FREECHAT, "Default"), &dbv, DBVT_WCHAR)) {
 					if (dbv.pwszVal && *(dbv.pwszVal))
 						szMsg = mir_utf8encodeW(dbv.pwszVal);
 					db_free(&dbv);
@@ -113,7 +113,7 @@ void GaduProto::disconnect()
 				gg_EnterCriticalSection(&modemsg_mutex, "disconnect", 10, "modemsg_mutex", 1);
 				szMsg = mir_utf8encodeW(modemsg.invisible);
 				gg_LeaveCriticalSection(&modemsg_mutex, "disconnect", 10, 1, "modemsg_mutex", 1);
-				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_INVISIBLE, "Default"), &dbv, DBVT_WCHAR)) {
+				if (!szMsg && !db_get_s(0, "SRAway", gg_status2db(ID_STATUS_INVISIBLE, "Default"), &dbv, DBVT_WCHAR)) {
 					if (dbv.pwszVal && *(dbv.pwszVal))
 						szMsg = mir_utf8encodeW(dbv.pwszVal);
 					db_free(&dbv);

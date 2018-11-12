@@ -99,9 +99,9 @@ int CMPlugin::Load()
 	hRichEd = LoadLibrary(L"Msftedit.dll");
 
 	/*TIMERS*/
-	if ((db_get_dw(NULL, MODULENAME, REFRESH_KEY, TIME) != 0)) {  
-		timerId = SetTimer(nullptr, 0, ((db_get_dw(NULL, MODULENAME, REFRESH_KEY, TIME)) * MINUTE), timerfunc);
-		db_set_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0); 
+	if ((g_plugin.getDword(REFRESH_KEY, TIME) != 0)) {  
+		timerId = SetTimer(nullptr, 0, ((g_plugin.getDword(REFRESH_KEY, TIME)) * MINUTE), timerfunc);
+		g_plugin.setDword(COUNTDOWN_KEY, 0); 
 		Countdown = SetTimer(nullptr, 0, MINUTE, Countdownfunc);
 	}
 
@@ -124,13 +124,13 @@ int CMPlugin::Load()
 	g_plugin.addSound("webviewalert", _A2W(MODULENAME), LPGENW("Alert event"));
 
 	//value is 1 if menu is disabled
-	db_set_b(NULL, MODULENAME, MENU_IS_DISABLED_KEY, 1);
+	g_plugin.setByte(MENU_IS_DISABLED_KEY, 1);
 
 	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNICODE;
-	if ( db_get_b(NULL, MODULENAME, MENU_OFF, 0)) {
+	if ( g_plugin.getByte(MENU_OFF, 0)) {
 		//value is 0 if menu is enabled
-		db_set_b(NULL, MODULENAME, MENU_IS_DISABLED_KEY, 0);
+		g_plugin.setByte(MENU_IS_DISABLED_KEY, 0);
 
 		mi.root = g_plugin.addRootMenu(MO_MAIN, _A2W(MODULENAME), 20200001);
 		Menu_ConfigureItem(mi.root, MCI_OPT_UID, "403BE07B-7954-4F3E-B318-4301571776B8");
@@ -139,7 +139,7 @@ int CMPlugin::Load()
 		SET_UID(mi, 0xdedeb697, 0xfc10, 0x4622, 0x8b, 0x97, 0x74, 0x39, 0x32, 0x68, 0xa7, 0x7b);
 		CreateServiceFunction("DisableWebview", AutoUpdateMCmd);
 		mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_SITE));
-		if (db_get_b(NULL, MODULENAME, DISABLE_AUTOUPDATE_KEY, 0))
+		if (g_plugin.getByte(DISABLE_AUTOUPDATE_KEY, 0))
 			mi.name.w = LPGENW("Auto update disabled");
 		else
 			mi.name.w = LPGENW("Auto update enabled"); 
@@ -178,7 +178,7 @@ int CMPlugin::Load()
 		CreateServiceFunction("Countdown", CountdownMenuCommand);
 		mi.flags |= CMIF_KEEPUNTRANSLATED;
 		wchar_t countername[100];
-		mir_snwprintf(countername, TranslateT("%d minutes to update"), db_get_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0));
+		mir_snwprintf(countername, TranslateT("%d minutes to update"), g_plugin.getDword(COUNTDOWN_KEY, 0));
 		mi.position = 600090099;
 		mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_UPDATEALL));
 		mi.name.w = countername;
@@ -246,7 +246,7 @@ int CMPlugin::Load()
 	HookEvent(ME_DB_CONTACT_DELETED, SiteDeleted);
 	HookEvent(ME_OPT_INITIALISE, OptInitialise);
 
-	db_set_b(NULL, MODULENAME, HAS_CRASHED_KEY, 1);
+	g_plugin.setByte(HAS_CRASHED_KEY, 1);
 	return 0;
 }
 
@@ -259,7 +259,7 @@ int CMPlugin::Unload()
 	KillTimer(nullptr, timerId);
 	KillTimer(nullptr, Countdown);
 
-	db_set_b(NULL, MODULENAME, HAS_CRASHED_KEY, 0);
+	g_plugin.setByte(HAS_CRASHED_KEY, 0);
 	SavewinSettings();
 	if (hRichEd)
 		FreeLibrary(hRichEd);

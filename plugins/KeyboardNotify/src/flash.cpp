@@ -88,7 +88,7 @@ void setFlashingSequence(void)
 
 FLASHING_SEQUENCE *getCustomSeq(void)
 {
-	ptrW tszSeq( db_get_wsa(NULL, MODULENAME, fmtDBSettingName("custom%d", wCustomTheme)));
+	ptrW tszSeq( g_plugin.getWStringA(fmtDBSettingName("custom%d", wCustomTheme)));
 
 	static FLASHING_SEQUENCE Custom = {0};
 	Custom = str2FS((tszSeq != 0) ? tszSeq : L"");
@@ -317,8 +317,8 @@ void testSequence(wchar_t *testStr)
 static void __cdecl TestThread(void *param)
 {
 	FLASHING_SEQUENCE *pTest = (FLASHING_SEQUENCE *)param;
-	unsigned int testNum = (unsigned int)db_get_b(NULL, MODULENAME, "testnum", DEF_SETTING_TESTNUM);
-	unsigned int testSecs = (unsigned int)db_get_b(NULL, MODULENAME, "testsecs", DEF_SETTING_TESTSECS);
+	unsigned int testNum = (unsigned int)g_plugin.getByte("testnum", DEF_SETTING_TESTNUM);
+	unsigned int testSecs = (unsigned int)g_plugin.getByte("testsecs", DEF_SETTING_TESTSECS);
 
 	for (unsigned i=0, dwEndTest=GetTickCount()+testSecs*1000; i < testNum || GetTickCount() < dwEndTest; i++)
 		for (pTest->index=0; pTest->index < pTest->size; pTest->index++) {

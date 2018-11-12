@@ -205,9 +205,9 @@ static int InternalRemoveMyAvatar(char *protocol)
 		if (ret == 0) {
 			// Has global avatar?
 			DBVARIANT dbv = { 0 };
-			if (!db_get_ws(NULL, AVS_MODULE, "GlobalUserAvatarFile", &dbv)) {
+			if (!g_plugin.getWString("GlobalUserAvatarFile", &dbv)) {
 				db_free(&dbv);
-				db_set_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1);
+				g_plugin.setByte("GlobalUserAvatarNotConsistent", 1);
 				DeleteGlobalUserAvatar();
 			}
 		}
@@ -229,9 +229,9 @@ static int InternalRemoveMyAvatar(char *protocol)
 		DeleteGlobalUserAvatar();
 
 		if (ret)
-			db_set_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1);
+			g_plugin.setByte("GlobalUserAvatarNotConsistent", 1);
 		else
-			db_set_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 0);
+			g_plugin.setByte("GlobalUserAvatarNotConsistent", 0);
 	}
 
 	SetIgnoreNotify(protocol, FALSE);
@@ -502,7 +502,7 @@ static int InternalSetMyAvatar(char *protocol, wchar_t *szFinalName, SetMyAvatar
 		ret = SetProtoMyAvatar(protocol, hBmp, szFinalName, format, data.square, data.grow);
 		if (ret == 0) {
 			DeleteGlobalUserAvatar();
-			db_set_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1);
+			g_plugin.setByte("GlobalUserAvatarNotConsistent", 1);
 		}
 	}
 	else {
@@ -521,7 +521,7 @@ static int InternalSetMyAvatar(char *protocol, wchar_t *szFinalName, SetMyAvatar
 		DeleteGlobalUserAvatar();
 
 		if (ret)
-			db_set_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1);
+			g_plugin.setByte("GlobalUserAvatarNotConsistent", 1);
 		else {
 			// Copy avatar file to store as global one
 			wchar_t globalFile[1024];
@@ -558,13 +558,13 @@ static int InternalSetMyAvatar(char *protocol, wchar_t *szFinalName, SetMyAvatar
 			if (saved) {
 				wchar_t relFile[1024];
 				if (PathToRelativeW(globalFile, relFile, g_szDataPath))
-					db_set_ws(NULL, AVS_MODULE, "GlobalUserAvatarFile", relFile);
+					g_plugin.setWString("GlobalUserAvatarFile", relFile);
 				else
-					db_set_ws(NULL, AVS_MODULE, "GlobalUserAvatarFile", globalFile);
+					g_plugin.setWString("GlobalUserAvatarFile", globalFile);
 
-				db_set_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 0);
+				g_plugin.setByte("GlobalUserAvatarNotConsistent", 0);
 			}
-			else db_set_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1);
+			else g_plugin.setByte("GlobalUserAvatarNotConsistent", 1);
 		}
 	}
 
@@ -614,7 +614,7 @@ INT_PTR SetMyAvatar(WPARAM wParam, LPARAM lParam)
 			allAcceptSWF = allAcceptSWF && Proto_IsAvatarFormatSupported(it->szModuleName, PA_FORMAT_SWF);
 		}
 
-		data.square = db_get_b(0, AVS_MODULE, "SetAllwaysMakeSquare", 0);
+		data.square = g_plugin.getByte("SetAllwaysMakeSquare", 0);
 	}
 	else {
 		allAcceptXML = Proto_IsAvatarFormatSupported(protocol, PA_FORMAT_XML);
@@ -622,7 +622,7 @@ INT_PTR SetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 		data.protocol = protocol;
 		data.square = (Proto_AvatarImageProportion(protocol) & PIP_SQUARE)
-			|| db_get_b(0, AVS_MODULE, "SetAllwaysMakeSquare", 0);
+			|| g_plugin.getByte("SetAllwaysMakeSquare", 0);
 	}
 
 	if (tszPath == nullptr) {
@@ -710,7 +710,7 @@ INT_PTR DrawAvatarPicture(WPARAM, LPARAM lParam)
 		if (r->szProto == nullptr)
 			return 0;
 
-		if (r->szProto[0] == '\0' && db_get_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1))
+		if (r->szProto[0] == '\0' && g_plugin.getByte("GlobalUserAvatarNotConsistent", 1))
 			return -1;
 
 		ace = (AVATARCACHEENTRY *)GetMyAvatar(0, (LPARAM)r->szProto);

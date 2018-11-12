@@ -56,17 +56,17 @@ bool CMLuaScript::IsBinary() const
 
 bool CMLuaScript::IsEnabled() const
 {
-	return db_get_b(NULL, MODULENAME, _T2A(scriptName), 1);
+	return g_plugin.getByte(_T2A(scriptName), 1);
 }
 
 void CMLuaScript::Enable()
 {
-	db_unset(NULL, MODULENAME, _T2A(scriptName));
+	g_plugin.delSetting(_T2A(scriptName));
 }
 
 void CMLuaScript::Disable()
 {
-	db_set_b(NULL, MODULENAME, _T2A(scriptName), 0);
+	g_plugin.setByte(_T2A(scriptName), 0);
 }
 
 ScriptStatus CMLuaScript::GetStatus() const

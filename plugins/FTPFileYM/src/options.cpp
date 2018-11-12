@@ -33,32 +33,32 @@ void Options::deinit()
 
 void Options::loadOptions()
 {
-	selected = db_get_b(0, MODULENAME, "Selected", 0);
-	defaultFTP = db_get_b(0, MODULENAME, "Default", 0);
-	bAutosend = db_get_b(0, MODULENAME, "Autosend", 0) ? true : false;
-	bCloseDlg = db_get_b(0, MODULENAME, "CloseDlg", 0) ? true : false;
-	bCopyLink = db_get_b(0, MODULENAME, "CopyLink", 1) ? true : false;
-	bUseSubmenu = db_get_b(0, MODULENAME, "UseSubmenu", 1) ? true : false;
-	bHideInactive = db_get_b(0, MODULENAME, "HideInactive", 1) ? true : false;
-	bAutoDelete = db_get_b(0, MODULENAME, "DeleteTimer", 0) ? true : false;
-	iDeleteTime = db_get_dw(0, MODULENAME, "AutoDeleteTime", 60);
-	timeRange = (ETimeRange)db_get_b(0, MODULENAME, "TimeRange", TR_MINUTES);
-	iCompressionLevel = db_get_b(0, MODULENAME, "CompressionLevel", 6);
-	bSetZipName = db_get_b(0, MODULENAME, "SetZipName", 0) ? true : false;
+	selected = g_plugin.getByte("Selected", 0);
+	defaultFTP = g_plugin.getByte("Default", 0);
+	bAutosend = g_plugin.getByte("Autosend", 0) ? true : false;
+	bCloseDlg = g_plugin.getByte("CloseDlg", 0) ? true : false;
+	bCopyLink = g_plugin.getByte("CopyLink", 1) ? true : false;
+	bUseSubmenu = g_plugin.getByte("UseSubmenu", 1) ? true : false;
+	bHideInactive = g_plugin.getByte("HideInactive", 1) ? true : false;
+	bAutoDelete = g_plugin.getByte("DeleteTimer", 0) ? true : false;
+	iDeleteTime = g_plugin.getDword("AutoDeleteTime", 60);
+	timeRange = (ETimeRange)g_plugin.getByte("TimeRange", TR_MINUTES);
+	iCompressionLevel = g_plugin.getByte("CompressionLevel", 6);
+	bSetZipName = g_plugin.getByte("SetZipName", 0) ? true : false;
 }
 
 void Options::saveOptions() const
 {
-	db_set_b(0, MODULENAME, "Autosend", bAutosend ? 1 : 0);
-	db_set_b(0, MODULENAME, "CopyLink", bCopyLink ? 1 : 0);
-	db_set_b(0, MODULENAME, "UseSubmenu", bUseSubmenu ? 1 : 0);
-	db_set_b(0, MODULENAME, "HideInactive", bHideInactive ? 1 : 0);
-	db_set_b(0, MODULENAME, "CloseDlg", bCloseDlg ? 1 : 0);
-	db_set_b(0, MODULENAME, "DeleteTimer", bAutoDelete ? 1 : 0);
-	db_set_dw(0, MODULENAME, "AutoDeleteTime", iDeleteTime);
-	db_set_b(0, MODULENAME, "TimeRange", (int)timeRange);
-	db_set_b(0, MODULENAME, "CompressionLevel", iCompressionLevel);
-	db_set_b(0, MODULENAME, "SetZipName", bSetZipName ? 1 : 0);
+	g_plugin.setByte("Autosend", bAutosend ? 1 : 0);
+	g_plugin.setByte("CopyLink", bCopyLink ? 1 : 0);
+	g_plugin.setByte("UseSubmenu", bUseSubmenu ? 1 : 0);
+	g_plugin.setByte("HideInactive", bHideInactive ? 1 : 0);
+	g_plugin.setByte("CloseDlg", bCloseDlg ? 1 : 0);
+	g_plugin.setByte("DeleteTimer", bAutoDelete ? 1 : 0);
+	g_plugin.setDword("AutoDeleteTime", iDeleteTime);
+	g_plugin.setByte("TimeRange", (int)timeRange);
+	g_plugin.setByte("CompressionLevel", iCompressionLevel);
+	g_plugin.setByte("SetZipName", bSetZipName ? 1 : 0);
 }
 
 void Options::enableItems(HWND hwndDlg, bool state)

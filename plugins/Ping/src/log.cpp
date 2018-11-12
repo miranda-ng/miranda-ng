@@ -32,7 +32,7 @@ INT_PTR Log(WPARAM wParam, LPARAM) {
 INT_PTR GetLogFilename(WPARAM wParam, LPARAM lParam) {
 	DBVARIANT dbv;
 	wchar_t *filename = (wchar_t *)lParam;
-	if (db_get_ws(0, MODULENAME, "LogFilename", &dbv)) {
+	if (g_plugin.getWString("LogFilename", &dbv)) {
 		Profile_GetPathW(wParam, filename);
 		mir_wstrncat(filename, L"\\ping_log.txt", wParam - mir_wstrlen(filename));
 	}
@@ -47,7 +47,7 @@ INT_PTR GetLogFilename(WPARAM wParam, LPARAM lParam) {
 }
 
 INT_PTR SetLogFilename(WPARAM, LPARAM lParam) {
-	db_set_ws(0, MODULENAME, "LogFilename", (wchar_t *)lParam);
+	g_plugin.setWString("LogFilename", (wchar_t *)lParam);
 	return 0;
 }
 

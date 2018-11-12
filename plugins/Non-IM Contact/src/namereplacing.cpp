@@ -302,19 +302,19 @@ void checkStringForSaveN(CMStringA &str)
 				switch (D[0]) {
 				case '0':
 				case 'b':
-					db_set_b(NULL, A, B, (BYTE)atoi(C));
+					db_set_b(0, A, B, (BYTE)atoi(C));
 					break;
 				case '1':
 				case 'w':
-					db_set_w(NULL, A, B, (WORD)atoi(C));
+					db_set_w(0, A, B, (WORD)atoi(C));
 					break;
 				case '2':
 				case 'd':
-					db_set_dw(NULL, A, B, (DWORD)atoi(C));
+					db_set_dw(0, A, B, (DWORD)atoi(C));
 					break;
 				case '3':
 				case 's':
-					db_set_s(NULL, A, B, C);
+					db_set_s(0, A, B, C);
 					break;
 				}
 			}

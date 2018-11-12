@@ -68,7 +68,7 @@ CProtoState::CStatus& CProtoState::CStatus::operator=(int Status)
 		int bStatusModified = false;
 		for (int i = 0; i < m_grandParent->GetSize(); i++) {
 			CProtoState &State = (*m_grandParent)[i];
-			if (!db_get_b(NULL, State.GetProto(), "LockMainStatus", 0)) { // if the protocol isn't locked
+			if (!db_get_b(0, State.GetProto(), "LockMainStatus", 0)) { // if the protocol isn't locked
 				if (State.m_status != Status) {
 					State.m_status.m_status = Status; // "Status.Status" - changing Status directly to prevent recursive calls to the function
 					State.m_awaySince.Reset();
@@ -164,12 +164,12 @@ void CProtoSettings::SetMsgFormat(int Flags, TCString Message)
 		g_ProtoStates[szProto].TempMsg.Unset();
 		CString DBSetting(ProtoStatusToDBSetting(DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPROTOMSGS));
 		if (Message != nullptr)
-			db_set_ws(NULL, MODULENAME, DBSetting, Message);
+			g_plugin.setWString(DBSetting, Message);
 		else {
 			if (!szProto)
-				db_set_ws(NULL, MODULENAME, DBSetting, CProtoSettings(nullptr, Status).GetMsgFormat(GMF_LASTORDEFAULT)); // global message can't be NULL; we can use an empty string instead if it's really necessary
+				g_plugin.setWString(DBSetting, CProtoSettings(nullptr, Status).GetMsgFormat(GMF_LASTORDEFAULT)); // global message can't be NULL; we can use an empty string instead if it's really necessary
 			else
-				db_unset(NULL, MODULENAME, DBSetting);
+				g_plugin.delSetting(DBSetting);
 		}
 	}
 
@@ -263,7 +263,7 @@ TCString CProtoSettings::GetMsgFormat(int Flags, int *pOrder)
 		}
 	}
 	if (Flags & GMF_PERSONAL && Message == nullptr) // try getting personal message (it overrides global)
-		Message = db_get_s(NULL, MODULENAME, ProtoStatusToDBSetting(DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPROTOMSGS), (wchar_t*)nullptr);
+		Message = db_get_s(0, MODULENAME, ProtoStatusToDBSetting(DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPROTOMSGS), (wchar_t*)nullptr);
 
 	if (Flags & GMF_PROTOORGLOBAL && Message == nullptr) {
 		Message = CProtoSettings().GetMsgFormat(GMF_PERSONAL | (Flags & GMF_TEMPORARY), pOrder);
@@ -276,7 +276,7 @@ TCString CProtoSettings::GetMsgFormat(int Flags, int *pOrder)
 		TreeCtrl->DBToMem(CString(MODULENAME));
 		Message = nullptr;
 		if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_USELASTMSG)) { // if using last message by default...
-			Message = db_get_s(NULL, MODULENAME, ProtoStatusToDBSetting(DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPROTOMSGS), (wchar_t*)nullptr); // try per-protocol message first
+			Message = db_get_s(0, MODULENAME, ProtoStatusToDBSetting(DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPROTOMSGS), (wchar_t*)nullptr); // try per-protocol message first
 			if (Message.IsEmpty()) {
 				Message = nullptr; // to be sure it's NULL, not "" - as we're checking 'Message == NULL' later
 				int RecentGroupID = GetRecentGroupID(Status);

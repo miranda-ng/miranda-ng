@@ -76,7 +76,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 			boost::algorithm::erase_all(param->str, "\r");
 			s2 += mir_wstrlen(L"-----END PGP MESSAGE-----");
 
-			ptrW ptszHomePath(UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L""));
+			ptrW ptszHomePath(UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L""));
 			wstring encfile = toUTF16(get_random(10));
 			wstring decfile = toUTF16(get_random(10));
 			{
@@ -120,12 +120,12 @@ static void RecvMsgSvc_func(RecvParams *param)
 						string dbsetting = "szKey_";
 						dbsetting += inkeyid;
 						dbsetting += "_Password";
-						pass = UniGetContactSettingUtf(NULL, MODULENAME, dbsetting.c_str(), L"");
+						pass = UniGetContactSettingUtf(0, MODULENAME, dbsetting.c_str(), L"");
 						if (pass[0] && globals.bDebugLog)
 							globals.debuglog << std::string(time_str() + ": info: found password in database for key ID: " + inkeyid + ", trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(hContact)) + " with password");
 					}
 					else {
-						pass = UniGetContactSettingUtf(NULL, MODULENAME, "szKeyPassword", L"");
+						pass = UniGetContactSettingUtf(0, MODULENAME, "szKeyPassword", L"");
 						if (pass[0] && globals.bDebugLog)
 							globals.debuglog << std::string(time_str() + ": info: found password for all keys in database, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(hContact)) + " with password");
 					}
@@ -401,7 +401,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 				string output;
 				DWORD exitcode;
 				{
-					ptrW ptmp(UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L""));
+					ptrW ptmp(UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L""));
 					mir_wstrcpy(tmp2, ptmp);
 					mir_free(ptmp);
 					mir_wstrcat(tmp2, L"\\");
@@ -541,7 +541,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 		if (globals.bDebugLog)
 			globals.debuglog << std::string(time_str() + ": info(autoexchange): received key request from: " + toUTF8(Clist_GetContactDisplayName(ccs->hContact)));
 
-		ptrA tmp(UniGetContactSettingUtf(NULL, MODULENAME, "GPGPubKey", ""));
+		ptrA tmp(UniGetContactSettingUtf(0, MODULENAME, "GPGPubKey", ""));
 		if (tmp[0]) {
 			int enc_state = db_get_b(ccs->hContact, MODULENAME, "GPGEncryption", 0);
 			if (enc_state)
@@ -643,7 +643,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 		mir_free(tmp2);
 	}
 	{
-		wchar_t *tmp2 = UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L"");
+		wchar_t *tmp2 = UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L"");
 		path = tmp2;
 		cmd.push_back(std::wstring(tmp2) + L"\\tmp\\" + file);
 		mir_free(tmp2);

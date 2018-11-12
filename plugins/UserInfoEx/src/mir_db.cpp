@@ -115,7 +115,7 @@ bool IsMeta(LPCSTR pszModule)
 
 bool IsMetaAndScan(LPCSTR pszModule)
 {
-	return 0 != db_get_b(NULL, MODULENAME, SET_META_SCAN, TRUE) && IsMeta(pszModule);
+	return 0 != g_plugin.getByte(SET_META_SCAN, TRUE) && IsMeta(pszModule);
 }
 
 } /* namespace Module */

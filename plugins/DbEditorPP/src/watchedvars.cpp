@@ -348,9 +348,9 @@ void openWatchedVarWindow()
 
 void popupWatchedVar(MCONTACT hContact, const char *module, const char *setting)
 {
-	COLORREF colorBack = db_get_dw(NULL, MODULENAME, "PopupColour", RGB(255, 0, 0));
-	COLORREF colorText = db_get_dw(NULL, MODULENAME, "PopupTextColour", RGB(0, 0, 0));
-	int timeout = db_get_b(NULL, MODULENAME, "PopupDelay", 3);
+	COLORREF colorBack = g_plugin.getDword("PopupColour", RGB(255, 0, 0));
+	COLORREF colorText = g_plugin.getDword("PopupTextColour", RGB(0, 0, 0));
+	int timeout = g_plugin.getByte("PopupDelay", 3);
 
 	wchar_t name[NAME_SIZE], text[MAX_SECONDLINE], value[MAX_SECONDLINE];
 	GetContactName(hContact, nullptr, name, _countof(name));

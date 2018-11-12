@@ -19,7 +19,7 @@ wchar_t* _getMOptS(wchar_t *buf, unsigned int buflen, const char* module, const 
 	wchar_t* tmp;
 	DBVARIANT dbv = {0};
 	wcsnset(buf, 0, buflen);
-	if (db_get_s(NULL, module, option, &dbv) != 0)
+	if (db_get_s(0, module, option, &dbv) != 0)
 		wcsncpy(buf, def, min(buflen, mir_wstrlen(def)+1));
 	else if (dbv.type == DBVT_WCHAR) {
 		wcsncpy(buf, dbv.pwszVal, min(buflen, mir_wstrlen(dbv.pwszVal)+1));

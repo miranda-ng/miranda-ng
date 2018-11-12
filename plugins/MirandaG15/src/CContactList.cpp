@@ -511,13 +511,13 @@ bool CContactList::CompareEntries(CListEntry<CContactListEntry*, CContactListGro
 //************************************************************************
 void CContactList::RefreshList()
 {
-	if ((db_get_b(NULL, "MetaContacts", "Enabled", 1) != 0) != m_bUseMetaContacts ||
+	if ((db_get_b(0, "MetaContacts", "Enabled", 1) != 0) != m_bUseMetaContacts ||
 		CConfig::GetBoolSetting(CLIST_USEGROUPS) != m_bUseGroups) {
 		InitializeGroupObjects();
 		Clear();
 	}
 	m_bUseGroups = CConfig::GetBoolSetting(CLIST_USEGROUPS);
-	m_bUseMetaContacts = db_get_b(NULL, "MetaContacts", "Enabled", 1) != 0;
+	m_bUseMetaContacts = db_get_b(0, "MetaContacts", "Enabled", 1) != 0;
 
 	CListEntry<CContactListEntry*, CContactListGroup*> *pContactEntry = nullptr;
 	MCONTACT hContact = db_find_first();
@@ -951,7 +951,7 @@ void CContactList::InitializeGroupObjects()
 	for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
 		tstring strGroup = GetContactGroupPath(hContact);
 		char *szProto = GetContactProto(hContact);
-		if (szProto && db_get_b(NULL, META_PROTO, "Enabled", 1) && !mir_strcmpi(szProto, META_PROTO)) {
+		if (szProto && db_get_b(0, META_PROTO, "Enabled", 1) && !mir_strcmpi(szProto, META_PROTO)) {
 			tstring strName = CAppletManager::GetContactDisplayname(hContact);
 			tstring strPath = L"";
 			if (CConfig::GetBoolSetting(CLIST_USEGROUPS))

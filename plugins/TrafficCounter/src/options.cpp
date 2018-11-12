@@ -315,8 +315,8 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			GetDlgItemText(hwndDlg, IDC_EDIT_TOOLTIP_FORMAT, Traffic_TooltipFormat, _countof(Traffic_TooltipFormat));
 
 			// Ключевой цвет
-			UseKeyColor = db_get_b(NULL, "ModernSettings", "UseKeyColor", 1);
-			KeyColor = db_get_dw(NULL, "ModernSettings", "KeyColor", 0);
+			UseKeyColor = db_get_b(0, "ModernSettings", "UseKeyColor", 1);
+			KeyColor = db_get_dw(0, "ModernSettings", "KeyColor", 0);
 
 			// Перерисовываем фрейм
 			UpdateTrafficWindowSize();

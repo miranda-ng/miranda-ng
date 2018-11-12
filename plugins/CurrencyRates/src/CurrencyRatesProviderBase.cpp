@@ -690,11 +690,11 @@ DWORD get_refresh_timeout_miliseconds(const CCurrencyRatesProviderVisitorDbSetti
 	assert(visitor.m_pszDbRefreshRateType);
 	assert(visitor.m_pszDbRefreshRateValue);
 
-	int nRefreshRateType = db_get_w(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbRefreshRateType, RRT_MINUTES);
+	int nRefreshRateType = db_get_w(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbRefreshRateType, RRT_MINUTES);
 	if (nRefreshRateType < RRT_SECONDS || nRefreshRateType > RRT_HOURS)
 		nRefreshRateType = RRT_MINUTES;
 
-	DWORD nTimeout = db_get_w(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbRefreshRateValue, 1);
+	DWORD nTimeout = db_get_w(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbRefreshRateValue, 1);
 	switch (nRefreshRateType) {
 	default:
 	case RRT_SECONDS:

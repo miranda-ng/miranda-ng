@@ -154,7 +154,7 @@ static void ShowConsole(int show)
 			ScrollDown(pActive);
 	}
 	ShowWindow(hwndConsole, show ? SW_SHOW : SW_HIDE);
-	db_set_b(NULL, "Console", "Show", (BYTE)(show ? 1 : 0));
+	db_set_b(0, "Console", "Show", (BYTE)(show ? 1 : 0));
 
 	if (hwnd)
 		SetForegroundWindow(hwnd);
@@ -955,14 +955,14 @@ static int OnFastDump(WPARAM wParam, LPARAM lParam)
 
 static void LoadSettings()
 {
-	gIcons = db_get_b(NULL, "Console", "ShowIcons", 1);
-	gSeparator = db_get_b(NULL, "Console", "Separator", 1);
-	gSingleMode = db_get_b(NULL, "Console", "SingleMode", 0);
+	gIcons = db_get_b(0, "Console", "ShowIcons", 1);
+	gSeparator = db_get_b(0, "Console", "Separator", 1);
+	gSingleMode = db_get_b(0, "Console", "SingleMode", 0);
 
-	gWrapLen = db_get_b(NULL, "Console", "Wrap", DEFAULT_WRAPLEN);
+	gWrapLen = db_get_b(0, "Console", "Wrap", DEFAULT_WRAPLEN);
 	if (gWrapLen < MIN_WRAPLEN) gWrapLen = DEFAULT_WRAPLEN;
 
-	gLimit = db_get_dw(NULL, "Console", "Limit", MIN_LIMIT);
+	gLimit = db_get_dw(0, "Console", "Limit", MIN_LIMIT);
 	if (gLimit > MAX_LIMIT) gLimit = MAX_LIMIT;
 	if (gLimit < MIN_LIMIT) gLimit = MIN_LIMIT;
 }
@@ -978,7 +978,7 @@ static void SaveSettings(HWND hwndDlg)
 
 	gWrapLen = len;
 	SetDlgItemInt(hwndDlg, IDC_WRAP, gWrapLen, FALSE);
-	db_set_b(NULL, "Console", "Wrap", (BYTE)len);
+	db_set_b(0, "Console", "Wrap", (BYTE)len);
 
 	len = GetDlgItemInt(hwndDlg, IDC_LIMIT, nullptr, FALSE);
 	if (len < MIN_LIMIT)
@@ -988,13 +988,13 @@ static void SaveSettings(HWND hwndDlg)
 
 	gLimit = len;
 	SetDlgItemInt(hwndDlg, IDC_LIMIT, gLimit, FALSE);
-	db_set_dw(NULL, "Console", "Limit", len);
+	db_set_dw(0, "Console", "Limit", len);
 
-	db_set_b(NULL, "Console", "SingleMode", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SINGLE));
-	db_set_b(NULL, "Console", "Separator", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SEPARATOR));
-	db_set_b(NULL, "Console", "ShowIcons", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWICONS));
+	db_set_b(0, "Console", "SingleMode", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SINGLE));
+	db_set_b(0, "Console", "Separator", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SEPARATOR));
+	db_set_b(0, "Console", "ShowIcons", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWICONS));
 
-	db_set_b(NULL, "Console", "ShowAtStart", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_START));
+	db_set_b(0, "Console", "ShowAtStart", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_START));
 }
 
 
@@ -1003,7 +1003,7 @@ static INT_PTR CALLBACK OptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_START, db_get_b(NULL, "Console", "ShowAtStart", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_START, db_get_b(0, "Console", "ShowAtStart", 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SINGLE, gSingleMode ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SHOWICONS, gIcons ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SEPARATOR, gSeparator ? BST_CHECKED : BST_UNCHECKED);
@@ -1150,7 +1150,7 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 		OnFontChange(0, 0);
 		OnColourChange(0, 0);
 
-		if (db_get_b(NULL, "Console", "ShowAtStart", 0) || db_get_b(NULL, "Console", "Show", 1))
+		if (db_get_b(0, "Console", "ShowAtStart", 0) || db_get_b(0, "Console", "Show", 1))
 			ShowConsole(1);
 		else
 			ShowConsole(0);

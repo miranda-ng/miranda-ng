@@ -1223,36 +1223,36 @@ int OptInit(WPARAM wParam, LPARAM)
 
 void LoadOptions()
 {
-	options.use_popup_module = (db_get_b(0, MODULENAME, "UsePopupModule", 0) == 1);
-	options.snooze_minutes = (int)db_get_dw(0, MODULENAME, "SnoozeMinutes", 10);
-	options.row_height = (int)db_get_dw(0, MODULENAME, "RowHeight", 20);
-	options.indent = (int)db_get_dw(0, MODULENAME, "Indent", 5);
-	options.aw_trans = (int)db_get_b(0, MODULENAME, "Transparency", 0);
-	options.aw_roundcorners = (db_get_b(0, MODULENAME, "RoundCorners", 1) == 1);
-	options.aw_dontstealfocus = (db_get_b(0, MODULENAME, "DontStealFocus", 1) == 1);
-	options.auto_showhide = (db_get_b(0, MODULENAME, "AutoShowHide", 0) == 1);
-	options.hide_with_clist = (db_get_b(0, MODULENAME, "HideWithClist", 0) == 1);
-	options.loop_sound = (db_get_b(0, MODULENAME, "LoopSound", 1) == 1);
-	options.auto_size_vert = (db_get_b(0, MODULENAME, "AutoSize", 0) == 1);
-	options.reminder_period = (int)db_get_dw(0, MODULENAME, "ReminderPeriod", 8);
+	options.use_popup_module = (g_plugin.getByte("UsePopupModule", 0) == 1);
+	options.snooze_minutes = (int)g_plugin.getDword("SnoozeMinutes", 10);
+	options.row_height = (int)g_plugin.getDword("RowHeight", 20);
+	options.indent = (int)g_plugin.getDword("Indent", 5);
+	options.aw_trans = (int)g_plugin.getByte("Transparency", 0);
+	options.aw_roundcorners = (g_plugin.getByte("RoundCorners", 1) == 1);
+	options.aw_dontstealfocus = (g_plugin.getByte("DontStealFocus", 1) == 1);
+	options.auto_showhide = (g_plugin.getByte("AutoShowHide", 0) == 1);
+	options.hide_with_clist = (g_plugin.getByte("HideWithClist", 0) == 1);
+	options.loop_sound = (g_plugin.getByte("LoopSound", 1) == 1);
+	options.auto_size_vert = (g_plugin.getByte("AutoSize", 0) == 1);
+	options.reminder_period = (int)g_plugin.getDword("ReminderPeriod", 8);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OptionsModulesLoaded);
 }
 
 void SaveOptions()
 {
-	db_set_b(0, MODULENAME, "UsePopupModule", options.use_popup_module ? 1 : 0);
-	db_set_dw(0, MODULENAME, "SnoozeMinutes", options.snooze_minutes);
-	db_set_dw(0, MODULENAME, "RowHeight", options.row_height);
-	db_set_dw(0, MODULENAME, "Indent", options.indent);
-	db_set_b(0, MODULENAME, "Transparency", options.aw_trans);
-	db_set_b(0, MODULENAME, "RoundCorners", options.aw_roundcorners ? 1 : 0);
-	db_set_b(0, MODULENAME, "DontStealFocus", options.aw_dontstealfocus ? 1 : 0);
-	db_set_b(0, MODULENAME, "AutoShowHide", options.auto_showhide ? 1 : 0);
-	db_set_b(0, MODULENAME, "HideWithClist", options.hide_with_clist ? 1 : 0);
-	db_set_b(0, MODULENAME, "LoopSound", options.loop_sound ? 1 : 0);
-	db_set_b(0, MODULENAME, "AutoSize", options.auto_size_vert ? 1 : 0);
-	db_set_dw(0, MODULENAME, "ReminderPeriod", options.reminder_period);
+	g_plugin.setByte("UsePopupModule", options.use_popup_module ? 1 : 0);
+	g_plugin.setDword("SnoozeMinutes", options.snooze_minutes);
+	g_plugin.setDword("RowHeight", options.row_height);
+	g_plugin.setDword("Indent", options.indent);
+	g_plugin.setByte("Transparency", options.aw_trans);
+	g_plugin.setByte("RoundCorners", options.aw_roundcorners ? 1 : 0);
+	g_plugin.setByte("DontStealFocus", options.aw_dontstealfocus ? 1 : 0);
+	g_plugin.setByte("AutoShowHide", options.auto_showhide ? 1 : 0);
+	g_plugin.setByte("HideWithClist", options.hide_with_clist ? 1 : 0);
+	g_plugin.setByte("LoopSound", options.loop_sound ? 1 : 0);
+	g_plugin.setByte("AutoSize", options.auto_size_vert ? 1 : 0);
+	g_plugin.setDword("ReminderPeriod", options.reminder_period);
 }
 
 INT_PTR NewAlarmMenuFunc(WPARAM, LPARAM)

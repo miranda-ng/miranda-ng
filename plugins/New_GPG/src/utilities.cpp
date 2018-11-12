@@ -74,7 +74,7 @@ void GetFilePath(wchar_t *WindowTittle, char *szSetting, wchar_t *szExt, wchar_t
 	ofn.nMaxFileTitle = MAX_PATH;
 	if (!GetOpenFileName(&ofn))
 		return;
-	db_set_ws(0, MODULENAME, szSetting, str);
+	g_plugin.setWString(szSetting, str);
 }
 
 wchar_t* GetFilePath(wchar_t *WindowTittle, wchar_t *szExt, wchar_t *szExtDesc, bool save_file)
@@ -121,7 +121,7 @@ void GetFolderPath(wchar_t *WindowTittle)
 	if (pidl != nullptr) {
 		wchar_t path[MAX_PATH];
 		if (SHGetPathFromIDList(pidl, path)) {
-			db_set_ws(NULL, MODULENAME, "szHomePath", path);
+			g_plugin.setWString("szHomePath", path);
 		}
 		IMalloc * imalloc = nullptr;
 		if (SUCCEEDED(SHGetMalloc(&imalloc))) {
@@ -156,10 +156,10 @@ INT_PTR SendKey(WPARAM w, LPARAM)
 			key_id_str += "_KeyID";
 			acc_str += "_GPGPubKey";
 		}
-		szMessage = UniGetContactSettingUtf(NULL, MODULENAME, acc_str.empty() ? "GPGPubKey" : acc_str.c_str(), "");
+		szMessage = UniGetContactSettingUtf(0, MODULENAME, acc_str.empty() ? "GPGPubKey" : acc_str.c_str(), "");
 		if (!szMessage[0]) {
 			mir_free(szMessage);
-			szMessage = UniGetContactSettingUtf(NULL, MODULENAME, "GPGPubKey", ""); //try to get default key as fallback in any way
+			szMessage = UniGetContactSettingUtf(0, MODULENAME, "GPGPubKey", ""); //try to get default key as fallback in any way
 		}
 	}
 	if (szMessage[0]) {
@@ -167,10 +167,10 @@ INT_PTR SendKey(WPARAM w, LPARAM)
 		db_set_b(hContact, MODULENAME, "GPGEncryption", 0);
 		ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)szMessage);
 		std::string msg = "Public key ";
-		char *keyid = UniGetContactSettingUtf(NULL, MODULENAME, key_id_str.c_str(), "");
+		char *keyid = UniGetContactSettingUtf(0, MODULENAME, key_id_str.c_str(), "");
 		if (!keyid[0]) {
 			mir_free(keyid);
-			keyid = UniGetContactSettingUtf(NULL, MODULENAME, "KeyID", "");
+			keyid = UniGetContactSettingUtf(0, MODULENAME, "KeyID", "");
 		}
 		msg += keyid;
 		mir_free(keyid);
@@ -229,10 +229,10 @@ int OnPreBuildContactMenu(WPARAM w, LPARAM)
 			setting += ")";
 			setting += "_KeyID";
 		}
-		char *keyid = UniGetContactSettingUtf(NULL, MODULENAME, setting.c_str(), "");
+		char *keyid = UniGetContactSettingUtf(0, MODULENAME, setting.c_str(), "");
 		if (!keyid[0]) {
 			mir_free(keyid);
-			keyid = UniGetContactSettingUtf(NULL, MODULENAME, "KeyID", "");
+			keyid = UniGetContactSettingUtf(0, MODULENAME, "KeyID", "");
 		}
 		wchar_t buf[128] = { 0 };
 		mir_snwprintf(buf, L"%s: %s", TranslateT("Send public key"), toUTF16(keyid).c_str());
@@ -319,12 +319,12 @@ int onProtoAck(WPARAM, LPARAM l)
 								string dbsetting = "szKey_";
 								dbsetting += keyid;
 								dbsetting += "_Password";
-								pass = UniGetContactSettingUtf(NULL, MODULENAME, dbsetting.c_str(), L"");
+								pass = UniGetContactSettingUtf(0, MODULENAME, dbsetting.c_str(), L"");
 								if (mir_wstrlen(pass) > 0 && globals.bDebugLog)
 									globals.debuglog << std::string(time_str() + ": info: found password in database for key ID: " + keyid + ", trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(ack->hContact)) + " with password");
 							}
 							else {
-								pass = UniGetContactSettingUtf(NULL, MODULENAME, "szKeyPassword", L"");
+								pass = UniGetContactSettingUtf(0, MODULENAME, "szKeyPassword", L"");
 								if (mir_wstrlen(pass) > 0 && globals.bDebugLog)
 									globals.debuglog << std::string(time_str() + ": info: found password for all keys in database, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(ack->hContact)) + " with password");
 							}
@@ -669,7 +669,7 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void*)
 		}
 
 		if (globals.bPresenceSigning && nodename && wcsstr(nodename, L"status")) {
-			wchar_t *path_c = UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L"");
+			wchar_t *path_c = UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L"");
 			wstring path_out = path_c;
 			wstring file = toUTF16(get_random(10));
 			mir_free(path_c);
@@ -693,10 +693,10 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void*)
 
 				char setting[64];
 				mir_snprintf(setting, sizeof(setting) - 1, "%s_KeyID", ji->GetModuleName());
-				inkeyid = UniGetContactSettingUtf(NULL, MODULENAME, setting, "");
+				inkeyid = UniGetContactSettingUtf(0, MODULENAME, setting, "");
 				if (!inkeyid[0]) {
 					mir_free(inkeyid);
-					inkeyid = UniGetContactSettingUtf(NULL, MODULENAME, "KeyID", "");
+					inkeyid = UniGetContactSettingUtf(0, MODULENAME, "KeyID", "");
 				}
 
 				ptrW pass;
@@ -704,14 +704,14 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void*)
 					string dbsetting = "szKey_";
 					dbsetting += inkeyid;
 					dbsetting += "_Password";
-					pass = UniGetContactSettingUtf(NULL, MODULENAME, dbsetting.c_str(), L"");
+					pass = UniGetContactSettingUtf(0, MODULENAME, dbsetting.c_str(), L"");
 					if (pass[0] && globals.bDebugLog)
 						globals.debuglog << std::string(time_str() + ": info: found password in database for key ID: " + inkeyid + ", trying to encrypt message from self with password");
 				}
 				if (inkeyid && inkeyid[0])
 					mir_free(inkeyid);
 				else {
-					pass = UniGetContactSettingUtf(NULL, MODULENAME, "szKeyPassword", L"");
+					pass = UniGetContactSettingUtf(0, MODULENAME, "szKeyPassword", L"");
 					if (pass[0] && globals.bDebugLog)
 						globals.debuglog << std::string(time_str() + ": info: found password for all keys in database, trying to encrypt message from self with password");
 				}
@@ -730,7 +730,7 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void*)
 			}
 
 			cmd.push_back(L"--local-user");
-			path_c = UniGetContactSettingUtf(NULL, MODULENAME, "KeyID", L"");
+			path_c = UniGetContactSettingUtf(0, MODULENAME, "KeyID", L"");
 			cmd.push_back(path_c);
 			cmd.push_back(L"--default-key");
 			cmd.push_back(path_c);
@@ -832,7 +832,7 @@ static JABBER_HANDLER_FUNC PresenceHandler(IJabberInterface*, HXML node, void*)
 						wstring file = toUTF16(get_random(10)), status_file = toUTF16(get_random(10));
 						sign += data;
 						sign += L"\n-----END PGP SIGNATURE-----\n";
-						wchar_t *path_c = UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L"");
+						wchar_t *path_c = UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L"");
 						wstring path_out = path_c, status_file_out = path_c;
 						mir_free(path_c);
 						path_out += L"\\tmp\\";
@@ -972,8 +972,8 @@ bool isContactHaveKey(MCONTACT hContact)
 
 bool isGPGKeyExist()
 {
-	wchar_t *id = UniGetContactSettingUtf(NULL, MODULENAME, "KeyID", L"");
-	char *key = UniGetContactSettingUtf(NULL, MODULENAME, "GPGPubKey", "");
+	wchar_t *id = UniGetContactSettingUtf(0, MODULENAME, "KeyID", L"");
+	char *key = UniGetContactSettingUtf(0, MODULENAME, "GPGPubKey", "");
 	if (id[0] && key[0]) {
 		mir_free(id);
 		mir_free(key);
@@ -987,7 +987,7 @@ bool isGPGValid()
 {
 	wchar_t *tmp = nullptr;
 	bool gpg_exists = false, is_valid = true;
-	tmp = UniGetContactSettingUtf(NULL, MODULENAME, "szGpgBinPath", L"");
+	tmp = UniGetContactSettingUtf(0, MODULENAME, "szGpgBinPath", L"");
 	boost::filesystem::path p(tmp);
 
 	if (boost::filesystem::exists(p) && boost::filesystem::is_regular_file(p))
@@ -1018,7 +1018,7 @@ bool isGPGValid()
 	}
 
 	if (gpg_exists) {
-		db_set_ws(NULL, MODULENAME, "szGpgBinPath", tmp);
+		g_plugin.setWString("szGpgBinPath", tmp);
 		mir_free(tmp);
 		tmp = nullptr;
 		string out;
@@ -1046,7 +1046,7 @@ bool isGPGValid()
 		{
 			wstring path_ = _wgetenv(L"APPDATA");
 			path_ += L"\\GnuPG";
-			tmp = UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", (wchar_t*)path_.c_str());
+			tmp = UniGetContactSettingUtf(0, MODULENAME, "szHomePath", (wchar_t*)path_.c_str());
 		}
 		if(tmp)
 			mir_free(tmp); */
@@ -1212,7 +1212,7 @@ int handleEnum(const char *szSetting, void *lParam)
 {
 	if (!*(bool*)lParam && szSetting[0] && StriStr(szSetting, "tabsrmm")) {
 		bool f = false, *found = (bool*)lParam;
-		f = !db_get_b(NULL, "PluginDisable", szSetting, 0);
+		f = !db_get_b(0, "PluginDisable", szSetting, 0);
 		if (f)
 			*found = f;
 	}
@@ -1595,7 +1595,7 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 						string output;
 						DWORD exitcode;
 						{
-							ptmp = UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L"");
+							ptmp = UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L"");
 							path = ptmp;
 							mir_free(ptmp);
 							wstring rand = toUTF16(get_random(10));
@@ -1700,7 +1700,7 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 			string output;
 			DWORD exitcode;
 			{
-				ptmp = UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L"");
+				ptmp = UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L"");
 				wcsncpy(tmp2, ptmp, MAX_PATH - 1);
 				mir_free(ptmp);
 				mir_wstrncat(tmp2, L"\\", _countof(tmp2) - mir_wstrlen(tmp2));
@@ -1813,7 +1813,7 @@ void clean_temp_dir()
 	wstring path = toUTF16(mir_path);
 	SetCurrentDirectoryA(mir_path);
 	delete[] mir_path;
-	wchar_t *tmp = UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L"");
+	wchar_t *tmp = UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L"");
 	path += tmp;
 	mir_free(tmp);
 	path += L"\\tmp";
@@ -1847,7 +1847,7 @@ bool gpg_validate_paths(wchar_t *gpg_bin_path, wchar_t *gpg_home_path)
 	}
 	{
 		bool bad_version = false;
-		db_set_ws(NULL, MODULENAME, "szGpgBinPath", tmp.c_str());
+		g_plugin.setWString("szGpgBinPath", tmp.c_str());
 		string out;
 		DWORD code;
 		std::vector<wstring> cmd;
@@ -1861,7 +1861,7 @@ bool gpg_validate_paths(wchar_t *gpg_bin_path, wchar_t *gpg_home_path)
 		globals.gpg_valid = true;
 		gpg_launcher(params);
 		globals.gpg_valid = _gpg_valid; //TODO: check this
-		db_unset(NULL, MODULENAME, "szGpgBinPath");
+		g_plugin.delSetting("szGpgBinPath");
 		string::size_type p1 = out.find("(GnuPG) ");
 		if (p1 != string::npos) {
 			p1 += mir_strlen("(GnuPG) ");
@@ -1884,7 +1884,7 @@ bool gpg_validate_paths(wchar_t *gpg_bin_path, wchar_t *gpg_home_path)
 		return false;
 	}
 	{
-		wchar_t *path = UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L"");
+		wchar_t *path = UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L"");
 		DWORD dwFileAttr = GetFileAttributes(path);
 		if (dwFileAttr != INVALID_FILE_ATTRIBUTES) {
 			dwFileAttr &= ~FILE_ATTRIBUTE_READONLY;
@@ -1897,8 +1897,8 @@ bool gpg_validate_paths(wchar_t *gpg_bin_path, wchar_t *gpg_home_path)
 
 void gpg_save_paths(wchar_t *gpg_bin_path, wchar_t *gpg_home_path)
 {
-	db_set_ws(NULL, MODULENAME, "szGpgBinPath", gpg_bin_path);
-	db_set_ws(NULL, MODULENAME, "szHomePath", gpg_home_path);
+	g_plugin.setWString("szGpgBinPath", gpg_bin_path);
+	g_plugin.setWString("szHomePath", gpg_home_path);
 }
 
 bool gpg_use_new_random_key(char *account_name, wchar_t *gpg_bin_path, wchar_t *gpg_home_dir)
@@ -1913,7 +1913,7 @@ bool gpg_use_new_random_key(char *account_name, wchar_t *gpg_bin_path, wchar_t *
 		if (gpg_home_dir)
 			tmp = gpg_home_dir;
 		else
-			tmp = UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L"");
+			tmp = UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L"");
 		path = tmp;
 		if (!gpg_home_dir)
 			mir_free(tmp);
@@ -1991,16 +1991,16 @@ bool gpg_use_new_random_key(char *account_name, wchar_t *gpg_bin_path, wchar_t *
 			out.erase(s, 1);
 
 		if (!mir_strcmp(account_name, Translate("Default"))) {
-			db_set_s(NULL, MODULENAME, "GPGPubKey", out.c_str());
-			db_set_ws(NULL, MODULENAME, "KeyID", path.c_str());
+			g_plugin.setString("GPGPubKey", out.c_str());
+			g_plugin.setWString("KeyID", path.c_str());
 		}
 		else {
 			std::string acc_str = account_name;
 			acc_str += "_GPGPubKey";
-			db_set_s(NULL, MODULENAME, acc_str.c_str(), out.c_str());
+			g_plugin.setString(acc_str.c_str(), out.c_str());
 			acc_str = account_name;
 			acc_str += "_KeyID";
-			db_set_ws(NULL, MODULENAME, acc_str.c_str(), path.c_str());
+			g_plugin.setWString(acc_str.c_str(), path.c_str());
 		}
 	}
 	return true;

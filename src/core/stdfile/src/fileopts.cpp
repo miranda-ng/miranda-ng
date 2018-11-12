@@ -66,16 +66,16 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			GetContactReceivedFilesDir(NULL, str, _countof(str), FALSE);
 			SetDlgItemText(hwndDlg, IDC_FILEDIR, str);
 
-			CheckDlgButton(hwndDlg, IDC_AUTOACCEPT, db_get_b(NULL, MODULENAME, "AutoAccept", 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_AUTOMIN, db_get_b(NULL, MODULENAME, "AutoMin", 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_AUTOCLOSE, db_get_b(NULL, MODULENAME, "AutoClose", 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_AUTOCLEAR, db_get_b(NULL, MODULENAME, "AutoClear", 1) ? BST_CHECKED : BST_UNCHECKED);
-			switch (db_get_b(NULL, MODULENAME, "UseScanner", VIRUSSCAN_DISABLE)) {
+			CheckDlgButton(hwndDlg, IDC_AUTOACCEPT, g_plugin.getByte("AutoAccept", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_AUTOMIN, g_plugin.getByte("AutoMin", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_AUTOCLOSE, g_plugin.getByte("AutoClose", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_AUTOCLEAR, g_plugin.getByte("AutoClear", 1) ? BST_CHECKED : BST_UNCHECKED);
+			switch (g_plugin.getByte("UseScanner", VIRUSSCAN_DISABLE)) {
 				case VIRUSSCAN_AFTERDL: CheckDlgButton(hwndDlg, IDC_SCANAFTERDL, BST_CHECKED); break;
 				case VIRUSSCAN_DURINGDL: CheckDlgButton(hwndDlg, IDC_SCANDURINGDL, BST_CHECKED); break;
 				default: CheckDlgButton(hwndDlg, IDC_NOSCANNER, BST_CHECKED); break;
 			}
-			CheckDlgButton(hwndDlg, IDC_WARNBEFOREOPENING, db_get_b(NULL, MODULENAME, "WarnBeforeOpening", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_WARNBEFOREOPENING, g_plugin.getByte("WarnBeforeOpening", 1) ? BST_CHECKED : BST_UNCHECKED);
 
 			for (int i = 0; i < _countof(virusScanners); i++) {
 				wchar_t szScanExe[MAX_PATH];
@@ -90,7 +90,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			}
 
 			DBVARIANT dbv;
-			if (db_get_ws(NULL, MODULENAME, "ScanCmdLine", &dbv) == 0) {
+			if (g_plugin.getWString("ScanCmdLine", &dbv) == 0) {
 				SetDlgItemText(hwndDlg, IDC_SCANCMDLINE, dbv.pwszVal);
 				db_free(&dbv);
 			}
@@ -99,7 +99,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				PostMessage(hwndDlg, M_SCANCMDLINESELCHANGE, 0, 0);
 			}
 
-			switch (db_get_b(NULL, MODULENAME, "IfExists", FILERESUME_ASK)) {
+			switch (g_plugin.getByte("IfExists", FILERESUME_ASK)) {
 				case FILERESUME_RESUMEALL: CheckDlgButton(hwndDlg, IDC_RESUME, BST_CHECKED); break;
 				case FILERESUME_OVERWRITEALL: CheckDlgButton(hwndDlg, IDC_OVERWRITE, BST_CHECKED); break;
 				case FILERESUME_RENAMEALL: CheckDlgButton(hwndDlg, IDC_RENAME, BST_CHECKED); break;
@@ -205,16 +205,16 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			wchar_t str[512];
 			GetDlgItemText(hwndDlg, IDC_FILEDIR, str, _countof(str));
 			RemoveInvalidPathChars(str);
-			db_set_ws(NULL, MODULENAME, "RecvFilesDirAdv", str);
-			db_set_b(NULL, MODULENAME, "AutoAccept", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOACCEPT));
-			db_set_b(NULL, MODULENAME, "AutoMin", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOMIN));
-			db_set_b(NULL, MODULENAME, "AutoClose", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOCLOSE));
-			db_set_b(NULL, MODULENAME, "AutoClear", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOCLEAR));
-			db_set_b(NULL, MODULENAME, "UseScanner", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SCANAFTERDL) ? VIRUSSCAN_AFTERDL : (IsDlgButtonChecked(hwndDlg, IDC_SCANDURINGDL) ? VIRUSSCAN_DURINGDL : VIRUSSCAN_DISABLE)));
+			g_plugin.setWString("RecvFilesDirAdv", str);
+			g_plugin.setByte("AutoAccept", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOACCEPT));
+			g_plugin.setByte("AutoMin", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOMIN));
+			g_plugin.setByte("AutoClose", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOCLOSE));
+			g_plugin.setByte("AutoClear", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOCLEAR));
+			g_plugin.setByte("UseScanner", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SCANAFTERDL) ? VIRUSSCAN_AFTERDL : (IsDlgButtonChecked(hwndDlg, IDC_SCANDURINGDL) ? VIRUSSCAN_DURINGDL : VIRUSSCAN_DISABLE)));
 			GetDlgItemText(hwndDlg, IDC_SCANCMDLINE, str, _countof(str));
-			db_set_ws(NULL, MODULENAME, "ScanCmdLine", str);
-			db_set_b(NULL, MODULENAME, "WarnBeforeOpening", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_WARNBEFOREOPENING));
-			db_set_b(NULL, MODULENAME, "IfExists", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ASK) ? FILERESUME_ASK : (IsDlgButtonChecked(hwndDlg, IDC_RESUME) ? FILERESUME_RESUMEALL : (IsDlgButtonChecked(hwndDlg, IDC_OVERWRITE) ? FILERESUME_OVERWRITEALL : FILERESUME_RENAMEALL))));
+			g_plugin.setWString("ScanCmdLine", str);
+			g_plugin.setByte("WarnBeforeOpening", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_WARNBEFOREOPENING));
+			g_plugin.setByte("IfExists", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ASK) ? FILERESUME_ASK : (IsDlgButtonChecked(hwndDlg, IDC_RESUME) ? FILERESUME_RESUMEALL : (IsDlgButtonChecked(hwndDlg, IDC_OVERWRITE) ? FILERESUME_OVERWRITEALL : FILERESUME_RENAMEALL))));
 			return TRUE;
 		}
 		break;

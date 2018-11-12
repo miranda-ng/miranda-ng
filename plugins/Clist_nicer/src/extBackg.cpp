@@ -299,31 +299,31 @@ void LoadExtBkSettingsFromDB()
 		p->imageItem = nullptr;
 		CMStringA buffer;
 		buffer.Format("%s_IGNORE", p->szDBname);
-		p->IGNORED = (BYTE)db_get_b(NULL, "CLCExt", buffer, p->IGNORED);
+		p->IGNORED = (BYTE)db_get_b(0, "CLCExt", buffer, p->IGNORED);
 		buffer.Format("%s_GRADIENT", p->szDBname);
-		p->GRADIENT = (BYTE)db_get_dw(NULL, "CLCExt", buffer, p->GRADIENT);
+		p->GRADIENT = (BYTE)db_get_dw(0, "CLCExt", buffer, p->GRADIENT);
 		buffer.Format("%s_CORNER", p->szDBname);
-		p->CORNER = (BYTE)db_get_dw(NULL, "CLCExt", buffer, p->CORNER);
+		p->CORNER = (BYTE)db_get_dw(0, "CLCExt", buffer, p->CORNER);
 		buffer.Format("%s_COLOR", p->szDBname);
-		p->COLOR = db_get_dw(NULL, "CLCExt", buffer, p->COLOR);
+		p->COLOR = db_get_dw(0, "CLCExt", buffer, p->COLOR);
 		buffer.Format("%s_COLOR2", p->szDBname);
-		p->COLOR2 = db_get_dw(NULL, "CLCExt", buffer, p->COLOR2);
+		p->COLOR2 = db_get_dw(0, "CLCExt", buffer, p->COLOR2);
 		buffer.Format("%s_COLOR2_TRANSPARENT", p->szDBname);
-		p->COLOR2_TRANSPARENT = (BYTE)db_get_b(NULL, "CLCExt", buffer, p->COLOR2_TRANSPARENT);
+		p->COLOR2_TRANSPARENT = (BYTE)db_get_b(0, "CLCExt", buffer, p->COLOR2_TRANSPARENT);
 		buffer.Format("%s_TEXTCOLOR", p->szDBname);
-		p->TEXTCOLOR = db_get_dw(NULL, "CLCExt", buffer, p->TEXTCOLOR);
+		p->TEXTCOLOR = db_get_dw(0, "CLCExt", buffer, p->TEXTCOLOR);
 		buffer.Format("%s_ALPHA", p->szDBname);
-		p->ALPHA = db_get_b(NULL, "CLCExt", buffer, p->ALPHA);
+		p->ALPHA = db_get_b(0, "CLCExt", buffer, p->ALPHA);
 		buffer.Format("%s_MRGN_LEFT", p->szDBname);
-		p->MARGIN_LEFT = db_get_b(NULL, "CLCExt", buffer, p->MARGIN_LEFT);
+		p->MARGIN_LEFT = db_get_b(0, "CLCExt", buffer, p->MARGIN_LEFT);
 		buffer.Format("%s_MRGN_TOP", p->szDBname);
-		p->MARGIN_TOP = db_get_b(NULL, "CLCExt", buffer, p->MARGIN_TOP);
+		p->MARGIN_TOP = db_get_b(0, "CLCExt", buffer, p->MARGIN_TOP);
 		buffer.Format("%s_MRGN_RIGHT", p->szDBname);
-		p->MARGIN_RIGHT = db_get_b(NULL, "CLCExt", buffer, p->MARGIN_RIGHT);
+		p->MARGIN_RIGHT = db_get_b(0, "CLCExt", buffer, p->MARGIN_RIGHT);
 		buffer.Format("%s_MRGN_BOTTOM", p->szDBname);
-		p->MARGIN_BOTTOM = db_get_b(NULL, "CLCExt", buffer, p->MARGIN_BOTTOM);
+		p->MARGIN_BOTTOM = db_get_b(0, "CLCExt", buffer, p->MARGIN_BOTTOM);
 		buffer.Format("%s_BDRSTYLE", p->szDBname);
-		p->BORDERSTYLE = db_get_dw(NULL, "CLCExt", buffer, p->BORDERSTYLE);
+		p->BORDERSTYLE = db_get_dw(0, "CLCExt", buffer, p->BORDERSTYLE);
 	}
 
 	if (cfg::dat.bFirstRun) {
@@ -346,39 +346,39 @@ static void SaveCompleteStructToDB()
 		if (p->statusID != ID_EXTBKSEPARATOR) {
 			char buffer[255];
 			mir_snprintf(buffer, "%s_IGNORE", p->szDBname);
-			db_set_b(NULL, "CLCExt", buffer, p->IGNORED);
+			db_set_b(0, "CLCExt", buffer, p->IGNORED);
 			mir_snprintf(buffer, "%s_GRADIENT", p->szDBname);
-			db_set_dw(NULL, "CLCExt", buffer, p->GRADIENT);
+			db_set_dw(0, "CLCExt", buffer, p->GRADIENT);
 			mir_snprintf(buffer, "%s_CORNER", p->szDBname);
-			db_set_dw(NULL, "CLCExt", buffer, p->CORNER);
+			db_set_dw(0, "CLCExt", buffer, p->CORNER);
 			mir_snprintf(buffer, "%s_COLOR", p->szDBname);
-			db_set_dw(NULL, "CLCExt", buffer, p->COLOR);
+			db_set_dw(0, "CLCExt", buffer, p->COLOR);
 			mir_snprintf(buffer, "%s_COLOR2", p->szDBname);
-			db_set_dw(NULL, "CLCExt", buffer, p->COLOR2);
+			db_set_dw(0, "CLCExt", buffer, p->COLOR2);
 			mir_snprintf(buffer, "%s_COLOR2_TRANSPARENT", p->szDBname);
-			db_set_b(NULL, "CLCExt", buffer, p->COLOR2_TRANSPARENT);
+			db_set_b(0, "CLCExt", buffer, p->COLOR2_TRANSPARENT);
 			mir_snprintf(buffer, "%s_TEXTCOLOR", p->szDBname);
-			db_set_dw(NULL, "CLCExt", buffer, p->TEXTCOLOR);
+			db_set_dw(0, "CLCExt", buffer, p->TEXTCOLOR);
 			mir_snprintf(buffer, "%s_ALPHA", p->szDBname);
-			db_set_b(NULL, "CLCExt", buffer, (BYTE)p->ALPHA);
+			db_set_b(0, "CLCExt", buffer, (BYTE)p->ALPHA);
 			mir_snprintf(buffer, "%s_MRGN_LEFT", p->szDBname);
-			db_set_b(NULL, "CLCExt", buffer, (BYTE)p->MARGIN_LEFT);
+			db_set_b(0, "CLCExt", buffer, (BYTE)p->MARGIN_LEFT);
 			mir_snprintf(buffer, "%s_MRGN_TOP", p->szDBname);
-			db_set_b(NULL, "CLCExt", buffer, (BYTE)p->MARGIN_TOP);
+			db_set_b(0, "CLCExt", buffer, (BYTE)p->MARGIN_TOP);
 			mir_snprintf(buffer, "%s_MRGN_RIGHT", p->szDBname);
-			db_set_b(NULL, "CLCExt", buffer, (BYTE)p->MARGIN_RIGHT);
+			db_set_b(0, "CLCExt", buffer, (BYTE)p->MARGIN_RIGHT);
 			mir_snprintf(buffer, "%s_MRGN_BOTTOM", p->szDBname);
-			db_set_b(NULL, "CLCExt", buffer, (BYTE)p->MARGIN_BOTTOM);
+			db_set_b(0, "CLCExt", buffer, (BYTE)p->MARGIN_BOTTOM);
 			mir_snprintf(buffer, "%s_BDRSTYLE", p->szDBname);
-			db_set_dw(NULL, "CLCExt", buffer, p->BORDERSTYLE);
+			db_set_dw(0, "CLCExt", buffer, p->BORDERSTYLE);
 		}
 	}
 }
 
 void SetButtonToSkinned()
 {
-	bool bSkinned = (cfg::dat.bSkinnedButtonMode = db_get_b(NULL, "CLCExt", "bskinned", 0)) != 0;
-	bool bFlat = bSkinned || (db_get_b(NULL, "TopToolBar", "UseFlatButton", 0) != 0);
+	bool bSkinned = (cfg::dat.bSkinnedButtonMode = db_get_b(0, "CLCExt", "bskinned", 0)) != 0;
+	bool bFlat = bSkinned || (db_get_b(0, "TopToolBar", "UseFlatButton", 0) != 0);
 
 	for (int i = 0;; i++) {
 		if (BTNS[i].pszButtonID == nullptr)
@@ -399,8 +399,8 @@ void Reload3dBevelColors()
 	if (cfg::dat.hPen3DDark)
 		DeleteObject(cfg::dat.hPen3DDark);
 
-	cfg::dat.hPen3DBright = CreatePen(PS_SOLID, 1, db_get_dw(NULL, "CLCExt", "3dbright", GetSysColor(COLOR_3DLIGHT)));
-	cfg::dat.hPen3DDark = CreatePen(PS_SOLID, 1, db_get_dw(NULL, "CLCExt", "3ddark", GetSysColor(COLOR_3DSHADOW)));
+	cfg::dat.hPen3DBright = CreatePen(PS_SOLID, 1, db_get_dw(0, "CLCExt", "3dbright", GetSysColor(COLOR_3DLIGHT)));
+	cfg::dat.hPen3DDark = CreatePen(PS_SOLID, 1, db_get_dw(0, "CLCExt", "3ddark", GetSysColor(COLOR_3DSHADOW)));
 }
 
 // Save Non-arStatusItems Settings
@@ -408,8 +408,8 @@ void SaveNonStatusItemsSettings(HWND hwndDlg)
 {
 	BOOL translated;
 
-	db_set_b(NULL, "CLCExt", "EXBK_EqualSelection", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_EQUALSELECTION));
-	db_set_b(NULL, "CLCExt", "EXBK_SelBlend", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SELBLEND));
+	db_set_b(0, "CLCExt", "EXBK_EqualSelection", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_EQUALSELECTION));
+	db_set_b(0, "CLCExt", "EXBK_SelBlend", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SELBLEND));
 
 	cfg::dat.cornerRadius = GetDlgItemInt(hwndDlg, IDC_CORNERRAD, &translated, FALSE);
 	cfg::dat.bApplyIndentToBg = IsDlgButtonChecked(hwndDlg, IDC_APPLYINDENTBG) ? 1 : 0;
@@ -419,16 +419,16 @@ void SaveNonStatusItemsSettings(HWND hwndDlg)
 	cfg::dat.titleBarHeight = (BYTE)GetDlgItemInt(hwndDlg, IDC_LASTITEMPADDING, &translated, FALSE);
 	cfg::dat.group_padding = GetDlgItemInt(hwndDlg, IDC_GRPTOPPADDING, &translated, FALSE);
 
-	db_set_b(NULL, "CLCExt", "CornerRad", cfg::dat.cornerRadius);
-	db_set_b(NULL, "CLCExt", "applyindentbg", (BYTE)cfg::dat.bApplyIndentToBg);
-	db_set_b(NULL, "CLCExt", "useperproto", (BYTE)cfg::dat.bUsePerProto);
-	db_set_b(NULL, "CLCExt", "override_status", (BYTE)cfg::dat.bOverridePerStatusColors);
-	db_set_b(NULL, "CLCExt", "bskinned", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SETALLBUTTONSKINNED) ? 1 : 0));
-	db_set_b(NULL, "CLCExt", "FastGradients", cfg::dat.bWantFastGradients);
-	db_set_b(NULL, "CLC", "IgnoreSelforGroups", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IGNORESELFORGROUPS));
+	db_set_b(0, "CLCExt", "CornerRad", cfg::dat.cornerRadius);
+	db_set_b(0, "CLCExt", "applyindentbg", (BYTE)cfg::dat.bApplyIndentToBg);
+	db_set_b(0, "CLCExt", "useperproto", (BYTE)cfg::dat.bUsePerProto);
+	db_set_b(0, "CLCExt", "override_status", (BYTE)cfg::dat.bOverridePerStatusColors);
+	db_set_b(0, "CLCExt", "bskinned", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SETALLBUTTONSKINNED) ? 1 : 0));
+	db_set_b(0, "CLCExt", "FastGradients", cfg::dat.bWantFastGradients);
+	db_set_b(0, "CLC", "IgnoreSelforGroups", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IGNORESELFORGROUPS));
 
-	db_set_dw(NULL, "CLCExt", "grp_padding", cfg::dat.group_padding);
-	db_set_b(NULL, "CLCExt", "frame_height", cfg::dat.titleBarHeight);
+	db_set_dw(0, "CLCExt", "grp_padding", cfg::dat.group_padding);
+	db_set_b(0, "CLCExt", "frame_height", cfg::dat.titleBarHeight);
 
 	Reload3dBevelColors();
 	SetButtonToSkinned();
@@ -508,32 +508,32 @@ void extbk_export(char *file)
 		mir_snprintf(szSection, "Font%d", n);
 
 		mir_snprintf(szKey, "Font%dName", n);
-		if (!db_get_s(NULL, "CLC", szKey, &dbv)) {
+		if (!db_get_s(0, "CLC", szKey, &dbv)) {
 			WritePrivateProfileStringA(szSection, "Name", dbv.pszVal, file);
 			mir_free(dbv.pszVal);
 		}
 		mir_snprintf(szKey, "Font%dSize", n);
-		data = (DWORD)db_get_b(NULL, "CLC", szKey, 8);
+		data = (DWORD)db_get_b(0, "CLC", szKey, 8);
 		WritePrivateProfileStructA(szSection, "Size", &data, 1, file);
 
 		mir_snprintf(szKey, "Font%dSty", n);
-		data = (DWORD)db_get_b(NULL, "CLC", szKey, 8);
+		data = (DWORD)db_get_b(0, "CLC", szKey, 8);
 		WritePrivateProfileStructA(szSection, "Style", &data, 1, file);
 
 		mir_snprintf(szKey, "Font%dSet", n);
-		data = (DWORD)db_get_b(NULL, "CLC", szKey, 8);
+		data = (DWORD)db_get_b(0, "CLC", szKey, 8);
 		WritePrivateProfileStructA(szSection, "Set", &data, 1, file);
 
 		mir_snprintf(szKey, "Font%dCol", n);
-		data = db_get_dw(NULL, "CLC", szKey, 8);
+		data = db_get_dw(0, "CLC", szKey, 8);
 		WritePrivateProfileStructA(szSection, "Color", &data, 4, file);
 
 		mir_snprintf(szKey, "Font%dFlags", n);
-		data = (DWORD)db_get_dw(NULL, "CLC", szKey, 8);
+		data = (DWORD)db_get_dw(0, "CLC", szKey, 8);
 		WritePrivateProfileStructA(szSection, "Flags", &data, 4, file);
 
 		mir_snprintf(szKey, "Font%dAs", n);
-		data = (DWORD)db_get_w(NULL, "CLC", szKey, 8);
+		data = (DWORD)db_get_w(0, "CLC", szKey, 8);
 		WritePrivateProfileStructA(szSection, "SameAs", &data, 2, file);
 	}
 
@@ -542,20 +542,20 @@ void extbk_export(char *file)
 		data = 0;
 		switch (_tagSettings[i].size) {
 		case 1:
-			data = (DWORD)db_get_b(NULL, _tagSettings[i].szModule, _tagSettings[i].szSetting, (BYTE)_tagSettings[i].defaultval);
+			data = (DWORD)db_get_b(0, _tagSettings[i].szModule, _tagSettings[i].szSetting, (BYTE)_tagSettings[i].defaultval);
 			break;
 		case 2:
-			data = (DWORD)db_get_w(NULL, _tagSettings[i].szModule, _tagSettings[i].szSetting, (DWORD)_tagSettings[i].defaultval);
+			data = (DWORD)db_get_w(0, _tagSettings[i].szModule, _tagSettings[i].szSetting, (DWORD)_tagSettings[i].defaultval);
 			break;
 		case 4:
-			data = (DWORD)db_get_dw(NULL, _tagSettings[i].szModule, _tagSettings[i].szSetting, (DWORD)_tagSettings[i].defaultval);
+			data = (DWORD)db_get_dw(0, _tagSettings[i].szModule, _tagSettings[i].szSetting, (DWORD)_tagSettings[i].defaultval);
 			break;
 		}
 		WritePrivateProfileStructA("Global", _tagSettings[i].szSetting, &data, _tagSettings[i].size, file);
 		i++;
 	}
 
-	if (!db_get_s(NULL, "CLC", "BkBitmap", &dbv)) {
+	if (!db_get_s(0, "CLC", "BkBitmap", &dbv)) {
 		WritePrivateProfileStringA("Global", "BkBitmap", dbv.pszVal, file);
 		db_free(&dbv);
 	}
@@ -891,7 +891,7 @@ done_with_glyph:
 					GetPrivateProfileStringA(itemname, "Colorkey", "e5e5e5", buffer, 500, szFileName);
 					COLORREF clr = HexStringToLong(buffer);
 					cfg::dat.colorkey = clr;
-					db_set_dw(NULL, "CLUI", "ColorKey", clr);
+					db_set_dw(0, "CLUI", "ColorKey", clr);
 					if (g_CLUISkinnedBkColor)
 						DeleteObject(g_CLUISkinnedBkColor);
 					g_CLUISkinnedBkColor = CreateSolidBrush(clr);
@@ -1224,14 +1224,14 @@ void IMG_LoadItems()
 	free(szSections);
 
 	if (g_ImageItems) {
-		db_set_b(NULL, "CLCExt", "bskinned", 1);
+		db_set_b(0, "CLCExt", "bskinned", 1);
 		SetButtonToSkinned();
 	}
 	if (g_CLUIImageItem) {
 		cfg::dat.bFullTransparent = TRUE;
 		cfg::dat.dwFlags &= ~CLUI_FRAME_CLISTSUNKEN;
-		db_set_b(NULL, "CLUI", "fulltransparent", (BYTE)cfg::dat.bFullTransparent);
-		db_set_b(NULL, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_NOBORDER);
+		db_set_b(0, "CLUI", "fulltransparent", (BYTE)cfg::dat.bFullTransparent);
+		db_set_b(0, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_NOBORDER);
 		ApplyCLUIBorderStyle();
 		SetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE) | WS_EX_LAYERED);
 		SetLayeredWindowAttributes(g_clistApi.hwndContactList, cfg::dat.colorkey, 0, LWA_COLORKEY);
@@ -1384,37 +1384,37 @@ void extbk_import(char *file, HWND hwndDlg)
 
 			mir_snprintf(szKey, "Font%dName", n);
 			GetPrivateProfileStringA(szSection, "Name", "Arial", buffer, sizeof(buffer), file);
-			db_set_s(NULL, "CLC", szKey, buffer);
+			db_set_s(0, "CLC", szKey, buffer);
 
 			mir_snprintf(szKey, "Font%dSize", n);
 			data = 0;
 			GetPrivateProfileStructA(szSection, "Size", &data, 1, file);
-			db_set_b(NULL, "CLC", szKey, (BYTE)data);
+			db_set_b(0, "CLC", szKey, (BYTE)data);
 
 			mir_snprintf(szKey, "Font%dSty", n);
 			data = 0;
 			GetPrivateProfileStructA(szSection, "Style", &data, 1, file);
-			db_set_b(NULL, "CLC", szKey, (BYTE)data);
+			db_set_b(0, "CLC", szKey, (BYTE)data);
 
 			mir_snprintf(szKey, "Font%dSet", n);
 			data = 0;
 			GetPrivateProfileStructA(szSection, "Set", &data, 1, file);
-			db_set_b(NULL, "CLC", szKey, (BYTE)data);
+			db_set_b(0, "CLC", szKey, (BYTE)data);
 
 			mir_snprintf(szKey, "Font%dCol", n);
 			data = 0;
 			GetPrivateProfileStructA(szSection, "Color", &data, 4, file);
-			db_set_dw(NULL, "CLC", szKey, data);
+			db_set_dw(0, "CLC", szKey, data);
 
 			mir_snprintf(szKey, "Font%dFlags", n);
 			data = 0;
 			GetPrivateProfileStructA(szSection, "Flags", &data, 4, file);
-			db_set_dw(NULL, "CLC", szKey, (WORD)data);
+			db_set_dw(0, "CLC", szKey, (WORD)data);
 
 			mir_snprintf(szKey, "Font%dAs", n);
 			data = 0;
 			GetPrivateProfileStructA(szSection, "SameAs", &data, 2, file);
-			db_set_dw(NULL, "CLC", szKey, (WORD)data);
+			db_set_dw(0, "CLC", szKey, (WORD)data);
 		}
 	}
 	i = 0;
@@ -1427,20 +1427,20 @@ void extbk_import(char *file, HWND hwndDlg)
 			GetPrivateProfileStructA("Global", _tagSettings[i].szSetting, &data, _tagSettings[i].size, file);
 			switch (_tagSettings[i].size) {
 			case 1:
-				db_set_b(NULL, _tagSettings[i].szModule, _tagSettings[i].szSetting, (BYTE)data);
+				db_set_b(0, _tagSettings[i].szModule, _tagSettings[i].szSetting, (BYTE)data);
 				break;
 			case 4:
-				db_set_dw(NULL, _tagSettings[i].szModule, _tagSettings[i].szSetting, data);
+				db_set_dw(0, _tagSettings[i].szModule, _tagSettings[i].szSetting, data);
 				break;
 			case 2:
-				db_set_w(NULL, _tagSettings[i].szModule, _tagSettings[i].szSetting, (WORD)data);
+				db_set_w(0, _tagSettings[i].szModule, _tagSettings[i].szSetting, (WORD)data);
 				break;
 			}
 			i++;
 		}
 		GetPrivateProfileStringA("Global", "BkBitmap", "", szString, MAX_PATH, file);
 		if (szString[0] != 0)
-			db_set_s(NULL, "CLC", "BkBitmap", szString);
+			db_set_s(0, "CLC", "BkBitmap", szString);
 	}
 
 	Reload3dBevelColors();
@@ -1465,10 +1465,10 @@ static void ApplyCLUISkin()
 
 		WideCharToMultiByte(CP_ACP, 0, tszFinalName, MAX_PATH, szFinalName, MAX_PATH, nullptr, nullptr);
 
-		if (db_get_b(NULL, "CLUI", "skin_changed", 0)) {
+		if (db_get_b(0, "CLUI", "skin_changed", 0)) {
 			extbk_import(szFinalName, nullptr);
 			SaveCompleteStructToDB();
-			db_set_b(NULL, "CLUI", "skin_changed", 0);
+			db_set_b(0, "CLUI", "skin_changed", 0);
 		}
 		IMG_LoadItems();
 		ShowWindow(g_clistApi.hwndContactList, SW_SHOWNORMAL);
@@ -1486,9 +1486,9 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			DBVARIANT dbv;
 			TranslateDialogDefault(hwndDlg);
 
-			CheckDlgButton(hwndDlg, IDC_EQUALSELECTION, (db_get_b(NULL, "CLCExt", "EXBK_EqualSelection", 1) == 1) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SELBLEND, db_get_b(NULL, "CLCExt", "EXBK_SelBlend", 1) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SETALLBUTTONSKINNED, db_get_b(NULL, "CLCExt", "bskinned", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_EQUALSELECTION, (db_get_b(0, "CLCExt", "EXBK_EqualSelection", 1) == 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SELBLEND, db_get_b(0, "CLCExt", "EXBK_SelBlend", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SETALLBUTTONSKINNED, db_get_b(0, "CLCExt", "bskinned", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 			SendDlgItemMessage(hwndDlg, IDC_CORNERSPIN, UDM_SETRANGE, 0, MAKELONG(10, 0));
 			SendDlgItemMessage(hwndDlg, IDC_CORNERSPIN, UDM_SETPOS, 0, cfg::dat.cornerRadius);
@@ -1503,16 +1503,16 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			CheckDlgButton(hwndDlg, IDC_USEPERPROTO, cfg::dat.bUsePerProto ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_OVERRIDEPERSTATUSCOLOR, cfg::dat.bOverridePerStatusColors ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_FASTGRADIENT, cfg::dat.bWantFastGradients ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_IGNORESELFORGROUPS, db_get_b(NULL, "CLC", "IgnoreSelforGroups", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_IGNORESELFORGROUPS, db_get_b(0, "CLC", "IgnoreSelforGroups", 0) ? BST_CHECKED : BST_UNCHECKED);
 
-			if (!db_get_s(NULL, "CLC", "ContactSkins", &dbv)) {
+			if (!db_get_s(0, "CLC", "ContactSkins", &dbv)) {
 				SetDlgItemTextA(hwndDlg, IDC_SKINFILE, dbv.pszVal);
 				db_free(&dbv);
 				Utils::enableDlgControl(hwndDlg, IDC_RELOAD, TRUE);
 			}
 			else
 				Utils::enableDlgControl(hwndDlg, IDC_RELOAD, FALSE);
-			CheckDlgButton(hwndDlg, IDC_USESKIN, db_get_b(NULL, "CLUI", "useskin", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_USESKIN, db_get_b(0, "CLUI", "useskin", 0) ? BST_CHECKED : BST_UNCHECKED);
 			if (!db_get_ws(NULL, "CLC", "AdvancedSkin", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_SKINFILENAME, dbv.pwszVal);
 				db_free(&dbv);
@@ -1526,7 +1526,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		case IDC_USESKIN:
 			{
 				int useskin = IsDlgButtonChecked(hwndDlg, IDC_USESKIN);
-				db_set_b(NULL, "CLUI", "useskin", (BYTE)(useskin ? 1 : 0));
+				db_set_b(0, "CLUI", "useskin", (BYTE)(useskin ? 1 : 0));
 			}
 			break;
 
@@ -1571,15 +1571,15 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					}
 					else
 						skinChanged = TRUE;
-					db_set_ws(NULL, "CLC", "AdvancedSkin", final_path);
-					db_set_b(NULL, "CLUI", "skin_changed", (BYTE)skinChanged);
+					db_set_ws(0, "CLC", "AdvancedSkin", final_path);
+					db_set_b(0, "CLUI", "skin_changed", (BYTE)skinChanged);
 					SetDlgItemText(hwndDlg, IDC_SKINFILENAME, final_path);
 				}
 			}
 			break;
 
 		case IDC_RELOADSKIN:
-			db_set_b(NULL, "CLUI", "skin_changed", 1);
+			db_set_b(0, "CLUI", "skin_changed", 1);
 			ApplyCLUISkin();
 			break;
 
@@ -1628,7 +1628,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwnd);
 		{
-			int oPage = db_get_b(NULL, "CLUI", "opage", 0);
+			int oPage = db_get_b(0, "CLUI", "opage", 0);
 
 			RECT rcClient;
 			GetClientRect(hwnd, &rcClient);
@@ -1745,7 +1745,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				tci.mask = TCIF_PARAM;
 				TabCtrl_GetItem(GetDlgItem(hwnd, IDC_OPTIONSTAB), TabCtrl_GetCurSel(GetDlgItem(hwnd, IDC_OPTIONSTAB)), &tci);
 				ShowWindow((HWND)tci.lParam, SW_SHOW);
-				db_set_b(NULL, "CLUI", "opage", (BYTE)TabCtrl_GetCurSel(GetDlgItem(hwnd, IDC_OPTIONSTAB)));
+				db_set_b(0, "CLUI", "opage", (BYTE)TabCtrl_GetCurSel(GetDlgItem(hwnd, IDC_OPTIONSTAB)));
 				Utils::enableDlgControl(hwnd, IDC_EXPORT, TabCtrl_GetCurSel(GetDlgItem(hwnd, IDC_OPTIONSTAB)) != 0);
 				Utils::enableDlgControl(hwnd, IDC_IMPORT, TabCtrl_GetCurSel(GetDlgItem(hwnd, IDC_OPTIONSTAB)) != 0);
 				break;
@@ -1787,7 +1787,7 @@ int CoolSB_SetupScrollBar()
 		 !arStatusItems[ID_EXTBKSCROLLBUTTONPRESSED - ID_STATUS_OFFLINE]->imageItem)
 		cfg::dat.bSkinnedScrollbar = FALSE;
 
-	if (db_get_b(NULL, "CLC", "NoVScrollBar", 0)) {
+	if (db_get_b(0, "CLC", "NoVScrollBar", 0)) {
 		UninitializeCoolSB(g_clistApi.hwndContactTree);
 		return 0;
 	}

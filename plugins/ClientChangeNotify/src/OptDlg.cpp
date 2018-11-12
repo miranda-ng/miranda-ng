@@ -128,7 +128,7 @@ INT_PTR CALLBACK PopupOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				DBCONTACTWRITESETTING cws = {};
 				cws.szModule = "ICQ";
 				cws.szSetting = DB_MIRVER;
-				db_set_s(NULL, MODULENAME, DB_OLDMIRVER, "ICQ Lite v5");
+				g_plugin.setString(DB_OLDMIRVER, "ICQ Lite v5");
 				ContactSettingChanged(NULL, (LPARAM)&cws); // simulate a version change
 				delete g_PreviewOptPage;
 				g_PreviewOptPage = nullptr;

@@ -67,7 +67,7 @@ void RegisterAction(POPUPACTION *action)
 	else {
 		POPUPACTION *actionCopy = new POPUPACTION;
 		*actionCopy = *action;
-		actionCopy->flags = db_get_b(NULL, "PopupActions", actionCopy->lpzTitle, actionCopy->flags & PAF_ENABLED) ? PAF_ENABLED : 0;
+		actionCopy->flags = db_get_b(0, "PopupActions", actionCopy->lpzTitle, actionCopy->flags & PAF_ENABLED) ? PAF_ENABLED : 0;
 		gActions.insert(actionCopy);
 	}
 }
@@ -138,13 +138,13 @@ DWORD MouseOverride(HWND hCombo, int number)
 
 void LoadOption_Actions()
 {
-	PopupOptions.actions = db_get_dw(NULL, MODULENAME, "Actions",
+	PopupOptions.actions = g_plugin.getDword("Actions",
 		ACT_ENABLE | ACT_RIGHTICONS | ACT_DEF_KEEPWND | ACT_DEF_IMONLY |
 		ACT_DEF_NOGLOBAL | ACT_DEF_MESSAGE | ACT_DEF_DETAILS | ACT_DEF_MENU |
 		ACT_DEF_ADD | ACT_DEF_DISMISS | ACT_DEF_PIN);
-	PopupOptions.overrideLeft = db_get_dw(NULL, MODULENAME, "OverrideLeft", 0);
-	PopupOptions.overrideMiddle = db_get_dw(NULL, MODULENAME, "OverrideMiddle", 0);
-	PopupOptions.overrideRight = db_get_dw(NULL, MODULENAME, "OverrideRight", 0);
+	PopupOptions.overrideLeft = g_plugin.getDword("OverrideLeft", 0);
+	PopupOptions.overrideMiddle = g_plugin.getDword("OverrideMiddle", 0);
+	PopupOptions.overrideRight = g_plugin.getDword("OverrideRight", 0);
 }
 
 static UINT controls[] =
@@ -340,18 +340,18 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				break;
 
 			case PSN_APPLY:
-				db_set_dw(NULL, MODULENAME, "Actions", PopupOptions.actions);
+				g_plugin.setDword("Actions", PopupOptions.actions);
 				HWND hwndList = GetDlgItem(hwnd, IDC_ACTIONS);
 
 				for (int i = 0; i < gActions.getCount(); ++i) {
 					gActions[i]->flags = (ListView_GetItemState(hwndList, i, LVIS_STATEIMAGEMASK) == 0x2000) ? PAF_ENABLED : 0;
-					db_set_b(NULL, "PopupActions", gActions[i]->lpzTitle, (gActions[i]->flags & PAF_ENABLED) ? 1 : 0);
+					db_set_b(0, "PopupActions", gActions[i]->lpzTitle, (gActions[i]->flags & PAF_ENABLED) ? 1 : 0);
 				}
 
 				// overrideActions
-				db_set_dw(NULL, MODULENAME, "OverrideLeft", PopupOptions.overrideLeft);
-				db_set_dw(NULL, MODULENAME, "OverrideMiddle", PopupOptions.overrideMiddle);
-				db_set_dw(NULL, MODULENAME, "OverrideRight", PopupOptions.overrideRight);
+				g_plugin.setDword("OverrideLeft", PopupOptions.overrideLeft);
+				g_plugin.setDword("OverrideMiddle", PopupOptions.overrideMiddle);
+				g_plugin.setDword("OverrideRight", PopupOptions.overrideRight);
 			}
 			break;
 

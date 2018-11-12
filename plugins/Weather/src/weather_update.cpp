@@ -548,7 +548,7 @@ int GetWeatherData(MCONTACT hContact)
 					db_set_ws(hContact, WEATHERCONDITION, "Heat Index", DataValue);
 				GetStationID(hContact, Svc, _countof(Svc));
 				if (!mir_wstrcmp(Svc, opt.Default))
-					db_set_ws(NULL, DEFCURRENTWEATHER, _T2A(Item->Item.Name), DataValue);
+					db_set_ws(0, DEFCURRENTWEATHER, _T2A(Item->Item.Name), DataValue);
 				if (!mir_wstrcmp(Item->Item.Name, L"Condition")) {
 					wchar_t buf[128], *cbuf;
 					mir_snwprintf(buf, L"#%s Weather", DataValue);

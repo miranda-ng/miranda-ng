@@ -5,7 +5,7 @@ LIST<UinKey> arClist(100, NumericKeySortT);
 
 void loadSupportedProtocols()
 {
-	LPSTR szNames = db_get_sa(0, MODULENAME, "protos");
+	LPSTR szNames = g_plugin.getStringA("protos");
 	if (szNames && strchr(szNames, ':') == nullptr) {
 		LPSTR tmp = (LPSTR)mir_alloc(2048); int j = 0;
 		for (int i = 0; szNames[i]; i++) {
@@ -16,7 +16,7 @@ void loadSupportedProtocols()
 		}
 		tmp[j] = '\0';
 		SAFE_FREE(szNames); szNames = tmp;
-		db_set_s(0, MODULENAME, "protos", szNames);
+		g_plugin.setString("protos", szNames);
 	}
 
 	for (auto &pa : Accounts()) {

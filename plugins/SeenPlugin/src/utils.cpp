@@ -33,7 +33,7 @@ void LoadWatchedProtos()
 	if (szProtosOld != NULL) {
 		CMStringA tmp(szProtosOld);
 		tmp.Replace(" ", "\n");
-		db_set_s(NULL, S_MOD, "WatchedAccounts", tmp.c_str());
+		db_set_s(0, S_MOD, "WatchedAccounts", tmp.c_str());
 		db_unset(NULL, S_MOD, "WatchedProtocols");
 	}
 
@@ -471,13 +471,13 @@ void ShowPopup(MCONTACT hcontact, const char * lpzProto, int newStatus)
 	if (!ServiceExists(MS_POPUP_QUERY))
 		return;
 
-	if (!db_get_b(NULL, S_MOD, "UsePopups", 0) || !db_get_b(hcontact, "CList", "Hidden", 0))
+	if (!db_get_b(0, S_MOD, "UsePopups", 0) || !db_get_b(hcontact, "CList", "Hidden", 0))
 		return;
 
 	DBVARIANT dbv;
 	char szSetting[10];
 	mir_snprintf(szSetting, "Col_%d", newStatus - ID_STATUS_OFFLINE);
-	DWORD sett = db_get_dw(NULL, S_MOD, szSetting, StatusColors15bits[newStatus - ID_STATUS_OFFLINE]);
+	DWORD sett = db_get_dw(0, S_MOD, szSetting, StatusColors15bits[newStatus - ID_STATUS_OFFLINE]);
 
 	POPUPDATAT ppd = { 0 };
 	GetColorsFromDWord(&ppd.colorBack, &ppd.colorText, sett);
@@ -582,24 +582,24 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 				char str[MAXMODULELABELLENGTH + 9];
 
 				mir_snprintf(str, "OffTime-%s", szProto);
-				DWORD t = db_get_dw(NULL, S_MOD, str, 0);
+				DWORD t = db_get_dw(0, S_MOD, str, 0);
 				if (!t)
 					t = time(0);
 				DBWriteTimeTS(t, hContact);
 			}
 
-			if (!db_get_b(NULL, S_MOD, "IgnoreOffline", 1)) {
+			if (!db_get_b(0, S_MOD, "IgnoreOffline", 1)) {
 				if (g_bFileActive)
 					FileWrite(hContact);
 
 				char *sProto = GetContactProto(hContact);
 				if (Proto_GetStatus(sProto) > ID_STATUS_OFFLINE) {
 					myPlaySound(hContact, ID_STATUS_OFFLINE, prevStatus);
-					if (db_get_b(NULL, S_MOD, "UsePopups", 0))
+					if (db_get_b(0, S_MOD, "UsePopups", 0))
 						ShowPopup(hContact, sProto, ID_STATUS_OFFLINE);
 				}
 
-				if (db_get_b(NULL, S_MOD, "KeepHistory", 0))
+				if (db_get_b(0, S_MOD, "KeepHistory", 0))
 					HistoryWrite(hContact);
 
 				if (db_get_b(hContact, S_MOD, "OnlineAlert", 0))
@@ -615,11 +615,11 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 
 			if (g_bFileActive) FileWrite(hContact);
 			if (prevStatus != cws->value.wVal) myPlaySound(hContact, cws->value.wVal, prevStatus);
-			if (db_get_b(NULL, S_MOD, "UsePopups", 0))
+			if (db_get_b(0, S_MOD, "UsePopups", 0))
 				if (prevStatus != cws->value.wVal)
 					ShowPopup(hContact, GetContactProto(hContact), cws->value.wVal | 0x8000);
 
-			if (db_get_b(NULL, S_MOD, "KeepHistory", 0)) HistoryWrite(hContact);
+			if (db_get_b(0, S_MOD, "KeepHistory", 0)) HistoryWrite(hContact);
 			if (db_get_b(hContact, S_MOD, "OnlineAlert", 0)) ShowHistory(hContact, 1);
 			db_set_b(hContact, S_MOD, "Offline", 0);
 		}
@@ -685,7 +685,7 @@ int ModeChange(WPARAM, LPARAM lparam)
 		isetting = ID_STATUS_OFFLINE;
 	if ((isetting > ID_STATUS_OFFLINE) && ((UINT_PTR)ack->hProcess <= ID_STATUS_OFFLINE)) {
 		//we have just loged-in
-		db_set_dw(NULL, "UserOnline", ack->szModule, GetTickCount());
+		db_set_dw(0, "UserOnline", ack->szModule, GetTickCount());
 		if (!Miranda_IsTerminated() && IsWatchedProtocol(ack->szModule)) {
 			logthread_info *info = (logthread_info *)mir_alloc(sizeof(logthread_info));
 			mir_strncpy(info->sProtoName, courProtoName, _countof(info->sProtoName));
@@ -703,14 +703,14 @@ int ModeChange(WPARAM, LPARAM lparam)
 
 			time(&t);
 			mir_snprintf(str, "OffTime-%s", ack->szModule);
-			db_set_dw(NULL, S_MOD, str, t);
+			db_set_dw(0, S_MOD, str, t);
 		}
 	}
 
-	if (isetting == db_get_w(NULL, S_MOD, courProtoName, ID_STATUS_OFFLINE))
+	if (isetting == db_get_w(0, S_MOD, courProtoName, ID_STATUS_OFFLINE))
 		return 0;
 
-	db_set_w(NULL, S_MOD, courProtoName, isetting);
+	db_set_w(0, S_MOD, courProtoName, isetting);
 
 	if (g_bFileActive)
 		FileWrite(NULL);

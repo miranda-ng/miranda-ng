@@ -25,18 +25,18 @@ void InitPopupList()
 {
 	int index = 0;
 	PopupsList[index].ID = index;
-	PopupsList[index].colorBack = db_get_dw(NULL, MODULENAME, "Popups0Bg", COLOR_BG_FIRSTDEFAULT);
-	PopupsList[index].colorText = db_get_dw(NULL, MODULENAME, "Popups0Tx", COLOR_TX_DEFAULT);
+	PopupsList[index].colorBack = g_plugin.getDword("Popups0Bg", COLOR_BG_FIRSTDEFAULT);
+	PopupsList[index].colorText = g_plugin.getDword("Popups0Tx", COLOR_TX_DEFAULT);
 
 	index = 1;
 	PopupsList[index].ID = index;
-	PopupsList[index].colorBack = db_get_dw(NULL, MODULENAME, "Popups1Bg", COLOR_BG_SECONDDEFAULT);
-	PopupsList[index].colorText = db_get_dw(NULL, MODULENAME, "Popups1Tx", COLOR_TX_DEFAULT);
+	PopupsList[index].colorBack = g_plugin.getDword("Popups1Bg", COLOR_BG_SECONDDEFAULT);
+	PopupsList[index].colorText = g_plugin.getDword("Popups1Tx", COLOR_TX_DEFAULT);
 
 	index = 2;
 	PopupsList[index].ID = index;
-	PopupsList[index].colorBack = db_get_dw(NULL, MODULENAME, "Popups2Bg", COLOR_BG_FIRSTDEFAULT);
-	PopupsList[index].colorText = db_get_dw(NULL, MODULENAME, "Popups2Tx", COLOR_TX_DEFAULT);
+	PopupsList[index].colorBack = g_plugin.getDword("Popups2Bg", COLOR_BG_FIRSTDEFAULT);
+	PopupsList[index].colorText = g_plugin.getDword("Popups2Tx", COLOR_TX_DEFAULT);
 }
 
 void PopupAction(HWND hPopup, BYTE action)
@@ -74,7 +74,7 @@ static void _stdcall RestartPrompt(void *)
 	mir_snwprintf(tszText, L"%s\n\n%s", TranslateT("You need to restart your Miranda to apply installed updates."), TranslateT("Would you like to restart it now?"));
 
 	if (MessageBox(nullptr, tszText, TranslateT("Plugin Updater"), MB_YESNO | MB_ICONQUESTION | MB_TOPMOST) == IDYES)
-		CallService(MS_SYSTEM_RESTART, db_get_b(NULL, MODULENAME, "RestartCurrentProfile", 1) ? 1 : 0, 0);
+		CallService(MS_SYSTEM_RESTART, g_plugin.getByte("RestartCurrentProfile", 1) ? 1 : 0, 0);
 }
 
 static LRESULT CALLBACK PopupDlgProcRestart(HWND hPopup, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -95,11 +95,11 @@ static LRESULT CALLBACK PopupDlgProcRestart(HWND hPopup, UINT uMsg, WPARAM wPara
 
 void ShowPopup(LPCTSTR ptszTitle, LPCTSTR ptszText, int Number)
 {
-	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(0, "Popup", "ModuleIsEnabled", 1)) {
 		char setting[100];
 		mir_snprintf(setting, "Popups%d", Number);
 
-		if (db_get_b(NULL, MODULENAME, setting, DEFAULT_POPUP_ENABLED)) {
+		if (g_plugin.getByte(setting, DEFAULT_POPUP_ENABLED)) {
 			POPUPDATAT pd = { 0 };
 			pd.lchContact = NULL;
 			pd.lchIcon = IcoLib_GetIconByHandle(iconList[0].hIcolib);

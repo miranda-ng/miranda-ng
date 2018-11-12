@@ -24,7 +24,7 @@ static INT_PTR GetService(WPARAM wParam, LPARAM lParam)
 
 	ptrA accountName(mir_strdup((char*)wParam));
 	if (!accountName || !mir_strlen(accountName))
-		accountName = db_get_sa(NULL, MODULENAME, "DefaultService");
+		accountName = g_plugin.getStringA("DefaultService");
 	if (accountName == nullptr)
 		return 2;
 
@@ -63,7 +63,7 @@ INT_PTR Upload(WPARAM wParam, LPARAM lParam)
 
 	ptrA accountName(mir_strdup(uploadData->accountName));
 	if (!mir_strlen(accountName))
-		accountName = db_get_sa(NULL, MODULENAME, "DefaultService");
+		accountName = g_plugin.getStringA("DefaultService");
 	if (accountName == nullptr)
 		return 2;
 

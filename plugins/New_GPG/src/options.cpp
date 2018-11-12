@@ -106,23 +106,23 @@ public:
 				i++;
 			}
 		}
-		edit_LOG_FILE_EDIT.SetText(ptrW(UniGetContactSettingUtf(NULL, MODULENAME, "szLogFilePath", L"")));
+		edit_LOG_FILE_EDIT.SetText(ptrW(UniGetContactSettingUtf(0, MODULENAME, "szLogFilePath", L"")));
 
-		check_DEBUG_LOG.SetState(db_get_b(NULL, MODULENAME, "bDebugLog", 0));
+		check_DEBUG_LOG.SetState(g_plugin.getByte("bDebugLog", 0));
 		check_JABBER_API.Enable();
 		check_AUTO_EXCHANGE.Enable(globals.bJabberAPI);
 
 		{
 			string keyinfo = Translate("Default private key ID");
 			keyinfo += ": ";
-			char *keyid = UniGetContactSettingUtf(NULL, MODULENAME, "KeyID", "");
+			char *keyid = UniGetContactSettingUtf(0, MODULENAME, "KeyID", "");
 			keyinfo += (mir_strlen(keyid) > 0) ? keyid : Translate("not set");
 			mir_free(keyid);
 			lbl_CURRENT_KEY.SetTextA(keyinfo.c_str());
 		}
-		check_JABBER_API.SetState(db_get_b(NULL, MODULENAME, "bJabberAPI", 1));
-		check_FILE_TRANSFERS.SetState(db_get_b(NULL, MODULENAME, "bFileTransfers", 0));
-		check_AUTO_EXCHANGE.SetState(db_get_b(NULL, MODULENAME, "bAutoExchange", 0));
+		check_JABBER_API.SetState(g_plugin.getByte("bJabberAPI", 1));
+		check_FILE_TRANSFERS.SetState(g_plugin.getByte("bFileTransfers", 0));
+		check_AUTO_EXCHANGE.SetState(g_plugin.getByte("bAutoExchange", 0));
 
 		//TODO: get rid of following s..t
 		////////////////
@@ -136,19 +136,19 @@ public:
 
 	bool OnApply() override
 	{
-		db_set_b(NULL, MODULENAME, "bDebugLog", globals.bDebugLog = check_DEBUG_LOG.GetState());
+		g_plugin.setByte("bDebugLog", globals.bDebugLog = check_DEBUG_LOG.GetState());
 
 		if (globals.bDebugLog)
 			globals.debuglog.init();
-		db_set_b(NULL, MODULENAME, "bJabberAPI", globals.bJabberAPI = check_JABBER_API.GetState());
-		bool old_bFileTransfers = db_get_b(NULL, MODULENAME, "bFileTransfers", 0) != 0;
-		db_set_b(NULL, MODULENAME, "bFileTransfers", globals.bFileTransfers = check_FILE_TRANSFERS.GetState());
+		g_plugin.setByte("bJabberAPI", globals.bJabberAPI = check_JABBER_API.GetState());
+		bool old_bFileTransfers = g_plugin.getByte("bFileTransfers", 0) != 0;
+		g_plugin.setByte("bFileTransfers", globals.bFileTransfers = check_FILE_TRANSFERS.GetState());
 		if (globals.bFileTransfers != old_bFileTransfers) {
-			db_set_b(NULL, MODULENAME, "bSameAction", 0);
+			g_plugin.setByte("bSameAction", 0);
 			globals.bSameAction = false;
 		}
-		db_set_b(NULL, MODULENAME, "bAutoExchange", globals.bAutoExchange = check_AUTO_EXCHANGE.GetState());
-		db_set_ws(NULL, MODULENAME, "szLogFilePath", ptrW(edit_LOG_FILE_EDIT.GetText()));
+		g_plugin.setByte("bAutoExchange", globals.bAutoExchange = check_AUTO_EXCHANGE.GetState());
+		g_plugin.setWString("szLogFilePath", ptrW(edit_LOG_FILE_EDIT.GetText()));
 		return true;
 	}
 
@@ -284,7 +284,7 @@ public:
 	void onClick_COPY_KEY(CCtrlButton*)
 	{
 		if (OpenClipboard(m_hwnd)) {
-			char *szKey = UniGetContactSettingUtf(NULL, MODULENAME, "GPGPubKey", "");
+			char *szKey = UniGetContactSettingUtf(0, MODULENAME, "GPGPubKey", "");
 			std::string str = szKey;
 			mir_free(szKey);
 			boost::algorithm::replace_all(str, "\n", "\r\n");
@@ -386,26 +386,26 @@ public:
 
 	bool OnInitDialog() override
 	{
-		edit_BIN_PATH.SetText(ptrW(UniGetContactSettingUtf(NULL, MODULENAME, "szGpgBinPath", L"gpg.exe")));
-		edit_HOME_DIR.SetText(ptrW(UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L"gpg")));
+		edit_BIN_PATH.SetText(ptrW(UniGetContactSettingUtf(0, MODULENAME, "szGpgBinPath", L"gpg.exe")));
+		edit_HOME_DIR.SetText(ptrW(UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L"gpg")));
 		return true;
 	}
 
 	bool OnApply() override
 	{
 		wchar_t tmp[8192];
-		db_set_ws(NULL, MODULENAME, "szGpgBinPath", edit_BIN_PATH.GetText());
+		g_plugin.setWString("szGpgBinPath", edit_BIN_PATH.GetText());
 		mir_wstrncpy(tmp, edit_HOME_DIR.GetText(), 8191);
 		while (tmp[mir_wstrlen(tmp) - 1] == '\\')
 			tmp[mir_wstrlen(tmp) - 1] = '\0';
-		db_set_ws(NULL, MODULENAME, "szHomePath", tmp);
+		g_plugin.setWString("szHomePath", tmp);
 		return true;
 	}
 
 	void onClick_SET_BIN_PATH(CCtrlButton*)
 	{
 		GetFilePath(TranslateT("Choose gpg.exe"), "szGpgBinPath", L"*.exe", TranslateT("EXE Executables"));
-		CMStringW tmp(ptrW(UniGetContactSettingUtf(NULL, MODULENAME, "szGpgBinPath", L"gpg.exe")));
+		CMStringW tmp(ptrW(UniGetContactSettingUtf(0, MODULENAME, "szGpgBinPath", L"gpg.exe")));
 		edit_BIN_PATH.SetText(tmp);
 		bool gpg_exists = false;
 		{
@@ -413,8 +413,8 @@ public:
 				gpg_exists = true;
 			if (gpg_exists) {
 				bool bad_version = false;
-				wchar_t *tmp_path = UniGetContactSettingUtf(NULL, MODULENAME, "szGpgBinPath", L"");
-				db_set_ws(NULL, MODULENAME, "szGpgBinPath", tmp);
+				wchar_t *tmp_path = UniGetContactSettingUtf(0, MODULENAME, "szGpgBinPath", L"");
+				g_plugin.setWString("szGpgBinPath", tmp);
 				string out;
 				DWORD code;
 				std::vector<wstring> cmd;
@@ -428,7 +428,7 @@ public:
 				globals.gpg_valid = true;
 				gpg_launcher(params);
 				globals.gpg_valid = old_gpg_state;
-				db_set_ws(NULL, MODULENAME, "szGpgBinPath", tmp_path);
+				g_plugin.setWString("szGpgBinPath", tmp_path);
 				mir_free(tmp_path);
 				string::size_type p1 = out.find("(GnuPG) ");
 				if (p1 != string::npos) {
@@ -455,7 +455,7 @@ public:
 	void onClick_SET_HOME_DIR(CCtrlButton*)
 	{
 		GetFolderPath(TranslateT("Set home directory"));
-		CMStringW tmp(ptrW(UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L"")));
+		CMStringW tmp(ptrW(UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L"")));
 		edit_HOME_DIR.SetText(tmp);
 		wchar_t mir_path[MAX_PATH];
 		PathToAbsoluteW(L"\\", mir_path);
@@ -479,34 +479,34 @@ public:
 
 	bool OnInitDialog() override
 	{
-		check_APPEND_TAGS.SetState(db_get_b(NULL, MODULENAME, "bAppendTags", 0));
-		check_STRIP_TAGS.SetState(db_get_b(NULL, MODULENAME, "bStripTags", 0));
-		edit_IN_OPEN_TAG.SetText(ptrW(UniGetContactSettingUtf(NULL, MODULENAME, "szInOpenTag", L"<GPGdec>")));
-		edit_IN_CLOSE_TAG.SetText(ptrW(UniGetContactSettingUtf(NULL, MODULENAME, "szInCloseTag", L"</GPGdec>")));
-		edit_OUT_OPEN_TAG.SetText(ptrW(UniGetContactSettingUtf(NULL, MODULENAME, "szOutOpenTag", L"<GPGenc>")));
-		edit_OUT_CLOSE_TAG.SetText(ptrW(UniGetContactSettingUtf(NULL, MODULENAME, "szOutCloseTag", L"</GPGenc>")));
+		check_APPEND_TAGS.SetState(g_plugin.getByte("bAppendTags", 0));
+		check_STRIP_TAGS.SetState(g_plugin.getByte("bStripTags", 0));
+		edit_IN_OPEN_TAG.SetText(ptrW(UniGetContactSettingUtf(0, MODULENAME, "szInOpenTag", L"<GPGdec>")));
+		edit_IN_CLOSE_TAG.SetText(ptrW(UniGetContactSettingUtf(0, MODULENAME, "szInCloseTag", L"</GPGdec>")));
+		edit_OUT_OPEN_TAG.SetText(ptrW(UniGetContactSettingUtf(0, MODULENAME, "szOutOpenTag", L"<GPGenc>")));
+		edit_OUT_CLOSE_TAG.SetText(ptrW(UniGetContactSettingUtf(0, MODULENAME, "szOutCloseTag", L"</GPGenc>")));
 		return true;
 	}
 
 	bool OnApply() override
 	{
-		db_set_b(NULL, MODULENAME, "bAppendTags", globals.bAppendTags = check_APPEND_TAGS.GetState());
-		db_set_b(NULL, MODULENAME, "bStripTags", globals.bStripTags = check_STRIP_TAGS.GetState());
+		g_plugin.setByte("bAppendTags", globals.bAppendTags = check_APPEND_TAGS.GetState());
+		g_plugin.setByte("bStripTags", globals.bStripTags = check_STRIP_TAGS.GetState());
 		{
 			wchar_t *tmp = mir_wstrdup(edit_IN_OPEN_TAG.GetText());
-			db_set_ws(NULL, MODULENAME, "szInOpenTag", tmp);
+			g_plugin.setWString("szInOpenTag", tmp);
 			mir_free(globals.inopentag);
 			globals.inopentag = tmp;
 			tmp = mir_wstrdup(edit_IN_CLOSE_TAG.GetText());
-			db_set_ws(NULL, MODULENAME, "szInCloseTag", tmp);
+			g_plugin.setWString("szInCloseTag", tmp);
 			mir_free(globals.inclosetag);
 			globals.inclosetag = tmp;
 			tmp = mir_wstrdup(edit_OUT_OPEN_TAG.GetText());
-			db_set_ws(NULL, MODULENAME, "szOutOpenTag", tmp);
+			g_plugin.setWString("szOutOpenTag", tmp);
 			mir_free(globals.outopentag);
 			globals.outopentag = tmp;
 			tmp = mir_wstrdup(edit_OUT_CLOSE_TAG.GetText());
-			db_set_ws(NULL, MODULENAME, "szOutCloseTag", tmp);
+			g_plugin.setWString("szOutCloseTag", tmp);
 			mir_free(globals.outclosetag);
 			globals.outclosetag = tmp;
 		}
@@ -530,14 +530,14 @@ public:
 
 	bool OnInitDialog() override
 	{
-		check_PRESCENSE_SUBSCRIPTION.SetState(db_get_b(NULL, MODULENAME, "bPresenceSigning", 0));
+		check_PRESCENSE_SUBSCRIPTION.SetState(g_plugin.getByte("bPresenceSigning", 0));
 		check_PRESCENSE_SUBSCRIPTION.Enable(globals.bJabberAPI);
 		return true;
 	}
 
 	bool OnApply() override
 	{
-		db_set_b(NULL, MODULENAME, "bPresenceSigning", globals.bPresenceSigning = check_PRESCENSE_SUBSCRIPTION.GetState());
+		g_plugin.setByte("bPresenceSigning", globals.bPresenceSigning = check_PRESCENSE_SUBSCRIPTION.GetState());
 		return true;
 	}
 
@@ -677,8 +677,8 @@ public:
 	virtual void OnDestroy() override
 	{
 		GetWindowRect(m_hwnd, &globals.load_key_rect);
-		db_set_dw(NULL, MODULENAME, "LoadKeyWindowX", globals.load_key_rect.left);
-		db_set_dw(NULL, MODULENAME, "LoadKeyWindowY", globals.load_key_rect.top);
+		g_plugin.setDword("LoadKeyWindowX", globals.load_key_rect.left);
+		g_plugin.setDword("LoadKeyWindowY", globals.load_key_rect.top);
 		edit_p_PubKeyEdit = nullptr;
 	}
 
@@ -742,7 +742,7 @@ public:
 			DWORD exitcode;
 			{
 				MCONTACT hcnt = db_mc_tryMeta(hContact);
-				ptmp = UniGetContactSettingUtf(NULL, MODULENAME, "szHomePath", L"");
+				ptmp = UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L"");
 				wcsncpy(tmp2, ptmp, MAX_PATH - 1);
 				mir_free(ptmp);
 				mir_wstrncat(tmp2, L"\\", _countof(tmp2) - mir_wstrlen(tmp2));

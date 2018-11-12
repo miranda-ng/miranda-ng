@@ -176,7 +176,7 @@ int ShowHide()
 		switch (iVisibleState) {
 		case GWVS_PARTIALLY_COVERED:
 			//If we don't want to bring it to top, we can use a simple break. This goes against readability ;-) but the comment explains it.
-			if (!db_get_b(NULL, "CList", "BringToFront", SETTING_BRINGTOFRONT_DEFAULT))
+			if (!db_get_b(0, "CList", "BringToFront", SETTING_BRINGTOFRONT_DEFAULT))
 				break;
 		case GWVS_COVERED:     //Fall through (and we're already falling)
 		case GWVS_HIDDEN:
@@ -194,12 +194,12 @@ int ShowHide()
 		RECT rcWindow;
 
 		SetWindowPos(g_clistApi.hwndContactList, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOREDRAW | SWP_NOSENDCHANGING | SWP_NOCOPYBITS);
-		if (!db_get_b(NULL, "CList", "OnTop", SETTING_ONTOP_DEFAULT))
+		if (!db_get_b(0, "CList", "OnTop", SETTING_ONTOP_DEFAULT))
 			SetWindowPos(g_clistApi.hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOREDRAW | SWP_NOSENDCHANGING | SWP_NOCOPYBITS);
 		SetForegroundWindow(g_clistApi.hwndContactList);
 		//SetActiveWindow(g_clistApi.hwndContactList);
 		ShowWindow(g_clistApi.hwndContactList, SW_SHOW);
-		db_set_b(NULL, "CList", "State", SETTING_STATE_NORMAL);
+		db_set_b(0, "CList", "State", SETTING_STATE_NORMAL);
 
 		GetWindowRect(g_clistApi.hwndContactList, &rcWindow);
 		if (Utils_AssertInsideScreen(&rcWindow) == 1) {
@@ -209,8 +209,8 @@ int ShowHide()
 	}
 	else {                      //It needs to be hidden
 		ShowWindow(g_clistApi.hwndContactList, SW_HIDE);
-		db_set_b(NULL, "CList", "State", SETTING_STATE_HIDDEN);
-		if (db_get_b(NULL, "CList", "DisableWorkingSet", 1))
+		db_set_b(0, "CList", "State", SETTING_STATE_HIDDEN);
+		if (db_get_b(0, "CList", "DisableWorkingSet", 1))
 			SetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
 	}
 	return 0;

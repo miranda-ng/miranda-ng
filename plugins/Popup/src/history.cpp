@@ -56,7 +56,7 @@ void PopupHistoryResize()
 
 void PopupHistoryLoad()
 {
-	popupHistoryBuffer = db_get_w(NULL, MODULENAME, "HistorySize", SETTING_HISTORYSIZE_DEFAULT);
+	popupHistoryBuffer = g_plugin.getWord("HistorySize", SETTING_HISTORYSIZE_DEFAULT);
 }
 
 void PopupHistoryUnload()

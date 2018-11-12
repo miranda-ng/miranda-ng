@@ -35,7 +35,7 @@ INT_PTR CALLBACK DlgProc_DataHistory(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 				{ ICO_BTN_EXPORT,	BM_SETIMAGE,	IDOK		},
 				{ ICO_BTN_CANCEL,	BM_SETIMAGE,	IDCANCEL	}
 			};
-			const int numIconsToSet = db_get_b(NULL, MODULENAME, SET_ICONS_BUTTONS, 1) ? _countof(idIcon) : 2;
+			const int numIconsToSet = g_plugin.getByte(SET_ICONS_BUTTONS, 1) ? _countof(idIcon) : 2;
 			IcoLib_SetCtrlIcons(hDlg, idIcon, numIconsToSet);
 
 			SendDlgItemMessage(hDlg, IDOK, BUTTONTRANSLATE, NULL, NULL);

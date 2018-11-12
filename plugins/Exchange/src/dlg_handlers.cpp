@@ -38,7 +38,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 			DBVARIANT dbv = { 0 };
 			dbv.type = DBVT_ASCIIZ;
 
-			int bCheck = db_get_b(NULL, MODULENAME, "Check", 1);
+			int bCheck = g_plugin.getByte("Check", 1);
 
 			wchar_t buffer[4096];
 			GetStringFromDatabase("Username", L"", buffer, _countof(buffer));
@@ -50,24 +50,24 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 			GetStringFromDatabase("Server", L"", buffer, _countof(buffer));
 			SetDlgItemText(hWnd, IDC_SERVER_EDIT, buffer);
 
-			SetDlgItemInt(hWnd, IDC_PORT_EDIT, db_get_dw(NULL, MODULENAME, "Port", EXCHANGE_PORT), FALSE);
+			SetDlgItemInt(hWnd, IDC_PORT_EDIT, g_plugin.getDword("Port", EXCHANGE_PORT), FALSE);
 
-			SetDlgItemInt(hWnd, IDC_INTERVAL_EDIT, db_get_dw(NULL, MODULENAME, "Interval", DEFAULT_INTERVAL), FALSE);
+			SetDlgItemInt(hWnd, IDC_INTERVAL_EDIT, g_plugin.getDword("Interval", DEFAULT_INTERVAL), FALSE);
 
-			CheckDlgButton(hWnd, IDC_RECONNECT, (db_get_b(NULL, MODULENAME, "Reconnect", 0)) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hWnd, IDC_RECONNECT, (g_plugin.getByte("Reconnect", 0)) ? BST_CHECKED : BST_UNCHECKED);
 
-			SetDlgItemInt(hWnd, IDC_RECONNECT_INTERVAL, db_get_dw(NULL, MODULENAME, "ReconnectInterval", DEFAULT_RECONNECT_INTERVAL), FALSE);
-			CheckDlgButton(hWnd, IDC_USE_POPUPS, (BOOL)db_get_b(NULL, MODULENAME, "UsePopups", 0) ? BST_CHECKED : BST_UNCHECKED);
+			SetDlgItemInt(hWnd, IDC_RECONNECT_INTERVAL, g_plugin.getDword("ReconnectInterval", DEFAULT_RECONNECT_INTERVAL), FALSE);
+			CheckDlgButton(hWnd, IDC_USE_POPUPS, (BOOL)g_plugin.getByte("UsePopups", 0) ? BST_CHECKED : BST_UNCHECKED);
 			EnableWindow(GetDlgItem(hWnd, IDC_USE_POPUPS), ServiceExists(MS_POPUP_ADDPOPUPT)); //disable the popups checkbox if no popup module is present
 
 			CheckDlgButton(hWnd, IDC_CHECK_EMAILS, (bCheck) ? BST_CHECKED : BST_UNCHECKED);
 			EnableWindow(GetDlgItem(hWnd, IDC_INTERVAL_EDIT), bCheck);
 
-			int portCheck = db_get_b(NULL, MODULENAME, "UsePortCheck", 1);
+			int portCheck = g_plugin.getByte("UsePortCheck", 1);
 			CheckDlgButton(hWnd, IDC_USE_PORTCHECK, (portCheck) ? BST_CHECKED : BST_UNCHECKED);
 			EnableWindow(GetDlgItem(hWnd, IDC_PORT_EDIT), portCheck);
 
-			int retries = db_get_b(NULL, MODULENAME, "MaxRetries", MAX_EXCHANGE_CONNECT_RETRIES);
+			int retries = g_plugin.getByte("MaxRetries", MAX_EXCHANGE_CONNECT_RETRIES);
 			SetDlgItemInt(hWnd, IDC_MAX_RETRIES, retries, FALSE);
 
 			EnableWindow(GetDlgItem(hWnd, IDC_RECONNECT_INTERVAL), IsDlgButtonChecked(hWnd, IDC_RECONNECT));
@@ -108,30 +108,30 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				db_set_b(NULL, MODULENAME, "Check", IsDlgButtonChecked(hWnd, IDC_CHECK_EMAILS));
+				g_plugin.setByte("Check", IsDlgButtonChecked(hWnd, IDC_CHECK_EMAILS));
 
 				wchar_t buffer[4096];
 				GetDlgItemText(hWnd, IDC_USER_EDIT, buffer, _countof(buffer));
-				db_set_ws(NULL, MODULENAME, "Username", buffer);
+				g_plugin.setWString("Username", buffer);
 
 				GetDlgItemText(hWnd, IDC_PASSWORD_EDIT, buffer, _countof(buffer));
-				db_set_ws(NULL, MODULENAME, "Password", buffer);
+				g_plugin.setWString("Password", buffer);
 
 				GetDlgItemText(hWnd, IDC_SERVER_EDIT, buffer, _countof(buffer));
-				db_set_ws(NULL, MODULENAME, "Server", buffer);
+				g_plugin.setWString("Server", buffer);
 
 				GetDlgItemText(hWnd, IDC_PORT_EDIT, buffer, _countof(buffer));
-				db_set_dw(NULL, MODULENAME, "Port", GetDlgItemInt(hWnd, IDC_PORT_EDIT, nullptr, FALSE));
+				g_plugin.setDword("Port", GetDlgItemInt(hWnd, IDC_PORT_EDIT, nullptr, FALSE));
 
-				db_set_dw(NULL, MODULENAME, "Interval", GetDlgItemInt(hWnd, IDC_INTERVAL_EDIT, nullptr, FALSE));
-				db_set_dw(NULL, MODULENAME, "ReconnectInterval", GetDlgItemInt(hWnd, IDC_RECONNECT_INTERVAL, nullptr, FALSE));
+				g_plugin.setDword("Interval", GetDlgItemInt(hWnd, IDC_INTERVAL_EDIT, nullptr, FALSE));
+				g_plugin.setDword("ReconnectInterval", GetDlgItemInt(hWnd, IDC_RECONNECT_INTERVAL, nullptr, FALSE));
 
-				db_set_b(NULL, MODULENAME, "Reconnect", IsDlgButtonChecked(hWnd, IDC_RECONNECT));
+				g_plugin.setByte("Reconnect", IsDlgButtonChecked(hWnd, IDC_RECONNECT));
 
-				db_set_b(NULL, MODULENAME, "UsePopups", IsDlgButtonChecked(hWnd, IDC_USE_POPUPS));
-				db_set_b(NULL, MODULENAME, "UsePortCheck", IsDlgButtonChecked(hWnd, IDC_USE_PORTCHECK));
+				g_plugin.setByte("UsePopups", IsDlgButtonChecked(hWnd, IDC_USE_POPUPS));
+				g_plugin.setByte("UsePortCheck", IsDlgButtonChecked(hWnd, IDC_USE_PORTCHECK));
 
-				db_set_b(NULL, MODULENAME, "MaxRetries", GetDlgItemInt(hWnd, IDC_MAX_RETRIES, nullptr, FALSE));
+				g_plugin.setByte("MaxRetries", GetDlgItemInt(hWnd, IDC_MAX_RETRIES, nullptr, FALSE));
 
 				exchangeServer.Reconnect(); //login info may be changed
 				UpdateTimers(); //interval might get changed

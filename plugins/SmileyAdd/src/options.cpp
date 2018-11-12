@@ -523,63 +523,63 @@ void OptionsDialogType::ShowSmileyPreview(void)
 
 void OptionsType::Save(void)
 {
-	db_set_b(NULL, MODULENAME, "EnforceSpaces", EnforceSpaces);
-	db_set_b(NULL, MODULENAME, "ScaleToTextheight", ScaleToTextheight);
-	db_set_b(NULL, MODULENAME, "UseOneForAll", UseOneForAll);
-	db_set_b(NULL, MODULENAME, "UsePhysProto", UsePhysProto);
-	db_set_b(NULL, MODULENAME, "SurroundSmileyWithSpaces", SurroundSmileyWithSpaces);
-	db_set_b(NULL, MODULENAME, "ScaleAllSmileys", ScaleAllSmileys);
-	db_set_b(NULL, MODULENAME, "IEViewStyle", IEViewStyle);
-	db_set_b(NULL, MODULENAME, "AnimateSel", AnimateSel);
-	db_set_b(NULL, MODULENAME, "AnimateDlg", AnimateDlg);
-	db_set_b(NULL, MODULENAME, "InputSmileys", InputSmileys);
-	db_set_b(NULL, MODULENAME, "DCursorSmiley", DCursorSmiley);
-	db_set_b(NULL, MODULENAME, "DisableCustom", DisableCustom);
-	db_set_b(NULL, MODULENAME, "HQScaling", HQScaling);
-	db_set_dw(NULL, MODULENAME, "MaxCustomSmileySize", MaxCustomSmileySize);
-	db_set_dw(NULL, MODULENAME, "MinSmileySize", MinSmileySize);
-	db_set_b(NULL, MODULENAME, "HorizontalSorting", HorizontalSorting);
+	g_plugin.setByte("EnforceSpaces", EnforceSpaces);
+	g_plugin.setByte("ScaleToTextheight", ScaleToTextheight);
+	g_plugin.setByte("UseOneForAll", UseOneForAll);
+	g_plugin.setByte("UsePhysProto", UsePhysProto);
+	g_plugin.setByte("SurroundSmileyWithSpaces", SurroundSmileyWithSpaces);
+	g_plugin.setByte("ScaleAllSmileys", ScaleAllSmileys);
+	g_plugin.setByte("IEViewStyle", IEViewStyle);
+	g_plugin.setByte("AnimateSel", AnimateSel);
+	g_plugin.setByte("AnimateDlg", AnimateDlg);
+	g_plugin.setByte("InputSmileys", InputSmileys);
+	g_plugin.setByte("DCursorSmiley", DCursorSmiley);
+	g_plugin.setByte("DisableCustom", DisableCustom);
+	g_plugin.setByte("HQScaling", HQScaling);
+	g_plugin.setDword("MaxCustomSmileySize", MaxCustomSmileySize);
+	g_plugin.setDword("MinSmileySize", MinSmileySize);
+	g_plugin.setByte("HorizontalSorting", HorizontalSorting);
 }
 
 void OptionsType::Load(void)
 {
-	EnforceSpaces = db_get_b(NULL, MODULENAME, "EnforceSpaces", FALSE) != 0;
-	ScaleToTextheight = db_get_b(NULL, MODULENAME, "ScaleToTextheight", FALSE) != 0;
-	UseOneForAll = db_get_b(NULL, MODULENAME, "UseOneForAll", TRUE) != 0;
-	UsePhysProto = db_get_b(NULL, MODULENAME, "UsePhysProto", FALSE) != 0;
-	SurroundSmileyWithSpaces = db_get_b(NULL, MODULENAME, "SurroundSmileyWithSpaces", FALSE) != 0;
-	ScaleAllSmileys = db_get_b(NULL, MODULENAME, "ScaleAllSmileys", FALSE) != 0;
-	IEViewStyle = db_get_b(NULL, MODULENAME, "IEViewStyle", FALSE) != 0;
-	AnimateSel = db_get_b(NULL, MODULENAME, "AnimateSel", TRUE) != 0;
-	AnimateDlg = db_get_b(NULL, MODULENAME, "AnimateDlg", TRUE) != 0;
-	InputSmileys = db_get_b(NULL, MODULENAME, "InputSmileys", TRUE) != 0;
-	DCursorSmiley = db_get_b(NULL, MODULENAME, "DCursorSmiley", FALSE) != 0;
-	DisableCustom = db_get_b(NULL, MODULENAME, "DisableCustom", FALSE) != 0;
-	HQScaling = db_get_b(NULL, MODULENAME, "HQScaling", FALSE) != 0;
+	EnforceSpaces = g_plugin.getByte("EnforceSpaces", FALSE) != 0;
+	ScaleToTextheight = g_plugin.getByte("ScaleToTextheight", FALSE) != 0;
+	UseOneForAll = g_plugin.getByte("UseOneForAll", TRUE) != 0;
+	UsePhysProto = g_plugin.getByte("UsePhysProto", FALSE) != 0;
+	SurroundSmileyWithSpaces = g_plugin.getByte("SurroundSmileyWithSpaces", FALSE) != 0;
+	ScaleAllSmileys = g_plugin.getByte("ScaleAllSmileys", FALSE) != 0;
+	IEViewStyle = g_plugin.getByte("IEViewStyle", FALSE) != 0;
+	AnimateSel = g_plugin.getByte("AnimateSel", TRUE) != 0;
+	AnimateDlg = g_plugin.getByte("AnimateDlg", TRUE) != 0;
+	InputSmileys = g_plugin.getByte("InputSmileys", TRUE) != 0;
+	DCursorSmiley = g_plugin.getByte("DCursorSmiley", FALSE) != 0;
+	DisableCustom = g_plugin.getByte("DisableCustom", FALSE) != 0;
+	HQScaling = g_plugin.getByte("HQScaling", FALSE) != 0;
 
-	SelWndBkgClr = db_get_dw(NULL, MODULENAME, "SelWndBkgClr", GetSysColor(COLOR_WINDOW));
-	MaxCustomSmileySize = db_get_dw(NULL, MODULENAME, "MaxCustomSmileySize", 0);
-	MinSmileySize = db_get_dw(NULL, MODULENAME, "MinSmileySize", 0);
-	HorizontalSorting = db_get_b(NULL, MODULENAME, "HorizontalSorting", 1) != 0;
+	SelWndBkgClr = g_plugin.getDword("SelWndBkgClr", GetSysColor(COLOR_WINDOW));
+	MaxCustomSmileySize = g_plugin.getDword("MaxCustomSmileySize", 0);
+	MinSmileySize = g_plugin.getDword("MinSmileySize", 0);
+	HorizontalSorting = g_plugin.getByte("HorizontalSorting", 1) != 0;
 }
 
 void OptionsType::ReadPackFileName(CMStringW &filename, const CMStringW &name, const CMStringW &defaultFilename)
 {
 	CMStringW settingKey = name + L"-filename";
 
-	ptrW tszValue(db_get_wsa(NULL, MODULENAME, _T2A(settingKey.c_str())));
+	ptrW tszValue(g_plugin.getWStringA(_T2A(settingKey.c_str())));
 	filename = (tszValue != NULL) ? (wchar_t*)tszValue : defaultFilename;
 }
 
 void OptionsType::WritePackFileName(const CMStringW &filename, const CMStringW &name)
 {
 	CMStringW settingKey = name + L"-filename";
-	db_set_ws(NULL, MODULENAME, _T2A(settingKey.c_str()), filename.c_str());
+	g_plugin.setWString(_T2A(settingKey.c_str()), filename.c_str());
 }
 
 void OptionsType::ReadCustomCategories(CMStringW &cats)
 {
-	ptrW tszValue(db_get_wsa(NULL, MODULENAME, "CustomCategories"));
+	ptrW tszValue(g_plugin.getWStringA("CustomCategories"));
 	if (tszValue != NULL)
 		cats = tszValue;
 }
@@ -587,9 +587,9 @@ void OptionsType::ReadCustomCategories(CMStringW &cats)
 void OptionsType::WriteCustomCategories(const CMStringW &cats)
 {
 	if (cats.IsEmpty())
-		db_unset(NULL, MODULENAME, "CustomCategories");
+		g_plugin.delSetting("CustomCategories");
 	else
-		db_set_ws(NULL, MODULENAME, "CustomCategories", cats.c_str());
+		g_plugin.setWString("CustomCategories", cats.c_str());
 }
 
 void OptionsType::ReadContactCategory(MCONTACT hContact, CMStringW &cats)

@@ -334,7 +334,7 @@ static void WriteDbBackupData(const char *pszSetting, DWORD dwType, BYTE *pData,
 	if (buf) {
 		*(DWORD*)buf = dwType;
 		memcpy(buf + sizeof(DWORD), pData, cbData);
-		db_set_blob(NULL, MODULENAME, pszSetting, buf, (unsigned)cbLen);
+		db_set_blob(0, MODULENAME, pszSetting, buf, (unsigned)cbLen);
 		mir_free(buf);
 	}
 }
@@ -483,7 +483,7 @@ static LONG RestoreRegTree(HKEY hKey, const char *pszSubKey, const char *pszDbPr
 					if (res)
 						break;
 					
-					db_unset(NULL, MODULENAME, ppszSettings[i]);
+					g_plugin.delSetting(ppszSettings[i]);
 					if (hSubKey != hKey)
 						RegCloseKey(hSubKey);
 				}
@@ -507,7 +507,7 @@ static void DeleteRegTreeBackup(const char *pszSubKey, const char *pszDbPrefix)
 	if (pszPrefixWithSubKey != nullptr) {
 		if (EnumDbPrefixSettings(MODULENAME, pszPrefixWithSubKey, &ppszSettings, &nSettingsCount)) {
 			for (i = 0; i < nSettingsCount; ++i) {
-				db_unset(NULL, MODULENAME, ppszSettings[i]);
+				g_plugin.delSetting(ppszSettings[i]);
 				mir_free(ppszSettings[i]);
 			}
 			mir_free(ppszSettings);

@@ -225,9 +225,9 @@ static void SaveInitialDir(LPSTR pszInitialDir)
 	if (p = mir_strrchr(pszInitialDir, '\\')) {
 		*p = 0;
 		if ( PathToRelative(pszInitialDir, szRelative))
-			db_set_s(0, MODULENAME, "vCardPath", szRelative);
+			g_plugin.setString("vCardPath", szRelative);
 		else
-			db_set_s(0, MODULENAME, "vCardPath", pszInitialDir);
+			g_plugin.setString("vCardPath", pszInitialDir);
 		*p = '\\';
 	}	
 }

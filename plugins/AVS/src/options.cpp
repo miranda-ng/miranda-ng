@@ -114,7 +114,7 @@ static void SetProtoPic(protoPicCacheEntry *pce)
 
 	wchar_t szNewPath[MAX_PATH];
 	PathToRelativeW(FileName, szNewPath, g_szDataPath);
-	db_set_ws(NULL, PPICT_MODULE, pce->szProtoname, szNewPath);
+	db_set_ws(0, PPICT_MODULE, pce->szProtoname, szNewPath);
 
 	switch(pce->cacheType) {
 	case PCE_TYPE_GLOBAL:
@@ -171,16 +171,16 @@ static INT_PTR CALLBACK DlgProcOptionsAvatars(HWND hwndDlg, UINT msg, WPARAM wPa
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		CheckDlgButton(hwndDlg, IDC_SHOWWARNINGS, db_get_b(0, AVS_MODULE, "warnings", 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_MAKE_GRAYSCALE, db_get_b(0, AVS_MODULE, "MakeGrayscale", 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_MAKE_TRANSPARENT_BKG, db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_MAKE_TRANSP_PROPORTIONAL, db_get_b(0, AVS_MODULE, "MakeTransparencyProportionalToColorDiff", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOWWARNINGS, g_plugin.getByte("warnings", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_MAKE_GRAYSCALE, g_plugin.getByte("MakeGrayscale", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_MAKE_TRANSPARENT_BKG, g_plugin.getByte("MakeTransparentBkg", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_MAKE_TRANSP_PROPORTIONAL, g_plugin.getByte("MakeTransparencyProportionalToColorDiff", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETRANGE, 0, MAKELONG(8, 2));
-		SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETPOS, 0, (LPARAM)db_get_w(0, AVS_MODULE, "TranspBkgNumPoints", 5));
+		SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETPOS, 0, g_plugin.getWord("TranspBkgNumPoints", 5));
 
 		SendDlgItemMessage(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN, UDM_SETRANGE, 0, MAKELONG(100, 0));
-		SendDlgItemMessage(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN, UDM_SETPOS, 0, (LPARAM)db_get_w(0, AVS_MODULE, "TranspBkgColorDiff", 10));
+		SendDlgItemMessage(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN, UDM_SETPOS, 0, g_plugin.getWord("TranspBkgColorDiff", 10));
 		{
 			BOOL enabled = IsDlgButtonChecked(hwndDlg, IDC_MAKE_TRANSPARENT_BKG);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS_L), enabled);
@@ -195,8 +195,7 @@ static INT_PTR CALLBACK DlgProcOptionsAvatars(HWND hwndDlg, UINT msg, WPARAM wPa
 		return TRUE;
 
 	case WM_COMMAND:
-		if ((LOWORD(wParam) == IDC_BKG_NUM_POINTS || LOWORD(wParam) == IDC_BKG_COLOR_DIFFERENCE)
-			&& (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
+		if ((LOWORD(wParam) == IDC_BKG_NUM_POINTS || LOWORD(wParam) == IDC_BKG_COLOR_DIFFERENCE) && (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
 			return FALSE;
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
@@ -218,12 +217,12 @@ static INT_PTR CALLBACK DlgProcOptionsAvatars(HWND hwndDlg, UINT msg, WPARAM wPa
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				db_set_b(NULL, AVS_MODULE, "warnings", IsDlgButtonChecked(hwndDlg, IDC_SHOWWARNINGS) ? 1 : 0);
-				db_set_b(NULL, AVS_MODULE, "MakeGrayscale", IsDlgButtonChecked(hwndDlg, IDC_MAKE_GRAYSCALE) ? 1 : 0);
-				db_set_b(NULL, AVS_MODULE, "MakeTransparentBkg", IsDlgButtonChecked(hwndDlg, IDC_MAKE_TRANSPARENT_BKG) ? 1 : 0);
-				db_set_b(NULL, AVS_MODULE, "MakeTransparencyProportionalToColorDiff", IsDlgButtonChecked(hwndDlg, IDC_MAKE_TRANSP_PROPORTIONAL) ? 1 : 0);
-				db_set_w(NULL, AVS_MODULE, "TranspBkgNumPoints", (WORD)SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_GETPOS, 0, 0));
-				db_set_w(NULL, AVS_MODULE, "TranspBkgColorDiff", (WORD)SendDlgItemMessage(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN, UDM_GETPOS, 0, 0));
+				g_plugin.setByte("warnings", IsDlgButtonChecked(hwndDlg, IDC_SHOWWARNINGS) ? 1 : 0);
+				g_plugin.setByte("MakeGrayscale", IsDlgButtonChecked(hwndDlg, IDC_MAKE_GRAYSCALE) ? 1 : 0);
+				g_plugin.setByte("MakeTransparentBkg", IsDlgButtonChecked(hwndDlg, IDC_MAKE_TRANSPARENT_BKG) ? 1 : 0);
+				g_plugin.setByte("MakeTransparencyProportionalToColorDiff", IsDlgButtonChecked(hwndDlg, IDC_MAKE_TRANSP_PROPORTIONAL) ? 1 : 0);
+				g_plugin.setWord("TranspBkgNumPoints", (WORD)SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_GETPOS, 0, 0));
+				g_plugin.setWord("TranspBkgColorDiff", (WORD)SendDlgItemMessage(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN, UDM_GETPOS, 0, 0));
 			}
 		}
 		break;
@@ -239,8 +238,8 @@ static INT_PTR CALLBACK DlgProcOptionsOwn(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		CheckDlgButton(hwndDlg, IDC_MAKE_MY_AVATARS_TRANSP, db_get_b(0, AVS_MODULE, "MakeMyAvatarsTransparent", 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SET_MAKE_SQUARE, db_get_b(0, AVS_MODULE, "SetAllwaysMakeSquare", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_MAKE_MY_AVATARS_TRANSP, g_plugin.getByte("MakeMyAvatarsTransparent", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SET_MAKE_SQUARE, g_plugin.getByte("SetAllwaysMakeSquare", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		return TRUE;
 
@@ -253,8 +252,8 @@ static INT_PTR CALLBACK DlgProcOptionsOwn(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				db_set_b(NULL, AVS_MODULE, "MakeMyAvatarsTransparent", IsDlgButtonChecked(hwndDlg, IDC_MAKE_MY_AVATARS_TRANSP) ? 1 : 0);
-				db_set_b(NULL, AVS_MODULE, "SetAllwaysMakeSquare", IsDlgButtonChecked(hwndDlg, IDC_SET_MAKE_SQUARE) ? 1 : 0);
+				g_plugin.setByte("MakeMyAvatarsTransparent", IsDlgButtonChecked(hwndDlg, IDC_MAKE_MY_AVATARS_TRANSP) ? 1 : 0);
+				g_plugin.setByte("SetAllwaysMakeSquare", IsDlgButtonChecked(hwndDlg, IDC_SET_MAKE_SQUARE) ? 1 : 0);
 			}
 		}
 		break;
@@ -313,7 +312,7 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 				int newItem = ListView_InsertItem(hwndList, &item);
 				if (newItem >= 0)
 					ListView_SetCheckState(hwndList, newItem,
-						db_get_b(NULL, AVS_MODULE, p->szProtoname, 1) ? TRUE : FALSE);
+						g_plugin.getByte(p->szProtoname, 1) ? TRUE : FALSE);
 			}
 			ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE);
 			ListView_Arrange(hwndList, LVA_ALIGNLEFT | LVA_ALIGNTOP);
@@ -410,7 +409,7 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 				for (int i = 0; i < ListView_GetItemCount(hwndList); i++) {
 					auto *pce = GetProtoFromList(hwndDlg, i);
 
-					BOOL oldVal = db_get_b(NULL, AVS_MODULE, pce->szProtoname, 1);
+					BOOL oldVal = g_plugin.getByte(pce->szProtoname, 1);
 					BOOL newVal = ListView_GetCheckState(hwndList, i);
 
 					if (oldVal && !newVal)
@@ -418,9 +417,9 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 							DeleteAvatarFromCache(hContact, TRUE);
 
 					if (newVal)
-						db_set_b(NULL, AVS_MODULE, pce->szProtoname, 1);
+						g_plugin.setByte(pce->szProtoname, 1);
 					else
-						db_set_b(NULL, AVS_MODULE, pce->szProtoname, 0);
+						g_plugin.setByte(pce->szProtoname, 0);
 				}
 			}
 		}
@@ -433,9 +432,9 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 
 static void LoadTransparentData(HWND hwndDlg, MCONTACT hContact)
 {
-	CheckDlgButton(hwndDlg, IDC_MAKETRANSPBKG, db_get_b(hContact, "ContactPhoto", "MakeTransparentBkg", db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0)) ? BST_CHECKED : BST_UNCHECKED);
-	SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETPOS, 0, (LPARAM)db_get_w(hContact, "ContactPhoto", "TranspBkgNumPoints", db_get_w(0, AVS_MODULE, "TranspBkgNumPoints", 5)));
-	SendDlgItemMessage(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN, UDM_SETPOS, 0, (LPARAM)db_get_w(hContact, "ContactPhoto", "TranspBkgColorDiff", db_get_w(0, AVS_MODULE, "TranspBkgColorDiff", 10)));
+	CheckDlgButton(hwndDlg, IDC_MAKETRANSPBKG, db_get_b(hContact, "ContactPhoto", "MakeTransparentBkg", g_plugin.getByte("MakeTransparentBkg", 0)) ? BST_CHECKED : BST_UNCHECKED);
+	SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETPOS, 0, (LPARAM)db_get_w(hContact, "ContactPhoto", "TranspBkgNumPoints", g_plugin.getWord("TranspBkgNumPoints", 5)));
+	SendDlgItemMessage(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN, UDM_SETPOS, 0, (LPARAM)db_get_w(hContact, "ContactPhoto", "TranspBkgColorDiff", g_plugin.getWord("TranspBkgColorDiff", 10)));
 
 	BOOL transp_enabled = IsDlgButtonChecked(hwndDlg, IDC_MAKETRANSPBKG);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS_L), transp_enabled);
@@ -449,19 +448,19 @@ static void LoadTransparentData(HWND hwndDlg, MCONTACT hContact)
 static void SaveTransparentData(HWND hwndDlg, MCONTACT hContact)
 {
 	BOOL transp = IsDlgButtonChecked(hwndDlg, IDC_MAKETRANSPBKG);
-	if (db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0) == transp)
+	if (g_plugin.getByte("MakeTransparentBkg", 0) == transp)
 		db_unset(hContact, "ContactPhoto", "MakeTransparentBkg");
 	else
 		db_set_b(hContact, "ContactPhoto", "MakeTransparentBkg", transp);
 
 	WORD tmp = (WORD)SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_GETPOS, 0, 0);
-	if (db_get_w(0, AVS_MODULE, "TranspBkgNumPoints", 5) == tmp)
+	if (g_plugin.getWord("TranspBkgNumPoints", 5) == tmp)
 		db_unset(hContact, "ContactPhoto", "TranspBkgNumPoints");
 	else
 		db_set_w(hContact, "ContactPhoto", "TranspBkgNumPoints", tmp);
 
 	tmp = (WORD)SendDlgItemMessage(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN, UDM_GETPOS, 0, 0);
-	if (db_get_w(0, AVS_MODULE, "TranspBkgColorDiff", 10) == tmp)
+	if (g_plugin.getWord("TranspBkgColorDiff", 10) == tmp)
 		db_unset(hContact, "ContactPhoto", "TranspBkgColorDiff");
 	else
 		db_set_w(hContact, "ContactPhoto", "TranspBkgColorDiff", tmp);
@@ -917,7 +916,7 @@ static void EnableDisableControls(HWND hwndDlg, char *proto)
 	else {
 		EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), TRUE);
 
-		if (db_get_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1))
+		if (g_plugin.getByte("GlobalUserAvatarNotConsistent", 1))
 			EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
 		else {
 			int width, height;
@@ -1025,7 +1024,7 @@ static INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wP
 			ListView_Arrange(hwndList, LVA_ALIGNLEFT | LVA_ALIGNTOP);
 
 			// Check if should show per protocol avatars
-			CheckDlgButton(hwndDlg, IDC_PER_PROTO, db_get_b(NULL, AVS_MODULE, "PerProtocolUserAvatars", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_PER_PROTO, g_plugin.getByte("PerProtocolUserAvatars", 1) ? BST_CHECKED : BST_UNCHECKED);
 			EnableDisableProtocols(hwndDlg, TRUE);
 		}
 		break;
@@ -1086,7 +1085,7 @@ static INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wP
 			break;
 
 		case IDC_PER_PROTO:
-			db_set_b(NULL, AVS_MODULE, "PerProtocolUserAvatars", IsDlgButtonChecked(hwndDlg, IDC_PER_PROTO) ? 1 : 0);
+			g_plugin.setByte("PerProtocolUserAvatars", IsDlgButtonChecked(hwndDlg, IDC_PER_PROTO) ? 1 : 0);
 			EnableDisableProtocols(hwndDlg, FALSE);
 			break;
 		}
@@ -1109,7 +1108,7 @@ int OnDetailsInit(WPARAM wParam, LPARAM lParam)
 	}
 	else {
 		char *szProto = GetContactProto(hContact);
-		if (szProto == nullptr || db_get_b(NULL, AVS_MODULE, szProto, 1)) {
+		if (szProto == nullptr || g_plugin.getByte(szProto, 1)) {
 			// Contact dialog
 			odp.pfnDlgProc = DlgProcAvatarUserInfo;
 			odp.position = -2000000000;

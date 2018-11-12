@@ -84,7 +84,7 @@ void LoadOptions()
 	}
 
 	DBVARIANT dbv;
-	if (!db_get_ws(NULL, MODULENAME, "DefaultLanguage", &dbv)) {
+	if (!g_plugin.getWString("DefaultLanguage", &dbv)) {
 		mir_wstrncpy(opts.default_language, dbv.pwszVal, _countof(opts.default_language));
 		db_free(&dbv);
 	}
@@ -201,7 +201,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			int sel = SendDlgItemMessage(hwndDlg, IDC_DEF_LANG, CB_GETCURSEL, 0, 0);
 			if (sel >= languages.getCount())
 				sel = 0;
-			db_set_ws(NULL, MODULENAME, "DefaultLanguage",
+			g_plugin.setWString("DefaultLanguage",
 				(wchar_t *)languages[sel]->language);
 			mir_wstrcpy(opts.default_language, languages[sel]->language);
 		}

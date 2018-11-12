@@ -278,26 +278,26 @@ static int OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 
 static void LoadDBSettings()
 {
-	fcOpt.thumbAlpha = (BYTE)((double)db_get_b(NULL, MODULE, "Opacity", 100) * 2.55);
-	fcOpt.bHideOffline = (BOOL)db_get_b(NULL, MODULE, "HideOffline", 0);
-	fcOpt.bHideAll = (BOOL)db_get_b(NULL, MODULE, "HideAll", 0);
-	fcOpt.bHideWhenFullscreen = (BOOL)db_get_b(NULL, MODULE, "HideWhenFullscreen", 0);
-	fcOpt.bMoveTogether = (BOOL)db_get_b(NULL, MODULE, "MoveTogether", 0);
-	fcOpt.bFixedWidth = (BOOL)db_get_b(NULL, MODULE, "FixedWidth", 0);
-	fcOpt.nThumbWidth = (DWORD)db_get_dw(NULL, MODULE, "Width", 0);
-	dwOfflineModes = db_get_dw(NULL, "CLC", "OfflineModes", CLCDEFAULT_OFFLINEMODES);
-	fcOpt.bShowTip = (BOOL)db_get_b(NULL, MODULE, "ShowTip", 1);
-	fcOpt.TimeIn = (WORD)db_get_w(NULL, MODULE, "TimeIn", 0);
-	fcOpt.bToTop = (BOOL)db_get_b(NULL, MODULE, "ToTop", 0);
-	fcOpt.ToTopTime = (WORD)db_get_w(NULL, MODULE, "ToTopTime", TOTOPTIME_DEF);
-	fcOpt.bHideWhenCListShow = (BOOL)db_get_b(NULL, MODULE, "HideWhenCListShow", 0);
-	fcOpt.bUseSingleClick = (BOOL)db_get_b(NULL, MODULE, "UseSingleClick", 0);
-	fcOpt.bShowIdle = (BOOL)db_get_b(NULL, MODULE, "ShowIdle", 0);
+	fcOpt.thumbAlpha = (BYTE)((double)g_plugin.getByte("Opacity", 100) * 2.55);
+	fcOpt.bHideOffline = (BOOL)g_plugin.getByte("HideOffline", 0);
+	fcOpt.bHideAll = (BOOL)g_plugin.getByte("HideAll", 0);
+	fcOpt.bHideWhenFullscreen = (BOOL)g_plugin.getByte("HideWhenFullscreen", 0);
+	fcOpt.bMoveTogether = (BOOL)g_plugin.getByte("MoveTogether", 0);
+	fcOpt.bFixedWidth = (BOOL)g_plugin.getByte("FixedWidth", 0);
+	fcOpt.nThumbWidth = (DWORD)g_plugin.getDword("Width", 0);
+	dwOfflineModes = db_get_dw(0, "CLC", "OfflineModes", CLCDEFAULT_OFFLINEMODES);
+	fcOpt.bShowTip = (BOOL)g_plugin.getByte("ShowTip", 1);
+	fcOpt.TimeIn = g_plugin.getWord("TimeIn", 0);
+	fcOpt.bToTop = (BOOL)g_plugin.getByte("ToTop", 0);
+	fcOpt.ToTopTime = g_plugin.getWord("ToTopTime", TOTOPTIME_DEF);
+	fcOpt.bHideWhenCListShow = (BOOL)g_plugin.getByte("HideWhenCListShow", 0);
+	fcOpt.bUseSingleClick = (BOOL)g_plugin.getByte("UseSingleClick", 0);
+	fcOpt.bShowIdle = (BOOL)g_plugin.getByte("ShowIdle", 0);
 
-	if (db_get_b(NULL, "ModernData", "HideBehind", 0))
-		bIsCListShow = (db_get_b(NULL, "ModernData", "BehindEdge", 0) == 0);
+	if (db_get_b(0, "ModernData", "HideBehind", 0))
+		bIsCListShow = (db_get_b(0, "ModernData", "BehindEdge", 0) == 0);
 	else
-		bIsCListShow = (db_get_b(NULL, "CList", "State", 0) == 2);
+		bIsCListShow = (db_get_b(0, "CList", "State", 0) == 2);
 }
 
 void SendMsgDialog(HWND hwnd, wchar_t *pText)
@@ -529,7 +529,7 @@ static void CreateThumbsFont()
 
 static void CreateBackgroundBrush()
 {
-	bkColor = db_get_dw(NULL, MODULE, "BkColor", FLT_DEFAULT_BKGNDCOLOR);
+	bkColor = g_plugin.getDword("BkColor", FLT_DEFAULT_BKGNDCOLOR);
 
 	if (nullptr != hLTEdgesPen) {
 		DeleteObject(hLTEdgesPen);
@@ -552,19 +552,19 @@ static void CreateBackgroundBrush()
 		hBkBrush = nullptr;
 	}
 
-	if (db_get_b(NULL, MODULE, "DrawBorder", FLT_DEFAULT_DRAWBORDER)) {
-		COLORREF cr = (COLORREF)db_get_dw(NULL, MODULE, "LTEdgesColor", FLT_DEFAULT_LTEDGESCOLOR);
+	if (g_plugin.getByte("DrawBorder", FLT_DEFAULT_DRAWBORDER)) {
+		COLORREF cr = (COLORREF)g_plugin.getDword("LTEdgesColor", FLT_DEFAULT_LTEDGESCOLOR);
 		hLTEdgesPen = CreatePen(PS_SOLID, 1, cr);
-		cr = (COLORREF)db_get_dw(NULL, MODULE, "RBEdgesColor", FLT_DEFAULT_RBEDGESCOLOR);
+		cr = (COLORREF)g_plugin.getDword("RBEdgesColor", FLT_DEFAULT_RBEDGESCOLOR);
 		hRBEdgesPen = CreatePen(PS_SOLID, 1, cr);
 	}
 
-	if (db_get_b(NULL, MODULE, "BkUseBitmap", FLT_DEFAULT_BKGNDUSEBITMAP)) {
+	if (g_plugin.getByte("BkUseBitmap", FLT_DEFAULT_BKGNDUSEBITMAP)) {
 		ptrW tszBitmapName(db_get_wsa(NULL, MODULE, "BkBitmap"));
 		if (tszBitmapName != NULL)
 			hBmpBackground = Bitmap_Load(tszBitmapName);
 	}
-	nBackgroundBmpUse = (WORD)db_get_w(NULL, MODULE, "BkBitmapOpt", FLT_DEFAULT_BKGNDBITMAPOPT);
+	nBackgroundBmpUse = (WORD)g_plugin.getWord("BkBitmapOpt", FLT_DEFAULT_BKGNDBITMAPOPT);
 
 	// Create brush
 	hBkBrush = CreateSolidBrush(bkColor);
@@ -676,7 +676,7 @@ static IconItemT g_iconList[] =
 static INT_PTR OnMainMenu_HideAll(WPARAM, LPARAM)
 {
 	fcOpt.bHideAll = !fcOpt.bHideAll;
-	db_set_b(NULL, MODULE, "HideAll", (BYTE)fcOpt.bHideAll);
+	g_plugin.setByte("HideAll", (BYTE)fcOpt.bHideAll);
 
 	OnStatusChanged();
 
@@ -700,7 +700,7 @@ static INT_PTR OnContactMenu_Remove(WPARAM hContact, LPARAM)
 static INT_PTR OnHotKey_HideWhenCListShow(WPARAM, LPARAM)
 {
 	fcOpt.bHideWhenCListShow = !fcOpt.bHideWhenCListShow;
-	db_set_b(NULL, MODULE, "HideWhenCListShow", (BYTE)fcOpt.bHideWhenCListShow);
+	g_plugin.setByte("HideWhenCListShow", (BYTE)fcOpt.bHideWhenCListShow);
 	OnStatusChanged();
 	return 0;
 }
@@ -831,9 +831,9 @@ static LRESULT __stdcall newMirandaWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, 
 			HideThumbsOnShowCList();
 		}
 		else if (!(wp->flags & SWP_NOMOVE)) {
-			BYTE method = db_get_b(NULL, "ModernData", "HideBehind", 0);
+			BYTE method = db_get_b(0, "ModernData", "HideBehind", 0);
 			if (method) {
-				WORD wBehindEdgeBorderSize = db_get_w(NULL, "ModernData", "HideBehindBorderSize", 0);
+				WORD wBehindEdgeBorderSize = db_get_w(0, "ModernData", "HideBehindBorderSize", 0);
 				RECT rc = { wp->x, wp->y, wp->x + wp->cx, wp->y + wp->cy };
 				RECT rcScr = { wBehindEdgeBorderSize*(2 - method), 0, GetSystemMetrics(SM_CXSCREEN) - wBehindEdgeBorderSize * (method - 1), GetSystemMetrics(SM_CYSCREEN) };
 				RECT rcOverlap;

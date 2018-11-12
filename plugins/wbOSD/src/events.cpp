@@ -19,7 +19,7 @@ void logmsg2(char *str)
 void showmsgwnd(unsigned int param)
 {
 	logmsg("showmsgwnd");
-	if (db_get_b(NULL, MODULENAME, "showMessageWindow", DEFAULT_SHOWMSGWIN))
+	if (g_plugin.getByte("showMessageWindow", DEFAULT_SHOWMSGWIN))
 		CallService(MS_MSG_SENDMESSAGEW, (WPARAM)param, 0);
 }
 
@@ -31,7 +31,7 @@ LRESULT ShowOSD(wchar_t *str, int timeout, COLORREF color, MCONTACT user)
 		return 0;
 
 	if (timeout == 0)
-		timeout = db_get_dw(NULL, MODULENAME, "timeout", DEFAULT_TIMEOUT);
+		timeout = g_plugin.getDword("timeout", DEFAULT_TIMEOUT);
 
 	osdmsg om;
 	om.text = str;
@@ -49,22 +49,22 @@ int ProtoAck(WPARAM, LPARAM lparam)
 
 	logmsg("ProtoAck");
 
-	if (!db_get_b(NULL, MODULENAME, "a_user", DEFAULT_ANNOUNCESTATUS))
+	if (!g_plugin.getByte("a_user", DEFAULT_ANNOUNCESTATUS))
 		return 0;
 
-	if (!(db_get_dw(NULL, MODULENAME, "showWhen", DEFAULT_SHOWWHEN)&(1 << (db_get_w(NULL, "CList", "Status", ID_STATUS_OFFLINE) - ID_STATUS_OFFLINE))))
+	if (!(g_plugin.getDword("showWhen", DEFAULT_SHOWWHEN)&(1 << (db_get_w(0, "CList", "Status", ID_STATUS_OFFLINE) - ID_STATUS_OFFLINE))))
 		return 0;
 
 	if (ack->type == ACKTYPE_STATUS) {
-		if (!db_get_b(NULL, MODULENAME, "showMyStatus", DEFAULT_SHOWMYSTATUS))
+		if (!g_plugin.getByte("showMyStatus", DEFAULT_SHOWMYSTATUS))
 			return 0;
 
 		if (ack->result == ACKRESULT_SUCCESS && (LPARAM)ack->hProcess != ack->lParam) {
-			DWORD ann = db_get_dw(NULL, MODULENAME, "announce", DEFAULT_ANNOUNCE);
+			DWORD ann = g_plugin.getDword("announce", DEFAULT_ANNOUNCE);
 			if (ann & (1 << (ack->lParam - ID_STATUS_OFFLINE))) {
 				wchar_t buffer[512];
 				mir_snwprintf(buffer, TranslateT("%s is %s"), Clist_GetContactDisplayName(ack->hContact), Clist_GetStatusModeDescription(ack->lParam, 0));
-				ShowOSD(buffer, 0, db_get_dw(NULL, MODULENAME, "clr_status", DEFAULT_CLRSTATUS), ack->hContact);
+				ShowOSD(buffer, 0, g_plugin.getDword("clr_status", DEFAULT_CLRSTATUS), ack->hContact);
 			}
 		}
 	}
@@ -102,14 +102,14 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = (MCONTACT)wParam;
 	WORD newStatus = HIWORD(lParam);
-	DWORD ann = db_get_dw(NULL, MODULENAME, "announce", DEFAULT_ANNOUNCE);
+	DWORD ann = g_plugin.getDword("announce", DEFAULT_ANNOUNCE);
 
 	logmsg("ContactStatusChanged1");
 
-	if (!db_get_b(NULL, MODULENAME, "a_user", DEFAULT_ANNOUNCESTATUS))
+	if (!g_plugin.getByte("a_user", DEFAULT_ANNOUNCESTATUS))
 		return 0;
 
-	if (!(db_get_dw(NULL, MODULENAME, "showWhen", DEFAULT_SHOWWHEN)&(1 << (db_get_w(NULL, "CList", "Status", ID_STATUS_OFFLINE) - ID_STATUS_OFFLINE))))
+	if (!(g_plugin.getDword("showWhen", DEFAULT_SHOWWHEN)&(1 << (db_get_w(0, "CList", "Status", ID_STATUS_OFFLINE) - ID_STATUS_OFFLINE))))
 		return 0;
 
 	if (!(ann&(1 << (newStatus - ID_STATUS_OFFLINE))))
@@ -124,7 +124,7 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 
 	wchar_t bufferW[512];
 	mir_snwprintf(bufferW, TranslateT("%s is %s"), Clist_GetContactDisplayName(wParam), Clist_GetStatusModeDescription(newStatus, 0));
-	ShowOSD(bufferW, 0, db_get_dw(NULL, MODULENAME, "clr_status", DEFAULT_CLRSTATUS), hContact);
+	ShowOSD(bufferW, 0, g_plugin.getDword("clr_status", DEFAULT_CLRSTATUS), hContact);
 	return 0;
 }
 
@@ -143,10 +143,10 @@ int HookedNewEvent(WPARAM wParam, LPARAM hDBEvent)
 	if (dbe.flags & DBEF_SENT)
 		return 0;
 
-	if (db_get_b(NULL, MODULENAME, "messages", DEFAULT_ANNOUNCEMESSAGES) == 0)
+	if (g_plugin.getByte("messages", DEFAULT_ANNOUNCEMESSAGES) == 0)
 		return 0;
 
-	if (!(db_get_dw(NULL, MODULENAME, "showWhen", DEFAULT_SHOWWHEN)&(1 << (db_get_w(NULL, "CList", "Status", ID_STATUS_OFFLINE) - ID_STATUS_OFFLINE))))
+	if (!(g_plugin.getDword("showWhen", DEFAULT_SHOWWHEN)&(1 << (db_get_w(0, "CList", "Status", ID_STATUS_OFFLINE) - ID_STATUS_OFFLINE))))
 		return 0;
 
 	logmsg("HookedNewEvent2");
@@ -155,7 +155,7 @@ int HookedNewEvent(WPARAM wParam, LPARAM hDBEvent)
 	wcsncpy(buf, DEFAULT_MESSAGEFORMAT, _countof(buf));
 
 	DBVARIANT dbv;
-	if (!db_get_ws(NULL, MODULENAME, "message_format", &dbv)) {
+	if (!g_plugin.getWString("message_format", &dbv)) {
 		mir_wstrcpy(buf, dbv.pwszVal);
 		db_free(&dbv);
 	}
@@ -197,7 +197,7 @@ int HookedNewEvent(WPARAM wParam, LPARAM hDBEvent)
 
 	wchar_t buffer[512];
 	mir_snwprintf(buffer, buf, c1, c2);
-	ShowOSD(buffer, 0, db_get_dw(NULL, MODULENAME, "clr_msg", DEFAULT_CLRMSG), wParam);
+	ShowOSD(buffer, 0, g_plugin.getDword("clr_msg", DEFAULT_CLRMSG), wParam);
 
 	mir_free(c1);
 	mir_free(c2);

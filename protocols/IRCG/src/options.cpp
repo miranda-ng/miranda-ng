@@ -117,7 +117,7 @@ void CIrcProto::WriteSettings(TDbSetting *sets, int count)
 static int sttServerEnum(const char* szSetting, void*)
 {
 	DBVARIANT dbv;
-	if (db_get_s(NULL, SERVERSMODULE, szSetting, &dbv))
+	if (db_get_s(0, SERVERSMODULE, szSetting, &dbv))
 		return 0;
 
 	SERVER_INFO *pData = new SERVER_INFO;
@@ -770,7 +770,7 @@ bool CConnectPrefsDlg::OnApply()
 					mir_snprintf(TextLine, "SERVER:SSL%u%s:%d-%dGROUP:%s", pData->m_iSSL, pData->m_address, pData->m_portStart, pData->m_portEnd, pData->m_group);
 				else
 					mir_snprintf(TextLine, "SERVER:%s:%d-%dGROUP:%s", pData->m_address, pData->m_portStart, pData->m_portEnd, pData->m_group);
-				db_set_s(NULL, SERVERSMODULE, pData->m_name, TextLine);
+				db_set_s(0, SERVERSMODULE, pData->m_name, TextLine);
 
 				// combobox might contain new items
 				if (g_servers.find(pData) == nullptr)
@@ -1849,7 +1849,7 @@ static void sttImportIni(const wchar_t* szIniFile)
 
 		memcpy(buf2, p, int(p1 - p));
 		buf2[int(p1 - p)] = 0;
-		db_set_s(NULL, SERVERSMODULE, buf2, p1);
+		db_set_s(0, SERVERSMODULE, buf2, p1);
 	}
 	fclose(serverFile);
 	::_wremove(szIniFile);

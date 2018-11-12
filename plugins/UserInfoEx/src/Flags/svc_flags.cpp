@@ -208,8 +208,8 @@ void SvcFlagsLoadModule()
 	CreateServiceFunction(MS_FLAGS_DETECTCONTACTORIGINCOUNTRY, ServiceDetectContactOriginCountry);
 	
 	// init settings
-	g_bUseUnknownFlag = db_get_b(NULL, MODNAMEFLAGS, "UseUnknownFlag", SETTING_USEUNKNOWNFLAG_DEFAULT) != 0;
-	g_bShowStatusIconFlag = db_get_b(NULL, MODNAMEFLAGS, "ShowStatusIconFlag", SETTING_SHOWSTATUSICONFLAG_DEFAULT) != 0;
+	g_bUseUnknownFlag = db_get_b(0, MODNAMEFLAGS, "UseUnknownFlag", SETTING_USEUNKNOWNFLAG_DEFAULT) != 0;
+	g_bShowStatusIconFlag = db_get_b(0, MODNAMEFLAGS, "ShowStatusIconFlag", SETTING_SHOWSTATUSICONFLAG_DEFAULT) != 0;
 
 	HookEvent(ME_SKIN2_ICONSCHANGED, OnStatusIconsChanged);
 

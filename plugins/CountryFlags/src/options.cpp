@@ -59,15 +59,15 @@ static INT_PTR CALLBACK ExtraImgOptDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARA
 			bool bChanged = false, bTemp;
 
 			if ((bTemp = IsDlgButtonChecked(hwndDlg, IDC_CHECK_USEUNKNOWNFLAG) != 0) != bUseUnknown)
-				db_set_b(NULL, MODULENAME, "UseUnknownFlag", bUseUnknown = bTemp), bChanged = true;
+				g_plugin.setByte("UseUnknownFlag", bUseUnknown = bTemp), bChanged = true;
 			if ((bTemp = IsDlgButtonChecked(hwndDlg, IDC_CHECK_USEIPTOCOUNTRY) != 0) != bUseIpToCountry)
-				db_set_b(NULL, MODULENAME, "UseIpToCountry", bUseIpToCountry = bTemp), bChanged = true;
+				g_plugin.setByte("UseIpToCountry", bUseIpToCountry = bTemp), bChanged = true;
 			/* Status Icon */
 			if ((bTemp = IsDlgButtonChecked(hwndDlg, IDC_CHECK_SHOWSTATUSICONFLAG) != 0) != bShowStatusIcon)
-				db_set_b(NULL, MODULENAME, "ShowStatusIconFlag", bShowStatusIcon = bTemp), bChanged = true;
+				g_plugin.setByte("ShowStatusIconFlag", bShowStatusIcon = bTemp), bChanged = true;
 			/* Extra Image */
 			if ((bTemp = IsDlgButtonChecked(hwndDlg, IDC_CHECK_SHOWEXTRAIMGFLAG) != 0) != bShowExtraIcon)
-				db_set_b(NULL, MODULENAME, "ShowExtraImgFlag", bShowExtraIcon = bTemp), bChanged = true;
+				g_plugin.setByte("ShowExtraImgFlag", bShowExtraIcon = bTemp), bChanged = true;
 
 			if (bChanged) {
 				UpdateExtraImages();

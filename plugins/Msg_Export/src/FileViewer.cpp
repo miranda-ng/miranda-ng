@@ -179,8 +179,8 @@ int CLStreamRTFInfo::nOptimalReadLen = 3300;
 
 int CLStreamRTFInfo::nWriteHeader(char *pszTarget, int nLen)
 {
-	COLORREF cMyText = db_get_dw(NULL, "SRMsg", "Font3Col", RGB(64, 0, 128));
-	COLORREF cYourText = db_get_dw(NULL, "SRMsg", "Font0Col", RGB(240, 0, 0));
+	COLORREF cMyText = db_get_dw(0, "SRMsg", "Font3Col", RGB(64, 0, 128));
+	COLORREF cYourText = db_get_dw(0, "SRMsg", "Font0Col", RGB(240, 0, 0));
 
 	char szRtfHeader[400];
 	int nSrcLen = mir_snprintf(szRtfHeader,
@@ -724,13 +724,13 @@ void SetRichEditFont(HWND hRichEdit, bool bUseSyntaxHL)
 	CHARFORMAT ncf = { 0 };
 	ncf.cbSize = sizeof(CHARFORMAT);
 	ncf.dwMask = CFM_BOLD | CFM_FACE | CFM_ITALIC | CFM_SIZE | CFM_UNDERLINE;
-	ncf.dwEffects = db_get_dw(NULL, MODULENAME, szFileViewDB "TEffects", 0);
-	ncf.yHeight = db_get_dw(NULL, MODULENAME, szFileViewDB "THeight", 165);
-	wcsncpy_s(ncf.szFaceName, _DBGetStringW(NULL, MODULENAME, szFileViewDB "TFace", L"Courier New").c_str(), _TRUNCATE);
+	ncf.dwEffects = g_plugin.getDword(szFileViewDB "TEffects", 0);
+	ncf.yHeight = g_plugin.getDword(szFileViewDB "THeight", 165);
+	wcsncpy_s(ncf.szFaceName, _DBGetStringW(0, MODULENAME, szFileViewDB "TFace", L"Courier New").c_str(), _TRUNCATE);
 
 	if (!bUseSyntaxHL) {
 		ncf.dwMask |= CFM_COLOR;
-		ncf.crTextColor = db_get_dw(NULL, MODULENAME, szFileViewDB "TColor", 0);
+		ncf.crTextColor = g_plugin.getDword(szFileViewDB "TColor", 0);
 	}
 	SendMessage(hRichEdit, EM_SETCHARFORMAT, (WPARAM)SCF_ALL, (LPARAM)&ncf);
 
@@ -762,15 +762,15 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 			InsertMenu(hSysMenu, 0, MF_STRING | MF_BYPOSITION, ID_FV_SAVE_AS_RTF, LPGENW("Save as RTF"));
 			InsertMenu(hSysMenu, 0, MF_SEPARATOR | MF_BYPOSITION, 0, nullptr);
 
-			BYTE bUseCC = (BYTE)db_get_b(NULL, MODULENAME, szFileViewDB "UseCC", 0);
+			BYTE bUseCC = (BYTE)g_plugin.getByte(szFileViewDB "UseCC", 0);
 			InsertMenu(hSysMenu, 0, MF_STRING | MF_BYPOSITION | (bUseCC ? MF_CHECKED : 0), ID_FV_COLOR, LPGENW("Color..."));
 
 			if (bUseCC)
-				SendMessage(hRichEdit, EM_SETBKGNDCOLOR, 0, db_get_dw(NULL, MODULENAME, szFileViewDB "CustomC", RGB(255, 255, 255)));
+				SendMessage(hRichEdit, EM_SETBKGNDCOLOR, 0, g_plugin.getDword(szFileViewDB "CustomC", RGB(255, 255, 255)));
 
 			InsertMenu(hSysMenu, 0, MF_STRING | MF_BYPOSITION, ID_FV_FONT, LPGENW("Font..."));
 
-			bool bUseSyntaxHL = db_get_b(NULL, MODULENAME, szFileViewDB "UseSyntaxHL", 1) != 0;
+			bool bUseSyntaxHL = g_plugin.getByte(szFileViewDB "UseSyntaxHL", 1) != 0;
 			InsertMenu(hSysMenu, 0, MF_STRING | MF_BYPOSITION | (bUseSyntaxHL ? MF_CHECKED : 0), ID_FV_SYNTAX_HL, LPGENW("Syntax highlight"));
 
 			SetRichEditFont(hRichEdit, bUseSyntaxHL);
@@ -836,18 +836,18 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 				LOGFONT lf = { 0 };
 				lf.lfHeight = 14L;
 
-				DWORD dwEffects = db_get_dw(NULL, MODULENAME, szFileViewDB "TEffects", 0);
+				DWORD dwEffects = g_plugin.getDword(szFileViewDB "TEffects", 0);
 				lf.lfWeight = (dwEffects & CFE_BOLD) ? FW_BOLD : 0;
 				lf.lfUnderline = (dwEffects & CFE_UNDERLINE) != 0;
 				lf.lfStrikeOut = (dwEffects & CFE_STRIKEOUT) != 0;
 				lf.lfItalic = (dwEffects & CFE_ITALIC) != 0;
 
-				wcsncpy_s(lf.lfFaceName, _DBGetStringW(NULL, MODULENAME, szFileViewDB "TFace", L"Courier New").c_str(), _TRUNCATE);
+				wcsncpy_s(lf.lfFaceName, _DBGetStringW(0, MODULENAME, szFileViewDB "TFace", L"Courier New").c_str(), _TRUNCATE);
 				CHOOSEFONT cf = { 0 };
 				cf.lStructSize = sizeof(cf);
 				cf.hwndOwner = hwndDlg;
 				cf.lpLogFont = &lf;
-				cf.rgbColors = db_get_dw(NULL, MODULENAME, szFileViewDB "TColor", 0);
+				cf.rgbColors = g_plugin.getDword(szFileViewDB "TColor", 0);
 				cf.Flags = CF_EFFECTS | CF_SCREENFONTS | CF_INITTOLOGFONTSTRUCT;
 
 				if (ChooseFont(&cf)) {
@@ -856,28 +856,28 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 						(lf.lfStrikeOut ? CFE_STRIKEOUT : 0) |
 						(lf.lfUnderline ? CFE_UNDERLINE : 0);
 
-					db_set_dw(NULL, MODULENAME, szFileViewDB "TEffects", dwEffects);
-					db_set_dw(NULL, MODULENAME, szFileViewDB "THeight", cf.iPointSize * 2);
-					db_set_dw(NULL, MODULENAME, szFileViewDB "TColor", cf.rgbColors);
-					db_set_ws(NULL, MODULENAME, szFileViewDB "TFace", lf.lfFaceName);
+					g_plugin.setDword(szFileViewDB "TEffects", dwEffects);
+					g_plugin.setDword(szFileViewDB "THeight", cf.iPointSize * 2);
+					g_plugin.setDword(szFileViewDB "TColor", cf.rgbColors);
+					g_plugin.setWString(szFileViewDB "TFace", lf.lfFaceName);
 					SetRichEditFont(hRichEdit, bUseSyntaxHL);
 				}
 				return TRUE;
 			}
 			
 			if ((wParam & 0xFFF0) == ID_FV_COLOR) {
-				BYTE bUseCC = !db_get_b(NULL, MODULENAME, szFileViewDB "UseCC", 0);
+				BYTE bUseCC = !g_plugin.getByte(szFileViewDB "UseCC", 0);
 				if (bUseCC) {
 					CHOOSECOLOR cc = { 0 };
 					cc.lStructSize = sizeof(cc);
 					cc.hwndOwner = hwndDlg;
-					cc.rgbResult = db_get_dw(NULL, MODULENAME, szFileViewDB "CustomC", RGB(255, 255, 255));
+					cc.rgbResult = g_plugin.getDword(szFileViewDB "CustomC", RGB(255, 255, 255));
 					cc.Flags = CC_ANYCOLOR | CC_FULLOPEN | CC_RGBINIT;
 					static COLORREF MyCustColors[16] = { 0xFFFFFFFF };
 					cc.lpCustColors = MyCustColors;
 					if (ChooseColor(&cc)) {
 						SendMessage(hRichEdit, EM_SETBKGNDCOLOR, 0, cc.rgbResult);
-						db_set_dw(NULL, MODULENAME, szFileViewDB "CustomC", cc.rgbResult);
+						g_plugin.setDword(szFileViewDB "CustomC", cc.rgbResult);
 					}
 					else {
 						CommDlgExtendedError();
@@ -887,7 +887,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 				else SendMessage(hRichEdit, EM_SETBKGNDCOLOR, TRUE, 0);
 
 				CheckMenuItem(hSysMenu, ID_FV_COLOR, MF_BYCOMMAND | (bUseCC ? MF_CHECKED : 0));
-				db_set_b(NULL, MODULENAME, szFileViewDB "UseCC", bUseCC);
+				g_plugin.setByte(szFileViewDB "UseCC", bUseCC);
 				return TRUE;
 			}
 			
@@ -899,7 +899,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 				bUseSyntaxHL = !bUseSyntaxHL;
 				CheckMenuItem(hSysMenu, ID_FV_SYNTAX_HL, MF_BYCOMMAND | (bUseSyntaxHL ? MF_CHECKED : 0));
-				db_set_b(NULL, MODULENAME, szFileViewDB "UseSyntaxHL", bUseSyntaxHL);
+				g_plugin.setByte(szFileViewDB "UseSyntaxHL", bUseSyntaxHL);
 
 				if (bUseSyntaxHL)
 					bLoadFile(hwndDlg, pclDlg);

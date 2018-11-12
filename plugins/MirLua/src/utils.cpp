@@ -21,7 +21,7 @@ void ShowNotification(const char *caption, const char *message, int flags, MCONT
 	if (Miranda_IsTerminated())
 		return;
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1))
+	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(0, "Popup", "ModuleIsEnabled", 1))
 	{
 		POPUPDATA ppd = { 0 };
 		ppd.lchContact = hContact;
@@ -44,7 +44,7 @@ void ObsoleteMethod(lua_State *L, const char *message)
 	char text[512];
 	mir_snprintf(text, "%s is obsolete. %s", ar.name, message);
 	Log(text);
-	if (db_get_b(NULL, MODULENAME, "PopupOnObsolete", 0))
+	if (g_plugin.getByte("PopupOnObsolete", 0))
 		ShowNotification(MODULENAME, text, MB_OK | MB_ICONWARNING, NULL);
 }
 
@@ -52,7 +52,7 @@ void ReportError(lua_State *L)
 {
 	const char *message = lua_tostring(L, -1);
 	Log(message);
-	if (db_get_b(NULL, MODULENAME, "PopupOnError", 0))
+	if (g_plugin.getByte("PopupOnError", 0))
 		ShowNotification(MODULENAME, message, MB_OK | MB_ICONERROR);
 }
 

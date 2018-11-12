@@ -51,29 +51,29 @@ void ChatHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
 	DBVARIANT dbv;
 	if (colour) {
 		mir_snprintf(str, "Font%dCol", i);
-		*colour = db_get_dw(NULL, CHATFONTMOD, str, 0x000000);
+		*colour = db_get_dw(0, CHATFONTMOD, str, 0x000000);
 	}
 	if (lf) {
 		mir_snprintf(str, "Font%dSize", i);
-		lf->lfHeight = (char)db_get_b(NULL, CHATFONTMOD, str, 10);
+		lf->lfHeight = (char)db_get_b(0, CHATFONTMOD, str, 10);
 		lf->lfHeight = abs(lf->lfHeight);
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
 		lf->lfOrientation = 0;
 		mir_snprintf(str, "Font%dSty", i);
-		style = db_get_b(NULL, CHATFONTMOD, str, 0);
+		style = db_get_b(0, CHATFONTMOD, str, 0);
 		lf->lfWeight = style & FONTF_BOLD ? FW_BOLD : FW_NORMAL;
 		lf->lfItalic = style & FONTF_ITALIC ? 1 : 0;
 		lf->lfUnderline = style & FONTF_UNDERLINE ? 1 : 0;
 		lf->lfStrikeOut = 0;
 		mir_snprintf(str, "Font%dSet", i);
-		lf->lfCharSet = db_get_b(NULL, CHATFONTMOD, str, DEFAULT_CHARSET);
+		lf->lfCharSet = db_get_b(0, CHATFONTMOD, str, DEFAULT_CHARSET);
 		lf->lfOutPrecision = OUT_DEFAULT_PRECIS;
 		lf->lfClipPrecision = CLIP_DEFAULT_PRECIS;
 		lf->lfQuality = DEFAULT_QUALITY;
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 		mir_snprintf(str, "Font%d", i);
-		if (db_get_s(NULL, CHATFONTMOD, str, &dbv))
+		if (db_get_s(0, CHATFONTMOD, str, &dbv))
 			strncpy_s(lf->lfFaceName, "Verdana", _TRUNCATE);
 		else {
 			strncpy_s(lf->lfFaceName, dbv.pszVal, _TRUNCATE);
@@ -115,7 +115,7 @@ void ChatHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 		ReleaseDC(nullptr, hdc);
 		str.Append("<html><head>");
 		str.Append("<style type=\"text/css\">\n");
-		COLORREF bkgColor = db_get_dw(NULL, CHATMOD, "BackgroundLog", 0xFFFFFF);
+		COLORREF bkgColor = db_get_dw(0, CHATMOD, "BackgroundLog", 0xFFFFFF);
 		bkgColor = (((bkgColor & 0xFF) << 16) | (bkgColor & 0xFF00) | ((bkgColor & 0xFF0000) >> 16));
 		COLORREF inColor = bkgColor, outColor = bkgColor;
 		if (protoSettings->getChatFlags() & Options::LOG_IMAGE_ENABLED) {
@@ -159,7 +159,7 @@ void ChatHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 
 void ChatHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 {
-	DWORD iconFlags = db_get_dw(NULL, CHATMOD, CHAT_ICON_FLAGS, 0);
+	DWORD iconFlags = db_get_dw(0, CHATMOD, CHAT_ICON_FLAGS, 0);
 	IEVIEWEVENTDATA* eventData = event->eventData;
 	for (int eventIdx = 0; eventData != nullptr && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
 		const char *iconFile = "";

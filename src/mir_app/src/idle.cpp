@@ -37,7 +37,7 @@ MIR_APP_DLL(void) Idle_Enter(int type)
 {
 	int flags = 0;
 
-	if (db_get_b(0, MODULENAME, "IdlePrivate"))
+	if (g_plugin.getByte("IdlePrivate"))
 		flags |= IDF_PRIVACY;
 
 	if (!g_bIsIdle && type != -1) {
@@ -55,11 +55,11 @@ MIR_APP_DLL(void) Idle_Enter(int type)
 
 MIR_APP_DLL(void) Idle_GetInfo(MIRANDA_IDLE_INFO &pInfo)
 {
-	pInfo.idleTime = db_get_dw(0, MODULENAME, "IdleTime1st");
-	pInfo.privacy = db_get_b(0, MODULENAME, "IdlePrivate");
-	pInfo.aaStatus = db_get_b(0, MODULENAME, "AAEnable", 1) ? db_get_w(0, MODULENAME, "AAStatus") : 0;
-	pInfo.aaLock = db_get_b(0, MODULENAME, "IdleStatusLock");
-	pInfo.idlesoundsoff = db_get_b(0, MODULENAME, "IdleSoundsOff");
+	pInfo.idleTime = g_plugin.getDword("IdleTime1st");
+	pInfo.privacy = g_plugin.getByte("IdlePrivate");
+	pInfo.aaStatus = g_plugin.getByte("AAEnable", 1) ? g_plugin.getWord("AAStatus") : 0;
+	pInfo.aaLock = g_plugin.getByte("IdleStatusLock");
+	pInfo.idlesoundsoff = g_plugin.getByte("IdleSoundsOff");
 	pInfo.idleType = g_idleType;
 }
 

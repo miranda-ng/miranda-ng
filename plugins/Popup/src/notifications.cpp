@@ -95,32 +95,32 @@ void SaveNotificationSettings(POPUPTREEDATA *ptd, char *szModul)
 		mir_snprintf(setting, "{%s/%s}Timeout",
 			ptd->notification.lpzGroup,
 			ptd->notification.lpzName);
-		db_set_w(NULL, szModul, setting, ptd->notification.iSeconds);
+		db_set_w(0, szModul, setting, ptd->notification.iSeconds);
 
 		mir_snprintf(setting, "{%s/%s}enabled",
 			ptd->notification.lpzGroup,
 			ptd->notification.lpzName);
-		db_set_b(NULL, szModul, setting, ptd->enabled);
+		db_set_b(0, szModul, setting, ptd->enabled);
 
 		mir_snprintf(setting, "{%s/%s}TimeoutVal",
 			ptd->notification.lpzGroup,
 			ptd->notification.lpzName);
-		db_set_w(NULL, szModul, setting, ptd->timeoutValue);
+		db_set_w(0, szModul, setting, ptd->timeoutValue);
 
 		mir_snprintf(setting, "{%s/%s}disableWhen",
 			ptd->notification.lpzGroup,
 			ptd->notification.lpzName);
-		db_set_b(NULL, szModul, setting, ptd->disableWhen);
+		db_set_b(0, szModul, setting, ptd->disableWhen);
 
 		mir_snprintf(setting, "{%s/%s}leftAction",
 			ptd->notification.lpzGroup,
 			ptd->notification.lpzName);
-		db_set_s(NULL, szModul, setting, ptd->leftAction);
+		db_set_s(0, szModul, setting, ptd->leftAction);
 
 		mir_snprintf(setting, "{%s/%s}rightAction",
 			ptd->notification.lpzGroup,
 			ptd->notification.lpzName);
-		db_set_s(NULL, szModul, setting, ptd->rightAction);
+		db_set_s(0, szModul, setting, ptd->rightAction);
 
 		for (int i = 0; i < ptd->notification.actionCount; ++i) {
 			POPUPNOTIFYACTION &p = ptd->notification.lpActions[i];
@@ -140,28 +140,28 @@ void LoadNotificationSettings(POPUPTREEDATA *ptd, char* szModul)
 
 		mir_snprintf(setting, "{%s/%s}enabled", ptd->notification.lpzGroup, ptd->notification.lpzName);
 		ptd->enabled =
-			(signed char)db_get_b(NULL, szModul, setting, TRUE);
+			(signed char)db_get_b(0, szModul, setting, TRUE);
 
 		mir_snprintf(setting, "{%s/%s}Timeout", ptd->notification.lpzGroup, ptd->notification.lpzName);
 		ptd->notification.iSeconds =
-			(signed char)db_get_w(NULL, szModul, setting, ptd->notification.iSeconds);
+			(signed char)db_get_w(0, szModul, setting, ptd->notification.iSeconds);
 
 		mir_snprintf(setting, "{%s/%s}TimeoutVal", ptd->notification.lpzGroup, ptd->notification.lpzName);
 		ptd->timeoutValue =
-			(signed char)db_get_w(NULL, szModul, setting,
+			(signed char)db_get_w(0, szModul, setting,
 			ptd->notification.iSeconds ? ptd->notification.iSeconds : 0);
 
 		mir_snprintf(setting, "{%s/%s}disableWhen", ptd->notification.lpzGroup, ptd->notification.lpzName);
 		ptd->disableWhen =
-			db_get_b(NULL, szModul, setting, 0);
+			db_get_b(0, szModul, setting, 0);
 
 		mir_snprintf(setting, "{%s/%s}leftAction", ptd->notification.lpzGroup, ptd->notification.lpzName);
-		char *szTmp = db_get_s(NULL, szModul, setting, ptd->notification.lpzLAction);
+		char *szTmp = db_get_s(0, szModul, setting, ptd->notification.lpzLAction);
 		mir_strncpy(ptd->leftAction, szTmp, sizeof(ptd->leftAction));
 		mir_free(szTmp); szTmp = nullptr;
 
 		mir_snprintf(setting, "{%s/%s}rightAction", ptd->notification.lpzGroup, ptd->notification.lpzName);
-		szTmp = db_get_s(NULL, szModul, setting, ptd->notification.lpzRAction);
+		szTmp = db_get_s(0, szModul, setting, ptd->notification.lpzRAction);
 		mir_strncpy(ptd->rightAction, szTmp, sizeof(ptd->rightAction));
 		mir_free(szTmp); szTmp = nullptr;
 	}

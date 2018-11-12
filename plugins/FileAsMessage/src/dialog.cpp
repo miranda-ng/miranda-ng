@@ -136,17 +136,17 @@ int RetrieveFileSize(wchar_t *filename)
 FILEECHO::FILEECHO(MCONTACT Contact)
 {
 	hContact = Contact;
-	dwSendInterval = db_get_dw(NULL, MODULENAME, "SendDelay", 6000);
+	dwSendInterval = g_plugin.getDword("SendDelay", 6000);
 
-	chunkMaxLen = db_get_dw(NULL, MODULENAME, "ChunkSize", 5000);
+	chunkMaxLen = g_plugin.getDword("ChunkSize", 5000);
 	chunkCount = 0;
 	filename = nullptr;
 
-	rgbRecv = db_get_dw(NULL, MODULENAME, "colorRecv", RGB(64, 255, 64));
-	rgbSent = db_get_dw(NULL, MODULENAME, "colorSent", RGB(255, 255, 64));
-	rgbUnSent = db_get_dw(NULL, MODULENAME, "colorUnsent", RGB(128, 128, 128));
-	rgbToSend = db_get_dw(NULL, MODULENAME, "colorTosend", RGB(192, 192, 192));
-	asBinary = db_get_dw(NULL, MODULENAME, "base64", 1) == 0;
+	rgbRecv = g_plugin.getDword("colorRecv", RGB(64, 255, 64));
+	rgbSent = g_plugin.getDword("colorSent", RGB(255, 255, 64));
+	rgbUnSent = g_plugin.getDword("colorUnsent", RGB(128, 128, 128));
+	rgbToSend = g_plugin.getDword("colorTosend", RGB(192, 192, 192));
+	asBinary = g_plugin.getDword("base64", 1) == 0;
 }
 
 uint controlEnabled[][2] =
@@ -235,7 +235,7 @@ int FILEECHO::createTransfer()
 #ifdef DEBUG
 	overhead = 0;
 #endif
-	BYTE bAuto = db_get_b(NULL, "SRFile", "AutoAccept", 0);
+	BYTE bAuto = db_get_b(0, "SRFile", "AutoAccept", 0);
 
 	hFile = CreateFileA(filename, inSend ? GENERIC_READ : (GENERIC_READ | GENERIC_WRITE), inSend ? FILE_SHARE_READ : 0, nullptr, inSend ? OPEN_EXISTING : (bAuto ? CREATE_ALWAYS : CREATE_NEW), FILE_ATTRIBUTE_NORMAL, nullptr);
 	if (hFile == INVALID_HANDLE_VALUE && !inSend && GetLastError() == ERROR_FILE_EXISTS) {
@@ -404,8 +404,8 @@ void FILEECHO::incomeRequest(char *param)
 	inSend = FALSE;
 
 	Skin_PlaySound("RecvFile");
-	int AutoMin = db_get_b(NULL, "SRFile", "AutoMin", 0);
-	if (db_get_b(NULL, "SRFile", "AutoAccept", 0) && !db_get_b(hContact, "CList", "NotOnList", 0)) {
+	int AutoMin = db_get_b(0, "SRFile", "AutoMin", 0);
+	if (db_get_b(0, "SRFile", "AutoAccept", 0) && !db_get_b(hContact, "CList", "NotOnList", 0)) {
 		PostMessage(hDlg, WM_COMMAND, IDC_PLAY, 0);
 		if (AutoMin)
 			ShowWindow(hDlg, SW_SHOWMINIMIZED);
@@ -486,7 +486,7 @@ void FILEECHO::onRecvTimer()
 		SetDlgItemText(hDlg, IDC_STATUS, msg);
 		MakePopupMsg(hDlg, hContact, msg);
 		setState(STATE_FINISHED);
-		if (db_get_b(NULL, "SRFile", "AutoClose", 0)) {
+		if (db_get_b(0, "SRFile", "AutoClose", 0)) {
 			PostMessage(hDlg, WM_CLOSE, 0, 0);
 			g_clistApi.pfnRemoveEvent(hContact, 0);
 		}

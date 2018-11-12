@@ -265,7 +265,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			LPTSTR ptszLastTab;
 			DBVARIANT dbv;
-			if (!db_get_ws(NULL, MODULENAME, "LastTab", &dbv)) {
+			if (!g_plugin.getWString("LastTab", &dbv)) {
 				ptszLastTab = NEWWSTR_ALLOCA(dbv.pwszVal);
 				db_free(&dbv);
 			}
@@ -584,7 +584,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		tvi.pszText = name;
 		tvi.cchTextMax = _countof(name);
 		TreeView_GetItem(GetDlgItem(hwndDlg, IDC_PAGETREE), &tvi);
-		db_set_ws(NULL, MODULENAME, "LastTab", name);
+		g_plugin.setWString("LastTab", name);
 
 		Window_FreeIcon_IcoLib(hwndDlg);
 		SendDlgItemMessage(hwndDlg, IDC_NAME, WM_SETFONT, SendDlgItemMessage(hwndDlg, IDC_WHITERECT, WM_GETFONT, 0, 0), 0);

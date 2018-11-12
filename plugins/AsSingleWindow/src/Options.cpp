@@ -98,8 +98,8 @@ void dlgUpdateControls(HWND hWnd)
 
 void optionsLoad()
 {
-	pluginVars.Options.DrivenWindowPos = db_get_b(0, MODULENAME, "DrivenWindowPosition", ASW_CLWINDOWPOS_RIGHT);
-	pluginVars.Options.WindowsMerging = db_get_b(0, MODULENAME, "WindowsMerging", ASW_WINDOWS_MERGEONE);
+	pluginVars.Options.DrivenWindowPos = g_plugin.getByte("DrivenWindowPosition", ASW_CLWINDOWPOS_RIGHT);
+	pluginVars.Options.WindowsMerging = g_plugin.getByte("WindowsMerging", ASW_WINDOWS_MERGEONE);
 }
 
 void optionsUpdate(HWND hWnd)
@@ -117,6 +117,6 @@ void optionsUpdate(HWND hWnd)
 
 void optionsSave()
 {
-	db_set_b(0, MODULENAME, "DrivenWindowPosition", pluginVars.Options.DrivenWindowPos);
-	db_set_b(0, MODULENAME, "WindowsMerging", pluginVars.Options.WindowsMerging);
+	g_plugin.setByte("DrivenWindowPosition", pluginVars.Options.DrivenWindowPos);
+	g_plugin.setByte("WindowsMerging", pluginVars.Options.WindowsMerging);
 }

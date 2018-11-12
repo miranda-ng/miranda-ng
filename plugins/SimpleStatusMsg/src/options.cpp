@@ -131,7 +131,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 						SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_SETITEMDATA, (WPARAM)index, (LPARAM)i - ID_STATUS_ONLINE);
 
-						val = db_get_b(NULL, MODULENAME, (char *)StatusModeToDbSetting(i, "Flags"), STATUS_DEFAULT);
+						val = g_plugin.getByte((char *)StatusModeToDbSetting(i, "Flags"), STATUS_DEFAULT);
 						data->status_msg[0].flags[i - ID_STATUS_ONLINE] = val;
 						ptrW text(db_get_wsa(NULL, "SRAway", StatusModeToDbSetting(i, "Default")));
 						mir_wstrncpy(data->status_msg[0].msg[i - ID_STATUS_ONLINE], (text == NULL) ? GetDefaultMessage(i) : text, 1024);
@@ -142,7 +142,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 								continue;
 
 							mir_snprintf(setting, "%sFlags", pa->szModuleName);
-							val = db_get_b(NULL, MODULENAME, (char *)StatusModeToDbSetting(i, setting), STATUS_DEFAULT);
+							val = g_plugin.getByte((char *)StatusModeToDbSetting(i, setting), STATUS_DEFAULT);
 							data->status_msg[j + 1].flags[i - ID_STATUS_ONLINE] = val;
 							mir_snprintf(setting, "%sDefault", pa->szModuleName);
 							text = db_get_wsa(NULL, "SRAway", StatusModeToDbSetting(i, setting));
@@ -174,7 +174,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				if (index != CB_ERR && index != CB_ERRSPACE) {
 					data->proto_msg[0].msg = nullptr;
 
-					val = db_get_b(NULL, MODULENAME, "ProtoFlags", PROTO_DEFAULT);
+					val = g_plugin.getByte("ProtoFlags", PROTO_DEFAULT);
 					data->proto_msg[0].flags = val;
 					data->proto_msg[0].max_length = 0;
 					SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_SETITEMDATA, (WPARAM)index, 0);
@@ -193,14 +193,14 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					// SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_SETITEMDATA, index, (LPARAM)i + 1);
 					if (index != CB_ERR && index != CB_ERRSPACE) {
 						mir_snprintf(setting, "Proto%sDefault", pa->szModuleName);
-						data->proto_msg[i + 1].msg = db_get_wsa(NULL, MODULENAME, setting);
+						data->proto_msg[i + 1].msg = g_plugin.getWStringA(setting);
 
 						mir_snprintf(setting, "Proto%sFlags", pa->szModuleName);
-						val = db_get_b(NULL, MODULENAME, setting, PROTO_DEFAULT);
+						val = g_plugin.getByte(setting, PROTO_DEFAULT);
 						data->proto_msg[i + 1].flags = val;
 
 						mir_snprintf(setting, "Proto%sMaxLen", pa->szModuleName);
-						val = db_get_w(NULL, MODULENAME, setting, 1024);
+						val = g_plugin.getWord(setting, 1024);
 						data->proto_msg[i + 1].max_length = val;
 						SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_SETITEMDATA, (WPARAM)index, (LPARAM)i + 1);
 					}
@@ -216,7 +216,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_CBOPTPROTO, CBN_SELCHANGE), (LPARAM)GetDlgItem(hwndDlg, IDC_CBOPTPROTO));
 			}
 
-			if (db_get_b(NULL, MODULENAME, "PutDefInList", 0))
+			if (g_plugin.getByte("PutDefInList", 0))
 				CheckDlgButton(hwndDlg, IDC_COPTMSG2, BST_CHECKED);
 
 			if (ServiceExists(MS_VARS_FORMATSTRING)) {
@@ -417,9 +417,9 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 								mir_snprintf(setting, "LastMsg");
 
 							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, L"");
-							char *szSetting = db_get_sa(NULL, MODULENAME, setting);
+							char *szSetting = g_plugin.getStringA(setting);
 							if (szSetting) {
-								wchar_t *tszStatusMsg = db_get_wsa(NULL, MODULENAME, szSetting);
+								wchar_t *tszStatusMsg = g_plugin.getWStringA(szSetting);
 								if (tszStatusMsg && mir_wstrlen(tszStatusMsg)) {
 									if (tszStatusMsg && mir_wstrlen(tszStatusMsg))
 										SetDlgItemText(hwndDlg, IDC_OPTEDIT1, tszStatusMsg);
@@ -554,9 +554,9 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 								mir_snprintf(setting, "LastMsg");
 
 							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, L"");
-							char *szSetting = db_get_sa(NULL, MODULENAME, setting);
+							char *szSetting = g_plugin.getStringA(setting);
 							if (szSetting != nullptr) {
-								wchar_t *tszStatusMsg = db_get_wsa(NULL, MODULENAME, szSetting);
+								wchar_t *tszStatusMsg = g_plugin.getWStringA(szSetting);
 								if (tszStatusMsg) {
 									if (tszStatusMsg[0])
 										SetDlgItemText(hwndDlg, IDC_OPTEDIT1, tszStatusMsg);
@@ -639,9 +639,9 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 							mir_snprintf(setting, "LastMsg");
 
 						SetDlgItemText(hwndDlg, IDC_OPTEDIT1, L"");
-						char *szSetting = db_get_sa(NULL, MODULENAME, setting);
+						char *szSetting = g_plugin.getStringA(setting);
 						if (szSetting != nullptr) {
-							wchar_t *tszStatusMsg = db_get_wsa(NULL, MODULENAME, szSetting);
+							wchar_t *tszStatusMsg = g_plugin.getWStringA(szSetting);
 							if (tszStatusMsg) {
 								if (tszStatusMsg[0])
 									SetDlgItemText(hwndDlg, IDC_OPTEDIT1, tszStatusMsg);
@@ -741,9 +741,9 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						SetDlgItemText(hwndDlg, IDC_OPTEDIT1, L"");
 
 
-						char *szSetting = db_get_sa(NULL, MODULENAME, setting);
+						char *szSetting = g_plugin.getStringA(setting);
 						if (szSetting != nullptr) {
-							wchar_t *tszStatusMsg = db_get_wsa(NULL, MODULENAME, szSetting);
+							wchar_t *tszStatusMsg = g_plugin.getWStringA(szSetting);
 							if (tszStatusMsg) {
 								if (tszStatusMsg[0])
 									SetDlgItemText(hwndDlg, IDC_OPTEDIT1, tszStatusMsg);
@@ -907,8 +907,8 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 			char szSetting[80];
 			for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
 				if (accounts->statusMsgFlags & Proto_Status2Flag(i)) {
-					db_set_ws(NULL, "SRAway", StatusModeToDbSetting(i, "Default"), data->status_msg[0].msg[i - ID_STATUS_ONLINE]);
-					db_set_b(NULL, MODULENAME, StatusModeToDbSetting(i, "Flags"), (BYTE)data->status_msg[0].flags[i - ID_STATUS_ONLINE]);
+					db_set_ws(0, "SRAway", StatusModeToDbSetting(i, "Default"), data->status_msg[0].msg[i - ID_STATUS_ONLINE]);
+					g_plugin.setByte(StatusModeToDbSetting(i, "Flags"), (BYTE)data->status_msg[0].flags[i - ID_STATUS_ONLINE]);
 
 					for (int j = 0; j < accounts->count; j++) {
 						auto *pa = accounts->pa[j];
@@ -920,19 +920,19 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 						if (CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(i)) {
 							mir_snprintf(szSetting, "%sDefault", pa->szModuleName);
-							db_set_ws(NULL, "SRAway", StatusModeToDbSetting(i, szSetting), data->status_msg[j + 1].msg[i - ID_STATUS_ONLINE]);
+							db_set_ws(0, "SRAway", StatusModeToDbSetting(i, szSetting), data->status_msg[j + 1].msg[i - ID_STATUS_ONLINE]);
 
 							mir_snprintf(szSetting, "%sFlags", pa->szModuleName);
-							db_set_b(NULL, MODULENAME, StatusModeToDbSetting(i, szSetting), (BYTE)data->status_msg[j + 1].flags[i - ID_STATUS_ONLINE]);
+							g_plugin.setByte(StatusModeToDbSetting(i, szSetting), (BYTE)data->status_msg[j + 1].flags[i - ID_STATUS_ONLINE]);
 						}
 					}
 				}
 			}
 
-			db_set_b(NULL, MODULENAME, "PutDefInList", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_COPTMSG2) == BST_CHECKED));
+			g_plugin.setByte("PutDefInList", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_COPTMSG2) == BST_CHECKED));
 
 			if (data->proto_ok) {
-				db_set_b(NULL, MODULENAME, "ProtoFlags", (BYTE)data->proto_msg[0].flags);
+				g_plugin.setByte("ProtoFlags", (BYTE)data->proto_msg[0].flags);
 
 				for (int i = 0; i < accounts->count; i++) {
 					auto *pa = accounts->pa[i];
@@ -947,15 +947,15 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 					mir_snprintf(szSetting, "Proto%sDefault", pa->szModuleName);
 					if (data->proto_msg[i + 1].msg && (data->proto_msg[i + 1].flags & PROTO_THIS_MSG))
-						db_set_ws(NULL, MODULENAME, szSetting, data->proto_msg[i + 1].msg);
+						g_plugin.setWString(szSetting, data->proto_msg[i + 1].msg);
 					//						else
-					//							db_unset(NULL, MODULENAME, szSetting);
+					//							g_plugin.delSetting(szSetting);
 
 					mir_snprintf(szSetting, "Proto%sMaxLen", pa->szModuleName);
-					db_set_w(NULL, MODULENAME, szSetting, (WORD)data->proto_msg[i + 1].max_length);
+					g_plugin.setWord(szSetting, (WORD)data->proto_msg[i + 1].max_length);
 
 					mir_snprintf(szSetting, "Proto%sFlags", pa->szModuleName);
-					db_set_b(NULL, MODULENAME, szSetting, (BYTE)data->proto_msg[i + 1].flags);
+					g_plugin.setByte(szSetting, (BYTE)data->proto_msg[i + 1].flags);
 				}
 			}
 			RebuildStatusMenu();
@@ -987,16 +987,16 @@ static INT_PTR CALLBACK DlgVariablesOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM 
 
 			SendDlgItemMessage(hwndDlg, IDC_SSECUPDTMSG, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_ESECUPDTMSG), 0);
 			SendDlgItemMessage(hwndDlg, IDC_SSECUPDTMSG, UDM_SETRANGE32, 1, 999);
-			SendDlgItemMessage(hwndDlg, IDC_SSECUPDTMSG, UDM_SETPOS, 0, MAKELONG((short)db_get_w(NULL, MODULENAME, "UpdateMsgInt", 10), 0));
+			SendDlgItemMessage(hwndDlg, IDC_SSECUPDTMSG, UDM_SETPOS, 0, MAKELONG((short)g_plugin.getWord("UpdateMsgInt", 10), 0));
 			SendDlgItemMessage(hwndDlg, IDC_ESECUPDTMSG, EM_LIMITTEXT, 3, 0);
 
-			CheckDlgButton(hwndDlg, IDC_CUPDATEMSG, db_get_b(NULL, MODULENAME, "UpdateMsgOn", 1) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CNOIDLE, db_get_b(NULL, MODULENAME, "NoUpdateOnIdle", 1) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CNOICQREQ, db_get_b(NULL, MODULENAME, "NoUpdateOnICQReq", 1) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CLEAVEWINAMP, db_get_b(NULL, MODULENAME, "AmpLeaveTitle", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CUPDATEMSG, g_plugin.getByte("UpdateMsgOn", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CNOIDLE, g_plugin.getByte("NoUpdateOnIdle", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CNOICQREQ, g_plugin.getByte("NoUpdateOnICQReq", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CLEAVEWINAMP, g_plugin.getByte("AmpLeaveTitle", 1) ? BST_CHECKED : BST_UNCHECKED);
 			if (ServiceExists(MS_VARS_FORMATSTRING)) {
-				CheckDlgButton(hwndDlg, IDC_CVARIABLES, db_get_b(NULL, MODULENAME, "EnableVariables", 1) ? BST_CHECKED : BST_UNCHECKED);
-				CheckDlgButton(hwndDlg, IDC_CDATEPARSING, db_get_b(NULL, MODULENAME, "ExclDateToken", 0) ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hwndDlg, IDC_CVARIABLES, g_plugin.getByte("EnableVariables", 1) ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hwndDlg, IDC_CDATEPARSING, g_plugin.getByte("ExclDateToken", 0) ? BST_CHECKED : BST_UNCHECKED);
 			}
 			else {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CVARIABLES), FALSE);
@@ -1046,22 +1046,22 @@ static INT_PTR CALLBACK DlgVariablesOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM 
 				KillTimer(nullptr, g_uUpdateMsgTimer);
 
 			int val = SendDlgItemMessage(hwndDlg, IDC_SSECUPDTMSG, UDM_GETPOS, 0, 0);
-			db_set_w(NULL, MODULENAME, "UpdateMsgInt", (WORD)val);
+			g_plugin.setWord("UpdateMsgInt", (WORD)val);
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_CUPDATEMSG) == BST_CHECKED && val) {
-				db_set_b(NULL, MODULENAME, "UpdateMsgOn", (BYTE)1);
+				g_plugin.setByte("UpdateMsgOn", (BYTE)1);
 				g_uUpdateMsgTimer = SetTimer(nullptr, 0, val * 1000, (TIMERPROC)UpdateMsgTimerProc);
 			}
 			else {
-				db_set_b(NULL, MODULENAME, "UpdateMsgOn", (BYTE)0);
+				g_plugin.setByte("UpdateMsgOn", (BYTE)0);
 			}
 
-			db_set_b(NULL, MODULENAME, "NoUpdateOnIdle", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CNOIDLE) == BST_CHECKED));
-			db_set_b(NULL, MODULENAME, "NoUpdateOnICQReq", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CNOICQREQ) == BST_CHECKED));
-			db_set_b(NULL, MODULENAME, "AmpLeaveTitle", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CLEAVEWINAMP) == BST_CHECKED));
+			g_plugin.setByte("NoUpdateOnIdle", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CNOIDLE) == BST_CHECKED));
+			g_plugin.setByte("NoUpdateOnICQReq", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CNOICQREQ) == BST_CHECKED));
+			g_plugin.setByte("AmpLeaveTitle", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CLEAVEWINAMP) == BST_CHECKED));
 			if (ServiceExists(MS_VARS_FORMATSTRING)) {
-				db_set_b(NULL, MODULENAME, "EnableVariables", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CVARIABLES) == BST_CHECKED));
-				db_set_b(NULL, MODULENAME, "ExclDateToken", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CDATEPARSING) == BST_CHECKED));
+				g_plugin.setByte("EnableVariables", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CVARIABLES) == BST_CHECKED));
+				g_plugin.setByte("ExclDateToken", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CDATEPARSING) == BST_CHECKED));
 			}
 			return TRUE;
 		}
@@ -1073,12 +1073,12 @@ static INT_PTR CALLBACK DlgVariablesOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM 
 static bool IsHistoryMsgsFound(HWND, int histMax)
 {
 	char szSetting[16];
-	int j = db_get_w(NULL, MODULENAME, "LMMsg", 1);
+	int j = g_plugin.getWord("LMMsg", 1);
 	for (int i = 1; i <= histMax; ++i, --j) {
 		if (j < 1)
 			j = histMax;
 		mir_snprintf(szSetting, "SMsg%d", j);
-		wchar_t *tszStatusMsg = db_get_wsa(NULL, MODULENAME, szSetting);
+		wchar_t *tszStatusMsg = g_plugin.getWStringA(szSetting);
 		if (tszStatusMsg != nullptr) {
 			if (*tszStatusMsg != '\0') {
 				mir_free(tszStatusMsg);
@@ -1110,7 +1110,7 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 			SendDlgItemMessage(hwndDlg, IDC_CBOPTBUTTONS, CB_SETITEMDATA, (WPARAM)i_btndownflat, DLG_SHOW_BUTTONS_FLAT);
 			SendDlgItemMessage(hwndDlg, IDC_CBOPTBUTTONS, CB_SETITEMDATA, (WPARAM)i_btnlist, DLG_SHOW_BUTTONS_INLIST);
 
-			settingValue = db_get_b(NULL, MODULENAME, "DlgFlags", DLG_SHOW_DEFAULT);
+			settingValue = g_plugin.getByte("DlgFlags", DLG_SHOW_DEFAULT);
 			CheckDlgButton(hwndDlg, IDC_CSTATUSLIST, settingValue & DLG_SHOW_STATUS ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_CPROFILES, settingValue & DLG_SHOW_STATUS_PROFILES ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_CICONS1, settingValue & DLG_SHOW_STATUS_ICONS ? BST_CHECKED : BST_UNCHECKED);
@@ -1139,7 +1139,7 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 			}
 
 			// Misc.
-			settingValue = db_get_b(NULL, MODULENAME, "MaxHist", 10);
+			settingValue = g_plugin.getByte("MaxHist", 10);
 
 			SendDlgItemMessage(hwndDlg, IDC_SMAXHIST, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_EMAXHIST), 0);
 			SendDlgItemMessage(hwndDlg, IDC_SMAXHIST, UDM_SETRANGE32, 0, 25);
@@ -1150,17 +1150,17 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CICONS2), FALSE);
 
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BOPTHIST), IsHistoryMsgsFound(hwndDlg, settingValue));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_BOPTDEF), db_get_w(NULL, MODULENAME, "DefMsgCount", 0) != 0);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_BOPTDEF), g_plugin.getWord("DefMsgCount", 0) != 0);
 
 			SendDlgItemMessage(hwndDlg, IDC_STIMEOUT, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_ETIMEOUT), 0);
 			SendDlgItemMessage(hwndDlg, IDC_STIMEOUT, UDM_SETRANGE32, 1, 60);
-			SendDlgItemMessage(hwndDlg, IDC_STIMEOUT, UDM_SETPOS, 0, MAKELONG((short)db_get_b(NULL, MODULENAME, "DlgTime", 5), 0));
+			SendDlgItemMessage(hwndDlg, IDC_STIMEOUT, UDM_SETPOS, 0, MAKELONG((short)g_plugin.getByte("DlgTime", 5), 0));
 			SendDlgItemMessage(hwndDlg, IDC_ETIMEOUT, EM_LIMITTEXT, 2, 0);
 
-			CheckDlgButton(hwndDlg, IDC_CCLOSEWND, db_get_b(NULL, MODULENAME, "AutoClose", 1) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CRPOSWND, !db_get_b(NULL, MODULENAME, "WinCentered", 1) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CREMOVECR, db_get_b(NULL, MODULENAME, "RemoveCR", 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CSHOWSMSG, db_get_b(NULL, MODULENAME, "ShowStatusMenuItem", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CCLOSEWND, g_plugin.getByte("AutoClose", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CRPOSWND, !g_plugin.getByte("WinCentered", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CREMOVECR, g_plugin.getByte("RemoveCR", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CSHOWSMSG, g_plugin.getByte("ShowStatusMenuItem", 1) ? BST_CHECKED : BST_UNCHECKED);
 
 			SendMessage(hwndDlg, WM_USER + 2, 0, 0);
 			return TRUE;
@@ -1222,14 +1222,14 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 				if (hwndSAMsgDialog)
 					DestroyWindow(hwndSAMsgDialog);
 
-				int max_hist_msgs = db_get_b(NULL, MODULENAME, "MaxHist", 10);
+				int max_hist_msgs = g_plugin.getByte("MaxHist", 10);
 				for (int i = 1; i <= max_hist_msgs; i++) {
 					char text[8];
 					mir_snprintf(text, "SMsg%d", i);
-					db_set_ws(NULL, MODULENAME, text, L"");
+					g_plugin.setWString(text, L"");
 				}
 
-				db_set_s(NULL, MODULENAME, "LastMsg", "");
+				g_plugin.setString("LastMsg", "");
 
 				for (int i = 0; i < accounts->count; i++) {
 					auto *pa = accounts->pa[i];
@@ -1244,9 +1244,9 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 
 					char setting[80];
 					mir_snprintf(setting, "Last%sMsg", pa->szModuleName);
-					db_set_s(NULL, MODULENAME, setting, "");
+					g_plugin.setString(setting, "");
 				}
-				db_set_w(NULL, MODULENAME, "LMMsg", (WORD)max_hist_msgs);
+				g_plugin.setWord("LMMsg", (WORD)max_hist_msgs);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BOPTHIST), FALSE);
 			}
 			return 0;
@@ -1256,13 +1256,13 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 				if (hwndSAMsgDialog)
 					DestroyWindow(hwndSAMsgDialog);
 
-				int nDefMSgCount = db_get_w(NULL, MODULENAME, "DefMsgCount", 0);
+				int nDefMSgCount = g_plugin.getWord("DefMsgCount", 0);
 				for (int i = 1; i <= nDefMSgCount; i++) {
 					char szSetting[16];
 					mir_snprintf(szSetting, "DefMsg%d", i);
-					db_unset(NULL, MODULENAME, szSetting);
+					g_plugin.delSetting(szSetting);
 				}
-				db_set_w(NULL, MODULENAME, "DefMsgCount", 0);
+				g_plugin.setWord("DefMsgCount", 0);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BOPTDEF), FALSE);
 			}
 			return 0;
@@ -1288,15 +1288,15 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 			if (curSel != CB_ERR)
 				flags |= SendDlgItemMessage(hwndDlg, IDC_CBOPTBUTTONS, CB_GETITEMDATA, (WPARAM)curSel, 0);
 
-			db_set_b(NULL, MODULENAME, "DlgFlags", (BYTE)flags);
+			g_plugin.setByte("DlgFlags", (BYTE)flags);
 
 			// Misc.
-			db_set_b(NULL, MODULENAME, "MaxHist", (BYTE)GetDlgItemInt(hwndDlg, IDC_EMAXHIST, nullptr, FALSE));
-			db_set_b(NULL, MODULENAME, "AutoClose", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CCLOSEWND) == BST_CHECKED));
-			db_set_b(NULL, MODULENAME, "DlgTime", (BYTE)GetDlgItemInt(hwndDlg, IDC_ETIMEOUT, nullptr, FALSE));
-			db_set_b(NULL, MODULENAME, "WinCentered", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CRPOSWND) != BST_CHECKED));
-			db_set_b(NULL, MODULENAME, "RemoveCR", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CREMOVECR) == BST_CHECKED));
-			db_set_b(NULL, MODULENAME, "ShowStatusMenuItem", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CSHOWSMSG) == BST_CHECKED));
+			g_plugin.setByte("MaxHist", (BYTE)GetDlgItemInt(hwndDlg, IDC_EMAXHIST, nullptr, FALSE));
+			g_plugin.setByte("AutoClose", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CCLOSEWND) == BST_CHECKED));
+			g_plugin.setByte("DlgTime", (BYTE)GetDlgItemInt(hwndDlg, IDC_ETIMEOUT, nullptr, FALSE));
+			g_plugin.setByte("WinCentered", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CRPOSWND) != BST_CHECKED));
+			g_plugin.setByte("RemoveCR", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CREMOVECR) == BST_CHECKED));
+			g_plugin.setByte("ShowStatusMenuItem", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CSHOWSMSG) == BST_CHECKED));
 			RebuildStatusMenu();
 
 			return TRUE;
@@ -1335,22 +1335,22 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 			if (index != LB_ERR && index != LB_ERRSPACE) {
 				char setting[80];
 				mir_snprintf(setting, "Startup%sStatus", pa->szModuleName);
-				data->status[i] = db_get_w(NULL, MODULENAME, setting, ID_STATUS_CURRENT);
+				data->status[i] = g_plugin.getWord(setting, ID_STATUS_CURRENT);
 				mir_snprintf(setting, "Set%sStatusDelay", pa->szModuleName);
-				data->setdelay[i] = db_get_w(NULL, MODULENAME, setting, 300);
+				data->setdelay[i] = g_plugin.getWord(setting, 300);
 				SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_SETITEMDATA, (WPARAM)index, (LPARAM)i);
 			}
 		}
 		SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_SETCURSEL, 0, 0);
 		SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_LISTPROTO, LBN_SELCHANGE), (LPARAM)GetDlgItem(hwndDlg, IDC_LISTPROTO));
 
-		data->setglobaldelay = db_get_w(NULL, MODULENAME, "SetStatusDelay", 300);
+		data->setglobaldelay = g_plugin.getWord("SetStatusDelay", 300);
 
 		SendDlgItemMessage(hwndDlg, IDC_SSETSTATUS, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_ESETSTATUS), 0);
 		SendDlgItemMessage(hwndDlg, IDC_SSETSTATUS, UDM_SETRANGE32, 0, 9000);
 		SendDlgItemMessage(hwndDlg, IDC_ESETSTATUS, EM_LIMITTEXT, 4, 0);
 
-		if (!db_get_b(NULL, MODULENAME, "GlobalStatusDelay", 1)) {
+		if (!g_plugin.getByte("GlobalStatusDelay", 1)) {
 			CheckDlgButton(hwndDlg, IDC_SPECSET, BST_CHECKED);
 			int i = SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_GETCURSEL, 0, 0), 0);
 			SetDlgItemInt(hwndDlg, IDC_ESETSTATUS, data->setdelay[i], FALSE);
@@ -1360,7 +1360,7 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 			SetDlgItemInt(hwndDlg, IDC_ESETSTATUS, data->setglobaldelay, FALSE);
 		}
 
-		if (db_get_b(NULL, MODULENAME, "StartupPopupDlg", 1)) {
+		if (g_plugin.getByte("StartupPopupDlg", 1)) {
 			CheckDlgButton(hwndDlg, IDC_POPUPDLG, BST_CHECKED);
 			if (IsDlgButtonChecked(hwndDlg, IDC_SPECSET) == BST_CHECKED) {
 				CheckDlgButton(hwndDlg, IDC_SPECSET, BST_UNCHECKED);
@@ -1499,14 +1499,14 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 
 				char szSetting[80];
 				mir_snprintf(szSetting, "Startup%sStatus", pa->szModuleName);
-				db_set_w(NULL, MODULENAME, szSetting, (WORD)data->status[i]);
+				g_plugin.setWord(szSetting, (WORD)data->status[i]);
 
 				mir_snprintf(szSetting, "Set%sStatusDelay", pa->szModuleName);
-				db_set_w(NULL, MODULENAME, szSetting, (WORD)data->setdelay[i]);
+				g_plugin.setWord(szSetting, (WORD)data->setdelay[i]);
 			}
-			db_set_w(NULL, MODULENAME, "SetStatusDelay", (WORD)data->setglobaldelay);
-			db_set_b(NULL, MODULENAME, "GlobalStatusDelay", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SPECSET) != BST_CHECKED));
-			db_set_b(NULL, MODULENAME, "StartupPopupDlg", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_POPUPDLG) == BST_CHECKED));
+			g_plugin.setWord("SetStatusDelay", (WORD)data->setglobaldelay);
+			g_plugin.setByte("GlobalStatusDelay", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SPECSET) != BST_CHECKED));
+			g_plugin.setByte("StartupPopupDlg", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_POPUPDLG) == BST_CHECKED));
 			return TRUE;
 		}
 		break;

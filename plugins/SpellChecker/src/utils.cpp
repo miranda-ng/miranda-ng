@@ -769,7 +769,7 @@ void GetContactLanguage(Dialog *dlg)
 	dlg->lang_name[0] = '\0';
 
 	if (dlg->hContact == NULL) {
-		if (!db_get_ws(NULL, MODULENAME, dlg->name, &dbv)) {
+		if (!g_plugin.getWString(dlg->name, &dbv)) {
 			mir_wstrncpy(dlg->lang_name, dbv.pwszVal, _countof(dlg->lang_name));
 			db_free(&dbv);
 		}
@@ -1203,7 +1203,7 @@ BOOL HandleMenuSelection(Dialog *dlg, unsigned selection)
 		SetNoUnderline(dlg);
 
 		if (dlg->hContact == NULL)
-			db_set_ws(NULL, MODULENAME, dlg->name,
+			g_plugin.setWString(dlg->name,
 			languages[selection - LANGUAGE_MENU_ID_BASE]->language);
 		else
 			db_set_ws(dlg->hContact, MODULENAME, "TalkLanguage",

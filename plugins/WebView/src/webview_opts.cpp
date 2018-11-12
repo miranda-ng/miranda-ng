@@ -102,36 +102,36 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hdlg);
 
-		delay = db_get_dw(NULL, MODULENAME, POP_DELAY_KEY, 0);
+		delay = g_plugin.getDword(POP_DELAY_KEY, 0);
 
 		// setting popup delay option
 		_itoa(delay, str, 10);
 		SetDlgItemTextA(hdlg, IDC_DELAY, str);
 
-		BGColour = db_get_dw(NULL, MODULENAME, POP_BG_CLR_KEY, Def_color_bg);
-		TextColour = db_get_dw(NULL, MODULENAME, POP_TXT_CLR_KEY, Def_color_txt);
+		BGColour = g_plugin.getDword(POP_BG_CLR_KEY, Def_color_bg);
+		TextColour = g_plugin.getDword(POP_TXT_CLR_KEY, Def_color_txt);
 
 		// Colours. First step is configuring the colours.
 		SendDlgItemMessage(hdlg, IDC_POP_BGCOLOUR, CPM_SETCOLOUR, 0, BGColour);
 		SendDlgItemMessage(hdlg, IDC_POP_TEXTCOLOUR, CPM_SETCOLOUR, 0, TextColour);
 		// Second step is disabling them if we want to use default Windows
 		// ones.
-		CheckDlgButton(hdlg, IDC_POP_USEWINCOLORS, db_get_b(NULL, MODULENAME, POP_USEWINCLRS_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_POP_USESAMECOLORS, db_get_b(NULL, MODULENAME, POP_USESAMECLRS_KEY, 1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_POP_USECUSTCOLORS, db_get_b(NULL, MODULENAME, POP_USECUSTCLRS_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_POP_USEWINCOLORS, g_plugin.getByte(POP_USEWINCLRS_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_POP_USESAMECOLORS, g_plugin.getByte(POP_USESAMECLRS_KEY, 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_POP_USECUSTCOLORS, g_plugin.getByte(POP_USECUSTCLRS_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		if (IsDlgButtonChecked(hdlg, IDC_POP_USEWINCOLORS) || IsDlgButtonChecked(hdlg, IDC_POP_USESAMECOLORS)) {
 			EnableWindow(GetDlgItem(hdlg, IDC_POP_BGCOLOUR), 0);
 			EnableWindow(GetDlgItem(hdlg, IDC_POP_TEXTCOLOUR), 0);
 		}
 
-		CheckDlgButton(hdlg, IDC_LCLK_WINDOW, db_get_b(NULL, MODULENAME, LCLK_WINDOW_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_LCLK_WEB_PGE, db_get_b(NULL, MODULENAME, LCLK_WEB_PGE_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_LCLK_DISMISS, db_get_b(NULL, MODULENAME, LCLK_DISMISS_KEY, 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_LCLK_WINDOW, g_plugin.getByte(LCLK_WINDOW_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_LCLK_WEB_PGE, g_plugin.getByte(LCLK_WEB_PGE_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_LCLK_DISMISS, g_plugin.getByte(LCLK_DISMISS_KEY, 1) ? BST_CHECKED : BST_UNCHECKED);
 
-		CheckDlgButton(hdlg, IDC_RCLK_WINDOW, db_get_b(NULL, MODULENAME, RCLK_WINDOW_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_RCLK_WEB_PGE, db_get_b(NULL, MODULENAME, RCLK_WEB_PGE_KEY, 1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_RCLK_DISMISS, db_get_b(NULL, MODULENAME, RCLK_DISMISS_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_RCLK_WINDOW, g_plugin.getByte(RCLK_WINDOW_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_RCLK_WEB_PGE, g_plugin.getByte(RCLK_WEB_PGE_KEY, 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_RCLK_DISMISS, g_plugin.getByte(RCLK_DISMISS_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
 		return TRUE;
 
 	case WM_COMMAND:
@@ -224,25 +224,25 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			GetDlgItemText(hdlg, IDC_DELAY, str2, _countof(str2));
 
 			popupdelayval = _wtol(str2);
-			db_set_dw(NULL, MODULENAME, POP_DELAY_KEY, popupdelayval);
+			g_plugin.setDword(POP_DELAY_KEY, popupdelayval);
 
-			db_set_b(NULL, MODULENAME, LCLK_WINDOW_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_LCLK_WINDOW));
-			db_set_b(NULL, MODULENAME, LCLK_WEB_PGE_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_LCLK_WEB_PGE));
-			db_set_b(NULL, MODULENAME, LCLK_DISMISS_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_LCLK_DISMISS));
+			g_plugin.setByte(LCLK_WINDOW_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_LCLK_WINDOW));
+			g_plugin.setByte(LCLK_WEB_PGE_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_LCLK_WEB_PGE));
+			g_plugin.setByte(LCLK_DISMISS_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_LCLK_DISMISS));
 
-			db_set_b(NULL, MODULENAME, RCLK_WINDOW_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_RCLK_WINDOW));
-			db_set_b(NULL, MODULENAME, RCLK_WEB_PGE_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_RCLK_WEB_PGE));
-			db_set_b(NULL, MODULENAME, RCLK_DISMISS_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_RCLK_DISMISS));
+			g_plugin.setByte(RCLK_WINDOW_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_RCLK_WINDOW));
+			g_plugin.setByte(RCLK_WEB_PGE_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_RCLK_WEB_PGE));
+			g_plugin.setByte(RCLK_DISMISS_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_RCLK_DISMISS));
 
-			db_set_b(NULL, MODULENAME, POP_USECUSTCLRS_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_POP_USECUSTCOLORS));
-			db_set_b(NULL, MODULENAME, POP_USEWINCLRS_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_POP_USEWINCOLORS));
-			db_set_b(NULL, MODULENAME, POP_USESAMECLRS_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_POP_USESAMECOLORS));
+			g_plugin.setByte(POP_USECUSTCLRS_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_POP_USECUSTCOLORS));
+			g_plugin.setByte(POP_USEWINCLRS_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_POP_USEWINCOLORS));
+			g_plugin.setByte(POP_USESAMECLRS_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_POP_USESAMECOLORS));
 
 			BGColour = (SendDlgItemMessage(hdlg, IDC_POP_BGCOLOUR, CPM_GETCOLOUR, 0, 0));
 			TextColour = (SendDlgItemMessage(hdlg, IDC_POP_TEXTCOLOUR, CPM_GETCOLOUR, 0, 0));
 
-			db_set_dw(NULL, MODULENAME, POP_BG_CLR_KEY, BGColour);
-			db_set_dw(NULL, MODULENAME, POP_TXT_CLR_KEY, TextColour);
+			g_plugin.setDword(POP_BG_CLR_KEY, BGColour);
+			g_plugin.setDword(POP_TXT_CLR_KEY, TextColour);
 
 			test = 0;
 			return TRUE;
@@ -1043,26 +1043,26 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 			SendDlgItemMessage(hwndDlg, IDC_SPIN1, UDM_SETRANGE, 0, MAKELONG(999, 0));
 			SendDlgItemMessage(hwndDlg, IDC_SPIN2, UDM_SETRANGE, 0, MAKELONG(120, 0));
 
-			SetDlgItemInt(hwndDlg, IDC_TIME, db_get_dw(NULL, MODULENAME, REFRESH_KEY, TIME), FALSE);
-			SetDlgItemInt(hwndDlg, IDC_START_DELAY, db_get_w(NULL, MODULENAME, START_DELAY_KEY, 0), FALSE);
+			SetDlgItemInt(hwndDlg, IDC_TIME, g_plugin.getDword(REFRESH_KEY, TIME), FALSE);
+			SetDlgItemInt(hwndDlg, IDC_START_DELAY, g_plugin.getWord(START_DELAY_KEY, 0), FALSE);
 
 			mir_forkthread(FillFontListThread, hwndDlg);
 
-			CheckDlgButton(hwndDlg, IDC_DISABLEMENU, db_get_b(NULL, MODULENAME, MENU_OFF, 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SUPPRESS, db_get_b(NULL, MODULENAME, SUPPRESS_ERR_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_UPDATE_ONSTART, db_get_b(NULL, MODULENAME, UPDATE_ONSTART_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_UPDATE_ON_OPEN, db_get_b(NULL, MODULENAME, UPDATE_ON_OPEN_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_HIDE_STATUS_ICON, db_get_b(NULL, MODULENAME, HIDE_STATUS_ICON_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_FONT_BOLD, db_get_b(NULL, MODULENAME, FONT_BOLD_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_FONT_ITALIC, db_get_b(NULL, MODULENAME, FONT_ITALIC_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_FONT_UNDERLINE, db_get_b(NULL, MODULENAME, FONT_UNDERLINE_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_ERROR_POPUP, db_get_b(NULL, MODULENAME, ERROR_POPUP_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_UPDATE_ONALERT, db_get_b(NULL, MODULENAME, UPDATE_ONALERT_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SAVE_INDIVID_POS, db_get_b(NULL, MODULENAME, SAVE_INDIVID_POS_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_NO_PROTECT, db_get_b(NULL, MODULENAME, NO_PROTECT_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_DATAPOPUP, db_get_b(NULL, MODULENAME, DATA_POPUP_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_DISABLEMENU, g_plugin.getByte(MENU_OFF, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SUPPRESS, g_plugin.getByte(SUPPRESS_ERR_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_UPDATE_ONSTART, g_plugin.getByte(UPDATE_ONSTART_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_UPDATE_ON_OPEN, g_plugin.getByte(UPDATE_ON_OPEN_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_HIDE_STATUS_ICON, g_plugin.getByte(HIDE_STATUS_ICON_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_FONT_BOLD, g_plugin.getByte(FONT_BOLD_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_FONT_ITALIC, g_plugin.getByte(FONT_ITALIC_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_FONT_UNDERLINE, g_plugin.getByte(FONT_UNDERLINE_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_ERROR_POPUP, g_plugin.getByte(ERROR_POPUP_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_UPDATE_ONALERT, g_plugin.getByte(UPDATE_ONALERT_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SAVE_INDIVID_POS, g_plugin.getByte(SAVE_INDIVID_POS_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_NO_PROTECT, g_plugin.getByte(NO_PROTECT_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_DATAPOPUP, g_plugin.getByte(DATA_POPUP_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
 
-			if (!db_get_ws(NULL, MODULENAME, FONT_FACE_KEY, &dbv)) {
+			if (!g_plugin.getWString(FONT_FACE_KEY, &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_TYPEFACE, dbv.pwszVal);
 				db_free(&dbv);
 			}
@@ -1073,7 +1073,7 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 			SendMessage(hwndDlg, M_FILLSCRIPTCOMBO, wParam, 0);
 
-			SetDlgItemInt(hwndDlg, IDC_FONTSIZE, db_get_b(NULL, MODULENAME, FONT_SIZE_KEY, 14), FALSE);
+			SetDlgItemInt(hwndDlg, IDC_FONTSIZE, g_plugin.getByte(FONT_SIZE_KEY, 14), FALSE);
 
 			EnableWindow(GetDlgItem(hwndDlg, IDC_FIND_BUTTON), 0);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ALERT_BUTTON), 0);
@@ -1086,7 +1086,7 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 			*/
 			oldcolor = BackgoundClr;
 
-			if (db_get_b(NULL, MODULENAME, SUPPRESS_ERR_KEY, 0)) {
+			if (g_plugin.getByte(SUPPRESS_ERR_KEY, 0)) {
 				CheckDlgButton(hwndDlg, IDC_SUPPRESS, BST_CHECKED);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_ERROR_POPUP), 0);
 			}
@@ -1099,7 +1099,7 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 			if (ServiceExists(MS_POPUP_ADDPOPUPT) == 0)
 				EnableWindow(GetDlgItem(hwndDlg, IDC_ERROR_POPUP), 0);
 
-			if (db_get_b(NULL, MODULENAME, UPDATE_ONSTART_KEY, 0)) {
+			if (g_plugin.getByte(UPDATE_ONSTART_KEY, 0)) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_START_DELAY), 1);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_SPIN2), 1);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_STARTDELAYTXT), 1);
@@ -1129,7 +1129,7 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 			EnumFontFamiliesEx(hdc, &lf, (FONTENUMPROC)EnumFontScriptsProc, (LPARAM)GetDlgItem(hwndDlg, IDC_SCRIPT), 0);
 			ReleaseDC(hwndDlg, hdc);
 			for (i = SendDlgItemMessage(hwndDlg, IDC_SCRIPT, CB_GETCOUNT, 0, 0) - 1; i >= 0; i--) {
-				if (SendDlgItemMessage(hwndDlg, IDC_SCRIPT, CB_GETITEMDATA, i, 0) == (BYTE)((db_get_b(NULL, MODULENAME, FONT_SCRIPT_KEY, 0)))) {
+				if (SendDlgItemMessage(hwndDlg, IDC_SCRIPT, CB_GETITEMDATA, i, 0) == (BYTE)((g_plugin.getByte(FONT_SCRIPT_KEY, 0)))) {
 					SendDlgItemMessage(hwndDlg, IDC_SCRIPT, CB_SETCURSEL, i, 0);
 					break;
 				}
@@ -1146,7 +1146,7 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 		switch (LOWORD(wParam)) {
 		case IDC_TXTCOLOR:
 			TextClr = SendDlgItemMessage(hwndDlg, IDC_TXTCOLOR, CPM_GETCOLOUR, 0, 0);
-			db_set_dw(NULL, MODULENAME, TXT_COLOR_KEY, TextClr);
+			g_plugin.setDword(TXT_COLOR_KEY, TextClr);
 			if (HIWORD(wParam) == CPN_COLOURCHANGED) {
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				TxtclrLoop();
@@ -1155,7 +1155,7 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 		case IDC_BGCOLOR:
 			BackgoundClr = SendDlgItemMessage(hwndDlg, IDC_BGCOLOR, CPM_GETCOLOUR, 0, 0);
-			db_set_dw(NULL, MODULENAME, BG_COLOR_KEY, BackgoundClr);
+			g_plugin.setDword(BG_COLOR_KEY, BackgoundClr);
 			if (HIWORD(wParam) == CPN_COLOURCHANGED) {
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				BGclrLoop();
@@ -1213,46 +1213,46 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
-			db_set_b(NULL, MODULENAME, MENU_OFF, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DISABLEMENU));
-			db_set_b(NULL, MODULENAME, SUPPRESS_ERR_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SUPPRESS));
-			db_set_b(NULL, MODULENAME, UPDATE_ONSTART_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_UPDATE_ONSTART));
-			db_set_b(NULL, MODULENAME, UPDATE_ON_OPEN_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_UPDATE_ON_OPEN));
-			db_set_b(NULL, MODULENAME, HIDE_STATUS_ICON_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_HIDE_STATUS_ICON));
-			db_set_b(NULL, MODULENAME, FONT_BOLD_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_FONT_BOLD));
-			db_set_b(NULL, MODULENAME, FONT_ITALIC_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_FONT_ITALIC));
-			db_set_b(NULL, MODULENAME, FONT_UNDERLINE_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_FONT_UNDERLINE));
-			db_set_b(NULL, MODULENAME, UPDATE_ONALERT_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_UPDATE_ONALERT));
-			db_set_b(NULL, MODULENAME, SAVE_INDIVID_POS_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SAVE_INDIVID_POS));
-			db_set_b(NULL, MODULENAME, NO_PROTECT_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NO_PROTECT));
-			db_set_b(NULL, MODULENAME, DATA_POPUP_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DATAPOPUP));
+			g_plugin.setByte(MENU_OFF, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DISABLEMENU));
+			g_plugin.setByte(SUPPRESS_ERR_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SUPPRESS));
+			g_plugin.setByte(UPDATE_ONSTART_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_UPDATE_ONSTART));
+			g_plugin.setByte(UPDATE_ON_OPEN_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_UPDATE_ON_OPEN));
+			g_plugin.setByte(HIDE_STATUS_ICON_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_HIDE_STATUS_ICON));
+			g_plugin.setByte(FONT_BOLD_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_FONT_BOLD));
+			g_plugin.setByte(FONT_ITALIC_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_FONT_ITALIC));
+			g_plugin.setByte(FONT_UNDERLINE_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_FONT_UNDERLINE));
+			g_plugin.setByte(UPDATE_ONALERT_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_UPDATE_ONALERT));
+			g_plugin.setByte(SAVE_INDIVID_POS_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SAVE_INDIVID_POS));
+			g_plugin.setByte(NO_PROTECT_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NO_PROTECT));
+			g_plugin.setByte(DATA_POPUP_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DATAPOPUP));
 
 			wchar_t str[100];
 			GetDlgItemText(hwndDlg, IDC_TYPEFACE, str, _countof(str));
-			db_set_ws(NULL, MODULENAME, FONT_FACE_KEY, str);
+			g_plugin.setWString(FONT_FACE_KEY, str);
 
-			db_set_b(NULL, MODULENAME, FONT_SIZE_KEY, (GetDlgItemInt(hwndDlg, IDC_FONTSIZE, nullptr, FALSE)));
-			db_set_b(NULL, MODULENAME, FONT_SCRIPT_KEY, ((BYTE)SendDlgItemMessage(hwndDlg, IDC_SCRIPT, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_SCRIPT, CB_GETCURSEL, 0, 0), 0)));
+			g_plugin.setByte(FONT_SIZE_KEY, (GetDlgItemInt(hwndDlg, IDC_FONTSIZE, nullptr, FALSE)));
+			g_plugin.setByte(FONT_SCRIPT_KEY, ((BYTE)SendDlgItemMessage(hwndDlg, IDC_SCRIPT, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_SCRIPT, CB_GETCURSEL, 0, 0), 0)));
 
-			db_set_b(NULL, MODULENAME, ERROR_POPUP_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ERROR_POPUP));
+			g_plugin.setByte(ERROR_POPUP_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ERROR_POPUP));
 
 			timerval = GetDlgItemInt(hwndDlg, IDC_TIME, nullptr, FALSE);
-			db_set_dw(NULL, MODULENAME, REFRESH_KEY, timerval);
-			db_set_dw(NULL, MODULENAME, COUNTDOWN_KEY, timerval);
+			g_plugin.setDword(REFRESH_KEY, timerval);
+			g_plugin.setDword(COUNTDOWN_KEY, timerval);
 
 
 			delaytime = GetDlgItemInt(hwndDlg, IDC_START_DELAY, nullptr, FALSE);
-			db_set_dw(NULL, MODULENAME, START_DELAY_KEY, delaytime);
+			g_plugin.setDword(START_DELAY_KEY, delaytime);
 
 			BackgoundClr = (SendDlgItemMessage(hwndDlg, IDC_BGCOLOR, CPM_GETCOLOUR, 0, 0));
 			TextClr = (SendDlgItemMessage(hwndDlg, IDC_TXTCOLOR, CPM_GETCOLOUR, 0, 0));
 
-			if ((db_get_dw(NULL, MODULENAME, REFRESH_KEY, 0) != 0)) {
+			if ((g_plugin.getDword(REFRESH_KEY, 0) != 0)) {
 				KillTimer(nullptr, timerId);
 				KillTimer(nullptr, Countdown);
-				timerId = SetTimer(nullptr, 0, ((db_get_dw(NULL, MODULENAME, REFRESH_KEY, 0)) * MINUTE), timerfunc);
+				timerId = SetTimer(nullptr, 0, ((g_plugin.getDword(REFRESH_KEY, 0)) * MINUTE), timerfunc);
 				Countdown = SetTimer(nullptr, 0, MINUTE, Countdownfunc);
 			}
-			if ((db_get_dw(NULL, MODULENAME, REFRESH_KEY, 0) == 0)) {
+			if ((g_plugin.getDword(REFRESH_KEY, 0) == 0)) {
 				KillTimer(nullptr, timerId);
 				KillTimer(nullptr, Countdown);
 			}

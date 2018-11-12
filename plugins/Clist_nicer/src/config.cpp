@@ -122,7 +122,7 @@ void API::updateState()
 
 	if (sysConfig.isVistaPlus) {
 		sysState.isDwmActive = (pfnDwmIsCompositionEnabled && (pfnDwmIsCompositionEnabled(&result) == S_OK) && result) ? true : false;
-		sysState.isAero = /* (CSkin::m_skinEnabled == false) && */ db_get_b(NULL, "CLUI", "useAero", 1) /* && CSkin::m_fAeroSkinsValid */ && sysState.isDwmActive;
+		sysState.isAero = /* (CSkin::m_skinEnabled == false) && */ db_get_b(0, "CLUI", "useAero", 1) /* && CSkin::m_fAeroSkinsValid */ && sysState.isDwmActive;
 	}
 }
 

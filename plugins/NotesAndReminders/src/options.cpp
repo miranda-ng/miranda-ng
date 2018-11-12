@@ -211,7 +211,7 @@ static int FS_ColorChanged(WPARAM, LPARAM)
 	LoadNRFont(NR_FONTID_CAPTION, &lfCaption, (COLORREF*)&CaptionFontColor);
 	LoadNRFont(NR_FONTID_BODY, &lfBody, (COLORREF*)&BodyFontColor);
 
-	BodyColor = db_get_dw(NULL, MODULENAME, colourOptionsList[0].szSettingName, colourOptionsList[0].defColour);
+	BodyColor = g_plugin.getDword(colourOptionsList[0].szSettingName, colourOptionsList[0].defColour);
 
 	SaveNotes();
 	LoadNotes(FALSE);
@@ -399,21 +399,21 @@ INT_PTR CALLBACK DlgProcOptions(HWND hdlg, UINT message, WPARAM wParam, LPARAM l
 			}
 			SetDlgItemText(hdlg, IDC_EDIT_ALTBROWSER, g_lpszAltBrowser ? g_lpszAltBrowser : "");
 			if (g_lpszAltBrowser)
-				db_set_s(0, MODULENAME, "AltBrowser", g_lpszAltBrowser);
+				g_plugin.setString("AltBrowser", g_lpszAltBrowser);
 			else
-				db_unset(0, MODULENAME, "AltBrowser");
+				g_plugin.delSetting("AltBrowser");
 
-			db_set_dw(0, MODULENAME, "ShowNotesAtStart", g_ShowNotesAtStart);
-			db_set_dw(0, MODULENAME, "ShowNoteButtons", g_ShowNoteButtons);
-			db_set_dw(0, MODULENAME, "ShowScrollbar", g_ShowScrollbar);
-			db_set_dw(0, MODULENAME, "AddContactMenuItems", g_AddContListMI);
-			db_set_dw(0, MODULENAME, "NoteWidth", g_NoteWidth);
-			db_set_dw(0, MODULENAME, "NoteHeight", g_NoteHeight);
-			db_set_dw(0, MODULENAME, "Transparency", g_Transparency);
-			db_set_dw(0, MODULENAME, "NoteTitleDate", g_NoteTitleDate);
-			db_set_dw(0, MODULENAME, "NoteTitleTime", g_NoteTitleTime);
-			db_set_dw(0, MODULENAME, "CloseAfterAddReminder", g_CloseAfterAddReminder);
-			db_set_dw(0, MODULENAME, "UseMCI", !g_UseDefaultPlaySound);
+			g_plugin.setDword("ShowNotesAtStart", g_ShowNotesAtStart);
+			g_plugin.setDword("ShowNoteButtons", g_ShowNoteButtons);
+			g_plugin.setDword("ShowScrollbar", g_ShowScrollbar);
+			g_plugin.setDword("AddContactMenuItems", g_AddContListMI);
+			g_plugin.setDword("NoteWidth", g_NoteWidth);
+			g_plugin.setDword("NoteHeight", g_NoteHeight);
+			g_plugin.setDword("Transparency", g_Transparency);
+			g_plugin.setDword("NoteTitleDate", g_NoteTitleDate);
+			g_plugin.setDword("NoteTitleTime", g_NoteTitleTime);
+			g_plugin.setDword("CloseAfterAddReminder", g_CloseAfterAddReminder);
+			g_plugin.setDword("UseMCI", !g_UseDefaultPlaySound);
 			SaveNotes();
 			LoadNotes(FALSE);
 			return TRUE;
@@ -521,26 +521,26 @@ void InitSettings(void)
 		FreeSettingBlob(Sz1, P);
 	}
 
-	g_lpszAltBrowser = db_get_sa(0, MODULENAME, "AltBrowser");
+	g_lpszAltBrowser = g_plugin.getStringA("AltBrowser");
 
-	g_ShowNotesAtStart = (BOOL)db_get_dw(0, MODULENAME, "ShowNotesAtStart", 1);
-	g_ShowNoteButtons = (BOOL)db_get_dw(0, MODULENAME, "ShowNoteButtons", 1);
-	g_ShowScrollbar = (BOOL)db_get_dw(0, MODULENAME, "ShowScrollbar", 1);
-	g_AddContListMI = (BOOL)db_get_dw(0, MODULENAME, "AddContactMenuItems", 1);
-	g_NoteWidth = db_get_dw(0, MODULENAME, "NoteWidth", 179);
-	g_NoteHeight = db_get_dw(0, MODULENAME, "NoteHeight", 50);
-	g_Transparency = db_get_dw(0, MODULENAME, "Transparency", 255);
-	g_NoteTitleDate = db_get_dw(0, MODULENAME, "NoteTitleDate", 1);
-	g_NoteTitleTime = db_get_dw(0, MODULENAME, "NoteTitleTime", 1);
-	g_CloseAfterAddReminder = (BOOL)db_get_dw(0, MODULENAME, "CloseAfterAddReminder", 1);
-	g_UseDefaultPlaySound = !(BOOL)db_get_dw(0, MODULENAME, "UseMCI", 1);
+	g_ShowNotesAtStart = (BOOL)g_plugin.getDword("ShowNotesAtStart", 1);
+	g_ShowNoteButtons = (BOOL)g_plugin.getDword("ShowNoteButtons", 1);
+	g_ShowScrollbar = (BOOL)g_plugin.getDword("ShowScrollbar", 1);
+	g_AddContListMI = (BOOL)g_plugin.getDword("AddContactMenuItems", 1);
+	g_NoteWidth = g_plugin.getDword("NoteWidth", 179);
+	g_NoteHeight = g_plugin.getDword("NoteHeight", 50);
+	g_Transparency = g_plugin.getDword("Transparency", 255);
+	g_NoteTitleDate = g_plugin.getDword("NoteTitleDate", 1);
+	g_NoteTitleTime = g_plugin.getDword("NoteTitleTime", 1);
+	g_CloseAfterAddReminder = (BOOL)g_plugin.getDword("CloseAfterAddReminder", 1);
+	g_UseDefaultPlaySound = !(BOOL)g_plugin.getDword("UseMCI", 1);
 
 	ReadSettingIntArray(0, MODULENAME, "ReminderListGeom", g_reminderListGeom, _countof(g_reminderListGeom));
 	ReadSettingIntArray(0, MODULENAME, "ReminderListColGeom", g_reminderListColGeom, _countof(g_reminderListColGeom));
 	ReadSettingIntArray(0, MODULENAME, "NotesListGeom", g_notesListGeom, _countof(g_notesListGeom));
 	ReadSettingIntArray(0, MODULENAME, "NotesListColGeom", g_notesListColGeom, _countof(g_notesListColGeom));
 
-	BodyColor = db_get_dw(NULL, MODULENAME, colourOptionsList[0].szSettingName, colourOptionsList[0].defColour);
+	BodyColor = g_plugin.getDword(colourOptionsList[0].szSettingName, colourOptionsList[0].defColour);
 
 	InitFonts();
 

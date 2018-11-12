@@ -117,7 +117,7 @@ static void cfgSetFlag(HWND hwndDlg, int ctrlId, DWORD dwMask)
 		cfg::dat.dwFlags |= dwMask;
 	else
 		cfg::dat.dwFlags &= ~dwMask;
-	db_set_dw(NULL, "CLUI", "Frameflags", cfg::dat.dwFlags);
+	db_set_dw(0, "CLUI", "Frameflags", cfg::dat.dwFlags);
 }
 
 void GetDefaultFontSetting(int i, LOGFONT *lf, COLORREF *colour)
@@ -155,26 +155,26 @@ static INT_PTR CALLBACK DlgProcDspGroups(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			SendDlgItemMessage(hwndDlg, IDC_GROUPALIGN, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always right"));
 			SendDlgItemMessage(hwndDlg, IDC_GROUPALIGN, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Automatic (RTL)"));
 
-			DWORD exStyle = db_get_dw(NULL, "CLC", "ExStyle", Clist_GetDefaultExStyle());
+			DWORD exStyle = db_get_dw(0, "CLC", "ExStyle", Clist_GetDefaultExStyle());
 			for (auto &it : checkBoxToGroupStyleEx)
 				CheckDlgButton(hwndDlg, it.id, (exStyle & it.flag) ^ (it.flag * it.not_t) ? BST_CHECKED : BST_UNCHECKED);
 
 			CheckDlgButton(hwndDlg, IDC_NOGROUPICON, (cfg::dat.dwFlags & CLUI_FRAME_NOGROUPICON) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CENTERGROUPNAMES, db_get_b(NULL, "CLCExt", "EXBK_CenterGroupnames", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CENTERGROUPNAMES, db_get_b(0, "CLCExt", "EXBK_CenterGroupnames", 0) ? BST_CHECKED : BST_UNCHECKED);
 			SendDlgItemMessage(hwndDlg, IDC_GROUPALIGN, CB_SETCURSEL, cfg::dat.bGroupAlign, 0);
 
 			SendDlgItemMessage(hwndDlg, IDC_LEFTMARGINSPIN, UDM_SETRANGE, 0, MAKELONG(64, 0));
-			SendDlgItemMessage(hwndDlg, IDC_LEFTMARGINSPIN, UDM_SETPOS, 0, db_get_b(NULL, "CLC", "LeftMargin", CLCDEFAULT_LEFTMARGIN));
+			SendDlgItemMessage(hwndDlg, IDC_LEFTMARGINSPIN, UDM_SETPOS, 0, db_get_b(0, "CLC", "LeftMargin", CLCDEFAULT_LEFTMARGIN));
 			SendDlgItemMessage(hwndDlg, IDC_RIGHTMARGINSPIN, UDM_SETRANGE, 0, MAKELONG(64, 0));
-			SendDlgItemMessage(hwndDlg, IDC_RIGHTMARGINSPIN, UDM_SETPOS, 0, db_get_b(NULL, "CLC", "RightMargin", CLCDEFAULT_LEFTMARGIN));
+			SendDlgItemMessage(hwndDlg, IDC_RIGHTMARGINSPIN, UDM_SETPOS, 0, db_get_b(0, "CLC", "RightMargin", CLCDEFAULT_LEFTMARGIN));
 			SendDlgItemMessage(hwndDlg, IDC_ROWGAPSPIN, UDM_SETRANGE, 0, MAKELONG(10, 0));
 			SendDlgItemMessage(hwndDlg, IDC_ROWGAPSPIN, UDM_SETPOS, 0, cfg::dat.bRowSpacing);
 			SendDlgItemMessage(hwndDlg, IDC_GROUPINDENTSPIN, UDM_SETRANGE, 0, MAKELONG(50, 0));
-			SendDlgItemMessage(hwndDlg, IDC_GROUPINDENTSPIN, UDM_SETPOS, 0, db_get_b(NULL, "CLC", "GroupIndent", CLCDEFAULT_GROUPINDENT));
+			SendDlgItemMessage(hwndDlg, IDC_GROUPINDENTSPIN, UDM_SETPOS, 0, db_get_b(0, "CLC", "GroupIndent", CLCDEFAULT_GROUPINDENT));
 			SendDlgItemMessage(hwndDlg, IDC_ROWHEIGHTSPIN, UDM_SETRANGE, 0, MAKELONG(255, 8));
-			SendDlgItemMessage(hwndDlg, IDC_ROWHEIGHTSPIN, UDM_SETPOS, 0, db_get_b(NULL, "CLC", "RowHeight", CLCDEFAULT_ROWHEIGHT));
+			SendDlgItemMessage(hwndDlg, IDC_ROWHEIGHTSPIN, UDM_SETPOS, 0, db_get_b(0, "CLC", "RowHeight", CLCDEFAULT_ROWHEIGHT));
 			SendDlgItemMessage(hwndDlg, IDC_GROUPROWHEIGHTSPIN, UDM_SETRANGE, 0, MAKELONG(255, 8));
-			SendDlgItemMessage(hwndDlg, IDC_GROUPROWHEIGHTSPIN, UDM_SETPOS, 0, db_get_b(NULL, "CLC", "GRowHeight", CLCDEFAULT_ROWHEIGHT));
+			SendDlgItemMessage(hwndDlg, IDC_GROUPROWHEIGHTSPIN, UDM_SETPOS, 0, db_get_b(0, "CLC", "GRowHeight", CLCDEFAULT_ROWHEIGHT));
 			SendDlgItemMessage(hwndDlg, IDC_AVATARPADDINGSPIN, UDM_SETRANGE, 0, MAKELONG(10, 0));
 			SendDlgItemMessage(hwndDlg, IDC_AVATARPADDINGSPIN, UDM_SETPOS, 0, cfg::dat.avatarPadding);
 		}
@@ -193,7 +193,7 @@ static INT_PTR CALLBACK DlgProcDspGroups(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		switch (((LPNMHDR)lParam)->idFrom) {
 		case 0:
 			if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-				DWORD exStyle = db_get_dw(NULL, "CLC", "ExStyle", Clist_GetDefaultExStyle());
+				DWORD exStyle = db_get_dw(0, "CLC", "ExStyle", Clist_GetDefaultExStyle());
 
 				for (auto &it : checkBoxToGroupStyleEx) {
 					if ((IsDlgButtonChecked(hwndDlg, it.id) == 0) == it.not_t)
@@ -201,30 +201,30 @@ static INT_PTR CALLBACK DlgProcDspGroups(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					else
 						exStyle &= ~(it.flag);
 				}
-				db_set_dw(NULL, "CLC", "ExStyle", exStyle);
+				db_set_dw(0, "CLC", "ExStyle", exStyle);
 
 				cfgSetFlag(hwndDlg, IDC_NOGROUPICON, CLUI_FRAME_NOGROUPICON);
 
-				db_set_b(NULL, "CLCExt", "EXBK_CenterGroupnames", IsDlgButtonChecked(hwndDlg, IDC_CENTERGROUPNAMES) ? 1 : 0);
+				db_set_b(0, "CLCExt", "EXBK_CenterGroupnames", IsDlgButtonChecked(hwndDlg, IDC_CENTERGROUPNAMES) ? 1 : 0);
 
 				LRESULT curSel = SendDlgItemMessage(hwndDlg, IDC_GROUPALIGN, CB_GETCURSEL, 0, 0);
 				if (curSel != CB_ERR) {
 					cfg::dat.bGroupAlign = (BYTE)curSel;
-					db_set_b(NULL, "CLC", "GroupAlign", cfg::dat.bGroupAlign);
+					db_set_b(0, "CLC", "GroupAlign", cfg::dat.bGroupAlign);
 				}
 
 				cfg::dat.bRowSpacing = (BYTE)SendDlgItemMessage(hwndDlg, IDC_ROWGAPSPIN, UDM_GETPOS, 0, 0);
-				db_set_b(NULL, "CLC", "RowGap", cfg::dat.bRowSpacing);
+				db_set_b(0, "CLC", "RowGap", cfg::dat.bRowSpacing);
 
 				BOOL translated;
 				cfg::dat.avatarPadding = (BYTE)GetDlgItemInt(hwndDlg, IDC_AVATARPADDING, &translated, FALSE);
-				db_set_b(NULL, "CList", "AvatarPadding", cfg::dat.avatarPadding);
+				db_set_b(0, "CList", "AvatarPadding", cfg::dat.avatarPadding);
 
-				db_set_b(NULL, "CLC", "LeftMargin", (BYTE)SendDlgItemMessage(hwndDlg, IDC_LEFTMARGINSPIN, UDM_GETPOS, 0, 0));
-				db_set_b(NULL, "CLC", "RightMargin", (BYTE)SendDlgItemMessage(hwndDlg, IDC_RIGHTMARGINSPIN, UDM_GETPOS, 0, 0));
-				db_set_b(NULL, "CLC", "GroupIndent", (BYTE)SendDlgItemMessage(hwndDlg, IDC_GROUPINDENTSPIN, UDM_GETPOS, 0, 0));
-				db_set_b(NULL, "CLC", "RowHeight", (BYTE)SendDlgItemMessage(hwndDlg, IDC_ROWHEIGHTSPIN, UDM_GETPOS, 0, 0));
-				db_set_b(NULL, "CLC", "GRowHeight", (BYTE)SendDlgItemMessage(hwndDlg, IDC_GROUPROWHEIGHTSPIN, UDM_GETPOS, 0, 0));
+				db_set_b(0, "CLC", "LeftMargin", (BYTE)SendDlgItemMessage(hwndDlg, IDC_LEFTMARGINSPIN, UDM_GETPOS, 0, 0));
+				db_set_b(0, "CLC", "RightMargin", (BYTE)SendDlgItemMessage(hwndDlg, IDC_RIGHTMARGINSPIN, UDM_GETPOS, 0, 0));
+				db_set_b(0, "CLC", "GroupIndent", (BYTE)SendDlgItemMessage(hwndDlg, IDC_GROUPINDENTSPIN, UDM_GETPOS, 0, 0));
+				db_set_b(0, "CLC", "RowHeight", (BYTE)SendDlgItemMessage(hwndDlg, IDC_ROWHEIGHTSPIN, UDM_GETPOS, 0, 0));
+				db_set_b(0, "CLC", "GRowHeight", (BYTE)SendDlgItemMessage(hwndDlg, IDC_GROUPROWHEIGHTSPIN, UDM_GETPOS, 0, 0));
 				return TRUE;
 			}
 			break;
@@ -255,7 +255,7 @@ static INT_PTR CALLBACK DlgProcDspItems(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			SendDlgItemMessage(hwndDlg, IDC_CLISTALIGN, CB_INSERTSTRING, -1, (LPARAM)TranslateT("For RTL only"));
 			SendDlgItemMessage(hwndDlg, IDC_CLISTALIGN, CB_INSERTSTRING, -1, (LPARAM)TranslateT("RTL TEXT only"));
 
-			FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), offlineValues, sizeof(offlineValues) / sizeof(offlineValues[0]), db_get_dw(NULL, "CLC", "OfflineModes", CLCDEFAULT_OFFLINEMODES));
+			FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), offlineValues, sizeof(offlineValues) / sizeof(offlineValues[0]), db_get_dw(0, "CLC", "OfflineModes", CLCDEFAULT_OFFLINEMODES));
 			CheckDlgButton(hwndDlg, IDC_EVENTSONTOP, (cfg::dat.dwFlags & CLUI_STICKYEVENTS) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_DONTSEPARATE, cfg::dat.bDontSeparateOffline ? BST_CHECKED : BST_UNCHECKED);
 			for (int i = 0; sortCtrlIDs[i] != 0; i++)
@@ -302,17 +302,17 @@ static INT_PTR CALLBACK DlgProcDspItems(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					else
 						cfg::dat.sortOrder[i] = (BYTE)curSel;
 				}
-				db_set_dw(NULL, "CList", "SortOrder", MAKELONG(MAKEWORD(cfg::dat.sortOrder[0], cfg::dat.sortOrder[1]), MAKEWORD(cfg::dat.sortOrder[2], 0)));
+				db_set_dw(0, "CList", "SortOrder", MAKELONG(MAKEWORD(cfg::dat.sortOrder[0], cfg::dat.sortOrder[1]), MAKEWORD(cfg::dat.sortOrder[2], 0)));
 
 				cfg::dat.bDontSeparateOffline = IsDlgButtonChecked(hwndDlg, IDC_DONTSEPARATE) ? 1 : 0;
-				db_set_b(NULL, "CList", "DontSeparateOffline", (BYTE)cfg::dat.bDontSeparateOffline);
+				db_set_b(0, "CList", "DontSeparateOffline", (BYTE)cfg::dat.bDontSeparateOffline);
 
-				db_set_dw(NULL, "CLC", "OfflineModes", MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS)));
+				db_set_dw(0, "CLC", "OfflineModes", MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS)));
 
 				cfgSetFlag(hwndDlg, IDC_EVENTSONTOP, CLUI_STICKYEVENTS);
 
 				cfg::dat.bUseDCMirroring = (BYTE)SendDlgItemMessage(hwndDlg, IDC_CLISTALIGN, CB_GETCURSEL, 0, 0);
-				db_set_b(NULL, "CLC", "MirrorDC", cfg::dat.bUseDCMirroring);
+				db_set_b(0, "CLC", "MirrorDC", cfg::dat.bUseDCMirroring);
 				return TRUE;
 			}
 			break;
@@ -437,23 +437,23 @@ static INT_PTR CALLBACK DlgProcDspAdvanced(HWND hwndDlg, UINT msg, WPARAM wParam
 			cfgSetFlag(hwndDlg, IDC_SHOWSTATUSMSG, CLUI_FRAME_SHOWSTATUSMSG);
 
 			cfg::dat.avatarBorder = SendDlgItemMessage(hwndDlg, IDC_AVATARBORDERCLR, CPM_GETCOLOUR, 0, 0);
-			db_set_dw(NULL, "CLC", "avatarborder", cfg::dat.avatarBorder);
+			db_set_dw(0, "CLC", "avatarborder", cfg::dat.avatarBorder);
 
 			BOOL translated;
 			cfg::dat.avatarRadius = GetDlgItemInt(hwndDlg, IDC_RADIUS, &translated, FALSE);
-			db_set_dw(NULL, "CLC", "avatarradius", cfg::dat.avatarRadius);
+			db_set_dw(0, "CLC", "avatarradius", cfg::dat.avatarRadius);
 
 			cfg::dat.avatarSize = GetDlgItemInt(hwndDlg, IDC_AVATARHEIGHT, &translated, FALSE);
-			db_set_w(NULL, "CList", "AvatarSize", (WORD)cfg::dat.avatarSize);
+			db_set_w(0, "CList", "AvatarSize", (WORD)cfg::dat.avatarSize);
 
 			cfg::dat.bNoOfflineAvatars = IsDlgButtonChecked(hwndDlg, IDC_NOAVATARSOFFLINE) ? TRUE : FALSE;
-			db_set_b(NULL, "CList", "NoOfflineAV", (BYTE)cfg::dat.bNoOfflineAvatars);
+			db_set_b(0, "CList", "NoOfflineAV", (BYTE)cfg::dat.bNoOfflineAvatars);
 
 			cfg::dat.bShowLocalTime = IsDlgButtonChecked(hwndDlg, IDC_SHOWLOCALTIME) ? 1 : 0;
-			db_set_b(NULL, "CLC", "ShowLocalTime", (BYTE)cfg::dat.bShowLocalTime);
+			db_set_b(0, "CLC", "ShowLocalTime", (BYTE)cfg::dat.bShowLocalTime);
 
 			cfg::dat.bShowLocalTimeSelective = IsDlgButtonChecked(hwndDlg, IDC_SHOWLOCALTIMEONLYWHENDIFFERENT) ? 1 : 0;
-			db_set_b(NULL, "CLC", "SelectiveLocalTime", (BYTE)cfg::dat.bShowLocalTimeSelective);
+			db_set_b(0, "CLC", "SelectiveLocalTime", (BYTE)cfg::dat.bShowLocalTimeSelective);
 
 			KillTimer(g_clistApi.hwndContactTree, TIMERID_REFRESH);
 			if (cfg::dat.bShowLocalTime)
@@ -462,7 +462,7 @@ static INT_PTR CALLBACK DlgProcDspAdvanced(HWND hwndDlg, UINT msg, WPARAM wParam
 			cfg::dat.dualRowMode = (BYTE)SendDlgItemMessage(hwndDlg, IDC_DUALROWMODE, CB_GETCURSEL, 0, 0);
 			if (cfg::dat.dualRowMode == CB_ERR)
 				cfg::dat.dualRowMode = 0;
-			db_set_b(NULL, "CLC", "DualRowMode", cfg::dat.dualRowMode);
+			db_set_b(0, "CLC", "DualRowMode", cfg::dat.dualRowMode);
 			return TRUE;
 		}
 		break;
@@ -484,7 +484,7 @@ static INT_PTR CALLBACK DlgProcIcons(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPar
 		CheckDlgButton(hwndDlg, IDC_SELECTIVEICONS, (cfg::dat.dwFlags & CLUI_FRAME_SELECTIVEICONS) ? BST_CHECKED : BST_UNCHECKED);
 
 		CheckDlgButton(hwndDlg, IDC_STATUSICONSCENTERED, cfg::dat.bCenterStatusIcons ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_IDLE, db_get_b(NULL, "CLC", "ShowIdle", CLCDEFAULT_SHOWIDLE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_IDLE, db_get_b(0, "CLC", "ShowIdle", CLCDEFAULT_SHOWIDLE) ? BST_CHECKED : BST_UNCHECKED);
 		return TRUE;
 
 	case WM_COMMAND:
@@ -500,10 +500,10 @@ static INT_PTR CALLBACK DlgProcIcons(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPar
 			cfgSetFlag(hwndDlg, IDC_XSTATUSASSTATUS, CLUI_FRAME_USEXSTATUSASSTATUS);
 			cfgSetFlag(hwndDlg, IDC_SELECTIVEICONS, CLUI_FRAME_SELECTIVEICONS);
 
-			db_set_b(NULL, "CLC", "ShowIdle", IsDlgButtonChecked(hwndDlg, IDC_IDLE) ? 1 : 0);
+			db_set_b(0, "CLC", "ShowIdle", IsDlgButtonChecked(hwndDlg, IDC_IDLE) ? 1 : 0);
 
 			cfg::dat.bCenterStatusIcons = IsDlgButtonChecked(hwndDlg, IDC_STATUSICONSCENTERED) ? 1 : 0;
-			db_set_b(NULL, "CLC", "si_centered", (BYTE)cfg::dat.bCenterStatusIcons);
+			db_set_b(0, "CLC", "si_centered", (BYTE)cfg::dat.bCenterStatusIcons);
 			return TRUE;
 		}
 		break;
@@ -594,11 +594,11 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		opt_clc_main_changed = 0;
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 		{
-			DWORD exStyle = db_get_dw(NULL, "CLC", "ExStyle", Clist_GetDefaultExStyle());
+			DWORD exStyle = db_get_dw(0, "CLC", "ExStyle", Clist_GetDefaultExStyle());
 			UDACCEL accel[2] = { { 0, 10 }, { 2, 50 } };
 			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETRANGE, 0, MAKELONG(999, 0));
 			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETACCEL, _countof(accel), (LPARAM)&accel);
-			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETPOS, 0, MAKELONG(db_get_w(NULL, "CLC", "ScrollTime", CLCDEFAULT_SCROLLTIME), 0));
+			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETPOS, 0, MAKELONG(db_get_w(0, "CLC", "ScrollTime", CLCDEFAULT_SCROLLTIME), 0));
 
 			for (auto &it : checkBoxToStyleEx)
 				CheckDlgButton(hwndDlg, it.id, (exStyle & it.flag) ^ (it.flag * it.not_t) ? BST_CHECKED : BST_UNCHECKED);
@@ -606,11 +606,11 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		CheckDlgButton(hwndDlg, IDC_FULLROWSELECT, (cfg::dat.dwFlags & CLUI_FULLROWSELECT) ? BST_CHECKED : BST_UNCHECKED);
 
 		CheckDlgButton(hwndDlg, IDC_DBLCLKAVATARS, cfg::dat.bDblClkAvatars ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_GREYOUT, db_get_dw(NULL, "CLC", "GreyoutFlags", CLCDEFAULT_GREYOUTFLAGS) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_GREYOUT, db_get_dw(0, "CLC", "GreyoutFlags", CLCDEFAULT_GREYOUTFLAGS) ? BST_CHECKED : BST_UNCHECKED);
 		Utils::enableDlgControl(hwndDlg, IDC_SMOOTHTIME, IsDlgButtonChecked(hwndDlg, IDC_NOTNOSMOOTHSCROLLING));
 		Utils::enableDlgControl(hwndDlg, IDC_GREYOUTOPTS, IsDlgButtonChecked(hwndDlg, IDC_GREYOUT));
-		FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), greyoutValues, sizeof(greyoutValues) / sizeof(greyoutValues[0]), db_get_dw(NULL, "CLC", "FullGreyoutFlags", CLCDEFAULT_FULLGREYOUTFLAGS));
-		CheckDlgButton(hwndDlg, IDC_NOSCROLLBAR, db_get_b(NULL, "CLC", "NoVScrollBar", 0) ? BST_CHECKED : BST_UNCHECKED);
+		FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), greyoutValues, sizeof(greyoutValues) / sizeof(greyoutValues[0]), db_get_dw(0, "CLC", "FullGreyoutFlags", CLCDEFAULT_FULLGREYOUTFLAGS));
+		CheckDlgButton(hwndDlg, IDC_NOSCROLLBAR, db_get_b(0, "CLC", "NoVScrollBar", 0) ? BST_CHECKED : BST_UNCHECKED);
 		return TRUE;
 
 	case WM_VSCROLL:
@@ -656,7 +656,7 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				if (!opt_clc_main_changed)
 					return TRUE;
 
-				DWORD exStyle = db_get_dw(NULL, "CLC", "ExStyle", CLCDEFAULT_EXSTYLE);
+				DWORD exStyle = db_get_dw(0, "CLC", "ExStyle", CLCDEFAULT_EXSTYLE);
 
 				for (auto &it : checkBoxToStyleEx)
 					exStyle &= ~(it.flag);
@@ -665,21 +665,21 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 					if ((IsDlgButtonChecked(hwndDlg, it.id) == 0) == it.not_t)
 						exStyle |= it.flag;
 
-				db_set_dw(NULL, "CLC", "ExStyle", exStyle);
+				db_set_dw(0, "CLC", "ExStyle", exStyle);
 
 				DWORD fullGreyoutFlags = MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS));
-				db_set_dw(NULL, "CLC", "FullGreyoutFlags", fullGreyoutFlags);
+				db_set_dw(0, "CLC", "FullGreyoutFlags", fullGreyoutFlags);
 				if (IsDlgButtonChecked(hwndDlg, IDC_GREYOUT))
-					db_set_dw(NULL, "CLC", "GreyoutFlags", fullGreyoutFlags);
+					db_set_dw(0, "CLC", "GreyoutFlags", fullGreyoutFlags);
 				else
-					db_set_dw(NULL, "CLC", "GreyoutFlags", 0);
+					db_set_dw(0, "CLC", "GreyoutFlags", 0);
 
 				cfgSetFlag(hwndDlg, IDC_FULLROWSELECT, CLUI_FULLROWSELECT);
 
-				db_set_w(NULL, "CLC", "ScrollTime", (WORD)SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_GETPOS, 0, 0));
-				db_set_b(NULL, "CLC", "NoVScrollBar", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_NOSCROLLBAR) ? 1 : 0));
+				db_set_w(0, "CLC", "ScrollTime", (WORD)SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_GETPOS, 0, 0));
+				db_set_b(0, "CLC", "NoVScrollBar", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_NOSCROLLBAR) ? 1 : 0));
 				cfg::dat.bDblClkAvatars = IsDlgButtonChecked(hwndDlg, IDC_DBLCLKAVATARS) ? TRUE : FALSE;
-				db_set_b(NULL, "CLC", "dblclkav", (BYTE)cfg::dat.bDblClkAvatars);
+				db_set_b(0, "CLC", "dblclkav", (BYTE)cfg::dat.bDblClkAvatars);
 
 				Clist_ClcOptionsChanged();
 				CoolSB_SetupScrollBar();
@@ -701,9 +701,9 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 	case WM_INITDIALOG:
 		opt_clc_bkg_changed = 0;
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_BITMAP, db_get_b(NULL, "CLC", "UseBitmap", CLCDEFAULT_USEBITMAP) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_BITMAP, db_get_b(0, "CLC", "UseBitmap", CLCDEFAULT_USEBITMAP) ? BST_CHECKED : BST_UNCHECKED);
 		SendMessage(hwndDlg, WM_USER + 10, 0, 0);
-		CheckDlgButton(hwndDlg, IDC_WINCOLOUR, db_get_b(NULL, "CLC", "UseWinColours", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_WINCOLOUR, db_get_b(0, "CLC", "UseWinColours", 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SKINMODE, cfg::dat.bWallpaperMode ? BST_CHECKED : BST_UNCHECKED);
 		{
 			DBVARIANT dbv;
@@ -715,7 +715,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				db_free(&dbv);
 			}
 
-			WORD bmpUse = db_get_w(NULL, "CLC", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
+			WORD bmpUse = db_get_w(0, "CLC", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
 			CheckDlgButton(hwndDlg, IDC_STRETCHH, bmpUse & CLB_STRETCHH ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_STRETCHV, bmpUse & CLB_STRETCHV ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_TILEH, bmpUse & CLBF_TILEH ? BST_CHECKED : BST_UNCHECKED);
@@ -780,15 +780,15 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				if (!opt_clc_bkg_changed)
 					return TRUE;
 
-				db_set_b(NULL, "CLC", "UseBitmap", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
-				db_set_b(NULL, "CLC", "UseWinColours", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_WINCOLOUR));
+				db_set_b(0, "CLC", "UseBitmap", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
+				db_set_b(0, "CLC", "UseWinColours", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_WINCOLOUR));
 
 				char str[MAX_PATH], strrel[MAX_PATH];
 				GetDlgItemTextA(hwndDlg, IDC_FILENAME, str, _countof(str));
 				if (PathToRelative(str, strrel))
-					db_set_s(NULL, "CLC", "BkBitmap", strrel);
+					db_set_s(0, "CLC", "BkBitmap", strrel);
 				else
-					db_set_s(NULL, "CLC", "BkBitmap", str);
+					db_set_s(0, "CLC", "BkBitmap", str);
 
 				WORD flags = 0;
 				if (IsDlgButtonChecked(hwndDlg, IDC_STRETCHH))
@@ -803,9 +803,9 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					flags |= CLBF_SCROLL;
 				if (IsDlgButtonChecked(hwndDlg, IDC_PROPORTIONAL))
 					flags |= CLBF_PROPORTIONAL;
-				db_set_w(NULL, "CLC", "BkBmpUse", flags);
+				db_set_w(0, "CLC", "BkBmpUse", flags);
 				cfg::dat.bWallpaperMode = IsDlgButtonChecked(hwndDlg, IDC_SKINMODE) ? 1 : 0;
-				db_set_b(NULL, "CLUI", "UseBkSkin", (BYTE)cfg::dat.bWallpaperMode);
+				db_set_b(0, "CLUI", "UseBkSkin", (BYTE)cfg::dat.bWallpaperMode);
 
 				Clist_ClcOptionsChanged();
 				PostMessage(g_clistApi.hwndContactList, CLUIINTM_REDRAW, 0, 0);

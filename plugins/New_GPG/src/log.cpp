@@ -75,7 +75,7 @@ void logtofile::init()
 	if (globals.bDebugLog) {
 		if (path)
 			mir_free(path);
-		path = UniGetContactSettingUtf(NULL, MODULENAME, "szLogFilePath", L"C:\\GPGdebug.log");
+		path = UniGetContactSettingUtf(0, MODULENAME, "szLogFilePath", L"C:\\GPGdebug.log");
 	}
 	_bDebugLog = globals.bDebugLog;
 }

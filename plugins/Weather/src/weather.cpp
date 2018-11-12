@@ -77,7 +77,7 @@ static const PLUGININFOEX pluginInfoEx =
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(WEATHERPROTONAME, pluginInfoEx)
 {
-	opt.NoProtoCondition = db_get_b(NULL, WEATHERPROTONAME, "NoStatus", true);
+	opt.NoProtoCondition = db_get_b(0, WEATHERPROTONAME, "NoStatus", true);
 	RegisterProtocol((opt.NoProtoCondition) ? PROTOTYPE_VIRTUAL : PROTOTYPE_PROTOCOL);
 	SetUniqueId("ID");
 }
@@ -111,7 +111,7 @@ int OnToolbarLoaded(WPARAM, LPARAM)
 	ttb.pszTooltipDn = LPGEN("Auto Update Disabled");
 	ttb.hIconHandleUp = GetIconHandle("main");
 	ttb.hIconHandleDn = GetIconHandle("disabled");
-	ttb.dwFlags = (db_get_b(NULL, WEATHERPROTONAME, "AutoUpdate", 1) ? 0 : TTBBF_PUSHED) | TTBBF_ASPUSHBUTTON | TTBBF_VISIBLE;
+	ttb.dwFlags = (db_get_b(0, WEATHERPROTONAME, "AutoUpdate", 1) ? 0 : TTBBF_PUSHED) | TTBBF_ASPUSHBUTTON | TTBBF_VISIBLE;
 	hTBButton = g_plugin.addTTB(&ttb);
 	return 0;
 }

@@ -124,49 +124,49 @@ int CMPlugin::Load()
 
 	cfg::dat.hMenuNotify = CreatePopupMenu();
 	cfg::dat.wNextMenuID = 1;
-	cfg::dat.sortTimer = db_get_dw(NULL, "CLC", "SortTimer", 150);
-	cfg::dat.avatarBorder = (COLORREF)db_get_dw(NULL, "CLC", "avatarborder", 0);
-	cfg::dat.avatarRadius = (COLORREF)db_get_dw(NULL, "CLC", "avatarradius", 4);
+	cfg::dat.sortTimer = db_get_dw(0, "CLC", "SortTimer", 150);
+	cfg::dat.avatarBorder = (COLORREF)db_get_dw(0, "CLC", "avatarborder", 0);
+	cfg::dat.avatarRadius = (COLORREF)db_get_dw(0, "CLC", "avatarradius", 4);
 	cfg::dat.hBrushAvatarBorder = CreateSolidBrush(cfg::dat.avatarBorder);
-	cfg::dat.avatarSize = db_get_w(NULL, "CList", "AvatarSize", 24);
-	cfg::dat.dualRowMode = db_get_b(NULL, "CLC", "DualRowMode", 0);
-	cfg::dat.avatarPadding = db_get_b(NULL, "CList", "AvatarPadding", 0);
-	cfg::dat.isTransparent = db_get_b(NULL, "CList", "Transparent", 0);
-	cfg::dat.alpha = db_get_b(NULL, "CList", "Alpha", SETTING_ALPHA_DEFAULT);
-	cfg::dat.autoalpha = db_get_b(NULL, "CList", "AutoAlpha", SETTING_ALPHA_DEFAULT);
-	cfg::dat.fadeinout = db_get_b(NULL, "CLUI", "FadeInOut", 0);
-	cfg::dat.autosize = db_get_b(NULL, "CLUI", "AutoSize", 0);
-	cfg::dat.bNoOfflineAvatars = db_get_b(NULL, "CList", "NoOfflineAV", 1);
-	cfg::dat.bFullTransparent = db_get_b(NULL, "CLUI", "fulltransparent", 0);
-	cfg::dat.bDblClkAvatars = db_get_b(NULL, "CLC", "dblclkav", 0);
-	cfg::dat.bEqualSections = db_get_b(NULL, "CLUI", "EqualSections", 0);
-	cfg::dat.bCenterStatusIcons = db_get_b(NULL, "CLC", "si_centered", 1);
+	cfg::dat.avatarSize = db_get_w(0, "CList", "AvatarSize", 24);
+	cfg::dat.dualRowMode = db_get_b(0, "CLC", "DualRowMode", 0);
+	cfg::dat.avatarPadding = db_get_b(0, "CList", "AvatarPadding", 0);
+	cfg::dat.isTransparent = db_get_b(0, "CList", "Transparent", 0);
+	cfg::dat.alpha = db_get_b(0, "CList", "Alpha", SETTING_ALPHA_DEFAULT);
+	cfg::dat.autoalpha = db_get_b(0, "CList", "AutoAlpha", SETTING_ALPHA_DEFAULT);
+	cfg::dat.fadeinout = db_get_b(0, "CLUI", "FadeInOut", 0);
+	cfg::dat.autosize = db_get_b(0, "CLUI", "AutoSize", 0);
+	cfg::dat.bNoOfflineAvatars = db_get_b(0, "CList", "NoOfflineAV", 1);
+	cfg::dat.bFullTransparent = db_get_b(0, "CLUI", "fulltransparent", 0);
+	cfg::dat.bDblClkAvatars = db_get_b(0, "CLC", "dblclkav", 0);
+	cfg::dat.bEqualSections = db_get_b(0, "CLUI", "EqualSections", 0);
+	cfg::dat.bCenterStatusIcons = db_get_b(0, "CLC", "si_centered", 1);
 	cfg::dat.boldHideOffline = -1;
 	cfg::dat.bSecIMAvail = ServiceExists("SecureIM/IsContactSecured") ? 1 : 0;
-	cfg::dat.bNoTrayTips = db_get_b(NULL, "CList", "NoTrayTips", 0);
-	cfg::dat.bShowLocalTime = db_get_b(NULL, "CLC", "ShowLocalTime", 1);
-	cfg::dat.bShowLocalTimeSelective = db_get_b(NULL, "CLC", "SelectiveLocalTime", 1);
-	cfg::dat.bDontSeparateOffline = db_get_b(NULL, "CList", "DontSeparateOffline", 0);
-	cfg::dat.bShowXStatusOnSbar = db_get_b(NULL, "CLUI", "xstatus_sbar", 0);
-	cfg::dat.bLayeredHack = db_get_b(NULL, "CLUI", "layeredhack", 1);
-	cfg::dat.bFirstRun = db_get_b(NULL, "CLUI", "firstrun", 1);
+	cfg::dat.bNoTrayTips = db_get_b(0, "CList", "NoTrayTips", 0);
+	cfg::dat.bShowLocalTime = db_get_b(0, "CLC", "ShowLocalTime", 1);
+	cfg::dat.bShowLocalTimeSelective = db_get_b(0, "CLC", "SelectiveLocalTime", 1);
+	cfg::dat.bDontSeparateOffline = db_get_b(0, "CList", "DontSeparateOffline", 0);
+	cfg::dat.bShowXStatusOnSbar = db_get_b(0, "CLUI", "xstatus_sbar", 0);
+	cfg::dat.bLayeredHack = db_get_b(0, "CLUI", "layeredhack", 1);
+	cfg::dat.bFirstRun = db_get_b(0, "CLUI", "firstrun", 1);
 	cfg::dat.langPackCP = Langpack_GetDefaultCodePage();
-	cfg::dat.realTimeSaving = db_get_b(NULL, "CLUI", "save_pos_always", 0);
+	cfg::dat.realTimeSaving = db_get_b(0, "CLUI", "save_pos_always", 0);
 
-	DWORD sortOrder = db_get_dw(NULL, "CList", "SortOrder", SORTBY_NAME);
+	DWORD sortOrder = db_get_dw(0, "CList", "SortOrder", SORTBY_NAME);
 	cfg::dat.sortOrder[0] = LOBYTE(LOWORD(sortOrder));
 	cfg::dat.sortOrder[1] = HIBYTE(LOWORD(sortOrder));
 	cfg::dat.sortOrder[2] = LOBYTE(HIWORD(sortOrder));
 
 	if (cfg::dat.bFirstRun)
-		db_set_b(NULL, "CLUI", "firstrun", 0);
+		db_set_b(0, "CLUI", "firstrun", 0);
 
 	ReloadThemedOptions();
 	Reload3dBevelColors();
 
-	cfg::dat.dwFlags = db_get_dw(NULL, "CLUI", "Frameflags", CLUI_FRAME_STATUSICONS | CLUI_FRAME_SHOWBOTTOMBUTTONS | CLUI_FRAME_BUTTONSFLAT | CLUI_FRAME_CLISTSUNKEN);
-	cfg::dat.dwFlags |= (db_get_b(NULL, "CLUI", "ShowSBar", 1) ? CLUI_FRAME_SBARSHOW : 0);
-	cfg::dat.soundsOff = db_get_b(NULL, "Skin", "UseSound", 1) ? 0 : 1;
+	cfg::dat.dwFlags = db_get_dw(0, "CLUI", "Frameflags", CLUI_FRAME_STATUSICONS | CLUI_FRAME_SHOWBOTTOMBUTTONS | CLUI_FRAME_BUTTONSFLAT | CLUI_FRAME_CLISTSUNKEN);
+	cfg::dat.dwFlags |= (db_get_b(0, "CLUI", "ShowSBar", 1) ? CLUI_FRAME_SBARSHOW : 0);
+	cfg::dat.soundsOff = db_get_b(0, "Skin", "UseSound", 1) ? 0 : 1;
 
 	Profile_GetPathW(MAX_PATH, cfg::dat.tszProfilePath);
 	wcslwr(cfg::dat.tszProfilePath);

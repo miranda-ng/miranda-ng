@@ -172,7 +172,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 		SendDlgItemMessage(hdlg, IDC_GROUP, CB_INSERTSTRING, 0, (LPARAM)TranslateT("None"));
 		SendDlgItemMessage(hdlg, IDC_GROUP, CB_SETCURSEL, 0, 0);
 		{
-			ptrA szProto(db_get_sa(NULL, MODULENAME, "LastProto"));
+			ptrA szProto(g_plugin.getStringA("LastProto"));
 			if (szProto)
 				acs->proto = szProto;
 		}
@@ -317,7 +317,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 		Window_FreeIcon_IcoLib(hdlg);
 		ImageList_Destroy((HIMAGELIST)SendDlgItemMessage(hdlg, IDC_PROTO, CBEM_GETIMAGELIST, 0, 0));
 		if (acs) {
-			db_set_s(NULL, MODULENAME, "LastProto", acs->proto);
+			g_plugin.setString("LastProto", acs->proto);
 			if (acs->psr) {
 				mir_free(acs->psr->nick.w);
 				mir_free(acs->psr->firstName.w);

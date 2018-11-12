@@ -326,19 +326,19 @@ public:
 		CAutoreply& operator=(const int m_value)
 		{
 			CString Setting(Parent->szProto ? Parent->ProtoStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPROTOSETTINGS) : DB_ENABLEREPLY);
-			if (db_get_b(NULL, MODULENAME, Setting, VAL_USEDEFAULT) == m_value)
+			if (g_plugin.getByte(Setting, VAL_USEDEFAULT) == m_value)
 				return *this;
 
 			if (m_value != VAL_USEDEFAULT)
-				db_set_b(NULL, MODULENAME, Setting, m_value != 0);
+				g_plugin.setByte(Setting, m_value != 0);
 			else
-				db_unset(NULL, MODULENAME, Setting);
+				g_plugin.delSetting(Setting);
 			return *this;
 		}
 		
 		operator int()
 		{
-			return db_get_b(NULL, MODULENAME, Parent->szProto ? Parent->ProtoStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPROTOSETTINGS) : DB_ENABLEREPLY, 
+			return g_plugin.getByte(Parent->szProto ? Parent->ProtoStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPROTOSETTINGS) : DB_ENABLEREPLY, 
 				Parent->szProto ? VAL_USEDEFAULT : AUTOREPLY_DEF_REPLY);
 		}
 		
