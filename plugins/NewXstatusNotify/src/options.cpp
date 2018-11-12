@@ -31,167 +31,167 @@ INT_PTR CALLBACK DlgProcAutoDisableOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 void LoadTemplates()
 {
-	DBGetStringDefault(0, MODULE, "TPopupXChanged", templates.PopupXstatusChanged, _countof(templates.PopupXstatusChanged), DEFAULT_POPUP_CHANGED);
-	DBGetStringDefault(0, MODULE, "TPopupXRemoved", templates.PopupXstatusRemoved, _countof(templates.PopupXstatusRemoved), DEFAULT_POPUP_REMOVED);
-	DBGetStringDefault(0, MODULE, "TPopupXMsgChanged", templates.PopupXMsgChanged, _countof(templates.PopupXMsgChanged), DEFAULT_POPUP_MSGCHANGED);
-	DBGetStringDefault(0, MODULE, "TPopupXMsgRemoved", templates.PopupXMsgRemoved, _countof(templates.PopupXMsgRemoved), DEFAULT_POPUP_MSGREMOVED);
+	DBGetStringDefault(0, "TPopupXChanged", templates.PopupXstatusChanged, _countof(templates.PopupXstatusChanged), DEFAULT_POPUP_CHANGED);
+	DBGetStringDefault(0, "TPopupXRemoved", templates.PopupXstatusRemoved, _countof(templates.PopupXstatusRemoved), DEFAULT_POPUP_REMOVED);
+	DBGetStringDefault(0, "TPopupXMsgChanged", templates.PopupXMsgChanged, _countof(templates.PopupXMsgChanged), DEFAULT_POPUP_MSGCHANGED);
+	DBGetStringDefault(0, "TPopupXMsgRemoved", templates.PopupXMsgRemoved, _countof(templates.PopupXMsgRemoved), DEFAULT_POPUP_MSGREMOVED);
 
-	DBGetStringDefault(0, MODULE, "TLogXChanged", templates.LogXstatusChanged, _countof(templates.LogXstatusChanged), DEFAULT_LOG_CHANGED);
-	DBGetStringDefault(0, MODULE, "TLogXRemoved", templates.LogXstatusRemoved, _countof(templates.LogXstatusRemoved), DEFAULT_LOG_REMOVED);
-	DBGetStringDefault(0, MODULE, "TLogXMsgChanged", templates.LogXMsgChanged, _countof(templates.LogXMsgChanged), DEFAULT_LOG_MSGCHANGED);
-	DBGetStringDefault(0, MODULE, "TLogXMsgRemoved", templates.LogXMsgRemoved, _countof(templates.LogXMsgRemoved), DEFAULT_LOG_MSGREMOVED);
-	DBGetStringDefault(0, MODULE, "TLogXOpening", templates.LogXstatusOpening, _countof(templates.LogXstatusOpening), DEFAULT_LOG_OPENING);
+	DBGetStringDefault(0, "TLogXChanged", templates.LogXstatusChanged, _countof(templates.LogXstatusChanged), DEFAULT_LOG_CHANGED);
+	DBGetStringDefault(0, "TLogXRemoved", templates.LogXstatusRemoved, _countof(templates.LogXstatusRemoved), DEFAULT_LOG_REMOVED);
+	DBGetStringDefault(0, "TLogXMsgChanged", templates.LogXMsgChanged, _countof(templates.LogXMsgChanged), DEFAULT_LOG_MSGCHANGED);
+	DBGetStringDefault(0, "TLogXMsgRemoved", templates.LogXMsgRemoved, _countof(templates.LogXMsgRemoved), DEFAULT_LOG_MSGREMOVED);
+	DBGetStringDefault(0, "TLogXOpening", templates.LogXstatusOpening, _countof(templates.LogXstatusOpening), DEFAULT_LOG_OPENING);
 
-	DBGetStringDefault(0, MODULE, "TLogSMsgChanged", templates.LogSMsgChanged, _countof(templates.LogSMsgChanged), DEFAULT_LOG_SMSGCHANGED);
-	DBGetStringDefault(0, MODULE, "TLogSMsgRemoved", templates.LogSMsgRemoved, _countof(templates.LogSMsgRemoved), DEFAULT_LOG_SMSGREMOVED);
-	DBGetStringDefault(0, MODULE, "TLogSMsgOpening", templates.LogSMsgOpening, _countof(templates.LogSMsgOpening), DEFAULT_LOG_SMSGOPENING);
+	DBGetStringDefault(0, "TLogSMsgChanged", templates.LogSMsgChanged, _countof(templates.LogSMsgChanged), DEFAULT_LOG_SMSGCHANGED);
+	DBGetStringDefault(0, "TLogSMsgRemoved", templates.LogSMsgRemoved, _countof(templates.LogSMsgRemoved), DEFAULT_LOG_SMSGREMOVED);
+	DBGetStringDefault(0, "TLogSMsgOpening", templates.LogSMsgOpening, _countof(templates.LogSMsgOpening), DEFAULT_LOG_SMSGOPENING);
 
-	templates.PopupXFlags = db_get_b(0, MODULE, "TPopupXFlags", NOTIFY_NEW_XSTATUS | NOTIFY_NEW_MESSAGE);
-	templates.PopupSMsgFlags = db_get_b(0, MODULE, "TPopupSMsgFlags", NOTIFY_NEW_MESSAGE);
-	templates.LogXFlags = db_get_b(0, MODULE, "TLogXFlags", NOTIFY_NEW_XSTATUS | NOTIFY_NEW_MESSAGE | NOTIFY_OPENING_ML);
-	templates.LogSMsgFlags = db_get_b(0, MODULE, "TLogSMsgFlags", NOTIFY_NEW_MESSAGE | NOTIFY_OPENING_ML);
+	templates.PopupXFlags = g_plugin.getByte("TPopupXFlags", NOTIFY_NEW_XSTATUS | NOTIFY_NEW_MESSAGE);
+	templates.PopupSMsgFlags = g_plugin.getByte("TPopupSMsgFlags", NOTIFY_NEW_MESSAGE);
+	templates.LogXFlags = g_plugin.getByte("TLogXFlags", NOTIFY_NEW_XSTATUS | NOTIFY_NEW_MESSAGE | NOTIFY_OPENING_ML);
+	templates.LogSMsgFlags = g_plugin.getByte("TLogSMsgFlags", NOTIFY_NEW_MESSAGE | NOTIFY_OPENING_ML);
 }
 
 void LoadOptions()
 {
 	// IDD_OPT_POPUP
-	opt.Colors = db_get_b(0, MODULE, "Colors", DEFAULT_COLORS);
-	opt.ShowGroup = db_get_b(0, MODULE, "ShowGroup", 0);
-	opt.ShowStatus = db_get_b(0, MODULE, "ShowStatus", 1);
-	opt.UseAlternativeText = db_get_b(0, MODULE, "UseAlternativeText", 0);
-	opt.ShowPreviousStatus = db_get_b(0, MODULE, "ShowPreviousStatus", 0);
-	opt.ReadAwayMsg = db_get_b(0, MODULE, "ReadAwayMsg", 0);
-	opt.PopupTimeout = db_get_dw(0, MODULE, "PopupTimeout", 0);
-	opt.PopupConnectionTimeout = db_get_dw(0, MODULE, "PopupConnectionTimeout", 15);
-	opt.LeftClickAction = db_get_b(0, MODULE, "LeftClickAction", 5);
-	opt.RightClickAction = db_get_b(0, MODULE, "RightClickAction", 1);
+	opt.Colors = g_plugin.getByte("Colors", DEFAULT_COLORS);
+	opt.ShowGroup = g_plugin.getByte("ShowGroup", 0);
+	opt.ShowStatus = g_plugin.getByte("ShowStatus", 1);
+	opt.UseAlternativeText = g_plugin.getByte("UseAlternativeText", 0);
+	opt.ShowPreviousStatus = g_plugin.getByte("ShowPreviousStatus", 0);
+	opt.ReadAwayMsg = g_plugin.getByte("ReadAwayMsg", 0);
+	opt.PopupTimeout = g_plugin.getDword("PopupTimeout", 0);
+	opt.PopupConnectionTimeout = g_plugin.getDword("PopupConnectionTimeout", 15);
+	opt.LeftClickAction = g_plugin.getByte("LeftClickAction", 5);
+	opt.RightClickAction = g_plugin.getByte("RightClickAction", 1);
 	// IDD_OPT_XPOPUP
-	opt.PXOnConnect = db_get_b(0, MODULE, "PXOnConnect", 0);
-	opt.PXDisableForMusic = db_get_b(0, MODULE, "PXDisableForMusic", 1);
-	opt.PXMsgTruncate = db_get_b(0, MODULE, "PXMsgTruncate", 0);
-	opt.PXMsgLen = db_get_dw(0, MODULE, "PXMsgLen", 64);
+	opt.PXOnConnect = g_plugin.getByte("PXOnConnect", 0);
+	opt.PXDisableForMusic = g_plugin.getByte("PXDisableForMusic", 1);
+	opt.PXMsgTruncate = g_plugin.getByte("PXMsgTruncate", 0);
+	opt.PXMsgLen = g_plugin.getDword("PXMsgLen", 64);
 	// IDD_OPT_GENERAL
-	opt.FromOffline = db_get_b(0, MODULE, "FromOffline", 1);
-	opt.AutoDisable = db_get_b(0, MODULE, "AutoDisable", 0);
-	opt.HiddenContactsToo = db_get_b(0, MODULE, "HiddenContactsToo", 0);
-	opt.UseIndSnd = db_get_b(0, MODULE, "UseIndSounds", 1);
-	opt.BlinkIcon = db_get_b(0, MODULE, "BlinkIcon", 0);
-	opt.BlinkIcon_Status = db_get_b(0, MODULE, "BlinkIcon_Status", 0);
-	opt.BlinkIcon_ForMsgs = db_get_b(0, MODULE, "BlinkIcon_ForMsgs", 0);
-	DBGetStringDefault(0, MODULE, "LogFilePath", opt.LogFilePath, MAX_PATH, L"");
+	opt.FromOffline = g_plugin.getByte("FromOffline", 1);
+	opt.AutoDisable = g_plugin.getByte("AutoDisable", 0);
+	opt.HiddenContactsToo = g_plugin.getByte("HiddenContactsToo", 0);
+	opt.UseIndSnd = g_plugin.getByte("UseIndSounds", 1);
+	opt.BlinkIcon = g_plugin.getByte("BlinkIcon", 0);
+	opt.BlinkIcon_Status = g_plugin.getByte("BlinkIcon_Status", 0);
+	opt.BlinkIcon_ForMsgs = g_plugin.getByte("BlinkIcon_ForMsgs", 0);
+	DBGetStringDefault(0, "LogFilePath", opt.LogFilePath, MAX_PATH, L"");
 	// IDD_AUTODISABLE
-	opt.OnlyGlobalChanges = db_get_b(0, MODULE, "OnlyGlobalChanges", 0);
-	opt.DisablePopupGlobally = db_get_b(0, MODULE, "DisablePopupGlobally", 0);
-	opt.DisableSoundGlobally = db_get_b(0, MODULE, "DisableSoundGlobally", 0);
+	opt.OnlyGlobalChanges = g_plugin.getByte("OnlyGlobalChanges", 0);
+	opt.DisablePopupGlobally = g_plugin.getByte("DisablePopupGlobally", 0);
+	opt.DisableSoundGlobally = g_plugin.getByte("DisableSoundGlobally", 0);
 	// IDD_OPT_LOG
-	opt.LogToFile = db_get_b(0, MODULE, "LogToFile", 0);
-	opt.LogToDB = db_get_b(0, MODULE, "LogToDB", 0);
-	opt.LogToDB_WinOpen = db_get_b(0, MODULE, "LogToDB_WinOpen", 1);
-	opt.LogToDB_Remove = db_get_b(0, MODULE, "LogToDB_Remove", 0);
-	opt.LogPrevious = db_get_b(0, MODULE, "LogToPrevious", 0);
-	opt.SMsgLogToFile = db_get_b(0, MODULE, "SMsgLogToFile", 0);
-	opt.SMsgLogToDB = db_get_b(0, MODULE, "SMsgLogToDB", 0);
-	opt.SMsgLogToDB_WinOpen = db_get_b(0, MODULE, "SMsgLogToDB_WinOpen", 1);
-	opt.SMsgLogToDB_Remove = db_get_b(0, MODULE, "SMsgLogToDB_Remove", 0);
+	opt.LogToFile = g_plugin.getByte("LogToFile", 0);
+	opt.LogToDB = g_plugin.getByte("LogToDB", 0);
+	opt.LogToDB_WinOpen = g_plugin.getByte("LogToDB_WinOpen", 1);
+	opt.LogToDB_Remove = g_plugin.getByte("LogToDB_Remove", 0);
+	opt.LogPrevious = g_plugin.getByte("LogToPrevious", 0);
+	opt.SMsgLogToFile = g_plugin.getByte("SMsgLogToFile", 0);
+	opt.SMsgLogToDB = g_plugin.getByte("SMsgLogToDB", 0);
+	opt.SMsgLogToDB_WinOpen = g_plugin.getByte("SMsgLogToDB_WinOpen", 1);
+	opt.SMsgLogToDB_Remove = g_plugin.getByte("SMsgLogToDB_Remove", 0);
 	// IDD_OPT_XLOG
-	opt.XLogToFile = db_get_b(0, MODULE, "XLogToFile", 0);
-	opt.XLogToDB = db_get_b(0, MODULE, "XLogToDB", 0);
-	opt.XLogToDB_WinOpen = db_get_b(0, MODULE, "XLogToDB_WinOpen", 1);
-	opt.XLogToDB_Remove = db_get_b(0, MODULE, "XLogToDB_Remove", 0);
-	opt.XLogDisableForMusic = db_get_b(0, MODULE, "XLogDisableForMusic", 1);
+	opt.XLogToFile = g_plugin.getByte("XLogToFile", 0);
+	opt.XLogToDB = g_plugin.getByte("XLogToDB", 0);
+	opt.XLogToDB_WinOpen = g_plugin.getByte("XLogToDB_WinOpen", 1);
+	opt.XLogToDB_Remove = g_plugin.getByte("XLogToDB_Remove", 0);
+	opt.XLogDisableForMusic = g_plugin.getByte("XLogDisableForMusic", 1);
 	// IDD_OPT_SMPOPUP
-	opt.PSMsgOnConnect = db_get_b(0, MODULE, "PSMsgOnConnect", 0);
-	opt.PSMsgTruncate = db_get_b(0, MODULE, "PSMsgTruncate", 0);
-	opt.PSMsgLen = db_get_dw(0, MODULE, "PSMsgLen", 64);
+	opt.PSMsgOnConnect = g_plugin.getByte("PSMsgOnConnect", 0);
+	opt.PSMsgTruncate = g_plugin.getByte("PSMsgTruncate", 0);
+	opt.PSMsgLen = g_plugin.getDword("PSMsgLen", 64);
 	// OTHER
-	opt.TempDisabled = db_get_b(0, MODULE, "TempDisable", 0);
-	opt.EnableLastSeen = db_get_b(0, MODULE, "EnableLastSeen", 0);
+	opt.TempDisabled = g_plugin.getByte("TempDisable", 0);
+	opt.EnableLastSeen = g_plugin.getByte("EnableLastSeen", 0);
 
 	LoadTemplates();
 }
 
 void SaveTemplates()
 {
-	db_set_ws(0, MODULE, "TPopupXChanged", templates.PopupXstatusChanged);
-	db_set_ws(0, MODULE, "TPopupXRemoved", templates.PopupXstatusRemoved);
-	db_set_ws(0, MODULE, "TPopupXMsgChanged", templates.PopupXMsgChanged);
-	db_set_ws(0, MODULE, "TPopupXMsgRemoved", templates.PopupXMsgRemoved);
+	g_plugin.setWString("TPopupXChanged", templates.PopupXstatusChanged);
+	g_plugin.setWString("TPopupXRemoved", templates.PopupXstatusRemoved);
+	g_plugin.setWString("TPopupXMsgChanged", templates.PopupXMsgChanged);
+	g_plugin.setWString("TPopupXMsgRemoved", templates.PopupXMsgRemoved);
 
-	db_set_ws(0, MODULE, "TLogXChanged", templates.LogXstatusChanged);
-	db_set_ws(0, MODULE, "TLogXRemoved", templates.LogXstatusRemoved);
-	db_set_ws(0, MODULE, "TLogXMsgChanged", templates.LogXMsgChanged);
-	db_set_ws(0, MODULE, "TLogXMsgRemoved", templates.LogXMsgRemoved);
-	db_set_ws(0, MODULE, "TLogXOpening", templates.LogXstatusOpening);
+	g_plugin.setWString("TLogXChanged", templates.LogXstatusChanged);
+	g_plugin.setWString("TLogXRemoved", templates.LogXstatusRemoved);
+	g_plugin.setWString("TLogXMsgChanged", templates.LogXMsgChanged);
+	g_plugin.setWString("TLogXMsgRemoved", templates.LogXMsgRemoved);
+	g_plugin.setWString("TLogXOpening", templates.LogXstatusOpening);
 
-	db_set_ws(0, MODULE, "TLogSMsgChanged", templates.LogSMsgChanged);
-	db_set_ws(0, MODULE, "TLogSMsgRemoved", templates.LogSMsgRemoved);
-	db_set_ws(0, MODULE, "TLogSMsgOpening", templates.LogSMsgOpening);
+	g_plugin.setWString("TLogSMsgChanged", templates.LogSMsgChanged);
+	g_plugin.setWString("TLogSMsgRemoved", templates.LogSMsgRemoved);
+	g_plugin.setWString("TLogSMsgOpening", templates.LogSMsgOpening);
 
-	db_set_b(0, MODULE, "TPopupXFlags", templates.PopupXFlags);
-	db_set_b(0, MODULE, "TPopupSMsgFlags", templates.PopupSMsgFlags);
-	db_set_b(0, MODULE, "TLogXFlags", templates.LogXFlags);
-	db_set_b(0, MODULE, "TLogSMsgFlags", templates.LogSMsgFlags);
+	g_plugin.setByte("TPopupXFlags", templates.PopupXFlags);
+	g_plugin.setByte("TPopupSMsgFlags", templates.PopupSMsgFlags);
+	g_plugin.setByte("TLogXFlags", templates.LogXFlags);
+	g_plugin.setByte("TLogSMsgFlags", templates.LogSMsgFlags);
 
 	for (auto &it : ProtoTemplates) {
 		char str[MAX_PATH];
 		mir_snprintf(str, "%s_TPopupSMsgChanged", it->ProtoName);
-		db_set_ws(0, MODULE, str, it->ProtoTemplateMsg);
+		g_plugin.setWString(str, it->ProtoTemplateMsg);
 		mir_snprintf(str, "%s_TPopupSMsgRemoved", it->ProtoName);
-		db_set_ws(0, MODULE, str, it->ProtoTemplateRemoved);
+		g_plugin.setWString(str, it->ProtoTemplateRemoved);
 	}
 }
 
 void SaveOptions()
 {
 	// IDD_OPT_POPUP
-	db_set_b(0, MODULE, "Colors", opt.Colors);
-	db_set_b(0, MODULE, "ShowGroup", opt.ShowGroup);
-	db_set_b(0, MODULE, "ShowStatus", opt.ShowStatus);
-	db_set_b(0, MODULE, "UseAlternativeText", opt.UseAlternativeText);
-	db_set_b(0, MODULE, "ShowPreviousStatus", opt.ShowPreviousStatus);
-	db_set_b(0, MODULE, "ReadAwayMsg", opt.ReadAwayMsg);
-	db_set_dw(0, MODULE, "PopupTimeout", opt.PopupTimeout);
-	db_set_dw(0, MODULE, "PopupConnectionTimeout", opt.PopupConnectionTimeout);
-	db_set_b(0, MODULE, "LeftClickAction", opt.LeftClickAction);
-	db_set_b(0, MODULE, "RightClickAction", opt.RightClickAction);
+	g_plugin.setByte("Colors", opt.Colors);
+	g_plugin.setByte("ShowGroup", opt.ShowGroup);
+	g_plugin.setByte("ShowStatus", opt.ShowStatus);
+	g_plugin.setByte("UseAlternativeText", opt.UseAlternativeText);
+	g_plugin.setByte("ShowPreviousStatus", opt.ShowPreviousStatus);
+	g_plugin.setByte("ReadAwayMsg", opt.ReadAwayMsg);
+	g_plugin.setDword("PopupTimeout", opt.PopupTimeout);
+	g_plugin.setDword("PopupConnectionTimeout", opt.PopupConnectionTimeout);
+	g_plugin.setByte("LeftClickAction", opt.LeftClickAction);
+	g_plugin.setByte("RightClickAction", opt.RightClickAction);
 	// IDD_OPT_XPOPUP
-	db_set_b(0, MODULE, "PXOnConnect", opt.PXOnConnect);
-	db_set_b(0, MODULE, "PXDisableForMusic", opt.PXDisableForMusic);
-	db_set_b(0, MODULE, "PXMsgTruncate", opt.PXMsgTruncate);
-	db_set_dw(0, MODULE, "PXMsgLen", opt.PXMsgLen);
+	g_plugin.setByte("PXOnConnect", opt.PXOnConnect);
+	g_plugin.setByte("PXDisableForMusic", opt.PXDisableForMusic);
+	g_plugin.setByte("PXMsgTruncate", opt.PXMsgTruncate);
+	g_plugin.setDword("PXMsgLen", opt.PXMsgLen);
 	// IDD_OPT_GENERAL
-	db_set_b(0, MODULE, "FromOffline", opt.FromOffline);
-	db_set_b(0, MODULE, "AutoDisable", opt.AutoDisable);
-	db_set_b(0, MODULE, "HiddenContactsToo", opt.HiddenContactsToo);
-	db_set_b(0, MODULE, "UseIndSounds", opt.UseIndSnd);
-	db_set_b(0, MODULE, "BlinkIcon", opt.BlinkIcon);
-	db_set_b(0, MODULE, "BlinkIcon_Status", opt.BlinkIcon_Status);
-	db_set_b(0, MODULE, "BlinkIcon_ForMsgs", opt.BlinkIcon_ForMsgs);
-	db_set_ws(0, MODULE, "LogFilePath", opt.LogFilePath);
+	g_plugin.setByte("FromOffline", opt.FromOffline);
+	g_plugin.setByte("AutoDisable", opt.AutoDisable);
+	g_plugin.setByte("HiddenContactsToo", opt.HiddenContactsToo);
+	g_plugin.setByte("UseIndSounds", opt.UseIndSnd);
+	g_plugin.setByte("BlinkIcon", opt.BlinkIcon);
+	g_plugin.setByte("BlinkIcon_Status", opt.BlinkIcon_Status);
+	g_plugin.setByte("BlinkIcon_ForMsgs", opt.BlinkIcon_ForMsgs);
+	g_plugin.setWString("LogFilePath", opt.LogFilePath);
 	// IDD_AUTODISABLE
-	db_set_b(0, MODULE, "OnlyGlobalChanges", opt.OnlyGlobalChanges);
-	db_set_b(0, MODULE, "DisablePopupGlobally", opt.DisablePopupGlobally);
-	db_set_b(0, MODULE, "DisableSoundGlobally", opt.DisableSoundGlobally);
+	g_plugin.setByte("OnlyGlobalChanges", opt.OnlyGlobalChanges);
+	g_plugin.setByte("DisablePopupGlobally", opt.DisablePopupGlobally);
+	g_plugin.setByte("DisableSoundGlobally", opt.DisableSoundGlobally);
 	// IDD_OPT_LOG
-	db_set_b(0, MODULE, "LogToFile", opt.LogToFile);
-	db_set_b(0, MODULE, "LogToDB", opt.LogToDB);
-	db_set_b(0, MODULE, "LogToDB_WinOpen", opt.LogToDB_WinOpen);
-	db_set_b(0, MODULE, "LogToDB_Remove", opt.LogToDB_Remove);
-	db_set_b(0, MODULE, "LogPrevious", opt.LogPrevious);
-	db_set_b(0, MODULE, "SMsgLogToFile", opt.SMsgLogToFile);
-	db_set_b(0, MODULE, "SMsgLogToDB", opt.SMsgLogToDB);
-	db_set_b(0, MODULE, "SMsgLogToDB_WinOpen", opt.SMsgLogToDB_WinOpen);
-	db_set_b(0, MODULE, "SMsgLogToDB_Remove", opt.SMsgLogToDB_Remove);
+	g_plugin.setByte("LogToFile", opt.LogToFile);
+	g_plugin.setByte("LogToDB", opt.LogToDB);
+	g_plugin.setByte("LogToDB_WinOpen", opt.LogToDB_WinOpen);
+	g_plugin.setByte("LogToDB_Remove", opt.LogToDB_Remove);
+	g_plugin.setByte("LogPrevious", opt.LogPrevious);
+	g_plugin.setByte("SMsgLogToFile", opt.SMsgLogToFile);
+	g_plugin.setByte("SMsgLogToDB", opt.SMsgLogToDB);
+	g_plugin.setByte("SMsgLogToDB_WinOpen", opt.SMsgLogToDB_WinOpen);
+	g_plugin.setByte("SMsgLogToDB_Remove", opt.SMsgLogToDB_Remove);
 	// IDD_OPT_XLOG
-	db_set_b(0, MODULE, "XLogToFile", opt.XLogToFile);
-	db_set_b(0, MODULE, "XLogToDB", opt.XLogToDB);
-	db_set_b(0, MODULE, "XLogToDB_WinOpen", opt.XLogToDB_WinOpen);
-	db_set_b(0, MODULE, "XLogToDB_Remove", opt.XLogToDB_Remove);
-	db_set_b(0, MODULE, "XLogDisableForMusic", opt.XLogDisableForMusic);
+	g_plugin.setByte("XLogToFile", opt.XLogToFile);
+	g_plugin.setByte("XLogToDB", opt.XLogToDB);
+	g_plugin.setByte("XLogToDB_WinOpen", opt.XLogToDB_WinOpen);
+	g_plugin.setByte("XLogToDB_Remove", opt.XLogToDB_Remove);
+	g_plugin.setByte("XLogDisableForMusic", opt.XLogDisableForMusic);
 	// IDD_OPT_SMPOPUP
-	db_set_b(0, MODULE, "PSMsgOnConnect", opt.PSMsgOnConnect);
-	db_set_b(0, MODULE, "PSMsgTruncate", opt.PSMsgTruncate);
-	db_set_dw(0, MODULE, "PSMsgLen", opt.PSMsgLen);
+	g_plugin.setByte("PSMsgOnConnect", opt.PSMsgOnConnect);
+	g_plugin.setByte("PSMsgTruncate", opt.PSMsgTruncate);
+	g_plugin.setDword("PSMsgLen", opt.PSMsgLen);
 }
 
 INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -217,7 +217,7 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			//Statuses notified
 			char status[8];
 			mir_snprintf(status, "%d", i);
-			CheckDlgButton(hwndDlg, i, db_get_b(0, MODULE, status, 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, i, g_plugin.getByte(status, 1) ? BST_CHECKED : BST_UNCHECKED);
 		}
 		CheckDlgButton(hwndDlg, IDC_CHK_FROMOFFLINE, opt.FromOffline ? BST_CHECKED : BST_UNCHECKED);
 
@@ -285,7 +285,7 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX2; i++) {
 				char status[8];
 				mir_snprintf(status, "%d", i);
-				db_set_b(0, MODULE, status, (BYTE)IsDlgButtonChecked(hwndDlg, i));
+				g_plugin.setByte(status, (BYTE)IsDlgButtonChecked(hwndDlg, i));
 			}
 			opt.FromOffline = IsDlgButtonChecked(hwndDlg, IDC_CHK_FROMOFFLINE);
 
@@ -417,12 +417,12 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				ctlColour = SendDlgItemMessage(hwndDlg, (i + 2000), CPM_GETCOLOUR, 0, 0);
 				StatusList[Index(i)].colorBack = SendDlgItemMessage(hwndDlg, (i + 2000), CPM_GETCOLOUR, 0, 0);
 				mir_snprintf(str, "%ibg", i);
-				db_set_dw(0, MODULE, str, ctlColour);
+				g_plugin.setDword(str, ctlColour);
 
 				ctlColour = SendDlgItemMessage(hwndDlg, (i + 1000), CPM_GETCOLOUR, 0, 0);
 				StatusList[Index(i)].colorText = ctlColour;
 				mir_snprintf(str, "%itx", i);
-				db_set_dw(0, MODULE, str, ctlColour);
+				g_plugin.setDword(str, ctlColour);
 			}
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_USEOWNCOLORS))
@@ -469,13 +469,13 @@ INT_PTR CALLBACK DlgProcAutoDisableOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++) {
 			char str[8];
 			mir_snprintf(str, "p%d", i);
-			CheckDlgButton(hwndDlg, i, db_get_b(0, MODULE, str, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, i, g_plugin.getByte(str, 0) ? BST_CHECKED : BST_UNCHECKED);
 		}
 
 		for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++) {
 			char str[8];
 			mir_snprintf(str, "s%d", i);
-			CheckDlgButton(hwndDlg, (i + 2000), db_get_b(0, MODULE, str, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, (i + 2000), g_plugin.getByte(str, 0) ? BST_CHECKED : BST_UNCHECKED);
 		}
 
 		return TRUE;
@@ -489,13 +489,13 @@ INT_PTR CALLBACK DlgProcAutoDisableOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++) {
 				char str[8];
 				mir_snprintf(str, "p%d", i);
-				db_set_b(0, MODULE, str, IsDlgButtonChecked(hwndDlg, i));
+				g_plugin.setByte(str, IsDlgButtonChecked(hwndDlg, i));
 			}
 
 			for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++) {
 				char str[8];
 				mir_snprintf(str, "s%d", i);
-				db_set_b(0, MODULE, str, IsDlgButtonChecked(hwndDlg, i + 2000));
+				g_plugin.setByte(str, IsDlgButtonChecked(hwndDlg, i + 2000));
 			}
 
 			SaveOptions();
@@ -702,7 +702,7 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					DBVARIANT dbVar = { 0 };
 					char protoname[MAX_PATH] = { 0 };
 					mir_snprintf(protoname, "%s_TPopupSMsgChanged", pa->szModuleName);
-					if (db_get_ws(NULL, MODULE, protoname, &dbVar))
+					if (g_plugin.getWString(protoname, &dbVar))
 						wcsncpy(prototemplate->ProtoTemplateMsg, DEFAULT_POPUP_SMSGCHANGED, _countof(prototemplate->ProtoTemplateMsg));
 					else {
 						wcsncpy(prototemplate->ProtoTemplateMsg, dbVar.pwszVal, _countof(prototemplate->ProtoTemplateMsg));
@@ -710,7 +710,7 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					}
 
 					mir_snprintf(protoname, "%s_TPopupSMsgRemoved", pa->szModuleName);
-					if (db_get_ws(NULL, MODULE, protoname, &dbVar))
+					if (g_plugin.getWString(protoname, &dbVar))
 						wcsncpy(prototemplate->ProtoTemplateRemoved, DEFAULT_POPUP_SMSGREMOVED, _countof(prototemplate->ProtoTemplateRemoved));
 					else {
 						wcsncpy(prototemplate->ProtoTemplateRemoved, dbVar.pwszVal, _countof(prototemplate->ProtoTemplateRemoved));
@@ -722,7 +722,7 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 					char dbSetting[128];
 					mir_snprintf(dbSetting, "%s_enabled", pa->szModuleName);
-					ListView_SetCheckState(hList, lvItem.iItem, db_get_b(0, MODULE, dbSetting, TRUE));
+					ListView_SetCheckState(hList, lvItem.iItem, g_plugin.getByte(dbSetting, TRUE));
 					lvItem.iItem++;
 				}
 			}
@@ -830,7 +830,7 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 				char dbSetting[128];
 				mir_snprintf(dbSetting, "%s_enabled", (char *)lvItem.lParam);
-				db_set_b(0, MODULE, dbSetting, (BYTE)ListView_GetCheckState(hList, lvItem.iItem));
+				g_plugin.setByte(dbSetting, (BYTE)ListView_GetCheckState(hList, lvItem.iItem));
 			}
 		}
 

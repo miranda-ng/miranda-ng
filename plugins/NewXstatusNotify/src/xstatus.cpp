@@ -286,10 +286,10 @@ void LogChangeToDB(XSTATUSCHANGE *xsc)
 
 	wchar_t stzLastLog[2 * MAX_TEXT_LEN];
 	CMStringW stzLogText(ReplaceVars(xsc, Template));
-	DBGetStringDefault(xsc->hContact, MODULE, DB_LASTLOG, stzLastLog, _countof(stzLastLog), L"");
+	DBGetStringDefault(xsc->hContact, DB_LASTLOG, stzLastLog, _countof(stzLastLog), L"");
 
 	if (opt.XLogToDB) {
-		db_set_ws(xsc->hContact, MODULE, DB_LASTLOG, stzLogText);
+		g_plugin.setWString(xsc->hContact, DB_LASTLOG, stzLogText);
 
 		T2Utf blob(stzLogText);
 
@@ -299,7 +299,7 @@ void LogChangeToDB(XSTATUSCHANGE *xsc)
 		dbei.eventType = EVENTTYPE_STATUSCHANGE;
 		dbei.flags = DBEF_READ | DBEF_UTF;
 		dbei.timestamp = (DWORD)time(0);
-		dbei.szModule = MODULE;
+		dbei.szModule = MODULENAME;
 		MEVENT hDBEvent = db_event_add(xsc->hContact, &dbei);
 
 		if (opt.XLogToDB_WinOpen && opt.XLogToDB_Remove) {
@@ -348,7 +348,7 @@ void ExtraStatusChanged(XSTATUSCHANGE *xsc)
 
 	char buff[12] = { 0 };
 	mir_snprintf(buff, "%d", ID_STATUS_EXTRASTATUS);
-	if ((db_get_b(0, MODULE, buff, 1) == 0)
+	if ((g_plugin.getByte(buff, 1) == 0)
 		|| (db_get_w(xsc->hContact, xsc->szProto, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 		|| (!opt.HiddenContactsToo && (db_get_b(xsc->hContact, "CList", "Hidden", 0) == 1))
 		|| (Proto_GetStatus(xsc->szProto) == ID_STATUS_OFFLINE))
@@ -358,7 +358,7 @@ void ExtraStatusChanged(XSTATUSCHANGE *xsc)
 	}
 
 	// check per-contact ignored events
-	if (db_get_b(xsc->hContact, MODULE, "EnableXStatusNotify", 1) == 0)
+	if (g_plugin.getByte(xsc->hContact, "EnableXStatusNotify", 1) == 0)
 		bEnableSound = bEnablePopup = false;
 
 	// check if our status isn't on autodisable list
@@ -367,24 +367,24 @@ void ExtraStatusChanged(XSTATUSCHANGE *xsc)
 		int myStatus = Proto_GetStatus(xsc->szProto);
 		mir_snprintf(statusIDs, "s%d", myStatus);
 		mir_snprintf(statusIDp, "p%d", myStatus);
-		bEnableSound = db_get_b(0, MODULE, statusIDs, 1) ? FALSE : bEnableSound;
-		bEnablePopup = db_get_b(0, MODULE, statusIDp, 1) ? FALSE : bEnablePopup;
+		bEnableSound = g_plugin.getByte(statusIDs, 1) ? FALSE : bEnableSound;
+		bEnablePopup = g_plugin.getByte(statusIDp, 1) ? FALSE : bEnablePopup;
 	}
 
 	if (!(templates.PopupXFlags & xsc->action))
 		bEnablePopup = false;
 
-	if (db_get_b(0, MODULE, xsc->szProto, 1) == 0 && !opt.PXOnConnect)
+	if (g_plugin.getByte(xsc->szProto, 1) == 0 && !opt.PXOnConnect)
 		bEnablePopup = false;
 
 	int xstatusID = db_get_b(xsc->hContact, xsc->szProto, "XStatusId", 0);
 	if (opt.PXDisableForMusic && xsc->type == TYPE_ICQ_XSTATUS && xstatusID == XSTATUS_MUSIC)
 		bEnableSound = bEnablePopup = false;
 
-	if (bEnablePopup && db_get_b(xsc->hContact, MODULE, "EnablePopups", 1) && !opt.TempDisabled)
+	if (bEnablePopup && g_plugin.getByte(xsc->hContact, "EnablePopups", 1) && !opt.TempDisabled)
 		ShowXStatusPopup(xsc);
 
-	if (bEnableSound && db_get_b(0, "Skin", "UseSound", 1) && db_get_b(xsc->hContact, MODULE, "EnableSounds", 1) && !opt.TempDisabled)
+	if (bEnableSound && db_get_b(0, "Skin", "UseSound", 1) && g_plugin.getByte(xsc->hContact, "EnableSounds", 1) && !opt.TempDisabled)
 		PlayXStatusSound(xsc->hContact, xsc->action);
 
 	if (opt.BlinkIcon && opt.BlinkIcon_ForMsgs && !opt.TempDisabled)
@@ -396,10 +396,10 @@ void ExtraStatusChanged(XSTATUSCHANGE *xsc)
 	if (!(templates.LogXFlags & xsc->action))
 		bEnableLog = false;
 
-	if (bEnableLog && db_get_b(xsc->hContact, MODULE, "EnableXLogging", 1))
+	if (bEnableLog && g_plugin.getByte(xsc->hContact, "EnableXLogging", 1))
 		LogChangeToDB(xsc);
 
-	if (opt.XLogToFile && db_get_b(xsc->hContact, MODULE, "EnableXLogging", 1))
+	if (opt.XLogToFile && g_plugin.getByte(xsc->hContact, "EnableXLogging", 1))
 		LogChangeToFile(xsc);
 
 	FreeXSC(xsc);
@@ -526,10 +526,10 @@ int OnWindowEvent(WPARAM, LPARAM lParam)
 			RemoveLoggedEventsSMsg(mwed->hContact);
 	}
 	else if (mwed->uType == MSG_WINDOW_EVT_OPEN) {
-		if (opt.XLogToDB && (templates.LogXFlags & NOTIFY_OPENING_ML) && db_get_b(mwed->hContact, MODULE, "EnableXLogging", 1))
+		if (opt.XLogToDB && (templates.LogXFlags & NOTIFY_OPENING_ML) && g_plugin.getByte(mwed->hContact, "EnableXLogging", 1))
 			mir_forkthread(AddXStatusEventThread, (void *)mwed->hContact);
 
-		if (opt.SMsgLogToDB && (templates.LogSMsgFlags & NOTIFY_OPENING_ML) && db_get_b(mwed->hContact, MODULE, "EnableSMsgLogging", 1))
+		if (opt.SMsgLogToDB && (templates.LogSMsgFlags & NOTIFY_OPENING_ML) && g_plugin.getByte(mwed->hContact, "EnableSMsgLogging", 1))
 			mir_forkthread(AddSMsgEventThread, (void *)mwed->hContact);
 	}
 	return 0;

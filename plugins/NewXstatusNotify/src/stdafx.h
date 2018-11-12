@@ -66,7 +66,7 @@
 #include "version.h"
 #include "xstatus.h"
 
-#define MODULE "NewStatusNotify"
+#define MODULENAME "NewStatusNotify"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {

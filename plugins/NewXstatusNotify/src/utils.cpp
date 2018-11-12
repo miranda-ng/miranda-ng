@@ -34,16 +34,16 @@ bool CheckMsgWnd(MCONTACT hContact)
 	return false;
 }
 
-int DBGetStringDefault(MCONTACT hContact, const char *szModule, const char *szSetting, wchar_t *setting, int size, const wchar_t *defaultValue)
+int DBGetStringDefault(MCONTACT hContact, const char *szSetting, wchar_t *setting, int size, const wchar_t *defaultValue)
 {
 	DBVARIANT dbv;
-	if (!db_get_ws(hContact, szModule, szSetting, &dbv)) {
-		wcsncpy(setting, dbv.pwszVal, size);
+	if (!g_plugin.getWString(hContact, szSetting, &dbv)) {
+		wcsncpy_s(setting, size, dbv.pwszVal, _TRUNCATE);
 		db_free(&dbv);
 		return 0;
 	}
 
-	wcsncpy(setting, defaultValue, size);
+	wcsncpy_s(setting, size, defaultValue, _TRUNCATE);
 	return 1;
 }
 

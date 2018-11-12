@@ -149,7 +149,7 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						lvi.pszText = TranslateW(StatusList[Index(i)].lpzSkinSoundDesc);
 						lvi.iItem = ListView_InsertItem(hList, &lvi);
 
-						if (!db_get_ws(hContact, MODULE, StatusList[Index(i)].lpzSkinSoundName, &dbv)) {
+						if (!g_plugin.getWString(hContact, StatusList[Index(i)].lpzSkinSoundName, &dbv)) {
 							mir_wstrcpy(buff, dbv.pwszVal);
 							db_free(&dbv);
 						}
@@ -169,7 +169,7 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					lvi.pszText = TranslateW(StatusListEx[i].lpzSkinSoundDesc);
 					lvi.iItem = ListView_InsertItem(hList, &lvi);
 
-					if (!db_get_ws(hContact, MODULE, StatusList[i].lpzSkinSoundName, &dbv)) {
+					if (!g_plugin.getWString(hContact, StatusList[i].lpzSkinSoundName, &dbv)) {
 						wcsncpy(buff, dbv.pwszVal, _countof(buff)-1);
 						db_free(&dbv);
 					}
@@ -179,8 +179,8 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				}
 			}
 
-			CheckDlgButton(hwndDlg, IDC_CHECK_NOTIFYSOUNDS, db_get_b(hContact, MODULE, "EnableSounds", 1) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHECK_NOTIFYPOPUPS, db_get_b(hContact, MODULE, "EnablePopups", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHECK_NOTIFYSOUNDS, g_plugin.getByte(hContact, "EnableSounds", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHECK_NOTIFYPOPUPS, g_plugin.getByte(hContact, "EnablePopups", 1) ? BST_CHECKED : BST_UNCHECKED);
 
 			ShowWindow(GetDlgItem(hwndDlg, IDC_INDSNDLIST), opt.UseIndSnd ? SW_SHOW : SW_HIDE);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_TEXT_ENABLE_IS), opt.UseIndSnd ? SW_HIDE : SW_SHOW);
@@ -217,10 +217,10 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 		case IDC_CHECK_NOTIFYSOUNDS:
-			db_set_b(hContact, MODULE, "EnableSounds", IsDlgButtonChecked(hwndDlg, IDC_CHECK_NOTIFYSOUNDS) ? 1 : 0);
+			g_plugin.setByte(hContact, "EnableSounds", IsDlgButtonChecked(hwndDlg, IDC_CHECK_NOTIFYSOUNDS) ? 1 : 0);
 			break;
 		case IDC_CHECK_NOTIFYPOPUPS:
-			db_set_b(hContact, MODULE, "EnablePopups", IsDlgButtonChecked(hwndDlg, IDC_CHECK_NOTIFYPOPUPS) ? 1 : 0);
+			g_plugin.setByte(hContact, "EnablePopups", IsDlgButtonChecked(hwndDlg, IDC_CHECK_NOTIFYPOPUPS) ? 1 : 0);
 			break;
 		}
 		break;
@@ -238,17 +238,17 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 				if (!mir_wstrcmp(buff, TranslateW(DEFAULT_SOUND))) {
 					if (lvi.lParam < ID_STATUS_MIN)
-						db_unset(hContact, MODULE, StatusListEx[lvi.lParam].lpzSkinSoundName);
+						g_plugin.delSetting(hContact, StatusListEx[lvi.lParam].lpzSkinSoundName);
 					else
-						db_unset(hContact, MODULE, StatusList[Index(lvi.lParam)].lpzSkinSoundName);
+						g_plugin.delSetting(hContact, StatusList[Index(lvi.lParam)].lpzSkinSoundName);
 				}
 				else {
 					wchar_t stzSoundPath[MAX_PATH] = { 0 };
 					PathToRelativeW(buff, stzSoundPath);
 					if (lvi.lParam < ID_STATUS_MIN)
-						db_set_ws(hContact, MODULE, StatusListEx[lvi.lParam].lpzSkinSoundName, stzSoundPath);
+						g_plugin.setWString(hContact, StatusListEx[lvi.lParam].lpzSkinSoundName, stzSoundPath);
 					else
-						db_set_ws(hContact, MODULE, StatusList[Index(lvi.lParam)].lpzSkinSoundName, stzSoundPath);
+						g_plugin.setWString(hContact, StatusList[Index(lvi.lParam)].lpzSkinSoundName, stzSoundPath);
 				}
 			}
 
@@ -306,12 +306,12 @@ void SetAllContactsIcons(HWND hwndList)
 		if (hItem) {
 			char *szProto = GetContactProto(hContact);
 			if (szProto) {
-				EnableSounds = db_get_b(hContact, MODULE, "EnableSounds", 1);
-				EnablePopups = db_get_b(hContact, MODULE, "EnablePopups", 1);
-				EnableXStatus = db_get_b(hContact, MODULE, "EnableXStatusNotify", 1);
-				EnableXLogging = db_get_b(hContact, MODULE, "EnableXLogging", 1);
-				EnableStatusMsg = db_get_b(hContact, MODULE, "EnableSMsgNotify", 1);
-				EnableSMsgLogging = db_get_b(hContact, MODULE, "EnableSMsgLogging", 1);
+				EnableSounds = g_plugin.getByte(hContact, "EnableSounds", 1);
+				EnablePopups = g_plugin.getByte(hContact, "EnablePopups", 1);
+				EnableXStatus = g_plugin.getByte(hContact, "EnableXStatusNotify", 1);
+				EnableXLogging = g_plugin.getByte(hContact, "EnableXLogging", 1);
+				EnableStatusMsg = g_plugin.getByte(hContact, "EnableSMsgNotify", 1);
+				EnableSMsgLogging = g_plugin.getByte(hContact, "EnableSMsgLogging", 1);
 			}
 			else
 				EnableSounds = EnablePopups = EnableXStatus = EnableXLogging = EnableStatusMsg = EnableSMsgLogging = 0;
@@ -546,34 +546,34 @@ INT_PTR CALLBACK DlgProcFiltering(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 					HANDLE hItem = (HANDLE)SendMessage(hList, CLM_FINDCONTACT, hContact, 0);
 					if (hItem) {
 						if (GetExtraImage(hList, hItem, EXTRA_IMAGE_SOUND) == EXTRA_IMAGE_SOUND)
-							db_unset(hContact, MODULE, "EnableSounds");
+							g_plugin.delSetting(hContact, "EnableSounds");
 						else
-							db_set_b(hContact, MODULE, "EnableSounds", 0);
+							g_plugin.setByte(hContact, "EnableSounds", 0);
 
 						if (GetExtraImage(hList, hItem, EXTRA_IMAGE_POPUP) == EXTRA_IMAGE_POPUP)
-							db_unset(hContact, MODULE, "EnablePopups");
+							g_plugin.delSetting(hContact, "EnablePopups");
 						else
-							db_set_b(hContact, MODULE, "EnablePopups", 0);
+							g_plugin.setByte(hContact, "EnablePopups", 0);
 
 						if (GetExtraImage(hList, hItem, EXTRA_IMAGE_XSTATUS) == EXTRA_IMAGE_XSTATUS)
-							db_unset(hContact, MODULE, "EnableXStatusNotify");
+							g_plugin.delSetting(hContact, "EnableXStatusNotify");
 						else
-							db_set_b(hContact, MODULE, "EnableXStatusNotify", 0);
+							g_plugin.setByte(hContact, "EnableXStatusNotify", 0);
 
 						if (GetExtraImage(hList, hItem, EXTRA_IMAGE_XLOGGING) == EXTRA_IMAGE_XLOGGING)
-							db_unset(hContact, MODULE, "EnableXLogging");
+							g_plugin.delSetting(hContact, "EnableXLogging");
 						else
-							db_set_b(hContact, MODULE, "EnableXLogging", 0);
+							g_plugin.setByte(hContact, "EnableXLogging", 0);
 
 						if (GetExtraImage(hList, hItem, EXTRA_IMAGE_STATUSMSG) == EXTRA_IMAGE_STATUSMSG)
-							db_unset(hContact, MODULE, "EnableSMsgNotify");
+							g_plugin.delSetting(hContact, "EnableSMsgNotify");
 						else
-							db_set_b(hContact, MODULE, "EnableSMsgNotify", 0);
+							g_plugin.setByte(hContact, "EnableSMsgNotify", 0);
 
 						if (GetExtraImage(hList, hItem, EXTRA_IMAGE_SMSGLOGGING) == EXTRA_IMAGE_SMSGLOGGING)
-							db_unset(hContact, MODULE, "EnableSMsgLogging");
+							g_plugin.delSetting(hContact, "EnableSMsgLogging");
 						else
-							db_set_b(hContact, MODULE, "EnableSMsgLogging", 0);
+							g_plugin.setByte(hContact, "EnableSMsgLogging", 0);
 					}
 				}
 				return TRUE;

@@ -76,7 +76,7 @@ static int AwayMsgHook(WPARAM, LPARAM lParam, LPARAM pObj)
 		return 0;
 
 	MCONTACT hContact = PUGetContact(pdp->hWnd);
-	ptrW pstzLast(db_get_wsa(hContact, MODULE, "LastPopupText"));
+	ptrW pstzLast(g_plugin.getWStringA(hContact, "LastPopupText"));
 
 	wchar_t *tszStatus = (wchar_t *)ack->lParam;
 	if (tszStatus == nullptr || *tszStatus == 0)

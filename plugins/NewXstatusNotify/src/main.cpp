@@ -69,7 +69,7 @@ PLUGININFOEX pluginInfoEx =
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULE, pluginInfoEx)
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -100,7 +100,7 @@ BYTE GetGender(MCONTACT hContact)
 HANDLE GetIconHandle(char *szIcon)
 {
 	char szSettingName[64];
-	mir_snprintf(szSettingName, "%s_%s", MODULE, szIcon);
+	mir_snprintf(szSettingName, "%s_%s", MODULENAME, szIcon);
 	return IcoLib_GetIconHandle(szSettingName);
 }
 
@@ -285,7 +285,7 @@ void LogSMsgToDB(STATUSMSGINFO *smi, const wchar_t *tmplt)
 	dbei.flags = DBEF_READ | DBEF_UTF;
 
 	dbei.timestamp = (DWORD)time(0);
-	dbei.szModule = MODULE;
+	dbei.szModule = MODULENAME;
 	MEVENT hDBEvent = db_event_add(smi->hContact, &dbei);
 
 	if (opt.SMsgLogToDB_WinOpen && opt.SMsgLogToDB_Remove) {
@@ -338,7 +338,7 @@ void PlayChangeSound(MCONTACT hContact, const char *name)
 	if (opt.UseIndSnd) {
 		DBVARIANT dbv;
 		wchar_t stzSoundFile[MAX_PATH] = { 0 };
-		if (!db_get_ws(hContact, MODULE, name, &dbv)) {
+		if (!g_plugin.getWString(hContact, name, &dbv)) {
 			wcsncpy(stzSoundFile, dbv.pwszVal, _countof(stzSoundFile) - 1);
 			db_free(&dbv);
 		}
@@ -370,7 +370,7 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 		dbei.flags = DBEF_READ | DBEF_UTF;
 
 		dbei.timestamp = (DWORD)time(0);
-		dbei.szModule = MODULE;
+		dbei.szModule = MODULENAME;
 		MEVENT hDBEvent = db_event_add(hContact, &dbei);
 
 		if (opt.LogToDB_WinOpen && opt.LogToDB_Remove) {
@@ -403,20 +403,20 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 		else
 			db_set_s(hContact, szProto, "LastOnline", szSubProto);
 
-		if (db_get_b(0, MODULE, szSubProto, 1) == 0)
+		if (g_plugin.getByte(szSubProto, 1) == 0)
 			return 0;
 
 		szProto = szSubProto;
 	}
 	else {
-		if (myStatus == ID_STATUS_OFFLINE || db_get_b(0, MODULE, szProto, 1) == 0)
+		if (myStatus == ID_STATUS_OFFLINE || g_plugin.getByte(szProto, 1) == 0)
 			return 0;
 	}
 
 	if (!opt.FromOffline || oldStatus != ID_STATUS_OFFLINE) { // Either it wasn't a change from Offline or we didn't enable that.
 		char buff[8];
 		mir_snprintf(buff, "%d", newStatus);
-		if (db_get_b(0, MODULE, buff, 1) == 0)
+		if (g_plugin.getByte(buff, 1) == 0)
 			return 0; // "Notify when a contact changes to one of..." is unchecked
 	}
 
@@ -428,18 +428,18 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 		char statusIDs[12], statusIDp[12];
 		mir_snprintf(statusIDs, "s%d", myStatus);
 		mir_snprintf(statusIDp, "p%d", myStatus);
-		bEnableSound = db_get_b(0, MODULE, statusIDs, 1) ? FALSE : TRUE;
-		bEnablePopup = db_get_b(0, MODULE, statusIDp, 1) ? FALSE : TRUE;
+		bEnableSound = g_plugin.getByte(statusIDs, 1) ? FALSE : TRUE;
+		bEnablePopup = g_plugin.getByte(statusIDp, 1) ? FALSE : TRUE;
 	}
 
-	if (bEnablePopup && db_get_b(hContact, MODULE, "EnablePopups", 1) && !opt.TempDisabled) {
+	if (bEnablePopup && g_plugin.getByte(hContact, "EnablePopups", 1) && !opt.TempDisabled) {
 		int wStatus = Proto_GetStatus(szProto);
 		wchar_t str[MAX_SECONDLINE] = { 0 };
 		if (opt.ShowStatus)
 			GetStatusText(hContact, newStatus, oldStatus, str);
 
 		if (opt.ReadAwayMsg && wStatus != ID_STATUS_INVISIBLE && StatusHasAwayMessage(szProto, newStatus))
-			db_set_ws(hContact, MODULE, "LastPopupText", str);
+			g_plugin.setWString(hContact, "LastPopupText", str);
 
 		PLUGINDATA *pdp = (PLUGINDATA *)mir_calloc(sizeof(PLUGINDATA));
 		pdp->oldStatus = oldStatus;
@@ -456,7 +456,7 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 		BlinkIcon(hContact, hIcon, str);
 	}
 
-	if (bEnableSound && db_get_b(0, "Skin", "UseSound", TRUE) && db_get_b(hContact, MODULE, "EnableSounds", 1) && !opt.TempDisabled) {
+	if (bEnableSound && db_get_b(0, "Skin", "UseSound", TRUE) && g_plugin.getByte(hContact, "EnableSounds", 1) && !opt.TempDisabled) {
 		if (oldStatus == ID_STATUS_OFFLINE)
 			PlayChangeSound(hContact, StatusListEx[ID_STATUS_FROMOFFLINE].lpzSkinSoundName);
 		else
@@ -651,7 +651,7 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 	}
 
 	// check per-contact ignored events
-	if (db_get_b(hContact, MODULE, "EnableSMsgNotify", 1) == 0)
+	if (g_plugin.getByte(hContact, "EnableSMsgNotify", 1) == 0)
 		bEnableSound = bEnablePopup = false;
 
 	// we're offline or just connecting
@@ -662,11 +662,11 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 	char dbSetting[64];
 	mir_snprintf(dbSetting, "%s_enabled", szProto);
 	// this proto is not set for status message notifications
-	if (db_get_b(0, MODULE, dbSetting, 1) == 0)
+	if (g_plugin.getByte(dbSetting, 1) == 0)
 		goto skip_notify;
 	mir_snprintf(dbSetting, "%d", IDC_CHK_STATUS_MESSAGE);
 	// status message change notifications are disabled
-	if (db_get_b(0, MODULE, dbSetting, 1) == 0)
+	if (g_plugin.getByte(dbSetting, 1) == 0)
 		goto skip_notify;
 
 	if (SkipHiddenContact(hContact))
@@ -677,8 +677,8 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 		char statusIDs[12], statusIDp[12];
 		mir_snprintf(statusIDs, "s%d", myStatus);
 		mir_snprintf(statusIDp, "p%d", myStatus);
-		bEnableSound = db_get_b(0, MODULE, statusIDs, 1) ? FALSE : bEnableSound;
-		bEnablePopup = db_get_b(0, MODULE, statusIDp, 1) ? FALSE : bEnablePopup;
+		bEnableSound = g_plugin.getByte(statusIDs, 1) ? FALSE : bEnableSound;
+		bEnablePopup = g_plugin.getByte(statusIDp, 1) ? FALSE : bEnablePopup;
 	}
 
 	// check flags
@@ -686,10 +686,10 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 		|| (!(templates.PopupSMsgFlags & NOTIFY_NEW_MESSAGE) && (smi.compare == COMPARE_DIFF)))
 		bEnablePopup = false;
 
-	if (db_get_b(0, MODULE, szProto, 1) == 0 && !opt.PSMsgOnConnect)
+	if (g_plugin.getByte(szProto, 1) == 0 && !opt.PSMsgOnConnect)
 		bEnablePopup = false;
 
-	if (bEnablePopup && db_get_b(hContact, MODULE, "EnablePopups", 1) && !opt.TempDisabled) {
+	if (bEnablePopup && g_plugin.getByte(hContact, "EnablePopups", 1) && !opt.TempDisabled) {
 		// cut message if needed
 		wchar_t *copyText = nullptr;
 		if (opt.PSMsgTruncate && (opt.PSMsgLen > 0) && smi.newstatusmsg && (mir_wstrlen(smi.newstatusmsg) > opt.PSMsgLen)) {
@@ -706,7 +706,7 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 			char protoname[MAX_PATH];
 			mir_snprintf(protoname, "%s_TPopupSMsgRemoved", szProto);
 			DBVARIANT dbVar = { 0 };
-			if (db_get_ws(NULL, MODULE, protoname, &dbVar)) {
+			if (g_plugin.getWString(protoname, &dbVar)) {
 				str = GetStr(&smi, DEFAULT_POPUP_SMSGREMOVED);
 			}
 			else {
@@ -718,7 +718,7 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 			char protoname[MAX_PATH];
 			mir_snprintf(protoname, "%s_TPopupSMsgChanged", szProto);
 			DBVARIANT dbVar = { 0 };
-			if (db_get_ws(NULL, MODULE, protoname, &dbVar)) {
+			if (g_plugin.getWString(protoname, &dbVar)) {
 				str = GetStr(&smi, DEFAULT_POPUP_SMSGCHANGED);
 			}
 			else {
@@ -746,18 +746,18 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 		BlinkIcon(hContact, hIcon, str);
 	}
 
-	if (bEnableSound && db_get_b(0, "Skin", "UseSound", TRUE) && db_get_b(hContact, MODULE, "EnableSounds", 1) && !opt.TempDisabled) {
+	if (bEnableSound && db_get_b(0, "Skin", "UseSound", TRUE) && g_plugin.getByte(hContact, "EnableSounds", 1) && !opt.TempDisabled) {
 		if (smi.compare == COMPARE_DEL)
 			PlayChangeSound(hContact, StatusListEx[ID_STATUS_SMSGREMOVED].lpzSkinSoundName);
 		else
 			PlayChangeSound(hContact, StatusListEx[ID_STATUS_SMSGCHANGED].lpzSkinSoundName);
 	}
 
-	BOOL bEnableLog = opt.SMsgLogToDB && db_get_b(hContact, MODULE, "EnableSMsgLogging", 1);
+	BOOL bEnableLog = opt.SMsgLogToDB && g_plugin.getByte(hContact, "EnableSMsgLogging", 1);
 	if (bEnableLog && (!opt.SMsgLogToDB_WinOpen || CheckMsgWnd(hContact)))
 		LogSMsgToDB(&smi, smi.compare == COMPARE_DEL ? templates.LogSMsgRemoved : templates.LogSMsgChanged);
 
-	if (opt.SMsgLogToFile && db_get_b(hContact, MODULE, "EnableSMsgLogging", 1)) {
+	if (opt.SMsgLogToFile && g_plugin.getByte(hContact, "EnableSMsgLogging", 1)) {
 		wchar_t stzDate[MAX_STATUSTEXT], stzTime[MAX_STATUSTEXT], stzText[MAX_TEXT_LEN];
 
 		GetTimeFormat(LOCALE_USER_DEFAULT, 0, nullptr, L"HH':'mm", stzTime, _countof(stzTime));
@@ -813,19 +813,19 @@ int StatusModeChanged(WPARAM wParam, LPARAM lParam)
 		if (opt.DisablePopupGlobally && ServiceExists(MS_POPUP_QUERY)) {
 			char szSetting[12];
 			mir_snprintf(szSetting, "p%d", wParam);
-			BYTE hlpDisablePopup = db_get_b(0, MODULE, szSetting, 0);
+			BYTE hlpDisablePopup = g_plugin.getByte(szSetting, 0);
 
 			if (hlpDisablePopup != opt.PopupAutoDisabled) {
 				BYTE hlpPopupStatus = (BYTE)CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0);
 				opt.PopupAutoDisabled = hlpDisablePopup;
 
 				if (hlpDisablePopup) {
-					db_set_b(0, MODULE, "OldPopupStatus", hlpPopupStatus);
+					g_plugin.setByte("OldPopupStatus", hlpPopupStatus);
 					CallService(MS_POPUP_QUERY, PUQS_DISABLEPOPUPS, 0);
 				}
 				else {
 					if (hlpPopupStatus == FALSE) {
-						if (db_get_b(0, MODULE, "OldPopupStatus", TRUE) == TRUE)
+						if (g_plugin.getByte("OldPopupStatus", TRUE) == TRUE)
 							CallService(MS_POPUP_QUERY, PUQS_ENABLEPOPUPS, 0);
 						else
 							CallService(MS_POPUP_QUERY, PUQS_DISABLEPOPUPS, 0);
@@ -837,18 +837,18 @@ int StatusModeChanged(WPARAM wParam, LPARAM lParam)
 		if (opt.DisableSoundGlobally) {
 			char szSetting[12];
 			mir_snprintf(szSetting, "s%d", wParam);
-			BYTE hlpDisableSound = db_get_b(0, MODULE, szSetting, 0);
+			BYTE hlpDisableSound = g_plugin.getByte(szSetting, 0);
 
 			if (hlpDisableSound != opt.SoundAutoDisabled) {
 				BYTE hlpUseSound = db_get_b(0, "Skin", "UseSound", 1);
 				opt.SoundAutoDisabled = hlpDisableSound;
 
 				if (hlpDisableSound) {
-					db_set_b(0, MODULE, "OldUseSound", hlpUseSound);
+					g_plugin.setByte("OldUseSound", hlpUseSound);
 					db_set_b(0, "Skin", "UseSound", FALSE);
 				}
 				else if (hlpUseSound == FALSE)
-					db_set_b(0, "Skin", "UseSound", db_get_b(0, MODULE, "OldUseSound", 1));
+					db_set_b(0, "Skin", "UseSound", g_plugin.getByte("OldUseSound", 1));
 			}
 		}
 	}
@@ -868,8 +868,8 @@ void InitStatusList()
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserOnline", MAX_SKINSOUNDNAME);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Online"), MAX_SKINSOUNDDESC);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundFile, L"global.wav", MAX_PATH);
-	StatusList[index].colorBack = db_get_dw(0, MODULE, "40072bg", COLOR_BG_AVAILDEFAULT);
-	StatusList[index].colorText = db_get_dw(0, MODULE, "40072tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = g_plugin.getDword("40072bg", COLOR_BG_AVAILDEFAULT);
+	StatusList[index].colorText = g_plugin.getDword("40072tx", COLOR_TX_DEFAULT);
 
 	//Offline
 	index = Index(ID_STATUS_OFFLINE);
@@ -880,8 +880,8 @@ void InitStatusList()
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserOffline", MAX_SKINSOUNDNAME);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Offline"), MAX_SKINSOUNDDESC);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundFile, L"offline.wav", MAX_PATH);
-	StatusList[index].colorBack = db_get_dw(0, MODULE, "40071bg", COLOR_BG_NAVAILDEFAULT);
-	StatusList[index].colorText = db_get_dw(0, MODULE, "40071tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = g_plugin.getDword("40071bg", COLOR_BG_NAVAILDEFAULT);
+	StatusList[index].colorText = g_plugin.getDword("40071tx", COLOR_TX_DEFAULT);
 
 	//Invisible
 	index = Index(ID_STATUS_INVISIBLE);
@@ -892,8 +892,8 @@ void InitStatusList()
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserInvisible", MAX_SKINSOUNDNAME);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Invisible"), MAX_SKINSOUNDDESC);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundFile, L"invisible.wav", MAX_PATH);
-	StatusList[index].colorBack = db_get_dw(0, MODULE, "40078bg", COLOR_BG_AVAILDEFAULT);
-	StatusList[index].colorText = db_get_dw(0, MODULE, "40078tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = g_plugin.getDword("40078bg", COLOR_BG_AVAILDEFAULT);
+	StatusList[index].colorText = g_plugin.getDword("40078tx", COLOR_TX_DEFAULT);
 
 	//Free for chat
 	index = Index(ID_STATUS_FREECHAT);
@@ -904,8 +904,8 @@ void InitStatusList()
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserFreeForChat", MAX_SKINSOUNDNAME);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Free for chat"), MAX_SKINSOUNDDESC);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundFile, L"free4chat.wav", MAX_PATH);
-	StatusList[index].colorBack = db_get_dw(0, MODULE, "40077bg", COLOR_BG_AVAILDEFAULT);
-	StatusList[index].colorText = db_get_dw(0, MODULE, "40077tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = g_plugin.getDword("40077bg", COLOR_BG_AVAILDEFAULT);
+	StatusList[index].colorText = g_plugin.getDword("40077tx", COLOR_TX_DEFAULT);
 
 	//Away
 	index = Index(ID_STATUS_AWAY);
@@ -916,8 +916,8 @@ void InitStatusList()
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserAway", MAX_SKINSOUNDNAME);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Away"), MAX_SKINSOUNDDESC);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundFile, L"away.wav", MAX_PATH);
-	StatusList[index].colorBack = db_get_dw(0, MODULE, "40073bg", COLOR_BG_NAVAILDEFAULT);
-	StatusList[index].colorText = db_get_dw(0, MODULE, "40073tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = g_plugin.getDword("40073bg", COLOR_BG_NAVAILDEFAULT);
+	StatusList[index].colorText = g_plugin.getDword("40073tx", COLOR_TX_DEFAULT);
 
 	//NA
 	index = Index(ID_STATUS_NA);
@@ -928,8 +928,8 @@ void InitStatusList()
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserNA", MAX_SKINSOUNDNAME);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Not available"), MAX_SKINSOUNDDESC);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundFile, L"na.wav", MAX_PATH);
-	StatusList[index].colorBack = db_get_dw(0, MODULE, "40075bg", COLOR_BG_NAVAILDEFAULT);
-	StatusList[index].colorText = db_get_dw(0, MODULE, "40075tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = g_plugin.getDword("40075bg", COLOR_BG_NAVAILDEFAULT);
+	StatusList[index].colorText = g_plugin.getDword("40075tx", COLOR_TX_DEFAULT);
 
 	//Occupied
 	index = Index(ID_STATUS_OCCUPIED);
@@ -940,8 +940,8 @@ void InitStatusList()
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserOccupied", MAX_SKINSOUNDNAME);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Occupied"), MAX_SKINSOUNDDESC);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundFile, L"occupied.wav", MAX_PATH);
-	StatusList[index].colorBack = db_get_dw(0, MODULE, "40076bg", COLOR_BG_NAVAILDEFAULT);
-	StatusList[index].colorText = db_get_dw(0, MODULE, "40076tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = g_plugin.getDword("40076bg", COLOR_BG_NAVAILDEFAULT);
+	StatusList[index].colorText = g_plugin.getDword("40076tx", COLOR_TX_DEFAULT);
 
 	//Do not disturb
 	index = Index(ID_STATUS_DND);
@@ -952,8 +952,8 @@ void InitStatusList()
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserDND", MAX_SKINSOUNDNAME);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Do not disturb"), MAX_SKINSOUNDDESC);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundFile, L"dnd.wav", MAX_PATH);
-	StatusList[index].colorBack = db_get_dw(0, MODULE, "40074bg", COLOR_BG_NAVAILDEFAULT);
-	StatusList[index].colorText = db_get_dw(0, MODULE, "40074tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = g_plugin.getDword("40074bg", COLOR_BG_NAVAILDEFAULT);
+	StatusList[index].colorText = g_plugin.getDword("40074tx", COLOR_TX_DEFAULT);
 
 	//Out to lunch
 	index = Index(ID_STATUS_OUTTOLUNCH);
@@ -964,8 +964,8 @@ void InitStatusList()
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserOutToLunch", MAX_SKINSOUNDNAME);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Out to lunch"), MAX_SKINSOUNDDESC);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundFile, L"lunch.wav", MAX_PATH);
-	StatusList[index].colorBack = db_get_dw(0, MODULE, "40080bg", COLOR_BG_NAVAILDEFAULT);
-	StatusList[index].colorText = db_get_dw(0, MODULE, "40080tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = g_plugin.getDword("40080bg", COLOR_BG_NAVAILDEFAULT);
+	StatusList[index].colorText = g_plugin.getDword("40080tx", COLOR_TX_DEFAULT);
 
 	//On the phone
 	index = Index(ID_STATUS_ONTHEPHONE);
@@ -976,18 +976,18 @@ void InitStatusList()
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserOnThePhone", MAX_SKINSOUNDNAME);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: On the phone"), MAX_SKINSOUNDDESC);
 	mir_wstrncpy(StatusList[index].lpzSkinSoundFile, L"phone.wav", MAX_PATH);
-	StatusList[index].colorBack = db_get_dw(0, MODULE, "40079bg", COLOR_BG_NAVAILDEFAULT);
-	StatusList[index].colorText = db_get_dw(0, MODULE, "40079tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = g_plugin.getDword("40079bg", COLOR_BG_NAVAILDEFAULT);
+	StatusList[index].colorText = g_plugin.getDword("40079tx", COLOR_TX_DEFAULT);
 
 	//Extra status
 	index = Index(ID_STATUS_EXTRASTATUS);
-	StatusList[index].colorBack = db_get_dw(0, MODULE, "40081bg", COLOR_BG_AVAILDEFAULT);
-	StatusList[index].colorText = db_get_dw(0, MODULE, "40081tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = g_plugin.getDword("40081bg", COLOR_BG_AVAILDEFAULT);
+	StatusList[index].colorText = g_plugin.getDword("40081tx", COLOR_TX_DEFAULT);
 
 	//Status message
 	index = Index(ID_STATUS_STATUSMSG);
-	StatusList[index].colorBack = db_get_dw(0, MODULE, "40082bg", COLOR_BG_AVAILDEFAULT);
-	StatusList[index].colorText = db_get_dw(0, MODULE, "40082tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = g_plugin.getDword("40082bg", COLOR_BG_AVAILDEFAULT);
+	StatusList[index].colorText = g_plugin.getDword("40082tx", COLOR_TX_DEFAULT);
 
 	//From offline
 	index = ID_STATUS_FROMOFFLINE;
@@ -1033,7 +1033,7 @@ void CALLBACK ConnectionTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD)
 		//We've received a timer message: enable the popups for a specified protocol.
 		char szProto[256];
 		if (GetAtomNameA((ATOM)idEvent, szProto, sizeof(szProto)) > 0) {
-			db_set_b(0, MODULE, szProto, 1);
+			g_plugin.setByte(szProto, 1);
 			DeleteAtom((ATOM)idEvent);
 		}
 	}
@@ -1052,7 +1052,7 @@ int ProtoAck(WPARAM, LPARAM lParam)
 		char *szProto = (char *)ack->szModule;
 		if (newStatus == ID_STATUS_OFFLINE) {
 			//The protocol switched to offline. Disable the popups for this protocol
-			db_set_b(0, MODULE, szProto, 0);
+			g_plugin.setByte(szProto, 0);
 		}
 		else if (oldStatus < ID_STATUS_ONLINE && newStatus >= ID_STATUS_ONLINE) {
 			//The protocol changed from a disconnected status to a connected status.
@@ -1068,7 +1068,7 @@ int ProtoAck(WPARAM, LPARAM lParam)
 
 INT_PTR EnableDisableMenuCommand(WPARAM, LPARAM)
 {
-	db_set_b(0, MODULE, "TempDisable", opt.TempDisabled = !opt.TempDisabled);
+	g_plugin.setByte("TempDisable", opt.TempDisabled = !opt.TempDisabled);
 
 	if (opt.TempDisabled)
 		Menu_ModifyItem(hEnableDisableMenu, LPGENW("Enable status notification"), GetIconHandle(ICO_NOTIFICATION_OFF));
@@ -1131,7 +1131,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	for (auto &pa : Accounts())
 		if (pa->IsEnabled())
-			db_set_b(0, MODULE, pa->szModuleName, 0);
+			g_plugin.setByte(pa->szModuleName, 0);
 
 	return 0;
 }
@@ -1146,7 +1146,7 @@ static int OnShutdown(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
-	g_plugin.registerIcon(LPGEN("New Status Notify"), iconList, MODULE);
+	g_plugin.registerIcon(LPGEN("New Status Notify"), iconList, MODULENAME);
 
 	//"Service" Hook, used when the DB settings change: we'll monitor the "status" setting.
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);
@@ -1175,7 +1175,7 @@ int CMPlugin::Load()
 	// there's no need to declare the special service for getting text
 	// because a blob contains only text
 	DBEVENTTYPEDESCR evtype = { sizeof(evtype) };
-	evtype.module = MODULE;
+	evtype.module = MODULENAME;
 	evtype.eventType = EVENTTYPE_STATUSCHANGE;
 	evtype.descr = LPGEN("Status change");
 	evtype.eventIcon = iconList[3].hIcolib;

@@ -23,7 +23,7 @@
 #define UTILS_H
 
 bool CheckMsgWnd(MCONTACT hContact);
-int DBGetStringDefault(MCONTACT hContact, const char *szModule, const char *szSetting, wchar_t *setting, int size, const wchar_t *defaultValue);
+int DBGetStringDefault(MCONTACT hContact, const char *szSetting, wchar_t *setting, int size, const wchar_t *defaultValue);
 void ShowLog(wchar_t *file);
 BOOL StatusHasAwayMessage(char *szProto, int status);
 void LogToFile(wchar_t *stzText);
