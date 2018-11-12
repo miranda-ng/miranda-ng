@@ -967,7 +967,7 @@ clvm_reset_command:
 			SetButtonStates();
 			cfg::dat.current_viewmode[0] = 0;
 			cfg::dat.old_viewmode[0] = 0;
-			db_set_s(0, "CList", "LastViewMode", "");
+			g_plugin.setString("LastViewMode", "");
 			break;
 
 		case IDC_CONFIGUREMODES:
@@ -1099,7 +1099,7 @@ void ApplyViewMode(const char *name)
 		cfg::dat.bFilterEffective |= CLVM_STICKY_CONTACTS;
 
 	if (cfg::dat.boldHideOffline == (BYTE)-1)
-		cfg::dat.boldHideOffline = db_get_b(0, "CList", "HideOffline", 0);
+		cfg::dat.boldHideOffline = g_plugin.getByte("HideOffline", 0);
 
 	g_clistApi.pfnSetHideOffline(false);
 	if (name == nullptr) {
@@ -1112,5 +1112,5 @@ void ApplyViewMode(const char *name)
 	Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 	SetButtonStates();
 
-	db_set_s(0, "CList", "LastViewMode", cfg::dat.current_viewmode);
+	g_plugin.setString("LastViewMode", cfg::dat.current_viewmode);
 }

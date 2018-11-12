@@ -164,7 +164,7 @@ void CluiProtocolStatusChanged(int, const char*)
 
 	int iIcon = 0;
 	int wStatus = 0;
-	ptrA szPrimaryStatus(db_get_sa(NULL, "CList", "PrimaryStatus"));
+	ptrA szPrimaryStatus(g_plugin.getStringA("PrimaryStatus"));
 	if (szPrimaryStatus != nullptr) {
 		wStatus = Proto_GetStatus(szPrimaryStatus);
 		iIcon = IconFromStatusMode(szPrimaryStatus, (int)wStatus, 0);

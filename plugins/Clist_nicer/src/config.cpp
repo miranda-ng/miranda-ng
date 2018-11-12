@@ -57,7 +57,7 @@ TExtraCache* cfg::getCache(const MCONTACT hContact, const char *szProto)
 	TExtraCache *p = (TExtraCache*)calloc(sizeof(TExtraCache), 1);
 	p->hContact = hContact;
 	LoadSkinItemToCache(p);
-	p->dwDFlags = db_get_dw(hContact, "CList", "CLN_Flags", 0);
+	p->dwDFlags = g_plugin.getDword(hContact, "CLN_Flags");
 	GetCachedStatusMsg(p, const_cast<char *>(szProto));
 	p->dwLastMsgTime = INTSORT_GetLastMsgTime(hContact);
 	cfg::arCache.insert(p);

@@ -218,7 +218,7 @@ static INT_PTR CALLBACK DlgProcDspGroups(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 				BOOL translated;
 				cfg::dat.avatarPadding = (BYTE)GetDlgItemInt(hwndDlg, IDC_AVATARPADDING, &translated, FALSE);
-				db_set_b(0, "CList", "AvatarPadding", cfg::dat.avatarPadding);
+				g_plugin.setByte("AvatarPadding", cfg::dat.avatarPadding);
 
 				db_set_b(0, "CLC", "LeftMargin", (BYTE)SendDlgItemMessage(hwndDlg, IDC_LEFTMARGINSPIN, UDM_GETPOS, 0, 0));
 				db_set_b(0, "CLC", "RightMargin", (BYTE)SendDlgItemMessage(hwndDlg, IDC_RIGHTMARGINSPIN, UDM_GETPOS, 0, 0));
@@ -302,10 +302,10 @@ static INT_PTR CALLBACK DlgProcDspItems(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					else
 						cfg::dat.sortOrder[i] = (BYTE)curSel;
 				}
-				db_set_dw(0, "CList", "SortOrder", MAKELONG(MAKEWORD(cfg::dat.sortOrder[0], cfg::dat.sortOrder[1]), MAKEWORD(cfg::dat.sortOrder[2], 0)));
+				g_plugin.setDword("SortOrder", MAKELONG(MAKEWORD(cfg::dat.sortOrder[0], cfg::dat.sortOrder[1]), MAKEWORD(cfg::dat.sortOrder[2], 0)));
 
 				cfg::dat.bDontSeparateOffline = IsDlgButtonChecked(hwndDlg, IDC_DONTSEPARATE) ? 1 : 0;
-				db_set_b(0, "CList", "DontSeparateOffline", (BYTE)cfg::dat.bDontSeparateOffline);
+				g_plugin.setByte("DontSeparateOffline", (BYTE)cfg::dat.bDontSeparateOffline);
 
 				db_set_dw(0, "CLC", "OfflineModes", MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS)));
 
@@ -444,10 +444,10 @@ static INT_PTR CALLBACK DlgProcDspAdvanced(HWND hwndDlg, UINT msg, WPARAM wParam
 			db_set_dw(0, "CLC", "avatarradius", cfg::dat.avatarRadius);
 
 			cfg::dat.avatarSize = GetDlgItemInt(hwndDlg, IDC_AVATARHEIGHT, &translated, FALSE);
-			db_set_w(0, "CList", "AvatarSize", (WORD)cfg::dat.avatarSize);
+			g_plugin.setWord("AvatarSize", (WORD)cfg::dat.avatarSize);
 
 			cfg::dat.bNoOfflineAvatars = IsDlgButtonChecked(hwndDlg, IDC_NOAVATARSOFFLINE) ? TRUE : FALSE;
-			db_set_b(0, "CList", "NoOfflineAV", (BYTE)cfg::dat.bNoOfflineAvatars);
+			g_plugin.setByte("NoOfflineAV", (BYTE)cfg::dat.bNoOfflineAvatars);
 
 			cfg::dat.bShowLocalTime = IsDlgButtonChecked(hwndDlg, IDC_SHOWLOCALTIME) ? 1 : 0;
 			db_set_b(0, "CLC", "ShowLocalTime", (BYTE)cfg::dat.bShowLocalTime);

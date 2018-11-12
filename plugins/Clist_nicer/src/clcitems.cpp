@@ -75,7 +75,7 @@ void LoadAvatarForContact(ClcContact *p)
 	if (p->pExtra)
 		dwFlags = p->pExtra->dwDFlags;
 	else
-		dwFlags = db_get_dw(p->hContact, "CList", "CLN_Flags", 0);
+		dwFlags = g_plugin.getDword(p->hContact, "CLN_Flags");
 
 	if (cfg::dat.dwFlags & CLUI_FRAME_AVATARS)
 		p->cFlags = (dwFlags & ECF_HIDEAVATAR ? p->cFlags & ~ECF_AVATAR : p->cFlags | ECF_AVATAR);
@@ -114,7 +114,7 @@ ClcContact* AddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hCo
 	}
 
 	p->codePage = db_get_dw(hContact, "Tab_SRMsg", "ANSIcodepage", db_get_dw(hContact, "UserInfo", "ANSIcodepage", CP_ACP));
-	p->bSecondLine = db_get_b(hContact, "CList", "CLN_2ndline", cfg::dat.dualRowMode);
+	p->bSecondLine = g_plugin.getByte(hContact, "CLN_2ndline", cfg::dat.dualRowMode);
 
 	if (dat->bisEmbedded)
 		p->pExtra = nullptr;
@@ -132,7 +132,7 @@ ClcContact* AddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hCo
 	RTL_DetectAndSet(p, p->hContact);
 
 	p->avatarLeft = p->extraIconRightBegin = -1;
-	p->flags |= db_get_b(p->hContact, "CList", "Priority", 0) ? CONTACTF_PRIORITY : 0;
+	p->flags |= g_plugin.getByte(p->hContact, "Priority", 0) ? CONTACTF_PRIORITY : 0;
 
 	return p;
 }
@@ -161,7 +161,7 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 	MCONTACT hContact = p->hContact;
 
 	DBVARIANT dbv = { 0 };
-	INT_PTR result = db_get_ws(hContact, "CList", "StatusMsg", &dbv);
+	INT_PTR result = g_plugin.getWString(hContact, "StatusMsg", &dbv);
 	if (!result && mir_wstrlen(dbv.pwszVal) > 0)
 		p->bStatusMsgValid = STATUSMSG_CLIST;
 	else {
@@ -324,7 +324,7 @@ void GetExtendedInfo(ClcContact *contact, ClcData *dat)
 	if (p == nullptr)
 		return;
 
-	p->msgFrequency = db_get_dw(contact->hContact, "CList", "mf_freq", 0x7fffffff);
+	p->msgFrequency = g_plugin.getDword(contact->hContact, "mf_freq", 0x7fffffff);
 	if (p->valid)
 		return;
 
@@ -373,7 +373,7 @@ void LoadSkinItemToCache(TExtraCache *cEntry)
 
 int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, struct ClcData *dat)
 {
-	int dbHidden = db_get_b(hContact, "CList", "Hidden", 0);		// default hidden state, always respect it.
+	int dbHidden = g_plugin.getByte(hContact, "Hidden"); // default hidden state, always respect it.
 
 	// always hide subcontacts (but show them on embedded contact lists)
 	if (dat != nullptr && dat->bHideSubcontacts && cfg::dat.bMetaEnabled && db_mc_isSub(hContact))
@@ -405,7 +405,7 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, struct ClcData
 	}
 	
 	if (cfg::dat.bFilterEffective & CLVM_FILTER_GROUPS) {
-		ptrW tszGroup(db_get_wsa(hContact, "CList", "Group"));
+		ptrW tszGroup(g_plugin.getWStringA(hContact, "Group"));
 		if (tszGroup != NULL) {
 			wchar_t szGroupMask[256];
 			mir_snwprintf(szGroupMask, L"%s|", tszGroup);

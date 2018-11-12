@@ -161,9 +161,9 @@ static HWND PreCreateCLC(HWND parent)
 {
 	g_clistApi.hwndContactTree = CreateWindow(CLISTCONTROL_CLASSW, L"",
 		WS_CHILD | CLS_CONTACTLIST
-		| (db_get_b(0, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) ? CLS_USEGROUPS : 0)
-		| (db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? CLS_HIDEOFFLINE : 0)
-		| (db_get_b(0, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) ? CLS_HIDEEMPTYGROUPS : 0)
+		| (g_plugin.getByte("UseGroups", SETTING_USEGROUPS_DEFAULT) ? CLS_USEGROUPS : 0)
+		| (g_plugin.getByte("HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? CLS_HIDEOFFLINE : 0)
+		| (g_plugin.getByte("HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) ? CLS_HIDEEMPTYGROUPS : 0)
 		| CLS_MULTICOLUMN,
 		0, 0, 0, 0, parent, nullptr, g_plugin.getInst(), (LPVOID)0xff00ff00);
 
@@ -450,10 +450,10 @@ void SetButtonStates()
 					SendMessage(buttonItem->hWnd, BM_SETCHECK, cfg::dat.soundsOff ? BST_CHECKED : BST_UNCHECKED, 0);
 					break;
 				case IDC_STBHIDEOFFLINE:
-					SendMessage(buttonItem->hWnd, BM_SETCHECK, db_get_b(0, "CList", "HideOffline", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
+					SendMessage(buttonItem->hWnd, BM_SETCHECK, g_plugin.getByte("HideOffline", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
 					break;
 				case IDC_STBHIDEGROUPS:
-					SendMessage(buttonItem->hWnd, BM_SETCHECK, db_get_b(0, "CList", "UseGroups", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
+					SendMessage(buttonItem->hWnd, BM_SETCHECK, g_plugin.getByte("UseGroups", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
 					break;
 				}
 			}
@@ -730,7 +730,7 @@ static int ServiceParamsOK(ButtonItem *item, WPARAM *wParam, LPARAM *lParam, MCO
 static void ShowCLUI(HWND hwnd)
 {
 	int state = old_cliststate;
-	int onTop = db_get_b(0, "CList", "OnTop", SETTING_ONTOP_DEFAULT);
+	int onTop = g_plugin.getByte("OnTop", SETTING_ONTOP_DEFAULT);
 
 	SendMessage(hwnd, WM_SETREDRAW, FALSE, FALSE);
 
@@ -786,8 +786,8 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			SetClassLong(g_clistApi.hwndStatus, GCL_STYLE, GetClassLong(g_clistApi.hwndStatus, GCL_STYLE) & ~(CS_VREDRAW | CS_HREDRAW));
 		}
 		g_oldSize.cx = g_oldSize.cy = 0;
-		old_cliststate = db_get_b(0, "CList", "State", SETTING_STATE_NORMAL);
-		db_set_b(0, "CList", "State", SETTING_STATE_HIDDEN);
+		old_cliststate = g_plugin.getByte("State", SETTING_STATE_NORMAL);
+		g_plugin.setByte("State", SETTING_STATE_HIDDEN);
 		SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~WS_VISIBLE);
 		SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | WS_CLIPCHILDREN);
 		if (!cfg::dat.bFirstRun)
@@ -837,7 +837,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				}
 				else {
 					style &= ~(WS_EX_TOOLWINDOW | WS_EX_WINDOWEDGE);
-					if (db_get_b(0, "CList", "AlwaysHideOnTB", 1))
+					if (g_plugin.getByte("AlwaysHideOnTB", 1))
 						style &= ~WS_EX_APPWINDOW;
 					else
 						style |= WS_EX_APPWINDOW;
@@ -866,11 +866,11 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					Tweak_It(cfg::clcdat->bkColour);
 			}
 
-			db_set_b(0, "CList", "State", old_cliststate);
+			g_plugin.setByte("State", old_cliststate);
 
-			if (db_get_b(0, "CList", "AutoApplyLastViewMode", 0)) {
+			if (g_plugin.getByte("AutoApplyLastViewMode", 0)) {
 				DBVARIANT dbv = { 0 };
-				if (!db_get_s(0, "CList", "LastViewMode", &dbv)) {
+				if (!g_plugin.getString("LastViewMode", &dbv)) {
 					if (mir_strlen(dbv.pszVal) > 2) {
 						if (db_get_dw(0, CLVM_MODULE, dbv.pszVal, -1) != 0xffffffff)
 							ApplyViewMode((char *)dbv.pszVal);
@@ -1115,11 +1115,11 @@ skipbg:
 
 				// if docked, dont remember pos (except for width)
 				if (!Clist_IsDocked()) {
-					db_set_dw(0, "CList", "Height", (DWORD)(rc.bottom - rc.top));
-					db_set_dw(0, "CList", "x", (DWORD)rc.left);
-					db_set_dw(0, "CList", "y", (DWORD)rc.top);
+					g_plugin.setDword("Height", (DWORD)(rc.bottom - rc.top));
+					g_plugin.setDword("x", (DWORD)rc.left);
+					g_plugin.setDword("y", (DWORD)rc.top);
 				}
-				db_set_dw(0, "CList", "Width", (DWORD)(rc.right - rc.left));
+				g_plugin.setDword("Width", (DWORD)(rc.right - rc.left));
 			}
 		}
 		return TRUE;
@@ -1130,7 +1130,7 @@ skipbg:
 
 	case CLUIINTM_REMOVEFROMTASKBAR: {
 			BYTE windowStyle = db_get_b(0, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT);
-			if (windowStyle == SETTING_WINDOWSTYLE_DEFAULT && db_get_b(0, "CList", "AlwaysHideOnTB", 0))
+			if (windowStyle == SETTING_WINDOWSTYLE_DEFAULT && g_plugin.getByte("AlwaysHideOnTB", 0))
 				RemoveFromTaskBar(hwnd);
 			return 0;
 		}
@@ -1152,7 +1152,7 @@ skipbg:
 				SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), cfg::dat.alpha, LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
 				transparentFocus = 1;
 			}
-			SetWindowPos(g_clistApi.hwndContactList, db_get_b(0, "CList", "OnTop", SETTING_ONTOP_DEFAULT) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOREDRAW | SWP_NOSENDCHANGING);
+			SetWindowPos(g_clistApi.hwndContactList, g_plugin.getByte("OnTop", SETTING_ONTOP_DEFAULT) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOREDRAW | SWP_NOSENDCHANGING);
 		}
 		PostMessage(hwnd, CLUIINTM_REMOVEFROMTASKBAR, 0, 0);
 		return DefWindowProc(hwnd, msg, wParam, lParam);
@@ -1293,7 +1293,7 @@ skipbg:
 					SendMessage(hwnd, WM_SIZE, 0, 0);
 					SendMessage(hwnd, CLUIINTM_REDRAW, 0, 0);
 					SendMessage(hwnd, CLUIINTM_STATUSBARUPDATE, 0, 0);
-					db_set_b(0, "CList", "State", SETTING_STATE_NORMAL);
+					g_plugin.setByte("State", SETTING_STATE_NORMAL);
 					break;
 				}
 			}
@@ -1302,8 +1302,8 @@ skipbg:
 				return 0;
 
 			if (wParam == SC_MINIMIZE) {
-				if (SETTING_WINDOWSTYLE_DEFAULT == bWindowStyle && !db_get_b(0, "CList", "AlwaysHideOnTB", 0)) {
-					db_set_b(0, "CList", "State", SETTING_STATE_MINIMIZED);
+				if (SETTING_WINDOWSTYLE_DEFAULT == bWindowStyle && !g_plugin.getByte("AlwaysHideOnTB", 0)) {
+					g_plugin.setByte("State", SETTING_STATE_MINIMIZED);
 					break;
 				}
 				g_clistApi.pfnShowHide();
@@ -1716,7 +1716,7 @@ buttons_done:
 		return 0;
 
 	case WM_CLOSE:
-		if (SETTING_WINDOWSTYLE_DEFAULT == db_get_b(0, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT) && !db_get_b(0, "CList", "AlwaysHideOnTB", 0)) {
+		if (SETTING_WINDOWSTYLE_DEFAULT == db_get_b(0, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT) && !g_plugin.getByte("AlwaysHideOnTB", 0)) {
 			PostMessage(hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
 			return 0;
 		}
@@ -1816,11 +1816,11 @@ void LoadCLUIModule(void)
 	wndclass.lpszClassName = L"EventAreaClass";
 	RegisterClass(&wndclass);
 
-	oldhideoffline = db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
-	cluiPos.left = db_get_dw(0, "CList", "x", 600);
-	cluiPos.top = db_get_dw(0, "CList", "y", 200);
-	cluiPos.right = db_get_dw(0, "CList", "Width", 150);
-	cluiPos.bottom = db_get_dw(0, "CList", "Height", 350);
+	oldhideoffline = g_plugin.getByte("HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
+	cluiPos.left = g_plugin.getDword("x", 600);
+	cluiPos.top = g_plugin.getDword("y", 200);
+	cluiPos.right = g_plugin.getDword("Width", 150);
+	cluiPos.bottom = g_plugin.getDword("Height", 350);
 
 	LoadExtraIconModule();
 	LoadCLUIFramesModule();

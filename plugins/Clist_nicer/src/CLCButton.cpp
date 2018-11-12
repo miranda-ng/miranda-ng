@@ -65,8 +65,8 @@ static void InitDefaultButtons()
 	}
 	g_index = -1;
 
-	ClcSetButtonState(IDC_TBHIDEOFFLINE, db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT));
-	ClcSetButtonState(IDC_TBHIDEGROUPS, db_get_b(0, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT));
+	ClcSetButtonState(IDC_TBHIDEOFFLINE, g_plugin.getByte("HideOffline", SETTING_HIDEOFFLINE_DEFAULT));
+	ClcSetButtonState(IDC_TBHIDEGROUPS, g_plugin.getByte("UseGroups", SETTING_USEGROUPS_DEFAULT));
 	ClcSetButtonState(IDC_TBSOUND, db_get_b(0, "Skin", "UseSound", 1) ? BST_UNCHECKED : BST_CHECKED);
 }
 

@@ -73,12 +73,12 @@ static int ClcEventAdded(WPARAM hContact, LPARAM lParam)
 		DBEVENTINFO dbei = {};
 		db_event_get(lParam, &dbei);
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {
-			DWORD firstTime = db_get_dw(hContact, "CList", "mf_firstEvent", 0);
-			DWORD count = db_get_dw(hContact, "CList", "mf_count", 0);
+			DWORD firstTime = g_plugin.getDword(hContact, "mf_firstEvent");
+			DWORD count = g_plugin.getDword(hContact, "mf_count");
 			count++;
 			new_freq = count ? (dbei.timestamp - firstTime) / count : 0x7fffffff;
-			db_set_dw(hContact, "CList", "mf_freq", new_freq);
-			db_set_dw(hContact, "CList", "mf_count", count);
+			g_plugin.setDword(hContact, "mf_freq", new_freq);
+			g_plugin.setDword(hContact, "mf_count", count);
 
 			TExtraCache *p = cfg::getCache(hContact, nullptr);
 			if (p) {
@@ -131,9 +131,9 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 			if (!__strcmp(szProto, cws->szModule)) {
 				// was a unique setting key written?
 				if (!__strcmp(cws->szSetting, "Status")) {
-					if (!db_get_b(hContact, "CList", "Hidden", 0))
+					if (!g_plugin.getByte(hContact, "Hidden"))
 						if (cws->value.wVal == ID_STATUS_OFFLINE)
-							if (db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT))
+							if (g_plugin.getByte("HideOffline", SETTING_HIDEOFFLINE_DEFAULT))
 								return 0;
 
 					SendMessage(g_clistApi.hwndContactTree, INTM_STATUSCHANGED, hContact, lParam);
@@ -445,7 +445,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				if (contact->pExtra)
 					dwFlags = contact->pExtra->dwDFlags;
 				else
-					dwFlags = db_get_dw(contact->hContact, "CList", "CLN_Flags", 0);
+					dwFlags = g_plugin.getDword(contact->hContact, "CLN_Flags");
 				if (cfg::dat.dwFlags & CLUI_FRAME_AVATARS)
 					contact->cFlags = (dwFlags & ECF_HIDEAVATAR ? contact->cFlags & ~ECF_AVATAR : contact->cFlags | ECF_AVATAR);
 				else

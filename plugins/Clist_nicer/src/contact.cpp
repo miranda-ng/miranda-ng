@@ -90,15 +90,15 @@ static void MF_CalcFrequency(MCONTACT hContact, DWORD dwCutoffDays, int doSleep)
 
 	if (eventCount == 0) {
 		frequency = 0x7fffffff;
-		db_set_dw(hContact, "CList", "mf_firstEvent", curTime - (dwCutoffDays * 86400));
+		g_plugin.setDword(hContact, "mf_firstEvent", curTime - (dwCutoffDays * 86400));
 	}
 	else {
 		frequency = (curTime - dbei.timestamp) / eventCount;
-		db_set_dw(hContact, "CList", "mf_firstEvent", dbei.timestamp);
+		g_plugin.setDword(hContact, "mf_firstEvent", dbei.timestamp);
 	}
 
-	db_set_dw(hContact, "CList", "mf_freq", frequency);
-	db_set_dw(hContact, "CList", "mf_count", eventCount);
+	g_plugin.setDword(hContact, "mf_freq", frequency);
+	g_plugin.setDword(hContact, "mf_count", eventCount);
 }
 
 extern wchar_t g_ptszEventName[];
@@ -128,11 +128,11 @@ void MF_UpdateThread(LPVOID)
 
 void MF_InitCheck(void)
 {
-	BYTE bMsgFrequency = db_get_b(0, "CList", "fhistdata", 0);
+	BYTE bMsgFrequency = g_plugin.getByte("fhistdata", 0);
 	if (!bMsgFrequency) {
 		for (auto &hContact : Contacts())
 			MF_CalcFrequency(hContact, 100, 0);
-		db_set_b(0, "CList", "fhistdata", 1);
+		g_plugin.setByte("fhistdata", 1);
 	}
 }
 
