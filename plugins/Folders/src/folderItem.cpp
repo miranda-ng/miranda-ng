@@ -117,7 +117,7 @@ void CFolderItem::GetDataFromDatabase(const wchar_t *szNotFound)
 	strcpy_s(szSettingName, _countof(szSettingName), m_szSection);
 	strcat_s(szSettingName, _countof(szSettingName), m_szName);
 
-	ptrW tszValue(db_get_wsa(NULL, ModuleName, szSettingName));
+	ptrW tszValue(g_plugin.getWStringA(szSettingName));
 	SetFormat(tszValue != NULL ? tszValue : szNotFound);
 }
 
@@ -128,5 +128,5 @@ void CFolderItem::WriteDataToDatabase()
 	strcat_s(szSettingName, sizeof(szSettingName), m_szName);
 
 	if (m_tszFormat)
-		db_set_ws(0, ModuleName, szSettingName, m_tszFormat);
+		g_plugin.setWString(szSettingName, m_tszFormat);
 }

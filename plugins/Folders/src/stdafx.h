@@ -54,7 +54,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MS_FOLDERS_TEST_PLUGIN "Folders/Test/Plugin"
 
-#define ModuleName "Folders"
+#define MODULENAME "Folders"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
