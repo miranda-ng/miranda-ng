@@ -37,13 +37,13 @@ INT_PTR MenuitemClicked(WPARAM hContact, LPARAM)
 int BuildContactMenu(WPARAM hContact, LPARAM)
 {
 	char *szProto = GetContactProto(hContact);
-	if (!IsWatchedProtocol(szProto) || db_get_b(hContact, szProto, "ChatRoom", false) || !db_get_b(0, S_MOD, "MenuItem", 1)) {
+	if (!IsWatchedProtocol(szProto) || db_get_b(hContact, szProto, "ChatRoom", false) || !g_plugin.getByte("MenuItem", 1)) {
 		Menu_ShowItem(hmenuitem, false);
 		return 0;
 	}
 
 	LPCTSTR ptszName;
-	ptrW tszStamp(db_get_wsa(NULL, S_MOD, "MenuStamp"));
+	ptrW tszStamp(g_plugin.getWStringA("MenuStamp"));
 	if (tszStamp != NULL)
 		ptszName = ParseString(tszStamp , hContact);
 	else
@@ -57,8 +57,8 @@ int BuildContactMenu(WPARAM hContact, LPARAM)
 		else
 			flags |= CMIF_HIDDEN;
 	}
-	else if (db_get_b(0, S_MOD, "ShowIcon", 1)) {
-		int isetting = db_get_w(hContact, S_MOD, "StatusTriger", -1);
+	else if (g_plugin.getByte("ShowIcon", 1)) {
+		int isetting = g_plugin.getWord(hContact, "StatusTriger", -1);
 		hIcon = Skin_LoadProtoIcon(szProto, isetting | 0x8000);
 	}
 	Menu_ModifyItem(hmenuitem, ptszName, hIcon, flags);

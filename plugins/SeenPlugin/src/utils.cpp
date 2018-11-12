@@ -29,15 +29,15 @@ char *courProtoName = nullptr;
 void LoadWatchedProtos()
 {
 	// Upgrade from old settings (separated by " ")
-	ptrA szProtosOld(db_get_sa(NULL, S_MOD, "WatchedProtocols"));
+	ptrA szProtosOld(g_plugin.getStringA("WatchedProtocols"));
 	if (szProtosOld != NULL) {
 		CMStringA tmp(szProtosOld);
 		tmp.Replace(" ", "\n");
-		db_set_s(0, S_MOD, "WatchedAccounts", tmp.c_str());
-		db_unset(NULL, S_MOD, "WatchedProtocols");
+		g_plugin.setString("WatchedAccounts", tmp.c_str());
+		g_plugin.delSetting("WatchedProtocols");
 	}
 
-	ptrA szProtos(db_get_sa(NULL, S_MOD, "WatchedAccounts"));
+	ptrA szProtos(g_plugin.getStringA("WatchedAccounts"));
 	if (szProtos == NULL)
 		return;
 
@@ -111,7 +111,7 @@ DWORD isSeen(MCONTACT hcontact, SYSTEMTIME *st)
 {
 	FILETIME ft;
 	ULONGLONG ll;
-	DWORD res = db_get_dw(hcontact, S_MOD, "seenTS", 0);
+	DWORD res = g_plugin.getDword(hcontact, "seenTS", 0);
 	if (res) {
 		if (st) {
 			ll = UInt32x32To64(TimeZone_ToLocal(res), 10000000) + NUM100NANOSEC;
@@ -124,13 +124,13 @@ DWORD isSeen(MCONTACT hcontact, SYSTEMTIME *st)
 
 	SYSTEMTIME lst;
 	memset(&lst, 0, sizeof(lst));
-	if (lst.wYear = db_get_w(hcontact, S_MOD, "Year", 0)) {
-		if (lst.wMonth = db_get_w(hcontact, S_MOD, "Month", 0)) {
-			if (lst.wDay = db_get_w(hcontact, S_MOD, "Day", 0)) {
-				lst.wDayOfWeek = db_get_w(hcontact, S_MOD, "WeekDay", 0);
-				lst.wHour = db_get_w(hcontact, S_MOD, "Hours", 0);
-				lst.wMinute = db_get_w(hcontact, S_MOD, "Minutes", 0);
-				lst.wSecond = db_get_w(hcontact, S_MOD, "Seconds", 0);
+	if (lst.wYear = g_plugin.getWord(hcontact, "Year", 0)) {
+		if (lst.wMonth = g_plugin.getWord(hcontact, "Month", 0)) {
+			if (lst.wDay = g_plugin.getWord(hcontact, "Day", 0)) {
+				lst.wDayOfWeek = g_plugin.getWord(hcontact, "WeekDay", 0);
+				lst.wHour = g_plugin.getWord(hcontact, "Hours", 0);
+				lst.wMinute = g_plugin.getWord(hcontact, "Minutes", 0);
+				lst.wSecond = g_plugin.getWord(hcontact, "Seconds", 0);
 				if (SystemTimeToFileTime(&lst, &ft)) {
 					ll = ((LONGLONG)ft.dwHighDateTime << 32) | ((LONGLONG)ft.dwLowDateTime);
 					ll -= NUM100NANOSEC;
@@ -138,7 +138,7 @@ DWORD isSeen(MCONTACT hcontact, SYSTEMTIME *st)
 					//perform LOCALTOTIMESTAMP
 					res = (DWORD)ll - TimeZone_ToLocal(0);
 					//nevel look for Year/Month/Day/Hour/Minute/Second again
-					db_set_dw(hcontact, S_MOD, "seenTS", res);
+					g_plugin.setDword(hcontact, "seenTS", res);
 				}
 			}
 		}
@@ -288,7 +288,7 @@ wchar_t* ParseString(wchar_t *szstring, MCONTACT hcontact)
 			goto LBL_noData;
 
 		case 's':
-			if (isetting = db_get_w(hcontact, S_MOD, hcontact ? "StatusTriger" : courProtoName, 0)) {
+			if (isetting = g_plugin.getWord(hcontact, hcontact ? "StatusTriger" : courProtoName, 0)) {
 				wcsncpy(szdbsetting, Clist_GetStatusModeDescription(isetting | 0x8000, 0), _countof(szdbsetting));
 				if (!(isetting & 0x8000)) {
 					mir_wstrncat(szdbsetting, L"/", _countof(szdbsetting) - mir_wstrlen(szdbsetting));
@@ -308,9 +308,9 @@ wchar_t* ParseString(wchar_t *szstring, MCONTACT hcontact)
 			break;
 
 		case 'o':
-			if (isetting = db_get_w(hcontact, S_MOD, hcontact ? "OldStatus" : courProtoName, 0)) {
+			if (isetting = g_plugin.getWord(hcontact, hcontact ? "OldStatus" : courProtoName, 0)) {
 				wcsncpy(szdbsetting, Clist_GetStatusModeDescription(isetting, 0), _countof(szdbsetting));
-				if (includeIdle && hcontact && db_get_b(hcontact, S_MOD, "OldIdle", 0)) {
+				if (includeIdle && hcontact && g_plugin.getByte(hcontact, "OldIdle")) {
 					mir_wstrncat(szdbsetting, L"/", _countof(szdbsetting) - mir_wstrlen(szdbsetting));
 					mir_wstrncat(szdbsetting, TranslateT("Idle"), _countof(szdbsetting) - mir_wstrlen(szdbsetting));
 				}
@@ -382,14 +382,13 @@ wchar_t* ParseString(wchar_t *szstring, MCONTACT hcontact)
 
 void _DBWriteTime(SYSTEMTIME *st, MCONTACT hcontact)
 {
-	db_set_w(hcontact, S_MOD, "Day", st->wDay);
-	db_set_w(hcontact, S_MOD, "Month", st->wMonth);
-	db_set_w(hcontact, S_MOD, "Year", st->wYear);
-	db_set_w(hcontact, S_MOD, "Hours", st->wHour);
-	db_set_w(hcontact, S_MOD, "Minutes", st->wMinute);
-	db_set_w(hcontact, S_MOD, "Seconds", st->wSecond);
-	db_set_w(hcontact, S_MOD, "WeekDay", st->wDayOfWeek);
-
+	g_plugin.setWord(hcontact, "Day", st->wDay);
+	g_plugin.setWord(hcontact, "Month", st->wMonth);
+	g_plugin.setWord(hcontact, "Year", st->wYear);
+	g_plugin.setWord(hcontact, "Hours", st->wHour);
+	g_plugin.setWord(hcontact, "Minutes", st->wMinute);
+	g_plugin.setWord(hcontact, "Seconds", st->wSecond);
+	g_plugin.setWord(hcontact, "WeekDay", st->wDayOfWeek);
 }
 
 void DBWriteTimeTS(DWORD t, MCONTACT hcontact)
@@ -400,7 +399,7 @@ void DBWriteTimeTS(DWORD t, MCONTACT hcontact)
 	ft.dwLowDateTime = (DWORD)ll;
 	ft.dwHighDateTime = (DWORD)(ll >> 32);
 	FileTimeToSystemTime(&ft, &st);
-	db_set_dw(hcontact, S_MOD, "seenTS", t);
+	g_plugin.setDword(hcontact, "seenTS", t);
 	_DBWriteTime(&st, hcontact);
 }
 void GetColorsFromDWord(LPCOLORREF First, LPCOLORREF Second, DWORD colDword)
@@ -471,13 +470,13 @@ void ShowPopup(MCONTACT hcontact, const char * lpzProto, int newStatus)
 	if (!ServiceExists(MS_POPUP_QUERY))
 		return;
 
-	if (!db_get_b(0, S_MOD, "UsePopups", 0) || !db_get_b(hcontact, "CList", "Hidden", 0))
+	if (!g_plugin.getByte("UsePopups", 0) || !db_get_b(hcontact, "CList", "Hidden", 0))
 		return;
 
 	DBVARIANT dbv;
 	char szSetting[10];
 	mir_snprintf(szSetting, "Col_%d", newStatus - ID_STATUS_OFFLINE);
-	DWORD sett = db_get_dw(0, S_MOD, szSetting, StatusColors15bits[newStatus - ID_STATUS_OFFLINE]);
+	DWORD sett = g_plugin.getDword(szSetting, StatusColors15bits[newStatus - ID_STATUS_OFFLINE]);
 
 	POPUPDATAT ppd = { 0 };
 	GetColorsFromDWord(&ppd.colorBack, &ppd.colorText, sett);
@@ -485,13 +484,13 @@ void ShowPopup(MCONTACT hcontact, const char * lpzProto, int newStatus)
 	ppd.lchContact = hcontact;
 	ppd.lchIcon = Skin_LoadProtoIcon(lpzProto, newStatus);
 
-	if (!db_get_ws(NULL, S_MOD, "PopupStamp", &dbv)) {
+	if (!g_plugin.getWString("PopupStamp", &dbv)) {
 		wcsncpy(ppd.lptzContactName, ParseString(dbv.pwszVal, hcontact), MAX_CONTACTNAME);
 		db_free(&dbv);
 	}
 	else wcsncpy(ppd.lptzContactName, ParseString(DEFAULT_POPUPSTAMP, hcontact), MAX_CONTACTNAME);
 
-	if (!db_get_ws(NULL, S_MOD, "PopupStampText", &dbv)) {
+	if (!g_plugin.getWString("PopupStampText", &dbv)) {
 		wcsncpy(ppd.lptzText, ParseString(dbv.pwszVal, hcontact), MAX_SECONDLINE);
 		db_free(&dbv);
 	}
@@ -518,7 +517,7 @@ static void waitThread(logthread_info* infoParam)
 {
 	Thread_SetName("SeenPlugin: waitThread");
 
-	WORD prevStatus = db_get_w(infoParam->hContact, S_MOD, "StatusTriger", ID_STATUS_OFFLINE);
+	WORD prevStatus = g_plugin.getWord(infoParam->hContact, "StatusTriger", ID_STATUS_OFFLINE);
 
 	// I hope in 1.5 second all the needed info will be set
 	if (WaitForSingleObject(g_hShutdownEvent, 1500) == WAIT_TIMEOUT) {
@@ -527,11 +526,11 @@ static void waitThread(logthread_info* infoParam)
 				infoParam->currStatus &= 0x7FFF;
 
 		if (infoParam->currStatus != prevStatus) {
-			db_set_w(infoParam->hContact, S_MOD, "OldStatus", (WORD)(prevStatus | 0x8000));
+			g_plugin.setWord(infoParam->hContact, "OldStatus", (WORD)(prevStatus | 0x8000));
 			if (includeIdle)
-				db_set_b(infoParam->hContact, S_MOD, "OldIdle", (BYTE)((prevStatus & 0x8000) == 0));
+				g_plugin.setByte(infoParam->hContact, "OldIdle", (BYTE)((prevStatus & 0x8000) == 0));
 
-			db_set_w(infoParam->hContact, S_MOD, "StatusTriger", infoParam->currStatus);
+			g_plugin.setWord(infoParam->hContact, "StatusTriger", infoParam->currStatus);
 		}
 	}
 	{
@@ -563,11 +562,11 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 	if (strcmp(cws->szSetting, "Status") && strcmp(cws->szSetting, "StatusTriger") && (isIdleEvent == 0))
 		return 0;
 	
-	if (!strcmp(cws->szModule, S_MOD)) {
+	if (!strcmp(cws->szModule, MODULENAME)) {
 		// here we will come when Settings/SeenModule/StatusTriger is changed
-		WORD prevStatus = db_get_w(hContact, S_MOD, "OldStatus", ID_STATUS_OFFLINE);
+		WORD prevStatus = g_plugin.getWord(hContact, "OldStatus", ID_STATUS_OFFLINE);
 		if (includeIdle) {
-			if (db_get_b(hContact, S_MOD, "OldIdle", 0))
+			if (g_plugin.getByte(hContact, "OldIdle", 0))
 				prevStatus &= 0x7FFF;
 			else
 				prevStatus |= 0x8000;
@@ -577,51 +576,53 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 			if ((prevStatus | 0x8000) <= ID_STATUS_OFFLINE)
 				return 0;
 
-			db_set_b(hContact, S_MOD, "Offline", 1);
+			g_plugin.setByte(hContact, "Offline", 1);
 			{
 				char str[MAXMODULELABELLENGTH + 9];
 
 				mir_snprintf(str, "OffTime-%s", szProto);
-				DWORD t = db_get_dw(0, S_MOD, str, 0);
+				DWORD t = g_plugin.getDword(str, 0);
 				if (!t)
 					t = time(0);
 				DBWriteTimeTS(t, hContact);
 			}
 
-			if (!db_get_b(0, S_MOD, "IgnoreOffline", 1)) {
+			if (!g_plugin.getByte("IgnoreOffline", 1)) {
 				if (g_bFileActive)
 					FileWrite(hContact);
 
 				char *sProto = GetContactProto(hContact);
 				if (Proto_GetStatus(sProto) > ID_STATUS_OFFLINE) {
 					myPlaySound(hContact, ID_STATUS_OFFLINE, prevStatus);
-					if (db_get_b(0, S_MOD, "UsePopups", 0))
+					if (g_plugin.getByte("UsePopups", 0))
 						ShowPopup(hContact, sProto, ID_STATUS_OFFLINE);
 				}
 
-				if (db_get_b(0, S_MOD, "KeepHistory", 0))
+				if (g_plugin.getByte("KeepHistory", 0))
 					HistoryWrite(hContact);
 
-				if (db_get_b(hContact, S_MOD, "OnlineAlert", 0))
+				if (g_plugin.getByte(hContact, "OnlineAlert", 0))
 					ShowHistory(hContact, 1);
 			}
 
 		}
 		else {
-			if (cws->value.wVal == prevStatus && !db_get_b(hContact, S_MOD, "Offline", 0))
+			if (cws->value.wVal == prevStatus && !g_plugin.getByte(hContact, "Offline", 0))
 				return 0;
 
 			DBWriteTimeTS(time(0), hContact);
 
 			if (g_bFileActive) FileWrite(hContact);
 			if (prevStatus != cws->value.wVal) myPlaySound(hContact, cws->value.wVal, prevStatus);
-			if (db_get_b(0, S_MOD, "UsePopups", 0))
+			if (g_plugin.getByte("UsePopups", 0))
 				if (prevStatus != cws->value.wVal)
 					ShowPopup(hContact, GetContactProto(hContact), cws->value.wVal | 0x8000);
 
-			if (db_get_b(0, S_MOD, "KeepHistory", 0)) HistoryWrite(hContact);
-			if (db_get_b(hContact, S_MOD, "OnlineAlert", 0)) ShowHistory(hContact, 1);
-			db_set_b(hContact, S_MOD, "Offline", 0);
+			if (g_plugin.getByte("KeepHistory", 0))
+				HistoryWrite(hContact);
+			if (g_plugin.getByte(hContact, "OnlineAlert", 0))
+				ShowHistory(hContact, 1);
+			g_plugin.setByte(hContact, "Offline", 0);
 		}
 	}
 	else if (hContact && IsWatchedProtocol(cws->szModule) && !db_get_b(hContact, cws->szModule, "ChatRoom", false)) {
@@ -652,19 +653,20 @@ static void cleanThread(logthread_info* infoParam)
 	// I hope in 10 secons all logged-in contacts will be listed
 	if (WaitForSingleObject(g_hShutdownEvent, 10000) == WAIT_TIMEOUT) {
 		for (auto &hContact : Contacts(szProto)) {
-			WORD oldStatus = db_get_w(hContact, S_MOD, "StatusTriger", ID_STATUS_OFFLINE) | 0x8000;
+			WORD oldStatus = g_plugin.getWord(hContact, "StatusTriger", ID_STATUS_OFFLINE) | 0x8000;
 			if (oldStatus > ID_STATUS_OFFLINE) {
 				if (db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE) {
-					db_set_w(hContact, S_MOD, "OldStatus", (WORD)(oldStatus | 0x8000));
-					if (includeIdle)db_set_b(hContact, S_MOD, "OldIdle", (BYTE)((oldStatus & 0x8000) ? 0 : 1));
-					db_set_w(hContact, S_MOD, "StatusTriger", ID_STATUS_OFFLINE);
+					g_plugin.setWord(hContact, "OldStatus", (WORD)(oldStatus | 0x8000));
+					if (includeIdle)
+						g_plugin.setByte(hContact, "OldIdle", (BYTE)((oldStatus & 0x8000) ? 0 : 1));
+					g_plugin.setWord(hContact, "StatusTriger", ID_STATUS_OFFLINE);
 				}
 			}
 		}
 
 		char str[MAXMODULELABELLENGTH + 9];
 		mir_snprintf(str, "OffTime-%s", infoParam->sProtoName);
-		db_unset(NULL, S_MOD, str);
+		g_plugin.delSetting(str);
 	}
 	mir_free(infoParam);
 }
@@ -703,14 +705,14 @@ int ModeChange(WPARAM, LPARAM lparam)
 
 			time(&t);
 			mir_snprintf(str, "OffTime-%s", ack->szModule);
-			db_set_dw(0, S_MOD, str, t);
+			g_plugin.setDword(str, t);
 		}
 	}
 
-	if (isetting == db_get_w(0, S_MOD, courProtoName, ID_STATUS_OFFLINE))
+	if (isetting == g_plugin.getWord(courProtoName, ID_STATUS_OFFLINE))
 		return 0;
 
-	db_set_w(0, S_MOD, courProtoName, isetting);
+	g_plugin.setWord(courProtoName, isetting);
 
 	if (g_bFileActive)
 		FileWrite(NULL);

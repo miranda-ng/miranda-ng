@@ -59,7 +59,7 @@ wchar_t *any_to_Idle(MCONTACT hContact, const char *module_name, const char *set
 
 #define NUM100NANOSEC  116444736000000000
 
-#define S_MOD "SeenModule"
+#define MODULENAME "SeenModule"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {

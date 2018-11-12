@@ -34,7 +34,7 @@ char* BuildSetting(int historyLast)
 
 void HistoryWrite(MCONTACT hContact)
 {
-	int historyMax = db_get_w(0, S_MOD, "HistoryMax", 10);
+	int historyMax = g_plugin.getWord("HistoryMax", 10);
 	if (historyMax < 0)
 		historyMax = 0;
 	else if (historyMax > 99)
@@ -42,33 +42,33 @@ void HistoryWrite(MCONTACT hContact)
 	if (historyMax == 0)
 		return;
 
-	int historyFirst = db_get_w(hContact, S_MOD, "HistoryFirst", 0);
+	int historyFirst = g_plugin.getWord(hContact, "HistoryFirst", 0);
 	if (historyFirst >= historyMax)
 		historyFirst = 0;
 
-	int historyLast = db_get_w(hContact, S_MOD, "HistoryLast", 0);
+	int historyLast = g_plugin.getWord(hContact, "HistoryLast", 0);
 	if (historyLast >= historyMax)
 		historyLast = historyMax - 1;
 
 	wchar_t *ptszString;
 	DBVARIANT dbv;
-	if (!db_get_ws(NULL, S_MOD, "HistoryStamp", &dbv)) {
+	if (!g_plugin.getWString("HistoryStamp", &dbv)) {
 		ptszString = ParseString(dbv.pwszVal, hContact);
 		db_free(&dbv);
 	}
 	else ptszString = ParseString(DEFAULT_HISTORYSTAMP, hContact);
-	db_set_ws(hContact, S_MOD, BuildSetting(historyLast), ptszString);
+	g_plugin.setWString(hContact, BuildSetting(historyLast), ptszString);
 
 	historyLast = (historyLast + 1) % historyMax;
-	db_set_w(hContact, S_MOD, "HistoryLast", historyLast);
+	g_plugin.setWord(hContact, "HistoryLast", historyLast);
 	if (historyLast == historyFirst)
-		db_set_w(hContact, S_MOD, "HistoryFirst", (historyFirst + 1) % historyMax);
+		g_plugin.setWord(hContact, "HistoryFirst", (historyFirst + 1) % historyMax);
 }
 
 void LoadHistoryList(MCONTACT hContact, HWND hwnd, int nList)
 {
 	SendDlgItemMessage(hwnd, nList, LB_RESETCONTENT, 0, 0);
-	int historyMax = db_get_w(0, S_MOD, "HistoryMax", 10);
+	int historyMax = g_plugin.getWord("HistoryMax", 10);
 	if (historyMax < 0)
 		historyMax = 0;
 	else if (historyMax > 99)
@@ -76,11 +76,11 @@ void LoadHistoryList(MCONTACT hContact, HWND hwnd, int nList)
 	if (historyMax == 0)
 		return;
 
-	int historyFirst = db_get_w(hContact, S_MOD, "HistoryFirst", 0);
+	int historyFirst = g_plugin.getWord(hContact, "HistoryFirst", 0);
 	if (historyFirst >= historyMax)
 		historyFirst = 0;
 
-	int historyLast = db_get_w(hContact, S_MOD, "HistoryLast", 0);
+	int historyLast = g_plugin.getWord(hContact, "HistoryLast", 0);
 	if (historyLast >= historyMax)
 		historyLast = historyMax - 1;
 
@@ -88,7 +88,7 @@ void LoadHistoryList(MCONTACT hContact, HWND hwnd, int nList)
 		i = (i - 1 + historyMax) % historyMax;
 
 		DBVARIANT dbv;
-		if (!db_get_ws(hContact, S_MOD, BuildSetting(i), &dbv)) {
+		if (!g_plugin.getWString(hContact, BuildSetting(i), &dbv)) {
 			SendDlgItemMessage(hwnd, nList, LB_ADDSTRING, 0, (LPARAM)dbv.pwszVal);
 			db_free(&dbv);
 		}
@@ -178,7 +178,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 		SetWindowText(hwndDlg, sztemp);
 		Window_SetSkinIcon_IcoLib(hwndDlg, SKINICON_OTHER_MIRANDA);
 
-		if (db_get_b(hContact, S_MOD, "OnlineAlert", 0))
+		if (g_plugin.getByte(hContact, "OnlineAlert"))
 			CheckDlgButton(hwndDlg, IDC_STATUSCHANGE, BST_CHECKED);
 
 		SendDlgItemMessage(hwndDlg, IDC_DETAILS, BM_SETIMAGE, IMAGE_ICON, (WPARAM)Skin_LoadIcon(SKINICON_OTHER_USERDETAILS));
@@ -190,7 +190,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 		SendDlgItemMessage(hwndDlg, IDC_USERMENU, BUTTONADDTOOLTIP, (WPARAM)TranslateT("User Menu"), BATF_UNICODE);
 		SendDlgItemMessage(hwndDlg, IDC_SENDMSG, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Send Instant Message"), BATF_UNICODE);
 
-		Utils_RestoreWindowPositionNoMove(hwndDlg, NULL, S_MOD, "History_");
+		Utils_RestoreWindowPositionNoMove(hwndDlg, NULL, MODULENAME, "History_");
 		ShowWindow(hwndDlg, SW_SHOW);
 		return TRUE;
 
@@ -211,9 +211,9 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 			break;
 		case IDOK:
 			if (IsDlgButtonChecked(hwndDlg, IDC_STATUSCHANGE) == BST_CHECKED)
-				db_set_b(hContact, S_MOD, "OnlineAlert", 1);
+				g_plugin.setByte(hContact, "OnlineAlert", 1);
 			else
-				db_set_b(hContact, S_MOD, "OnlineAlert", 0);
+				g_plugin.setByte(hContact, "OnlineAlert", 0);
 			SendMessage(hwndDlg, WM_CLOSE, 0, 0);
 			break;
 		case IDC_USERMENU:
@@ -272,7 +272,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 		break;
 
 	case WM_DESTROY:
-		Utils_SaveWindowPosition(hwndDlg, NULL, S_MOD, "History_");
+		Utils_SaveWindowPosition(hwndDlg, NULL, MODULENAME, "History_");
 		DestroyIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_BIG, 0));
 		DestroyIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0));
 		break;

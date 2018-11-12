@@ -30,7 +30,7 @@ static wchar_t *g_ptszFileStamp, *g_ptszFileName;
 
 void InitFileOutput(void)
 {
-	ptrW tszFileName(db_get_wsa(NULL, S_MOD, "FileName"));
+	ptrW tszFileName(g_plugin.getWStringA("FileName"));
 	if (tszFileName == NULL)
 		tszFileName = mir_wstrdup(DEFAULT_FILENAME);
 	replaceStrW(g_ptszFileName, VARSW(tszFileName));
@@ -40,7 +40,7 @@ void InitFileOutput(void)
 	if (p) *p = 0;
 	CreateDirectoryTreeW(tszPath);
 	
-	ptrW tszFileStamp(db_get_wsa(NULL, S_MOD, "FileStamp"));
+	ptrW tszFileStamp(g_plugin.getWStringA("FileStamp"));
 	replaceStrW(g_ptszFileStamp, (tszFileStamp == NULL) ? DEFAULT_FILESTAMP : tszFileStamp);
 }
 

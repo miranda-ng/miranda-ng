@@ -43,7 +43,7 @@ PLUGININFOEX pluginInfoEx =
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(S_MOD, pluginInfoEx)
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -69,13 +69,13 @@ void UninitHistoryDialog(void);
 
 static int MainInit(WPARAM, LPARAM)
 {
-	if (g_bFileActive = db_get_b(0, S_MOD, "FileOutput", 0))
+	if (g_bFileActive = g_plugin.getByte("FileOutput", 0))
 		InitFileOutput();
 
-	if (db_get_b(0, S_MOD, "MenuItem", 1))
+	if (g_plugin.getByte("MenuItem", 1))
 		InitMenuitem();
 
-	if (db_get_b(0, S_MOD, "UserinfoTab", 1))
+	if (g_plugin.getByte("UserinfoTab", 1))
 		ehuserinfo = HookEvent(ME_USERINFO_INITIALISE, UserinfoInit);
 
 	if (ServiceExists(MS_TIPPER_ADDTRANSLATION))
@@ -102,9 +102,9 @@ int CMPlugin::Load()
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, UpdateValues);
 	HookEvent(ME_PROTO_ACK, ModeChange);
 
-	includeIdle = (BOOL)db_get_b(0, S_MOD, "IdleSupport", 1);
+	includeIdle = (BOOL)g_plugin.getByte("IdleSupport", 1);
 
-	if (db_get_b(0, S_MOD, "MissedOnes", 0))
+	if (g_plugin.getByte("MissedOnes", 0))
 		ehmissed_proto = HookEvent(ME_PROTO_ACK, ModeChange_mo);
 
 	LoadWatchedProtos();

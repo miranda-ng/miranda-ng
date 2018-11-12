@@ -43,7 +43,7 @@ int RemoveUser(int pos)
 int ResetMissed(void)
 {
 	for (auto &hContact : Contacts())
-		db_set_b(hContact, S_MOD, "Missed", 0);
+		g_plugin.setByte(hContact, "Missed", 0);
 
 	memset(&mcs, 0, sizeof(mcs));
 	return 0;
@@ -53,7 +53,7 @@ int CheckIfOnline(void)
 {
 	for (auto &hContact : Contacts())
 		if (Clist_GetContactIcon(hContact) != ICON_OFFLINE)
-			db_set_b(hContact, S_MOD, "Missed", 2);
+			g_plugin.setByte(hContact, "Missed", 2);
 
 	return 0;
 }
@@ -108,7 +108,7 @@ int ShowMissed(void)
 	CMStringW buf;
 	for (int loop = 0; loop < mcs.count; loop++) {
 		buf.Append(Clist_GetContactDisplayName(mcs.wpcontact[loop]));
-		if (db_get_b(0, S_MOD, "MissedOnes_Count", 0))
+		if (g_plugin.getByte("MissedOnes_Count", 0))
 			buf.AppendFormat(L" [%i]", mcs.times[loop]);
 
 		buf.AppendChar('\n');
@@ -126,12 +126,12 @@ int Test(WPARAM wparam, LPARAM lparam)
 	if (CallService(MS_IGNORE_ISIGNORED, wparam, IGNOREEVENT_USERONLINE))
 		return 0;
 
-	if (db_get_b((MCONTACT)wparam, S_MOD, "Missed", 0) == 2)
+	if (g_plugin.getByte((MCONTACT)wparam, "Missed", 0) == 2)
 		return 0;
 
 	switch (lparam) {
 	case ICON_OFFLINE:
-		if (db_get_b((MCONTACT)wparam, S_MOD, "Missed", 0) == 1) {
+		if (g_plugin.getByte((MCONTACT)wparam, "Missed", 0) == 1) {
 			WORD missed = IsUserMissed(wparam);
 			if (!LOWORD(missed)) {
 				mcs.times[mcs.count] = 1;
@@ -139,7 +139,7 @@ int Test(WPARAM wparam, LPARAM lparam)
 			}
 			else mcs.times[HIWORD(missed)]++;
 
-			db_set_b((MCONTACT)wparam, S_MOD, "Missed", 0);
+			g_plugin.setByte((MCONTACT)wparam, "Missed", 0);
 		}
 		break;
 
@@ -150,7 +150,7 @@ int Test(WPARAM wparam, LPARAM lparam)
 	case ICON_DND:
 	case ICON_FREE:
 	case ICON_INVIS:
-		db_set_b((MCONTACT)wparam, S_MOD, "Missed", 1);
+		g_plugin.setByte((MCONTACT)wparam, "Missed", 1);
 		break;
 	}
 
