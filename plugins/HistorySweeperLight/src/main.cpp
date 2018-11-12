@@ -42,7 +42,7 @@ static PLUGININFOEX pluginInfoEx =
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(ModuleName, pluginInfoEx)
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -51,17 +51,17 @@ static int OnIconPressed(WPARAM hContact, LPARAM lParam)
 {
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
 
-	if (!(sicd->flags & MBCF_RIGHTBUTTON) && !mir_strcmp(sicd->szModule, ModuleName) && db_get_b(0, ModuleName, "ChangeInMW", 0)) {
+	if (!(sicd->flags & MBCF_RIGHTBUTTON) && !mir_strcmp(sicd->szModule, MODULENAME) && g_plugin.getByte("ChangeInMW", 0)) {
 		int nh = sicd->dwId;
 
 		StatusIconData sid = {};
-		sid.szModule = ModuleName;
+		sid.szModule = MODULENAME;
 		sid.dwId = nh;
 		sid.flags = MBF_HIDDEN;
 		Srmm_ModifyIcon(hContact, &sid);
 
 		nh = (nh + 1) % 4;
-		db_set_b(hContact, ModuleName, "SweepHistory", (BYTE)nh);
+		g_plugin.setByte(hContact, "SweepHistory", (BYTE)nh);
 
 		sid.dwId = nh;
 		sid.flags = 0;
@@ -72,18 +72,18 @@ static int OnIconPressed(WPARAM hContact, LPARAM lParam)
 
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
-	int sweep = db_get_b(0, ModuleName, "SweepHistory", 0);
+	int sweep = g_plugin.getByte("SweepHistory", 0);
 
 	StatusIconData sid = {};
-	sid.szModule = ModuleName;
+	sid.szModule = MODULENAME;
 
 	sid.hIcon = LoadIconEx("actG");
 	if (sweep == 0)
 		sid.szTooltip = LPGEN("Keep all events");
 	else if (sweep == 1)
-		sid.szTooltip = time_stamp_strings[db_get_b(0, ModuleName, "StartupShutdownOlder", 0)];
+		sid.szTooltip = time_stamp_strings[g_plugin.getByte("StartupShutdownOlder", 0)];
 	else if (sweep == 2)
-		sid.szTooltip = keep_strings[db_get_b(0, ModuleName, "StartupShutdownKeep", 0)];
+		sid.szTooltip = keep_strings[g_plugin.getByte("StartupShutdownKeep", 0)];
 	else if (sweep == 3)
 		sid.szTooltip = LPGEN("Delete all events");
 
@@ -92,13 +92,13 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 	sid.dwId = 1;
 	sid.hIcon = LoadIconEx("act1");
-	sid.szTooltip = time_stamp_strings[db_get_b(0, ModuleName, "StartupShutdownOlder", 0)];
+	sid.szTooltip = time_stamp_strings[g_plugin.getByte("StartupShutdownOlder", 0)];
 	sid.flags = MBF_HIDDEN;
 	Srmm_AddIcon(&sid, &g_plugin);
 
 	sid.dwId = 2;
 	sid.hIcon = LoadIconEx("act2");
-	sid.szTooltip = keep_strings[db_get_b(0, ModuleName, "StartupShutdownKeep", 0)];
+	sid.szTooltip = keep_strings[g_plugin.getByte("StartupShutdownKeep", 0)];
 	sid.flags = MBF_HIDDEN;
 	Srmm_AddIcon(&sid, &g_plugin);
 

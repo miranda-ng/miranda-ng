@@ -56,13 +56,13 @@ static HANDLE hIconLibItem[_countof(iconList)];
 
 void InitIcons(void)
 {
-	g_plugin.registerIcon(ModuleName, iconList, ModuleName);
+	g_plugin.registerIcon(MODULENAME, iconList, MODULENAME);
 }
 
 HICON LoadIconEx(const char* name)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, "%s_%s", ModuleName, name);
+	mir_snprintf(szSettingName, "%s_%s", MODULENAME, name);
 	return IcoLib_GetIcon(szSettingName);
 }
 
@@ -78,7 +78,7 @@ HANDLE GetIconHandle(const char* name)
 void  ReleaseIconEx(const char* name)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, "%s_%s", ModuleName, name);
+	mir_snprintf(szSettingName, "%s_%s", MODULENAME, name);
 	IcoLib_Release(szSettingName);
 }
 
@@ -87,14 +87,14 @@ HANDLE hAllContacts, hSystemHistory;
 static void ShowAllContactIcons(HWND hwndList)
 {
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hAllContacts,
-		MAKELPARAM(0, db_get_b(0, ModuleName, "SweepHistory", 0)));
+		MAKELPARAM(0, g_plugin.getByte("SweepHistory", 0)));
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hSystemHistory,
-		MAKELPARAM(0, db_get_b(0, ModuleName, "SweepSHistory", 0)));
+		MAKELPARAM(0, g_plugin.getByte("SweepSHistory", 0)));
 
 	for (auto &hContact : Contacts()) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 		SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem,
-			MAKELPARAM(0, db_get_b(hContact, ModuleName, "SweepHistory", 0)));
+			MAKELPARAM(0, g_plugin.getByte(hContact, "SweepHistory")));
 	}
 }
 
@@ -127,63 +127,61 @@ void LoadSettings(HWND hwndDlg)
 		SendDlgItemMessage(hwndDlg, IDC_SSKEEP, CB_ADDSTRING, 0, (LPARAM)ptszTimeStr);
 	}
 
-	SendDlgItemMessage(hwndDlg, IDC_SSOLDER, CB_SETCURSEL, db_get_b(0, ModuleName, "StartupShutdownOlder", 0), 0);
-	SendDlgItemMessage(hwndDlg, IDC_SSKEEP, CB_SETCURSEL, db_get_b(0, ModuleName, "StartupShutdownKeep", 0), 0);
+	SendDlgItemMessage(hwndDlg, IDC_SSOLDER, CB_SETCURSEL, g_plugin.getByte("StartupShutdownOlder", 0), 0);
+	SendDlgItemMessage(hwndDlg, IDC_SSKEEP, CB_SETCURSEL, g_plugin.getByte("StartupShutdownKeep", 0), 0);
 
-	CheckDlgButton(hwndDlg, IDC_UNSAFEMODE, db_get_b(0, ModuleName, "UnsafeMode", 0) ? BST_CHECKED : BST_UNCHECKED);
-	CheckDlgButton(hwndDlg, IDC_SWEEPONCLOSE, db_get_b(0, ModuleName, "SweepOnClose", 0) ? BST_CHECKED : BST_UNCHECKED);
-	CheckDlgButton(hwndDlg, IDC_HISTMW, db_get_b(0, ModuleName, "ChangeInMW", 0) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_UNSAFEMODE, g_plugin.getByte("UnsafeMode", 0) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_SWEEPONCLOSE, g_plugin.getByte("SweepOnClose", 0) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_HISTMW, g_plugin.getByte("ChangeInMW", 0) ? BST_CHECKED : BST_UNCHECKED);
 }
 
 void SaveSettings(HWND hwndDlg)
 {
 	HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST);
 
-	db_set_b(0, ModuleName, "StartupShutdownOlder", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SSOLDER, CB_GETCURSEL, 0, 0));
-	db_set_b(0, ModuleName, "StartupShutdownKeep", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SSKEEP, CB_GETCURSEL, 0, 0));
-	db_set_b(0, ModuleName, "UnsafeMode", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_UNSAFEMODE));
-	db_set_b(0, ModuleName, "SweepOnClose", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SWEEPONCLOSE));
-	db_set_b(0, ModuleName, "ChangeInMW", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_HISTMW));
+	g_plugin.setByte("StartupShutdownOlder", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SSOLDER, CB_GETCURSEL, 0, 0));
+	g_plugin.setByte("StartupShutdownKeep", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SSKEEP, CB_GETCURSEL, 0, 0));
+	g_plugin.setByte("UnsafeMode", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_UNSAFEMODE));
+	g_plugin.setByte("SweepOnClose", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SWEEPONCLOSE));
+	g_plugin.setByte("ChangeInMW", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_HISTMW));
 
-	db_set_b(0, ModuleName, "SweepHistory",
-		(BYTE)SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hAllContacts, 0));
-	db_set_b(0, ModuleName, "SweepSHistory",
-		(BYTE)SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hSystemHistory, 0));
+	g_plugin.setByte("SweepHistory", (BYTE)SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hAllContacts, 0));
+	g_plugin.setByte("SweepSHistory", (BYTE)SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hSystemHistory, 0));
 
 	for (auto &hContact : Contacts()) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 
 		int st = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, 0);
 		if (st != 0)
-			db_set_b(hContact, ModuleName, "SweepHistory", (BYTE)st);
+			g_plugin.setByte(hContact, "SweepHistory", (BYTE)st);
 		else
-			db_unset(hContact, ModuleName, "SweepHistory");
+			g_plugin.delSetting(hContact, "SweepHistory");
 	}
 
 	for (auto &it : g_hWindows)
 		SetSrmmIcon(UINT_PTR(it));
 
 	// set tooltips
-	int st = db_get_b(0, ModuleName, "SweepHistory", 0);
+	int st = g_plugin.getByte("SweepHistory", 0);
 
 	StatusIconData sid = {};
-	sid.szModule = ModuleName;
+	sid.szModule = MODULENAME;
 	sid.dwId = 0;
 	sid.hIcon = LoadIconEx("actG");
 	if (st == 0)	sid.szTooltip = LPGEN("Keep all events");
-	else if (st == 1)	sid.szTooltip = LPGEN(time_stamp_strings[db_get_b(0, ModuleName, "StartupShutdownOlder", 0)]);
-	else if (st == 2)	sid.szTooltip = LPGEN(keep_strings[db_get_b(0, ModuleName, "StartupShutdownKeep", 0)]);
+	else if (st == 1)	sid.szTooltip = LPGEN(time_stamp_strings[g_plugin.getByte("StartupShutdownOlder", 0)]);
+	else if (st == 2)	sid.szTooltip = LPGEN(keep_strings[g_plugin.getByte("StartupShutdownKeep", 0)]);
 	else if (st == 3)	sid.szTooltip = LPGEN("Delete all events");
 	Srmm_ModifyIcon(NULL, &sid);
 
 	sid.dwId = 1;
 	sid.hIcon = LoadIconEx("act1");
-	sid.szTooltip = time_stamp_strings[db_get_b(0, ModuleName, "StartupShutdownOlder", 0)];
+	sid.szTooltip = time_stamp_strings[g_plugin.getByte("StartupShutdownOlder", 0)];
 	Srmm_ModifyIcon(NULL, &sid);
 
 	sid.dwId = 2;
 	sid.hIcon = LoadIconEx("act2");
-	sid.szTooltip = keep_strings[db_get_b(0, ModuleName, "StartupShutdownKeep", 0)];
+	sid.szTooltip = keep_strings[g_plugin.getByte("StartupShutdownKeep", 0)];
 	Srmm_ModifyIcon(NULL, &sid);
 }
 
@@ -271,7 +269,7 @@ int HSOptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_HISTORYSWEEPER);
-	odp.szTitle.a = ModuleName;
+	odp.szTitle.a = MODULENAME;
 	odp.szGroup.a = LPGEN("History");
 	odp.pfnDlgProc = DlgProcHSOpts;
 	odp.flags = ODPF_BOLDGROUPS;
