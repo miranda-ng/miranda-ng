@@ -128,18 +128,19 @@ static void GetBookmarks(MCONTACT hContact, BEventData** books, size_t* bookcnt)
 void SweepHistoryFromContact(MCONTACT hContact, CriteriaStruct Criteria, BOOL keepUnread)
 {
 	int lPolicy;
-	if (hContact == NULL)			// for system history
-		lPolicy = db_get_b(0, ModuleName, "SweepSHistory", 0);
+	if (hContact == NULL) // for system history
+		lPolicy = g_plugin.getByte("SweepSHistory", 0);
 	else							// for contact history (or "SweepHistory" - default action)
-		lPolicy = db_get_b(hContact, ModuleName, "SweepHistory", db_get_b(0, ModuleName, "SweepHistory", 0));
+		lPolicy = g_plugin.getByte(hContact, "SweepHistory", g_plugin.getByte("SweepHistory", 0));
 
-	if (lPolicy == 0) return;		// nothing to do
+	if (lPolicy == 0) // nothing to do
+		return;
 
 	int eventsCnt = db_event_count(hContact);
 	if (eventsCnt == 0)
 		return;
 
-	BOOL doDelete, unsafe = db_get_b(0, ModuleName, "UnsafeMode", 0);
+	BOOL doDelete, unsafe = g_plugin.getByte("UnsafeMode", 0);
 	BEventData *books, *item, ev = { 0 };
 	size_t bookcnt, btshift;
 
@@ -196,8 +197,8 @@ void SweepHistoryFromContact(MCONTACT hContact, CriteriaStruct Criteria, BOOL ke
 void ShutdownAction(void)
 {
 	CriteriaStruct Criteria;
-	Criteria.keep = KeepCriteria(db_get_b(0, ModuleName, "StartupShutdownKeep", 0));
-	Criteria.time = BuildCriteria(db_get_b(0, ModuleName, "StartupShutdownOlder", 0));
+	Criteria.keep = KeepCriteria(g_plugin.getByte("StartupShutdownKeep"));
+	Criteria.time = BuildCriteria(g_plugin.getByte("StartupShutdownOlder"));
 
 	SweepHistoryFromContact(NULL, Criteria, FALSE);				// sweep system history, keepunread==0
 
@@ -207,7 +208,7 @@ void ShutdownAction(void)
 
 int OnWindowEvent(WPARAM, LPARAM lParam)
 {
-	MessageWindowEventData* msgEvData = (MessageWindowEventData*)lParam;
+	MessageWindowEventData *msgEvData = (MessageWindowEventData*)lParam;
 	switch (msgEvData->uType) {
 	case MSG_WINDOW_EVT_OPENING:
 		g_hWindows.insert(PVOID(msgEvData->hContact));
@@ -215,11 +216,11 @@ int OnWindowEvent(WPARAM, LPARAM lParam)
 		break;
 
 	case MSG_WINDOW_EVT_CLOSE:
-		if (db_get_b(0, ModuleName, "SweepOnClose", 0)) {
+		if (g_plugin.getByte("SweepOnClose", 0)) {
 			CriteriaStruct Criteria;
 
-			Criteria.keep = KeepCriteria(db_get_b(0, ModuleName, "StartupShutdownKeep", 0));
-			Criteria.time = BuildCriteria(db_get_b(0, ModuleName, "StartupShutdownOlder", 0));
+			Criteria.keep = KeepCriteria(g_plugin.getByte("StartupShutdownKeep"));
+			Criteria.time = BuildCriteria(g_plugin.getByte("StartupShutdownOlder"));
 
 			SweepHistoryFromContact(msgEvData->hContact, Criteria, TRUE);
 		}
@@ -236,10 +237,10 @@ int OnWindowEvent(WPARAM, LPARAM lParam)
 
 void SetSrmmIcon(MCONTACT hContact)
 {
-	int sweep = db_get_b(hContact, ModuleName, "SweepHistory", 0);
+	int sweep = g_plugin.getByte(hContact, "SweepHistory");
 
 	StatusIconData sid = {};
-	sid.szModule = ModuleName;
+	sid.szModule = MODULENAME;
 
 	for (int i = 0; i < 4; i++) {
 		sid.dwId = i;
