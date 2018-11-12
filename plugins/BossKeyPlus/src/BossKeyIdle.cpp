@@ -54,7 +54,7 @@ VOID CALLBACK IdleTimer(HWND, UINT, UINT_PTR idEvent, DWORD)
 
 void InitIdleTimer()
 {
-	minutes = db_get_b(0, MOD_NAME, "time", 10);
+	minutes = g_plugin.getByte("time", 10);
 	hTimer = SetTimer(nullptr, 0, 2000, IdleTimer);
 }
 

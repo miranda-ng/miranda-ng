@@ -41,7 +41,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 
 			DBVARIANT dbVar;
 
-			if (!db_get_s(0, MOD_NAME, "password", &dbVar)) {
+			if (!g_plugin.getString("password", &dbVar)) {
 				SetDlgItemTextA(hwndDlg, IDC_MAINOPT_PASS, dbVar.pszVal);
 				db_free(&dbVar);
 			}
@@ -57,7 +57,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
 				SendDlgItemMessage(hwndDlg, IDC_MAINOPT_CHGSTS, CB_INSERTSTRING, -1, (LPARAM)Clist_GetStatusModeDescription(i, 0));
 
-			SendDlgItemMessage(hwndDlg, IDC_MAINOPT_CHGSTS, CB_SETCURSEL, db_get_b(0, MOD_NAME, "stattype", 2), 0);
+			SendDlgItemMessage(hwndDlg, IDC_MAINOPT_CHGSTS, CB_SETCURSEL, g_plugin.getByte("stattype", 2), 0);
 
 			SendMessage(hwndDlg, WM_USER + 60, 0, 0);
 			SendMessage(hwndDlg, WM_USER + 50, 0, 0);
@@ -75,16 +75,16 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 
 			// write down status type
 			if (IsDlgButtonChecked(hwndDlg, IDC_MAINOPT_CHANGESTATUSBOX) == BST_CHECKED) {
-				db_set_b(0, MOD_NAME, "stattype", (BYTE)SendDlgItemMessage(hwndDlg, IDC_MAINOPT_CHGSTS, CB_GETCURSEL, 0, 0));
+				g_plugin.setByte("stattype", (BYTE)SendDlgItemMessage(hwndDlg, IDC_MAINOPT_CHGSTS, CB_GETCURSEL, 0, 0));
 
 				// status msg, if needed
 				if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_MAINOPT_STATMSG))) { // meaning we should save it
 					wchar_t tszMsg[1025];
 					GetDlgItemText(hwndDlg, IDC_MAINOPT_STATMSG, tszMsg, _countof(tszMsg));
 					if (tszMsg[0] != 0)
-						db_set_ws(0, MOD_NAME, "statmsg", tszMsg);
+						g_plugin.setWString("statmsg", tszMsg);
 					else // delete current setting
-						db_unset(NULL, MOD_NAME, "statmsg");
+						g_plugin.delSetting("statmsg");
 				}
 				wMask |= OPT_CHANGESTATUS;
 			}
@@ -94,7 +94,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 				char szPass[MAXPASSLEN + 1];
 				GetDlgItemTextA(hwndDlg, IDC_MAINOPT_PASS, szPass, _countof(szPass));
 				if (szPass[0] != 0){
-					db_set_s(0, MOD_NAME, "password", szPass);
+					g_plugin.setString("password", szPass);
 					wMask |= OPT_REQPASS;
 				}
 			}
@@ -104,7 +104,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			if (IsDlgButtonChecked(hwndDlg, IDC_MAINOPT_USEDEFMSG) == BST_CHECKED)  wMask |= OPT_USEDEFMSG;
 			if (IsDlgButtonChecked(hwndDlg, IDC_MAINOPT_TRAYICON) == BST_CHECKED)  wMask |= OPT_TRAYICON;
 
-			db_set_w(0, MOD_NAME, "optsmask", wMask);
+			g_plugin.setWord("optsmask", wMask);
 			g_wMask = wMask;
 			return true;
 		}
@@ -123,7 +123,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 		else {
 			DBVARIANT dbVar;
 			SendDlgItemMessage(hwndDlg, IDC_MAINOPT_STATMSG, EM_LIMITTEXT, 1024, 0);
-			if (!db_get_ws(NULL, MOD_NAME, "statmsg", &dbVar)) {
+			if (!g_plugin.getWString("statmsg", &dbVar)) {
 				SetDlgItemText(hwndDlg, IDC_MAINOPT_STATMSG, dbVar.pwszVal);
 				db_free(&dbVar);
 			}
@@ -216,7 +216,7 @@ INT_PTR CALLBACK AdvOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 			g_fOptionsOpen = true;
 
-			minutes = db_get_b(0, MOD_NAME, "time", 10);
+			minutes = g_plugin.getByte("time", 10);
 			wchar_t szMinutes[4] = { 0 };
 			_itow(minutes, szMinutes, 10);
 			SendDlgItemMessage(hwndDlg, IDC_MAINOPT_TIME, EM_LIMITTEXT, 2, 0);
@@ -257,8 +257,8 @@ INT_PTR CALLBACK AdvOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			GetDlgItemText(hwndDlg, IDC_MAINOPT_TIME, szMinutes, _countof(szMinutes));
 			minutes = _wtoi(szMinutes);
 			if (minutes < 1) minutes = 1;
-			db_set_b(0, MOD_NAME, "time", minutes);
-			db_set_w(0, MOD_NAME, "optsmaskadv", wMaskAdv);
+			g_plugin.setByte("time", minutes);
+			g_plugin.setWord("optsmaskadv", wMaskAdv);
 			g_wMaskAdv = wMaskAdv;
 			return true;
 		}

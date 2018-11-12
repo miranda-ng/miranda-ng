@@ -47,7 +47,7 @@
 #include "resource.h"
 #include "version.h"
 
-#define MOD_NAME "BossKey"
+#define MODULENAME "BossKey"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {

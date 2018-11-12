@@ -190,11 +190,10 @@ void DoAnswer(MCONTACT hContact, const TalkBot::MessageInfo *info, bool sticky =
 
 void AnswerToContact(MCONTACT hContact, const wchar_t* messageToAnswer)
 {
-	if (Config.TalkWarnContacts && db_get_b(hContact, BOLTUN_KEY,
-		DB_CONTACT_WARNED, FALSE) == FALSE)
+	if (Config.TalkWarnContacts && g_plugin.getByte(hContact, DB_CONTACT_WARNED, FALSE) == FALSE)
 	{
 		DoAnswer(hContact, new TalkBot::MessageInfo((const wchar_t*)Config.WarnText), true);
-		db_set_b(hContact, BOLTUN_KEY, DB_CONTACT_WARNED, TRUE);
+		g_plugin.setByte(hContact, DB_CONTACT_WARNED, TRUE);
 	}
 	else
 		DoAnswer(hContact, bot->Reply(hContact, messageToAnswer, false));

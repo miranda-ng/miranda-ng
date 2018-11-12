@@ -57,7 +57,7 @@ static PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MOD_NAME, pluginInfoEx)
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -240,12 +240,11 @@ static void CreateTrayIcon(bool create)
 {
 	NOTIFYICONDATA nim;
 	DBVARIANT dbVar;
-	if (!db_get_ws(NULL, MOD_NAME, "ToolTipText", &dbVar)) {
+	if (!g_plugin.getWString("ToolTipText", &dbVar)) {
 		wcsncpy_s(nim.szTip, dbVar.pwszVal, _TRUNCATE);
 		db_free(&dbVar);
 	}
-	else
-		wcsncpy_s(nim.szTip, L"Miranda NG", _TRUNCATE);
+	else wcsncpy_s(nim.szTip, L"Miranda NG", _TRUNCATE);
 
 	nim.cbSize = sizeof(nim);
 	nim.hWnd = g_hListenWindow;
@@ -303,10 +302,10 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 			if (g_wMask & OPT_CHANGESTATUS) // is this even needed?
 			{
-				BYTE bReqMode = db_get_b(0, MOD_NAME, "stattype", 2);
+				BYTE bReqMode = g_plugin.getByte("stattype", 2);
 				unsigned uMode = (STATUS_ARR_TO_ID[bReqMode]);
 				DBVARIANT dbVar;
-				if (g_wMask & OPT_USEDEFMSG || db_get_ws(NULL, MOD_NAME, "statmsg", &dbVar)) {
+				if (g_wMask & OPT_USEDEFMSG || g_plugin.getWString("statmsg", &dbVar)) {
 					wchar_t *ptszDefMsg = GetDefStatusMsg(uMode, nullptr);
 					ChangeAllProtoStatuses(uMode, ptszDefMsg);
 					mir_free(ptszDefMsg);
@@ -345,7 +344,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			g_bWindowHidden = true;
 
 			g_bOldSetting |= OLD_WASHIDDEN;
-			db_set_b(0, MOD_NAME, "OldSetting", g_bOldSetting);
+			g_plugin.setByte("OldSetting", g_bOldSetting);
 		}
 		return 0;
 
@@ -356,7 +355,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 			if (g_wMask & OPT_REQPASS) {  //password request
 				DBVARIANT dbVar;
-				if (!db_get_s(0, MOD_NAME, "password", &dbVar)) {
+				if (!g_plugin.getString("password", &dbVar)) {
 					g_fPassRequested = true;
 
 					strncpy(g_password, dbVar.pszVal, MAXPASSLEN);
@@ -405,7 +404,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			PostMessage(hWnd, WM_MOUSEMOVE, 0, (LPARAM)MAKELONG(2, 2)); // reset core's IDLE
 			g_bWindowHidden = false;
 
-			db_set_b(0, MOD_NAME, "OldSetting", 0);
+			g_plugin.setByte("OldSetting", 0);
 		}
 		return 0;
 	}
@@ -552,7 +551,7 @@ static int TabsrmmButtonPressed(WPARAM, LPARAM lParam)
 {
 	CustomButtonClickData *cbcd = (CustomButtonClickData *)lParam;
 
-	if (!mir_strcmp(cbcd->pszModule, MOD_NAME))
+	if (!mir_strcmp(cbcd->pszModule, MODULENAME))
 		BossKeyHideMiranda(0, 0);
 
 	return 0;
@@ -561,7 +560,7 @@ static int TabsrmmButtonPressed(WPARAM, LPARAM lParam)
 static int TabsrmmButtonsInit(WPARAM, LPARAM)
 {
 	BBButton bbd = {};
-	bbd.pszModuleName = MOD_NAME;
+	bbd.pszModuleName = MODULENAME;
 	bbd.dwDefPos = 5000;
 	bbd.pwszTooltip = LPGENW("Hide Miranda NG");
 	bbd.bbbFlags = BBBF_ISRSIDEBUTTON | BBBF_CANBEHIDDEN;
@@ -599,7 +598,7 @@ static int EnumProtos(WPARAM, LPARAM)
 
 static int MirandaLoaded(WPARAM, LPARAM)
 {
-	g_wMask = db_get_w(0, MOD_NAME, "optsmask", DEFAULTSETTING);
+	g_wMask = g_plugin.getWord("optsmask", DEFAULTSETTING);
 
 	RegisterCoreHotKeys();
 
@@ -660,8 +659,8 @@ static int MirandaLoaded(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
-	g_wMaskAdv = db_get_w(0, MOD_NAME, "optsmaskadv", 0);
-	g_bOldSetting = db_get_b(0, MOD_NAME, "OldSetting", 0);
+	g_wMaskAdv = g_plugin.getWord("optsmaskadv", 0);
+	g_bOldSetting = g_plugin.getByte("OldSetting", 0);
 
 	if ((g_bOldSetting & OLD_POPUP) && !(g_wMaskAdv & OPT_RESTORE)) // Restore popup settings if Miranda was crushed or killed in hidden mode and "Restore hiding on startup after failure" option is disabled
 	{

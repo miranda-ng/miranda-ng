@@ -166,8 +166,7 @@ static bool LoadMind(const wchar_t* filename, int &line)
 
 static bool BoltunAutoChat(MCONTACT hContact)
 {
-	if (db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT
-		, FALSE) == TRUE)
+	if (g_plugin.getByte(hContact, DB_CONTACT_BOLTUN_NOT_TO_CHAT, FALSE) == TRUE)
 		return false;
 
 	if (Config.TalkWithEverybody)
@@ -184,12 +183,10 @@ static bool BoltunAutoChat(MCONTACT hContact)
 			return true;
 	}
 
-	if ((db_get_b(hContact, "CList", "NotOnList", 0) == 1) &&
-		Config.TalkWithNotInList)
+	if ((db_get_b(hContact, "CList", "NotOnList", 0) == 1) && Config.TalkWithNotInList)
 		return true;
 
-	if (db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT,
-		FALSE) == TRUE)
+	if (g_plugin.getByte(hContact, DB_CONTACT_BOLTUN_AUTO_CHAT, FALSE) == TRUE)
 		return true;
 
 	return false;
@@ -451,8 +448,8 @@ static int MessageOptInit(WPARAM wParam, LPARAM)
 
 static int ContactClick(WPARAM hContact, LPARAM, BOOL clickNotToChat)
 {
-	BOOL boltunautochat = db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT, FALSE);
-	BOOL boltunnottochat = db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT, FALSE);
+	BOOL boltunautochat = g_plugin.getByte(hContact, DB_CONTACT_BOLTUN_AUTO_CHAT, FALSE);
+	BOOL boltunnottochat = g_plugin.getByte(hContact, DB_CONTACT_BOLTUN_NOT_TO_CHAT, FALSE);
 
 	if (clickNotToChat) {
 		boltunnottochat = !boltunnottochat;
@@ -466,12 +463,12 @@ static int ContactClick(WPARAM hContact, LPARAM, BOOL clickNotToChat)
 			boltunnottochat = FALSE;
 		}
 		else {
-			db_set_b(hContact, BOLTUN_KEY, DB_CONTACT_WARNED, FALSE);
+			g_plugin.setByte(hContact, DB_CONTACT_WARNED, FALSE);
 		}
 	}
 
-	db_set_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT, (BYTE)boltunautochat);
-	db_set_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT, (BYTE)boltunnottochat);
+	g_plugin.setByte(hContact, DB_CONTACT_BOLTUN_AUTO_CHAT, (BYTE)boltunautochat);
+	g_plugin.setByte(hContact, DB_CONTACT_BOLTUN_NOT_TO_CHAT, (BYTE)boltunnottochat);
 
 	return 0;
 }
@@ -502,12 +499,12 @@ static int OnContactMenuPrebuild(WPARAM hContact, LPARAM)
 	Menu_ShowItem(hMenuItemStartChatting, bEnable);
 
 	if (bEnable) {
-		if (db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT, FALSE))
+		if (g_plugin.getByte(hContact, DB_CONTACT_BOLTUN_AUTO_CHAT, FALSE))
 			Menu_ModifyItem(hMenuItemAutoChat, nullptr, Skin_LoadIcon(SKINICON_OTHER_TICK), CMIF_CHECKED);
 		else
 			Menu_ModifyItem(hMenuItemAutoChat, nullptr, Skin_LoadIcon(SKINICON_OTHER_NOTICK), 0);
 
-		if (db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT, FALSE))
+		if (g_plugin.getByte(hContact, DB_CONTACT_BOLTUN_NOT_TO_CHAT, FALSE))
 			Menu_ModifyItem(hMenuItemNotToChat, nullptr, Skin_LoadIcon(SKINICON_OTHER_TICK), CMIF_CHECKED);
 		else
 			Menu_ModifyItem(hMenuItemNotToChat, nullptr, Skin_LoadIcon(SKINICON_OTHER_NOTICK), 0);
