@@ -51,9 +51,9 @@ int ProcessSrmmEvent(WPARAM, LPARAM lParam)
 			hDialogsList = WindowList_Create();
 		WindowList_Add(hDialogsList, event->hwndWindow, event->hContact);
 
-		BYTE fav = db_get_b(event->hContact, "FavContacts", "IsFavourite", 0);
+		BYTE fav = g_plugin.getByte(event->hContact, "IsFavourite");
 		StatusIconData sid = {};
-		sid.szModule = "FavContacts";
+		sid.szModule = MODULENAME;
 		sid.flags = fav ? 0 : MBF_DISABLED;
 		Srmm_ModifyIcon(event->hContact, &sid);
 
@@ -82,18 +82,20 @@ int ProcessSrmmEvent(WPARAM, LPARAM lParam)
 int ProcessSrmmIconClick(WPARAM hContact, LPARAM lParam)
 {
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
-	if (mir_strcmp(sicd->szModule, "FavContacts")) return 0;
+	if (mir_strcmp(sicd->szModule, MODULENAME))
+		return 0;
 
 	if (!hContact)
 		return 0;
 
 	if (sicd->flags & MBCF_RIGHTBUTTON) {
-		BYTE fav = !db_get_b(hContact, "FavContacts", "IsFavourite", 0);
-		db_set_b(hContact, "FavContacts", "IsFavourite", fav);
-		if (fav) CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
+		BYTE fav = !g_plugin.getByte(hContact, "IsFavourite");
+		g_plugin.setByte(hContact, "IsFavourite", fav);
+		if (fav)
+			CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
 
 		StatusIconData sid = {};
-		sid.szModule = "FavContacts";
+		sid.szModule = MODULENAME;
 		sid.flags = fav ? 0 : MBF_DISABLED;
 		Srmm_ModifyIcon(hContact, &sid);
 	}
@@ -147,7 +149,7 @@ int ProcessModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_TTB_MODULELOADED, ProcessTBLoaded);
 
 	StatusIconData sid = {};
-	sid.szModule = "FavContacts";
+	sid.szModule = MODULENAME;
 	sid.szTooltip = LPGEN("Favorite Contacts");
 	sid.hIcon = IcoLib_GetIconByHandle(iconList[0].hIcolib);
 	sid.hIconDisabled = IcoLib_GetIconByHandle(iconList[1].hIcolib);
@@ -160,7 +162,7 @@ int ProcessModulesLoaded(WPARAM, LPARAM)
 
 	FontIDW fontid = {};
 	wcsncpy_s(fontid.group, LPGENW("Favorite Contacts"), _TRUNCATE);
-	strncpy_s(fontid.dbSettingsGroup, "FavContacts", _TRUNCATE);
+	strncpy_s(fontid.dbSettingsGroup, MODULENAME, _TRUNCATE);
 	wcsncpy_s(fontid.backgroundGroup, LPGENW("Favorite Contacts"), _TRUNCATE);
 	fontid.flags = FIDF_DEFAULTVALID;
 	fontid.deffontsettings.charset = DEFAULT_CHARSET;
@@ -200,7 +202,7 @@ int ProcessModulesLoaded(WPARAM, LPARAM)
 
 	ColourIDW colourid = {};
 	wcsncpy_s(colourid.group, LPGENW("Favorite Contacts"), _TRUNCATE);
-	strncpy_s(colourid.dbSettingsGroup, "FavContacts", _TRUNCATE);
+	strncpy_s(colourid.dbSettingsGroup, MODULENAME, _TRUNCATE);
 
 	wcsncpy_s(colourid.name, LPGENW("Background"), _TRUNCATE);
 	strncpy_s(colourid.setting, "BackColour", _TRUNCATE);
@@ -228,7 +230,7 @@ int ProcessModulesLoaded(WPARAM, LPARAM)
 
 	if (ServiceExists(MS_AV_GETAVATARBITMAP)) {
 		for (auto &hContact : Contacts())
-			if (db_get_b(hContact, "FavContacts", "IsFavourite", 0))
+			if (g_plugin.getByte(hContact, "IsFavourite"))
 				CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
 	}
 

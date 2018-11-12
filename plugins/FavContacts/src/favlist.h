@@ -112,7 +112,7 @@ public:
 		nGroups = 1;
 
 		for (auto &hContact : Contacts())
-			if (db_get_b(hContact, "FavContacts", "IsFavourite", 0))
+			if (g_plugin.getByte(hContact, "IsFavourite", 0))
 				addContact(hContact, true);
 
 		int nRecent = 0;
@@ -121,7 +121,7 @@ public:
 			if (!hContact)
 				break;
 			
-			if (!db_get_b(hContact, "FavContacts", "IsFavourite", 0))
+			if (!g_plugin.getByte(hContact, "IsFavourite", 0))
 				nRecent += addContact(hContact, false);
 		}
 	}

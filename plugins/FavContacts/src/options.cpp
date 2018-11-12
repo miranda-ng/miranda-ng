@@ -22,36 +22,36 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void LoadOptions()
 {
-	g_Options.bSecondLine = db_get_b(0, "FavContacts", "SecondLine", 1);
-	g_Options.bAvatars = db_get_b(0, "FavContacts", "Avatars", 1);
-	g_Options.bAvatarBorder = db_get_b(0, "FavContacts", "AvatarBorder", 0);
-	g_Options.wAvatarRadius = db_get_w(0, "FavContacts", "AvatarRadius", 3);
-	g_Options.bNoTransparentBorder = db_get_b(0, "FavContacts", "NoTransparentBorder",
-		!db_get_b(0, "FavContacts", "AvatarBorderTransparent", 1));
-	g_Options.bSysColors = db_get_b(0, "FavContacts", "SysColors", 0);
-	g_Options.bCenterHotkey = db_get_b(0, "FavContacts", "CenterHotkey", 1);
-	g_Options.bUseGroups = db_get_b(0, "FavContacts", "UseGroups", 0);
-	g_Options.bUseColumns = db_get_b(0, "FavContacts", "UseColumns", 1);
-	g_Options.bRightAvatars = db_get_b(0, "FavContacts", "RightAvatars", 0);
-	g_Options.bDimIdle = db_get_b(0, "FavContacts", "DimIdle", 1);
+	g_Options.bSecondLine = g_plugin.getByte("SecondLine", 1);
+	g_Options.bAvatars = g_plugin.getByte("Avatars", 1);
+	g_Options.bAvatarBorder = g_plugin.getByte("AvatarBorder", 0);
+	g_Options.wAvatarRadius = g_plugin.getWord("AvatarRadius", 3);
+	g_Options.bNoTransparentBorder = g_plugin.getByte("NoTransparentBorder",
+		!g_plugin.getByte("AvatarBorderTransparent", 1));
+	g_Options.bSysColors = g_plugin.getByte("SysColors", 0);
+	g_Options.bCenterHotkey = g_plugin.getByte("CenterHotkey", 1);
+	g_Options.bUseGroups = g_plugin.getByte("UseGroups", 0);
+	g_Options.bUseColumns = g_plugin.getByte("UseColumns", 1);
+	g_Options.bRightAvatars = g_plugin.getByte("RightAvatars", 0);
+	g_Options.bDimIdle = g_plugin.getByte("DimIdle", 1);
 
-	g_Options.wMaxRecent = db_get_b(0, "FavContacts", "MaxRecent", 10);
+	g_Options.wMaxRecent = g_plugin.getByte("MaxRecent", 10);
 }
 
 static void sttSaveOptions()
 {
-	db_set_b(0, "FavContacts", "SecondLine", g_Options.bSecondLine);
-	db_set_b(0, "FavContacts", "Avatars", g_Options.bAvatars);
-	db_set_b(0, "FavContacts", "AvatarBorder", g_Options.bAvatarBorder);
-	db_set_w(0, "FavContacts", "AvatarRadius", g_Options.wAvatarRadius);
-	db_set_b(0, "FavContacts", "NoTransparentBorder", g_Options.bNoTransparentBorder);
-	db_set_b(0, "FavContacts", "SysColors", g_Options.bSysColors);
-	db_set_b(0, "FavContacts", "CenterHotkey", g_Options.bCenterHotkey);
-	db_set_b(0, "FavContacts", "UseGroups", g_Options.bUseGroups);
-	db_set_b(0, "FavContacts", "UseColumns", g_Options.bUseColumns);
-	db_set_b(0, "FavContacts", "RightAvatars", g_Options.bRightAvatars);
-	db_set_b(0, "FavContacts", "DimIdle", g_Options.bDimIdle);
-	db_set_w(0, "FavContacts", "MaxRecent", g_Options.wMaxRecent);
+	g_plugin.setByte("SecondLine", g_Options.bSecondLine);
+	g_plugin.setByte("Avatars", g_Options.bAvatars);
+	g_plugin.setByte("AvatarBorder", g_Options.bAvatarBorder);
+	g_plugin.setWord("AvatarRadius", g_Options.wAvatarRadius);
+	g_plugin.setByte("NoTransparentBorder", g_Options.bNoTransparentBorder);
+	g_plugin.setByte("SysColors", g_Options.bSysColors);
+	g_plugin.setByte("CenterHotkey", g_Options.bCenterHotkey);
+	g_plugin.setByte("UseGroups", g_Options.bUseGroups);
+	g_plugin.setByte("UseColumns", g_Options.bUseColumns);
+	g_plugin.setByte("RightAvatars", g_Options.bRightAvatars);
+	g_plugin.setByte("DimIdle", g_Options.bDimIdle);
+	g_plugin.setWord("MaxRecent", g_Options.wMaxRecent);
 }
 
 static void sttResetListOptions(HWND hwndList)
@@ -94,7 +94,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			for (auto &hContact : Contacts())
 				SendDlgItemMessage(hwnd, IDC_CLIST, CLM_SETCHECKMARK,
 					SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0),
-					db_get_b(hContact, "FavContacts", "IsFavourite", 0));
+					g_plugin.getByte(hContact, "IsFavourite"));
 		}
 
 		bInitialized = true;
@@ -210,9 +210,10 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			for (auto &hContact : Contacts()) {
 				BYTE fav = SendDlgItemMessage(hwnd, IDC_CLIST, CLM_GETCHECKMARK,
 					SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0), 0);
-				if (fav != db_get_b(hContact, "FavContacts", "IsFavourite", 0))
-					db_set_b(hContact, "FavContacts", "IsFavourite", fav);
-				if (fav) CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
+				if (fav != g_plugin.getByte(hContact, "IsFavourite"))
+					g_plugin.setByte(hContact, "IsFavourite", fav);
+				if (fav)
+					CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
 			}
 		}
 		else if (((LPNMHDR)lParam)->idFrom == IDC_CLIST) {
@@ -227,8 +228,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				iSelection = (INT_PTR)((NMCLISTCONTROL *)lParam)->hItem;
 				for (auto &hContact : Contacts()) {
 					if (SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0) == iSelection) {
-						SendDlgItemMessage(hwnd, IDC_CLIST, CLM_SETCHECKMARK, iSelection,
-							db_get_b(hContact, "FavContacts", "IsFavourite", 0));
+						SendDlgItemMessage(hwnd, IDC_CLIST, CLM_SETCHECKMARK, iSelection, g_plugin.getByte(hContact, "IsFavourite"));
 						break;
 					}
 				}

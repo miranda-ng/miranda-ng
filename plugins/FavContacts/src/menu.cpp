@@ -257,7 +257,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = nullp
 
 	lpdis->rcItem.left += 20;
 
-	if (options->wMaxRecent && db_get_b(hContact, "FavContacts", "IsFavourite", 0)) {
+	if (options->wMaxRecent && g_plugin.getByte(hContact, "IsFavourite")) {
 		DrawIconEx(hdcTemp, lpdis->rcItem.right - 18, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2,
 			IcoLib_GetIconByHandle(iconList[0].hIcolib), 16, 16, 0, nullptr, DI_NORMAL);
 		lpdis->rcItem.right -= 20;
@@ -498,7 +498,7 @@ int ShowMenu(bool centered)
 	szMenu.cy = max(szMenu.cy, szColumn.cy);
 	szColumn.cx = szColumn.cy = 0;
 
-	int maxWidth = GetSystemMetrics(SM_CXSCREEN) * db_get_b(0, "FavContacts", "MenuWidth", 66) / 100;
+	int maxWidth = GetSystemMetrics(SM_CXSCREEN) * g_plugin.getByte("MenuWidth", 66) / 100;
 	if (szMenu.cx > maxWidth) {
 		g_widthMultiplier = (float)maxWidth / szMenu.cx;
 		szMenu.cx *= g_widthMultiplier;
