@@ -1114,9 +1114,9 @@ void CTabBaseDlg::SetMessageLog()
 
 void CTabBaseDlg::FindFirstEvent()
 {
-	int historyMode = db_get_b(m_hContact, SRMSGMOD, SRMSGSET_LOADHISTORY, -1);
+	int historyMode = g_plugin.getByte(m_hContact, SRMSGSET_LOADHISTORY, -1);
 	if (historyMode == -1)
-		historyMode = (int)db_get_b(0, SRMSGMOD, SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY);
+		historyMode = (int)g_plugin.getByte(SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY);
 
 	m_hDbEventFirst = db_event_firstUnread(m_hContact);
 
@@ -1133,7 +1133,7 @@ void CTabBaseDlg::FindFirstEvent()
 			if (m_bActualHistory)
 				i = m_cache->getSessionMsgCount();
 			else
-				i = db_get_w(0, SRMSGMOD, SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT);
+				i = g_plugin.getWord(SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT);
 
 			for (; i > 0; i--) {
 				if (m_hDbEventFirst == 0)
@@ -1158,7 +1158,7 @@ void CTabBaseDlg::FindFirstEvent()
 		else
 			db_event_get(m_hDbEventFirst, &dbei);
 
-		DWORD firstTime = dbei.timestamp - 60 * db_get_w(0, SRMSGMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME);
+		DWORD firstTime = dbei.timestamp - 60 * g_plugin.getWord(SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME);
 		for (;;) {
 			if (m_hDbEventFirst == 0)
 				hPrevEvent = db_event_last(m_hContact);

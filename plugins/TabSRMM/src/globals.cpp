@@ -146,7 +146,7 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 	m_bLogStatusChanges = M.GetBool("logstatuschanges", false);
 	m_bUseDividers = M.GetBool("usedividers", false);
 	m_bDividersUsePopupConfig = M.GetBool("div_popupconfig", false);
-	m_MsgTimeout = db_get_dw(0, SRMSGMOD, SRMSGSET_MSGTIMEOUT, SRMSGDEFSET_MSGTIMEOUT);
+	m_MsgTimeout = g_plugin.getDword(SRMSGSET_MSGTIMEOUT, SRMSGDEFSET_MSGTIMEOUT);
 
 	if (m_MsgTimeout < SRMSGSET_MSGTIMEOUT_MIN)
 		m_MsgTimeout = SRMSGSET_MSGTIMEOUT_MIN;
@@ -169,7 +169,7 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 	m_LangPackCP = Langpack_GetDefaultCodePage();
 	m_visualMessageSizeIndicator = M.GetByte("msgsizebar", 0);
 	m_autoSplit = M.GetByte("autosplit", 0);
-	m_FlashOnMTN = db_get_b(0, SRMSGMOD, SRMSGSET_SHOWTYPINGWINFLASH, SRMSGDEFSET_SHOWTYPINGWINFLASH);
+	m_FlashOnMTN = g_plugin.getByte(SRMSGSET_SHOWTYPINGWINFLASH, SRMSGDEFSET_SHOWTYPINGWINFLASH);
 	if (m_MenuBar == nullptr) {
 		m_MenuBar = ::LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_MENUBAR));
 		TranslateMenu(m_MenuBar);

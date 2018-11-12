@@ -2161,13 +2161,13 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			// Typing support for GCW_PRIVMESS sessions
 			if (m_si->iType == GCW_PRIVMESS) {
 				if (m_hContact) {
-					int iCurrentTypingMode = db_get_b(m_hContact, SRMSGMOD, SRMSGSET_TYPING, db_get_b(0, SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
+					int iCurrentTypingMode = g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
 
 					if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON && iCurrentTypingMode) {
 						DM_NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
 						m_nTypeMode = PROTOTYPE_SELFTYPING_OFF;
 					}
-					db_set_b(m_hContact, SRMSGMOD, SRMSGSET_TYPING, (BYTE)!iCurrentTypingMode);
+					g_plugin.setByte(m_hContact, SRMSGSET_TYPING, (BYTE)!iCurrentTypingMode);
 				}
 			}
 			break;

@@ -500,13 +500,13 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 
 	case IDC_SELFTYPING:
 		if (m_hContact) {
-			int iCurrentTypingMode = db_get_b(m_hContact, SRMSGMOD, SRMSGSET_TYPING, db_get_b(0, SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
+			int iCurrentTypingMode = g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
 
 			if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON && iCurrentTypingMode) {
 				DM_NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
 				m_nTypeMode = PROTOTYPE_SELFTYPING_OFF;
 			}
-			db_set_b(m_hContact, SRMSGMOD, SRMSGSET_TYPING, (BYTE)!iCurrentTypingMode);
+			g_plugin.setByte(m_hContact, SRMSGSET_TYPING, (BYTE)!iCurrentTypingMode);
 		}
 		break;
 
@@ -903,7 +903,7 @@ void CTabBaseDlg::DM_NotifyTyping(int mode)
 		return;
 
 	// allow supression of sending out TN for the contact (NOTE: for metacontacts, do NOT use the subcontact handle)
-	if (!db_get_b(hContact, SRMSGMOD, SRMSGSET_TYPING, db_get_b(0, SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)))
+	if (!g_plugin.getByte(hContact, SRMSGSET_TYPING, g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)))
 		return;
 
 	if (szProto == nullptr) // should not, but who knows...
@@ -929,7 +929,7 @@ void CTabBaseDlg::DM_NotifyTyping(int mode)
 
 	// don't send to contacts which are not permanently added to the contact list,
 	// unless the option to ignore added status is set.
-	if (db_get_b(m_hContact, "CList", "NotOnList", 0) && !db_get_b(0, SRMSGMOD, SRMSGSET_TYPINGUNKNOWN, SRMSGDEFSET_TYPINGUNKNOWN))
+	if (db_get_b(m_hContact, "CList", "NotOnList", 0) && !g_plugin.getByte(SRMSGSET_TYPINGUNKNOWN, SRMSGDEFSET_TYPINGUNKNOWN))
 		return;
 
 	// End user check
@@ -1329,7 +1329,7 @@ void CTabBaseDlg::DrawStatusIcons(HDC hDC, const RECT &rc, int gap)
 				if (!isChat() || m_si->iType == GCW_PRIVMESS) {
 					DrawIconEx(hDC, x, y, PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING], PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, 0, nullptr, DI_NORMAL);
 
-					DrawIconEx(hDC, x, y, db_get_b(m_hContact, SRMSGMOD, SRMSGSET_TYPING, db_get_b(0, SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)) ?
+					DrawIconEx(hDC, x, y, g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)) ?
 						PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled, PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, 0, nullptr, DI_NORMAL);
 				}
 				else CSkin::DrawDimmedIcon(hDC, x, y, PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING], 50);

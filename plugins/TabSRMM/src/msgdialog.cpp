@@ -662,7 +662,7 @@ bool CSrmmWindow::OnInitDialog()
 
 	GetMyNick();
 
-	m_iMultiSplit = db_get_dw(0, SRMSGMOD, "multisplit", 150);
+	m_iMultiSplit = g_plugin.getDword("multisplit", 150);
 	m_nTypeMode = PROTOTYPE_SELFTYPING_OFF;
 	SetTimer(m_hwnd, TIMERID_TYPE, 1000, nullptr);
 	m_iLastEventType = 0xffffffff;
@@ -773,7 +773,7 @@ bool CSrmmWindow::OnInitDialog()
 
 	// restore saved msg if any...
 	if (m_hContact) {
-		ptrW tszSavedMsg(db_get_wsa(m_hContact, SRMSGMOD, "SavedMsg"));
+		ptrW tszSavedMsg(g_plugin.getWStringA(m_hContact, "SavedMsg"));
 		if (tszSavedMsg != 0) {
 			SETTEXTEX stx = { ST_DEFAULT, 1200 };
 			m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, tszSavedMsg);
@@ -883,7 +883,7 @@ void CSrmmWindow::OnDestroy()
 					db_set_utf(m_hContact, SRMSGMOD, "SavedMsg", msg);
 					mir_free(msg);
 				}
-				else db_unset(m_hContact, SRMSGMOD, "SavedMsg");
+				else g_plugin.delSetting(m_hContact, "SavedMsg");
 			}
 			else SendMessage(m_hwnd, WM_COMMAND, IDC_PIC, 0);
 		}
@@ -921,7 +921,7 @@ void CSrmmWindow::OnDestroy()
 		DeleteMenu(PluginConfig.g_hMenuTrayUnread, m_hContact, MF_BYCOMMAND);
 
 	if (m_cache->isValid())
-		db_set_dw(0, SRMSGMOD, "multisplit", m_iMultiSplit);
+		g_plugin.setDword("multisplit", m_iMultiSplit);
 
 	int i = GetTabIndexFromHWND(m_hwndParent, m_hwnd);
 	if (i >= 0) {

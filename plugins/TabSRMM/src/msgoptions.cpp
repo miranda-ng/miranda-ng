@@ -688,7 +688,7 @@ public:
 	{
 		DWORD dwFlags = M.GetDword("mwflags", MWF_LOG_DEFAULT);
 
-		switch (db_get_b(0, SRMSGMOD, SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY)) {
+		switch (g_plugin.getByte(SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY)) {
 		case LOADHISTORY_UNREAD:
 			chkLoadUnread.SetState(true);
 			break;
@@ -714,10 +714,10 @@ public:
 		spnRight.SetPosition(M.GetDword("RightIndent", 20));
 
 		spnLoadCount.SetRange(100);
-		spnLoadCount.SetPosition(db_get_w(0, SRMSGMOD, SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT));
+		spnLoadCount.SetPosition(g_plugin.getWord(SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT));
 
 		spnLoadTime.SetRange(24 * 60);
-		spnLoadTime.SetPosition(db_get_w(0, SRMSGMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME));
+		spnLoadTime.SetPosition(g_plugin.getWord(SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME));
 
 		DWORD maxhist = M.GetDword("maxhist", 0);
 		spnTrim.SetRange(1000, 5);
@@ -757,13 +757,13 @@ public:
 		dwFlags &= ~(MWF_LOG_ALL);
 
 		if (chkLoadCount.GetState())
-			db_set_b(0, SRMSGMOD, SRMSGSET_LOADHISTORY, LOADHISTORY_COUNT);
+			g_plugin.setByte(SRMSGSET_LOADHISTORY, LOADHISTORY_COUNT);
 		else if (chkLoadTime.GetState())
-			db_set_b(0, SRMSGMOD, SRMSGSET_LOADHISTORY, LOADHISTORY_TIME);
+			g_plugin.setByte(SRMSGSET_LOADHISTORY, LOADHISTORY_TIME);
 		else
-			db_set_b(0, SRMSGMOD, SRMSGSET_LOADHISTORY, LOADHISTORY_UNREAD);
-		db_set_w(0, SRMSGMOD, SRMSGSET_LOADCOUNT, spnLoadCount.GetPosition());
-		db_set_w(0, SRMSGMOD, SRMSGSET_LOADTIME, spnLoadTime.GetPosition());
+			g_plugin.setByte(SRMSGSET_LOADHISTORY, LOADHISTORY_UNREAD);
+		g_plugin.setWord(SRMSGSET_LOADCOUNT, spnLoadCount.GetPosition());
+		g_plugin.setWord(SRMSGSET_LOADTIME, spnLoadTime.GetPosition());
 
 		db_set_dw(0, SRMSGMOD_T, "IndentAmount", spnLeft.GetPosition());
 		db_set_dw(0, SRMSGMOD_T, "RightIndent", spnRight.GetPosition());
@@ -868,16 +868,16 @@ class COptTypingDlg : public CDlgBase
 
 	void RebuildList()
 	{
-		BYTE defType = db_get_b(0, SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW);
+		BYTE defType = g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW);
 		if (hItemNew && defType)
 			SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItemNew, 1);
 
-		if (hItemUnknown && db_get_b(0, SRMSGMOD, SRMSGSET_TYPINGUNKNOWN, SRMSGDEFSET_TYPINGUNKNOWN))
+		if (hItemUnknown && g_plugin.getByte(SRMSGSET_TYPINGUNKNOWN, SRMSGDEFSET_TYPINGUNKNOWN))
 			SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItemUnknown, 1);
 
 		for (auto &hContact : Contacts()) {
 			HANDLE hItem = (HANDLE)SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
-			if (hItem && db_get_b(hContact, SRMSGMOD, SRMSGSET_TYPING, defType))
+			if (hItem && g_plugin.getByte(hContact, SRMSGSET_TYPING, defType))
 				SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, 1);
 		}
 	}
@@ -885,15 +885,15 @@ class COptTypingDlg : public CDlgBase
 	void SaveList()
 	{
 		if (hItemNew)
-			db_set_b(0, SRMSGMOD, SRMSGSET_TYPINGNEW, (BYTE)(SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItemNew, 0) ? 1 : 0));
+			g_plugin.setByte(SRMSGSET_TYPINGNEW, (BYTE)(SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItemNew, 0) ? 1 : 0));
 
 		if (hItemUnknown)
-			db_set_b(0, SRMSGMOD, SRMSGSET_TYPINGUNKNOWN, (BYTE)(SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItemUnknown, 0) ? 1 : 0));
+			g_plugin.setByte(SRMSGSET_TYPINGUNKNOWN, (BYTE)(SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItemUnknown, 0) ? 1 : 0));
 
 		for (auto &hContact : Contacts()) {
 			HANDLE hItem = (HANDLE)SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
 			if (hItem)
-				db_set_b(hContact, SRMSGMOD, SRMSGSET_TYPING, (BYTE)(SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0) ? 1 : 0));
+				g_plugin.setByte(hContact, SRMSGSET_TYPING, (BYTE)(SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0) ? 1 : 0));
 		}
 	}
 
@@ -926,15 +926,15 @@ public:
 		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_CLIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_CLIST), GWL_STYLE) | (CLS_SHOWHIDDEN));
 		ResetCList();
 
-		CheckDlgButton(m_hwnd, IDC_SHOWNOTIFY, db_get_b(0, SRMSGMOD, SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_TYPEFLASHWIN, db_get_b(0, SRMSGMOD, SRMSGSET_SHOWTYPINGWINFLASH, SRMSGDEFSET_SHOWTYPINGWINFLASH) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_SHOWNOTIFY, g_plugin.getByte(SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_TYPEFLASHWIN, g_plugin.getByte(SRMSGSET_SHOWTYPINGWINFLASH, SRMSGDEFSET_SHOWTYPINGWINFLASH) ? BST_CHECKED : BST_UNCHECKED);
 
-		CheckDlgButton(m_hwnd, IDC_TYPENOWIN, db_get_b(0, SRMSGMOD, SRMSGSET_SHOWTYPINGNOWINOPEN, 1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_TYPEWIN, db_get_b(0, SRMSGMOD, SRMSGSET_SHOWTYPINGWINOPEN, 1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_NOTIFYTRAY, db_get_b(0, SRMSGMOD, SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_NOTIFYBALLOON, db_get_b(0, SRMSGMOD, "ShowTypingBalloon", 0));
+		CheckDlgButton(m_hwnd, IDC_TYPENOWIN, g_plugin.getByte(SRMSGSET_SHOWTYPINGNOWINOPEN, 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_TYPEWIN, g_plugin.getByte(SRMSGSET_SHOWTYPINGWINOPEN, 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_NOTIFYTRAY, g_plugin.getByte(SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_NOTIFYBALLOON, g_plugin.getByte("ShowTypingBalloon", 0));
 
-		CheckDlgButton(m_hwnd, IDC_NOTIFYPOPUP, db_get_b(0, SRMSGMOD, "ShowTypingPopup", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_NOTIFYPOPUP, g_plugin.getByte("ShowTypingPopup", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		Utils::enableDlgControl(m_hwnd, IDC_TYPEWIN, IsDlgButtonChecked(m_hwnd, IDC_NOTIFYTRAY) != 0);
 		Utils::enableDlgControl(m_hwnd, IDC_TYPENOWIN, IsDlgButtonChecked(m_hwnd, IDC_NOTIFYTRAY) != 0);
@@ -961,13 +961,13 @@ public:
 	bool OnApply() override
 	{
 		SaveList();
-		db_set_b(0, SRMSGMOD, SRMSGSET_SHOWTYPING, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWNOTIFY));
-		db_set_b(0, SRMSGMOD, SRMSGSET_SHOWTYPINGWINFLASH, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_TYPEFLASHWIN));
-		db_set_b(0, SRMSGMOD, SRMSGSET_SHOWTYPINGNOWINOPEN, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_TYPENOWIN));
-		db_set_b(0, SRMSGMOD, SRMSGSET_SHOWTYPINGWINOPEN, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_TYPEWIN));
-		db_set_b(0, SRMSGMOD, SRMSGSET_SHOWTYPINGCLIST, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_NOTIFYTRAY));
-		db_set_b(0, SRMSGMOD, "ShowTypingBalloon", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_NOTIFYBALLOON));
-		db_set_b(0, SRMSGMOD, "ShowTypingPopup", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_NOTIFYPOPUP));
+		g_plugin.setByte(SRMSGSET_SHOWTYPING, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWNOTIFY));
+		g_plugin.setByte(SRMSGSET_SHOWTYPINGWINFLASH, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_TYPEFLASHWIN));
+		g_plugin.setByte(SRMSGSET_SHOWTYPINGNOWINOPEN, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_TYPENOWIN));
+		g_plugin.setByte(SRMSGSET_SHOWTYPINGWINOPEN, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_TYPEWIN));
+		g_plugin.setByte(SRMSGSET_SHOWTYPINGCLIST, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_NOTIFYTRAY));
+		g_plugin.setByte("ShowTypingBalloon", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_NOTIFYBALLOON));
+		g_plugin.setByte("ShowTypingPopup", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_NOTIFYPOPUP));
 		db_set_b(0, SRMSGMOD_T, "MTN_PopupMode", (BYTE)SendDlgItemMessage(m_hwnd, IDC_MTN_POPUPMODE, CB_GETCURSEL, 0, 0));
 		PluginConfig.reloadSettings();
 		return true;
@@ -1232,7 +1232,7 @@ public:
 
 		int msgTimeout = 1000 * spnTimeout.GetPosition();
 		PluginConfig.m_MsgTimeout = msgTimeout >= SRMSGSET_MSGTIMEOUT_MIN ? msgTimeout : SRMSGSET_MSGTIMEOUT_MIN;
-		db_set_dw(0, SRMSGMOD, SRMSGSET_MSGTIMEOUT, PluginConfig.m_MsgTimeout);
+		g_plugin.setDword(SRMSGSET_MSGTIMEOUT, PluginConfig.m_MsgTimeout);
 
 		db_set_b(0, SRMSGMOD_T, "historysize", spnHistSize.GetPosition());
 		PluginConfig.reloadAdv();

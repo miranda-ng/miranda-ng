@@ -141,7 +141,7 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 
 void CTabBaseDlg::BB_InitDlgButtons()
 {
-	BYTE gap = DPISCALEX_S(db_get_b(0, SRMSGMOD, "ButtonsBarGap", 1));
+	BYTE gap = DPISCALEX_S(g_plugin.getByte("ButtonsBarGap", 1));
 
 	RECT rcSplitter;
 	GetWindowRect(GetDlgItem(m_hwnd, IDC_SPLITTERY), &rcSplitter);
@@ -203,7 +203,7 @@ BOOL CTabBaseDlg::BB_SetButtonsPos()
 	if (!m_hwnd || !IsWindowVisible(m_hwnd))
 		return 0;
 
-	BYTE gap = DPISCALEX_S(db_get_b(0, SRMSGMOD, "ButtonsBarGap", 1));
+	BYTE gap = DPISCALEX_S(g_plugin.getByte("ButtonsBarGap", 1));
 	bool showToolbar = !(m_pContainer->dwFlags & CNT_HIDETOOLBAR);
 	bool bBottomToolbar = (m_pContainer->dwFlags & CNT_BOTTOMTOOLBAR) != 0;
 
