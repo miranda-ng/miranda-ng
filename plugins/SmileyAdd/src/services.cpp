@@ -50,7 +50,7 @@ SmileyPackType* GetSmileyPack(const char *proto, MCONTACT hContact, SmileyPackCT
 					categoryName = dbv.pwszVal;
 					db_free(&dbv);
 				}
-				else if (opt.UsePhysProto && db_get_ws(NULL, protonam, "AM_BaseProto", &dbv) == 0) {
+				else if (opt.UsePhysProto && db_get_ws(0, protonam, "AM_BaseProto", &dbv) == 0) {
 					categoryName = L"AllProto";
 					categoryName += dbv.pwszVal;
 					db_free(&dbv);

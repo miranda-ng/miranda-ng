@@ -130,7 +130,7 @@ std::wstring ConfigDatabase::DBGetContactSettingString(const char *szModule, con
 	std::wstring ret = def;
 	DBVARIANT dbv;
 	
-	if (!db_get_ws(NULL, szModule, szSetting, &dbv))
+	if (!db_get_ws(0, szModule, szSetting, &dbv))
 	{
 		ret = dbv.pwszVal;
 	}

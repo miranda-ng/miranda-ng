@@ -325,7 +325,7 @@ wchar_t *Protocol::GetListeningTo()
 	}
 
 	DBVARIANT dbv = { 0 };
-	if (db_get_ws(NULL, name, "ListeningTo", &dbv)) {
+	if (db_get_ws(0, name, "ListeningTo", &dbv)) {
 		lcopystr(listening_to, L"", _countof(listening_to));
 		return listening_to;
 	}

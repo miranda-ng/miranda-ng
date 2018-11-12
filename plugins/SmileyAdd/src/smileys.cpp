@@ -792,7 +792,7 @@ void SmileyCategoryListType::AddAccountAsCategory(PROTOACCOUNT *acc, const CMStr
 		CMStringW PhysProtoName, paths;
 		DBVARIANT dbv;
 
-		if (db_get_ws(NULL, acc->szModuleName, "AM_BaseProto", &dbv) == 0) {
+		if (db_get_ws(0, acc->szModuleName, "AM_BaseProto", &dbv) == 0) {
 			PhysProtoName = L"AllProto";
 			PhysProtoName += dbv.pwszVal;
 			db_free(&dbv);

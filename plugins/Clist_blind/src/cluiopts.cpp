@@ -72,7 +72,7 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 		{
 			DBVARIANT dbv;
-			if (!db_get_ws(NULL, "CList", "TitleText", &dbv)) {
+			if (!db_get_ws(0, "CList", "TitleText", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_TITLETEXT, dbv.pwszVal);
 				db_free(&dbv);
 			}

@@ -434,7 +434,7 @@ void UpdateFilters()
 		goto cleanup;
 
 	mir_snprintf(szSetting, "%c%s_GF", 246, szBuf);
-	if (db_get_ws(NULL, CLVM_MODULE, szSetting, &dbv_gf))
+	if (db_get_ws(0, CLVM_MODULE, szSetting, &dbv_gf))
 		goto cleanup;
 
 	mir_snprintf(szSetting, "%c%s_OPT", 246, szBuf);

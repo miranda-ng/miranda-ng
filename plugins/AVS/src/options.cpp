@@ -385,7 +385,7 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 				g_selectedProto = GetProtoFromList(hwndDlg, iItem);
 				if (g_selectedProto) {
 					DBVARIANT dbv;
-					if (!db_get_ws(NULL, PPICT_MODULE, g_selectedProto->szProtoname, &dbv)) {
+					if (!db_get_ws(0, PPICT_MODULE, g_selectedProto->szProtoname, &dbv)) {
 						if (!PathIsAbsoluteW(VARSW(dbv.pwszVal))) {
 							wchar_t szFinalPath[MAX_PATH];
 							mir_snwprintf(szFinalPath, L"%%miranda_path%%\\%s", dbv.pwszVal);

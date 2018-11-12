@@ -707,7 +707,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		CheckDlgButton(hwndDlg, IDC_SKINMODE, cfg::dat.bWallpaperMode ? BST_CHECKED : BST_UNCHECKED);
 		{
 			DBVARIANT dbv;
-			if (!db_get_ws(NULL, "CLC", "BkBitmap", &dbv)) {
+			if (!db_get_ws(0, "CLC", "BkBitmap", &dbv)) {
 				wchar_t szPath[MAX_PATH];
 				if (PathToAbsoluteW(dbv.pwszVal, szPath))
 					SetDlgItemText(hwndDlg, IDC_FILENAME, szPath);

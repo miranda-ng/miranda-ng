@@ -277,7 +277,7 @@ void OptionsDialogType::UpdateVisibleSmPackList(void)
 			CMStringW PhysProtoName = L"AllProto";
 			CMStringW ProtoName = it->GetName();
 			DBVARIANT dbv;
-			if (db_get_ws(NULL, _T2A(ProtoName.GetBuffer()), "AM_BaseProto", &dbv) == 0) {
+			if (db_get_ws(0, _T2A(ProtoName.GetBuffer()), "AM_BaseProto", &dbv) == 0) {
 				ProtoName = dbv.pwszVal;
 				db_free(&dbv);
 			}

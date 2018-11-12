@@ -1184,7 +1184,7 @@ static void BTN_ReadItem(char *itemName, char *file)
 void IMG_LoadItems()
 {
 	DBVARIANT dbv;
-	if (db_get_ws(NULL, "CLC", "AdvancedSkin", &dbv))
+	if (db_get_ws(0, "CLC", "AdvancedSkin", &dbv))
 		return;
 
 	wchar_t tszFileName[MAX_PATH];
@@ -1460,7 +1460,7 @@ static void ApplyCLUISkin()
 	DBVARIANT dbv = { 0 };
 	wchar_t tszFinalName[MAX_PATH];
 	char szFinalName[MAX_PATH];
-	if (!db_get_ws(NULL, "CLC", "AdvancedSkin", &dbv)) {
+	if (!db_get_ws(0, "CLC", "AdvancedSkin", &dbv)) {
 		MY_pathToAbsolute(dbv.pwszVal, tszFinalName);
 
 		WideCharToMultiByte(CP_ACP, 0, tszFinalName, MAX_PATH, szFinalName, MAX_PATH, nullptr, nullptr);
@@ -1513,7 +1513,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			else
 				Utils::enableDlgControl(hwndDlg, IDC_RELOAD, FALSE);
 			CheckDlgButton(hwndDlg, IDC_USESKIN, db_get_b(0, "CLUI", "useskin", 0) ? BST_CHECKED : BST_UNCHECKED);
-			if (!db_get_ws(NULL, "CLC", "AdvancedSkin", &dbv)) {
+			if (!db_get_ws(0, "CLC", "AdvancedSkin", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_SKINFILENAME, dbv.pwszVal);
 				db_free(&dbv);
 			}
@@ -1564,7 +1564,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					int skinChanged = 0;
 					DBVARIANT dbv = { 0 };
 
-					if (!db_get_ws(NULL, "CLC", "AdvancedSkin", &dbv)) {
+					if (!db_get_ws(0, "CLC", "AdvancedSkin", &dbv)) {
 						if (mir_wstrcmp(dbv.pwszVal, final_path))
 							skinChanged = TRUE;
 						db_free(&dbv);
