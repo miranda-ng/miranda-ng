@@ -57,14 +57,14 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>("Console", pluginInfoEx)
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 int CMPlugin::Load()
 {
-	g_plugin.registerIcon("Console", iconList);
+	g_plugin.registerIcon(MODULENAME, iconList);
 
 	InitCommonControls();
 	InitConsole();

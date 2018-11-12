@@ -154,7 +154,7 @@ static void ShowConsole(int show)
 			ScrollDown(pActive);
 	}
 	ShowWindow(hwndConsole, show ? SW_SHOW : SW_HIDE);
-	db_set_b(0, "Console", "Show", (BYTE)(show ? 1 : 0));
+	g_plugin.setByte("Show", (BYTE)(show ? 1 : 0));
 
 	if (hwnd)
 		SetForegroundWindow(hwnd);
@@ -613,7 +613,7 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 		hTabs = GetDlgItem(hwndDlg, IDC_TABS);
 
 		// restore position
-		Utils_RestoreWindowPosition(hwndDlg, NULL, "Console", "Console", RWPF_HIDDEN);
+		Utils_RestoreWindowPosition(hwndDlg, NULL, MODULENAME, MODULENAME, RWPF_HIDDEN);
 
 		Profile_GetNameW(_countof(name), name);
 		Profile_GetPathW(_countof(path), path);
@@ -871,7 +871,7 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 	}
 	case WM_CLOSE:
 		if (lParam != 1) {
-			Utils_SaveWindowPosition(hwndDlg, NULL, "Console", "Console");
+			Utils_SaveWindowPosition(hwndDlg, NULL, MODULENAME, MODULENAME);
 			ShowConsole(0);
 			return TRUE;
 		}
@@ -955,14 +955,15 @@ static int OnFastDump(WPARAM wParam, LPARAM lParam)
 
 static void LoadSettings()
 {
-	gIcons = db_get_b(0, "Console", "ShowIcons", 1);
-	gSeparator = db_get_b(0, "Console", "Separator", 1);
-	gSingleMode = db_get_b(0, "Console", "SingleMode", 0);
+	gIcons = g_plugin.getByte("ShowIcons", 1);
+	gSeparator = g_plugin.getByte("Separator", 1);
+	gSingleMode = g_plugin.getByte("SingleMode", 0);
 
-	gWrapLen = db_get_b(0, "Console", "Wrap", DEFAULT_WRAPLEN);
-	if (gWrapLen < MIN_WRAPLEN) gWrapLen = DEFAULT_WRAPLEN;
+	gWrapLen = g_plugin.getByte("Wrap", DEFAULT_WRAPLEN);
+	if (gWrapLen < MIN_WRAPLEN)
+		gWrapLen = DEFAULT_WRAPLEN;
 
-	gLimit = db_get_dw(0, "Console", "Limit", MIN_LIMIT);
+	gLimit = g_plugin.getDword("Limit", MIN_LIMIT);
 	if (gLimit > MAX_LIMIT) gLimit = MAX_LIMIT;
 	if (gLimit < MIN_LIMIT) gLimit = MIN_LIMIT;
 }
@@ -978,7 +979,7 @@ static void SaveSettings(HWND hwndDlg)
 
 	gWrapLen = len;
 	SetDlgItemInt(hwndDlg, IDC_WRAP, gWrapLen, FALSE);
-	db_set_b(0, "Console", "Wrap", (BYTE)len);
+	g_plugin.setByte("Wrap", (BYTE)len);
 
 	len = GetDlgItemInt(hwndDlg, IDC_LIMIT, nullptr, FALSE);
 	if (len < MIN_LIMIT)
@@ -988,13 +989,13 @@ static void SaveSettings(HWND hwndDlg)
 
 	gLimit = len;
 	SetDlgItemInt(hwndDlg, IDC_LIMIT, gLimit, FALSE);
-	db_set_dw(0, "Console", "Limit", len);
+	g_plugin.setDword("Limit", len);
 
-	db_set_b(0, "Console", "SingleMode", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SINGLE));
-	db_set_b(0, "Console", "Separator", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SEPARATOR));
-	db_set_b(0, "Console", "ShowIcons", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWICONS));
+	g_plugin.setByte("SingleMode", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SINGLE));
+	g_plugin.setByte("Separator", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SEPARATOR));
+	g_plugin.setByte("ShowIcons", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWICONS));
 
-	db_set_b(0, "Console", "ShowAtStart", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_START));
+	g_plugin.setByte("ShowAtStart", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_START));
 }
 
 
@@ -1003,7 +1004,7 @@ static INT_PTR CALLBACK OptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_START, db_get_b(0, "Console", "ShowAtStart", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_START, g_plugin.getByte("ShowAtStart", 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SINGLE, gSingleMode ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SHOWICONS, gIcons ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SEPARATOR, gSeparator ? BST_CHECKED : BST_UNCHECKED);
@@ -1068,7 +1069,7 @@ static int OptInit(WPARAM wParam, LPARAM)
 static int OnColourChange(WPARAM, LPARAM)
 {
 	if (hwndConsole) {
-		colBackground = Colour_Get("Console", "Background");
+		colBackground = Colour_Get(MODULENAME, "Background");
 		if (colBackground != -1)
 			SendMessage(hwndConsole, HM_SETCOLOR, (WPARAM)hfLogFont, (LPARAM)colBackground);
 	}
@@ -1084,9 +1085,9 @@ static int OnFontChange(WPARAM, LPARAM)
 		colLogFont = Font_GetW(L"Console", L"Text", &LogFont);
 
 		if (LogFont.lfHeight != 0) {
-			hf = CreateFontIndirect(&LogFont);
+			hf = CreateFontIndirectW(&LogFont);
 
-			SendMessage(hwndConsole, HM_SETFONT, (WPARAM)hf, (LPARAM)colLogFont);
+			SendMessageW(hwndConsole, HM_SETFONT, (WPARAM)hf, (LPARAM)colLogFont);
 
 			if (hfLogFont)
 				DeleteObject(hfLogFont);
@@ -1103,7 +1104,7 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 	FontIDW fid = {};
 	mir_wstrncpy(fid.group, LPGENW("Console"), _countof(fid.group));
 	mir_wstrncpy(fid.name, LPGENW("Text"), _countof(fid.name));
-	mir_strncpy(fid.dbSettingsGroup, "Console", _countof(fid.dbSettingsGroup));
+	mir_strncpy(fid.dbSettingsGroup, MODULENAME, _countof(fid.dbSettingsGroup));
 	mir_strncpy(fid.setting, "ConsoleFont", _countof(fid.setting));
 	mir_wstrncpy(fid.backgroundGroup, LPGENW("Console"), _countof(fid.backgroundGroup));
 	mir_wstrncpy(fid.backgroundName, LPGENW("Background"), _countof(fid.backgroundName));
@@ -1120,7 +1121,7 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 	ColourIDW cid = {};
 	mir_wstrncpy(cid.group, LPGENW("Console"), _countof(cid.group));
 	mir_wstrncpy(cid.name, LPGENW("Background"), _countof(cid.name));
-	mir_strncpy(cid.dbSettingsGroup, "Console", _countof(cid.dbSettingsGroup));
+	mir_strncpy(cid.dbSettingsGroup, MODULENAME, _countof(cid.dbSettingsGroup));
 	mir_strncpy(cid.setting, "BgColor", _countof(cid.setting));
 	cid.defcolour = RGB(255, 255, 255);
 	g_plugin.addColor(&cid);
@@ -1150,7 +1151,7 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 		OnFontChange(0, 0);
 		OnColourChange(0, 0);
 
-		if (db_get_b(0, "Console", "ShowAtStart", 0) || db_get_b(0, "Console", "Show", 1))
+		if (g_plugin.getByte("ShowAtStart", 0) || g_plugin.getByte("Show", 1))
 			ShowConsole(1);
 		else
 			ShowConsole(0);
