@@ -1013,25 +1013,25 @@ void GetColour(MYCOLOURSET *colourSet)
 	if (useDefault == 0x00)
 	{
 		// Use Plugin user defined or default colours
-		colour = db_get_dw(0, LINKLIST_MODULE, LINKLIST_IN_COL, 0xFF000000);
+		colour = g_plugin.getDword(LINKLIST_IN_COL, 0xFF000000);
 		if (colour != 0xFF000000)
 			colourSet->incoming = colour;
 		else
 			colourSet->incoming = IN_COL_DEF;
 
-		colour = db_get_dw(0, LINKLIST_MODULE, LINKLIST_OUT_COL, 0xFF000000);
+		colour = g_plugin.getDword(LINKLIST_OUT_COL, 0xFF000000);
 		if (colour != 0xFF000000)
 			colourSet->outgoing = colour;
 		else
 			colourSet->outgoing = OUT_COL_DEF;
 
-		colour = db_get_dw(0, LINKLIST_MODULE, LINKLIST_BG_COL, 0xFF000000);
+		colour = g_plugin.getDword(LINKLIST_BG_COL, 0xFF000000);
 		if (colour != 0xFF000000)
 			colourSet->background = colour;
 		else
 			colourSet->background = BG_COL_DEF;
 
-		colour = db_get_dw(0, LINKLIST_MODULE, LINKLIST_TXT_COL, 0xFF000000);
+		colour = g_plugin.getDword(LINKLIST_TXT_COL, 0xFF000000);
 		if (colour != 0xFF000000)
 			colourSet->text = colour;
 		else
@@ -1048,7 +1048,7 @@ void GetDBColour(MYCOLOURSET *colourSet)
 	DWORD colour;
 
 	// Use Plugin user defined or default colours
-	colour = db_get_dw(0, LINKLIST_MODULE, LINKLIST_IN_COL, 0xFF000000);
+	colour = g_plugin.getDword(LINKLIST_IN_COL, 0xFF000000);
 	if (colour != 0xFF000000)
 		colourSet->incoming = colour;
 	else
@@ -1057,7 +1057,7 @@ void GetDBColour(MYCOLOURSET *colourSet)
 		colourSet->incoming = IN_COL_DEF;
 	}
 
-	colour = db_get_dw(0, LINKLIST_MODULE, LINKLIST_OUT_COL, 0xFF000000);
+	colour = g_plugin.getDword(LINKLIST_OUT_COL, 0xFF000000);
 	if (colour != 0xFF000000)
 		colourSet->outgoing = colour;
 	else
@@ -1066,7 +1066,7 @@ void GetDBColour(MYCOLOURSET *colourSet)
 		colourSet->outgoing = OUT_COL_DEF;
 	}
 
-	colour = db_get_dw(0, LINKLIST_MODULE, LINKLIST_BG_COL, 0xFF000000);
+	colour = g_plugin.getDword(LINKLIST_BG_COL, 0xFF000000);
 	if (colour != 0xFF000000)
 		colourSet->background = colour;
 	else
@@ -1075,7 +1075,7 @@ void GetDBColour(MYCOLOURSET *colourSet)
 		colourSet->background = BG_COL_DEF;
 	}
 
-	colour = db_get_dw(0, LINKLIST_MODULE, LINKLIST_TXT_COL, 0xFF000000);
+	colour = g_plugin.getDword(LINKLIST_TXT_COL, 0xFF000000);
 	if (colour != 0xFF000000)
 		colourSet->text = colour;
 	else
