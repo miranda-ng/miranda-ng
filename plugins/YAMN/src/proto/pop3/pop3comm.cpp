@@ -283,10 +283,10 @@ int RegisterPOP3Plugin(WPARAM, LPARAM)
 	for (Finder = POP3Plugin->FirstAccount; Finder != nullptr; Finder = Finder->Next) {
 		Finder->hContact = NULL;
 		for (auto &hContact : Contacts(YAMN_DBMODULE)) {
-			if (!db_get_s(hContact, YAMN_DBMODULE, "Id", &dbv)) {
+			if (!g_plugin.getString(hContact, "Id", &dbv)) {
 				if (mir_strcmp(dbv.pszVal, Finder->Name) == 0) {
 					Finder->hContact = hContact;
-					db_set_w(Finder->hContact, YAMN_DBMODULE, "Status", ID_STATUS_ONLINE);
+					g_plugin.setWord(Finder->hContact, "Status", ID_STATUS_ONLINE);
 					db_set_s(Finder->hContact, "CList", "StatusMsg", Translate("No new mail message"));
 					if ((Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT))
 						db_unset(Finder->hContact, "CList", "Hidden");
@@ -302,10 +302,9 @@ int RegisterPOP3Plugin(WPARAM, LPARAM)
 			// No account contact found, have to create one
 			Finder->hContact = db_add_contact();
 			Proto_AddToContact(Finder->hContact, YAMN_DBMODULE);
-			db_set_s(Finder->hContact, YAMN_DBMODULE, "Id", Finder->Name);
-			db_set_s(Finder->hContact, YAMN_DBMODULE, "Nick", Finder->Name);
-			db_set_s(Finder->hContact, "Protocol", "p", YAMN_DBMODULE);
-			db_set_w(Finder->hContact, YAMN_DBMODULE, "Status", YAMN_STATUS);
+			g_plugin.setString(Finder->hContact, "Id", Finder->Name);
+			g_plugin.setString(Finder->hContact, "Nick", Finder->Name);
+			g_plugin.setWord(Finder->hContact, "Status", YAMN_STATUS);
 		}
 	}
 
@@ -406,10 +405,10 @@ HYAMNMAIL WINAPI CreatePOP3Mail(HACCOUNT Account, DWORD)
 	return (HYAMNMAIL)NewMail;
 }
 
-static void SetContactStatus(HACCOUNT account, int status) {
-	if ((account->hContact) && (account->NewMailN.Flags & YAMN_ACC_CONT)) {
-		db_set_w(account->hContact, YAMN_DBMODULE, "Status", status);
-	}
+static void SetContactStatus(HACCOUNT account, int status)
+{
+	if ((account->hContact) && (account->NewMailN.Flags & YAMN_ACC_CONT))
+		g_plugin.setWord(account->hContact, "Status", status);
 }
 
 static void PostErrorProc(HPOP3ACCOUNT ActualAccount, void *ParamToBadConnection, DWORD POP3PluginParam, BOOL UseSSL)

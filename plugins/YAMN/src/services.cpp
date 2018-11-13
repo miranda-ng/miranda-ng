@@ -11,7 +11,7 @@ static INT_PTR Service_GetCaps(WPARAM wParam, LPARAM)
 	if (wParam == PFLAGNUM_2)
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND;
 	if (wParam == PFLAGNUM_5) {
-		if (db_get_b(0, YAMN_DBMODULE, YAMN_SHOWASPROTO, 1))
+		if (g_plugin.getByte(YAMN_SHOWASPROTO, 1))
 			return PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND;
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND;
 	}
@@ -68,7 +68,7 @@ static INT_PTR ContactApplication(WPARAM wParam, LPARAM)
 		return 0;
 
 	DBVARIANT dbv;
-	if (db_get_s(wParam, YAMN_DBMODULE, "Id", &dbv))
+	if (g_plugin.getString(wParam, "Id", &dbv))
 		return 0;
 
 	HACCOUNT ActualAccount = (HACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
@@ -170,7 +170,7 @@ static INT_PTR ContactMailCheck(WPARAM hContact, LPARAM)
 		return 0;
 
 	DBVARIANT dbv;
-	if (db_get_s(hContact, YAMN_DBMODULE, "Id", &dbv))
+	if (g_plugin.getString(hContact, "Id", &dbv))
 		return 0;
 
 	HACCOUNT ActualAccount = (HACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
@@ -222,7 +222,7 @@ static INT_PTR ContactMailCheck(WPARAM hContact, LPARAM)
 		return;
 
 	DBVARIANT dbv;
-	if (db_get_s(wParam, YAMN_DBMODULE, "Id", &dbv))
+	if (g_plugin.getString(wParam, "Id", &dbv))
 		return;
 
 	HACCOUNT ActualAccount = (HACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
@@ -292,7 +292,7 @@ HBITMAP LoadBmpFromIcon(HICON hIcon)
 
 int AddTopToolbarIcon(WPARAM, LPARAM)
 {
-	if (db_get_b(0, YAMN_DBMODULE, YAMN_TTBFCHECK, 1)) {
+	if (g_plugin.getByte(YAMN_TTBFCHECK, 1)) {
 		if (ServiceExists(MS_TTB_REMOVEBUTTON) && hTTButton == nullptr) {
 			TTBButton btn = {};
 			btn.pszService = MS_YAMN_FORCECHECK;
@@ -318,11 +318,11 @@ int Shutdown(WPARAM, LPARAM)
 {
 	CallService(MS_TTB_REMOVEBUTTON, (WPARAM)hTTButton, 0);
 
-	db_set_dw(0, YAMN_DBMODULE, YAMN_DBMSGPOSX, HeadPosX);
-	db_set_dw(0, YAMN_DBMODULE, YAMN_DBMSGPOSY, HeadPosY);
-	db_set_dw(0, YAMN_DBMODULE, YAMN_DBMSGSIZEX, HeadSizeX);
-	db_set_dw(0, YAMN_DBMODULE, YAMN_DBMSGSIZEY, HeadSizeY);
-	db_set_w(0, YAMN_DBMODULE, YAMN_DBMSGPOSSPLIT, HeadSplitPos);
+	g_plugin.setDword(YAMN_DBMSGPOSX, HeadPosX);
+	g_plugin.setDword(YAMN_DBMSGPOSY, HeadPosY);
+	g_plugin.setDword(YAMN_DBMSGSIZEX, HeadSizeX);
+	g_plugin.setDword(YAMN_DBMSGSIZEY, HeadSizeY);
+	g_plugin.setWord(YAMN_DBMSGPOSSPLIT, HeadSplitPos);
 	YAMNVar.Shutdown = TRUE;
 	KillTimer(nullptr, SecTimer);
 
@@ -441,10 +441,9 @@ void RefreshContact(void)
 		else if ((Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT)) {
 			Finder->hContact = db_add_contact();
 			Proto_AddToContact(Finder->hContact, YAMN_DBMODULE);
-			db_set_s(Finder->hContact, YAMN_DBMODULE, "Id", Finder->Name);
-			db_set_s(Finder->hContact, YAMN_DBMODULE, "Nick", Finder->Name);
-			db_set_s(Finder->hContact, "Protocol", "p", YAMN_DBMODULE);
-			db_set_w(Finder->hContact, YAMN_DBMODULE, "Status", ID_STATUS_ONLINE);
+			g_plugin.setString(Finder->hContact, "Id", Finder->Name);
+			g_plugin.setString(Finder->hContact, "Nick", Finder->Name);
+			g_plugin.setWord(Finder->hContact, "Status", ID_STATUS_ONLINE);
 			db_set_s(Finder->hContact, "CList", "StatusMsg", Translate("No new mail message"));
 		}
 	}

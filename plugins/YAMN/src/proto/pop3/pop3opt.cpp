@@ -20,13 +20,13 @@ INT_PTR CALLBACK DlgProcYAMNOpt(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hDlg);
-		CheckDlgButton(hDlg, IDC_CHECKTTB, db_get_b(0, YAMN_DBMODULE, YAMN_TTBFCHECK, 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hDlg, IDC_CHECKTTB, g_plugin.getByte(YAMN_TTBFCHECK, 1) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hDlg, IDC_LONGDATE, (optDateTime&SHOWDATELONG) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hDlg, IDC_SMARTDATE, (optDateTime&SHOWDATENOTODAY) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hDlg, IDC_NOSECONDS, (optDateTime&SHOWDATENOSECONDS) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hDlg, IDC_MAINMENU, db_get_b(0, YAMN_DBMODULE, YAMN_SHOWMAINMENU, 1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hDlg, IDC_YAMNASPROTO, db_get_b(0, YAMN_DBMODULE, YAMN_SHOWASPROTO, 1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hDlg, IDC_CLOSEONDELETE, db_get_b(0, YAMN_DBMODULE, YAMN_CLOSEDELETE, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hDlg, IDC_MAINMENU, g_plugin.getByte(YAMN_SHOWMAINMENU, 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hDlg, IDC_YAMNASPROTO, g_plugin.getByte(YAMN_SHOWASPROTO, 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hDlg, IDC_CLOSEONDELETE, g_plugin.getByte(YAMN_CLOSEDELETE, 0) ? BST_CHECKED : BST_UNCHECKED);
 		break;
 
 	case WM_COMMAND:
@@ -48,10 +48,10 @@ INT_PTR CALLBACK DlgProcYAMNOpt(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				db_set_b(0, YAMN_DBMODULE, YAMN_SHOWASPROTO, IsDlgButtonChecked(hDlg, IDC_YAMNASPROTO));
-				db_set_b(0, YAMN_DBMODULE, YAMN_SHOWMAINMENU, IsDlgButtonChecked(hDlg, IDC_MAINMENU));
-				db_set_b(0, YAMN_DBMODULE, YAMN_CLOSEDELETE, IsDlgButtonChecked(hDlg, IDC_CLOSEONDELETE));
-				db_set_b(0, YAMN_DBMODULE, YAMN_TTBFCHECK, IsDlgButtonChecked(hDlg, IDC_CHECKTTB));
+				g_plugin.setByte(YAMN_SHOWASPROTO, IsDlgButtonChecked(hDlg, IDC_YAMNASPROTO));
+				g_plugin.setByte(YAMN_SHOWMAINMENU, IsDlgButtonChecked(hDlg, IDC_MAINMENU));
+				g_plugin.setByte(YAMN_CLOSEDELETE, IsDlgButtonChecked(hDlg, IDC_CLOSEONDELETE));
+				g_plugin.setByte(YAMN_TTBFCHECK, IsDlgButtonChecked(hDlg, IDC_CHECKTTB));
 
 				AddTopToolbarIcon(0, 0);
 				CheckMenuItems();
@@ -60,7 +60,7 @@ INT_PTR CALLBACK DlgProcYAMNOpt(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				if (IsDlgButtonChecked(hDlg, IDC_LONGDATE))optDateTime |= SHOWDATELONG;
 				if (IsDlgButtonChecked(hDlg, IDC_SMARTDATE))optDateTime |= SHOWDATENOTODAY;
 				if (IsDlgButtonChecked(hDlg, IDC_NOSECONDS))optDateTime |= SHOWDATENOSECONDS;
-				db_set_b(0, YAMN_DBMODULE, YAMN_DBTIMEOPTIONS, optDateTime);
+				g_plugin.setByte(YAMN_DBTIMEOPTIONS, optDateTime);
 			}
 		}
 		break;

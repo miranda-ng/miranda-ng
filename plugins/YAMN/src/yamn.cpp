@@ -232,11 +232,11 @@ ChangeIsCountingStatusLabel:
 #endif
 			if (((ActualAccount->isCounting) != 0) != isAccountCounting) {
 				ActualAccount->isCounting=isAccountCounting;
-				WORD cStatus = db_get_w(ActualAccount->hContact, YAMN_DBMODULE, "Status", 0);
+				WORD cStatus = g_plugin.getWord(ActualAccount->hContact, "Status");
 				switch (cStatus) {
 					case ID_STATUS_ONLINE:
 					case ID_STATUS_OFFLINE:
-						db_set_w(ActualAccount->hContact, YAMN_DBMODULE, "Status", isAccountCounting?ID_STATUS_ONLINE:ID_STATUS_OFFLINE);
+						g_plugin.setWord(ActualAccount->hContact, "Status", isAccountCounting ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE);
 					default: break;
 				}
 			}
