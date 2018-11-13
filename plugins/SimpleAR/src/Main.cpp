@@ -67,8 +67,8 @@ INT_PTR ToggleEnable(WPARAM, LPARAM)
 
 INT_PTR Toggle(WPARAM hContact, LPARAM)
 {
-	BOOL on = !db_get_b(hContact, MODULENAME, "TurnedOn", 0);
-	db_set_b(hContact, MODULENAME, "TurnedOn", on);
+	BOOL on = !g_plugin.getByte(hContact, "TurnedOn");
+	g_plugin.setByte(hContact, "TurnedOn", on);
 	on = !on;
 
 	if (on)
@@ -80,7 +80,7 @@ INT_PTR Toggle(WPARAM hContact, LPARAM)
 
 INT OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 {
-	BOOL on = !db_get_b(hContact, MODULENAME, "TurnedOn", 0);
+	BOOL on = !g_plugin.getByte(hContact, "TurnedOn");
 	if (on)
 		Menu_ModifyItem(hToggle, LPGENW("Turn off Autoanswer"), iconList[0].hIcolib);
 	else
@@ -167,12 +167,12 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 		if (db_get_b(hContact, "CList", "NotOnList", 0))
 			return FALSE;
 
-		if (db_get_b(hContact, MODULENAME, "TurnedOn", 0))
+		if (g_plugin.getByte(hContact, "TurnedOn"))
 			return FALSE;
 
 		if (!(dbei.flags & DBEF_SENT)) {
-			int timeBetween = time(0) - db_get_dw(hContact, MODULENAME, "LastReplyTS", 0);
-			if (timeBetween > interval || db_get_w(hContact, MODULENAME, "LastStatus", 0) != status) {
+			int timeBetween = time(0) - g_plugin.getDword(hContact, "LastReplyTS");
+			if (timeBetween > interval || g_plugin.getWord(hContact, "LastStatus") != status) {
 				size_t msgLen = 1;
 				int isQun = db_get_b(hContact, pszProto, "IsQun", 0);
 				if (isQun)
@@ -227,8 +227,8 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 			}
 		}
 
-		db_set_dw(hContact, MODULENAME, "LastReplyTS", time(0));
-		db_set_w(hContact, MODULENAME, "LastStatus", status);
+		g_plugin.setDword(hContact, "LastReplyTS", time(0));
+		g_plugin.setWord(hContact, "LastStatus", status);
 	}
 	return 0;
 }
@@ -243,9 +243,6 @@ IconItem iconList[] =
 
 int CMPlugin::Load()
 {
-	CreateServiceFunction(MODULENAME"/ToggleEnable", ToggleEnable);
-	CreateServiceFunction(MODULENAME"/ToggleAutoanswer", Toggle);
-
 	CMenuItem mi(&g_plugin);
 
 	SET_UID(mi, 0xac1c64a, 0x82ca, 0x4845, 0x86, 0x89, 0x59, 0x76, 0x12, 0x74, 0x72, 0x7b);
@@ -253,12 +250,14 @@ int CMPlugin::Load()
 	mi.name.w = L"";
 	mi.pszService = MODULENAME"/ToggleEnable";
 	hEnableMenu = Menu_AddMainMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, ToggleEnable);
 
 	SET_UID(mi, 0xb290cccd, 0x4ecc, 0x475e, 0x87, 0xcb, 0x51, 0xf4, 0x3b, 0xc3, 0x44, 0x9c);
 	mi.position = -0x7FFFFFFF;
 	mi.name.w = L"";
 	mi.pszService = MODULENAME"/ToggleAutoanswer";
 	hToggle = Menu_AddContactMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, Toggle);
 
 	// add hook
 	HookEvent(ME_OPT_INITIALISE, OptInit);
