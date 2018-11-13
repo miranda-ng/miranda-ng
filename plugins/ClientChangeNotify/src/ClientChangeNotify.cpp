@@ -196,7 +196,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			return 0;
 	}
 	sd.OldMirVer = db_get_s(hContact, MODULENAME, DB_OLDMIRVER, L"");
-	db_set_ws(hContact, MODULENAME, DB_OLDMIRVER, sd.MirVer); // we have to write it here, because we modify sd.OldMirVer and sd.MirVer to conform our settings later
+	g_plugin.setWString(hContact, DB_OLDMIRVER, sd.MirVer); // we have to write it here, because we modify sd.OldMirVer and sd.MirVer to conform our settings later
 	if (sd.OldMirVer.IsEmpty())  // looks like it's the right way to do
 		return 0;
 
@@ -215,9 +215,9 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (hContact && db_get_b(hContactOrMeta, "CList", "Hidden", 0))
 		return 0;
 
-	int PerContactSetting = hContact ? db_get_b(hContact, MODULENAME, DB_CCN_NOTIFY, NOTIFY_USEGLOBAL) : NOTIFY_ALWAYS; // NOTIFY_ALWAYS for preview
+	int PerContactSetting = hContact ? g_plugin.getByte(hContact, DB_CCN_NOTIFY, NOTIFY_USEGLOBAL) : NOTIFY_ALWAYS; // NOTIFY_ALWAYS for preview
 	if (PerContactSetting == NOTIFY_USEGLOBAL && hContactOrMeta != hContact) // subcontact setting has a priority over a metacontact setting
-		PerContactSetting = db_get_b(hContactOrMeta, MODULENAME, DB_CCN_NOTIFY, NOTIFY_USEGLOBAL);
+		PerContactSetting = g_plugin.getByte(hContactOrMeta, DB_CCN_NOTIFY, NOTIFY_USEGLOBAL);
 
 	if (PerContactSetting && (PerContactSetting == NOTIFY_ALMOST_ALWAYS || PerContactSetting == NOTIFY_ALWAYS || !PopupOptPage.GetValue(IDC_POPUPOPTDLG_USESTATUSNOTIFYFLAG) || !(db_get_dw(hContactOrMeta, "Ignore", "Mask1", 0) & 0x8))) { // check if we need to notify at all
 		sd.hContact = hContact;

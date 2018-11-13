@@ -210,7 +210,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 				szFormat = mir_strdup(dbLastUC_DateTimeFormatDefault);
 
 			for (auto curContact = DlgDat->Contacts->begin(); curContact != DlgDat->Contacts->end(); curContact++) {
-				if (curContact->second != NULL && db_get_b(curContact->second, MODULENAME, dbLastUC_IgnoreContact, 0) == 0) {
+				if (curContact->second != NULL && g_plugin.getByte(curContact->second, dbLastUC_IgnoreContact) == 0) {
 					wchar_t *cname = Clist_GetContactDisplayName(curContact->second);
 					if (cname == nullptr)
 						continue;
@@ -359,8 +359,8 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 static __time64_t GetLastUsedTimeStamp(MCONTACT hContact)
 {
 	return
-		((__time64_t)db_get_dw(hContact, MODULENAME, dbLastUC_LastUsedTimeLo, -1)) |
-		(((__time64_t)db_get_dw(hContact, MODULENAME, dbLastUC_LastUsedTimeHi, -1)) << 32);
+		((__time64_t)g_plugin.getDword(hContact, dbLastUC_LastUsedTimeLo, -1)) |
+		(((__time64_t)g_plugin.getDword(hContact, dbLastUC_LastUsedTimeHi, -1)) << 32);
 }
 
 INT_PTR OnMenuCommandShowList(WPARAM, LPARAM)
@@ -447,8 +447,8 @@ int Create_MenuitemShowList(void)
 static void SaveLastUsedTimeStamp(MCONTACT hContact)
 {
 	__time64_t ct = _time64(nullptr);
-	db_set_dw(hContact, MODULENAME, dbLastUC_LastUsedTimeLo, (DWORD)ct);
-	db_set_dw(hContact, MODULENAME, dbLastUC_LastUsedTimeHi, (DWORD)(ct >> 32));
+	g_plugin.setDword(hContact, dbLastUC_LastUsedTimeLo, (DWORD)ct);
+	g_plugin.setDword(hContact, dbLastUC_LastUsedTimeHi, (DWORD)(ct >> 32));
 }
 
 static int OnGCInEvent(WPARAM, LPARAM lParam)
@@ -495,7 +495,7 @@ static int OnProtoBroadcast(WPARAM, LPARAM lParam)
 
 static int OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 {
-	if (db_get_b(hContact, MODULENAME, dbLastUC_IgnoreContact, 0) == 0)
+	if (g_plugin.getByte(hContact, dbLastUC_IgnoreContact) == 0)
 		Menu_ModifyItem(hMenuItemRemove, LPGENW("Ignore Contact"));
 	else
 		Menu_ModifyItem(hMenuItemRemove, LPGENW("Show Contact"));
@@ -523,8 +523,8 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 static INT_PTR ToggleIgnore(WPARAM hContact, LPARAM)
 {
 	if (hContact != NULL) {
-		int state = db_get_b(hContact, MODULENAME, dbLastUC_IgnoreContact, 0) == 0 ? 1 : 0;
-		db_set_b(hContact, MODULENAME, dbLastUC_IgnoreContact, state);
+		int state = !g_plugin.getByte(hContact, dbLastUC_IgnoreContact);
+		g_plugin.setByte(hContact, dbLastUC_IgnoreContact, state);
 		return state;
 	}
 

@@ -27,7 +27,7 @@ static const DWORD ignoreIdToPf1[IGNOREEVENT_MAX] = {PF1_IMRECV, PF1_URLRECV, PF
 
 static DWORD GetMask(MCONTACT hContact)
 {
-	DWORD mask = db_get_dw(hContact, MODULENAME, "Mask1", (DWORD)(-1));
+	DWORD mask = g_plugin.getDword(hContact, "Mask1", (DWORD)(-1));
 	if(mask == (DWORD)(-1)) {
 		if(hContact == NULL)
 			mask=0;
@@ -164,7 +164,7 @@ static void SaveItemMask(HWND hwndList, MCONTACT hContact, HANDLE hItem, const c
 		if(iImage && iImage != EMPTY_EXTRA_ICON)
 			mask |= 1<<i;
 	}
-	db_set_dw(hContact, MODULENAME, pszSetting, mask);
+	g_plugin.setDword(hContact, pszSetting, mask);
 }
 
 static void SetAllContactIcons(HWND hwndList)

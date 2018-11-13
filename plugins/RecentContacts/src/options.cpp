@@ -18,16 +18,16 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		strncpy_s(str, LastUCOpt.DateTimeFormat.c_str(), _TRUNCATE);
 		SetDlgItemTextA(hwndDlg, IDC_DATETIME, str);
 
-		SetWindowLongPtr(hwndDlg,GWLP_USERDATA,lParam);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		return TRUE;
 
 	case WM_COMMAND:
-		switch(HIWORD(wParam)) {
+		switch (HIWORD(wParam)) {
 		case EN_CHANGE:
 		case BN_CLICKED:
 		case CBN_EDITCHANGE:
 		case CBN_SELCHANGE:
-			SendMessage(GetParent(hwndDlg),PSM_CHANGED,0,0);
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		}
 		break;
 
@@ -41,11 +41,11 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			g_plugin.setByte(dbLastUC_WindowAutosize, (BYTE)LastUCOpt.WindowAutoSize);
 
 			GetDlgItemTextA(hwndDlg, IDC_SHOWNCONTACTS, str, _countof(str));
-			LastUCOpt.MaxShownContacts= atoi(str);
-			db_set_b(0,MODULENAME, dbLastUC_MaxShownContacts, LastUCOpt.MaxShownContacts);
+			LastUCOpt.MaxShownContacts = atoi(str);
+			g_plugin.setByte(dbLastUC_MaxShownContacts, LastUCOpt.MaxShownContacts);
 
 			GetDlgItemTextA(hwndDlg, IDC_DATETIME, str, _countof(str));
-			db_set_s(0,MODULENAME, dbLastUC_DateTimeFormat, str );
+			g_plugin.setString(dbLastUC_DateTimeFormat, str);
 
 			LoadDBSettings();
 			return TRUE;
