@@ -279,7 +279,7 @@ void __cdecl CleanProtocolExclThread(void *param)
 
 	std::list<MCONTACT> contacts;
 	for (auto &hContact : Contacts(szProto))
-		if (db_get_b(hContact, "CList", "NotOnList", 0) && db_get_b(hContact, MODULENAME, "Excluded", 0))
+		if (db_get_b(hContact, "CList", "NotOnList", 0) && g_plugin.getByte(hContact, "Excluded"))
 			contacts.push_back(hContact);
 
 	Sleep(5000);

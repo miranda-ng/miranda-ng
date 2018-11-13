@@ -38,7 +38,7 @@ int OnDbEventAdded(WPARAM hContact, LPARAM hDbEvent)
 
 			// if request is from unknown or not marked Answered contact
 			int a = db_get_b(hcntct, "CList", "NotOnList", 0);
-			int b = !db_get_b(hcntct, MODULENAME, "Answered", 0);
+			int b = !g_plugin.getByte(hcntct, "Answered");
 
 			if (a && b) {
 				// ...send message
@@ -81,12 +81,12 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 		return 0; // ...let the event go its way
 
 	// do not check excluded contact
-	if (db_get_b(hContact, MODULENAME, "Answered", 0))
+	if (g_plugin.getByte(hContact, "Answered"))
 		return 0;
 
-	if (db_get_b(hContact, MODULENAME, "Excluded", 0)) {
+	if (g_plugin.getByte(hContact, "Excluded")) {
 		if (!db_get_b(hContact, "CList", "NotOnList", 0))
-			db_unset(hContact, MODULENAME, "Excluded");
+			g_plugin.delSetting(hContact, "Excluded");
 		return 0;
 	}
 
@@ -96,8 +96,8 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 	
 	// mark contact which we trying to contact for exclude from check
 	if ((dbei->flags & DBEF_SENT) && db_get_b(hContact, "CList", "NotOnList", 0)
-		&& (!gbMaxQuestCount || db_get_dw(hContact, MODULENAME, "QuestionCount", 0) < gbMaxQuestCount) && gbExclude) {
-		db_set_b(hContact, MODULENAME, "Excluded", 1);
+		&& (!gbMaxQuestCount || g_plugin.getDword(hContact, "QuestionCount") < gbMaxQuestCount) && gbExclude) {
+		g_plugin.setByte(hContact, "Excluded", 1);
 		return 0;
 	}
 	
@@ -132,7 +132,7 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 	if (gbMathExpression) {
 		if (boost::algorithm::all(message, boost::is_digit())) {
 			int num = _wtoi(message.c_str());
-			int math_answer = db_get_dw(hContact, MODULENAME, "MathAnswer", 0);
+			int math_answer = g_plugin.getDword(hContact, "MathAnswer");
 			if (num && math_answer)
 				answered = (num == math_answer);
 		}
@@ -158,10 +158,10 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 		// unhide contact
 		db_unset(hContact, "CList", "Hidden");
 
-		db_unset(hContact, MODULENAME, "MathAnswer");
+		g_plugin.delSetting(hContact, "MathAnswer");
 
 		// mark contact as Answered
-		db_set_b(hContact, MODULENAME, "Answered", 1);
+		g_plugin.setByte(hContact, "Answered", 1);
 
 		//add contact permanently
 		if (gbAddPermanent) //do not use this )
@@ -201,7 +201,7 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 	// and question count for this contact is less then maximum
 	if (bSendMsg) {
 		if ((!gbInfTalkProtection || wstring::npos == message.find(L"StopSpam automatic message:\r\n"))
-			&& (!gbMaxQuestCount || db_get_dw(hContact, MODULENAME, "QuestionCount", 0) < gbMaxQuestCount)) {
+			&& (!gbMaxQuestCount || g_plugin.getDword(hContact, "QuestionCount") < gbMaxQuestCount)) {
 			// send question
 			wstring q;
 			if (gbInfTalkProtection)
@@ -254,7 +254,7 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 					}
 					actions.pop_front();
 				}
-				db_set_dw(hContact, MODULENAME, "MathAnswer", math_answer);
+				g_plugin.setDword(hContact, "MathAnswer", math_answer);
 				q += variables_parse(tmp_question, hContact);
 			}
 			else q += variables_parse(gbQuestion, hContact);
@@ -262,8 +262,8 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 			ProtoChainSend(hContact, PSS_MESSAGE, 0, ptrA(mir_utf8encodeW(q.c_str())));
 
 			// increment question count
-			DWORD questCount = db_get_dw(hContact, MODULENAME, "QuestionCount", 0);
-			db_set_dw(hContact, MODULENAME, "QuestionCount", questCount + 1);
+			DWORD questCount = g_plugin.getDword(hContact, "QuestionCount");
+			g_plugin.setDword(hContact, "QuestionCount", questCount + 1);
 		}
 		else {
 			if (gbIgnoreContacts)
@@ -277,7 +277,7 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 	db_set_b(hContact, "CList", "NotOnList", 1);
 
 	// save first message from contact
-	if (db_get_dw(hContact, MODULENAME, "QuestionCount", 0) < 2) {
+	if (g_plugin.getDword(hContact, "QuestionCount") < 2) {
 		dbei->flags |= DBEF_READ;
 		db_event_add(hContact, dbei);
 	};
@@ -297,8 +297,8 @@ int OnDbContactSettingChanged(WPARAM w, LPARAM l)
 	if (strcmp(cws->szSetting, "NotOnList"))
 		return 0;
 	if (!cws->value.type) {
-		db_unset(hContact, MODULENAME, "Answered");
-		db_unset(hContact, MODULENAME, "QuestionCount");
+		g_plugin.delSetting(hContact, "Answered");
+		g_plugin.delSetting(hContact, "QuestionCount");
 	}
 
 	return 0;
