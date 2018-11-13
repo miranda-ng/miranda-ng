@@ -97,100 +97,100 @@ void LoadOptions(void)
 	memset(&opt, 0, sizeof(opt));
 
 	// main options
-	opt.StartupUpdate = db_get_b(0, WEATHERPROTONAME, "StartupUpdate", true);
-	opt.AutoUpdate = db_get_b(0, WEATHERPROTONAME, "AutoUpdate", true);
-	opt.UpdateTime = db_get_w(0, WEATHERPROTONAME, "UpdateTime", 30);
-	opt.NoProtoCondition = db_get_b(0, WEATHERPROTONAME, "NoStatus", true);
-	opt.UpdateOnlyConditionChanged = db_get_b(0, WEATHERPROTONAME, "CondChangeAsUpdate", true);
-	opt.RemoveOldData = db_get_b(0, WEATHERPROTONAME, "RemoveOld", false);
-	opt.MakeItalic = db_get_b(0, WEATHERPROTONAME, "MakeItalic", true);
-	opt.AvatarSize = db_get_b(0, WEATHERPROTONAME, "AvatarSize", 128);
+	opt.StartupUpdate = g_plugin.getByte("StartupUpdate", true);
+	opt.AutoUpdate = g_plugin.getByte("AutoUpdate", true);
+	opt.UpdateTime = g_plugin.getWord("UpdateTime", 30);
+	opt.NoProtoCondition = g_plugin.getByte("NoStatus", true);
+	opt.UpdateOnlyConditionChanged = g_plugin.getByte("CondChangeAsUpdate", true);
+	opt.RemoveOldData = g_plugin.getByte("RemoveOld", false);
+	opt.MakeItalic = g_plugin.getByte("MakeItalic", true);
+	opt.AvatarSize = g_plugin.getByte("AvatarSize", 128);
 
 	// units
-	opt.tUnit = db_get_w(0, WEATHERPROTONAME, "tUnit", 1);
-	opt.wUnit = db_get_w(0, WEATHERPROTONAME, "wUnit", 2);
-	opt.vUnit = db_get_w(0, WEATHERPROTONAME, "vUnit", 1);
-	opt.pUnit = db_get_w(0, WEATHERPROTONAME, "pUnit", 4);
-	opt.dUnit = db_get_w(0, WEATHERPROTONAME, "dUnit", 1);
-	opt.eUnit = db_get_w(0, WEATHERPROTONAME, "eUnit", 2);
+	opt.tUnit = g_plugin.getWord("tUnit", 1);
+	opt.wUnit = g_plugin.getWord("wUnit", 2);
+	opt.vUnit = g_plugin.getWord("vUnit", 1);
+	opt.pUnit = g_plugin.getWord("pUnit", 4);
+	opt.dUnit = g_plugin.getWord("dUnit", 1);
+	opt.eUnit = g_plugin.getWord("eUnit", 2);
 
-	ptrW szValue(db_get_wsa(NULL, WEATHERPROTONAME, "DegreeSign"));
+	ptrW szValue(g_plugin.getWStringA("DegreeSign"));
 	wcsncpy_s(opt.DegreeSign, (szValue == NULL) ? L"" : szValue, _TRUNCATE);
 
-	opt.DoNotAppendUnit = db_get_b(0, WEATHERPROTONAME, "DoNotAppendUnit", 0);
-	opt.NoFrac = db_get_b(0, WEATHERPROTONAME, "NoFractions", 0);
+	opt.DoNotAppendUnit = g_plugin.getByte("DoNotAppendUnit", 0);
+	opt.NoFrac = g_plugin.getByte("NoFractions", 0);
 
 	// texts
-	if (szValue = db_get_wsa(NULL, WEATHERPROTONAME, "DisplayText"))
+	if (szValue = g_plugin.getWStringA("DisplayText"))
 		wSetData(&opt.cText, TranslateW(szValue));
 	else
 		SetTextDefault("C");
 
-	if (szValue = db_get_wsa(NULL, WEATHERPROTONAME, "BriefTextTitle"))
+	if (szValue = g_plugin.getWStringA("BriefTextTitle"))
 		wSetData(&opt.bTitle, TranslateW(szValue));
 	else
 		SetTextDefault("b");
 
-	if (szValue = db_get_wsa(NULL, WEATHERPROTONAME, "BriefText"))
+	if (szValue = g_plugin.getWStringA("BriefText"))
 		wSetData(&opt.bText, TranslateW(szValue));
 	else
 		SetTextDefault("B");
 
-	if (szValue = db_get_wsa(NULL, WEATHERPROTONAME, "NoteText"))
+	if (szValue = g_plugin.getWStringA("NoteText"))
 		wSetData(&opt.nText, TranslateW(szValue));
 	else
 		SetTextDefault("N");
 
-	if (szValue = db_get_wsa(NULL, WEATHERPROTONAME, "ExtText"))
+	if (szValue = g_plugin.getWStringA("ExtText"))
 		wSetData(&opt.eText, TranslateW(szValue));
 	else
 		SetTextDefault("E");
 
-	if (szValue = db_get_wsa(NULL, WEATHERPROTONAME, "HistoryText"))
+	if (szValue = g_plugin.getWStringA("HistoryText"))
 		wSetData(&opt.hText, TranslateW(szValue));
 	else
 		SetTextDefault("H");
 
-	if (szValue = db_get_wsa(NULL, WEATHERPROTONAME, "ExtraText"))
+	if (szValue = g_plugin.getWStringA("ExtraText"))
 		wSetData(&opt.xText, TranslateW(szValue));
 	else
 		SetTextDefault("X");
 
-	if (szValue = db_get_wsa(NULL, WEATHERPROTONAME, "StatusText"))
+	if (szValue = g_plugin.getWStringA("StatusText"))
 		wSetData(&opt.sText, TranslateW(szValue));
 	else
 		SetTextDefault("S");
 
 	// advanced
-	opt.DisCondIcon = db_get_b(0, WEATHERPROTONAME, "DisableConditionIcon", false);
+	opt.DisCondIcon = g_plugin.getByte("DisableConditionIcon", false);
 	// popup options
-	opt.UsePopup = db_get_b(0, WEATHERPROTONAME, "UsePopUp", true);
-	opt.UpdatePopup = db_get_b(0, WEATHERPROTONAME, "UpdatePopup", true);
-	opt.AlertPopup = db_get_b(0, WEATHERPROTONAME, "AlertPopup", true);
-	opt.PopupOnChange = db_get_b(0, WEATHERPROTONAME, "PopUpOnChange", true);
-	opt.ShowWarnings = db_get_b(0, WEATHERPROTONAME, "ShowWarnings", true);
+	opt.UsePopup = g_plugin.getByte("UsePopUp", true);
+	opt.UpdatePopup = g_plugin.getByte("UpdatePopup", true);
+	opt.AlertPopup = g_plugin.getByte("AlertPopup", true);
+	opt.PopupOnChange = g_plugin.getByte("PopUpOnChange", true);
+	opt.ShowWarnings = g_plugin.getByte("ShowWarnings", true);
 	// popup colors
-	opt.BGColour = db_get_dw(0, WEATHERPROTONAME, "BackgroundColour", GetSysColor(COLOR_BTNFACE));
-	opt.TextColour = db_get_dw(0, WEATHERPROTONAME, "TextColour", GetSysColor(COLOR_WINDOWTEXT));
-	opt.UseWinColors = (BOOL)db_get_b(0, WEATHERPROTONAME, "UseWinColors", false);
+	opt.BGColour = g_plugin.getDword("BackgroundColour", GetSysColor(COLOR_BTNFACE));
+	opt.TextColour = g_plugin.getDword("TextColour", GetSysColor(COLOR_WINDOWTEXT));
+	opt.UseWinColors = g_plugin.getByte("UseWinColors", false);
 	// popup actions
-	opt.LeftClickAction = db_get_dw(0, WEATHERPROTONAME, "LeftClickAction", IDM_M2);
-	opt.RightClickAction = db_get_dw(0, WEATHERPROTONAME, "RightClickAction", IDM_M1);
+	opt.LeftClickAction = g_plugin.getDword("LeftClickAction", IDM_M2);
+	opt.RightClickAction = g_plugin.getDword("RightClickAction", IDM_M1);
 	// popup delay
-	opt.pDelay = db_get_dw(0, WEATHERPROTONAME, "PopupDelay", 0);
+	opt.pDelay = g_plugin.getDword("PopupDelay", 0);
 	// popup texts
-	if (szValue = db_get_wsa(NULL, WEATHERPROTONAME, "PopupTitle"))
+	if (szValue = g_plugin.getWStringA("PopupTitle"))
 		wSetData(&opt.pTitle, szValue);
 	else
 		SetTextDefault("P");
 
-	if (szValue = db_get_wsa(NULL, WEATHERPROTONAME, "PopupText"))
+	if (szValue = g_plugin.getWStringA("PopupText"))
 		wSetData(&opt.pText, szValue);
 	else
 		SetTextDefault("p");
 
 	// misc
-	if (szValue = db_get_wsa(NULL, WEATHERPROTONAME, "Default"))
+	if (szValue = g_plugin.getWStringA("Default"))
 		wcsncpy_s(opt.Default, szValue, _TRUNCATE);
 	else
 		opt.Default[0] = 0;
@@ -200,55 +200,55 @@ void LoadOptions(void)
 void SaveOptions(void)
 {
 	// main options
-	db_set_b(0, WEATHERPROTONAME, "StartupUpdate", (BYTE)opt.StartupUpdate);
-	db_set_b(0, WEATHERPROTONAME, "AutoUpdate", (BYTE)opt.AutoUpdate);
-	db_set_w(0, WEATHERPROTONAME, "UpdateTime", opt.UpdateTime);
-	db_set_b(0, WEATHERPROTONAME, "NoStatus", (BYTE)opt.NoProtoCondition);
-	db_set_b(0, WEATHERPROTONAME, "CondChangeAsUpdate", (BYTE)opt.UpdateOnlyConditionChanged);
-	db_set_b(0, WEATHERPROTONAME, "RemoveOld", (BYTE)opt.RemoveOldData);
-	db_set_b(0, WEATHERPROTONAME, "MakeItalic", (BYTE)opt.MakeItalic);
-	db_set_b(0, WEATHERPROTONAME, "AvatarSize", (BYTE)opt.AvatarSize);
+	g_plugin.setByte("StartupUpdate", (BYTE)opt.StartupUpdate);
+	g_plugin.setByte("AutoUpdate", (BYTE)opt.AutoUpdate);
+	g_plugin.setWord("UpdateTime", opt.UpdateTime);
+	g_plugin.setByte("NoStatus", (BYTE)opt.NoProtoCondition);
+	g_plugin.setByte("CondChangeAsUpdate", (BYTE)opt.UpdateOnlyConditionChanged);
+	g_plugin.setByte("RemoveOld", (BYTE)opt.RemoveOldData);
+	g_plugin.setByte("MakeItalic", (BYTE)opt.MakeItalic);
+	g_plugin.setByte("AvatarSize", (BYTE)opt.AvatarSize);
 	// units
-	db_set_w(0, WEATHERPROTONAME, "tUnit", opt.tUnit);
-	db_set_w(0, WEATHERPROTONAME, "wUnit", opt.wUnit);
-	db_set_w(0, WEATHERPROTONAME, "vUnit", opt.vUnit);
-	db_set_w(0, WEATHERPROTONAME, "pUnit", opt.pUnit);
-	db_set_w(0, WEATHERPROTONAME, "dUnit", opt.dUnit);
-	db_set_w(0, WEATHERPROTONAME, "eUnit", opt.eUnit);
-	db_set_ws(0, WEATHERPROTONAME, "DegreeSign", opt.DegreeSign);
-	db_set_b(0, WEATHERPROTONAME, "DoNotAppendUnit", (BYTE)opt.DoNotAppendUnit);
-	db_set_b(0, WEATHERPROTONAME, "NoFractions", (BYTE)opt.NoFrac);
+	g_plugin.setWord("tUnit", opt.tUnit);
+	g_plugin.setWord("wUnit", opt.wUnit);
+	g_plugin.setWord("vUnit", opt.vUnit);
+	g_plugin.setWord("pUnit", opt.pUnit);
+	g_plugin.setWord("dUnit", opt.dUnit);
+	g_plugin.setWord("eUnit", opt.eUnit);
+	g_plugin.setWString("DegreeSign", opt.DegreeSign);
+	g_plugin.setByte("DoNotAppendUnit", (BYTE)opt.DoNotAppendUnit);
+	g_plugin.setByte("NoFractions", (BYTE)opt.NoFrac);
 	// texts
-	db_set_ws(0, WEATHERPROTONAME, "DisplayText", opt.cText);
-	db_set_ws(0, WEATHERPROTONAME, "BriefTextTitle", opt.bTitle);
-	db_set_ws(0, WEATHERPROTONAME, "BriefText", opt.bText);
-	db_set_ws(0, WEATHERPROTONAME, "NoteText", opt.nText);
-	db_set_ws(0, WEATHERPROTONAME, "ExtText", opt.eText);
-	db_set_ws(0, WEATHERPROTONAME, "HistoryText", opt.hText);
-	db_set_ws(0, WEATHERPROTONAME, "ExtraText", opt.xText);
-	db_set_ws(0, WEATHERPROTONAME, "StatusText", opt.sText);
+	g_plugin.setWString("DisplayText", opt.cText);
+	g_plugin.setWString("BriefTextTitle", opt.bTitle);
+	g_plugin.setWString("BriefText", opt.bText);
+	g_plugin.setWString("NoteText", opt.nText);
+	g_plugin.setWString("ExtText", opt.eText);
+	g_plugin.setWString("HistoryText", opt.hText);
+	g_plugin.setWString("ExtraText", opt.xText);
+	g_plugin.setWString("StatusText", opt.sText);
 	// advanced
-	db_set_b(0, WEATHERPROTONAME, "DisableConditionIcon", (BYTE)opt.DisCondIcon);
+	g_plugin.setByte("DisableConditionIcon", (BYTE)opt.DisCondIcon);
 	// popup options
-	db_set_b(0, WEATHERPROTONAME, "UsePopUp", (BYTE)opt.UsePopup);
-	db_set_b(0, WEATHERPROTONAME, "UpdatePopup", (BYTE)opt.UpdatePopup);
-	db_set_b(0, WEATHERPROTONAME, "AlertPopup", (BYTE)opt.AlertPopup);
-	db_set_b(0, WEATHERPROTONAME, "PopUpOnChange", (BYTE)opt.PopupOnChange);
-	db_set_b(0, WEATHERPROTONAME, "ShowWarnings", (BYTE)opt.ShowWarnings);
+	g_plugin.setByte("UsePopUp", (BYTE)opt.UsePopup);
+	g_plugin.setByte("UpdatePopup", (BYTE)opt.UpdatePopup);
+	g_plugin.setByte("AlertPopup", (BYTE)opt.AlertPopup);
+	g_plugin.setByte("PopUpOnChange", (BYTE)opt.PopupOnChange);
+	g_plugin.setByte("ShowWarnings", (BYTE)opt.ShowWarnings);
 	// popup colors
-	db_set_dw(0, WEATHERPROTONAME, "BackgroundColour", opt.BGColour);
-	db_set_dw(0, WEATHERPROTONAME, "TextColour", opt.TextColour);
-	db_set_b(0, WEATHERPROTONAME, "UseWinColors", (BYTE)opt.UseWinColors);
+	g_plugin.setDword("BackgroundColour", opt.BGColour);
+	g_plugin.setDword("TextColour", opt.TextColour);
+	g_plugin.setByte("UseWinColors", (BYTE)opt.UseWinColors);
 	// popup actions
-	db_set_dw(0, WEATHERPROTONAME, "LeftClickAction", opt.LeftClickAction);
-	db_set_dw(0, WEATHERPROTONAME, "RightClickAction", opt.RightClickAction);
+	g_plugin.setDword("LeftClickAction", opt.LeftClickAction);
+	g_plugin.setDword("RightClickAction", opt.RightClickAction);
 	// popup delay
-	db_set_dw(0, WEATHERPROTONAME, "PopupDelay", opt.pDelay);
+	g_plugin.setDword("PopupDelay", opt.pDelay);
 	// popup texts
-	db_set_ws(0, WEATHERPROTONAME, "PopupTitle", opt.pTitle);
-	db_set_ws(0, WEATHERPROTONAME, "PopupText", opt.pText);
+	g_plugin.setWString("PopupTitle", opt.pTitle);
+	g_plugin.setWString("PopupText", opt.pText);
 	// misc stuff
-	db_set_ws(0, WEATHERPROTONAME, "Default", opt.Default);
+	g_plugin.setWString("Default", opt.Default);
 }
 //============  MAIN OPTIONS  ============
 
@@ -329,8 +329,8 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 			// change the status for weather protocol
 			if (IsDlgButtonChecked(hdlg, IDC_PROTOCOND) && opt.DefStn != NULL) {
 				old_status = status;
-				status = db_get_w(opt.DefStn, WEATHERPROTONAME, "StatusIcon", NOSTATUSDATA);
-				ProtoBroadcastAck(WEATHERPROTONAME, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, status);
+				status = g_plugin.getWord(opt.DefStn, "StatusIcon", NOSTATUSDATA);
+				ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, status);
 			}
 
 			// get update time and remove the old timer

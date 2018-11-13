@@ -373,22 +373,22 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case IDC_DEFPOPUP:
 			db_set_b(0, MODULENAME, DefPopupComp, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_DEFPOPUP) == BST_CHECKED ? 1 : 0));
-			DefPopup = db_get_b(0, MODULENAME, DefPopupComp, 0);
+			DefPopup = g_plugin.getByte(DefPopupComp, 0);
 			break;
 
 		case IDC_DEFSOUNDS:
 			db_set_b(0, MODULENAME, DefSoundComp, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_DEFSOUNDS) == BST_CHECKED ? 1 : 0));
-			DefSound = db_get_b(0, MODULENAME, DefSoundComp, 0);
+			DefSound = g_plugin.getByte(DefSoundComp, 0);
 			break;
 
 		case IDC_RESTORE:
 			db_set_b(0, MODULENAME, DefEnabledComp, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_RESTORE) == BST_CHECKED ? 1 : 0));
-			DefEnabled = db_get_b(0, MODULENAME, DefEnabledComp, 0);
+			DefEnabled = g_plugin.getByte(DefEnabledComp, 0);
 			break;
 
 		case IDC_NONSTATUSES:
 			db_set_b(0, MODULENAME, NonStatusAllowComp, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_NONSTATUSES) == BST_CHECKED ? 1 : 0));
-			NonStatusAllow = db_get_b(0, MODULENAME, NonStatusAllowComp, 0);
+			NonStatusAllow = g_plugin.getByte(NonStatusAllowComp, 0);
 			break;
 
 		case IDC_RESETDEFAULT:

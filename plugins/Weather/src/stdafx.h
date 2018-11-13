@@ -63,6 +63,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 //============  CONSTANTS  ============
 
+// name
+#define MODULENAME         "Weather"
+#define WEATHERPROTOTEXT   "Weather"
+#define DEFCURRENTWEATHER  "WeatherCondition"
+#define WEATHERCONDITION   "Current"
+
+// weather conditions
+#define SUNNY     ID_STATUS_ONLINE
+#define NA        ID_STATUS_OFFLINE
+#define PCLOUDY   ID_STATUS_AWAY
+#define CLOUDY    ID_STATUS_NA
+#define RAIN      ID_STATUS_OCCUPIED
+#define RSHOWER   ID_STATUS_DND
+#define SNOW      ID_STATUS_FREECHAT
+#define LIGHT     ID_STATUS_INVISIBLE
+#define THUNDER   ID_STATUS_INVISIBLE
+#define SSHOWER   ID_STATUS_ONTHEPHONE
+#define FOG       ID_STATUS_OUTTOLUNCH
+#define UNAVAIL   40081
+
 // status
 #define NOSTATUSDATA	1
 
@@ -75,7 +95,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define WDBM_DETAILDISPLAY	2
 
 // more info list column width
-#define LIST_COLUMN		150
+#define LIST_COLUMN		 150
 
 // others
 #define NODATA			TranslateT("N/A")

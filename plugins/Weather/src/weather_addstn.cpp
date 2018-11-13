@@ -44,7 +44,7 @@ INT_PTR WeatherAddToList(WPARAM, LPARAM lParam)
 		if (IsMyContact(hContact)) {
 			DBVARIANT dbv;
 			// check ID to see if the contact already exist in the database
-			if (!db_get_ws(hContact, WEATHERPROTONAME, "ID", &dbv)) {
+			if (!g_plugin.getWString(hContact, "ID", &dbv)) {
 				if (!mir_wstrcmpi(psr->email.w, dbv.pwszVal)) {
 					// remove the flag for not on list and hidden, thus make the contact visible
 					// and add them on the list
@@ -64,7 +64,7 @@ INT_PTR WeatherAddToList(WPARAM, LPARAM lParam)
 	// if contact with the same ID was not found, add it
 	if (psr->cbSize < sizeof(PROTOSEARCHRESULT)) return 0;
 	MCONTACT hContact = db_add_contact();
-	Proto_AddToContact(hContact, WEATHERPROTONAME);
+	Proto_AddToContact(hContact, MODULENAME);
 	// suppress online notification for the new contact
 	CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);
 
@@ -75,28 +75,28 @@ INT_PTR WeatherAddToList(WPARAM, LPARAM lParam)
 	// set settings by obtaining the default for the service 
 	if (psr->lastName.w[0] != 0) {
 		WIDATA *sData = GetWIData(svc);
-		db_set_ws(hContact, WEATHERPROTONAME, "MapURL", sData->DefaultMap);
-		db_set_s(hContact, WEATHERPROTONAME, "InfoURL", sData->DefaultURL);
+		g_plugin.setWString(hContact, "MapURL", sData->DefaultMap);
+		g_plugin.setString(hContact, "InfoURL", sData->DefaultURL);
 	}
 	else { // if no valid service is found, create empty strings for MapURL and InfoURL
-		db_set_s(hContact, WEATHERPROTONAME, "MapURL", "");
-		db_set_s(hContact, WEATHERPROTONAME, "InfoURL", "");
+		g_plugin.setString(hContact, "MapURL", "");
+		g_plugin.setString(hContact, "InfoURL", "");
 	}
 	// write the other info and settings to the database
-	db_set_ws(hContact, WEATHERPROTONAME, "ID", psr->email.w);
-	db_set_ws(hContact, WEATHERPROTONAME, "Nick", psr->nick.w);
-	db_set_w(hContact, WEATHERPROTONAME, "Status", ID_STATUS_OFFLINE);
+	g_plugin.setWString(hContact, "ID", psr->email.w);
+	g_plugin.setWString(hContact, "Nick", psr->nick.w);
+	g_plugin.setWord(hContact, "Status", ID_STATUS_OFFLINE);
 
 	AvatarDownloaded(hContact);
 
 	wchar_t str[256];
 	mir_snwprintf(str, TranslateT("Current weather information for %s."), psr->nick.w);
-	db_set_ws(hContact, WEATHERPROTONAME, "About", str);
+	g_plugin.setWString(hContact, "About", str);
 
 	// make the last update tags to something invalid
-	db_set_s(hContact, WEATHERPROTONAME, "LastLog", "never");
-	db_set_s(hContact, WEATHERPROTONAME, "LastCondition", "None");
-	db_set_s(hContact, WEATHERPROTONAME, "LastTemperature", "None");
+	g_plugin.setString(hContact, "LastLog", "never");
+	g_plugin.setString(hContact, "LastCondition", "None");
+	g_plugin.setString(hContact, "LastTemperature", "None");
 
 	// ignore status change
 	db_set_dw(hContact, "Ignore", "Mask", 8);
@@ -107,13 +107,13 @@ INT_PTR WeatherAddToList(WPARAM, LPARAM lParam)
 		GetStationID(hContact, opt.Default, _countof(opt.Default));
 
 		opt.DefStn = hContact;
-		if (!db_get_ws(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
+		if (!g_plugin.getWString(hContact, "Nick", &dbv)) {
 			// notification message box
 			mir_snwprintf(str, TranslateT("%s is now the default weather station"), dbv.pwszVal);
 			db_free(&dbv);
 			MessageBox(nullptr, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
 		}
-		db_set_ws(0, WEATHERPROTONAME, "Default", opt.Default);
+		g_plugin.setWString("Default", opt.Default);
 	}
 	// display the Edit Settings dialog box
 	EditSettings(hContact, 0);
@@ -145,7 +145,7 @@ static void __cdecl BasicSearchTimerProc(LPVOID)
 		result = IDSearch(sttSID, sttSearchId);
 
 	// broadcast the search result
-	ProtoBroadcastAck(WEATHERPROTONAME, NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)sttSearchId);
+	ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)sttSearchId);
 
 	// exit the search
 	sttSearchId = -1;
@@ -175,7 +175,7 @@ static void __cdecl NameSearchTimerProc(LPVOID)
 			NameSearch(name1, sttSearchId);	// search nickname field
 
 	// broadcast the result
-	ProtoBroadcastAck(WEATHERPROTONAME, NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)sttSearchId);
+	ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)sttSearchId);
 
 	// exit the search
 	sttSearchId = -1;
@@ -260,7 +260,7 @@ int IDSearchProc(wchar_t *sID, const int searchId, WIIDSEARCH *sData, wchar_t *s
 	psr.firstName.w = L" ";
 	psr.lastName.w = svcname;
 	psr.email.w = newID;
-	ProtoBroadcastAck(WEATHERPROTONAME, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)searchId, (LPARAM)&psr);
+	ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)searchId, (LPARAM)&psr);
 
 	return 0;
 }
@@ -290,7 +290,7 @@ int IDSearch(wchar_t *sID, const int searchId)
 		psr.firstName.w = L" ";
 		psr.lastName.w = L"";
 		psr.email.w = TranslateT("<Enter station ID here>");		// to be entered
-		ProtoBroadcastAck(WEATHERPROTONAME, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)searchId, (LPARAM)&psr);
+		ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)searchId, (LPARAM)&psr);
 	}
 
 	return 0;
@@ -353,7 +353,7 @@ int NameSearchProc(wchar_t *name, const int searchId, WINAMESEARCH *sData, wchar
 				psr.lastName.w = svcname;
 				psr.email.w = sID;
 				psr.id.w = sID;
-				ProtoBroadcastAck(WEATHERPROTONAME, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)searchId, (LPARAM)&psr);
+				ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)searchId, (LPARAM)&psr);
 				mir_free(szData);
 				return 0;
 			}
@@ -391,7 +391,7 @@ int NameSearchProc(wchar_t *name, const int searchId, WINAMESEARCH *sData, wchar
 					psr.lastName.w = svcname;
 					psr.email.w = sID;
 					psr.id.w = sID;
-					ProtoBroadcastAck(WEATHERPROTONAME, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)searchId, (LPARAM)&psr);
+					ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)searchId, (LPARAM)&psr);
 				}
 			}
 		}

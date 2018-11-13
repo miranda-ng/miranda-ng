@@ -125,14 +125,13 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 int WeatherPopup(WPARAM hContact, LPARAM lParam)
 {
 	// determine if the popup should display or not
-	if (opt.UsePopup && opt.UpdatePopup && (!opt.PopupOnChange || (BOOL)lParam) &&
-		!db_get_b(hContact, WEATHERPROTONAME, "DPopUp", 0)) {
+	if (opt.UsePopup && opt.UpdatePopup && (!opt.PopupOnChange || (BOOL)lParam) && !g_plugin.getByte(hContact, "DPopUp")) {
 		WEATHERINFO winfo = LoadWeatherInfo(hContact);
 
 		// setup the popup
 		POPUPDATAT ppd = { 0 };
 		ppd.lchContact = hContact;
-		ppd.PluginData = ppd.lchIcon = Skin_LoadProtoIcon(WEATHERPROTONAME, winfo.status);
+		ppd.PluginData = ppd.lchIcon = Skin_LoadProtoIcon(MODULENAME, winfo.status);
 		GetDisplay(&winfo, opt.pTitle, ppd.lptzContactName);
 		GetDisplay(&winfo, opt.pText, ppd.lptzText);
 		ppd.PluginWindowProc = PopupDlgProc;

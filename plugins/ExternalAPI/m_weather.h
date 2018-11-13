@@ -20,29 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef M_WEATHER_H__
 #define M_WEATHER_H__ 1
 
-//============  CONSTANTS  ============
-
-// name
-#define WEATHERPROTONAME	"Weather"
-#define WEATHERPROTOTEXT	"Weather"
-#define DEFCURRENTWEATHER	"WeatherCondition"
-#define WEATHERCONDITION	"Current"
-
-// weather conditions
-#define SUNNY			ID_STATUS_ONLINE
-#define NA				ID_STATUS_OFFLINE
-#define PCLOUDY			ID_STATUS_AWAY
-#define CLOUDY			ID_STATUS_NA
-#define RAIN			ID_STATUS_OCCUPIED
-#define RSHOWER			ID_STATUS_DND
-#define SNOW			ID_STATUS_FREECHAT
-#define LIGHT			ID_STATUS_INVISIBLE
-#define THUNDER			ID_STATUS_INVISIBLE
-#define SSHOWER			ID_STATUS_ONTHEPHONE
-#define FOG				ID_STATUS_OUTTOLUNCH
-#define UNAVAIL			40081
-
-
 //============  WEATHER CONDITION STRUCT  ============
 
 // weather conditions  (added in v0.1.2.0)

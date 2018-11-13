@@ -75,9 +75,9 @@ static const PLUGININFOEX pluginInfoEx =
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(WEATHERPROTONAME, pluginInfoEx)
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
 {
-	opt.NoProtoCondition = db_get_b(0, WEATHERPROTONAME, "NoStatus", true);
+	opt.NoProtoCondition = g_plugin.getByte("NoStatus", true);
 	RegisterProtocol((opt.NoProtoCondition) ? PROTOTYPE_VIRTUAL : PROTOTYPE_PROTOCOL);
 	SetUniqueId("ID");
 }
@@ -111,7 +111,7 @@ int OnToolbarLoaded(WPARAM, LPARAM)
 	ttb.pszTooltipDn = LPGEN("Auto Update Disabled");
 	ttb.hIconHandleUp = GetIconHandle("main");
 	ttb.hIconHandleDn = GetIconHandle("disabled");
-	ttb.dwFlags = (db_get_b(0, WEATHERPROTONAME, "AutoUpdate", 1) ? 0 : TTBBF_PUSHED) | TTBBF_ASPUSHBUTTON | TTBBF_VISIBLE;
+	ttb.dwFlags = (g_plugin.getByte("AutoUpdate", 1) ? 0 : TTBBF_PUSHED) | TTBBF_ASPUSHBUTTON | TTBBF_VISIBLE;
 	hTBButton = g_plugin.addTTB(&ttb);
 	return 0;
 }
@@ -194,12 +194,12 @@ int CMPlugin::Load()
 	InitServices();
 
 	// add sound event
-	g_plugin.addSound("weatherupdated", _A2W(WEATHERPROTONAME), LPGENW("Condition Changed"));
-	g_plugin.addSound("weatheralert", _A2W(WEATHERPROTONAME), LPGENW("Alert Issued"));
+	g_plugin.addSound("weatherupdated", _A2W(MODULENAME), LPGENW("Condition Changed"));
+	g_plugin.addSound("weatheralert", _A2W(MODULENAME), LPGENW("Alert Issued"));
 
 	// window needed for popup commands
 	wchar_t SvcFunc[100];
-	mir_snwprintf(SvcFunc, L"%s__PopupWindow", _A2W(WEATHERPROTONAME));
+	mir_snwprintf(SvcFunc, L"%s__PopupWindow", _A2W(MODULENAME));
 	hPopupWindow = CreateWindowEx(WS_EX_TOOLWINDOW, L"static", SvcFunc, 0, CW_USEDEFAULT, CW_USEDEFAULT,
 		CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_plugin.getInst(), nullptr);
 	SetWindowLongPtr(hPopupWindow, GWLP_WNDPROC, (LONG_PTR)PopupWndProc);

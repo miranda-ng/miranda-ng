@@ -40,7 +40,7 @@ INT_PTR WeatherSetStatus(WPARAM new_status, LPARAM)
 	if (!opt.NoProtoCondition && status != new_status) {
 		old_status = status;
 		status = new_status != ID_STATUS_OFFLINE ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
-		ProtoBroadcastAck(WEATHERPROTONAME, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, status);
+		ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, status);
 
 		UpdateMenu(new_status != ID_STATUS_OFFLINE);
 		if (new_status != ID_STATUS_OFFLINE)
@@ -106,7 +106,7 @@ INT_PTR WeatherLoadIcon(WPARAM wParam, LPARAM)
 static void __cdecl AckThreadProc(HANDLE param)
 {
 	Sleep(100);
-	ProtoBroadcastAck(WEATHERPROTONAME, (DWORD_PTR)param, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1);
+	ProtoBroadcastAck(MODULENAME, (DWORD_PTR)param, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1);
 }
 
 // nothing to do here because weather proto do not need to retrieve contact info form network
@@ -134,7 +134,7 @@ INT_PTR WeatherGetAvatarInfo(WPARAM, LPARAM lParam)
 	if (chop) *chop = '\0';
 	else szSearchPath[0] = 0;
 
-	int iStatus = db_get_w(pai->hContact, WEATHERPROTONAME, "StatusIcon", 0);
+	int iStatus = g_plugin.getWord(pai->hContact, "StatusIcon");
 	for (i = 0; i < 10; i++)
 		if (statusValue[i] == iStatus)
 			break;
@@ -163,9 +163,9 @@ void AvatarDownloaded(MCONTACT hContact)
 	ai.hContact = hContact;
 
 	if (WeatherGetAvatarInfo(GAIF_FORCE, (LPARAM)&ai) == GAIR_SUCCESS)
-		ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);
+		ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);
 	else
-		ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, nullptr);
+		ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, nullptr);
 }
 
 static void __cdecl WeatherGetAwayMsgThread(void *arg)
@@ -175,10 +175,10 @@ static void __cdecl WeatherGetAwayMsgThread(void *arg)
 	MCONTACT hContact = (DWORD_PTR)arg;
 	DBVARIANT dbv;
 	if (!db_get_ws(hContact, "CList", "StatusMsg", &dbv)) {
-		ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.pwszVal);
+		ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.pwszVal);
 		db_free(&dbv);
 	}
-	else ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1);
+	else ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1);
 }
 
 static INT_PTR WeatherGetAwayMsg(WPARAM, LPARAM lParam)
@@ -195,21 +195,21 @@ static INT_PTR WeatherGetAwayMsg(WPARAM, LPARAM lParam)
 // protocol services
 void InitServices(void)
 {
-	CreateProtoServiceFunction(WEATHERPROTONAME, PS_GETCAPS, WeatherGetCaps);
-	CreateProtoServiceFunction(WEATHERPROTONAME, PS_GETNAME, WeatherGetName);
-	CreateProtoServiceFunction(WEATHERPROTONAME, PS_LOADICON, WeatherLoadIcon);
-	CreateProtoServiceFunction(WEATHERPROTONAME, PS_SETSTATUS, WeatherSetStatus);
-	CreateProtoServiceFunction(WEATHERPROTONAME, PS_GETSTATUS, WeatherGetStatus);
-	CreateProtoServiceFunction(WEATHERPROTONAME, PS_BASICSEARCH, WeatherBasicSearch);
-	CreateProtoServiceFunction(WEATHERPROTONAME, PS_SEARCHBYEMAIL, WeatherBasicSearch);
-	CreateProtoServiceFunction(WEATHERPROTONAME, PS_ADDTOLIST, WeatherAddToList);
-	CreateProtoServiceFunction(WEATHERPROTONAME, PSS_GETINFO, WeatherGetInfo);
-	CreateProtoServiceFunction(WEATHERPROTONAME, PS_GETAVATARINFO, WeatherGetAvatarInfo);
-	CreateProtoServiceFunction(WEATHERPROTONAME, PSS_GETAWAYMSG, WeatherGetAwayMsg);
-	CreateProtoServiceFunction(WEATHERPROTONAME, PS_CREATEADVSEARCHUI, WeatherCreateAdvancedSearchUI);
-	CreateProtoServiceFunction(WEATHERPROTONAME, PS_SEARCHBYADVANCED, WeatherAdvancedSearch);
+	CreateProtoServiceFunction(MODULENAME, PS_GETCAPS, WeatherGetCaps);
+	CreateProtoServiceFunction(MODULENAME, PS_GETNAME, WeatherGetName);
+	CreateProtoServiceFunction(MODULENAME, PS_LOADICON, WeatherLoadIcon);
+	CreateProtoServiceFunction(MODULENAME, PS_SETSTATUS, WeatherSetStatus);
+	CreateProtoServiceFunction(MODULENAME, PS_GETSTATUS, WeatherGetStatus);
+	CreateProtoServiceFunction(MODULENAME, PS_BASICSEARCH, WeatherBasicSearch);
+	CreateProtoServiceFunction(MODULENAME, PS_SEARCHBYEMAIL, WeatherBasicSearch);
+	CreateProtoServiceFunction(MODULENAME, PS_ADDTOLIST, WeatherAddToList);
+	CreateProtoServiceFunction(MODULENAME, PSS_GETINFO, WeatherGetInfo);
+	CreateProtoServiceFunction(MODULENAME, PS_GETAVATARINFO, WeatherGetAvatarInfo);
+	CreateProtoServiceFunction(MODULENAME, PSS_GETAWAYMSG, WeatherGetAwayMsg);
+	CreateProtoServiceFunction(MODULENAME, PS_CREATEADVSEARCHUI, WeatherCreateAdvancedSearchUI);
+	CreateProtoServiceFunction(MODULENAME, PS_SEARCHBYADVANCED, WeatherAdvancedSearch);
 
-	CreateProtoServiceFunction(WEATHERPROTONAME, MS_WEATHER_GETDISPLAY, GetDisplaySvcFunc);
+	CreateProtoServiceFunction(MODULENAME, MS_WEATHER_GETDISPLAY, GetDisplaySvcFunc);
 }
 
 //============  MENU INITIALIZATION  ============
@@ -218,7 +218,7 @@ void UpdateMenu(BOOL State)
 {
 	// update option setting
 	opt.CAutoUpdate = State;
-	db_set_b(0, WEATHERPROTONAME, "AutoUpdate", (BYTE)State);
+	g_plugin.setByte("AutoUpdate", (BYTE)State);
 
 	if (State) { // to enable auto-update
 		Menu_ModifyItem(hEnableDisableMenu, LPGENW("Auto Update Enabled"), GetIconHandle("main"));
@@ -236,7 +236,7 @@ void UpdatePopupMenu(BOOL State)
 {
 	// update option setting
 	opt.UsePopup = State;
-	db_set_b(0, WEATHERPROTONAME, "UsePopup", (BYTE)opt.UsePopup);
+	g_plugin.setByte("UsePopup", (BYTE)opt.UsePopup);
 
 	if (State) // to enable popup
 		Menu_ModifyItem(hEnableDisablePopupMenu, LPGENW("Disable &weather notification"), GetIconHandle("popup"));
@@ -271,7 +271,7 @@ void AddMenuItems(void)
 	mi.hIcolibItem = GetIconHandle("update");
 	mi.name.a = LPGEN("Update Weather");
 	mi.pszService = MS_WEATHER_UPDATE;
-	Menu_AddContactMenuItem(&mi, WEATHERPROTONAME);
+	Menu_AddContactMenuItem(&mi, MODULENAME);
 
 	SET_UID(mi, 0x45361b4, 0x8de, 0x44b4, 0x8f, 0x11, 0x9b, 0xe9, 0x6e, 0xa8, 0x83, 0x54);
 	CreateServiceFunction(MS_WEATHER_REFRESH, UpdateSingleRemove);
@@ -279,7 +279,7 @@ void AddMenuItems(void)
 	mi.hIcolibItem = GetIconHandle("update2");
 	mi.name.a = LPGEN("Remove Old Data then Update");
 	mi.pszService = MS_WEATHER_REFRESH;
-	Menu_AddContactMenuItem(&mi, WEATHERPROTONAME);
+	Menu_AddContactMenuItem(&mi, MODULENAME);
 
 	SET_UID(mi, 0x4232975e, 0xb181, 0x46a5, 0xb7, 0x6e, 0xd2, 0x5f, 0xef, 0xb8, 0xc4, 0x4d);
 	CreateServiceFunction(MS_WEATHER_BRIEF, BriefInfoSvc);
@@ -287,7 +287,7 @@ void AddMenuItems(void)
 	mi.hIcolibItem = GetIconHandle("brief");
 	mi.name.a = LPGEN("Brief Information");
 	mi.pszService = MS_WEATHER_BRIEF;
-	Menu_AddContactMenuItem(&mi, WEATHERPROTONAME);
+	Menu_AddContactMenuItem(&mi, MODULENAME);
 
 	SET_UID(mi, 0x3d6ed729, 0xd49a, 0x4ae9, 0x8e, 0x2, 0x9f, 0xe0, 0xf0, 0x2c, 0xcc, 0xb1);
 	CreateServiceFunction(MS_WEATHER_COMPLETE, LoadForecast);
@@ -295,7 +295,7 @@ void AddMenuItems(void)
 	mi.hIcolibItem = GetIconHandle("read");
 	mi.name.a = LPGEN("Read Complete Forecast");
 	mi.pszService = MS_WEATHER_COMPLETE;
-	Menu_AddContactMenuItem(&mi, WEATHERPROTONAME);
+	Menu_AddContactMenuItem(&mi, MODULENAME);
 
 	SET_UID(mi, 0xc4b6c5e0, 0x13c3, 0x4e02, 0x8a, 0xeb, 0xeb, 0x8a, 0xe2, 0x66, 0x40, 0xd4);
 	CreateServiceFunction(MS_WEATHER_MAP, WeatherMap);
@@ -303,7 +303,7 @@ void AddMenuItems(void)
 	mi.hIcolibItem = GetIconHandle("map");
 	mi.name.a = LPGEN("Weather Map");
 	mi.pszService = MS_WEATHER_MAP;
-	Menu_AddContactMenuItem(&mi, WEATHERPROTONAME);
+	Menu_AddContactMenuItem(&mi, MODULENAME);
 
 	SET_UID(mi, 0xee3ad7f4, 0x3377, 0x4e4c, 0x8f, 0x3c, 0x3b, 0xf5, 0xd4, 0x86, 0x28, 0x25);
 	CreateServiceFunction(MS_WEATHER_LOG, ViewLog);
@@ -311,7 +311,7 @@ void AddMenuItems(void)
 	mi.hIcolibItem = GetIconHandle("log");
 	mi.name.a = LPGEN("View Log");
 	mi.pszService = MS_WEATHER_LOG;
-	Menu_AddContactMenuItem(&mi, WEATHERPROTONAME);
+	Menu_AddContactMenuItem(&mi, MODULENAME);
 
 	SET_UID(mi, 0x1b01cd6a, 0xe5ee, 0x42b4, 0xa1, 0x6d, 0x43, 0xb9, 0x4, 0x58, 0x43, 0x2e);
 	CreateServiceFunction(MS_WEATHER_EDIT, EditSettings);
@@ -319,7 +319,7 @@ void AddMenuItems(void)
 	mi.hIcolibItem = GetIconHandle("edit");
 	mi.name.a = LPGEN("Edit Settings");
 	mi.pszService = MS_WEATHER_EDIT;
-	Menu_AddContactMenuItem(&mi, WEATHERPROTONAME);
+	Menu_AddContactMenuItem(&mi, MODULENAME);
 
 	// adding main menu items
 	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Weather"), 500099000);
@@ -353,12 +353,12 @@ void AddMenuItems(void)
 	// only run if popup service exists
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		SET_UID(mi, 0xdc5411cb, 0xb7c7, 0x443b, 0x88, 0x5a, 0x90, 0x24, 0x43, 0xde, 0x54, 0x3e);
-		CreateServiceFunction(WEATHERPROTONAME "/PopupMenu", MenuitemNotifyCmd);
+		CreateServiceFunction(MODULENAME "/PopupMenu", MenuitemNotifyCmd);
 		mi.name.a = LPGEN("Weather Notification");
 		mi.hIcolibItem = GetIconHandle("popup");
 		mi.position = 0;
 		mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Popups"), 0);
-		mi.pszService = WEATHERPROTONAME "/PopupMenu";
+		mi.pszService = MODULENAME "/PopupMenu";
 		hEnableDisablePopupMenu = Menu_AddMainMenuItem(&mi);
 		UpdatePopupMenu(opt.UsePopup);
 	}
@@ -371,6 +371,6 @@ void AddMenuItems(void)
 		mi.hIcolibItem = nullptr;
 		mi.root = nullptr;
 		mi.name.a = LPGEN("Display in a frame");
-		hMwinMenu = Menu_AddContactMenuItem(&mi, WEATHERPROTONAME);
+		hMwinMenu = Menu_AddContactMenuItem(&mi, MODULENAME);
 	}
 }

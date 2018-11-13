@@ -45,7 +45,7 @@ int UpdateWeather(MCONTACT hContact)
 
 	// log to netlib log for debug purpose
 	Netlib_LogfW(hNetlibUser, L"************************************************************************");
-	int dbres = db_get_ws(hContact, WEATHERPROTONAME, "Nick", &dbv);
+	int dbres = g_plugin.getWString(hContact, "Nick", &dbv);
 
 	Netlib_LogfW(hNetlibUser, L"<-- Start update for station -->");
 
@@ -80,19 +80,19 @@ int UpdateWeather(MCONTACT hContact)
 
 	// compare the old condition and determine if the weather had changed
 	if (opt.UpdateOnlyConditionChanged) {	// consider condition change
-		if (!db_get_ws(hContact, WEATHERPROTONAME, "LastCondition", &dbv)) {
+		if (!g_plugin.getWString(hContact, "LastCondition", &dbv)) {
 			if (mir_wstrcmpi(winfo.cond, dbv.pwszVal))  Ch = TRUE;		// the weather condition is changed
 			db_free(&dbv);
 		}
 		else Ch = TRUE;
-		if (!db_get_ws(hContact, WEATHERPROTONAME, "LastTemperature", &dbv)) {
+		if (!g_plugin.getWString(hContact, "LastTemperature", &dbv)) {
 			if (mir_wstrcmpi(winfo.temp, dbv.pwszVal))  Ch = TRUE;		// the temperature is changed
 			db_free(&dbv);
 		}
 		else Ch = TRUE;
 	}
 	else {	// consider update time change
-		if (!db_get_ws(hContact, WEATHERPROTONAME, "LastUpdate", &dbv)) {
+		if (!g_plugin.getWString(hContact, "LastUpdate", &dbv)) {
 			if (mir_wstrcmpi(winfo.update, dbv.pwszVal))  Ch = TRUE;		// the update time is changed
 			db_free(&dbv);
 		}
@@ -102,31 +102,31 @@ int UpdateWeather(MCONTACT hContact)
 	// have weather alert issued?
 	dbres = db_get_ws(hContact, WEATHERCONDITION, "Alert", &dbv);
 	if (!dbres && dbv.pwszVal[0] != 0) {
-		if (opt.AlertPopup && !db_get_b(hContact, WEATHERPROTONAME, "DPopUp", 0) && Ch) {
+		if (opt.AlertPopup && !g_plugin.getByte(hContact, "DPopUp") && Ch) {
 			// display alert popup
 			mir_snwprintf(str, L"Alert for %s%c%s", winfo.city, 255, dbv.pwszVal);
 			WPShowMessage(str, SM_WEATHERALERT);
 		}
 		// alert issued, set display to italic
 		if (opt.MakeItalic)
-			db_set_w(hContact, WEATHERPROTONAME, "ApparentMode", ID_STATUS_OFFLINE);
+			g_plugin.setWord(hContact, "ApparentMode", ID_STATUS_OFFLINE);
 		Skin_PlaySound("weatheralert");
 	}
 	// alert dropped, set the display back to normal
-	else db_unset(hContact, WEATHERPROTONAME, "ApparentMode");
+	else g_plugin.delSetting(hContact, "ApparentMode");
 	if (!dbres) db_free(&dbv);
 
 	// backup current condition for checking if the weather is changed or not
-	db_set_ws(hContact, WEATHERPROTONAME, "LastLog", winfo.update);
-	db_set_ws(hContact, WEATHERPROTONAME, "LastCondition", winfo.cond);
-	db_set_ws(hContact, WEATHERPROTONAME, "LastTemperature", winfo.temp);
-	db_set_ws(hContact, WEATHERPROTONAME, "LastUpdate", winfo.update);
+	g_plugin.setWString(hContact, "LastLog", winfo.update);
+	g_plugin.setWString(hContact, "LastCondition", winfo.cond);
+	g_plugin.setWString(hContact, "LastTemperature", winfo.temp);
+	g_plugin.setWString(hContact, "LastUpdate", winfo.update);
 
 	// display condition on contact list
 	if (opt.DisCondIcon && winfo.status != ID_STATUS_OFFLINE)
-		db_set_w(hContact, WEATHERPROTONAME, "Status", ID_STATUS_ONLINE);
+		g_plugin.setWord(hContact, "Status", ID_STATUS_ONLINE);
 	else
-		db_set_w(hContact, WEATHERPROTONAME, "Status", winfo.status);
+		g_plugin.setWord(hContact, "Status", winfo.status);
 	AvatarDownloaded(hContact);
 
 	GetDisplay(&winfo, opt.cText, str2);
@@ -138,7 +138,7 @@ int UpdateWeather(MCONTACT hContact)
 	else
 		db_unset(hContact, "CList", "StatusMsg");
 
-	ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, nullptr, (LPARAM)(str2[0] ? str2 : nullptr));
+	ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, nullptr, (LPARAM)(str2[0] ? str2 : nullptr));
 
 	// save descriptions in MyNotes
 	GetDisplay(&winfo, opt.nText, str2);
@@ -147,7 +147,7 @@ int UpdateWeather(MCONTACT hContact)
 	db_set_ws(hContact, WEATHERCONDITION, "WeatherInfo", str2);
 
 	// set the update tag
-	db_set_b(hContact, WEATHERPROTONAME, "IsUpdated", TRUE);
+	g_plugin.setByte(hContact, "IsUpdated", TRUE);
 
 	// save info for default weather condition
 	if (!mir_wstrcmp(winfo.id, opt.Default) && !opt.NoProtoCondition) {
@@ -156,7 +156,7 @@ int UpdateWeather(MCONTACT hContact)
 		status = winfo.status;
 		// a workaround for a default station that currently have an n/a icon assigned
 		if (status == ID_STATUS_OFFLINE)	status = NOSTATUSDATA;
-		ProtoBroadcastAck(WEATHERPROTONAME, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, status);
+		ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, status);
 	}
 
 	// logging
@@ -164,11 +164,11 @@ int UpdateWeather(MCONTACT hContact)
 		// play the sound event
 		Skin_PlaySound("weatherupdated");
 
-		if (db_get_b(hContact, WEATHERPROTONAME, "File", 0)) {
+		if (g_plugin.getByte(hContact, "File")) {
 			// external log
-			if (!db_get_ws(hContact, WEATHERPROTONAME, "Log", &dbv)) {
+			if (!g_plugin.getWString(hContact, "Log", &dbv)) {
 				// for the option for overwriting the file, delete old file first
-				if (db_get_b(hContact, WEATHERPROTONAME, "Overwrite", 0))
+				if (g_plugin.getByte(hContact, "Overwrite"))
 					DeleteFile(dbv.pwszVal);
 
 				// open the file and set point to the end of file
@@ -183,14 +183,14 @@ int UpdateWeather(MCONTACT hContact)
 			}
 		}
 
-		if (db_get_b(hContact, WEATHERPROTONAME, "History", 0)) {
+		if (g_plugin.getByte(hContact, "History")) {
 			// internal log using history
 			GetDisplay(&winfo, opt.hText, str2);
 
 			T2Utf szMessage(str2);
 
 			DBEVENTINFO dbei = {};
-			dbei.szModule = WEATHERPROTONAME;
+			dbei.szModule = MODULENAME;
 			dbei.timestamp = (DWORD)time(0);
 			dbei.flags = DBEF_READ | DBEF_UTF;
 			dbei.eventType = EVENTTYPE_MESSAGE;
@@ -305,8 +305,8 @@ static void UpdateThreadProc(void *)
 void UpdateAll(BOOL AutoUpdate, BOOL RemoveData)
 {
 	// add all weather contact to the update queue list
-	for (auto &hContact : Contacts(WEATHERPROTONAME))
-		if (!db_get_b(hContact, WEATHERPROTONAME, "AutoUpdate", FALSE) || !AutoUpdate) {
+	for (auto &hContact : Contacts(MODULENAME))
+		if (!g_plugin.getByte(hContact, "AutoUpdate") || !AutoUpdate) {
 			if (RemoveData)
 				DBDataManage(hContact, WDBM_REMOVE, 0, 0);
 			UpdateListAdd(hContact);
@@ -575,8 +575,8 @@ int GetWeatherData(MCONTACT hContact)
 	}
 
 	// assign condition icon
-	db_set_w(hContact, WEATHERPROTONAME, "StatusIcon", cond);
-	db_set_ws(hContact, WEATHERPROTONAME, "MirVer", Data->DisplayName);
+	g_plugin.setWord(hContact, "StatusIcon", cond);
+	g_plugin.setWString(hContact, "MirVer", Data->DisplayName);
 	return 0;
 }
 

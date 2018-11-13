@@ -39,13 +39,13 @@ static IconItem iconList[] =
 
 void InitIcons(void)
 {
-	g_plugin.registerIcon(WEATHERPROTONAME, iconList, WEATHERPROTONAME);
+	g_plugin.registerIcon(MODULENAME, iconList, MODULENAME);
 }
 
 HICON LoadIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, "%s_%s", WEATHERPROTONAME, name);
+	mir_snprintf(szSettingName, "%s_%s", MODULENAME, name);
 	return IcoLib_GetIcon(szSettingName, big);
 }
 

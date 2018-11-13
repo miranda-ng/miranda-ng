@@ -41,7 +41,7 @@ INT_PTR ViewLog(WPARAM wParam, LPARAM lParam)
 {
 	// see if the log path is set
 	DBVARIANT dbv;
-	if (!db_get_ws(wParam, WEATHERPROTONAME, "Log", &dbv)) {
+	if (!g_plugin.getWString(wParam, "Log", &dbv)) {
 		if (dbv.pszVal[0] != 0)
 			ShellExecute((HWND)lParam, L"open", dbv.pwszVal, L"", L"", SW_SHOW);
 		db_free(&dbv);
@@ -60,7 +60,7 @@ INT_PTR LoadForecast(WPARAM wParam, LPARAM)
 	GetStationID(wParam, id, _countof(id));
 	if (id[0] != 0) {
 		// check if the complte forecast URL is set. If it is not, display warning and quit
-		if (db_get_wstatic(wParam, WEATHERPROTONAME, "InfoURL", loc2, _countof(loc2)) || loc2[0] == 0) {
+		if (db_get_wstatic(wParam, MODULENAME, "InfoURL", loc2, _countof(loc2)) || loc2[0] == 0) {
 			MessageBox(nullptr, NO_FORECAST_URL, TranslateT("Weather Protocol"), MB_ICONINFORMATION);
 			return 1;
 		}
@@ -78,7 +78,7 @@ INT_PTR WeatherMap(WPARAM wParam, LPARAM)
 	GetStationID(wParam, id, _countof(id));
 	if (id[0] != 0) {
 		// check if the weather map URL is set. If it is not, display warning and quit
-		if (db_get_wstatic(wParam, WEATHERPROTONAME, "MapURL", loc2, _countof(loc2)) || loc2[0] == 0) {
+		if (db_get_wstatic(wParam, MODULENAME, "MapURL", loc2, _countof(loc2)) || loc2[0] == 0) {
 			MessageBox(nullptr, NO_MAP_URL, TranslateT("Weather Protocol"), MB_ICONINFORMATION);
 			return 1;
 		}
@@ -158,17 +158,17 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 		// start to get the settings
 		// if the setting not exist, leave the dialog box blank
-		if (!db_get_ws(hContact, WEATHERPROTONAME, "ID", &dbv)) {
+		if (!g_plugin.getWString(hContact, "ID", &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_ID, dbv.pwszVal);
 			// check if the station is a default station
 			CheckDlgButton(hwndDlg, IDC_DEFA, mir_wstrcmp(dbv.pwszVal, opt.Default) != 0 ? BST_CHECKED : BST_UNCHECKED);
 			db_free(&dbv);
 		}
-		if (!db_get_ws(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
+		if (!g_plugin.getWString(hContact, "Nick", &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_NAME, dbv.pwszVal);
 			db_free(&dbv);
 		}
-		if (!db_get_ws(hContact, WEATHERPROTONAME, "Log", &dbv)) {
+		if (!g_plugin.getWString(hContact, "Log", &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_LOG, dbv.pwszVal);
 			// if the log path is not empty, check the checkbox for external log
 			if (dbv.pwszVal[0]) CheckDlgButton(hwndDlg, IDC_External, BST_CHECKED);
@@ -178,21 +178,21 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		EnableWindow(GetDlgItem(hwndDlg, IDC_BROWSE), (BYTE)IsDlgButtonChecked(hwndDlg, IDC_External));
 
 		// other checkbox options
-		CheckDlgButton(hwndDlg, IDC_DPop, db_get_b(hContact, WEATHERPROTONAME, "DPopUp", FALSE) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_DAutoUpdate, db_get_b(hContact, WEATHERPROTONAME, "DAutoUpdate", FALSE) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_Internal, db_get_b(hContact, WEATHERPROTONAME, "History", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DPop, g_plugin.getByte(hContact, "DPopUp", FALSE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DAutoUpdate, g_plugin.getByte(hContact, "DAutoUpdate", FALSE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_Internal, g_plugin.getByte(hContact, "History", 0) ? BST_CHECKED : BST_UNCHECKED);
 
-		if (!db_get_ws(hContact, WEATHERPROTONAME, "InfoURL", &dbv)) {
+		if (!g_plugin.getWString(hContact, "InfoURL", &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_IURL, dbv.pwszVal);
 			db_free(&dbv);
 		}
-		if (!db_get_ws(hContact, WEATHERPROTONAME, "MapURL", &dbv)) {
+		if (!g_plugin.getWString(hContact, "MapURL", &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_MURL, dbv.pwszVal);
 			db_free(&dbv);
 		}
 
 		// display the dialog box and free memory
-		Utils_RestoreWindowPositionNoMove(hwndDlg, NULL, WEATHERPROTONAME, "EditSetting_");
+		Utils_RestoreWindowPositionNoMove(hwndDlg, NULL, MODULENAME, "EditSetting_");
 		ShowWindow(hwndDlg, SW_SHOW);
 		break;
 
@@ -341,38 +341,38 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			// temporary disable the protocol while applying the change
 			// start writing the new settings to database
 			GetDlgItemText(hwndDlg, IDC_ID, str, _countof(str));
-			db_set_ws(hContact, WEATHERPROTONAME, "ID", str);
+			g_plugin.setWString(hContact, "ID", str);
 			if ((BYTE)IsDlgButtonChecked(hwndDlg, IDC_DEFA)) {	// if default station is set
 				mir_wstrcpy(opt.Default, str);
 				opt.DefStn = hContact;
-				db_set_ws(0, WEATHERPROTONAME, "Default", opt.Default);
+				g_plugin.setWString("Default", opt.Default);
 			}
 			GetDlgItemText(hwndDlg, IDC_NAME, city, _countof(city));
-			db_set_ws(hContact, WEATHERPROTONAME, "Nick", city);
+			g_plugin.setWString(hContact, "Nick", city);
 			mir_snwprintf(str2, TranslateT("Current weather information for %s."), city);
 			if ((BYTE)IsDlgButtonChecked(hwndDlg, IDC_External)) {
 				GetDlgItemText(hwndDlg, IDC_LOG, str, _countof(str));
-				db_set_ws(hContact, WEATHERPROTONAME, "Log", str);
+				g_plugin.setWString(hContact, "Log", str);
 			}
-			else db_unset(hContact, WEATHERPROTONAME, "Log");
+			else g_plugin.delSetting(hContact, "Log");
 
 			GetDlgItemText(hwndDlg, IDC_IURL, str, _countof(str));
-			db_set_ws(hContact, WEATHERPROTONAME, "InfoURL", str);
+			g_plugin.setWString(hContact, "InfoURL", str);
 
 			GetDlgItemText(hwndDlg, IDC_MURL, str, _countof(str));
-			db_set_ws(hContact, WEATHERPROTONAME, "MapURL", str);
-			db_set_w(hContact, WEATHERPROTONAME, "Status", ID_STATUS_OFFLINE);
-			db_set_w(hContact, WEATHERPROTONAME, "StatusIcon", ID_STATUS_OFFLINE);
+			g_plugin.setWString(hContact, "MapURL", str);
+			g_plugin.setWord(hContact, "Status", ID_STATUS_OFFLINE);
+			g_plugin.setWord(hContact, "StatusIcon", ID_STATUS_OFFLINE);
 			AvatarDownloaded(hContact);
-			db_set_ws(hContact, WEATHERPROTONAME, "About", str2);
-			db_set_b(hContact, WEATHERPROTONAME, "History", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_Internal));
-			db_set_b(hContact, WEATHERPROTONAME, "Overwrite", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_Overwrite));
-			db_set_b(hContact, WEATHERPROTONAME, "File", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_External));
-			db_set_b(hContact, WEATHERPROTONAME, "DPopUp", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DPop));
-			db_set_b(hContact, WEATHERPROTONAME, "DAutoUpdate", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DAutoUpdate));
+			g_plugin.setWString(hContact, "About", str2);
+			g_plugin.setByte(hContact, "History", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_Internal));
+			g_plugin.setByte(hContact, "Overwrite", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_Overwrite));
+			g_plugin.setByte(hContact, "File", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_External));
+			g_plugin.setByte(hContact, "DPopUp", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DPop));
+			g_plugin.setByte(hContact, "DAutoUpdate", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DAutoUpdate));
 
 			// re-enable the protocol and update the data for the station
-			db_set_s(hContact, WEATHERPROTONAME, "LastCondition", "None");
+			g_plugin.setString(hContact, "LastCondition", "None");
 			UpdateSingleStation(hContact, 0);
 			__fallthrough;
 
@@ -398,7 +398,7 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 
 		WindowList_Remove(hWindowList, hwndDlg);
-		Utils_SaveWindowPosition(hwndDlg, NULL, WEATHERPROTONAME, "EditSetting_");
+		Utils_SaveWindowPosition(hwndDlg, NULL, MODULENAME, "EditSetting_");
 		break;
 	}
 	return FALSE;
@@ -437,7 +437,7 @@ int ContactDeleted(WPARAM wParam, LPARAM)
 	removeWindow(wParam);
 
 	// exit this function if it is not default station
-	ptrW tszID(db_get_wsa(wParam, WEATHERPROTONAME, "ID"));
+	ptrW tszID(g_plugin.getWStringA(wParam, "ID"));
 	if (tszID != NULL)
 		if (mir_wstrcmp(tszID, opt.Default))
 			return 0;
@@ -445,8 +445,8 @@ int ContactDeleted(WPARAM wParam, LPARAM)
 	// now the default station is deleted, try to get a new one
 
 	// start looking for other weather stations
-	for (auto &hContact : Contacts(WEATHERPROTONAME)) {
-		tszID = db_get_wsa(hContact, WEATHERPROTONAME, "ID");
+	for (auto &hContact : Contacts(MODULENAME)) {
+		tszID = g_plugin.getWStringA(hContact, "ID");
 		if (tszID == NULL)
 			continue;
 
@@ -455,13 +455,13 @@ int ContactDeleted(WPARAM wParam, LPARAM)
 		if (mir_wstrcmp(opt.Default, tszID)) {
 			wcsncpy_s(opt.Default, tszID, _TRUNCATE);
 			opt.DefStn = hContact;
-			ptrW tszNick(db_get_wsa(hContact, WEATHERPROTONAME, "Nick"));
+			ptrW tszNick(g_plugin.getWStringA(hContact, "Nick"));
 			if (tszNick != NULL) {
 				wchar_t str[255];
 				mir_snwprintf(str, TranslateT("%s is now the default weather station"), (wchar_t*)tszNick);
 				MessageBox(nullptr, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
 			}
-			db_set_ws(0, WEATHERPROTONAME, "Default", opt.Default);
+			g_plugin.setWString("Default", opt.Default);
 			return 0;		// exit this function quickly
 		}
 	}
@@ -469,12 +469,12 @@ int ContactDeleted(WPARAM wParam, LPARAM)
 	// got here if no more weather station left
 	opt.Default[0] = 0;	// no default station
 	opt.DefStn = NULL;
-	db_set_ws(0, WEATHERPROTONAME, "Default", opt.Default);
+	g_plugin.setWString("Default", opt.Default);
 	return 0;
 }
 
 BOOL IsMyContact(MCONTACT hContact)
 {
 	const char *szProto = GetContactProto(hContact);
-	return szProto != nullptr && mir_strcmp(WEATHERPROTONAME, szProto) == 0;
+	return szProto != nullptr && mir_strcmp(MODULENAME, szProto) == 0;
 }

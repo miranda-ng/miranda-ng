@@ -60,7 +60,7 @@ static void LoadBriefInfoText(HWND hwndDlg, MCONTACT hContact)
 	// load weather information from the contact into the WEATHERINFO struct
 	winfo = LoadWeatherInfo(hContact);
 	// check if data exist.  If not, display error message box
-	if (!(BOOL)db_get_b(hContact, WEATHERPROTONAME, "IsUpdated", FALSE))
+	if (!g_plugin.getByte(hContact, "IsUpdated"))
 		wcsncpy(str, WEATHER_NO_INFO, _countof(str) - 1);
 	else
 		// set the display text and show the message box
@@ -121,7 +121,7 @@ static INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		WindowList_Add(hDataWindowList, hwndDlg, hContact);
 
 		// restore window position
-		Utils_RestoreWindowPositionNoMove(hwndDlg, NULL, WEATHERPROTONAME, "BriefInfo_");
+		Utils_RestoreWindowPositionNoMove(hwndDlg, NULL, MODULENAME, "BriefInfo_");
 		return TRUE;
 
 	case WM_UPDATEDATA:
@@ -131,7 +131,7 @@ static INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 		// set icons
 		Window_FreeIcon_IcoLib(hwndDlg);
-		Window_SetProtoIcon_IcoLib(hwndDlg, WEATHERPROTONAME, db_get_w(hContact, WEATHERPROTONAME, "StatusIcon", 0));
+		Window_SetProtoIcon_IcoLib(hwndDlg, MODULENAME, db_get_w(hContact, MODULENAME, "StatusIcon", 0));
 
 		RedrawWindow(GetDlgItem(hwndDlg, IDC_HEADERBAR), nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
 		break;
@@ -226,7 +226,7 @@ static INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 	case WM_DESTROY:
 		Window_FreeIcon_IcoLib(hwndDlg);
-		Utils_SaveWindowPosition(hwndDlg, NULL, WEATHERPROTONAME, "BriefInfo_");
+		Utils_SaveWindowPosition(hwndDlg, NULL, MODULENAME, "BriefInfo_");
 		WindowList_Remove(hDataWindowList, hwndDlg);
 		break;
 	}
@@ -253,11 +253,9 @@ static INT_PTR CALLBACK DlgProcUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		w = LoadWeatherInfo(lParam);
 		SetDlgItemText(hwndDlg, IDC_INFO1, GetDisplay(&w, TranslateT("Current condition for %n"), str));
 
-		SendDlgItemMessage(hwndDlg, IDC_INFOICON, STM_SETICON,
-			(WPARAM)Skin_LoadProtoIcon(WEATHERPROTONAME,
-				db_get_w(hContact, WEATHERPROTONAME, "StatusIcon", 0)), 0);
-
-		{	// bold and enlarge the current condition
+		SendDlgItemMessage(hwndDlg, IDC_INFOICON, STM_SETICON, (WPARAM)Skin_LoadProtoIcon(MODULENAME, g_plugin.getWord(hContact, "StatusIcon")), 0);
+		{
+			// bold and enlarge the current condition
 			LOGFONT lf;
 			HFONT hNormalFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_INFO2, WM_GETFONT, 0, 0);
 			GetObject(hNormalFont, sizeof(lf), &lf);
@@ -315,7 +313,7 @@ int UserInfoInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 100000000;
-	odp.szTitle.a = WEATHERPROTONAME;
+	odp.szTitle.a = MODULENAME;
 
 	if (lParam == 0) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO);

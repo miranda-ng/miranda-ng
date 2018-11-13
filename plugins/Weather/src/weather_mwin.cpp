@@ -136,32 +136,30 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			RECT r, rc;
 
 			if (GetUpdateRect(hwnd, &r, FALSE)) {
-				PAINTSTRUCT ps;
-				LOGFONT lfnt, lfnt1;
-				COLORREF fntc, fntc1;
-				COLORREF clr;
 				int picSize = opt.AvatarSize;
 				HICON hIcon = nullptr;
 
 				if (!data->haveAvatar) {
-					int statusIcon = db_get_w(data->hContact, WEATHERPROTONAME, "Status", 0);
+					int statusIcon = g_plugin.getWord(data->hContact, "Status");
 
 					picSize = GetSystemMetrics(SM_CXICON);
-					hIcon = Skin_LoadProtoIcon(WEATHERPROTONAME, statusIcon, true);
+					hIcon = Skin_LoadProtoIcon(MODULENAME, statusIcon, true);
 					if ((INT_PTR)hIcon == CALLSERVICE_NOTFOUND) {
 						picSize = GetSystemMetrics(SM_CXSMICON);
-						hIcon = Skin_LoadProtoIcon(WEATHERPROTONAME, statusIcon);
+						hIcon = Skin_LoadProtoIcon(MODULENAME, statusIcon);
 					}
 				}
 
-				clr = db_get_dw(0, WEATHERPROTONAME, "ColorMwinFrame", GetSysColor(COLOR_3DFACE));
-				fntc = Font_GetW(_A2W(WEATHERPROTONAME), LPGENW("Frame Font"), &lfnt);
-				fntc1 = Font_GetW(_A2W(WEATHERPROTONAME), LPGENW("Frame Title Font"), &lfnt1);
+				LOGFONT lfnt, lfnt1;
+				COLORREF clr = g_plugin.getDword("ColorMwinFrame", GetSysColor(COLOR_3DFACE));
+				COLORREF fntc = Font_GetW(_A2W(MODULENAME), LPGENW("Frame Font"), &lfnt);
+				COLORREF fntc1 = Font_GetW(_A2W(MODULENAME), LPGENW("Frame Title Font"), &lfnt1);
 
 				ptrW tszInfo(db_get_wsa(data->hContact, WEATHERCONDITION, "WeatherInfo"));
 
 				GetClientRect(hwnd, &rc);
 
+				PAINTSTRUCT ps;
 				HDC hdc = BeginPaint(hwnd, &ps);
 
 				if (ServiceExists(MS_SKIN_DRAWGLYPH)) {
@@ -230,7 +228,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 static void addWindow(MCONTACT hContact)
 {
 	DBVARIANT dbv;
-	if (db_get_ws(hContact, WEATHERPROTONAME, "Nick", &dbv))
+	if (g_plugin.getWString(hContact, "Nick", &dbv))
 		return;
 
 	wchar_t winname[512];
@@ -251,18 +249,18 @@ static void addWindow(MCONTACT hContact)
 	Frame.height = 32;
 	int frameID = g_plugin.addFrame(&Frame);
 
-	db_set_dw(hContact, WEATHERPROTONAME, "mwin", frameID);
+	g_plugin.setDword(hContact, "mwin", frameID);
 	db_set_b(hContact, "CList", "Hidden", TRUE);
 }
 
 void removeWindow(MCONTACT hContact)
 {
-	DWORD frameId = db_get_dw(hContact, WEATHERPROTONAME, "mwin", 0);
+	DWORD frameId = g_plugin.getDword(hContact, "mwin");
 
 	WindowList_Remove(hMwinWindowList, WindowList_Find(hMwinWindowList, hContact));
 	CallService(MS_CLIST_FRAMES_REMOVEFRAME, frameId, 0);
 
-	db_set_dw(hContact, WEATHERPROTONAME, "mwin", 0);
+	g_plugin.setDword(hContact, "mwin", 0);
 	db_unset(hContact, "CList", "Hidden");
 }
 
@@ -285,7 +283,7 @@ INT_PTR Mwin_MenuClicked(WPARAM wParam, LPARAM)
 
 int BuildContactMenu(WPARAM wparam, LPARAM)
 {
-	int flags = db_get_dw(wparam, WEATHERPROTONAME, "mwin", 0) ? CMIF_CHECKED : 0;
+	int flags = g_plugin.getDword(wparam, "mwin") ? CMIF_CHECKED : 0;
 	Menu_ModifyItem(hMwinMenu, nullptr, INVALID_HANDLE_VALUE, flags);
 	return 0;
 }
@@ -317,17 +315,17 @@ void InitMwin(void)
 	RegisterClass(&wndclass);
 
 	ColourIDW colourid = {};
-	mir_strcpy(colourid.dbSettingsGroup, WEATHERPROTONAME);
+	mir_strcpy(colourid.dbSettingsGroup, MODULENAME);
 	mir_strcpy(colourid.setting, "ColorMwinFrame");
 	mir_wstrcpy(colourid.name, LPGENW("Frame Background"));
-	mir_wstrcpy(colourid.group, _A2W(WEATHERPROTONAME));
+	mir_wstrcpy(colourid.group, _A2W(MODULENAME));
 	colourid.defcolour = GetSysColor(COLOR_3DFACE);
 	g_plugin.addColor(&colourid);
 
 	FontIDW fontid = {};
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID;
-	mir_strcpy(fontid.dbSettingsGroup, WEATHERPROTONAME);
-	mir_wstrcpy(fontid.group, _A2W(WEATHERPROTONAME));
+	mir_strcpy(fontid.dbSettingsGroup, MODULENAME);
+	mir_wstrcpy(fontid.group, _A2W(MODULENAME));
 	mir_wstrcpy(fontid.name, LPGENW("Frame Font"));
 	mir_strcpy(fontid.setting, "fnt0");
 
@@ -337,7 +335,7 @@ void InitMwin(void)
 
 	fontid.deffontsettings.charset = DEFAULT_CHARSET;
 	mir_wstrcpy(fontid.deffontsettings.szFace, L"Verdana");
-	mir_wstrcpy(fontid.backgroundGroup, _A2W(WEATHERPROTONAME));
+	mir_wstrcpy(fontid.backgroundGroup, _A2W(MODULENAME));
 	mir_wstrcpy(fontid.backgroundName, LPGENW("Frame Background"));
 	g_plugin.addFont(&fontid);
 
@@ -346,8 +344,8 @@ void InitMwin(void)
 	mir_strcpy(fontid.setting, "fnt1");
 	g_plugin.addFont(&fontid);
 
-	for (auto &hContact : Contacts(WEATHERPROTONAME))
-		if (db_get_dw(hContact, WEATHERPROTONAME, "mwin", 0))
+	for (auto &hContact : Contacts(MODULENAME))
+		if (g_plugin.getDword(hContact, "mwin"))
 			addWindow(hContact);
 
 	hFontHook = HookEvent(ME_FONT_RELOAD, RedrawFrame);
@@ -355,8 +353,8 @@ void InitMwin(void)
 
 void DestroyMwin(void)
 {
-	for (auto &hContact : Contacts(WEATHERPROTONAME)) {
-		DWORD frameId = db_get_dw(hContact, WEATHERPROTONAME, "mwin", 0);
+	for (auto &hContact : Contacts(MODULENAME)) {
+		DWORD frameId = g_plugin.getDword(hContact, "mwin");
 		if (frameId)
 			CallService(MS_CLIST_FRAMES_REMOVEFRAME, frameId, 0);
 	}

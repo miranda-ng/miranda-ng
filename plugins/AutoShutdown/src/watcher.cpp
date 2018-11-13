@@ -235,7 +235,7 @@ static BOOL CALLBACK CpuUsageWatcherProc(BYTE nCpuUsage, LPARAM lParam)
 static int WeatherUpdated(WPARAM wParam, LPARAM lParam)
 {
 	char *pszProto = GetContactProto(wParam);
-	if ((BOOL)lParam && pszProto != nullptr && Proto_GetStatus(pszProto) == THUNDER)
+	if ((BOOL)lParam && pszProto != nullptr && Proto_GetStatus(pszProto) == ID_STATUS_INVISIBLE)
 		if (g_plugin.getByte("WeatherShutdown", SETTING_WEATHERSHUTDOWN_DEFAULT))
 			ServiceShutdown(SDSDT_SHUTDOWN, TRUE);
 	return 0;

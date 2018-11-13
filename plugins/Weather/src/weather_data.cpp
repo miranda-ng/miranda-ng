@@ -33,7 +33,7 @@ saving individual weather data for a weather contact.
 void GetStationID(MCONTACT hContact, wchar_t* id, int idlen)
 {
 	// accessing the database
-	if (db_get_wstatic(hContact, WEATHERPROTONAME, "ID", id, idlen))
+	if (db_get_wstatic(hContact, MODULENAME, "ID", id, idlen))
 		id[0] = 0;
 }
 
@@ -49,7 +49,7 @@ WEATHERINFO LoadWeatherInfo(MCONTACT hContact)
 	winfo.hContact = hContact;
 	GetStationID(hContact, winfo.id, _countof(winfo.id));
 
-	if (db_get_wstatic(hContact, WEATHERPROTONAME, "Nick", winfo.city, _countof(winfo.city)))
+	if (db_get_wstatic(hContact, MODULENAME, "Nick", winfo.city, _countof(winfo.city)))
 		wcsncpy(winfo.city, NODATA, _countof(winfo.city) - 1);
 	if (db_get_wstatic(hContact, WEATHERCONDITION, "Update", winfo.update, _countof(winfo.update)))
 		wcsncpy(winfo.update, NODATA, _countof(winfo.update) - 1);
@@ -80,7 +80,7 @@ WEATHERINFO LoadWeatherInfo(MCONTACT hContact)
 	if (db_get_wstatic(hContact, WEATHERCONDITION, "Feel", winfo.feel, _countof(winfo.feel)))
 		wcsncpy(winfo.feel, NODATA, _countof(winfo.feel) - 1);
 
-	winfo.status = (WORD)db_get_w(hContact, WEATHERPROTONAME, "StatusIcon", ID_STATUS_OFFLINE);
+	winfo.status = g_plugin.getWord(hContact, "StatusIcon", ID_STATUS_OFFLINE);
 	return winfo;
 }
 
@@ -112,36 +112,36 @@ void EraseAllInfo()
 	MCONTACT LastContact = NULL;
 	DBVARIANT dbv;
 	// loop through all contacts
-	for (auto &hContact : Contacts(WEATHERPROTONAME)) {
-		db_set_w(hContact, WEATHERPROTONAME, "Status", ID_STATUS_OFFLINE);
-		db_set_w(hContact, WEATHERPROTONAME, "StatusIcon", ID_STATUS_OFFLINE);
+	for (auto &hContact : Contacts(MODULENAME)) {
+		g_plugin.setWord(hContact, "Status", ID_STATUS_OFFLINE);
+		g_plugin.setWord(hContact, "StatusIcon", ID_STATUS_OFFLINE);
 		db_unset(hContact, "CList", "MyHandle");
 		// clear all data
-		if (db_get_ws(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
-			db_set_ws(hContact, WEATHERPROTONAME, "Nick", TranslateT("<Enter city name here>"));
-			db_set_s(hContact, WEATHERPROTONAME, "LastLog", "never");
-			db_set_s(hContact, WEATHERPROTONAME, "LastCondition", "None");
-			db_set_s(hContact, WEATHERPROTONAME, "LastTemperature", "None");
+		if (g_plugin.getWString(hContact, "Nick", &dbv)) {
+			g_plugin.setWString(hContact, "Nick", TranslateT("<Enter city name here>"));
+			g_plugin.setString(hContact, "LastLog", "never");
+			g_plugin.setString(hContact, "LastCondition", "None");
+			g_plugin.setString(hContact, "LastTemperature", "None");
 		}
 		else db_free(&dbv);
 
 		DBDataManage(hContact, WDBM_REMOVE, 0, 0);
 		db_set_s(hContact, "UserInfo", "MyNotes", "");
 		// reset update tag
-		db_set_b(hContact, WEATHERPROTONAME, "IsUpdated", FALSE);
+		g_plugin.setByte(hContact, "IsUpdated", FALSE);
 		// reset logging settings
-		if (!db_get_ws(hContact, WEATHERPROTONAME, "Log", &dbv)) {
-			db_set_b(hContact, WEATHERPROTONAME, "File", (BYTE)(dbv.pwszVal[0] != 0));
+		if (!g_plugin.getWString(hContact, "Log", &dbv)) {
+			g_plugin.setByte(hContact, "File", (BYTE)(dbv.pwszVal[0] != 0));
 			db_free(&dbv);
 		}
-		else db_set_b(hContact, WEATHERPROTONAME, "File", FALSE);
+		else g_plugin.setByte(hContact, "File", FALSE);
 
 		// if no default station find, assign a new one
 		if (opt.Default[0] == 0) {
 			GetStationID(hContact, opt.Default, _countof(opt.Default));
 
 			opt.DefStn = hContact;
-			if (!db_get_ws(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
+			if (!g_plugin.getWString(hContact, "Nick", &dbv)) {
 				mir_snwprintf(str, TranslateT("%s is now the default weather station"), dbv.pwszVal);
 				db_free(&dbv);
 				MessageBox(nullptr, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
@@ -149,7 +149,7 @@ void EraseAllInfo()
 		}
 		// get the handle of the default station
 		if (opt.DefStn == NULL) {
-			if (!db_get_ws(hContact, WEATHERPROTONAME, "ID", &dbv)) {
+			if (!g_plugin.getWString(hContact, "ID", &dbv)) {
 				if (!mir_wstrcmp(dbv.pwszVal, opt.Default))
 					opt.DefStn = hContact;
 				db_free(&dbv);
@@ -163,19 +163,19 @@ void EraseAllInfo()
 	// if (ContactCount != 0) status = ONLINE;
 	// in case where the default station is missing
 	if (opt.DefStn == NULL && ContactCount != 0) {
-		if (!db_get_ws(LastContact, WEATHERPROTONAME, "ID", &dbv)) {
+		if (!g_plugin.getWString(LastContact, "ID", &dbv)) {
 			wcsncpy(opt.Default, dbv.pwszVal, _countof(opt.Default) - 1);
 			db_free(&dbv);
 		}
 		opt.DefStn = LastContact;
-		if (!db_get_ws(LastContact, WEATHERPROTONAME, "Nick", &dbv)) {
+		if (!g_plugin.getWString(LastContact, "Nick", &dbv)) {
 			mir_snwprintf(str, TranslateT("%s is now the default weather station"), dbv.pwszVal);
 			db_free(&dbv);
 			MessageBox(nullptr, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
 		}
 	}
 	// save option in case of default station changed
-	db_set_ws(0, WEATHERPROTONAME, "Default", opt.Default);
+	g_plugin.setWString("Default", opt.Default);
 }
 
 void ConvertDataValue(WIDATAITEM *UpdateData, wchar_t *Data)
