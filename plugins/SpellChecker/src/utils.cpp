@@ -525,7 +525,7 @@ LRESULT CALLBACK OwnerProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 void ToggleEnabled(Dialog *dlg)
 {
 	dlg->enabled = !dlg->enabled;
-	db_set_b(dlg->hContact, MODULENAME, dlg->name, dlg->enabled);
+	g_plugin.setByte(dlg->hContact, dlg->name, dlg->enabled);
 
 	if (!dlg->enabled)
 		SetNoUnderline(dlg);
@@ -775,7 +775,7 @@ void GetContactLanguage(Dialog *dlg)
 		}
 	}
 	else {
-		if (!db_get_ws(dlg->hContact, MODULENAME, "TalkLanguage", &dbv)) {
+		if (!g_plugin.getWString(dlg->hContact, "TalkLanguage", &dbv)) {
 			mir_wstrncpy(dlg->lang_name, dbv.pwszVal, _countof(dlg->lang_name));
 			db_free(&dbv);
 		}
@@ -789,7 +789,7 @@ void GetContactLanguage(Dialog *dlg)
 		if (dlg->lang_name[0] == '\0') {
 			MCONTACT hMetaContact = db_mc_getMeta(dlg->hContact);
 			if (hMetaContact != NULL) {
-				if (!db_get_ws(hMetaContact, MODULENAME, "TalkLanguage", &dbv)) {
+				if (!g_plugin.getWString(hMetaContact, "TalkLanguage", &dbv)) {
 					mir_wstrncpy(dlg->lang_name, dbv.pwszVal, _countof(dlg->lang_name));
 					db_free(&dbv);
 				}
@@ -876,7 +876,7 @@ int AddContactTextBox(MCONTACT hContact, HWND hwnd, char *name, BOOL srmm, HWND 
 		dlg->hContact = hContact;
 		dlg->hwnd = hwnd;
 		strncpy(dlg->name, name, _countof(dlg->name));
-		dlg->enabled = db_get_b(dlg->hContact, MODULENAME, dlg->name, 1);
+		dlg->enabled = g_plugin.getByte(dlg->hContact, dlg->name, 1);
 		dlg->srmm = srmm;
 
 		GetContactLanguage(dlg);
@@ -1202,12 +1202,10 @@ BOOL HandleMenuSelection(Dialog *dlg, unsigned selection)
 	else if (selection >= LANGUAGE_MENU_ID_BASE && selection < LANGUAGE_MENU_ID_BASE + (unsigned)languages.getCount()) {
 		SetNoUnderline(dlg);
 
-		if (dlg->hContact == NULL)
-			g_plugin.setWString(dlg->name,
-			languages[selection - LANGUAGE_MENU_ID_BASE]->language);
+		if (dlg->hContact == 0)
+			g_plugin.setWString(dlg->name, languages[selection - LANGUAGE_MENU_ID_BASE]->language);
 		else
-			db_set_ws(dlg->hContact, MODULENAME, "TalkLanguage",
-			languages[selection - LANGUAGE_MENU_ID_BASE]->language);
+			g_plugin.setWString(dlg->hContact, "TalkLanguage", languages[selection - LANGUAGE_MENU_ID_BASE]->language);
 
 		GetContactLanguage(dlg);
 
