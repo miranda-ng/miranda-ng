@@ -1,8 +1,5 @@
 #include "stdafx.h"
 
-char const *answeredSetting = "Answered";
-char const *questCountSetting = "QuestionCount";
-
 int OnDbEventAdded(WPARAM, LPARAM lParam)
 {
 	MEVENT hDbEvent = (MEVENT)lParam;
@@ -26,7 +23,7 @@ int OnDbEventAdded(WPARAM, LPARAM lParam)
 
 		// if request is from unknown or not marked Answered contact
 		//and if I don't sent message to this contact
-		if (db_get_b(hcntct, "CList", "NotOnList", 0) && !db_get_b(hcntct, MODULENAME, answeredSetting, 0) && !IsExistMyMessage(hcntct)) {
+		if (db_get_b(hcntct, "CList", "NotOnList", 0) && !g_plugin.getByte(hcntct, DB_KEY_ANSWERED) && !IsExistMyMessage(hcntct)) {
 			if (!g_sets.HandleAuthReq) {
 				char *buf = mir_utf8encodeW(variables_parse(g_sets.getReply(), hcntct).c_str());
 				ProtoChainSend(hcntct, PSS_MESSAGE, 0, (LPARAM)buf);
@@ -64,7 +61,7 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 		return 0;
 
 	// if message is from known or marked Answered contact
-	if (db_get_b(hContact, MODULENAME, answeredSetting, 0))
+	if (g_plugin.getByte(hContact, DB_KEY_ANSWERED))
 		// ...let the event go its way
 		return 0;
 
@@ -111,7 +108,7 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 				db_unset(hContact, "CList", "Hidden");
 
 				// mark contact as Answered
-				db_set_b(hContact, MODULENAME, answeredSetting, 1);
+				g_plugin.setByte(hContact, DB_KEY_ANSWERED, 1);
 
 				//add contact permanently
 				if (g_sets.AddPermanent)
@@ -133,7 +130,7 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 	// if message message does not contain infintite talk protection prefix
 	// and question count for this contact is less then maximum
 	const wchar_t *pwszPrefix = TranslateT("StopSpam automatic message:\r\n");
-	if ((!g_sets.InfTalkProtection || tstring::npos == message.find(pwszPrefix)) && (!g_sets.MaxQuestCount || db_get_dw(hContact, MODULENAME, questCountSetting, 0) < g_sets.MaxQuestCount)) {
+	if ((!g_sets.InfTalkProtection || tstring::npos == message.find(pwszPrefix)) && (!g_sets.MaxQuestCount || g_plugin.getDword(hContact, DB_KEY_QUESTCOUNT) < g_sets.MaxQuestCount)) {
 		// send question
 		tstring q = pwszPrefix + variables_parse(g_sets.getQuestion(), hContact);
 
@@ -144,8 +141,8 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 
 
 		// increment question count
-		DWORD questCount = db_get_dw(hContact, MODULENAME, questCountSetting, 0);
-		db_set_dw(hContact, MODULENAME, questCountSetting, questCount + 1);
+		DWORD questCount = g_plugin.getDword(hContact, DB_KEY_QUESTCOUNT);
+		g_plugin.setDword(hContact, DB_KEY_QUESTCOUNT, questCount + 1);
 	}
 
 	// hide contact from contact list
@@ -164,15 +161,15 @@ int OnDbContactSettingchanged(WPARAM hContact, LPARAM l)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)l;
 
-	// if CList/NotOnList is being deleted then remove answeredSetting
+	// if CList/NotOnList is being deleted then remove DB_KEY_ANSWERED
 	if (strcmp(cws->szModule, "CList"))
 		return 0;
 	if (strcmp(cws->szSetting, "NotOnList"))
 		return 0;
 
 	if (!cws->value.type) {
-		db_unset(hContact, MODULENAME, answeredSetting);
-		db_unset(hContact, MODULENAME, questCountSetting);
+		g_plugin.delSetting(hContact, DB_KEY_ANSWERED);
+		g_plugin.delSetting(hContact, DB_KEY_QUESTCOUNT);
 	}
 
 	return 0;

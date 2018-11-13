@@ -9,7 +9,7 @@ INT_PTR IsContactPassed(WPARAM hContact, LPARAM /*lParam*/)
 	if (!g_sets.ProtoDisabled(szProto))
 		return CS_PASSED;
 
-	if (db_get_b(hContact, MODULENAME, answeredSetting, 0))
+	if (g_plugin.getByte(hContact, DB_KEY_ANSWERED))
 		return CS_PASSED;
 
 	if (!db_get_b(hContact, "CList", "NotOnList", 0) && db_get_w(hContact, szProto, "SrvGroupId", -1) != 1)

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-tstring &GetDlgItemString(HWND hwnd, int id)
+tstring& GetDlgItemString(HWND hwnd, int id)
 {
 	HWND h = GetDlgItem(hwnd, id);
 	int len = GetWindowTextLength(h);
@@ -22,7 +22,7 @@ bool IsExistMyMessage(MCONTACT hContact)
 
 		if (dbei.flags & DBEF_SENT){
 			// mark contact as Answered
-			db_set_b(hContact, MODULENAME, answeredSetting, 1);
+			g_plugin.setByte(hContact, DB_KEY_ANSWERED, 1);
 			// ...let the event go its way
 			return true;
 		}

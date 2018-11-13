@@ -31,14 +31,15 @@ typedef std::wstring tstring;
 
 #define MODULENAME LPGEN("StopSpam")
 
+#define DB_KEY_ANSWERED "Answered"
+#define DB_KEY_QUESTCOUNT "QuestionCount"
+
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
 	int Load() override;
 };
-
-extern char const *answeredSetting;
 
 // utils
 tstring &GetDlgItemString(HWND hwnd, int id);
