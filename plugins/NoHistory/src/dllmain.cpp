@@ -68,7 +68,7 @@ void RemoveReadEvents(MCONTACT hContact = 0)
 		}
 		
 		if (remove) {
-			if (db_get_b(node->hContact, MODULENAME, DBSETTING_REMOVE, 0)) // is history disabled for this contact?
+			if (g_plugin.getByte(node->hContact, DBSETTING_REMOVE)) // is history disabled for this contact?
 				db_event_delete(node->hContact, node->hDBEvent);
 			
 			// remove list node anyway
@@ -105,7 +105,7 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 int OnDatabaseEventAdd(WPARAM hContact, LPARAM hDBEvent)
 {
 	// history not disabled for this contact
-	if (db_get_b(hContact, MODULENAME, DBSETTING_REMOVE, 0) == 0)
+	if (g_plugin.getByte(hContact, DBSETTING_REMOVE) == 0)
 		return 0;
 	
 	DBEVENTINFO info = {};
@@ -134,7 +134,7 @@ INT_PTR ServiceClear(WPARAM hContact, LPARAM)
 
 int PrebuildContactMenu(WPARAM hContact, LPARAM)
 {
-	bool remove = db_get_b(hContact, MODULENAME, DBSETTING_REMOVE, 0) != 0;
+	bool remove = g_plugin.getByte(hContact, DBSETTING_REMOVE) != 0;
 	char *proto = GetContactProto(hContact);
 	bool chat_room = (proto && db_get_b(hContact, proto, "ChatRoom", 0) != 0);
 
@@ -153,9 +153,9 @@ int PrebuildContactMenu(WPARAM hContact, LPARAM)
 
 INT_PTR ServiceToggle(WPARAM hContact, LPARAM)
 {
-	int remove = db_get_b(hContact, MODULENAME, DBSETTING_REMOVE, 0) != 0;
+	int remove = g_plugin.getByte(hContact, DBSETTING_REMOVE) != 0;
 	remove = !remove;
-	db_set_b(hContact, MODULENAME, DBSETTING_REMOVE, remove != 0);
+	g_plugin.setByte(hContact, DBSETTING_REMOVE, remove != 0);
 
 	StatusIconData sid = {};
 	sid.szModule = MODULENAME;
@@ -181,7 +181,7 @@ int WindowEvent(WPARAM, LPARAM lParam)
 	case MSG_WINDOW_EVT_OPEN:
 		char *proto = GetContactProto(hContact);
 		bool chat_room = (proto && db_get_b(hContact, proto, "ChatRoom", 0) != 0);
-		int remove = db_get_b(hContact, MODULENAME, DBSETTING_REMOVE, 0) != 0;
+		int remove = g_plugin.getByte(hContact, DBSETTING_REMOVE) != 0;
 
 		StatusIconData sid = {};
 		sid.szModule = MODULENAME;
