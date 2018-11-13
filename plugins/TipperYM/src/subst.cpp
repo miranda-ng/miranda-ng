@@ -65,7 +65,7 @@ bool CheckContactType(MCONTACT hContact, const DISPLAYITEM &di)
 	if (di.type == DIT_ALL)
 		return true;
 
-	char *szProto = GetContactProto(hContact);	
+	char *szProto = GetContactProto(hContact);
 	if (szProto) {
 		if (db_get_b(hContact, szProto, "ChatRoom", 0) != 0)
 			return di.type == DIT_CHATS;
@@ -87,7 +87,7 @@ void StripBBCodesInPlace(wchar_t *ptszText)
 	size_t iRead = 0, iWrite = 0;
 	size_t iLen = mir_wstrlen(ptszText);
 
-	while(iRead <= iLen) { // copy terminating null too
+	while (iRead <= iLen) { // copy terminating null too
 		while (iRead <= iLen && ptszText[iRead] != '[') {
 			if (ptszText[iRead] != ptszText[iWrite]) ptszText[iWrite] = ptszText[iRead];
 			iRead++; iWrite++;
@@ -173,7 +173,7 @@ wchar_t* GetLastMessageText(MCONTACT hContact, bool received)
 			if (dbei.cbBlob == 0 || dbei.pBlob == nullptr)
 				return nullptr;
 
-			wchar_t *buff = DbEvent_GetTextW( &dbei, CP_ACP );
+			wchar_t *buff = DbEvent_GetTextW(&dbei, CP_ACP);
 			wchar_t *swzMsg = mir_wstrdup(buff);
 			mir_free(buff);
 
@@ -220,7 +220,7 @@ wchar_t* GetStatusMessageText(MCONTACT hContact)
 			if (wStatus == ID_STATUS_OFFLINE)
 				return nullptr;
 
-			if (!db_get_ws(hContact, MODULENAME, "TempStatusMsg", &dbv)) {
+			if (!g_plugin.getWString(hContact, "TempStatusMsg", &dbv)) {
 				if (mir_wstrlen(dbv.pwszVal) != 0)
 					swzMsg = mir_wstrdup(dbv.pwszVal);
 				db_free(&dbv);
@@ -304,7 +304,7 @@ bool GetSysSubstText(MCONTACT hContact, wchar_t *swzRawSpec, wchar_t *buff, int 
 		MCONTACT hSubContact = db_mc_getMostOnline(hContact);
 		if (!hSubContact)
 			return false;
-		
+
 		wchar_t *swzNick = Clist_GetContactDisplayName(hSubContact);
 		if (swzNick)
 			wcsncpy(buff, swzNick, bufflen);
@@ -365,17 +365,17 @@ bool GetSysSubstText(MCONTACT hContact, wchar_t *swzRawSpec, wchar_t *buff, int 
 		for (int i = 0; i < iNumber; i++) {
 			if (i > 0)
 				hTmpContact = db_mc_getSub(hContact, i);
-			dwRecountTs = db_get_dw(hTmpContact, MODULENAME, "LastCountTS", 0);
+			dwRecountTs = g_plugin.getDword(hTmpContact, "LastCountTS");
 			dwTime = (DWORD)time(0);
 			dwDiff = (dwTime - dwRecountTs);
 			if (dwDiff > (60 * 60 * 24 * 3)) {
-				db_set_dw(hTmpContact, MODULENAME, "LastCountTS", dwTime);
+				g_plugin.setDword(hTmpContact, "LastCountTS", dwTime);
 				dwCountOut = dwCountIn = dwLastTs = 0;
 			}
 			else {
-				dwCountOut = db_get_dw(hTmpContact, MODULENAME, "MsgCountOut", 0);
-				dwCountIn = db_get_dw(hTmpContact, MODULENAME, "MsgCountIn", 0);
-				dwLastTs = db_get_dw(hTmpContact, MODULENAME, "LastMsgTS", 0);
+				dwCountOut = g_plugin.getDword(hTmpContact, "MsgCountOut");
+				dwCountIn = g_plugin.getDword(hTmpContact, "MsgCountIn");
+				dwLastTs = g_plugin.getDword(hTmpContact, "LastMsgTS");
 			}
 
 			dwNewTs = dwLastTs;
@@ -397,9 +397,9 @@ bool GetSysSubstText(MCONTACT hContact, wchar_t *swzRawSpec, wchar_t *buff, int 
 			}
 
 			if (dwNewTs > dwLastTs) {
-				db_set_dw(hTmpContact, MODULENAME, "MsgCountOut", dwCountOut);
-				db_set_dw(hTmpContact, MODULENAME, "MsgCountIn", dwCountIn);
-				db_set_dw(hTmpContact, MODULENAME, "LastMsgTS", dwNewTs);
+				g_plugin.setDword(hTmpContact, "MsgCountOut", dwCountOut);
+				g_plugin.setDword(hTmpContact, "MsgCountIn", dwCountIn);
+				g_plugin.setDword(hTmpContact, "LastMsgTS", dwNewTs);
 			}
 
 			dwMetaCountOut += dwCountOut;
@@ -760,8 +760,7 @@ wchar_t* GetProtoExtraStatusMessage(char *szProto)
 		}
 
 		wchar_t *tszParsed = variables_parse(ptszText, nullptr, hContact);
-		if (tszParsed)
-		{
+		if (tszParsed) {
 			mir_free(ptszText);
 			ptszText = tszParsed;
 		}

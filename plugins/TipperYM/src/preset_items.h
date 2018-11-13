@@ -23,27 +23,30 @@ Boston, MA 02111-1307, USA.
 
 #define MAX_PRESET_SUBST_COUNT	3
 
-typedef struct {
+struct PRESETITEM
+{
 	char *szID;
 	wchar_t *swzName;
 	wchar_t *swzLabel;
 	wchar_t *swzValue;
 	char *szNeededSubst[MAX_PRESET_SUBST_COUNT];
-} PRESETITEM;
+};
 
-typedef struct {
+struct PRESETSUBST
+{
 	char *szID;
 	wchar_t *swzName;
 	DisplaySubstType type;
 	char *szModuleName;
 	char *szSettingName;
 	int iTranslateFuncId;
-} PRESETSUBST;
+};
 
-typedef struct {
+struct DEFAULTITEM
+{
 	char *szName;
 	bool bValueNewline;
-} DEFAULTITEM;
+};
 
 extern PRESETITEM presetItems[];
 extern PRESETSUBST presetSubsts[];

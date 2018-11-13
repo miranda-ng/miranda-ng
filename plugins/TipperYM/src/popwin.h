@@ -35,54 +35,53 @@ Boston, MA 02111-1307, USA.
 #define PUM_FADEOUTWINDOW				(WM_USER + 0x029)
 
 // extra icons
-#define EXICONS_COUNT		6
-#define CTRY_ERROR			42	//Flags - some strange value ???
-#define GEN_FEMALE			70	
-#define GEN_MALE			77
+#define EXICONS_COUNT 6
+#define CTRY_ERROR   42	// Flags - some strange value ???
+#define GEN_FEMALE   70	
+#define GEN_MALE     77
 
 // copy menu
-#define	COPYMENU_ALLITEMS_LABELS	1000	
-#define	COPYMENU_ALLITEMS			1001
-#define	COPYMENU_AVATAR				1002
+#define	COPYMENU_ALLITEMS_LABELS   1000	
+#define	COPYMENU_ALLITEMS          1001
+#define	COPYMENU_AVATAR            1002
 
 // tray tooltip items
-#define TRAYTIP_ITEMS_COUNT			11
-
-#define TRAYTIP_NUMCONTACTS			1
-#define TRAYTIP_LOCKSTATUS			2
-#define TRAYTIP_LOGON				4
-#define TRAYTIP_UNREAD_EMAILS		8
-#define TRAYTIP_STATUS				16
-#define TRAYTIP_STATUS_MSG			32
-#define TRAYTIP_EXTRA_STATUS		64
-#define TRAYTIP_LISTENINGTO			128
-#define TRAYTIP_FAVCONTACTS			256
-#define TRAYTIP_MIRANDA_UPTIME		512
-#define TRAYTIP_CLIST_EVENT			1024
+#define TRAYTIP_NUMCONTACTS            1
+#define TRAYTIP_LOCKSTATUS             2
+#define TRAYTIP_LOGON                  4
+#define TRAYTIP_UNREAD_EMAILS          8
+#define TRAYTIP_STATUS                16
+#define TRAYTIP_STATUS_MSG            32
+#define TRAYTIP_EXTRA_STATUS          64
+#define TRAYTIP_LISTENINGTO          128
+#define TRAYTIP_FAVCONTACTS          256
+#define TRAYTIP_MIRANDA_UPTIME       512
+#define TRAYTIP_CLIST_EVENT         1024
 
 // favorite contacts options
-#define FAVCONT_HIDE_OFFLINE		1
-#define FAVCONT_APPEND_PROTO		2
+#define FAVCONT_HIDE_OFFLINE           1
+#define FAVCONT_APPEND_PROTO           2
 
 // other
-#define TITLE_TEXT_LEN		512
-#define MAX_VALUE_LEN		64
+#define TITLE_TEXT_LEN               512
+#define MAX_VALUE_LEN                 64
 
-#define ANIM_ELAPSE			10
-#define ANIM_STEPS			255
-#define CHECKMOUSE_ELAPSE	250
+#define ANIM_ELAPSE                   10
+#define ANIM_STEPS                   255
+#define CHECKMOUSE_ELAPSE            250
 
-#define ID_TIMER_ANIMATE	0x0100
-#define ID_TIMER_CHECKMOUSE	0x0101
-#define ID_TIMER_TRAYTIP	0x0102
+#define ID_TIMER_ANIMATE          0x0100
+#define ID_TIMER_CHECKMOUSE       0x0101
+#define ID_TIMER_TRAYTIP          0x0102
 
-
-typedef struct {
+struct ExtraIcons
+{
 	HICON hIcon;
 	bool bDestroy;
-} ExtraIcons;
+};
 
-typedef struct {
+struct CLCINFOTIPEX
+{
 	int cbSize;
 	int isTreeFocused;   //so the plugin can provide an option
 	int isGroup;		//0 if it's a contact, 1 if it's a group
@@ -91,9 +90,10 @@ typedef struct {
 	RECT rcItem;
 	wchar_t *swzText;		// for tips with specific text
 	char *szProto;		// for proto tips
-} CLCINFOTIPEX;
+};
 
-typedef struct {
+struct RowData
+{
 	wchar_t *swzLabel, *swzValue;
 	HICON hIcon;
 	bool bValueNewline;
@@ -101,9 +101,10 @@ typedef struct {
 	bool bIsTitle;
 	int iLabelHeight, iValueHeight, iTotalHeight;
 	SMILEYPARSEINFO spi;
-} RowData;
+};
 
-typedef struct {
+struct PopupWindowData
+{
 	HPEN hpenBorder, hpenDivider;
 	int iTitleHeight, iAvatarHeight, iIconsHeight, iTextHeight, iLabelWidth;
 	int iRealAvatarWidth, iRealAvatarHeight;
@@ -119,20 +120,18 @@ typedef struct {
 	bool bIsTextTip, bIsTrayTip;
 	int iIndent, iSidebarWidth;
 	POINT ptCursorStartPos; // work around bugs with hiding tips (timer check mouse position)
-	ExtraIcons extraIcons[EXICONS_COUNT]; 
+	ExtraIcons extraIcons[EXICONS_COUNT];
 	bool bIsIconVisible[EXICONS_COUNT];
 	int iTrans;
 	int iHotkeyId;
 	bool bIsPainted;
 	bool bNeedRefresh;
 	bool bAllowReposition;
-	RECT rcWindow;   
-	HRGN hrgnAeroGlass; 
-} PopupWindowData;
-
+	RECT rcWindow;
+	HRGN hrgnAeroGlass;
+};
 
 LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 extern int IsTrayProto(const wchar_t *swzProto, BOOL bExtendedTip);
-
 
 #endif

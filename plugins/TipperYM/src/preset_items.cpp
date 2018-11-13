@@ -20,7 +20,7 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-PRESETITEM presetItems[] = 
+PRESETITEM presetItems[] =
 {
 	"account", LPGENW("Account"), LPGENW("Account:"), L"%sys:account%", nullptr, nullptr, nullptr,
 	"birth", LPGENW("Birthday"), LPGENW("Birthday:"), L"%birthday_date% (%birthday_age%) @ Next: %birthday_next%", "birthdate", "birthage", "birthnext",
@@ -58,10 +58,10 @@ PRESETITEM presetItems[] =
 	"uvindex", LPGENW("[weather.dll] UV Index"), LPGENW("UV Index:"), L"%raw:Current/UV% - %raw:Current/UVI%", nullptr, nullptr, nullptr,
 	"vis", LPGENW("[weather.dll] Visibility"), LPGENW("Visibility:"), L"%raw:Current/Visibility%", nullptr, nullptr, nullptr,
 	"wind", LPGENW("[weather.dll] Wind"), LPGENW("Wind:"), L"%raw:Current/Wind Direction% (%raw:Current/Wind Direction DEG%)/%raw:Current/Wind Speed%", nullptr, nullptr, nullptr,
-	nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr	
+	nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr
 };
 
-PRESETSUBST presetSubsts[] = 
+PRESETSUBST presetSubsts[] =
 {
 	"gender", L"gender", DVT_PROTODB, nullptr, "Gender", 5,
 	"status", L"Status", DVT_PROTODB, nullptr, "Status", 1,
@@ -77,13 +77,13 @@ PRESETSUBST presetSubsts[] =
 	"birthdate", L"birthday_date", DVT_PROTODB, nullptr, "Birth", 8,
 	"birthage", L"birthday_age", DVT_PROTODB, nullptr, "Birth", 9,
 	"birthnext", L"birthday_next", DVT_PROTODB, nullptr, "Birth", 12,
-	"logondate", L"logon_date", DVT_PROTODB, nullptr, "LogonTS", 15, 
+	"logondate", L"logon_date", DVT_PROTODB, nullptr, "LogonTS", 15,
 	"logontime", L"logon_time", DVT_PROTODB, nullptr, "LogonTS", 13,
 	"logonago", L"logon_ago", DVT_PROTODB, nullptr, "LogonTS", 3,
 	nullptr, nullptr, DVT_DB, nullptr, nullptr, 0
 };
 
-DEFAULTITEM defaultItemList[] = 
+DEFAULTITEM defaultItemList[] =
 {
 	"statusmsg",	true,
 	"-",				false,
@@ -101,10 +101,9 @@ DEFAULTITEM defaultItemList[] =
 	nullptr,0
 };
 
-PRESETITEM *GetPresetItemByName(char *szName)
+PRESETITEM* GetPresetItemByName(char *szName)
 {
-	for (int i = 0; presetItems[i].szID; i++)
-	{
+	for (int i = 0; presetItems[i].szID; i++) {
 		if (mir_strcmp(presetItems[i].szID, szName) == 0)
 			return &presetItems[i];
 	}
@@ -112,15 +111,13 @@ PRESETITEM *GetPresetItemByName(char *szName)
 	return nullptr;
 }
 
-PRESETSUBST *GetPresetSubstByName(char *szName)
+PRESETSUBST* GetPresetSubstByName(char *szName)
 {
 	if (!szName) return nullptr;
-	for (int i = 0; presetSubsts[i].szID; i++)
-	{
+	for (int i = 0; presetSubsts[i].szID; i++) {
 		if (mir_strcmp(presetSubsts[i].szID, szName) == 0)
 			return &presetSubsts[i];
 	}
 
 	return nullptr;
 }
-

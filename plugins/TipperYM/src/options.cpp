@@ -23,6 +23,45 @@ Boston, MA 02111-1307, USA.
 OPTIONS opt;
 ICONSTATE exIcons[EXICONS_COUNT];
 
+// display item types
+static struct
+{
+	DisplayItemType type;
+	wchar_t *title;
+}
+displayItemTypes[] = {
+	{ DIT_ALL, LPGENW("Show for all contact types") },
+	{ DIT_CONTACTS, LPGENW("Show only for contacts") },
+	{ DIT_CHATS, LPGENW("Show only for chatrooms") }
+};
+
+// tray tooltip items
+static wchar_t *trayTipItems[] =
+{
+	LPGENW("Number of contacts"),
+	LPGENW("Protocol lock status"),
+	LPGENW("Logon time"),
+	LPGENW("Unread emails"),
+	LPGENW("Status"),
+	LPGENW("Status message"),
+	LPGENW("Extra status"),
+	LPGENW("Listening to"),
+	LPGENW("Favorite contacts"),
+	LPGENW("Miranda uptime"),
+	LPGENW("Contact list event")
+};
+
+// extra icons
+static wchar_t *extraIconName[] =
+{
+	LPGENW("Status"),
+	LPGENW("Extra status"),
+	LPGENW("Jabber activity"),
+	LPGENW("Gender"),
+	LPGENW("Country flag"),
+	LPGENW("Client")
+};
+
 extern int IsTrayProto(const wchar_t *swzProto, BOOL bExtendedTip)
 {
 	if (swzProto == nullptr)
@@ -1191,7 +1230,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		tvi.mask = TVIF_PARAM;
 
 		for (HTREEITEM hItem = TreeView_GetRoot(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS)); hItem != nullptr;
-			  hItem = TreeView_GetNextSibling(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), hItem)) {
+			hItem = TreeView_GetNextSibling(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), hItem)) {
 			tvi.hItem = hItem;
 			if (TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), &tvi)) {
 				DIListNode *di_value = (DIListNode *)tvi.lParam;
@@ -1844,7 +1883,7 @@ INT_PTR CALLBACK DlgProcFavouriteContacts(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 		for (auto &hContact : Contacts()) {
 			HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
-			if (hItem && db_get_b(hContact, MODULENAME, "FavouriteContact", 0))
+			if (hItem && g_plugin.getByte(hContact, "FavouriteContact"))
 				SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, 1);
 		}
 
@@ -1863,7 +1902,7 @@ INT_PTR CALLBACK DlgProcFavouriteContacts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
 					if (hItem) {
 						isChecked = (BYTE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0);
-						db_set_b(hContact, MODULENAME, "FavouriteContact", isChecked);
+						g_plugin.setByte(hContact, "FavouriteContact", isChecked);
 						if (isChecked)
 							count++;
 					}
@@ -1939,7 +1978,7 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-		UINT state;
+			UINT state;
 		case IDC_CHK_ENABLETRAYTIP:
 			state = IsDlgButtonChecked(hwndDlg, IDC_CHK_ENABLETRAYTIP);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_HANDLEBYTIPPER), state);

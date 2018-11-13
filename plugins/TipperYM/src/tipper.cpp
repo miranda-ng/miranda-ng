@@ -50,7 +50,8 @@ PLUGININFOEX pluginInfoEx =
 
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
-{}
+{
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -101,7 +102,7 @@ static int EventDeleted(WPARAM wParam, LPARAM lParam)
 	DBEVENTINFO dbei = {};
 	if (!db_event_get(lParam, &dbei))
 		if (dbei.eventType == EVENTTYPE_MESSAGE)
-			db_unset(wParam, MODULENAME, "LastCountTS");
+			g_plugin.delSetting(wParam, "LastCountTS");
 
 	return 0;
 }
@@ -225,7 +226,7 @@ static void InitFonts()
 static int ModulesLoaded(WPARAM, LPARAM)
 {
 	InitFonts();
-	
+
 	hAvChangeEvent = HookEvent(ME_AV_AVATARCHANGED, AvatarChanged);
 	hShowTipEvent = HookEvent(ME_CLC_SHOWINFOTIP, ShowTipHook);
 	hHideTipEvent = HookEvent(ME_CLC_HIDEINFOTIP, HideTipHook);

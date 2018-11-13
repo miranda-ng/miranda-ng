@@ -28,25 +28,25 @@ bool a2w(const char *as, wchar_t *buff, int bufflen)
 	return true;
 }
 
-bool w2a(const wchar_t *ws, char *buff, int bufflen) 
+bool w2a(const wchar_t *ws, char *buff, int bufflen)
 {
 	if (ws) WideCharToMultiByte(iCodePage, 0, ws, -1, buff, bufflen, nullptr, nullptr);
 	return true;
 }
 
-bool utf2w(const char *us, wchar_t *buff, int bufflen) 
+bool utf2w(const char *us, wchar_t *buff, int bufflen)
 {
 	if (us) MultiByteToWideChar(CP_UTF8, 0, us, -1, buff, bufflen);
 	return true;
 }
 
-bool w2utf(const wchar_t *ws, char *buff, int bufflen) 
+bool w2utf(const wchar_t *ws, char *buff, int bufflen)
 {
 	if (ws) WideCharToMultiByte(CP_UTF8, 0, ws, -1, buff, bufflen, nullptr, nullptr);
 	return true;
 }
 
-bool a2utf(const char *as, char *buff, int bufflen) 
+bool a2utf(const char *as, char *buff, int bufflen)
 {
 	if (!as) return false;
 
@@ -67,7 +67,7 @@ bool utf2a(const char *us, char *buff, int bufflen)
 }
 
 
-bool t2w(const wchar_t *ts, wchar_t *buff, int bufflen) 
+bool t2w(const wchar_t *ts, wchar_t *buff, int bufflen)
 {
 	wcsncpy(buff, ts, bufflen);
 	return true;
@@ -79,12 +79,12 @@ bool w2t(const wchar_t *ws, wchar_t *buff, int bufflen)
 	return true;
 }
 
-bool t2a(const wchar_t *ts, char *buff, int bufflen) 
+bool t2a(const wchar_t *ts, char *buff, int bufflen)
 {
 	return w2a(ts, buff, bufflen);
 }
 
-bool a2t(const char *as, wchar_t *buff, int bufflen) 
+bool a2t(const char *as, wchar_t *buff, int bufflen)
 {
 	return a2w(as, buff, bufflen);
 }
@@ -94,37 +94,33 @@ bool t2utf(const wchar_t *ts, char *buff, int bufflen)
 	return w2utf(ts, buff, bufflen);
 }
 
-bool utf2t(const char *us, wchar_t *buff, int bufflen) 
+bool utf2t(const char *us, wchar_t *buff, int bufflen)
 {
 	return utf2w(us, buff, bufflen);
 }
 
 wchar_t *utf2w(const char *us)
 {
-	if (us)
-	{
+	if (us) {
 		int size = MultiByteToWideChar(CP_UTF8, 0, us, -1, nullptr, 0);
 		wchar_t *buff = (wchar_t *)mir_alloc(size * sizeof(wchar_t));
 		MultiByteToWideChar(CP_UTF8, 0, us, -1, buff, size);
 		return buff;
-	} 
-	else
-	{
+	}
+	else {
 		return nullptr;
 	}
 }
 
-char *w2utf(const wchar_t *ws) 
+char *w2utf(const wchar_t *ws)
 {
-	if (ws)
-	{
+	if (ws) {
 		int size = WideCharToMultiByte(CP_UTF8, 0, ws, -1, nullptr, 0, nullptr, nullptr);
 		char *buff = (char *)mir_alloc(size);
 		WideCharToMultiByte(CP_UTF8, 0, ws, -1, buff, size, nullptr, nullptr);
 		return buff;
-	} 
-	else 
-	{
+	}
+	else {
 		return nullptr;
 	}
 }
@@ -153,7 +149,7 @@ char *utf2a(const char *utfs)
 	return ret;
 }
 
-char *a2utf(const char *as) 
+char *a2utf(const char *as)
 {
 	wchar_t *ws = a2w(as);
 	char *ret = w2utf(ws);
@@ -177,7 +173,7 @@ char *t2a(const wchar_t *ts)
 	return w2a(ts);
 }
 
-wchar_t *a2t(const char *as) 
+wchar_t *a2t(const char *as)
 {
 	return a2w(as);
 }
@@ -195,8 +191,7 @@ char *t2utf(const wchar_t *ts)
 wchar_t *myfgets(wchar_t *Buf, int MaxCount, FILE *File)
 {
 	fgetws(Buf, MaxCount, File);
-	for (size_t i = mir_wstrlen(Buf) - 1; ; i--)
-	{
+	for (size_t i = mir_wstrlen(Buf) - 1; ; i--) {
 		if (Buf[i] == '\n' || Buf[i] == ' ')
 			Buf[i] = 0;
 		else

@@ -32,10 +32,8 @@ int RefreshSkinList(HWND hwndDlg)
 
 	WIN32_FIND_DATA ffd;
 	HANDLE hFind = FindFirstFile(L"*.*", &ffd);
-	while (hFind != INVALID_HANDLE_VALUE)
-	{
-		if ((ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && mir_wstrcmp(L".", ffd.cFileName) && mir_wstrcmp(L"..", ffd.cFileName)) 
-		{
+	while (hFind != INVALID_HANDLE_VALUE) {
+		if ((ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && mir_wstrcmp(L".", ffd.cFileName) && mir_wstrcmp(L"..", ffd.cFileName)) {
 			SetCurrentDirectory(ffd.cFileName);
 			WIN32_FIND_DATA ffd2;
 			HANDLE hFindFile = FindFirstFile(L"*.tsf", &ffd2);
@@ -59,8 +57,7 @@ int RefreshSkinList(HWND hwndDlg)
 bool FileExists(wchar_t *filename)
 {
 	HANDLE hFile = CreateFile(filename, 0, 0, nullptr, OPEN_EXISTING, 0, nullptr);
-	if (hFile != INVALID_HANDLE_VALUE)
-	{
+	if (hFile != INVALID_HANDLE_VALUE) {
 		CloseHandle(hFile);
 		return true;
 	}
@@ -71,22 +68,17 @@ bool FileExists(wchar_t *filename)
 void ParseAboutPart(FILE *fp, wchar_t *buff, wchar_t *szSkinName)
 {
 	myfgets(buff, 1024, fp);
-	while (buff[0] != '[')
-	{
-		if (buff[0] != ';') 
-		{
+	while (buff[0] != '[') {
+		if (buff[0] != ';') {
 			wchar_t *pch = wcschr(buff, '=');
-			if (pch++) 
-			{
-				while (pch && (*pch == ' ' || *pch == '\t')) 
+			if (pch++) {
+				while (pch && (*pch == ' ' || *pch == '\t'))
 					pch++;
 
-				if (pch)
-				{
-					if (wcsstr(buff, L"author"))
-					{}
-					else if (wcsstr(buff, L"preview")) 
-					{
+				if (pch) {
+					if (wcsstr(buff, L"author")) {
+					}
+					else if (wcsstr(buff, L"preview")) {
 						wchar_t szImgPath[1024];
 						mir_snwprintf(szImgPath, L"%s\\%s\\%s", SKIN_FOLDER, szSkinName, pch);
 						if (FileExists(szImgPath))
@@ -111,26 +103,20 @@ void ParseImagePart(FILE *fp, wchar_t *buff, int iPart)
 	opt.margins[iPart].bottom = 0;
 
 	myfgets(buff, 1024, fp);
-	while (buff[0] != '[') 
-	{
-		if (buff[0] != ';')
-		{
+	while (buff[0] != '[') {
+		if (buff[0] != ';') {
 			wchar_t *pch = wcschr(buff, '=');
-			if (pch++) 
-			{
+			if (pch++) {
 				while (pch && (*pch == ' ' || *pch == '\t'))
 					pch++;
 
-				if (pch)
-				{
-					if (wcsstr(buff, L"image"))
-					{
+				if (pch) {
+					if (wcsstr(buff, L"image")) {
 						wchar_t szImgPath[1024];
 						mir_snwprintf(szImgPath, L"%s\\%s\\%s", SKIN_FOLDER, opt.szSkinName, pch);
 						opt.szImgFile[iPart] = mir_wstrdup(szImgPath);
 					}
-					else if (wcsstr(buff, L"tm"))
-					{
+					else if (wcsstr(buff, L"tm")) {
 						if (!mir_wstrcmpi(pch, L"TM_NONE"))
 							opt.transfMode[iPart] = TM_NONE;
 						else if (!mir_wstrcmpi(pch, L"TM_CENTRE"))
@@ -147,7 +133,7 @@ void ParseImagePart(FILE *fp, wchar_t *buff, int iPart)
 							opt.transfMode[iPart] = TM_TILE_HORIZONTAL;
 						else if (!mir_wstrcmpi(pch, L"TM_TILE_VERTICAL"))
 							opt.transfMode[iPart] = TM_TILE_VERTICAL;
-						else 
+						else
 							opt.transfMode[iPart] = TM_NONE;
 					}
 					else if (wcsstr(buff, L"left"))
@@ -190,61 +176,47 @@ void ParseFontPart(FILE *fp, wchar_t *buff)
 	char szSetting[64];
 
 	myfgets(buff, 1024, fp);
-	while (buff[0] != '[')
-	{
-		if (buff[0] != ';') 
-		{
+	while (buff[0] != '[') {
+		if (buff[0] != ';') {
 			wchar_t *pch = wcschr(buff, '=');
-			if (pch++)
-			{
-				while (pch && (*pch == ' ' || *pch == '\t')) 
+			if (pch++) {
+				while (pch && (*pch == ' ' || *pch == '\t'))
 					pch++;
 
-				if (pch) 
-				{
-					if (wcsstr(buff, L"face"))
-					{
-						if (GetSettingName(buff, "", szSetting, sizeof(szSetting) - 1)) 
-						{
+				if (pch) {
+					if (wcsstr(buff, L"face")) {
+						if (GetSettingName(buff, "", szSetting, sizeof(szSetting) - 1)) {
 							if (mir_wstrlen(pch) > 32)
 								pch[32] = 0;
 
 							g_plugin.setWString(szSetting, pch);
 						}
-					} 
-					else if (wcsstr(buff, L"color"))
-					{
-						if (GetSettingName(buff, "Col", szSetting, sizeof(szSetting) - 1))
-						{
+					}
+					else if (wcsstr(buff, L"color")) {
+						if (GetSettingName(buff, "Col", szSetting, sizeof(szSetting) - 1)) {
 							BYTE r = _wtoi(pch);
 							pch = wcschr(pch, ' ');
-							if (++pch)
-							{
-								BYTE g = _wtoi(pch); 
+							if (++pch) {
+								BYTE g = _wtoi(pch);
 								pch = wcschr(pch, ' ');
-								if (++pch) 
-								{
+								if (++pch) {
 									BYTE b = _wtoi(pch);
-									COLORREF color = RGB(r, g ,b);
+									COLORREF color = RGB(r, g, b);
 									g_plugin.setDword(szSetting, color);
 								}
 							}
 						}
-					} 
-					else if (wcsstr(buff, L"size"))
-					{
-						if (GetSettingName(buff, "Size", szSetting, sizeof(szSetting) - 1)) 
-						{
+					}
+					else if (wcsstr(buff, L"size")) {
+						if (GetSettingName(buff, "Size", szSetting, sizeof(szSetting) - 1)) {
 							HDC hdc = GetDC(nullptr);
 							int size = -MulDiv(_wtoi(pch), GetDeviceCaps(hdc, LOGPIXELSY), 72);
 							g_plugin.setByte(szSetting, (BYTE)size);
 							ReleaseDC(nullptr, hdc);
 						}
-					} 
-					else if (wcsstr(buff, L"effect"))
-					{
-						if (GetSettingName(buff, "Sty", szSetting, sizeof(szSetting) - 1))
-						{
+					}
+					else if (wcsstr(buff, L"effect")) {
+						if (GetSettingName(buff, "Sty", szSetting, sizeof(szSetting) - 1)) {
 							BYTE effect = 0;
 							if (wcsstr(pch, L"font_bold"))
 								effect |= DBFONTF_BOLD;
@@ -268,18 +240,14 @@ void ParseFontPart(FILE *fp, wchar_t *buff)
 void ParseAppearancePart(FILE *fp, wchar_t *buff)
 {
 	myfgets(buff, 1024, fp);
-	while (buff[0] != '[') 
-	{
-		if (buff[0] != ';') 
-		{
+	while (buff[0] != '[') {
+		if (buff[0] != ';') {
 			wchar_t *pch = wcschr(buff, '=');
-			if (pch++) 
-			{
-				while (pch && (*pch == ' ' || *pch == '\t')) 
+			if (pch++) {
+				while (pch && (*pch == ' ' || *pch == '\t'))
 					pch++;
 
-				if (pch)
-				{
+				if (pch) {
 					if (wcsstr(buff, L"general-padding"))
 						opt.iPadding = _wtoi(pch);
 					else if (wcsstr(buff, L"title-indent"))
@@ -310,20 +278,15 @@ void ParseAppearancePart(FILE *fp, wchar_t *buff)
 void ParseOtherPart(FILE *fp, wchar_t *buff)
 {
 	myfgets(buff, 1024, fp);
-	while (buff[0] != '[')
-	{
-		if (buff[0] != ';')
-		{
+	while (buff[0] != '[') {
+		if (buff[0] != ';') {
 			wchar_t *pch = wcschr(buff, '=');
-			if (pch++)
-			{
-				while (pch && (*pch == ' ' || *pch == '\t')) 
+			if (pch++) {
+				while (pch && (*pch == ' ' || *pch == '\t'))
 					pch++;
 
-				if (pch) 
-				{
-					if (wcsstr(buff, L"enable-coloring"))
-					{
+				if (pch) {
+					if (wcsstr(buff, L"enable-coloring")) {
 						if (wcsstr(pch, L"false"))
 							opt.iEnableColoring = -1;
 					}
@@ -342,7 +305,7 @@ void ParseSkinFile(wchar_t *szSkinName, bool bStartup, bool bOnlyPreview)
 
 	if (opt.skinMode == SM_OBSOLOTE && bStartup)
 		return;
-	
+
 	if (!bStartup) opt.iEnableColoring = 0;
 	opt.szPreviewFile[0] = 0;
 
@@ -352,48 +315,37 @@ void ParseSkinFile(wchar_t *szSkinName, bool bStartup, bool bOnlyPreview)
 
 	WIN32_FIND_DATA ffd;
 	HANDLE hFind = FindFirstFile(L"*.tsf", &ffd);
-	if (hFind != INVALID_HANDLE_VALUE) 
-	{
+	if (hFind != INVALID_HANDLE_VALUE) {
 		FILE *fp = _wfopen(ffd.cFileName, L"r");
-		if (fp)
-		{
+		if (fp) {
 			myfgets(buff, 1024, fp);
-			while (!feof(fp)) 
-			{
-				if (buff[0] == '[') 
-				{
-					if (!mir_wstrcmp(L"[about]", buff)) 
-					{
+			while (!feof(fp)) {
+				if (buff[0] == '[') {
+					if (!mir_wstrcmp(L"[about]", buff)) {
 						ParseAboutPart(fp, buff, szSkinName);
 						continue;
-					} 
-					else if (!mir_wstrcmp(L"[other]", buff)) 
-					{
+					}
+					else if (!mir_wstrcmp(L"[other]", buff)) {
 						ParseOtherPart(fp, buff);
 						continue;
-					} 
-					else if (!bOnlyPreview) 
-					{
-						if (!mir_wstrcmp(L"[background]", buff))
-						{
+					}
+					else if (!bOnlyPreview) {
+						if (!mir_wstrcmp(L"[background]", buff)) {
 							ParseImagePart(fp, buff, SKIN_ITEM_BG);
 							continue;
-						} 
-						else if (!mir_wstrcmp(L"[sidebar]", buff)) 
-						{
+						}
+						else if (!mir_wstrcmp(L"[sidebar]", buff)) {
 							ParseImagePart(fp, buff, SKIN_ITEM_SIDEBAR);
 							continue;
 						}
-						else if (!bStartup && opt.bLoadFonts && !mir_wstrcmp(L"[fonts]", buff))
-						{
+						else if (!bStartup && opt.bLoadFonts && !mir_wstrcmp(L"[fonts]", buff)) {
 							ParseFontPart(fp, buff);
 							continue;
-						} 
-						else if (!bStartup && opt.bLoadProportions && !mir_wstrcmp(L"[appearance]", buff))
-						{
+						}
+						else if (!bStartup && opt.bLoadProportions && !mir_wstrcmp(L"[appearance]", buff)) {
 							ParseAppearancePart(fp, buff);
 							continue;
-						} 
+						}
 					}
 				}
 
@@ -401,9 +353,8 @@ void ParseSkinFile(wchar_t *szSkinName, bool bStartup, bool bOnlyPreview)
 			}
 			fclose(fp);
 		}
-	} 
-	else
-	{
+	}
+	else {
 		opt.skinMode = SM_COLORFILL;
 	}
 

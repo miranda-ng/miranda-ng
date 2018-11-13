@@ -39,13 +39,15 @@ Boston, MA 02111-1307, USA.
 #define SP_CORNER_BL		8
 
 // image paint options
-typedef enum {	
+typedef enum
+{
 	TM_NONE = 0, TM_CENTRE = 1, TM_STRECH_ALL = 2, TM_STRECH_HORIZONTAL = 3, TM_STRECH_VERTICAL = 4,
 	TM_TILE_ALL = 5, TM_TILE_HORIZONTAL = 6, TM_TILE_VERTICAL = 7
 } TransformationMode;
 
 typedef unsigned long COLOR32;
-typedef struct {
+typedef struct
+{
 	HDC hdc;
 	HBITMAP hBitmap, hOldBitmap;
 	HBITMAP hbmpSkinParts[SKIN_ITEMS_COUNT][SKIN_PARTS_COUNT];

@@ -33,98 +33,74 @@ Boston, MA 02111-1307, USA.
 
 #define MS_TOOLTIP_SHOWTIP	"mToolTip/ShowTip"
 
-typedef struct {
+struct OPTBUTTON
+{
 	UINT id, uintCoreIconId, uintResIconId;
 	wchar_t *swzTooltip;
-} OPTBUTTON;
+};
 
-typedef enum { DIT_ALL = 0, DIT_CONTACTS = 1, DIT_CHATS = 2 } DisplayItemType;
-typedef struct {
+enum DisplayItemType { DIT_ALL = 0, DIT_CONTACTS = 1, DIT_CHATS = 2 };
+
+struct DISPLAYITEM
+{
 	wchar_t swzLabel[LABEL_LEN];
 	wchar_t swzValue[VALUE_LEN];
 	DisplayItemType type;
 	bool bLineAbove, bValueNewline;
 	bool bIsVisible;
 	bool bParseTipperVarsFirst;
-} DISPLAYITEM;
-
-// display item types
-static struct {
-	DisplayItemType type;
-	wchar_t *title;
-} displayItemTypes[] = {
-	{ DIT_ALL, LPGENW("Show for all contact types") },
-	{ DIT_CONTACTS, LPGENW("Show only for contacts") },
-	{ DIT_CHATS, LPGENW("Show only for chatrooms") }
 };
 
-typedef enum { DVT_DB = 0, DVT_PROTODB = 1 } DisplaySubstType;
-typedef struct {
+enum DisplaySubstType { DVT_DB = 0, DVT_PROTODB = 1 };
+
+struct DISPLAYSUBST
+{
 	wchar_t swzName[LABEL_LEN];
 	DisplaySubstType type;
 	char szModuleName[MODULE_NAME_LEN];
 	char szSettingName[SETTING_NAME_LEN];
 	int iTranslateFuncId;
-} DISPLAYSUBST;
+};
 
-struct DSListNode {
+struct DSListNode
+{
 	DISPLAYSUBST ds;
 	DSListNode *next;
 };
 
-struct DIListNode {
+struct DIListNode
+{
 	DISPLAYITEM di;
 	DIListNode *next;
 };
 
-typedef struct {
+struct MARGINS
+{
 	BYTE top;
 	BYTE right;
 	BYTE bottom;
 	BYTE left;
-} MARGINS;
-
-// tray tooltip items
-static wchar_t *trayTipItems[TRAYTIP_ITEMS_COUNT] = {
-	LPGENW("Number of contacts"),
-	LPGENW("Protocol lock status"),
-	LPGENW("Logon time"),
-	LPGENW("Unread emails"),
-	LPGENW("Status"),
-	LPGENW("Status message"),
-	LPGENW("Extra status"),
-	LPGENW("Listening to"),
-	LPGENW("Favorite contacts"),
-	LPGENW("Miranda uptime"),
-	LPGENW("Contact list event")
 };
 
-// extra icons
-static wchar_t *extraIconName[6] = {
-	LPGENW("Status"),
-	LPGENW("Extra status"),
-	LPGENW("Jabber activity"),
-	LPGENW("Gender"),
-	LPGENW("Country flag"),
-	LPGENW("Client")
-};
-
-typedef struct {
+struct EXTRAICONDATA
+{
 	bool bDragging;
 	HTREEITEM hDragItem;
-} EXTRAICONDATA;
+};
 
-typedef struct {
+struct ICONSTATE
+{
 	BYTE order;
 	BYTE vis;
-} ICONSTATE;
+};
 
-typedef enum { PAV_NONE = 0, PAV_LEFT = 1, PAV_RIGHT = 2 } PopupAvLayout;
-typedef enum { PTL_NOICON = 0, PTL_LEFTICON = 1, PTL_RIGHTICON = 2 } PopupIconTitleLayout;
-typedef enum { PP_BOTTOMRIGHT = 0, PP_BOTTOMLEFT = 1, PP_TOPRIGHT = 2, PP_TOPLEFT = 3 } PopupPosition;
-typedef enum { PSE_NONE = 0, PSE_ANIMATE = 1, PSE_FADE = 2 } PopupShowEffect;
+enum PopupAvLayout { PAV_NONE = 0, PAV_LEFT = 1, PAV_RIGHT = 2 };
+enum PopupIconTitleLayout { PTL_NOICON = 0, PTL_LEFTICON = 1, PTL_RIGHTICON = 2 };
+enum PopupPosition { PP_BOTTOMRIGHT = 0, PP_BOTTOMLEFT = 1, PP_TOPRIGHT = 2, PP_TOPLEFT = 3 };
+enum PopupShowEffect { PSE_NONE = 0, PSE_ANIMATE = 1, PSE_FADE = 2 };
 
-typedef struct {
+struct OPTIONS
+{
 	int iWinWidth, iWinMaxHeight, iAvatarSize; //tweety
 	PopupIconTitleLayout titleIconLayout;
 	bool bShowTitle;
@@ -145,7 +121,7 @@ typedef struct {
 	COLORREF colBg, colBorder, colAvatarBorder, colDivider, colBar, colTitle, colLabel, colValue, colTrayTitle, colSidebar;
 	int iLabelValign, iLabelHalign, iValueValign, iValueHalign;
 	bool bWaitForStatusMsg, bWaitForAvatar;
-	
+
 	// tooltip skin
 	SkinMode skinMode;
 	wchar_t szSkinName[256];
@@ -186,8 +162,7 @@ typedef struct {
 	int iSmileyAddFlags;
 	BYTE exIconsOrder[EXICONS_COUNT];
 	BYTE exIconsVis[EXICONS_COUNT];
-} OPTIONS;
-
+};
 
 extern OPTIONS opt;
 

@@ -32,6 +32,7 @@ Boston, MA 02111-1307, USA.
 #define DWM_BB_ENABLE					0x00000001
 #define DWM_BB_BLURREGION				0x00000002
 #define DWM_BB_TRANSITIONONMAXIMIZED	0x00000004
+
 struct DWM_BLURBEHIND
 {
 	DWORD dwFlags;
@@ -40,7 +41,7 @@ struct DWM_BLURBEHIND
 	BOOL fTransitionOnMaximized;
 };
 
-extern HRESULT (WINAPI *MyDwmEnableBlurBehindWindow)(HWND hWnd, DWM_BLURBEHIND *pBlurBehind); 
+extern HRESULT(WINAPI *MyDwmEnableBlurBehindWindow)(HWND hWnd, DWM_BLURBEHIND *pBlurBehind);
 
 void InitMessagePump();
 void DeinitMessagePump();

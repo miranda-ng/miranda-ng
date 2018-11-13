@@ -20,12 +20,12 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-__inline void AddRow(PopupWindowData *pwd, wchar_t *swzLabel, wchar_t *swzValue, char *szProto, bool bParseSmileys, bool bNewline, bool bLineAbove, bool bIsTitle = false, HICON hIcon = nullptr) 
+__inline void AddRow(PopupWindowData *pwd, wchar_t *swzLabel, wchar_t *swzValue, char *szProto, bool bParseSmileys, bool bNewline, bool bLineAbove, bool bIsTitle = false, HICON hIcon = nullptr)
 {
 	RowData *pRows = (RowData *)mir_realloc(pwd->rows, sizeof(RowData) * (pwd->iRowCount + 1));
 	if (pRows == nullptr)
 		return;
-	pwd->rows = pRows;								
+	pwd->rows = pRows;
 	pwd->rows[pwd->iRowCount].swzLabel = swzLabel ? mir_wstrdup(swzLabel) : nullptr;
 	pwd->rows[pwd->iRowCount].swzValue = swzValue ? mir_wstrdup(swzValue) : nullptr;
 	pwd->rows[pwd->iRowCount].spi = bParseSmileys ? Smileys_PreParse(swzValue, (int)mir_wstrlen(swzValue), szProto) : nullptr;
@@ -35,7 +35,7 @@ __inline void AddRow(PopupWindowData *pwd, wchar_t *swzLabel, wchar_t *swzValue,
 	pwd->rows[pwd->iRowCount++].hIcon = hIcon;
 }
 
-LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
+LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	POINT pt;
 	RECT rc;
@@ -302,7 +302,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				// don't use stored status message
 				if (!opt.bWaitForContent)
-					db_unset(pwd->hContact, MODULENAME, "TempStatusMsg");
+					g_plugin.delSetting(pwd->hContact, "TempStatusMsg");
 
 				wcsncpy_s(pwd->swzTitle, Clist_GetContactDisplayName(pwd->hContact), _TRUNCATE);
 
@@ -954,7 +954,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 	case PUM_SETSTATUSTEXT:
 		if (pwd && wParam == pwd->hContact) {
-			db_set_ws(pwd->hContact, MODULENAME, "TempStatusMsg", (wchar_t *)lParam);
+			g_plugin.setWString(pwd->hContact, "TempStatusMsg", (wchar_t *)lParam);
 			pwd->bIsPainted = false;
 			pwd->bNeedRefresh = true;
 			SendMessage(hwnd, PUM_REFRESH_VALUES, TRUE, 0);
@@ -1586,7 +1586,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				int iCount = 0, iCountOnline = 0;
 
 				for (auto &hContact : Contacts()) {
-					if (db_get_b(hContact, MODULENAME, "FavouriteContact", 0)) {
+					if (g_plugin.getByte(hContact, "FavouriteContact")) {
 						char *proto = GetContactProto(hContact);
 						if (proto == nullptr)
 							continue;

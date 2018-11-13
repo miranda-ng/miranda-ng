@@ -23,10 +23,10 @@ Boston, MA 02111-1307, USA.
 #include <tchar.h>
 
 HMODULE hDwmapiDll = nullptr;
-HRESULT (WINAPI *MyDwmEnableBlurBehindWindow)(HWND hWnd, DWM_BLURBEHIND *pBlurBehind) = nullptr;
+HRESULT(WINAPI *MyDwmEnableBlurBehindWindow)(HWND hWnd, DWM_BLURBEHIND *pBlurBehind) = nullptr;
 
 unsigned int uintMessagePumpThreadId = 0;
-POINT pt = {-1};
+POINT pt = { -1 };
 UINT WaitForContentTimerID = 0;
 bool bAvatarReady = false;
 bool bStatusMsgReady = false;
@@ -48,17 +48,14 @@ void CALLBACK TimerProcWaitForContent(HWND, UINT, UINT_PTR, DWORD)
 bool NeedWaitForContent(CLCINFOTIPEX *clcitex)
 {
 	bool bNeedWait = false;
-	if (opt.bWaitForContent && IsContactTooltip(clcitex))
-	{
+	if (opt.bWaitForContent && IsContactTooltip(clcitex)) {
 		MCONTACT hContact = (DWORD_PTR)clcitex->hItem;
 		char *szProto = GetContactProto(hContact);
 		if (!szProto) return false;
 
-		if (opt.bWaitForStatusMsg && !bStatusMsgReady)
-		{
-			db_unset(hContact, MODULENAME, "TempStatusMsg");
-			if (CanRetrieveStatusMsg(hContact, szProto) && ProtoChainSend(hContact, PSS_GETAWAYMSG, 0, 0))
-			{
+		if (opt.bWaitForStatusMsg && !bStatusMsgReady) {
+			g_plugin.delSetting(hContact, "TempStatusMsg");
+			if (CanRetrieveStatusMsg(hContact, szProto) && ProtoChainSend(hContact, PSS_GETAWAYMSG, 0, 0)) {
 				if (WaitForContentTimerID)
 					KillTimer(nullptr, WaitForContentTimerID);
 
@@ -68,16 +65,12 @@ bool NeedWaitForContent(CLCINFOTIPEX *clcitex)
 		}
 
 		if (opt.bWaitForAvatar && !bAvatarReady &&
-			CallProtoService(szProto, PS_GETAVATARCAPS, AF_ENABLED, 0))
-		{
+			CallProtoService(szProto, PS_GETAVATARCAPS, AF_ENABLED, 0)) {
 			DBVARIANT dbv;
-			if (!db_get_s(hContact, "ContactPhoto", "File", &dbv))
-			{
-				if (!strstr(dbv.pszVal, ".xml"))
-				{
+			if (!db_get_s(hContact, "ContactPhoto", "File", &dbv)) {
+				if (!strstr(dbv.pszVal, ".xml")) {
 					AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)hContact, 0);
-					if (!ace)
-					{
+					if (!ace) {
 						if (WaitForContentTimerID)
 							KillTimer(nullptr, WaitForContentTimerID);
 
@@ -161,7 +154,7 @@ unsigned int CALLBACK MessagePumpThread(void*)
 					}
 
 					if (swzMsg) {
-						db_set_ws((DWORD_PTR)clcitex->hItem, MODULENAME, "TempStatusMsg", swzMsg);
+						g_plugin.setWString((DWORD_PTR)clcitex->hItem, "TempStatusMsg", swzMsg);
 						mir_free(swzMsg);
 					}
 
@@ -211,7 +204,7 @@ void PostMPMessage(UINT msg, WPARAM wParam, LPARAM lParam)
 
 void InitMessagePump()
 {
-	WNDCLASSEX wcl = {0};
+	WNDCLASSEX wcl = { 0 };
 	wcl.cbSize = sizeof(wcl);
 	wcl.lpfnWndProc = PopupWindowProc;
 	wcl.hInstance = g_plugin.getInst();
@@ -222,7 +215,7 @@ void InitMessagePump()
 
 	hDwmapiDll = LoadLibrary(L"dwmapi.dll");
 	if (hDwmapiDll)
-		MyDwmEnableBlurBehindWindow = (HRESULT (WINAPI *)(HWND, DWM_BLURBEHIND *))GetProcAddress(hDwmapiDll, "DwmEnableBlurBehindWindow");
+		MyDwmEnableBlurBehindWindow = (HRESULT(WINAPI *)(HWND, DWM_BLURBEHIND *))GetProcAddress(hDwmapiDll, "DwmEnableBlurBehindWindow");
 
 	CloseHandle(mir_forkthreadex(MessagePumpThread, nullptr, &uintMessagePumpThreadId));
 }
@@ -238,7 +231,7 @@ INT_PTR ShowTip(WPARAM wParam, LPARAM lParam)
 {
 	CLCINFOTIP *clcit = (CLCINFOTIP *)lParam;
 	HWND clist = g_clistApi.hwndContactTree;
-	
+
 	if (clcit->isGroup) return 0; // no group tips (since they're pretty useless)
 	if (clcit->isTreeFocused == 0 && !opt.bShowNoFocus && clist == WindowFromPoint(clcit->ptCursor)) return 0;
 	if (clcit->ptCursor.x == pt.x && clcit->ptCursor.y == pt.y) return 0;
@@ -262,8 +255,8 @@ INT_PTR ShowTip(WPARAM wParam, LPARAM lParam)
 
 int ShowTipHook(WPARAM wParam, LPARAM lParam)
 {
-    ShowTip(wParam, lParam);
-    return 0;
+	ShowTip(wParam, lParam);
+	return 0;
 }
 
 INT_PTR ShowTipW(WPARAM wParam, LPARAM lParam)
@@ -311,7 +304,7 @@ int HideTipHook(WPARAM wParam, LPARAM lParam)
 int ProtoAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA*)lParam;
-	if ((ack==nullptr) || (ack->result != ACKRESULT_SUCCESS))
+	if ((ack == nullptr) || (ack->result != ACKRESULT_SUCCESS))
 		return 0;
 
 	if (ack->type == ACKTYPE_AWAYMSG) {
@@ -333,14 +326,13 @@ int AvatarChanged(WPARAM hContact, LPARAM)
 
 int FramesShowSBTip(WPARAM wParam, LPARAM)
 {
-	if (opt.bStatusBarTips)
-	{
+	if (opt.bStatusBarTips) {
 		char *szProto = (char *)wParam;
 
 		CLCINFOTIPEX *clcit2 = (CLCINFOTIPEX *)mir_alloc(sizeof(CLCINFOTIPEX));
 		memset(clcit2, 0, sizeof(CLCINFOTIPEX));
 		clcit2->cbSize = sizeof(CLCINFOTIPEX);
-		clcit2->szProto= szProto; // assume static string
+		clcit2->szProto = szProto; // assume static string
 		GetCursorPos(&clcit2->ptCursor);
 
 		PostMPMessage(MUM_CREATEPOPUP, 0, (LPARAM)clcit2);
@@ -351,8 +343,7 @@ int FramesShowSBTip(WPARAM wParam, LPARAM)
 
 int FramesHideSBTip(WPARAM, LPARAM)
 {
-	if (opt.bStatusBarTips)
-	{
+	if (opt.bStatusBarTips) {
 		PostMPMessage(MUM_DELETEPOPUP, 0, 0);
 		return 1;
 	}

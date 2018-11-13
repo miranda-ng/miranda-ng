@@ -21,9 +21,10 @@ Boston, MA 02111-1307, USA.
 #ifndef _SKIN_INC
 #define _SKIN_INC
 
-typedef enum {	
+enum SkinMode
+{
 	SM_COLORFILL = 0, SM_IMAGE = 1, SM_OBSOLOTE = 2
-} SkinMode;
+};
 
 int RefreshSkinList(HWND hwndDlg);
 void ParseSkinFile(wchar_t *szSkinName, bool bStartup, bool bOnlyPreview);
