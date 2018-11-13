@@ -320,7 +320,7 @@ INT_PTR CALLBACK LoadSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 		case IDC_SESSDEL:
 			if (session_list_recovered[0] && ses_count == 256) {
 				for (int i = 0; session_list_recovered[i]; i++)
-					db_set_b(session_list_recovered[i], MODULENAME, "wasInLastSession", 0);
+					g_plugin.setByte(session_list_recovered[i], "wasInLastSession", 0);
 
 				memset(session_list_recovered, 0, sizeof(session_list_recovered));
 				g_bIncompletedSave = 0;
@@ -677,13 +677,13 @@ static int OnSrmmWindowEvent(WPARAM, LPARAM lParam)
 	if (MWeventdata->uType == MSG_WINDOW_EVT_OPEN) {
 		AddToCurSession(MWeventdata->hContact, 0);
 		if (g_bCrashRecovery)
-			db_set_b(MWeventdata->hContact, MODULENAME, "wasInLastSession", 1);
+			g_plugin.setByte(MWeventdata->hContact, "wasInLastSession", 1);
 	}
 	else if (MWeventdata->uType == MSG_WINDOW_EVT_CLOSE) {
 		if (!DONT)
 			DelFromCurSession(MWeventdata->hContact, 0);
 		if (g_bCrashRecovery)
-			db_set_b(MWeventdata->hContact, MODULENAME, "wasInLastSession", 0);
+			g_plugin.setByte(MWeventdata->hContact, "wasInLastSession", 0);
 	}
 
 	return 0;
@@ -830,7 +830,7 @@ int CMPlugin::Load()
 		memset(session_list_recovered, 0, sizeof(session_list_recovered));
 
 		for (auto &hContact : Contacts())
-			if (db_get_b(hContact, MODULENAME, "wasInLastSession", 0))
+			if (g_plugin.getByte(hContact, "wasInLastSession"))
 				session_list_recovered[i++] = hContact;
 	}
 

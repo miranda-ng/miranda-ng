@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 void AddSessionMark(MCONTACT hContact, int mode, char bit)
 {
 	if (mode == 0) {
-		ptrA szValue(db_get_sa(hContact, MODULENAME, "LastSessionsMarks"));
+		ptrA szValue(g_plugin.getStringA(hContact, "LastSessionsMarks"));
 		if (szValue) {
 			char temp_1 = szValue[0];
 			for (int i = 0; i < g_ses_limit; i++) {
@@ -33,13 +33,13 @@ void AddSessionMark(MCONTACT hContact, int mode, char bit)
 			for (int i = g_ses_limit; i < 10; i++)
 				szValue[i] = '0';
 			szValue[0] = bit;
-			db_set_s(hContact, MODULENAME, "LastSessionsMarks", szValue);
+			g_plugin.setString(hContact, "LastSessionsMarks", szValue);
 		}
 		else if (bit == '1')
-			db_set_s(hContact, MODULENAME, "LastSessionsMarks", "10000000000");
+			g_plugin.setString(hContact, "LastSessionsMarks", "10000000000");
 	}
 	else if (mode == 1) {
-		ptrA szValue(db_get_sa(hContact, MODULENAME, "UserSessionsMarks"));
+		ptrA szValue(g_plugin.getStringA(hContact, "UserSessionsMarks"));
 		if (szValue) {
 			char *pszBuffer;
 			if (mir_strlen(szValue) < g_ses_count) {
@@ -56,21 +56,21 @@ void AddSessionMark(MCONTACT hContact, int mode, char bit)
 				temp_1 = temp_2;
 			}
 			pszBuffer[0] = bit;
-			db_set_s(hContact, MODULENAME, "UserSessionsMarks", pszBuffer);
+			g_plugin.setString(hContact, "UserSessionsMarks", pszBuffer);
 
 			mir_free(pszBuffer);
 		}
 		else if (bit == '1')
-			db_set_s(hContact, MODULENAME, "UserSessionsMarks", "10000000000");
+			g_plugin.setString(hContact, "UserSessionsMarks", "10000000000");
 		else
-			db_set_s(hContact, MODULENAME, "UserSessionsMarks", "00000000000");
+			g_plugin.setString(hContact, "UserSessionsMarks", "00000000000");
 	}
 }
 
 void RemoveSessionMark(MCONTACT hContact, int mode, int marknum)
 {
 	if (mode == 0) {
-		ptrA szValue(db_get_sa(hContact, MODULENAME, "LastSessionsMarks"));
+		ptrA szValue(g_plugin.getStringA(hContact, "LastSessionsMarks"));
 		if (szValue) {
 			for (int i = marknum; i < g_ses_limit; i++)
 				szValue[i] = szValue[i + 1];
@@ -78,16 +78,16 @@ void RemoveSessionMark(MCONTACT hContact, int mode, int marknum)
 			for (int i = g_ses_limit; i < 10; i++)
 				szValue[i] = '0';
 
-			db_set_s(hContact, MODULENAME, "LastSessionsMarks", szValue);
+			g_plugin.setString(hContact, "LastSessionsMarks", szValue);
 		}
 	}
 	else if (mode == 1) {
-		ptrA szValue(db_get_sa(hContact, MODULENAME, "UserSessionsMarks"));
+		ptrA szValue(g_plugin.getStringA(hContact, "UserSessionsMarks"));
 		if (szValue) {
 			for (int i = marknum; i < g_ses_limit; i++)
 				szValue[i] = szValue[i + 1];
 
-			db_set_s(hContact, MODULENAME, "UserSessionsMarks", szValue);
+			g_plugin.setString(hContact, "UserSessionsMarks", szValue);
 		}
 	}
 }
@@ -95,17 +95,17 @@ void RemoveSessionMark(MCONTACT hContact, int mode, int marknum)
 void SetSessionMark(MCONTACT hContact, int mode, char bit, unsigned int marknum)
 {
 	if (mode == 0) {
-		ptrA szValue(db_get_sa(hContact, MODULENAME, "LastSessionsMarks"));
+		ptrA szValue(g_plugin.getStringA(hContact, "LastSessionsMarks"));
 		if (szValue) {
 			szValue[marknum] = bit;
-			db_set_s(hContact, MODULENAME, "LastSessionsMarks", szValue);
+			g_plugin.setString(hContact, "LastSessionsMarks", szValue);
 		}
 	}
 	else if (mode == 1) {
-		ptrA szValue(db_get_sa(hContact, MODULENAME, "UserSessionsMarks"));
+		ptrA szValue(g_plugin.getStringA(hContact, "UserSessionsMarks"));
 		if (szValue) {
 			szValue[marknum] = bit;
-			db_set_s(hContact, MODULENAME, "UserSessionsMarks", szValue);
+			g_plugin.setString(hContact, "UserSessionsMarks", szValue);
 		}
 	}
 }
@@ -114,9 +114,9 @@ bool LoadContactsFromMask(MCONTACT hContact, int mode, int count)
 {
 	ptrA szValue;
 	if (mode == 0)
-		szValue = db_get_sa(hContact, MODULENAME, "LastSessionsMarks");
+		szValue = g_plugin.getStringA(hContact, "LastSessionsMarks");
 	else if (mode == 1)
-		szValue = db_get_sa(hContact, MODULENAME, "UserSessionsMarks");
+		szValue = g_plugin.getStringA(hContact, "UserSessionsMarks");
 
 	if (szValue == NULL)
 		return false;
@@ -130,7 +130,7 @@ void AddInSessionOrder(MCONTACT hContact, int mode, int ordernum, int writemode)
 	mir_snprintf(szFormNumBuf, "%02u", ordernum);
 
 	if (mode == 0) {
-		ptrA szValue(db_get_sa(hContact, MODULENAME, "LastSessionsMarks"));
+		ptrA szValue(g_plugin.getStringA(hContact, "LastSessionsMarks"));
 		if (szValue) {
 			int len = (int)mir_strlen(szValue);
 			if (!len)
@@ -146,15 +146,15 @@ void AddInSessionOrder(MCONTACT hContact, int mode, int ordernum, int writemode)
 			for (int i = (g_ses_limit * 2); i < 20; i++)
 				temp[i] = '0';
 
-			db_set_s(hContact, MODULENAME, "LastSessionsOrder", temp);
+			g_plugin.setString(hContact, "LastSessionsOrder", temp);
 		}
 		else if (writemode == 1) {
 			mir_snprintf(szFormNumBuf, "%02u%s", ordernum, "000000000000000000");
-			db_set_s(hContact, MODULENAME, "LastSessionsOrder", szFormNumBuf);
+			g_plugin.setString(hContact, "LastSessionsOrder", szFormNumBuf);
 		}
 	}
 	else if (mode == 1) {
-		ptrA szValue(db_get_sa(hContact, MODULENAME, "UserSessionsOrder"));
+		ptrA szValue(g_plugin.getStringA(hContact, "UserSessionsOrder"));
 		if (szValue) {
 			char *pszBuffer;
 			if (mir_strlen(szValue) < (g_ses_count * 2)) {
@@ -169,13 +169,13 @@ void AddInSessionOrder(MCONTACT hContact, int mode, int ordernum, int writemode)
 			char *temp = (char*)_alloca(len + 1);
 			mir_snprintf(temp, len + 1, "%02u%s", ordernum, szValue);
 
-			db_set_s(hContact, MODULENAME, "UserSessionsOrder", temp);
+			g_plugin.setString(hContact, "UserSessionsOrder", temp);
 			mir_free(pszBuffer);
 		}
 		else if (writemode == 1)
-			db_set_s(hContact, MODULENAME, "UserSessionsOrder", szFormNumBuf);
+			g_plugin.setString(hContact, "UserSessionsOrder", szFormNumBuf);
 		else
-			db_set_s(hContact, MODULENAME, "UserSessionsOrder", "00");
+			g_plugin.setString(hContact, "UserSessionsOrder", "00");
 	}
 }
 
@@ -183,14 +183,14 @@ int GetInSessionOrder(MCONTACT hContact, int mode, int count)
 {
 	char szTemp[3];
 	if (mode == 0) {
-		ptrA szValue(db_get_sa(hContact, MODULENAME, "LastSessionsOrder"));
+		ptrA szValue(g_plugin.getStringA(hContact, "LastSessionsOrder"));
 		if (szValue) {
 			strncpy_s(szTemp, &szValue[count * 2], 2);
 			return atoi(szTemp);
 		}
 	}
 	else if (mode == 1) {
-		ptrA szValue(db_get_sa(hContact, MODULENAME, "UserSessionsOrder"));
+		ptrA szValue(g_plugin.getStringA(hContact, "UserSessionsOrder"));
 		if (szValue) {
 			strncpy_s(szTemp, &szValue[count * 2], 2);
 			return atoi(szTemp);
@@ -205,19 +205,19 @@ void SetInSessionOrder(MCONTACT hContact, int mode, int count, unsigned int orde
 	mir_snprintf(szTemp, "%02u", ordernum);
 
 	if (mode == 0) {
-		ptrA szValue(db_get_sa(hContact, MODULENAME, "LastSessionsOrder"));
+		ptrA szValue(g_plugin.getStringA(hContact, "LastSessionsOrder"));
 		if (szValue) {
 			szValue[count * 2] = szTemp[0];
 			szValue[count * 2 + 1] = szTemp[1];
-			db_set_s(hContact, MODULENAME, "LastSessionsOrder", szValue);
+			g_plugin.setString(hContact, "LastSessionsOrder", szValue);
 		}
 	}
 	else if (mode == 1) {
-		ptrA szValue(db_get_sa(hContact, MODULENAME, "UserSessionsOrder"));
+		ptrA szValue(g_plugin.getStringA(hContact, "UserSessionsOrder"));
 		if (szValue) {
 			szValue[count * 2] = szTemp[0];
 			szValue[count * 2 + 1] = szTemp[1];
-			db_set_s(hContact, MODULENAME, "UserSessionsOrder", szValue);
+			g_plugin.setString(hContact, "UserSessionsOrder", szValue);
 		}
 	}
 }
