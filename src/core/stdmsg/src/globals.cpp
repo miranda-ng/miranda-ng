@@ -148,10 +148,10 @@ GlobalMessageData::GlobalMessageData() :
 
 void InitGlobals()
 {
-	int iOldValue = db_get_b(0, SRMMMOD, "HideNames", -1);
+	int iOldValue = g_plugin.getByte("HideNames", -1);
 	if (iOldValue != -1) {
 		g_dat.bShowNames = !iOldValue;
-		db_unset(0, SRMMMOD, "HideNames");
+		g_plugin.delSetting("HideNames");
 	}
 
 	if (!g_dat.bSendOnEnter && !g_dat.bSendOnDblEnter)

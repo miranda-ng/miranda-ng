@@ -488,7 +488,7 @@ void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, bool bAppend)
 #define RTFPICTHEADERMAXSIZE   78
 void LoadMsgLogIcons(void)
 {
-	HBRUSH hBkgBrush = CreateSolidBrush(db_get_dw(0, SRMMMOD, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR));
+	HBRUSH hBkgBrush = CreateSolidBrush(g_plugin.getDword(SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR));
 
 	BITMAPINFOHEADER bih = { sizeof(bih) };
 	bih.biBitCount = 24;

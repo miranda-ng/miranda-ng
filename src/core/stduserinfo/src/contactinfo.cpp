@@ -301,7 +301,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				for (i = 0;; i++) {
 					lvi.lParam = i;
 					mir_snprintf(idstr, "Mye-mail%d", i);
-					if (db_get_ws(hContact, MODULENAME, idstr, &dbv))
+					if (g_plugin.getWString(hContact, idstr, &dbv))
 						break;
 					lvi.pszText = idstr2;
 					mir_snwprintf(idstr2, TranslateT("Custom %d"), i + 1);
@@ -362,7 +362,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				for (i = 0;; i++) {
 					lvi.lParam = i;
 					mir_snprintf(idstr, "MyPhone%d", i);
-					if (db_get_ws(hContact, MODULENAME, idstr, &dbv))
+					if (g_plugin.getWString(hContact, idstr, &dbv))
 						break;
 					lvi.pszText = idstr2;
 					mir_snwprintf(idstr2, TranslateT("Custom %d"), i + 1);
@@ -476,10 +476,10 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							break;
 						for (i = 0;; i++) {
 							mir_snprintf(idstr, szIdTemplate, i);
-							if (db_get_s(hContact, MODULENAME, idstr, &dbv)) break;
+							if (g_plugin.getString(hContact, idstr, &dbv)) break;
 							db_free(&dbv);
 						}
-						db_set_s(hContact, MODULENAME, idstr, szNewData);
+						g_plugin.setString(hContact, idstr, szNewData);
 						SendMessage(hwndDlg, M_REMAKELISTS, 0, 0);
 					}
 				}
@@ -489,13 +489,13 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					DBVARIANT dbv;
 					for (i = lvi.lParam;; i++) {
 						mir_snprintf(idstr, szIdTemplate, i + 1);
-						if (db_get_s(hContact, MODULENAME, idstr, &dbv)) break;
+						if (g_plugin.getString(hContact, idstr, &dbv)) break;
 						mir_snprintf(idstr, szIdTemplate, i);
-						db_set_s(hContact, MODULENAME, idstr, dbv.pszVal);
+						g_plugin.setString(hContact, idstr, dbv.pszVal);
 						db_free(&dbv);
 					}
 					mir_snprintf(idstr, szIdTemplate, i);
-					db_unset(hContact, MODULENAME, idstr);
+					g_plugin.delSetting(hContact, idstr);
 					SendMessage(hwndDlg, M_REMAKELISTS, 0, 0);
 				}
 				else if (hti.iSubItem - 2 == (nm->hdr.idFrom == IDC_PHONES)) {
@@ -503,12 +503,12 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					char szText[256], idstr[33];
 					DBVARIANT dbv;
 					mir_snprintf(idstr, szIdTemplate, lvi.lParam);
-					if (db_get_s(hContact, MODULENAME, idstr, &dbv)) break;
+					if (g_plugin.getString(hContact, idstr, &dbv)) break;
 					mir_strncpy(szText, dbv.pszVal, _countof(szText));
 					db_free(&dbv);
 					if (IDOK != DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(nm->hdr.idFrom == IDC_PHONES ? IDD_ADDPHONE : IDD_ADDEMAIL), hwndDlg, nm->hdr.idFrom == IDC_PHONES ? EditUserPhoneDlgProc : EditUserEmailDlgProc, (LPARAM)szText))
 						break;
-					db_set_s(hContact, MODULENAME, idstr, szText);
+					g_plugin.setString(hContact, idstr, szText);
 					SendMessage(hwndDlg, M_REMAKELISTS, 0, 0);
 				}
 			}

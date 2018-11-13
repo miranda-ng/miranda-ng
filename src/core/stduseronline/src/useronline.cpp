@@ -33,40 +33,37 @@ static int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	int newStatus = cws->value.wVal;
-	int oldStatus = db_get_w(hContact, MODULENAME, "OldStatus", ID_STATUS_OFFLINE);
-	db_set_w(hContact, MODULENAME, "OldStatus", (WORD)newStatus);
+	int oldStatus = g_plugin.getWord(hContact, "OldStatus", ID_STATUS_OFFLINE);
+	g_plugin.setWord(hContact, "OldStatus", (WORD)newStatus);
 	if (CallService(MS_IGNORE_ISIGNORED, hContact, IGNOREEVENT_USERONLINE)) return 0;
 	if (db_get_b(hContact, "CList", "Hidden", 0)) return 0;
-    if (newStatus == ID_STATUS_OFFLINE && oldStatus != ID_STATUS_OFFLINE) {
-       // Remove the event from the queue if it exists since they are now offline
-		 int lastEvent = (int)db_get_dw(hContact, MODULENAME, "LastEvent", 0);
+	if (newStatus == ID_STATUS_OFFLINE && oldStatus != ID_STATUS_OFFLINE) {
+		// Remove the event from the queue if it exists since they are now offline
+		MEVENT lastEvent = g_plugin.getDword(hContact, "LastEvent");
+		if (lastEvent) {
+			g_clistApi.pfnRemoveEvent(hContact, lastEvent);
+			g_plugin.setDword(hContact, "LastEvent", 0);
+		}
+	}
 
-       if (lastEvent) {
-			 g_clistApi.pfnRemoveEvent(hContact, lastEvent);
-			  db_set_dw(hContact, MODULENAME, "LastEvent", 0);
-       }
-    }
-	if ((newStatus == ID_STATUS_ONLINE || newStatus == ID_STATUS_FREECHAT) &&
-	   oldStatus != ID_STATUS_ONLINE && oldStatus != ID_STATUS_FREECHAT) {
-		{
-			DWORD ticked = g_plugin.getDword(cws->szModule, GetTickCount());
-			// only play the sound (or show event) if this event happens at least 10 secs after the proto went from offline
-			if (GetTickCount() - ticked > (1000*10)) {
-				wchar_t tooltip[256];
-				mir_snwprintf(tooltip, TranslateT("%s is online"), Clist_GetContactDisplayName(hContact));
+	if ((newStatus == ID_STATUS_ONLINE || newStatus == ID_STATUS_FREECHAT) && oldStatus != ID_STATUS_ONLINE && oldStatus != ID_STATUS_FREECHAT) {
+		DWORD ticked = g_plugin.getDword(cws->szModule, GetTickCount());
+		// only play the sound (or show event) if this event happens at least 10 secs after the proto went from offline
+		if (GetTickCount() - ticked > (1000 * 10)) {
+			wchar_t tooltip[256];
+			mir_snwprintf(tooltip, TranslateT("%s is online"), Clist_GetContactDisplayName(hContact));
 
-				CLISTEVENT cle = {};
-				cle.flags = CLEF_ONLYAFEW | CLEF_UNICODE;
-				cle.hContact = hContact;
-				cle.hDbEvent = uniqueEventId++;
-				cle.hIcon = Skin_LoadIcon(SKINICON_OTHER_USERONLINE, false);
-				cle.pszService = "UserOnline/Description";
-				cle.szTooltip.w = tooltip;
-				g_clistApi.pfnAddEvent(&cle);
-				IcoLib_ReleaseIcon(cle.hIcon, 0);
-                db_set_dw(cle.hContact, MODULENAME, "LastEvent", (DWORD)cle.hDbEvent);
-				Skin_PlaySound(MODULENAME);
-			}
+			CLISTEVENT cle = {};
+			cle.flags = CLEF_ONLYAFEW | CLEF_UNICODE;
+			cle.hContact = hContact;
+			cle.hDbEvent = uniqueEventId++;
+			cle.hIcon = Skin_LoadIcon(SKINICON_OTHER_USERONLINE, false);
+			cle.pszService = "UserOnline/Description";
+			cle.szTooltip.w = tooltip;
+			g_clistApi.pfnAddEvent(&cle);
+			IcoLib_ReleaseIcon(cle.hIcon, 0);
+			g_plugin.setDword(cle.hContact, "LastEvent", cle.hDbEvent);
+			Skin_PlaySound(MODULENAME);
 		}
 	}
 	return 0;
@@ -74,7 +71,7 @@ static int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 
 static int UserOnlineAck(WPARAM, LPARAM lParam)
 {
-	ACKDATA * ack = (ACKDATA*) lParam;
+	ACKDATA * ack = (ACKDATA*)lParam;
 	if (ack != nullptr && ack->szModule && ack->type == ACKTYPE_STATUS && ack->result == ACKRESULT_SUCCESS && ack->hProcess == (HANDLE)ID_STATUS_OFFLINE) {
 		// if going from offline to any other mode, remember when it happened.
 		g_plugin.setDword(ack->szModule, GetTickCount());
@@ -95,7 +92,7 @@ static int UserOnlineAccountsChanged(WPARAM eventCode, LPARAM lParam)
 {
 	PROTOACCOUNT *pa = (PROTOACCOUNT*)lParam;
 
-	switch(eventCode) {
+	switch (eventCode) {
 	case PRAC_ADDED:
 	case PRAC_CHECKED:
 		// reset the counter
@@ -112,7 +109,7 @@ int LoadUserOnlineModule(void)
 	HookEvent(ME_PROTO_ACK, UserOnlineAck);
 	HookEvent(ME_SYSTEM_MODULESLOADED, UserOnlineModulesLoaded);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, UserOnlineAccountsChanged);
-	
+
 	g_plugin.addSound(MODULENAME, LPGENW("Alerts"), LPGENW("Online"));
 	return 0;
 }

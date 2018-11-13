@@ -129,7 +129,7 @@ bool CSrmmWindow::OnInitDialog()
 	SetTimer(m_hwnd, TIMERID_TYPE, 1000, nullptr);
 
 	GetWindowRect(m_message.GetHwnd(), &m_minEditInit);
-	m_iSplitterY = (int)db_get_dw(g_dat.bSavePerContact ? m_hContact : 0, SRMMMOD, "splitterPos", m_minEditInit.bottom - m_minEditInit.top);
+	m_iSplitterY = g_plugin.getDword(g_dat.bSavePerContact ? m_hContact : 0, "splitterPos", m_minEditInit.bottom - m_minEditInit.top);
 	SendMessage(m_hwnd, DM_UPDATESIZEBAR, 0, 0);
 
 	m_avatar.Enable(false);
@@ -280,7 +280,7 @@ void CSrmmWindow::OnDestroy()
 	m_cmdList.destroy();
 
 	MCONTACT hContact = (g_dat.bSavePerContact) ? m_hContact : 0;
-	db_set_dw(hContact ? m_hContact : 0, SRMMMOD, "splitterPos", m_iSplitterY);
+	g_plugin.setDword(hContact ? m_hContact : 0, "splitterPos", m_iSplitterY);
 
 	if (m_hFont) {
 		DeleteObject(m_hFont);
@@ -290,11 +290,11 @@ void CSrmmWindow::OnDestroy()
 	WINDOWPLACEMENT wp = { sizeof(wp) };
 	GetWindowPlacement(m_hwnd, &wp);
 	if (!m_windowWasCascaded) {
-		db_set_dw(hContact, SRMMMOD, "x", wp.rcNormalPosition.left);
-		db_set_dw(hContact, SRMMMOD, "y", wp.rcNormalPosition.top);
+		g_plugin.setDword(hContact, "x", wp.rcNormalPosition.left);
+		g_plugin.setDword(hContact, "y", wp.rcNormalPosition.top);
 	}
-	db_set_dw(hContact, SRMMMOD, "width", wp.rcNormalPosition.right - wp.rcNormalPosition.left);
-	db_set_dw(hContact, SRMMMOD, "height", wp.rcNormalPosition.bottom - wp.rcNormalPosition.top);
+	g_plugin.setDword(hContact, "width", wp.rcNormalPosition.right - wp.rcNormalPosition.left);
+	g_plugin.setDword(hContact, "height", wp.rcNormalPosition.bottom - wp.rcNormalPosition.top);
 
 	NotifyEvent(MSG_WINDOW_EVT_CLOSE);
 
@@ -389,7 +389,7 @@ void CSrmmWindow::OnOptionsApplied(bool bUpdateAvatar)
 	if (m_hBkgBrush)
 		DeleteObject(m_hBkgBrush);
 
-	COLORREF colour = db_get_dw(0, SRMMMOD, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR);
+	COLORREF colour = g_plugin.getDword(SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR);
 	m_hBkgBrush = CreateSolidBrush(colour);
 	m_log.SendMsg(EM_SETBKGNDCOLOR, 0, colour);
 	m_message.SendMsg(EM_SETBKGNDCOLOR, 0, colour);
@@ -470,7 +470,7 @@ void CSrmmWindow::NotifyTyping(int mode)
 	// Don't send to protocols that are offline
 	// Don't send to users who are not visible and
 	// Don't send to users who are not on the visible list when you are in invisible mode.
-	if (!db_get_b(m_hContact, SRMMMOD, SRMSGSET_TYPING, g_dat.bTypingNew))
+	if (!g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_dat.bTypingNew))
 		return;
 
 	if (!m_szProto)

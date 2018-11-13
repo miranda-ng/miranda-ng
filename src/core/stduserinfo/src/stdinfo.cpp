@@ -551,7 +551,7 @@ static INT_PTR CALLBACK NotesDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			HFONT hFont = CreateFontIndirect(&lf);
 			SendDlgItemMessage(hwndDlg, IDC_ABOUT, WM_SETFONT, (WPARAM)hFont, MAKELPARAM(TRUE, 0));
 
-			ptrW szNotes(db_get_wsa(lParam, MODULENAME, "MyNotes"));
+			ptrW szNotes(g_plugin.getWStringA(lParam, "MyNotes"));
 			if (szNotes != nullptr)
 				SetDlgItemText(hwndDlg, IDC_MYNOTES, szNotes);
 		}
@@ -574,11 +574,11 @@ static INT_PTR CALLBACK NotesDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			case PSN_APPLY:
 				hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 				if (GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MYNOTES))) {
-					char text[2048];
-					GetDlgItemTextA(hwndDlg, IDC_MYNOTES, text, _countof(text));
-					db_set_s(hContact, MODULENAME, "MyNotes", text);
+					wchar_t text[2048];
+					GetDlgItemText(hwndDlg, IDC_MYNOTES, text, _countof(text));
+					g_plugin.setWString(hContact, "MyNotes", text);
 				}
-				else db_unset(hContact, MODULENAME, "MyNotes");
+				else g_plugin.delSetting(hContact, "MyNotes");
 				break;
 			}
 			break;

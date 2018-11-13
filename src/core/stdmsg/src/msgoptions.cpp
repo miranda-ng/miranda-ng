@@ -61,16 +61,16 @@ bool LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF * colour)
 
 	if (colour) {
 		mir_snprintf(str, "SRMFont%dCol", i);
-		*colour = db_get_dw(0, SRMMMOD, str, fontOptionsList[i].defColour);
+		*colour = g_plugin.getDword(str, fontOptionsList[i].defColour);
 	}
 	if (lf) {
 		mir_snprintf(str, "SRMFont%dSize", i);
-		lf->lfHeight = (char)db_get_b(0, SRMMMOD, str, fontOptionsList[i].defSize);
+		lf->lfHeight = (char)g_plugin.getByte(str, fontOptionsList[i].defSize);
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
 		lf->lfOrientation = 0;
 		mir_snprintf(str, "SRMFont%dSty", i);
-		int style = db_get_b(0, SRMMMOD, str, fontOptionsList[i].defStyle);
+		int style = g_plugin.getByte(str, fontOptionsList[i].defStyle);
 		lf->lfWeight = style & DBFONTF_BOLD ? FW_BOLD : FW_NORMAL;
 		lf->lfItalic = style & DBFONTF_ITALIC ? 1 : 0;
 		lf->lfUnderline = 0;
@@ -81,14 +81,14 @@ bool LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF * colour)
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 		mir_snprintf(str, "SRMFont%d", i);
 
-		ptrW wszFontFace(db_get_wsa(0, SRMMMOD, str));
+		ptrW wszFontFace(g_plugin.getWStringA(str));
 		if (wszFontFace == nullptr)
 			wcsncpy_s(lf->lfFaceName, fontOptionsList[i].szDefFace, _TRUNCATE);
 		else
 			mir_wstrncpy(lf->lfFaceName, wszFontFace, _countof(lf->lfFaceName));
 
 		mir_snprintf(str, "SRMFont%dSet", i);
-		lf->lfCharSet = db_get_b(0, SRMMMOD, str, MsgDlgGetFontDefaultCharset(lf->lfFaceName));
+		lf->lfCharSet = g_plugin.getByte(str, MsgDlgGetFontDefaultCharset(lf->lfFaceName));
 	}
 	return true;
 }
@@ -458,7 +458,7 @@ public:
 
 		for (auto &hContact : Contacts()) {
 			HANDLE hItem = clist.FindContact(hContact);
-			if (hItem && db_get_b(hContact, SRMMMOD, SRMSGSET_TYPING, defType))
+			if (hItem && g_plugin.getByte(hContact, SRMSGSET_TYPING, defType))
 				clist.SetCheck(hItem, 1);
 		}
 	}
@@ -474,7 +474,7 @@ public:
 		for (auto &hContact : Contacts()) {
 			HANDLE hItem = clist.FindContact(hContact);
 			if (hItem)
-				db_set_b(hContact, SRMMMOD, SRMSGSET_TYPING, clist.GetCheck(hItem));
+				g_plugin.setByte(hContact, SRMSGSET_TYPING, clist.GetCheck(hItem));
 		}
 	}
 
