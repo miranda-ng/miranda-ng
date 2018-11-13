@@ -116,7 +116,7 @@ BOOL CALLBACK EnumSystemCodePagesProc(LPTSTR cpStr)
 
 void CheckMenuItems()
 {
-	Menu_ShowItem(hMenuItemMain, db_get_b(0, YAMN_DBMODULE, YAMN_SHOWMAINMENU, 1) != 0);
+	Menu_ShowItem(hMenuItemMain, g_plugin.getByte(YAMN_SHOWMAINMENU, 1) != 0);
 }
 
 int SystemModulesLoaded(WPARAM, LPARAM)
@@ -264,18 +264,18 @@ int CMPlugin::Load()
 	if (nullptr == (ExitEV = CreateEvent(nullptr, TRUE, FALSE, nullptr)))
 		return 1;
 
-	PosX = db_get_dw(0, YAMN_DBMODULE, YAMN_DBPOSX, 0);
-	PosY = db_get_dw(0, YAMN_DBMODULE, YAMN_DBPOSY, 0);
-	SizeX = db_get_dw(0, YAMN_DBMODULE, YAMN_DBSIZEX, 800);
-	SizeY = db_get_dw(0, YAMN_DBMODULE, YAMN_DBSIZEY, 200);
+	PosX = g_plugin.getDword(YAMN_DBPOSX, 0);
+	PosY = g_plugin.getDword(YAMN_DBPOSY, 0);
+	SizeX = g_plugin.getDword(YAMN_DBSIZEX, 800);
+	SizeY = g_plugin.getDword(YAMN_DBSIZEY, 200);
 
-	HeadPosX = db_get_dw(0, YAMN_DBMODULE, YAMN_DBMSGPOSX, 0);
-	HeadPosY = db_get_dw(0, YAMN_DBMODULE, YAMN_DBMSGPOSY, 0);
-	HeadSizeX = db_get_dw(0, YAMN_DBMODULE, YAMN_DBMSGSIZEX, 690);
-	HeadSizeY = db_get_dw(0, YAMN_DBMODULE, YAMN_DBMSGSIZEY, 300);
-	HeadSplitPos = db_get_w(0, YAMN_DBMODULE, YAMN_DBMSGPOSSPLIT, 250);
+	HeadPosX = g_plugin.getDword(YAMN_DBMSGPOSX, 0);
+	HeadPosY = g_plugin.getDword(YAMN_DBMSGPOSY, 0);
+	HeadSizeX = g_plugin.getDword(YAMN_DBMSGSIZEX, 690);
+	HeadSizeY = g_plugin.getDword(YAMN_DBMSGSIZEY, 300);
+	HeadSplitPos = g_plugin.getWord(YAMN_DBMSGPOSSPLIT, 250);
 
-	optDateTime = db_get_b(0, YAMN_DBMODULE, YAMN_DBTIMEOPTIONS, optDateTime);
+	optDateTime = g_plugin.getByte(YAMN_DBTIMEOPTIONS, optDateTime);
 
 	// Create new window queues for broadcast messages
 	YAMNVar.MessageWnds = WindowList_Create();

@@ -1719,10 +1719,10 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 				SizeX = coord.right - coord.left;
 				PosY = coord.top;
 				SizeY = coord.bottom - coord.top;
-				db_set_dw(0, YAMN_DBMODULE, YAMN_DBPOSX, PosX);
-				db_set_dw(0, YAMN_DBMODULE, YAMN_DBPOSY, PosY);
-				db_set_dw(0, YAMN_DBMODULE, YAMN_DBSIZEX, SizeX);
-				db_set_dw(0, YAMN_DBMODULE, YAMN_DBSIZEY, SizeY);
+				g_plugin.setDword(YAMN_DBPOSX, PosX);
+				g_plugin.setDword(YAMN_DBPOSY, PosY);
+				g_plugin.setDword(YAMN_DBSIZEX, SizeX);
+				g_plugin.setDword(YAMN_DBSIZEY, SizeY);
 			}
 			KillTimer(hDlg, TIMER_FLASHING);
 
@@ -2047,7 +2047,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 					}
 				}
 				CloseHandle(ThreadRunningEV);
-				if (db_get_b(0, YAMN_DBMODULE, YAMN_CLOSEDELETE, 0))
+				if (g_plugin.getByte(YAMN_CLOSEDELETE, 0))
 					DestroyWindow(hDlg);
 			}
 			break;
