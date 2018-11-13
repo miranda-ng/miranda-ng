@@ -58,7 +58,7 @@ void TopButtonInt::CreateWnd()
 		if (dwFlags & TTBBF_ASPUSHBUTTON)
 			SendMessage(hwnd, BUTTONSETASPUSHBTN, 1, 0);
 
-		if (db_get_b(0, TTB_OPTDIR, "UseFlatButton", 1))
+		if (g_plugin.getByte("UseFlatButton", 1))
 			SendMessage(hwnd, BUTTONSETASFLATBTN, TRUE, 0);
 
 		EnableWindow(hwnd, (dwFlags & TTBBF_DISABLED) ? FALSE : TRUE);
@@ -84,8 +84,8 @@ void TopButtonInt::LoadSettings()
 		char buf2[20];
 		AS(buf2, "Sep", buf1);
 
-		arrangedpos = db_get_b(0, TTB_OPTDIR, AS(buf, buf2, "_Position"), Buttons.getCount());
-		if (db_get_b(0, TTB_OPTDIR, AS(buf, buf2, "_Visible"), oldv) > 0)
+		arrangedpos = g_plugin.getByte(AS(buf, buf2, "_Position"), Buttons.getCount());
+		if (g_plugin.getByte(AS(buf, buf2, "_Visible"), oldv) > 0)
 			dwFlags |= TTBBF_VISIBLE;
 	}
 	else if ((dwFlags & TTBBF_ISLBUTTON ) && (dwFlags & TTBBF_INTERNAL)) {
@@ -95,18 +95,18 @@ void TopButtonInt::LoadSettings()
 		AS(buf2, "Launch", buf1);
 
 		mir_free(pszName);
-		pszName = db_get_sa(0, TTB_OPTDIR, AS(buf, buf2, "_name"));
+		pszName = g_plugin.getStringA(AS(buf, buf2, "_name"));
 		
 		mir_free(ptszProgram);
-		ptszProgram = db_get_wsa(0, TTB_OPTDIR, AS(buf, buf2, "_lpath"));
+		ptszProgram = g_plugin.getWStringA(AS(buf, buf2, "_lpath"));
 
-		arrangedpos = db_get_b(0, TTB_OPTDIR, AS(buf, buf2, "_Position"), Buttons.getCount());
-		if (db_get_b(0, TTB_OPTDIR, AS(buf, buf2, "_Visible"), oldv) > 0)
+		arrangedpos = g_plugin.getByte(AS(buf, buf2, "_Position"), Buttons.getCount());
+		if (g_plugin.getByte(AS(buf, buf2, "_Visible"), oldv) > 0)
 			dwFlags |= TTBBF_VISIBLE;
 	}
 	else {
-		arrangedpos = db_get_b(0, TTB_OPTDIR, AS(buf, pszName, "_Position"), Buttons.getCount());
-		if (db_get_b(0, TTB_OPTDIR, AS(buf, pszName, "_Visible"), oldv) > 0)
+		arrangedpos = g_plugin.getByte(AS(buf, pszName, "_Position"), Buttons.getCount());
+		if (g_plugin.getByte(AS(buf, pszName, "_Visible"), oldv) > 0)
 			dwFlags |= TTBBF_VISIBLE;
 	}
 
@@ -124,8 +124,8 @@ void TopButtonInt::SaveSettings(int *SepCnt, int *LaunchCnt)
 		char buf2[20];
 		AS(buf2, "Sep", buf1);
 
-		db_set_b(0, TTB_OPTDIR, AS(buf, buf2, "_Position"), arrangedpos);
-		db_set_b(0, TTB_OPTDIR, AS(buf, buf2, "_Visible"), isVisible());
+		g_plugin.setByte(AS(buf, buf2, "_Position"), arrangedpos);
+		g_plugin.setByte(AS(buf, buf2, "_Visible"), isVisible());
 	}
 	else if (LaunchCnt && (dwFlags & TTBBF_ISLBUTTON ) && (dwFlags & TTBBF_INTERNAL)) {
 		char buf1[10];
@@ -133,14 +133,14 @@ void TopButtonInt::SaveSettings(int *SepCnt, int *LaunchCnt)
 		char buf2[20];
 		AS(buf2, "Launch", buf1);
 
-		db_set_s(0, TTB_OPTDIR, AS(buf, buf2, "_name"), pszName);
-		db_set_ws(0, TTB_OPTDIR, AS(buf, buf2, "_lpath"), ptszProgram);
-		db_set_b(0, TTB_OPTDIR, AS(buf, buf2, "_Position"), arrangedpos);
-		db_set_b(0, TTB_OPTDIR, AS(buf, buf2, "_Visible"), isVisible());
+		g_plugin.setString(AS(buf, buf2, "_name"), pszName);
+		g_plugin.setWString(AS(buf, buf2, "_lpath"), ptszProgram);
+		g_plugin.setByte(AS(buf, buf2, "_Position"), arrangedpos);
+		g_plugin.setByte(AS(buf, buf2, "_Visible"), isVisible());
 	}
 	else {
-		db_set_b(0, TTB_OPTDIR, AS(buf, pszName, "_Position"), arrangedpos);
-		db_set_b(0, TTB_OPTDIR, AS(buf, pszName, "_Visible"), isVisible());
+		g_plugin.setByte(AS(buf, pszName, "_Position"), arrangedpos);
+		g_plugin.setByte(AS(buf, pszName, "_Visible"), isVisible());
 	}
 }
 

@@ -131,7 +131,7 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 	case WM_WINDOWPOSCHANGING:
 	case WM_SIZE:
 		if (g_ctrl->nLastHeight != HIWORD(lParam)) {
-			db_set_dw(0, TTB_OPTDIR, "LastHeight", g_ctrl->nLastHeight = HIWORD(lParam));
+			g_plugin.setDword("LastHeight", g_ctrl->nLastHeight = HIWORD(lParam));
 			ArrangeButtons();
 		}
 		if (supressRepos) {
@@ -289,18 +289,18 @@ void CALLBACK OnEventFire()
 
 int LoadBackgroundOptions()
 {
-	bkColour = db_get_dw(0, TTB_OPTDIR, "BkColour", TTBDEFAULT_BKCOLOUR);
+	bkColour = g_plugin.getDword("BkColour", TTBDEFAULT_BKCOLOUR);
 	if (hBmpBackground) {
 		DeleteObject(hBmpBackground);
 		hBmpBackground = nullptr;
 	}
 
-	if (db_get_b(0, TTB_OPTDIR, "UseBitmap", TTBDEFAULT_USEBITMAP)) {
-		ptrW tszBitmapName(db_get_wsa(NULL, TTB_OPTDIR, "BkBitmap"));
+	if (g_plugin.getByte("UseBitmap", TTBDEFAULT_USEBITMAP)) {
+		ptrW tszBitmapName(g_plugin.getWStringA("BkBitmap"));
 		if (tszBitmapName != NULL)
 			hBmpBackground = Bitmap_Load(tszBitmapName);
 	}
-	backgroundBmpUse = db_get_w(0, TTB_OPTDIR, "BkBmpUse", TTBDEFAULT_BKBMPUSE);
+	backgroundBmpUse = g_plugin.getWord("BkBmpUse", TTBDEFAULT_BKBMPUSE);
 
 	RECT rc;
 	GetClientRect(g_ctrl->hWnd, &rc);

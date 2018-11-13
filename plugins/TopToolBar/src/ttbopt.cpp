@@ -379,13 +379,13 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				g_ctrl->bAutoSize = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTORESIZE);
 				g_ctrl->bSingleLine = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SINGLELINE);
 
-				db_set_dw(0, TTB_OPTDIR, "BUTTHEIGHT", g_ctrl->nButtonHeight);
-				db_set_dw(0, TTB_OPTDIR, "BUTTWIDTH", g_ctrl->nButtonWidth);
-				db_set_dw(0, TTB_OPTDIR, "BUTTGAP", g_ctrl->nButtonSpace);
+				g_plugin.setDword("BUTTHEIGHT", g_ctrl->nButtonHeight);
+				g_plugin.setDword("BUTTWIDTH", g_ctrl->nButtonWidth);
+				g_plugin.setDword("BUTTGAP", g_ctrl->nButtonSpace);
 
-				db_set_b(0, TTB_OPTDIR, "UseFlatButton", g_ctrl->bFlatButtons);
-				db_set_b(0, TTB_OPTDIR, "SingleLine", g_ctrl->bSingleLine);
-				db_set_b(0, TTB_OPTDIR, "AutoSize", g_ctrl->bAutoSize);
+				g_plugin.setByte("UseFlatButton", g_ctrl->bFlatButtons);
+				g_plugin.setByte("SingleLine", g_ctrl->bSingleLine);
+				g_plugin.setByte("AutoSize", g_ctrl->bAutoSize);
 
 				SaveTree(hwndDlg);
 				RecreateWindows();

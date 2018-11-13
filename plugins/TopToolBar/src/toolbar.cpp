@@ -51,7 +51,7 @@ void InsertSBut(int i)
 void LoadAllSButs()
 {
 	//must be locked
-	int cnt = db_get_b(0, TTB_OPTDIR, "ServiceCnt", 0);
+	int cnt = g_plugin.getByte("ServiceCnt", 0);
 	if (cnt > 0) {
 		for (int i = 1; i <= cnt; i++)
 		InsertSBut(i);
@@ -83,14 +83,14 @@ void LoadAllLButs()
 {
 	TTBButton ttb = {};
 
-	int cnt = db_get_b(0, TTB_OPTDIR, "LaunchCnt", 0);
+	int cnt = g_plugin.getByte("LaunchCnt", 0);
 	for (int i = 0; i < cnt; i++) {
 		char buf[255], buf1[10], buf2[100];
 		_itoa(i, buf1, 10);
 		AS(buf2, "Launch", buf1);
 
-		ptrA szName(db_get_sa(0, TTB_OPTDIR, AS(buf, buf2, "_name")));
-		ptrW wszProgram(db_get_wsa(0, TTB_OPTDIR, AS(buf, buf2, "_lpath")));
+		ptrA szName(g_plugin.getStringA(AS(buf, buf2, "_name")));
+		ptrW wszProgram(g_plugin.getWStringA(AS(buf, buf2, "_lpath")));
 		if (szName == nullptr || wszProgram == nullptr)
 			continue;
 
@@ -109,7 +109,7 @@ void LoadAllSeparators()
 {
 	TTBButton ttb = {};
 
-	int cnt = db_get_b(0, TTB_OPTDIR, "SepCnt", 0);
+	int cnt = g_plugin.getByte("SepCnt", 0);
 	for (int i = 0; i < cnt; i++) {
 		ttb.dwFlags = TTBBF_VISIBLE | TTBBF_ISSEPARATOR | TTBBF_INTERNAL;
 		ttb.wParamDown = i;
@@ -126,8 +126,8 @@ int SaveAllButtonsOptions()
 		for (auto &it : Buttons)
 			it->SaveSettings(&SeparatorCnt, &LaunchCnt);
 	}
-	db_set_b(0, TTB_OPTDIR, "SepCnt", SeparatorCnt);
-	db_set_b(0, TTB_OPTDIR, "LaunchCnt", LaunchCnt);
+	g_plugin.setByte("SepCnt", SeparatorCnt);
+	g_plugin.setByte("LaunchCnt", LaunchCnt);
 	return 0;
 }
 
@@ -623,23 +623,23 @@ static LRESULT CALLBACK TTBButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 int LoadToolbarModule()
 {
 	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
-		if (!db_get_b(0, TTB_OPTDIR, "WarningDone", 0))
+		if (!g_plugin.getByte("WarningDone", 0))
 			MessageBox(nullptr, TranslateT("Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- Clist nicer\nYou can get them at https://wiki.miranda-ng.org/Download"), TranslateT("TopToolBar"), 0);
-		db_set_b(0, TTB_OPTDIR, "WarningDone", 1);
+		g_plugin.setByte("WarningDone", 1);
 		return 1;
 	}
 
 	g_ctrl = (TTBCtrl *)mir_calloc(sizeof(TTBCtrl));
-	g_ctrl->nButtonHeight = db_get_dw(0, TTB_OPTDIR, "BUTTHEIGHT", DEFBUTTHEIGHT);
-	g_ctrl->nButtonWidth = db_get_dw(0, TTB_OPTDIR, "BUTTWIDTH", DEFBUTTWIDTH);
-	g_ctrl->nButtonSpace = db_get_dw(0, TTB_OPTDIR, "BUTTGAP", DEFBUTTGAP);
-	g_ctrl->nLastHeight = db_get_dw(0, TTB_OPTDIR, "LastHeight", DEFBUTTHEIGHT);
+	g_ctrl->nButtonHeight = g_plugin.getDword("BUTTHEIGHT", DEFBUTTHEIGHT);
+	g_ctrl->nButtonWidth = g_plugin.getDword("BUTTWIDTH", DEFBUTTWIDTH);
+	g_ctrl->nButtonSpace = g_plugin.getDword("BUTTGAP", DEFBUTTGAP);
+	g_ctrl->nLastHeight = g_plugin.getDword("LastHeight", DEFBUTTHEIGHT);
 
-	g_ctrl->bFlatButtons = db_get_b(0, TTB_OPTDIR, "UseFlatButton", true);
-	g_ctrl->bSingleLine = db_get_b(0, TTB_OPTDIR, "SingleLine", true);
-	g_ctrl->bAutoSize = db_get_b(0, TTB_OPTDIR, "AutoSize", true);
+	g_ctrl->bFlatButtons = g_plugin.getByte("UseFlatButton", true);
+	g_ctrl->bSingleLine = g_plugin.getByte("SingleLine", true);
+	g_ctrl->bAutoSize = g_plugin.getByte("AutoSize", true);
 
-	db_unset(NULL, TTB_OPTDIR, "WarningDone");
+	g_plugin.delSetting("WarningDone");
 
 	HookEvent(ME_SYSTEM_MODULELOAD, OnPluginLoad);
 	HookEvent(ME_SYSTEM_MODULEUNLOAD, OnPluginUnload);
