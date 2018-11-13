@@ -238,29 +238,29 @@ public:
 		return db_get_b(hContact, m_szModuleName, name, defaultValue) != 0;
 	}
 
-	__forceinline int getByte(const char *name, BYTE defaultValue = 0)
+	__forceinline int getByte(const char *name, int defaultValue = 0)
 	{
 		return db_get_b(0, m_szModuleName, name, defaultValue);
 	}
-	__forceinline int getByte(MCONTACT hContact, const char *name, BYTE defaultValue = 0)
+	__forceinline int getByte(MCONTACT hContact, const char *name, int defaultValue = 0)
 	{
 		return db_get_b(hContact, m_szModuleName, name, defaultValue);
 	}
 
-	__forceinline int getWord(const char *name, WORD defaultValue = 0)
+	__forceinline int getWord(const char *name, int defaultValue = 0)
 	{
 		return db_get_w(0, m_szModuleName, name, defaultValue);
 	}
-	__forceinline int getWord(MCONTACT hContact, const char *name, WORD defaultValue = 0)
+	__forceinline int getWord(MCONTACT hContact, const char *name, int defaultValue = 0)
 	{
 		return db_get_w(hContact, m_szModuleName, name, defaultValue);
 	}
 
-	__forceinline DWORD getDword(const char *name, DWORD defaultValue = 0)
+	__forceinline DWORD getDword(const char *name, int defaultValue = 0)
 	{
 		return db_get_dw(0, m_szModuleName, name, defaultValue);
 	}
-	__forceinline DWORD getDword(MCONTACT hContact, const char *name, DWORD defaultValue = 0)
+	__forceinline DWORD getDword(MCONTACT hContact, const char *name, int defaultValue = 0)
 	{
 		return db_get_dw(hContact, m_szModuleName, name, defaultValue);
 	}

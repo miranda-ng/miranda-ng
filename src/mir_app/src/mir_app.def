@@ -488,10 +488,10 @@ Proto_GetAverageStatus @512
 ?delSetting@CMPluginBase@@QAEHPBD@Z @519 NONAME
 ?getBool@CMPluginBase@@QAE_NIPBD_N@Z @520 NONAME
 ?getBool@CMPluginBase@@QAE_NPBD_N@Z @521 NONAME
-?getByte@CMPluginBase@@QAEHIPBDE@Z @522 NONAME
-?getByte@CMPluginBase@@QAEHPBDE@Z @523 NONAME
-?getDword@CMPluginBase@@QAEKIPBDK@Z @524 NONAME
-?getDword@CMPluginBase@@QAEKPBDK@Z @525 NONAME
+?getByte@CMPluginBase@@QAEHIPBDH@Z @522 NONAME
+?getByte@CMPluginBase@@QAEHPBDH@Z @523 NONAME
+?getDword@CMPluginBase@@QAEKIPBDH@Z @524 NONAME
+?getDword@CMPluginBase@@QAEKPBDH@Z @525 NONAME
 ?getString@CMPluginBase@@QAEHIPBDPAUDBVARIANT@@@Z @526 NONAME
 ?getString@CMPluginBase@@QAEHPBDPAUDBVARIANT@@@Z @527 NONAME
 ?getStringA@CMPluginBase@@QAEPADIPBD@Z @528 NONAME
@@ -500,8 +500,8 @@ Proto_GetAverageStatus @512
 ?getWString@CMPluginBase@@QAEHPBDPAUDBVARIANT@@@Z @531 NONAME
 ?getWStringA@CMPluginBase@@QAEPA_WIPBD@Z @532 NONAME
 ?getWStringA@CMPluginBase@@QAEPA_WPBD@Z @533 NONAME
-?getWord@CMPluginBase@@QAEHIPBDG@Z @534 NONAME
-?getWord@CMPluginBase@@QAEHPBDG@Z @535 NONAME
+?getWord@CMPluginBase@@QAEHIPBDH@Z @534 NONAME
+?getWord@CMPluginBase@@QAEHPBDH@Z @535 NONAME
 ?setByte@CMPluginBase@@QAEXIPBDE@Z @536 NONAME
 ?setByte@CMPluginBase@@QAEXPBDE@Z @537 NONAME
 ?setDword@CMPluginBase@@QAEXIPBDK@Z @538 NONAME
