@@ -22,9 +22,9 @@ Boston, MA 02111-1307, USA.
 void CreateAuthString(char *auth, MCONTACT hContact, CFeedEditor *pDlg)
 {
 	wchar_t *tlogin = nullptr, *tpass = nullptr;
-	if (hContact && db_get_b(hContact, MODULENAME, "UseAuth", 0)) {
-		tlogin = db_get_wsa(hContact, MODULENAME, "Login");
-		tpass = db_get_wsa(hContact, MODULENAME, "Password");
+	if (hContact && g_plugin.getByte(hContact, "UseAuth")) {
+		tlogin = g_plugin.getWStringA(hContact, "Login");
+		tpass = g_plugin.getWStringA(hContact, "Password");
 	}
 	else if (pDlg && pDlg->m_useauth.IsChecked()) {
 		tlogin = pDlg->m_login.GetText();
@@ -42,8 +42,8 @@ void CreateAuthString(char *auth, MCONTACT hContact, CFeedEditor *pDlg)
 	mir_snprintf(auth, 250, "Basic %s", ptrA(mir_base64_encode(str, len)));
 }
 
-CAuthRequest::CAuthRequest(CFeedEditor *pDlg, MCONTACT hContact)
-	: CSuper(g_plugin, IDD_AUTHENTICATION),
+CAuthRequest::CAuthRequest(CFeedEditor *pDlg, MCONTACT hContact) :
+	CSuper(g_plugin, IDD_AUTHENTICATION),
 	m_feedname(this, IDC_FEEDNAME), m_username(this, IDC_FEEDUSERNAME),
 	m_password(this, IDC_FEEDPASSWORD), m_ok(this, IDOK)
 {
@@ -65,18 +65,11 @@ bool CAuthRequest::OnInitDialog()
 		}
 	}
 	else if (m_hContact) {
-		wchar_t *ptszNick = db_get_wsa(m_hContact, MODULENAME, "Nick");
-		if (ptszNick) {
+		ptrW ptszNick(g_plugin.getWStringA(m_hContact, "Nick"));
+		if (!ptszNick)
+			ptszNick = g_plugin.getWStringA(m_hContact, "URL");
+		if (ptszNick)
 			m_feedname.SetText(ptszNick);
-			mir_free(ptszNick);
-		}
-		else {
-			wchar_t *ptszURL = db_get_wsa(m_hContact, MODULENAME, "URL");
-			if (ptszURL) {
-				m_feedname.SetText(ptszURL);
-				mir_free(ptszURL);
-			}
-		}
 	}
 	return true;
 }
@@ -101,9 +94,8 @@ void CAuthRequest::OnOk(CCtrlBase*)
 		m_pDlg->m_password.SetTextA(strfeedpassword);
 	}
 	else if (m_hContact) {
-		db_set_b(m_hContact, MODULENAME, "UseAuth", 1);
-		db_set_ws(m_hContact, MODULENAME, "Login", strfeedusername);
-		db_set_s(m_hContact, MODULENAME, "Password", strfeedpassword);
-
+		g_plugin.setByte(m_hContact, "UseAuth", 1);
+		g_plugin.setWString(m_hContact, "Login", strfeedusername);
+		g_plugin.setString(m_hContact, "Password", strfeedpassword);
 	}
 }

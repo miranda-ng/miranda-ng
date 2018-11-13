@@ -38,8 +38,8 @@ int NewsAggrInit(WPARAM, LPARAM)
 
 	for (auto &hContact : Contacts(MODULENAME)) {
 		if (!g_plugin.getByte("StartupRetrieve", 1))
-			db_set_dw(hContact, MODULENAME, "LastCheck", time(0));
-		db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);
+			g_plugin.setDword(hContact, "LastCheck", time(0));
+		g_plugin.setWord(hContact, "Status", ID_STATUS_ONLINE);
 	}
 
 	NetlibInit();
@@ -97,7 +97,7 @@ INT_PTR NewsAggrSetStatus(WPARAM wp, LPARAM)
 			g_nStatus = nStatus;
 
 			for (auto &hContact : Contacts(MODULENAME))
-				db_set_w(hContact, MODULENAME, "Status", nStatus);
+				g_plugin.setWord(hContact, "Status", nStatus);
 
 			ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)nOldStatus, g_nStatus);
 		}
@@ -132,7 +132,7 @@ INT_PTR NewsAggrGetInfo(WPARAM, LPARAM lParam)
 INT_PTR CheckAllFeeds(WPARAM, LPARAM lParam)
 {
 	for (auto &hContact : Contacts(MODULENAME)) {
-		if (lParam && db_get_dw(hContact, MODULENAME, "UpdateTime", DEFAULT_UPDATE_TIME))
+		if (lParam && g_plugin.getDword(hContact, "UpdateTime", DEFAULT_UPDATE_TIME))
 			UpdateListAdd(hContact);
 		else if (!lParam)
 			UpdateListAdd(hContact);
@@ -207,17 +207,13 @@ INT_PTR NewsAggrGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 	// if GAIF_FORCE is set, we are updating the feed
 	// otherwise, cached avatar is used
-	if ((wParam & GAIF_FORCE) && db_get_dw(pai->hContact, MODULENAME, "UpdateTime", DEFAULT_UPDATE_TIME))
+	if ((wParam & GAIF_FORCE) && g_plugin.getDword(pai->hContact, "UpdateTime", DEFAULT_UPDATE_TIME))
 		UpdateListAdd(pai->hContact);
 	if (g_plugin.getByte("AutoUpdate", 1) != 0 && !ThreadRunning)
 		mir_forkthread(UpdateThreadProc, (void *)TRUE);
 
-	wchar_t *ptszImageURL = db_get_wsa(pai->hContact, MODULENAME, "ImageURL");
-	if(ptszImageURL == nullptr)
-		return GAIR_NOAVATAR;
-
-	mir_free(ptszImageURL);
-	return GAIR_WAITFOR;
+	ptrW ptszImageURL(g_plugin.getWStringA(pai->hContact, "ImageURL"));
+	return (ptszImageURL == nullptr) ? GAIR_NOAVATAR : GAIR_WAITFOR;
 }
 
 INT_PTR NewsAggrRecvMessage(WPARAM, LPARAM lParam)

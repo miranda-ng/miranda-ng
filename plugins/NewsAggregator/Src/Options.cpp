@@ -40,11 +40,9 @@ bool CExportFeed::OnInitDialog()
 {
 	Utils_RestoreWindowPositionNoSize(m_hwnd, NULL, MODULENAME, "ExportDlg");
 	for (auto &hContact : Contacts(MODULENAME)) {
-		wchar_t *message = db_get_wsa(hContact, MODULENAME, "Nick");
-		if (message != nullptr) {
+		ptrW message(g_plugin.getWStringA(hContact, "Nick"));
+		if (message != nullptr)
 			m_feedslist.AddString(message);
-			mir_free(message);
-		}
 	}
 	m_removefeed.Disable();
 	m_removeallfeeds.Disable();
@@ -201,9 +199,9 @@ void CExportFeed::OnOk(CCtrlBase*)
 			m_feedsexportlist.GetItemText(i, item, _countof(item));
 			MCONTACT hContact = GetContactByNick(item);
 			wchar_t
-				*title = db_get_wsa(hContact, MODULENAME, "Nick"),
-				*url = db_get_wsa(hContact, MODULENAME, "URL"),
-				*siteurl = db_get_wsa(hContact, MODULENAME, "Homepage"),
+				*title = g_plugin.getWStringA(hContact, "Nick"),
+				*url = g_plugin.getWStringA(hContact, "URL"),
+				*siteurl = g_plugin.getWStringA(hContact, "Homepage"),
 				*group = db_get_wsa(hContact, "CList", "Group");
 
 			HXML elem = header;
@@ -605,13 +603,13 @@ void CImportFeed::OnOk(CCtrlBase*)
 
 						MCONTACT hContact = db_add_contact();
 						Proto_AddToContact(hContact, MODULENAME);
-						db_set_ws(hContact, MODULENAME, "Nick", text);
-						db_set_ws(hContact, MODULENAME, "URL", url);
-						db_set_ws(hContact, MODULENAME, "Homepage", siteurl);
-						db_set_b(hContact, MODULENAME, "CheckState", 1);
-						db_set_dw(hContact, MODULENAME, "UpdateTime", DEFAULT_UPDATE_TIME);
-						db_set_ws(hContact, MODULENAME, "MsgFormat", TAGSDEFAULT);
-						db_set_w(hContact, MODULENAME, "Status", Proto_GetStatus(MODULENAME));
+						g_plugin.setWString(hContact, "Nick", text);
+						g_plugin.setWString(hContact, "URL", url);
+						g_plugin.setWString(hContact, "Homepage", siteurl);
+						g_plugin.setByte(hContact, "CheckState", 1);
+						g_plugin.setDword(hContact, "UpdateTime", DEFAULT_UPDATE_TIME);
+						g_plugin.setWString(hContact, "MsgFormat", TAGSDEFAULT);
+						g_plugin.setWord(hContact, "Status", Proto_GetStatus(MODULENAME));
 
 						if (m_list != nullptr) {
 							int iItem = m_list->AddItem(text, -1);
@@ -701,35 +699,33 @@ bool CFeedEditor::OnInitDialog()
 		m_list->GetItemText(m_iItem, 1, SelUrl, _countof(SelNick));
 
 		for (auto &hContact : Contacts(MODULENAME)) {
-			ptrW dbNick(db_get_wsa(hContact, MODULENAME, "Nick"));
+			ptrW dbNick(g_plugin.getWStringA(hContact, "Nick"));
 			if ((dbNick == NULL) || (mir_wstrcmp(dbNick, SelNick) != 0))
 				continue;
 
-			ptrW dbURL(db_get_wsa(hContact, MODULENAME, "URL"));
+			ptrW dbURL(g_plugin.getWStringA(hContact, "URL"));
 			if ((dbURL == NULL) || (mir_wstrcmp(dbURL, SelUrl) != 0))
 				continue;
 
 			m_hContact = hContact;
 			m_feedtitle.SetText(SelNick);
 			m_feedurl.SetText(SelUrl);
-			m_checktime.SetInt(db_get_dw(hContact, MODULENAME, "UpdateTime", DEFAULT_UPDATE_TIME));
+			m_checktime.SetInt(g_plugin.getDword(hContact, "UpdateTime", DEFAULT_UPDATE_TIME));
 
-			wchar_t *szMsgFormat = db_get_wsa(hContact, MODULENAME, "MsgFormat");
-			if (szMsgFormat) {
+			ptrW szMsgFormat(g_plugin.getWStringA(hContact, "MsgFormat"));
+			if (szMsgFormat)
 				m_tagedit.SetText(szMsgFormat);
-				mir_free(szMsgFormat);
-			}
-			if (db_get_b(hContact, MODULENAME, "UseAuth", 0)) {
+
+			if (g_plugin.getByte(hContact, "UseAuth", 0)) {
 				m_useauth.SetState(1);
 				m_login.Enable();
 				m_password.Enable();
 
-				wchar_t *szLogin = db_get_wsa(hContact, MODULENAME, "Login");
-				if (szLogin) {
+				ptrW szLogin(g_plugin.getWStringA(hContact, "Login"));
+				if (szLogin)
 					m_login.SetText(szLogin);
-					mir_free(szLogin);
-				}
-				pass_ptrA pwd(db_get_sa(hContact, MODULENAME, "Password"));
+
+				pass_ptrA pwd(g_plugin.getStringA(hContact, "Password"));
 				m_password.SetTextA(pwd);
 			}
 			g_arFeeds.insert(this);
@@ -744,29 +740,27 @@ bool CFeedEditor::OnInitDialog()
 		Utils_RestoreWindowPositionNoSize(m_hwnd, NULL, MODULENAME, "AddDlg");
 	}
 	else if (m_hContact != NULL) {
-		ptrW dbNick(db_get_wsa(m_hContact, MODULENAME, "Nick"));
-		ptrW dbURL(db_get_wsa(m_hContact, MODULENAME, "URL"));
+		ptrW dbNick(g_plugin.getWStringA(m_hContact, "Nick"));
+		ptrW dbURL(g_plugin.getWStringA(m_hContact, "URL"));
 
 		m_feedtitle.SetText(dbNick);
 		m_feedurl.SetText(dbURL);
-		m_checktime.SetInt(db_get_dw(m_hContact, MODULENAME, "UpdateTime", DEFAULT_UPDATE_TIME));
+		m_checktime.SetInt(g_plugin.getDword(m_hContact, "UpdateTime", DEFAULT_UPDATE_TIME));
 
-		wchar_t *szMsgFormat = db_get_wsa(m_hContact, MODULENAME, "MsgFormat");
-		if (szMsgFormat) {
+		ptrW szMsgFormat(g_plugin.getWStringA(m_hContact, "MsgFormat"));
+		if (szMsgFormat)
 			m_tagedit.SetText(szMsgFormat);
-			mir_free(szMsgFormat);
-		}
-		if (db_get_b(m_hContact, MODULENAME, "UseAuth", 0)) {
+
+		if (g_plugin.getByte(m_hContact, "UseAuth")) {
 			m_useauth.SetState(1);
 			m_login.Enable();
 			m_password.Enable();
 
-			wchar_t *szLogin = db_get_wsa(m_hContact, MODULENAME, "Login");
-			if (szLogin) {
+			ptrW szLogin(g_plugin.getWStringA(m_hContact, "Login"));
+			if (szLogin)
 				m_login.SetText(szLogin);
-				mir_free(szLogin);
-			}
-			pass_ptrA pwd(db_get_sa(m_hContact, MODULENAME, "Password"));
+			
+			pass_ptrA pwd(g_plugin.getStringA(m_hContact, "Password"));
 			m_password.SetTextA(pwd);
 		}
 		g_arFeeds.insert(this);
@@ -835,25 +829,24 @@ void CFeedEditor::OnOk(CCtrlBase*)
 	if (m_iItem == -1 && m_hContact == NULL) {
 		hContact = db_add_contact();
 		Proto_AddToContact(hContact, MODULENAME);
-		db_set_b(hContact, MODULENAME, "CheckState", 1);
+		g_plugin.setByte(hContact, "CheckState", 1);
 	}
-	else
-		hContact = m_hContact;
+	else hContact = m_hContact;
 
-	db_set_ws(hContact, MODULENAME, "Nick", strfeedtitle);
-	db_set_ws(hContact, MODULENAME, "URL", strfeedurl);
-	db_set_dw(hContact, MODULENAME, "UpdateTime", (DWORD)m_checktime.GetInt());
-	db_set_ws(hContact, MODULENAME, "MsgFormat", strtagedit);
-	db_set_w(hContact, MODULENAME, "Status", Proto_GetStatus(MODULENAME));
+	g_plugin.setWString(hContact, "Nick", strfeedtitle);
+	g_plugin.setWString(hContact, "URL", strfeedurl);
+	g_plugin.setDword(hContact, "UpdateTime", m_checktime.GetInt());
+	g_plugin.setWString(hContact, "MsgFormat", strtagedit);
+	g_plugin.setWord(hContact, "Status", Proto_GetStatus(MODULENAME));
 	if (m_useauth.IsChecked()) {
-		db_set_b(hContact, MODULENAME, "UseAuth", 1);
-		db_set_ws(hContact, MODULENAME, "Login", m_login.GetText());
-		db_set_s(hContact, MODULENAME, "Password", m_password.GetTextA());
+		g_plugin.setByte(hContact, "UseAuth", 1);
+		g_plugin.setWString(hContact, "Login", m_login.GetText());
+		g_plugin.setString(hContact, "Password", m_password.GetTextA());
 	}
 	else {
-		db_unset(hContact, MODULENAME, "UseAuth");
-		db_unset(hContact, MODULENAME, "Login");
-		db_unset(hContact, MODULENAME, "Password");
+		g_plugin.delSetting(hContact, "UseAuth");
+		g_plugin.delSetting(hContact, "Login");
+		g_plugin.delSetting(hContact, "Password");
 	}
 
 	if (m_iItem == -1 && m_list != nullptr && m_hContact == NULL) {
@@ -886,17 +879,15 @@ void COptionsMain::UpdateList()
 {
 	for (auto &hContact : Contacts(MODULENAME)) {
 		UpdateListFlag = TRUE;
-		wchar_t *ptszNick = db_get_wsa(hContact, MODULENAME, "Nick");
+		ptrW ptszNick(g_plugin.getWStringA(hContact, "Nick"));
 		if (ptszNick) {
 			int iItem = m_feeds.AddItem(ptszNick, -1);
 
-			wchar_t *ptszURL = db_get_wsa(hContact, MODULENAME, "URL");
+			ptrW ptszURL(g_plugin.getWStringA(hContact, "URL"));
 			if (ptszURL) {
 				m_feeds.SetItem(iItem, 1, ptszURL);
-				m_feeds.SetCheckState(iItem, db_get_b(hContact, MODULENAME, "CheckState", 1));
-				mir_free(ptszURL);
+				m_feeds.SetCheckState(iItem, g_plugin.getByte(hContact, "CheckState", 1));
 			}
-			mir_free(ptszNick);
 		}
 	}
 	UpdateListFlag = FALSE;
@@ -940,13 +931,13 @@ bool COptionsMain::OnInitDialog()
 bool COptionsMain::OnApply()
 {
 	for (auto &hContact : Contacts(MODULENAME)) {
-		ptrW dbNick(db_get_wsa(hContact, MODULENAME, "Nick"));
+		ptrW dbNick(g_plugin.getWStringA(hContact, "Nick"));
 		for (int i = 0; i < m_feeds.GetItemCount(); i++) {
 			wchar_t nick[MAX_PATH];
 			m_feeds.GetItemText(i, 0, nick, _countof(nick));
 			if (mir_wstrcmp(dbNick, nick) == 0)
 			{
-				db_set_b(hContact, MODULENAME, "CheckState", m_feeds.GetCheckState(i));
+				g_plugin.setByte(hContact, "CheckState", m_feeds.GetCheckState(i));
 				if (!m_feeds.GetCheckState(i))
 					db_set_b(hContact, "CList", "Hidden", 1);
 				else
@@ -980,11 +971,11 @@ void COptionsMain::OnChangeButtonClick(CCtrlBase*)
 		m_feeds.GetItemText(isel, 0, nick, _countof(nick));
 		m_feeds.GetItemText(isel, 1, url, _countof(url));
 
-		ptrW dbNick(db_get_wsa(it->getContact(), MODULENAME, "Nick"));
+		ptrW dbNick(g_plugin.getWStringA(it->getContact(), "Nick"));
 		if ((dbNick == NULL) || (mir_wstrcmp(dbNick, nick) != 0))
 			continue;
 
-		ptrW dbURL(db_get_wsa(it->getContact(), MODULENAME, "URL"));
+		ptrW dbURL(g_plugin.getWStringA(it->getContact(), "URL"));
 		if ((dbURL == NULL) || (mir_wstrcmp(dbURL, url) != 0))
 			continue;
 
@@ -1011,13 +1002,13 @@ void COptionsMain::OnDeleteButtonClick(CCtrlBase*)
 		m_feeds.GetItemText(isel, 1, url, _countof(url));
 
 		for (auto &hContact : Contacts(MODULENAME)) {
-			ptrW dbNick(db_get_wsa(hContact, MODULENAME, "Nick"));
+			ptrW dbNick(g_plugin.getWStringA(hContact, "Nick"));
 			if (dbNick == NULL)
 				break;
 			if (mir_wstrcmp(dbNick, nick))
 				continue;
 
-			ptrW dbURL(db_get_wsa(hContact, MODULENAME, "URL"));
+			ptrW dbURL(g_plugin.getWStringA(hContact, "URL"));
 			if (dbURL == NULL)
 				break;
 			if (mir_wstrcmp(dbURL, url))

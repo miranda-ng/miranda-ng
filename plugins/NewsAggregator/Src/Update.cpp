@@ -31,9 +31,9 @@ void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
 	if (!ThreadRunning && !Miranda_IsTerminated()) {
 		bool HaveUpdates = FALSE;
 		for (auto &hContact : Contacts(MODULENAME)) {
-			if (db_get_dw(hContact, MODULENAME, "UpdateTime", DEFAULT_UPDATE_TIME)) {
-				double diff = difftime(time(0), (time_t)db_get_dw(hContact, MODULENAME, "LastCheck", 0));
-				if (g_plugin.getByte("AutoUpdate", 1) != 0 && diff >= db_get_dw(hContact, MODULENAME, "UpdateTime", DEFAULT_UPDATE_TIME) * 60) {
+			if (g_plugin.getDword(hContact, "UpdateTime", DEFAULT_UPDATE_TIME)) {
+				double diff = difftime(time(0), (time_t)g_plugin.getDword(hContact, "LastCheck", 0));
+				if (g_plugin.getByte("AutoUpdate", 1) != 0 && diff >= g_plugin.getDword(hContact, "UpdateTime", DEFAULT_UPDATE_TIME) * 60) {
 					UpdateListAdd(hContact);
 					HaveUpdates = TRUE;
 				}
