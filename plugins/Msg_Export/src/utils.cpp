@@ -397,7 +397,7 @@ wstring GetFilePathFromUser(MCONTACT hContact)
 		}
 
 		// Store the Filename used so that we can check if it changes.
-		db_set_ws(hContact, MODULENAME, "PrevFileName", sNoDBPath.c_str());
+		g_plugin.setWString(hContact, "PrevFileName", sNoDBPath.c_str());
 	}
 
 	return sFilePath;
@@ -1011,7 +1011,7 @@ HANDLE openCreateFile(wstring sFilePath)
 
 bool bIsExportEnabled(MCONTACT hContact)
 {
-	if (!db_get_b(hContact, MODULENAME, "EnableLog", 1))
+	if (!g_plugin.getByte(hContact, "EnableLog", 1))
 		return false;
 
 	const char *szProto = GetContactProto(hContact);

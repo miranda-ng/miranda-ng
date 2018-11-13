@@ -530,14 +530,14 @@ public:
 			if (listUsers.GetItem(&sItem)) {
 				MCONTACT hUser = (MCONTACT)sItem.lParam;
 				if (mir_wstrlen(szTemp) > 0)
-					db_set_ws(hUser, MODULENAME, "FileName", szTemp);
+					g_plugin.setWString(hUser, "FileName", szTemp);
 				else
-					db_unset(hUser, MODULENAME, "FileName");
+					g_plugin.delSetting(hUser, "FileName");
 
 				if (listUsers.GetCheckState(nCur))
-					db_unset(hUser, MODULENAME, "EnableLog");
+					g_plugin.delSetting(hUser, "EnableLog");
 				else
-					db_set_b(hUser, MODULENAME, "EnableLog", 0);
+					g_plugin.setByte(hUser, "EnableLog", 0);
 			}
 		}
 		UpdateFileToColWidth();
