@@ -63,7 +63,7 @@ void cliCheckCacheItem(ClcCacheEntry *pdnce)
 
 	// this variable isn't filled inside cliCreateCacheItem() because the filter could be changed dynamically
 	if (pdnce->dwLastMsgTime == -1 && g_CluiData.bFilterEffective & (CLVM_FILTER_LASTMSG | CLVM_FILTER_LASTMSG_NEWERTHAN | CLVM_FILTER_LASTMSG_OLDERTHAN)) {
-		pdnce->dwLastMsgTime = db_get_dw(pdnce->hContact, "CList", "mf_lastmsg", 0);
+		pdnce->dwLastMsgTime = g_plugin.getDword(pdnce->hContact, "mf_lastmsg");
 		if (pdnce->dwLastMsgTime == 0)
 			pdnce->dwLastMsgTime = CompareContacts2_getLMTime(pdnce->hContact);
 	}
@@ -132,9 +132,9 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 
 			if (cws->value.wVal == ID_STATUS_OFFLINE)
 				if (g_CluiData.bRemoveAwayMessageForOffline)
-					db_set_s(hContact, "CList", "StatusMsg", "");
+					g_plugin.setString(hContact, "StatusMsg", "");
 
-			if ((db_get_w(0, "CList", "SecondLineType", 0) == TEXT_STATUS_MESSAGE || db_get_w(0, "CList", "ThirdLineType", 0) == TEXT_STATUS_MESSAGE) && pdnce->hContact && pdnce->szProto)
+			if ((g_plugin.getWord("SecondLineType", 0) == TEXT_STATUS_MESSAGE || g_plugin.getWord("ThirdLineType", 0) == TEXT_STATUS_MESSAGE) && pdnce->hContact && pdnce->szProto)
 				amRequestAwayMsg(hContact);
 
 			Clist_Broadcast(INTM_STATUSCHANGED, hContact, 0);
@@ -143,7 +143,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			if (g_clistApi.hwndContactTree && g_flag_bOnModulesLoadedCalled)
 				Clist_InitAutoRebuild(g_clistApi.hwndContactTree);
 
-			if ((db_get_w(0, "CList", "SecondLineType", SETTING_SECONDLINE_TYPE_DEFAULT) == TEXT_STATUS_MESSAGE || db_get_w(0, "CList", "ThirdLineType", SETTING_THIRDLINE_TYPE_DEFAULT) == TEXT_STATUS_MESSAGE) && pdnce->hContact && pdnce->szProto)
+			if ((g_plugin.getWord("SecondLineType", SETTING_SECONDLINE_TYPE_DEFAULT) == TEXT_STATUS_MESSAGE || g_plugin.getWord("ThirdLineType", SETTING_THIRDLINE_TYPE_DEFAULT) == TEXT_STATUS_MESSAGE) && pdnce->hContact && pdnce->szProto)
 				amRequestAwayMsg(hContact);
 		}
 		else if (!strcmp(cws->szSetting, "ApparentMode"))

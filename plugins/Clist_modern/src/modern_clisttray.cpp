@@ -120,10 +120,10 @@ static VOID CALLBACK TrayIconAutoHideTimer(HWND hwnd, UINT, UINT_PTR idEvent, DW
 
 int cliTrayIconPauseAutoHide(WPARAM, LPARAM)
 {
-	if (db_get_b(0, "CList", "AutoHide", SETTING_AUTOHIDE_DEFAULT)) {
+	if (g_plugin.getByte("AutoHide", SETTING_AUTOHIDE_DEFAULT)) {
 		if (GetActiveWindow() != g_clistApi.hwndContactList && GetWindow(GetParent(GetActiveWindow()), GW_OWNER) != g_clistApi.hwndContactList) {
 			KillTimer(nullptr, autoHideTimerId);
-			autoHideTimerId = CLUI_SafeSetTimer(nullptr, 0, 1000 * db_get_w(0, "CList", "HideTime", SETTING_HIDETIME_DEFAULT), TrayIconAutoHideTimer);
+			autoHideTimerId = CLUI_SafeSetTimer(nullptr, 0, 1000 * g_plugin.getWord("HideTime", SETTING_HIDETIME_DEFAULT), TrayIconAutoHideTimer);
 		}
 	}
 
@@ -143,7 +143,7 @@ INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 		break;
 
 	case TIM_CALLBACK:
-		if ((GetAsyncKeyState(VK_CONTROL) & 0x8000) && msg->lParam == WM_LBUTTONDOWN && !db_get_b(0, "CList", "Tray1Click", SETTING_TRAY1CLICK_DEFAULT)) {
+		if ((GetAsyncKeyState(VK_CONTROL) & 0x8000) && msg->lParam == WM_LBUTTONDOWN && !g_plugin.getByte("Tray1Click", SETTING_TRAY1CLICK_DEFAULT)) {
 			POINT pt;
 			HMENU hMenu = Menu_GetStatusMenu();
 			g_mutex_bOnTrayRightClick = 1;
@@ -169,9 +169,9 @@ INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 		{
 			HWND h1 = (HWND)msg->lParam;
 			HWND h2 = h1 ? GetParent(h1) : nullptr;
-			if (db_get_b(0, "CList", "AutoHide", SETTING_AUTOHIDE_DEFAULT)) {
+			if (g_plugin.getByte("AutoHide", SETTING_AUTOHIDE_DEFAULT)) {
 				if (LOWORD(msg->wParam) == WA_INACTIVE && h2 != g_clistApi.hwndContactList)
-					autoHideTimerId = CLUI_SafeSetTimer(nullptr, 0, 1000 * db_get_w(0, "CList", "HideTime", SETTING_HIDETIME_DEFAULT), TrayIconAutoHideTimer);
+					autoHideTimerId = CLUI_SafeSetTimer(nullptr, 0, 1000 * g_plugin.getWord("HideTime", SETTING_HIDETIME_DEFAULT), TrayIconAutoHideTimer);
 				else {
 					KillTimer(nullptr, autoHideTimerId);
 					autoHideTimerId = 0;
@@ -216,47 +216,47 @@ VOID CALLBACK cliTrayCycleTimerProc(HWND, UINT, UINT_PTR, DWORD)
 
 void SettingsMigrate(void)
 {
-	BYTE TrayIcon = db_get_b(0, "CList", "TrayIcon", 0);
-	BYTE AlwaysPrimary = db_get_b(0, "CList", "AlwaysPrimary", 0);
-	BYTE AlwaysMulti = db_get_b(0, "CList", "AlwaysMulti", 0);
-	ptrA PrimaryStatus(db_get_sa(0, "CList", "PrimaryStatus"));
+	BYTE TrayIcon = g_plugin.getByte("TrayIcon");
+	BYTE AlwaysPrimary = g_plugin.getByte("AlwaysPrimary");
+	BYTE AlwaysMulti = g_plugin.getByte("AlwaysMulti");
+	ptrA PrimaryStatus(g_plugin.getStringA("PrimaryStatus"));
 
 	// these strings must always be set
 	if (PrimaryStatus) {
-		db_set_s(0, "CList", "tiAccS", PrimaryStatus);
-		db_set_s(0, "CList", "tiAccV", PrimaryStatus);
+		g_plugin.setString("tiAccS", PrimaryStatus);
+		g_plugin.setString("tiAccV", PrimaryStatus);
 	}
 	else {
-		db_set_s(0, "CList", "tiAccS", "");
-		db_set_s(0, "CList", "tiAccV", "");
+		g_plugin.setString("tiAccS", "");
+		g_plugin.setString("tiAccV", "");
 	}
 
 	switch (TrayIcon) {
 	case 0: // global or single acc
 		if (AlwaysPrimary) {
 			if (!PrimaryStatus) { // global always
-				db_set_b(0, "CList", "tiModeS", TRAY_ICON_MODE_GLOBAL);
-				db_set_b(0, "CList", "tiModeV", TRAY_ICON_MODE_GLOBAL);
+				g_plugin.setByte("tiModeS", TRAY_ICON_MODE_GLOBAL);
+				g_plugin.setByte("tiModeV", TRAY_ICON_MODE_GLOBAL);
 			}
 			else { // single acc always
-				db_set_b(0, "CList", "tiModeS", TRAY_ICON_MODE_ACC);
-				db_set_b(0, "CList", "tiModeV", TRAY_ICON_MODE_ACC);
+				g_plugin.setByte("tiModeS", TRAY_ICON_MODE_ACC);
+				g_plugin.setByte("tiModeV", TRAY_ICON_MODE_ACC);
 			}
 		}
 		else {
-			db_set_b(0, "CList", "tiModeS", TRAY_ICON_MODE_GLOBAL);
-			db_set_b(0, "CList", "tiModeV", (PrimaryStatus) ? TRAY_ICON_MODE_ACC : TRAY_ICON_MODE_GLOBAL);
+			g_plugin.setByte("tiModeS", TRAY_ICON_MODE_GLOBAL);
+			g_plugin.setByte("tiModeV", (PrimaryStatus) ? TRAY_ICON_MODE_ACC : TRAY_ICON_MODE_GLOBAL);
 		}
 		break;
 
 	case 1: // cycle
-		db_set_b(0, "CList", "tiModeS", TRAY_ICON_MODE_CYCLE);
-		db_set_b(0, "CList", "tiModeV", TRAY_ICON_MODE_CYCLE);
+		g_plugin.setByte("tiModeS", TRAY_ICON_MODE_CYCLE);
+		g_plugin.setByte("tiModeV", TRAY_ICON_MODE_CYCLE);
 		break;
 
 	case 2: // multiple
-		db_set_b(0, "CList", "tiModeS", (AlwaysMulti) ? TRAY_ICON_MODE_ALL : TRAY_ICON_MODE_GLOBAL);
-		db_set_b(0, "CList", "tiModeV", TRAY_ICON_MODE_ALL);
+		g_plugin.setByte("tiModeS", (AlwaysMulti) ? TRAY_ICON_MODE_ALL : TRAY_ICON_MODE_GLOBAL);
+		g_plugin.setByte("tiModeV", TRAY_ICON_MODE_ALL);
 		break;
 	}
 }
@@ -303,7 +303,7 @@ int cliTrayIconInit(HWND hwnd)
 	}
 
 	// Присутствуют ли в базе новые настройки? Если да, то обновление не нужно.
-	if (-1 == db_get_b(0, "CList", "tiModeS", -1))
+	if (-1 == g_plugin.getByte("tiModeS", -1))
 		SettingsMigrate();
 
 	// Нужно узнать количество годных аккаунтов и неодинаковость их статусов.
@@ -320,9 +320,9 @@ int cliTrayIconInit(HWND hwnd)
 
 	BYTE Mode;
 	if (!bDiffers)  // all equal
-		OldMode = Mode = db_get_b(0, "CList", "tiModeS", TRAY_ICON_MODE_GLOBAL);
+		OldMode = Mode = g_plugin.getByte("tiModeS", TRAY_ICON_MODE_GLOBAL);
 	else
-		OldMode = Mode = db_get_b(0, "CList", "tiModeV", TRAY_ICON_MODE_GLOBAL);
+		OldMode = Mode = g_plugin.getByte("tiModeV", TRAY_ICON_MODE_GLOBAL);
 
 	// Некоторые режимы всегда показывают единственную иконку.
 	if (Mode < 8)
@@ -338,7 +338,7 @@ int cliTrayIconInit(HWND hwnd)
 
 	case TRAY_ICON_MODE_ACC:
 		{
-			ptrA szProto(db_get_sa(0, "CList", (!bDiffers) ? "tiAccS" : "tiAccV"));
+			ptrA szProto(g_plugin.getStringA((!bDiffers) ? "tiAccS" : "tiAccV"));
 			if (!szProto)
 				break;
 
@@ -356,7 +356,7 @@ int cliTrayIconInit(HWND hwnd)
 		cliTrayCycleTimerProc(nullptr, 0, 0, 0); // force icon update
 		
 		// Не сохраняем ID таймера в pcli, чтобы fnTrayIconUpdateBase не убивала его.
-		TimerID = CLUI_SafeSetTimer(nullptr, 0, db_get_w(0, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT) * 1000, cliTrayCycleTimerProc);
+		TimerID = CLUI_SafeSetTimer(nullptr, 0, g_plugin.getWord("CycleTime", SETTING_CYCLETIME_DEFAULT) * 1000, cliTrayCycleTimerProc);
 		break;
 
 	case TRAY_ICON_MODE_ALL:
@@ -384,7 +384,7 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 	GetGoodAccNum(&bDiffers, &bConn);
 
 	// if the icon number to be changed, reinitialize module from scratch
-	BYTE Mode = db_get_b(0, "CList", (!bDiffers) ? "tiModeS" : "tiModeV", TRAY_ICON_MODE_GLOBAL);
+	BYTE Mode = g_plugin.getByte((!bDiffers) ? "tiModeS" : "tiModeV", TRAY_ICON_MODE_GLOBAL);
 	if (Mode != OldMode) {
 		OldMode = Mode;
 		Clist_TrayIconIconsChanged();
@@ -402,7 +402,7 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 	case TRAY_ICON_MODE_ACC:
 		// В этом режиме показывается иконка совершенно определённого аккаунта, и не всегда это szChangedProto.
 		{
-			ptrA szProto(db_get_sa(0, "CList", bDiffers ? "tiAccV" : "tiAccS"));
+			ptrA szProto(g_plugin.getStringA(bDiffers ? "tiAccV" : "tiAccS"));
 			if (szProto == nullptr)
 				break;
 

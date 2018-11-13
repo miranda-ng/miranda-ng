@@ -31,15 +31,15 @@ static INT_PTR CALLBACK DlgProcItemRowOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		TranslateDialogDefault(hwndDlg);
 		SendDlgItemMessage(hwndDlg, IDC_MIN_ROW_HEIGHT_SPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_MIN_ROW_HEIGHT), 0); // set buddy
 		SendDlgItemMessage(hwndDlg, IDC_MIN_ROW_HEIGHT_SPIN, UDM_SETRANGE, 0, MAKELONG(255, 0));
-		SendDlgItemMessage(hwndDlg, IDC_MIN_ROW_HEIGHT_SPIN, UDM_SETPOS, 0, MAKELONG(db_get_w(0, "CList", "MinRowHeight", CLCDEFAULT_ROWHEIGHT), 0));
+		SendDlgItemMessage(hwndDlg, IDC_MIN_ROW_HEIGHT_SPIN, UDM_SETPOS, 0, MAKELONG(g_plugin.getWord("MinRowHeight", CLCDEFAULT_ROWHEIGHT), 0));
 
 		SendDlgItemMessage(hwndDlg, IDC_ROW_BORDER_SPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_ROW_BORDER), 0); // set buddy
 		SendDlgItemMessage(hwndDlg, IDC_ROW_BORDER_SPIN, UDM_SETRANGE, 0, MAKELONG(255, 0));
-		SendDlgItemMessage(hwndDlg, IDC_ROW_BORDER_SPIN, UDM_SETPOS, 0, MAKELONG(db_get_w(0, "CList", "RowBorder", SETTING_ROWBORDER_DEFAULT), 0));
+		SendDlgItemMessage(hwndDlg, IDC_ROW_BORDER_SPIN, UDM_SETPOS, 0, MAKELONG(g_plugin.getWord("RowBorder", SETTING_ROWBORDER_DEFAULT), 0));
 
-		CheckDlgButton(hwndDlg, IDC_VARIABLE_ROW_HEIGHT, db_get_b(0, "CList", "VariableRowHeight", SETTING_VARIABLEROWHEIGHT_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_ALIGN_TO_LEFT, db_get_b(0, "CList", "AlignLeftItemsToLeft", SETTING_ALIGNLEFTTOLEFT_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_ALIGN_TO_RIGHT, db_get_b(0, "CList", "AlignRightItemsToRight", SETTING_ALIGNRIGHTORIGHT_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_VARIABLE_ROW_HEIGHT, g_plugin.getByte("VariableRowHeight", SETTING_VARIABLEROWHEIGHT_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ALIGN_TO_LEFT, g_plugin.getByte("AlignLeftItemsToLeft", SETTING_ALIGNLEFTTOLEFT_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ALIGN_TO_RIGHT, g_plugin.getByte("AlignRightItemsToRight", SETTING_ALIGNRIGHTORIGHT_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
 
 		CheckDlgButton(hwndDlg, IDC_MINIMODE, db_get_b(0, "CLC", "CompactMode", SETTING_COMPACTMODE_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
 
@@ -60,7 +60,7 @@ static INT_PTR CALLBACK DlgProcItemRowOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				int pos = 0;
 
 				mir_snprintf(tmp, "RowPos%d", i);
-				type = db_get_w(0, "CList", tmp, i);
+				type = g_plugin.getWord(tmp, i);
 
 				switch (type) {
 				case ITEM_AVATAR:
@@ -192,11 +192,11 @@ static INT_PTR CALLBACK DlgProcItemRowOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				db_set_w(0, "CList", "MinRowHeight", (WORD)SendDlgItemMessage(hwndDlg, IDC_MIN_ROW_HEIGHT_SPIN, UDM_GETPOS, 0, 0));
-				db_set_w(0, "CList", "RowBorder", (WORD)SendDlgItemMessage(hwndDlg, IDC_ROW_BORDER_SPIN, UDM_GETPOS, 0, 0));
-				db_set_b(0, "CList", "VariableRowHeight", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_VARIABLE_ROW_HEIGHT));
-				db_set_b(0, "CList", "AlignLeftItemsToLeft", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ALIGN_TO_LEFT));
-				db_set_b(0, "CList", "AlignRightItemsToRight", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ALIGN_TO_RIGHT));
+				g_plugin.setWord("MinRowHeight", (WORD)SendDlgItemMessage(hwndDlg, IDC_MIN_ROW_HEIGHT_SPIN, UDM_GETPOS, 0, 0));
+				g_plugin.setWord("RowBorder", (WORD)SendDlgItemMessage(hwndDlg, IDC_ROW_BORDER_SPIN, UDM_GETPOS, 0, 0));
+				g_plugin.setByte("VariableRowHeight", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_VARIABLE_ROW_HEIGHT));
+				g_plugin.setByte("AlignLeftItemsToLeft", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ALIGN_TO_LEFT));
+				g_plugin.setByte("AlignRightItemsToRight", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ALIGN_TO_RIGHT));
 				db_set_b(0, "CLC", "CompactMode", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MINIMODE));
 				db_set_b(0, "CLC", "LeftMargin", (BYTE)SendDlgItemMessage(hwndDlg, IDC_LEFTMARGINSPIN, UDM_GETPOS, 0, 0));
 				db_set_b(0, "CLC", "RightMargin", (BYTE)SendDlgItemMessage(hwndDlg, IDC_RIGHTMARGINSPIN, UDM_GETPOS, 0, 0));
@@ -205,7 +205,7 @@ static INT_PTR CALLBACK DlgProcItemRowOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 					for (int i = 0; i < NUM_ITEM_TYPE; i++) {
 						char tmp[128];
 						mir_snprintf(tmp, "RowPos%d", i);
-						db_set_w(0, "CList", tmp, (WORD)SendMessage(hwndList, LB_GETITEMDATA, i, 0));
+						g_plugin.setWord(tmp, (WORD)SendMessage(hwndList, LB_GETITEMDATA, i, 0));
 					}
 				}
 
@@ -224,16 +224,16 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_SHOW_AVATARS, db_get_b(0, "CList", "AvatarsShow", SETTINGS_SHOWAVATARS_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SHOW_ANIAVATARS, db_get_b(0, "CList", "AvatarsAnimated", BST_CHECKED));
-		CheckDlgButton(hwndDlg, IDC_AVATAR_FASTDRAW, db_get_b(0, "CList", "AvatarsInSeparateWnd", SETTINGS_AVATARINSEPARATE_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_AVATAR_DRAW_BORDER, db_get_b(0, "CList", "AvatarsDrawBorders", SETTINGS_AVATARDRAWBORDER_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_AVATAR_ROUND_CORNERS, db_get_b(0, "CList", "AvatarsRoundCorners", SETTINGS_AVATARROUNDCORNERS_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK, db_get_b(0, "CList", "AvatarsUseCustomCornerSize", SETTINGS_AVATARUSECUTOMCORNERSIZE_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_AVATAR_IGNORE_SIZE, db_get_b(0, "CList", "AvatarsIgnoreSizeForRow", SETTINGS_AVATARIGNORESIZEFORROW_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_AVATAR_OVERLAY_ICONS, db_get_b(0, "CList", "AvatarsDrawOverlay", SETTINGS_AVATARDRAWOVERLAY_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOW_AVATARS, g_plugin.getByte("AvatarsShow", SETTINGS_SHOWAVATARS_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOW_ANIAVATARS, g_plugin.getByte("AvatarsAnimated", BST_CHECKED));
+		CheckDlgButton(hwndDlg, IDC_AVATAR_FASTDRAW, g_plugin.getByte("AvatarsInSeparateWnd", SETTINGS_AVATARINSEPARATE_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_AVATAR_DRAW_BORDER, g_plugin.getByte("AvatarsDrawBorders", SETTINGS_AVATARDRAWBORDER_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_AVATAR_ROUND_CORNERS, g_plugin.getByte("AvatarsRoundCorners", SETTINGS_AVATARROUNDCORNERS_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK, g_plugin.getByte("AvatarsUseCustomCornerSize", SETTINGS_AVATARUSECUTOMCORNERSIZE_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_AVATAR_IGNORE_SIZE, g_plugin.getByte("AvatarsIgnoreSizeForRow", SETTINGS_AVATARIGNORESIZEFORROW_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_AVATAR_OVERLAY_ICONS, g_plugin.getByte("AvatarsDrawOverlay", SETTINGS_AVATARDRAWOVERLAY_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
 
-		switch (db_get_b(0, "CList", "AvatarsOverlayType", SETTINGS_AVATAROVERLAYTYPE_DEFAULT)) {
+		switch (g_plugin.getByte("AvatarsOverlayType", SETTINGS_AVATAROVERLAYTYPE_DEFAULT)) {
 		case SETTING_AVATAR_OVERLAY_TYPE_NORMAL:
 			CheckDlgButton(hwndDlg, IDC_AVATAR_OVERLAY_ICON_NORMAL, BST_CHECKED);
 			break;
@@ -247,17 +247,17 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 
 		SendDlgItemMessage(hwndDlg, IDC_AVATAR_SIZE_SPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_AVATAR_SIZE), 0); // set buddy
 		SendDlgItemMessage(hwndDlg, IDC_AVATAR_SIZE_SPIN, UDM_SETRANGE, 0, MAKELONG(255, 1));
-		SendDlgItemMessage(hwndDlg, IDC_AVATAR_SIZE_SPIN, UDM_SETPOS, 0, MAKELONG(db_get_w(0, "CList", "AvatarsSize", SETTING_AVATARHEIGHT_DEFAULT), 0));
+		SendDlgItemMessage(hwndDlg, IDC_AVATAR_SIZE_SPIN, UDM_SETPOS, 0, MAKELONG(g_plugin.getWord("AvatarsSize", SETTING_AVATARHEIGHT_DEFAULT), 0));
 
 		SendDlgItemMessage(hwndDlg, IDC_AVATAR_WIDTH_SPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_AVATAR_WIDTH), 0); // set buddy
 		SendDlgItemMessage(hwndDlg, IDC_AVATAR_WIDTH_SPIN, UDM_SETRANGE, 0, MAKELONG(255, 0));
-		SendDlgItemMessage(hwndDlg, IDC_AVATAR_WIDTH_SPIN, UDM_SETPOS, 0, MAKELONG(db_get_w(0, "CList", "AvatarsWidth", SETTING_AVATARWIDTH_DEFAULT), 0));
+		SendDlgItemMessage(hwndDlg, IDC_AVATAR_WIDTH_SPIN, UDM_SETPOS, 0, MAKELONG(g_plugin.getWord("AvatarsWidth", SETTING_AVATARWIDTH_DEFAULT), 0));
 
 		SendDlgItemMessage(hwndDlg, IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_AVATAR_CUSTOM_CORNER_SIZE), 0); // set buddy
 		SendDlgItemMessage(hwndDlg, IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN, UDM_SETRANGE, 0, MAKELONG(255, 1));
-		SendDlgItemMessage(hwndDlg, IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN, UDM_SETPOS, 0, MAKELONG(db_get_w(0, "CList", "AvatarsCustomCornerSize", SETTINGS_AVATARCORNERSIZE_DEFAULT), 0));
+		SendDlgItemMessage(hwndDlg, IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN, UDM_SETPOS, 0, MAKELONG(g_plugin.getWord("AvatarsCustomCornerSize", SETTINGS_AVATARCORNERSIZE_DEFAULT), 0));
 
-		SendDlgItemMessage(hwndDlg, IDC_AVATAR_BORDER_COLOR, CPM_SETCOLOUR, 0, (COLORREF)db_get_dw(0, "CList", "AvatarsBorderColor", SETTINGS_AVATARBORDERCOLOR_DEFAULT));
+		SendDlgItemMessage(hwndDlg, IDC_AVATAR_BORDER_COLOR, CPM_SETCOLOUR, 0, (COLORREF)g_plugin.getDword("AvatarsBorderColor", SETTINGS_AVATARBORDERCOLOR_DEFAULT));
 
 		if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_SHOW_AVATARS)) {
 			EnableWindow(GetDlgItem(hwndDlg, IDC_AVATAR_DRAW_BORDER), FALSE);
@@ -375,26 +375,26 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				db_set_b(0, "CList", "AvatarsShow", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOW_AVATARS));
-				db_set_b(0, "CList", "AvatarsAnimated", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOW_ANIAVATARS));
-				db_set_b(0, "CList", "AvatarsInSeparateWnd", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AVATAR_FASTDRAW));
+				g_plugin.setByte("AvatarsShow", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOW_AVATARS));
+				g_plugin.setByte("AvatarsAnimated", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOW_ANIAVATARS));
+				g_plugin.setByte("AvatarsInSeparateWnd", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AVATAR_FASTDRAW));
 
-				db_set_b(0, "CList", "AvatarsDrawBorders", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AVATAR_DRAW_BORDER));
-				db_set_dw(0, "CList", "AvatarsBorderColor", (DWORD)SendDlgItemMessage(hwndDlg, IDC_AVATAR_BORDER_COLOR, CPM_GETCOLOUR, 0, 0));
-				db_set_b(0, "CList", "AvatarsRoundCorners", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AVATAR_ROUND_CORNERS));
-				db_set_b(0, "CList", "AvatarsIgnoreSizeForRow", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AVATAR_IGNORE_SIZE));
-				db_set_b(0, "CList", "AvatarsUseCustomCornerSize", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK));
-				db_set_w(0, "CList", "AvatarsCustomCornerSize", (WORD)SendDlgItemMessage(hwndDlg, IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN, UDM_GETPOS, 0, 0));
-				db_set_b(0, "CList", "AvatarsDrawOverlay", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AVATAR_OVERLAY_ICONS));
-				db_set_w(0, "CList", "AvatarsSize", (WORD)SendDlgItemMessage(hwndDlg, IDC_AVATAR_SIZE_SPIN, UDM_GETPOS, 0, 0));
-				db_set_w(0, "CList", "AvatarsWidth", (WORD)SendDlgItemMessage(hwndDlg, IDC_AVATAR_WIDTH_SPIN, UDM_GETPOS, 0, 0));
+				g_plugin.setByte("AvatarsDrawBorders", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AVATAR_DRAW_BORDER));
+				g_plugin.setDword("AvatarsBorderColor", (DWORD)SendDlgItemMessage(hwndDlg, IDC_AVATAR_BORDER_COLOR, CPM_GETCOLOUR, 0, 0));
+				g_plugin.setByte("AvatarsRoundCorners", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AVATAR_ROUND_CORNERS));
+				g_plugin.setByte("AvatarsIgnoreSizeForRow", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AVATAR_IGNORE_SIZE));
+				g_plugin.setByte("AvatarsUseCustomCornerSize", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK));
+				g_plugin.setWord("AvatarsCustomCornerSize", (WORD)SendDlgItemMessage(hwndDlg, IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN, UDM_GETPOS, 0, 0));
+				g_plugin.setByte("AvatarsDrawOverlay", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AVATAR_OVERLAY_ICONS));
+				g_plugin.setWord("AvatarsSize", (WORD)SendDlgItemMessage(hwndDlg, IDC_AVATAR_SIZE_SPIN, UDM_GETPOS, 0, 0));
+				g_plugin.setWord("AvatarsWidth", (WORD)SendDlgItemMessage(hwndDlg, IDC_AVATAR_WIDTH_SPIN, UDM_GETPOS, 0, 0));
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_AVATAR_OVERLAY_ICON_NORMAL))
-					db_set_b(0, "CList", "AvatarsOverlayType", SETTING_AVATAR_OVERLAY_TYPE_NORMAL);
+					g_plugin.setByte("AvatarsOverlayType", SETTING_AVATAR_OVERLAY_TYPE_NORMAL);
 				else if (IsDlgButtonChecked(hwndDlg, IDC_AVATAR_OVERLAY_ICON_PROTOCOL))
-					db_set_b(0, "CList", "AvatarsOverlayType", SETTING_AVATAR_OVERLAY_TYPE_PROTOCOL);
+					g_plugin.setByte("AvatarsOverlayType", SETTING_AVATAR_OVERLAY_TYPE_PROTOCOL);
 				else if (IsDlgButtonChecked(hwndDlg, IDC_AVATAR_OVERLAY_ICON_CONTACT))
-					db_set_b(0, "CList", "AvatarsOverlayType", SETTING_AVATAR_OVERLAY_TYPE_CONTACT);
+					g_plugin.setByte("AvatarsOverlayType", SETTING_AVATAR_OVERLAY_TYPE_CONTACT);
 				ClcOptionsChanged();
 				AniAva_UpdateOptions();
 				return TRUE;
@@ -413,12 +413,12 @@ static INT_PTR CALLBACK DlgProcItemIconOpts(HWND hwndDlg, UINT msg, WPARAM wPara
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_HIDE_ICON_ON_AVATAR, db_get_b(0, "CList", "IconHideOnAvatar", SETTING_HIDEICONONAVATAR_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_DRAW_ON_AVATAR_SPACE, db_get_b(0, "CList", "IconDrawOnAvatarSpace", SETTING_ICONONAVATARPLACE_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_ICONBLINK, db_get_b(0, "CList", "NoIconBlink", SETTING_NOICONBLINF_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_HIDE_GROUPSICON, db_get_b(0, "CList", "HideGroupsIcon", SETTING_HIDEGROUPSICON_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_NOTCHECKICONSIZE, db_get_b(0, "CList", "IconIgnoreSizeForRownHeight", SETTING_ICONIGNORESIZE_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_ALWAYS_VISIBLEICON, db_get_b(0, "CList", "AlwaysShowAlwaysVisIcon", SETTING_ALWAYSVISICON_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_HIDE_ICON_ON_AVATAR, g_plugin.getByte("IconHideOnAvatar", SETTING_HIDEICONONAVATAR_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DRAW_ON_AVATAR_SPACE, g_plugin.getByte("IconDrawOnAvatarSpace", SETTING_ICONONAVATARPLACE_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ICONBLINK, g_plugin.getByte("NoIconBlink", SETTING_NOICONBLINF_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_HIDE_GROUPSICON, g_plugin.getByte("HideGroupsIcon", SETTING_HIDEGROUPSICON_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_NOTCHECKICONSIZE, g_plugin.getByte("IconIgnoreSizeForRownHeight", SETTING_ICONIGNORESIZE_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ALWAYS_VISIBLEICON, g_plugin.getByte("AlwaysShowAlwaysVisIcon", SETTING_ALWAYSVISICON_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_USEXSTATUS, (db_get_b(0, "CLC", "DrawOverlayedStatus", SETTING_DRAWOVERLAYEDSTATUS_DEFAULT) & 1) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_DRAWSTATUSOVERLAY, (db_get_b(0, "CLC", "DrawOverlayedStatus", SETTING_DRAWOVERLAYEDSTATUS_DEFAULT) & 2) ? BST_CHECKED : BST_UNCHECKED);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_DRAWSTATUSOVERLAY), IsDlgButtonChecked(hwndDlg, IDC_USEXSTATUS));
@@ -445,12 +445,12 @@ static INT_PTR CALLBACK DlgProcItemIconOpts(HWND hwndDlg, UINT msg, WPARAM wPara
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				db_set_b(0, "CList", "IconHideOnAvatar", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_HIDE_ICON_ON_AVATAR));
-				db_set_b(0, "CList", "IconDrawOnAvatarSpace", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DRAW_ON_AVATAR_SPACE));
-				db_set_b(0, "CList", "HideGroupsIcon", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_HIDE_GROUPSICON));
-				db_set_b(0, "CList", "NoIconBlink", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ICONBLINK));
-				db_set_b(0, "CList", "IconIgnoreSizeForRownHeight", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NOTCHECKICONSIZE));
-				db_set_b(0, "CList", "AlwaysShowAlwaysVisIcon", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ALWAYS_VISIBLEICON));
+				g_plugin.setByte("IconHideOnAvatar", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_HIDE_ICON_ON_AVATAR));
+				g_plugin.setByte("IconDrawOnAvatarSpace", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DRAW_ON_AVATAR_SPACE));
+				g_plugin.setByte("HideGroupsIcon", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_HIDE_GROUPSICON));
+				g_plugin.setByte("NoIconBlink", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ICONBLINK));
+				g_plugin.setByte("IconIgnoreSizeForRownHeight", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NOTCHECKICONSIZE));
+				g_plugin.setByte("AlwaysShowAlwaysVisIcon", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ALWAYS_VISIBLEICON));
 				{
 					BYTE ovr = IsDlgButtonChecked(hwndDlg, IDC_USEXSTATUS) ? 1 : 0;
 					if (ovr) ovr += IsDlgButtonChecked(hwndDlg, IDC_DRAWSTATUSOVERLAY) ? 2 : 0;
@@ -472,8 +472,8 @@ static INT_PTR CALLBACK DlgProcItemContactTimeOpts(HWND hwndDlg, UINT msg, WPARA
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_SHOW, db_get_b(0, "CList", "ContactTimeShow", SETTING_SHOWTIME_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SHOW_ONLY_IF_DIFFERENT, db_get_b(0, "CList", "ContactTimeShowOnlyIfDifferent", SETTING_SHOWTIMEIFDIFF_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOW, g_plugin.getByte("ContactTimeShow", SETTING_SHOWTIME_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOW_ONLY_IF_DIFFERENT, g_plugin.getByte("ContactTimeShowOnlyIfDifferent", SETTING_SHOWTIMEIFDIFF_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
 		break;
 
 	case WM_COMMAND:
@@ -485,8 +485,8 @@ static INT_PTR CALLBACK DlgProcItemContactTimeOpts(HWND hwndDlg, UINT msg, WPARA
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				db_set_b(0, "CList", "ContactTimeShow", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOW));
-				db_set_b(0, "CList", "ContactTimeShowOnlyIfDifferent", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOW_ONLY_IF_DIFFERENT));
+				g_plugin.setByte("ContactTimeShow", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOW));
+				g_plugin.setByte("ContactTimeShowOnlyIfDifferent", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOW_ONLY_IF_DIFFERENT));
 				ClcOptionsChanged();
 				return TRUE;
 			}
@@ -504,24 +504,23 @@ static INT_PTR CALLBACK DlgProcItemTextOpts(HWND hwndDlg, UINT msg, WPARAM wPara
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_RTL, db_get_b(0, "CList", "TextRTL", SETTING_TEXT_RTL_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		//TODO: init IDC_ALIGNGROUPCOMBO from db_get_b(0,"CList","AlignGroupCaptions",SETTING_ALIGNGROPCAPTION_DEFAULT);
+		CheckDlgButton(hwndDlg, IDC_RTL, g_plugin.getByte("TextRTL", SETTING_TEXT_RTL_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
 		{
 			int item;
 			wchar_t *align[] = { LPGENW("Left align group names"), LPGENW("Center group names"), LPGENW("Right align group names") };
 			for (int i = 0; i < sizeof(align) / sizeof(char*); i++)
 				item = SendDlgItemMessage(hwndDlg, IDC_ALIGNGROUPCOMBO, CB_ADDSTRING, 0, (LPARAM)TranslateW(align[i]));
-			SendDlgItemMessage(hwndDlg, IDC_ALIGNGROUPCOMBO, CB_SETCURSEL, db_get_b(0, "CList", "AlignGroupCaptions", SETTING_ALIGNGROPCAPTION_DEFAULT), 0);
+			SendDlgItemMessage(hwndDlg, IDC_ALIGNGROUPCOMBO, CB_SETCURSEL, g_plugin.getByte("AlignGroupCaptions", SETTING_ALIGNGROPCAPTION_DEFAULT), 0);
 		}
-		CheckDlgButton(hwndDlg, IDC_ALIGN_RIGHT, db_get_b(0, "CList", "TextAlignToRight", SETTING_TEXT_RIGHTALIGN_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_REPLACE_SMILEYS, db_get_b(0, "CList", "TextReplaceSmileys", SETTING_TEXT_SMILEY_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_RESIZE_SMILEYS, db_get_b(0, "CList", "TextResizeSmileys", SETTING_TEXT_RESIZESMILEY_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_USE_PROTOCOL_SMILEYS, db_get_b(0, "CList", "TextUseProtocolSmileys", SETTING_TEXT_PROTOSMILEY_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_IGNORE_SIZE, db_get_b(0, "CList", "TextIgnoreSizeForRownHeight", SETTING_TEXT_IGNORESIZE_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ALIGN_RIGHT, g_plugin.getByte("TextAlignToRight", SETTING_TEXT_RIGHTALIGN_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_REPLACE_SMILEYS, g_plugin.getByte("TextReplaceSmileys", SETTING_TEXT_SMILEY_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_RESIZE_SMILEYS, g_plugin.getByte("TextResizeSmileys", SETTING_TEXT_RESIZESMILEY_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_USE_PROTOCOL_SMILEYS, g_plugin.getByte("TextUseProtocolSmileys", SETTING_TEXT_PROTOSMILEY_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_IGNORE_SIZE, g_plugin.getByte("TextIgnoreSizeForRownHeight", SETTING_TEXT_IGNORESIZE_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
 
-		CheckDlgButton(hwndDlg, IDC_DRAW_SMILEYS_ON_FIRST_LINE, db_get_b(0, "CList", "FirstLineDrawSmileys", SETTING_FIRSTLINE_SMILEYS_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_APPEND_NICK, db_get_b(0, "CList", "FirstLineAppendNick", SETTING_FIRSTLINE_APPENDNICK_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_TRIM_TEXT, db_get_b(0, "CList", "TrimText", SETTING_FIRSTLINE_TRIMTEXT_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DRAW_SMILEYS_ON_FIRST_LINE, g_plugin.getByte("FirstLineDrawSmileys", SETTING_FIRSTLINE_SMILEYS_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_APPEND_NICK, g_plugin.getByte("FirstLineAppendNick", SETTING_FIRSTLINE_APPENDNICK_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_TRIM_TEXT, g_plugin.getByte("TrimText", SETTING_FIRSTLINE_TRIMTEXT_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
 		{
 			bool smileAddPresent = ServiceExists(MS_SMILEYADD_BATCHPARSE) != 0;
 			CLUI_ShowWindowMod(GetDlgItem(hwndDlg, IDC_REPLACE_SMILEYS), smileAddPresent ? SW_SHOW : SW_HIDE);
@@ -550,17 +549,16 @@ static INT_PTR CALLBACK DlgProcItemTextOpts(HWND hwndDlg, UINT msg, WPARAM wPara
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				db_set_b(0, "CList", "TextRTL", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_RTL));
-				//TODO: Store IDC_ALIGNGROUPCOMBO at db_get_b(0,"CList","AlignGroupCaptions",SETTING_ALIGNGROPCAPTION_DEFAULT);
-				db_set_b(0, "CList", "AlignGroupCaptions", (BYTE)SendDlgItemMessage(hwndDlg, IDC_ALIGNGROUPCOMBO, CB_GETCURSEL, 0, 0));
-				db_set_b(0, "CList", "TextAlignToRight", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ALIGN_RIGHT));
-				db_set_b(0, "CList", "TextReplaceSmileys", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_REPLACE_SMILEYS));
-				db_set_b(0, "CList", "TextResizeSmileys", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_RESIZE_SMILEYS));
-				db_set_b(0, "CList", "TextUseProtocolSmileys", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_USE_PROTOCOL_SMILEYS));
-				db_set_b(0, "CList", "TextIgnoreSizeForRownHeight", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IGNORE_SIZE));
-				db_set_b(0, "CList", "FirstLineDrawSmileys", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DRAW_SMILEYS_ON_FIRST_LINE));
-				db_set_b(0, "CList", "FirstLineAppendNick", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_APPEND_NICK));
-				db_set_b(0, "CList", "TrimText", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_TRIM_TEXT));
+				g_plugin.setByte("TextRTL", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_RTL));
+				g_plugin.setByte("AlignGroupCaptions", (BYTE)SendDlgItemMessage(hwndDlg, IDC_ALIGNGROUPCOMBO, CB_GETCURSEL, 0, 0));
+				g_plugin.setByte("TextAlignToRight", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ALIGN_RIGHT));
+				g_plugin.setByte("TextReplaceSmileys", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_REPLACE_SMILEYS));
+				g_plugin.setByte("TextResizeSmileys", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_RESIZE_SMILEYS));
+				g_plugin.setByte("TextUseProtocolSmileys", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_USE_PROTOCOL_SMILEYS));
+				g_plugin.setByte("TextIgnoreSizeForRownHeight", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IGNORE_SIZE));
+				g_plugin.setByte("FirstLineDrawSmileys", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DRAW_SMILEYS_ON_FIRST_LINE));
+				g_plugin.setByte("FirstLineAppendNick", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_APPEND_NICK));
+				g_plugin.setByte("TrimText", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_TRIM_TEXT));
 				ClcOptionsChanged();
 				return TRUE;
 			}
@@ -576,21 +574,21 @@ static INT_PTR CALLBACK DlgProcItemSecondLineOpts(HWND hwndDlg, UINT msg, WPARAM
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_SHOW, db_get_b(0, "CList", "SecondLineShow", SETTING_SECONDLINE_SHOW_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOW, g_plugin.getByte("SecondLineShow", SETTING_SECONDLINE_SHOW_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
 
 		SendDlgItemMessage(hwndDlg, IDC_TOP_SPACE_SPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_TOP_SPACE), 0); // set buddy
 		SendDlgItemMessage(hwndDlg, IDC_TOP_SPACE_SPIN, UDM_SETRANGE, 0, MAKELONG(255, 0));
-		SendDlgItemMessage(hwndDlg, IDC_TOP_SPACE_SPIN, UDM_SETPOS, 0, MAKELONG(db_get_w(0, "CList", "SecondLineTopSpace", SETTING_SECONDLINE_TOPSPACE_DEFAULT), 0));
+		SendDlgItemMessage(hwndDlg, IDC_TOP_SPACE_SPIN, UDM_SETPOS, 0, MAKELONG(g_plugin.getWord("SecondLineTopSpace", SETTING_SECONDLINE_TOPSPACE_DEFAULT), 0));
 
-		CheckDlgButton(hwndDlg, IDC_DRAW_SMILEYS, db_get_b(0, "CList", "SecondLineDrawSmileys", SETTING_SECONDLINE_SMILEYS_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DRAW_SMILEYS, g_plugin.getByte("SecondLineDrawSmileys", SETTING_SECONDLINE_SMILEYS_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
 		{
-			ptrW tszText(db_get_wsa(0, "CList", "SecondLineText"));
+			ptrW tszText(g_plugin.getWStringA("SecondLineText"));
 			if (tszText)
 				SetDlgItemText(hwndDlg, IDC_VARIABLE_TEXT, tszText);
 		}
 		SendDlgItemMessage(hwndDlg, IDC_VARIABLE_TEXT, EM_SETLIMITTEXT, TEXT_TEXT_MAX_LENGTH, 0);
 		{
-			int radio = db_get_w(0, "CList", "SecondLineType", TEXT_STATUS_MESSAGE);
+			int radio = g_plugin.getWord("SecondLineType", TEXT_STATUS_MESSAGE);
 			CheckDlgButton(hwndDlg, IDC_STATUS, radio == TEXT_STATUS ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_NICKNAME, radio == TEXT_NICKNAME ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_STATUS_MESSAGE, radio == TEXT_STATUS_MESSAGE ? BST_CHECKED : BST_UNCHECKED);
@@ -598,10 +596,10 @@ static INT_PTR CALLBACK DlgProcItemSecondLineOpts(HWND hwndDlg, UINT msg, WPARAM
 			CheckDlgButton(hwndDlg, IDC_CONTACT_TIME, radio == TEXT_CONTACT_TIME ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_TEXT, radio == TEXT_TEXT ? BST_CHECKED : BST_UNCHECKED);
 		}
-		CheckDlgButton(hwndDlg, IDC_XSTATUS_HAS_PRIORITY, db_get_b(0, "CList", "SecondLineXStatusHasPriority", SETTING_SECONDLINE_XSTATUS_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SHOW_STATUS_IF_NOAWAY, db_get_b(0, "CList", "SecondLineShowStatusIfNoAway", SETTING_SECONDLINE_STATUSIFNOAWAY_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SHOW_LISTENING_IF_NOAWAY, db_get_b(0, "CList", "SecondLineShowListeningIfNoAway", SETTING_SECONDLINE_LISTENINGIFNOAWAY_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_USE_NAME_AND_MESSAGE, db_get_b(0, "CList", "SecondLineUseNameAndMessageForXStatus", SETTING_SECONDLINE_XSTATUSNAMETEXT_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_XSTATUS_HAS_PRIORITY, g_plugin.getByte("SecondLineXStatusHasPriority", SETTING_SECONDLINE_XSTATUS_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOW_STATUS_IF_NOAWAY, g_plugin.getByte("SecondLineShowStatusIfNoAway", SETTING_SECONDLINE_STATUSIFNOAWAY_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOW_LISTENING_IF_NOAWAY, g_plugin.getByte("SecondLineShowListeningIfNoAway", SETTING_SECONDLINE_LISTENINGIFNOAWAY_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_USE_NAME_AND_MESSAGE, g_plugin.getByte("SecondLineUseNameAndMessageForXStatus", SETTING_SECONDLINE_XSTATUSNAMETEXT_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
 
 		if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_SHOW)) {
 			EnableWindow(GetDlgItem(hwndDlg, IDC_USE_PROTOCOL_SMILEYS), FALSE);
@@ -697,9 +695,9 @@ static INT_PTR CALLBACK DlgProcItemSecondLineOpts(HWND hwndDlg, UINT msg, WPARAM
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				db_set_b(0, "CList", "SecondLineShow", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOW));
-				db_set_w(0, "CList", "SecondLineTopSpace", (WORD)SendDlgItemMessage(hwndDlg, IDC_TOP_SPACE_SPIN, UDM_GETPOS, 0, 0));
-				db_set_b(0, "CList", "SecondLineDrawSmileys", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DRAW_SMILEYS));
+				g_plugin.setByte("SecondLineShow", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOW));
+				g_plugin.setWord("SecondLineTopSpace", (WORD)SendDlgItemMessage(hwndDlg, IDC_TOP_SPACE_SPIN, UDM_GETPOS, 0, 0));
+				g_plugin.setByte("SecondLineDrawSmileys", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DRAW_SMILEYS));
 
 				int radio;
 				if (IsDlgButtonChecked(hwndDlg, IDC_STATUS))
@@ -714,17 +712,17 @@ static INT_PTR CALLBACK DlgProcItemSecondLineOpts(HWND hwndDlg, UINT msg, WPARAM
 					radio = TEXT_LISTENING_TO;
 				else
 					radio = TEXT_STATUS_MESSAGE;
-				db_set_w(0, "CList", "SecondLineType", (WORD)radio);
+				g_plugin.setWord("SecondLineType", (WORD)radio);
 
 				wchar_t t[TEXT_TEXT_MAX_LENGTH];
 				GetDlgItemText(hwndDlg, IDC_VARIABLE_TEXT, t, _countof(t));
 				t[TEXT_TEXT_MAX_LENGTH - 1] = '\0';
-				db_set_ws(0, "CList", "SecondLineText", t);
+				g_plugin.setWString("SecondLineText", t);
 
-				db_set_b(0, "CList", "SecondLineXStatusHasPriority", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_XSTATUS_HAS_PRIORITY));
-				db_set_b(0, "CList", "SecondLineShowStatusIfNoAway", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOW_STATUS_IF_NOAWAY));
-				db_set_b(0, "CList", "SecondLineShowListeningIfNoAway", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOW_LISTENING_IF_NOAWAY));
-				db_set_b(0, "CList", "SecondLineUseNameAndMessageForXStatus", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_USE_NAME_AND_MESSAGE));
+				g_plugin.setByte("SecondLineXStatusHasPriority", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_XSTATUS_HAS_PRIORITY));
+				g_plugin.setByte("SecondLineShowStatusIfNoAway", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOW_STATUS_IF_NOAWAY));
+				g_plugin.setByte("SecondLineShowListeningIfNoAway", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOW_LISTENING_IF_NOAWAY));
+				g_plugin.setByte("SecondLineUseNameAndMessageForXStatus", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_USE_NAME_AND_MESSAGE));
 				ClcOptionsChanged();
 				return TRUE;
 			}
@@ -741,23 +739,23 @@ static INT_PTR CALLBACK DlgProcItemThirdLineOpts(HWND hwndDlg, UINT msg, WPARAM 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_SHOW, db_get_b(0, "CList", "ThirdLineShow", SETTING_THIRDLINE_SHOW_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOW, g_plugin.getByte("ThirdLineShow", SETTING_THIRDLINE_SHOW_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
 
 		SendDlgItemMessage(hwndDlg, IDC_TOP_SPACE_SPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_TOP_SPACE), 0); // set buddy
 		SendDlgItemMessage(hwndDlg, IDC_TOP_SPACE_SPIN, UDM_SETRANGE, 0, MAKELONG(255, 0));
-		SendDlgItemMessage(hwndDlg, IDC_TOP_SPACE_SPIN, UDM_SETPOS, 0, MAKELONG(db_get_w(0, "CList", "ThirdLineTopSpace", SETTING_THIRDLINE_TOPSPACE_DEFAULT), 0));
+		SendDlgItemMessage(hwndDlg, IDC_TOP_SPACE_SPIN, UDM_SETPOS, 0, MAKELONG(g_plugin.getWord("ThirdLineTopSpace", SETTING_THIRDLINE_TOPSPACE_DEFAULT), 0));
 
-		CheckDlgButton(hwndDlg, IDC_DRAW_SMILEYS, db_get_b(0, "CList", "ThirdLineDrawSmileys", SETTING_THIRDLINE_SMILEYS_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DRAW_SMILEYS, g_plugin.getByte("ThirdLineDrawSmileys", SETTING_THIRDLINE_SMILEYS_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
 		{
 			DBVARIANT dbv;
-			if (!db_get_ws(0, "CList", "ThirdLineText", &dbv)) {
+			if (!g_plugin.getWString("ThirdLineText", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_VARIABLE_TEXT, dbv.pwszVal);
 				db_free(&dbv);
 			}
 		}
 		SendDlgItemMessage(hwndDlg, IDC_VARIABLE_TEXT, EM_SETLIMITTEXT, TEXT_TEXT_MAX_LENGTH, 0);
 		{
-			int radio = db_get_w(0, "CList", "ThirdLineType", SETTING_THIRDLINE_TYPE_DEFAULT);
+			int radio = g_plugin.getWord("ThirdLineType", SETTING_THIRDLINE_TYPE_DEFAULT);
 			CheckDlgButton(hwndDlg, IDC_STATUS, radio == TEXT_STATUS ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_NICKNAME, radio == TEXT_NICKNAME ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_STATUS_MESSAGE, radio == TEXT_STATUS_MESSAGE ? BST_CHECKED : BST_UNCHECKED);
@@ -766,10 +764,10 @@ static INT_PTR CALLBACK DlgProcItemThirdLineOpts(HWND hwndDlg, UINT msg, WPARAM 
 			CheckDlgButton(hwndDlg, IDC_TEXT, radio == TEXT_TEXT ? BST_CHECKED : BST_UNCHECKED);
 		}
 
-		CheckDlgButton(hwndDlg, IDC_XSTATUS_HAS_PRIORITY, db_get_b(0, "CList", "ThirdLineXStatusHasPriority", SETTING_THIRDLINE_XSTATUS_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SHOW_STATUS_IF_NOAWAY, db_get_b(0, "CList", "ThirdLineShowStatusIfNoAway", SETTING_THIRDLINE_STATUSIFNOAWAY_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SHOW_LISTENING_IF_NOAWAY, db_get_b(0, "CList", "ThirdLineShowListeningIfNoAway", SETTING_THIRDLINE_LISTENINGIFNOAWAY_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_USE_NAME_AND_MESSAGE, db_get_b(0, "CList", "ThirdLineUseNameAndMessageForXStatus", SETTING_THIRDLINE_XSTATUSNAMETEXT_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_XSTATUS_HAS_PRIORITY, g_plugin.getByte("ThirdLineXStatusHasPriority", SETTING_THIRDLINE_XSTATUS_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOW_STATUS_IF_NOAWAY, g_plugin.getByte("ThirdLineShowStatusIfNoAway", SETTING_THIRDLINE_STATUSIFNOAWAY_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOW_LISTENING_IF_NOAWAY, g_plugin.getByte("ThirdLineShowListeningIfNoAway", SETTING_THIRDLINE_LISTENINGIFNOAWAY_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_USE_NAME_AND_MESSAGE, g_plugin.getByte("ThirdLineUseNameAndMessageForXStatus", SETTING_THIRDLINE_XSTATUSNAMETEXT_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
 
 		if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_SHOW)) {
 			EnableWindow(GetDlgItem(hwndDlg, IDC_USE_PROTOCOL_SMILEYS), FALSE);
@@ -862,9 +860,9 @@ static INT_PTR CALLBACK DlgProcItemThirdLineOpts(HWND hwndDlg, UINT msg, WPARAM 
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				db_set_b(0, "CList", "ThirdLineShow", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOW));
-				db_set_w(0, "CList", "ThirdLineTopSpace", (WORD)SendDlgItemMessage(hwndDlg, IDC_TOP_SPACE_SPIN, UDM_GETPOS, 0, 0));
-				db_set_b(0, "CList", "ThirdLineDrawSmileys", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DRAW_SMILEYS));
+				g_plugin.setByte("ThirdLineShow", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOW));
+				g_plugin.setWord("ThirdLineTopSpace", (WORD)SendDlgItemMessage(hwndDlg, IDC_TOP_SPACE_SPIN, UDM_GETPOS, 0, 0));
+				g_plugin.setByte("ThirdLineDrawSmileys", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DRAW_SMILEYS));
 				{
 					int radio;
 					if (IsDlgButtonChecked(hwndDlg, IDC_STATUS))
@@ -879,7 +877,7 @@ static INT_PTR CALLBACK DlgProcItemThirdLineOpts(HWND hwndDlg, UINT msg, WPARAM 
 						radio = TEXT_LISTENING_TO;
 					else
 						radio = TEXT_STATUS_MESSAGE;
-					db_set_w(0, "CList", "ThirdLineType", (WORD)radio);
+					g_plugin.setWord("ThirdLineType", (WORD)radio);
 				}
 				{
 					wchar_t t[TEXT_TEXT_MAX_LENGTH];
@@ -887,13 +885,13 @@ static INT_PTR CALLBACK DlgProcItemThirdLineOpts(HWND hwndDlg, UINT msg, WPARAM 
 					GetDlgItemText(hwndDlg, IDC_VARIABLE_TEXT, t, _countof(t));
 					t[TEXT_TEXT_MAX_LENGTH - 1] = '\0';
 
-					db_set_ws(0, "CList", "ThirdLineText", t);
+					g_plugin.setWString("ThirdLineText", t);
 				}
 
-				db_set_b(0, "CList", "ThirdLineXStatusHasPriority", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_XSTATUS_HAS_PRIORITY));
-				db_set_b(0, "CList", "ThirdLineUseNameAndMessageForXStatus", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_USE_NAME_AND_MESSAGE));
-				db_set_b(0, "CList", "ThirdLineShowStatusIfNoAway", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOW_STATUS_IF_NOAWAY));
-				db_set_b(0, "CList", "ThirdLineShowListeningIfNoAway", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOW_LISTENING_IF_NOAWAY));
+				g_plugin.setByte("ThirdLineXStatusHasPriority", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_XSTATUS_HAS_PRIORITY));
+				g_plugin.setByte("ThirdLineUseNameAndMessageForXStatus", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_USE_NAME_AND_MESSAGE));
+				g_plugin.setByte("ThirdLineShowStatusIfNoAway", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOW_STATUS_IF_NOAWAY));
+				g_plugin.setByte("ThirdLineShowListeningIfNoAway", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOW_LISTENING_IF_NOAWAY));
 				ClcOptionsChanged();
 				return TRUE;
 			}

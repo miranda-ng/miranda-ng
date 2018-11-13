@@ -85,8 +85,8 @@ void Modern_InitButtons()
 		BTNS[i].hButton = g_plugin.addTTB(&tbb);
 	}
 
-	SetButtonPressed(3, db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT));
-	SetButtonPressed(6, db_get_b(0, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT));
+	SetButtonPressed(3, g_plugin.getByte("HideOffline", SETTING_HIDEOFFLINE_DEFAULT));
+	SetButtonPressed(6, g_plugin.getByte("UseGroups", SETTING_USEGROUPS_DEFAULT));
 	SetButtonPressed(7, db_get_b(0, "Skin", "UseSound", SETTING_ENABLESOUNDS_DEFAULT));
 }
 

@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 {
-	cont->bSubExpanded = db_get_b(cont->hContact, "CList", "Expanded", 0) && db_get_b(0, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT);
+	cont->bSubExpanded = g_plugin.getByte(cont->hContact, "Expanded") && db_get_b(0, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT);
 	int subcount = db_mc_getSubCount(cont->hContact);
 	if (subcount <= 0) {
 		cont->iSubNumber = 0;
@@ -40,7 +40,7 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 	cont->subcontacts = (ClcContact *)mir_calloc(sizeof(ClcContact)*subcount);
 	cont->iSubAllocated = subcount;
 	int i = 0;
-	int bHideOffline = db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
+	int bHideOffline = g_plugin.getByte("HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
 	for (int j = 0; j < subcount; j++) {
 		MCONTACT hsub = db_mc_getSub(cont->hContact, j);
 		if (hsub == -1)
@@ -162,7 +162,7 @@ static void _LoadDataToContact(ClcContact *cont, ClcCacheEntry *pdnce, ClcGroup 
 	Cache_GetText(dat, cont);
 	Cache_GetTimezone(dat, cont->hContact);
 	cont->iImage = Clist_GetContactIcon(hContact);
-	cont->bContactRate = db_get_b(hContact, "CList", "Rate", 0);
+	cont->bContactRate = g_plugin.getByte(hContact, "Rate");
 }
 
 ClcContact* cli_AddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact)
@@ -255,7 +255,7 @@ void cliRebuildEntireList(HWND hwnd, ClcData *dat)
 	dat->selection = -1;
 	dat->bNeedsResort = true;
 	dat->HiLightMode = db_get_b(0, "CLC", "HiLightMode", SETTING_HILIGHTMODE_DEFAULT);
-	dat->bPlaceOfflineToRoot = db_get_b(0, "CList", "PlaceOfflineToRoot", SETTING_PLACEOFFLINETOROOT_DEFAULT) != 0;
+	dat->bPlaceOfflineToRoot = g_plugin.getByte("PlaceOfflineToRoot", SETTING_PLACEOFFLINETOROOT_DEFAULT) != 0;
 
 	corecli.pfnRebuildEntireList(hwnd, dat);
 
@@ -326,13 +326,13 @@ ClcCacheEntry* cliCreateCacheItem(MCONTACT hContact)
 
 	pdnce->hContact = hContact;
 	pdnce->szProto = GetContactProto(hContact);
-	pdnce->bIsHidden = db_get_b(hContact, "CList", "Hidden", 0);
+	pdnce->bIsHidden = g_plugin.getByte(hContact, "Hidden");
 	pdnce->m_bIsSub = db_mc_isSub(hContact) != 0;
-	pdnce->m_bNoHiddenOffline = db_get_b(hContact, "CList", "noOffline", 0);
+	pdnce->m_bNoHiddenOffline = g_plugin.getByte(hContact, "noOffline");
 	pdnce->IdleTS = db_get_dw(hContact, pdnce->szProto, "IdleTS", 0);
 	pdnce->ApparentMode = db_get_w(hContact, pdnce->szProto, "ApparentMode", 0);
-	pdnce->NotOnList = db_get_b(hContact, "CList", "NotOnList", 0);
-	pdnce->IsExpanded = db_get_b(hContact, "CList", "Expanded", 0);
+	pdnce->NotOnList = g_plugin.getByte(hContact, "NotOnList");
+	pdnce->IsExpanded = g_plugin.getByte(hContact, "Expanded");
 	pdnce->dwLastMsgTime = -1;
 	return pdnce;
 }
@@ -395,7 +395,7 @@ int cliGetGroupContentsCount(ClcGroup *group, int visibleOnly)
 
 int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat)
 {
-	int dbHidden = db_get_b(hContact, "CList", "Hidden", 0);		// default hidden state, always respect it.
+	int dbHidden = g_plugin.getByte(hContact, "Hidden"); // default hidden state, always respect it.
 	int filterResult = 1;
 	int searchResult = 0;
 	ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
@@ -436,7 +436,7 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat)
 		}
 
 		if (g_CluiData.bFilterEffective & CLVM_FILTER_GROUPS) {
-			ptrW tszGroup(db_get_wsa(hContact, "CList", "Group"));
+			ptrW tszGroup(g_plugin.getWStringA(hContact, "Group"));
 			if (tszGroup != nullptr) {
 				wchar_t szGroupMask[256];
 				mir_snwprintf(szGroupMask, L"%s|", tszGroup);

@@ -354,7 +354,7 @@ int GetStatusMessage(wchar_t *text, int text_size, ClcCacheEntry *pdnce, BOOL xs
 
 	// Get StatusMsg
 	if (pdnce->hContact && text[0] == '\0') {
-		ptrW tszStatusMsg(db_get_wsa(pdnce->hContact, "CList", "StatusMsg"));
+		ptrW tszStatusMsg(g_plugin.getWStringA(pdnce->hContact, "StatusMsg"));
 		if (tszStatusMsg != nullptr) {
 			CopySkipUnprintableChars(text, tszStatusMsg, text_size - 1);
 			if (text[0] != '\0')
@@ -716,7 +716,7 @@ void Cache_GetAvatar(ClcData *dat, ClcContact *contact)
 		return;
 	}
 
-	if (dat->avatars_show && !db_get_b(contact->hContact, "CList", "HideContactAvatar", 0)) {
+	if (dat->avatars_show && !g_plugin.getByte(contact->hContact, "HideContactAvatar", 0)) {
 		contact->avatar_data = (AVATARCACHEENTRY*)CallService(MS_AV_GETAVATARBITMAP, contact->hContact, 0);
 		if (contact->avatar_data == nullptr || contact->avatar_data->dwFlags == AVS_BITMAP_EXPIRED)
 			contact->avatar_data = nullptr;

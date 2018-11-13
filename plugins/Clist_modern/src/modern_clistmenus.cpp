@@ -57,7 +57,7 @@ static IconItem iconList[] =
 
 static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 {
-	BYTE bContactRate = db_get_b(hContact, "CList", "Rate", 0);
+	BYTE bContactRate = g_plugin.getByte(hContact, "Rate");
 	if (bContactRate > _countof(rates) - 1)
 		bContactRate = _countof(rates) - 1;
 
@@ -71,14 +71,14 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 	for (int i = 0; i < _countof(rates); i++)
 		Menu_SetChecked(hFavoriteContactMenuItems[i], bContactRate == i);
 
-	Menu_SetChecked(hShowIfOflineItem, db_get_b(hContact, "CList", "noOffline", 0) != 0);
+	Menu_SetChecked(hShowIfOflineItem, g_plugin.getByte(hContact, "noOffline") != 0);
 	return 0;
 }
 
 INT_PTR FAV_SetRate(WPARAM hContact, LPARAM nRate)
 {
 	if (hContact)
-		db_set_b(hContact, "CList", "Rate", (BYTE)nRate);
+		g_plugin.setByte(hContact, "Rate", (BYTE)nRate);
 
 	return 0;
 }
@@ -86,7 +86,7 @@ INT_PTR FAV_SetRate(WPARAM hContact, LPARAM nRate)
 INT_PTR FAV_ToggleShowOffline(WPARAM hContact, LPARAM)
 {
 	if (hContact)
-		db_set_b(hContact, "CList", "noOffline", !db_get_b(hContact, "CList", "noOffline", 0));
+		g_plugin.setByte(hContact, "noOffline", !g_plugin.getByte(hContact, "noOffline"));
 
 	return 0;
 }

@@ -459,29 +459,29 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 
 	LoadCLCFonts(hwnd, dat);
 
-	g_CluiData.bSortByOrder[0] = db_get_b(0, "CList", "SortBy1", SETTING_SORTBY1_DEFAULT);
-	g_CluiData.bSortByOrder[1] = db_get_b(0, "CList", "SortBy2", SETTING_SORTBY2_DEFAULT);
-	g_CluiData.bSortByOrder[2] = db_get_b(0, "CList", "SortBy3", SETTING_SORTBY3_DEFAULT);
-	g_CluiData.fSortNoOfflineBottom = db_get_b(0, "CList", "NoOfflineBottom", SETTING_NOOFFLINEBOTTOM_DEFAULT) != 0;
+	g_CluiData.bSortByOrder[0] = g_plugin.getByte("SortBy1", SETTING_SORTBY1_DEFAULT);
+	g_CluiData.bSortByOrder[1] = g_plugin.getByte("SortBy2", SETTING_SORTBY2_DEFAULT);
+	g_CluiData.bSortByOrder[2] = g_plugin.getByte("SortBy3", SETTING_SORTBY3_DEFAULT);
+	g_CluiData.fSortNoOfflineBottom = g_plugin.getByte("NoOfflineBottom", SETTING_NOOFFLINEBOTTOM_DEFAULT) != 0;
 
 	// Row
-	dat->row_min_heigh = db_get_w(0, "CList", "MinRowHeight", CLCDEFAULT_ROWHEIGHT);
-	dat->row_border = db_get_w(0, "CList", "RowBorder", SETTING_ROWBORDER_DEFAULT);
+	dat->row_min_heigh = g_plugin.getWord("MinRowHeight", CLCDEFAULT_ROWHEIGHT);
+	dat->row_border = g_plugin.getWord("RowBorder", SETTING_ROWBORDER_DEFAULT);
 	dat->row_before_group_space = ((hwnd != g_clistApi.hwndContactTree && g_clistApi.hwndContactTree != nullptr)
 		|| !db_get_b(0, "ModernData", "UseAdvancedRowLayout", SETTING_ROW_ADVANCEDLAYOUT_DEFAULT)) ? 0 : db_get_w(0, "ModernSkin", "SpaceBeforeGroup", SKIN_SPACEBEFOREGROUP_DEFAULT);
-	dat->row_variable_height = db_get_b(0, "CList", "VariableRowHeight", SETTING_VARIABLEROWHEIGHT_DEFAULT);
-	dat->row_align_left_items_to_left = db_get_b(0, "CList", "AlignLeftItemsToLeft", SETTING_ALIGNLEFTTOLEFT_DEFAULT);
-	dat->row_hide_group_icon = db_get_b(0, "CList", "HideGroupsIcon", SETTING_HIDEGROUPSICON_DEFAULT);
-	dat->row_align_right_items_to_right = db_get_b(0, "CList", "AlignRightItemsToRight", SETTING_ALIGNRIGHTORIGHT_DEFAULT);
+	dat->row_variable_height = g_plugin.getByte("VariableRowHeight", SETTING_VARIABLEROWHEIGHT_DEFAULT);
+	dat->row_align_left_items_to_left = g_plugin.getByte("AlignLeftItemsToLeft", SETTING_ALIGNLEFTTOLEFT_DEFAULT);
+	dat->row_hide_group_icon = g_plugin.getByte("HideGroupsIcon", SETTING_HIDEGROUPSICON_DEFAULT);
+	dat->row_align_right_items_to_right = g_plugin.getByte("AlignRightItemsToRight", SETTING_ALIGNRIGHTORIGHT_DEFAULT);
 	//TODO: Add to settings
-	dat->row_align_group_mode = db_get_b(0, "CList", "AlignGroupCaptions", SETTING_ALIGNGROPCAPTION_DEFAULT);
+	dat->row_align_group_mode = g_plugin.getByte("AlignGroupCaptions", SETTING_ALIGNGROPCAPTION_DEFAULT);
 	if (g_clistApi.hwndContactTree == nullptr || dat->hWnd == g_clistApi.hwndContactTree) {
 
 		int defItemsOrder[NUM_ITEM_TYPE] = SETTINS_ROWITEMORDER_DEFAULT;
 		for (int i = 0; i < NUM_ITEM_TYPE; i++) {
 			char tmp[128];
 			mir_snprintf(tmp, "RowPos%d", i);
-			dat->row_items[i] = db_get_w(0, "CList", tmp, defItemsOrder[i]);
+			dat->row_items[i] = g_plugin.getWord(tmp, defItemsOrder[i]);
 		}
 	}
 	else {
@@ -492,17 +492,17 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 
 	// Avatar
 	if (g_clistApi.hwndContactTree == hwnd || g_clistApi.hwndContactTree == nullptr) {
-		dat->avatars_show = ServiceExists(MS_AV_GETAVATARBITMAP) && db_get_b(0, "CList", "AvatarsShow", SETTINGS_SHOWAVATARS_DEFAULT);
-		dat->avatars_draw_border = db_get_b(0, "CList", "AvatarsDrawBorders", SETTINGS_AVATARDRAWBORDER_DEFAULT);
-		dat->avatars_border_color = (COLORREF)db_get_dw(0, "CList", "AvatarsBorderColor", SETTINGS_AVATARBORDERCOLOR_DEFAULT);
-		dat->avatars_round_corners = db_get_b(0, "CList", "AvatarsRoundCorners", SETTINGS_AVATARROUNDCORNERS_DEFAULT);
-		dat->avatars_use_custom_corner_size = db_get_b(0, "CList", "AvatarsUseCustomCornerSize", SETTINGS_AVATARUSECUTOMCORNERSIZE_DEFAULT);
-		dat->avatars_custom_corner_size = db_get_w(0, "CList", "AvatarsCustomCornerSize", SETTINGS_AVATARCORNERSIZE_DEFAULT);
-		dat->avatars_ignore_size_for_row_height = db_get_b(0, "CList", "AvatarsIgnoreSizeForRow", SETTINGS_AVATARIGNORESIZEFORROW_DEFAULT);
-		dat->avatars_draw_overlay = db_get_b(0, "CList", "AvatarsDrawOverlay", SETTINGS_AVATARDRAWOVERLAY_DEFAULT);
-		dat->avatars_overlay_type = db_get_b(0, "CList", "AvatarsOverlayType", SETTINGS_AVATAROVERLAYTYPE_DEFAULT);
-		dat->avatars_maxheight_size = db_get_w(0, "CList", "AvatarsSize", SETTING_AVATARHEIGHT_DEFAULT);
-		dat->avatars_maxwidth_size = db_get_w(0, "CList", "AvatarsWidth", SETTING_AVATARWIDTH_DEFAULT);
+		dat->avatars_show = ServiceExists(MS_AV_GETAVATARBITMAP) && g_plugin.getByte("AvatarsShow", SETTINGS_SHOWAVATARS_DEFAULT);
+		dat->avatars_draw_border = g_plugin.getByte("AvatarsDrawBorders", SETTINGS_AVATARDRAWBORDER_DEFAULT);
+		dat->avatars_border_color = (COLORREF)g_plugin.getDword("AvatarsBorderColor", SETTINGS_AVATARBORDERCOLOR_DEFAULT);
+		dat->avatars_round_corners = g_plugin.getByte("AvatarsRoundCorners", SETTINGS_AVATARROUNDCORNERS_DEFAULT);
+		dat->avatars_use_custom_corner_size = g_plugin.getByte("AvatarsUseCustomCornerSize", SETTINGS_AVATARUSECUTOMCORNERSIZE_DEFAULT);
+		dat->avatars_custom_corner_size = g_plugin.getWord("AvatarsCustomCornerSize", SETTINGS_AVATARCORNERSIZE_DEFAULT);
+		dat->avatars_ignore_size_for_row_height = g_plugin.getByte("AvatarsIgnoreSizeForRow", SETTINGS_AVATARIGNORESIZEFORROW_DEFAULT);
+		dat->avatars_draw_overlay = g_plugin.getByte("AvatarsDrawOverlay", SETTINGS_AVATARDRAWOVERLAY_DEFAULT);
+		dat->avatars_overlay_type = g_plugin.getByte("AvatarsOverlayType", SETTINGS_AVATAROVERLAYTYPE_DEFAULT);
+		dat->avatars_maxheight_size = g_plugin.getWord("AvatarsSize", SETTING_AVATARHEIGHT_DEFAULT);
+		dat->avatars_maxwidth_size = g_plugin.getWord("AvatarsWidth", SETTING_AVATARWIDTH_DEFAULT);
 	}
 	else {
 		dat->avatars_show = 0;
@@ -520,9 +520,9 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 
 	// Icon
 	if (g_clistApi.hwndContactTree == hwnd || g_clistApi.hwndContactTree == nullptr) {
-		dat->icon_hide_on_avatar = db_get_b(0, "CList", "IconHideOnAvatar", SETTING_HIDEICONONAVATAR_DEFAULT);
-		dat->icon_draw_on_avatar_space = db_get_b(0, "CList", "IconDrawOnAvatarSpace", SETTING_ICONONAVATARPLACE_DEFAULT);
-		dat->icon_ignore_size_for_row_height = db_get_b(0, "CList", "IconIgnoreSizeForRownHeight", SETTING_ICONIGNORESIZE_DEFAULT);
+		dat->icon_hide_on_avatar = g_plugin.getByte("IconHideOnAvatar", SETTING_HIDEICONONAVATAR_DEFAULT);
+		dat->icon_draw_on_avatar_space = g_plugin.getByte("IconDrawOnAvatarSpace", SETTING_ICONONAVATARPLACE_DEFAULT);
+		dat->icon_ignore_size_for_row_height = g_plugin.getByte("IconIgnoreSizeForRownHeight", SETTING_ICONIGNORESIZE_DEFAULT);
 	}
 	else {
 		dat->icon_hide_on_avatar = 0;
@@ -532,8 +532,8 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 
 	// Contact time
 	if (g_clistApi.hwndContactTree == hwnd || g_clistApi.hwndContactTree == nullptr) {
-		dat->contact_time_show = db_get_b(0, "CList", "ContactTimeShow", SETTING_SHOWTIME_DEFAULT);
-		dat->contact_time_show_only_if_different = db_get_b(0, "CList", "ContactTimeShowOnlyIfDifferent", SETTING_SHOWTIMEIFDIFF_DEFAULT);
+		dat->contact_time_show = g_plugin.getByte("ContactTimeShow", SETTING_SHOWTIME_DEFAULT);
+		dat->contact_time_show_only_if_different = g_plugin.getByte("ContactTimeShowOnlyIfDifferent", SETTING_SHOWTIMEIFDIFF_DEFAULT);
 	}
 	else {
 		dat->contact_time_show = 0;
@@ -541,60 +541,60 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 	}
 
 	// Text
-	dat->text_rtl = db_get_b(0, "CList", "TextRTL", SETTING_TEXT_RTL_DEFAULT);
-	dat->text_align_right = db_get_b(0, "CList", "TextAlignToRight", SETTING_TEXT_RIGHTALIGN_DEFAULT);
-	dat->text_replace_smileys = db_get_b(0, "CList", "TextReplaceSmileys", SETTING_TEXT_SMILEY_DEFAULT);
-	dat->text_resize_smileys = db_get_b(0, "CList", "TextResizeSmileys", SETTING_TEXT_RESIZESMILEY_DEFAULT);
+	dat->text_rtl = g_plugin.getByte("TextRTL", SETTING_TEXT_RTL_DEFAULT);
+	dat->text_align_right = g_plugin.getByte("TextAlignToRight", SETTING_TEXT_RIGHTALIGN_DEFAULT);
+	dat->text_replace_smileys = g_plugin.getByte("TextReplaceSmileys", SETTING_TEXT_SMILEY_DEFAULT);
+	dat->text_resize_smileys = g_plugin.getByte("TextResizeSmileys", SETTING_TEXT_RESIZESMILEY_DEFAULT);
 	dat->text_smiley_height = 0;
-	dat->text_use_protocol_smileys = db_get_b(0, "CList", "TextUseProtocolSmileys", SETTING_TEXT_PROTOSMILEY_DEFAULT);
+	dat->text_use_protocol_smileys = g_plugin.getByte("TextUseProtocolSmileys", SETTING_TEXT_PROTOSMILEY_DEFAULT);
 
 	if (g_clistApi.hwndContactTree == hwnd || g_clistApi.hwndContactTree == nullptr)
-		dat->text_ignore_size_for_row_height = db_get_b(0, "CList", "TextIgnoreSizeForRownHeight", SETTING_TEXT_IGNORESIZE_DEFAULT);
+		dat->text_ignore_size_for_row_height = g_plugin.getByte("TextIgnoreSizeForRownHeight", SETTING_TEXT_IGNORESIZE_DEFAULT);
 	else
 		dat->text_ignore_size_for_row_height = 0;
 
 	// First line
-	dat->first_line_draw_smileys = db_get_b(0, "CList", "FirstLineDrawSmileys", SETTING_FIRSTLINE_SMILEYS_DEFAULT);
-	dat->first_line_append_nick = db_get_b(0, "CList", "FirstLineAppendNick", SETTING_FIRSTLINE_APPENDNICK_DEFAULT);
-	gl_TrimText = db_get_b(0, "CList", "TrimText", SETTING_FIRSTLINE_TRIMTEXT_DEFAULT);
+	dat->first_line_draw_smileys = g_plugin.getByte("FirstLineDrawSmileys", SETTING_FIRSTLINE_SMILEYS_DEFAULT);
+	dat->first_line_append_nick = g_plugin.getByte("FirstLineAppendNick", SETTING_FIRSTLINE_APPENDNICK_DEFAULT);
+	gl_TrimText = g_plugin.getByte("TrimText", SETTING_FIRSTLINE_TRIMTEXT_DEFAULT);
 
 	// Second line
 	if (g_clistApi.hwndContactTree == hwnd || g_clistApi.hwndContactTree == nullptr) {
-		dat->secondLine.show = db_get_b(0, "CList", "SecondLineShow", SETTING_SECONDLINE_SHOW_DEFAULT);
-		dat->secondLine.top_space = db_get_w(0, "CList", "SecondLineTopSpace", SETTING_SECONDLINE_TOPSPACE_DEFAULT);
-		dat->secondLine.draw_smileys = db_get_b(0, "CList", "SecondLineDrawSmileys", SETTING_SECONDLINE_SMILEYS_DEFAULT);
-		dat->secondLine.type = db_get_w(0, "CList", "SecondLineType", SETTING_SECONDLINE_TYPE_DEFAULT);
+		dat->secondLine.show = g_plugin.getByte("SecondLineShow", SETTING_SECONDLINE_SHOW_DEFAULT);
+		dat->secondLine.top_space = g_plugin.getWord("SecondLineTopSpace", SETTING_SECONDLINE_TOPSPACE_DEFAULT);
+		dat->secondLine.draw_smileys = g_plugin.getByte("SecondLineDrawSmileys", SETTING_SECONDLINE_SMILEYS_DEFAULT);
+		dat->secondLine.type = g_plugin.getWord("SecondLineType", SETTING_SECONDLINE_TYPE_DEFAULT);
 
-		ptrW tszLineText(db_get_wsa(0, "CList", "SecondLineText"));
+		ptrW tszLineText(g_plugin.getWStringA("SecondLineText"));
 		if (tszLineText)
 			wcsncpy_s(dat->secondLine.text, tszLineText, _TRUNCATE);
 		else
 			dat->secondLine.text[0] = '\0';
 
-		dat->secondLine.xstatus_has_priority = db_get_b(0, "CList", "SecondLineXStatusHasPriority", SETTING_SECONDLINE_XSTATUS_DEFAULT);
-		dat->secondLine.show_status_if_no_away = db_get_b(0, "CList", "SecondLineShowStatusIfNoAway", SETTING_SECONDLINE_STATUSIFNOAWAY_DEFAULT);
-		dat->secondLine.show_listening_if_no_away = db_get_b(0, "CList", "SecondLineShowListeningIfNoAway", SETTING_SECONDLINE_LISTENINGIFNOAWAY_DEFAULT);
-		dat->secondLine.use_name_and_message_for_xstatus = db_get_b(0, "CList", "SecondLineUseNameAndMessageForXStatus", SETTING_SECONDLINE_XSTATUSNAMETEXT_DEFAULT);
+		dat->secondLine.xstatus_has_priority = g_plugin.getByte("SecondLineXStatusHasPriority", SETTING_SECONDLINE_XSTATUS_DEFAULT);
+		dat->secondLine.show_status_if_no_away = g_plugin.getByte("SecondLineShowStatusIfNoAway", SETTING_SECONDLINE_STATUSIFNOAWAY_DEFAULT);
+		dat->secondLine.show_listening_if_no_away = g_plugin.getByte("SecondLineShowListeningIfNoAway", SETTING_SECONDLINE_LISTENINGIFNOAWAY_DEFAULT);
+		dat->secondLine.use_name_and_message_for_xstatus = g_plugin.getByte("SecondLineUseNameAndMessageForXStatus", SETTING_SECONDLINE_XSTATUSNAMETEXT_DEFAULT);
 	}
 	else memset(&dat->secondLine, 0, sizeof(dat->secondLine));
 
 	// Third line
 	if (g_clistApi.hwndContactTree == hwnd || g_clistApi.hwndContactTree == nullptr) {
-		dat->thirdLine.show = db_get_b(0, "CList", "ThirdLineShow", SETTING_THIRDLINE_SHOW_DEFAULT);
-		dat->thirdLine.top_space = db_get_w(0, "CList", "ThirdLineTopSpace", SETTING_THIRDLINE_TOPSPACE_DEFAULT);
-		dat->thirdLine.draw_smileys = db_get_b(0, "CList", "ThirdLineDrawSmileys", SETTING_THIRDLINE_SMILEYS_DEFAULT);
-		dat->thirdLine.type = db_get_w(0, "CList", "ThirdLineType", SETTING_THIRDLINE_TYPE_DEFAULT);
+		dat->thirdLine.show = g_plugin.getByte("ThirdLineShow", SETTING_THIRDLINE_SHOW_DEFAULT);
+		dat->thirdLine.top_space = g_plugin.getWord("ThirdLineTopSpace", SETTING_THIRDLINE_TOPSPACE_DEFAULT);
+		dat->thirdLine.draw_smileys = g_plugin.getByte("ThirdLineDrawSmileys", SETTING_THIRDLINE_SMILEYS_DEFAULT);
+		dat->thirdLine.type = g_plugin.getWord("ThirdLineType", SETTING_THIRDLINE_TYPE_DEFAULT);
 
-		ptrW tszLineText(db_get_wsa(0, "CList", "ThirdLineText"));
+		ptrW tszLineText(g_plugin.getWStringA("ThirdLineText"));
 		if (tszLineText)
 			wcsncpy_s(dat->thirdLine.text, tszLineText, _TRUNCATE);
 		else
 			dat->thirdLine.text[0] = '\0';
 
-		dat->thirdLine.xstatus_has_priority = db_get_b(0, "CList", "ThirdLineXStatusHasPriority", SETTING_THIRDLINE_XSTATUS_DEFAULT);
-		dat->thirdLine.show_status_if_no_away = db_get_b(0, "CList", "ThirdLineShowStatusIfNoAway", SETTING_THIRDLINE_STATUSIFNOAWAY_DEFAULT);
-		dat->thirdLine.show_listening_if_no_away = db_get_b(0, "CList", "ThirdLineShowListeningIfNoAway", SETTING_THIRDLINE_LISTENINGIFNOAWAY_DEFAULT);
-		dat->thirdLine.use_name_and_message_for_xstatus = db_get_b(0, "CList", "ThirdLineUseNameAndMessageForXStatus", SETTING_THIRDLINE_XSTATUSNAMETEXT_DEFAULT);
+		dat->thirdLine.xstatus_has_priority = g_plugin.getByte("ThirdLineXStatusHasPriority", SETTING_THIRDLINE_XSTATUS_DEFAULT);
+		dat->thirdLine.show_status_if_no_away = g_plugin.getByte("ThirdLineShowStatusIfNoAway", SETTING_THIRDLINE_STATUSIFNOAWAY_DEFAULT);
+		dat->thirdLine.show_listening_if_no_away = g_plugin.getByte("ThirdLineShowListeningIfNoAway", SETTING_THIRDLINE_LISTENINGIFNOAWAY_DEFAULT);
+		dat->thirdLine.use_name_and_message_for_xstatus = g_plugin.getByte("ThirdLineUseNameAndMessageForXStatus", SETTING_THIRDLINE_XSTATUSNAMETEXT_DEFAULT);
 	}
 	else memset(&dat->thirdLine, 0, sizeof(dat->thirdLine));
 
@@ -631,7 +631,7 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 
 	dat->bMetaExpanding = db_get_b(0, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT) != 0;
 
-	dat->bPlaceOfflineToRoot = db_get_b(0, "CList", "PlaceOfflineToRoot", SETTING_PLACEOFFLINETOROOT_DEFAULT) != 0;
+	dat->bPlaceOfflineToRoot = g_plugin.getByte("PlaceOfflineToRoot", SETTING_PLACEOFFLINETOROOT_DEFAULT) != 0;
 	dat->drawOverlayedStatus = db_get_b(0, "CLC", "DrawOverlayedStatus", SETTING_DRAWOVERLAYEDSTATUS_DEFAULT);
 
 	dat->dbbMetaHideExtra = db_get_b(0, "CLC", "MetaHideExtra", SETTING_METAHIDEEXTRA_DEFAULT);
@@ -654,7 +654,7 @@ int ExpandMetaContact(HWND hwnd, ClcContact *contact, ClcData *dat)
 		return 0;
 
 	contact->bSubExpanded = true;
-	db_set_b(contact->hContact, "CList", "Expanded", contact->bSubExpanded);
+	g_plugin.setByte(contact->hContact, "Expanded", contact->bSubExpanded);
 	dat->bNeedsResort = true;
 	g_clistApi.pfnSortCLC(hwnd, dat, 1);
 	cliRecalcScrollBar(hwnd, dat);

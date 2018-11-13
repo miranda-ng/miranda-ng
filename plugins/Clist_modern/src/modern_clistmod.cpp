@@ -189,7 +189,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 	if (IsIconic(hWnd) || !IsWindowVisible(hWnd))
 		return GWVS_HIDDEN;
 
-	if (db_get_b(0, "CList", "OnDesktop", SETTING_ONDESKTOP_DEFAULT) || !db_get_b(0, "CList", "BringToFront", SETTING_BRINGTOFRONT_DEFAULT))
+	if (g_plugin.getByte("OnDesktop", SETTING_ONDESKTOP_DEFAULT) || !g_plugin.getByte("BringToFront", SETTING_BRINGTOFRONT_DEFAULT))
 		return GWVS_VISIBLE;
 
 	HWND hwndFocused = GetFocus();
@@ -345,11 +345,11 @@ int cliShowHide(bool bAlwaysShow)
 		Sync(CLUIFrames_ActivateSubContainers, TRUE);
 		CLUI_ShowWindowMod(g_clistApi.hwndContactList, SW_RESTORE);
 
-		if (!db_get_b(0, "CList", "OnDesktop", SETTING_ONDESKTOP_DEFAULT)) {
+		if (!g_plugin.getByte("OnDesktop", SETTING_ONDESKTOP_DEFAULT)) {
 			Sync(CLUIFrames_OnShowHide, 1);	//TO BE PROXIED
 			SetWindowPos(g_clistApi.hwndContactList, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 			g_bCalledFromShowHide = 1;
-			if (!db_get_b(0, "CList", "OnTop", SETTING_ONTOP_DEFAULT))
+			if (!g_plugin.getByte("OnTop", SETTING_ONTOP_DEFAULT))
 				SetWindowPos(g_clistApi.hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 			g_bCalledFromShowHide = 0;
 		}
@@ -358,7 +358,7 @@ int cliShowHide(bool bAlwaysShow)
 			Sync(CLUIFrames_OnShowHide, 1);
 			SetForegroundWindow(g_clistApi.hwndContactList);
 		}
-		db_set_b(0, "CList", "State", SETTING_STATE_NORMAL);
+		g_plugin.setByte("State", SETTING_STATE_NORMAL);
 
 		RECT rcWindow;
 		GetWindowRect(g_clistApi.hwndContactList, &rcWindow);
@@ -369,15 +369,15 @@ int cliShowHide(bool bAlwaysShow)
 	else { // It needs to be hidden
 		if (GetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE) & WS_EX_TOOLWINDOW) {
 			CListMod_HideWindow();
-			db_set_b(0, "CList", "State", SETTING_STATE_HIDDEN);
+			g_plugin.setByte("State", SETTING_STATE_HIDDEN);
 		}
-		else if (db_get_b(0, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT)) {
+		else if (g_plugin.getByte("Min2Tray", SETTING_MIN2TRAY_DEFAULT)) {
 			CLUI_ShowWindowMod(g_clistApi.hwndContactList, SW_HIDE);
-			db_set_b(0, "CList", "State", SETTING_STATE_HIDDEN);
+			g_plugin.setByte("State", SETTING_STATE_HIDDEN);
 		}
 		else {
 			CLUI_ShowWindowMod(g_clistApi.hwndContactList, SW_MINIMIZE);
-			db_set_b(0, "CList", "State", SETTING_STATE_MINIMIZED);
+			g_plugin.setByte("State", SETTING_STATE_MINIMIZED);
 		}
 
 		SetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);

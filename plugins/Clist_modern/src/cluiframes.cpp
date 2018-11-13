@@ -175,7 +175,7 @@ int CLUIFrames_ActivateSubContainers(BOOL active)
 	for (int i = 0; i < g_nFramesCount; i++) {
 		FRAMEWND &F = g_pfwFrames[i];
 		if (active && !F.floating && F.OwnerWindow != (HWND)nullptr && F.OwnerWindow != (HWND)-2 && F.visible && !F.needhide) {
-			if (db_get_b(0, "CList", "OnDesktop", SETTING_ONDESKTOP_DEFAULT)) {
+			if (g_plugin.getByte("OnDesktop", SETTING_ONDESKTOP_DEFAULT)) {
 				SetWindowPos(F.OwnerWindow, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 				SetWindowPos(F.OwnerWindow, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 			}
@@ -218,7 +218,7 @@ int CLUIFrames_OnShowHide(int mode)
 
 		if (mode != SW_HIDE) {
 			SetWindowPos(F.OwnerWindow, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-			if (db_get_b(0, "CList", "OnDesktop", SETTING_ONDESKTOP_DEFAULT)) {
+			if (g_plugin.getByte("OnDesktop", SETTING_ONDESKTOP_DEFAULT)) {
 				SetWindowPos(F.OwnerWindow, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 				SetWindowPos(F.OwnerWindow, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 			}
@@ -2957,7 +2957,7 @@ static LRESULT CALLBACK CLUIFrameSubContainerProc(HWND hwnd, UINT msg, WPARAM wP
 			BYTE alpha;
 			if ((wParam != WA_INACTIVE || ((HWND)lParam == hwnd) || GetParent((HWND)lParam) == hwnd)) {
 				HWND hw = lParam ? GetParent((HWND)lParam) : nullptr;
-				alpha = db_get_b(0, "CList", "Alpha", SETTING_ALPHA_DEFAULT);
+				alpha = g_plugin.getByte("Alpha", SETTING_ALPHA_DEFAULT);
 				if (hw) SetWindowPos(hw, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
 				CLUI_SmoothAlphaTransition(hwnd, alpha, 1);
 			}

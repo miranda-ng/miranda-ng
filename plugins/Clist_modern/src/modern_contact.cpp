@@ -159,7 +159,7 @@ INT_PTR SetUseGroups(WPARAM wParam, LPARAM)
 		if (!newVal == (int)wParam) return 0;
 		newVal = wParam;
 	}
-	db_set_b(0, "CList", "UseGroups", (BYTE)newVal);
+	g_plugin.setByte("UseGroups", (BYTE)newVal);
 	SendMessage(g_clistApi.hwndContactTree, CLM_SETUSEGROUPS, newVal, 0);
 	return 0;
 }

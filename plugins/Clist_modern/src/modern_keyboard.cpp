@@ -34,7 +34,7 @@ INT_PTR hkCloseMiranda(WPARAM, LPARAM)
 
 INT_PTR hkRestoreStatus(WPARAM, LPARAM)
 {
-	int nStatus = db_get_w(0, "CList", "Status", ID_STATUS_OFFLINE);
+	int nStatus = g_plugin.getWord("Status", ID_STATUS_OFFLINE);
 	Clist_SetStatusMode(nStatus);
 
 	return 0;

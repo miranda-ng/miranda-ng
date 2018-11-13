@@ -160,7 +160,7 @@ static int clcHookDbEventAdded(WPARAM hContact, LPARAM lParam)
 		DBEVENTINFO dbei = {};
 		db_event_get(lParam, &dbei);
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {
-			db_set_dw(hContact, "CList", "mf_lastmsg", dbei.timestamp);
+			g_plugin.setDword(hContact, "mf_lastmsg", dbei.timestamp);
 			ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
 			if (pdnce)
 				pdnce->dwLastMsgTime = dbei.timestamp;
@@ -513,7 +513,7 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 					ClcContact *ht = nullptr;
 					KillTimer(hwnd, TIMERID_SUBEXPAND);
 					contact->bSubExpanded = false;
-					db_set_b(contact->hContact, "CList", "Expanded", 0);
+					g_plugin.setByte(contact->hContact, "Expanded", 0);
 					ht = contact;
 					dat->bNeedsResort = true;
 					g_clistApi.pfnSortCLC(hwnd, dat, 1);
@@ -528,7 +528,7 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 					ClcContact *ht = nullptr;
 					KillTimer(hwnd, TIMERID_SUBEXPAND);
 					contact->bSubExpanded = true;
-					db_set_b(contact->hContact, "CList", "Expanded", 1);
+					g_plugin.setByte(contact->hContact, "Expanded", 1);
 					ht = contact;
 					dat->bNeedsResort = true;
 					g_clistApi.pfnSortCLC(hwnd, dat, 1);
@@ -618,7 +618,7 @@ static LRESULT clcOnTimer(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			ClcContact *ht = nullptr;
 			if (hitcontact && dat->bMetaExpanding) {
 				hitcontact->bSubExpanded = !hitcontact->bSubExpanded;
-				db_set_b(hitcontact->hContact, "CList", "Expanded", hitcontact->bSubExpanded);
+				g_plugin.setByte(hitcontact->hContact, "Expanded", hitcontact->bSubExpanded);
 				if (hitcontact->bSubExpanded)
 					ht = &(hitcontact->subcontacts[hitcontact->iSubAllocated - 1]);
 			}
@@ -1306,7 +1306,7 @@ static LRESULT clcOnIntmGroupChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wPara
 		flags = contact->flags;
 	}
 	Clist_DeleteItemFromTree(hwnd, wParam);
-	if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !db_get_b(wParam, "CList", "Hidden", 0)) {
+	if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !g_plugin.getByte(wParam, "Hidden")) {
 		NMCLISTCONTROL nm;
 		g_clistApi.pfnAddContactToTree(hwnd, dat, wParam, 1, 1);
 		if (Clist_FindItem(hwnd, dat, wParam, &contact)) {
@@ -1643,9 +1643,9 @@ HRESULT ClcLoadModule()
 int ClcUnloadModule()
 {
 	if (g_CluiData.bOldUseGroups != (BYTE)-1)
-		db_set_b(0, "CList", "UseGroups", (BYTE)g_CluiData.bOldUseGroups);
+		g_plugin.setByte("UseGroups", (BYTE)g_CluiData.bOldUseGroups);
 	if (g_CluiData.boldHideOffline != (BYTE)-1)
-		db_set_b(0, "CList", "HideOffline", (BYTE)g_CluiData.boldHideOffline);
+		g_plugin.setByte("HideOffline", (BYTE)g_CluiData.boldHideOffline);
 
 	return 0;
 }
@@ -1660,7 +1660,7 @@ int ClcDoProtoAck(ACKDATA *ack)
 				if (db_get_b(ack->hContact, ack->szModule, "ChatRoom", 0) != 0)
 					return 0;
 
-			db_set_ws(ack->hContact, "CList", "StatusMsg", (const wchar_t *)ack->lParam);
+			g_plugin.setWString(ack->hContact, "StatusMsg", (const wchar_t *)ack->lParam);
 			Clist_Broadcast(INTM_STATUSCHANGED, ack->hContact, 0);
 		}
 		else {
@@ -1669,10 +1669,10 @@ int ClcDoProtoAck(ACKDATA *ack)
 					return 0;
 
 			if (ack->hContact) {
-				char *val = db_get_sa(ack->hContact, "CList", "StatusMsg");
+				char *val = g_plugin.getStringA(ack->hContact, "StatusMsg");
 				if (val) {
-					if (mir_strcmpi(val, ""))
-						db_set_s(ack->hContact, "CList", "StatusMsg", "");
+					if (mir_strcmp(val, ""))
+						g_plugin.setString(ack->hContact, "StatusMsg", "");
 					else
 						Clist_Broadcast(INTM_STATUSCHANGED, ack->hContact, 0);
 					mir_free(val);

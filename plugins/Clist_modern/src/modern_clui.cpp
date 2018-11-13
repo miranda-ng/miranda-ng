@@ -191,12 +191,12 @@ int CLUI::OnEvent_ContactMenuPreBuild(WPARAM, LPARAM)
 	MCONTACT hItem = (MCONTACT)SendMessage(hwndClist, CLM_GETSELECTION, 0, 0);
 	Menu_ShowItem(hRenameMenuItem, hItem != 0);
 
-	if (!hItem || !IsHContactContact(hItem) || !db_get_b(0, "CList", "AvatarsShow", SETTINGS_SHOWAVATARS_DEFAULT)) {
+	if (!hItem || !IsHContactContact(hItem) || !g_plugin.getByte("AvatarsShow", SETTINGS_SHOWAVATARS_DEFAULT)) {
 		Menu_ShowItem(hShowAvatarMenuItem, false);
 		Menu_ShowItem(hHideAvatarMenuItem, false);
 	}
 	else {
-		bool bHideAvatar = db_get_b(hItem, "CList", "HideContactAvatar", 0) != 0;
+		bool bHideAvatar = g_plugin.getByte(hItem, "HideContactAvatar") != 0;
 		Menu_ShowItem(hShowAvatarMenuItem, bHideAvatar);
 		Menu_ShowItem(hHideAvatarMenuItem, !bHideAvatar);
 	}
@@ -222,7 +222,7 @@ INT_PTR CLUI::Service_ShowStatusMenu(WPARAM, LPARAM)
 
 INT_PTR CLUI::Service_Menu_ShowContactAvatar(WPARAM hContact, LPARAM)
 {
-	db_set_b(hContact, "CList", "HideContactAvatar", 0);
+	g_plugin.setByte(hContact, "HideContactAvatar", 0);
 
 	Clist_Broadcast(INTM_AVATARCHANGED, hContact, 0);
 	return 0;
@@ -230,7 +230,7 @@ INT_PTR CLUI::Service_Menu_ShowContactAvatar(WPARAM hContact, LPARAM)
 
 INT_PTR CLUI::Service_Menu_HideContactAvatar(WPARAM hContact, LPARAM)
 {
-	db_set_b(hContact, "CList", "HideContactAvatar", 1);
+	g_plugin.setByte(hContact, "HideContactAvatar", 1);
 
 	Clist_Broadcast(INTM_AVATARCHANGED, hContact, 0);
 	return 0;
@@ -275,10 +275,10 @@ m_hDwmapiDll(nullptr)
 	LoadCLUIFramesModule();
 
 	g_CluiData.boldHideOffline = -1;
-	bOldHideOffline = db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
+	bOldHideOffline = g_plugin.getByte("HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
 
 	g_CluiData.bOldUseGroups = -1;
-	bOldUseGroups = db_get_b(0, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT);
+	bOldUseGroups = g_plugin.getByte("UseGroups", SETTING_USEGROUPS_DEFAULT);
 }
 
 CLUI::~CLUI()
@@ -338,9 +338,9 @@ HRESULT CLUI::CreateCLCWindow(const HWND hwndClui)
 {
 	g_clistApi.hwndContactTree = CreateWindow(CLISTCONTROL_CLASSW, L"",
 		WS_CHILD | WS_CLIPCHILDREN | CLS_CONTACTLIST
-		| (db_get_b(0, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) ? CLS_USEGROUPS : 0)
-		| (db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? CLS_HIDEOFFLINE : 0)
-		| (db_get_b(0, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) ? CLS_HIDEEMPTYGROUPS : 0
+		| (g_plugin.getByte("UseGroups", SETTING_USEGROUPS_DEFAULT) ? CLS_USEGROUPS : 0)
+		| (g_plugin.getByte("HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? CLS_HIDEOFFLINE : 0)
+		| (g_plugin.getByte("HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) ? CLS_HIDEEMPTYGROUPS : 0
 		| CLS_MULTICOLUMN),
 		0, 0, 0, 0, hwndClui, nullptr, g_plugin.getInst(), nullptr);
 
@@ -496,13 +496,13 @@ int CLUI_ShowWindowMod(HWND hWnd, int nCmd)
 		}
 
 		if (!g_mutex_bChangingMode && !g_CluiData.fLayered) { 
-			if (nCmd == SW_HIDE && db_get_b(0, "CList", "WindowShadow", SETTING_WINDOWSHADOW_DEFAULT)) {
+			if (nCmd == SW_HIDE && g_plugin.getByte("WindowShadow", SETTING_WINDOWSHADOW_DEFAULT)) {
 				ShowWindow(hWnd, SW_MINIMIZE); // removing of shadow
 				return ShowWindow(hWnd, nCmd);
 			}
 
 			if (nCmd == SW_RESTORE && g_CluiData.fSmoothAnimation && !g_bTransparentFlag) {
-				if (db_get_b(0, "CList", "WindowShadow", SETTING_WINDOWSHADOW_DEFAULT))
+				if (g_plugin.getByte("WindowShadow", SETTING_WINDOWSHADOW_DEFAULT))
 					CLUI_SmoothAlphaTransition(hWnd, 255, 1);
 				else {
 					int ret = ShowWindow(hWnd, nCmd);
@@ -600,7 +600,7 @@ void CLUI_ChangeWindowMode()
 	if (!g_clistApi.hwndContactList) return;
 
 	g_mutex_bChangingMode = TRUE;
-	g_bTransparentFlag = db_get_b(0, "CList", "Transparent", SETTING_TRANSPARENT_DEFAULT);
+	g_bTransparentFlag = g_plugin.getByte("Transparent", SETTING_TRANSPARENT_DEFAULT);
 	g_CluiData.fSmoothAnimation = db_get_b(0, "CLUI", "FadeInOut", SETTING_FADEIN_DEFAULT) != 0;
 	if (g_bTransparentFlag == 0 && g_CluiData.bCurrentAlpha != 0)
 		g_CluiData.bCurrentAlpha = 255;
@@ -609,12 +609,12 @@ void CLUI_ChangeWindowMode()
 	if (!g_CluiData.fLayered) {
 		style = 0;
 		styleEx = 0;
-		if (db_get_b(0, "CList", "ThinBorder", SETTING_THINBORDER_DEFAULT) || (db_get_b(0, "CList", "NoBorder", SETTING_NOBORDER_DEFAULT))) {
-			style = WS_CLIPCHILDREN | (db_get_b(0, "CList", "ThinBorder", SETTING_THINBORDER_DEFAULT) ? WS_BORDER : 0);
+		if (g_plugin.getByte("ThinBorder", SETTING_THINBORDER_DEFAULT) || (g_plugin.getByte("NoBorder", SETTING_NOBORDER_DEFAULT))) {
+			style = WS_CLIPCHILDREN | (g_plugin.getByte("ThinBorder", SETTING_THINBORDER_DEFAULT) ? WS_BORDER : 0);
 			styleEx = WS_EX_TOOLWINDOW;
 			styleMaskEx |= WS_EX_APPWINDOW;
 		}
-		else if (db_get_b(0, "CLUI", "ShowCaption", SETTING_SHOWCAPTION_DEFAULT) && db_get_b(0, "CList", "ToolWindow", SETTING_TOOLWINDOW_DEFAULT)) {
+		else if (db_get_b(0, "CLUI", "ShowCaption", SETTING_SHOWCAPTION_DEFAULT) && g_plugin.getByte("ToolWindow", SETTING_TOOLWINDOW_DEFAULT)) {
 			styleEx = WS_EX_TOOLWINDOW/*|WS_EX_WINDOWEDGE*/;
 			style = WS_CAPTION | WS_POPUPWINDOW | WS_CLIPCHILDREN | WS_THICKFRAME;
 			styleMaskEx |= WS_EX_APPWINDOW;
@@ -640,7 +640,7 @@ void CLUI_ChangeWindowMode()
 	// 4 - Set Title
 	wchar_t titleText[255] = { 0 };
 	DBVARIANT dbv;
-	if (db_get_ws(0, "CList", "TitleText", &dbv))
+	if (g_plugin.getWString("TitleText", &dbv))
 		wcsncpy_s(titleText, _A2W(MIRANDANAME), _TRUNCATE);
 	else {
 		wcsncpy_s(titleText, dbv.pwszVal, _TRUNCATE);
@@ -650,7 +650,7 @@ void CLUI_ChangeWindowMode()
 
 	// < ->
 	// 1 - If visible store it and hide
-	if (g_CluiData.fLayered && (db_get_b(0, "CList", "OnDesktop", SETTING_ONDESKTOP_DEFAULT))) {
+	if (g_CluiData.fLayered && (g_plugin.getByte("OnDesktop", SETTING_ONDESKTOP_DEFAULT))) {
 		SetParent(g_clistApi.hwndContactList, nullptr);
 		Sync(CLUIFrames_SetParentForContainers, (HWND)nullptr);
 		UpdateWindow(g_clistApi.hwndContactList);
@@ -681,11 +681,11 @@ void CLUI_ChangeWindowMode()
 	else
 		SetMenu(g_clistApi.hwndContactList, g_clistApi.hMenuMain);
 
-	if (g_CluiData.fLayered && (db_get_b(0, "CList", "OnDesktop", SETTING_ONDESKTOP_DEFAULT)))
+	if (g_CluiData.fLayered && (g_plugin.getByte("OnDesktop", SETTING_ONDESKTOP_DEFAULT)))
 		ske_UpdateWindowImage();
 
 	// 6 - Pin to desktop mode
-	if (db_get_b(0, "CList", "OnDesktop", SETTING_ONDESKTOP_DEFAULT)) {
+	if (g_plugin.getByte("OnDesktop", SETTING_ONDESKTOP_DEFAULT)) {
 		HWND hProgMan = FindWindow(L"Progman", nullptr);
 		if (IsWindow(hProgMan)) {
 			SetParent(g_clistApi.hwndContactList, hProgMan);
@@ -1211,12 +1211,12 @@ void CLUI_cli_LoadCluiGlobalOpts()
 	BOOL tLayeredFlag = TRUE;
 	tLayeredFlag &= db_get_b(0, "ModernData", "EnableLayering", tLayeredFlag);
 	if (tLayeredFlag) {
-		if (db_get_b(0, "CList", "WindowShadow", SETTING_WINDOWSHADOW_DEFAULT) == 1)
-			db_set_b(0, "CList", "WindowShadow", 2);
+		if (g_plugin.getByte("WindowShadow", SETTING_WINDOWSHADOW_DEFAULT) == 1)
+			g_plugin.setByte("WindowShadow", 2);
 	}
 	else {
-		if (db_get_b(0, "CList", "WindowShadow", SETTING_WINDOWSHADOW_DEFAULT) == 2)
-			db_set_b(0, "CList", "WindowShadow", 1);
+		if (g_plugin.getByte("WindowShadow", SETTING_WINDOWSHADOW_DEFAULT) == 2)
+			g_plugin.setByte("WindowShadow", 1);
 	}
 	corecli.pfnLoadCluiGlobalOpts();
 }
@@ -1235,7 +1235,7 @@ int CLUI_TestCursorOnBorders()
 	if (CLUI_CheckOwnedByClui(hAux)) {
 		if (g_bTransparentFlag) {
 			if (!bTransparentFocus && gf != hwnd) {
-				CLUI_SmoothAlphaTransition(hwnd, db_get_b(0, "CList", "Alpha", SETTING_ALPHA_DEFAULT), 1);
+				CLUI_SmoothAlphaTransition(hwnd, g_plugin.getByte("Alpha", SETTING_ALPHA_DEFAULT), 1);
 				bTransparentFocus = 1;
 				CLUI_SafeSetTimer(hwnd, TM_AUTOALPHA, 250, nullptr);
 			}
@@ -1658,11 +1658,11 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 			Sync(CLUIFrames_OnMoving, m_hWnd, &rc);
 			if (!IsIconic(m_hWnd)) {
 				if (!Clist_IsDocked()) { // if g_CluiData.fDocked, dont remember pos (except for width)
-					db_set_dw(0, "CList", "Height", (DWORD)(rc.bottom - rc.top));
-					db_set_dw(0, "CList", "x", (DWORD)rc.left);
-					db_set_dw(0, "CList", "y", (DWORD)rc.top);
+					g_plugin.setDword("Height", (DWORD)(rc.bottom - rc.top));
+					g_plugin.setDword("x", (DWORD)rc.left);
+					g_plugin.setDword("y", (DWORD)rc.top);
 				}
-				db_set_dw(0, "CList", "Width", (DWORD)(rc.right - rc.left));
+				g_plugin.setDword("Width", (DWORD)(rc.right - rc.left));
 			}
 		}
 		return TRUE;
@@ -1695,12 +1695,12 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 
 			// if g_CluiData.fDocked, dont remember pos (except for width)
 			if (!Clist_IsDocked()) {
-				db_set_dw(0, "CList", "Height", (DWORD)(rc.bottom - rc.top));
-				db_set_dw(0, "CList", "x", (DWORD)rc.left);
-				db_set_dw(0, "CList", "y", (DWORD)rc.top);
+				g_plugin.setDword("Height", (DWORD)(rc.bottom - rc.top));
+				g_plugin.setDword("x", (DWORD)rc.left);
+				g_plugin.setDword("y", (DWORD)rc.top);
 			}
 			else SetWindowRgn(m_hWnd, nullptr, 0);
-			db_set_dw(0, "CList", "Width", (DWORD)(rc.right - rc.left));
+			g_plugin.setDword("Width", (DWORD)(rc.right - rc.left));
 
 			if (!g_CluiData.fLayered) {
 				HRGN hRgn1;
@@ -1721,11 +1721,11 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 		}
 		else {
-			if (db_get_b(0, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT)) {
+			if (g_plugin.getByte("Min2Tray", SETTING_MIN2TRAY_DEFAULT)) {
 				CLUI_ShowWindowMod(m_hWnd, SW_HIDE);
-				db_set_b(0, "CList", "State", SETTING_STATE_HIDDEN);
+				g_plugin.setByte("State", SETTING_STATE_HIDDEN);
 			}
-			else db_set_b(0, "CList", "State", SETTING_STATE_MINIMIZED);
+			else g_plugin.setByte("State", SETTING_STATE_MINIMIZED);
 			SetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
 		}
 		return TRUE;
@@ -1874,7 +1874,7 @@ LRESULT CLUI::OnSetAllExtraIcons(UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lPara
 LRESULT CLUI::OnCreateClc(UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
 	CreateCLC();
-	if (db_get_b(0, "CList", "ShowOnStart", SETTING_SHOWONSTART_DEFAULT))
+	if (g_plugin.getByte("ShowOnStart", SETTING_SHOWONSTART_DEFAULT))
 		cliShowHide(true);
 	Clist_InitAutoRebuild(g_clistApi.hwndContactTree);
 	return FALSE;
@@ -1972,9 +1972,9 @@ LRESULT CLUI::OnAutoAlphaTimer(UINT, WPARAM, LPARAM)
 		// change
 		bTransparentFocus = inwnd;
 		if (bTransparentFocus)
-			CLUI_SmoothAlphaTransition(m_hWnd, (BYTE)db_get_b(0, "CList", "Alpha", SETTING_ALPHA_DEFAULT), 1);
+			CLUI_SmoothAlphaTransition(m_hWnd, (BYTE)g_plugin.getByte("Alpha", SETTING_ALPHA_DEFAULT), 1);
 		else
-			CLUI_SmoothAlphaTransition(m_hWnd, (BYTE)(g_bTransparentFlag ? db_get_b(0, "CList", "AutoAlpha", SETTING_AUTOALPHA_DEFAULT) : 255), 1);
+			CLUI_SmoothAlphaTransition(m_hWnd, (BYTE)(g_bTransparentFlag ? g_plugin.getByte("AutoAlpha", SETTING_AUTOALPHA_DEFAULT) : 255), 1);
 	}
 	if (!bTransparentFocus)
 		KillTimer(m_hWnd, TM_AUTOALPHA);
@@ -2083,11 +2083,11 @@ LRESULT CLUI::OnActivate(UINT msg, WPARAM wParam, LPARAM lParam)
 			CLUI_SafeSetTimer(m_hWnd, TM_AUTOALPHA, 250, nullptr);
 	}
 	else {
-		if (!db_get_b(0, "CList", "OnTop", SETTING_ONTOP_DEFAULT))
+		if (!g_plugin.getByte("OnTop", SETTING_ONTOP_DEFAULT))
 			Sync(CLUIFrames_ActivateSubContainers, TRUE);
 		if (g_bTransparentFlag) {
 			KillTimer(m_hWnd, TM_AUTOALPHA);
-			CLUI_SmoothAlphaTransition(m_hWnd, db_get_b(0, "CList", "Alpha", SETTING_ALPHA_DEFAULT), 1);
+			CLUI_SmoothAlphaTransition(m_hWnd, g_plugin.getByte("Alpha", SETTING_ALPHA_DEFAULT), 1);
 			bTransparentFocus = 1;
 		}
 	}
@@ -2095,9 +2095,9 @@ LRESULT CLUI::OnActivate(UINT msg, WPARAM wParam, LPARAM lParam)
 	if (g_bTransparentFlag) {
 		BYTE alpha;
 		if (wParam != WA_INACTIVE || CLUI_CheckOwnedByClui((HWND)lParam) || ((HWND)lParam == m_hWnd) || GetParent((HWND)lParam) == m_hWnd)
-			alpha = db_get_b(0, "CList", "Alpha", SETTING_ALPHA_DEFAULT);
+			alpha = g_plugin.getByte("Alpha", SETTING_ALPHA_DEFAULT);
 		else
-			alpha = g_bTransparentFlag ? db_get_b(0, "CList", "AutoAlpha", SETTING_AUTOALPHA_DEFAULT) : 255;
+			alpha = g_bTransparentFlag ? g_plugin.getByte("AutoAlpha", SETTING_AUTOALPHA_DEFAULT) : 255;
 		CLUI_SmoothAlphaTransition(m_hWnd, alpha, 1);
 		return 1;
 	}
@@ -2110,7 +2110,7 @@ LRESULT CLUI::OnSetCursor(UINT, WPARAM, LPARAM)
 	if (g_CluiData.nBehindEdgeState >= 0)  CLUI_UpdateTimer();
 	if (g_bTransparentFlag) {
 		if (!bTransparentFocus && gf != m_hWnd) {
-			CLUI_SmoothAlphaTransition(m_hWnd, db_get_b(0, "CList", "Alpha", SETTING_ALPHA_DEFAULT), 1);
+			CLUI_SmoothAlphaTransition(m_hWnd, g_plugin.getByte("Alpha", SETTING_ALPHA_DEFAULT), 1);
 			bTransparentFocus = 1;
 			CLUI_SafeSetTimer(m_hWnd, TM_AUTOALPHA, 250, nullptr);
 		}
@@ -2183,7 +2183,7 @@ LRESULT CLUI::OnShowWindow(UINT, WPARAM wParam, LPARAM lParam)
 	if (lParam) return 0;
 	if (mutex_bShowHideCalledFromAnimation) return 1;
 
-	BYTE gAlpha = (!wParam) ? 0 : (db_get_b(0, "CList", "Transparent", SETTING_TRANSPARENT_DEFAULT) ? db_get_b(0, "CList", "Alpha", SETTING_ALPHA_DEFAULT) : 255);
+	BYTE gAlpha = (!wParam) ? 0 : (g_plugin.getByte("Transparent", SETTING_TRANSPARENT_DEFAULT) ? g_plugin.getByte("Alpha", SETTING_ALPHA_DEFAULT) : 255);
 	if (wParam) {
 		g_CluiData.bCurrentAlpha = 0;
 		Sync(CLUIFrames_OnShowHide, 1);
@@ -2205,7 +2205,7 @@ LRESULT CLUI::OnSysCommand(UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 
 	DefWindowProc(m_hWnd, msg, wParam, lParam);
-	if (db_get_b(0, "CList", "OnDesktop", SETTING_ONDESKTOP_DEFAULT))
+	if (g_plugin.getByte("OnDesktop", SETTING_ONDESKTOP_DEFAULT))
 		Sync(CLUIFrames_ActivateSubContainers, TRUE);
 	return FALSE;
 }
@@ -2473,7 +2473,7 @@ LRESULT CLUI::OnDrawItem(UINT, WPARAM, LPARAM lParam)
 
 LRESULT CLUI::OnDestroy(UINT, WPARAM, LPARAM)
 {
-	int state = db_get_b(0, "CList", "State", SETTING_STATE_NORMAL);
+	int state = g_plugin.getByte("State", SETTING_STATE_NORMAL);
 	BOOL wait = FALSE;
 
 	AniAva_UnloadModule();
@@ -2519,14 +2519,14 @@ LRESULT CLUI::OnDestroy(UINT, WPARAM, LPARAM)
 			r.top = r.bottom - CLUIFrames_GetTotalHeight();
 		else
 			r.bottom = r.top + CLUIFrames_GetTotalHeight();
-		db_set_dw(0, "CList", "y", r.top);
-		db_set_dw(0, "CList", "Height", r.bottom - r.top);
+		g_plugin.setDword("y", r.top);
+		g_plugin.setDword("Height", r.bottom - r.top);
 	}
 
 	UnLoadCLUIFramesModule();
 	//ExtFrames_Uninit();
 	TRACE("CLUI.c: WM_DESTROY - UnLoadCLUIFramesModule DONE\n");
-	db_set_b(0, "CList", "State", (BYTE)state);
+	g_plugin.setByte("State", (BYTE)state);
 	ske_UnloadSkin(&g_SkinObjectList);
 
 	delete m_pCLUI;

@@ -102,13 +102,13 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 	MSG *msg = (MSG*)wParam;
 
 	if (msg->message == WM_DESTROY)
-		db_set_b(0, "CList", "Docked", (BYTE)g_CluiData.fDocked);
+		g_plugin.setByte("Docked", (BYTE)g_CluiData.fDocked);
 
 	if (!g_CluiData.fDocked && msg->message != WM_CREATE && msg->message != WM_MOVING && msg->message != WM_CREATEDOCKED && msg->message != WM_MOVE && msg->message != WM_SIZE) return 0;
 	switch (msg->message) {
 	case WM_CREATE:
 		//if (GetSystemMetrics(SM_CMONITORS)>1) return 0;
-		if (db_get_b(0, "CList", "Docked", 0) && db_get_b(0, "CLUI", "DockToSides", SETTING_DOCKTOSIDES_DEFAULT))
+		if (g_plugin.getByte("Docked", 0) && db_get_b(0, "CLUI", "DockToSides", SETTING_DOCKTOSIDES_DEFAULT))
 		{
 			PostMessage(msg->hwnd, WM_CREATEDOCKED, 0, 0);
 		}
@@ -117,7 +117,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 
 	case WM_CREATEDOCKED:
 		//we need to post a message just after creation to let main message function do some work
-		g_CluiData.fDocked = (BOOL)db_get_b(0, "CList", "Docked", 0);
+		g_CluiData.fDocked = (BOOL)g_plugin.getByte("Docked", 0);
 		if (IsWindowVisible(msg->hwnd) && !IsIconic(msg->hwnd)) {
 			RECT rc, rcMonitor;
 			memset(&abd, 0, sizeof(abd));
@@ -197,7 +197,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 			Sync(CLUIFrames_OnMoving, msg->hwnd, (LPRECT)msg->lParam);
 			g_CluiData.mutexPreventDockMoving = 1;
 			mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
-			db_set_b(0, "CList", "Docked", (BYTE)g_CluiData.fDocked);
+			g_plugin.setByte("Docked", (BYTE)g_CluiData.fDocked);
 			ModernSkinButton_ReposButtons(msg->hwnd, SBRF_DO_NOT_DRAW, nullptr);
 			return TRUE;
 		}
@@ -293,8 +293,8 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 			g_CluiData.fDocked = 0;
 			GetCursorPos(&pt);
 			PostMessage(msg->hwnd, WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(pt.x, pt.y));
-			SetWindowPos(msg->hwnd, nullptr, pt.x - rc.right / 2, pt.y - GetSystemMetrics(SM_CYFRAME) - GetSystemMetrics(SM_CYSMCAPTION) / 2, db_get_dw(0, "CList", "Width", 0), db_get_dw(0, "CList", "Height", 0), SWP_NOZORDER);
-			db_set_b(0, "CList", "Docked", (BYTE)g_CluiData.fDocked);
+			SetWindowPos(msg->hwnd, nullptr, pt.x - rc.right / 2, pt.y - GetSystemMetrics(SM_CYFRAME) - GetSystemMetrics(SM_CYSMCAPTION) / 2, g_plugin.getDword("Width", 0), g_plugin.getDword("Height", 0), SWP_NOZORDER);
+			g_plugin.setByte("Docked", (BYTE)g_CluiData.fDocked);
 			// ModernSkinButton_ReposButtons(msg->hwnd, SBRF_DO_NOT_DRAW, nullptr);
 		}
 		return 1;

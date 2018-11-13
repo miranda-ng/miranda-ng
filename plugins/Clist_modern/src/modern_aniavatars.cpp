@@ -442,18 +442,18 @@ static void _AniAva_LoadOptions()
 	aacheck;
 	mir_cslock lck(s_CS);
 
-	s_bFlags = (db_get_b(0, "CList", "AvatarsDrawBorders", SETTINGS_AVATARDRAWBORDER_DEFAULT) ? AAO_HAS_BORDER : 0) |
-		(db_get_b(0, "CList", "AvatarsRoundCorners", SETTINGS_AVATARROUNDCORNERS_DEFAULT) ? AAO_ROUND_CORNERS : 0) |
-		(db_get_b(0, "CList", "AvatarsDrawOverlay", SETTINGS_AVATARDRAWOVERLAY_DEFAULT) ? AAO_HAS_OVERLAY : 0) |
+	s_bFlags = (g_plugin.getByte("AvatarsDrawBorders", SETTINGS_AVATARDRAWBORDER_DEFAULT) ? AAO_HAS_BORDER : 0) |
+		(g_plugin.getByte("AvatarsRoundCorners", SETTINGS_AVATARROUNDCORNERS_DEFAULT) ? AAO_ROUND_CORNERS : 0) |
+		(g_plugin.getByte("AvatarsDrawOverlay", SETTINGS_AVATARDRAWOVERLAY_DEFAULT) ? AAO_HAS_OVERLAY : 0) |
 		((0) ? AAO_OPAQUE : 0);
 
 	if (s_bFlags & AAO_HAS_BORDER)
-		s_borderColor = (COLORREF)db_get_dw(0, "CList", "AvatarsBorderColor", SETTINGS_AVATARBORDERCOLOR_DEFAULT);
+		s_borderColor = (COLORREF)g_plugin.getDword("AvatarsBorderColor", SETTINGS_AVATARBORDERCOLOR_DEFAULT);
 	if (s_bFlags & AAO_ROUND_CORNERS)
-		s_cornerRadius = db_get_b(0, "CList", "AvatarsUseCustomCornerSize", SETTINGS_AVATARUSECUTOMCORNERSIZE_DEFAULT) ? db_get_w(0, "CList", "AvatarsCustomCornerSize", SETTINGS_AVATARCORNERSIZE_DEFAULT) : 0;
+		s_cornerRadius = g_plugin.getByte("AvatarsUseCustomCornerSize", SETTINGS_AVATARUSECUTOMCORNERSIZE_DEFAULT) ? g_plugin.getWord("AvatarsCustomCornerSize", SETTINGS_AVATARCORNERSIZE_DEFAULT) : 0;
 	if (s_bFlags & AAO_HAS_OVERLAY) {
 		// check image list
-		BYTE type = db_get_b(0, "CList", "AvatarsOverlayType", SETTINGS_AVATAROVERLAYTYPE_DEFAULT);
+		BYTE type = g_plugin.getByte("AvatarsOverlayType", SETTINGS_AVATAROVERLAYTYPE_DEFAULT);
 		switch (type) {
 		case SETTING_AVATAR_OVERLAY_TYPE_NORMAL:
 			s_overlayIconImageList = hAvatarOverlays;
@@ -468,7 +468,7 @@ static void _AniAva_LoadOptions()
 	}
 	if (s_bFlags & AAO_OPAQUE)
 		s_bkgColor = 0;
-	s_bSeparateWindow = db_get_b(0, "CList", "AvatarsInSeparateWnd", SETTINGS_AVATARINSEPARATE_DEFAULT);
+	s_bSeparateWindow = g_plugin.getByte("AvatarsInSeparateWnd", SETTINGS_AVATARINSEPARATE_DEFAULT);
 }
 
 static void _AniAva_InvalidateParent(ANIAVA_WINDOWINFO * dat)
@@ -939,7 +939,7 @@ int AniAva_SetAvatarPos(MCONTACT hContact, RECT *rc, int overlayIdx, BYTE bAlpha
 int AniAva_UpdateOptions()
 {
 	BOOL bReloadAvatars = FALSE;
-	BOOL bBeEnabled = db_get_b(0, "CList", "AvatarsAnimated", db_get_b(0, "CList", "AvatarsShow", SETTINGS_SHOWAVATARS_DEFAULT));
+	BOOL bBeEnabled = g_plugin.getByte("AvatarsAnimated", g_plugin.getByte("AvatarsShow", SETTINGS_SHOWAVATARS_DEFAULT));
 	if (bBeEnabled && !s_bModuleStarted) {
 		AniAva_InitModule();
 		bReloadAvatars = TRUE;
@@ -980,7 +980,7 @@ void AniAva_UpdateParent()
 
 int AniAva_InitModule()
 {
-	if (!db_get_b(0, "CList", "AvatarsAnimated", db_get_b(0, "CList", "AvatarsShow", SETTINGS_SHOWAVATARS_DEFAULT)))
+	if (!g_plugin.getByte("AvatarsAnimated", g_plugin.getByte("AvatarsShow", SETTINGS_SHOWAVATARS_DEFAULT)))
 		return 0;
 
 	WNDCLASSEX wc = { sizeof(wc) };
