@@ -225,11 +225,11 @@ void queue_message(MCONTACT hContact, DWORD msgtime, wchar_t *message)
 	char *tmp;
 	sqlite3_stmt *stmt;
 
-	if (!_getOptB("BayesAutolearnApproved", defaultBayesAutolearnApproved) &&
-		!_getOptB("BayesAutolearnNotApproved", defaultBayesAutolearnNotApproved))
+	if (!g_plugin.getByte("BayesAutolearnApproved", defaultBayesAutolearnApproved) &&
+		!g_plugin.getByte("BayesAutolearnNotApproved", defaultBayesAutolearnNotApproved))
 		return;
 
-	if (_getOptB("BayesEnabled", defaultBayesEnabled) == 0) 
+	if (g_plugin.getByte("BayesEnabled", defaultBayesEnabled) == 0) 
 		return;
 	if (bayesdb == nullptr)
 		OpenBayes();
@@ -286,7 +286,7 @@ void dequeue_messages()
 		return;
 
 	sqlite3_prepare_v2(bayesdb, "SELECT message FROM queue WHERE msgtime + ? < ?", -1, &stmt, nullptr);
-	sqlite3_bind_int(stmt, 1, _getOptD("BayesWaitApprove", defaultBayesWaitApprove)*86400);
+	sqlite3_bind_int(stmt, 1, g_plugin.getDword("BayesWaitApprove", defaultBayesWaitApprove)*86400);
 	sqlite3_bind_int(stmt, 2, (DWORD)t);
 	while (sqlite3_step(stmt) == SQLITE_ROW) {
 		d = 1;
@@ -298,7 +298,7 @@ void dequeue_messages()
 	sqlite3_finalize(stmt);
 	if (d) {
 		sqlite3_prepare_v2(bayesdb, "DELETE FROM queue WHERE msgtime + ? < ?", -1, &stmt, nullptr);
-		sqlite3_bind_int(stmt, 1, _getOptD("BayesWaitApprove", defaultBayesWaitApprove)*86400);
+		sqlite3_bind_int(stmt, 1, g_plugin.getDword("BayesWaitApprove", defaultBayesWaitApprove)*86400);
 		sqlite3_bind_int(stmt, 2, (DWORD)t);
 		sqlite3_step(stmt);
 		sqlite3_finalize(stmt);
@@ -316,7 +316,7 @@ void learn(int type, wchar_t *msg)
 	sqlite3_stmt *stmtdbg;
 #endif
 
-	if (_getOptB("BayesEnabled", defaultBayesEnabled) == 0) 
+	if (g_plugin.getByte("BayesEnabled", defaultBayesEnabled) == 0) 
 		return;
 	if (bayesdb == nullptr)
 		OpenBayes();

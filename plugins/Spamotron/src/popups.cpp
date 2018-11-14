@@ -54,29 +54,29 @@ INT_PTR CALLBACK DlgProcOptionsPopups(HWND optDlg, UINT msg, WPARAM wParam, LPAR
 		case WM_INITDIALOG:
 			bInitializing = 1;
 			TranslateDialogDefault(optDlg);
-			bEnabled = _getOptB("NotifyPopup", defaultNotifyPopup);
+			bEnabled = g_plugin.getByte("NotifyPopup", defaultNotifyPopup);
 			CheckDlgButton(optDlg, IDC_OPT_POPUPS_ENABLED, bEnabled ? BST_CHECKED : BST_UNCHECKED);
 			EnablePopupControls(optDlg, bEnabled);
 
-			CheckDlgButton(optDlg, IDC_OPT_POPUPS_NOTIFY_BLOCKED, _getOptB("NotifyPopupBlocked", defaultNotifyPopupBlocked) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(optDlg, IDC_OPT_POPUPS_NOTIFY_APPROVED, _getOptB("NotifyPopupApproved", defaultNotifyPopupApproved) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(optDlg, IDC_OPT_POPUPS_NOTIFY_CHALLENGE, _getOptB("NotifyPopupChallenge", defaultNotifyPopupChallenge) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(optDlg, IDC_OPT_POPUPS_DEFAULT_COLORS, _getOptB("PopupDefaultColors", defaultPopupDefaultColors) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(optDlg, IDC_OPT_POPUPS_WINDOWS_COLORS, _getOptB("PopupWindowsColors", defaultPopupWindowsColors) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(optDlg, IDC_OPT_POPUPS_DEFAULT_TIMEOUT, _getOptB("PopupDefaultTimeout", defaultPopupDefaultTimeout) ? BST_CHECKED : BST_UNCHECKED);
-			SetDlgItemInt(optDlg, IDC_OPT_POPUPS_BLOCKED_TIMEOUT, _getOptD("PopupBlockedTimeout", defaultPopupBlockedTimeout), FALSE);
-			SetDlgItemInt(optDlg, IDC_OPT_POPUPS_APPROVED_TIMEOUT, _getOptD("PopupApprovedTimeout", defaultPopupApprovedTimeout), FALSE);
-			SetDlgItemInt(optDlg, IDC_OPT_POPUPS_CHALLENGE_TIMEOUT, _getOptD("PopupChallengeTimeout", defaultPopupChallengeTimeout), FALSE);
-			SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_BLOCKED_FOREGROUND, CPM_SETCOLOUR, 0, _getOptD("PopupBlockedForeground", defaultPopupBlockedForeground));
-			SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_BLOCKED_BACKGROUND, CPM_SETCOLOUR, 0, _getOptD("PopupBlockedBackground", defaultPopupBlockedBackground));
-			SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_APPROVED_FOREGROUND, CPM_SETCOLOUR, 0, _getOptD("PopupApprovedForeground", defaultPopupApprovedForeground));
-			SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_APPROVED_BACKGROUND, CPM_SETCOLOUR, 0, _getOptD("PopupApprovedBackground", defaultPopupApprovedBackground));
-			SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_CHALLENGE_FOREGROUND, CPM_SETCOLOUR, 0, _getOptD("PopupChallengeForeground", defaultPopupChallengeForeground));
-			SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_CHALLENGE_BACKGROUND, CPM_SETCOLOUR, 0, _getOptD("PopupChallengeBackground", defaultPopupChallengeBackground));
+			CheckDlgButton(optDlg, IDC_OPT_POPUPS_NOTIFY_BLOCKED, g_plugin.getByte("NotifyPopupBlocked", defaultNotifyPopupBlocked) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_POPUPS_NOTIFY_APPROVED, g_plugin.getByte("NotifyPopupApproved", defaultNotifyPopupApproved) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_POPUPS_NOTIFY_CHALLENGE, g_plugin.getByte("NotifyPopupChallenge", defaultNotifyPopupChallenge) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_POPUPS_DEFAULT_COLORS, g_plugin.getByte("PopupDefaultColors", defaultPopupDefaultColors) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_POPUPS_WINDOWS_COLORS, g_plugin.getByte("PopupWindowsColors", defaultPopupWindowsColors) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_POPUPS_DEFAULT_TIMEOUT, g_plugin.getByte("PopupDefaultTimeout", defaultPopupDefaultTimeout) ? BST_CHECKED : BST_UNCHECKED);
+			SetDlgItemInt(optDlg, IDC_OPT_POPUPS_BLOCKED_TIMEOUT, g_plugin.getDword("PopupBlockedTimeout", defaultPopupBlockedTimeout), FALSE);
+			SetDlgItemInt(optDlg, IDC_OPT_POPUPS_APPROVED_TIMEOUT, g_plugin.getDword("PopupApprovedTimeout", defaultPopupApprovedTimeout), FALSE);
+			SetDlgItemInt(optDlg, IDC_OPT_POPUPS_CHALLENGE_TIMEOUT, g_plugin.getDword("PopupChallengeTimeout", defaultPopupChallengeTimeout), FALSE);
+			SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_BLOCKED_FOREGROUND, CPM_SETCOLOUR, 0, g_plugin.getDword("PopupBlockedForeground", defaultPopupBlockedForeground));
+			SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_BLOCKED_BACKGROUND, CPM_SETCOLOUR, 0, g_plugin.getDword("PopupBlockedBackground", defaultPopupBlockedBackground));
+			SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_APPROVED_FOREGROUND, CPM_SETCOLOUR, 0, g_plugin.getDword("PopupApprovedForeground", defaultPopupApprovedForeground));
+			SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_APPROVED_BACKGROUND, CPM_SETCOLOUR, 0, g_plugin.getDword("PopupApprovedBackground", defaultPopupApprovedBackground));
+			SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_CHALLENGE_FOREGROUND, CPM_SETCOLOUR, 0, g_plugin.getDword("PopupChallengeForeground", defaultPopupChallengeForeground));
+			SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_CHALLENGE_BACKGROUND, CPM_SETCOLOUR, 0, g_plugin.getDword("PopupChallengeBackground", defaultPopupChallengeBackground));
 			EnablePopupTimeouts(optDlg, IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_DEFAULT_TIMEOUT));
 			EnablePopupColors(optDlg,
-				_getOptB("PopupDefaultColors", defaultPopupDefaultColors),
-				_getOptB("PopupWindowsColors", defaultPopupWindowsColors));
+				g_plugin.getByte("PopupDefaultColors", defaultPopupDefaultColors),
+				g_plugin.getByte("PopupWindowsColors", defaultPopupWindowsColors));
 
 			bInitializing = 0;
 			break;
@@ -118,22 +118,22 @@ INT_PTR CALLBACK DlgProcOptionsPopups(HWND optDlg, UINT msg, WPARAM wParam, LPAR
 		case WM_NOTIFY:
 			switch (((NMHDR*)lParam)->code) {
 				case PSN_APPLY:
-					_setOptB("NotifyPopup", IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_ENABLED));
-					_setOptB("NotifyPopupBlocked", IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_NOTIFY_BLOCKED));
-					_setOptB("NotifyPopupApproved", IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_NOTIFY_APPROVED));
-					_setOptB("NotifyPopupChallenge", IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_NOTIFY_CHALLENGE));
-					_setOptB("PopupDefaultColors", IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_DEFAULT_COLORS));
-					_setOptB("PopupWindowsColors", IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_WINDOWS_COLORS));
-					_setOptB("PopupDefaultTimeout", IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_DEFAULT_TIMEOUT));
+					g_plugin.setByte("NotifyPopup", IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_ENABLED));
+					g_plugin.setByte("NotifyPopupBlocked", IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_NOTIFY_BLOCKED));
+					g_plugin.setByte("NotifyPopupApproved", IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_NOTIFY_APPROVED));
+					g_plugin.setByte("NotifyPopupChallenge", IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_NOTIFY_CHALLENGE));
+					g_plugin.setByte("PopupDefaultColors", IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_DEFAULT_COLORS));
+					g_plugin.setByte("PopupWindowsColors", IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_WINDOWS_COLORS));
+					g_plugin.setByte("PopupDefaultTimeout", IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_DEFAULT_TIMEOUT));
 					_saveDlgItemInt(optDlg, IDC_OPT_POPUPS_BLOCKED_TIMEOUT, "PopupBlockedTimeout");
 					_saveDlgItemInt(optDlg, IDC_OPT_POPUPS_APPROVED_TIMEOUT, "PopupApprovedTimeout");
 					_saveDlgItemInt(optDlg, IDC_OPT_POPUPS_CHALLENGE_TIMEOUT, "PopupChallengeTimeout");
-					_setOptD("PopupBlockedForeground", SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_BLOCKED_FOREGROUND,CPM_GETCOLOUR,0,0));
-					_setOptD("PopupBlockedBackground", SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_BLOCKED_BACKGROUND,CPM_GETCOLOUR,0,0));
-					_setOptD("PopupApprovedForeground", SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_APPROVED_FOREGROUND,CPM_GETCOLOUR,0,0));
-					_setOptD("PopupApprovedBackground", SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_APPROVED_BACKGROUND,CPM_GETCOLOUR,0,0));
-					_setOptD("PopupChallengeForeground", SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_CHALLENGE_FOREGROUND,CPM_GETCOLOUR,0,0));
-					_setOptD("PopupChallengeBackground", SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_CHALLENGE_BACKGROUND,CPM_GETCOLOUR,0,0));
+					g_plugin.setDword("PopupBlockedForeground", SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_BLOCKED_FOREGROUND,CPM_GETCOLOUR,0,0));
+					g_plugin.setDword("PopupBlockedBackground", SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_BLOCKED_BACKGROUND,CPM_GETCOLOUR,0,0));
+					g_plugin.setDword("PopupApprovedForeground", SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_APPROVED_FOREGROUND,CPM_GETCOLOUR,0,0));
+					g_plugin.setDword("PopupApprovedBackground", SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_APPROVED_BACKGROUND,CPM_GETCOLOUR,0,0));
+					g_plugin.setDword("PopupChallengeForeground", SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_CHALLENGE_FOREGROUND,CPM_GETCOLOUR,0,0));
+					g_plugin.setDword("PopupChallengeBackground", SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_CHALLENGE_BACKGROUND,CPM_GETCOLOUR,0,0));
 					break;
 			}
 			break;
@@ -198,39 +198,39 @@ int ShowPopup(MCONTACT hContact, BYTE popupType, wchar_t *line1, wchar_t *line2)
 	switch (popupType)
 	{
 		case POPUP_DEFAULT:
-			ppdp.colorText = _getOptD("PopupApprovedForeground", defaultPopupApprovedForeground);
-			ppdp.colorBack = _getOptD("PopupApprovedBackground", defaultPopupApprovedBackground);
+			ppdp.colorText = g_plugin.getDword("PopupApprovedForeground", defaultPopupApprovedForeground);
+			ppdp.colorBack = g_plugin.getDword("PopupApprovedBackground", defaultPopupApprovedBackground);
 			break;
 		case POPUP_BLOCKED:
-			ppdp.colorText = _getOptD("PopupBlockedForeground", defaultPopupBlockedForeground);
-			ppdp.colorBack = _getOptD("PopupBlockedBackground", defaultPopupBlockedBackground);
-			ppdp.iSeconds = _getOptD("PopupBlockedTimeout", defaultPopupBlockedTimeout);
+			ppdp.colorText = g_plugin.getDword("PopupBlockedForeground", defaultPopupBlockedForeground);
+			ppdp.colorBack = g_plugin.getDword("PopupBlockedBackground", defaultPopupBlockedBackground);
+			ppdp.iSeconds = g_plugin.getDword("PopupBlockedTimeout", defaultPopupBlockedTimeout);
 			ppdp.lchIcon = Skin_LoadIcon(SKINICON_OTHER_DELETE);
 			break;
 		case POPUP_APPROVED:
-			ppdp.colorText = _getOptD("PopupApprovedForeground", defaultPopupApprovedForeground);
-			ppdp.colorBack = _getOptD("PopupApprovedBackground", defaultPopupApprovedBackground);
-			ppdp.iSeconds = _getOptD("PopupApprovedTimeout", defaultPopupApprovedTimeout);
+			ppdp.colorText = g_plugin.getDword("PopupApprovedForeground", defaultPopupApprovedForeground);
+			ppdp.colorBack = g_plugin.getDword("PopupApprovedBackground", defaultPopupApprovedBackground);
+			ppdp.iSeconds = g_plugin.getDword("PopupApprovedTimeout", defaultPopupApprovedTimeout);
 			ppdp.lchIcon = Skin_LoadIcon(SKINICON_OTHER_ADDCONTACT);
 			break;
 		case POPUP_CHALLENGE:
-			ppdp.colorText = _getOptD("PopupChallengeForeground", defaultPopupChallengeForeground);
-			ppdp.colorBack = _getOptD("PopupChallengeBackground", defaultPopupChallengeBackground);
-			ppdp.iSeconds = _getOptD("PopupChallengeTimeout", defaultPopupChallengeTimeout);
+			ppdp.colorText = g_plugin.getDword("PopupChallengeForeground", defaultPopupChallengeForeground);
+			ppdp.colorBack = g_plugin.getDword("PopupChallengeBackground", defaultPopupChallengeBackground);
+			ppdp.iSeconds = g_plugin.getDword("PopupChallengeTimeout", defaultPopupChallengeTimeout);
 			ppdp.lchIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 			break;
 	}
-	if (_getOptB("PopupWindowsColors", defaultPopupWindowsColors)) {
+	if (g_plugin.getByte("PopupWindowsColors", defaultPopupWindowsColors)) {
 		ppdp.colorText = GetSysColor(COLOR_WINDOWTEXT);
 		ppdp.colorBack = GetSysColor(COLOR_WINDOW);
 	}
-	if (_getOptB("PopupDefaultColors", defaultPopupDefaultColors)) {
+	if (g_plugin.getByte("PopupDefaultColors", defaultPopupDefaultColors)) {
 		ppdp.colorText = NULL;
 		ppdp.colorBack = NULL;
 	}
 	if (ppdp.iSeconds < 1)
 		ppdp.iSeconds = -1;
-	if (_getOptB("PopupDefaultTimeout", defaultPopupDefaultTimeout) || popupType == POPUP_DEFAULT)
+	if (g_plugin.getByte("PopupDefaultTimeout", defaultPopupDefaultTimeout) || popupType == POPUP_DEFAULT)
 		ppdp.iSeconds = 0;
 
 	ppdp.lchContact = hContact;

@@ -37,7 +37,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	wchar_t *challengeW = nullptr, *tmpW = nullptr;
 	wchar_t mexpr[64];
 	int maxmsglen = 0, a, b, i;
-	BOOL bayesEnabled = _getOptB("BayesEnabled", defaultBayesEnabled);
+	BOOL bayesEnabled = g_plugin.getByte("BayesEnabled", defaultBayesEnabled);
 	BOOL bCorrectResponse = FALSE;
 
 	// get hContact from DBEVENTINFO as icq_proto.c doesn't pass hContact the usual way for some reason.
@@ -50,7 +50,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	
 	/*** Dequeue and learn messages ***/
 	
-	if (bayesEnabled && _getOptB("BayesAutolearnNotApproved", defaultBayesAutolearnNotApproved))
+	if (bayesEnabled && g_plugin.getByte("BayesAutolearnNotApproved", defaultBayesAutolearnNotApproved))
 		if (time(0) - last_queue_check > 4*3600) { // dequeue every 4 hours
 			dequeue_messages();
 			last_queue_check = time(0);
@@ -61,7 +61,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	// Pass-through if protocol is not enabled
 	mir_strcat(protoOption, "proto_");
 	mir_strcat(protoOption, dbei->szModule);
-	if (_getOptB(protoOption, 0) == 0) // Protocol is not handled by Spam-o-tron
+	if (g_plugin.getByte(protoOption, 0) == 0) // Protocol is not handled by Spam-o-tron
 		return 0;
 
 	// Pass-through if the event is not of type EVENTTYPE_MESSAGE or EVENTTYPE_AUTHREQUEST
@@ -69,7 +69,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	// Pass-through if contact is already verified.
-	if (_getCOptB(hContact, "Verified", 0) == 1)
+	if (g_plugin.getByte(hContact, "Verified", 0) == 1)
 		return 0;
 
 	// Pass-through if the event is already read.
@@ -90,9 +90,9 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 
 	// Pass-through and approve if outgoing event.
 	if (dbei->flags & DBEF_SENT) {
-		if (_getOptB("ApproveOnMsgOut", 0)) {
-			_setCOptB(hContact, "Verified", 1);
-			if (_getOptB("AddPermanently", defaultAddPermanently))
+		if (g_plugin.getByte("ApproveOnMsgOut", 0)) {
+			g_plugin.setByte(hContact, "Verified", 1);
+			if (g_plugin.getByte("AddPermanently", defaultAddPermanently))
 				db_unset(hContact, "CList", "NotOnList");
 			db_unset(hContact, "CList", "Delete");
 		}
@@ -100,7 +100,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	}
 
 	// Hide the contact until verified if option set.
-	if (_getOptB("HideUnverified", defaultHideUnverified))
+	if (g_plugin.getByte("HideUnverified", defaultHideUnverified))
 		db_set_b(hContact, "CList", "Hidden", 1);
 
 	// Fetch the incoming message body
@@ -122,7 +122,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 		message = mir_a2u(msgblob);
 	
 	/*** Check for words in white-list ***/
-	if (_getOptB("ApproveOnMsgIn", defaultApproveOnMsgIn)) {
+	if (g_plugin.getByte("ApproveOnMsgIn", defaultApproveOnMsgIn)) {
 		wchar_t *whitelist = (wchar_t*)malloc(2048 * sizeof(wchar_t));
 		if (whitelist != nullptr) {
 			_getOptS(whitelist, 2048, "ApproveOnMsgInWordlist", defaultApproveOnMsgInWordlist);
@@ -143,13 +143,13 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 			free(whitelist);
 
 			if (bCorrectResponse) {
-				_setCOptB(hContact, "Verified", 1);
-				if (_getOptB("HideUnverified", defaultHideUnverified))
+				g_plugin.setByte(hContact, "Verified", 1);
+				if (g_plugin.getByte("HideUnverified", defaultHideUnverified))
 					db_unset(hContact, "CList", "Hidden");
-				if (_getOptB("AddPermanently", defaultAddPermanently))
+				if (g_plugin.getByte("AddPermanently", defaultAddPermanently))
 					db_unset(hContact, "CList", "NotOnList");
 				db_unset(hContact, "CList", "Delete");
-				if (_getOptB("ReplyOnSuccess", defaultReplyOnSuccess) && (_getCOptB(hContact, "MsgSent", 0))) {
+				if (g_plugin.getByte("ReplyOnSuccess", defaultReplyOnSuccess) && (g_plugin.getByte(hContact, "MsgSent", 0))) {
 					T2Utf response(_getOptS(buf, buflen, "SuccessResponse", defaultSuccessResponse));
 					ProtoChainSend(hContact, PSS_MESSAGE, 0, response);
 				}
@@ -161,16 +161,16 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 
 	/*** Check for correct answer ***/
 	
-	switch (_getOptB("Mode", defaultMode))
+	switch (g_plugin.getByte("Mode", defaultMode))
 	{
 		case SPAMOTRON_MODE_ROTATE:
 		case SPAMOTRON_MODE_RANDOM:
-			get_response(buf, buflen, _getCOptD(hContact, "ResponseNum", 0));
+			get_response(buf, buflen, g_plugin.getDword(hContact, "ResponseNum", 0));
 			if (_isregex(buf)) {
 				if (_regmatch(message, buf))
 					bCorrectResponse = TRUE;
 			} else {
-				if (_tcsstr_cc(message, buf, _getOptB("ResponseCC", defaultResponseCC)) &&
+				if (_tcsstr_cc(message, buf, g_plugin.getByte("ResponseCC", defaultResponseCC)) &&
 					(mir_wstrlen(message) == mir_wstrlen(buf)))
 					bCorrectResponse = TRUE;
 			}
@@ -187,7 +187,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 						break;
 					}
 				} else {
-					if (_tcsstr_cc(message, buf, _getOptB("ResponseCC", defaultResponseCC)) &&
+					if (_tcsstr_cc(message, buf, g_plugin.getByte("ResponseCC", defaultResponseCC)) &&
 						(mir_wstrlen(message) == mir_wstrlen(buf))) {
 						bCorrectResponse = TRUE;
 						break;
@@ -199,7 +199,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 		case SPAMOTRON_MODE_MATH:
 			if (message == nullptr)
 				break;
-			_itow(_getCOptD(hContact, "ResponseMath", -1), buf, 10);
+			_itow(g_plugin.getDword(hContact, "ResponseMath", -1), buf, 10);
 			if (wcsstr(message, buf) && (mir_wstrlen(buf) == mir_wstrlen(message))) {
 				bCorrectResponse = TRUE;
 			}
@@ -208,21 +208,21 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 
 	if (bCorrectResponse)
 	{
-		_setCOptB(hContact, "Verified", 1);
-		if (_getOptB("HideUnverified", defaultHideUnverified))
+		g_plugin.setByte(hContact, "Verified", 1);
+		if (g_plugin.getByte("HideUnverified", defaultHideUnverified))
 			db_unset(hContact, "CList", "Hidden");
-		if (_getOptB("AddPermanently", defaultAddPermanently))
+		if (g_plugin.getByte("AddPermanently", defaultAddPermanently))
 			db_unset(hContact, "CList", "NotOnList");
 		db_unset(hContact, "CList", "Delete");
 		db_unset(hContact, "CList", "ResponseNum");
-		if (_getOptB("ReplyOnSuccess", defaultReplyOnSuccess)) {
+		if (g_plugin.getByte("ReplyOnSuccess", defaultReplyOnSuccess)) {
 			T2Utf response(_getOptS(buf, buflen, "SuccessResponse", defaultSuccessResponse));
 			ProtoChainSend(hContact, PSS_MESSAGE, 0,	response);
 		}
 		_notify(hContact, POPUP_APPROVED, TranslateT("Contact %s approved."), nullptr);
 
 		// Resubmit pending authorization request
-		if (_getCOptB(hContact, "AuthEventPending", FALSE)) {
+		if (g_plugin.getByte(hContact, "AuthEventPending", FALSE)) {
 			DBVARIANT _dbv;
 			wchar_t AuthEventModule[100];
 			char* szAuthEventModule;
@@ -249,12 +249,12 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 		}
 
 		// User approved, learn from previous messages
-		if (bayesEnabled && _getOptB("BayesAutolearnApproved", defaultBayesAutolearnApproved))
+		if (bayesEnabled && g_plugin.getByte("BayesAutolearnApproved", defaultBayesAutolearnApproved))
 			bayes_approve_contact(hContact);
 
 		// Mark previous messages unread if option set
-		if (_getOptB("KeepBlockedMsg", defaultKeepBlockedMsg) && 
-			_getOptB("MarkMsgUnreadOnApproval", defaultMarkMsgUnreadOnApproval) &&
+		if (g_plugin.getByte("KeepBlockedMsg", defaultKeepBlockedMsg) && 
+			g_plugin.getByte("MarkMsgUnreadOnApproval", defaultMarkMsgUnreadOnApproval) &&
 			hContact != NULL) {
 			// We will mark unread all blocked messages for the most recent day
 			MarkUnread(hContact);
@@ -269,9 +269,9 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 
 	// Completely reject if challenge was already sent today for MaxMsgContactCountPerDay times
 	// and the option is turned on.
-	if (isOneDay(dbei->timestamp, _getCOptD(hContact, "MsgSentTime", 0)) &&
-		_getOptD("MaxMsgContactCountPerDay", defaultMaxMsgContactCountPerDay) > 0 &&
-		_getCOptD(hContact, "MsgSent", 0) >= _getOptD("MaxMsgContactCountPerDay", defaultMaxMsgContactCountPerDay)) {
+	if (isOneDay(dbei->timestamp, g_plugin.getDword(hContact, "MsgSentTime", 0)) &&
+		g_plugin.getDword("MaxMsgContactCountPerDay", defaultMaxMsgContactCountPerDay) > 0 &&
+		g_plugin.getDword(hContact, "MsgSent", 0) >= g_plugin.getDword("MaxMsgContactCountPerDay", defaultMaxMsgContactCountPerDay)) {
 			_notify(hContact, POPUP_BLOCKED, TranslateT("Message from %s rejected because it reached a maximum for challenge requests per day."), message);
 			if (bayesEnabled)
 				queue_message(hContact, dbei->timestamp, message);
@@ -279,8 +279,8 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	}
 
 	// Completely reject if duplicate incoming message found
-	if (_getOptD("MaxSameMsgCountPerDay", defaultMaxSameMsgCountPerDay) > 0 &&
-		_getCOptD(hContact, "SameMsgCount", 0) >= _getOptD("MaxSameMsgCountPerDay", defaultMaxSameMsgCountPerDay) &&
+	if (g_plugin.getDword("MaxSameMsgCountPerDay", defaultMaxSameMsgCountPerDay) > 0 &&
+		g_plugin.getDword(hContact, "SameMsgCount", 0) >= g_plugin.getDword("MaxSameMsgCountPerDay", defaultMaxSameMsgCountPerDay) &&
 		mir_wstrcmp(message, _getCOptS(buf, buflen, hContact, "LastInMsg", L"")) == 0) {
 			_notify(hContact, POPUP_BLOCKED, TranslateT("Message from %s rejected because it reached a maximum for same responses per day."), message);
 			if (bayesEnabled)
@@ -289,7 +289,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	}
 
 	// Completely reject if incoming message contains any word from DontReplyMsgWordlist option
-	if (_getOptB("DontReplyMsg", defaultDontReplyMsg) &&
+	if (g_plugin.getByte("DontReplyMsg", defaultDontReplyMsg) &&
 		Contains(message, _getOptS(buf, buflen, "DontReplyMsgWordlist", defaultDontReplyMsgWordlist))) {
 		_notify(hContact, POPUP_BLOCKED, TranslateT("Message from %s dropped because it has a word from black list."), message);
 		return 1;
@@ -299,27 +299,27 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	/*** Bayes checks ***/
 
 	// Drop if score > spam score
-	if (bayesEnabled && _getOptB("BayesBlockMsg", defaultBayesBlockMsg))
-		if (get_msg_score(message) >= (double)_getOptD("BayesSpamScore", defaultBayesSpamScore) * SCORE_C) {
+	if (bayesEnabled && g_plugin.getByte("BayesBlockMsg", defaultBayesBlockMsg))
+		if (get_msg_score(message) >= (double)g_plugin.getDword("BayesSpamScore", defaultBayesSpamScore) * SCORE_C) {
 			_notify(hContact, POPUP_BLOCKED, TranslateT("Message from %s dropped because of high spam score."), message);
-			if (bayesEnabled && _getOptB("BayesAutolearnNotApproved", defaultBayesAutolearnNotApproved))
+			if (bayesEnabled && g_plugin.getByte("BayesAutolearnNotApproved", defaultBayesAutolearnNotApproved))
 				queue_message(hContact, dbei->timestamp, message);
 			return 1;
 		}
 
 	// Accept if score < ham score
-	if (bayesEnabled && _getOptB("BayesAutoApprove", defaultBayesAutoApprove)) 
-		if (get_msg_score(message) <= (double)_getOptD("BayesHamScore", defaultBayesHamScore) * SCORE_C) {
+	if (bayesEnabled && g_plugin.getByte("BayesAutoApprove", defaultBayesAutoApprove)) 
+		if (get_msg_score(message) <= (double)g_plugin.getDword("BayesHamScore", defaultBayesHamScore) * SCORE_C) {
 			_notify(hContact, POPUP_APPROVED, TranslateT("Contact %s approved."), message);
-			_setCOptB(hContact, "Verified", 1);
-			if (_getOptB("HideUnverified", defaultHideUnverified))
+			g_plugin.setByte(hContact, "Verified", 1);
+			if (g_plugin.getByte("HideUnverified", defaultHideUnverified))
 				db_unset(hContact, "CList", "Hidden");
-			if (_getOptB("AddPermanently", defaultAddPermanently))
+			if (g_plugin.getByte("AddPermanently", defaultAddPermanently))
 				db_unset(hContact, "CList", "NotOnList");
 			db_unset(hContact, "CList", "Delete");
 			if (bayesEnabled && 
-				_getOptB("BayesAutolearnApproved", defaultBayesAutolearnApproved) &&
-				_getOptB("BayesAutolearnAutoApproved", defaultBayesAutolearnAutoApproved)) {
+				g_plugin.getByte("BayesAutolearnApproved", defaultBayesAutolearnApproved) &&
+				g_plugin.getByte("BayesAutolearnAutoApproved", defaultBayesAutolearnAutoApproved)) {
 				queue_message(hContact, dbei->timestamp, message);
 				bayes_approve_contact(hContact);
 			}
@@ -327,17 +327,17 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 		}
 
 	// Accept if event is EVENTTYPE_AUTHREQUEST and ReplyOnAuth is NOT set
-	if (dbei->eventType == EVENTTYPE_AUTHREQUEST && !_getOptB("ReplyOnAuth", defaultReplyOnAuth))
+	if (dbei->eventType == EVENTTYPE_AUTHREQUEST && !g_plugin.getByte("ReplyOnAuth", defaultReplyOnAuth))
 		return 0;
 	// Accept if event is EVENTTYPE_MESSAGE and ReplyOnMsg is NOT set
-	if (dbei->eventType == EVENTTYPE_MESSAGE && !_getOptB("ReplyOnMsg", defaultReplyOnMsg))
+	if (dbei->eventType == EVENTTYPE_MESSAGE && !g_plugin.getByte("ReplyOnMsg", defaultReplyOnMsg))
 		return 0;
 
 	/*** Send Challenge ***/
 
 	challengeW = (wchar_t *)malloc(maxmsglen * sizeof(wchar_t));
 	tmpW = (wchar_t *)malloc(maxmsglen * sizeof(wchar_t));
-	switch (_getOptB("Mode", defaultMode)) {
+	switch (g_plugin.getByte("Mode", defaultMode)) {
 	case SPAMOTRON_MODE_PLAIN:
 		if (dbei->eventType == EVENTTYPE_AUTHREQUEST)
 			_getOptS(challengeW, maxmsglen, "AuthChallenge", defaultAuthChallenge);
@@ -354,11 +354,11 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 		else
 			_getOptS(challengeW, maxmsglen, "Challenge", defaultChallenge);
 		_getOptS(buf, buflen, "Response", defaultResponse);
-		if (_getCOptD(hContact, "ResponseNum", 0) >= (unsigned int)(get_response_num(buf) - 1))
-			_setCOptD(hContact, "ResponseNum", -1);
+		if (g_plugin.getDword(hContact, "ResponseNum", 0) >= (unsigned int)(get_response_num(buf) - 1))
+			g_plugin.setDword(hContact, "ResponseNum", -1);
 
-		_setCOptD(hContact, "ResponseNum", _getCOptD(hContact, "ResponseNum", -1) + 1);
-		ReplaceVarsNum(challengeW, maxmsglen, _getCOptD(hContact, "ResponseNum", 0));
+		g_plugin.setDword(hContact, "ResponseNum", g_plugin.getDword(hContact, "ResponseNum", -1) + 1);
+		ReplaceVarsNum(challengeW, maxmsglen, g_plugin.getDword(hContact, "ResponseNum", 0));
 		ProtoChainSend(hContact, PSS_MESSAGE, 0, T2Utf(challengeW));
 		_notify(hContact, POPUP_CHALLENGE, TranslateT("Sending round-robin challenge to %s."), message);
 		break;
@@ -370,8 +370,8 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 			_getOptS(challengeW, maxmsglen, "Challenge", defaultChallenge);
 		_getOptS(buf, buflen, "Response", defaultResponse);
 		srand(time(0));
-		_setCOptD(hContact, "ResponseNum", rand() % get_response_num(buf));
-		ReplaceVarsNum(challengeW, maxmsglen, _getCOptD(hContact, "ResponseNum", 0));
+		g_plugin.setDword(hContact, "ResponseNum", rand() % get_response_num(buf));
+		ReplaceVarsNum(challengeW, maxmsglen, g_plugin.getDword(hContact, "ResponseNum", 0));
 		ProtoChainSend(hContact, PSS_MESSAGE, 0, T2Utf(challengeW));
 		_notify(hContact, POPUP_CHALLENGE, TranslateT("Sending random challenge to %s."), message);
 		break;
@@ -385,7 +385,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 		else
 			_getOptS(challengeW, maxmsglen, "ChallengeMath", defaultChallengeMath);
 		ReplaceVar(challengeW, maxmsglen, L"%mathexpr%", mexpr);
-		_setCOptD(hContact, "ResponseMath", a + b);
+		g_plugin.setDword(hContact, "ResponseMath", a + b);
 		ProtoChainSend(hContact, PSS_MESSAGE, 0, T2Utf(challengeW));
 		_notify(hContact, POPUP_CHALLENGE, TranslateT("Sending math expression challenge to %s."), message);
 		break;
@@ -406,26 +406,26 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	/*** Do any post-send procedures we need to do ***/
 
 	// Increment MsgSent if it was sent the same day. Otherwise set it to 1.
-	if (isOneDay(dbei->timestamp, _getCOptD(hContact, "MsgSentTime", 0)))
-		_setCOptD(hContact, "MsgSent", _getCOptD(hContact, "MsgSent", 0) + 1);
+	if (isOneDay(dbei->timestamp, g_plugin.getDword(hContact, "MsgSentTime", 0)))
+		g_plugin.setDword(hContact, "MsgSent", g_plugin.getDword(hContact, "MsgSent", 0) + 1);
 	else
-		_setCOptD(hContact, "MsgSent", 1);
-	_setCOptD(hContact, "MsgSentTime", dbei->timestamp);
+		g_plugin.setDword(hContact, "MsgSent", 1);
+	g_plugin.setDword(hContact, "MsgSentTime", dbei->timestamp);
 
 	// Save Last Msg and update SameMsgCount
 	if (message != nullptr) {
 		if (mir_wstrcmp(_getCOptS(buf, buflen, hContact, "LastInMsg", L""), message) == 0)
-			_setCOptD(hContact, "SameMsgCount", 1 + _getCOptD(hContact, "SameMsgCount", 0));
+			g_plugin.setDword(hContact, "SameMsgCount", 1 + g_plugin.getDword(hContact, "SameMsgCount", 0));
 		else
-			_setCOptD(hContact, "SameMsgCount", 1);
-		_setCOptTS(hContact, "LastInMsg", message);
+			g_plugin.setDword(hContact, "SameMsgCount", 1);
+		g_plugin.setWString(hContact, "LastInMsg", message);
 	}
 
 	if (message != nullptr)
 		mir_free(message);
 
 	// Finally silently save the message to contact history if corresponding option is set
-	if (_getOptB("KeepBlockedMsg", defaultKeepBlockedMsg)) {
+	if (g_plugin.getByte("KeepBlockedMsg", defaultKeepBlockedMsg)) {
 		if (dbei->eventType == EVENTTYPE_AUTHREQUEST) {
 			// Save the request to database so that it can be automatically submitted on user approval
 			PBYTE eventdata = (PBYTE)malloc(sizeof(DWORD) + dbei->cbBlob);
@@ -433,13 +433,13 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 				memcpy(eventdata, &dbei->cbBlob, sizeof(DWORD));
 				memcpy(eventdata + sizeof(DWORD), dbei->pBlob, dbei->cbBlob);
 				db_set_blob(hContact, MODULENAME, "AuthEvent", eventdata, sizeof(DWORD) + dbei->cbBlob);
-				_setCOptS(hContact, "AuthEventModule", dbei->szModule);
-				_setCOptB(hContact, "AuthEventPending", TRUE);
+				g_plugin.setString(hContact, "AuthEventModule", dbei->szModule);
+				g_plugin.setByte(hContact, "AuthEventPending", TRUE);
 				free(eventdata);
 			}
 		}
 		else {
-			if (_getOptB("MarkMsgUnreadOnApproval", defaultMarkMsgUnreadOnApproval)) {
+			if (g_plugin.getByte("MarkMsgUnreadOnApproval", defaultMarkMsgUnreadOnApproval)) {
 				DBVARIANT _dbv;
 				DWORD dbei_size = 3 * sizeof(DWORD) + sizeof(WORD) + dbei->cbBlob + (DWORD)mir_strlen(dbei->szModule) + 1;
 				PBYTE eventdata = (PBYTE)malloc(dbei_size);
@@ -481,7 +481,7 @@ void RemoveNotOnListSettings()
 	for (auto &hContact : Contacts()) {
 		if (db_get_s(hContact, "Protocol", "p", &dbv) == 0) {
 			mir_strcat(protoName, dbv.pszVal);
-			if (_getOptB(protoName, 0) != 0) {
+			if (g_plugin.getByte(protoName, 0) != 0) {
 				if (db_get_b(hContact, "CList", "Delete", 0) == 1) {
 					db_unset(hContact, "CList", "NotOnList");
 				}
@@ -498,10 +498,10 @@ int CMPlugin::Load()
 {
 	srand((unsigned)time(0));
 	bayesdb = nullptr;
-	if (_getOptB("BayesEnabled", defaultBayesEnabled)) {
+	if (g_plugin.getByte("BayesEnabled", defaultBayesEnabled)) {
 		if (CheckBayes()) {
 			OpenBayes();
-			if (_getOptB("BayesAutolearnNotApproved", defaultBayesAutolearnNotApproved)) {
+			if (g_plugin.getByte("BayesAutolearnNotApproved", defaultBayesAutolearnNotApproved)) {
 				dequeue_messages();
 				last_queue_check = time(0);
 			}

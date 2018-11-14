@@ -33,20 +33,8 @@
 
 #define MAX_BUFFER_LENGTH 1024
 
-#define _getCOptB(a,b,c) db_get_b(a, MODULENAME, b, c)
-#define _setCOptB(a,b,c) db_set_b(a, MODULENAME, b, c)
-#define _getCOptD(a,b,c) db_get_dw(a, MODULENAME, b, c)
-#define _setCOptD(a,b,c) db_set_dw(a, MODULENAME, b, c)
-#define _getOptB(a,b) _getCOptB(NULL, a, b)
-#define _setOptB(a,b) _setCOptB(NULL, a, b)
-#define _getOptD(a,b) _getCOptD(NULL, a, b)
-#define _setOptD(a,b) _setCOptD(NULL, a, b)
-
 wchar_t* _getCOptS(wchar_t *buf, unsigned int buflen, MCONTACT hContact, const char* option, const wchar_t *def);
 #define _getOptS(a,b,c,d) _getCOptS(a, b, NULL, c, d)
-#define _setCOptTS(a,b,c) db_set_ws(a, MODULENAME, b, c)
-#define _setCOptS(a,b,c) db_set_s(a, MODULENAME, b, c)
-#define _setOptTS(a,b) _setCOptTS(NULL, a, b)
 
 #define defaultMode SPAMOTRON_MODE_PLAIN
 #define defaultChallenge TranslateT("Spam-o-tron needs to verify you're not a bot. Reply with \"%response%\" without quotes.")
@@ -90,7 +78,7 @@ wchar_t* _getCOptS(wchar_t *buf, unsigned int buflen, MCONTACT hContact, const c
 #define defaultPopupChallengeForeground RGB(0, 0, 0)
 #define defaultPopupChallengeBackground RGB(180, 210, 240)
 
-#define _NOTIFYP _getOptB("NotifyPopup", defaultNotifyPopup)
+#define _NOTIFYP g_plugin.getByte("NotifyPopup", defaultNotifyPopup)
 
 wchar_t* ReplaceVars(wchar_t *dst, unsigned int len);
 wchar_t* ReplaceVarsNum(wchar_t *dst, unsigned int len, int num);

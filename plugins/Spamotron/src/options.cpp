@@ -40,7 +40,7 @@ BOOL _saveDlgItemText(HWND hDialog, int controlID, char* option)
 	len = GetWindowTextLength(GetDlgItem(hDialog, controlID));
 	tmp = (wchar_t *)malloc((len + 1)*sizeof(wchar_t));
 	GetDlgItemText(hDialog, controlID, tmp, len + 1);
-	_setOptTS(option, tmp);
+	g_plugin.setWString(option, tmp);
 	free(tmp);
 	return TRUE;
 }
@@ -72,7 +72,7 @@ BOOL _saveDlgItemInt(HWND hDialog, int controlID, char* option)
 	len = GetWindowTextLength(GetDlgItem(hDialog, controlID));
 	tmp = (wchar_t *)malloc((len + 1)*sizeof(wchar_t));
 	GetDlgItemText(hDialog, controlID, tmp, len + 1);
-	_setOptD(option, _wtoi(tmp));
+	g_plugin.setDword(option, _wtoi(tmp));
 	free(tmp);
 	return TRUE;
 }
@@ -83,7 +83,7 @@ BOOL _saveDlgItemScore(HWND hDialog, int controlID, char* option)
 	len = GetWindowTextLength(GetDlgItem(hDialog, controlID));
 	tmp = (wchar_t *)malloc((len + 1)*sizeof(wchar_t));
 	GetDlgItemText(hDialog, controlID, tmp, len + 1);
-	_setOptD(option, wcstod(tmp, nullptr)/SCORE_C);
+	g_plugin.setDword(option, wcstod(tmp, nullptr)/SCORE_C);
 	return TRUE;
 }
 
@@ -103,17 +103,17 @@ INT_PTR CALLBACK DlgProcOptionsMain(HWND optDlg, UINT msg, WPARAM wParam, LPARAM
 		bInitializing = 1;
 
 		///Main enable switch
-		CheckDlgButton(optDlg, IDC_OPT_OUT_MSG_APPROVE, _getOptB("ApproveOnMsgOut", defaultApproveOnMsgOut) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(optDlg, IDC_OPT_IN_MSG_APPROVE, _getOptB("ApproveOnMsgIn", defaultApproveOnMsgIn) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(optDlg, IDC_OPT_DONT_REPLY_SAME_MSG, _getOptB("DontReplySameMsg", defaultDontReplySameMsg) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(optDlg, IDC_OPT_DONT_REPLY_MSG, _getOptB("DontReplyMsg", defaultDontReplyMsg) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(optDlg, IDC_OPT_HIDE_UNTIL_VERIFIED, _getOptB("HideUnverified", defaultHideUnverified) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(optDlg, IDC_OPT_ADD_PERMANENTLY, _getOptB("AddPermanently", defaultAddPermanently) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(optDlg, IDC_OPT_LOG_ACTIONS, _getOptB("LogActions", defaultLogActions) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(optDlg, IDC_OPT_OUT_MSG_APPROVE, g_plugin.getByte("ApproveOnMsgOut", defaultApproveOnMsgOut) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(optDlg, IDC_OPT_IN_MSG_APPROVE, g_plugin.getByte("ApproveOnMsgIn", defaultApproveOnMsgIn) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(optDlg, IDC_OPT_DONT_REPLY_SAME_MSG, g_plugin.getByte("DontReplySameMsg", defaultDontReplySameMsg) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(optDlg, IDC_OPT_DONT_REPLY_MSG, g_plugin.getByte("DontReplyMsg", defaultDontReplyMsg) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(optDlg, IDC_OPT_HIDE_UNTIL_VERIFIED, g_plugin.getByte("HideUnverified", defaultHideUnverified) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(optDlg, IDC_OPT_ADD_PERMANENTLY, g_plugin.getByte("AddPermanently", defaultAddPermanently) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(optDlg, IDC_OPT_LOG_ACTIONS, g_plugin.getByte("LogActions", defaultLogActions) ? BST_CHECKED : BST_UNCHECKED);
 
 		SetDlgItemText(optDlg, IDC_OPT_IN_MSG_APPROVE_WORDLIST, _getOptS(buf, _countof(buf), "ApproveOnMsgInWordlist", defaultApproveOnMsgInWordlist));
-		SetDlgItemText(optDlg, IDC_OPT_MAX_MSG_CONTACT, _itow((unsigned int)_getOptD("MaxMsgContactCountPerDay", defaultMaxMsgContactCountPerDay), buf, 10));
-		SetDlgItemText(optDlg, IDC_OPT_MAX_SAME_MSG, _itow((unsigned int)_getOptD("MaxSameMsgCountPerDay", defaultMaxSameMsgCountPerDay), buf, 10));
+		SetDlgItemText(optDlg, IDC_OPT_MAX_MSG_CONTACT, _itow(g_plugin.getDword("MaxMsgContactCountPerDay", defaultMaxMsgContactCountPerDay), buf, 10));
+		SetDlgItemText(optDlg, IDC_OPT_MAX_SAME_MSG, _itow(g_plugin.getDword("MaxSameMsgCountPerDay", defaultMaxSameMsgCountPerDay), buf, 10));
 		SetDlgItemText(optDlg, IDC_OPT_DONT_REPLY_MSG_WORDLIST, _getOptS(buf, _countof(buf), "DontReplyMsgWordlist", defaultDontReplyMsgWordlist));
 
 		///Individual protocols list
@@ -133,7 +133,7 @@ INT_PTR CALLBACK DlgProcOptionsMain(HWND optDlg, UINT msg, WPARAM wParam, LPARAM
 			memset(protoOption, 0, sizeof(protoOption));
 			mir_strcat(protoOption, "proto_");
 			mir_strcat(protoOption, pa->szModuleName);
-			ListView_SetCheckState(hProtocolsList, j++, _getOptB(protoOption, 0));
+			ListView_SetCheckState(hProtocolsList, j++, g_plugin.getByte(protoOption, 0));
 		}
 
 		bInitializing = 0;
@@ -181,13 +181,13 @@ INT_PTR CALLBACK DlgProcOptionsMain(HWND optDlg, UINT msg, WPARAM wParam, LPARAM
 		}
 		switch (((NMHDR*)lParam)->code) {
 		case PSN_APPLY:
-			_setOptB("ApproveOnMsgOut", IsDlgButtonChecked(optDlg, IDC_OPT_OUT_MSG_APPROVE));
-			_setOptB("ApproveOnMsgIn", IsDlgButtonChecked(optDlg, IDC_OPT_IN_MSG_APPROVE));
-			_setOptB("DontReplySameMsg", IsDlgButtonChecked(optDlg, IDC_OPT_DONT_REPLY_SAME_MSG));
-			_setOptB("DontReplyMsg", IsDlgButtonChecked(optDlg, IDC_OPT_DONT_REPLY_MSG));
-			_setOptB("AddPermanently", IsDlgButtonChecked(optDlg, IDC_OPT_ADD_PERMANENTLY));
-			_setOptB("HideUnverified", IsDlgButtonChecked(optDlg, IDC_OPT_HIDE_UNTIL_VERIFIED));
-			_setOptB("LogActions", IsDlgButtonChecked(optDlg, IDC_OPT_LOG_ACTIONS));
+			g_plugin.setByte("ApproveOnMsgOut", IsDlgButtonChecked(optDlg, IDC_OPT_OUT_MSG_APPROVE));
+			g_plugin.setByte("ApproveOnMsgIn", IsDlgButtonChecked(optDlg, IDC_OPT_IN_MSG_APPROVE));
+			g_plugin.setByte("DontReplySameMsg", IsDlgButtonChecked(optDlg, IDC_OPT_DONT_REPLY_SAME_MSG));
+			g_plugin.setByte("DontReplyMsg", IsDlgButtonChecked(optDlg, IDC_OPT_DONT_REPLY_MSG));
+			g_plugin.setByte("AddPermanently", IsDlgButtonChecked(optDlg, IDC_OPT_ADD_PERMANENTLY));
+			g_plugin.setByte("HideUnverified", IsDlgButtonChecked(optDlg, IDC_OPT_HIDE_UNTIL_VERIFIED));
+			g_plugin.setByte("LogActions", IsDlgButtonChecked(optDlg, IDC_OPT_LOG_ACTIONS));
 			_saveDlgItemText(optDlg, IDC_OPT_IN_MSG_APPROVE_WORDLIST, "ApproveOnMsgInWordlist");
 			_saveDlgItemText(optDlg, IDC_OPT_DONT_REPLY_MSG_WORDLIST, "DontReplyMsgWordlist");
 			_saveDlgItemInt(optDlg, IDC_OPT_MAX_MSG_CONTACT, "MaxMsgContactCountPerDay");
@@ -200,7 +200,7 @@ INT_PTR CALLBACK DlgProcOptionsMain(HWND optDlg, UINT msg, WPARAM wParam, LPARAM
 				memset(protoOption, 0, sizeof(protoOption));
 				mir_strcat(protoOption, "proto_");
 				mir_strcat(protoOption, mir_u2a(buf));
-				_setOptB(protoOption, ListView_GetCheckState(hProtocolsList, i));
+				g_plugin.setByte(protoOption, ListView_GetCheckState(hProtocolsList, i));
 			}
 			return TRUE;
 		}
@@ -232,7 +232,7 @@ INT_PTR CALLBACK DlgProcOptionsQuestion(HWND optDlg, UINT msg, WPARAM wParam, LP
 			SendMessage(ht, CB_ADDSTRING, 0, (LPARAM)TranslateT("Random"));
 			SendMessage(ht, CB_SETITEMDATA, 3, SPAMOTRON_MODE_RANDOM);
 			
-			selectedMode = _getOptB("Mode", defaultMode);
+			selectedMode = g_plugin.getByte("Mode", defaultMode);
 			for (i = 0; i < SendMessage(ht, CB_GETCOUNT, 0, 0); i++) {
 				if (SendMessage(ht, CB_GETITEMDATA, i, 0) == selectedMode) {
 					SendMessage(ht, CB_SETCURSEL, i, 0);
@@ -263,13 +263,13 @@ INT_PTR CALLBACK DlgProcOptionsQuestion(HWND optDlg, UINT msg, WPARAM wParam, LP
 					SetDlgItemText(optDlg, IDC_OPT_AUTH_CHALLENGE, _getOptS(buf, buflen, "AuthChallengeMath", defaultAuthChallengeMath));
 					break;
 			}
-			CheckDlgButton(optDlg, IDC_OPT_REPLY_ON_SUCCESS, _getOptB("ReplyOnSuccess", defaultReplyOnSuccess) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(optDlg, IDC_OPT_REPLY_ON_AUTH, _getOptB("ReplyOnAuth", defaultReplyOnAuth) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(optDlg, IDC_OPT_REPLY_ON_MSG, _getOptB("ReplyOnMsg", defaultReplyOnMsg) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(optDlg, IDC_OPT_KEEP_BLOCKED_MSG, _getOptB("KeepBlockedMsg", defaultKeepBlockedMsg) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(optDlg, IDC_OPT_MARK_MSG_UNREAD_ON_APPROVAL, _getOptB("MarkMsgUnreadOnApproval", defaultMarkMsgUnreadOnApproval) ? BST_CHECKED : BST_UNCHECKED);
-			EnableWindow(GetDlgItem(optDlg, IDC_OPT_MARK_MSG_UNREAD_ON_APPROVAL), _getOptB("KeepBlockedMsg", defaultKeepBlockedMsg));
-			CheckDlgButton(optDlg, IDC_OPT_CCRESPONSE, _getOptB("ResponseCC", defaultResponseCC) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_REPLY_ON_SUCCESS, g_plugin.getByte("ReplyOnSuccess", defaultReplyOnSuccess) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_REPLY_ON_AUTH, g_plugin.getByte("ReplyOnAuth", defaultReplyOnAuth) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_REPLY_ON_MSG, g_plugin.getByte("ReplyOnMsg", defaultReplyOnMsg) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_KEEP_BLOCKED_MSG, g_plugin.getByte("KeepBlockedMsg", defaultKeepBlockedMsg) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_MARK_MSG_UNREAD_ON_APPROVAL, g_plugin.getByte("MarkMsgUnreadOnApproval", defaultMarkMsgUnreadOnApproval) ? BST_CHECKED : BST_UNCHECKED);
+			EnableWindow(GetDlgItem(optDlg, IDC_OPT_MARK_MSG_UNREAD_ON_APPROVAL), g_plugin.getByte("KeepBlockedMsg", defaultKeepBlockedMsg));
+			CheckDlgButton(optDlg, IDC_OPT_CCRESPONSE, g_plugin.getByte("ResponseCC", defaultResponseCC) ? BST_CHECKED : BST_UNCHECKED);
 			SetDlgItemText(optDlg, IDC_OPT_RESPONSE, _getOptS(buf, buflen, "Response", defaultResponse));
 			SetDlgItemText(optDlg, IDC_OPT_SUCCESS_RESPONSE, _getOptS(buf, buflen, "SuccessResponse", defaultSuccessResponse));
 			free(buf);
@@ -353,13 +353,13 @@ INT_PTR CALLBACK DlgProcOptionsQuestion(HWND optDlg, UINT msg, WPARAM wParam, LP
 				case PSN_APPLY:
 					i = SendDlgItemMessage(optDlg, IDC_OPT_MODE, CB_GETCURSEL, 0, 0);
 					selectedMode = SendDlgItemMessage(optDlg, IDC_OPT_MODE, CB_GETITEMDATA, i, 0);
-					_setOptB("Mode", selectedMode);
-					_setOptB("ReplyOnSuccess", IsDlgButtonChecked(optDlg, IDC_OPT_REPLY_ON_SUCCESS));
-					_setOptB("ReplyOnAuth", IsDlgButtonChecked(optDlg, IDC_OPT_REPLY_ON_AUTH));
-					_setOptB("ReplyOnMsg", IsDlgButtonChecked(optDlg, IDC_OPT_REPLY_ON_MSG));
-					_setOptB("KeepBlockedMsg", IsDlgButtonChecked(optDlg, IDC_OPT_KEEP_BLOCKED_MSG));
-					_setOptB("MarkMsgUnreadOnApproval", IsDlgButtonChecked(optDlg, IDC_OPT_MARK_MSG_UNREAD_ON_APPROVAL));
-					_setOptB("ResponseCC", IsDlgButtonChecked(optDlg, IDC_OPT_CCRESPONSE));
+					g_plugin.setByte("Mode", selectedMode);
+					g_plugin.setByte("ReplyOnSuccess", IsDlgButtonChecked(optDlg, IDC_OPT_REPLY_ON_SUCCESS));
+					g_plugin.setByte("ReplyOnAuth", IsDlgButtonChecked(optDlg, IDC_OPT_REPLY_ON_AUTH));
+					g_plugin.setByte("ReplyOnMsg", IsDlgButtonChecked(optDlg, IDC_OPT_REPLY_ON_MSG));
+					g_plugin.setByte("KeepBlockedMsg", IsDlgButtonChecked(optDlg, IDC_OPT_KEEP_BLOCKED_MSG));
+					g_plugin.setByte("MarkMsgUnreadOnApproval", IsDlgButtonChecked(optDlg, IDC_OPT_MARK_MSG_UNREAD_ON_APPROVAL));
+					g_plugin.setByte("ResponseCC", IsDlgButtonChecked(optDlg, IDC_OPT_CCRESPONSE));
 					switch (selectedMode) {
 						case SPAMOTRON_MODE_PLAIN:
 							_saveDlgItemText(optDlg, IDC_OPT_CHALLENGE, "Challenge");
@@ -422,22 +422,22 @@ INT_PTR CALLBACK DlgProcOptionsBayes(HWND optDlg, UINT msg, WPARAM wParam, LPARA
 		case WM_INITDIALOG:
 			bInitializing = 1;
 			TranslateDialogDefault(optDlg);
-			bEnabled = _getOptB("BayesEnabled", defaultBayesEnabled);
+			bEnabled = g_plugin.getByte("BayesEnabled", defaultBayesEnabled);
 			CheckDlgButton(optDlg, IDC_OPT_BAYES_ENABLED, bEnabled ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(optDlg, IDC_OPT_BAYES_BLOCK_MSG, _getOptB("BayesBlockMsg", defaultBayesBlockMsg) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(optDlg, IDC_OPT_BAYES_AUTO_APPROVE, _getOptB("BayesAutoApprove", defaultBayesAutoApprove) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(optDlg, IDC_OPT_BAYES_AUTOLEARN_APPROVED, _getOptB("BayesAutolearnApproved", defaultBayesAutolearnApproved) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(optDlg, IDC_OPT_BAYES_AUTOLEARN_AUTOAPPROVED, _getOptB("BayesAutolearnAutoApproved", defaultBayesAutolearnAutoApproved) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(optDlg, IDC_OPT_BAYES_AUTOLEARN_NOT_APPROVED, _getOptB("BayesAutolearnNotApproved", defaultBayesAutolearnNotApproved) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(optDlg, IDC_OPT_BAYES_AUTOLEARN_OUTGOING, _getOptB("BayesAutolearnOutgoing", defaultBayesAutolearnOutgoing) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_BAYES_BLOCK_MSG, g_plugin.getByte("BayesBlockMsg", defaultBayesBlockMsg) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_BAYES_AUTO_APPROVE, g_plugin.getByte("BayesAutoApprove", defaultBayesAutoApprove) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_BAYES_AUTOLEARN_APPROVED, g_plugin.getByte("BayesAutolearnApproved", defaultBayesAutolearnApproved) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_BAYES_AUTOLEARN_AUTOAPPROVED, g_plugin.getByte("BayesAutolearnAutoApproved", defaultBayesAutolearnAutoApproved) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_BAYES_AUTOLEARN_NOT_APPROVED, g_plugin.getByte("BayesAutolearnNotApproved", defaultBayesAutolearnNotApproved) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_BAYES_AUTOLEARN_OUTGOING, g_plugin.getByte("BayesAutolearnOutgoing", defaultBayesAutolearnOutgoing) ? BST_CHECKED : BST_UNCHECKED);
 			
 			EnableControlsBayes(optDlg, bEnabled);
 
-			mir_snwprintf(buf, L"%0.02f", (double)_getOptD("BayesSpamScore", defaultBayesSpamScore)*SCORE_C);
+			mir_snwprintf(buf, L"%0.02f", (double)g_plugin.getDword("BayesSpamScore", defaultBayesSpamScore)*SCORE_C);
 			SetDlgItemText(optDlg, IDC_OPT_BAYES_SPAM_SCORE, buf);
-			mir_snwprintf(buf, L"%.02f", (double)_getOptD("BayesHamScore", defaultBayesHamScore)*SCORE_C);
+			mir_snwprintf(buf, L"%.02f", (double)g_plugin.getDword("BayesHamScore", defaultBayesHamScore)*SCORE_C);
 			SetDlgItemText(optDlg, IDC_OPT_BAYES_HAM_SCORE, buf);
-			mir_snwprintf(buf, L"%d", _getOptD("BayesWaitApprove", defaultBayesWaitApprove));
+			mir_snwprintf(buf, L"%d", g_plugin.getDword("BayesWaitApprove", defaultBayesWaitApprove));
 			SetDlgItemText(optDlg, IDC_OPT_BAYES_WAIT_APPROVE, buf);
 
 			if (bEnabled) {
@@ -528,13 +528,13 @@ INT_PTR CALLBACK DlgProcOptionsBayes(HWND optDlg, UINT msg, WPARAM wParam, LPARA
 		case WM_NOTIFY:
 			switch (((NMHDR*)lParam)->code) {
 				case PSN_APPLY:
-					_setOptB("BayesEnabled", IsDlgButtonChecked(optDlg, IDC_OPT_BAYES_ENABLED));
-					_setOptB("BayesBlockMsg", IsDlgButtonChecked(optDlg, IDC_OPT_BAYES_BLOCK_MSG));
-					_setOptB("BayesAutoApprove", IsDlgButtonChecked(optDlg, IDC_OPT_BAYES_AUTO_APPROVE));
-					_setOptB("BayesAutolearnApproved", IsDlgButtonChecked(optDlg, IDC_OPT_BAYES_AUTOLEARN_APPROVED));
-					_setOptB("BayesAutolearnAutoApproved", IsDlgButtonChecked(optDlg, IDC_OPT_BAYES_AUTOLEARN_AUTOAPPROVED));
-					_setOptB("BayesAutolearnNotApproved", IsDlgButtonChecked(optDlg, IDC_OPT_BAYES_AUTOLEARN_NOT_APPROVED));
-					_setOptB("BayesAutolearnOutgoing", IsDlgButtonChecked(optDlg, IDC_OPT_BAYES_AUTOLEARN_OUTGOING));
+					g_plugin.setByte("BayesEnabled", IsDlgButtonChecked(optDlg, IDC_OPT_BAYES_ENABLED));
+					g_plugin.setByte("BayesBlockMsg", IsDlgButtonChecked(optDlg, IDC_OPT_BAYES_BLOCK_MSG));
+					g_plugin.setByte("BayesAutoApprove", IsDlgButtonChecked(optDlg, IDC_OPT_BAYES_AUTO_APPROVE));
+					g_plugin.setByte("BayesAutolearnApproved", IsDlgButtonChecked(optDlg, IDC_OPT_BAYES_AUTOLEARN_APPROVED));
+					g_plugin.setByte("BayesAutolearnAutoApproved", IsDlgButtonChecked(optDlg, IDC_OPT_BAYES_AUTOLEARN_AUTOAPPROVED));
+					g_plugin.setByte("BayesAutolearnNotApproved", IsDlgButtonChecked(optDlg, IDC_OPT_BAYES_AUTOLEARN_NOT_APPROVED));
+					g_plugin.setByte("BayesAutolearnOutgoing", IsDlgButtonChecked(optDlg, IDC_OPT_BAYES_AUTOLEARN_OUTGOING));
 					_saveDlgItemScore(optDlg, IDC_OPT_BAYES_SPAM_SCORE, "BayesSpamScore");
 					_saveDlgItemScore(optDlg, IDC_OPT_BAYES_HAM_SCORE, "BayesHamScore");
 					_saveDlgItemInt(optDlg, IDC_OPT_BAYES_WAIT_APPROVE, "BayesWaitApprove");

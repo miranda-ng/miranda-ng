@@ -429,7 +429,7 @@ int _notify(MCONTACT hContact, BYTE type, wchar_t *message, wchar_t *origmessage
 	wchar_t msg[MAX_BUFFER_LENGTH];
 	mir_snwprintf(msg, message, Clist_GetContactDisplayName(hContact));
 
-	if (_getOptB("LogActions", defaultLogActions)) {
+	if (g_plugin.getByte("LogActions", defaultLogActions)) {
 		tmp = mir_u2a(msg);
 		tmporig = mir_u2a(origmessage);
 		LogToSystemHistory(tmp, origmessage ? tmporig : nullptr);
@@ -439,13 +439,13 @@ int _notify(MCONTACT hContact, BYTE type, wchar_t *message, wchar_t *origmessage
 
 	if (_NOTIFYP) {
 		if (type == POPUP_BLOCKED) {
-			if (_getOptB("NotifyPopupBlocked", defaultNotifyPopupBlocked))
+			if (g_plugin.getByte("NotifyPopupBlocked", defaultNotifyPopupBlocked))
 				ShowPopup(hContact, type, nullptr, msg);
 		} else if (type == POPUP_APPROVED) {
-			if (_getOptB("NotifyPopupApproved", defaultNotifyPopupApproved))
+			if (g_plugin.getByte("NotifyPopupApproved", defaultNotifyPopupApproved))
 				ShowPopup(hContact, type, nullptr, msg);
 		} else if (type == POPUP_CHALLENGE) {
-			if (_getOptB("NotifyPopupChallenge", defaultNotifyPopupChallenge))
+			if (g_plugin.getByte("NotifyPopupChallenge", defaultNotifyPopupChallenge))
 				ShowPopup(hContact, type, nullptr, msg);
 		} else {
 			ShowPopup(hContact, type, nullptr, msg);
