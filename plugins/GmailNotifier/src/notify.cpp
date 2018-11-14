@@ -82,7 +82,7 @@ int OpenBrowser(WPARAM hContact, LPARAM)
 			return FALSE;
 
 		if (curAcc->oldResults_num != 0) {
-			db_set_w(curAcc->hContact, MODULENAME, "Status", ID_STATUS_NONEW);
+			g_plugin.setWord(curAcc->hContact, "Status", ID_STATUS_NONEW);
 			curAcc->oldResults_num = 0;
 			DeleteResults(curAcc->results.next);
 			curAcc->results.next = nullptr;
@@ -134,15 +134,15 @@ void NotifyUser(Account *curAcc)
 		PUDeletePopup(curAcc->popUpHwnd);
 		g_clistApi.pfnRemoveEvent(curAcc->hContact, 1);
 		if (curAcc->oldResults_num != 0)
-			db_set_w(curAcc->hContact, MODULENAME, "Status", ID_STATUS_NONEW);
+			g_plugin.setWord(curAcc->hContact, "Status", ID_STATUS_NONEW);
 		break;
 
 	case -1:
-		db_set_w(curAcc->hContact, MODULENAME, "Status", ID_STATUS_AWAY);
+		g_plugin.setWord(curAcc->hContact, "Status", ID_STATUS_AWAY);
 		break;
 
 	default:
-		db_set_w(curAcc->hContact, MODULENAME, "Status", ID_STATUS_OCCUPIED);
+		g_plugin.setWord(curAcc->hContact, "Status", ID_STATUS_OCCUPIED);
 		int newMails = (curAcc->oldResults_num == -1) ? (curAcc->results_num) : (curAcc->results_num - curAcc->oldResults_num);
 		if (opt.LogThreads&&newMails > 0) {
 			DBEVENTINFO dbei = {};

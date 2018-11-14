@@ -1,21 +1,21 @@
 /*
-   Authorization State plugin for Miranda NG (www.miranda-ng.org)
-   (c) 2006-2010 by Thief
+	Authorization State plugin for Miranda NG (www.miranda-ng.org)
+	(c) 2006-2010 by Thief
 
-   This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2 of the License, or
-   (at your option) any later version.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
 
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-   */
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	*/
 
 #include "stdafx.h"
 
@@ -57,7 +57,8 @@ PLUGININFOEX pluginInfoEx = {
 
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
-{}
+{
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -65,7 +66,8 @@ INT_PTR getIconToUse(MCONTACT hContact, LPARAM)
 {
 	const char *proto = GetContactProto(hContact);
 	//	if (lParam == 1) return icon_none;
-	if (!db_get_b(hContact, "AuthState", "ShowIcons", !Options.bIconsForRecentContacts)) return ICON_NONE;
+	if (!g_plugin.getByte(hContact, "ShowIcons", !Options.bIconsForRecentContacts))
+		return ICON_NONE;
 
 	if (db_get_b(0, "ICQ", "UseServerCList", 0))
 		if (db_get_dw(hContact, proto, "ServerId", 1) == 0)
@@ -102,7 +104,8 @@ int onContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 	const char *proto = GetContactProto((MCONTACT)hContact);
-	if (!proto) return 0;
+	if (!proto)
+		return 0;
 
 	if (!strcmp(cws->szModule, proto))
 		if (!strcmp(cws->szSetting, "Auth") || !strcmp(cws->szSetting, "Grant") || !strcmp(cws->szSetting, "ServerId") || !strcmp(cws->szSetting, "ContactType"))
@@ -113,22 +116,21 @@ int onContactSettingChanged(WPARAM hContact, LPARAM lParam)
 
 int onDBContactAdded(WPARAM hContact, LPARAM)
 {
-	db_set_b((MCONTACT)hContact, MODULENAME, "ShowIcons", 1);
+	g_plugin.setByte(hContact, "ShowIcons", 1);
 	onExtraImageApplying(hContact, 0);
 	return 0;
 }
 
 INT_PTR onAuthMenuSelected(WPARAM hContact, LPARAM)
 {
-	db_set_b((MCONTACT)hContact, MODULENAME, "ShowIcons", 1 - db_get_b((MCONTACT)hContact, "AuthState", "ShowIcons", 1));
+	g_plugin.setByte(hContact, "ShowIcons", 1 - g_plugin.getByte(hContact, "ShowIcons", 1));
 	onExtraImageApplying(hContact, 0);
 	return 0;
 }
 
 int onPrebuildContactMenu(WPARAM hContact, LPARAM)
 {
-	if (!Options.bContactMenuItem)
-	{
+	if (!Options.bContactMenuItem) {
 		Menu_ShowItem(hUserMenu, false);
 		return 0;
 	}
@@ -137,7 +139,7 @@ int onPrebuildContactMenu(WPARAM hContact, LPARAM)
 	if (!proto)
 		return 0;
 
-	if (db_get_b((MCONTACT)hContact, "AuthState", "ShowIcons", 1))
+	if (g_plugin.getByte(hContact, "ShowIcons", 1))
 		Menu_ModifyItem(hUserMenu, LPGENW("Disable AuthState icons"));
 	else
 		Menu_ModifyItem(hUserMenu, LPGENW("Enable AuthState icons"));

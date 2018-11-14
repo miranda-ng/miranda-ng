@@ -195,7 +195,7 @@ bool ICQ::logon(unsigned short logonStatus)
 	DBVARIANT dbv;
 	char str[128];
 
-	if (!db_get_s(0, protoName, "Server", &dbv)) {
+	if (!g_plugin.getString("Server", &dbv)) {
 		lstrcpyA(str, dbv.pszVal);
 		db_free(&dbv);
 	}
@@ -218,8 +218,8 @@ bool ICQ::logon(unsigned short logonStatus)
 
 	updateContactList();
 
-	dwUIN = db_get_dw(0, protoName, "UIN", 0);
-	if (!db_get_s(0, protoName, "Password", &dbv)) {
+	dwUIN = g_plugin.getDword("UIN", 0);
+	if (!g_plugin.getString("Password", &dbv)) {
 		lstrcpyA(str, dbv.pszVal);
 		db_free(&dbv);
 	}
@@ -602,7 +602,8 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 			break;
 		}
 
-		if (e->reply == 0) ProtoBroadcastAck(protoName, u->hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, nullptr, 0);
+		if (e->reply == 0)
+			ProtoBroadcastAck(protoName, u->hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, nullptr, 0);
 		doneEvent(true, udpSocket.handleVal, theSequence1);
 		delete[] buffer;
 		break;
@@ -763,7 +764,7 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 			>> timedataStamp
 			>> newCommand;
 
-		db_set_dw(0, protoName, "LastBroadcastTime", timedataStamp);
+		g_plugin.setDword("LastBroadcastTime", timedataStamp);
 		timedataStamp = TimeZone_ToLocal(timedataStamp);
 
 		processSystemMessage(packet, checkUin, newCommand, timedataStamp);
@@ -1061,7 +1062,7 @@ void ICQ::requestSystemMsg()
 
 void ICQ::requestBroadcastMsg()
 {
-	unsigned int timeStamp = db_get_dw(0, protoName, "LastBroadcastTime", 0);
+	unsigned int timeStamp = g_plugin.getDword("LastBroadcastTime", 0);
 
 	Packet packet;
 	packet << ICQ_VERSION
@@ -1116,13 +1117,13 @@ void ICQ::updateContactList()
 			if ((u = getUserByContact(hContact)) == nullptr) {
 				u = new ICQUser();
 				u->hContact = hContact;
-				u->dwUIN = db_get_dw(hContact, protoName, "UIN", 0);
+				u->dwUIN = g_plugin.getDword(hContact, "UIN", 0);
 				icqUsers.push_back(u);
 			}
 			if (statusVal <= ID_STATUS_OFFLINE)
 				u->setStatus(ID_STATUS_OFFLINE);
 			else
-				u->statusVal = db_get_w(hContact, protoName, "Status", ID_STATUS_OFFLINE);
+				u->statusVal = g_plugin.getWord(hContact, "Status", ID_STATUS_OFFLINE);
 		}
 	}
 
@@ -1133,7 +1134,8 @@ void ICQ::updateContactList()
 	Packet userPacket;
 	for (i = 0; i < icqUsers.size();) {
 		userCount = (unsigned int)icqUsers.size() - i;
-		if (userCount > 100) userCount = 100;
+		if (userCount > 100)
+			userCount = 100;
 
 		userPacket.clearPacket();
 		userPacket << ICQ_VERSION
@@ -1173,7 +1175,7 @@ void ICQ::sendVisibleList()
 		for (i=0; i<icqUsers.size(); i++)
 		{
 		u = icqUsers[i];
-		if (u->statusVal != ID_STATUS_OFFLINE && db_get_w(u->hContact, protoName, "ApparentMode", 0) == ID_STATUS_ONLINE)
+		if (u->statusVal != ID_STATUS_OFFLINE && g_plugin.getWord(u->hContact, "ApparentMode") == ID_STATUS_ONLINE)
 		numUsers++;
 		}
 
@@ -1183,7 +1185,7 @@ void ICQ::sendVisibleList()
 		for (i=0; i<icqUsers.size(); i++)
 		{
 		u = icqUsers[i];
-		if (u->statusVal != ID_STATUS_OFFLINE && db_get_w(u->hContact, protoName, "ApparentMode", 0) == ID_STATUS_ONLINE)
+		if (u->statusVal != ID_STATUS_OFFLINE && g_plugin.getWord(u->hContact, "ApparentMode") == ID_STATUS_ONLINE)
 		userPacket << icqUsers[i]->uin;
 		}
 
@@ -1209,7 +1211,7 @@ void ICQ::sendInvisibleList()
 
 		for (i=0; i<icqUsers.size(); i++)
 		{
-		if (db_get_w(icqUsers[i]->hContact, protoName, "ApparentMode", 0) == ID_STATUS_OFFLINE)
+		if (g_plugin.getWord(icqUsers[i]->hContact, "ApparentMode") == ID_STATUS_OFFLINE)
 		numUsers++;
 		}
 
@@ -1218,7 +1220,7 @@ void ICQ::sendInvisibleList()
 
 		for (i=0; i<icqUsers.size(); i++)
 		{
-		if (db_get_w(icqUsers[i]->hContact, protoName, "ApparentMode", 0) == ID_STATUS_OFFLINE)
+		if (g_plugin.getWord(icqUsers[i]->hContact, "ApparentMode") == ID_STATUS_OFFLINE)
 		userPacket << icqUsers[i]->uin;
 		}
 

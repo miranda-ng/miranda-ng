@@ -320,12 +320,12 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					wchar_t shortpath[MAX_PATH];
 					PathToRelativeW(it->path, shortpath);
 					if (it->iscontact)
-						db_set_ws(it->hContact, MODULENAME, SETTINGSKEY, shortpath);
+						g_plugin.setWString(it->hContact, SETTINGSKEY, shortpath);
 					else
 						g_plugin.setWString((LPCSTR)it->hContact, shortpath);
 				}
 				if (it->iscontact)
-					db_set_b(it->hContact, MODULENAME, SETTINGSIGNOREKEY, it->ignore);
+					g_plugin.setByte(it->hContact, SETTINGSIGNOREKEY, it->ignore);
 				else {
 					size_t value_max_len = mir_strlen((const char*)it->hContact) + 8;
 					char *value = (char *)mir_alloc(sizeof(char) * value_max_len);

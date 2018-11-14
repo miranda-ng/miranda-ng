@@ -52,7 +52,6 @@ public:
 	static void save(MCONTACT hContact, bool bValue);
 
 private:
-	static const char* SETTINGS_MODULE;
 	static const char* SETTING_SHOULD_TRANSLITERATE;
 
 	static char *MENU_ITEM_TEXT;

@@ -36,7 +36,7 @@ void ICQUser::setStatus(unsigned short newStatus)
 		return;
 
 	statusVal = newStatus;
-	db_set_w(hContact, protoName, "Status", newStatus);
+	g_plugin.setWord(hContact, "Status", newStatus);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -44,9 +44,9 @@ void ICQUser::setStatus(unsigned short newStatus)
 void ICQUser::setInfo(char *name, unsigned int data)
 {
 	if (data && data != 0xFFFFFFFF)
-		db_set_dw(hContact, protoName, name, data);
+		g_plugin.setDword(hContact, name, data);
 	else
-		db_unset(hContact, protoName, name);
+		g_plugin.delSetting(hContact, name);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -54,9 +54,9 @@ void ICQUser::setInfo(char *name, unsigned int data)
 void ICQUser::setInfo(char *name, unsigned short data)
 {
 	if (data && data != 0xFFFF)
-		db_set_w(hContact, protoName, name, data);
+		g_plugin.setWord(hContact, name, data);
 	else
-		db_unset(hContact, protoName, name);
+		g_plugin.delSetting(hContact, name);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -64,9 +64,9 @@ void ICQUser::setInfo(char *name, unsigned short data)
 void ICQUser::setInfo(char *name, unsigned char data)
 {
 	if (data && data != 0xFF)
-		db_set_b(hContact, protoName, name, data);
+		g_plugin.setByte(hContact, name, data);
 	else
-		db_unset(hContact, protoName, name);
+		g_plugin.delSetting(hContact, name);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -74,9 +74,9 @@ void ICQUser::setInfo(char *name, unsigned char data)
 void ICQUser::setInfo(char *name, char *data)
 {
 	if (data[0])
-		db_set_s(hContact, protoName, name, data);
+		g_plugin.setString(hContact, name, data);
 	else
-		db_unset(hContact, protoName, name);
+		g_plugin.delSetting(hContact, name);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -116,16 +116,16 @@ static INT_PTR CALLBACK icqUserInfoDlgProc(HWND hWnd, UINT msg, WPARAM wParam, L
 			unsigned long ip, port;
 			MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 
-			_itow(db_get_dw(hContact, protoName, "UIN", 0), buffer, 10);
+			_itow(g_plugin.getDword(hContact, "UIN", 0), buffer, 10);
 			setTextValue(hWnd, IDC_INFO_UIN, buffer);
 
-			ip = db_get_dw(hContact, protoName, "IP", 0);
+			ip = g_plugin.getDword(hContact, "IP", 0);
 			setTextValue(hWnd, IDC_INFO_IP, ip ? _A2T(iptoa(ip)) : nullptr);
 
-			ip = db_get_dw(hContact, protoName, "RealIP", 0);
+			ip = g_plugin.getDword(hContact, "RealIP", 0);
 			setTextValue(hWnd, IDC_INFO_REALIP, ip ? _A2T(iptoa(ip)) : nullptr);
 
-			port = db_get_w(hContact, protoName, "Port", 0);
+			port = g_plugin.getWord(hContact, "Port", 0);
 			_itow(port, buffer, 10);
 			setTextValue(hWnd, IDC_INFO_PORT, port ? buffer : nullptr);
 

@@ -13,11 +13,11 @@ static void SaveButton(HWND hwndDlg, HWND hwndCombo, int curIndex)
 		SendMessageA(hwndCombo, CB_DELETESTRING, curIndex, 0);
 		SendMessageA(hwndCombo, CB_INSERTSTRING, curIndex, (LPARAM)acc.name);
 		SendMessageA(hwndCombo, CB_SETCURSEL, curIndex, 0);
-		db_set_s(acc.hContact, MODULENAME, "name", acc.name);
-		db_set_s(acc.hContact, MODULENAME, "Nick", acc.name);
+		g_plugin.setString(acc.hContact, "name", acc.name);
+		g_plugin.setString(acc.hContact, "Nick", acc.name);
 
 		GetDlgItemTextA(hwndDlg, IDC_PASS, acc.pass, _countof(acc.pass));
-		db_set_s(acc.hContact, MODULENAME, "Password", acc.pass);
+		g_plugin.setString(acc.hContact, "Password", acc.pass);
 	}
 }
 
@@ -259,7 +259,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			ID_STATUS_NONEW = opt.UseOnline ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
 			for (auto &it : g_accs)
-				db_set_w(it->hContact, MODULENAME, "Status", ID_STATUS_NONEW);
+				g_plugin.setWord(it->hContact, "Status", ID_STATUS_NONEW);
 		}
 		return TRUE;
 

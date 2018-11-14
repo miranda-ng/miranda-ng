@@ -91,22 +91,22 @@ void saveSettingsConnections(struct CONNECTION *connHead)
 	while (tmp != nullptr) {
 
 		mir_snprintf(buff, "%dFilterIntIp", i);
-		db_set_ws(0, PLUGINNAME, buff, tmp->strIntIp);
+		g_plugin.setWString(buff, tmp->strIntIp);
 		mir_snprintf(buff, "%dFilterExtIp", i);
-		db_set_ws(0, PLUGINNAME, buff, tmp->strExtIp);
+		g_plugin.setWString(buff, tmp->strExtIp);
 		mir_snprintf(buff, "%dFilterPName", i);
-		db_set_ws(0, PLUGINNAME, buff, tmp->PName);
+		g_plugin.setWString(buff, tmp->PName);
 		mir_snprintf(buff, "%dFilterIntPort", i);
-		db_set_dw(0, PLUGINNAME, buff, tmp->intIntPort);
+		g_plugin.setDword(buff, tmp->intIntPort);
 		mir_snprintf(buff, "%dFilterExtPort", i);
-		db_set_dw(0, PLUGINNAME, buff, tmp->intExtPort);
+		g_plugin.setDword(buff, tmp->intExtPort);
 		mir_snprintf(buff, "%dFilterAction", i);
-		db_set_dw(0, PLUGINNAME, buff, tmp->Pid);
+		g_plugin.setDword(buff, tmp->Pid);
 		i++;
 		tmp = tmp->next;
 	}
 	settingFiltersCount = i;
-	db_set_dw(0, PLUGINNAME, "FiltersCount", settingFiltersCount);
+	g_plugin.setDword("FiltersCount", settingFiltersCount);
 
 }
 
@@ -120,26 +120,26 @@ struct CONNECTION* LoadSettingsConnections()
 	for (i = settingFiltersCount - 1; i >= 0; i--) {
 		struct CONNECTION *conn = (struct CONNECTION*)mir_alloc(sizeof(struct CONNECTION));
 		mir_snprintf(buff, "%dFilterIntIp", i);
-		if (!db_get_ws(0, PLUGINNAME, buff, &dbv))
+		if (!g_plugin.getWString(buff, &dbv))
 			wcsncpy(conn->strIntIp, dbv.pwszVal, _countof(conn->strIntIp));
 		db_free(&dbv);
 		mir_snprintf(buff, "%dFilterExtIp", i);
-		if (!db_get_ws(0, PLUGINNAME, buff, &dbv))
+		if (!g_plugin.getWString(buff, &dbv))
 			wcsncpy(conn->strExtIp, dbv.pwszVal, _countof(conn->strExtIp));
 		db_free(&dbv);
 		mir_snprintf(buff, "%dFilterPName", i);
-		if (!db_get_ws(0, PLUGINNAME, buff, &dbv))
+		if (!g_plugin.getWString(buff, &dbv))
 			wcsncpy(conn->PName, dbv.pwszVal, _countof(conn->PName));
 		db_free(&dbv);
 
 		mir_snprintf(buff, "%dFilterIntPort", i);
-		conn->intIntPort = db_get_dw(0, PLUGINNAME, buff, -1);
+		conn->intIntPort = g_plugin.getDword(buff, -1);
 
 		mir_snprintf(buff, "%dFilterExtPort", i);
-		conn->intExtPort = db_get_dw(0, PLUGINNAME, buff, -1);
+		conn->intExtPort = g_plugin.getDword(buff, -1);
 
 		mir_snprintf(buff, "%dFilterAction", i);
-		conn->Pid = db_get_dw(0, PLUGINNAME, buff, 0);
+		conn->Pid = g_plugin.getDword(buff, 0);
 
 		conn->next = connHead;
 		connHead = conn;
@@ -149,22 +149,21 @@ struct CONNECTION* LoadSettingsConnections()
 //called to load settings from database
 void LoadSettings()
 {
-	settingInterval = (INT)db_get_dw(0, PLUGINNAME, "Interval", 500);
-	settingInterval1 = (INT)db_get_dw(0, PLUGINNAME, "PopupInterval", 0);
-	settingResolveIp = db_get_b(0, PLUGINNAME, "ResolveIp", TRUE);
-	settingDefaultAction = db_get_b(0, PLUGINNAME, "FilterDefaultAction", TRUE);
+	settingInterval = g_plugin.getDword("Interval", 500);
+	settingInterval1 = g_plugin.getDword("PopupInterval", 0);
+	settingResolveIp = g_plugin.getByte("ResolveIp", TRUE);
+	settingDefaultAction = g_plugin.getByte("FilterDefaultAction", TRUE);
 
-	settingSetColours = db_get_b(0, PLUGINNAME, "PopupSetColours", 0);
-	settingBgColor = (COLORREF)db_get_dw(0, PLUGINNAME, "PopupBgColor", (DWORD)0xFFFFFF);
-	settingFgColor = (COLORREF)db_get_dw(0, PLUGINNAME, "PopupFgColor", (DWORD)0x000000);
-	settingFiltersCount = (INT)db_get_dw(0, PLUGINNAME, "FiltersCount", 0);
-	settingStatusMask = (WORD)db_get_w(0, PLUGINNAME, "StatusMask", 16);
+	settingSetColours = g_plugin.getByte("PopupSetColours", 0);
+	settingBgColor = g_plugin.getDword("PopupBgColor", (DWORD)0xFFFFFF);
+	settingFgColor = g_plugin.getDword("PopupFgColor", (DWORD)0x000000);
+	settingFiltersCount = g_plugin.getDword("FiltersCount", 0);
+	settingStatusMask = g_plugin.getWord("StatusMask", 16);
 	for (int i = 0; i < STATUS_COUNT; i++) {
 		char buff[128];
 		mir_snprintf(buff, "Status%d", i);
-		settingStatus[i] = (db_get_b(0, PLUGINNAME, buff, 0) == 1);
+		settingStatus[i] = (g_plugin.getByte(buff, 0) == 1);
 	}
-	//lookupLotusDefaultSettings();
 }
 
 void fillExceptionsListView(HWND hwndDlg)
@@ -506,19 +505,19 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 				return TRUE;
 
 			case PSN_APPLY:
-				db_set_dw(0, PLUGINNAME, "Interval", settingInterval);
-				db_set_dw(0, PLUGINNAME, "PopupInterval", settingInterval1);
-				db_set_b(0, PLUGINNAME, "PopupSetColours", settingSetColours);
-				db_set_dw(0, PLUGINNAME, "PopupBgColor", (DWORD)settingBgColor);
-				db_set_dw(0, PLUGINNAME, "PopupFgColor", (DWORD)settingFgColor);
-				db_set_b(0, PLUGINNAME, "ResolveIp", settingResolveIp);
-				db_set_b(0, PLUGINNAME, "FilterDefaultAction", settingDefaultAction);
+				g_plugin.setDword("Interval", settingInterval);
+				g_plugin.setDword("PopupInterval", settingInterval1);
+				g_plugin.setByte("PopupSetColours", settingSetColours);
+				g_plugin.setDword("PopupBgColor", settingBgColor);
+				g_plugin.setDword("PopupFgColor", settingFgColor);
+				g_plugin.setByte("ResolveIp", settingResolveIp);
+				g_plugin.setByte("FilterDefaultAction", settingDefaultAction);
 
 				for (int i = 0; i < STATUS_COUNT; i++) {
 					char buff[128];
 					mir_snprintf(buff, "Status%d", i);
 					settingStatus[i] = (ListView_GetCheckState(GetDlgItem(hwndDlg, IDC_STATUS), i) ? TRUE : FALSE);
-					db_set_b(0, PLUGINNAME, buff, settingStatus[i] ? 1 : 0);
+					g_plugin.setByte(buff, settingStatus[i] ? 1 : 0);
 				}
 				if (WAIT_OBJECT_0 == WaitForSingleObject(hExceptionsMutex, 100)) {
 					deleteConnectionsTable(connExceptions);
@@ -846,7 +845,7 @@ int CMPlugin::Load()
 
 	// set all contacts to offline
 	for (auto &hContact : Contacts(PLUGINNAME))
-		db_set_w(hContact, PLUGINNAME, "status", ID_STATUS_OFFLINE);
+		g_plugin.setWord(hContact, "status", ID_STATUS_OFFLINE);
 
 	CreateProtoServiceFunction(PLUGINNAME, PS_GETCAPS, GetCaps);
 	CreateProtoServiceFunction(PLUGINNAME, PS_GETNAME, GetName);
@@ -854,7 +853,7 @@ int CMPlugin::Load()
 	CreateProtoServiceFunction(PLUGINNAME, PS_SETSTATUS, SetStatus);
 	CreateProtoServiceFunction(PLUGINNAME, PS_GETSTATUS, GetStatus);
 
-	g_plugin.addSound(PLUGINNAME_NEWSOUND, PLUGINNAMEW, LPGENW("New Connection Notification"));
+	g_plugin.addSound(PLUGINNAME_NEWSOUND, _A2W(PLUGINNAME), LPGENW("New Connection Notification"));
 	
 	HookEvent(ME_OPT_INITIALISE, ConnectionNotifyOptInit); // register service to hook option call
 	HookEvent(ME_SYSTEM_MODULESLOADED, modulesloaded); // hook event that all plugins are loaded

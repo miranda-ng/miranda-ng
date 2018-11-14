@@ -22,8 +22,6 @@
 namespace CyrTranslit
 {
 
-const char* MirandaContact::SETTINGS_MODULE = "CyrTranslit";
-
 const char* MirandaContact::SETTING_SHOULD_TRANSLITERATE = "translit";
 
 char *MirandaContact::MENU_ITEM_TEXT = LPGEN("&Transliterate");
@@ -49,14 +47,14 @@ void MirandaContact::initialize()
 
 bool MirandaContact::bIsActive(MCONTACT hContact)
 {
-	return db_get_b(hContact, SETTINGS_MODULE, SETTING_SHOULD_TRANSLITERATE, 0) != 0;
+	return g_plugin.getBool(hContact, SETTING_SHOULD_TRANSLITERATE, 0);
 }
 
 //------------------------------------------------------------------------------
 
 void MirandaContact::save(MCONTACT hContact, bool bValue)
 {
-	db_set_b(hContact, SETTINGS_MODULE, SETTING_SHOULD_TRANSLITERATE, bValue);
+	g_plugin.setByte(hContact, SETTING_SHOULD_TRANSLITERATE, bValue);
 }
 
 //------------------------------------------------------------------------------

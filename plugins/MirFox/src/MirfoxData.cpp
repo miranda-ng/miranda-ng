@@ -548,7 +548,7 @@ MirfoxData::createOrGetAccountStateFromDB(MirandaAccount* mirandaAccount){
 MFENUM_MIRANDACONTACT_STATE
 MirfoxData::createOrGetContactStateFromDB(MirandaContact* mirandaContact){
 
-	int keyValue = db_get_b(mirandaContact->contactHandle, MODULENAME, "state", 0);
+	int keyValue = g_plugin.getByte(mirandaContact->contactHandle, "state");
 	if (keyValue == 1 || keyValue == 2){
 		//setting exist
 		if (keyValue == 1){
@@ -559,10 +559,10 @@ MirfoxData::createOrGetContactStateFromDB(MirandaContact* mirandaContact){
 	} else {
 		//setting does not exist, or is invalid -> save default setting (1 - ON)
 		if (MirfoxData::getContactDefaultState(mirandaContact->getObjectPtr()) == 1){ //on = 1
-			db_set_b(mirandaContact->contactHandle, MODULENAME, "state", 1);
+			g_plugin.setByte(mirandaContact->contactHandle, "state", 1);
 			return MFENUM_MIRANDACONTACT_STATE_ON;		//1
 		} else { //off = 2
-			db_set_b(mirandaContact->contactHandle, MODULENAME, "state", 2);
+			g_plugin.setByte(mirandaContact->contactHandle, "state", 2);
 			return MFENUM_MIRANDACONTACT_STATE_OFF;	//2
 		}
 	}

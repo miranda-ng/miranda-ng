@@ -166,7 +166,7 @@ INT_PTR PingWebsiteMenuCommand(WPARAM wParam, LPARAM)
 		return 0;
 	}
 
-	ptrW url(g_plugin.getWStringA((wParam, "URL"));
+	ptrW url(g_plugin.getWStringA(wParam, "URL"));
 	if (url == NULL)
 		return 0;
 

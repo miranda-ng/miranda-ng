@@ -29,12 +29,12 @@ static INT_PTR CALLBACK icqOptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LP
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hWnd);
-		SetDlgItemInt(hWnd, IDC_OPT_UIN, db_get_dw(0, protoName, "UIN", 0), FALSE);
-		if (!db_get_s(0, protoName, "Password", &dbv)) {
+		SetDlgItemInt(hWnd, IDC_OPT_UIN, g_plugin.getDword("UIN"), FALSE);
+		if (!g_plugin.getString("Password", &dbv)) {
 			SetDlgItemTextA(hWnd, IDC_OPT_PASSWORD, dbv.pszVal);
 			db_free(&dbv);
 		}
-		if (!db_get_s(0, protoName, "Server", &dbv)) {
+		if (!g_plugin.getString("Server", &dbv)) {
 			SetDlgItemTextA(hWnd, IDC_OPT_SERVER, dbv.pszVal);
 			db_free(&dbv);
 		}
@@ -45,12 +45,12 @@ static INT_PTR CALLBACK icqOptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LP
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
-			db_set_dw(0, protoName, "UIN", (DWORD)GetDlgItemInt(hWnd, IDC_OPT_UIN, nullptr, FALSE));
+			g_plugin.setDword("UIN", (DWORD)GetDlgItemInt(hWnd, IDC_OPT_UIN, nullptr, FALSE));
 			GetDlgItemTextA(hWnd, IDC_OPT_PASSWORD, str, sizeof(str));
-			db_set_s(0, protoName, "Password", str);
+			g_plugin.setString("Password", str);
 			GetDlgItemTextA(hWnd, IDC_OPT_SERVER, str, sizeof(str));
-			db_set_s(0, protoName, "Server", str);
-			db_set_w(0, protoName, "Port", (WORD)GetDlgItemInt(hWnd, IDC_OPT_PORT, nullptr, FALSE));
+			g_plugin.setString("Server", str);
+			g_plugin.setWord("Port", (WORD)GetDlgItemInt(hWnd, IDC_OPT_PORT, nullptr, FALSE));
 			return TRUE;
 		}
 		break;
