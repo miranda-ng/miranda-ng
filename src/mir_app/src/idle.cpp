@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-#define MODULENAME "Idle"
+#define IDLE_MODULE "Idle"
 
 static bool bModuleInitialized = false;
 
@@ -37,7 +37,7 @@ MIR_APP_DLL(void) Idle_Enter(int type)
 {
 	int flags = 0;
 
-	if (g_plugin.getByte("IdlePrivate"))
+	if (db_get_b(0, IDLE_MODULE, "IdlePrivate"))
 		flags |= IDF_PRIVACY;
 
 	if (!g_bIsIdle && type != -1) {
@@ -55,11 +55,11 @@ MIR_APP_DLL(void) Idle_Enter(int type)
 
 MIR_APP_DLL(void) Idle_GetInfo(MIRANDA_IDLE_INFO &pInfo)
 {
-	pInfo.idleTime = g_plugin.getDword("IdleTime1st");
-	pInfo.privacy = g_plugin.getByte("IdlePrivate");
-	pInfo.aaStatus = g_plugin.getByte("AAEnable", 1) ? g_plugin.getWord("AAStatus") : 0;
-	pInfo.aaLock = g_plugin.getByte("IdleStatusLock");
-	pInfo.idlesoundsoff = g_plugin.getByte("IdleSoundsOff");
+	pInfo.idleTime = db_get_dw(0, IDLE_MODULE, "IdleTime1st");
+	pInfo.privacy = db_get_b(0, IDLE_MODULE, "IdlePrivate");
+	pInfo.aaStatus = db_get_b(0, IDLE_MODULE, "AAEnable", 1) ? db_get_dw(0, IDLE_MODULE, "AAStatus") : 0;
+	pInfo.aaLock = db_get_b(0, IDLE_MODULE, "IdleStatusLock");
+	pInfo.idlesoundsoff = db_get_b(0, IDLE_MODULE, "IdleSoundsOff");
 	pInfo.idleType = g_idleType;
 }
 
