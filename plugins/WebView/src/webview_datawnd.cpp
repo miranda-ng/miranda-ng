@@ -1,23 +1,23 @@
 /*
-* A plugin for Miranda IM which displays web page text in a window Copyright 
+* A plugin for Miranda IM which displays web page text in a window Copyright
 * (C) 2005 Vincent Joyce.
-* 
+*
 * Miranda IM: the free icq client for MS Windows  Copyright (C) 2000-2
 * Richard Hughes, Roland Rabien & Tristan Van de Vreede
-* 
+*
 * This program is free software; you can redistribute it and/or modify it
-* under the terms of the GNU General Public License as published by the Free 
+* under the terms of the GNU General Public License as published by the Free
 * Software Foundation; either version 2 of the License, or (at your option)
 * any later version.
-* 
+*
 * This program is distributed in the hope that it will be useful, but
-* WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+* WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
 * for more details.
-* 
+*
 * You should have received a copy of the GNU General Public License along
-* with this program; if not, write to the Free Software Foundation, Inc., 59 
-* Temple Place - Suite 330, Boston, MA  02111-1307, USA. 
+* with this program; if not, write to the Free Software Foundation, Inc., 59
+* Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
@@ -39,7 +39,7 @@ INT_PTR CALLBACK DlgProcFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		TranslateDialogDefault(hwndDlg);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		SetWindowText(hwndDlg, TranslateT("Find"));
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM) LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_FIND)));
+		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_FIND)));
 		return TRUE;
 
 	case WM_COMMAND:
@@ -98,7 +98,7 @@ INT_PTR CALLBACK DlgProcFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					endsel = loc + (int)mir_strlen(NewSearchstr);
 				}
 
-				CHARRANGE sel2 = {startsel, endsel};
+				CHARRANGE sel2 = { startsel, endsel };
 				SendDlgItemMessage(ParentHwnd, IDC_DATA, EM_EXSETSEL, 0, (LPARAM)&sel2);
 				SetFocus(GetDlgItem(ParentHwnd, IDC_DATA));
 			}
@@ -129,8 +129,8 @@ static MCONTACT FindContactByUrl(HWND hwndDlg)
 	GetWindowText(hwndDlg, titlebartxt, _countof(titlebartxt));
 
 	for (auto &hContact : Contacts(MODULENAME)) {
-		ptrW db1( g_plugin.getWStringA(hContact, URL_KEY));
-		ptrW db2( g_plugin.getWStringA(hContact, PRESERVE_NAME_KEY));
+		ptrW db1(g_plugin.getWStringA(hContact, URL_KEY));
+		ptrW db2(g_plugin.getWStringA(hContact, PRESERVE_NAME_KEY));
 
 		if (!mir_wstrcmp(urltext, db1) && !mir_wstrcmp(titlebartxt, db2)) {
 			contactcount++;
@@ -157,58 +157,58 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		{
 			MCONTACT hContact2 = lParam;
 
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) hContact2);
+			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)hContact2);
 			WindowList_Add(hWindowList, hwndDlg, hContact2);
 
 			url[0] = '\0';
-			if (!db_get_ws(hContact2, MODULENAME, URL_KEY, &dbv)) {
+			if (!g_plugin.getWString(hContact2, URL_KEY, &dbv)) {
 				wcsncpy_s(url, dbv.pwszVal, _TRUNCATE);
 				db_free(&dbv);
 			}
 			SetDlgItemText(hwndDlg, IDC_OPEN_URL, FixButtonText(url, _countof(url)));
 
 			char preservename[100];
-			if (!db_get_s(hContact2, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
+			if (!g_plugin.getString(hContact2, PRESERVE_NAME_KEY, &dbv)) {
 				strncpy_s(preservename, _countof(preservename), dbv.pszVal, _TRUNCATE);
 				db_free(&dbv);
 			}
 			else preservename[0] = 0;
 			SetWindowTextA(hwndDlg, preservename);
 
-			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM) LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_SITE)));
+			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_SITE)));
 
 			// //////
 			COLORREF colour = BackgoundClr;
 			COLORREF txtcolor;
 			SendDlgItemMessage(hwndDlg, IDC_DATA, EM_SETBKGNDCOLOR, 0, colour);
 
-			SendDlgItemMessage(hwndDlg, IDC_UPDATE_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_UPDATE), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
-			SendDlgItemMessage(hwndDlg, IDC_UPDATE_BUTTON, BUTTONADDTOOLTIP, (WPARAM) TranslateT("Update data"), BATF_UNICODE);
+			SendDlgItemMessage(hwndDlg, IDC_UPDATE_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_UPDATE), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
+			SendDlgItemMessage(hwndDlg, IDC_UPDATE_BUTTON, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Update data"), BATF_UNICODE);
 
-			SendDlgItemMessage(hwndDlg, IDC_FIND_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_FIND), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
-			SendDlgItemMessage(hwndDlg, IDC_FIND_BUTTON, BUTTONADDTOOLTIP, (WPARAM) TranslateT("Find"), BATF_UNICODE);
+			SendDlgItemMessage(hwndDlg, IDC_FIND_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_FIND), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
+			SendDlgItemMessage(hwndDlg, IDC_FIND_BUTTON, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Find"), BATF_UNICODE);
 
-			SendDlgItemMessage(hwndDlg, IDC_OPTIONS_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_OPTIONS), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
-			SendDlgItemMessage(hwndDlg, IDC_OPTIONS_BUTTON, BUTTONADDTOOLTIP, (WPARAM) TranslateT("Contact options"), BATF_UNICODE);
+			SendDlgItemMessage(hwndDlg, IDC_OPTIONS_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_OPTIONS), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
+			SendDlgItemMessage(hwndDlg, IDC_OPTIONS_BUTTON, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Contact options"), BATF_UNICODE);
 
-			SendDlgItemMessage(hwndDlg, IDC_ALERT_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_ALERT), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
-			SendDlgItemMessage(hwndDlg, IDC_ALERT_BUTTON, BUTTONADDTOOLTIP, (WPARAM) TranslateT("Alert options"), BATF_UNICODE);
+			SendDlgItemMessage(hwndDlg, IDC_ALERT_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_ALERT), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
+			SendDlgItemMessage(hwndDlg, IDC_ALERT_BUTTON, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Alert options"), BATF_UNICODE);
 
-			SendDlgItemMessage(hwndDlg, IDC_STOP, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_STOP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
-			SendDlgItemMessage(hwndDlg, IDC_STOP, BUTTONADDTOOLTIP, (WPARAM) TranslateT("Stop processing"), BATF_UNICODE);
+			SendDlgItemMessage(hwndDlg, IDC_STOP, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_STOP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
+			SendDlgItemMessage(hwndDlg, IDC_STOP, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Stop processing"), BATF_UNICODE);
 
-			SendDlgItemMessage(hwndDlg, IDC_OPEN_URL, BUTTONADDTOOLTIP, (WPARAM) TranslateT("Click here to open this URL in a browser window."), BATF_UNICODE);
+			SendDlgItemMessage(hwndDlg, IDC_OPEN_URL, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Click here to open this URL in a browser window."), BATF_UNICODE);
 
-			if (!db_get_b(hContact2, MODULENAME, ON_TOP_KEY, 0)) {
-				SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_UNSTICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
-				SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BUTTONADDTOOLTIP, (WPARAM) TranslateT("Stick to the front"), BATF_UNICODE);
+			if (!g_plugin.getByte(hContact2, ON_TOP_KEY)) {
+				SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_UNSTICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
+				SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Stick to the front"), BATF_UNICODE);
 			}
 			else {
-				SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_STICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
-				SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BUTTONADDTOOLTIP, (WPARAM) TranslateT("Disable stick to the front"), BATF_UNICODE);
+				SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_STICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
+				SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Disable stick to the front"), BATF_UNICODE);
 			}
 
-			SendDlgItemMessage(hwndDlg, IDC_DATA, WM_SETFONT, (WPARAM) h_font, 1);
+			SendDlgItemMessage(hwndDlg, IDC_DATA, WM_SETFONT, (WPARAM)h_font, 1);
 
 			txtcolor = TextClr;
 
@@ -231,7 +231,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			SendDlgItemMessage(hwndDlg, IDC_OPEN_URL, BUTTONSETASFLATBTN, 0, 0);
 
 			HDC hdc = GetDC(GetDlgItem(hwndDlg, IDC_STATUSBAR));
-			SelectObject(hdc, (HFONT) SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, WM_GETFONT, 0, 0));
+			SelectObject(hdc, (HFONT)SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, WM_GETFONT, 0, 0));
 			SIZE textSize;
 			GetTextExtentPoint32(hdc, tszSizeString, _countof(tszSizeString), &textSize);
 			int partWidth[2] = { textSize.cx, -1 };
@@ -240,23 +240,23 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, SB_SETPARTS, _countof(partWidth), (LPARAM)partWidth);
 			SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, SB_SETTEXT, 1 | SBT_OWNERDRAW, 0);
 
-			if ( g_plugin.getByte(SAVE_INDIVID_POS_KEY, 0))
+			if (g_plugin.getByte(SAVE_INDIVID_POS_KEY, 0))
 				Utils_RestoreWindowPosition(hwndDlg, hContact2, MODULENAME, "WV");
 		}
 		break;
 
 	case WM_NOTIFY:
-		switch (((NMHDR *) lParam)->code) {
+		switch (((NMHDR *)lParam)->code) {
 		case EN_MSGFILTER:
-			switch (((MSGFILTER *) lParam)->msg) {
+			switch (((MSGFILTER *)lParam)->msg) {
 			case WM_RBUTTONUP:
 				{
 					POINT  pt;
-					CHARRANGE sel, all = {0, -1};
+					CHARRANGE sel, all = { 0, -1 };
 
 					HMENU hSubMenu = GetSubMenu(hMenu, 0);
 					TranslateMenu(hSubMenu);
-					SendMessage(((NMHDR *) lParam)->hwndFrom, EM_EXGETSEL, 0, (LPARAM) & sel);
+					SendMessage(((NMHDR *)lParam)->hwndFrom, EM_EXGETSEL, 0, (LPARAM)& sel);
 
 					EnableMenuItem(hSubMenu, IDM_COPY, MF_ENABLED);
 					EnableMenuItem(hSubMenu, IDM_CUT, MF_ENABLED);
@@ -267,34 +267,34 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						EnableMenuItem(hSubMenu, IDM_CUT, MF_BYCOMMAND | MF_GRAYED);
 						EnableMenuItem(hSubMenu, IDM_DELETE, MF_BYCOMMAND | MF_GRAYED);
 					}
-					pt.x = (short) LOWORD(((ENLINK *) lParam)->lParam);
-					pt.y = (short) HIWORD(((ENLINK *) lParam)->lParam);
-					ClientToScreen(((NMHDR *) lParam)->hwndFrom, &pt);
+					pt.x = (short)LOWORD(((ENLINK *)lParam)->lParam);
+					pt.y = (short)HIWORD(((ENLINK *)lParam)->lParam);
+					ClientToScreen(((NMHDR *)lParam)->hwndFrom, &pt);
 					switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, nullptr)) {
 					case IDM_COPY:
-						SendMessage(((NMHDR *) lParam)->hwndFrom, WM_COPY, 0, 0);
+						SendMessage(((NMHDR *)lParam)->hwndFrom, WM_COPY, 0, 0);
 						break;
 
 					case IDM_COPYALL:
-						SendMessage(((NMHDR *) lParam)->hwndFrom, EM_EXSETSEL, 0, (LPARAM) & all);
-						SendMessage(((NMHDR *) lParam)->hwndFrom, WM_COPY, 0, 0);
-						SendMessage(((NMHDR *) lParam)->hwndFrom, EM_EXSETSEL, 0, (LPARAM) & sel);
+						SendMessage(((NMHDR *)lParam)->hwndFrom, EM_EXSETSEL, 0, (LPARAM)& all);
+						SendMessage(((NMHDR *)lParam)->hwndFrom, WM_COPY, 0, 0);
+						SendMessage(((NMHDR *)lParam)->hwndFrom, EM_EXSETSEL, 0, (LPARAM)& sel);
 						break;
 
 					case IDM_SELECTALL:
-						SendMessage(((NMHDR *) lParam)->hwndFrom, EM_EXSETSEL, 0, (LPARAM) & all);
+						SendMessage(((NMHDR *)lParam)->hwndFrom, EM_EXSETSEL, 0, (LPARAM)& all);
 						break;
 
 					case IDM_CUT:
-						SendMessage(((NMHDR *) lParam)->hwndFrom, WM_CUT, 0, 0);
+						SendMessage(((NMHDR *)lParam)->hwndFrom, WM_CUT, 0, 0);
 						break;
 
 					case IDM_PASTE:
-						SendMessage(((NMHDR *) lParam)->hwndFrom, WM_PASTE, 0, 0);
+						SendMessage(((NMHDR *)lParam)->hwndFrom, WM_PASTE, 0, 0);
 						break;
 
 					case IDM_DELETE:
-						SendMessage(((NMHDR *) lParam)->hwndFrom, WM_CLEAR, 0, 0);
+						SendMessage(((NMHDR *)lParam)->hwndFrom, WM_CLEAR, 0, 0);
 						break;
 
 					case IDM_CLEAR_ALL:
@@ -307,19 +307,19 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			break;
 
 		case EN_LINK:
-			switch (((ENLINK *) lParam)->msg) {
+			switch (((ENLINK *)lParam)->msg) {
 			case WM_RBUTTONDOWN:
 			case WM_LBUTTONUP:
 				CHARRANGE sel;
-				SendDlgItemMessage(hwndDlg, IDC_DATA, EM_EXGETSEL, 0, (LPARAM) & sel);
+				SendDlgItemMessage(hwndDlg, IDC_DATA, EM_EXGETSEL, 0, (LPARAM)& sel);
 				if (sel.cpMin != sel.cpMax)
 					break;
 
 				TEXTRANGEA tr;
-				tr.chrg = ((ENLINK *) lParam)->chrg;
+				tr.chrg = ((ENLINK *)lParam)->chrg;
 				tr.lpstrText = (char*)malloc(tr.chrg.cpMax - tr.chrg.cpMin + 8);
 
-				SendDlgItemMessage(hwndDlg, IDC_DATA, EM_GETTEXTRANGE, 0, (LPARAM) & tr);
+				SendDlgItemMessage(hwndDlg, IDC_DATA, EM_GETTEXTRANGE, 0, (LPARAM)& tr);
 				if (strchr(tr.lpstrText, '@') != nullptr && strchr(tr.lpstrText, ':') == nullptr && strchr(tr.lpstrText, '/') == nullptr) {
 					memmove(tr.lpstrText + 7, tr.lpstrText, tr.chrg.cpMax - tr.chrg.cpMin + 1);
 					memcpy(tr.lpstrText, "mailto:", 7);
@@ -338,8 +338,8 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		switch (LOWORD(wParam)) {
 		case IDC_OPEN_URL:
 			GetDlgItemText(hwndDlg, IDC_OPEN_URL, url, _countof(url));
-			Utils_OpenUrlW(url);  
-			db_set_w(wParam, MODULENAME, "Status", ID_STATUS_ONLINE); 
+			Utils_OpenUrlW(url);
+			g_plugin.setWord(wParam, "Status", ID_STATUS_ONLINE);
 			break;
 
 		case IDC_UPDATE_BUTTON:
@@ -351,7 +351,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 		case IDC_STOP:
 			if (hContact = FindContactByUrl(hwndDlg))
-				g_plugin.setByte(hContact, STOP_KEY, 1); 
+				g_plugin.setByte(hContact, STOP_KEY, 1);
 			break;
 
 		case IDC_STICK_BUTTON:
@@ -376,7 +376,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 		case IDC_FIND_BUTTON:
 			{
-				HWND hwndFind = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FIND), hwndDlg, DlgProcFind, (LPARAM) wParam);
+				HWND hwndFind = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FIND), hwndDlg, DlgProcFind, (LPARAM)wParam);
 				ShowWindow(hwndFind, SW_SHOW);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_FIND_BUTTON), 0);
 			}
@@ -476,13 +476,13 @@ void SavewinSettings(void)
 	if (Xposition == -32000)
 		Xposition = 100;
 
-	g_plugin.setDword(Xpos_WIN_KEY,   Xposition);
-	g_plugin.setDword(Ypos_WIN_KEY,   Yposition);
+	g_plugin.setDword(Xpos_WIN_KEY, Xposition);
+	g_plugin.setDword(Ypos_WIN_KEY, Yposition);
 
-	g_plugin.setDword(BG_COLOR_KEY,   BackgoundClr);
-	g_plugin.setDword(TXT_COLOR_KEY,  TextClr);
+	g_plugin.setDword(BG_COLOR_KEY, BackgoundClr);
+	g_plugin.setDword(TXT_COLOR_KEY, TextClr);
 	g_plugin.setDword(WIN_HEIGHT_KEY, WindowHeight);
-	g_plugin.setDword(WIN_WIDTH_KEY,  WindowWidth);
+	g_plugin.setDword(WIN_WIDTH_KEY, WindowWidth);
 
 }
 

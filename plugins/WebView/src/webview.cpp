@@ -421,13 +421,13 @@ int OnTopMenuCommand(WPARAM, LPARAM, MCONTACT singlecontact)
 	int ontop = 0;
 	int done = 0;
 
-	if (((db_get_b(singlecontact, MODULENAME, ON_TOP_KEY, 0))) && done == 0) {
-		db_set_b(singlecontact, MODULENAME, ON_TOP_KEY, 0);
+	if (((g_plugin.getByte(singlecontact, ON_TOP_KEY))) && done == 0) {
+		g_plugin.setByte(singlecontact, ON_TOP_KEY, 0);
 		ontop = 0;
 		done = 1;
 	}
-	if ((!(db_get_b(singlecontact, MODULENAME, ON_TOP_KEY, 0))) && done == 0) {
-		db_set_b(singlecontact, MODULENAME, ON_TOP_KEY, 1);
+	if ((!(g_plugin.getByte(singlecontact, ON_TOP_KEY, 0))) && done == 0) {
+		g_plugin.setByte(singlecontact, ON_TOP_KEY, 1);
 		ontop = 1;
 		done = 1;
 	}

@@ -1,23 +1,23 @@
 /*
-* A plugin for Miranda IM which displays web page text in a window Copyright 
+* A plugin for Miranda IM which displays web page text in a window Copyright
 * (C) 2005 Vincent Joyce.
-* 
+*
 * Miranda IM: the free icq client for MS Windows  Copyright (C) 2000-2
 * Richard Hughes, Roland Rabien & Tristan Van de Vreede
-* 
+*
 * This program is free software; you can redistribute it and/or modify it
-* under the terms of the GNU General Public License as published by the Free 
+* under the terms of the GNU General Public License as published by the Free
 * Software Foundation; either version 2 of the License, or (at your option)
 * any later version.
-* 
+*
 * This program is distributed in the hope that it will be useful, but
-* WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+* WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
 * for more details.
-* 
+*
 * You should have received a copy of the GNU General Public License along
-* with this program; if not, write to the Free Software Foundation, Inc., 59 
-* Temple Place - Suite 330, Boston, MA  02111-1307, USA. 
+* with this program; if not, write to the Free Software Foundation, Inc., 59
+* Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
@@ -35,7 +35,7 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 	if (hContact == NULL)
 		return 0;
 
-	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
+	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 	if (!strcmp(cws->szModule, "CList")) {
 		int invalidpresent = 0;
 
@@ -45,34 +45,34 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 
 		// A contact is renamed
 		if (!strcmp(cws->szSetting, "MyHandle")) {
-			ptrW oldName( g_plugin.getWStringA(hContact, PRESERVE_NAME_KEY));
+			ptrW oldName(g_plugin.getWStringA(hContact, PRESERVE_NAME_KEY));
 			if (oldName == NULL)
 				return 0;
 
 			wchar_t nick[100];
-			ptrW oldnick( db_get_wsa(hContact, "CList", "MyHandle"));
+			ptrW oldnick(db_get_wsa(hContact, "CList", "MyHandle"));
 			if (oldnick != NULL)
 				wcsncpy_s(nick, oldnick, _TRUNCATE);
 			else
 				nick[0] = 0;
 
-			for (int i=0; i < _countof(szInvalidChars); i++ ) {
+			for (int i = 0; i < _countof(szInvalidChars); i++) {
 				wchar_t *p = wcschr(nick, szInvalidChars[i]);
 				if (p != nullptr) {
 					WErrorPopup((UINT_PTR)"ERROR", TranslateT("Invalid symbol present in contact name."));
 					*p = '_';
-					invalidpresent =1;
+					invalidpresent = 1;
 				}
 			}
 
 			if (invalidpresent) {
 				srand((unsigned)time(0));
 				wchar_t ranStr[7];
-				_itow((int)10000 *rand() / (RAND_MAX + 1.0), ranStr, 10);
-				mir_wstrcat(nick, ranStr); 
-			}  
+				_itow((int)10000 * rand() / (RAND_MAX + 1.0), ranStr, 10);
+				mir_wstrcat(nick, ranStr);
+			}
 
-			if ( wcschr(nick, '(') == nullptr) {
+			if (wcschr(nick, '(') == nullptr) {
 				g_plugin.setWString(hContact, PRESERVE_NAME_KEY, nick);
 				g_plugin.setWString(hContact, "Nick", nick);
 				db_set_ws(hContact, "CList", "MyHandle", nick);
@@ -92,7 +92,7 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 			mir_snwprintf(renamedcachepath, L"%s" _A2W(MODULENAME) L"cache\\%s.txt", cachepath, nick);
 
 			// file exists?
-			if ( _waccess(newcachepath, 0) != -1) {
+			if (_waccess(newcachepath, 0) != -1) {
 				FILE *pcachefile = _wfopen(newcachepath, L"r");
 				if (pcachefile != nullptr) {
 					fclose(pcachefile);
@@ -114,7 +114,7 @@ int SiteDeleted(WPARAM wParam, LPARAM)
 	if (mir_strcmp(GetContactProto(hContact), MODULENAME))
 		return 0;
 
-	ptrW contactName( g_plugin.getWStringA(hContact, PRESERVE_NAME_KEY));
+	ptrW contactName(g_plugin.getWStringA(hContact, PRESERVE_NAME_KEY));
 
 	// TEST GET NAME FOR CACHE
 	wchar_t cachepath[MAX_PATH], cachedirectorypath[MAX_PATH], newcachepath[MAX_PATH + 50];
@@ -125,9 +125,9 @@ int SiteDeleted(WPARAM wParam, LPARAM)
 
 	mir_snwprintf(cachedirectorypath, L"%s" _A2W(MODULENAME) L"cache\\", cachepath);
 	CreateDirectory(cachedirectorypath, nullptr);
-	mir_snwprintf(newcachepath, L"%s" _A2W(MODULENAME) L"cache\\%s.txt", cachepath,  contactName);
+	mir_snwprintf(newcachepath, L"%s" _A2W(MODULENAME) L"cache\\%s.txt", cachepath, contactName);
 	// file exists?
-	if ( _waccess(newcachepath, 0) != -1) {
+	if (_waccess(newcachepath, 0) != -1) {
 		FILE *pcachefile = _wfopen(newcachepath, L"r");
 		if (pcachefile != nullptr) {
 			fclose(pcachefile);
@@ -150,7 +150,7 @@ INT_PTR OpenCacheDir(WPARAM, LPARAM)
 
 	mir_snwprintf(cachedirectorypath, L"%s" _A2W(MODULENAME) L"cache\\%s", cachepath, cacheend);
 
-	if( _waccess(cachedirectorypath, 0) != 0)
+	if (_waccess(cachedirectorypath, 0) != 0)
 		WErrorPopup((UINT_PTR)"ERROR", TranslateT("Cache folder does not exist."));
 	else
 		ShellExecute(nullptr, L"open", cachedirectorypath, nullptr, nullptr, SW_SHOWNORMAL);
@@ -166,7 +166,7 @@ INT_PTR PingWebsiteMenuCommand(WPARAM wParam, LPARAM)
 		return 0;
 	}
 
-	ptrW url( db_get_wsa(wParam, MODULENAME, "URL"));
+	ptrW url(g_plugin.getWStringA((wParam, "URL"));
 	if (url == NULL)
 		return 0;
 
@@ -174,7 +174,7 @@ INT_PTR PingWebsiteMenuCommand(WPARAM wParam, LPARAM)
 	wcsncpy(Cnick, url, _countof(Cnick));
 	if ((Oldnick = wcsstr(Cnick, L"://")) != nullptr)
 		Oldnick += 3;
-	else 
+	else
 		Oldnick = Cnick;
 
 	wchar_t *Nend = wcschr(Oldnick, '/');
@@ -187,7 +187,7 @@ INT_PTR PingWebsiteMenuCommand(WPARAM wParam, LPARAM)
 /*****************************************************************************/
 INT_PTR StpPrcssMenuCommand(WPARAM wParam, LPARAM)
 {
-	db_set_b(wParam, MODULENAME, STOP_KEY, 1);  
+	g_plugin.setByte(wParam, STOP_KEY, 1);
 	return 0;
 }
 
@@ -197,18 +197,17 @@ INT_PTR StpPrcssMenuCommand(WPARAM wParam, LPARAM)
 
 INT_PTR GetCaps(WPARAM wParam, LPARAM)
 {
-	switch(wParam)
-	{
+	switch (wParam) {
 	case PFLAGNUM_1:
 		return PF1_BASICSEARCH | PF1_ADDSEARCHRES | PF1_VISLIST;
 	case PFLAGNUM_2:
-		return g_plugin.getByte(HIDE_STATUS_ICON_KEY, 0) ? 0 : (PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND); 
+		return g_plugin.getByte(HIDE_STATUS_ICON_KEY, 0) ? 0 : (PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND);
 	case PFLAGNUM_3:
 		return 0;
 	case PFLAGNUM_4:
 		return PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON;
 	case PFLAGNUM_5:
-		return PF2_INVISIBLE|PF2_SHORTAWAY|PF2_LONGAWAY|PF2_LIGHTDND|PF2_HEAVYDND|PF2_FREECHAT|PF2_OUTTOLUNCH|PF2_ONTHEPHONE;
+		return PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_FREECHAT | PF2_OUTTOLUNCH | PF2_ONTHEPHONE;
 	case PFLAG_UNIQUEIDTEXT:
 		return (INT_PTR)Translate("Site URL");
 	default:
@@ -222,7 +221,7 @@ INT_PTR GetCaps(WPARAM wParam, LPARAM)
 
 INT_PTR GetName(WPARAM wParam, LPARAM lParam)
 {
-	mir_strncpy((char*) lParam, MODULENAME, wParam);
+	mir_strncpy((char*)lParam, MODULENAME, wParam);
 	return 0;
 }
 
@@ -244,10 +243,10 @@ INT_PTR SetStatus(WPARAM wParam, LPARAM)
 	// broadcast the message
 	bpStatus = wParam;
 
-	ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldStatus, wParam);
+	ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, wParam);
 
 	// Make sure no contact has offline status for any reason on first time run     
-	if ( g_plugin.getByte("FirstTime", 100) == 100) {
+	if (g_plugin.getByte("FirstTime", 100) == 100) {
 		for (auto &hContact : Contacts(MODULENAME))
 			g_plugin.setWord(hContact, "Status", ID_STATUS_ONLINE);
 
@@ -328,7 +327,7 @@ INT_PTR BasicSearch(WPARAM, LPARAM lParam)
 /*****************************************************************************/
 INT_PTR AddToList(WPARAM, LPARAM lParam)
 {
-	PROTOSEARCHRESULT *psr = (PROTOSEARCHRESULT *) lParam;
+	PROTOSEARCHRESULT *psr = (PROTOSEARCHRESULT *)lParam;
 	DBVARIANT dbv;
 	int sameurl = 0;
 	int samename = 0;
@@ -338,7 +337,7 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 	if (psr->nick.w == nullptr) {
 		WErrorPopup((UINT_PTR)"ERROR", TranslateT("Please select site in Find/Add contacts..."));
 		return 0;
-	}   
+	}
 	// if contact with the same ID was not found, add it
 	if (psr->cbSize != sizeof(PROTOSEARCHRESULT))
 		return NULL;
@@ -351,7 +350,7 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 			// remove the flag for not on list and hidden, thus make the
 			// contact visible
 			// and add them on the list
-			sameurl ++;
+			sameurl++;
 			if (db_get_b(hContact, "CList", "NotOnList", 1)) {
 				db_unset(hContact, "CList", "NotOnList");
 				db_unset(hContact, "CList", "Hidden");
@@ -415,10 +414,10 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 
 	if ((sameurl > 0) || (samename > 0)) // contact has the same url or name as another contact, add rand num to name
 	{
-		srand((unsigned) time(0));
-		
+		srand((unsigned)time(0));
+
 		wchar_t ranStr[10];
-		_itow((int) 10000 *rand() / (RAND_MAX + 1.0), ranStr, 10);
+		_itow((int)10000 * rand() / (RAND_MAX + 1.0), ranStr, 10);
 		mir_wstrcat(Newnick, ranStr);
 	}
 	//end convert
