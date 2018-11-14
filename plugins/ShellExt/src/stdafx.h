@@ -23,7 +23,6 @@
 
 #include "version.h"
 
-#define SHLExt_Name            "shlext15"
 #define SHLExt_MRU             "MRU"
 #define SHLExt_UseGroups       "UseGroups"
 #define SHLExt_UseCListSetting "UseCLGroups"

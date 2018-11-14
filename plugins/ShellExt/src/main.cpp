@@ -31,7 +31,7 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(SHLExt_Name, pluginInfoEx)
+	PLUGIN<CMPlugin>("shlext15", pluginInfoEx)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////

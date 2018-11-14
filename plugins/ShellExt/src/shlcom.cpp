@@ -123,7 +123,7 @@ BOOL AddToList(TAddArgList& args)
 void NTAPI MainThreadIssueTransfer(ULONG_PTR param)
 {
 	TAddArgList *p = (TAddArgList *)param;
-	db_set_b(p->hContact, SHLExt_Name, SHLExt_MRU, 1);
+	g_plugin.setByte(p->hContact, SHLExt_MRU, 1);
 	CallService(MS_FILE_SENDSPECIFICFILES, (WPARAM)p->hContact, LPARAM(p->files));
 	SetEvent(p->hEvent);
 }
@@ -237,7 +237,7 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 	// hide offliners?
 	bool bHideOffline = db_get_b(0, "CList", "HideOffline", 0) == 1;
 	// do they wanna hide the offline people anyway?
-	if (db_get_b(0, SHLExt_Name, SHLExt_ShowNoOffline, 0) == 1)
+	if (g_plugin.getByte(SHLExt_ShowNoOffline, 0) == 1)
 		// hide offline people
 		bHideOffline = true;
 
@@ -270,7 +270,7 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 				continue;
 
 			// is HIT on?
-			if (BST_UNCHECKED == db_get_b(0, SHLExt_Name, SHLExt_UseHITContacts, BST_UNCHECKED)) {
+			if (BST_UNCHECKED == g_plugin.getByte(SHLExt_UseHITContacts, BST_UNCHECKED)) {
 				// don't show people who are "Hidden" "NotOnList" or Ignored
 				if (db_get_b(hContact, "CList", "Hidden", 0) == 1 ||
 					db_get_b(hContact, "CList", "NotOnList", 0) == 1 ||
@@ -278,7 +278,7 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 					continue;
 			}
 			// is HIT2 off?
-			if (BST_UNCHECKED == db_get_b(0, SHLExt_Name, SHLExt_UseHIT2Contacts, BST_UNCHECKED))
+			if (BST_UNCHECKED == g_plugin.getByte(SHLExt_UseHIT2Contacts, BST_UNCHECKED))
 				if (db_get_w(hContact, szProto, "ApparentMode", 0) == ID_STATUS_OFFLINE)
 					continue;
 
@@ -319,7 +319,7 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 			pct->hContact = pContacts[i].hContact;
 			pct->Status = pContacts[i].dwStatus;
 			pct->hProto = pContacts[i].hProto;
-			pct->MRU = db_get_b(pct->hContact, SHLExt_Name, SHLExt_MRU, 0);
+			pct->MRU = g_plugin.getByte(pct->hContact, SHLExt_MRU);
 			if (ipch->ContactsBegin == nullptr)
 				ipch->ContactsBegin = pct;
 			szSlot += cch + 1;
@@ -342,8 +342,8 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 void __cdecl ClearMRUThread(void*)
 {
 	for (auto &hContact : Contacts())
-		if (db_get_b(hContact, SHLExt_Name, SHLExt_MRU, 0) > 0)
-			db_set_b(hContact, SHLExt_Name, SHLExt_MRU, 0);
+		if (g_plugin.getBool(hContact, SHLExt_MRU))
+			g_plugin.setByte(hContact, SHLExt_MRU, false);
 }
 
 // this function is called from an APC into the main thread
@@ -396,7 +396,7 @@ void __stdcall ipcService(ULONG_PTR)
 		// store the address map offset so the caller can retranslate
 		pMMT->pServerBaseAddress = pMMT;
 		// return some options to the client
-		if (db_get_b(0, SHLExt_Name, SHLExt_ShowNoIcons, 0) != 0)
+		if (g_plugin.getByte(SHLExt_ShowNoIcons, 0) != 0)
 			pMMT->dwFlags = HIPC_NOICONS;
 
 		// see if we have a custom string for 'Miranda'
@@ -412,14 +412,14 @@ void __stdcall ipcService(ULONG_PTR)
 		lstrcpynA(pMMT->ClearEntries, szBuf, sizeof(pMMT->ClearEntries) - 1);
 
 		// if the group mode is on, check if they want the CList setting
-		bool bGroupMode = (BST_CHECKED == db_get_b(0, SHLExt_Name, SHLExt_UseGroups, BST_UNCHECKED));
-		if (bGroupMode && BST_CHECKED == db_get_b(0, SHLExt_Name, SHLExt_UseCListSetting, BST_UNCHECKED))
+		bool bGroupMode = (BST_CHECKED == g_plugin.getByte(SHLExt_UseGroups, BST_UNCHECKED));
+		if (bGroupMode && BST_CHECKED == g_plugin.getByte(SHLExt_UseCListSetting, BST_UNCHECKED))
 			bGroupMode = db_get_b(0, "CList", "UseGroups", true) != 0;
 
 		TSlotIPC *pct = nullptr;
 		int iSlot = 0;
 		// return profile if set
-		if (BST_UNCHECKED == db_get_b(0, SHLExt_Name, SHLExt_ShowNoProfile, BST_UNCHECKED)) {
+		if (BST_UNCHECKED == g_plugin.getByte(SHLExt_ShowNoProfile, BST_UNCHECKED)) {
 			pct = ipcAlloc(pMMT, 50);
 			if (pct != nullptr) {
 				// will actually return with .dat if there's space for it, not what the docs say
