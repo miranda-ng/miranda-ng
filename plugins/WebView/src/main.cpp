@@ -82,7 +82,7 @@ void ChangeContactStatus(int con_stat)
       status_code = ID_STATUS_NA;
 
 	for (auto &hContact : Contacts(MODULENAME))
-		db_set_w(hContact, MODULENAME, "Status", status_code);
+		g_plugin.setWord(hContact, "Status", status_code);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

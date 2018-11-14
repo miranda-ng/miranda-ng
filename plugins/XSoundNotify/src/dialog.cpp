@@ -52,7 +52,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 			}
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CONT_BUTTON_CHOOSE_SOUND), TRUE);
 			DBVARIANT dbv = { 0 };
-			if (!db_get_ws(hContact, MODULENAME, SETTINGSKEY, &dbv)) {
+			if (!g_plugin.getWString(hContact, SETTINGSKEY, &dbv)) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CONT_BUTTON_TEST_PLAY), TRUE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CONT_BUTTON_RESET_SOUND), TRUE);
 				SetDlgItemText(hwndDlg, IDC_CONT_LABEL_SOUND, PathFindFileName(dbv.pwszVal));
@@ -64,10 +64,10 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 				SetDlgItemText(hwndDlg, IDC_CONT_LABEL_SOUND, TranslateT("Not set"));
 			}
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CONT_IGNORE_SOUND), TRUE);
-			CheckDlgButton(hwndDlg, IDC_CONT_IGNORE_SOUND, db_get_b(hContact, MODULENAME, SETTINGSIGNOREKEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CONT_IGNORE_SOUND, g_plugin.getByte(hContact, SETTINGSIGNOREKEY, 0) ? BST_CHECKED : BST_UNCHECKED);
 			p = XSN_Users.find((XSN_Data *)&hContact);
 			if (p == nullptr) {
-				ptrW name(db_get_wsa(hContact, MODULENAME, SETTINGSKEY));
+				ptrW name(g_plugin.getWStringA(hContact, SETTINGSKEY));
 				if (name != NULL)
 					XSN_Users.insert(new XSN_Data(hContact, name, IsDlgButtonChecked(hwndDlg, IDC_CONT_IGNORE_SOUND) ? 1 : 0, 1));
 			}
@@ -82,9 +82,9 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 				if (mir_wstrcmpi(p->path, L"")) {
 					wchar_t shortpath[MAX_PATH];
 					PathToRelativeW(p->path, shortpath);
-					db_set_ws(hContact, MODULENAME, SETTINGSKEY, shortpath);
+					g_plugin.setWString(hContact, SETTINGSKEY, shortpath);
 				}
-				db_set_b(hContact, MODULENAME, SETTINGSIGNOREKEY, p->ignore);
+				g_plugin.setByte(hContact, SETTINGSIGNOREKEY, p->ignore);
 			}
 
 		case IDCANCEL:
@@ -134,7 +134,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 			isIgnoreSound = 0;
 			if (p == nullptr) {
 				DBVARIANT dbv;
-				if (!db_get_ws(hContact, MODULENAME, SETTINGSKEY, &dbv)) {
+				if (!g_plugin.getWString(hContact, SETTINGSKEY, &dbv)) {
 					wchar_t longpath[MAX_PATH] = { 0 };
 					PathToAbsoluteW(dbv.pwszVal, longpath);
 					Skin_PlaySoundFile(longpath);
@@ -159,15 +159,15 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 				XSN_Users.remove(p);
 				delete p;
 			}
-			db_unset(hContact, MODULENAME, SETTINGSKEY);
-			db_unset(hContact, MODULENAME, SETTINGSIGNOREKEY);
+			g_plugin.delSetting(hContact, SETTINGSKEY);
+			g_plugin.delSetting(hContact, SETTINGSIGNOREKEY);
 			break;
 
 		case IDC_CONT_IGNORE_SOUND:
 			p = XSN_Users.find((XSN_Data *)&hContact);
 			if (p == nullptr) {
 				DBVARIANT dbv;
-				if (!db_get_ws(hContact, MODULENAME, SETTINGSKEY, &dbv)) {
+				if (!g_plugin.getWString(hContact, SETTINGSKEY, &dbv)) {
 					wchar_t longpath[MAX_PATH];
 					PathToAbsoluteW(dbv.pwszVal, longpath);
 					XSN_Users.insert(new XSN_Data(hContact, longpath, IsDlgButtonChecked(hwndDlg, IDC_CONT_IGNORE_SOUND) ? 1 : 0, 1));

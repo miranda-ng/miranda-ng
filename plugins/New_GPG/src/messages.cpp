@@ -95,7 +95,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 						::Sleep(step);
 						count += step;
 						if (count >= timeout) {
-							db_set_b(hContact, MODULENAME, "GPGEncryption", 0);
+							g_plugin.setByte(hContact, "GPGEncryption", 0);
 							setSrmmIcon(hContact);
 							setClistIcon(hContact);
 							globals.debuglog << std::string(time_str() + "info: failed to create temporary file for decryption, disabling gpg for contact to avoid deadlock");
@@ -167,11 +167,11 @@ static void RecvMsgSvc_func(RecvParams *param)
 						boost::filesystem::remove(path, e);
 					}
 					HistoryLog(hContact, db_event(param->msg, param->timestamp, 0, dbflags));
-					BYTE enc = db_get_b(hContact, MODULENAME, "GPGEncryption", 0);
-					db_set_b(hContact, MODULENAME, "GPGEncryption", 0);
+					BYTE enc = g_plugin.getByte(hContact, "GPGEncryption", 0);
+					g_plugin.setByte(hContact, "GPGEncryption", 0);
 					ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)"Unable to decrypt PGP encrypted message");
 					HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
-					db_set_b(hContact, MODULENAME, "GPGEncryption", enc);
+					g_plugin.setByte(hContact, "GPGEncryption", enc);
 					delete param;
 					return;
 				}
@@ -192,11 +192,11 @@ static void RecvMsgSvc_func(RecvParams *param)
 					if (globals.bDebugLog)
 						globals.debuglog << std::string(time_str() + ": info: failed to decrypt messaage from " + toUTF8(Clist_GetContactDisplayName(hContact)) + " password needed, trying to get one");
 					if (globals._terminate) {
-						BYTE enc = db_get_b(hContact, MODULENAME, "GPGEncryption", 0);
-						db_set_b(hContact, MODULENAME, "GPGEncryption", 0);
+						BYTE enc = g_plugin.getByte(hContact, "GPGEncryption", 0);
+						g_plugin.setByte(hContact, "GPGEncryption", 0);
 						ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)"Unable to decrypt PGP encrypted message");
 						HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
-						db_set_b(hContact, MODULENAME, "GPGEncryption", enc);
+						g_plugin.setByte(hContact, "GPGEncryption", enc);
 						break;
 					}
 					{ //save inkey id
@@ -230,11 +230,11 @@ static void RecvMsgSvc_func(RecvParams *param)
 						}
 
 						HistoryLog(hContact, db_event(param->msg, param->timestamp, 0, dbflags));
-						BYTE enc = db_get_b(hContact, MODULENAME, "GPGEncryption", 0);
-						db_set_b(hContact, MODULENAME, "GPGEncryption", 0);
+						BYTE enc = g_plugin.getByte(hContact, "GPGEncryption", 0);
+						g_plugin.setByte(hContact, "GPGEncryption", 0);
 						ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)"Unable to decrypt PGP encrypted message");
 						HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
-						db_set_b(hContact, MODULENAME, "GPGEncryption", enc);
+						g_plugin.setByte(hContact, "GPGEncryption", enc);
 						delete param;
 						return;
 					}
@@ -257,11 +257,11 @@ static void RecvMsgSvc_func(RecvParams *param)
 					}
 
 					HistoryLog(hContact, db_event(param->msg, param->timestamp, 0, dbflags));
-					BYTE enc = db_get_b(hContact, MODULENAME, "GPGEncryption", 0);
-					db_set_b(hContact, MODULENAME, "GPGEncryption", 0);
+					BYTE enc = g_plugin.getByte(hContact, "GPGEncryption", 0);
+					g_plugin.setByte(hContact, "GPGEncryption", 0);
 					ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)"Unable to decrypt PGP encrypted message");
 					HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
-					db_set_b(hContact, MODULENAME, "GPGEncryption", enc);
+					g_plugin.setByte(hContact, "GPGEncryption", enc);
 					delete param;
 					return;
 				}
@@ -289,11 +289,11 @@ static void RecvMsgSvc_func(RecvParams *param)
 					ptrA tmp4((char*)mir_alloc(sizeof(char)*(str1.length() + 1)));
 					mir_strcpy(tmp4, str1.c_str());
 					HistoryLog(hContact, db_event(param->msg, param->timestamp, 0, dbflags));
-					BYTE enc = db_get_b(hContact, MODULENAME, "GPGEncryption", 0);
-					db_set_b(hContact, MODULENAME, "GPGEncryption", 0);
+					BYTE enc = g_plugin.getByte(hContact, "GPGEncryption", 0);
+					g_plugin.setByte(hContact, "GPGEncryption", 0);
 					ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)"Unable to decrypt PGP encrypted message");
 					HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
-					db_set_b(hContact, MODULENAME, "GPGEncryption", enc);
+					g_plugin.setByte(hContact, "GPGEncryption", enc);
 					delete param;
 					return;
 				}
@@ -329,11 +329,11 @@ static void RecvMsgSvc_func(RecvParams *param)
 						globals.debuglog << std::string(time_str() + ": info: Failed to decrypt GPG encrypted message.");
 
 					HistoryLog(hContact, db_event(param->msg, param->timestamp, 0, dbflags));
-					BYTE enc = db_get_b(hContact, MODULENAME, "GPGEncryption", 0);
-					db_set_b(hContact, MODULENAME, "GPGEncryption", 0);
+					BYTE enc = g_plugin.getByte(hContact, "GPGEncryption", 0);
+					g_plugin.setByte(hContact, "GPGEncryption", 0);
 					ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)"Unable to decrypt PGP encrypted message");
 					HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
-					db_set_b(hContact, MODULENAME, "GPGEncryption", enc);
+					g_plugin.setByte(hContact, "GPGEncryption", enc);
 					delete param;
 					return;
 				}
@@ -629,7 +629,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 				cmd.push_back(L"\"\"");
 				cmd.push_back(L"--no-version");
 			}
-			if (db_get_b(hContact, MODULENAME, "bAlwaysTrust", 0)) {
+			if (g_plugin.getByte(hContact, "bAlwaysTrust", 0)) {
 				cmd.push_back(L"--trust-model");
 				cmd.push_back(L"always");
 			}
@@ -658,7 +658,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 			::Sleep(step);
 			count += step;
 			if (count >= timeout) {
-				db_set_b(hContact, MODULENAME, "GPGEncryption", 0); //disable encryption
+				g_plugin.setByte(hContact, "GPGEncryption", 0); //disable encryption
 				setSrmmIcon(hContact);
 				setClistIcon(hContact);
 				globals.debuglog << std::string(time_str() + ": info: failed to create temporary file for encryption, disabling encryption to avoid deadlock");
@@ -693,7 +693,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 	if (out.find("There is no assurance this key belongs to the named user") != string::npos) {
 		out.clear();
 		if (MessageBox(nullptr, TranslateT("We're trying to encrypt with untrusted key. Do you want to trust this key permanently?"), TranslateT("Warning"), MB_YESNO) == IDYES) {
-			db_set_b(hContact, MODULENAME, "bAlwaysTrust", 1);
+			g_plugin.setByte(hContact, "bAlwaysTrust", 1);
 			std::vector<std::wstring> tmp;
 			tmp.push_back(L"--trust-model");
 			tmp.push_back(L"always");
@@ -739,7 +739,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 		f.open(path.c_str(), std::ios::in | std::ios::ate | std::ios::binary);
 		count += step;
 		if (count >= timeout) {
-			db_set_b(hContact, MODULENAME, "GPGEncryption", 0); //disable encryption
+			g_plugin.setByte(hContact, "GPGEncryption", 0); //disable encryption
 			setSrmmIcon(hContact);
 			setClistIcon(hContact);
 			globals.debuglog << std::string(time_str() + ": info: gpg failed to encrypt message, disabling encryption to avoid deadlock");

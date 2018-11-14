@@ -176,7 +176,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 	COptPage AutoreplyOptData(g_AutoreplyOptPage);
 	AutoreplyOptData.DBToMem();
 	if (dbei->eventType == EVENTTYPE_MESSAGE)
-		db_set_w(hContact, MODULENAME, DB_MESSAGECOUNT, db_get_w(hContact, MODULENAME, DB_MESSAGECOUNT, 0) + 1); // increment message counter
+		g_plugin.setWord(hContact, DB_MESSAGECOUNT, g_plugin.getWord(hContact, DB_MESSAGECOUNT, 0) + 1); // increment message counter
 
 	if (AutoreplyOptData.GetValue(StatusModeList[i].DisableReplyCtlID))
 		return 0;
@@ -210,7 +210,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 
 	int SendCount = (int)AutoreplyOptData.GetValue(IDC_REPLYDLG_SENDCOUNT);
 	if ((AutoreplyOptData.GetValue(IDC_REPLYDLG_DONTSENDTOICQ) && UIN) || // an icq contact
-		 (SendCount != -1 && db_get_b(hContact, MODULENAME, DB_SENDCOUNT, 0) >= SendCount))
+		 (SendCount != -1 && g_plugin.getByte(hContact, DB_SENDCOUNT, 0) >= SendCount))
 		return 0;
 
 	if ((dbei->eventType == EVENTTYPE_MESSAGE && !AutoreplyOptData.GetValue(IDC_REPLYDLG_EVENTMSG)) || 
@@ -218,7 +218,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 		 (dbei->eventType == EVENTTYPE_FILE && !AutoreplyOptData.GetValue(IDC_REPLYDLG_EVENTFILE)))
 		return 0;
 
-	db_set_b(hContact, MODULENAME, DB_SENDCOUNT, db_get_b(hContact, MODULENAME, DB_SENDCOUNT, 0) + 1);
+	g_plugin.setByte(hContact, DB_SENDCOUNT, g_plugin.getByte(hContact, DB_SENDCOUNT, 0) + 1);
 	GetDynamicStatMsg(hContact); // it updates VarParseData.Message needed for %extratext% in the format
 	TCString Reply(*(TCString*)AutoreplyOptData.GetValue(IDC_REPLYDLG_PREFIX));
 	if (Reply != nullptr && ServiceExists(MS_VARS_FORMATSTRING) && !g_SetAwayMsgPage.GetDBValueCopy(IDS_SAWAYMSG_DISABLEVARIABLES)) {

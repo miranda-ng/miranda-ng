@@ -505,7 +505,7 @@ void MirandaUtils::translateOldDBNames() {
 
 		int keyValue = db_get_b(hContact, OLD_PLUGIN_DB_ID, "state", 0);
 		if (keyValue != 0){
-			db_set_b(hContact, MODULENAME, "state", keyValue);
+			g_plugin.setByte(hContact, "state", keyValue);
 			db_unset(hContact, OLD_PLUGIN_DB_ID, "state");
 			logger->log(L"TranslateOldDBNames:  CONTACT db entry found and moved");
 		}

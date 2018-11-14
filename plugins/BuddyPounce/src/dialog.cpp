@@ -28,7 +28,7 @@ void populateContacts(MCONTACT BPhContact, HWND hwnd2CB)
 void saveLastSetting(MCONTACT hContact, HWND hwnd)
 {
 	wchar_t number[8];//, string[1024];//for sending file name
-	switch (db_get_b(hContact, MODULENAME, "LastSetting", 2)) { // nothing to do
+	switch (g_plugin.getByte(hContact, "LastSetting", 2)) { // nothing to do
 	case 0: // Send If My Status Is...
 		break;
 	case 1: // Send If They Change status to
@@ -38,18 +38,18 @@ void saveLastSetting(MCONTACT hContact, HWND hwnd)
 		break;
 	case 3: // Reuse Pounce
 		GetDlgItemText(hwnd, IDC_SETTINGNUMBER, number, _countof(number));
-		db_set_b(hContact, MODULENAME, "Reuse", (BYTE)_wtoi(number));
+		g_plugin.setByte(hContact, "Reuse", (BYTE)_wtoi(number));
 		break;
 	case 4: // Give Up delay
 		GetDlgItemText(hwnd, IDC_SETTINGNUMBER, number, _countof(number));
-		db_set_b(hContact, MODULENAME, "GiveUpDays", (BYTE)_wtoi(number));
+		g_plugin.setByte(hContact, "GiveUpDays", (BYTE)_wtoi(number));
 		{
-			db_set_dw(hContact, MODULENAME, "GiveUpDate", (DWORD)(_wtoi(number)*SECONDSINADAY));
+			g_plugin.setDword(hContact, "GiveUpDate", (DWORD)(_wtoi(number)*SECONDSINADAY));
 		}
 		break;
 	case 5:	// confirm window
 		GetDlgItemText(hwnd, IDC_SETTINGNUMBER, number, _countof(number));
-		db_set_w(hContact, MODULENAME, "ConfirmTimeout", (WORD)_wtoi(number));
+		g_plugin.setWord(hContact, "ConfirmTimeout", (WORD)_wtoi(number));
 		break;
 	}
 }
@@ -65,7 +65,7 @@ void hideAll(HWND hwnd)
 void getDefaultMessage(HWND hwnd, UINT control, MCONTACT hContact)
 {
 	DBVARIANT dbv;
-	if (!db_get_ws(hContact, MODULENAME, "PounceMsg", &dbv)) {
+	if (!g_plugin.getWString(hContact, "PounceMsg", &dbv)) {
 		SetDlgItemText(hwnd, control, dbv.pwszVal);
 		db_free(&dbv);
 	}
@@ -179,14 +179,14 @@ void statusModes(windowInfo *wi, int myStatusMode) // myStatusMode=1 sendIfMySta
 
 void deletePounce(MCONTACT hContact)
 {
-	db_unset(hContact, MODULENAME, "PounceMsg");
-	db_unset(hContact, MODULENAME, "SendIfMyStatusIsFLAG");
-	db_unset(hContact, MODULENAME, "SendIfTheirStatusIsFLAG");
-	db_unset(hContact, MODULENAME, "Reuse");
-	db_unset(hContact, MODULENAME, "GiveUpDays");
-	db_unset(hContact, MODULENAME, "GiveUpDate");
-	db_unset(hContact, MODULENAME, "ConfirmTimeout");
-	db_unset(hContact, MODULENAME, "FileToSend");
+	g_plugin.delSetting(hContact, "PounceMsg");
+	g_plugin.delSetting(hContact, "SendIfMyStatusIsFLAG");
+	g_plugin.delSetting(hContact, "SendIfTheirStatusIsFLAG");
+	g_plugin.delSetting(hContact, "Reuse");
+	g_plugin.delSetting(hContact, "GiveUpDays");
+	g_plugin.delSetting(hContact, "GiveUpDate");
+	g_plugin.delSetting(hContact, "ConfirmTimeout");
+	g_plugin.delSetting(hContact, "FileToSend");
 }
 
 INT_PTR CALLBACK BuddyPounceSimpleDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -224,9 +224,9 @@ INT_PTR CALLBACK BuddyPounceSimpleDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, L
 			if (length > 1) {
 				wchar_t *text = (wchar_t*)_alloca(length * sizeof(wchar_t));
 				GetDlgItemText(hwnd, IDC_MESSAGE, text, length);
-				db_set_ws(hContact, MODULENAME, "PounceMsg", text);
+				g_plugin.setWString(hContact, "PounceMsg", text);
 			}
-			else db_unset(hContact, MODULENAME, "PounceMsg");
+			else g_plugin.delSetting(hContact, "PounceMsg");
 		}
 		// fall through
 		case IDCANCEL:
@@ -289,10 +289,10 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
 					break;
 				}
 				GetDlgItemText(hwnd, IDC_MESSAGE, text, length);
-				db_set_ws(hContact, MODULENAME, "PounceMsg", text);
+				g_plugin.setWString(hContact, "PounceMsg", text);
 				mir_free(text);
 			}
-			else db_unset(hContact, MODULENAME, "PounceMsg");
+			else g_plugin.delSetting(hContact, "PounceMsg");
 			saveLastSetting(hContact, hwnd);
 		} // fall through
 		if (LOWORD(wParam) == IDC_SIMPLE)
@@ -415,10 +415,10 @@ INT_PTR CALLBACK BuddyPounceOptionsDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, 
 						break;
 					}
 					GetDlgItemText(hwnd, IDC_MESSAGE, text, length);
-					db_set_ws(hContact, MODULENAME, "PounceMsg", text);
+					g_plugin.setWString(hContact, "PounceMsg", text);
 					mir_free(text);
 				}
-				else db_unset(hContact, MODULENAME, "PounceMsg");
+				else g_plugin.delSetting(hContact, "PounceMsg");
 				g_plugin.setByte("UseAdvanced", (BYTE)IsDlgButtonChecked(hwnd, IDC_USEADVANCED));
 				g_plugin.setByte("ShowDeliveryMessages", (BYTE)IsDlgButtonChecked(hwnd, IDC_SHOWDELIVERYMSGS));
 
@@ -567,7 +567,7 @@ INT_PTR CALLBACK PounceSentDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		hContact = lParam;
 		{
 			DBVARIANT dbv;
-			if (db_get_ws(hContact, MODULENAME, "PounceMsg", &dbv))
+			if (g_plugin.getWString(hContact, "PounceMsg", &dbv))
 				DestroyWindow(hwnd);
 			else {
 				SetDlgItemText(hwnd, IDC_MESSAGE, dbv.pwszVal);

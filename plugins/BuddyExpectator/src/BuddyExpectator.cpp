@@ -68,14 +68,14 @@ CMPlugin::CMPlugin() :
 
 time_t getLastSeen(MCONTACT hContact)
 {
-	return db_get_dw(hContact, MODULENAME, "LastSeen", db_get_dw(hContact, MODULENAME, "CreationTime", (DWORD)-1));
+	return g_plugin.getDword(hContact, "LastSeen", g_plugin.getDword(hContact, "CreationTime", (DWORD)-1));
 }
 
 void setLastSeen(MCONTACT hContact)
 {
-	db_set_dw(hContact, MODULENAME, "LastSeen", (DWORD)time(0));
-	if (db_get_b(hContact, MODULENAME, "StillAbsentNotified", 0))
-		db_set_b(hContact, MODULENAME, "StillAbsentNotified", 0);
+	g_plugin.setDword(hContact, "LastSeen", (DWORD)time(0));
+	if (g_plugin.getByte(hContact, "StillAbsentNotified", 0))
+		g_plugin.setByte(hContact, "StillAbsentNotified", 0);
 }
 
 time_t getLastInputMsg(MCONTACT hContact)
@@ -223,7 +223,7 @@ bool isContactGoneFor(MCONTACT hContact, int days)
 
 	if (options.hideInactive)
 		if (daysSinceMessage >= options.iSilencePeriod)
-			if (!db_get_b(hContact, "CList", "Hidden", 0) && !db_get_b(hContact, MODULENAME, "NeverHide", 0)) {
+			if (!db_get_b(hContact, "CList", "Hidden", 0) && !g_plugin.getByte(hContact, "NeverHide", 0)) {
 				POPUPDATAT_V2 ppd = { 0 };
 				ppd.cbSize = sizeof(ppd);
 				ppd.lchContact = hContact;
@@ -411,12 +411,12 @@ int onIconsChanged(WPARAM, LPARAM)
  */
 INT_PTR MenuMissYouClick(WPARAM hContact, LPARAM)
 {
-	if (db_get_b(hContact, MODULENAME, "MissYou", 0)) {
-		db_set_b(hContact, MODULENAME, "MissYou", 0);
+	if (g_plugin.getByte(hContact, "MissYou", 0)) {
+		g_plugin.setByte(hContact, "MissYou", 0);
 		ExtraIcon_Clear(hExtraIcon, hContact);
 	}
 	else {
-		db_set_b(hContact, MODULENAME, "MissYou", 1);
+		g_plugin.setByte(hContact, "MissYou", 1);
 		ExtraIcon_SetIconByName(hExtraIcon, hContact, "enabled_icon");
 	}
 
@@ -432,7 +432,7 @@ int onPrebuildContactMenu(WPARAM hContact, LPARAM)
 	if (!proto)
 		return 0;
 
-	if (db_get_b(hContact, MODULENAME, "MissYou", 0))
+	if (g_plugin.getByte(hContact, "MissYou", 0))
 		Menu_ModifyItem(hContactMenu, LPGENW("Disable Miss You"), iconList[1].hIcolib);
 	else
 		Menu_ModifyItem(hContactMenu, LPGENW("Enable Miss You"), iconList[2].hIcolib);
@@ -443,7 +443,7 @@ int onPrebuildContactMenu(WPARAM hContact, LPARAM)
 
 int onExtraImageApplying(WPARAM hContact, LPARAM)
 {
-	if (db_get_b(hContact, MODULENAME, "MissYou", 0))
+	if (g_plugin.getByte(hContact, "MissYou", 0))
 		ExtraIcon_SetIconByName(hExtraIcon, hContact, "enabled_icon");
 
 	return 0;
@@ -473,10 +473,10 @@ int SettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	// Last status
-	db_set_dw(hContact, MODULENAME, "LastStatus", prevStatus);
+	g_plugin.setDword(hContact, "LastStatus", prevStatus);
 
 	if (prevStatus == ID_STATUS_OFFLINE) {
-		if (db_get_b(hContact, MODULENAME, "MissYou", 0)) {
+		if (g_plugin.getByte(hContact, "MissYou", 0)) {
 			// Display Popup
 			POPUPDATAT_V2 ppd = { 0 };
 			ppd.cbSize = sizeof(ppd);
@@ -508,12 +508,12 @@ int SettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 	}
 
-	if (db_get_dw(hContact, MODULENAME, "LastSeen", (DWORD)-1) == (DWORD)-1 && options.notifyFirstOnline) {
+	if (g_plugin.getDword(hContact, "LastSeen", (DWORD)-1) == (DWORD)-1 && options.notifyFirstOnline) {
 		ReturnNotify(hContact, TranslateT("has gone online for the first time."));
 		setLastSeen(hContact);
 	}
 
-	unsigned int AbsencePeriod = db_get_dw(hContact, MODULENAME, "iAbsencePeriod", options.iAbsencePeriod);
+	unsigned int AbsencePeriod = g_plugin.getDword(hContact, "iAbsencePeriod", options.iAbsencePeriod);
 	if (isContactGoneFor(hContact, AbsencePeriod)) {
 		wchar_t* message = TranslateT("has returned after a long absence.");
 		wchar_t tmpBuf[251] = { 0 };
@@ -544,9 +544,9 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	for (auto &hContact : Contacts()) {
 		char *proto = GetContactProto(hContact);
-		if (proto && (db_get_b(hContact, proto, "ChatRoom", 0) == 0) && (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND) && isContactGoneFor(hContact, options.iAbsencePeriod2) && (db_get_b(hContact, MODULENAME, "StillAbsentNotified", 0) == 0))
+		if (proto && (db_get_b(hContact, proto, "ChatRoom", 0) == 0) && (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND) && isContactGoneFor(hContact, options.iAbsencePeriod2) && (g_plugin.getByte(hContact, "StillAbsentNotified", 0) == 0))
 		{
-			db_set_b(hContact, MODULENAME, "StillAbsentNotified", 1);
+			g_plugin.setByte(hContact, "StillAbsentNotified", 1);
 			Skin_PlaySound("buddyExpectatorStillAbsent");
 
 			wchar_t* message = TranslateT("has not returned after a long absence.");
@@ -635,7 +635,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 int ContactAdded(WPARAM hContact, LPARAM)
 {
-	db_set_dw(hContact, MODULENAME, "CreationTime", (DWORD)time(0));
+	g_plugin.setDword(hContact, "CreationTime", (DWORD)time(0));
 	return 0;
 }
 
@@ -664,8 +664,8 @@ int CMPlugin::Load()
 	// ensure all contacts are timestamped
 	DWORD current_time = (DWORD)time(0);
 	for (auto &hContact : Contacts())
-		if (!db_get_dw(hContact, MODULENAME, "CreationTime"))
-			db_set_dw(hContact, MODULENAME, "CreationTime", current_time);
+		if (!g_plugin.getDword(hContact, "CreationTime"))
+			g_plugin.setDword(hContact, "CreationTime", current_time);
 
 	g_plugin.registerIcon("BuddyExpectator", iconList);
 

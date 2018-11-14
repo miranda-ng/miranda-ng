@@ -32,7 +32,7 @@ void SetSRMMIcon(MCONTACT hContact, SRMM_ICON_TYPE type, time_t time)
 
 		if (type == ICON_READ)
 		{
-			if (db_get_dw(hContact, MODULENAME, DBKEY_MESSAGE_READ_TIME_TYPE, -1) == MRD_TYPE_READTIME)
+			if (g_plugin.getDword(hContact, DBKEY_MESSAGE_READ_TIME_TYPE, -1) == MRD_TYPE_READTIME)
 			{
 				wcsftime(tszTooltip.GetBuffer(64), 64, TranslateT("Last message read at %X %x"), localtime(&time));
 				tszTooltip.ReleaseBuffer();
@@ -57,7 +57,7 @@ void SetSRMMIcon(MCONTACT hContact, SRMM_ICON_TYPE type, time_t time)
 
 int IconsUpdate(MCONTACT hContact)
 {
-	time_t readtime = db_get_dw(hContact, MODULENAME, DBKEY_MESSAGE_READ_TIME, 0);
+	time_t readtime = g_plugin.getDword(hContact, DBKEY_MESSAGE_READ_TIME, 0);
 	time_t lasttime = GetLastSentMessageTime(hContact);
 	if (lasttime != -1 && readtime != 0)
 	{

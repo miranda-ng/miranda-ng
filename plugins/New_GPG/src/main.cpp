@@ -284,7 +284,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 		}
 		else db_set_ws(metaGetMostOnline(hContact), MODULENAME, "GPGPubKey", new_key.c_str());
 	}
-	else db_set_ws(hContact, MODULENAME, "GPGPubKey", new_key.c_str());
+	else g_plugin.setWString(hContact, "GPGPubKey", new_key.c_str());
 
 	// gpg execute block
 	std::vector<wstring> cmd;
@@ -454,7 +454,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 		char *tmp = nullptr;
 		string::size_type s = output.find("gpg: key ") + mir_strlen("gpg: key ");
 		string::size_type s2 = output.find(":", s);
-		db_set_s(hContact, MODULENAME, "KeyID", output.substr(s, s2 - s).c_str());
+		g_plugin.setString(hContact, "KeyID", output.substr(s, s2 - s).c_str());
 		s = output.find("вЂњ", s2);
 		if (s == string::npos) {
 			s = output.find("\"", s2);
@@ -475,7 +475,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 			tmp = (char*)mir_alloc(sizeof(char)*(output.substr(s, s2 - s - (uncommon ? 1 : 0)).length() + 1));
 			mir_strcpy(tmp, output.substr(s, s2 - s - (uncommon ? 1 : 0)).c_str());
 			mir_utf8decode(tmp, nullptr);
-			db_set_s(hContact, MODULENAME, "KeyMainName", tmp);
+			g_plugin.setString(hContact, "KeyMainName", tmp);
 			mir_free(tmp);
 		}
 		if ((s = output.find(")", s2)) == string::npos)
@@ -488,7 +488,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 				tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2, s - s2).length() + 1));
 				mir_strcpy(tmp, output.substr(s2, s - s2).c_str());
 				mir_utf8decode(tmp, nullptr);
-				db_set_s(hContact, MODULENAME, "KeyComment", tmp);
+				g_plugin.setString(hContact, "KeyComment", tmp);
 				mir_free(tmp);
 				s += 3;
 				s2 = output.find(">", s);
@@ -496,7 +496,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 					tmp = (char*)mir_alloc(sizeof(char)*(output.substr(s, s2 - s).length() + 1));
 					mir_strcpy(tmp, output.substr(s, s2 - s).c_str());
 					mir_utf8decode(tmp, nullptr);
-					db_set_s(hContact, MODULENAME, "KeyMainEmail", tmp);
+					g_plugin.setString(hContact, "KeyMainEmail", tmp);
 					mir_free(tmp);
 				}
 			}
@@ -504,11 +504,11 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 				tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2, s - s2).length() + 1));
 				mir_strcpy(tmp, output.substr(s2, s - s2).c_str());
 				mir_utf8decode(tmp, nullptr);
-				db_set_s(hContact, MODULENAME, "KeyMainEmail", output.substr(s2, s - s2).c_str());
+				g_plugin.setString(hContact, "KeyMainEmail", output.substr(s2, s - s2).c_str());
 				mir_free(tmp);
 			}
 		}
-		db_unset(hContact, MODULENAME, "bAlwatsTrust");
+		g_plugin.delSetting(hContact, "bAlwatsTrust");
 	}
 
 	MessageBox(nullptr, toUTF16(output).c_str(), L"", MB_OK);

@@ -67,16 +67,16 @@ void GetData(void *param)
 	memset(&tstr, 0, sizeof(tstr));
 	memset(&timestring, 0, sizeof(timestring));
 
-	db_set_b(hContact, MODULENAME, STOP_KEY, 0);  
+	g_plugin.setByte(hContact, STOP_KEY, 0);  
 
-	if (db_get_s(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
+	if (g_plugin.getString(hContact, PRESERVE_NAME_KEY, &dbv)) {
 		if (!db_get_s(hContact, "CList", "MyHandle", &dbv)) {
-			db_set_s(hContact, MODULENAME, PRESERVE_NAME_KEY, dbv.pszVal);
+			g_plugin.setString(hContact, PRESERVE_NAME_KEY, dbv.pszVal);
 			db_free(&dbv);
 		}
 	}
 
-	if (!db_get_s(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
+	if (!g_plugin.getString(hContact, PRESERVE_NAME_KEY, &dbv)) {
 		strncpy_s(contactname, _countof(contactname), dbv.pszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
@@ -86,17 +86,17 @@ void GetData(void *param)
 	if (!Startingup)
 		g_plugin.setByte(HAS_CRASHED_KEY, 1);
 
-	if (!db_get_s(hContact, MODULENAME, START_STRING_KEY, &dbv)) {
+	if (!g_plugin.getString(hContact, START_STRING_KEY, &dbv)) {
 		strncpy_s(tempstring, _countof(tempstring), dbv.pszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
 
-	if (!db_get_s(hContact, MODULENAME, END_STRING_KEY, &dbv)) {
+	if (!g_plugin.getString(hContact, END_STRING_KEY, &dbv)) {
 		strncpy_s(tempstring2, _countof(tempstring2), dbv.pszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
 
-	if (!db_get_s(hContact, MODULENAME, URL_KEY, &dbv)) {
+	if (!g_plugin.getString(hContact, URL_KEY, &dbv)) {
 		strncpy_s(url, _countof(url), dbv.pszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
@@ -132,12 +132,12 @@ void GetData(void *param)
 
 		SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Download in progress, please wait..."));
 		db_set_ws(hContact, "CList", "StatusMsg", TranslateT("Updating..."));
-		db_set_w(hContact, MODULENAME, "Status", ID_STATUS_DND); // download 
+		g_plugin.setWord(hContact, "Status", ID_STATUS_DND); // download 
 
 		NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(hNetlibUser, &nlhr);
 		if (nlhrReply) {
 			if (nlhrReply->resultCode < 200 || nlhrReply->resultCode >= 300) {
-				db_set_w(hContact, MODULENAME, "Status", ID_STATUS_AWAY);
+				g_plugin.setWord(hContact, "Status", ID_STATUS_AWAY);
 
 				wchar_t *statusText = TranslateT("The server replied with a failure code");
 				SetDlgItemText(hwndDlg, IDC_STATUSBAR, statusText);
@@ -153,7 +153,7 @@ void GetData(void *param)
 		} // END REPLY
 
 		if (!nlhrReply) {
-			db_set_w(hContact, MODULENAME, "Status", ID_STATUS_NA);
+			g_plugin.setWord(hContact, "Status", ID_STATUS_NA);
 
 			wchar_t *statusText = TranslateT("The server is down or lagging.");
 			SetDlgItemText(hwndDlg, IDC_STATUSBAR, statusText);
@@ -177,7 +177,7 @@ void GetData(void *param)
 		// download successful
 		if (DownloadSuccess) {
 			// all the site
-			if (db_get_b(hContact, MODULENAME, U_ALLSITE_KEY, 0) == 1)
+			if (g_plugin.getByte(hContact, U_ALLSITE_KEY, 0) == 1)
 				mir_strncpy(truncated, truncated2, MAXSIZE1);
 			else { // use start and end string
 				// putting data into string    
@@ -231,13 +231,13 @@ void GetData(void *param)
 
 						DownloadSuccess = 1;
 					}
-					else if (db_get_b(hContact, MODULENAME, U_ALLSITE_KEY, 0) == 0) {
+					else if (g_plugin.getByte(hContact, U_ALLSITE_KEY, 0) == 0) {
 						wchar_t *szStatusText = TranslateT("Invalid search parameters.");
 						WErrorPopup(hContact, szStatusText);
 
 						DownloadSuccess = 0;
 						SetDlgItemText(hwndDlg, IDC_STATUSBAR, szStatusText);
-						db_set_w(hContact, MODULENAME, "Status", ID_STATUS_AWAY);
+						g_plugin.setWord(hContact, "Status", ID_STATUS_AWAY);
 					}
 				} // end putting data into string
 			} // end use start and end strings 
@@ -245,7 +245,7 @@ void GetData(void *param)
 
 		if (DownloadSuccess) { // download success
 			if (statpos == 0 && statposend == 0) {
-				if (db_get_b(hContact, MODULENAME, U_ALLSITE_KEY, 0) == 0) {
+				if (g_plugin.getByte(hContact, U_ALLSITE_KEY, 0) == 0) {
 					wchar_t *statusText = TranslateT("Both search strings not found or strings not set.");
 					WErrorPopup(hContact, statusText);
 					db_set_ws(hContact, "CList", "StatusMsg", statusText);
@@ -253,7 +253,7 @@ void GetData(void *param)
 					DownloadSuccess = 0;
 					SetDlgItemText(hwndDlg, IDC_STATUSBAR, statusText);
 					TherewasAlert = ProcessAlerts(hContact, _T2A(statusText), contactname, contactname, 1);
-					db_set_w(hContact, MODULENAME, "Status", ID_STATUS_AWAY);
+					g_plugin.setWord(hContact, "Status", ID_STATUS_AWAY);
 				}
 			}
 		} // end download success
@@ -267,21 +267,21 @@ void GetData(void *param)
 			time_t ftime;
 			struct tm *nTime;
 
-			if (!db_get_s(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
+			if (!g_plugin.getString(hContact, PRESERVE_NAME_KEY, &dbv)) {
 				memset(&temptime, 0, sizeof(temptime));
 				memset(&tstr, 0, sizeof(tstr));
 				ftime = time(0);
 				nTime = localtime(&ftime);
 				// 12 hour
-				if (db_get_b(hContact, MODULENAME, USE_24_HOUR_KEY, 0) == 0)
+				if (g_plugin.getByte(hContact, USE_24_HOUR_KEY, 0) == 0)
 					strftime(temptime, 128, "(%b %d,%I:%M %p)", nTime);
 				// 24 hour 
-				if (db_get_b(hContact, MODULENAME, USE_24_HOUR_KEY, 0) == 1)
+				if (g_plugin.getByte(hContact, USE_24_HOUR_KEY, 0) == 1)
 					strftime(temptime, 128, "(%b %d,%H:%M:%S)", nTime);
 
-				if (db_get_b(hContact, MODULENAME, CONTACT_PREFIX_KEY, 1) == 1)
+				if (g_plugin.getByte(hContact, CONTACT_PREFIX_KEY, 1) == 1)
 					mir_snprintf(tstr, "%s %s", temptime, dbv.pszVal);
-				if (db_get_b(hContact, MODULENAME, CONTACT_PREFIX_KEY, 1) == 0)
+				if (g_plugin.getByte(hContact, CONTACT_PREFIX_KEY, 1) == 0)
 					mir_snprintf(tstr, "%s %s", dbv.pszVal, temptime);
 				db_free(&dbv);
 			}
@@ -292,16 +292,16 @@ void GetData(void *param)
 				ftime = time(0);
 				nTime = localtime(&ftime);
 				// 12 hour
-				if (db_get_b(hContact, MODULENAME, USE_24_HOUR_KEY, 0) == 0)
+				if (g_plugin.getByte(hContact, USE_24_HOUR_KEY, 0) == 0)
 					strftime(temptime, 128, "(%b %d,%I:%M %p)", nTime);
 				// 24 hour
-				if (db_get_b(hContact, MODULENAME, USE_24_HOUR_KEY, 0) == 1)
+				if (g_plugin.getByte(hContact, USE_24_HOUR_KEY, 0) == 1)
 					strftime(temptime, 128, "(%b %d,%H:%M:%S)", nTime);
 
-				db_set_ws(hContact, MODULENAME, PRESERVE_NAME_KEY, dbv.pwszVal);
-				if (db_get_b(hContact, MODULENAME, CONTACT_PREFIX_KEY, 1) == 1)
+				g_plugin.setWString(hContact, PRESERVE_NAME_KEY, dbv.pwszVal);
+				if (g_plugin.getByte(hContact, CONTACT_PREFIX_KEY, 1) == 1)
 					mir_snprintf(tstr, "%s %s", temptime, dbv.pszVal);
-				if (db_get_b(hContact, MODULENAME, CONTACT_PREFIX_KEY, 1) == 0)
+				if (g_plugin.getByte(hContact, CONTACT_PREFIX_KEY, 1) == 0)
 					mir_snprintf(tstr, "%s %s", dbv.pszVal, temptime);
 				db_free(&dbv);
 			}
@@ -325,16 +325,16 @@ void GetData(void *param)
 				static char     buff[MAXSIZE1];
 				char Alerttempstring[300], Alerttempstring2[300];
 
-				eventIndex = db_get_b(hContact, MODULENAME, EVNT_INDEX_KEY, 0);
+				eventIndex = g_plugin.getByte(hContact, EVNT_INDEX_KEY, 0);
 				if (eventIndex == 2) {
 					strncpy(buff, truncated, _countof(buff));
 					Filter(buff);
 
-					if (!db_get_s(hContact, MODULENAME, ALRT_S_STRING_KEY, &dbv)) {
+					if (!g_plugin.getString(hContact, ALRT_S_STRING_KEY, &dbv)) {
 						strncpy_s(Alerttempstring, _countof(Alerttempstring), dbv.pszVal, _TRUNCATE);
 						db_free(&dbv);
 					}
-					if (!db_get_s(hContact, MODULENAME, ALRT_E_STRING_KEY, &dbv)) {
+					if (!g_plugin.getString(hContact, ALRT_E_STRING_KEY, &dbv)) {
 						strncpy_s(Alerttempstring2, _countof(Alerttempstring2), dbv.pszVal, _TRUNCATE);
 						db_free(&dbv);
 					}
@@ -347,18 +347,18 @@ void GetData(void *param)
 				}
 			}
 
-			if ((((strstr(truncated2, tempstring)) != nullptr) && ((strstr(truncated2, tempstring2)) != nullptr) && (db_get_b(hContact, MODULENAME, U_ALLSITE_KEY, 0) == 0)) || (db_get_b(hContact, MODULENAME, U_ALLSITE_KEY, 0) == 1)) {
+			if ((((strstr(truncated2, tempstring)) != nullptr) && ((strstr(truncated2, tempstring2)) != nullptr) && (g_plugin.getByte(hContact, U_ALLSITE_KEY, 0) == 0)) || (g_plugin.getByte(hContact, U_ALLSITE_KEY, 0) == 1)) {
 				RemoveTabs(truncated);
 
-				if ( db_get_b(hContact, MODULENAME, CLEAR_DISPLAY_KEY, 0)) {
+				if ( g_plugin.getByte(hContact, CLEAR_DISPLAY_KEY, 0)) {
 					SendToRichEdit(hwndDlg, truncated, TextClr, BackgoundClr);
 					SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Processing data (Stage 1)"));
 
-					if (db_get_b(hContact, MODULENAME, STOP_KEY, 1) == 1) {
+					if (g_plugin.getByte(hContact, STOP_KEY, 1) == 1) {
 LBL_Stop:			wchar_t *statusText = TranslateT("Processing data stopped by user.");
 						SetDlgItemText(hwndDlg, IDC_STATUSBAR, statusText);
-						db_set_b(hContact, MODULENAME, STOP_KEY, 0);
-						db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);  
+						g_plugin.setByte(hContact, STOP_KEY, 0);
+						g_plugin.setWord(hContact, "Status", ID_STATUS_ONLINE);  
 						db_set_ws(hContact, "CList", "StatusMsg", statusText);
 						AlreadyDownloading = 0; 
 						return;
@@ -369,7 +369,7 @@ LBL_Stop:			wchar_t *statusText = TranslateT("Processing data stopped by user.")
 
 					SendToRichEdit(hwndDlg, truncated, TextClr, BackgoundClr);
 					SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Processing data (Stage 2)"));
-					if (db_get_b(hContact, MODULENAME, STOP_KEY, 1) == 1)
+					if (g_plugin.getByte(hContact, STOP_KEY, 1) == 1)
 						goto LBL_Stop;
 
 					EraseBlock(truncated);
@@ -377,7 +377,7 @@ LBL_Stop:			wchar_t *statusText = TranslateT("Processing data stopped by user.")
 
 					SendToRichEdit(hwndDlg, truncated, TextClr, BackgoundClr); 
 					SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Processing data (Stage 3)"));
-					if (db_get_b(hContact, MODULENAME, STOP_KEY, 1) == 1)
+					if (g_plugin.getByte(hContact, STOP_KEY, 1) == 1)
 						goto LBL_Stop;
 
 					FastTagFilter(truncated);
@@ -385,7 +385,7 @@ LBL_Stop:			wchar_t *statusText = TranslateT("Processing data stopped by user.")
 
 					SendToRichEdit(hwndDlg, truncated, TextClr, BackgoundClr);
 					SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Processing data (Stage 4)"));
-					if (db_get_b(hContact, MODULENAME, STOP_KEY, 1) == 1)
+					if (g_plugin.getByte(hContact, STOP_KEY, 1) == 1)
 						goto LBL_Stop;
 
 					NumSymbols(truncated);
@@ -393,7 +393,7 @@ LBL_Stop:			wchar_t *statusText = TranslateT("Processing data stopped by user.")
 
 					SendToRichEdit(hwndDlg, truncated, TextClr, BackgoundClr);
 					SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Processing data (Stage 5)"));
-					if (db_get_b(hContact, MODULENAME, STOP_KEY, 1) == 1)
+					if (g_plugin.getByte(hContact, STOP_KEY, 1) == 1)
 						goto LBL_Stop;
 
 					EraseSymbols(truncated);
@@ -402,8 +402,8 @@ LBL_Stop:			wchar_t *statusText = TranslateT("Processing data stopped by user.")
 					SendToRichEdit(hwndDlg, truncated, TextClr, BackgoundClr);
 					SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Processing data (Stage 6)"));
 
-					AmountWspcRem = db_get_b(hContact, MODULENAME, RWSPACE_KEY, 0);
-					if (db_get_b(hContact, MODULENAME, STOP_KEY, 1) == 1)
+					AmountWspcRem = g_plugin.getByte(hContact, RWSPACE_KEY, 0);
+					if (g_plugin.getByte(hContact, STOP_KEY, 1) == 1)
 						goto LBL_Stop;
 
 					RemoveInvis(truncated, AmountWspcRem);
@@ -411,7 +411,7 @@ LBL_Stop:			wchar_t *statusText = TranslateT("Processing data stopped by user.")
 
 					SendToRichEdit(hwndDlg, truncated, TextClr, BackgoundClr);
 					SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Processing data (Stage 7)"));
-					if (db_get_b(hContact, MODULENAME, STOP_KEY, 1) == 1)
+					if (g_plugin.getByte(hContact, STOP_KEY, 1) == 1)
 						goto LBL_Stop;
 
 					Removewhitespace(truncated);
@@ -424,7 +424,7 @@ LBL_Stop:			wchar_t *statusText = TranslateT("Processing data stopped by user.")
 						if ( g_plugin.getByte(DATA_POPUP_KEY, 0))
 							WAlertPopup(hContact, _A2T(truncated));  
 
-					if (db_get_b(hContact, MODULENAME, STOP_KEY, 1) == 1)
+					if (g_plugin.getByte(hContact, STOP_KEY, 1) == 1)
 						goto LBL_Stop;
 
 					// removed any excess characters at the end.   
@@ -443,16 +443,16 @@ LBL_Stop:			wchar_t *statusText = TranslateT("Processing data stopped by user.")
 			}
 
 			if (TherewasAlert) {
-				db_set_w(hContact, MODULENAME, "Status", ID_STATUS_OCCUPIED);
+				g_plugin.setWord(hContact, "Status", ID_STATUS_OCCUPIED);
 				db_set_ws(hContact, "CList", "StatusMsg", TranslateT("Alert!"));
 			}
 			else {
-				db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);
+				g_plugin.setWord(hContact, "Status", ID_STATUS_ONLINE);
 				db_set_ws(hContact, "CList", "StatusMsg", TranslateT("Online"));
 			}
 		}
 
-		if (db_get_b(hContact, MODULENAME, U_ALLSITE_KEY, 0) == 0) {
+		if (g_plugin.getByte(hContact, U_ALLSITE_KEY, 0) == 0) {
 			if (statpos > statposend)
 				DownloadSuccess = 0;
 			else if (statpos == 0 && statposend == 0)

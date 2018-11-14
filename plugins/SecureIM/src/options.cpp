@@ -1064,7 +1064,7 @@ void RefreshPGPDlg(HWND hDlg, BOOL iInit)
 	for (auto &hContact : Contacts()) {
 		pUinKey ptr = getUinKey(hContact);
 		if (ptr && ptr->mode == MODE_PGP && isSecureProtocol(hContact) && !isChatRoom(hContact)) {
-			LPSTR szKeyID = db_get_sa(hContact, MODULENAME, "pgp_abbr");
+			LPSTR szKeyID = g_plugin.getStringA(hContact, "pgp_abbr");
 
 			lvi.iItem++;
 			lvi.iImage = (szKeyID != nullptr);
@@ -1127,7 +1127,7 @@ void RefreshGPGDlg(HWND hDlg, BOOL iInit)
 			if (iInit)
 				ptr->tgpgMode = ptr->gpgMode;
 
-			LPSTR szKeyID = db_get_sa(hContact, MODULENAME, "gpg");
+			LPSTR szKeyID = g_plugin.getStringA(hContact, "gpg");
 
 			lvi.iItem++;
 			lvi.iImage = (szKeyID != nullptr);

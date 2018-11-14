@@ -238,9 +238,9 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 					_dbei->flags = 0;
 					_dbei->pBlob = _dbv.pbVal + sizeof(DWORD);
 					db_event_add(hContact,_dbei);
-					db_unset(hContact, MODULENAME, "AuthEvent");
-					db_unset(hContact, MODULENAME, "AuthEventPending");
-					db_unset(hContact, MODULENAME, "AuthEventModule");
+					g_plugin.delSetting(hContact, "AuthEvent");
+					g_plugin.delSetting(hContact, "AuthEventPending");
+					g_plugin.delSetting(hContact, "AuthEventModule");
 					mir_free(szAuthEventModule);
 					free(_dbei);
 				}

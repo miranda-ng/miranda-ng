@@ -5,14 +5,14 @@ void BuildList(void)
 	g_accs.destroy();
 
 	for (auto &hContact : Contacts(MODULENAME)) {
-		ptrA szName(db_get_sa(hContact, MODULENAME, "name"));
+		ptrA szName(g_plugin.getStringA(hContact, "name"));
 		if (szName != nullptr) {
 			Account *p = new Account;
 			p->hContact = hContact;
 			mir_strcpy(p->name, szName);
 			CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);
 
-			ptrA szPassword(db_get_sa(hContact, MODULENAME, "Password"));
+			ptrA szPassword(g_plugin.getStringA(hContact, "Password"));
 			if (szPassword != nullptr)
 				mir_strcpy(p->pass, szPassword);
 			g_accs.insert(p);

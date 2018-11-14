@@ -421,9 +421,9 @@ public:
       CString Setting(Parent->ContactStatusToDBSetting(DB_IGNOREREQUESTS, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS));
 			MCONTACT hContact = (Parent->m_hContact != INVALID_CONTACT_ID) ? Parent->m_hContact : NULL;
 			if (m_value)
-				db_set_b(hContact, MODULENAME, Setting, 1);
+				g_plugin.setByte(hContact, Setting, 1);
 			else
-				db_unset(hContact, MODULENAME, Setting);
+				g_plugin.delSetting(hContact, Setting);
 			return *this;
 		}
 
@@ -445,13 +445,13 @@ public:
 		{
 			CString Setting(Parent->ContactStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS));
 			MCONTACT hContact = (Parent->m_hContact != INVALID_CONTACT_ID) ? Parent->m_hContact : NULL;
-			if (db_get_b(hContact, MODULENAME, Setting, VAL_USEDEFAULT) == m_value)
+			if (g_plugin.getByte(hContact, Setting, VAL_USEDEFAULT) == m_value)
 				return *this;
 
 			if (m_value != VAL_USEDEFAULT)
-				db_set_b(hContact, MODULENAME, Setting, m_value != 0);
+				g_plugin.setByte(hContact, Setting, m_value != 0);
 			else
-				db_unset(hContact, MODULENAME, Setting);
+				g_plugin.delSetting(hContact, Setting);
 			return *this;
 		}
 		operator int() {return db_get_b((Parent->m_hContact != INVALID_CONTACT_ID) ? Parent->m_hContact : NULL, MODULENAME, Parent->ContactStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS), Parent->m_hContact ? VAL_USEDEFAULT : AUTOREPLY_DEF_REPLY);}

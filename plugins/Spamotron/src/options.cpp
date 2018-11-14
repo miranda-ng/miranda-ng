@@ -6,7 +6,7 @@ wchar_t* _getCOptS(wchar_t *buf, unsigned int buflen, MCONTACT hContact, const c
 {
 	DBVARIANT dbv = {0};
 	wcsnset(buf, 0, buflen);
-	if (db_get_ws(hContact, MODULENAME, option, &dbv) != 0)
+	if (g_plugin.getWString(hContact, option, &dbv) != 0)
 		wcsncpy(buf, def, min(buflen, mir_wstrlen(def)+1));
 	else if (dbv.type == DBVT_WCHAR) {
 		wcsncpy(buf, dbv.pwszVal, min(buflen, mir_wstrlen(dbv.pwszVal)+1));

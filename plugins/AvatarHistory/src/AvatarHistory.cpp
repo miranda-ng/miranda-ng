@@ -105,7 +105,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	DBVARIANT dbvOldHash = { 0 };
-	bool ret = (db_get_ws(hContact, MODULENAME, "AvatarHash", &dbvOldHash) == 0);
+	bool ret = (g_plugin.getWString(hContact, "AvatarHash", &dbvOldHash) == 0);
 
 	CONTACTAVATARCHANGEDNOTIFICATION* avatar = (CONTACTAVATARCHANGEDNOTIFICATION*)lParam;
 	if (avatar == nullptr) {
@@ -119,7 +119,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 		Skin_PlaySound("avatar_removed");
 
 		// Is a flash avatar or avs could not load it
-		db_set_ws(hContact, MODULENAME, "AvatarHash", L"-");
+		g_plugin.setWString(hContact, "AvatarHash", L"-");
 
 		if (ContactEnabled(hContact, "AvatarPopups", AVH_DEF_AVPOPUPS) && opts.popup_show_removed)
 			ShowPopup(hContact, nullptr, opts.popup_removed);
@@ -132,7 +132,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 			return 0;
 		}
 		Skin_PlaySound("avatar_changed");
-		db_set_ws(hContact, "AvatarHistory", "AvatarHash", avatar->hash);
+		g_plugin.setWString(hContact, "AvatarHash", avatar->hash);
 
 		wchar_t history_filename[MAX_PATH] = L"";
 

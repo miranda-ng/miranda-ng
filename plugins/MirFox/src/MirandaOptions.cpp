@@ -483,9 +483,9 @@ INT_PTR CALLBACK DlgProcOpts_Tab2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 							//save to db	1 - on, 2 - off
 							if (contactState == MFENUM_MIRANDACONTACT_STATE_OFF){
-								db_set_b(hContact, MODULENAME, "state", 2);
+								g_plugin.setByte(hContact, "state", 2);
 							} else {
-								db_set_b(hContact, MODULENAME, "state", 1);
+								g_plugin.setByte(hContact, "state", 1);
 							}
 
 

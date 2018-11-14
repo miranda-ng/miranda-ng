@@ -287,9 +287,9 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARA
 		case IDOK:
 			if (HIWORD(wParam) == BN_CLICKED) {
 				MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-				db_set_b(hContact, MODULENAME, "AvatarPopups", (BYTE)IsDlgButtonChecked(hwnd, IDC_POPUPUSER));
-				db_set_b(hContact, MODULENAME, "LogToDisk", (BYTE)IsDlgButtonChecked(hwnd, IDC_LOGUSER));
-				db_set_b(hContact, MODULENAME, "LogToHistory", (BYTE)IsDlgButtonChecked(hwnd, IDC_HISTORYUSER));
+				g_plugin.setByte(hContact, "AvatarPopups", (BYTE)IsDlgButtonChecked(hwnd, IDC_POPUPUSER));
+				g_plugin.setByte(hContact, "LogToDisk", (BYTE)IsDlgButtonChecked(hwnd, IDC_LOGUSER));
+				g_plugin.setByte(hContact, "LogToHistory", (BYTE)IsDlgButtonChecked(hwnd, IDC_HISTORYUSER));
 
 				CleanupAvatarPic(hwnd);
 				EndDialog(hwnd, 0);
@@ -540,16 +540,15 @@ int ShowSaveDialog(HWND hwnd, wchar_t* fn, MCONTACT hContact)
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_DONTADDTORECENT;
 	ofn.lpstrDefExt = wcsrchr(fn, '.') + 1;
 
-	DBVARIANT dbvInitDir = { 0 };
-	if (!db_get_ws(hContact, MODULENAME, "SavedAvatarFolder", &dbvInitDir)) {
-		ofn.lpstrInitialDir = dbvInitDir.pwszVal;
-		db_free(&dbvInitDir);
-	}
-	else ofn.lpstrInitialDir = L".";
+	ptrW wszInitDir(g_plugin.getWStringA(hContact, "SavedAvatarFolder"));
+	if (wszInitDir)
+		ofn.lpstrInitialDir = wszInitDir;
+	else
+		ofn.lpstrInitialDir = L".";
 
 	if (GetSaveFileName(&ofn)) {
 		CopyFile(fn, file, FALSE);
-		db_set_ws(hContact, MODULENAME, "SavedAvatarFolder", file);
+		g_plugin.setWString(hContact, "SavedAvatarFolder", file);
 	}
 	return 0;
 }

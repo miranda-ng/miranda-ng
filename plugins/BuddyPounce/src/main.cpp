@@ -111,9 +111,9 @@ int statusCheck(int statusFlag, int status)
 int CheckDate(MCONTACT hContact)
 {
 	time_t curtime = time(nullptr);
-	if (!db_get_b(hContact, MODULENAME, "GiveUpDays", 0))
+	if (!g_plugin.getByte(hContact, "GiveUpDays", 0))
 		return 1;
-	if (db_get_b(hContact, MODULENAME, "GiveUpDays", 0) && (abs((time_t)db_get_dw(hContact, MODULENAME, "GiveUpDate", 0)) > curtime))
+	if (g_plugin.getByte(hContact, "GiveUpDays", 0) && (abs((time_t)g_plugin.getDword(hContact, "GiveUpDate", 0)) > curtime))
 		return 1;
 	return 0;
 }
@@ -136,14 +136,14 @@ int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 
 		if (newStatus != oldStatus && hContact != NULL && newStatus != ID_STATUS_OFFLINE) {
 			DBVARIANT dbv;
-			if (!db_get_ws(hContact, MODULENAME, "PounceMsg", &dbv) && (dbv.pwszVal[0] != '\0')) {
+			if (!g_plugin.getWString(hContact, "PounceMsg", &dbv) && (dbv.pwszVal[0] != '\0')) {
 				// check my status
-				if (statusCheck(db_get_w(hContact, MODULENAME, "SendIfMyStatusIsFLAG", 0), Proto_GetStatus(szProto))
+				if (statusCheck(g_plugin.getWord(hContact, "SendIfMyStatusIsFLAG", 0), Proto_GetStatus(szProto))
 					// check the contacts status
-					&& statusCheck(db_get_w(hContact, MODULENAME, "SendIfTheirStatusIsFLAG", 0), newStatus)) {
+					&& statusCheck(g_plugin.getWord(hContact, "SendIfTheirStatusIsFLAG", 0), newStatus)) {
 					// check if we r giving up after x days
 					if (CheckDate(hContact)) {
-						if (db_get_w(hContact, MODULENAME, "ConfirmTimeout", 0)) {
+						if (g_plugin.getWord(hContact, "ConfirmTimeout", 0)) {
 							SendPounceDlgProcStruct *spdps = (SendPounceDlgProcStruct *)mir_alloc(sizeof(SendPounceDlgProcStruct));
 							wchar_t *message = mir_wstrdup(dbv.pwszVal); // will get free()ed in the send confirm window proc
 							spdps->hContact = hContact;
@@ -164,7 +164,7 @@ int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 
 INT_PTR BuddyPounceMenuCommand(WPARAM hContact, LPARAM)
 {
-	if (g_plugin.getByte("UseAdvanced", 0) || db_get_b(hContact, MODULENAME, "UseAdvanced", 0))
+	if (g_plugin.getByte("UseAdvanced", 0) || g_plugin.getByte(hContact, "UseAdvanced", 0))
 		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_POUNCE), nullptr, BuddyPounceDlgProc, hContact);
 	else
 		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_POUNCE_SIMPLE), nullptr, BuddyPounceSimpleDlgProc, hContact);
@@ -175,12 +175,12 @@ INT_PTR AddSimpleMessage(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = wParam;
 	wchar_t* message = (wchar_t*)lParam;
-	db_set_ws(hContact, MODULENAME, "PounceMsg", message);
-	db_set_w(hContact, MODULENAME, "SendIfMyStatusIsFLAG", (WORD)g_plugin.getWord("SendIfMyStatusIsFLAG", 1));
-	db_set_w(hContact, MODULENAME, "SendIfTheirStatusIsFLAG", (WORD)g_plugin.getWord("SendIfTheirStatusIsFLAG", 1));
-	db_set_b(hContact, MODULENAME, "Reuse", (BYTE)g_plugin.getByte("Reuse", 0));
-	db_set_b(hContact, MODULENAME, "GiveUpDays", (BYTE)g_plugin.getByte("GiveUpDays", 0));
-	db_set_dw(hContact, MODULENAME, "GiveUpDate", (DWORD)(db_get_b(hContact, MODULENAME, "GiveUpDays", 0)*SECONDSINADAY));
+	g_plugin.setWString(hContact, "PounceMsg", message);
+	g_plugin.setWord(hContact, "SendIfMyStatusIsFLAG", (WORD)g_plugin.getWord("SendIfMyStatusIsFLAG", 1));
+	g_plugin.setWord(hContact, "SendIfTheirStatusIsFLAG", (WORD)g_plugin.getWord("SendIfTheirStatusIsFLAG", 1));
+	g_plugin.setByte(hContact, "Reuse", (BYTE)g_plugin.getByte("Reuse", 0));
+	g_plugin.setByte(hContact, "GiveUpDays", (BYTE)g_plugin.getByte("GiveUpDays", 0));
+	g_plugin.setDword(hContact, "GiveUpDate", (DWORD)(g_plugin.getByte(hContact, "GiveUpDays", 0)*SECONDSINADAY));
 	return 0;
 }
 
@@ -189,12 +189,12 @@ INT_PTR AddToPounce(WPARAM wParam, LPARAM lParam)
 	MCONTACT hContact = wParam;
 	wchar_t* message = (wchar_t*)lParam;
 	DBVARIANT dbv;
-	if (!db_get_ws(hContact, MODULENAME, "PounceMsg", &dbv)) {
+	if (!g_plugin.getWString(hContact, "PounceMsg", &dbv)) {
 		wchar_t* newPounce = (wchar_t*)mir_alloc(mir_wstrlen(dbv.pwszVal) + mir_wstrlen(message) + 1);
 		if (!newPounce) return 1;
 		mir_wstrcpy(newPounce, dbv.pwszVal);
 		mir_wstrcat(newPounce, message);
-		db_set_ws(hContact, MODULENAME, "PounceMsg", newPounce);
+		g_plugin.setWString(hContact, "PounceMsg", newPounce);
 		mir_free(newPounce);
 		db_free(&dbv);
 	}

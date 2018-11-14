@@ -214,7 +214,7 @@ int CTooltipNotify::ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (db_get_b(hContact, "CList", "NotOnList", 0) && m_sOptions.bIgnoreUnknown)
 		return 0;
 
-	if (db_get_b(hContact, MODULENAME, CONTACT_IGNORE_TTNOTIFY, m_sOptions.bIgnoreNew))
+	if (g_plugin.getByte(hContact, CONTACT_IGNORE_TTNOTIFY, m_sOptions.bIgnoreNew))
 		return 0;
 
 	if (idle && !m_sOptions.bIdle)
@@ -709,7 +709,7 @@ void CTooltipNotify::LoadList(HWND hwndDlg, HANDLE hItemNew, HANDLE hItemUnknown
 
 	for (auto &hContact : Contacts()) {
 		HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
-		if (hItem && !db_get_b(hContact, MODULENAME, CONTACT_IGNORE_TTNOTIFY, m_sOptions.bIgnoreNew))
+		if (hItem && !g_plugin.getByte(hContact, CONTACT_IGNORE_TTNOTIFY, m_sOptions.bIgnoreNew))
 			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, 1);
 	}
 }
@@ -726,7 +726,7 @@ void CTooltipNotify::SaveList(HWND hwndDlg, HANDLE hItemNew, HANDLE hItemUnknown
 		HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
 		if (hItem) {
 			BYTE bChecked = (BYTE)(SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0));
-			db_set_b(hContact, MODULENAME, CONTACT_IGNORE_TTNOTIFY, bChecked ? 0 : 1);
+			g_plugin.setByte(hContact, CONTACT_IGNORE_TTNOTIFY, bChecked ? 0 : 1);
 		}
 	}
 }

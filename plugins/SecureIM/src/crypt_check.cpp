@@ -38,14 +38,14 @@ BYTE isContactSecured(MCONTACT hContact)
 		break;
 
 	case MODE_PGP:
-		if (!db_get_s(hContact, MODULENAME, "pgp", &dbv)) {
+		if (!g_plugin.getString(hContact, "pgp", &dbv)) {
 			res |= SECURED;
 			db_free(&dbv);
 		}
 		break;
 
 	case MODE_GPG:
-		if (!db_get_s(hContact, MODULENAME, "gpg", &dbv)) {
+		if (!g_plugin.getString(hContact, "gpg", &dbv)) {
 			res |= SECURED;
 			db_free(&dbv);
 		}
@@ -137,7 +137,7 @@ bool isContactPGP(MCONTACT hContact)
 		return false;
 
 	DBVARIANT dbv;
-	if (db_get_s(hContact, MODULENAME, "pgp", &dbv)) return false;
+	if (g_plugin.getString(hContact, "pgp", &dbv)) return false;
 	db_free(&dbv);
 	return true;
 }
@@ -151,7 +151,7 @@ bool isContactGPG(MCONTACT hContact)
 		return false;
 
 	DBVARIANT dbv;
-	if (db_get_s(hContact, MODULENAME, "gpg", &dbv)) return false;
+	if (g_plugin.getString(hContact, "gpg", &dbv)) return false;
 	db_free(&dbv);
 	return true;
 }

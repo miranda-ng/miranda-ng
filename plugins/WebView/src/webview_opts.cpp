@@ -278,25 +278,25 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 		EnableWindow(GetDlgItem(hwndDlg, IDC_ALERT_APPLY), 0);
 
-		if (!db_get_ws(hContact, MODULENAME, ALERT_STRING_KEY, &dbv)) {
+		if (!g_plugin.getWString(hContact, ALERT_STRING_KEY, &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_ALERT_STRING, dbv.pwszVal);
 			db_free(&dbv);
 		}
-		if (!db_get_ws(hContact, MODULENAME, ALRT_S_STRING_KEY, &dbv)) {
+		if (!g_plugin.getWString(hContact, ALRT_S_STRING_KEY, &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_START2, dbv.pwszVal);
 			db_free(&dbv);
 		}
-		if (!db_get_ws(hContact, MODULENAME, ALRT_E_STRING_KEY, &dbv)) {
+		if (!g_plugin.getWString(hContact, ALRT_E_STRING_KEY, &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_END2, dbv.pwszVal);
 			db_free(&dbv);
 		}
-		CheckDlgButton(hwndDlg, IDC_ENABLE_ALERTS, db_get_b(hContact, MODULENAME, ENABLE_ALERTS_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_ADD_DATE_NAME, db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_24_HOUR, db_get_b(hContact, MODULENAME, USE_24_HOUR_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_ALWAYS_LOG, db_get_b(hContact, MODULENAME, ALWAYS_LOG_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ENABLE_ALERTS, g_plugin.getByte(hContact, ENABLE_ALERTS_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ADD_DATE_NAME, g_plugin.getByte(hContact, APND_DATE_NAME_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_24_HOUR, g_plugin.getByte(hContact, USE_24_HOUR_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ALWAYS_LOG, g_plugin.getByte(hContact, ALWAYS_LOG_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
 
-		SetDlgItemText(hwndDlg, IDC_ALERT_TYPE, TranslateW(AlertTypes[db_get_b(hContact, MODULENAME, ALRT_INDEX_KEY, 0)]));
-		SetDlgItemText(hwndDlg, IDC_EVENT_TYPE, TranslateW(EventTypes[db_get_b(hContact, MODULENAME, EVNT_INDEX_KEY, 0)]));
+		SetDlgItemText(hwndDlg, IDC_ALERT_TYPE, TranslateW(AlertTypes[g_plugin.getByte(hContact, ALRT_INDEX_KEY, 0)]));
+		SetDlgItemText(hwndDlg, IDC_EVENT_TYPE, TranslateW(EventTypes[g_plugin.getByte(hContact, EVNT_INDEX_KEY, 0)]));
 
 		for (i = 0; i < _countof(AlertTypes); i++)
 			SendDlgItemMessage(hwndDlg, IDC_ALERT_TYPE, CB_ADDSTRING, 0, (LPARAM)TranslateW(AlertTypes[i]));
@@ -304,7 +304,7 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		for (i = 0; i < _countof(EventTypes); i++)
 			SendDlgItemMessage(hwndDlg, IDC_EVENT_TYPE, CB_ADDSTRING, 0, (LPARAM)TranslateW(EventTypes[i]));
 
-		if (db_get_b(hContact, MODULENAME, ENABLE_ALERTS_KEY, 0)) {
+		if (g_plugin.getByte(hContact, ENABLE_ALERTS_KEY, 0)) {
 			CheckDlgButton(hwndDlg, IDC_ENABLE_ALERTS, BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_ADD_DATE_NAME, BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_24_HOUR, BST_UNCHECKED);
@@ -334,12 +334,12 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		EnableWindow(GetDlgItem(hwndDlg, IDC_ALWAYS_LOG), (IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ALERTS)));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_SAVE_AS_RAW), (IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ALERTS)));
 
-		if (!db_get_s(hContact, MODULENAME, EVNT_INDEX_KEY, &dbv)) {
-			eventIndex = db_get_b(hContact, MODULENAME, EVNT_INDEX_KEY, 0);
+		if (!g_plugin.getString(hContact, EVNT_INDEX_KEY, &dbv)) {
+			eventIndex = g_plugin.getByte(hContact, EVNT_INDEX_KEY, 0);
 			db_free(&dbv);
 		}
-		if (!db_get_s(hContact, MODULENAME, ALRT_INDEX_KEY, &dbv)) {
-			alertIndex = db_get_b(hContact, MODULENAME, ALRT_INDEX_KEY, 0);
+		if (!g_plugin.getString(hContact, ALRT_INDEX_KEY, &dbv)) {
+			alertIndex = g_plugin.getByte(hContact, ALRT_INDEX_KEY, 0);
 			db_free(&dbv);
 		}
 
@@ -407,20 +407,20 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			}
 		}
 
-		if (!db_get_ws(hContact, MODULENAME, FILE_KEY, &dbv)) {
+		if (!g_plugin.getWString(hContact, FILE_KEY, &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_FILENAME, dbv.pwszVal);
 			db_free(&dbv);
 		}
 
-		CheckDlgButton(hwndDlg, IDC_APPEND, db_get_b(hContact, MODULENAME, APPEND_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SAVE_AS_RAW, db_get_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_APPEND, g_plugin.getByte(hContact, APPEND_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SAVE_AS_RAW, g_plugin.getByte(hContact, SAVE_AS_RAW_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
 
-		if (db_get_b(hContact, MODULENAME, CONTACT_PREFIX_KEY, 1) == 1)
+		if (g_plugin.getByte(hContact, CONTACT_PREFIX_KEY, 1) == 1)
 			CheckRadioButton(hwndDlg, IDC_PREFIX, IDC_SUFFIX, IDC_PREFIX);
 		else
 			CheckRadioButton(hwndDlg, IDC_PREFIX, IDC_SUFFIX, IDC_SUFFIX);
 
-		if (db_get_b(hContact, MODULENAME, ALWAYS_LOG_KEY, 0)) {
+		if (g_plugin.getByte(hContact, ALWAYS_LOG_KEY, 0)) {
 			if (IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ALERTS)) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_APPEND), 1);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_FILENAME), 1);
@@ -510,8 +510,8 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ALERT_TYPE), (IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ALERTS)));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ALWAYS_LOG), (IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ALERTS)));
 
-			eventIndex = db_get_b(hContact, MODULENAME, EVNT_INDEX_KEY, 0);
-			alertIndex = db_get_b(hContact, MODULENAME, ALRT_INDEX_KEY, 0);
+			eventIndex = g_plugin.getByte(hContact, EVNT_INDEX_KEY, 0);
+			alertIndex = g_plugin.getByte(hContact, ALRT_INDEX_KEY, 0);
 
 			if (eventIndex == 2) { // part of webpage changed
 				EnableWindow(GetDlgItem(hwndDlg, IDC_START2), (IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ALERTS)));
@@ -618,7 +618,7 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				alertIndex = SendDlgItemMessage(hwndDlg, IDC_ALERT_TYPE, CB_GETCURSEL, 0, 0);
 
 				if (HIWORD(wParam) == CBN_SELCHANGE) {
-					db_set_b(hContact, MODULENAME, ALRT_INDEX_KEY, alertIndex);
+					g_plugin.setByte(hContact, ALRT_INDEX_KEY, alertIndex);
 					if (alertIndex == 0) {
 						// PopUp
 						EnableWindow(GetDlgItem(hwndDlg, IDC_APPEND), 0);
@@ -665,7 +665,7 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				eventIndex = SendDlgItemMessage(hwndDlg, IDC_EVENT_TYPE, CB_GETCURSEL, 0, 0);
 
 				if (HIWORD(wParam) == CBN_SELCHANGE) {
-					db_set_b(hContact, MODULENAME, EVNT_INDEX_KEY, eventIndex);
+					g_plugin.setByte(hContact, EVNT_INDEX_KEY, eventIndex);
 					if (eventIndex == 0) {
 						// event when string is present
 						EnableWindow(GetDlgItem(hwndDlg, IDC_ALERT_STRING), 1);
@@ -694,13 +694,13 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			{
 				hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-				eventIndex = db_get_b(hContact, MODULENAME, EVNT_INDEX_KEY, 0);
-				alertIndex = db_get_b(hContact, MODULENAME, ALRT_INDEX_KEY, 0);
+				eventIndex = g_plugin.getByte(hContact, EVNT_INDEX_KEY, 0);
+				alertIndex = g_plugin.getByte(hContact, ALRT_INDEX_KEY, 0);
 
-				db_set_b(hContact, MODULENAME, ENABLE_ALERTS_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ALERTS));
-				db_set_b(hContact, MODULENAME, APND_DATE_NAME_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ADD_DATE_NAME));
-				db_set_b(hContact, MODULENAME, USE_24_HOUR_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_24_HOUR));
-				db_set_b(hContact, MODULENAME, ALWAYS_LOG_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ALWAYS_LOG));
+				g_plugin.setByte(hContact, ENABLE_ALERTS_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ALERTS));
+				g_plugin.setByte(hContact, APND_DATE_NAME_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ADD_DATE_NAME));
+				g_plugin.setByte(hContact, USE_24_HOUR_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_24_HOUR));
+				g_plugin.setByte(hContact, ALWAYS_LOG_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ALWAYS_LOG));
 
 				//if alerts is unticked delete the cache
 				if (!(IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ALERTS)))
@@ -741,21 +741,21 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 				wchar_t buf[MAX_PATH];
 				GetDlgItemText(hwndDlg, IDC_FILENAME, buf, _countof(buf));
-				db_set_ws(hContact, MODULENAME, FILE_KEY, buf);
+				g_plugin.setWString(hContact, FILE_KEY, buf);
 
-				db_set_b(hContact, MODULENAME, APPEND_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_APPEND));
-				db_set_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SAVE_AS_RAW));
+				g_plugin.setByte(hContact, APPEND_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_APPEND));
+				g_plugin.setByte(hContact, SAVE_AS_RAW_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SAVE_AS_RAW));
 
 				GetDlgItemText(hwndDlg, IDC_ALERT_STRING, buf, _countof(buf));
-				db_set_ws(hContact, MODULENAME, ALERT_STRING_KEY, buf);
+				g_plugin.setWString(hContact, ALERT_STRING_KEY, buf);
 
 				GetDlgItemText(hwndDlg, IDC_START2, buf, _countof(buf));
-				db_set_ws(hContact, MODULENAME, ALRT_S_STRING_KEY, buf);
+				g_plugin.setWString(hContact, ALRT_S_STRING_KEY, buf);
 
 				GetDlgItemText(hwndDlg, IDC_END2, buf, _countof(buf));
-				db_set_ws(hContact, MODULENAME, ALRT_E_STRING_KEY, buf);
+				g_plugin.setWString(hContact, ALRT_E_STRING_KEY, buf);
 
-				db_set_b(hContact, MODULENAME, CONTACT_PREFIX_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_PREFIX));
+				g_plugin.setByte(hContact, CONTACT_PREFIX_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_PREFIX));
 
 				EnableWindow(GetDlgItem(hwndDlg, IDC_ALERT_APPLY), 0);
 
@@ -800,44 +800,44 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 		EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_APPLY), 0);
 
-		if (!db_get_ws(hContact, MODULENAME, URL_KEY, &dbv)) {
+		if (!g_plugin.getWString(hContact, URL_KEY, &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_URL, dbv.pwszVal);
 			db_free(&dbv);
 		}
-		if (!db_get_ws(hContact, MODULENAME, START_STRING_KEY, &dbv)) {
+		if (!g_plugin.getWString(hContact, START_STRING_KEY, &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_START, dbv.pwszVal);
 			db_free(&dbv);
 		}
-		if (!db_get_ws(hContact, MODULENAME, END_STRING_KEY, &dbv)) {
+		if (!g_plugin.getWString(hContact, END_STRING_KEY, &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_END, dbv.pwszVal);
 			db_free(&dbv);
 		}
-		if (db_get_ws(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
+		if (g_plugin.getWString(hContact, PRESERVE_NAME_KEY, &dbv)) {
 			db_free(&dbv);
 			db_get_ws(hContact, "CList", "MyHandle", &dbv);
-			db_set_ws(hContact, MODULENAME, PRESERVE_NAME_KEY, dbv.pwszVal);
+			g_plugin.setWString(hContact, PRESERVE_NAME_KEY, dbv.pwszVal);
 			db_free(&dbv);
 		}
-		if (!db_get_ws(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
+		if (!g_plugin.getWString(hContact, PRESERVE_NAME_KEY, &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_SITE_NAME, dbv.pwszVal);
 			db_free(&dbv);
 		}
 
-		CheckDlgButton(hwndDlg, IDC_CLEAN, db_get_b(hContact, MODULENAME, CLEAR_DISPLAY_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CLEAN, g_plugin.getByte(hContact, CLEAR_DISPLAY_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		SendDlgItemMessage(hwndDlg, IDC_RWSPACE, TBM_SETRANGE, FALSE, MAKELONG(0, 4));
-		SendDlgItemMessage(hwndDlg, IDC_RWSPACE, TBM_SETPOS, TRUE, db_get_b(hContact, MODULENAME, RWSPACE_KEY, 0));
+		SendDlgItemMessage(hwndDlg, IDC_RWSPACE, TBM_SETPOS, TRUE, g_plugin.getByte(hContact, RWSPACE_KEY, 0));
 		SetDlgItemText(hwndDlg, IDC_RWSPC_TEXT, TranslateW(szTrackerBarDescr[SendDlgItemMessage(hwndDlg, IDC_RWSPACE, TBM_GETPOS, 0, 0)]));
 
 		EnableWindow(GetDlgItem(hwndDlg, IDC_RWSPACE), (IsDlgButtonChecked(hwndDlg, IDC_CLEAN)));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_RWSPC_TEXT), (IsDlgButtonChecked(hwndDlg, IDC_CLEAN)));
 
-		if (db_get_b(hContact, MODULENAME, DBLE_WIN_KEY, 1) == 1)
+		if (g_plugin.getByte(hContact, DBLE_WIN_KEY, 1) == 1)
 			CheckRadioButton(hwndDlg, IDC_DBLE_WEB, IDC_DBLE_WIN, IDC_DBLE_WIN);
 		else
 			CheckRadioButton(hwndDlg, IDC_DBLE_WEB, IDC_DBLE_WIN, IDC_DBLE_WEB);
 
-		if (db_get_b(hContact, MODULENAME, U_ALLSITE_KEY, 0) == 1) {
+		if (g_plugin.getByte(hContact, U_ALLSITE_KEY, 0) == 1) {
 			CheckRadioButton(hwndDlg, IDC_U_SE_STRINGS, IDC_U_ALLSITE, IDC_U_ALLSITE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_START), 0);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_END), 0);
@@ -895,12 +895,12 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 				GetDlgItemText(hwndDlg, IDC_START, string, _countof(string));
-				db_set_ws(hContact, MODULENAME, ALRT_S_STRING_KEY, string);
+				g_plugin.setWString(hContact, ALRT_S_STRING_KEY, string);
 
 				GetDlgItemText(hwndDlg, IDC_END, string, _countof(string));
-				db_set_ws(hContact, MODULENAME, ALRT_E_STRING_KEY, string);
+				g_plugin.setWString(hContact, ALRT_E_STRING_KEY, string);
 
-				db_set_w(hContact, MODULENAME, EVNT_INDEX_KEY, 2);
+				g_plugin.setWord(hContact, EVNT_INDEX_KEY, 2);
 			}
 			break;
 
@@ -990,23 +990,23 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 				GetDlgItemText(hwndDlg, IDC_URL, url, _countof(url));
-				db_set_ws(hContact, MODULENAME, URL_KEY, url);
-				db_set_ws(hContact, MODULENAME, "Homepage", url);
+				g_plugin.setWString(hContact, URL_KEY, url);
+				g_plugin.setWString(hContact, "Homepage", url);
 
 				GetDlgItemText(hwndDlg, IDC_START, str, _countof(str));
-				db_set_ws(hContact, MODULENAME, START_STRING_KEY, str);
+				g_plugin.setWString(hContact, START_STRING_KEY, str);
 
 				GetDlgItemText(hwndDlg, IDC_END, str, _countof(str));
-				db_set_ws(hContact, MODULENAME, END_STRING_KEY, str);
+				g_plugin.setWString(hContact, END_STRING_KEY, str);
 
 				GetDlgItemText(hwndDlg, IDC_SITE_NAME, str, _countof(str));
 				db_set_ws(hContact, "CList", "MyHandle", str);
 
-				db_set_b(hContact, MODULENAME, DBLE_WIN_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DBLE_WIN));
-				db_set_b(hContact, MODULENAME, U_ALLSITE_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_U_ALLSITE));
+				g_plugin.setByte(hContact, DBLE_WIN_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DBLE_WIN));
+				g_plugin.setByte(hContact, U_ALLSITE_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_U_ALLSITE));
 
-				db_set_b(hContact, MODULENAME, CLEAR_DISPLAY_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CLEAN));
-				db_set_b(hContact, MODULENAME, RWSPACE_KEY, (BYTE)(SendDlgItemMessage(hwndDlg, IDC_RWSPACE, TBM_GETPOS, 0, 0)));
+				g_plugin.setByte(hContact, CLEAR_DISPLAY_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CLEAN));
+				g_plugin.setByte(hContact, RWSPACE_KEY, (BYTE)(SendDlgItemMessage(hwndDlg, IDC_RWSPACE, TBM_GETPOS, 0, 0)));
 
 				SetDlgItemText(ParentHwnd, IDC_OPEN_URL, FixButtonText(url, _countof(url)));
 

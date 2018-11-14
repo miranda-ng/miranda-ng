@@ -169,12 +169,12 @@ int Doubleclick(WPARAM wParam, LPARAM)
 	if (mir_strcmp(MODULENAME, szProto))
 		return 0;
 
-	int action = db_get_b(hContact, MODULENAME, DBLE_WIN_KEY, 1);
+	int action = g_plugin.getByte(hContact, DBLE_WIN_KEY, 1);
 	if (action == 0) {
-		ptrW url(db_get_wsa(hContact, MODULENAME, "URL"));
+		ptrW url(g_plugin.getWStringA(hContact, "URL"));
 		Utils_OpenUrlW(url);
 
-		db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);
+		g_plugin.setWord(hContact, "Status", ID_STATUS_ONLINE);
 	}
 	else if (action == 1) {
 		HWND hwndDlg = WindowList_Find(hWindowList, hContact);
@@ -184,15 +184,15 @@ int Doubleclick(WPARAM wParam, LPARAM)
 		}
 		else {
 			hwndDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DISPLAY_DATA), nullptr, DlgProcDisplayData, (LPARAM)hContact);
-			HWND hTopmost = db_get_b(hContact, MODULENAME, ON_TOP_KEY, 0) ? HWND_TOPMOST : HWND_NOTOPMOST;
+			HWND hTopmost = g_plugin.getByte(hContact, ON_TOP_KEY, 0) ? HWND_TOPMOST : HWND_NOTOPMOST;
 			SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM)((HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_STICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0)));
 
 			if (g_plugin.getByte(SAVE_INDIVID_POS_KEY, 0))
 				SetWindowPos(hwndDlg, hTopmost,
-					db_get_dw(hContact, MODULENAME, "WVx", 100), // Xposition,
-					db_get_dw(hContact, MODULENAME, "WVy", 100), // Yposition,
-					db_get_dw(hContact, MODULENAME, "WVwidth", 412), // WindowWidth,
-					db_get_dw(hContact, MODULENAME, "WVheight", 350), 0); // WindowHeight,
+					g_plugin.getDword(hContact, "WVx", 100), // Xposition,
+					g_plugin.getDword(hContact, "WVy", 100), // Yposition,
+					g_plugin.getDword(hContact, "WVwidth", 412), // WindowWidth,
+					g_plugin.getDword(hContact, "WVheight", 350), 0); // WindowHeight,
 			else
 				SetWindowPos(hwndDlg, HWND_TOPMOST, Xposition, Yposition, WindowWidth, WindowHeight, 0);
 		}
@@ -201,11 +201,11 @@ int Doubleclick(WPARAM wParam, LPARAM)
 		SetActiveWindow(hwndDlg);
 
 		if (g_plugin.getByte(UPDATE_ON_OPEN_KEY, 0)) {
-			if (db_get_b(hContact, MODULENAME, ENABLE_ALERTS_KEY, 0))
+			if (g_plugin.getByte(hContact, ENABLE_ALERTS_KEY, 0))
 				mir_forkthread(ReadFromFile, (void*)hContact);
 			else
 				mir_forkthread(GetData, (void*)hContact);
-			db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);
+			g_plugin.setWord(hContact, "Status", ID_STATUS_ONLINE);
 		}
 	}
 
@@ -362,15 +362,15 @@ INT_PTR DataWndMenuCommand(WPARAM wParam, LPARAM)
 		return 0;
 	}
 
-	HWND hTopmost = db_get_b(hContact, MODULENAME, ON_TOP_KEY, 0) ? HWND_TOPMOST : HWND_NOTOPMOST;
+	HWND hTopmost = g_plugin.getByte(hContact, ON_TOP_KEY, 0) ? HWND_TOPMOST : HWND_NOTOPMOST;
 	hwndDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DISPLAY_DATA), nullptr, DlgProcDisplayData, (LPARAM)hContact);
 	SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_STICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
 	if (g_plugin.getByte(SAVE_INDIVID_POS_KEY, 0))
 		SetWindowPos(hwndDlg, hTopmost,
-			db_get_dw(hContact, MODULENAME, "WVx", 100), // Xposition,
-			db_get_dw(hContact, MODULENAME, "WVy", 100), // Yposition,
-			db_get_dw(hContact, MODULENAME, "WVwidth", 100), // WindowWidth,
-			db_get_dw(hContact, MODULENAME, "WVheight", 100), 0); // WindowHeight,
+			g_plugin.getDword(hContact, "WVx", 100), // Xposition,
+			g_plugin.getDword(hContact, "WVy", 100), // Yposition,
+			g_plugin.getDword(hContact, "WVwidth", 100), // WindowWidth,
+			g_plugin.getDword(hContact, "WVheight", 100), 0); // WindowHeight,
 	else
 		SetWindowPos(hwndDlg, HWND_TOPMOST, Xposition, Yposition, WindowWidth, WindowHeight, 0);
 
@@ -378,11 +378,11 @@ INT_PTR DataWndMenuCommand(WPARAM wParam, LPARAM)
 	SetActiveWindow(hwndDlg);
 
 	if (g_plugin.getByte(UPDATE_ON_OPEN_KEY, 0)) {
-		if (db_get_b(hContact, MODULENAME, ENABLE_ALERTS_KEY, 0))
+		if (g_plugin.getByte(hContact, ENABLE_ALERTS_KEY, 0))
 			mir_forkthread(ReadFromFile, (void*)hContact);
 		else
 			mir_forkthread(GetData, (void*)hContact);
-		db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);
+		g_plugin.setWord(hContact, "Status", ID_STATUS_ONLINE);
 	}
 
 	return 0;
@@ -438,11 +438,11 @@ int OnTopMenuCommand(WPARAM, LPARAM, MCONTACT singlecontact)
 INT_PTR WebsiteMenuCommand(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = wParam;
-	ptrW url(db_get_wsa(hContact, MODULENAME, "URL"));
+	ptrW url(g_plugin.getWStringA(hContact, "URL"));
 	if (url)
 		Utils_OpenUrlW(url);
 
-	db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);
+	g_plugin.setWord(hContact, "Status", ID_STATUS_ONLINE);
 	return 0;
 }
 

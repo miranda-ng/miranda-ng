@@ -39,7 +39,7 @@ bool ContactEnabled(MCONTACT hContact, char *setting, int def)
 		return false;
 
 	BYTE globpref = g_plugin.getByte(setting, def);
-	BYTE userpref = db_get_b(hContact, MODULENAME, setting, BST_INDETERMINATE);
+	BYTE userpref = g_plugin.getByte(hContact, setting, BST_INDETERMINATE);
 
 	return (globpref && userpref == BST_INDETERMINATE) || userpref == BST_CHECKED;
 }

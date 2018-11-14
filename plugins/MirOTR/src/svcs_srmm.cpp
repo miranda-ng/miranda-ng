@@ -65,7 +65,7 @@ void SetEncryptionStatus(MCONTACT hContact, TrustLevel level)
 	Srmm_ModifyIcon(hContact, &sid2);
 	Srmm_SetButtonState(hContact, &button);
 
-	db_set_dw(hContact, MODULENAME, "TrustLevel", level);
+	g_plugin.setDword(hContact, "TrustLevel", level);
 
 	if (!chat_room) {
 		MCONTACT hMeta = db_mc_getMeta(hContact);

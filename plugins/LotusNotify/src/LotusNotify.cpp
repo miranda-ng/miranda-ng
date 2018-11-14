@@ -1715,7 +1715,7 @@ int CMPlugin::Load()
 
 	// set all contacts to offline
 	for (auto &hContact : Contacts(MODULENAME))
-		db_set_w(hContact, MODULENAME, "status", ID_STATUS_OFFLINE);
+		g_plugin.setWord(hContact, "status", ID_STATUS_OFFLINE);
 
 	CreateProtoServiceFunction(MODULENAME, PS_GETCAPS, GetCaps);
 	CreateProtoServiceFunction(MODULENAME, PS_GETNAME, GetName);

@@ -502,7 +502,7 @@ public:
 			sItem.pszText = szTmp;
 			listUsers.SetItem(&sItem);
 
-			listUsers.SetCheckState(sItem.iItem, db_get_b(hContact, MODULENAME, "EnableLog", 1));
+			listUsers.SetCheckState(sItem.iItem, g_plugin.getByte(hContact, "EnableLog", 1));
 		}
 		listUsers.SortItems(CompareFunc, 1);
 

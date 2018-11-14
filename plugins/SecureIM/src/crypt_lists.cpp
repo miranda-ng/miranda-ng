@@ -82,16 +82,16 @@ pUinKey addContact(MCONTACT hContact)
 	p->footer = FOOTER;
 	p->hContact = hContact;
 	p->proto = proto;
-	p->mode = db_get_b(hContact, MODULENAME, "mode", 99);
+	p->mode = g_plugin.getByte(hContact, "mode", 99);
 	if (p->mode == 99) {
 		if (isContactPGP(hContact))
 			p->mode = MODE_PGP;
 		else
 			p->mode = isContactGPG(hContact) ? MODE_GPG : MODE_RSAAES;
-		db_set_b(hContact, MODULENAME, "mode", p->mode);
+		g_plugin.setByte(hContact, "mode", p->mode);
 	}
-	p->status = db_get_b(hContact, MODULENAME, "StatusID", STATUS_ENABLED);
-	p->gpgMode = db_get_b(hContact, MODULENAME, "gpgANSI", 0);
+	p->status = g_plugin.getByte(hContact, "StatusID", STATUS_ENABLED);
+	p->gpgMode = g_plugin.getByte(hContact, "gpgANSI", 0);
 	arClist.insert(p);
 	return p;
 }

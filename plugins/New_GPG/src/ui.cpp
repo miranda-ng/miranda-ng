@@ -944,7 +944,7 @@ bool CDlgNewKey::OnInitDialog()
 	SetWindowPos(m_hwnd, nullptr, globals.new_key_rect.left, globals.new_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 	wchar_t *tmp = UniGetContactSettingUtf(hContact, MODULENAME, "GPGPubKey", L"");
 	lbl_MESSAGE.SetText(tmp[0] ? TranslateT("There is existing key for contact, would you like to replace it with new key?") : TranslateT("New public key was received, do you want to import it?"));
-	btn_IMPORT_AND_USE.Enable(db_get_b(hContact, MODULENAME, "GPGEncryption", 0));
+	btn_IMPORT_AND_USE.Enable(g_plugin.getByte(hContact, "GPGEncryption", 0));
 	btn_IMPORT.SetText(tmp[0] ? TranslateT("Replace") : TranslateT("Accept"));
 	mir_free(tmp);
 	tmp = new wchar_t[256];
@@ -970,7 +970,7 @@ void CDlgNewKey::onClick_IMPORT(CCtrlButton*)
 void CDlgNewKey::onClick_IMPORT_AND_USE(CCtrlButton*)
 {
 	ImportKey(hContact, new_key);
-	db_set_b(hContact, MODULENAME, "GPGEncryption", 1);
+	g_plugin.setByte(hContact, "GPGEncryption", 1);
 	void setSrmmIcon(MCONTACT hContact);
 	void setClistIcon(MCONTACT hContact);
 	setSrmmIcon(hContact);

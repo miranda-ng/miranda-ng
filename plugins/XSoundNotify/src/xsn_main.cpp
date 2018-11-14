@@ -104,9 +104,9 @@ static int ProcessEvent(WPARAM hContact, LPARAM lParam)
 	if (!isReceiveMessage(lParam))
 		return 0;
 
-	isIgnoreSound = db_get_b(hContact, MODULENAME, SETTINGSIGNOREKEY, 0);
+	isIgnoreSound = g_plugin.getByte(hContact, SETTINGSIGNOREKEY, 0);
 	DBVARIANT dbv;
-	if (!isIgnoreSound && !db_get_ws(hContact, MODULENAME, SETTINGSKEY, &dbv)) {
+	if (!isIgnoreSound && !g_plugin.getWString(hContact, SETTINGSKEY, &dbv)) {
 		wchar_t PlaySoundPath[MAX_PATH] = { 0 };
 		PathToAbsoluteW(dbv.pwszVal, PlaySoundPath);
 		isOwnSound = 0;
@@ -149,9 +149,9 @@ static int ProcessChatEvent(WPARAM, LPARAM lParam)
 		if (nick == NULL || gce->ptszText == nullptr)
 			return 0;
 		if (wcsstr(gce->ptszText, nick)) {
-			isIgnoreSound = db_get_b(hContact, MODULENAME, SETTINGSIGNOREKEY, 0);
+			isIgnoreSound = g_plugin.getByte(hContact, SETTINGSIGNOREKEY, 0);
 			DBVARIANT dbv;
-			if (!isIgnoreSound && !db_get_ws(hContact, MODULENAME, SETTINGSKEY, &dbv)) {
+			if (!isIgnoreSound && !g_plugin.getWString(hContact, SETTINGSKEY, &dbv)) {
 				wchar_t PlaySoundPath[MAX_PATH] = { 0 };
 				PathToAbsoluteW(dbv.pwszVal, PlaySoundPath);
 				isOwnSound = 0;

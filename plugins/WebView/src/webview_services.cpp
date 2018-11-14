@@ -45,7 +45,7 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 
 		// A contact is renamed
 		if (!strcmp(cws->szSetting, "MyHandle")) {
-			ptrW oldName( db_get_wsa(hContact, MODULENAME, PRESERVE_NAME_KEY));
+			ptrW oldName( g_plugin.getWStringA(hContact, PRESERVE_NAME_KEY));
 			if (oldName == NULL)
 				return 0;
 
@@ -73,8 +73,8 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 			}  
 
 			if ( wcschr(nick, '(') == nullptr) {
-				db_set_ws(hContact, MODULENAME, PRESERVE_NAME_KEY, nick);
-				db_set_ws(hContact, MODULENAME, "Nick", nick);
+				g_plugin.setWString(hContact, PRESERVE_NAME_KEY, nick);
+				g_plugin.setWString(hContact, "Nick", nick);
 				db_set_ws(hContact, "CList", "MyHandle", nick);
 			}
 
@@ -98,7 +98,7 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 					fclose(pcachefile);
 					if (mir_wstrcmp(newcachepath, renamedcachepath)) {
 						MoveFile(newcachepath, renamedcachepath);
-						db_set_ws(hContact, MODULENAME, CACHE_FILE_KEY, renamedcachepath);
+						g_plugin.setWString(hContact, CACHE_FILE_KEY, renamedcachepath);
 					}
 				}
 			}
@@ -114,7 +114,7 @@ int SiteDeleted(WPARAM wParam, LPARAM)
 	if (mir_strcmp(GetContactProto(hContact), MODULENAME))
 		return 0;
 
-	ptrW contactName( db_get_wsa(hContact, MODULENAME, PRESERVE_NAME_KEY));
+	ptrW contactName( g_plugin.getWStringA(hContact, PRESERVE_NAME_KEY));
 
 	// TEST GET NAME FOR CACHE
 	wchar_t cachepath[MAX_PATH], cachedirectorypath[MAX_PATH], newcachepath[MAX_PATH + 50];
@@ -132,7 +132,7 @@ int SiteDeleted(WPARAM wParam, LPARAM)
 		if (pcachefile != nullptr) {
 			fclose(pcachefile);
 			DeleteFile(newcachepath);
-			db_set_s(hContact, MODULENAME, CACHE_FILE_KEY, "");
+			g_plugin.setString(hContact, CACHE_FILE_KEY, "");
 		}
 	}
 	return 0;
@@ -249,7 +249,7 @@ INT_PTR SetStatus(WPARAM wParam, LPARAM)
 	// Make sure no contact has offline status for any reason on first time run     
 	if ( g_plugin.getByte("FirstTime", 100) == 100) {
 		for (auto &hContact : Contacts(MODULENAME))
-			db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);
+			g_plugin.setWord(hContact, "Status", ID_STATUS_ONLINE);
 
 		g_plugin.setByte("FirstTime", 1);
 	}
@@ -345,7 +345,7 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 	// search for existing contact
 	for (auto &hContact : Contacts(MODULENAME)) {
 		// check ID to see if the contact already exist in the database
-		if (db_get_ws(hContact, MODULENAME, "URL", &dbv))
+		if (g_plugin.getWString(hContact, "URL", &dbv))
 			continue;
 		if (!mir_wstrcmpi(psr->nick.w, dbv.pwszVal)) {
 			// remove the flag for not on list and hidden, thus make the
@@ -364,10 +364,10 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 	Proto_AddToContact(hContact, MODULENAME);
 
 	/////////write to db
-	db_set_b(hContact, MODULENAME, ON_TOP_KEY, 0);
-	db_set_b(hContact, MODULENAME, DBLE_WIN_KEY, 1);
-	db_set_s(hContact, MODULENAME, END_STRING_KEY, "");
-	db_set_b(hContact, MODULENAME, RWSPACE_KEY, 1);
+	g_plugin.setByte(hContact, ON_TOP_KEY, 0);
+	g_plugin.setByte(hContact, DBLE_WIN_KEY, 1);
+	g_plugin.setString(hContact, END_STRING_KEY, "");
+	g_plugin.setByte(hContact, RWSPACE_KEY, 1);
 
 	//Convert url into a name for contact
 	wchar_t Cnick[255];
@@ -424,14 +424,14 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 	//end convert
 
 	db_set_ws(hContact, "CList", "MyHandle", Newnick);
-	db_set_ws(hContact, MODULENAME, PRESERVE_NAME_KEY, Newnick);
-	db_set_ws(hContact, MODULENAME, "Nick", Newnick);
-	db_set_b(hContact, MODULENAME, CLEAR_DISPLAY_KEY, 1);
-	db_set_s(hContact, MODULENAME, START_STRING_KEY, "");
-	db_set_ws(hContact, MODULENAME, URL_KEY, psr->nick.w);
-	db_set_ws(hContact, MODULENAME, "Homepage", psr->nick.w);
-	db_set_b(hContact, MODULENAME, U_ALLSITE_KEY, 1);
-	db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);
+	g_plugin.setWString(hContact, PRESERVE_NAME_KEY, Newnick);
+	g_plugin.setWString(hContact, "Nick", Newnick);
+	g_plugin.setByte(hContact, CLEAR_DISPLAY_KEY, 1);
+	g_plugin.setString(hContact, START_STRING_KEY, "");
+	g_plugin.setWString(hContact, URL_KEY, psr->nick.w);
+	g_plugin.setWString(hContact, "Homepage", psr->nick.w);
+	g_plugin.setByte(hContact, U_ALLSITE_KEY, 1);
+	g_plugin.setWord(hContact, "Status", ID_STATUS_ONLINE);
 
 	// ignore status change
 	db_set_dw(hContact, "Ignore", "Mask", 8);

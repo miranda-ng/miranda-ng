@@ -21,9 +21,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "ExportManager.h"
 #include "HistoryWindow.h"
 
-// Sorry for plain C implementation
-#define MODULENAME "BasicHistory"
-
 bool bPopupsEnabled;
 bool DoTask(TaskOptions& to);
 bool IsValidTask(TaskOptions& to, std::list<TaskOptions>* top = nullptr, std::wstring* err = nullptr, std::wstring* errDescr = nullptr);

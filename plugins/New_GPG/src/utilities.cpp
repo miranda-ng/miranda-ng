@@ -163,8 +163,8 @@ INT_PTR SendKey(WPARAM w, LPARAM)
 		}
 	}
 	if (szMessage[0]) {
-		BYTE enc = db_get_b(hContact, MODULENAME, "GPGEncryption", 0);
-		db_set_b(hContact, MODULENAME, "GPGEncryption", 0);
+		BYTE enc = g_plugin.getByte(hContact, "GPGEncryption", 0);
+		g_plugin.setByte(hContact, "GPGEncryption", 0);
 		ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)szMessage);
 		std::string msg = "Public key ";
 		char *keyid = UniGetContactSettingUtf(0, MODULENAME, key_id_str.c_str(), "");
@@ -178,7 +178,7 @@ INT_PTR SendKey(WPARAM w, LPARAM)
 		mir_free(szMessage);
 		szMessage = mir_strdup(msg.c_str());
 		HistoryLog(hContact, db_event(szMessage, 0, 0, DBEF_SENT));
-		db_set_b(hContact, MODULENAME, "GPGEncryption", enc);
+		g_plugin.setByte(hContact, "GPGEncryption", enc);
 	}
 	else mir_free(szMessage);
 
@@ -198,12 +198,12 @@ INT_PTR ToggleEncryption(WPARAM w, LPARAM)
 				if (hcnt)
 					db_set_b(hcnt, MODULENAME, "GPGEncryption", enc ? 0 : 1);
 			}
-			db_set_b(hContact, MODULENAME, "GPGEncryption", enc ? 0 : 1);
+			g_plugin.setByte(hContact, "GPGEncryption", enc ? 0 : 1);
 		}
 	}
 	else {
-		enc = db_get_b(hContact, MODULENAME, "GPGEncryption", 0);
-		db_set_b(hContact, MODULENAME, "GPGEncryption", enc ? 0 : 1);
+		enc = g_plugin.getByte(hContact, "GPGEncryption", 0);
+		g_plugin.setByte(hContact, "GPGEncryption", enc ? 0 : 1);
 	}
 	void setSrmmIcon(MCONTACT hContact);
 	void setClistIcon(MCONTACT hContact);
@@ -243,13 +243,13 @@ int OnPreBuildContactMenu(WPARAM w, LPARAM)
 	int flags;
 	wchar_t *tmp = UniGetContactSettingUtf(hContact, MODULENAME, "GPGPubKey", L"");
 	if (!tmp[0]) {
-		db_unset(hContact, MODULENAME, "GPGEncryption");
+		g_plugin.delSetting(hContact, "GPGEncryption");
 		flags = CMIF_GRAYED;
 	}
 	else flags = 0;
 
 	Menu_ModifyItem(globals.hToggleEncryption,
-		db_get_b(hContact, MODULENAME, "GPGEncryption", 0) ? L"Turn off GPG encryption" : L"Turn on GPG encryption",
+		g_plugin.getByte(hContact, "GPGEncryption", 0) ? L"Turn off GPG encryption" : L"Turn on GPG encryption",
 		INVALID_HANDLE_VALUE, flags);
 	mir_free(tmp);
 	return 0;
@@ -938,7 +938,7 @@ void AddHandlers()
 
 bool isContactSecured(MCONTACT hContact)
 {
-	BYTE gpg_enc = db_get_b(hContact, MODULENAME, "GPGEncryption", 0);
+	BYTE gpg_enc = g_plugin.getByte(hContact, "GPGEncryption", 0);
 	if (!gpg_enc) {
 		if (globals.bDebugLog)
 			globals.debuglog << std::string(time_str() + ": encryption is turned off for " + toUTF8(Clist_GetContactDisplayName(hContact)));
@@ -1075,7 +1075,7 @@ const bool StriStr(const char *str, const char *substr)
 
 bool IsOnline(MCONTACT hContact)
 {
-	if (db_get_b(hContact, MODULENAME, "Status", 0) == ID_STATUS_OFFLINE)
+	if (g_plugin.getByte(hContact, "Status", 0) == ID_STATUS_OFFLINE)
 		return false;
 	return true;
 }
@@ -1632,7 +1632,7 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 							tmp2 = (char*)mir_alloc((output.substr(s, s2 - s).length() + 1) * sizeof(char));
 							mir_strcpy(tmp2, output.substr(s, s2 - s).c_str());
 							mir_utf8decode(tmp2, nullptr);
-							db_set_s(hContact, MODULENAME, "KeyID", tmp2);
+							g_plugin.setString(hContact, "KeyID", tmp2);
 							mir_free(tmp2);
 							s = output.find("“", s2);
 							if (s == string::npos) {
@@ -1650,7 +1650,7 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 								mir_strcpy(tmp2, output.substr(s, s2 - s - 1).c_str());
 								mir_utf8decode(tmp2, nullptr);
 								if (hContact) {
-									db_set_s(hContact, MODULENAME, "KeyMainName", output.substr(s, s2 - s - 1).c_str());
+									g_plugin.setString(hContact, "KeyMainName", output.substr(s, s2 - s - 1).c_str());
 								}
 								mir_free(tmp2);
 								if ((s = output.find(")", s2)) == string::npos)
@@ -1663,7 +1663,7 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 									mir_strcpy(tmp2, output.substr(s2, s - s2).c_str());
 									mir_utf8decode(tmp2, nullptr);
 									if (hContact)
-										db_set_s(hContact, MODULENAME, "KeyComment", output.substr(s2, s - s2).c_str());
+										g_plugin.setString(hContact, "KeyComment", output.substr(s2, s - s2).c_str());
 									mir_free(tmp2);
 									s += 3;
 									s2 = output.find(">", s);
@@ -1671,7 +1671,7 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 									mir_strcpy(tmp2, output.substr(s, s2 - s).c_str());
 									mir_utf8decode(tmp2, nullptr);
 									if (hContact)
-										db_set_s(hContact, MODULENAME, "KeyMainEmail", output.substr(s, s2 - s).c_str());
+										g_plugin.setString(hContact, "KeyMainEmail", output.substr(s, s2 - s).c_str());
 									mir_free(tmp2);
 								}
 								else {
@@ -1679,12 +1679,12 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 									mir_strcpy(tmp2, output.substr(s2, s - s2).c_str());
 									mir_utf8decode(tmp2, nullptr);
 									if (hContact)
-										db_set_s(hContact, MODULENAME, "KeyMainEmail", output.substr(s2, s - s2).c_str());
+										g_plugin.setString(hContact, "KeyMainEmail", output.substr(s2, s - s2).c_str());
 									mir_free(tmp2);
 								}
 							}
-							db_set_b(hContact, MODULENAME, "GPGEncryption", 1);
-							db_set_ws(hContact, MODULENAME, "GPGPubKey", toUTF16(key).c_str());
+							g_plugin.setByte(hContact, "GPGEncryption", 1);
+							g_plugin.setWString(hContact, "GPGPubKey", toUTF16(key).c_str());
 						}
 						boost::filesystem::remove(path);
 						break;

@@ -505,6 +505,6 @@ void MarkUnread(MCONTACT hContact)
 			db_event_add(hContact,&_dbei);
 		}
 		db_free(&_dbv);
-		db_unset(hContact, MODULENAME, "LastMsgEvents");
+		g_plugin.delSetting(hContact, "LastMsgEvents");
 	}
 }

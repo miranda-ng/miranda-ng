@@ -545,10 +545,10 @@ void Options::SaveTasks(std::list<TaskOptions>* tasks)
 
 		mir_snprintf(buf, "IsInTask_%d", i);
 		for (auto &hContact : Contacts())
-			db_unset(hContact, MODULENAME, buf);
+			g_plugin.delSetting(hContact, buf);
 
 		for (size_t j = 0; j < it->contacts.size(); ++j)
-			db_set_b(it->contacts[j], MODULENAME, buf, 1);
+			g_plugin.setByte(it->contacts[j], buf, 1);
 
 		it->orderNr = i++;
 		taskOptions.push_back(*it);
@@ -600,7 +600,7 @@ void Options::SaveTasks(std::list<TaskOptions>* tasks)
 
 		mir_snprintf(buf, "IsInTask_%d", i);
 		for (auto &hContact : Contacts())
-			db_unset(hContact, MODULENAME, buf);
+			g_plugin.delSetting(hContact, buf);
 	}
 }
 
@@ -686,7 +686,7 @@ void Options::LoadTasks()
 
 		mir_snprintf(buf, "IsInTask_%d", i);
 		for (auto &hContact : Contacts())
-			if (db_get_b(hContact, MODULENAME, buf, 0) == 1)
+			if (g_plugin.getByte(hContact, buf) == 1)
 				to.contacts.push_back(hContact);
 
 		to.orderNr = i;

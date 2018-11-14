@@ -129,8 +129,8 @@ static MCONTACT FindContactByUrl(HWND hwndDlg)
 	GetWindowText(hwndDlg, titlebartxt, _countof(titlebartxt));
 
 	for (auto &hContact : Contacts(MODULENAME)) {
-		ptrW db1( db_get_wsa(hContact, MODULENAME, URL_KEY));
-		ptrW db2( db_get_wsa(hContact, MODULENAME, PRESERVE_NAME_KEY));
+		ptrW db1( g_plugin.getWStringA(hContact, URL_KEY));
+		ptrW db2( g_plugin.getWStringA(hContact, PRESERVE_NAME_KEY));
 
 		if (!mir_wstrcmp(urltext, db1) && !mir_wstrcmp(titlebartxt, db2)) {
 			contactcount++;
@@ -351,7 +351,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 		case IDC_STOP:
 			if (hContact = FindContactByUrl(hwndDlg))
-				db_set_b(hContact, MODULENAME, STOP_KEY, 1); 
+				g_plugin.setByte(hContact, STOP_KEY, 1); 
 			break;
 
 		case IDC_STICK_BUTTON:
@@ -360,7 +360,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			{
 				wchar_t *ptszToolTip;
 				HWND hTopmost;
-				if (!db_get_b(hContact, MODULENAME, ON_TOP_KEY, 0)) {
+				if (!g_plugin.getByte(hContact, ON_TOP_KEY, 0)) {
 					hTopmost = HWND_NOTOPMOST;
 					ptszToolTip = TranslateT("Stick to the front");
 				}

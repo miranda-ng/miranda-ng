@@ -95,7 +95,7 @@ public:
 				mir_free(tmp);
 
 				
-				if (db_get_b(hContact, MODULENAME, "GPGEncryption", 0))
+				if (g_plugin.getByte(hContact, "GPGEncryption", 0))
 					list_USERLIST.SetCheckState(row, 1);
 				user_data[i] = hContact;
 				list_USERLIST.SetColumnWidth(0, LVSCW_AUTOSIZE);
@@ -233,12 +233,12 @@ public:
 					}
 				}
 				else {
-					db_unset(hContact, MODULENAME, "KeyID");
-					db_unset(hContact, MODULENAME, "GPGPubKey");
-					db_unset(hContact, MODULENAME, "KeyMainName");
-					db_unset(hContact, MODULENAME, "KeyType");
-					db_unset(hContact, MODULENAME, "KeyMainEmail");
-					db_unset(hContact, MODULENAME, "KeyComment");
+					g_plugin.delSetting(hContact, "KeyID");
+					g_plugin.delSetting(hContact, "GPGPubKey");
+					g_plugin.delSetting(hContact, "KeyMainName");
+					g_plugin.delSetting(hContact, "KeyType");
+					g_plugin.delSetting(hContact, "KeyMainEmail");
+					g_plugin.delSetting(hContact, "KeyComment");
 					setClistIcon(hContact);
 					setSrmmIcon(hContact);
 				}
@@ -730,7 +730,7 @@ public:
 				}
 				else db_set_ws(metaGetMostOnline(hContact), MODULENAME, "GPGPubKey", key_buf.substr(ws1, ws2 - ws1).c_str());
 			}
-			else db_set_ws(hContact, MODULENAME, "GPGPubKey", key_buf.substr(ws1, ws2 - ws1).c_str());
+			else g_plugin.setWString(hContact, "GPGPubKey", key_buf.substr(ws1, ws2 - ws1).c_str());
 		}
 		tmp = (wchar_t*)mir_alloc(sizeof(wchar_t) * (key_buf.length() + 1));
 		mir_wstrcpy(tmp, key_buf.substr(ws1, ws2 - ws1).c_str());
@@ -785,7 +785,7 @@ public:
 					}
 					else db_unset(metaGetMostOnline(hContact), MODULENAME, "bAlwatsTrust");
 				}
-				else db_unset(hContact, MODULENAME, "bAlwatsTrust");
+				else g_plugin.delSetting(hContact, "bAlwatsTrust");
 			}
 			{
 				if (output.find("already in secret keyring") != string::npos) {
@@ -813,7 +813,7 @@ public:
 								db_set_s(metaGetMostOnline(hContact), MODULENAME, "KeyID", tmp3);
 						}
 						else
-							db_set_s(hContact, MODULENAME, "KeyID", tmp3);
+							g_plugin.setString(hContact, "KeyID", tmp3);
 					}
 					mir_free(tmp3);
 				}
@@ -849,12 +849,12 @@ public:
 									for (int i = 0; i < count; i++) {
 										MCONTACT hcnt = db_mc_getSub(hContact, i);
 										if (hcnt)
-											db_set_s(hcnt, MODULENAME, "KeyMainName", output.substr(s, s2 - s - 1).c_str());
+											g_plugin.setString(hcnt, "KeyMainName", output.substr(s, s2 - s - 1).c_str());
 									}
 								}
-								else db_set_s(metaGetMostOnline(hContact), MODULENAME, "KeyMainName", output.substr(s, s2 - s - 1).c_str());
+								else g_plugin.setString(metaGetMostOnline(hContact), "KeyMainName", output.substr(s, s2 - s - 1).c_str());
 							}
-							else db_set_s(hContact, MODULENAME, "KeyMainName", output.substr(s, s2 - s - 1).c_str());
+							else g_plugin.setString(hContact, "KeyMainName", output.substr(s, s2 - s - 1).c_str());
 						}
 						mir_free(tmp3);
 					}
@@ -879,12 +879,12 @@ public:
 										for (int i = 0; i < count; i++) {
 											MCONTACT hcnt = db_mc_getSub(hContact, i);
 											if (hcnt)
-												db_set_s(hcnt, MODULENAME, "KeyComment", output.substr(s2, s - s2).c_str());
+												g_plugin.setString(hcnt, "KeyComment", output.substr(s2, s - s2).c_str());
 										}
 									}
-									else db_set_s(metaGetMostOnline(hContact), MODULENAME, "KeyComment", output.substr(s2, s - s2).c_str());
+									else g_plugin.setString(metaGetMostOnline(hContact), "KeyComment", output.substr(s2, s - s2).c_str());
 								}
-								else db_set_s(hContact, MODULENAME, "KeyComment", output.substr(s2, s - s2).c_str());
+								else g_plugin.setString(hContact, "KeyComment", output.substr(s2, s - s2).c_str());
 							}
 							mir_free(tmp3);
 							s += 3;
@@ -899,12 +899,12 @@ public:
 										for (int i = 0; i < count; i++) {
 											MCONTACT hcnt = db_mc_getSub(hContact, i);
 											if (hcnt)
-												db_set_s(hcnt, MODULENAME, "KeyMainEmail", output.substr(s, s2 - s).c_str());
+												g_plugin.setString(hcnt, "KeyMainEmail", output.substr(s, s2 - s).c_str());
 										}
 									}
-									else db_set_s(metaGetMostOnline(hContact), MODULENAME, "KeyMainEmail", output.substr(s, s2 - s).c_str());
+									else g_plugin.setString(metaGetMostOnline(hContact), "KeyMainEmail", output.substr(s, s2 - s).c_str());
 								}
-								else db_set_s(hContact, MODULENAME, "KeyMainEmail", output.substr(s, s2 - s).c_str());
+								else g_plugin.setString(hContact, "KeyMainEmail", output.substr(s, s2 - s).c_str());
 							}
 							mir_free(tmp3);
 							tmp = mir_wstrdup(toUTF16(output.substr(s, s2 - s)).c_str());
@@ -923,12 +923,12 @@ public:
 										for (int i = 0; i < count; i++) {
 											MCONTACT hcnt = db_mc_getSub(hContact, i);
 											if (hcnt)
-												db_set_s(hcnt, MODULENAME, "KeyMainEmail", output.substr(s2, s - s2).c_str());
+												g_plugin.setString(hcnt, "KeyMainEmail", output.substr(s2, s - s2).c_str());
 										}
 									}
-									else db_set_s(metaGetMostOnline(hContact), MODULENAME, "KeyMainEmail", output.substr(s2, s - s2).c_str());
+									else g_plugin.setString(metaGetMostOnline(hContact), "KeyMainEmail", output.substr(s2, s - s2).c_str());
 								}
-								else db_set_s(hContact, MODULENAME, "KeyMainEmail", output.substr(s2, s - s2).c_str());
+								else g_plugin.setString(hContact, "KeyMainEmail", output.substr(s2, s - s2).c_str());
 							}
 							mir_free(tmp3);
 							tmp = mir_wstrdup(toUTF16(output.substr(s2, s - s2)).c_str());
@@ -970,7 +970,7 @@ public:
 					while ((s = out.find("\r", s)) != string::npos) {
 						out.erase(s, 1);
 					}
-					db_set_s(hContact, MODULENAME, "GPGPubKey", out.c_str());
+					g_plugin.setString(hContact, "GPGPubKey", out.c_str());
 				}
 			}
 			tmp = mir_wstrdup(toUTF16(output).c_str());
@@ -1002,9 +1002,9 @@ public:
 						db_set_b(metaGetMostOnline(hContact), MODULENAME, "GPGEncryption", 0);
 				}
 				else if (!isContactSecured(hContact))
-					db_set_b(hContact, MODULENAME, "GPGEncryption", 1);
+					g_plugin.setByte(hContact, "GPGEncryption", 1);
 				else
-					db_set_b(hContact, MODULENAME, "GPGEncryption", 0);
+					g_plugin.setByte(hContact, "GPGEncryption", 0);
 			}
 		}
 		this->Close();

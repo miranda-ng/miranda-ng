@@ -89,7 +89,7 @@ BOOL CalculateKeyX(pUinKey ptr, MCONTACT hContact)
 		db_set_blob(hContact, MODULENAME, "offlineKey", buffer, keysize);
 
 		// store timeout of key in database (2 days)
-		db_set_dw(hContact, MODULENAME, "offlineKeyTimeout", gettime() + (60 * 60 * 24 * g_plugin.getWord("okt", 2)));
+		g_plugin.setDword(hContact, "offlineKeyTimeout", gettime() + (60 * 60 * 24 * g_plugin.getWord("okt", 2)));
 
 		// key exchange is finished
 		showPopupEC(ptr->hContact);

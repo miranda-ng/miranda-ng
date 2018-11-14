@@ -24,9 +24,9 @@ CProtoStates g_ProtoStates;
 
 void ResetContactSettingsOnStatusChange(MCONTACT hContact)
 {
-	db_unset(hContact, MODULENAME, DB_REQUESTCOUNT);
-	db_unset(hContact, MODULENAME, DB_SENDCOUNT);
-	db_unset(hContact, MODULENAME, DB_MESSAGECOUNT);
+	g_plugin.delSetting(hContact, DB_REQUESTCOUNT);
+	g_plugin.delSetting(hContact, DB_SENDCOUNT);
+	g_plugin.delSetting(hContact, DB_MESSAGECOUNT);
 }
 
 void ResetSettingsOnStatusChange(const char *szProto = nullptr, int bResetPersonalMsgs = false, int Status = 0)

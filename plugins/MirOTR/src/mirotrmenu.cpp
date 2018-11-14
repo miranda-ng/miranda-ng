@@ -86,7 +86,7 @@ INT_PTR MirOTRMenuCheckService(WPARAM wParam, LPARAM)
 			}
 		}
 		else if (pcpp->MenuItemHandle == hHTMLConvMenuItem)
-			Menu_SetChecked(hHTMLConvMenuItem, db_get_b(hContact, MODULENAME, "HTMLConv", 0) != 0);
+			Menu_SetChecked(hHTMLConvMenuItem, g_plugin.getByte(hContact, "HTMLConv", 0) != 0);
 	}
 	return TRUE;
 }

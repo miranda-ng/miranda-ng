@@ -11,7 +11,7 @@ int StartOTR(MCONTACT hContact)
 	if (!proto) return 1; // error
 	char *uname = contact_get_id(hContact);
 	if (!uname) return 1; // error
-	DWORD pol = db_get_dw(hContact, MODULENAME, "Policy", CONTACT_DEFAULT_POLICY);
+	DWORD pol = g_plugin.getDword(hContact, "Policy", CONTACT_DEFAULT_POLICY);
 	if (pol == CONTACT_DEFAULT_POLICY) pol = options.default_policy;
 
 	lib_cs_lock();
@@ -143,10 +143,10 @@ INT_PTR SVC_ToggleHTMLOTR(WPARAM hContact, LPARAM)
 	if (hSub != 0)
 		hContact = hSub;
 
-	if (db_get_b(hContact, MODULENAME, "HTMLConv", 0))
-		db_set_b(hContact, MODULENAME, "HTMLConv", 0);
+	if (g_plugin.getByte(hContact, "HTMLConv", 0))
+		g_plugin.setByte(hContact, "HTMLConv", 0);
 	else
-		db_set_b(hContact, MODULENAME, "HTMLConv", 1);
+		g_plugin.setByte(hContact, "HTMLConv", 1);
 
 	return 0;
 }
@@ -199,7 +199,7 @@ int SVC_PrebuildContactMenu(WPARAM hContact, LPARAM)
 	if ((caps & PF1_IM) == 0)
 		return 0;
 
-	DWORD pol = db_get_dw(hContact, MODULENAME, "Policy", CONTACT_DEFAULT_POLICY);
+	DWORD pol = g_plugin.getDword(hContact, "Policy", CONTACT_DEFAULT_POLICY);
 	if (pol == CONTACT_DEFAULT_POLICY)
 		pol = options.default_policy;
 

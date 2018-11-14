@@ -30,7 +30,7 @@ int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_COMMAND:
 	case WM_CONTEXTMENU:
 		MCONTACT hContact = PUGetContact(hWnd);
-		ptrW url( db_get_wsa(hContact, MODULENAME, URL_KEY));
+		ptrW url( g_plugin.getWStringA(hContact, URL_KEY));
 
 		if (message == WM_COMMAND) { // left click
 			if(hContact != NULL) { 
@@ -160,7 +160,7 @@ int OSDAlert(WPARAM hContact, LPARAM lParam)
 
 	if (hContact != NULL) {
 		DBVARIANT dbv;
-		if (!db_get_s(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
+		if (!g_plugin.getString(hContact, PRESERVE_NAME_KEY, &dbv)) {
 			strncpy_s(contactname, _countof(contactname), dbv.pszVal, _TRUNCATE);
 			db_free(&dbv);
 		}
@@ -204,19 +204,19 @@ int ErrorMsgs(WPARAM wParam, LPARAM lParam)
 void SaveToFile(MCONTACT hContact, char *truncated)
 {
 	char *mode;
-	if (!db_get_b(hContact, MODULENAME, APPEND_KEY, 0))
+	if (!g_plugin.getByte(hContact, APPEND_KEY, 0))
 		mode = "w";
 	else
 		mode = "a";
 
 	char url[300]; url[0] = '\0';
 	DBVARIANT dbv;
-	if (!db_get_s(hContact, MODULENAME, URL_KEY, &dbv)) {
+	if (!g_plugin.getString(hContact, URL_KEY, &dbv)) {
 		strncpy_s(url, _countof(url), dbv.pszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
 
-	if ( db_get_s(hContact, MODULENAME, FILE_KEY, &dbv))
+	if ( g_plugin.getString(hContact, FILE_KEY, &dbv))
 		return;
 
 	FILE *pfile = fopen(dbv.pszVal, mode);
@@ -272,22 +272,22 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 	memset(&cachecompare, 0, sizeof(cachecompare));
 
 	// alerts
-	if (db_get_b(hContact, MODULENAME, ENABLE_ALERTS_KEY, 0)) { // ALERTS
-		alertIndex = db_get_b(hContact, MODULENAME, ALRT_INDEX_KEY, 0);
-		eventIndex = db_get_b(hContact, MODULENAME, EVNT_INDEX_KEY, 0);
+	if (g_plugin.getByte(hContact, ENABLE_ALERTS_KEY, 0)) { // ALERTS
+		alertIndex = g_plugin.getByte(hContact, ALRT_INDEX_KEY, 0);
+		eventIndex = g_plugin.getByte(hContact, EVNT_INDEX_KEY, 0);
 		if (notpresent) {
 			if (alertIndex == 0) { // Popup
 				Sleep(1000);
 				WAlertPopup(hContact, TranslateT("Start/end strings not found or strings not set."));
 				// contactlist name//
-				if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+				if ( g_plugin.getByte(hContact, APND_DATE_NAME_KEY, 0))
 					db_set_s(hContact, "CList", "MyHandle", tstr);
 			}
 			else if (alertIndex == 1) { // log to file
-				if (!db_get_s(hContact, MODULENAME, FILE_KEY, &tdbv)) {
+				if (!g_plugin.getString(hContact, FILE_KEY, &tdbv)) {
 					int AmountWspcRem = 0;
 
-					if (!db_get_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, 0)) {
+					if (!g_plugin.getByte(hContact, SAVE_AS_RAW_KEY, 0)) {
 						CodetoSymbol(tempraw);
 						Sleep(100); // avoid 100% CPU
 
@@ -303,7 +303,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 						EraseSymbols(tempraw);
 						Sleep(100); // avoid 100% CPU
 
-						AmountWspcRem = db_get_b(hContact, MODULENAME, RWSPACE_KEY, 0);
+						AmountWspcRem = g_plugin.getByte(hContact, RWSPACE_KEY, 0);
 						RemoveInvis(tempraw, AmountWspcRem);
 						Sleep(100); // avoid 100% CPU
 
@@ -313,19 +313,19 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 					SaveToFile(hContact, tempraw);
 					db_free(&tdbv);
 
-					if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+					if ( g_plugin.getByte(hContact, APND_DATE_NAME_KEY, 0))
 						db_set_s(hContact, "CList", "MyHandle", tstr);
 				}
 			} 
 			else if (alertIndex == 3) {
 				WAlertOSD(hContact, TranslateT("Alert start/end strings not found or strings not set."));
-				if (db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+				if (g_plugin.getByte(hContact, APND_DATE_NAME_KEY, 0))
 					db_set_s(hContact, "CList", "MyHandle", tstr);
 			}
 			else if (eventIndex == 2) {
 				WDisplayDataAlert(hContact);
 
-				if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+				if ( g_plugin.getByte(hContact, APND_DATE_NAME_KEY, 0))
 					db_set_s(hContact, "CList", "MyHandle", tstr);
 
 				HWND hwndDlg = (WindowList_Find(hWindowList, hContact));
@@ -336,7 +336,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 		}
 
 		if (eventIndex == 0) { // string present
-			if (!db_get_s(hContact, MODULENAME, ALERT_STRING_KEY, &tdbv)) {
+			if (!g_plugin.getString(hContact, ALERT_STRING_KEY, &tdbv)) {
 				strncpy_s(alertstring, _countof(alertstring), tdbv.pszVal, _TRUNCATE);
 				db_free(&tdbv);
 
@@ -353,13 +353,13 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 							WAlertPopup(hContact, displaystring);
 
 							// contactlist name//
-							if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+							if ( g_plugin.getByte(hContact, APND_DATE_NAME_KEY, 0))
 								db_set_s(hContact, "CList", "MyHandle", tstr);
 						} //
 						else if (alertIndex == 1) {
-							if (!db_get_s(hContact, MODULENAME, FILE_KEY, &tdbv)) {
+							if (!g_plugin.getString(hContact, FILE_KEY, &tdbv)) {
 								int AmountWspcRem = 0;
-								if (!db_get_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, 0)) {
+								if (!g_plugin.getByte(hContact, SAVE_AS_RAW_KEY, 0)) {
 									CodetoSymbol(tempraw);
 									Sleep(100); // avoid 100% CPU
 
@@ -375,7 +375,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 									EraseSymbols(tempraw);
 									Sleep(100); // avoid 100% CPU
 
-									AmountWspcRem = db_get_b(hContact, MODULENAME, RWSPACE_KEY, 0);
+									AmountWspcRem = g_plugin.getByte(hContact, RWSPACE_KEY, 0);
 									RemoveInvis(tempraw, AmountWspcRem);
 									Sleep(100); // avoid 100% CPU
 
@@ -384,7 +384,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 								SaveToFile(hContact, tempraw);
 								db_free(&tdbv);
 
-								if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+								if ( g_plugin.getByte(hContact, APND_DATE_NAME_KEY, 0))
 									db_set_s(hContact, "CList", "MyHandle", tstr);
 							}
 						}
@@ -393,13 +393,13 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 							WAlertOSD(hContact, displaystring);
 
 							// contactlist name//
-							if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+							if ( g_plugin.getByte(hContact, APND_DATE_NAME_KEY, 0))
 								db_set_s(hContact, "CList", "MyHandle", tstr);
 						}
 						else if (alertIndex == 2) {
 							WDisplayDataAlert(hContact);
 							// contactlist name//
-							if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+							if ( g_plugin.getByte(hContact, APND_DATE_NAME_KEY, 0))
 								db_set_s(hContact, "CList", "MyHandle", tstr);
 
 							HWND hwndDlg = WindowList_Find(hWindowList, hContact);
@@ -437,7 +437,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 			else {
 				fwrite(tempraw, mir_strlen(tempraw), 1, pcachefile); //smaller cache
 				fclose(pcachefile);
-				db_set_ws(hContact, MODULENAME, CACHE_FILE_KEY, newcachepath);
+				g_plugin.setWString(hContact, CACHE_FILE_KEY, newcachepath);
 			}
 			// end write to cache
 
@@ -451,20 +451,20 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 					if (alertIndex == 0) { // popup
 						WAlertPopup(hContact, TranslateT("The web page has changed."));
 						// contactlist name//
-						if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+						if ( g_plugin.getByte(hContact, APND_DATE_NAME_KEY, 0))
 							db_set_s(hContact, "CList", "MyHandle", tstr);
 					}
 					else if (alertIndex == 3) { // osd
 						WAlertOSD(hContact, TranslateT("The web page has changed."));
 						// contactlist name//
-						if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+						if ( g_plugin.getByte(hContact, APND_DATE_NAME_KEY, 0))
 							db_set_s(hContact, "CList", "MyHandle", tstr);
 					}
 					else if (alertIndex == 1) { // log
-						if (!db_get_s(hContact, MODULENAME, FILE_KEY, &tdbv)) {
+						if (!g_plugin.getString(hContact, FILE_KEY, &tdbv)) {
 							int AmountWspcRem = 0;
 
-							if (!db_get_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, 0)) {
+							if (!g_plugin.getByte(hContact, SAVE_AS_RAW_KEY, 0)) {
 								CodetoSymbol(tempraw);
 								Sleep(100); // avoid 100% CPU
 
@@ -480,7 +480,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 								EraseSymbols(tempraw);
 								Sleep(100); // avoid 100% CPU
 
-								AmountWspcRem = db_get_b(hContact, MODULENAME, RWSPACE_KEY, 0);
+								AmountWspcRem = g_plugin.getByte(hContact, RWSPACE_KEY, 0);
 								RemoveInvis(tempraw, AmountWspcRem);
 								Sleep(100); // avoid 100% CPU
 
@@ -490,14 +490,14 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 							SaveToFile(hContact, tempraw);
 							db_free(&tdbv);
 							// contactlist name//
-							if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+							if ( g_plugin.getByte(hContact, APND_DATE_NAME_KEY, 0))
 								db_set_s(hContact, "CList", "MyHandle", tstr);
 						}
 					}
 					else if (alertIndex == 2) { // window
 						WDisplayDataAlert(hContact);
 						// contactlist name//
-						if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+						if ( g_plugin.getByte(hContact, APND_DATE_NAME_KEY, 0))
 							db_set_s(hContact, "CList", "MyHandle", tstr);
 					}
 					else MessageBox(nullptr, TranslateT("Unknown alert type."), _A2W(MODULENAME), MB_OK);
@@ -507,11 +507,11 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 
 		if (eventIndex == 2) { // part of webpage changed
 			Alerttempstring[0] = Alerttempstring2[0] = 0;
-			if (!db_get_s(hContact, MODULENAME, ALRT_S_STRING_KEY, &tdbv)) {
+			if (!g_plugin.getString(hContact, ALRT_S_STRING_KEY, &tdbv)) {
 				strncpy_s(Alerttempstring, _countof(Alerttempstring), tdbv.pszVal, _TRUNCATE);
 				db_free(&tdbv);
 			}
-			if (!db_get_s(hContact, MODULENAME, ALRT_E_STRING_KEY, &tdbv)) {
+			if (!g_plugin.getString(hContact, ALRT_E_STRING_KEY, &tdbv)) {
 				strncpy_s(Alerttempstring2, _countof(Alerttempstring2), tdbv.pszVal, _TRUNCATE);
 				db_free(&tdbv);
 			}
@@ -563,14 +563,14 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 					Sleep(1000);
 					WAlertPopup(hContact, TranslateT("Alert start/end strings not found or strings not set."));
 					// contactlist name//
-					if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+					if ( g_plugin.getByte(hContact, APND_DATE_NAME_KEY, 0))
 						db_set_s(hContact, "CList", "MyHandle", tstr);
 				}
 				else if (alertIndex == 1) { // LOG
 					if (!notpresent) { // dont log to file twice if both types of start/end strings not present
-						if (!db_get_s(hContact, MODULENAME, FILE_KEY, &tdbv)) {
+						if (!g_plugin.getString(hContact, FILE_KEY, &tdbv)) {
 							int AmountWspcRem = 0;
-							if (!db_get_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, 0)) {
+							if (!g_plugin.getByte(hContact, SAVE_AS_RAW_KEY, 0)) {
 								CodetoSymbol(tempraw);
 								Sleep(100); // avoid 100% CPU
 
@@ -586,7 +586,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 								EraseSymbols(tempraw);
 								Sleep(100); // avoid 100% CPU
 
-								AmountWspcRem = db_get_b(hContact, MODULENAME, RWSPACE_KEY, 0);
+								AmountWspcRem = g_plugin.getByte(hContact, RWSPACE_KEY, 0);
 								RemoveInvis(tempraw, AmountWspcRem);
 								Sleep(100); // avoid 100% CPU
 
@@ -596,7 +596,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 							SaveToFile(hContact, tempraw);
 							db_free(&tdbv);
 							// contactlist name
-							if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+							if ( g_plugin.getByte(hContact, APND_DATE_NAME_KEY, 0))
 								db_set_s(hContact, "CList", "MyHandle", tstr);
 						}
 					}
@@ -604,13 +604,13 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 				else if (alertIndex == 3) { // osd
 					WAlertOSD(hContact, TranslateT("Alert start/end strings not found or strings not set."));
 					// contactlist name//
-					if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+					if ( g_plugin.getByte(hContact, APND_DATE_NAME_KEY, 0))
 						db_set_s(hContact, "CList", "MyHandle", tstr);
 				}
 				else if (alertIndex == 2) { // window
 					WDisplayDataAlert(hContact);
 					// contactlist name//
-					if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+					if ( g_plugin.getByte(hContact, APND_DATE_NAME_KEY, 0))
 						db_set_s(hContact, "CList", "MyHandle", tstr);
 
 					HWND hwndDlg = (WindowList_Find(hWindowList, hContact));
@@ -618,7 +618,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 				}
 				else MessageBox(nullptr, TranslateT("Alert start/end strings not found or strings not set."), _A2W(MODULENAME), MB_OK);
 
-				db_set_w(hContact, MODULENAME, "Status", ID_STATUS_AWAY);
+				g_plugin.setWord(hContact, "Status", ID_STATUS_AWAY);
 			}
 
 			///////////////
@@ -648,7 +648,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 					WErrorPopup((UINT_PTR)contactname, TranslateT("Cannot write to file 2"));
 				else {
 					fwrite(raw, mir_strlen(raw), 1, pcachefile); //smaller cache
-					db_set_ws(hContact, MODULENAME, CACHE_FILE_KEY, newcachepath);
+					g_plugin.setWString(hContact, CACHE_FILE_KEY, newcachepath);
 					fclose(pcachefile);
 				}
 				// end write to cache
@@ -662,19 +662,19 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 						if (alertIndex == 0) { // popup
 							WAlertPopup(hContact, TranslateT("Specific part of the web page has changed."));
 							// contactlist name//
-							if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+							if ( g_plugin.getByte(hContact, APND_DATE_NAME_KEY, 0))
 								db_set_s(hContact, "CList", "MyHandle", tstr);
 						}
 						else if (alertIndex == 3) { // osd
 							WAlertOSD(hContact, TranslateT("Specific part of the web page has changed."));
 							// contactlist name//
-							if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+							if ( g_plugin.getByte(hContact, APND_DATE_NAME_KEY, 0))
 								db_set_s(hContact, "CList", "MyHandle", tstr);
 						}
 						else if (alertIndex == 1) { // log to file
-							if (!db_get_s(hContact, MODULENAME, FILE_KEY, &tdbv)) {
+							if (!g_plugin.getString(hContact, FILE_KEY, &tdbv)) {
 								int AmountWspcRem = 0;
-								if (!db_get_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, 0)) {
+								if (!g_plugin.getByte(hContact, SAVE_AS_RAW_KEY, 0)) {
 									CodetoSymbol(tempraw);
 									Sleep(100); // avoid 100% CPU
 
@@ -690,7 +690,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 									EraseSymbols(tempraw);
 									Sleep(100); // avoid 100% CPU
 
-									AmountWspcRem = db_get_b(hContact, MODULENAME, RWSPACE_KEY, 0);
+									AmountWspcRem = g_plugin.getByte(hContact, RWSPACE_KEY, 0);
 									RemoveInvis(tempraw, AmountWspcRem);
 									Sleep(100); // avoid 100% CPU
 
@@ -700,14 +700,14 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 								SaveToFile(hContact, tempraw);
 								db_free(&tdbv);
 								// contactlist name
-								if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+								if ( g_plugin.getByte(hContact, APND_DATE_NAME_KEY, 0))
 									db_set_s(hContact, "CList", "MyHandle", tstr);
 							}
 						}
 						else if (alertIndex == 2) { // window
 							WDisplayDataAlert(hContact);
 							// contactlist name//
-							if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+							if ( g_plugin.getByte(hContact, APND_DATE_NAME_KEY, 0))
 								db_set_s(hContact, "CList", "MyHandle", tstr);
 						}
 						else MessageBox(nullptr, TranslateT("Unknown alert type."), _A2W(MODULENAME), MB_OK);
@@ -720,11 +720,11 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 
 	//if always log to file option is enabled do this
 	if (wasAlert && alertIndex != 1) { // dont do for log to file alert
-		if ( db_get_b(hContact, MODULENAME, ALWAYS_LOG_KEY, 0)) {
-			if (!db_get_s(hContact, MODULENAME, FILE_KEY, &tdbv)) {
+		if ( g_plugin.getByte(hContact, ALWAYS_LOG_KEY, 0)) {
+			if (!g_plugin.getString(hContact, FILE_KEY, &tdbv)) {
 				int AmountWspcRem = 0;
 
-				if (!db_get_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, 0)) {
+				if (!g_plugin.getByte(hContact, SAVE_AS_RAW_KEY, 0)) {
 					CodetoSymbol(tempraw);
 					Sleep(100); // avoid 100% CPU
 
@@ -740,7 +740,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 					EraseSymbols(tempraw);
 					Sleep(100); // avoid 100% CPU
 
-					AmountWspcRem = db_get_b(hContact, MODULENAME, RWSPACE_KEY, 0);
+					AmountWspcRem = g_plugin.getByte(hContact, RWSPACE_KEY, 0);
 					RemoveInvis(tempraw, AmountWspcRem);
 					Sleep(100); // avoid 100% CPU
 
@@ -764,14 +764,14 @@ int DataWndAlertCommand(WPARAM wParam, LPARAM)
 		return 0;
 
 	HWND hwndDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DISPLAY_DATA), nullptr, DlgProcDisplayData, hContact);
-	HWND hTopmost = db_get_b(hContact, MODULENAME, ON_TOP_KEY, 0) ? HWND_TOPMOST : HWND_NOTOPMOST;
+	HWND hTopmost = g_plugin.getByte(hContact, ON_TOP_KEY, 0) ? HWND_TOPMOST : HWND_NOTOPMOST;
 	SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) ((HICON) LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_STICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0)));
 	if ( g_plugin.getByte(SAVE_INDIVID_POS_KEY, 0))
 		SetWindowPos(hwndDlg, hTopmost,
-			db_get_dw(hContact, MODULENAME, "WVx", 100), // Xposition,
-			db_get_dw(hContact, MODULENAME, "WVy", 100), // Yposition,
-			db_get_dw(hContact, MODULENAME, "WVwidth", 100), // WindowWidth,
-			db_get_dw(hContact, MODULENAME, "WVheight", 100), 0); // WindowHeight,
+			g_plugin.getDword(hContact, "WVx", 100), // Xposition,
+			g_plugin.getDword(hContact, "WVy", 100), // Yposition,
+			g_plugin.getDword(hContact, "WVwidth", 100), // WindowWidth,
+			g_plugin.getDword(hContact, "WVheight", 100), 0); // WindowHeight,
 	else
 		SetWindowPos(hwndDlg, HWND_TOPMOST, Xposition, Yposition, WindowWidth, WindowHeight, 0);
 
@@ -798,7 +798,7 @@ void ReadFromFile(void *param)
 		db_free(&dbv);
 	}
 
-	if ( db_get_s(hContact, MODULENAME, CACHE_FILE_KEY, &dbv))
+	if ( g_plugin.getString(hContact, CACHE_FILE_KEY, &dbv))
 		return;
 
 	FILE *pfile;
@@ -830,7 +830,7 @@ void ReadFromFile(void *param)
 		EraseSymbols(truncated);
 		Sleep(100); // avoid 100% CPU
 
-		AmountWspcRem = db_get_b(hContact, MODULENAME, RWSPACE_KEY, 0);
+		AmountWspcRem = g_plugin.getByte(hContact, RWSPACE_KEY, 0);
 		RemoveInvis(truncated, AmountWspcRem);
 		Sleep(100); // avoid 100% CPU
 

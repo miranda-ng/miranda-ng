@@ -1011,11 +1011,11 @@ static INT_PTR nShareNewFile(WPARAM hContact, LPARAM lParam)
 			if (!stNewShare.dwAllowedIP)
 				stNewShare.dwAllowedIP = db_get_dw(hContact, dbv.pszVal, "RealIP", 0);
 			if (!stNewShare.dwAllowedIP)
-				stNewShare.dwAllowedIP = db_get_dw(hContact, MODULENAME, "LastUsedIP", 0);
+				stNewShare.dwAllowedIP = g_plugin.getDword(hContact, "LastUsedIP", 0);
 		}
 		db_free(&dbv);
 
-		stNewShare.dwAllowedMask = db_get_dw(hContact, MODULENAME, "LastUsedMask", 0);
+		stNewShare.dwAllowedMask = g_plugin.getDword(hContact, "LastUsedMask", 0);
 	}
 
 	if (!stNewShare.dwAllowedMask) {
@@ -1029,14 +1029,14 @@ static INT_PTR nShareNewFile(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	if (stNewShare.dwAllowedIP)
-		db_set_dw(hContact, MODULENAME, "LastUsedIP", stNewShare.dwAllowedIP);
+		g_plugin.setDword(hContact, "LastUsedIP", stNewShare.dwAllowedIP);
 	else
-		db_unset(hContact, MODULENAME, "LastUsedIP");
+		g_plugin.delSetting(hContact, "LastUsedIP");
 
 	if (stNewShare.dwAllowedMask && stNewShare.dwAllowedMask != 0xFFFFFFFF)
-		db_set_dw(hContact, MODULENAME, "LastUsedMask", stNewShare.dwAllowedMask);
+		g_plugin.setDword(hContact, "LastUsedMask", stNewShare.dwAllowedMask);
 	else
-		db_unset(hContact, MODULENAME, "LastUsedMask");
+		g_plugin.delSetting(hContact, "LastUsedMask");
 
 	SendLinkToUser(hContact, stNewShare.pszSrvPath);
 	return 0;

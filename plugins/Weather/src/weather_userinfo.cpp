@@ -131,7 +131,7 @@ static INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 		// set icons
 		Window_FreeIcon_IcoLib(hwndDlg);
-		Window_SetProtoIcon_IcoLib(hwndDlg, MODULENAME, db_get_w(hContact, MODULENAME, "StatusIcon", 0));
+		Window_SetProtoIcon_IcoLib(hwndDlg, MODULENAME, g_plugin.getWord(hContact, "StatusIcon", 0));
 
 		RedrawWindow(GetDlgItem(hwndDlg, IDC_HEADERBAR), nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
 		break;

@@ -83,10 +83,10 @@ extern "C" {
 		MCONTACT hContact = (UINT_PTR)opdata;
 		DWORD pol;
 		if (hContact) {
-			pol = db_get_dw(hContact, MODULENAME, "Policy", CONTACT_DEFAULT_POLICY);
+			pol = g_plugin.getDword(hContact, "Policy", CONTACT_DEFAULT_POLICY);
 			if (options.bHaveSecureIM && pol != OTRL_POLICY_MANUAL_MOD && pol != OTRL_POLICY_NEVER && db_get_b(hContact, "SecureIM", "StatusID", 0)) {
 				// if SecureIM is not disabled for this contact, MirOTR will be set to manual
-				db_set_dw(hContact, MODULENAME, "Policy", OTRL_POLICY_MANUAL_MOD);
+				g_plugin.setDword(hContact, "Policy", OTRL_POLICY_MANUAL_MOD);
 				return OTRL_POLICY_MANUAL_MOD;
 			}
 			if (pol != CONTACT_DEFAULT_POLICY) return pol;

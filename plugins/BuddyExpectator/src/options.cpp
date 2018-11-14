@@ -247,8 +247,8 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 
 			// clear all notified settings
 			for (auto &hContact : Contacts())
-				if (db_get_b(hContact, MODULENAME, "StillAbsentNotified", 0))
-					db_set_b(hContact, MODULENAME, "StillAbsentNotified", 0);
+				if (g_plugin.getByte(hContact, "StillAbsentNotified", 0))
+					g_plugin.setByte(hContact, "StillAbsentNotified", 0);
 
 			// restart timer & run check
 			KillTimer(nullptr, timer_id);
@@ -504,10 +504,10 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 				MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lparam)->lParam;
 				if (hContact)
 				{
-					db_set_dw(hContact, MODULENAME, "iAbsencePeriod", GetDlgItemInt(hdlg, IDC_EDITABSENCE, nullptr, FALSE));
-					db_set_b(hContact, MODULENAME, "MissYou", (IsDlgButtonChecked(hdlg, IDC_CHECK_MISSYOU) == BST_CHECKED) ? 1 : 0);
-					db_set_b(hContact, MODULENAME, "MissYouNotifyAlways", (IsDlgButtonChecked(hdlg, IDC_CHECK_NOTIFYALWAYS) == BST_CHECKED) ? 1 : 0);
-					db_set_b(hContact, MODULENAME, "NeverHide", (IsDlgButtonChecked(hdlg, IDC_CHECK_NEVERHIDE) == BST_CHECKED) ? 1 : 0);
+					g_plugin.setDword(hContact, "iAbsencePeriod", GetDlgItemInt(hdlg, IDC_EDITABSENCE, nullptr, FALSE));
+					g_plugin.setByte(hContact, "MissYou", (IsDlgButtonChecked(hdlg, IDC_CHECK_MISSYOU) == BST_CHECKED) ? 1 : 0);
+					g_plugin.setByte(hContact, "MissYouNotifyAlways", (IsDlgButtonChecked(hdlg, IDC_CHECK_NOTIFYALWAYS) == BST_CHECKED) ? 1 : 0);
+					g_plugin.setByte(hContact, "NeverHide", (IsDlgButtonChecked(hdlg, IDC_CHECK_NEVERHIDE) == BST_CHECKED) ? 1 : 0);
 				}
 				break;
 			}

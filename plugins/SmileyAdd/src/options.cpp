@@ -594,7 +594,7 @@ void OptionsType::WriteCustomCategories(const CMStringW &cats)
 
 void OptionsType::ReadContactCategory(MCONTACT hContact, CMStringW &cats)
 {
-	ptrW tszValue(db_get_wsa(hContact, MODULENAME, "CustomCategory"));
+	ptrW tszValue(g_plugin.getWStringA(hContact, "CustomCategory"));
 	if (tszValue != NULL)
 		cats = tszValue;
 }
@@ -602,9 +602,9 @@ void OptionsType::ReadContactCategory(MCONTACT hContact, CMStringW &cats)
 void OptionsType::WriteContactCategory(MCONTACT hContact, const CMStringW &cats)
 {
 	if (cats.IsEmpty())
-		db_unset(hContact, MODULENAME, "CustomCategory");
+		g_plugin.delSetting(hContact, "CustomCategory");
 	else
-		db_set_ws(hContact, MODULENAME, "CustomCategory", cats.c_str());
+		g_plugin.setWString(hContact, "CustomCategory", cats.c_str());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

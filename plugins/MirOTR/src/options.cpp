@@ -559,8 +559,8 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 					PROTOACCOUNT *pa = Proto_GetAccount(proto);
 					ListView_SetItemText(lv, lvI.iItem, 1, pa->tszAccountName);
 
-					ListView_SetItemText(lv, lvI.iItem, 2, (wchar_t*)policy_to_string((OtrlPolicy)db_get_dw(hContact, MODULENAME, "Policy", CONTACT_DEFAULT_POLICY)));
-					ListView_SetItemText(lv, lvI.iItem, 3, (db_get_b(hContact, MODULENAME, "HTMLConv", 0)) ? TranslateW(LANG_YES) : TranslateW(LANG_NO));
+					ListView_SetItemText(lv, lvI.iItem, 2, (wchar_t*)policy_to_string((OtrlPolicy)g_plugin.getDword(hContact, "Policy", CONTACT_DEFAULT_POLICY)));
+					ListView_SetItemText(lv, lvI.iItem, 3, (g_plugin.getByte(hContact, "HTMLConv", 0)) ? TranslateW(LANG_YES) : TranslateW(LANG_NO));
 				}
 			}
 		}
