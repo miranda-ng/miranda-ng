@@ -377,7 +377,7 @@ static wchar_t* GetAwayMessageFormat(int iStatus, const char *szProto)
 	return format;
 }
 
-void DBWriteMessage(char *szSetting, wchar_t *tszMsg)
+static void DBWriteMessage(const char *szSetting, const wchar_t *tszMsg)
 {
 	if (tszMsg && mir_wstrlen(tszMsg))
 		g_plugin.setWString(szSetting, tszMsg);
@@ -385,7 +385,7 @@ void DBWriteMessage(char *szSetting, wchar_t *tszMsg)
 		g_plugin.delSetting(szSetting);
 }
 
-void SaveMessageToDB(const char *szProto, wchar_t *tszMsg, BOOL bIsFormat)
+static void SaveMessageToDB(const char *szProto, const wchar_t *tszMsg, BOOL bIsFormat)
 {
 	char szSetting[80];
 
@@ -1351,19 +1351,22 @@ static int OnIdleChanged(WPARAM, LPARAM lParam)
 		if (iCurrentStatus < ID_STATUS_ONLINE || iCurrentStatus == ID_STATUS_INVISIBLE)
 			continue;
 
-		if ((lParam & IDF_ISIDLE && (db_get_b(0, "AutoAway", pa->szModuleName, 0) ||
-			iCurrentStatus == ID_STATUS_ONLINE || iCurrentStatus == ID_STATUS_FREECHAT)) ||
-			(!(lParam & IDF_ISIDLE) && !mii.aaLock)) {
-			if (!(lParam & IDF_ISIDLE))
-				iStatus = ID_STATUS_ONLINE;
-			wchar_t *tszMsg = GetAwayMessage(iStatus, pa->szModuleName, FALSE, NULL);
-			wchar_t *tszVarsMsg = InsertVarsIntoMsg(tszMsg, pa->szModuleName, iStatus, NULL);
-			SaveMessageToDB(pa->szModuleName, tszMsg, TRUE);
-			SaveMessageToDB(pa->szModuleName, tszVarsMsg, FALSE);
-			mir_free(tszMsg);
-			mir_free(tszVarsMsg);
+		// we're entering idle
+		if (lParam & IDF_ISIDLE) {
+			if (!db_get_b(0, "AutoAway", pa->szModuleName, 0) && iCurrentStatus != ID_STATUS_ONLINE && iCurrentStatus != ID_STATUS_FREECHAT)
+				return 0;
 		}
-}
+		else {
+			// if new status shall not be changed, do nothing, else switch the status to ONLINE
+			if (mii.aaLock)
+				return 0;
+			iStatus = ID_STATUS_ONLINE;
+		}
+			
+		ptrW tszMsg(GetAwayMessage(iStatus, pa->szModuleName, FALSE, 0));
+		SaveMessageToDB(pa->szModuleName, tszMsg, TRUE);
+		SaveMessageToDB(pa->szModuleName, ptrW(InsertVarsIntoMsg(tszMsg, pa->szModuleName, iStatus, 0)), FALSE);
+	}
 
 	return 0;
 }
@@ -1371,11 +1374,11 @@ static int OnIdleChanged(WPARAM, LPARAM lParam)
 static int CSStatusChange(WPARAM wParam, LPARAM iCount)
 {
 	PROTOCOLSETTINGEX **ps = *(PROTOCOLSETTINGEX***)wParam;
+	if (ps == nullptr)
+		return -1;
+
 	int status_mode;
 	char szSetting[80];
-	wchar_t *msg = nullptr;
-
-	if (ps == nullptr) return -1;
 
 	for (int i = 0; i < iCount; ++i) {
 		if (ps[i]->m_szName == nullptr || !*ps[i]->m_szName) continue;
@@ -1395,7 +1398,6 @@ static int CSStatusChange(WPARAM wParam, LPARAM iCount)
 		if (ps[i]->m_szMsg) {
 			char buff[80];
 			bool found = false;
-			wchar_t *szMsgW = mir_wstrdup(ps[i]->m_szMsg);
 
 #ifdef _DEBUG
 			g_plugin.debugLogA("CSStatusChange(): Set \"%s\" status message for %s.", ps[i]->m_szMsg, ps[i]->m_szName);
@@ -1403,17 +1405,14 @@ static int CSStatusChange(WPARAM wParam, LPARAM iCount)
 			int max_hist_msgs = g_plugin.getByte("MaxHist", 10);
 			for (int j = 1; j <= max_hist_msgs; j++) {
 				mir_snprintf(buff, "SMsg%d", j);
-				wchar_t *tszStatusMsg = g_plugin.getWStringA(buff);
+				ptrW tszStatusMsg(g_plugin.getWStringA(buff));
 				if (tszStatusMsg != nullptr) {
-					if (!mir_wstrcmp(tszStatusMsg, szMsgW)) {
+					if (!mir_wstrcmp(tszStatusMsg, ps[i]->m_szMsg)) {
 						found = true;
 						mir_snprintf(szSetting, "Last%sMsg", ps[i]->m_szName);
 						g_plugin.setString(szSetting, buff);
-						mir_free(tszStatusMsg);
 						break;
 					}
-					else
-						mir_free(tszStatusMsg);
 				}
 			}
 
@@ -1425,20 +1424,16 @@ static int CSStatusChange(WPARAM wParam, LPARAM iCount)
 
 			mir_snprintf(szSetting, "%sMsg", ps[i]->m_szName);
 
-			db_set_ws(0, "SRAway", StatusModeToDbSetting(status_mode, szSetting), szMsgW);
-			msg = InsertVarsIntoMsg(szMsgW, ps[i]->m_szName, status_mode, NULL);
-			SaveMessageToDB(ps[i]->m_szName, szMsgW, TRUE);
-			mir_free(szMsgW);
-
-			SaveMessageToDB(ps[i]->m_szName, msg, FALSE);
-			mir_free(msg);
+			db_set_ws(0, "SRAway", StatusModeToDbSetting(status_mode, szSetting), ps[i]->m_szMsg);
+			SaveMessageToDB(ps[i]->m_szName, ps[i]->m_szMsg, TRUE);
+			SaveMessageToDB(ps[i]->m_szName, ptrW(InsertVarsIntoMsg(ps[i]->m_szMsg, ps[i]->m_szName, status_mode, 0)), FALSE);
+		}
 	}
-}
 
 	return 0;
 }
 
-static wchar_t *ParseWinampSong(ARGUMENTSINFO *ai)
+static wchar_t* ParseWinampSong(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1)
 		return nullptr;
@@ -1456,7 +1451,7 @@ static wchar_t *ParseWinampSong(ARGUMENTSINFO *ai)
 	return ptszWinampTitle;
 }
 
-static wchar_t *ParseDate(ARGUMENTSINFO *ai)
+static wchar_t* ParseDate(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1)
 		return nullptr;
@@ -1652,16 +1647,18 @@ static int OnPreShutdown(WPARAM, LPARAM)
 		return 0;
 
 	AwayMsgPreShutdown();
-	if (hwndSAMsgDialog) DestroyWindow(hwndSAMsgDialog);
-	if (hProtoStatusMenuItem) mir_free(hProtoStatusMenuItem);
-	if (g_uSetStatusTimer) mir_free(g_uSetStatusTimer);
-	if (g_ptszWinampSong) mir_free(g_ptszWinampSong);
-	if (g_uUpdateMsgTimer) KillTimer(nullptr, g_uUpdateMsgTimer);
 
+	if (hwndSAMsgDialog)
+		DestroyWindow(hwndSAMsgDialog);
+	mir_free(hProtoStatusMenuItem);
+	mir_free(g_uSetStatusTimer);
+	mir_free(g_ptszWinampSong);
+	if (g_uUpdateMsgTimer)
+		KillTimer(nullptr, g_uUpdateMsgTimer);
 	return 0;
 }
 
-//remember to mir_free() the return value
+// remember to mir_free() the return value
 static INT_PTR sttGetAwayMessageT(WPARAM wParam, LPARAM lParam)
 {
 	return (INT_PTR)GetAwayMessage((int)wParam, (char *)lParam, TRUE, NULL);
