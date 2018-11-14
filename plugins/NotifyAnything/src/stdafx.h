@@ -21,8 +21,6 @@
 #include "resource.h"
 #include "version.h"
 
-#define MODULENAME "NotifyAnything"
-
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();

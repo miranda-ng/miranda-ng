@@ -16,8 +16,6 @@
 #include "resource.h"
 #include "version.h"
 
-#define MODULENAME "StatusChange"
-
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
