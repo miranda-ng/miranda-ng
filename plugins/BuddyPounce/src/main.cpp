@@ -21,7 +21,7 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+	PLUGIN<CMPlugin>("BuddyPounce", pluginInfoEx)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -38,8 +38,8 @@ int MsgAck(WPARAM, LPARAM lParam)
 				// wrtie it to the DB
 				DBEVENTINFO dbei = {};
 				DBVARIANT dbv;
-				int reuse = db_get_b(ack->hContact, MODULENAME, "Reuse", 0);
-				if (!db_get_ws(ack->hContact, MODULENAME, "PounceMsg", &dbv) && (dbv.pwszVal[0] != '\0')) {
+				int reuse = g_plugin.getByte(ack->hContact, "Reuse");
+				if (!g_plugin.getWString(ack->hContact, "PounceMsg", &dbv) && (dbv.pwszVal[0] != '\0')) {
 					T2Utf pszUtf(dbv.pwszVal);
 					dbei.eventType = EVENTTYPE_MESSAGE;
 					dbei.flags = DBEF_UTF | DBEF_SENT;
@@ -51,10 +51,10 @@ int MsgAck(WPARAM, LPARAM lParam)
 				}
 				// check to reuse
 				if (reuse > 1)
-					db_set_b(ack->hContact, MODULENAME, "Reuse", (BYTE)(reuse - 1));
+					g_plugin.setByte(ack->hContact, "Reuse", (BYTE)(reuse - 1));
 				else {
-					db_set_b(ack->hContact, MODULENAME, "Reuse", 0);
-					db_set_ws(ack->hContact, MODULENAME, "PounceMsg", L"");
+					g_plugin.setByte(ack->hContact, "Reuse", 0);
+					g_plugin.setWString(ack->hContact, "PounceMsg", L"");
 				}
 			}
 			WindowList_Remove(hWindowList, (HWND)ack->hProcess);
