@@ -793,7 +793,7 @@ void HandleDatabaseCommand(PCommand command, TArgument *argv, int argc, PReply r
 				wchar_t *module = argv[3];
 				wchar_t *key = argv[4];
 
-				db_unset(NULL, _T2A(module), _T2A(key));
+				db_unset(0, _T2A(module), _T2A(key));
 
 				reply->code = MIMRES_SUCCESS;
 				mir_snwprintf(reply->message, TranslateT("Setting '%s/%s' deleted."), module, key);

@@ -33,16 +33,16 @@ void CToxProto::BootstrapNodesFromDb(Tox *tox, bool isIPv6)
 	char setting[MAX_PATH];
 	for (int i = 0; i < nodeCount; i++) {
 		mir_snprintf(setting, TOX_SETTINGS_NODE_IPV4, i);
-		ptrA address(db_get_sa(NULL, module, setting));
+		ptrA address(db_get_sa(0, module, setting));
 		mir_snprintf(setting, TOX_SETTINGS_NODE_PORT, i);
 		int port = db_get_w(0, module, setting, 33445);
 		mir_snprintf(setting, TOX_SETTINGS_NODE_PKEY, i);
-		ptrA pubKey(db_get_sa(NULL, module, setting));
+		ptrA pubKey(db_get_sa(0, module, setting));
 		BootstrapUdpNode(tox, address, port, pubKey);
 		BootstrapTcpRelay(tox, address, port, pubKey);
 		if (isIPv6) {
 			mir_snprintf(setting, TOX_SETTINGS_NODE_IPV6, i);
-			address = db_get_sa(NULL, module, setting);
+			address = db_get_sa(0, module, setting);
 			BootstrapUdpNode(tox, address, port, pubKey);
 			BootstrapTcpRelay(tox, address, port, pubKey);
 		}

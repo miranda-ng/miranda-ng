@@ -51,7 +51,7 @@ static void StoreDBText(OmegleProto* ppro, HWND hwnd, int idCtrl, const char* sz
 	if (tstr[0] != '\0')
 		db_set_ws(0, ppro->m_szModuleName, szSetting, tstr);
 	else
-		db_unset(NULL, ppro->m_szModuleName, szSetting);
+		db_unset(0, ppro->m_szModuleName, szSetting);
 }
 
 INT_PTR CALLBACK OmegleAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)

@@ -1167,7 +1167,7 @@ bool COtherPrefsDlg::OnApply()
 			if (!pPerf->mText.IsEmpty())
 				m_proto->setWString(pPerf->mSetting.c_str(), pPerf->mText.c_str());
 			else
-				db_unset(NULL, m_proto->m_szModuleName, pPerf->mSetting.c_str());
+				db_unset(0, m_proto->m_szModuleName, pPerf->mSetting.c_str());
 		}
 	}
 	m_proto->WriteSettings(OtherSettings, _countof(OtherSettings));
@@ -1383,7 +1383,7 @@ void CIrcProto::RewriteIgnoreSettings(void)
 	int i = 0;
 	for (;;) {
 		mir_snprintf(settingName, "IGNORE:%d", i++);
-		if (db_unset(NULL, m_szModuleName, settingName))
+		if (db_unset(0, m_szModuleName, settingName))
 			break;
 	}
 
@@ -1688,11 +1688,11 @@ void CIrcProto::InitPrefs(void)
 
 	int x = getDword("SizeOfListBottom", -1);
 	if (x != -1) {
-		db_unset(NULL, m_szModuleName, "SizeOfListBottom");
+		db_unset(0, m_szModuleName, "SizeOfListBottom");
 		setDword("channelList_height", x);
 	}
 	if ((x = getDword("SizeOfListWidth", -1)) != -1) {
-		db_unset(NULL, m_szModuleName, "SizeOfListWidth");
+		db_unset(0, m_szModuleName, "SizeOfListWidth");
 		setDword("channelList_width", x);
 	}
 

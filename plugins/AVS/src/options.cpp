@@ -48,7 +48,7 @@ static void RemoveProtoPic(protoPicCacheEntry *pce)
 	if (pce == nullptr)
 		return;
 
-	db_unset(NULL, PPICT_MODULE, pce->szProtoname);
+	db_unset(0, PPICT_MODULE, pce->szProtoname);
 
 	// common for all accounts
 	if (pce->cacheType == PCE_TYPE_GLOBAL) {

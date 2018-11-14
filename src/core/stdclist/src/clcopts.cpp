@@ -375,12 +375,12 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					COLORREF col;
 					col = SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_GETCOLOUR, 0, 0);
 					if (col == CLCDEFAULT_BKCOLOUR)
-						db_unset(NULL, "CLC", "BkColour");
+						db_unset(0, "CLC", "BkColour");
 					else
 						db_set_dw(0, "CLC", "BkColour", col);
 					col = SendDlgItemMessage(hwndDlg, IDC_SELCOLOUR, CPM_GETCOLOUR, 0, 0);
 					if (col == CLCDEFAULT_SELBKCOLOUR)
-						db_unset(NULL, "CLC", "SelBkColour");
+						db_unset(0, "CLC", "SelBkColour");
 					else
 						db_set_dw(0, "CLC", "SelBkColour", col);
 					db_set_b(0, "CLC", "UseWinColours", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_WINCOLOUR)));

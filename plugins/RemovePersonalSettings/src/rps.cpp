@@ -224,14 +224,14 @@ void DeleteSettingEx(const char *szModule, const char *szSetting)
 			// Delete then
 			szSetting = dms.buffer;
 			while (szSetting[0] != '\0') {
-				db_unset(NULL, szModule, szSetting);
+				db_unset(0, szModule, szSetting);
 
 				// Get next one
 				szSetting += mir_strlen(szSetting) + 1;
 			}
 		}
 		else {
-			db_unset(NULL, szModule, szSetting);
+			db_unset(0, szModule, szSetting);
 		}
 	}
 }

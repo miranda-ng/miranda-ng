@@ -39,7 +39,7 @@ public:
 	virtual void MemToWnd(HWND hWnd) { EnableWindow(GetDlgItem(hWnd, m_dlgItemID), m_bEnabled); }
 	void DBToMemToWnd(const CString &sModule, HWND hWnd, CString *sDBSettingPrefix = nullptr) { DBToMem(sModule, sDBSettingPrefix); MemToWnd(hWnd); }
 	void WndToMemToDB(HWND hWnd, const CString &sModule, CString *sDBSettingPrefix = nullptr) { WndToMem(hWnd); MemToDB(sModule, sDBSettingPrefix); }
-	virtual void CleanDBSettings(const CString &sModule, CString *sDBSettingPrefix = nullptr) { db_unset(NULL, sModule, sDBSettingPrefix ? (*sDBSettingPrefix + sDBSetting) : sDBSetting); }; // TODO: also set m_value to m_defValue?
+	virtual void CleanDBSettings(const CString &sModule, CString *sDBSettingPrefix = nullptr) { db_unset(0, sModule, sDBSettingPrefix ? (*sDBSettingPrefix + sDBSetting) : sDBSetting); }; // TODO: also set m_value to m_defValue?
 
 	virtual void SetValue(INT_PTR) { m_bModified = true; }
 	virtual void SetDefValue(INT_PTR) {}

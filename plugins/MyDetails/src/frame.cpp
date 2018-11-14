@@ -296,7 +296,7 @@ int CreateFrame()
 			if (flags & F_VISIBLE)
 				CallService(MS_CLIST_FRAMES_SHFRAME, frame_id, 0);
 
-			db_unset(NULL, "MyDetails", "ForceHideFrame");
+			db_unset(0, "MyDetails", "ForceHideFrame");
 		}
 
 		if (db_get_b(0, "MyDetails", "ForceShowFrame", 0)) {
@@ -304,7 +304,7 @@ int CreateFrame()
 			if (!(flags & F_VISIBLE))
 				CallService(MS_CLIST_FRAMES_SHFRAME, frame_id, 0);
 
-			db_unset(NULL, "MyDetails", "ForceShowFrame");
+			db_unset(0, "MyDetails", "ForceShowFrame");
 		}
 	}
 	else {

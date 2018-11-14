@@ -5,7 +5,7 @@ int readFileIntoArray(int fileNumber, char *FileContents[])
 	char dbSetting[20], temp[MAX_STRING_LENGTH];
 	mir_snprintf(dbSetting, "fn%d", fileNumber);
 
-	char *szVar = db_get_sa(NULL, MODNAME, dbSetting);
+	char *szVar = db_get_sa(0, MODNAME, dbSetting);
 	if (szVar == nullptr)
 		return 0;
 
@@ -400,7 +400,7 @@ int lastChecked(CMStringA &szNewStr, const char *str)
 		sscanf(&str[cbPattern], "%d", &file);
 		mir_snprintf(szSetting, "fn%d", file);
 
-		char *szVar = db_get_sa(NULL, MODNAME, szSetting);
+		char *szVar = db_get_sa(0, MODNAME, szSetting);
 		if (szVar == nullptr)
 			return 0;
 

@@ -1268,7 +1268,7 @@ void CIcqProto::removeGroupPathLinks(WORD wGroupID)
 		while (list) {
 			void* bet;
 
-			db_unset(NULL, szModule, list[1]);
+			db_unset(0, szModule, list[1]);
 			SAFE_FREE((void**)&list[1]);
 			bet = list;
 			list = (char**)list[0];
@@ -1292,7 +1292,7 @@ char* CIcqProto::getServListGroupName(WORD wGroupID)
 
 	if (!CheckServerID(wGroupID, 0)) { // check if valid id, if not give empty and remove
 		debugLogA("Removing group %u from cache...", wGroupID);
-		db_unset(NULL, szModule, szGroup);
+		db_unset(0, szModule, szGroup);
 		return nullptr;
 	}
 
@@ -1315,7 +1315,7 @@ void CIcqProto::setServListGroupName(WORD wGroupID, const char *szGroupName)
 	if (szGroupName)
 		db_set_utf(NULL, szModule, szGroup, szGroupName);
 	else {
-		db_unset(NULL, szModule, szGroup);
+		db_unset(0, szModule, szGroup);
 		removeGroupPathLinks(wGroupID);
 	}
 }
@@ -1329,7 +1329,7 @@ WORD CIcqProto::getServListGroupLinkID(const char *szPath)
 
 	if (wGroupId && !CheckServerID(wGroupId, 0)) { // known, check if still valid, if not remove
 		debugLogA("Removing group \"%s\" from cache...", szPath);
-		db_unset(NULL, szModule, szPath);
+		db_unset(0, szModule, szPath);
 		wGroupId = 0;
 	}
 
@@ -1344,7 +1344,7 @@ void CIcqProto::setServListGroupLinkID(const char *szPath, WORD wGroupID)
 	if (wGroupID)
 		db_set_w(0, szModule, szPath, wGroupID);
 	else
-		db_unset(NULL, szModule, szPath);
+		db_unset(0, szModule, szPath);
 }
 
 // determine if the specified clist group path exists

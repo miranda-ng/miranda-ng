@@ -1832,7 +1832,7 @@ void LoadCLUIModule(void)
 		MessageBox(nullptr,
 			TranslateT("You need the FloatingContacts plugin, cause the embedded floating contacts were removed."),
 			TranslateT("Warning"), MB_OK | MB_ICONWARNING);
-		db_unset(NULL, "CLUI", "FloaterMode");
+		db_unset(0, "CLUI", "FloaterMode");
 	}
 	
 	MF_InitCheck();

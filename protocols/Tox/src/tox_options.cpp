@@ -539,13 +539,13 @@ bool CToxOptionsNodeList::OnApply()
 	int nodeCount = db_get_b(0, module, TOX_SETTINGS_NODE_COUNT, 0);
 	for (iItem = itemCount; iItem < nodeCount; iItem++) {
 		mir_snprintf(setting, TOX_SETTINGS_NODE_IPV4, iItem);
-		db_unset(NULL, module, setting);
+		db_unset(0, module, setting);
 		mir_snprintf(setting, TOX_SETTINGS_NODE_IPV6, iItem);
-		db_unset(NULL, module, setting);
+		db_unset(0, module, setting);
 		mir_snprintf(setting, TOX_SETTINGS_NODE_PORT, iItem);
-		db_unset(NULL, module, setting);
+		db_unset(0, module, setting);
 		mir_snprintf(setting, TOX_SETTINGS_NODE_PKEY, iItem);
-		db_unset(NULL, module, setting);
+		db_unset(0, module, setting);
 	}
 	db_set_b(0, module, TOX_SETTINGS_NODE_COUNT, itemCount);
 	return true;

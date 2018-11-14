@@ -146,7 +146,7 @@ void CYandexService::RequestAccessTokenThread(void *param)
 
 void CYandexService::RevokeAccessTokenThread(void*)
 {
-	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
+	ptrA token(db_get_sa(0, GetAccountName(), "TokenSecret"));
 	YandexAPI::RevokeAccessTokenRequest request(token);
 	NLHR_PTR response(request.Send(m_hConnection));
 

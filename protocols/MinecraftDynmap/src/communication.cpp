@@ -353,7 +353,7 @@ void MinecraftDynmapProto::SignOnWorker(void*)
 	int old_status = m_iStatus;
 
 	// Load server from database
-	ptrA str(db_get_sa(NULL, m_szModuleName, MINECRAFTDYNMAP_KEY_SERVER));
+	ptrA str(db_get_sa(0, m_szModuleName, MINECRAFTDYNMAP_KEY_SERVER));
 	if (!str || !str[0]) {
 		MessageBox(nullptr, TranslateT("Set server address to connect."), m_tszUserName, MB_OK);
 		SetStatus(ID_STATUS_OFFLINE);

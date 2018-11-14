@@ -144,7 +144,7 @@ void CGDriveService::RequestAccessTokenThread(void *param)
 
 void CGDriveService::RevokeAccessTokenThread(void*)
 {
-	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
+	ptrA token(db_get_sa(0, GetAccountName(), "TokenSecret"));
 	GDriveAPI::RevokeAccessTokenRequest request(token);
 	NLHR_PTR response(request.Send(m_hConnection));
 

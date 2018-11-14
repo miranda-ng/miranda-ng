@@ -633,16 +633,16 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					if (szBuf) {
 						SendDlgItemMessageA(hwndDlg, IDC_VIEWMODES, LB_GETTEXT, SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_GETCURSEL, 0, 0), (LPARAM)szBuf);
 						mir_snprintf(szSetting, "%c%s_PF", 246, szBuf);
-						db_unset(NULL, CLVM_MODULE, szSetting);
+						db_unset(0, CLVM_MODULE, szSetting);
 						mir_snprintf(szSetting, "%c%s_GF", 246, szBuf);
-						db_unset(NULL, CLVM_MODULE, szSetting);
+						db_unset(0, CLVM_MODULE, szSetting);
 						mir_snprintf(szSetting, "%c%s_SM", 246, szBuf);
-						db_unset(NULL, CLVM_MODULE, szSetting);
+						db_unset(0, CLVM_MODULE, szSetting);
 						mir_snprintf(szSetting, "%c%s_VA", 246, szBuf);
-						db_unset(NULL, CLVM_MODULE, szSetting);
+						db_unset(0, CLVM_MODULE, szSetting);
 						mir_snprintf(szSetting, "%c%s_SSM", 246, szBuf);
-						db_unset(NULL, CLVM_MODULE, szSetting);
-						db_unset(NULL, CLVM_MODULE, szBuf);
+						db_unset(0, CLVM_MODULE, szSetting);
+						db_unset(0, CLVM_MODULE, szBuf);
 						if (!mir_strcmp(cfg::dat.current_viewmode, szBuf) && mir_strlen(szBuf) == mir_strlen(cfg::dat.current_viewmode)) {
 							cfg::dat.bFilterEffective = 0;
 							Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
@@ -1025,7 +1025,7 @@ void ApplyViewMode(const char *name)
 	if (name != nullptr) {
 		char szSetting[256];
 		mir_snprintf(szSetting, "%c%s_PF", 246, name);
-		ptrA szProtos(db_get_sa(NULL, CLVM_MODULE, szSetting));
+		ptrA szProtos(db_get_sa(0, CLVM_MODULE, szSetting));
 		if (mir_strlen(szProtos) >= 2) {
 			strncpy_s(cfg::dat.protoFilter, szProtos, _TRUNCATE);
 			cfg::dat.bFilterEffective |= CLVM_FILTER_PROTOS;

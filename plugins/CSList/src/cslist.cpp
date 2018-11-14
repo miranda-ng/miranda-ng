@@ -254,8 +254,8 @@ void importCustomStatuses(CSWindow* csw, int result)
 		else delete si;
 
 		if (result == IDYES) {
-			db_unset(NULL, protoName, bufTitle);
-			db_unset(NULL, protoName, bufMessage);
+			db_unset(0, protoName, bufTitle);
+			db_unset(0, protoName, bufMessage);
 		}
 	}
 	csw->m_listview->reinitItems(csw->m_itemslist->m_list->getListHead());

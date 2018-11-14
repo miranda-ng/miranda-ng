@@ -180,7 +180,7 @@ void CIrcProto::OnModulesLoaded()
 	wchar_t name[128];
 	mir_snwprintf(name, TranslateT("%s server connection"), m_tszUserName);
 
-	db_unset(NULL, m_szModuleName, "JTemp");
+	db_unset(0, m_szModuleName, "JTemp");
 
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
@@ -245,7 +245,7 @@ void CIrcProto::OnModulesLoaded()
 		for (auto &it : performToConvert) {
 			DBVARIANT dbv;
 			if (!getWString(*it, &dbv)) {
-				db_unset(NULL, m_szModuleName, *it);
+				db_unset(0, m_szModuleName, *it);
 				it->MakeUpper();
 				setWString(*it, dbv.pwszVal);
 				db_free(&dbv);

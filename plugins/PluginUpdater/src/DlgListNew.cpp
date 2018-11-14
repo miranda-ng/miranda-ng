@@ -74,7 +74,7 @@ static void ApplyDownloads(void *param)
 				ListView_SetItemText(hwndList, i, 1, TranslateT("Succeeded."));
 				if (unzip(p.File.tszDiskPath, tszMirandaPath, tszFileBack, false))
 					SafeDeleteFile(p.File.tszDiskPath);  // remove .zip after successful update
-				db_unset(NULL, DB_MODULE_NEW_FILES, _T2A(p.tszOldName));
+				db_unset(0, DB_MODULE_NEW_FILES, _T2A(p.tszOldName));
 			}
 			else
 				ListView_SetItemText(hwndList, i, 1, TranslateT("Failed!"));

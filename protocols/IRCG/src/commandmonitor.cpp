@@ -1394,7 +1394,7 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage *pmsg)
 					else Chat_Control(m_szModuleName, sID, SESSION_INITDONE);
 
 					if (save.IsEmpty())
-						db_unset(NULL, m_szModuleName, "JTemp");
+						db_unset(0, m_szModuleName, "JTemp");
 					else
 						setWString("JTemp", save);
 					db_free(&dbv);
@@ -1828,7 +1828,7 @@ bool CIrcProto::OnIrc_JOINERROR(const CIrcMessage *pmsg)
 			db_free(&dbv);
 
 			if (save.IsEmpty())
-				db_unset(NULL, m_szModuleName, "JTemp");
+				db_unset(0, m_szModuleName, "JTemp");
 			else
 				setWString("JTemp", save);
 		}
@@ -2278,7 +2278,7 @@ void CIrcProto::OnIrcDefault(const CIrcMessage *pmsg)
 void CIrcProto::OnIrcDisconnected()
 {
 	m_statusMessage = L"";
-	db_unset(NULL, m_szModuleName, "JTemp");
+	db_unset(0, m_szModuleName, "JTemp");
 	bTempDisableCheck = false;
 	bTempForceCheck = false;
 	m_iTempCheckTime = 0;

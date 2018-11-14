@@ -233,7 +233,7 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				int count = SendDlgItemMessage(hwnd, IDC_FILE_LIST, CB_GETCOUNT, 0, 0) - 1;
 				if (index == count) {
 					mir_snprintf(fn, "fn%d", index);
-					db_unset(NULL, MODNAME, fn);
+					db_unset(0, MODNAME, fn);
 					SendDlgItemMessage(hwnd, IDC_FILE_LIST, CB_DELETESTRING, index, 0);
 					SendMessage(hwnd, WM_RELOADWINDOW, 0, 0);
 					if (!index) {
@@ -251,7 +251,7 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 						mir_snprintf(fn, "fn%d", ++i);
 					}
 					mir_snprintf(fn, "fn%d", --i);
-					db_unset(NULL, MODNAME, fn);
+					db_unset(0, MODNAME, fn);
 					SendDlgItemMessage(hwnd, IDC_FILE_LIST, CB_DELETESTRING, index, 0);
 					SendMessage(hwnd, WM_RELOADWINDOW, 0, 0);
 				}

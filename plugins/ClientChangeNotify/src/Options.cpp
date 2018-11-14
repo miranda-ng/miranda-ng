@@ -479,7 +479,7 @@ void COptItem_TreeCtrl::CleanDBSettings(const CString &sModule, CString *sDBSett
 	db_enum_settings(NULL, TreeDeleteEnum, sModule, &TreeDeleteEnumData);
 
 	for (int i = 0; i < TreeDeleteEnumData.TreeSettings.GetSize(); i++)
-		db_unset(NULL, sModule, TreeDeleteEnumData.TreeSettings[i]);
+		db_unset(0, sModule, TreeDeleteEnumData.TreeSettings[i]);
 }
 
 int COptItem_TreeCtrl::GetSelectedItemID(HWND hWnd)
@@ -741,7 +741,7 @@ void COptItem_ListCtrl::CleanDBSettings(const CString &sModule, CString *sDBSett
 	db_enum_settings(NULL, ListDeleteEnum, sModule, &ListDeleteEnumData);
 
 	for (int i = 0; i < ListDeleteEnumData.ListSettings.GetSize(); i++)
-		db_unset(NULL, sModule, ListDeleteEnumData.ListSettings[i]);
+		db_unset(0, sModule, ListDeleteEnumData.ListSettings[i]);
 }
 
 int COptItem_ListCtrl::GetSelectedItemID(HWND hWnd)

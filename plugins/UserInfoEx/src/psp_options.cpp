@@ -464,7 +464,7 @@ static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 				if (!Settings.EnumSettings(NULL, "SkinIcons"))
 					for (auto &s : Settings)
 						if (mir_strncmpi(s, "UserInfoEx", 10) == 0)
-							db_unset(NULL, "SkinIcons", s);
+							db_unset(0, "SkinIcons", s);
 
 				// delete global settings
 				DB::Module::Delete(NULL, USERINFO"Ex");
