@@ -28,5 +28,3 @@
 
 #include "resource.h"
 #include "version.h"
-
-#define MODULENAME "Rate"

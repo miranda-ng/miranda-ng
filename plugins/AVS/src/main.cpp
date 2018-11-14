@@ -57,7 +57,7 @@ static PLUGININFOEX pluginInfoEx =
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+	PLUGIN<CMPlugin>("AVS_Settings", pluginInfoEx)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////

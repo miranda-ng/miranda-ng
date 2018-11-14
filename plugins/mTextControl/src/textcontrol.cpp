@@ -32,19 +32,14 @@ struct TextControlData
 
 void MTextControl_RegisterClass()
 {
-	WNDCLASSEX wcl;
+	WNDCLASSEX wcl = {};
 	wcl.cbSize = sizeof(wcl);
 	wcl.lpfnWndProc = MTextControlWndProc;
 	wcl.style = CS_GLOBALCLASS;
-	wcl.cbClsExtra = 0;
-	wcl.cbWndExtra = 0;
 	wcl.hInstance = g_plugin.getInst();
-	wcl.hIcon = nullptr;
 	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
-	wcl.lpszMenuName = nullptr;
-	wcl.lpszClassName = MODULNAMEW;
-	wcl.hIconSm = nullptr;
+	wcl.lpszClassName = L"MTextControl";
 	RegisterClassEx(&wcl);
 }
 

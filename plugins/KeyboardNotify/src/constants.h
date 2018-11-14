@@ -19,7 +19,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #pragma once
 
 // Settings values
-#define MODULENAME "keybdnotify"
 #define FLASH_SAMETIME   0
 #define FLASH_INTURN     1
 #define FLASH_INSEQUENCE 2

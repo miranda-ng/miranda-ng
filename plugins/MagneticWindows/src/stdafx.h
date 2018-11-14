@@ -23,8 +23,6 @@ struct TWorkingVariables
 	bool SnappedX, SnappedY;
 };
 
-#define MODULENAME "MagneticWindows"
-
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();

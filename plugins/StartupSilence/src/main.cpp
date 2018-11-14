@@ -163,7 +163,7 @@ void InitSettings()
 		mir_snprintf(NonStatusAllowComp, "%s_NonStatusAllow", hostname);
 	}
 	//first run on the host, initial setting
-	if (!(delay = db_get_dw(0, MODULENAME, DelayComp, 0)))
+	if (!(delay = g_plugin.getDword(DelayComp, 0)))
 		DefSettings();
 	//or load host settings
 	else LoadSettings();
@@ -186,16 +186,16 @@ void DefSettings()
 
 void LoadSettings()
 {
-	Enabled = g_plugin.getByte(EnabledComp, 0);
-	delay = g_plugin.getDword(DelayComp, 0);
-	PopUp = g_plugin.getByte(PopUpComp, 0);
-	PopUpTime = g_plugin.getDword(PopUpTimeComp, 0);
-	MenuItem = g_plugin.getByte(MenuitemComp, 0);
-	TTBButtons = g_plugin.getByte(TTBButtonsComp, 0);
-	DefSound = g_plugin.getByte(DefSoundComp, 0);
-	DefPopup = g_plugin.getByte(DefPopupComp, 0);
-	DefEnabled = g_plugin.getByte(DefEnabledComp, 0);
-	NonStatusAllow = g_plugin.getByte(NonStatusAllowComp, 0);
+	Enabled = g_plugin.getByte(EnabledComp);
+	delay = g_plugin.getDword(DelayComp);
+	PopUp = g_plugin.getByte(PopUpComp);
+	PopUpTime = g_plugin.getDword(PopUpTimeComp);
+	MenuItem = g_plugin.getByte(MenuitemComp);
+	TTBButtons = g_plugin.getByte(TTBButtonsComp);
+	DefSound = g_plugin.getByte(DefSoundComp);
+	DefPopup = g_plugin.getByte(DefPopupComp);
+	DefEnabled = g_plugin.getByte(DefEnabledComp);
+	NonStatusAllow = g_plugin.getByte(NonStatusAllowComp);
 	if (PopUpTime < 1)
 		PopUpTime = (DWORD)1;
 	if (PopUpTime > 30)
@@ -334,7 +334,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			min = GetDlgItemInt(hwndDlg, IDC_SSTIME, nullptr, FALSE);
 			if (min == 0 && GetWindowTextLength(GetDlgItem(hwndDlg, IDC_SSTIME)))
 				SendDlgItemMessage(hwndDlg, IDC_SSSPIN, UDM_SETPOS, 0, MAKELONG((short)1, 0));
-			delay = (DWORD)db_set_dw(0, MODULENAME, DelayComp, (DWORD)(SendDlgItemMessage(hwndDlg, IDC_SSSPIN, UDM_GETPOS, 0, 0)));
+			delay = db_set_dw(0, MODULENAME, DelayComp, (DWORD)(SendDlgItemMessage(hwndDlg, IDC_SSSPIN, UDM_GETPOS, 0, 0)));
 			break;
 
 		case IDC_SSPOPUPTIME:
@@ -342,7 +342,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			min = GetDlgItemInt(hwndDlg, IDC_SSPOPUPTIME, nullptr, FALSE);
 			if (min == 0 && GetWindowTextLength(GetDlgItem(hwndDlg, IDC_SSPOPUPTIME)))
 				SendDlgItemMessage(hwndDlg, IDC_SSSPIN2, UDM_SETPOS, 0, MAKELONG((short)1, 0));
-			PopUpTime = (DWORD)db_set_dw(0, MODULENAME, PopUpTimeComp, (DWORD)(SendDlgItemMessage(hwndDlg, IDC_SSSPIN2, UDM_GETPOS, 0, 0)));
+			PopUpTime = db_set_dw(0, MODULENAME, PopUpTimeComp, (DWORD)(SendDlgItemMessage(hwndDlg, IDC_SSSPIN2, UDM_GETPOS, 0, 0)));
 			break;
 
 		case IDC_DELAY:
@@ -353,41 +353,41 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (!ServiceExists(MS_POPUP_QUERY)) {
 				MessageBox(nullptr, NEEDPOPUP, NOTICE, MB_OK);
 				CheckDlgButton(hwndDlg, IDC_DELAY2, BST_UNCHECKED);
-				PopUp = (BYTE)db_set_b(0, MODULENAME, PopUpComp, 0);
+				PopUp = db_set_b(0, MODULENAME, PopUpComp, 0);
 			}
-			else PopUp = (BYTE)db_set_b(0, MODULENAME, PopUpComp, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_DELAY2) == BST_CHECKED ? 1 : 0));
+			else PopUp = db_set_b(0, MODULENAME, PopUpComp, IsDlgButtonChecked(hwndDlg, IDC_DELAY2) == BST_CHECKED);
 			break;
 
 		case IDC_MENU:
-			MenuItem = (BYTE)db_set_b(0, MODULENAME, MenuitemComp, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_MENU) == BST_CHECKED ? 1 : 0));
+			MenuItem = db_set_b(0, MODULENAME, MenuitemComp, IsDlgButtonChecked(hwndDlg, IDC_MENU) == BST_CHECKED);
 			break;
 
 		case IDC_TTB:
 			if (!hTTBarloaded) {
 				MessageBox(nullptr, NEEDTTBMOD, NOTICE, MB_OK);
 				CheckDlgButton(hwndDlg, IDC_TTB, BST_UNCHECKED);
-				TTBButtons = (BYTE)db_set_b(0, MODULENAME, TTBButtonsComp, 0);
+				TTBButtons = db_set_b(0, MODULENAME, TTBButtonsComp, 0);
 			}
-			else TTBButtons = (BYTE)db_set_b(0, MODULENAME, TTBButtonsComp, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_TTB) == BST_CHECKED ? 1 : 0));
+			else TTBButtons = db_set_b(0, MODULENAME, TTBButtonsComp, IsDlgButtonChecked(hwndDlg, IDC_TTB) == BST_CHECKED);
 			break;
 
 		case IDC_DEFPOPUP:
-			db_set_b(0, MODULENAME, DefPopupComp, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_DEFPOPUP) == BST_CHECKED ? 1 : 0));
+			g_plugin.setByte(DefPopupComp, IsDlgButtonChecked(hwndDlg, IDC_DEFPOPUP) == BST_CHECKED);
 			DefPopup = g_plugin.getByte(DefPopupComp, 0);
 			break;
 
 		case IDC_DEFSOUNDS:
-			db_set_b(0, MODULENAME, DefSoundComp, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_DEFSOUNDS) == BST_CHECKED ? 1 : 0));
+			g_plugin.setByte(DefSoundComp, IsDlgButtonChecked(hwndDlg, IDC_DEFSOUNDS) == BST_CHECKED);
 			DefSound = g_plugin.getByte(DefSoundComp, 0);
 			break;
 
 		case IDC_RESTORE:
-			db_set_b(0, MODULENAME, DefEnabledComp, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_RESTORE) == BST_CHECKED ? 1 : 0));
+			g_plugin.setByte(DefEnabledComp, IsDlgButtonChecked(hwndDlg, IDC_RESTORE) == BST_CHECKED);
 			DefEnabled = g_plugin.getByte(DefEnabledComp, 0);
 			break;
 
 		case IDC_NONSTATUSES:
-			db_set_b(0, MODULENAME, NonStatusAllowComp, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_NONSTATUSES) == BST_CHECKED ? 1 : 0));
+			g_plugin.setByte(NonStatusAllowComp, IsDlgButtonChecked(hwndDlg, IDC_NONSTATUSES) == BST_CHECKED);
 			NonStatusAllow = g_plugin.getByte(NonStatusAllowComp, 0);
 			break;
 

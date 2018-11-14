@@ -45,8 +45,6 @@
 #include "options.h"
 #include "version.h"
 
-#define MODULENAME     "BuddyExpectator"
-
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();

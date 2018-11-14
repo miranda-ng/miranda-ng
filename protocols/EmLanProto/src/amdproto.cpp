@@ -31,7 +31,7 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(PROTONAME, pluginInfoEx)
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
 {
 	RegisterProtocol(PROTOTYPE_PROTOCOL);
 	SetUniqueId("Nick");
@@ -330,26 +330,26 @@ int CMPlugin::Load()
 {
 	g_lan = new CMLan();
 
-	CreateProtoServiceFunction(PROTONAME, PS_GETCAPS, EMPGetCaps);
-	CreateProtoServiceFunction(PROTONAME, PS_GETNAME, EMPGetName);
-	CreateProtoServiceFunction(PROTONAME, PS_LOADICON, EMPLoadIcon);
-	CreateProtoServiceFunction(PROTONAME, PS_SETSTATUS, EMPSetStatus);
-	CreateProtoServiceFunction(PROTONAME, PS_GETSTATUS, EMPGetStatus);
-	CreateProtoServiceFunction(PROTONAME, PS_BASICSEARCH, EMPBasicSearch);
-	CreateProtoServiceFunction(PROTONAME, PS_ADDTOLIST, EMPAddToList);
-	CreateProtoServiceFunction(PROTONAME, PSS_MESSAGE, EMPSendMessage);
-	CreateProtoServiceFunction(PROTONAME, PSS_URL, EMPSendUrl);
-	CreateProtoServiceFunction(PROTONAME, PSR_MESSAGE, EMPRecvMessageUrl);
-	CreateProtoServiceFunction(PROTONAME, PSR_URL, EMPRecvMessageUrl);
-	CreateProtoServiceFunction(PROTONAME, PSS_GETAWAYMSG, EMPGetAwayMsg);
-	CreateProtoServiceFunction(PROTONAME, PS_SETAWAYMSG, EMPSetAwayMsg);
-	CreateProtoServiceFunction(PROTONAME, PSR_AWAYMSG, EMPRecvAwayMessage);
-	CreateProtoServiceFunction(PROTONAME, PS_FILERESUME, EMPFileResume);
-	CreateProtoServiceFunction(PROTONAME, PSS_FILEALLOW, EMPSendFileAllow);
-	CreateProtoServiceFunction(PROTONAME, PSS_FILEDENY, EMPSendFileDeny);
-	CreateProtoServiceFunction(PROTONAME, PSS_FILECANCEL, EMPSendFileCancel);
-	CreateProtoServiceFunction(PROTONAME, PSS_FILE, EMPSendFile);
-	CreateProtoServiceFunction(PROTONAME, PSR_FILE, EMPRecvFile);
+	CreateProtoServiceFunction(MODULENAME, PS_GETCAPS, EMPGetCaps);
+	CreateProtoServiceFunction(MODULENAME, PS_GETNAME, EMPGetName);
+	CreateProtoServiceFunction(MODULENAME, PS_LOADICON, EMPLoadIcon);
+	CreateProtoServiceFunction(MODULENAME, PS_SETSTATUS, EMPSetStatus);
+	CreateProtoServiceFunction(MODULENAME, PS_GETSTATUS, EMPGetStatus);
+	CreateProtoServiceFunction(MODULENAME, PS_BASICSEARCH, EMPBasicSearch);
+	CreateProtoServiceFunction(MODULENAME, PS_ADDTOLIST, EMPAddToList);
+	CreateProtoServiceFunction(MODULENAME, PSS_MESSAGE, EMPSendMessage);
+	CreateProtoServiceFunction(MODULENAME, PSS_URL, EMPSendUrl);
+	CreateProtoServiceFunction(MODULENAME, PSR_MESSAGE, EMPRecvMessageUrl);
+	CreateProtoServiceFunction(MODULENAME, PSR_URL, EMPRecvMessageUrl);
+	CreateProtoServiceFunction(MODULENAME, PSS_GETAWAYMSG, EMPGetAwayMsg);
+	CreateProtoServiceFunction(MODULENAME, PS_SETAWAYMSG, EMPSetAwayMsg);
+	CreateProtoServiceFunction(MODULENAME, PSR_AWAYMSG, EMPRecvAwayMessage);
+	CreateProtoServiceFunction(MODULENAME, PS_FILERESUME, EMPFileResume);
+	CreateProtoServiceFunction(MODULENAME, PSS_FILEALLOW, EMPSendFileAllow);
+	CreateProtoServiceFunction(MODULENAME, PSS_FILEDENY, EMPSendFileDeny);
+	CreateProtoServiceFunction(MODULENAME, PSS_FILECANCEL, EMPSendFileCancel);
+	CreateProtoServiceFunction(MODULENAME, PSS_FILE, EMPSendFile);
+	CreateProtoServiceFunction(MODULENAME, PSR_FILE, EMPRecvFile);
 
 	HookEvent(ME_OPT_INITIALISE, EMPCreateOptionsDlg);
 	return 0;

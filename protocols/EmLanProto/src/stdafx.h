@@ -23,7 +23,7 @@
 #include "lan.h"
 #include "mlan.h"
 
-#define PROTONAME "EM_LAN_PROTO"
+#define MODULENAME "EM_LAN_PROTO"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {

@@ -475,7 +475,7 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 			SetDlgItemText(hdlg, IDC_EDIT_LASTINPUT, tmpBuf);
 		}
 
-		unsigned int AbsencePeriod = db_get_dw((MCONTACT)lparam, MODULENAME, "iAbsencePeriod", options.iAbsencePeriod);
+		unsigned int AbsencePeriod = g_plugin.getDword(lparam, "iAbsencePeriod", options.iAbsencePeriod);
 
 		SendDlgItemMessage(hdlg, IDC_SPINABSENCE, UDM_SETRANGE, 0, MAKELONG(999, 1));
 		SetDlgItemInt(hdlg, IDC_EDITABSENCE, AbsencePeriod, FALSE);
@@ -485,9 +485,9 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 		else
 			SetDlgItemText(hdlg, IDC_EDIT_WILLNOTICE, L"");
 
-		CheckDlgButton(hdlg, IDC_CHECK_MISSYOU, db_get_b((MCONTACT)lparam, MODULENAME, "MissYou", 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_CHECK_NOTIFYALWAYS, db_get_b((MCONTACT)lparam, MODULENAME, "MissYouNotifyAlways", 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_CHECK_NEVERHIDE, db_get_b((MCONTACT)lparam, MODULENAME, "NeverHide", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_CHECK_MISSYOU, g_plugin.getByte(lparam, "MissYou") ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_CHECK_NOTIFYALWAYS, g_plugin.getByte(lparam, "MissYouNotifyAlways") ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_CHECK_NEVERHIDE, g_plugin.getByte(lparam, "NeverHide") ? BST_CHECKED : BST_UNCHECKED);
 
 		TranslateDialogDefault(hdlg);
 		return TRUE;

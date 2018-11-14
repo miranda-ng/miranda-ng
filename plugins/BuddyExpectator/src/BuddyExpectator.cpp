@@ -61,7 +61,7 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+	PLUGIN<CMPlugin>("BuddyExpectator", pluginInfoEx)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -106,7 +106,7 @@ LRESULT CALLBACK HidePopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
 		break;
 
 	case WM_CONTEXTMENU:
-		db_set_b(PUGetContact(hWnd), MODULENAME, "NeverHide", 1);
+		g_plugin.setByte(PUGetContact(hWnd), "NeverHide", 1);
 		PUDeletePopup(hWnd);
 		break;
 
@@ -116,7 +116,7 @@ LRESULT CALLBACK HidePopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
 			PUDeletePopup(hWnd);
 		}
 		if (wParam == 3) {
-			db_set_b(PUGetContact(hWnd), MODULENAME, "NeverHide", 1);
+			g_plugin.setByte(PUGetContact(hWnd), "NeverHide", 1);
 			PUDeletePopup(hWnd);
 		}
 		break;
@@ -133,8 +133,8 @@ LRESULT CALLBACK MissYouPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	case WM_COMMAND:
 		if (HIWORD(wParam) == STN_CLICKED) {
 			CallServiceSync("BuddyExpectator/actionMissYou", (WPARAM)PUGetContact(hWnd), 0);
-			if (!db_get_b(PUGetContact(hWnd), MODULENAME, "MissYouNotifyAlways", 0)) {
-				db_set_b(PUGetContact(hWnd), MODULENAME, "MissYou", 0);
+			if (!g_plugin.getByte(PUGetContact(hWnd), "MissYouNotifyAlways", 0)) {
+				g_plugin.setByte(PUGetContact(hWnd), "MissYou", 0);
 				ExtraIcon_Clear(hExtraIcon, PUGetContact(hWnd));
 			}
 			PUDeletePopup(hWnd);
@@ -147,7 +147,7 @@ LRESULT CALLBACK MissYouPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 
 	case UM_POPUPACTION:
 		if (wParam == 1) {
-			db_set_b(PUGetContact(hWnd), MODULENAME, "MissYou", 0);
+			g_plugin.setByte(PUGetContact(hWnd), "MissYou", 0);
 			ExtraIcon_Clear(hExtraIcon, PUGetContact(hWnd));
 			PUDeletePopup(hWnd);
 		}

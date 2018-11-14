@@ -49,7 +49,7 @@
 
 // Internal defines
 #define SPLASH_CLASS L"MirandaSplash"
-#define MODULENAME "SplashScreen"
+
 #define WM_LOADED (WM_USER + 10)
 
 struct CMPlugin : public PLUGIN<CMPlugin>

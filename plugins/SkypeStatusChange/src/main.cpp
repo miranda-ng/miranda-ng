@@ -33,7 +33,7 @@ static PLUGININFOEX pluginInfoEx =
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+	PLUGIN<CMPlugin>("Change Skype Status", pluginInfoEx)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////

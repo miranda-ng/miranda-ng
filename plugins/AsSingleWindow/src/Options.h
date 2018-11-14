@@ -1,7 +1,5 @@
 #pragma once
 
-#define MODULENAME "AsSingleWindow"
-
 int InitOptions(WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK cbOptionsDialog(HWND, UINT, WPARAM, LPARAM);
 

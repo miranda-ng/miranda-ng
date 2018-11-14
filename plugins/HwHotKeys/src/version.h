@@ -35,5 +35,3 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111 - 1307, USA.
 #define __AUTHORWEB        "http://f2065.narod.ru/" // описание плагина в dll-fileinfo "CompanyName", описание плагина в миранде
 #define __COPYRIGHT        "© 2010-18 Eugene f2065" // описание плагина в dll-fileinfo "LegalCopyright", описание плагина в миранде
 
-#define MODULENAME			"HwHotKeys" // имя раздела настроек плагина в БД миранды
-

@@ -43,7 +43,7 @@ PLUGININFOEX pluginInfoEx =
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+	PLUGIN<CMPlugin>("ExchangeNotify", pluginInfoEx)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////

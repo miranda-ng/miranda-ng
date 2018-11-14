@@ -33,7 +33,7 @@ static PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+	PLUGIN<CMPlugin>("mirandaosd", pluginInfoEx)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////

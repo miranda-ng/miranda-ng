@@ -49,8 +49,6 @@
 #include "Engine/MyCodeCvt.h"
 #include "Engine/Mind.h"
 
-#define BOLTUN_KEY "Boltun"
-
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();

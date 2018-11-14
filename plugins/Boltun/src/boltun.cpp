@@ -56,7 +56,7 @@ PLUGININFOEX pluginInfoEx =
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(BOLTUN_KEY, pluginInfoEx)
+	PLUGIN<CMPlugin>("Boltun", pluginInfoEx)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////

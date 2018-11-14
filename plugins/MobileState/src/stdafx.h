@@ -35,8 +35,6 @@
 #include "version.h"
 #include "clients.h"
 
-#define MODULENAME "MobileState"
-
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();

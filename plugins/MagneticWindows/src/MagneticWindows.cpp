@@ -32,7 +32,7 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+	PLUGIN<CMPlugin>("MagneticWindows", pluginInfoEx)
 {}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
