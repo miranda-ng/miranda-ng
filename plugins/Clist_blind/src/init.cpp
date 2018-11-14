@@ -117,8 +117,8 @@ static INT_PTR GetStatusMode(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
-	g_bSortByStatus = db_get_b(0, "CList", "SortByStatus", SETTING_SORTBYSTATUS_DEFAULT);
-	g_bSortByProto = db_get_b(0, "CList", "SortByProto", SETTING_SORTBYPROTO_DEFAULT);
+	g_bSortByStatus = g_plugin.getByte("SortByStatus", SETTING_SORTBYSTATUS_DEFAULT);
+	g_bSortByProto = g_plugin.getByte("SortByProto", SETTING_SORTBYPROTO_DEFAULT);
 
 	Clist_GetInterface();
 	coreCli = g_clistApi;
