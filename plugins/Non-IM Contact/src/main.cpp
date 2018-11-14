@@ -149,7 +149,7 @@ int CMPlugin::Load()
 	mi.pszService = "LoadFilesDlg";
 	Menu_AddMainMenuItem(&mi);
 
-	if (db_get_b(0, MODNAME, "Beta", 0)) {
+	if (g_plugin.getByte("Beta", 0)) {
 		SET_UID(mi, 0x23051356, 0xad45, 0x4101, 0x8e, 0x11, 0xf6, 0x3a, 0xe8, 0xa3, 0xa5, 0x25);
 		mi.position = 600090002;
 		mi.name.a = LPGEN("&Export all Non-IM Contacts");

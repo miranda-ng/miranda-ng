@@ -22,10 +22,10 @@ INT_PTR CALLBACK DlgProcNimcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwnd);
-		CheckDlgButton(hwnd, IDC_AWAYISNOTONLINE, db_get_b(0, MODNAME, "AwayAsStatus", 0) ? BST_CHECKED : BST_UNCHECKED);
-		if (db_get_w(0, MODNAME, "Timer", 1)) {
+		CheckDlgButton(hwnd, IDC_AWAYISNOTONLINE, g_plugin.getByte("AwayAsStatus") ? BST_CHECKED : BST_UNCHECKED);
+		if (g_plugin.getWord("Timer", 1)) {
 			EnableWindow(GetDlgItem(hwnd, IDC_TIMER_INT), 1);
-			SetDlgItemText(hwnd, IDC_TIMER_INT, _itow(db_get_w(0, MODNAME, "Timer", 1), tmp, 10));
+			SetDlgItemText(hwnd, IDC_TIMER_INT, _itow(g_plugin.getWord("Timer", 1), tmp, 10));
 			EnableWindow(GetDlgItem(hwnd, IDC_TIMER_TEXT), 1);
 		}
 		else {
@@ -58,12 +58,12 @@ INT_PTR CALLBACK DlgProcNimcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				db_set_b(0, MODNAME, "AwayAsStatus", (BYTE)IsDlgButtonChecked(hwnd, IDC_AWAYISNOTONLINE));
+				g_plugin.setByte("AwayAsStatus", (BYTE)IsDlgButtonChecked(hwnd, IDC_AWAYISNOTONLINE));
 				if (BST_UNCHECKED == IsDlgButtonChecked(hwnd, IDC_DISABLETIMER) && GetWindowTextLength(GetDlgItem(hwnd, IDC_TIMER_INT))) {
 					GetDlgItemText(hwnd, IDC_TIMER_INT, tmp, _countof(tmp));
-					db_set_w(0, MODNAME, "Timer", (WORD)_wtoi(tmp));
+					g_plugin.setWord("Timer", (WORD)_wtoi(tmp));
 				}
-				else db_set_w(0, MODNAME, "Timer", 0);
+				else g_plugin.setWord("Timer", 0);
 				return TRUE;
 			}
 		}
@@ -306,7 +306,7 @@ INT_PTR addContact(WPARAM, LPARAM)
 	MCONTACT hContact = db_add_contact();
 	Proto_AddToContact(hContact, MODNAME);
 	CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);
-	db_set_ws(hContact, MODNAME, "Nick", TranslateT("New Non-IM Contact"));
+	g_plugin.setWString(hContact, "Nick", TranslateT("New Non-IM Contact"));
 	DoPropertySheet(hContact);
 	if (db_get_static(hContact, MODNAME, "Name", tmp, _countof(tmp)))
 		db_delete_contact(hContact);
@@ -322,7 +322,7 @@ INT_PTR editContact(WPARAM wParam, LPARAM)
 		hContact = db_add_contact();
 		Proto_AddToContact(hContact, MODNAME);
 		CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);
-		db_set_s(hContact, MODNAME, "Nick", Translate("New Non-IM Contact"));
+		g_plugin.setString(hContact, "Nick", Translate("New Non-IM Contact"));
 	}
 	DoPropertySheet(hContact);
 	if (db_get_static(hContact, MODNAME, "Name", tmp, _countof(tmp)))

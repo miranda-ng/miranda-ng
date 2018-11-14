@@ -55,11 +55,11 @@ int SetLCStatus(WPARAM wParam, LPARAM)
 {
 	int oldStatus = LCStatus;
 	LCStatus = wParam;
-	db_set_w(0, MODNAME, "Status", (WORD)wParam);
-	db_set_w(0, MODNAME, "timerCount", 0);
-	if (LCStatus == ID_STATUS_OFFLINE || (LCStatus == ID_STATUS_AWAY && !db_get_b(0, MODNAME, "AwayAsStatus", 0)) || !db_get_w(0, MODNAME, "Timer", 1))
+	g_plugin.setWord("Status", (WORD)wParam);
+	g_plugin.setWord("timerCount", 0);
+	if (LCStatus == ID_STATUS_OFFLINE || (LCStatus == ID_STATUS_AWAY && !g_plugin.getByte("AwayAsStatus", 0)) || !g_plugin.getWord("Timer", 1))
 		killTimer();
-	else if (db_get_w(0, MODNAME, "Timer", 1))
+	else if (g_plugin.getWord("Timer", 1))
 		startTimer(TIMER);
 
 	for (auto &hContact : Contacts(MODNAME)) {
@@ -68,28 +68,28 @@ int SetLCStatus(WPARAM wParam, LPARAM)
 
 		switch (LCStatus) {
 		case ID_STATUS_OFFLINE:
-			if (db_get_b(hContact, MODNAME, "AlwaysVisible", 0) && !db_get_b(hContact, MODNAME, "VisibleUnlessOffline", 1))
-				db_set_w(hContact, MODNAME, "Status", (WORD)db_get_w(hContact, MODNAME, "Icon", ID_STATUS_ONLINE));
+			if (g_plugin.getByte(hContact, "AlwaysVisible", 0) && !g_plugin.getByte(hContact, "VisibleUnlessOffline", 1))
+				g_plugin.setWord(hContact, "Status", (WORD)g_plugin.getWord(hContact, "Icon", ID_STATUS_ONLINE));
 			else
-				db_set_w(hContact, MODNAME, "Status", ID_STATUS_OFFLINE);
+				g_plugin.setWord(hContact, "Status", ID_STATUS_OFFLINE);
 			break;
 
 		case ID_STATUS_ONLINE:
-			db_set_w(hContact, MODNAME, "Status", (WORD)db_get_w(hContact, MODNAME, "Icon", ID_STATUS_ONLINE));
+			g_plugin.setWord(hContact, "Status", (WORD)g_plugin.getWord(hContact, "Icon", ID_STATUS_ONLINE));
 			break;
 
 		case ID_STATUS_AWAY:
-			if (db_get_b(0, MODNAME, "AwayAsStatus", 0) && (db_get_b(hContact, MODNAME, "AlwaysVisible", 0) || (db_get_w(hContact, MODNAME, "Icon", ID_STATUS_ONLINE) == ID_STATUS_AWAY)))
-				db_set_w(hContact, MODNAME, "Status", (WORD)db_get_w(hContact, MODNAME, "Icon", ID_STATUS_ONLINE));
-			else if (!db_get_b(0, MODNAME, "AwayAsStatus", 0))
-				db_set_w(hContact, MODNAME, "Status", (WORD)db_get_w(hContact, MODNAME, "Icon", ID_STATUS_ONLINE));
+			if (g_plugin.getByte("AwayAsStatus", 0) && (g_plugin.getByte(hContact, "AlwaysVisible", 0) || (g_plugin.getWord(hContact, "Icon", ID_STATUS_ONLINE) == ID_STATUS_AWAY)))
+				g_plugin.setWord(hContact, "Status", (WORD)g_plugin.getWord(hContact, "Icon", ID_STATUS_ONLINE));
+			else if (!g_plugin.getByte("AwayAsStatus", 0))
+				g_plugin.setWord(hContact, "Status", (WORD)g_plugin.getWord(hContact, "Icon", ID_STATUS_ONLINE));
 			else
-				db_set_w(hContact, MODNAME, "Status", ID_STATUS_OFFLINE);
+				g_plugin.setWord(hContact, "Status", ID_STATUS_OFFLINE);
 			break;
 
 		default:
-			if (db_get_b(hContact, MODNAME, "AlwaysVisible", 0) || LCStatus == db_get_w(hContact, MODNAME, "Icon", ID_STATUS_ONLINE))
-				db_set_w(hContact, MODNAME, "Status", (WORD)db_get_w(hContact, MODNAME, "Icon", ID_STATUS_ONLINE));
+			if (g_plugin.getByte(hContact, "AlwaysVisible", 0) || LCStatus == g_plugin.getWord(hContact, "Icon", ID_STATUS_ONLINE))
+				g_plugin.setWord(hContact, "Status", (WORD)g_plugin.getWord(hContact, "Icon", ID_STATUS_ONLINE));
 			break;
 		}
 	}

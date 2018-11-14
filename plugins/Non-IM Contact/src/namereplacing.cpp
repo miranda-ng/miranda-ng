@@ -246,7 +246,7 @@ void checkStringForSave(MCONTACT hContact, CMStringA &str)
 			B = strtok(nullptr, ",\")");
 			j = B - &copyOfStr[i] + (int)mir_strlen(B) + 1;
 			if (A && B)
-				db_set_s(hContact, MODNAME, A, B);
+				g_plugin.setString(hContact, A, B);
 
 			else tmp.Append(str.c_str()+i, j);
 			i += j;
@@ -433,7 +433,7 @@ void checkIcon(MCONTACT hContact, char* string)
 	if (str) {
 		int icon = getNumber(str + 5);
 		if (icon >= 0)
-			db_set_w(hContact, MODNAME, "Status", (WORD)(ID_STATUS_OFFLINE + icon));
+			g_plugin.setWord(hContact, "Status", (WORD)(ID_STATUS_OFFLINE + icon));
 	}
 }
 
@@ -604,13 +604,13 @@ void WriteSetting(MCONTACT hContact, char* module1, char* setting1, char* module
 	
 	if (!error) {
 		if ((status == ID_STATUS_ONLINE) || (status == ID_STATUS_AWAY) ||
-			 (status == db_get_w(hContact, MODNAME, "Icon", ID_STATUS_ONLINE)) ||
-			 db_get_b(hContact, MODNAME, "AlwaysVisible", 0))
-			db_set_w(hContact, MODNAME, "Status", (WORD)db_get_w(hContact, MODNAME, "Icon", ID_STATUS_ONLINE));
+			 (status == g_plugin.getWord(hContact, "Icon", ID_STATUS_ONLINE)) ||
+			 g_plugin.getByte(hContact, "AlwaysVisible", 0))
+			g_plugin.setWord(hContact, "Status", (WORD)g_plugin.getWord(hContact, "Icon", ID_STATUS_ONLINE));
 		else
-			db_set_w(hContact, MODNAME, "Status", ID_STATUS_OFFLINE);
+			g_plugin.setWord(hContact, "Status", ID_STATUS_OFFLINE);
 	}
-	else db_set_w(hContact, MODNAME, "Status", ID_STATUS_OFFLINE);
+	else g_plugin.setWord(hContact, "Status", ID_STATUS_OFFLINE);
 }
 
 void replaceAllStrings(MCONTACT hContact)

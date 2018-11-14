@@ -52,13 +52,14 @@ struct DLGTEMPLATEEX
 //=======================================================
 //	Definitions
 //=======================================================
-#define MODNAME			"NIM_Contact"
-#define modFullname		"Non-IM Contact"
-#define MAXLINES	10000
-#define MAX_STRING_LENGTH	10000
-#define LINE_LENGTH 10000
-#define msg(a,b)	MessageBoxA(0,a,b,MB_OK);
-#define TIMER	(db_get_w(0, MODNAME, "Timer", 1) * 1000)
+#define MODNAME        "NIM_Contact"
+#define modFullname       "Non-IM Contact"
+#define MAXLINES          10000
+#define MAX_STRING_LENGTH 10000
+#define LINE_LENGTH       10000
+#define msg(a,b)          MessageBoxA(0,a,b,MB_OK);
+#define TIMER             (g_plugin.getWord("Timer", 1) * 1000)
+
 /* ERROR VALUES */
 #define ERROR_NO_LINE_AFTER_VAR_F -1
 #define ERROR_LINE_NOT_READ -2

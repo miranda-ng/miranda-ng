@@ -32,22 +32,22 @@ INT_PTR CALLBACK DlgProcContactInfo(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 				if (GetWindowTextLength(GetDlgItem(hwnd, IDC_DISPLAY_NAME))) {
 					char text[512];
 					GetDlgItemTextA(hwnd, IDC_DISPLAY_NAME, text, _countof(text));
-					db_set_s(hContact, MODNAME, "Name", text);
+					g_plugin.setString(hContact, "Name", text);
 					WriteSetting(hContact, MODNAME, "Name", MODNAME, "Nick");
 				}
 				else {
-					db_unset(hContact, MODNAME, "Name");
-					db_unset(hContact, MODNAME, "Nick");
+					g_plugin.delSetting(hContact, "Name");
+					g_plugin.delSetting(hContact, "Nick");
 				}
 
 				if (GetWindowTextLength(GetDlgItem(hwnd, IDC_TOOLTIP))) {
 					char text[2048];
 					GetDlgItemTextA(hwnd, IDC_TOOLTIP, text, _countof(text));
-					db_set_s(hContact, MODNAME, "ToolTip", text);
+					g_plugin.setString(hContact, "ToolTip", text);
 					WriteSetting(hContact, MODNAME, "ToolTip", "UserInfo", "MyNotes");
 				}
 				else {
-					db_unset(hContact, MODNAME, "ToolTip");
+					g_plugin.delSetting(hContact, "ToolTip");
 					db_unset(hContact, "UserInfo", "MyNotes");
 				}
 			}
@@ -120,12 +120,12 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 			/* link*/
 			DBVARIANT dbv;
-			if (!db_get_ws(hContact, MODNAME, "ProgramString", &dbv)) {
+			if (!g_plugin.getWString(hContact, "ProgramString", &dbv)) {
 				SetDlgItemText(hwnd, IDC_LINK, dbv.pwszVal);
 				db_free(&dbv);
 			}
 
-			if (!db_get_ws(hContact, MODNAME, "ProgramParamsString", &dbv)) {
+			if (!g_plugin.getWString(hContact, "ProgramParamsString", &dbv)) {
 				SetDlgItemText(hwnd, IDC_PARAMS, dbv.pwszVal);
 				db_free(&dbv);
 			}
@@ -141,7 +141,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			}
 
 			/* icons */
-			CheckRadioButton(hwnd, 40072, 40080, db_get_w(hContact, MODNAME, "Icon", ID_STATUS_ONLINE));
+			CheckRadioButton(hwnd, 40072, 40080, g_plugin.getWord(hContact, "Icon", ID_STATUS_ONLINE));
 			SetWindowLongPtr(GetDlgItem(hwnd, CHK_ONLINE), GWLP_USERDATA, (LONG_PTR)Skin_LoadProtoIcon(MODNAME, ID_STATUS_ONLINE));
 			g_PrevBtnWndProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hwnd, CHK_ONLINE), GWLP_WNDPROC, (LONG_PTR)ButtWndProc);
 			for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
@@ -150,24 +150,24 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			}
 			db_free(&dbv);
 			/* timer */
-			CheckDlgButton(hwnd, CHK_USE_TIMER, db_get_b(hContact, MODNAME, "UseTimer", 0) ? BST_CHECKED : BST_UNCHECKED);
-			if (db_get_w(hContact, MODNAME, "Timer", 15)) {
+			CheckDlgButton(hwnd, CHK_USE_TIMER, g_plugin.getByte(hContact, "UseTimer", 0) ? BST_CHECKED : BST_UNCHECKED);
+			if (g_plugin.getWord(hContact, "Timer", 15)) {
 				CheckDlgButton(hwnd, CHK_USE_TIMER, BST_CHECKED);
 				EnableWindow(GetDlgItem(hwnd, IDC_TIMER), 1);
 				wchar_t string[512];
-				SetDlgItemText(hwnd, IDC_TIMER, _itow(db_get_w(hContact, MODNAME, "Timer", 15), string, 10));
-				if (!db_get_w(0, MODNAME, "Timer", 1))
+				SetDlgItemText(hwnd, IDC_TIMER, _itow(g_plugin.getWord(hContact, "Timer", 15), string, 10));
+				if (!g_plugin.getWord("Timer", 1))
 					SetDlgItemText(hwnd, IDC_TIMER_INTERVAL_MSG, TranslateT("Non-IM Contact protocol timer is Disabled"));
 				else {
-					mir_snwprintf(string, TranslateT("Timer intervals... Non-IM Contact Protocol timer is %d seconds"), db_get_w(0, MODNAME, "Timer", 1));
+					mir_snwprintf(string, TranslateT("Timer intervals... Non-IM Contact Protocol timer is %d seconds"), g_plugin.getWord("Timer", 1));
 					SetDlgItemText(hwnd, IDC_TIMER_INTERVAL_MSG, string);
 				}
 			}
 			/* always visible */
-			if (db_get_b(hContact, MODNAME, "AlwaysVisible", 0)) {
+			if (g_plugin.getByte(hContact, "AlwaysVisible", 0)) {
 				CheckDlgButton(hwnd, IDC_ALWAYS_VISIBLE, BST_CHECKED);
 				EnableWindow(GetDlgItem(hwnd, IDC_VISIBLE_UNLESS_OFFLINE), 1);
-				CheckDlgButton(hwnd, IDC_VISIBLE_UNLESS_OFFLINE, db_get_b(hContact, MODNAME, "VisibleUnlessOffline", 1) ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hwnd, IDC_VISIBLE_UNLESS_OFFLINE, g_plugin.getByte(hContact, "VisibleUnlessOffline", 1) ? BST_CHECKED : BST_UNCHECKED);
 			}
 		}
 		return TRUE;
@@ -179,7 +179,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			if (IsDlgButtonChecked(hwnd, IDC_ALWAYS_VISIBLE)) {
 				MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 				EnableWindow(GetDlgItem(hwnd, IDC_VISIBLE_UNLESS_OFFLINE), 1);
-				CheckDlgButton(hwnd, IDC_VISIBLE_UNLESS_OFFLINE, db_get_b(hContact, MODNAME, "VisibleUnlessOffline", 1) ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hwnd, IDC_VISIBLE_UNLESS_OFFLINE, g_plugin.getByte(hContact, "VisibleUnlessOffline", 1) ? BST_CHECKED : BST_UNCHECKED);
 			}
 			else EnableWindow(GetDlgItem(hwnd, IDC_VISIBLE_UNLESS_OFFLINE), 0);
 			break;
@@ -189,7 +189,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 				char string[4];
 				EnableWindow(GetDlgItem(hwnd, IDC_TIMER), 1);
-				SetDlgItemTextA(hwnd, IDC_TIMER, _itoa(db_get_w(hContact, MODNAME, "Timer", 15), string, 10));
+				SetDlgItemTextA(hwnd, IDC_TIMER, _itoa(g_plugin.getWord(hContact, "Timer", 15), string, 10));
 			}
 			else EnableWindow(GetDlgItem(hwnd, IDC_TIMER), 0);
 			break;
@@ -220,18 +220,18 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				if (GetWindowTextLength(GetDlgItem(hwnd, IDC_LINK))) {
 					char text[512];
 					GetDlgItemTextA(hwnd, IDC_LINK, text, _countof(text));
-					db_set_s(hContact, MODNAME, "ProgramString", text);
+					g_plugin.setString(hContact, "ProgramString", text);
 					WriteSetting(hContact, MODNAME, "ProgramString", MODNAME, "Program");
 				}
-				else db_unset(hContact, MODNAME, "ProgramString");
+				else g_plugin.delSetting(hContact, "ProgramString");
 
 				if (GetWindowTextLength(GetDlgItem(hwnd, IDC_PARAMS))) {
 					char text[512];
 					GetDlgItemTextA(hwnd, IDC_PARAMS, text, _countof(text));
-					db_set_s(hContact, MODNAME, "ProgramParamsString", text);
+					g_plugin.setString(hContact, "ProgramParamsString", text);
 					WriteSetting(hContact, MODNAME, "ProgramParamsString", MODNAME, "ProgramParams");
 				}
-				else db_unset(hContact, MODNAME, "ProgramParamsString");
+				else g_plugin.delSetting(hContact, "ProgramParamsString");
 
 				if (GetWindowTextLength(GetDlgItem(hwnd, IDC_GROUP))) {
 					wchar_t text[512];
@@ -243,27 +243,27 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 				for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
 					if (IsDlgButtonChecked(hwnd, i))
-						db_set_w(hContact, MODNAME, "Icon", (WORD)i);
+						g_plugin.setWord(hContact, "Icon", (WORD)i);
 
 				/* set correct status */
-				if (status == ID_STATUS_ONLINE || status == ID_STATUS_AWAY || (status == db_get_w(hContact, MODNAME, "Icon", ID_STATUS_ONLINE)))
-					db_set_w(hContact, MODNAME, "Status", (WORD)db_get_w(hContact, MODNAME, "Icon", ID_STATUS_ONLINE));
+				if (status == ID_STATUS_ONLINE || status == ID_STATUS_AWAY || (status == g_plugin.getWord(hContact, "Icon", ID_STATUS_ONLINE)))
+					g_plugin.setWord(hContact, "Status", (WORD)g_plugin.getWord(hContact, "Icon", ID_STATUS_ONLINE));
 				else
-					db_set_w(hContact, MODNAME, "Status", ID_STATUS_OFFLINE);
+					g_plugin.setWord(hContact, "Status", ID_STATUS_OFFLINE);
 
 				if (IsDlgButtonChecked(hwnd, CHK_USE_TIMER)) {
 					if (GetWindowTextLength(GetDlgItem(hwnd, IDC_TIMER))) {
 						wchar_t text[512];
 						GetDlgItemText(hwnd, IDC_TIMER, text, _countof(text));
-						db_set_w(hContact, MODNAME, "Timer", (WORD)_wtoi(text));
+						g_plugin.setWord(hContact, "Timer", (WORD)_wtoi(text));
 					}
-					else db_set_w(hContact, MODNAME, "Timer", 15);
+					else g_plugin.setWord(hContact, "Timer", 15);
 				}
-				else db_set_w(hContact, MODNAME, "Timer", 0);
+				else g_plugin.setWord(hContact, "Timer", 0);
 
 				// always visible
-				db_set_b(hContact, MODNAME, "AlwaysVisible", (BYTE)IsDlgButtonChecked(hwnd, IDC_ALWAYS_VISIBLE));
-				db_set_b(hContact, MODNAME, "VisibleUnlessOffline", (BYTE)IsDlgButtonChecked(hwnd, IDC_VISIBLE_UNLESS_OFFLINE));
+				g_plugin.setByte(hContact, "AlwaysVisible", (BYTE)IsDlgButtonChecked(hwnd, IDC_ALWAYS_VISIBLE));
+				g_plugin.setByte(hContact, "VisibleUnlessOffline", (BYTE)IsDlgButtonChecked(hwnd, IDC_VISIBLE_UNLESS_OFFLINE));
 			}
 			return TRUE;
 		}
@@ -341,21 +341,21 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					MCONTACT hContact2 = db_add_contact();
 					Proto_AddToContact(hContact2, MODNAME);
 					CallService(MS_IGNORE_IGNORE, (WPARAM)hContact2, IGNOREEVENT_USERONLINE);
-					db_set_s(hContact2, MODNAME, "Nick", Translate("New Non-IM Contact"));
+					g_plugin.setString(hContact2, "Nick", Translate("New Non-IM Contact"));
 					// blank dbVar2 so the replaceing doesnt crash..
 					mir_strcpy(dbVar2, "");
 					// copy the name (dbVar1 is the name)
 					for (i = 0; i < k; i++)
 						copyReplaceString(dbVar1, dbVar2, oldString[i], newString[i]);
 
-					db_set_s(hContact2, MODNAME, "Name", dbVar2);
+					g_plugin.setString(hContact2, "Name", dbVar2);
 					// copy the ProgramString
 					if (!db_get_static(hContact1, MODNAME, "ProgramString", dbVar1, _countof(dbVar1))) {
 						mir_strcpy(dbVar2, "");
 						for (i = 0; i <= k; i++)
 							copyReplaceString(dbVar1, dbVar2, oldString[i], newString[i]);
 
-						db_set_s(hContact2, MODNAME, "ProgramString", dbVar2);
+						g_plugin.setString(hContact2, "ProgramString", dbVar2);
 					}
 					// copy the ProgramParamString
 					if (!db_get_static(hContact1, MODNAME, "ProgramParamString", dbVar1, _countof(dbVar1))) {
@@ -363,7 +363,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 						for (i = 0; i <= k; i++)
 							copyReplaceString(dbVar1, dbVar2, oldString[i], newString[i]);
 
-						db_set_s(hContact2, MODNAME, "ProgramParamString", dbVar2);
+						g_plugin.setString(hContact2, "ProgramParamString", dbVar2);
 					}
 					// copy the group
 					if (!db_get_static(hContact1, "CList", "Group", dbVar1, _countof(dbVar1))) {
@@ -379,14 +379,14 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 						for (i = 0; i <= k; i++)
 							copyReplaceString(dbVar1, dbVar2, oldString[i], newString[i]);
 
-						db_set_s(hContact2, MODNAME, "ToolTip", dbVar2);
+						g_plugin.setString(hContact2, "ToolTip", dbVar2);
 					}
 					// timer
-					db_set_b(hContact2, MODNAME, "UseTimer", (BYTE)db_get_b(hContact1, MODNAME, "UseTimer", 0));
-					db_set_b(hContact2, MODNAME, "Minutes", (BYTE)db_get_b(hContact1, MODNAME, "Minutes", 0));
-					db_set_w(hContact2, MODNAME, "Timer", (WORD)db_get_w(hContact1, MODNAME, "Timer", 0));
+					g_plugin.setByte(hContact2, "UseTimer", g_plugin.getByte(hContact1, "UseTimer"));
+					g_plugin.setByte(hContact2, "Minutes", g_plugin.getByte(hContact1, "Minutes"));
+					g_plugin.setWord(hContact2, "Timer", g_plugin.getWord(hContact1, "Timer"));
 					//icon
-					db_set_w(hContact2, MODNAME, "Icon", (WORD)db_get_w(hContact1, MODNAME, "Icon", 40072));
+					g_plugin.setWord(hContact2, "Icon", g_plugin.getWord(hContact1, "Icon", 40072));
 					replaceAllStrings(hContact2);
 				}
 			}
@@ -401,14 +401,14 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					}
 					Proto_AddToContact(hContact2, MODNAME);
 					CallService(MS_IGNORE_IGNORE, (WPARAM)hContact2, IGNOREEVENT_USERONLINE);
-					db_set_s(hContact2, MODNAME, "Nick", Translate("New Non-IM Contact"));
-					db_set_s(hContact2, MODNAME, "Name", dbVar1);
+					g_plugin.setString(hContact2, "Nick", Translate("New Non-IM Contact"));
+					g_plugin.setString(hContact2, "Name", dbVar1);
 					if (!db_get_static(hContact1, MODNAME, "ProgramString", dbVar1, _countof(dbVar1)))
-						db_set_s(hContact2, MODNAME, "ProgramString", dbVar1);
+						g_plugin.setString(hContact2, "ProgramString", dbVar1);
 
 					// copy the ProgramParamString
 					if (!db_get_static(hContact1, MODNAME, "ProgramParamString", dbVar1, _countof(dbVar1)))
-						db_set_s(hContact2, MODNAME, "ProgramParamString", dbVar1);
+						g_plugin.setString(hContact2, "ProgramParamString", dbVar1);
 
 					// copy the group
 					if (!db_get_static(hContact1, "CList", "Group", dbVar1, _countof(dbVar1)))
@@ -416,15 +416,15 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 					// copy the ToolTip
 					if (!db_get_static(hContact1, MODNAME, "ToolTip", dbVar1, _countof(dbVar1)))
-						db_set_s(hContact2, MODNAME, "ToolTip", dbVar1);
+						g_plugin.setString(hContact2, "ToolTip", dbVar1);
 
 					// timer
-					db_set_b(hContact2, MODNAME, "UseTimer", (BYTE)db_get_b(hContact1, MODNAME, "UseTimer", 0));
-					db_set_b(hContact2, MODNAME, "Minutes", (BYTE)db_get_b(hContact1, MODNAME, "Minutes", 0));
-					db_set_w(hContact2, MODNAME, "Timer", (WORD)db_get_w(hContact1, MODNAME, "Timer", 0));
+					g_plugin.setByte(hContact2, "UseTimer", g_plugin.getByte(hContact1, "UseTimer"));
+					g_plugin.setByte(hContact2, "Minutes", g_plugin.getByte(hContact1, "Minutes"));
+					g_plugin.setWord(hContact2, "Timer", g_plugin.getWord(hContact1, "Timer"));
 
 					//icon
-					db_set_w(hContact2, MODNAME, "Icon", (WORD)db_get_w(hContact1, MODNAME, "Icon", 40072));
+					g_plugin.setWord(hContact2, "Icon", g_plugin.getWord(hContact1, "Icon", 40072));
 					replaceAllStrings(hContact2);
 				}
 			}
@@ -466,13 +466,13 @@ void ExportContact(MCONTACT hContact)
 					fprintf(file, "ToolTip=%s</tooltip>\r\n", DBVar);
 				if (!db_get_static(hContact, "CList", "Group", DBVar, _countof(DBVar)))
 					fprintf(file, "Group=%s\r\n", DBVar);
-				if (tmp = db_get_w(hContact, MODNAME, "Icon", 40072))
+				if (tmp = g_plugin.getWord(hContact, "Icon", 40072))
 					fprintf(file, "Icon=%d\r\n", tmp);
-				if (tmp = db_get_b(hContact, MODNAME, "UseTimer", 0))
+				if (tmp = g_plugin.getByte(hContact, "UseTimer", 0))
 					fprintf(file, "UseTimer=%d\r\n", tmp);
-				if (tmp = db_get_b(hContact, MODNAME, "Minutes", 1))
+				if (tmp = g_plugin.getByte(hContact, "Minutes", 1))
 					fprintf(file, "Minutes=%d\r\n", tmp);
-				if (tmp = db_get_w(hContact, MODNAME, "Timer", 0))
+				if (tmp = g_plugin.getWord(hContact, "Timer", 0))
 					fprintf(file, "Timer=%d\r\n", tmp);
 				fprintf(file, "[/Non-IM Contact]\r\n");
 			}
@@ -638,21 +638,21 @@ INT_PTR ImportContacts(WPARAM, LPARAM)
 				}
 				Proto_AddToContact(hContact, MODNAME);
 				CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);
-				db_set_s(hContact, MODNAME, "Nick", Translate("New Non-IM Contact"));
-				db_set_s(hContact, MODNAME, "Name", name);
-				db_set_s(hContact, MODNAME, "ProgramString", program);
+				g_plugin.setString(hContact, "Nick", Translate("New Non-IM Contact"));
+				g_plugin.setString(hContact, "Name", name);
+				g_plugin.setString(hContact, "ProgramString", program);
 				// copy the ProgramParamString
-				db_set_s(hContact, MODNAME, "ProgramParamString", programparam);
+				g_plugin.setString(hContact, "ProgramParamString", programparam);
 				// copy the group
 				db_set_s(hContact, "CList", "Group", group);
 				// copy the ToolTip
-				db_set_s(hContact, MODNAME, "ToolTip", tooltip);
+				g_plugin.setString(hContact, "ToolTip", tooltip);
 				// timer
-				db_set_b(hContact, MODNAME, "UseTimer", (BYTE)usetimer);
-				db_set_b(hContact, MODNAME, "Minutes", (BYTE)minutes);
-				db_set_w(hContact, MODNAME, "Timer", (WORD)timer);
+				g_plugin.setByte(hContact, "UseTimer", (BYTE)usetimer);
+				g_plugin.setByte(hContact, "Minutes", (BYTE)minutes);
+				g_plugin.setWord(hContact, "Timer", (WORD)timer);
 				//icon
-				db_set_w(hContact, MODNAME, "Icon", (WORD)icon);
+				g_plugin.setWord(hContact, "Icon", (WORD)icon);
 				replaceAllStrings(hContact);
 			}
 			free(msg);
