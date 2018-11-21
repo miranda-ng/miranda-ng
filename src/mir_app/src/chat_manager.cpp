@@ -696,6 +696,7 @@ USERINFO* UM_AddUser(STATUSINFO *pStatusList, SESSION_INFO *si, const wchar_t *p
 
 	USERINFO *node = new USERINFO();
 	replaceStrW(node->pszUID, pszUID);
+	replaceStrW(node->pszNick, pszNick);
 	node->Status = wStatus;
 	si->getUserList().insert(node);
 	return node;

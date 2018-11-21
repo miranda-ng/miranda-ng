@@ -376,7 +376,6 @@ static void AddUser(GCEVENT *gce)
 	if (g_chatApi.OnAddUser)
 		g_chatApi.OnAddUser(si, ui);
 
-	ui->pszNick = mir_wstrdup(gce->ptszNick);
 	if (gce->bIsMe)
 		si->pMe = ui;
 	ui->Status = status;
