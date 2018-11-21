@@ -7,6 +7,6 @@ endif()
 add_executable(${TARGET} ${SOURCES})
 include_directories(.)
 set_target_properties(${TARGET} PROPERTIES
-	LINK_FLAGS "/SUBSYSTEM:WINDOWS"
+	LINK_FLAGS "/SUBSYSTEM:WINDOWS /DELAYLOAD:ucrtbased.dll /DELAYLOAD:vcruntime140.dll"
 	RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/$<CONFIG>"
 )
