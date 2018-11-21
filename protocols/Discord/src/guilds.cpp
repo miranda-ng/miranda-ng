@@ -130,20 +130,20 @@ void CDiscordProto::ProcessGuild(const JSONNode &p)
 	pGuild->groupId = Clist_GroupCreate(Clist_GroupExists(m_wszDefaultGroup), pGuild->wszName);
 
 	GCSessionInfoBase *si = Chat_NewSession(GCW_SERVER, m_szModuleName, pGuild->wszName, pGuild->wszName, pGuild);
-	Chat_Control(m_szModuleName, pGuild->wszName, WINDOW_HIDDEN);
-	Chat_Control(m_szModuleName, pGuild->wszName, SESSION_ONLINE);
-	BuildStatusList(pGuild, pGuild->wszName);
-
-	for (auto &it : pGuild->arChatUsers)
-		AddGuildUser(pGuild, *it);
-
 	pGuild->pParentSi = (SESSION_INFO*)si;
 	pGuild->hContact = si->hContact;
 	setId(si->hContact, DB_KEY_CHANNELID, guildId);
 
+	Chat_Control(m_szModuleName, pGuild->wszName, WINDOW_HIDDEN);
+	Chat_Control(m_szModuleName, pGuild->wszName, SESSION_ONLINE);
+
 	const JSONNode &roles = p["roles"];
 	for (auto itr = roles.begin(); itr != roles.end(); ++itr)
 		ProcessRole(pGuild, *itr);
+	BuildStatusList(pGuild, pGuild->wszName);
+
+	for (auto &it : pGuild->arChatUsers)
+		AddGuildUser(pGuild, *it);
 
 	const JSONNode &channels = p["channels"];
 	for (auto itc = channels.begin(); itc != channels.end(); ++itc)
