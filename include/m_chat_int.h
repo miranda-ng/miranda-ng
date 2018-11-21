@@ -298,7 +298,7 @@ struct CHAT_MANAGER
 	BOOL          (*TM_RemoveAll)(STATUSINFO** pStatusList);
 
 	int           (*UM_CompareItem)(const USERINFO *u1, const USERINFO *u2);
-	USERINFO*     (*UM_AddUser)(STATUSINFO *pStatusList, SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszNick, WORD wStatus);
+	USERINFO*     (*UM_AddUser)(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszNick, WORD wStatus);
 	USERINFO*     (*UM_FindUser)(SESSION_INFO *si, const wchar_t *pszUID);
 	USERINFO*     (*UM_FindUserFromIndex)(SESSION_INFO *si, int index);
 	USERINFO*     (*UM_GiveStatus)(SESSION_INFO *si, const wchar_t *pszUID, WORD status);

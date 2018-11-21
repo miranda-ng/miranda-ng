@@ -129,7 +129,7 @@ struct CDiscordGuild : public MZeroedObject
 	MGROUP groupId;
 	LIST<CDiscordUser> arChannels;
 
-	GCSessionInfoBase *pParentSi;
+	SESSION_INFO *pParentSi;
 	OBJLIST<CDiscordGuildMember> arChatUsers;
 	OBJLIST<CDiscordRole> arRoles; // guild roles
 };

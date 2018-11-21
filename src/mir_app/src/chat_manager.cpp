@@ -689,14 +689,14 @@ bool UM_SortUser(SESSION_INFO *si, const wchar_t *pszUID)
 	return true;
 }
 
-USERINFO* UM_AddUser(STATUSINFO *pStatusList, SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszNick, WORD wStatus)
+USERINFO* UM_AddUser(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszNick, WORD wStatus)
 {
-	if (pStatusList == nullptr || si == nullptr || pszNick == nullptr)
+	if (si == nullptr || pszNick == nullptr)
 		return nullptr;
 
 	USERINFO *node = new USERINFO();
-	replaceStrW(node->pszUID, pszUID);
-	replaceStrW(node->pszNick, pszNick);
+	node->pszUID = mir_wstrdup(pszUID);
+	node->pszNick = mir_wstrdup(pszNick);
 	node->Status = wStatus;
 	si->getUserList().insert(node);
 	return node;

@@ -369,7 +369,7 @@ static void AddUser(GCEVENT *gce)
 
 	WORD status = TM_StringToWord(si->pStatuses, gce->ptszStatus);
 
-	USERINFO *ui = g_chatApi.UM_AddUser(si->pStatuses, si, gce->ptszUID, gce->ptszNick, status);
+	USERINFO *ui = g_chatApi.UM_AddUser(si, gce->ptszUID, gce->ptszNick, status);
 	if (ui == nullptr)
 		return;
 

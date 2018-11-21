@@ -137,7 +137,7 @@ void CDiscordProto::ProcessGuild(const JSONNode &p)
 	for (auto &it : pGuild->arChatUsers)
 		AddGuildUser(pGuild, *it);
 
-	pGuild->pParentSi = si;
+	pGuild->pParentSi = (SESSION_INFO*)si;
 	pGuild->hContact = si->hContact;
 	setId(si->hContact, DB_KEY_CHANNELID, guildId);
 
@@ -218,30 +218,18 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 
 void CDiscordProto::AddGuildUser(CDiscordGuild *pGuild, const CDiscordGuildMember &pUser)
 {
-	int flags = GC_SSE_ONLYLISTED;
+	int flags = 0;
 	switch (pUser.iStatus) {
 	case ID_STATUS_ONLINE: case ID_STATUS_NA: case ID_STATUS_DND:
-		flags += GC_SSE_ONLINE;
+		flags = 1;
 		break;
-
-	default:
-		flags += GC_SSE_OFFLINE;
 	}
 
-	GCEVENT gce = { m_szModuleName, pGuild->pParentSi->ptszID, GC_EVENT_JOIN };
-	gce.time = time(0);
-	gce.dwFlags = GCEF_SILENT;
+	auto *pStatus = g_chatApi.TM_FindStatus(pGuild->pParentSi->pStatuses, pUser.wszRole);
 
 	wchar_t wszUserId[100];
 	_i64tow_s(pUser.userId, wszUserId, _countof(wszUserId), 10);
-
-	gce.ptszStatus = pUser.wszRole;
-	gce.bIsMe = (pUser.userId == m_ownId);
-	gce.ptszUID = wszUserId;
-	gce.ptszNick = pUser.wszNick;
-	Chat_Event(&gce);
-
-	Chat_SetStatusEx(m_szModuleName, pGuild->pParentSi->ptszID, flags, wszUserId);
+	g_chatApi.UM_AddUser(pGuild->pParentSi, wszUserId, pUser.wszNick, (pStatus) ? pStatus->iStatus : 0)->iStatusEx = flags;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
