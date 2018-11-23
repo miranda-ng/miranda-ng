@@ -82,7 +82,7 @@ void CDiscordProto::OnCommandChannelCreated(const JSONNode &pRoot)
 		const JSONNode &members = pRoot["recipients"];
 		for (auto it = members.begin(); it != members.end(); ++it) {
 			CDiscordUser *pUser = PrepareUser(*it);
-			pUser->lastMsg = CDiscordMessage(::getId(pRoot["last_message_id"]));
+			pUser->lastMsgId = ::getId(pRoot["last_message_id"]);
 			pUser->channelId = ::getId(pRoot["id"]);
 			setId(pUser->hContact, DB_KEY_CHANNELID, pUser->channelId);
 		}
@@ -106,8 +106,7 @@ void CDiscordProto::OnCommandChannelDeleted(const JSONNode &pRoot)
 
 	SnowFlake guildId = ::getId(pRoot["guild_id"]);
 	if (guildId == 0) {
-		pUser->channelId = 0;
-		pUser->lastMsg = CDiscordMessage();
+		pUser->channelId = pUser->lastMsgId = 0;
 		delSetting(pUser->hContact, DB_KEY_CHANNELID);
 	}
 	else {
@@ -123,7 +122,7 @@ void CDiscordProto::OnCommandChannelUpdated(const JSONNode &pRoot)
 	if (pUser == nullptr)
 		return;
 
-	pUser->lastMsg = CDiscordMessage(::getId(pRoot["last_message_id"]));
+	pUser->lastMsgId = ::getId(pRoot["last_message_id"]);
 
 	SnowFlake guildId = ::getId(pRoot["guild_id"]);
 	if (guildId != 0) {
@@ -325,7 +324,6 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 	CMStringW wszUserId = pRoot["author"]["id"].as_mstring();
 	SnowFlake userId = _wtoi64(wszUserId);
 	SnowFlake msgId = _wtoi64(wszMessageId);
-	CDiscordMessage msg(msgId, userId);
 
 	// try to find a sender by his channel
 	SnowFlake channelId = ::getId(pRoot["channel_id"]);
@@ -338,19 +336,17 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 	char szMsgId[100];
 	_i64toa_s(msgId, szMsgId, _countof(szMsgId), 10);
 
-	// restore partially received updated message
-	if (pUser->lastMsg.id == msg.id)
-		msg = pUser->lastMsg;
-
 	COwnMessage ownMsg(::getId(pRoot["nonce"]), 0);
 	COwnMessage *p = arOwnMessages.find(&ownMsg);
 	if (p != nullptr) { // own message? skip it
 		ProtoBroadcastAck(pUser->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)p->reqId, (LPARAM)szMsgId);
-		debugLogA("skipping own message with nonce=%lld, id=%lld", ownMsg.nonce, msg.id);
+		debugLogA("skipping own message with nonce=%lld, id=%lld", ownMsg.nonce, msgId);
 	}
 	else {
 		CMStringW wszText = PrepareMessageText(pRoot);
+		bool bOurMessage = userId == m_ownId;
 
+		// old message? try to restore it from database
 		if (!bIsNew) {
 			MEVENT hOldEvent = db_event_getById(m_szModuleName, szMsgId);
 			if (hOldEvent) {
@@ -361,6 +357,8 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 					ptrW wszOldText(DbEvent_GetTextW(&dbei, CP_UTF8));
 					if (wszOldText)
 						wszText.Insert(0, wszOldText);
+					if (dbei.flags & DBEF_SENT)
+						bOurMessage = true;
 				}
 				mir_free(dbei.pBlob);
 			}
@@ -373,7 +371,7 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 		if (pUser->bIsPrivate) {
 			// if a message has myself as an author, add some flags
 			PROTORECVEVENT recv = {};
-			if (msg.authorId == m_ownId)
+			if (bOurMessage)
 				recv.flags = PREF_CREATEREAD | PREF_SENT;
 
 			debugLogA("store a message from private user %lld, channel id %lld", pUser->id, pUser->channelId);
@@ -417,18 +415,18 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 			gce.ptszUID = wszUserId;
 			gce.ptszText = wszText;
 			gce.time = (DWORD)StringToDate(pRoot["timestamp"].as_mstring());
-			gce.bIsMe = msg.authorId == m_ownId;
+			gce.bIsMe = bOurMessage;
 			Chat_Event(&gce);
 
 			debugLogW(L"New channel %s message from %s: %s", si->ptszID, gce.ptszUID, gce.ptszText);
 		}
 	}
 
-	pUser->lastMsg = msg;
+	pUser->lastMsgId = msgId;
 
 	SnowFlake lastId = getId(pUser->hContact, DB_KEY_LASTMSGID); // as stored in a database
-	if (lastId < msg.id)
-		setId(pUser->hContact, DB_KEY_LASTMSGID, msg.id);
+	if (lastId < msgId)
+		setId(pUser->hContact, DB_KEY_LASTMSGID, msgId);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -438,7 +436,7 @@ void CDiscordProto::OnCommandMessageAck(const JSONNode &pRoot)
 {
 	CDiscordUser *pUser = FindUserByChannel(pRoot["channel_id"]);
 	if (pUser != nullptr)
-		pUser->lastMsg = CDiscordMessage(::getId(pRoot["message_id"]));
+		pUser->lastMsgId = ::getId(pRoot["message_id"]);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -520,13 +518,13 @@ void CDiscordProto::OnCommandReady(const JSONNode &pRoot)
 		
 		CMStringW wszChannelId = p["id"].as_mstring();
 		pUser->channelId = _wtoi64(wszChannelId);
-		pUser->lastMsg = CDiscordMessage(::getId(p["last_message_id"]));
+		pUser->lastMsgId = ::getId(p["last_message_id"]);
 		pUser->bIsPrivate = true;
 
 		setId(pUser->hContact, DB_KEY_CHANNELID, pUser->channelId);
 
 		SnowFlake oldMsgId = getId(pUser->hContact, DB_KEY_LASTMSGID);
-		if (pUser->lastMsg.id > oldMsgId)
+		if (pUser->lastMsgId > oldMsgId)
 			RetrieveHistory(pUser->hContact, MSG_AFTER, oldMsgId, 99);
 	}
 

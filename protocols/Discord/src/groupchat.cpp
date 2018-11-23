@@ -168,7 +168,7 @@ int CDiscordProto::GroupchatEventHook(WPARAM, LPARAM lParam)
 
 				JSONNode body; body << WCHAR_PARAM("content", wszText);
 				CMStringA szUrl(FORMAT, "/channels/%S/messages", gch->ptszID);
-				Push(new AsyncHttpRequest(this, REQUEST_POST, szUrl, &CDiscordProto::OnReceiveMessage, &body));
+				Push(new AsyncHttpRequest(this, REQUEST_POST, szUrl, nullptr, &body));
 			}
 		}
 		break;

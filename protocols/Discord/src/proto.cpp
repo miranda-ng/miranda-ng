@@ -106,7 +106,7 @@ void CDiscordProto::OnModulesLoaded()
 		CDiscordUser *pNew = new CDiscordUser(getId(hContact, DB_KEY_ID));
 		pNew->hContact = hContact;
 		pNew->channelId = getId(hContact, DB_KEY_CHANNELID);
-		pNew->lastMsg.id = getId(hContact, DB_KEY_LASTMSGID);
+		pNew->lastMsgId = getId(hContact, DB_KEY_LASTMSGID);
 		pNew->wszUsername = ptrW(getWStringA(hContact, DB_KEY_NICK));
 		pNew->iDiscriminator = getDword(hContact, DB_KEY_DISCR);
 		arUsers.insert(pNew);
@@ -399,7 +399,7 @@ int CDiscordProto::SendMsg(MCONTACT hContact, int /*flags*/, const char *pszSrc)
 	JSONNode body; body << WCHAR_PARAM("content", wszText) << INT64_PARAM("nonce", nonce);
 
 	CMStringA szUrl(FORMAT, "/channels/%lld/messages", pUser->channelId);
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, szUrl, &CDiscordProto::OnReceiveMessage, &body);
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, szUrl, nullptr, &body);
 	arOwnMessages.insert(new COwnMessage(nonce, pReq->m_iReqNum));
 	Push(pReq);
 	return pReq->m_iReqNum;
@@ -425,7 +425,7 @@ void CDiscordProto::MarkReadTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD)
 	mir_cslock lck(ppro->csMarkReadQueue);
 	while (ppro->arMarkReadQueue.getCount()) {
 		CDiscordUser *pUser = ppro->arMarkReadQueue[0];
-		CMStringA szUrl(FORMAT, "/channels/%lld/messages/%lld/ack", pUser->channelId, pUser->lastMsg.id);
+		CMStringA szUrl(FORMAT, "/channels/%lld/messages/%lld/ack", pUser->channelId, pUser->lastMsgId);
 		ppro->Push(new AsyncHttpRequest(ppro, REQUEST_POST, szUrl, nullptr));
 		ppro->arMarkReadQueue.remove(0);
 	}

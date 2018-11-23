@@ -45,16 +45,6 @@ struct CDiscordRole : public MZeroedObject
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct CDiscordMessage
-{
-	SnowFlake id, authorId;
-
-	CDiscordMessage(SnowFlake _id = 0, SnowFlake _authorId = 0) :
-		id(_id),
-		authorId(_authorId)
-	{}
-};
-
 struct COwnMessage
 {
 	SnowFlake nonce;
@@ -85,13 +75,12 @@ struct CDiscordUser : public MZeroedObject
 	MCONTACT  hContact;
 
 	SnowFlake channelId;
-	SnowFlake lastReadId;
+	SnowFlake lastReadId, lastMsgId;
 	SnowFlake parentId;
 	bool      bIsPrivate;
 	bool      bIsGroup;
 
 	struct CDiscordGuild *pGuild;
-	CDiscordMessage lastMsg;
 
 	CMStringW wszUsername, wszChannelName, wszTopic;
 	int       iDiscriminator;
@@ -356,7 +345,6 @@ public:
 	void OnReceiveCreateChannel(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveFile(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveGateway(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReceiveMessage(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveMessageAck(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveToken(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 

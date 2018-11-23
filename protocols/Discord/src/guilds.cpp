@@ -203,7 +203,7 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 			pUser->wszChannelName = pGuild->wszName + L"#" + wszName;
 		pUser->wszTopic = pch["topic"].as_mstring();
 		pUser->pGuild = pGuild;
-		pUser->lastMsg = CDiscordMessage(::getId(pch["last_message_id"]));
+		pUser->lastMsgId = ::getId(pch["last_message_id"]);
 		pUser->parentId = _wtoi64(pch["parent_id"].as_mstring());
 
 		setId(pUser->hContact, DB_KEY_ID, channelId);
@@ -289,7 +289,7 @@ void CDiscordProto::ParseGuildContents(CDiscordGuild *pGuild, const JSONNode &pR
 			continue;
 
 		SnowFlake oldMsgId = getId(it->hContact, DB_KEY_LASTMSGID);
-		if (oldMsgId != 0 && it->lastMsg.id > oldMsgId)
+		if (oldMsgId != 0 && it->lastMsgId > oldMsgId)
 			RetrieveHistory(it->hContact, MSG_AFTER, oldMsgId, 99);
 	}
 }

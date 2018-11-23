@@ -137,7 +137,7 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 	setId(pUser->hContact, DB_KEY_LASTMSGID, lastId);
 
 	// if we fetched 99 messages, but have smth more to go, continue fetching
-	if (iNumMessages == 99 && lastId < pUser->lastMsg.id)
+	if (iNumMessages == 99 && lastId < pUser->lastMsgId)
 		RetrieveHistory(pUser->hContact, MSG_AFTER, lastId, 99);
 }
 
@@ -245,18 +245,6 @@ void CDiscordProto::OnReceiveCreateChannel(NETLIBHTTPREQUEST *pReply, AsyncHttpR
 	JSONNode root = JSONNode::parse(pReply->pData);
 	if (root)
 		OnCommandChannelCreated(root);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void CDiscordProto::OnReceiveMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
-{
-	JSONNode root = JSONNode::parse(pReply->pData);
-	if (root) {
-		CDiscordUser *pUser = FindUserByChannel(::getId(root["channel_id"]));
-		if (pUser != nullptr)
-			pUser->lastMsg = CDiscordMessage(::getId(root["id"]), ::getId(root["author"]["id"]));
-	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
