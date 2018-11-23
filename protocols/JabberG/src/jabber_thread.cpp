@@ -1954,7 +1954,7 @@ void CJabberProto::OnProcessIq(HXML node)
 		}
 	}
 	else if ((!mir_wstrcmp(type, L"get") || !mir_wstrcmp(type, L"set"))) {
-		XmlNodeIq iq(L"error", id, XmlGetAttrValue(node, L"from"));
+		XmlNodeIq iq(L"error", XmlGetAttrValue(node, L"id"), XmlGetAttrValue(node, L"from"));
 
 		HXML pFirstChild = XmlGetChild(node, 0);
 		if (pFirstChild)
