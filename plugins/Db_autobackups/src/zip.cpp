@@ -12,11 +12,12 @@ int CreateZipFile(const wchar_t *szDestPath, OBJLIST<ZipFile> &lstFiles, const s
 	for (auto &zf : lstFiles) {
 		HANDLE hSrcFile = CreateFileW(zf->sPath.c_str(), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 		if (hSrcFile != INVALID_HANDLE_VALUE) {
-			FILETIME ft;
+			FILETIME ft, ft2;
 			GetFileTime(hSrcFile, 0, &ft, 0);
+			FileTimeToLocalFileTime(&ft, &ft2);
 
 			WORD dosDate, dosTime;
-			FileTimeToDosDateTime(&ft, &dosDate, &dosTime);
+			FileTimeToDosDateTime(&ft2, &dosDate, &dosTime);
 			fi.dosDate = MAKELONG(dosTime, dosDate);
 
 			int iOpenRes = zipOpenNewFileInZip(hZip, _T2A(zf->sZipPath.c_str()), &fi, nullptr, 0, nullptr, 0, "", Z_DEFLATED, Z_BEST_COMPRESSION);
