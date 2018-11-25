@@ -32,6 +32,7 @@
     <OutDir Condition="'$(Platform)'=='x64'">$(SolutionDir)$(Configuration)64\Icons\</OutDir>
     <IntDir Condition="'$(Platform)'=='x64'">$(SolutionDir)$(Configuration)64\Obj\$(ProjectName)\</IntDir>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <XPDeprecationWarning>false</XPDeprecationWarning>
     <GenerateManifest>false</GenerateManifest>
     <EmbedManifest>false</EmbedManifest>
     <LinkIncremental Condition="'$(Configuration)'=='Release'">false</LinkIncremental>
