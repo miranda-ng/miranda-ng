@@ -84,5 +84,5 @@ time_t CalendarTool_Show(HWND hwnd, int x, int y)
 	CalendarToolData *data = new CalendarToolData;
 	data->x = x;
 	data->y = y;
-	return DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CALENDARTOOL), 0, CalendarToolDlgProc, (LPARAM)data);
+	return DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CALENDARTOOL), hwnd, CalendarToolDlgProc, (LPARAM)data);
 }

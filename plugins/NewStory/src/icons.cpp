@@ -42,7 +42,7 @@ int evtIconsChanged(WPARAM, LPARAM)
 	return 0;
 }
 
-void InitIcons(LPSTR szFilename, int count)
+void InitIcons()
 {
 	g_plugin.registerIcon(MODULETITLE, icons);
 	HookEvent(ME_SKIN2_ICONSCHANGED, evtIconsChanged);

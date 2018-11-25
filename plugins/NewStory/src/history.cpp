@@ -114,7 +114,7 @@ struct WindowData
 	InfoBarEvents ibMessages, ibFiles, ibUrls, ibTotal;
 };
 
-void LayoutFilterBar(HDWP hDwp, HWND hwnd, int x, int y, int w, InfoBarEvents *ib)
+void LayoutFilterBar(HDWP hDwp, int x, int y, int w, InfoBarEvents *ib)
 {
 	hDwp = DeferWindowPos(hDwp, ib->hwndIco, 0,
 		x, y, 16, 16, SWP_NOZORDER);
@@ -232,10 +232,10 @@ void LayoutHistoryWnd(HWND hwnd, WindowData *data)
 	if (data->wndOptions & WND_OPT_FILTERBAR)
 	{
 		hFilterBar = WND_SPACING + (16 + WND_SPACING)*3;
-		LayoutFilterBar(hDwp, hwnd, WND_SPACING+(WND_SPACING+75)*0, WND_SPACING*2 + hToolBar, 75, &data->ibMessages);
-		LayoutFilterBar(hDwp, hwnd, WND_SPACING+(WND_SPACING+75)*1, WND_SPACING*2 + hToolBar, 75, &data->ibFiles);
-		LayoutFilterBar(hDwp, hwnd, WND_SPACING+(WND_SPACING+75)*2, WND_SPACING*2 + hToolBar, 75, &data->ibUrls);
-		LayoutFilterBar(hDwp, hwnd, WND_SPACING+(WND_SPACING+75)*3, WND_SPACING*2 + hToolBar, 75, &data->ibTotal);
+		LayoutFilterBar(hDwp, WND_SPACING+(WND_SPACING+75)*0, WND_SPACING*2 + hToolBar, 75, &data->ibMessages);
+		LayoutFilterBar(hDwp, WND_SPACING+(WND_SPACING+75)*1, WND_SPACING*2 + hToolBar, 75, &data->ibFiles);
+		LayoutFilterBar(hDwp, WND_SPACING+(WND_SPACING+75)*2, WND_SPACING*2 + hToolBar, 75, &data->ibUrls);
+		LayoutFilterBar(hDwp, WND_SPACING+(WND_SPACING+75)*3, WND_SPACING*2 + hToolBar, 75, &data->ibTotal);
 
 		GetWindowRect(data->hwndChkDateFrom, &rc);
 		x = rc.right - rc.left;
@@ -1031,7 +1031,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 	return FALSE; //DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-INT_PTR svcShowNewstory(WPARAM wParam, LPARAM lParam)
+INT_PTR svcShowNewstory(WPARAM wParam, LPARAM)
 {
 	HWND hwnd = (HWND)WindowList_Find(hNewstoryWindows, (MCONTACT)wParam);
 	if (hwnd && IsWindow(hwnd))
@@ -1047,7 +1047,7 @@ INT_PTR svcShowNewstory(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR svcShowSystemNewstory(WPARAM wParam, LPARAM lParam)
+INT_PTR svcShowSystemNewstory(WPARAM, LPARAM)
 {
 	HWND hwnd = (HWND)WindowList_Find(hNewstoryWindows, 0);
 	if (hwnd && IsWindow(hwnd))

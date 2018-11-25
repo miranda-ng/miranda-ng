@@ -34,5 +34,5 @@ enum
 
 HICON GetIcon(int iconId);
 
-void InitIcons(LPSTR szFilename, int count);
+void InitIcons();
 void RefreshIcons(IconItem *icons, int count);

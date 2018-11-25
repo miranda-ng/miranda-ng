@@ -243,7 +243,7 @@ int TplMeasureVars(TemplateVars *vars, TCHAR *str)
 }
 
 // Loading variables
-void vfGlobal(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemData *item)
+void vfGlobal(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData*)
 {
 	//  %%: simply % character
 	TplSetVar(vars, '%', _T("%"), false);
@@ -256,7 +256,7 @@ void vfGlobal(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemD
 	TplSetVar(vars, 'M', buf, false);
 }
 
-void vfContact(int mode, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData *item)
+void vfContact(int, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData*)
 {
 	// %N: buddy's nick (not for messages)
 	wchar_t *buff = Clist_GetContactDisplayName(hContact, 0);
@@ -268,7 +268,7 @@ void vfContact(int mode, TemplateVars *vars, MCONTACT hContact, HistoryArray::It
 	TplSetVar(vars, 'c', buf, false);
 }
 
-void vfSystem(int mode, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData *item)
+void vfSystem(int, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData*)
 {
 	// %N: buddy's nick (not for messages)
 	TplSetVar(vars, 'N', /*TranslateTS*/_T("System Event"), false);
@@ -279,7 +279,7 @@ void vfSystem(int mode, TemplateVars *vars, MCONTACT hContact, HistoryArray::Ite
 	TplSetVar(vars, 'c', buf, false);
 }
 
-void vfEvent(int mode, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData *item)
+void vfEvent(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 {
 	HICON hIcon;
 	TCHAR *s;
@@ -404,54 +404,49 @@ void vfEvent(int mode, TemplateVars *vars, MCONTACT hContact, HistoryArray::Item
 	TplSetVar(vars, 'O', TranslateW(buf), false);
 }
 
-void vfMessage(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemData *item)
+void vfMessage(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 {
 	//  %M: the message string itself
 	TplSetVar(vars, 'M', item->getTBuf(), false);
 }
 
-void vfFile(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemData *item)
-{
-	//  %M: the message string itself
-	TplSetVar(vars, 'M', item->getTBuf(), false);
-	//	TplSetVar(vars, 'M', _T("File event"), false);
-}
-
-void vfUrl(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemData *item)
-{
-	//  %M: the message string itself
-	TplSetVar(vars, 'M', item->getTBuf(), false);
-	//	TplSetVar(vars, 'M', _T("URL Event"), false);
-}
-
-void vfSign(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemData *item)
+void vfFile(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 {
 	//  %M: the message string itself
 	TplSetVar(vars, 'M', item->getTBuf(), false);
 }
 
-void vfAuth(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemData *item)
+void vfUrl(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 {
 	//  %M: the message string itself
 	TplSetVar(vars, 'M', item->getTBuf(), false);
-	//	TplSetVar(vars, 'M', _T("Auth Rq"), false);
 }
 
-void vfAdded(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemData *item)
+void vfSign(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 {
 	//  %M: the message string itself
 	TplSetVar(vars, 'M', item->getTBuf(), false);
-	//	TplSetVar(vars, 'M', _T("Added"), false);
 }
 
-void vfDeleted(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemData *item)
+void vfAuth(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 {
 	//  %M: the message string itself
 	TplSetVar(vars, 'M', item->getTBuf(), false);
-	//	TplSetVar(vars, 'M', _T("Deleted"), false);
 }
 
-void vfOther(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemData *item)
+void vfAdded(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
+{
+	//  %M: the message string itself
+	TplSetVar(vars, 'M', item->getTBuf(), false);
+}
+
+void vfDeleted(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
+{
+	//  %M: the message string itself
+	TplSetVar(vars, 'M', item->getTBuf(), false);
+}
+
+void vfOther(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData*)
 {
 	//  %M: the message string itself
 	TplSetVar(vars, 'M', _T("Unknown Event"), false);

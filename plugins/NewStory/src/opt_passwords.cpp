@@ -4,10 +4,8 @@ int icoidNoPassword, icoidPassword;
 
 void SetAllContactIcons(HWND hwndList)
 {
-	MCONTACT hContact, hItem;
-	hContact = db_find_first();
 	for (auto &hContact : Contacts()) {
-		hItem = (MCONTACT)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+		MCONTACT hItem = (MCONTACT)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 		SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(0, CheckPassword(hContact, "") ? icoidNoPassword : icoidPassword));
 	}
 }
@@ -24,7 +22,7 @@ static void ResetListOptions(HWND hwndList)
 	SetWindowLong(hwndList, GWL_STYLE, GetWindowLong(hwndList, GWL_STYLE) | CLS_SHOWHIDDEN);
 }
 
-INT_PTR CALLBACK OptPasswordsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK OptPasswordsDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 {
 	HTREEITEM hitmGlobal, hitmMaster;
 	switch (msg)
@@ -51,8 +49,6 @@ INT_PTR CALLBACK OptPasswordsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		hitmMaster = (HTREEITEM)SendDlgItemMessage(hwnd, IDC_LIST, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
 		SendMessage(GetDlgItem(hwnd, IDC_LIST), CLM_SETEXTRAIMAGE, (WPARAM)hitmMaster, MAKELPARAM(0, icoidNoPassword));
 
-		HWND hwndList = GetDlgItem(hwnd, IDC_LIST);
-
 		SetAllContactIcons(GetDlgItem(hwnd, IDC_LIST));
 		ResetListOptions(GetDlgItem(hwnd, IDC_LIST));
 
@@ -62,12 +58,6 @@ INT_PTR CALLBACK OptPasswordsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		SendMessage(GetDlgItem(hwnd, IDC_SAVEPASSWORD), BUTTONSETASFLATBTN, 0, 0);
 		SendMessage(GetDlgItem(hwnd, IDC_SAVEPASSWORD), BUTTONADDTOOLTIP, (WPARAM)Translate("Save Password"), 0);
 		SendMessage(GetDlgItem(hwnd, IDC_SAVEPASSWORD), BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_SAVEPASS));
-
-		//			hVisibleIcon=ImageList_GetIcon(hIml,1,ILD_NORMAL);
-		//			SendDlgItemMessage(hwndDlg,IDC_VISIBLEICON,STM_SETICON,(WPARAM)hVisibleIcon,0);
-		//			hInvisibleIcon=ImageList_GetIcon(hIml,2,ILD_NORMAL);
-		//			SendDlgItemMessage(hwndDlg,IDC_INVISIBLEICON,STM_SETICON,(WPARAM)hInvisibleIcon,0);
-
 		return TRUE;
 	}
 

@@ -43,7 +43,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_UIHIST
 
 int evtModulesLoaded(WPARAM, LPARAM)
 {
-	InitIcons("icons\\newstory_icons.dll", 0);
+	InitIcons();
 	InitFonts();
 	InitNewstoryControl();
 	InitHistory();

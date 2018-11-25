@@ -231,7 +231,7 @@ INT_PTR CALLBACK ChangePasswordDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 	return FALSE;
 }
 
-void ChangePassword(HWND hwnd, HANDLE hContact)
+void ChangePassword(HWND hwnd, MCONTACT hContact)
 {
 	DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CHANGEPASSWORD), hwnd, ChangePasswordDlgProc, (LPARAM)hContact);
 }

@@ -55,7 +55,7 @@ static void FixScrollPosition(HWND hwnd, NewstoryListData *data);
 static void RecalcScrollBar(HWND hwnd, NewstoryListData *data);
 static void BeginEditItem(HWND hwnd, NewstoryListData *data, int index);
 static void EndEditItem(HWND hwnd, NewstoryListData *data);
-static int LayoutItem(HWND hwnd, HistoryArray *items, int index, bool force);
+static int LayoutItem(HWND hwnd, HistoryArray *items, int index);
 static int PaintItem(HDC hdc, HistoryArray *items, int index, int top, int width);
 
 
@@ -231,7 +231,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			DWORD count = data->items.getCount();
 			DWORD current = data->scrollTopItem;
 			int top = data->scrollTopPixel;
-			int bottom = top + LayoutItem(hwnd, &data->items, current, false);
+			int bottom = top + LayoutItem(hwnd, &data->items, current);
 			while (top <= height)
 			{
 				if ((lParam >= top) && (lParam <= bottom))
@@ -239,7 +239,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				if (++current >= count)
 					return -1;
 				top = bottom;
-				bottom = top + LayoutItem(hwnd, &data->items, current, false);
+				bottom = top + LayoutItem(hwnd, &data->items, current);
 			}
 			return -1;
 		}
@@ -287,8 +287,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		{
 			TCHAR *res = 0;
 			TCHAR *buf;
-			int size = 0;
-	
+
 			int eventCount = data->items.getCount();
 			for (int i = 0; i < eventCount; i++)
 			{
@@ -586,7 +585,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					} else
 					{
 						data->scrollTopItem = pos/AVERAGE_ITEM_HEIGHT;
-						int itemHeight = LayoutItem(hwnd, &data->items, data->scrollTopItem, false);
+						int itemHeight = LayoutItem(hwnd, &data->items, data->scrollTopItem);
 						data->scrollTopPixel = -pos%AVERAGE_ITEM_HEIGHT * itemHeight / AVERAGE_ITEM_HEIGHT;
 					}
 					FixScrollPosition(hwnd, data);
@@ -630,7 +629,7 @@ static void ScrollListBy(HWND hwnd, NewstoryListData *data, int scrollItems, int
 			while ((data->scrollTopPixel > 0) && data->scrollTopItem)
 			{
 				data->scrollTopItem--;
-				int itemHeight = LayoutItem(hwnd, &data->items, data->scrollTopItem, false);
+				int itemHeight = LayoutItem(hwnd, &data->items, data->scrollTopItem);
 				data->scrollTopPixel -= itemHeight;
 			}
 
@@ -642,12 +641,12 @@ static void ScrollListBy(HWND hwnd, NewstoryListData *data, int scrollItems, int
 		if (data->scrollTopPixel < 0)
 		{
 			int maxItem = data->items.getCount();
-			int itemHeight = LayoutItem(hwnd, &data->items, data->scrollTopItem, false);
+			int itemHeight = LayoutItem(hwnd, &data->items, data->scrollTopItem);
 			while ((-data->scrollTopPixel > itemHeight) && (data->scrollTopItem < maxItem))
 			{
 				data->scrollTopPixel += itemHeight;
 				data->scrollTopItem++;
-				itemHeight = LayoutItem(hwnd, &data->items, data->scrollTopItem, false);
+				itemHeight = LayoutItem(hwnd, &data->items, data->scrollTopItem);
 			}
 		}
 	}
@@ -666,13 +665,13 @@ static void EnsureVisible(HWND hwnd, NewstoryListData *data, int item)
 		int	height = rc.bottom - rc.top;
 		int top = data->scrollTopPixel;
 		int idx = data->scrollTopItem;
-		int itemHeight = LayoutItem(hwnd, &data->items, idx, false);
+		int itemHeight = LayoutItem(hwnd, &data->items, idx);
 		bool found = false;
 		while (top < height)
 		{
 			if (idx == item)
 			{
-				itemHeight = LayoutItem(hwnd, &data->items, idx, false);
+				itemHeight = LayoutItem(hwnd, &data->items, idx);
 				if (top + itemHeight > height)
 					ScrollListBy(hwnd, data, 0, height-top-itemHeight);
 				found = true;
@@ -680,7 +679,7 @@ static void EnsureVisible(HWND hwnd, NewstoryListData *data, int item)
 			}
 			top += itemHeight;
 			idx++;
-			itemHeight = LayoutItem(hwnd, &data->items, idx, false);
+			itemHeight = LayoutItem(hwnd, &data->items, idx);
 		}
 		if (!found)
 		{
@@ -704,7 +703,7 @@ static void FixScrollPosition(HWND hwnd, NewstoryListData *data)
 		int maxTopItem = 0;
 		int tmp = 0;
 		for (maxTopItem = data->items.getCount(); (maxTopItem>0) && (tmp < windowHeight); maxTopItem--)
-			tmp += LayoutItem(hwnd, &data->items, maxTopItem-1, false);
+			tmp += LayoutItem(hwnd, &data->items, maxTopItem-1);
 		data->cachedMaxTopItem = maxTopItem;
 		data->cachedWindowHeight = windowHeight;
 		data->cachedMaxTopPixel = (windowHeight < tmp) ? windowHeight - tmp : 0;
@@ -751,7 +750,7 @@ static void BeginEditItem(HWND hwnd, NewstoryListData *data, int index)
 
 	int top = data->scrollTopPixel;
 	int idx = data->scrollTopItem;
-	int itemHeight = LayoutItem(hwnd, &data->items, idx, false);
+	int itemHeight = LayoutItem(hwnd, &data->items, idx);
 	while (top < height)
 	{
 		if (idx == index)
@@ -819,17 +818,17 @@ static void BeginEditItem(HWND hwnd, NewstoryListData *data, int index)
 		}
 		top += itemHeight;
 		idx++;
-		itemHeight = LayoutItem(hwnd, &data->items, idx, false);
+		itemHeight = LayoutItem(hwnd, &data->items, idx);
 	}
 }
 
-static void EndEditItem(HWND hwnd, NewstoryListData *data)
+static void EndEditItem(HWND, NewstoryListData *data)
 {
 	DestroyWindow(data->hwndEditBox);
 	data->hwndEditBox = 0;
 }
 
-static int LayoutItem(HWND hwnd, HistoryArray *items, int index, bool force)
+static int LayoutItem(HWND hwnd, HistoryArray *items, int index)
 {
 	HDC hdc = GetDC(hwnd);
 	RECT rc; GetClientRect(hwnd, &rc);

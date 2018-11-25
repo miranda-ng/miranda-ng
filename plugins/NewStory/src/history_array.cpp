@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-void CacheThreadFunc(void *arg);
-
 // Event
 bool HistoryArray::ItemData::load(EventLoadMode mode)
 {
@@ -168,7 +166,7 @@ void HistoryArray::clear()
 	preIndex = 0;
 }
 
-bool HistoryArray::addHistory(MCONTACT hContact, EventLoadMode mode)
+bool HistoryArray::addHistory(MCONTACT hContact, EventLoadMode)
 {
 	int count = db_event_count(hContact);
 	allocateBlock(count);
