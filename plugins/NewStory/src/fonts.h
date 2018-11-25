@@ -19,8 +19,8 @@ enum
 
 struct MyColourID
 {
-	COLORREF cl;
-	ColourID info;
+	const char *szName, *szSetting;
+	COLORREF defaultValue, cl;
 };
 
 extern MyColourID colors[];
@@ -36,17 +36,16 @@ enum
 	FONT_STATUS,
 	FONT_INOTHER,
 	FONT_OUTOTHER,
-//	FONT_DEFAULT,
-//	FONT_SELECTED,
 	FONT_COUNT
 };
 
 struct MyFontID
 {
+	const char *szName, *szSetting;
+
 	COLORREF cl;
-	LOGFONTA *lf;
-	HFONT hfnt;
-	FontID info;
+	LOGFONTA lf;
+	HFONT    hfnt;
 };
 
 extern MyFontID fonts[];

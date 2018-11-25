@@ -5,15 +5,15 @@ struct CalendarToolData
 	int x, y;
 };
 
-int CALLBACK CalendarToolDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK CalendarToolDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	CalendarToolData *data = (CalendarToolData *)GetWindowLong(hwnd, GWL_USERDATA);
+	CalendarToolData *data = (CalendarToolData *)GetWindowLong(hwnd, GWLP_USERDATA);
 	switch (msg)
 	{
 		case WM_INITDIALOG:
 		{
 			data = (CalendarToolData *)lParam;
-			SetWindowLong(hwnd, GWL_USERDATA, (LONG)data);
+			SetWindowLong(hwnd, GWLP_USERDATA, (LONG)data);
 
 // This causes ALL miranda dialogs to have drop-shadow enabled. That's bad =(
 //			SetClassLong(hwnd, GCL_STYLE, GetClassLong(hwnd, GCL_STYLE)|CS_DROPSHADOW);
@@ -73,7 +73,7 @@ int CALLBACK CalendarToolDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		{
 			delete data;
 			data = 0;
-			SetWindowLong(hwnd, GWL_USERDATA, 0);
+			SetWindowLong(hwnd, GWLP_USERDATA, 0);
 		}
 	}
 	return FALSE;
@@ -84,8 +84,5 @@ time_t CalendarTool_Show(HWND hwnd, int x, int y)
 	CalendarToolData *data = new CalendarToolData;
 	data->x = x;
 	data->y = y;
-
-//	HWND hwndTool = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CALENDARTOOL), 0, CalendarToolDlgProc, (LPARAM)data);
-//	ShowWindow(hwndTool, SW_SHOWNORMAL);
 	return DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CALENDARTOOL), 0, CalendarToolDlgProc, (LPARAM)data);
 }

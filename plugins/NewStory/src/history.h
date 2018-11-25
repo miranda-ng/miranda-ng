@@ -34,7 +34,7 @@ extern MWindowList hNewstoryWindows;
 void InitHistory();
 void FreeHistory();
 
-int svcShowNewstory(WPARAM wParam, LPARAM lParam);
-int svcShowSystemNewstory(WPARAM wParam, LPARAM lParam);
+INT_PTR svcShowNewstory(WPARAM wParam, LPARAM lParam);
+INT_PTR svcShowSystemNewstory(WPARAM wParam, LPARAM lParam);
 
 #endif // __history_h__

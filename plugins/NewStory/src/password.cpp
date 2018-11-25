@@ -53,9 +53,9 @@ void SetPassword(MCONTACT hContact, char *password)
 	db_set_blob(hContact, MODULENAME, "password", (PBYTE)digest, 16);
 }
 
-int CALLBACK PasswordDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK PasswordDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	PasswordData *data = (PasswordData *)GetWindowLong(hwnd, GWL_USERDATA);
+	PasswordData *data = (PasswordData *)GetWindowLong(hwnd, GWLP_USERDATA);
 	switch (msg) 
 	{
 		case WM_INITDIALOG:
@@ -63,7 +63,7 @@ int CALLBACK PasswordDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			data = new PasswordData;
 			data->attempt = 0;
 			data->hContact = (MCONTACT)lParam;
-			SetWindowLong(hwnd, GWL_USERDATA, (LONG)data);
+			SetWindowLong(hwnd, GWLP_USERDATA, (LONG)data);
 
 			RECT rc, rcMe;
 			SystemParametersInfo(SPI_GETWORKAREA, 0, &rc, 0);
@@ -126,7 +126,7 @@ int CALLBACK PasswordDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 			delete data;
 			data = 0;
-			SetWindowLong(hwnd, GWL_USERDATA, 0);
+			SetWindowLong(hwnd, GWLP_USERDATA, 0);
 		}
 	}
 	return FALSE;
@@ -148,15 +148,15 @@ bool AskPassword(MCONTACT hContact)
 }
 
 
-int CALLBACK ChangePasswordDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK ChangePasswordDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)GetWindowLong(hwnd, GWL_USERDATA);
+	MCONTACT hContact = (MCONTACT)GetWindowLong(hwnd, GWLP_USERDATA);
 	switch (msg)
 	{
 		case WM_INITDIALOG:
 		{
 			hContact = (MCONTACT)lParam;
-			SetWindowLong(hwnd, GWL_USERDATA, (LONG)hContact);
+			SetWindowLong(hwnd, GWLP_USERDATA, (LONG)hContact);
 
 //			RECT rc, rcMe;
 //			SystemParametersInfo(SPI_GETWORKAREA, 0, &rc, 0);
@@ -225,7 +225,7 @@ int CALLBACK ChangePasswordDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 		case WM_DESTROY:
 		{
-			SetWindowLong(hwnd, GWL_USERDATA, 0);
+			SetWindowLong(hwnd, GWLP_USERDATA, 0);
 		}
 	}
 	return FALSE;

@@ -404,16 +404,16 @@ bool ExportHistoryDialog(HANDLE hContact, HWND hwndHistory)
 }
 */
 
-int CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	//CallSnappingWindowProc(hwnd, msg, wParam, lParam);
 
-	WindowData *data = (WindowData *)GetWindowLong(hwnd, GWL_USERDATA);
+	WindowData *data = (WindowData *)GetWindowLong(hwnd, GWLP_USERDATA);
 
 	if ((msg >= NSM_FIRST) && (msg < NSM_LAST))
 	{
 		int result = SendMessage(GetDlgItem(hwnd, IDC_ITEMS2), msg, wParam, lParam);
-		SetWindowLong(hwnd, DWL_MSGRESULT, result);
+		SetWindowLong(hwnd, DWLP_MSGRESULT, result);
 		return result;
 	}
 
@@ -511,7 +511,7 @@ int CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			SendMessage(data->ibTotal.hwndIcoOut, BM_SETCHECK, BST_CHECKED, 0);
 			data->ibTotal.hwndTxtOut = GetDlgItem(hwnd, IDC_TXT_TOTAL_OUT);
 			
-			SetWindowLong(hwnd, GWL_USERDATA, (LONG)data);
+			SetWindowLong(hwnd, GWLP_USERDATA, (LONG)data);
 
 			data->hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_POPUPS));
 			//CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)data->hMenu, 0);
@@ -1031,7 +1031,7 @@ int CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return FALSE; //DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-int svcShowNewstory(WPARAM wParam, LPARAM lParam)
+INT_PTR svcShowNewstory(WPARAM wParam, LPARAM lParam)
 {
 	HWND hwnd = (HWND)WindowList_Find(hNewstoryWindows, (MCONTACT)wParam);
 	if (hwnd && IsWindow(hwnd))
@@ -1047,7 +1047,7 @@ int svcShowNewstory(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int svcShowSystemNewstory(WPARAM wParam, LPARAM lParam)
+INT_PTR svcShowSystemNewstory(WPARAM wParam, LPARAM lParam)
 {
 	HWND hwnd = (HWND)WindowList_Find(hNewstoryWindows, 0);
 	if (hwnd && IsWindow(hwnd))

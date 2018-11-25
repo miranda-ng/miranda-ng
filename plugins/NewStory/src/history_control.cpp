@@ -808,7 +808,7 @@ static void BeginEditItem(HWND hwnd, NewstoryListData *data, int index)
 
 			TCHAR *text = TplFormatString(tpl, item->hContact, item);
 			data->hwndEditBox = CreateWindow(_T("EDIT"), text, WS_CHILD|WS_BORDER|ES_READONLY|ES_MULTILINE|ES_AUTOVSCROLL, 0, top, rc.right-rc.left, itemHeight, hwnd, NULL, g_plugin.getInst(), NULL);
-			OldEditWndProc = (WNDPROC)SetWindowLong(data->hwndEditBox, GWL_WNDPROC, (LONG)HistoryEditWndProc);
+			OldEditWndProc = (WNDPROC)SetWindowLong(data->hwndEditBox, GWLP_WNDPROC, (LONG)HistoryEditWndProc);
 			SendMessage(data->hwndEditBox, WM_SETFONT, (WPARAM)fonts[fontid].hfnt, 0);
 			SendMessage(data->hwndEditBox, EM_SETMARGINS, EC_RIGHTMARGIN, 100);
 			SendMessage(data->hwndEditBox, EM_SETSEL, 0, (LPARAM) (-1));

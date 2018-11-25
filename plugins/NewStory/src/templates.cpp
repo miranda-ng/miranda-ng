@@ -459,7 +459,7 @@ void vfOther(int mode, TemplateVars *vars, HANDLE hContact, HistoryArray::ItemDa
 
 // Option dialog
 
-BOOL CALLBACK OptTemplatesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK OptTemplatesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static int CurrentTemplate;
 	switch (msg)

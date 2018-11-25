@@ -18,7 +18,7 @@ void InitOptions()
 	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 }
 
-BOOL CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 static int OptionsInitialize(WPARAM wParam, LPARAM lParam)
 {
@@ -47,7 +47,7 @@ static void ThemeDialogBackground(HWND hwnd) {
 	}
 }
 
-BOOL CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{

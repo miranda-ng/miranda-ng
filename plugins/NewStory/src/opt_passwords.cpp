@@ -24,7 +24,7 @@ static void ResetListOptions(HWND hwndList)
 	SetWindowLong(hwndList, GWL_STYLE, GetWindowLong(hwndList, GWL_STYLE) | CLS_SHOWHIDDEN);
 }
 
-BOOL CALLBACK OptPasswordsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK OptPasswordsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	HTREEITEM hitmGlobal, hitmMaster;
 	switch (msg)
