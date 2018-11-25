@@ -20,7 +20,7 @@ void InitOptions()
 
 INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-static int OptionsInitialize(WPARAM wParam, LPARAM lParam)
+static int OptionsInitialize(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;

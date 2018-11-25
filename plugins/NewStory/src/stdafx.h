@@ -24,7 +24,7 @@ Boston, MA 02111-1307, USA.
 #include <process.h>
 #include <tchar.h>
 #include <commctrl.h>
-#include <stdio.h>
+//#include <stdio.h>
 #include <time.h>
 
 //Miranda headers

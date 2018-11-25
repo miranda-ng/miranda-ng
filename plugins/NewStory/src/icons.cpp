@@ -48,12 +48,12 @@ void InitIcons()
 	HookEvent(ME_SKIN2_ICONSCHANGED, evtIconsChanged);
 }
 
-void RefreshIcons(IconItem *icons, int count)
+/*void RefreshIcons(IconItem *icons, int count)
 {
 	//if (ServiceExists(MS_SKIN2_ADDICON))
 	//	for (int i = 0; i < count; i++)
 	//		icons[i].hIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)icons[i].szId);
-}
+}*/
 
 HICON GetIcon(int iconId)
 {

@@ -23,6 +23,8 @@ struct MyColourID
 	COLORREF defaultValue, cl;
 };
 
+
+
 extern MyColourID colors[];
 
 enum

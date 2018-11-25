@@ -71,7 +71,7 @@ static LRESULT CALLBACK HistoryEditWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		{
 		case VK_ESCAPE:
 		{
-			EndEditItem(GetParent(hwnd), (NewstoryListData *)GetWindowLong(GetParent(hwnd), 0));
+			EndEditItem(GetParent(hwnd), (NewstoryListData *)GetWindowLongPtr(GetParent(hwnd), 0));
 			return 0;
 		}
 		}
@@ -81,10 +81,10 @@ static LRESULT CALLBACK HistoryEditWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	{
 		if (lParam)
 		{
-			MSG *msg = (MSG *)lParam;
-			if (msg->message == WM_KEYDOWN && msg->wParam == VK_TAB)
+			MSG *msg2 = (MSG *)lParam;
+			if (msg2->message == WM_KEYDOWN && msg2->wParam == VK_TAB)
 				return 0;
-			if (msg->message == WM_CHAR && msg->wParam == '\t')
+			if (msg2->message == WM_CHAR && msg2->wParam == '\t')
 				return 0;
 		}
 		return DLGC_WANTMESSAGE;
@@ -102,7 +102,7 @@ static LRESULT CALLBACK HistoryEditWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 // WndProc
 LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	NewstoryListData *data = (NewstoryListData *)GetWindowLong(hwnd, 0);
+	NewstoryListData *data = (NewstoryListData *)GetWindowLongPtr(hwnd, 0);
 
 	switch (msg)
 	{
@@ -114,7 +114,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			data->cachedMaxTopItem = 0;
 			data->cachedMaxTopPixel = 0;
 			data->hwndEditBox = 0;
-			SetWindowLong(hwnd, 0, (int)data);
+			SetWindowLongPtr(hwnd, 0, (LONG_PTR)data);
 			RecalcScrollBar(hwnd, data);
 
 			break;
@@ -138,8 +138,8 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 		case NSM_SELECTITEMS:
 		{
-			DWORD start = min(data->items.getCount()-1, max(0, wParam));
-			DWORD end = min(data->items.getCount()-1, max(0, lParam));
+			int start = min(data->items.getCount()-1, max(0, wParam));
+			int end = min(data->items.getCount()-1, max(0, lParam));
 			if (start > end)
 			{
 				start ^= end;
@@ -154,8 +154,8 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 		case NSM_TOGGLEITEMS:
 		{
-			DWORD start = min(data->items.getCount()-1, max(0, wParam));
-			DWORD end = min(data->items.getCount()-1, max(0, lParam));
+			int start = min(data->items.getCount()-1, max(0, wParam));
+			int end = min(data->items.getCount()-1, max(0, lParam));
 			if (start > end)
 			{
 				start ^= end;
@@ -178,15 +178,15 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 		case NSM_SELECTITEMS2:
 		{
-			DWORD start = min(data->items.getCount()-1, max(0, wParam));
-			DWORD end = min(data->items.getCount()-1, max(0, lParam));
+			int start = min(data->items.getCount()-1, max(0, wParam));
+			int end = min(data->items.getCount()-1, max(0, lParam));
 			if (start > end)
 			{
 				start ^= end;
 				end ^= start;
 				start ^= end;
 			}
-			DWORD count = data->items.getCount();
+			int count = data->items.getCount();
 			for (int i = 0; i < count; ++i)
 			{
 				if ((i >= start) && (i <= end))
@@ -203,8 +203,8 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 		case NSM_DESELECTITEMS:
 		{
-			DWORD start = min(data->items.getCount()-1, max(0, wParam));
-			DWORD end = min(data->items.getCount()-1, max(0, lParam));
+			int start = min(data->items.getCount()-1, max(0, wParam));
+			int end = min(data->items.getCount()-1, max(0, lParam));
 			if (start > end)
 			{
 				start ^= end;
@@ -375,12 +375,12 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 				if (top <= height)
 				{
-					RECT rc;
-					SetRect(&rc, 0, top, width, height);
+					RECT rc2;
+					SetRect(&rc2, 0, top, width, height);
 				
 					HBRUSH hbr;
 					hbr = CreateSolidBrush(RGB(0xff,0xff,0xff));
-					FillRect(hdc, &rc, hbr);
+					FillRect(hdc, &rc2, hbr);
 					DeleteObject(hbr);
 				}
 
@@ -407,19 +407,19 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		{
 			if (lParam)
 			{
-				MSG *msg = (MSG *) lParam;
-				if (msg->message == WM_KEYDOWN)
+				MSG *msg2 = (MSG *) lParam;
+				if (msg2->message == WM_KEYDOWN)
 				{
-					if (msg->wParam == VK_TAB)
+					if (msg2->wParam == VK_TAB)
 						return 0;
-					if (msg->wParam == VK_ESCAPE && !data->hwndEditBox)
+					if (msg2->wParam == VK_ESCAPE && !data->hwndEditBox)
 						return 0;
 				} else
-				if (msg->message == WM_CHAR)
+				if (msg2->message == WM_CHAR)
 				{
-					if (msg->wParam == '\t')
+					if (msg2->wParam == '\t')
 						return 0;
-					if (msg->wParam == 27 && !data->hwndEditBox)
+					if (msg2->wParam == 27 && !data->hwndEditBox)
 						return 0;
 				}
 			}
@@ -604,7 +604,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		case WM_DESTROY:
 		{
 			delete data;
-			SetWindowLong(hwnd, 0, 0);
+			SetWindowLongPtr(hwnd, 0, 0);
 			break;
 		}
 	}
@@ -807,7 +807,7 @@ static void BeginEditItem(HWND hwnd, NewstoryListData *data, int index)
 
 			TCHAR *text = TplFormatString(tpl, item->hContact, item);
 			data->hwndEditBox = CreateWindow(_T("EDIT"), text, WS_CHILD|WS_BORDER|ES_READONLY|ES_MULTILINE|ES_AUTOVSCROLL, 0, top, rc.right-rc.left, itemHeight, hwnd, NULL, g_plugin.getInst(), NULL);
-			OldEditWndProc = (WNDPROC)SetWindowLong(data->hwndEditBox, GWLP_WNDPROC, (LONG)HistoryEditWndProc);
+			OldEditWndProc = (WNDPROC)SetWindowLongPtr(data->hwndEditBox, GWLP_WNDPROC, (LONG_PTR)HistoryEditWndProc);
 			SendMessage(data->hwndEditBox, WM_SETFONT, (WPARAM)fonts[fontid].hfnt, 0);
 			SendMessage(data->hwndEditBox, EM_SETMARGINS, EC_RIGHTMARGIN, 100);
 			SendMessage(data->hwndEditBox, EM_SETSEL, 0, (LPARAM) (-1));

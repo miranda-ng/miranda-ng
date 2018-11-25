@@ -1,4 +1,4 @@
-//Microsoft Developer Studio generated resource script.
+// Microsoft Visual C++ generated resource script.
 //
 #include "..\src\resource.h"
 
@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "winres.h"
+#include "afxres.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -16,56 +16,47 @@
 // Neutral resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
-#ifdef _WIN32
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#pragma code_page(1251)
-#endif //_WIN32
+#pragma code_page(1252)
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
 //
 
-IDD_SEARCH DIALOG DISCARDABLE  0, 0, 264, 132
-STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_SEARCH DIALOGEX 0, 0, 264, 132
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Search Newstory"
-FONT 8, "MS Shell Dlg"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,152,111,51,15
     PUSHBUTTON      "Cancel",IDCANCEL,207,111,51,15
-    CONTROL         "Progress1",IDC_PROGRESS,"msctls_progress32",WS_DISABLED | 
-                    WS_BORDER,7,92,250,14
+    CONTROL         "Progress1",IDC_PROGRESS,"msctls_progress32",WS_DISABLED | WS_BORDER,7,92,250,14
     RTEXT           "Search for:",IDC_STATIC,7,24,45,14,SS_CENTERIMAGE
-    CONTROL         "Progress1",IDC_PROGRESS1,"msctls_progress32",WS_BORDER,
-                    7,73,250,14
-    COMBOBOX        IDC_COMBO1,57,7,200,55,CBS_DROPDOWN | CBS_SORT | 
-                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Progress1",IDC_PROGRESS1,"msctls_progress32",WS_BORDER,7,73,250,14
+    COMBOBOX        IDC_COMBO1,57,7,200,55,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     EDITTEXT        IDC_EDIT1,57,24,200,14,ES_AUTOHSCROLL
     RTEXT           "Search in:",IDC_STATIC,7,7,45,12,SS_CENTERIMAGE
-    CONTROL         "Match case",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,57,43,100,10
-    CONTROL         "Tokenize search string",IDC_CHECK3,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,57,58,100,10
+    CONTROL         "Match case",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,57,43,100,10
+    CONTROL         "Tokenize search string",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,57,58,100,10
 END
 
-IDD_MESSAGE DIALOG DISCARDABLE  0, 0, 224, 173
-STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_MESSAGE DIALOGEX 0, 0, 224, 173
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "View Single Message"
-FONT 8, "MS Shell Dlg"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "Close",IDCANCEL,167,149,50,17
-    EDITTEXT        IDC_USERNICK,28,9,189,12,ES_AUTOHSCROLL | ES_READONLY | 
-                    NOT WS_BORDER
+    EDITTEXT        IDC_USERNICK,28,9,189,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     ICON            "",IDC_MSGICON,7,7,16,14
-    CONTROL         "Sample text. With smileys: :) :D and hyperlinks: http://www.miranda-im.org/",
-                    IDC_TEXT,"MTextControl",WS_TABSTOP,7,26,210,118
+    CONTROL         "Sample text. With smileys: :) :D and hyperlinks: http://www.miranda-ng.org/",IDC_TEXT,
+                    "MTextControl",WS_TABSTOP,7,26,210,118
 END
 
 IDD_HISTORY DIALOGEX 0, 0, 380, 319
-STYLE DS_NOIDLEMSG | DS_CENTER | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | 
-    WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+STYLE DS_SETFONT | DS_NOIDLEMSG | DS_CENTER | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 CAPTION "NewStory - New History for Miranda IM"
-FONT 8, "MS Shell Dlg"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "",IDC_CLOSE,"MButtonClass",WS_TABSTOP,364,99,16,14
     CONTROL         "",IDC_MESSAGE,"MButtonClass",WS_TABSTOP,37,99,16,14
@@ -80,10 +71,7 @@ BEGIN
     EDITTEXT        IDC_SEARCHTEXT,19,305,305,14,ES_AUTOHSCROLL
     ICON            "",IDC_SEARCHICON,1,298,20,20,SS_CENTERIMAGE
     CONTROL         "",IDC_LOGOPTIONS,"MButtonClass",WS_TABSTOP,116,99,16,14
-    CONTROL         "Tree1",IDC_TIMETREE,"SysTreeView32",TVS_DISABLEDRAGDROP | 
-                    TVS_SHOWSELALWAYS | TVS_TRACKSELECT | TVS_SINGLEEXPAND | 
-                    TVS_FULLROWSELECT | NOT WS_VISIBLE | WS_TABSTOP,0,134,84,
-                    160,WS_EX_STATICEDGE
+    CONTROL         "Tree1",IDC_TIMETREE,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | TVS_TRACKSELECT | TVS_FULLROWSELECT | TVS_SINGLEEXPAND | NOT WS_VISIBLE | WS_TABSTOP,0,134,84,160,WS_EX_STATICEDGE
     CONTROL         "",IDC_SECURITY,"MButtonClass",WS_TABSTOP,347,99,16,14
     CONTROL         "",IDC_DATEPOPUP,"MButtonClass",WS_TABSTOP,148,99,16,14
     CONTROL         "",IDC_ITEMS2,"NewstoryList",WS_TABSTOP,90,132,290,166
@@ -100,65 +88,47 @@ BEGIN
     LTEXT           "237562",IDC_TXT_MESSAGES_OUT,45,52,25,8,SS_CENTERIMAGE
     LTEXT           "237562",IDC_TXT_FILES_OUT,169,55,25,8,SS_CENTERIMAGE
     LTEXT           "237562",IDC_TXT_TOTAL_OUT,327,54,25,8,SS_CENTERIMAGE
-    CONTROL         "",IDC_ICO_MESSAGES_IN,"MButtonClass",WS_TABSTOP,17,36,
-                    16,14
-    CONTROL         "",IDC_ICO_MESSAGES_OUT,"MButtonClass",WS_TABSTOP,17,52,
-                    16,14
-    CONTROL         "",IDC_ICO_FILES_IN,"MButtonClass",WS_TABSTOP,143,36,16,
-                    14
-    CONTROL         "",IDC_ICO_FILES_OUT,"MButtonClass",WS_TABSTOP,143,52,16,
-                    14
-    CONTROL         "",IDC_ICO_TOTAL_IN,"MButtonClass",WS_TABSTOP,305,36,16,
-                    14
-    CONTROL         "",IDC_ICO_TOTAL_OUT,"MButtonClass",WS_TABSTOP,305,52,16,
-                    14
+    CONTROL         "",IDC_ICO_MESSAGES_IN,"MButtonClass",WS_TABSTOP,17,36,16,14
+    CONTROL         "",IDC_ICO_MESSAGES_OUT,"MButtonClass",WS_TABSTOP,17,52,16,14
+    CONTROL         "",IDC_ICO_FILES_IN,"MButtonClass",WS_TABSTOP,143,36,16,14
+    CONTROL         "",IDC_ICO_FILES_OUT,"MButtonClass",WS_TABSTOP,143,52,16,14
+    CONTROL         "",IDC_ICO_TOTAL_IN,"MButtonClass",WS_TABSTOP,305,36,16,14
+    CONTROL         "",IDC_ICO_TOTAL_OUT,"MButtonClass",WS_TABSTOP,305,52,16,14
     ICON            "",IDC_ICO_URLS,205,9,20,20
     LTEXT           "424356",IDC_TXT_URLS,237,15,25,8,SS_CENTERIMAGE
     LTEXT           "237562",IDC_TXT_URLS_IN,249,44,25,8,SS_CENTERIMAGE
     LTEXT           "237562",IDC_TXT_URLS_OUT,251,57,25,8,SS_CENTERIMAGE
-    CONTROL         "",IDC_ICO_URLS_IN,"MButtonClass",WS_TABSTOP,225,38,16,
-                    14
-    CONTROL         "",IDC_ICO_URLS_OUT,"MButtonClass",WS_TABSTOP,225,54,16,
-                    14
-    CONTROL         "DateTimePicker1",IDC_DATE_TO,"SysDateTimePick32",
-                    DTS_RIGHTALIGN | DTS_UPDOWN | DTS_LONGDATEFORMAT | 
-                    WS_TABSTOP,246,94,90,15
-    CONTROL         "DateTimePicker1",IDC_DATE_FROM,"SysDateTimePick32",
-                    DTS_RIGHTALIGN | DTS_UPDOWN | DTS_LONGDATEFORMAT | 
-                    WS_TABSTOP,247,76,90,15
-    CONTROL         "since",IDC_CHK_DATE_FROM,"Button",BS_AUTOCHECKBOX | 
-                    BS_RIGHT | BS_VCENTER | BS_FLAT | WS_TABSTOP,209,80,33,
-                    10,WS_EX_TRANSPARENT | WS_EX_RIGHT
-    CONTROL         "till",IDC_CHK_DATE_TO,"Button",BS_AUTOCHECKBOX | 
-                    BS_RIGHT | BS_VCENTER | BS_FLAT | WS_TABSTOP,210,97,33,
-                    10,WS_EX_TRANSPARENT | WS_EX_RIGHT
+    CONTROL         "",IDC_ICO_URLS_IN,"MButtonClass",WS_TABSTOP,225,38,16,14
+    CONTROL         "",IDC_ICO_URLS_OUT,"MButtonClass",WS_TABSTOP,225,54,16,14
+    CONTROL         "DateTimePicker1",IDC_DATE_TO,"SysDateTimePick32",DTS_RIGHTALIGN | DTS_UPDOWN | DTS_LONGDATEFORMAT | WS_TABSTOP,246,94,90,15
+    CONTROL         "DateTimePicker1",IDC_DATE_FROM,"SysDateTimePick32",DTS_RIGHTALIGN | DTS_UPDOWN | DTS_LONGDATEFORMAT | WS_TABSTOP,247,76,90,15
+    CONTROL         "since",IDC_CHK_DATE_FROM,"Button",BS_AUTOCHECKBOX | BS_RIGHT | BS_VCENTER | BS_FLAT | WS_TABSTOP,209,80,33,10,WS_EX_TRANSPARENT | WS_EX_RIGHT
+    CONTROL         "till",IDC_CHK_DATE_TO,"Button",BS_AUTOCHECKBOX | BS_RIGHT | BS_VCENTER | BS_FLAT | WS_TABSTOP,210,97,33,10,WS_EX_TRANSPARENT | WS_EX_RIGHT
 END
 
-IDD_PASSWORD DIALOG DISCARDABLE  0, 0, 259, 61
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+IDD_PASSWORD DIALOGEX 0, 0, 259, 61
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION
 CAPTION "Newstory"
-FONT 8, "MS Shell Dlg"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,147,39,50,15
     PUSHBUTTON      "Cancel",IDCANCEL,202,39,50,15
-    LTEXT           "Ooops! This is a protected area, so type your password here:",
-                    IDC_STATIC,7,7,192,8
+    LTEXT           "Ooops! This is a protected area, so type your password here:",IDC_STATIC,7,7,192,8
     EDITTEXT        IDC_PASSWORD,12,20,240,14,ES_PASSWORD | ES_AUTOHSCROLL
 END
 
 IDD_CALENDARTOOL DIALOGEX 0, 0, 98, 85
-STYLE WS_POPUP | WS_BORDER
+STYLE DS_SETFONT | WS_POPUP | WS_BORDER
 EXSTYLE WS_EX_TOOLWINDOW
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "MonthCalendar1",IDC_MONTHCALENDAR1,"SysMonthCal32",
-                    WS_TABSTOP | 0x8,0,0,98,85
+    CONTROL         "MonthCalendar1",IDC_MONTHCALENDAR1,"SysMonthCal32",MCS_NOTODAYCIRCLE | WS_TABSTOP,0,0,98,85
 END
 
-IDD_CHANGEPASSWORD DIALOG DISCARDABLE  0, 0, 259, 126
-STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION
+IDD_CHANGEPASSWORD DIALOGEX 0, 0, 259, 126
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION
 CAPTION "Change Newstory Password"
-FONT 8, "MS Shell Dlg"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,148,103,50,16
     PUSHBUTTON      "Cancel",IDCANCEL,202,103,50,16
@@ -170,75 +140,89 @@ BEGIN
     EDITTEXT        IDC_PASSWORD3,12,84,240,14,ES_PASSWORD | ES_AUTOHSCROLL
 END
 
-IDD_OPTIONS DIALOG DISCARDABLE  0, 0, 314, 240
-STYLE WS_CHILD
-FONT 8, "MS Shell Dlg"
+IDD_OPTIONS DIALOGEX 0, 0, 314, 240
+STYLE DS_SETFONT | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "Tab1",IDC_TAB,"SysTabControl32",0x0,0,0,314,240
 END
 
-IDD_OPT_TEMPLATES DIALOG DISCARDABLE  0, 0, 307, 223
-STYLE WS_CHILD
-FONT 8, "MS Shell Dlg"
+IDD_OPT_TEMPLATES DIALOGEX 0, 0, 307, 223
+STYLE DS_SETFONT | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Tree1",IDC_TEMPLATES,"SysTreeView32",
-                    TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | 
-                    TVS_FULLROWSELECT | WS_BORDER | WS_TABSTOP,12,20,135,117
+    CONTROL         "Tree1",IDC_TEMPLATES,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | TVS_FULLROWSELECT | WS_BORDER | WS_TABSTOP,12,20,135,117
     LTEXT           "Edit template:",IDC_STATIC,7,142,293,8
-    EDITTEXT        IDC_EDITTEMPLATE,12,155,288,42,ES_MULTILINE | 
-                    ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN
-    CONTROL         "",IDC_VARHELP,"MButtonClass",WS_DISABLED | WS_TABSTOP,
-                    284,202,16,14
-    EDITTEXT        IDC_PREVIEW,162,20,138,42,ES_MULTILINE | ES_AUTOVSCROLL | 
-                    ES_READONLY
+    EDITTEXT        IDC_EDITTEMPLATE,12,155,288,42,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN
+    CONTROL         "",IDC_VARHELP,"MButtonClass",WS_DISABLED | WS_TABSTOP,284,202,16,14
+    EDITTEXT        IDC_PREVIEW,162,20,138,42,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY
     LTEXT           "Template list:",IDC_STATIC,7,7,140,8
     LTEXT           "Text preview:",IDC_STATIC,157,7,143,8
     CONTROL         "",IDC_DISCARD,"MButtonClass",WS_TABSTOP,252,202,16,14
     LTEXT           "Graphic preview:",IDC_STATIC,157,67,143,8
     CONTROL         "",IDC_GPREVIEW,"MTextControl",WS_TABSTOP,162,80,138,57
-    CONTROL         "",IDC_UPDATEPREVIEW,"MButtonClass",WS_TABSTOP,268,202,
-                    16,14
+    CONTROL         "",IDC_UPDATEPREVIEW,"MButtonClass",WS_TABSTOP,268,202,16,14
 END
 
-IDD_OPT_GENERAL DIALOG DISCARDABLE  0, 0, 307, 223
-STYLE WS_CHILD
-FONT 8, "MS Shell Dlg"
+IDD_OPT_GENERAL DIALOGEX 0, 0, 307, 223
+STYLE DS_SETFONT | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CTEXT           "Coming soon...",IDC_STATIC,7,7,293,209,SS_CENTERIMAGE
 END
 
-IDD_OPT_PASSWORDS DIALOG DISCARDABLE  0, 0, 307, 223
-STYLE WS_CHILD
-FONT 8, "MS Shell Dlg"
+IDD_OPT_PASSWORDS DIALOGEX 0, 0, 307, 223
+STYLE DS_SETFONT | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     LTEXT           "Edit password for:",IDC_STATIC,7,7,125,8
     LTEXT           "Current password:",IDC_STATIC,137,20,163,8
-    CONTROL         "",IDC_LIST,"CListControl",WS_TABSTOP | 0x1d0,13,21,118,
-                    194
-    EDITTEXT        IDC_CHANGEPASS,142,34,158,14,ES_PASSWORD | 
-                    ES_AUTOHSCROLL
+    CONTROL         "",IDC_LIST,"CListControl",WS_TABSTOP | 0x1d0,13,21,118,194
+    EDITTEXT        IDC_CHANGEPASS,142,34,158,14,ES_PASSWORD | ES_AUTOHSCROLL
     LTEXT           "New password:",IDC_STATIC,137,54,163,8
-    EDITTEXT        IDC_CHANGEPASS2,142,67,158,14,ES_PASSWORD | 
-                    ES_AUTOHSCROLL
+    EDITTEXT        IDC_CHANGEPASS2,142,67,158,14,ES_PASSWORD | ES_AUTOHSCROLL
     LTEXT           "Confirm new password",IDC_STATIC,137,86,163,8
-    EDITTEXT        IDC_CHANGEPASS3,142,99,158,14,ES_PASSWORD | 
-                    ES_AUTOHSCROLL
-    CONTROL         "",IDC_SAVEPASSWORD,"MButtonClass",WS_TABSTOP,284,118,16,
-                    14
+    EDITTEXT        IDC_CHANGEPASS3,142,99,158,14,ES_PASSWORD | ES_AUTOHSCROLL
+    CONTROL         "",IDC_SAVEPASSWORD,"MButtonClass",WS_TABSTOP,284,118,16,14
     CONTROL         "",IDC_STATIC,"Static",SS_BLACKFRAME,12,20,120,196
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,137,139,163,1
-    LTEXT           "Password is NOT set for the contact",IDC_STATIC,158,146,
-                    142,14,SS_CENTERIMAGE
-    LTEXT           "Password is set for the contact",IDC_STATIC,158,160,142,
-                    14,SS_CENTERIMAGE
-    ICON            "",IDC_ICO_PASSWORD,137,160,16,14,SS_CENTERIMAGE | 
-                    SS_REALSIZEIMAGE
-    ICON            "",IDC_ICO_NOPASSWORD,137,146,16,14,SS_CENTERIMAGE | 
-                    SS_REALSIZEIMAGE
-    LTEXT           "Global password is password used to access history of contacts with no password set.",
-                    IDC_STATIC,137,179,163,16
-    LTEXT           "Master password can be used to override ANY password. This may be useful if you forget some...",
-                    IDC_STATIC,137,200,163,16
+    LTEXT           "Password is NOT set for the contact",IDC_STATIC,158,146,142,14,SS_CENTERIMAGE
+    LTEXT           "Password is set for the contact",IDC_STATIC,158,160,142,14,SS_CENTERIMAGE
+    ICON            "",IDC_ICO_PASSWORD,137,160,16,14,SS_CENTERIMAGE | SS_REALSIZEIMAGE
+    ICON            "",IDC_ICO_NOPASSWORD,137,146,16,14,SS_CENTERIMAGE | SS_REALSIZEIMAGE
+    LTEXT           "Global password is password used to access history of contacts with no password set.",IDC_STATIC,137,179,163,16
+    LTEXT           "Master password can be used to override ANY password. This may be useful if you forget some...",IDC_STATIC,137,200,163,16
+END
+
+IDD_FILTERMODE DIALOGEX 0, 0, 219, 171
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_NOPARENTNOTIFY
+CAPTION "Message Filter"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,107,150,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,161,150,50,14
+    LTEXT           "By Direction",IDC_STATIC,7,7,100,8
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,7,15,100,1
+    CONTROL         "Incoming Events",IDC_CHK_IN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,21,95,10
+    CONTROL         "Outgoing Events",IDC_CHK_OUT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,31,95,10
+    LTEXT           "By Type",IDC_STATIC,7,46,100,8
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,7,54,100,1
+    CONTROL         "Messages",IDC_CHK_MESSAGES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,60,95,10
+    CONTROL         "File Transfers",IDC_CHK_FILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,70,95,10
+    CONTROL         "URL Events",IDC_CHK_URL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,80,95,10
+    CONTROL         "Status Changes",IDC_CHK_STATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,90,95,10
+    CONTROL         "Other Events",IDC_CHK_OTHER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,100,95,10
+    CONTROL         "Other",IDC_STATIC,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,7,115,100,8
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,7,123,100,1
+    CONTROL         "Search-Filter",IDC_CHK_AUTOFILTER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,129,95,10
+    LTEXT           "By Date",IDC_STATIC,112,7,100,8,WS_DISABLED
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,112,15,99,1
+    CONTROL         "DateTimePicker1",IDC_DATETIMEPICKER1,"SysDateTimePick32",DTS_RIGHTALIGN | DTS_UPDOWN | DTS_LONGDATEFORMAT | WS_DISABLED | WS_TABSTOP,117,29,95,15
+    LTEXT           "Since",IDC_STATIC,112,21,100,8,WS_DISABLED
+    LTEXT           "Until",IDC_STATIC,112,46,100,8,WS_DISABLED
+    CONTROL         "DateTimePicker2",IDC_DATETIMEPICKER2,"SysDateTimePick32",DTS_RIGHTALIGN | DTS_UPDOWN | DTS_LONGDATEFORMAT | WS_DISABLED | WS_TABSTOP,117,55,95,15
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,7,144,205,1
 END
 
 
@@ -248,7 +232,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO DISCARDABLE 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_SEARCH, DIALOG
     BEGIN
@@ -303,6 +287,10 @@ BEGIN
         HORZGUIDE, 20
         HORZGUIDE, 34
         HORZGUIDE, 39
+    END
+
+    IDD_CALENDARTOOL, DIALOG
+    BEGIN
     END
 
     IDD_CHANGEPASSWORD, DIALOG
@@ -403,6 +391,38 @@ BEGIN
         HORZGUIDE, 195
         HORZGUIDE, 200
     END
+
+    IDD_FILTERMODE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 212
+        VERTGUIDE, 12
+        VERTGUIDE, 107
+        VERTGUIDE, 112
+        VERTGUIDE, 117
+        VERTGUIDE, 156
+        VERTGUIDE, 161
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 164
+        HORZGUIDE, 15
+        HORZGUIDE, 16
+        HORZGUIDE, 21
+        HORZGUIDE, 29
+        HORZGUIDE, 41
+        HORZGUIDE, 46
+        HORZGUIDE, 54
+        HORZGUIDE, 55
+        HORZGUIDE, 60
+        HORZGUIDE, 110
+        HORZGUIDE, 115
+        HORZGUIDE, 123
+        HORZGUIDE, 124
+        HORZGUIDE, 129
+        HORZGUIDE, 139
+        HORZGUIDE, 144
+        HORZGUIDE, 145
+        HORZGUIDE, 150
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -412,7 +432,7 @@ END
 // Menu
 //
 
-IDR_POPUPS MENU DISCARDABLE 
+IDR_POPUPS MENU
 BEGIN
     POPUP "Export"
     BEGIN
@@ -421,14 +441,10 @@ BEGIN
     END
     POPUP "Filter"
     BEGIN
-        MENUITEM "Show All Events",             ID_FILTER_SHOWALLEVENTS
-        , GRAYED
-        MENUITEM "Show Incoming Events Only",   ID_FILTER_SHOWINCOMINGEVENTSONLY
-        , GRAYED
-        MENUITEM "Show Outgoing Events Only",   ID_FILTER_SHOWOUTGOINGEVENTSONLY
-        , GRAYED
-        MENUITEM "Use Custom Filter...",        ID_FILTER_USECUSTOMFILTER
-        , GRAYED
+        MENUITEM "Show All Events",             ID_FILTER_SHOWALLEVENTS, GRAYED
+        MENUITEM "Show Incoming Events Only",   ID_FILTER_SHOWINCOMINGEVENTSONLY, GRAYED
+        MENUITEM "Show Outgoing Events Only",   ID_FILTER_SHOWOUTGOINGEVENTSONLY, GRAYED
+        MENUITEM "Use Custom Filter...",        ID_FILTER_USECUSTOMFILTER, GRAYED
         MENUITEM SEPARATOR
         MENUITEM "Incoming Events",             ID_FILTER_INCOMING, CHECKED
         MENUITEM "Outgoing Events",             ID_FILTER_OUTGOING, CHECKED
@@ -467,116 +483,11 @@ END
 // Accelerator
 //
 
-IDR_ACCEL ACCELERATORS DISCARDABLE 
+IDR_ACCEL ACCELERATORS
 BEGIN
     "C",            IDA_COPY,               VIRTKEY, CONTROL, NOINVERT
     "F",            IDA_SEARCH,             VIRTKEY, CONTROL, NOINVERT
 END
-
-#endif    // Neutral resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// Unknown language: 0x22, 0x1 resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_UKR)
-#ifdef _WIN32
-LANGUAGE 0x22, 0x1
-#pragma code_page(1251)
-#endif //_WIN32
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
-
-IDD_FILTERMODE DIALOGEX 0, 0, 219, 171
-STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-EXSTYLE WS_EX_NOPARENTNOTIFY
-CAPTION "Message Filter"
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,107,150,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,161,150,50,14
-    LTEXT           "By Direction",IDC_STATIC,7,7,100,8
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,7,15,100,1
-    CONTROL         "Incoming Events",IDC_CHK_IN,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,12,21,95,10
-    CONTROL         "Outgoing Events",IDC_CHK_OUT,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,12,31,95,10
-    LTEXT           "By Type",IDC_STATIC,7,46,100,8
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,7,54,100,1
-    CONTROL         "Messages",IDC_CHK_MESSAGES,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,12,60,95,10
-    CONTROL         "File Transfers",IDC_CHK_FILE,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,12,70,95,10
-    CONTROL         "URL Events",IDC_CHK_URL,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,12,80,95,10
-    CONTROL         "Status Changes",IDC_CHK_STATUS,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,12,90,95,10
-    CONTROL         "Other Events",IDC_CHK_OTHER,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,12,100,95,10
-    CONTROL         "Other",IDC_STATIC,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,
-                    7,115,100,8
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,7,123,100,1
-    CONTROL         "Search-Filter",IDC_CHK_AUTOFILTER,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,12,129,95,10
-    LTEXT           "By Date",IDC_STATIC,112,7,100,8,WS_DISABLED
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,112,15,99,1
-    CONTROL         "DateTimePicker1",IDC_DATETIMEPICKER1,"SysDateTimePick32",
-                    DTS_RIGHTALIGN | DTS_UPDOWN | DTS_LONGDATEFORMAT | 
-                    WS_DISABLED | WS_TABSTOP,117,29,95,15
-    LTEXT           "Since",IDC_STATIC,112,21,100,8,WS_DISABLED
-    LTEXT           "Until",IDC_STATIC,112,46,100,8,WS_DISABLED
-    CONTROL         "DateTimePicker2",IDC_DATETIMEPICKER2,"SysDateTimePick32",
-                    DTS_RIGHTALIGN | DTS_UPDOWN | DTS_LONGDATEFORMAT | 
-                    WS_DISABLED | WS_TABSTOP,117,55,95,15
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,7,144,205,1
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO DISCARDABLE 
-BEGIN
-    IDD_FILTERMODE, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 212
-        VERTGUIDE, 12
-        VERTGUIDE, 107
-        VERTGUIDE, 112
-        VERTGUIDE, 117
-        VERTGUIDE, 156
-        VERTGUIDE, 161
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 164
-        HORZGUIDE, 15
-        HORZGUIDE, 16
-        HORZGUIDE, 21
-        HORZGUIDE, 29
-        HORZGUIDE, 41
-        HORZGUIDE, 46
-        HORZGUIDE, 54
-        HORZGUIDE, 55
-        HORZGUIDE, 60
-        HORZGUIDE, 110
-        HORZGUIDE, 115
-        HORZGUIDE, 123
-        HORZGUIDE, 124
-        HORZGUIDE, 129
-        HORZGUIDE, 139
-        HORZGUIDE, 144
-        HORZGUIDE, 145
-        HORZGUIDE, 150
-    END
-END
-#endif    // APSTUDIO_INVOKED
 
 
 #ifdef APSTUDIO_INVOKED
@@ -585,18 +496,18 @@ END
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE DISCARDABLE 
+1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
-2 TEXTINCLUDE DISCARDABLE 
+2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE DISCARDABLE 
+3 TEXTINCLUDE 
 BEGIN
     "\r\n"
     "\0"
@@ -605,7 +516,17 @@ END
 #endif    // APSTUDIO_INVOKED
 
 
-#endif    // Unknown language: 0x22, 0x1 resources
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_SEARCH AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 
 

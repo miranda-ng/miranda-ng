@@ -35,7 +35,7 @@ void CopyText(HWND hwnd, TCHAR *text)
 //	GlobalFree(hMem);
 }
 
-void ExportHistory(HANDLE hContact, char *fnTemplate, char *fn, HWND hwndHistory)
+/*void ExportHistory(HANDLE hContact, char *fnTemplate, char *fn, HWND hwndHistory)
 {
 /*
 	char *szHeader    = "---header---";
@@ -206,8 +206,8 @@ void ExportHistory(HANDLE hContact, char *fnTemplate, char *fn, HWND hwndHistory
 	free(tOther);
 	free(tFooter);
 	free(tEnd);
-*/
-}
+
+}*/
 
 char *appendString(char *s1, char *s2)
 {

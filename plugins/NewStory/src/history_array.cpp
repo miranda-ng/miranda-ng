@@ -34,7 +34,7 @@ bool HistoryArray::ItemData::load(EventLoadMode mode)
 				atext = (char *)dbe.pBlob;
 				atext_del = false;
 				aLength = lstrlenA(atext);
-				if (dbe.cbBlob > aLength+1)
+				if (dbe.cbBlob > (DWORD)aLength + 1)
 				{
 					wtext = (WCHAR *)(dbe.pBlob + aLength + 1);
 					wtext_del = false;
@@ -181,7 +181,7 @@ bool HistoryArray::addHistory(MCONTACT hContact, EventLoadMode)
 		++i;
 		hEvent = db_event_next(hEvent, 0);
 	}
-	char buf[666];
+//	char buf[666];
 
 	return true;
 }

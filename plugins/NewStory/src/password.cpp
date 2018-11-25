@@ -55,7 +55,7 @@ void SetPassword(MCONTACT hContact, char *password)
 
 INT_PTR CALLBACK PasswordDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	PasswordData *data = (PasswordData *)GetWindowLong(hwnd, GWLP_USERDATA);
+	PasswordData *data = (PasswordData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	switch (msg) 
 	{
 		case WM_INITDIALOG:
@@ -63,7 +63,7 @@ INT_PTR CALLBACK PasswordDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			data = new PasswordData;
 			data->attempt = 0;
 			data->hContact = (MCONTACT)lParam;
-			SetWindowLong(hwnd, GWLP_USERDATA, (LONG)data);
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)data);
 
 			RECT rc, rcMe;
 			SystemParametersInfo(SPI_GETWORKAREA, 0, &rc, 0);
@@ -126,7 +126,7 @@ INT_PTR CALLBACK PasswordDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		{
 			delete data;
 			data = 0;
-			SetWindowLong(hwnd, GWLP_USERDATA, 0);
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
 		}
 	}
 	return FALSE;
@@ -150,13 +150,13 @@ bool AskPassword(MCONTACT hContact)
 
 INT_PTR CALLBACK ChangePasswordDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)GetWindowLong(hwnd, GWLP_USERDATA);
+	MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	switch (msg)
 	{
 		case WM_INITDIALOG:
 		{
 			hContact = (MCONTACT)lParam;
-			SetWindowLong(hwnd, GWLP_USERDATA, (LONG)hContact);
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)hContact);
 
 //			RECT rc, rcMe;
 //			SystemParametersInfo(SPI_GETWORKAREA, 0, &rc, 0);
@@ -225,7 +225,7 @@ INT_PTR CALLBACK ChangePasswordDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 		case WM_DESTROY:
 		{
-			SetWindowLong(hwnd, GWLP_USERDATA, 0);
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
 		}
 	}
 	return FALSE;

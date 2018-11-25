@@ -408,12 +408,12 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 {
 	//CallSnappingWindowProc(hwnd, msg, wParam, lParam);
 
-	WindowData *data = (WindowData *)GetWindowLong(hwnd, GWLP_USERDATA);
+	WindowData *data = (WindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 	if ((msg >= NSM_FIRST) && (msg < NSM_LAST))
 	{
 		int result = SendMessage(GetDlgItem(hwnd, IDC_ITEMS2), msg, wParam, lParam);
-		SetWindowLong(hwnd, DWLP_MSGRESULT, result);
+		SetWindowLongPtr(hwnd, DWLP_MSGRESULT, result);
 		return result;
 	}
 
@@ -511,7 +511,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			SendMessage(data->ibTotal.hwndIcoOut, BM_SETCHECK, BST_CHECKED, 0);
 			data->ibTotal.hwndTxtOut = GetDlgItem(hwnd, IDC_TXT_TOTAL_OUT);
 			
-			SetWindowLong(hwnd, GWLP_USERDATA, (LONG)data);
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)data);
 
 			data->hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_POPUPS));
 			//CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)data->hMenu, 0);
@@ -597,10 +597,10 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 			RECT rc
 			{
-				db_get_dw(data->hContact, MODULENAME, "left"),
-				db_get_dw(data->hContact, MODULENAME, "top"),
-				db_get_dw(data->hContact, MODULENAME, "right"),
-				db_get_dw(data->hContact, MODULENAME, "bottom")
+				(LONG)db_get_dw(data->hContact, MODULENAME, "left"),
+				(LONG)db_get_dw(data->hContact, MODULENAME, "top"),
+				(LONG)db_get_dw(data->hContact, MODULENAME, "right"),
+				(LONG)db_get_dw(data->hContact, MODULENAME, "bottom")
 			};
 			if ((rc.left-rc.right) && (rc.top-rc.bottom))
 				MoveWindow(hwnd, rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, TRUE);
@@ -766,8 +766,8 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 								data->disableTimeTreeChange = false;
 							} else
 							{
-								LPNMTREEVIEW pnmtv = (LPNMTREEVIEW)lParam;
-								int id = pnmtv->itemNew.lParam;
+//								LPNMTREEVIEW pnmtv = (LPNMTREEVIEW)lParam;
+//								int id = pnmtv->itemNew.lParam;
 //								SendMessage(GetDlgItem(hwnd, IDC_ITEMS), LB_SETCARETINDEX, id, 0);
 //								SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDC_ITEMS, LBN_SELCHANGE), (LPARAM)GetDlgItem(hwnd, IDC_ITEMS));
 //								SendMessage(GetDlgItem(hwnd, IDC_ITEMS), LB_SETTOPINDEX, id, 0);
@@ -825,7 +825,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				{
 					RECT rc;
 					GetWindowRect(GetDlgItem(hwnd, LOWORD(wParam)), &rc);
-					DWORD itemID = 0;
+//					DWORD itemID = 0;
 					switch (TrackPopupMenu(GetSubMenu(data->hMenu, 2), TPM_RETURNCMD, rc.left, rc.bottom, 0, hwnd, NULL))
 					{
 //						case ID_LOGOPTIONS_SHOWTIMETREE:
@@ -887,9 +887,9 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 					LayoutHistoryWnd(hwnd, data);
 					break;
 
-					RECT rc;
+					/*RECT rc;
 					GetWindowRect(GetDlgItem(hwnd, LOWORD(wParam)), &rc);
-					DWORD itemID = 0;
+//					DWORD itemID = 0;
 					bool doFilter = true;
 					switch (TrackPopupMenu(GetSubMenu(data->hMenu, 1), TPM_RETURNCMD, rc.left, rc.bottom, 0, hwnd, NULL))
 					{
@@ -957,7 +957,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 					}
 					if (doFilter)
 						PostMessage(hwnd, UM_REBUILDLIST, 0, 0);
-					break;
+					break;*/
 				}
 
 				case IDC_SECURITY:
@@ -1041,8 +1041,8 @@ INT_PTR svcShowNewstory(WPARAM wParam, LPARAM)
 	} else
 	if (AskPassword((MCONTACT)wParam))
 	{
-		HWND hwnd = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_HISTORY), 0, HistoryDlgProc, wParam);
-		ShowWindow(hwnd, SW_SHOWNORMAL);
+		HWND hwnd2 = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_HISTORY), 0, HistoryDlgProc, wParam);
+		ShowWindow(hwnd2, SW_SHOWNORMAL);
 	}
 	return 0;
 }
@@ -1057,8 +1057,8 @@ INT_PTR svcShowSystemNewstory(WPARAM, LPARAM)
 	} else
 	if (AskPassword(0))
 	{
-		HWND hwnd = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_HISTORY), 0, HistoryDlgProc, 0);
-		ShowWindow(hwnd, SW_SHOWNORMAL);
+		HWND hwnd2 = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_HISTORY), 0, HistoryDlgProc, 0);
+		ShowWindow(hwnd2, SW_SHOWNORMAL);
 	}
 	return 0;
 }

@@ -1,6 +1,6 @@
 //Microsoft Developer Studio generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -29,7 +29,7 @@ LANGUAGE 0x22, 0x1
 
 1 TEXTINCLUDE DISCARDABLE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE DISCARDABLE 
@@ -54,32 +54,32 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-1                       ICON    DISCARDABLE     "icons\\01 newstory.ico"
-2                       ICON    DISCARDABLE     "icons\\02 userinfo.ico"
-3                       ICON    DISCARDABLE     "icons\\03 usermenu.ico"
-4                       ICON    DISCARDABLE     "icons\\04 search.ico"
-5                       ICON    DISCARDABLE     "icons\\05 options.ico"
-6                       ICON    DISCARDABLE     "icons\\06 filter.ico"
-7                       ICON    DISCARDABLE     "icons\\07 export.ico"
-8                       ICON    DISCARDABLE     "icons\\09 copy.ico"
-9                       ICON    DISCARDABLE     "icons\\10 sendmsg.ico"
-10                      ICON    DISCARDABLE     "icons\\11 close.ico"
-11                      ICON    DISCARDABLE     "icons\\12 msgin.ico"
-12                      ICON    DISCARDABLE     "icons\\13 msgout.ico"
-13                      ICON    DISCARDABLE     "icons\\14 signin.ico"
-14                      ICON    DISCARDABLE     "icons\\16 file.ico"
-15                      ICON    DISCARDABLE     "icons\\17 url.ico"
-16                      ICON    DISCARDABLE     "icons\\18 unknown.ico"
-17                      ICON    DISCARDABLE     "icons\\19 findprev.ico"
-18                      ICON    DISCARDABLE     "icons\\20 findnext.ico"
-19                      ICON    DISCARDABLE     "icons\\nopassword.ico"
-20                      ICON    DISCARDABLE     "icons\\password.ico"
-21                      ICON    DISCARDABLE     "icons\\Calendar.ico"
-23                      ICON    DISCARDABLE     "icons\\reset.ico"
-24                      ICON    DISCARDABLE     "icons\\reload.ico"
-25                      ICON    DISCARDABLE     "icons\\vars.ico"
-22                      ICON    DISCARDABLE     "icons\\folder.ico"
-26                      ICON    DISCARDABLE     "icons\\save pass.ico"
+1                       ICON    DISCARDABLE     "01 newstory.ico"
+2                       ICON    DISCARDABLE     "02 userinfo.ico"
+3                       ICON    DISCARDABLE     "03 usermenu.ico"
+4                       ICON    DISCARDABLE     "04 search.ico"
+5                       ICON    DISCARDABLE     "05 options.ico"
+6                       ICON    DISCARDABLE     "06 filter.ico"
+7                       ICON    DISCARDABLE     "07 export.ico"
+8                       ICON    DISCARDABLE     "09 copy.ico"
+9                       ICON    DISCARDABLE     "10 sendmsg.ico"
+10                      ICON    DISCARDABLE     "11 close.ico"
+11                      ICON    DISCARDABLE     "12 msgin.ico"
+12                      ICON    DISCARDABLE     "13 msgout.ico"
+13                      ICON    DISCARDABLE     "14 signin.ico"
+14                      ICON    DISCARDABLE     "16 file.ico"
+15                      ICON    DISCARDABLE     "17 url.ico"
+16                      ICON    DISCARDABLE     "18 unknown.ico"
+17                      ICON    DISCARDABLE     "19 findprev.ico"
+18                      ICON    DISCARDABLE     "20 findnext.ico"
+19                      ICON    DISCARDABLE     "nopassword.ico"
+20                      ICON    DISCARDABLE     "password.ico"
+21                      ICON    DISCARDABLE     "Calendar.ico"
+23                      ICON    DISCARDABLE     "reset.ico"
+24                      ICON    DISCARDABLE     "reload.ico"
+25                      ICON    DISCARDABLE     "vars.ico"
+22                      ICON    DISCARDABLE     "folder.ico"
+26                      ICON    DISCARDABLE     "save pass.ico"
 #endif    // Unknown language: 0x22, 0x1 resources
 /////////////////////////////////////////////////////////////////////////////
 

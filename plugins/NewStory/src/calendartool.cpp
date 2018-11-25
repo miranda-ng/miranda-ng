@@ -7,13 +7,13 @@ struct CalendarToolData
 
 INT_PTR CALLBACK CalendarToolDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	CalendarToolData *data = (CalendarToolData *)GetWindowLong(hwnd, GWLP_USERDATA);
+	CalendarToolData *data = (CalendarToolData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	switch (msg)
 	{
 		case WM_INITDIALOG:
 		{
 			data = (CalendarToolData *)lParam;
-			SetWindowLong(hwnd, GWLP_USERDATA, (LONG)data);
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)data);
 
 // This causes ALL miranda dialogs to have drop-shadow enabled. That's bad =(
 //			SetClassLong(hwnd, GCL_STYLE, GetClassLong(hwnd, GCL_STYLE)|CS_DROPSHADOW);
@@ -73,7 +73,7 @@ INT_PTR CALLBACK CalendarToolDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		{
 			delete data;
 			data = 0;
-			SetWindowLong(hwnd, GWLP_USERDATA, 0);
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
 		}
 	}
 	return FALSE;
