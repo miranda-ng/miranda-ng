@@ -25,10 +25,10 @@ static int OptionsInitialize(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.szTitle.w = TranslateT("Newstory");
+	odp.szTitle.w = LPGENW("Newstory");
 	//	odp.pszGroup = Translate("PopUps");
-	odp.position = 910000000;
-	odp.flags = ODPF_BOLDGROUPS;
+	//odp.position = 910000000;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pfnDlgProc = OptionsDlgProc;
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
@@ -53,6 +53,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 	{
 	case WM_INITDIALOG:
 	{
+		TranslateDialogDefault(hwnd);
 		TCITEM tci;
 		RECT rc;
 
