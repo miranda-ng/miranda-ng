@@ -41,11 +41,13 @@ MCONTACT CSkypeProto::FindChatRoom(const char *chatname)
 void CSkypeProto::StartChatRoom(const wchar_t *tid, const wchar_t *tname)
 {
 	// Create the group chat session
-	Chat_NewSession(GCW_CHATROOM, m_szModuleName, tid, tname);
+	SESSION_INFO *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, tid, tname);
+	if (!si)
+		return;
 
 	// Create a user statuses
-	Chat_AddGroup(m_szModuleName, tid, TranslateT("Admin"));
-	Chat_AddGroup(m_szModuleName, tid, TranslateT("User"));
+	Chat_AddGroup(si, TranslateT("Admin"));
+	Chat_AddGroup(si, TranslateT("User"));
 
 	// Finish initialization
 	Chat_Control(m_szModuleName, tid, (getBool("HideChats", 1) ? WINDOW_HIDDEN : SESSION_INITDONE));

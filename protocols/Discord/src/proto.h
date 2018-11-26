@@ -251,7 +251,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	void Chat_SendPrivateMessage(GCHOOK *gch);
 	void Chat_ProcessLogMenu(GCHOOK *gch);
 
-	void BuildStatusList(const CDiscordGuild *pGuild, const CMStringW &wszChannelId);
+	void BuildStatusList(const CDiscordGuild *pGuild, SESSION_INFO *si);
 	void CreateChat(CDiscordGuild *pGuild, CDiscordUser *pUser);
 	void ParseSpecialChars(SESSION_INFO *si, CMStringW &str);
 

@@ -123,14 +123,13 @@ INT_PTR MinecraftDynmapProto::OnJoinChat(WPARAM,LPARAM suppress)
 	ptrW tszTitle(mir_a2u_cp(m_title.c_str(), CP_UTF8));
 
 	// Create the group chat session
-	Chat_NewSession(GCW_PRIVMESS, m_szModuleName, m_tszUserName, tszTitle);
-
-	if (m_iStatus == ID_STATUS_OFFLINE)
+	SESSION_INFO *si = Chat_NewSession(GCW_PRIVMESS, m_szModuleName, m_tszUserName, tszTitle);
+	if (!si || m_iStatus == ID_STATUS_OFFLINE)
 		return 0;
 
 	// Create a group
-	Chat_AddGroup(m_szModuleName, m_tszUserName, TranslateT("Admin"));
-	Chat_AddGroup(m_szModuleName, m_tszUserName, TranslateT("Normal"));
+	Chat_AddGroup(si, TranslateT("Admin"));
+	Chat_AddGroup(si, TranslateT("Normal"));
 		
 	// Note: Initialization will finish up in SetChatStatus, called separately
 	if (!suppress)

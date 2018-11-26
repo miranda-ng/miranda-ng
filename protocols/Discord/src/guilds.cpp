@@ -99,7 +99,7 @@ void CDiscordProto::CreateChat(CDiscordGuild *pGuild, CDiscordUser *pUser)
 		else sttSetGroupName(pUser->hContact, Clist_GroupGetName(pGuild->groupId));
 	}
 
-	BuildStatusList(pGuild, pUser->wszUsername);
+	BuildStatusList(pGuild, si);
 
 	Chat_Control(m_szModuleName, pUser->wszUsername, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
 	Chat_Control(m_szModuleName, pUser->wszUsername, SESSION_ONLINE);
@@ -140,7 +140,7 @@ void CDiscordProto::ProcessGuild(const JSONNode &p)
 	const JSONNode &roles = p["roles"];
 	for (auto itr = roles.begin(); itr != roles.end(); ++itr)
 		ProcessRole(pGuild, *itr);
-	BuildStatusList(pGuild, pGuild->wszName);
+	BuildStatusList(pGuild, si);
 
 	for (auto &it : pGuild->arChatUsers)
 		AddGuildUser(pGuild, *it);

@@ -300,7 +300,7 @@ void CDiscordProto::OnCommandRoleDeleted(const JSONNode &pRoot)
 		SESSION_INFO *si = g_chatApi.SM_FindSession(it->wszUsername, m_szModuleName);
 		if (si != nullptr) {
 			g_chatApi.TM_RemoveAll(&si->pStatuses);
-			BuildStatusList(pGuild, it->wszUsername);
+			BuildStatusList(pGuild, si);
 		}
 	}
 }

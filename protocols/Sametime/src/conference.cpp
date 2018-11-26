@@ -112,10 +112,12 @@ void mwServiceConf_conf_opened(mwConference* conf, GList* members)
 	ptrW tszConfTitle(mir_utf8decodeW(mwConference_getTitle(conf)));
 
 	// create new chat session
-	Chat_NewSession(GCW_CHATROOM, proto->m_szModuleName, tszConfId, tszConfTitle);
+	SESSION_INFO *si = Chat_NewSession(GCW_CHATROOM, proto->m_szModuleName, tszConfId, tszConfTitle);
+	if (!si)
+		return;
 
 	// add a group
-	Chat_AddGroup(proto->m_szModuleName, tszConfId, TranslateT("Normal"));
+	Chat_AddGroup(si, TranslateT("Normal"));
 
 	// add users
 	GCEVENT gce = { proto->m_szModuleName, tszConfId, GC_EVENT_JOIN };

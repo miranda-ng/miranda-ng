@@ -945,7 +945,7 @@ void __cdecl CIrcProto::ConnectServerThread(void*)
 		Sleep(100);
 		{
 			mir_cslock lock(m_csSession);
-			Connect(si);
+			Connect(m_sessionInfo);
 		}
 		if (IsConnected()) {
 			if (m_mySpecifiedHost[0])
@@ -977,17 +977,17 @@ void __cdecl CIrcProto::DisconnectServerThread(void*)
 void CIrcProto::ConnectToServer(void)
 {
 	m_portCount = atoi(m_portStart);
-	si.sServer = GetWord(m_serverName, 0);
-	si.iPort = m_portCount;
-	si.sNick = m_nick;
-	si.sUserID = m_userID;
-	si.sFullName = m_name;
-	si.sPassword = m_password;
-	si.bIdentServer = ((m_ident) ? (true) : (false));
-	si.iIdentServerPort = _wtoi(m_identPort);
-	si.sIdentServerType = m_identSystem;
-	si.m_iSSL = m_iSSL;
-	si.sNetwork = m_network;
+	m_sessionInfo.sServer = GetWord(m_serverName, 0);
+	m_sessionInfo.iPort = m_portCount;
+	m_sessionInfo.sNick = m_nick;
+	m_sessionInfo.sUserID = m_userID;
+	m_sessionInfo.sFullName = m_name;
+	m_sessionInfo.sPassword = m_password;
+	m_sessionInfo.bIdentServer = ((m_ident) ? (true) : (false));
+	m_sessionInfo.iIdentServerPort = _wtoi(m_identPort);
+	m_sessionInfo.sIdentServerType = m_identSystem;
+	m_sessionInfo.m_iSSL = m_iSSL;
+	m_sessionInfo.sNetwork = m_network;
 
 	bPerformDone = false;
 	bTempDisableCheck = false;
@@ -1004,7 +1004,7 @@ void CIrcProto::ConnectToServer(void)
 		InterlockedIncrement((long *)&m_bConnectRequested);
 
 	wchar_t szTemp[300];
-	mir_snwprintf(szTemp, L"\033%s %c%s%c (%S: %u)", TranslateT("Connecting to"), irc::BOLD, si.sNetwork.c_str(), irc::BOLD, si.sServer.c_str(), si.iPort);
+	mir_snwprintf(szTemp, L"\033%s %c%s%c (%S: %u)", TranslateT("Connecting to"), irc::BOLD, m_sessionInfo.sNetwork.c_str(), irc::BOLD, m_sessionInfo.sServer.c_str(), m_sessionInfo.iPort);
 	DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, nullptr, szTemp, nullptr, nullptr, NULL, true, false);
 }
 

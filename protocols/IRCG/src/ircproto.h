@@ -170,7 +170,8 @@ struct CIrcProto : public PROTO<CIrcProto>
 	CMStringW m_statusMessage;
 	int      m_iTempCheckTime;
 
-	CIrcSessionInfo si;
+	CIrcSessionInfo m_sessionInfo;
+	SESSION_INFO *m_pServer;
 
 	int       m_portCount;
 	DWORD     m_bConnectRequested;

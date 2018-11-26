@@ -242,14 +242,13 @@ void OmegleProto::DeleteChatContact(const wchar_t *name)
 INT_PTR OmegleProto::OnJoinChat(WPARAM, LPARAM suppress)
 {
 	// Create the group chat session
-	Chat_NewSession(GCW_PRIVMESS, m_szModuleName, m_tszUserName, m_tszUserName);
-
-	if (m_iStatus == ID_STATUS_OFFLINE)
+	SESSION_INFO *si = Chat_NewSession(GCW_PRIVMESS, m_szModuleName, m_tszUserName, m_tszUserName);
+	if (!si || m_iStatus == ID_STATUS_OFFLINE)
 		return 0;
 
 	// Create a group
-	Chat_AddGroup(m_szModuleName, m_tszUserName, TranslateT("Admin"));
-	Chat_AddGroup(m_szModuleName, m_tszUserName, TranslateT("Normal"));
+	Chat_AddGroup(si, TranslateT("Admin"));
+	Chat_AddGroup(si, TranslateT("Normal"));
 
 	SetTopic();
 

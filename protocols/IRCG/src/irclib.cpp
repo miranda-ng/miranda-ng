@@ -201,7 +201,7 @@ bool CIrcProto::Connect(const CIrcSessionInfo& info)
 	con = Netlib_OpenConnection(m_hNetlibUser, &ncon);
 	if (con == nullptr) {
 		wchar_t szTemp[300];
-		mir_snwprintf(szTemp, L"%c5%s %c%s%c (%S: %u).", irc::COLOR, TranslateT("Failed to connect to"), irc::BOLD, si.sNetwork.c_str(), irc::BOLD, si.sServer.c_str(), si.iPort);
+		mir_snwprintf(szTemp, L"%c5%s %c%s%c (%S: %u).", irc::COLOR, TranslateT("Failed to connect to"), irc::BOLD, m_sessionInfo.sNetwork.c_str(), irc::BOLD, m_sessionInfo.sServer.c_str(), m_sessionInfo.iPort);
 		DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, nullptr, szTemp, nullptr, nullptr, NULL, true, false);
 		return false;
 	}

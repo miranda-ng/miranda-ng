@@ -320,11 +320,14 @@ wchar_t* GaduProto::gc_getchat(uin_t sender, uin_t *recipients, int recipients_c
 
 	// Create new room
 	CMStringW wszTitle(L"#"); wszTitle.Append(sender ? senderName : TranslateT("Conference"));
-	Chat_NewSession(GCW_CHATROOM, m_szModuleName, chat->id, wszTitle, chat);
+	SESSION_INFO *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, chat->id, wszTitle, chat);
+	if (!si)
+		return nullptr;
+
 	Chat_SetStatusbarText(m_szModuleName, chat->id, status);
 
 	// Add normal group
-	Chat_AddGroup(m_szModuleName, chat->id, TranslateT("Participants"));
+	Chat_AddGroup(si, TranslateT("Participants"));
 
 	wchar_t id[32];
 

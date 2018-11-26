@@ -58,10 +58,13 @@ int CMsnProto::MSN_ChatInit(GCThreadData *info, const char *pszID, const char *p
 		wcsncpy(szName, _A2T(pszTopic), _countof(szName));
 	else mir_snwprintf(szName, L"%s %s%d",
 		m_tszUserName, TranslateT("Chat #"), m_chatID);
-	Chat_NewSession(GCW_CHATROOM, m_szModuleName, info->mChatID, szName);
+	
+	SESSION_INFO *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, info->mChatID, szName);
+	if (!si)
+		return 1;
 
 	for (auto &it : m_ptszRoles)
-		Chat_AddGroup(m_szModuleName, info->mChatID, TranslateW(it));
+		Chat_AddGroup(si, TranslateW(it));
 
 	Chat_Control(m_szModuleName, info->mChatID, SESSION_INITDONE);
 	Chat_Control(m_szModuleName, info->mChatID, SESSION_ONLINE);

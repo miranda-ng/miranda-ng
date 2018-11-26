@@ -28,11 +28,12 @@ INT_PTR CMraProto::MraChatSessionNew(MCONTACT hContact)
 	CMStringW wszEMail;
 	mraGetStringW(hContact, "e-mail", wszEMail);
 
-	if (Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszEMail, Clist_GetContactDisplayName(hContact), (void*)hContact))
+	SESSION_INFO *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszEMail, Clist_GetContactDisplayName(hContact), (void*)hContact);
+	if (si == nullptr)
 		return 1;
 
 	for (auto &it : lpwszStatuses)
-		Chat_AddGroup(m_szModuleName, wszEMail, TranslateW(it));
+		Chat_AddGroup(si, TranslateW(it));
 
 	Chat_Control(m_szModuleName, wszEMail, SESSION_INITDONE);
 	Chat_Control(m_szModuleName, wszEMail, SESSION_ONLINE);

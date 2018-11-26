@@ -1272,16 +1272,17 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage *pmsg)
 			CMStringW sID = MakeWndID(sChanName);
 			BYTE btOwnMode = 0;
 
-			if (Chat_NewSession(GCW_CHATROOM, m_szModuleName, sID, sChanName)) {
+			SESSION_INFO *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, sID, sChanName);
+			if (si) {
 				PostIrcMessage(L"/MODE %s", sChanName);
 
 				// register the statuses
-				Chat_AddGroup(m_szModuleName, sID, TranslateT("Owner"));
-				Chat_AddGroup(m_szModuleName, sID, TranslateT("Admin"));
-				Chat_AddGroup(m_szModuleName, sID, TranslateT("Op"));
-				Chat_AddGroup(m_szModuleName, sID, TranslateT("Halfop"));
-				Chat_AddGroup(m_szModuleName, sID, TranslateT("Voice"));
-				Chat_AddGroup(m_szModuleName, sID, TranslateT("Normal"));
+				Chat_AddGroup(si, TranslateT("Owner"));
+				Chat_AddGroup(si, TranslateT("Admin"));
+				Chat_AddGroup(si, TranslateT("Op"));
+				Chat_AddGroup(si, TranslateT("Halfop"));
+				Chat_AddGroup(si, TranslateT("Voice"));
+				Chat_AddGroup(si, TranslateT("Normal"));
 				{
 					int k = 0;
 					CMStringW sTemp = GetWord(sNamesList, k);
@@ -2376,7 +2377,7 @@ bool CIrcProto::DoOnConnect(const CIrcMessage*)
 		}
 	}
 
-	Chat_AddGroup(m_szModuleName, SERVERWINDOW, TranslateT("Normal"));
+	Chat_AddGroup(m_pServer, TranslateT("Normal"));
 	Chat_Control(m_szModuleName, SERVERWINDOW, SESSION_ONLINE);
 
 	CallFunctionAsync(sttMainThrdOnConnect, this);

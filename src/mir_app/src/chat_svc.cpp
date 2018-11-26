@@ -575,16 +575,14 @@ EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT *gce)
 /////////////////////////////////////////////////////////////////////////////////////////
 // chat control functions
 
-MIR_APP_DLL(int) Chat_AddGroup(const char *szModule, const wchar_t *wszId, const wchar_t *wszText)
+MIR_APP_DLL(int) Chat_AddGroup(SESSION_INFO *si, const wchar_t *wszText)
 {
 	if (wszText == nullptr)
 		return GC_EVENT_ERROR;
-
-	mir_cslock lck(csChat);
-	SESSION_INFO *si = SM_FindSession(wszId, szModule);
 	if (si == nullptr)
 		return 0;
 
+	mir_cslock lck(csChat);
 	STATUSINFO *ti = TM_AddStatus(&si->pStatuses, wszText, &si->iStatusCount);
 	if (ti)
 		si->iStatusCount++;

@@ -205,7 +205,7 @@ void CIrcProto::OnModulesLoaded()
 	HookProtoEvent(ME_GC_EVENT, &CIrcProto::GCEventHook);
 	HookProtoEvent(ME_GC_BUILDMENU, &CIrcProto::GCMenuHook);
 
-	Chat_NewSession(GCW_SERVER, m_szModuleName, SERVERWINDOW, _A2T(m_network));
+	m_pServer = Chat_NewSession(GCW_SERVER, m_szModuleName, SERVERWINDOW, _A2T(m_network));
 
 	if (m_useServer && !m_hideServerWindow)
 		Chat_Control(m_szModuleName, SERVERWINDOW, WINDOW_VISIBLE);

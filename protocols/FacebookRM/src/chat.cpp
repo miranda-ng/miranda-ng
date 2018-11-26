@@ -245,13 +245,15 @@ void FacebookProto::AddChat(const char *id, const wchar_t *tname)
 	ptrW tid(mir_a2u(id));
 
 	// Create the group chat session
-	Chat_NewSession(GCW_PRIVMESS, m_szModuleName, tid, tname);
+	SESSION_INFO *si = Chat_NewSession(GCW_PRIVMESS, m_szModuleName, tid, tname);
+	if (!si)
+		return;
 
 	// Send setting events
-	Chat_AddGroup(m_szModuleName, tid, TranslateT("Myself"));
-	Chat_AddGroup(m_szModuleName, tid, TranslateT("Friend"));
-	Chat_AddGroup(m_szModuleName, tid, TranslateT("User"));
-	Chat_AddGroup(m_szModuleName, tid, TranslateT("Former"));
+	Chat_AddGroup(si, TranslateT("Myself"));
+	Chat_AddGroup(si, TranslateT("Friend"));
+	Chat_AddGroup(si, TranslateT("User"));
+	Chat_AddGroup(si, TranslateT("Former"));
 
 	// Finish initialization
 	bool hideChats = getBool(FACEBOOK_KEY_HIDE_CHATS, DEFAULT_HIDE_CHATS);

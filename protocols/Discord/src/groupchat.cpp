@@ -25,12 +25,12 @@ enum {
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CDiscordProto::BuildStatusList(const CDiscordGuild *pGuild, const CMStringW &wszChannelId)
+void CDiscordProto::BuildStatusList(const CDiscordGuild *pGuild, SESSION_INFO *si)
 {
-	Chat_AddGroup(m_szModuleName, wszChannelId, L"@owner");
+	Chat_AddGroup(si, L"@owner");
 
 	for (auto &it : pGuild->arRoles)
-		Chat_AddGroup(m_szModuleName, wszChannelId, it->wszName);
+		Chat_AddGroup(si, it->wszName);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

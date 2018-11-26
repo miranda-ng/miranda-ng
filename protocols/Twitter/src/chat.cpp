@@ -113,13 +113,12 @@ void TwitterProto::DeleteChatContact(const char *name)
 INT_PTR TwitterProto::OnJoinChat(WPARAM, LPARAM suppress)
 {
 	// ***** Create the group chat session
-	Chat_NewSession(GCW_CHATROOM, m_szModuleName, m_tszUserName, m_tszUserName);
-
-	if (m_iStatus != ID_STATUS_ONLINE)
+	SESSION_INFO *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, m_tszUserName, m_tszUserName);
+	if (!si || m_iStatus != ID_STATUS_ONLINE)
 		return 0;
 
 	// ***** Create a group
-	Chat_AddGroup(m_szModuleName, m_tszUserName, TranslateT("Normal"));
+	Chat_AddGroup(si, TranslateT("Normal"));
 
 	// ***** Hook events
 	HookProtoEvent(ME_GC_EVENT, &TwitterProto::OnChatOutgoing);
