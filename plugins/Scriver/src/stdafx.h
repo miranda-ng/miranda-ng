@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SRMM_COMMONHEADERS_H
 
 #define COMPILE_MULTIMON_STUBS
+#define SRMM_OWN_STRUCTURES
 
 #include <windows.h>
 #include <windowsx.h>

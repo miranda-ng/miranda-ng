@@ -65,5 +65,3 @@ CMStringW PrepareMessageText(const JSONNode &pRoot);
 int StrToStatus(const CMStringW &str);
 time_t StringToDate(const CMStringW &str);
 int SerialNext(void);
-
-struct SESSION_INFO : public GCSessionInfoBase {};

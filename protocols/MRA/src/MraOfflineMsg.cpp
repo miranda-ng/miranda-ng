@@ -141,7 +141,7 @@ static DWORD PlainText2message(const CMStringA &szContentType, const CMStringA &
 		size_t dwTextSize;
 		ptrA lpszText((LPSTR)mir_base64_decode(szBody, &dwTextSize));
 		if (lpszText) {
-			plpsText = CMStringA(lpszText, dwTextSize);
+			plpsText = CMStringA(lpszText, (int)dwTextSize);
 			if (pdwFlags) {
 				(*pdwFlags) |= MESSAGE_FLAG_v1p16; // set unicode flag if not exist
 				(*pdwFlags) &= ~MESSAGE_FLAG_CP1251; // reset ansi flag if exist

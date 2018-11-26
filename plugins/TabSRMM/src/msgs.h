@@ -237,8 +237,6 @@ struct TContainerData
 	}
 };
 
-struct SESSION_INFO;
-
 class CTabBaseDlg : public CSrmmBaseDialog
 {
 	typedef CSrmmBaseDialog CSuper;

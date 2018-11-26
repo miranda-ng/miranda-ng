@@ -71,7 +71,7 @@ void CDiscordProto::ProcessRole(CDiscordGuild *guild, const JSONNode &role)
 static void sttSetGroupName(MCONTACT hContact, const wchar_t *pwszGroupName)
 {
 	ptrW wszOldName(db_get_wsa(hContact, "CList", "Group"));
-	if (wszOldName == nullptr)
+	if (wszOldName == nullptr || !mir_wstrcmpi(wszOldName, TranslateT("Chat rooms")))
 		db_set_ws(hContact, "CList", "Group", pwszGroupName);
 }
 
@@ -80,13 +80,13 @@ void CDiscordProto::BatchChatCreate(void *param)
 	CDiscordGuild *pGuild = (CDiscordGuild*)param;
 
 	for (auto &it : pGuild->arChannels)
-		if (!it->bIsPrivate)
+		if (!it->bIsPrivate && !it->bIsGroup)
 			CreateChat(pGuild, it);
 }
 
 void CDiscordProto::CreateChat(CDiscordGuild *pGuild, CDiscordUser *pUser)
 {
-	GCSessionInfoBase *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, pUser->wszUsername, pUser->wszChannelName);
+	SESSION_INFO *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, pUser->wszUsername, pUser->wszChannelName);
 	si->pParent = pGuild->pParentSi;
 	pUser->hContact = si->hContact;
 
@@ -129,7 +129,7 @@ void CDiscordProto::ProcessGuild(const JSONNode &p)
 	pGuild->wszName = p["name"].as_mstring();
 	pGuild->groupId = Clist_GroupCreate(Clist_GroupExists(m_wszDefaultGroup), pGuild->wszName);
 
-	GCSessionInfoBase *si = Chat_NewSession(GCW_SERVER, m_szModuleName, pGuild->wszName, pGuild->wszName, pGuild);
+	SESSION_INFO *si = Chat_NewSession(GCW_SERVER, m_szModuleName, pGuild->wszName, pGuild->wszName, pGuild);
 	pGuild->pParentSi = (SESSION_INFO*)si;
 	pGuild->hContact = si->hContact;
 	setId(si->hContact, DB_KEY_CHANNELID, guildId);

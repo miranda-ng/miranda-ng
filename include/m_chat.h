@@ -166,7 +166,7 @@ EXTERN_C MIR_APP_DLL(int) Chat_Register(const GCREGISTER*);
 #define GCW_PRIVMESS 3  // NOT SUPPORTED YET! the session is a 1 to 1 session, but with additional
                         // support for adding more users etc. ex "MSN session".
 
-EXTERN_C MIR_APP_DLL(struct GCSessionInfoBase*) Chat_NewSession(
+EXTERN_C MIR_APP_DLL(struct SESSION_INFO*) Chat_NewSession(
 	int            iType,           // Use one of the GCW_* flags above to set the type of session
 	const char    *pszModule,       // The name of the protocol owning the session (the same as pszModule when you register)
 	const wchar_t *ptszID,          // The unique identifier for the session.

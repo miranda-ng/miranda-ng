@@ -128,7 +128,7 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 		it.translate();
 
 	ptrW szNick(JabberNickFromJID(item->jid));
-	GCSessionInfoBase *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, item->jid, szNick);
+	SESSION_INFO *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, item->jid, szNick);
 	if (si != nullptr) {
 		item->hContact = si->hContact;
 

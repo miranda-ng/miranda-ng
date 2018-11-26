@@ -22,6 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #pragma once
 
 #define WIN32_LEAN_AND_MEAN
+#define SRMM_OWN_STRUCTURES
 
 #include <windows.h>
 #include <windowsx.h>

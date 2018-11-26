@@ -60,7 +60,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 	sid.Format(L"%S_%d", m_szModuleName, id);
 	c->m_wszId = mir_wstrdup(sid);
 
-	GCSessionInfoBase *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, sid, wszTitle);
+	SESSION_INFO *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, sid, wszTitle);
 	if (si == nullptr)
 		return nullptr;
 

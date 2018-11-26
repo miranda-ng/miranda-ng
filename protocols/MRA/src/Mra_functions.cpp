@@ -526,7 +526,7 @@ MCONTACT CMraProto::MraHContactFromEmail(const CMStringA &szEmail, BOOL bAddIfNe
 		//not already there: add
 		if (IsEMailChatAgent(szEmail)) {
 			CMStringW wszEMail = szEmail;
-			GCSessionInfoBase *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszEMail, wszEMail);
+			SESSION_INFO *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszEMail, wszEMail);
 			if (si != nullptr) {
 				bool bChatAdded = (si->hContact != NULL);
 				if (bChatAdded == FALSE)

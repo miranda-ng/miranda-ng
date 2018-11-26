@@ -253,6 +253,14 @@ struct GlobalLogSettingsBase
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+#ifndef SRMM_OWN_STRUCTURES
+struct LOGSTREAMDATA : public GCLogStreamDataBase {};
+struct SESSION_INFO : public GCSessionInfoBase {};
+struct MODULEINFO : public GCModuleInfoBase {};
+#endif
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 #define FONTMODE_USE   1
 #define FONTMODE_SKIP  2
 #define FONTMODE_ALTER 3

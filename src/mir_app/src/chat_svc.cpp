@@ -180,7 +180,7 @@ MIR_APP_DLL(int) Chat_Register(const GCREGISTER *gcr)
 /////////////////////////////////////////////////////////////////////////////////////////
 // starts new chat session
 
-EXTERN_C MIR_APP_DLL(GCSessionInfoBase*) Chat_NewSession(
+EXTERN_C MIR_APP_DLL(SESSION_INFO*) Chat_NewSession(
 	int            iType,      // Use one of the GCW_* flags above to set the type of session
 	const char    *pszModule,  // The name of the protocol owning the session (the same as pszModule when you register)
 	const wchar_t *ptszID,     // The unique identifier for the session.

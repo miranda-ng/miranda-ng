@@ -60,8 +60,6 @@ struct CSkypeProto;
 extern char g_szMirVer[];
 extern HANDLE g_hCallEvent;
 
-struct SESSION_INFO : public GCSessionInfoBase {};
-
 #define SKYPE_ENDPOINTS_HOST "client-s.gateway.messenger.live.com"
 
 struct LoginInfo

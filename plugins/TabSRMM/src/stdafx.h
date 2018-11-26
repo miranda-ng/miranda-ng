@@ -26,6 +26,8 @@
 //
 // global include file, used to build the precompiled header.
 
+#define SRMM_OWN_STRUCTURES
+
 #include <windows.h>
 #include <windowsx.h>
 #include <commdlg.h>

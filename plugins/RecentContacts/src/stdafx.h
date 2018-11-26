@@ -28,8 +28,6 @@
 
 using namespace std;
 
-struct SESSION_INFO : public GCSessionInfoBase {};
-
 void wSetData(char **Data, const char *Value);
 void wfree(char **Data);
 

@@ -987,7 +987,7 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_CustomizeApi(const CHAT_MANAGER_INITDATA *pInit)
 
 		for (auto &p : g_arSessions) {
 			SESSION_INFO *p1 = (SESSION_INFO*)realloc(p, pInit->cbSession);
-			memset(PBYTE(p1) + sizeof(GCSessionInfoBase), 0, pInit->cbSession - sizeof(GCSessionInfoBase));
+			memset(PBYTE(p1) + sizeof(SESSION_INFO), 0, pInit->cbSession - sizeof(SESSION_INFO));
 			if (p1 != p) { // realloc could change a pointer, reinsert a structure
 				g_arSessions.remove(p);
 				g_arSessions.insert(p1);
