@@ -52,37 +52,53 @@ static int AutoAwayEvent(WPARAM, LPARAM lParam)
 		iBreakSounds = (lParam & IDF_ISIDLE) != 0;
 
 	// we don't need to switch the status
-	if (mii.aaStatus == 0)
+	if (mii.aaStatus == 0) {
+		Netlib_Logf(0, "%s: aaStatus == 0, no need to restore the status", MODULENAME);
 		return 0;
+	}
 
 	for (auto &pa : Accounts()) {
-		if (!pa->IsEnabled() || pa->IsLocked())
+		if (!pa->IsEnabled()) {
+			Netlib_Logf(0, "%s: '%s' isn't enabled, skipping", MODULENAME, pa->szModuleName);
 			continue;
+		}
+
+		if (pa->IsLocked()) {
+			Netlib_Logf(0, "%s: '%s' is locked, skipping", MODULENAME, pa->szModuleName);
+			continue;
+		}
 
 		int statusbits = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
 		int status = mii.aaStatus;
-		if (!(statusbits & Proto_Status2Flag(status))) {
-			// the protocol doesnt support the given status
+		if (!(statusbits & Proto_Status2Flag(status))) // the protocol doesnt support the given status
 			if (statusbits & Proto_Status2Flag(ID_STATUS_AWAY))
 				status = ID_STATUS_AWAY;
-		}
+
 		if (lParam & IDF_ISIDLE) {
-			if (pa->iRealStatus != ID_STATUS_ONLINE && pa->iRealStatus != ID_STATUS_FREECHAT)
+			if (pa->iRealStatus != ID_STATUS_ONLINE && pa->iRealStatus != ID_STATUS_FREECHAT) {
+				Netlib_Logf(0, "%s: '%s' isn't online, skipping", MODULENAME, pa->szModuleName, pa->iRealStatus);
 				continue;
+			}
 
 			// save old status of account and set to given status
+			Netlib_Logf(0, "%s: '%s' enters AutoAway, setting status to %d", MODULENAME, pa->szModuleName, status);
 			g_plugin.setWord(pa->szModuleName, pa->iRealStatus);
 			Proto_SetStatus(pa->szModuleName, status);
 		}
 		else {
 			int oldstatus = g_plugin.getWord(pa->szModuleName, 0);
-			if (oldstatus != ID_STATUS_ONLINE && oldstatus != ID_STATUS_FREECHAT)
+			if (oldstatus != ID_STATUS_ONLINE && oldstatus != ID_STATUS_FREECHAT) {
+				Netlib_Logf(0, "%s: '%s' wasn't online, skipping", MODULENAME, pa->szModuleName, oldstatus);
 				continue;
+			}
 
 			// returning from idle and this accout was set away, set it back
 			g_plugin.delSetting(pa->szModuleName);
-			if (!mii.aaLock)
+			if (!mii.aaLock) {
+				Netlib_Logf(0, "%s: '%s' leaving idle to %d", MODULENAME, pa->szModuleName, oldstatus);
 				Proto_SetStatus(pa->szModuleName, oldstatus);
+			}
+			else Netlib_Logf(0, "%s: '%s' leaving idle", MODULENAME, pa->szModuleName);
 		}
 	}
 
