@@ -397,15 +397,17 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 				return;
 			}
 
-			CDiscordGuildMember *pm = pGuild->FindUser(userId);
-			if (pm == nullptr) {
-				pm = new CDiscordGuildMember(userId);
-				pm->wszNick = pRoot["nick"].as_mstring();
-				if (pm->wszNick.IsEmpty())
-					pm->wszNick = pRoot["user"]["username"].as_mstring() + L"#" + pRoot["user"]["discriminator"].as_mstring();
-				pGuild->arChatUsers.insert(pm);
+			if (userId != 0) {
+				CDiscordGuildMember *pm = pGuild->FindUser(userId);
+				if (pm == nullptr) {
+					pm = new CDiscordGuildMember(userId);
+					pm->wszNick = pRoot["nick"].as_mstring();
+					if (pm->wszNick.IsEmpty())
+						pm->wszNick = pRoot["user"]["username"].as_mstring() + L"#" + pRoot["user"]["discriminator"].as_mstring();
+					pGuild->arChatUsers.insert(pm);
 
-				AddGuildUser(pGuild, *pm);
+					AddGuildUser(pGuild, *pm);
+				}
 			}
 
 			ParseSpecialChars(si, wszText);
