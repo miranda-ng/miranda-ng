@@ -25,7 +25,7 @@ enum {
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CDiscordProto::BuildStatusList(const CDiscordGuild *pGuild, SESSION_INFO *si)
+void BuildStatusList(const CDiscordGuild *pGuild, SESSION_INFO *si)
 {
 	Chat_AddGroup(si, L"@owner");
 

@@ -60,6 +60,8 @@ extern HWND g_hwndHeartbeat;
 #include "version.h"
 #include "proto.h"
 
+void BuildStatusList(const CDiscordGuild *pGuild, SESSION_INFO *si);
+
 SnowFlake getId(const JSONNode &pNode);
 CMStringW PrepareMessageText(const JSONNode &pRoot);
 int StrToStatus(const CMStringW &str);
