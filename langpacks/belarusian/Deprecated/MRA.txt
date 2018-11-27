@@ -342,6 +342,10 @@ Mail.ru xСтатус
 Mail.ru дадаткова
 [E-mail address]
 Адрас e-mail
+[You cannot send when you are offline.]
+
+[Can't allocate buffer for convert to Unicode.]
+
 ;file \protocols\MRA\src\Mra_functions.cpp
 [Unread mail is available: %lu/%lu messages]
 Непрачытаная пошта: %lu/%lu паведамленняў

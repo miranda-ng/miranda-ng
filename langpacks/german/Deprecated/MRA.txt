@@ -6,500 +6,504 @@
 ;  Authors: Rozhuk Ivan
 ;============================================================
 [Miranda Mail.ru Agent protocol plugin.]
-
+Miranda Mail.ru-Agent-Protokoll-Plugin.
 ;file \protocols\MRA\res\resource.rc
 [E-mail:]
-E-mail:
+E-Mail:
 [Password:]
-Heslo:
+Passwort:
 [Create a new Mail.ru account]
-
+Neues Mail.ru-Konto erstellen
 [Configuration]
-Nastavení
+Konfiguration
 [Login Server:]
-Server:
+Loginserver:
 [Port:]
 Port:
 [Default]
-Výchozí
+Standard
 [Automatically request authorization on logon]
-
+Autorisierung bei Login automatisch anfragen
 [Automatically add contacts to server list on logon]
-
+Kontakte bei Login automatisch hinzufügen
 [Automatically grant authorization to users in contact list]
-
+Autorisierung für Benutzer in Kontaktliste automatisch gewähren
 [Automatically grant authorization to new users]
-
+Autorisierung automatisch neuen Nutzern gewähren
 [Automatic authorization on Mail.ru web services]
-
+Automatisch bei Mail.ru-Webdiensten autorisieren
 [Notify me when a message delivery has failed]
-Upozornit při nedoručení odeslané zprávy
+Teile mir mit, wenn eine Nachricht nicht gesendet werden konnte
 [Notify about new mail if increment]
-
+Über neue E-Mails benachrichtigen, falls vorhanden
 [Notify about new mail tray icon]
-
+Über neue E-Mail im Tray-Icon benachrichtigen
 [Click to Inbox]
-
+Klicke hier, um zum Posteingang zu gelangen
 [Show received formatted text (receive RTF)]
-
+Empfangenen Text formatiert anzeigen (RTF empfangen)
 [Send formatted text (send RTF)]
-
+Formatierten Text senden (RTF senden)
 [Background color]
-Barva pozadí
+Hintergrundfarbe
 [Font]
-Písmo
+Schriftart
 [Summary]
-Souhrn
+Zusammenfassung
 [Nickname:]
-Přezdívka:
+Nick:
 [First name:]
-Jméno:
+Vorname:
 [Last name:]
-Příjmení:
+Nachname:
 [Gender:]
-Pohlaví:
+Geschlecht:
 [Age:]
-Věk:
+Alter:
 [from:]
-od:
+von:
 [to:]
-pro:
+bis:
 [Birthday:]
-Narozeniny:
+Geburtstag:
 [Zodiac:]
-Zvěrokruh:
+Sternzeichen;
 [Location]
-Umístění
+Ort
 [Country:]
-Země:
+Land:
 [State:]
-Stát:
+Region:
 [Search online users only]
-Hledat pouze mezi uživateli online
+Suche nur nach Onlinenutzern
 [City:]
-Město:
+Stadt:
 [Remember]
-
+Erinnerung
 [Enable avatars support (loading)]
-
+Avatar-Unterstützung aktivieren (laden)
 [Server:]
 Server:
 [Updates check interval, min]
-
+Überprüfe Updates alle (in Min.)
 [Return absolute path]
-
+Absoluten Pfad eingeben
 [Delete avatar file with contact]
-
+Benutzerbild-Datei mit Kontakt löschen
 [Use keep-alive connections]
-
+Keep-Alive-Verbindungen verwenden
 [Files exchange]
-
+Dateien austauschen
 [No out connection on send]
-
+Keine ausgehende Verbindung beim Senden
 [No out connection on receive]
-
+Keine ausgehende Verbindung beim Empfangen
 [Out connections: ignore additional ports (443, 2041)]
-
+Ausgehende Verbindungen: Zusätzliche Ports (443, 2041) ignorieren
 [Hide my IP addresses]
-
+Meine IP-Adresse verstecken
 [Add extra address]
-
+Extra-Adressen hinzufügen
 [Your host (or router):]
-Počítač (nebo brána):
+Ihr Host (oder Router):
 [File send block size:]
-
+Block-Größe der gesendeten Datei:
 [512 - 65536 bytes]
-
+512 - 65536 Bytes
 [Enable direct connections]
-
+Direkte Verbindungen aktivieren
 [Enable MRIM proxy connections]
-
+MRIM-Proxyverbindungen aktivieren
 [Mail.ru Agent]
-Mail.ru (agent)
+Mail.ru Agent
 [Full e-mail:]
-E-mail:
+Volle E-Mail:
 [Example: Petrov_Ivan@mail.ru]
-
+Beispiel: Petrov_Ivan@mail.ru
 [Create a new Mail.ru account using the Mail.ru website]
-
+Ein neues Mail.ru-Konto über die Mail.ru Website erstellen
 [Retrieve a lost password]
-
+Vergessenes Kennwort anfordern
 [Leave empty if you don't want to change password]
-
+Leer lassen, wenn Sie Ihr Passwort nicht ändern wollen.
 [Popup type]
-
+Popup-Typ
 [Popup settings]
-
+Popup-Einstellungen
 [Enable]
-Aktivovat
+Aktivieren
 [&Use Windows colors]
-Po&užít barvy Windows
+Windowsfarben verwenden
 [Back Color]
-Barva pozadí
+Hgrd.farbe
 [Text Color]
-Barva textu
+Textfarbe
 [Timeout]
-Doba zobrazení
+Timeout
 [Previe&w]
-&Náhled
+Vorschau
 [Custom Status "%s" Details]
-Rozš. stav '%s'
+Custom-Status "%s" Details
 [Closing in %d]
-Zavře se za %d sek.
+In %d schließen
 [Title:]
-Název:
+Titel:
 [Message:]
-Zpráva:
+Nachricht:
 [Cancel]
-Zrušit
+Abbrechen
 [Notify]
-Oznámení
+Benachrichtigung
 [Written:]
-
+Geschrieben:
 [Select e-mail]
-
+E-Mail auswählen
 ;file \protocols\MRA\src\MraAdvancedSearch.cpp
 [Male]
-muž
+männlich
 [Female]
-žena
+weiblich
 [January]
-leden
+Januar
 [February]
-únor
+Februar
 [March]
-březen
+März
 [April]
-duben
+April
 [May]
-květen
+Mai
 [June]
-červen
+Juni
 [July]
-červenec
+Juli
 [August]
-srpen
+August
 [September]
-září
+September
 [October]
-říjen
+Oktober
 [November]
-listopad
+November
 [December]
-prosinec
+Dezember
 [Aries]
-Beran
+Widder
 [Taurus]
-Býk
+Stier
 [Gemini]
-Blíženci
+Zwillinge
 [Cancer]
-Rak
+Krebs
 [Leo]
-Lev
+Löwe
 [Virgo]
-Panna
+Jungfrau
 [Libra]
-Váhy
+Waage
 [Scorpio]
-Štír
+Skorpion
 [Sagittarius]
-Střelec
+Schütze
 [Capricorn]
-Kozoroh
+Steinbock
 [Aquarius]
-Vodnář
+Wassermann
 [Pisces]
-Ryby
+Fische
 ;file \protocols\MRA\src\MraAvatars.cpp
 [Avatars' plugin connections]
-
+Avatar Plugin-Verbindungen
 [Avatars: server return HTTP code: %lu]
-
+Avatare: Server gibt HTTP-Code %lu zurück.
 [Avatars: can't open file %s, error]
-
+Avatare: Kann Datei %s nicht öffnen, Fehler.
 ;file \protocols\MRA\src\MraChat.cpp
 [Owners]
-Vlastníci
+Besitzer
 [Inviter]
-
+Einlader
 [Visitors]
-Přihlížející
+Besucher
 [invite sender]
-
+Sender einladen
 [invite new members]
-
+Neue Mitglieder einladen
 ;file \protocols\MRA\src\MraConstans.h
 [Your contact wakes you]
-
+Dein Kontakt weckt dich
 [Display &Inbox]
-
+Posteingang anzeigen
 [Display &Inbox status]
-
+Status vom Poste&ingang anzeigen
 [Edit &Profile]
-
+&Profil bearbeiten
 [My Album]
-
+Mein Album
 [My Blog Status]
-
+Mein Blog Status
 [My Video]
-
+Mein Video
 [My Answers]
-
+Meine Antworten
 [My World]
-
+Meine Welt
 [Web search]
-
+Web-Suche
 [Update all users info]
-
+Alle Benutzerinfos aktualisieren
 [Check users avatars updates]
-
+Alle Benutzerbilder aktualisieren
 [Request authorization for all]
-
+Autorisierung für alle anfragen
 [Request authorization]
-Požádat o autorizaci
+Autorisierung anfragen
 [Grant authorization]
-Udělit autorizaci
+Autorisierung gewähren
 [&Send E-Mail]
-
+E-Mail &senden
 [&Send postcard]
-
+Postkarte &senden
 [&View Album]
-
+Album ansehen
 [Reply Blog Status]
-
+Blog-Status beantworten
 [View Video]
-
+Video ansehen
 [Answers]
-
+Antworten
 [World]
-
+Welt
 [Send &Nudge]
-&Drc-drc
+&Nudge senden
 [Mail box deleted]
-
+Mailbox gelöscht
 [Contact not on server]
-
+Kontakt ist nicht am Server
 [Not authorized]
-
+Nicht autorisiert
 [Phone/SMS only contact]
-
+Nur Telefon/SMS-Kontakt
 [Blog status message]
-
+Statusnachricht bloggen
 [New E-mail available in Inbox]
-Nová pošta
+Neue E-Mail im Posteingang
 [Please authorize me]
-
+Bitte autorisieren Sie mich
 ;file \protocols\MRA\src\MraFilesQueue.cpp
 [Receive files: can't allocate disk space for file, size %lu bytes, error]
-
+Dateien empfangen: Kann nicht genug Speicherplatz für die Datei belegen, Größe %lu Bytes, Fehler
 [Receive files: can't open file %s, error]
-
+Dateien empfangen: Kann Datei %s nicht öffnen, Fehler
 [Receive files: request for file %s not sent, error]
-
+Dateien empfangen: Anfrage für Datei %s nicht gesendet, Fehler
 [Send files: can't open file %s, error]
-
+Dateien senden: Kann Datei %s nicht öffnen, Fehler
 [Send files: requested file: %S - not found in send files list.]
-
+Dateien senden: Angefragte Datei %S - nicht in Liste der gesendeten Dateien gefunden.
 ;file \protocols\MRA\src\MraIcons.cpp
 [Main icon]
-Hlavní ikona
+Haupticon
 [Protocols]
-Protokoly
+Protokolle
 [MRA]
 MRA
 [Main Menu]
-Hlavní nabídka
+Hauptmenü
 [Contact Menu]
-Menu kontaktu
+Kontaktmenü
 [Extra status]
-Rozšířený stav
+Extra Status
 [Custom Status]
-Rozšířený stav
+Custom Status
 ;file \protocols\MRA\src\MraPopUp.cpp
 [None]
----
+Keine
 [Debug]
 Debug
 [Information]
-Informace
+Information
 [Question]
-Otázka
+Frage
 [Warning]
-Upozornění
+Warnung
 [Error]
-Chyba
+Fehler
 [NewMail]
-
+Neue E-Mail
 [Popups]
-Oznámení
+Popups
 ;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
-%s - spojení se serverem
+%s Verbindung
 [Mail.ru xStatus]
-
+Mail.ru xStatus
 [Mail.ru extra info]
-
+Mail.ru extra info
 [E-mail address]
-E-mail
+E-Mail-Adresse
+[You cannot send when you are offline.]
+Sie können keine Nachricht versenden, so lange Sie offline sind.
+[Can't allocate buffer for convert to Unicode.]
+
 ;file \protocols\MRA\src\Mra_functions.cpp
 [Unread mail is available: %lu/%lu messages]
-
+Ungelesene E-Mails ist/sind verfügbar: %lu/%lu Nachrichten
 [From: %S\r\nSubject: %S\r\n%s]
-
+Von: %S\r\nBetreff: %S\r\n%s
 [No unread mail is available\r\nTotal messages: %lu]
-
+Keine ungelesene E-Mails\r\nNachrichten gesamt: %lu
 [Closing in %ld]
-
+In %ld schließen
 [Reply to %s blog status]
-
+Auf %s Blog-Status antworten
 [Set my blog status]
-
+Meinen Blog-Status setzen
 [Written]
-
+Geschrieben
 ;file \protocols\MRA\src\Mra_menus.cpp
 [Are you sure?]
-Opravdu chcete pokračovat?
+Sind Sie sich sicher?
 [Services...]
-Služby
+Dienste...
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
-Sítě
+Netzwerk
 [Account]
-Účet
+Konto
 [Connections]
-Spojení
+Verbindungen
 [Files]
-Soubory
+Dateien
 [Avatars]
-Avatary
+Avatare
 ;file \protocols\MRA\src\Mra_proto.cpp
 [Please, setup e-mail in options]
-
+Bitte E-Mail-Einstellungen in den Einstellungen einrichten
 [Please, setup password in options]
-
+Bitte richten Sie ein Kennwort in den Einstellungen ein.
 [Thread creation failure]
-
+Fehler beim Erzeugen des Threads
 [Logon error: invalid login/password]
-
+Anmeldefehler: Falscher Benutzername/Kennwort
 [MRIM_CS_MESSAGE_STATUS: not found in queue]
-
+MRIM_CS_MESSAGE_STATUS: Nicht in der Warteschlange gefunden
 [Server error: can't get MPOP key for web authorize]
-
+Serverfehler: Konnte MPOP-Schlüssel für Web-Autorisierung nicht anfordern
 [MRIM_CS_FILE_TRANSFER_ACK: unknown error, code: %lu]
-
+MRIM_CS_FILE_TRANSFER_ACK: Unbekannter Fehler. Code: %lu
 [invisible status changed]
-
+Unsichtbarer Status geändert
 [MRIM_CS_*_CONTACT_ACK: unknown server error, code: %lu]
-
+MRIM_CS_*_CONTACT_ACK: Unbekannter Serverfehler. Code: %lu
 [MRIM_CS_*_CONTACT_ACK: not found in queue]
-
+MRIM_CS_*_CONTACT_ACK: Nicht in der Warteschlange gefunden
 [MRIM_ANKETA_INFO: not found in queue]
-
+MRIM_ANKETA_INFO: Nicht in der Warteschlange gefunden
 [MRIM_CS_GAME: unknown internal game message code: %lu]
-
+MRIM_CS_GAME: Unbekannter interner Spiele-Nachricht-Code: %lu
 [MRIM_CS_CONTACT_LIST2: unknown server error, code: %lu]
-
+MRIM_CS_CONTACT_LIST2: Unbekannter Serverfehler. Code: %lu
 [MRIM_CS_SMS_ACK: not found in queue]
-
+MRIM_CS_SMS_ACK: Nicht in der Warteschlange gefunden
 [Mail.ru System notify]
-
+Mail.ru-Systembenachrichtigung
 ;file \protocols\MRA\src\Mra_svcs.cpp
 [Sick]
-Není mi dobře
+Krank
 [Home]
-Domov
+Wohnort
 [Eating]
-Jím
+Essen
 [Compass]
-Kompas
+Kompass
 [On WC]
-Jsem na WC
+Toilette
 [Cooking]
-Vařím
+Kochen
 [Walking]
-Procházka
+Wandern
 [Alien]
-Mimozemšťan
+Außerirdischer
 [Shrimp]
-
+Shrimp
 [Got lost]
-
+Verloren
 [Crazy]
-Šílenství
+Verrückt
 [Duck]
-Koupání
+Ente
 [Playing]
-Hraje
+Spielen
 [Smoking]
-Kouřím
+Rauchen
 [Office]
-
+Büro
 [Meeting]
-Na schůzce
+Treffen
 [Beer]
-Jsem na pivku
+Bier
 [Coffee]
-Dávám si kafe
+Kaffee
 [Working]
-Pracuju
+Arbeiten
 [Relaxing]
-Odpočinek
+Ausruhen
 [On the phone]
-Na telefonu
+Am Telefon
 [In institute]
-
+Im Institut
 [At school]
-
+In der Schule
 [Wrong number]
-
+Falsche Nummer
 [Laughing]
-Smích
+Lachend
 [Malicious]
-
+Bösartig
 [Imp]
-
+Kobold
 [Blind]
-
+Blind
 [Disappointed]
-Rozčarování
+Enttäuscht
 [Almost crying]
-
+Fast Weinend
 [Fearful]
-
+Ängstlich
 [Angry]
-Zlost
+Wütend
 [Vampire]
-
+Vampir
 [Ass]
-
+Arsch
 [Love]
-Láska
+Liebe
 [Sleeping]
-Spím
+Schlafen
 [Cool!]
-
+Cool!
 [Peace!]
-
+Friede!
 [Cock a snook]
-
+Lange Nase zeigen
 [Get out]
-
+Rausgehen
 [Death]
-
+Tod
 [Rocket]
-
+Rakete
 [Devil-fish]
-
+Teufelsfisch
 [Heavy metal]
-
+Heavy Metal
 [Things look bad]
-
+Dinge sehen schlecht aus
 [Squirrel]
-
+Eichhörnchen
 [Star]
-
+Star
 [Music]
-Hudba
+Musik
 [Dating]
-
+Dating

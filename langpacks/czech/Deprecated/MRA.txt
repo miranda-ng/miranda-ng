@@ -1,202 +1,509 @@
+#muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
+;============================================================
+;  File: MRA.dll
+;  Plugin: MRA protocol
+;  Version: 2.1.1.1
+;  Authors: Rozhuk Ivan
+;============================================================
 [Miranda Mail.ru Agent protocol plugin.]
+
+;file \protocols\MRA\res\resource.rc
+[E-mail:]
+E-mail:
+[Password:]
+Heslo:
 [Create a new Mail.ru account]
+
 [Configuration]
+Nastavení
 [Login Server:]
+Server:
+[Port:]
+Port:
+[Default]
+Výchozí
 [Automatically request authorization on logon]
+
 [Automatically add contacts to server list on logon]
+
 [Automatically grant authorization to users in contact list]
+
 [Automatically grant authorization to new users]
+
 [Automatic authorization on Mail.ru web services]
+
 [Notify me when a message delivery has failed]
+Upozornit při nedoručení odeslané zprávy
 [Notify about new mail if increment]
+
 [Notify about new mail tray icon]
+
 [Click to Inbox]
+
 [Show received formatted text (receive RTF)]
+
 [Send formatted text (send RTF)]
+
+[Background color]
+Barva pozadí
 [Font]
+Písmo
+[Summary]
+Souhrn
+[Nickname:]
+Přezdívka:
+[First name:]
+Jméno:
+[Last name:]
+Příjmení:
+[Gender:]
+Pohlaví:
+[Age:]
+Věk:
+[from:]
+od:
+[to:]
+pro:
 [Birthday:]
+Narozeniny:
 [Zodiac:]
+Zvěrokruh:
+[Location]
+Umístění
+[Country:]
+Země:
+[State:]
+Stát:
 [Search online users only]
+Hledat pouze mezi uživateli online
+[City:]
+Město:
 [Remember]
+
 [Enable avatars support (loading)]
+
 [Server:]
+Server:
 [Updates check interval, min]
+
 [Return absolute path]
+
 [Delete avatar file with contact]
+
 [Use keep-alive connections]
+
 [Files exchange]
+
 [No out connection on send]
+
 [No out connection on receive]
+
 [Out connections: ignore additional ports (443, 2041)]
+
 [Hide my IP addresses]
+
 [Add extra address]
+
 [Your host (or router):]
+Počítač (nebo brána):
 [File send block size:]
+
 [512 - 65536 bytes]
+
 [Enable direct connections]
+
 [Enable MRIM proxy connections]
+
 [Mail.ru Agent]
+Mail.ru (agent)
 [Full e-mail:]
+E-mail:
 [Example: Petrov_Ivan@mail.ru]
+
 [Create a new Mail.ru account using the Mail.ru website]
+
 [Retrieve a lost password]
+
 [Leave empty if you don't want to change password]
+
 [Popup type]
+
 [Popup settings]
+
 [Enable]
+Aktivovat
 [&Use Windows colors]
+Po&užít barvy Windows
 [Back Color]
+Barva pozadí
+[Text Color]
+Barva textu
 [Timeout]
+Doba zobrazení
 [Previe&w]
+&Náhled
 [Custom Status "%s" Details]
+Rozš. stav '%s'
+[Closing in %d]
+Zavře se za %d sek.
 [Title:]
+Název:
 [Message:]
+Zpráva:
+[Cancel]
+Zrušit
 [Notify]
+Oznámení
 [Written:]
+
 [Select e-mail]
+
+;file \protocols\MRA\src\MraAdvancedSearch.cpp
+[Male]
+muž
+[Female]
+žena
 [January]
+leden
 [February]
+únor
 [March]
+březen
 [April]
+duben
 [May]
+květen
 [June]
+červen
 [July]
+červenec
 [August]
+srpen
 [September]
+září
 [October]
+říjen
 [November]
+listopad
 [December]
+prosinec
 [Aries]
+Beran
 [Taurus]
+Býk
 [Gemini]
+Blíženci
 [Cancer]
+Rak
 [Leo]
+Lev
 [Virgo]
+Panna
 [Libra]
+Váhy
 [Scorpio]
+Štír
 [Sagittarius]
+Střelec
 [Capricorn]
+Kozoroh
 [Aquarius]
+Vodnář
 [Pisces]
+Ryby
+;file \protocols\MRA\src\MraAvatars.cpp
 [Avatars' plugin connections]
+
 [Avatars: server return HTTP code: %lu]
+
 [Avatars: can't open file %s, error]
+
+;file \protocols\MRA\src\MraChat.cpp
 [Owners]
+Vlastníci
 [Inviter]
+
 [Visitors]
+Přihlížející
 [invite sender]
+
 [invite new members]
+
+;file \protocols\MRA\src\MraConstans.h
 [Your contact wakes you]
+
 [Display &Inbox]
+
 [Display &Inbox status]
+
 [Edit &Profile]
+
 [My Album]
+
 [My Blog Status]
+
 [My Video]
+
 [My Answers]
+
 [My World]
+
 [Web search]
+
 [Update all users info]
+
 [Check users avatars updates]
+
 [Request authorization for all]
+
+[Request authorization]
+Požádat o autorizaci
+[Grant authorization]
+Udělit autorizaci
 [&Send E-Mail]
+
 [&Send postcard]
+
 [&View Album]
+
 [Reply Blog Status]
+
 [View Video]
+
 [Answers]
+
 [World]
+
 [Send &Nudge]
+&Drc-drc
 [Mail box deleted]
+
 [Contact not on server]
+
 [Not authorized]
+
 [Phone/SMS only contact]
+
 [Blog status message]
+
 [New E-mail available in Inbox]
+Nová pošta
 [Please authorize me]
+
+;file \protocols\MRA\src\MraFilesQueue.cpp
 [Receive files: can't allocate disk space for file, size %lu bytes, error]
+
 [Receive files: can't open file %s, error]
+
 [Receive files: request for file %s not sent, error]
+
 [Send files: can't open file %s, error]
+
 [Send files: requested file: %S - not found in send files list.]
+
+;file \protocols\MRA\src\MraIcons.cpp
 [Main icon]
+Hlavní ikona
 [Protocols]
+Protokoly
 [MRA]
+MRA
+[Main Menu]
+Hlavní nabídka
+[Contact Menu]
+Menu kontaktu
 [Extra status]
+Rozšířený stav
+[Custom Status]
+Rozšířený stav
+;file \protocols\MRA\src\MraPopUp.cpp
+[None]
+---
 [Debug]
+Debug
+[Information]
+Informace
 [Question]
+Otázka
+[Warning]
+Upozornění
+[Error]
+Chyba
 [NewMail]
+
+[Popups]
+Oznámení
+;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
+%s - spojení se serverem
 [Mail.ru xStatus]
+
 [Mail.ru extra info]
+
+[E-mail address]
+E-mail
+[You cannot send when you are offline.]
+Nemůžete odesílat zprávy ve stavu offline.
+[Can't allocate buffer for convert to Unicode.]
+
+;file \protocols\MRA\src\Mra_functions.cpp
 [Unread mail is available: %lu/%lu messages]
+
 [From: %S\r\nSubject: %S\r\n%s]
+
 [No unread mail is available\r\nTotal messages: %lu]
+
 [Closing in %ld]
+
 [Reply to %s blog status]
+
 [Set my blog status]
+
 [Written]
+
+;file \protocols\MRA\src\Mra_menus.cpp
+[Are you sure?]
+Opravdu chcete pokračovat?
 [Services...]
+Služby
+;file \protocols\MRA\src\Mra_options.cpp
+[Network]
+Sítě
 [Account]
+Účet
 [Connections]
+Spojení
+[Files]
+Soubory
+[Avatars]
+Avatary
+;file \protocols\MRA\src\Mra_proto.cpp
 [Please, setup e-mail in options]
+
 [Please, setup password in options]
+
 [Thread creation failure]
+
 [Logon error: invalid login/password]
+
 [MRIM_CS_MESSAGE_STATUS: not found in queue]
+
 [Server error: can't get MPOP key for web authorize]
+
 [MRIM_CS_FILE_TRANSFER_ACK: unknown error, code: %lu]
+
 [invisible status changed]
+
 [MRIM_CS_*_CONTACT_ACK: unknown server error, code: %lu]
+
 [MRIM_CS_*_CONTACT_ACK: not found in queue]
+
 [MRIM_ANKETA_INFO: not found in queue]
+
 [MRIM_CS_GAME: unknown internal game message code: %lu]
+
 [MRIM_CS_CONTACT_LIST2: unknown server error, code: %lu]
+
 [MRIM_CS_SMS_ACK: not found in queue]
+
 [Mail.ru System notify]
+
+;file \protocols\MRA\src\Mra_svcs.cpp
 [Sick]
+Není mi dobře
 [Home]
+Domov
 [Eating]
+Jím
 [Compass]
+Kompas
 [On WC]
+Jsem na WC
 [Cooking]
+Vařím
 [Walking]
+Procházka
 [Alien]
+Mimozemšťan
 [Shrimp]
+
 [Got lost]
+
 [Crazy]
+Šílenství
 [Duck]
+Koupání
 [Playing]
+Hraje
 [Smoking]
+Kouřím
 [Office]
+
 [Meeting]
+Na schůzce
 [Beer]
+Jsem na pivku
 [Coffee]
+Dávám si kafe
 [Working]
+Pracuju
 [Relaxing]
+Odpočinek
+[On the phone]
+Na telefonu
 [In institute]
+
 [At school]
+
 [Wrong number]
+
 [Laughing]
+Smích
 [Malicious]
+
 [Imp]
+
 [Blind]
+
 [Disappointed]
+Rozčarování
 [Almost crying]
+
 [Fearful]
+
+[Angry]
+Zlost
 [Vampire]
+
 [Ass]
+
+[Love]
+Láska
 [Sleeping]
+Spím
 [Cool!]
+
 [Peace!]
+
 [Cock a snook]
+
 [Get out]
+
 [Death]
+
 [Rocket]
+
 [Devil-fish]
+
 [Heavy metal]
+
 [Things look bad]
+
 [Squirrel]
+
 [Star]
+
 [Music]
+Hudba
 [Dating]
+

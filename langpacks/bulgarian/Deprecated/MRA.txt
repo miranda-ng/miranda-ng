@@ -9,19 +9,19 @@
 
 ;file \protocols\MRA\res\resource.rc
 [E-mail:]
-E-mail:
+Имейл:
 [Password:]
-Contraseña:
+Парола:
 [Create a new Mail.ru account]
 
 [Configuration]
-
+Настройване
 [Login Server:]
-
+Сървър:
 [Port:]
-Puerto:
+Порт:
 [Default]
-Por defecto
+Стандарт
 [Automatically request authorization on logon]
 
 [Automatically add contacts to server list on logon]
@@ -33,7 +33,7 @@ Por defecto
 [Automatic authorization on Mail.ru web services]
 
 [Notify me when a message delivery has failed]
-
+Уведомяване при неуспешно доставяне на съобщение
 [Notify about new mail if increment]
 
 [Notify about new mail tray icon]
@@ -45,45 +45,45 @@ Por defecto
 [Send formatted text (send RTF)]
 
 [Background color]
-Color de fondo
+Цвят на фона
 [Font]
-Fuente
+Шрифт
 [Summary]
-Resumen
+Обобщение
 [Nickname:]
-Apodo:
+Прякор:
 [First name:]
-Primer nombre:
+Име:
 [Last name:]
-Apellido:
+Фамилия:
 [Gender:]
-Género:
+Пол:
 [Age:]
-Edad:
+Възраст:
 [from:]
-de:
+от:
 [to:]
-a:
+за:
 [Birthday:]
-
+Рожден ден:
 [Zodiac:]
-
+Зодия:
 [Location]
-Localización
+Местоположение
 [Country:]
-País:
+Държава:
 [State:]
-Estado:
+Област:
 [Search online users only]
-
+Търси само потребители "На линия"
 [City:]
-Ciudad
+Град:
 [Remember]
 
 [Enable avatars support (loading)]
 
 [Server:]
-Servidor:
+Сървър:
 [Updates check interval, min]
 
 [Return absolute path]
@@ -105,7 +105,7 @@ Servidor:
 [Add extra address]
 
 [Your host (or router):]
-
+Ваш хост (или рутер):
 [File send block size:]
 
 [512 - 65536 bytes]
@@ -117,9 +117,9 @@ Servidor:
 [Mail.ru Agent]
 
 [Full e-mail:]
-
+Имейл:
 [Example: Petrov_Ivan@mail.ru]
-
+Пример: Petrov_Ivan@abv.bg
 [Create a new Mail.ru account using the Mail.ru website]
 
 [Retrieve a lost password]
@@ -131,86 +131,86 @@ Servidor:
 [Popup settings]
 
 [Enable]
-Habilitar
+Включване
 [&Use Windows colors]
-
+Цветове от Windows
 [Back Color]
-
+Фонов цвят
 [Text Color]
-Color de texto
+Цвят на текста
 [Timeout]
-Tiempo de espera
+Времетраене
 [Previe&w]
-
+Образец
 [Custom Status "%s" Details]
-
+Подробности за персоналното състояние на "%s"
 [Closing in %d]
-Cerrando en %d
+Затваряне след %d
 [Title:]
-Título:
+Заглавие:
 [Message:]
-
+Съобщение:
 [Cancel]
-Cancelar
+Отказ
 [Notify]
-Notificar
+Уведомяване
 [Written:]
 
 [Select e-mail]
 
 ;file \protocols\MRA\src\MraAdvancedSearch.cpp
 [Male]
-Masculino
+Мъж
 [Female]
-Femenino
+Жена
 [January]
-
+януари
 [February]
-
+февруари
 [March]
-
+март
 [April]
-
+април
 [May]
-
+май
 [June]
-
+юни
 [July]
-
+юли
 [August]
-
+август
 [September]
-
+септември
 [October]
-
+октомври
 [November]
-
+ноември
 [December]
-
+декември
 [Aries]
-
+Овен
 [Taurus]
-
+Телец
 [Gemini]
-
+Близнаци
 [Cancer]
-
+Рак
 [Leo]
-
+Лъв
 [Virgo]
-
+Дева
 [Libra]
-
+Везни
 [Scorpio]
-
+Скорпион
 [Sagittarius]
-
+Стрелец
 [Capricorn]
-
+Козирог
 [Aquarius]
-
+Водолей
 [Pisces]
-
+Риби
 ;file \protocols\MRA\src\MraAvatars.cpp
 [Avatars' plugin connections]
 
@@ -220,11 +220,11 @@ Femenino
 
 ;file \protocols\MRA\src\MraChat.cpp
 [Owners]
-
+Собственици
 [Inviter]
 
 [Visitors]
-
+Посетители
 [invite sender]
 
 [invite new members]
@@ -257,9 +257,9 @@ Femenino
 [Request authorization for all]
 
 [Request authorization]
-Solicitar autorización
+Молба за упълномощаване
 [Grant authorization]
-Conceder autorización
+Даване на пълномощно
 [&Send E-Mail]
 
 [&Send postcard]
@@ -287,7 +287,7 @@ Conceder autorización
 [Blog status message]
 
 [New E-mail available in Inbox]
-
+Нов имейл във входящата кутия
 [Please authorize me]
 
 ;file \protocols\MRA\src\MraFilesQueue.cpp
@@ -303,45 +303,49 @@ Conceder autorización
 
 ;file \protocols\MRA\src\MraIcons.cpp
 [Main icon]
-Icono principal
+Главна икона
 [Protocols]
-Protocolos
+Протоколи
 [MRA]
 
 [Main Menu]
-Menú principal
+Главно меню
 [Contact Menu]
-Menú de contacto
+Меню на контакта
 [Extra status]
-
+Допълнително състояние
 [Custom Status]
-Estado personalizado
+Персонално състояние
 ;file \protocols\MRA\src\MraPopUp.cpp
 [None]
-Ninguno
+Няма
 [Debug]
-
+Дебъг
 [Information]
-Información
+Информация
 [Question]
-
+Въпрос
 [Warning]
-Advertencia
+Предупреждение
 [Error]
-Error
+Грешка
 [NewMail]
 
 [Popups]
-Ventanas emergentes
+Рopups
 ;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
-
+%s връзка
 [Mail.ru xStatus]
 
 [Mail.ru extra info]
 
 [E-mail address]
-Dirección E-mail
+Имейл
+[You cannot send when you are offline.]
+
+[Can't allocate buffer for convert to Unicode.]
+
 ;file \protocols\MRA\src\Mra_functions.cpp
 [Unread mail is available: %lu/%lu messages]
 
@@ -359,20 +363,20 @@ Dirección E-mail
 
 ;file \protocols\MRA\src\Mra_menus.cpp
 [Are you sure?]
-
+Сигурни ли сте?
 [Services...]
-Servicios...
+Услуги...
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
-Red
+Мрежа
 [Account]
-Cuenta
+Акаунт
 [Connections]
 
 [Files]
-Archivos
+Файлове
 [Avatars]
-Avatares
+Аватари
 ;file \protocols\MRA\src\Mra_proto.cpp
 [Please, setup e-mail in options]
 
@@ -406,55 +410,55 @@ Avatares
 
 ;file \protocols\MRA\src\Mra_svcs.cpp
 [Sick]
-
+Болен
 [Home]
-Inicio
+Дом
 [Eating]
-
+Яде
 [Compass]
 
 [On WC]
-
+В тоалетната
 [Cooking]
-
+Готви
 [Walking]
-
+разхожда се
 [Alien]
-
+Извънземен
 [Shrimp]
 
 [Got lost]
 
 [Crazy]
-
+Луд
 [Duck]
 
 [Playing]
-
+Играе
 [Smoking]
-
+Пуши
 [Office]
 
 [Meeting]
-
+Среща
 [Beer]
-
+Бира
 [Coffee]
-
+Кафе
 [Working]
-
+Работи
 [Relaxing]
-
+Релаксира
 [On the phone]
-En el teléfono
+На телефона
 [In institute]
 
 [At school]
-
+На училище
 [Wrong number]
-
+Грешен номер
 [Laughing]
-
+Смее се
 [Malicious]
 
 [Imp]
@@ -462,21 +466,21 @@ En el teléfono
 [Blind]
 
 [Disappointed]
-
+Разочарован
 [Almost crying]
 
 [Fearful]
 
 [Angry]
-Me enoja
+Ядосан
 [Vampire]
-
+Вампир
 [Ass]
 
 [Love]
-Me encanta
+Любов
 [Sleeping]
-
+Спи
 [Cool!]
 
 [Peace!]
@@ -498,8 +502,8 @@ Me encanta
 [Squirrel]
 
 [Star]
-
+Звезда
 [Music]
-
+Музика
 [Dating]
 

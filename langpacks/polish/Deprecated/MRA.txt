@@ -6,500 +6,504 @@
 ;  Authors: Rozhuk Ivan
 ;============================================================
 [Miranda Mail.ru Agent protocol plugin.]
-Miranda Mail.ru-Agent-Protokoll-Plugin.
+Zapewnia obsługę protokołu Mail.ru Agent (MRA).
 ;file \protocols\MRA\res\resource.rc
 [E-mail:]
-E-Mail:
+E-mail:
 [Password:]
-Passwort:
+Hasło:
 [Create a new Mail.ru account]
-Neues Mail.ru-Konto erstellen
+Utwórz nowe konto Mail.ru
 [Configuration]
-Konfiguration
+Konfiguracja
 [Login Server:]
-Loginserver:
+Serwer:
 [Port:]
 Port:
 [Default]
-Standard
+Domyślny
 [Automatically request authorization on logon]
-Autorisierung bei Login automatisch anfragen
+Automatycznie poproś o autoryzację podczas logowania
 [Automatically add contacts to server list on logon]
-Kontakte bei Login automatisch hinzufügen
+Automatycznie dodaj kontakty do listy serwera podczas logowania
 [Automatically grant authorization to users in contact list]
-Autorisierung für Benutzer in Kontaktliste automatisch gewähren
+Automatycznie udziel autoryzacji kontaktom na liście
 [Automatically grant authorization to new users]
-Autorisierung automatisch neuen Nutzern gewähren
+Automatycznie udziel autoryzacji nowym kontaktom
 [Automatic authorization on Mail.ru web services]
-Automatisch bei Mail.ru-Webdiensten autorisieren
+Automatyczne autoryzuj usługi internetowe na Mail.ru
 [Notify me when a message delivery has failed]
-Teile mir mit, wenn eine Nachricht nicht gesendet werden konnte
+Powiadom mnie jeśli nie uda się dostarczyć wiadomości
 [Notify about new mail if increment]
-Über neue E-Mails benachrichtigen, falls vorhanden
+Powiadom o nowej poczcie, gdy wiadomości jest więcej niż
 [Notify about new mail tray icon]
-Über neue E-Mail im Tray-Icon benachrichtigen
+Powiadom o nowej poczcie ikoną w zasobniku
 [Click to Inbox]
-Klicke hier, um zum Posteingang zu gelangen
+Kliknij, by przejść do skrzynki odbiorczej
 [Show received formatted text (receive RTF)]
-Empfangenen Text formatiert anzeigen (RTF empfangen)
+Pokazuj sformatowany tekst po odebraniu (przyjmuj RTF)
 [Send formatted text (send RTF)]
-Formatierten Text senden (RTF senden)
+Wyślij sformatowany tekst (RTF)
 [Background color]
-Hintergrundfarbe
+Kolor tła
 [Font]
-Schriftart
+Czcionka
 [Summary]
-Zusammenfassung
+Podsumowanie
 [Nickname:]
 Nick:
 [First name:]
-Vorname:
+Imię:
 [Last name:]
-Nachname:
+Nazwisko:
 [Gender:]
-Geschlecht:
+Płeć:
 [Age:]
-Alter:
+Wiek:
 [from:]
-von:
+od:
 [to:]
-bis:
+do:
 [Birthday:]
-Geburtstag:
+Urodziny:
 [Zodiac:]
-Sternzeichen;
+Zodiak:
 [Location]
-Ort
+Miejsce
 [Country:]
-Land:
+Kraj:
 [State:]
-Region:
+Stan:
 [Search online users only]
-Suche nur nach Onlinenutzern
+Szukaj tylko wśród połączonych
 [City:]
-Stadt:
+Miasto:
 [Remember]
-Erinnerung
+Pamiętaj
 [Enable avatars support (loading)]
-Avatar-Unterstützung aktivieren (laden)
+Włącz wsparcie dla awatarów (ładowanie)
 [Server:]
-Server:
+Serwer:
 [Updates check interval, min]
-Überprüfe Updates alle (in Min.)
+Sprawdzaj aktualizacje co, min
 [Return absolute path]
-Absoluten Pfad eingeben
+Zwróć ścieżkę absolutną
 [Delete avatar file with contact]
-Benutzerbild-Datei mit Kontakt löschen
+Usuń plik awataru wraz z kontaktem
 [Use keep-alive connections]
-Keep-Alive-Verbindungen verwenden
+Używaj podtrzymanych połączeń
 [Files exchange]
-Dateien austauschen
+Wymiana plików
 [No out connection on send]
-Keine ausgehende Verbindung beim Senden
+Brak połączenia wychodzącego podczas wysyłania
 [No out connection on receive]
-Keine ausgehende Verbindung beim Empfangen
+Brak połączenia wychodzącego podczas odbierania
 [Out connections: ignore additional ports (443, 2041)]
-Ausgehende Verbindungen: Zusätzliche Ports (443, 2041) ignorieren
+Połączenia wychodzące: ignoruj dodatkowe porty (443, 2041)
 [Hide my IP addresses]
-Meine IP-Adresse verstecken
+Ukryj moje adresy IP
 [Add extra address]
-Extra-Adressen hinzufügen
+Dodaj adres dodatkowy
 [Your host (or router):]
-Ihr Host (oder Router):
+Twój host(lub router):
 [File send block size:]
-Block-Größe der gesendeten Datei:
+Rozmiar bloku wysyłanego pliku:
 [512 - 65536 bytes]
-512 - 65536 Bytes
+512 - 65536 bajtów
 [Enable direct connections]
-Direkte Verbindungen aktivieren
+Włącz połączenia bezpośrednie
 [Enable MRIM proxy connections]
-MRIM-Proxyverbindungen aktivieren
+Włącz połączenia przez serwer proxy MRIM
 [Mail.ru Agent]
 Mail.ru Agent
 [Full e-mail:]
-Volle E-Mail:
+E-mail:
 [Example: Petrov_Ivan@mail.ru]
-Beispiel: Petrov_Ivan@mail.ru
+Przykład: Petrov_Ivan@mail.ru
 [Create a new Mail.ru account using the Mail.ru website]
-Ein neues Mail.ru-Konto über die Mail.ru Website erstellen
+Utwórz nowe konto Mail.ru używając strony Mail.ru
 [Retrieve a lost password]
-Vergessenes Kennwort anfordern
+Odzyskaj zapomniane hasło
 [Leave empty if you don't want to change password]
-Leer lassen, wenn Sie Ihr Passwort nicht ändern wollen.
+Pozostaw to pole puste, jeśli nie chcesz zmieniać hasła
 [Popup type]
-Popup-Typ
+Typ popupu
 [Popup settings]
-Popup-Einstellungen
+Ustawienia popup
 [Enable]
-Aktivieren
+Włącz
 [&Use Windows colors]
-Windowsfarben verwenden
+&Użyj kolorów Windows
 [Back Color]
-Hgrd.farbe
+Tło
 [Text Color]
-Textfarbe
+Kolor tekstu
 [Timeout]
-Timeout
+Wyświetlaj
 [Previe&w]
-Vorschau
+Podglą&d
 [Custom Status "%s" Details]
-Custom-Status "%s" Details
+Szczegóły własnego statusu "%s"
 [Closing in %d]
-In %d schließen
+Zamykanie w %d
 [Title:]
-Titel:
+Nazwa:
 [Message:]
-Nachricht:
+Wiadomość:
 [Cancel]
-Abbrechen
+Anuluj
 [Notify]
-Benachrichtigung
+Powiadomienia
 [Written:]
-Geschrieben:
+Napisane:
 [Select e-mail]
-E-Mail auswählen
+Wybierz e-mail
 ;file \protocols\MRA\src\MraAdvancedSearch.cpp
 [Male]
-männlich
+Mężczyzna
 [Female]
-weiblich
+Kobieta
 [January]
-Januar
+Styczeń
 [February]
-Februar
+Luty
 [March]
-März
+Marzec
 [April]
-April
+Kwiecień
 [May]
-Mai
+Maj
 [June]
-Juni
+Czerwiec
 [July]
-Juli
+Lipiec
 [August]
-August
+Sierpień
 [September]
-September
+Wrzesień
 [October]
-Oktober
+Październik
 [November]
-November
+Listopad
 [December]
-Dezember
+Grudzień
 [Aries]
-Widder
+Baran
 [Taurus]
-Stier
+Byk
 [Gemini]
-Zwillinge
+Bliźnięta
 [Cancer]
-Krebs
+Rak
 [Leo]
-Löwe
+Lew
 [Virgo]
-Jungfrau
+Panna
 [Libra]
-Waage
+Waga
 [Scorpio]
 Skorpion
 [Sagittarius]
-Schütze
+Strzelec
 [Capricorn]
-Steinbock
+Koziorożec
 [Aquarius]
-Wassermann
+Wodnik
 [Pisces]
-Fische
+Ryby
 ;file \protocols\MRA\src\MraAvatars.cpp
 [Avatars' plugin connections]
-Avatar Plugin-Verbindungen
+Połączenia wtyczki Avatars
 [Avatars: server return HTTP code: %lu]
-Avatare: Server gibt HTTP-Code %lu zurück.
+Awatary: serwer zwrócił kod HTTP: %lu
 [Avatars: can't open file %s, error]
-Avatare: Kann Datei %s nicht öffnen, Fehler.
+Awatary: nie można otworzyć pliku %s, błąd
 ;file \protocols\MRA\src\MraChat.cpp
 [Owners]
-Besitzer
+Właściciel
 [Inviter]
-Einlader
+Zapraszający
 [Visitors]
-Besucher
+Goście
 [invite sender]
-Sender einladen
+zaproś nadawcę
 [invite new members]
-Neue Mitglieder einladen
+zaproś nowego członka
 ;file \protocols\MRA\src\MraConstans.h
 [Your contact wakes you]
-Dein Kontakt weckt dich
+Twój kontakt budzi cię
 [Display &Inbox]
-Posteingang anzeigen
+Wyświetl skrzynkę &odbiorczą
 [Display &Inbox status]
-Status vom Poste&ingang anzeigen
+Wyświetl status &skrzynki odbiorczej
 [Edit &Profile]
-&Profil bearbeiten
+Edytuj &profil
 [My Album]
-Mein Album
+Mój album
 [My Blog Status]
-Mein Blog Status
+Status mojego bloga
 [My Video]
-Mein Video
+Moje wideo
 [My Answers]
-Meine Antworten
+Moje odpowiedzi
 [My World]
-Meine Welt
+Mój świat
 [Web search]
-Web-Suche
+Szukaj w internecie
 [Update all users info]
-Alle Benutzerinfos aktualisieren
+Zaktualizuj informacje wszystkich użytkowników
 [Check users avatars updates]
-Alle Benutzerbilder aktualisieren
+Sprawdź aktualizacje awatarów
 [Request authorization for all]
-Autorisierung für alle anfragen
+Poproś wszystkich o autoryzację
 [Request authorization]
-Autorisierung anfragen
+Poproś o autoryzację
 [Grant authorization]
-Autorisierung gewähren
+Udziel autoryzacji
 [&Send E-Mail]
-E-Mail &senden
+&Wyślij e-mail
 [&Send postcard]
-Postkarte &senden
+&Wyślij kartkę
 [&View Album]
-Album ansehen
+&Pokaż album
 [Reply Blog Status]
-Blog-Status beantworten
+Odpowiedz na status na blogu
 [View Video]
-Video ansehen
+Pokaż wideo
 [Answers]
-Antworten
+Odpowiedzi
 [World]
-Welt
+Świat
 [Send &Nudge]
-&Nudge senden
+Wyślij &nudge
 [Mail box deleted]
-Mailbox gelöscht
+Skrzynka pocztowa usunięta
 [Contact not on server]
-Kontakt ist nicht am Server
+Kontaktu nie ma na serwerze
 [Not authorized]
-Nicht autorisiert
+Nie autoryzowany
 [Phone/SMS only contact]
-Nur Telefon/SMS-Kontakt
+Kontakt tylko telefonicznie lub przez SMS
 [Blog status message]
-Statusnachricht bloggen
+Opis na blogu
 [New E-mail available in Inbox]
-Neue E-Mail im Posteingang
+Nowy e-mail w skrzynce
 [Please authorize me]
-Bitte autorisieren Sie mich
+Proszę o autoryzację
 ;file \protocols\MRA\src\MraFilesQueue.cpp
 [Receive files: can't allocate disk space for file, size %lu bytes, error]
-Dateien empfangen: Kann nicht genug Speicherplatz für die Datei belegen, Größe %lu Bytes, Fehler
+Odbieranie plików: nie można znaleźć miejsca na plik, rozmiar %lu bajtów, błąd
 [Receive files: can't open file %s, error]
-Dateien empfangen: Kann Datei %s nicht öffnen, Fehler
+Odbieranie plików: nie można otworzyć pliku %s, błąd
 [Receive files: request for file %s not sent, error]
-Dateien empfangen: Anfrage für Datei %s nicht gesendet, Fehler
+Odbieranie plików: nie wysłano prośby o plik %s, błąd
 [Send files: can't open file %s, error]
-Dateien senden: Kann Datei %s nicht öffnen, Fehler
+Wysyłanie plików: nie można otworzyć pliku %s, błąd
 [Send files: requested file: %S - not found in send files list.]
-Dateien senden: Angefragte Datei %S - nicht in Liste der gesendeten Dateien gefunden.
+Wysyłanie plików: żądany plik: %S - nie został znaleziony na liście wysyłanych plików.
 ;file \protocols\MRA\src\MraIcons.cpp
 [Main icon]
-Haupticon
+Główna ikona
 [Protocols]
-Protokolle
+Protokoły
 [MRA]
 MRA
 [Main Menu]
-Hauptmenü
+Menu główne
 [Contact Menu]
-Kontaktmenü
+Menu kontaktu
 [Extra status]
-Extra Status
+xStatus
 [Custom Status]
-Custom Status
+Niestandardowy status
 ;file \protocols\MRA\src\MraPopUp.cpp
 [None]
-Keine
+Brak
 [Debug]
-Debug
+Analizuj
 [Information]
-Information
+Informacje
 [Question]
-Frage
+Pytanie
 [Warning]
-Warnung
+Ostrzeżenie
 [Error]
-Fehler
+Błąd
 [NewMail]
-Neue E-Mail
+Nowy e-mail
 [Popups]
-Popups
+Popupy
 ;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
-%s Verbindung
+Połączenie %s
 [Mail.ru xStatus]
-Mail.ru xStatus
+xStatus Mail.ru
 [Mail.ru extra info]
-Mail.ru extra info
+Mail.ru dodatkowe informacje
 [E-mail address]
-E-Mail-Adresse
+Adres e-mail
+[You cannot send when you are offline.]
+Nie możesz wysyłać będąc rozłączonym.
+[Can't allocate buffer for convert to Unicode.]
+
 ;file \protocols\MRA\src\Mra_functions.cpp
 [Unread mail is available: %lu/%lu messages]
-Ungelesene E-Mails ist/sind verfügbar: %lu/%lu Nachrichten
+Dostępne są nieczytane wiadomości: %lu/%lu wiadomości
 [From: %S\r\nSubject: %S\r\n%s]
-Von: %S\r\nBetreff: %S\r\n%s
+Od: %S\r\nTemat: %S\r\n%s
 [No unread mail is available\r\nTotal messages: %lu]
-Keine ungelesene E-Mails\r\nNachrichten gesamt: %lu
+Brak nieczytanych wiadomości\r\nWszystkich wiadomości: %lu
 [Closing in %ld]
-In %ld schließen
+Zamykanie w %ld
 [Reply to %s blog status]
-Auf %s Blog-Status antworten
+Odpowiedz na status %s na blogu
 [Set my blog status]
-Meinen Blog-Status setzen
+Ustaw status na moim blogu
 [Written]
-Geschrieben
+Napisano
 ;file \protocols\MRA\src\Mra_menus.cpp
 [Are you sure?]
-Sind Sie sich sicher?
+Jesteś pewien?
 [Services...]
-Dienste...
+Usługi...
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
-Netzwerk
+Protokoły
 [Account]
 Konto
 [Connections]
-Verbindungen
+Połączenia
 [Files]
-Dateien
+Pliki
 [Avatars]
-Avatare
+Awatary
 ;file \protocols\MRA\src\Mra_proto.cpp
 [Please, setup e-mail in options]
-Bitte E-Mail-Einstellungen in den Einstellungen einrichten
+Proszę uzupełnić e-mail w opcjach
 [Please, setup password in options]
-Bitte richten Sie ein Kennwort in den Einstellungen ein.
+Proszę uzupełnić hasło w opcjach
 [Thread creation failure]
-Fehler beim Erzeugen des Threads
+Błąd tworzenia wątku
 [Logon error: invalid login/password]
-Anmeldefehler: Falscher Benutzername/Kennwort
+Błąd logowania: niepoprawny login lub hasło
 [MRIM_CS_MESSAGE_STATUS: not found in queue]
-MRIM_CS_MESSAGE_STATUS: Nicht in der Warteschlange gefunden
+MRIM_CS_MESSAGE_STATUS: nie znaleziono w kolejce
 [Server error: can't get MPOP key for web authorize]
-Serverfehler: Konnte MPOP-Schlüssel für Web-Autorisierung nicht anfordern
+Błąd serwera: nie można pobrać klucza MPOP w celu autoryzacji web
 [MRIM_CS_FILE_TRANSFER_ACK: unknown error, code: %lu]
-MRIM_CS_FILE_TRANSFER_ACK: Unbekannter Fehler. Code: %lu
+MRIM_CS_FILE_TRANSFER_ACK: nieznany błąd, kod: %lu
 [invisible status changed]
-Unsichtbarer Status geändert
+zmieniono status niewidoczny
 [MRIM_CS_*_CONTACT_ACK: unknown server error, code: %lu]
-MRIM_CS_*_CONTACT_ACK: Unbekannter Serverfehler. Code: %lu
+MRIM_CS_*_CONTACT_ACK: nieznany błąd serwera, kod: %lu
 [MRIM_CS_*_CONTACT_ACK: not found in queue]
-MRIM_CS_*_CONTACT_ACK: Nicht in der Warteschlange gefunden
+MRIM_CS_*_CONTACT_ACK: nie znaleziono w kolejce
 [MRIM_ANKETA_INFO: not found in queue]
-MRIM_ANKETA_INFO: Nicht in der Warteschlange gefunden
+MRIM_ANKETA_INFO: nie znaleziono w kolejce
 [MRIM_CS_GAME: unknown internal game message code: %lu]
-MRIM_CS_GAME: Unbekannter interner Spiele-Nachricht-Code: %lu
+MRIM_CS_GAME: nieznana wiadomość wewnętrzna gry, kod: %lu
 [MRIM_CS_CONTACT_LIST2: unknown server error, code: %lu]
-MRIM_CS_CONTACT_LIST2: Unbekannter Serverfehler. Code: %lu
+MRIM_CS_CONTACT_LIST2: błąd serwera, kod: %lu
 [MRIM_CS_SMS_ACK: not found in queue]
-MRIM_CS_SMS_ACK: Nicht in der Warteschlange gefunden
+MRIM_CS_SMS_ACK: nie znaleziono w kolejce
 [Mail.ru System notify]
-Mail.ru-Systembenachrichtigung
+Powiadomienie systemowe Mail.ru
 ;file \protocols\MRA\src\Mra_svcs.cpp
 [Sick]
-Krank
+Chory
 [Home]
-Wohnort
+Dom
 [Eating]
-Essen
+Jedzenie
 [Compass]
-Kompass
+Kompas
 [On WC]
-Toilette
+W toalecie
 [Cooking]
-Kochen
+Gotuję
 [Walking]
-Wandern
+Chodzenie
 [Alien]
-Außerirdischer
+Obcy
 [Shrimp]
-Shrimp
+Krewetka
 [Got lost]
-Verloren
+Zgubił się
 [Crazy]
-Verrückt
+Zwariowany
 [Duck]
-Ente
+Kaczka
 [Playing]
-Spielen
+Gra
 [Smoking]
-Rauchen
+Palę
 [Office]
-Büro
+Biuro
 [Meeting]
-Treffen
+Spotkanie
 [Beer]
-Bier
+Piwo
 [Coffee]
-Kaffee
+Kawa
 [Working]
-Arbeiten
+Pracuję
 [Relaxing]
-Ausruhen
+Relaks
 [On the phone]
-Am Telefon
+Pod telefonem
 [In institute]
-Im Institut
+W instytucie
 [At school]
-In der Schule
+W szkole
 [Wrong number]
-Falsche Nummer
+Zły numer
 [Laughing]
-Lachend
+Śmieję się
 [Malicious]
-Bösartig
+Złośliwy
 [Imp]
-Kobold
+Goblin
 [Blind]
-Blind
+Niewidomy
 [Disappointed]
-Enttäuscht
+Zawiedziony
 [Almost crying]
-Fast Weinend
+Prawie płacze
 [Fearful]
-Ängstlich
+Bojaźliwy
 [Angry]
-Wütend
+Rozgniewany
 [Vampire]
-Vampir
+Wampir
 [Ass]
-Arsch
+Dupa
 [Love]
-Liebe
+Miłość
 [Sleeping]
-Schlafen
+Śpiący
 [Cool!]
 Cool!
 [Peace!]
-Friede!
+Pokój!
 [Cock a snook]
-Lange Nase zeigen
+Gra na nosie
 [Get out]
-Rausgehen
+Wyjdź
 [Death]
-Tod
+Śmierć
 [Rocket]
-Rakete
+Rakieta
 [Devil-fish]
-Teufelsfisch
+Diabeł-ryba
 [Heavy metal]
-Heavy Metal
+Heavy metal
 [Things look bad]
-Dinge sehen schlecht aus
+To wygląda źle
 [Squirrel]
-Eichhörnchen
+Wiewiórka
 [Star]
-Star
+Gwiazda
 [Music]
-Musik
+Muzyka
 [Dating]
-Dating
+Randka
