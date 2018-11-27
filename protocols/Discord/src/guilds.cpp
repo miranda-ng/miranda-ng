@@ -122,9 +122,11 @@ void CDiscordProto::ProcessGuild(const JSONNode &p)
 	if (pGuild == nullptr) {
 		pGuild = new CDiscordGuild(guildId);
 		arGuilds.insert(pGuild);
-
-		GatewaySendGuildInfo(guildId);
 	}
+
+	if (!pGuild->bSynced)
+		GatewaySendGuildInfo(guildId);
+	
 	pGuild->ownerId = ::getId(p["owner_id"]);
 	pGuild->wszName = p["name"].as_mstring();
 	pGuild->groupId = Clist_GroupCreate(Clist_GroupExists(m_wszDefaultGroup), pGuild->wszName);
@@ -292,4 +294,6 @@ void CDiscordProto::ParseGuildContents(CDiscordGuild *pGuild, const JSONNode &pR
 		if (oldMsgId != 0 && it->lastMsgId > oldMsgId)
 			RetrieveHistory(it->hContact, MSG_AFTER, oldMsgId, 99);
 	}
+
+	pGuild->bSynced = true;
 }

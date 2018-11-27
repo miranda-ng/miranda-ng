@@ -116,6 +116,7 @@ struct CDiscordGuild : public MZeroedObject
 	CMStringW wszName;
 	MCONTACT hContact;
 	MGROUP groupId;
+	bool bSynced = false;
 	LIST<CDiscordUser> arChannels;
 
 	SESSION_INFO *pParentSi;
