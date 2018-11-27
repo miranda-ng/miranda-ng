@@ -24,8 +24,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_IRC", "..\protocols\I
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Jabber", "..\protocols\JabberG\proto_jabber\Proto_Jabber.vcxproj", "{1AA0A504-0644-4F00-A1AD-F55D69E50DD0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_MRA", "..\protocols\MRA\proto_mra\Proto_MRA.vcxproj", "{38BF6F63-58E7-442D-A7E8-B4BD57D224E2}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_MSN", "..\protocols\MSN\proto_msn\Proto_MSN.vcxproj", "{7BC6C3E7-2B17-4718-A82E-084798710E14}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_GG", "..\protocols\Gadu-Gadu\proto_gg\Proto_GG.vcxproj", "{33912E32-3B68-4E2C-82AE-64C06EE987A7}"
@@ -57,8 +55,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Fp_icons", "..\plugins\FingerprintNG\iconpacks\fp_icons.vcxproj", "{7F854B13-37EA-4956-BAEE-9715AE9F4579}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_VKontakte", "..\protocols\VKontakte\proto_vkontakte\Proto_VKontakte.vcxproj", "{5F8495EF-0765-4E03-905D-639BDBF05B4F}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xStatus_MRA", "..\protocols\MRA\xstatus_mra\xStatus_MRA.vcxproj", "{5B84781D-F1C3-4535-99B7-B84B6C9BCF15}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Sametime", "..\protocols\Sametime\proto_sametime\Proto_Sametime.vcxproj", "{217C99B1-0D5E-4A85-A84F-836FCA167B25}"
 EndProject
@@ -172,14 +168,6 @@ Global
 		{1AA0A504-0644-4F00-A1AD-F55D69E50DD0}.Release|Win32.Build.0 = Release|Win32
 		{1AA0A504-0644-4F00-A1AD-F55D69E50DD0}.Release|x64.ActiveCfg = Release|x64
 		{1AA0A504-0644-4F00-A1AD-F55D69E50DD0}.Release|x64.Build.0 = Release|x64
-		{38BF6F63-58E7-442D-A7E8-B4BD57D224E2}.Debug|Win32.ActiveCfg = Debug|Win32
-		{38BF6F63-58E7-442D-A7E8-B4BD57D224E2}.Debug|Win32.Build.0 = Debug|Win32
-		{38BF6F63-58E7-442D-A7E8-B4BD57D224E2}.Debug|x64.ActiveCfg = Debug|x64
-		{38BF6F63-58E7-442D-A7E8-B4BD57D224E2}.Debug|x64.Build.0 = Debug|x64
-		{38BF6F63-58E7-442D-A7E8-B4BD57D224E2}.Release|Win32.ActiveCfg = Release|Win32
-		{38BF6F63-58E7-442D-A7E8-B4BD57D224E2}.Release|Win32.Build.0 = Release|Win32
-		{38BF6F63-58E7-442D-A7E8-B4BD57D224E2}.Release|x64.ActiveCfg = Release|x64
-		{38BF6F63-58E7-442D-A7E8-B4BD57D224E2}.Release|x64.Build.0 = Release|x64
 		{7BC6C3E7-2B17-4718-A82E-084798710E14}.Debug|Win32.ActiveCfg = Debug|Win32
 		{7BC6C3E7-2B17-4718-A82E-084798710E14}.Debug|Win32.Build.0 = Debug|Win32
 		{7BC6C3E7-2B17-4718-A82E-084798710E14}.Debug|x64.ActiveCfg = Debug|x64
@@ -308,14 +296,6 @@ Global
 		{5F8495EF-0765-4E03-905D-639BDBF05B4F}.Release|Win32.Build.0 = Release|Win32
 		{5F8495EF-0765-4E03-905D-639BDBF05B4F}.Release|x64.ActiveCfg = Release|x64
 		{5F8495EF-0765-4E03-905D-639BDBF05B4F}.Release|x64.Build.0 = Release|x64
-		{5B84781D-F1C3-4535-99B7-B84B6C9BCF15}.Debug|Win32.ActiveCfg = Debug|Win32
-		{5B84781D-F1C3-4535-99B7-B84B6C9BCF15}.Debug|Win32.Build.0 = Debug|Win32
-		{5B84781D-F1C3-4535-99B7-B84B6C9BCF15}.Debug|x64.ActiveCfg = Debug|x64
-		{5B84781D-F1C3-4535-99B7-B84B6C9BCF15}.Debug|x64.Build.0 = Debug|x64
-		{5B84781D-F1C3-4535-99B7-B84B6C9BCF15}.Release|Win32.ActiveCfg = Release|Win32
-		{5B84781D-F1C3-4535-99B7-B84B6C9BCF15}.Release|Win32.Build.0 = Release|Win32
-		{5B84781D-F1C3-4535-99B7-B84B6C9BCF15}.Release|x64.ActiveCfg = Release|x64
-		{5B84781D-F1C3-4535-99B7-B84B6C9BCF15}.Release|x64.Build.0 = Release|x64
 		{217C99B1-0D5E-4A85-A84F-836FCA167B25}.Debug|Win32.ActiveCfg = Debug|Win32
 		{217C99B1-0D5E-4A85-A84F-836FCA167B25}.Debug|Win32.Build.0 = Debug|Win32
 		{217C99B1-0D5E-4A85-A84F-836FCA167B25}.Debug|x64.ActiveCfg = Debug|x64

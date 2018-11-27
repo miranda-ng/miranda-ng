@@ -84,7 +84,6 @@ Plugins\mirfox.dll
 Plugins\mirlua.dll
 Plugins\mirotr.dll
 Plugins\mobilestate.dll
-Plugins\mra.dll
 Plugins\mradio.dll
 Plugins\msg_export.dll
 Plugins\msgpopup.dll
