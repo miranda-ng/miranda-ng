@@ -219,7 +219,6 @@ Icons\proto_irc.dll
 Icons\proto_jabber.dll
 Icons\proto_metacontacts.dll
 Icons\proto_minecraftdynmap.dll
-Icons\proto_mra.dll
 Icons\proto_mradio.dll
 Icons\proto_msn.dll
 Icons\proto_newsaggregator.dll
@@ -240,4 +239,3 @@ Icons\watrack_buttons.dll
 Icons\watrack_icons.dll
 Icons\xstatus_icq.dll
 Icons\xstatus_jabber.dll
-Icons\xstatus_mra.dll
