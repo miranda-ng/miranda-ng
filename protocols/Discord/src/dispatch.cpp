@@ -81,10 +81,14 @@ void CDiscordProto::OnCommandChannelCreated(const JSONNode &pRoot)
 		// private channel, created for a contact
 		const JSONNode &members = pRoot["recipients"];
 		for (auto it = members.begin(); it != members.end(); ++it) {
+			bool bNewUser = FindUser(::getId((*it)["id"])) == nullptr;
 			CDiscordUser *pUser = PrepareUser(*it);
+			pUser->bIsPrivate = true;
 			pUser->lastMsgId = ::getId(pRoot["last_message_id"]);
 			pUser->channelId = ::getId(pRoot["id"]);
 			setId(pUser->hContact, DB_KEY_CHANNELID, pUser->channelId);
+			if (bNewUser)
+				setWord(pUser->hContact, "ApparentMode", ID_STATUS_OFFLINE);
 		}
 	}
 	else {

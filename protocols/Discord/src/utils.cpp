@@ -230,6 +230,7 @@ void CDiscordProto::ProcessType(CDiscordUser *pUser, const JSONNode &pRoot)
 	case 1: // confirmed
 		db_unset(pUser->hContact, "CList", "NotOnList");
 		delSetting(pUser->hContact, DB_KEY_REQAUTH);
+		delSetting(pUser->hContact, "ApparentMode");
 		break;
 
 	case 3: // expecting authorization

@@ -82,6 +82,9 @@ int CDiscordProto::OnMenuPrebuild(WPARAM hContact, LPARAM)
 	bool bIsGuild = getByte(hContact, "ChatRoom") == 2;
 	Menu_ShowItem(m_hMenuLeaveGuild, bIsGuild);
 	Menu_ShowItem(m_hMenuCreateChannel, bIsGuild);
+
+	if (getWord(hContact, "ApparentMode") != 0)
+		Menu_ShowItem(m_hmiReqAuth, true);
 	return 0;
 }
 

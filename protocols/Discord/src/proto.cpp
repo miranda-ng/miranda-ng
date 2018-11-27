@@ -59,6 +59,8 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	CreateProtoService(PS_GETMYAVATAR, &CDiscordProto::GetMyAvatar);
 	CreateProtoService(PS_SETMYAVATAR, &CDiscordProto::SetMyAvatar);
 
+	CreateProtoService(PS_MENU_REQAUTH, &CDiscordProto::RequestFriendship);
+
 	// Events
 	HookProtoEvent(ME_OPT_INITIALISE, &CDiscordProto::OnOptionsInit);
 	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CDiscordProto::OnDbEventRead);
@@ -482,6 +484,14 @@ void CDiscordProto::OnContactDeleted(MCONTACT hContact)
 
 	if (pUser->id)
 		RemoveFriend(pUser->id);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+INT_PTR CDiscordProto::RequestFriendship(WPARAM hContact, LPARAM)
+{
+	AuthRequest(hContact, 0);
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
