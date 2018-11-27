@@ -14,7 +14,6 @@ fast.
 - IRC (Internet Relay Chat)
 - Jabber
 - MinecraftDynmap
-- MRA
 - MSN
 - Omegle
 - Sametime
