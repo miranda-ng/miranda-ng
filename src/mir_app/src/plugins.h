@@ -66,6 +66,7 @@ void SetPluginOnWhiteList(const wchar_t *pluginname, int allow);
 
 int  getDefaultPluginIdx(const MUUID &muuid);
 bool hasMuuid(const MUUID *pFirst, const MUUID&);
+bool isPluginBanned(const MUUID &u1);
 
 pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path);
 

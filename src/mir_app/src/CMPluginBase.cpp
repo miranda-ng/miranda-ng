@@ -274,6 +274,9 @@ void CMPluginBase::debugLogW(LPCWSTR wszFormat, ...)
 
 void CMPluginBase::RegisterProtocol(int type, pfnInitProto fnInit, pfnUninitProto fnUninit)
 {
+	if (isPluginBanned(m_pInfo.uuid))
+		return;
+
 	if (type == PROTOTYPE_PROTOCOL && fnInit != nullptr)
 		type = PROTOTYPE_PROTOWITHACCS;
 

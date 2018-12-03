@@ -114,7 +114,7 @@ static const MUUID pluginBannedList[] =
 	{ 0xe7c48bab, 0x8ace, 0x4cb3, { 0x84, 0x46, 0xd4, 0xb7, 0x34, 0x81, 0xf4, 0x97 } },  // mra
 };
 
-static bool isPluginBanned(const MUUID &u1)
+bool isPluginBanned(const MUUID &u1)
 {
 	for (auto &it : pluginBannedList)
 		if (it == u1)
