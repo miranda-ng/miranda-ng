@@ -1110,12 +1110,12 @@ int CJabberProto::SetApparentMode(MCONTACT hContact, int mode)
 
 int CJabberProto::SetStatus(int iNewStatus)
 {
+	debugLogA("PS_SETSTATUS(%d,%d) => %d", m_iStatus, m_iDesiredStatus, iNewStatus);
+
 	if (m_iDesiredStatus == iNewStatus)
 		return 0;
 
 	int oldStatus = m_iStatus;
-
-	debugLogA("PS_SETSTATUS(%d)", iNewStatus);
 	m_iDesiredStatus = iNewStatus;
 
 	if (iNewStatus == ID_STATUS_OFFLINE) {

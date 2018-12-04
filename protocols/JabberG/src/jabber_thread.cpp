@@ -263,6 +263,7 @@ void CJabberProto::ServerThread(JABBER_CONN_DATA *pParam)
 			JLoginFailed(LOGINERR_BADUSERID);
 
 LBL_FatalError:
+			debugLogA("m_iDesiredStatus reset to (%d,%d) => %d", m_iStatus, m_iDesiredStatus, ID_STATUS_OFFLINE);
 			int oldStatus = m_iStatus;
 			m_iDesiredStatus = m_iStatus = ID_STATUS_OFFLINE;
 			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
@@ -524,19 +525,17 @@ recvRest:
 			WindowList_Broadcast(m_hWindowList, WM_JABBER_CHECK_ONLINE, 0, 0);
 
 			// Set status to offline
+			debugLogA("m_iDesiredStatus reset to (%d,%d) => %d", m_iStatus, m_iDesiredStatus, ID_STATUS_OFFLINE);
 			int oldStatus = m_iStatus;
 			m_iDesiredStatus = m_iStatus = ID_STATUS_OFFLINE;
 			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
-
 
 			// Set all contacts to offline
 			if (!m_StrmMgmt.IsResumeIdPresent())
 			{
 				m_StrmMgmt.ResetState(); //fully reset strm_mgmt state
-//				debugLogA("1"); //i think this log calls does not needed anymore ? //sss
 				for (auto &hContact : AccContacts())
 					SetContactOfflineStatus(hContact);
-//				debugLogA("2");
 			}
 
 			mir_free(m_szJabberJID);
