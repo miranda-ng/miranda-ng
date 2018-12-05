@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.0.3
+;  Version: 0.6.1.1
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -28,6 +28,8 @@
 [Enter new channel name:]
 [Enter new topic:]
 [Enter your new nick name:]
+;file \protocols\Discord\src\guilds.cpp
+[Chat rooms]
 ;file \protocols\Discord\src\main.cpp
 [Main icon]
 [Group chats]

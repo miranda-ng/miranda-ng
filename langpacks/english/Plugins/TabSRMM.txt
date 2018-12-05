@@ -818,6 +818,7 @@
 [Normal - close tab, if last tab is closed also close the window]
 [Minimize the window to the task bar]
 [Close or hide window, depends on the close button setting above]
+[Choose status modes]
 [General]
 [Tabs and layout]
 [Containers]
@@ -826,7 +827,6 @@
 [Message window]
 [Load and apply]
 [Window layout tweaks]
-[Choose status modes]
 ;file \plugins\TabSRMM\src\msgs.cpp
 [A message delivery has failed.\nClick to open the message window.]
 [Message Log Options]

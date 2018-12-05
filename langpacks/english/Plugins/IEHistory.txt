@@ -37,7 +37,6 @@
 [Time:]
 [Search finished. No more entries...]
 [Information]
-;file \plugins\IEHistory\src\events.cpp
 [History]
 ;file \plugins\IEHistory\src\IEHistory.cpp
 [View &history]
