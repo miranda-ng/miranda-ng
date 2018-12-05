@@ -407,7 +407,7 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 					pm = new CDiscordGuildMember(userId);
 					pm->wszNick = pRoot["nick"].as_mstring();
 					if (pm->wszNick.IsEmpty())
-						pm->wszNick = pRoot["user"]["username"].as_mstring() + L"#" + pRoot["user"]["discriminator"].as_mstring();
+						pm->wszNick = pRoot["author"]["username"].as_mstring() + L"#" + pRoot["author"]["discriminator"].as_mstring();
 					pGuild->arChatUsers.insert(pm);
 
 					debugLogA("add missing user to chat: id=%lld, nick=%S", userId, pm->wszNick.c_str());
