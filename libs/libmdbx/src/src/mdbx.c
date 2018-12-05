@@ -1360,8 +1360,10 @@ const char *__cold mdbx_strerror(int errnum) {
         FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL,
         errnum, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), buffer,
         sizeof(buffer), NULL);
-    if (size)
+    if (size) {
+      CharToOemBuffA(buffer, buffer, (DWORD)size);
       msg = buffer;
+    }
 #else
     if (errnum < 0) {
       static char buffer[32];
