@@ -12,7 +12,7 @@
 [Error loading message history for %s from server.]
 [%x at %X]
 [Edited message (updated %s):\n]
-[Edited message:\n]
 [\nOriginal message:\n]
+[This message has been deleted by sender in %s:\n]
 [VK user activate/deactivate action]
 [Service message]

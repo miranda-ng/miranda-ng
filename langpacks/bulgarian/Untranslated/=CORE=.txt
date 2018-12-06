@@ -57,3 +57,4 @@
 [Account name must be filled.]
 [Filled blob]
 [Add group]
+[Unselect all]

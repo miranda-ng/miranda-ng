@@ -192,6 +192,40 @@ Dopisz nazwę protokołu
 [Tipper smileys]
 Emotikony Tippera
 ;file \plugins\TipperYM\src\options.cpp
+[Show for all contact types]
+Pokazuj dla wszystkich typów kontaktów
+[Show only for contacts]
+Pokazuj tylko dla kontaktów
+[Show only for chatrooms]
+Pokazuj tylko dla rozmów grupowych
+[Number of contacts]
+Ilość kontaktów
+[Protocol lock status]
+Zmiana statusu protokołu
+[Logon time]
+Czas od zalogowania
+[Unread emails]
+Nieprzeczytane e-maile
+[Status]
+Status
+[Status message]
+Opis
+[Extra status]
+xStatus
+[Listening to]
+Teraz odtwarzane
+[Miranda uptime]
+Czas działania
+[Contact list event]
+Lista zdarzeń
+[Jabber activity]
+Aktywność Jabber
+[Gender]
+Płeć
+[Country flag]
+Flaga kraju
+[Client]
+Klient
 [You must enter a label]
 Musisz podać etykietę
 [Invalid Substitution]
@@ -250,41 +284,6 @@ Treść
 Podpowiedź w zasobniku
 [Extra]
 Dodatkowe
-;file \plugins\TipperYM\src\options.h
-[Show for all contact types]
-Pokazuj dla wszystkich typów kontaktów
-[Show only for contacts]
-Pokazuj tylko dla kontaktów
-[Show only for chatrooms]
-Pokazuj tylko dla rozmów grupowych
-[Number of contacts]
-Ilość kontaktów
-[Protocol lock status]
-Zmiana statusu protokołu
-[Logon time]
-Czas od zalogowania
-[Unread emails]
-Nieprzeczytane e-maile
-[Status]
-Status
-[Status message]
-Opis
-[Extra status]
-xStatus
-[Listening to]
-Teraz odtwarzane
-[Miranda uptime]
-Czas działania
-[Contact list event]
-Lista zdarzeń
-[Jabber activity]
-Aktywność Jabber
-[Gender]
-Płeć
-[Country flag]
-Flaga kraju
-[Client]
-Klient
 ;file \plugins\TipperYM\src\popwin.cpp
 [%s (locked)]
 %s (zablokowane)
@@ -483,61 +482,6 @@ Odśwież
 [Apply]
 Zastosuj
 ;file \plugins\TipperYM\src\translations.cpp
-[Female]
-Kobieta
-[Male]
-Mężczyzna
-[%dy %dd %dh %dm]
-%dlat %ddni %dg %dmin
-[%dd]
-%ddni
-[[No translation]]
-<Brak tłumaczenia>
-[WORD to status description]
-WORD dla opisu statusu
-[DWORD timestamp to time]
-DWORD znacznika czasu dla czasu
-[DWORD timestamp to time difference]
-DWORD znacznika czasu dla różnicy czasu
-[BYTE to Yes/No]
-BYTE dla Tak/Nie
-[BYTE to Male/Female (ICQ)]
-BYTE dla Płci (ICQ)
-[WORD to country name]
-WORD dla nazwy kraju
-[DWORD to IP address]
-DWORD dla adresu IP
-[<prefix>Day|Month|Year to date]
-<prefiks>Dzień|Miesiąc|Rok dla daty
-[<prefix>Day|Month|Year to age]
-<prefiks>Dzień|Miesiąc|Rok dla wieku
-[<prefix>Hours|Minutes|Seconds to time]
-<prefiks>Godziny|Minuty|Sekundy dla czasu
-[<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
-<prefiks>Dzień|Miesiąc|Rok|Godzina|Minuta|Sekunda dla różnicy czasu
-[<prefix>Day|Month to days to next birthday]
-<prefiks>Dzień|Miesiąc dla dnia następnej rocznicy
-[DWORD timestamp to time (no seconds)]
-DWORD znacznika czasu dla czasu (bez sekund)
-[<prefix>Hours|Minutes to time]
-<prefiks>Godziny|Minuty dla czasu
-[DWORD timestamp to date (short)]
-DWORD znacznika czasu dla daty (krótki)
-[DWORD timestamp to date (long)]
-DWORD znacznika czasu dla daty (długi)
-[xStatus: empty xStatus name to default name]
-xStatus: pusta nazwa xStatus jako domyślna nazwa
-[DWORD seconds to time difference]
-DWORD sekund dla różnicy czasu
-[BYTE timezone to time]
-BYTE strefy czasowej dla czasu
-[WORD to name of a day (0..6, 0 is Sunday)]
-WORD dla nazwy dnia (0..6, 0 to Niedziela)
-[WORD to name of a month (1..12, 1 is January)]
-WORD dla nazwy miesiąca (1..12, 1 to Styczeń)
-[BYTE to language (ICQ)]
-BYTE dla języka (ICQ)
-;file \plugins\TipperYM\src\translations.h
 [Afrikaans]
 Afrykanerski
 [Albanian]
@@ -720,3 +664,57 @@ Październik
 Listopad
 [December]
 Grudzień
+[Female]
+Kobieta
+[Male]
+Mężczyzna
+[%dy %dd %dh %dm]
+%dlat %ddni %dg %dmin
+[%dd]
+%ddni
+[[No translation]]
+<Brak tłumaczenia>
+[WORD to status description]
+WORD dla opisu statusu
+[DWORD timestamp to time]
+DWORD znacznika czasu dla czasu
+[DWORD timestamp to time difference]
+DWORD znacznika czasu dla różnicy czasu
+[BYTE to Yes/No]
+BYTE dla Tak/Nie
+[BYTE to Male/Female (ICQ)]
+BYTE dla Płci (ICQ)
+[WORD to country name]
+WORD dla nazwy kraju
+[DWORD to IP address]
+DWORD dla adresu IP
+[<prefix>Day|Month|Year to date]
+<prefiks>Dzień|Miesiąc|Rok dla daty
+[<prefix>Day|Month|Year to age]
+<prefiks>Dzień|Miesiąc|Rok dla wieku
+[<prefix>Hours|Minutes|Seconds to time]
+<prefiks>Godziny|Minuty|Sekundy dla czasu
+[<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
+<prefiks>Dzień|Miesiąc|Rok|Godzina|Minuta|Sekunda dla różnicy czasu
+[<prefix>Day|Month to days to next birthday]
+<prefiks>Dzień|Miesiąc dla dnia następnej rocznicy
+[DWORD timestamp to time (no seconds)]
+DWORD znacznika czasu dla czasu (bez sekund)
+[<prefix>Hours|Minutes to time]
+<prefiks>Godziny|Minuty dla czasu
+[DWORD timestamp to date (short)]
+DWORD znacznika czasu dla daty (krótki)
+[DWORD timestamp to date (long)]
+DWORD znacznika czasu dla daty (długi)
+[xStatus: empty xStatus name to default name]
+xStatus: pusta nazwa xStatus jako domyślna nazwa
+[DWORD seconds to time difference]
+DWORD sekund dla różnicy czasu
+[BYTE timezone to time]
+BYTE strefy czasowej dla czasu
+[WORD to name of a day (0..6, 0 is Sunday)]
+WORD dla nazwy dnia (0..6, 0 to Niedziela)
+[WORD to name of a month (1..12, 1 is January)]
+WORD dla nazwy miesiąca (1..12, 1 to Styczeń)
+[BYTE to language (ICQ)]
+BYTE dla języka (ICQ)

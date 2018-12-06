@@ -1608,6 +1608,8 @@ Normalnie - zamknij kartę, jeśli nie ma kart zamknij okno
 Zminimalizuj okno do paska
 [Close or hide window, depends on the close button setting above]
 Zamknij lub ukryj okno, zamykanie kart ma pierwszeństwo
+[Choose status modes]
+Wybierz tryby statusu
 [General]
 Ogólne
 [Tabs and layout]
@@ -1624,8 +1626,6 @@ Okno rozmowy
 Wczytaj i zastosuj
 [Window layout tweaks]
 Wygląd kart
-[Choose status modes]
-Wybierz tryby statusu
 ;file \plugins\TabSRMM\src\msgs.cpp
 [A message delivery has failed.\nClick to open the message window.]
 Dostarczenie wiadomości nie powiodło się.\nKliknij, aby otworzyć okno rozmowy.

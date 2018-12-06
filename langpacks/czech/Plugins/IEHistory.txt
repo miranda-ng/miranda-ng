@@ -67,7 +67,6 @@ Vyhledávání času
 Vyhledávání dokončeno. Více položek nenalezeno...
 [Information]
 Informace
-;file \plugins\IEHistory\src\events.cpp
 [History]
 Historie
 ;file \plugins\IEHistory\src\IEHistory.cpp

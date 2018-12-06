@@ -67,7 +67,6 @@ RTL па змаўчанні
 Пошук завершаны. Больш вынікаў няма...
 [Information]
 Інфармацыя
-;file \plugins\IEHistory\src\events.cpp
 [History]
 Гісторыя
 ;file \plugins\IEHistory\src\IEHistory.cpp

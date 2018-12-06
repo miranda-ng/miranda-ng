@@ -67,7 +67,6 @@ Vreme:
 
 [Information]
 Obaveštenje
-;file \plugins\IEHistory\src\events.cpp
 [History]
 Istorija
 ;file \plugins\IEHistory\src\IEHistory.cpp

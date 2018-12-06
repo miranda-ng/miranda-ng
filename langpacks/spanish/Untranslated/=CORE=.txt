@@ -128,3 +128,4 @@
 [Compact]
 [Account name must be filled.]
 [Add group]
+[Unselect all]

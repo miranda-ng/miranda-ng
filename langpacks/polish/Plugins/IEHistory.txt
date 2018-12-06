@@ -67,7 +67,6 @@ Czas:
 Wyszukiwanie zakończone. Nie ma więcej wpisów...
 [Information]
 Informacje
-;file \plugins\IEHistory\src\events.cpp
 [History]
 Historia
 ;file \plugins\IEHistory\src\IEHistory.cpp

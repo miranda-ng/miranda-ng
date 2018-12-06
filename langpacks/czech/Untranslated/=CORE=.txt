@@ -1,3 +1,4 @@
 [View user's history (Ctrl+H)]
 [In a civil union]
 [Compact]
+[Unselect all]

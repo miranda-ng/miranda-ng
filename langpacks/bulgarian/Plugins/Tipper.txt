@@ -192,6 +192,40 @@ ms
 [Tipper smileys]
 Tipper усмивки
 ;file \plugins\TipperYM\src\options.cpp
+[Show for all contact types]
+За всеки тип контакти
+[Show only for contacts]
+Само за контакти
+[Show only for chatrooms]
+Само за чат стаи
+[Number of contacts]
+Брой контакти
+[Protocol lock status]
+
+[Logon time]
+Време на вписване
+[Unread emails]
+Непрочетени имейли
+[Status]
+Състояние
+[Status message]
+Текст за състояние
+[Extra status]
+Допълнително състояние
+[Listening to]
+Слуша..
+[Miranda uptime]
+Miranda работи от
+[Contact list event]
+
+[Jabber activity]
+Jabber дейност
+[Gender]
+Пол
+[Country flag]
+Държавно знаме
+[Client]
+Клиент
 [You must enter a label]
 Трябва да въведете етикет
 [Invalid Substitution]
@@ -250,41 +284,6 @@ Tipper усмивки
 Подсказка в трея
 [Extra]
 Допълнителни
-;file \plugins\TipperYM\src\options.h
-[Show for all contact types]
-За всеки тип контакти
-[Show only for contacts]
-Само за контакти
-[Show only for chatrooms]
-Само за чат стаи
-[Number of contacts]
-Брой контакти
-[Protocol lock status]
-
-[Logon time]
-Време на вписване
-[Unread emails]
-Непрочетени имейли
-[Status]
-Състояние
-[Status message]
-Текст за състояние
-[Extra status]
-Допълнително състояние
-[Listening to]
-Слуша..
-[Miranda uptime]
-Miranda работи от
-[Contact list event]
-
-[Jabber activity]
-Jabber дейност
-[Gender]
-Пол
-[Country flag]
-Държавно знаме
-[Client]
-Клиент
 ;file \plugins\TipperYM\src\popwin.cpp
 [%s (locked)]
 %s (заключен)
@@ -483,61 +482,6 @@ Tipper
 [Apply]
 Прилагане
 ;file \plugins\TipperYM\src\translations.cpp
-[Female]
-Жена
-[Male]
-Мъж
-[%dy %dd %dh %dm]
-%dгод %dден %dчас %dмин
-[%dd]
-%dден
-[[No translation]]
-
-[WORD to status description]
-WORD към описание на състояние
-[DWORD timestamp to time]
-DWORD времева марка към час
-[DWORD timestamp to time difference]
-DWORD времева марка към часова разлика
-[BYTE to Yes/No]
-BYTE към Да/Не
-[BYTE to Male/Female (ICQ)]
-BYTE към Мъж/Жена (ICQ)
-[WORD to country name]
-WORD към име на държава
-[DWORD to IP address]
-DWORD към IP адрес
-[<prefix>Day|Month|Year to date]
-<представка>Ден|Месец|Година към дата
-[<prefix>Day|Month|Year to age]
-<представка>Ден|Месец|Година към възраст
-[<prefix>Hours|Minutes|Seconds to time]
-<представка>Часове|Минути|Секунди към час
-[<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
-<представка>Ден|Месец|Година|Часове|Минути|Секунди към часова разлика
-[<prefix>Day|Month to days to next birthday]
-<представка>Ден|Месец към дни оставащи до рожден ден
-[DWORD timestamp to time (no seconds)]
-DWORD времева марка към час (без секунди)
-[<prefix>Hours|Minutes to time]
-<представка>Часове|Минути към час
-[DWORD timestamp to date (short)]
-DWORD времева марка към дата (къса)
-[DWORD timestamp to date (long)]
-DWORD времева марка към (дълга)
-[xStatus: empty xStatus name to default name]
-хСъстояние: празно име на хСъстояние към стандартното
-[DWORD seconds to time difference]
-DWORD секунди към часова разлика
-[BYTE timezone to time]
-BYTE към часови пояс
-[WORD to name of a day (0..6, 0 is Sunday)]
-WORD към име на ден (0 до 6, 0 е неделя)
-[WORD to name of a month (1..12, 1 is January)]
-WORD към име на месец (1 до 12, 1 е януари)
-[BYTE to language (ICQ)]
-BYTE към език (ICQ)
-;file \plugins\TipperYM\src\translations.h
 [Afrikaans]
 африкаанс (бурски)
 [Albanian]
@@ -720,3 +664,57 @@ BYTE към език (ICQ)
 ноември
 [December]
 декември
+[Female]
+Жена
+[Male]
+Мъж
+[%dy %dd %dh %dm]
+%dгод %dден %dчас %dмин
+[%dd]
+%dден
+[[No translation]]
+
+[WORD to status description]
+WORD към описание на състояние
+[DWORD timestamp to time]
+DWORD времева марка към час
+[DWORD timestamp to time difference]
+DWORD времева марка към часова разлика
+[BYTE to Yes/No]
+BYTE към Да/Не
+[BYTE to Male/Female (ICQ)]
+BYTE към Мъж/Жена (ICQ)
+[WORD to country name]
+WORD към име на държава
+[DWORD to IP address]
+DWORD към IP адрес
+[<prefix>Day|Month|Year to date]
+<представка>Ден|Месец|Година към дата
+[<prefix>Day|Month|Year to age]
+<представка>Ден|Месец|Година към възраст
+[<prefix>Hours|Minutes|Seconds to time]
+<представка>Часове|Минути|Секунди към час
+[<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
+<представка>Ден|Месец|Година|Часове|Минути|Секунди към часова разлика
+[<prefix>Day|Month to days to next birthday]
+<представка>Ден|Месец към дни оставащи до рожден ден
+[DWORD timestamp to time (no seconds)]
+DWORD времева марка към час (без секунди)
+[<prefix>Hours|Minutes to time]
+<представка>Часове|Минути към час
+[DWORD timestamp to date (short)]
+DWORD времева марка към дата (къса)
+[DWORD timestamp to date (long)]
+DWORD времева марка към (дълга)
+[xStatus: empty xStatus name to default name]
+хСъстояние: празно име на хСъстояние към стандартното
+[DWORD seconds to time difference]
+DWORD секунди към часова разлика
+[BYTE timezone to time]
+BYTE към часови пояс
+[WORD to name of a day (0..6, 0 is Sunday)]
+WORD към име на ден (0 до 6, 0 е неделя)
+[WORD to name of a month (1..12, 1 is January)]
+WORD към име на месец (1 до 12, 1 е януари)
+[BYTE to language (ICQ)]
+BYTE към език (ICQ)

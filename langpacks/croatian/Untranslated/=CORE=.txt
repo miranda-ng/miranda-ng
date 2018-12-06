@@ -1101,5 +1101,6 @@
 [&Accounts...]
 [Could not start a search on '%s', there was a problem - is %s connected?]
 [URL]
+[Unselect all]
 [<Separator>]
 [Toolbar]

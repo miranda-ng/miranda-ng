@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.9
+;  Version: 0.95.10
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -2684,6 +2684,8 @@ Icônes principales
 Fichiers son
 [WAV files]
 Fichiers WAV
+[Unselect all]
+
 ;file \src\mir_app\src\srmm_base.cpp
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]

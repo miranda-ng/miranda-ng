@@ -67,7 +67,6 @@ Tiempo:
 
 [Information]
 Información
-;file \plugins\IEHistory\src\events.cpp
 [History]
 Historial
 ;file \plugins\IEHistory\src\IEHistory.cpp

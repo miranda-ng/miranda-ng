@@ -1608,6 +1608,8 @@ Normal - Schließt Tabs; schließt das Fenster, wenn der letzte Tab geschlossen 
 Minimiert das Fenster in die Taskleiste
 [Close or hide window, depends on the close button setting above]
 Schließe oder verstecke Fenster abhängig vom obigen Schließverhalten
+[Choose status modes]
+Wähle Statusmodi
 [General]
 Allgemein
 [Tabs and layout]
@@ -1624,8 +1626,6 @@ Nachrichtenfenster
 Laden und Übernehmen
 [Window layout tweaks]
 Fenster-Anordnung
-[Choose status modes]
-Wähle Statusmodi
 ;file \plugins\TabSRMM\src\msgs.cpp
 [A message delivery has failed.\nClick to open the message window.]
 Eine Nachricht konnte nicht zugestellt werden.\nKlicken Sie hier, um das Nachrichtenfenster zu öffnen.

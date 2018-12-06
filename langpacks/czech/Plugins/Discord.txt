@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.5.1.2
+;  Version: 0.6.1.1
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -19,6 +19,8 @@ Kontakty
 [Default group:]
 Výchozí skupina:
 [Hide guild chats on startup]
+
+[Use subgroups for guild's channels (requires restart)]
 
 [Nick:]
 Přezdívka:
@@ -46,6 +48,9 @@ Pozvat už&ivatele
 
 [Enter your new nick name:]
 
+;file \protocols\Discord\src\guilds.cpp
+[Chat rooms]
+Místnosti chatu
 ;file \protocols\Discord\src\main.cpp
 [Main icon]
 Hlavní ikona

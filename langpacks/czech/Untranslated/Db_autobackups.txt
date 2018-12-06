@@ -1,1 +1,2 @@
+[Backup file mask]
 [Uploading to cloud failed]

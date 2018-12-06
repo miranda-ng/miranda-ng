@@ -1608,6 +1608,8 @@ Escribiendo notificación
 
 [Close or hide window, depends on the close button setting above]
 
+[Choose status modes]
+
 [General]
 General
 [Tabs and layout]
@@ -1623,8 +1625,6 @@ Notificación de escritura
 [Load and apply]
 
 [Window layout tweaks]
-
-[Choose status modes]
 
 ;file \plugins\TabSRMM\src\msgs.cpp
 [A message delivery has failed.\nClick to open the message window.]

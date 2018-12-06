@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Import.dll
 ;  Plugin: Import contacts and messages
-;  Version: 0.95.9.1
+;  Version: 0.95.10.1
 ;  Authors: Miranda team
 ;============================================================
 [Imports contacts and messages from another Miranda profile or from an external program.]
@@ -60,6 +60,8 @@ Importiert nur Kontakte, Verlauf und ein paar Einstellungen. Ideal zum Synchroni
 Importiert nur Kontakte, importiert keinen Nachrichtenverlauf.
 [Custom schema: you can choose what to import.]
 Eigenes Schema: Sie wählen aus was importiert wird.
+[Check duplicates]
+Duplikate prüfen
 [New contacts && groups]
 Neue Kontakte && Gruppen
 [System history]
@@ -84,8 +86,8 @@ Andere
 Passendes Konto zum Importieren auswählen
 [Enter file name for import:]
 Zu importierende Datei angeben:
-[Check duplicates]
-Duplikate prüfen
+[Copy]
+Kopieren
 ;file \plugins\Import\src\import.cpp
 [<New account>]
 <Neues Konto>

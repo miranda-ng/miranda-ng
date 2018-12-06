@@ -1,0 +1,1 @@
+[Use subgroups for guild's channels (requires restart)]

@@ -192,6 +192,40 @@ Připojit název protokolu
 [Tipper smileys]
 Smajlíky v tipech
 ;file \plugins\TipperYM\src\options.cpp
+[Show for all contact types]
+Zobrazit pro všechny typy kontaktů
+[Show only for contacts]
+Zobrazit pouze pro kontakty
+[Show only for chatrooms]
+Zobrazit pouze pro skupinové rozhovory
+[Number of contacts]
+Počet kontaktů
+[Protocol lock status]
+Stav uzamčení protokolu
+[Logon time]
+Čas přihlášení
+[Unread emails]
+Nepřečtené e-maily
+[Status]
+Stavy
+[Status message]
+Zpráva stavu
+[Extra status]
+Rozšířený stav
+[Listening to]
+Poslech hudby
+[Miranda uptime]
+Doba běhu Mirandy
+[Contact list event]
+Událost v seznamu kontaktů
+[Jabber activity]
+Jabber aktivita
+[Gender]
+Pohlaví
+[Country flag]
+Vlajka státu
+[Client]
+Klient
 [You must enter a label]
 Musíte zadat titulek
 [Invalid Substitution]
@@ -250,41 +284,6 @@ Obsah
 Oznamovací oblast
 [Extra]
 Další
-;file \plugins\TipperYM\src\options.h
-[Show for all contact types]
-Zobrazit pro všechny typy kontaktů
-[Show only for contacts]
-Zobrazit pouze pro kontakty
-[Show only for chatrooms]
-Zobrazit pouze pro skupinové rozhovory
-[Number of contacts]
-Počet kontaktů
-[Protocol lock status]
-Stav uzamčení protokolu
-[Logon time]
-Čas přihlášení
-[Unread emails]
-Nepřečtené e-maily
-[Status]
-Stavy
-[Status message]
-Zpráva stavu
-[Extra status]
-Rozšířený stav
-[Listening to]
-Poslech hudby
-[Miranda uptime]
-Doba běhu Mirandy
-[Contact list event]
-Událost v seznamu kontaktů
-[Jabber activity]
-Jabber aktivita
-[Gender]
-Pohlaví
-[Country flag]
-Vlajka státu
-[Client]
-Klient
 ;file \plugins\TipperYM\src\popwin.cpp
 [%s (locked)]
 %s (uzamčený)
@@ -483,61 +482,6 @@ Načíst znovu
 [Apply]
 Použít
 ;file \plugins\TipperYM\src\translations.cpp
-[Female]
-žena
-[Male]
-muž
-[%dy %dd %dh %dm]
-%d let %d dní %d hod. %d min.
-[%dd]
-%d dní
-[[No translation]]
-(bez překladu)
-[WORD to status description]
-popis stavu (WORD)
-[DWORD timestamp to time]
-časový údaj pro čas (DWORD)
-[DWORD timestamp to time difference]
-časový údaj pro časový rozdíl (DWORD)
-[BYTE to Yes/No]
-definice ano/ne (BYTE)
-[BYTE to Male/Female (ICQ)]
-rozlišení pohlaví v síti ICQ (BYTE)
-[WORD to country name]
-název země (WORD)
-[DWORD to IP address]
-IP adresa (DWORD)
-[<prefix>Day|Month|Year to date]
-<prefix>den|měsíc|rok pro datum
-[<prefix>Day|Month|Year to age]
-<prefix>den|měsíc|rok pro datum narození
-[<prefix>Hours|Minutes|Seconds to time]
-<prefix>hodiny|minuty|sekundy pro čas
-[<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
-<prefix>den|měsíc|rok|hodiny|minuty|sekundy pro časový rozdíl
-[<prefix>Day|Month to days to next birthday]
-<prefix>den|měsíc pro počet dnů do příštích narozenin
-[DWORD timestamp to time (no seconds)]
-časový údaj pro čas, bez sekund (DWORD)
-[<prefix>Hours|Minutes to time]
-<prefix>hodiny|minuty pro čas
-[DWORD timestamp to date (short)]
-časový údaj pro datum, zkrácený (DWORD)
-[DWORD timestamp to date (long)]
-časový údaj pro datum, dlouhý (DWORD)
-[xStatus: empty xStatus name to default name]
-xStatus: pouze název rozšířeného stavu
-[DWORD seconds to time difference]
-počet sekund pro časový rozdíl (DWORD)
-[BYTE timezone to time]
-časová zóna (BYTE)
-[WORD to name of a day (0..6, 0 is Sunday)]
-WORD na název dne (0..6, 0 je neděle)
-[WORD to name of a month (1..12, 1 is January)]
-WORD na název měsíce (1..12, 1 je leden)
-[BYTE to language (ICQ)]
-BYTE na jazyk (ICQ)
-;file \plugins\TipperYM\src\translations.h
 [Afrikaans]
 afrikánština
 [Albanian]
@@ -720,3 +664,57 @@ září
 listopad
 [December]
 prosinec
+[Female]
+žena
+[Male]
+muž
+[%dy %dd %dh %dm]
+%d let %d dní %d hod. %d min.
+[%dd]
+%d dní
+[[No translation]]
+(bez překladu)
+[WORD to status description]
+popis stavu (WORD)
+[DWORD timestamp to time]
+časový údaj pro čas (DWORD)
+[DWORD timestamp to time difference]
+časový údaj pro časový rozdíl (DWORD)
+[BYTE to Yes/No]
+definice ano/ne (BYTE)
+[BYTE to Male/Female (ICQ)]
+rozlišení pohlaví v síti ICQ (BYTE)
+[WORD to country name]
+název země (WORD)
+[DWORD to IP address]
+IP adresa (DWORD)
+[<prefix>Day|Month|Year to date]
+<prefix>den|měsíc|rok pro datum
+[<prefix>Day|Month|Year to age]
+<prefix>den|měsíc|rok pro datum narození
+[<prefix>Hours|Minutes|Seconds to time]
+<prefix>hodiny|minuty|sekundy pro čas
+[<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
+<prefix>den|měsíc|rok|hodiny|minuty|sekundy pro časový rozdíl
+[<prefix>Day|Month to days to next birthday]
+<prefix>den|měsíc pro počet dnů do příštích narozenin
+[DWORD timestamp to time (no seconds)]
+časový údaj pro čas, bez sekund (DWORD)
+[<prefix>Hours|Minutes to time]
+<prefix>hodiny|minuty pro čas
+[DWORD timestamp to date (short)]
+časový údaj pro datum, zkrácený (DWORD)
+[DWORD timestamp to date (long)]
+časový údaj pro datum, dlouhý (DWORD)
+[xStatus: empty xStatus name to default name]
+xStatus: pouze název rozšířeného stavu
+[DWORD seconds to time difference]
+počet sekund pro časový rozdíl (DWORD)
+[BYTE timezone to time]
+časová zóna (BYTE)
+[WORD to name of a day (0..6, 0 is Sunday)]
+WORD na název dne (0..6, 0 je neděle)
+[WORD to name of a month (1..12, 1 is January)]
+WORD na název měsíce (1..12, 1 je leden)
+[BYTE to language (ICQ)]
+BYTE na jazyk (ICQ)

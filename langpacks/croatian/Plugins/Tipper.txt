@@ -192,6 +192,40 @@ stavaka
 [Tipper smileys]
 
 ;file \plugins\TipperYM\src\options.cpp
+[Show for all contact types]
+
+[Show only for contacts]
+
+[Show only for chatrooms]
+
+[Number of contacts]
+
+[Protocol lock status]
+
+[Logon time]
+
+[Unread emails]
+
+[Status]
+
+[Status message]
+
+[Extra status]
+
+[Listening to]
+
+[Miranda uptime]
+
+[Contact list event]
+
+[Jabber activity]
+
+[Gender]
+
+[Country flag]
+
+[Client]
+
 [You must enter a label]
 
 [Invalid Substitution]
@@ -249,41 +283,6 @@ stavaka
 [Tray tooltip]
 
 [Extra]
-
-;file \plugins\TipperYM\src\options.h
-[Show for all contact types]
-
-[Show only for contacts]
-
-[Show only for chatrooms]
-
-[Number of contacts]
-
-[Protocol lock status]
-
-[Logon time]
-
-[Unread emails]
-
-[Status]
-
-[Status message]
-
-[Extra status]
-
-[Listening to]
-
-[Miranda uptime]
-
-[Contact list event]
-
-[Jabber activity]
-
-[Gender]
-
-[Country flag]
-
-[Client]
 
 ;file \plugins\TipperYM\src\popwin.cpp
 [%s (locked)]
@@ -483,61 +482,6 @@ Pozadina
 [Apply]
 
 ;file \plugins\TipperYM\src\translations.cpp
-[Female]
-
-[Male]
-
-[%dy %dd %dh %dm]
-
-[%dd]
-
-[[No translation]]
-
-[WORD to status description]
-
-[DWORD timestamp to time]
-
-[DWORD timestamp to time difference]
-
-[BYTE to Yes/No]
-
-[BYTE to Male/Female (ICQ)]
-
-[WORD to country name]
-
-[DWORD to IP address]
-
-[<prefix>Day|Month|Year to date]
-
-[<prefix>Day|Month|Year to age]
-
-[<prefix>Hours|Minutes|Seconds to time]
-
-[<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
-
-[<prefix>Day|Month to days to next birthday]
-
-[DWORD timestamp to time (no seconds)]
-
-[<prefix>Hours|Minutes to time]
-
-[DWORD timestamp to date (short)]
-
-[DWORD timestamp to date (long)]
-
-[xStatus: empty xStatus name to default name]
-
-[DWORD seconds to time difference]
-
-[BYTE timezone to time]
-
-[WORD to name of a day (0..6, 0 is Sunday)]
-
-[WORD to name of a month (1..12, 1 is January)]
-
-[BYTE to language (ICQ)]
-
-;file \plugins\TipperYM\src\translations.h
 [Afrikaans]
 
 [Albanian]
@@ -719,4 +663,58 @@ Pozadina
 [November]
 
 [December]
+
+[Female]
+
+[Male]
+
+[%dy %dd %dh %dm]
+
+[%dd]
+
+[[No translation]]
+
+[WORD to status description]
+
+[DWORD timestamp to time]
+
+[DWORD timestamp to time difference]
+
+[BYTE to Yes/No]
+
+[BYTE to Male/Female (ICQ)]
+
+[WORD to country name]
+
+[DWORD to IP address]
+
+[<prefix>Day|Month|Year to date]
+
+[<prefix>Day|Month|Year to age]
+
+[<prefix>Hours|Minutes|Seconds to time]
+
+[<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
+
+[<prefix>Day|Month to days to next birthday]
+
+[DWORD timestamp to time (no seconds)]
+
+[<prefix>Hours|Minutes to time]
+
+[DWORD timestamp to date (short)]
+
+[DWORD timestamp to date (long)]
+
+[xStatus: empty xStatus name to default name]
+
+[DWORD seconds to time difference]
+
+[BYTE timezone to time]
+
+[WORD to name of a day (0..6, 0 is Sunday)]
+
+[WORD to name of a month (1..12, 1 is January)]
+
+[BYTE to language (ICQ)]
 

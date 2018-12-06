@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.5.2
+;  Version: 0.1.7.1
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -485,8 +485,6 @@
 [Loading messages for %s is completed.]
 
 ;file \protocols\VKontakte\src\vk_messages.cpp
-[Edited message:\n]
-
 [\nOriginal message:\n]
 
 ;file \protocols\VKontakte\src\vk_options.cpp
@@ -535,6 +533,9 @@
 [These changes will take effect after Miranda NG restart.\nWould you like to restart it now?]
 
 [VKontakte protocol]
+
+;file \protocols\VKontakte\src\vk_pollserver.cpp
+[This message has been deleted by sender in %s:\n]
 
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]

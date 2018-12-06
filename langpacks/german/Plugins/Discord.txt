@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.5.1.2
+;  Version: 0.6.1.1
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -20,6 +20,8 @@ Kontakte
 Standardgruppe:
 [Hide guild chats on startup]
 Gilden-Chats beim Start verbergen
+[Use subgroups for guild's channels (requires restart)]
+
 [Nick:]
 Nick:
 ;file \protocols\Discord\src\dispatch.cpp
@@ -46,6 +48,9 @@ Neuen Channelnamen eingeben:
 Neues Thema eingeben:
 [Enter your new nick name:]
 Geben Sie Ihren neuen Nicknamen ein:
+;file \protocols\Discord\src\guilds.cpp
+[Chat rooms]
+Chaträume
 ;file \protocols\Discord\src\main.cpp
 [Main icon]
 Haupticon

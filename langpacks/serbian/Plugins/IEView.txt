@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: IEView.dll
 ;  Plugin: IEView
-;  Version: 1.5.0.1
+;  Version: 1.6.0.1
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 [IE Based Chat Log.]
@@ -103,22 +103,8 @@ Pristigla datoteka
 [Error]
 Greška
 ;file \plugins\IEView\src\Options.cpp
-[General]
-Uopšteno
-[Message Log]
-Log poruke
-[Group chats]
-Sobe za razgovor
-[History]
-Istorija
 [Default]
 Standardno
-[Message sessions]
-Celi razgovori
-[IEView]
-
-[Skins]
-
 [Template]
 
 [All Files]
@@ -126,6 +112,20 @@ Sve datoteke
 [All Images]
 
 [Style Sheet]
+
+[Message Log]
+Log poruke
+[Group chats]
+Sobe za razgovor
+[History]
+Istorija
+[Message sessions]
+Celi razgovori
+[IEView]
+
+[General]
+Uopšteno
+[Skins]
 
 ;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
 [Today]

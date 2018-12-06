@@ -67,7 +67,6 @@ RTL за замовчанням
 Пошук завершено. Більше результатів немає...
 [Information]
 Інформація
-;file \plugins\IEHistory\src\events.cpp
 [History]
 Історія
 ;file \plugins\IEHistory\src\IEHistory.cpp

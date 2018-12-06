@@ -1608,6 +1608,8 @@ Latin I
 Минимизира прозореца в лентата за задачи
 [Close or hide window, depends on the close button setting above]
 Затваря/Скрива прозореца (зависи как е настроен бутона "Затваряне" по-горе)
+[Choose status modes]
+Избор на състояния
 [General]
 Основни
 [Tabs and layout]
@@ -1624,8 +1626,6 @@ Latin I
 Зареждане и прилагане
 [Window layout tweaks]
 
-[Choose status modes]
-Избор на състояния
 ;file \plugins\TabSRMM\src\msgs.cpp
 [A message delivery has failed.\nClick to open the message window.]
 Неуспешно доставяне на съобщение.\nНатиснете тук, за да бъде отворен прозореца за съобщения.

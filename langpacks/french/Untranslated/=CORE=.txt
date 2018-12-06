@@ -154,4 +154,5 @@
 [Running core plugin]
 [Non-loadable plugin]
 [Add group]
+[Unselect all]
 [Western Sahara]

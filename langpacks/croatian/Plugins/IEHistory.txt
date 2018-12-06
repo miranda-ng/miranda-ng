@@ -67,7 +67,6 @@
 
 [Information]
 informacija
-;file \plugins\IEHistory\src\events.cpp
 [History]
 Povijest
 ;file \plugins\IEHistory\src\IEHistory.cpp

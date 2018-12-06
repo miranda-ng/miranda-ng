@@ -32,4 +32,5 @@
 [Win + ]
 [New submenu]
 [Compact]
+[Unselect all]
 [Sint Maarten (Dutch part)]

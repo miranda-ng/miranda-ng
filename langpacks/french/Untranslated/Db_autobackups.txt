@@ -1,6 +1,7 @@
 [Database autobackuper plugin.]
 [Browse...]
 [Go to the "Options -> Customize -> Folders" to change settings]
+[Backup file mask]
 [Compress backup to zip-archive]
 [Backup profile folder]
 [Disable popups]

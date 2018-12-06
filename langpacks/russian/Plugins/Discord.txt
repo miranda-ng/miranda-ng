@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.5.1.2
+;  Version: 0.6.1.1
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -20,6 +20,8 @@
 Группа:
 [Hide guild chats on startup]
 Не открывать окно чата при входе в комнату чата
+[Use subgroups for guild's channels (requires restart)]
+Создавать подгруппу для каждого сервера (требуется перезапуск)
 [Nick:]
 Ник:
 ;file \protocols\Discord\src\dispatch.cpp
@@ -46,6 +48,9 @@
 Укажите новую тему
 [Enter your new nick name:]
 Введите свой новый ник:
+;file \protocols\Discord\src\guilds.cpp
+[Chat rooms]
+Чаты
 ;file \protocols\Discord\src\main.cpp
 [Main icon]
 Главный значок

@@ -162,7 +162,7 @@ Odblokuj kontakt
 Utwórz nowy czat
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
 [You cannot send when you are offline.]
-Nie możesz wysyłać będąc rozłączony.
+Nie możesz wysyłać będąc rozłączonym.
 [Unknown error!]
 Nieznany błąd!
 [Network error!]

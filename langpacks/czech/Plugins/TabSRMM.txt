@@ -1608,6 +1608,8 @@ Normální - zavřít panel, pokud je uzavřen poslední panel, zavřít i okno
 Minimalizovat okno
 [Close or hide window, depends on the close button setting above]
 Zavřít či schovat okno, záleží na nastavení uzavíracího tlačítka
+[Choose status modes]
+Vyberte stavy
 [General]
 Obecné
 [Tabs and layout]
@@ -1624,8 +1626,6 @@ Komunikační okno
 Použití
 [Window layout tweaks]
 Rozvržení okna
-[Choose status modes]
-Vyberte stavy
 ;file \plugins\TabSRMM\src\msgs.cpp
 [A message delivery has failed.\nClick to open the message window.]
 Zprávu se nepodařilo odeslat.\nKliknutím otevřete komunikační okno.

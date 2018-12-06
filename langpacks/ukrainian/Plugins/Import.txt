@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Import.dll
 ;  Plugin: Import contacts and messages
-;  Version: 0.95.9.1
+;  Version: 0.95.10.1
 ;  Authors: Miranda team
 ;============================================================
 [Imports contacts and messages from another Miranda profile or from an external program.]
@@ -60,6 +60,8 @@
 Імпортує тільки контакти (без історії повідомлень).
 [Custom schema: you can choose what to import.]
 Ви вибираєте, що саме імпортувати.
+[Check duplicates]
+
 [New contacts && groups]
 Нові контакти і групи
 [System history]
@@ -84,8 +86,8 @@
 Пошук відповідних облікових записів
 [Enter file name for import:]
 
-[Check duplicates]
-
+[Copy]
+Копіювати
 ;file \plugins\Import\src\import.cpp
 [<New account>]
 <Новий обліковий запис>

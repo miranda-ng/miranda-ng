@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: IEView.dll
 ;  Plugin: IEView
-;  Version: 1.5.0.1
+;  Version: 1.6.0.1
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 [IE Based Chat Log.]
@@ -103,22 +103,8 @@ Transferencia de archivos entrantes
 [Error]
 Error
 ;file \plugins\IEView\src\Options.cpp
-[General]
-General
-[Message Log]
-Registro de mensaje
-[Group chats]
-Grupo de chats
-[History]
-Historial
 [Default]
 Por defecto
-[Message sessions]
-Sesiones de mensaje
-[IEView]
-
-[Skins]
-Pieles
 [Template]
 
 [All Files]
@@ -127,6 +113,20 @@ Todos los archivos
 
 [Style Sheet]
 
+[Message Log]
+Registro de mensaje
+[Group chats]
+Grupo de chats
+[History]
+Historial
+[Message sessions]
+Sesiones de mensaje
+[IEView]
+
+[General]
+General
+[Skins]
+Pieles
 ;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
 [Today]
 

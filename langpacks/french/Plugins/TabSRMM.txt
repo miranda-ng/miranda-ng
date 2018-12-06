@@ -1608,6 +1608,8 @@ Seulement si la fenêtre de message est fermée
 
 [Close or hide window, depends on the close button setting above]
 
+[Choose status modes]
+Choisir les modes d'état...
 [General]
 Général
 [Tabs and layout]
@@ -1624,8 +1626,6 @@ Fenêtre de message
 Charger et appliquer
 [Window layout tweaks]
 
-[Choose status modes]
-Choisir les modes d'état...
 ;file \plugins\TabSRMM\src\msgs.cpp
 [A message delivery has failed.\nClick to open the message window.]
 Échec d'envoi du message.\nCliquer pour ouvrir la fenêtre de message.

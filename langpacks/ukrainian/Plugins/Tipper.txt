@@ -192,6 +192,40 @@
 [Tipper smileys]
 Підказки Tipper
 ;file \plugins\TipperYM\src\options.cpp
+[Show for all contact types]
+Показувати для всіх типів контактів
+[Show only for contacts]
+Показувати тільки для контактів
+[Show only for chatrooms]
+Показувати тільки для чат-кімнат
+[Number of contacts]
+Кількість контактів
+[Protocol lock status]
+Заблокований статус
+[Logon time]
+Час входу
+[Unread emails]
+Непрочитані листи
+[Status]
+Статус
+[Status message]
+Повідомлення статусу
+[Extra status]
+xСтатус
+[Listening to]
+Слухаю
+[Miranda uptime]
+Час роботи Miranda NG
+[Contact list event]
+Подія списку
+[Jabber activity]
+Заняття Jabber
+[Gender]
+Стать
+[Country flag]
+Прапор країни
+[Client]
+Клієнт
 [You must enter a label]
 Ви повинні ввести мітку
 [Invalid Substitution]
@@ -250,41 +284,6 @@
 Підказки в треї
 [Extra]
 Інше
-;file \plugins\TipperYM\src\options.h
-[Show for all contact types]
-Показувати для всіх типів контактів
-[Show only for contacts]
-Показувати тільки для контактів
-[Show only for chatrooms]
-Показувати тільки для чат-кімнат
-[Number of contacts]
-Кількість контактів
-[Protocol lock status]
-Заблокований статус
-[Logon time]
-Час входу
-[Unread emails]
-Непрочитані листи
-[Status]
-Статус
-[Status message]
-Повідомлення статусу
-[Extra status]
-xСтатус
-[Listening to]
-Слухаю
-[Miranda uptime]
-Час роботи Miranda NG
-[Contact list event]
-Подія списку
-[Jabber activity]
-Заняття Jabber
-[Gender]
-Стать
-[Country flag]
-Прапор країни
-[Client]
-Клієнт
 ;file \plugins\TipperYM\src\popwin.cpp
 [%s (locked)]
 %s (заблокований)
@@ -483,61 +482,6 @@ xСтатус:
 [Apply]
 Застосувати
 ;file \plugins\TipperYM\src\translations.cpp
-[Female]
-Жіноча
-[Male]
-Чоловіча
-[%dy %dd %dh %dm]
-%dр %dдн %dгод %dхв
-[%dd]
-%dдн
-[[No translation]]
-(без перетворення)
-[WORD to status description]
-Слово - в опис статусу
-[DWORD timestamp to time]
-Подв. слово - в час
-[DWORD timestamp to time difference]
-Подв. слово - в різницю часу
-[BYTE to Yes/No]
-Байт - у значення Так/Ні
-[BYTE to Male/Female (ICQ)]
-Байт - у стать (Ч/Ж) (ICQ)
-[WORD to country name]
-Слово - в назву країни
-[DWORD to IP address]
-Подв. слово - в IP-адресу
-[<prefix>Day|Month|Year to date]
-<префікс>день|місяць|рік - у дату
-[<prefix>Day|Month|Year to age]
-<префікс>день|місяць|рік - у вік
-[<prefix>Hours|Minutes|Seconds to time]
-<префікс>години|хвилини|секунди - в час
-[<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
-<префікс>день|місяць|рік|години|хв|сек - в різницю часу
-[<prefix>Day|Month to days to next birthday]
-<префікс>день|місяць - у днях до наступного дня народження
-[DWORD timestamp to time (no seconds)]
-Подв. слово - в дату (без секунд)
-[<prefix>Hours|Minutes to time]
-<префікс>години|хвилини - в час
-[DWORD timestamp to date (short)]
-Подв. слово - в дату (коротку)
-[DWORD timestamp to date (long)]
-Подв. слово - в дату (довгу)
-[xStatus: empty xStatus name to default name]
-xСтатус: порожнє ім'я в ім'я за замовчанням
-[DWORD seconds to time difference]
-Подв. слово секунд у часову різницю
-[BYTE timezone to time]
-Байт зона часу в час
-[WORD to name of a day (0..6, 0 is Sunday)]
-Слово - в назву дня тижня (0..6, 0 - неділя)
-[WORD to name of a month (1..12, 1 is January)]
-Слово - в назву місяця (1..12, 1 - січень)
-[BYTE to language (ICQ)]
-Байт - в мову (ICQ)
-;file \plugins\TipperYM\src\translations.h
 [Afrikaans]
 Африкаанс
 [Albanian]
@@ -720,3 +664,57 @@ xСтатус: порожнє ім'я в ім'я за замовчанням
 Листопад
 [December]
 Грудень
+[Female]
+Жіноча
+[Male]
+Чоловіча
+[%dy %dd %dh %dm]
+%dр %dдн %dгод %dхв
+[%dd]
+%dдн
+[[No translation]]
+(без перетворення)
+[WORD to status description]
+Слово - в опис статусу
+[DWORD timestamp to time]
+Подв. слово - в час
+[DWORD timestamp to time difference]
+Подв. слово - в різницю часу
+[BYTE to Yes/No]
+Байт - у значення Так/Ні
+[BYTE to Male/Female (ICQ)]
+Байт - у стать (Ч/Ж) (ICQ)
+[WORD to country name]
+Слово - в назву країни
+[DWORD to IP address]
+Подв. слово - в IP-адресу
+[<prefix>Day|Month|Year to date]
+<префікс>день|місяць|рік - у дату
+[<prefix>Day|Month|Year to age]
+<префікс>день|місяць|рік - у вік
+[<prefix>Hours|Minutes|Seconds to time]
+<префікс>години|хвилини|секунди - в час
+[<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
+<префікс>день|місяць|рік|години|хв|сек - в різницю часу
+[<prefix>Day|Month to days to next birthday]
+<префікс>день|місяць - у днях до наступного дня народження
+[DWORD timestamp to time (no seconds)]
+Подв. слово - в дату (без секунд)
+[<prefix>Hours|Minutes to time]
+<префікс>години|хвилини - в час
+[DWORD timestamp to date (short)]
+Подв. слово - в дату (коротку)
+[DWORD timestamp to date (long)]
+Подв. слово - в дату (довгу)
+[xStatus: empty xStatus name to default name]
+xСтатус: порожнє ім'я в ім'я за замовчанням
+[DWORD seconds to time difference]
+Подв. слово секунд у часову різницю
+[BYTE timezone to time]
+Байт зона часу в час
+[WORD to name of a day (0..6, 0 is Sunday)]
+Слово - в назву дня тижня (0..6, 0 - неділя)
+[WORD to name of a month (1..12, 1 is January)]
+Слово - в назву місяця (1..12, 1 - січень)
+[BYTE to language (ICQ)]
+Байт - в мову (ICQ)

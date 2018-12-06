@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: IEView.dll
 ;  Plugin: IEView
-;  Version: 1.5.0.1
+;  Version: 1.6.0.1
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 [IE Based Chat Log.]
@@ -103,22 +103,8 @@ URL атрыманы
 [Error]
 Памылка
 ;file \plugins\IEView\src\Options.cpp
-[General]
-Агульнае
-[Message Log]
-Журнал
-[Group chats]
-Чаты
-[History]
-Гісторыя
 [Default]
 Змаўчанні
-[Message sessions]
-Гутаркі
-[IEView]
-Журнал IEView
-[Skins]
-Скіны
 [Template]
 Шаблон
 [All Files]
@@ -127,6 +113,20 @@ URL атрыманы
 Усе малюнкі
 [Style Sheet]
 Табліца стыляў
+[Message Log]
+Журнал
+[Group chats]
+Чаты
+[History]
+Гісторыя
+[Message sessions]
+Гутаркі
+[IEView]
+Журнал IEView
+[General]
+Агульнае
+[Skins]
+Скіны
 ;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
 [Today]
 Сёння
