@@ -26,7 +26,7 @@
 Адкрыць...
 [Go to the "Options -> Customize -> Folders" to change settings]
 Адкрыйце "Тонкая налада -> Тэчкі" для змены налад
-[Backup file mask]
+[Backup file mask:]
 
 [Compress backup to zip-archive]
 Сціск рэзервовай копіі ў архіў

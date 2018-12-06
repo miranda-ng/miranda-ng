@@ -26,7 +26,7 @@
 Обзор...
 [Go to the "Options -> Customize -> Folders" to change settings]
 Перейти в раздел "Тонкая настройка -> Папки"
-[Backup file mask]
+[Backup file mask:]
 Маска имени файла:
 [Compress backup to zip-archive]
 Сжать резервную копию в zip-архив

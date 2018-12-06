@@ -26,7 +26,7 @@ Zapisuj kopię do folderu:
 Przeglądaj...
 [Go to the "Options -> Customize -> Folders" to change settings]
 Idź do Opcje -> Personalizacja -> Foldery aby zmienić ustawienia
-[Backup file mask]
+[Backup file mask:]
 
 [Compress backup to zip-archive]
 Kompresuj kopię do archiwum zip

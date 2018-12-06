@@ -502,16 +502,6 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{ "client_MSN", L"|WLM*|MSN*|Windows Live*", L"MSN", IDI_MSN, MSN_CASE, TRUE },
 
 	//#########################################################################################################################################################################
-	//#################################   MAIL.RU   ###########################################################################################################################
-	//#########################################################################################################################################################################
-	{ "client_MRA_official", L"|magent*|Mail.ru Agent*official*"
-	L"|Mail.ru Agent*PC*"
-	L"|*agent.mail.ru*", LPGENW("Mail.Ru Agent (official)"), IDI_MAIL_RU_OFFICIAL, MRA_CASE, TRUE },
-	{ "client_MRA_Mobile", L"|MobileAgent*|Mail.ru Agent*Symbian*", L"Mail.Ru Mobile Agent", IDI_MAIL_RU_MOBILE, MRA_CASE, TRUE },
-	{ "client_MRA_web", L"|webagent*|*Web Agent*", L"Mail.Ru Web Agent", IDI_MAIL_RU_WEBAGENT, MRA_CASE, TRUE },
-	{ "client_MRA_unknown", L"|Mail.ru Agent*|MRA client", LPGENW("Mail.Ru (unknown client)"), IDI_MAIL_RU_UNKNOWN, MRA_CASE },
-
-	//#########################################################################################################################################################################
 	//#################################   WEATHER   ###########################################################################################################################
 	//#########################################################################################################################################################################
 	{ "client_accu", L"*accuweather*", L"AccuWeather", IDI_ACCU, WEATHER_CASE, TRUE },
@@ -667,9 +657,6 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	{ "client_Jabber_overlay", L"|^jabber*|Miranda*Jabber*|py*jabb*", LPGENW("Jabber overlay"), IDI_JABBER_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_MSN_overlay", L"|^MSN*|*Miranda*MSN*", LPGENW("MSN overlay"), IDI_MSN_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_QQ_overlay", L"|Miranda*QQ*|MIM*QQ*", LPGENW("QQ overlay"), IDI_QQ_OVERLAY, OVERLAYS_PROTO_CASE },
-	{ "client_MRA_overlay", L"|^MRA*|^Mail.ru*"
-							L"|*MRA*|*Mail.ru*IM*|Mrim*"
-							L"|*DRQZ00fz5WPn1gH+*|*nxthUwJANorB6+*|ICQ client", LPGENW("Mail.Ru Agent overlay"), IDI_MAILRU_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_VK_overlay", L"|Miranda*VKontakte*", LPGENW("VK overlay"), IDI_VK_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_Skype_overlay", L"|Miranda*Skype*", LPGENW("Skype overlay"), IDI_SKYPE_OVERLAY, OVERLAYS_PROTO_CASE },
 

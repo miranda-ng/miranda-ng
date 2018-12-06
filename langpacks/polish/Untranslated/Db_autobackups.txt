@@ -1,1 +1,1 @@
-[Backup file mask]
+[Backup file mask:]

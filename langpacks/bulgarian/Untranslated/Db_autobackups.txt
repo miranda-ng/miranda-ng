@@ -1,5 +1,5 @@
 [Database autobackuper plugin.]
-[Backup file mask]
+[Backup file mask:]
 [Backup profile folder]
 [Use CloudFile]
 [Uploading to cloud failed]

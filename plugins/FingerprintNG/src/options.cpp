@@ -37,7 +37,6 @@ static settings[] =
 	{ IDC_GROUP_ICQ, TRUE, "GroupICQ" },
 	{ IDC_GROUP_IRC, TRUE, "GroupIRC" },
 	{ IDC_GROUP_JABBER, TRUE, "GroupJabber" },
-	{ IDC_GROUP_MRA, TRUE, "GroupMRA" },
 	{ IDC_GROUP_MSN, TRUE, "GroupMSN" },
 	{ IDC_GROUP_QQ, TRUE, "GroupQQ" },
 	{ IDC_GROUP_RSS, TRUE, "GroupRSS" },

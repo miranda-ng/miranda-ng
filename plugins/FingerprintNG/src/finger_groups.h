@@ -38,11 +38,6 @@ case JABBER_CASE:
 		return LPGENW("Client icons") L"/" LPGENW("Jabber clients");
 	break;
 
-case MRA_CASE:
-	if (g_plugin.getByte("GroupMRA", 1))
-		return LPGENW("Client icons") L"/" LPGENW("MRA clients");
-	break;
-
 case MSN_CASE:
 	if (g_plugin.getByte("GroupMSN", 1))
 		return LPGENW("Client icons") L"/" LPGENW("MSN clients");

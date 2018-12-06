@@ -60,7 +60,6 @@
 #define IDI_IRC_OVERLAY                 82
 #define IDI_JABBER_OVERLAY              83
 #define IDI_JGTALK_OVERLAY              84
-#define IDI_MAILRU_OVERLAY              85
 #define IDI_MSN_OVERLAY                 86
 #define IDI_QQ_OVERLAY                  87
 #define IDI_VK_OVERLAY                  90
@@ -393,10 +392,6 @@
 #define IDI_YAONLINE                    607
 #define IDI_YAXIM                       608
 #define IDI_OPENFIRE                    609
-#define IDI_MAIL_RU_MOBILE              701
-#define IDI_MAIL_RU_OFFICIAL            702
-#define IDI_MAIL_RU_UNKNOWN             703
-#define IDI_MAIL_RU_WEBAGENT            704
 #define IDI_GG                          724
 #define IDI_GG8_OVERLAY                 725
 #define IDI_GG9_OVERLAY                 726
@@ -571,7 +566,6 @@
 #define IDC_GROUP_IRC                   10033
 #define IDC_GROUP_JABBER                10034
 #define IDC_GROUP_MSN                   10035
-#define IDC_GROUP_MRA                   10036
 #define IDC_GROUP_QQ                    10037
 #define IDC_GROUP_RSS                   10038
 #define IDC_GROUP_WEATHER               10040

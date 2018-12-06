@@ -81,7 +81,6 @@ struct FOUNDINFO
 #define ICQ_CASE                 3008  // ICQ clients
 #define IRC_CASE                 3009  // IRC clients
 #define JABBER_CASE              3010  // Jabber clients
-#define MRA_CASE                 3011  // Mail.Ru Agent clients
 #define MSN_CASE                 3012  // MSN clients
 #define QQ_CASE                  3013  // QQ clients (+ versions)
 #define RSS_CASE                 3014  // RSS clients
