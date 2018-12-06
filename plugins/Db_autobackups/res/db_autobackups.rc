@@ -44,7 +44,7 @@ BEGIN
     PUSHBUTTON      "Browse...",IDC_BUT_BROWSE,199,114,49,14
     CONTROL         "Go to the ""Options -> Customize -> Folders"" to change settings",IDC_LNK_FOLDERS,
                     "Hyperlink",NOT WS_VISIBLE | WS_TABSTOP,17,111,231,17
-    LTEXT           "Backup file mask",IDC_STATIC,17,135,231,8
+    LTEXT           "Backup file mask:",IDC_STATIC,17,135,231,8
     EDITTEXT        IDC_FILEMASK,17,145,231,14,ES_AUTOHSCROLL
     CONTROL         "Compress backup to zip-archive",IDC_CHK_USEZIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,165,231,10
     CONTROL         "Backup profile folder",IDC_BACKUPPROFILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,26,177,176,10
