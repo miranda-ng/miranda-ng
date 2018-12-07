@@ -371,11 +371,11 @@ EXTERN_C MIR_APP_DLL(BOOL) Clist_IsDocked(void);
 // wParam = hContact - NULL if operation on group
 // lParam = pointer to CLISTGROUPCHANGE
 
-typedef struct {
-	int cbSize;	        // size in bytes of this structure
-	wchar_t *pszOldName;  // old group name, NULL if a new group was created
-	wchar_t *pszNewName;  // new group name, NULL if an old group was deleted
-} CLISTGROUPCHANGE;
+struct CLISTGROUPCHANGE
+{
+	const wchar_t *pszOldName;  // old group name, NULL if a new group was created
+	const wchar_t *pszNewName;  // new group name, NULL if an old group was deleted
+};
 
 #define ME_CLIST_GROUPCHANGE       "CList/GroupChange"
 

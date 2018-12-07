@@ -36,7 +36,7 @@ struct CGroupInternal
 	{	mir_free(groupName);
 	}
 
-	int    groupId;
+	int    groupId, oldId;
 	wchar_t *groupName;
 
 	void save()
@@ -135,7 +135,7 @@ static INT_PTR CreateGroupInternal(MGROUP hParent, const wchar_t *ptszName)
 
 	Clist_GroupAdded(newId + 1);
 
-	CLISTGROUPCHANGE grpChg = { sizeof(grpChg), nullptr, newName };
+	CLISTGROUPCHANGE grpChg = { nullptr, newName };
 	NotifyEventHooks(hGroupChangeEvent, 0, (LPARAM)&grpChg);
 
 	return newId + 1;
@@ -176,6 +176,20 @@ MIR_APP_DLL(wchar_t*) Clist_GroupGetName(MGROUP hGroup, DWORD *pdwFlags)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static bool isParentOf(const CMStringW &pParent, const wchar_t *p)
+{
+	if (mir_wstrncmp(pParent, p, pParent.GetLength()))
+		return false;
+
+	switch (p[pParent.GetLength()]) {
+	case '\\':
+	case 0:
+		return true;
+	default:
+		return false;
+	}
+}
+
 MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup)
 {
 	// get the name
@@ -194,67 +208,58 @@ MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup)
 	
 	// must remove setting from all child contacts too
 	// children are demoted to the next group up, not deleted.
-	wchar_t *szNewParent = NEWWSTR_ALLOCA(pGroup->groupName+1);
+	CMStringW wszOldName(pGroup->groupName + 1), wszNewParent;
 	{
-		wchar_t *pszLastBackslash = wcsrchr(szNewParent, '\\');
-		if (pszLastBackslash)
-			pszLastBackslash[0] = '\0';
-		else
-			szNewParent[0] = '\0';
+		int idx = wszOldName.ReverseFind('\\');
+		if (idx != -1)
+			wszNewParent = wszOldName.Left(idx);
 	}
 
 	for (auto &hContact : Contacts()) {
 		ptrW tszGroupName(db_get_wsa(hContact, "CList", "Group"));
-		if (mir_wstrcmp(tszGroupName, pGroup->groupName+1))
+		if (!tszGroupName || !isParentOf(wszOldName, tszGroupName))
 			continue;
 
-		CLISTGROUPCHANGE grpChg = { sizeof(grpChg), nullptr, nullptr };
-		grpChg.pszOldName = pGroup->groupName+1;
-		if (szNewParent[0]) {
-			db_set_ws(hContact, "CList", "Group", szNewParent);
-			grpChg.pszNewName = szNewParent;
+		CLISTGROUPCHANGE grpChg = { wszOldName, 0 };
+		if (!wszNewParent.IsEmpty()) {
+			db_set_ws(hContact, "CList", "Group", wszNewParent);
+			grpChg.pszNewName = wszNewParent;
 		}
-		else {
-			db_unset(hContact, "CList", "Group");
-			grpChg.pszNewName = nullptr;
-		}
+		else db_unset(hContact, "CList", "Group");
 
 		NotifyEventHooks(hGroupChangeEvent, hContact, (LPARAM)&grpChg);
 	}
 	
 	// shuffle list of groups up to fill gap
-	arByIds.remove(pGroup);
-	arByName.remove(pGroup);
+	for (auto &it : arByIds)
+		it->oldId = it->groupId;
 
-	for (int i = hGroup-1; i < arByIds.getCount(); i++) {
-		CGroupInternal *p = arByIds[i];
-		p->groupId--;
-		p->save();
+	int iGap = 0;
+	for (auto &it : arByIds.rev_iter()) {
+		if (!isParentOf(wszOldName, it->groupName + 1))
+			continue;
+
+		iGap++;
+		arByName.remove(it);
+		arByIds.remove(arByIds.indexOf(&it));
 	}
 
-	char idstr[33];
-	_itoa(arByIds.getCount(), idstr, 10);
-	db_unset(0, "CListGroups", idstr);
-	
-	// rename subgroups
-	wchar_t szNewName[256];
-	size_t len = mir_wstrlen(pGroup->groupName+1);
-	for (int i = 0; i < arByIds.getCount(); i++) {
-		CGroupInternal *p = arByIds[i];
-		
-		if (!wcsncmp(pGroup->groupName+1, p->groupName+1, len) && p->groupName[len+1] == '\\' && wcschr(p->groupName + len + 2, '\\') == nullptr) {
-			if (szNewParent[0])
-				mir_snwprintf(szNewName, L"%s\\%s", szNewParent, p->groupName + len + 2);
-			else
-				mir_wstrncpy(szNewName, p->groupName + len + 2, _countof(szNewName));
-			Clist_GroupRename(i + 1, szNewName);
-		}
+	for (auto &it : arByIds) {
+		it->groupId = arByIds.indexOf(&it);
+		if (it->groupId != it->oldId)
+			it->save();
+	}
+
+	for (int i = 0; i < iGap; i++) {
+		char idstr[33];
+		_itoa(arByIds.getCount()+i, idstr, 10);
+		db_unset(0, "CListGroups", idstr);
 	}
 
 	SetCursor(LoadCursor(nullptr, IDC_ARROW));
 	Clist_LoadContactTree();
 
-	const CLISTGROUPCHANGE grpChg = { sizeof(grpChg), pGroup->groupName+1, nullptr };
+	const CLISTGROUPCHANGE grpChg = { wszOldName, nullptr };
 	NotifyEventHooks(hGroupChangeEvent, 0, (LPARAM)&grpChg);
 
 	delete(pGroup);
@@ -381,7 +386,7 @@ static int RenameGroupWithMove(int groupId, const wchar_t *szName, int move)
 		}
 	}
 
-	const CLISTGROUPCHANGE grpChg = { sizeof(grpChg), oldName, (wchar_t*)szName };
+	const CLISTGROUPCHANGE grpChg = { oldName, szName };
 	NotifyEventHooks(hGroupChangeEvent, 0, (LPARAM)&grpChg);
 	return 0;
 }

@@ -159,7 +159,6 @@ const
 }
 type
   CLISTGROUPCHANGE = record
-    cbSize    :int;   //size in bytes of this structure
     pszOldName:TChar; //old group name
     pszNewName:TChar; //new group name
   end;

@@ -40,7 +40,7 @@ MIR_APP_DLL(void) Clist_LoadContactTree(void)
 
 MIR_APP_DLL(int) Clist_ContactChangeGroup(MCONTACT hContact, MGROUP hGroup)
 {
-	CLISTGROUPCHANGE grpChg = { sizeof(CLISTGROUPCHANGE), nullptr, nullptr };
+	CLISTGROUPCHANGE grpChg = {};
 
 	if (hGroup == 0)
 		db_unset(hContact, "CList", "Group");
