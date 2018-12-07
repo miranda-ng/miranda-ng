@@ -26,7 +26,7 @@ class CDiscardAccountOptions : public CProtoDlgBase<CDiscordProto>
 	ptrW m_wszOldGroup;
 
 public:
-	CDiscardAccountOptions(CDiscordProto *ppro, int iDlgID) :
+	CDiscardAccountOptions(CDiscordProto *ppro, int iDlgID, bool bFullDlg) :
 		CProtoDlgBase<CDiscordProto>(ppro, iDlgID),
 		m_edGroup(this, IDC_GROUP),
 		m_edUserName(this, IDC_USERNAME),
@@ -37,8 +37,10 @@ public:
 	{
 		CreateLink(m_edGroup, ppro->m_wszDefaultGroup);
 		CreateLink(m_edUserName, ppro->m_wszEmail);
-		CreateLink(chkHideChats, ppro->m_bHideGroupchats);
-		CreateLink(chkUseGroups, ppro->m_bUseGuildGroups);
+		if (bFullDlg) {
+			CreateLink(chkHideChats, ppro->m_bHideGroupchats);
+			CreateLink(chkUseGroups, ppro->m_bUseGuildGroups);
+		}
 	}
 
 	bool OnInitDialog() override
@@ -64,7 +66,7 @@ public:
 
 INT_PTR CDiscordProto::SvcCreateAccMgrUI(WPARAM, LPARAM hwndParent)
 {
-	CDiscardAccountOptions *pDlg = new CDiscardAccountOptions(this, IDD_OPTIONS_ACCMGR);
+	CDiscardAccountOptions *pDlg = new CDiscardAccountOptions(this, IDD_OPTIONS_ACCMGR, false);
 	pDlg->SetParent((HWND)hwndParent);
 	pDlg->Create();
 	return (INT_PTR)pDlg->GetHwnd();
@@ -79,7 +81,7 @@ int CDiscordProto::OnOptionsInit(WPARAM wParam, LPARAM)
 
 	odp.position = 1;
 	odp.szTab.w = LPGENW("Account");
-	odp.pDialog = new CDiscardAccountOptions(this, IDD_OPTIONS_ACCOUNT);
+	odp.pDialog = new CDiscardAccountOptions(this, IDD_OPTIONS_ACCOUNT, true);
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
