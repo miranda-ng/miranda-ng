@@ -220,6 +220,9 @@ bool ParseHashes(const wchar_t *ptszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 
 bool DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 {
+	char szMirVer[1000];
+	Miranda_GetVersionText(szMirVer, _countof(szMirVer));
+
 	NETLIBHTTPREQUEST nlhr = {0};
 	nlhr.cbSize = sizeof(nlhr);
 	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_PERSISTENT;
@@ -230,7 +233,7 @@ bool DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 	nlhr.headersCount = 4;
 	nlhr.headers=(NETLIBHTTPHEADER*)mir_alloc(sizeof(NETLIBHTTPHEADER)*nlhr.headersCount);
 	nlhr.headers[0].szName   = "User-Agent";
-	nlhr.headers[0].szValue = NETLIB_USER_AGENT;
+	nlhr.headers[0].szValue = szMirVer;
 	nlhr.headers[1].szName  = "Connection";
 	nlhr.headers[1].szValue = "close";
 	nlhr.headers[2].szName  = "Cache-Control";
