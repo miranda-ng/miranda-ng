@@ -134,7 +134,8 @@ void CDiscordProto::ProcessGuild(const JSONNode &p)
 	
 	pGuild->ownerId = ::getId(p["owner_id"]);
 	pGuild->wszName = p["name"].as_mstring();
-	pGuild->groupId = Clist_GroupCreate(Clist_GroupExists(m_wszDefaultGroup), pGuild->wszName);
+	if (m_bUseGuildGroups)
+		pGuild->groupId = Clist_GroupCreate(Clist_GroupExists(m_wszDefaultGroup), pGuild->wszName);
 
 	SESSION_INFO *si = Chat_NewSession(GCW_SERVER, m_szModuleName, pGuild->wszName, pGuild->wszName, pGuild);
 	pGuild->pParentSi = (SESSION_INFO*)si;
