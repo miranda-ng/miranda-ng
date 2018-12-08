@@ -39,7 +39,7 @@ void CreateAuthString(char *auth, MCONTACT hContact, CFeedEditor *pDlg)
 	mir_free(tlogin);
 	mir_free(tpass);
 
-	mir_snprintf(auth, 250, "Basic %s", ptrA(mir_base64_encode(str, len)));
+	mir_snprintf(auth, 250, "Basic %s", ptrA(mir_base64_encode(str, (size_t)len)));
 }
 
 CAuthRequest::CAuthRequest(CFeedEditor *pDlg, MCONTACT hContact) :

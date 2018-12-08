@@ -38,7 +38,7 @@ int NewsAggrInit(WPARAM, LPARAM)
 
 	for (auto &hContact : Contacts(MODULENAME)) {
 		if (!g_plugin.getByte("StartupRetrieve", 1))
-			g_plugin.setDword(hContact, "LastCheck", time(0));
+			g_plugin.setDword(hContact, "LastCheck", (DWORD)time(0));
 		g_plugin.setWord(hContact, "Status", ID_STATUS_ONLINE);
 	}
 
@@ -90,7 +90,7 @@ INT_PTR NewsAggrGetCaps(WPARAM wp, LPARAM)
 
 INT_PTR NewsAggrSetStatus(WPARAM wp, LPARAM)
 {
-	int nStatus = wp;
+	int nStatus = (int)wp;
 	if ((ID_STATUS_ONLINE == nStatus) || (ID_STATUS_OFFLINE == nStatus)) {
 		int nOldStatus = g_nStatus;
 		if(nStatus != g_nStatus) {
@@ -99,7 +99,7 @@ INT_PTR NewsAggrSetStatus(WPARAM wp, LPARAM)
 			for (auto &hContact : Contacts(MODULENAME))
 				g_plugin.setWord(hContact, "Status", nStatus);
 
-			ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)nOldStatus, g_nStatus);
+			ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)nOldStatus, (LPARAM)g_nStatus);
 		}
 	}
 
@@ -119,7 +119,7 @@ INT_PTR NewsAggrLoadIcon(WPARAM wParam, LPARAM)
 static void __cdecl AckThreadProc(void *param)
 {
 	Sleep(100);
-	ProtoBroadcastAck(MODULENAME, (UINT_PTR)param, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+	ProtoBroadcastAck(MODULENAME, (MCONTACT)param, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }
 
 INT_PTR NewsAggrGetInfo(WPARAM, LPARAM lParam)
@@ -164,7 +164,7 @@ INT_PTR ChangeFeed(WPARAM hContact, LPARAM)
 			pDlg = it;
 
 	if (pDlg == nullptr) {
-		pDlg = new CFeedEditor(-1, nullptr, hContact);
+		pDlg = new CFeedEditor(-1, nullptr, (MCONTACT)hContact);
 		pDlg->Show();
 	}
 	else {
@@ -192,8 +192,8 @@ INT_PTR ExportFeeds(WPARAM, LPARAM)
 
 INT_PTR CheckFeed(WPARAM hContact, LPARAM)
 {
-	if(IsMyContact(hContact))
-		UpdateListAdd(hContact);
+	if(IsMyContact((MCONTACT)hContact))
+		UpdateListAdd((MCONTACT)hContact);
 	if ( !ThreadRunning)
 		mir_forkthread(UpdateThreadProc);
 	return 0;

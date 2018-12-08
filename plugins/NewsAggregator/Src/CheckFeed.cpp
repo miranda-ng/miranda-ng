@@ -394,7 +394,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 								double deltaupd = difftime(time(0), stamp);
 								double deltacheck = difftime(time(0), (time_t)g_plugin.getDword(hContact, "LastCheck"));
 								if (deltaupd - deltacheck >= 0) {
-									g_plugin.setDword(hContact, "LastCheck", time(0));
+									g_plugin.setDword(hContact, "LastCheck", (DWORD)time(0));
 									xmlDestroyNode(hXml);
 									return;
 								}
@@ -527,7 +527,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 								double deltaupd = difftime(time(0), stamp);
 								double deltacheck = difftime(time(0), (time_t)g_plugin.getDword(hContact, "LastCheck"));
 								if (deltaupd - deltacheck >= 0) {
-									g_plugin.setDword(hContact, "LastCheck", time(0));
+									g_plugin.setDword(hContact, "LastCheck", (DWORD)time(0));
 									xmlDestroyNode(hXml);
 									return;
 								}
@@ -600,7 +600,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 			xmlDestroyNode(hXml);
 		}
 	}
-	g_plugin.setDword(hContact, "LastCheck", time(0));
+	g_plugin.setDword(hContact, "LastCheck", (DWORD)time(0));
 }
 
 void CheckCurrentFeedAvatar(MCONTACT hContact)
