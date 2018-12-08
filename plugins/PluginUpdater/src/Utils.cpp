@@ -220,10 +220,18 @@ bool ParseHashes(const wchar_t *ptszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 
 bool DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 {
-	char szMirVer[1000];
+	char szMirVer[100];
 	Miranda_GetVersionText(szMirVer, _countof(szMirVer));
 
-	NETLIBHTTPREQUEST nlhr = {0};
+	wchar_t wszOsVer[100];
+	GetOSDisplayString(wszOsVer, _countof(wszOsVer));
+
+	CMStringA szUserAgent("Miranda ");
+	szUserAgent.Append(szMirVer);
+	szUserAgent.Append("; ");
+	szUserAgent.Append(_T2A(wszOsVer));
+
+	NETLIBHTTPREQUEST nlhr = {};
 	nlhr.cbSize = sizeof(nlhr);
 	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_PERSISTENT;
 	nlhr.requestType = REQUEST_GET;
@@ -233,7 +241,7 @@ bool DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 	nlhr.headersCount = 4;
 	nlhr.headers=(NETLIBHTTPHEADER*)mir_alloc(sizeof(NETLIBHTTPHEADER)*nlhr.headersCount);
 	nlhr.headers[0].szName   = "User-Agent";
-	nlhr.headers[0].szValue = szMirVer;
+	nlhr.headers[0].szValue = szUserAgent.GetBuffer();
 	nlhr.headers[1].szName  = "Connection";
 	nlhr.headers[1].szValue = "close";
 	nlhr.headers[2].szName  = "Cache-Control";
@@ -604,7 +612,7 @@ void BackupFile(wchar_t *ptszSrcFileName, wchar_t *ptszBackFileName)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-char *StrToLower(char *str)
+char* StrToLower(char *str)
 {
 	for (int i = 0; str[i]; i++)
 		str[i] = tolower(str[i]);
