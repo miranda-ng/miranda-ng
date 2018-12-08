@@ -54,7 +54,7 @@ static void __cdecl OpenURLThread(TOpenUrlInfo *hUrlInfo)
 	}
 
 	// check user defined browser for opening urls
-	ptrW tszBrowser(db_get_wsa(NULL, "Miranda", "OpenUrlBrowser"));
+	ptrW tszBrowser(db_get_wsa(0, "Miranda", "OpenUrlBrowser"));
 	if (tszBrowser)
 		ShellExecute(nullptr, L"open", tszBrowser, tszUrl, nullptr, (hUrlInfo->newWindow) ? SW_NORMAL : SW_SHOWDEFAULT);
 	else

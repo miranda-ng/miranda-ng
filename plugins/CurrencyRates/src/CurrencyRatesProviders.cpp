@@ -67,7 +67,7 @@ CCurrencyRatesProviders::TCurrencyRatesProviderPtr CCurrencyRatesProviders::GetC
 	if (nullptr == szProto || 0 != ::_stricmp(szProto, CURRENCYRATES_PROTOCOL_NAME))
 		return TCurrencyRatesProviderPtr();
 
-	tstring sProvider = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_PROVIDER);
+	tstring sProvider = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_PROVIDER);
 	if (true == sProvider.empty())
 		return TCurrencyRatesProviderPtr();
 

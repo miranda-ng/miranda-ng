@@ -2119,34 +2119,21 @@ void TSAPI AdjustTabClientRect(TContainerData *pContainer, RECT *rc)
 // retrieve the container name for the given contact handle.
 // if none is assigned, return the name of the default container
 
-int TSAPI GetContainerNameForContact(MCONTACT hContact, wchar_t *szName, int iNameLen)
+void TSAPI GetContainerNameForContact(MCONTACT hContact, wchar_t *szName, int iNameLen)
 {
 	// single window mode using cloned (temporary) containers
 	if (M.GetByte("singlewinmode", 0)) {
 		wcsncpy_s(szName, iNameLen, L"Message Session", _TRUNCATE);
-		return 0;
+		return;
 	}
 
 	// use clist group names for containers...
 	if (M.GetByte("useclistgroups", 0)) {
-		ptrW tszGroup(db_get_wsa(hContact, "CList", "Group"));
-		if (tszGroup == nullptr) {
-			wcsncpy_s(szName, iNameLen, L"default", _TRUNCATE);
-			return 0;
-		}
-
-		wcsncpy_s(szName, iNameLen, tszGroup, _TRUNCATE);
-		return 1;
+		wcsncpy_s(szName, iNameLen, ptrW(db_get_wsa(hContact, "CList", "Group", L"default")), _TRUNCATE);
+		return;
 	}
 
-	ptrW tszContainerName(db_get_wsa(hContact, SRMSGMOD_T, CONTAINER_SUBKEY));
-	if (tszContainerName == nullptr) {
-		wcsncpy_s(szName, iNameLen, L"default", _TRUNCATE);
-		return 0;
-	}
-
-	wcsncpy_s(szName, iNameLen, tszContainerName, _TRUNCATE);
-	return 1;
+	wcsncpy_s(szName, iNameLen, ptrW(db_get_wsa(hContact, SRMSGMOD_T, CONTAINER_SUBKEY, L"default")), _TRUNCATE);
 }
 
 void TSAPI DeleteContainer(int iIndex)

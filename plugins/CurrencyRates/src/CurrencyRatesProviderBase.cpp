@@ -222,7 +222,7 @@ void CCurrencyRatesProviderBase::SetContactStatus(MCONTACT hContact, int nNewSta
 
 		if (ID_STATUS_ONLINE != nNewStatus) {
 			db_unset(hContact, LIST_MODULE_NAME, STATUS_MSG_NAME);
-			tstring sSymbol = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL);
+			tstring sSymbol = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL);
 			if (false == sSymbol.empty())
 				db_set_ws(hContact, LIST_MODULE_NAME, CONTACT_LIST_NAME, sSymbol.c_str());
 
@@ -570,7 +570,7 @@ void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRat
 	}
 	else {
 		if (true == sSymbol.empty())
-			sSymbol = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL);
+			sSymbol = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL);
 
 		oNick << std::setfill(L' ') << std::setw(10) << std::left << sSymbol << std::setw(6) << std::right << dRate;
 	}
@@ -604,11 +604,11 @@ void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRat
 		}
 		if (true == bAdd) {
 			tstring sLogFileName = (bUseContactSpecific)
-				? CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG_FILE, global_settings.GetLogFileName().c_str())
+				? CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG_FILE, global_settings.GetLogFileName().c_str())
 				: global_settings.GetLogFileName();
 
 			if (true == sSymbol.empty()) {
-				sSymbol = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL);
+				sSymbol = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL);
 			}
 
 			sLogFileName = GenerateLogFileName(sLogFileName, sSymbol);
@@ -617,7 +617,7 @@ void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRat
 			if (bUseContactSpecific) {
 				CCurrencyRatesProviderVisitorDbSettings visitor;
 				Accept(visitor);
-				sFormat = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_LOG_FILE, visitor.m_pszDefLogFileFormat);
+				sFormat = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_LOG_FILE, visitor.m_pszDefLogFileFormat);
 			}
 
 			log_to_file(this, hContact, sLogFileName, sFormat);
@@ -634,7 +634,7 @@ void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRat
 		}
 		if (true == bAdd) {
 			tstring sFormat = (bUseContactSpecific)
-				? CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_HISTORY, global_settings.GetHistoryFormat().c_str())
+				? CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_HISTORY, global_settings.GetHistoryFormat().c_str())
 				: global_settings.GetHistoryFormat();
 
 			log_to_history(this, hContact, nTime, sFormat);
@@ -648,7 +648,7 @@ void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRat
 		if ((false == bOnlyIfChanged)
 			|| ((true == bOnlyIfChanged) && (true == bValidPrev) && (false == IsWithinAccuracy(dRate, dPrev)))) {
 			tstring sFormat = (bUseContactSpecific)
-				? CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_POPUP, global_settings.GetPopupFormat().c_str())
+				? CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_POPUP, global_settings.GetPopupFormat().c_str())
 				: global_settings.GetPopupFormat();
 
 			CPopupSettings ps = *(global_settings.GetPopupSettingsPtr());
@@ -736,9 +736,9 @@ void CCurrencyRatesProviderBase::Run()
 	Accept(visitor);
 
 	DWORD nTimeout = get_refresh_timeout_miliseconds(visitor);
-	m_sContactListFormat = CurrencyRates_DBGetStringT(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbDisplayNameFormat, visitor.m_pszDefDisplayFormat);
-	m_sStatusMsgFormat = CurrencyRates_DBGetStringT(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbStatusMsgFormat, visitor.m_pszDefStatusMsgFormat);
-	m_sTendencyFormat = CurrencyRates_DBGetStringT(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbTendencyFormat, visitor.m_pszDefTendencyFormat);
+	m_sContactListFormat = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbDisplayNameFormat, visitor.m_pszDefDisplayFormat);
+	m_sStatusMsgFormat = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbStatusMsgFormat, visitor.m_pszDefStatusMsgFormat);
+	m_sTendencyFormat = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbTendencyFormat, visitor.m_pszDefTendencyFormat);
 
 	enum
 	{
@@ -788,9 +788,9 @@ void CCurrencyRatesProviderBase::Run()
 
 		case WAIT_OBJECT_0 + SETTINGS_CHANGED:
 			nTimeout = get_refresh_timeout_miliseconds(visitor);
-			m_sContactListFormat = CurrencyRates_DBGetStringT(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbDisplayNameFormat, visitor.m_pszDefDisplayFormat);
-			m_sStatusMsgFormat = CurrencyRates_DBGetStringT(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbStatusMsgFormat, visitor.m_pszDefStatusMsgFormat);
-			m_sTendencyFormat = CurrencyRates_DBGetStringT(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbTendencyFormat, visitor.m_pszDefTendencyFormat);
+			m_sContactListFormat = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbDisplayNameFormat, visitor.m_pszDefDisplayFormat);
+			m_sStatusMsgFormat = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbStatusMsgFormat, visitor.m_pszDefStatusMsgFormat);
+			m_sTendencyFormat = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbTendencyFormat, visitor.m_pszDefTendencyFormat);
 			{
 				mir_cslock lck(m_cs);
 				anContacts = m_aContacts;
@@ -855,8 +855,7 @@ void CCurrencyRatesProviderBase::Accept(CCurrencyRatesProviderVisitor &visitor)c
 
 void CCurrencyRatesProviderBase::RefreshSettings()
 {
-	BOOL b = ::SetEvent(m_hEventSettingsChanged);
-	assert(b && "Failed to set event");
+	::SetEvent(m_hEventSettingsChanged);
 }
 
 void CCurrencyRatesProviderBase::RefreshAllContacts()
@@ -867,8 +866,7 @@ void CCurrencyRatesProviderBase::RefreshAllContacts()
 		std::for_each(std::begin(m_aContacts), std::end(m_aContacts), [&](MCONTACT hContact) { m_aRefreshingContacts.push_back(hContact); });
 	}
 
-	BOOL b = ::SetEvent(m_hEventRefreshContact);
-	assert(b && "Failed to set event");
+	::SetEvent(m_hEventRefreshContact);
 }
 
 void CCurrencyRatesProviderBase::RefreshContact(MCONTACT hContact)
@@ -878,6 +876,5 @@ void CCurrencyRatesProviderBase::RefreshContact(MCONTACT hContact)
 		m_aRefreshingContacts.push_back(hContact);
 	}
 
-	BOOL b = ::SetEvent(m_hEventRefreshContact);
-	assert(b && "Failed to set event");
+	::SetEvent(m_hEventRefreshContact);
 }

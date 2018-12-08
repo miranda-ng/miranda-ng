@@ -50,10 +50,10 @@ void CCurrencyRatesProviderVisitorFormater::Visit(const CCurrencyRatesProviderBa
 		m_sResult = m_chr;
 		break;
 	case 'S':
-		m_sResult = CurrencyRates_DBGetStringT(m_hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_PROVIDER);
+		m_sResult = CurrencyRates_DBGetStringW(m_hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_PROVIDER);
 		break;
 	case 's':
-		m_sResult = CurrencyRates_DBGetStringT(m_hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL);
+		m_sResult = CurrencyRates_DBGetStringW(m_hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL);
 		break;
 	case 'X':
 		m_sResult = format_fetch_time(rProvider, m_hContact, CurrencyRates_GetTimeFormat(true));
@@ -107,16 +107,16 @@ void CCurrencyRatesProviderVisitorFormater::Visit(const CCurrencyRatesProviderCu
 {
 	switch (m_chr) {
 	case 'F':
-		m_sResult = CurrencyRates_DBGetStringT(m_hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_DESCRIPTION);
+		m_sResult = CurrencyRates_DBGetStringW(m_hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_DESCRIPTION);
 		break;
 	case 'f':
-		m_sResult = CurrencyRates_DBGetStringT(m_hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_ID);
+		m_sResult = CurrencyRates_DBGetStringW(m_hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_ID);
 		break;
 	case 'I':
-		m_sResult = CurrencyRates_DBGetStringT(m_hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_DESCRIPTION);
+		m_sResult = CurrencyRates_DBGetStringW(m_hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_DESCRIPTION);
 		break;
 	case 'i':
-		m_sResult = CurrencyRates_DBGetStringT(m_hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_ID);
+		m_sResult = CurrencyRates_DBGetStringW(m_hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_ID);
 		break;
 	}
 }

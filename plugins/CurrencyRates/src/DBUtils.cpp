@@ -1,31 +1,13 @@
 #include "StdAfx.h"
 
-std::string CurrencyRates_DBGetStringA(MCONTACT hContact, const char* szModule, const char* szSetting, const char* pszDefValue /*= NULL*/)
+std::string CurrencyRates_DBGetStringA(MCONTACT hContact, const char* szModule, const char* szSetting, const char* pszDefValue)
 {
-	std::string sResult;
-	char* pszSymbol = db_get_sa(hContact, szModule, szSetting);
-	if (nullptr != pszSymbol) {
-		sResult = pszSymbol;
-		mir_free(pszSymbol);
-	}
-	else if (nullptr != pszDefValue)
-		sResult = pszDefValue;
-
-	return sResult;
+	return std::string(ptrA(db_get_sa(hContact, szModule, szSetting, pszDefValue)));
 }
 
-std::wstring CurrencyRates_DBGetStringW(MCONTACT hContact, const char* szModule, const char* szSetting, const wchar_t* pszDefValue/* = NULL*/)
+std::wstring CurrencyRates_DBGetStringW(MCONTACT hContact, const char* szModule, const char* szSetting, const wchar_t* pszDefValue)
 {
-	std::wstring sResult;
-	wchar_t* pszSymbol = db_get_wsa(hContact, szModule, szSetting);
-	if (nullptr != pszSymbol) {
-		sResult = pszSymbol;
-		mir_free(pszSymbol);
-	}
-	else if (nullptr != pszDefValue)
-		sResult = pszDefValue;
-
-	return sResult;
+	return std::wstring(ptrW(db_get_wsa(hContact, szModule, szSetting, pszDefValue)));
 }
 
 bool CurrencyRates_DBWriteDouble(MCONTACT hContact, const char* szModule, const char* szSetting, double dValue)

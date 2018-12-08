@@ -121,11 +121,7 @@ void LoadMsgDlgFont(int i, LOGFONT *lf, COLORREF *colour)
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 		mir_snprintf(str, "Font%d", i);
 
-		ptrW tszFace(db_get_wsa(0, CHATFONT_MODULE, str));
-		if (tszFace == nullptr)
-			mir_wstrcpy(lf->lfFaceName, FO.szDefFace);
-		else
-			wcsncpy_s(lf->lfFaceName, tszFace, _TRUNCATE);
+		wcsncpy_s(lf->lfFaceName, ptrW(db_get_wsa(0, CHATFONT_MODULE, str, FO.szDefFace)), _TRUNCATE);
 	}
 }
 

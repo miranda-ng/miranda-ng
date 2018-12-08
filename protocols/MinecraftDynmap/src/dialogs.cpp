@@ -48,7 +48,7 @@ HANDLE GetIconHandle(const char* name) {
 
 static void LoadDBText(MinecraftDynmapProto* ppro, HWND hwnd, int idCtrl, const char* szSetting)
 {
-	ptrW tstr(db_get_wsa(NULL, ppro->m_szModuleName, szSetting));
+	ptrW tstr(db_get_wsa(0, ppro->m_szModuleName, szSetting));
 	if (tstr)
 		SetDlgItemText(hwnd, idCtrl, tstr);
 }

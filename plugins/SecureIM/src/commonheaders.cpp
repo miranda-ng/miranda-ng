@@ -25,7 +25,9 @@ mir_cs localQueueMutex;
 LPSTR myDBGetStringDecode(MCONTACT hContact, const char *szModule, const char *szSetting)
 {
 	char *val = db_get_sa(hContact, szModule, szSetting);
-	if (!val) return nullptr;
+	if (!val)
+		return nullptr;
+	
 	size_t len = mir_strlen(val) + 64;
 	char *buf = (LPSTR)mir_alloc(len);
 	strncpy(buf, val, len); mir_free(val);

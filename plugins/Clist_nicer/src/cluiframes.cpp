@@ -2124,7 +2124,7 @@ int OnFrameTitleBarBackgroundChange()
 		hBmpBackground = nullptr;
 	}
 	if (db_get_b(0, "FrameTitleBar", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-		ptrW tszBitmapName(db_get_wsa(NULL, "FrameTitleBar", "BkBitmap"));
+		ptrW tszBitmapName(db_get_wsa(0, "FrameTitleBar", "BkBitmap"));
 		if (tszBitmapName != NULL)
 			hBmpBackground = Bitmap_Load(tszBitmapName);
 	}

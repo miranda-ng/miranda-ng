@@ -323,7 +323,7 @@ void CSteamProto::GetAwayMsgThread(void *arg)
 	Sleep(50);
 
 	MCONTACT hContact = (UINT_PTR)arg;
-	CMStringW message(db_get_wsa(hContact, "CList", "StatusMsg"));
+	CMStringW message(db_get_wsm(hContact, "CList", "StatusMsg"));
 	
 	// if contact has no status message, get xstatus message
 	if (message.IsEmpty()) {

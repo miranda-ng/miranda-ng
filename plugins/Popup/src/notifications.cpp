@@ -156,12 +156,12 @@ void LoadNotificationSettings(POPUPTREEDATA *ptd, char* szModul)
 			db_get_b(0, szModul, setting, 0);
 
 		mir_snprintf(setting, "{%s/%s}leftAction", ptd->notification.lpzGroup, ptd->notification.lpzName);
-		char *szTmp = db_get_s(0, szModul, setting, ptd->notification.lpzLAction);
+		char *szTmp = db_get_sa(0, szModul, setting, ptd->notification.lpzLAction);
 		mir_strncpy(ptd->leftAction, szTmp, sizeof(ptd->leftAction));
 		mir_free(szTmp); szTmp = nullptr;
 
 		mir_snprintf(setting, "{%s/%s}rightAction", ptd->notification.lpzGroup, ptd->notification.lpzName);
-		szTmp = db_get_s(0, szModul, setting, ptd->notification.lpzRAction);
+		szTmp = db_get_sa(0, szModul, setting, ptd->notification.lpzRAction);
 		mir_strncpy(ptd->rightAction, szTmp, sizeof(ptd->rightAction));
 		mir_free(szTmp); szTmp = nullptr;
 	}

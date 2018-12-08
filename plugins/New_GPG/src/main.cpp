@@ -30,13 +30,13 @@ void InitCheck()
 {
 	{
 		// parse gpg output
-		wchar_t *current_home = UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L"");
+		wchar_t *current_home = db_get_wsa(0, MODULENAME, "szHomePath", L"");
 		g_plugin.setWString("szHomePath", L""); //we do not need home for gpg binary validation
 		globals.gpg_valid = isGPGValid();
 		g_plugin.setWString("szHomePath", current_home); //return current home dir back
 		mir_free(current_home);
 		bool home_dir_access = false, temp_access = false;
-		wchar_t *home_dir = UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L"");
+		wchar_t *home_dir = db_get_wsa(0, MODULENAME, "szHomePath", L"");
 		std::wstring test_path = home_dir;
 		mir_free(home_dir);
 		test_path += L"/";
@@ -91,7 +91,7 @@ void InitCheck()
 			if (result == pxNotFound)
 				return;
 		}
-		home_dir = UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L"");
+		home_dir = db_get_wsa(0, MODULENAME, "szHomePath", L"");
 		wstring tmp_dir = home_dir;
 		mir_free(home_dir);
 		tmp_dir += L"\\tmp";
@@ -109,11 +109,11 @@ void InitCheck()
 			acc += pa->szModuleName;
 			acc += ")";
 			acc += "_KeyID";
-			keyid = UniGetContactSettingUtf(0, MODULENAME, acc.c_str(), "");
+			keyid = db_get_sa(0, MODULENAME, acc.c_str(), "");
 			if (keyid[0]) {
 				question = Translate("Your secret key with ID: ");
 				mir_free(keyid);
-				keyid = UniGetContactSettingUtf(0, MODULENAME, "KeyID", "");
+				keyid = db_get_sa(0, MODULENAME, "KeyID", "");
 				if ((p = out.find(keyid)) == string::npos) {
 					question += keyid;
 					question += Translate(" for account ");
@@ -173,8 +173,8 @@ void InitCheck()
 			}
 		}
 		question = Translate("Your secret key with ID: ");
-		keyid = UniGetContactSettingUtf(0, MODULENAME, "KeyID", "");
-		char *key = UniGetContactSettingUtf(0, MODULENAME, "GPGPubKey", "");
+		keyid = db_get_sa(0, MODULENAME, "KeyID", "");
+		char *key = db_get_sa(0, MODULENAME, "GPGPubKey", "");
 		if (!g_plugin.getByte("FirstRun", 1) && (!keyid[0] || !key[0])) {
 			question = Translate("You didn't set a private key.\nWould you like to set it now?");
 			if (MessageBoxA(nullptr, question.c_str(), Translate("Own private key warning"), MB_YESNO) == IDYES) {
@@ -235,7 +235,7 @@ void InitCheck()
 		mir_free(key);
 	}
 	{
-		wchar_t *path = UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L"");
+		wchar_t *path = db_get_wsa(0, MODULENAME, "szHomePath", L"");
 		DWORD dwFileAttr = GetFileAttributes(path);
 		if (dwFileAttr != INVALID_FILE_ATTRIBUTES) {
 			dwFileAttr &= ~FILE_ATTRIBUTE_READONLY;
@@ -290,16 +290,16 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 	std::vector<wstring> cmd;
 	wchar_t tmp2[MAX_PATH] = { 0 };
 	{
-		wcsncpy(tmp2, ptrW(UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L"")), MAX_PATH - 1);
+		wcsncpy(tmp2, ptrW(db_get_wsa(0, MODULENAME, "szHomePath", L"")), MAX_PATH - 1);
 		mir_wstrncat(tmp2, L"\\", _countof(tmp2) - mir_wstrlen(tmp2));
 		mir_wstrncat(tmp2, L"temporary_exported.asc", _countof(tmp2) - mir_wstrlen(tmp2));
 		boost::filesystem::remove(tmp2);
 
 		ptrW ptmp;
 		if (db_mc_isMeta(hContact))
-			ptmp = UniGetContactSettingUtf(metaGetMostOnline(hContact), MODULENAME, "GPGPubKey", L"");
+			ptmp = db_get_wsa(metaGetMostOnline(hContact), MODULENAME, "GPGPubKey", L"");
 		else
-			ptmp = UniGetContactSettingUtf(hContact, MODULENAME, "GPGPubKey", L"");
+			ptmp = db_get_wsa(hContact, MODULENAME, "GPGPubKey", L"");
 
 		wfstream f(tmp2, std::ios::out);
 		f << ptmp.get();

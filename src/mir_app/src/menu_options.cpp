@@ -41,10 +41,7 @@ MIR_APP_DLL(void) Menu_SetVisible(TMO_IntMenuItem *pimi, bool bVisible)
 	mir_snprintf(szModule, "%s_Items", pimi->parent->pszName);
 	bin2hex(&pimi->mi.uid, sizeof(pimi->mi.uid), menuItemName);
 
-	ptrW wszValue(db_get_wsa(0, szModule, menuItemName));
-	if (wszValue == nullptr)
-		wszValue = mir_wstrdup(L"1;;;");
-
+	ptrW wszValue(db_get_wsa(0, szModule, menuItemName, L"1;;;"));
 	wszValue[0] = bVisible ? '1' : '0';
 	db_set_ws(0, szModule, menuItemName, wszValue);
 

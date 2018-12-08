@@ -559,8 +559,7 @@ void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 			int iRet = jnResponse.as_int();
 			setByte(param->hContact, "Auth", 0);
 			if (iRet == 2) {
-				CMStringW msg,
-					wszNick(ptrW(db_get_wsa(param->hContact, m_szModuleName, "Nick")));
+				CMStringW msg, wszNick(db_get_wsm(param->hContact, m_szModuleName, "Nick"));
 				if (wszNick.IsEmpty())
 					wszNick = TranslateT("(Unknown contact)");
 				msg.AppendFormat(TranslateT("User %s added as friend"), wszNick.c_str());

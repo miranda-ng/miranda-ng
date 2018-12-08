@@ -307,7 +307,7 @@ static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM)
 			IcoLib_ReleaseIcon(hIcon);
 
 			ptrA szMsg(db_get_sa(hContact, "CList", "StatusMsg"));
-			if (szMsg != NULL) {
+			if (szMsg != nullptr) {
 				mir_snwprintf(str, TranslateT("Copy %s message"), Clist_GetStatusModeDescription(iStatus, 0));
 				Menu_ModifyItem(hCopyMsgMenuItem, str);
 

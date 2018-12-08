@@ -703,7 +703,7 @@ int OnButtonPressed(WPARAM, LPARAM lParam)
 		}
 	}
 
-	ptrW tszSymbol(db_get_wsa(NULL, "TranslitSwitcher", "ResendSymbol"));
+	ptrW tszSymbol(db_get_wsa(0, "TranslitSwitcher", "ResendSymbol"));
 	if (!tszSymbol && sel) {
 		SetWindowText(hEdit, sel);
 		SendMessage(hEdit, EM_SETSEL, 0, (LPARAM)slen);

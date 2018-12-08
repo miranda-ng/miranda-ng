@@ -346,7 +346,7 @@ static wchar_t* GetAwayMessageFormat(int iStatus, const char *szProto)
 		else
 			mir_snprintf(szSetting, "Msg");
 
-		format = db_get_wsa(NULL, "SRAway", StatusModeToDbSetting(iStatus, szSetting));
+		format = db_get_wsa(0, "SRAway", StatusModeToDbSetting(iStatus, szSetting));
 	}
 	else if (flags & STATUS_LAST_MSG) {
 		if (szProto)
@@ -367,7 +367,7 @@ static wchar_t* GetAwayMessageFormat(int iStatus, const char *szProto)
 		else
 			mir_snprintf(szSetting, "Default");
 
-		format = db_get_wsa(NULL, "SRAway", StatusModeToDbSetting(iStatus, szSetting));
+		format = db_get_wsa(0, "SRAway", StatusModeToDbSetting(iStatus, szSetting));
 		if (format == nullptr)
 			format = mir_wstrdup(L"");
 	}

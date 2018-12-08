@@ -54,8 +54,8 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	ghNetlibUser = Netlib_RegisterUser(&nlu);
 
 	gbPort = g_plugin.getWord("Port", 6600);
-	gbHost = UniGetContactSettingUtf(0, MODULENAME, "Server", L"127.0.0.1");
-	gbPassword = UniGetContactSettingUtf(0, MODULENAME, "Password", L"");
+	gbHost = db_get_wsa(0, MODULENAME, "Server", L"127.0.0.1");
+	gbPassword = db_get_wsa(0, MODULENAME, "Password", L"");
 
 	if (ServiceExists(MS_WAT_PLAYER))
 		bWatrackService = TRUE;

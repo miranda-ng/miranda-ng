@@ -48,9 +48,7 @@ void CheckMailInbox(Account *curAcc)
 
 	curAcc->IsChecking = true;
 
-	ptrA szNick(db_get_sa(curAcc->hContact, "CList", "MyHandle"));
-	if (szNick == nullptr)
-		szNick = mir_strdup(curAcc->name);
+	ptrA szNick(db_get_sa(curAcc->hContact, "CList", "MyHandle", curAcc->name));
 
 	char *tail = strstr(szNick, " [");
 	if (tail) *tail = 0;

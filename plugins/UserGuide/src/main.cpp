@@ -29,7 +29,7 @@ static INT_PTR ShowGuideFile(WPARAM, LPARAM)
 	LPTSTR pszDirName = (LPTSTR)mir_alloc(250 * sizeof(wchar_t));
 	LPTSTR pszFileName = (LPTSTR)mir_alloc(250 * sizeof(wchar_t));
 
-	wchar_t *ptszHelpFile = db_get_wsa(NULL, "UserGuide", "PathToHelpFile");
+	wchar_t *ptszHelpFile = db_get_wsa(0, "UserGuide", "PathToHelpFile");
 
 	if (ptszHelpFile == nullptr) {
 		mir_wstrcpy(pszDirName, L"%miranda_path%\\Plugins");

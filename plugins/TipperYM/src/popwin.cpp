@@ -328,13 +328,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 							char szIconProto[64];
 							if (mir_strcmp(szProto, META_PROTO) != 0)
 								strncpy_s(szIconProto, szProto, _TRUNCATE);
-							else {
-								ptrA szXProto(db_get_sa(pwd->hContact, szProto, "XStatusProto"));
-								if (szXProto != NULL)
-									strncpy_s(szIconProto, szXProto, _TRUNCATE);
-								else
-									szIconProto[0] = 0;
-							}
+							else
+								strncpy_s(szIconProto, ptrA(db_get_sa(pwd->hContact, szProto, "XStatusProto", "")), _TRUNCATE);
 
 							pwd->extraIcons[i].hIcon = (HICON)CallProtoService(szIconProto, PS_GETCUSTOMSTATUSICON, (WPARAM)iXstatus, LR_SHARED);
 							pwd->extraIcons[i].bDestroy = false;

@@ -270,7 +270,7 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 			UINT nCheck = (dwLogMode&lmInternalHistory) ? 1 : 0;
 			::CheckDlgButton(hWnd, IDC_CHECK_INTERNAL_HISTORY, nCheck ? BST_CHECKED : BST_UNCHECKED);
 
-			tstring sHistoryFrmt = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_HISTORY, setGlobal.GetHistoryFormat().c_str());
+			tstring sHistoryFrmt = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_HISTORY, setGlobal.GetHistoryFormat().c_str());
 			::SetDlgItemText(hWnd, IDC_EDIT_HISTORY_FORMAT, sHistoryFrmt.c_str());
 
 			WORD wOnlyIfChanged = db_get_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_HISTORY_CONDITION, setGlobal.GetHistoryOnlyChangedFlag());
@@ -280,13 +280,13 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 			nCheck = (dwLogMode&lmExternalFile) ? 1 : 0;
 			::CheckDlgButton(hWnd, IDC_CHECK_EXTERNAL_FILE, nCheck ? BST_CHECKED : BST_UNCHECKED);
 
-			tstring sLogFileName = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG_FILE);
+			tstring sLogFileName = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG_FILE);
 			if (true == sLogFileName.empty()) {
-				sLogFileName = GenerateLogFileName(setGlobal.GetLogFileName(), CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL), glfnResolveCurrencyRateName);
+				sLogFileName = GenerateLogFileName(setGlobal.GetLogFileName(), CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL), glfnResolveCurrencyRateName);
 			}
 			::SetDlgItemText(hWnd, IDC_EDIT_FILE_NAME, sLogFileName.c_str());
 
-			tstring sLogFileFrmt = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_LOG_FILE, setGlobal.GetLogFormat().c_str());
+			tstring sLogFileFrmt = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_LOG_FILE, setGlobal.GetLogFormat().c_str());
 			::SetDlgItemText(hWnd, IDC_EDIT_LOG_FILE_FORMAT, sLogFileFrmt.c_str());
 
 			wOnlyIfChanged = db_get_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG_FILE_CONDITION, setGlobal.GetLogOnlyChangedFlag());
@@ -295,7 +295,7 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 			// popup
 			nCheck = (dwLogMode&lmPopup) ? 1 : 0;
 			::CheckDlgButton(hWnd, IDC_CHECK_SHOW_POPUP, nCheck ? BST_CHECKED : BST_UNCHECKED);
-			tstring sPopupFrmt = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_POPUP, setGlobal.GetPopupFormat().c_str());
+			tstring sPopupFrmt = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_POPUP, setGlobal.GetPopupFormat().c_str());
 			::SetDlgItemText(hWnd, IDC_EDIT_POPUP_FORMAT, sPopupFrmt.c_str());
 			bool bOnlyIfChanged = 1 == db_get_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_CONDITION, setGlobal.GetShowPopupIfValueChangedFlag());
 			::CheckDlgButton(hWnd, IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED, (bOnlyIfChanged) ? BST_CHECKED : BST_UNCHECKED);
@@ -657,10 +657,10 @@ CAdvProviderSettings::CAdvProviderSettings(const ICurrencyRatesProvider* pCurren
 	assert(visitor.m_pszDbLogCondition);
 
 	m_wLogMode = db_get_w(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbLogMode, static_cast<WORD>(lmDisabled));
-	m_sFormatHistory = CurrencyRates_DBGetStringT(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbHistoryFormat, visitor.m_pszDefHistoryFormat);
+	m_sFormatHistory = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbHistoryFormat, visitor.m_pszDefHistoryFormat);
 	m_bIsOnlyChangedHistory = 1 == db_get_b(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbHistoryCondition, 0);
 
-	m_sLogFileName = CurrencyRates_DBGetStringT(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbLogFile);
+	m_sLogFileName = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbLogFile);
 	if (true == m_sLogFileName.empty()) {
 		m_sLogFileName = g_pszVariableUserProfile;
 		m_sLogFileName += L"\\CurrencyRates\\";
@@ -668,10 +668,10 @@ CAdvProviderSettings::CAdvProviderSettings(const ICurrencyRatesProvider* pCurren
 		m_sLogFileName += L".log";
 	}
 
-	m_sFormatLogFile = CurrencyRates_DBGetStringT(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbLogFormat, visitor.m_pszDefLogFileFormat);
+	m_sFormatLogFile = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbLogFormat, visitor.m_pszDefLogFileFormat);
 	m_bIsOnlyChangedLogFile = (1 == db_get_b(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbLogCondition, 0));
 
-	m_sPopupFormat = CurrencyRates_DBGetStringT(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupFormat, visitor.m_pszDefPopupFormat);
+	m_sPopupFormat = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupFormat, visitor.m_pszDefPopupFormat);
 	m_bShowPopupIfValueChanged = (1 == db_get_b(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupCondition, 0));
 }
 
@@ -1001,13 +1001,13 @@ tstring GetContactLogFileName(MCONTACT hContact)
 		tstring sPattern;
 		bool bUseContactSpecific = (db_get_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CONTACT_SPEC_SETTINGS, 0) > 0);
 		if (bUseContactSpecific)
-			sPattern = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG_FILE);
+			sPattern = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG_FILE);
 		else {
 			CAdvProviderSettings global_settings(pProvider.get());
 			sPattern = global_settings.GetLogFileName();
 		}
 
-		result = GenerateLogFileName(sPattern, CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL));
+		result = GenerateLogFileName(sPattern, CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL));
 	}
 
 	return result;
@@ -1015,9 +1015,9 @@ tstring GetContactLogFileName(MCONTACT hContact)
 
 tstring GetContactName(MCONTACT hContact)
 {
-	tstring sDescription = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_DESCRIPTION);
+	tstring sDescription = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_DESCRIPTION);
 	if (sDescription.empty())
-		sDescription = CurrencyRates_DBGetStringT(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL);
+		sDescription = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL);
 
 	return sDescription;
 }

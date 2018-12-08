@@ -202,8 +202,6 @@ function db_get_b(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:
 function db_get_w(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; errorValue:int):int; stdcall; external CoreDLL;
 function db_get_dw(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; errorValue:dword):dword; stdcall; external CoreDLL;
 function db_get_s(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; dbv:PDBVARIANT; const nType:int=DBVT_ASCIIZ):int_ptr; stdcall; external CoreDLL;
-function db_get_sa(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar):PAnsiChar; stdcall; external CoreDLL;
-function db_get_wsa(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar):PWideChar; stdcall; external CoreDLL;
 
 function db_get_static(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; szDest:PAnsiChar; destLen:int):int; stdcall; external CoreDLL;
 function db_get_static_utf(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; szDest:PAnsiChar; destLen:int):int; stdcall; external CoreDLL;

@@ -70,26 +70,26 @@ public:
 				list_USERLIST.SetItemText(row, 4, tmp);
 				mir_free(tmp);
 
-				char *tmp2 = UniGetContactSettingUtf(hContact, MODULENAME, "KeyID", "");
+				char *tmp2 = db_get_sa(hContact, MODULENAME, "KeyID", "");
 				tmp = mir_a2u(tmp2);
 				mir_free(tmp2);
 				list_USERLIST.SetItemText(row, 1, (mir_wstrlen(tmp) > 1) ? tmp : L"not set");
 				mir_free(tmp);
 
-				tmp2 = UniGetContactSettingUtf(hContact, MODULENAME, "KeyMainName", "");
+				tmp2 = db_get_sa(hContact, MODULENAME, "KeyMainName", "");
 				if (!toUTF16(tmp2).empty())
 					tmp = mir_wstrdup(toUTF16(tmp2).c_str());
 				else
-					tmp = UniGetContactSettingUtf(hContact, MODULENAME, "KeyMainName", L"");
+					tmp = db_get_wsa(hContact, MODULENAME, "KeyMainName", L"");
 				mir_free(tmp2);
 				list_USERLIST.SetItemText(row, 2, (mir_wstrlen(tmp) > 1) ? tmp : L"not set");
 				mir_free(tmp);
 
-				tmp2 = UniGetContactSettingUtf(hContact, MODULENAME, "KeyMainEmail", "");
+				tmp2 = db_get_sa(hContact, MODULENAME, "KeyMainEmail", "");
 				if (!toUTF16(tmp2).empty())
 					tmp = mir_wstrdup(toUTF16(tmp2).c_str());
 				else
-					tmp = UniGetContactSettingUtf(hContact, MODULENAME, "KeyMainEmail", L"");
+					tmp = db_get_wsa(hContact, MODULENAME, "KeyMainEmail", L"");
 				mir_free(tmp2);
 				list_USERLIST.SetItemText(row, 3, (mir_wstrlen(tmp) > 1) ? tmp : L"not set");
 				mir_free(tmp);
@@ -106,7 +106,7 @@ public:
 				i++;
 			}
 		}
-		edit_LOG_FILE_EDIT.SetText(ptrW(UniGetContactSettingUtf(0, MODULENAME, "szLogFilePath", L"")));
+		edit_LOG_FILE_EDIT.SetText(ptrW(db_get_wsa(0, MODULENAME, "szLogFilePath", L"")));
 
 		check_DEBUG_LOG.SetState(g_plugin.getByte("bDebugLog", 0));
 		check_JABBER_API.Enable();
@@ -115,7 +115,7 @@ public:
 		{
 			string keyinfo = Translate("Default private key ID");
 			keyinfo += ": ";
-			char *keyid = UniGetContactSettingUtf(0, MODULENAME, "KeyID", "");
+			char *keyid = db_get_sa(0, MODULENAME, "KeyID", "");
 			keyinfo += (mir_strlen(keyid) > 0) ? keyid : Translate("not set");
 			mir_free(keyid);
 			lbl_CURRENT_KEY.SetTextA(keyinfo.c_str());
@@ -172,10 +172,10 @@ public:
 				hContact = metaGetMostOnline(meta);
 				ismetacontact = true;
 			}
-			tmp = UniGetContactSettingUtf(hContact, MODULENAME, "KeyID", "");
+			tmp = db_get_sa(hContact, MODULENAME, "KeyID", "");
 			for (auto &hcnttmp : Contacts()) {
 				if (hcnttmp != hContact) {
-					char *tmp2 = UniGetContactSettingUtf(hcnttmp, MODULENAME, "KeyID", "");
+					char *tmp2 = db_get_sa(hcnttmp, MODULENAME, "KeyID", "");
 					if (!mir_strcmp(tmp, tmp2)) {
 						mir_free(tmp2);
 						keep = true;
@@ -269,7 +269,7 @@ public:
 	{
 		wchar_t *tmp = GetFilePath(TranslateT("Export public key"), L"*", TranslateT(".asc pubkey file"), true);
 		if (tmp) {
-			wstring str(ptrW(UniGetContactSettingUtf(user_data[item_num + 1], MODULENAME, "GPGPubKey", L"")));
+			wstring str(ptrW(db_get_wsa(user_data[item_num + 1], MODULENAME, "GPGPubKey", L"")));
 			wstring::size_type s = 0;
 			while ((s = str.find(L"\r", s)) != wstring::npos)
 				str.erase(s, 1);
@@ -284,7 +284,7 @@ public:
 	void onClick_COPY_KEY(CCtrlButton*)
 	{
 		if (OpenClipboard(m_hwnd)) {
-			char *szKey = UniGetContactSettingUtf(0, MODULENAME, "GPGPubKey", "");
+			char *szKey = db_get_sa(0, MODULENAME, "GPGPubKey", "");
 			std::string str = szKey;
 			mir_free(szKey);
 			boost::algorithm::replace_all(str, "\n", "\r\n");
@@ -386,8 +386,8 @@ public:
 
 	bool OnInitDialog() override
 	{
-		edit_BIN_PATH.SetText(ptrW(UniGetContactSettingUtf(0, MODULENAME, "szGpgBinPath", L"gpg.exe")));
-		edit_HOME_DIR.SetText(ptrW(UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L"gpg")));
+		edit_BIN_PATH.SetText(ptrW(db_get_wsa(0, MODULENAME, "szGpgBinPath", L"gpg.exe")));
+		edit_HOME_DIR.SetText(ptrW(db_get_wsa(0, MODULENAME, "szHomePath", L"gpg")));
 		return true;
 	}
 
@@ -405,7 +405,7 @@ public:
 	void onClick_SET_BIN_PATH(CCtrlButton*)
 	{
 		GetFilePath(TranslateT("Choose gpg.exe"), "szGpgBinPath", L"*.exe", TranslateT("EXE Executables"));
-		CMStringW tmp(ptrW(UniGetContactSettingUtf(0, MODULENAME, "szGpgBinPath", L"gpg.exe")));
+		CMStringW tmp(ptrW(db_get_wsa(0, MODULENAME, "szGpgBinPath", L"gpg.exe")));
 		edit_BIN_PATH.SetText(tmp);
 		bool gpg_exists = false;
 		{
@@ -413,7 +413,7 @@ public:
 				gpg_exists = true;
 			if (gpg_exists) {
 				bool bad_version = false;
-				wchar_t *tmp_path = UniGetContactSettingUtf(0, MODULENAME, "szGpgBinPath", L"");
+				wchar_t *tmp_path = db_get_wsa(0, MODULENAME, "szGpgBinPath", L"");
 				g_plugin.setWString("szGpgBinPath", tmp);
 				string out;
 				DWORD code;
@@ -455,7 +455,7 @@ public:
 	void onClick_SET_HOME_DIR(CCtrlButton*)
 	{
 		GetFolderPath(TranslateT("Set home directory"));
-		CMStringW tmp(ptrW(UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L"")));
+		CMStringW tmp(ptrW(db_get_wsa(0, MODULENAME, "szHomePath", L"")));
 		edit_HOME_DIR.SetText(tmp);
 		wchar_t mir_path[MAX_PATH];
 		PathToAbsoluteW(L"\\", mir_path);
@@ -481,10 +481,10 @@ public:
 	{
 		check_APPEND_TAGS.SetState(g_plugin.getByte("bAppendTags", 0));
 		check_STRIP_TAGS.SetState(g_plugin.getByte("bStripTags", 0));
-		edit_IN_OPEN_TAG.SetText(ptrW(UniGetContactSettingUtf(0, MODULENAME, "szInOpenTag", L"<GPGdec>")));
-		edit_IN_CLOSE_TAG.SetText(ptrW(UniGetContactSettingUtf(0, MODULENAME, "szInCloseTag", L"</GPGdec>")));
-		edit_OUT_OPEN_TAG.SetText(ptrW(UniGetContactSettingUtf(0, MODULENAME, "szOutOpenTag", L"<GPGenc>")));
-		edit_OUT_CLOSE_TAG.SetText(ptrW(UniGetContactSettingUtf(0, MODULENAME, "szOutCloseTag", L"</GPGenc>")));
+		edit_IN_OPEN_TAG.SetText(ptrW(db_get_wsa(0, MODULENAME, "szInOpenTag", L"<GPGdec>")));
+		edit_IN_CLOSE_TAG.SetText(ptrW(db_get_wsa(0, MODULENAME, "szInCloseTag", L"</GPGdec>")));
+		edit_OUT_OPEN_TAG.SetText(ptrW(db_get_wsa(0, MODULENAME, "szOutOpenTag", L"<GPGenc>")));
+		edit_OUT_CLOSE_TAG.SetText(ptrW(db_get_wsa(0, MODULENAME, "szOutCloseTag", L"</GPGenc>")));
 		return true;
 	}
 
@@ -611,7 +611,7 @@ public:
 			chk_ENABLE_ENCRYPTION.SetState(1);
 		}
 		if (hcnt) {
-			wchar_t *tmp = UniGetContactSettingUtf(hcnt, MODULENAME, "GPGPubKey", L"");
+			wchar_t *tmp = db_get_wsa(hcnt, MODULENAME, "GPGPubKey", L"");
 			wstring str = tmp;
 			mir_free(tmp); tmp = nullptr;
 			if (!str.empty()) {
@@ -626,9 +626,9 @@ public:
 					}
 				}
 			}
-			//			char *tmp = UniGetContactSettingUtf(hcnt, MODULENAME, "KeyID_Prescense", "");
+			//			char *tmp = db_get_wsa(hcnt, MODULENAME, "KeyID_Prescense", "");
 			if (!globals.hcontact_data[hcnt].key_in_prescense.empty()) {
-				char *tmp2 = UniGetContactSettingUtf(hcnt, MODULENAME, "KeyID", "");
+				char *tmp2 = db_get_sa(hcnt, MODULENAME, "KeyID", "");
 				if (!tmp2[0]) {
 					string out;
 					DWORD code;
@@ -742,14 +742,14 @@ public:
 			DWORD exitcode;
 			{
 				MCONTACT hcnt = db_mc_tryMeta(hContact);
-				ptmp = UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L"");
+				ptmp = db_get_wsa(0, MODULENAME, "szHomePath", L"");
 				wcsncpy(tmp2, ptmp, MAX_PATH - 1);
 				mir_free(ptmp);
 				mir_wstrncat(tmp2, L"\\", _countof(tmp2) - mir_wstrlen(tmp2));
 				mir_wstrncat(tmp2, L"temporary_exported.asc", _countof(tmp2) - mir_wstrlen(tmp2));
 				boost::filesystem::remove(tmp2);
 				wfstream f(tmp2, std::ios::out);
-				ptmp = UniGetContactSettingUtf(hcnt, MODULENAME, "GPGPubKey", L"");
+				ptmp = db_get_wsa(hcnt, MODULENAME, "GPGPubKey", L"");
 				wstring str = ptmp;
 				mir_free(ptmp);
 				wstring::size_type s = 0;
@@ -947,7 +947,7 @@ public:
 				}
 			}
 			if (!hContact) {
-				wchar_t *fp = UniGetContactSettingUtf(hContact, MODULENAME, "KeyID", L"");
+				wchar_t *fp = db_get_wsa(hContact, MODULENAME, "KeyID", L"");
 				{
 					string out;
 					DWORD code;

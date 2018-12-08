@@ -43,15 +43,15 @@ void CommonOptionDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp, CCommonDlgPr
 			assert(visitor.m_pszDbTendencyFormat);
 
 			// set contact list display format
-			tstring sDspNameFrmt = CurrencyRates_DBGetStringT(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbDisplayNameFormat, visitor.m_pszDefDisplayFormat);
+			tstring sDspNameFrmt = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbDisplayNameFormat, visitor.m_pszDefDisplayFormat);
 			::SetDlgItemText(hWnd, IDC_EDIT_CONTACT_LIST_FORMAT, sDspNameFrmt.c_str());
 
 			// set status message display format
-			tstring sStatusMsgFrmt = CurrencyRates_DBGetStringT(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbStatusMsgFormat, visitor.m_pszDefStatusMsgFormat);
+			tstring sStatusMsgFrmt = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbStatusMsgFormat, visitor.m_pszDefStatusMsgFormat);
 			::SetDlgItemText(hWnd, IDC_EDIT_STATUS_MESSAGE_FORMAT, sStatusMsgFrmt.c_str());
 
 			// set tendency format
-			tstring sTendencyFrmt = CurrencyRates_DBGetStringT(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbTendencyFormat, visitor.m_pszDefTendencyFormat);
+			tstring sTendencyFrmt = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbTendencyFormat, visitor.m_pszDefTendencyFormat);
 			::SetDlgItemText(hWnd, IDC_EDIT_TENDENCY_FORMAT, sTendencyFrmt.c_str());
 
 			// refresh rate

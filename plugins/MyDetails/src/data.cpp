@@ -477,18 +477,14 @@ void ProtocolArray::GetDefaultNick()
 {
 	ptrW tszNick(g_plugin.getWStringA(SETTING_DEFAULT_NICK));
 	if (tszNick)
-		mir_wstrncpy(default_nick, tszNick, _countof(default_nick));
+		wcsncpy_s(default_nick, tszNick, _TRUNCATE);
 	else
 		default_nick[0] = '\0';
 }
 
 void ProtocolArray::GetDefaultAvatar()
 {
-	ptrW tszFile(db_get_wsa(0, "ContactPhoto", "File"));
-	if (tszFile)
-		mir_wstrncpy(default_avatar_file, tszFile, _countof(default_avatar_file));
-	else
-		default_avatar_file[0] = '\0';
+	wcsncpy_s(default_avatar_file, ptrW(db_get_wsa(0, "ContactPhoto", "File", L"")), _TRUNCATE);
 }
 
 wchar_t *ProtocolArray::GetDefaultStatusMsg()

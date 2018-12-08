@@ -76,7 +76,7 @@ void CVkProto::SetServerStatus(int iNewStatus)
 		return;
 
 	int iOldStatus = m_iStatus;
-	CMStringW oldStatusMsg(ptrW(db_get_wsa(0, m_szModuleName, "OldStatusMsg")));
+	CMStringW oldStatusMsg(db_get_wsm(0, m_szModuleName, "OldStatusMsg"));
 	ptrW pwszListeningToMsg(db_get_wsa(0, m_szModuleName, "ListeningTo"));
 
 	if (iNewStatus == ID_STATUS_OFFLINE) {

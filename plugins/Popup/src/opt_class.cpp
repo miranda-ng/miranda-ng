@@ -495,12 +495,12 @@ void LoadClassSettings(POPUPTREEDATA *ptd, char* szModul)
 		ptd->pupClass.iSeconds ? ptd->pupClass.iSeconds : PopupOptions.Seconds);
 
 	mir_snprintf(setting, "%s/leftAction", ptd->pupClass.pszName);
-	char *szTmp = db_get_s(0, szModul, setting, POPUP_ACTION_NOTHING);	// standart ??
+	char *szTmp = db_get_sa(0, szModul, setting, POPUP_ACTION_NOTHING);	// standart ??
 	mir_strncpy(ptd->leftAction, szTmp, _countof(ptd->leftAction));
 	mir_free(szTmp);
 
 	mir_snprintf(setting, "%s/rightAction", ptd->pupClass.pszName);
-	szTmp = db_get_s(0, szModul, setting, POPUP_ACTION_DISMISS);	// standart ??
+	szTmp = db_get_sa(0, szModul, setting, POPUP_ACTION_DISMISS);	// standart ??
 	mir_strncpy(ptd->rightAction, szTmp, _countof(ptd->rightAction));
 	mir_free(szTmp);
 }

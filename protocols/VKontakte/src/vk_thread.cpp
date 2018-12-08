@@ -824,8 +824,8 @@ INT_PTR __cdecl CVkProto::SvcDeleteFriend(WPARAM hContact, LPARAM flag)
 		return 1;
 
 	ptrW pwszNick(db_get_wsa(hContact, m_szModuleName, "Nick"));
-	CMStringW pwszMsg;
 	if (flag == 0) {
+		CMStringW pwszMsg;
 		pwszMsg.AppendFormat(TranslateT("Are you sure to delete %s from your friend list?"), IsEmpty(pwszNick) ? TranslateT("(Unknown contact)") : pwszNick);
 		if (IDNO == MessageBoxW(nullptr, pwszMsg, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 			return 1;
@@ -844,7 +844,7 @@ void CVkProto::OnReceiveDeleteFriend(NETLIBHTTPREQUEST *reply, AsyncHttpRequest 
 		JSONNode jnRoot;
 		const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
 		if (jnResponse) {
-			CMStringW wszNick(ptrW(db_get_wsa(param->hContact, m_szModuleName, "Nick")));
+			CMStringW wszNick(db_get_wsm(param->hContact, m_szModuleName, "Nick"));
 			if (wszNick.IsEmpty())
 				wszNick = TranslateT("(Unknown contact)");
 			CMStringW msgformat, msg;
@@ -941,7 +941,7 @@ INT_PTR __cdecl CVkProto::SvcReportAbuse(WPARAM hContact, LPARAM)
 	if (!IsOnline() || userID == VK_INVALID_USER || userID == VK_FEED_USER)
 		return 1;
 
-	CMStringW wszNick(ptrW(db_get_wsa(hContact, m_szModuleName, "Nick"))),
+	CMStringW wszNick(db_get_wsm(hContact, m_szModuleName, "Nick")),
 		pwszMsg(FORMAT, TranslateT("Are you sure to report abuse on %s?"), wszNick.IsEmpty() ? TranslateT("(Unknown contact)") : wszNick);
 	if (IDNO == MessageBoxW(nullptr, pwszMsg, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 		return 1;
@@ -957,7 +957,7 @@ INT_PTR __cdecl CVkProto::SvcOpenBroadcast(WPARAM hContact, LPARAM)
 {
 	debugLogA("CVkProto::SvcOpenBroadcast");
 
-	CMStringW wszAudio(ptrW(db_get_wsa(hContact, m_szModuleName, "AudioUrl")));
+	CMStringW wszAudio(db_get_wsm(hContact, m_szModuleName, "AudioUrl"));
 	if (!wszAudio.IsEmpty())
 		Utils_OpenUrlW(wszAudio);
 

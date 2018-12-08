@@ -19,11 +19,10 @@ public:
 	{
 		name = mir_wstrdup(Clist_GetContactDisplayName(hContact));
 
-		if (g_Options.bUseGroups) {
-			if ((group = db_get_wsa(hContact, "CList", "Group")) == nullptr)
-				group = mir_wstrdup(TranslateT("<no group>"));
-		}
-		else group = mir_wstrdup(TranslateT("Favorite Contacts"));
+		if (g_Options.bUseGroups)
+			group = db_get_wsa(hContact, "CList", "Group", TranslateT("<no group>"));
+		else
+			group = mir_wstrdup(TranslateT("Favorite Contacts"));
 
 		status = db_get_w(hContact, GetContactProto(hContact), "Status", ID_STATUS_OFFLINE);
 	}

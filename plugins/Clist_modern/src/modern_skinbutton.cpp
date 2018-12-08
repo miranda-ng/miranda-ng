@@ -127,12 +127,8 @@ static int ModernSkinButtonPaintWorker(HWND hwnd, HDC whdc)
 				} while (key[0] != '\0');
 				switch (bct->ValueTypeDef[0]) {
 				case 's':
-					{
-						Value = db_get_sa(0, section, key);
-						if (!Value)
-							Value = mir_strdup(bct->ValueTypeDef + 1);
-						break;
-					}
+					Value = db_get_sa(0, section, key, bct->ValueTypeDef + 1);
+					break;
 				case 'd':
 					defval = db_get_dw(0, section, key, defval);
 					Value = mir_strdup(_ltoa(defval, buf, _countof(buf)));

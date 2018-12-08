@@ -29,7 +29,6 @@
 #include <m_music.h>
 
 #include "resource.h"
-#include "utilities.h"
 #include "version.h"
 
 #define MODULENAME "Watrack_MPD"

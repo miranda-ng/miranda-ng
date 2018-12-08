@@ -198,8 +198,7 @@ int CurrencyRatesEventFunc_OnModulesLoaded(WPARAM, LPARAM)
 
 	InitMenu();
 
-	BOOL b = ::ResetEvent(g_hEventWorkThreadStop);
-	assert(b && "Failed to reset event");
+	::ResetEvent(g_hEventWorkThreadStop);
 
 	const CModuleInfo::TCurrencyRatesProvidersPtr& pProviders = CModuleInfo::GetCurrencyRateProvidersPtr();
 	const CCurrencyRatesProviders::TCurrencyRatesProviders& rapProviders = pProviders->GetProviders();

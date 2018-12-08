@@ -336,9 +336,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		rowOptTmplStr = db_get_sa(0, "ModernData", "RowTemplate");
-		if (!rowOptTmplStr)
-			rowOptTmplStr = mir_strdup("<TR />");
+		rowOptTmplStr = db_get_sa(0, "ModernData", "RowTemplate", "<TR />");
 
 		SendDlgItemMessage(hwndDlg, IDC_SPINCONTWIDTH, UDM_SETRANGE, 0, MAKELONG(999, 0));
 		SendDlgItemMessage(hwndDlg, IDC_SPINCONTHEIGHT, UDM_SETRANGE, 0, MAKELONG(999, 0));

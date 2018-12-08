@@ -163,22 +163,26 @@ MIR_CORE_DLL(INT_PTR) db_get_s(MCONTACT hContact, const char *szModule, const ch
 	return currDb->GetContactSettingStr(hContact, szModule, szSetting, dbv);
 }
 
-MIR_CORE_DLL(char*) db_get_sa(MCONTACT hContact, const char *szModule, const char *szSetting)
+MIR_CORE_DLL(char*) db_get_sa(MCONTACT hContact, const char *szModule, const char *szSetting, const char *szValue)
 {
-	if (currDb == nullptr)
-		return nullptr;
+	if (currDb) {
+		DBVARIANT dbv = { DBVT_ASCIIZ };
+		if (!currDb->GetContactSettingStr(hContact, szModule, szSetting, &dbv))
+			return dbv.pszVal;
+	}
 
-	DBVARIANT dbv = { DBVT_ASCIIZ };
-	return currDb->GetContactSettingStr(hContact, szModule, szSetting, &dbv) ? nullptr : dbv.pszVal;
+	return (szValue == nullptr) ? nullptr : mir_strdup(szValue);
 }
 
-MIR_CORE_DLL(wchar_t*) db_get_wsa(MCONTACT hContact, const char *szModule, const char *szSetting)
+MIR_CORE_DLL(wchar_t*) db_get_wsa(MCONTACT hContact, const char *szModule, const char *szSetting, const wchar_t *szValue)
 {
-	if (currDb == nullptr)
-		return nullptr;
+	if (currDb) {
+		DBVARIANT dbv = { DBVT_WCHAR };
+		if (!currDb->GetContactSettingStr(hContact, szModule, szSetting, &dbv))
+			return dbv.pwszVal;
+	}
 
-	DBVARIANT dbv = { DBVT_WCHAR };
-	return currDb->GetContactSettingStr(hContact, szModule, szSetting, &dbv) ? nullptr : dbv.pwszVal;
+	return (szValue == nullptr) ? nullptr : mir_wstrdup(szValue);
 }
 
 MIR_CORE_DLL(CMStringA) db_get_sm(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting)
@@ -459,7 +463,7 @@ MIR_CORE_DLL(void) db_setCurrent(MDatabaseCommon *_db)
 		return;
 
 	// try to get the langpack's name from a profile
-	ptrW langpack(db_get_wsa(NULL, "Langpack", "Current"));
+	ptrW langpack(db_get_wsa(0, "Langpack", "Current"));
 	if (langpack && langpack[0] != '\0')
 		LoadLangPack(langpack);
 	else

@@ -26,12 +26,8 @@ public:
 	bool OnInitDialog() override
 	{
 		edit_PORT.SetInt(g_plugin.getWord("Port", 6600));
-		wchar_t *tmp = UniGetContactSettingUtf(0, MODULENAME, "Server", L"127.0.0.1");
-		edit_SERVER.SetText(tmp);
-		mir_free(tmp);
-		tmp = UniGetContactSettingUtf(0, MODULENAME, "Password", L"");
-		edit_PASSWORD.SetText(tmp);
-		mir_free(tmp);
+		edit_SERVER.SetText(ptrW(db_get_wsa(0, MODULENAME, "Server", L"127.0.0.1")));
+		edit_PASSWORD.SetText(ptrW(db_get_wsa(0, MODULENAME, "Password", L"")));
 		return true;
 	}
 

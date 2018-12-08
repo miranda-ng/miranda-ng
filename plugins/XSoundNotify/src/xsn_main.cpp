@@ -148,6 +148,7 @@ static int ProcessChatEvent(WPARAM, LPARAM lParam)
 		ptrW nick(db_get_wsa(hContact, gce->pszModule, "MyNick"));
 		if (nick == NULL || gce->ptszText == nullptr)
 			return 0;
+		
 		if (wcsstr(gce->ptszText, nick)) {
 			isIgnoreSound = g_plugin.getByte(hContact, SETTINGSIGNOREKEY, 0);
 			DBVARIANT dbv;

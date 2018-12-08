@@ -17,8 +17,6 @@
 #ifndef UTILITIES_H
 #define UTILITIES_H
 
-wchar_t* __stdcall UniGetContactSettingUtf(MCONTACT hContact, const char *szModule,const char* szSetting, wchar_t* szDef);
-char* __stdcall UniGetContactSettingUtf(MCONTACT hContact, const char *szModule,const char* szSetting, char* szDef);
 void GetFilePath(wchar_t *WindowTittle, char *szSetting, wchar_t *szExt, wchar_t *szExtDesc);
 wchar_t *GetFilePath(wchar_t *WindowTittle, wchar_t *szExt, wchar_t *szExtDesc, bool save_file = false);
 void GetFolderPath(wchar_t *WindowTittle);

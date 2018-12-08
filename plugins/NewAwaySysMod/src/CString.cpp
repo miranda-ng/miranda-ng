@@ -273,14 +273,12 @@ template class TString<WCHAR>;
 
 CString db_get_s(MCONTACT hContact, const char *szModule, const char *szSetting, const char *szDefaultValue)
 {
-	ptrA p( db_get_sa(hContact, szModule, szSetting));
-	return CString(p == NULL ? szDefaultValue : p);
+	return CString(ptrA(db_get_sa(hContact, szModule, szSetting, szDefaultValue)));
 }
 
 TCString db_get_s(MCONTACT hContact, const char *szModule, const char *szSetting, const wchar_t *szDefaultValue)
 {
-	ptrW p( db_get_wsa(hContact, szModule, szSetting));
-	return TCString(p == NULL ? szDefaultValue : p);
+	return TCString(ptrW(db_get_wsa(hContact, szModule, szSetting, szDefaultValue)));
 }
 
 TCString DBGetContactSettingAsString(MCONTACT hContact, const char *szModule, const char *szSetting, const wchar_t *szDefaultValue)

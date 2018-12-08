@@ -161,11 +161,7 @@ void MinecraftDynmapProto::SetChatStatus(int status)
 	if (status == ID_STATUS_ONLINE)
 	{		
 		// Load actual name from database
-		ptrA nick(db_get_sa(0, m_szModuleName, MINECRAFTDYNMAP_KEY_NAME));
-		if (!nick) {
-			nick = mir_strdup(Translate("You"));
-			db_set_s(0, m_szModuleName, MINECRAFTDYNMAP_KEY_NAME, nick);
-		}
+		ptrA nick(db_get_sa(0, m_szModuleName, MINECRAFTDYNMAP_KEY_NAME, Translate("You")));
 		m_nick = nick;
 
 		// Add self contact

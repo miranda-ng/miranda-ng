@@ -746,7 +746,7 @@ void SetEditControlText(struct MsgBoxData *data, HWND hwndDlg, int iStatus)
 		else
 			mir_snprintf(setting, "Default");
 
-		wchar_t *tszStatusMsg = db_get_wsa(NULL, "SRAway", StatusModeToDbSetting(iStatus, setting));
+		wchar_t *tszStatusMsg = db_get_wsa(0, "SRAway", StatusModeToDbSetting(iStatus, setting));
 		if (tszStatusMsg != nullptr) {
 			SetDlgItemText(hwndDlg, IDC_EDIT1, tszStatusMsg);
 			fcursel = SendMessage(data->recent_cbex, CB_FINDSTRINGEXACT, num_start, (LPARAM)tszStatusMsg);
@@ -761,7 +761,7 @@ void SetEditControlText(struct MsgBoxData *data, HWND hwndDlg, int iStatus)
 		else
 			mir_snprintf(setting, "Msg");
 
-		wchar_t *tszStatusMsg = db_get_wsa(NULL, "SRAway", StatusModeToDbSetting(iStatus, setting));
+		wchar_t *tszStatusMsg = db_get_wsa(0, "SRAway", StatusModeToDbSetting(iStatus, setting));
 		if (tszStatusMsg != nullptr) {
 			SetDlgItemText(hwndDlg, IDC_EDIT1, tszStatusMsg);
 			fcursel = SendMessage(data->recent_cbex, CB_FINDSTRINGEXACT, num_start, (LPARAM)tszStatusMsg);

@@ -114,7 +114,7 @@ void CDlgChangePasswdMsgBox::onClick_OK(CCtrlButton*)
 	new_pass = toUTF8(edit_NEW_PASSWD1.GetText());
 	old_pass = toUTF8(edit_OLD_PASSWD.GetText());
 	bool old_pass_match = false;
-	wchar_t *pass = UniGetContactSettingUtf(0, MODULENAME, "szKeyPassword", L"");
+	wchar_t *pass = db_get_wsa(0, MODULENAME, "szKeyPassword", L"");
 	if (!mir_wstrcmp(pass, edit_OLD_PASSWD.GetText()))
 		old_pass_match = true;
 	mir_free(pass);
@@ -124,7 +124,7 @@ void CDlgChangePasswdMsgBox::onClick_OK(CCtrlButton*)
 			string dbsetting = "szKey_";
 			dbsetting += toUTF8(globals.key_id_global);
 			dbsetting += "_Password";
-			pass = UniGetContactSettingUtf(0, MODULENAME, dbsetting.c_str(), L"");
+			pass = db_get_wsa(0, MODULENAME, dbsetting.c_str(), L"");
 			if (!mir_wstrcmp(pass, edit_OLD_PASSWD.GetText()))
 				old_pass_match = true;
 			mir_free(pass);
@@ -230,7 +230,7 @@ bool CDlgFirstRun::OnInitDialog()
 	combo_ACCOUNT.SelectString(TranslateT("Default"));
 	string keyinfo = Translate("key ID");
 	keyinfo += ": ";
-	char *keyid = UniGetContactSettingUtf(0, MODULENAME, "KeyID", "");
+	char *keyid = db_get_sa(0, MODULENAME, "KeyID", "");
 	keyinfo += (mir_strlen(keyid) > 0) ? keyid : Translate("not set");
 	mir_free(keyid);
 	lbl_KEY_ID.SetTextA(keyinfo.c_str());
@@ -569,7 +569,7 @@ void CDlgFirstRun::onChange_ACCOUNT(CCtrlCombo*)
 	if (!mir_strcmp(buf, Translate("Default"))) {
 		string keyinfo = Translate("key ID");
 		keyinfo += ": ";
-		char *keyid = UniGetContactSettingUtf(0, MODULENAME, "KeyID", "");
+		char *keyid = db_get_sa(0, MODULENAME, "KeyID", "");
 		keyinfo += (mir_strlen(keyid) > 0) ? keyid : Translate("not set");
 		mir_free(keyid);
 		lbl_KEY_ID.SetTextA(keyinfo.c_str());
@@ -579,7 +579,7 @@ void CDlgFirstRun::onChange_ACCOUNT(CCtrlCombo*)
 		keyinfo += ": ";
 		std::string acc_str = buf;
 		acc_str += "_KeyID";
-		char *keyid = UniGetContactSettingUtf(0, MODULENAME, acc_str.c_str(), "");
+		char *keyid = db_get_sa(0, MODULENAME, acc_str.c_str(), "");
 		keyinfo += (mir_strlen(keyid) > 0) ? keyid : Translate("not set");
 		mir_free(keyid);
 		lbl_KEY_ID.SetTextA(keyinfo.c_str());
@@ -730,7 +730,7 @@ void CDlgFirstRun::refresh_key_list()
 					setting += pa->szModuleName;
 					setting += ")";
 					setting += "_KeyID";
-					wchar_t *str = UniGetContactSettingUtf(0, MODULENAME, setting.c_str(), L"");
+					wchar_t *str = db_get_wsa(0, MODULENAME, setting.c_str(), L"");
 					if (key_id == str) {
 						if (!accs.empty())
 							accs += L",";
@@ -798,7 +798,7 @@ bool CDlgGpgBinOpts::OnInitDialog()
 	{
 		ptrW tmp;
 		if (!gpg_exists) {
-			tmp = UniGetContactSettingUtf(0, MODULENAME, "szGpgBinPath", (SHGetValueW(HKEY_CURRENT_USER, L"Software\\GNU\\GnuPG", L"gpgProgram", 0, (void*)path.c_str(), &len) == ERROR_SUCCESS) ? path.c_str() : L"");
+			tmp = db_get_wsa(0, MODULENAME, "szGpgBinPath", (SHGetValueW(HKEY_CURRENT_USER, L"Software\\GNU\\GnuPG", L"gpgProgram", 0, (void*)path.c_str(), &len) == ERROR_SUCCESS) ? path.c_str() : L"");
 			if (tmp[0])
 				if (!boost::filesystem::exists((wchar_t*)tmp))
 					MessageBox(nullptr, TranslateT("Wrong GPG binary location found in system.\nPlease choose another location"), TranslateT("Warning"), MB_OK);
@@ -837,7 +837,7 @@ bool CDlgGpgBinOpts::OnInitDialog()
 		}
 	}
 	{
-		ptrW tmp(UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L""));
+		ptrW tmp(db_get_wsa(0, MODULENAME, "szHomePath", L""));
 		if (!tmp[0]) {
 			wchar_t mir_path[MAX_PATH];
 			PathToAbsoluteW(L"\\", mir_path);
@@ -864,7 +864,7 @@ bool CDlgGpgBinOpts::OnInitDialog()
 void CDlgGpgBinOpts::onClick_SET_BIN_PATH(CCtrlButton*)
 {
 	GetFilePath(L"Choose gpg.exe", "szGpgBinPath", L"*.exe", L"EXE Executables");
-	CMStringW tmp(ptrW(UniGetContactSettingUtf(0, MODULENAME, "szGpgBinPath", L"gpg.exe")));
+	CMStringW tmp(ptrW(db_get_wsa(0, MODULENAME, "szGpgBinPath", L"gpg.exe")));
 	edit_BIN_PATH.SetText(tmp);
 	wchar_t mir_path[MAX_PATH];
 	PathToAbsoluteW(L"\\", mir_path);
@@ -877,7 +877,7 @@ void CDlgGpgBinOpts::onClick_SET_BIN_PATH(CCtrlButton*)
 void CDlgGpgBinOpts::onClick_SET_HOME_DIR(CCtrlButton*)
 {
 	GetFolderPath(L"Set home directory");
-	CMStringW tmp(ptrW(UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L"")));
+	CMStringW tmp(ptrW(db_get_wsa(0, MODULENAME, "szHomePath", L"")));
 	edit_HOME_DIR.SetText(tmp);
 	wchar_t mir_path[MAX_PATH];
 	PathToAbsoluteW(L"\\", mir_path);
@@ -942,7 +942,7 @@ bool CDlgNewKey::OnInitDialog()
 {
 	//new_key_hcnt_mutex.unlock();
 	SetWindowPos(m_hwnd, nullptr, globals.new_key_rect.left, globals.new_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
-	wchar_t *tmp = UniGetContactSettingUtf(hContact, MODULENAME, "GPGPubKey", L"");
+	wchar_t *tmp = db_get_wsa(hContact, MODULENAME, "GPGPubKey", L"");
 	lbl_MESSAGE.SetText(tmp[0] ? TranslateT("There is existing key for contact, would you like to replace it with new key?") : TranslateT("New public key was received, do you want to import it?"));
 	btn_IMPORT_AND_USE.Enable(g_plugin.getByte(hContact, "GPGEncryption", 0));
 	btn_IMPORT.SetText(tmp[0] ? TranslateT("Replace") : TranslateT("Accept"));
@@ -1081,7 +1081,7 @@ void CDlgKeyGen::onClick_OK(CCtrlButton*)
 			mir_free(tmp);
 		}
 		{ //generating key file
-			wchar_t *tmp = UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L"");
+			wchar_t *tmp = db_get_wsa(0, MODULENAME, "szHomePath", L"");
 			char  *tmp2;// = mir_u2a(tmp);
 			path = tmp;
 			mir_free(tmp);
@@ -1422,7 +1422,7 @@ CDlgKeyPasswordMsgBox::CDlgKeyPasswordMsgBox(MCONTACT _hContact) :
 
 bool CDlgKeyPasswordMsgBox::OnInitDialog()
 {
-	inkeyid = UniGetContactSettingUtf(hContact, MODULENAME, "InKeyID", "");
+	inkeyid = db_get_sa(hContact, MODULENAME, "InKeyID", "");
 
 	SetWindowPos(m_hwnd, nullptr, globals.key_password_rect.left, globals.key_password_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 
@@ -1447,7 +1447,7 @@ void CDlgKeyPasswordMsgBox::onClick_OK(CCtrlButton*)
 	wchar_t *tmp = mir_wstrdup(edit_KEY_PASSWORD.GetText());
 	if (tmp && tmp[0]) {
 		if (chk_SAVE_PASSWORD.GetState()) {
-			inkeyid = UniGetContactSettingUtf(hContact, MODULENAME, "InKeyID", "");
+			inkeyid = db_get_sa(hContact, MODULENAME, "InKeyID", "");
 			if (inkeyid && inkeyid[0] && !chk_DEFAULT_PASSWORD.GetState()) {
 				string dbsetting = "szKey_";
 				dbsetting += inkeyid;

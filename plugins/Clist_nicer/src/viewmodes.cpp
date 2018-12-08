@@ -1032,7 +1032,7 @@ void ApplyViewMode(const char *name)
 		}
 
 		mir_snprintf(szSetting, "%c%s_GF", 246, name);
-		ptrW tszGroups(db_get_wsa(NULL, CLVM_MODULE, szSetting));
+		ptrW tszGroups(db_get_wsa(0, CLVM_MODULE, szSetting));
 		if (mir_wstrlen(tszGroups) >= 2) {
 			wcsncpy_s(cfg::dat.groupFilter, tszGroups, _TRUNCATE);
 			cfg::dat.bFilterEffective |= CLVM_FILTER_GROUPS;

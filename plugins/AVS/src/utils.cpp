@@ -92,10 +92,10 @@ int CreateAvatarInCache(MCONTACT hContact, AVATARCACHEENTRY *ace, const char *sz
 	}
 	else {
 		if (hContact == 0) {				// create a protocol picture in the proto picture cache
-			if (tszValue = db_get_wsa(NULL, PPICT_MODULE, szProto))
+			if (tszValue = db_get_wsa(0, PPICT_MODULE, szProto))
 				MyPathToAbsolute(tszValue, tszFilename);
 			else if (mir_strcmp(szProto, AVS_DEFAULT)) {
-				if (tszValue = db_get_wsa(NULL, PPICT_MODULE, AVS_DEFAULT))
+				if (tszValue = db_get_wsa(0, PPICT_MODULE, AVS_DEFAULT))
 					MyPathToAbsolute(tszValue, tszFilename);
 
 				if (!strstr(szProto, "Global avatar for")) {
@@ -104,7 +104,7 @@ int CreateAvatarInCache(MCONTACT hContact, AVATARCACHEENTRY *ace, const char *sz
 						return -1;
 					char key[MAX_PATH];
 					mir_snprintf(key, "Global avatar for %s accounts", pdescr->szProtoName);
-					if (tszValue = db_get_wsa(NULL, PPICT_MODULE, key))
+					if (tszValue = db_get_wsa(0, PPICT_MODULE, key))
 						MyPathToAbsolute(tszValue, tszFilename);
 				}
 			}
@@ -130,7 +130,7 @@ int CreateAvatarInCache(MCONTACT hContact, AVATARCACHEENTRY *ace, const char *sz
 				else
 					MultiByteToWideChar(CP_ACP, 0, szFileName, -1, tszFilename, _countof(tszFilename));
 			}
-			else if (tszValue = db_get_wsa(NULL, szProto, "AvatarFile"))
+			else if (tszValue = db_get_wsa(0, szProto, "AvatarFile"))
 				MyPathToAbsolute(tszValue, tszFilename);
 			else return -1;
 		}

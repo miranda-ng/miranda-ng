@@ -465,11 +465,11 @@ void CToxOptionsNodeList::ReloadNodeList()
 	int nodeCount = db_get_w(0, module, TOX_SETTINGS_NODE_COUNT, 0);
 	for (int i = 0; i < nodeCount; i++) {
 		mir_snprintf(setting, TOX_SETTINGS_NODE_IPV4, i);
-		ptrW value(db_get_wsa(NULL, module, setting));
+		ptrW value(db_get_wsa(0, module, setting));
 		iItem = m_nodes.AddItem(value, -1, NULL, 1);
 
 		mir_snprintf(setting, TOX_SETTINGS_NODE_IPV6, i);
-		value = db_get_wsa(NULL, module, setting);
+		value = db_get_wsa(0, module, setting);
 		m_nodes.SetItem(iItem, 1, value);
 
 		mir_snprintf(setting, TOX_SETTINGS_NODE_PORT, i);
@@ -481,7 +481,7 @@ void CToxOptionsNodeList::ReloadNodeList()
 		}
 
 		mir_snprintf(setting, TOX_SETTINGS_NODE_PKEY, i);
-		value = db_get_wsa(NULL, module, setting);
+		value = db_get_wsa(0, module, setting);
 		m_nodes.SetItem(iItem, 3, value);
 
 		m_nodes.SetItem(iItem, 4, L"", 0);

@@ -218,13 +218,7 @@ void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour, char *szM
 			lf->lfCharSet = SYMBOL_CHARSET;
 			wcsncpy_s(lf->lfFaceName, L"Webdings", _TRUNCATE);
 		}
-		else {
-			ptrW tszDefFace(db_get_wsa(0, szMod, str));
-			if (tszDefFace == nullptr)
-				wcsncpy_s(lf->lfFaceName, fol[i].szDefFace, _TRUNCATE);
-			else
-				wcsncpy_s(lf->lfFaceName, tszDefFace, _TRUNCATE);
-		}
+		else wcsncpy_s(lf->lfFaceName, ptrW(db_get_wsa(0, szMod, str, fol[i].szDefFace)), _TRUNCATE);
 	}
 }
 

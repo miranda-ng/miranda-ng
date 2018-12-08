@@ -96,8 +96,8 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 			HWND hcbxFrom = ::GetDlgItem(hDlg, IDC_COMBO_CONVERT_FROM);
 			HWND hcbxTo = ::GetDlgItem(hDlg, IDC_COMBO_CONVERT_INTO);
 
-			tstring sFromCurrencyRateID = CurrencyRates_DBGetStringT(NULL, CURRENCYRATES_MODULE_NAME, DB_STR_CC_CURRENCYRATE_FROM_ID);
-			tstring sToCurrencyRateID = CurrencyRates_DBGetStringT(NULL, CURRENCYRATES_MODULE_NAME, DB_STR_CC_CURRENCYRATE_TO_ID);
+			tstring sFromCurrencyRateID = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, DB_STR_CC_CURRENCYRATE_FROM_ID);
+			tstring sToCurrencyRateID = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, DB_STR_CC_CURRENCYRATE_TO_ID);
 
 			const auto pProvider = get_currency_converter_provider();
 			const auto& rSection = get_currencyrates(pProvider);

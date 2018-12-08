@@ -76,7 +76,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 			boost::algorithm::erase_all(param->str, "\r");
 			s2 += mir_wstrlen(L"-----END PGP MESSAGE-----");
 
-			ptrW ptszHomePath(UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L""));
+			ptrW ptszHomePath(db_get_wsa(0, MODULENAME, "szHomePath", L""));
 			wstring encfile = toUTF16(get_random(10));
 			wstring decfile = toUTF16(get_random(10));
 			{
@@ -114,18 +114,18 @@ static void RecvMsgSvc_func(RecvParams *param)
 				std::vector<wstring> cmd;
 				cmd.push_back(L"--batch");
 				{
-					char *inkeyid = UniGetContactSettingUtf(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, MODULENAME, "InKeyID", "");
+					char *inkeyid = db_get_sa(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, MODULENAME, "InKeyID", "");
 					wchar_t *pass = nullptr;
 					if (inkeyid[0]) {
 						string dbsetting = "szKey_";
 						dbsetting += inkeyid;
 						dbsetting += "_Password";
-						pass = UniGetContactSettingUtf(0, MODULENAME, dbsetting.c_str(), L"");
+						pass = db_get_wsa(0, MODULENAME, dbsetting.c_str(), L"");
 						if (pass[0] && globals.bDebugLog)
 							globals.debuglog << std::string(time_str() + ": info: found password in database for key ID: " + inkeyid + ", trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(hContact)) + " with password");
 					}
 					else {
-						pass = UniGetContactSettingUtf(0, MODULENAME, "szKeyPassword", L"");
+						pass = db_get_wsa(0, MODULENAME, "szKeyPassword", L"");
 						if (pass[0] && globals.bDebugLog)
 							globals.debuglog << std::string(time_str() + ": info: found password for all keys in database, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(hContact)) + " with password");
 					}
@@ -401,7 +401,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 				string output;
 				DWORD exitcode;
 				{
-					ptrW ptmp(UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L""));
+					ptrW ptmp(db_get_wsa(0, MODULENAME, "szHomePath", L""));
 					mir_wstrcpy(tmp2, ptmp);
 					mir_free(ptmp);
 					mir_wstrcat(tmp2, L"\\");
@@ -431,7 +431,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 							f.open(tmp2, std::ios::out);
 						}
 					}
-					ptmp = UniGetContactSettingUtf(ccs->hContact, MODULENAME, "GPGPubKey", L"");
+					ptmp = db_get_wsa(ccs->hContact, MODULENAME, "GPGPubKey", L"");
 					f << (wchar_t*)ptmp;
 					f.close();
 					cmd.push_back(L"--batch");
@@ -541,7 +541,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 		if (globals.bDebugLog)
 			globals.debuglog << std::string(time_str() + ": info(autoexchange): received key request from: " + toUTF8(Clist_GetContactDisplayName(ccs->hContact)));
 
-		ptrA tmp(UniGetContactSettingUtf(0, MODULENAME, "GPGPubKey", ""));
+		ptrA tmp(db_get_sa(0, MODULENAME, "GPGPubKey", ""));
 		if (tmp[0]) {
 			int enc_state = db_get_b(ccs->hContact, MODULENAME, "GPGEncryption", 0);
 			if (enc_state)
@@ -569,7 +569,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 			}
 		}
 		else {
-			wchar_t *jid = UniGetContactSettingUtf(ccs->hContact, proto, "jid", L"");
+			wchar_t *jid = db_get_wsa(ccs->hContact, proto, "jid", L"");
 			if (jid[0]) {
 				for (auto p : globals.Accounts) {
 					wchar_t *caps = p->getJabberInterface()->GetResourceFeatures(jid);
@@ -616,7 +616,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 	{
 		wchar_t *tmp2;
 		{
-			char *tmp = UniGetContactSettingUtf(hContact, MODULENAME, "KeyID", "");
+			char *tmp = db_get_sa(hContact, MODULENAME, "KeyID", "");
 			if (!tmp[0]) {
 				mir_free(tmp);
 				HistoryLog(hContact, db_event("Failed to encrypt message with GPG (not found key for encryption in db)", 0, 0, DBEF_SENT));
@@ -643,7 +643,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 		mir_free(tmp2);
 	}
 	{
-		wchar_t *tmp2 = UniGetContactSettingUtf(0, MODULENAME, "szHomePath", L"");
+		wchar_t *tmp2 = db_get_wsa(0, MODULENAME, "szHomePath", L"");
 		path = tmp2;
 		cmd.push_back(std::wstring(tmp2) + L"\\tmp\\" + file);
 		mir_free(tmp2);
@@ -879,7 +879,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 				}
 			}
 			else {
-				wchar_t *jid = UniGetContactSettingUtf(hContact, proto, "jid", L"");
+				wchar_t *jid = db_get_wsa(hContact, proto, "jid", L"");
 				if (jid[0]) {
 					if (globals.bDebugLog)
 						globals.debuglog << std::string(time_str() + ": info(autoexchange): protocol looks like jabber, name: " + toUTF8(Clist_GetContactDisplayName(hContact)));

@@ -72,14 +72,14 @@ void init_vars()
 {
 	globals.bAppendTags = g_plugin.getByte("bAppendTags", 0) != 0;
 	globals.bStripTags = g_plugin.getByte("bStripTags", 0) != 0;
-	globals.inopentag = UniGetContactSettingUtf(0, MODULENAME, "szInOpenTag", L"<GPGdec>");
-	globals.inclosetag = UniGetContactSettingUtf(0, MODULENAME, "szInCloseTag", L"</GPGdec>");
-	globals.outopentag = UniGetContactSettingUtf(0, MODULENAME, "szOutOpenTag", L"<GPGenc>");
-	globals.outclosetag = UniGetContactSettingUtf(0, MODULENAME, "szOutCloseTag", L"</GPGenc>");
+	globals.inopentag = db_get_wsa(0, MODULENAME, "szInOpenTag", L"<GPGdec>");
+	globals.inclosetag = db_get_wsa(0, MODULENAME, "szInCloseTag", L"</GPGdec>");
+	globals.outopentag = db_get_wsa(0, MODULENAME, "szOutOpenTag", L"<GPGenc>");
+	globals.outclosetag = db_get_wsa(0, MODULENAME, "szOutCloseTag", L"</GPGenc>");
 	globals.bDebugLog = g_plugin.getByte("bDebugLog", 0) != 0;
 	globals.bAutoExchange = g_plugin.getByte("bAutoExchange", 0) != 0;
 	globals.bSameAction = g_plugin.getByte("bSameAction", 0) != 0;
-	globals.password = UniGetContactSettingUtf(0, MODULENAME, "szKeyPassword", L"");
+	globals.password = db_get_wsa(0, MODULENAME, "szKeyPassword", L"");
 	globals.debuglog.init();
 	globals.bJabberAPI = g_plugin.getByte("bJabberAPI", true) != 0;
 	globals.bPresenceSigning = g_plugin.getByte("bPresenceSigning", 0) != 0;
