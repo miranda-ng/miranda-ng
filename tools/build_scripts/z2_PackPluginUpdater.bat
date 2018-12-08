@@ -48,6 +48,7 @@ for /f %%a in ('dir plugins\*.dll /B /L') do (
 	if /I "%%a"=="CmdLine.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "MimCmd.exe")
 	if /I "%%a"=="CurrencyRates.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_CurrencyRates.dll" "Plugins\CurrencyRates\*.xml" "Plugins\CurrencyRates\CurrencyRatesChart.exe")
 	if /I "%%a"=="Dbx_mdbx.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "mdbx_dump.exe" "mdbx_load.exe")
+	if /I "%%a"=="Dbx_sqlite.dll"  (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Libs\sqlite3.mir")
 	if /I "%%a"=="Discord.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Discord.dll")
 	if /I "%%a"=="Dummy.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Dummy.dll")
 	if /I "%%a"=="Facebook.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Facebook.dll")
