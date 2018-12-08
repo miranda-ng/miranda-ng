@@ -1,4 +1,4 @@
-﻿#ifdef ptx86
+#ifdef ptx86
    #define MirName "Miranda32.exe"
    #define MirGroupName "Miranda NG"
    #define MirPtf ""
@@ -125,7 +125,6 @@ Source: "Files\Plugins\Scriver.dll"; DestDir: "{app}\Plugins"; Components: messa
 ; DB drivers
 Source: "Files\Plugins\Dbx_mmap.dll"; DestDir: "{app}\Plugins"; Components: dbx_mmap; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Plugins\Dbx_mdbx.dll"; DestDir: "{app}\Plugins"; Components: dbx_mdbx; Flags: ignoreversion; AfterInstall: ShowPercent() 
-Source: "Files\Plugins\Dbx_sqlite.dll"; DestDir: "{app}\Plugins"; Components: dbx_sqlite; Flags: ignoreversion; AfterInstall: ShowPercent() 
 
 ; Config files
 Source: "Files\Settings\mirandaboot_default.ini"; DestDir: "{app}"; Components: program; DestName: "mirandaboot.ini"; Check: IsDefault(); Flags: ignoreversion onlyifdoesntexist; AfterInstall: ShowPercent() 
@@ -157,7 +156,6 @@ Name: "messagewin\scriver"; Description: "{cm:Scriver}"; Types: custom; Flags: e
 Name: "messagewin\tabsrmm"; Description: "{cm:Tabsrmm}"; Types: extended regular; Flags: exclusive 
 Name: "dbx_mmap"; Description: "{cm:Dbx_Mmap}"; Types: extended regular custom minimal; Flags: fixed 
 Name: "dbx_mdbx"; Description: "{cm:Dbx_Mdbx}"; Types: extended regular custom minimal; Flags: fixed 
-Name: "dbx_sqlite"; Description: "{cm:Dbx_Sqlite}"; Types: extended regular custom minimal; Flags: fixed 
 Name: "lang"; Description: "{cm:Lang}"; Types: extended regular custom minimal; Flags: fixed 
 Name: "lang\russian"; Description: "{cm:LangRussian}"; Flags: exclusive 
 Name: "lang\czech"; Description: "{cm:LangCzech}"; Flags: exclusive 
@@ -228,7 +226,6 @@ en.Scriver=Scriver message plugin
 en.Tabsrmm=TabSRMM message plugin
 en.Dbx_Mmap=Dbx_mmap database driver
 en.Dbx_Mdbx=Dbx_mdbx database driver
-en.Dbx_Sqlite=Dbx_sqlite database driver
 en.Lang=Localization files
 en.LangRussian=Russian langpack
 en.LangCzech=Czech langpack
@@ -258,7 +255,6 @@ en.ScriverDescription=Easy and lightweight messaging plugin.
 en.TabsrmmDescription=Advanced IM and group chat module for Miranda NG. Supports skins.
 en.MMAPDescription=Provides Miranda database support: global settings, contacts, history, settings per contact.(Obsoleted)
 en.MDBXDescription=Provides Miranda database support: global settings, contacts, history, settings per contact.(Recommended)
-en.SQLiteDescription=Provides Miranda database support: global settings, contacts, history, settings per contact.(Experimental)
 en.LangDescription=Localization files for Miranda NG.
 en.LangRussianDescription=Translation of Miranda NG user interface to Russian.
 en.LangCzechDescription=Translation of Miranda NG user interface to Czech.
@@ -306,7 +302,6 @@ ru.Scriver=Диалоговое окно Scriver
 ru.Tabsrmm=Диалоговое окно TabSRMM
 ru.Dbx_Mmap=Драйвер Dbx_mmap
 ru.Dbx_Mdbx=Драйвер Dbx_mdbx
-ru.Dbx_Sqlite=Драйвер Dbx_sqlite
 ru.Lang=Языковые пакеты
 ru.LangRussian=Русский
 ru.LangCzech=Чешский
@@ -336,7 +331,6 @@ ru.ScriverDescription=Простой плагин диалоговых окон 
 ru.TabsrmmDescription=Продвинутый плагин диалоговых окон с поддержкой вкладок и скинов.
 ru.MMAPDescription=Поддержка базы Miranda NG: глобальные настройки, контакты, история, настройки контактов и т. п. Отличается меньшим количеством обращений к базе данных в процессе работы.(Устаревший).
 ru.MDBXDescription=Поддержка базы Miranda NG: глобальные настройки, контакты, история, настройки контактов и т. п. (Рекомендуемый).
-ru.SQLiteDescription=Поддержка базы Miranda NG: глобальные настройки, контакты, история, настройки контактов и т. п.(Экспериментальный).
 ru.LangDescription=Файлы перевода для Miranda NG.
 ru.LangRussianDescription=Перевод интерфейса Miranda NG на русский язык.
 ru.LangCzechDescription=Перевод интерфейса Miranda NG на чешский язык.
@@ -384,7 +378,6 @@ cz.Scriver=Scriver
 cz.Tabsrmm=TabSRMM
 cz.Dbx_Mmap=Dbx_mmap
 cz.Dbx_Mdbx=Dbx_mdbx
-cz.Dbx_Sqlite=Dbx_sqlite
 cz.Lang=Jazykové rozhraní
 cz.LangRussian=Ruština
 cz.LangCzech=Čeština
@@ -414,7 +407,6 @@ cz.ScriverDescription=Jednoduchý a rychlý modul pro komunikaci a skupinové ch
 cz.TabsrmmDescription=Pokročilý modul pro komunikaci a skupinové chaty. Podporuje skiny a více záložek v jednom okně.
 cz.MMAPDescription=Podpora pro databáze Mirandy: globální nastavení, kontakty, historie, nastavení pro jednotlivé kontakty.
 cz.MDBXDescription=Podpora pro databáze Mirandy: globální nastavení, kontakty, historie, nastavení pro jednotlivé kontakty.
-cz.SQLiteDescription=Podpora pro databáze Mirandy: globální nastavení, kontakty, historie, nastavení pro jednotlivé kontakty.(EXPERIMENTÁLNÍ)
 cz.LangDescription=Jazykové balíčky pro Mirandu NG.
 cz.LangRussianDescription=Překlad rozhraní Mirandy NG do ruštiny.
 cz.LangCzechDescription=Překlad rozhraní Mirandy NG do češtiny.
@@ -462,7 +454,6 @@ de.Scriver=Scriver-Nachrichtenplugin
 de.Tabsrmm=TabSRMM-Nachrichtenplugin
 de.Dbx_Mmap=Dbx_mmap-Datenbanktreiber
 de.Dbx_Mdbx=Dbx_mdbx-Datenbanktreiber
-de.Dbx_Sqlite=Dbx_sqlite-Datenbanktreiber
 de.Lang=Sprachdateien
 de.LangRussian=Russische Sprachdatei
 de.LangCzech=Tschechische Sprachdatei
@@ -492,7 +483,6 @@ de.ScriverDescription=Einfaches und leichtgewichtiges Nachrichtenplugin.
 de.TabsrmmDescription=Erweitertes Nachrichten- und Gruppenchatmodul für Miranda NG. Unterstützt Skins.
 de.MMAPDescription=Stellt Miranda-Datenbankunterstützung bereit: globale Einstellungen, Kontakte, Verlauf, Per-Kontakt-Einstellungen.
 de.MDBXDescription=Stellt Miranda-Datenbankunterstützung bereit: globale Einstellungen, Kontakte, Verlauf, Per-Kontakt-Einstellungen.
-de.SQLiteDescription=Stellt Miranda-Datenbankunterstützung bereit: globale Einstellungen, Kontakte, Verlauf, Per-Kontakt-Einstellungen.(EXPERIMENTELL)
 de.LangDescription=Sprachdateien für Miranda NG.
 de.LangRussianDescription=Übersetzung der Miranda-NG-Benutzeroberfläche ins Russische.
 de.LangCzechDescription=Übersetzung der Miranda-NG-Benutzeroberfläche ins Tschechische.
@@ -540,7 +530,6 @@ pl.Scriver=Scriver
 pl.Tabsrmm=TabSRMM
 pl.Dbx_Mmap=Dbx_mmap
 pl.Dbx_Mdbx=Dbx_mdbx
-pl.Dbx_Sqlite=Dbx_sqlite
 pl.Lang=Język interfejsu
 pl.LangRussian=rosyjski
 pl.LangCzech=czeski
@@ -570,7 +559,6 @@ pl.ScriverDescription=Łatwa i lekka wtyczka rozmów.
 pl.TabsrmmDescription=Zaawansowana wtyczka rozmów z modułem czatu. Wspiera skórki.
 pl.MMAPDescription=Zapewnia wsparcie profilu Mirandy: ustawień globalnych, kontaktów, historii, ustawień dla każdego kontaktu z osobna.
 pl.MDBXDescription=Zapewnia wsparcie profilu Mirandy: ustawień globalnych, kontaktów, historii, ustawień dla każdego kontaktu z osobna.
-pl.SQLiteDescription=Zapewnia wsparcie profilu Mirandy: ustawień globalnych, kontaktów, historii, ustawień dla każdego kontaktu z osobna.(EKSPERYMENTALNY)
 pl.LangDescription=Pakiety językowe dla Mirandy NG.
 pl.LangRussianDescription=Tłumaczy interfejs Mirandy na język rosyjski.
 pl.LangCzechDescription=Tłumaczy interfejs Mirandy na język czeski.
@@ -629,7 +617,7 @@ const
   DRIVE_RAMDISK = 6;     // The drive is a RAM disk.
 
   // don't forget to increment it after adding new components!
-  COMPONENTS_COUNT = 22; // Index of the first language
+  COMPONENTS_COUNT = 21; // Index of the first language
 
 // Default installation check
 function IsDefault: Boolean;
@@ -854,7 +842,6 @@ begin
     ComponentList.Add('messagewin\tabsrmm');
     ComponentList.Add('dbx_mmap');
     ComponentList.Add('dbx_mdbx');	
-	ComponentList.Add('dbx_sqlite');	
     ComponentList.Add('lang');
     ComponentList.Add('lang\russian');
     ComponentList.Add('lang\czech');
@@ -944,7 +931,6 @@ begin
     ExpandConstant('{cm:TabsrmmDescription}') + ';' +
     ExpandConstant('{cm:MMAPDescription}') + ';' +
 	ExpandConstant('{cm:MDBXDescription}') + ';' +
-	ExpandConstant('{cm:SQLiteDescription}') + ';' +
     ExpandConstant('{cm:LangDescription}') + ';' +
     ExpandConstant('{cm:LangRussianDescription}') + ';' +
     ExpandConstant('{cm:LangCzechDescription}') + ';' +
