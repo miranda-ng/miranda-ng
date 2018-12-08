@@ -2,11 +2,17 @@
 
 std::string CurrencyRates_DBGetStringA(MCONTACT hContact, const char* szModule, const char* szSetting, const char* pszDefValue)
 {
+	if (pszDefValue == nullptr)
+		pszDefValue = "";
+
 	return std::string(ptrA(db_get_sa(hContact, szModule, szSetting, pszDefValue)));
 }
 
 std::wstring CurrencyRates_DBGetStringW(MCONTACT hContact, const char* szModule, const char* szSetting, const wchar_t* pszDefValue)
 {
+	if (pszDefValue == nullptr)
+		pszDefValue = L"";
+
 	return std::wstring(ptrW(db_get_wsa(hContact, szModule, szSetting, pszDefValue)));
 }
 
