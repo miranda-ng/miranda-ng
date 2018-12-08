@@ -57,7 +57,7 @@ int diffstat = 0;
 int startuperror = 0;
 wchar_t *startuperrors[] = {
 		LPGENW("Unable to load all required Lotus API functions"),
-		LPGENW("Lotus Notes Client not detected. Check plugin configuration description on install.txt"),
+		LPGENW("Lotus Notes Client not detected. Check plugin configuration description at https://miranda-ng.org/p/LotusNotify"),
 		LPGENW("Unable to initialize Notes."),
 		LPGENW("Lotus Notes Extension Manager was not registered. Authentication function will not work properly"),
 		LPGENW("In notes.ini file there is no required entry EXTMGR_ADDINS=plugindllnamewithout\".dll\"")
