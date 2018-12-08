@@ -21,7 +21,7 @@
 [Hide guild chats on startup]
 Не открывать окно чата при входе в комнату чата
 [Use subgroups for guild's channels (requires restart)]
-Создавать подгруппу для каждого сервера (требуется перезапуск)
+Создавать подгруппы для каждого сервера (требуется перезапуск)
 [Nick:]
 Ник:
 ;file \protocols\Discord\src\dispatch.cpp
