@@ -265,21 +265,23 @@ bool Plugin_UnloadDyn(pluginEntry *p)
 		return true;
 
 	CMPluginBase *ppb = p->m_pPlugin;
-	if (HINSTANCE hInst = ppb->getInst()) {
-		if (CallPluginEventHook(hInst, hOkToExitEvent, 0, 0) != 0)
-			return false;
+	if (ppb != nullptr) {
+		if (HINSTANCE hInst = ppb->getInst()) {
+			if (CallPluginEventHook(hInst, hOkToExitEvent, 0, 0) != 0)
+				return false;
 
-		KillModuleAccounts(hInst);
-		KillModuleSubclassing(hInst);
+			KillModuleAccounts(hInst);
+			KillModuleSubclassing(hInst);
 
-		CallPluginEventHook(hInst, hPreShutdownEvent, 0, 0);
-		CallPluginEventHook(hInst, hShutdownEvent, 0, 0);
+			CallPluginEventHook(hInst, hPreShutdownEvent, 0, 0);
+			CallPluginEventHook(hInst, hShutdownEvent, 0, 0);
 
-		KillModuleEventHooks(hInst);
-		KillModuleServices(hInst);
+			KillModuleEventHooks(hInst);
+			KillModuleServices(hInst);
+		}
+
+		NotifyFastHook(hevUnloadModule, (WPARAM)&ppb->getInfo(), (LPARAM)ppb->getInst());
 	}
-
-	NotifyFastHook(hevUnloadModule, (WPARAM)&ppb->getInfo(), (LPARAM)ppb->getInst());
 
 	// mark default plugins to be loaded
 	if (!p->bIsCore)
