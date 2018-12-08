@@ -21,6 +21,42 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 
 /////////////////////////////////////////////////////////////////////////////
 //
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+ICO_NEWSTORY                       ICON         "01 newstory.ico"
+ICO_USERINFO                       ICON         "02 userinfo.ico"
+ICO_USERMENU                       ICON         "03 usermenu.ico"
+ICO_SEARCH                       ICON         "04 search.ico"
+ICO_OPTIONS                       ICON         "05 options.ico"
+ICO_FILTER                       ICON         "06 filter.ico"
+ICO_EXPORT                       ICON         "07 export.ico"
+ICO_COPY                       ICON         "09 copy.ico"
+ICO_SENDMSG                       ICON         "10 sendmsg.ico"
+ICO_CLOSE                      ICON         "11 close.ico"
+ICO_MSGIN                      ICON         "12 msgin.ico"
+ICO_MSGOUT                      ICON         "13 msgout.ico"
+ICO_SIGNIN                      ICON         "14 signin.ico"
+ICO_FILE                      ICON         "16 file.ico"
+ICO_URL                      ICON         "17 url.ico"
+ICO_UNKNOWN                      ICON         "18 unknown.ico"
+ICO_FINDPREV                      ICON         "19 findprev.ico"
+ICO_FINDNEXT                      ICON         "20 findnext.ico"
+ICO_NOPASSWORD                      ICON         "nopassword.ico"
+ICO_PASSWORD                      ICON         "password.ico"
+ICO_CALENDAR                      ICON         "Calendar.ico"
+ICO_RESET                      ICON         "reset.ico"
+ICO_PREVIEW                      ICON         "reload.ico"
+ICO_VARHELP                      ICON         "vars.ico"
+ICO_TPLGROUP                      ICON         "folder.ico"
+ICO_SAVEPASS                      ICON         "save pass.ico"
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
 // Dialog
 //
 
