@@ -86,7 +86,6 @@ Plugins\CrashDumper.dll
 Plugins\Db_autobackups.dll
 Plugins\Dbx_mdbx.dll
 Plugins\Dbx_mmap.dll
-Plugins\Dbx_sqlite.dll
 Plugins\Dummy.dll
 Plugins\Facebook.dll
 Plugins\GG.dll
