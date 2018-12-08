@@ -685,6 +685,22 @@ wchar_t* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+MIR_APP_DLL(wchar_t*) Chat_GetGroup()
+{
+	ptrW pszGroup(db_get_wsa(0, CHAT_MODULE, "AddToGroup"));
+	return (pszGroup) ? pszGroup.detach() : mir_wstrdup(TranslateT("Chat rooms"));
+}
+
+MIR_APP_DLL(void) Chat_SetGroup(const wchar_t *pwszGroupName)
+{
+	if (mir_wstrlen(pwszGroupName))
+		db_set_ws(0, CHAT_MODULE, "AddToGroup", pwszGroupName);
+	else
+		db_unset(0, CHAT_MODULE, "AddToGroup");
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 MIR_APP_DLL(wchar_t*) Chat_UnescapeTags(wchar_t *str_in)
 {
 	wchar_t *s = str_in, *d = str_in;

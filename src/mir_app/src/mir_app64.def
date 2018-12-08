@@ -669,3 +669,5 @@ g_hevSettingChanged @696 NONAME
 ?getMe@GCSessionInfoBase@@QEBAPEAUUSERINFO@@XZ @702 NONAME
 ?MetaRemoveSubHistory@MDatabaseCommon@@UEAAHPEAUDBCachedContact@@@Z @703 NONAME
 ?MetaRemoveSubHistory@MDatabaseReadonly@@UEAAHPEAUDBCachedContact@@@Z @704 NONAME
+Chat_GetGroup @705
+Chat_SetGroup @706

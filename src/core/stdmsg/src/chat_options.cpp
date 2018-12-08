@@ -200,16 +200,6 @@ HANDLE GetIconHandle(const char *pszIcoLibName)
 	return IcoLib_GetIconHandle(szTemp);
 }
 
-static void InitSetting(wchar_t** ppPointer, char* pszSetting, wchar_t* pszDefault)
-{
-	DBVARIANT dbv;
-	if (!db_get_ws(0, CHAT_MODULE, pszSetting, &dbv)) {
-		replaceStrW(*ppPointer, dbv.pwszVal);
-		db_free(&dbv);
-	}
-	else replaceStrW(*ppPointer, pszDefault);
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // General options
 
@@ -475,10 +465,7 @@ public:
 		spin4.SetRange(255, 10);
 		spin4.SetPosition(db_get_b(0, CHAT_MODULE, "NicklistRowDist", 12));
 
-		wchar_t* pszGroup = nullptr;
-		InitSetting(&pszGroup, "AddToGroup", L"Chat rooms");
-		edtGroup.SetText(pszGroup);
-		mir_free(pszGroup);
+		edtGroup.SetText(ptrW(Chat_GetGroup()));
 
 		wchar_t szTemp[MAX_PATH];
 		PathToRelativeW(g_Settings.pszLogDir, szTemp);
@@ -539,7 +526,7 @@ public:
 		else
 			db_unset(0, CHAT_MODULE, "HeaderOutgoing");
 
-		db_set_ws(0, CHAT_MODULE, "AddToGroup", ptrW(rtrimw(edtGroup.GetText())));
+		Chat_SetGroup(ptrW(rtrimw(edtGroup.GetText())));
 
 		g_Settings.bHighlightEnabled = chkHighlight.GetState();
 		db_set_b(0, CHAT_MODULE, "HighlightEnabled", g_Settings.bHighlightEnabled);

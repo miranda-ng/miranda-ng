@@ -221,16 +221,6 @@ static INT CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM p
 	return 0;
 }
 
-static void InitSetting(wchar_t **ppPointer, char *pszSetting, wchar_t *pszDefault)
-{
-	DBVARIANT dbv;
-	if (!db_get_ws(0, CHAT_MODULE, pszSetting, &dbv)) {
-		replaceStrW(*ppPointer, dbv.pwszVal);
-		db_free(&dbv);
-	}
-	else replaceStrW(*ppPointer, pszDefault);
-}
-
 #define OPT_FIXHEADINGS (WM_USER+1)
 
 INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -248,12 +238,7 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 		FillBranch(GetDlgItem(hwndDlg, IDC_CHAT_CHECKBOXES), hListHeading1, branch1, _countof(branch1), 0);
 		FillBranch(GetDlgItem(hwndDlg, IDC_CHAT_CHECKBOXES), hListHeading4, branch4, _countof(branch4), 0x1000);
 		SendMessage(hwndDlg, OPT_FIXHEADINGS, 0, 0);
-		{
-			wchar_t* pszGroup = nullptr;
-			InitSetting(&pszGroup, "AddToGroup", L"Chat rooms");
-			SetDlgItemText(hwndDlg, IDC_CHAT_GROUP, pszGroup);
-			mir_free(pszGroup);
-		}
+		SetDlgItemText(hwndDlg, IDC_CHAT_GROUP, ptrW(Chat_GetGroup()));
 		break;
 
 	case OPT_FIXHEADINGS:
@@ -316,11 +301,11 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			case PSN_APPLY:
 				int iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_GROUP));
 				if (iLen > 0) {
-					ptrA pszText((char*)mir_alloc(iLen + 1));
-					GetDlgItemTextA(hwndDlg, IDC_CHAT_GROUP, pszText, iLen + 1);
-					db_set_s(0, CHAT_MODULE, "AddToGroup", pszText);
+					ptrW pszText((wchar_t*)mir_alloc(sizeof(wchar_t)*(iLen + 1)));
+					GetDlgItemTextW(hwndDlg, IDC_CHAT_GROUP, pszText, iLen + 1);
+					Chat_SetGroup(pszText);
 				}
-				else db_set_s(0, CHAT_MODULE, "AddToGroup", "");
+				else Chat_SetGroup(nullptr);
 
 				iLen = SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN2, UDM_GETPOS, 0, 0);
 				if (iLen > 0)

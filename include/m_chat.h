@@ -378,6 +378,9 @@ EXTERN_C MIR_APP_DLL(int) Chat_ChangeUserId(const char *szModule, const wchar_t 
 EXTERN_C MIR_APP_DLL(int) Chat_SendUserMessage(const char *szModule, const wchar_t *wszId, const wchar_t *wszText);
 EXTERN_C MIR_APP_DLL(int) Chat_SetStatusbarText(const char *szModule, const wchar_t *wszId, const wchar_t *wszText);
 
+EXTERN_C MIR_APP_DLL(wchar_t*) Chat_GetGroup(void);
+EXTERN_C MIR_APP_DLL(void) Chat_SetGroup(const wchar_t*);
+
 EXTERN_C MIR_APP_DLL(wchar_t*) Chat_UnescapeTags(wchar_t *str_in);
 
 /////////////////////////////////////////////////////////////////////////////////////////

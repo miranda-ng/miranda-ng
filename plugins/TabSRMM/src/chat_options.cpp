@@ -535,6 +535,7 @@ class CChatSettingsDlg : public CChatBaseOptionDlg
 	HTREEITEM hListHeading2 = nullptr;
 
 	CCtrlTreeView treeCheck;
+	CCtrlEdit edtGroup;
 
 	HTREEITEM InsertBranch(wchar_t* pszDescr, BOOL bExpanded)
 	{
@@ -594,6 +595,7 @@ class CChatSettingsDlg : public CChatBaseOptionDlg
 public:
 	CChatSettingsDlg() :
 		CChatBaseOptionDlg(IDD_OPTIONS1),
+		edtGroup(this, IDC_GROUP),
 		treeCheck(this, IDC_CHECKBOXES)
 	{}
 
@@ -610,21 +612,13 @@ public:
 		FillBranch(hListHeading1, branch1, _countof(branch1), 0x0000);
 		FillBranch(hListHeading2, branch2, _countof(branch2), 0x0000);
 
-		ptrW pszGroup(db_get_wsa(0, CHAT_MODULE, "AddToGroup"));
-		SetDlgItemText(m_hwnd, IDC_GROUP, (pszGroup != nullptr) ? pszGroup : TranslateT("Chat rooms"));
+		edtGroup.SetText(ptrW(Chat_GetGroup()));
 		return true;
 	}
 
 	bool OnApply() override
 	{
-		int iLen = GetWindowTextLength(GetDlgItem(m_hwnd, IDC_GROUP));
-		if (iLen > 0) {
-			wchar_t *pszText = (wchar_t*)mir_alloc((iLen + 2) * sizeof(wchar_t));
-			GetDlgItemText(m_hwnd, IDC_GROUP, pszText, iLen + 1);
-			db_set_ws(0, CHAT_MODULE, "AddToGroup", pszText);
-			mir_free(pszText);
-		}
-		else db_set_ws(0, CHAT_MODULE, "AddToGroup", L"");
+		Chat_SetGroup(ptrW(edtGroup.GetText()));
 
 		SaveBranch(branch1, _countof(branch1));
 		SaveBranch(branch2, _countof(branch2));

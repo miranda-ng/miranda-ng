@@ -24,28 +24,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 MCONTACT AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *pszDisplayName, int iType)
 {
-	wchar_t pszGroup[50]; *pszGroup = '\0';
-	ptrW groupName(db_get_wsa(0, CHAT_MODULE, "AddToGroup"));
-	if (groupName)
-		wcsncpy_s(pszGroup, groupName, _TRUNCATE);
-	else
-		mir_wstrcpy(pszGroup, L"Chat rooms");
-
-	if (pszGroup[0])  {
-		MGROUP hGroup = Clist_GroupExists(pszGroup);
+	ptrW wszGroup(Chat_GetGroup());
+	if (mir_wstrlen(wszGroup)) {
+		MGROUP hGroup = Clist_GroupExists(wszGroup);
 		if (hGroup == 0) {
-			hGroup = Clist_GroupCreate(0, pszGroup);
+			hGroup = Clist_GroupCreate(0, wszGroup);
 			if (hGroup)
 				Clist_GroupSetExpanded(hGroup, 1);
 		}
 	}
 
 	MCONTACT hContact = g_chatApi.FindRoom(pszModule, pszRoom);
-	if (hContact) { //contact exist, make sure it is in the right group
-		if (pszGroup[0]) {
+	if (hContact) { // contact exist, make sure it is in the right group
+		if (mir_wstrlen(wszGroup)) {
 			ptrW grpName(db_get_wsa(hContact, "CList", "Group"));
-			if (!mir_wstrcmp(pszGroup, grpName))
-				db_set_ws(hContact, "CList", "Group", pszGroup);
+			if (!mir_wstrcmp(wszGroup, grpName))
+				db_set_ws(hContact, "CList", "Group", wszGroup);
 		}
 
 		db_set_w(hContact, pszModule, "Status", ID_STATUS_OFFLINE);
@@ -58,8 +52,8 @@ MCONTACT AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *p
 		return 0;
 
 	Proto_AddToContact(hContact, pszModule);
-	if (pszGroup[0])
-		db_set_ws(hContact, "CList", "Group", pszGroup);
+	if (mir_wstrlen(wszGroup))
+		db_set_ws(hContact, "CList", "Group", wszGroup);
 	else
 		db_unset(hContact, "CList", "Group");
 	db_set_ws(hContact, pszModule, "Nick", pszDisplayName);
