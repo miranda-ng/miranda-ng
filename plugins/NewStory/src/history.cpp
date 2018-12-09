@@ -515,21 +515,21 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 			data->hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_POPUPS));
 			//CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)data->hMenu, 0);
-			CheckMenuItem(GetSubMenu(data->hMenu, 1), IDD_FILTER_INCOMING,
+			CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_FILTER_INCOMING,
 				data->showFlags&HIST_SHOW_IN ? MF_CHECKED : MF_UNCHECKED);
-			CheckMenuItem(GetSubMenu(data->hMenu, 1), IDD_FILTER_OUTGOING,
+			CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_FILTER_OUTGOING,
 				data->showFlags&HIST_SHOW_OUT ? MF_CHECKED : MF_UNCHECKED);
-			CheckMenuItem(GetSubMenu(data->hMenu, 1), IDD_FILTER_MESSAGES,
+			CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_FILTER_MESSAGES,
 				data->showFlags&HIST_SHOW_MSGS ? MF_CHECKED : MF_UNCHECKED);
-			CheckMenuItem(GetSubMenu(data->hMenu, 1), IDD_FILTER_FILES,
+			CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_FILTER_FILES,
 				data->showFlags&HIST_SHOW_FILES ? MF_CHECKED : MF_UNCHECKED);
-			CheckMenuItem(GetSubMenu(data->hMenu, 1), IDD_FILTER_URLS,
+			CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_FILTER_URLS,
 				data->showFlags&HIST_SHOW_URLS ? MF_CHECKED : MF_UNCHECKED);
-			CheckMenuItem(GetSubMenu(data->hMenu, 1), IDD_FILTER_STATUS,
+			CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_FILTER_STATUS,
 				data->showFlags&HIST_SHOW_STATUS ? MF_CHECKED : MF_UNCHECKED);
-			CheckMenuItem(GetSubMenu(data->hMenu, 1), IDD_FILTER_OTHER,
+			CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_FILTER_OTHER,
 				data->showFlags&HIST_SHOW_OTHER ? MF_CHECKED : MF_UNCHECKED);
-			CheckMenuItem(GetSubMenu(data->hMenu, 1), IDD_FILTER_AUTO,
+			CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_FILTER_AUTO,
 				data->showFlags&HIST_AUTO_FILTER ? MF_CHECKED : MF_UNCHECKED);
 
 //			CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_LOGOPTIONS_SHOWTIMETREE,
@@ -610,13 +610,13 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			return TRUE;
 		}
 
-		case WM_MOUSEWHEEL:
+		/*case WM_MOUSEWHEEL:
 			SendMessage(GetDlgItem(hwnd, IDC_CUSTOM1), msg, wParam, lParam);
-			return TRUE;
+			return TRUE;*/
 
-		case WM_SETFOCUS:
+		/*case WM_SETFOCUS:
 			SetFocus(GetDlgItem(hwnd, IDC_CUSTOM1));
-			return TRUE;
+			return TRUE;*/
 
 		case UM_UPDATEICONS:
 		{
