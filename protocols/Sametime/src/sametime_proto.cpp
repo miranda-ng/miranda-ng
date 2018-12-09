@@ -103,13 +103,6 @@ int CSametimeProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t*
 	return 0;
 }
 
-int CSametimeProto::FileResume(HANDLE hTransfer, int* action, const wchar_t** szFilename)
-{
-	debugLogW(L"CSametimeProto::FileResume() action=[%d]", &action);
-	return 0;
-}
-
-
 INT_PTR CSametimeProto::GetCaps(int type, MCONTACT hContact)
 {
 	switch (type) {
