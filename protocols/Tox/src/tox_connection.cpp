@@ -72,8 +72,9 @@ void CToxProto::OnToxCheck(void *arg, BYTE)
 void CToxProto::OnToxPoll(void *arg, BYTE)
 {
 	CToxProto *proto = (CToxProto*)arg;
+	if (proto->m_tox)
+		tox_iterate(proto->m_tox, arg);
 
-	tox_iterate(proto->m_tox, arg);
 	/*uint32_t interval = tox_iteration_interval(proto->m_tox);
 	interval = interval
 		? interval
