@@ -3,6 +3,7 @@ option confirm off
 open miranda-ng
 
 option batch continue
+mkdir distr/stable/
 mkdir distr/stable/x%tp%/
 mkdir distr/stable/x%tp%/Icons/
 mkdir distr/stable/x%tp%/Languages/
