@@ -19,11 +19,11 @@ struct VFArgs
 	DBEVENTINFO *event;
 };
 */
-typedef void (* VarFunc)(int mode, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData *item);
+typedef void(*VarFunc)(int mode, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData *item);
 
 struct TemplateInfo
 {
-	enum { VF_COUNT = 5	};
+	enum { VF_COUNT = 5 };
 
 	char *setting;
 	TCHAR *group;

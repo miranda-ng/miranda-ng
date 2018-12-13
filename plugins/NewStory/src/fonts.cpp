@@ -4,18 +4,18 @@ MyColourID colors[] =
 {
 	{ "Incoming Messages",     "ColorMsgIn",   RGB(0xff, 0xff, 0xff) },
 	{ "Outgoing Messages",     "ColorMsgOut",  RGB(0xff, 0xff, 0xff) },
-															 							  
+
 	{ "Incoming Files",        "ColorFileIn",  RGB(0xff, 0xff, 0xff) },
 	{ "Outgoing Files",        "ColorFileOut", RGB(0xff, 0xff, 0xff) },
-																						  
+
 	{ "Incoming URLs",         "ColorURLIn",   RGB(0xff, 0xff, 0xff) },
 	{ "Outgoing URLs",         "ColorURLOut",  RGB(0xff, 0xff, 0xff) },
-																						  
+
 	{ "Status changes",        "ColorStatus",  RGB(0xff, 0xff, 0xff) },
-																						  
+
 	{ "Other Outgoing Events", "ColorOut",     RGB(0xff, 0xff, 0xff) },
 	{ "Other Incoming Events", "ColorIn",      RGB(0xff, 0xff, 0xff) },
-																						  
+
 	{ "Selected Items",        "ColorSel",     RGB(0x60, 0x60, 0x60) },
 	{ "Selected Items (Text)", "ColorSelTxt",  RGB(0xff, 0xff, 0xff) }
 };
@@ -44,7 +44,7 @@ int evtFontsChanged(WPARAM, LPARAM)
 
 	for (auto &it : fonts) {
 		it.cl = (COLORREF)Font_Get(MODULENAME, it.szName, &it.lf);
-		
+
 		DeleteObject(it.hfnt);
 		it.hfnt = CreateFontIndirectA(&it.lf);
 	}
@@ -82,7 +82,7 @@ void InitFonts()
 		strncpy_s(fontid.name, it.szName, _TRUNCATE);
 		strncpy_s(fontid.setting, it.szSetting, _TRUNCATE);
 		g_plugin.addFont(&fontid);
-		
+
 		it.cl = Font_Get(MODULENAME, it.szName, &it.lf);
 		it.hfnt = CreateFontIndirectA(&it.lf);
 	}

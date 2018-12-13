@@ -11,7 +11,7 @@
 
 #include "stdafx.h"
 
-HANDLE hhkModulesLoaded=0, hhkOptInitialise=0, hhkTTBLoaded=0;
+HANDLE hhkModulesLoaded = 0, hhkOptInitialise = 0, hhkTTBLoaded = 0;
 
 CMPlugin g_plugin;
 
@@ -33,7 +33,8 @@ PLUGININFOEX pluginInfoEx =
 
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
-{}
+{
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -74,13 +75,13 @@ int CMPlugin::Load()
 	CreateServiceFunction("Newstory/System", svcShowSystemNewstory);
 
 	hhkModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, evtModulesLoaded);
-/*	
-	hhkOptInitialise = HookEvent(ME_OPT_INITIALISE, OptInitialise);
+	/*
+		hhkOptInitialise = HookEvent(ME_OPT_INITIALISE, OptInitialise);
 
-	options.fnup = options.fndown = 0;
-	options.flags = 0;
-	LoadOptions();
-*/
+		options.fnup = options.fndown = 0;
+		options.flags = 0;
+		LoadOptions();
+	*/
 	return 0;
 }
 
@@ -89,13 +90,13 @@ int CMPlugin::Load()
 int CMPlugin::Unload()
 {
 	UnhookEvent(hhkModulesLoaded);
-/*
-	UnhookEvent(hhkOptInitialise);
-	if (hhkTTBLoaded)
-		UnhookEvent(hhkTTBLoaded);
+	/*
+		UnhookEvent(hhkOptInitialise);
+		if (hhkTTBLoaded)
+			UnhookEvent(hhkTTBLoaded);
 
-	DoCleanup();
-*/
+		DoCleanup();
+	*/
 	FreeHistory();
 	return 0;
 }

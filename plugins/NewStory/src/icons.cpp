@@ -33,8 +33,6 @@ static IconItem icons[] =
 	{ LPGEN("Save Password"),     "savepass",  ICO_SAVEPASS   }
 };
 
-//int iconCount = sizeof(icons) / sizeof(icons[0]);
-
 int evtIconsChanged(WPARAM, LPARAM)
 {
 	//RefreshIcons(icons, ICO_COUNT);

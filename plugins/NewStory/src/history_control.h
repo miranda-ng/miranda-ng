@@ -5,7 +5,7 @@
 
 enum
 {
-	NSM_FIRST = WM_USER+100,
+	NSM_FIRST = WM_USER + 100,
 
 	// wParam = fist item
 	// lParam = last item

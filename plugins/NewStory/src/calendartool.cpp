@@ -8,49 +8,37 @@ struct CalendarToolData
 INT_PTR CALLBACK CalendarToolDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CalendarToolData *data = (CalendarToolData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	switch (msg)
-	{
-		case WM_INITDIALOG:
-		{
-			data = (CalendarToolData *)lParam;
-			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)data);
+	switch (msg) {
+	case WM_INITDIALOG:
+		data = (CalendarToolData *)lParam;
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)data);
 
-// This causes ALL miranda dialogs to have drop-shadow enabled. That's bad =(
-//			SetClassLong(hwnd, GCL_STYLE, GetClassLong(hwnd, GCL_STYLE)|CS_DROPSHADOW);
+		// This causes ALL miranda dialogs to have drop-shadow enabled. That's bad =(
+		// SetClassLong(hwnd, GCL_STYLE, GetClassLong(hwnd, GCL_STYLE)|CS_DROPSHADOW);
+		SetWindowPos(hwnd, HWND_TOP, data->x, data->y, 0, 0, SWP_NOSIZE);
+		return TRUE;
 
-			SetWindowPos(hwnd, HWND_TOP, data->x, data->y, 0, 0, SWP_NOSIZE);
+	case WM_ACTIVATE:
+		if (wParam == WA_INACTIVE)
+			PostMessage(hwnd, WM_CLOSE, 0, 0);
+		break;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDOK:
+			EndDialog(hwnd, 0);
+			return TRUE;
+
+		case IDCANCEL:
+			EndDialog(hwnd, 0);
 			return TRUE;
 		}
+		break;
 
-	    case WM_ACTIVATE:
-			if (wParam == WA_INACTIVE)
-				PostMessage(hwnd, WM_CLOSE, 0, 0);
-			break;
-
-		case WM_COMMAND:
-		{
-			switch(LOWORD(wParam))
-			{
-				case IDOK:
-				{
-					EndDialog(hwnd, 0);
-					return TRUE;
-				}
-
-				case IDCANCEL:
-				{
-					EndDialog(hwnd, 0);
-					return TRUE;
-				}
-			}
-			break;
-		}
-
-		case WM_NOTIFY:
+	case WM_NOTIFY:
 		{
 			LPNMHDR hdr = (LPNMHDR)lParam;
-			if ((hdr->idFrom = IDC_MONTHCALENDAR1) && (hdr->code == MCN_SELECT))
-			{
+			if ((hdr->idFrom = IDC_MONTHCALENDAR1) && (hdr->code == MCN_SELECT)) {
 				LPNMSELCHANGE lpnmsc = (LPNMSELCHANGE)lParam;
 				struct tm tm_sel;
 				tm_sel.tm_hour = tm_sel.tm_min = tm_sel.tm_sec = 0;
@@ -63,18 +51,14 @@ INT_PTR CALLBACK CalendarToolDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			return TRUE;
 		}
 
-		case WM_CLOSE:
-		{
-			DestroyWindow(hwnd);
-			return TRUE;
-		}
+	case WM_CLOSE:
+		DestroyWindow(hwnd);
+		return TRUE;
 
-		case WM_DESTROY:
-		{
-			delete data;
-			data = 0;
-			SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
-		}
+	case WM_DESTROY:
+		delete data;
+		data = 0;
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
 	}
 	return FALSE;
 }

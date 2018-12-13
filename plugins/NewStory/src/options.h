@@ -7,7 +7,6 @@ struct Options
 };
 
 extern Options options;
-extern int OptShowPage;
 
 void LoadOptions();
 void InitOptions();

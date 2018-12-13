@@ -9,7 +9,7 @@ private:
 	};
 	struct CacheItem
 	{
-		CacheItem(): item(0), no(0) {}
+		CacheItem() : item(0), no(0) {}
 		Item *item;
 		int no;
 	};
@@ -29,6 +29,6 @@ public:
 	}
 	~QuickList()
 	{
-		delete [] cache;
+		delete[] cache;
 	}
 };
