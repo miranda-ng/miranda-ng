@@ -2,7 +2,7 @@
 
 set ProfileDir=%~dp0Profiles
 
-for /F "tokens=1,2 delims== " %%a in ('findstr "ProfileDir=" mirandaboot.ini') do (
+for /F "tokens=1,2 delims==" %%a in ('findstr "ProfileDir=" mirandaboot.ini') do (
   call set ProfileDir=%%b
 )
 
