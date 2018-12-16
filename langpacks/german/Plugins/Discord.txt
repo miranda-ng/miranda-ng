@@ -21,7 +21,7 @@ Standardgruppe:
 [Hide guild chats on startup]
 Gilden-Chats beim Start verbergen
 [Use subgroups for guild's channels (requires restart)]
-
+Untergruppen für Gilden-Chats verwenden (erfordert Neustart)
 [Nick:]
 Nick:
 ;file \protocols\Discord\src\dispatch.cpp

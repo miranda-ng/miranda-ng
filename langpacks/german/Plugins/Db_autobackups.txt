@@ -27,7 +27,7 @@ Durchsuchen...
 [Go to the "Options -> Customize -> Folders" to change settings]
 Gehen Sie zu Customize -> Verzeichnisse, um die Einstellungen zu ändern.
 [Backup file mask:]
-
+Backup-Dateimaske:
 [Compress backup to zip-archive]
 Sicherungen in Zip-Archiven komprimieren
 [Backup profile folder]
