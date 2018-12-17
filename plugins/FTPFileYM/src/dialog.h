@@ -30,12 +30,8 @@ class UploadDialog
 	friend class UploadJob;
 	friend class PackerJob;
 
-private:
-	static UploadDialog *instance;
 	static mir_cs mutexTabs;
 	wchar_t m_tszToolTipText[1024];
-
-	UploadDialog();
 
 public:
 	class Tab
@@ -66,14 +62,8 @@ public:
 
 	vector<Tab *> m_tabs;
 
+	UploadDialog();
 	~UploadDialog();
-
-	static UploadDialog *getInstance() 
-	{
-		if (!instance)
-			instance = new UploadDialog();
-		return instance;
-	};
 
 	void selectTab(int index);
 	void show();
@@ -81,3 +71,5 @@ public:
 	static LRESULT CALLBACK TabControlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam); 
 	static INT_PTR CALLBACK UploadDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 };
+
+extern UploadDialog *uDlg;

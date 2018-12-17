@@ -24,14 +24,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "utils.h"
 
 Manager *manDlg = nullptr;
-Manager *Manager::instance = nullptr;
-
-extern Options &opt;
-extern ServerList &ftpList;
-
-Manager::Manager()
-{
-}
 
 Manager::~Manager()
 {
@@ -44,7 +36,6 @@ Manager::~Manager()
 	ImageList_Destroy(m_himlStates);
 	DBEntry::cleanupDB();
 
-	instance = nullptr;
 	manDlg = nullptr;
 }
 

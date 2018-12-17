@@ -21,15 +21,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 #include "serverlist.h"
 
-class Options 
+struct Options 
 {
-private:
-	static Options *instance;
-
-	Options() { }; 
-	~Options() { instance = nullptr; };
-
-public:
 	enum ETimeRange
 	{
 		TR_MINUTES= 0,
@@ -50,19 +43,13 @@ public:
 	int iDeleteTime;
 	ETimeRange timeRange;
 
-	static Options &getInstance() 
-	{
-		if (!instance)
-			instance = new Options();
-		return *instance;
-	};
-
 	static void enableItems(HWND hwndDlg, bool state);
 	static int InitOptions(WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK DlgProcOptsAccounts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK DlgProcOptsAdvanced(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);	
 
-	void deinit();
 	void loadOptions();	
 	void saveOptions() const;
 };
+
+extern Options opt;

@@ -18,10 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-DeleteTimer *DeleteTimer::instance = nullptr;
-DeleteTimer &deleteTimer = DeleteTimer::getInstance();
-
-extern Options &opt;
+DeleteTimer deleteTimer;
 
 void DeleteTimer::init()
 {
@@ -33,7 +30,6 @@ void DeleteTimer::init()
 void DeleteTimer::deinit()
 {
 	stop();
-	delete this;
 }
 
 void DeleteTimer::start()

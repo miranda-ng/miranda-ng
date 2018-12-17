@@ -22,13 +22,6 @@ CMPlugin g_plugin;
 
 HGENMENU hMenu, hMainMenu, hSubMenu[ServerList::FTP_COUNT], hMainSubMenu[ServerList::FTP_COUNT];
 
-extern UploadDialog *uDlg;
-extern Manager *manDlg;
-
-extern DeleteTimer &deleteTimer;
-extern ServerList &ftpList;
-extern Options &opt;
-
 int PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
 void PrebuildMainMenu();
 int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam);
@@ -278,7 +271,8 @@ int UploadFile(MCONTACT hContact, int m_iFtpNum, GenericJob::EMode mode, void **
 		result = job->getFiles();
 
 	if (result != 0) {
-		uDlg = UploadDialog::getInstance();
+		if (uDlg == nullptr)
+			uDlg = new UploadDialog();
 		if (!uDlg->m_hwnd || !uDlg->m_hwndTabs) {
 			Utils::msgBox(TranslateT("Error has occurred while trying to create a dialog!"), MB_OK | MB_ICONERROR);
 			delete uDlg;
@@ -318,7 +312,7 @@ INT_PTR UploadService(WPARAM, LPARAM lParam)
 
 INT_PTR ShowManagerService(WPARAM, LPARAM)
 {
-	manDlg = Manager::getInstance();
+	manDlg = new Manager();
 	manDlg->init();
 	return 0;
 }
@@ -367,17 +361,11 @@ static int Shutdown(WPARAM, LPARAM)
 	curl_global_cleanup();
 
 	ftpList.deinit();
-	opt.deinit();
-
 	return 0;
 }
 
 int CMPlugin::Load()
 {
-#ifdef _DEBUG
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-#endif
-
 	CoInitialize(nullptr);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);

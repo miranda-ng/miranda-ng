@@ -18,9 +18,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-extern UploadDialog *uDlg;
-extern ServerList &ftpList;
-
 GenericJob::GenericJob(MCONTACT hContact, int iFtpNum, EMode mode) :
 	m_hContact(hContact),
 	m_iFtpNum(iFtpNum),

@@ -64,13 +64,8 @@ using namespace std;
 #define FREE(X)	if (X) { mir_free(X); X = NULL; }
 #endif
 
-#ifdef _DEBUG
-#define _CRTDBG_MAP_ALLOC
-#define new DEBUG_CLIENTBLOCK
-#define DEBUG_CLIENTBLOCK   new( _CLIENT_BLOCK, __FILE__, __LINE__)
-#else
-#define DEBUG_CLIENTBLOCK
-#endif
+extern Manager *manDlg;
+extern ServerList ftpList;
 
 #define MS_FTPFILE_CONTACTMENU	"FTPFile/ContactMenu"
 #define MS_FTPFILE_MAINMENU		"FTPFile/MainMenu"

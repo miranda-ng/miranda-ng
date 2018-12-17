@@ -18,9 +18,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-extern Options &opt;
-extern UploadDialog *uDlg;
-
 int Utils::getDeleteTimeMin()
 {
 	switch (opt.timeRange) {
@@ -85,8 +82,8 @@ const char to_chars[] = "abvgdeezziiklmnoprstufhccwwqyqeuaABVGDEEZZIIKLMNOPRSTUF
 
 CMStringA Utils::makeSafeString(CMStringA &input)
 {
-	int len = mir_strlen(from_chars);
-	for (int i = 0; i < len; i++)
+	size_t len = mir_strlen(from_chars);
+	for (size_t i = 0; i < len; i++)
 		input.Replace(from_chars[i], to_chars[i]);
 	return input;
 }

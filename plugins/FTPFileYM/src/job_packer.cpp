@@ -22,9 +22,6 @@ Event PackerJob::jobDone;
 mir_cs PackerJob::mutexJobCount;
 int PackerJob::iRunningJobCount = 0;
 
-extern UploadDialog *uDlg;
-extern Options &opt;
-
 PackerJob::PackerJob(MCONTACT hContact, int iFtpNum, EMode mode) :
 	GenericJob(hContact, iFtpNum, mode),
 	m_uiFileSize(0),

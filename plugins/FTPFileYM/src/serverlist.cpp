@@ -18,15 +18,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-ServerList *ServerList::instance = nullptr;
-ServerList &ftpList = ServerList::getInstance();
-
-extern Options &opt;
+ServerList ftpList;
 
 void ServerList::init()
 {
 	for (int i = 0; i < FTP_COUNT; i++) {
-		ServerList::FTP *ftp = new ServerList::FTP(i);
+		FTP *ftp = new FTP(i);
 		ftpList.add(ftp);
 	}
 }
@@ -35,8 +32,6 @@ void ServerList::deinit()
 {
 	for (UINT i = 0; i < ftpList.size(); i++)
 		delete ftpList[i];
-
-	delete this;
 }
 
 void ServerList::saveToDb() const

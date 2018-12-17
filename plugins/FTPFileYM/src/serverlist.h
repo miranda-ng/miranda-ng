@@ -20,17 +20,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-class ServerList
+struct ServerList
 {
-private:
-	static ServerList *instance;
-	ServerList() { };
-	~ServerList() { instance = nullptr; };
-
-public:
-	class FTP
+	struct FTP : public MZeroedObject
 	{
-	public:
 		enum EProtoType
 		{	
 			FT_STANDARD	= 0, 
@@ -61,16 +54,9 @@ public:
 
 	vector<FTP *> m_items;
 
-	FTP	*operator[] (int i) const { return m_items[i]; };
+	FTP* operator[] (int i) const { return m_items[i]; };
 	void add(FTP *newItem) { m_items.push_back(newItem); }
 	size_t size() { return m_items.size(); }
-
-	static ServerList &getInstance() 
-	{
-		if (!instance)
-			instance = new ServerList();
-		return *instance;
-	};
 
 	void init();
 	void deinit();

@@ -22,9 +22,6 @@ Event UploadJob::jobDone;
 mir_cs UploadJob::mutexJobCount;
 int UploadJob::iRunningJobCount = 0;
 
-extern UploadDialog *uDlg;
-extern ServerList &ftpList;
-
 UploadJob::UploadJob(MCONTACT _hContact, int _iFtpNum, EMode _mode) :
 	GenericJob(_hContact, _iFtpNum, _mode),
 	m_fp(nullptr)

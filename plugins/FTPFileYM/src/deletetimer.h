@@ -24,24 +24,15 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 class DeleteTimer 
 {	
 private:
-	static DeleteTimer *instance;
-	UINT timerId;
-
-	DeleteTimer() { }; 
-	~DeleteTimer() { instance = nullptr; };
+	UINT timerId = 0;
 
 	static void CALLBACK AutoDeleteTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
 
 public:
-	static DeleteTimer &getInstance() 
-	{
-		if (!instance)
-			instance = new DeleteTimer();
-		return *instance;
-	};
-
 	void init();
 	void deinit();
 	void start();
 	void stop();
 };
+
+extern DeleteTimer deleteTimer;

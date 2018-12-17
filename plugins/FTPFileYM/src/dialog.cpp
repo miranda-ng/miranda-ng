@@ -18,12 +18,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-UploadDialog *UploadDialog::instance = nullptr;
 UploadDialog *uDlg = nullptr;
 
 mir_cs UploadDialog::mutexTabs;
-
-extern Options &opt;
 
 UploadDialog::UploadDialog()
 {
@@ -50,7 +47,6 @@ UploadDialog::~UploadDialog()
 		SendMessage(m_hwnd, WMU_DESTROY, 0, 0);
 	}
 
-	instance = nullptr;
 	uDlg = nullptr;
 }
 

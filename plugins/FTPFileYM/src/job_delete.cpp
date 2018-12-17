@@ -23,9 +23,6 @@ Event DeleteJob::jobDone;
 mir_cs DeleteJob::mutexJobCount;
 int DeleteJob::iRunningJobCount = 0;
 
-extern ServerList &ftpList;
-extern Manager *manDlg;
-
 DeleteJob::DeleteJob(DBEntry *entry, Manager::TreeItem *item) :
 	m_entry(entry),
 	m_treeItem(item),

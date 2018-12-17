@@ -30,13 +30,9 @@ private:
 		STATE_CHECKED
 	};
 
-	static Manager *instance;
-
 	HWND m_hwnd;
 	HWND m_hwndFileTree;
 	HIMAGELIST m_himlStates;
-
-	Manager();	
 
 	void show();
 	void initRootItems();
@@ -72,13 +68,6 @@ public:
 
 	void AddRoot(HTREEITEM h) { m_rootItems.push_back(new TreeItem(h, nullptr, 0)); }
 	void AddLeaf(HTREEITEM h, HTREEITEM p, int id) { m_items.push_back(new TreeItem(h,p,id)); }
-
-	static Manager *getInstance() 
-	{
-		if (!instance)
-			instance = new Manager();
-		return instance;
-	};
 
 	void init();	
 	int indexOf(HTREEITEM handle);

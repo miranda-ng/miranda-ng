@@ -18,18 +18,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-Options *Options::instance = nullptr;
-Options &opt = Options::getInstance();
-
-extern DeleteTimer &deleteTimer;
-extern ServerList &ftpList;
+Options opt;
 
 extern void PrebuildMainMenu();
-
-void Options::deinit()
-{
-	delete this;
-}
 
 void Options::loadOptions()
 {
