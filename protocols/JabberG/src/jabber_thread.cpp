@@ -126,6 +126,7 @@ void CJabberProto::OnPingReply(HXML, CJabberIqInfo *pInfo)
 {
 	if (!pInfo)
 		return;
+
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_FAIL) {
 		// disconnect because of timeout
 		if (m_bEnableStreamMgmt)
@@ -219,9 +220,8 @@ void CJabberProto::xmlStreamInitializeNow(ThreadData *info)
 
 void CJabberProto::ServerThread(JABBER_CONN_DATA *pParam)
 {
-	ptrW tszValue;
-
 	ThreadData info(this, pParam);
+	ptrW tszValue;
 
 	debugLogA("Thread started: type=%d", info.bIsReg);
 	Thread_SetName("Jabber: ServerThread");
@@ -493,7 +493,8 @@ recvRest:
 				if ((info.buffer = (char*)mir_realloc(info.buffer, jabberNetworkBufferSize + 1)) == nullptr) {
 					debugLogA("Cannot reallocate more network buffer, go offline now");
 					break;
-			}	}
+				}
+			}
 			else debugLogA("Unknown state: bytesParsed=%d, datalen=%d, jabberNetworkBufferSize=%d", bytesParsed, datalen, jabberNetworkBufferSize);
 
 			if (m_szXmlStreamToBeInitialized) {
@@ -531,9 +532,9 @@ recvRest:
 			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 
 			// Set all contacts to offline
-			if (!m_StrmMgmt.IsResumeIdPresent())
-			{
-				m_StrmMgmt.ResetState(); //fully reset strm_mgmt state
+			debugLogA("leaving worker thread");
+			if (!m_StrmMgmt.IsResumeIdPresent()) {
+				m_StrmMgmt.ResetState(); // fully reset strm_mgmt state
 				for (auto &hContact : AccContacts())
 					SetContactOfflineStatus(hContact);
 			}
