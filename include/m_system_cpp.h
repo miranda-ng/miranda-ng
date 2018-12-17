@@ -38,7 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 template<class T> class mir_ptr
 {
 protected:
-	T* data;
+	T *data;
 
 public:
 	__inline explicit mir_ptr() : data(nullptr) {}
@@ -116,7 +116,7 @@ class mir_cslockfull
 {
 	CRITICAL_SECTION &cs;
 	bool bIsLocked;
-	__inline mir_cslockfull& operator = (const mir_cslockfull&) { return *this; }
+	__inline mir_cslockfull& operator= (const mir_cslockfull&) { return *this; }
 
 public:
 	__inline void lock() { bIsLocked = true; EnterCriticalSection(&cs); }
@@ -132,14 +132,12 @@ public:
 class MZeroedObject
 {
 public:
-	__inline void* operator new( size_t size )
-	{
-		return calloc( 1, size );
+	__inline void* operator new(size_t size)
+	{	return calloc(1, size);
 	}
 
-	__inline void operator delete( void* p )
-	{
-		free( p );
+	__inline void operator delete(void *p)
+	{	free(p);
 	}
 };
 
@@ -163,7 +161,7 @@ struct MNonCopyable
 
 template<class T> struct LIST
 {
-	typedef int (*FTSortFunc)(const T* p1, const T* p2);
+	typedef int (*FTSortFunc)(const T *p1, const T *p2);
 
 	__inline LIST(int aincr, FTSortFunc afunc = nullptr)
 	{
@@ -179,13 +177,13 @@ template<class T> struct LIST
 		sortFunc = FTSortFunc(id);
 	}
 
-	__inline LIST(const LIST& x)
+	__inline LIST(const LIST &x)
 	{
 		items = nullptr;
 		List_Copy((SortedList*)&x, (SortedList*)this, sizeof(T));
 	}
 
-	__inline LIST& operator = (const LIST& x)
+	__inline LIST& operator = (const LIST &x)
 	{
 		destroy();
 		List_Copy((SortedList*)&x, (SortedList*)this, sizeof(T));
@@ -198,8 +196,8 @@ template<class T> struct LIST
 	}
 
 	__inline T*  operator[](int idx) const { return (idx >= 0 && idx < count) ? items[idx] : nullptr; }
-	__inline int getCount(void)     const { return count; }
-	__inline T** getArray(void)     const { return items; }
+	__inline int getCount(void)      const { return count; }
+	__inline T** getArray(void)      const { return items; }
 
 	__inline int getIndex(T *p) const
 	{
@@ -267,7 +265,7 @@ protected:
 
 template<class T> struct OBJLIST : public LIST<T>
 {
-	typedef int (*FTSortFunc)(const T* p1, const T* p2);
+	typedef int (*FTSortFunc)(const T *p1, const T *p2);
 
 	__inline OBJLIST(int aincr, FTSortFunc afunc = nullptr) :
 		LIST<T>(aincr, afunc)
@@ -277,7 +275,7 @@ template<class T> struct OBJLIST : public LIST<T>
 		LIST<T>(aincr, (FTSortFunc) id)
 		{}
 
-	__inline OBJLIST(const OBJLIST& x) :
+	__inline OBJLIST(const OBJLIST &x) :
 		LIST<T>(x.increment, x.sortFunc)
 		{
 			this->items = nullptr;
@@ -329,15 +327,15 @@ template<class T> struct OBJLIST : public LIST<T>
 class _A2T : public ptrW
 {
 public:
-	__inline _A2T(const char* s) : ptrW(mir_a2u(s)) {}
-	__inline _A2T(const char* s, int cp) : ptrW(mir_a2u_cp(s, cp)) {}
+	__inline _A2T(const char *s) : ptrW(mir_a2u(s)) {}
+	__inline _A2T(const char *s, int cp) : ptrW(mir_a2u_cp(s, cp)) {}
 };
 
 class _T2A : public ptrA
 {
 public:
-	__forceinline _T2A(const wchar_t* s) : ptrA(mir_u2a(s)) {}
-	__forceinline _T2A(const wchar_t* s, int cp) : ptrA(mir_u2a_cp(s, cp)) {}
+	__forceinline _T2A(const wchar_t *s) : ptrA(mir_u2a(s)) {}
+	__forceinline _T2A(const wchar_t *s, int cp) : ptrA(mir_u2a_cp(s, cp)) {}
 };
 
 class T2Utf : public ptrA
