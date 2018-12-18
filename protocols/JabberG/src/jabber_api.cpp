@@ -211,8 +211,7 @@ int CJabberProto::RegisterFeature(const wchar_t *szFeature, const wchar_t *szDes
 		return false;
 
 	// check for this feature in core features, and return false if it's present, to prevent re-registering a core feature
-	int i;
-	for (i=0; g_JabberFeatCapPairs[i].szFeature; i++)
+	for (int i = 0; i < g_cJabberFeatCapPairs; i++)
 		if (!mir_wstrcmp(g_JabberFeatCapPairs[i].szFeature, szFeature))
 			return false;
 
@@ -222,7 +221,7 @@ int CJabberProto::RegisterFeature(const wchar_t *szFeature, const wchar_t *szDes
 		JabberCapsBits jcb = JABBER_CAPS_OTHER_SPECIAL; // set all bits not included in g_JabberFeatCapPairs
 
 		// set all bits occupied by g_JabberFeatCapPairs
-		for (i=0; g_JabberFeatCapPairs[i].szFeature; i++)
+		for (int i = 0; i < g_cJabberFeatCapPairs; i++)
 			jcb |= g_JabberFeatCapPairs[i].jcbCap;
 
 		// set all bits already occupied by external plugins
@@ -322,35 +321,24 @@ LPTSTR CJabberProto::GetResourceFeatures(const wchar_t *jid)
 	if (jcb & JABBER_RESOURCE_CAPS_ERROR)
 		return nullptr;
 
+	CMStringW res;
 	mir_cslockfull lck(m_csLists);
 
-	size_t iLen = 1; // 1 for extra zero terminator at the end of the string
-	// calculate total necessary string length
-	for (int i=0; g_JabberFeatCapPairs[i].szFeature; i++)
-		if (jcb & g_JabberFeatCapPairs[i].jcbCap)
-			iLen += mir_wstrlen(g_JabberFeatCapPairs[i].szFeature) + 1;
-
-	for (auto &it : m_lstJabberFeatCapPairsDynamic)
-		if (jcb & it->jcbCap)
-			iLen += mir_wstrlen(it->szFeature) + 1;
-
 	// allocate memory and fill it
-	LPTSTR str = (LPTSTR)mir_alloc(iLen * sizeof(wchar_t));
-	LPTSTR p = str;
-	for (int i=0; g_JabberFeatCapPairs[i].szFeature; i++)
+	for (int i = 0; i < g_cJabberFeatCapPairs; i++)
 		if (jcb & g_JabberFeatCapPairs[i].jcbCap) {
-			mir_wstrcpy(p, g_JabberFeatCapPairs[i].szFeature);
-			p += mir_wstrlen(g_JabberFeatCapPairs[i].szFeature) + 1;
+			res.Append(g_JabberFeatCapPairs[i].szFeature);
+			res.AppendChar(0);
 		}
 
 	for (auto &it : m_lstJabberFeatCapPairsDynamic)
 		if (jcb & it->jcbCap) {
-			mir_wstrcpy(p, it->szFeature);
-			p += mir_wstrlen(it->szFeature) + 1;
+			res.Append(it->szFeature);
+			res.AppendChar(0);
 		}
 
-	*p = 0; // extra zero terminator
-	return str;
+	res.AppendChar(0);
+	return res.Detach();
 }
 
 HNETLIBUSER CJabberProto::GetHandle()

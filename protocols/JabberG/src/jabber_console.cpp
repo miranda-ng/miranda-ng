@@ -279,9 +279,9 @@ static void sttJabberConsoleRebuildStrings(CJabberProto *ppro, HWND hwndCombo)
 
 	SendMessage(hwndCombo, CB_RESETCONTENT, 0, 0);
 
-	for (int i=0; g_JabberFeatCapPairs[i].szFeature; i++)
+	for (int i = 0; i < g_cJabberFeatCapPairs; i++)
 		SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM)g_JabberFeatCapPairs[i].szFeature);
-	for (int i=0; g_JabberFeatCapPairsExt[i].szFeature; i++)
+	for (int i = 0; i < g_cJabberFeatCapPairsExt; i++)
 		SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM)g_JabberFeatCapPairsExt[i].szFeature);
 
 	LISTFOREACH(i, ppro, LIST_ROSTER)

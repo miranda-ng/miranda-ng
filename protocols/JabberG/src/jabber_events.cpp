@@ -50,7 +50,7 @@ void CJabberProto::OnContactDeleted(MCONTACT hContact)
 		}
 
 		// Remove from roster, server also handles the presence unsubscription process.
-		m_ThreadInfo->send(XmlNodeIq(L"set", SerialNext()) 
+		m_ThreadInfo->send(XmlNodeIq(L"set", SerialNext())
 			<< XQUERY(JABBER_FEAT_IQ_ROSTER) << XCHILD(L"item") << XATTR(L"jid", jid) << XATTR(L"subscription", L"remove"));
 
 		ListRemove(LIST_ROSTER, jid);
@@ -108,7 +108,7 @@ void __cdecl CJabberProto::OnRenameGroup(DBCONTACTWRITESETTING *cws, MCONTACT hC
 
 void __cdecl CJabberProto::OnRenameContact(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 {
-	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, ptrW( getWStringA(hContact, "jid")));
+	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, ptrW(getWStringA(hContact, "jid")));
 	if (item == nullptr)
 		return;
 
@@ -119,7 +119,7 @@ void __cdecl CJabberProto::OnRenameContact(DBCONTACTWRITESETTING *cws, MCONTACT 
 		return;
 	}
 
-	ptrW newNick( sttSettingToTchar(cws));
+	ptrW newNick(sttSettingToTchar(cws));
 	if (newNick && mir_wstrcmp(item->nick, newNick)) {
 		debugLogW(L"Renaming contact %s: %s -> %s", item->jid, item->nick, newNick);
 		AddContactToRoster(item->jid, newNick, item->group);

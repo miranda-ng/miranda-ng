@@ -393,7 +393,7 @@ protected:
 	wchar_t *m_jid;
 
 	bool OnInitDialog() override;
-		void OnDestroy();
+	void OnDestroy();
 
 	void OnBtnOk(CCtrlButton*);
 
@@ -637,9 +637,9 @@ INT_PTR CJabberDlgGcJoin::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					}
 					else
 						sttRoomListAppend(GetDlgItem(m_hwnd, IDC_ROOM), RoomInfo::ROOM_FAIL,
-						TranslateT("Jabber Error"),
-						TranslateT("Please specify group chat directory first."),
-						L"");
+							TranslateT("Jabber Error"),
+							TranslateT("Please specify group chat directory first."),
+							L"");
 				}
 				break;
 			}
@@ -730,10 +730,11 @@ struct JabberGroupchatChangeNicknameParam
 	JabberGroupchatChangeNicknameParam(CJabberProto* ppro_, const wchar_t *jid_) :
 		ppro(ppro_),
 		jid(mir_wstrdup(jid_))
-		{}
+	{}
 
 	~JabberGroupchatChangeNicknameParam()
-	{	mir_free(jid);
+	{
+		mir_free(jid);
 	}
 
 	CJabberProto *ppro;
@@ -940,7 +941,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 				// A new room just created by me
 				// Request room config
 				m_ThreadInfo->send(
-				XmlNodeIq(AddIQ(&CJabberProto::OnIqResultGetMuc, JABBER_IQ_TYPE_GET, item->jid))
+					XmlNodeIq(AddIQ(&CJabberProto::OnIqResultGetMuc, JABBER_IQ_TYPE_GET, item->jid))
 					<< XQUERY(JABBER_FEAT_MUC_OWNER));
 		}
 	}

@@ -282,7 +282,7 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 	if (!(jcb & JABBER_RESOURCE_CAPS_ERROR)) {
 		HTREEITEM htiCaps = sttFillInfoLine(hwndTree, htiResource, ppro->LoadIconEx("main"), nullptr, TranslateT("Client capabilities"), sttInfoLineId(resource, INFOLINE_CAPS));
 		int i;
-		for (i = 0; g_JabberFeatCapPairs[i].szFeature; i++)
+		for (i = 0; i < g_cJabberFeatCapPairs; i++)
 			if (jcb & g_JabberFeatCapPairs[i].jcbCap) {
 				wchar_t szDescription[1024];
 				if (g_JabberFeatCapPairs[i].tszDescription)

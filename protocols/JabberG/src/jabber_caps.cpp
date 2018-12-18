@@ -28,59 +28,62 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_caps.h"
 #include "version.h"
 
-const JabberFeatCapPair g_JabberFeatCapPairs[] = {
-	{ JABBER_FEAT_DISCO_INFO,           JABBER_CAPS_DISCO_INFO,           LPGENW("Supports Service Discovery info") },
-	{ JABBER_FEAT_DISCO_ITEMS,          JABBER_CAPS_DISCO_ITEMS,          LPGENW("Supports Service Discovery items list") },
-	{ JABBER_FEAT_ENTITY_CAPS,          JABBER_CAPS_ENTITY_CAPS,          LPGENW("Can inform about its Jabber capabilities") },
-	{ JABBER_FEAT_SI,                   JABBER_CAPS_SI,                   LPGENW("Supports stream initiation (e.g., for filetransfers)") },
-	{ JABBER_FEAT_SI_FT,                JABBER_CAPS_SI_FT,                LPGENW("Supports stream initiation for file transfers") },
-	{ JABBER_FEAT_BYTESTREAMS,          JABBER_CAPS_BYTESTREAMS,          LPGENW("Supports file transfers via SOCKS5 Bytestreams") },
-	{ JABBER_FEAT_IBB,                  JABBER_CAPS_IBB,                  LPGENW("Supports file transfers via In-Band Bytestreams") },
-	{ JABBER_FEAT_OOB,                  JABBER_CAPS_OOB,                  LPGENW("Supports file transfers via Out-of-Band Bytestreams") },
-	{ JABBER_FEAT_OOB2,                 JABBER_CAPS_OOB,                  LPGENW("Supports file transfers via Out-of-Band Bytestreams") },
-	{ JABBER_FEAT_COMMANDS,             JABBER_CAPS_COMMANDS,             LPGENW("Supports execution of Ad-Hoc commands") },
-	{ JABBER_FEAT_REGISTER,             JABBER_CAPS_REGISTER,             LPGENW("Supports in-band registration") },
-	{ JABBER_FEAT_MUC,                  JABBER_CAPS_MUC,                  LPGENW("Supports multi-user chat") },
-	{ JABBER_FEAT_CHATSTATES,           JABBER_CAPS_CHATSTATES,           LPGENW("Can report chat state in a chat session") },
-	{ JABBER_FEAT_LAST_ACTIVITY,        JABBER_CAPS_LAST_ACTIVITY,        LPGENW("Can report information about the last activity of the user") },
-	{ JABBER_FEAT_VERSION,              JABBER_CAPS_VERSION,              LPGENW("Can report own version information") },
-	{ JABBER_FEAT_ENTITY_TIME,          JABBER_CAPS_ENTITY_TIME,          LPGENW("Can report local time of the user") },
-	{ JABBER_FEAT_PING,                 JABBER_CAPS_PING,                 LPGENW("Can send and receive ping requests") },
-	{ JABBER_FEAT_DATA_FORMS,           JABBER_CAPS_DATA_FORMS,           LPGENW("Supports data forms") },
-	{ JABBER_FEAT_MESSAGE_EVENTS,       JABBER_CAPS_MESSAGE_EVENTS,       LPGENW("Can request and respond to events relating to the delivery, display, and composition of messages") },
-	{ JABBER_FEAT_VCARD_TEMP,           JABBER_CAPS_VCARD_TEMP,           LPGENW("Supports vCard") },
-	{ JABBER_FEAT_AVATAR,               JABBER_CAPS_AVATAR,               LPGENW("Supports iq-based avatars") },
-	{ JABBER_FEAT_XHTML,                JABBER_CAPS_XHTML,                LPGENW("Supports XHTML formatting of chat messages") },
-	{ JABBER_FEAT_AGENTS,               JABBER_CAPS_AGENTS,               LPGENW("Supports Jabber Browsing") },
-	{ JABBER_FEAT_BROWSE,               JABBER_CAPS_BROWSE,               LPGENW("Supports Jabber Browsing") },
-	{ JABBER_FEAT_FEATURE_NEG,          JABBER_CAPS_FEATURE_NEG,          LPGENW("Can negotiate options for specific features") },
-	{ JABBER_FEAT_AMP,                  JABBER_CAPS_AMP,                  LPGENW("Can request advanced processing of message stanzas") },
-	{ JABBER_FEAT_USER_MOOD,            JABBER_CAPS_USER_MOOD,            LPGENW("Can report information about user moods") },
-	{ JABBER_FEAT_USER_MOOD_NOTIFY,     JABBER_CAPS_USER_MOOD_NOTIFY,     LPGENW("Receives information about user moods") },
-	{ JABBER_FEAT_PUBSUB,               JABBER_CAPS_PUBSUB,               LPGENW("Supports generic publish-subscribe functionality") },
-	{ JABBER_FEAT_SECUREIM,             JABBER_CAPS_SECUREIM,             LPGENW("Supports SecureIM plugin for Miranda NG") },
-	{ JABBER_FEAT_MIROTR,               JABBER_CAPS_MIROTR,               LPGENW("Supports OTR (Off-the-Record Messaging)") },
-	{ JABBER_FEAT_NEWGPG,               JABBER_CAPS_NEWGPG,               LPGENW("Supports New_GPG plugin for Miranda NG") },
-	{ JABBER_FEAT_PRIVACY_LISTS,        JABBER_CAPS_PRIVACY_LISTS,        LPGENW("Blocks packets from other users/group chats using Privacy lists") },
-	{ JABBER_FEAT_MESSAGE_RECEIPTS,     JABBER_CAPS_MESSAGE_RECEIPTS,     LPGENW("Supports Message Receipts") },
-	{ JABBER_FEAT_USER_TUNE,            JABBER_CAPS_USER_TUNE,            LPGENW("Can report information about the music to which a user is listening") },
-	{ JABBER_FEAT_USER_TUNE_NOTIFY,     JABBER_CAPS_USER_TUNE_NOTIFY,     LPGENW("Receives information about the music to which a user is listening") },
-	{ JABBER_FEAT_PRIVATE_STORAGE,      JABBER_CAPS_PRIVATE_STORAGE,      LPGENW("Supports private XML Storage (for bookmarks and other)") },
-	{ JABBER_FEAT_ATTENTION,            JABBER_CAPS_ATTENTION,            LPGENW("Supports attention requests ('nudge')") },
-	{ JABBER_FEAT_ARCHIVE_AUTO,         JABBER_CAPS_ARCHIVE_AUTO,         LPGENW("Supports chat history retrieving") },
-	{ JABBER_FEAT_ARCHIVE_MANAGE,       JABBER_CAPS_ARCHIVE_MANAGE,       LPGENW("Supports chat history management") },
-	{ JABBER_FEAT_USER_ACTIVITY,        JABBER_CAPS_USER_ACTIVITY,        LPGENW("Can report information about user activity") },
-	{ JABBER_FEAT_USER_ACTIVITY_NOTIFY, JABBER_CAPS_USER_ACTIVITY_NOTIFY, LPGENW("Receives information about user activity") },
-	{ JABBER_FEAT_MIRANDA_NOTES,        JABBER_CAPS_MIRANDA_NOTES,        LPGENW("Supports Miranda NG notes extension") },
-	{ JABBER_FEAT_JINGLE,               JABBER_CAPS_JINGLE,               LPGENW("Supports Jingle") },
-	{ JABBER_FEAT_ROSTER_EXCHANGE,      JABBER_CAPS_ROSTER_EXCHANGE,      LPGENW("Supports Roster Exchange") },
-	{ JABBER_FEAT_DIRECT_MUC_INVITE,    JABBER_CAPS_DIRECT_MUC_INVITE,    LPGENW("Supports direct chat invitations (XEP-0249)") },
-	{ JABBER_FEAT_OMEMO_DEVICELIST_NOTIFY,			JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY,		  LPGENW("Receives information about OMEMO devices") },
-	{ JABBER_FEAT_CARBONS,				JABBER_CAPS_CARBONS,			  LPGENW("Supports message carbons (XEP-0280)")},
-	{ nullptr }
+const JabberFeatCapPair g_JabberFeatCapPairs[] =
+{
+	{ JABBER_FEAT_DISCO_INFO,              JABBER_CAPS_DISCO_INFO,              LPGENW("Supports Service Discovery info") },
+	{ JABBER_FEAT_DISCO_ITEMS,             JABBER_CAPS_DISCO_ITEMS,             LPGENW("Supports Service Discovery items list") },
+	{ JABBER_FEAT_ENTITY_CAPS,             JABBER_CAPS_ENTITY_CAPS,             LPGENW("Can inform about its Jabber capabilities") },
+	{ JABBER_FEAT_SI,                      JABBER_CAPS_SI,                      LPGENW("Supports stream initiation (e.g., for filetransfers)") },
+	{ JABBER_FEAT_SI_FT,                   JABBER_CAPS_SI_FT,                   LPGENW("Supports stream initiation for file transfers") },
+	{ JABBER_FEAT_BYTESTREAMS,             JABBER_CAPS_BYTESTREAMS,             LPGENW("Supports file transfers via SOCKS5 Bytestreams") },
+	{ JABBER_FEAT_IBB,                     JABBER_CAPS_IBB,                     LPGENW("Supports file transfers via In-Band Bytestreams") },
+	{ JABBER_FEAT_OOB,                     JABBER_CAPS_OOB,                     LPGENW("Supports file transfers via Out-of-Band Bytestreams") },
+	{ JABBER_FEAT_OOB2,                    JABBER_CAPS_OOB,                     LPGENW("Supports file transfers via Out-of-Band Bytestreams") },
+	{ JABBER_FEAT_COMMANDS,                JABBER_CAPS_COMMANDS,                LPGENW("Supports execution of Ad-Hoc commands") },
+	{ JABBER_FEAT_REGISTER,                JABBER_CAPS_REGISTER,                LPGENW("Supports in-band registration") },
+	{ JABBER_FEAT_MUC,                     JABBER_CAPS_MUC,                     LPGENW("Supports multi-user chat") },
+	{ JABBER_FEAT_CHATSTATES,              JABBER_CAPS_CHATSTATES,              LPGENW("Can report chat state in a chat session") },
+	{ JABBER_FEAT_LAST_ACTIVITY,           JABBER_CAPS_LAST_ACTIVITY,           LPGENW("Can report information about the last activity of the user") },
+	{ JABBER_FEAT_VERSION,                 JABBER_CAPS_VERSION,                 LPGENW("Can report own version information") },
+	{ JABBER_FEAT_ENTITY_TIME,             JABBER_CAPS_ENTITY_TIME,             LPGENW("Can report local time of the user") },
+	{ JABBER_FEAT_PING,                    JABBER_CAPS_PING,                    LPGENW("Can send and receive ping requests") },
+	{ JABBER_FEAT_DATA_FORMS,              JABBER_CAPS_DATA_FORMS,              LPGENW("Supports data forms") },
+	{ JABBER_FEAT_MESSAGE_EVENTS,          JABBER_CAPS_MESSAGE_EVENTS,          LPGENW("Can request and respond to events relating to the delivery, display, and composition of messages") },
+	{ JABBER_FEAT_VCARD_TEMP,              JABBER_CAPS_VCARD_TEMP,              LPGENW("Supports vCard") },
+	{ JABBER_FEAT_AVATAR,                  JABBER_CAPS_AVATAR,                  LPGENW("Supports iq-based avatars") },
+	{ JABBER_FEAT_XHTML,                   JABBER_CAPS_XHTML,                   LPGENW("Supports XHTML formatting of chat messages") },
+	{ JABBER_FEAT_AGENTS,                  JABBER_CAPS_AGENTS,                  LPGENW("Supports Jabber Browsing") },
+	{ JABBER_FEAT_BROWSE,                  JABBER_CAPS_BROWSE,                  LPGENW("Supports Jabber Browsing") },
+	{ JABBER_FEAT_FEATURE_NEG,             JABBER_CAPS_FEATURE_NEG,             LPGENW("Can negotiate options for specific features") },
+	{ JABBER_FEAT_AMP,                     JABBER_CAPS_AMP,                     LPGENW("Can request advanced processing of message stanzas") },
+	{ JABBER_FEAT_USER_MOOD,               JABBER_CAPS_USER_MOOD,               LPGENW("Can report information about user moods") },
+	{ JABBER_FEAT_USER_MOOD_NOTIFY,        JABBER_CAPS_USER_MOOD_NOTIFY,        LPGENW("Receives information about user moods") },
+	{ JABBER_FEAT_PUBSUB,                  JABBER_CAPS_PUBSUB,                  LPGENW("Supports generic publish-subscribe functionality") },
+	{ JABBER_FEAT_SECUREIM,                JABBER_CAPS_SECUREIM,                LPGENW("Supports SecureIM plugin for Miranda NG") },
+	{ JABBER_FEAT_MIROTR,                  JABBER_CAPS_MIROTR,                  LPGENW("Supports OTR (Off-the-Record Messaging)") },
+	{ JABBER_FEAT_NEWGPG,                  JABBER_CAPS_NEWGPG,                  LPGENW("Supports New_GPG plugin for Miranda NG") },
+	{ JABBER_FEAT_PRIVACY_LISTS,           JABBER_CAPS_PRIVACY_LISTS,           LPGENW("Blocks packets from other users/group chats using Privacy lists") },
+	{ JABBER_FEAT_MESSAGE_RECEIPTS,        JABBER_CAPS_MESSAGE_RECEIPTS,        LPGENW("Supports Message Receipts") },
+	{ JABBER_FEAT_USER_TUNE,               JABBER_CAPS_USER_TUNE,               LPGENW("Can report information about the music to which a user is listening") },
+	{ JABBER_FEAT_USER_TUNE_NOTIFY,        JABBER_CAPS_USER_TUNE_NOTIFY,        LPGENW("Receives information about the music to which a user is listening") },
+	{ JABBER_FEAT_PRIVATE_STORAGE,         JABBER_CAPS_PRIVATE_STORAGE,         LPGENW("Supports private XML Storage (for bookmarks and other)") },
+	{ JABBER_FEAT_ATTENTION,               JABBER_CAPS_ATTENTION,               LPGENW("Supports attention requests ('nudge')") },
+	{ JABBER_FEAT_ARCHIVE_AUTO,            JABBER_CAPS_ARCHIVE_AUTO,            LPGENW("Supports chat history retrieving") },
+	{ JABBER_FEAT_ARCHIVE_MANAGE,          JABBER_CAPS_ARCHIVE_MANAGE,          LPGENW("Supports chat history management") },
+	{ JABBER_FEAT_USER_ACTIVITY,           JABBER_CAPS_USER_ACTIVITY,           LPGENW("Can report information about user activity") },
+	{ JABBER_FEAT_USER_ACTIVITY_NOTIFY,    JABBER_CAPS_USER_ACTIVITY_NOTIFY,    LPGENW("Receives information about user activity") },
+	{ JABBER_FEAT_MIRANDA_NOTES,           JABBER_CAPS_MIRANDA_NOTES,           LPGENW("Supports Miranda NG notes extension") },
+	{ JABBER_FEAT_JINGLE,                  JABBER_CAPS_JINGLE,                  LPGENW("Supports Jingle") },
+	{ JABBER_FEAT_ROSTER_EXCHANGE,         JABBER_CAPS_ROSTER_EXCHANGE,         LPGENW("Supports Roster Exchange") },
+	{ JABBER_FEAT_DIRECT_MUC_INVITE,       JABBER_CAPS_DIRECT_MUC_INVITE,       LPGENW("Supports direct chat invitations (XEP-0249)") },
+	{ JABBER_FEAT_OMEMO_DEVICELIST_NOTIFY, JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY, LPGENW("Receives information about OMEMO devices") },
+	{ JABBER_FEAT_CARBONS,				      JABBER_CAPS_CARBONS,                 LPGENW("Supports message carbons (XEP-0280)")},
 };
 
-const JabberFeatCapPairExt g_JabberFeatCapPairsExt[] = {
+const int g_cJabberFeatCapPairs = _countof(g_JabberFeatCapPairs);
+
+const JabberFeatCapPairExt g_JabberFeatCapPairsExt[] =
+{
 	{ JABBER_EXT_SECUREIM,          JABBER_CAPS_SECUREIM,             "SecureIM/IsContactSecured" },
 	{ JABBER_EXT_MIROTR,            JABBER_CAPS_MIROTR,               "MirOTRMenuCheckService"    },
 	{ JABBER_EXT_NEWGPG,            JABBER_CAPS_NEWGPG,               "/ExportGPGKeys"            },
@@ -96,17 +99,19 @@ const JabberFeatCapPairExt g_JabberFeatCapPairsExt[] = {
 	{ szCoreVersion,                JABBER_CAPS_MIRANDA_PARTIAL                                   },
 	{ JABBER_EXT_PLATFORMX86,       JABBER_CAPS_PLATFORMX86                                       },
 	{ JABBER_EXT_PLATFORMX64,       JABBER_CAPS_PLATFORMX64                                       },
-	{ nullptr }
 };
+
+const int g_cJabberFeatCapPairsExt = _countof(g_JabberFeatCapPairsExt);
 
 void CJabberProto::AddDefaultCaps()
 {
 	JabberCapsBits myCaps = JABBER_CAPS_MIRANDA_ALL;
 	if (m_bUseOMEMO)
 		myCaps |= JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY;
-	for (int i = 0; g_JabberFeatCapPairsExt[i].szFeature; i++)
-		if (g_JabberFeatCapPairsExt[i].Valid())
-			myCaps |= g_JabberFeatCapPairsExt[i].jcbCap;
+	
+	for (auto &it : g_JabberFeatCapPairsExt)
+		if (it.Valid())
+			myCaps |= it.jcbCap;
 
 	wchar_t szOsBuffer[256]; szOsBuffer[0] = 0;
 	GetOSDisplayString(szOsBuffer, _countof(szOsBuffer));
@@ -115,7 +120,7 @@ void CJabberProto::AddDefaultCaps()
 	pCaps->m_szOs = mir_wstrdup(L"Microsoft Windows");
 	pCaps->m_szOsVer = mir_wstrdup(szOsBuffer);
 	pCaps->m_szSoft = mir_wstrdup(L"Miranda NG Jabber Protocol");
-	pCaps->m_szSoftMir = mir_wstrdup(szCoreVersion);  
+	pCaps->m_szSoftMir = mir_wstrdup(szCoreVersion);
 }
 
 void CJabberProto::OnIqResultCapsDiscoInfo(HXML, CJabberIqInfo *pInfo)
@@ -134,9 +139,9 @@ void CJabberProto::OnIqResultCapsDiscoInfo(HXML, CJabberIqInfo *pInfo)
 			if (!featureName)
 				continue;
 
-			for (int j = 0; g_JabberFeatCapPairs[j].szFeature; j++) {
-				if (!mir_wstrcmp(g_JabberFeatCapPairs[j].szFeature, featureName)) {
-					jcbCaps |= g_JabberFeatCapPairs[j].jcbCap;
+			for (auto &it : g_JabberFeatCapPairs) {
+				if (!mir_wstrcmp(it.szFeature, featureName)) {
+					jcbCaps |= it.jcbCap;
 					break;
 				}
 			}
@@ -172,7 +177,7 @@ void CJabberProto::OnIqResultCapsDiscoInfo(HXML, CJabberIqInfo *pInfo)
 					root.push_back(JSONNode("sv", _T2A(pCaps->m_szSoftVer).get()));
 				if (pCaps->m_szSoftMir = mir_wstrdup(XPath(xform, L"field[@var='x-miranda-core-version']/value")))
 					root.push_back(JSONNode("sm", _T2A(pCaps->m_szSoftMir).get()));
-				root.push_back(JSONNode("c",  CMStringA(FORMAT, "%lld", jcbCaps)));
+				root.push_back(JSONNode("c", CMStringA(FORMAT, "%lld", jcbCaps)));
 
 				CMStringA szName(FORMAT, "%S#%S", pCaps->GetNode(), pCaps->GetHash());
 				json_string szValue = root.write();
@@ -297,7 +302,7 @@ JabberCapsBits CJabberProto::GetResourceCapabilities(const wchar_t *jid, pResour
 	}
 
 	// no XEP-0115: send query each time it's needed
-	switch(r->m_dwDiscoInfoRequestTime) {
+	switch (r->m_dwDiscoInfoRequestTime) {
 	case -1:
 		return r->m_jcbCachedCaps;
 
@@ -476,9 +481,9 @@ void CJabberClientCapsManager::UpdateFeatHash()
 		jcb |= JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY;
 
 	CMStringA feat_buf(FORMAT, "client/pc//Miranda %d.%d.%d.%d<", __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
-	for (int i = 0; g_JabberFeatCapPairs[i].szFeature; i++)
-		if (jcb & g_JabberFeatCapPairs[i].jcbCap) {
-			feat_buf.Append(_T2A(g_JabberFeatCapPairs[i].szFeature));
+	for (auto &it : g_JabberFeatCapPairs)
+		if (jcb & it.jcbCap) {
+			feat_buf.Append(_T2A(it.szFeature));
 			feat_buf.AppendChar('<');
 		}
 
@@ -493,8 +498,8 @@ void CJabberClientCapsManager::UpdateFeatHash()
 
 	feat_buf.Append("software_version"); feat_buf.AppendChar('<');
 	feat_buf.Append(__VERSION_STRING_DOTS); feat_buf.AppendChar('<');
-	
-	feat_buf.Append("x-miranda-core-version"); feat_buf.AppendChar('<'); 
+
+	feat_buf.Append("x-miranda-core-version"); feat_buf.AppendChar('<');
 	feat_buf.Append(_T2A(szCoreVersion)); feat_buf.AppendChar('<');
 
 	BYTE hash[MIR_SHA1_HASH_SIZE];
@@ -546,7 +551,7 @@ CJabberClientPartialCaps* CJabberClientCapsManager::SetClientCaps(const wchar_t 
 		pClient = new CJabberClientCaps(szNode);
 		m_arCaps.insert(pClient);
 	}
-	
+
 	CJabberClientPartialCaps *res = pClient->SetPartialCaps(szHash, szVer, jcbCaps, nIqId);
 	lck.unlock();
 	ppro->debugLogW(L"CAPS: set caps %I64x for: %s#%s => [%s]", jcbCaps, szHash, szNode, szVer);
@@ -565,14 +570,15 @@ bool CJabberClientCapsManager::HandleInfoRequest(HXML, CJabberIqInfo *pInfo, con
 			goto LBL_All;
 		}
 
-		for (int i = 0; g_JabberFeatCapPairsExt[i].szFeature; i++) {
-			if (!g_JabberFeatCapPairsExt[i].Valid())
+		for (auto &it : g_JabberFeatCapPairsExt) {
+			if (!it.Valid())
 				continue;
+
 			// TODO: something better here
-			mir_snwprintf(szExtCap, L"%s#%s", JABBER_CAPS_MIRANDA_NODE, g_JabberFeatCapPairsExt[i].szFeature);
+			mir_snwprintf(szExtCap, L"%s#%s", JABBER_CAPS_MIRANDA_NODE, it.szFeature);
 			mir_snwprintf(szExtCapWHash, L"%s %s", szExtCap, m_szFeaturesCrc.c_str());
 			if (!mir_wstrcmp(szNode, szExtCap) || !mir_wstrcmp(szNode, szExtCapWHash)) {
-				jcb = g_JabberFeatCapPairsExt[i].jcbCap;
+				jcb = it.jcbCap;
 				break;
 			}
 		}
@@ -614,9 +620,9 @@ LBL_All:
 	CMStringW szName(FORMAT, L"Miranda %d.%d.%d.%d", __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
 	query << XCHILD(L"identity") << XATTR(L"category", L"client") << XATTR(L"type", L"pc") << XATTR(L"name", szName);
 
-	for (int i=0; g_JabberFeatCapPairs[i].szFeature; i++)
-		if (jcb & g_JabberFeatCapPairs[i].jcbCap)
-			query << XCHILD(L"feature") << XATTR(L"var", g_JabberFeatCapPairs[i].szFeature);
+	for (auto &it : g_JabberFeatCapPairs)
+		if (jcb & it.jcbCap)
+			query << XCHILD(L"feature") << XATTR(L"var", it.szFeature);
 
 	for (auto &it : ppro->m_lstJabberFeatCapPairsDynamic)
 		if (jcb & it->jcbCap)
@@ -628,8 +634,7 @@ LBL_All:
 			<< XCHILD(L"value", L"urn:xmpp:dataforms:softwareinfo");
 
 		CJabberClientPartialCaps *pCaps = GetPartialCaps(JABBER_CAPS_MIRANDA_NODE, m_szFeaturesCrc);
-		if (pCaps)
-		{
+		if (pCaps) {
 			if (ppro->m_bShowOSVersion) {
 				form << XCHILD(L"field") << XATTR(L"var", L"os") << XCHILD(L"value", pCaps->GetOs());
 				form << XCHILD(L"field") << XATTR(L"var", L"os_version") << XCHILD(L"value", pCaps->GetOsVer());

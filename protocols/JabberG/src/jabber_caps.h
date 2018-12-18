@@ -328,7 +328,10 @@ struct JabberFeatCapPairDynamic
 	wchar_t *szDescription;
 };
 
-extern const JabberFeatCapPair    g_JabberFeatCapPairs[];
+extern const int g_cJabberFeatCapPairs;
+extern const JabberFeatCapPair g_JabberFeatCapPairs[];
+
+extern const int g_cJabberFeatCapPairsExt;
 extern const JabberFeatCapPairExt g_JabberFeatCapPairsExt[];
 
 #endif

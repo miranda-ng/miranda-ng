@@ -397,12 +397,13 @@ void JabberFormLayoutControls(HWND hwndStatic, TJabberFormLayoutInfo *layout_inf
 	for (auto &it : *controls) {
 		if (it->hLabel)
 			SetWindowPos(it->hLabel, nullptr,
-			layout_info->offset + it->ptLabel.x, layout_info->y_pos + it->ptLabel.y, 0, 0,
-			SWP_NOZORDER | SWP_NOSIZE);
+				layout_info->offset + it->ptLabel.x, layout_info->y_pos + it->ptLabel.y, 0, 0,
+				SWP_NOZORDER | SWP_NOSIZE);
+
 		if (it->hCtrl)
 			SetWindowPos(it->hCtrl, nullptr,
-			layout_info->offset + it->ptCtrl.x, layout_info->y_pos + it->ptCtrl.y, 0, 0,
-			SWP_NOZORDER | SWP_NOSIZE);
+				layout_info->offset + it->ptCtrl.x, layout_info->y_pos + it->ptCtrl.y, 0, 0,
+				SWP_NOZORDER | SWP_NOSIZE);
 
 		layout_info->y_pos += it->szBlock.cy;
 		layout_info->y_pos += layout_info->y_spacing;
@@ -652,7 +653,7 @@ HXML JabberFormGetData(HWND hwndStatic, HXML xNode)
 				if (SendMessage(hCtrl, LB_GETSEL, j, 0) > 0) {
 					// an entry is selected
 					len = SendMessage(hCtrl, LB_GETTEXTLEN, j, 0);
-					if ((str = (wchar_t*)mir_alloc((len + 1)*sizeof(wchar_t))) != nullptr) {
+					if ((str = (wchar_t*)mir_alloc((len + 1) * sizeof(wchar_t))) != nullptr) {
 						SendMessage(hCtrl, LB_GETTEXT, j, (LPARAM)str);
 						for (k = 0;; k++) {
 							o = XmlGetChild(n, k);
@@ -726,7 +727,7 @@ static INT_PTR CALLBACK JabberFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				SetWindowText(hwndDlg, XmlGetText(n));
 			else
 				SetWindowText(hwndDlg, TranslateW(jfi->defTitle));
-			
+
 			// Set instruction field
 			if (jfi->xNode != nullptr && (n = XmlGetChild(jfi->xNode, L"instructions")) != nullptr && XmlGetText(n) != nullptr)
 				JabberFormSetInstruction(hwndDlg, XmlGetText(n));

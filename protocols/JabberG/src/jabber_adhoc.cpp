@@ -40,11 +40,6 @@ enum
 	JAHM_PROCESSRESULT
 };
 
-//Declarations
-static INT_PTR CALLBACK JabberAdHoc_CommandDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-
-//implementations
-
 // convert iqID to dialog hwnd
 HWND CJabberProto::GetWindowFromIq(CJabberIqInfo *pInfo)
 {
@@ -271,19 +266,19 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, HXML workNode, JabberA
 	}
 	else if (!mir_wstrcmp(type, L"error")) {
 		// error occurred here
-		int toHide[] = { IDC_FRAME, IDC_FRAME_TEXT, IDC_VSCROLL, IDC_PREV, IDC_NEXT, IDC_COMPLETE, IDC_SUBMIT, 0};
+		int toHide[] = { IDC_FRAME, IDC_FRAME_TEXT, IDC_VSCROLL, IDC_PREV, IDC_NEXT, IDC_COMPLETE, IDC_SUBMIT, 0 };
 		sttShowControls(hwndDlg, FALSE, toHide);
 
-		const wchar_t *code=nullptr;
-		const wchar_t *description=nullptr;
+		const wchar_t *code = nullptr;
+		const wchar_t *description = nullptr;
 		wchar_t buff[255];
-		HXML errorNode = XmlGetChild(workNode , "error");
+		HXML errorNode = XmlGetChild(workNode, "error");
 		if (errorNode) {
 			code = XmlGetAttrValue(errorNode, L"code");
 			description = XmlGetText(errorNode);
 		}
 		mir_snwprintf(buff, TranslateT("Error %s %s"), code ? code : L"", description ? description : L"");
-		JabberFormSetInstruction(hwndDlg,buff);
+		JabberFormSetInstruction(hwndDlg, buff);
 	}
 	JabberAdHoc_RefreshFrameScroll(hwndDlg, dat);
 	return TRUE;
@@ -365,7 +360,6 @@ static INT_PTR CALLBACK JabberAdHoc_CommandDlgProc(HWND hwndDlg, UINT msg, WPARA
 			// hide frame first
 			LONG frameExStyle = GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_FRAME), GWL_EXSTYLE);
 			frameExStyle |= WS_EX_CONTROLPARENT;
-
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_FRAME), GWL_EXSTYLE, frameExStyle);
 
 			int toHide[] = { IDC_FRAME, IDC_VSCROLL, IDC_PREV, IDC_NEXT, IDC_COMPLETE, IDC_FRAME_TEXT, 0 };
@@ -550,12 +544,11 @@ int __cdecl CJabberProto::ContactMenuRunCommands(WPARAM hContact, LPARAM lParam)
 			}
 
 			if (item == nullptr || selected) {
-				CJabberAdhocStartupParams* pStartupParams = new CJabberAdhocStartupParams(this, jid, nullptr);
-				CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FORM), nullptr, JabberAdHoc_CommandDlgProc, (LPARAM)pStartupParams);
+				ContactMenuAdhocCommands(new CJabberAdhocStartupParams(this, jid, nullptr));
 			}
 		}
 		else if (lParam != 0)
-			CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FORM), nullptr, JabberAdHoc_CommandDlgProc, lParam);
+			ContactMenuAdhocCommands((CJabberAdhocStartupParams*)lParam);
 	}
 	return res;
 }

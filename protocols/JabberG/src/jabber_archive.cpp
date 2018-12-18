@@ -265,7 +265,7 @@ void CJabberProto::OnIqResultGetCollection(HXML iqNode, CJabberIqInfo*)
 		DBEVENTINFO dbei = {};
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		dbei.szModule = m_szModuleName;
-		dbei.cbBlob = (DWORD)mir_strlen(szEventText)+1;
+		dbei.cbBlob = (DWORD)mir_strlen(szEventText) + 1;
 		dbei.flags = DBEF_READ + DBEF_UTF + from;
 		dbei.pBlob = szEventText;
 		dbei.timestamp = tmStart + _wtol(tszSecs);

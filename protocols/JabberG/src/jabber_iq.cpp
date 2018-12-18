@@ -31,11 +31,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_rc.h"
 
 static int CompareIqs(const CJabberIqInfo *p1, const CJabberIqInfo *p2)
-{	return p1->GetPriority() - p2->GetPriority();
+{
+	return p1->GetPriority() - p2->GetPriority();
 }
 
 static int ComparePermanent(const CJabberIqPermanentInfo *p1, const CJabberIqPermanentInfo *p2)
-{	return p1->getPriority() - p2->getPriority();
+{
+	return p1->getPriority() - p2->getPriority();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -143,7 +145,7 @@ void CJabberIqManager::ExpirerThread()
 	while (!m_bExpirerThreadShutdownRequest) {
 		CJabberIqInfo *pInfo = DetachExpired();
 		if (!pInfo) {
-			for (int i=0; !m_bExpirerThreadShutdownRequest && (i < 10); i++)
+			for (int i = 0; !m_bExpirerThreadShutdownRequest && (i < 10); i++)
 				Sleep(50);
 
 			// -1 thread :)
@@ -182,7 +184,7 @@ void CJabberIqManager::ExpireIq(int nIqId)
 	while (CJabberIqInfo *pInfo = DetachInfo(nIqId))
 		ExpireInfo(pInfo);
 }
-	
+
 bool CJabberIqManager::ExpireByUserData(void *pUserData)
 {
 	bool bRet = false;
@@ -261,7 +263,7 @@ bool CJabberIqManager::HandleIq(int nIqId, HXML pNode)
 		pInfo->m_nIqType = nIqType;
 		if (nIqType == JABBER_IQ_TYPE_RESULT) {
 			if (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_CHILD_TAG_NODE)
-				pInfo->m_pChildNode = XmlGetChild(pNode , 0);
+				pInfo->m_pChildNode = XmlGetChild(pNode, 0);
 
 			if (pInfo->m_pChildNode && (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_CHILD_TAG_NAME))
 				pInfo->m_szChildTagName = (wchar_t*)XmlGetName(pInfo->m_pChildNode);
@@ -283,7 +285,7 @@ bool CJabberIqManager::HandleIq(int nIqId, HXML pNode)
 		(ppro->*(pInfo->m_pHandler))(pNode, pInfo);
 		delete pInfo;
 	}
-		while ((pInfo = DetachInfo(nIqId)) != nullptr);
+	while ((pInfo = DetachInfo(nIqId)) != nullptr);
 	return true;
 }
 
@@ -307,7 +309,7 @@ bool CJabberIqManager::HandleIqPermanent(HXML pNode)
 		if (!(pInfo->m_nIqTypes & iqInfo.m_nIqType))
 			continue;
 
-		HXML pFirstChild = XmlGetChild(pNode , 0);
+		HXML pFirstChild = XmlGetChild(pNode, 0);
 		if (!pFirstChild || !XmlGetName(pFirstChild))
 			return FALSE;
 
@@ -315,8 +317,7 @@ bool CJabberIqManager::HandleIqPermanent(HXML pNode)
 		const wchar_t *szXmlns = XmlGetAttrValue(pFirstChild, L"xmlns");
 
 		if ((!pInfo->m_szXmlns || (szXmlns && !mir_wstrcmp(pInfo->m_szXmlns, szXmlns))) &&
-			 (!pInfo->m_szTag || !mir_wstrcmp(pInfo->m_szTag, szTagName)))
-		{
+			(!pInfo->m_szTag || !mir_wstrcmp(pInfo->m_szTag, szTagName))) {
 			// node suits handler criteria, call the handler
 			iqInfo.m_pChildNode = pFirstChild;
 			iqInfo.m_szChildTagName = (wchar_t*)szTagName;
@@ -345,7 +346,7 @@ bool CJabberIqManager::HandleIqPermanent(HXML pNode)
 CJabberIqInfo* CJabberIqManager::DetachInfo()
 {
 	mir_cslock lck(m_cs);
-	
+
 	CJabberIqInfo *pInfo = m_arIqs[0];
 	if (pInfo)
 		m_arIqs.remove(0);
@@ -418,7 +419,7 @@ CJabberIqPermanentInfo* CJabberIqManager::AddPermanentHandler(
 
 // returns TRUE when pInfo found, or FALSE otherwise
 bool CJabberIqManager::DeletePermanentHandler(CJabberIqPermanentInfo *pInfo)
-{		
+{
 	mir_cslock lck(m_cs);
 	return m_arHandlers.remove(pInfo) == 1;
 }

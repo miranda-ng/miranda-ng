@@ -27,7 +27,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /////////////////////////////////////////////////////////////////////////////////////////
 // Bookmarks editor window
 
-struct JabberAddBookmarkDlgParam {
+struct JabberAddBookmarkDlgParam
+{
 	CJabberProto *ppro;
 	JABBER_LIST_ITEM* m_item;
 };
@@ -85,7 +86,7 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 	case WM_COMMAND:
 		switch (HIWORD(wParam)) {
 		case BN_CLICKED:
-			switch (LOWORD (wParam)) {
+			switch (LOWORD(wParam)) {
 			case IDC_ROOM_RADIO:
 				EnableWindow(GetDlgItem(hwndDlg, IDC_NICK), TRUE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), TRUE);
@@ -103,7 +104,7 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 
 		switch (LOWORD(wParam)) {
 		case IDC_ROOM_JID:
-			if ((HWND)lParam==GetFocus() && HIWORD(wParam)==EN_CHANGE)
+			if ((HWND)lParam == GetFocus() && HIWORD(wParam) == EN_CHANGE)
 				EnableWindow(GetDlgItem(hwndDlg, IDOK), GetDlgItemText(hwndDlg, IDC_ROOM_JID, text, _countof(text)));
 			break;
 
@@ -266,7 +267,7 @@ void CJabberDlgBookmarks::UpdateData()
 
 	m_proto->m_ThreadInfo->send(
 		XmlNodeIq(m_proto->AddIQ(&CJabberProto::OnIqResultDiscoBookmarks, JABBER_IQ_TYPE_GET))
-			<< XQUERY(JABBER_FEAT_PRIVATE_STORAGE) << XCHILDNS(L"storage", L"storage:bookmarks"));
+		<< XQUERY(JABBER_FEAT_PRIVATE_STORAGE) << XCHILDNS(L"storage", L"storage:bookmarks"));
 }
 
 bool CJabberDlgBookmarks::OnInitDialog()
@@ -279,15 +280,15 @@ bool CJabberDlgBookmarks::OnInitDialog()
 	m_btnEdit.Disable();
 	m_btnRemove.Disable();
 
-	m_lvBookmarks.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES|LVS_EX_HEADERDRAGDROP | LVS_EX_DOUBLEBUFFER);
+	m_lvBookmarks.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_HEADERDRAGDROP | LVS_EX_DOUBLEBUFFER);
 
 	HIMAGELIST hIml = m_lvBookmarks.CreateImageList(LVSIL_SMALL);
 	ImageList_AddIcon_Icolib(hIml, m_proto->LoadIconEx("group"));
 	ImageList_AddIcon_Icolib(hIml, Skin_LoadIcon(SKINICON_EVENT_URL));
 
-	m_lvBookmarks.AddColumn(0, TranslateT("Bookmark Name"),        m_proto->getWord("bookmarksWnd_cx0", 120));
+	m_lvBookmarks.AddColumn(0, TranslateT("Bookmark Name"), m_proto->getWord("bookmarksWnd_cx0", 120));
 	m_lvBookmarks.AddColumn(1, TranslateT("Address (JID or URL)"), m_proto->getWord("bookmarksWnd_cx1", 210));
-	m_lvBookmarks.AddColumn(2, TranslateT("Nickname"),             m_proto->getWord("bookmarksWnd_cx2", 90));
+	m_lvBookmarks.AddColumn(2, TranslateT("Nickname"), m_proto->getWord("bookmarksWnd_cx2", 90));
 
 	m_lvBookmarks.EnableGroupView(TRUE);
 	m_lvBookmarks.AddGroup(0, TranslateT("Conferences"));
@@ -299,7 +300,7 @@ bool CJabberDlgBookmarks::OnInitDialog()
 
 bool CJabberDlgBookmarks::OnClose()
 {
-	LVCOLUMN lvc = {0};
+	LVCOLUMN lvc = { 0 };
 	lvc.mask = LVCF_WIDTH;
 	m_lvBookmarks.GetColumn(0, &lvc);
 	m_proto->setWord("bookmarksWnd_cx0", lvc.cx);
@@ -413,15 +414,15 @@ int CJabberDlgBookmarks::Resizer(UTILRESIZECONTROL *urc)
 {
 	switch (urc->wId) {
 	case IDC_BM_LIST:
-		return RD_ANCHORX_WIDTH|RD_ANCHORY_HEIGHT;
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
 
 	case IDCANCEL:
-		return RD_ANCHORX_RIGHT|RD_ANCHORY_BOTTOM;
+		return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
 
 	case IDC_ADD:
 	case IDC_EDIT:
 	case IDC_REMOVE:
-		return RD_ANCHORX_LEFT|RD_ANCHORY_BOTTOM;
+		return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
 	}
 	return CSuper::Resizer(urc);
 }

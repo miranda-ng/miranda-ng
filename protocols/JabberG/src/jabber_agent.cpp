@@ -105,9 +105,9 @@ public:
 		SetDlgItemText(m_hwnd, IDC_SUBMIT, TranslateT("Register"));
 		SetDlgItemText(m_hwnd, IDC_FRAME_TEXT, TranslateT("Please wait..."));
 
-		m_proto->m_ThreadInfo->send( 
+		m_proto->m_ThreadInfo->send(
 			XmlNodeIq(m_proto->AddIQ(&CJabberProto::OnIqResultGetRegister, JABBER_IQ_TYPE_GET, m_jid))
-				<< XQUERY(JABBER_FEAT_REGISTER));
+			<< XQUERY(JABBER_FEAT_REGISTER));
 
 		// Enable WS_EX_CONTROLPARENT on IDC_FRAME (so tab stop goes through all its children)
 		LONG_PTR frameExStyle = GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_FRAME), GWL_EXSTYLE);
@@ -127,9 +127,9 @@ public:
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
-		switch(msg) {
+		switch (msg) {
 		case WM_CTLCOLORSTATIC:
-			switch(GetDlgCtrlID((HWND)lParam)) {
+			switch (GetDlgCtrlID((HWND)lParam)) {
 			case IDC_WHITERECT: case IDC_INSTRUCTION: case IDC_TITLE:
 				return (INT_PTR)GetStockObject(WHITE_BRUSH);
 			default:
@@ -144,20 +144,20 @@ public:
 
 				HXML queryNode, xNode;
 				if ((m_agentRegIqNode = (HXML)lParam) == nullptr) return TRUE;
-				if ((queryNode = XmlGetChild(m_agentRegIqNode , "query")) == nullptr) return TRUE;
-
-				RECT rect;
+				if ((queryNode = XmlGetChild(m_agentRegIqNode, "query")) == nullptr) return TRUE;
 
 				m_curPos = 0;
-				GetClientRect(GetDlgItem(m_hwnd, IDC_FRAME), &(m_frameRect));
+				GetClientRect(GetDlgItem(m_hwnd, IDC_FRAME), &m_frameRect);
+
+				RECT rect;
 				GetClientRect(GetDlgItem(m_hwnd, IDC_VSCROLL), &rect);
 				m_frameRect.right -= (rect.right - rect.left);
 				GetClientRect(GetDlgItem(m_hwnd, IDC_FRAME), &rect);
 				m_frameHeight = rect.bottom - rect.top;
 
-				if ((xNode=XmlGetChild(queryNode , "x")) != nullptr) {
+				if ((xNode = XmlGetChild(queryNode, "x")) != nullptr) {
 					// use new jabber:x:data form
-					if (const wchar_t *ptszInstr = XmlGetText( XmlGetChild(xNode, "instructions")))
+					if (const wchar_t *ptszInstr = XmlGetText(XmlGetChild(xNode, "instructions")))
 						JabberFormSetInstruction(m_hwnd, ptszInstr);
 
 					JabberFormCreateUI(hFrame, xNode, &m_formHeight /*dummy*/);
@@ -165,8 +165,8 @@ public:
 				else {
 					// use old registration information form
 					HJFORMLAYOUT layout_info = JabberFormCreateLayout(hFrame);
-					for (int i=0; ; i++) {
-						HXML n = XmlGetChild(queryNode ,i);
+					for (int i = 0; ; i++) {
+						HXML n = XmlGetChild(queryNode, i);
 						if (n == nullptr)
 							break;
 
@@ -181,7 +181,8 @@ public:
 								JabberFormAppendControl(hFrame, layout_info, JFORM_CTYPE_TEXT_PRIVATE, XmlGetName(n), XmlGetText(n));
 							else 	// everything else is a normal text field
 								JabberFormAppendControl(hFrame, layout_info, JFORM_CTYPE_TEXT_SINGLE, XmlGetName(n), XmlGetText(n));
-					}	}
+						}
+					}
 					JabberFormLayoutControls(hFrame, layout_info, &m_formHeight);
 					mir_free(layout_info);
 				}
@@ -199,18 +200,18 @@ public:
 			}
 			else if (wParam == 0) {
 				// lParam = error message
-				SetDlgItemText(m_hwnd, IDC_FRAME_TEXT, (const wchar_t *) lParam);
+				SetDlgItemText(m_hwnd, IDC_FRAME_TEXT, (const wchar_t *)lParam);
 			}
 			return TRUE;
 
 		case WM_VSCROLL:
 			int pos = m_curPos;
 			switch (LOWORD(wParam)) {
-				case SB_LINEDOWN:   pos += 10;   break;
-				case SB_LINEUP:     pos -= 10;   break;
+				case SB_LINEDOWN:   pos += 10;                    break;
+				case SB_LINEUP:     pos -= 10;                    break;
 				case SB_PAGEDOWN:   pos += (m_frameHeight - 10);  break;
 				case SB_PAGEUP:     pos -= (m_frameHeight - 10);  break;
-				case SB_THUMBTRACK: pos = HIWORD(wParam);            break;
+				case SB_THUMBTRACK: pos = HIWORD(wParam);         break;
 			}
 			if (pos > (m_formHeight - m_frameHeight))
 				pos = m_formHeight - m_frameHeight;
@@ -220,19 +221,21 @@ public:
 				ScrollWindow(GetDlgItem(m_hwnd, IDC_FRAME), 0, m_curPos - pos, nullptr, &(m_frameRect));
 				SetScrollPos(GetDlgItem(m_hwnd, IDC_VSCROLL), SB_CTL, pos, TRUE);
 				m_curPos = pos;
-		}	}
+			}
+		}
 
 		return CJabberDlgBase::DlgProc(msg, wParam, lParam);
 	}
 
 	void OnSubmit(CCtrlButton*)
 	{
+		if (m_agentRegIqNode == nullptr)
+			return;
+
 		HXML queryNode, xNode;
 		const wchar_t *from;
-
-		if (m_agentRegIqNode == nullptr) return;
 		if ((from = XmlGetAttrValue(m_agentRegIqNode, L"from")) == nullptr) return;
-		if ((queryNode = XmlGetChild(m_agentRegIqNode ,  "query")) == nullptr) return;
+		if ((queryNode = XmlGetChild(m_agentRegIqNode, "query")) == nullptr) return;
 		HWND hFrame = GetDlgItem(m_hwnd, IDC_FRAME);
 
 		wchar_t *str2 = (wchar_t*)alloca(sizeof(wchar_t) * 128);
@@ -241,7 +244,7 @@ public:
 		XmlNodeIq iq(m_proto->AddIQ(&CJabberProto::OnIqResultSetRegister, JABBER_IQ_TYPE_SET, from));
 		HXML query = iq << XQUERY(JABBER_FEAT_REGISTER);
 
-		if ((xNode = XmlGetChild(queryNode , "x")) != nullptr) {
+		if ((xNode = XmlGetChild(queryNode, "x")) != nullptr) {
 			// use new jabber:x:data form
 			HXML n = JabberFormGetData(hFrame, xNode);
 			XmlAddChild(query, n);
@@ -249,8 +252,8 @@ public:
 		}
 		else {
 			// use old registration information form
-			for (int i=0; ; i++) {
-				HXML n = XmlGetChild(queryNode ,i);
+			for (int i = 0; ; i++) {
+				HXML n = XmlGetChild(queryNode, i);
 				if (!n)
 					break;
 
@@ -269,7 +272,10 @@ public:
 						GetDlgItemText(hFrame, id, str2, 128);
 						XmlAddChild(query, XmlGetName(n), str2);
 						id++;
-		}	}	}	}
+					}
+				}
+			}
+		}
 
 		m_proto->m_ThreadInfo->send(iq);
 

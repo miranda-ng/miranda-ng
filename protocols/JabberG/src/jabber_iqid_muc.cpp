@@ -294,7 +294,7 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 					}
 				}
 				break;
-			
+
 			case NM_CLICK:
 				{
 					NMLISTVIEW *nm = (NMLISTVIEW *)lParam;

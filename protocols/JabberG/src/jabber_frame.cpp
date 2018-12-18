@@ -69,7 +69,7 @@ public:
 	}
 };
 
-CJabberInfoFrame::CJabberInfoFrame(CJabberProto *proto):
+CJabberInfoFrame::CJabberInfoFrame(CJabberProto *proto) :
 	m_pItems(3, CJabberInfoFrameItem::cmp), m_compact(false)
 {
 	m_proto = proto;
@@ -79,7 +79,7 @@ CJabberInfoFrame::CJabberInfoFrame(CJabberProto *proto):
 
 	CLISTFrame frame = { sizeof(frame) };
 	HWND hwndClist = g_clistApi.hwndContactList;
-	frame.hWnd = CreateWindowEx(0, L"JabberInfoFrameClass", nullptr, WS_CHILD|WS_VISIBLE, 0, 0, 100, 100, hwndClist, nullptr, g_plugin.getInst(), this);
+	frame.hWnd = CreateWindowEx(0, L"JabberInfoFrameClass", nullptr, WS_CHILD | WS_VISIBLE, 0, 0, 100, 100, hwndClist, nullptr, g_plugin.getInst(), this);
 	frame.align = alBottom;
 	frame.height = 2 * SZ_FRAMEPADDING + GetSystemMetrics(SM_CYSMICON) + SZ_LINEPADDING; // compact height by default
 	frame.Flags = F_VISIBLE | F_LOCKED | F_NOBORDER | F_UNICODE;
@@ -132,9 +132,9 @@ void CJabberInfoFrame::InitClass()
 	if (bClassRegistered)
 		return;
 
-	WNDCLASSEX wcx = {0};
+	WNDCLASSEX wcx = { 0 };
 	wcx.cbSize = sizeof(wcx);
-	wcx.style = CS_DBLCLKS|CS_HREDRAW|CS_VREDRAW;
+	wcx.style = CS_DBLCLKS | CS_HREDRAW | CS_VREDRAW;
 	wcx.lpfnWndProc = GlobalWndProc;
 	wcx.hInstance = g_plugin.getInst();
 	wcx.lpszClassName = L"JabberInfoFrameClass";
@@ -201,8 +201,7 @@ LRESULT CJabberInfoFrame::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_LBUTTONUP:
 		{
 			POINT pt = { LOWORD(lParam), HIWORD(lParam) };
-			if ((m_clickedItem >= 0) && (m_clickedItem < m_pItems.getCount()) && m_pItems[m_clickedItem].m_onEvent && PtInRect(&m_pItems[m_clickedItem].m_rcItem, pt))
-			{
+			if ((m_clickedItem >= 0) && (m_clickedItem < m_pItems.getCount()) && m_pItems[m_clickedItem].m_onEvent && PtInRect(&m_pItems[m_clickedItem].m_rcItem, pt)) {
 				CJabberInfoFrame_Event evt;
 				evt.m_event = CJabberInfoFrame_Event::CLICK;
 				evt.m_pszName = m_pItems[m_clickedItem].m_pszName;
@@ -243,7 +242,7 @@ void CJabberInfoFrame::ReloadFonts()
 	DeleteObject(m_hfntTitle);
 	m_hfntTitle = CreateFontIndirect(&lfFont);
 
-	m_clText = Font_GetW(L"Jabber", L"Frame text",&lfFont);
+	m_clText = Font_GetW(L"Jabber", L"Frame text", &lfFont);
 	DeleteObject(m_hfntText);
 	m_hfntText = CreateFontIndirect(&lfFont);
 
@@ -277,7 +276,7 @@ void CJabberInfoFrame::UpdateSize()
 
 void CJabberInfoFrame::RemoveTooltip(int id)
 {
-	TOOLINFO ti = {0};
+	TOOLINFO ti = { 0 };
 	ti.cbSize = sizeof(TOOLINFO);
 
 	ti.hwnd = m_hwnd;
@@ -287,7 +286,7 @@ void CJabberInfoFrame::RemoveTooltip(int id)
 
 void CJabberInfoFrame::SetToolTip(int id, RECT *rc, wchar_t *pszText)
 {
-	TOOLINFO ti = {0};
+	TOOLINFO ti = { 0 };
 	ti.cbSize = sizeof(TOOLINFO);
 
 	ti.hwnd = m_hwnd;
@@ -306,7 +305,7 @@ void CJabberInfoFrame::SetToolTip(int id, RECT *rc, wchar_t *pszText)
 void CJabberInfoFrame::PaintSkinGlyph(HDC hdc, RECT *rc, char **glyphs, COLORREF fallback)
 {
 	if (ServiceExists(MS_SKIN_DRAWGLYPH)) {
-		SKINDRAWREQUEST rq = {0};
+		SKINDRAWREQUEST rq = { 0 };
 		rq.hDC = hdc;
 		rq.rcDestRect = *rc;
 		rq.rcClipRect = *rc;
@@ -345,13 +344,13 @@ void CJabberInfoFrame::PaintCompact(HDC hdc)
 		if (!it->m_bCompact) continue;
 
 		int depth = 0;
-		for (char *p = it->m_pszName; p = strchr(p+1, '/'); ++depth) ;
+		for (char *p = it->m_pszName; p = strchr(p + 1, '/'); ++depth);
 
 		if (depth == 0) {
 			if (it->m_hIcolibIcon) {
 				HICON hIcon = IcoLib_GetIconByHandle(it->m_hIcolibIcon);
 				if (hIcon) {
-					DrawIconEx(hdc, SZ_FRAMEPADDING, (rc.bottom-cy_icon)/2, hIcon, cx_icon, cy_icon, 0, nullptr, DI_NORMAL);
+					DrawIconEx(hdc, SZ_FRAMEPADDING, (rc.bottom - cy_icon) / 2, hIcon, cx_icon, cy_icon, 0, nullptr, DI_NORMAL);
 					IcoLib_ReleaseIcon(hIcon);
 				}
 			}
@@ -363,8 +362,8 @@ void CJabberInfoFrame::PaintCompact(HDC hdc)
 			if (it->m_hIcolibIcon) {
 				HICON hIcon = IcoLib_GetIconByHandle(it->m_hIcolibIcon);
 				if (hIcon) {
-					SetRect(&it->m_rcItem, cx, (rc.bottom-cy_icon)/2, cx+cx_icon, (rc.bottom-cy_icon)/2+cy_icon);
-					DrawIconEx(hdc, cx, (rc.bottom-cy_icon)/2, hIcon, cx_icon, cy_icon, 0, nullptr, DI_NORMAL);
+					SetRect(&it->m_rcItem, cx, (rc.bottom - cy_icon) / 2, cx + cx_icon, (rc.bottom - cy_icon) / 2 + cy_icon);
+					DrawIconEx(hdc, cx, (rc.bottom - cy_icon) / 2, hIcon, cx_icon, cy_icon, 0, nullptr, DI_NORMAL);
 					cx -= cx_icon;
 
 					IcoLib_ReleaseIcon(hIcon);
@@ -400,14 +399,14 @@ void CJabberInfoFrame::PaintNormal(HDC hdc)
 
 		int cx = SZ_FRAMEPADDING;
 		int depth = 0;
-		for (char *p = it->m_pszName; p = strchr(p+1, '/'); cx += cx_icon) ++depth;
+		for (char *p = it->m_pszName; p = strchr(p + 1, '/'); cx += cx_icon) ++depth;
 
 		SetRect(&it->m_rcItem, cx, cy, rc.right - SZ_FRAMEPADDING, cy + line_height);
 
 		if (it->m_hIcolibIcon) {
 			HICON hIcon = IcoLib_GetIconByHandle(it->m_hIcolibIcon);
 			if (hIcon) {
-				DrawIconEx(hdc, cx, cy + (line_height-cy_icon)/2, hIcon, cx_icon, cy_icon, 0, nullptr, DI_NORMAL);
+				DrawIconEx(hdc, cx, cy + (line_height - cy_icon) / 2, hIcon, cx_icon, cy_icon, 0, nullptr, DI_NORMAL);
 				cx += cx_icon + SZ_ICONSPACING;
 
 				IcoLib_ReleaseIcon(hIcon);
@@ -418,7 +417,7 @@ void CJabberInfoFrame::PaintNormal(HDC hdc)
 		SetTextColor(hdc, depth ? m_clText : m_clTitle);
 
 		RECT rcText; SetRect(&rcText, cx, cy, rc.right - SZ_FRAMEPADDING, cy + line_height);
-		DrawText(hdc, it->m_pszText, -1, &rcText, DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER|DT_END_ELLIPSIS);
+		DrawText(hdc, it->m_pszText, -1, &rcText, DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_END_ELLIPSIS);
 
 		RemoveTooltip(it->m_tooltipId);
 

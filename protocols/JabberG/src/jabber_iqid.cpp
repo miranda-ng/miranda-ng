@@ -73,7 +73,7 @@ void CJabberProto::OnIqResultServerDiscoInfo(HXML iqNode, CJabberIqInfo*)
 			if (!featureName)
 				continue;
 
-			for (int j = 0; g_JabberFeatCapPairs[j].szFeature; j++) {
+			for (int j = 0; j < g_cJabberFeatCapPairs; j++) {
 				if (!mir_wstrcmp(g_JabberFeatCapPairs[j].szFeature, featureName)) {
 					m_ThreadInfo->jabberServerCaps |= g_JabberFeatCapPairs[j].jcbCap;
 					break;
