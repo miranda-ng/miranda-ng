@@ -233,26 +233,27 @@ HMODULE Utils::loadSystemLibrary(const wchar_t* szFilename, bool useGetHandle)
 	wchar_t sysPathName[MAX_PATH + 2];
 	HMODULE _h = nullptr;
 
-	try {
-		if (0 == ::GetSystemDirectory(sysPathName, MAX_PATH))
-			throw(CRTException("Error while loading system library", szFilename));
-
-		sysPathName[MAX_PATH - 1] = 0;
-		if (mir_wstrlen(sysPathName) + mir_wstrlen(szFilename) >= MAX_PATH)
-			throw(CRTException("Error while loading system library", szFilename));
-
-		mir_wstrcat(sysPathName, szFilename);
-		if (useGetHandle)
-			_h = ::GetModuleHandle(sysPathName);
-		else
-			_h = LoadLibrary(sysPathName);
-		if (nullptr == _h)
-			throw(CRTException("Error while loading system library", szFilename));
-	}
-	catch (CRTException& ex) {
-		ex.display();
+	if (0 == ::GetSystemDirectory(sysPathName, MAX_PATH)) {
+		CRTException("Error while loading system library", szFilename).display();
 		return nullptr;
 	}
+
+	sysPathName[MAX_PATH - 1] = 0;
+	if (mir_wstrlen(sysPathName) + mir_wstrlen(szFilename) >= MAX_PATH) {
+		CRTException("Error while loading system library", szFilename).display();
+		return nullptr;
+	}
+
+	mir_wstrcat(sysPathName, szFilename);
+	if (useGetHandle)
+		_h = ::GetModuleHandle(sysPathName);
+	else
+		_h = LoadLibrary(sysPathName);
+	if (nullptr == _h) {
+		CRTException("Error while loading system library", szFilename).display();
+		return nullptr;
+	}
+	
 	return (_h);
 }
 

@@ -22,6 +22,9 @@
 #include <Windows.h>
 #include <windowsx.h>
 #include <Richedit.h>
+
+#include <malloc.h>
+
 using namespace std;
 #include <Shlobj.h>
 #include <list>

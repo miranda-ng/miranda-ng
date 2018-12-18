@@ -36,7 +36,6 @@
   </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <ExceptionHandling>Sync</ExceptionHandling>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>

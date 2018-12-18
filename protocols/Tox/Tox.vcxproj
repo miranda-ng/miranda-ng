@@ -30,11 +30,6 @@
       <AdditionalIncludeDirectories>..\..\include;libtox\src\toxcore;libtox\src\toxencryptsave;..\..\plugins\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup>
-    <ClCompile>
-      <ExceptionHandling>Sync</ExceptionHandling>
-    </ClCompile>
-  </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="res\*.ico" />
   </ItemGroup>

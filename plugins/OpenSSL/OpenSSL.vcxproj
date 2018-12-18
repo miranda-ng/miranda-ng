@@ -26,9 +26,6 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemDefinitionGroup>
-    <ClCompile>
-      <ExceptionHandling>Sync</ExceptionHandling>
-    </ClCompile>
     <Link>
       <AdditionalDependencies>libeay32.lib;ssleay32.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>

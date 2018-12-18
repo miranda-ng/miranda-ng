@@ -38,6 +38,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include <shlwapi.h>
 #include <Richedit.h>
 #include <dlgs.h>
+
+#include <malloc.h>
 #include <assert.h>
 #include <UxTheme.h>
 #include <string>

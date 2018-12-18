@@ -35,8 +35,5 @@
     <Link>
       <AdditionalDependencies>ws2_32.lib;wininet.lib;UxTheme.lib;Iphlpapi.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <ClCompile>
-      <ExceptionHandling>Sync</ExceptionHandling>
-    </ClCompile>
   </ItemDefinitionGroup>
 </Project>

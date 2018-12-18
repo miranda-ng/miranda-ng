@@ -35,9 +35,6 @@
     <LibraryPath>$(VC_LibraryPath_x64);$(ProgramFiles)\Windows Kits\8.1\lib\winv6.3\um\x64;</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup>
-    <ClCompile>
-      <ExceptionHandling>Sync</ExceptionHandling>
-    </ClCompile>
     <Link>
       <AdditionalDependencies>delayimp.lib;runtimeobject.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <DelayLoadDLLs>API-MS-WIN-CORE-WINRT-STRING-L1-1-0.DLL;API-MS-WIN-CORE-WINRT-L1-1-0.DLL;%(DelayLoadDLLs)</DelayLoadDLLs>

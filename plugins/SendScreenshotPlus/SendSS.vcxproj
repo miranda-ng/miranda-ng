@@ -33,7 +33,6 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <DisableSpecificWarnings>4458;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-      <ExceptionHandling>Sync</ExceptionHandling>
     </ClCompile>
   </ItemDefinitionGroup>
 </Project>

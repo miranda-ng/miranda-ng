@@ -8,6 +8,8 @@
 #include <Windows.h>
 #include <Shlwapi.h>
 #include <Wincrypt.h>
+
+#include <malloc.h>
 #include <stdio.h>
 #include <io.h>
 #include <direct.h>

@@ -27,7 +27,6 @@
   </ImportGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <ExceptionHandling>Sync</ExceptionHandling>
       <PreprocessorDefinitions Condition="'$(Configuration)'=='Debug'">LIBJSON_EXPORTS;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)'=='Release'">LIBJSON_EXPORTS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>

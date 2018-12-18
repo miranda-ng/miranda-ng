@@ -29,6 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <wincred.h>
 #include <WinIoCtl.h>
 
+#include <malloc.h>
 #include <time.h>
 #include <process.h>
 #include <memory>

@@ -58,7 +58,6 @@
   </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <ExceptionHandling>Sync</ExceptionHandling>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\libs\sqlite3\src;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>

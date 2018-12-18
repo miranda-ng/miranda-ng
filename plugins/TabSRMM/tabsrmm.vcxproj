@@ -30,9 +30,4 @@
       <Project>{5D14CFF3-0D17-4528-99EA-DE9DCA47CC2E}</Project>
     </ProjectReference>
   </ItemGroup>
-  <ItemDefinitionGroup>
-    <ClCompile>
-      <ExceptionHandling>Sync</ExceptionHandling>
-    </ClCompile>
-  </ItemDefinitionGroup>
 </Project>

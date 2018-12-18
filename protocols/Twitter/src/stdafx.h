@@ -5,6 +5,8 @@
 
 #pragma once
 
+#define _HAS_EXCEPTIONS 1
+
 #include <Windows.h>
 #include <Shlwapi.h>
 #include <Wincrypt.h>

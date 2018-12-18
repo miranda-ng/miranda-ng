@@ -32,7 +32,6 @@
   </ImportGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <ExceptionHandling>Sync</ExceptionHandling>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\libs\sqlite3\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>

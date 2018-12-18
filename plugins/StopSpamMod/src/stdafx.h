@@ -1,10 +1,18 @@
 #pragma once
 
 #include <windows.h>
+#include <malloc.h>
 
 using namespace std;
 #include <fstream>
 #include <string>
+#include <sstream>
+
+#include <boost\regex.hpp>
+#include <boost\algorithm\string.hpp>
+#include <boost\nondet_random.hpp>
+#include <boost\random\variate_generator.hpp>
+#include <boost\random\uniform_int.hpp>
 
 #include <newpluginapi.h>
 #include <m_database.h>
@@ -19,15 +27,6 @@ using namespace std;
 
 #include <m_variables.h>
 #include <m_folders.h>
-
-#include <string>
-#include <sstream>
-
-#include <boost\regex.hpp>
-#include <boost\algorithm\string.hpp>
-#include <boost\nondet_random.hpp>
-#include <boost\random\variate_generator.hpp>
-#include <boost\random\uniform_int.hpp>
 
 #include "globals.h"
 #include "stopspam.h"

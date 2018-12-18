@@ -19,6 +19,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define _COMMON_H_
 
 #include <windows.h>
+
+#include <malloc.h>
 #include <time.h>
 #include <string>
 #include <vector>

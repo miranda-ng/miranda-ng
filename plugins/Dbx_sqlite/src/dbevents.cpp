@@ -574,9 +574,9 @@ MEVENT CDbxSQLite::FindNextEvent(MCONTACT hContact, MEVENT hDbEvent)
 		in.Append(")");
 
 		CMStringA query(FORMAT, "select id from events where contact_id in %s and id <> %lu and timestamp > (select timestamp from events where contact_id in %s and id = %lu limit 1) order by timestamp, id limit 1;",
-			in,
+			in.c_str(),
 			hDbEvent,
-			in,
+			in.c_str(),
 			hDbEvent);
 
 		sqlite3_stmt *stmt;
@@ -628,9 +628,9 @@ MEVENT CDbxSQLite::FindPrevEvent(MCONTACT hContact, MEVENT hDbEvent)
 		in.Append(")");
 
 		CMStringA query(FORMAT, "select id from events where contact_id in %s and id <> %lu and timestamp < (select timestamp from events where contact_id in %s and id = %lu limit 1) order by timestamp desc, id desc limit 1;",
-			in,
+			in.c_str(),
 			hDbEvent,
-			in,
+			in.c_str(),
 			hDbEvent);
 
 		sqlite3_stmt *stmt;
@@ -695,12 +695,12 @@ BOOL CDbxSQLite::SetEventId(LPCSTR, MEVENT hDbEvent, LPCSTR szId)
 	return (rc != SQLITE_DONE);
 }
 
-BOOL CDbxSQLite::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
+BOOL CDbxSQLite::MetaMergeHistory(DBCachedContact*, DBCachedContact*)
 {
 	return TRUE;
 }
 
-BOOL CDbxSQLite::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
+BOOL CDbxSQLite::MetaSplitHistory(DBCachedContact*, DBCachedContact*)
 {
 	return TRUE;
 }

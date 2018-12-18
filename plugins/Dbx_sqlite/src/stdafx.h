@@ -5,6 +5,7 @@
 
 #include <memory>
 
+#include <malloc.h>
 #include <newpluginapi.h>
 #include <win2k.h>
 #include <assert.h>

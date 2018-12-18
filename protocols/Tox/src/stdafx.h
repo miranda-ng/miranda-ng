@@ -2,9 +2,11 @@
 #define _COMMON_H_
 
 #include <windows.h>
-#include <io.h>
-#include <time.h>
 #include <commctrl.h>
+
+#include <io.h>
+#include <malloc.h>
+#include <time.h>
 #include <msapi/comptr.h>
 
 #include <vector>

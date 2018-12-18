@@ -22,6 +22,8 @@
 #define _BOLTUN_H
 
 #include <windows.h>
+
+#include <malloc.h>
 #include <time.h>
 #include <fstream>
 #include <assert.h>
