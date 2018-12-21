@@ -22,12 +22,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-void facebook_client::client_notify(wchar_t* message)
+void facebook_client::client_notify(const wchar_t *message)
 {
 	parent->NotifyEvent(parent->m_tszUserName, message, 0, EVENT_CLIENT);
 }
 
-void facebook_client::info_notify(wchar_t* message)
+void facebook_client::info_notify(const wchar_t *message)
 {
 	parent->NotifyEvent(parent->m_tszUserName, message, 0, EVENT_OTHER);
 }
@@ -878,13 +878,10 @@ bool facebook_client::channel()
 	}
 	else if (!type.empty()) { // for "msg", "fullReload" and maybe also other types
 		// Something has been received, throw to new thread to process
+		parent->debugLogA("*** Starting processing messages");
 		{
-			parent->debugLogA("*** Starting processing messages");
-
-			try {
-				std::vector<facebook_message> messages;
-				parent->ParseMessages(resp.data, messages);
-
+			std::vector<facebook_message> messages;
+			if (parent->ParseMessages(resp.data, messages) == EXIT_SUCCESS) {
 				parent->ReceiveMessages(messages);
 
 				if (parent->getBool(FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE))
@@ -892,9 +889,7 @@ bool facebook_client::channel()
 
 				parent->debugLogA("*** Messages processed");
 			}
-			catch (const std::exception &e) {
-				parent->debugLogA("*** Error processing messages: %s", e.what());
-			}
+			else parent->debugLogA("*** Error processing messages");
 		}
 
 		// Get new sequence number

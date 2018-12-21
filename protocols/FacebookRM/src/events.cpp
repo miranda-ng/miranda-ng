@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-HWND FacebookProto::NotifyEvent(wchar_t* title, wchar_t* text, MCONTACT contact, EventType type, std::string *url, std::string *notification_id, const char *icon)
+HWND FacebookProto::NotifyEvent(const wchar_t* title, const wchar_t* text, MCONTACT contact, EventType type, std::string *url, std::string *notification_id, const char *icon)
 {
 	if (title == nullptr || text == nullptr)
 		return nullptr;

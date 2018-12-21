@@ -175,17 +175,13 @@ std::string FacebookProto::ThreadIDToContactID(const std::string &thread_id)
 	std::string user_id;
 
 	if (resp.code == HTTP_CODE_OK) {
-		try {
-			ParseThreadInfo(&resp.data, &user_id);
-
+		if (ParseThreadInfo(&resp.data, &user_id) == EXIT_SUCCESS) {
 			if (!user_id.empty())
 				facy.thread_id_to_user_id.insert(std::make_pair(thread_id, user_id));
 
 			debugLogA("*** Thread info processed");
 		}
-		catch (const std::exception &e) {
-			debugLogA("*** Error processing thread info: %s", e.what());
-		}
+		else debugLogA("*** Error processing thread info");
 	}
 
 	return user_id;
@@ -205,13 +201,10 @@ void FacebookProto::LoadContactInfo(facebook_user* fbu)
 	userIds.destroy();
 
 	if (resp.code == HTTP_CODE_OK) {
-		try {
-			ParseUserInfo(&resp.data, fbu);
+		if (ParseUserInfo(&resp.data, fbu) == EXIT_SUCCESS)
 			debugLogA("*** Contact thread info processed");
-		}
-		catch (const std::exception &e) {
-			debugLogA("*** Error processing contact thread info: %s", e.what());
-		}
+		else
+			debugLogA("*** Error processing contact thread info");
 	}
 }
 

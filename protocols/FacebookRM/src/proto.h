@@ -283,7 +283,7 @@ public:
 	std::map<std::string, std::string> reactions;
 
 	// Information providing
-	HWND NotifyEvent(wchar_t* title, wchar_t* text, MCONTACT contact, EventType type, std::string *url = nullptr, std::string *notification_id = nullptr, const char *icon = nullptr);
+	HWND NotifyEvent(const wchar_t* title, const wchar_t* text, MCONTACT contact, EventType type, std::string *url = nullptr, std::string *notification_id = nullptr, const char *icon = nullptr);
 	void ShowNotifications();
 };
 

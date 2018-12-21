@@ -488,14 +488,11 @@ void FacebookProto::LoadParticipantsNames(facebook_chatroom *fbc)
 		userIds.destroy();
 
 		if (resp.code == HTTP_CODE_OK) {
-			try {
-				// TODO: We can cache these results and next time (e.g. for different chatroom) we can use that already cached names
-				ParseChatParticipants(&resp.data, &fbc->participants);
+			// TODO: We can cache these results and next time (e.g. for different chatroom) we can use that already cached names
+			if (EXIT_SUCCESS == ParseChatParticipants(&resp.data, &fbc->participants))
 				debugLogA("*** Participant names processed");
-			}
-			catch (const std::exception &e) {
-				debugLogA("*** Error processing participant names: %s", e.what());
-			}
+			else
+				debugLogA("*** Error processing participant names");
 		}
 	}
 }
@@ -526,9 +523,7 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 		return;
 	}
 
-	try {
-		ParseChatInfo(&resp.data, fbc);
-
+	if (ParseChatInfo(&resp.data, fbc) == EXIT_SUCCESS) {
 		// Load missing participants names
 		LoadParticipantsNames(fbc);
 
@@ -540,9 +535,7 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 
 		debugLogA("*** Chat thread info processed");
 	}
-	catch (const std::exception &e) {
-		debugLogA("*** Error processing chat thread info: %s", e.what());
-	}
+	else debugLogA("*** Error processing chat thread info");
 
 	facy.handle_success("LoadChatInfo");
 }

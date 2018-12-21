@@ -42,113 +42,112 @@ void FacebookProto::ProcessFriendList(void*)
 
 	debugLogA("*** Starting processing friend list");
 
-	try {
-		bool loadAllContacts = getBool(FACEBOOK_KEY_LOAD_ALL_CONTACTS, DEFAULT_LOAD_ALL_CONTACTS);
-		bool pagesAlwaysOnline = getBool(FACEBOOK_KEY_PAGES_ALWAYS_ONLINE, DEFAULT_PAGES_ALWAYS_ONLINE);
 
-		std::map<std::string, facebook_user*> friends;
-		ParseFriends(&resp.data, &friends, loadAllContacts);
+	bool loadAllContacts = getBool(FACEBOOK_KEY_LOAD_ALL_CONTACTS, DEFAULT_LOAD_ALL_CONTACTS);
+	bool pagesAlwaysOnline = getBool(FACEBOOK_KEY_PAGES_ALWAYS_ONLINE, DEFAULT_PAGES_ALWAYS_ONLINE);
 
-		// Check and update old contacts
-		for (auto &hContact : AccContacts()) {
-			if (isChatRoom(hContact))
-				continue;
+	std::map<std::string, facebook_user*> friends;
+	if (ParseFriends(&resp.data, &friends, loadAllContacts) != EXIT_SUCCESS) {
+		debugLogA("*** Error processing friend list");
+		return;
+	}
 
-			// TODO RM: change name of "Deleted" key to "DeletedTS", remove this code in some next version
-			int deletedTS = getDword(hContact, "Deleted", 0);
-			if (deletedTS != 0) {
-				delSetting(hContact, "Deleted");
-				setDword(hContact, FACEBOOK_KEY_DELETED, deletedTS);
+	// Check and update old contacts
+	for (auto &hContact : AccContacts()) {
+		if (isChatRoom(hContact))
+			continue;
+
+		// TODO RM: change name of "Deleted" key to "DeletedTS", remove this code in some next version
+		int deletedTS = getDword(hContact, "Deleted", 0);
+		if (deletedTS != 0) {
+			delSetting(hContact, "Deleted");
+			setDword(hContact, FACEBOOK_KEY_DELETED, deletedTS);
+		}
+
+		// If this contact is page, set it as invisible (if enabled in options)
+		if (pagesAlwaysOnline && getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE) == CONTACT_PAGE)
+			setWord(hContact, "Status", ID_STATUS_INVISIBLE);
+
+		ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
+		if (id != nullptr) {
+			std::map< std::string, facebook_user* >::iterator iter;
+
+			if ((iter = friends.find(std::string(id))) != friends.end()) {
+				// Found contact, update it and remove from map
+				facebook_user *fbu = iter->second;
+
+				// TODO RM: remove, because contacts cant change it, so its only for "first run"
+				// - but what with contacts, that was added after logon?
+				// Update gender
+				setByte(hContact, "Gender", (int)fbu->gender);
+
+				// TODO: remove this in some future version?
+				// Remove old useless "RealName" field
+				delSetting(hContact, "RealName");
+
+				// Update real name and nick
+				if (!fbu->real_name.empty())
+					SaveName(hContact, fbu);
+
+				// Update username
+				if (!fbu->username.empty())
+					setString(hContact, FACEBOOK_KEY_USERNAME, fbu->username.c_str());
+				else
+					delSetting(hContact, FACEBOOK_KEY_USERNAME);
+
+				// Update contact type
+				setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, fbu->type);
+				// TODO: remove that popup and use "Contact added you" event?
+
+				// Wasn't contact removed from "server-list" someday? And is it friend now? (as we can get also non-friends from this request now)?
+				if (fbu->type == CONTACT_FRIEND && getDword(hContact, FACEBOOK_KEY_DELETED, 0)) {
+					delSetting(hContact, FACEBOOK_KEY_DELETED);
+
+					// Notify it, if user wants to be notified
+					if (getByte(FACEBOOK_KEY_EVENT_FRIENDSHIP_ENABLE, DEFAULT_EVENT_FRIENDSHIP_ENABLE)) {
+						std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;
+						NotifyEvent(Clist_GetContactDisplayName(hContact), TranslateT("Contact is back on server-list."), hContact, EVENT_FRIENDSHIP, &url);
+					}
+				}
+
+				// Check avatar change
+				CheckAvatarChange(hContact, fbu->image_url);
+
+				// Mark this contact as deleted ("processed") and delete them later (as there may be some duplicit contacts to use)
+				fbu->deleted = true;
 			}
+			else {
+				// Contact is not on "server-list", notify it was removed (if it was real friend before)
 
-			// If this contact is page, set it as invisible (if enabled in options)
-			if (pagesAlwaysOnline && getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE) == CONTACT_PAGE)
-				setWord(hContact, "Status", ID_STATUS_INVISIBLE);
+				// Was this real friend before?
+				if (getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE) == CONTACT_FRIEND) {
+					setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
 
-			ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
-			if (id != nullptr) {
-				std::map< std::string, facebook_user* >::iterator iter;
-
-				if ((iter = friends.find(std::string(id))) != friends.end()) {
-					// Found contact, update it and remove from map
-					facebook_user *fbu = iter->second;
-
-					// TODO RM: remove, because contacts cant change it, so its only for "first run"
-					// - but what with contacts, that was added after logon?
-					// Update gender
-					setByte(hContact, "Gender", (int)fbu->gender);
-
-					// TODO: remove this in some future version?
-					// Remove old useless "RealName" field
-					delSetting(hContact, "RealName");
-
-					// Update real name and nick
-					if (!fbu->real_name.empty())
-						SaveName(hContact, fbu);
-
-					// Update username
-					if (!fbu->username.empty())
-						setString(hContact, FACEBOOK_KEY_USERNAME, fbu->username.c_str());
-					else
-						delSetting(hContact, FACEBOOK_KEY_USERNAME);
-
-					// Update contact type
-					setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, fbu->type);
-					// TODO: remove that popup and use "Contact added you" event?
-
-					// Wasn't contact removed from "server-list" someday? And is it friend now? (as we can get also non-friends from this request now)?
-					if (fbu->type == CONTACT_FRIEND && getDword(hContact, FACEBOOK_KEY_DELETED, 0)) {
-						delSetting(hContact, FACEBOOK_KEY_DELETED);
+					// Wasn't we already been notified about this contact?
+					if (!getDword(hContact, FACEBOOK_KEY_DELETED, 0)) {
+						setDword(hContact, FACEBOOK_KEY_DELETED, ::time(0));
 
 						// Notify it, if user wants to be notified
 						if (getByte(FACEBOOK_KEY_EVENT_FRIENDSHIP_ENABLE, DEFAULT_EVENT_FRIENDSHIP_ENABLE)) {
-							std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;
-							NotifyEvent(Clist_GetContactDisplayName(hContact), TranslateT("Contact is back on server-list."), hContact, EVENT_FRIENDSHIP, &url);
-						}
-					}
-
-					// Check avatar change
-					CheckAvatarChange(hContact, fbu->image_url);
-
-					// Mark this contact as deleted ("processed") and delete them later (as there may be some duplicit contacts to use)
-					fbu->deleted = true;
-				}
-				else {
-					// Contact is not on "server-list", notify it was removed (if it was real friend before)
-
-					// Was this real friend before?
-					if (getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE) == CONTACT_FRIEND) {
-						setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
-
-						// Wasn't we already been notified about this contact?
-						if (!getDword(hContact, FACEBOOK_KEY_DELETED, 0)) {
-							setDword(hContact, FACEBOOK_KEY_DELETED, ::time(0));
-
-							// Notify it, if user wants to be notified
-							if (getByte(FACEBOOK_KEY_EVENT_FRIENDSHIP_ENABLE, DEFAULT_EVENT_FRIENDSHIP_ENABLE)) {
-								std::string url = FACEBOOK_URL_PROFILE + std::string(id);
-								NotifyEvent(Clist_GetContactDisplayName(hContact), TranslateT("Contact is no longer on server-list."), hContact, EVENT_FRIENDSHIP, &url);
-							}
+							std::string url = FACEBOOK_URL_PROFILE + std::string(id);
+							NotifyEvent(Clist_GetContactDisplayName(hContact), TranslateT("Contact is no longer on server-list."), hContact, EVENT_FRIENDSHIP, &url);
 						}
 					}
 				}
 			}
 		}
-
-		// Check remaining contacts in map and add them to contact list
-		for (auto &it : friends) {
-			if (!it.second->deleted)
-				AddToContactList(it.second, true); // we know this contact doesn't exists, so we force add it
-
-			delete it.second;
-		}
-		friends.clear();
-
-		debugLogA("*** Friend list processed");
 	}
-	catch (const std::exception &e) {
-		debugLogA("*** Error processing friend list: %s", e.what());
+
+	// Check remaining contacts in map and add them to contact list
+	for (auto &it : friends) {
+		if (!it.second->deleted)
+			AddToContactList(it.second, true); // we know this contact doesn't exists, so we force add it
+
+		delete it.second;
 	}
+	friends.clear();
+
+	debugLogA("*** Friend list processed");
 }
 
 void FacebookProto::ProcessUnreadMessages(void*)
@@ -164,17 +163,12 @@ void FacebookProto::ProcessUnreadMessages(void*)
 		return;
 	}
 
-	try {
-		std::vector<std::string> threads;
-		ParseUnreadThreads(&resp.data, &threads);
-
+	std::vector<std::string> threads;
+	if (ParseUnreadThreads(&resp.data, &threads) == EXIT_SUCCESS) {
 		ForkThread(&FacebookProto::ProcessUnreadMessage, new std::vector<std::string>(threads));
-
 		debugLogA("*** Unread threads list processed");
 	}
-	catch (const std::exception &e) {
-		debugLogA("*** Error processing unread threads list: %s", e.what());
-	}
+	else debugLogA("*** Error processing unread threads list");
 
 	facy.handle_success("ProcessUnreadMessages");
 }
@@ -210,16 +204,12 @@ void FacebookProto::ProcessUnreadMessage(void *pParam)
 		ids.destroy();
 
 		if (resp.code == HTTP_CODE_OK) {
-			try {
-				std::vector<facebook_message> messages;
-				ParseThreadMessages(&resp.data, &messages, false);
-
+			std::vector<facebook_message> messages;
+			if (ParseThreadMessages(&resp.data, &messages, false) == EXIT_SUCCESS) {
 				ReceiveMessages(messages, true);
 				debugLogA("*** Unread messages processed");
 			}
-			catch (const std::exception &e) {
-				debugLogA("*** Error processing unread messages: %s", e.what());
-			}
+			else debugLogA("*** Error processing unread messages");
 
 			facy.handle_success("ProcessUnreadMessage");
 		}
@@ -269,16 +259,12 @@ void FacebookProto::LoadLastMessages(void *pParam)
 	// Temporarily disable marking messages as read for this contact
 	facy.ignore_read.insert(hContact);
 
-	try {
-		std::vector<facebook_message> messages;
-		ParseThreadMessages(&resp.data, &messages, false);
-
+	std::vector<facebook_message> messages;
+	if (ParseThreadMessages(&resp.data, &messages, false) == EXIT_SUCCESS) {
 		ReceiveMessages(messages, true);
 		debugLogA("*** Thread messages processed");
 	}
-	catch (const std::exception &e) {
-		debugLogA("*** Error processing thread messages: %s", e.what());
-	}
+	else debugLogA("*** Error processing thread messages");
 
 	facy.handle_success("LoadLastMessages");
 
@@ -366,11 +352,9 @@ void FacebookProto::LoadHistory(void *pParam)
 		}
 
 		// Parse the result
-		try {
-			messages.clear();
+		messages.clear();
 
-			ParseHistory(&resp.data, messages, &firstTimestamp);
-
+		if (ParseHistory(&resp.data, messages, &firstTimestamp) == EXIT_SUCCESS) {
 			// Receive messages
 			std::string previousFirstMessageId = firstMessageId;
 			for (std::vector<facebook_message*>::size_type i = 0; i < messages.size(); i++) {
@@ -418,8 +402,8 @@ void FacebookProto::LoadHistory(void *pParam)
 
 			debugLogA("*** Load history messages processed");
 		}
-		catch (const std::exception &e) {
-			debugLogA("*** Error processing load history messages: %s", e.what());
+		else {
+			debugLogA("*** Error processing load history messages");
 			break;
 		}
 
@@ -641,10 +625,8 @@ void FacebookProto::ProcessMemories(void *p)
 		}
 	}
 
-	if (manuallyTriggered) {
-		CMStringW text(FORMAT, TranslateT("Found %d memories."), numMemories);
-		facy.info_notify(text.GetBuffer());
-	}
+	if (manuallyTriggered)
+		facy.info_notify(CMStringW(FORMAT, TranslateT("Found %d memories."), numMemories));
 
 	facy.handle_success(__FUNCTION__);
 }
@@ -928,24 +910,18 @@ void FacebookProto::ProcessNotifications(void *p)
 	// Process notifications
 	debugLogA("*** Starting processing notifications");
 
-	try {
-		size_t numNotifications = facy.notifications.size();
-
-		ParseNotifications(&resp.data, &facy.notifications);
-
+	size_t numNotifications = facy.notifications.size();
+	if (ParseNotifications(&resp.data, &facy.notifications) == EXIT_SUCCESS) {
 		if (manuallyTriggered) {
 			numNotifications = facy.notifications.size() - numNotifications;
-			CMStringW text(FORMAT, TranslateT("Found %d notifications."), numNotifications);
-			facy.info_notify(text.GetBuffer());
+			facy.info_notify(CMStringW(FORMAT, TranslateT("Found %d notifications."), numNotifications));
 		}
 
 		ShowNotifications();
 
 		debugLogA("*** Notifications processed");
 	}
-	catch (const std::exception &e) {
-		debugLogA("*** Error processing notifications: %s", e.what());
-	}
+	else debugLogA("*** Error processing notifications");
 }
 
 void FacebookProto::ProcessFriendRequests(void *p)
@@ -1042,7 +1018,7 @@ void FacebookProto::ProcessFriendRequests(void *p)
 			text.AppendFormat(TranslateT("Found %d friendship requests (%d seen)."), numRequestsNew, numRequestsOld);
 		else
 			text.AppendFormat(TranslateT("Found %d friendship requests."), numRequestsNew);
-		facy.info_notify(text.GetBuffer());
+		facy.info_notify(text);
 	}
 
 	facy.handle_success("friendRequests");
@@ -1075,10 +1051,8 @@ void FacebookProto::ProcessFeeds(void *p)
 	if (!news.empty())
 		Skin_PlaySound("NewsFeed");
 
-	if (manuallyTriggered) {
-		CMStringW text(FORMAT, TranslateT("Found %d wall posts."), news.size());
-		facy.info_notify(text.GetBuffer());
-	}
+	if (manuallyTriggered)
+		facy.info_notify(CMStringW(FORMAT, TranslateT("Found %d wall posts."), news.size()));
 
 	for (std::vector<facebook_newsfeed*>::size_type i = 0; i < news.size(); i++) {
 		ptrW tszTitle(mir_utf8decodeW(news[i]->title.c_str()));

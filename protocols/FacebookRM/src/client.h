@@ -82,8 +82,8 @@ public:
 	////////////////////////////////////////////////////////////
 	// Client vs protocol communication
 
-	void client_notify(wchar_t* message);
-	void info_notify(wchar_t* message);
+	void client_notify(const wchar_t *message);
+	void info_notify(const wchar_t *message);
 
 	////////////////////////////////////////////////////////////
 	// Cookies, Data storage
