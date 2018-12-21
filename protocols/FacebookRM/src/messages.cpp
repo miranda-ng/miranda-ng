@@ -235,7 +235,7 @@ HttpRequest* facebook_client::sendMessageRequest(
 	// Use own persistent connection for sending messages
 	p->Persistent = p->MESSAGES;
 
-	p->Url << INT_PARAM("dpr", 1);
+	p << INT_PARAM("dpr", 1);
 
 	if (mir_strlen(captcha) > 0)
 		p->Body << CHAR_PARAM("captcha_persist_data", captchaPersistData) << CHAR_PARAM("captcha_response", captcha);
@@ -294,7 +294,7 @@ HttpRequest* facebook_client::sendTypingRequest(const char *userId, bool isChat,
 {
 	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/messaging/typ.php");
 
-	p->Url << INT_PARAM("dpr", 1);
+	p << INT_PARAM("dpr", 1);
 
 	p->Body
 		<< INT_PARAM("typ", isTyping ? 1 : 0)
@@ -318,7 +318,7 @@ HttpRequest* facebook_client::markMessageReadRequest(const LIST<char> &ids)
 {
 	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/mercury/change_read_status.php");
 
-	p->Url << INT_PARAM("__a", 1);
+	p << INT_PARAM("__a", 1);
 
 	for (auto &it : ids) {
 		std::string id_ = it;
@@ -348,7 +348,7 @@ HttpRequest* facebook_client::destroyThreadRequest(facebook_chatroom *fbc)
 {
 	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/mercury/delete_thread.php");
 
-	p->Url << INT_PARAM("dpr", 1);
+	p << INT_PARAM("dpr", 1);
 
 	p->Body
 		<< CHAR_PARAM("ids[0]", fbc->thread_id.substr(3).c_str())
@@ -368,7 +368,7 @@ HttpRequest* facebook_client::exitThreadRequest(facebook_chatroom *fbc)
 {
 	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/messaging/send/");
 
-	p->Url << INT_PARAM("dpr", 1);
+	p << INT_PARAM("dpr", 1);
 
 	std::string msgid = utils::text::rand_string(15);
 

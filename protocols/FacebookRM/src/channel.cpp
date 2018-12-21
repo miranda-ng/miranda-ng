@@ -39,42 +39,41 @@ HttpRequest* facebook_client::channelRequest(facebook_client::Type type)
 
 	bool isPing = (type == PING);
 
-	p->Url << CHAR_PARAM("channel", chat_channel_.empty() ? ("p_" + self_.user_id).c_str() : chat_channel_.c_str());
+	p << CHAR_PARAM("channel", chat_channel_.empty() ? ("p_" + self_.user_id).c_str() : chat_channel_.c_str());
 	if (!isPing)
-		p->Url << CHAR_PARAM("seq", chat_sequence_num_.empty() ? "0" : chat_sequence_num_.c_str());
+		p << CHAR_PARAM("seq", chat_sequence_num_.empty() ? "0" : chat_sequence_num_.c_str());
 
-	p->Url
-		<< CHAR_PARAM("partition", chat_channel_partition_.empty() ? "0" : chat_channel_partition_.c_str())
+	p << CHAR_PARAM("partition", chat_channel_partition_.empty() ? "0" : chat_channel_partition_.c_str())
 		<< CHAR_PARAM("clientid", chat_clientid_.c_str())
 		<< CHAR_PARAM("cb", utils::text::rand_string(4, "0123456789abcdefghijklmnopqrstuvwxyz", &random_).c_str());
 
 	int idleSeconds = parent->IdleSeconds();
-	p->Url << INT_PARAM("idle", idleSeconds); // Browser is sending "idle" always, even if it's "0"
+	p << INT_PARAM("idle", idleSeconds); // Browser is sending "idle" always, even if it's "0"
 
 	if (!isPing) {
-		p->Url << CHAR_PARAM("qp", "y") << CHAR_PARAM("pws", "fresh") << INT_PARAM("isq", 487632);
-		p->Url << INT_PARAM("msgs_recv", chat_msgs_recv_);
+		p << CHAR_PARAM("qp", "y") << CHAR_PARAM("pws", "fresh") << INT_PARAM("isq", 487632);
+		p << INT_PARAM("msgs_recv", chat_msgs_recv_);
 		// TODO: sometimes there is &tur=1711 and &qpmade=<some actual timestamp> and &isq=487632
 		// Url << "request_batch=1"; // it somehow batches up more responses to one - then response has special "t=batched" type and "batches" array with the data
 		// Url << "msgr_region=LLA"; // it was here only for first pull, same as request_batch
 	}
 
-	p->Url << INT_PARAM("cap", 8) // TODO: what's this item? Sometimes it's 0, sometimes 8
+	p << INT_PARAM("cap", 8) // TODO: what's this item? Sometimes it's 0, sometimes 8
 		<< CHAR_PARAM("uid", self_.user_id.c_str())
 		<< CHAR_PARAM("viewer_uid", self_.user_id.c_str());
 
 	if (!chat_sticky_num_.empty() && !chat_sticky_pool_.empty()) {
-		p->Url << CHAR_PARAM("sticky_token", chat_sticky_num_.c_str());
-		p->Url << CHAR_PARAM("sticky_pool", chat_sticky_pool_.c_str());
+		p << CHAR_PARAM("sticky_token", chat_sticky_num_.c_str());
+		p << CHAR_PARAM("sticky_pool", chat_sticky_pool_.c_str());
 	}
 
 	if (!isPing && !chat_traceid_.empty())
-		p->Url << CHAR_PARAM("traceid", chat_traceid_.c_str());
+		p << CHAR_PARAM("traceid", chat_traceid_.c_str());
 
 	if (parent->isInvisible())
-		p->Url << CHAR_PARAM("state", "offline");
+		p << CHAR_PARAM("state", "offline");
 	else if (isPing || idleSeconds < 60)
-		p->Url << CHAR_PARAM("state", "active");
+		p << CHAR_PARAM("state", "active");
 	
 	return p;
 }

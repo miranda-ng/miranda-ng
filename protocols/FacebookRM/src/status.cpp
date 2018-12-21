@@ -29,8 +29,7 @@ HttpRequest* facebook_client::reconnectRequest()
 {
 	HttpRequest *p = new HttpRequest(REQUEST_GET, FACEBOOK_SERVER_REGULAR "/ajax/presence/reconnect.php");
 
-	p->Url
-		<< INT_PARAM("__a", 1)
+	p << INT_PARAM("__a", 1)
 		<< CHAR_PARAM("__pc", "PHASED:DEFAULT")
 		<< INT_PARAM("__be", -1)
 		<< CHAR_PARAM("reason", chat_reconnect_reason_.empty() ? "6" : chat_reconnect_reason_.c_str())
@@ -50,7 +49,7 @@ HttpRequest* facebook_client::setVisibilityRequest(bool online)
 {
 	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/chat/privacy/visibility.php");
 
-	p->Url << INT_PARAM("dpr", 1);
+	p << INT_PARAM("dpr", 1);
 
 	p->Body
 		<< INT_PARAM("visibility", online ? 1 : 0)

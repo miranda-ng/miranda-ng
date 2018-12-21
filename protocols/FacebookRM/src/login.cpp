@@ -29,7 +29,7 @@ HttpRequest* facebook_client::loginRequest()
 {
 	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_LOGIN "/login.php");
 	p->flags |= NLHRF_NODUMP;
-	p->Url << INT_PARAM("login_attempt", 1);
+	p << INT_PARAM("login_attempt", 1);
 	return p;
 }
 
@@ -39,9 +39,11 @@ HttpRequest* facebook_client::loginRequest(const char *username, const char *pas
 	p->flags |= NLHRF_NODUMP;
 	p->Persistent = p->NONE;
 
-	p->Url
-		<< INT_PARAM("login_attempt", 1)
-		<< urlData; // additional data parsed from form
+	p << INT_PARAM("login_attempt", 1);
+	if (mir_strlen(urlData)) {
+		p->m_szParam.AppendChar('&');
+		p->m_szParam.Append(urlData); // additional data parsed from form
+	}
 		
 	p->Body
 		<< INT_PARAM("persistent", 1)
@@ -60,7 +62,7 @@ HttpRequest* facebook_client::loginSmsRequest(const char *dtsg)
 {
 	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/login/approvals/send_sms");
 		
-	p->Url << INT_PARAM("dpr", 1);
+	p << INT_PARAM("dpr", 1);
 
 	p->Body
 		<< CHAR_PARAM("method_requested", "sms_requested")
@@ -84,7 +86,7 @@ HttpRequest* facebook_client::loginSmsRequest(const char *dtsg)
 HttpRequest* facebook_client::setupMachineRequest()
 {
 	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/checkpoint/");
-	p->Url << "next";
+	p->m_szParam.Append("next");
 	return p;
 }
 
@@ -92,7 +94,7 @@ HttpRequest* facebook_client::setupMachineRequest(const char *dtsg, const char *
 {
 	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/checkpoint/");
 
-	p->Url << "next";
+	p->m_szParam.Append("next");
 
 	p->Body
 		<< CHAR_PARAM(CMStringA(::FORMAT, "submit[%s]", submit), submit)

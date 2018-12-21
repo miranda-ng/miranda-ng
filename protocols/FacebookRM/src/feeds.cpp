@@ -31,8 +31,7 @@ HttpRequest* facebook_client::newsfeedRequest()
 	if (feed_type >= _countof(feed_types))
 		feed_type = 0;
 
-	p->Url
-		<< CHAR_PARAM("sk", feed_types[feed_type].id)
+	p << CHAR_PARAM("sk", feed_types[feed_type].id)
 		<< CHAR_PARAM("key", (feed_type < 2) ? "nf" : feed_types[feed_type].id)
 		<< CHAR_PARAM("__user", self_.user_id.c_str())
 		<< INT_PARAM("__a", 1);
@@ -44,8 +43,7 @@ HttpRequest* facebook_client::memoriesRequest()
 {
 	HttpRequest * p = new HttpRequest(REQUEST_GET, FACEBOOK_SERVER_REGULAR "/onthisday/story/query/");
 
-	p->Url
-		<< INT_PARAM("__a", 1)
+	p << INT_PARAM("__a", 1)
 		<< INT_PARAM("start_index", 0)
 		<< INT_PARAM("num_stories", 20)
 		<< INT_PARAM("last_section_header", 0)

@@ -28,13 +28,12 @@ HttpRequest* facebook_client::searchRequest(const char *query, int s, int pn, co
 	HttpRequest* p = new HttpRequest(REQUEST_GET, FORMAT, "%s/search/", mbasicWorks ? FACEBOOK_SERVER_MBASIC : FACEBOOK_SERVER_MOBILE);
 	p->flags |= NLHRF_REDIRECT;
 
-	p->Url
-		<< CHAR_PARAM("q", query)
+	p << CHAR_PARAM("q", query)
 		<< INT_PARAM("s", s)
 		<< INT_PARAM("pn", pn);
 
 	if (mir_strlen(ssid) > 0)
-		p->Url << CHAR_PARAM("ssid", ssid);
+		p << CHAR_PARAM("ssid", ssid);
 	
 	return p;
 }

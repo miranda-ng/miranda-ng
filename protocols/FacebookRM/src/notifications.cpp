@@ -29,7 +29,7 @@ HttpRequest* facebook_client::getNotificationsRequest(int count)
 {
 	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/notifications/client/get.php");
 	
-	p->Url << INT_PARAM("dpr", 1);
+	p << INT_PARAM("dpr", 1);
 
 	p->Body
 		<< CHAR_PARAM("__user", self_.user_id.c_str())
@@ -53,8 +53,7 @@ HttpRequest* facebook_client::markNotificationReadRequest(const char *id)
 {
 	HttpRequest *p = new HttpRequest(REQUEST_GET, FACEBOOK_SERVER_REGULAR "/ajax/notifications/mark_read.php");
 
-	p->Url
-		<< INT_PARAM("__a", 1)
+	p << INT_PARAM("__a", 1)
 		<< INT_PARAM("seen", 0)
 		<< CHAR_PARAM("fb_dtsg", dtsg_.c_str())
 		<< CHAR_PARAM("__user", self_.user_id.c_str())

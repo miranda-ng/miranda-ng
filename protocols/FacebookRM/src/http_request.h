@@ -18,72 +18,11 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #ifndef _HTTP_REQUEST_H_
 #define _HTTP_REQUEST_H_
 
-class HttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject, private MNonCopyable
+class HttpRequest : public MHttpRequest
 {
 	va_list formatArgs;
-	CMStringA url;
 
 protected:
-	class HttpRequestUrl : private MNonCopyable
-	{
-		friend HttpRequest;
-
-	private:
-		HttpRequest & request;
-
-		HttpRequestUrl(HttpRequest &request, const char *url) : request(request)
-		{
-			request.url = url;
-			request.szUrl = request.url.GetBuffer();
-		}
-
-		HttpRequestUrl(HttpRequest &request, const char *urlFormat, va_list args) : request(request)
-		{
-			request.url.AppendFormatV(urlFormat, args);
-			request.szUrl = request.url.GetBuffer();
-		}
-
-	public:
-		HttpRequestUrl& operator<<(const char *param);
-		HttpRequestUrl& operator<<(const BOOL_PARAM &param);
-		HttpRequestUrl& operator<<(const INT_PARAM &param);
-		HttpRequestUrl& operator<<(const INT64_PARAM &param);
-		HttpRequestUrl& operator<<(const CHAR_PARAM &param);
-
-		char* ToString()
-		{
-			return request.url.GetBuffer();
-		}
-	};
-
-	class HttpRequestHeaders : private MNonCopyable
-	{
-		HttpRequest &request;
-
-		void Add(LPCSTR szName)
-		{
-			Add(szName, "");
-		}
-
-		void Add(LPCSTR szName, LPCSTR szValue)
-		{
-			request.headers = (NETLIBHTTPHEADER*)mir_realloc(
-				request.headers, sizeof(NETLIBHTTPHEADER)* (request.headersCount + 1));
-			request.headers[request.headersCount].szName = mir_strdup(szName);
-			request.headers[request.headersCount].szValue = mir_strdup(szValue);
-			request.headersCount++;
-		}
-
-	public:
-		HttpRequestHeaders(HttpRequest &request) : request(request) {}
-
-		HttpRequestHeaders& operator<<(const CHAR_PARAM &param)
-		{
-			Add(param.szName, param.szValue);
-			return *this;
-		}
-	};
-
 	class HttpRequestBody
 	{
 	private:
@@ -106,23 +45,11 @@ protected:
 
 		char* ToString()
 		{
-			return content.GetBuffer();
+			return content.Detach();
 		}
 	};
 
-	void AddUrlParameter(const char *fmt, ...)
-	{
-		va_list args;
-		va_start(args, fmt);
-		url += (url.Find('?') == -1) ? '?' : '&';
-		url.AppendFormatV(fmt, args);
-		va_end(args);
-		szUrl = url.GetBuffer();
-	}
-
 public:
-	HttpRequestUrl Url;
-	HttpRequestHeaders Headers;
 	HttpRequestBody Body;
 
 	enum PersistentType { NONE, DEFAULT, CHANNEL, MESSAGES };
@@ -131,12 +58,10 @@ public:
 	PersistentType Persistent;
 
 	HttpRequest(int type, LPCSTR url)
-		: Url(*this, url), Headers(*this)
 	{
-		cbSize = sizeof(NETLIBHTTPREQUEST);
+		m_szUrl = url;
 		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_DUMPASTEXT;
 		requestType = type;
-		pData = nullptr;
 		timeout = 600 * 1000;
 
 		NotifyErrors = true;
@@ -144,33 +69,26 @@ public:
 	}
 
 	HttpRequest(int type, CMStringDataFormat, LPCSTR urlFormat, ...)
-		: Url(*this, urlFormat, (va_start(formatArgs, urlFormat), formatArgs)), Headers(*this)
 	{
-		cbSize = sizeof(NETLIBHTTPREQUEST);
+		m_szUrl.AppendFormatV(urlFormat, (va_start(formatArgs, urlFormat), formatArgs));
 		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_DUMPASTEXT;
 		requestType = type;
 		va_end(formatArgs);
-		pData = nullptr;
 		timeout = 20 * 1000;
 
 		NotifyErrors = true;
 		Persistent = DEFAULT;
 	}
 
-	virtual ~HttpRequest()
-	{
-		for (int i = 0; i < headersCount; i++) {
-			mir_free(headers[i].szName);
-			mir_free(headers[i].szValue);
-		}
-		mir_free(headers);
-	}
-
 	virtual NETLIBHTTPREQUEST* Send(HNETLIBUSER nlu)
 	{
-		if (url.Find("://") == -1)
-			url.Insert(0, ((flags & NLHRF_SSL) ? "https://" : "http://"));
-		szUrl = url.GetBuffer();
+		if (m_szUrl.Find("://") == -1)
+			m_szUrl.Insert(0, ((flags & NLHRF_SSL) ? "https://" : "http://"));
+		if (!m_szParam.IsEmpty()) {
+			m_szUrl.AppendChar('?');
+			m_szUrl += m_szParam;
+		}
+		szUrl = m_szUrl.GetBuffer();
 
 		if (!pData) {
 			pData = Body.ToString();

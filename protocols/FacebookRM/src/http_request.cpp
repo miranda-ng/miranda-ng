@@ -52,34 +52,3 @@ HttpRequest::HttpRequestBody& HttpRequest::HttpRequestBody::operator<<(const CHA
 	content.AppendFormat("%s=%s", param.szName, utils::url::encode(param.szValue).c_str());
 	return *this;
 }
-
-HttpRequest::HttpRequestUrl& HttpRequest::HttpRequestUrl::operator<<(const char *param)
-{
-	if (param)
-		request.AddUrlParameter("%s", param);
-	return *this;
-}
-
-HttpRequest::HttpRequestUrl& HttpRequest::HttpRequestUrl::operator<<(const BOOL_PARAM &param)
-{
-	request.AddUrlParameter("%s=%s", param.szName, param.bValue ? "true" : "false");
-	return *this;
-}
-
-HttpRequest::HttpRequestUrl& HttpRequest::HttpRequestUrl::operator<<(const INT_PARAM &param)
-{
-	request.AddUrlParameter("%s=%i", param.szName, param.iValue);
-	return *this;
-}
-
-HttpRequest::HttpRequestUrl& HttpRequest::HttpRequestUrl::operator<<(const INT64_PARAM &param)
-{
-	request.AddUrlParameter("%s=%lld", param.szName, param.iValue);
-	return *this;
-}
-
-HttpRequest::HttpRequestUrl& HttpRequest::HttpRequestUrl::operator<<(const CHAR_PARAM &param)
-{
-	request.AddUrlParameter("%s=%s", param.szName, param.szValue);
-	return *this;
-}

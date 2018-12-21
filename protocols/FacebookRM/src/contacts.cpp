@@ -597,7 +597,7 @@ HttpRequest* facebook_client::addFriendRequest(const char *userId)
 {
 	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/add_friend/action.php");
 	
-	p->Url << INT_PARAM("__a", 1);
+	p << INT_PARAM("__a", 1);
 
 	p->Body
 		<< CHAR_PARAM("to_friend", userId)
@@ -615,9 +615,8 @@ HttpRequest* facebook_client::deleteFriendRequest(const char *userId)
 {
 	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/profile/removefriendconfirm.php");
 
-	p->Url
-		<< INT_PARAM("__a", 1)
-		<< BOOL_PARAM("norefresh", true)
+	p << INT_PARAM("__a", 1)
+		<< CHAR_PARAM("norefresh", "true")
 		<< CHAR_PARAM("unref", "button_dropdown")
 		<< CHAR_PARAM("uid", userId);
 
@@ -647,7 +646,7 @@ HttpRequest* facebook_client::cancelFriendshipRequest(const char *userId)
 {
 	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/friends/requests/cancel.php");
 
-	p->Url << INT_PARAM("__a", 1);
+	p << INT_PARAM("__a", 1);
 
 	p->Body
 		<< INT_PARAM("confirmed", 1)
@@ -662,7 +661,7 @@ HttpRequest* facebook_client::answerFriendshipRequest(const char *userId, bool b
 {
 	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/requests/friends/ajax/");
 
-	p->Url << INT_PARAM("__a", 1);
+	p << INT_PARAM("__a", 1);
 
 	p->Body
 		<< CHAR_PARAM("action", (bConfirm) ? "confirm" : "reject")
@@ -680,7 +679,7 @@ HttpRequest* facebook_client::userInfoRequest(const LIST<char> &userIds)
 {
 	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/chat/user_info/");
 
-	p->Url << INT_PARAM("dpr", 1);
+	p << INT_PARAM("dpr", 1);
 
 	for (int i = 0; i < userIds.getCount(); i++) {
 		CMStringA id(::FORMAT, "ids[%i]", i);
@@ -705,8 +704,7 @@ HttpRequest* facebook_client::userInfoAllRequest()
 {
 	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/chat/user_info_all/");
 
-		p->Url
-		<< INT_PARAM("dpr", 1)
+	p << INT_PARAM("dpr", 1)
 		<< CHAR_PARAM("viewer", self_.user_id.c_str());
 
 	p->Body

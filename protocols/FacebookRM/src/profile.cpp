@@ -29,7 +29,7 @@ HttpRequest* facebook_client::homeRequest()
 {
 	HttpRequest *p = new HttpRequest(REQUEST_GET, FACEBOOK_SERVER_MOBILE "/profile.php");
 	p->flags |= NLHRF_REDIRECT;
-	p->Url << CHAR_PARAM("v", "info");
+	p << CHAR_PARAM("v", "info");
 	return p;
 }
 
@@ -50,7 +50,7 @@ HttpRequest* facebook_client::profilePictureRequest(const char *userId)
 {
 	HttpRequest *p = new HttpRequest(REQUEST_GET, FORMAT, "%s/profile/picture/view/", mbasicWorks ? FACEBOOK_SERVER_MBASIC : FACEBOOK_SERVER_MOBILE);
 	p->flags |= NLHRF_REDIRECT;
-	p->Url << CHAR_PARAM("profile_id", userId);
+	p << CHAR_PARAM("profile_id", userId);
 	return p;
 }
 
@@ -60,7 +60,7 @@ HttpRequest* facebook_client::profilePictureRequest(const char *userId)
 HttpRequest* facebook_client::profileRequest(const char *data)
 {
 	HttpRequest *p = new HttpRequest(REQUEST_GET, FORMAT, "%s/%s", mbasicWorks ? FACEBOOK_SERVER_MBASIC : FACEBOOK_SERVER_MOBILE, data);
-	p->Url << CHAR_PARAM("v", "info");
+	p << CHAR_PARAM("v", "info");
 	return p;
 }
 
@@ -70,6 +70,6 @@ HttpRequest* facebook_client::profileRequest(const char *data)
 HttpRequest* facebook_client::profileInfoRequest(const char *userId)
 {
 	HttpRequest *p = new HttpRequest(REQUEST_GET, FORMAT, "%s/profile.php", mbasicWorks ? FACEBOOK_SERVER_MBASIC : FACEBOOK_SERVER_MOBILE);
-	p->Url << CHAR_PARAM("id", userId) << CHAR_PARAM("v", "info") << CHAR_PARAM("locale", "en_US");
+	p << CHAR_PARAM("id", userId) << CHAR_PARAM("v", "info") << CHAR_PARAM("locale", "en_US");
 	return p;
 }

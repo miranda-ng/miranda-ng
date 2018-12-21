@@ -43,16 +43,15 @@ http::response facebook_client::sendRequest(HttpRequest *request)
 
 	// Check and append user defined locale if request doesn't have it forced already
 	if (!parent->m_locale.empty() && strstr(request->szUrl, "&locale=") == nullptr)
-		request->Url << CHAR_PARAM("locale", parent->m_locale.c_str());
+		request << CHAR_PARAM("locale", parent->m_locale.c_str());
 
-	request->Headers
-		<< CHAR_PARAM("Accept-Language", "en,en-US;q=0.9")
-		<< CHAR_PARAM("Accept", "*/*")
-		<< CHAR_PARAM("User-Agent", g_strUserAgent.c_str())
-		<< CHAR_PARAM("Cookie", ptrA(load_cookies())); // FIXME: Rework load_cookies to not do strdup
+	request->AddHeader("Accept-Language", "en,en-US;q=0.9");
+	request->AddHeader("Accept", "*/*");
+	request->AddHeader("User-Agent", g_strUserAgent.c_str());
+	request->AddHeader("Cookie", ptrA(load_cookies())); // FIXME: Rework load_cookies to not do strdup
 
 	if (request->requestType == REQUEST_POST)
-		request->Headers << CHAR_PARAM("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+		request->AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 
 	mir_cslockfull s(fcb_conn_lock_); s.unlock();
 

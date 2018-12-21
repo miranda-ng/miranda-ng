@@ -108,7 +108,7 @@ HttpRequest* facebook_client::unreadThreadsRequest()
 {
 	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/mercury/unread_threads.php");
 
-	p->Url << INT_PARAM("dpr", 1);
+	p << INT_PARAM("dpr", 1);
 
 	p->Body
 		<< CHAR_PARAM("folders[0]", "inbox")

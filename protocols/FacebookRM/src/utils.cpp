@@ -37,8 +37,7 @@ HttpRequest* facebook_client::refreshCaptchaRequest(const char *captchaPersistDa
 {
 	HttpRequest *p = new HttpRequest(REQUEST_GET, FACEBOOK_SERVER_REGULAR "/captcha/refresh_ajax.php");
 
-	p->Url
-		<< INT_PARAM("__a", 1)
+	p << INT_PARAM("__a", 1)
 		<< CHAR_PARAM("new_captcha_type", "TFBCaptcha")
 		<< CHAR_PARAM("skipped_captcha_data", captchaPersistData)
 		<< CHAR_PARAM("__dyn", __dyn())
@@ -56,8 +55,7 @@ HttpRequest* facebook_client::linkScraperRequest(status_data *status)
 {
 	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/composerx/attachment/link/scraper/");
 
-	p->Url
-		<< INT_PARAM("__a", 1)
+	p << INT_PARAM("__a", 1)
 		<< INT_PARAM("composerurihash", 2)
 		<< CHAR_PARAM("scrape_url", status->url.c_str());
 
@@ -103,7 +101,7 @@ HttpRequest* facebook_client::switchIdentityRequest(const char *userId)
 {
 	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/identity_switch.php");
 
-	p->Url << INT_PARAM("__a", 1);
+	p << INT_PARAM("__a", 1);
 
 	p->Body << CHAR_PARAM("fb_dtsg", dtsg_.c_str()) << CHAR_PARAM("user_id", userId) << CHAR_PARAM("url", FACEBOOK_URL_HOMEPAGE);
 
@@ -117,7 +115,7 @@ HttpRequest* facebook_client::sharePostRequest(status_data *status, const char *
 {
 	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/updatestatus.php");
 
-	p->Url << INT_PARAM("__a", 1);
+	p << INT_PARAM("__a", 1);
 
 	p->Body
 		<< CHAR_PARAM("fb_dtsg", dtsg_.c_str())
@@ -165,7 +163,7 @@ HttpRequest* facebook_client::sendPokeRequest(const char *userId)
 {
 	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/pokes/dialog/");
 
-	p->Url << INT_PARAM("__a", 1);
+	p << INT_PARAM("__a", 1);
 
 	p->Body
 		<< INT_PARAM("do_confirm", 0)
