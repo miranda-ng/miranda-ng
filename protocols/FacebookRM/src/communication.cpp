@@ -496,7 +496,7 @@ bool facebook_client::login(const char *username, const char *password)
 					std::string nh = utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
 
 					HttpRequest *request = setupMachineRequest(fb_dtsg.c_str(), nh.c_str(), "Continue");
-					request->Body << "&name_action_selected=save_device"; // Save device - or "dont_save"
+					request->Body << CHAR_PARAM("name_action_selected", "save_device"); // Save device - or "dont_save"
 					resp = sendRequest(request);
 				}
 
@@ -545,7 +545,7 @@ bool facebook_client::login(const char *username, const char *password)
 					nh = utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
 
 					HttpRequest *request = setupMachineRequest(fb_dtsg.c_str(), nh.c_str(), "Continue");
-					request->Body << "&name_action_selected=save_device"; // Save device - or "dont_save"
+					request->Body << CHAR_PARAM("name_action_selected", "save_device"); // Save device - or "dont_save"
 					resp = sendRequest(request);
 				}
 			}

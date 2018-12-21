@@ -247,7 +247,7 @@ HttpRequest* facebook_client::sendMessageRequest(
 	if (message_text.substr(0, 10) == "[[sticker:" && message_text.substr(message_text.length() - 2) == "]]")
 		// TODO: For sending GIF images instead of "sticker_id=" there is "image_ids[0]=", otherwise it's same
 		p->Body
-			<< "body="
+			<< CHAR_PARAM("body", "")
 			<< CHAR_PARAM("sticker_id", message_text.substr(10, message_text.length() - 10 - 2).c_str())
 			<< BOOL_PARAM("has_attachment", true);
 	else 
