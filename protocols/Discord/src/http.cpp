@@ -32,16 +32,8 @@ AsyncHttpRequest* CDiscordProto::Push(AsyncHttpRequest *pReq, int iTimeout)
 
 static LONG g_reqNum = 0;
 
-AsyncHttpRequest::AsyncHttpRequest()
-{
-	cbSize = sizeof(NETLIBHTTPREQUEST);
-	m_iReqNum = ::InterlockedIncrement(&g_reqNum);
-}
-
 AsyncHttpRequest::AsyncHttpRequest(CDiscordProto *ppro, int iRequestType, LPCSTR _url, MTHttpRequestHandler pFunc, JSONNode *pRoot)
 {
-	cbSize = sizeof(NETLIBHTTPREQUEST);
-
 	if (*_url == '/') {	// relative url leads to a site
 		m_szUrl = "https://discordapp.com/api/v6";
 		m_szUrl += _url;

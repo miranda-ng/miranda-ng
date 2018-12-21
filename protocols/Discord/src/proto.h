@@ -12,7 +12,6 @@ typedef void (CDiscordProto::*GatewayHandlerFunc)(const JSONNode&);
 
 struct AsyncHttpRequest : public MTHttpRequest<CDiscordProto>
 {
-	AsyncHttpRequest();
 	AsyncHttpRequest(CDiscordProto*, int iRequestType, LPCSTR szUrl, MTHttpRequestHandler pFunc, JSONNode *pNode = nullptr);
 
 	int m_iErrorCode, m_iReqNum;

@@ -23,7 +23,6 @@ ULONG AsyncHttpRequest::m_reqCount = 0;
 
 AsyncHttpRequest::AsyncHttpRequest()
 {
-	cbSize = sizeof(NETLIBHTTPREQUEST);
 	m_bApiReq = true;
 	AddHeader("Connection", "keep-alive");
 	pUserInfo = nullptr;
@@ -38,7 +37,6 @@ AsyncHttpRequest::AsyncHttpRequest()
 
 AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url, bool bSecure, MTHttpRequestHandler pFunc, RequestPriority rpPriority)
 {
-	cbSize = sizeof(NETLIBHTTPREQUEST);
 	m_bApiReq = true;
 	bIsMainConn = false;
 	AddHeader("Connection", "keep-alive");
