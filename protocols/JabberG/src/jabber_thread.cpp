@@ -39,6 +39,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define DNS_TYPE_SRV 0x0021
 #endif
 
+static ThreadData *g_pRegInfo;  // pointer to registration thread
+
 // <iq/> identification number for various actions
 // for JABBER_REGISTER thread
 int iqIdRegGetReg;
@@ -545,8 +547,11 @@ recvRest:
 
 			WindowList_Broadcast(m_hWindowList, WM_JABBER_REFRESH_VCARD, 0, 0);
 		}
-		else if (info.bIsReg && !info.reg_done)
-			SendMessage(info.conn.reg_hwndDlg, WM_JABBER_REGDLG_UPDATE, 100, (LPARAM)TranslateT("Error: Connection lost"));
+		else {
+			if (!info.reg_done)
+				SendMessage(info.conn.reg_hwndDlg, WM_JABBER_REGDLG_UPDATE, 100, (LPARAM)TranslateT("Error: Connection lost"));
+			g_pRegInfo = nullptr;
+		}
 	}
 	else if (!info.bIsReg) {
 		int oldStatus = m_iStatus;
@@ -1966,19 +1971,18 @@ void CJabberProto::OnProcessIq(HXML node)
 	}
 }
 
-ThreadData *m_regInfo;
 void CJabberProto::SetRegConfig(HXML node, void *from)
 {
-	if (m_regInfo) {
+	if (g_pRegInfo) {
 		iqIdRegSetReg = SerialNext();
 
 		wchar_t text[MAX_PATH];
-		mir_snwprintf(text, L"%s@%S", m_regInfo->conn.username, m_regInfo->conn.server);
+		mir_snwprintf(text, L"%s@%S", g_pRegInfo->conn.username, g_pRegInfo->conn.server);
 		XmlNodeIq iq(L"set", iqIdRegSetReg, (const wchar_t*)from);
 		iq << XATTR(L"from", text);
 		HXML query = iq << XQUERY(JABBER_FEAT_REGISTER);
 		XmlAddChild(query, node);
-		m_regInfo->send(iq);
+		g_pRegInfo->send(iq);
 	}
 }
 
@@ -1999,7 +2003,7 @@ void CJabberProto::OnProcessRegIq(HXML node, ThreadData *info)
 				HXML xNode = XmlGetChild(queryNode, L"x");
 				if (xNode != nullptr) {
 					if (!mir_wstrcmp(XmlGetAttrValue(xNode, L"xmlns"), JABBER_FEAT_DATA_FORMS)) {
-						m_regInfo = info;
+						g_pRegInfo = info;
 						FormCreateDialog(xNode, L"Jabber register new user", &CJabberProto::SetRegConfig, mir_wstrdup(XmlGetAttrValue(node, L"from")));
 						return;
 					}
