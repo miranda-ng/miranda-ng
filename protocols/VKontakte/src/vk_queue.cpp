@@ -90,8 +90,10 @@ void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-AsyncHttpRequest* CVkProto::Push(AsyncHttpRequest *pReq, int iTimeout)
+AsyncHttpRequest* CVkProto::Push(MHttpRequest *p, int iTimeout)
 {
+	AsyncHttpRequest *pReq = (AsyncHttpRequest*)p;
+
 	debugLogA("CVkProto::Push");
 	pReq->timeout = iTimeout;
 	if (pReq->m_bApiReq) {
@@ -131,7 +133,8 @@ void CVkProto::WorkerThread(void*)
 	else {
 		// Initialize new OAuth session
 		extern char szBlankUrl[];
-		AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, "https://oauth.vk.com/authorize", false, &CVkProto::OnOAuthAuthorize)
+		AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, "https://oauth.vk.com/authorize", false, &CVkProto::OnOAuthAuthorize);
+		pReq
 			<< INT_PARAM("client_id", VK_APP_ID)
 			<< CHAR_PARAM("scope", Score)
 			<< CHAR_PARAM("redirect_uri", szBlankUrl)
@@ -202,34 +205,4 @@ void CVkProto::WorkerThread(void*)
 		CloseHandle(m_hWorkerThread);
 		m_hWorkerThread = nullptr;
 	}
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-AsyncHttpRequest* operator<<(AsyncHttpRequest *pReq, const INT_PARAM &param)
-{
-	CMStringA &s = pReq->m_szParam;
-	if (!s.IsEmpty())
-		s.AppendChar('&');
-	s.AppendFormat("%s=%ld", param.szName, param.iValue);
-	return pReq;
-}
-
-AsyncHttpRequest* operator<<(AsyncHttpRequest *pReq, const CHAR_PARAM &param)
-{
-	CMStringA &s = pReq->m_szParam;
-	if (!s.IsEmpty())
-		s.AppendChar('&');
-	s.AppendFormat("%s=%s", param.szName, ptrA(pReq->bExpUrlEncode ? ExpUrlEncode(param.szValue) : mir_urlEncode(param.szValue)));
-	return pReq;
-}
-
-AsyncHttpRequest* operator<<(AsyncHttpRequest *pReq, const WCHAR_PARAM &param)
-{
-	T2Utf szValue(param.wszValue);
-	CMStringA &s = pReq->m_szParam;
-	if (!s.IsEmpty())
-		s.AppendChar('&');
-	s.AppendFormat("%s=%s", param.szName, ptrA(pReq->bExpUrlEncode ? ExpUrlEncode(szValue) : mir_urlEncode(szValue)));
-	return pReq;
 }

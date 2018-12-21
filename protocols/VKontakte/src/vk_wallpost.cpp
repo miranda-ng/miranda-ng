@@ -40,9 +40,8 @@ void CVkProto::WallPost(MCONTACT hContact, wchar_t *pwszMsg, wchar_t *pwszUrl, b
 	if (userID == VK_INVALID_USER || userID == VK_FEED_USER)
 		return;
 
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/wall.post.json", true, &CVkProto::OnReceiveSmth)
-		<< INT_PARAM("owner_id", userID)
-		<< INT_PARAM("friends_only", bFriendsOnly ? 1 : 0);
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/wall.post.json", true, &CVkProto::OnReceiveSmth);
+	pReq << INT_PARAM("owner_id", userID) << INT_PARAM("friends_only", bFriendsOnly ? 1 : 0);
 
 	if (!IsEmpty(pwszMsg))
 		pReq << WCHAR_PARAM("message", pwszMsg);

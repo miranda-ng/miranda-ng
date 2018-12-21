@@ -32,17 +32,15 @@ AsyncHttpRequest::AsyncHttpRequest()
 	bNeedsRestart = false;
 	bIsMainConn = false;
 	m_pFunc = nullptr;
-	bExpUrlEncode = true;
 	m_reqNum = ::InterlockedIncrement(&m_reqCount);
 	m_priority = rpLow;
 }
 
-AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url, bool bSecure, VK_REQUEST_HANDLER pFunc, RequestPriority rpPriority)
+AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url, bool bSecure, MTHttpRequestHandler pFunc, RequestPriority rpPriority)
 {
 	cbSize = sizeof(NETLIBHTTPREQUEST);
 	m_bApiReq = true;
 	bIsMainConn = false;
-	bExpUrlEncode = (BYTE)ppro->m_vkOptions.bUseStandardUrlEncode == 0;
 	AddHeader("Connection", "keep-alive");
 
 	if (*_url == '/') {	// relative url leads to a site
@@ -67,24 +65,6 @@ AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url
 	bNeedsRestart = false;
 	m_reqNum = ::InterlockedIncrement(&m_reqCount);
 	m_priority = rpPriority;
-}
-
-AsyncHttpRequest::~AsyncHttpRequest()
-{
-	for (int i = 0; i < headersCount; i++) {
-		mir_free(headers[i].szName);
-		mir_free(headers[i].szValue);
-	}
-	mir_free(headers);
-	mir_free(pData);
-}
-
-void AsyncHttpRequest::AddHeader(LPCSTR szName, LPCSTR szValue)
-{
-	headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount + 1));
-	headers[headersCount].szName = mir_strdup(szName);
-	headers[headersCount].szValue = mir_strdup(szValue);
-	headersCount++;
 }
 
 void AsyncHttpRequest::Redirect(NETLIBHTTPREQUEST *nhr)
@@ -208,7 +188,6 @@ CVKOptions::CVKOptions(PROTO_INTERFACE *proto) :
 	bSendVKLinksAsAttachments(proto, "SendVKLinksAsAttachments", true),
 	bLoadSentAttachments(proto, "LoadSentAttachments", bSendVKLinksAsAttachments),
 	bUseNonStandardNotifications(proto, "UseNonStandardNotifications", false),
-	bUseStandardUrlEncode(proto, "UseStandardUrlEncode", false),
 	bShortenLinksForAudio(proto, "ShortenLinksForAudio", true),
 	bAddMessageLinkToMesWAtt(proto, "AddMessageLinkToMesWAtt", true),
 	bSplitFormatFwdMsg(proto, "SplitFormatFwdMsg", true),

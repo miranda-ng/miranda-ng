@@ -8,29 +8,16 @@ __forceinline int compareInt64(const SnowFlake i1, const SnowFlake i2)
 }
 
 class CDiscordProto;
-typedef void (CDiscordProto::*HttpCallback)(NETLIBHTTPREQUEST*, struct AsyncHttpRequest*);
 typedef void (CDiscordProto::*GatewayHandlerFunc)(const JSONNode&);
 
-struct AsyncHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
+struct AsyncHttpRequest : public MTHttpRequest<CDiscordProto>
 {
 	AsyncHttpRequest();
-	AsyncHttpRequest(CDiscordProto*, int iRequestType, LPCSTR szUrl, HttpCallback pFunc, JSONNode *pNode = nullptr);
-	~AsyncHttpRequest();
+	AsyncHttpRequest(CDiscordProto*, int iRequestType, LPCSTR szUrl, MTHttpRequestHandler pFunc, JSONNode *pNode = nullptr);
 
-	void AddHeader(LPCSTR, LPCSTR);
-
-	CMStringA m_szUrl;
-	CMStringA m_szParam;
-	HttpCallback m_pCallback;
 	int m_iErrorCode, m_iReqNum;
 	bool m_bMainSite;
-	void *pUserInfo;
 };
-
-AsyncHttpRequest* operator<<(AsyncHttpRequest*, const INT_PARAM&);
-AsyncHttpRequest* operator<<(AsyncHttpRequest*, const INT64_PARAM&);
-AsyncHttpRequest* operator<<(AsyncHttpRequest*, const CHAR_PARAM&);
-AsyncHttpRequest* operator<<(AsyncHttpRequest*, const WCHAR_PARAM&);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

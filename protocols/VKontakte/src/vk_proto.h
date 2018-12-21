@@ -361,7 +361,7 @@ private:
 	void UninitQueue();
 	void ExecuteRequest(AsyncHttpRequest*);
 	void __cdecl WorkerThread(void*);
-	AsyncHttpRequest* Push(AsyncHttpRequest *pReq, int iTimeout = 10000);
+	AsyncHttpRequest* Push(MHttpRequest *pReq, int iTimeout = 10000);
 	bool RunCaptchaForm(LPCSTR szUrl, CMStringA&);
 	bool ApplyCaptcha(AsyncHttpRequest *pReq, const JSONNode&);
 	void ConnectionFailed(int iReason);

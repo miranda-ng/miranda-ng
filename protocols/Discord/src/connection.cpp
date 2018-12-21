@@ -43,8 +43,8 @@ void CDiscordProto::ExecuteRequest(AsyncHttpRequest *pReq)
 	debugLogA("Executing request #%d:\n%s", pReq->m_iReqNum, pReq->szUrl);
 	NETLIBHTTPREQUEST *reply = Netlib_HttpTransaction(m_hNetlibUser, pReq);
 	if (reply != nullptr) {
-		if (pReq->m_pCallback != nullptr)
-			(this->*(pReq->m_pCallback))(reply, pReq);
+		if (pReq->m_pFunc != nullptr)
+			(this->*(pReq->m_pFunc))(reply, pReq);
 
 		if (pReq->m_bMainSite)
 			m_hAPIConnection = reply->nlc;

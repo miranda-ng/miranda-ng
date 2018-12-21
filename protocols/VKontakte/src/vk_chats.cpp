@@ -565,9 +565,8 @@ INT_PTR __cdecl CVkProto::OnJoinChat(WPARAM hContact, LPARAM)
 	if (chat_id == VK_INVALID_USER)
 		return 1;
 
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendChatMsg, AsyncHttpRequest::rpHigh)
-		<< INT_PARAM("chat_id", chat_id)
-		<< WCHAR_PARAM("message", m_vkOptions.pwszReturnChatMessage);
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendChatMsg, AsyncHttpRequest::rpHigh);
+	pReq << INT_PARAM("chat_id", chat_id) << WCHAR_PARAM("message", m_vkOptions.pwszReturnChatMessage);
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 	Push(pReq);
 	db_unset(hContact, m_szModuleName, "off");

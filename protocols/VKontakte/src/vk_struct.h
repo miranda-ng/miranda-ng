@@ -18,36 +18,23 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 #pragma once
 
-typedef void (CVkProto::*VK_REQUEST_HANDLER)(NETLIBHTTPREQUEST*, struct AsyncHttpRequest*);
-
-struct AsyncHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
+struct AsyncHttpRequest : public MTHttpRequest<CVkProto>
 {
 	enum RequestPriority { rpLow, rpMedium, rpHigh };
 
 	AsyncHttpRequest();
-	AsyncHttpRequest(CVkProto*, int iRequestType, LPCSTR szUrl, bool bSecure, VK_REQUEST_HANDLER pFunc, RequestPriority rpPriority = rpMedium);
-	~AsyncHttpRequest();
+	AsyncHttpRequest(CVkProto*, int iRequestType, LPCSTR szUrl, bool bSecure, MTHttpRequestHandler pFunc, RequestPriority rpPriority = rpMedium);
 
-	void AddHeader(LPCSTR, LPCSTR);
 	void Redirect(NETLIBHTTPREQUEST*);
 
-	CMStringA m_szUrl;
-	CMStringA m_szParam;
-	VK_REQUEST_HANDLER m_pFunc;
-	void *pUserInfo;
 	int m_iRetry;
 	int m_iErrorCode;
 	RequestPriority m_priority;
 	static ULONG m_reqCount;
 	ULONG m_reqNum;
 	bool m_bApiReq;
-	bool bExpUrlEncode;
 	bool bNeedsRestart, bIsMainConn;
 };
-
-AsyncHttpRequest* operator<<(AsyncHttpRequest*, const INT_PARAM&);
-AsyncHttpRequest* operator<<(AsyncHttpRequest*, const CHAR_PARAM&);
-AsyncHttpRequest* operator<<(AsyncHttpRequest*, const WCHAR_PARAM&);
 
 struct CVkFileUploadParam : public MZeroedObject {
 	enum VKFileType { typeInvalid, typeImg, typeAudio, typeDoc, typeNotSupported };
@@ -301,7 +288,6 @@ struct CVKOptions {
 	CMOption<BYTE> bNotificationFilterInvites;
 	CMOption<BYTE> bNotificationFilterAcceptedFriends;
 	CMOption<BYTE> bUseNonStandardNotifications;
-	CMOption<BYTE> bUseStandardUrlEncode;
 	CMOption<BYTE> bShortenLinksForAudio;
 	CMOption<BYTE> bAddMessageLinkToMesWAtt;
 	CMOption<BYTE> bSplitFormatFwdMsg;

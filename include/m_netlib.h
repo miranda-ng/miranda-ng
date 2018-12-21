@@ -550,6 +550,35 @@ public:
 		Netlib_FreeHttpRequest(_p);
 	}
 };
+
+struct MIR_APP_EXPORT MHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
+{
+	MHttpRequest();
+	~MHttpRequest();
+
+	CMStringA m_szUrl;
+	CMStringA m_szParam;
+	void *pUserInfo;
+
+	void AddHeader(const char *szName, const char *szValue);
+};
+
+template <class T> 
+class MTHttpRequest : public MHttpRequest
+{
+public:
+	__inline MTHttpRequest()
+	{}
+
+	typedef void (T::*MTHttpRequestHandler)(NETLIBHTTPREQUEST*, struct AsyncHttpRequest*);
+	MTHttpRequestHandler m_pFunc = nullptr;
+};
+
+MIR_APP_DLL(MHttpRequest*) operator<<(MHttpRequest*, const INT_PARAM&);
+MIR_APP_DLL(MHttpRequest*) operator<<(MHttpRequest*, const INT64_PARAM&);
+MIR_APP_DLL(MHttpRequest*) operator<<(MHttpRequest*, const CHAR_PARAM&);
+MIR_APP_DLL(MHttpRequest*) operator<<(MHttpRequest*, const WCHAR_PARAM&);
+
 #endif
 
 /////////////////////////////////////////////////////////////////////////////////////////

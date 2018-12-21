@@ -47,9 +47,8 @@ int CVkProto::SendMsg(MCONTACT hContact, int, const char *szMsg)
 
 	ULONG uMsgId = ::InterlockedIncrement(&m_msgId);
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true,
-		bIsChat ? &CVkProto::OnSendChatMsg : &CVkProto::OnSendMessage, AsyncHttpRequest::rpHigh)
-		<< INT_PARAM(bIsChat ? "chat_id" : "peer_id", iUserID)
-		<< INT_PARAM("random_id", ((LONG)time(0)) * 100 + uMsgId % 100);
+		bIsChat ? &CVkProto::OnSendChatMsg : &CVkProto::OnSendMessage, AsyncHttpRequest::rpHigh);
+	pReq << INT_PARAM(bIsChat ? "chat_id" : "peer_id", iUserID) << INT_PARAM("random_id", ((LONG)time(0)) * 100 + uMsgId % 100);
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
 	if (StickerId)

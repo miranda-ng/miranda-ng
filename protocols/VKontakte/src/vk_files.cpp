@@ -263,10 +263,8 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			SendFileFiled(fup, VKERR_INVALID_PARAMETERS);
 			return;
 		}
-		pUploadReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/photos.saveMessagesPhoto.json", true, &CVkProto::OnReciveUploadFile)
-			<< WCHAR_PARAM("server", server)
-			<< WCHAR_PARAM("photo", upload)
-			<< WCHAR_PARAM("hash", hash);
+		pUploadReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/photos.saveMessagesPhoto.json", true, &CVkProto::OnReciveUploadFile);
+		pUploadReq << WCHAR_PARAM("server", server) << WCHAR_PARAM("photo", upload) << WCHAR_PARAM("hash", hash);
 		break;
 	case CVkFileUploadParam::typeAudio:
 		upload = jnRoot["audio"].as_mstring();
@@ -274,10 +272,8 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			SendFileFiled(fup, VKERR_INVALID_PARAMETERS);
 			return;
 		}
-		pUploadReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/audio.save.json", true, &CVkProto::OnReciveUploadFile)
-			<< WCHAR_PARAM("server", server)
-			<< WCHAR_PARAM("audio", upload)
-			<< WCHAR_PARAM("hash", hash);
+		pUploadReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/audio.save.json", true, &CVkProto::OnReciveUploadFile);
+		pUploadReq << WCHAR_PARAM("server", server) << WCHAR_PARAM("audio", upload) << WCHAR_PARAM("hash", hash);
 		break;
 	case CVkFileUploadParam::typeDoc:
 		upload = jnRoot["file"].as_mstring();
@@ -285,9 +281,8 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			SendFileFiled(fup, VKERR_INVALID_PARAMETERS);
 			return;
 		}
-		pUploadReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/docs.save.json", true, &CVkProto::OnReciveUploadFile)
-			<< CHAR_PARAM("title", fup->fileName())
-			<< WCHAR_PARAM("file", upload);
+		pUploadReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/docs.save.json", true, &CVkProto::OnReciveUploadFile);
+		pUploadReq << CHAR_PARAM("title", fup->fileName()) << WCHAR_PARAM("file", upload);
 		break;
 	default:
 		SendFileFiled(fup, VKERR_FTYPE_NOT_SUPPORTED);
@@ -359,8 +354,8 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 			return;
 		}
 
-		pMsgReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendChatMsg, AsyncHttpRequest::rpHigh)
-			<< INT_PARAM("chat_id", cc->m_chatid);
+		pMsgReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendChatMsg, AsyncHttpRequest::rpHigh);
+		pMsgReq << INT_PARAM("chat_id", cc->m_chatid);
 		pMsgReq->pUserInfo = pReq->pUserInfo;
 
 	}
@@ -371,8 +366,8 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 			return;
 		}
 
-		pMsgReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendMessage, AsyncHttpRequest::rpHigh)
-			<< INT_PARAM("user_id", userID);
+		pMsgReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendMessage, AsyncHttpRequest::rpHigh);
+		pMsgReq << INT_PARAM("user_id", userID);
 		pMsgReq->pUserInfo = new CVkSendMsgParam(fup->hContact, fup);
 
 	}

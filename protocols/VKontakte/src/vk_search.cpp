@@ -46,11 +46,9 @@ void CVkProto::SearchBasicThread(void *id)
 	debugLogA("CVkProto::OnSearchBasicThread");
 	if (!IsOnline())
 		return;
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/users.get.json", true, &CVkProto::OnSearch)
-		<< WCHAR_PARAM("user_ids", (wchar_t *)id)
-		<< CHAR_PARAM("fields", "nickname, domain");
-	pReq->pUserInfo = nullptr;
-	Push(pReq);
+
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.get.json", true, &CVkProto::OnSearch)
+		<< WCHAR_PARAM("user_ids", (wchar_t *)id) << CHAR_PARAM("fields", "nickname, domain"));
 }
 
 void CVkProto::SearchByMailThread(void *email)
@@ -58,10 +56,9 @@ void CVkProto::SearchByMailThread(void *email)
 	debugLogA("CVkProto::OnSearchBasicThread");
 	if (!IsOnline())
 		return;
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/account.lookupContacts.json", true, &CVkProto::OnSearchByMail)
-		<< WCHAR_PARAM("contacts", (wchar_t *)email)
-		<< CHAR_PARAM("service", "email");
-	Push(pReq);
+	
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.lookupContacts.json", true, &CVkProto::OnSearchByMail)
+		<< WCHAR_PARAM("contacts", (wchar_t *)email) << CHAR_PARAM("service", "email"));
 }
 
 void __cdecl CVkProto::SearchThread(void *p)
@@ -74,12 +71,10 @@ void __cdecl CVkProto::SearchThread(void *p)
 	if (!IsOnline())
 		return;
 
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/users.search.json", true, &CVkProto::OnSearch)
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.search.json", true, &CVkProto::OnSearch)
 		<< WCHAR_PARAM("q", (wchar_t *)arg)
 		<< CHAR_PARAM("fields", "nickname, domain")
-		<< INT_PARAM("count", 200);
-	pReq->pUserInfo = p;
-	Push(pReq);
+		<< INT_PARAM("count", 200))->pUserInfo = p;
 }
 
 void CVkProto::FreeProtoShearchStruct(PROTOSEARCHBYNAME *pParam)
