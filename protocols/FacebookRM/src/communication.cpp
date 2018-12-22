@@ -42,7 +42,7 @@ http::response facebook_client::sendRequest(HttpRequest *request)
 	}
 
 	// Check and append user defined locale if request doesn't have it forced already
-	if (!parent->m_locale.empty() && strstr(request->szUrl, "&locale=") == nullptr)
+	if (!parent->m_locale.empty() && request->m_szUrl.Find("&locale=") == -1)
 		request << CHAR_PARAM("locale", parent->m_locale.c_str());
 
 	request->AddHeader("Accept-Language", "en,en-US;q=0.9");
@@ -76,7 +76,7 @@ http::response facebook_client::sendRequest(HttpRequest *request)
 		break;
 	}
 
-	parent->debugLogA("@@@ Sending request to '%s'", request->szUrl);
+	parent->debugLogA("@@@ Sending request to '%s'", request->m_szUrl.c_str());
 
 	// Send the request	
 	NETLIBHTTPREQUEST *pnlhr = request->Send(handle_);
