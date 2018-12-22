@@ -57,48 +57,10 @@ public:
 	bool NotifyErrors;
 	PersistentType Persistent;
 
-	HttpRequest(int type, LPCSTR url)
-	{
-		m_szUrl = url;
-		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_DUMPASTEXT;
-		requestType = type;
-		timeout = 600 * 1000;
+	HttpRequest(int type, LPCSTR url);
+	HttpRequest(int type, CMStringDataFormat, LPCSTR urlFormat, ...);
 
-		NotifyErrors = true;
-		Persistent = DEFAULT;
-	}
-
-	HttpRequest(int type, CMStringDataFormat, LPCSTR urlFormat, ...)
-	{
-		m_szUrl.AppendFormatV(urlFormat, (va_start(formatArgs, urlFormat), formatArgs));
-		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_DUMPASTEXT;
-		requestType = type;
-		va_end(formatArgs);
-		timeout = 20 * 1000;
-
-		NotifyErrors = true;
-		Persistent = DEFAULT;
-	}
-
-	virtual NETLIBHTTPREQUEST* Send(HNETLIBUSER nlu)
-	{
-		if (m_szUrl.Find("://") == -1)
-			m_szUrl.Insert(0, ((flags & NLHRF_SSL) ? "https://" : "http://"));
-		if (!m_szParam.IsEmpty()) {
-			m_szUrl.AppendChar('?');
-			m_szUrl += m_szParam;
-		}
-		szUrl = m_szUrl.GetBuffer();
-
-		if (!pData) {
-			pData = Body.ToString();
-			dataLength = (int)mir_strlen(pData);
-		}
-
-		Netlib_Logf(nlu, "Send request to %s", szUrl);
-
-		return Netlib_HttpTransaction(nlu, this);
-	}
+	NETLIBHTTPREQUEST* Send(HNETLIBUSER nlu);
 };
 
 #endif //_HTTP_REQUEST_H_
