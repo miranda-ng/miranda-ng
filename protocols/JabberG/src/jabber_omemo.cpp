@@ -28,10 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 #include "jabber_omemo.h"
-#include <openssl/evp.h>
-#include <openssl/hmac.h>
-#include <openssl/rand.h>
-#include <openssl/sha.h>
+
 #include <signal_protocol.h>
 #include <signal_protocol_types.h>
 #include <key_helper.h>

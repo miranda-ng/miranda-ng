@@ -70,6 +70,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "ezxml.h"
 
+#include <openssl/hmac.h>
+#include <openssl/sha.h>
+#pragma comment(lib, "libeay32.lib")
+
 #include "resource.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////

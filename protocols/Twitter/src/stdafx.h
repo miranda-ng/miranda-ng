@@ -64,6 +64,10 @@ typedef std::basic_string<wchar_t> wstring;
 #include <win2k.h>
 #pragma warning(pop)
 
+#include <openssl/hmac.h>
+#include <openssl/sha.h>
+#pragma comment(lib, "libeay32.lib")
+
 #include "StringUtil.h"
 
 #define TWITTER_KEY_NICK		   "Nick"  // we need one called Nick for the chat thingo to work

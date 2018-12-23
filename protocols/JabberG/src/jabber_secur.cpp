@@ -230,7 +230,8 @@ void TScramAuth::Hi(BYTE* res, char* passw, size_t passwLen, char* salt, size_t 
 	memset(res, 0, MIR_SHA1_HASH_SIZE);
 
 	for (int i = 0; i < ind; i++) {
-		mir_hmac_sha1(u, (BYTE*)passw, passwLen, u, bufLen);
+		unsigned int len = MIR_SHA1_HASH_SIZE;
+		HMAC(EVP_sha1(), (BYTE*)passw, passwLen, u, bufLen, u, &len);
 		bufLen = MIR_SHA1_HASH_SIZE;
 
 		for (unsigned j = 0; j < MIR_SHA1_HASH_SIZE; j++)
@@ -268,7 +269,8 @@ char* TScramAuth::getChallenge(const wchar_t *challenge)
 	Hi(saltedPassw, passw, passwLen, salt, saltLen, ind);
 
 	BYTE clientKey[MIR_SHA1_HASH_SIZE];
-	mir_hmac_sha1(clientKey, saltedPassw, sizeof(saltedPassw), (BYTE*)"Client Key", 10);
+	unsigned int len = sizeof(clientKey);
+	HMAC(EVP_sha1(), saltedPassw, sizeof(saltedPassw), (BYTE*)"Client Key", 10, clientKey, &len);
 
 	BYTE storedKey[MIR_SHA1_HASH_SIZE];
 
@@ -281,7 +283,7 @@ char* TScramAuth::getChallenge(const wchar_t *challenge)
 	int authmsgLen = mir_snprintf(authmsg, "%s,%s,c=biws,r=%s", msg1, chl, snonce);
 
 	BYTE clientSig[MIR_SHA1_HASH_SIZE];
-	mir_hmac_sha1(clientSig, storedKey, sizeof(storedKey), (BYTE*)authmsg, authmsgLen);
+	HMAC(EVP_sha1(), storedKey, sizeof(storedKey), (BYTE*)authmsg, authmsgLen, clientSig, &len);
 
 	BYTE clientProof[MIR_SHA1_HASH_SIZE];
 	for (unsigned j = 0; j < sizeof(clientKey); j++)
@@ -289,10 +291,10 @@ char* TScramAuth::getChallenge(const wchar_t *challenge)
 
 	/* Calculate the server signature */
 	BYTE serverKey[MIR_SHA1_HASH_SIZE];
-	mir_hmac_sha1(serverKey, saltedPassw, sizeof(saltedPassw), (BYTE*)"Server Key", 10);
+	HMAC(EVP_sha1(), saltedPassw, sizeof(saltedPassw), (BYTE*)"Server Key", 10, serverKey, &len);
 
 	BYTE srvSig[MIR_SHA1_HASH_SIZE];
-	mir_hmac_sha1(srvSig, serverKey, sizeof(serverKey), (BYTE*)authmsg, authmsgLen);
+	HMAC(EVP_sha1(), serverKey, sizeof(serverKey), (BYTE*)authmsg, authmsgLen, srvSig, &len);
 	serverSignature = mir_base64_encode(srvSig, sizeof(srvSig));
 
 	char buf[4096];

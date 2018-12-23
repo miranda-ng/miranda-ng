@@ -337,8 +337,9 @@ wstring mir_twitter::OAuthCreateSignature(const wstring& signatureBase, const ws
 	string keyBytes = WideToUTF8(key);
 
 	BYTE digest[MIR_SHA1_HASH_SIZE];
+	unsigned int len = sizeof(digest);
 	string data = WideToUTF8(signatureBase);
-	mir_hmac_sha1(digest, (PBYTE)keyBytes.c_str(), keyBytes.size(), (PBYTE)data.c_str(), data.size());
+	HMAC(EVP_sha1(), keyBytes.c_str(), keyBytes.size(), (PBYTE)data.c_str(), data.size(), digest, &len);
 	ptrA encoded(mir_base64_encode(digest, sizeof(digest)));
 	return UrlEncode((wchar_t*)_A2T(encoded));
 }

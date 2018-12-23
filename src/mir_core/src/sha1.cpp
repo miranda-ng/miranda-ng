@@ -153,34 +153,3 @@ MIR_CORE_DLL(void) mir_sha1_hash(BYTE *dataIn, size_t len, BYTE hashout[20])
 	mir_sha1_append(&ctx, dataIn, len);
 	mir_sha1_finish(&ctx, hashout);
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-MIR_CORE_DLL(void) mir_hmac_sha1(BYTE hashout[MIR_SHA1_HASH_SIZE], const BYTE *key, size_t keylen, const BYTE *text, size_t textlen)
-{
-	mir_sha1_ctx ctx;
-	BYTE usedKey[MIR_SHA_BLOCKSIZE] = { 0 };
-
-	if (keylen > MIR_SHA_BLOCKSIZE) {
-		mir_sha1_init(&ctx);
-		mir_sha1_append(&ctx, key, (int)keylen);
-		mir_sha1_finish(&ctx, usedKey);
-	}
-	else memcpy(usedKey, key, keylen);
-
-	for (size_t i = 0; i < MIR_SHA_BLOCKSIZE; i++)
-		usedKey[i] ^= 0x36;
-
-	mir_sha1_init(&ctx);
-	mir_sha1_append(&ctx, usedKey, MIR_SHA_BLOCKSIZE);
-	mir_sha1_append(&ctx, text, (int)textlen);
-	mir_sha1_finish(&ctx, hashout);
-
-	for (size_t i = 0; i < MIR_SHA_BLOCKSIZE; i++)
-		usedKey[i] ^= 0x5C ^ 0x36;
-
-	mir_sha1_init(&ctx);
-	mir_sha1_append(&ctx, usedKey, MIR_SHA_BLOCKSIZE);
-	mir_sha1_append(&ctx, hashout, MIR_SHA1_HASH_SIZE);
-	mir_sha1_finish(&ctx, hashout);
-}

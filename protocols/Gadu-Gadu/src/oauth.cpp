@@ -186,7 +186,8 @@ int oauth_sign_request(LIST<OAUTHPARAMETER> &params, const char *httpmethod, con
 		mir_strcat(key, tsenc);
 
 		BYTE digest[MIR_SHA1_HASH_SIZE];
-		mir_hmac_sha1(digest, (BYTE*)(char*)key, mir_strlen(key), (BYTE*)(char*)text, mir_strlen(text));
+		unsigned len = sizeof(digest);
+		HMAC(EVP_sha1(), key, (int)mir_strlen(key), (BYTE*)(char*)text, (int)mir_strlen(text), digest, &len);
 		sign = mir_base64_encode(digest, MIR_SHA1_HASH_SIZE);
 	}
 	else { // PLAINTEXT

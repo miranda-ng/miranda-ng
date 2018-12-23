@@ -70,6 +70,10 @@
 #include <m_folders.h>
 #include <m_gui.h>
 
+#include <openssl/hmac.h>
+#include <openssl/sha.h>
+#pragma comment(lib, "libeay32.lib")
+
 // libgadu headers
 #include "libgadu.h"
 #include "dynstuff.h"
