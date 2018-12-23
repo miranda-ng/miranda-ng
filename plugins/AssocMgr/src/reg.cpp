@@ -482,7 +482,7 @@ static LONG RestoreRegTree(HKEY hKey, const char *pszSubKey, const char *pszDbPr
 					else res = ERROR_INVALID_DATA;
 					if (res)
 						break;
-					
+
 					g_plugin.delSetting(ppszSettings[i]);
 					if (hSubKey != hKey)
 						RegCloseKey(hSubKey);
@@ -865,7 +865,7 @@ void RemoveRegFileExt(const char *pszFileExt, const char *pszClassName)
 
 		if (pszPrevClassName == nullptr)
 			RegDeleteValue(hExtKey, nullptr);
-		
+
 		// open with progids (remove if empty)
 		DWORD nOpenWithCount = 0;
 		if (!RegOpenKeyEx(hExtKey, L"OpenWithProgids", 0, KEY_SET_VALUE | KEY_QUERY_VALUE, &hSubKey)) {

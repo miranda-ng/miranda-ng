@@ -5,11 +5,9 @@
 #define IDI_MIRANDA                     101
 #define IDI_MIRANDAFILE                 102
 #define IDD_OPT_ASSOCLIST               103
-#define IDC_HEADERTEXT                  1001
 #define IDC_ASSOCLIST                   1002
 #define IDC_AUTOSTART                   1003
 #define IDC_ONLYWHILERUNNING            1004
-#define IDC_MISCLABEL                   1005
 
 // Next default values for new objects
 // 
