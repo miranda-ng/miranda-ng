@@ -66,7 +66,6 @@ void UninitAssocList(void);
 
 class COptionsDialog : public CDlgBase
 {
-	//CCtrlLabel m_lblHeaderText;
 	CCtrlListView m_lvAssocList;
 	CCtrlCheck m_chkAutoStart;
 	CCtrlCheck m_chkOnlyRun;

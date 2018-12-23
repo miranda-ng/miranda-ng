@@ -38,7 +38,7 @@ HANDLE   hGlobalAvatarFolder;
 HANDLE   hLoaderEvent, hShutdownEvent;
 HANDLE   hEventChanged, hEventContactAvatarChanged, hMyAvatarChanged;
 
-void   InitServices();
+char *g_szMetaName = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -72,12 +72,7 @@ static int ComparePicture(const protoPicCacheEntry *p1, const protoPicCacheEntry
 
 OBJLIST<protoPicCacheEntry> g_ProtoPictures(10, ComparePicture), g_MyAvatars(10, ComparePicture);
 
-char *g_szMetaName = nullptr;
-
 // Stores the id of the dialog
-
-int OnDetailsInit(WPARAM wParam, LPARAM lParam);
-int OptInit(WPARAM wParam, LPARAM lParam);
 
 static int ProtocolAck(WPARAM, LPARAM lParam)
 {

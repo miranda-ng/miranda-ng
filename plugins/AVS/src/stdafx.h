@@ -180,3 +180,7 @@ void Proto_GetAvatarMaxSize(const char *proto, int *width, int *height);
 int  Proto_GetAvatarMaxFileSize(const char *proto);
 
 protoPicCacheEntry* GetProtoDefaultAvatar(MCONTACT hContact);
+
+int OnDetailsInit(WPARAM wParam, LPARAM lParam);
+int OptInit(WPARAM wParam, LPARAM lParam);
+void   InitServices();

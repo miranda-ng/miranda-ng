@@ -4,13 +4,9 @@
 
 #define IDD_OPTIONS                             101
 #define IDC_BASSVERSION                         1000
-#define IDC_VOLUMELABEL                         1001
-#define IDC_CURRPATHLABEL                       1002
-#define IDC_OUTDEVICELABEL                      1004
 #define IDC_OUTDEVICE                           1005
 #define IDC_QUIETTIME                           1008
 #define IDC_CURRPATH                            1009
-#define IDC_MAXCHANNELLABEL                     1010
 #define IDC_MAXCHANNEL                          1011
 #define IDC_VOLUME                              1012
 #define IDC_GETBASS                             1013
