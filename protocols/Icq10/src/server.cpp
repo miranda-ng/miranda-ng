@@ -20,6 +20,8 @@
 
 #include "stdafx.h"
 
+#pragma comment(lib, "libeay32.lib")
+
 void CIcqProto::ConnectionFailed(int iReason)
 {
 	debugLogA("ConnectionFailed -> reason %d", iReason);
@@ -138,13 +140,15 @@ void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 		<< INT_PARAM("mobile", 0) << CHAR_PARAM("nonce", nonce) << INT_PARAM("pointVersion", 0) << CHAR_PARAM("r", (char*)szId) 
 		<< INT_PARAM("rawMsg", 0) << INT_PARAM("sessionTimeout", 7776000) << INT_PARAM("ts", ts) << CHAR_PARAM("view", "online");
 
-	BYTE hashOut[MIR_SHA256_HASH_SIZE];
 	ptrA szPassword(getStringA("Password"));
-	mir_hmac_sha256(hashOut, (BYTE*)szPassword.get(), mir_strlen(szPassword), (BYTE*)m_szSessionSecret.c_str(), m_szSessionSecret.GetLength());
+
+	BYTE hashOut[MIR_SHA256_HASH_SIZE];
+	unsigned int len = sizeof(hashOut);
+	HMAC(EVP_sha256(), szPassword.get(), mir_strlen(szPassword), (BYTE*)m_szSessionSecret.c_str(), m_szSessionSecret.GetLength(), hashOut, &len);
 	ptrA szSessionKey(mir_base64_encode(hashOut, sizeof(hashOut)));
 
 	CMStringA hashData(FORMAT, "POST&%s&%s", ptrA(mir_urlEncode(pReq->szUrl)), ptrA(mir_urlEncode(pReq->m_szParam)));
-	mir_hmac_sha256(hashOut, (BYTE*)szSessionKey.get(), mir_strlen(szSessionKey), (BYTE*)hashData.c_str(), hashData.GetLength());
+	HMAC(EVP_sha256(), szSessionKey.get(), mir_strlen(szSessionKey), (BYTE*)hashData.c_str(), hashData.GetLength(), hashOut, &len);
 
 	pReq->m_szParam.Empty();
 	pReq << CHAR_PARAM("a", m_szAToken) << INT_PARAM("activeTimeout", 180) << CHAR_PARAM("assertCaps", CAPS)
