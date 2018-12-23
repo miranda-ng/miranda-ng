@@ -381,8 +381,6 @@ MIR_CORE_DLL(void) mir_sha256_write(SHA256_CONTEXT *ctx, const void *dataIn, siz
 MIR_CORE_DLL(void) mir_sha256_final(SHA256_CONTEXT *ctx, BYTE hashout[MIR_SHA256_HASH_SIZE]);
 MIR_CORE_DLL(void) mir_sha256_hash(const void *dataIn, size_t len, BYTE hashout[MIR_SHA256_HASH_SIZE]);
 
-MIR_CORE_DLL(void) mir_hmac_sha256(BYTE hashout[MIR_SHA256_HASH_SIZE], const BYTE *key, size_t keylen, const BYTE *text, size_t textlen);
-
 ///////////////////////////////////////////////////////////////////////////////
 // strings
 
