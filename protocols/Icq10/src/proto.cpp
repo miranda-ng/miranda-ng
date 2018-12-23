@@ -34,12 +34,23 @@
 #pragma warning(disable:4355)
 
 CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
-	PROTO<CIcqProto>(aProtoName, aUserName)
+	PROTO<CIcqProto>(aProtoName, aUserName),
+	m_arHttpQueue(10),
+	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr))
 {
+	CMStringW descr(FORMAT, TranslateT("%s server connection"), m_tszUserName);
+
+	NETLIBUSER nlu = {};
+	nlu.szSettingsModule = m_szModuleName;
+	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
+	nlu.szDescriptiveName.w = descr.GetBuffer();
+	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 }
 
 CIcqProto::~CIcqProto()
 {
+	m_arHttpQueue.destroy();
+	::CloseHandle(m_evRequestsQueue);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -266,6 +277,36 @@ int CIcqProto::SendUrl(MCONTACT hContact, int, const char* url)
 
 int CIcqProto::SetStatus(int iNewStatus)
 {
+	debugLogA("CIcqProto::SetStatus iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d m_hWorkerThread = %p", iNewStatus, m_iStatus, m_iDesiredStatus, m_hWorkerThread);
+
+	if (iNewStatus == m_iStatus)
+		return 0;
+
+	m_iDesiredStatus = iNewStatus;
+	int iOldStatus = m_iStatus;
+
+	// go offline
+	if (iNewStatus == ID_STATUS_OFFLINE) {
+		if (m_bOnline) {
+			SetServerStatus(ID_STATUS_OFFLINE);
+			ShutdownSession();
+		}
+		m_iStatus = m_iDesiredStatus;
+		setAllContactStatuses(ID_STATUS_OFFLINE, false);
+
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
+	}
+	// not logged in? come on
+	else if (m_hWorkerThread == nullptr && !IsStatusConnecting(m_iStatus)) {
+		m_iStatus = ID_STATUS_CONNECTING;
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
+		m_hWorkerThread = ForkThreadEx(&CIcqProto::ServerThread, nullptr, nullptr);
+	}
+	else if (m_bOnline) {
+		debugLogA("setting server online status to %d", iNewStatus);
+		SetServerStatus(iNewStatus);
+	}
+
 	return 0;
 }
 

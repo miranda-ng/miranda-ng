@@ -33,14 +33,40 @@
 #include "m_system.h"
 #include "m_protoint.h"
 
-struct CIcqProto : public PROTO<CIcqProto>
+class CIcqProto : public PROTO<CIcqProto>
 {
-				CIcqProto(const char*, const wchar_t*);
-				~CIcqProto();
+	bool     m_bOnline = false, m_bTerminated = false;
+	void     ConnectionFailed(int iReason);
+	void     OnLoggedIn(void);
+	void     OnLoggedOut(void);
+	void     SetServerStatus(int iNewStatus);
+	void     ShutdownSession(void);
 
-	//====================================================================================
+	void     OnCheckPassword(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void     OnStartSession(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+
+	HNETLIBCONN m_hAPIConnection;
+	CMStringA m_szSessionSecret;
+	CMStringA m_szAToken;
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// http queue
+
+	mir_cs   m_csHttpQueue;
+	HANDLE   m_evRequestsQueue;
+	LIST<AsyncHttpRequest> m_arHttpQueue;
+
+	void     ExecuteRequest(AsyncHttpRequest*);
+	void     Push(MHttpRequest*);
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// threads
+
+	HANDLE   m_hWorkerThread;
+	void __cdecl ServerThread(void*);
+
+	//////////////////////////////////////////////////////////////////////////////////////
 	// PROTO_INTERFACE
-	//====================================================================================
 
 	MCONTACT AddToList( int flags, PROTOSEARCHRESULT *psr) override;
 	MCONTACT AddToListByEvent( int flags, int iContact, MEVENT hDbEvent) override;
@@ -83,6 +109,10 @@ struct CIcqProto : public PROTO<CIcqProto>
 
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;
+
+public:
+	CIcqProto(const char*, const wchar_t*);
+	~CIcqProto();
 };
 
 struct CMPlugin : public ACCPROTOPLUGIN<CIcqProto>

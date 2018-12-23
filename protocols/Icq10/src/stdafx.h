@@ -58,11 +58,17 @@
 #include <m_skin.h>
 #include <m_popup.h>
 #include <m_ignore.h>
+#include <m_json.h>
 #include <m_icolib.h>
 #include <m_avatars.h>
 #include <m_timezones.h>
 #include <win2k.h>
 #include <m_gui.h>
+
+#include <openssl/evp.h>
+#include <openssl/hmac.h>
+#include <openssl/rand.h>
+#include <openssl/sha.h>
 
 // Project resources
 #include "resource.h"
@@ -72,4 +78,5 @@
 
 #define MODULENAME "ICQ"
 
-#include "icq_proto.h"
+#include "http.h"
+#include "proto.h"
