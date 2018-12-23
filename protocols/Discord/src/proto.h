@@ -139,7 +139,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	LIST<AsyncHttpRequest> m_arHttpQueue;
 	
 	void ExecuteRequest(AsyncHttpRequest *pReq);
-	AsyncHttpRequest* Push(AsyncHttpRequest *pReq, int iTimeout = 10000);
+	void Push(AsyncHttpRequest *pReq, int iTimeout = 10000);
 
 	HANDLE m_hWorkerThread;       // worker thread handle
 	HNETLIBCONN m_hAPIConnection; // working connection

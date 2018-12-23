@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-AsyncHttpRequest* CDiscordProto::Push(AsyncHttpRequest *pReq, int iTimeout)
+void CDiscordProto::Push(AsyncHttpRequest *pReq, int iTimeout)
 {
 	pReq->timeout = iTimeout;
 	{
@@ -25,7 +25,6 @@ AsyncHttpRequest* CDiscordProto::Push(AsyncHttpRequest *pReq, int iTimeout)
 		m_arHttpQueue.insert(pReq);
 	}
 	SetEvent(m_evRequestsQueue);
-	return pReq;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
