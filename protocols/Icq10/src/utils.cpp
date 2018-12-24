@@ -27,11 +27,10 @@ void CIcqProto::InitContactCache()
 		m_arCache.insert(new IcqCacheItem(getDword(it, "UIN"), it));
 }
 
-MCONTACT CIcqProto::FindContactByUIN(DWORD dwUin)
+IcqCacheItem* CIcqProto::FindContactByUIN(DWORD dwUin)
 {
 	mir_cslock l(m_csCache);
-	auto *p = m_arCache.find((IcqCacheItem*)&dwUin);
-	return (p) ? p->m_hContact : 0;
+	return m_arCache.find((IcqCacheItem*)&dwUin);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

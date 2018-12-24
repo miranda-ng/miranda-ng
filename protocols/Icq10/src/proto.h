@@ -42,6 +42,7 @@ struct IcqCacheItem
 
 	DWORD m_uin;
 	MCONTACT m_hContact;
+	bool m_bInList = false;
 };
 
 class CIcqProto : public PROTO<CIcqProto>
@@ -86,7 +87,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	OBJLIST<IcqCacheItem> m_arCache;
 
 	void     InitContactCache(void);
-	MCONTACT FindContactByUIN(DWORD);
+	IcqCacheItem* FindContactByUIN(DWORD);
 
 	void     GetAvatarFileName(MCONTACT hContact, wchar_t *pszDest, size_t cbLen);
 

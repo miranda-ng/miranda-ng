@@ -217,16 +217,21 @@ void CIcqProto::ProcessBuddyList(const JSONNode &ev)
 
 		for (auto &buddy : it["buddies"]) {
 			DWORD dwUin = _wtol(buddy["aimId"].as_mstring());
-			MCONTACT hContact = FindContactByUIN(dwUin);
-			if (hContact == 0) {
-				hContact = db_add_contact();
+
+			auto *pCache = FindContactByUIN(dwUin);
+			if (pCache == nullptr) {
+				MCONTACT hContact = db_add_contact();
 				Proto_AddToContact(hContact, m_szModuleName);
 				setDword(hContact, "UIN", dwUin);
+				pCache = new IcqCacheItem(dwUin, hContact);
 				{
 					mir_cslock l(m_csCache);
-					m_arCache.insert(new IcqCacheItem(dwUin, hContact));
+					m_arCache.insert(pCache);
 				}
 			}
+
+			MCONTACT hContact = pCache->m_hContact;
+			pCache->m_bInList = true;
 
 			CMStringW wszNick(buddy["friendly"].as_mstring());
 			if (!wszNick.IsEmpty())
@@ -258,6 +263,10 @@ void CIcqProto::ProcessBuddyList(const JSONNode &ev)
 			db_set_ws(hContact, "CList", "Group", szGroup);
 		}
 	}
+
+	for (auto &it : m_arCache)
+		if (!it->m_bInList)
+			db_set_b(it->m_hContact, "CList", "NotOnList", 1);
 }
 
 void CIcqProto::ProcessEvent(const JSONNode &ev)
