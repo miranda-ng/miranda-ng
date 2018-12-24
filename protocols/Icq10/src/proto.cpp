@@ -241,14 +241,6 @@ int CIcqProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// RecvMsg
-
-MEVENT CIcqProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
-{
-	return 0;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
 // SendContacts
 
 int CIcqProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONTACT *hContactsList)

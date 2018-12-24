@@ -62,7 +62,10 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	void     ProcessBuddyList(const JSONNode&);
 	void     ProcessEvent(const JSONNode&);
+	void     ProcessHistData(const JSONNode&);
 	void     ProcessMyInfo(const JSONNode&);
+	void     ProcessPresence(const JSONNode&);
+	void     ProcessTyping(const JSONNode&);
 
 	HNETLIBCONN m_ConnPool[CONN_LAST];
 	CMStringA m_szSessionKey;
@@ -95,7 +98,10 @@ class CIcqProto : public PROTO<CIcqProto>
 	// threads
 
 	HANDLE   m_hWorkerThread;
-	void __cdecl ServerThread(void*);
+	void     __cdecl ServerThread(void*);
+
+	HANDLE   m_hPollThread;
+	void     __cdecl PollThread(void*);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// services
@@ -131,7 +137,6 @@ class CIcqProto : public PROTO<CIcqProto>
 	HWND     CreateExtendedSearchUI(HWND owner) override;
 
 	int      RecvContacts(MCONTACT hContact, PROTORECVEVENT*) override;
-	MEVENT   RecvMsg(MCONTACT hContact, PROTORECVEVENT*) override;
 
 	int      SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList) override;
 	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;

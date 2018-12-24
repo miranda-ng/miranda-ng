@@ -181,8 +181,7 @@ void CIcqProto::OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 	for (auto &it : data["events"])
 		ProcessEvent(it);
 
-	m_fetchBaseURL.Append("&first=1");
-	Push(new AsyncHttpRequest(CONN_FETCH, REQUEST_GET, m_fetchBaseURL, &CIcqProto::OnFetchEvents));
+	m_hPollThread = ForkThreadEx(&CIcqProto::PollThread, 0, 0);
 }
 
 void CIcqProto::OnReceiveAvatar(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
@@ -275,9 +274,43 @@ void CIcqProto::ProcessEvent(const JSONNode &ev)
 	CMStringW szType = ev["type"].as_mstring();
 	if (szType == L"buddylist")
 		ProcessBuddyList(pData);
+	else if (szType == L"histDlgState")
+		ProcessHistData(pData);
 	else if (szType == L"myInfo")
 		ProcessMyInfo(pData);
+	else if (szType == L"presence")
+		ProcessPresence(pData);
+	else if (szType == L"typing")
+		ProcessTyping(pData);
+}
 
+void CIcqProto::ProcessHistData(const JSONNode &ev)
+{
+	DWORD dwUin = _wtol(ev["sn"].as_mstring());
+
+	IcqCacheItem *pCache = FindContactByUIN(dwUin);
+	if (pCache == nullptr)
+		return;
+
+	for (auto &it : ev["tail"]["messages"]) {
+		CMStringA msgId(it["msgId"].as_mstring());
+		CMStringW type(it["mediaType"].as_mstring());
+		if (type != "text")
+			continue;
+
+		MEVENT hDbEvent = db_event_getById(m_szModuleName, msgId);
+		if (hDbEvent == 0) {
+			bool bIsOutgoing = it["outgoing"].as_bool();
+			ptrA szUtf(mir_utf8encodeW(it["text"].as_mstring()));
+
+			PROTORECVEVENT pre = {};
+			pre.flags = (bIsOutgoing) ? PREF_SENT : 0;
+			pre.szMsgId = msgId;
+			pre.timestamp = it["time"].as_int();
+			pre.szMessage = szUtf;
+			ProtoChainRecvMsg(pCache->m_hContact, &pre);
+		}
+	}
 }
 
 void CIcqProto::ProcessMyInfo(const JSONNode &ev)
@@ -296,6 +329,30 @@ void CIcqProto::ProcessMyInfo(const JSONNode &ev)
 	}
 }
 
+void CIcqProto::ProcessPresence(const JSONNode &ev)
+{
+	DWORD dwUin = _wtol(ev["aimId"].as_mstring());
+	int iStatus = StatusFromString(ev["state"].as_mstring());
+
+	IcqCacheItem *pCache = FindContactByUIN(dwUin);
+	if (pCache)
+		setDword(pCache->m_hContact, "Status", iStatus);
+}
+
+void CIcqProto::ProcessTyping(const JSONNode &ev)
+{
+	DWORD dwUin = _wtol(ev["aimId"].as_mstring());
+	CMStringW wszStatus = ev["typingStatus"].as_mstring();
+
+	IcqCacheItem *pCache = FindContactByUIN(dwUin);
+	if (pCache) {
+		if (wszStatus == "typing")
+			CallService(MS_PROTO_CONTACTISTYPING, pCache->m_hContact, 60);
+		else 
+			CallService(MS_PROTO_CONTACTISTYPING, pCache->m_hContact, PROTOTYPE_CONTACTTYPING_OFF);
+	}
+}
+
 void CIcqProto::OnFetchEvents(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 {
 	JsonReply root(pReply);
@@ -309,6 +366,24 @@ void CIcqProto::OnFetchEvents(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 
 	for (auto &it : data["events"])
 		ProcessEvent(it);
+}
 
-	Push(new AsyncHttpRequest(CONN_FETCH, REQUEST_GET, m_fetchBaseURL, &CIcqProto::OnFetchEvents));
+void __cdecl CIcqProto::PollThread(void*)
+{
+	debugLogA("Polling thread started");
+	bool bFirst = true;
+
+	while (!m_bTerminated) {
+		CMStringA szUrl = m_fetchBaseURL;
+		if (bFirst) {
+			bFirst = false;
+			szUrl.Append("&first=1");
+		}
+		else szUrl.Append("&timeout=60000");
+
+		ExecuteRequest(new AsyncHttpRequest(CONN_FETCH, REQUEST_GET, szUrl, &CIcqProto::OnFetchEvents));
+	}
+
+	debugLogA("Polling thread ended");
+	m_hPollThread = nullptr;
 }
