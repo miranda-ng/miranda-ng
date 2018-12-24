@@ -95,16 +95,13 @@ void CIcqProto::StartSession()
 	int ts = time(0);
 	CMStringA nonce(FORMAT, "%d-2", ts);
 
-	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, "https://api.icq.net/aim/startSession", &CIcqProto::OnStartSession);
-
-	RPC_CSTR szId;
-	UuidToStringA(&pReq->m_reqId, &szId);
+	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, ICQ_API_SERVER "/aim/startSession", &CIcqProto::OnStartSession);
 
 	pReq << CHAR_PARAM("a", m_szAToken) << INT_PARAM("activeTimeout", 180) << CHAR_PARAM("assertCaps", CAPS)
 		<< INT_PARAM("buildNumber", __BUILD_NUM) << CHAR_PARAM("deviceId", szDeviceId) << CHAR_PARAM("events", EVENTS) 
 		<< CHAR_PARAM("f", "json") << CHAR_PARAM("imf", "plain") << CHAR_PARAM("inactiveView", "offline") 
 		<< CHAR_PARAM("includePresenceFields", FIELDS) << CHAR_PARAM("invisible", "false")
-		<< CHAR_PARAM("k", "ic1nmMjqg7Yu-0hL") << INT_PARAM("mobile", 0) << CHAR_PARAM("nonce", nonce) << CHAR_PARAM("r", (char*)szId) 
+		<< CHAR_PARAM("k", ICQ_APP_ID) << INT_PARAM("mobile", 0) << CHAR_PARAM("nonce", nonce) << CHAR_PARAM("r", pReq->m_reqId) 
 		<< INT_PARAM("rawMsg", 0) << INT_PARAM("sessionTimeout", 7776000) << INT_PARAM("ts", ts) << CHAR_PARAM("view", "online");
 
 	CMStringA hashData(FORMAT, "POST&%s&%s", ptrA(mir_urlEncode(pReq->m_szUrl)), ptrA(mir_urlEncode(pReq->m_szParam)));
@@ -114,7 +111,6 @@ void CIcqProto::StartSession()
 	pReq << CHAR_PARAM("sig_sha256", ptrA(mir_base64_encode(hashOut, sizeof(hashOut))));
 
 	Push(pReq);
-	RpcStringFreeA(&szId);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -204,6 +200,23 @@ void CIcqProto::OnReceiveAvatar(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pRe
 		debugLogW(L"Broadcast new avatar: %s", ai.filename);
 	}
 	else ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, HANDLE(&ai), 0);
+}
+
+void CIcqProto::OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+{
+	IcqOwnMessage *ownMsg = (IcqOwnMessage*)pReq->pUserInfo;
+
+	JsonReply root(pReply);
+	if (root.error() != 200) {
+		ProtoBroadcastAck(ownMsg->m_hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)ownMsg->m_msgid, 0);
+		delete ownMsg;
+		return;
+	}
+
+	JSONNode &data = root.data();
+	CMStringA msgId(data["msgId"].as_mstring());
+	strncpy_s(ownMsg->m_guid, msgId, _TRUNCATE);
+	m_arOwnIds.insert(ownMsg);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -298,8 +311,22 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 		if (type != "text")
 			continue;
 
+		// ignore duplicates
 		MEVENT hDbEvent = db_event_getById(m_szModuleName, msgId);
-		if (hDbEvent == 0) {
+		if (hDbEvent != 0)
+			continue;
+
+		// skip own messages, just set the server msgid
+		bool bSkipped = false;
+		CMStringA reqId(it["reqId"].as_mstring());
+		for (auto &ownMsg : m_arOwnIds)
+			if (!mir_strcmp(reqId, ownMsg->m_guid)) {
+				bSkipped = true;
+				ProtoBroadcastAck(ownMsg->m_hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)ownMsg->m_msgid, (LPARAM)msgId.c_str());
+				break;
+			}
+
+		if (!bSkipped) {
 			bool bIsOutgoing = it["outgoing"].as_bool();
 			ptrA szUtf(mir_utf8encodeW(it["text"].as_mstring()));
 

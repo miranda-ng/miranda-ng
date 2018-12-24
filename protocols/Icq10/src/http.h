@@ -9,7 +9,7 @@ enum IcqConnection
 struct AsyncHttpRequest : public MTHttpRequest<CIcqProto>
 {
 	IcqConnection m_conn;
-	GUID m_reqId;
+	char m_reqId[50];
 
 	AsyncHttpRequest(IcqConnection, int type, const char *szUrl, MTHttpRequestHandler pFunc = nullptr);
 };

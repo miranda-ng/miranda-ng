@@ -33,6 +33,9 @@
 #include "m_system.h"
 #include "m_protoint.h"
 
+#define ICQ_API_SERVER "https://api.icq.net"
+#define ICQ_APP_ID "ic1nmMjqg7Yu-0hL"
+
 struct IcqCacheItem
 {
 	IcqCacheItem(DWORD _uin, MCONTACT _contact) :
@@ -43,6 +46,19 @@ struct IcqCacheItem
 	DWORD m_uin;
 	MCONTACT m_hContact;
 	bool m_bInList = false;
+};
+
+struct IcqOwnMessage
+{
+	IcqOwnMessage(MCONTACT _hContact, int _msgid, const char *guid)
+		: m_hContact(_hContact), m_msgid(_msgid)
+	{
+		strncpy_s(m_guid, guid, _TRUNCATE);
+	}
+
+	MCONTACT m_hContact;
+	int m_msgid;
+	char m_guid[50];
 };
 
 class CIcqProto : public PROTO<CIcqProto>
@@ -58,6 +74,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void     OnCheckPassword(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnFetchEvents(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnReceiveAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void     OnSendMessage(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnStartSession(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	void     ProcessBuddyList(const JSONNode&);
@@ -72,6 +89,9 @@ class CIcqProto : public PROTO<CIcqProto>
 	CMStringA m_szAToken;
 	CMStringA m_fetchBaseURL;
 	CMStringA m_aimsid;
+	LONG      m_msgId = 1;
+
+	OBJLIST<IcqOwnMessage> m_arOwnIds;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// http queue

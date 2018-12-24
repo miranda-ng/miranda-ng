@@ -44,7 +44,7 @@ void __cdecl CIcqProto::ServerThread(void*)
 		m_szSessionKey = getMStringA("SessionKey");
 		if (m_szAToken.IsEmpty() || m_szSessionKey.IsEmpty()) {
 			auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, "https://api.login.icq.net/auth/clientLogin", &CIcqProto::OnCheckPassword);
-			pReq << CHAR_PARAM("clientName", "Miranda NG") << CHAR_PARAM("clientVersion", mirVer) << CHAR_PARAM("devId", "ic1nmMjqg7Yu-0hL")
+			pReq << CHAR_PARAM("clientName", "Miranda NG") << CHAR_PARAM("clientVersion", mirVer) << CHAR_PARAM("devId", ICQ_APP_ID)
 				<< CHAR_PARAM("f", "json") << CHAR_PARAM("tokenType", "longTerm") << INT_PARAM("s", uin) << CHAR_PARAM("pwd", szPassword);
 			pReq->flags |= NLHRF_NODUMPSEND;
 			Push(pReq);
@@ -98,7 +98,14 @@ AsyncHttpRequest::AsyncHttpRequest(IcqConnection conn, int iType, const char *sz
 	requestType = iType;
 	m_szUrl = szUrl;
 	m_pFunc = pFunc;
-	UuidCreate(&m_reqId);
+
+	GUID packetId;
+	UuidCreate(&packetId);
+
+	RPC_CSTR szId;
+	UuidToStringA(&packetId, &szId);
+	strncpy_s(m_reqId, (char*)szId, _TRUNCATE);
+	RpcStringFreeA(&szId);
 
 	if (iType == REQUEST_POST) {
 		AddHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -129,9 +136,7 @@ void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		pReq->nlc = m_ConnPool[pReq->m_conn];
 	}
 
-	RPC_CSTR szId;
-	UuidToStringA(&pReq->m_reqId, &szId);
-	debugLogA("Executing request %s:\n%s", (char*)szId, pReq->szUrl);
+	debugLogA("Executing request %s:\n%s", pReq->m_reqId, pReq->szUrl);
 	
 	NETLIBHTTPREQUEST *reply = Netlib_HttpTransaction(m_hNetlibUser, pReq);
 	if (reply != nullptr) {
@@ -144,7 +149,7 @@ void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		Netlib_FreeHttpRequest(reply);
 	}
 	else {
-		debugLogA("Request %s failed", (char*)szId);
+		debugLogA("Request %s failed", pReq->m_reqId);
 
 		if (pReq->m_conn != CONN_NONE) {
 			if (IsStatusConnecting(m_iStatus))
@@ -153,7 +158,6 @@ void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		}
 	}
 
-	RpcStringFreeA(&szId);
 	delete pReq;
 }
 

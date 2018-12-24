@@ -36,6 +36,7 @@
 CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	PROTO<CIcqProto>(aProtoName, aUserName),
 	m_arHttpQueue(10),
+	m_arOwnIds(1),
 	m_arCache(20, NumericKeySortT),
 	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr))
 {
@@ -57,8 +58,6 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 
 CIcqProto::~CIcqProto()
 {
-	m_arCache.destroy();
-	m_arHttpQueue.destroy();
 	::CloseHandle(m_evRequestsQueue);
 }
 
@@ -176,7 +175,7 @@ INT_PTR CIcqProto::GetCaps(int type, MCONTACT hContact)
 			PF2_FREECHAT | PF2_INVISIBLE;
 
 	case PFLAGNUM_4:
-		nReturn = PF4_SUPPORTIDLE | PF4_IMSENDOFFLINE | PF4_INFOSETTINGSVC | PF4_SUPPORTTYPING | PF4_AVATARS;
+		nReturn = PF4_SUPPORTIDLE | PF4_IMSENDOFFLINE | PF4_INFOSETTINGSVC | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_SERVERMSGID;
 		break;
 
 	case PFLAGNUM_5:
@@ -260,9 +259,22 @@ HANDLE CIcqProto::SendFile(MCONTACT hContact, const wchar_t* szDescription, wcha
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_SendMessage - sends a message
 
-int CIcqProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
+int CIcqProto::SendMsg(MCONTACT hContact, int, const char *pszSrc)
 {
-	return NULL;
+	DWORD dwUin = getDword(hContact, "UIN");
+	if (dwUin == 0)
+		return 0;
+
+	int id = InterlockedIncrement(&m_msgId);
+	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, ICQ_API_SERVER "/im/sendIM", &CIcqProto::OnSendMessage);
+	pReq->pUserInfo = new IcqOwnMessage(hContact, id, pReq->m_reqId);
+
+	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("f", "json") << CHAR_PARAM("k", ICQ_APP_ID)
+		<< CHAR_PARAM("mentions", "") << CHAR_PARAM("message", pszSrc) << CHAR_PARAM("nonce", pReq->m_reqId) << CHAR_PARAM("offlineIM", "true")
+		<< INT_PARAM("t", dwUin) << INT_PARAM("ts", time(0));
+
+	Push(pReq);
+	return id;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
