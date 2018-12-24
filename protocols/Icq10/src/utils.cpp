@@ -34,6 +34,9 @@ MCONTACT CIcqProto::FindContactByUIN(DWORD dwUin)
 	return (p) ? p->m_hContact : 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Avatars
+
 void CIcqProto::GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t cbLen)
 {
 	int tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%S", VARSW(L"%miranda_avatarcache%"), m_szModuleName);
@@ -48,6 +51,75 @@ void CIcqProto::GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t cb
 	const wchar_t* szFileType = ProtoGetAvatarExtension(getByte(hContact, "AvatarType", PA_FORMAT_PNG));
 	mir_snwprintf(pszDest + tPathLen, MAX_PATH - tPathLen, L"%s%s", wszFileName.c_str(), szFileType);
 }
+
+INT_PTR __cdecl CIcqProto::GetAvatar(WPARAM wParam, LPARAM lParam)
+{
+	wchar_t *buf = (wchar_t*)wParam;
+	int size = (int)lParam;
+	if (buf == nullptr || size <= 0)
+		return -1;
+
+	GetAvatarFileName(0, buf, size);
+	return 0;
+}
+
+INT_PTR __cdecl CIcqProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
+{
+	switch (wParam) {
+	case AF_MAXSIZE:
+		((POINT*)lParam)->x = -1;
+		((POINT*)lParam)->y = -1;
+		return 0;
+
+	case AF_MAXFILESIZE:
+		return 0;
+
+	case AF_PROPORTION:
+		return PIP_NONE;
+
+	case AF_FORMATSUPPORTED: // nobody
+		return 1;
+
+	case AF_DELAYAFTERFAIL:
+		return 10 * 60 * 1000;
+
+	case AF_DONTNEEDDELAYS: // We need delays because of larger friend lists 
+		return 0;
+
+	case AF_ENABLED:
+	case AF_FETCHIFPROTONOTVISIBLE:
+	case AF_FETCHIFCONTACTOFFLINE:
+		return 1;
+	}
+	return 0;
+}
+
+INT_PTR __cdecl CIcqProto::GetAvatarInfo(WPARAM, LPARAM lParam)
+{
+	PROTO_AVATAR_INFORMATION* pai = (PROTO_AVATAR_INFORMATION*)lParam;
+
+	ptrW szIconId(getWStringA(pai->hContact, "IconId"));
+	if (szIconId == nullptr) {
+		debugLogA("No avatar");
+		return GAIR_NOAVATAR;
+	}
+
+	GetAvatarFileName(pai->hContact, pai->filename, _countof(pai->filename));
+	pai->format = getByte(pai->hContact, "AvatarType", 0);
+
+	if (::_waccess(pai->filename, 0) == 0)
+		return GAIR_SUCCESS;
+
+	debugLogA("No avatar");
+	return GAIR_NOAVATAR;
+}
+
+INT_PTR __cdecl CIcqProto::SetAvatar(WPARAM, LPARAM)
+{
+	return 1;   // TODO
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int StatusFromString(const CMStringW &wszStatus)
 {

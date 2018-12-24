@@ -39,6 +39,11 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	m_arCache(20, NumericKeySortT),
 	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr))
 {
+	CreateProtoService(PS_GETAVATARINFO, &CIcqProto::GetAvatarInfo);
+	CreateProtoService(PS_GETMYAVATAR, &CIcqProto::GetAvatar);
+	CreateProtoService(PS_GETAVATARCAPS, &CIcqProto::GetAvatarCaps);
+	CreateProtoService(PS_SETMYAVATAR, &CIcqProto::SetAvatar);
+
 	CMStringW descr(FORMAT, TranslateT("%s server connection"), m_tszUserName);
 
 	NETLIBUSER nlu = {};

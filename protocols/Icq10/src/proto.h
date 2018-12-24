@@ -59,7 +59,9 @@ class CIcqProto : public PROTO<CIcqProto>
 	void     OnReceiveAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnStartSession(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
+	void     ProcessBuddyList(const JSONNode&);
 	void     ProcessEvent(const JSONNode&);
+	void     ProcessMyInfo(const JSONNode&);
 
 	HNETLIBCONN m_ConnPool[CONN_LAST];
 	CMStringA m_szSessionKey;
@@ -93,6 +95,14 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	HANDLE   m_hWorkerThread;
 	void __cdecl ServerThread(void*);
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// services
+
+	INT_PTR  __cdecl GetAvatar(WPARAM, LPARAM);
+	INT_PTR  __cdecl GetAvatarCaps(WPARAM, LPARAM);
+	INT_PTR  __cdecl GetAvatarInfo(WPARAM, LPARAM);
+	INT_PTR  __cdecl SetAvatar(WPARAM, LPARAM);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PROTO_INTERFACE

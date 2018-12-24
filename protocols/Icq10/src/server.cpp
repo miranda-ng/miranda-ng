@@ -209,57 +209,81 @@ void CIcqProto::OnReceiveAvatar(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pRe
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CIcqProto::ProcessBuddyList(const JSONNode &ev)
+{
+	for (auto &it : ev["groups"]) {
+		CMStringW szGroup = it["name"].as_mstring();
+		Clist_GroupCreate(0, szGroup);
+
+		for (auto &buddy : it["buddies"]) {
+			DWORD dwUin = _wtol(buddy["aimId"].as_mstring());
+			MCONTACT hContact = FindContactByUIN(dwUin);
+			if (hContact == 0) {
+				hContact = db_add_contact();
+				Proto_AddToContact(hContact, m_szModuleName);
+				setDword(hContact, "UIN", dwUin);
+				{
+					mir_cslock l(m_csCache);
+					m_arCache.insert(new IcqCacheItem(dwUin, hContact));
+				}
+			}
+
+			CMStringW wszNick(buddy["friendly"].as_mstring());
+			if (!wszNick.IsEmpty())
+				setWString(hContact, "Nick", wszNick);
+
+			setDword(hContact, "Status", StatusFromString(buddy["state"].as_mstring()));
+
+			int lastLogin = buddy["lastseen"].as_int();
+			if (lastLogin)
+				setDword(hContact, "LoginTS", lastLogin);
+
+			CMStringW wszStatus(buddy["statusMsg"].as_mstring());
+			if (wszStatus.IsEmpty())
+				db_unset(hContact, "CList", "StatusMsg");
+			else
+				db_set_ws(hContact, "CList", "StatusMsg", wszStatus);
+
+			CMStringW wszIconId(buddy["iconId"].as_mstring());
+			CMStringW oldIconID(getMStringW(hContact, "IconId"));
+			if (wszIconId != oldIconID) {
+				setWString(hContact, "IconId", wszIconId);
+
+				CMStringA szUrl(buddy["buddyIcon"].as_mstring());
+				auto *p = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, szUrl, &CIcqProto::OnReceiveAvatar);
+				p->pUserInfo = (void*)hContact;
+				Push(p);
+			}
+
+			db_set_ws(hContact, "CList", "Group", szGroup);
+		}
+	}
+}
+
 void CIcqProto::ProcessEvent(const JSONNode &ev)
 {
+	const JSONNode &pData = ev["eventData"];
 	CMStringW szType = ev["type"].as_mstring();
-	if (szType == L"buddylist") {
-		for (auto &it : ev["eventData"]["groups"]) {
-			CMStringW szGroup = it["name"].as_mstring();
-			Clist_GroupCreate(0, szGroup);
+	if (szType == L"buddylist")
+		ProcessBuddyList(pData);
+	else if (szType == L"myInfo")
+		ProcessMyInfo(pData);
 
-			for (auto &buddy : it["buddies"]) {
-				DWORD dwUin = _wtol(buddy["aimId"].as_mstring());
-				MCONTACT hContact = FindContactByUIN(dwUin);
-				if (hContact == 0) {
-					hContact = db_add_contact();
-					Proto_AddToContact(hContact, m_szModuleName);
-					setDword(hContact, "UIN", dwUin);
-					{
-						mir_cslock l(m_csCache);
-						m_arCache.insert(new IcqCacheItem(dwUin, hContact));
-					}
-				}
+}
 
-				CMStringW wszNick(buddy["friendly"].as_mstring());
-				if (!wszNick.IsEmpty())
-					setWString(hContact, "Nick", wszNick);
+void CIcqProto::ProcessMyInfo(const JSONNode &ev)
+{
+	CMStringW wszNick(ev["friendly"].as_mstring());
+	if (!wszNick.IsEmpty())
+		setWString("Nick", wszNick);
 
-				setDword(hContact, "Status", StatusFromString(buddy["state"].as_mstring()));
+	CMStringW wszIconId(ev["iconId"].as_mstring());
+	CMStringW oldIconID(getMStringW("IconId"));
+	if (wszIconId != oldIconID) {
+		setWString("IconId", wszIconId);
 
-				int lastLogin = buddy["lastseen"].as_int();
-				if (lastLogin)
-					setDword(hContact, "LoginTS", lastLogin);
-
-				CMStringW wszStatus(buddy["statusMsg"].as_mstring());
-				if (wszStatus.IsEmpty())
-					db_unset(hContact, "CList", "StatusMsg");
-				else
-					db_set_ws(hContact, "CList", "StatusMsg", wszStatus);
-
-				CMStringW wszIconId(buddy["iconId"].as_mstring());
-				CMStringW oldIconID(getMStringW(hContact, "IconId"));
-				if (wszIconId != oldIconID) {
-					setWString(hContact, "IconId", wszIconId);
-
-					CMStringA szUrl(buddy["buddyIcon"].as_mstring());
-					auto *p = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, szUrl, &CIcqProto::OnReceiveAvatar);
-					p->pUserInfo = (void*)hContact;
-					Push(p);
-				}
-
-				db_set_ws(hContact, "CList", "Group", szGroup);
-			}
-		}
+		CMStringA szUrl(ev["buddyIcon"].as_mstring());
+		Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, szUrl, &CIcqProto::OnReceiveAvatar));
 	}
 }
 
