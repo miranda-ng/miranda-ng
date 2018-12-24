@@ -36,6 +36,7 @@
 CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	PROTO<CIcqProto>(aProtoName, aUserName),
 	m_arHttpQueue(10),
+	m_arCache(20, NumericKeySortT),
 	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr))
 {
 	CMStringW descr(FORMAT, TranslateT("%s server connection"), m_tszUserName);
@@ -45,10 +46,13 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szDescriptiveName.w = descr.GetBuffer();
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
+
+	InitContactCache();
 }
 
 CIcqProto::~CIcqProto()
 {
+	m_arCache.destroy();
 	m_arHttpQueue.destroy();
 	::CloseHandle(m_evRequestsQueue);
 }

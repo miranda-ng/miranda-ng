@@ -80,3 +80,5 @@
 
 #include "http.h"
 #include "proto.h"
+
+int StatusFromString(const CMStringW&);

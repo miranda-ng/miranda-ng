@@ -65,8 +65,10 @@ void CIcqProto::ShutdownSession()
 	// shutdown all resources
 	if (m_hWorkerThread)
 		SetEvent(m_evRequestsQueue);
-	if (m_hAPIConnection)
-		Netlib_Shutdown(m_hAPIConnection);
+
+	for (auto &it : m_ConnPool)
+		if (it)
+			Netlib_Shutdown(it);
 
 	OnLoggedOut();
 }
@@ -74,53 +76,11 @@ void CIcqProto::ShutdownSession()
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #define CAPS "094613504c7f11d18222444553540000,094613514c7f11d18222444553540000,094613534c7f11d18222444553540000,094613544c7f11d18222444553540000,094613594c7f11d18222444553540000,0946135b4c7f11d18222444553540000,0946135a4c7f11d18222444553540000"
-#define EVENTS "myInfo,presence,buddylist,typing,dataIM,userAddedToBuddyList,service,webrtcMsg,mchat,hist,hiddenChat,diff,permitDeny,imState,notification,apps"
+#define EVENTS "myInfo,presence,buddylist,typing,dataIM,userAddedToBuddyList,webrtcMsg,mchat,hist,hiddenChat,diff,permitDeny,imState,notification,apps"
 #define FIELDS "aimId,buddyIcon,bigBuddyIcon,iconId,bigIconId,largeIconId,displayId,friendly,offlineMsg,state,statusMsg,userType,phoneNumber,cellNumber,smsNumber,workNumber,otherNumber,capabilities,ssl,abPhoneNumber,moodIcon,lastName,abPhones,abContactName,lastseen,mute,livechat,official"
 
-void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+void CIcqProto::StartSession()
 {
-	if (pReply->resultCode != 200 || pReply->pData == nullptr) {
-		ConnectionFailed(LOGINERR_WRONGPROTOCOL);
-		return;
-	}
-
-	JSONROOT root(pReply->pData);
-	if (!root) {
-		ConnectionFailed(LOGINERR_WRONGPROTOCOL);
-		return;
-	}
-
-	BYTE hashOut[MIR_SHA256_HASH_SIZE];
-	unsigned int len;
-
-	JSONNode response = (*root)["response"];
-	switch (response["statusCode"].as_int()) {
-	case 200:
-		{
-			JSONNode data = response["data"];
-			m_szAToken = data["token"]["a"].as_mstring();
-			m_szAToken = ptrA(mir_urlDecode(m_szAToken));
-			CMStringA m_szSessionSecret = data["sessionSecret"].as_mstring();
-
-			ptrA szPassword(getStringA("Password"));
-			HMAC(EVP_sha256(), szPassword.get(), (int)mir_strlen(szPassword), (BYTE*)m_szSessionSecret.c_str(), m_szSessionSecret.GetLength(), hashOut, &len);
-			m_szSessionKey = ptrA(mir_base64_encode(hashOut, sizeof(hashOut)));
-
-			CMStringA szUin = data["loginId"].as_mstring();
-			if (szUin)
-				setDword("UIN", atoi(szUin));
-		}
-		break;
-
-	case 440:
-		ConnectionFailed(LOGINERR_WRONGPASSWORD);
-		return;
-
-	default:
-		ConnectionFailed(LOGINERR_WRONGPROTOCOL);
-		return;
-	}
-
 	ptrA szDeviceId(getStringA("DeviceId"));
 	if (szDeviceId == nullptr) {
 		UUID deviceId;
@@ -135,7 +95,7 @@ void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 	int ts = time(0);
 	CMStringA nonce(FORMAT, "%d-2", ts);
 
-	auto *pReq = new AsyncHttpRequest(REQUEST_POST, "https://api.icq.net/aim/startSession", &CIcqProto::OnStartSession);
+	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, "https://api.icq.net/aim/startSession", &CIcqProto::OnStartSession);
 
 	RPC_CSTR szId;
 	UuidToStringA(&pReq->m_reqId, &szId);
@@ -148,6 +108,8 @@ void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 		<< INT_PARAM("rawMsg", 0) << INT_PARAM("sessionTimeout", 7776000) << INT_PARAM("ts", ts) << CHAR_PARAM("view", "online");
 
 	CMStringA hashData(FORMAT, "POST&%s&%s", ptrA(mir_urlEncode(pReq->m_szUrl)), ptrA(mir_urlEncode(pReq->m_szParam)));
+	unsigned int len;
+	BYTE hashOut[MIR_SHA256_HASH_SIZE];
 	HMAC(EVP_sha256(), m_szSessionKey, m_szSessionKey.GetLength(), (BYTE*)hashData.c_str(), hashData.GetLength(), hashOut, &len);
 	pReq << CHAR_PARAM("sig_sha256", ptrA(mir_base64_encode(hashOut, sizeof(hashOut))));
 
@@ -155,30 +117,165 @@ void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 	RpcStringFreeA(&szId);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+{
+	JsonReply root(pReply);
+	switch (root.error()) {
+	case 200:
+		break;
+
+	case 440:
+		ConnectionFailed(LOGINERR_WRONGPASSWORD);
+		return;
+
+	default:
+		ConnectionFailed(LOGINERR_WRONGPROTOCOL);
+		return;
+	}
+
+	JSONNode &data = root.data();
+	m_szAToken = data["token"]["a"].as_mstring();
+	m_szAToken = ptrA(mir_urlDecode(m_szAToken));
+	setString("AToken", m_szAToken);
+
+	ptrA szPassword(getStringA("Password"));
+	CMStringA m_szSessionSecret = data["sessionSecret"].as_mstring();
+
+	unsigned int len;
+	BYTE hashOut[MIR_SHA256_HASH_SIZE];
+	HMAC(EVP_sha256(), szPassword.get(), (int)mir_strlen(szPassword), (BYTE*)m_szSessionSecret.c_str(), m_szSessionSecret.GetLength(), hashOut, &len);
+	m_szSessionKey = ptrA(mir_base64_encode(hashOut, sizeof(hashOut)));
+	setString("SessionKey", m_szSessionKey);
+
+	CMStringA szUin = data["loginId"].as_mstring();
+	if (szUin)
+		setDword("UIN", atoi(szUin));
+
+	StartSession();
+}
+
 void CIcqProto::OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 {
-	if (pReply->resultCode != 200 || pReply->pData == nullptr) {
-		ConnectionFailed(LOGINERR_WRONGPROTOCOL);
-		return;
-	}
-
-	JSONROOT root(pReply->pData);
-	if (!root) {
-		ConnectionFailed(LOGINERR_WRONGPROTOCOL);
-		return;
-	}
-
-	JSONNode response = (*root)["response"];
-	switch (response["statusCode"].as_int()) {
+	JsonReply root(pReply);
+	switch (root.error()) {
 	case 200:
-		OnLoggedIn();
 		break;
 
 	case 401:
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);
-		break;
+		return;
 
 	default:
 		ConnectionFailed(LOGINERR_WRONGPROTOCOL);
+		return;
 	}
+
+	JSONNode &data = root.data();
+	m_fetchBaseURL = data["fetchBaseURL"].as_mstring();
+	m_aimsid = data["aimsid"].as_mstring();
+
+	OnLoggedIn();
+
+	for (auto &it : data["events"])
+		ProcessEvent(it);
+
+	m_fetchBaseURL.Append("&first=1");
+	Push(new AsyncHttpRequest(CONN_FETCH, REQUEST_GET, m_fetchBaseURL, &CIcqProto::OnFetchEvents));
+}
+
+void CIcqProto::OnReceiveAvatar(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+{
+	MCONTACT hContact = (MCONTACT)pReq->pUserInfo;
+
+	const wchar_t *pwszExtension;
+	PROTO_AVATAR_INFORMATION ai;
+	ai.hContact = hContact;
+	ai.format = ProtoGetBufferFormat(pReply->pData, &pwszExtension);
+	setByte(hContact, "AvatarType", ai.format);
+	GetAvatarFileName(hContact, ai.filename, _countof(ai.filename));
+
+	FILE *out = _wfopen(ai.filename, L"wb");
+	if (out != nullptr) {
+		fwrite(pReply->pData, pReply->dataLength, 1, out);
+		fclose(out);
+
+		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, HANDLE(&ai), 0);
+		debugLogW(L"Broadcast new avatar: %s", ai.filename);
+	}
+	else ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, HANDLE(&ai), 0);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CIcqProto::ProcessEvent(const JSONNode &ev)
+{
+	CMStringW szType = ev["type"].as_mstring();
+	if (szType == L"buddylist") {
+		for (auto &it : ev["eventData"]["groups"]) {
+			CMStringW szGroup = it["name"].as_mstring();
+			Clist_GroupCreate(0, szGroup);
+
+			for (auto &buddy : it["buddies"]) {
+				DWORD dwUin = _wtol(buddy["aimId"].as_mstring());
+				MCONTACT hContact = FindContactByUIN(dwUin);
+				if (hContact == 0) {
+					hContact = db_add_contact();
+					Proto_AddToContact(hContact, m_szModuleName);
+					setDword(hContact, "UIN", dwUin);
+					{
+						mir_cslock l(m_csCache);
+						m_arCache.insert(new IcqCacheItem(dwUin, hContact));
+					}
+				}
+
+				CMStringW wszNick(buddy["friendly"].as_mstring());
+				if (!wszNick.IsEmpty())
+					setWString(hContact, "Nick", wszNick);
+
+				setDword(hContact, "Status", StatusFromString(buddy["state"].as_mstring()));
+
+				int lastLogin = buddy["lastseen"].as_int();
+				if (lastLogin)
+					setDword(hContact, "LoginTS", lastLogin);
+
+				CMStringW wszStatus(buddy["statusMsg"].as_mstring());
+				if (wszStatus.IsEmpty())
+					db_unset(hContact, "CList", "StatusMsg");
+				else
+					db_set_ws(hContact, "CList", "StatusMsg", wszStatus);
+
+				CMStringW wszIconId(buddy["iconId"].as_mstring());
+				CMStringW oldIconID(getMStringW(hContact, "IconId"));
+				if (wszIconId != oldIconID) {
+					setWString(hContact, "IconId", wszIconId);
+
+					CMStringA szUrl(buddy["buddyIcon"].as_mstring());
+					auto *p = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, szUrl, &CIcqProto::OnReceiveAvatar);
+					p->pUserInfo = (void*)hContact;
+					Push(p);
+				}
+
+				db_set_ws(hContact, "CList", "Group", szGroup);
+			}
+		}
+	}
+}
+
+void CIcqProto::OnFetchEvents(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+{
+	JsonReply root(pReply);
+	if (root.error() != 200) {
+		ShutdownSession();
+		return;
+	}
+
+	JSONNode &data = root.data();
+	m_fetchBaseURL = data["fetchBaseURL"].as_mstring();
+
+	for (auto &it : data["events"])
+		ProcessEvent(it);
+
+	Push(new AsyncHttpRequest(CONN_FETCH, REQUEST_GET, m_fetchBaseURL, &CIcqProto::OnFetchEvents));
 }

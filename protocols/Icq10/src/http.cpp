@@ -24,7 +24,7 @@
 
 void __cdecl CIcqProto::ServerThread(void*)
 {
-	m_hAPIConnection = nullptr;
+	memset(&m_ConnPool, 0, sizeof(m_ConnPool));
 	m_bTerminated = false;
 
 	int uin = getDword("UIN");
@@ -40,11 +40,16 @@ void __cdecl CIcqProto::ServerThread(void*)
 		char mirVer[100];
 		Miranda_GetVersionText(mirVer, _countof(mirVer));
 
-		auto *pReq = new AsyncHttpRequest(REQUEST_POST, "https://api.login.icq.net/auth/clientLogin", &CIcqProto::OnCheckPassword);
-		pReq << CHAR_PARAM("clientName", "Miranda NG") << CHAR_PARAM("clientVersion", mirVer) << CHAR_PARAM("devId", "ic1nmMjqg7Yu-0hL")
-			<< CHAR_PARAM("f", "json") << CHAR_PARAM("tokenType", "longTerm") << INT_PARAM("s", uin) << CHAR_PARAM("pwd", szPassword);
-		pReq->flags |= NLHRF_NODUMPSEND;
-		Push(pReq);
+		m_szAToken = getMStringA("AToken");
+		m_szSessionKey = getMStringA("SessionKey");
+		if (m_szAToken.IsEmpty() || m_szSessionKey.IsEmpty()) {
+			auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, "https://api.login.icq.net/auth/clientLogin", &CIcqProto::OnCheckPassword);
+			pReq << CHAR_PARAM("clientName", "Miranda NG") << CHAR_PARAM("clientVersion", mirVer) << CHAR_PARAM("devId", "ic1nmMjqg7Yu-0hL")
+				<< CHAR_PARAM("f", "json") << CHAR_PARAM("tokenType", "longTerm") << INT_PARAM("s", uin) << CHAR_PARAM("pwd", szPassword);
+			pReq->flags |= NLHRF_NODUMPSEND;
+			Push(pReq);
+		}
+		else StartSession();
 	}
 
 	while (true) {
@@ -75,19 +80,21 @@ void __cdecl CIcqProto::ServerThread(void*)
 	}
 
 	m_hWorkerThread = nullptr;
-	if (m_hAPIConnection) {
-		Netlib_CloseHandle(m_hAPIConnection);
-		m_hAPIConnection = nullptr;
-	}
+	for (auto &it : m_ConnPool)
+		if (it) {
+			Netlib_CloseHandle(it);
+			it = nullptr;
+		}
 
 	debugLogA("CIcqProto::WorkerThread: %s", "leaving");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-AsyncHttpRequest::AsyncHttpRequest(int iType, const char *szUrl, MTHttpRequestHandler pFunc)
+AsyncHttpRequest::AsyncHttpRequest(IcqConnection conn, int iType, const char *szUrl, MTHttpRequestHandler pFunc) :
+	m_conn(conn)
 {
-	flags = NLHRF_HTTP11 | NLHRF_SSL;
+	flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_DUMPASTEXT;
 	requestType = iType;
 	m_szUrl = szUrl;
 	m_pFunc = pFunc;
@@ -117,9 +124,9 @@ void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		}
 	}
 
-	if (pReq->m_bMainSite) {
+	if (pReq->m_conn != CONN_NONE) {
 		pReq->flags |= NLHRF_PERSISTENT;
-		pReq->nlc = m_hAPIConnection;
+		pReq->nlc = m_ConnPool[pReq->m_conn];
 	}
 
 	RPC_CSTR szId;
@@ -131,18 +138,18 @@ void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		if (pReq->m_pFunc != nullptr)
 			(this->*(pReq->m_pFunc))(reply, pReq);
 
-		if (pReq->m_bMainSite)
-			m_hAPIConnection = reply->nlc;
+		if (pReq->m_conn != CONN_NONE)
+			m_ConnPool[pReq->m_conn] = pReq->nlc;
 
 		Netlib_FreeHttpRequest(reply);
 	}
 	else {
 		debugLogA("Request %s failed", (char*)szId);
 
-		if (pReq->m_bMainSite) {
+		if (pReq->m_conn != CONN_NONE) {
 			if (IsStatusConnecting(m_iStatus))
 				ConnectionFailed(LOGINERR_NONETWORK);
-			m_hAPIConnection = nullptr;
+			m_ConnPool[pReq->m_conn] = nullptr;
 		}
 	}
 
@@ -161,4 +168,33 @@ void CIcqProto::Push(MHttpRequest *p)
 	}
 	
 	SetEvent(m_evRequestsQueue);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+JsonReply::JsonReply(NETLIBHTTPREQUEST *pReply)
+{
+	if (pReply == nullptr) {
+		m_errorCode = 500;
+		return;
+	}
+
+	m_errorCode = pReply->resultCode;
+	if (m_errorCode != 200)
+		return;
+
+	m_root = json_parse(pReply->pData);
+	if (m_root == nullptr) {
+		m_errorCode = 500;
+		return;
+	}
+
+	JSONNode &response = (*m_root)["response"];
+	m_errorCode = response["statusCode"].as_int();
+	m_data = &response["data"];
+}
+
+JsonReply::~JsonReply()
+{
+	json_delete(m_root);
 }

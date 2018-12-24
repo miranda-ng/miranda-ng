@@ -33,6 +33,17 @@
 #include "m_system.h"
 #include "m_protoint.h"
 
+struct IcqCacheItem
+{
+	IcqCacheItem(DWORD _uin, MCONTACT _contact) :
+		m_uin(_uin),
+		m_hContact(_contact)
+	{}
+
+	DWORD m_uin;
+	MCONTACT m_hContact;
+};
+
 class CIcqProto : public PROTO<CIcqProto>
 {
 	bool     m_bOnline = false, m_bTerminated = false;
@@ -41,13 +52,20 @@ class CIcqProto : public PROTO<CIcqProto>
 	void     OnLoggedOut(void);
 	void     SetServerStatus(int iNewStatus);
 	void     ShutdownSession(void);
+	void     StartSession(void);
 
 	void     OnCheckPassword(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void     OnFetchEvents(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void     OnReceiveAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnStartSession(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
-	HNETLIBCONN m_hAPIConnection;
+	void     ProcessEvent(const JSONNode&);
+
+	HNETLIBCONN m_ConnPool[CONN_LAST];
 	CMStringA m_szSessionKey;
 	CMStringA m_szAToken;
+	CMStringA m_fetchBaseURL;
+	CMStringA m_aimsid;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// http queue
@@ -58,6 +76,17 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	void     ExecuteRequest(AsyncHttpRequest*);
 	void     Push(MHttpRequest*);
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// cache
+
+	mir_cs   m_csCache;
+	OBJLIST<IcqCacheItem> m_arCache;
+
+	void     InitContactCache(void);
+	MCONTACT FindContactByUIN(DWORD);
+
+	void     GetAvatarFileName(MCONTACT hContact, wchar_t *pszDest, size_t cbLen);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// threads
