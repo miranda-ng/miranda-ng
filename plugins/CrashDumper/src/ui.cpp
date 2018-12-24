@@ -56,121 +56,135 @@ BOOL MyResizeGetOffset(HWND hwndCtrl, int nWidth, int nHeight, int* nDx, int* nD
 	return rcinit.bottom != rcinit.top && nHeight > 0;
 }
 
-INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+CViewVersionInfo::CViewVersionInfo(DWORD flags) :
+	CDlgBase(g_plugin, IDD_VIEWVERSION),
+	m_btnCancel(this, IDCANCEL),
+	m_btnCopyClip(this, IDC_CLIPVER),
+	m_btnCopyFile(this, IDC_FILEVER),
+	m_redtViewVersionInfo(this, IDC_VIEWVERSIONINFO)
 {
-	RECT rc;
-
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		Window_SetIcon_IcoLib(hwndDlg, GetIconHandle(IDI_VI));
-		{
-			CHARFORMAT2 chf;
-			chf.cbSize = sizeof(chf);
-			SendDlgItemMessage(hwndDlg, IDC_VIEWVERSIONINFO, EM_GETCHARFORMAT, SCF_DEFAULT, (LPARAM)&chf);
-			mir_wstrcpy(chf.szFaceName, L"Courier New");
-			SendDlgItemMessage(hwndDlg, IDC_VIEWVERSIONINFO, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&chf);
-
-			CMStringW buffer;
-			PrintVersionInfo(buffer, (unsigned int)lParam);
-			SetDlgItemText(hwndDlg, IDC_VIEWVERSIONINFO, buffer.c_str());
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-		}
-
-		if (lParam & VI_FLAG_PRNDLL)
-			SetWindowText(hwndDlg, TranslateT("View Version Information (with DLLs)"));
-
-		Utils_RestoreWindowPositionNoMove(hwndDlg, NULL, MODULENAME, "ViewInfo_");
-		ShowWindow(hwndDlg, SW_SHOW);
-		break;
-
-	case WM_SIZE:
-		GetWindowRect(GetDlgItem(hwndDlg, IDC_FILEVER), &rc);
-
-		int dx, dy;
-		if (MyResizeGetOffset(GetDlgItem(hwndDlg, IDC_VIEWVERSIONINFO), LOWORD(lParam) - 20, HIWORD(lParam) - 30 - (rc.bottom - rc.top), &dx, &dy)) {
-			HDWP hDwp = BeginDeferWindowPos(4);
-			hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_FILEVER), 0, dy, 0, 0);
-			hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_CLIPVER), dx / 2, dy, 0, 0);
-			hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDCANCEL), dx, dy, 0, 0);
-			hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_VIEWVERSIONINFO), 0, 0, dx, dy);
-			EndDeferWindowPos(hDwp);
-		}
-		break;
-
-	case WM_GETMINMAXINFO:
-		{
-			LPMINMAXINFO mmi = (LPMINMAXINFO)lParam;
-			mmi->ptMinTrackSize.x = 400; // The minimum width in points
-			mmi->ptMinTrackSize.y = 300; // The minimum height in points
-		}
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_CLIPVER:
-			CallService(MS_CRASHDUMPER_STORETOCLIP, 0, GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
-			break;
-
-		case IDC_FILEVER:
-			CallService(MS_CRASHDUMPER_STORETOFILE, 0, GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
-			break;
-
-		case IDCANCEL:
-			DestroyWindow(hwndDlg);
-			break;
-		}
-		break;
-
-	case WM_CONTEXTMENU:
-		{
-			HWND hView = GetDlgItem(hwndDlg, IDC_VIEWVERSIONINFO);
-			GetWindowRect(hView, &rc);
-
-			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
-			if (PtInRect(&rc, pt)) {
-				static const CHARRANGE all = { 0, -1 };
-
-				HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
-				HMENU hSubMenu = GetSubMenu(hMenu, 0);
-				TranslateMenu(hSubMenu);
-
-				CHARRANGE sel;
-				SendMessage(hView, EM_EXGETSEL, 0, (LPARAM)&sel);
-				if (sel.cpMin == sel.cpMax)
-					EnableMenuItem(hSubMenu, IDM_COPY, MF_BYCOMMAND | MF_GRAYED);
-
-				switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, nullptr)) {
-				case IDM_COPY:
-					SendMessage(hView, WM_COPY, 0, 0);
-					break;
-
-				case IDM_COPYALL:
-					SendMessage(hView, EM_EXSETSEL, 0, (LPARAM)&all);
-					SendMessage(hView, WM_COPY, 0, 0);
-					SendMessage(hView, EM_EXSETSEL, 0, (LPARAM)&sel);
-					break;
-
-				case IDM_SELECTALL:
-					SendMessage(hView, EM_EXSETSEL, 0, (LPARAM)&all);
-					break;
-				}
-				DestroyMenu(hMenu);
-			}
-		}
-		break;
-
-	case WM_DESTROY:
-		hViewWnd = nullptr;
-		Window_FreeIcon_IcoLib(hwndDlg);
-		Utils_SaveWindowPosition(hwndDlg, NULL, MODULENAME, "ViewInfo_");
-		if (servicemode)
-			PostQuitMessage(0);
-		break;
-	}
-	return FALSE;
+	m_flags = flags;
+	m_btnCancel.OnClick = Callback(this, &CViewVersionInfo::OnCancelClick);
+	m_btnCopyClip.OnClick = Callback(this, &CViewVersionInfo::OnCopyClipClick);
+	m_btnCopyFile.OnClick = Callback(this, &CViewVersionInfo::OnCopyFileClick);
+	m_redtViewVersionInfo.OnBuildMenu = Callback(this, &CViewVersionInfo::OnViewVersionInfoBuildMenu);
 }
 
+bool CViewVersionInfo::OnInitDialog()
+{
+	Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_VI));
+	{
+		CHARFORMAT2 chf;
+		chf.cbSize = sizeof(chf);
+		m_redtViewVersionInfo.SendMsg(EM_GETCHARFORMAT, SCF_DEFAULT, (LPARAM)&chf);
+		mir_wstrcpy(chf.szFaceName, L"Courier New");
+		m_redtViewVersionInfo.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&chf);
+
+		CMStringW buffer;
+		PrintVersionInfo(buffer, m_flags);
+		m_redtViewVersionInfo.SetText(buffer.c_str());
+	}
+
+	if (m_flags & VI_FLAG_PRNDLL)
+		SetWindowText(m_hwnd, TranslateT("View Version Information (with DLLs)"));
+
+	Utils_RestoreWindowPositionNoMove(m_hwnd, NULL, MODULENAME, "ViewInfo_");
+	Show();
+	return true;
+}
+
+int CViewVersionInfo::Resizer(UTILRESIZECONTROL *)
+{
+	RECT rc;
+	GetWindowRect(m_btnCopyFile.GetHwnd(), &rc);
+
+	int dx, dy;
+	if (MyResizeGetOffset(m_redtViewVersionInfo.GetHwnd(), LOWORD(m_flags) - 20, HIWORD(m_flags) - 30 - (rc.bottom - rc.top), &dx, &dy)) {
+		HDWP hDwp = BeginDeferWindowPos(4);
+		hDwp = MyResizeWindow(hDwp, m_hwnd, m_btnCopyFile.GetHwnd(), 0, dy, 0, 0);
+		hDwp = MyResizeWindow(hDwp, m_hwnd, m_btnCopyClip.GetHwnd(), dx / 2, dy, 0, 0);
+		hDwp = MyResizeWindow(hDwp, m_hwnd, m_btnCancel.GetHwnd(), dx, dy, 0, 0);
+		hDwp = MyResizeWindow(hDwp, m_hwnd, m_redtViewVersionInfo.GetHwnd(), 0, 0, dx, dy);
+		EndDeferWindowPos(hDwp);
+	}
+	return 0;
+}
+
+void CViewVersionInfo::OnCancelClick(CCtrlBase*)
+{
+	Close();
+}
+
+void CViewVersionInfo::OnCopyClipClick(CCtrlBase*)
+{
+	CallService(MS_CRASHDUMPER_STORETOCLIP, 0, m_flags);
+}
+
+void CViewVersionInfo::OnCopyFileClick(CCtrlBase*)
+{
+	CallService(MS_CRASHDUMPER_STORETOFILE, 0, m_flags);
+}
+
+bool  CViewVersionInfo::OnClose()
+{
+	hViewWnd = nullptr;
+	Window_FreeIcon_IcoLib(m_hwnd);
+	Utils_SaveWindowPosition(m_hwnd, NULL, MODULENAME, "ViewInfo_");
+	if (pViewDialog == this)
+		pViewDialog = nullptr;
+	if (servicemode)
+		PostQuitMessage(0);
+	return true;
+}
+
+void CViewVersionInfo::OnViewVersionInfoBuildMenu(CCtrlBase*)
+{
+	RECT rc;
+	GetWindowRect(m_redtViewVersionInfo.GetHwnd(), &rc);
+
+	POINT pt = { GET_X_LPARAM(m_flags), GET_Y_LPARAM(m_flags) };
+	if (PtInRect(&rc, pt)) {
+		static const CHARRANGE all = { 0, -1 };
+
+		HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
+		HMENU hSubMenu = GetSubMenu(hMenu, 0);
+		TranslateMenu(hSubMenu);
+
+		CHARRANGE sel;
+		SendMessage(m_redtViewVersionInfo.GetHwnd(), EM_EXGETSEL, 0, (LPARAM)&sel);
+		if (sel.cpMin == sel.cpMax)
+			EnableMenuItem(hSubMenu, IDM_COPY, MF_BYCOMMAND | MF_GRAYED);
+
+		switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, nullptr)) {
+		case IDM_COPY:
+			SendMessage(m_redtViewVersionInfo.GetHwnd(), WM_COPY, 0, 0);
+			break;
+
+		case IDM_COPYALL:
+			SendMessage(m_redtViewVersionInfo.GetHwnd(), EM_EXSETSEL, 0, (LPARAM)&all);
+			SendMessage(m_redtViewVersionInfo.GetHwnd(), WM_COPY, 0, 0);
+			SendMessage(m_redtViewVersionInfo.GetHwnd(), EM_EXSETSEL, 0, (LPARAM)&sel);
+			break;
+
+		case IDM_SELECTALL:
+			SendMessage(m_redtViewVersionInfo.GetHwnd(), EM_EXSETSEL, 0, (LPARAM)&all);
+			break;
+		}
+		DestroyMenu(hMenu);
+	}
+}
+
+INT_PTR CViewVersionInfo::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	if (msg == WM_GETMINMAXINFO) {
+		LPMINMAXINFO mmi = (LPMINMAXINFO)lParam;
+		mmi->ptMinTrackSize.x = 400; // The minimum width in points
+		mmi->ptMinTrackSize.y = 300; // The minimum height in points
+		return 0;
+	}
+
+	return CDlgBase::DlgProc(msg, wParam, lParam);
+}
 
 void DestroyAllWindows(void)
 {
@@ -180,84 +194,79 @@ void DestroyAllWindows(void)
 	}
 }
 
-INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+COptDialog::COptDialog() :
+	CDlgBase(g_plugin, IDD_OPTIONS),
+	m_edtUserName(this, IDC_USERNAME),
+	m_edtPass(this, IDC_PASSWORD),
+	m_chkAutoUpload(this, IDC_UPLOADCHN),
+	m_chkClassicDates(this, IDC_CLASSICDATES),
+	m_chkRepSubfolder(this, IDC_DATESUBFOLDER),
+	m_chkCatchCrashes(this, IDC_CATCHCRASHES),
+	m_lblRestart(this, IDC_RESTARTNOTE)
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		{
-			DBVARIANT dbv;
-			if (g_plugin.getString("Username", &dbv) == 0) {
-				SetDlgItemTextA(hwndDlg, IDC_USERNAME, dbv.pszVal);
-				db_free(&dbv);
-			}
-			if (g_plugin.getString("Password", &dbv) == 0) {
-				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, dbv.pszVal);
-				db_free(&dbv);
-			}
-			CheckDlgButton(hwndDlg, IDC_UPLOADCHN, g_plugin.getByte("UploadChanged", 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CLASSICDATES, clsdates ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_DATESUBFOLDER, dtsubfldr ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CATCHCRASHES, catchcrashes ? BST_CHECKED : BST_UNCHECKED);
-			if (!catchcrashes) {
-				EnableWindow(GetDlgItem(hwndDlg, IDC_CLASSICDATES), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_DATESUBFOLDER), FALSE);
-			}
-			if (needrestart)
-				ShowWindow(GetDlgItem(hwndDlg, IDC_RESTARTNOTE), SW_SHOW);
-		}
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_CATCHCRASHES:
-			if (IsDlgButtonChecked(hwndDlg, IDC_CATCHCRASHES)) {
-				EnableWindow(GetDlgItem(hwndDlg, IDC_CLASSICDATES), TRUE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_DATESUBFOLDER), TRUE);
-			}
-			else {
-				EnableWindow(GetDlgItem(hwndDlg, IDC_CLASSICDATES), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_DATESUBFOLDER), FALSE);
-			}
-			ShowWindow(GetDlgItem(hwndDlg, IDC_RESTARTNOTE), SW_SHOW);
-			needrestart = 1;
-		}
-		if ((HIWORD(wParam) == EN_CHANGE || HIWORD(wParam) == BN_CLICKED) && (HWND)lParam == GetFocus())
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		break;
-
-	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->code == (unsigned)PSN_APPLY) {
-			char szSetting[100];
-			GetDlgItemTextA(hwndDlg, IDC_USERNAME, szSetting, _countof(szSetting));
-			g_plugin.setString("Username", szSetting);
-
-			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, szSetting, _countof(szSetting));
-			g_plugin.setString("Password", szSetting);
-
-			g_plugin.setByte("UploadChanged", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_UPLOADCHN));
-
-			clsdates = IsDlgButtonChecked(hwndDlg, IDC_CLASSICDATES) == BST_CHECKED;
-			if (clsdates)
-				g_plugin.setByte("ClassicDates", 1);
-			else
-				g_plugin.setByte("ClassicDates", 0);
-			dtsubfldr = IsDlgButtonChecked(hwndDlg, IDC_DATESUBFOLDER) == BST_CHECKED;
-			if (dtsubfldr)
-				g_plugin.setByte("SubFolders", 1);
-			else
-				g_plugin.setByte("SubFolders", 0);
-			catchcrashes = IsDlgButtonChecked(hwndDlg, IDC_CATCHCRASHES) == BST_CHECKED;
-			if (catchcrashes)
-				g_plugin.setByte("CatchCrashes", 1);
-			else
-				g_plugin.setByte("CatchCrashes", 0);
-		}
-		break;
-	}
-	return FALSE;
+	CreateLink(m_chkAutoUpload, "UploadChanged", DBVT_BYTE, 0);
+	m_chkCatchCrashes.OnChange = Callback(this, &COptDialog::OnCatchCrashesChange);
 }
 
+bool COptDialog::OnInitDialog()
+{
+	CDlgBase::OnInitDialog();
+	DBVARIANT dbv;
+	if (g_plugin.getString("Username", &dbv) == 0) {
+		m_edtUserName.SetTextA(dbv.pszVal);
+		db_free(&dbv);
+	}
+	if (g_plugin.getString("Password", &dbv) == 0) {
+		m_edtPass.SetTextA(dbv.pszVal);
+		db_free(&dbv);
+	}
+	m_chkClassicDates.SetState(clsdates);
+	m_chkRepSubfolder.SetState(dtsubfldr);
+	m_chkCatchCrashes.SetState(catchcrashes);
+	if (!catchcrashes) {
+		m_chkClassicDates.Disable();
+		m_chkRepSubfolder.Disable();
+	}
+	if (needrestart)
+		m_lblRestart.Show();
+	return true;
+}
+
+void COptDialog::OnCatchCrashesChange(CCtrlCheck*)
+{
+	m_chkClassicDates.Enable(m_chkCatchCrashes.GetState());
+	m_chkRepSubfolder.Enable(m_chkCatchCrashes.GetState());
+	m_lblRestart.Show();
+	needrestart = 1;
+}
+
+bool COptDialog::OnApply()
+{
+	char szSetting[100];
+	m_edtUserName.GetTextA(szSetting, _countof(szSetting));
+	g_plugin.setString("Username", szSetting);
+
+	m_edtPass.GetTextA(szSetting, _countof(szSetting));
+	g_plugin.setString("Password", szSetting);
+
+	clsdates = m_chkClassicDates.GetState();
+	if (clsdates)
+		g_plugin.setByte("ClassicDates", 1);
+	else
+		g_plugin.setByte("ClassicDates", 0);
+	dtsubfldr = m_chkRepSubfolder.GetState();
+	if (dtsubfldr)
+		g_plugin.setByte("SubFolders", 1);
+	else
+		g_plugin.setByte("SubFolders", 0);
+	catchcrashes = m_chkCatchCrashes.GetState();
+	if (catchcrashes)
+		g_plugin.setByte("CatchCrashes", 1);
+	else
+		g_plugin.setByte("CatchCrashes", 0);
+
+	return true;
+}
 
 LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {

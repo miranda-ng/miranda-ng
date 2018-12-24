@@ -38,6 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_netlib.h>
 #include <m_string.h>
 #include <m_db_int.h>
+#include <m_gui.h>
 
 #include "m_folders.h"
 #include "m_toptoolbar.h"
@@ -142,8 +143,9 @@ void DestroyExceptionHandler(void);
 void SetExceptionHandler(void);
 void RemoveExceptionHandler(void);
 
-INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+extern CDlgBase *pViewDialog;
+//INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+//INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 void DestroyAllWindows(void);
 
 void UploadInit(void);
@@ -155,3 +157,43 @@ void InitIcons(void);
 HICON LoadIconEx(int iconId, bool big = false);
 void  ReleaseIconEx(int iconId);
 HANDLE GetIconHandle(int iconId);
+
+class COptDialog : public CDlgBase
+{
+private:
+	CCtrlEdit m_edtUserName, m_edtPass;
+	CCtrlCheck m_chkAutoUpload, m_chkClassicDates, m_chkRepSubfolder, m_chkCatchCrashes;
+	CCtrlLabel m_lblRestart;
+
+protected:
+	bool OnInitDialog() override;
+	bool OnApply() override;
+
+	void OnCatchCrashesChange(CCtrlCheck*);
+
+public:
+	COptDialog();
+};
+
+class CViewVersionInfo : public CDlgBase
+{
+private:
+	DWORD m_flags;
+
+	CCtrlButton m_btnCancel, m_btnCopyClip, m_btnCopyFile;
+	CCtrlRichEdit m_redtViewVersionInfo;
+
+protected:
+	bool OnInitDialog() override;
+	bool OnClose() override;
+	int Resizer(UTILRESIZECONTROL*) override;
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+
+	void OnCancelClick(CCtrlBase*);
+	void OnCopyClipClick(CCtrlBase*);
+	void OnCopyFileClick(CCtrlBase*);
+	void OnViewVersionInfoBuildMenu(CCtrlBase*);
+
+public:
+	CViewVersionInfo(DWORD flags);
+};
