@@ -154,6 +154,7 @@ wildcmpi                      @158
 wildcmpiw                     @159
 mir_base64_encode             @160
 mir_base64_decode             @161
+mir_urlDecode                 @162
 db_set_resident               @165
 db_set                        @166
 mir_subclassWindowFull        @218

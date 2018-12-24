@@ -21,6 +21,30 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 static const char szHexDigits[] = "0123456789ABCDEF";
 
+MIR_CORE_DLL(char*) mir_urlDecode(const char *szUrl)
+{
+	if (szUrl == nullptr)
+		return nullptr;
+
+	char *ret = mir_strdup(szUrl);
+
+	for (char *p = ret; *p; p++) {
+		switch (*p) {
+		case '%':
+			int ii;
+			sscanf(p+1, "%2x", &ii);
+			strdel(p, 2);
+			*p = ii;
+			break;
+
+		case '+':
+			*p = ' ';
+			break;
+		}
+	}
+	return ret;
+}
+
 MIR_CORE_DLL(char*) mir_urlEncode(const char *szUrl)
 {
 	if (szUrl == nullptr)

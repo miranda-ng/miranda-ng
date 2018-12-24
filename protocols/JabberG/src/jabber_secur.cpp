@@ -230,7 +230,7 @@ void TScramAuth::Hi(BYTE* res, char* passw, size_t passwLen, char* salt, size_t 
 	memset(res, 0, MIR_SHA1_HASH_SIZE);
 
 	for (int i = 0; i < ind; i++) {
-		unsigned int len = MIR_SHA1_HASH_SIZE;
+		unsigned int len;
 		HMAC(EVP_sha1(), (BYTE*)passw, passwLen, u, bufLen, u, &len);
 		bufLen = MIR_SHA1_HASH_SIZE;
 
@@ -269,7 +269,7 @@ char* TScramAuth::getChallenge(const wchar_t *challenge)
 	Hi(saltedPassw, passw, passwLen, salt, saltLen, ind);
 
 	BYTE clientKey[MIR_SHA1_HASH_SIZE];
-	unsigned int len = sizeof(clientKey);
+	unsigned int len;
 	HMAC(EVP_sha1(), saltedPassw, sizeof(saltedPassw), (BYTE*)"Client Key", 10, clientKey, &len);
 
 	BYTE storedKey[MIR_SHA1_HASH_SIZE];

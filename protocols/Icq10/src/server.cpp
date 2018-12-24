@@ -95,7 +95,7 @@ void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 	case 200:
 		{
 			JSONNode data = response["data"];
-			m_szAToken = data["token"]["a"].as_mstring();
+			m_szAToken = ptrA(mir_urlDecode(data["token"]["a"].as_string().c_str()));
 			m_szSessionSecret = data["sessionSecret"].as_mstring();
 		
 			CMStringA szUin = data["loginId"].as_mstring();
@@ -143,22 +143,13 @@ void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 	ptrA szPassword(getStringA("Password"));
 
 	BYTE hashOut[MIR_SHA256_HASH_SIZE];
-	unsigned int len = sizeof(hashOut);
-	HMAC(EVP_sha256(), szPassword.get(), mir_strlen(szPassword), (BYTE*)m_szSessionSecret.c_str(), m_szSessionSecret.GetLength(), hashOut, &len);
+	unsigned int len = 0;
+	HMAC(EVP_sha256(), szPassword.get(), (int)mir_strlen(szPassword), (BYTE*)m_szSessionSecret.c_str(), m_szSessionSecret.GetLength(), hashOut, &len);
 	ptrA szSessionKey(mir_base64_encode(hashOut, sizeof(hashOut)));
 
-	CMStringA hashData(FORMAT, "POST&%s&%s", ptrA(mir_urlEncode(pReq->szUrl)), ptrA(mir_urlEncode(pReq->m_szParam)));
-	HMAC(EVP_sha256(), szSessionKey.get(), mir_strlen(szSessionKey), (BYTE*)hashData.c_str(), hashData.GetLength(), hashOut, &len);
-
-	pReq->m_szParam.Empty();
-	pReq << CHAR_PARAM("a", m_szAToken) << INT_PARAM("activeTimeout", 180) << CHAR_PARAM("assertCaps", CAPS)
-		<< INT_PARAM("buildNumber", __BUILD_NUM) << CHAR_PARAM("clientName", "Miranda NG") << INT_PARAM("clientVersion", 5000)
-		<< CHAR_PARAM("deviceId", szDeviceId) << CHAR_PARAM("events", EVENTS) << CHAR_PARAM("f", "json") << CHAR_PARAM("imf", "plain")
-		<< CHAR_PARAM("inactiveView", "offline") << CHAR_PARAM("includePresenceFields", FIELDS) << CHAR_PARAM("invisible", "false")
-		<< CHAR_PARAM("k", "ic1nmMjqg7Yu-0hL") << INT_PARAM("majorVersion", __MAJOR_VERSION) << INT_PARAM("minorVersion", __MINOR_VERSION)
-		<< INT_PARAM("mobile", 0) << CHAR_PARAM("nonce", nonce) << INT_PARAM("pointVersion", 0) << CHAR_PARAM("r", (char*)szId) 
-		<< INT_PARAM("rawMsg", 0) << INT_PARAM("sessionTimeout", 7776000) << CHAR_PARAM("sig_sha256", ptrA(mir_base64_encode(hashOut, sizeof(hashOut)))) 
-		<< INT_PARAM("ts", ts) << CHAR_PARAM("view", "online");
+	CMStringA hashData(FORMAT, "POST&%s&%s", ptrA(mir_urlEncode(pReq->m_szUrl)), ptrA(mir_urlEncode(pReq->m_szParam)));
+	HMAC(EVP_sha256(), szSessionKey.get(), (int)mir_strlen(szSessionKey), (BYTE*)hashData.c_str(), hashData.GetLength(), hashOut, &len);
+	pReq << CHAR_PARAM("sig_sha256", ptrA(mir_base64_encode(hashOut, sizeof(hashOut))));
 
 	Push(pReq);
 	RpcStringFreeA(&szId);

@@ -524,7 +524,7 @@ static void derive_key(BYTE* der, unsigned char* key, size_t keylen, unsigned ch
 	const size_t buflen = MIR_SHA1_HASH_SIZE + datalen;
 	BYTE* buf = (BYTE*)alloca(buflen);
 
-	unsigned int len = sizeof(hash1);
+	unsigned int len;
 	HMAC(EVP_sha1(), key, keylen, data, datalen, hash1, &len);
 	HMAC(EVP_sha1(), key, keylen, hash1, MIR_SHA1_HASH_SIZE, hash3, &len);
 
@@ -565,7 +565,7 @@ CMStringA CMsnProto::HotmailLogin(const char* url)
 	result.Append(ptrA(mir_urlEncode(noncenc)));
 
 	BYTE hash[MIR_SHA1_HASH_SIZE];
-	unsigned int len = sizeof(hash);
+	unsigned int len;
 	HMAC(EVP_sha1(), key2, sizeof(key2), (BYTE*)result.GetString(), result.GetLength(), hash, &len);
 	ptrA szHash(mir_base64_encode(hash, sizeof(hash)));
 	result.AppendFormat("&hash=%s", ptrA(mir_urlEncode(szHash)));
