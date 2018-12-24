@@ -46,7 +46,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void     OnStartSession(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	HNETLIBCONN m_hAPIConnection;
-	CMStringA m_szSessionSecret;
+	CMStringA m_szSessionKey;
 	CMStringA m_szAToken;
 
 	//////////////////////////////////////////////////////////////////////////////////////
