@@ -71,20 +71,11 @@ INT_PTR __cdecl CIcqProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 		((POINT*)lParam)->y = -1;
 		return 0;
 
-	case AF_MAXFILESIZE:
-		return 0;
-
-	case AF_PROPORTION:
-		return PIP_NONE;
-
 	case AF_FORMATSUPPORTED: // nobody
 		return 1;
 
 	case AF_DELAYAFTERFAIL:
 		return 10 * 60 * 1000;
-
-	case AF_DONTNEEDDELAYS: // We need delays because of larger friend lists 
-		return 0;
 
 	case AF_ENABLED:
 	case AF_FETCHIFPROTONOTVISIBLE:

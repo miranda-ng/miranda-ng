@@ -41,10 +41,6 @@ INT_PTR CDiscordProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 		((POINT*)lParam)->x = ((POINT*)lParam)->y = 128;
 		break;
 
-	case AF_PROPORTION:
-		res = PIP_NONE;
-		break;
-
 	case AF_FORMATSUPPORTED:
 		res = lParam == PA_FORMAT_PNG || lParam == PA_FORMAT_GIF || lParam == PA_FORMAT_JPEG;
 		break;
@@ -53,8 +49,7 @@ INT_PTR CDiscordProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 	case AF_DONTNEEDDELAYS:
 	case AF_FETCHIFPROTONOTVISIBLE:
 	case AF_FETCHIFCONTACTOFFLINE:
-		res = 1;
-		break;
+		return 1;
 	}
 
 	return res;

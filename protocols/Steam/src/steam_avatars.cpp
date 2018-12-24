@@ -116,13 +116,6 @@ INT_PTR CSteamProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 	case AF_ENABLED:
 		return 1;
 	
-	/*case AF_DONTNEEDDELAYS:
-		return 1;*/
-
-	/*case AF_MAXFILESIZE:
-		// server accepts images of 32000 bytees, not bigger
-		return 32000;*/
-	
 	case AF_DELAYAFTERFAIL:
 		// request avatar again in one hour if server gave an error
 		return 60 * 60 * 1000;

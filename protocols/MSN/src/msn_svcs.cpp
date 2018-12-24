@@ -151,10 +151,6 @@ INT_PTR CMsnProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 		((POINT*)lParam)->y = 96;
 		break;
 
-	case AF_PROPORTION:
-		res = PIP_NONE;
-		break;
-
 	case AF_FORMATSUPPORTED:
 		res = lParam == PA_FORMAT_PNG || lParam == PA_FORMAT_GIF || lParam == PA_FORMAT_JPEG;
 		break;

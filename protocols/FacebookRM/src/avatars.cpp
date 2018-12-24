@@ -137,25 +137,12 @@ INT_PTR FacebookProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 		((POINT*)lParam)->y = -1;
 		break;
 
-	case AF_MAXFILESIZE:
-		res = 0;
-		break;
-
-	case AF_PROPORTION:
-		res = PIP_NONE;
-		break;
-
 	case AF_FORMATSUPPORTED:
 		res = (lParam == PA_FORMAT_JPEG || lParam == PA_FORMAT_GIF);
 		break;
 
 	case AF_DELAYAFTERFAIL:
 		res = 10 * 60 * 1000;
-		break;
-
-	case AF_DONTNEEDDELAYS:
-		// We need delays because of larger friend lists 
-		res = 0;
 		break;
 
 	case AF_ENABLED:
