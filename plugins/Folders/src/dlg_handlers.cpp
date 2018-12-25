@@ -4,254 +4,258 @@ PFolderItem lastItem = nullptr;
 
 static int bInitializing = 0;
 
-static PFolderItem GetSelectedItem(HWND hWnd)
+CDlgBase *pHelpDialog = nullptr;
+
+
+PFolderItem COptDialog::GetSelectedItem()
 {
-	int index = SendDlgItemMessage(hWnd, IDC_FOLDERS_ITEMS_LIST, LB_GETCURSEL, 0, 0);
+	int index = m_lbItems.GetCurSel();
 	if (index == LB_ERR)
 		return nullptr;
 
-	return (PFolderItem)SendDlgItemMessage(hWnd, IDC_FOLDERS_ITEMS_LIST, LB_GETITEMDATA, index, 0);
+	return (PFolderItem)m_lbItems.GetItemData(index);
 }
 
-static void GetEditText(HWND hWnd, wchar_t *buffer, int size)
+void COptDialog::GetEditText(wchar_t *buffer, int size)
 {
-	GetWindowText(GetDlgItem(hWnd, IDC_FOLDER_EDIT), buffer, size);
+	m_edtEdit.GetText(buffer, size);
 }
 
-static void SetEditText(HWND hWnd, const wchar_t *buffer)
+void COptDialog::SetEditText(const wchar_t *buffer)
 {
 	bInitializing = 1;
-	SetDlgItemText(hWnd, IDC_FOLDER_EDIT, buffer);
+	m_edtEdit.SetText(buffer);
 	bInitializing = 0;
 }
 
-static int ContainsSection(HWND hWnd, const wchar_t *section)
+int COptDialog::ContainsSection(const wchar_t *section)
 {
-	int index = SendDlgItemMessage(hWnd, IDC_FOLDERS_SECTIONS_LIST, LB_FINDSTRINGEXACT, -1, (LPARAM)section);
+	int index = m_lbSections.SendMsg(LB_FINDSTRINGEXACT, -1, (LPARAM)section);
 	return (index != LB_ERR);
 }
 
-static void LoadRegisteredFolderSections(HWND hWnd)
+void COptDialog::LoadRegisteredFolderSections()
 {
-	HWND hwndList = GetDlgItem(hWnd, IDC_FOLDERS_SECTIONS_LIST);
-
 	for (auto &it : lstRegisteredFolders) {
 		wchar_t *translated = mir_a2u(it->GetSection());
-		if (!ContainsSection(hWnd, TranslateW(translated))) {
-			int idx = SendMessage(hwndList, LB_ADDSTRING, 0, (LPARAM)TranslateW(translated));
-			SendMessage(hwndList, LB_SETITEMDATA, idx, (LPARAM)it->GetSection());
+		if (!ContainsSection(TranslateW(translated))) {
+			int idx = m_lbSections.AddString(TranslateW(translated), 0);
+			m_lbSections.SetItemData(idx, (LPARAM)it->GetSection());
 		}
-
 		mir_free(translated);
 	}
 }
 
-static void LoadRegisteredFolderItems(HWND hWnd)
+void COptDialog::LoadRegisteredFolderItems()
 {
-	int idx = SendDlgItemMessage(hWnd, IDC_FOLDERS_SECTIONS_LIST, LB_GETCURSEL, 0, 0);
+	int idx = m_lbSections.GetCurSel();
 	if (idx == LB_ERR)
 		return;
 
-	char* szSection = (char*)SendDlgItemMessage(hWnd, IDC_FOLDERS_SECTIONS_LIST, LB_GETITEMDATA, idx, 0);
+	char* szSection = (char*)m_lbSections.GetItemData(idx);
 
-	HWND hwndItems = GetDlgItem(hWnd, IDC_FOLDERS_ITEMS_LIST);
-	SendMessage(hwndItems, LB_RESETCONTENT, 0, 0);
-
+	m_lbItems.ResetContent();
 	for (auto &it : lstRegisteredFolders) {
 		if (!mir_strcmp(szSection, it->GetSection())) {
-			idx = SendMessage(hwndItems, LB_ADDSTRING, 0, (LPARAM)TranslateW(it->GetUserName()));
-			SendMessage(hwndItems, LB_SETITEMDATA, idx, (LPARAM)it);
+			idx = m_lbItems.AddString(TranslateW(it->GetUserName()), 0);
+			m_lbItems.SetItemData(idx, (LPARAM)it);
 		}
 	}
-	SendMessage(hwndItems, LB_SETCURSEL, 0, 0); //select the first item
-	PostMessage(hWnd, WM_COMMAND, MAKEWPARAM(IDC_FOLDERS_ITEMS_LIST, LBN_SELCHANGE), 0); //tell the dialog to refresh the preview
+	m_lbItems.SetCurSel(0); //select the first item
+	//PostMessage(hWnd, WM_COMMAND, MAKEWPARAM(IDC_FOLDERS_ITEMS_LIST, LBN_SELCHANGE), 0); //tell the dialog to refresh the preview
 }
 
-static void RefreshPreview(HWND hWnd)
+void COptDialog::RefreshPreview()
 {
 	wchar_t tmp[MAX_FOLDER_SIZE];
-	GetEditText(hWnd, tmp, MAX_FOLDER_SIZE);
-	SetDlgItemText(hWnd, IDC_PREVIEW_EDIT, ExpandPath(tmp));
+	GetEditText(tmp, MAX_FOLDER_SIZE);
+	m_edtPreview.SetText(ExpandPath(tmp));
 }
 
-static void LoadItem(HWND hWnd, PFolderItem item)
+void COptDialog::LoadItem(PFolderItem item)
 {
 	if (!item)
 		return;
 
-	SetEditText(hWnd, item->GetFormat());
-	RefreshPreview(hWnd);
+	SetEditText(item->GetFormat());
+	RefreshPreview();
 }
 
-static void SaveItem(HWND hWnd, PFolderItem item, int bEnableApply)
+void COptDialog::SaveItem(PFolderItem item, int bEnableApply)
 {
 	if (!item)
 		return;
 
 	wchar_t buffer[MAX_FOLDER_SIZE];
-	GetEditText(hWnd, buffer, _countof(buffer));
+	GetEditText(buffer, _countof(buffer));
 	item->SetFormat(buffer);
 
 	if (bEnableApply)
-		SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
+		NotifyChange();
 }
 
-static int ChangesNotSaved(HWND hWnd, PFolderItem item)
+int COptDialog::ChangesNotSaved(PFolderItem item)
 {
 	if (!item)
 		return 0;
 
 	wchar_t buffer[MAX_FOLDER_SIZE];
-	GetEditText(hWnd, buffer, MAX_FOLDER_SIZE);
+	GetEditText(buffer, MAX_FOLDER_SIZE);
 	return mir_wstrcmp(item->GetFormat(), buffer) != 0;
 }
 
-static void CheckForChanges(HWND hWnd, int bNeedConfirmation = 1)
+void COptDialog::CheckForChanges(int bNeedConfirmation = 1)
 {
-	if (ChangesNotSaved(hWnd, lastItem))
-		if ((!bNeedConfirmation) || MessageBox(hWnd, TranslateT("Some changes weren't saved. Apply the changes now?"), TranslateT("Changes not saved"), MB_YESNO | MB_ICONINFORMATION) == IDYES)
-			SaveItem(hWnd, lastItem, TRUE);
+	if (ChangesNotSaved(lastItem))
+		if ((!bNeedConfirmation) || MessageBox(m_hwnd, TranslateT("Some changes weren't saved. Apply the changes now?"), TranslateT("Changes not saved"), MB_YESNO | MB_ICONINFORMATION) == IDYES)
+			SaveItem(lastItem, TRUE);
 }
 
 /************************************** DIALOG HANDLERS *************************************/
 
-static INT_PTR CALLBACK DlgProcVariables(HWND hWnd, UINT msg, WPARAM wParam, LPARAM)
+CHelpDialog::CHelpDialog() :
+	CDlgBase(g_plugin, IDD_VARIABLES_HELP),
+	m_btnClose(this, IDCLOSE),
+	m_redtHelp(this, IDC_HELP_RICHEDIT)
 {
-	wchar_t tszMessage[2048];
-
-	switch (msg) {
-	case WM_INITDIALOG:
-		mir_snwprintf(tszMessage, L"%s\r\n%s\r\n\r\n%s\t\t%s\r\n%%miranda_path%%\t\t%s\r\n%%profile_path%%\t\t%s\r\n\t\t\t%s\r\n%%current_profile%%\t\t%s\r\n\t\t\t%s\r\n\r\n\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n\r\n%s\r\n%s\r\n%s\r\n%%miranda_path%%\t\t\t%s\r\n%%profile_path%%\t\t\t%s\r\n%%current_profile%%\t\t\t%s\r\n%%temp%%\t\t\t\t%s\r\n%%profile_path%%\\%%current_profile%%\t%s\r\n%%miranda_path%%\\plugins\\config\t%s\r\n'   %%miranda_path%%\\\\\\\\     '\t\t%s\r\n\r\n%s",
-			TranslateT("Don't forget to click on Apply to save the changes. If you don't then the changes won't"),
-			TranslateT("be saved to the database, they will only be valid for this session."),
-			TranslateT("Variable string"),
-			TranslateT("What it expands to:"),
-			TranslateT("Expands to your Miranda path (e.g., c:\\program files\\miranda ng)."),
-			TranslateT("Expands to your profile path - the value found in mirandaboot.ini,"),
-			TranslateT("ProfileDir section (usually inside Miranda's folder)."),
-			TranslateT("Expands to your current profile name without the extenstion."),
-			TranslateT("(e.g., default if your your profile is default.dat)."),
-			TranslateT("Environment variables"),
-			TranslateT("The plugin can also expand environment variables; the variables are specified like in any other"),
-			TranslateT("program that can use environment variables, i.e., %<env variable>%."),
-			TranslateT("Note: Environment variables are expanded before any Miranda variables. So if you have, for"),
-			TranslateT("example, %profile_path% defined as a system variable then it will be expanded to that value"),
-			TranslateT("instead of expanding to Miranda's profile path."),
-			TranslateT("Examples:"),
-			TranslateT("If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\\', current"),
-			TranslateT("profile is 'default.dat' and Miranda path is 'c:\\program files\\miranda ng\\' then:"),
-			TranslateT("will expand to 'c:\\program files\\miranda ng'"),
-			TranslateT("will expand to 'c:\\program files\\miranda ng\\profiles'"),
-			TranslateT("will expand to 'default'"),
-			TranslateT("will expand to the temp folder of the current user."),
-			TranslateT("will expand to 'c:\\program files\\miranda ng\\profiles\\default'"),
-			TranslateT("will expand to 'c:\\program files\\miranda ng\\plugins\\config'"),
-			TranslateT("will expand to 'c:\\program files\\miranda ng'"),
-			TranslateT("Notice that the spaces at the beginning and the end of the string are trimmed, as well as the last."));
-		SetDlgItemText(hWnd, IDC_HELP_RICHEDIT, tszMessage);
-		TranslateDialogDefault(hWnd);
-		break;
-
-	case WM_CLOSE:
-		DestroyWindow(hWnd);
-		break;
-
-	case WM_COMMAND:
-		if (LOWORD(wParam) == IDCLOSE)
-			DestroyWindow(hWnd);
-		break;
-	}
-
-	return 0;
+	m_btnClose.OnClick = Callback(this, &CHelpDialog::OnCloseClick);
 }
 
-static INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+bool CHelpDialog::OnInitDialog()
 {
-	PFolderItem item;
+	wchar_t tszMessage[2048];
+	mir_snwprintf(tszMessage, L"%s\r\n%s\r\n\r\n%s\t\t%s\r\n%%miranda_path%%\t\t%s\r\n%%profile_path%%\t\t%s\r\n\t\t\t%s\r\n%%current_profile%%\t\t%s\r\n\t\t\t%s\r\n\r\n\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n\r\n%s\r\n%s\r\n%s\r\n%%miranda_path%%\t\t\t%s\r\n%%profile_path%%\t\t\t%s\r\n%%current_profile%%\t\t\t%s\r\n%%temp%%\t\t\t\t%s\r\n%%profile_path%%\\%%current_profile%%\t%s\r\n%%miranda_path%%\\plugins\\config\t%s\r\n'   %%miranda_path%%\\\\\\\\     '\t\t%s\r\n\r\n%s",
+		TranslateT("Don't forget to click on Apply to save the changes. If you don't then the changes won't"),
+		TranslateT("be saved to the database, they will only be valid for this session."),
+		TranslateT("Variable string"),
+		TranslateT("What it expands to:"),
+		TranslateT("Expands to your Miranda path (e.g., c:\\program files\\miranda ng)."),
+		TranslateT("Expands to your profile path - the value found in mirandaboot.ini,"),
+		TranslateT("ProfileDir section (usually inside Miranda's folder)."),
+		TranslateT("Expands to your current profile name without the extenstion."),
+		TranslateT("(e.g., default if your your profile is default.dat)."),
+		TranslateT("Environment variables"),
+		TranslateT("The plugin can also expand environment variables; the variables are specified like in any other"),
+		TranslateT("program that can use environment variables, i.e., %<env variable>%."),
+		TranslateT("Note: Environment variables are expanded before any Miranda variables. So if you have, for"),
+		TranslateT("example, %profile_path% defined as a system variable then it will be expanded to that value"),
+		TranslateT("instead of expanding to Miranda's profile path."),
+		TranslateT("Examples:"),
+		TranslateT("If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\\', current"),
+		TranslateT("profile is 'default.dat' and Miranda path is 'c:\\program files\\miranda ng\\' then:"),
+		TranslateT("will expand to 'c:\\program files\\miranda ng'"),
+		TranslateT("will expand to 'c:\\program files\\miranda ng\\profiles'"),
+		TranslateT("will expand to 'default'"),
+		TranslateT("will expand to the temp folder of the current user."),
+		TranslateT("will expand to 'c:\\program files\\miranda ng\\profiles\\default'"),
+		TranslateT("will expand to 'c:\\program files\\miranda ng\\plugins\\config'"),
+		TranslateT("will expand to 'c:\\program files\\miranda ng'"),
+		TranslateT("Notice that the spaces at the beginning and the end of the string are trimmed, as well as the last."));
+	m_redtHelp.SetText(tszMessage);
+	return true;
+}
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		lastItem = nullptr;
-		TranslateDialogDefault(hWnd);
-		bInitializing = 1;
-		LoadRegisteredFolderSections(hWnd);
-		bInitializing = 0;
-		break;
+bool CHelpDialog::OnClose()
+{
+	if (pHelpDialog == this)
+		pHelpDialog = nullptr;
+	return true;
+}
 
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_FOLDER_EDIT:
-			switch (HIWORD(wParam)) {
-			case EN_CHANGE:
-				RefreshPreview(hWnd);
-				if (!bInitializing)
-					SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0); //show the apply button.
-			}
-			break;
+void CHelpDialog::OnCloseClick(CCtrlBase*)
+{
+	Close();
+}
 
-		case IDC_REFRESH_BUTTON:
-			RefreshPreview(hWnd);
-			break;
+COptDialog::COptDialog() :
+	CDlgBase(g_plugin, IDD_OPT_FOLDERS),
+	m_lbSections(this, IDC_FOLDERS_SECTIONS_LIST),
+	m_lbItems(this, IDC_FOLDERS_ITEMS_LIST),
+	m_edtPreview(this, IDC_PREVIEW_EDIT),
+	m_edtEdit(this, IDC_FOLDER_EDIT),
+	m_btnRefresh(this, IDC_REFRESH_BUTTON),
+	m_btnHelp(this, IDC_HELP_BUTTON)
+{
+	m_edtEdit.OnChange = Callback(this, &COptDialog::OnEditChange);
+	m_btnRefresh.OnClick = Callback(this, &COptDialog::OnRefreshClick);
+	m_btnHelp.OnClick = Callback(this, &COptDialog::OnHelpClick);
+	m_lbSections.OnSelChange = Callback(this, &COptDialog::OnSectionsSelChange);
+	m_lbItems.OnSelChange = Callback(this, &COptDialog::OnItemsSelChange);
+}
 
-		case IDC_HELP_BUTTON:
-			ShowWindow(CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_VARIABLES_HELP), hWnd, DlgProcVariables), SW_SHOW);
-			break;
+bool COptDialog::OnInitDialog()
+{
+	lastItem = nullptr;
+	bInitializing = 1;
+	LoadRegisteredFolderSections();
+	bInitializing = 0;
+	return true;
+}
 
-		case IDC_FOLDERS_SECTIONS_LIST:
-			switch (HIWORD(wParam)) {
-			case LBN_SELCHANGE:
-				CheckForChanges(hWnd);
-				LoadRegisteredFolderItems(hWnd);
-				lastItem = nullptr;
-				SetEditText(hWnd, L"");
-				RefreshPreview(hWnd);
-			}
-			break;
+void COptDialog::OnEditChange(CCtrlBase*)
+{
+	RefreshPreview();
+	if (!bInitializing)
+		NotifyChange();
+}
 
-		case IDC_FOLDERS_ITEMS_LIST:
-			switch (HIWORD(wParam)) {
-			case LBN_SELCHANGE:
-				item = GetSelectedItem(hWnd);
-				if (item != nullptr) {
-					CheckForChanges(hWnd);
-					LoadItem(hWnd, item);
-				}
-				lastItem = item;
-			}
-		}
-		break;
+void COptDialog::OnRefreshClick(CCtrlBase*)
+{
+	RefreshPreview();
+}
 
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY:
-				item = GetSelectedItem(hWnd);
-				if (item) {
-					SaveItem(hWnd, item, FALSE);
-					LoadItem(hWnd, item);
-				}
+void COptDialog::OnHelpClick(CCtrlBase*)
+{
+	if (pHelpDialog == nullptr) {
+		pHelpDialog = new CHelpDialog();
+		pHelpDialog->Show();
+	}
+	else {
+		SetForegroundWindow(pHelpDialog->GetHwnd());
+		SetFocus(pHelpDialog->GetHwnd());
+	}
+}
 
-				for (auto &it : lstRegisteredFolders)
-					it->Save();
-				CallPathChangedEvents();
-			}
-		}
-		break;
+void COptDialog::OnSectionsSelChange(CCtrlBase*)
+{
+	CheckForChanges();
+	LoadRegisteredFolderItems();
+	lastItem = nullptr;
+	SetEditText(L"");
+	RefreshPreview();
+}
+
+void COptDialog::OnItemsSelChange(CCtrlBase*)
+{
+	PFolderItem item = GetSelectedItem();
+	if (item != nullptr) {
+		CheckForChanges();
+		LoadItem(item);
+	}
+	lastItem = item;
+}
+
+bool COptDialog::OnApply()
+{
+	PFolderItem item = GetSelectedItem();
+	if (item) {
+		SaveItem(item, FALSE);
+		LoadItem(item);
 	}
 
-	return 0;
+	for (auto &it : lstRegisteredFolders)
+		it->Save();
+	CallPathChangedEvents();
+	return true;
 }
 
 int OnOptionsInitialize(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
-	odp.position = 100000000;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FOLDERS);
 	odp.szTitle.a = LPGEN("Folders");
 	odp.szGroup.a = LPGEN("Customize");
 	odp.flags = ODPF_BOLDGROUPS;
-	odp.pfnDlgProc = DlgProcOpts;
+	odp.pDialog = new COptDialog;
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

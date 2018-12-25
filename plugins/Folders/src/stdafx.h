@@ -36,6 +36,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_options.h>
 #include <m_string.h>
 #include <m_langpack.h>
+#include <m_gui.h>
 
 #include <m_variables.h>
 #include <m_folders.h>
@@ -63,5 +64,54 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 };
 
 extern OBJLIST<CFolderItem> lstRegisteredFolders;
+
+class COptDialog : public CDlgBase
+{
+private:
+	CCtrlListBox m_lbSections, m_lbItems;
+	CCtrlEdit m_edtPreview, m_edtEdit;
+	CCtrlButton m_btnRefresh, m_btnHelp;
+
+protected:
+	bool OnInitDialog() override;
+	bool OnApply() override;
+
+	void OnEditChange(CCtrlBase*);
+	void OnRefreshClick(CCtrlBase*);
+	void OnHelpClick(CCtrlBase*);
+	void OnSectionsSelChange(CCtrlBase*);
+	void OnItemsSelChange(CCtrlBase*);
+
+	PFolderItem GetSelectedItem();
+	void GetEditText(wchar_t *buffer, int size);
+	void SetEditText(const wchar_t *buffer);
+	int ContainsSection(const wchar_t *section);
+	void LoadRegisteredFolderSections();
+	void LoadRegisteredFolderItems();
+	void RefreshPreview();
+	void LoadItem(PFolderItem item);
+	void SaveItem(PFolderItem item, int bEnableApply);
+	int ChangesNotSaved(PFolderItem item);
+	void CheckForChanges(int bNeedConfirmation);
+
+public:
+	COptDialog();
+};
+
+class CHelpDialog : public CDlgBase
+{
+private:
+	CCtrlButton m_btnClose;
+	CCtrlRichEdit m_redtHelp;
+
+protected:
+	bool OnInitDialog() override;
+	bool OnClose() override;
+
+	void OnCloseClick(CCtrlBase*);
+
+public:
+	CHelpDialog();
+};
 
 #endif //FOLDERS_COMMONHEADERS_H

@@ -5,11 +5,8 @@
 #define IDD_OPT_FOLDERS                 101
 #define IDD_VARIABLES_HELP              102
 #define IDC_FOLDERS_ITEMS_LIST          1002
-#define IDC_FOLDERS_GROUPBOX            1003
-#define IDC_EDIT_FOLDER_GROUPBOX        1004
 #define IDC_FOLDER_EDIT                 1005
 #define IDC_REFRESH_BUTTON              1008
-#define IDC_PREVIEW_GROUPBOX            1009
 #define IDC_PREVIEW_EDIT                1010
 #define IDC_HELP_BUTTON                 1011
 #define IDC_HELP_RICHEDIT               1012
