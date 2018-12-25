@@ -38,6 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include <m_extraicons.h>
 #include <m_message.h>
 #include <m_metacontacts.h>
+#include <m_gui.h>
 
 #include <m_fingerprint.h>
 
@@ -148,3 +149,21 @@ extern int DEFAULT_KN_FP_MASK_COUNT, DEFAULT_KN_FP_OVERLAYS_COUNT, DEFAULT_KN_FP
 // the last count is how many masks from 2nd layer is used as Miranda version overlays	(counting from the end)
 #define DEFAULT_KN_FP_OVERLAYS2_NO_VER_COUNT (DEFAULT_KN_FP_OVERLAYS2_COUNT - 13)
 #define DEFAULT_KN_FP_OVERLAYS3_NO_UNICODE_COUNT (DEFAULT_KN_FP_OVERLAYS3_COUNT - 1)
+
+class COptDialog : public CDlgBase
+{
+private:
+	CCtrlCheck m_chkMiranda, m_chkMirandaPacks, m_chkMirandaVer, m_chkOverRes, m_chkOverPlatf, m_chkOverProto, m_chkOverUnicode, m_chkOverSecur,
+		m_chkFacebbok, m_chkGG, m_chkICQ, m_chkIRC, m_chkJabber, m_chkMSN, m_chkQQ, m_chkRSS, m_chkVK, m_chkWeather, m_chkMulti, m_chkOthersProto,
+		m_chkOthers, m_chkStatusBar;
+
+protected:
+	bool OnInitDialog() override;
+	bool OnApply() override;
+
+	void LoadDBCheckState(int idCtrl, LPCSTR szSetting, BYTE bDef);
+	void StoreDBCheckState(int idCtrl, LPCSTR szSetting);
+
+public:
+	COptDialog();
+};

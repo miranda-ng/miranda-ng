@@ -55,65 +55,72 @@ static settings[] =
 	{ IDC_STATUSBAR, TRUE, "StatusBarIcon" }
 };
 
-/*static void OptDlgChanged(HWND hwndDlg, BOOL show)
+void COptDialog::LoadDBCheckState(int idCtrl, LPCSTR szSetting, BYTE bDef)
 {
-if (show)
-ShowWindow(GetDlgItem(hwndDlg, IDC_OPTCHANGENOTE), SW_SHOW);
-SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-}*/
-
-static void LoadDBCheckState(HWND hwndDlg, int idCtrl, LPCSTR szSetting, BYTE bDef)
-{
-	CheckDlgButton(hwndDlg, idCtrl, g_plugin.getByte(szSetting, bDef) ? BST_CHECKED : BST_UNCHECKED);
+	CCtrlCheck item(this, idCtrl);
+	item.SetState(g_plugin.getByte(szSetting, bDef));
 }
 
-static void StoreDBCheckState(HWND hwndDlg, int idCtrl, LPCSTR szSetting)
+void COptDialog::StoreDBCheckState(int idCtrl, LPCSTR szSetting)
 {
-	g_plugin.setByte(szSetting, (BYTE)IsDlgButtonChecked(hwndDlg, idCtrl));
+	CCtrlCheck item(this, idCtrl);
+	g_plugin.setByte(szSetting, item.GetState());
 }
 
-static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+COptDialog::COptDialog() :
+	CDlgBase(g_plugin, IDD_DIALOG),
+	m_chkMiranda(this, IDC_GROUP_MIRANDA),
+	m_chkMirandaPacks(this, IDC_GROUP_MIRANDA_PACKS),
+	m_chkMirandaVer(this, IDC_GROUP_MIRANDA_VERSION),
+	m_chkOverRes(this, IDC_GROUP_OVERLAYS_RESOURCE),
+	m_chkOverPlatf(this, IDC_GROUP_OVERLAYS_PLATFORM),
+	m_chkOverProto(this, IDC_GROUP_OVERLAYS_PROTO),
+	m_chkOverUnicode(this, IDC_GROUP_OVERLAYS_UNICODE),
+	m_chkOverSecur(this, IDC_GROUP_OVERLAYS_SECURITY),
+	m_chkFacebbok(this, IDC_GROUP_FACEBOOK),
+	m_chkGG(this, IDC_GROUP_GG),
+	m_chkICQ(this, IDC_GROUP_ICQ),
+	m_chkIRC(this, IDC_GROUP_IRC),
+	m_chkJabber(this, IDC_GROUP_JABBER),
+	m_chkMSN(this, IDC_GROUP_MSN),
+	m_chkQQ(this, IDC_GROUP_QQ),
+	m_chkRSS(this, IDC_GROUP_RSS),
+	m_chkVK(this, IDC_GROUP_VK),
+	m_chkWeather(this, IDC_GROUP_WEATHER),
+	m_chkMulti(this, IDC_GROUP_MULTI),
+	m_chkOthersProto(this, IDC_GROUP_OTHER_PROTOS),
+	m_chkOthers(this, IDC_GROUP_OTHERS),
+	m_chkStatusBar(this, IDC_STATUSBAR)
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		for (auto &it : settings)
-			LoadDBCheckState(hwndDlg, it.idCtrl, it.szSetName, it.defValue);
-		break;
 
-	case WM_COMMAND:
-		if (HIWORD(wParam) == BN_CLICKED)
-			for (auto &it : settings)
-				if (it.idCtrl == LOWORD(wParam)) {
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					break;
-				}
-		break;
+}
 
-	case WM_NOTIFY:
-		NMHDR * hdr = (NMHDR *)lParam;
-		if (hdr && hdr->code == PSN_APPLY) {
-			for (auto &it : settings)
-				StoreDBCheckState(hwndDlg, it.idCtrl, it.szSetName);
+bool COptDialog::OnInitDialog()
+{
+	for (auto &it : settings)
+		LoadDBCheckState(it.idCtrl, it.szSetName, it.defValue);
+	return true;
+}
 
-			ClearFI();
-			RegisterIcons();
+bool COptDialog::OnApply()
+{
+	for (auto &it : settings)
+		StoreDBCheckState(it.idCtrl, it.szSetName);
 
-			for (auto &hContact : Contacts())
-				OnExtraImageApply(hContact, 0);
-		}
-		break;
-	}
-	return FALSE;
+	ClearFI();
+	RegisterIcons();
+
+	for (auto &hContact : Contacts())
+		OnExtraImageApply(hContact, 0);
+	return true;
 }
 
 int OnOptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.szGroup.w = LPGENW("Icons");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG);
 	odp.szTitle.w = LPGENW("Fingerprint");
-	odp.pfnDlgProc = DlgProcOptions;
+	odp.pDialog = new COptDialog;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	g_plugin.addOptions(wParam, &odp);
 	return 0;

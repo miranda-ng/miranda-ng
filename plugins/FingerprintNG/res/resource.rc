@@ -70,8 +70,7 @@ BEGIN
     GROUPBOX        "Fingerprint overlays icons",IDC_STATIC,15,15,290,60
     CONTROL         "Miranda clients",IDC_GROUP_MIRANDA,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,30,140,10
     CONTROL         "Miranda packs overlays",IDC_GROUP_MIRANDA_PACKS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,40,140,10
-    CONTROL         "Show Miranda version at Overlay#2",IDC_GROUP_MIRANDA_VERSION,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,60,140,10
+    CONTROL         "Show Miranda version at Overlay#2",IDC_GROUP_MIRANDA_VERSION,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,60,140,10
     CONTROL         "Resource overlays",IDC_GROUP_OVERLAYS_RESOURCE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,30,120,10
     CONTROL         "Platform overlays",IDC_GROUP_OVERLAYS_PLATFORM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,40,120,10
     CONTROL         "Protocols overlays",IDC_GROUP_OVERLAYS_PROTO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,50,120,10
