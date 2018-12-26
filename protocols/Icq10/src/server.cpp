@@ -136,11 +136,12 @@ void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 	m_szAToken = ptrA(mir_urlDecode(m_szAToken));
 	setString("AToken", m_szAToken);
 
-	CMStringA m_szSessionSecret = data["sessionSecret"].as_mstring();
+	CMStringA szSessionSecret = data["sessionSecret"].as_mstring();
+	CMStringA szPassTemp = m_szPassword;
 
 	unsigned int len;
 	BYTE hashOut[MIR_SHA256_HASH_SIZE];
-	HMAC(EVP_sha256(), m_szPassword, (int)mir_strlen(m_szPassword), (BYTE*)m_szSessionSecret.c_str(), m_szSessionSecret.GetLength(), hashOut, &len);
+	HMAC(EVP_sha256(), szPassTemp, szPassTemp.GetLength(), (BYTE*)szSessionSecret.c_str(), szSessionSecret.GetLength(), hashOut, &len);
 	m_szSessionKey = ptrA(mir_base64_encode(hashOut, sizeof(hashOut)));
 	setString("SessionKey", m_szSessionKey);
 

@@ -187,7 +187,7 @@ public:
 	~CIcqProto();
 
 	CMOption<DWORD> m_dwUin;
-	CMOption<char*> m_szPassword;
+	CMOption<wchar_t*> m_szPassword;
 };
 
 struct CMPlugin : public ACCPROTOPLUGIN<CIcqProto>
