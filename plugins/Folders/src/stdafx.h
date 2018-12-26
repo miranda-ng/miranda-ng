@@ -83,8 +83,6 @@ protected:
 	void OnItemsSelChange(CCtrlBase*);
 
 	PFolderItem GetSelectedItem();
-	void GetEditText(wchar_t *buffer, int size);
-	void SetEditText(const wchar_t *buffer);
 	int ContainsSection(const wchar_t *section);
 	void LoadRegisteredFolderSections();
 	void LoadRegisteredFolderItems();

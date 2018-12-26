@@ -2,10 +2,7 @@
 
 PFolderItem lastItem = nullptr;
 
-static int bInitializing = 0;
-
 CDlgBase *pHelpDialog = nullptr;
-
 
 PFolderItem COptDialog::GetSelectedItem()
 {
@@ -14,18 +11,6 @@ PFolderItem COptDialog::GetSelectedItem()
 		return nullptr;
 
 	return (PFolderItem)m_lbItems.GetItemData(index);
-}
-
-void COptDialog::GetEditText(wchar_t *buffer, int size)
-{
-	m_edtEdit.GetText(buffer, size);
-}
-
-void COptDialog::SetEditText(const wchar_t *buffer)
-{
-	bInitializing = 1;
-	m_edtEdit.SetText(buffer);
-	bInitializing = 0;
 }
 
 int COptDialog::ContainsSection(const wchar_t *section)
@@ -62,13 +47,13 @@ void COptDialog::LoadRegisteredFolderItems()
 		}
 	}
 	m_lbItems.SetCurSel(0); //select the first item
-	//PostMessage(hWnd, WM_COMMAND, MAKEWPARAM(IDC_FOLDERS_ITEMS_LIST, LBN_SELCHANGE), 0); //tell the dialog to refresh the preview
+	OnItemsSelChange(0); //tell the dialog to refresh the preview
 }
 
 void COptDialog::RefreshPreview()
 {
 	wchar_t tmp[MAX_FOLDER_SIZE];
-	GetEditText(tmp, MAX_FOLDER_SIZE);
+	m_edtEdit.GetText(tmp, _countof(tmp));
 	m_edtPreview.SetText(ExpandPath(tmp));
 }
 
@@ -77,7 +62,7 @@ void COptDialog::LoadItem(PFolderItem item)
 	if (!item)
 		return;
 
-	SetEditText(item->GetFormat());
+	m_edtEdit.SetText(item->GetFormat());
 	RefreshPreview();
 }
 
@@ -87,7 +72,7 @@ void COptDialog::SaveItem(PFolderItem item, int bEnableApply)
 		return;
 
 	wchar_t buffer[MAX_FOLDER_SIZE];
-	GetEditText(buffer, _countof(buffer));
+	m_edtEdit.GetText(buffer, _countof(buffer));
 	item->SetFormat(buffer);
 
 	if (bEnableApply)
@@ -100,7 +85,7 @@ int COptDialog::ChangesNotSaved(PFolderItem item)
 		return 0;
 
 	wchar_t buffer[MAX_FOLDER_SIZE];
-	GetEditText(buffer, MAX_FOLDER_SIZE);
+	m_edtEdit.GetText(buffer, _countof(buffer));
 	return mir_wstrcmp(item->GetFormat(), buffer) != 0;
 }
 
@@ -186,17 +171,13 @@ COptDialog::COptDialog() :
 bool COptDialog::OnInitDialog()
 {
 	lastItem = nullptr;
-	bInitializing = 1;
 	LoadRegisteredFolderSections();
-	bInitializing = 0;
 	return true;
 }
 
 void COptDialog::OnEditChange(CCtrlBase*)
 {
 	RefreshPreview();
-	if (!bInitializing)
-		NotifyChange();
 }
 
 void COptDialog::OnRefreshClick(CCtrlBase*)
@@ -220,9 +201,6 @@ void COptDialog::OnSectionsSelChange(CCtrlBase*)
 {
 	CheckForChanges();
 	LoadRegisteredFolderItems();
-	lastItem = nullptr;
-	SetEditText(L"");
-	RefreshPreview();
 }
 
 void COptDialog::OnItemsSelChange(CCtrlBase*)
