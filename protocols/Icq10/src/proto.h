@@ -64,6 +64,7 @@ struct IcqOwnMessage
 class CIcqProto : public PROTO<CIcqProto>
 {
 	bool     m_bOnline = false, m_bTerminated = false;
+	void     CheckPassword(void);
 	void     ConnectionFailed(int iReason);
 	void     OnLoggedIn(void);
 	void     OnLoggedOut(void);

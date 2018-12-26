@@ -19,7 +19,7 @@ struct AsyncHttpRequest : public MTHttpRequest<CIcqProto>
 class JsonReply
 {
 	JSONNode *m_root = nullptr;
-	int m_errorCode = 0;
+	int m_errorCode = 0, m_detailCode = 0;
 	JSONNode* m_data = nullptr;
 
 public:
@@ -28,4 +28,5 @@ public:
 
 	__forceinline JSONNode& data() const { return *m_data; }
 	__forceinline int error() const { return m_errorCode; }
+	__forceinline int detail() const { return m_detailCode; }
 };

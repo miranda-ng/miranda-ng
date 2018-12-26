@@ -22,6 +22,23 @@
 
 #pragma comment(lib, "libeay32.lib")
 
+void CIcqProto::CheckPassword()
+{
+	char mirVer[100];
+	Miranda_GetVersionText(mirVer, _countof(mirVer));
+
+	m_szAToken = getMStringA("AToken");
+	m_szSessionKey = getMStringA("SessionKey");
+	if (m_szAToken.IsEmpty() || m_szSessionKey.IsEmpty()) {
+		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, "https://api.login.icq.net/auth/clientLogin", &CIcqProto::OnCheckPassword);
+		pReq << CHAR_PARAM("clientName", "Miranda NG") << CHAR_PARAM("clientVersion", mirVer) << CHAR_PARAM("devId", ICQ_APP_ID)
+			<< CHAR_PARAM("f", "json") << CHAR_PARAM("tokenType", "longTerm") << INT_PARAM("s", m_dwUin) << WCHAR_PARAM("pwd", m_szPassword);
+		pReq->flags |= NLHRF_NODUMPSEND;
+		Push(pReq);
+	}
+	else StartSession();
+}
+
 void CIcqProto::ConnectionFailed(int iReason)
 {
 	debugLogA("ConnectionFailed -> reason %d", iReason);
@@ -160,7 +177,12 @@ void CIcqProto::OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 		break;
 
 	case 401:
-		ConnectionFailed(LOGINERR_WRONGPASSWORD);
+		if (root.detail() == 1002) { // session expired
+			delSetting("AToken");
+			delSetting("SessionKey");
+			CheckPassword();
+		}
+		else ConnectionFailed(LOGINERR_WRONGPASSWORD);
 		return;
 
 	default:
