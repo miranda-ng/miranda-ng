@@ -20,85 +20,66 @@
 
 #include "stdafx.h"
 
-#define MS_SKINENG_DRAWICONEXFIX "SkinEngine/DrawIconEx_Fix"
-
-static bool bInitializing;
-
-INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+COptDialog::COptDialog() :
+	CDlgBase(g_plugin, IDD_IGNORE_OPT),
+	m_tvFilter(this, IDC_FILTER),
+	m_chkIgnoreAll(this, IDC_IGNORE_IGNOREALL)
 {
-	HWND hTree = GetDlgItem(hwndDlg, IDC_FILTER);
+	m_chkIgnoreAll.OnChange = Callback(this, &COptDialog::OnIgnoreAllChange);
+}
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		bInitializing = true;
-		fill_filter();
+bool COptDialog::OnInitDialog()
+{
+	fill_filter();
+	SetWindowLongPtr(m_tvFilter.GetHwnd(), GWL_STYLE, GetWindowLongPtr(m_tvFilter.GetHwnd(), GWL_STYLE) | TVS_NOHSCROLL);
+	{
+		HIMAGELIST himlButtonIcons = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 2, 2);
+		m_tvFilter.SetImageList(himlButtonIcons, TVSIL_NORMAL);
+		m_tvFilter.DeleteAllItems();
 
-		SetWindowLongPtr(hTree, GWL_STYLE, GetWindowLongPtr(hTree, GWL_STYLE) | TVS_NOHSCROLL);
-		{
-			HIMAGELIST himlButtonIcons = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 2, 2);
-			TreeView_SetImageList(hTree, himlButtonIcons, TVSIL_NORMAL);
-			TreeView_DeleteAllItems(hTree);
-
-			for (int i = 2; i < nII; i++) { // we don`t need it IGNORE_ALL and IGNORE_MESSAGE
-				TVINSERTSTRUCT tvis = {};
-				int index = ImageList_AddIcon(himlButtonIcons, Skin_LoadIcon(ii[i].icon));
-				tvis.hParent = nullptr;
-				tvis.hInsertAfter = TVI_LAST;
-				tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_STATE;
-				tvis.item.lParam = ii[i].type;
-				tvis.item.pszText = TranslateW(ii[i].name);
-				tvis.item.iImage = tvis.item.iSelectedImage = index;
-				HTREEITEM hti = TreeView_InsertItem(hTree, &tvis);
-				TreeView_SetCheckState(hTree, hti, checkState(ii[i].type));
-			}
-		}
-
-		CheckDlgButton(hwndDlg, IDC_IGNORE_IGNOREALL, bUseMirandaSettings ? BST_CHECKED : BST_UNCHECKED);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_FILTER), !bUseMirandaSettings);
-
-		bInitializing = false;
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_IGNORE_IGNOREALL:
-			EnableWindow(GetDlgItem(hwndDlg, IDC_FILTER), BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_IGNORE_IGNOREALL));
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			break;
-		}
-		break;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY:
-			{
-				DWORD flags = 0;
-				TVITEM tvi;
-				tvi.mask = TVIF_HANDLE | TBIF_LPARAM;
-				tvi.hItem = TreeView_GetRoot(hTree); //check ignore all
-				while (tvi.hItem) {
-					TreeView_GetItem(hTree, &tvi);
-					if (TreeView_GetCheckState(hTree, tvi.hItem)) flags |= 1 << (tvi.lParam - 1);
-					tvi.hItem = TreeView_GetNextSibling(hTree, tvi.hItem);
-				}
-				g_plugin.setDword("Filter", flags);
-
-				bUseMirandaSettings = IsDlgButtonChecked(hwndDlg, IDC_IGNORE_IGNOREALL) ? 1 : 0;
-				g_plugin.setByte("UseMirandaSettings", bUseMirandaSettings);
-
-				fill_filter();
-			}
-			}
-		case IDC_FILTER:
-			if (((LPNMHDR)lParam)->code == NM_CLICK)
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			break;
+		for (int i = 2; i < nII; i++) { // we don`t need it IGNORE_ALL and IGNORE_MESSAGE
+			TVINSERTSTRUCT tvis = {};
+			int index = ImageList_AddIcon(himlButtonIcons, Skin_LoadIcon(ii[i].icon));
+			tvis.hParent = nullptr;
+			tvis.hInsertAfter = TVI_LAST;
+			tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_STATE;
+			tvis.item.lParam = ii[i].type;
+			tvis.item.pszText = TranslateW(ii[i].name);
+			tvis.item.iImage = tvis.item.iSelectedImage = index;
+			HTREEITEM hti = m_tvFilter.InsertItem(&tvis);
+			m_tvFilter.SetCheckState(hti, checkState(ii[i].type));
 		}
 	}
-	return FALSE;
+
+	m_chkIgnoreAll.SetState(bUseMirandaSettings);
+	m_tvFilter.Enable(!bUseMirandaSettings);
+
+	return true;
+}
+
+void COptDialog::OnIgnoreAllChange(CCtrlBase*)
+{
+	m_tvFilter.Enable(!m_chkIgnoreAll.GetState());
+}
+
+bool COptDialog::OnApply()
+{
+	DWORD flags = 0;
+	TVITEMEX tvi;
+	tvi.mask = TVIF_HANDLE | TBIF_LPARAM;
+	tvi.hItem = m_tvFilter.GetRoot(); //check ignore all
+	while (tvi.hItem) {
+		m_tvFilter.GetItem(&tvi);
+		if (m_tvFilter.GetCheckState(tvi.hItem)) flags |= 1 << (tvi.lParam - 1);
+		tvi.hItem = m_tvFilter.GetNextSibling(tvi.hItem);
+	}
+	g_plugin.setDword("Filter", flags);
+
+	bUseMirandaSettings = m_chkIgnoreAll.GetState();
+	g_plugin.setByte("UseMirandaSettings", bUseMirandaSettings);
+
+	fill_filter();
+	return true;
 }
 
 int onOptInitialise(WPARAM wParam, LPARAM)
@@ -106,9 +87,8 @@ int onOptInitialise(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = {};
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.szGroup.a = LPGEN("Icons");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_IGNORE_OPT);
 	odp.szTitle.a = LPGEN("Ignore State");
-	odp.pfnDlgProc = DlgProcOptions;
+	odp.pDialog = new COptDialog;
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

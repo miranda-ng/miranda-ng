@@ -33,6 +33,7 @@
 #include <m_options.h>
 #include <m_langpack.h>
 #include <m_extraicons.h>
+#include <m_gui.h>
 
 #include "resource.h"
 #include "version.h"
@@ -61,10 +62,26 @@ static byte bUseMirandaSettings;
 
 void applyExtraImage(MCONTACT hContact);
 
-int onOptInitialise(WPARAM wParam, LPARAM lParam);
+int onOptInitialise(WPARAM wParam, LPARAM);
 BOOL checkState(int type);
 VOID fill_filter();
 
 extern HANDLE hExtraIcon;
+
+class COptDialog : public CDlgBase
+{
+private:
+	CCtrlTreeView m_tvFilter;
+	CCtrlCheck m_chkIgnoreAll;
+
+protected:
+	bool OnInitDialog() override;
+	bool OnApply() override;
+
+	void OnIgnoreAllChange(CCtrlBase*);
+
+public:
+	COptDialog();
+};
 
 #endif //COMMHEADERS_H
