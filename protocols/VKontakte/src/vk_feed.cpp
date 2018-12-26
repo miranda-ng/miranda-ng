@@ -475,7 +475,7 @@ CVKNewsItem* CVkProto::GetVkNotificationsItem(const JSONNode &jnItem, OBJLIST<CV
 	if (!vkNotification)
 		return nullptr;
 
-	if (vkNotification && !wszFeedback.IsEmpty()) {
+	if (!wszFeedback.IsEmpty()) {
 		CMStringW wszNotificaton;
 		wszNotificaton.AppendFormat(wszFeedback, wszNotificationTranslate.c_str(), vkNotification->wszText.c_str());
 		vkNotification->wszText = wszNotificaton;

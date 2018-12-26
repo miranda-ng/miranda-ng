@@ -169,7 +169,7 @@ void CVkProto::WorkerThread(void*)
 				ULONG utime = GetTickCount();
 				lWaitingTime = (utime - uTime[0]) > 1500 ? 0 : 1500 - (utime - uTime[0]);
 
-				if (!(pReq->m_bApiReq) || lWaitingTime < 0)
+				if (!(pReq->m_bApiReq))
 					lWaitingTime = 0;
 			}
 
