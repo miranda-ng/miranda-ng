@@ -55,65 +55,71 @@ static settings[] =
 	{ IDC_STATUSBAR, TRUE, "StatusBarIcon" }
 };
 
-void COptDialog::LoadDBCheckState(int idCtrl, LPCSTR szSetting, BYTE bDef)
+class COptDialog : public CDlgBase
 {
-	CCtrlCheck &item = *(CCtrlCheck*)FindControl(idCtrl);
-	item.SetState(g_plugin.getByte(szSetting, bDef));
-}
+	CCtrlCheck m_chkMiranda, m_chkMirandaPacks, m_chkMirandaVer, m_chkOverRes, m_chkOverPlatf, m_chkOverProto, m_chkOverUnicode, m_chkOverSecur,
+		m_chkFacebbok, m_chkGG, m_chkICQ, m_chkIRC, m_chkJabber, m_chkMSN, m_chkQQ, m_chkRSS, m_chkVK, m_chkWeather, m_chkMulti, m_chkOthersProto,
+		m_chkOthers, m_chkStatusBar;
 
-void COptDialog::StoreDBCheckState(int idCtrl, LPCSTR szSetting)
-{
-	CCtrlCheck &item = *(CCtrlCheck*)FindControl(idCtrl);
-	g_plugin.setByte(szSetting, item.GetState());
-}
+	void LoadDBCheckState(int idCtrl, LPCSTR szSetting, BYTE bDef)
+	{
+		CCtrlCheck &item = *(CCtrlCheck*)FindControl(idCtrl);
+		item.SetState(g_plugin.getByte(szSetting, bDef));
+	}
 
-COptDialog::COptDialog() :
-	CDlgBase(g_plugin, IDD_DIALOG),
-	m_chkMiranda(this, IDC_GROUP_MIRANDA),
-	m_chkMirandaPacks(this, IDC_GROUP_MIRANDA_PACKS),
-	m_chkMirandaVer(this, IDC_GROUP_MIRANDA_VERSION),
-	m_chkOverRes(this, IDC_GROUP_OVERLAYS_RESOURCE),
-	m_chkOverPlatf(this, IDC_GROUP_OVERLAYS_PLATFORM),
-	m_chkOverProto(this, IDC_GROUP_OVERLAYS_PROTO),
-	m_chkOverUnicode(this, IDC_GROUP_OVERLAYS_UNICODE),
-	m_chkOverSecur(this, IDC_GROUP_OVERLAYS_SECURITY),
-	m_chkFacebbok(this, IDC_GROUP_FACEBOOK),
-	m_chkGG(this, IDC_GROUP_GG),
-	m_chkICQ(this, IDC_GROUP_ICQ),
-	m_chkIRC(this, IDC_GROUP_IRC),
-	m_chkJabber(this, IDC_GROUP_JABBER),
-	m_chkMSN(this, IDC_GROUP_MSN),
-	m_chkQQ(this, IDC_GROUP_QQ),
-	m_chkRSS(this, IDC_GROUP_RSS),
-	m_chkVK(this, IDC_GROUP_VK),
-	m_chkWeather(this, IDC_GROUP_WEATHER),
-	m_chkMulti(this, IDC_GROUP_MULTI),
-	m_chkOthersProto(this, IDC_GROUP_OTHER_PROTOS),
-	m_chkOthers(this, IDC_GROUP_OTHERS),
-	m_chkStatusBar(this, IDC_STATUSBAR)
-{
+	void StoreDBCheckState(int idCtrl, LPCSTR szSetting)
+	{
+		CCtrlCheck &item = *(CCtrlCheck*)FindControl(idCtrl);
+		g_plugin.setByte(szSetting, item.GetState());
+	}
 
-}
+public:
+	COptDialog() :
+		CDlgBase(g_plugin, IDD_DIALOG),
+		m_chkMiranda(this, IDC_GROUP_MIRANDA),
+		m_chkMirandaPacks(this, IDC_GROUP_MIRANDA_PACKS),
+		m_chkMirandaVer(this, IDC_GROUP_MIRANDA_VERSION),
+		m_chkOverRes(this, IDC_GROUP_OVERLAYS_RESOURCE),
+		m_chkOverPlatf(this, IDC_GROUP_OVERLAYS_PLATFORM),
+		m_chkOverProto(this, IDC_GROUP_OVERLAYS_PROTO),
+		m_chkOverUnicode(this, IDC_GROUP_OVERLAYS_UNICODE),
+		m_chkOverSecur(this, IDC_GROUP_OVERLAYS_SECURITY),
+		m_chkFacebbok(this, IDC_GROUP_FACEBOOK),
+		m_chkGG(this, IDC_GROUP_GG),
+		m_chkICQ(this, IDC_GROUP_ICQ),
+		m_chkIRC(this, IDC_GROUP_IRC),
+		m_chkJabber(this, IDC_GROUP_JABBER),
+		m_chkMSN(this, IDC_GROUP_MSN),
+		m_chkQQ(this, IDC_GROUP_QQ),
+		m_chkRSS(this, IDC_GROUP_RSS),
+		m_chkVK(this, IDC_GROUP_VK),
+		m_chkWeather(this, IDC_GROUP_WEATHER),
+		m_chkMulti(this, IDC_GROUP_MULTI),
+		m_chkOthersProto(this, IDC_GROUP_OTHER_PROTOS),
+		m_chkOthers(this, IDC_GROUP_OTHERS),
+		m_chkStatusBar(this, IDC_STATUSBAR)
+	{}
 
-bool COptDialog::OnInitDialog()
-{
-	for (auto &it : settings)
-		LoadDBCheckState(it.idCtrl, it.szSetName, it.defValue);
-	return true;
-}
+	bool OnInitDialog() override
+	{
+		for (auto &it : settings)
+			LoadDBCheckState(it.idCtrl, it.szSetName, it.defValue);
+		return true;
+	}
 
-bool COptDialog::OnApply()
-{
-	for (auto &it : settings)
-		StoreDBCheckState(it.idCtrl, it.szSetName);
+	bool OnApply() override
+	{
+		for (auto &it : settings)
+			StoreDBCheckState(it.idCtrl, it.szSetName);
 
-	ClearFI();
-	RegisterIcons();
+		ClearFI();
+		RegisterIcons();
 
-	for (auto &hContact : Contacts())
-		OnExtraImageApply(hContact, 0);
-	return true;
-}
+		for (auto &hContact : Contacts())
+			OnExtraImageApply(hContact, 0);
+		return true;
+	}
+};
 
 int OnOptInitialise(WPARAM wParam, LPARAM)
 {
