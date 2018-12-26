@@ -799,11 +799,11 @@ char* CVkProto::GetStickerId(const char *Msg, int &stickerid)
 	char *retMsg = nullptr;
 
 	int iRes = 0;
-	char HeadMsg[32] = { 0 };
 	const char *tmpMsg = strstr(Msg, "[sticker:");
 	if (tmpMsg)
 		iRes = sscanf(tmpMsg, "[sticker:%d]", &stickerid);
 	if (iRes == 1) {
+		char HeadMsg[32] = { 0 };
 		mir_snprintf(HeadMsg, "[sticker:%d]", stickerid);
 		size_t retLen = mir_strlen(HeadMsg);
 		if (retLen < mir_strlen(Msg)) {

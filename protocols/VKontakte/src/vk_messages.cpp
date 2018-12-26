@@ -101,7 +101,7 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 				mid = jnResponse.as_int();
 				break;
 			case JSON_STRING:
-				if (swscanf(jnResponse.as_mstring(), L"%d", &mid) != 1)
+				if (swscanf(jnResponse.as_mstring(), L"%u", &mid) != 1)
 					mid = 0;
 				break;
 			case JSON_ARRAY:

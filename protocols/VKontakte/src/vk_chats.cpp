@@ -61,8 +61,10 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 	c->m_wszId = mir_wstrdup(sid);
 
 	SESSION_INFO *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, sid, wszTitle);
-	if (si == nullptr)
+	if (si == nullptr) {
+		delete c;
 		return nullptr;
+	}
 
 	c->m_hContact = si->hContact;
 	setWString(si->hContact, "Nick", wszTitle);
