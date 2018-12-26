@@ -27,9 +27,7 @@ void __cdecl CIcqProto::ServerThread(void*)
 	memset(&m_ConnPool, 0, sizeof(m_ConnPool));
 	m_bTerminated = false;
 
-	int uin = getDword("UIN");
-	ptrA szPassword(getStringA("Password"));
-	if (uin == 0 || szPassword == nullptr) {
+	if (m_dwUin == 0 || mir_strlen(m_szPassword) == 0) {
 		debugLogA("Thread ended, UIN/password are not configured");
 		ConnectionFailed(LOGINERR_BADUSERID);
 		return;
@@ -45,7 +43,7 @@ void __cdecl CIcqProto::ServerThread(void*)
 		if (m_szAToken.IsEmpty() || m_szSessionKey.IsEmpty()) {
 			auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, "https://api.login.icq.net/auth/clientLogin", &CIcqProto::OnCheckPassword);
 			pReq << CHAR_PARAM("clientName", "Miranda NG") << CHAR_PARAM("clientVersion", mirVer) << CHAR_PARAM("devId", ICQ_APP_ID)
-				<< CHAR_PARAM("f", "json") << CHAR_PARAM("tokenType", "longTerm") << INT_PARAM("s", uin) << CHAR_PARAM("pwd", szPassword);
+				<< CHAR_PARAM("f", "json") << CHAR_PARAM("tokenType", "longTerm") << INT_PARAM("s", m_dwUin) << CHAR_PARAM("pwd", m_szPassword);
 			pReq->flags |= NLHRF_NODUMPSEND;
 			Push(pReq);
 		}

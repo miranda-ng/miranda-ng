@@ -38,13 +38,21 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	m_arHttpQueue(10),
 	m_arOwnIds(1),
 	m_arCache(20, NumericKeySortT),
-	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr))
+	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr)),
+	m_dwUin(this, "UIN", 0),
+	m_szPassword(this, "Password")
 {
+	// services
+	CreateProtoService(PS_CREATEACCMGRUI, &CIcqProto::CreateAccMgrUI);
 	CreateProtoService(PS_GETAVATARINFO, &CIcqProto::GetAvatarInfo);
 	CreateProtoService(PS_GETMYAVATAR, &CIcqProto::GetAvatar);
 	CreateProtoService(PS_GETAVATARCAPS, &CIcqProto::GetAvatarCaps);
 	CreateProtoService(PS_SETMYAVATAR, &CIcqProto::SetAvatar);
 
+	// events
+	HookProtoEvent(ME_OPT_INITIALISE, &CIcqProto::OnOptionsInit);
+
+	// netlib handle
 	CMStringW descr(FORMAT, TranslateT("%s server connection"), m_tszUserName);
 
 	NETLIBUSER nlu = {};
