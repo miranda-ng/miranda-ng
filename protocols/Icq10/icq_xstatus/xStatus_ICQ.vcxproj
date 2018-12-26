@@ -19,10 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>ICQ</ProjectName>
-    <ProjectGuid>{EFB2355B-82B3-4759-B7D8-95F8E9506291}</ProjectGuid>
+    <ProjectName>xStatus_ICQ</ProjectName>
+    <ProjectGuid>{E98A8615-1082-1979-D6D8-F763F13BFCBD}</ProjectGuid>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
-    <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
+    <Import Project="$(ProjectDir)..\..\..\build\vc.common\icons.props" />
   </ImportGroup>
 </Project>
