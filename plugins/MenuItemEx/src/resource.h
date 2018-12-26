@@ -35,7 +35,6 @@
 #define IDC_SHOWID                      1017
 #define IDC_TRIMID                      1018
 #define IDC_IGNOREHIDE                  1019
-#define IDC_STATIC                      -1
 
 // Next default values for new objects
 // 

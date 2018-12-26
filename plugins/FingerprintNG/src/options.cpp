@@ -57,13 +57,13 @@ static settings[] =
 
 void COptDialog::LoadDBCheckState(int idCtrl, LPCSTR szSetting, BYTE bDef)
 {
-	CCtrlCheck item(this, idCtrl);
+	CCtrlCheck &item = *(CCtrlCheck*)FindControl(idCtrl);
 	item.SetState(g_plugin.getByte(szSetting, bDef));
 }
 
 void COptDialog::StoreDBCheckState(int idCtrl, LPCSTR szSetting)
 {
-	CCtrlCheck item(this, idCtrl);
+	CCtrlCheck &item = *(CCtrlCheck*)FindControl(idCtrl);
 	g_plugin.setByte(szSetting, item.GetState());
 }
 
