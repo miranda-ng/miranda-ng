@@ -59,13 +59,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 #include "resource.h"
 #include "version.h"
 
-#define MTYPE_AUTOONLINE            0xE7 // Auto online message (internal only)
-#define MTYPE_AUTOAWAY              0xE8 // Auto away message
-#define MTYPE_AUTOBUSY              0xE9 // Auto occupied message
-#define MTYPE_AUTONA                0xEA // Auto not available message
-#define MTYPE_AUTODND               0xEB // Auto do not disturb message
-#define MTYPE_AUTOFFC               0xEC // Auto free for chat message
-
 extern UINT_PTR g_uUpdateMsgTimer;
 extern VOID CALLBACK UpdateMsgTimerProc(HWND, UINT, UINT_PTR, DWORD);
 extern VOID APIENTRY HandlePopupMenu(HWND hwnd, POINT pt, HWND edit_control);

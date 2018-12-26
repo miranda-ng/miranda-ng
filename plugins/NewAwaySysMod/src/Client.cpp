@@ -35,7 +35,7 @@ void __cdecl UpdateMsgsThreadProc(void *)
 	while (WaitForSingleObject(g_hTerminateUpdateMsgsThread, 0) == WAIT_TIMEOUT && !Miranda_IsTerminated()) {
 		DWORD MinUpdateTimeDifference = (DWORD)g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_UPDATEMSGSPERIOD) * 1000; // in milliseconds
 		for (auto &p : Accounts()) {
-			if (CallProtoService(p->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND && !IsAnICQProto(p->szModuleName)) {
+			if (CallProtoService(p->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
 				int Status = Proto_GetStatus(p->szModuleName);
 				if (Status < ID_STATUS_OFFLINE || Status > ID_STATUS_OUTTOLUNCH) {
 					Status = g_ProtoStates[p->szModuleName].m_status;
@@ -144,19 +144,6 @@ int GetRecentGroupID(int iMode)
 			return TreeCtrl->m_value[Order].ID;
 
 	return -1;
-}
-
-int ICQStatusToGeneralStatus(int bICQStat)
-{
-	switch (bICQStat) {
-		case MTYPE_AUTOONLINE: return ID_STATUS_ONLINE;
-		case MTYPE_AUTOAWAY: return ID_STATUS_AWAY;
-		case MTYPE_AUTONA: return ID_STATUS_NA;
-		case MTYPE_AUTODND: return ID_STATUS_DND;
-		case MTYPE_AUTOBUSY: return ID_STATUS_OCCUPIED;
-		case MTYPE_AUTOFFC: return ID_STATUS_FREECHAT;
-		default: return 0;
-	}
 }
 
 TCString VariablesEscape(TCString Str)

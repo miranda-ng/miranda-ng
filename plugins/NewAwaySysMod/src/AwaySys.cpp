@@ -121,75 +121,6 @@ TCString GetDynamicStatMsg(MCONTACT hContact, char *szProto, DWORD UIN, int iSta
 	return VarParseData.Message = VarParseData.Message.Left(AWAY_MSGDATA_MAX);
 }
 
-
-int StatusMsgReq(WPARAM wParam, LPARAM lParam, CString &szProto)
-{
-	_ASSERT(szProto != NULL);
-	LogMessage("ME_ICQ_STATUSMSGREQ called. szProto=%s, Status=%d, UIN=%d", (char*)szProto, wParam, lParam);
-	// find the contact
-	char *szFoundProto;
-	MCONTACT hFoundContact = NULL; // if we'll find the contact only on some other protocol, but not on szProto, then we'll use that hContact.
-	for (auto &hContact : Contacts()) {
-		char *szCurProto = GetContactProto(hContact);
-		if (db_get_dw(hContact, szCurProto, "UIN", 0) == lParam) {
-			szFoundProto = szCurProto;
-			hFoundContact = hContact;
-			if (!mir_strcmp(szCurProto, szProto))
-				break;
-		}
-	}
-
-	int iMode = ICQStatusToGeneralStatus(wParam);
-	if (!hFoundContact)
-		hFoundContact = INVALID_CONTACT_ID;
-	else if (iMode >= ID_STATUS_ONLINE && iMode <= ID_STATUS_OUTTOLUNCH)
-		// don't count xstatus requests
-		db_set_w(hFoundContact, MODULENAME, DB_REQUESTCOUNT, db_get_w(hFoundContact, MODULENAME, DB_REQUESTCOUNT, 0) + 1);
-
-	MCONTACT hContactForSettings = hFoundContact; // used to take into account not-on-list contacts when getting contact settings, but at the same time allows to get correct contact info for contacts that are in the DB
-	if (hContactForSettings != INVALID_CONTACT_ID && db_get_b(hContactForSettings, "CList", "NotOnList", 0))
-		hContactForSettings = INVALID_CONTACT_ID; // INVALID_HANDLE_VALUE means the contact is not-on-list
-
-	if (g_SetAwayMsgPage.GetWnd()) {
-		CallAllowedPS_SETAWAYMSG(szProto, iMode, nullptr); // we can set status messages to NULL here, as they'll be changed again when the SAM dialog closes.
-		return 0;
-	}
-	if (CContactSettings(iMode, hContactForSettings).Ignore) {
-		CallAllowedPS_SETAWAYMSG(szProto, iMode, L""); // currently NULL makes ICQ to ignore _any_ further status message requests until the next PS_SETAWAYMSG, so i can't use it here..
-		return 0; // move along, sir
-	}
-
-	if (iMode) // if it's not an xstatus message request
-		CallAllowedPS_SETAWAYMSG(szProto, iMode, GetDynamicStatMsg(hFoundContact, szProto, lParam));
-
-	//	COptPage PopupNotifyData(g_PopupOptPage);
-	//	PopupNotifyData.DBToMem();
-	VarParseData.szProto = szProto;
-	VarParseData.UIN = lParam;
-	VarParseData.Flags = 0;
-	if (!iMode)
-		VarParseData.Flags |= VPF_XSTATUS;
-
-	return 0;
-}
-
-// Here is an ugly workaround to support multiple ICQ accounts
-// hope 5 icq accounts will be sufficient for everyone ;)
-#define MAXICQACCOUNTS 5
-CString ICQProtoList[MAXICQACCOUNTS];
-#define StatusMsgReqN(N) int StatusMsgReq##N(WPARAM wParam, LPARAM lParam) {return StatusMsgReq(wParam, lParam, ICQProtoList[N - 1]);}
-StatusMsgReqN(1) StatusMsgReqN(2) StatusMsgReqN(3) StatusMsgReqN(4) StatusMsgReqN(5)
-MIRANDAHOOK StatusMsgReqHooks[] = { StatusMsgReq1, StatusMsgReq2, StatusMsgReq3, StatusMsgReq4, StatusMsgReq5 };
-
-int IsAnICQProto(char *szProto)
-{
-	for (int i = 0; i < MAXICQACCOUNTS; i++)
-		if (ICQProtoList[i] == (const char*)szProto)
-			return true;
-
-	return false;
-}
-
 // wParam = iMode
 // lParam = (char*)szProto
 
@@ -578,16 +509,6 @@ int MirandaLoaded(WPARAM, LPARAM)
 	InitUpdateMsgs();
 	g_IconList.ReloadIcons();
 
-	int CurProtoIndex = 0;
-	for (auto &pa : Accounts()) {
-		HANDLE hHook = HookEvent(CString(pa->szModuleName) + ME_ICQ_STATUSMSGREQ, StatusMsgReqHooks[CurProtoIndex]);
-		if (hHook) {
-			ICQProtoList[CurProtoIndex++] = pa->szModuleName;
-			if (CurProtoIndex >= MAXICQACCOUNTS)
-				break;
-		}
-	}
-	
 	CreateServiceFunction(MS_AWAYSYS_SETCONTACTSTATMSG, SetContactStatMsg);
 	CreateServiceFunction(MS_AWAYSYS_AUTOREPLY_TOGGLE, ToggleSendOnEvent);
 	CreateServiceFunction(MS_AWAYSYS_AUTOREPLY_ON, srvAutoreplyOn);

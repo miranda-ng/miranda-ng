@@ -45,7 +45,6 @@
 #include "m_protosvc.h"
 #include "m_options.h"
 #include "m_netlib.h"
-#include "../../protocols/IcqOscarJ/src/icq_constants.h"
 #include "m_skin.h"
 #include "m_awaymsg.h"
 #include "m_utils.h"
@@ -204,8 +203,6 @@
 
 #define MRM_MAX_GENERATED_TITLE_LEN 35 // maximum length of automatically generated title for recent messages
 
-int ICQStatusToGeneralStatus(int bICQStat); // TODO: get rid of these protocol-specific functions, if possible
-
 #define MS_AWAYSYS_SETCONTACTSTATMSG "AwaySys/SetContactStatMsg"
 
 #define MS_AWAYSYS_AUTOREPLY_TOGGLE "AwaySys/AutoreplyToggle"
@@ -287,7 +284,6 @@ extern int g_bIsIdle;
 
 // AwaySys.cpp
 TCString GetDynamicStatMsg(MCONTACT hContact, char *szProto = nullptr, DWORD UIN = 0, int iStatus = 0);
-int IsAnICQProto(char *szProto);
 
 // Client.cpp
 void InitUpdateMsgs();

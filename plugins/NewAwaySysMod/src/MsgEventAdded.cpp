@@ -204,13 +204,8 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 	if (AutoreplyOptData.GetValue(IDC_REPLYDLG_ONLYIDLEREPLY) && !g_bIsIdle)
 		return 0;
 
-	int UIN = 0;
-	if (IsAnICQProto(szProto))
-		UIN = db_get_dw(hContact, szProto, "UIN", 0);
-
 	int SendCount = (int)AutoreplyOptData.GetValue(IDC_REPLYDLG_SENDCOUNT);
-	if ((AutoreplyOptData.GetValue(IDC_REPLYDLG_DONTSENDTOICQ) && UIN) || // an icq contact
-		 (SendCount != -1 && g_plugin.getByte(hContact, DB_SENDCOUNT, 0) >= SendCount))
+	if (SendCount != -1 && g_plugin.getByte(hContact, DB_SENDCOUNT, 0) >= SendCount)
 		return 0;
 
 	if ((dbei->eventType == EVENTTYPE_MESSAGE && !AutoreplyOptData.GetValue(IDC_REPLYDLG_EVENTMSG)) || 

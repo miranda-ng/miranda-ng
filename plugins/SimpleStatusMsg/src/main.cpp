@@ -1463,48 +1463,6 @@ static wchar_t* ParseDate(ARGUMENTSINFO *ai)
 	return mir_wstrdup(szStr);
 }
 
-int ICQMsgTypeToStatus(int iMsgType)
-{
-	switch (iMsgType) {
-	case MTYPE_AUTOONLINE: return ID_STATUS_ONLINE;
-	case MTYPE_AUTOAWAY: return ID_STATUS_AWAY;
-	case MTYPE_AUTOBUSY: return ID_STATUS_OCCUPIED;
-	case MTYPE_AUTONA: return ID_STATUS_NA;
-	case MTYPE_AUTODND: return ID_STATUS_DND;
-	case MTYPE_AUTOFFC: return ID_STATUS_FREECHAT;
-	default: return ID_STATUS_OFFLINE;
-	}
-}
-
-static int OnICQStatusMsgRequest(WPARAM wParam, LPARAM lParam, LPARAM lMirParam)
-{
-#ifdef _DEBUG
-	g_plugin.debugLogA("OnICQStatusMsgRequest(): UIN: %d on %s", (int)lParam, (char *)lMirParam);
-#endif
-
-	if (g_plugin.getByte("NoUpdateOnICQReq", 1))
-		return 0;
-
-	char *szProto = (char *)lMirParam;
-	MCONTACT hContact = 0;
-
-	for (auto &cc : Contacts()) {
-		if (db_get_dw(cc, szProto, "UIN", 0) == (DWORD)lParam) {
-			hContact = cc;
-			break;
-		}
-	}
-	if (!hContact)
-		return 0;
-
-	int iStatus = ICQMsgTypeToStatus(wParam);
-	wchar_t *tszMsg = GetAwayMessage(iStatus, szProto, TRUE, hContact);
-	Proto_SetAwayMsgT(szProto, iStatus, tszMsg);
-	mir_free(tszMsg);
-
-	return 0;
-}
-
 static int OnAccListChanged(WPARAM, LPARAM)
 {
 #ifdef _DEBUG
@@ -1521,9 +1479,6 @@ static int OnAccListChanged(WPARAM, LPARAM)
 		auto *pa = accounts->pa[i];
 		if (!pa->IsEnabled())
 			continue;
-
-		if (!mir_strcmp(pa->szProtoName, "ICQ"))
-			HookProtoEvent(pa->szModuleName, ME_ICQ_STATUSMSGREQ, OnICQStatusMsgRequest);
 
 		accounts->statusFlags |= (CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0));
 

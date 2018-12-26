@@ -780,22 +780,12 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 						}
 
 						if (hContact) {
-							if (IsAnICQProto(GetContactProto(hContact))) {
-								WindowTitle += TranslateT("message for");
-								WindowTitle += L" ";
-							}
-							else {
-								WindowTitle += TranslateT("for");
-								WindowTitle += L" ";
-							}
-
+							WindowTitle += TranslateT("for");
+							WindowTitle += L" ";
 							WindowTitle += Clist_GetContactDisplayName(hContact);
-							if (!IsAnICQProto(GetContactProto(hContact))) {
-								WindowTitle += L" ";
-								WindowTitle += TranslateT("available autoreply only");
-								WindowTitle += L")";
-							}
-							else WindowTitle += L")";
+							WindowTitle += L" ";
+							WindowTitle += TranslateT("available autoreply only");
+							WindowTitle += L")";
 						}
 						else {
 							if (!szProto) {
