@@ -275,10 +275,13 @@ int CIcqProto::SendMsg(MCONTACT hContact, int, const char *pszSrc)
 
 	int id = InterlockedIncrement(&m_msgId);
 	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, ICQ_API_SERVER "/im/sendIM", &CIcqProto::OnSendMessage);
-	pReq->pUserInfo = new IcqOwnMessage(hContact, id, pReq->m_reqId);
+
+	auto *pOwn = new IcqOwnMessage(hContact, id, pReq->m_reqId);
+	pReq->pUserInfo = pOwn;
+	m_arOwnIds.insert(pOwn);
 
 	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("f", "json") << CHAR_PARAM("k", ICQ_APP_ID)
-		<< CHAR_PARAM("mentions", "") << CHAR_PARAM("message", pszSrc) << CHAR_PARAM("nonce", pReq->m_reqId) << CHAR_PARAM("offlineIM", "true")
+		<< CHAR_PARAM("mentions", "") << CHAR_PARAM("message", pszSrc) << CHAR_PARAM("offlineIM", "true") << CHAR_PARAM("r", pReq->m_reqId)
 		<< INT_PARAM("t", dwUin) << INT_PARAM("ts", time(0));
 
 	Push(pReq);

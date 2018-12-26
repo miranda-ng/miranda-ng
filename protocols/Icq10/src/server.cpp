@@ -208,14 +208,13 @@ void CIcqProto::OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 	JsonReply root(pReply);
 	if (root.error() != 200) {
 		ProtoBroadcastAck(ownMsg->m_hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)ownMsg->m_msgid, 0);
-		delete ownMsg;
-		return;
+		for (auto &it : m_arOwnIds) {
+			if (it == ownMsg) {
+				m_arOwnIds.remove(m_arOwnIds.indexOf(&it));
+				break;
+			}
+		}
 	}
-
-	JSONNode &data = root.data();
-	CMStringA msgId(data["msgId"].as_mstring());
-	strncpy_s(ownMsg->m_guid, msgId, _TRUNCATE);
-	m_arOwnIds.insert(ownMsg);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -322,6 +321,7 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 			if (!mir_strcmp(reqId, ownMsg->m_guid)) {
 				bSkipped = true;
 				ProtoBroadcastAck(ownMsg->m_hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)ownMsg->m_msgid, (LPARAM)msgId.c_str());
+				m_arOwnIds.remove(m_arOwnIds.indexOf(&ownMsg));
 				break;
 			}
 
