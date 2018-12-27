@@ -194,79 +194,104 @@ void DestroyAllWindows(void)
 	}
 }
 
-COptDialog::COptDialog() :
-	CDlgBase(g_plugin, IDD_OPTIONS),
-	m_edtUserName(this, IDC_USERNAME),
-	m_edtPass(this, IDC_PASSWORD),
-	m_chkAutoUpload(this, IDC_UPLOADCHN),
-	m_chkClassicDates(this, IDC_CLASSICDATES),
-	m_chkRepSubfolder(this, IDC_DATESUBFOLDER),
-	m_chkCatchCrashes(this, IDC_CATCHCRASHES),
-	m_lblRestart(this, IDC_RESTARTNOTE)
-{
-	CreateLink(m_chkAutoUpload, "UploadChanged", DBVT_BYTE, 0);
-	m_chkCatchCrashes.OnChange = Callback(this, &COptDialog::OnCatchCrashesChange);
-}
+/////////////////////////////////////////////////////////////////////////////////////////
+// options 
 
-bool COptDialog::OnInitDialog()
+class COptDialog : public CDlgBase
 {
-	CDlgBase::OnInitDialog();
-	DBVARIANT dbv;
-	if (g_plugin.getString("Username", &dbv) == 0) {
-		m_edtUserName.SetTextA(dbv.pszVal);
-		db_free(&dbv);
-	}
-	if (g_plugin.getString("Password", &dbv) == 0) {
-		m_edtPass.SetTextA(dbv.pszVal);
-		db_free(&dbv);
-	}
-	m_chkClassicDates.SetState(clsdates);
-	m_chkRepSubfolder.SetState(dtsubfldr);
-	m_chkCatchCrashes.SetState(catchcrashes);
-	if (!catchcrashes) {
-		m_chkClassicDates.Disable();
-		m_chkRepSubfolder.Disable();
-	}
-	if (needrestart)
+	CCtrlEdit m_edtUserName, m_edtPass;
+	CCtrlCheck m_chkAutoUpload, m_chkClassicDates, m_chkRepSubfolder, m_chkCatchCrashes;
+	CCtrlLabel m_lblRestart;
+
+	void COptDialog::OnCatchCrashesChange(CCtrlCheck*)
+	{
+		m_chkClassicDates.Enable(m_chkCatchCrashes.GetState());
+		m_chkRepSubfolder.Enable(m_chkCatchCrashes.GetState());
 		m_lblRestart.Show();
-	return true;
-}
+		needrestart = 1;
+	}
 
-void COptDialog::OnCatchCrashesChange(CCtrlCheck*)
+public:
+	COptDialog() :
+		CDlgBase(g_plugin, IDD_OPTIONS),
+		m_edtUserName(this, IDC_USERNAME),
+		m_edtPass(this, IDC_PASSWORD),
+		m_chkAutoUpload(this, IDC_UPLOADCHN),
+		m_chkClassicDates(this, IDC_CLASSICDATES),
+		m_chkRepSubfolder(this, IDC_DATESUBFOLDER),
+		m_chkCatchCrashes(this, IDC_CATCHCRASHES),
+		m_lblRestart(this, IDC_RESTARTNOTE)
+	{
+		CreateLink(m_chkAutoUpload, "UploadChanged", DBVT_BYTE, 0);
+		m_chkCatchCrashes.OnChange = Callback(this, &COptDialog::OnCatchCrashesChange);
+	}
+
+	bool COptDialog::OnInitDialog()
+	{
+		CDlgBase::OnInitDialog();
+		DBVARIANT dbv;
+		if (g_plugin.getString("Username", &dbv) == 0) {
+			m_edtUserName.SetTextA(dbv.pszVal);
+			db_free(&dbv);
+		}
+		if (g_plugin.getString("Password", &dbv) == 0) {
+			m_edtPass.SetTextA(dbv.pszVal);
+			db_free(&dbv);
+		}
+		m_chkClassicDates.SetState(clsdates);
+		m_chkRepSubfolder.SetState(dtsubfldr);
+		m_chkCatchCrashes.SetState(catchcrashes);
+		if (!catchcrashes) {
+			m_chkClassicDates.Disable();
+			m_chkRepSubfolder.Disable();
+		}
+		if (needrestart)
+			m_lblRestart.Show();
+		return true;
+	}
+
+	bool COptDialog::OnApply()
+	{
+		char szSetting[100];
+		m_edtUserName.GetTextA(szSetting, _countof(szSetting));
+		g_plugin.setString("Username", szSetting);
+
+		m_edtPass.GetTextA(szSetting, _countof(szSetting));
+		g_plugin.setString("Password", szSetting);
+
+		clsdates = m_chkClassicDates.GetState();
+		if (clsdates)
+			g_plugin.setByte("ClassicDates", 1);
+		else
+			g_plugin.setByte("ClassicDates", 0);
+		dtsubfldr = m_chkRepSubfolder.GetState();
+		if (dtsubfldr)
+			g_plugin.setByte("SubFolders", 1);
+		else
+			g_plugin.setByte("SubFolders", 0);
+		catchcrashes = m_chkCatchCrashes.GetState();
+		if (catchcrashes)
+			g_plugin.setByte("CatchCrashes", 1);
+		else
+			g_plugin.setByte("CatchCrashes", 0);
+
+		return true;
+	}
+};
+
+int OptionsInit(WPARAM wParam, LPARAM)
 {
-	m_chkClassicDates.Enable(m_chkCatchCrashes.GetState());
-	m_chkRepSubfolder.Enable(m_chkCatchCrashes.GetState());
-	m_lblRestart.Show();
-	needrestart = 1;
+	OPTIONSDIALOGPAGE odp = {};
+	odp.szTitle.a = MODULENAME;
+	odp.szGroup.a = LPGEN("Services");
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.pDialog = new COptDialog;
+	g_plugin.addOptions(wParam, &odp);
+	return 0;
 }
 
-bool COptDialog::OnApply()
-{
-	char szSetting[100];
-	m_edtUserName.GetTextA(szSetting, _countof(szSetting));
-	g_plugin.setString("Username", szSetting);
-
-	m_edtPass.GetTextA(szSetting, _countof(szSetting));
-	g_plugin.setString("Password", szSetting);
-
-	clsdates = m_chkClassicDates.GetState();
-	if (clsdates)
-		g_plugin.setByte("ClassicDates", 1);
-	else
-		g_plugin.setByte("ClassicDates", 0);
-	dtsubfldr = m_chkRepSubfolder.GetState();
-	if (dtsubfldr)
-		g_plugin.setByte("SubFolders", 1);
-	else
-		g_plugin.setByte("SubFolders", 0);
-	catchcrashes = m_chkCatchCrashes.GetState();
-	if (catchcrashes)
-		g_plugin.setByte("CatchCrashes", 1);
-	else
-		g_plugin.setByte("CatchCrashes", 0);
-
-	return true;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
+// popups
 
 LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {

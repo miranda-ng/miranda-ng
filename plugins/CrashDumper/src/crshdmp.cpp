@@ -18,6 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+int OptionsInit(WPARAM wParam, LPARAM);
+
 CMPlugin g_plugin;
 
 LCID packlcid;
@@ -194,17 +196,6 @@ static int FoldersPathChanged(WPARAM, LPARAM)
 
 	fgd.szPathT = VersionInfoFolder;
 	CallService(MS_FOLDERS_GET_PATH, (WPARAM)hVerInfoFolder, (LPARAM)&fgd);
-	return 0;
-}
-
-int OptionsInit(WPARAM wParam, LPARAM)
-{
-	OPTIONSDIALOGPAGE odp = {};
-	odp.szTitle.a = MODULENAME;
-	odp.szGroup.a = LPGEN("Services");
-	odp.flags = ODPF_BOLDGROUPS;
-	odp.pDialog = new COptDialog;
-	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

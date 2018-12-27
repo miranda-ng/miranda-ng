@@ -158,23 +158,6 @@ HICON LoadIconEx(int iconId, bool big = false);
 void  ReleaseIconEx(int iconId);
 HANDLE GetIconHandle(int iconId);
 
-class COptDialog : public CDlgBase
-{
-private:
-	CCtrlEdit m_edtUserName, m_edtPass;
-	CCtrlCheck m_chkAutoUpload, m_chkClassicDates, m_chkRepSubfolder, m_chkCatchCrashes;
-	CCtrlLabel m_lblRestart;
-
-protected:
-	bool OnInitDialog() override;
-	bool OnApply() override;
-
-	void OnCatchCrashesChange(CCtrlCheck*);
-
-public:
-	COptDialog();
-};
-
 class CViewVersionInfo : public CDlgBase
 {
 private:
