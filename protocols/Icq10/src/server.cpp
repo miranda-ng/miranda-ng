@@ -68,6 +68,55 @@ void CIcqProto::OnLoggedOut()
 	setAllContactStatuses(ID_STATUS_OFFLINE, false);
 }
 
+MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy)
+{
+	DWORD dwUin = _wtol(buddy["aimId"].as_mstring());
+
+	auto *pCache = FindContactByUIN(dwUin);
+	if (pCache == nullptr) {
+		MCONTACT hContact = db_add_contact();
+		Proto_AddToContact(hContact, m_szModuleName);
+		setDword(hContact, "UIN", dwUin);
+		pCache = new IcqCacheItem(dwUin, hContact);
+		{
+			mir_cslock l(m_csCache);
+			m_arCache.insert(pCache);
+		}
+	}
+
+	MCONTACT hContact = pCache->m_hContact;
+	pCache->m_bInList = true;
+
+	CMStringW wszNick(buddy["friendly"].as_mstring());
+	if (!wszNick.IsEmpty())
+		setWString(hContact, "Nick", wszNick);
+
+	setDword(hContact, "Status", StatusFromString(buddy["state"].as_mstring()));
+
+	int lastLogin = buddy["lastseen"].as_int();
+	if (lastLogin)
+		setDword(hContact, "LoginTS", lastLogin);
+
+	CMStringW wszStatus(buddy["statusMsg"].as_mstring());
+	if (wszStatus.IsEmpty())
+		db_unset(hContact, "CList", "StatusMsg");
+	else
+		db_set_ws(hContact, "CList", "StatusMsg", wszStatus);
+
+	CMStringW wszIconId(buddy["iconId"].as_mstring());
+	CMStringW oldIconID(getMStringW(hContact, "IconId"));
+	if (wszIconId != oldIconID) {
+		setWString(hContact, "IconId", wszIconId);
+
+		CMStringA szUrl(buddy["buddyIcon"].as_mstring());
+		auto *p = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, szUrl, &CIcqProto::OnReceiveAvatar);
+		p->pUserInfo = (void*)hContact;
+		Push(p);
+	}
+
+	return hContact;
+}
+
 bool CIcqProto::RefreshRobustToken()
 {
 	if (!m_szRToken.IsEmpty())
@@ -113,6 +162,14 @@ bool CIcqProto::RefreshRobustToken()
 
 	delete tmp;
 	return bRet;
+}
+
+void CIcqProto::RetrieveUserInfo(MCONTACT hContact)
+{
+	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/presence/get", &CIcqProto::OnGetUserInfo);
+	pReq->flags |= NLHRF_NODUMPSEND;
+	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << INT_PARAM("mdir", 1) << INT_PARAM("t", getDword(hContact, "UIN"));
+	Push(pReq);
 }
 
 void CIcqProto::SetServerStatus(int iStatus)
@@ -177,6 +234,17 @@ void CIcqProto::StartSession()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CIcqProto::OnAddBuddy(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+{
+	MCONTACT hContact = (MCONTACT)pReq->pUserInfo;
+
+	JsonReply root(pReply);
+	if (root.error() == 200) {
+		RetrieveUserInfo(getDword(hContact, "UIN"));
+		db_unset(hContact, "CList", "NotOnList");
+	}
+}
+
 void CIcqProto::OnAddClient(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
 	bool *pRet = (bool*)pReq->pUserInfo;
@@ -228,6 +296,17 @@ void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 		m_dwUin = atoi(szUin);
 
 	StartSession();
+}
+
+void CIcqProto::OnGetUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+{
+	JsonReply root(pReply);
+	if (root.error() != 200)
+		return;
+
+	const JSONNode &data = root.data();
+	for (auto &it : data["users"])
+		ParseBuddyInfo(it);
 }
 
 void CIcqProto::OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
@@ -341,50 +420,7 @@ void CIcqProto::ProcessBuddyList(const JSONNode &ev)
 		Clist_GroupCreate(0, szGroup);
 
 		for (auto &buddy : it["buddies"]) {
-			DWORD dwUin = _wtol(buddy["aimId"].as_mstring());
-
-			auto *pCache = FindContactByUIN(dwUin);
-			if (pCache == nullptr) {
-				MCONTACT hContact = db_add_contact();
-				Proto_AddToContact(hContact, m_szModuleName);
-				setDword(hContact, "UIN", dwUin);
-				pCache = new IcqCacheItem(dwUin, hContact);
-				{
-					mir_cslock l(m_csCache);
-					m_arCache.insert(pCache);
-				}
-			}
-
-			MCONTACT hContact = pCache->m_hContact;
-			pCache->m_bInList = true;
-
-			CMStringW wszNick(buddy["friendly"].as_mstring());
-			if (!wszNick.IsEmpty())
-				setWString(hContact, "Nick", wszNick);
-
-			setDword(hContact, "Status", StatusFromString(buddy["state"].as_mstring()));
-
-			int lastLogin = buddy["lastseen"].as_int();
-			if (lastLogin)
-				setDword(hContact, "LoginTS", lastLogin);
-
-			CMStringW wszStatus(buddy["statusMsg"].as_mstring());
-			if (wszStatus.IsEmpty())
-				db_unset(hContact, "CList", "StatusMsg");
-			else
-				db_set_ws(hContact, "CList", "StatusMsg", wszStatus);
-
-			CMStringW wszIconId(buddy["iconId"].as_mstring());
-			CMStringW oldIconID(getMStringW(hContact, "IconId"));
-			if (wszIconId != oldIconID) {
-				setWString(hContact, "IconId", wszIconId);
-
-				CMStringA szUrl(buddy["buddyIcon"].as_mstring());
-				auto *p = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, szUrl, &CIcqProto::OnReceiveAvatar);
-				p->pUserInfo = (void*)hContact;
-				Push(p);
-			}
-
+			MCONTACT hContact = ParseBuddyInfo(buddy);
 			db_set_ws(hContact, "CList", "Group", szGroup);
 		}
 	}

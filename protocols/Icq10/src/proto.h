@@ -69,13 +69,17 @@ class CIcqProto : public PROTO<CIcqProto>
 	void     ConnectionFailed(int iReason);
 	void     OnLoggedIn(void);
 	void     OnLoggedOut(void);
+	MCONTACT ParseBuddyInfo(const JSONNode &buddy);
+	void     RetrieveUserInfo(MCONTACT);
 	void     SetServerStatus(int iNewStatus);
 	void     ShutdownSession(void);
 	void     StartSession(void);
 
+	void     OnAddBuddy(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnAddClient(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnCheckPassword(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnFetchEvents(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void     OnGetUserInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnReceiveAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnSearchResults(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnSendMessage(NETLIBHTTPREQUEST*, AsyncHttpRequest*);

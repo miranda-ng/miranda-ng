@@ -85,7 +85,30 @@ void CIcqProto::OnShutdown()
 
 MCONTACT CIcqProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 {
-	return 0;
+	if (mir_wstrlen(psr->id.w) == 0)
+		return 0;
+
+	DWORD dwUin = _wtol(psr->id.w);
+	if (auto *p = FindContactByUIN(dwUin))
+		return p->m_hContact;
+
+	MCONTACT hContact = db_add_contact();
+	Proto_AddToContact(hContact, m_szModuleName);
+	setDword(hContact, "UIN", dwUin);
+	{
+		mir_cslock l(m_csCache);
+		m_arCache.insert(new IcqCacheItem(dwUin, hContact));
+	}
+
+	if (psr->nick.w)
+		setWString(hContact, "Nick", psr->nick.w);
+	if (psr->firstName.w)
+		setWString(hContact, "FirstName", psr->firstName.w);
+	if (psr->lastName.w)
+		setWString(hContact, "LastName", psr->lastName.w);
+
+	db_set_b(hContact, "CList", "NotOnList", 1);
+	return hContact;
 }
 
 MCONTACT CIcqProto::AddToListByEvent(int flags, int iContact, MEVENT hDbEvent)
@@ -109,7 +132,6 @@ int CIcqProto::AuthDeny(MEVENT hDbEvent, const wchar_t* szReason)
 	return 1; // Failure
 }
 
-
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSR_AUTH
 
@@ -123,7 +145,13 @@ int CIcqProto::AuthRecv(MCONTACT hContact, PROTORECVEVENT* pre)
 
 int CIcqProto::AuthRequest(MCONTACT hContact, const wchar_t* szMessage)
 {
-	return 1; // Failure
+	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, ICQ_API_SERVER "/buddylist/addBuddy", &CIcqProto::OnAddBuddy);
+	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("r", pReq->m_reqId) << WCHAR_PARAM("authorizationMsg", szMessage)
+		<< INT_PARAM("buddy", getDword(hContact, "UIN")) << CHAR_PARAM("group", "General") << INT_PARAM("preAuthorized", 1);
+	pReq->flags |= NLHRF_NODUMPSEND;
+	pReq->pUserInfo = (void*)hContact;
+	Push(pReq);
+	return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
