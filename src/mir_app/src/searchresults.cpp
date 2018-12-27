@@ -62,13 +62,13 @@ void LoadColumnSizes(HWND hwndResults, const char *szProto)
 	FindAddDlgData *dat = (FindAddDlgData*)GetWindowLongPtr(GetParent(hwndResults), GWLP_USERDATA);
 
 	LVCOLUMN lvc;
-	lvc.mask = LVCF_TEXT | LVCF_WIDTH;
 
 	int columnOrder[NUM_COLUMNID];
 	bool colOrdersValid = true;
 	for (int i = 0; i < NUM_COLUMNID; i++) {
 		bool bNeedsFree = false;
 
+		lvc.mask = LVCF_TEXT | LVCF_WIDTH;
 		if (szColumnNames[i] != nullptr)
 			lvc.pszText = TranslateW(szColumnNames[i]);
 		else {
