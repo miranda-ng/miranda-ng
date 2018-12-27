@@ -170,14 +170,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	int      GetInfo(MCONTACT hContact, int infoType) override;
 
 	HANDLE   SearchBasic(const wchar_t *id) override;
-	HANDLE   SearchByEmail(const wchar_t *email) override;
-	HANDLE   SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName) override;
-	HWND     SearchAdvanced(HWND owner) override;
-	HWND     CreateExtendedSearchUI(HWND owner) override;
 
-	int      RecvContacts(MCONTACT hContact, PROTORECVEVENT*) override;
-
-	int      SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList) override;
 	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
 	int      SendMsg(MCONTACT hContact, int flags, const char *msg) override;
 	int      SendUrl(MCONTACT hContact, int flags, const char *url) override;
@@ -191,6 +184,7 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
+	void     OnContactDeleted(MCONTACT) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;
 

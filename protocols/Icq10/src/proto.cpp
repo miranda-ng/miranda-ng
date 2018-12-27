@@ -80,6 +80,15 @@ void CIcqProto::OnShutdown()
 {
 }
 
+void CIcqProto::OnContactDeleted(MCONTACT hContact)
+{
+	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/removeBuddy");
+	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << INT_PARAM("buddy", getDword(hContact, "UIN"))
+		<< CHAR_PARAM("r", pReq->m_reqId) << INT_PARAM("allGroups", 1);
+	pReq->flags |= NLHRF_NODUMPSEND;
+	Push(pReq);
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_AddToList - adds a contact to the contact list
 
@@ -225,7 +234,8 @@ INT_PTR CIcqProto::GetCaps(int type, MCONTACT hContact)
 
 int CIcqProto::GetInfo(MCONTACT hContact, int infoType)
 {
-	return 1; // Failure
+	RetrieveUserInfo(hContact);
+	return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -242,49 +252,6 @@ HANDLE CIcqProto::SearchBasic(const wchar_t *pszSearch)
 	pReq->m_szParam = ptrW(json_write(&request));
 	Push(pReq);
 	return pReq;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// SearchByEmail - searches the contact by its e-mail
-
-HANDLE CIcqProto::SearchByEmail(const wchar_t *email)
-{
-	return nullptr; // Failure
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// PS_SearchByName - searches the contact by its first or last name, or by a nickname
-
-HANDLE CIcqProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName)
-{
-	return nullptr; // Failure
-}
-
-HWND CIcqProto::CreateExtendedSearchUI(HWND parent)
-{
-	return nullptr; // Failure
-}
-
-HWND CIcqProto::SearchAdvanced(HWND hwndDlg)
-{
-	return nullptr; // Failure
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// RecvContacts
-
-int CIcqProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
-{
-	return 0;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// SendContacts
-
-int CIcqProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONTACT *hContactsList)
-{
-	// Exit with Failure
-	return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
