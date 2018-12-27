@@ -144,7 +144,6 @@ void SetExceptionHandler(void);
 void RemoveExceptionHandler(void);
 
 extern CDlgBase *pViewDialog;
-void DestroyAllWindows(void);
 
 void UploadInit(void);
 void UploadClose(void);
@@ -155,4 +154,5 @@ void InitIcons(void);
 HICON LoadIconEx(int iconId, bool big = false);
 HANDLE GetIconHandle(int iconId);
 
+int OptionsInit(WPARAM wParam, LPARAM);
 INT_PTR ViewVersionInfo(WPARAM wParam, LPARAM);

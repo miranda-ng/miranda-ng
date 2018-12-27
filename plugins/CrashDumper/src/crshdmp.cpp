@@ -18,12 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-int OptionsInit(WPARAM wParam, LPARAM);
-
 CMPlugin g_plugin;
 
 LCID packlcid;
-//HANDLE hCrashLogFolder, hVerInfoFolder;
 HANDLE hVerInfoFolder;
 HMODULE hMsftedit;
 
@@ -35,7 +32,6 @@ wchar_t CrashLogFolder[MAX_PATH], VersionInfoFolder[MAX_PATH];
 
 bool servicemode, clsdates, dtsubfldr, catchcrashes, needrestart = 0;
 
-//extern HWND hViewWnd;
 CDlgBase *pViewDialog = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -319,7 +315,6 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 static int PreShutdown(WPARAM, LPARAM)
 {
-	DestroyAllWindows();
 	UploadClose();
 	return 0;
 }
@@ -366,8 +361,6 @@ int CMPlugin::Load()
 
 int CMPlugin::Unload()
 {
-	DestroyAllWindows();
-
 	if ((catchcrashes && !needrestart) || (!catchcrashes && needrestart))
 		DestroyExceptionHandler();
 

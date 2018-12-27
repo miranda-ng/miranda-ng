@@ -18,50 +18,48 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-HWND hViewWnd;
-
-HDWP MyResizeWindow(HDWP hDwp, HWND hwndDlg, HWND hwndCtrl, int nHorizontalOffset, int nVerticalOffset, int nWidthOffset, int nHeightOffset)
-{
-	if (nullptr == hwndDlg) /* Wine fix. */
-		return hDwp;
-	// get current bounding rectangle
-	RECT rcinit;
-	GetWindowRect(hwndCtrl, &rcinit);
-
-	// get current top left point
-	POINT pt;
-	pt.x = rcinit.left;
-	pt.y = rcinit.top;
-	ScreenToClient(hwndDlg, &pt);
-
-	return DeferWindowPos(hDwp, hwndCtrl, nullptr,
-		pt.x + nHorizontalOffset,
-		pt.y + nVerticalOffset,
-		rcinit.right - rcinit.left + nWidthOffset,
-		rcinit.bottom - rcinit.top + nHeightOffset,
-		SWP_NOZORDER);
-}
-
-BOOL MyResizeGetOffset(HWND hwndCtrl, int nWidth, int nHeight, int* nDx, int* nDy)
-{
-	RECT rcinit;
-
-	// get current bounding rectangle
-	GetWindowRect(hwndCtrl, &rcinit);
-
-	// calculate offsets
-	*nDx = nWidth - (rcinit.right - rcinit.left);
-	*nDy = nHeight - (rcinit.bottom - rcinit.top);
-
-	return rcinit.bottom != rcinit.top && nHeight > 0;
-}
-
 class CViewVersionInfo : public CDlgBase
 {
 	DWORD m_flags;
 
 	CCtrlButton m_btnCancel, m_btnCopyClip, m_btnCopyFile;
 	CCtrlRichEdit m_redtViewVersionInfo;
+
+	HDWP MyResizeWindow(HDWP hDwp, HWND hwndCtrl, int nHorizontalOffset, int nVerticalOffset, int nWidthOffset, int nHeightOffset)
+	{
+		if (nullptr == m_hwnd) /* Wine fix. */
+			return hDwp;
+		// get current bounding rectangle
+		RECT rcinit;
+		GetWindowRect(hwndCtrl, &rcinit);
+
+		// get current top left point
+		POINT pt;
+		pt.x = rcinit.left;
+		pt.y = rcinit.top;
+		ScreenToClient(m_hwnd, &pt);
+
+		return DeferWindowPos(hDwp, hwndCtrl, nullptr,
+			pt.x + nHorizontalOffset,
+			pt.y + nVerticalOffset,
+			rcinit.right - rcinit.left + nWidthOffset,
+			rcinit.bottom - rcinit.top + nHeightOffset,
+			SWP_NOZORDER);
+	}
+
+	BOOL MyResizeGetOffset(int nWidth, int nHeight, int* nDx, int* nDy)
+	{
+		RECT rcinit;
+
+		// get current bounding rectangle
+		GetWindowRect(m_redtViewVersionInfo.GetHwnd(), &rcinit);
+
+		// calculate offsets
+		*nDx = nWidth - (rcinit.right - rcinit.left);
+		*nDy = nHeight - (rcinit.bottom - rcinit.top);
+
+		return rcinit.bottom != rcinit.top && nHeight > 0;
+	}
 
 public:
 	CViewVersionInfo::CViewVersionInfo(DWORD flags) :
@@ -103,7 +101,6 @@ public:
 
 	bool CViewVersionInfo::OnClose() override
 	{
-		hViewWnd = nullptr;
 		Window_FreeIcon_IcoLib(m_hwnd);
 		Utils_SaveWindowPosition(m_hwnd, NULL, MODULENAME, "ViewInfo_");
 		if (pViewDialog == this)
@@ -132,12 +129,12 @@ public:
 		GetWindowRect(m_btnCopyFile.GetHwnd(), &rc);
 
 		int dx, dy;
-		if (MyResizeGetOffset(m_redtViewVersionInfo.GetHwnd(), LOWORD(m_flags) - 20, HIWORD(m_flags) - 30 - (rc.bottom - rc.top), &dx, &dy)) {
+		if (MyResizeGetOffset(LOWORD(m_flags) - 20, HIWORD(m_flags) - 30 - (rc.bottom - rc.top), &dx, &dy)) {
 			HDWP hDwp = BeginDeferWindowPos(4);
-			hDwp = MyResizeWindow(hDwp, m_hwnd, m_btnCopyFile.GetHwnd(), 0, dy, 0, 0);
-			hDwp = MyResizeWindow(hDwp, m_hwnd, m_btnCopyClip.GetHwnd(), dx / 2, dy, 0, 0);
-			hDwp = MyResizeWindow(hDwp, m_hwnd, m_btnCancel.GetHwnd(), dx, dy, 0, 0);
-			hDwp = MyResizeWindow(hDwp, m_hwnd, m_redtViewVersionInfo.GetHwnd(), 0, 0, dx, dy);
+			hDwp = MyResizeWindow(hDwp, m_btnCopyFile.GetHwnd(), 0, dy, 0, 0);
+			hDwp = MyResizeWindow(hDwp, m_btnCopyClip.GetHwnd(), dx / 2, dy, 0, 0);
+			hDwp = MyResizeWindow(hDwp, m_btnCancel.GetHwnd(), dx, dy, 0, 0);
+			hDwp = MyResizeWindow(hDwp, m_redtViewVersionInfo.GetHwnd(), 0, 0, dx, dy);
 			EndDeferWindowPos(hDwp);
 		}
 		return 0;
@@ -209,16 +206,6 @@ INT_PTR ViewVersionInfo(WPARAM wParam, LPARAM)
 	}
 
 	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void DestroyAllWindows(void)
-{
-	if (hViewWnd != nullptr) {
-		DestroyWindow(hViewWnd);
-		hViewWnd = nullptr;
-	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
