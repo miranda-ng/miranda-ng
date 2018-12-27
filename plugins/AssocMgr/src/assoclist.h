@@ -63,24 +63,3 @@ void InitAssocList(void);
 void UninitAssocList(void);
 
 #define M_REFRESH_ICONS  (WM_APP+1)
-
-class COptionsDialog : public CDlgBase
-{
-	CCtrlListView m_lvAssocList;
-	CCtrlCheck m_chkAutoStart;
-	CCtrlCheck m_chkOnlyRun;
-
-public:
-	COptionsDialog();
-
-protected:
-	bool OnInitDialog() override;
-	bool OnApply() override;
-	void OnDestroy() override;
-
-	void OnAssocListItemDeleted(CCtrlListView::TEventInfo *evt);
-	void OnAssocListItemChanged(CCtrlListView::TEventInfo *);
-	void OnAssocListKeyDown(CCtrlListView::TEventInfo *evt);
-
-	void RefreshIcons();
-};

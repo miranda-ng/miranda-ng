@@ -561,250 +561,258 @@ static int CALLBACK ListViewSortDesc(LPARAM lParam1, LPARAM lParam2, LPARAM lPar
 	return cmp;
 }
 
-COptionsDialog::COptionsDialog() :
-	CDlgBase(g_plugin, IDD_OPT_ASSOCLIST),
-	m_lvAssocList(this, IDC_ASSOCLIST),
-	m_chkAutoStart(this, IDC_AUTOSTART),
-	m_chkOnlyRun(this, IDC_ONLYWHILERUNNING)
+class COptionsDialog : public CDlgBase
 {
-	// only while running
-	CreateLink(m_chkOnlyRun, "OnlyWhileRunning", DBVT_BYTE, SETTING_ONLYWHILERUNNING_DEFAULT);
-	// autostart
-	wchar_t *pszRunCmd = MakeRunCommand(TRUE, TRUE);
-	if (pszRunCmd != nullptr) {
-		m_chkAutoStart.SetState(IsRegRunEntry(L"MirandaNG", pszRunCmd));
-		mir_free(pszRunCmd);
-	}
+	CCtrlListView m_lvAssocList;
+	CCtrlCheck m_chkAutoStart;
+	CCtrlCheck m_chkOnlyRun;
 
-	m_lvAssocList.OnDeleteItem = Callback(this, &COptionsDialog::OnAssocListItemDeleted);
-	m_lvAssocList.OnItemChanged = Callback(this, &COptionsDialog::OnAssocListItemChanged);
-	m_lvAssocList.OnKeyDown = Callback(this, &COptionsDialog::OnAssocListKeyDown);
-}
-
-bool COptionsDialog::OnInitDialog()
-{
-	CDlgBase::OnInitDialog();
-	m_lvAssocList.SetUnicodeFormat(true);
-	m_lvAssocList.SetExtendedListViewStyle(LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT | LVS_EX_LABELTIP);
-	// columns
-	LVCOLUMN lvc;
-	lvc.mask = LVCF_TEXT | LVCF_WIDTH | LVCF_SUBITEM;
-	lvc.pszText = TranslateT("Type");
-	lvc.cx = 170;
-	m_lvAssocList.InsertColumn(lvc.iSubItem = 0, &lvc);
-	lvc.pszText = TranslateT("Description");
-	m_lvAssocList.InsertColumn(lvc.iSubItem = 1, &lvc);
-	// create image storage
-	HIMAGELIST himl;
-	mir_cslock lck(csAssocList);
+public:
+	COptionsDialog() :
+		CDlgBase(g_plugin, IDD_OPT_ASSOCLIST),
+		m_lvAssocList(this, IDC_ASSOCLIST),
+		m_chkAutoStart(this, IDC_AUTOSTART),
+		m_chkOnlyRun(this, IDC_ONLYWHILERUNNING)
 	{
-		HDC hdc = GetDC(m_lvAssocList.GetHwnd());
-		if (hdc != nullptr) { // BITSPIXEL is compatible with ILC_COLOR flags
-			himl = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), GetDeviceCaps(hdc, BITSPIXEL) | ILC_MASK, arAssocList.getCount(), 0);
-			ReleaseDC(m_lvAssocList.GetHwnd(), hdc);
+		// only while running
+		CreateLink(m_chkOnlyRun, "OnlyWhileRunning", DBVT_BYTE, SETTING_ONLYWHILERUNNING_DEFAULT);
+		// autostart
+		wchar_t *pszRunCmd = MakeRunCommand(TRUE, TRUE);
+		if (pszRunCmd != nullptr) {
+			m_chkAutoStart.SetState(IsRegRunEntry(L"MirandaNG", pszRunCmd));
+			mir_free(pszRunCmd);
 		}
-		else
-			himl = nullptr;
-	}
-	m_lvAssocList.SetImageList(himl, LVSIL_SMALL);
 
-	// enum assoc list
-	LVITEM lvi;
-	lvi.iSubItem = 0;
-	lvi.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
-	for (auto &it : arAssocList) {
-		lvi.iItem = 0;
-		lvi.lParam = (LPARAM)new ASSOCDATA(*it);
-		lvi.pszText = GetAssocTypeDesc(it);
-		lvi.iImage = ReplaceImageListAssocIcon(himl, it, -1);
-		lvi.iItem = m_lvAssocList.InsertItem(&lvi);
-		if (lvi.iItem != -1) {
-			m_lvAssocList.SetItemText(lvi.iItem, 1, it->pszDescription);
-			m_lvAssocList.SetCheckState(lvi.iItem, IsAssocEnabled(it) && IsAssocRegistered(it));
+		m_lvAssocList.OnDeleteItem = Callback(this, &COptionsDialog::OnAssocListItemDeleted);
+		m_lvAssocList.OnItemChanged = Callback(this, &COptionsDialog::OnAssocListItemChanged);
+		m_lvAssocList.OnKeyDown = Callback(this, &COptionsDialog::OnAssocListKeyDown);
+	}
+
+	bool OnInitDialog() override
+	{
+		CDlgBase::OnInitDialog();
+		m_lvAssocList.SetUnicodeFormat(true);
+		m_lvAssocList.SetExtendedListViewStyle(LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT | LVS_EX_LABELTIP);
+		// columns
+		LVCOLUMN lvc;
+		lvc.mask = LVCF_TEXT | LVCF_WIDTH | LVCF_SUBITEM;
+		lvc.pszText = TranslateT("Type");
+		lvc.cx = 170;
+		m_lvAssocList.InsertColumn(lvc.iSubItem = 0, &lvc);
+		lvc.pszText = TranslateT("Description");
+		m_lvAssocList.InsertColumn(lvc.iSubItem = 1, &lvc);
+		// create image storage
+		HIMAGELIST himl;
+		mir_cslock lck(csAssocList);
+		{
+			HDC hdc = GetDC(m_lvAssocList.GetHwnd());
+			if (hdc != nullptr) { // BITSPIXEL is compatible with ILC_COLOR flags
+				himl = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), GetDeviceCaps(hdc, BITSPIXEL) | ILC_MASK, arAssocList.getCount(), 0);
+				ReleaseDC(m_lvAssocList.GetHwnd(), hdc);
+			}
+			else
+				himl = nullptr;
+		}
+		m_lvAssocList.SetImageList(himl, LVSIL_SMALL);
+
+		// enum assoc list
+		LVITEM lvi;
+		lvi.iSubItem = 0;
+		lvi.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
+		for (auto &it : arAssocList) {
+			lvi.iItem = 0;
+			lvi.lParam = (LPARAM)new ASSOCDATA(*it);
+			lvi.pszText = GetAssocTypeDesc(it);
+			lvi.iImage = ReplaceImageListAssocIcon(himl, it, -1);
+			lvi.iItem = m_lvAssocList.InsertItem(&lvi);
+			if (lvi.iItem != -1) {
+				m_lvAssocList.SetItemText(lvi.iItem, 1, it->pszDescription);
+				m_lvAssocList.SetCheckState(lvi.iItem, IsAssocEnabled(it) && IsAssocRegistered(it));
+			}
+		}
+		// sort items (before moving to groups)
+		m_lvAssocList.SortItems(ListViewSortDesc, Langpack_GetDefaultLocale());
+		// groups
+		if (m_lvAssocList.EnableGroupView(TRUE) == 1) { // returns 0 on pre WinXP or if commctls6 are disabled
+			LVGROUP lvg;
+			int iItem;
+			// dummy item for group
+			lvi.iItem = m_lvAssocList.GetItemCount() - 1;
+			lvi.iSubItem = 0;
+			lvi.mask = LVIF_PARAM | LVIF_IMAGE;
+			lvi.iImage = -1;
+			lvi.lParam = 0;
+			// insert groups
+			lvg.cbSize = sizeof(lvg);
+			lvg.mask = LVGF_HEADER | LVGF_GROUPID;
+			lvg.iGroupId = 2;
+			lvg.pszHeader = TranslateT("URLs on websites");
+			lvi.iItem = m_lvAssocList.InsertItem(&lvi);
+			if (lvi.iItem != -1) {
+				m_lvAssocList.InsertGroup(lvi.iItem, &lvg);
+				lvg.iGroupId = 1;
+				lvg.pszHeader = TranslateT("File types");
+				iItem = lvi.iItem = m_lvAssocList.InsertItem(&lvi);
+				if (lvi.iItem != -1)
+					m_lvAssocList.InsertGroup(lvi.iItem, &lvg);
+				else
+					m_lvAssocList.DeleteItem(iItem);
+			}
+			// move to group
+			lvi.iSubItem = 0;
+			lvi.mask = LVIF_PARAM | LVIF_GROUPID;
+			for (lvi.iItem = 0; m_lvAssocList.GetItem(&lvi); ++lvi.iItem) {
+				ASSOCDATA *assoc = (ASSOCDATA*)lvi.lParam;
+				if (assoc == nullptr)
+					continue; // groups
+				lvi.iGroupId = (assoc->pszFileExt == nullptr) + 1;
+				m_lvAssocList.SetItem(&lvi);
+			}
+		}
+		lvi.iItem = m_lvAssocList.GetTopIndex();
+		m_lvAssocList.SetItemState(lvi.iItem, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
+		m_lvAssocList.SetColumnWidth(1, LVSCW_AUTOSIZE_USEHEADER); // size to fit window
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		LVITEM lvi;
+		lvi.iSubItem = 0;
+		lvi.mask = LVIF_PARAM;
+		mir_cslock lck(csAssocList);
+		for (lvi.iItem = 0; m_lvAssocList.GetItem(&lvi); ++lvi.iItem) {
+			ASSOCDATA *assoc = (ASSOCDATA*)lvi.lParam;
+			delete assoc;
 		}
 	}
-	// sort items (before moving to groups)
-	m_lvAssocList.SortItems(ListViewSortDesc, Langpack_GetDefaultLocale());
-	// groups
-	if (m_lvAssocList.EnableGroupView(TRUE) == 1) { // returns 0 on pre WinXP or if commctls6 are disabled
-		LVGROUP lvg;
-		int iItem;
-		// dummy item for group
-		lvi.iItem = m_lvAssocList.GetItemCount() - 1;
+
+	void RefreshIcons()
+	{
+		HIMAGELIST himl = ListView_GetImageList(m_lvAssocList.GetHwnd(), LVSIL_SMALL);
+		// enum items
+		LVITEM lvi;
 		lvi.iSubItem = 0;
 		lvi.mask = LVIF_PARAM | LVIF_IMAGE;
-		lvi.iImage = -1;
-		lvi.lParam = 0;
-		// insert groups
-		lvg.cbSize = sizeof(lvg);
-		lvg.mask = LVGF_HEADER | LVGF_GROUPID;
-		lvg.iGroupId = 2;
-		lvg.pszHeader = TranslateT("URLs on websites");
-		lvi.iItem = m_lvAssocList.InsertItem(&lvi);
-		if (lvi.iItem != -1) {
-			m_lvAssocList.InsertGroup(lvi.iItem, &lvg);
-			lvg.iGroupId = 1;
-			lvg.pszHeader = TranslateT("File types");
-			iItem = lvi.iItem = m_lvAssocList.InsertItem(&lvi);
-			if (lvi.iItem != -1)
-				m_lvAssocList.InsertGroup(lvi.iItem, &lvg);
-			else
-				m_lvAssocList.DeleteItem(iItem);
-		}
-		// move to group
-		lvi.iSubItem = 0;
-		lvi.mask = LVIF_PARAM | LVIF_GROUPID;
 		for (lvi.iItem = 0; m_lvAssocList.GetItem(&lvi); ++lvi.iItem) {
 			ASSOCDATA *assoc = (ASSOCDATA*)lvi.lParam;
 			if (assoc == nullptr)
 				continue; // groups
-			lvi.iGroupId = (assoc->pszFileExt == nullptr) + 1;
+			lvi.iImage = ReplaceImageListAssocIcon(himl, assoc, lvi.iImage);
 			m_lvAssocList.SetItem(&lvi);
 		}
+		if (lvi.iItem) { // ListView_Update() blinks
+			m_lvAssocList.RedrawItems(0, lvi.iItem - 1);
+			UpdateWindow(m_lvAssocList.GetHwnd());
+		}
 	}
-	lvi.iItem = m_lvAssocList.GetTopIndex();
-	m_lvAssocList.SetItemState(lvi.iItem, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
-	m_lvAssocList.SetColumnWidth(1, LVSCW_AUTOSIZE_USEHEADER); // size to fit window
-	return true;
-}
 
-void COptionsDialog::OnDestroy()
-{
-	LVITEM lvi;
-	lvi.iSubItem = 0;
-	lvi.mask = LVIF_PARAM;
-	mir_cslock lck(csAssocList);
-	for (lvi.iItem = 0; m_lvAssocList.GetItem(&lvi); ++lvi.iItem) {
-		ASSOCDATA *assoc = (ASSOCDATA*)lvi.lParam;
-		delete assoc;
-	}
-}
-
-void COptionsDialog::RefreshIcons()
-{
-	HIMAGELIST himl = ListView_GetImageList(m_lvAssocList.GetHwnd(), LVSIL_SMALL);
-	// enum items
-	LVITEM lvi;
-	lvi.iSubItem = 0;
-	lvi.mask = LVIF_PARAM | LVIF_IMAGE;
-	for (lvi.iItem = 0; m_lvAssocList.GetItem(&lvi); ++lvi.iItem) {
-		ASSOCDATA *assoc = (ASSOCDATA*)lvi.lParam;
-		if (assoc == nullptr)
-			continue; // groups
-		lvi.iImage = ReplaceImageListAssocIcon(himl, assoc, lvi.iImage);
-		m_lvAssocList.SetItem(&lvi);
-	}
-	if (lvi.iItem) { // ListView_Update() blinks
-		m_lvAssocList.RedrawItems(0, lvi.iItem - 1);
-		UpdateWindow(m_lvAssocList.GetHwnd());
-	}
-}
-
-void COptionsDialog::OnAssocListItemDeleted(CCtrlListView::TEventInfo *evt)
-{
-	LVITEM lvi;
-	lvi.mask = LVIF_PARAM;
-	lvi.iSubItem = 0;
-	lvi.iItem = evt->nmlv->iItem;
-	// free memory
-	if (m_lvAssocList.GetItem(&lvi))
-		mir_free((ASSOCDATA*)lvi.lParam); // does NULL check
-}
-
-void COptionsDialog::OnAssocListItemChanged(CCtrlListView::TEventInfo *)
-{
-	// enable apply (not while loading)
-	if (IsWindowVisible(m_lvAssocList.GetHwnd()))
-		NotifyChange();
-}
-
-void COptionsDialog::OnAssocListKeyDown(CCtrlListView::TEventInfo *evt)
-{
-	// workaround for WinXP (ListView with groups):
-	// eat keyboard navigation that goes beyond the first item in list
-	// as it would scroll out of scope in this case
-	// bug should not be present using WinVista and higher
-	switch (evt->nmlvkey->wVKey) {
+	void OnAssocListItemDeleted(CCtrlListView::TEventInfo *evt)
+	{
 		LVITEM lvi;
-	case VK_UP:
+		lvi.mask = LVIF_PARAM;
+		lvi.iSubItem = 0;
+		lvi.iItem = evt->nmlv->iItem;
+		// free memory
+		if (m_lvAssocList.GetItem(&lvi))
+			mir_free((ASSOCDATA*)lvi.lParam); // does NULL check
+	}
+
+	void OnAssocListItemChanged(CCtrlListView::TEventInfo *)
+	{
+		// enable apply (not while loading)
+		if (IsWindowVisible(m_lvAssocList.GetHwnd()))
+			NotifyChange();
+	}
+
+	void OnAssocListKeyDown(CCtrlListView::TEventInfo *evt)
+	{
+		// workaround for WinXP (ListView with groups):
+		// eat keyboard navigation that goes beyond the first item in list
+		// as it would scroll out of scope in this case
+		// bug should not be present using WinVista and higher
+		switch (evt->nmlvkey->wVKey) {
+			LVITEM lvi;
+		case VK_UP:
+			lvi.iSubItem = 0;
+			lvi.mask = LVIF_PARAM;
+			lvi.iItem = m_lvAssocList.GetNextItem(-1, LVNI_FOCUSED);
+			lvi.iItem = m_lvAssocList.GetNextItem(lvi.iItem, LVNI_ABOVE);
+			if (lvi.iItem != -1)
+				if (m_lvAssocList.GetItem(&lvi))
+					if ((ASSOCDATA*)lvi.lParam == nullptr) // groups
+						lvi.iItem = -1;
+			/*if (lvi.iItem == -1) {
+				SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE); // eat it
+				return TRUE;
+			}*/
+			break;
+
+		case VK_PRIOR:
+			lvi.iSubItem = 0;
+			lvi.mask = LVIF_PARAM;
+			lvi.iItem = m_lvAssocList.GetNextItem(-1, LVNI_FOCUSED);
+			lvi.iItem -= m_lvAssocList.GetCountPerPage();
+			if (lvi.iItem >= 0)
+				if (m_lvAssocList.GetItem(&lvi))
+					if ((ASSOCDATA*)lvi.lParam == nullptr) // groups
+						lvi.iItem = -1;
+			if (lvi.iItem < 0) {
+				m_lvAssocList.SetItemState(0, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
+				//SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE); // eat it
+				return;
+			}
+			break;
+		}
+	}
+
+	bool OnApply() override
+	{
+		BOOL fEnabled, fRegFailed = FALSE;
+
+		// only while running
+		g_plugin.setByte("OnlyWhileRunning", m_chkOnlyRun.GetState() != 0);
+
+		// save enabled assoc items
+		LVITEM lvi;
 		lvi.iSubItem = 0;
 		lvi.mask = LVIF_PARAM;
-		lvi.iItem = m_lvAssocList.GetNextItem(-1, LVNI_FOCUSED);
-		lvi.iItem = m_lvAssocList.GetNextItem(lvi.iItem, LVNI_ABOVE);
-		if (lvi.iItem != -1)
-			if (m_lvAssocList.GetItem(&lvi))
-				if ((ASSOCDATA*)lvi.lParam == nullptr) // groups
-					lvi.iItem = -1;
-		/*if (lvi.iItem == -1) {
-			SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE); // eat it
-			return TRUE;
-		}*/
-		break;
+		mir_cslock lck(csAssocList);
+		for (lvi.iItem = 0; m_lvAssocList.GetItem(&lvi); ++lvi.iItem) {
+			ASSOCDATA *assoc = (ASSOCDATA*)lvi.lParam;
+			if (assoc == nullptr)
+				continue; // groups
+			fEnabled = m_lvAssocList.GetCheckState(lvi.iItem);
+			SetAssocEnabled(assoc, fEnabled);
 
-	case VK_PRIOR:
-		lvi.iSubItem = 0;
-		lvi.mask = LVIF_PARAM;
-		lvi.iItem = m_lvAssocList.GetNextItem(-1, LVNI_FOCUSED);
-		lvi.iItem -= m_lvAssocList.GetCountPerPage();
-		if (lvi.iItem >= 0)
-			if (m_lvAssocList.GetItem(&lvi))
-				if ((ASSOCDATA*)lvi.lParam == nullptr) // groups
-					lvi.iItem = -1;
-		if (lvi.iItem < 0) {
-			m_lvAssocList.SetItemState(0, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
-			//SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE); // eat it
-			return;
+			// re-register registery keys
+			if (fEnabled ? !EnsureAssocRegistered(assoc) : !UnregisterAssoc(assoc)) {
+				char *pszErr = GetWinErrorDescription(GetLastError());
+				ShowInfoMessage(NIIF_ERROR, Translate("File association error"), Translate("There was an error writing to the registry to modify the file/url associations.\nReason: %s"), (pszErr != nullptr) ? pszErr : Translate("Unknown"));
+				mir_free(pszErr); // does NULL check
+				fRegFailed = TRUE; // just show one time
+			}
 		}
-		break;
-	}
-}
+		NotifyAssocChange(TRUE);
+		RefreshIcons();
 
-bool COptionsDialog::OnApply()
-{
-	BOOL fEnabled, fRegFailed = FALSE;
-
-	// only while running
-	g_plugin.setByte("OnlyWhileRunning", m_chkOnlyRun.GetState() != 0);
-
-	// save enabled assoc items
-	LVITEM lvi;
-	lvi.iSubItem = 0;
-	lvi.mask = LVIF_PARAM;
-	mir_cslock lck(csAssocList);
-	for (lvi.iItem = 0; m_lvAssocList.GetItem(&lvi); ++lvi.iItem) {
-		ASSOCDATA *assoc = (ASSOCDATA*)lvi.lParam;
-		if (assoc == nullptr)
-			continue; // groups
-		fEnabled = m_lvAssocList.GetCheckState(lvi.iItem);
-		SetAssocEnabled(assoc, fEnabled);
-
-		// re-register registery keys
-		if (fEnabled ? !EnsureAssocRegistered(assoc) : !UnregisterAssoc(assoc)) {
-			char *pszErr = GetWinErrorDescription(GetLastError());
-			ShowInfoMessage(NIIF_ERROR, Translate("File association error"), Translate("There was an error writing to the registry to modify the file/url associations.\nReason: %s"), (pszErr != nullptr) ? pszErr : Translate("Unknown"));
-			mir_free(pszErr); // does NULL check
-			fRegFailed = TRUE; // just show one time
+		// autostart
+		wchar_t *pszRunCmd = MakeRunCommand(TRUE, TRUE);
+		fRegFailed = FALSE;
+		if (pszRunCmd != nullptr) {
+			fEnabled = m_chkAutoStart.GetState();
+			if (fEnabled ? !AddRegRunEntry(L"MirandaNG", pszRunCmd) : !RemoveRegRunEntry(L"MirandaNG", pszRunCmd)) {
+				char *pszErr;
+				pszErr = GetWinErrorDescription(GetLastError());
+				ShowInfoMessage(NIIF_ERROR, Translate("Autostart error"), Translate("There was an error writing to the registry to modify the autostart list.\n\nReason: %s"), (pszErr != nullptr) ? pszErr : Translate("Unknown"));
+				mir_free(pszErr); // does NULL check
+				fRegFailed = TRUE; // just show one time
+			}
+			mir_free(pszRunCmd);
 		}
+		return true;
 	}
-	NotifyAssocChange(TRUE);
-	RefreshIcons();
-
-	// autostart
-	wchar_t *pszRunCmd = MakeRunCommand(TRUE, TRUE);
-	fRegFailed = FALSE;
-	if (pszRunCmd != nullptr) {
-		fEnabled = m_chkAutoStart.GetState();
-		if (fEnabled ? !AddRegRunEntry(L"MirandaNG", pszRunCmd) : !RemoveRegRunEntry(L"MirandaNG", pszRunCmd)) {
-			char *pszErr;
-			pszErr = GetWinErrorDescription(GetLastError());
-			ShowInfoMessage(NIIF_ERROR, Translate("Autostart error"), Translate("There was an error writing to the registry to modify the autostart list.\n\nReason: %s"), (pszErr != nullptr) ? pszErr : Translate("Unknown"));
-			mir_free(pszErr); // does NULL check
-			fRegFailed = TRUE; // just show one time
-		}
-		mir_free(pszRunCmd);
-	}
-	return true;
-}
+};
 
 static int AssocListOptInit(WPARAM wParam, LPARAM)
 {
