@@ -361,7 +361,13 @@ int CIcqProto::SetAwayMsg(int status, const wchar_t* msg)
 
 int CIcqProto::UserIsTyping(MCONTACT hContact, int type)
 {
-	return 1;
+	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/im/setTyping");
+	pReq->flags |= NLHRF_NODUMPSEND;
+	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("f", "json")
+		<< INT_PARAM("t", getDword(hContact, "UIN")) << CHAR_PARAM("r", pReq->m_reqId)
+		<< CHAR_PARAM("typingStatus", (type == PROTOTYPE_SELFTYPING_ON) ? "typing" : "typed");
+	Push(pReq);
+	return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
