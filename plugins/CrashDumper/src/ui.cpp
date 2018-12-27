@@ -56,135 +56,162 @@ BOOL MyResizeGetOffset(HWND hwndCtrl, int nWidth, int nHeight, int* nDx, int* nD
 	return rcinit.bottom != rcinit.top && nHeight > 0;
 }
 
-CViewVersionInfo::CViewVersionInfo(DWORD flags) :
-	CDlgBase(g_plugin, IDD_VIEWVERSION),
-	m_btnCancel(this, IDCANCEL),
-	m_btnCopyClip(this, IDC_CLIPVER),
-	m_btnCopyFile(this, IDC_FILEVER),
-	m_redtViewVersionInfo(this, IDC_VIEWVERSIONINFO)
+class CViewVersionInfo : public CDlgBase
 {
-	m_flags = flags;
-	m_btnCancel.OnClick = Callback(this, &CViewVersionInfo::OnCancelClick);
-	m_btnCopyClip.OnClick = Callback(this, &CViewVersionInfo::OnCopyClipClick);
-	m_btnCopyFile.OnClick = Callback(this, &CViewVersionInfo::OnCopyFileClick);
-	m_redtViewVersionInfo.OnBuildMenu = Callback(this, &CViewVersionInfo::OnViewVersionInfoBuildMenu);
-}
+	DWORD m_flags;
 
-bool CViewVersionInfo::OnInitDialog()
-{
-	Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_VI));
+	CCtrlButton m_btnCancel, m_btnCopyClip, m_btnCopyFile;
+	CCtrlRichEdit m_redtViewVersionInfo;
+
+public:
+	CViewVersionInfo::CViewVersionInfo(DWORD flags) :
+		CDlgBase(g_plugin, IDD_VIEWVERSION),
+		m_btnCancel(this, IDCANCEL),
+		m_btnCopyClip(this, IDC_CLIPVER),
+		m_btnCopyFile(this, IDC_FILEVER),
+		m_redtViewVersionInfo(this, IDC_VIEWVERSIONINFO)
 	{
-		CHARFORMAT2 chf;
-		chf.cbSize = sizeof(chf);
-		m_redtViewVersionInfo.SendMsg(EM_GETCHARFORMAT, SCF_DEFAULT, (LPARAM)&chf);
-		mir_wstrcpy(chf.szFaceName, L"Courier New");
-		m_redtViewVersionInfo.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&chf);
-
-		CMStringW buffer;
-		PrintVersionInfo(buffer, m_flags);
-		m_redtViewVersionInfo.SetText(buffer.c_str());
+		m_flags = flags;
+		m_btnCancel.OnClick = Callback(this, &CViewVersionInfo::OnCancelClick);
+		m_btnCopyClip.OnClick = Callback(this, &CViewVersionInfo::OnCopyClipClick);
+		m_btnCopyFile.OnClick = Callback(this, &CViewVersionInfo::OnCopyFileClick);
+		m_redtViewVersionInfo.OnBuildMenu = Callback(this, &CViewVersionInfo::OnViewVersionInfoBuildMenu);
 	}
 
-	if (m_flags & VI_FLAG_PRNDLL)
-		SetWindowText(m_hwnd, TranslateT("View Version Information (with DLLs)"));
+	bool CViewVersionInfo::OnInitDialog() override
+	{
+		Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_VI));
+		{
+			CHARFORMAT2 chf;
+			chf.cbSize = sizeof(chf);
+			m_redtViewVersionInfo.SendMsg(EM_GETCHARFORMAT, SCF_DEFAULT, (LPARAM)&chf);
+			mir_wstrcpy(chf.szFaceName, L"Courier New");
+			m_redtViewVersionInfo.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&chf);
 
-	Utils_RestoreWindowPositionNoMove(m_hwnd, NULL, MODULENAME, "ViewInfo_");
-	Show();
-	return true;
-}
-
-int CViewVersionInfo::Resizer(UTILRESIZECONTROL *)
-{
-	RECT rc;
-	GetWindowRect(m_btnCopyFile.GetHwnd(), &rc);
-
-	int dx, dy;
-	if (MyResizeGetOffset(m_redtViewVersionInfo.GetHwnd(), LOWORD(m_flags) - 20, HIWORD(m_flags) - 30 - (rc.bottom - rc.top), &dx, &dy)) {
-		HDWP hDwp = BeginDeferWindowPos(4);
-		hDwp = MyResizeWindow(hDwp, m_hwnd, m_btnCopyFile.GetHwnd(), 0, dy, 0, 0);
-		hDwp = MyResizeWindow(hDwp, m_hwnd, m_btnCopyClip.GetHwnd(), dx / 2, dy, 0, 0);
-		hDwp = MyResizeWindow(hDwp, m_hwnd, m_btnCancel.GetHwnd(), dx, dy, 0, 0);
-		hDwp = MyResizeWindow(hDwp, m_hwnd, m_redtViewVersionInfo.GetHwnd(), 0, 0, dx, dy);
-		EndDeferWindowPos(hDwp);
-	}
-	return 0;
-}
-
-void CViewVersionInfo::OnCancelClick(CCtrlBase*)
-{
-	Close();
-}
-
-void CViewVersionInfo::OnCopyClipClick(CCtrlBase*)
-{
-	CallService(MS_CRASHDUMPER_STORETOCLIP, 0, m_flags);
-}
-
-void CViewVersionInfo::OnCopyFileClick(CCtrlBase*)
-{
-	CallService(MS_CRASHDUMPER_STORETOFILE, 0, m_flags);
-}
-
-bool  CViewVersionInfo::OnClose()
-{
-	hViewWnd = nullptr;
-	Window_FreeIcon_IcoLib(m_hwnd);
-	Utils_SaveWindowPosition(m_hwnd, NULL, MODULENAME, "ViewInfo_");
-	if (pViewDialog == this)
-		pViewDialog = nullptr;
-	if (servicemode)
-		PostQuitMessage(0);
-	return true;
-}
-
-void CViewVersionInfo::OnViewVersionInfoBuildMenu(CCtrlBase*)
-{
-	RECT rc;
-	GetWindowRect(m_redtViewVersionInfo.GetHwnd(), &rc);
-
-	POINT pt = { GET_X_LPARAM(m_flags), GET_Y_LPARAM(m_flags) };
-	if (PtInRect(&rc, pt)) {
-		static const CHARRANGE all = { 0, -1 };
-
-		HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
-		HMENU hSubMenu = GetSubMenu(hMenu, 0);
-		TranslateMenu(hSubMenu);
-
-		CHARRANGE sel;
-		SendMessage(m_redtViewVersionInfo.GetHwnd(), EM_EXGETSEL, 0, (LPARAM)&sel);
-		if (sel.cpMin == sel.cpMax)
-			EnableMenuItem(hSubMenu, IDM_COPY, MF_BYCOMMAND | MF_GRAYED);
-
-		switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, nullptr)) {
-		case IDM_COPY:
-			SendMessage(m_redtViewVersionInfo.GetHwnd(), WM_COPY, 0, 0);
-			break;
-
-		case IDM_COPYALL:
-			SendMessage(m_redtViewVersionInfo.GetHwnd(), EM_EXSETSEL, 0, (LPARAM)&all);
-			SendMessage(m_redtViewVersionInfo.GetHwnd(), WM_COPY, 0, 0);
-			SendMessage(m_redtViewVersionInfo.GetHwnd(), EM_EXSETSEL, 0, (LPARAM)&sel);
-			break;
-
-		case IDM_SELECTALL:
-			SendMessage(m_redtViewVersionInfo.GetHwnd(), EM_EXSETSEL, 0, (LPARAM)&all);
-			break;
+			CMStringW buffer;
+			PrintVersionInfo(buffer, m_flags);
+			m_redtViewVersionInfo.SetText(buffer.c_str());
 		}
-		DestroyMenu(hMenu);
-	}
-}
 
-INT_PTR CViewVersionInfo::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	if (msg == WM_GETMINMAXINFO) {
-		LPMINMAXINFO mmi = (LPMINMAXINFO)lParam;
-		mmi->ptMinTrackSize.x = 400; // The minimum width in points
-		mmi->ptMinTrackSize.y = 300; // The minimum height in points
+		if (m_flags & VI_FLAG_PRNDLL)
+			SetWindowText(m_hwnd, TranslateT("View Version Information (with DLLs)"));
+
+		Utils_RestoreWindowPositionNoMove(m_hwnd, NULL, MODULENAME, "ViewInfo_");
+		Show();
+		return true;
+	}
+
+	bool CViewVersionInfo::OnClose() override
+	{
+		hViewWnd = nullptr;
+		Window_FreeIcon_IcoLib(m_hwnd);
+		Utils_SaveWindowPosition(m_hwnd, NULL, MODULENAME, "ViewInfo_");
+		if (pViewDialog == this)
+			pViewDialog = nullptr;
+		if (servicemode)
+			PostQuitMessage(0);
+		return true;
+	}
+
+
+	INT_PTR CViewVersionInfo::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	{
+		if (msg == WM_GETMINMAXINFO) {
+			LPMINMAXINFO mmi = (LPMINMAXINFO)lParam;
+			mmi->ptMinTrackSize.x = 400; // The minimum width in points
+			mmi->ptMinTrackSize.y = 300; // The minimum height in points
+			return 0;
+		}
+
+		return CDlgBase::DlgProc(msg, wParam, lParam);
+	}
+
+	int CViewVersionInfo::Resizer(UTILRESIZECONTROL *) override
+	{
+		RECT rc;
+		GetWindowRect(m_btnCopyFile.GetHwnd(), &rc);
+
+		int dx, dy;
+		if (MyResizeGetOffset(m_redtViewVersionInfo.GetHwnd(), LOWORD(m_flags) - 20, HIWORD(m_flags) - 30 - (rc.bottom - rc.top), &dx, &dy)) {
+			HDWP hDwp = BeginDeferWindowPos(4);
+			hDwp = MyResizeWindow(hDwp, m_hwnd, m_btnCopyFile.GetHwnd(), 0, dy, 0, 0);
+			hDwp = MyResizeWindow(hDwp, m_hwnd, m_btnCopyClip.GetHwnd(), dx / 2, dy, 0, 0);
+			hDwp = MyResizeWindow(hDwp, m_hwnd, m_btnCancel.GetHwnd(), dx, dy, 0, 0);
+			hDwp = MyResizeWindow(hDwp, m_hwnd, m_redtViewVersionInfo.GetHwnd(), 0, 0, dx, dy);
+			EndDeferWindowPos(hDwp);
+		}
 		return 0;
 	}
 
-	return CDlgBase::DlgProc(msg, wParam, lParam);
+	void CViewVersionInfo::OnCancelClick(CCtrlBase*)
+	{
+		Close();
+	}
+
+	void CViewVersionInfo::OnCopyClipClick(CCtrlBase*)
+	{
+		CallService(MS_CRASHDUMPER_STORETOCLIP, 0, m_flags);
+	}
+
+	void CViewVersionInfo::OnCopyFileClick(CCtrlBase*)
+	{
+		CallService(MS_CRASHDUMPER_STORETOFILE, 0, m_flags);
+	}
+
+	void CViewVersionInfo::OnViewVersionInfoBuildMenu(CCtrlBase*)
+	{
+		RECT rc;
+		GetWindowRect(m_redtViewVersionInfo.GetHwnd(), &rc);
+
+		POINT pt = { GET_X_LPARAM(m_flags), GET_Y_LPARAM(m_flags) };
+		if (PtInRect(&rc, pt)) {
+			static const CHARRANGE all = { 0, -1 };
+
+			HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
+			HMENU hSubMenu = GetSubMenu(hMenu, 0);
+			TranslateMenu(hSubMenu);
+
+			CHARRANGE sel;
+			SendMessage(m_redtViewVersionInfo.GetHwnd(), EM_EXGETSEL, 0, (LPARAM)&sel);
+			if (sel.cpMin == sel.cpMax)
+				EnableMenuItem(hSubMenu, IDM_COPY, MF_BYCOMMAND | MF_GRAYED);
+
+			switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, nullptr)) {
+			case IDM_COPY:
+				SendMessage(m_redtViewVersionInfo.GetHwnd(), WM_COPY, 0, 0);
+				break;
+
+			case IDM_COPYALL:
+				SendMessage(m_redtViewVersionInfo.GetHwnd(), EM_EXSETSEL, 0, (LPARAM)&all);
+				SendMessage(m_redtViewVersionInfo.GetHwnd(), WM_COPY, 0, 0);
+				SendMessage(m_redtViewVersionInfo.GetHwnd(), EM_EXSETSEL, 0, (LPARAM)&sel);
+				break;
+
+			case IDM_SELECTALL:
+				SendMessage(m_redtViewVersionInfo.GetHwnd(), EM_EXSETSEL, 0, (LPARAM)&all);
+				break;
+			}
+			DestroyMenu(hMenu);
+		}
+	}
+};
+
+INT_PTR ViewVersionInfo(WPARAM wParam, LPARAM)
+{
+	if (pViewDialog == nullptr) {
+		DWORD dwFlags = wParam ? (VI_FLAG_PRNVAR | VI_FLAG_PRNDLL) : VI_FLAG_PRNVAR;
+		pViewDialog = new CViewVersionInfo(dwFlags);
+		pViewDialog->Show();
+	}
+	else {
+		SetForegroundWindow(pViewDialog->GetHwnd());
+		SetFocus(pViewDialog->GetHwnd());
+	}
+
+	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void DestroyAllWindows(void)
 {

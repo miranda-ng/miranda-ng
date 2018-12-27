@@ -112,22 +112,6 @@ INT_PTR UploadVersionInfo(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-
-INT_PTR ViewVersionInfo(WPARAM wParam, LPARAM)
-{
-	if (pViewDialog == nullptr) {
-		DWORD dwFlags = wParam ? (VI_FLAG_PRNVAR | VI_FLAG_PRNDLL) : VI_FLAG_PRNVAR;
-		pViewDialog = new CViewVersionInfo(dwFlags);
-		pViewDialog->Show();
-	}
-	else {
-		SetForegroundWindow(pViewDialog->GetHwnd());
-		SetFocus(pViewDialog->GetHwnd());
-	}
-
-	return 0;
-}
-
 INT_PTR GetVersionInfo(WPARAM wParam, LPARAM lParam)
 {
 	int result = 1; //failure

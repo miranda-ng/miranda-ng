@@ -144,8 +144,6 @@ void SetExceptionHandler(void);
 void RemoveExceptionHandler(void);
 
 extern CDlgBase *pViewDialog;
-//INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-//INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 void DestroyAllWindows(void);
 
 void UploadInit(void);
@@ -155,28 +153,6 @@ void __cdecl VersionInfoUploadThread(void* arg);
 
 void InitIcons(void);
 HICON LoadIconEx(int iconId, bool big = false);
-void  ReleaseIconEx(int iconId);
 HANDLE GetIconHandle(int iconId);
 
-class CViewVersionInfo : public CDlgBase
-{
-private:
-	DWORD m_flags;
-
-	CCtrlButton m_btnCancel, m_btnCopyClip, m_btnCopyFile;
-	CCtrlRichEdit m_redtViewVersionInfo;
-
-protected:
-	bool OnInitDialog() override;
-	bool OnClose() override;
-	int Resizer(UTILRESIZECONTROL*) override;
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
-
-	void OnCancelClick(CCtrlBase*);
-	void OnCopyClipClick(CCtrlBase*);
-	void OnCopyFileClick(CCtrlBase*);
-	void OnViewVersionInfoBuildMenu(CCtrlBase*);
-
-public:
-	CViewVersionInfo(DWORD flags);
-};
+INT_PTR ViewVersionInfo(WPARAM wParam, LPARAM);
