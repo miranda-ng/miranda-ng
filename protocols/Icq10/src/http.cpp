@@ -111,7 +111,7 @@ void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		}
 		else {
 			pReq->dataLength = pReq->m_szParam.GetLength();
-			pReq->pData = pReq->m_szParam.Detach();
+			pReq->pData = mir_strdup(pReq->m_szParam);
 		}
 	}
 
@@ -136,6 +136,25 @@ void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 
 	NETLIBHTTPREQUEST *reply = Netlib_HttpTransaction(m_hNetlibUser, pReq);
 	if (reply != nullptr) {
+		if (pReq->m_conn == CONN_RAPI && reply->pData && strstr(reply->pData, "\"code\": 40201")) {
+			RobustReply r(reply);
+			if (r.error() == 40201) { // robust token expired
+				CMStringA oldToken = m_szRToken;
+				m_szRToken.Empty();
+				delSetting("RToken");
+				
+				// if token refresh succeeded, replace it in the query and push request back
+				if (RefreshRobustToken()) { 
+					replaceStr(pReq->pData, nullptr);
+					pReq->dataLength = 0;
+					pReq->m_szParam.Replace(oldToken, m_szRToken);
+					Push(pReq);
+				}
+				else delete pReq;
+				return;
+			}
+		}
+
 		if (pReq->m_pFunc != nullptr)
 			(this->*(pReq->m_pFunc))(reply, pReq);
 
