@@ -168,19 +168,15 @@ INT_PTR CIcqProto::GetCaps(int type, MCONTACT hContact)
 	switch (type) {
 
 	case PFLAGNUM_1:
-		nReturn = PF1_IM | PF1_URL | PF1_AUTHREQ | PF1_BASICSEARCH | PF1_ADDSEARCHRES |
-			PF1_VISLIST | PF1_INVISLIST | PF1_MODEMSG | PF1_FILE | PF1_EXTSEARCH |
-			PF1_EXTSEARCHUI | PF1_SEARCHBYEMAIL | PF1_SEARCHBYNAME |
-			PF1_ADDED | PF1_CONTACT | PF1_SERVERCLIST;
+		nReturn = PF1_IM | PF1_URL | PF1_AUTHREQ | PF1_BASICSEARCH | PF1_ADDSEARCHRES | /*PF1_SEARCHBYNAME | TODO */
+			PF1_VISLIST | PF1_INVISLIST | PF1_MODEMSG | PF1_FILE | PF1_ADDED | PF1_CONTACT | PF1_SERVERCLIST;
 		break;
 
 	case PFLAGNUM_2:
-		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND |
-			PF2_FREECHAT | PF2_INVISIBLE | PF2_ONTHEPHONE;
+		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_FREECHAT | PF2_INVISIBLE | PF2_ONTHEPHONE;
 
 	case PFLAGNUM_3:
-		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND |
-			PF2_FREECHAT | PF2_INVISIBLE;
+		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_FREECHAT | PF2_INVISIBLE;
 
 	case PFLAGNUM_4:
 		nReturn = PF4_SUPPORTIDLE | PF4_IMSENDOFFLINE | PF4_INFOSETTINGSVC | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_SERVERMSGID;
@@ -209,8 +205,15 @@ int CIcqProto::GetInfo(MCONTACT hContact, int infoType)
 
 HANDLE CIcqProto::SearchBasic(const wchar_t *pszSearch)
 {
-	// Failure
-	return nullptr;
+	auto *pReq = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER, &CIcqProto::OnSearchResults);
+
+	JSONNode request, params; params.set_name("params");
+	params << WCHAR_PARAM("keyword", pszSearch);
+	request << CHAR_PARAM("method", "search") << CHAR_PARAM("reqId", pReq->m_reqId) << CHAR_PARAM("authToken", m_szRToken)
+		<< INT_PARAM("clientId", m_iRClientId) << params;
+	pReq->m_szParam = ptrW(json_write(&request));
+	Push(pReq);
+	return pReq;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

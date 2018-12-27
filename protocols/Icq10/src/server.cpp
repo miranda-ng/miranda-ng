@@ -28,6 +28,8 @@ void CIcqProto::CheckPassword()
 	Miranda_GetVersionText(mirVer, _countof(mirVer));
 
 	m_szAToken = getMStringA("AToken");
+	m_szRToken = getMStringA("RToken");
+	m_iRClientId = getDword("RClientID");
 	m_szSessionKey = getMStringA("SessionKey");
 	if (m_szAToken.IsEmpty() || m_szSessionKey.IsEmpty()) {
 		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, "https://api.login.icq.net/auth/clientLogin", &CIcqProto::OnCheckPassword);
@@ -64,6 +66,53 @@ void CIcqProto::OnLoggedOut()
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 
 	setAllContactStatuses(ID_STATUS_OFFLINE, false);
+}
+
+bool CIcqProto::RefreshRobustToken()
+{
+	if (!m_szRToken.IsEmpty())
+		return true;
+
+	bool bRet = false;
+	auto *tmp = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER "/genToken");
+
+	time_t ts = time(0);
+	tmp << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", ICQ_APP_ID)
+		<< CHAR_PARAM("nonce", CMStringA(FORMAT, "%d-%d", ts, rand() % 10)) << INT_PARAM("ts", ts);
+	CalcHash(tmp);
+	tmp->flags |= NLHRF_PERSISTENT;
+	tmp->nlc = m_ConnPool[CONN_RAPI];
+	tmp->dataLength = tmp->m_szParam.GetLength();
+	tmp->pData = tmp->m_szParam.Detach();
+	tmp->szUrl = tmp->m_szUrl.GetBuffer();
+
+	CMStringA szAgent(FORMAT, "%d Mail.ru Windows ICQ (version 10.0.1999)", DWORD(m_dwUin));
+	tmp->AddHeader("User-Agent", szAgent);
+
+	NETLIBHTTPREQUEST *reply = Netlib_HttpTransaction(m_hNetlibUser, tmp);
+	m_ConnPool[CONN_RAPI] = nullptr;
+	if (reply != nullptr) {
+		RobustReply result(reply);
+		if (result.error() == 20000) {
+			const JSONNode &results = result.results();
+			m_szRToken = results["authToken"].as_mstring();
+			setString("RToken", m_szRToken);
+
+			// now add this token
+			auto *add = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER, &CIcqProto::OnAddClient);
+			JSONNode request, params; params.set_name("params");
+			request << CHAR_PARAM("method", "addClient") << CHAR_PARAM("reqId", add->m_reqId) << CHAR_PARAM("authToken", m_szRToken) << params;
+			add->m_szParam = ptrW(json_write(&request));
+			add->pUserInfo = &bRet;
+			ExecuteRequest(add);
+		}
+
+		m_ConnPool[CONN_RAPI] = reply->nlc;
+		Netlib_FreeHttpRequest(reply);
+	}
+
+	delete tmp;
+	return bRet;
 }
 
 void CIcqProto::SetServerStatus(int iStatus)
@@ -121,16 +170,28 @@ void CIcqProto::StartSession()
 		<< CHAR_PARAM("k", ICQ_APP_ID) << INT_PARAM("mobile", 0) << CHAR_PARAM("nonce", nonce) << CHAR_PARAM("r", pReq->m_reqId) 
 		<< INT_PARAM("rawMsg", 0) << INT_PARAM("sessionTimeout", 7776000) << INT_PARAM("ts", ts) << CHAR_PARAM("view", "online");
 
-	CMStringA hashData(FORMAT, "POST&%s&%s", ptrA(mir_urlEncode(pReq->m_szUrl)), ptrA(mir_urlEncode(pReq->m_szParam)));
-	unsigned int len;
-	BYTE hashOut[MIR_SHA256_HASH_SIZE];
-	HMAC(EVP_sha256(), m_szSessionKey, m_szSessionKey.GetLength(), (BYTE*)hashData.c_str(), hashData.GetLength(), hashOut, &len);
-	pReq << CHAR_PARAM("sig_sha256", ptrA(mir_base64_encode(hashOut, sizeof(hashOut))));
+	CalcHash(pReq);
 
 	Push(pReq);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+void CIcqProto::OnAddClient(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+{
+	bool *pRet = (bool*)pReq->pUserInfo;
+
+	RobustReply reply(pReply);
+	if (reply.error() != 20000) {
+		*pRet = false;
+		return;
+	}
+
+	const JSONNode &results = reply.results();
+	m_iRClientId = results["clientId"].as_int();
+	setDword("RClientID", m_iRClientId);
+	*pRet = true;
+}
 
 void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 {
@@ -222,6 +283,37 @@ void CIcqProto::OnReceiveAvatar(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pRe
 		debugLogW(L"Broadcast new avatar: %s", ai.filename);
 	}
 	else ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, HANDLE(&ai), 0);
+}
+
+void CIcqProto::OnSearchResults(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+{
+	RobustReply root(pReply);
+	if (root.error() != 20000) {
+		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)pReq, 0);
+		return;
+	}
+
+	const JSONNode &results = root.results();
+
+	PROTOSEARCHRESULT psr = {};
+	psr.cbSize = sizeof(psr);
+	psr.flags = PSR_UNICODE;
+	for (auto &it : results["data"]) {
+		const JSONNode &anketa = it["anketa"];
+
+		CMStringW wszId = it["sn"].as_mstring();
+		CMStringW wszNick = anketa["nickname"].as_mstring();
+		CMStringW wszFirst = anketa["firstName"].as_mstring();
+		CMStringW wszLast = anketa["lastName"].as_mstring();
+
+		psr.id.w = wszId.GetBuffer();
+		psr.nick.w = wszNick.GetBuffer();
+		psr.firstName.w = wszFirst.GetBuffer();
+		psr.lastName.w = wszLast.GetBuffer();
+		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)pReq, LPARAM(&psr));
+	}
+
+	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)pReq);
 }
 
 void CIcqProto::OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)

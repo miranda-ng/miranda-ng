@@ -110,8 +110,8 @@ void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 			pReq->szUrl = str.GetBuffer();
 		}
 		else {
-			pReq->pData = mir_strdup(pReq->m_szParam);
 			pReq->dataLength = pReq->m_szParam.GetLength();
+			pReq->pData = pReq->m_szParam.Detach();
 		}
 	}
 
@@ -121,7 +121,19 @@ void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 	}
 
 	debugLogA("Executing request %s:\n%s", pReq->m_reqId, pReq->szUrl);
-	
+
+	if (pReq->m_conn == CONN_RAPI) {
+		CMStringA szAgent(FORMAT, "%d Mail.ru Windows ICQ (version 10.0.1999)", DWORD(m_dwUin));
+		pReq->AddHeader("User-Agent", szAgent);
+
+		if (m_szRToken.IsEmpty()) {
+			if (!RefreshRobustToken()) {
+				delete pReq;
+				return;
+			}
+		}
+	}
+
 	NETLIBHTTPREQUEST *reply = Netlib_HttpTransaction(m_hNetlibUser, pReq);
 	if (reply != nullptr) {
 		if (pReq->m_pFunc != nullptr)
@@ -184,6 +196,34 @@ JsonReply::JsonReply(NETLIBHTTPREQUEST *pReply)
 }
 
 JsonReply::~JsonReply()
+{
+	json_delete(m_root);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+RobustReply::RobustReply(NETLIBHTTPREQUEST *pReply)
+{
+	if (pReply == nullptr) {
+		m_errorCode = 500;
+		return;
+	}
+
+	m_errorCode = pReply->resultCode;
+	if (m_errorCode != 200)
+		return;
+
+	m_root = json_parse(pReply->pData);
+	if (m_root == nullptr) {
+		m_errorCode = 500;
+		return;
+	}
+
+	m_errorCode = (*m_root)["status"]["code"].as_int();
+	m_results = &(*m_root)["results"];
+}
+
+RobustReply::~RobustReply()
 {
 	json_delete(m_root);
 }

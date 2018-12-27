@@ -33,8 +33,9 @@
 #include "m_system.h"
 #include "m_protoint.h"
 
-#define ICQ_API_SERVER "https://api.icq.net"
 #define ICQ_APP_ID "ic1nmMjqg7Yu-0hL"
+#define ICQ_API_SERVER "https://api.icq.net"
+#define ICQ_ROBUST_SERVER "https://rapi.icq.net"
 
 struct IcqCacheItem
 {
@@ -72,9 +73,11 @@ class CIcqProto : public PROTO<CIcqProto>
 	void     ShutdownSession(void);
 	void     StartSession(void);
 
+	void     OnAddClient(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnCheckPassword(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnFetchEvents(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnReceiveAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void     OnSearchResults(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnSendMessage(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnStartSession(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
@@ -88,9 +91,11 @@ class CIcqProto : public PROTO<CIcqProto>
 	HNETLIBCONN m_ConnPool[CONN_LAST];
 	CMStringA m_szSessionKey;
 	CMStringA m_szAToken;
+	CMStringA m_szRToken;
 	CMStringA m_fetchBaseURL;
 	CMStringA m_aimsid;
 	LONG      m_msgId = 1;
+	int       m_iRClientId;
 
 	OBJLIST<IcqOwnMessage> m_arOwnIds;
 
@@ -101,8 +106,10 @@ class CIcqProto : public PROTO<CIcqProto>
 	HANDLE   m_evRequestsQueue;
 	LIST<AsyncHttpRequest> m_arHttpQueue;
 
+	void     CalcHash(AsyncHttpRequest*);
 	void     ExecuteRequest(AsyncHttpRequest*);
 	void     Push(MHttpRequest*);
+	bool     RefreshRobustToken();
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// cache
