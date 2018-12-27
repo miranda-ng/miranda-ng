@@ -69,29 +69,4 @@ int OptionsInit(WPARAM, LPARAM);
 
 extern const int vf_default;
 
-class COptDialog : public CDlgBase
-{
-private:
-	DWORD m_flags;
-
-	CCtrlCheck m_chkVis, m_chkAlpha, m_chkHide, m_chkIgnore, m_chkProtos, m_chkAdded, m_chkAuthReq, m_chkRecvFiles, m_chkCopyIP, m_chkCopyMirver, m_chkStatusMsg,
-		m_chkSMName, m_chkCopyID, m_chkCopyIDName, m_chkShowID, m_chkTrimID, m_chkIgnoreHide;
-	CCtrlLabel m_lblHint;
-
-protected:
-	bool OnInitDialog() override;
-	bool OnApply() override;
-
-	void OnVisChange(CCtrlBase*);
-	void OnIgnoreChange(CCtrlBase*);
-	void OnCopyIDChange(CCtrlBase*);
-	void OnStatusMsgChange(CCtrlBase*);
-	void OnShowIDChange(CCtrlBase*);
-
-	void EnableWindowChecks();
-
-public:
-	COptDialog();
-};
-
 #endif
