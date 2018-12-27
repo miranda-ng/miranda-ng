@@ -20,67 +20,74 @@
 
 #include "stdafx.h"
 
-COptDialog::COptDialog() :
-	CDlgBase(g_plugin, IDD_IGNORE_OPT),
-	m_tvFilter(this, IDC_FILTER),
-	m_chkIgnoreAll(this, IDC_IGNORE_IGNOREALL)
+class COptDialog : public CDlgBase
 {
-	m_chkIgnoreAll.OnChange = Callback(this, &COptDialog::OnIgnoreAllChange);
-}
+	CCtrlTreeView m_tvFilter;
+	CCtrlCheck m_chkIgnoreAll;
 
-bool COptDialog::OnInitDialog()
-{
-	fill_filter();
-	SetWindowLongPtr(m_tvFilter.GetHwnd(), GWL_STYLE, GetWindowLongPtr(m_tvFilter.GetHwnd(), GWL_STYLE) | TVS_NOHSCROLL);
+public:
+	COptDialog() :
+		CDlgBase(g_plugin, IDD_IGNORE_OPT),
+		m_tvFilter(this, IDC_FILTER),
+		m_chkIgnoreAll(this, IDC_IGNORE_IGNOREALL)
 	{
-		HIMAGELIST himlButtonIcons = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 2, 2);
-		m_tvFilter.SetImageList(himlButtonIcons, TVSIL_NORMAL);
-		m_tvFilter.DeleteAllItems();
+		m_chkIgnoreAll.OnChange = Callback(this, &COptDialog::OnIgnoreAllChange);
+	}
 
-		for (int i = 2; i < nII; i++) { // we don`t need it IGNORE_ALL and IGNORE_MESSAGE
-			TVINSERTSTRUCT tvis = {};
-			int index = ImageList_AddIcon(himlButtonIcons, Skin_LoadIcon(ii[i].icon));
-			tvis.hParent = nullptr;
-			tvis.hInsertAfter = TVI_LAST;
-			tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_STATE;
-			tvis.item.lParam = ii[i].type;
-			tvis.item.pszText = TranslateW(ii[i].name);
-			tvis.item.iImage = tvis.item.iSelectedImage = index;
-			HTREEITEM hti = m_tvFilter.InsertItem(&tvis);
-			m_tvFilter.SetCheckState(hti, checkState(ii[i].type));
+	bool OnInitDialog() override
+	{
+		fill_filter();
+		SetWindowLongPtr(m_tvFilter.GetHwnd(), GWL_STYLE, GetWindowLongPtr(m_tvFilter.GetHwnd(), GWL_STYLE) | TVS_NOHSCROLL);
+		{
+			HIMAGELIST himlButtonIcons = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 2, 2);
+			m_tvFilter.SetImageList(himlButtonIcons, TVSIL_NORMAL);
+			m_tvFilter.DeleteAllItems();
+
+			for (int i = 2; i < nII; i++) { // we don`t need it IGNORE_ALL and IGNORE_MESSAGE
+				TVINSERTSTRUCT tvis = {};
+				int index = ImageList_AddIcon(himlButtonIcons, Skin_LoadIcon(ii[i].icon));
+				tvis.hParent = nullptr;
+				tvis.hInsertAfter = TVI_LAST;
+				tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_STATE;
+				tvis.item.lParam = ii[i].type;
+				tvis.item.pszText = TranslateW(ii[i].name);
+				tvis.item.iImage = tvis.item.iSelectedImage = index;
+				HTREEITEM hti = m_tvFilter.InsertItem(&tvis);
+				m_tvFilter.SetCheckState(hti, checkState(ii[i].type));
+			}
 		}
+
+		m_chkIgnoreAll.SetState(bUseMirandaSettings);
+		m_tvFilter.Enable(!bUseMirandaSettings);
+
+		return true;
 	}
 
-	m_chkIgnoreAll.SetState(bUseMirandaSettings);
-	m_tvFilter.Enable(!bUseMirandaSettings);
-
-	return true;
-}
-
-void COptDialog::OnIgnoreAllChange(CCtrlBase*)
-{
-	m_tvFilter.Enable(!m_chkIgnoreAll.GetState());
-}
-
-bool COptDialog::OnApply()
-{
-	DWORD flags = 0;
-	TVITEMEX tvi;
-	tvi.mask = TVIF_HANDLE | TBIF_LPARAM;
-	tvi.hItem = m_tvFilter.GetRoot(); //check ignore all
-	while (tvi.hItem) {
-		m_tvFilter.GetItem(&tvi);
-		if (m_tvFilter.GetCheckState(tvi.hItem)) flags |= 1 << (tvi.lParam - 1);
-		tvi.hItem = m_tvFilter.GetNextSibling(tvi.hItem);
+	void OnIgnoreAllChange(CCtrlBase*)
+	{
+		m_tvFilter.Enable(!m_chkIgnoreAll.GetState());
 	}
-	g_plugin.setDword("Filter", flags);
 
-	bUseMirandaSettings = m_chkIgnoreAll.GetState();
-	g_plugin.setByte("UseMirandaSettings", bUseMirandaSettings);
+	bool OnApply() override
+	{
+		DWORD flags = 0;
+		TVITEMEX tvi;
+		tvi.mask = TVIF_HANDLE | TBIF_LPARAM;
+		tvi.hItem = m_tvFilter.GetRoot(); //check ignore all
+		while (tvi.hItem) {
+			m_tvFilter.GetItem(&tvi);
+			if (m_tvFilter.GetCheckState(tvi.hItem)) flags |= 1 << (tvi.lParam - 1);
+			tvi.hItem = m_tvFilter.GetNextSibling(tvi.hItem);
+		}
+		g_plugin.setDword("Filter", flags);
 
-	fill_filter();
-	return true;
-}
+		bUseMirandaSettings = m_chkIgnoreAll.GetState();
+		g_plugin.setByte("UseMirandaSettings", bUseMirandaSettings);
+
+		fill_filter();
+		return true;
+	}
+};
 
 int onOptInitialise(WPARAM wParam, LPARAM)
 {

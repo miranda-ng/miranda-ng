@@ -68,20 +68,4 @@ VOID fill_filter();
 
 extern HANDLE hExtraIcon;
 
-class COptDialog : public CDlgBase
-{
-private:
-	CCtrlTreeView m_tvFilter;
-	CCtrlCheck m_chkIgnoreAll;
-
-protected:
-	bool OnInitDialog() override;
-	bool OnApply() override;
-
-	void OnIgnoreAllChange(CCtrlBase*);
-
-public:
-	COptDialog();
-};
-
 #endif //COMMHEADERS_H
