@@ -173,6 +173,24 @@ void CIcqProto::RetrieveUserInfo(MCONTACT hContact)
 
 void CIcqProto::SetServerStatus(int iStatus)
 {
+	const char *szStatus = "online";
+	int invisible = 0;
+
+	switch (iStatus) {
+	case ID_STATUS_OFFLINE: szStatus = "offline"; break;
+	case ID_STATUS_NA: szStatus = "occupied"; break;
+	case ID_STATUS_AWAY:
+	case ID_STATUS_DND: szStatus = "away"; break;
+	case ID_STATUS_INVISIBLE:
+		invisible = 1;	
+	}
+
+	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/presence/setState");
+	pReq->flags |= NLHRF_NODUMPSEND;
+	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("r", pReq->m_reqId) 
+		<< CHAR_PARAM("view", szStatus) << INT_PARAM("invisible", invisible);
+	Push(pReq);
+
 	int iOldStatus = m_iStatus; m_iStatus = iStatus;
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 }

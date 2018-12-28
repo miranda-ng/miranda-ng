@@ -36,42 +36,16 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 #define SVS_TIMEZONE      7
 #define SVS_MARITAL    	  8
 
-static int Proto_GetContactInfoSetting(MCONTACT hContact, const char *szProto, const char *szModule, const char *szSetting, DBVARIANT *dbv, const int nType)
-{
-	DBCONTACTGETSETTING cgs = { szModule, szSetting, dbv };
-	dbv->type = (BYTE)nType;
-
-	return CallProtoService(szProto, PS_GETINFOSETTING, hContact, (LPARAM)&cgs);
-}
-
-static wchar_t* Proto_GetContactInfoSettingStr(bool proto_service, MCONTACT hContact, const char *szModule, const char *szSetting)
-{
-	if (!proto_service)
-		return db_get_wsa(hContact, szModule, szSetting);
-
-	DBVARIANT dbv;
-	DBCONTACTGETSETTING cgs = { szModule, szSetting, &dbv };
-	dbv.type = DBVT_WCHAR;
-	if (CallProtoService(szModule, PS_GETINFOSETTING, hContact, (LPARAM)&cgs))
-		return nullptr;
-
-	return dbv.pwszVal;
-}
-
 static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule, char *szSetting, int special)
 {
 	char str[80], *pstr = nullptr;
 	wchar_t *ptstr = nullptr;
-	char *szProto = GetContactProto(hContact);
-	bool proto_service = szProto && (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_INFOSETTINGSVC);
 
 	DBVARIANT dbv = { DBVT_DELETED };
 
 	int unspecified;
 	if (szModule == nullptr)
 		unspecified = 1;
-	else if (proto_service)
-		unspecified = Proto_GetContactInfoSetting(hContact, szProto, szModule, szSetting, &dbv, 0);
 	else
 		unspecified = db_get_s(hContact, szModule, szSetting, &dbv, 0);
 
@@ -435,7 +409,6 @@ static INT_PTR CALLBACK BackgroundDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					if (szProto == nullptr)
 						break;
 
-					bool proto_service = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_INFOSETTINGSVC) == PF4_INFOSETTINGSVC;
 					SetValue(hwndDlg, IDC_WEBPAGE, hContact, szProto, "Homepage", SVS_ZEROISUNSPEC);
 
 					// past
@@ -445,7 +418,7 @@ static INT_PTR CALLBACK BackgroundDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					lvi.iItem = 0;
 					for (int i = 0;; i++) {
 						mir_snprintf(idstr, "Past%d", i);
-						ptrW tszColText(Proto_GetContactInfoSettingStr(proto_service, hContact, szProto, idstr));
+						ptrW tszColText(db_get_wsa(hContact, szProto, idstr));
 						if (tszColText == NULL)
 							break;
 						mir_snprintf(idstr, "Past%dText", i);
@@ -462,7 +435,7 @@ static INT_PTR CALLBACK BackgroundDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					// affiliation
 					for (int i = 0;; i++) {
 						mir_snprintf(idstr, "Affiliation%d", i);
-						ptrW tszColText(Proto_GetContactInfoSettingStr(proto_service, hContact, szProto, idstr));
+						ptrW tszColText(db_get_wsa(hContact, szProto, idstr));
 						if (tszColText == NULL)
 							break;
 						mir_snprintf(idstr, "Affiliation%dText", i);
@@ -485,7 +458,7 @@ static INT_PTR CALLBACK BackgroundDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					lvi.iItem = 0;
 					for (int i = 0;; i++) {
 						mir_snprintf(idstr, "Interest%dCat", i);
-						ptrW tszColText(Proto_GetContactInfoSettingStr(proto_service, hContact, szProto, idstr));
+						ptrW tszColText(db_get_wsa(hContact, szProto, idstr));
 						if (tszColText == NULL)
 							break;
 						mir_snprintf(idstr, "Interest%dText", i);

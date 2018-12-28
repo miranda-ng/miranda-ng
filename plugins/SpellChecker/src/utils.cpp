@@ -709,20 +709,8 @@ void GetUserProtoLanguageSetting(Dialog *dlg, MCONTACT hContact, char *group, ch
 {
 	DBVARIANT dbv = { 0 };
 	dbv.type = DBVT_WCHAR;
-
-	int caps = (isProtocol ? CallProtoService(group, PS_GETCAPS, PFLAGNUM_4, 0) : 0);
-	if (caps & PF4_INFOSETTINGSVC) {
-		DBCONTACTGETSETTING cgs = {};
-		cgs.szModule = group;
-		cgs.szSetting = setting;
-		cgs.pValue = &dbv;
-		if (CallProtoService(group, PS_GETINFOSETTING, hContact, (LPARAM)&cgs))
-			return;
-	}
-	else {
-		if (db_get_ws(hContact, group, setting, &dbv))
-			return;
-	}
+	if (db_get_ws(hContact, group, setting, &dbv))
+		return;
 
 	if (dbv.type == DBVT_WCHAR && dbv.pwszVal != nullptr) {
 		wchar_t *lang = dbv.pwszVal;

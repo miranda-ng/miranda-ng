@@ -40,24 +40,10 @@ static wchar_t* nameOrderDescr[ NAMEORDERCOUNT ] =
 
 BYTE nameOrder[NAMEORDERCOUNT];
 
-static int GetDatabaseString(MCONTACT hContact, const char *szProto, const char *szSetting, DBVARIANT *dbv)
-{
-	if (mir_strcmp(szProto, "CList") && CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_INFOSETTINGSVC) {
-		DBCONTACTGETSETTING cgs = { szProto, szSetting, dbv };
-		dbv->type = DBVT_WCHAR;
-
-		INT_PTR res = CallProtoService(szProto, PS_GETINFOSETTING, (WPARAM)hContact, (LPARAM)&cgs);
-		if (res != CALLSERVICE_NOTFOUND)
-			return res;
-	}
-
-	return db_get_ws(hContact, szProto, szSetting, dbv);
-}
-
 static wchar_t* ProcessDatabaseValueDefault(MCONTACT hContact, const char *szProto, const char *szSetting)
 {
 	DBVARIANT dbv;
-	if (!GetDatabaseString(hContact, szProto, szSetting, &dbv)) {
+	if (!db_get_ws(hContact, szProto, szSetting, &dbv)) {
 		switch (dbv.type) {
 		case DBVT_ASCIIZ:
 			if (!dbv.pszVal[0]) break;
@@ -144,7 +130,7 @@ MIR_APP_DLL(wchar_t*) Contact_GetInfo(int type, MCONTACT hContact, const char *s
 
 	case CNF_COUNTRY:
 	case CNF_COCOUNTRY:
-		if (!GetDatabaseString(hContact, szProto, type == CNF_COUNTRY ? "CountryName" : "CompanyCountryName", &dbv))
+		if (!db_get_ws(hContact, szProto, type == CNF_COUNTRY ? "CountryName" : "CompanyCountryName", &dbv))
 			return dbv.pwszVal;
 
 		if (!db_get(hContact, szProto, type == CNF_COUNTRY ? "Country" : "CompanyCountry", &dbv)) {
@@ -164,9 +150,9 @@ MIR_APP_DLL(wchar_t*) Contact_GetInfo(int type, MCONTACT hContact, const char *s
 		break;
 
 	case CNF_FIRSTLAST:
-		if (!GetDatabaseString(hContact, szProto, "FirstName", &dbv)) {
+		if (!db_get_ws(hContact, szProto, "FirstName", &dbv)) {
 			DBVARIANT dbv2;
-			if (!GetDatabaseString(hContact, szProto, "LastName", &dbv2)) {
+			if (!db_get_ws(hContact, szProto, "LastName", &dbv2)) {
 				size_t len = mir_wstrlen(dbv.pwszVal) + mir_wstrlen(dbv2.pwszVal) + 2;
 				WCHAR* buf = (WCHAR*)mir_alloc(sizeof(WCHAR)*len);
 				if (buf != nullptr)
@@ -232,7 +218,7 @@ MIR_APP_DLL(wchar_t*) Contact_GetInfo(int type, MCONTACT hContact, const char *s
 				// protocol must define a PFLAG_UNIQUEIDSETTING
 				uid = Proto_GetUniqueId(szProto);
 				if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid) {
-					if (!GetDatabaseString(hContact, szProto, uid, &dbv)) {
+					if (!db_get_ws(hContact, szProto, uid, &dbv)) {
 						if (dbv.type == DBVT_BYTE || dbv.type == DBVT_WORD || dbv.type == DBVT_DWORD) {
 							long value = (dbv.type == DBVT_BYTE) ? dbv.bVal : (dbv.type == DBVT_WORD ? dbv.wVal : dbv.dVal);
 							WCHAR buf[40];
@@ -246,9 +232,9 @@ MIR_APP_DLL(wchar_t*) Contact_GetInfo(int type, MCONTACT hContact, const char *s
 
 			case 6: // first + last name
 			case 7: // last + first name
-				if (!GetDatabaseString(hContact, szProto, nameOrder[i] == 6 ? "FirstName" : "LastName", &dbv)) {
+				if (!db_get_ws(hContact, szProto, nameOrder[i] == 6 ? "FirstName" : "LastName", &dbv)) {
 					DBVARIANT dbv2;
-					if (!GetDatabaseString(hContact, szProto, nameOrder[i] == 6 ? "LastName" : "FirstName", &dbv2)) {
+					if (!db_get_ws(hContact, szProto, nameOrder[i] == 6 ? "LastName" : "FirstName", &dbv2)) {
 						size_t len = mir_wstrlen(dbv.pwszVal) + mir_wstrlen(dbv2.pwszVal) + 2;
 						WCHAR* buf = (WCHAR*)mir_alloc(sizeof(WCHAR)*len);
 						if (buf != nullptr)
