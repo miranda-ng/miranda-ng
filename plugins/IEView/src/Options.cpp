@@ -388,7 +388,6 @@ static void MarkInitialized(int i)
 static void ApplyChanges(int i)
 {
 	changed &= ~i;
-	initialized &= ~i;
 	if (changed == 0) {
 		Options::saveProtocolSettings();
 		NotifyEventHooks(hHookOptionsChanged, 0, 0);
@@ -915,19 +914,6 @@ static INT_PTR CALLBACK IEViewGroupChatsOptDlgProc(HWND hwndDlg, UINT msg, WPARA
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct
-{
-	DLGPROC dlgProc;
-	DWORD dlgId;
-	wchar_t *tabName;
-}
-static tabPages[] =
-{
-	{ IEViewSRMMOptDlgProc, IDD_SRMM_OPTIONS, LPGENW("Message Log") },
-	{ IEViewGroupChatsOptDlgProc, IDD_SRMM_OPTIONS, LPGENW("Group chats") },
-	{ IEViewHistoryOptDlgProc, IDD_SRMM_OPTIONS, LPGENW("History") }
-};
-
 int IEViewOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
@@ -941,12 +927,20 @@ int IEViewOptInit(WPARAM wParam, LPARAM)
 
 	odp.szGroup.w = LPGENW("Skins");
 	odp.szTitle.w = LPGENW("IEView");
-	for (auto &it : tabPages) {
-		odp.pszTemplate = MAKEINTRESOURCEA(it.dlgId);
-		odp.pfnDlgProc = it.dlgProc;
-		odp.szTab.w = it.tabName;
-		g_plugin.addOptions(wParam, &odp);
-	}
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SRMM_OPTIONS);
+	odp.pfnDlgProc = IEViewSRMMOptDlgProc;
+	odp.szTab.w = LPGENW("Message Log");
+	g_plugin.addOptions(wParam, &odp);
+
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SRMM_OPTIONS);
+	odp.pfnDlgProc = IEViewGroupChatsOptDlgProc;
+	odp.szTab.w = LPGENW("Group chats");
+	g_plugin.addOptions(wParam, &odp);
+
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SRMM_OPTIONS);
+	odp.pfnDlgProc = IEViewHistoryOptDlgProc;
+	odp.szTab.w = LPGENW("History");
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 
