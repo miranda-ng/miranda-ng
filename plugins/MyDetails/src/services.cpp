@@ -19,108 +19,98 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-static long nickname_dialog_open;
-static HWND hwndSetNickname;
-
-static long status_msg_dialog_open;
-static HWND hwndSetStatusMsg;
+CDlgBase *pSetNickDialog = nullptr, *pSetStatusMessageDialog = nullptr;
 
 // Set nickname ///////////////////////////////////////////////////////////////////////////////////
 
-#define WMU_SETDATA (WM_USER + 1)
-
-static INT_PTR CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
+class CSetNickDialog : public CDlgBase
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		SendDlgItemMessage(hwndDlg, IDC_NICKNAME, EM_LIMITTEXT, MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE - 1, 0);
-		return TRUE;
+	int m_protonum;
 
-	case WMU_SETDATA:
-		{
-			int proto_num = (int)wParam;
-
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, proto_num);
-
-			if (proto_num == -1) {
-				Window_SetSkinIcon_IcoLib(hwndDlg, SKINICON_OTHER_MIRANDA);
-
-				// All protos have the same nick?
-				if (protocols->GetSize() > 0) {
-					wchar_t *nick = protocols->Get(0)->nickname;
-
-					bool foundDefNick = true;
-					for (int i = 1; foundDefNick && i < protocols->GetSize(); i++) {
-						if (mir_wstrcmpi(protocols->Get(i)->nickname, nick) != 0) {
-							foundDefNick = false;
-							break;
-						}
-					}
-
-					if (foundDefNick)
-						if (mir_wstrcmpi(protocols->default_nick, nick) != 0)
-							mir_wstrcpy(protocols->default_nick, nick);
-				}
-
-				SetDlgItemText(hwndDlg, IDC_NICKNAME, protocols->default_nick);
-				SendDlgItemMessage(hwndDlg, IDC_NICKNAME, EM_LIMITTEXT, MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE, 0);
-			}
-			else {
-				Protocol *proto = protocols->Get(proto_num);
-
-				wchar_t tmp[128];
-				mir_snwprintf(tmp, TranslateT("Set my nickname for %s"), proto->description);
-
-				SetWindowText(hwndDlg, tmp);
-
-				HICON hIcon = (HICON)CallProtoService(proto->name, PS_LOADICON, PLI_PROTOCOL, 0);
-				if (hIcon != nullptr) {
-					SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
-					DestroyIcon(hIcon);
-				}
-
-				SetDlgItemText(hwndDlg, IDC_NICKNAME, proto->nickname);
-				SendDlgItemMessage(hwndDlg, IDC_NICKNAME, EM_LIMITTEXT,
-					min(MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE, proto->GetNickMaxLength()), 0);
-			}
-
-			return TRUE;
-		}
-
-	case WM_COMMAND:
-		switch (wParam) {
-		case IDOK:
-			{
-				wchar_t tmp[MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE];
-				GetDlgItemText(hwndDlg, IDC_NICKNAME, tmp, _countof(tmp));
-
-				LONG_PTR proto_num = GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				if (proto_num == -1)
-					protocols->SetNicks(tmp);
-				else
-					protocols->Get(proto_num)->SetNick(tmp);
-
-				DestroyWindow(hwndDlg);
-				break;
-			}
-		case IDCANCEL:
-			DestroyWindow(hwndDlg);
-			break;
-		}
-		break;
-
-	case WM_CLOSE:
-		DestroyWindow(hwndDlg);
-		break;
-
-	case WM_DESTROY:
-		InterlockedExchange(&nickname_dialog_open, 0);
-		break;
+	CCtrlEdit m_edtNickname;
+	CCtrlButton m_btnOk, m_btnCancel;
+public:
+	CSetNickDialog(int protoparam) :
+		CDlgBase(g_plugin, IDD_SETNICKNAME),
+		m_edtNickname(this, IDC_NICKNAME),
+		m_btnOk(this, IDOK),
+		m_btnCancel(this, IDCANCEL)
+	{
+		m_protonum = protoparam;
+		m_btnOk.OnClick = Callback(this, &CSetNickDialog::OnOkClick);
+		m_btnCancel.OnClick = Callback(this, &CSetNickDialog::OnCancelClick);
 	}
 
-	return FALSE;
-}
+	bool OnInitDialog() override
+	{
+		m_edtNickname.SendMsg(EM_LIMITTEXT, MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE - 1, 0);
+
+		if (m_protonum == -1) {
+			Window_SetSkinIcon_IcoLib(m_hwnd, SKINICON_OTHER_MIRANDA);
+
+			// All protos have the same nick?
+			if (protocols->GetSize() > 0) {
+				wchar_t *nick = protocols->Get(0)->nickname;
+
+				bool foundDefNick = true;
+				for (int i = 1; foundDefNick && i < protocols->GetSize(); i++) {
+					if (mir_wstrcmpi(protocols->Get(i)->nickname, nick) != 0) {
+						foundDefNick = false;
+						break;
+					}
+				}
+
+				if (foundDefNick)
+					if (mir_wstrcmpi(protocols->default_nick, nick) != 0)
+						mir_wstrcpy(protocols->default_nick, nick);
+			}
+
+			m_edtNickname.SetText(protocols->default_nick);
+			m_edtNickname.SendMsg(EM_LIMITTEXT, MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE, 0);
+		}
+		else {
+			Protocol *proto = protocols->Get(m_protonum);
+
+			wchar_t tmp[128];
+			mir_snwprintf(tmp, TranslateT("Set my nickname for %s"), proto->description);
+
+			SetWindowText(m_hwnd, tmp);
+
+			HICON hIcon = (HICON)CallProtoService(proto->name, PS_LOADICON, PLI_PROTOCOL, 0);
+			if (hIcon != nullptr) {
+				SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+				DestroyIcon(hIcon);
+			}
+
+			m_edtNickname.SetText(proto->nickname);
+			m_edtNickname.SendMsg(EM_LIMITTEXT, min(MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE, proto->GetNickMaxLength()), 0);
+		}
+		return true;
+	}
+
+	void OnOkClick(CCtrlBase*)
+	{
+		wchar_t tmp[MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE];
+		m_edtNickname.GetText(tmp, _countof(tmp));
+
+		if (m_protonum == -1)
+			protocols->SetNicks(tmp);
+		else
+			protocols->Get(m_protonum)->SetNick(tmp);
+	}
+
+	void OnCancelClick(CCtrlBase*)
+	{
+		Close();
+	}
+
+	bool OnClose() override
+	{
+		if (pSetNickDialog == this)
+			pSetNickDialog = nullptr;
+		return true;
+	}
+};
 
 INT_PTR PluginCommand_SetMyNicknameUI(WPARAM, LPARAM lParam)
 {
@@ -144,17 +134,14 @@ INT_PTR PluginCommand_SetMyNicknameUI(WPARAM, LPARAM lParam)
 
 	}
 
-	if (!nickname_dialog_open) {
-		InterlockedExchange(&nickname_dialog_open, 1);
-
-		hwndSetNickname = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SETNICKNAME), nullptr, DlgProcSetNickname);
-
-		SendMessage(hwndSetNickname, WMU_SETDATA, proto_num, 0);
+	if (pSetNickDialog == nullptr) {
+		pSetNickDialog = new CSetNickDialog(proto_num);
+		pSetNickDialog->Show();
 	}
-
-	SetForegroundWindow(hwndSetNickname);
-	SetFocus(hwndSetNickname);
-	ShowWindow(hwndSetNickname, SW_SHOW);
+	else {
+		SetForegroundWindow(pSetNickDialog->GetHwnd());
+		SetFocus(pSetNickDialog->GetHwnd());
+	}
 
 	return 0;
 }
@@ -306,96 +293,91 @@ struct SetStatusMessageData
 	int proto_num;
 };
 
-static INT_PTR CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+class CSetStatusMessageDialog : public CDlgBase
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		SendDlgItemMessage(hwndDlg, IDC_STATUSMESSAGE, EM_LIMITTEXT, MS_MYDETAILS_GETMYSTATUSMESSAGE_BUFFER_SIZE - 1, 0);
-		mir_subclassWindow(GetDlgItem(hwndDlg, IDC_STATUSMESSAGE), StatusMsgEditSubclassProc);
-		return TRUE;
+	SetStatusMessageData *m_data;
 
-	case WMU_SETDATA:
-		{
-			SetStatusMessageData *data = (SetStatusMessageData *)malloc(sizeof(SetStatusMessageData));
-			data->status = (int)wParam;
-			data->proto_num = (int)lParam;
+	CCtrlEdit m_edtStatusMessage;
+	CCtrlButton m_btnOk, m_btnCancel;
+public:
+	CSetStatusMessageDialog(int protoparam, int statusparam) :
+		CDlgBase(g_plugin, IDD_SETSTATUSMESSAGE),
+		m_edtStatusMessage(this, IDC_STATUSMESSAGE),
+		m_btnOk(this, IDOK),
+		m_btnCancel(this, IDCANCEL)
+	{
+		m_data = (SetStatusMessageData *)mir_alloc(sizeof(SetStatusMessageData));
+		m_data->proto_num = protoparam;
+		m_data->status = statusparam;
 
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)data);
-
-			if (data->proto_num >= 0) {
-				Protocol *proto = protocols->Get(data->proto_num);
-
-				HICON hIcon = (HICON)CallProtoService(proto->name, PS_LOADICON, PLI_PROTOCOL, 0);
-				if (hIcon != nullptr) {
-					SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
-					DestroyIcon(hIcon);
-				}
-
-				wchar_t title[256];
-				mir_snwprintf(title, TranslateT("Set my status message for %s"), proto->description);
-				SetWindowText(hwndDlg, title);
-
-				SetDlgItemText(hwndDlg, IDC_STATUSMESSAGE, proto->GetStatusMsg());
-			}
-			else if (data->status != 0) {
-				Window_SetProtoIcon_IcoLib(hwndDlg, nullptr, data->status);
-
-				wchar_t title[256];
-				mir_snwprintf(title, TranslateT("Set my status message for %s"), Clist_GetStatusModeDescription(data->status, 0));
-				SetWindowText(hwndDlg, title);
-
-				SetDlgItemText(hwndDlg, IDC_STATUSMESSAGE, protocols->GetDefaultStatusMsg(data->status));
-			}
-			else {
-				Window_SetSkinIcon_IcoLib(hwndDlg, SKINICON_OTHER_MIRANDA);
-
-				SetDlgItemText(hwndDlg, IDC_STATUSMESSAGE, protocols->GetDefaultStatusMsg());
-			}
-		}
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (wParam) {
-		case IDOK:
-			{
-				wchar_t tmp[MS_MYDETAILS_GETMYSTATUSMESSAGE_BUFFER_SIZE];
-				GetDlgItemText(hwndDlg, IDC_STATUSMESSAGE, tmp, _countof(tmp));
-
-				SetStatusMessageData *data = (SetStatusMessageData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-
-				if (data->proto_num >= 0)
-					protocols->Get(data->proto_num)->SetStatusMsg(tmp);
-				else if (data->status == 0)
-					protocols->SetStatusMsgs(tmp);
-				else
-					protocols->SetStatusMsgs(data->status, tmp);
-
-				DestroyWindow(hwndDlg);
-			}
-			break;
-
-		case IDCANCEL:
-			DestroyWindow(hwndDlg);
-			break;
-		}
-		break;
-
-	case WM_CLOSE:
-		DestroyWindow(hwndDlg);
-		break;
-
-	case WM_DESTROY:
-		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_STATUSMESSAGE), GWLP_WNDPROC,
-			GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_STATUSMESSAGE), GWLP_USERDATA));
-		free((SetStatusMessageData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
-		Window_FreeIcon_IcoLib(hwndDlg);
-		InterlockedExchange(&status_msg_dialog_open, 0);
-		break;
+		m_btnOk.OnClick = Callback(this, &CSetStatusMessageDialog::OnOkClick);
+		m_btnCancel.OnClick = Callback(this, &CSetStatusMessageDialog::OnCancelClick);
 	}
 
-	return FALSE;
-}
+	bool OnInitDialog() override
+	{
+		m_edtStatusMessage.SendMsg(EM_LIMITTEXT, MS_MYDETAILS_GETMYSTATUSMESSAGE_BUFFER_SIZE - 1, 0);
+		mir_subclassWindow(m_edtStatusMessage.GetHwnd(), StatusMsgEditSubclassProc);
+
+		if (m_data->proto_num >= 0) {
+			Protocol *proto = protocols->Get(m_data->proto_num);
+
+			HICON hIcon = (HICON)CallProtoService(proto->name, PS_LOADICON, PLI_PROTOCOL, 0);
+			if (hIcon != nullptr) {
+				SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+				DestroyIcon(hIcon);
+			}
+
+			wchar_t title[256];
+			mir_snwprintf(title, TranslateT("Set my status message for %s"), proto->description);
+			SetWindowText(m_hwnd, title);
+
+			m_edtStatusMessage.SetText(proto->GetStatusMsg());
+		}
+		else if (m_data->status != 0) {
+			Window_SetProtoIcon_IcoLib(m_hwnd, nullptr, m_data->status);
+
+			wchar_t title[256];
+			mir_snwprintf(title, TranslateT("Set my status message for %s"), Clist_GetStatusModeDescription(m_data->status, 0));
+			SetWindowText(m_hwnd, title);
+
+			m_edtStatusMessage.SetText(protocols->GetDefaultStatusMsg(m_data->status));
+		}
+		else {
+			Window_SetSkinIcon_IcoLib(m_hwnd, SKINICON_OTHER_MIRANDA);
+
+			m_edtStatusMessage.SetText(protocols->GetDefaultStatusMsg());
+		}
+		return true;
+	}
+
+	void OnOkClick(CCtrlBase*)
+	{
+		wchar_t tmp[MS_MYDETAILS_GETMYSTATUSMESSAGE_BUFFER_SIZE];
+		m_edtStatusMessage.GetText(tmp, _countof(tmp));
+
+		if (m_data->proto_num >= 0)
+			protocols->Get(m_data->proto_num)->SetStatusMsg(tmp);
+		else if (m_data->status == 0)
+			protocols->SetStatusMsgs(tmp);
+		else
+			protocols->SetStatusMsgs(m_data->status, tmp);
+	}
+
+	void OnCancelClick(CCtrlBase*)
+	{
+		Close();
+	}
+
+	bool OnClose() override
+	{
+		mir_free(m_data);
+		Window_FreeIcon_IcoLib(m_hwnd);
+		if (pSetStatusMessageDialog == this)
+			pSetStatusMessageDialog = nullptr;
+		return true;
+	}
+};
 
 INT_PTR PluginCommand_SetMyStatusMessageUI(WPARAM wParam, LPARAM lParam)
 {
@@ -434,24 +416,19 @@ INT_PTR PluginCommand_SetMyStatusMessageUI(WPARAM wParam, LPARAM lParam)
 	} // fallthrough
 
 	if (proto == nullptr || proto->status != ID_STATUS_OFFLINE) {
-		if (!status_msg_dialog_open) {
-			InterlockedExchange(&status_msg_dialog_open, 1);
-
-			hwndSetStatusMsg = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SETSTATUSMESSAGE), nullptr, DlgProcSetStatusMessage);
-
-			SendMessage(hwndSetStatusMsg, WMU_SETDATA, status, proto_num);
+		if (pSetStatusMessageDialog == nullptr) {
+			pSetStatusMessageDialog = new CSetStatusMessageDialog(proto_num, status);
+			pSetStatusMessageDialog->Show();
 		}
-
-		SetForegroundWindow(hwndSetStatusMsg);
-		SetFocus(hwndSetStatusMsg);
-		ShowWindow(hwndSetStatusMsg, SW_SHOW);
-
+		else {
+			SetForegroundWindow(pSetStatusMessageDialog->GetHwnd());
+			SetFocus(pSetStatusMessageDialog->GetHwnd());
+		}
 		return 0;
 	}
 
 	return -3;
 }
-
 
 INT_PTR PluginCommand_CycleThroughtProtocols(WPARAM wParam, LPARAM)
 {

@@ -62,7 +62,7 @@ class CViewVersionInfo : public CDlgBase
 	}
 
 public:
-	CViewVersionInfo::CViewVersionInfo(DWORD flags) :
+	CViewVersionInfo(DWORD flags) :
 		CDlgBase(g_plugin, IDD_VIEWVERSION),
 		m_btnCancel(this, IDCANCEL),
 		m_btnCopyClip(this, IDC_CLIPVER),
@@ -76,7 +76,7 @@ public:
 		m_redtViewVersionInfo.OnBuildMenu = Callback(this, &CViewVersionInfo::OnViewVersionInfoBuildMenu);
 	}
 
-	bool CViewVersionInfo::OnInitDialog() override
+	bool OnInitDialog() override
 	{
 		Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_VI));
 		{
@@ -99,7 +99,7 @@ public:
 		return true;
 	}
 
-	bool CViewVersionInfo::OnClose() override
+	bool OnClose() override
 	{
 		Window_FreeIcon_IcoLib(m_hwnd);
 		Utils_SaveWindowPosition(m_hwnd, NULL, MODULENAME, "ViewInfo_");
@@ -111,7 +111,7 @@ public:
 	}
 
 
-	INT_PTR CViewVersionInfo::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		if (msg == WM_GETMINMAXINFO) {
 			LPMINMAXINFO mmi = (LPMINMAXINFO)lParam;
@@ -123,7 +123,7 @@ public:
 		return CDlgBase::DlgProc(msg, wParam, lParam);
 	}
 
-	int CViewVersionInfo::Resizer(UTILRESIZECONTROL *) override
+	int Resizer(UTILRESIZECONTROL *) override
 	{
 		RECT rc;
 		GetWindowRect(m_btnCopyFile.GetHwnd(), &rc);
@@ -140,22 +140,22 @@ public:
 		return 0;
 	}
 
-	void CViewVersionInfo::OnCancelClick(CCtrlBase*)
+	void OnCancelClick(CCtrlBase*)
 	{
 		Close();
 	}
 
-	void CViewVersionInfo::OnCopyClipClick(CCtrlBase*)
+	void OnCopyClipClick(CCtrlBase*)
 	{
 		CallService(MS_CRASHDUMPER_STORETOCLIP, 0, m_flags);
 	}
 
-	void CViewVersionInfo::OnCopyFileClick(CCtrlBase*)
+	void OnCopyFileClick(CCtrlBase*)
 	{
 		CallService(MS_CRASHDUMPER_STORETOFILE, 0, m_flags);
 	}
 
-	void CViewVersionInfo::OnViewVersionInfoBuildMenu(CCtrlBase*)
+	void OnViewVersionInfoBuildMenu(CCtrlBase*)
 	{
 		RECT rc;
 		GetWindowRect(m_redtViewVersionInfo.GetHwnd(), &rc);
