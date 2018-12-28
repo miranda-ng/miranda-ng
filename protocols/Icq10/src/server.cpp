@@ -286,6 +286,7 @@ void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 	case 200:
 		break;
 
+	case 330:
 	case 440:
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);
 		return;
