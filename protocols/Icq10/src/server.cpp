@@ -75,21 +75,32 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy)
 	MCONTACT hContact = CreateContact(dwUin, false);
 	FindContactByUIN(dwUin)->m_bInList = true;
 
-	CMStringW wszNick(buddy["friendly"].as_mstring());
-	if (!wszNick.IsEmpty())
-		setWString(hContact, "Nick", wszNick);
+	CMStringW str(buddy["friendly"].as_mstring());
+	if (!str.IsEmpty())
+		setWString(hContact, "Nick", str);
 
 	setDword(hContact, "Status", StatusFromString(buddy["state"].as_mstring()));
+
+	const JSONNode &profile = buddy["profile"];
+	if (profile) {
+		str = profile["firstName"].as_mstring();
+		if (!str.IsEmpty())
+			setWString(hContact, "FirstName", str);
+
+		str = profile["lastName"].as_mstring();
+		if (!str.IsEmpty())
+			setWString(hContact, "LastName", str);
+	}
 
 	int lastLogin = buddy["lastseen"].as_int();
 	if (lastLogin)
 		setDword(hContact, "LoginTS", lastLogin);
 
-	CMStringW wszStatus(buddy["statusMsg"].as_mstring());
-	if (wszStatus.IsEmpty())
+	str = buddy["statusMsg"].as_mstring();
+	if (str.IsEmpty())
 		db_unset(hContact, "CList", "StatusMsg");
 	else
-		db_set_ws(hContact, "CList", "StatusMsg", wszStatus);
+		db_set_ws(hContact, "CList", "StatusMsg", str);
 
 	CMStringW wszIconId(buddy["iconId"].as_mstring());
 	CMStringW oldIconID(getMStringW(hContact, "IconId"));

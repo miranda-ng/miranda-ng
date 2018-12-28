@@ -47,6 +47,7 @@ MCONTACT CIcqProto::CreateContact(DWORD dwUin, bool bTemporary)
 		mir_cslock l(m_csCache);
 		m_arCache.insert(pCache);
 	}
+	RetrieveUserInfo(hContact);
 
 	if (bTemporary)
 		db_set_b(hContact, "CList", "NotOnList", 1);
