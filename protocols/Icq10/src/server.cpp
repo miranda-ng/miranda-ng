@@ -72,20 +72,8 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy)
 {
 	DWORD dwUin = _wtol(buddy["aimId"].as_mstring());
 
-	auto *pCache = FindContactByUIN(dwUin);
-	if (pCache == nullptr) {
-		MCONTACT hContact = db_add_contact();
-		Proto_AddToContact(hContact, m_szModuleName);
-		setDword(hContact, "UIN", dwUin);
-		pCache = new IcqCacheItem(dwUin, hContact);
-		{
-			mir_cslock l(m_csCache);
-			m_arCache.insert(pCache);
-		}
-	}
-
-	MCONTACT hContact = pCache->m_hContact;
-	pCache->m_bInList = true;
+	MCONTACT hContact = CreateContact(dwUin, false);
+	FindContactByUIN(dwUin)->m_bInList = true;
 
 	CMStringW wszNick(buddy["friendly"].as_mstring());
 	if (!wszNick.IsEmpty())
@@ -450,9 +438,7 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 {
 	DWORD dwUin = _wtol(ev["sn"].as_mstring());
 
-	IcqCacheItem *pCache = FindContactByUIN(dwUin);
-	if (pCache == nullptr)
-		return;
+	MCONTACT hContact = CreateContact(dwUin, true);
 
 	for (auto &it : ev["tail"]["messages"]) {
 		CMStringA msgId(it["msgId"].as_mstring());
@@ -485,7 +471,7 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 			pre.szMsgId = msgId;
 			pre.timestamp = it["time"].as_int();
 			pre.szMessage = szUtf;
-			ProtoChainRecvMsg(pCache->m_hContact, &pre);
+			ProtoChainRecvMsg(hContact, &pre);
 		}
 	}
 }

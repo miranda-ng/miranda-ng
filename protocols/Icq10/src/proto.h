@@ -123,6 +123,7 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	void     InitContactCache(void);
 	IcqCacheItem* FindContactByUIN(DWORD);
+	MCONTACT CreateContact(DWORD dwUin, bool bTemporary);
 
 	void     GetAvatarFileName(MCONTACT hContact, wchar_t *pszDest, size_t cbLen);
 

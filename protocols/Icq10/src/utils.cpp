@@ -33,6 +33,27 @@ IcqCacheItem* CIcqProto::FindContactByUIN(DWORD dwUin)
 	return m_arCache.find((IcqCacheItem*)&dwUin);
 }
 
+MCONTACT CIcqProto::CreateContact(DWORD dwUin, bool bTemporary)
+{
+	auto *pCache = FindContactByUIN(dwUin);
+	if (pCache != nullptr)
+		return pCache->m_hContact;
+
+	MCONTACT hContact = db_add_contact();
+	Proto_AddToContact(hContact, m_szModuleName);
+	setDword(hContact, "UIN", dwUin);
+	pCache = new IcqCacheItem(dwUin, hContact);
+	{
+		mir_cslock l(m_csCache);
+		m_arCache.insert(pCache);
+	}
+
+	if (bTemporary)
+		db_set_b(hContact, "CList", "NotOnList", 1);
+
+	return hContact;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CIcqProto::CalcHash(AsyncHttpRequest *pReq)

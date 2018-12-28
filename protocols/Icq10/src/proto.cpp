@@ -98,17 +98,8 @@ MCONTACT CIcqProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 		return 0;
 
 	DWORD dwUin = _wtol(psr->id.w);
-	if (auto *p = FindContactByUIN(dwUin))
-		return p->m_hContact;
 
-	MCONTACT hContact = db_add_contact();
-	Proto_AddToContact(hContact, m_szModuleName);
-	setDword(hContact, "UIN", dwUin);
-	{
-		mir_cslock l(m_csCache);
-		m_arCache.insert(new IcqCacheItem(dwUin, hContact));
-	}
-
+	MCONTACT hContact = CreateContact(dwUin, true);
 	if (psr->nick.w)
 		setWString(hContact, "Nick", psr->nick.w);
 	if (psr->firstName.w)
@@ -116,7 +107,6 @@ MCONTACT CIcqProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 	if (psr->lastName.w)
 		setWString(hContact, "LastName", psr->lastName.w);
 
-	db_set_b(hContact, "CList", "NotOnList", 1);
 	return hContact;
 }
 
