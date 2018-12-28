@@ -312,18 +312,18 @@ static void RefreshProtoList(HWND hwndDlg, int mode, bool protoTemplates)
 	TreeView_SetImageList(hProtoList, hProtocolImageList, TVSIL_NORMAL);
 
 	for (auto &it : arTemp) {
-		char protoName[128];
 		TVINSERTSTRUCT tvi = {};
 		tvi.hParent = TVI_ROOT;
 		tvi.hInsertAfter = TVI_LAST;
 		tvi.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_IMAGE | TVIF_STATE | TVIF_SELECTEDIMAGE;
 		tvi.item.stateMask = TVIS_SELECTED | TVIS_STATEIMAGEMASK;
 		if (it->getProtocolName() == nullptr)
-			strncpy_s(protoName, Translate("Default"), _TRUNCATE);
-		else
-			CallProtoService(it->getProtocolName(), PS_GETNAME, sizeof(protoName), (LPARAM)protoName);
+			tvi.item.pszText = TranslateT("Default");
+		else {
+			PROTOACCOUNT *pa = Proto_GetAccount(it->getProtocolName());
+			tvi.item.pszText = (pa == nullptr) ? L"" : pa->tszAccountName;
+		}
 
-		tvi.item.pszText = mir_a2u(protoName);
 		tvi.item.lParam = (LPARAM)it;
 		tvi.item.iImage = tvi.item.iSelectedImage = arTemp.indexOf(&it);
 		switch (mode) {
