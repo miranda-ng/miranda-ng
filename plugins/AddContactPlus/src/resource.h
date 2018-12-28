@@ -6,7 +6,6 @@
 #define IDI_ADDCONTACT                  102
 #define IDC_MYHANDLE                    1000
 #define IDC_GROUP                       1001
-#define IDC_ADDED                       1002
 #define IDC_AUTH                        1003
 #define IDC_AUTHGB                      1004
 #define IDC_AUTHREQ                     1005

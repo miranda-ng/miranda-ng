@@ -67,8 +67,7 @@ INT_PTR WeatherGetCaps(WPARAM wParam, LPARAM)
 		break;
 
 	case PFLAGNUM_4:
-		ret = PF4_AVATARS | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_FORCEADDED |
-			PF4_FORCEAUTH;
+		ret = PF4_AVATARS | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_FORCEAUTH;
 		break;
 
 	case PFLAGNUM_5: /* this is PFLAGNUM_5 change when alpha SDK is released */

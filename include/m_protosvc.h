@@ -58,7 +58,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define PF1_MODEMSGRECV   0x00000080 // supports reading others' away messages
 #define PF1_SERVERCLIST   0x00000100 // contact lists are stored on the server, not locally. See notes below
 #define PF1_AUTHREQ       0x00000200 // will get authorisation requests for some or all contacts
-#define PF1_ADDED         0x00000400 // will get 'you were added' notifications
 #define PF1_VISLIST       0x00000800 // has an invisible list
 #define PF1_INVISLIST     0x00001000 // has a visible list for when in invisible mode
 #define PF1_INDIVSTATUS   0x00002000 // supports setting different status modes to each contact
@@ -137,7 +136,6 @@ static __inline unsigned long Proto_Status2Flag(int status)
 #define PFLAGNUM_4           4
 
 #define PF4_FORCEAUTH	     0x00000001 // forces auth requests to be sent when adding users
-#define PF4_FORCEADDED	     0x00000002 // forces "you were added" requests to be sent
 #define PF4_NOCUSTOMAUTH     0x00000004 // protocol doesn't support custom auth text (doesn't show auth text box)
 #define PF4_SUPPORTTYPING    0x00000008 // protocol supports user is typing messages
 #define PF4_SUPPORTIDLE      0x00000010 // protocol understands idle
@@ -299,13 +297,6 @@ static __inline unsigned long Proto_Status2Flag(int status)
 // Protocol modules must be able to cope with szReason = NULL
 
 #define PS_AUTHDENY    "/AuthDeny"
-
-///////////////////////////////////////////////////////////////////////////////
-// Send a "You were added" event
-// wParam = lParam = 0
-// Returns 0 on success, nonzero on failure
-
-#define PSS_ADDED	"/YouWereAdded"
 
 ///////////////////////////////////////////////////////////////////////////////
 // Create account manager UI form

@@ -77,7 +77,6 @@ const
   PF1_MODEMSG       = (PF1_MODEMSGSEND or PF1_MODEMSGRECV);
   PF1_SERVERCLIST   = $00000100; // contact lists are stored on the server, not locally. See notes below
   PF1_AUTHREQ       = $00000200; // will get authorisation requests for some or all contacts
-  PF1_ADDED         = $00000400; // will get 'you were added' notifications
   PF1_VISLIST       = $00000800; // has an invisible list
   PF1_INVISLIST     = $00001000; // has a visible list for when in invisible mode
   PF1_INDIVSTATUS   = $00002000; // supports setting different status modes to each contact
@@ -118,7 +117,6 @@ const
 
   PFLAGNUM_4           = 4;         // v0.3+: flag asking a protocol plugin how auths are handled
   PF4_FORCEAUTH        = $00000001; // protocol has to send auth's for things to work
-  PF4_FORCEADDED       = $00000002; // protocol has to tell people that they were added (otherwise things don't work)
   PF4_NOCUSTOMAUTH     = $00000004; // protocol can't send a custom message while asking others for auth
   PF4_SUPPORTTYPING    = $00000008; // protocol supports user is typing messages v0.3.3+
   PF4_SUPPORTIDLE      = $00000010; // protocol understands idle, added during v0.3.4+ (2004/09/13)

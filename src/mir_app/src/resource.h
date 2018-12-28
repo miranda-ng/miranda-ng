@@ -463,7 +463,6 @@
 #define IDC_TOPLINE                     1535
 #define IDC_MYHANDLE                    1540
 #define IDC_GROUP                       1541
-#define IDC_ADDED                       1542
 #define IDC_AUTH                        1543
 #define IDC_OPEN_WINDOW                 1544
 #define IDC_DELETEHISTORY               1560

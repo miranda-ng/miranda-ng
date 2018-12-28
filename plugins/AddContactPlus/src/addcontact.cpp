@@ -33,13 +33,11 @@ void AddContactDlgOpts(HWND hdlg, const char* szProto, BOOL bAuthOptsOnly = FALS
 {
 	DWORD flags = (szProto) ? CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) : 0;
 	if (IsDlgButtonChecked(hdlg, IDC_ADDTEMP)) {
-		EnableWindow(GetDlgItem(hdlg, IDC_ADDED), FALSE);
 		EnableWindow(GetDlgItem(hdlg, IDC_AUTH), FALSE);
 		EnableWindow(GetDlgItem(hdlg, IDC_AUTHREQ), FALSE);
 		EnableWindow(GetDlgItem(hdlg, IDC_AUTHGB), FALSE);
 	}
 	else {
-		EnableWindow(GetDlgItem(hdlg, IDC_ADDED), !(flags & PF4_FORCEADDED));
 		EnableWindow(GetDlgItem(hdlg, IDC_AUTH), !(flags & PF4_FORCEAUTH));
 		EnableWindow(GetDlgItem(hdlg, IDC_AUTHREQ), (flags & PF4_NOCUSTOMAUTH) ? FALSE : IsDlgButtonChecked(hdlg, IDC_AUTH));
 		EnableWindow(GetDlgItem(hdlg, IDC_AUTHGB), (flags & PF4_NOCUSTOMAUTH) ? FALSE : IsDlgButtonChecked(hdlg, IDC_AUTH));
@@ -178,7 +176,6 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 		}
 		if (AddContactDlgAccounts(hdlg, acs)) {
 			// By default check these checkboxes
-			CheckDlgButton(hdlg, IDC_ADDED, BST_CHECKED);
 			CheckDlgButton(hdlg, IDC_AUTH, BST_CHECKED);
 			AddContactDlgOpts(hdlg, acs->proto);
 			EnableWindow(GetDlgItem(hdlg, IDOK), FALSE);
@@ -267,9 +264,6 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 
 				if (BST_UNCHECKED == IsDlgButtonChecked(hdlg, IDC_ADDTEMP)) {
 					db_unset(hContact, "CList", "NotOnList");
-
-					if (IsDlgButtonChecked(hdlg, IDC_ADDED))
-						ProtoChainSend(hContact, PSS_ADDED, 0, 0);
 
 					if (IsDlgButtonChecked(hdlg, IDC_AUTH)) {
 						DWORD flags = CallProtoService(acs->proto, PS_GETCAPS, PFLAGNUM_4, 0);

@@ -56,7 +56,6 @@ BEGIN
     CONTROL         "Ignore",IDC_IGNORE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,42,136,10
     CONTROL         "Copy to Account (Ctrl+click for move to Account)",IDC_PROTOS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,54,251,10
-    CONTROL         "Send 'You were added'",IDC_ADDED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,66,136,10
     CONTROL         "Request Authorization",IDC_AUTHREQ,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,78,136,10
     CONTROL         "Browse Received Files",IDC_RECVFILES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,90,136,10
     CONTROL         "Copy IP",IDC_COPYIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,102,136,10

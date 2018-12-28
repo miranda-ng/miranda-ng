@@ -50,9 +50,8 @@ BEGIN
     PUSHBUTTON      "&Cancel",IDCANCEL,139,135,71,14
     EDITTEXT        IDC_MYHANDLE,6,16,90,12,ES_AUTOHSCROLL
     COMBOBOX        IDC_GROUP,112,16,110,60,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Send ""You were added""",IDC_ADDED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,44,204,10
-    CONTROL         "Send authorization request",IDC_AUTH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,56,204,10
-    CONTROL         "Open contact's chat window",IDC_OPEN_WINDOW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,68,204,10
+    CONTROL         "Send authorization request",IDC_AUTH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,44,204,10
+    CONTROL         "Open contact's chat window",IDC_OPEN_WINDOW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,56,204,10
     LTEXT           "Custom name:",IDC_STATIC,6,4,70,10
     LTEXT           "Group:",IDC_STATIC,112,4,70,10
     GROUPBOX        "Options",IDC_STATIC,7,33,216,48
@@ -295,8 +294,6 @@ BEGIN
     CTEXT           "Only the ticked contacts will be shown on the main contact list",IDC_STCHECKMARKS,8,227,297,8
     CONTROL         "",IDC_LIST,"CListControl",WS_TABSTOP | 0x3da,8,26,297,146,WS_EX_CLIENTEDGE
     GROUPBOX        "Ignore",IDC_STATIC,0,0,313,240
-    ICON            IDI_ADDCONTACT,IDC_ADDED,96,202,20,20,SS_CENTERIMAGE
-    LTEXT           "Added notification",IDC_STATIC,116,208,107,8,SS_NOPREFIX | SS_CENTERIMAGE
     ICON            IDI_TYPING,IDC_TYPINGICON,221,172,20,20,SS_CENTERIMAGE
     LTEXT           "Typing",IDC_STATIC,241,178,66,8,SS_NOPREFIX | SS_CENTERIMAGE
 END

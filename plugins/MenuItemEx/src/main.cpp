@@ -5,7 +5,6 @@
 #define MS_HIDE       "MenuEx/Hide"
 #define MS_IGNORE     "MenuEx/Ignore"
 #define MS_PROTO      "MenuEx/ChangeProto"
-#define MS_ADDED      "MenuEx/SendAdded"
 #define MS_AUTHREQ    "MenuEx/SendAuthReq"
 #define MS_COPYID     "MenuEx/CopyID"
 #define MS_RECVFILES  "MenuEx/RecvFiles"
@@ -16,7 +15,7 @@
 
 const int vf_default = VF_VS | VF_HFL | VF_IGN | VF_CID | VF_SHOWID | VF_RECV | VF_STAT | VF_SMNAME | VF_CIDN | VF_CIP;
 
-HGENMENU hmenuVis, hmenuOff, hmenuHide, hmenuIgnore, hmenuProto, hmenuAdded, hmenuAuthReq;
+HGENMENU hmenuVis, hmenuOff, hmenuHide, hmenuIgnore, hmenuProto, hmenuAuthReq;
 HGENMENU hmenuCopyID, hmenuRecvFiles, hmenuStatusMsg, hmenuCopyIP, hmenuCopyMirVer;
 static HGENMENU hIgnoreItem[9], hProtoItem[MAX_PROTOS];
 HICON hIcons[5];
@@ -410,13 +409,6 @@ static INT_PTR onSendAuthRequest(WPARAM wparam, LPARAM)
 	return 0;
 }
 
-static INT_PTR onSendAdded(WPARAM wparam, LPARAM)
-{
-	MCONTACT hContact = (MCONTACT)wparam;
-	ProtoChainSend(hContact, PSS_ADDED, 0, 0);
-	return 0;
-}
-
 // set the invisible-flag in db
 static INT_PTR onSetInvis(WPARAM wparam, LPARAM)
 {
@@ -796,7 +788,6 @@ static int BuildMenu(WPARAM wparam, LPARAM)
 	}
 	else Menu_ShowItem(hmenuProto, false);
 
-	Menu_ShowItem(hmenuAdded, (bShowAll || (flags & VF_ADD)) && bIsOnline && pa->IsEnabled());
 	Menu_ShowItem(hmenuAuthReq, (bShowAll || (flags & VF_REQ)) && bIsOnline && pa->IsEnabled());
 
 	bEnabled = bShowAll || (flags & VF_CID);
@@ -967,13 +958,6 @@ static int PluginInit(WPARAM, LPARAM)
 
 	mi.flags = CMIF_UNICODE;
 
-	SET_UID(mi, 0x3f031688, 0xe947, 0x4aba, 0xa3, 0xc4, 0xa7, 0x2c, 0xd0, 0xda, 0x88, 0xb4);
-	mi.position++;
-	mi.name.w = LPGENW("Send 'You were added'");
-	mi.pszService = MS_ADDED;
-	mi.hIcolibItem = Skin_LoadIcon(SKINICON_AUTH_ADD);
-	hmenuAdded = Menu_AddContactMenuItem(&mi);
-
 	SET_UID(mi, 0x332c5564, 0x6283, 0x43ff, 0xa2, 0xfc, 0x58, 0x29, 0x27, 0x83, 0xea, 0x1a);
 	mi.position++;
 	mi.name.w = LPGENW("Request authorization");
@@ -1035,7 +1019,6 @@ int CMPlugin::Load()
 	CreateServiceFunction(MS_HIDE, onHide);
 	CreateServiceFunction(MS_IGNORE, onIgnore);
 	CreateServiceFunction(MS_PROTO, onChangeProto);
-	CreateServiceFunction(MS_ADDED, onSendAdded);
 	CreateServiceFunction(MS_AUTHREQ, onSendAuthRequest);
 	CreateServiceFunction(MS_COPYID, onCopyID);
 	CreateServiceFunction(MS_RECVFILES, onRecvFiles);

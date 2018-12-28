@@ -222,7 +222,6 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 		SendDlgItemMessage(hwndDlg, IDC_FILEICON, STM_SETICON, (WPARAM)hIcons[4], 0);
 		SendDlgItemMessage(hwndDlg, IDC_ONLINEICON, STM_SETICON, (WPARAM)hIcons[5], 0);
 		SendDlgItemMessage(hwndDlg, IDC_AUTHICON, STM_SETICON, (WPARAM)hIcons[6], 0);
-		SendDlgItemMessage(hwndDlg, IDC_ADDED, STM_SETICON, (WPARAM)hIcons[7], 0);
 		SendDlgItemMessage(hwndDlg, IDC_TYPINGICON, STM_SETICON, (WPARAM)hIcons[8], 0);
 
 		ResetListOptions(GetDlgItem(hwndDlg, IDC_LIST));

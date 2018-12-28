@@ -53,7 +53,6 @@ int OptionsInit(WPARAM, LPARAM);
 #define VF_IGN		0x00000008
 #define VF_PROTO	0x00000010
 #define VF_SHOWID	0x00000020
-#define VF_ADD		0x00000040
 #define VF_REQ		0x00000080
 #define VF_CID		0x00000100
 #define VF_RECV		0x00000200

@@ -38,7 +38,7 @@ static wchar_t* sttDecodeString(DWORD dwFlags, MAllStrings &src)
 class CAddContactDlg : public CDlgBase
 {
 	CCtrlEdit   m_authReq, m_myHandle;
-	CCtrlCheck  m_chkAdded, m_chkAuth, m_chkOpen;
+	CCtrlCheck  m_chkAuth, m_chkOpen;
 	CCtrlButton m_btnOk;
 	CCtrlCombo  m_group;
 
@@ -52,7 +52,6 @@ protected:
 public:
 	CAddContactDlg() :
 		CDlgBase(g_plugin, IDD_ADDCONTACT),
-		m_chkAdded(this, IDC_ADDED),
 		m_chkAuth(this, IDC_AUTH),
 		m_chkOpen(this, IDC_OPEN_WINDOW),
 		m_btnOk(this, IDOK),
@@ -87,7 +86,6 @@ public:
 		m_group.SetCurSel(groupSel);
 
 		// By default check both checkboxes
-		m_chkAdded.SetState(true);
 		m_chkAuth.SetState(true);
 
 		// Set last choice
@@ -95,9 +93,6 @@ public:
 			m_chkOpen.SetState(true);
 
 		DWORD flags = (m_szProto) ? CallProtoServiceInt(0, m_szProto, PS_GETCAPS, PFLAGNUM_4, 0) : 0;
-		if (flags & PF4_FORCEADDED)  // force you were added requests for this protocol
-			m_chkAdded.Enable(false);
-
 		if (flags & PF4_FORCEAUTH)  // force auth requests for this protocol
 			m_chkAuth.Enable(false);
 
@@ -152,9 +147,6 @@ public:
 			Clist_ContactChangeGroup(hContact, m_group.GetItemData(item));
 
 		db_unset(hContact, "CList", "NotOnList");
-
-		if (m_chkAdded.GetState())
-			ProtoChainSend(hContact, PSS_ADDED, 0, 0);
 
 		if (m_chkAuth.GetState()) {
 			DWORD flags = CallProtoServiceInt(0, m_szProto, PS_GETCAPS, PFLAGNUM_4, 0);
