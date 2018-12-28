@@ -115,7 +115,7 @@ void __cdecl sttFakeAckInfoSuccessThread(TFakeAckParams* tParam)
 	proto->debugLogW(L"sttFakeAckInfoSuccessThread() start");
 
 	Sleep(100);
-	proto->ProtoBroadcastAck(tParam->hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+	proto->ProtoBroadcastAck(tParam->hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1);
 
 	proto->debugLogW(L"sttFakeAckInfoSuccessThread() end");
 	mir_free(tParam);

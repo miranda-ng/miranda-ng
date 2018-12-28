@@ -170,7 +170,7 @@ void __cdecl GaduProto::cmdgetinfothread(void *hContact)
 {
 	debugLogA("cmdgetinfothread(): started. Failed info retreival.");
 	gg_sleep(100, FALSE, "cmdgetinfothread", 103, 1);
-	ProtoBroadcastAck((UINT_PTR)hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, (HANDLE)1, 0);
+	ProtoBroadcastAck((UINT_PTR)hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, (HANDLE)1);
 	debugLogA("cmdgetinfothread(): end.");
 }
 

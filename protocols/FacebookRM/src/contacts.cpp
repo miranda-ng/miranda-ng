@@ -473,7 +473,7 @@ void FacebookProto::RefreshUserInfo(void *data)
 
 	ptrA user_id(getStringA(hContact, FACEBOOK_KEY_ID));
 	if (user_id == nullptr || isOffline()) {
-		ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, (HANDLE)nullptr, 0);
+		ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, nullptr);
 		return;
 	}
 
@@ -538,7 +538,7 @@ void FacebookProto::RefreshUserInfo(void *data)
 		}
 	}
 
-	ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)nullptr, 0);
+	ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, nullptr);
 }
 
 HANDLE FacebookProto::GetAwayMsg(MCONTACT)

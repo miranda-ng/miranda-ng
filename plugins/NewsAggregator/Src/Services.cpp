@@ -119,7 +119,7 @@ INT_PTR NewsAggrLoadIcon(WPARAM wParam, LPARAM)
 static void __cdecl AckThreadProc(void *param)
 {
 	Sleep(100);
-	ProtoBroadcastAck(MODULENAME, (MCONTACT)param, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+	ProtoBroadcastAck(MODULENAME, (MCONTACT)param, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1);
 }
 
 INT_PTR NewsAggrGetInfo(WPARAM, LPARAM lParam)

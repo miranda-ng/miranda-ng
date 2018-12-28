@@ -167,6 +167,7 @@ void CIcqProto::RetrieveUserInfo(MCONTACT hContact)
 {
 	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/presence/get", &CIcqProto::OnGetUserInfo);
 	pReq->flags |= NLHRF_NODUMPSEND;
+	pReq->pUserInfo = (void*)hContact;
 	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << INT_PARAM("mdir", 1) << INT_PARAM("t", getDword(hContact, "UIN"));
 	Push(pReq);
 }
@@ -315,15 +316,21 @@ void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 	StartSession();
 }
 
-void CIcqProto::OnGetUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+void CIcqProto::OnGetUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
+	MCONTACT hContact = (MCONTACT)pReq->pUserInfo;
+
 	JsonReply root(pReply);
-	if (root.error() != 200)
+	if (root.error() != 200) {
+		ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, nullptr);
 		return;
+	}
 
 	const JSONNode &data = root.data();
 	for (auto &it : data["users"])
 		ParseBuddyInfo(it);
+
+	ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, nullptr);
 }
 
 void CIcqProto::OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)

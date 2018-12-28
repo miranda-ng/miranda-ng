@@ -86,7 +86,7 @@ INT_PTR CALLBACK UserDetailsDlgProc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARAM
 				SetDlgItemText(m_hwnd, IDC_HOST, dbv.pwszVal);
 				db_free(&dbv);
 			}
-			ProtoBroadcastAck(p->ppro->m_szModuleName, p->hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+			ProtoBroadcastAck(p->ppro->m_szModuleName, p->hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1);
 		}
 		break;
 

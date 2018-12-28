@@ -728,7 +728,7 @@ retry:
 						}
 
 						debugLogA("mainthread() (%x): Setting user info for uin %d.", this, uin);
-						ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+						ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1);
 					}
 
 					if (__nickname) mir_free(__nickname);
