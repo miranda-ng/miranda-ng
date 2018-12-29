@@ -94,7 +94,7 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy)
 
 	int lastLogin = buddy["lastseen"].as_int();
 	if (lastLogin)
-		setDword(hContact, "LoginTS", lastLogin);
+		setDword(hContact, "LastSeen", lastLogin);
 
 	str = buddy["statusMsg"].as_mstring();
 	if (str.IsEmpty())
