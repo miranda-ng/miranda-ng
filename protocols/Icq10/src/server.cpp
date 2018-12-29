@@ -38,7 +38,7 @@ void CIcqProto::CheckAvatarChange(MCONTACT hContact, const JSONNode &ev)
 
 void CIcqProto::CheckNickChange(MCONTACT hContact, const JSONNode &ev)
 {
-	CMStringW wszNick(ev["friendlyName"].as_mstring());
+	CMStringW wszNick(ev["profile"]["friendlyName"].as_mstring());
 	if (wszNick.IsEmpty())
 		wszNick = ev["friendly"].as_mstring();
 	if (!wszNick.IsEmpty())
