@@ -36,6 +36,15 @@ void CIcqProto::CheckAvatarChange(MCONTACT hContact, const JSONNode &ev)
 	}
 }
 
+void CIcqProto::CheckNickChange(MCONTACT hContact, const JSONNode &ev)
+{
+	CMStringW wszNick(ev["friendlyName"].as_mstring());
+	if (wszNick.IsEmpty())
+		wszNick = ev["friendly"].as_mstring();
+	if (!wszNick.IsEmpty())
+		setWString(hContact, "Nick", wszNick);
+}
+
 void CIcqProto::CheckPassword()
 {
 	char mirVer[100];
@@ -89,11 +98,10 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy)
 	MCONTACT hContact = CreateContact(dwUin, false);
 	FindContactByUIN(dwUin)->m_bInList = true;
 
-	CMStringW str(buddy["friendly"].as_mstring());
-	if (!str.IsEmpty())
-		setWString(hContact, "Nick", str);
+	CheckNickChange(hContact, buddy);
 
-	setDword(hContact, "Status", StatusFromString(buddy["state"].as_mstring()));
+	CMStringW str(buddy["state"].as_mstring());
+	setDword(hContact, "Status", StatusFromString(str));
 
 	const JSONNode &profile = buddy["profile"];
 	if (profile) {
@@ -523,10 +531,7 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 
 void CIcqProto::ProcessMyInfo(const JSONNode &ev)
 {
-	CMStringW wszNick(ev["friendly"].as_mstring());
-	if (!wszNick.IsEmpty())
-		setWString("Nick", wszNick);
-
+	CheckNickChange(0, ev);
 	CheckAvatarChange(0, ev);
 }
 

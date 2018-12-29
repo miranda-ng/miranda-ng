@@ -66,6 +66,7 @@ class CIcqProto : public PROTO<CIcqProto>
 {
 	bool     m_bOnline = false, m_bTerminated = false;
 	void     CheckAvatarChange(MCONTACT hContact, const JSONNode&);
+	void     CheckNickChange(MCONTACT hContact, const JSONNode&);
 	void     CheckPassword(void);
 	void     ConnectionFailed(int iReason);
 	void     OnLoggedIn(void);
