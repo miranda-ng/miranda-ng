@@ -27,7 +27,6 @@
 ;file \plugins\CrashDumper\src\crshdmp.cpp
 [Version Info stored into file %s]
 [Version Info file %s is inaccessible]
-[Services]
 [Version Information To Clipboard]
 [Version Information To File]
 [Show Version Information]
@@ -50,6 +49,7 @@
 [Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
 ;file \plugins\CrashDumper\src\ui.cpp
 [View Version Information (with DLLs)]
+[Services]
 ;file \plugins\CrashDumper\src\upload.cpp
 [Version Info upload successful.]
 [Cannot upload Version Info. Incorrect username or password]

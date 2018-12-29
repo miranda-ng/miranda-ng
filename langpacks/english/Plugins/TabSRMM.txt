@@ -549,7 +549,6 @@
 [Group chat log background]
 [Appearance and functionality of chat room windows]
 [Appearance of the message log]
-[Chat rooms]
 [nick of current contact (if defined)]
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
 [user-defined account name of current contact (if defined).]

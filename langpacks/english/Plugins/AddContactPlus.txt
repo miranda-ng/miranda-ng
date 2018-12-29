@@ -15,7 +15,6 @@
 [Group:]
 [Options]
 [Add temporarily]
-[Send "You were added"]
 [Send authorization request]
 [Authorization request]
 [&Add]

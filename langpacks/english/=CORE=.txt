@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.10
+;  Version: 0.95.11
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -337,7 +337,6 @@
 [Choose the protocol type]
 [Specify the internal account name (optional)]
 [Add contact]
-[Send "You were added"]
 [Send authorization request]
 [Open contact's chat window]
 [Custom name:]
@@ -420,7 +419,6 @@
 [None]
 [Only the ticked contacts will be shown on the main contact list]
 [Ignore]
-[Added notification]
 [Typing]
 [Visibility]
 [You are visible to this person even when in invisible mode]
@@ -1031,6 +1029,7 @@
 [Notice from %s: %s]
 [The topic is '%s']
 [The topic is '%s' (set by %s)]
+[Chat rooms]
 [Look up '%s':]
 [No word to look up]
 [&Message %s]
