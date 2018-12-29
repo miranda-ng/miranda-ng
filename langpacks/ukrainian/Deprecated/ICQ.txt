@@ -1,0 +1,1840 @@
+#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
+;============================================================
+;  File: ICQ.dll
+;  Plugin: IcqOscarJ protocol
+;  Version: 0.95.8.1
+;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
+;============================================================
+[ICQ protocol support for Miranda NG.]
+Підтримка протоколу ICQ в Miranda NG.
+;file \protocols\IcqOscarJ\res\resources.rc
+[ICQ Number:]
+Номер ICQ:
+[Password:]
+Пароль:
+[Create a new ICQ account]
+Створити новий обліковий запис ICQ
+[Enter an authorization request]
+Текст запиту авторизації
+[&Send]
+&Надіслати
+[&Cancel]
+&Скасувати
+[Enter ICQ Password]
+Введіть пароль ICQ
+[Enter a password for UIN %d:]
+Введіть пароль для номера %d:
+[Remember this session password]
+Запам'ятати пароль сеансу
+[Cancel]
+Скасувати
+[ICQ number:]
+Номер ICQ:
+[Hint: If you don't enter your password here, Miranda will ask for the password every time you try to go online.]
+Підказка: якщо не вказати пароль тут, Miranda NG буде запитувати його щоразу при підключенні до мережі.
+[Retrieve a lost password or ICQ number]
+Нагадати пароль або номер ICQ
+[Create a new ICQ account using the ICQ website]
+Створити обліковий запис на сайті ICQ
+[Connection settings]
+Налаштування підключення
+[Login Server:]
+Сервер:
+[Port:]
+Порт:
+[Default]
+За замовчанням
+[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through an http proxy server.]
+Для підключення до випадкового порту вкажіть порт 0. Пробуйте порти 443 або 80, якщо у вас проблеми з підключенням через проксі.
+[Secure Connection (SSL)]
+Безпечне з'єднання (SSL)
+[Secure (MD5) login]
+Безпечний вхід (MD5)
+[Legacy fix (for ICQ Groupware or IServerD only)]
+Альтернативні сервери (лише ICQ Groupware і IServerD)
+[Send 'Keep-alives' (enable this if you use a proxy server and frequently get disconnected)]
+Підтримувати підключення (якщо ви використовуєте проксі-сервер і часто роз'єднуєтесь)
+[Ignore concurrent error messages]
+Не показувати вікно помилки, поки не закрито попереднє
+[Show connection error messages:]
+Показувати помилки підключення:
+[ICQ contacts stored on server]
+Контакти ICQ на сервері
+[Manage server's list...]
+Керування списком...
+[Enable server-side contact lists *]
+Використовувати список контактів на сервері*
+[Add contacts to the server's list when I add them to mine]
+Додавати контакти на сервер, коли я додаю їх до свого списку
+[Update my contacts' details from the server *]
+Оновлювати дані про контакти з сервера*
+[Update contacts' details on the server's list when I change them in mine]
+Оновлювати дані про контакти на сервері, коли я змінюю їх у своєму списку
+[ICQ avatars]
+Аватари ICQ
+[Enable avatar support]
+Увімкнути підтримку аватарів
+[Check avatar validity before saving *]
+Перевіряти цілісність аватара перед збереженням*
+[Load avatars automatically (like ICQ Lite)]
+Завантажувати аватари автоматично (як ICQ Lite)
+[These changes will take effect the next time you connect to the ICQ network.]
+Зміни наберуть чинності при наступному вході в мережу ICQ.
+[You cannot enable/disable the server-side contact list while you are connected to the ICQ network.]
+Неможливо ввімкнути/вимкнути зберігання списку контактів на сервері під час підключення до мережі ICQ.
+[Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]
+Примітка: налаштування, позначені зірочкою, мають побічні ефекти, які можуть бути не задокументовані в довідці.
+[Messaging]
+Повідомлення
+[Use this codepage for Ansi <-> Unicode translation:]
+Перекодування ANSI <-> Unicode:
+[Make me temporarily visible to contacts I send message to]
+Ставати видимим для контакту, якому надсилаєте повідомлення
+[Notify me when a message delivery has failed]
+Сповіщати про невдалу доставку повідомлень
+[Peer-to-peer Messaging]
+Обмін повідомленнями між користувачами
+[Enable peer-to-peer message connections]
+Прямі з'єднання клієнт-клієнт
+[Passive mode (i.e., do not initiate new connections)]
+Пасивний режим (не ініціювати підключення)
+[Extra Features]
+Додаткові можливості
+[Enable Custom status support for xtraz]
+Увімкнути підтримку xСтатусів для доповнень
+[Enable Custom status support for moods]
+Увімкнути підтримку xСтатусів для настроїв
+[Reset Custom status on status change]
+Скинути xСтатус при зміні статусу
+[Auto-retrieve Custom status details]
+Автозавантаження xСтатусів
+[Block known Spam Bots]
+Блок. відомі спам-боти
+[Direct connections]
+Прямі з'єднання
+[Allowing direct connections will expose your IP address but may be necessary for some ICQ features to work properly.]
+Важливо: застосування прямих з'єднань відкриє ваші IP-адреси для інших користувачів (але необхідне для деяких функцій)
+[Allow direct connections with any user]
+Прямі з'єднання з будь-якими користувачами
+[Allow direct connections with users on my contact list]
+Прямі з'єднання з користувачами зі списку контактів
+[Allow direct connections only when I authorize or initiate them]
+Прямі з'єднання тільки коли я дозволяю або встановлюю їх
+[Contact List Authorization]
+Авторизація
+[All users may add me to their Contact List]
+Усі користувачі можуть додати мене до свого списку контактів
+[I want to be asked when someone wants to add me to their Contact List]
+Потрібен мій дозвіл
+[Misc Settings]
+Інші налаштування
+[Allow others to view my Online / Offline status from the web (Web Aware)]
+Показувати мій статус на сайтах (Web Aware)
+[Allow others to view my primary e-mail address]
+Показати іншим мою основну поштову адресу
+[Only reply to status message requests from users on my contact list]
+Відповідати на запит статусного повідомлення тільки користувачам зі списку
+[Only reply to status message request from visible contacts]
+Відповідати на запит статусного повідомлення тільки видимим контактам
+[Some options are grayed out because they can only be changed when you are online.]
+Деякі налаштування можна змінювати тільки після підключення до мережі ICQ.
+[Options]
+Налаштування
+[Enable popup support]
+Увімкнути спливаючі вікна
+[Display errors using popups]
+Показувати помилки у вікнах
+[Display popup when spambot is detected]
+Вікно при виявленні спам-бота
+[Look && Feel]
+Зовнішній вигляд
+[Back Color]
+Фон
+[Text Color]
+Текст
+[Timeout]
+Таймаут
+[Note]
+Примітка
+[Warning]
+Попередження
+[Error]
+Помилка
+[Fatal]
+Фатальна помилка
+[Spam detected]
+Виявлено спам
+[&Use Windows colors]
+&Кольори Windows
+[Use system &icons]
+Системні значки
+[Previe&w]
+&Тест
+[Use default colors]
+Кольори за замовчанням
+[UIN:]
+Номер:
+[External IP:]
+Зовнішній IP:
+[Internal IP:]
+Внутрішній IP:
+[Protocol Version:]
+Версія протоколу:
+[User Client:]
+Клієнт:
+[Online since:]
+В мережі з:
+[System up since:]
+Увімкнений з:
+[Idle since:]
+Простоює з:
+[Status:]
+Статус:
+[Summary]
+Резюме
+[Nickname:]
+Нік:
+[First name:]
+Ім'я:
+[Last name:]
+Прізвище:
+[E-mail:]
+Пошта
+[Gender:]
+Стать:
+[Age:]
+Вік:
+[Marital status:]
+Сімейний стан:
+[Keywords:]
+Кл. слова:
+[Work]
+Робота
+[Occupation:]
+Заняття:
+[Company:]
+Компанія:
+[Department:]
+Відділ:
+[Position:]
+Посада:
+[Organization:]
+Організація:
+[Location]
+Місце
+[Language:]
+Мова:
+[Country:]
+Країна:
+[State:]
+Область:
+[City:]
+Місто:
+[Background info]
+Біографія
+[Interests]
+Інтереси:
+[Category:]
+Категорія:
+[Past]
+Минуле
+[Homepage]
+Сайт
+[Other]
+Інше
+[Search online users only]
+Тільки підключених користувачів
+[Manage ICQ Server Contacts]
+Керування контактами на сервері
+[Select contacts to store:]
+Контакти для закачування:
+[Synchronize]
+Синхронізувати
+[Custom Status "%s" Details]
+xСтатус "%s"
+[Closing in %d]
+Закрити (%d)
+[Title:]
+Заголовок:
+[Message:]
+Діалог:
+[Retrieving custom status details...]
+Запит тексту xСтатуса...
+[&Save changes]
+&Зберегти зміни
+[Confirm Password Change]
+Підтвердити зміну пароля
+[Please re-type your new password:]
+Повторіть пароль:
+[Enter your current password:]
+Введіть поточний пароль:
+;file \protocols\IcqOscarJ\src\askauthentication.cpp
+[Please authorize me to add you to my contact list.]
+Будь ласка, дозвольте додати вас до списку контактів.
+;file \protocols\IcqOscarJ\src\chan_04close.cpp
+[Unable to connect to migrated ICQ communication server]
+Неможливо підключитися до мігрованого сервера спілкування ICQ
+[Unable to connect to ICQ communication server]
+Неможливо підключитися до сервера спілкування ICQ
+[You could not sign on because the server returned invalid data. Try again.]
+Ви не ввійшли в мережу, тому що сервер повернув неправильні дані. Спробуйте пізніше.
+[You have been disconnected from the ICQ network because the current server shut down.]
+Вас відключили від мережі ICQ, тому що поточний сервер був вимкнений.
+[Connection failed.\nYour ICQ number or password was rejected (%d).]
+Невдале з'єднання.\nВаш номер або пароль не прийняті сервером (%d).
+[Connection failed.\nThe server is temporarily unavailable (%d).]
+Помилка підключення.\nСервер тимчасово недоступний (%d).
+[Connection failed.\nServer has too many connections from your IP (%d).]
+Невдале з'єднання.\nЗабагато з'єднань з вашого IP (%d).
+[Connection failed.\nYou have connected too quickly,\nplease wait and retry 10 to 20 minutes later (%d).]
+Невдале з'єднання.\nВи занадто часто підключаєтеся,\nспробуйте через 10-20 хвилин (%d).
+[Connection failed.\nThe server did not accept this client version.]
+Невдале з'єднання.\nСервер не прийняв цю версію клієнта.
+[The server sent warning, this version is getting old.\nTry to look for a new one.]
+Попередження сервера: ця версія клієнта застаріла.\nСпробуйте пошукати нову версію.
+[Connection failed.\nYou were rejected by the server for an unknown reason.\nThis can happen if the UIN is already connected.]
+Невдале з'єднання.\nСервер не прийняв вас з невідомої причини.\nЦе може статися, якщо ваш номер уже підключено.
+[Connection failed.\nSecure (MD5) login is not supported on this account.]
+Невдале з'єднання.\nБезпечний вхід (MD5) не підтримується для цього облікового запису.
+[Connection failed.\nUnknown error during sign on: 0x%02x]
+Невдале з'єднання.\nНевідома помилка при вході: 0x%02x
+[You have been disconnected from the ICQ network because you logged on from another location using the same ICQ number.]
+Сервер закрив з'єднання, тому що ви ввійшли з іншого місця, використовуючи цей номер ICQ.
+[Unknown runtime error: 0x%02x]
+Невідома помилка: 0x%02x
+;file \protocols\IcqOscarJ\src\constants.cpp
+[January]
+Січень
+[February]
+Лютий
+[March]
+Березень
+[April]
+Квітень
+[May]
+Травень
+[June]
+Червень
+[July]
+Липень
+[August]
+Серпень
+[September]
+Вересень
+[October]
+Жовтень
+[November]
+Листопад
+[December]
+Грудень
+[Personal]
+Особисте
+[Nickname]
+Нік
+[First name]
+Ім'я
+[Last name]
+Прізвище
+[Gender]
+Стать
+[About]
+Інформація
+[Password]
+Пароль
+[Contact]
+Контакт
+[Primary e-mail]
+Основний E-mail
+[Secondary e-mail]
+Другий E-mail
+[Tertiary e-mail]
+Третій E-mail
+[Street]
+Вулиця
+[City]
+Місто
+[State]
+Область
+[ZIP/postcode]
+Індекс
+[Country]
+Країна
+[Phone number]
+Телефон
+[Fax number]
+Факс
+[Cellular number]
+Мобільний
+[Personal Detail]
+Особисті дані
+[Timezone]
+Часовий пояс
+[Year of birth]
+Рік народження
+[Month of birth]
+Місяць народження
+[Day of birth]
+День народження
+[Marital Status]
+Сімейний стан
+[Spoken language 1]
+Мова 1
+[Spoken language 2]
+Мова 2
+[Spoken language 3]
+Мова 3
+[Originally from]
+За походженням
+[Education]
+Освіта
+[Level]
+Ступінь
+[Institute]
+ВНЗ
+[Degree]
+Ступінь
+[Graduation Year]
+Рік закінчення
+[Company name]
+Ім'я компанії
+[Company homepage]
+Сайт компанії
+[Company street]
+Адреса компанії
+[Company city]
+Місто
+[Company state]
+Область
+[Company phone]
+Телефон
+[Company fax]
+Факс
+[Company ZIP/postcode]
+Індекс
+[Company country]
+Країна
+[Company department]
+Відділ
+[Company position]
+Посада
+[Company industry]
+Вид діяльності
+[Personal Interests]
+Персональні інтереси
+[Interest category 1]
+Категорія 1
+[Interest areas 1]
+Цікавлюся 1
+[Interest category 2]
+Категорія 2
+[Interest areas 2]
+Цікавлюся 2
+[Interest category 3]
+Категорія 3
+[Interest areas 3]
+Цікавлюся 3
+[Interest category 4]
+Категорія 4
+[Interest areas 4]
+Цікавлюся 4
+;file \protocols\IcqOscarJ\src\dlgproc.cpp
+[<unremovable once applied>]
+<не можна видалити після введення>
+[<empty>]
+<немає>
+[Unknown value]
+Невідоме значення
+[You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
+Ви зробили зміни, але не зберегли їх на сервері. Закрити вікно?
+[Change ICQ Details]
+Змінити дані ICQ
+[Upload in progress...]
+Завантаження...
+[Upload in progress...%d%%]
+Завантаження...%d%%
+[Upload complete]
+Завантаження завершено
+[Upload FAILED]
+Завантаження не вдалося
+;file \protocols\IcqOscarJ\src\fam_01service.cpp
+[A server migration has failed because the server returned invalid data. You must reconnect manually.]
+Перехід з сервера на сервер не вдався, тому що сервер повернув неправильні дані. Вам потрібно підключитися вручну.
+[Failed to request offline messages. They may be received next time you log in.]
+Помилка запиту офлайн-повідомлень. Вони можуть бути отримані при наступному підключенні.
+;file \protocols\IcqOscarJ\src\fam_03buddy.cpp
+[Spambot Detected]
+Виявлено спам-бот
+[Contact deleted & further events blocked.]
+Контакт видалений, нові події заблоковані.
+;file \protocols\IcqOscarJ\src\fam_04message.cpp
+[Incoming URL:]
+Вхідний URL:
+[You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x02]
+Ви надсилаєте занадто швидко. Спробуйте надіслати повідомлення пізніше.\r\nSNAC(4.1) помилка x02
+[You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x03]
+Ви надсилаєте занадто швидко. Спробуйте надіслати повідомлення пізніше.\r\nSNAC(4.1) помилка x03
+[The contact does not support receiving offline messages.]
+Контакт не підтримує прийом офлайн-повідомлень.
+[The user has logged off. Select 'Retry' to send an offline message.\r\nSNAC(4.1) Error x04]
+Цей користувач пішов з мережі. Спробуйте надіслати офлайн-повідомлення.\r\nSNAC(4.1) помилка x04
+[The messaging service is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x05]
+Служба відправки повідомлень тимчасово недоступна. Спробуйте пізніше.\r\nSNAC(4.1) Помилка x05
+[The receiving client does not support this type of message.\r\nSNAC(4.1) Error x09]
+Клієнт одержувача не підтримує цей тип повідомлень.\r\nSNAC(4.1) помилка x09
+[You sent too long message. The receiving client does not support it.\r\nSNAC(4.1) Error x0A]
+Ви надіслали занадто довге повідомлення. Клієнт одержувача не підтримує його.\r\nSNAC(4.1) Error x0A
+[The SNAC format was rejected by the server.\nSNAC(4.1) Error x0E]
+Формат SNAC не прийнятий сервером.\nSNAC(4.1) помилка x0E
+[The user is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x13]
+Користувач тимчасово недоступний. Спробуйте надіслати повідомлення пізніше.\r\nSNAC(4.1) Error x13
+[SNAC(4.1) SENDMSG Error (x%02x)]
+SNAC(4.1) Помилка SENDMSG (x%02x)
+[Contact "%s" has closed the message window.]
+Контакт "%s" закрив вікно повідомлень.
+[ICQ Note]
+Інформація ICQ
+;file \protocols\IcqOscarJ\src\fam_13servclist.cpp
+[Server contact list is unavailable, Miranda will use local contact list.]
+Список контактів на сервері недоступний, Miranda буде використовувати локальний.
+[Updating of server contact failed.]
+Не вдалося оновити контакт на сервері.
+[Adding of privacy item to server list failed.]
+Не вдалося додати запис конфіденційності.
+[Removing of privacy item from server list failed.]
+Не вдалося видалити запис конфіденційності.
+[Adding of contact to server list failed.]
+Не вдалося додати контакт на сервер.
+[Adding of group to server list failed.]
+Не вдалося додати групу на сервер.
+[Removing of contact from server list failed.]
+Не вдалося видалити контакт з сервера.
+[Updating of group on server list failed.]
+Не вдалося оновити групу на сервері.
+[Removing of group from server list failed.]
+Не вдалося видалити групу з сервера.
+[Moving of user to another group on server list failed.]
+Не вдалося перемістити контакт в іншу групу на сервері.
+[Renaming of server group failed.]
+Не вдалося перейменувати групу на сервері.
+[Contact "%s" was authorized in the server list.]
+Контакт "%s" авторизований у списку на сервері.
+[Contact "%s" lost its authorization in the server list.]
+Контакт "%s" втратив авторизацію в списку на сервері.
+[User "%s" was removed from server list.]
+Користувач "%s" видалений зі списку на сервері.
+;file \protocols\IcqOscarJ\src\fam_17signon.cpp
+[Secure login failed.\nInvalid server response.]
+Помилка захищеного входу.\nНеправильна відповідь сервера.
+[Secure login failed.\nInvalid key length.]
+Помилка захищеного входу.\nНеправильна довжина ключа
+;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
+[Are you sure you want to revoke user's authorization?\nThis will remove you from his/her list on some clients.]
+Ви впевнені, що хочете відкликати авторизацію?\nЦя дія видалить вас зі списку контактів на деяких клієнтах.
+[Confirmation]
+Підтвердження
+[** This message was blocked by the ICQ server ** The message was invalid.]
+** Повідомлення заблоковано сервером ICQ ** Неправильний формат повідомлення.
+[** This message was blocked by the ICQ server ** The message was too long.]
+** Повідомлення заблоковано сервером ICQ ** Повідомлення занадто довге.
+[** This message was blocked by the ICQ server ** The sender has flooded the server.]
+** Повідомлення заблоковано сервером ICQ ** Відправник закидав сервер повідомленнями.
+[** This message was blocked by the ICQ server ** You are too evil.]
+** Повідомлення заблоковано сервером ICQ ** Нехороша ви людина...
+[** Unknown missed message event.]
+** Невідома пропущена подія.
+;file \protocols\IcqOscarJ\src\icq_avatar.cpp
+[Error uploading avatar to server, server temporarily unavailable.]
+Помилка завантаження аватара на сервер. Сервер тимчасово недоступний.
+[Error uploading avatar to server, server refused to accept the image.]
+Помилка завантаження аватара на сервер, сервер не прийняв зображення.
+;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
+[Afghanistan]
+Афганістан
+[Albania]
+Албанія
+[Algeria]
+Алжир
+[Andorra]
+Андорра
+[Angola]
+Ангола
+[Anguilla]
+Ангілья
+[Antigua and Barbuda]
+Антигуа і Барбуда
+[Argentina]
+Аргентина
+[Armenia]
+Вірменія
+[Aruba]
+Аруба
+[Ascension Island]
+о. Вознесіння
+[Australia]
+Австралія
+[Australia, Antarctic Territory]
+Австралійська антарктична територія
+[Australia, Christmas Island]
+о. Різдва (Австралія)
+[Australia, Cocos (Keeling) Islands]
+Кокосові о-ви (Австралія)
+[Australia, Norfolk Island]
+о. Норфолк (Австралія)
+[Austria]
+Австрія
+[Azerbaijan]
+Азербайджан
+[Bahamas]
+Багами
+[Bahrain]
+Бахрейн
+[Bangladesh]
+Бангладеш
+[Barbados]
+Барбадос
+[Belarus]
+Білорусь
+[Belgium]
+Бельгія
+[Belize]
+Беліз
+[Benin]
+Бенін
+[Bermuda]
+Бермудські о-ви
+[Bhutan]
+Бутан
+[Bolivia]
+Болівія
+[Bosnia and Herzegovina]
+Боснія і Герцеговина
+[Botswana]
+Ботсвана
+[Brazil]
+Бразилія
+[British Virgin Islands]
+Британські Віргінські о-ви
+[Brunei]
+Бруней
+[Bulgaria]
+Болгарія
+[Burkina Faso]
+Буркіна-Фасо
+[Burundi]
+Бурунді
+[Cambodia]
+Камбоджа
+[Cameroon]
+Камерун
+[Canada]
+Канада
+[Canary Islands]
+Канарські о-ви
+[Cape Verde]
+Кабо-Верде
+[Cayman Islands]
+Кайманові о-ви
+[Central African Republic]
+Центральноафриканська Республіка
+[Chad]
+Чад
+[Chile]
+Чилі
+[China]
+Китай
+[Colombia]
+Колумбія
+[Comoros]
+Коморські о-ви
+[Congo, Democratic Republic of the]
+Конго, Демократична Республіка
+[Congo, Republic of the]
+Конго, Республіка
+[Cook Islands]
+о-ви Кука
+[Costa Rica]
+Коста-Ріка
+[Cote d'Ivoire]
+Кот-д'Івуар
+[Croatia]
+Хорватія
+[Cuba]
+Куба
+[Greek, Republic of South Cyprus]
+Кіпр (Республіка Південного Кіпру)
+[Czech Republic]
+Чехія
+[Denmark]
+Данія
+[Diego Garcia]
+Дієго Гарсія
+[Djibouti]
+Джибуті
+[Dominica]
+Домініка
+[Dominican Republic]
+Домініканська республіка
+[Ecuador]
+Еквадор
+[Egypt]
+Єгипет
+[El Salvador]
+Сальвадор
+[Equatorial Guinea]
+Екваторіальна Гвінея
+[Eritrea]
+Еритрея
+[Estonia]
+Естонія
+[Ethiopia]
+Ефіопія
+[Europe]
+Європа
+[Faroe Islands]
+Фарерські о-ви
+[Falkland Islands]
+Фолклендські о-ви
+[Fiji]
+Фіджі
+[Finland]
+Фінляндія
+[France]
+Франція
+[French Antilles]
+Французькі Антильські о-ви
+[French Guiana]
+Гвіана
+[French Polynesia]
+Французька Полінезія
+[Gabon]
+Габон
+[Gambia]
+Гамбія
+[Georgia]
+Грузія
+[Germany]
+Німеччина
+[Ghana]
+Гана
+[Gibraltar]
+Гібралтар
+[Greece]
+Греція
+[Greenland]
+Гренландія
+[Grenada]
+Гренада
+[Guadeloupe]
+Гваделупа
+[Guam, US Territory of]
+Гуам (США)
+[Guatemala]
+Гватемала
+[Guinea]
+Гвінея
+[Guinea-Bissau]
+Гвінея-Бісау
+[Guyana]
+Гайана
+[Haiti]
+Гаїті
+[Honduras]
+Гондурас
+[Hong Kong]
+Гонконг
+[Hungary]
+Угорщина
+[Iceland]
+Ісландія
+[India]
+Індія
+[Indonesia]
+Індонезія
+[Iran]
+Іран
+[Iraq]
+Ірак
+[Ireland]
+Ірландія
+[Israel]
+Ізраїль
+[Italy]
+Італія
+[Jamaica]
+Ямайка
+[Japan]
+Японія
+[Jordan]
+Йорданія
+[Kazakhstan]
+Казахстан
+[Kenya]
+Кенія
+[Kiribati]
+Кірібаті
+[Korea, North]
+КНДР, Північна Корея
+[Korea, South]
+Корея, Республіка (Південна Корея)
+[Kuwait]
+Кувейт
+[Kyrgyzstan]
+Киргизія
+[Laos]
+Лаос
+[Latvia]
+Латвія
+[Lebanon]
+Ліван
+[Lesotho]
+Лесото
+[Liberia]
+Ліберія
+[Libya]
+Лівія
+[Liechtenstein]
+Ліхтенштейн
+[Lithuania]
+Литва
+[Luxembourg]
+Люксембург
+[Macau]
+Макао (Аоминь)
+[Macedonia, Republic of]
+Македонія
+[Madagascar]
+Мадагаскар
+[Malawi]
+Малаві
+[Malaysia]
+Малайзія
+[Maldives]
+Мальдіви
+[Mali]
+Малі
+[Malta]
+Мальта
+[Marshall Islands]
+Маршаллові о-ви
+[Martinique]
+Мартініка
+[Mauritania]
+Мавританія
+[Mauritius]
+Маврикій
+[Mayotte]
+Майотта
+[Mexico]
+Мексика
+[Micronesia, Federated States of]
+Мікронезія
+[Moldova]
+Молдова
+[Monaco]
+Монако
+[Mongolia]
+Монголія
+[Montserrat]
+Монтсеррат
+[Morocco]
+Марокко
+[Mozambique]
+Мозамбік
+[Myanmar]
+М'янма
+[Namibia]
+Намібія
+[Nauru]
+Науру
+[Nepal]
+Непал
+[Netherlands]
+Нідерланди
+[Netherlands Antilles]
+Нідерландські Антильські о-ви
+[St. Maarten]
+Сінт-Мартен
+[Curacao]
+Кюрасао
+[Netherlands (Bonaire Island)]
+Нідерланди (о. Бонайре)
+[Netherlands (Saba Island)]
+Нідерланди (о. Саба)
+[Netherlands (St. Eustatius Island)]
+Нідерланди (о. Сінт-Естатіус)
+[New Caledonia]
+Нова Каледонія
+[New Zealand]
+Нова Зеландія
+[Nicaragua]
+Нікарагуа
+[Niger]
+Нігер
+[Nigeria]
+Нігерія
+[Niue]
+Ніуе
+[Northern Mariana Islands, US Territory of]
+Північні Маріанські о-ви (США)
+[Norway]
+Норвегія
+[Oman]
+Оман
+[Pakistan]
+Пакистан
+[Palau]
+Палау
+[Panama]
+Панама
+[Papua New Guinea]
+Папуа - Нова Гвінея
+[Paraguay]
+Парагвай
+[Peru]
+Перу
+[Philippines]
+Філіппіни
+[Poland]
+Польща
+[Portugal]
+Португалія
+[Puerto Rico]
+Пуерто-Ріко
+[Qatar]
+Катар
+[Reunion]
+Реюньон
+[Romania]
+Румунія
+[Russia]
+Росія
+[Rwanda]
+Руанда
+[Samoa (USA)]
+Американське Самоа
+[Samoa, Western]
+Самоа
+[Saint Helena]
+о. Святої Єлени
+[Saint Kitts and Nevis]
+Сент-Кіттс і Невіс
+[Saint Lucia]
+Сент-Люсія
+[Saint Pierre and Miquelon]
+Сен-П'єр і Мікелон
+[Saint Vincent and the Grenadines]
+Сен-Вінсент і Гренадіни
+[San Marino]
+Сан-Маріно
+[Sao Tome and Principe]
+Сан-Томе і Прінсіпі
+[Saudi Arabia]
+Саудівська Аравія
+[Scotland]
+Шотландія
+[Senegal]
+Сенегал
+[Seychelles]
+Сейшельські о-ви
+[Sierra Leone]
+Сьєрра-Леоне
+[Singapore]
+Сінгапур
+[Slovakia]
+Словаччина
+[Slovenia]
+Словенія
+[Solomon Islands]
+Соломонові о-ви
+[Somalia]
+Сомалі
+[South Africa]
+Південно-Африканська Республіка
+[Spain]
+Іспанія
+[Spain, Canary Islands]
+Канарські о-ви (Іспанія)
+[Sri Lanka]
+Шрі-Ланка
+[Sudan]
+Судан
+[Suriname]
+Сурінам
+[Swaziland]
+Свазіленд
+[Sweden]
+Швеція
+[Switzerland]
+Швейцарія
+[Syria]
+Сирія
+[Taiwan]
+Тайвань
+[Tajikistan]
+Таджикистан
+[Tanzania]
+Танзанія
+[Thailand]
+Таїланд
+[Timor, East]
+Східний Тімор
+[Togo]
+Того
+[Tokelau]
+Токелау
+[Tonga]
+Тонга
+[Trinidad and Tobago]
+Трінідад і Тобаго
+[Tunisia]
+Туніс
+[Turkey]
+Туреччина
+[Turkey, Republic of Northern Cyprus]
+Турецька Республіка Північного Кіпру
+[Turkmenistan]
+Туркменістан
+[Turks and Caicos Islands]
+о-ви Теркс і Кайкос
+[Tuvalu]
+Тувалу
+[Uganda]
+Уганда
+[Ukraine]
+Україна
+[United Arab Emirates]
+Об'єднані Арабські Емірати
+[United Kingdom]
+Велика Британія
+[Uruguay]
+Уругвай
+[USA]
+США
+[Uzbekistan]
+Узбекистан
+[Vanuatu]
+Вануату
+[Vatican City]
+Ватикан
+[Venezuela]
+Венесуела
+[Vietnam]
+В'єтнам
+[Virgin Islands (UK)]
+Британські Віргінські о-ви
+[Virgin Islands (USA)]
+Віргінські о-ви (США)
+[Wales]
+Уельс
+[Wallis and Futuna]
+Валіс і Футуна
+[Yemen]
+Ємен
+[Yugoslavia]
+Югославія
+[Serbia]
+Сербія
+[Kosovo, Republic of]
+Косово
+[Montenegro]
+Чорногорія
+[Zambia]
+Замбія
+[Zimbabwe]
+Зімбабве
+[50's]
+50-і
+[60's]
+60-і
+[70's]
+70-і
+[80's]
+80-і
+[Art]
+Мистецтво
+[Astronomy]
+Астрономія
+[Audio and Visual]
+Звук і візуалізація
+[Business]
+Справи
+[Business Services]
+Бізнес-послуги
+[Cars]
+Машини
+[Celebrity Fans]
+Знаменитості
+[Clothing]
+Одяг
+[Collections]
+Колекціонування
+[Computers]
+Комп'ютери
+[Culture]
+Культура
+[Ecology]
+Екологія
+[Entertainment]
+Розваги
+[Finance and Corporate]
+Фінанси
+[Fitness]
+Фітнес
+[Health and Beauty]
+Здоров'я і краса
+[Hobbies]
+Хобі
+[Home Automation]
+Побутова автоматизація
+[Household Products]
+Домашні продукти
+[Games]
+Ігри
+[Government]
+Уряд
+[ICQ - Help]
+ICQ - підтримка
+[Internet]
+Інтернет
+[Lifestyle]
+Стиль життя
+[Mail Order Catalog]
+Замовлення товарів поштою
+[Media]
+Медіа
+[Movies and TV]
+Кіно та ТБ
+[Music]
+Музика
+[Mystics]
+Містика
+[News and Media]
+Новини та ЗМІ
+[Outdoors]
+Відпочинок на природі
+[Parenting]
+Виховання
+[Parties]
+Вечірки
+[Pets and Animals]
+Тварини
+[Publishing]
+Видавництво
+[Religion]
+Релігія
+[Retail Stores]
+Покупки
+[Science]
+Наука
+[Skills]
+Навички
+[Social science]
+Соціологія
+[Space]
+Космос
+[Sporting and Athletic]
+Спорт і атлетика
+[Sports]
+Спорт
+[Travel]
+Подорожі
+[Web Design]
+Web-дизайн
+[Women]
+Жінки
+[Afrikaans]
+Африкаанс
+[Albanian]
+Албанська
+[Arabic]
+Арабська
+[Armenian]
+Вірменська
+[Azerbaijani]
+Азербайджанська
+[Belorussian]
+Білоруська
+[Bhojpuri]
+Бходжпурі
+[Bosnian]
+Боснійська
+[Bulgarian]
+Болгарська
+[Burmese]
+Бірманська
+[Cantonese]
+Кантонська
+[Catalan]
+Каталонська
+[Chamorro]
+Чаморро
+[Chinese]
+Китайська
+[Croatian]
+Хорватська
+[Czech]
+Чеська
+[Danish]
+Данська
+[Dutch]
+Голландська
+[English]
+Англійська
+[Esperanto]
+Есперанто
+[Estonian]
+Естонська
+[Farsi]
+Фарсі
+[Finnish]
+Фінська
+[French]
+Французька
+[Gaelic]
+Гельська
+[German]
+Німецька
+[Greek]
+Грецька
+[Gujarati]
+Гуджаратська
+[Hebrew]
+Іврит
+[Hindi]
+Гінді
+[Hungarian]
+Угорська
+[Icelandic]
+Ісландська
+[Indonesian]
+Індонезійська
+[Italian]
+Італійська
+[Japanese]
+Японська
+[Khmer]
+Кхмерська
+[Korean]
+Корейська
+[Kurdish]
+Курдська
+[Lao]
+Лаоська
+[Latvian]
+Латвійська
+[Lithuanian]
+Литовська
+[Macedonian]
+Македонська
+[Malay]
+Малайська
+[Mandarin]
+Мандарин
+[Mongolian]
+Монгольська
+[Norwegian]
+Норвезька
+[Persian]
+Перська
+[Polish]
+Польська
+[Portuguese]
+Португальська
+[Punjabi]
+Панджабі
+[Romanian]
+Румунська
+[Russian]
+Російська
+[Serbian]
+Сербська
+[Sindhi]
+Сінді
+[Slovak]
+Словацька
+[Slovenian]
+Словенська
+[Somali]
+Сомалійська
+[Spanish]
+Іспанська
+[Swahili]
+Суахілі
+[Swedish]
+Шведська
+[Tagalog]
+Тагальська
+[Taiwanese]
+Тайванська
+[Tamil]
+Тамільська
+[Tatar]
+Татарська
+[Thai]
+Тайська
+[Turkish]
+Турецька
+[Ukrainian]
+Українська
+[Urdu]
+Урду
+[Vietnamese]
+В'єтнамська
+[Welsh]
+Уельська
+[Yiddish]
+Ідиш
+[Yoruba]
+Йоруба
+[Elementary School]
+Початкова школа
+[High School]
+Середня школа
+[College]
+Коледж
+[University]
+Університет
+[Military]
+Військова служба
+[Past Work Place]
+Минула робота
+[Past Organization]
+Минула організація
+[Female]
+Жіноча
+[Male]
+Чоловіча
+[Associated degree]
+Середньоспеціальна
+[Bachelor's degree]
+Бакалавр
+[Elementary]
+Початкова школа
+[High-school]
+Середня школа
+[Master's degree]
+Магістр
+[PhD]
+Кандидат наук
+[Postdoctoral]
+Доктор
+[University / College]
+Університет/Коледж
+[Agriculture]
+Сільське господарство
+[Arts]
+Мистецтво
+[Construction]
+Будівництво
+[Consumer Goods]
+Споживчі товари
+[Corporate Services]
+Корпоративні послуги
+[Finance]
+Фінанси
+[High Tech]
+Наукоємні технології
+[Legal]
+Юриспруденція
+[Manufacturing]
+Виробництво
+[Medical & Health Care]
+Медицина і охорона здоров'я
+[Non-Profit Organization Management]
+Некомерційна організація
+[Recreation, Travel & Entertainment]
+Відпочинок, подорожі та розваги
+[Service Industry]
+Сфера обслуговування
+[Transportation]
+Транспорт
+[Academic]
+Викладач
+[Administrative]
+Адміністрування
+[Art/Entertainment]
+Мистецтво
+[College Student]
+Студент коледжу
+[Community & Social]
+Суспільство і соціум
+[Engineering]
+Інженер
+[Financial Services]
+Фінанси
+[High School Student]
+Учень середньої школи
+[Home]
+Дім
+[ICQ - Providing Help]
+ICQ - підтримка
+[Law]
+Юриспруденція
+[Managerial]
+Управління
+[Medical/Health]
+Медицина і охорона здоров'я
+[Non-Government Organization]
+Неурядова організація
+[Professional]
+Профспілка
+[Retail]
+Роздрібний торговець
+[Retired]
+У відставці
+[Science & Research]
+Наука та дослідження
+[Technical]
+Технічний
+[University Student]
+Студент університету
+[Web Building]
+Web-дизайн
+[Other Services]
+Інше
+[Alumni Org.]
+Організація випускників
+[Charity Org.]
+Благодійна організація
+[Club/Social Org.]
+Клуб
+[Community Org.]
+Громадське об'єднання
+[Cultural Org.]
+Культурне об'єднання
+[Fan Clubs]
+Фан-клуб
+[Fraternity/Sorority]
+Студентська організація
+[Hobbyists Org.]
+Організація за захопленнями
+[International Org.]
+Міжнародна організація
+[Nature and Environment Org.]
+Природоохоронна організація
+[Professional Org.]
+Профспілка
+[Scientific/Technical Org.]
+Науково-технічна організація
+[Self Improvement Group]
+Група самовдосконалення
+[Spiritual/Religious Org.]
+Релігійна організація
+[Sports Org.]
+Спортивна організація
+[Support Org.]
+Організація підтримки
+[Trade and Business Org.]
+Торгова організація
+[Union]
+Об'єднання
+[Volunteer Org.]
+Волонтерська організація
+[60-above]
+60 і більше
+[Single]
+Неодружений/Незаміжня
+[Close relationships]
+Зустрічаюсь
+[Engaged]
+Заручений(а)
+[Married]
+Одружений/Заміжня
+[Divorced]
+Розлучений(а)
+[Separated]
+Проживаємо окремо
+[Widowed]
+Вдівець/Вдова
+[Open relationship]
+В активному пошуку
+;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
+[No description given]
+Без опису
+;file \protocols\IcqOscarJ\src\icq_filetransfer.cpp
+[Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
+Передачу файлів скасовано, тому що один з вибраних файлів не читається з диска. Можливо, його було переміщено або видалено.
+[Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
+Передачу файлів скасовано, неможливо відкрити локальний файл на запис. Імовірно, ви намагаєтесь зберегти файл у папку, де немає права на запис.
+;file \protocols\IcqOscarJ\src\icq_menu.cpp
+[Add to server list]
+Додати в список на сервері
+[Show custom status details]
+Докладний xСтатус
+[Open ICQ profile]
+Профіль на сайті ICQ
+;file \protocols\IcqOscarJ\src\icq_opts.cpp
+[Display all problems]
+Усі проблеми
+[Display problems causing possible loss of data]
+Проблеми з можливою втратою даних
+[Display explanations for disconnection]
+Пояснення про роз'єднання
+[Display problems requiring user intervention]
+Потрібне втручання користувача
+[Do not display any problems (not recommended)]
+Ховати всі помилки (не рекомендується)
+[Simplified Chinese]
+Китайська (спрощена)
+[Traditional Chinese]
+Китайська (традиційна)
+[Central European]
+Центральноєвропейська
+[Cyrillic]
+Кирилиця
+[Latin I]
+Західноєвропейська
+[Baltic]
+Балтійська
+[Korean (Johab)]
+Корейська (Johab)
+[System default codepage]
+Системне кодування
+[Network]
+Мережа
+[Account]
+Обліковий запис
+[Contacts]
+Контакти
+[Features]
+Можливості
+[Privacy]
+Приватність
+[Popups]
+Спливаючі вікна
+;file \protocols\IcqOscarJ\src\icq_popups.cpp
+[Popup Title]
+Заголовок вікна
+[Sample Note]
+Приклад примітки
+[Sample Warning]
+Приклад попередження
+[Sample Error]
+Приклад помилки
+[Sample Fatal]
+Приклад фатальної помилки
+[Sample Spambot]
+Приклад спам-бота
+;file \protocols\IcqOscarJ\src\icq_proto.cpp
+[%s server connection]
+З'єднання з сервером %s
+[%s client-to-client connections]
+З'єднання між користувачами %s
+[User ID]
+ID користувача
+[You have not entered an ICQ number.\nConfigure this in Options -> Network -> ICQ and try again.]
+Ви не ввели номер ICQ.\nВведіть його в розділі Налаштування -> Мережа -> ICQ і спробуйте знову.
+;file \protocols\IcqOscarJ\src\icq_server.cpp
+[Unable to connect to ICQ login server, SSL could not be negotiated]
+Неможливо встановити SSL-з'єднання з сервером ICQ
+[Unable to connect to ICQ login server]
+Неможливо підключитися до сервера ICQ
+[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in Options -> Network -> ICQ client-to-client connections.]
+Не вдалося виділити порт для з'єднань між користувачами. Усі функції ICQ будуть доступні, але можливі проблеми з передачею файлів.\n\nЯкщо у вас встановлений брандмауер (firewall), відкрийте в ньому кілька портів і вкажіть їх у налаштуваннях (Мережа -> З'єднання між користувачами ICQ).
+[Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
+Невдале з'єднання.\nПослідовність входу не вдалася з невідомої причини.\nСпробуйте пізніше.
+[Your connection with the ICQ server was abortively closed]
+Підключення до сервера ICQ закрито.
+;file \protocols\IcqOscarJ\src\icq_servlist.cpp
+[The contact's information was too big and was truncated.]
+Інформація про контакт занадто довга і була обрізана.
+[Failed to create the correct sub-group, the using closest parent group.]
+Не вдалося створити правильну підгрупу, буде використана найближча батьківська група.
+;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
+[NOT FOUND]
+НЕ ЗНАЙДЕНО
+[ALREADY EXISTS]
+УЖЕ ІСНУЄ
+[INVALID DATA]
+НЕПРАВИЛЬНІ ДАНІ
+[LIST FULL]
+ПОВНИЙ СПИСОК
+[FAILED]
+НЕВДАЧА
+[Select contacts you want to store on server.]
+Виберіть контакти для зберігання на сервері.
+[Ready...]
+Готово...
+[Server rate warning -> slowing down the process.]
+Попередження сервера щодо швидкості -> уповільнююсь...
+[Adding group "%s"...]
+Додаю групу "%s"...
+[Uploading %s...]
+Завантажую %s...
+[No upload group available]
+Немає групи для завантаження
+[Deleting %s...]
+Видаляю %s...
+[Moving %s to group "%s"...]
+Переміщую %s в групу "%s"...
+[Adding %s to visible list...]
+Додаю %s до списку видимості...
+[Adding %s to invisible list...]
+Додаю %s до списку невидимості...
+[Deleting %s from visible list...]
+Видаляю %s зі списку видимості...
+[Deleting %s from invisible list...]
+Видаляю %s зі списку невидимості...
+[Cleaning groups]
+Чищу групи
+[Updating group "%s"...]
+Оновлюю групу "%s"...
+[Deleting group "%s"...]
+Видаляю групу "%s"...
+[All operations complete]
+Усі операції завершені
+[Close]
+Закрити
+[You have to be online to synchronize the server-list!]
+Ви повинні бути підключені для синхронізації списку на сервері
+[** All contacts **]
+** Усі контакти **
+;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
+[Angry]
+Злюся
+[Taking a bath]
+У ванній
+[Tired]
+Втомився
+[Birthday]
+День народження
+[Drinking beer]
+П'ю пиво
+[Thinking]
+Думаю
+[Eating]
+Їм
+[Watching TV]
+Дивлюся телевізор
+[Meeting]
+Зустріч
+[Coffee]
+П'ю каву
+[Listening to music]
+Слухаю музику
+[Shooting]
+Фотографую
+[Having fun]
+Веселюся
+[On the phone]
+Телефоную
+[Gaming]
+Граю
+[Studying]
+Навчаюсь
+[Shopping]
+Роблю покупки
+[Feeling sick]
+Хворію
+[Sleeping]
+Сплю
+[Surfing]
+Серфінг
+[Working]
+Працюю
+[Typing]
+Набираю текст
+[Picnic]
+Пікнік
+[Cooking]
+Готую їжу
+[Smoking]
+Курю
+[I'm high]
+Дмухаю
+[On WC]
+В туалеті
+[To be or not to be]
+Бути чи не бути?
+[Watching pro7 on TV]
+Дивлюся pro7
+[Love]
+Любов
+[Hot Dog]
+Хот-дог
+[Rough]
+Грубий
+[Rock On]
+Рокер
+[Baby]
+Немовля
+[Soccer]
+Футбол
+[Pirate]
+Пірат
+[Cyclop]
+Циклоп
+[Monkey]
+Мавпа
+[Birdie]
+Горобчик
+[Cool]
+Крутий
+[Evil]
+Демон
+[Alien]
+Прибулець
+[Scooter]
+Скутер
+[Mask]
+Маска
+[Money]
+Гроші
+[Pilot]
+Пілот
+[Afro]
+Африканець
+[St. Patrick]
+Св. Патрік
+[Headmaster]
+Директор
+[Lips]
+Губи
+[Ice-Cream]
+Морозиво
+[Pink Lady]
+Рожева
+[Up yours]
+Іди ти
+[Laughing]
+Сміюся
+[Dog]
+Собака
+[Candy]
+Цукерка
+[Crazy Professor]
+Божевільний професор
+[Ninja]
+Ніндзя
+[Cocktail]
+Тусуюся
+[Punch]
+Кулак
+[Donut]
+Пончик
+[Feeling Good]
+Кльово
+[Lollypop]
+Льодяник
+[Oink Oink]
+Хрю-хрю
+[Kitty]
+Кішечка
+[Sumo]
+Сумо
+[Broken hearted]
+Розбите серце
+[Free for chat]
+Готовий до чату
+[@home]
+Вдома
+[@work]
+На роботі
+[Strawberry]
+Полуниця
+[Angel]
+Ангел
+[Pizza]
+Піца
+[Snoring]
+Хроплю
+[On my mobile]
+З мобільника
+[Depressed]
+Депресія
+[Beetle]
+Жук
+[Double Rainbow]
+Веселка
+[Basketball]
+Баскетбол
+[Cupid shot me]
+Закоханий
+[Celebrating]
+Святкую
+[Sushi]
+Суші
+[Playing]
+Граю
+[Writing]
+Пишу
+[%s Custom Status]
+xСтатус %s
+[None]
+Немає
+[Custom Status]
+xСтатус
+;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
+[Greeting card:]
+Листівка:
+;file \protocols\IcqOscarJ\src\init.cpp
+[Expand string edit]
+
+[ICQ xStatus]
+xСтатус ICQ
+;file \protocols\IcqOscarJ\src\log.cpp
+[ICQ Warning]
+Попередження ICQ
+[ICQ Error]
+Помилка ICQ
+[ICQ Fatal]
+Фатальна помилка ICQ
+[The server did not respond to the connection attempt within a reasonable time, it may be temporarily down. Try again later.]
+Сервер не відповів на спробу підключення. Можливо, він тимчасово недоступний. Спробуйте пізніше.
+[The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
+Спроба підключення до сервера завершилася помилкою. Можливо, трапився обрив з'єднання з локальною мережею.
+[Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in Options -> Network.]
+Не вдалося визначити IP-адресу сервера за його ім'ям. Можливо, це пов'язано з відсутністю підключення до Інтернету (наприклад, ваш модем відключився). Якщо ви використовуєте проксі, спробуйте ввімкнути опцію "Надсилати запити DNS через проксі": Налаштування -> Мережа.
+[Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
+Не вдалося підключитися до сервера. Можливо, сервер не працює, спробуйте підключитися пізніше.
+[Your proxy rejected the user name and password that you provided. Please check them in Options -> Network.]
+Ваш проксі-сервер відкинув ім'я і пароль. Будь ласка, перевірте їх: Налаштування -> Мережа.
+[The server to which you are trying to connect does not exist. Check your spelling in Options -> Network -> ICQ.]
+Сервер, до якого ви намагаєтеся підключитися, не існує. Перевірте адресу сервера: Налаштування -> Мережа -> ICQ.
+[error]
+помилка
+;file \protocols\IcqOscarJ\src\loginpassword.cpp
+[Enter a password for UIN %u:]
+Введіть пароль для %u:
+;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
+[%d Files]
+%d файлів
+[The file transfer was aborted by the other user.]
+Передачу файлу перервано користувачем на тій стороні.
+[The file transfer failed: Proxy error]
+Передача файлу не вдалася: Помилка проксі
+[The file transfer failed: Invalid request]
+Передача файлу не вдалася: Неправильний запит
+[The file transfer failed: Proxy unavailable]
+Передача файлу не вдалася: Проксі недоступний
+[Failed to Initialize File Transfer. No valid files were specified.]
+Неможливо розпочати передачу файлу. Файл не вказаний.
+[The files are too big to be sent at once. Files bigger than 4 GB can be sent only separately.]
+Занадто великі файли не можуть бути відправлені за раз. Файли більше 4 ГБ можуть бути надіслані лише окремо.
+[Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
+Неможливо розпочати передачу файлу. Неможливо призначити локальний порт і файловий проксі недоступний.
+[Connection lost during file transfer.]
+З'єднання втрачено при передачі файлу.
+[File transfer negotiation failed for unknown reason.]
+Передача файлу не вдалася з невідомої причини.
+[The checksum of file "%s" does not match, the file is probably damaged.]
+Контрольна сума файлу "%s" не збігається, можливо файл пошкоджений.
+[Your file transfer has been aborted (error=%d), because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
+Передачу файлів скасовано (помилка: %d), тому що один з вибраних файлів не читається з диска. Можливо, його було переміщено або видалено.
+;file \protocols\IcqOscarJ\src\upload.cpp
+[You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
+Ви не підключені до мережі ICQ. Щоб оновлювати дані на сервері, потрібно підключитися до мережі ICQ.
+;file \protocols\IcqOscarJ\src\userinfotab.cpp
+[ (DC Established)]
+(ПП встановлено)
+[ScreenName:]
+Ім'я AIM:
+[<not specified>]
+<не вказано>
+[Member since:]
+Учасник з:
+[Details]
+Деталі
+;file \protocols\IcqOscarJ\src\utilities.cpp
+[<invalid>]
+<неправильно>

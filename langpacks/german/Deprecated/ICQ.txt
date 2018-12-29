@@ -1,0 +1,1840 @@
+#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
+;============================================================
+;  File: ICQ.dll
+;  Plugin: IcqOscarJ protocol
+;  Version: 0.95.8.1
+;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
+;============================================================
+[ICQ protocol support for Miranda NG.]
+ICQ-Protokollunterstützung für Miranda NG.
+;file \protocols\IcqOscarJ\res\resources.rc
+[ICQ Number:]
+ICQ-Nummer:
+[Password:]
+Passwort:
+[Create a new ICQ account]
+Ein neues ICQ-Konto erstellen
+[Enter an authorization request]
+Autorisierungsanfrage eingeben
+[&Send]
+&Senden
+[&Cancel]
+Abbre&chen
+[Enter ICQ Password]
+ICQ-Passwort eingeben
+[Enter a password for UIN %d:]
+Bitte Passwort für UIN %d eingeben:
+[Remember this session password]
+Dieses Sitzungspasswort merken
+[Cancel]
+Abbrechen
+[ICQ number:]
+ICQ-Nummer:
+[Hint: If you don't enter your password here, Miranda will ask for the password every time you try to go online.]
+Tipp: Geben Sie hier kein Passwort ein, so wird immer beim Verbinden danach gefragt.
+[Retrieve a lost password or ICQ number]
+ICQ-Nummer oder Passwort vergessen? Hier klicken
+[Create a new ICQ account using the ICQ website]
+Ein neues ICQ-Konto über die ICQ-Webseite erstellen
+[Connection settings]
+Verbindungseinstellungen
+[Login Server:]
+Anmeldeserver:
+[Port:]
+Port:
+[Default]
+Standard
+[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through an http proxy server.]
+Tipp: Benutzen Sie Port 0 für eine zufällige Portwahl. Benutzen Sie Port 80 oder 443 bei Problemen mit einem HTTP-Proxyserver.
+[Secure Connection (SSL)]
+Sichere Verbindung (SSL)
+[Secure (MD5) login]
+Sichere Anmeldung (MD5)
+[Legacy fix (for ICQ Groupware or IServerD only)]
+Kompatibilitäts-Fix (nur für ICQ Groupware oder IServerD)
+[Send 'Keep-alives' (enable this if you use a proxy server and frequently get disconnected)]
+Verbindung aufrecht erhalten (aktivieren Sie dies, wenn Sie einen Proxyserver benutzen und häufig getrennt werden)
+[Ignore concurrent error messages]
+Ignoriere gleichzeitige Störungen
+[Show connection error messages:]
+Zeige Verbindungsfehler-Meldungen:
+[ICQ contacts stored on server]
+Serverseitige Kontaktliste
+[Manage server's list...]
+Serverliste verwalten...
+[Enable server-side contact lists *]
+Serverseitige Kontaktliste aktivieren (*)
+[Add contacts to the server's list when I add them to mine]
+Füge Kontakte zur Serverliste hinzu, wenn ich diese zu meiner hinzufüge
+[Update my contacts' details from the server *]
+Aktualisiere Kontaktdetails vom Server (*)
+[Update contacts' details on the server's list when I change them in mine]
+Aktualisiere Kontaktdetails der Serverliste, wenn ich diese in meiner ändere
+[ICQ avatars]
+ICQ-Avatare
+[Enable avatar support]
+Avatarunterstützung aktivieren
+[Check avatar validity before saving *]
+Avatare vor dem Speichern auf Gültigkeit prüfen (*)
+[Load avatars automatically (like ICQ Lite)]
+Avatare automatisch laden (wie ICQ Lite)
+[These changes will take effect the next time you connect to the ICQ network.]
+Die Änderungen werden erst nach einer Neueinwahl ins ICQ-Netzwerk aktiv.
+[You cannot enable/disable the server-side contact list while you are connected to the ICQ network.]
+Aktivieren/Deaktivieren der Serverkontaktliste nur möglich, wenn keine ICQ-Netzwerkverbindung besteht. Bitte zuerst offline gehen!
+[Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]
+(*) Diese Einstellungen wirken sich auch auf bereits bestehende Kontakte und das Profil aus. Sie müssen aber aktiviert sein, um ein Avatar auf den Server zu laden.
+[Messaging]
+Nachrichten
+[Use this codepage for Ansi <-> Unicode translation:]
+Verwende diese Codetabelle für ANSI <-> Unicode:
+[Make me temporarily visible to contacts I send message to]
+Temporär für Kontakte sichtbar machen beim Nachrichtenversand
+[Notify me when a message delivery has failed]
+Teile mir mit, wenn eine Nachricht nicht gesendet werden konnte
+[Peer-to-peer Messaging]
+Direktverbindung Nachrichten
+[Enable peer-to-peer message connections]
+Direktverbindungen für Nachrichtensitzungen
+[Passive mode (i.e., do not initiate new connections)]
+Passiver Modus, d. h. keine neuen Verbindungen herstellen
+[Extra Features]
+Zusätzliche Funktionen
+[Enable Custom status support for xtraz]
+Custom Status Unterstützung für Xtraz aktivieren
+[Enable Custom status support for moods]
+Custom Status Unterstützung für Stimmungen aktivieren
+[Reset Custom status on status change]
+Custom Status bei Statusänderung zurücksetzen
+[Auto-retrieve Custom status details]
+Custom Status Details automatisch empfangen
+[Block known Spam Bots]
+Bekannte Spambots blockieren
+[Direct connections]
+Direktverbindungen
+[Allowing direct connections will expose your IP address but may be necessary for some ICQ features to work properly.]
+Bei direkten Verbindungen wird die eigene IP-Adresse bekanntgegeben. Für einige Funktionen des ICQ-Protokolls (z. B. Dateiübertragung) ist dies jedoch erforderlich.
+[Allow direct connections with any user]
+Direkte Verbindungen zu jedem Kontakt erlauben
+[Allow direct connections with users on my contact list]
+Direkte Verbindungen nur zu Kontakten meiner Kontaktliste erlauben
+[Allow direct connections only when I authorize or initiate them]
+Direkte Verbindungen nur, wenn von mir autorisiert oder selbst gestartet
+[Contact List Authorization]
+Kontaktlisten-Autorisierung
+[All users may add me to their Contact List]
+Jeder darf mich in seiner Kontaktliste aufnehmen
+[I want to be asked when someone wants to add me to their Contact List]
+Nachfragen, wenn jemand mich in seiner Kontaktliste aufnehmen möchte
+[Misc Settings]
+Sonstige Einstellungen
+[Allow others to view my Online / Offline status from the web (Web Aware)]
+Anzeigen des Online-/Offline-Status' im Internet (Web Aware) erlauben
+[Allow others to view my primary e-mail address]
+Erlaube anderen meine erste E-Mail-Adresse zu sehen
+[Only reply to status message requests from users on my contact list]
+Nur Statusnachrichtenanfragen von Kontakten aus meiner Kontaktliste beantworten
+[Only reply to status message request from visible contacts]
+Nur Statusnachrichtenanfragen von sichtbaren Kontakten beantworten
+[Some options are grayed out because they can only be changed when you are online.]
+Ausgegraute Einstellungen können nur geändert werden, wenn Sie online sind.
+[Options]
+Einstellungen
+[Enable popup support]
+Popup-Unterstützung aktivieren
+[Display errors using popups]
+Fehler durch Popups anzeigen
+[Display popup when spambot is detected]
+Popup anzeigen, wenn Spambot entdeckt wurde
+[Look && Feel]
+Aussehen && Verhalten
+[Back Color]
+Hgrd.farbe
+[Text Color]
+Textfarbe
+[Timeout]
+Zeitüberschreitung
+[Note]
+Hinweis
+[Warning]
+Warnung
+[Error]
+Fehler
+[Fatal]
+Fataler Fehler
+[Spam detected]
+Spam entdeckt
+[&Use Windows colors]
+Windowsfarben verwenden
+[Use system &icons]
+System&icons verwenden
+[Previe&w]
+Vorschau
+[Use default colors]
+Standardfarben verwenden
+[UIN:]
+UIN:
+[External IP:]
+Externe IP:
+[Internal IP:]
+Interne IP:
+[Protocol Version:]
+Protokollversion:
+[User Client:]
+Benutzerclient:
+[Online since:]
+Online seit:
+[System up since:]
+System an seit:
+[Idle since:]
+Untätig seit:
+[Status:]
+Status:
+[Summary]
+Zusammenfassung
+[Nickname:]
+Nick:
+[First name:]
+Vorname:
+[Last name:]
+Nachname:
+[E-mail:]
+E-Mail:
+[Gender:]
+Geschlecht:
+[Age:]
+Alter:
+[Marital status:]
+Familienstand:
+[Keywords:]
+Schlüsselw.
+[Work]
+Arbeit
+[Occupation:]
+Beruf:
+[Company:]
+Firma:
+[Department:]
+Abteilung:
+[Position:]
+Position:
+[Organization:]
+Organisation:
+[Location]
+Ort
+[Language:]
+Sprache:
+[Country:]
+Land:
+[State:]
+Region:
+[City:]
+Stadt:
+[Background info]
+Hintergrund-Info
+[Interests]
+Interessen
+[Category:]
+Kategorie:
+[Past]
+Vergangenheit
+[Homepage]
+Homepage
+[Other]
+Sonstige
+[Search online users only]
+Suche nur nach Onlinenutzern
+[Manage ICQ Server Contacts]
+ICQ-Kontakte auf Server verwalten
+[Select contacts to store:]
+Kontakte für Upload wählen:
+[Synchronize]
+Synchronisiere
+[Custom Status "%s" Details]
+Custom-Status "%s" Details
+[Closing in %d]
+In %d schließen
+[Title:]
+Titel:
+[Message:]
+Nachricht:
+[Retrieving custom status details...]
+Empfange Custom-Status-Details...
+[&Save changes]
+Änderungen &speichern
+[Confirm Password Change]
+Passwortänderung bestätigen
+[Please re-type your new password:]
+Bitte neues Passwort hier eingeben:
+[Enter your current password:]
+Aktuelles Passwort hier eingeben:
+;file \protocols\IcqOscarJ\src\askauthentication.cpp
+[Please authorize me to add you to my contact list.]
+Bitte autorisieren Sie mich, Sie meiner Kontaktliste hinzuzufügen.
+;file \protocols\IcqOscarJ\src\chan_04close.cpp
+[Unable to connect to migrated ICQ communication server]
+Es konnte keine Verbindung zum ICQ-Anmeldeserver migriert werden.
+[Unable to connect to ICQ communication server]
+Es konnte keine Verbindung zum ICQ-Anmeldeserver hergestellt werden.
+[You could not sign on because the server returned invalid data. Try again.]
+Anmeldung war nicht möglich, da der Server ungültige Daten sendete. Versuchen Sie es später noch einmal.
+[You have been disconnected from the ICQ network because the current server shut down.]
+Verbindung zum ICQ-Netzwerk wurde getrennt, da der aktuelle Server nicht erreichbar ist.
+[Connection failed.\nYour ICQ number or password was rejected (%d).]
+Verbindung fehlgeschlagen.\nICQ-Nummer oder -Passwort wurden abgelehnt (%d).
+[Connection failed.\nThe server is temporarily unavailable (%d).]
+Verbindung fehlgeschlagen.\nDer Server ist temporär nicht verfügbar (%d).
+[Connection failed.\nServer has too many connections from your IP (%d).]
+Verbindung fehlgeschlagen.\nServer hat zu viele Verbindungen von Ihrer IP (%d).
+[Connection failed.\nYou have connected too quickly,\nplease wait and retry 10 to 20 minutes later (%d).]
+Verbindung fehlgeschlagen.\nDer Verbindungsaufbau erfolgte zu schnell,\nbitte warten Sie mindestens 30 Minuten und versuchen Sie es dann erneut, versuchen Sie sich auf keinen Fall in dieser Zeit erneut zu verbinden (%d).
+[Connection failed.\nThe server did not accept this client version.]
+Verbindung fehlgeschlagen.\nDer Server akzeptiert diese Clientversion nicht.
+[The server sent warning, this version is getting old.\nTry to look for a new one.]
+Der Server sendete die Warnung, dass diese Version alt wird.\nSuche nach einer neuen.
+[Connection failed.\nYou were rejected by the server for an unknown reason.\nThis can happen if the UIN is already connected.]
+Verbindung fehlgeschlagen.\nSie wurden vom Server abgewiesen.\nDas kann passieren, wenn die ICQ-Nummer bereits angemeldet ist.
+[Connection failed.\nSecure (MD5) login is not supported on this account.]
+Verbindung fehlgeschlagen.\nVerschlüsseltes (MD5-)Anmelden wird von diesem Konto nicht unterstützt.
+[Connection failed.\nUnknown error during sign on: 0x%02x]
+Verbindung fehlgeschlagen.\nUnbekannter Fehler beim Anmelden: 0x%02x
+[You have been disconnected from the ICQ network because you logged on from another location using the same ICQ number.]
+Sie wurden vom ICQ-Netzwerk getrennt, da Sie bereits von einem anderen Ort mit derselben ICQ-Nummer eingeloggt sind.
+[Unknown runtime error: 0x%02x]
+Unbekannter Laufzeitfehler: 0x%02x
+;file \protocols\IcqOscarJ\src\constants.cpp
+[January]
+Januar
+[February]
+Februar
+[March]
+März
+[April]
+April
+[May]
+Mai
+[June]
+Juni
+[July]
+Juli
+[August]
+August
+[September]
+September
+[October]
+Oktober
+[November]
+November
+[December]
+Dezember
+[Personal]
+Persönlich
+[Nickname]
+Nick
+[First name]
+Vorname
+[Last name]
+Nachname
+[Gender]
+Geschlecht
+[About]
+Über
+[Password]
+Passwort
+[Contact]
+Kontakt
+[Primary e-mail]
+Erste E-Mail
+[Secondary e-mail]
+Zweite E-Mail
+[Tertiary e-mail]
+Dritte E-Mail
+[Street]
+Straße
+[City]
+Stadt
+[State]
+Region
+[ZIP/postcode]
+Postleitzahl
+[Country]
+Land
+[Phone number]
+Telefon
+[Fax number]
+Fax
+[Cellular number]
+Mobiltelefon
+[Personal Detail]
+Persönliches Profil
+[Timezone]
+Zeitzone
+[Year of birth]
+Geburtsjahr
+[Month of birth]
+Geburtsmonat
+[Day of birth]
+Geburtstag
+[Marital Status]
+Familienstand
+[Spoken language 1]
+Erste Sprache
+[Spoken language 2]
+Zweite Sprache
+[Spoken language 3]
+Dritte Sprache
+[Originally from]
+Herkunft
+[Education]
+Bildung
+[Level]
+Schulart
+[Institute]
+Institut
+[Degree]
+Grad
+[Graduation Year]
+Abschlussjahr
+[Company name]
+Firmenname
+[Company homepage]
+Firmenhomepage
+[Company street]
+Straße
+[Company city]
+Stadt
+[Company state]
+Region
+[Company phone]
+Telefon (geschäftl.)
+[Company fax]
+Fax (geschäftl.)
+[Company ZIP/postcode]
+Postleitzahl (geschäftl.)
+[Company country]
+Land
+[Company department]
+Abteilung
+[Company position]
+Position
+[Company industry]
+Geschäftszweig
+[Personal Interests]
+Persönliche Interessen
+[Interest category 1]
+Interessengebiete 1
+[Interest areas 1]
+Interessen Text 1
+[Interest category 2]
+Interessengebiete 2
+[Interest areas 2]
+Interessen Text 2
+[Interest category 3]
+Interessengebiete 3
+[Interest areas 3]
+Interessen Text 4
+[Interest category 4]
+Interessengebiete 4
+[Interest areas 4]
+Interessen Text 4
+;file \protocols\IcqOscarJ\src\dlgproc.cpp
+[<unremovable once applied>]
+<nicht mehr entfernbar>
+[<empty>]
+<leer>
+[Unknown value]
+Unbekannter Wert
+[You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
+Sie haben Änderungen an Ihren ICQ-Details vorgenommen, diese wurden aber noch nicht auf dem Server gespeichert. Trotzdem schließen und nicht speichern?
+[Change ICQ Details]
+ICQ-Profil ändern
+[Upload in progress...]
+Upload erfolgt...
+[Upload in progress...%d%%]
+Upload erfolgt...%d%%
+[Upload complete]
+Upload fertig
+[Upload FAILED]
+Upload FEHLGESCHLAGEN
+;file \protocols\IcqOscarJ\src\fam_01service.cpp
+[A server migration has failed because the server returned invalid data. You must reconnect manually.]
+Probleme beim Datenaustausch mit dem Server, es wurden ungültige Daten vom Server gesendet. Bitte manuell neu verbinden.
+[Failed to request offline messages. They may be received next time you log in.]
+Fehler beim anfordern der Offlinenachricht. Sie können diese beim nächsten Verbinden empfangen.
+;file \protocols\IcqOscarJ\src\fam_03buddy.cpp
+[Spambot Detected]
+Spambot entdeckt
+[Contact deleted & further events blocked.]
+Kontakt gelöscht und weitere Ereignisse blockiert.
+;file \protocols\IcqOscarJ\src\fam_04message.cpp
+[Incoming URL:]
+Eingehende URL:
+[You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x02]
+Senden erfolgte zu schnell. Eine Weile warten und neu versuchen.\nSNAC(4.1) Fehler x02
+[You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x03]
+Senden erfolgte zu schnell. Eine Weile warten und neu versuchen.\nSNAC(4.1) Fehler x03
+[The contact does not support receiving offline messages.]
+Dieser Kontakt unterstützt keine Offline-Nachrichten.
+[The user has logged off. Select 'Retry' to send an offline message.\r\nSNAC(4.1) Error x04]
+Kontakt ist offline gegangen. Bitte erneut als Offlinenachricht senden.\nSNAC(4.1) Fehler x04
+[The messaging service is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x05]
+Der Nachrichtendienst ist temporär nicht verfügbar. Warten Sie ein bisschen und versuchen Sie es dann erneut.\r\nSNAC(4.1) Fehler x05
+[The receiving client does not support this type of message.\r\nSNAC(4.1) Error x09]
+Der Client des Kontakts unterstützt diese Art der Nachricht nicht.\nSNAC(4.1) Fehler x09
+[You sent too long message. The receiving client does not support it.\r\nSNAC(4.1) Error x0A]
+Der Client des Empfängers unterstützt keine Nachrichten dieser Länge.\nSNAC(4.1) Fehler x0A
+[The SNAC format was rejected by the server.\nSNAC(4.1) Error x0E]
+Das SNAC-Format wurde vom Server abgelehnt.\nSNAC(4.1) Fehler x0E
+[The user is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x13]
+Der Kontakt ist zzt. nicht erreichbar. Eine Weile warten und erneut versuchen.\nSNAC(4.1) Fehler x13
+[SNAC(4.1) SENDMSG Error (x%02x)]
+SNAC(4.1) SENDMSG-Fehler (x%02x)
+[Contact "%s" has closed the message window.]
+"%s" hat das Nachrichtenfenster geschlossen.
+[ICQ Note]
+ICQ-Hinweis
+;file \protocols\IcqOscarJ\src\fam_13servclist.cpp
+[Server contact list is unavailable, Miranda will use local contact list.]
+Server-Kontaktliste nicht erreichbar, Miranda benutzt die lokale Kontaktliste.
+[Updating of server contact failed.]
+Update des Serverkontakt schlug fehl.
+[Adding of privacy item to server list failed.]
+Hinzufügen des privaten Teils auf dem Server fehlgeschlagen.
+[Removing of privacy item from server list failed.]
+Löschen des privaten Teils auf dem Server fehlgeschlagen.
+[Adding of contact to server list failed.]
+Hinzufügen des Kontakts auf dem Server fehlgeschlagen.
+[Adding of group to server list failed.]
+Hinzufügen der Gruppe auf dem Server fehlgeschlagen.
+[Removing of contact from server list failed.]
+Löschen des Kontakts auf dem Server fehlgeschlagen.
+[Updating of group on server list failed.]
+Aktualisierung der Gruppe auf dem Server ist fehlgeschlagen.
+[Removing of group from server list failed.]
+Löschen der Gruppe auf dem Server fehlgeschlagen.
+[Moving of user to another group on server list failed.]
+Verschieben des Kontakts zu einer anderen Gruppe auf dem Server fehlgeschlagen.
+[Renaming of server group failed.]
+Umbenennen der Gruppe auf dem Server fehlgeschlagen.
+[Contact "%s" was authorized in the server list.]
+Kontakt "%s" wurde in der Serverliste autorisiert.
+[Contact "%s" lost its authorization in the server list.]
+Kontakt "%s" hat seine Autorisierung in der Serverliste verloren
+[User "%s" was removed from server list.]
+Nutzer "%s" wurde aus der Serverliste entfernt.
+;file \protocols\IcqOscarJ\src\fam_17signon.cpp
+[Secure login failed.\nInvalid server response.]
+Sicherer Login schlug fehl.\nUngültige Serverantwort.
+[Secure login failed.\nInvalid key length.]
+Sicherer Login schlug fehl.\nFalsche Schlüssellänge.
+;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
+[Are you sure you want to revoke user's authorization?\nThis will remove you from his/her list on some clients.]
+Sind Sie sich sicher, dass Sie diesem Kontakt Ihre Autorisierung entziehen wollen?\nDies entfernt Sie von dessen Kontaktliste in einigen Clients.
+[Confirmation]
+Bestätigung
+[** This message was blocked by the ICQ server ** The message was invalid.]
+** Diese Nachricht wurde vom Server blockiert ** Die Nachricht ist ungültig.
+[** This message was blocked by the ICQ server ** The message was too long.]
+** Diese Nachricht wurde vom Server blockiert ** Nachricht ist zu lang.
+[** This message was blocked by the ICQ server ** The sender has flooded the server.]
+** Diese Nachricht wurde vom Server blockiert ** Der Sender hat den Server gefloodet.
+[** This message was blocked by the ICQ server ** You are too evil.]
+** Diese Nachricht wurde vom Server blockiert ** Sie sind zu bose.
+[** Unknown missed message event.]
+** Unbekanntes verpasstes Nachrichten-Ereignis.
+;file \protocols\IcqOscarJ\src\icq_avatar.cpp
+[Error uploading avatar to server, server temporarily unavailable.]
+Fehler beim Upload des Avatars auf den Server, der Server ist vorübergehend nicht verfügbar.
+[Error uploading avatar to server, server refused to accept the image.]
+Fehler beim Avatarupload zum Server, der Server akzeptiert das Bild nicht.
+;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
+[Afghanistan]
+Afghanistan
+[Albania]
+Albanien
+[Algeria]
+Algerien
+[Andorra]
+Andorra
+[Angola]
+Angola
+[Anguilla]
+Anguilla
+[Antigua and Barbuda]
+Antigua und Barbuda
+[Argentina]
+Argentinien
+[Armenia]
+Armenien
+[Aruba]
+Aruba
+[Ascension Island]
+Ascension-Inseln
+[Australia]
+Australien
+[Australia, Antarctic Territory]
+Australien, Antarktisches Territorium
+[Australia, Christmas Island]
+Australien, Weihnachtsinsel
+[Australia, Cocos (Keeling) Islands]
+Australien, Kokos-(Keeling-)Inseln
+[Australia, Norfolk Island]
+Australien, Norfolk-Inseln
+[Austria]
+Österreich
+[Azerbaijan]
+Aserbaidschan
+[Bahamas]
+Bahamas
+[Bahrain]
+Bahrain
+[Bangladesh]
+Bangladesch
+[Barbados]
+Barbados
+[Belarus]
+Weißrussland
+[Belgium]
+Belgien
+[Belize]
+Belize
+[Benin]
+Benin
+[Bermuda]
+Bermuda
+[Bhutan]
+Bhutan
+[Bolivia]
+Bolivien
+[Bosnia and Herzegovina]
+Bosnien-Herzegowina
+[Botswana]
+Botswana
+[Brazil]
+Brasilien
+[British Virgin Islands]
+Britische Jungfraueninseln
+[Brunei]
+Brunei
+[Bulgaria]
+Bulgarien
+[Burkina Faso]
+Burkina Faso
+[Burundi]
+Burundi
+[Cambodia]
+Kambodscha
+[Cameroon]
+Kamerun
+[Canada]
+Kanada
+[Canary Islands]
+Kanarische Inseln
+[Cape Verde]
+Kapverdische Inseln
+[Cayman Islands]
+Cayman-Inseln
+[Central African Republic]
+Zentralafrikanische Republik
+[Chad]
+Tschad
+[Chile]
+Chile
+[China]
+China
+[Colombia]
+Kolumbien
+[Comoros]
+Comoren
+[Congo, Democratic Republic of the]
+Kongo, Demokratische Republik
+[Congo, Republic of the]
+Kongo, Republik
+[Cook Islands]
+Cook-Inseln
+[Costa Rica]
+Costa Rica
+[Cote d'Ivoire]
+Elfenbeinküste
+[Croatia]
+Kroatien
+[Cuba]
+Kuba
+[Greek, Republic of South Cyprus]
+Griechenland, Republik Südzypern
+[Czech Republic]
+Tschechische Republik
+[Denmark]
+Dänemark
+[Diego Garcia]
+Diego Garcia
+[Djibouti]
+Dschibuti
+[Dominica]
+Dominica
+[Dominican Republic]
+Dominikanische Republik
+[Ecuador]
+Ekuador
+[Egypt]
+Ägypten
+[El Salvador]
+El Salvador
+[Equatorial Guinea]
+Äquatorialguinea
+[Eritrea]
+Eritrea
+[Estonia]
+Estland
+[Ethiopia]
+Äthiopien
+[Europe]
+Europa
+[Faroe Islands]
+Färöer-Inseln
+[Falkland Islands]
+Falkland-Inseln
+[Fiji]
+Fidschi
+[Finland]
+Finnland
+[France]
+Frankreich
+[French Antilles]
+Fränzösische Antillen
+[French Guiana]
+Französisch-Guayana
+[French Polynesia]
+Französisch-Polynesien
+[Gabon]
+Gabun
+[Gambia]
+Gambia
+[Georgia]
+Georgien
+[Germany]
+Deutschland
+[Ghana]
+Ghana
+[Gibraltar]
+Gibraltar
+[Greece]
+Griechenland
+[Greenland]
+Grönland
+[Grenada]
+Grenada
+[Guadeloupe]
+Guadeloupe
+[Guam, US Territory of]
+Guam, US-Territorium
+[Guatemala]
+Guatemala
+[Guinea]
+Guinea
+[Guinea-Bissau]
+Guinea-Bissau
+[Guyana]
+Guyana
+[Haiti]
+Haiti
+[Honduras]
+Honduras
+[Hong Kong]
+Hong Kong
+[Hungary]
+Ungarn
+[Iceland]
+Island
+[India]
+Indien
+[Indonesia]
+Indonesien
+[Iran]
+Iran
+[Iraq]
+Irak
+[Ireland]
+Irland
+[Israel]
+Israel
+[Italy]
+Italien
+[Jamaica]
+Jamaika
+[Japan]
+Japan
+[Jordan]
+Jordanien
+[Kazakhstan]
+Kasachstan
+[Kenya]
+Kenia
+[Kiribati]
+Kiribati
+[Korea, North]
+Nordkorea
+[Korea, South]
+Südkorea
+[Kuwait]
+Kuwait
+[Kyrgyzstan]
+Kirgisien
+[Laos]
+Laos
+[Latvia]
+Lettland
+[Lebanon]
+Libanon
+[Lesotho]
+Lesotho
+[Liberia]
+Liberia
+[Libya]
+Libyen
+[Liechtenstein]
+Liechtenstein
+[Lithuania]
+Litauen
+[Luxembourg]
+Luxemburg
+[Macau]
+Macao
+[Macedonia, Republic of]
+Mazedonien, Republik
+[Madagascar]
+Madagaskar
+[Malawi]
+Malawi
+[Malaysia]
+Malaysia
+[Maldives]
+Malediven
+[Mali]
+Mali
+[Malta]
+Malta
+[Marshall Islands]
+Marshall-Inseln
+[Martinique]
+Martinique
+[Mauritania]
+Mauretanien
+[Mauritius]
+Mauritius
+[Mayotte]
+Mayotte
+[Mexico]
+Mexiko
+[Micronesia, Federated States of]
+Föderierte Staaten von Mikronesien
+[Moldova]
+Moldawien
+[Monaco]
+Monaco
+[Mongolia]
+Mongolei
+[Montserrat]
+Montserrat
+[Morocco]
+Marokko
+[Mozambique]
+Mosambik
+[Myanmar]
+Myanmar
+[Namibia]
+Namibia
+[Nauru]
+Nauruisch
+[Nepal]
+Nepal
+[Netherlands]
+Niederlande
+[Netherlands Antilles]
+Niederländische Antillen
+[St. Maarten]
+St. Maarten
+[Curacao]
+Curacao
+[Netherlands (Bonaire Island)]
+Niederlande (Bonaire Insel)
+[Netherlands (Saba Island)]
+Niederlande (Saba Insel)
+[Netherlands (St. Eustatius Island)]
+Niederlande (St. Eustatius Insel)
+[New Caledonia]
+Neukaledonien
+[New Zealand]
+Neuseeland
+[Nicaragua]
+Nicaragua
+[Niger]
+Niger
+[Nigeria]
+Nigeria
+[Niue]
+Niue
+[Northern Mariana Islands, US Territory of]
+Nördliche Marianen-Inseln, US-Territorium
+[Norway]
+Norwegen
+[Oman]
+Oman
+[Pakistan]
+Pakistan
+[Palau]
+Palau
+[Panama]
+Panama
+[Papua New Guinea]
+Papua Neuguinea
+[Paraguay]
+Paraguay
+[Peru]
+Peru
+[Philippines]
+Philippinen
+[Poland]
+Polen
+[Portugal]
+Portugal
+[Puerto Rico]
+Puerto Rico
+[Qatar]
+Katar
+[Reunion]
+Reunion
+[Romania]
+Rumänien
+[Russia]
+Russland
+[Rwanda]
+Ruanda
+[Samoa (USA)]
+Samoa (USA)
+[Samoa, Western]
+Samoa, Westen
+[Saint Helena]
+St. Helena
+[Saint Kitts and Nevis]
+St. Kitts und Nevis
+[Saint Lucia]
+St. Lucia
+[Saint Pierre and Miquelon]
+St. Pierre und Miquelon
+[Saint Vincent and the Grenadines]
+St. Vincent und Grenadinen
+[San Marino]
+San Marino
+[Sao Tome and Principe]
+Sao Tome und Principe
+[Saudi Arabia]
+Saudi Arabien
+[Scotland]
+Schottland
+[Senegal]
+Senegal
+[Seychelles]
+Seychellen
+[Sierra Leone]
+Sierra Leone
+[Singapore]
+Singapur
+[Slovakia]
+Slowakei
+[Slovenia]
+Slowenien
+[Solomon Islands]
+Solomon-Inseln
+[Somalia]
+Somalia
+[South Africa]
+Südafrika
+[Spain]
+Spanien
+[Spain, Canary Islands]
+Spanien, Kanarische Inseln
+[Sri Lanka]
+Sri Lanka
+[Sudan]
+Sudan
+[Suriname]
+Surinam
+[Swaziland]
+Swaziland
+[Sweden]
+Schweden
+[Switzerland]
+Schweiz
+[Syria]
+Syrien
+[Taiwan]
+Taiwan
+[Tajikistan]
+Tadschikistan
+[Tanzania]
+Tansania
+[Thailand]
+Thailand
+[Timor, East]
+Timor, Ost
+[Togo]
+Togo
+[Tokelau]
+Tokelau
+[Tonga]
+Tonga
+[Trinidad and Tobago]
+Trinidad und Tobago
+[Tunisia]
+Tunesien
+[Turkey]
+Türkei
+[Turkey, Republic of Northern Cyprus]
+Türkei, Republik Nordzypern
+[Turkmenistan]
+Turkmenistan
+[Turks and Caicos Islands]
+Turks- und Caicos-Inseln
+[Tuvalu]
+Tuvalu
+[Uganda]
+Uganda
+[Ukraine]
+Ukraine
+[United Arab Emirates]
+Vereinigte Arabische Emirate
+[United Kingdom]
+Großbritannien
+[Uruguay]
+Uruguay
+[USA]
+USA
+[Uzbekistan]
+Usbekistan
+[Vanuatu]
+Vanuatu
+[Vatican City]
+Vatikanstadt
+[Venezuela]
+Venezuela
+[Vietnam]
+Vietnam
+[Virgin Islands (UK)]
+Jungferninseln (UK)
+[Virgin Islands (USA)]
+Jungferninseln (USA)
+[Wales]
+Wales
+[Wallis and Futuna]
+Wallis und Futuna
+[Yemen]
+Jemen
+[Yugoslavia]
+Jugoslawien
+[Serbia]
+Serbien
+[Kosovo, Republic of]
+Kosovo, Republik
+[Montenegro]
+Montenegro
+[Zambia]
+Sambia
+[Zimbabwe]
+Simbabwe
+[50's]
+50er Jahre
+[60's]
+60er Jahre
+[70's]
+70er Jahre
+[80's]
+80er Jahre
+[Art]
+Kunst
+[Astronomy]
+Astronomie
+[Audio and Visual]
+Bild & Ton
+[Business]
+Geschäft
+[Business Services]
+Unternehmen
+[Cars]
+Autos
+[Celebrity Fans]
+Fans
+[Clothing]
+Kleidung
+[Collections]
+Sammlungen
+[Computers]
+Computer
+[Culture]
+Kultur
+[Ecology]
+Ökologie
+[Entertainment]
+Unterhaltung
+[Finance and Corporate]
+Finanzen und Firmen
+[Fitness]
+Fitness
+[Health and Beauty]
+Gesundheit & Schönheit
+[Hobbies]
+Hobbys
+[Home Automation]
+Heimautomatisierung
+[Household Products]
+Haushaltsprodukte
+[Games]
+Spiele
+[Government]
+Politik
+[ICQ - Help]
+ICQ - Hilfe
+[Internet]
+Internet
+[Lifestyle]
+Lebensart
+[Mail Order Catalog]
+Versandhauskatalog
+[Media]
+Medien
+[Movies and TV]
+Filme und TV
+[Music]
+Musik
+[Mystics]
+Mystik
+[News and Media]
+News und Medien
+[Outdoors]
+Im Freien
+[Parenting]
+Elternschaft
+[Parties]
+Partys
+[Pets and Animals]
+Haustiere und Tiere
+[Publishing]
+Verlagswesen
+[Religion]
+Religion
+[Retail Stores]
+Kaufhäuser
+[Science]
+Wissenschaft
+[Skills]
+Fähigkeiten
+[Social science]
+Sozialwissenschaft
+[Space]
+Raumfahrt
+[Sporting and Athletic]
+Sport und Athletik
+[Sports]
+Sportarten
+[Travel]
+Reisen
+[Web Design]
+Webdesign
+[Women]
+Frauen
+[Afrikaans]
+Afrikaans
+[Albanian]
+Albanisch
+[Arabic]
+Arabisch
+[Armenian]
+Armenisch
+[Azerbaijani]
+Aserbaidschanisch
+[Belorussian]
+Weissrussisch
+[Bhojpuri]
+Bhojpuri
+[Bosnian]
+Bosnisch
+[Bulgarian]
+Bulgarisch
+[Burmese]
+Birmanisch
+[Cantonese]
+Kantonesisch
+[Catalan]
+Katalanisch
+[Chamorro]
+Chamorro
+[Chinese]
+Chinesisch
+[Croatian]
+Kroatisch
+[Czech]
+Tschechisch
+[Danish]
+Dänisch
+[Dutch]
+Niederländisch
+[English]
+Englisch
+[Esperanto]
+Esperanto
+[Estonian]
+Estnisch
+[Farsi]
+Farsi
+[Finnish]
+Finnisch
+[French]
+Französisch
+[Gaelic]
+Gälisch
+[German]
+Deutsch
+[Greek]
+Griechisch
+[Gujarati]
+Gujarati
+[Hebrew]
+Hebräisch
+[Hindi]
+Hindi
+[Hungarian]
+Ungarisch
+[Icelandic]
+Isländisch
+[Indonesian]
+Indonesisch
+[Italian]
+Italienisch
+[Japanese]
+Japanisch
+[Khmer]
+Khmer
+[Korean]
+Koreanisch
+[Kurdish]
+Kurdisch
+[Lao]
+Laotisch
+[Latvian]
+Lettisch
+[Lithuanian]
+Litauisch
+[Macedonian]
+Mazedonisch
+[Malay]
+Malayisch
+[Mandarin]
+Mandarin
+[Mongolian]
+Mongolisch
+[Norwegian]
+Norwegisch
+[Persian]
+Persisch
+[Polish]
+Polnisch
+[Portuguese]
+Portugiesisch
+[Punjabi]
+Panjabi
+[Romanian]
+Rumänisch
+[Russian]
+Russisch
+[Serbian]
+Serbisch
+[Sindhi]
+Sindhi
+[Slovak]
+Slowakisch
+[Slovenian]
+Slowenisch
+[Somali]
+Somalisch
+[Spanish]
+Spanisch
+[Swahili]
+Suaheli
+[Swedish]
+Schwedisch
+[Tagalog]
+Tagalog
+[Taiwanese]
+Taiwanesisch
+[Tamil]
+Tamilisch
+[Tatar]
+Tatarisch
+[Thai]
+Thailändisch
+[Turkish]
+Türkisch
+[Ukrainian]
+Ukrainisch
+[Urdu]
+Urdu
+[Vietnamese]
+Vietnamesisch
+[Welsh]
+Walisisch
+[Yiddish]
+Jiddisch
+[Yoruba]
+Yoruba
+[Elementary School]
+Grundschule
+[High School]
+Mittelschule
+[College]
+Gymnasium
+[University]
+Universität
+[Military]
+Militär
+[Past Work Place]
+ehemaliger Arbeitsplatz
+[Past Organization]
+ehemalige Organisation
+[Female]
+weiblich
+[Male]
+männlich
+[Associated degree]
+Berufsabschluss
+[Bachelor's degree]
+Bachelor-Abschluss
+[Elementary]
+Grundschule
+[High-school]
+Gymnasium
+[Master's degree]
+Master-Abschluss
+[PhD]
+Doktor
+[Postdoctoral]
+Habilitation
+[University / College]
+Universität / Hochschule
+[Agriculture]
+Landwirtschaft
+[Arts]
+Kunst
+[Construction]
+Bau
+[Consumer Goods]
+Verbrauchsgüter
+[Corporate Services]
+Unternehmensdienste
+[Finance]
+Finanzen
+[High Tech]
+High Tech
+[Legal]
+Recht
+[Manufacturing]
+Fertigung
+[Medical & Health Care]
+Medizin & Gesundheitspflege
+[Non-Profit Organization Management]
+Non-Profit Organisation Management
+[Recreation, Travel & Entertainment]
+Erholung, Reisen & Unterhaltung
+[Service Industry]
+Dienstleistungsbetrieb
+[Transportation]
+Transport
+[Academic]
+Akademisch
+[Administrative]
+Verwaltung
+[Art/Entertainment]
+Kunst/Unterhaltung
+[College Student]
+Hochschul-Schüler
+[Community & Social]
+Gemeinde & Soziales
+[Engineering]
+Ingenieurwesen
+[Financial Services]
+Finanzservice
+[High School Student]
+Oberstufenschüler
+[Home]
+Wohnort
+[ICQ - Providing Help]
+ICQ - Helfer
+[Law]
+Gesetz
+[Managerial]
+geschäftsführend
+[Medical/Health]
+Medizin/Gesundheit
+[Non-Government Organization]
+Nichtregierungsorganisation
+[Professional]
+Experte
+[Retail]
+Einzelhandel
+[Retired]
+pensioniert
+[Science & Research]
+Forschung & Entwicklung
+[Technical]
+technisch
+[University Student]
+Student (Universitär)
+[Web Building]
+Web Building
+[Other Services]
+Andere Dienste
+[Alumni Org.]
+Studentenvereinigung
+[Charity Org.]
+Wohltätigkeitsverein
+[Club/Social Org.]
+Verein/Soziale Org.
+[Community Org.]
+Gemeine-Org.
+[Cultural Org.]
+Kulturelle Org.
+[Fan Clubs]
+Fanclubs
+[Fraternity/Sorority]
+Bruder-/Schwesternschaft
+[Hobbyists Org.]
+Hobby-Organisationen
+[International Org.]
+Internationale Organisation
+[Nature and Environment Org.]
+Natur- und Umwelt-Organisationen
+[Professional Org.]
+Professionelle Organisation
+[Scientific/Technical Org.]
+Wissenschaftliche/Technische Organisation
+[Self Improvement Group]
+Selbsthilfegruppe
+[Spiritual/Religious Org.]
+Spirituelle/Religiöse Organisation
+[Sports Org.]
+Sportverein
+[Support Org.]
+Unterstützungs-Organisation
+[Trade and Business Org.]
+Handels- & Geschäfts-Organisation
+[Union]
+Gewerkschaft
+[Volunteer Org.]
+Freiwilligen-Org.
+[60-above]
+60 und älter
+[Single]
+Single
+[Close relationships]
+Feste Beziehung
+[Engaged]
+Verlobt
+[Married]
+Verheiratet
+[Divorced]
+Geschieden
+[Separated]
+Getrennt
+[Widowed]
+Verwitwet
+[Open relationship]
+Offene Beziehung
+;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
+[No description given]
+Keine Beschreibung vorhanden.
+;file \protocols\IcqOscarJ\src\icq_filetransfer.cpp
+[Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
+Dateiübertragung abgebrochen, da eine der ausgewählten Dateien nicht mehr vorhanden ist. Entweder wurde diese gelöscht oder verschoben.
+[Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
+Dateiübertragung abgebrochen, da Miranda die Zieldatei nicht schreiben kann. Sie haben vielleicht einen schreibgeschützten Ordner angegeben.
+;file \protocols\IcqOscarJ\src\icq_menu.cpp
+[Add to server list]
+Zur Serverliste hinzufügen
+[Show custom status details]
+Custom-Status-Details anzeigen
+[Open ICQ profile]
+ICQ-Profil öffnen
+;file \protocols\IcqOscarJ\src\icq_opts.cpp
+[Display all problems]
+Zeige alle Probleme
+[Display problems causing possible loss of data]
+Zeige Probleme, die möglichen Datenverlust verursachen
+[Display explanations for disconnection]
+Erklärung anzeigen für Trennung
+[Display problems requiring user intervention]
+Zeige Probleme, die einen Benutzereingriff erfordern
+[Do not display any problems (not recommended)]
+Gar keine Probleme anzeigen (nicht empfohlen)
+[Simplified Chinese]
+Vereinfachtes Chinesisch
+[Traditional Chinese]
+Traditionelles Chinesisch
+[Central European]
+Mitteleuropäisch
+[Cyrillic]
+Kyrillisch
+[Latin I]
+Lateinisch
+[Baltic]
+Baltisch
+[Korean (Johab)]
+Koreanisch, Johab
+[System default codepage]
+Standardsystemcodepage
+[Network]
+Netzwerk
+[Account]
+Konto
+[Contacts]
+Kontakte
+[Features]
+Funktionen
+[Privacy]
+Privatsphäre
+[Popups]
+Popups
+;file \protocols\IcqOscarJ\src\icq_popups.cpp
+[Popup Title]
+Popup-Titel
+[Sample Note]
+Beispiel: Hinweis
+[Sample Warning]
+Beispiel: Warnung
+[Sample Error]
+Beispiel: Fehler
+[Sample Fatal]
+Beispiel: Fataler Fehler
+[Sample Spambot]
+Beispiel: Spambot
+;file \protocols\IcqOscarJ\src\icq_proto.cpp
+[%s server connection]
+%s Serververbindung
+[%s client-to-client connections]
+%s Client-to-Client-Verbindungen
+[User ID]
+Nutzer-ID
+[You have not entered an ICQ number.\nConfigure this in Options -> Network -> ICQ and try again.]
+Sie haben keine ICQ-Nummer angegeben.\nDiese bitte unter Einstellungen -> Netzwerk -> ICQ eintragen und neu versuchen.
+;file \protocols\IcqOscarJ\src\icq_server.cpp
+[Unable to connect to ICQ login server, SSL could not be negotiated]
+Die Verbindung zum ICQ-Anmeldeserver konnte nicht hergestellt werden, SSL konnte nicht ausgehandelt werden.
+[Unable to connect to ICQ login server]
+Konnte sich nicht mit dem ICQ-Anmeldeserver verbinden.
+[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in Options -> Network -> ICQ client-to-client connections.]
+Miranda konnte keinen Port für die direkten P2P-Verbindungen zwischen den Clients zuweisen. Sie können die meißten Funktionen des ICQ-Netzwerks ohne Probleme benutzen, allerdings können keine Dateien gesendet oder empfangen werden.\n\nFalls Sie eine Firewall haben, blockt diese evtl. Miranda NG. Geben Sie einige Ports für Miranda frei und weisen Sie Miranda NG Ports zu unter Einstellungen -> Netzwerk -> ICQ Client-to-Client-Verbindungen -> Portbereich:
+[Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
+Verbindungsversuch aus unbekannter Ursache fehlgeschlagen.\nBitte später noch einmal versuchen.
+[Your connection with the ICQ server was abortively closed]
+Ihre Verbindung mit dem ICQ-Server wurde vorzeitig abgebrochen.
+;file \protocols\IcqOscarJ\src\icq_servlist.cpp
+[The contact's information was too big and was truncated.]
+Die Kontaktinformationen sind zu groß und werden abgekürzt.
+[Failed to create the correct sub-group, the using closest parent group.]
+Konnte nicht die richtige Untergruppe erstellen, die die nächste Elterngruppe verwendet.
+;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
+[NOT FOUND]
+Nicht gefunden
+[ALREADY EXISTS]
+Existiert bereits
+[INVALID DATA]
+Ungültige Daten
+[LIST FULL]
+Liste voll
+[FAILED]
+FEHLGESCHLAGEN
+[Select contacts you want to store on server.]
+Markiere Kontakte zum Speichern auf dem Server.
+[Ready...]
+Fertig...
+[Server rate warning -> slowing down the process.]
+Server sendet Warnung -> wir bremsen den Prozess.
+[Adding group "%s"...]
+Füge Gruppe "%s" hinzu...
+[Uploading %s...]
+Lade %s hoch...
+[No upload group available]
+Keine Upload-Gruppen vorhanden
+[Deleting %s...]
+Lösche %s...
+[Moving %s to group "%s"...]
+Verschiebe %s in Gruppe "%s"...
+[Adding %s to visible list...]
+Füge %s zur Sichtbarkeitsliste hinzu...
+[Adding %s to invisible list...]
+Füge %s zur Unsichtbarkeitsliste hinzu...
+[Deleting %s from visible list...]
+Lösche %s von der Sichtbarkeitsliste...
+[Deleting %s from invisible list...]
+Lösche %s von der Unsichtbarkeitsliste...
+[Cleaning groups]
+Säubere Gruppen
+[Updating group "%s"...]
+Gruppe "%s" aktualisieren...
+[Deleting group "%s"...]
+Gruppe "%s" löschen...
+[All operations complete]
+Alle Operationen beendet
+[Close]
+Schließen
+[You have to be online to synchronize the server-list!]
+Sie müssen für das Synchronisieren der Serverliste online sein!
+[** All contacts **]
+** Alle Kontakte **
+;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
+[Angry]
+Wütend
+[Taking a bath]
+Baden
+[Tired]
+Müde
+[Birthday]
+Geburtstag
+[Drinking beer]
+Bier trinken
+[Thinking]
+Denken
+[Eating]
+Essen
+[Watching TV]
+Fernsehen
+[Meeting]
+Treffen
+[Coffee]
+Kaffee
+[Listening to music]
+Musik hören
+[Shooting]
+Kamera
+[Having fun]
+Spaß haben
+[On the phone]
+Am Telefon
+[Gaming]
+Zocken
+[Studying]
+Lernen
+[Shopping]
+Einkaufsbummel
+[Feeling sick]
+Krank fühlen
+[Sleeping]
+Schlafen
+[Surfing]
+Sport
+[Working]
+Arbeiten
+[Typing]
+Tippen
+[Picnic]
+Picknick
+[Cooking]
+Kochen
+[Smoking]
+Rauchen
+[I'm high]
+Hanf
+[On WC]
+Toilette
+[To be or not to be]
+Sein oder Nichtsein
+[Watching pro7 on TV]
+Pro7
+[Love]
+Liebe
+[Hot Dog]
+Hot Dog
+[Rough]
+Hart drauf
+[Rock On]
+Am rocken
+[Baby]
+Baby
+[Soccer]
+Fußball
+[Pirate]
+Pirat
+[Cyclop]
+Zyklop
+[Monkey]
+Affe
+[Birdie]
+Vögelchen
+[Cool]
+Cool
+[Evil]
+Böse
+[Alien]
+Außerirdischer
+[Scooter]
+Roller
+[Mask]
+Maske
+[Money]
+Geld
+[Pilot]
+Pilot
+[Afro]
+Afro
+[St. Patrick]
+St. Patrick's Day
+[Headmaster]
+Schulleiter
+[Lips]
+Lippen
+[Ice-Cream]
+Eiscreme
+[Pink Lady]
+Pink Lady
+[Up yours]
+Leck mich!
+[Laughing]
+Lachend
+[Dog]
+Hund
+[Candy]
+Süßigkeiten
+[Crazy Professor]
+Verrückter Professor
+[Ninja]
+Ninja
+[Cocktail]
+Cocktail
+[Punch]
+Schlag
+[Donut]
+Donut
+[Feeling Good]
+Wohlfühlen
+[Lollypop]
+Lutscher
+[Oink Oink]
+Oink Oink
+[Kitty]
+Kätzchen
+[Sumo]
+Sumo
+[Broken hearted]
+Gebrochenen Herzens
+[Free for chat]
+Für Chat bereit
+[@home]
+@Zuhause
+[@work]
+@Arbeit
+[Strawberry]
+Erdbeere
+[Angel]
+Engel
+[Pizza]
+Pizza
+[Snoring]
+Schnarchen
+[On my mobile]
+Am Handy
+[Depressed]
+Deprimiert
+[Beetle]
+Käfer
+[Double Rainbow]
+Doppelter Regenbogen
+[Basketball]
+Basketball
+[Cupid shot me]
+Amor hat mich getroffen
+[Celebrating]
+Feiern
+[Sushi]
+Sushi
+[Playing]
+Spielen
+[Writing]
+Schreiben
+[%s Custom Status]
+%s Custom Status
+[None]
+Keine
+[Custom Status]
+Custom Status
+;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
+[Greeting card:]
+Grußkarte:
+;file \protocols\IcqOscarJ\src\init.cpp
+[Expand string edit]
+Textfeld ausdehnen
+[ICQ xStatus]
+ICQ xStatus
+;file \protocols\IcqOscarJ\src\log.cpp
+[ICQ Warning]
+ICQ-Warnung
+[ICQ Error]
+ICQ-Fehler
+[ICQ Fatal]
+Fataler ICQ-Fehler
+[The server did not respond to the connection attempt within a reasonable time, it may be temporarily down. Try again later.]
+Der Server antwortete nicht innerhalb eines bestimmten Zeitraums, er könnte temporär nicht erreichbar sein. Später erneut versuchen.
+[The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
+Der Verbindungsversuch zum Server wurde vorzeitig abgebrochen. Es könnte die lokale Netzwerkverbindung verloren gegangen sein.
+[Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in Options -> Network.]
+Miranda war nicht in der Lage, den Servernamen zu der nummerischen Adresse zu finden. Dies bedeutet, dass die Internetverbindung verloren ging (Beispiel: Modem wurde getrennt); wenn Sie einen Proxy verwenden, aktivieren Sie "Auflösung von Hostnamen via Proxy" in den Netzwerkeinstellungen.
+[Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
+Miranda konnte keine Verbindung mit einem Server herstellen. Der Server ist vermutlich offline. Bitte etwas warten und später noch einmal versuchen.
+[Your proxy rejected the user name and password that you provided. Please check them in Options -> Network.]
+Ihr Proxy hat den Benutzernamen und das Passwort abgewiesen. Überprüfen Sie die Einstellungen zum Proxy in den Netzwerkeinstellungen.
+[The server to which you are trying to connect does not exist. Check your spelling in Options -> Network -> ICQ.]
+Der angegebene Server existiert nicht. Eintrag prüfen unter Einstellungen -> Netzwerk -> ICQ.
+[error]
+Fehler
+;file \protocols\IcqOscarJ\src\loginpassword.cpp
+[Enter a password for UIN %u:]
+Geben Sie ein Passwort für UIN %u an:
+;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
+[%d Files]
+%d Dateien
+[The file transfer was aborted by the other user.]
+Dateiübertragung wurde durch die Gegenseite abgebrochen.
+[The file transfer failed: Proxy error]
+Dateiübertragung fehlgeschlagen: Proxyfehler
+[The file transfer failed: Invalid request]
+Dateiübertragung fehlgeschlagen: ungültige Anfrage
+[The file transfer failed: Proxy unavailable]
+Dateiübertragung fehlgeschlagen: Proxy nicht erreichbar
+[Failed to Initialize File Transfer. No valid files were specified.]
+Fehler beim Initialisieren der Dateiübertragung. Keine gültigen Dateien wurden ausgewählt.
+[The files are too big to be sent at once. Files bigger than 4 GB can be sent only separately.]
+Die Dateien sind zu groß zum Verschicken. Dateien größer als 4 GB können nur getrennt gesendet werden.
+[Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
+Dateiübertragung konnte nicht initialisiert werden, da lokaler Port nicht geöffnet werden konnte und der Dateiproxy nicht erreichbar ist.
+[Connection lost during file transfer.]
+Verbindung ist während der Dateiübertragung abgebrochen.
+[File transfer negotiation failed for unknown reason.]
+Datenübertragung aus unbekannten Gründen fehlgeschlagen.
+[The checksum of file "%s" does not match, the file is probably damaged.]
+Die Prüfsumme von Datei "%s" stimmt nicht, die Datei ist vermutlich beschädigt.
+[Your file transfer has been aborted (error=%d), because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
+Ihre Dateiübertragung wurde abgebrochen (Fehler=%d), da eine der ausgewählten Dateien nicht mehr von der Festplatte lesbar ist. Möglicherweise haben Sie diese verschoben oder gelöscht.
+;file \protocols\IcqOscarJ\src\upload.cpp
+[You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
+Sie sind nicht mit dem ICQ-Netzwerk verbunden.\nSie müssen online sein um das ICQ-Profil auf dem Server aktualisieren zu können.
+;file \protocols\IcqOscarJ\src\userinfotab.cpp
+[ (DC Established)]
+ (Direktverbindung)
+[ScreenName:]
+ScreenName:
+[<not specified>]
+<nicht angegeben>
+[Member since:]
+Mitglied seit:
+[Details]
+Details
+;file \protocols\IcqOscarJ\src\utilities.cpp
+[<invalid>]
+<ungültig>
