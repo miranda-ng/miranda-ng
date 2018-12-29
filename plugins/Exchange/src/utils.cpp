@@ -214,9 +214,7 @@ void __cdecl CheckEmailWorkerThread(void *data)
 
 int ThreadCheckEmail(int bForceAttempt)
 {
-	HANDLE hCheckThread = mir_forkthread(CheckEmailWorkerThread, (void *)bForceAttempt);
-	CloseHandle(hCheckThread);
-
+	mir_forkthread(CheckEmailWorkerThread, (void *)bForceAttempt);
 	return 0;
 }
 
