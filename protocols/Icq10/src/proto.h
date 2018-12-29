@@ -136,6 +136,8 @@ class CIcqProto : public PROTO<CIcqProto>
 	HANDLE   m_hPollThread;
 	void     __cdecl PollThread(void*);
 
+	void     __cdecl SendAckThread(void*);
+
 	////////////////////////////////////////////////////////////////////////////////////////
 	// services
 
@@ -195,6 +197,7 @@ public:
 
 	CMOption<DWORD> m_dwUin;
 	CMOption<wchar_t*> m_szPassword;
+	CMOption<BYTE> m_bSlowSend;
 };
 
 struct CMPlugin : public ACCPROTOPLUGIN<CIcqProto>

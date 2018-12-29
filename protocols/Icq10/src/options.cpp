@@ -23,15 +23,20 @@
 class CIcqOptionsDlg : public CProtoDlgBase<CIcqProto>
 {
 	CCtrlEdit edtUin, edtPassword;
+	CCtrlCheck chkSlowSend;
 
 public:
 	CIcqOptionsDlg(CIcqProto *ppro, int iDlgID, bool bFullDlg) :
 		CProtoDlgBase<CIcqProto>(ppro, iDlgID),
 		edtUin(this, IDC_UIN),
-		edtPassword(this, IDC_PASSWORD)
+		edtPassword(this, IDC_PASSWORD),
+		chkSlowSend(this, IDC_SLOWSEND)
 	{
 		CreateLink(edtUin, ppro->m_dwUin);
 		CreateLink(edtPassword, ppro->m_szPassword);
+
+		if (bFullDlg)
+			CreateLink(chkSlowSend, ppro->m_bSlowSend);
 	}
 };
 

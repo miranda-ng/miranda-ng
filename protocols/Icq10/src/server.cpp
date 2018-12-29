@@ -494,7 +494,8 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 		for (auto &ownMsg : m_arOwnIds)
 			if (!mir_strcmp(reqId, ownMsg->m_guid)) {
 				bSkipped = true;
-				ProtoBroadcastAck(ownMsg->m_hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)ownMsg->m_msgid, (LPARAM)msgId.c_str());
+				if (m_bSlowSend)
+					ProtoBroadcastAck(ownMsg->m_hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)ownMsg->m_msgid, (LPARAM)msgId.c_str());
 				m_arOwnIds.remove(m_arOwnIds.indexOf(&ownMsg));
 				break;
 			}

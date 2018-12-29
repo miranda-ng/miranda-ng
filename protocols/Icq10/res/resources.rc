@@ -34,22 +34,20 @@ BEGIN
     EDITTEXT        IDC_PASSWORD,54,16,131,12,ES_PASSWORD | ES_AUTOHSCROLL
 END
 
-IDD_OPTIONS_FULL DIALOGEX 0, 0, 310, 234
+IDD_OPTIONS_FULL DIALOGEX 0, 0, 310, 62
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "ICQ",IDC_STATIC,4,0,302,93
+    GROUPBOX        "ICQ",IDC_STATIC,4,0,302,58
     RTEXT           "ICQ number:",IDC_STATIC,12,14,51,8
     EDITTEXT        IDC_UIN,68,12,106,12,ES_AUTOHSCROLL
     RTEXT           "Password:",IDC_STATIC,12,28,51,8
     EDITTEXT        IDC_PASSWORD,68,26,106,12,ES_PASSWORD | ES_AUTOHSCROLL
+    CONTROL         "Send messages slower, but with full acknowledgment",IDC_SLOWSEND,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,43,285,10
 END
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -75,5 +73,44 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_OPTIONS_FULL, DIALOG
+    BEGIN
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPTIONS_FULL AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
