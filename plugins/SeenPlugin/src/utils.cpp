@@ -380,28 +380,26 @@ wchar_t* ParseString(wchar_t *szstring, MCONTACT hcontact)
 	return sztemp;
 }
 
-void _DBWriteTime(SYSTEMTIME *st, MCONTACT hcontact)
-{
-	g_plugin.setWord(hcontact, "Day", st->wDay);
-	g_plugin.setWord(hcontact, "Month", st->wMonth);
-	g_plugin.setWord(hcontact, "Year", st->wYear);
-	g_plugin.setWord(hcontact, "Hours", st->wHour);
-	g_plugin.setWord(hcontact, "Minutes", st->wMinute);
-	g_plugin.setWord(hcontact, "Seconds", st->wSecond);
-	g_plugin.setWord(hcontact, "WeekDay", st->wDayOfWeek);
-}
-
 void DBWriteTimeTS(DWORD t, MCONTACT hcontact)
 {
-	SYSTEMTIME st;
-	FILETIME ft;
 	ULONGLONG ll = UInt32x32To64(TimeZone_ToLocal(t), 10000000) + NUM100NANOSEC;
+
+	FILETIME ft;
 	ft.dwLowDateTime = (DWORD)ll;
 	ft.dwHighDateTime = (DWORD)(ll >> 32);
+
+	SYSTEMTIME st;
 	FileTimeToSystemTime(&ft, &st);
 	g_plugin.setDword(hcontact, "seenTS", t);
-	_DBWriteTime(&st, hcontact);
+	g_plugin.setWord(hcontact, "Day", st.wDay);
+	g_plugin.setWord(hcontact, "Month", st.wMonth);
+	g_plugin.setWord(hcontact, "Year", st.wYear);
+	g_plugin.setWord(hcontact, "Hours", st.wHour);
+	g_plugin.setWord(hcontact, "Minutes", st.wMinute);
+	g_plugin.setWord(hcontact, "Seconds", st.wSecond);
+	g_plugin.setWord(hcontact, "WeekDay", st.wDayOfWeek);
 }
+
 void GetColorsFromDWord(LPCOLORREF First, LPCOLORREF Second, DWORD colDword)
 {
 	WORD temp;
@@ -571,6 +569,7 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 			else
 				prevStatus |= 0x8000;
 		}
+		
 		if ((cws->value.wVal | 0x8000) <= ID_STATUS_OFFLINE) {
 			// avoid repeating the offline status
 			if ((prevStatus | 0x8000) <= ID_STATUS_OFFLINE)
