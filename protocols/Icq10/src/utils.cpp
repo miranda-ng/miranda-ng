@@ -137,9 +137,52 @@ INT_PTR __cdecl CIcqProto::GetAvatarInfo(WPARAM, LPARAM lParam)
 	return GAIR_NOAVATAR;
 }
 
-INT_PTR __cdecl CIcqProto::SetAvatar(WPARAM, LPARAM)
+INT_PTR __cdecl CIcqProto::SetAvatar(WPARAM, LPARAM lParam)
 {
-	return 1;   // TODO
+	wchar_t* pwszFileName = (wchar_t*)lParam;
+
+	wchar_t wszOldName[MAX_PATH];
+	GetAvatarFileName(0, wszOldName, _countof(wszOldName));
+	_wremove(wszOldName);
+
+	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, ICQ_API_SERVER "/expressions/upload");
+	pReq->m_szUrl.AppendFormat("?f=json&aimsid=%s&r=%s&type=largeBuddyIcon", ptrA(mir_urlEncode(m_aimsid.c_str())), pReq->m_reqId);
+
+	if (pwszFileName == nullptr)
+		delSetting("AvatarHash");
+	else {
+		int fileId = _wopen(pwszFileName, _O_RDONLY | _O_BINARY, _S_IREAD);
+		if (fileId < 0) {
+			delete pReq;
+			return 1;
+		}
+
+		unsigned dwSize = (unsigned)_filelengthi64(fileId);
+		char* pData = (char*)mir_alloc(dwSize);
+		if (pData == nullptr) {
+			_close(fileId);
+			delete pReq;
+			return 2;
+		}
+
+		_read(fileId, pData, dwSize);
+		_close(fileId);
+
+		pReq->pData = pData;
+		pReq->dataLength = dwSize;
+		
+		int iAvatarType = ProtoGetBufferFormat(pData);
+		if (iAvatarType == PA_FORMAT_UNKNOWN) {
+			delete pReq;
+			delete pData;
+			return 3;
+		}
+		
+		pReq->AddHeader("Content-Type", _T2A(ProtoGetAvatarMimeType(iAvatarType)));
+	}
+	Push(pReq);
+
+	return 0;   // TODO
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

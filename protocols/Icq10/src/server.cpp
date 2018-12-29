@@ -22,6 +22,20 @@
 
 #pragma comment(lib, "libeay32.lib")
 
+void CIcqProto::CheckAvatarChange(MCONTACT hContact, const JSONNode &ev)
+{
+	CMStringW wszIconId(ev["iconId"].as_mstring());
+	CMStringW oldIconID(getMStringW(hContact, "IconId"));
+	if (wszIconId != oldIconID) {
+		setWString(hContact, "IconId", wszIconId);
+
+		CMStringA szUrl(ev["buddyIcon"].as_mstring());
+		auto *p = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, szUrl, &CIcqProto::OnReceiveAvatar);
+		p->pUserInfo = (void*)hContact;
+		Push(p);
+	}
+}
+
 void CIcqProto::CheckPassword()
 {
 	char mirVer[100];
@@ -102,17 +116,7 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy)
 	else
 		db_set_ws(hContact, "CList", "StatusMsg", str);
 
-	CMStringW wszIconId(buddy["iconId"].as_mstring());
-	CMStringW oldIconID(getMStringW(hContact, "IconId"));
-	if (wszIconId != oldIconID) {
-		setWString(hContact, "IconId", wszIconId);
-
-		CMStringA szUrl(buddy["buddyIcon"].as_mstring());
-		auto *p = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, szUrl, &CIcqProto::OnReceiveAvatar);
-		p->pUserInfo = (void*)hContact;
-		Push(p);
-	}
-
+	CheckAvatarChange(hContact, buddy);
 	return hContact;
 }
 
@@ -520,24 +524,19 @@ void CIcqProto::ProcessMyInfo(const JSONNode &ev)
 	if (!wszNick.IsEmpty())
 		setWString("Nick", wszNick);
 
-	CMStringW wszIconId(ev["iconId"].as_mstring());
-	CMStringW oldIconID(getMStringW("IconId"));
-	if (wszIconId != oldIconID) {
-		setWString("IconId", wszIconId);
-
-		CMStringA szUrl(ev["buddyIcon"].as_mstring());
-		Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, szUrl, &CIcqProto::OnReceiveAvatar));
-	}
+	CheckAvatarChange(0, ev);
 }
 
 void CIcqProto::ProcessPresence(const JSONNode &ev)
 {
 	DWORD dwUin = _wtol(ev["aimId"].as_mstring());
-	int iStatus = StatusFromString(ev["state"].as_mstring());
 
 	IcqCacheItem *pCache = FindContactByUIN(dwUin);
-	if (pCache)
-		setDword(pCache->m_hContact, "Status", iStatus);
+	if (pCache) {
+		setDword(pCache->m_hContact, "Status", StatusFromString(ev["state"].as_mstring()));
+
+		CheckAvatarChange(pCache->m_hContact, ev);
+	}
 }
 
 void CIcqProto::ProcessTyping(const JSONNode &ev)
