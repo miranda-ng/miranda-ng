@@ -387,8 +387,11 @@ void CIcqProto::OnReceiveAvatar(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pRe
 		fwrite(pReply->pData, pReply->dataLength, 1, out);
 		fclose(out);
 
-		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, HANDLE(&ai), 0);
-		debugLogW(L"Broadcast new avatar: %s", ai.filename);
+		if (hContact != 0) {
+			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, HANDLE(&ai), 0);
+			debugLogW(L"Broadcast new avatar: %s", ai.filename);
+		}
+		else CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
 	}
 	else ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, HANDLE(&ai), 0);
 }
