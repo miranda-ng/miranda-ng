@@ -70,6 +70,8 @@ public:
 		m_redtViewVersionInfo(this, IDC_VIEWVERSIONINFO)
 	{
 		m_flags = flags;
+		m_forceResizable = true;
+
 		m_btnCancel.OnClick = Callback(this, &CViewVersionInfo::OnCancelClick);
 		m_btnCopyClip.OnClick = Callback(this, &CViewVersionInfo::OnCopyClipClick);
 		m_btnCopyFile.OnClick = Callback(this, &CViewVersionInfo::OnCopyFileClick);
@@ -110,7 +112,6 @@ public:
 		return true;
 	}
 
-
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		if (msg == WM_GETMINMAXINFO) {
@@ -123,21 +124,23 @@ public:
 		return CDlgBase::DlgProc(msg, wParam, lParam);
 	}
 
-	int Resizer(UTILRESIZECONTROL *) override
+	int Resizer(UTILRESIZECONTROL * urc) override
 	{
-		RECT rc;
-		GetWindowRect(m_btnCopyFile.GetHwnd(), &rc);
+		switch (urc->wId) {
+		case IDC_VIEWVERSIONINFO:
+			return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
 
-		int dx, dy;
-		if (MyResizeGetOffset(LOWORD(m_flags) - 20, HIWORD(m_flags) - 30 - (rc.bottom - rc.top), &dx, &dy)) {
-			HDWP hDwp = BeginDeferWindowPos(4);
-			hDwp = MyResizeWindow(hDwp, m_btnCopyFile.GetHwnd(), 0, dy, 0, 0);
-			hDwp = MyResizeWindow(hDwp, m_btnCopyClip.GetHwnd(), dx / 2, dy, 0, 0);
-			hDwp = MyResizeWindow(hDwp, m_btnCancel.GetHwnd(), dx, dy, 0, 0);
-			hDwp = MyResizeWindow(hDwp, m_redtViewVersionInfo.GetHwnd(), 0, 0, dx, dy);
-			EndDeferWindowPos(hDwp);
+		case IDC_FILEVER:
+			return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
+
+		case IDC_CLIPVER:
+			return RD_ANCHORX_CENTRE | RD_ANCHORY_BOTTOM;
+
+		case IDCANCEL:
+			return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
 		}
-		return 0;
+
+		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 	}
 
 	void OnCancelClick(CCtrlBase*)
