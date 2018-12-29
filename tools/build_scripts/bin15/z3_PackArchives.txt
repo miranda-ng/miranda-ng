@@ -78,7 +78,6 @@ Icons\Proto_MetaContacts.dll
 Icons\Proto_MSN.dll
 Icons\TabSRMM_icons.dll
 Icons\Toolbar_icons.dll
-Icons\xStatus_ICQ.dll
 Icons\xStatus_Jabber.dll
 Plugins\AVS.dll
 Plugins\Clist_modern.dll

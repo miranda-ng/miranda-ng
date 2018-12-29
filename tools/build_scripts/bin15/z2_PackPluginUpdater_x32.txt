@@ -237,5 +237,4 @@ Icons\toolbar_icons.dll
 Icons\uinfoex_icons.dll
 Icons\watrack_buttons.dll
 Icons\watrack_icons.dll
-Icons\xstatus_icq.dll
 Icons\xstatus_jabber.dll
