@@ -545,6 +545,7 @@ static renameTable[] =
 	{ L"proto_newsaggr.dll",             L"Icons\\proto_newsaggregator.dll" },
 	{ L"clienticons_*.dll",              L"Icons\\fp_icons.dll" },
 	{ L"fp_*.dll",                       L"Icons\\fp_icons.dll" },
+	{ L"xstatus_icq.dll",                nullptr },
 
 	{ L"langpack_*.txt",                 L"Languages\\*" },
 
