@@ -39,6 +39,7 @@
 #include <m_clistint.h>
 #include <m_message.h>
 #include <m_hotkeys.h>
+#include <m_gui.h>
 #include <win2k.h>
 
 #include <m_variables.h>
