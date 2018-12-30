@@ -116,6 +116,35 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy)
 		str = profile["friendlyName"].as_mstring();
 		if (!str.IsEmpty())
 			setWString(hContact, "Nick", str);
+
+		time_t birthDate = profile["birthDate"].as_int();
+		if (birthDate != 0) {
+			struct tm *timeinfo = localtime(&birthDate);
+			if (timeinfo != nullptr) {
+				setWord(hContact, "BirthDay", timeinfo->tm_mday);
+				setWord(hContact, "BirthMonth", timeinfo->tm_mon+1);
+				setWord(hContact, "BirthYear", timeinfo->tm_year+1900);
+			}
+		}
+
+		str = profile["gender"].as_mstring();
+		if (!str.IsEmpty()) {
+			if (str == "male")
+				setByte(hContact, "Gender", 'M');
+			else if (str == "female")
+				setByte(hContact, "Gender", 'F');
+		}
+
+		const JSONNode &homeAddress = profile["homeAddress"];
+		if (homeAddress) {
+			str = homeAddress["city"].as_mstring();
+			if (!str.IsEmpty())
+				setWString(hContact, "City", str);
+
+			str = homeAddress["country"].as_mstring();
+			if (!str.IsEmpty())
+				setWString(hContact, "Country", str);
+		}
 	}
 
 	CheckNickChange(hContact, buddy);
