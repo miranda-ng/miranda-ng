@@ -135,13 +135,16 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy)
 				setByte(hContact, "Gender", 'F');
 		}
 
-		const JSONNode &homeAddress = profile["homeAddress"];
-		if (homeAddress) {
-			str = homeAddress["city"].as_mstring();
+		for (auto &it : profile["homeAddress"]) {
+			str = it["city"].as_mstring();
 			if (!str.IsEmpty())
 				setWString(hContact, "City", str);
 
-			str = homeAddress["country"].as_mstring();
+			str = it["state"].as_mstring();
+			if (!str.IsEmpty())
+				setWString(hContact, "State", str);
+
+			str = it["country"].as_mstring();
 			if (!str.IsEmpty())
 				setWString(hContact, "Country", str);
 		}
