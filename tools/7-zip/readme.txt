@@ -1,4 +1,4 @@
-7-Zip 18.01
+7-Zip 18.06
 -----------
 
 7-Zip is a file archiver for Windows.
