@@ -463,11 +463,18 @@ void CIcqProto::ProcessBuddyList(const JSONNode &ev)
 {
 	for (auto &it : ev["groups"]) {
 		CMStringW szGroup = it["name"].as_mstring();
-		Clist_GroupCreate(0, szGroup);
+		bool bCreated = false;
 
 		for (auto &buddy : it["buddies"]) {
 			MCONTACT hContact = ParseBuddyInfo(buddy);
-			db_set_ws(hContact, "CList", "Group", szGroup);
+			if (db_get_sm(hContact, "CList", "Group").IsEmpty()) {
+				if (!bCreated) {
+					Clist_GroupCreate(0, szGroup);
+					bCreated = true;
+				}
+
+				db_set_ws(hContact, "CList", "Group", szGroup);
+			}
 		}
 	}
 
