@@ -38,9 +38,11 @@ void CIcqProto::CheckAvatarChange(MCONTACT hContact, const JSONNode &ev)
 
 void CIcqProto::CheckNickChange(MCONTACT hContact, const JSONNode &ev)
 {
-	CMStringW wszNick(ev["profile"]["friendlyName"].as_mstring());
-	if (wszNick.IsEmpty())
-		wszNick = ev["friendly"].as_mstring();
+	CMStringW wszNick(getMStringW(hContact, "Nick"));
+	if (!wszNick.IsEmpty())
+		return;
+
+	wszNick = ev["friendly"].as_mstring();
 	if (!wszNick.IsEmpty())
 		setWString(hContact, "Nick", wszNick);
 }
@@ -98,8 +100,6 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy)
 	MCONTACT hContact = CreateContact(dwUin, false);
 	FindContactByUIN(dwUin)->m_bInList = true;
 
-	CheckNickChange(hContact, buddy);
-
 	CMStringW str(buddy["state"].as_mstring());
 	setDword(hContact, "Status", StatusFromString(str));
 
@@ -112,7 +112,13 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy)
 		str = profile["lastName"].as_mstring();
 		if (!str.IsEmpty())
 			setWString(hContact, "LastName", str);
+
+		str = profile["friendlyName"].as_mstring();
+		if (!str.IsEmpty())
+			setWString(hContact, "Nick", str);
 	}
+
+	CheckNickChange(hContact, buddy);
 
 	int lastLogin = buddy["lastseen"].as_int();
 	if (lastLogin)
@@ -543,6 +549,7 @@ void CIcqProto::ProcessPresence(const JSONNode &ev)
 	if (pCache) {
 		setDword(pCache->m_hContact, "Status", StatusFromString(ev["state"].as_mstring()));
 
+		CheckNickChange(pCache->m_hContact, ev);
 		CheckAvatarChange(pCache->m_hContact, ev);
 	}
 }
