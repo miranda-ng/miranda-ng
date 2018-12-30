@@ -159,7 +159,7 @@ void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 			(this->*(pReq->m_pFunc))(reply, pReq);
 
 		if (pReq->m_conn != CONN_NONE)
-			m_ConnPool[pReq->m_conn] = pReq->nlc;
+			m_ConnPool[pReq->m_conn] = reply->nlc;
 
 		Netlib_FreeHttpRequest(reply);
 	}

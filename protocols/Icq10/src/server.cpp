@@ -589,7 +589,10 @@ void __cdecl CIcqProto::PollThread(void*)
 		}
 		else szUrl.Append("&timeout=60000");
 
-		ExecuteRequest(new AsyncHttpRequest(CONN_FETCH, REQUEST_GET, szUrl, &CIcqProto::OnFetchEvents));
+		auto *pReq = new AsyncHttpRequest(CONN_FETCH, REQUEST_GET, szUrl, &CIcqProto::OnFetchEvents);
+		if (!bFirst)
+			pReq->timeout = 62000;
+		ExecuteRequest(pReq);
 	}
 
 	debugLogA("Polling thread ended");
