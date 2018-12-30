@@ -216,7 +216,7 @@ INT_PTR CIcqProto::GetCaps(int type, MCONTACT hContact)
 		return PF2_FREECHAT | PF2_ONTHEPHONE;
 
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR)Translate("User ID/Phone");
+		return (INT_PTR)Translate("ICQ number or phone");
 	}
 
 	return nReturn;
