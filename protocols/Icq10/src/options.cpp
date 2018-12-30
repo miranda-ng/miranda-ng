@@ -24,6 +24,7 @@ class CIcqOptionsDlg : public CProtoDlgBase<CIcqProto>
 {
 	CCtrlEdit edtUin, edtPassword;
 	CCtrlCheck chkSlowSend;
+	CMStringW wszOldPass;
 
 public:
 	CIcqOptionsDlg(CIcqProto *ppro, int iDlgID, bool bFullDlg) :
@@ -37,6 +38,17 @@ public:
 
 		if (bFullDlg)
 			CreateLink(chkSlowSend, ppro->m_bSlowSend);
+
+		wszOldPass = ppro->m_szPassword;
+	}
+
+	bool OnApply() override
+	{
+		if (wszOldPass != ptrW(edtPassword.GetText())) {
+			m_proto->delSetting(DB_KEY_ATOKEN);
+			m_proto->delSetting(DB_KEY_SESSIONKEY);
+		}
+		return true;
 	}
 };
 

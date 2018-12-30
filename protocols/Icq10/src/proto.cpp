@@ -39,7 +39,7 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	m_arOwnIds(1),
 	m_arCache(20, NumericKeySortT),
 	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr)),
-	m_dwUin(this, "UIN", 0),
+	m_dwUin(this, DB_KEY_UIN, 0),
 	m_szPassword(this, "Password"),
 	m_bSlowSend(this, "SlowSend", false)
 {
@@ -83,7 +83,7 @@ void CIcqProto::OnShutdown()
 
 void CIcqProto::OnContactDeleted(MCONTACT hContact)
 {
-	DWORD dwUin = getDword(hContact, "UIN");
+	DWORD dwUin = getDword(hContact, DB_KEY_UIN);
 	m_arCache.remove(FindContactByUIN(dwUin));
 
 	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/removeBuddy");
@@ -150,7 +150,7 @@ int CIcqProto::AuthRequest(MCONTACT hContact, const wchar_t* szMessage)
 {
 	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, ICQ_API_SERVER "/buddylist/addBuddy", &CIcqProto::OnAddBuddy);
 	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("r", pReq->m_reqId) << WCHAR_PARAM("authorizationMsg", szMessage)
-		<< INT_PARAM("buddy", getDword(hContact, "UIN")) << CHAR_PARAM("group", "General") << INT_PARAM("preAuthorized", 1);
+		<< INT_PARAM("buddy", getDword(hContact, DB_KEY_UIN)) << CHAR_PARAM("group", "General") << INT_PARAM("preAuthorized", 1);
 	pReq->flags |= NLHRF_NODUMPSEND;
 	pReq->pUserInfo = (void*)hContact;
 	Push(pReq);
@@ -279,7 +279,7 @@ void __cdecl CIcqProto::SendAckThread(void *p)
 
 int CIcqProto::SendMsg(MCONTACT hContact, int, const char *pszSrc)
 {
-	DWORD dwUin = getDword(hContact, "UIN");
+	DWORD dwUin = getDword(hContact, DB_KEY_UIN);
 	if (dwUin == 0)
 		return 0;
 
@@ -379,7 +379,7 @@ int CIcqProto::UserIsTyping(MCONTACT hContact, int type)
 	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/im/setTyping");
 	pReq->flags |= NLHRF_NODUMPSEND;
 	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("f", "json")
-		<< INT_PARAM("t", getDword(hContact, "UIN")) << CHAR_PARAM("r", pReq->m_reqId)
+		<< INT_PARAM("t", getDword(hContact, DB_KEY_UIN)) << CHAR_PARAM("r", pReq->m_reqId)
 		<< CHAR_PARAM("typingStatus", (type == PROTOTYPE_SELFTYPING_ON) ? "typing" : "typed");
 	Push(pReq);
 	return 0;

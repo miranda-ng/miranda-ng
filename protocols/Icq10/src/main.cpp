@@ -39,7 +39,7 @@ static PLUGININFOEX pluginInfoEx = {
 CMPlugin::CMPlugin() :
 	ACCPROTOPLUGIN<CIcqProto>(MODULENAME, pluginInfoEx)
 {
-	SetUniqueId("UIN");
+	SetUniqueId(DB_KEY_UIN);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

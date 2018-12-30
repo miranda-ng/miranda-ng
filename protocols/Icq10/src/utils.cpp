@@ -24,7 +24,7 @@ void CIcqProto::InitContactCache()
 {
 	mir_cslock l(m_csCache);
 	for (auto &it : AccContacts())
-		m_arCache.insert(new IcqCacheItem(getDword(it, "UIN"), it));
+		m_arCache.insert(new IcqCacheItem(getDword(it, DB_KEY_UIN), it));
 }
 
 IcqCacheItem* CIcqProto::FindContactByUIN(DWORD dwUin)
@@ -41,7 +41,7 @@ MCONTACT CIcqProto::CreateContact(DWORD dwUin, bool bTemporary)
 
 	MCONTACT hContact = db_add_contact();
 	Proto_AddToContact(hContact, m_szModuleName);
-	setDword(hContact, "UIN", dwUin);
+	setDword(hContact, DB_KEY_UIN, dwUin);
 	pCache = new IcqCacheItem(dwUin, hContact);
 	{
 		mir_cslock l(m_csCache);

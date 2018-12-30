@@ -52,10 +52,10 @@ void CIcqProto::CheckPassword()
 	char mirVer[100];
 	Miranda_GetVersionText(mirVer, _countof(mirVer));
 
-	m_szAToken = getMStringA("AToken");
-	m_szRToken = getMStringA("RToken");
-	m_iRClientId = getDword("RClientID");
-	m_szSessionKey = getMStringA("SessionKey");
+	m_szAToken = getMStringA(DB_KEY_ATOKEN);
+	m_szRToken = getMStringA(DB_KEY_RTOKEN);
+	m_iRClientId = getDword(DB_KEY_RCLIENTID);
+	m_szSessionKey = getMStringA(DB_KEY_SESSIONKEY);
 	if (m_szAToken.IsEmpty() || m_szSessionKey.IsEmpty()) {
 		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, "https://api.login.icq.net/auth/clientLogin", &CIcqProto::OnCheckPassword);
 		pReq << CHAR_PARAM("clientName", "Miranda NG") << CHAR_PARAM("clientVersion", mirVer) << CHAR_PARAM("devId", ICQ_APP_ID)
@@ -162,7 +162,7 @@ bool CIcqProto::RefreshRobustToken()
 		if (result.error() == 20000) {
 			const JSONNode &results = result.results();
 			m_szRToken = results["authToken"].as_mstring();
-			setString("RToken", m_szRToken);
+			setString(DB_KEY_RTOKEN, m_szRToken);
 
 			// now add this token
 			auto *add = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER, &CIcqProto::OnAddClient);
@@ -186,7 +186,7 @@ void CIcqProto::RetrieveUserInfo(MCONTACT hContact)
 	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/presence/get", &CIcqProto::OnGetUserInfo);
 	pReq->flags |= NLHRF_NODUMPSEND;
 	pReq->pUserInfo = (void*)hContact;
-	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << INT_PARAM("mdir", 1) << INT_PARAM("t", getDword(hContact, "UIN"));
+	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << INT_PARAM("mdir", 1) << INT_PARAM("t", getDword(hContact, DB_KEY_UIN));
 	Push(pReq);
 }
 
@@ -276,7 +276,7 @@ void CIcqProto::OnAddBuddy(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 
 	JsonReply root(pReply);
 	if (root.error() == 200) {
-		RetrieveUserInfo(getDword(hContact, "UIN"));
+		RetrieveUserInfo(getDword(hContact, DB_KEY_UIN));
 		db_unset(hContact, "CList", "NotOnList");
 	}
 }
@@ -293,7 +293,7 @@ void CIcqProto::OnAddClient(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 
 	const JSONNode &results = reply.results();
 	m_iRClientId = results["clientId"].as_int();
-	setDword("RClientID", m_iRClientId);
+	setDword(DB_KEY_RCLIENTID, m_iRClientId);
 	*pRet = true;
 }
 
@@ -317,7 +317,7 @@ void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 	JSONNode &data = root.data();
 	m_szAToken = data["token"]["a"].as_mstring();
 	m_szAToken = ptrA(mir_urlDecode(m_szAToken));
-	setString("AToken", m_szAToken);
+	setString(DB_KEY_ATOKEN, m_szAToken);
 
 	CMStringA szSessionSecret = data["sessionSecret"].as_mstring();
 	CMStringA szPassTemp = m_szPassword;
@@ -326,7 +326,7 @@ void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 	BYTE hashOut[MIR_SHA256_HASH_SIZE];
 	HMAC(EVP_sha256(), szPassTemp, szPassTemp.GetLength(), (BYTE*)szSessionSecret.c_str(), szSessionSecret.GetLength(), hashOut, &len);
 	m_szSessionKey = ptrA(mir_base64_encode(hashOut, sizeof(hashOut)));
-	setString("SessionKey", m_szSessionKey);
+	setString(DB_KEY_SESSIONKEY, m_szSessionKey);
 
 	CMStringA szUin = data["loginId"].as_mstring();
 	if (szUin)
@@ -361,8 +361,8 @@ void CIcqProto::OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 
 	case 401:
 		if (root.detail() == 1002) { // session expired
-			delSetting("AToken");
-			delSetting("SessionKey");
+			delSetting(DB_KEY_ATOKEN);
+			delSetting(DB_KEY_SESSIONKEY);
 			CheckPassword();
 		}
 		else ConnectionFailed(LOGINERR_WRONGPASSWORD);

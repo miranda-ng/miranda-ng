@@ -141,7 +141,7 @@ void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 			if (r.error() == 40201) { // robust token expired
 				CMStringA oldToken = m_szRToken;
 				m_szRToken.Empty();
-				delSetting("RToken");
+				delSetting(DB_KEY_RTOKEN);
 				
 				// if token refresh succeeded, replace it in the query and push request back
 				if (RefreshRobustToken()) { 
