@@ -3,7 +3,7 @@
 [Keep connection on error]
 [To / CopyTo]
 [Offline status mean:]
-[Lotus Notes Client not detected. Check plugin configuration description on install.txt]
+[Lotus Notes Client not detected. Check plugin configuration description at https://miranda-ng.org/p/LotusNotify]
 [Unable to initialize Notes.]
 [Lotus Notes Extension Manager was not registered. Authentication function will not work properly]
 [This utility check your notes.ini file if it's set to authenticate this plugin as safe. Plugin is not added as Lotus Extension, so plugin built-in authentication will not work properly. Do you want to add plugin as Lotus Extension (modify notes.ini by adding "EXTMGR_ADDINS=PLUGINNAME")?]

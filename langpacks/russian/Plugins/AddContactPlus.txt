@@ -24,8 +24,6 @@ ID контакта:
 Настройки
 [Add temporarily]
 Добавить временно
-[Send "You were added"]
-Отправить "Вас добавили"
 [Send authorization request]
 Отправить запрос авторизации
 [Authorization request]

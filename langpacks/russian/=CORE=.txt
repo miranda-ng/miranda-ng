@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.10
+;  Version: 0.95.11
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -663,8 +663,6 @@
 Укажите внутреннее имя (не обязательно)
 [Add contact]
 Добавить контакт
-[Send "You were added"]
-Отправить "Вас добавили"
 [Send authorization request]
 Отправить запрос авторизации
 [Open contact's chat window]
@@ -829,8 +827,6 @@
 Только помеченные контакты будут показаны в списке контактов
 [Ignore]
 Игнорировать
-[Added notification]
-Уведомление о добавлении
 [Typing]
 Набор текста
 [Visibility]
@@ -2012,6 +2008,8 @@ Miranda не смогла загрузить встроенную систему
 Тема '%s'
 [The topic is '%s' (set by %s)]
 Тема '%s' (установлена %s)
+[Chat rooms]
+Чаты
 [Look up '%s':]
 Искать '%s':
 [No word to look up]

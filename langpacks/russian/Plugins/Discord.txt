@@ -48,9 +48,6 @@
 Укажите новую тему
 [Enter your new nick name:]
 Введите свой новый ник:
-;file \protocols\Discord\src\guilds.cpp
-[Chat rooms]
-Чаты
 ;file \protocols\Discord\src\main.cpp
 [Main icon]
 Главный значок
