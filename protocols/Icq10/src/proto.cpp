@@ -236,6 +236,9 @@ int CIcqProto::GetInfo(MCONTACT hContact, int infoType)
 
 HANDLE CIcqProto::SearchBasic(const wchar_t *pszSearch)
 {
+	if (m_bOnline)
+		return nullptr;
+
 	auto *pReq = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER, &CIcqProto::OnSearchResults);
 
 	JSONNode request, params; params.set_name("params");
