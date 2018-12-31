@@ -366,6 +366,8 @@ private:
 	bool ApplyCaptcha(AsyncHttpRequest *pReq, const JSONNode&);
 	void ConnectionFailed(int iReason);
 	void OnLoggedIn();
+	void ClosePollingConnection();
+	void CloseAPIConnection();
 	void OnLoggedOut();
 	void ShutdownSession();
 	void SetAvatarUrl(MCONTACT hContact, CMStringW &wszUrl);

@@ -98,6 +98,20 @@ void CVkProto::OnLoggedIn()
 	db_unset(0, m_szModuleName, "LastNotificationsReqTime");
 }
 
+void CVkProto::ClosePollingConnection()
+{
+	if (m_pollingConn)
+		Netlib_CloseHandle(m_pollingConn);
+	m_pollingConn = nullptr;
+}
+
+void CVkProto::CloseAPIConnection()
+{
+	if (m_hAPIConnection)
+		Netlib_CloseHandle(m_hAPIConnection);
+	m_hAPIConnection = nullptr;
+}
+
 void CVkProto::OnLoggedOut()
 {
 	debugLogA("CVkProto::OnLoggedOut");
@@ -113,11 +127,8 @@ void CVkProto::OnLoggedOut()
 		m_hWorkerThread = nullptr;
 	}
 
-	if (m_hAPIConnection)
-		Netlib_CloseHandle(m_hAPIConnection);
-
-	if (m_pollingConn)
-		Netlib_Shutdown(m_pollingConn);
+	CloseAPIConnection();
+	ClosePollingConnection();
 
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;

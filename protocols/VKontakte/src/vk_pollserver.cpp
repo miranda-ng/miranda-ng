@@ -39,7 +39,7 @@ void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	if (!jnResponse) {
 		if (!pReq->bNeedsRestart) {
 			debugLogA("CVkProto::OnReceivePollingInfo PollingThread not start (getLongPollServer error)");
-			m_pollingConn = nullptr;
+			ClosePollingConnection();
 			ShutdownSession();
 		}
 		return;
@@ -64,7 +64,7 @@ void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 		}
 		else {
 			debugLogA("CVkProto::OnReceivePollingInfo PollingThread not start");
-			m_pollingConn = nullptr;
+			ClosePollingConnection();
 			ShutdownSession();
 			return;
 		}
@@ -242,7 +242,7 @@ int CVkProto::PollServer()
 	debugLogA("CVkProto::PollServer");
 	if (!IsOnline()) {
 		debugLogA("CVkProto::PollServer is dead (not online)");
-		m_pollingConn = nullptr;
+		ClosePollingConnection();
 		ShutdownSession();
 		return 0;
 	}
@@ -262,7 +262,7 @@ int CVkProto::PollServer()
 
 	while ((reply = Netlib_HttpTransaction(m_hNetlibUser, &req)) == nullptr) {
 		debugLogA("CVkProto::PollServer is dead");
-		m_pollingConn = nullptr;
+		ClosePollingConnection();
 		if (iPollConnRetry && !m_bTerminated) {
 			iPollConnRetry--;
 			debugLogA("CVkProto::PollServer restarting %d", MAX_RETRIES - iPollConnRetry);
@@ -297,7 +297,7 @@ int CVkProto::PollServer()
 	else if ((reply->resultCode >= 400 && reply->resultCode <= 417)
 		|| (reply->resultCode >= 500 && reply->resultCode <= 509)) {
 		debugLogA("CVkProto::PollServer is dead. Error code - %d", reply->resultCode);
-		m_pollingConn = nullptr;
+		ClosePollingConnection();
 		Netlib_FreeHttpRequest(reply);
 		ShutdownSession();
 		return 0;
@@ -318,7 +318,7 @@ void CVkProto::PollingThread(void*)
 		if (PollServer() == -1 || !m_hPollingThread)
 			break;
 
-	m_pollingConn = nullptr;
+	ClosePollingConnection();
 	debugLogA("CVkProto::PollingThread: leaving");
 
 	if (m_hPollingThread) {

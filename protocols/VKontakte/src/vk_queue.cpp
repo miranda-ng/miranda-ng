@@ -82,7 +82,7 @@ void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		debugLogA("CVkProto::ExecuteRequest pReq->bNeedsRestart = %d", (int)pReq->bNeedsRestart);
 
 		if (!reply && pReq->m_bApiReq)
-			m_hAPIConnection = nullptr;
+			CloseAPIConnection();
 
 	} while (pReq->bNeedsRestart && !m_bTerminated);
 	delete pReq;
@@ -146,7 +146,7 @@ void CVkProto::WorkerThread(void*)
 		Push(pReq);
 	}
 
-	m_hAPIConnection = nullptr;
+	CloseAPIConnection();
 
 	while (true) {
 		WaitForSingleObject(m_evRequestsQueue, 1000);
@@ -192,12 +192,7 @@ void CVkProto::WorkerThread(void*)
 		}
 	}
 
-	if (m_hAPIConnection) {
-		debugLogA("CVkProto::WorkerThread: Netlib_CloseHandle(m_hAPIConnection) beg");
-		Netlib_CloseHandle(m_hAPIConnection);
-		debugLogA("CVkProto::WorkerThread: Netlib_CloseHandle(m_hAPIConnection) end");
-		m_hAPIConnection = nullptr;
-	}
+	CloseAPIConnection();
 
 	debugLogA("CVkProto::WorkerThread: leaving m_bTerminated = %d", m_bTerminated ? 1 : 0);
 
