@@ -23,10 +23,6 @@
 [Close]
 Зачыніць
 ;file \plugins\Folders\src\dlg_handlers.cpp
-[Some changes weren't saved. Apply the changes now?]
-Змены не захаваны. Ужыць змены?
-[Changes not saved]
-Змены не захаваны
 [Don't forget to click on Apply to save the changes. If you don't then the changes won't]
 Не забудзьце націснуць Прымяніць для захавання змяненняў.
 [be saved to the database, they will only be valid for this session.]
@@ -77,6 +73,10 @@
 верне 'c:\\program files\\miranda ng\\plugins\\config'
 [Notice that the spaces at the beginning and the end of the string are trimmed, as well as the last.]
 Нататка: прабелы ў пачатку і канцы радка абразаюцца гэтак же, як і апошнія.
+[Some changes weren't saved. Apply the changes now?]
+Змены не захаваны. Ужыць змены?
+[Changes not saved]
+Змены не захаваны
 [Folders]
 Тэчкі
 [Customize]

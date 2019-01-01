@@ -1,1 +1,2 @@
-[Expand string edit]
+[Send messages slower, but with full acknowledgment]
+[ICQ number or phone]

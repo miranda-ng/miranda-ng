@@ -50,7 +50,7 @@ Título:
 [Account]
 Cuenta
 [Gender]
-
+Genero
 [UserID]
 
 [Nickname]

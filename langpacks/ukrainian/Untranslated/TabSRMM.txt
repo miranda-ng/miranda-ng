@@ -1,3 +1,2 @@
-[Chat rooms]
 [Enable typing notification]
 [Disable typing notification]

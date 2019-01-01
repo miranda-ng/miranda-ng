@@ -24,8 +24,6 @@ Skupina:
 Možnosti
 [Add temporarily]
 Přidat dočasně
-[Send "You were added"]
-Odeslat zprávu o zařazení
 [Send authorization request]
 Odeslat žádost o autorizaci
 [Authorization request]

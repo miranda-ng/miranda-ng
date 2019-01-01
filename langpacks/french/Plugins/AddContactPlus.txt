@@ -24,8 +24,6 @@ Groupe :
 Paramètres
 [Add temporarily]
 Ajouter temporairement
-[Send "You were added"]
-Envoyer "Vous êtes ajouté"
 [Send authorization request]
 Demande d'autorisation
 [Authorization request]

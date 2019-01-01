@@ -8,12 +8,6 @@
 [Adds some useful options to a contacts menu.]
 Дадае дадатковыя пункты меню кантактаў.
 ;file \plugins\MenuItemEx\res\resource.rc
-[Enter an authorization request]
-Тэкст запыту аўтарызацыі
-[&Send]
-&Адправіць
-[&Cancel]
-С&касаваць
 [Shown menu items]
 Паказаны пункты меню
 [Visibility]
@@ -26,8 +20,6 @@
 Ігнараваць
 [Copy to Account (Ctrl+click for move to Account)]
 Капіяваць у конт (Ctrl+клік - перасоўванне)
-[Send 'You were added']
-Адправіць "Вас дадалі"
 [Request Authorization]
 Запытаць аўтарызацыю
 [Browse Received Files]

@@ -23,10 +23,6 @@ Hilfe zu 'Eigene Ordner' Variablen
 [Close]
 Schließen
 ;file \plugins\Folders\src\dlg_handlers.cpp
-[Some changes weren't saved. Apply the changes now?]
-Einige Änderungen wurden nicht gespeichert. Änderungen speichern?
-[Changes not saved]
-Änderungen nicht gespeichert
 [Don't forget to click on Apply to save the changes. If you don't then the changes won't]
 Vergessen Sie nicht, auf Übernehmen zu klicken, um Ihre Änderungen zu speichern. Wenn Sie das nicht tun dann werden
 [be saved to the database, they will only be valid for this session.]
@@ -77,6 +73,10 @@ wird ausgewertet zu 'C\\Programme\\Miranda NG\\Profile\\default'
 wird ausgewertet zu 'C\\Programme\\Miranda NG\\Plugins\\config'
 [Notice that the spaces at the beginning and the end of the string are trimmed, as well as the last.]
 Beachten Sie, dass Leerzeichen am Anfang und am Ende des Strings entfernt werden.
+[Some changes weren't saved. Apply the changes now?]
+Einige Änderungen wurden nicht gespeichert. Änderungen speichern?
+[Changes not saved]
+Änderungen nicht gespeichert
 [Folders]
 Verzeichnisse
 [Customize]

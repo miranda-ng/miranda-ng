@@ -69,8 +69,8 @@ Offline-Status bedeutet:
 ;file \plugins\LotusNotify\src\LotusNotify.cpp
 [Unable to load all required Lotus API functions]
 Konnte nicht alle benötigten Lotus-API-Funktionen laden.
-[Lotus Notes Client not detected. Check plugin configuration description on install.txt]
-Lotus Notes Client wurde nicht gefunden. Prüfen Sie die Plugin-Einrichtung gemäß install.txt
+[Lotus Notes Client not detected. Check plugin configuration description at https://miranda-ng.org/p/LotusNotify]
+
 [Unable to initialize Notes.]
 Konnte Notes nicht imitialisieren.
 [Lotus Notes Extension Manager was not registered. Authentication function will not work properly]

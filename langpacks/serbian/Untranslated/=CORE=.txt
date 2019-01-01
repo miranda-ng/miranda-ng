@@ -24,6 +24,7 @@
 [In love]
 [It's complicated]
 [In a civil union]
+[Chat rooms]
 [Miranda was unable to open '%s'\nThere is no suitable database driver installed]
 [Homepage]
 [Phone/SMS]

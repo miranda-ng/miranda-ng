@@ -11,6 +11,5 @@
 [Do you really want to delete this category with its messages?]
 [Do you really want to delete this message?]
 [Set message for]
-[message for]
 [available autoreply only]
 [all accounts]

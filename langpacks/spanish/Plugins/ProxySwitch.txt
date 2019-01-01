@@ -76,6 +76,6 @@ Ventanas emergentes
 
 ;file \plugins\ProxySwitch\src\opt.cpp
 [Services]
-
+Servicios
 [ProxySwitch]
 

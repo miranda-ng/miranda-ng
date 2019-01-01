@@ -24,8 +24,6 @@ Grupa:
 Opcje
 [Add temporarily]
 Dodaj tymczasowo
-[Send "You were added"]
-Wyślij "Zostałeś dodany"
 [Send authorization request]
 Wyślij prośbę o autoryzację
 [Authorization request]

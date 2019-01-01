@@ -12,7 +12,6 @@
 [Enter new channel name:]
 [Enter new topic:]
 [Enter your new nick name:]
-[Chat rooms]
 [Enter channel name]
 [Enter invitation code you received]
 [Do you really want to leave the guild?]

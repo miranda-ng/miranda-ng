@@ -17,7 +17,6 @@
 [Enter new channel name:]
 [Enter new topic:]
 [Enter your new nick name:]
-[Chat rooms]
 [Main icon]
 [Group chats]
 [Enter channel name]

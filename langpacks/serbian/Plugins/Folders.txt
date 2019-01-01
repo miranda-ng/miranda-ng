@@ -23,10 +23,6 @@ Izmeni
 [Close]
 Zatvori
 ;file \plugins\Folders\src\dlg_handlers.cpp
-[Some changes weren't saved. Apply the changes now?]
-
-[Changes not saved]
-
 [Don't forget to click on Apply to save the changes. If you don't then the changes won't]
 
 [be saved to the database, they will only be valid for this session.]
@@ -76,6 +72,10 @@ Zatvori
 [will expand to 'c:\\program files\\miranda ng\\plugins\\config']
 
 [Notice that the spaces at the beginning and the end of the string are trimmed, as well as the last.]
+
+[Some changes weren't saved. Apply the changes now?]
+
+[Changes not saved]
 
 [Folders]
 

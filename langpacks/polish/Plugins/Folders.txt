@@ -23,10 +23,6 @@ Pomoc o zmiennych niestandardowych folderów
 [Close]
 Zamknij
 ;file \plugins\Folders\src\dlg_handlers.cpp
-[Some changes weren't saved. Apply the changes now?]
-Nie wszystkie zmiany zostały zapisane. Zastosować zmiany teraz?
-[Changes not saved]
-Zmiany nie zapisane
 [Don't forget to click on Apply to save the changes. If you don't then the changes won't]
 Nie zapomnij, by kliknąć Zastosuj, by zapisać zmiany. Jeśli tego nie zrobisz, zmiany nie
 [be saved to the database, they will only be valid for this session.]
@@ -77,6 +73,10 @@ zostanie rozwinięte do "c:\\program files\\miranda ng\\profiles\\default"
 zostanie rozwinięte do "c:\\program files\\miranda ng\\plugins\\config"
 [Notice that the spaces at the beginning and the end of the string are trimmed, as well as the last.]
 Zauważ, że spacje na początku i końcu ciągu są przycięte, zarówno jak i ostatnia.
+[Some changes weren't saved. Apply the changes now?]
+Nie wszystkie zmiany zostały zapisane. Zastosować zmiany teraz?
+[Changes not saved]
+Zmiany nie zapisane
 [Folders]
 Foldery
 [Customize]

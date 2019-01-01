@@ -69,8 +69,8 @@
 ;file \plugins\LotusNotify\src\LotusNotify.cpp
 [Unable to load all required Lotus API functions]
 Не ўдалося загрузіць усе неабходныя функцыі Lotus API
-[Lotus Notes Client not detected. Check plugin configuration description on install.txt]
-Lotus Notes Client не выяўлены. Праверце апісанне канфігурацыі плагіна на install.txt
+[Lotus Notes Client not detected. Check plugin configuration description at https://miranda-ng.org/p/LotusNotify]
+Lotus Notes Client не выяўлены. Праверце апісанне канфігурацыі плагіна на https://miranda-ng.org/p/LotusNotify
 [Unable to initialize Notes.]
 Не атрымалася ініцыялізаваць Notes.
 [Lotus Notes Extension Manager was not registered. Authentication function will not work properly]

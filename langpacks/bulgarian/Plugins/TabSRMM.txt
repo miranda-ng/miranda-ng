@@ -1086,8 +1086,6 @@ UIN
 Външен вид и функционалност на чат стаите
 [Appearance of the message log]
 Външен вид на дневника за съобщения
-[Chat rooms]
-
 [nick of current contact (if defined)]
 прякор на текущия контакт (ако е зададен)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]

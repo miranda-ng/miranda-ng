@@ -277,13 +277,13 @@ Iconos adicionales
 [Replace the following default icons:]
 
 [Homepage]
-
+Sitio web
 [Phone]
-
+Telefono
 [E-mail]
 E-mail
 [Gender]
-
+Genero
 [Misc]
 
 [Show 'Restart' menu item]

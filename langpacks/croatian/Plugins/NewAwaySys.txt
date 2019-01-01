@@ -340,8 +340,6 @@ isključen
 
 [Statuses]
 
-[message for]
-
 [for]
 
 [available autoreply only]

@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.10
+;  Version: 0.95.11
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -663,8 +663,6 @@ Seleccione el tipo de protocolo
 Especifique el nombre de la cuenta interna (opcional)
 [Add contact]
 Añadir contacto
-[Send "You were added"]
-Enviar "Usted fue agregado"
 [Send authorization request]
 Enviar solicitud de autorización
 [Open contact's chat window]
@@ -829,8 +827,6 @@ Ninguno
 Sólo los contactos marcados se muestran en la lista de contactos principal
 [Ignore]
 Ignorar
-[Added notification]
-Notificación añadida
 [Typing]
 Escribiendo
 [Visibility]
@@ -2012,6 +2008,8 @@ Aviso de %s: %s
 El tema es '%s'
 [The topic is '%s' (set by %s)]
 El tema es '%s' (establecido por %s)
+[Chat rooms]
+
 [Look up '%s':]
 Buscar '%s':
 [No word to look up]
@@ -2118,7 +2116,7 @@ Este cambio no se sabe que es seguro
 Tipo de establecimiento no válido para '% s'. El primer carácter de cada valor debe ser b, w, d, l, s, e, u, g, h o n.
 ;file \src\mir_app\src\ei_defaulticons.cpp
 [Homepage]
-
+Sitio web
 [Phone/SMS]
 
 [Chat activity]

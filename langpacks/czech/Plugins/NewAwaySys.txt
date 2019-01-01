@@ -340,8 +340,6 @@ Chcete použít zadanou zprávu?
 Nastavit zprávu pro
 [Statuses]
 Stavy
-[message for]
-zpráva pro
 [for]
 po dobu
 [available autoreply only]

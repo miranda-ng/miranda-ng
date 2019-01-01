@@ -24,8 +24,6 @@
 Настройки
 [Add temporarily]
 Добави временно
-[Send "You were added"]
-Изпращане на съобщение "Вие бяхте добавен(а)"
 [Send authorization request]
 Изпрати молба за упълномощаване
 [Authorization request]

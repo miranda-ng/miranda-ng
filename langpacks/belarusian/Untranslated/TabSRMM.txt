@@ -2,7 +2,6 @@
 [Event popups]
 [Add a comma instead of a colon to auto-completed user names]
 [Add new line after names]
-[Chat rooms]
 [user-defined account name of current contact (if defined).]
 [path to folder containing Miranda profiles]
 [will return parsed string %miranda_userdata%\\Logs]

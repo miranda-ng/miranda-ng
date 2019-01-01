@@ -47,8 +47,6 @@ Tout &sélectionner
 
 [Version Info file %s is inaccessible]
 
-[Services]
-Services
 [Version Information To Clipboard]
 
 [Version Information To File]
@@ -90,6 +88,8 @@ Copier l'URL vers le presse-papier
 ;file \plugins\CrashDumper\src\ui.cpp
 [View Version Information (with DLLs)]
 
+[Services]
+Services
 ;file \plugins\CrashDumper\src\upload.cpp
 [Version Info upload successful.]
 

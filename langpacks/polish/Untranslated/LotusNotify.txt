@@ -1,0 +1,1 @@
+[Lotus Notes Client not detected. Check plugin configuration description at https://miranda-ng.org/p/LotusNotify]

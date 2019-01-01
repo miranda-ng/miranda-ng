@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.10
+;  Version: 0.95.11
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -663,8 +663,6 @@ Vyberte požadovaný protokol
 Zadejte interní název účtu (nepovinné)
 [Add contact]
 Přidat kontakt
-[Send "You were added"]
-Odeslat zprávu o zařazení
 [Send authorization request]
 Odeslat žádost o autorizaci
 [Open contact's chat window]
@@ -829,8 +827,6 @@ Všechny události
 V seznamu kontaktů se objeví pouze ty skupiny nebo uživatelé, které zaškrtnete.
 [Ignore]
 Filtrování
-[Added notification]
-Oznámení o přidání
 [Typing]
 Oznámení o psaní
 [Visibility]
@@ -2012,6 +2008,8 @@ Poznámka od %s: %s
 Aktuální téma: %s
 [The topic is '%s' (set by %s)]
 Aktuální téma: %s (nastavil %s)
+[Chat rooms]
+Místnosti chatu
 [Look up '%s':]
 Vyhledat '%s':
 [No word to look up]

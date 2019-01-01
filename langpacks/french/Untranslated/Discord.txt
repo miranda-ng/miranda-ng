@@ -12,7 +12,6 @@
 [Enter new channel name:]
 [Enter new topic:]
 [Enter your new nick name:]
-[Chat rooms]
 [Main icon]
 [Enter channel name]
 [Enter invitation code you received]

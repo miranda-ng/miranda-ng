@@ -221,7 +221,7 @@ Estado
 [Jabber activity]
 
 [Gender]
-
+Genero
 [Country flag]
 Bandera de País
 [Client]
@@ -339,7 +339,7 @@ Cuenta:
 [Gender:]
 Género:
 [Homepage]
-
+Sitio web
 [Homepage:]
 Sitio web:
 [Identifier]

@@ -69,7 +69,7 @@ Sujeto
 ;file \plugins\LotusNotify\src\LotusNotify.cpp
 [Unable to load all required Lotus API functions]
 
-[Lotus Notes Client not detected. Check plugin configuration description on install.txt]
+[Lotus Notes Client not detected. Check plugin configuration description at https://miranda-ng.org/p/LotusNotify]
 
 [Unable to initialize Notes.]
 

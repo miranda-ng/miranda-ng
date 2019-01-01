@@ -132,7 +132,7 @@ Contacto
 [Birthday]
 
 [Age]
-
+Edad
 [Module]
 
 [Closing in %d seconds]

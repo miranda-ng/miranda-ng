@@ -406,7 +406,6 @@
 [Incremental search highlight]
 [Fields background]
 [Group chat log background]
-[Chat rooms]
 [nick of current contact (if defined)]
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
 [user-defined account name of current contact (if defined).]

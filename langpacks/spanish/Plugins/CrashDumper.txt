@@ -47,8 +47,6 @@ Seleccionar todo
 
 [Version Info file %s is inaccessible]
 
-[Services]
-Servicios
 [Version Information To Clipboard]
 
 [Version Information To File]
@@ -90,6 +88,8 @@ Subir
 ;file \plugins\CrashDumper\src\ui.cpp
 [View Version Information (with DLLs)]
 
+[Services]
+Servicios
 ;file \plugins\CrashDumper\src\upload.cpp
 [Version Info upload successful.]
 

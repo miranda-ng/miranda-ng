@@ -47,8 +47,6 @@
 Версії збережені у файлі %s
 [Version Info file %s is inaccessible]
 Файл %s недоступний
-[Services]
-Служби
 [Version Information To Clipboard]
 Версії в буфер обміну
 [Version Information To File]
@@ -90,6 +88,8 @@ Miranda NG була завершена аварійно. Звіт збереже
 ;file \plugins\CrashDumper\src\ui.cpp
 [View Version Information (with DLLs)]
 Інформація про версії (з бібліотеками)
+[Services]
+Служби
 ;file \plugins\CrashDumper\src\upload.cpp
 [Version Info upload successful.]
 Інформацію про версії успішно завантажено.

@@ -47,8 +47,6 @@ Zaznacz &wszystko
 Informacje o wersji zachowano w pliku: %s
 [Version Info file %s is inaccessible]
 Plik z informacją o wersji%s jest niedostępny
-[Services]
-Usługi
 [Version Information To Clipboard]
 Kopiuj do schowka
 [Version Information To File]
@@ -90,6 +88,8 @@ Wystąpił błąd Mirandy. Raport błędów zachowany w folderze:\n %s\n\n Czy z
 ;file \plugins\CrashDumper\src\ui.cpp
 [View Version Information (with DLLs)]
 Pokaż Informacje o wersji (z bibliotekami)
+[Services]
+Usługi
 ;file \plugins\CrashDumper\src\upload.cpp
 [Version Info upload successful.]
 Wysyłanie informacji o wersji ukończone pomyślnie.

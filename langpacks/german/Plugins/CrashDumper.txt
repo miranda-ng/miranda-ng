@@ -47,8 +47,6 @@ Alles ko&pieren
 Versionsinfo in Datei %s gespeichert.
 [Version Info file %s is inaccessible]
 Versionsinfodatei %s ist nicht verfügbar.
-[Services]
-Dienste
 [Version Information To Clipboard]
 Versionsinformation in Zwischenablage
 [Version Information To File]
@@ -90,6 +88,8 @@ Miranda ist abgestürzt.\nSie finden alle wichtigen Informationen dazu im Verzei
 ;file \plugins\CrashDumper\src\ui.cpp
 [View Version Information (with DLLs)]
 Miranda-Versionsinfo anzeigen (mit DLLs)
+[Services]
+Dienste
 ;file \plugins\CrashDumper\src\upload.cpp
 [Version Info upload successful.]
 Versionsinfo erfolgreich hochgeladen.

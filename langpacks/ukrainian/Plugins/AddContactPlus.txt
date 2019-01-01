@@ -24,8 +24,6 @@ ID користувача:
 Налаштування
 [Add temporarily]
 Додати тимчасово
-[Send "You were added"]
-Надіслати "Вас додано до списку контактів"
 [Send authorization request]
 Надіслати запит авторизації
 [Authorization request]

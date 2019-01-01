@@ -48,9 +48,6 @@ Pozvat už&ivatele
 
 [Enter your new nick name:]
 
-;file \protocols\Discord\src\guilds.cpp
-[Chat rooms]
-Místnosti chatu
 ;file \protocols\Discord\src\main.cpp
 [Main icon]
 Hlavní ikona

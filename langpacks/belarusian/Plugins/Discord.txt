@@ -48,9 +48,6 @@
 
 [Enter your new nick name:]
 
-;file \protocols\Discord\src\guilds.cpp
-[Chat rooms]
-
 ;file \protocols\Discord\src\main.cpp
 [Main icon]
 Галоўны абразок

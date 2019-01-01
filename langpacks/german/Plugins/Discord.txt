@@ -48,9 +48,6 @@ Neuen Channelnamen eingeben:
 Neues Thema eingeben:
 [Enter your new nick name:]
 Geben Sie Ihren neuen Nicknamen ein:
-;file \protocols\Discord\src\guilds.cpp
-[Chat rooms]
-Chaträume
 ;file \protocols\Discord\src\main.cpp
 [Main icon]
 Haupticon

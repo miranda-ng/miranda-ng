@@ -6,7 +6,6 @@
 [Custom name:]
 [Group:]
 [Add temporarily]
-[Send "You were added"]
 [Send authorization request]
 [Please authorize my request and add me to your contact list.]
 [None]

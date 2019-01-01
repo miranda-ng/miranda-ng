@@ -26,5 +26,4 @@
 [Disable proxy]
 [Enable proxy]
 [IP change notification]
-[Services]
 [ProxySwitch]

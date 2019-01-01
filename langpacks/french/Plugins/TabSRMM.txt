@@ -1086,8 +1086,6 @@ Fond de la liste
 Apparence et fonctionnalités des fenêtres de salon
 [Appearance of the message log]
 Apparence du journal des messages
-[Chat rooms]
-
 [nick of current contact (if defined)]
 
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]

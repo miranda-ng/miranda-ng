@@ -340,8 +340,6 @@ Aplicar
 
 [Statuses]
 
-[message for]
-
 [for]
 para
 [available autoreply only]

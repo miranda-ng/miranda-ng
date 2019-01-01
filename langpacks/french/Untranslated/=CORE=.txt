@@ -69,6 +69,7 @@
 [Chat log symbols (Webdings)]
 [%s enables '%s' status for %s in %s]
 [%s disables '%s' status for %s in %s]
+[Chat rooms]
 [Look up '%s':]
 [Connecting (attempt %d)]
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually.]

@@ -340,8 +340,6 @@ Möchten Sie diese Nachricht übernehmen?
 Nachricht setzen für
 [Statuses]
 Status
-[message for]
-Nachricht für
 [for]
 für
 [available autoreply only]

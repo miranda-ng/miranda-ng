@@ -8,12 +8,6 @@
 [Adds some useful options to a contacts menu.]
 Fügt einige nützliche Einstellungen zum Kontaktmenü hinzu.
 ;file \plugins\MenuItemEx\res\resource.rc
-[Enter an authorization request]
-Autorisierungsanfrage eingeben
-[&Send]
-&Senden
-[&Cancel]
-Abbre&chen
 [Shown menu items]
 Menüeinträge anzeigen
 [Visibility]
@@ -26,8 +20,6 @@ In Liste verstecken
 Ignorieren
 [Copy to Account (Ctrl+click for move to Account)]
 In Konto kopieren (Strg+Klick zum Verschieben)
-[Send 'You were added']
-'Sie wurden hinzugefügt' senden
 [Request Authorization]
 Autorisierung anfragen
 [Browse Received Files]

@@ -340,8 +340,6 @@ Primeni
 
 [Statuses]
 
-[message for]
-
 [for]
 u toku
 [available autoreply only]

@@ -7,7 +7,6 @@
 [Advanced auto away]
 [Improved auto away module with some more options than the built in, configurable per account.]
 [when terminal session is disconnected]
-[Away mode]
 [After away]
 [Enter idle mode]
 [Maximum account connecting time (secs)]

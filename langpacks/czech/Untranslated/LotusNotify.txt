@@ -19,7 +19,7 @@
 [To / CopyTo]
 [Offline status mean:]
 [Unable to load all required Lotus API functions]
-[Lotus Notes Client not detected. Check plugin configuration description on install.txt]
+[Lotus Notes Client not detected. Check plugin configuration description at https://miranda-ng.org/p/LotusNotify]
 [Unable to initialize Notes.]
 [Lotus Notes Extension Manager was not registered. Authentication function will not work properly]
 [In notes.ini file there is no required entry EXTMGR_ADDINS=plugindllnamewithout".dll"]

@@ -47,8 +47,6 @@ Vybr&at vše
 Informace o verzi ukládat do %s
 [Version Info file %s is inaccessible]
 Soubor s informacemi o verzi %s je nedostupný
-[Services]
-Služby
 [Version Information To Clipboard]
 Informace o verzi do schránky
 [Version Information To File]
@@ -90,6 +88,8 @@ Miranda spadla. Crash report uložen ve složce:\n %s\n\n Chcete záznam uložit
 ;file \plugins\CrashDumper\src\ui.cpp
 [View Version Information (with DLLs)]
 Zobrazit informace o verzi (s DLL knihovnami)
+[Services]
+Služby
 ;file \plugins\CrashDumper\src\upload.cpp
 [Version Info upload successful.]
 Informace o verzi: úspěšně nahráno.

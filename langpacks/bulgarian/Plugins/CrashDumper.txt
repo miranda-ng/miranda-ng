@@ -47,8 +47,6 @@
 Информация за версията е записана във файла %s
 [Version Info file %s is inaccessible]
 Файлът %s с информация за версиите не е достъпен
-[Services]
-Услуги
 [Version Information To Clipboard]
 Копиране на информация за версията в клипборда
 [Version Information To File]
@@ -90,6 +88,8 @@ Miranda се срина. Можете да намерите доклад за с
 ;file \plugins\CrashDumper\src\ui.cpp
 [View Version Information (with DLLs)]
 Показване на информация за версията (с DLL файлове)
+[Services]
+Услуги
 ;file \plugins\CrashDumper\src\upload.cpp
 [Version Info upload successful.]
 Информация за версията бе успешно качена.

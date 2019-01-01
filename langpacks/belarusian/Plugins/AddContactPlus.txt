@@ -24,8 +24,6 @@ ID кантакта:
 Налады
 [Add temporarily]
 Дадаць часова
-[Send "You were added"]
-Адправіць "Вас дадалі"
 [Send authorization request]
 Адправіць запыт на аўтарызацыю
 [Authorization request]

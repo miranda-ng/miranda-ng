@@ -69,8 +69,8 @@ Status niepołączony gdy:
 ;file \plugins\LotusNotify\src\LotusNotify.cpp
 [Unable to load all required Lotus API functions]
 Załadowanie wymaganych funkcji API biblioteki Lotus nie powiodło się.
-[Lotus Notes Client not detected. Check plugin configuration description on install.txt]
-Nie znalazłem zainstalowanego klienta Lotus Notes. Sprawdź w pliku install.txt poprawność konfiguracji wtyczki.
+[Lotus Notes Client not detected. Check plugin configuration description at https://miranda-ng.org/p/LotusNotify]
+
 [Unable to initialize Notes.]
 Zainicjowanie interfejsu Lotus Notes nie powiodło się.
 [Lotus Notes Extension Manager was not registered. Authentication function will not work properly]

@@ -24,8 +24,6 @@ Grupa:
 Podešavanja
 [Add temporarily]
 
-[Send "You were added"]
-Poslati "Dodat Vaš kontakt"
 [Send authorization request]
 Slanje zahteva za autorizaciju
 [Authorization request]

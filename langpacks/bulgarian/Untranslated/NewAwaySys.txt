@@ -106,7 +106,6 @@
 [Do you want to apply the message?]
 [Set message for]
 [Statuses]
-[message for]
 [available autoreply only]
 [Miranda NG autoreply >\r\n%extratext%]
 [extended status]

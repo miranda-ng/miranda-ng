@@ -1086,8 +1086,6 @@ IRC-стиль (текстовий) індикаторів ролей у жур�
 Інтерфейс та функціональність вікон чату
 [Appearance of the message log]
 Зовнішній вигляд журналу повідомлень
-[Chat rooms]
-
 [nick of current contact (if defined)]
 нік поточного контакту (якщо він визначений)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]

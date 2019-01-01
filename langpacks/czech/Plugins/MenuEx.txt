@@ -8,12 +8,6 @@
 [Adds some useful options to a contacts menu.]
 Přidává některé užitečné možnosti do menu kontaktu.
 ;file \plugins\MenuItemEx\res\resource.rc
-[Enter an authorization request]
-Napište žádost o autorizaci
-[&Send]
-Po&slat
-[&Cancel]
-&Zrušit
 [Shown menu items]
 Viditelné položky v menu
 [Visibility]
@@ -26,8 +20,6 @@ Skrýt
 Filtrování
 [Copy to Account (Ctrl+click for move to Account)]
 Zkopírovat do účtu (Ctrl+klik pro přesunutí do účtu)
-[Send 'You were added']
-Odeslat zprávu o zařazení
 [Request Authorization]
 Požádat o autorizaci
 [Browse Received Files]

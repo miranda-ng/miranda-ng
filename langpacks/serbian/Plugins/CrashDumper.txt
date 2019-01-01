@@ -47,8 +47,6 @@ Ko&piranje svega
 
 [Version Info file %s is inaccessible]
 
-[Services]
-
 [Version Information To Clipboard]
 
 [Version Information To File]
@@ -89,6 +87,8 @@ Prikaz
 
 ;file \plugins\CrashDumper\src\ui.cpp
 [View Version Information (with DLLs)]
+
+[Services]
 
 ;file \plugins\CrashDumper\src\upload.cpp
 [Version Info upload successful.]

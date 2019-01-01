@@ -1086,8 +1086,6 @@ Gruppenchat-Verlaufshintergrund
 Aussehen und Funktionen des Chatfensters
 [Appearance of the message log]
 Aussehen des Verlaufsfensters
-[Chat rooms]
-Chaträume
 [nick of current contact (if defined)]
 Nick des aktuellen Kontaktes (falls definiert)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]

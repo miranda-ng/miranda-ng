@@ -21,7 +21,6 @@
 [Add a comma instead of a colon to auto-completed user names]
 [Add new line after names]
 [Incremental search highlight]
-[Chat rooms]
 [user-defined account name of current contact (if defined).]
 [user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
 [will return parsed string %miranda_profilesdir%\\%miranda_profilename%]

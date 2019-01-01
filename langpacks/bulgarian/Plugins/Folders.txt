@@ -23,10 +23,6 @@
 [Close]
 Затваряне
 ;file \plugins\Folders\src\dlg_handlers.cpp
-[Some changes weren't saved. Apply the changes now?]
-Някои промени не бяха запаметени. Желаете ли да бъдат приложени въпреки това?
-[Changes not saved]
-Промените не бяха запаметени
 [Don't forget to click on Apply to save the changes. If you don't then the changes won't]
 
 [be saved to the database, they will only be valid for this session.]
@@ -77,6 +73,10 @@
 
 [Notice that the spaces at the beginning and the end of the string are trimmed, as well as the last.]
 
+[Some changes weren't saved. Apply the changes now?]
+Някои промени не бяха запаметени. Желаете ли да бъдат приложени въпреки това?
+[Changes not saved]
+Промените не бяха запаметени
 [Folders]
 Папки
 [Customize]

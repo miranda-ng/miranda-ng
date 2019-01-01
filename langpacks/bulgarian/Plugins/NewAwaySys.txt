@@ -340,8 +340,6 @@ URL
 
 [Statuses]
 
-[message for]
-
 [for]
 за
 [available autoreply only]

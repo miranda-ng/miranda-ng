@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.10
+;  Version: 0.95.11
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -663,8 +663,6 @@ Wybierz typ protokołu
 Utwórz wewnętrzną nazwę konta (opcjonalnie)
 [Add contact]
 Dodaj kontakt
-[Send "You were added"]
-Wyślij "Zostałeś dodany"
 [Send authorization request]
 Wyślij prośbę o autoryzację
 [Open contact's chat window]
@@ -829,8 +827,6 @@ Brak
 Tylko zaznaczone kontakty będą pokazywane na liście kontaktów
 [Ignore]
 Ignorowanie
-[Added notification]
-Powiadomienie o dodaniu
 [Typing]
 Pisanie
 [Visibility]
@@ -2012,6 +2008,8 @@ Powiadomienie od %s: %s
 Temat to "%s"
 [The topic is '%s' (set by %s)]
 Temat to "%s" (ustawiony przez %s)
+[Chat rooms]
+Pokoje czatu
 [Look up '%s':]
 Zobacz "%s":
 [No word to look up]

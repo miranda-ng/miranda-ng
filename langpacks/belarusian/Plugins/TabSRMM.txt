@@ -1086,8 +1086,6 @@ IRC-стыль(тэкставы) індыкатараў роляў у логе �
 Выгляд і функцыянальнасць вокнаў чата
 [Appearance of the message log]
 Вонкавы выгляд лога паведамленняў
-[Chat rooms]
-
 [nick of current contact (if defined)]
 мянушка бягучага кантакту (калі вызначаны)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]

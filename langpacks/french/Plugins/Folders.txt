@@ -23,10 +23,6 @@ Aide sur les variables des répertoires personnalisés
 [Close]
 Fermer
 ;file \plugins\Folders\src\dlg_handlers.cpp
-[Some changes weren't saved. Apply the changes now?]
-Certaines modifications n'ont pas été enregistrées. Voulez-vous les enregistrer maintenant?
-[Changes not saved]
-Modifications non sauvegardées
 [Don't forget to click on Apply to save the changes. If you don't then the changes won't]
 
 [be saved to the database, they will only be valid for this session.]
@@ -77,6 +73,10 @@ Modifications non sauvegardées
 
 [Notice that the spaces at the beginning and the end of the string are trimmed, as well as the last.]
 
+[Some changes weren't saved. Apply the changes now?]
+Certaines modifications n'ont pas été enregistrées. Voulez-vous les enregistrer maintenant?
+[Changes not saved]
+Modifications non sauvegardées
 [Folders]
 Répertoires
 [Customize]

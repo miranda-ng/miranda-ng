@@ -39,7 +39,6 @@
 [Birthday list (%d)]
 [DTB]
 [Birthday]
-[Age]
 [Module]
 [Closing in %d seconds]
 [Closing in %d second]

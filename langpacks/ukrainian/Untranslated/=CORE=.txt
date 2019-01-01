@@ -1,6 +1,7 @@
 [OutputDebugString()]
 [Wikipedia (en)]
 [In a civil union]
+[Chat rooms]
 [Phone/SMS]
 [Browser: Back]
 [Browser: Forward]

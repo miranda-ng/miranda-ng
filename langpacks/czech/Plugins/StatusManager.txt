@@ -59,7 +59,7 @@ Zpráva
 [Account:]
 Účet:
 [Away mode]
-
+Na chvíli pryč
 [Set]
 Nastavit
 [when full-screen mode is active]

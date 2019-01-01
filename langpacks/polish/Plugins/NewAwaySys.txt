@@ -340,8 +340,6 @@ Czy chcesz zastosować wiadomość?
 Opis dla
 [Statuses]
 Statusy
-[message for]
-Opis dla
 [for]
 przez
 [available autoreply only]

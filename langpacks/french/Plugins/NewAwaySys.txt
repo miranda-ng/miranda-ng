@@ -340,8 +340,6 @@ Appliquer
 
 [Statuses]
 
-[message for]
-
 [for]
 pendant
 [available autoreply only]

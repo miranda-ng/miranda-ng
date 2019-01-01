@@ -8,6 +8,7 @@
 [Actively searching]
 [It's complicated]
 [In a civil union]
+[Chat rooms]
 [Phone/SMS]
 [Browser: Back]
 [Browser: Forward]

@@ -8,12 +8,6 @@
 [Adds some useful options to a contacts menu.]
 
 ;file \plugins\MenuItemEx\res\resource.rc
-[Enter an authorization request]
-Въведете молба за упълномощаване
-[&Send]
-Изпращане
-[&Cancel]
-Отказ
 [Shown menu items]
 Показвани елементи в менюто
 [Visibility]
@@ -26,8 +20,6 @@
 Игнориране
 [Copy to Account (Ctrl+click for move to Account)]
 Копиране на акаунта (Ctrl+ляв бутон за преместване в Акаунт)
-[Send 'You were added']
-Изпрати "Вие бяхте добавен"
 [Request Authorization]
 Молба за упълномощаване
 [Browse Received Files]
