@@ -21,4 +21,4 @@ Netzwerk
 [%s server connection]
 %s Serververbindung
 [ICQ number or phone]
-
+ICQ- oder Telefonnummer 

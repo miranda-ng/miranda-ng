@@ -70,7 +70,7 @@ Offline-Status bedeutet:
 [Unable to load all required Lotus API functions]
 Konnte nicht alle benötigten Lotus-API-Funktionen laden.
 [Lotus Notes Client not detected. Check plugin configuration description at https://miranda-ng.org/p/LotusNotify]
-
+Lotus Notes Client wurde nicht erkannt. Prüfen Sie die Einrichtung des Plugins gemäß der Anleitung unter https://miranda-ng.org/p/LotusNotify
 [Unable to initialize Notes.]
 Konnte Notes nicht imitialisieren.
 [Lotus Notes Extension Manager was not registered. Authentication function will not work properly]
