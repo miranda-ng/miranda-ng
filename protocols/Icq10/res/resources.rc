@@ -12,6 +12,67 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
+// Russian (Russia) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_REGISTER DIALOGEX 0, 0, 316, 111
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "Account registration"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,205,90,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,259,90,50,14
+    LTEXT           "Enter full phone number",IDC_STATIC,7,7,302,14
+    EDITTEXT        IDC_PHONE,7,18,302,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Send me registration code via SMS",IDC_SENDSMS,49,37,221,14,BS_CENTER | WS_DISABLED
+    LTEXT           "Enter registration code",IDC_STATIC,7,58,302,8
+    EDITTEXT        IDC_CODE,7,70,302,14,ES_AUTOHSCROLL | WS_DISABLED
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_REGISTER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 309
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 104
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_REGISTER AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // Russian (Russia) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
 // English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
@@ -32,9 +93,10 @@ BEGIN
     EDITTEXT        IDC_UIN,54,0,131,12,ES_AUTOHSCROLL
     LTEXT           "Password:",IDC_STATIC,0,16,53,12
     EDITTEXT        IDC_PASSWORD,54,16,131,12,ES_PASSWORD | ES_AUTOHSCROLL
+    PUSHBUTTON      "Create a new ICQ account",IDC_REGISTER,62,34,122,14
 END
 
-IDD_OPTIONS_FULL DIALOGEX 0, 0, 310, 62
+IDD_OPTIONS_FULL DIALOGEX 0, 0, 310, 80
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -46,6 +108,42 @@ BEGIN
     EDITTEXT        IDC_PASSWORD,68,26,106,12,ES_PASSWORD | ES_AUTOHSCROLL
     CONTROL         "Send messages slower, but with full acknowledgment",IDC_SLOWSEND,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,43,285,10
+    PUSHBUTTON      "Create a new ICQ account",IDC_REGISTER,183,61,122,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_OPTIONS_ACCMGR, DIALOG
+    BEGIN
+    END
+
+    IDD_OPTIONS_FULL, DIALOG
+    BEGIN
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPTIONS_FULL AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_OPTIONS_ACCMGR AFX_DIALOG_LAYOUT
+BEGIN
+    0
 END
 
 
@@ -72,32 +170,6 @@ BEGIN
 END
 
 #endif    // APSTUDIO_INVOKED
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO
-BEGIN
-    IDD_OPTIONS_FULL, DIALOG
-    BEGIN
-    END
-END
-#endif    // APSTUDIO_INVOKED
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// AFX_DIALOG_LAYOUT
-//
-
-IDD_OPTIONS_FULL AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
 
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////

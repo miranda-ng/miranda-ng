@@ -64,6 +64,8 @@ struct IcqOwnMessage
 
 class CIcqProto : public PROTO<CIcqProto>
 {
+	friend struct CIcqRegistrationDlg;
+
 	bool     m_bOnline = false, m_bTerminated = false;
 	void     CheckAvatarChange(MCONTACT hContact, const JSONNode&);
 	void     CheckNickChange(MCONTACT hContact, const JSONNode&);
@@ -80,12 +82,15 @@ class CIcqProto : public PROTO<CIcqProto>
 	void     OnAddBuddy(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnAddClient(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnCheckPassword(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void     OnCheckPhone(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnFetchEvents(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnGetUserInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void     OnLoginViaPhone(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnReceiveAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnSearchResults(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnSendMessage(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnStartSession(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void     OnValidateSms(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	void     ProcessBuddyList(const JSONNode&);
 	void     ProcessEvent(const JSONNode&);

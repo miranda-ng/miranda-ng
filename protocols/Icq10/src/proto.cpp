@@ -62,6 +62,8 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	nlu.szDescriptiveName.w = descr.GetBuffer();
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
+	m_hWorkerThread = ForkThreadEx(&CIcqProto::ServerThread, nullptr, nullptr);
+
 	InitContactCache();
 }
 
@@ -79,6 +81,7 @@ void CIcqProto::OnModulesLoaded()
 
 void CIcqProto::OnShutdown()
 {
+	m_bTerminated = true;
 }
 
 void CIcqProto::OnContactDeleted(MCONTACT hContact)
@@ -337,10 +340,23 @@ int CIcqProto::SetStatus(int iNewStatus)
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 	}
 	// not logged in? come on
-	else if (m_hWorkerThread == nullptr && !IsStatusConnecting(m_iStatus)) {
+	else if (!IsStatusConnecting(m_iStatus)) {
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
-		m_hWorkerThread = ForkThreadEx(&CIcqProto::ServerThread, nullptr, nullptr);
+
+		if (m_dwUin == 0) {
+			debugLogA("Thread ended, UIN/password are not configured");
+			ConnectionFailed(LOGINERR_BADUSERID);
+			return 0;
+		}
+
+		if (!getByte("PhoneReg") && mir_wstrlen(m_szPassword) == 0) {
+			debugLogA("Thread ended, password is not configured");
+			ConnectionFailed(LOGINERR_BADUSERID);
+			return 0;
+		}
+
+		CheckPassword();
 	}
 	else if (m_bOnline) {
 		debugLogA("setting server online status to %d", iNewStatus);

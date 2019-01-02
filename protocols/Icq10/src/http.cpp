@@ -27,14 +27,7 @@ void __cdecl CIcqProto::ServerThread(void*)
 	memset(&m_ConnPool, 0, sizeof(m_ConnPool));
 	m_bTerminated = false;
 
-	if (m_dwUin == 0 || mir_wstrlen(m_szPassword) == 0) {
-		debugLogA("Thread ended, UIN/password are not configured");
-		ConnectionFailed(LOGINERR_BADUSERID);
-		return;
-	}
-
 	debugLogA("CIcqProto::WorkerThread: %s", "entering");
-	CheckPassword();
 
 	while (true) {
 		WaitForSingleObject(m_evRequestsQueue, 1000);
