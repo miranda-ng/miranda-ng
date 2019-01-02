@@ -175,6 +175,7 @@ public:
 		if (dlg.DoModal()) {
 			edtUin.SetInt(m_proto->getDword(DB_KEY_UIN));
 			edtPassword.SetText(L"");
+			wszOldPass.Empty();
 		}
 	}
 };
