@@ -173,8 +173,8 @@ public:
 		CIcqRegistrationDlg dlg(m_proto);
 		dlg.SetParent(m_hwnd);
 		if (dlg.DoModal()) {
-			m_proto->m_dwUin = m_proto->getDword(DB_KEY_UIN);
-			m_proto->m_szPassword = L"";			
+			edtUin.SetInt(m_proto->getDword(DB_KEY_UIN));
+			edtPassword.SetText(L"");
 		}
 	}
 };
