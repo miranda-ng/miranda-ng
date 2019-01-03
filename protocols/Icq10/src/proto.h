@@ -74,16 +74,22 @@ class CIcqProto : public PROTO<CIcqProto>
 	void     OnLoggedIn(void);
 	void     OnLoggedOut(void);
 	MCONTACT ParseBuddyInfo(const JSONNode &buddy);
+	void     ParseMessage(MCONTACT hContact, const JSONNode &msg);
+	void     RetrieveUserHistory(MCONTACT, __int64 startMsgId, __int64 endMsgId);
 	void     RetrieveUserInfo(MCONTACT);
 	void     SetServerStatus(int iNewStatus);
 	void     ShutdownSession(void);
 	void     StartSession(void);
 
+	__int64  getId(MCONTACT hContact, const char *szSetting);
+	void     setId(MCONTACT hContact, const char *szSetting, __int64 iValue);
+	  
 	void     OnAddBuddy(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnAddClient(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnCheckPassword(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnCheckPhone(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnFetchEvents(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void     OnGetUserHistory(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnGetUserInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnLoginViaPhone(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnNormalizePhone(NETLIBHTTPREQUEST*, AsyncHttpRequest*);

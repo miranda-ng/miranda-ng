@@ -165,6 +165,44 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy)
 	return hContact;
 }
 
+void CIcqProto::ParseMessage(MCONTACT hContact, const JSONNode &it)
+{
+	CMStringA msgId(it["msgId"].as_mstring());
+	CMStringW type(it["mediaType"].as_mstring());
+	if (type != "text" && !type.IsEmpty())
+		return;
+
+	// ignore duplicates
+	MEVENT hDbEvent = db_event_getById(m_szModuleName, msgId);
+	if (hDbEvent != 0)
+		return;
+
+	// skip own messages, just set the server msgid
+	bool bSkipped = false;
+	CMStringA reqId(it["reqId"].as_mstring());
+	for (auto &ownMsg : m_arOwnIds)
+		if (!mir_strcmp(reqId, ownMsg->m_guid)) {
+			bSkipped = true;
+			if (m_bSlowSend)
+				ProtoBroadcastAck(ownMsg->m_hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)ownMsg->m_msgid, (LPARAM)msgId.c_str());
+			m_arOwnIds.remove(m_arOwnIds.indexOf(&ownMsg));
+			break;
+		}
+
+	if (bSkipped)
+		return;
+
+	bool bIsOutgoing = it["outgoing"].as_bool();
+	ptrA szUtf(mir_utf8encodeW(it["text"].as_mstring()));
+
+	PROTORECVEVENT pre = {};
+	pre.flags = (bIsOutgoing) ? PREF_SENT : 0;
+	pre.szMsgId = msgId;
+	pre.timestamp = it["time"].as_int();
+	pre.szMessage = szUtf;
+	ProtoChainRecvMsg(hContact, &pre);
+}
+
 bool CIcqProto::RefreshRobustToken()
 {
 	if (!m_szRToken.IsEmpty())
@@ -218,6 +256,31 @@ void CIcqProto::RetrieveUserInfo(MCONTACT hContact)
 	pReq->flags |= NLHRF_NODUMPSEND;
 	pReq->pUserInfo = (void*)hContact;
 	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << INT_PARAM("mdir", 1) << INT_PARAM("t", getDword(hContact, DB_KEY_UIN));
+	Push(pReq);
+}
+
+void CIcqProto::RetrieveUserHistory(MCONTACT hContact, __int64 startMsgId, __int64 endMsgId)
+{
+	if (startMsgId == 0)
+		startMsgId = -1;
+	if (endMsgId == 0)
+		endMsgId = -1;
+
+	auto *pReq = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER, &CIcqProto::OnGetUserHistory);
+	//pReq->flags |= NLHRF_NODUMPSEND;
+	pReq->pUserInfo = (void*)hContact;
+
+	char buf[100];
+	itoa(getDword(hContact, DB_KEY_UIN), buf, 10);
+
+	JSONNode request, params; params.set_name("params");
+	params << CHAR_PARAM("sn", buf) << INT64_PARAM("fromMsgId", startMsgId);
+	if (endMsgId != -1)
+		params << INT64_PARAM("tillMsgId", endMsgId);
+	params << INT_PARAM("count", -1000) << CHAR_PARAM("aimSid", m_aimsid) << CHAR_PARAM("patchVersion", "1") << CHAR_PARAM("language", "ru-ru");
+	request << CHAR_PARAM("method", "getHistory") << CHAR_PARAM("reqId", pReq->m_reqId) << CHAR_PARAM("authToken", m_szRToken)
+		<< INT_PARAM("clientId", m_iRClientId) << params;
+	pReq->m_szParam = ptrW(json_write(&request));
 	Push(pReq);
 }
 
@@ -364,6 +427,28 @@ void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 		m_dwUin = atoi(szUin);
 
 	StartSession();
+}
+
+void CIcqProto::OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+{
+	MCONTACT hContact = (MCONTACT)pReq->pUserInfo;
+
+	RobustReply root(pReply);
+	if (root.error() != 20000)
+		return;
+
+	__int64 lastMsgId = getId(hContact, "LastMsgId");
+
+	const JSONNode &results = root.results();
+	for (auto &it : results["messages"]) {
+		ParseMessage(hContact, it);
+
+		__int64 msgId = _wtoi64(it["msgId"].as_mstring());
+		if (msgId > lastMsgId)
+			lastMsgId = msgId;
+	}		
+
+	setId(hContact, "LastMsgId", lastMsgId);
 }
 
 void CIcqProto::OnGetUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
@@ -536,41 +621,13 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 
 	MCONTACT hContact = CreateContact(dwUin, true);
 
-	for (auto &it : ev["tail"]["messages"]) {
-		CMStringA msgId(it["msgId"].as_mstring());
-		CMStringW type(it["mediaType"].as_mstring());
-		if (type != "text")
-			continue;
+	__int64 lastMsgId = getId(hContact, "LastMsgId");
+	__int64 srvlastId = _wtoi64(ev["lastMsgId"].as_mstring());
+	if (srvlastId > lastMsgId)
+		RetrieveUserHistory(hContact, srvlastId, lastMsgId);
 
-		// ignore duplicates
-		MEVENT hDbEvent = db_event_getById(m_szModuleName, msgId);
-		if (hDbEvent != 0)
-			continue;
-
-		// skip own messages, just set the server msgid
-		bool bSkipped = false;
-		CMStringA reqId(it["reqId"].as_mstring());
-		for (auto &ownMsg : m_arOwnIds)
-			if (!mir_strcmp(reqId, ownMsg->m_guid)) {
-				bSkipped = true;
-				if (m_bSlowSend)
-					ProtoBroadcastAck(ownMsg->m_hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)ownMsg->m_msgid, (LPARAM)msgId.c_str());
-				m_arOwnIds.remove(m_arOwnIds.indexOf(&ownMsg));
-				break;
-			}
-
-		if (!bSkipped) {
-			bool bIsOutgoing = it["outgoing"].as_bool();
-			ptrA szUtf(mir_utf8encodeW(it["text"].as_mstring()));
-
-			PROTORECVEVENT pre = {};
-			pre.flags = (bIsOutgoing) ? PREF_SENT : 0;
-			pre.szMsgId = msgId;
-			pre.timestamp = it["time"].as_int();
-			pre.szMessage = szUtf;
-			ProtoChainRecvMsg(hContact, &pre);
-		}
-	}
+	for (auto &it : ev["tail"]["messages"])
+		ParseMessage(hContact, it);
 }
 
 void CIcqProto::ProcessMyInfo(const JSONNode &ev)

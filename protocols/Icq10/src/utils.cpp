@@ -202,3 +202,24 @@ int StatusFromString(const CMStringW &wszStatus)
 
 	return ID_STATUS_OFFLINE;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+__int64 CIcqProto::getId(MCONTACT hContact, const char *szSetting)
+{
+	DBVARIANT dbv;
+	dbv.type = DBVT_BLOB;
+	if (db_get(hContact, m_szModuleName, szSetting, &dbv))
+		return 0;
+
+	__int64 result = (dbv.cpbVal == sizeof(__int64)) ? *(__int64*)dbv.pbVal : 0;
+	db_free(&dbv);
+	return result;
+}
+
+void CIcqProto::setId(MCONTACT hContact, const char *szSetting, __int64 iValue)
+{
+	__int64 oldVal = getId(hContact, szSetting);
+	if (oldVal != iValue)
+		db_set_blob(hContact, m_szModuleName, szSetting, &iValue, sizeof(iValue));
+}
