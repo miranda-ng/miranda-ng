@@ -626,7 +626,7 @@ void __cdecl CIcqProto::PollThread(void*)
 	debugLogA("Polling thread started");
 	bool bFirst = true;
 
-	while (!m_bTerminated) {
+	while (m_bOnline) {
 		CMStringA szUrl = m_fetchBaseURL;
 		if (bFirst) {
 			bFirst = false;
