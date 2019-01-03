@@ -86,6 +86,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void     OnFetchEvents(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnGetUserInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnLoginViaPhone(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void     OnNormalizePhone(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnReceiveAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnSearchResults(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void     OnSendMessage(NETLIBHTTPREQUEST*, AsyncHttpRequest*);

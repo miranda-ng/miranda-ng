@@ -22,7 +22,7 @@
 
 struct CIcqRegistrationDlg : public CProtoDlgBase<CIcqProto>
 {
-	CMStringA szTrans;
+	CMStringA szTrans, szMsisdn;
 	int iErrorCode;
 
 	CCtrlEdit edtPhone, edtCode;
@@ -41,7 +41,7 @@ struct CIcqRegistrationDlg : public CProtoDlgBase<CIcqProto>
 	bool OnApply() override
 	{
 		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "https://www.icq.com/smsreg/loginWithPhoneNumber.php", &CIcqProto::OnLoginViaPhone);
-		pReq << CHAR_PARAM("locale", "en") << WCHAR_PARAM("msisdn", ptrW(edtPhone.GetText())) << CHAR_PARAM("trans_id", szTrans) << CHAR_PARAM("k", ICQ_APP_ID)
+		pReq << CHAR_PARAM("locale", "en") << CHAR_PARAM("msisdn", szMsisdn) << CHAR_PARAM("trans_id", szTrans) << CHAR_PARAM("k", ICQ_APP_ID)
 			<< CHAR_PARAM("r", pReq->m_reqId) << CHAR_PARAM("f", "json") << WCHAR_PARAM("sms_code", ptrW(edtCode.GetText())) << INT_PARAM("create_account", 1);
 		pReq->pUserInfo = this;
 		
@@ -68,7 +68,7 @@ struct CIcqRegistrationDlg : public CProtoDlgBase<CIcqProto>
 	void onClick_SendSms(CCtrlButton*)
 	{
 		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "https://www.icq.com/smsreg/requestPhoneValidation.php", &CIcqProto::OnValidateSms);
-		pReq << CHAR_PARAM("locale", "en") << WCHAR_PARAM("msisdn", ptrW(edtPhone.GetText())) << CHAR_PARAM("r", pReq->m_reqId)
+		pReq << CHAR_PARAM("locale", "en") << CHAR_PARAM("msisdn", szMsisdn) << CHAR_PARAM("r", pReq->m_reqId)
 			<< CHAR_PARAM("smsFormatType", "human") << CHAR_PARAM("k", ICQ_APP_ID);
 		pReq->pUserInfo = this;
 		m_proto->Push(pReq);
@@ -91,6 +91,27 @@ void CIcqProto::OnCheckPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 		return;
 	}
 
+	CMStringA szPhoneNumber((*root)["typing_check"]["modified_phone_number"].as_mstring());
+	CMStringA szPrefix((*root)["modified_prefix"].as_mstring());
+
+	auto *pNew = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "https://www.icq.com/smsreg/normalizePhoneNumber.php", &CIcqProto::OnNormalizePhone);
+	pNew << CHAR_PARAM("countryCode", szPrefix) << CHAR_PARAM("phoneNumber", szPhoneNumber.c_str() + szPrefix.GetLength())
+		<< CHAR_PARAM("k", ICQ_APP_ID) << CHAR_PARAM("r", pReq->m_reqId);
+	pNew->pUserInfo = pDlg;
+	Push(pNew);
+}
+
+void CIcqProto::OnNormalizePhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+{
+	CIcqRegistrationDlg *pDlg = (CIcqRegistrationDlg*)pReq->pUserInfo;
+
+	JsonReply root(pReply);
+	pDlg->iErrorCode = root.error();
+	if (root.error() != 200)
+		return;
+
+	const JSONNode &data = root.data();
+	pDlg->szMsisdn = data["msisdn"].as_mstring();
 	pDlg->btnSendSms.Enable();
 }
 
