@@ -5,6 +5,8 @@
 
 #pragma once
 
+#define _HAS_EXCEPTIONS 1
+
 #include <windows.h>
 #include <mshtml.h>
 #include <comdef.h>
