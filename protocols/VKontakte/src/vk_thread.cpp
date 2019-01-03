@@ -107,8 +107,8 @@ void CVkProto::ClosePollingConnection(bool bShutdown)
 
 	if (bShutdown)
 		Netlib_Shutdown(m_pollingConn);
-
-	Netlib_CloseHandle(m_pollingConn);
+	else
+		Netlib_CloseHandle(m_pollingConn);
 	m_pollingConn = nullptr;
 }
 
@@ -121,8 +121,8 @@ void CVkProto::CloseAPIConnection(bool bShutdown)
 
 	if (bShutdown)
 		Netlib_Shutdown(m_hAPIConnection);
-
-	Netlib_CloseHandle(m_hAPIConnection);
+	else
+		Netlib_CloseHandle(m_hAPIConnection);
 	m_hAPIConnection = nullptr;
 }
 
