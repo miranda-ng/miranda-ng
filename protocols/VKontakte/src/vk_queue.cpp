@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013-18 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2013-19 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -53,6 +53,9 @@ void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 			pReq->flags |= NLHRF_PERSISTENT;
 			pReq->nlc = m_hAPIConnection;
 		}
+
+		if (m_bTerminated)
+			break;
 
 		debugLogA("CVkProto::ExecuteRequest \n====\n%s\n====\n", pReq->szUrl);
 		NETLIBHTTPREQUEST *reply = Netlib_HttpTransaction(m_hNetlibUser, pReq);

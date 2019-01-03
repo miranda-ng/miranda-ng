@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013-18 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2013-19 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -366,8 +366,8 @@ private:
 	bool ApplyCaptcha(AsyncHttpRequest *pReq, const JSONNode&);
 	void ConnectionFailed(int iReason);
 	void OnLoggedIn();
-	void ClosePollingConnection();
-	void CloseAPIConnection();
+	void ClosePollingConnection(bool bShutdown = false);
+	void CloseAPIConnection(bool bShutdown = false);
 	void OnLoggedOut();
 	void ShutdownSession();
 	void SetAvatarUrl(MCONTACT hContact, CMStringW &wszUrl);

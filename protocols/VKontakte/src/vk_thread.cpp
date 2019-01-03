@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013-18 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2013-19 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -98,17 +98,31 @@ void CVkProto::OnLoggedIn()
 	db_unset(0, m_szModuleName, "LastNotificationsReqTime");
 }
 
-void CVkProto::ClosePollingConnection()
+void CVkProto::ClosePollingConnection(bool bShutdown)
 {
-	if (m_pollingConn)
-		Netlib_CloseHandle(m_pollingConn);
+	if (!m_pollingConn)
+		return;
+
+	debugLogA("CVkProto::ClosePollingConnection %d", bShutdown ? 1 : 0);
+
+	if (bShutdown)
+		Netlib_Shutdown(m_pollingConn);
+
+	Netlib_CloseHandle(m_pollingConn);
 	m_pollingConn = nullptr;
 }
 
-void CVkProto::CloseAPIConnection()
+void CVkProto::CloseAPIConnection(bool bShutdown)
 {
-	if (m_hAPIConnection)
-		Netlib_CloseHandle(m_hAPIConnection);
+	if (!m_hAPIConnection)
+		return;
+
+	debugLogA("CVkProto::CloseAPIConnection %d", bShutdown ? 1 : 0);
+
+	if (bShutdown)
+		Netlib_Shutdown(m_hAPIConnection);
+
+	Netlib_CloseHandle(m_hAPIConnection);
 	m_hAPIConnection = nullptr;
 }
 
@@ -127,8 +141,8 @@ void CVkProto::OnLoggedOut()
 		m_hWorkerThread = nullptr;
 	}
 
-	CloseAPIConnection();
-	ClosePollingConnection();
+	CloseAPIConnection(true);
+	ClosePollingConnection(true);
 
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
