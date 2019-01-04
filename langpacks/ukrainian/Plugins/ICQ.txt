@@ -13,7 +13,7 @@
 [Password:]
 Пароль:
 [Send messages slower, but with full acknowledgment]
-
+Надсилати повідомлення повільніше, але з підтвердженням
 ;file \protocols\Icq10\src\options.cpp
 [Network]
 Мережа

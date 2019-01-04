@@ -1382,7 +1382,7 @@ xHTML-формат повідомлень чату
 [Messaging]
 Повідомлення
 [Send messages slower, but with full acknowledgment]
-Надсилати повідомлення повільніше, але з підтведженням
+Надсилати повідомлення повільніше, але з підтвердженням
 [Enable avatars]
 Увімкнути аватари
 [Log chat state changes]
