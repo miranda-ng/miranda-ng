@@ -36,6 +36,14 @@ void CIcqProto::CheckAvatarChange(MCONTACT hContact, const JSONNode &ev)
 	}
 }
 
+void CIcqProto::CheckLastId(MCONTACT hContact, const JSONNode &ev)
+{
+	__int64 msgId = _wtoi64(ev["histMsgId"].as_mstring());
+	__int64 lastId = getId(hContact, DB_KEY_LASTMSGID);
+	if (msgId > lastId)
+		setId(hContact, DB_KEY_LASTMSGID, msgId);
+}
+
 void CIcqProto::CheckNickChange(MCONTACT hContact, const JSONNode &ev)
 {
 	CMStringW wszNick(getMStringW(hContact, "Nick"));
@@ -572,11 +580,7 @@ void CIcqProto::OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 		}
 	}
 
-	const JSONNode &data = root.data();
-	__int64 msgId = _wtoi64(data["histMsgId"].as_mstring());
-	__int64 lastId = getId(ownMsg->m_hContact, DB_KEY_LASTMSGID);
-	if (msgId > lastId)
-		setId(ownMsg->m_hContact, DB_KEY_LASTMSGID, msgId);
+	CheckLastId(ownMsg->m_hContact, root.data());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -613,6 +617,8 @@ void CIcqProto::ProcessEvent(const JSONNode &ev)
 		ProcessBuddyList(pData);
 	else if (szType == L"histDlgState")
 		ProcessHistData(pData);
+	else if (szType == L"imState")
+		ProcessImState(pData);
 	else if (szType == L"myInfo")
 		ProcessMyInfo(pData);
 	else if (szType == L"presence")
@@ -639,6 +645,25 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 	
 	for (auto &it : ev["tail"]["messages"])
 		ParseMessage(hContact, it);
+}
+
+void CIcqProto::ProcessImState(const JSONNode &ev)
+{
+	for (auto &it : ev["imStates"]) {
+		if (it["state"].as_mstring() != L"sent")
+			continue;
+
+		MCONTACT hContact = 0;
+		CMStringA reqId(it["sendReqId"].as_mstring());
+		for (auto &own : m_arOwnIds)
+			if (reqId == own->m_guid) {
+				hContact = own->m_hContact;
+				break;
+			}
+		
+		if (hContact)
+			CheckLastId(hContact, ev);
+	}
 }
 
 void CIcqProto::ProcessMyInfo(const JSONNode &ev)

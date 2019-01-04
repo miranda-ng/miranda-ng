@@ -68,6 +68,7 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	bool     m_bOnline = false, m_bTerminated = false;
 	void     CheckAvatarChange(MCONTACT hContact, const JSONNode&);
+	void     CheckLastId(MCONTACT hContact, const JSONNode&);
 	void     CheckNickChange(MCONTACT hContact, const JSONNode&);
 	void     CheckPassword(void);
 	void     ConnectionFailed(int iReason);
@@ -102,6 +103,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void     ProcessBuddyList(const JSONNode&);
 	void     ProcessEvent(const JSONNode&);
 	void     ProcessHistData(const JSONNode&);
+	void     ProcessImState(const JSONNode&);
 	void     ProcessMyInfo(const JSONNode&);
 	void     ProcessPresence(const JSONNode&);
 	void     ProcessTyping(const JSONNode&);
