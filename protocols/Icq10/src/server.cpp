@@ -623,11 +623,13 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 
 	__int64 lastMsgId = getId(hContact, "LastMsgId");
 	__int64 srvlastId = _wtoi64(ev["lastMsgId"].as_mstring());
-	if (srvlastId > lastMsgId)
+	
+	// on first start we don't load history not to create dups
+	if (lastMsgId == 0)
+		setId(hContact, "LastMsgId", srvlastId);
+	// or load missing messages if any
+	else if (srvlastId > lastMsgId)
 		RetrieveUserHistory(hContact, srvlastId, lastMsgId);
-
-	for (auto &it : ev["tail"]["messages"])
-		ParseMessage(hContact, it);
 }
 
 void CIcqProto::ProcessMyInfo(const JSONNode &ev)
