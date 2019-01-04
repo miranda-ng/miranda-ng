@@ -167,7 +167,7 @@ int PrebuildContactMenu(WPARAM hContact, LPARAM)
 				}
 				else {
 					bEnabledJoin = true;
-					Menu_ModifyItem(hJoinMenuItem, LPGENW("&Open chat window"));
+					Menu_ModifyItem(hJoinMenuItem, LPGENW("&Open/close chat window"));
 				}
 			}
 			bEnabledLeave = ProtoServiceExists(szProto, PS_LEAVECHAT) != 0;
