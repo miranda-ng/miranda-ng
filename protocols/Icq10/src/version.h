@@ -5,9 +5,9 @@
 
 #include <stdver.h>
 
-#define __PLUGIN_NAME            "Icq/2018 protocol"
+#define __PLUGIN_NAME            "ICQ/2018 protocol"
 #define __FILENAME               "ICQ.dll"
 #define __DESCRIPTION            "ICQ protocol support for Miranda NG."
 #define __AUTHOR                 "George Hazan"
 #define __AUTHORWEB              "https://miranda-ng.org/p/ICQ/"
-#define __COPYRIGHT              "© 2018 George Hazan"
+#define __COPYRIGHT              "© 2018-19 George Hazan"

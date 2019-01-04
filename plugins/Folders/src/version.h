@@ -10,4 +10,4 @@
 #define __DESCRIPTION            "Allows plugins to save their data to user selected folders; supports variables."
 #define __AUTHOR                 "Cristian Libotean, Miranda NG team"
 #define __AUTHORWEB              "https://miranda-ng.org/p/Folders/"
-#define __COPYRIGHT              "© 2005-2012 Cristian Libotean, 2012-18 Miranda NG team"
+#define __COPYRIGHT              "© 2005-2012 Cristian Libotean, 2012-19 Miranda NG team"

@@ -10,4 +10,4 @@
 #define __DESCRIPTION            "New history plugin for Miranda NG."
 #define __AUTHOR                 "nullbie"
 #define __AUTHORWEB              "https://miranda-ng.org/p/NewStory/"
-#define __COPYRIGHT              "© 2005 Victor Pavlychko, 2018 Miranda NG team"
+#define __COPYRIGHT              "© 2005 Victor Pavlychko, 2018-19 Miranda NG team"
