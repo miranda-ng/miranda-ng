@@ -630,6 +630,9 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 	// or load missing messages if any
 	else if (srvlastId > lastMsgId)
 		RetrieveUserHistory(hContact, srvlastId, lastMsgId);
+	
+	for (auto &it : ev["tail"]["messages"])
+		ParseMessage(hContact, it);
 }
 
 void CIcqProto::ProcessMyInfo(const JSONNode &ev)
