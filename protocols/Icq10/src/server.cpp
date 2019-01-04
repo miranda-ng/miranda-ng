@@ -437,7 +437,7 @@ void CIcqProto::OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pR
 	if (root.error() != 20000)
 		return;
 
-	__int64 lastMsgId = getId(hContact, "LastMsgId");
+	__int64 lastMsgId = getId(hContact, DB_KEY_LASTMSGID);
 
 	const JSONNode &results = root.results();
 	for (auto &it : results["messages"]) {
@@ -448,7 +448,7 @@ void CIcqProto::OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pR
 			lastMsgId = msgId;
 	}		
 
-	setId(hContact, "LastMsgId", lastMsgId);
+	setId(hContact, DB_KEY_LASTMSGID, lastMsgId);
 }
 
 void CIcqProto::OnGetUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
@@ -571,6 +571,12 @@ void CIcqProto::OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 			}
 		}
 	}
+
+	const JSONNode &data = root.data();
+	__int64 msgId = _wtoi64(data["histMsgId"].as_mstring());
+	__int64 lastId = getId(ownMsg->m_hContact, DB_KEY_LASTMSGID);
+	if (msgId > lastId)
+		setId(ownMsg->m_hContact, DB_KEY_LASTMSGID, msgId);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -621,12 +627,12 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 
 	MCONTACT hContact = CreateContact(dwUin, true);
 
-	__int64 lastMsgId = getId(hContact, "LastMsgId");
+	__int64 lastMsgId = getId(hContact, DB_KEY_LASTMSGID);
 	__int64 srvlastId = _wtoi64(ev["lastMsgId"].as_mstring());
 	
 	// on first start we don't load history not to create dups
 	if (lastMsgId == 0)
-		setId(hContact, "LastMsgId", srvlastId);
+		setId(hContact, DB_KEY_LASTMSGID, srvlastId);
 	// or load missing messages if any
 	else if (srvlastId > lastMsgId)
 		RetrieveUserHistory(hContact, srvlastId, lastMsgId);
