@@ -212,6 +212,15 @@ public:
 		m_chkUseCLSmilies.Enable(enabled);
 		m_chkResizeSmilies.Enable(enabled);
 	}
+
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	{
+		BOOL ret = SaveOptsDlgProc(pageControls, _countof(pageControls), MODULENAME, m_hwnd, msg, wParam, lParam);
+		if (ret)
+			return ret;
+		else
+			return CDlgBase::DlgProc(msg, wParam, lParam);
+	}
 };
 
 int InitOptionsCallback(WPARAM wParam, LPARAM)
