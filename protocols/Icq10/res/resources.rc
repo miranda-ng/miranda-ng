@@ -105,8 +105,6 @@ BEGIN
     EDITTEXT        IDC_UIN,68,12,106,12,ES_AUTOHSCROLL
     RTEXT           "Password:",IDC_STATIC,12,28,51,8
     EDITTEXT        IDC_PASSWORD,68,26,106,12,ES_PASSWORD | ES_AUTOHSCROLL
-    CONTROL         "Send messages slower, but with full acknowledgment",IDC_SLOWSEND,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,43,285,10
     PUSHBUTTON      "Create a new ICQ account",IDC_REGISTER,183,61,122,14
 END
 

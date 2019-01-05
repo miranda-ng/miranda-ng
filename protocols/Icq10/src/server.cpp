@@ -55,6 +55,20 @@ void CIcqProto::CheckNickChange(MCONTACT hContact, const JSONNode &ev)
 		setWString(hContact, "Nick", wszNick);
 }
 
+MCONTACT CIcqProto::CheckOwnMessage(const CMStringA &reqId, const CMStringA &msgId, bool bRemove)
+{
+	for (auto &own: m_arOwnIds) {
+		if (!mir_strcmp(reqId, own->m_guid)) {
+			ProtoBroadcastAck(own->m_hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)own->m_msgid, (LPARAM)msgId.c_str());
+			MCONTACT ret = own->m_hContact;
+			if (bRemove)
+				m_arOwnIds.remove(m_arOwnIds.indexOf(&own));
+			return ret;
+		}
+	}
+	return 0;
+}
+
 void CIcqProto::CheckPassword()
 {
 	char mirVer[100];
@@ -186,18 +200,8 @@ void CIcqProto::ParseMessage(MCONTACT hContact, const JSONNode &it)
 		return;
 
 	// skip own messages, just set the server msgid
-	bool bSkipped = false;
 	CMStringA reqId(it["reqId"].as_mstring());
-	for (auto &ownMsg : m_arOwnIds)
-		if (!mir_strcmp(reqId, ownMsg->m_guid)) {
-			bSkipped = true;
-			if (m_bSlowSend)
-				ProtoBroadcastAck(ownMsg->m_hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)ownMsg->m_msgid, (LPARAM)msgId.c_str());
-			m_arOwnIds.remove(m_arOwnIds.indexOf(&ownMsg));
-			break;
-		}
-
-	if (bSkipped)
+	if (CheckOwnMessage(reqId, msgId, true))
 		return;
 
 	bool bIsOutgoing = it["outgoing"].as_bool();
@@ -653,14 +657,9 @@ void CIcqProto::ProcessImState(const JSONNode &ev)
 		if (it["state"].as_mstring() != L"sent")
 			continue;
 
-		MCONTACT hContact = 0;
 		CMStringA reqId(it["sendReqId"].as_mstring());
-		for (auto &own : m_arOwnIds)
-			if (reqId == own->m_guid) {
-				hContact = own->m_hContact;
-				break;
-			}
-		
+		CMStringA msgId(it["histMsgId"].as_mstring());
+		MCONTACT hContact = CheckOwnMessage(reqId, msgId, false);
 		if (hContact)
 			CheckLastId(hContact, ev);
 	}

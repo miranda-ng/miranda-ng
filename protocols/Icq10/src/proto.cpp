@@ -40,8 +40,7 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	m_arCache(20, NumericKeySortT),
 	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr)),
 	m_dwUin(this, DB_KEY_UIN, 0),
-	m_szPassword(this, "Password"),
-	m_bSlowSend(this, "SlowSend", false)
+	m_szPassword(this, "Password")
 {
 	// services
 	CreateProtoService(PS_CREATEACCMGRUI, &CIcqProto::CreateAccMgrUI);
@@ -264,25 +263,6 @@ HANDLE CIcqProto::SendFile(MCONTACT hContact, const wchar_t* szDescription, wcha
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_SendMessage - sends a message
 
-struct TFakeAckParams
-{
-	TFakeAckParams(MCONTACT _cc, int _id) :
-		hContact(_cc),
-		msgId(_id)
-	{}
-
-	MCONTACT hContact;
-	int msgId;
-};
-
-void __cdecl CIcqProto::SendAckThread(void *p)
-{
-	::Sleep(100);
-	TFakeAckParams *param = (TFakeAckParams*)p;
-	ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)param->msgId);
-	delete param;
-}
-
 int CIcqProto::SendMsg(MCONTACT hContact, int, const char *pszSrc)
 {
 	DWORD dwUin = getDword(hContact, DB_KEY_UIN);
@@ -300,10 +280,6 @@ int CIcqProto::SendMsg(MCONTACT hContact, int, const char *pszSrc)
 		<< CHAR_PARAM("mentions", "") << CHAR_PARAM("message", pszSrc) << CHAR_PARAM("offlineIM", "true") << CHAR_PARAM("r", pReq->m_reqId)
 		<< INT_PARAM("t", dwUin) << INT_PARAM("ts", time(0));
 	Push(pReq);
-
-	if (!m_bSlowSend)
-		ForkThread(&CIcqProto::SendAckThread, new TFakeAckParams(hContact, id));
-
 	return id;
 }
 

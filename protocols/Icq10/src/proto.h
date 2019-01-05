@@ -70,6 +70,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void     CheckAvatarChange(MCONTACT hContact, const JSONNode&);
 	void     CheckLastId(MCONTACT hContact, const JSONNode&);
 	void     CheckNickChange(MCONTACT hContact, const JSONNode&);
+	MCONTACT CheckOwnMessage(const CMStringA &reqId, const CMStringA &msgId, bool bRemove);
 	void     CheckPassword(void);
 	void     ConnectionFailed(int iReason);
 	void     OnLoggedIn(void);
@@ -213,7 +214,6 @@ public:
 
 	CMOption<DWORD> m_dwUin;
 	CMOption<wchar_t*> m_szPassword;
-	CMOption<BYTE> m_bSlowSend;
 };
 
 struct CMPlugin : public ACCPROTOPLUGIN<CIcqProto>
