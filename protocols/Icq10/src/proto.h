@@ -76,12 +76,16 @@ class CIcqProto : public PROTO<CIcqProto>
 	void     OnLoggedIn(void);
 	void     OnLoggedOut(void);
 	MCONTACT ParseBuddyInfo(const JSONNode &buddy);
-	void     ParseMessage(MCONTACT hContact, const JSONNode &msg);
+	void     ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &msg);
 	void     RetrieveUserHistory(MCONTACT, __int64 startMsgId, __int64 endMsgId);
 	void     RetrieveUserInfo(MCONTACT);
 	void     SetServerStatus(int iNewStatus);
 	void     ShutdownSession(void);
 	void     StartSession(void);
+
+	mir_cs   csMarkReadQueue;
+	LIST<IcqCacheItem> arMarkReadQueue;
+	static   void CALLBACK MarkReadTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD);
 
 	__int64  getId(MCONTACT hContact, const char *szSetting);
 	void     setId(MCONTACT hContact, const char *szSetting, __int64 iValue);
@@ -168,6 +172,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	////////////////////////////////////////////////////////////////////////////////////////
 	// events
 
+	int __cdecl OnDbEventRead(WPARAM, LPARAM);
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
 
 	////////////////////////////////////////////////////////////////////////////////////////

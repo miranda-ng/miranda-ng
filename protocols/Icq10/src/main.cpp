@@ -22,6 +22,8 @@
 
 bool g_bPopupService;
 
+HWND g_hwndHeartbeat;
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static PLUGININFOEX pluginInfoEx = {
@@ -60,6 +62,8 @@ int ModuleLoad(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
+	g_hwndHeartbeat = CreateWindowEx(0, L"STATIC", nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, nullptr, nullptr);
+
 	HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);
 	HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);
 	ModuleLoad(0, 0);
@@ -68,5 +72,6 @@ int CMPlugin::Load()
 
 int CMPlugin::Unload()
 {
+	DestroyWindow(g_hwndHeartbeat);
 	return 0;
 }

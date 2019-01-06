@@ -187,21 +187,25 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy)
 	return hContact;
 }
 
-void CIcqProto::ParseMessage(MCONTACT hContact, const JSONNode &it)
+void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &it)
 {
-	CMStringA msgId(it["msgId"].as_mstring());
+	CMStringA szMsgId(it["msgId"].as_mstring());
+	__int64 msgId = _atoi64(szMsgId);
+	if (msgId > lastMsgId)
+		lastMsgId = msgId;
+
 	CMStringW type(it["mediaType"].as_mstring());
 	if (type != "text" && !type.IsEmpty())
 		return;
 
 	// ignore duplicates
-	MEVENT hDbEvent = db_event_getById(m_szModuleName, msgId);
+	MEVENT hDbEvent = db_event_getById(m_szModuleName, szMsgId);
 	if (hDbEvent != 0)
 		return;
 
 	// skip own messages, just set the server msgid
 	CMStringA reqId(it["reqId"].as_mstring());
-	if (CheckOwnMessage(reqId, msgId, true))
+	if (CheckOwnMessage(reqId, szMsgId, true))
 		return;
 
 	bool bIsOutgoing = it["outgoing"].as_bool();
@@ -209,7 +213,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, const JSONNode &it)
 
 	PROTORECVEVENT pre = {};
 	pre.flags = (bIsOutgoing) ? PREF_SENT : 0;
-	pre.szMsgId = msgId;
+	pre.szMsgId = szMsgId;
 	pre.timestamp = it["time"].as_int();
 	pre.szMessage = szUtf;
 	ProtoChainRecvMsg(hContact, &pre);
@@ -452,13 +456,8 @@ void CIcqProto::OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pR
 	__int64 lastMsgId = getId(hContact, DB_KEY_LASTMSGID);
 
 	const JSONNode &results = root.results();
-	for (auto &it : results["messages"]) {
-		ParseMessage(hContact, it);
-
-		__int64 msgId = _wtoi64(it["msgId"].as_mstring());
-		if (msgId > lastMsgId)
-			lastMsgId = msgId;
-	}		
+	for (auto &it : results["messages"])
+		ParseMessage(hContact, lastMsgId, it);
 
 	setId(hContact, DB_KEY_LASTMSGID, lastMsgId);
 }
@@ -642,7 +641,6 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 	DWORD dwUin = _wtol(ev["sn"].as_mstring());
 
 	MCONTACT hContact = CreateContact(dwUin, true);
-
 	__int64 lastMsgId = getId(hContact, DB_KEY_LASTMSGID);
 	__int64 srvlastId = _wtoi64(ev["lastMsgId"].as_mstring());
 	
@@ -650,11 +648,12 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 	if (lastMsgId == 0)
 		setId(hContact, DB_KEY_LASTMSGID, srvlastId);
 	// or load missing messages if any
-	else if (srvlastId > lastMsgId)
+	else if (ev["unreadCnt"].as_int() > 0)
 		RetrieveUserHistory(hContact, srvlastId, lastMsgId);
-	
+
 	for (auto &it : ev["tail"]["messages"])
-		ParseMessage(hContact, it);
+		ParseMessage(hContact, lastMsgId, it);
+	setId(hContact, DB_KEY_LASTMSGID, lastMsgId);
 }
 
 void CIcqProto::ProcessImState(const JSONNode &ev)

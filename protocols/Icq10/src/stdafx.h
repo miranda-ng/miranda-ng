@@ -89,3 +89,5 @@
 #include "proto.h"
 
 int StatusFromString(const CMStringW&);
+
+extern HWND g_hwndHeartbeat;

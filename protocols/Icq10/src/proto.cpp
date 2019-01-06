@@ -38,6 +38,7 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	m_arHttpQueue(10),
 	m_arOwnIds(1),
 	m_arCache(20, NumericKeySortT),
+	arMarkReadQueue(10, NumericKeySortT),
 	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr)),
 	m_dwUin(this, DB_KEY_UIN, 0),
 	m_szPassword(this, "Password")
@@ -51,6 +52,7 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 
 	// events
 	HookProtoEvent(ME_OPT_INITIALISE, &CIcqProto::OnOptionsInit);
+	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CIcqProto::OnDbEventRead);
 
 	// netlib handle
 	CMStringW descr(FORMAT, TranslateT("%s server connection"), m_tszUserName);
@@ -94,6 +96,57 @@ void CIcqProto::OnContactDeleted(MCONTACT hContact)
 	pReq->flags |= NLHRF_NODUMPSEND;
 	Push(pReq);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CIcqProto::MarkReadTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD)
+{
+	CIcqProto *ppro = (CIcqProto*)id;
+
+	mir_cslock lck(ppro->csMarkReadQueue);
+	while (ppro->arMarkReadQueue.getCount()) {
+		IcqCacheItem *pUser = ppro->arMarkReadQueue[0];
+
+		char buf[100];
+		itoa(ppro->getDword(pUser->m_hContact, DB_KEY_UIN), buf, 10);
+
+		auto *pReq = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER);
+		JSONNode request, params; params.set_name("params");
+		params << CHAR_PARAM("sn", buf) << INT64_PARAM("lastRead", ppro->getId(pUser->m_hContact, DB_KEY_LASTMSGID));
+		request << CHAR_PARAM("method", "setDlgStateWim") << CHAR_PARAM("reqId", pReq->m_reqId) 
+			<< CHAR_PARAM("authToken", ppro->m_szRToken) << INT_PARAM("clientId", ppro->m_iRClientId) << params;
+		pReq->m_szParam = ptrW(json_write(&request));
+		ppro->Push(pReq);
+
+		ppro->arMarkReadQueue.remove(0);
+	}
+	KillTimer(hwnd, id);
+}
+
+int CIcqProto::OnDbEventRead(WPARAM, LPARAM hDbEvent)
+{
+	MCONTACT hContact = db_event_getContact(hDbEvent);
+	if (!hContact)
+		return 0;
+
+	// filter out only events of my protocol
+	const char *szProto = GetContactProto(hContact);
+	if (mir_strcmp(szProto, m_szModuleName))
+		return 0;
+
+	if (m_bOnline) {
+		SetTimer(g_hwndHeartbeat, UINT_PTR(this), 200, &CIcqProto::MarkReadTimerProc);
+		
+		IcqCacheItem *pCache = FindContactByUIN(getDword(hContact, DB_KEY_UIN));
+		if (pCache) {
+			mir_cslock lck(csMarkReadQueue);
+			if (arMarkReadQueue.indexOf(pCache) == -1)
+				arMarkReadQueue.insert(pCache);
+		}
+	}
+	return 0;
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_AddToList - adds a contact to the contact list
