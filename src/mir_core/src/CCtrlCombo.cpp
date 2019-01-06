@@ -32,12 +32,12 @@ CCtrlCombo::CCtrlCombo(CDlgBase *dlg, int ctrlId)
 BOOL CCtrlCombo::OnCommand(HWND, WORD, WORD idCode)
 {
 	switch (idCode) {
-	case CBN_CLOSEUP:  OnCloseup(this);  break;
+	case CBN_CLOSEUP:  OnCloseup(this); break;
 	case CBN_DROPDOWN: OnDropdown(this); break;
+	case CBN_SELCHANGE: OnSelChanged(this); break;
 
 	case CBN_EDITCHANGE:
 	case CBN_EDITUPDATE:
-	case CBN_SELCHANGE:
 	case CBN_SELENDOK:
 		NotifyChange();
 		break;
