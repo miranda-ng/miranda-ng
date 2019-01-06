@@ -320,29 +320,31 @@ MIR_APP_DLL(int) ProtoGetAvatarFormat(const wchar_t *ptszFileName)
 
 MIR_APP_DLL(int) ProtoGetBufferFormat(const void *pBuffer, const wchar_t **ptszExtension)
 {
-	if (!memcmp(pBuffer, "\x89PNG", 4)) {
-		if (ptszExtension) *ptszExtension = L".png";
-		return PA_FORMAT_PNG;
-	}
+	if (pBuffer != nullptr) {
+		if (!memcmp(pBuffer, "\x89PNG", 4)) {
+			if (ptszExtension) *ptszExtension = L".png";
+			return PA_FORMAT_PNG;
+		}
 
-	if (!memcmp(pBuffer, "GIF8", 4)) {
-		if (ptszExtension) *ptszExtension = L".gif";
-		return PA_FORMAT_GIF;
-	}
+		if (!memcmp(pBuffer, "GIF8", 4)) {
+			if (ptszExtension) *ptszExtension = L".gif";
+			return PA_FORMAT_GIF;
+		}
 
-	if (!memicmp(pBuffer, "<?xml", 5)) {
-		if (ptszExtension) *ptszExtension = L".xml";
-		return PA_FORMAT_XML;
-	}
+		if (!memicmp(pBuffer, "<?xml", 5)) {
+			if (ptszExtension) *ptszExtension = L".xml";
+			return PA_FORMAT_XML;
+		}
 
-	if (!memcmp(pBuffer, "\xFF\xD8\xFF\xE0", 4) || !memcmp(pBuffer, "\xFF\xD8\xFF\xE1", 4)) {
-		if (ptszExtension) *ptszExtension = L".jpg";
-		return PA_FORMAT_JPEG;
-	}
+		if (!memcmp(pBuffer, "\xFF\xD8\xFF\xE0", 4) || !memcmp(pBuffer, "\xFF\xD8\xFF\xE1", 4)) {
+			if (ptszExtension) *ptszExtension = L".jpg";
+			return PA_FORMAT_JPEG;
+		}
 
-	if (!memcmp(pBuffer, "BM", 2)) {
-		if (ptszExtension) *ptszExtension = L".bmp";
-		return PA_FORMAT_BMP;
+		if (!memcmp(pBuffer, "BM", 2)) {
+			if (ptszExtension) *ptszExtension = L".bmp";
+			return PA_FORMAT_BMP;
+		}
 	}
 
 	if (ptszExtension) *ptszExtension = L"";

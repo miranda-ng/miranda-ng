@@ -516,26 +516,32 @@ void CIcqProto::OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 void CIcqProto::OnReceiveAvatar(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
 	MCONTACT hContact = (MCONTACT)pReq->pUserInfo;
+	PROTO_AVATAR_INFORMATION ai = {};
+	ai.hContact = hContact;
+
+	if (pReply->resultCode != 200 || pReply->pData == nullptr) {
+LBL_Error:
+		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, HANDLE(&ai), 0);
+		return;
+	}
 
 	const wchar_t *pwszExtension;
-	PROTO_AVATAR_INFORMATION ai;
-	ai.hContact = hContact;
 	ai.format = ProtoGetBufferFormat(pReply->pData, &pwszExtension);
 	setByte(hContact, "AvatarType", ai.format);
 	GetAvatarFileName(hContact, ai.filename, _countof(ai.filename));
 
 	FILE *out = _wfopen(ai.filename, L"wb");
-	if (out != nullptr) {
-		fwrite(pReply->pData, pReply->dataLength, 1, out);
-		fclose(out);
+	if (out == nullptr)
+		goto LBL_Error;
+		
+	fwrite(pReply->pData, pReply->dataLength, 1, out);
+	fclose(out);
 
-		if (hContact != 0) {
-			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, HANDLE(&ai), 0);
-			debugLogW(L"Broadcast new avatar: %s", ai.filename);
-		}
-		else CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
+	if (hContact != 0) {
+		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, HANDLE(&ai), 0);
+		debugLogW(L"Broadcast new avatar: %s", ai.filename);
 	}
-	else ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, HANDLE(&ai), 0);
+	else CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
 }
 
 void CIcqProto::OnSearchResults(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
