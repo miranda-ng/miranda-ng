@@ -218,8 +218,7 @@ public:
 		BOOL ret = SaveOptsDlgProc(pageControls, _countof(pageControls), MODULENAME, m_hwnd, msg, wParam, lParam);
 		if (ret)
 			return ret;
-		else
-			return CDlgBase::DlgProc(msg, wParam, lParam);
+		return CDlgBase::DlgProc(msg, wParam, lParam);
 	}
 };
 
