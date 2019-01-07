@@ -112,14 +112,6 @@ void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		}
 	}
 
-	if (pReq->m_conn != CONN_NONE) {
-		pReq->flags |= NLHRF_PERSISTENT;
-		pReq->nlc = m_ConnPool[pReq->m_conn].s;
-		m_ConnPool[pReq->m_conn].lastTs = time(0);
-	}
-
-	debugLogA("Executing request %s:\n%s", pReq->m_reqId, pReq->szUrl);
-
 	if (pReq->m_conn == CONN_RAPI) {
 		CMStringA szAgent(FORMAT, "%d Mail.ru Windows ICQ (version 10.0.1999)", DWORD(m_dwUin));
 		pReq->AddHeader("User-Agent", szAgent);
@@ -130,6 +122,14 @@ void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 				return;
 			}
 		}
+	}
+
+	debugLogA("Executing request %s:\n%s", pReq->m_reqId, pReq->szUrl);
+
+	if (pReq->m_conn != CONN_NONE) {
+		pReq->flags |= NLHRF_PERSISTENT;
+		pReq->nlc = m_ConnPool[pReq->m_conn].s;
+		m_ConnPool[pReq->m_conn].lastTs = time(0);
 	}
 
 	NETLIBHTTPREQUEST *reply = Netlib_HttpTransaction(m_hNetlibUser, pReq);
