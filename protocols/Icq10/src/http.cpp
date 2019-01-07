@@ -52,6 +52,7 @@ void __cdecl CIcqProto::ServerThread(void*)
 		int ts = time(0);
 		for (auto &it : m_ConnPool) {
 			if (it.s && it.lastTs + it.timeout < ts) {
+				debugLogA("Socket #1 (%p) expired", int(&it - m_ConnPool), it.s);
 				Netlib_CloseHandle(it.s);
 				it.s = nullptr;
 				it.lastTs = 0;
@@ -218,6 +219,7 @@ JsonReply::JsonReply(NETLIBHTTPREQUEST *pReply)
 
 	JSONNode &response = (*m_root)["response"];
 	m_errorCode = response["statusCode"].as_int();
+	m_requestId = response["requestId"].as_mstring();
 	m_detailCode = response["statusDetailCode"].as_int();
 	m_data = &response["data"];
 }

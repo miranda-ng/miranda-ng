@@ -588,7 +588,11 @@ void CIcqProto::OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 		}
 	}
 
-	CheckLastId(ownMsg->m_hContact, root.data());
+	const JSONNode &data = root.data();
+	CMStringA reqId(root.requestId());
+	CMStringA msgId(data["histMsgId"].as_mstring());
+	CheckOwnMessage(reqId, msgId, false);
+ 	CheckLastId(ownMsg->m_hContact, data);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

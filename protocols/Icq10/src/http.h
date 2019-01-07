@@ -21,11 +21,13 @@ class JsonReply
 	JSONNode *m_root = nullptr;
 	int m_errorCode = 0, m_detailCode = 0;
 	JSONNode* m_data = nullptr;
+	CMStringA m_requestId;
 
 public:
 	JsonReply(NETLIBHTTPREQUEST*);
 	~JsonReply();
 
+	__forceinline const CMStringA& requestId() const { return m_requestId; }
 	__forceinline JSONNode& data() const { return *m_data; }
 	__forceinline int error() const { return m_errorCode; }
 	__forceinline int detail() const { return m_detailCode; }
