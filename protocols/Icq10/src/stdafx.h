@@ -80,7 +80,6 @@
 
 #define DB_KEY_UIN "UIN"
 #define DB_KEY_ATOKEN "AToken"
-#define DB_KEY_RTOKEN "RToken"
 #define DB_KEY_RCLIENTID "RClientID"
 #define DB_KEY_LASTMSGID "LastMsgId"
 #define DB_KEY_SESSIONKEY "SessionKey"

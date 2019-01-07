@@ -34,8 +34,8 @@ void __cdecl CIcqProto::ServerThread(void*)
 		if (m_bTerminated)
 			break;
 
-		AsyncHttpRequest *pReq;
 		while (true) {
+			AsyncHttpRequest *pReq;
 			{
 				mir_cslock lck(m_csHttpQueue);
 				if (m_arHttpQueue.getCount() == 0)
@@ -134,12 +134,25 @@ void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 
 	NETLIBHTTPREQUEST *reply = Netlib_HttpTransaction(m_hNetlibUser, pReq);
 	if (reply != nullptr) {
+		if (pReq->m_conn != CONN_NONE) {
+			auto &conn = m_ConnPool[pReq->m_conn];
+			conn.s = reply->nlc;
+			conn.timeout = 0;
+			for (int i = 0; i < reply->headersCount; i++) {
+				if (!mir_strcmp(reply->headers[i].szName, "Keep-Alive")) {
+					int timeout;
+					if (1 == sscanf(reply->headers[i].szValue, "timeout=%d", &timeout))
+						conn.timeout = timeout;
+					break;
+				}
+			}
+		}
+
 		if (pReq->m_conn == CONN_RAPI && reply->pData && strstr(reply->pData, "\"code\": 40201")) {
 			RobustReply r(reply);
 			if (r.error() == 40201) { // robust token expired
 				CMStringA oldToken = m_szRToken;
 				m_szRToken.Empty();
-				delSetting(DB_KEY_RTOKEN);
 				
 				// if token refresh succeeded, replace it in the query and push request back
 				if (RefreshRobustToken()) { 
@@ -155,20 +168,6 @@ void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 
 		if (pReq->m_pFunc != nullptr)
 			(this->*(pReq->m_pFunc))(reply, pReq);
-
-		if (pReq->m_conn != CONN_NONE) {
-			auto &conn = m_ConnPool[pReq->m_conn];
-			conn.s = reply->nlc;
-			conn.timeout = 0;
-			for (int i = 0; i < reply->headersCount; i++) {
-				if (!mir_strcmp(reply->headers[i].szName, "Keep-Alive")) {
-					int timeout;
-					if (1 == sscanf(reply->headers[i].szValue, "timeout=%d", &timeout))
-						conn.timeout = timeout;
-					break;
-				}
-			}
-		}
 
 		Netlib_FreeHttpRequest(reply);
 	}

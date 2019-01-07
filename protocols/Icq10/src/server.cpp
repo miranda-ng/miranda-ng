@@ -75,7 +75,6 @@ void CIcqProto::CheckPassword()
 	Miranda_GetVersionText(mirVer, _countof(mirVer));
 
 	m_szAToken = getMStringA(DB_KEY_ATOKEN);
-	m_szRToken = getMStringA(DB_KEY_RTOKEN);
 	m_iRClientId = getDword(DB_KEY_RCLIENTID);
 	m_szSessionKey = getMStringA(DB_KEY_SESSIONKEY);
 	if (m_szAToken.IsEmpty() || m_szSessionKey.IsEmpty()) {
@@ -241,13 +240,13 @@ bool CIcqProto::RefreshRobustToken()
 	tmp->AddHeader("User-Agent", szAgent);
 
 	NETLIBHTTPREQUEST *reply = Netlib_HttpTransaction(m_hNetlibUser, tmp);
-	m_ConnPool[CONN_RAPI].s = nullptr;
 	if (reply != nullptr) {
+		m_ConnPool[CONN_RAPI].s = reply->nlc;
+
 		RobustReply result(reply);
 		if (result.error() == 20000) {
 			const JSONNode &results = result.results();
 			m_szRToken = results["authToken"].as_mstring();
-			setString(DB_KEY_RTOKEN, m_szRToken);
 
 			// now add this token
 			auto *add = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER, &CIcqProto::OnAddClient);
@@ -258,9 +257,9 @@ bool CIcqProto::RefreshRobustToken()
 			ExecuteRequest(add);
 		}
 
-		m_ConnPool[CONN_RAPI].s = reply->nlc;
 		Netlib_FreeHttpRequest(reply);
 	}
+	else m_ConnPool[CONN_RAPI].s = nullptr;
 
 	delete tmp;
 	return bRet;
