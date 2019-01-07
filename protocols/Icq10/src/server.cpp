@@ -232,7 +232,7 @@ bool CIcqProto::RefreshRobustToken()
 		<< CHAR_PARAM("nonce", CMStringA(FORMAT, "%d-%d", ts, rand() % 10)) << INT_PARAM("ts", ts);
 	CalcHash(tmp);
 	tmp->flags |= NLHRF_PERSISTENT;
-	tmp->nlc = m_ConnPool[CONN_RAPI];
+	tmp->nlc = m_ConnPool[CONN_RAPI].s;
 	tmp->dataLength = tmp->m_szParam.GetLength();
 	tmp->pData = tmp->m_szParam.Detach();
 	tmp->szUrl = tmp->m_szUrl.GetBuffer();
@@ -241,7 +241,7 @@ bool CIcqProto::RefreshRobustToken()
 	tmp->AddHeader("User-Agent", szAgent);
 
 	NETLIBHTTPREQUEST *reply = Netlib_HttpTransaction(m_hNetlibUser, tmp);
-	m_ConnPool[CONN_RAPI] = nullptr;
+	m_ConnPool[CONN_RAPI].s = nullptr;
 	if (reply != nullptr) {
 		RobustReply result(reply);
 		if (result.error() == 20000) {
@@ -258,7 +258,7 @@ bool CIcqProto::RefreshRobustToken()
 			ExecuteRequest(add);
 		}
 
-		m_ConnPool[CONN_RAPI] = reply->nlc;
+		m_ConnPool[CONN_RAPI].s = reply->nlc;
 		Netlib_FreeHttpRequest(reply);
 	}
 
@@ -336,8 +336,8 @@ void CIcqProto::ShutdownSession()
 		SetEvent(m_evRequestsQueue);
 
 	for (auto &it : m_ConnPool)
-		if (it)
-			Netlib_Shutdown(it);
+		if (it.s)
+			Netlib_Shutdown(it.s);
 
 	OnLoggedOut();
 }

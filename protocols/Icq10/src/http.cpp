@@ -35,7 +35,6 @@ void __cdecl CIcqProto::ServerThread(void*)
 			break;
 
 		AsyncHttpRequest *pReq;
-		bool need_sleep = false;
 		while (true) {
 			{
 				mir_cslock lck(m_csHttpQueue);
@@ -44,24 +43,29 @@ void __cdecl CIcqProto::ServerThread(void*)
 
 				pReq = m_arHttpQueue[0];
 				m_arHttpQueue.remove(0);
-				need_sleep = (m_arHttpQueue.getCount() > 1);
 			}
 			if (m_bTerminated)
 				break;
 			ExecuteRequest(pReq);
-			if (need_sleep) {
-				Sleep(330);
-				debugLogA("CIcqProto::WorkerThread: %s", "need to sleep");
+		}
+
+		int ts = time(0);
+		for (auto &it : m_ConnPool) {
+			if (it.s && it.lastTs + it.timeout < ts) {
+				Netlib_CloseHandle(it.s);
+				it.s = nullptr;
+				it.lastTs = 0;
 			}
 		}
 	}
 
 	m_hWorkerThread = nullptr;
-	for (auto &it : m_ConnPool)
-		if (it) {
-			Netlib_CloseHandle(it);
-			it = nullptr;
-		}
+	for (auto &it : m_ConnPool) {
+		if (it.s)
+			Netlib_CloseHandle(it.s);
+		it.s = nullptr;
+		it.lastTs = it.timeout = 0;
+	}
 
 	debugLogA("CIcqProto::WorkerThread: %s", "leaving");
 }
@@ -110,7 +114,8 @@ void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 
 	if (pReq->m_conn != CONN_NONE) {
 		pReq->flags |= NLHRF_PERSISTENT;
-		pReq->nlc = m_ConnPool[pReq->m_conn];
+		pReq->nlc = m_ConnPool[pReq->m_conn].s;
+		m_ConnPool[pReq->m_conn].lastTs = time(0);
 	}
 
 	debugLogA("Executing request %s:\n%s", pReq->m_reqId, pReq->szUrl);
@@ -151,8 +156,19 @@ void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		if (pReq->m_pFunc != nullptr)
 			(this->*(pReq->m_pFunc))(reply, pReq);
 
-		if (pReq->m_conn != CONN_NONE)
-			m_ConnPool[pReq->m_conn] = reply->nlc;
+		if (pReq->m_conn != CONN_NONE) {
+			auto &conn = m_ConnPool[pReq->m_conn];
+			conn.s = reply->nlc;
+			conn.timeout = 0;
+			for (int i = 0; i < reply->headersCount; i++) {
+				if (!mir_strcmp(reply->headers[i].szName, "Keep-Alive")) {
+					int timeout;
+					if (1 == sscanf(reply->headers[i].szValue, "timeout=%d", &timeout))
+						conn.timeout = timeout;
+					break;
+				}
+			}
+		}
 
 		Netlib_FreeHttpRequest(reply);
 	}
@@ -162,7 +178,7 @@ void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		if (pReq->m_conn != CONN_NONE) {
 			if (IsStatusConnecting(m_iStatus))
 				ConnectionFailed(LOGINERR_NONETWORK);
-			m_ConnPool[pReq->m_conn] = nullptr;
+			m_ConnPool[pReq->m_conn].s = nullptr;
 		}
 	}
 

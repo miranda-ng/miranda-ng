@@ -62,6 +62,12 @@ struct IcqOwnMessage
 	char m_guid[50];
 };
 
+struct IcqConn
+{
+	HNETLIBCONN s;
+	int lastTs, timeout;
+};
+
 class CIcqProto : public PROTO<CIcqProto>
 {
 	friend struct CIcqRegistrationDlg;
@@ -113,7 +119,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void     ProcessPresence(const JSONNode&);
 	void     ProcessTyping(const JSONNode&);
 
-	HNETLIBCONN m_ConnPool[CONN_LAST];
+	IcqConn   m_ConnPool[CONN_LAST];
 	CMStringA m_szSessionKey;
 	CMStringA m_szAToken;
 	CMStringA m_szRToken;
