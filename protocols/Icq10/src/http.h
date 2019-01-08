@@ -12,6 +12,8 @@ struct AsyncHttpRequest : public MTHttpRequest<CIcqProto>
 	char m_reqId[50];
 
 	AsyncHttpRequest(IcqConnection, int type, const char *szUrl, MTHttpRequestHandler pFunc = nullptr);
+
+	void ReplaceJsonParam(const char *paramName, const char *newValue);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

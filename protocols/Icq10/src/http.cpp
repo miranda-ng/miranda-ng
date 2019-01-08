@@ -97,6 +97,27 @@ AsyncHttpRequest::AsyncHttpRequest(IcqConnection conn, int iType, const char *sz
 	}
 }
 
+void AsyncHttpRequest::ReplaceJsonParam(const char *paramName, const char *newValue)
+{
+	CMStringA szOldValue(FORMAT, "\"%s\":\"", paramName);
+	int idx = m_szParam.Find(szOldValue);
+	if (idx == -1)
+		return;
+
+	idx += szOldValue.GetLength();
+	int iEnd = m_szParam.Find("\"", idx);
+	if (iEnd == -1)
+		return;
+
+	szOldValue += m_szParam.Mid(idx, iEnd + 1 - idx);
+	
+	CMStringA szNewValue(FORMAT, "\"%s\":\"%s\"", paramName, newValue);
+	m_szParam.Replace(szOldValue, szNewValue);
+
+	replaceStr(pData, nullptr);
+	dataLength = 0;
+}
+
 void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 {
 	CMStringA str;
@@ -123,10 +144,7 @@ void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 				return;
 			}
 
-			replaceStr(pReq->pData, nullptr);
-
-			CMStringA szNewToken(FORMAT, "\"authToken\":\"%s\"", m_szRToken.c_str());
-			pReq->m_szParam.Replace("\"authToken\":\"\"", szNewToken);
+			pReq->ReplaceJsonParam("authToken", m_szRToken);
 			pReq->dataLength = pReq->m_szParam.GetLength();
 			pReq->pData = mir_strdup(pReq->m_szParam);
 		}
@@ -159,14 +177,11 @@ void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		if (pReq->m_conn == CONN_RAPI && reply->pData && strstr(reply->pData, "\"code\": 40201")) {
 			RobustReply r(reply);
 			if (r.error() == 40201) { // robust token expired
-				CMStringA oldToken = m_szRToken;
 				m_szRToken.Empty();
 				
 				// if token refresh succeeded, replace it in the query and push request back
 				if (RefreshRobustToken()) { 
-					replaceStr(pReq->pData, nullptr);
-					pReq->dataLength = 0;
-					pReq->m_szParam.Replace(oldToken, m_szRToken);
+					pReq->ReplaceJsonParam("authToken", m_szRToken);
 					Push(pReq);
 				}
 				else delete pReq;
