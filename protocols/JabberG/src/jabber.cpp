@@ -88,18 +88,21 @@ static INT_PTR g_SvcParseXmppUri(WPARAM w, LPARAM l)
 	return 0;
 }
 
+static int OnLoadModule(WPARAM, LPARAM)
+{
+	bSecureIM = ServiceExists("SecureIM/IsContactSecured") != 0;
+	bMirOTR = GetModuleHandle(L"mirotr.dll") != nullptr;
+	bNewGPG = GetModuleHandle(L"new_gpg.dll") != nullptr;
+	return 0;
+}
+
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_TTB_MODULELOADED, g_OnToolbarInit);
 
-	bSecureIM = ServiceExists("SecureIM/IsContactSecured") != 0;
-	bMirOTR = GetModuleHandle(L"mirotr.dll") != nullptr;
-	bNewGPG = GetModuleHandle(L"new_gpg.dll") != nullptr;
-	#ifdef _WIN64
-		bPlatform = 1;
-	#else
-		bPlatform = 0;
-	#endif
+	HookEvent(ME_SYSTEM_MODULELOAD, OnLoadModule);
+	HookEvent(ME_SYSTEM_MODULEUNLOAD, OnLoadModule);
+	OnLoadModule(0, 0);
 
 	// file associations manager plugin support
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE)) {
@@ -147,6 +150,12 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
+	#ifdef _WIN64
+	bPlatform = 1;
+	#else
+	bPlatform = 0;
+	#endif
+
 	char mirVer[100];
 	Miranda_GetVersionText(mirVer, _countof(mirVer));
 	mir_wstrcpy(szCoreVersion, _A2T(mirVer));
