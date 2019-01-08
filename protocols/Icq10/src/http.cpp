@@ -122,6 +122,13 @@ void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 				delete pReq;
 				return;
 			}
+
+			replaceStr(pReq->pData, nullptr);
+
+			CMStringA szNewToken(FORMAT, "\"authToken\":\"%s\"", m_szRToken.c_str());
+			pReq->m_szParam.Replace("\"authToken\":\"\"", szNewToken);
+			pReq->dataLength = pReq->m_szParam.GetLength();
+			pReq->pData = mir_strdup(pReq->m_szParam);
 		}
 	}
 
