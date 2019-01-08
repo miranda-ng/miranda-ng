@@ -329,6 +329,8 @@ void ReplaceDBPath(wstring &sRet)
 wstring GetFilePathFromUser(MCONTACT hContact)
 {
 	wstring sFilePath = g_sExportDir + _DBGetStringW(hContact, MODULENAME, "FileName", g_sDefaultFile.c_str());
+	if (g_bUseJson)
+		sFilePath += L".json";
 
 	bool bNickUsed = sFilePath.find(L"%nick%") != string::npos;
 
