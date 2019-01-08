@@ -278,8 +278,9 @@ struct OptionsPageData : public MZeroedObject
 		DWORD key = GetPluginPageHash(); // get the plugin page hash
 
 		wchar_t pluginName[MAX_PATH];
+		GetPluginName(getInst(), pluginName, _countof(pluginName));
 		char *temp = GetPluginNameByInstance(getInst());
-		GetDialogStrings(enableKeywordFiltering, key, GetPluginName(getInst(), pluginName, _countof(pluginName)), hWnd, ptszGroup, ptszTitle, ptszTab, _A2T(temp));
+		GetDialogStrings(enableKeywordFiltering, key, pluginName, hWnd, getString(ptszGroup), getString(ptszTitle), getString(ptszTab), _A2T(temp));
 
 		if (enableKeywordFiltering && !current)
 			DestroyWindow(hWnd); // destroy the page, we're done with it
