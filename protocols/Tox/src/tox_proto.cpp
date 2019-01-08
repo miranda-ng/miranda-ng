@@ -45,7 +45,6 @@ CToxProto::CToxProto(const char* protoName, const wchar_t* userName)
 CToxProto::~CToxProto()
 {
 	DeleteTimerQueue(m_hTimerQueue);
-	UninitNetlib();
 }
 
 void CToxProto::OnModulesLoaded()

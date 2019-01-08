@@ -121,7 +121,6 @@ private:
 
 	// netlib
 	void InitNetlib();
-	void UninitNetlib();
 
 	// icons
 	static HANDLE GetIconHandle(int iconId);

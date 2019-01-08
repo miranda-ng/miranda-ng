@@ -158,7 +158,6 @@ CMsnProto::~CMsnProto()
 	Lists_Uninit();
 	CachedMsg_Uninit();
 
-	Netlib_CloseHandle(m_hNetlibUser);
 	Netlib_CloseHandle(hNetlibUserHttps);
 
 	mir_free(mailsoundname);

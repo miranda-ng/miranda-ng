@@ -116,8 +116,6 @@ FacebookProto::~FacebookProto()
 		Popup_UnregisterClass(it);
 	popupClasses.clear();
 
-	Netlib_CloseHandle(m_hNetlibUser);
-
 	CloseHandle(update_loop_event);
 }
 

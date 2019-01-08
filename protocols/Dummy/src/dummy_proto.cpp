@@ -73,8 +73,6 @@ CDummyProto::CDummyProto(const char *szModuleName, const wchar_t *ptszUserName) 
 
 CDummyProto::~CDummyProto()
 {
-	Netlib_CloseHandle(m_hNetlibUser);
-	m_hNetlibUser = nullptr;
 }
 
 //////////////////////////////////////////////////////////////////////////////

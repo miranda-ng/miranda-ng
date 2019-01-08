@@ -13,9 +13,3 @@ void CToxProto::InitNetlib()
 
 	debugLogA(__FUNCTION__":Setting protocol / module name to '%s'", m_szModuleName);
 }
-
-void CToxProto::UninitNetlib()
-{
-	Netlib_CloseHandle(m_hNetlibUser);
-	m_hNetlibUser = nullptr;
-}

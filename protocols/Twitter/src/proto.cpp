@@ -66,8 +66,6 @@ TwitterProto::~TwitterProto()
 {
 	twit_.Disconnect();
 
-	if (m_hNetlibUser)
-		Netlib_CloseHandle(m_hNetlibUser);
 	if (hAvatarNetlib_)
 		Netlib_CloseHandle(hAvatarNetlib_);
 }

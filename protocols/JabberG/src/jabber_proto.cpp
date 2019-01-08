@@ -221,7 +221,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 
 CJabberProto::~CJabberProto()
 {
-	WsUninit();
 	ConsoleUninit();
 	GlobalMenuUninit();
 

@@ -844,7 +844,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	HNETLIBCONN WsConnect(char* host, WORD port);
 
 	BOOL   WsInit(void);
-	void   WsUninit(void);
 	int    WsSend(HNETLIBCONN s, char* data, int datalen, int flags);
 	int    WsRecv(HNETLIBCONN s, char* data, long datalen, int flags);
 

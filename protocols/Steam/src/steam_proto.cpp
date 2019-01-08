@@ -87,13 +87,7 @@ CSteamProto::CSteamProto(const char* protoName, const wchar_t* userName)
 
 CSteamProto::~CSteamProto()
 {
-	if (m_hNetlibUser)
-	{
-		Netlib_CloseHandle(m_hNetlibUser);
-		m_hNetlibUser = nullptr;
-	}
-	if (m_hRequestsQueueEvent)
-	{
+	if (m_hRequestsQueueEvent) {
 		CloseHandle(m_hRequestsQueueEvent);
 		m_hRequestsQueueEvent = nullptr;
 	}

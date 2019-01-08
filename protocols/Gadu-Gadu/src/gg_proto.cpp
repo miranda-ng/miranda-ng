@@ -97,9 +97,6 @@ GaduProto::~GaduProto()
 	Popup_UnregisterClass(hPopupError);
 	Popup_UnregisterClass(hPopupNotify);
 
-	// Close handles
-	Netlib_CloseHandle(m_hNetlibUser);
-
 	// Destroy mutexes
 	DeleteCriticalSection(&sess_mutex);
 	DeleteCriticalSection(&ft_mutex);

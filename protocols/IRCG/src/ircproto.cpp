@@ -150,7 +150,6 @@ CIrcProto::~CIrcProto()
 		con = nullptr;
 	}
 
-	Netlib_CloseHandle(m_hNetlibUser); m_hNetlibUser = nullptr;
 	Netlib_CloseHandle(hNetlibDCC); hNetlibDCC = nullptr;
 
 	mir_free(m_alias);

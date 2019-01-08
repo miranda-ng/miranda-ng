@@ -170,6 +170,9 @@ PROTO_INTERFACE::PROTO_INTERFACE(const char *pszModuleName, const wchar_t *ptszU
 
 PROTO_INTERFACE::~PROTO_INTERFACE()
 {
+	if (m_hNetlibUser)
+		Netlib_CloseHandle(m_hNetlibUser);
+
 	mir_free(m_szModuleName);
 	mir_free(m_tszUserName);
 

@@ -68,10 +68,7 @@ CSametimeProto::~CSametimeProto()
 	debugLogW(L"CSametimeProto::~CSametimeProto() end");
 
 	UnRegisterGLibLogger();
-	Netlib_CloseHandle(m_hNetlibUser);
 }
-
-
 
 MCONTACT CSametimeProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {

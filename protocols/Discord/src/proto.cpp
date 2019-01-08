@@ -90,8 +90,6 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 CDiscordProto::~CDiscordProto()
 {
 	debugLogA("CDiscordProto::~CDiscordProto");
-	Netlib_CloseHandle(m_hNetlibUser);
-	m_hNetlibUser = nullptr;
 
 	arUsers.destroy();
 

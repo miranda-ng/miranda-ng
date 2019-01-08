@@ -74,8 +74,6 @@ CVkProto::CVkProto(const char *szModuleName, const wchar_t *pwszUserName) :
 CVkProto::~CVkProto()
 {
 	debugLogA("CVkProto::~CVkProto");
-	Netlib_CloseHandle(m_hNetlibUser);
-	m_hNetlibUser = nullptr;
 	UninitQueue();
 	UnInitMenus();
 	if (m_hPopupClassError)
