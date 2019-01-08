@@ -46,7 +46,7 @@ static int compareModules(const MODULEINFO *p1, const MODULEINFO *p2)
 	return mir_strcmp(p1->pszModule, p2->pszModule);
 }
 
-static OBJLIST<MODULEINFO> g_arModules(5, compareModules);
+static LIST<MODULEINFO> g_arModules(5, compareModules);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -566,6 +566,8 @@ MODULEINFO* MM_FindModule(const char *pszModule)
 
 static BOOL MM_RemoveAll(void)
 {
+	for (auto &it : g_arModules)
+		delete it;
 	g_arModules.destroy();
 	return TRUE;
 }
@@ -985,27 +987,28 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_CustomizeApi(const CHAT_MANAGER_INITDATA *pInit)
 	if (g_cbSession) { // reallocate old sessions
 		mir_cslock lck(csChat);
 
-		for (auto &p : g_arSessions) {
+		LIST<SESSION_INFO> tmp(g_arSessions);
+		g_arSessions.destroy();
+
+		for (auto &p : tmp) {
 			SESSION_INFO *p1 = (SESSION_INFO*)realloc(p, pInit->cbSession);
 			memset(PBYTE(p1) + sizeof(SESSION_INFO), 0, pInit->cbSession - sizeof(SESSION_INFO));
-			if (p1 != p) { // realloc could change a pointer, reinsert a structure
-				g_arSessions.remove(p);
-				g_arSessions.insert(p1);
-			}
+			g_arSessions.insert(p1);
 		}
 	}
 	if (g_cbModuleInfo) { // reallocate old modules
 		bool bReallocated = false;
 		mir_cslock lck(csChat);
 
-		for (auto &mi : g_arModules) {
+		LIST<MODULEINFO> tmp(g_arModules);
+		g_arModules.destroy();
+
+		for (auto &mi : tmp) {
 			MODULEINFO *p1 = (MODULEINFO*)realloc(mi, pInit->cbModuleInfo);
 			memset(PBYTE(p1) + sizeof(GCModuleInfoBase), 0, pInit->cbModuleInfo - sizeof(GCModuleInfoBase));
-			if (p1 != mi) { // realloc could change a pointer, reinsert a structure
-				g_arModules.remove(mi);
-				g_arModules.insert(p1);
+			g_arModules.insert(p1);
+			if (p1 != mi) // realloc could change a pointer
 				bReallocated = true;
-			}
 		}
 	
 		if (bReallocated)
