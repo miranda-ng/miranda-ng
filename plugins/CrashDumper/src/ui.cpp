@@ -25,42 +25,6 @@ class CViewVersionInfo : public CDlgBase
 	CCtrlButton m_btnCancel, m_btnCopyClip, m_btnCopyFile;
 	CCtrlRichEdit m_redtViewVersionInfo;
 
-	HDWP MyResizeWindow(HDWP hDwp, HWND hwndCtrl, int nHorizontalOffset, int nVerticalOffset, int nWidthOffset, int nHeightOffset)
-	{
-		if (nullptr == m_hwnd) /* Wine fix. */
-			return hDwp;
-		// get current bounding rectangle
-		RECT rcinit;
-		GetWindowRect(hwndCtrl, &rcinit);
-
-		// get current top left point
-		POINT pt;
-		pt.x = rcinit.left;
-		pt.y = rcinit.top;
-		ScreenToClient(m_hwnd, &pt);
-
-		return DeferWindowPos(hDwp, hwndCtrl, nullptr,
-			pt.x + nHorizontalOffset,
-			pt.y + nVerticalOffset,
-			rcinit.right - rcinit.left + nWidthOffset,
-			rcinit.bottom - rcinit.top + nHeightOffset,
-			SWP_NOZORDER);
-	}
-
-	BOOL MyResizeGetOffset(int nWidth, int nHeight, int* nDx, int* nDy)
-	{
-		RECT rcinit;
-
-		// get current bounding rectangle
-		GetWindowRect(m_redtViewVersionInfo.GetHwnd(), &rcinit);
-
-		// calculate offsets
-		*nDx = nWidth - (rcinit.right - rcinit.left);
-		*nDy = nHeight - (rcinit.bottom - rcinit.top);
-
-		return rcinit.bottom != rcinit.top && nHeight > 0;
-	}
-
 public:
 	CViewVersionInfo(DWORD flags) :
 		CDlgBase(g_plugin, IDD_VIEWVERSION),
@@ -222,7 +186,6 @@ class COptDialog : public CDlgBase
 
 	void COptDialog::OnCatchCrashesChange(CCtrlCheck*)
 	{
-		m_chkClassicDates.Enable(m_chkCatchCrashes.GetState());
 		m_chkRepSubfolder.Enable(m_chkCatchCrashes.GetState());
 		m_lblRestart.Show();
 		needrestart = 1;

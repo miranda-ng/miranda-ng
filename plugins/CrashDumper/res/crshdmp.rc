@@ -75,10 +75,10 @@ BEGIN
     EDITTEXT        IDC_PASSWORD,14,65,107,14,ES_PASSWORD | ES_AUTOHSCROLL
     CONTROL         "Upload automatically when changed",IDC_UPLOADCHN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,84,161,10
     GROUPBOX        "Crash reports",IDC_STATIC,7,104,195,54
-    CONTROL         "Use classic dates",IDC_CLASSICDATES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,127,157,10
-    CONTROL         "Create reports in subfolders naming as current date",IDC_DATESUBFOLDER,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,141,180,10
     CONTROL         "Generate crash reports",IDC_CATCHCRASHES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,113,169,10
+    CONTROL         "Create reports in subfolders naming as current date",IDC_DATESUBFOLDER,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,127,180,10
+    CONTROL         "Use classic dates",IDC_CLASSICDATES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,141,157,10
     LTEXT           "* You need to restart Miranda NG to apply changes",IDC_RESTARTNOTE,9,160,186,22,NOT WS_VISIBLE
 END
 
