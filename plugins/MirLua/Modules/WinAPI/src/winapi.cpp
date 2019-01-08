@@ -360,14 +360,15 @@ static int global_FindWindowEx(lua_State *L)
 static int global_GetWindowText(lua_State *L)
 {
 	const HWND hwnd = (HWND)luaM_checkhwnd(L, 1);
-
-	wchar_t buf[2048] = { 0 };
-	int res = GetWindowTextW(hwnd, buf, sizeof(buf));
+	int buf_size = GetWindowTextLengthW(hwnd);
+	wchar_t *buf = (wchar_t*)mir_alloc((buf_size + 1) * sizeof(wchar_t));
+	int res = GetWindowTextW(hwnd, buf, (buf_size + 1) * sizeof(wchar_t));
 
 	if (res > 0 || GetLastError() == ERROR_SUCCESS)
 		lua_pushstring(L, T2Utf(buf));
 	else
 		lua_pushnil(L);
+	mir_free(buf);
 
 	return 1;
 }
