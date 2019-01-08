@@ -473,7 +473,7 @@ bool bLoadFile(HWND hwndDlg, CLHistoryDlg *pclDlg)
 	if (hFile == INVALID_HANDLE_VALUE) {
 		wchar_t szTmp[1500];
 		CMStringW wszMsg(FORMAT, TranslateT("Miranda database contains %d events"), db_event_count(pclDlg->hContact));
-		mir_snwprintf(szTmp, L"%s\r\n%s\r\n\r\n%s", pclDlg->sPath.c_str(), wszMsg.c_str());
+		mir_snwprintf(szTmp, L"%s\r\n%s\r\n\r\n%s", TranslateT("Failed to open file"), pclDlg->sPath.c_str(), wszMsg.c_str());
 
 		SETTEXTEX stText = { 0 };
 		stText.codepage = 1200;
