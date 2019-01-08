@@ -51,7 +51,6 @@ BEGIN
     DEFPUSHBUTTON   "Update",IDOK,32,36,50,14,WS_DISABLED
     PUSHBUTTON      "Details >>",IDC_DETAILS,95,36,50,14,NOT WS_TABSTOP
     PUSHBUTTON      "Cancel",IDCANCEL,157,36,50,14
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,1,58,236,1
     CONTROL         "",IDC_LIST_UPDATES,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,6,64,229,149
     PUSHBUTTON      "Select &all",IDC_SELALL,109,218,60,14,NOT WS_TABSTOP
     PUSHBUTTON      "Select &none",IDC_SELNONE,175,218,60,14,NOT WS_TABSTOP
@@ -133,7 +132,6 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CTEXT           "Here is the complete list of missing Miranda NG components. Check components that you want to download.\n\nClick on info icon to view component info page.",IDC_UPDATETEXT,9,9,223,44
     DEFPUSHBUTTON   "Download",IDOK,175,218,60,14,WS_DISABLED
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,1,58,236,1
     CONTROL         "",IDC_LIST_UPDATES,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,6,64,229,149
     PUSHBUTTON      "Select &none",IDC_SELNONE,109,218,60,14,NOT WS_TABSTOP
 END
