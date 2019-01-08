@@ -281,6 +281,9 @@ void CIcqProto::RetrieveUserHistory(MCONTACT hContact, __int64 startMsgId, __int
 	if (endMsgId == 0)
 		endMsgId = -1;
 
+	if (startMsgId >= endMsgId)
+		return;
+
 	auto *pReq = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER, &CIcqProto::OnGetUserHistory);
 	//pReq->flags |= NLHRF_NODUMPSEND;
 	pReq->pUserInfo = (void*)hContact;
@@ -292,7 +295,7 @@ void CIcqProto::RetrieveUserHistory(MCONTACT hContact, __int64 startMsgId, __int
 	params << CHAR_PARAM("sn", buf) << INT64_PARAM("fromMsgId", startMsgId);
 	if (endMsgId != -1)
 		params << INT64_PARAM("tillMsgId", endMsgId);
-	params << INT_PARAM("count", -1000) << CHAR_PARAM("aimSid", m_aimsid) << CHAR_PARAM("patchVersion", "1") << CHAR_PARAM("language", "ru-ru");
+	params << INT_PARAM("count", 1000) << CHAR_PARAM("aimSid", m_aimsid) << CHAR_PARAM("patchVersion", "1") << CHAR_PARAM("language", "ru-ru");
 	request << CHAR_PARAM("method", "getHistory") << CHAR_PARAM("reqId", pReq->m_reqId) << CHAR_PARAM("authToken", m_szRToken)
 		<< INT_PARAM("clientId", m_iRClientId) << params;
 	pReq->m_szParam = ptrW(json_write(&request));
@@ -645,14 +648,15 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 
 	MCONTACT hContact = CreateContact(dwUin, true);
 	__int64 lastMsgId = getId(hContact, DB_KEY_LASTMSGID);
-	__int64 srvlastId = _wtoi64(ev["lastMsgId"].as_mstring());
-	
+	__int64 srvLastId = _wtoi64(ev["lastMsgId"].as_mstring());
+	__int64 srvUnreadId = _wtoi64(ev["yours"]["lastRead"].as_mstring());
+
 	// on first start we don't load history not to create dups
 	if (lastMsgId == 0)
-		setId(hContact, DB_KEY_LASTMSGID, srvlastId);
+		setId(hContact, DB_KEY_LASTMSGID, srvLastId);
 	// or load missing messages if any
 	else if (ev["unreadCnt"].as_int() > 0)
-		RetrieveUserHistory(hContact, srvlastId, lastMsgId);
+		RetrieveUserHistory(hContact, min(srvUnreadId, lastMsgId), srvLastId);
 
 	for (auto &it : ev["tail"]["messages"])
 		ParseMessage(hContact, lastMsgId, it);
