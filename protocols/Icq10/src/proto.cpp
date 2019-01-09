@@ -42,7 +42,7 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr)),
 	m_dwUin(this, DB_KEY_UIN, 0),
 	m_szPassword(this, "Password"),
-	m_bUseFriendly(this, "bUseFriendly", 1)
+	m_bUseFriendly(this, "UseFriendly", 1)
 {
 	// services
 	CreateProtoService(PS_CREATEACCMGRUI, &CIcqProto::CreateAccMgrUI);
