@@ -221,10 +221,8 @@ public:
 		m_chkClassicDates.SetState(clsdates);
 		m_chkRepSubfolder.SetState(dtsubfldr);
 		m_chkCatchCrashes.SetState(catchcrashes);
-		if (!catchcrashes) {
-			m_chkClassicDates.Disable();
+		if (!catchcrashes)
 			m_chkRepSubfolder.Disable();
-		}
 		if (needrestart)
 			m_lblRestart.Show();
 		return true;
