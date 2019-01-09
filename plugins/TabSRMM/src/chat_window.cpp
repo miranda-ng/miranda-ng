@@ -669,7 +669,7 @@ void CChatRoomDlg::onClick_Filter(CCtrlButton *pButton)
 
 	m_btnFilter.SendMsg(BUTTONSETOVERLAYICON, (LPARAM)(m_bFilterEnabled ? PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled), 0);
 
-	if (m_bFilterEnabled && db_get_b(0, CHAT_MODULE, "RightClickFilter", 0) == 0) {
+	if (m_bFilterEnabled && db_get_b(0, CHAT_MODULE, "RightClickFilter", 1) == 0) {
 		ShowFilterMenu();
 		return;
 	}
