@@ -81,7 +81,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void     ConnectionFailed(int iReason);
 	void     OnLoggedIn(void);
 	void     OnLoggedOut(void);
-	MCONTACT ParseBuddyInfo(const JSONNode &buddy);
+	MCONTACT ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact = -1);
 	void     ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &msg);
 	void     RetrieveUserHistory(MCONTACT, __int64 startMsgId, __int64 endMsgId);
 	void     RetrieveUserInfo(MCONTACT);

@@ -100,6 +100,7 @@ void CIcqProto::OnLoggedIn()
 	debugLogA("CIcqProto::OnLoggedIn");
 	m_bOnline = true;
 	SetServerStatus(m_iDesiredStatus);
+	RetrieveUserInfo(0);
 }
 
 void CIcqProto::OnLoggedOut()
@@ -113,12 +114,14 @@ void CIcqProto::OnLoggedOut()
 	setAllContactStatuses(ID_STATUS_OFFLINE, false);
 }
 
-MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy)
+MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 {
 	DWORD dwUin = _wtol(buddy["aimId"].as_mstring());
 
-	MCONTACT hContact = CreateContact(dwUin, false);
-	FindContactByUIN(dwUin)->m_bInList = true;
+	if (hContact == -1) {
+		hContact = CreateContact(dwUin, false);
+		FindContactByUIN(dwUin)->m_bInList = true;
+	}
 
 	CMStringW str(buddy["state"].as_mstring());
 	setDword(hContact, "Status", StatusFromString(str));
@@ -477,7 +480,7 @@ void CIcqProto::OnGetUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 
 	const JSONNode &data = root.data();
 	for (auto &it : data["users"])
-		ParseBuddyInfo(it);
+		ParseBuddyInfo(it, hContact);
 
 	ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, nullptr);
 }
