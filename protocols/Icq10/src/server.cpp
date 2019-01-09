@@ -46,12 +46,12 @@ void CIcqProto::CheckLastId(MCONTACT hContact, const JSONNode &ev)
 
 void CIcqProto::CheckNickChange(MCONTACT hContact, const JSONNode &ev)
 {
-	CMStringW wszNick(getMStringW(hContact, "Nick"));
-	if (!wszNick.IsEmpty())
+	// if we already set a nick, ignore change when friendly names aren't used
+	if (!m_bUseFriendly && !getMStringW(hContact, "Nick").IsEmpty())
 		return;
 
-	wszNick = ev["friendly"].as_mstring();
-	if (!wszNick.IsEmpty())
+	CMStringW wszNick = ev["friendly"].as_mstring();
+	if (m_bUseFriendly || !wszNick.IsEmpty())
 		setWString(hContact, "Nick", wszNick);
 }
 
@@ -135,7 +135,8 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy)
 
 		str = profile["friendlyName"].as_mstring();
 		if (!str.IsEmpty())
-			setWString(hContact, "Nick", str);
+			if (!m_bUseFriendly || getMStringW("Nick").IsEmpty())
+				setWString(hContact, "Nick", str);
 
 		time_t birthDate = profile["birthDate"].as_int();
 		if (birthDate != 0) {
@@ -624,12 +625,40 @@ void CIcqProto::ProcessBuddyList(const JSONNode &ev)
 			db_set_b(it->m_hContact, "CList", "NotOnList", 1);
 }
 
+void CIcqProto::ProcessDiff(const JSONNode &ev)
+{
+	for (auto &block : ev) {
+		CMStringW szType = block["type"].as_mstring();
+		if (szType != "updated")
+			continue;
+
+		for (auto &it : block["data"]) {
+			CMStringW szGroup = it["name"].as_mstring();
+			bool bCreated = false;
+
+			for (auto &buddy : it["buddies"]) {
+				MCONTACT hContact = ParseBuddyInfo(buddy);
+				if (db_get_sm(hContact, "CList", "Group").IsEmpty()) {
+					if (!bCreated) {
+						Clist_GroupCreate(0, szGroup);
+						bCreated = true;
+					}
+
+					db_set_ws(hContact, "CList", "Group", szGroup);
+				}
+			}
+		}
+	}
+}
+
 void CIcqProto::ProcessEvent(const JSONNode &ev)
 {
 	const JSONNode &pData = ev["eventData"];
 	CMStringW szType = ev["type"].as_mstring();
 	if (szType == L"buddylist")
 		ProcessBuddyList(pData);
+	else if (szType == L"diff")
+		ProcessDiff(pData);
 	else if (szType == L"histDlgState")
 		ProcessHistData(pData);
 	else if (szType == L"imState")

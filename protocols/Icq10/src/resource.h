@@ -7,6 +7,7 @@
 #define IDD_REGISTER                    105
 #define IDC_PASSWORD                    1001
 #define IDC_UIN                         1002
+#define IDC_USEFRIENDLY                 1003
 #define IDC_REGISTER                    1005
 #define IDC_PHONE                       1006
 #define IDC_SENDSMS                     1008

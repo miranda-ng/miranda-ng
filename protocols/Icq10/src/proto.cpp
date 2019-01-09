@@ -41,7 +41,8 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	arMarkReadQueue(10, NumericKeySortT),
 	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr)),
 	m_dwUin(this, DB_KEY_UIN, 0),
-	m_szPassword(this, "Password")
+	m_szPassword(this, "Password"),
+	m_bUseFriendly(this, "bUseFriendly", 1)
 {
 	// services
 	CreateProtoService(PS_CREATEACCMGRUI, &CIcqProto::CreateAccMgrUI);
@@ -151,7 +152,7 @@ int CIcqProto::OnDbEventRead(WPARAM, LPARAM hDbEvent)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_AddToList - adds a contact to the contact list
 
-MCONTACT CIcqProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
+MCONTACT CIcqProto::AddToList(int, PROTOSEARCHRESULT *psr)
 {
 	if (mir_wstrlen(psr->id.w) == 0)
 		return 0;
@@ -167,35 +168,6 @@ MCONTACT CIcqProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 		setWString(hContact, "LastName", psr->lastName.w);
 
 	return hContact;
-}
-
-MCONTACT CIcqProto::AddToListByEvent(int flags, int iContact, MEVENT hDbEvent)
-{
-	return 0; // Failure
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// PS_AuthAllow - processes the successful authorization
-
-int CIcqProto::Authorize(MEVENT hDbEvent)
-{
-	return 1; // Failure
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// PS_AuthDeny - handles the unsuccessful authorization
-
-int CIcqProto::AuthDeny(MEVENT hDbEvent, const wchar_t* szReason)
-{
-	return 1; // Failure
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// PSR_AUTH
-
-int CIcqProto::AuthRecv(MCONTACT hContact, PROTORECVEVENT* pre)
-{
-	return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -215,7 +187,7 @@ int CIcqProto::AuthRequest(MCONTACT hContact, const wchar_t* szMessage)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_FileAllow - starts a file transfer
 
-HANDLE CIcqProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szPath)
+HANDLE CIcqProto::FileAllow(MCONTACT, HANDLE, const wchar_t*)
 {
 	return nullptr; // Failure
 }
@@ -223,7 +195,7 @@ HANDLE CIcqProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t* 
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_FileCancel - cancels a file transfer
 
-int CIcqProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
+int CIcqProto::FileCancel(MCONTACT, HANDLE)
 {
 	return 1; // Failure
 }
@@ -231,7 +203,7 @@ int CIcqProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_FileDeny - denies a file transfer
 
-int CIcqProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szReason)
+int CIcqProto::FileDeny(MCONTACT, HANDLE, const wchar_t*)
 {
 	return 1; // Invalid contact
 }
@@ -239,7 +211,7 @@ int CIcqProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szRe
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_FileResume - processes file renaming etc
 
-int CIcqProto::FileResume(HANDLE hTransfer, int* action, const wchar_t** szFilename)
+int CIcqProto::FileResume(HANDLE, int*, const wchar_t**)
 {
 	return 1; // Failure
 }
@@ -247,7 +219,7 @@ int CIcqProto::FileResume(HANDLE hTransfer, int* action, const wchar_t** szFilen
 ////////////////////////////////////////////////////////////////////////////////////////
 // GetCaps - return protocol capabilities bits
 
-INT_PTR CIcqProto::GetCaps(int type, MCONTACT hContact)
+INT_PTR CIcqProto::GetCaps(int type, MCONTACT)
 {
 	INT_PTR nReturn = 0;
 
@@ -280,7 +252,7 @@ INT_PTR CIcqProto::GetCaps(int type, MCONTACT hContact)
 ////////////////////////////////////////////////////////////////////////////////////////
 // GetInfo - retrieves a contact info
 
-int CIcqProto::GetInfo(MCONTACT hContact, int infoType)
+int CIcqProto::GetInfo(MCONTACT hContact, int)
 {
 	RetrieveUserInfo(hContact);
 	return 0;
@@ -308,7 +280,7 @@ HANDLE CIcqProto::SearchBasic(const wchar_t *pszSearch)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendFile - sends a file
 
-HANDLE CIcqProto::SendFile(MCONTACT hContact, const wchar_t* szDescription, wchar_t** ppszFiles)
+HANDLE CIcqProto::SendFile(MCONTACT, const wchar_t*, wchar_t**)
 {
 	return nullptr; // Failure
 }
@@ -339,7 +311,7 @@ int CIcqProto::SendMsg(MCONTACT hContact, int, const char *pszSrc)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendUrl
 
-int CIcqProto::SendUrl(MCONTACT hContact, int, const char* url)
+int CIcqProto::SendUrl(MCONTACT, int, const char*)
 {
 	return 1; // Failure
 }
@@ -398,7 +370,7 @@ int CIcqProto::SetStatus(int iNewStatus)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_GetAwayMsg - returns a contact's away message
 
-HANDLE CIcqProto::GetAwayMsg(MCONTACT hContact)
+HANDLE CIcqProto::GetAwayMsg(MCONTACT)
 {
 	return nullptr; // Failure
 }
@@ -406,7 +378,7 @@ HANDLE CIcqProto::GetAwayMsg(MCONTACT hContact)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSR_AWAYMSG - processes received status mode message
 
-int CIcqProto::RecvAwayMsg(MCONTACT hContact, int, PROTORECVEVENT* evt)
+int CIcqProto::RecvAwayMsg(MCONTACT, int, PROTORECVEVENT*)
 {
 	return 0;
 }
@@ -414,7 +386,7 @@ int CIcqProto::RecvAwayMsg(MCONTACT hContact, int, PROTORECVEVENT* evt)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_SetAwayMsg - sets the away status message
 
-int CIcqProto::SetAwayMsg(int status, const wchar_t* msg)
+int CIcqProto::SetAwayMsg(int, const wchar_t*)
 {
 	return 0; // Success
 }
@@ -436,7 +408,7 @@ int CIcqProto::UserIsTyping(MCONTACT hContact, int type)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_SetApparentMode - sets the visibility status
 
-int CIcqProto::SetApparentMode(MCONTACT hContact, int mode)
+int CIcqProto::SetApparentMode(MCONTACT, int)
 {
 	return 1; // Failure
 }

@@ -112,6 +112,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void     OnValidateSms(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	void     ProcessBuddyList(const JSONNode&);
+	void     ProcessDiff(const JSONNode&);
 	void     ProcessEvent(const JSONNode&);
 	void     ProcessHistData(const JSONNode&);
 	void     ProcessImState(const JSONNode&);
@@ -185,11 +186,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	// PROTO_INTERFACE
 
 	MCONTACT AddToList( int flags, PROTOSEARCHRESULT *psr) override;
-	MCONTACT AddToListByEvent( int flags, int iContact, MEVENT hDbEvent) override;
 
-	int      Authorize(MEVENT hDbEvent) override;
-	int      AuthDeny(MEVENT hDbEvent, const wchar_t *szReason) override;
-	int      AuthRecv(MCONTACT hContact, PROTORECVEVENT*) override;
 	int      AuthRequest(MCONTACT hContact, const wchar_t *szMessage) override;
 
 	HANDLE   FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath) override;
@@ -225,6 +222,7 @@ public:
 
 	CMOption<DWORD> m_dwUin;
 	CMOption<wchar_t*> m_szPassword;
+	CMOption<BYTE> m_bUseFriendly;
 };
 
 struct CMPlugin : public ACCPROTOPLUGIN<CIcqProto>
