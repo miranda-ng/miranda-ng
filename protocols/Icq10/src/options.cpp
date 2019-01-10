@@ -156,7 +156,7 @@ void CIcqProto::OnLoginViaPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pRe
 class CIcqOptionsDlg : public CProtoDlgBase<CIcqProto>
 {
 	CCtrlEdit edtUin, edtPassword;
-	CCtrlCheck chkUseFriendly;
+	CCtrlCheck chkUseFriendly, chkHideChats;
 	CCtrlButton btnCreate;
 	CMStringW wszOldPass;
 
@@ -166,14 +166,17 @@ public:
 		edtUin(this, IDC_UIN),
 		btnCreate(this, IDC_REGISTER),
 		edtPassword(this, IDC_PASSWORD),
+		chkHideChats(this, IDC_HIDECHATS),
 		chkUseFriendly(this, IDC_USEFRIENDLY)
 	{
 		btnCreate.OnClick = Callback(this, &CIcqOptionsDlg::onClick_Register);
 
 		CreateLink(edtUin, ppro->m_dwUin);
 		CreateLink(edtPassword, ppro->m_szPassword);
-		if (bFullDlg)
+		if (bFullDlg) {
+			CreateLink(chkHideChats, ppro->m_bHideGroupchats);
 			CreateLink(chkUseFriendly, ppro->m_bUseFriendly);
+		}
 
 		wszOldPass = ppro->m_szPassword;
 	}

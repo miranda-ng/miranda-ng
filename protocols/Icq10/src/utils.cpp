@@ -187,6 +187,19 @@ INT_PTR __cdecl CIcqProto::SetAvatar(WPARAM, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+CMStringA CIcqProto::GetUserId(MCONTACT hContact)
+{
+	if (isChatRoom(hContact))
+		return getMStringA(hContact, "ChatRoomID");
+
+	return CMStringA(FORMAT, "%d", getDword(hContact, DB_KEY_UIN));
+}
+
+bool IsChat(const CMStringW &aimid)
+{
+	return aimid.Right(11) == "@chat.agent";
+}
+
 int StatusFromString(const CMStringW &wszStatus)
 {
 	if (wszStatus == "online")

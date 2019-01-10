@@ -42,7 +42,8 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr)),
 	m_dwUin(this, DB_KEY_UIN, 0),
 	m_szPassword(this, "Password"),
-	m_bUseFriendly(this, "UseFriendly", 1)
+	m_bUseFriendly(this, "UseFriendly", 1),
+	m_bHideGroupchats(this, "HideChats", 1)
 {
 	// services
 	CreateProtoService(PS_CREATEACCMGRUI, &CIcqProto::CreateAccMgrUI);
@@ -52,8 +53,10 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	CreateProtoService(PS_SETMYAVATAR, &CIcqProto::SetAvatar);
 
 	// events
-	HookProtoEvent(ME_OPT_INITIALISE, &CIcqProto::OnOptionsInit);
 	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CIcqProto::OnDbEventRead);
+	HookProtoEvent(ME_GC_EVENT, &CIcqProto::GroupchatEventHook);
+	HookProtoEvent(ME_GC_BUILDMENU, &CIcqProto::GroupchatMenuHook);
+	HookProtoEvent(ME_OPT_INITIALISE, &CIcqProto::OnOptionsInit);
 
 	// netlib handle
 	CMStringW descr(FORMAT, TranslateT("%s server connection"), m_tszUserName);
@@ -79,6 +82,11 @@ CIcqProto::~CIcqProto()
 
 void CIcqProto::OnModulesLoaded()
 {
+	GCREGISTER gcr = {};
+	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
+	gcr.ptszDispName = m_tszUserName;
+	gcr.pszModule = m_szModuleName;
+	Chat_Register(&gcr);
 }
 
 void CIcqProto::OnShutdown()
@@ -96,6 +104,74 @@ void CIcqProto::OnContactDeleted(MCONTACT hContact)
 		<< CHAR_PARAM("r", pReq->m_reqId) << INT_PARAM("allGroups", 1);
 	pReq->flags |= NLHRF_NODUMPSEND;
 	Push(pReq);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Group chats
+
+static gc_item sttLogListItems[] =
+{
+	{ LPGENW("&Invite a user"), IDM_INVITE, MENU_ITEM },
+};
+
+int CIcqProto::GroupchatMenuHook(WPARAM, LPARAM lParam)
+{
+	GCMENUITEMS* gcmi = (GCMENUITEMS*)lParam;
+	if (gcmi == nullptr)
+		return 0;
+
+	if (mir_strcmpi(gcmi->pszModule, m_szModuleName))
+		return 0;
+
+	SESSION_INFO *si = g_chatApi.SM_FindSession(gcmi->pszID, gcmi->pszModule);
+	if (si == nullptr)
+		return 0;
+
+	if (gcmi->Type == MENU_ON_LOG)
+		Chat_AddMenuItems(gcmi->hMenu, _countof(sttLogListItems), sttLogListItems, &g_plugin);
+
+	return 0;
+}
+
+int CIcqProto::GroupchatEventHook(WPARAM, LPARAM lParam)
+{
+	GCHOOK *gch = (GCHOOK*)lParam;
+	if (gch == nullptr)
+		return 0;
+
+	if (mir_strcmpi(gch->pszModule, m_szModuleName))
+		return 0;
+
+	SESSION_INFO *si = g_chatApi.SM_FindSession(gch->ptszID, gch->pszModule);
+	if (si == nullptr)
+		return 0;
+
+	switch (gch->iType) {
+	case GC_USER_MESSAGE:
+		rtrimw(gch->ptszText);
+		if (!mir_wstrlen(gch->ptszText))
+			break;
+
+		if (m_bOnline) {
+			wchar_t *wszText = NEWWSTR_ALLOCA(gch->ptszText);
+			Chat_UnescapeTags(wszText);
+			SendMsg(si->hContact, 0, T2Utf(wszText));
+		}
+		break;
+
+	case GC_USER_PRIVMESS:
+		// Chat_SendPrivateMessage(gch);
+		break;
+
+	case GC_USER_LOGMENU:
+		// Chat_ProcessLogMenu(gch);
+		break;
+
+	case GC_USER_NICKLISTMENU:
+		break;
+	}
+
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -290,8 +366,8 @@ HANDLE CIcqProto::SendFile(MCONTACT, const wchar_t*, wchar_t**)
 
 int CIcqProto::SendMsg(MCONTACT hContact, int, const char *pszSrc)
 {
-	DWORD dwUin = getDword(hContact, DB_KEY_UIN);
-	if (dwUin == 0)
+	CMStringA szUserid(GetUserId(hContact));
+	if (szUserid.IsEmpty())
 		return 0;
 
 	int id = InterlockedIncrement(&m_msgId);
@@ -303,7 +379,7 @@ int CIcqProto::SendMsg(MCONTACT hContact, int, const char *pszSrc)
 
 	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("f", "json") << CHAR_PARAM("k", ICQ_APP_ID)
 		<< CHAR_PARAM("mentions", "") << CHAR_PARAM("message", pszSrc) << CHAR_PARAM("offlineIM", "true") << CHAR_PARAM("r", pReq->m_reqId)
-		<< INT_PARAM("t", dwUin) << INT_PARAM("ts", time(0));
+		<< CHAR_PARAM("t", szUserid) << INT_PARAM("ts", time(0));
 	Push(pReq);
 	return id;
 }

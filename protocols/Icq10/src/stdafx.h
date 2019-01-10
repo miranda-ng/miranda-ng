@@ -43,27 +43,28 @@
 
 // Miranda IM SDK includes
 #include <newpluginapi.h> // This must be included first
+#include <m_avatars.h>
+#include <m_chat_int.h>
 #include <m_clist.h>
 #include <m_database.h>
+#include <m_gui.h>
+#include <m_idle.h>
+#include <m_icolib.h>
+#include <m_ignore.h>
+#include <m_json.h>
 #include <m_langpack.h>
 #include <m_message.h>
 #include <m_netlib.h>
 #include <m_protocols.h>
 #include <m_protosvc.h>
 #include <m_options.h>
+#include <m_popup.h>
+#include <m_skin.h>
 #include <m_system.h>
+#include <m_timezones.h>
 #include <m_userinfo.h>
 #include <m_utils.h>
-#include <m_idle.h>
-#include <m_skin.h>
-#include <m_popup.h>
-#include <m_ignore.h>
-#include <m_json.h>
-#include <m_icolib.h>
-#include <m_avatars.h>
-#include <m_timezones.h>
 #include <win2k.h>
-#include <m_gui.h>
 
 #include <openssl/evp.h>
 #include <openssl/hmac.h>
@@ -86,6 +87,8 @@
 
 #include "http.h"
 #include "proto.h"
+
+bool IsChat(const CMStringW &aimid);
 
 int StatusFromString(const CMStringW&);
 

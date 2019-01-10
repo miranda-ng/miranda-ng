@@ -37,6 +37,11 @@
 #define ICQ_API_SERVER "https://api.icq.net"
 #define ICQ_ROBUST_SERVER "https://rapi.icq.net"
 
+enum ChatMenuItems
+{
+	IDM_INVITE = 10, IDM_EXIT, IDM_DESTROY
+};
+
 struct IcqCacheItem
 {
 	IcqCacheItem(DWORD _uin, MCONTACT _contact) :
@@ -72,53 +77,57 @@ class CIcqProto : public PROTO<CIcqProto>
 {
 	friend struct CIcqRegistrationDlg;
 
-	bool     m_bOnline = false, m_bTerminated = false;
-	void     CheckAvatarChange(MCONTACT hContact, const JSONNode&);
-	void     CheckLastId(MCONTACT hContact, const JSONNode&);
-	void     CheckNickChange(MCONTACT hContact, const JSONNode&);
-	MCONTACT CheckOwnMessage(const CMStringA &reqId, const CMStringA &msgId, bool bRemove);
-	void     CheckPassword(void);
-	void     ConnectionFailed(int iReason);
-	void     OnLoggedIn(void);
-	void     OnLoggedOut(void);
-	MCONTACT ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact = -1);
-	void     ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &msg);
-	void     RetrieveUserHistory(MCONTACT, __int64 startMsgId, __int64 endMsgId);
-	void     RetrieveUserInfo(MCONTACT);
-	void     SetServerStatus(int iNewStatus);
-	void     ShutdownSession(void);
-	void     StartSession(void);
+	bool      m_bOnline = false, m_bTerminated = false;
+	void      CheckAvatarChange(MCONTACT hContact, const JSONNode&);
+	void      CheckLastId(MCONTACT hContact, const JSONNode&);
+	void      CheckNickChange(MCONTACT hContact, const JSONNode&);
+	MCONTACT  CheckOwnMessage(const CMStringA &reqId, const CMStringA &msgId, bool bRemove);
+	void      CheckPassword(void);
+	void      ConnectionFailed(int iReason);
+	CMStringA GetUserId(MCONTACT);
+	void      LoadChatInfo(SESSION_INFO*);
+	MCONTACT  ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact = -1);
+	void      ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &msg);
+	void      RetrieveUserHistory(MCONTACT, __int64 startMsgId, __int64 endMsgId);
+	void      RetrieveUserInfo(MCONTACT);
+	void      SetServerStatus(int iNewStatus);
+	void      ShutdownSession(void);
+	void      StartSession(void);
 
-	mir_cs   csMarkReadQueue;
+	void      OnLoggedIn(void);
+	void      OnLoggedOut(void);
+
+	mir_cs    csMarkReadQueue;
 	LIST<IcqCacheItem> arMarkReadQueue;
-	static   void CALLBACK MarkReadTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD);
+	static    void CALLBACK MarkReadTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD);
 
-	__int64  getId(MCONTACT hContact, const char *szSetting);
-	void     setId(MCONTACT hContact, const char *szSetting, __int64 iValue);
+	__int64   getId(MCONTACT hContact, const char *szSetting);
+	void      setId(MCONTACT hContact, const char *szSetting, __int64 iValue);
 	  
-	void     OnAddBuddy(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void     OnAddClient(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void     OnCheckPassword(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void     OnCheckPhone(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void     OnFetchEvents(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void     OnGetUserHistory(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void     OnGetUserInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void     OnLoginViaPhone(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void     OnNormalizePhone(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void     OnReceiveAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void     OnSearchResults(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void     OnSendMessage(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void     OnStartSession(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void     OnValidateSms(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void      OnAddBuddy(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void      OnAddClient(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void      OnCheckPassword(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void      OnCheckPhone(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void      OnFetchEvents(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void      OnGetChatInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void      OnGetUserHistory(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void      OnGetUserInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void      OnLoginViaPhone(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void      OnNormalizePhone(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void      OnReceiveAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void      OnSearchResults(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void      OnSendMessage(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void      OnStartSession(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void      OnValidateSms(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
-	void     ProcessBuddyList(const JSONNode&);
-	void     ProcessDiff(const JSONNode&);
-	void     ProcessEvent(const JSONNode&);
-	void     ProcessHistData(const JSONNode&);
-	void     ProcessImState(const JSONNode&);
-	void     ProcessMyInfo(const JSONNode&);
-	void     ProcessPresence(const JSONNode&);
-	void     ProcessTyping(const JSONNode&);
+	void      ProcessBuddyList(const JSONNode&);
+	void      ProcessDiff(const JSONNode&);
+	void      ProcessEvent(const JSONNode&);
+	void      ProcessHistData(const JSONNode&);
+	void      ProcessImState(const JSONNode&);
+	void      ProcessMyInfo(const JSONNode&);
+	void      ProcessPresence(const JSONNode&);
+	void      ProcessTyping(const JSONNode&);
 
 	IcqConn   m_ConnPool[CONN_LAST];
 	CMStringA m_szSessionKey;
@@ -134,95 +143,96 @@ class CIcqProto : public PROTO<CIcqProto>
 	////////////////////////////////////////////////////////////////////////////////////////
 	// http queue
 
-	mir_cs   m_csHttpQueue;
-	HANDLE   m_evRequestsQueue;
+	mir_cs    m_csHttpQueue;
+	HANDLE    m_evRequestsQueue;
 	LIST<AsyncHttpRequest> m_arHttpQueue;
 
-	void     CalcHash(AsyncHttpRequest*);
-	void     ExecuteRequest(AsyncHttpRequest*);
-	void     Push(MHttpRequest*);
-	bool     RefreshRobustToken();
+	void      CalcHash(AsyncHttpRequest*);
+	void      ExecuteRequest(AsyncHttpRequest*);
+	void      Push(MHttpRequest*);
+	bool      RefreshRobustToken();
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// cache
 
-	mir_cs   m_csCache;
+	mir_cs    m_csCache;
 	OBJLIST<IcqCacheItem> m_arCache;
 
-	void     InitContactCache(void);
+	void      InitContactCache(void);
 	IcqCacheItem* FindContactByUIN(DWORD);
-	MCONTACT CreateContact(DWORD dwUin, bool bTemporary);
+	MCONTACT  CreateContact(DWORD dwUin, bool bTemporary);
 
-	void     GetAvatarFileName(MCONTACT hContact, wchar_t *pszDest, size_t cbLen);
+	void      GetAvatarFileName(MCONTACT hContact, wchar_t *pszDest, size_t cbLen);
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// threads
 
-	HANDLE   m_hWorkerThread;
-	void     __cdecl ServerThread(void*);
+	HANDLE    m_hWorkerThread;
+	void      __cdecl ServerThread(void*);
 
-	HANDLE   m_hPollThread;
-	void     __cdecl PollThread(void*);
-
-	void     __cdecl SendAckThread(void*);
+	HANDLE    m_hPollThread;
+	void      __cdecl PollThread(void*);
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// services
 
-	INT_PTR  __cdecl GetAvatar(WPARAM, LPARAM);
-	INT_PTR  __cdecl GetAvatarCaps(WPARAM, LPARAM);
-	INT_PTR  __cdecl GetAvatarInfo(WPARAM, LPARAM);
-	INT_PTR  __cdecl SetAvatar(WPARAM, LPARAM);
+	INT_PTR   __cdecl GetAvatar(WPARAM, LPARAM);
+	INT_PTR   __cdecl GetAvatarCaps(WPARAM, LPARAM);
+	INT_PTR   __cdecl GetAvatarInfo(WPARAM, LPARAM);
+	INT_PTR   __cdecl SetAvatar(WPARAM, LPARAM);
 	
-	INT_PTR  __cdecl CreateAccMgrUI(WPARAM, LPARAM);
+	INT_PTR   __cdecl CreateAccMgrUI(WPARAM, LPARAM);
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// events
+	int        __cdecl GroupchatEventHook(WPARAM, LPARAM);
+	int        __cdecl GroupchatMenuHook(WPARAM, LPARAM);
 
-	int __cdecl OnDbEventRead(WPARAM, LPARAM);
-	int __cdecl OnOptionsInit(WPARAM, LPARAM);
+	int        __cdecl OnDbEventRead(WPARAM, LPARAM);
+	int        __cdecl OnOptionsInit(WPARAM, LPARAM);
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// PROTO_INTERFACE
 
-	MCONTACT AddToList( int flags, PROTOSEARCHRESULT *psr) override;
-
-	int      AuthRequest(MCONTACT hContact, const wchar_t *szMessage) override;
-
-	HANDLE   FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath) override;
-	int      FileCancel(MCONTACT hContact, HANDLE hTransfer) override;
-	int      FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szReason) override;
-	int      FileResume( HANDLE hTransfer, int *action, const wchar_t **szFilename) override;
-
-	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
-	int      GetInfo(MCONTACT hContact, int infoType) override;
-
-	HANDLE   SearchBasic(const wchar_t *id) override;
-
-	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
-	int      SendMsg(MCONTACT hContact, int flags, const char *msg) override;
-	int      SendUrl(MCONTACT hContact, int flags, const char *url) override;
-
-	int      SetApparentMode(MCONTACT hContact, int mode) override;
-	int      SetStatus(int iNewStatus) override;
-
-	HANDLE   GetAwayMsg(MCONTACT hContact) override;
-	int      RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT *evt) override;
-	int      SetAwayMsg(int m_iStatus, const wchar_t *msg) override;
-
-	int      UserIsTyping(MCONTACT hContact, int type) override;
-
-	void     OnContactDeleted(MCONTACT) override;
-	void     OnModulesLoaded() override;
-	void     OnShutdown() override;
+	MCONTACT   AddToList( int flags, PROTOSEARCHRESULT *psr) override;
+			     
+	int        AuthRequest(MCONTACT hContact, const wchar_t *szMessage) override;
+			     
+	HANDLE     FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath) override;
+	int        FileCancel(MCONTACT hContact, HANDLE hTransfer) override;
+	int        FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szReason) override;
+	int        FileResume( HANDLE hTransfer, int *action, const wchar_t **szFilename) override;
+			     
+	INT_PTR    GetCaps(int type, MCONTACT hContact = NULL) override;
+	int        GetInfo(MCONTACT hContact, int infoType) override;
+			     
+	HANDLE     SearchBasic(const wchar_t *id) override;
+			     
+	HANDLE     SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
+	int        SendMsg(MCONTACT hContact, int flags, const char *msg) override;
+	int        SendUrl(MCONTACT hContact, int flags, const char *url) override;
+			     
+	int        SetApparentMode(MCONTACT hContact, int mode) override;
+	int        SetStatus(int iNewStatus) override;
+			     
+	HANDLE     GetAwayMsg(MCONTACT hContact) override;
+	int        RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT *evt) override;
+	int        SetAwayMsg(int m_iStatus, const wchar_t *msg) override;
+			     
+	int        UserIsTyping(MCONTACT hContact, int type) override;
+			     
+	void       OnContactDeleted(MCONTACT) override;
+	void       OnModulesLoaded() override;
+	void       OnShutdown() override;
 
 public:
 	CIcqProto(const char*, const wchar_t*);
 	~CIcqProto();
 
-	CMOption<DWORD> m_dwUin;
-	CMOption<wchar_t*> m_szPassword;
-	CMOption<BYTE> m_bUseFriendly;
+	CMOption<DWORD> m_dwUin;          // our own id
+	CMOption<wchar_t*> m_szPassword;  // password, if present
+	CMOption<BYTE> m_bUseFriendly;    // use friendly names instead of old icq nicks
+	CMOption<BYTE> m_bHideGroupchats; // don't pop up group chat windows on startup
 };
 
 struct CMPlugin : public ACCPROTOPLUGIN<CIcqProto>

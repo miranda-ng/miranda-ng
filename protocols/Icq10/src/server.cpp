@@ -95,6 +95,33 @@ void CIcqProto::ConnectionFailed(int iReason)
 	ShutdownSession();
 }
 
+void CIcqProto::LoadChatInfo(SESSION_INFO *si)
+{
+	int memberCount = getDword(si->hContact, "MemberCount");
+	for (int i = 0; i < memberCount; i++) {
+		char buf[100];
+		mir_snprintf(buf, "m%d", i);
+		ptrW szSetting(getWStringA(si->hContact, buf));
+		JSONNode *node = json_parse(T2Utf(szSetting));
+		if (node == nullptr)
+			continue;
+
+		CMStringW nick((*node)["nick"].as_mstring());
+		CMStringW role((*node)["role"].as_mstring());
+		CMStringW sn((*node)["sn"].as_mstring());
+
+		GCEVENT gce = { m_szModuleName, si->ptszID, GC_EVENT_JOIN };
+		gce.ptszNick = nick;
+		gce.ptszUID = sn;
+		gce.time = ::time(0);
+		gce.bIsMe = _wtoi(sn) == (int)m_dwUin;
+		gce.ptszStatus = TranslateW(role);
+		Chat_Event(&gce);
+
+		json_delete(node);
+	}
+}
+
 void CIcqProto::OnLoggedIn()
 {
 	debugLogA("CIcqProto::OnLoggedIn");
@@ -116,6 +143,19 @@ void CIcqProto::OnLoggedOut()
 
 MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 {
+	// user chat?
+	if (buddy["userType"].as_mstring() == "interop") {
+		CMStringW wszChatId(buddy["aimId"].as_mstring());
+		CMStringW wszChatName(buddy["friendly"].as_mstring());
+		
+		SESSION_INFO *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszChatId, wszChatName);
+		Chat_AddGroup(si, TranslateT("admin"));
+		Chat_AddGroup(si, TranslateT("member"));
+		Chat_Control(m_szModuleName, wszChatId, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
+		Chat_Control(m_szModuleName, wszChatId, SESSION_ONLINE);
+		return si->hContact;
+	}
+
 	DWORD dwUin = _wtol(buddy["aimId"].as_mstring());
 
 	if (hContact == -1) {
@@ -201,25 +241,43 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 	if (type != "text" && !type.IsEmpty())
 		return;
 
-	// ignore duplicates
-	MEVENT hDbEvent = db_event_getById(m_szModuleName, szMsgId);
-	if (hDbEvent != 0)
-		return;
+	CMStringW wszText(it["text"].as_mstring());
+	if (isChatRoom(hContact)) {
+		CMStringA reqId(it["reqId"].as_mstring());
+		CheckOwnMessage(reqId, szMsgId, true);
 
-	// skip own messages, just set the server msgid
-	CMStringA reqId(it["reqId"].as_mstring());
-	if (CheckOwnMessage(reqId, szMsgId, true))
-		return;
+		CMStringW wszSender(it["chat"]["sender"].as_mstring());
+		CMStringW wszChatId(getMStringW(hContact, "ChatRoomID"));
 
-	bool bIsOutgoing = it["outgoing"].as_bool();
-	ptrA szUtf(mir_utf8encodeW(it["text"].as_mstring()));
+		GCEVENT gce = { m_szModuleName, wszChatId, GC_EVENT_MESSAGE };
+		gce.dwFlags = GCEF_ADDTOLOG;
+		gce.ptszUID = wszSender;
+		gce.ptszText = wszText;
+		gce.time = it["time"].as_int();
+		gce.bIsMe = _wtoi(wszSender) == (int)m_dwUin;
+		Chat_Event(&gce);
+	}
+	else {
+		// skip own messages, just set the server msgid
+		CMStringA reqId(it["reqId"].as_mstring());
+		if (CheckOwnMessage(reqId, szMsgId, true))
+			return;
 
-	PROTORECVEVENT pre = {};
-	pre.flags = (bIsOutgoing) ? PREF_SENT : 0;
-	pre.szMsgId = szMsgId;
-	pre.timestamp = it["time"].as_int();
-	pre.szMessage = szUtf;
-	ProtoChainRecvMsg(hContact, &pre);
+		// ignore duplicates
+		MEVENT hDbEvent = db_event_getById(m_szModuleName, szMsgId);
+		if (hDbEvent != 0)
+			return;
+
+		bool bIsOutgoing = it["outgoing"].as_bool();
+		ptrA szUtf(mir_utf8encodeW(wszText));
+
+		PROTORECVEVENT pre = {};
+		pre.flags = (bIsOutgoing) ? PREF_SENT : 0;
+		pre.szMsgId = szMsgId;
+		pre.timestamp = it["time"].as_int();
+		pre.szMessage = szUtf;
+		ProtoChainRecvMsg(hContact, &pre);
+	}
 }
 
 bool CIcqProto::RefreshRobustToken()
@@ -451,6 +509,37 @@ void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 	StartSession();
 }
 
+void CIcqProto::OnGetChatInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+{
+	SESSION_INFO *si = (SESSION_INFO*)pReq->pUserInfo;
+
+	RobustReply root(pReply);
+	if (root.error() != 20000)
+		return;
+
+	int n = 0;
+	char buf[100];
+	const JSONNode &results = root.results();
+	for (auto &it : results["members"]) {
+		mir_snprintf(buf, "m%d", n++);
+
+		CMStringW friendly = it["friendly"].as_mstring();
+		CMStringW role = it["role"].as_mstring();
+		CMStringW sn = it["sn"].as_mstring();
+
+		JSONNode member;
+		member << WCHAR_PARAM("nick", friendly) << WCHAR_PARAM("role", role) << WCHAR_PARAM("sn", sn);
+		ptrW text(json_write(&member));
+		setWString(si->hContact, buf, text);
+	}
+
+	setDword(si->hContact, "MemberCount", n);
+	setId(si->hContact, "InfoVersion", _wtoi64(results["infoVersion"].as_mstring()));
+	setId(si->hContact, "MembersVersion", _wtoi64(results["membersVersion"].as_mstring()));
+
+	LoadChatInfo(si);
+}
+
 void CIcqProto::OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
 	MCONTACT hContact = (MCONTACT)pReq->pUserInfo;
@@ -676,9 +765,33 @@ void CIcqProto::ProcessEvent(const JSONNode &ev)
 
 void CIcqProto::ProcessHistData(const JSONNode &ev)
 {
-	DWORD dwUin = _wtol(ev["sn"].as_mstring());
+	MCONTACT hContact;
 
-	MCONTACT hContact = CreateContact(dwUin, true);
+	CMStringW wszId(ev["sn"].as_mstring());
+	if (IsChat(wszId)) {
+		SESSION_INFO *si = g_chatApi.SM_FindSession(wszId, m_szModuleName);
+		if (si == nullptr)
+			return;
+
+		hContact = si->hContact;
+
+		if (si->arUsers.getCount() == 0) {
+			__int64 srvInfoVer = _wtoi64(ev["mchatState"]["infoVersion"].as_mstring());
+			__int64 srvMembersVer = _wtoi64(ev["mchatState"]["membersVersion"].as_mstring());
+			if (srvInfoVer != getId(hContact, "InfoVersion") || srvMembersVer != getId(hContact, "MembersVersion")) {
+				auto *pReq = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER, &CIcqProto::OnGetChatInfo);
+				JSONNode request, params; params.set_name("params");
+				params << WCHAR_PARAM("sn", wszId) << INT_PARAM("memberLimit", 100) << CHAR_PARAM("aimSid", m_aimsid);
+				request << CHAR_PARAM("method", "getChatInfo") << CHAR_PARAM("reqId", pReq->m_reqId) << CHAR_PARAM("authToken", m_szRToken) << INT_PARAM("clientId", m_iRClientId) << params;
+				pReq->m_szParam = ptrW(json_write(&request));
+				pReq->pUserInfo = si;
+				Push(pReq);
+			}
+			else LoadChatInfo(si);
+		}
+	}
+	else hContact = CreateContact(_wtol(wszId), true);
+		
 	__int64 lastMsgId = getId(hContact, DB_KEY_LASTMSGID);
 	__int64 srvLastId = _wtoi64(ev["lastMsgId"].as_mstring());
 	__int64 srvUnreadId = _wtoi64(ev["yours"]["lastRead"].as_mstring());
@@ -768,7 +881,7 @@ void __cdecl CIcqProto::PollThread(void*)
 			bFirst = false;
 			szUrl.Append("&first=1");
 		}
-		else szUrl.Append("&timeout=60000");
+		else szUrl.Append("&timeout=25000");
 
 		auto *pReq = new AsyncHttpRequest(CONN_FETCH, REQUEST_GET, szUrl, &CIcqProto::OnFetchEvents);
 		if (!bFirst)
