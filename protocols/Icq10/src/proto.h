@@ -85,7 +85,6 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      CheckPassword(void);
 	void      ConnectionFailed(int iReason);
 	CMStringA GetUserId(MCONTACT);
-	void      LoadChatInfo(SESSION_INFO*);
 	MCONTACT  ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact = -1);
 	void      ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &msg);
 	void      RetrieveUserHistory(MCONTACT, __int64 startMsgId, __int64 endMsgId);
@@ -96,6 +95,9 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	void      OnLoggedIn(void);
 	void      OnLoggedOut(void);
+
+	void      LoadChatInfo(SESSION_INFO *si);
+	void      SendPrivateMessage(GCHOOK *gch);
 
 	mir_cs    csMarkReadQueue;
 	LIST<IcqCacheItem> arMarkReadQueue;

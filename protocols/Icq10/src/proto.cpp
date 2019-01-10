@@ -160,7 +160,7 @@ int CIcqProto::GroupchatEventHook(WPARAM, LPARAM lParam)
 		break;
 
 	case GC_USER_PRIVMESS:
-		// Chat_SendPrivateMessage(gch);
+		SendPrivateMessage(gch);
 		break;
 
 	case GC_USER_LOGMENU:
@@ -172,6 +172,22 @@ int CIcqProto::GroupchatEventHook(WPARAM, LPARAM lParam)
 	}
 
 	return 0;
+}
+
+void CIcqProto::SendPrivateMessage(GCHOOK *gch)
+{
+	MCONTACT hContact;
+	DWORD dwUin = _wtoi(gch->ptszUID);
+	auto *pCache = FindContactByUIN(dwUin);
+	if (pCache == nullptr) {
+		hContact = CreateContact(dwUin, true);
+		setWString(hContact, "Nick", gch->ptszNick);
+		db_set_b(hContact, "CList", "Hidden", 1);
+		db_set_dw(hContact, "Ignore", "Mask1", 0);
+	}
+	else hContact = pCache->m_hContact;
+
+	CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
