@@ -24,7 +24,8 @@ void CIcqProto::InitContactCache()
 {
 	mir_cslock l(m_csCache);
 	for (auto &it : AccContacts())
-		m_arCache.insert(new IcqCacheItem(getDword(it, DB_KEY_UIN), it));
+		if (!isChatRoom(it))
+			m_arCache.insert(new IcqCacheItem(getDword(it, DB_KEY_UIN), it));
 }
 
 IcqCacheItem* CIcqProto::FindContactByUIN(DWORD dwUin)
