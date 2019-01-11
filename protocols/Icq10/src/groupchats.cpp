@@ -36,6 +36,7 @@ void CIcqProto::LoadChatInfo(SESSION_INFO *si)
 		CMStringW sn((*node)["sn"].as_mstring());
 
 		GCEVENT gce = { m_szModuleName, si->ptszID, GC_EVENT_JOIN };
+		gce.dwFlags = GCEF_SILENT;
 		gce.ptszNick = nick;
 		gce.ptszUID = sn;
 		gce.time = ::time(0);
