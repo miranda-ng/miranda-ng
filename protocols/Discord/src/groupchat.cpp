@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 enum {
 	IDM_CANCEL,
 
-	IDM_CHANGENICK, IDM_CHANGETOPIC, IDM_INVITE, IDM_RENAME, IDM_DESTROY
+	IDM_CHANGENICK, IDM_CHANGETOPIC, IDM_RENAME, IDM_DESTROY
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -43,8 +43,6 @@ static gc_item sttLogListItems[] =
 	{ LPGENW("&Rename channel"), IDM_RENAME, MENU_POPUPITEM },
 	{ nullptr, 0, MENU_POPUPSEPARATOR },
 	{ LPGENW("&Destroy channel"), IDM_DESTROY, MENU_POPUPITEM },
-	{ nullptr, 100, MENU_SEPARATOR, FALSE },
-	{ LPGENW("&Invite a user"), IDM_INVITE, MENU_ITEM },
 };
 
 int CDiscordProto::GroupchatMenuHook(WPARAM, LPARAM lParam)
