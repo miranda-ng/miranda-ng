@@ -53,7 +53,36 @@ TwitterProto::TwitterProto(const char *proto_name, const wchar_t *username) :
 	hkd.szDescription.w = LPGENW("Send Tweet");
 	g_plugin.addHotkey(&hkd);
 
-	// set Tokens and stuff
+	// register netlib handles
+	wchar_t descr[512];
+	NETLIBUSER nlu = {};
+	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
+	nlu.szSettingsModule = m_szModuleName;
+
+	// Create standard network connection
+	mir_snwprintf(descr, TranslateT("%s server connection"), m_tszUserName);
+	nlu.szDescriptiveName.w = descr;
+	m_hNetlibUser = Netlib_RegisterUser(&nlu);
+	if (m_hNetlibUser == nullptr) {
+		wchar_t error[200];
+		mir_snwprintf(error, TranslateT("Unable to initialize Netlib for %s."), m_tszUserName);
+		MessageBox(nullptr, error, L"Miranda NG", MB_OK | MB_ICONERROR);
+	}
+
+	// Create avatar network connection (TODO: probably remove this)
+	char module[512];
+	mir_snprintf(module, "%sAv", m_szModuleName);
+	nlu.szSettingsModule = module;
+	mir_snwprintf(descr, TranslateT("%s avatar connection"), m_tszUserName);
+	nlu.szDescriptiveName.w = descr;
+	hAvatarNetlib_ = Netlib_RegisterUser(&nlu);
+	if (hAvatarNetlib_ == nullptr) {
+		wchar_t error[200];
+		mir_snwprintf(error, TranslateT("Unable to initialize Netlib for %s."), TranslateT("Twitter (avatars)"));
+		MessageBox(nullptr, error, L"Miranda NG", MB_OK | MB_ICONERROR);
+	}
+
+	twit_.set_handle(this, m_hNetlibUser);
 
 	// mirandas keys
 	ConsumerKey = OAUTH_CONSUMER_KEY;
@@ -270,36 +299,6 @@ INT_PTR TwitterProto::OnTweet(WPARAM, LPARAM)
 
 void TwitterProto::OnModulesLoaded()
 {
-	wchar_t descr[512];
-	NETLIBUSER nlu = {};
-	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
-	nlu.szSettingsModule = m_szModuleName;
-
-	// Create standard network connection
-	mir_snwprintf(descr, TranslateT("%s server connection"), m_tszUserName);
-	nlu.szDescriptiveName.w = descr;
-	m_hNetlibUser = Netlib_RegisterUser(&nlu);
-	if (m_hNetlibUser == nullptr) {
-		wchar_t error[200];
-		mir_snwprintf(error, TranslateT("Unable to initialize Netlib for %s."), m_tszUserName);
-		MessageBox(nullptr, error, L"Miranda NG", MB_OK | MB_ICONERROR);
-	}
-
-	// Create avatar network connection (TODO: probably remove this)
-	char module[512];
-	mir_snprintf(module, "%sAv", m_szModuleName);
-	nlu.szSettingsModule = module;
-	mir_snwprintf(descr, TranslateT("%s avatar connection"), m_tszUserName);
-	nlu.szDescriptiveName.w = descr;
-	hAvatarNetlib_ = Netlib_RegisterUser(&nlu);
-	if (hAvatarNetlib_ == nullptr) {
-		wchar_t error[200];
-		mir_snwprintf(error, TranslateT("Unable to initialize Netlib for %s."), TranslateT("Twitter (avatars)"));
-		MessageBox(nullptr, error, L"Miranda NG", MB_OK | MB_ICONERROR);
-	}
-
-	twit_.set_handle(this, m_hNetlibUser);
-
 	GCREGISTER gcr = {};
 	gcr.pszModule = m_szModuleName;
 	gcr.ptszDispName = m_tszUserName;
