@@ -175,7 +175,6 @@ int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
 		}
 		break;
 
-	case GC_USER_LEAVE:
 	case GC_SESSION_TERMINATE:
 		facy.nick_ = nullptr;
 		ForkThread(&OmegleProto::StopChatWorker, nullptr);

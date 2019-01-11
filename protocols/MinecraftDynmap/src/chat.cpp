@@ -56,26 +56,23 @@ int MinecraftDynmapProto::OnChatEvent(WPARAM, LPARAM lParam)
 	if(strcmp(hook->pszModule,m_szModuleName))
 		return 0;
 
-	switch(hook->iType)
-	{
+	switch(hook->iType) {
 	case GC_USER_MESSAGE:
-	{		
-		std::string text = mir_u2a_cp(hook->ptszText,CP_UTF8);
+		{
+			std::string text = mir_u2a_cp(hook->ptszText, CP_UTF8);
 
-		// replace %% back to %, because chat automatically does this to sent messages
-		utils::text::replace_all(&text, "%%", "%");
+			// replace %% back to %, because chat automatically does this to sent messages
+			utils::text::replace_all(&text, "%%", "%");
 
-		if (text.empty())
-			break;
+			if (text.empty())
+				break;
 
-		// Outgoing message
-		debugLogA("**Chat - Outgoing message: %s", text.c_str());
-		ForkThread(&MinecraftDynmapProto::SendMsgWorker, new std::string(text));
-
+			// Outgoing message
+			debugLogA("**Chat - Outgoing message: %s", text.c_str());
+			ForkThread(&MinecraftDynmapProto::SendMsgWorker, new std::string(text));
+		}
 		break;
-	}
 
-	case GC_USER_LEAVE:
 	case GC_SESSION_TERMINATE:
 		m_nick.clear();
 		SetStatus(ID_STATUS_OFFLINE);

@@ -471,7 +471,6 @@ EXTERN_C MIR_APP_DLL(int) Chat_GetInfo(GC_INFO*);
 #define GC_USER_TYPNOTIFY        5 // NOT IMPLEMENTED YET! user is typing
 #define GC_USER_PRIVMESS         6 // user requests to send a private message to a user. pszUID is valid
 #define GC_SESSION_TERMINATE     7 // the session is about to be terminated, the "user defined data" is passed in dwData, which can be good free'ing any allocated memory.
-#define GC_USER_LEAVE            8 // user requests to leave the session
 #define GC_USER_CLOSEWND         9 // user closed the window (this is usually not an indication that the protocol
                                    // should take action, but MSN may want to terminate the session here)
 #define ME_GC_EVENT  "GChat/OutgoingEvent"
