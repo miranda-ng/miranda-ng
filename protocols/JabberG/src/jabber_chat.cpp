@@ -631,7 +631,7 @@ class CGroupchatInviteDlg : public CJabberDlgBase
 
 	struct JabberGcLogInviteDlgJidData
 	{
-		int hItem;
+		HANDLE hItem;
 		wchar_t jid[JABBER_MAX_JID_LEN];
 	};
 
@@ -720,9 +720,9 @@ public:
 		SetDlgItemText(m_hwnd, IDC_HEADERBAR, CMStringW(FORMAT, TranslateT("Invite Users to\n%s"), m_room));
 		Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_GROUP));
 
-		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_CLIST), GWL_STYLE,
-			GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_CLIST), GWL_STYLE) | CLS_SHOWHIDDEN | CLS_HIDEOFFLINE | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES);
-		SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT, 0);
+		SetWindowLongPtr(m_clc.GetHwnd(), GWL_STYLE,
+			GetWindowLongPtr(m_clc.GetHwnd(), GWL_STYLE) | CLS_SHOWHIDDEN | CLS_HIDEOFFLINE | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES);
+		m_clc.SendMsg(CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT, 0);
 		ResetListOptions(&m_clc);
 		FilterList(&m_clc);
 		return true;
@@ -752,8 +752,8 @@ public:
 		cii.flags = CLCIIF_CHECKBOX;
 		mir_snwprintf(buf, TranslateT("%s (not on roster)"), jidData->jid);
 		cii.pszText = buf;
-		jidData->hItem = SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
-		SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_SETCHECKMARK, jidData->hItem, 1);
+		jidData->hItem = m_clc.AddInfoItem(&cii);
+		m_clc.SetCheck(jidData->hItem, 1);
 		m_newJids.insert(jidData);
 	}
 
@@ -762,15 +762,14 @@ public:
 		if (!m_room) return;
 
 		ptrW text(m_txtReason.GetText());
-		HWND hwndList = GetDlgItem(m_hwnd, IDC_CLIST);
 
 		// invite users from roster
 		for (auto &hContact : m_proto->AccContacts()) {
 			if (m_proto->isChatRoom(hContact))
 				continue;
 
-			if (int hItem = SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0)) {
-				if (SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
+			if (HANDLE hItem = m_clc.FindContact(hContact)) {
+				if (m_clc.GetCheck(hItem)) {
 					ptrW jid(m_proto->getWStringA(hContact, "jid"));
 					if (jid != nullptr)
 						InviteUser(jid, text);
@@ -780,7 +779,7 @@ public:
 
 		// invite others
 		for (auto &it : m_newJids)
-			if (SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)it->hItem, 0))
+			if (m_clc.GetCheck(it->hItem))
 				InviteUser(it->jid, text);
 
 		Close();
