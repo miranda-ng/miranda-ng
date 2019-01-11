@@ -39,7 +39,7 @@
 
 enum ChatMenuItems
 {
-	IDM_INVITE = 10, IDM_EXIT, IDM_DESTROY
+	IDM_INVITE = 10, IDM_LEAVE
 };
 
 struct IcqCacheItem
@@ -151,6 +151,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      Chat_SendPrivateMessage(GCHOOK *gch);
 
 	void      InviteUserToChat(SESSION_INFO *si);
+	void      LeaveDestroyChat(SESSION_INFO *si);
 	void      LoadChatInfo(SESSION_INFO *si);
 
 	////////////////////////////////////////////////////////////////////////////////////////

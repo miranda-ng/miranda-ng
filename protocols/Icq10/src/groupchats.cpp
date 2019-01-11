@@ -165,17 +165,29 @@ void CIcqProto::InviteUserToChat(SESSION_INFO *si)
 	dlg.DoModal();
 }
 
+void CIcqProto::LeaveDestroyChat(SESSION_INFO *si)
+{
+	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/hideChat");
+	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << WCHAR_PARAM("buddy", si->ptszID)
+		<< CHAR_PARAM("r", pReq->m_reqId) << INT64_PARAM("lastMsgId", getId(si->hContact, DB_KEY_LASTMSGID));
+	Push(pReq);
+
+	Chat_Terminate(si->pszModule, si->ptszID, true);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Group chats
 
 static gc_item sttLogListItems[] =
 {
 	{ LPGENW("&Invite a user"), IDM_INVITE, MENU_ITEM },
+	{ nullptr, 0, MENU_SEPARATOR },
+	{ LPGENW("&Leave/destroy chat"), IDM_LEAVE, MENU_ITEM }
 };
 
 int CIcqProto::GroupchatMenuHook(WPARAM, LPARAM lParam)
 {
-	GCMENUITEMS* gcmi = (GCMENUITEMS*)lParam;
+	GCMENUITEMS *gcmi = (GCMENUITEMS*)lParam;
 	if (gcmi == nullptr)
 		return 0;
 
@@ -235,6 +247,10 @@ void CIcqProto::Chat_ProcessLogMenu(SESSION_INFO *si, int iChoice)
 	switch (iChoice) {
 	case IDM_INVITE:
 		InviteUserToChat(si);
+		break;
+
+	case IDM_LEAVE:
+		LeaveDestroyChat(si);
 		break;
 	}
 }

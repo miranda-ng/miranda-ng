@@ -96,11 +96,12 @@ void CIcqProto::OnShutdown()
 
 void CIcqProto::OnContactDeleted(MCONTACT hContact)
 {
-	DWORD dwUin = getDword(hContact, DB_KEY_UIN);
-	m_arCache.remove(FindContactByUIN(dwUin));
+	CMStringA szId(GetUserId(hContact));
+	if (!isChatRoom(hContact))
+		m_arCache.remove(FindContactByUIN(atoi(szId)));
 
 	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/removeBuddy");
-	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << INT_PARAM("buddy", dwUin)
+	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("buddy", szId)
 		<< CHAR_PARAM("r", pReq->m_reqId) << INT_PARAM("allGroups", 1);
 	pReq->flags |= NLHRF_NODUMPSEND;
 	Push(pReq);
