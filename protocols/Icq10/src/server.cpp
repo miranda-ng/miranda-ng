@@ -122,6 +122,9 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 		CMStringW wszChatName(buddy["friendly"].as_mstring());
 		
 		SESSION_INFO *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszChatId, wszChatName);
+		if (si == nullptr)
+			return INVALID_CONTACT_ID;
+
 		Chat_AddGroup(si, TranslateT("admin"));
 		Chat_AddGroup(si, TranslateT("member"));
 		Chat_Control(m_szModuleName, wszChatId, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
@@ -643,6 +646,9 @@ void CIcqProto::ProcessBuddyList(const JSONNode &ev)
 
 		for (auto &buddy : it["buddies"]) {
 			MCONTACT hContact = ParseBuddyInfo(buddy);
+			if (hContact == INVALID_CONTACT_ID)
+				continue;
+
 			if (db_get_sm(hContact, "CList", "Group").IsEmpty()) {
 				if (!bCreated) {
 					Clist_GroupCreate(0, szGroup);
@@ -672,6 +678,9 @@ void CIcqProto::ProcessDiff(const JSONNode &ev)
 
 			for (auto &buddy : it["buddies"]) {
 				MCONTACT hContact = ParseBuddyInfo(buddy);
+				if (hContact == INVALID_CONTACT_ID)
+					continue;
+
 				if (db_get_sm(hContact, "CList", "Group").IsEmpty()) {
 					if (!bCreated) {
 						Clist_GroupCreate(0, szGroup);
