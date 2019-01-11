@@ -95,33 +95,6 @@ void CIcqProto::ConnectionFailed(int iReason)
 	ShutdownSession();
 }
 
-void CIcqProto::LoadChatInfo(SESSION_INFO *si)
-{
-	int memberCount = getDword(si->hContact, "MemberCount");
-	for (int i = 0; i < memberCount; i++) {
-		char buf[100];
-		mir_snprintf(buf, "m%d", i);
-		ptrW szSetting(getWStringA(si->hContact, buf));
-		JSONNode *node = json_parse(T2Utf(szSetting));
-		if (node == nullptr)
-			continue;
-
-		CMStringW nick((*node)["nick"].as_mstring());
-		CMStringW role((*node)["role"].as_mstring());
-		CMStringW sn((*node)["sn"].as_mstring());
-
-		GCEVENT gce = { m_szModuleName, si->ptszID, GC_EVENT_JOIN };
-		gce.ptszNick = nick;
-		gce.ptszUID = sn;
-		gce.time = ::time(0);
-		gce.bIsMe = _wtoi(sn) == (int)m_dwUin;
-		gce.ptszStatus = TranslateW(role);
-		Chat_Event(&gce);
-
-		json_delete(node);
-	}
-}
-
 void CIcqProto::OnLoggedIn()
 {
 	debugLogA("CIcqProto::OnLoggedIn");
@@ -509,37 +482,6 @@ void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 	StartSession();
 }
 
-void CIcqProto::OnGetChatInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
-{
-	SESSION_INFO *si = (SESSION_INFO*)pReq->pUserInfo;
-
-	RobustReply root(pReply);
-	if (root.error() != 20000)
-		return;
-
-	int n = 0;
-	char buf[100];
-	const JSONNode &results = root.results();
-	for (auto &it : results["members"]) {
-		mir_snprintf(buf, "m%d", n++);
-
-		CMStringW friendly = it["friendly"].as_mstring();
-		CMStringW role = it["role"].as_mstring();
-		CMStringW sn = it["sn"].as_mstring();
-
-		JSONNode member;
-		member << WCHAR_PARAM("nick", friendly) << WCHAR_PARAM("role", role) << WCHAR_PARAM("sn", sn);
-		ptrW text(json_write(&member));
-		setWString(si->hContact, buf, text);
-	}
-
-	setDword(si->hContact, "MemberCount", n);
-	setId(si->hContact, "InfoVersion", _wtoi64(results["infoVersion"].as_mstring()));
-	setId(si->hContact, "MembersVersion", _wtoi64(results["membersVersion"].as_mstring()));
-
-	LoadChatInfo(si);
-}
-
 void CIcqProto::OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
 	MCONTACT hContact = (MCONTACT)pReq->pUserInfo;
@@ -755,6 +697,8 @@ void CIcqProto::ProcessEvent(const JSONNode &ev)
 		ProcessHistData(pData);
 	else if (szType == L"imState")
 		ProcessImState(pData);
+	else if (szType == L"mchat")
+		ProcessGroupChat(pData);
 	else if (szType == L"myInfo")
 		ProcessMyInfo(pData);
 	else if (szType == L"presence")

@@ -4,6 +4,7 @@
 //
 #define IDD_OPTIONS_FULL                101
 #define IDD_OPTIONS_ACCMGR              102
+#define IDD_GROUPCHAT_INVITE            103
 #define IDD_REGISTER                    105
 #define IDC_PASSWORD                    1001
 #define IDC_UIN                         1002
@@ -12,6 +13,7 @@
 #define IDC_HIDECHATS                   1004
 #define IDC_REGISTER                    1005
 #define IDC_PHONE                       1006
+#define IDC_CLIST                       1007
 #define IDC_SENDSMS                     1008
 #define IDC_CODE                        1009
 

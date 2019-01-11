@@ -76,6 +76,7 @@ struct IcqConn
 class CIcqProto : public PROTO<CIcqProto>
 {
 	friend struct CIcqRegistrationDlg;
+	friend class CGroupchatInviteDlg;
 
 	bool      m_bOnline = false, m_bTerminated = false;
 	void      CheckAvatarChange(MCONTACT hContact, const JSONNode&);
@@ -95,9 +96,6 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	void      OnLoggedIn(void);
 	void      OnLoggedOut(void);
-
-	void      LoadChatInfo(SESSION_INFO *si);
-	void      SendPrivateMessage(GCHOOK *gch);
 
 	mir_cs    csMarkReadQueue;
 	LIST<IcqCacheItem> arMarkReadQueue;
@@ -125,6 +123,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      ProcessBuddyList(const JSONNode&);
 	void      ProcessDiff(const JSONNode&);
 	void      ProcessEvent(const JSONNode&);
+	void      ProcessGroupChat(const JSONNode&);
 	void      ProcessHistData(const JSONNode&);
 	void      ProcessImState(const JSONNode&);
 	void      ProcessMyInfo(const JSONNode&);
@@ -141,6 +140,18 @@ class CIcqProto : public PROTO<CIcqProto>
 	int       m_iRClientId;
 
 	OBJLIST<IcqOwnMessage> m_arOwnIds;
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	// group chats
+
+	int       __cdecl GroupchatEventHook(WPARAM, LPARAM);
+	int       __cdecl GroupchatMenuHook(WPARAM, LPARAM);
+
+	void      Chat_ProcessLogMenu(SESSION_INFO *si, int);
+	void      Chat_SendPrivateMessage(GCHOOK *gch);
+
+	void      InviteUserToChat(SESSION_INFO *si);
+	void      LoadChatInfo(SESSION_INFO *si);
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// http queue
@@ -187,8 +198,6 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// events
-	int        __cdecl GroupchatEventHook(WPARAM, LPARAM);
-	int        __cdecl GroupchatMenuHook(WPARAM, LPARAM);
 
 	int        __cdecl OnDbEventRead(WPARAM, LPARAM);
 	int        __cdecl OnOptionsInit(WPARAM, LPARAM);
