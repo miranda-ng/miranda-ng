@@ -51,8 +51,12 @@ void __cdecl CIcqProto::ServerThread(void*)
 
 		int ts = time(0);
 		for (auto &it : m_ConnPool) {
+			int idx = int(&it - m_ConnPool);
+			if (idx == CONN_FETCH)
+				continue;
+
 			if (it.s && it.lastTs + it.timeout < ts) {
-				debugLogA("Socket #1 (%p) expired", int(&it - m_ConnPool), it.s);
+				debugLogA("Socket #1 (%p) expired", idx, it.s);
 				Netlib_CloseHandle(it.s);
 				it.s = nullptr;
 				it.lastTs = 0;
