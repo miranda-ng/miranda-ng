@@ -38,6 +38,7 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	m_arHttpQueue(10),
 	m_arOwnIds(1),
 	m_arCache(20, NumericKeySortT),
+	m_arGroups(10, NumericKeySortT),
 	arMarkReadQueue(10, NumericKeySortT),
 	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr)),
 	m_dwUin(this, DB_KEY_UIN, 0),
@@ -117,12 +118,9 @@ void CIcqProto::MarkReadTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD)
 	while (ppro->arMarkReadQueue.getCount()) {
 		IcqCacheItem *pUser = ppro->arMarkReadQueue[0];
 
-		char buf[100];
-		itoa(ppro->getDword(pUser->m_hContact, DB_KEY_UIN), buf, 10);
-
 		auto *pReq = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER);
 		JSONNode request, params; params.set_name("params");
-		params << CHAR_PARAM("sn", buf) << INT64_PARAM("lastRead", ppro->getId(pUser->m_hContact, DB_KEY_LASTMSGID));
+		params << CHAR_PARAM("sn", ppro->GetUserId(pUser->m_hContact)) << INT64_PARAM("lastRead", ppro->getId(pUser->m_hContact, DB_KEY_LASTMSGID));
 		request << CHAR_PARAM("method", "setDlgStateWim") << CHAR_PARAM("reqId", pReq->m_reqId) 
 			<< CHAR_PARAM("authToken", ppro->m_szRToken) << INT_PARAM("clientId", ppro->m_iRClientId) << params;
 		pReq->m_szParam = ptrW(json_write(&request));
@@ -186,9 +184,9 @@ int CIcqProto::AuthRequest(MCONTACT hContact, const wchar_t* szMessage)
 {
 	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, ICQ_API_SERVER "/buddylist/addBuddy", &CIcqProto::OnAddBuddy);
 	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("r", pReq->m_reqId) << WCHAR_PARAM("authorizationMsg", szMessage)
-		<< INT_PARAM("buddy", getDword(hContact, DB_KEY_UIN)) << CHAR_PARAM("group", "General") << INT_PARAM("preAuthorized", 1);
+		<< CHAR_PARAM("buddy", GetUserId(hContact)) << CHAR_PARAM("group", "General") << INT_PARAM("preAuthorized", 1);
 	pReq->flags |= NLHRF_NODUMPSEND;
-	pReq->pUserInfo = (void*)hContact;
+	pReq->hContact = hContact;
 	Push(pReq);
 	return 0;
 }
@@ -408,7 +406,7 @@ int CIcqProto::UserIsTyping(MCONTACT hContact, int type)
 	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/im/setTyping");
 	pReq->flags |= NLHRF_NODUMPSEND;
 	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("f", "json")
-		<< INT_PARAM("t", getDword(hContact, DB_KEY_UIN)) << CHAR_PARAM("r", pReq->m_reqId)
+		<< CHAR_PARAM("t", GetUserId(hContact)) << CHAR_PARAM("r", pReq->m_reqId)
 		<< CHAR_PARAM("typingStatus", (type == PROTOTYPE_SELFTYPING_ON) ? "typing" : "typed");
 	Push(pReq);
 	return 0;

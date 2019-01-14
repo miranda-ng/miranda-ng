@@ -30,9 +30,9 @@ void CIcqProto::CheckAvatarChange(MCONTACT hContact, const JSONNode &ev)
 		setWString(hContact, "IconId", wszIconId);
 
 		CMStringA szUrl(ev["buddyIcon"].as_mstring());
-		auto *p = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, szUrl, &CIcqProto::OnReceiveAvatar);
-		p->pUserInfo = (void*)hContact;
-		Push(p);
+		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, szUrl, &CIcqProto::OnReceiveAvatar);
+		pReq->hContact = hContact;
+		Push(pReq);
 	}
 }
 
@@ -307,8 +307,8 @@ void CIcqProto::RetrieveUserInfo(MCONTACT hContact)
 {
 	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/presence/get", &CIcqProto::OnGetUserInfo);
 	pReq->flags |= NLHRF_NODUMPSEND;
-	pReq->pUserInfo = (void*)hContact;
-	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << INT_PARAM("mdir", 1) << INT_PARAM("t", getDword(hContact, DB_KEY_UIN));
+	pReq->hContact = hContact;
+	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << INT_PARAM("mdir", 1) << CHAR_PARAM("t", GetUserId(hContact));
 	Push(pReq);
 }
 
@@ -323,14 +323,11 @@ void CIcqProto::RetrieveUserHistory(MCONTACT hContact, __int64 startMsgId, __int
 		return;
 
 	auto *pReq = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER, &CIcqProto::OnGetUserHistory);
-	//pReq->flags |= NLHRF_NODUMPSEND;
-	pReq->pUserInfo = (void*)hContact;
-
-	char buf[100];
-	itoa(getDword(hContact, DB_KEY_UIN), buf, 10);
+	pReq->flags |= NLHRF_NODUMPSEND;
+	pReq->hContact = hContact;
 
 	JSONNode request, params; params.set_name("params");
-	params << CHAR_PARAM("sn", buf) << INT64_PARAM("fromMsgId", startMsgId);
+	params << CHAR_PARAM("sn", GetUserId(hContact)) << INT64_PARAM("fromMsgId", startMsgId);
 	if (endMsgId != -1)
 		params << INT64_PARAM("tillMsgId", endMsgId);
 	params << INT_PARAM("count", 1000) << CHAR_PARAM("aimSid", m_aimsid) << CHAR_PARAM("patchVersion", "1") << CHAR_PARAM("language", "ru-ru");
@@ -422,12 +419,10 @@ void CIcqProto::StartSession()
 
 void CIcqProto::OnAddBuddy(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
-	MCONTACT hContact = (MCONTACT)pReq->pUserInfo;
-
 	JsonReply root(pReply);
 	if (root.error() == 200) {
-		RetrieveUserInfo(getDword(hContact, DB_KEY_UIN));
-		db_unset(hContact, "CList", "NotOnList");
+		RetrieveUserInfo(pReq->hContact);
+		db_unset(pReq->hContact, "CList", "NotOnList");
 	}
 }
 
@@ -487,36 +482,32 @@ void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 
 void CIcqProto::OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
-	MCONTACT hContact = (MCONTACT)pReq->pUserInfo;
-
 	RobustReply root(pReply);
 	if (root.error() != 20000)
 		return;
 
-	__int64 lastMsgId = getId(hContact, DB_KEY_LASTMSGID);
+	__int64 lastMsgId = getId(pReq->hContact, DB_KEY_LASTMSGID);
 
 	const JSONNode &results = root.results();
 	for (auto &it : results["messages"])
-		ParseMessage(hContact, lastMsgId, it);
+		ParseMessage(pReq->hContact, lastMsgId, it);
 
-	setId(hContact, DB_KEY_LASTMSGID, lastMsgId);
+	setId(pReq->hContact, DB_KEY_LASTMSGID, lastMsgId);
 }
 
 void CIcqProto::OnGetUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
-	MCONTACT hContact = (MCONTACT)pReq->pUserInfo;
-
 	JsonReply root(pReply);
 	if (root.error() != 200) {
-		ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, nullptr);
+		ProtoBroadcastAck(pReq->hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, nullptr);
 		return;
 	}
 
 	const JSONNode &data = root.data();
 	for (auto &it : data["users"])
-		ParseBuddyInfo(it, hContact);
+		ParseBuddyInfo(it, pReq->hContact);
 
-	ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, nullptr);
+	ProtoBroadcastAck(pReq->hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, nullptr);
 }
 
 void CIcqProto::OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
@@ -554,20 +545,19 @@ void CIcqProto::OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 
 void CIcqProto::OnReceiveAvatar(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
-	MCONTACT hContact = (MCONTACT)pReq->pUserInfo;
 	PROTO_AVATAR_INFORMATION ai = {};
-	ai.hContact = hContact;
+	ai.hContact = pReq->hContact;
 
 	if (pReply->resultCode != 200 || pReply->pData == nullptr) {
 LBL_Error:
-		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, HANDLE(&ai), 0);
+		ProtoBroadcastAck(pReq->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, HANDLE(&ai), 0);
 		return;
 	}
 
 	const wchar_t *pwszExtension;
 	ai.format = ProtoGetBufferFormat(pReply->pData, &pwszExtension);
-	setByte(hContact, "AvatarType", ai.format);
-	GetAvatarFileName(hContact, ai.filename, _countof(ai.filename));
+	setByte(pReq->hContact, "AvatarType", ai.format);
+	GetAvatarFileName(pReq->hContact, ai.filename, _countof(ai.filename));
 
 	FILE *out = _wfopen(ai.filename, L"wb");
 	if (out == nullptr)
@@ -576,8 +566,8 @@ LBL_Error:
 	fwrite(pReply->pData, pReply->dataLength, 1, out);
 	fclose(out);
 
-	if (hContact != 0) {
-		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, HANDLE(&ai), 0);
+	if (pReq->hContact != 0) {
+		ProtoBroadcastAck(pReq->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, HANDLE(&ai), 0);
 		debugLogW(L"Broadcast new avatar: %s", ai.filename);
 	}
 	else CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
@@ -641,8 +631,19 @@ void CIcqProto::OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 void CIcqProto::ProcessBuddyList(const JSONNode &ev)
 {
 	for (auto &it : ev["groups"]) {
+		int id = it["id"].as_int();
 		CMStringW szGroup = it["name"].as_mstring();
 		bool bCreated = false;
+
+		bool bFound = false;
+		for (auto &grp : m_arGroups)
+			if (grp->m_iIcqId == id) { 
+				bFound = true;
+				break;
+			}
+
+		if (!bFound)
+			m_arGroups.insert(new IcqGroup(id, szGroup));
 
 		for (auto &buddy : it["buddies"]) {
 			MCONTACT hContact = ParseBuddyInfo(buddy);

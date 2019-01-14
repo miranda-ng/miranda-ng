@@ -42,6 +42,20 @@ enum ChatMenuItems
 	IDM_INVITE = 10, IDM_LEAVE
 };
 
+struct IcqGroup
+{
+	IcqGroup(int icqId, const CMStringW &wszName) :
+		m_iIcqId(icqId),
+		m_wszName(wszName)
+	{
+		m_iMirId = ::Clist_GroupExists(wszName);
+	}
+
+	MGROUP m_iMirId;
+	int m_iIcqId;
+	CMStringW m_wszName;
+};
+
 struct IcqCacheItem
 {
 	IcqCacheItem(DWORD _uin, MCONTACT _contact) :
@@ -171,6 +185,7 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	mir_cs    m_csCache;
 	OBJLIST<IcqCacheItem> m_arCache;
+	OBJLIST<IcqGroup> m_arGroups;
 
 	void      InitContactCache(void);
 	IcqCacheItem* FindContactByUIN(DWORD);

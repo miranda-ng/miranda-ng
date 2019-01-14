@@ -145,7 +145,7 @@ public:
 				if (m_clc.GetCheck(hItem)) {
 					if (!szMembers.IsEmpty())
 						szMembers.AppendChar(',');
-					szMembers.AppendFormat("%d", m_proto->getDword(hContact, DB_KEY_UIN));
+					szMembers.Append(m_proto->GetUserId(hContact));
 				}
 			}
 		}
