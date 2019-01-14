@@ -626,24 +626,21 @@ void CIcqProto::OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
  	CheckLastId(ownMsg->m_hContact, data);
 }
 
+void CIcqProto::OnUpdateGroup(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+{
+	JsonReply root(pReply);
+	if (root.error() != 200)
+		return;
+
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CIcqProto::ProcessBuddyList(const JSONNode &ev)
 {
 	for (auto &it : ev["groups"]) {
-		int id = it["id"].as_int();
 		CMStringW szGroup = it["name"].as_mstring();
 		bool bCreated = false;
-
-		bool bFound = false;
-		for (auto &grp : m_arGroups)
-			if (grp->m_iIcqId == id) { 
-				bFound = true;
-				break;
-			}
-
-		if (!bFound)
-			m_arGroups.insert(new IcqGroup(id, szGroup));
 
 		for (auto &buddy : it["buddies"]) {
 			MCONTACT hContact = ParseBuddyInfo(buddy);

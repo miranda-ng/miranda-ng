@@ -38,7 +38,6 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	m_arHttpQueue(10),
 	m_arOwnIds(1),
 	m_arCache(20, NumericKeySortT),
-	m_arGroups(10, NumericKeySortT),
 	arMarkReadQueue(10, NumericKeySortT),
 	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr)),
 	m_dwUin(this, DB_KEY_UIN, 0),
@@ -54,6 +53,7 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	CreateProtoService(PS_SETMYAVATAR, &CIcqProto::SetAvatar);
 
 	// events
+	HookProtoEvent(ME_CLIST_GROUPCHANGE, &CIcqProto::OnGroupChange);
 	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CIcqProto::OnDbEventRead);
 	HookProtoEvent(ME_GC_EVENT, &CIcqProto::GroupchatEventHook);
 	HookProtoEvent(ME_GC_BUILDMENU, &CIcqProto::GroupchatMenuHook);
@@ -155,6 +155,38 @@ int CIcqProto::OnDbEventRead(WPARAM, LPARAM hDbEvent)
 	return 0;
 }
 
+int CIcqProto::OnGroupChange(WPARAM hContact, LPARAM lParam)
+{
+	if (!m_bOnline)
+		return 0;
+
+	CLISTGROUPCHANGE *pParam = (CLISTGROUPCHANGE*)lParam;
+	if (hContact == 0) { // whole group is changed
+		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/", &CIcqProto::OnUpdateGroup);
+		pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("r", pReq->m_reqId);
+		if (pParam->pszOldName == nullptr) {
+			pReq->m_szUrl += "addGroup";
+			pReq << WCHAR_PARAM("group", pParam->pszNewName);
+		}
+		else if (pParam->pszNewName == nullptr) {
+			pReq->m_szUrl += "removeGroup";
+			pReq << WCHAR_PARAM("group", pParam->pszOldName);
+		}
+		else {
+			pReq->m_szUrl += "renameGroup";
+			pReq << WCHAR_PARAM("oldGroup", pParam->pszOldName) << WCHAR_PARAM("newGroup", pParam->pszNewName);
+		}
+		Push(pReq);
+	}
+	else {
+		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/moveBuddy");
+		pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("r", pReq->m_reqId)
+			<< CHAR_PARAM("buddy", GetUserId(hContact)) << WCHAR_PARAM("group", db_get_wsm(hContact, "CList", "Group")) << WCHAR_PARAM("newGroup", pParam->pszNewName);
+		Push(pReq);
+	}
+	
+	return 0;
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_AddToList - adds a contact to the contact list
