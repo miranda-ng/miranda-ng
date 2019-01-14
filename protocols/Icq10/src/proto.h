@@ -118,7 +118,6 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      OnSearchResults(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void      OnSendMessage(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void      OnStartSession(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void      OnUpdateGroup(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void      OnValidateSms(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	void      ProcessBuddyList(const JSONNode&);

@@ -626,14 +626,6 @@ void CIcqProto::OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
  	CheckLastId(ownMsg->m_hContact, data);
 }
 
-void CIcqProto::OnUpdateGroup(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
-{
-	JsonReply root(pReply);
-	if (root.error() != 200)
-		return;
-
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CIcqProto::ProcessBuddyList(const JSONNode &ev)

@@ -162,7 +162,7 @@ int CIcqProto::OnGroupChange(WPARAM hContact, LPARAM lParam)
 
 	CLISTGROUPCHANGE *pParam = (CLISTGROUPCHANGE*)lParam;
 	if (hContact == 0) { // whole group is changed
-		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/", &CIcqProto::OnUpdateGroup);
+		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/");
 		pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("r", pReq->m_reqId);
 		if (pParam->pszOldName == nullptr) {
 			pReq->m_szUrl += "addGroup";
