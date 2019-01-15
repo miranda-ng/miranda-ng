@@ -110,6 +110,40 @@ void CIcqProto::OnContactDeleted(MCONTACT hContact)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CIcqProto::OnBuildProtoMenu()
+{
+	CMenuItem mi(&g_plugin);
+	mi.root = Menu_GetProtocolRoot(this);
+	mi.flags = CMIF_UNMOVABLE;
+
+	// "Bookmarks..."
+	mi.pszService = "/UploadGroups";
+	CreateProtoService(mi.pszService, &CIcqProto::UploadGroups);
+	mi.name.a = LPGEN("Synchronize server groups");
+	mi.position = 200001;
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_GROUP);
+	m_hUploadGroups = Menu_AddProtoMenuItem(&mi, m_szModuleName);
+
+	Menu_ShowItem(m_hUploadGroups, false);
+}
+
+INT_PTR CIcqProto::UploadGroups(WPARAM, LPARAM)
+{
+	for (auto &it : AccContacts()) {
+		if (isChatRoom(it))
+			continue;
+
+		CMStringW wszIcqGroup(getMStringW(it, "IcqGroup")), wszMirGroup(db_get_wsm(it, "CList", "Group"));
+		if (wszMirGroup.IsEmpty())
+			wszMirGroup = L"General";
+		if (wszIcqGroup != wszMirGroup)
+			MoveContactToGroup(it, wszIcqGroup, wszMirGroup);
+	}
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CIcqProto::MarkReadTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD)
 {
 	CIcqProto *ppro = (CIcqProto*)id;
@@ -178,12 +212,7 @@ int CIcqProto::OnGroupChange(WPARAM hContact, LPARAM lParam)
 		}
 		Push(pReq);
 	}
-	else {
-		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/moveBuddy");
-		pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("r", pReq->m_reqId)
-			<< CHAR_PARAM("buddy", GetUserId(hContact)) << WCHAR_PARAM("group", db_get_wsm(hContact, "CList", "Group")) << WCHAR_PARAM("newGroup", pParam->pszNewName);
-		Push(pReq);
-	}
+	else MoveContactToGroup(hContact, getMStringW(hContact, "IcqGroup"), pParam->pszNewName);
 	
 	return 0;
 }

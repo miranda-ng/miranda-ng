@@ -86,6 +86,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      CheckPassword(void);
 	void      ConnectionFailed(int iReason);
 	CMStringA GetUserId(MCONTACT);
+	void      MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup);
 	MCONTACT  ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact = -1);
 	void      ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &msg);
 	void      RetrieveUserHistory(MCONTACT, __int64 startMsgId, __int64 endMsgId);
@@ -138,6 +139,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	CMStringA m_aimsid;
 	LONG      m_msgId = 1;
 	int       m_iRClientId;
+	HGENMENU  m_hUploadGroups;
 
 	OBJLIST<IcqOwnMessage> m_arOwnIds;
 
@@ -196,6 +198,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	INT_PTR   __cdecl SetAvatar(WPARAM, LPARAM);
 	
 	INT_PTR   __cdecl CreateAccMgrUI(WPARAM, LPARAM);
+	INT_PTR   __cdecl UploadGroups(WPARAM, LPARAM);
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// events
@@ -234,6 +237,7 @@ class CIcqProto : public PROTO<CIcqProto>
 			     
 	int        UserIsTyping(MCONTACT hContact, int type) override;
 			     
+	void       OnBuildProtoMenu(void) override;
 	void       OnContactDeleted(MCONTACT) override;
 	void       OnModulesLoaded() override;
 	void       OnShutdown() override;

@@ -95,6 +95,14 @@ void CIcqProto::ConnectionFailed(int iReason)
 	ShutdownSession();
 }
 
+void CIcqProto::MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup)
+{
+	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/moveBuddy");
+	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("r", pReq->m_reqId)
+			<< CHAR_PARAM("buddy", GetUserId(hContact)) << WCHAR_PARAM("group", pwszGroup) << WCHAR_PARAM("newGroup", pwszNewGroup);
+	Push(pReq);
+}
+
 void CIcqProto::OnLoggedIn()
 {
 	debugLogA("CIcqProto::OnLoggedIn");
@@ -631,6 +639,8 @@ void CIcqProto::OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 
 void CIcqProto::ProcessBuddyList(const JSONNode &ev)
 {
+	bool bEnableMenu = false;
+
 	for (auto &it : ev["groups"]) {
 		CMStringW szGroup = it["name"].as_mstring();
 		bool bCreated = false;
@@ -640,7 +650,13 @@ void CIcqProto::ProcessBuddyList(const JSONNode &ev)
 			if (hContact == INVALID_CONTACT_ID)
 				continue;
 
-			if (db_get_sm(hContact, "CList", "Group").IsEmpty()) {
+			setWString(hContact, "IcqGroup", szGroup);
+
+			CMStringW mirGroup(db_get_sm(hContact, "CList", "Group"));
+			if (mirGroup != szGroup)
+				bEnableMenu = true;
+
+			if (mirGroup.IsEmpty()) {
 				if (!bCreated) {
 					Clist_GroupCreate(0, szGroup);
 					bCreated = true;
@@ -651,6 +667,9 @@ void CIcqProto::ProcessBuddyList(const JSONNode &ev)
 		}
 	}
 
+	if (bEnableMenu)
+		Menu_ShowItem(m_hUploadGroups, true);
+
 	for (auto &it : m_arCache)
 		if (!it->m_bInList)
 			db_set_b(it->m_hContact, "CList", "NotOnList", 1);
@@ -660,7 +679,7 @@ void CIcqProto::ProcessDiff(const JSONNode &ev)
 {
 	for (auto &block : ev) {
 		CMStringW szType = block["type"].as_mstring();
-		if (szType != "updated")
+		if (szType != "updated" && szType != "created")
 			continue;
 
 		for (auto &it : block["data"]) {
@@ -671,6 +690,8 @@ void CIcqProto::ProcessDiff(const JSONNode &ev)
 				MCONTACT hContact = ParseBuddyInfo(buddy);
 				if (hContact == INVALID_CONTACT_ID)
 					continue;
+
+				setWString(hContact, "IcqGroup", szGroup);
 
 				if (db_get_sm(hContact, "CList", "Group").IsEmpty()) {
 					if (!bCreated) {
