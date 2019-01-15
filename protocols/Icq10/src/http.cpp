@@ -35,6 +35,7 @@ void __cdecl CIcqProto::ServerThread(void*)
 			break;
 
 		while (true) {
+			bool bNeedSleep = false;
 			AsyncHttpRequest *pReq;
 			{
 				mir_cslock lck(m_csHttpQueue);
@@ -43,10 +44,14 @@ void __cdecl CIcqProto::ServerThread(void*)
 
 				pReq = m_arHttpQueue[0];
 				m_arHttpQueue.remove(0);
+				bNeedSleep = (m_arHttpQueue.getCount() > 1);
 			}
 			if (m_bTerminated)
 				break;
+			
 			ExecuteRequest(pReq);
+			if (bNeedSleep)
+				Sleep(200);
 		}
 
 		int ts = time(0);

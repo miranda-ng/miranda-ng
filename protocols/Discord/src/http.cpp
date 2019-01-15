@@ -62,3 +62,68 @@ AsyncHttpRequest::AsyncHttpRequest(CDiscordProto *ppro, int iRequestType, LPCSTR
 	m_iErrorCode = 0;
 	m_iReqNum = ::InterlockedIncrement(&g_reqNum);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CDiscordProto::ServerThread(void*)
+{
+	m_szAccessToken = getStringA("AccessToken");
+	m_hAPIConnection = nullptr;
+	m_bTerminated = false;
+
+	debugLogA("CDiscordProto::WorkerThread: %s", "entering");
+
+	if (m_szAccessToken != nullptr)
+		// try to receive a response from server
+		RetrieveMyInfo();
+	else {
+		if (mir_wstrlen(m_wszEmail) == 0) {
+			ConnectionFailed(LOGINERR_BADUSERID);
+			return;
+		}
+
+		ptrW wszPassword(getWStringA(DB_KEY_PASSWORD));
+		if (wszPassword == nullptr) {
+			ConnectionFailed(LOGINERR_WRONGPASSWORD);
+			return;
+		}
+
+		JSONNode root; root << WCHAR_PARAM("email", m_wszEmail) << WCHAR_PARAM("password", wszPassword);
+		Push(new AsyncHttpRequest(this, REQUEST_POST, "/auth/login", &CDiscordProto::OnReceiveToken, &root));
+	}
+
+	while (true) {
+		WaitForSingleObject(m_evRequestsQueue, 1000);
+		if (m_bTerminated)
+			break;
+
+		AsyncHttpRequest *pReq;
+		bool need_sleep = false;
+		while (true) {
+			{
+				mir_cslock lck(m_csHttpQueue);
+				if (m_arHttpQueue.getCount() == 0)
+					break;
+
+				pReq = m_arHttpQueue[0];
+				m_arHttpQueue.remove(0);
+				need_sleep = (m_arHttpQueue.getCount() > 1);
+			}
+			if (m_bTerminated)
+				break;
+			ExecuteRequest(pReq);
+			if (need_sleep) {
+				Sleep(330);
+				debugLogA("CDiscordProto::WorkerThread: %s", "need to sleep");
+			}
+		}
+	}
+
+	m_hWorkerThread = nullptr;
+	if (m_hAPIConnection) {
+		Netlib_CloseHandle(m_hAPIConnection);
+		m_hAPIConnection = nullptr;
+	}
+
+	debugLogA("CDiscordProto::WorkerThread: %s", "leaving");
+}
