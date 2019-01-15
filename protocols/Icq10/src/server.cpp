@@ -372,11 +372,11 @@ void CIcqProto::ShutdownSession()
 	if (m_hWorkerThread)
 		SetEvent(m_evRequestsQueue);
 
+	OnLoggedOut();
+
 	for (auto &it : m_ConnPool)
 		if (it.s)
 			Netlib_Shutdown(it.s);
-
-	OnLoggedOut();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -540,7 +540,8 @@ void CIcqProto::OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 	for (auto &it : data["events"])
 		ProcessEvent(it);
 
-	m_hPollThread = ForkThreadEx(&CIcqProto::PollThread, 0, 0);
+	if (m_hPollThread == nullptr)
+		m_hPollThread = ForkThreadEx(&CIcqProto::PollThread, 0, 0);
 }
 
 void CIcqProto::OnReceiveAvatar(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
