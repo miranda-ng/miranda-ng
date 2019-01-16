@@ -451,7 +451,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mdbx_load", "..\tools\mdbx_
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dbx_sqlite", "..\plugins\Dbx_sqlite\dbx_sqlite.vcxproj", "{B3494FED-FB8C-43F4-B341-F26A3460203B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ICQ", "..\protocols\Icq10\icq10.vcxproj", "{EFB2355B-82B3-4759-B7D8-95F8E9506291}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ICQ", "..\protocols\ICQ-WIM\ICQ-WIM.vcxproj", "{EFB2355B-82B3-4759-B7D8-95F8E9506291}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

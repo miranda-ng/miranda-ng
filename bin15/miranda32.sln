@@ -145,11 +145,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{30
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dbx_sqlite", "..\plugins\Dbx_sqlite\dbx_sqlite.vcxproj", "{B3494FED-FB8C-43F4-B341-F26A3460203B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_ICQ", "..\protocols\Icq10\proto_icq\Proto_ICQ.vcxproj", "{DB3B0449-E576-4BBB-8B08-AB9E914D39CA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_ICQ", "..\protocols\ICQ-WIM\proto_icq\Proto_ICQ.vcxproj", "{DB3B0449-E576-4BBB-8B08-AB9E914D39CA}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xStatus_ICQ", "..\protocols\Icq10\icq_xstatus\xStatus_ICQ.vcxproj", "{E98A8615-1082-1979-D6D8-F763F13BFCBD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xStatus_ICQ", "..\protocols\ICQ-WIM\icq_xstatus\xStatus_ICQ.vcxproj", "{E98A8615-1082-1979-D6D8-F763F13BFCBD}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ICQ", "..\protocols\Icq10\icq10.vcxproj", "{EFB2355B-82B3-4759-B7D8-95F8E9506291}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ICQ", "..\protocols\ICQ-WIM\ICQ-WIM.vcxproj", "{EFB2355B-82B3-4759-B7D8-95F8E9506291}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
