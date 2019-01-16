@@ -2741,10 +2741,12 @@ DHT *new_dht(const Logger *log, Mono_Time *mono_time, Networking_Core *net, bool
     dht->dht_harden_ping_array = ping_array_new(DHT_PING_ARRAY_SIZE, PING_TIMEOUT);
 
     for (uint32_t i = 0; i < DHT_FAKE_FRIEND_NUMBER; ++i) {
-        uint8_t random_key_bytes[CRYPTO_PUBLIC_KEY_SIZE];
-        random_bytes(random_key_bytes, sizeof(random_key_bytes));
+        uint8_t random_public_key_bytes[CRYPTO_PUBLIC_KEY_SIZE];
+        uint8_t random_secret_key_bytes[CRYPTO_SECRET_KEY_SIZE];
 
-        if (dht_addfriend(dht, random_key_bytes, nullptr, nullptr, 0, nullptr) != 0) {
+        crypto_new_keypair(random_public_key_bytes, random_secret_key_bytes);
+
+        if (dht_addfriend(dht, random_public_key_bytes, nullptr, nullptr, 0, nullptr) != 0) {
             kill_dht(dht);
             return nullptr;
         }
@@ -2803,6 +2805,11 @@ uint32_t dht_size(const DHT *dht)
     uint32_t numv4 = 0;
     uint32_t numv6 = 0;
 
+    for (uint32_t i = 0; i < dht->loaded_num_nodes; ++i) {
+        numv4 += net_family_is_ipv4(dht->loaded_nodes_list[i].ip_port.ip.family);
+        numv6 += net_family_is_ipv6(dht->loaded_nodes_list[i].ip_port.ip.family);
+    }
+
     for (uint32_t i = 0; i < LCLIENT_LIST; ++i) {
         numv4 += (dht->close_clientlist[i].assoc4.timestamp != 0);
         numv6 += (dht->close_clientlist[i].assoc6.timestamp != 0);
@@ -2826,7 +2833,7 @@ uint32_t dht_size(const DHT *dht)
 /* Save the DHT in data where data is an array of size dht_size(). */
 void dht_save(const DHT *dht, uint8_t *data)
 {
-    host_to_lendian32(data, DHT_STATE_COOKIE_GLOBAL);
+    host_to_lendian_bytes32(data, DHT_STATE_COOKIE_GLOBAL);
     data += sizeof(uint32_t);
 
     uint8_t *const old_data = data;
@@ -2837,6 +2844,11 @@ void dht_save(const DHT *dht, uint8_t *data)
     Node_format clients[MAX_SAVED_DHT_NODES];
 
     uint32_t num = 0;
+
+    if (dht->loaded_num_nodes > 0) {
+        memcpy(clients, dht->loaded_nodes_list, sizeof(Node_format) * dht->loaded_num_nodes);
+        num += dht->loaded_num_nodes;
+    }
 
     for (uint32_t i = 0; i < LCLIENT_LIST; ++i) {
         if (dht->close_clientlist[i].assoc4.timestamp != 0) {
@@ -2950,7 +2962,7 @@ int dht_load(DHT *dht, const uint8_t *data, uint32_t length)
 
     if (length > cookie_len) {
         uint32_t data32;
-        lendian_to_host32(&data32, data);
+        lendian_bytes_to_host32(&data32, data);
 
         if (data32 == DHT_STATE_COOKIE_GLOBAL) {
             return state_load(dht->log, dht_load_state_callback, dht, data + cookie_len,
