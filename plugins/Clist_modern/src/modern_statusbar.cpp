@@ -53,12 +53,6 @@ static OBJLIST<ProtoItemData> ProtosData(5);
 
 STATUSBARDATA g_StatusBarData = { 0 };
 
-char* ApendSubSetting(char * buf, int size, char *first, char *second)
-{
-	mir_snprintf(buf, size, "%sFont%s", first, second);
-	return buf;
-}
-
 int LoadStatusBarData()
 {
 	g_StatusBarData.perProtoConfig = db_get_b(0, "CLUI", "SBarPerProto", SETTING_SBARPERPROTO_DEFAULT);

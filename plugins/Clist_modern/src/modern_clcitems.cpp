@@ -432,7 +432,16 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat)
 		if (g_CluiData.bFilterEffective & CLVM_FILTER_PROTOS) {
 			char szTemp[64];
 			mir_snprintf(szTemp, "%s|", szProto);
-			filterResult = strstr(g_CluiData.protoFilter, szTemp) ? 1 : 0;
+			if (db_mc_isMeta(hContact)) {
+				for (int i = db_mc_getSubCount(hContact) - 1; i >= 0; i--) {
+					mir_snprintf(szTemp, "%s|", GetContactProto(db_mc_getSub(hContact, i)));
+					if (strstr(g_CluiData.protoFilter, szTemp) != 0) {
+						filterResult = 1;
+						break;
+					}
+				}
+			}
+			else filterResult = strstr(g_CluiData.protoFilter, szTemp) != 0;
 		}
 
 		if (g_CluiData.bFilterEffective & CLVM_FILTER_GROUPS) {
