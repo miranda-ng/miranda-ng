@@ -10,8 +10,8 @@ public:
 	const tstring& GetResult()const;
 
 private:
-	virtual void Visit(const CCurrencyRatesProviderBase& rProvider)override;
-	virtual void Visit(const CCurrencyRatesProviderCurrencyConverter& rProvider)override;
+	virtual void Visit(const CCurrencyRatesProviderBase& rProvider) override;
+	virtual void Visit(const CCurrencyRatesProviderCurrencyConverter& rProvider) override;
 
 private:
 	void FormatDoubleHelper(LPCSTR pszDbSet, const tstring sInvalid = L"-");

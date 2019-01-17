@@ -17,7 +17,7 @@ const tstring& CCurrencyRatesProviderVisitorFormater::GetResult()const
 	return m_sResult;
 }
 
-static bool get_fetch_time(MCONTACT hContact, time_t& rTime)
+static bool get_fetch_time(MCONTACT hContact, time_t &rTime)
 {
 	DBVARIANT dbv;
 	if (db_get(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FETCH_TIME, &dbv) || (DBVT_DWORD != dbv.type))
@@ -27,7 +27,7 @@ static bool get_fetch_time(MCONTACT hContact, time_t& rTime)
 	return true;
 }
 
-static tstring format_fetch_time(const CCurrencyRatesProviderBase&, MCONTACT hContact, const tstring& rsFormat)
+static tstring format_fetch_time(MCONTACT hContact, const tstring &rsFormat)
 {
 	time_t nTime;
 	if (true == get_fetch_time(hContact, nTime)) {
@@ -41,7 +41,7 @@ static tstring format_fetch_time(const CCurrencyRatesProviderBase&, MCONTACT hCo
 	return tstring();
 }
 
-void CCurrencyRatesProviderVisitorFormater::Visit(const CCurrencyRatesProviderBase& rProvider)
+void CCurrencyRatesProviderVisitorFormater::Visit(const CCurrencyRatesProviderBase&)
 {
 	switch (m_chr) {
 	case '%':
@@ -56,17 +56,17 @@ void CCurrencyRatesProviderVisitorFormater::Visit(const CCurrencyRatesProviderBa
 		m_sResult = CurrencyRates_DBGetStringW(m_hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL);
 		break;
 	case 'X':
-		m_sResult = format_fetch_time(rProvider, m_hContact, CurrencyRates_GetTimeFormat(true));
+		m_sResult = format_fetch_time(m_hContact, CurrencyRates_GetTimeFormat(true));
 		break;
 	case 'x':
-		m_sResult = format_fetch_time(rProvider, m_hContact, CurrencyRates_GetDateFormat(true));
+		m_sResult = format_fetch_time(m_hContact, CurrencyRates_GetDateFormat(true));
 		break;
 	case 't':
 		{
 			tstring sFrmt = CurrencyRates_GetDateFormat(true);
 			sFrmt += L" ";
 			sFrmt += CurrencyRates_GetTimeFormat(true);
-			m_sResult = format_fetch_time(rProvider, m_hContact, sFrmt);
+			m_sResult = format_fetch_time(m_hContact, sFrmt);
 		}
 		break;
 	case 'r':
