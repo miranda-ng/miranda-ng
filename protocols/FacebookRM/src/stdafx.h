@@ -81,6 +81,7 @@ class FacebookProto;
 
 extern std::string g_strUserAgent;
 extern DWORD g_mirandaVersion;
+extern bool g_bMessageState;
 
 template <typename T>
 __inline static void FreeList(const LIST<T> &lst)

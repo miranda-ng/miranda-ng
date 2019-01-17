@@ -26,6 +26,7 @@ CMPlugin g_plugin;
 
 std::string g_strUserAgent;
 DWORD g_mirandaVersion;
+bool g_bMessageState;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -56,8 +57,18 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 /////////////////////////////////////////////////////////////////////////////////////////
 // Load
 
+static int OnModuleLoaded(WPARAM, LPARAM)
+{
+	g_bMessageState = ServiceExists(MS_MESSAGESTATE_UPDATE) != 0;
+	return 0;
+}
+
 int CMPlugin::Load()
 {
+	HookEvent(ME_SYSTEM_MODULELOAD, OnModuleLoaded);
+	HookEvent(ME_SYSTEM_MODULEUNLOAD, OnModuleLoaded);
+	OnModuleLoaded(0, 0);
+
 	InitIcons();
 	InitContactMenus();
 

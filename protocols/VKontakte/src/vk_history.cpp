@@ -309,7 +309,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 
 	setDword(param->hContact, "lastmsgid", iLastMsgId);
 
-	if (ServiceExists(MS_MESSAGESTATE_UPDATE)) {
+	if (g_bMessageState) {
 		MessageReadData data(tLastReadMessageTime, MRD_TYPE_MESSAGETIME);
 		CallService(MS_MESSAGESTATE_UPDATE, param->hContact, (LPARAM)&data);
 	}

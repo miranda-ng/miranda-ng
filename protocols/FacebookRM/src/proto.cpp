@@ -1046,6 +1046,6 @@ void FacebookProto::MessageRead(MCONTACT hContact)
 		ptrW treaders(getWStringA(hContact, FACEBOOK_KEY_MESSAGE_READERS));
 		Srmm_SetStatusText(hContact, CMStringW(FORMAT, TranslateT("Message read: %s by %s"), ttime, treaders ? treaders : L"???"), hIcon);
 	}
-	else if (!ServiceExists(MS_MESSAGESTATE_UPDATE))
+	else if (!g_bMessageState)
 		Srmm_SetStatusText(hContact, CMStringW(FORMAT, TranslateT("Message read: %s"), ttime), hIcon);
 }

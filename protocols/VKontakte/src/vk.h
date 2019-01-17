@@ -102,6 +102,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 struct CVkProto;
 extern mir_cs csInstances;
+extern bool g_bMessageState;
 
 LPCSTR findHeader(NETLIBHTTPREQUEST *hdr, LPCSTR szField);
 bool wlstrstr(wchar_t *_s1, wchar_t *_s2);

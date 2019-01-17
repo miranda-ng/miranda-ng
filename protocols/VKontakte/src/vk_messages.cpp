@@ -438,7 +438,7 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			if (IsGroupUser(hContact))
 				szGroupIds.AppendFormat(szGroupIds.IsEmpty() ? "%d" : ",%d", -1 * uid);
 
-			if (ServiceExists(MS_MESSAGESTATE_UPDATE)) {
+			if (g_bMessageState) {
 				time_t tLastReadMessageTime = jnDlg["date"].as_int();
 				bool isOut = jnDlg["out"].as_bool();
 				bool isRead = jnDlg["read_state"].as_bool();

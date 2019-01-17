@@ -338,7 +338,7 @@ void facebook_client::insert_reader(MCONTACT hContact, time_t timestamp, const s
 	parent->setDword(hContact, FACEBOOK_KEY_MESSAGE_READ, timestamp);
 	readers.insert(std::make_pair(hContact, timestamp));
 	parent->MessageRead(hContact);
-	if (ServiceExists(MS_MESSAGESTATE_UPDATE)) {
+	if (g_bMessageState) {
 		MessageReadData data(timestamp, MRD_TYPE_READTIME);
 		CallService(MS_MESSAGESTATE_UPDATE, hContact, (LPARAM)&data);
 	}

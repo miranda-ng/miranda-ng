@@ -701,7 +701,7 @@ void CVkProto::ContactTypingThread(void *p)
 	Sleep(4500);
 	CallService(MS_PROTO_CONTACTISTYPING, hContact);
 
-	if (!ServiceExists(MS_MESSAGESTATE_UPDATE)) {
+	if (!g_bMessageState) {
 		Sleep(1500);
 		SetSrmmReadStatus(hContact);
 	}
@@ -739,7 +739,7 @@ int CVkProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 	if (szProto.IsEmpty() || szProto != m_szModuleName)
 		return 0;
 
-	if (event->uType == MSG_WINDOW_EVT_OPENING && !ServiceExists(MS_MESSAGESTATE_UPDATE))
+	if (event->uType == MSG_WINDOW_EVT_OPENING && !g_bMessageState)
 		SetSrmmReadStatus(event->hContact);
 
 	if (event->uType == MSG_WINDOW_EVT_OPENING 	&& m_vkOptions.bLoadLastMessageOnMsgWindowsOpen

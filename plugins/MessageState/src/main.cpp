@@ -4,7 +4,7 @@ CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfoEx = 
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -21,7 +21,8 @@ PLUGININFOEX pluginInfoEx =
 
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
-{}
+{
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

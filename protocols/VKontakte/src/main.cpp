@@ -19,6 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "version.h"
 
 CMPlugin g_plugin;
+bool g_bMessageState;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -49,8 +50,18 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnLoad - initialize the plugin instance
 
+static int OnModuleLoaded(WPARAM, LPARAM)
+{
+	g_bMessageState = ServiceExists(MS_MESSAGESTATE_UPDATE) != 0;
+	return 0;
+}
+
 int CMPlugin::Load()
 {
+	HookEvent(ME_SYSTEM_MODULELOAD, OnModuleLoaded);
+	HookEvent(ME_SYSTEM_MODULEUNLOAD, OnModuleLoaded);
+	OnModuleLoaded(0, 0);
+
 	InitIcons();
 	return 0;
 }
