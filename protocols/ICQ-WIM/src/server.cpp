@@ -759,14 +759,13 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 
 	__int64 lastMsgId = getId(hContact, DB_KEY_LASTMSGID);
 	__int64 srvLastId = _wtoi64(ev["lastMsgId"].as_mstring());
-	__int64 srvUnreadId = _wtoi64(ev["yours"]["lastRead"].as_mstring());
 
 	// on first start we don't load history not to create dups
 	if (lastMsgId == 0)
 		setId(hContact, DB_KEY_LASTMSGID, srvLastId);
 	// or load missing messages if any
 	else if (ev["unreadCnt"].as_int() > 0)
-		RetrieveUserHistory(hContact, min(srvUnreadId, lastMsgId), srvLastId);
+		RetrieveUserHistory(hContact, lastMsgId, srvLastId);
 
 	// check remote read
 	if (g_bMessageState) {
