@@ -20,7 +20,7 @@
 
 #include "stdafx.h"
 
-bool g_bPopupService;
+bool g_bPopupService, g_bMessageState;
 
 HWND g_hwndHeartbeat;
 
@@ -57,6 +57,7 @@ CMPlugin g_plugin;
 int ModuleLoad(WPARAM, LPARAM)
 {
 	g_bPopupService = ServiceExists(MS_POPUP_ADDPOPUPT);
+	g_bMessageState = ServiceExists(MS_MESSAGESTATE_UPDATE);
 	return 0;
 }
 
@@ -66,7 +67,7 @@ int CMPlugin::Load()
 
 	HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);
 	HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);
-	ModuleLoad(0, 0);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModuleLoad);
 	return 0;
 };
 

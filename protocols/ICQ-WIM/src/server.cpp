@@ -755,7 +755,14 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 			else LoadChatInfo(si);
 		}
 	}
-	else hContact = CreateContact(_wtol(wszId), true);
+	else {
+		hContact = CreateContact(_wtol(wszId), true);
+
+		if (g_bMessageState) {
+			MessageReadData data(time(0), MRD_TYPE_READTIME);
+			CallService(MS_MESSAGESTATE_UPDATE, hContact, (LPARAM)&data);
+		}
+	}
 		
 	__int64 lastMsgId = getId(hContact, DB_KEY_LASTMSGID);
 	__int64 srvLastId = _wtoi64(ev["lastMsgId"].as_mstring());
@@ -782,8 +789,14 @@ void CIcqProto::ProcessImState(const JSONNode &ev)
 		CMStringA reqId(it["sendReqId"].as_mstring());
 		CMStringA msgId(it["histMsgId"].as_mstring());
 		MCONTACT hContact = CheckOwnMessage(reqId, msgId, false);
-		if (hContact)
+		if (hContact) {
 			CheckLastId(hContact, ev);
+
+			if (g_bMessageState) {
+				MessageReadData data(it["ts"].as_int(), MRD_TYPE_MESSAGETIME);
+				CallService(MS_MESSAGESTATE_UPDATE, hContact, (LPARAM)&data);
+			}
+		}
 	}
 }
 

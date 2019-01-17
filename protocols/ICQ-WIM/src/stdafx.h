@@ -54,6 +54,7 @@
 #include <m_json.h>
 #include <m_langpack.h>
 #include <m_message.h>
+#include <m_messagestate.h>
 #include <m_netlib.h>
 #include <m_protocols.h>
 #include <m_protosvc.h>
@@ -93,3 +94,4 @@ bool IsChat(const CMStringW &aimid);
 int StatusFromString(const CMStringW&);
 
 extern HWND g_hwndHeartbeat;
+extern bool g_bMessageState;
