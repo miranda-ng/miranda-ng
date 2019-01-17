@@ -797,7 +797,7 @@ void CIcqProto::ProcessImState(const JSONNode &ev)
 			CheckLastId(hContact, ev);
 
 			if (g_bMessageState) {
-				MessageReadData data(it["ts"].as_int(), MRD_TYPE_MESSAGETIME);
+				MessageReadData data(time(0), MRD_TYPE_MESSAGETIME);
 				CallService(MS_MESSAGESTATE_UPDATE, hContact, (LPARAM)&data);
 			}
 		}
