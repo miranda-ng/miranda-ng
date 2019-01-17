@@ -755,15 +755,8 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 			else LoadChatInfo(si);
 		}
 	}
-	else {
-		hContact = CreateContact(_wtol(wszId), true);
+	else hContact = CreateContact(_wtol(wszId), true);
 
-		if (g_bMessageState) {
-			MessageReadData data(time(0), MRD_TYPE_READTIME);
-			CallService(MS_MESSAGESTATE_UPDATE, hContact, (LPARAM)&data);
-		}
-	}
-		
 	__int64 lastMsgId = getId(hContact, DB_KEY_LASTMSGID);
 	__int64 srvLastId = _wtoi64(ev["lastMsgId"].as_mstring());
 	__int64 srvUnreadId = _wtoi64(ev["yours"]["lastRead"].as_mstring());
@@ -774,6 +767,18 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 	// or load missing messages if any
 	else if (ev["unreadCnt"].as_int() > 0)
 		RetrieveUserHistory(hContact, min(srvUnreadId, lastMsgId), srvLastId);
+
+	// check remote read
+	if (g_bMessageState) {
+		__int64 srvRemoteRead = _wtoi64(ev["theirs"]["lastRead"].as_mstring());
+		__int64 lastRemoteRead = getId(hContact, DB_KEY_REMOTEREAD);
+		if (srvRemoteRead > lastRemoteRead) {
+			setId(hContact, DB_KEY_REMOTEREAD, srvRemoteRead);
+
+			MessageReadData data(time(0), MRD_TYPE_READTIME);
+			CallService(MS_MESSAGESTATE_UPDATE, hContact, (LPARAM)&data);
+		}
+	}
 
 	for (auto &it : ev["tail"]["messages"])
 		ParseMessage(hContact, lastMsgId, it);
