@@ -1,6 +1,6 @@
 /*
 	BASS 2.4 C/C++ header file
-	Copyright (c) 1999-2018 Un4seen Developments Ltd.
+	Copyright (c) 1999-2019 Un4seen Developments Ltd.
 
 	See the BASS.CHM file for more detailed documentation
 */
@@ -47,15 +47,15 @@ extern "C" {
 #define NOBASSOVERLOADS
 #endif
 
-typedef DWORD HMUSIC;      // MOD music handle
-typedef DWORD HSAMPLE;     // sample handle
-typedef DWORD HCHANNEL;    // playing sample's channel handle
-typedef DWORD HSTREAM;     // sample stream handle
-typedef DWORD HRECORD;     // recording handle
-typedef DWORD HSYNC;       // synchronizer handle
-typedef DWORD HDSP;        // DSP handle
-typedef DWORD HFX;         // DX8 effect handle
-typedef DWORD HSUBPLUGIN;	// Plugin handle
+typedef DWORD HMUSIC;		// MOD music handle
+typedef DWORD HSAMPLE;		// sample handle
+typedef DWORD HCHANNEL;		// playing sample's channel handle
+typedef DWORD HSTREAM;		// sample stream handle
+typedef DWORD HRECORD;		// recording handle
+typedef DWORD HSYNC;		// synchronizer handle
+typedef DWORD HDSP;			// DSP handle
+typedef DWORD HFX;			// DX8 effect handle
+typedef DWORD HPLUGIN;		// Plugin handle
 
 // Error codes returned by BASS_ErrorGetCode
 #define BASS_OK				0	// all is OK
@@ -117,6 +117,7 @@ typedef DWORD HSUBPLUGIN;	// Plugin handle
 #define BASS_CONFIG_VERIFY			23
 #define BASS_CONFIG_UPDATETHREADS	24
 #define BASS_CONFIG_DEV_BUFFER		27
+#define BASS_CONFIG_REC_LOOPBACK	28
 #define BASS_CONFIG_VISTA_TRUEPOS	30
 #define BASS_CONFIG_IOS_MIXAUDIO	34
 #define BASS_CONFIG_DEV_DEFAULT		36
@@ -141,11 +142,14 @@ typedef DWORD HSUBPLUGIN;	// Plugin handle
 #define BASS_CONFIG_AM_DISABLE		58
 #define BASS_CONFIG_NET_PLAYLIST_DEPTH	59
 #define BASS_CONFIG_NET_PREBUF_WAIT	60
+#define BASS_CONFIG_WASAPI_PERSIST	65
+#define BASS_CONFIG_REC_WASAPI		66
 
 // BASS_SetConfigPtr options
 #define BASS_CONFIG_NET_AGENT		16
 #define BASS_CONFIG_NET_PROXY		17
 #define BASS_CONFIG_IOS_NOTIFY		46
+#define BASS_CONFIG_LIBSSL			64
 
 // BASS_Init flags
 #define BASS_DEVICE_8BITS		1		// 8 bit
@@ -361,7 +365,7 @@ typedef struct {
 	DWORD flags;	// BASS_SAMPLE/STREAM/MUSIC/SPEAKER flags
 	DWORD ctype;	// type of channel
 	DWORD origres;	// original resolution
-	HSUBPLUGIN plugin;	// plugin
+	HPLUGIN plugin;	// plugin
 	HSAMPLE sample; // sample
 	const char *filename; // filename
 } BASS_CHANNELINFO;
@@ -507,6 +511,7 @@ RETURN : Number of bytes written. Set the BASS_STREAMPROC_END flag to end the st
 #define STREAMPROC_DUMMY		(STREAMPROC*)0		// "dummy" stream
 #define STREAMPROC_PUSH			(STREAMPROC*)-1		// push stream
 #define STREAMPROC_DEVICE		(STREAMPROC*)-2		// device mix stream
+#define STREAMPROC_DEVICE_3D	(STREAMPROC*)-3		// device 3D mix stream
 
 // BASS_StreamCreateFileUser file systems
 #define STREAMFILE_NOBUFFER		0
@@ -561,6 +566,8 @@ user   : The 'user' parameter value given when calling BASS_StreamCreateURL */
 #define BASS_SYNC_MUSICINST		1
 #define BASS_SYNC_MUSICFX		3
 #define BASS_SYNC_OGG_CHANGE	12
+#define BASS_SYNC_DEV_FAIL		14
+#define BASS_SYNC_DEV_FORMAT	15
 #define BASS_SYNC_MIXTIME		0x40000000	// flag: sync at mixtime, else at playtime
 #define BASS_SYNC_ONETIME		0x80000000	// flag: sync only once, else continuously
 
@@ -593,10 +600,11 @@ user   : The 'user' parameter value given when calling BASS_RecordStart
 RETURN : TRUE = continue recording, FALSE = stop */
 
 // BASS_ChannelIsActive return values
-#define BASS_ACTIVE_STOPPED	0
-#define BASS_ACTIVE_PLAYING	1
-#define BASS_ACTIVE_STALLED	2
-#define BASS_ACTIVE_PAUSED	3
+#define BASS_ACTIVE_STOPPED			0
+#define BASS_ACTIVE_PLAYING			1
+#define BASS_ACTIVE_STALLED			2
+#define BASS_ACTIVE_PAUSED			3
+#define BASS_ACTIVE_PAUSED_DEVICE	4
 
 // Channel attributes
 #define BASS_ATTRIB_FREQ			1
@@ -641,6 +649,7 @@ RETURN : TRUE = continue recording, FALSE = stop */
 #define BASS_DATA_FFT_NOWINDOW	0x20	// FFT flag: no Hanning window
 #define BASS_DATA_FFT_REMOVEDC	0x40	// FFT flag: pre-remove DC bias
 #define BASS_DATA_FFT_COMPLEX	0x80	// FFT flag: return complex data
+#define BASS_DATA_FFT_NYQUIST	0x100	// FFT flag: return extra Nyquist value
 
 // BASS_ChannelGetLevelEx flags
 #define BASS_LEVEL_MONO		1
@@ -1006,12 +1015,13 @@ float BASSDEF(BASS_GetCPU)();
 BOOL BASSDEF(BASS_Start)();
 BOOL BASSDEF(BASS_Stop)();
 BOOL BASSDEF(BASS_Pause)();
+BOOL BASSDEF(BASS_IsStarted)();
 BOOL BASSDEF(BASS_SetVolume)(float volume);
 float BASSDEF(BASS_GetVolume)();
 
-HSUBPLUGIN BASSDEF(BASS_PluginLoad)(const char *file, DWORD flags);
-BOOL BASSDEF(BASS_PluginFree)(HSUBPLUGIN handle);
-const BASS_PLUGININFO *BASSDEF(BASS_PluginGetInfo)(HSUBPLUGIN handle);
+HPLUGIN BASSDEF(BASS_PluginLoad)(const char *file, DWORD flags);
+BOOL BASSDEF(BASS_PluginFree)(HPLUGIN handle);
+const BASS_PLUGININFO *BASSDEF(BASS_PluginGetInfo)(HPLUGIN handle);
 
 BOOL BASSDEF(BASS_Set3DFactors)(float distf, float rollf, float doppf);
 BOOL BASSDEF(BASS_Get3DFactors)(float *distf, float *rollf, float *doppf);
@@ -1104,7 +1114,7 @@ BOOL BASSDEF(BASS_FXSetPriority)(HFX handle, int priority);
 }
 
 #if defined(_WIN32) && !defined(NOBASSOVERLOADS)
-static inline HSUBPLUGIN BASS_PluginLoad(const WCHAR *file, DWORD flags)
+static inline HPLUGIN BASS_PluginLoad(const WCHAR *file, DWORD flags)
 {
 	return BASS_PluginLoad((const char*)file, flags|BASS_UNICODE);
 }
