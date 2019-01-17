@@ -67,7 +67,7 @@ int CMPlugin::Load()
 {
 	HookEvent(ME_SYSTEM_MODULELOAD, OnModuleLoaded);
 	HookEvent(ME_SYSTEM_MODULEUNLOAD, OnModuleLoaded);
-	OnModuleLoaded(0, 0);
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModuleLoaded);
 
 	InitIcons();
 	InitContactMenus();
