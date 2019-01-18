@@ -1,14 +1,12 @@
 #include "stdafx.h"
 
-#define SHORTCUT_PATH "\\Microsoft\\Windows\\Start Menu\\Programs\\Miranda NG.lnk"
-
 using namespace Microsoft::WRL;
 
 wchar_t* GetShortcutPath()
 {
 	wchar_t path[MAX_PATH];
-	GetEnvironmentVariable(L"APPDATA", path, MAX_PATH);
-	wcscat_s(path, _T(SHORTCUT_PATH));
+	SHGetSpecialFolderPathW(nullptr, path, CSIDL_STARTMENU, FALSE);
+	wcscat_s(path, L"\\Programs\\Miranda NG.lnk");
 	return mir_wstrdup(path);
 }
 

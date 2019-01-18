@@ -5,6 +5,7 @@
 
 #include <wrl/implements.h>
 #include <windows.ui.notifications.h>
+#include <ShlObj.h>
 #include <ShObjIdl.h>
 #include <propvarutil.h>
 #include <memory>
