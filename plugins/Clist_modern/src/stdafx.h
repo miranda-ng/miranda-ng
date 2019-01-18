@@ -101,6 +101,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_variables.h>
 #include <m_smileyadd.h>
 #include <m_folders.h>
+#include <m_seenplugin.h>
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
