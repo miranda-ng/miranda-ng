@@ -357,8 +357,7 @@ int GetStatusMessage(wchar_t *text, int text_size, ClcCacheEntry *pdnce, BOOL xs
 		if (noAwayMsg && ServiceExists(MS_LASTSEEN_GET)) {
 			ptrW pwszLastSeen((LPWSTR)CallService(MS_LASTSEEN_GET, (WPARAM)pdnce->hContact));
 			if (pwszLastSeen) {
-				CMStringW wszLastSeen(Translate("Last seen: "));
-				wszLastSeen.AppendFormat(L"%s", pwszLastSeen);
+				CMStringW wszLastSeen(FORMAT, L"%s: %s", Translate("Last seen"),  pwszLastSeen);
 				CopySkipUnprintableChars(text, (wchar_t*)wszLastSeen.c_str(), text_size - 1);
 				if (text[0] != '\0')
 					return 1;
