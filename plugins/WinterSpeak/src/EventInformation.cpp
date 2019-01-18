@@ -9,7 +9,6 @@ EventInformation::EventInformation() : m_event_strings(), m_event_info()
 {
 	// insert the event strings into a map for easy access
 	m_event_strings[EVENTTYPE_MESSAGE]	    = TranslateT("incoming message from %u");
-	m_event_strings[EVENTTYPE_URL]          = TranslateT("incoming URL from %u");
 	m_event_strings[EVENTTYPE_ADDED]        = TranslateT("you have been added to %u's contact list");
 	m_event_strings[EVENTTYPE_AUTHREQUEST]  = TranslateT("%u requests your authorization");
 	m_event_strings[EVENTTYPE_FILE]         = TranslateT("there is an incoming file from %u");

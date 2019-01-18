@@ -4,7 +4,6 @@
 //
 #define IDD_OPT_VIEWMODES               1
 #define IDD_OPT_SKIN                    4
-#define IDD_QUICKIGNORE                 5
 #define IDD_OPT                         6
 #define IDD_EXCEPTION                   20
 #define IDD_OPT_CLIST                   126

@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define IDI_FILLEDBLOB 212
 #define IDI_EMPTYBLOB  213
 
-static const DWORD ignoreIdToPf1[IGNOREEVENT_MAX] = {PF1_IMRECV, PF1_URLRECV, PF1_FILERECV, 0xFFFFFFFF};
+static const DWORD ignoreIdToPf1[IGNOREEVENT_MAX] = {PF1_IMRECV, 0xFFFFFFFF, PF1_FILERECV, 0xFFFFFFFF};
 
 static DWORD GetMask(MCONTACT hContact)
 {
@@ -327,9 +327,6 @@ BOOL IsIgnored(MCONTACT hContact, WORD eventType)
 	switch(eventType) {
 		case EVENTTYPE_MESSAGE:
 			ignoreID = 0;
-			break;
-		case EVENTTYPE_URL:
-			ignoreID = 1;
 			break;
 		case EVENTTYPE_FILE:
 			ignoreID = 2;

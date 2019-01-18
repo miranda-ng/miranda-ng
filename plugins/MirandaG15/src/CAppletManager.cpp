@@ -861,13 +861,6 @@ bool CAppletManager::TranslateDBEvent(CEvent *pEvent, WPARAM hContact, LPARAM hd
 		pEvent->strDescription = strName + L": " + pEvent->strValue;
 		pEvent->strSummary = TranslateString(L"New message from %s", strName.c_str());
 		break;
-	case EVENTTYPE_URL:
-		if (CConfig::GetBoolSetting(NOTIFY_URL))
-			pEvent->bNotification = true;
-
-		pEvent->eType = EVENT_URL;
-		pEvent->strDescription = TranslateString(L"Incoming URL from %s", strName.c_str());
-		break;
 	case EVENTTYPE_CONTACTS:
 		if (CConfig::GetBoolSetting(NOTIFY_CONTACTS))
 			pEvent->bNotification = true;

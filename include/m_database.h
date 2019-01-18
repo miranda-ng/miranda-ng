@@ -272,7 +272,6 @@ public:
 // db/time/x below with useful stuff for dealing with it.
 
 #define EVENTTYPE_MESSAGE         0
-#define EVENTTYPE_URL             1
 #define EVENTTYPE_CONTACTS        2   //v0.1.2.2+
 #define EVENTTYPE_ADDED         1000  //v0.1.1.0+: these used to be module-
 #define EVENTTYPE_AUTHREQUEST   1001  //specific codes, hence the module-

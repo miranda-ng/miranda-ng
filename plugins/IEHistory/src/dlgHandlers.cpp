@@ -129,10 +129,8 @@ void FillIEViewInfo(IEVIEWEVENTDATA *fillData, DBEVENTINFO dbInfo, PBYTE blob)
 	case EVENTTYPE_FILE:
 		fillData->iType = IEED_EVENT_FILE;
 		break;
-	case EVENTTYPE_URL:
-		fillData->iType = IEED_EVENT_URL;
-		break;
 	}
+
 	fillData->pszNick = "<nick here>";
 	fillData->bIsMe = (dbInfo.flags & DBEF_SENT);
 	fillData->dwFlags = (dbInfo.flags & DBEF_SENT) ? IEEDF_SENT : 0;

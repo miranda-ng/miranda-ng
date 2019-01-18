@@ -87,10 +87,6 @@ static int StatusChangeGetMessage(WPARAM, LPARAM hDbEvent)
 		read = Options.MessageRead;
 		send = Options.MessageSend;
 		break;
-	case EVENTTYPE_URL:
-		read = Options.UrlRead;
-		send = Options.UrlSend;
-		break;
 	case EVENTTYPE_FILE:
 		read = Options.FileRead;
 		send = Options.FileSend;

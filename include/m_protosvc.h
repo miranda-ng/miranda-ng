@@ -50,8 +50,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define PFLAGNUM_1   1
 #define PF1_IMSEND        0x00000001 // supports IM sending
 #define PF1_IMRECV        0x00000002 // supports IM receiving
-#define PF1_URLSEND       0x00000004 // supports separate URL sending
-#define PF1_URLRECV       0x00000008 // supports separate URL receiving
 #define PF1_FILESEND      0x00000010 // supports file sending
 #define PF1_FILERECV      0x00000020 // supports file receiving
 #define PF1_MODEMSGSEND   0x00000040 // supports broadcasting away messages
@@ -81,7 +79,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define PF1_NUMERICUSERID 0x80000000 // the unique user IDs for this protocol are numeric
 
 #define PF1_IM (PF1_IMSEND|PF1_IMRECV)
-#define PF1_URL (PF1_URLSEND|PF1_URLRECV)
 #define PF1_FILE (PF1_FILESEND|PF1_FILERECV)
 #define PF1_MODEMSG (PF1_MODEMSGSEND|PF1_MODEMSGRECV)
 #define PF1_CONTACT (PF1_CONTACTSEND|PF1_CONTACTRECV)

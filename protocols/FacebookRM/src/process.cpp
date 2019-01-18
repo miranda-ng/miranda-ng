@@ -375,8 +375,6 @@ void FacebookProto::LoadHistory(void *pParam)
 					dbei.eventType = EVENTTYPE_MESSAGE;
 				else if (msg.type == VIDEO_CALL || msg.type == PHONE_CALL)
 					dbei.eventType = FACEBOOK_EVENTTYPE_CALL;
-				else
-					dbei.eventType = EVENTTYPE_URL; // FIXME: Use better and specific type for our other event types.
 
 				dbei.flags = DBEF_UTF;
 
@@ -842,8 +840,6 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 					dbei.eventType = EVENTTYPE_MESSAGE;
 				else if (msg.type == VIDEO_CALL || msg.type == PHONE_CALL)
 					dbei.eventType = FACEBOOK_EVENTTYPE_CALL;
-				else
-					dbei.eventType = EVENTTYPE_URL; // FIXME: Use better and specific type for our other event types.
 
 				dbei.flags = DBEF_UTF;
 

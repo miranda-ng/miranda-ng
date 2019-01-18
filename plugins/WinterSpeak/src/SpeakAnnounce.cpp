@@ -77,10 +77,6 @@ void SpeakAnnounce::incomingEvent(MCONTACT user, MEVENT event)
 		speak = m_db.getEventFlag(AnnounceDatabase::EventFlag_Message);
 		break;
 
-	case EVENTTYPE_URL:
-		speak = m_db.getEventFlag(AnnounceDatabase::EventFlag_Url);
-		break;
-
 	case EVENTTYPE_ADDED:
 		speak = m_db.getEventFlag(AnnounceDatabase::EventFlag_Added);
 		break;

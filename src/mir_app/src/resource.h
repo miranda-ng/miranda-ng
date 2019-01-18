@@ -373,7 +373,6 @@
 #define IDC_LOADICONS                   1369
 #define IDC_STICONSGROUP                1371
 #define IDC_MSGICON                     1375
-#define IDC_URLICON                     1376
 #define IDC_STNOPAGE                    1377
 #define IDC_STCHECKMARKS                1380
 #define IDC_STATUSBAR                   1389

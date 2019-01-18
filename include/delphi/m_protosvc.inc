@@ -66,9 +66,6 @@ const
   PF1_IMSEND        = $00000001; // supports IM sending
   PF1_IMRECV        = $00000002; // supports IM receiving
   PF1_IM            = (PF1_IMSEND or PF1_IMRECV);
-  PF1_URLSEND       = $00000004; // supports separate URL sending
-  PF1_URLRECV       = $00000008; // supports separate URL receiving
-  PF1_URL           = (PF1_URLSEND or PF1_URLRECV);
   PF1_FILESEND      = $00000010; // supports file sending
   PF1_FILERECV      = $00000020; // supports file receiving
   PF1_FILE          = (PF1_FILESEND or PF1_FILERECV);

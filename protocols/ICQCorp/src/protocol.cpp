@@ -2134,8 +2134,6 @@ void ICQ::doneUserFcn(bool ack, ICQEvent *icqEvent)
 
 	if (icqEvent->subCmd == ICQ_CMDxTCP_MSG)
 		type = ACKTYPE_MESSAGE;
-	if (icqEvent->subCmd == ICQ_CMDxTCP_URL)
-		type = ACKTYPE_URL;
 
 	ProtoBroadcastAck(protoName, getUserByUIN(icqEvent->uin)->hContact, type, ack ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)icqEvent->sequence, 0);
 }

@@ -73,8 +73,6 @@ bool ScriverHTMLBuilder::isDbEventShown(DBEVENTINFO * dbei)
 	switch (dbei->eventType) {
 	case EVENTTYPE_MESSAGE:
 		return 1;
-	case EVENTTYPE_URL:
-		return 1;
 	case EVENTTYPE_FILE:
 		return 1;
 	default:
@@ -282,7 +280,7 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 		bool isSent = (eventData->dwFlags & IEEDF_SENT) != 0;
 		bool isRTL = (eventData->dwFlags & IEEDF_RTL) != 0;
 		showColon = false;
-		if (eventData->iType == IEED_EVENT_MESSAGE || eventData->iType == IEED_EVENT_STATUSCHANGE || eventData->iType == IEED_EVENT_URL || eventData->iType == IEED_EVENT_FILE) {
+		if (eventData->iType == IEED_EVENT_MESSAGE || eventData->iType == IEED_EVENT_STATUSCHANGE || eventData->iType == IEED_EVENT_FILE) {
 			int isGroupBreak = TRUE;
 			if ((dwFlags & SMF_LOG_GROUPMESSAGES) && eventData->dwFlags == LOWORD(getLastEventType()) &&
 				eventData->iType == IEED_EVENT_MESSAGE && HIWORD(getLastEventType()) == IEED_EVENT_MESSAGE &&
@@ -323,8 +321,6 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 					iconFile = isSent ? "message_out.gif" : "message_in.gif";
 				else if (eventData->iType == IEED_EVENT_FILE)
 					iconFile = "file.gif";
-				else if (eventData->iType == IEED_EVENT_URL)
-					iconFile = "url.gif";
 				else if (eventData->iType == IEED_EVENT_STATUSCHANGE)
 					iconFile = "status.gif";
 
@@ -389,10 +385,6 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 			if (eventData->iType == IEED_EVENT_FILE) {
 				str.AppendFormat("<span class=\"%s\">%s: %s</span>", className, 
 					(isSent) ? Translate("File sent") : Translate("File received"), szText);
-			}
-			else if (eventData->iType == IEED_EVENT_URL) {
-				str.AppendFormat("<span class=\"%s\">%s: %s</span>", className,
-					(isSent) ? Translate("URL sent") : Translate("URL received"), szText);
 			}
 			else str.AppendFormat("<span class=\"%s\">%s</span>", className, szText);
 

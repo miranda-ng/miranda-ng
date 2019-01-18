@@ -36,7 +36,6 @@ private:
 	DWORD m_FirstTime;
 	DWORD m_LastTime;
 	InOut m_Files;
-	InOut m_Urls;
 	int m_NumContacts;
 	int m_NumSubcontacts;
 
@@ -94,9 +93,6 @@ public:
 	DWORD getLastTime() const { return m_LastTime; }
 
 	// files and URLs
-	int getOutUrls() const { return m_Urls.out; }
-	int getInUrls() const { return m_Urls.in; }
-	int getTotalUrls() const { return m_Urls.total(); }
 	int getOutFiles() const { return m_Files.out; }
 	int getInFiles() const { return m_Files.in; }
 	int getTotalFiles() const { return m_Files.total(); }

@@ -226,8 +226,7 @@ void HistoryHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 	for (int eventIdx = 0; eventData != nullptr && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
 		CMStringA str;
 		bool isSent = (eventData->dwFlags & IEEDF_SENT) != 0;
-		if (eventData->iType == IEED_EVENT_MESSAGE || eventData->iType == IEED_EVENT_STATUSCHANGE ||
-			eventData->iType == IEED_EVENT_URL || eventData->iType == IEED_EVENT_FILE)
+		if (eventData->iType == IEED_EVENT_MESSAGE || eventData->iType == IEED_EVENT_STATUSCHANGE || eventData->iType == IEED_EVENT_FILE)
 		{
 			ptrA szName, szText;
 			if (eventData->dwFlags & IEEDF_UNICODE_NICK)
@@ -250,10 +249,6 @@ void HistoryHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 				iconFile = "file.gif";
 				str.AppendFormat("<div class=\"%s\">", isSent ? "divFileOut" : "divFileIn");
 				break;
-			case IEED_EVENT_URL:
-				iconFile = "url.gif";
-				str.AppendFormat("<div class=\"%s\">", isSent ? "divUrlOut" : "divUrlIn");
-				break;
 			default:
 				iconFile = "message.gif";
 				str.AppendFormat("<div class=\"%s\">", isSent ? "divMessageOut" : "divMessageIn");
@@ -267,8 +262,6 @@ void HistoryHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 			str.AppendFormat("<span class=\"%s\">%s</span><br>", isSent ? "timeOut" : "timeIn", timestampToString(eventData->time));
 			if (eventData->iType == IEED_EVENT_FILE)
 				str.AppendFormat("%s:<br> %s", isSent ? Translate("Outgoing File Transfer") : Translate("Incoming File Transfer"), szText);
-			else if (eventData->iType == IEED_EVENT_URL)
-				str.AppendFormat("%s:<br> %s", isSent ? Translate("URL sent") : Translate("URL received"), szText);
 			else
 				str.AppendFormat("%s", szText);
 

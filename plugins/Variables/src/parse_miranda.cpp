@@ -401,7 +401,6 @@ static BOOL isValidDbEvent(DBEVENTINFO *dbe, int flags)
 	BOOL bEventType, bEventFlags;
 
 	bEventType = ((dbe->eventType == EVENTTYPE_MESSAGE) && (flags & DBE_MESSAGE)) ||
-		((dbe->eventType == EVENTTYPE_URL) && (flags & DBE_URL)) ||
 		((dbe->eventType == EVENTTYPE_CONTACTS) && (flags & DBE_CONTACTS)) ||
 		((dbe->eventType == EVENTTYPE_ADDED) && (flags & DBE_ADDED)) ||
 		((dbe->eventType == EVENTTYPE_AUTHREQUEST) && (flags & DBE_AUTHREQUEST)) ||

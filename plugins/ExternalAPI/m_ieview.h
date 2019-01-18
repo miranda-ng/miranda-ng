@@ -74,7 +74,6 @@ typedef struct {
 #define IEED_EVENT_MESSAGE			0x0001 // message
 #define IEED_EVENT_STATUSCHANGE		0x0002 // status change
 #define IEED_EVENT_FILE				0x0003 // file
-#define IEED_EVENT_URL				0x0004 // url
 #define IEED_EVENT_ERRMSG           0x0005 // error message
 #define IEED_EVENT_SYSTEM           0x0006 // system event
 

@@ -37,7 +37,6 @@ public:
 		etMessage             = EVENTTYPE_MESSAGE,
 		// other events
 		etFile                = EVENTTYPE_FILE,
-		etURL                 = EVENTTYPE_URL,
 		etICQSMS              = ICQEVENTTYPE_SMS,
 		etICQWebPager         = ICQEVENTTYPE_WEBPAGER,
 		etICQEMailExpress     = ICQEVENTTYPE_EMAILEXPRESS,

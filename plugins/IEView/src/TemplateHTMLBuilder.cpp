@@ -358,7 +358,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 
 	IEVIEWEVENTDATA* eventData = event->eventData;
 	for (int eventIdx = 0; eventData != nullptr && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
-		if (eventData->iType == IEED_EVENT_MESSAGE || eventData->iType == IEED_EVENT_STATUSCHANGE || eventData->iType == IEED_EVENT_FILE || eventData->iType == IEED_EVENT_URL || eventData->iType == IEED_EVENT_SYSTEM) {
+		if (eventData->iType == IEED_EVENT_MESSAGE || eventData->iType == IEED_EVENT_STATUSCHANGE || eventData->iType == IEED_EVENT_FILE || eventData->iType == IEED_EVENT_SYSTEM) {
 			CMStringA str;
 			bool isSent = (eventData->dwFlags & IEEDF_SENT) != 0;
 			bool isRTL = (eventData->dwFlags & IEEDF_RTL) && tmpm->isRTL();
@@ -428,12 +428,6 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 				Template *tmplt = (tmpm == nullptr) ? nullptr : tmpm->getTemplate(tmpltName[1]);
 				if (tmplt == nullptr)
 					tmpltName[1] = isHistory ? "hFile" : "File";
-			}
-			else if (eventData->iType == IEED_EVENT_URL) {
-				tmpltName[1] = isHistory ? isSent ? "hURLOut" : "hURLIn" : isSent ? "URLOut" : "URLIn";
-				Template *tmplt = (tmpm == nullptr) ? nullptr : tmpm->getTemplate(tmpltName[1]);
-				if (tmplt == nullptr)
-					tmpltName[1] = isHistory ? "hURL" : "URL";
 			}
 			else if (eventData->iType == IEED_EVENT_STATUSCHANGE || (eventData->iType == IEED_EVENT_SYSTEM))
 				tmpltName[1] = isHistory ? "hStatus" : "Status";

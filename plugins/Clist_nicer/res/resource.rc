@@ -443,42 +443,6 @@ BEGIN
     PUSHBUTTON      "Export to skin file",IDC_EXPORT,19,229,125,15
 END
 
-IDD_QUICKIGNORE DIALOGEX 0, 0, 357, 247
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Dialog"
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    GROUPBOX        "Ignore these events",IDC_STATIC,7,3,197,85
-    CONTROL         "Messages",IDC_IGN_MSGEVENTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,14,106,11
-    CONTROL         "Incoming file transfers",IDC_IGN_FILEEVENTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,26,106,11
-    CONTROL         "URL events",IDC_IGN_URLEVENTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,38,106,11
-    CONTROL         "Suppress auth requests",IDC_IGN_AUTH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,50,182,11
-    CONTROL         "Suppress added notifications",IDC_IGN_ADD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,62,182,11
-    CONTROL         "Suppress online notifications",IDC_IGN_ONLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,74,182,11
-    PUSHBUTTON      "Ignore all",IDC_IGN_ALL,129,11,71,15
-    PUSHBUTTON      "Ignore none",IDC_IGN_NONE,129,33,71,15
-    GROUPBOX        "Visibility",IDC_STATIC,7,89,197,35
-    CONTROL         "Appear always online",IDC_IGN_ALWAYSONLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,98,182,11
-    CONTROL         "Appear always offline (block contact)",IDC_IGN_ALWAYSOFFLINE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,111,182,11
-    GROUPBOX        "Other",IDC_STATIC,7,125,197,96
-    CONTROL         "Hide this contact from the list",IDC_HIDECONTACT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,132,182,14
-    LTEXT           "To show a previously hidden contact, navigate to Options -> Contacts -> Ignore, search the contact in the list and tick the checkbox next to its name.",IDC_STATIC,18,146,182,34
-    GROUPBOX        "Display options",IDC_STATIC,209,3,143,218
-    CONTROL         "Show contact with priority",IDC_IGN_PRIORITY,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,219,13,127,11
-    LTEXT           "Show avatar:",IDC_STATIC,225,28,94,11
-    COMBOBOX        IDC_AVATARDISPMODE,219,38,127,56,CBS_DROPDOWNLIST | CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Show 2nd line:",IDC_STATIC,225,54,94,11
-    COMBOBOX        IDC_SECONDLINEMODE,219,64,127,56,CBS_DROPDOWNLIST | CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "",IDC_IGN_ADDPERMANENTLY,"MButtonClass",WS_TABSTOP,95,202,106,15,WS_EX_NOACTIVATE | 0x10000000L
-    PUSHBUTTON      "OK",IDOK,211,228,65,14
-    PUSHBUTTON      "Cancel",IDCANCEL,284,228,65,14
-    CONTROL         "Draw overlay icon on avatar",IDC_OVERLAYICON,"Button",BS_AUTO3STATE | WS_TABSTOP,219,82,127,10
-    CONTROL         "Show local time",IDC_SHOWLOCALTIME1,"Button",BS_AUTO3STATE | WS_TABSTOP,219,94,127,10
-    CONTROL         "",IDC_DSP_LOADDEFAULT,"MButtonClass",WS_TABSTOP,213,202,135,15,WS_EX_NOACTIVATE | 0x10000000L
-END
-
-
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -645,10 +609,6 @@ BEGIN
     END
 
     IDD_OPT, DIALOG
-    BEGIN
-    END
-
-    IDD_QUICKIGNORE, DIALOG
     BEGIN
     END
 END

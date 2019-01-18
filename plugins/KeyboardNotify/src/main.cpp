@@ -251,9 +251,8 @@ BOOL checkUnopenEvents()
 		DBEVENTINFO einfo = readEventInfo(pCLEvent->hDbEvent, pCLEvent->hContact);
 
 		if ((einfo.eventType == EVENTTYPE_MESSAGE && bFlashOnMsg) ||
-			(einfo.eventType == EVENTTYPE_URL     && bFlashOnURL) ||
 			(einfo.eventType == EVENTTYPE_FILE    && bFlashOnFile) ||
-			(einfo.eventType != EVENTTYPE_MESSAGE && einfo.eventType != EVENTTYPE_URL && einfo.eventType != EVENTTYPE_FILE && bFlashOnOther))
+			(einfo.eventType != EVENTTYPE_MESSAGE && einfo.eventType != EVENTTYPE_FILE && bFlashOnOther))
 
 			if (metaCheckProtocol(einfo.szModule, pCLEvent->hContact, einfo.eventType))
 				return TRUE;
@@ -396,9 +395,8 @@ static int PluginMessageEventHook(WPARAM hContact, LPARAM hEvent)
 	DBEVENTINFO einfo = {};
 	if (!db_event_get(hEvent, &einfo) && !(einfo.flags & DBEF_SENT))
 		if ((einfo.eventType == EVENTTYPE_MESSAGE && bFlashOnMsg && checkOpenWindow(hContact) && checkMsgTimestamp(hContact, hEvent, einfo.timestamp)) ||
-			(einfo.eventType == EVENTTYPE_URL     && bFlashOnURL) ||
 			(einfo.eventType == EVENTTYPE_FILE    && bFlashOnFile) ||
-			(einfo.eventType != EVENTTYPE_MESSAGE && einfo.eventType != EVENTTYPE_URL && einfo.eventType != EVENTTYPE_FILE && bFlashOnOther)) {
+			(einfo.eventType != EVENTTYPE_MESSAGE && einfo.eventType != EVENTTYPE_FILE && bFlashOnOther)) {
 
 			if (contactCheckProtocol(einfo.szModule, hContact, einfo.eventType) && checkNotifyOptions() && checkStatus(einfo.szModule) && checkXstatus(einfo.szModule))
 
@@ -427,9 +425,8 @@ static VOID CALLBACK ReminderTimer(HWND, UINT, UINT_PTR, DWORD)
 		DBEVENTINFO einfo = readEventInfo(pCLEvent->hDbEvent, pCLEvent->hContact);
 
 		if ((einfo.eventType == EVENTTYPE_MESSAGE && bFlashOnMsg) ||
-			(einfo.eventType == EVENTTYPE_URL     && bFlashOnURL) ||
 			(einfo.eventType == EVENTTYPE_FILE    && bFlashOnFile) ||
-			(einfo.eventType != EVENTTYPE_MESSAGE && einfo.eventType != EVENTTYPE_URL && einfo.eventType != EVENTTYPE_FILE && bFlashOnOther))
+			(einfo.eventType != EVENTTYPE_MESSAGE && einfo.eventType != EVENTTYPE_FILE && bFlashOnOther))
 
 			if (metaCheckProtocol(einfo.szModule, pCLEvent->hContact, einfo.eventType) && checkNotifyOptions() && checkStatus(einfo.szModule) && checkXstatus(einfo.szModule)) {
 
@@ -861,10 +858,6 @@ void countUnopenEvents(int *msgCount, int *fileCount, int *urlCount, int *otherC
 			case EVENTTYPE_MESSAGE:
 				if (bFlashOnMsg)
 					(*msgCount)++;
-				break;
-			case EVENTTYPE_URL:
-				if (bFlashOnURL)
-					(*urlCount)++;
 				break;
 			case EVENTTYPE_FILE:
 				if (bFlashOnFile)

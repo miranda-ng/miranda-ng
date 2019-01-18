@@ -24,16 +24,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-#define IGNOREEVENT_MAX  7
+#define IGNOREEVENT_MAX 5
 
-static const DWORD ignoreIdToPf1[IGNOREEVENT_MAX] = { PF1_IMRECV, PF1_URLRECV, PF1_FILERECV, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF };
-static const DWORD ignoreIdToPf4[IGNOREEVENT_MAX] = { 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, PF4_SUPPORTTYPING };
+static int masks[IGNOREEVENT_MAX] = { 0x0001, 0x0004, 0x0008, 0x0010, 0x0040 };
+
+static DWORD ignoreIdToPf1[IGNOREEVENT_MAX] = { PF1_IMRECV, PF1_FILERECV, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF };
+static DWORD ignoreIdToPf4[IGNOREEVENT_MAX] = { 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, PF4_SUPPORTTYPING };
 
 static DWORD GetMask(MCONTACT hContact)
 {
 	DWORD mask = db_get_dw(hContact, "Ignore", "Mask1", (DWORD)-1);
 	if (mask == (DWORD)-1) {
-		if (hContact == 0) mask = 0;
+		if (hContact == 0)
+			mask = 0;
 		else {
 			if (db_get_b(hContact, "CList", "Hidden", 0) || db_get_b(hContact, "CList", "NotOnList", 0))
 				mask = db_get_dw(0, "Ignore", "Mask1", 0);
@@ -46,26 +49,31 @@ static DWORD GetMask(MCONTACT hContact)
 
 static void SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentItem, int *groupChildCount)
 {
-	int iconOn[IGNOREEVENT_MAX] = { 1, 1, 1, 1, 1, 1, 1 };
-	int childCount[IGNOREEVENT_MAX] = { 0, 0, 0, 0, 0, 0, 0 }, i;
+	int iconOn[IGNOREEVENT_MAX] = { 1, 1, 1, 1, 1 };
+	int childCount[IGNOREEVENT_MAX] = { 0, 0, 0, 0, 0 };
 	HANDLE hItem, hChildItem;
 
 	int typeOfFirst = SendMessage(hwndList, CLM_GETITEMTYPE, (WPARAM)hFirstItem, 0);
-	//check groups
+	
+	// check groups
 	if (typeOfFirst == CLCIT_GROUP) hItem = hFirstItem;
 	else hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hFirstItem);
 	while (hItem) {
 		hChildItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
-		if (hChildItem) SetListGroupIcons(hwndList, hChildItem, hItem, childCount);
-		for (i = 0; i < _countof(iconOn); i++)
-			if (iconOn[i] && SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, i) == 0) iconOn[i] = 0;
+		if (hChildItem)
+			SetListGroupIcons(hwndList, hChildItem, hItem, childCount);
+		
+		for (int i = 0; i < _countof(iconOn); i++)
+			if (iconOn[i] && SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, i) == 0)
+				iconOn[i] = 0;
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hItem);
 	}
-	//check contacts
+	
+	// check contacts
 	if (typeOfFirst == CLCIT_CONTACT) hItem = hFirstItem;
 	else hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hFirstItem);
 	while (hItem) {
-		for (i = 0; i < _countof(iconOn); i++) {
+		for (int i = 0; i < _countof(iconOn); i++) {
 			int iImage = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, i);
 			if (iconOn[i] && iImage == 0) iconOn[i] = 0;
 			if (iImage != EMPTY_EXTRA_ICON)
@@ -73,8 +81,9 @@ static void SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentIt
 		}
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hItem);
 	}
-	//set icons
-	for (i = 0; i < _countof(iconOn); i++) {
+	
+	// set icons
+	for (int i = 0; i < _countof(iconOn); i++) {
 		SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hParentItem, MAKELPARAM(i, childCount[i] ? (iconOn[i] ? i + 3 : 0) : EMPTY_EXTRA_ICON));
 		if (groupChildCount)
 			groupChildCount[i] += childCount[i];
@@ -88,7 +97,7 @@ static void SetAllChildIcons(HWND hwndList, HANDLE hFirstItem, int iColumn, int 
 	HANDLE hItem;
 
 	int typeOfFirst = SendMessage(hwndList, CLM_GETITEMTYPE, (WPARAM)hFirstItem, 0);
-	
+
 	// check groups
 	if (typeOfFirst == CLCIT_GROUP) hItem = hFirstItem;
 	else hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hFirstItem);
@@ -98,7 +107,7 @@ static void SetAllChildIcons(HWND hwndList, HANDLE hFirstItem, int iColumn, int 
 			SetAllChildIcons(hwndList, hChildItem, iColumn, iImage);
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hItem);
 	}
-	
+
 	// check contacts
 	if (typeOfFirst == CLCIT_CONTACT) hItem = hFirstItem;
 	else hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hFirstItem);
@@ -143,8 +152,8 @@ static void InitialiseItem(HWND hwndList, MCONTACT hContact, HANDLE hItem, DWORD
 {
 	DWORD mask = GetMask(hContact);
 	for (int i = 0; i < IGNOREEVENT_MAX; i++)
-		if ((ignoreIdToPf1[i] == 0xFFFFFFFF && ignoreIdToPf4[i] == 0xFFFFFFFF) || (proto1Caps&ignoreIdToPf1[i] || proto4Caps&ignoreIdToPf4[i]))
-			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, mask&(1 << i) ? i + 3 : 0));
+		if ((ignoreIdToPf1[i] == 0xFFFFFFFF && ignoreIdToPf4[i] == 0xFFFFFFFF) || (proto1Caps & ignoreIdToPf1[i] || proto4Caps & ignoreIdToPf4[i]))
+			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, (mask & masks[i]) ? i + 3 : 0));
 
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(IGNOREEVENT_MAX, 1));
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(IGNOREEVENT_MAX + 1, 2));
@@ -155,7 +164,7 @@ static void SaveItemValue(MCONTACT hContact, const char *pszSetting, DWORD dwVal
 	db_set_dw(hContact, "Ignore", pszSetting, dwValue);
 
 	// assign the same value to all subs, if any
-	for (int i = db_mc_getSubCount(hContact)-1; i >= 0; i--)
+	for (int i = db_mc_getSubCount(hContact) - 1; i >= 0; i--)
 		db_set_dw(db_mc_getSub(hContact, i), "Ignore", pszSetting, dwValue);
 }
 
@@ -165,7 +174,7 @@ static void SaveItemMask(HWND hwndList, MCONTACT hContact, HANDLE hItem, const c
 	for (int i = 0; i < IGNOREEVENT_MAX; i++) {
 		int iImage = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, 0));
 		if (iImage && iImage != EMPTY_EXTRA_ICON)
-			mask |= 1 << i;
+			mask |= masks[i];
 	}
 	SaveItemValue(hContact, pszSetting, mask);
 }
@@ -203,11 +212,9 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_FILLEDBLOB);
 			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_EMPTYBLOB);
 			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_EVENT_MESSAGE);
-			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_EVENT_URL);
 			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_EVENT_FILE);
 			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_USERONLINE);
 			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_AUTH_REQUEST);
-			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_AUTH_ADD);
 			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_TYPING);
 
 			SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hIml);
@@ -218,11 +225,10 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 		SendDlgItemMessage(hwndDlg, IDC_ALLICON, STM_SETICON, (WPARAM)hIcons[0], 0);
 		SendDlgItemMessage(hwndDlg, IDC_NONEICON, STM_SETICON, (WPARAM)hIcons[1], 0);
 		SendDlgItemMessage(hwndDlg, IDC_MSGICON, STM_SETICON, (WPARAM)hIcons[2], 0);
-		SendDlgItemMessage(hwndDlg, IDC_URLICON, STM_SETICON, (WPARAM)hIcons[3], 0);
-		SendDlgItemMessage(hwndDlg, IDC_FILEICON, STM_SETICON, (WPARAM)hIcons[4], 0);
-		SendDlgItemMessage(hwndDlg, IDC_ONLINEICON, STM_SETICON, (WPARAM)hIcons[5], 0);
-		SendDlgItemMessage(hwndDlg, IDC_AUTHICON, STM_SETICON, (WPARAM)hIcons[6], 0);
-		SendDlgItemMessage(hwndDlg, IDC_TYPINGICON, STM_SETICON, (WPARAM)hIcons[8], 0);
+		SendDlgItemMessage(hwndDlg, IDC_FILEICON, STM_SETICON, (WPARAM)hIcons[3], 0);
+		SendDlgItemMessage(hwndDlg, IDC_ONLINEICON, STM_SETICON, (WPARAM)hIcons[4], 0);
+		SendDlgItemMessage(hwndDlg, IDC_AUTHICON, STM_SETICON, (WPARAM)hIcons[5], 0);
+		SendDlgItemMessage(hwndDlg, IDC_TYPINGICON, STM_SETICON, (WPARAM)hIcons[6], 0);
 
 		ResetListOptions(GetDlgItem(hwndDlg, IDC_LIST));
 		SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_SETEXTRACOLUMNS, IGNOREEVENT_MAX + 2, 0);
@@ -315,7 +321,7 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 	case WM_DESTROY:
 		for (auto &it : hIcons)
 			DestroyIcon(it);
-		
+
 		HIMAGELIST hIml = (HIMAGELIST)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGELIST, 0, 0);
 		ImageList_Destroy(hIml);
 		break;
@@ -350,9 +356,9 @@ static INT_PTR Ignore(WPARAM wParam, LPARAM lParam)
 	if ((lParam < 1 || lParam > IGNOREEVENT_MAX) && lParam != IGNOREEVENT_ALL)
 		return 1;
 	if (lParam == IGNOREEVENT_ALL)
-		mask = (1 << IGNOREEVENT_MAX) - 1;
+		mask = 0xFFFF;
 	else
-		mask |= 1 << (lParam - 1);
+		mask |= 1 << (masks[lParam-1]);
 	SaveItemValue(wParam, "Mask1", mask);
 	return 0;
 }
@@ -366,7 +372,7 @@ static INT_PTR Unignore(WPARAM wParam, LPARAM lParam)
 	if (lParam == IGNOREEVENT_ALL)
 		mask = 0;
 	else
-		mask &= ~(1 << (lParam - 1));
+		mask &= ~(masks[lParam-1]);
 	SaveItemValue(wParam, "Mask1", mask);
 	return 0;
 }
@@ -395,17 +401,6 @@ static INT_PTR IgnoreRecvAuth(WPARAM wParam, LPARAM lParam)
 	return Proto_ChainRecv(wParam, ccs);
 }
 
-static int IgnoreAddedNotify(WPARAM, LPARAM lParam)
-{
-	DBEVENTINFO *dbei = (DBEVENTINFO*)lParam;
-	if (dbei && dbei->eventType == EVENTTYPE_ADDED && dbei->pBlob != nullptr) {
-		MCONTACT hContact = DbGetAuthEventContact(dbei);
-		if (db_is_contact(hContact) && IsIgnored(hContact, IGNOREEVENT_YOUWEREADDED))
-			return 1;
-	}
-	return 0;
-}
-
 int LoadIgnoreModule(void)
 {
 	Proto_RegisterModule(PROTOTYPE_IGNORE, "Ignore");
@@ -418,7 +413,6 @@ int LoadIgnoreModule(void)
 	CreateServiceFunction(MS_IGNORE_IGNORE, Ignore);
 	CreateServiceFunction(MS_IGNORE_UNIGNORE, Unignore);
 
-	HookEvent(ME_DB_EVENT_FILTER_ADD, IgnoreAddedNotify);
 	HookEvent(ME_OPT_INITIALISE, IgnoreOptInitialise);
 	return 0;
 }

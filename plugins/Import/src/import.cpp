@@ -956,10 +956,6 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 							if ((bIsSent ? IOPT_FILESENT : IOPT_FILERECV) & g_iImportOptions)
 								bSkipThis = false;
 							break;
-						case EVENTTYPE_URL:
-							if ((bIsSent ? IOPT_URLSENT : IOPT_URLRECV) & g_iImportOptions)
-								bSkipThis = false;
-							break;
 						default:
 							if ((bIsSent ? IOPT_OTHERSENT : IOPT_OTHERRECV) & g_iImportOptions)
 								bSkipThis = false;

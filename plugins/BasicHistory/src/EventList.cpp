@@ -79,7 +79,6 @@ bool HistoryEventList::CanShowHistory(DBEVENTINFO* dbei)
 	if (m_defFilter < 1) {
 		switch (dbei->eventType) {
 		case EVENTTYPE_MESSAGE:
-		case EVENTTYPE_URL:
 		case EVENTTYPE_FILE:
 			return true;
 
@@ -123,7 +122,6 @@ bool HistoryEventList::CanShowHistory(const IImport::ExternalMessage &message)
 	if (m_defFilter < 1) {
 		switch (message.eventType) {
 		case EVENTTYPE_MESSAGE:
-		case EVENTTYPE_URL:
 		case EVENTTYPE_FILE:
 			return true;
 		}
@@ -465,9 +463,6 @@ bool HistoryEventList::GetEventIcon(bool isMe, int eventType, int &id)
 		return true;
 	case EVENTTYPE_FILE:
 		id = iconsNum;
-		return true;
-	case EVENTTYPE_URL:
-		id = iconsNum + 1;
 		return true;
 	case EVENTTYPE_AUTHREQUEST:
 		id = iconsNum + 2;

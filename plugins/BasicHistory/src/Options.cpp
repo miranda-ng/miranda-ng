@@ -34,7 +34,6 @@ EventNames[] =
 {
 	EVENTTYPE_MESSAGE, LPGENW("Message"),
 	EVENTTYPE_FILE, LPGENW("File transfer"),
-	EVENTTYPE_URL, LPGENW("Link"),
 	EVENTTYPE_AUTHREQUEST, LPGENW("Authorization request"),
 	EVENTTYPE_ADDED, LPGENW("You were added"),
 	EVENTTYPE_CONTACTS, LPGENW("Contacts received"),

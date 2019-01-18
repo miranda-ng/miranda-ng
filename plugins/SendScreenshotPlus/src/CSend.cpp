@@ -321,7 +321,6 @@ int CSend::OnSend(void *obj, WPARAM, LPARAM lParam)
 		self->Unhook();
 		self->Exit(ack->result);
 		// type=ACKTYPE_MESSAGE, result=success/failure, (char*)lParam=error message or NULL.
-		// type=ACKTYPE_URL, result=success/failure, (char*)lParam=error message or NULL.
 		// type=ACKTYPE_FILE, result=ACKRESULT_FAILED then lParam=(LPARAM)(const char*)szReason
 		break;
 	case ACKRESULT_SUCCESS:
@@ -331,9 +330,6 @@ int CSend::OnSend(void *obj, WPARAM, LPARAM lParam)
 			break;
 		case ACKTYPE_MESSAGE:
 			self->DB_EventAdd((WORD)EVENTTYPE_MESSAGE);
-			break;
-		case ACKTYPE_URL:
-			self->DB_EventAdd((WORD)EVENTTYPE_URL);
 			break;
 		case ACKTYPE_FILE:
 			self->m_szEventMsg.Insert(0, "aaaa");

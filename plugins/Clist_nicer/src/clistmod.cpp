@@ -25,7 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 int InitCustomMenus(void);
-void UninitCustomMenus(void);
 
 INT_PTR GetContactStatusMessage(WPARAM wParam, LPARAM lParam);
 
@@ -57,15 +56,8 @@ int IconFromStatusMode(const char *szProto, int status, MCONTACT hContact)
 	return coreCli.pfnIconFromStatusMode(szFinalProto, finalStatus, hContact);
 }
 
-static int ContactListShutdownProc(WPARAM, LPARAM)
-{
-	UninitCustomMenus();
-	return 0;
-}
-
 int LoadContactListModule(void)
 {
-	HookEvent(ME_SYSTEM_SHUTDOWN, ContactListShutdownProc);
 	CreateServiceFunction(MS_CLIST_GETSTATUSMODE, GetStatusMode);
 
 	hSvc_GetContactStatusMsg = CreateServiceFunction("CList/GetContactStatusMsg", GetContactStatusMessage);

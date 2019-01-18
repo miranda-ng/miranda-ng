@@ -110,7 +110,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 	if (!hContact)
 		return 0;
 
-	if (dbei->flags & DBEF_SENT || (dbei->eventType != EVENTTYPE_MESSAGE && dbei->eventType != EVENTTYPE_URL && dbei->eventType != EVENTTYPE_FILE))
+	if (dbei->flags & DBEF_SENT || (dbei->eventType != EVENTTYPE_MESSAGE && dbei->eventType != EVENTTYPE_FILE))
 		return 0;
 
 	if (time(0) - dbei->timestamp > MAX_REPLY_TIMEDIFF) // don't reply to offline messages
@@ -209,7 +209,6 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	if ((dbei->eventType == EVENTTYPE_MESSAGE && !AutoreplyOptData.GetValue(IDC_REPLYDLG_EVENTMSG)) || 
-		 (dbei->eventType == EVENTTYPE_URL && !AutoreplyOptData.GetValue(IDC_REPLYDLG_EVENTURL)) || 
 		 (dbei->eventType == EVENTTYPE_FILE && !AutoreplyOptData.GetValue(IDC_REPLYDLG_EVENTFILE)))
 		return 0;
 

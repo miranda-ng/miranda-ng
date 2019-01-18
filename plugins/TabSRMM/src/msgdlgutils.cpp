@@ -59,8 +59,7 @@ bool TSAPI IsStatusEvent(int eventType)
 
 bool TSAPI IsCustomEvent(int eventType)
 {
-	if (eventType == EVENTTYPE_MESSAGE || eventType == EVENTTYPE_URL || eventType == EVENTTYPE_CONTACTS ||
-		eventType == EVENTTYPE_ADDED || eventType == EVENTTYPE_AUTHREQUEST || eventType == EVENTTYPE_FILE)
+	if (eventType == EVENTTYPE_MESSAGE || eventType == EVENTTYPE_CONTACTS || eventType == EVENTTYPE_ADDED || eventType == EVENTTYPE_AUTHREQUEST || eventType == EVENTTYPE_FILE)
 		return false;
 
 	return true;

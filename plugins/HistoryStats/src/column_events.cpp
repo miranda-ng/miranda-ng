@@ -78,9 +78,6 @@ void ColEvents::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan)
 void ColEvents::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType)
 {
 	static int (Contact::*getData[6])() const = {
-		&Contact::getInUrls,
-		&Contact::getOutUrls,
-		&Contact::getTotalUrls,
 		&Contact::getInFiles,
 		&Contact::getOutFiles,
 		&Contact::getTotalFiles,

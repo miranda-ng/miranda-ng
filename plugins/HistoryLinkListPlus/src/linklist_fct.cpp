@@ -1185,7 +1185,7 @@ int DBUpdate(WPARAM wParam, LPARAM hEvent)
 		dbe.cbBlob = db_event_getBlobSize(hEvent);
 		dbe.pBlob = (PBYTE)mir_alloc((size_t)dbe.cbBlob + 1);
 		db_event_get(hEvent, &dbe);
-		if (dbe.eventType == EVENTTYPE_URL || dbe.eventType == EVENTTYPE_MESSAGE) {
+		if (dbe.eventType == EVENTTYPE_MESSAGE) {
 			// Call function to find URIs
 			linkNum = ExtractURI(&dbe, hEvent, DlgParam->listStart);
 			if (linkNum > 0)

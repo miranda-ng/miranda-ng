@@ -45,19 +45,6 @@ static void GetMessageDescription(DBEVENTINFO *dbei, wchar_t* buf, int cbBuf)
 	mir_free(msg);
 }
 
-static void GetUrlDescription(DBEVENTINFO *dbei, wchar_t* buf, int cbBuf)
-{
-	int len = dbei->cbBlob;
-	if (len >= cbBuf)
-		len = cbBuf-1;
-
-	MultiByteToWideChar(CP_ACP, 0, (LPCSTR)dbei->pBlob, len, buf, cbBuf);
-	buf[ len ] = 0;
-
-	if (len < cbBuf-3)
-		mir_wstrcat(buf, L"\r\n");
-}
-
 static void GetFileDescription(DBEVENTINFO *dbei, wchar_t* buf, int cbBuf)
 {
 	int len = dbei->cbBlob - sizeof(DWORD);
@@ -76,10 +63,6 @@ static void GetObjectDescription(DBEVENTINFO *dbei, wchar_t* str, int cbStr)
 	switch(dbei->eventType) {
 	case EVENTTYPE_MESSAGE:
 		GetMessageDescription(dbei, str, cbStr);
-		break;
-
-	case EVENTTYPE_URL:
-		GetUrlDescription(dbei, str, cbStr);
 		break;
 
 	case EVENTTYPE_FILE:
@@ -102,11 +85,6 @@ static void GetObjectSummary(DBEVENTINFO *dbei, wchar_t* str, int cbStr)
 	case EVENTTYPE_MESSAGE:
 		if (dbei->flags & DBEF_SENT) pszSrc = TranslateT("Outgoing message");
 		else                         pszSrc = TranslateT("Incoming message");
-		break;
-
-	case EVENTTYPE_URL:
-		if (dbei->flags & DBEF_SENT) pszSrc = TranslateT("Outgoing URL");
-		else                         pszSrc = TranslateT("Incoming URL");
 		break;
 
 	case EVENTTYPE_FILE:

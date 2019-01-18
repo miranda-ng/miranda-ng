@@ -30,12 +30,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define IGNOREEVENT_ALL        (LPARAM)(-1)
 #define IGNOREEVENT_MESSAGE       1
-#define IGNOREEVENT_URL           2
-#define IGNOREEVENT_FILE          3
-#define IGNOREEVENT_USERONLINE    4
-#define IGNOREEVENT_AUTHORIZATION 5
-#define IGNOREEVENT_YOUWEREADDED  6 // 0.3.3a+
-#define IGNOREEVENT_TYPINGNOTIFY  7 // 0.7+
+#define IGNOREEVENT_FILE          2
+#define IGNOREEVENT_USERONLINE    3
+#define IGNOREEVENT_AUTHORIZATION 4
+#define IGNOREEVENT_TYPINGNOTIFY  5
 
 //determines if a message type to a contact should be ignored  v0.1.0.1+
 //wParam = (MCONTACT)hContact

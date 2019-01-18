@@ -66,7 +66,6 @@
 
 /* type */
 #define DBE_MESSAGE        0x00000100  // event is a message, etc (pBlob = message)
-#define DBE_URL            0x00000200  // pBlob = message
 #define DBE_CONTACTS       0x00000400  // pBlob = 'some format', no string
 #define DBE_ADDED          0x00000800  // pBlob = 'some format', no string
 #define DBE_AUTHREQUEST    0x00001000  // pBlob = message

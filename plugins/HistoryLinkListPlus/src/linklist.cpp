@@ -95,7 +95,7 @@ static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 	memset(listStart, 0, sizeof(LISTELEMENT));
 
 	for (;;) {
-		if (dbe.eventType == EVENTTYPE_URL || dbe.eventType == EVENTTYPE_MESSAGE) {
+		if (dbe.eventType == EVENTTYPE_MESSAGE) {
 			// Call function to find URIs
 			if (ExtractURI(&dbe, hEvent, listStart) < 0) {
 				mir_free(dbe.pBlob);
@@ -104,6 +104,7 @@ static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 				return -1;
 			}
 		}
+		
 		actCount++;
 		if (((int)(((float)actCount / histCount) * 100.00)) % 10 == 0)
 			SendMessage(hWndProgress, WM_COMMAND, 100, ((int)(((float)actCount / histCount) * 100.00)));

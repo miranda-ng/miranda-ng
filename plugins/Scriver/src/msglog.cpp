@@ -104,7 +104,6 @@ int DbEventIsShown(DBEVENTINFO &dbei)
 		return 0;
 
 	case EVENTTYPE_FILE:
-	case EVENTTYPE_URL:
 		return 1;
 	}
 
@@ -126,7 +125,7 @@ EventData* getEventFromDB(CSrmmWindow *dat, MCONTACT hContact, MEVENT hDbEvent)
 
 	EventData *evt = (EventData*)mir_calloc(sizeof(EventData));
 	evt->custom = DbEventIsCustomForMsgWindow(&dbei);
-	if (!(dbei.flags & DBEF_SENT) && (dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_URL || evt->custom)) {
+	if (!(dbei.flags & DBEF_SENT) && (dbei.eventType == EVENTTYPE_MESSAGE || evt->custom)) {
 		db_event_markRead(hContact, hDbEvent);
 		g_clistApi.pfnRemoveEvent(hContact, hDbEvent);
 	}
@@ -605,7 +604,6 @@ static char* CreateRTFFromEvent(CSrmmWindow *dat, EventData *evt, GlobalMessageD
 	switch (evt->eventType) {
 	case EVENTTYPE_JABBER_CHATSTATES:
 	case EVENTTYPE_JABBER_PRESENCE:
-	case EVENTTYPE_URL:
 	case EVENTTYPE_FILE:
 		style = MSGFONTID_NOTICE;
 		buf.AppendFormat("%s ", SetToStyle(style));
@@ -614,13 +612,6 @@ static char* CreateRTFFromEvent(CSrmmWindow *dat, EventData *evt, GlobalMessageD
 				AppendUnicodeToBuffer(buf, TranslateT("File sent"));
 			else
 				AppendUnicodeToBuffer(buf, TranslateT("File received"));
-			AppendUnicodeToBuffer(buf, L":");
-		}
-		else if (evt->eventType == EVENTTYPE_URL) {
-			if (evt->dwFlags & IEEDF_SENT)
-				AppendUnicodeToBuffer(buf, TranslateT("URL sent"));
-			else
-				AppendUnicodeToBuffer(buf, TranslateT("URL received"));
 			AppendUnicodeToBuffer(buf, L":");
 		}
 		AppendUnicodeToBuffer(buf, L" ");

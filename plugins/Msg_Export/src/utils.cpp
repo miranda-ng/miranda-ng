@@ -831,20 +831,10 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 			bWriteIndentedToFile(hFile, nIndent, ptrW(DbEvent_GetTextW(&dbei, CP_ACP)), bWriteUTF8Format);
 			break;
 
-		case EVENTTYPE_URL:
 		case EVENTTYPE_FILE:
 			{
-				const wchar_t *pszType;
-				const char *pszData;
-
-				if (dbei.eventType == EVENTTYPE_URL) {
-					pszType = LPGENW("URL: ");
-					pszData = (char *)dbei.pBlob;
-				}
-				else {
-					pszType = LPGENW("File: ");
-					pszData = (char *)(dbei.pBlob + sizeof(DWORD));
-				}
+				const wchar_t *pszType = LPGENW("File: ");
+				const char *pszData = (char *)(dbei.pBlob + sizeof(DWORD));
 
 				int nLen = (int)mir_strlen(pszData);
 				if ((pszData - (char *)dbei.pBlob) + nLen < (int)dbei.cbBlob) {

@@ -189,14 +189,6 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 		commentFix = POPUP_COMMENT_MESSAGE;
 		break;
 
-	case EVENTTYPE_URL:
-		// url
-		if (dbei->pBlob) comment2 = mir_a2u((char *)dbei->pBlob);
-		// comment
-		if (dbei->pBlob) comment1 = mir_a2u((char *)dbei->pBlob + mir_strlen((char *)dbei->pBlob) + 1);
-		commentFix = POPUP_COMMENT_URL;
-		break;
-
 	case EVENTTYPE_FILE:
 		if (dbei->pBlob) {
 			char *p = (char*)dbei->pBlob + sizeof(DWORD);
@@ -398,15 +390,6 @@ int PopupShow(MCONTACT hContact, MEVENT hEvent, UINT eventType)
 		sampleEvent = TranslateT("This is a sample message event :-)");
 		break;
 
-	case EVENTTYPE_URL:
-		if (!(g_plugin.maskNotify & MASK_URL)) return 1;
-		pudw.lchIcon = Skin_LoadIcon(SKINICON_EVENT_URL);
-		pudw.colorBack = g_plugin.bDefaultColorUrl ? 0 : g_plugin.colBackUrl;
-		pudw.colorText = g_plugin.bDefaultColorUrl ? 0 : g_plugin.colTextUrl;
-		iSeconds = g_plugin.iDelayUrl;
-		sampleEvent = TranslateT("This is a sample URL event ;-)");
-		break;
-
 	case EVENTTYPE_FILE:
 		if (!(g_plugin.maskNotify & MASK_FILE)) return 1;
 		pudw.lchIcon = Skin_LoadIcon(SKINICON_EVENT_FILE);
@@ -579,7 +562,6 @@ int PopupUpdate(MCONTACT hContact, MEVENT hEvent)
 int PopupPreview()
 {
 	PopupShow(0, 0, EVENTTYPE_MESSAGE);
-	PopupShow(0, 0, EVENTTYPE_URL);
 	PopupShow(0, 0, EVENTTYPE_FILE);
 	PopupShow(0, 0, -1);
 	return 0;

@@ -87,9 +87,6 @@ bool TabSRMMHTMLBuilder::isDbEventShown(DWORD dwFlags, DBEVENTINFO *dbei)
 	switch (dbei->eventType) {
 	case EVENTTYPE_MESSAGE:
 		return 1;
-	case EVENTTYPE_URL:
-		if (dwFlags & MWF_SHOW_URLEVENTS) return 1;
-		break;
 	case EVENTTYPE_FILE:
 		if (dwFlags & MWF_SHOW_FILEEVENTS) return 1;
 		break;
@@ -304,7 +301,7 @@ void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 	char *szRealProto = getRealProto(event->hContact);
 	IEVIEWEVENTDATA* eventData = event->eventData;
 	for (int eventIdx = 0; eventData != nullptr && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
-		if (eventData->iType == IEED_EVENT_MESSAGE || eventData->iType == IEED_EVENT_FILE || eventData->iType == IEED_EVENT_URL || eventData->iType == IEED_EVENT_STATUSCHANGE) {
+		if (eventData->iType == IEED_EVENT_MESSAGE || eventData->iType == IEED_EVENT_FILE || eventData->iType == IEED_EVENT_STATUSCHANGE) {
 			bool isGroupBreak = true;
 			bool isSent = (eventData->dwFlags & IEEDF_SENT) != 0;
 			bool isRTL = (eventData->dwFlags & IEEDF_RTL) != 0;
@@ -343,8 +340,6 @@ void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 				}
 				else if (eventData->iType == IEED_EVENT_FILE)
 					iconFile = "file.gif";
-				else if (eventData->iType == IEED_EVENT_URL)
-					iconFile = "url.gif";
 				else if (eventData->iType == IEED_EVENT_STATUSCHANGE)
 					iconFile = "status.gif";
 
@@ -398,8 +393,6 @@ void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 				else className = isSent ? "hMessageOut" : "hMessageIn";
 			}
 			else if (eventData->iType == IEED_EVENT_FILE)
-				className = isHistory ? "hMiscIn" : "miscIn";
-			else if (eventData->iType == IEED_EVENT_URL)
 				className = isHistory ? "hMiscIn" : "miscIn";
 			else if (eventData->iType == IEED_EVENT_STATUSCHANGE)
 				className = "statusChange";

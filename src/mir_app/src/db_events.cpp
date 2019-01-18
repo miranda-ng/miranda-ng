@@ -239,10 +239,6 @@ MIR_APP_DLL(HICON) DbEvent_GetIcon(DBEVENTINFO *dbei, int flags)
 
 	if (!icon) {
 		switch(dbei->eventType) {
-		case EVENTTYPE_URL:
-			icon = Skin_LoadIcon(SKINICON_EVENT_URL);
-			break;
-
 		case EVENTTYPE_FILE:
 			icon = Skin_LoadIcon(SKINICON_EVENT_FILE);
 			break;

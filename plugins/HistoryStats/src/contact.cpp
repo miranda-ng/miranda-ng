@@ -19,7 +19,6 @@ Contact::Contact(Statistic* pStatistic, int nSlots, const ext::string& nick, con
 	m_ChatDurMin(0xFFFFFFFF),
 	m_ChatDurMax(0),
 	m_ChatDurSum(0),
-	m_Urls(0, 0),
 	m_Files(0, 0),
 	m_NumContacts(nContacts),
 	m_NumSubcontacts(nSubcontacts),
@@ -89,10 +88,6 @@ void Contact::addEvent(WORD eventType, bool bOutgoing)
 	InOut* pIO = nullptr;
 
 	switch (eventType) {
-	case EVENTTYPE_URL:
-		pIO = &m_Urls;
-		break;
-
 	case EVENTTYPE_FILE:
 		pIO = &m_Files;
 		break;
@@ -135,7 +130,6 @@ void Contact::merge(const Contact& other)
 	}
 
 	m_Files += other.m_Files;
-	m_Urls += other.m_Urls;
 
 	m_NumContacts += other.m_NumContacts;
 	m_NumSubcontacts += other.m_NumSubcontacts;

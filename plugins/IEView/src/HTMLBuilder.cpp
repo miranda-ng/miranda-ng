@@ -253,7 +253,7 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 		}
 		dbei.pBlob = (PBYTE)malloc(dbei.cbBlob);
 		db_event_get(hDbEvent, &dbei);
-		if (!(dbei.flags & DBEF_SENT) && (dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_URL)) {
+		if (!(dbei.flags & DBEF_SENT) && dbei.eventType == EVENTTYPE_MESSAGE) {
 			db_event_markRead(event->hContact, hDbEvent);
 			g_clistApi.pfnRemoveEvent(event->hContact, hDbEvent);
 		}
@@ -282,12 +282,10 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 			eventData->pszNickW = getContactName(event->hContact, szProto);
 			eventData->bIsMe = FALSE;
 		}
-		if (dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_URL || Utils::DbEventIsForMsgWindow(&dbei)) {
+		if (dbei.eventType == EVENTTYPE_MESSAGE || Utils::DbEventIsForMsgWindow(&dbei)) {
 			eventData->pszTextW = DbEvent_GetTextW(&dbei, newEvent.codepage);
 			if (dbei.eventType == EVENTTYPE_MESSAGE)
 				eventData->iType = IEED_EVENT_MESSAGE;
-			else if (dbei.eventType == EVENTTYPE_URL)
-				eventData->iType = IEED_EVENT_URL;
 			else
 				eventData->iType = IEED_EVENT_STATUSCHANGE;
 		}

@@ -471,7 +471,7 @@ void CMLan::SendMessageExt(TDataHolder *hold)
 	Sleep(0);
 	if (g_plugin.getWord(hold->hContact, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE) {
 		Sleep(20);
-		ProtoBroadcastAck(MODULENAME, hold->hContact, (hold->op == LEXT_SENDURL) ? ACKTYPE_URL : ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)hold->id);
+		ProtoBroadcastAck(MODULENAME, hold->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)hold->id);
 	}
 	else {
 		TPacket pak;

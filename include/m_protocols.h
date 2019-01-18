@@ -52,7 +52,6 @@ struct CCSDATA
 // you will receive.
 
 #define ACKTYPE_MESSAGE    0
-#define ACKTYPE_URL        1
 #define ACKTYPE_FILE       2
 #define ACKTYPE_CHAT       3
 #define ACKTYPE_AWAYMSG    4

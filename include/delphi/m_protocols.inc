@@ -57,7 +57,6 @@ type
 
 const
   ACKTYPE_MESSAGE   = 0;
-  ACKTYPE_URL       = 1;
   ACKTYPE_FILE      = 2;
   ACKTYPE_CHAT      = 3;
   ACKTYPE_AWAYMSG   = 4;
