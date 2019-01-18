@@ -347,7 +347,7 @@ static INT_PTR IsIgnored(WPARAM wParam, LPARAM lParam)
 	DWORD mask = GetMask(wParam);
 	if (lParam < 1 || lParam > IGNOREEVENT_MAX)
 		return 1;
-	return (mask >> (lParam - 1)) & 1;
+	return (masks[lParam-1] & mask) != 0;
 }
 
 static INT_PTR Ignore(WPARAM wParam, LPARAM lParam)
@@ -358,7 +358,7 @@ static INT_PTR Ignore(WPARAM wParam, LPARAM lParam)
 	if (lParam == IGNOREEVENT_ALL)
 		mask = 0xFFFF;
 	else
-		mask |= 1 << (masks[lParam-1]);
+		mask |= masks[lParam-1];
 	SaveItemValue(wParam, "Mask1", mask);
 	return 0;
 }
