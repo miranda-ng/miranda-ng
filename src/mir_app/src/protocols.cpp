@@ -64,18 +64,17 @@ static TServiceListItem serviceItems[] =
 	{ PSR_CONTACTS,         20 },
 	{ PSR_FILE,             21 },
 	{ PSR_MESSAGE,          22 },
-	{ PSR_URL,              23 },
-	{ PSS_CONTACTS,         24 },
-	{ PSS_FILE,             25 },
-	{ PSS_MESSAGE,          26 },
-	{ PSS_SETAPPARENTMODE,  27 },
-	{ PS_SETSTATUS,         28 },
-	{ PSS_GETAWAYMSG,       29 },
-	{ PSR_AWAYMSG,          30 },
-	{ PS_SETAWAYMSG,        31 },
-	{ PSS_USERISTYPING,     32 },
-	{ PS_GETNAME,           33 },
-	{ PS_GETSTATUS,         34 }
+	{ PSS_CONTACTS,         23 },
+	{ PSS_FILE,             24 },
+	{ PSS_MESSAGE,          25 },
+	{ PSS_SETAPPARENTMODE,  26 },
+	{ PS_SETSTATUS,         27 },
+	{ PSS_GETAWAYMSG,       28 },
+	{ PSR_AWAYMSG,          29 },
+	{ PS_SETAWAYMSG,        30 },
+	{ PSS_USERISTYPING,     31 },
+	{ PS_GETNAME,           32 },
+	{ PS_GETSTATUS,         33 }
 };
 
 //------------------------------------------------------------------------------------
@@ -425,18 +424,17 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 				case 20: return (INT_PTR)ppi->RecvContacts(hContact, (PROTORECVEVENT*)lParam);
 				case 21: return (INT_PTR)ppi->RecvFile(hContact, (PROTORECVFILE*)lParam);
 				case 22: return (INT_PTR)ppi->RecvMsg(hContact, (PROTORECVEVENT*)lParam);
-				case 23: return (INT_PTR)ppi->RecvUrl(hContact, (PROTORECVEVENT*)lParam);
-				case 24: return (INT_PTR)ppi->SendContacts(hContact, LOWORD(wParam), HIWORD(wParam), (MCONTACT*)lParam);
-				case 25: return (INT_PTR)ppi->SendFile(hContact, (wchar_t*)wParam, (wchar_t**)lParam);
-				case 26: return (INT_PTR)ppi->SendMsg(hContact, wParam, (const char*)lParam);
-				case 27: return (INT_PTR)ppi->SetApparentMode(hContact, wParam);
-				case 28: return (INT_PTR)ppi->SetStatus(wParam);
-				case 29: return (INT_PTR)ppi->GetAwayMsg(hContact);
-				case 30: return (INT_PTR)ppi->RecvAwayMsg(hContact, wParam, (PROTORECVEVENT*)lParam);
-				case 31: return (INT_PTR)ppi->SetAwayMsg(wParam, (wchar_t*)lParam);
-				case 32: return (INT_PTR)ppi->UserIsTyping(wParam, lParam);
-				case 33: mir_strncpy((char*)lParam, ppi->m_szModuleName, wParam); return 0;
-				case 34:
+				case 23: return (INT_PTR)ppi->SendContacts(hContact, LOWORD(wParam), HIWORD(wParam), (MCONTACT*)lParam);
+				case 24: return (INT_PTR)ppi->SendFile(hContact, (wchar_t*)wParam, (wchar_t**)lParam);
+				case 25: return (INT_PTR)ppi->SendMsg(hContact, wParam, (const char*)lParam);
+				case 26: return (INT_PTR)ppi->SetApparentMode(hContact, wParam);
+				case 27: return (INT_PTR)ppi->SetStatus(wParam);
+				case 28: return (INT_PTR)ppi->GetAwayMsg(hContact);
+				case 29: return (INT_PTR)ppi->RecvAwayMsg(hContact, wParam, (PROTORECVEVENT*)lParam);
+				case 30: return (INT_PTR)ppi->SetAwayMsg(wParam, (wchar_t*)lParam);
+				case 31: return (INT_PTR)ppi->UserIsTyping(wParam, lParam);
+				case 32: mir_strncpy((char*)lParam, ppi->m_szModuleName, wParam); return 0;
+				case 33:
 					return ppi->m_iStatus;
 				}
 			}

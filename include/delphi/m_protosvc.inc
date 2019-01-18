@@ -699,26 +699,6 @@ const
              this event is NOT added to the database automatically.
   }
   PSS_MESSAGE  = '/SendMsg';
-//  PSS_MESSAGEW = '/SendMsgW';
-
-  {
-    CCSDATA: Yes
-    wParam : flags
-    lParam : null terminated string to the URL, see notes
-    Affect : Send a URL message, see notes
-    Returns: A hProcess which will be ack'd later
-    Notes  : lParam may contain TWO strings, the first for URL, the second for
-             description, in the format :
-             <url>#0<desc>#0 or <url>#0#0
-             Will send an ack for hProcess when the URL actually gets sent
-             type=ACKTYPE_URL, result=ACKRESULT_SUCCESS/FAILURE,
-             lParam=ansi error message or NIL
-             -
-             protocol modules are free to define flags starting at $10000
-             -
-             The event will *not* be added to the database automatically
-  }
-  PSS_URL = '/SendUrl';
 
   {
     CCSDATA: Yes
@@ -896,18 +876,6 @@ const
   PSR_FILE = '/RecvFile';
 
   MS_PROTO_RECVFILET = 'Proto/RecvFileT';
-
-  {
-    CCSDATA: Yes
-    wParam : 0
-    lParam : Pointer to a TPROTORECVEVENT, see notes
-    Affect : A URL has been received
-    Notes  : szMessage is encoded the same as PSS_URL
-             -
-             Stored in the database : EVENTTYPE_URL, blob contains message
-             without null termination
-  }
-  PSR_URL = '/RecvUrl';
 
   {
     CCSDATA: Yes

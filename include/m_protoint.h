@@ -203,7 +203,6 @@ public:
 	virtual	int      RecvContacts(MCONTACT hContact, PROTORECVEVENT*);
 	virtual	int      RecvFile(MCONTACT hContact, PROTORECVFILE*);
 	virtual	MEVENT   RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
-	virtual	int      RecvUrl(MCONTACT hContact, PROTORECVEVENT*);
 						   
 	virtual	int      SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList);
 	virtual	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles);

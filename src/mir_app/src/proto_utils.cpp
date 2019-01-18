@@ -535,11 +535,6 @@ MEVENT PROTO_INTERFACE::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 	return (INT_PTR)db_event_add(hContact, &dbei);
 }
 
-int PROTO_INTERFACE::RecvUrl(MCONTACT, PROTORECVEVENT*)
-{
-	return 1; // error
-}
-
 int PROTO_INTERFACE::SendContacts(MCONTACT, int, int, MCONTACT*)
 {
 	return 1; // error

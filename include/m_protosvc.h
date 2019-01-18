@@ -798,15 +798,6 @@ __forceinline INT_PTR ProtoChainRecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// An URL has been received
-// wParam = 0
-// lParam = (LPARAM)(PROTORECVEVENT*)&pre
-// szMessage is encoded the same as for PSS_URL
-// DB event: EVENTTYPE_URL, blob contains szMessage without 0 terminator
-
-#define PSR_URL       "/RecvUrl"
-
-///////////////////////////////////////////////////////////////////////////////
 // Contacts have been received
 // wParam = 0
 // lParam = (LPARAM)(PROTORECVEVENT*)&pre

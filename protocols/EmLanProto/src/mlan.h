@@ -124,7 +124,6 @@ private:
 		bool flReqStatus; // false means no request
 		char* strMessage; // NULL means no message
 		int idMessage;
-		bool flIsUrl; // true if message is an URL
 		int idAckMessage; // 0 means no ack
 		int idReqAwayMessage; // 0 means no request
 		char* strAwayMessage; // NULL means no away message

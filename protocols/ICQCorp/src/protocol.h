@@ -185,7 +185,6 @@ public:
     void recvTransferTCP(SOCKET hSocket);
 
     void addMessage(ICQUser *u, char *m, time_t t);
-    void addUrl(ICQUser *u, char *m, time_t t);
     void addAwayMsg(ICQUser *u, char *m, unsigned long theSequence, time_t t);
     void addFileReq(ICQUser *u, char *m, char *filename, unsigned long size, unsigned long theSequence, time_t t);
     void doneUserFcn(bool ack, ICQEvent *icqEvent);

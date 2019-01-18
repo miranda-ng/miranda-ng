@@ -379,14 +379,6 @@ static INT_PTR IgnoreRecvMessage(WPARAM wParam, LPARAM lParam)
 	return Proto_ChainRecv(wParam, ccs);
 }
 
-static INT_PTR IgnoreRecvUrl(WPARAM wParam, LPARAM lParam)
-{
-	CCSDATA *ccs = (CCSDATA*)lParam;
-	if (IsIgnored(ccs->hContact, IGNOREEVENT_URL))
-		return 1;
-	return Proto_ChainRecv(wParam, ccs);
-}
-
 static INT_PTR IgnoreRecvFile(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA*)lParam;
@@ -419,7 +411,6 @@ int LoadIgnoreModule(void)
 	Proto_RegisterModule(PROTOTYPE_IGNORE, "Ignore");
 
 	CreateProtoServiceFunction("Ignore", PSR_MESSAGE, IgnoreRecvMessage);
-	CreateProtoServiceFunction("Ignore", PSR_URL, IgnoreRecvUrl);
 	CreateProtoServiceFunction("Ignore", PSR_FILE, IgnoreRecvFile);
 	CreateProtoServiceFunction("Ignore", PSR_AUTH, IgnoreRecvAuth);
 

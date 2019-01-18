@@ -295,13 +295,11 @@ void CMLan::OnRecvPacket(u_char *mes, int len, in_addr from)
 					PROTORECVEVENT pre = { 0 };
 					pre.timestamp = get_time();
 					pre.szMessage = pak.strMessage;
-					ProtoChainRecv(FindContact(cont->m_addr, cont->m_nick, true, false, false, cont->m_status),
-						pak.flIsUrl ? PSR_URL : PSR_MESSAGE, 0, (LPARAM)&pre);
+					ProtoChainRecv(FindContact(cont->m_addr, cont->m_nick, true, false, false, cont->m_status), PSR_MESSAGE, 0, (LPARAM)&pre);
 
 					TPacket npak;
 					memset(&npak, 0, sizeof(npak));
 					npak.idAckMessage = pak.idMessage;
-					npak.flIsUrl = pak.flIsUrl;
 					SendPacketExt(npak, from.S_un.S_addr);
 				}
 			}
@@ -309,7 +307,7 @@ void CMLan::OnRecvPacket(u_char *mes, int len, in_addr from)
 			if (pak.idAckMessage && cont) {
 				MCONTACT hContact = FindContact(cont->m_addr, cont->m_nick, false, false, false);
 				if (hContact)
-					ProtoBroadcastAck(MODULENAME, hContact, pak.flIsUrl ? ACKTYPE_URL : ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)pak.idAckMessage, 0);
+					ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)pak.idAckMessage, 0);
 			}
 
 			if (pak.strAwayMessage && cont) {
@@ -352,10 +350,7 @@ void CMLan::RecvMessageUrl(CCSDATA *ccs)
 	ptrA szMessage(mir_utf8encode(pre->szMessage));
 
 	DBEVENTINFO dbei = {};
-	if (!mir_strcmp(ccs->szProtoService, PSR_MESSAGE))
-		dbei.eventType = EVENTTYPE_MESSAGE;
-	else
-		dbei.eventType = EVENTTYPE_URL;
+	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.szModule = MODULENAME;
 	dbei.timestamp = pre->timestamp;
 	dbei.flags = DBEF_UTF + ((pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0);
@@ -484,8 +479,6 @@ void CMLan::SendMessageExt(TDataHolder *hold)
 		u_long addr = g_plugin.getDword(hold->hContact, "ipaddr");
 		pak.strMessage = mir_utf8decode(hold->msg, 0);
 		pak.idMessage = hold->id;
-		if (hold->op == LEXT_SENDURL)
-			pak.flIsUrl = true;
 		SendPacketExt(pak, addr);
 	}
 	delete hold;
@@ -572,8 +565,6 @@ u_char* CMLan::CreatePacket(TPacket &pak, int *pBufLen)
 	size_t mesLen = 0;
 	if (pak.strMessage) {
 		mesLen = mir_strlen(pak.strMessage);
-		if (pak.flIsUrl)
-			mesLen += 1 + mir_strlen(pak.strMessage + mesLen + 1);
 		len += 3 + 1 + 4 + mesLen + 1;
 	}
 
@@ -624,10 +615,7 @@ u_char* CMLan::CreatePacket(TPacket &pak, int *pBufLen)
 		*pb++ = 255;
 		*((u_short*)pb) = 1 + 4 + (BYTE)mesLen + 1;
 		pb += sizeof(u_short);
-		if (pak.flIsUrl)
-			*pb++ = MCODE_SND_URL;
-		else
-			*pb++ = MCODE_SND_MESSAGE;
+		*pb++ = MCODE_SND_MESSAGE;
 		*((u_int*)pb) = pak.idMessage;
 		pb += sizeof(u_int);
 		if (mesLen)
@@ -638,10 +626,7 @@ u_char* CMLan::CreatePacket(TPacket &pak, int *pBufLen)
 
 	if (pak.idAckMessage) {
 		*pb++ = 1 + 4;
-		if (pak.flIsUrl)
-			*pb++ = MCODE_ACK_URL;
-		else
-			*pb++ = MCODE_ACK_MESSAGE;
+		*pb++ = MCODE_ACK_MESSAGE;
 		*((u_int*)pb) = pak.idAckMessage;
 		pb += sizeof(u_int);
 	}
@@ -696,17 +681,11 @@ void CMLan::ParsePacket(TPacket& pak, u_char* buf, int len)
 		case MCODE_REQ_STATUS:
 			pak.flReqStatus = true;
 			break;
-		case MCODE_SND_URL:
-			pak.flIsUrl = true;
-			// fall through
 		case MCODE_SND_MESSAGE:
 			pak.idMessage = *((u_int*)pb);
 			pb += sizeof(u_int);
 			pak.strMessage = (char*)pb;
 			break;
-		case MCODE_ACK_URL:
-			pak.flIsUrl = true;
-			// fall through
 		case MCODE_ACK_MESSAGE:
 			pak.idAckMessage = *((u_int*)pb);
 			//pb += sizeof(u_int);

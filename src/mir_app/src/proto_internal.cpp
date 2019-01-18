@@ -206,12 +206,6 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return (res == CALLSERVICE_NOTFOUND) ? -1 : (int)res;
 	}
 
-	int RecvUrl(MCONTACT hContact, PROTORECVEVENT* evt) override
-	{
-		CCSDATA ccs = { hContact, PSR_URL, 0, (LPARAM)evt };
-		return (int)ProtoCallService(m_szModuleName, PSR_URL, 0, (LPARAM)&ccs);
-	}
-
 	int SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList) override
 	{
 		CCSDATA ccs = { hContact, PSS_CONTACTS, MAKEWPARAM(flags, nContacts), (LPARAM)hContactsList };

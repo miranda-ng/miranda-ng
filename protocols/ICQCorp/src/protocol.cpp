@@ -857,11 +857,6 @@ void ICQ::processSystemMessage(Packet &packet, unsigned long checkUin, unsigned 
 		addMessage(u, message, timeSent);
 		break;
 
-	case ICQ_CMDxRCV_SYSxURL:
-		Netlib_Logf(hNetlibUser, "url through server from %d\n", checkUin);
-		addUrl(u, message, timeSent);
-		break;
-
 	case ICQ_CMDxRCV_SYSxBROADCAST:
 		Netlib_Logf(hNetlibUser, "broadcast message from %d\n", checkUin);
 
@@ -1789,15 +1784,6 @@ void ICQ::processTcpPacket(Packet &packet, unsigned int hSocket)
 				>> cicqVersion;
 			break;
 
-		case ICQ_CMDxTCP_URL:  // url sent
-			Netlib_Logf(hNetlibUser, "[tcp] url from %d.\n", checkUin);
-
-			packet >> theTCPSequence;
-
-			ackTCP(packet, u, newCommand, theTCPSequence);
-			addUrl(u, message, time(0));
-			break;
-
 		case ICQ_CMDxTCP_FILE:
 			unsigned int size;
 			char *fileName;
@@ -2085,38 +2071,6 @@ void ICQ::addMessage(ICQUser *u, char *m, time_t t)
 	ccs.wParam = 0;
 	ccs.lParam = (LPARAM)&pre;
 	Proto_ChainRecv(0, &ccs);
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-void ICQ::addUrl(ICQUser *u, char *m, time_t t)
-{
-	unsigned int i, messageLen;
-	char *url;
-
-	messageLen = (int)mir_strlen(m);
-	for (i = 0; i < messageLen; i++)
-		if (m[i] == -2) // 0xFE
-			m[i] = 0;
-
-	url = new char[messageLen + 1];
-	lstrcpyA(url, m + mir_strlen(m) + 1);
-	lstrcpyA(url + mir_strlen(url) + 1, m);
-
-	PROTORECVEVENT pre;
-	pre.flags = 0;
-	pre.timestamp = t;
-	pre.szMessage = url;
-	pre.lParam = 0;
-
-	CCSDATA ccs;
-	ccs.hContact = u->hContact;
-	ccs.szProtoService = PSR_URL;
-	ccs.wParam = 0;
-	ccs.lParam = (LPARAM)&pre;
-	Proto_ChainRecv(0, &ccs);
-
-	delete[] url;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

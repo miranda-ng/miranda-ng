@@ -209,44 +209,6 @@ static INT_PTR icqRecvMessage(WPARAM, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR icqSendUrl(WPARAM, LPARAM lParam)
-{
-	Netlib_Logf(hNetlibUser, "[   ] send url\n");
-
-	CCSDATA *ccs = (CCSDATA *)lParam;
-	ICQUser *u = icq.getUserByContact(ccs->hContact);
-	if (u == nullptr || icq.statusVal <= ID_STATUS_OFFLINE)
-		return 0;
-
-	ICQEvent *icqEvent = icq.sendUrl(u, (char*)ccs->lParam);
-	return icqEvent ? icqEvent->sequence : 0;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-static INT_PTR icqRecvUrl(WPARAM, LPARAM lParam)
-{
-	Netlib_Logf(hNetlibUser, "[   ] receive url\n");
-
-	CCSDATA *ccs = (CCSDATA*)lParam;
-	PROTORECVEVENT *pre = (PROTORECVEVENT*)ccs->lParam;
-	db_unset(ccs->hContact, "CList", "Hidden");
-
-	char *pszDescr = pre->szMessage + mir_strlen(pre->szMessage) + 1;
-
-	DBEVENTINFO dbei = {};
-	dbei.szModule = protoName;
-	dbei.timestamp = pre->timestamp;
-	dbei.flags = pre->flags & (PREF_CREATEREAD ? DBEF_READ : 0);
-	dbei.eventType = EVENTTYPE_URL;
-	dbei.cbBlob = (DWORD)(mir_strlen(pre->szMessage) + mir_strlen(pszDescr) + 2);
-	dbei.pBlob = (PBYTE)pre->szMessage;
-	db_event_add(ccs->hContact, &dbei);
-	return 0;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
 static INT_PTR icqSetAwayMsg(WPARAM, LPARAM lParam)
 {
 	Netlib_Logf(hNetlibUser, "[   ] set away msg\n");
@@ -504,7 +466,6 @@ int LoadServices()
 
 	CreateProtoServiceFunction(protoName, PSS_GETINFO, icqGetInfo);
 	CreateProtoServiceFunction(protoName, PSS_MESSAGE, icqSendMessage);
-	CreateProtoServiceFunction(protoName, PSS_URL, icqSendUrl);
 	CreateProtoServiceFunction(protoName, PSS_GETAWAYMSG, icqGetAwayMsg);
 	CreateProtoServiceFunction(protoName, PSS_FILE, icqSendFile);
 	CreateProtoServiceFunction(protoName, PSS_FILEALLOW, icqFileAllow);
@@ -513,7 +474,6 @@ int LoadServices()
 	CreateProtoServiceFunction(protoName, PSS_SETAPPARENTMODE, icqSetApparentMode);
 
 	CreateProtoServiceFunction(protoName, PSR_MESSAGE, icqRecvMessage);
-	CreateProtoServiceFunction(protoName, PSR_URL, icqRecvUrl);
 	CreateProtoServiceFunction(protoName, PSR_AWAYMSG, icqRecvAwayMsg);
 	CreateProtoServiceFunction(protoName, PSR_FILE, icqRecvFile);
 	return 0;
