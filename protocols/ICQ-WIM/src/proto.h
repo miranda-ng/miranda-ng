@@ -226,7 +226,6 @@ class CIcqProto : public PROTO<CIcqProto>
 			     
 	HANDLE     SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
 	int        SendMsg(MCONTACT hContact, int flags, const char *msg) override;
-	int        SendUrl(MCONTACT hContact, int flags, const char *url) override;
 			     
 	int        SetApparentMode(MCONTACT hContact, int mode) override;
 	int        SetStatus(int iNewStatus) override;

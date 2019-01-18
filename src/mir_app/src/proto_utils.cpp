@@ -555,11 +555,6 @@ int PROTO_INTERFACE::SendMsg(MCONTACT, int, const char*)
 	return 0; // error
 }
 
-int PROTO_INTERFACE::SendUrl(MCONTACT, int, const char*)
-{
-	return 1; // error
-}
-
 int PROTO_INTERFACE::SetApparentMode(MCONTACT, int)
 {
 	return 1; // error

@@ -68,15 +68,14 @@ static TServiceListItem serviceItems[] =
 	{ PSS_CONTACTS,         24 },
 	{ PSS_FILE,             25 },
 	{ PSS_MESSAGE,          26 },
-	{ PSS_URL,              27 },
-	{ PSS_SETAPPARENTMODE,  28 },
-	{ PS_SETSTATUS,         29 },
-	{ PSS_GETAWAYMSG,       30 },
-	{ PSR_AWAYMSG,          31 },
-	{ PS_SETAWAYMSG,        33 },
-	{ PSS_USERISTYPING,     34 },
-	{ PS_GETNAME,           35 },
-	{ PS_GETSTATUS,         36 }
+	{ PSS_SETAPPARENTMODE,  27 },
+	{ PS_SETSTATUS,         28 },
+	{ PSS_GETAWAYMSG,       29 },
+	{ PSR_AWAYMSG,          30 },
+	{ PS_SETAWAYMSG,        31 },
+	{ PSS_USERISTYPING,     32 },
+	{ PS_GETNAME,           33 },
+	{ PS_GETSTATUS,         34 }
 };
 
 //------------------------------------------------------------------------------------
@@ -430,15 +429,14 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 				case 24: return (INT_PTR)ppi->SendContacts(hContact, LOWORD(wParam), HIWORD(wParam), (MCONTACT*)lParam);
 				case 25: return (INT_PTR)ppi->SendFile(hContact, (wchar_t*)wParam, (wchar_t**)lParam);
 				case 26: return (INT_PTR)ppi->SendMsg(hContact, wParam, (const char*)lParam);
-				case 27: return (INT_PTR)ppi->SendUrl(hContact, wParam, (const char*)lParam);
-				case 28: return (INT_PTR)ppi->SetApparentMode(hContact, wParam);
-				case 29: return (INT_PTR)ppi->SetStatus(wParam);
-				case 30: return (INT_PTR)ppi->GetAwayMsg(hContact);
-				case 31: return (INT_PTR)ppi->RecvAwayMsg(hContact, wParam, (PROTORECVEVENT*)lParam);
-				case 33: return (INT_PTR)ppi->SetAwayMsg(wParam, (wchar_t*)lParam);
-				case 34: return (INT_PTR)ppi->UserIsTyping(wParam, lParam);
-				case 35: mir_strncpy((char*)lParam, ppi->m_szModuleName, wParam); return 0;
-				case 36:
+				case 27: return (INT_PTR)ppi->SetApparentMode(hContact, wParam);
+				case 28: return (INT_PTR)ppi->SetStatus(wParam);
+				case 29: return (INT_PTR)ppi->GetAwayMsg(hContact);
+				case 30: return (INT_PTR)ppi->RecvAwayMsg(hContact, wParam, (PROTORECVEVENT*)lParam);
+				case 31: return (INT_PTR)ppi->SetAwayMsg(wParam, (wchar_t*)lParam);
+				case 32: return (INT_PTR)ppi->UserIsTyping(wParam, lParam);
+				case 33: mir_strncpy((char*)lParam, ppi->m_szModuleName, wParam); return 0;
+				case 34:
 					return ppi->m_iStatus;
 				}
 			}

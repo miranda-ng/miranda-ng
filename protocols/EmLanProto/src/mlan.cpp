@@ -383,20 +383,10 @@ INT_PTR CMLan::AddToContactList(u_int flags, EMPSEARCHRESULT *psr)
 	return (INT_PTR)contact;
 }
 
-int CMLan::SendMessageUrl(CCSDATA *ccs, bool isUrl)
+int CMLan::SendMessageUrl(CCSDATA *ccs)
 {
 	int cid = GetRandomProcId();
-	size_t len = 0;
-	if (isUrl) {
-		len = mir_strlen((char*)ccs->lParam);
-		((char*)ccs->lParam)[len] = 1;
-	}
-	TDataHolder *hold = new TDataHolder(ccs, cid, isUrl ? LEXT_SENDURL : LEXT_SENDMESSAGE, this);
-	if (isUrl) {
-		((char*)ccs->lParam)[len] = 0;
-		hold->msg[len] = 0;
-	}
-	mir_forkthread(LaunchExt, hold);
+	mir_forkthread(LaunchExt, new TDataHolder(ccs, cid, LEXT_SENDMESSAGE, this));
 	return cid;
 }
 

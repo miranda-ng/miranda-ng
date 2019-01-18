@@ -208,7 +208,6 @@ public:
 	virtual	int      SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList);
 	virtual	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles);
 	virtual	int      SendMsg(MCONTACT hContact, int flags, const char *msg);
-	virtual	int      SendUrl(MCONTACT hContact, int flags, const char *url);
 						   
 	virtual	int      SetApparentMode(MCONTACT hContact, int mode);
 	virtual	int      SetStatus(int iNewStatus);

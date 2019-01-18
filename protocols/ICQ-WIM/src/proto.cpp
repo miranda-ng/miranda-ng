@@ -374,14 +374,6 @@ int CIcqProto::SendMsg(MCONTACT hContact, int, const char *pszSrc)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// SendUrl
-
-int CIcqProto::SendUrl(MCONTACT, int, const char*)
-{
-	return 1; // Failure
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
 // PS_SetStatus - sets the protocol status
 
 int CIcqProto::SetStatus(int iNewStatus)

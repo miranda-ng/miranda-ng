@@ -606,21 +606,6 @@ struct PROTOFILERESUME
 #define PSS_MESSAGE      "/SendMsg"
 
 ///////////////////////////////////////////////////////////////////////////////
-// Send an URL message
-// wParam = flags
-// lParam = (LPARAM)(const char*)szMessage
-// returns a hProcess corresponding to the one in the ack event.
-// szMessage should be encoded as the URL followed by the description, the
-// separator being a single nul (\0). If there is no description, do not forget
-// to end the URL with two nuls.
-// Will send an ack when the message actually gets sent
-// type = ACKTYPE_URL, result = success/failure, (char*)lParam = error message or NULL.
-// Protocols modules are free to define flags starting at 0x10000
-// The event will *not* be added to the database automatically.
-
-#define PSS_URL          "/SendUrl"
-
-///////////////////////////////////////////////////////////////////////////////
 // Send a set of contacts
 // wParam = MAKEWPARAM(flags, nContacts)
 // lParam = (LPARAM)(HANDLE*)hContactsList

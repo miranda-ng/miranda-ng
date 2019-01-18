@@ -103,12 +103,7 @@ INT_PTR __cdecl EMPSetStatus(WPARAM new_status, LPARAM)
 
 static INT_PTR __cdecl EMPSendMessage(WPARAM, LPARAM lParam)
 {
-	return g_lan->SendMessageUrl((CCSDATA*)lParam, false);
-}
-
-static INT_PTR __cdecl EMPSendUrl(WPARAM, LPARAM lParam)
-{
-	return g_lan->SendMessageUrl((CCSDATA*)lParam, true);
+	return g_lan->SendMessageUrl((CCSDATA*)lParam);
 }
 
 static INT_PTR __cdecl EMPRecvMessageUrl(WPARAM, LPARAM lParam)
@@ -338,7 +333,6 @@ int CMPlugin::Load()
 	CreateProtoServiceFunction(MODULENAME, PS_BASICSEARCH, EMPBasicSearch);
 	CreateProtoServiceFunction(MODULENAME, PS_ADDTOLIST, EMPAddToList);
 	CreateProtoServiceFunction(MODULENAME, PSS_MESSAGE, EMPSendMessage);
-	CreateProtoServiceFunction(MODULENAME, PSS_URL, EMPSendUrl);
 	CreateProtoServiceFunction(MODULENAME, PSR_MESSAGE, EMPRecvMessageUrl);
 	CreateProtoServiceFunction(MODULENAME, PSR_URL, EMPRecvMessageUrl);
 	CreateProtoServiceFunction(MODULENAME, PSS_GETAWAYMSG, EMPGetAwayMsg);

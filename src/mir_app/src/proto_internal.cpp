@@ -239,12 +239,6 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return (int)ProtoCallService(m_szModuleName, PSS_MESSAGE, 0, (LPARAM)&ccs);
 	}
 
-	int SendUrl(MCONTACT hContact, int flags, const char* url) override
-	{
-		CCSDATA ccs = { hContact, PSS_URL, (WPARAM)flags, (LPARAM)url };
-		return (int)ProtoCallService(m_szModuleName, PSS_URL, 0, (LPARAM)&ccs);
-	}
-
 	int SetApparentMode(MCONTACT hContact, int mode) override
 	{
 		CCSDATA ccs = { hContact, PSS_SETAPPARENTMODE, (WPARAM)mode, 0 };

@@ -52,7 +52,7 @@ public:
 	void SetMirandaStatus(u_int status);
 	void SetAllOffline();
 	void RecvMessageUrl(CCSDATA* ccs);
-	int SendMessageUrl(CCSDATA* ccs, bool isUrl);
+	int SendMessageUrl(CCSDATA* ccs);
 	int GetAwayMsg(CCSDATA* ccs);
 	int RecvAwayMsg(CCSDATA* ccs);
 	int SetAwayMsg(u_int status, char* msg);
