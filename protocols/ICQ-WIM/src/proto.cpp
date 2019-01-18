@@ -406,7 +406,7 @@ int CIcqProto::SetStatus(int iNewStatus)
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 	}
 	// not logged in? come on
-	else if (!IsStatusConnecting(m_iStatus)) {
+	else if (!m_bOnline && !IsStatusConnecting(m_iStatus)) {
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 
