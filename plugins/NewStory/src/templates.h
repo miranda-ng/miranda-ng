@@ -42,7 +42,6 @@ enum
 
 	TPL_MESSAGE,
 	TPL_FILE,
-	TPL_URL,
 	TPL_SIGN,
 	TPL_OTHER,
 

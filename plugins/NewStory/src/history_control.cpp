@@ -728,12 +728,6 @@ static void BeginEditItem(HWND hwnd, NewstoryListData *data, int index)
 				colorid = !(item->dbe.flags&DBEF_SENT) ? COLOR_INFILE : COLOR_OUTFILE;
 				break;
 
-			case EVENTTYPE_URL:
-				tpl = TPL_COPY_URL;
-				fontid = !(item->dbe.flags&DBEF_SENT) ? FONT_INURL : FONT_OUTURL;
-				colorid = !(item->dbe.flags&DBEF_SENT) ? COLOR_INURL : COLOR_OUTURL;
-				break;
-
 			case EVENTTYPE_STATUSCHANGE:
 				tpl = TPL_COPY_SIGN;
 				fontid = FONT_STATUS;
@@ -804,11 +798,6 @@ static int LayoutItem(HWND hwnd, HistoryArray *items, int index)
 		fontid = !(item->dbe.flags&DBEF_SENT) ? FONT_INFILE : FONT_OUTFILE;
 		break;
 
-	case EVENTTYPE_URL:
-		tpl = TPL_URL;
-		fontid = !(item->dbe.flags&DBEF_SENT) ? FONT_INURL : FONT_OUTURL;
-		break;
-
 	case EVENTTYPE_STATUSCHANGE:
 		tpl = TPL_SIGN;
 		fontid = FONT_STATUS;
@@ -868,12 +857,6 @@ static int PaintItem(HDC hdc, HistoryArray *items, int index, int top, int width
 		tpl = TPL_FILE;
 		fontid = !(item->dbe.flags&DBEF_SENT) ? FONT_INFILE : FONT_OUTFILE;
 		colorid = !(item->dbe.flags&DBEF_SENT) ? COLOR_INFILE : COLOR_OUTFILE;
-		break;
-
-	case EVENTTYPE_URL:
-		tpl = TPL_URL;
-		fontid = !(item->dbe.flags&DBEF_SENT) ? FONT_INURL : FONT_OUTURL;
-		colorid = !(item->dbe.flags&DBEF_SENT) ? COLOR_INURL : COLOR_OUTURL;
 		break;
 
 	case EVENTTYPE_STATUSCHANGE:

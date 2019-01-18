@@ -34,9 +34,6 @@ TemplateInfo templates[TPL_COUNT] =
 	{ "tpl/msglog/file", _T("Message Log"), ICO_FILE, _T("Files"),
 		_T("%I%i[b]%N, %t:[/b]%n%M"), 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfFile, 0 } },
-	{ "tpl/msglog/url", _T("Message Log"), ICO_URL, _T("URLs"),
-		_T("%I%i[b]%N, %t:[/b]%n%M"), 0, 0,
-		{ vfGlobal, vfContact, vfEvent, vfUrl, 0 } },
 	{ "tpl/msglog/status", _T("Message Log"), ICO_SIGNIN, _T("Status Changes"),
 		_T("%I%i[b]%N, %t:[/b]%n%M"), 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfSign, 0 } },
@@ -275,9 +272,6 @@ void vfEvent(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 		break;
 	case EVENTTYPE_FILE:
 		hIcon = GetIcon(ICO_FILE);
-		break;
-	case EVENTTYPE_URL:
-		hIcon = GetIcon(ICO_URL);
 		break;
 	case EVENTTYPE_STATUSCHANGE:
 		hIcon = GetIcon(ICO_SIGNIN);

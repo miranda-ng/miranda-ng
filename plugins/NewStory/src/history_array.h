@@ -92,7 +92,6 @@ public:
 			OUTGOING = 0x002,
 			MESSAGES = 0x004,
 			FILES = 0x008,
-			URLS = 0x010,
 			STATUS = 0x020,
 			OTHER = 0x040,
 			EVENTTEXT = 0x080,
@@ -145,10 +144,6 @@ public:
 					break;
 				case EVENTTYPE_FILE:
 					if (!(flags & FILES))
-						return false;
-					break;
-				case EVENTTYPE_URL:
-					if (!(flags & URLS))
 						return false;
 					break;
 				case EVENTTYPE_STATUSCHANGE:
