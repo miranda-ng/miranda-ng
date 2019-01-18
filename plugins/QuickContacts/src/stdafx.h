@@ -36,7 +36,6 @@ Boston, MA 02111-1307, USA.
 #include <m_database.h>
 #include <m_button.h>
 #include <m_file.h>
-#include <m_url.h>
 #include <m_history.h>
 #include <m_icolib.h>
 #include <m_hotkeys.h>

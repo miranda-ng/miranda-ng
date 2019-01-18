@@ -74,12 +74,6 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	hkd.szDescription.w = LPGENW("Send file");
 	g_plugin.addHotkey(&hkd);
 
-	hkd.lParam = HOTKEY_URL;
-	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'U');
-	hkd.pszName = "Quick Contacts/URL";
-	hkd.szDescription.w = LPGENW("Send URL");
-	g_plugin.addHotkey(&hkd);
-
 	hkd.lParam = HOTKEY_INFO;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'I');
 	hkd.pszName = "Quick Contacts/Info";

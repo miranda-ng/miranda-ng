@@ -19,12 +19,10 @@
 #define IDC_GROUP_COLUMN                1062
 #define IDC_FILE                        1063
 #define IDC_GROUP_LEFT                  1063
-#define IDC_URL                         1064
 #define IDC_USERINFO                    1065
 #define IDC_HISTORY                     1066
 #define IDC_MENU                        1067
 #define HOTKEY_FILE                     40001
-#define HOTKEY_URL                      40002
 #define HOTKEY_INFO                     40003
 #define HOTKEY_HISTORY                  40004
 #define HOTKEY_ALL_CONTACTS             40005

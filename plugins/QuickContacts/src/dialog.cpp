@@ -225,7 +225,6 @@ void EnableButtons(HWND hwndDlg, MCONTACT hContact)
 	if (hContact == NULL) {
 		EnableWindow(GetDlgItem(hwndDlg, IDC_MESSAGE), FALSE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_FILE), FALSE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_URL), FALSE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_USERINFO), FALSE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_HISTORY), FALSE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_MENU), FALSE);
@@ -247,7 +246,6 @@ void EnableButtons(HWND hwndDlg, MCONTACT hContact)
 
 		EnableWindow(GetDlgItem(hwndDlg, IDC_MESSAGE), caps & PF1_IMSEND ? TRUE : FALSE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_FILE), caps & PF1_FILESEND ? TRUE : FALSE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_URL), caps & PF1_URLSEND ? TRUE : FALSE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_USERINFO), TRUE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_HISTORY), TRUE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_MENU), TRUE);
@@ -518,7 +516,6 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			FillCheckbox(hwndDlg, IDC_SHOW_ALL_CONTACTS, LPGENW("Show all contacts"), NULL);
 			FillButton(hwndDlg, IDC_MESSAGE, LPGENW("Send message"), nullptr, Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
 			FillButton(hwndDlg, IDC_FILE, LPGENW("Send file"), NULL, Skin_LoadIcon(SKINICON_EVENT_FILE));
-			FillButton(hwndDlg, IDC_URL, LPGENW("Send URL"), NULL, Skin_LoadIcon(SKINICON_EVENT_URL));
 			FillButton(hwndDlg, IDC_USERINFO, LPGENW("Open user info"), NULL, Skin_LoadIcon(SKINICON_OTHER_USERDETAILS));
 			FillButton(hwndDlg, IDC_HISTORY, LPGENW("Open history"), NULL, Skin_LoadIcon(SKINICON_OTHER_HISTORY));
 			FillButton(hwndDlg, IDC_MENU, LPGENW("Open contact menu"), NULL, Skin_LoadIcon(SKINICON_OTHER_DOWNARROW));
@@ -598,27 +595,6 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					break;
 
 				CallService(MS_FILE_SENDFILE, hContact, 0);
-
-				g_plugin.setDword("LastSentTo", hContact);
-				SendMessage(hwndDlg, WM_CLOSE, 0, 0);
-			}
-			break;
-
-		case HOTKEY_URL:
-		case IDC_URL:
-			{
-				MCONTACT hContact = GetSelectedContact(hwndDlg);
-				if (hContact == NULL) {
-					SetDlgItemText(hwndDlg, IDC_USERNAME, L"");
-					SetFocus(GetDlgItem(hwndDlg, IDC_USERNAME));
-					break;
-				}
-
-				// Is button enabled?
-				if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_URL)))
-					break;
-
-				CallService(MS_URL_SENDURL, hContact, 0);
 
 				g_plugin.setDword("LastSentTo", hContact);
 				SendMessage(hwndDlg, WM_CLOSE, 0, 0);

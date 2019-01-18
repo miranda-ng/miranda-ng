@@ -58,7 +58,6 @@
 #include <m_protosvc.h>
 #include <m_skin.h>
 #include <m_system.h>
-#include <m_url.h>         // not used
 #include <m_userinfo.h>    // not used
 #include <m_utils.h>
 #include <m_imgsrvc.h>
