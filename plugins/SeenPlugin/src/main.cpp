@@ -113,6 +113,9 @@ int CMPlugin::Load()
 	g_plugin.addSound("LastSeenTrackedStatusOnline", LPGENW("LastSeen"), LPGENW("Changed to Online"));
 	g_plugin.addSound("LastSeenTrackedStatusOffline", LPGENW("LastSeen"), LPGENW("User Logged Off"));
 	g_plugin.addSound("LastSeenTrackedStatusFromOffline", LPGENW("LastSeen"), LPGENW("User Logged In"));
+
+	CreateServiceFunction(MS_LASTSEEN_GET, GetParsedFormat);
+
 	return 0;
 }
 
@@ -131,4 +134,16 @@ int CMPlugin::Unload()
 	CloseHandle(g_hShutdownEvent);
 	UninitHistoryDialog();
 	return 0;
+}
+
+
+INT_PTR GetParsedFormat(WPARAM wParam, LPARAM)
+{
+
+	MCONTACT hContact = (MCONTACT)wParam;
+	ptrW wszStamp(g_plugin.getWStringA("MenuStamp"));
+
+	CMStringW wszRet(ParseString(wszStamp ? wszStamp : DEFAULT_MENUSTAMP, hContact));
+
+	return (INT_PTR)wszRet.Detach();
 }
