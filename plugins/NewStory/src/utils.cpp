@@ -174,10 +174,6 @@ void CopyText(HWND hwnd, TCHAR *text)
 				s = TplFormatStringEx(TPL_FILE, tFile?tFile:tOther, &args);
 				break;
 
-			case EVENTTYPE_URL:
-				s = TplFormatStringEx(TPL_URL, tURL?tURL:tOther, &args);
-				break;
-
 			case EVENTTYPE_STATUSCHANGE:
 				s = TplFormatStringEx(TPL_SIGN, tStatus?tStatus:tOther, &args);
 				break;
