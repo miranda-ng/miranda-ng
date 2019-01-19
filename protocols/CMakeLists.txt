@@ -4,7 +4,7 @@
 add_subdirectory(FacebookRM)
 #add_subdirectory(Gadu-Gadu)
 #add_subdirectory(ICQCorp)
-add_subdirectory(IcqOscarJ)
+add_subdirectory(ICQ-WIM)
 add_subdirectory(IRCG)
 add_subdirectory(JabberG)
 #add_subdirectory(MinecraftDynmap)
