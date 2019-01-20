@@ -157,10 +157,10 @@ const
        Mes: [mtFile,mtOutgoing]; style:0; size: -11; color: $000000; back: $9BEEE3),
 
     (_type: [hppFont,hppColor]; name: 'Incoming url';
-       Mes: [mtUrl,mtIncoming]; style:0; size: -11; color: $000000; back: $F4D9CC),
+       Mes: [mtIncoming]; style:0; size: -11; color: $000000; back: $F4D9CC),
 
     (_type: [hppFont,hppColor]; name: 'Outgoing url';
-       Mes: [mtUrl,mtOutgoing]; style:0; size: -11; color: $000000; back: $F4D9CC),
+       Mes: [mtOutgoing]; style:0; size: -11; color: $000000; back: $F4D9CC),
 
     (_type: [hppFont,hppColor]; name: 'Incoming SMS Message';
        Mes: [mtSMS,mtIncoming]; style:0; size: -11; color: $000000; back: $CFF4FE),

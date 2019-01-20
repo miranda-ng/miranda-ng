@@ -162,7 +162,7 @@ public:
 class CMirandaAdvOptionsPageDlg : public CWizardPageDlg
 {
 	CCtrlButton btnBack;
-	CCtrlCheck chkSince, chkAll, chkOutgoing, chkIncoming, chkMsg, chkUrl, chkFT, chkOther;
+	CCtrlCheck chkSince, chkAll, chkOutgoing, chkIncoming, chkMsg, chkFT, chkOther;
 
 public:
 	CMirandaAdvOptionsPageDlg();
@@ -175,7 +175,6 @@ public:
 	void onChange_Since(CCtrlCheck*);
 	void onChange_All(CCtrlCheck*);
 	void onChange_Msg(CCtrlCheck*);
-	void onChange_Url(CCtrlCheck*);
 	void onChange_FT(CCtrlCheck*);
 	void onChange_Other(CCtrlCheck*);
 };

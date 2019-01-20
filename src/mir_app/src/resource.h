@@ -23,8 +23,6 @@
 #define IDD_ADDED                       115
 #define IDD_ENTER_STRING                116
 #define IDI_ADDGROUP                    117
-#define IDD_URLSEND                     119
-#define IDD_URLRECV                     120
 #define IDD_AUTHREQ                     121
 #define IDD_DETAILS                     125
 #define IDD_HISTORY                     127

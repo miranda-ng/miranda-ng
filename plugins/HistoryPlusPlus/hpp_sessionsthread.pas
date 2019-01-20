@@ -116,10 +116,9 @@ function IsEventInSession(EventType: Word): boolean;
 implementation
 
 const
-  SessionEvents: array[0..3] of Word = (
+  SessionEvents: array[0..2] of Word = (
     EVENTTYPE_MESSAGE,
     EVENTTYPE_FILE,
-    EVENTTYPE_URL,
     EVENTTYPE_CONTACTS);
 
 function IsEventInSession(EventType: Word): boolean;

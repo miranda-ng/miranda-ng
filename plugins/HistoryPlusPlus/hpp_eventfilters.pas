@@ -77,10 +77,9 @@ var
   filterAll: TMessageTypes;
 
 const
-  hppIntDefEventFilters: array[0..12] of ThppEventFilter = (
+  hppIntDefEventFilters: array[0..11] of ThppEventFilter = (
     (Name: 'Show all events'; Events: []; filMode: FM_EXCLUDE; filEvents: []),
     (Name: 'Messages'; Events: []; filMode: FM_INCLUDE; filEvents: [mtMessage,mtIncoming,mtOutgoing]),
-    (Name: 'Link URLs'; Events: []; filMode: FM_INCLUDE; filEvents: [mtUrl,mtIncoming,mtOutgoing]),
     (Name: 'Files'; Events: []; filMode: FM_INCLUDE; filEvents: [mtFile,mtIncoming,mtOutgoing]),
     (Name: 'Contacts'; Events: []; filMode: FM_INCLUDE; filEvents: [mtContacts,mtIncoming,mtOutgoing]),
     (Name: 'Status changes'; Events: [];  filMode: FM_INCLUDE; filEvents: [mtStatus,mtIncoming,mtOutgoing]),

@@ -31,7 +31,6 @@ const
 
 const
   EVENTTYPE_MESSAGE     = 0;
-  EVENTTYPE_URL         = 1;
   EVENTTYPE_CONTACTS    = 2;     // v0.1.2.2+
   EVENTTYPE_ADDED       = 1000;  // v0.1.1.0+: these used to be module-
   EVENTTYPE_AUTHREQUEST = 1001;  // specific codes, hence the module-

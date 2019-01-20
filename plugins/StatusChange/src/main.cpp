@@ -2,7 +2,6 @@
 
 TOPTIONS Options;
 HICON hIconMsg;
-HICON hIconUrl;
 HICON hIconFile;
 
 CMPlugin g_plugin;
@@ -34,8 +33,6 @@ void LoadOptions()
 	memset(&Options, 0, sizeof(Options));
 	Options.MessageRead = (BOOL)g_plugin.getByte("MessageRead", FALSE);
 	Options.MessageSend = (BOOL)g_plugin.getByte("MessageSend", TRUE);
-	Options.UrlRead = (BOOL)g_plugin.getByte("UrlRead", FALSE);
-	Options.UrlSend = (BOOL)g_plugin.getByte("UrlSend", TRUE);
 	Options.FileRead = (BOOL)g_plugin.getByte("FileRead", FALSE);
 	Options.FileSend = (BOOL)g_plugin.getByte("FileSend", TRUE);
 	Options.ChangeTo = (INT)g_plugin.getDword("ChangeTo", ID_STATUS_ONLINE);
@@ -121,15 +118,11 @@ static INT_PTR CALLBACK DlgProcStatusChangeOpts(HWND hwndDlg, UINT msg, WPARAM w
 
 		hIconMsg = (HICON)CopyImage(Skin_LoadIcon(SKINICON_EVENT_MESSAGE), IMAGE_ICON, 16, 16, LR_COPYFROMRESOURCE);
 		SendDlgItemMessage(hwndDlg, IDC_MSGICON, STM_SETICON, (WPARAM)hIconMsg, 0);
-		hIconUrl = (HICON)CopyImage(Skin_LoadIcon(SKINICON_EVENT_URL), IMAGE_ICON, 16, 16, LR_COPYFROMRESOURCE);
-		SendDlgItemMessage(hwndDlg, IDC_URLICON, STM_SETICON, (WPARAM)hIconUrl, 0);
 		hIconFile = (HICON)CopyImage(Skin_LoadIcon(SKINICON_EVENT_FILE), IMAGE_ICON, 16, 16, LR_COPYFROMRESOURCE);
 		SendDlgItemMessage(hwndDlg, IDC_FILEICON, STM_SETICON, (WPARAM)hIconFile, 0);
 
 		CheckDlgButton(hwndDlg, IDC_CHK_MESSAGEREAD, Options.MessageRead ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_CHK_MESSAGESEND, Options.MessageSend ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_CHK_URLREAD, Options.UrlRead ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_CHK_URLSEND, Options.UrlSend ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_CHK_FILEREAD, Options.FileRead ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_CHK_FILESEND, Options.FileSend ? BST_CHECKED : BST_UNCHECKED);
 
@@ -167,14 +160,6 @@ static INT_PTR CALLBACK DlgProcStatusChangeOpts(HWND hwndDlg, UINT msg, WPARAM w
 			break;
 		case IDC_CHK_MESSAGESEND:
 			Options.MessageSend = !Options.MessageSend;
-			PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			break;
-		case IDC_CHK_URLREAD:
-			Options.UrlRead = !Options.UrlRead;
-			PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			break;
-		case IDC_CHK_URLSEND:
-			Options.UrlSend = !Options.UrlSend;
 			PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 		case IDC_CHK_FILEREAD:
@@ -281,8 +266,6 @@ static INT_PTR CALLBACK DlgProcStatusChangeOpts(HWND hwndDlg, UINT msg, WPARAM w
 			case PSN_APPLY:
 				g_plugin.setByte("MessageRead", (BYTE)Options.MessageRead);
 				g_plugin.setByte("MessageSend", (BYTE)Options.MessageSend);
-				g_plugin.setByte("UrlRead", (BYTE)Options.UrlRead);
-				g_plugin.setByte("UrlSend", (BYTE)Options.UrlSend);
 				g_plugin.setByte("FileRead", (BYTE)Options.FileRead);
 				g_plugin.setByte("FileSend", (BYTE)Options.FileSend);
 				g_plugin.setDword("ChangeTo", (DWORD)Options.ChangeTo);
@@ -304,7 +287,6 @@ static INT_PTR CALLBACK DlgProcStatusChangeOpts(HWND hwndDlg, UINT msg, WPARAM w
 
 	case WM_DESTROY:
 		DestroyIcon(hIconMsg);
-		DestroyIcon(hIconUrl);
 		DestroyIcon(hIconFile);
 		break;
 	}

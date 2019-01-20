@@ -10,7 +10,7 @@ uses
 type
   TBaseEventType = (
     mtUnknown,
-    mtMessage, mtUrl, mtFile, mtSystem, mtContacts, mtStatus,
+    mtMessage, mtFile, mtSystem, mtContacts, mtStatus,
     mtOther);
 
   PMessageTypes = ^TMessageTypes;
@@ -183,13 +183,12 @@ type
   end;
 
 var
-  BuiltinEventTable: array[0..6] of TEventTableItem = (
+  BuiltinEventTable: array[0..5] of TEventTableItem = (
     // must be the first item in array for unknown events
     (EventType: MaxWord;               MessageType: mtOther),
     // events definitions
     (EventType: EVENTTYPE_MESSAGE;     MessageType: mtMessage),
     (EventType: EVENTTYPE_FILE;        MessageType: mtFile),
-    (EventType: EVENTTYPE_URL;         MessageType: mtUrl),
     (EventType: EVENTTYPE_AUTHREQUEST; MessageType: mtSystem),
     (EventType: EVENTTYPE_ADDED;       MessageType: mtSystem),
     (EventType: EVENTTYPE_CONTACTS;    MessageType: mtContacts)
@@ -301,76 +300,6 @@ begin
   mFreeMem(buf);
 end;
 
-
-// reads event from hDbEvent handle
-// reads all THistoryItem fields
-// *EXCEPT* Proto field. Fill it manually, plz
-(*
-procedure ReadEvent(hDBEvent: TMEVENT; var hi: THistoryItem; UseCP: Cardinal = CP_ACP);
-var
-  EventInfo: TDBEventInfo;
-  EventIndex: integer;
-  Handled: Boolean;
-begin
-  ZeroMemory(@hi,SizeOf(hi));
-  hi.Height := -1;
-  GetEventInfo(hDBEvent, EventInfo);
-
-  hi.Module      := EventInfo.szModule;                     {*}
-  hi.proto       := nil;
-  hi.Time        := EventInfo.Timestamp;                    {*}
-  hi.IsRead      := Boolean(EventInfo.flags and DBEF_READ); {*}
-  hi.MessageType := GetMessageType(EventInfo, EventIndex);  {!}
-  hi.CodePage    := UseCP;                                  {?}
-  // enable autoRTL feature
-  if Boolean(EventInfo.flags and DBEF_RTL) then
-    hi.RTLMode := hppRTLEnable;                             {*}
-
-  hi.Text := GetEventCoreText(EventInfo, UseCP);
-{!!
-  if hi.Text = nil then
-    EventTable[EventIndex].TextFunction(EventInfo, hi);
-}
-  hi.Text := AdjustLineBreaks(hi.Text);
-  hi.Text := rtrimw(hi.Text);
-
-  if hi.MessageType.code=mtMessage then
-    if TextHasUrls(hi.Text) then
-    begin
-      hi.MessageType.code:=mtUrl;
-    end;
-
-  mFreeMem(EventInfo.pBlob);
-end;
-*)
-(*
-function GetEventName(const Hi: THistoryItem):PAnsiChar;
-var
-  MesType: THppMessageType;
-  mt: TBuiltinMessageType;
-  etd: PDBEVENTTYPEDESCR;
-begin
-  MesType := Hi.MessageType;
-  for mt := Low(BuiltinEventNames) to High(BuiltinEventNames) do
-  begin
-    if MesType.code = mt then
-    begin
-      Result := BuiltinEventNames[mt];
-      exit;
-    end;
-  end;
-
-  etd := Pointer(CallService(MS_DB_EVENT_GETTYPE, WPARAM(Hi.Module), LPARAM(Hi.MessageType.event)));
-  if etd = nil then
-  begin
-    Result := BuiltinEventNames[mtOther];
-  end
-  else
-    Result := etd.descr;
-
-end;
-*)
-
 type
   TCustomEvent = record
     Module      : PAnsiChar;
@@ -384,13 +313,6 @@ const
     (Module:'WATrack'        ; EventType:EVENTTYPE_WAT_MESSAGE  {; MessageType:}),
     (Module:'NewStatusNotify'; EventType:EVENTTYPE_STATUSCHANGE {; MessageType:}),
     (Module:'Nudge'          ; EventType:1                      {; MessageType:})
-//    (Module:nil; EventType:EVENTTYPE_AVATAR_CHANGE     {; MessageType:}),
-//    (Module:nil; EventType:ICQEVENTTYPE_MISSEDMESSAGE  {; MessageType:}), ICQ_DB_GETEVENTTEXT_MISSEDMESSAGE
-//    (Module:nil; EventType:ICQEVENTTYPE_EMAILEXPRESS   {; MessageType:}),
-//    (Module:nil; EventType:ICQEVENTTYPE_WEBPAGER       {; MessageType:}),
-//    (Module:nil; EventType:EVENTTYPE_SMS               {; MessageType:}),
-//    (Module:nil; EventType:EVENTTYPE_SMSCONFIRMATION   {; MessageType:}),
-//    (Module:nil; EventType:TWITTER_DB_EVENT_TYPE_TWEET {; MessageType:}),
   );
 
 //----- Support functions -----
@@ -507,10 +429,7 @@ var
 begin
   case GetEventBaseType(EventInfo) of
     mtMessage : idx:=SKINICON_EVENT_MESSAGE;
-    mtUrl     : idx:=SKINICON_EVENT_URL;
     mtFile    : idx:=SKINICON_EVENT_FILE;
-//    mtSystem  : idx:=;
-//    mtContacts: idx:=;
     mtStatus  : begin
       result:=0;
       exit;
@@ -519,18 +438,6 @@ begin
     idx:=0;
   end;
   result:=CallService(MS_SKIN_LOADICON,idx,0);
-{
-  case EventInfo.eventType of
-    EVENTTYPE_MESSAGE:     idx:=SKINICON_EVENT_MESSAGE;
-    EVENTTYPE_FILE:        idx:=SKINICON_EVENT_FILE;
-    EVENTTYPE_URL:         idx:=SKINICON_EVENT_URL;
-    EVENTTYPE_AUTHREQUEST: idx:=SKINICON_AUTH_REQUEST;
-    EVENTTYPE_ADDED:       idx:=SKINICON_AUTH_ADD;
-    EVENTTYPE_CONTACTS:    idx:=
-    EVENTTYPE_SMS:         idx:=SKINICON_OTHER_SMS;
-  else
-  end;
-}
 end;
 
 end.

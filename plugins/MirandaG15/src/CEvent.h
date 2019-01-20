@@ -7,7 +7,6 @@ enum EventType {	EVENT_MSG_RECEIVED = 0,
 					EVENT_STATUS = 1,
 					EVENT_MSG_ACK = 2,
 
-					EVENT_URL = 5,
 					EVENT_FILE = 6,
 					EVENT_AUTHREQUEST = 7,
 					EVENT_CONTACTS = 8,

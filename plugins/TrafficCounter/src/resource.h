@@ -18,8 +18,6 @@
 #define IDD_OPT_ICOLIB                  110
 #define IDD_ICOLIB_IMPORT               111
 #define IDD_ADDED                       115
-#define IDD_URLSEND                     119
-#define IDD_URLRECV                     120
 #define IDD_AUTHREQ                     121
 #define IDD_DETAILS                     125
 #define IDD_HISTORY                     127
@@ -253,7 +251,6 @@
 #define IDC_LOADICONS                   1369
 #define IDC_STICONSGROUP                1371
 #define IDC_MSGICON                     1375
-#define IDC_URLICON                     1376
 #define IDC_STNOPAGE                    1377
 #define IDC_STCHECKMARKS                1380
 #define IDC_MIRANDA                     1388

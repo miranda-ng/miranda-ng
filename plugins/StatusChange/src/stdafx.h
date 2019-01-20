@@ -27,8 +27,6 @@ struct TOPTIONS
 {
 	BOOL MessageRead;
 	BOOL MessageSend;
-	BOOL UrlRead;
-	BOOL UrlSend;
 	BOOL FileRead;
 	BOOL FileSend;
 

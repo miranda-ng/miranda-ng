@@ -63,7 +63,7 @@ type
   //       be show as the last entry
   TMessageType = (mtUnknown,
                   mtIncoming, mtOutgoing,
-                  mtMessage, mtUrl, mtFile, mtSystem,
+                  mtMessage, mtFile, mtSystem,
                   mtContacts, mtSMS, mtWebPager, mtEmailExpress, mtStatus, mtSMTPSimple,
                   mtOther,
                   mtNickChange,mtAvatarChange,mtWATrack,mtStatusMessage,mtVoiceCall,mtCustom);

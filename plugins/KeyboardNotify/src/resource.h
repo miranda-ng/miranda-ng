@@ -105,7 +105,6 @@
 #define IDC_ALLICON                     1208
 #define IDC_NONEICON                    1209
 #define IDC_MSGICON                     1375
-#define IDC_URLICON                     1376
 #define IDC_TABS                        2000
 
 // Next default values for new objects

@@ -25,12 +25,9 @@
 #define IDC_RAD_OUTTOLUNCH              2010
 #define IDC_CHK_MESSAGEREAD             3001
 #define IDC_CHK_MESSAGESEND             3002
-#define IDC_CHK_URLREAD                 3003
-#define IDC_CHK_URLSEND                 3004
 #define IDC_CHK_FILEREAD                3005
 #define IDC_CHK_FILESEND                3006
 #define IDC_MSGICON                     4001
-#define IDC_URLICON                     4002
 #define IDC_FILEICON                    4003
 
 // Next default values for new objects

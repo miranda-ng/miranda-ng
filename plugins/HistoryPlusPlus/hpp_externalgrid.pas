@@ -534,7 +534,7 @@ begin
   // tabSRMM still doesn't marks events read in case of hpp log is in use...
   // if (FGridMode = gmIEView) and
   if (mtIncoming in Item.MessageType) and (MessageTypesToDWord(Item.MessageType) and
-    MessageTypesToDWord([mtMessage, mtUrl]) > 0) then
+    MessageTypesToDWord([mtMessage]) > 0) then
   begin
     if (not Item.IsRead) then
       db_event_markRead(Items[Index].hContact, Items[Index].hDBEvent);
@@ -1196,14 +1196,6 @@ begin
       Item.FileName := '&UNK;'
     else
       Item.FileName := UTF8Encode(MakeTextXMLedA(tmp));
-  end
-  else if mtUrl in Grid.Items[Index].MessageType then
-  begin
-    tmp := Grid.Items[Index].Extended;
-    if tmp = '' then
-      Item.Url := '&UNK;'
-    else
-      Item.Url := UTF8Encode(MakeTextXMLedA(tmp));
   end
   else if mtAvatarChange in Grid.Items[Index].MessageType then
   begin

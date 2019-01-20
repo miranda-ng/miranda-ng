@@ -40,17 +40,14 @@
 #define IDC_SYSTEM                      1026
 #define IDC_SINCE                       1027
 #define IDC_IN_MSG                      1028
-#define IDC_IN_URL                      1029
 #define IDC_OUT_FT                      1030
 #define IDC_OUT_MSG                     1031
-#define IDC_OUT_URL                     1032
 #define IDC_IN_OTHER                    1033
 #define IDC_OUT_OTHER                   1034
 #define IDC_INCOMING                    1035
 #define IDC_OUTGOING                    1036
 #define IDC_ALL                         1037
 #define IDC_MSG                         1038
-#define IDC_URL                         1039
 #define IDC_FT                          1040
 #define IDC_OPEN_FILE                   1042
 #define IDC_CHECK_DUPS                  1043

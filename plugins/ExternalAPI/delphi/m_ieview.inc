@@ -78,7 +78,6 @@ const
   IEED_EVENT_MESSAGE      = $0001; // message
   IEED_EVENT_STATUSCHANGE = $0002; // status change
   IEED_EVENT_FILE         = $0003; // file
-  IEED_EVENT_URL          = $0004; // url
   IEED_EVENT_ERRMSG       = $0005; // error message
   IEED_EVENT_SYSTEM       = $0006; // system event
 

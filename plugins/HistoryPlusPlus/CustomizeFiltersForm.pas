@@ -138,7 +138,7 @@ begin
   SetLength(LocalFilters,i+1);
   LocalFilters[i].Name := NewName;
   LocalFilters[i].filMode := FM_INCLUDE;
-  LocalFilters[i].filEvents := [mtIncoming,mtOutgoing,mtMessage,mtUrl,mtFile];
+  LocalFilters[i].filEvents := [mtIncoming,mtOutgoing,mtMessage,mtFile];
   LocalFilters[i].Events := GenerateEvents(LocalFilters[i].filMode,LocalFilters[i].filEvents);
 
   lbFilters.Items.Add(NewName);

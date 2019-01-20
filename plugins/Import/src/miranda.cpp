@@ -240,8 +240,8 @@ void CMirandaOptionsPageDlg::OnNext()
 //=======================================================================================
 // Advanced options dialog
 
-static const UINT InControls[] = { IDC_IN_MSG, IDC_IN_URL, IDC_IN_FT, IDC_IN_OTHER };
-static const UINT OutControls[] = { IDC_OUT_MSG, IDC_OUT_URL, IDC_OUT_FT, IDC_OUT_OTHER };
+static const UINT InControls[] = { IDC_IN_MSG, IDC_IN_FT, IDC_IN_OTHER };
+static const UINT OutControls[] = { IDC_OUT_MSG, IDC_OUT_FT, IDC_OUT_OTHER };
 static const UINT SysControls[] = { IDC_CONTACTS, IDC_SYSTEM };
 
 CMirandaAdvOptionsPageDlg::CMirandaAdvOptionsPageDlg() :
@@ -250,7 +250,6 @@ CMirandaAdvOptionsPageDlg::CMirandaAdvOptionsPageDlg() :
 	chkFT(this, IDC_FT),
 	chkAll(this, IDC_ALL),
 	chkMsg(this, IDC_MSG),
-	chkUrl(this, IDC_URL),
 	chkOther(this, IDC_OTHER),
 	chkSince(this, IDC_SINCE),
 	chkOutgoing(this, IDC_OUTGOING),
@@ -261,7 +260,6 @@ CMirandaAdvOptionsPageDlg::CMirandaAdvOptionsPageDlg() :
 	chkSince.OnChange = Callback(this, &CMirandaAdvOptionsPageDlg::onChange_Since);
 	chkAll.OnChange = chkOutgoing.OnChange = chkIncoming.OnChange = Callback(this, &CMirandaAdvOptionsPageDlg::onChange_All);
 	chkMsg.OnChange = Callback(this, &CMirandaAdvOptionsPageDlg::onChange_Msg);
-	chkUrl.OnChange = Callback(this, &CMirandaAdvOptionsPageDlg::onChange_Url);
 	chkFT.OnChange = Callback(this, &CMirandaAdvOptionsPageDlg::onChange_FT);
 	chkOther.OnChange = Callback(this, &CMirandaAdvOptionsPageDlg::onChange_Other);
 }
@@ -297,8 +295,6 @@ void CMirandaAdvOptionsPageDlg::OnNext()
 	// incoming
 	if (IsDlgButtonChecked(m_hwnd, IDC_IN_MSG))
 		g_iImportOptions |= IOPT_MSGRECV;
-	if (IsDlgButtonChecked(m_hwnd, IDC_IN_URL))
-		g_iImportOptions |= IOPT_URLRECV;
 	if (IsDlgButtonChecked(m_hwnd, IDC_IN_FT))
 		g_iImportOptions |= IOPT_FILERECV;
 	if (IsDlgButtonChecked(m_hwnd, IDC_IN_OTHER))
@@ -307,8 +303,6 @@ void CMirandaAdvOptionsPageDlg::OnNext()
 	// outgoing
 	if (IsDlgButtonChecked(m_hwnd, IDC_OUT_MSG))
 		g_iImportOptions |= IOPT_MSGSENT;
-	if (IsDlgButtonChecked(m_hwnd, IDC_OUT_URL))
-		g_iImportOptions |= IOPT_URLSENT;
 	if (IsDlgButtonChecked(m_hwnd, IDC_OUT_FT))
 		g_iImportOptions |= IOPT_FILESENT;
 	if (IsDlgButtonChecked(m_hwnd, IDC_OUT_OTHER))
@@ -361,12 +355,6 @@ void CMirandaAdvOptionsPageDlg::onChange_Msg(CCtrlCheck*)
 {
 	CheckDlgButton(m_hwnd, IDC_IN_MSG, IsDlgButtonChecked(m_hwnd, IDC_IN_MSG) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(m_hwnd, IDC_OUT_MSG, IsDlgButtonChecked(m_hwnd, IDC_OUT_MSG) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
-}
-
-void CMirandaAdvOptionsPageDlg::onChange_Url(CCtrlCheck*)
-{
-	CheckDlgButton(m_hwnd, IDC_IN_URL, IsDlgButtonChecked(m_hwnd, IDC_IN_URL) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
-	CheckDlgButton(m_hwnd, IDC_OUT_URL, IsDlgButtonChecked(m_hwnd, IDC_OUT_URL) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
 }
 
 void CMirandaAdvOptionsPageDlg::onChange_FT(CCtrlCheck*)
