@@ -40,13 +40,11 @@ BEGIN
                     BS_AUTOCHECKBOX | WS_TABSTOP,10,31,190,10
     GROUPBOX        "Popup options",IDC_STATIC,6,45,199,75
     LTEXT           "Message",IDC_STATIC,11,65,44,13
-    LTEXT           "URL",IDC_STATIC,11,78,44,13
     LTEXT           "File",IDC_STATIC,11,91,44,13
     LTEXT           "Others",IDC_STATIC,12,104,44,13
     LTEXT           "Text",IDC_STATIC,56,54,23,8
     CONTROL         "",IDC_COLTEXT_MESSAGE,"ColourPicker",WS_TABSTOP,56,65,
                     24,13
-    CONTROL         "",IDC_COLTEXT_URL,"ColourPicker",WS_TABSTOP,56,77,24,13
     CONTROL         "",IDC_COLTEXT_FILE,"ColourPicker",WS_TABSTOP,56,89,24,
                     13
     CONTROL         "",IDC_COLTEXT_OTHERS,"ColourPicker",WS_TABSTOP,56,101,
@@ -54,15 +52,12 @@ BEGIN
     LTEXT           "Background",IDC_STATIC,86,54,44,8
     CONTROL         "",IDC_COLBACK_MESSAGE,"ColourPicker",WS_TABSTOP,86,65,
                     24,13
-    CONTROL         "",IDC_COLBACK_URL,"ColourPicker",WS_TABSTOP,86,77,24,13
     CONTROL         "",IDC_COLBACK_FILE,"ColourPicker",WS_TABSTOP,86,89,24,
                     13
     CONTROL         "",IDC_COLBACK_OTHERS,"ColourPicker",WS_TABSTOP,86,101,
                     24,13
     CONTROL         "",IDC_CHKDEFAULTCOL_MESSAGE,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,133,65,11,10
-    CONTROL         "",IDC_CHKDEFAULTCOL_URL,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,133,78,11,10
     CONTROL         "",IDC_CHKDEFAULTCOL_FILE,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,133,91,11,10
     CONTROL         "",IDC_CHKDEFAULTCOL_OTHERS,"Button",BS_AUTOCHECKBOX | 
@@ -70,14 +65,11 @@ BEGIN
     CTEXT           "Timeout",IDC_STATIC,144,52,56,10
     EDITTEXT        IDC_DELAY_MESSAGE,155,62,26,13,ES_AUTOHSCROLL | 
                     ES_NUMBER
-    EDITTEXT        IDC_DELAY_URL,155,75,26,13,ES_AUTOHSCROLL | ES_NUMBER
     EDITTEXT        IDC_DELAY_FILE,155,88,26,13,ES_AUTOHSCROLL | ES_NUMBER
     EDITTEXT        IDC_DELAY_OTHERS,155,101,26,13,ES_AUTOHSCROLL | 
                     ES_NUMBER
     CONTROL         "",IDC_CHKINFINITE_MESSAGE,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,185,65,11,10
-    CONTROL         "",IDC_CHKINFINITE_URL,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,185,78,11,10
     CONTROL         "",IDC_CHKINFINITE_FILE,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,185,91,11,10
     CONTROL         "",IDC_CHKINFINITE_OTHERS,"Button",BS_AUTOCHECKBOX | 
@@ -85,8 +77,6 @@ BEGIN
     GROUPBOX        "Notify me of...",IDC_STATIC,208,2,100,56
     CONTROL         "Message",IDC_CHKNOTIFY_MESSAGE,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,212,11,90,10
-    CONTROL         "URL",IDC_CHKNOTIFY_URL,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,212,22,90,10
     CONTROL         "File",IDC_CHKNOTIFY_FILE,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,212,33,90,10
     CONTROL         "Others",IDC_CHKNOTIFY_OTHER,"Button",BS_AUTOCHECKBOX | 

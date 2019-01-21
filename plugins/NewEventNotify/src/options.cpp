@@ -32,13 +32,10 @@ void CMPlugin::OptionsRead(void)
 	bPreview = getByte(OPT_PREVIEW, TRUE);
 	bMenuitem = getByte(OPT_MENUITEM, FALSE);
 	bDefaultColorMsg = getByte(OPT_COLDEFAULT_MESSAGE, FALSE);
-	bDefaultColorUrl = getByte(OPT_COLDEFAULT_URL, FALSE);
 	bDefaultColorFile = getByte(OPT_COLDEFAULT_FILE, FALSE);
 	bDefaultColorOthers = getByte(OPT_COLDEFAULT_OTHERS, FALSE);
 	colBackMsg = getDword(OPT_COLBACK_MESSAGE, DEFAULT_COLBACK);
 	colTextMsg = getDword(OPT_COLTEXT_MESSAGE, DEFAULT_COLTEXT);
-	colBackUrl = getDword(OPT_COLBACK_URL, DEFAULT_COLBACK);
-	colTextUrl = getDword(OPT_COLTEXT_URL, DEFAULT_COLTEXT);
 	colBackFile = getDword(OPT_COLBACK_FILE, DEFAULT_COLBACK);
 	colTextFile = getDword(OPT_COLTEXT_FILE, DEFAULT_COLTEXT);
 	colBackOthers = getDword(OPT_COLBACK_OTHERS, DEFAULT_COLBACK);
@@ -51,7 +48,6 @@ void CMPlugin::OptionsRead(void)
 	bMsgReplyWindow = getByte(OPT_MSGREPLYWINDOW, FALSE);
 	bMergePopup = getByte(OPT_MERGEPOPUP, TRUE);
 	iDelayMsg = getDword(OPT_DELAY_MESSAGE, DEFAULT_DELAY);
-	iDelayUrl = getDword(OPT_DELAY_URL, DEFAULT_DELAY);
 	iDelayFile = getDword(OPT_DELAY_FILE, DEFAULT_DELAY);
 	iDelayOthers = getDword(OPT_DELAY_OTHERS, DEFAULT_DELAY);
 	iDelayDefault = DBGetContactSettingRangedWord(NULL, "Popup", "Seconds", SETTING_LIFETIME_DEFAULT, SETTING_LIFETIME_MIN, SETTING_LIFETIME_MAX);
@@ -71,13 +67,10 @@ void CMPlugin::OptionsWrite(void)
 	setByte(OPT_PREVIEW, bPreview);
 	setByte(OPT_MENUITEM, bMenuitem);
 	setByte(OPT_COLDEFAULT_MESSAGE, bDefaultColorMsg);
-	setByte(OPT_COLDEFAULT_URL, bDefaultColorUrl);
 	setByte(OPT_COLDEFAULT_FILE, bDefaultColorFile);
 	setByte(OPT_COLDEFAULT_OTHERS, bDefaultColorOthers);
 	setDword(OPT_COLBACK_MESSAGE, colBackMsg);
 	setDword(OPT_COLTEXT_MESSAGE, colTextMsg);
-	setDword(OPT_COLBACK_URL, colBackUrl);
-	setDword(OPT_COLTEXT_URL, colTextUrl);
 	setDword(OPT_COLBACK_FILE, colBackFile);
 	setDword(OPT_COLTEXT_FILE, colTextFile);
 	setDword(OPT_COLBACK_OTHERS, colBackOthers);
@@ -90,7 +83,6 @@ void CMPlugin::OptionsWrite(void)
 	setByte(OPT_MSGREPLYWINDOW, bMsgReplyWindow);
 	setByte(OPT_MERGEPOPUP, bMergePopup);
 	setDword(OPT_DELAY_MESSAGE, iDelayMsg);
-	setDword(OPT_DELAY_URL, iDelayUrl);
 	setDword(OPT_DELAY_FILE, iDelayFile);
 	setDword(OPT_DELAY_OTHERS, iDelayOthers);
 	setByte(OPT_SHOW_DATE, bShowDate);
@@ -118,8 +110,6 @@ static void UpdateOptionsDlgItemsState(HWND hWnd)
 	//disable color picker when using default colors
 	EnableDlgItem(hWnd, IDC_COLBACK_MESSAGE, !g_plugin.bDefaultColorMsg);
 	EnableDlgItem(hWnd, IDC_COLTEXT_MESSAGE, !g_plugin.bDefaultColorMsg);
-	EnableDlgItem(hWnd, IDC_COLBACK_URL, !g_plugin.bDefaultColorUrl);
-	EnableDlgItem(hWnd, IDC_COLTEXT_URL, !g_plugin.bDefaultColorUrl);
 	EnableDlgItem(hWnd, IDC_COLBACK_FILE, !g_plugin.bDefaultColorFile);
 	EnableDlgItem(hWnd, IDC_COLTEXT_FILE, !g_plugin.bDefaultColorFile);
 	EnableDlgItem(hWnd, IDC_COLBACK_OTHERS, !g_plugin.bDefaultColorOthers);
@@ -135,7 +125,6 @@ static void UpdateOptionsDlgItemsState(HWND hWnd)
 	EnableDlgItem(hWnd, IDC_RDOLD, g_plugin.bMergePopup && g_plugin.iNumberMsg);
 	//disable delay textbox when infinite is checked
 	EnableDlgItem(hWnd, IDC_DELAY_MESSAGE, g_plugin.iDelayMsg != -1);
-	EnableDlgItem(hWnd, IDC_DELAY_URL, g_plugin.iDelayUrl != -1);
 	EnableDlgItem(hWnd, IDC_DELAY_FILE, g_plugin.iDelayFile != -1);
 	EnableDlgItem(hWnd, IDC_DELAY_OTHERS, g_plugin.iDelayOthers != -1);
 }
@@ -149,14 +138,11 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, L
 		bWmNotify = TRUE;
 		SendDlgItemMessage(hWnd, IDC_COLBACK_MESSAGE, CPM_SETCOLOUR, 0, g_plugin.colBackMsg);
 		SendDlgItemMessage(hWnd, IDC_COLTEXT_MESSAGE, CPM_SETCOLOUR, 0, g_plugin.colTextMsg);
-		SendDlgItemMessage(hWnd, IDC_COLBACK_URL, CPM_SETCOLOUR, 0, g_plugin.colBackUrl);
-		SendDlgItemMessage(hWnd, IDC_COLTEXT_URL, CPM_SETCOLOUR, 0, g_plugin.colTextUrl);
 		SendDlgItemMessage(hWnd, IDC_COLBACK_FILE, CPM_SETCOLOUR, 0, g_plugin.colBackFile);
 		SendDlgItemMessage(hWnd, IDC_COLTEXT_FILE, CPM_SETCOLOUR, 0, g_plugin.colTextFile);
 		SendDlgItemMessage(hWnd, IDC_COLBACK_OTHERS, CPM_SETCOLOUR, 0, g_plugin.colBackOthers);
 		SendDlgItemMessage(hWnd, IDC_COLTEXT_OTHERS, CPM_SETCOLOUR, 0, g_plugin.colTextOthers);
 		SetCheckBoxState(hWnd, IDC_CHKDEFAULTCOL_MESSAGE, g_plugin.bDefaultColorMsg);
-		SetCheckBoxState(hWnd, IDC_CHKDEFAULTCOL_URL, g_plugin.bDefaultColorUrl);
 		SetCheckBoxState(hWnd, IDC_CHKDEFAULTCOL_FILE, g_plugin.bDefaultColorFile);
 		SetCheckBoxState(hWnd, IDC_CHKDEFAULTCOL_OTHERS, g_plugin.bDefaultColorOthers);
 		SetCheckBoxState(hWnd, IDC_CHKMENUITEM, g_plugin.bMenuitem);
@@ -164,7 +150,6 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, L
 		SetCheckBoxState(hWnd, IDC_CHKPREVIEW, g_plugin.bPreview);
 		SetCheckBoxState(hWnd, IDC_CHKMERGEPOPUP, g_plugin.bMergePopup);
 		SetCheckBoxState(hWnd, IDC_CHKNOTIFY_MESSAGE, g_plugin.maskNotify & MASK_MESSAGE);
-		SetCheckBoxState(hWnd, IDC_CHKNOTIFY_URL, g_plugin.maskNotify & MASK_URL);
 		SetCheckBoxState(hWnd, IDC_CHKNOTIFY_FILE, g_plugin.maskNotify & MASK_FILE);
 		SetCheckBoxState(hWnd, IDC_CHKNOTIFY_OTHER, g_plugin.maskNotify & MASK_OTHER);
 		SetCheckBoxState(hWnd, IDC_CHKACTL_DISMISS, g_plugin.maskActL & MASK_DISMISS);
@@ -187,11 +172,9 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, L
 		SetCheckBoxState(hWnd, IDC_SUPRESSRSS, g_plugin.bNoRSS);
 		SetCheckBoxState(hWnd, IDC_READCHECK, g_plugin.bReadCheck);
 		SetCheckBoxState(hWnd, IDC_CHKINFINITE_MESSAGE, g_plugin.iDelayMsg == -1);
-		SetCheckBoxState(hWnd, IDC_CHKINFINITE_URL, g_plugin.iDelayUrl == -1);
 		SetCheckBoxState(hWnd, IDC_CHKINFINITE_FILE, g_plugin.iDelayFile == -1);
 		SetCheckBoxState(hWnd, IDC_CHKINFINITE_OTHERS, g_plugin.iDelayOthers == -1);
 		SetDlgItemInt(hWnd, IDC_DELAY_MESSAGE, g_plugin.iDelayMsg != -1 ? g_plugin.iDelayMsg : 0, TRUE);
-		SetDlgItemInt(hWnd, IDC_DELAY_URL, g_plugin.iDelayUrl != -1 ? g_plugin.iDelayUrl : 0, TRUE);
 		SetDlgItemInt(hWnd, IDC_DELAY_FILE, g_plugin.iDelayFile != -1 ? g_plugin.iDelayFile : 0, TRUE);
 		SetDlgItemInt(hWnd, IDC_DELAY_OTHERS, g_plugin.iDelayOthers != -1 ? g_plugin.iDelayOthers : 0, TRUE);
 		SetDlgItemInt(hWnd, IDC_NUMBERMSG, g_plugin.iNumberMsg, FALSE);
@@ -209,7 +192,6 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, L
 			default:
 				//update options
 				g_plugin.maskNotify = (IsDlgButtonChecked(hWnd, IDC_CHKNOTIFY_MESSAGE) ? MASK_MESSAGE : 0) |
-					(IsDlgButtonChecked(hWnd, IDC_CHKNOTIFY_URL) ? MASK_URL : 0) |
 					(IsDlgButtonChecked(hWnd, IDC_CHKNOTIFY_FILE) ? MASK_FILE : 0) |
 					(IsDlgButtonChecked(hWnd, IDC_CHKNOTIFY_OTHER) ? MASK_OTHER : 0);
 				g_plugin.maskActL = (IsDlgButtonChecked(hWnd, IDC_CHKACTL_DISMISS) ? MASK_DISMISS : 0) |
@@ -222,14 +204,12 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, L
 					(IsDlgButtonChecked(hWnd, IDC_CHKACTTE_OPEN) ? MASK_OPEN : 0) |
 					(IsDlgButtonChecked(hWnd, IDC_CHKACTTE_REMOVE) ? MASK_REMOVE : 0);
 				g_plugin.bDefaultColorMsg = IsDlgButtonChecked(hWnd, IDC_CHKDEFAULTCOL_MESSAGE);
-				g_plugin.bDefaultColorUrl = IsDlgButtonChecked(hWnd, IDC_CHKDEFAULTCOL_URL);
 				g_plugin.bDefaultColorFile = IsDlgButtonChecked(hWnd, IDC_CHKDEFAULTCOL_FILE);
 				g_plugin.bDefaultColorOthers = IsDlgButtonChecked(hWnd, IDC_CHKDEFAULTCOL_OTHERS);
 				g_plugin.bMenuitem = IsDlgButtonChecked(hWnd, IDC_CHKMENUITEM);
 				g_plugin.bDisable = IsDlgButtonChecked(hWnd, IDC_CHKDISABLE);
 				g_plugin.bPreview = IsDlgButtonChecked(hWnd, IDC_CHKPREVIEW);
 				g_plugin.iDelayMsg = IsDlgButtonChecked(hWnd, IDC_CHKINFINITE_MESSAGE) ? -1 : (DWORD)GetDlgItemInt(hWnd, IDC_DELAY_MESSAGE, nullptr, FALSE);
-				g_plugin.iDelayUrl = IsDlgButtonChecked(hWnd, IDC_CHKINFINITE_URL) ? -1 : (DWORD)GetDlgItemInt(hWnd, IDC_DELAY_URL, nullptr, FALSE);
 				g_plugin.iDelayFile = IsDlgButtonChecked(hWnd, IDC_CHKINFINITE_FILE) ? -1 : (DWORD)GetDlgItemInt(hWnd, IDC_DELAY_FILE, nullptr, FALSE);
 				g_plugin.iDelayOthers = IsDlgButtonChecked(hWnd, IDC_CHKINFINITE_OTHERS) ? -1 : (DWORD)GetDlgItemInt(hWnd, IDC_DELAY_OTHERS, nullptr, FALSE);
 				g_plugin.bMergePopup = IsDlgButtonChecked(hWnd, IDC_CHKMERGEPOPUP);
@@ -249,8 +229,6 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, L
 				if (HIWORD(wParam) == CPN_COLOURCHANGED) {
 					g_plugin.colBackMsg = SendDlgItemMessage(hWnd, IDC_COLBACK_MESSAGE, CPM_GETCOLOUR, 0, 0);
 					g_plugin.colTextMsg = SendDlgItemMessage(hWnd, IDC_COLTEXT_MESSAGE, CPM_GETCOLOUR, 0, 0);
-					g_plugin.colBackUrl = SendDlgItemMessage(hWnd, IDC_COLBACK_URL, CPM_GETCOLOUR, 0, 0);
-					g_plugin.colTextUrl = SendDlgItemMessage(hWnd, IDC_COLTEXT_URL, CPM_GETCOLOUR, 0, 0);
 					g_plugin.colBackFile = SendDlgItemMessage(hWnd, IDC_COLBACK_FILE, CPM_GETCOLOUR, 0, 0);
 					g_plugin.colTextFile = SendDlgItemMessage(hWnd, IDC_COLTEXT_FILE, CPM_GETCOLOUR, 0, 0);
 					g_plugin.colBackOthers = SendDlgItemMessage(hWnd, IDC_COLBACK_OTHERS, CPM_GETCOLOUR, 0, 0);

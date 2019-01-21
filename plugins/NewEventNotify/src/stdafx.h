@@ -94,9 +94,6 @@
 #define OPT_COLDEFAULT_MESSAGE "DefaultColorMsg"
 #define OPT_COLBACK_MESSAGE "ColorBackMsg"
 #define OPT_COLTEXT_MESSAGE "ColorTextMsg"
-#define OPT_COLDEFAULT_URL "DefaultColorUrl"
-#define OPT_COLBACK_URL "ColorBackUrl"
-#define OPT_COLTEXT_URL "ColorTextUrl"
 #define OPT_COLDEFAULT_FILE "DefaultColorFile"
 #define OPT_COLBACK_FILE "ColorBackFile"
 #define OPT_COLTEXT_FILE "ColorTextFile"
@@ -111,7 +108,6 @@
 #define OPT_MSGREPLYWINDOW "ReplyWindow"
 #define OPT_MERGEPOPUP "MergePopup"
 #define OPT_DELAY_MESSAGE "DelayMessage"
-#define OPT_DELAY_URL "DelayUrl"
 #define OPT_DELAY_FILE "DelayFile"
 #define OPT_DELAY_OTHERS "DelayOthers"
 #define OPT_SHOW_DATE "ShowDate"
@@ -161,13 +157,10 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	BOOL bPreview;
 	BOOL bMenuitem;
 	BOOL bDefaultColorMsg;
-	BOOL bDefaultColorUrl;
 	BOOL bDefaultColorFile;
 	BOOL bDefaultColorOthers;
 	COLORREF colBackMsg;
 	COLORREF colTextMsg;
-	COLORREF colBackUrl;
-	COLORREF colTextUrl;
 	COLORREF colBackFile;
 	COLORREF colTextFile;
 	COLORREF colBackOthers;
@@ -179,7 +172,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	BOOL bMsgWindowCheck;
 	BOOL bMsgReplyWindow;
 	int iDelayMsg;
-	int iDelayUrl;
 	int iDelayFile;
 	int iDelayOthers;
 	int iDelayDefault;

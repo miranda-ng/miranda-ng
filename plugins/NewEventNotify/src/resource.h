@@ -8,7 +8,6 @@
 #define IDI_DISABLED                    107
 #define IDC_PREVIEW                     1000
 #define IDC_CHKNOTIFY_MESSAGE           1001
-#define IDC_CHKNOTIFY_URL               1002
 #define IDC_CHKNOTIFY_FILE              1003
 #define IDC_CHKNOTIFY_OTHER             1004
 #define IDC_CHKMENUITEM                 1005
@@ -27,9 +26,6 @@
 #define IDC_CHKDEFAULTCOL_MESSAGE       1017
 #define IDC_COLBACK_MESSAGE             1018
 #define IDC_COLTEXT_MESSAGE             1019
-#define IDC_CHKDEFAULTCOL_URL           1020
-#define IDC_COLBACK_URL                 1021
-#define IDC_COLTEXT_URL                 1022
 #define IDC_CHKDEFAULTCOL_FILE          1023
 #define IDC_COLBACK_FILE                1024
 #define IDC_COLTEXT_FILE                1025
@@ -40,7 +36,6 @@
 #define IDC_CHKINFINITE_MESSAGE         1029
 #define IDC_CHKMERGEPOPUP               1030
 #define IDC_DELAY_MESSAGE               1031
-#define IDC_DELAY_URL                   1032
 #define IDC_DELAY_FILE                  1033
 #define IDC_DELAY_OTHERS                1034
 #define IDC_NUMBERMSG                   1035
@@ -50,7 +45,6 @@
 #define IDC_RDNEW                       1039
 #define IDC_RDOLD                       1040
 #define IDC_LBNUMBERMSG                 1041
-#define IDC_CHKINFINITE_URL             1042
 #define IDC_CHKINFINITE_FILE            1043
 #define IDC_CHKINFINITE_OTHERS          1044
 #define IDC_CHKMERGEPOPUP2              1045
