@@ -83,10 +83,6 @@
 #define VAR_PREDEFINEDMESSAGE L"nas_predefinedmessage"
 #define VAR_PROTOCOL L"nas_protocol"
 
-#define SENDSMSG_EVENT_MSG 0x1
-#define SENDSMSG_EVENT_URL 0x2
-#define SENDSMSG_EVENT_FILE 0x4
-
 #define AWAY_MSGDATA_MAX 8000
 
 // Flags for status database settings
