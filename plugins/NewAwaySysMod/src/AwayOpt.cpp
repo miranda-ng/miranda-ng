@@ -534,7 +534,6 @@ INT_PTR CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 
 			SendDlgItemMessage(hwndDlg, IDC_MOREOPTDLG_EVNTMSG, BUTTONSETASTHEMEDBTN, TRUE, 0);
-			SendDlgItemMessage(hwndDlg, IDC_MOREOPTDLG_EVNTURL, BUTTONSETASTHEMEDBTN, TRUE, 0);
 			SendDlgItemMessage(hwndDlg, IDC_MOREOPTDLG_EVNTFILE, BUTTONSETASTHEMEDBTN, TRUE, 0);
 			SendMessage(hwndDlg, UM_ICONSCHANGED, 0, 0);
 
@@ -546,7 +545,6 @@ INT_PTR CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			Tooltips[] = {
 				IDC_REPLYDLG_RESETCOUNTERWHENSAMEICON, LPGENW("When this checkbox is ticked, NewAwaySys counts \"send times\" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, \"send times\" are counted from last status mode change (i.e., disabled state is more restrictive)."),
 				IDC_MOREOPTDLG_EVNTMSG, LPGENW("Message"),
-				IDC_MOREOPTDLG_EVNTURL, LPGENW("URL"),
 				IDC_MOREOPTDLG_EVNTFILE, LPGENW("File")
 			};
 			hWndTooltips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, L"", WS_POPUP | TTS_NOPREFIX, 0, 0, 0, 0, nullptr, nullptr, GetModuleHandleA("mir_app.mir"), nullptr);
@@ -575,7 +573,6 @@ INT_PTR CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 		variables_skin_helpbutton(hwndDlg, IDC_REPLYDLG_VARS);
 		SendDlgItemMessage(hwndDlg, IDC_MOREOPTDLG_EVNTMSG, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[ILI_EVENT_MESSAGE]);
-		SendDlgItemMessage(hwndDlg, IDC_MOREOPTDLG_EVNTURL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[ILI_EVENT_URL]);
 		SendDlgItemMessage(hwndDlg, IDC_MOREOPTDLG_EVNTFILE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[ILI_EVENT_FILE]);
 		break;
 	
@@ -599,7 +596,6 @@ INT_PTR CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			case IDC_REPLYDLG_ONLYIDLEREPLY:
 			case IDC_REPLYDLG_RESETCOUNTERWHENSAMEICON:
 			case IDC_REPLYDLG_EVENTMSG:
-			case IDC_REPLYDLG_EVENTURL:
 			case IDC_REPLYDLG_EVENTFILE:
 			case IDC_REPLYDLG_LOGREPLY:
 			case IDC_REPLYDLG_DISABLE_ONL:
@@ -1125,7 +1121,6 @@ void InitOptions()
 	g_AutoreplyOptPage.Items.AddElem(new COptItem_Checkbox(IDC_REPLYDLG_ENABLEREPLY, DB_ENABLEREPLY, DBVT_BYTE, AUTOREPLY_DEF_REPLY));
 	g_AutoreplyOptPage.Items.AddElem(new COptItem_Generic(IDC_REPLYDLG_STATIC_ONEVENT, IDC_REPLYDLG_ENABLEREPLY));
 	g_AutoreplyOptPage.Items.AddElem(new COptItem_Checkbox(IDC_REPLYDLG_EVENTMSG, "ReplyOnEvent", DBVT_BYTE, AUTOREPLY_DEF_REPLYONEVENT, EF_MSG, IDC_REPLYDLG_ENABLEREPLY));
-	g_AutoreplyOptPage.Items.AddElem(new COptItem_Checkbox(IDC_REPLYDLG_EVENTURL, "ReplyOnEvent", DBVT_BYTE, AUTOREPLY_DEF_REPLYONEVENT, EF_URL, IDC_REPLYDLG_ENABLEREPLY));
 	g_AutoreplyOptPage.Items.AddElem(new COptItem_Checkbox(IDC_REPLYDLG_EVENTFILE, "ReplyOnEvent", DBVT_BYTE, AUTOREPLY_DEF_REPLYONEVENT, EF_FILE, IDC_REPLYDLG_ENABLEREPLY));
 	g_AutoreplyOptPage.Items.AddElem(new COptItem_Checkbox(IDC_REPLYDLG_DONTSENDTOICQ, "DontSendToICQ", DBVT_BYTE, 0, 0, IDC_REPLYDLG_ENABLEREPLY));
 	g_AutoreplyOptPage.Items.AddElem(new COptItem_Checkbox(IDC_REPLYDLG_DONTREPLYINVISIBLE, "DontReplyInvisible", DBVT_BYTE, 1, 0, IDC_REPLYDLG_ENABLEREPLY));
