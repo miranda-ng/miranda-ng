@@ -76,7 +76,6 @@ void CConfig::LoadSettings()
 	m_abBoolSettings[NOTIFY_SKIP_SIGNOFF] = db_get_dw(0, "MirandaG15", "NotifySkipSignOff", 0) != 0;
 	m_abBoolSettings[NOTIFY_SKIP_STATUS] = db_get_dw(0, "MirandaG15", "NotifySkipStatus", 1) != 0;
 	m_abBoolSettings[NOTIFY_NO_SKIP_REPLY] = db_get_dw(0, "MirandaG15", "NotifyNoSkipReply", 1) != 0;
-	m_abBoolSettings[NOTIFY_URL] = db_get_dw(0, "MirandaG15", "NotifyURL", 1) != 0;
 	m_abBoolSettings[NOTIFY_FILE] = db_get_dw(0, "MirandaG15", "NotifyFile", 1) != 0;
 	m_abBoolSettings[NOTIFY_CONTACTS] = db_get_dw(0, "MirandaG15", "NotifyContacts", 1) != 0;
 
@@ -174,7 +173,6 @@ void CConfig::SaveSettings()
 	db_set_dw(0, "MirandaG15", "NotifySkipSignOff", m_abBoolSettings[NOTIFY_SKIP_SIGNOFF]);
 	db_set_dw(0, "MirandaG15", "NotifySkipStatus", m_abBoolSettings[NOTIFY_SKIP_STATUS]);
 	db_set_dw(0, "MirandaG15", "NotifyNoSkipReply", m_abBoolSettings[NOTIFY_NO_SKIP_REPLY]);
-	db_set_dw(0, "MirandaG15", "NotifyURL", m_abBoolSettings[NOTIFY_URL]);
 	db_set_dw(0, "MirandaG15", "NotifyFile", m_abBoolSettings[NOTIFY_FILE]);
 	db_set_dw(0, "MirandaG15", "NotifyContacts", m_abBoolSettings[NOTIFY_CONTACTS]);
 
@@ -598,7 +596,6 @@ INT_PTR CALLBACK CConfig::NotificationsDlgProc(HWND hwndDlg, UINT uMsg, WPARAM w
 			CheckDlgButton(hwndDlg, IDC_NOTIFY_MESSAGES, m_abBoolSettings[NOTIFY_MESSAGES] ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_NOTIFY_FILE, m_abBoolSettings[NOTIFY_FILE] ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_NOTIFY_CONTACTS, m_abBoolSettings[NOTIFY_CONTACTS] ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_NOTIFY_URL, m_abBoolSettings[NOTIFY_URL] ? BST_CHECKED : BST_UNCHECKED);
 
 			CheckDlgButton(hwndDlg, IDC_NOTIFY_NO_SKIP_REPLY, m_abBoolSettings[NOTIFY_NO_SKIP_REPLY] ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_NOTIFY_SKIP_SIGNON, m_abBoolSettings[NOTIFY_SKIP_SIGNON] ? BST_CHECKED : BST_UNCHECKED);
@@ -671,7 +668,6 @@ INT_PTR CALLBACK CConfig::NotificationsDlgProc(HWND hwndDlg, UINT uMsg, WPARAM w
 					m_abBoolSettings[NOTIFY_SIGNON] = IsDlgButtonChecked(hwndDlg, IDC_NOTIFY_SIGNON) == BST_CHECKED ? true : false;
 					m_abBoolSettings[NOTIFY_SIGNOFF] = IsDlgButtonChecked(hwndDlg, IDC_NOTIFY_SIGNOFF) == BST_CHECKED ? true : false;
 					m_abBoolSettings[NOTIFY_STATUS] = IsDlgButtonChecked(hwndDlg, IDC_NOTIFY_STATUS) == BST_CHECKED ? true : false;
-					m_abBoolSettings[NOTIFY_URL] = IsDlgButtonChecked(hwndDlg, IDC_NOTIFY_URL) == BST_CHECKED ? true : false;
 					m_abBoolSettings[NOTIFY_FILE] = IsDlgButtonChecked(hwndDlg, IDC_NOTIFY_FILE) == BST_CHECKED ? true : false;
 					m_abBoolSettings[NOTIFY_CONTACTS] = IsDlgButtonChecked(hwndDlg, IDC_NOTIFY_CONTACTS) == BST_CHECKED ? true : false;
 
