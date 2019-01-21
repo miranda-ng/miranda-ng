@@ -15,7 +15,6 @@
 #define IDD_XSTATUSES                   158
 #define IDC_ONMESSAGE                   1000
 #define IDC_ONFILE                      1001
-#define IDC_ONURL                       1002
 #define IDC_ONOTHER                     1003
 #define IDC_IFOPEN                      1004
 #define IDC_IFNOTTOP                    1005

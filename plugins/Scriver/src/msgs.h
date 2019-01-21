@@ -310,10 +310,8 @@ int IsAutoPopup(MCONTACT hContact);
 #define MSGFONTID_YOURCOLON       7
 #define MSGFONTID_MESSAGEAREA     8
 #define MSGFONTID_NOTICE          9
-#define MSGFONTID_MYURL          10
-#define MSGFONTID_YOURURL        11
-#define MSGFONTID_INFOBAR_NAME   12
-#define MSGFONTID_INFOBAR_STATUS 13
+#define MSGFONTID_INFOBAR_NAME   10
+#define MSGFONTID_INFOBAR_STATUS 11
 
 void LoadMsgDlgFont(int i, LOGFONT *lf, COLORREF *colour);
 extern int fontOptionsListSize;

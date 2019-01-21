@@ -18,11 +18,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-#define IDI_BLANK			200
+#define IDI_BLANK 200
 
 void LoadSettings(void);
 
-extern BYTE bFlashOnMsg, bFlashOnURL, bFlashOnFile, bFlashOnOther, bFullScreenMode, bScreenSaverRunning, bWorkstationLocked, bProcessesAreRunning,
+extern BYTE bFlashOnMsg, bFlashOnFile, bFlashOnOther, bFullScreenMode, bScreenSaverRunning, bWorkstationLocked, bProcessesAreRunning,
 bWorkstationActive, bFlashIfMsgOpen, bFlashIfMsgOlder, bFlashUntil, bMirandaOrWindows, bFlashLed[3], bFlashEffect, bSequenceOrder, bFlashSpeed,
 bEmulateKeypresses, bOverride, bFlashIfMsgWinNotTop, bTrillianLedsMsg, bTrillianLedsURL, bTrillianLedsFile, bTrillianLedsOther;
 extern WORD wSecondsOlder, wBlinksNumber, wStatusMap, wReminderCheck, wCustomTheme, wStartDelay;
@@ -597,7 +597,6 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 		createXstatusListAux();
 
 		CheckDlgButton(hwndDlg, IDC_ONMESSAGE, bFlashOnMsg ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_ONURL, bFlashOnURL ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_ONFILE, bFlashOnFile ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_ONOTHER, bFlashOnOther ? BST_CHECKED : BST_UNCHECKED);
 
@@ -671,7 +670,6 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_ONMESSAGE:
-		case IDC_ONURL:
 		case IDC_ONFILE:
 		case IDC_ONOTHER:
 		case IDC_IFOPEN:
@@ -751,7 +749,6 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				g_plugin.setByte("onmsg", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONMESSAGE) == BST_CHECKED ? 1 : 0));
-				g_plugin.setByte("onurl", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONURL) == BST_CHECKED ? 1 : 0));
 				g_plugin.setByte("onfile", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONFILE) == BST_CHECKED ? 1 : 0));
 				g_plugin.setByte("onother", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONOTHER) == BST_CHECKED ? 1 : 0));
 

@@ -32,9 +32,6 @@ void ColEvents::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup)
 	m_hSource = Opt.insertCombo(hGroup, TranslateT("Events to count"));
 
 	static const wchar_t* sourceTexts[] = {
-		LPGENW("URLs (incoming)"),
-		LPGENW("URLs (outgoing)"),
-		LPGENW("URLs (all)"),
 		LPGENW("Files (incoming)"),
 		LPGENW("Files (outgoing)"),
 		LPGENW("Files (all)"),
@@ -56,14 +53,10 @@ void ColEvents::impl_configFromUI(OptionsCtrl& Opt)
 void ColEvents::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) const
 {
 	static const wchar_t* szShortDesc[] = {
-		LPGENW("URLs"),
 		LPGENW("Files"),
 	};
 
 	static const wchar_t* szSourceDesc[] = {
-		LPGENW("Incoming URLs"),
-		LPGENW("Outgoing URLs"),
-		LPGENW("URLs"),
 		LPGENW("Incoming files"),
 		LPGENW("Outgoing files"),
 		LPGENW("Files"),

@@ -35,7 +35,7 @@ static void __cdecl TestThread(void *param);
 static void PreviewThread(void *);
 FLASHING_SEQUENCE str2FS(wchar_t *);
 BYTE KbdChar2Byte(char);
-void countUnopenEvents(int *, int *, int *, int *);
+void countUnopenEvents(int *, int *, int *);
 
 #define Leds2Flash	((BYTE)(bFlashLed[2] + (bFlashLed[0]<<1) + (bFlashLed[1]<<2)))
 
@@ -45,7 +45,7 @@ BOOL bTemporarilyUseExtern;
 extern BYTE bFlashLed[3];
 extern BYTE bFlashEffect; extern BYTE bSequenceOrder;
 extern WORD wCustomTheme;
-extern BYTE bTrillianLedsMsg; extern BYTE bTrillianLedsURL; extern BYTE bTrillianLedsFile; extern BYTE bTrillianLedsOther;
+extern BYTE bTrillianLedsMsg, bTrillianLedsFile, bTrillianLedsOther;
 extern BYTE bEmulateKeypresses;
 
 // TestThread/PreviewThread globals
@@ -165,10 +165,10 @@ FLASHING_SEQUENCE *getTrillianSeq(void)
 
 void updateTrillianSeq(void)
 {
-	int i, msgCount=0, fileCount=0, urlCount=0, otherCount=0;
+	int i, msgCount=0, fileCount=0, otherCount=0;
 
 	pFS->size = 2;
-	countUnopenEvents(&msgCount, &fileCount, &urlCount, &otherCount);
+	countUnopenEvents(&msgCount, &fileCount, &otherCount);
 
 	if ((bTrillianLedsMsg & Leds2Flash) && (pFS->size + 2 * msgCount) <= MAX_PATH)
 		for (i=0; i < msgCount; i++) {
@@ -179,12 +179,6 @@ void updateTrillianSeq(void)
 	if ((bTrillianLedsFile & Leds2Flash) && (pFS->size + 2 * fileCount) <= MAX_PATH)
 		for (i=0; i < fileCount; i++) {
 			pFS->frame[pFS->size++] = bTrillianLedsFile & Leds2Flash;
-			pFS->frame[pFS->size++] = 0;
-		}
-
-	if ((bTrillianLedsURL & Leds2Flash) && (pFS->size + 2 * urlCount) <= MAX_PATH)
-		for (i=0; i < urlCount; i++) {
-			pFS->frame[pFS->size++] = bTrillianLedsURL & Leds2Flash;
 			pFS->frame[pFS->size++] = 0;
 		}
 

@@ -65,7 +65,6 @@ void AnnounceDialog::command(HWND window, int control)
 	  case IDC_SPEAK_STATUS_MSG:
 	  case IDC_SUPPRESS_CONNECT:
 	  case IDC_EVENT_MESSAGE:
-	  case IDC_EVENT_URL:
 	  case IDC_EVENT_FILE:
 	  case IDC_EVENT_AUTHREQUEST:
 	  case IDC_EVENT_ADDED:
@@ -104,7 +103,6 @@ AnnounceDialog::load(HWND window)
 	CheckDlgButton(window, IDC_SUPPRESS_CONNECT, m_db.getStatusFlag(AnnounceDatabase::StatusFlag_SuppressConnect) ? BST_CHECKED : BST_UNCHECKED);
 
 	CheckDlgButton(window, IDC_EVENT_MESSAGE, m_db.getEventFlag(AnnounceDatabase::EventFlag_Message) ? BST_CHECKED : BST_UNCHECKED);
-	CheckDlgButton(window, IDC_EVENT_URL, m_db.getEventFlag(AnnounceDatabase::EventFlag_Url) ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(window, IDC_EVENT_FILE, m_db.getEventFlag(AnnounceDatabase::EventFlag_File) ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(window, IDC_EVENT_AUTHREQUEST, m_db.getEventFlag(AnnounceDatabase::EventFlag_AuthRequest) ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(window, IDC_EVENT_ADDED, m_db.getEventFlag(AnnounceDatabase::EventFlag_Added) ? BST_CHECKED : BST_UNCHECKED);
@@ -133,7 +131,6 @@ AnnounceDialog::save(HWND window)
 	m_db.setStatusFlag(AnnounceDatabase::StatusFlag_SuppressConnect,		(IsDlgButtonChecked(window, IDC_SUPPRESS_CONNECT) != 0));
 
 	m_db.setEventFlag(AnnounceDatabase::EventFlag_Message,		(IsDlgButtonChecked(window, IDC_EVENT_MESSAGE) != 0));
-	m_db.setEventFlag(AnnounceDatabase::EventFlag_Url,		(IsDlgButtonChecked(window, IDC_EVENT_URL) != 0));
 	m_db.setEventFlag(AnnounceDatabase::EventFlag_File,		(IsDlgButtonChecked(window, IDC_EVENT_FILE) != 0));
 	m_db.setEventFlag(AnnounceDatabase::EventFlag_AuthRequest,		(IsDlgButtonChecked(window, IDC_EVENT_AUTHREQUEST) != 0));
 	m_db.setEventFlag(AnnounceDatabase::EventFlag_Added,		(IsDlgButtonChecked(window, IDC_EVENT_ADDED) != 0));

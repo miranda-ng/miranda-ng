@@ -380,51 +380,6 @@ int isSameDate(time_t time1, time_t time2)
 	return 0;
 }
 
-static int DetectURL(wchar_t *text, BOOL firstChar)
-{
-	wchar_t c;
-	struct prefix_s
-	{
-		wchar_t *text;
-		int length;
-	} prefixes[12] = {
-		{ L"http:", 5 },
-		{ L"file:", 5 },
-		{ L"mailto:", 7 },
-		{ L"ftp:", 4 },
-		{ L"https:", 6 },
-		{ L"gopher:", 7 },
-		{ L"nntp:", 5 },
-		{ L"prospero:", 9 },
-		{ L"telnet:", 7 },
-		{ L"news:", 5 },
-		{ L"wais:", 5 },
-		{ L"www.", 4 }
-	};
-	c = firstChar ? ' ' : text[-1];
-	if (!((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))) {
-		int found = 0;
-		int i, len = 0;
-		int prefixlen = _countof(prefixes);
-		for (i = 0; i < prefixlen; i++) {
-			if (!wcsncmp(text, prefixes[i].text, prefixes[i].length)) {
-				len = prefixes[i].length;
-				found = 1;
-				break;
-			}
-		}
-		if (found) {
-			for (; text[len] != '\n' && text[len] != '\r' && text[len] != '\t' && text[len] != ' ' && text[len] != '\0'; len++);
-			for (; len > 0; len--)
-				if ((text[len - 1] >= '0' && text[len - 1] <= '9') || iswalpha(text[len - 1]))
-					break;
-
-			return len;
-		}
-	}
-	return 0;
-}
-
 static void AppendWithCustomLinks(EventData *evt, int style, CMStringA &buf)
 {
 	if (evt->pszText == nullptr)
@@ -432,7 +387,6 @@ static void AppendWithCustomLinks(EventData *evt, int style, CMStringA &buf)
 
 	BOOL isAnsii = (evt->dwFlags & IEEDF_UNICODE_TEXT) == 0;
 	WCHAR *wText;
-	int lasttoken = 0;
 	size_t len, laststart = 0;
 	if (isAnsii) {
 		len = mir_strlen(evt->pszText);
@@ -442,34 +396,12 @@ static void AppendWithCustomLinks(EventData *evt, int style, CMStringA &buf)
 		wText = evt->pszTextW;
 		len = (int)mir_wstrlen(evt->pszTextW);
 	}
-	for (size_t j = 0; j < len; j++) {
-		int newtoken = 0;
-		int l = DetectURL(wText + j, j == 0);
-		if (l > 0)
-			newtoken = 1;
 
-		if (j == 0)
-			lasttoken = newtoken;
-
-		if (newtoken != lasttoken) {
-			if (lasttoken == 0)
-				buf.AppendFormat("%s ", SetToStyle(style));
-			else
-				buf.AppendFormat("%s ", SetToStyle(evt->dwFlags & IEEDF_SENT ? MSGFONTID_MYURL : MSGFONTID_YOURURL));
-
-			AppendUnicodeOrAnsiiToBufferL(buf, wText + laststart, j - laststart, isAnsii);
-			laststart = j;
-			lasttoken = newtoken;
-		}
-	}
 	if (len - laststart > 0) {
-		if (lasttoken == 0)
-			buf.AppendFormat("%s ", SetToStyle(style));
-		else
-			buf.AppendFormat("%s ", SetToStyle(evt->dwFlags & IEEDF_SENT ? MSGFONTID_MYURL : MSGFONTID_YOURURL));
-
+		buf.AppendFormat("%s ", SetToStyle(style));
 		AppendUnicodeOrAnsiiToBufferL(buf, wText + laststart, len - laststart, isAnsii);
 	}
+
 	if (isAnsii)
 		mir_free(wText);
 }

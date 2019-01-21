@@ -36,7 +36,6 @@
 #define IDC_STATUS_INVISIBLE            1107
 #define IDC_SPEAK_STATUS_MSG            1108
 #define IDC_EVENT_MESSAGE               1109
-#define IDC_EVENT_URL                   1110
 #define IDC_EVENT_FILE                  1111
 #define IDC_EVENT_AUTHREQUEST           1112
 #define IDC_EVENT_ADDED                 1113

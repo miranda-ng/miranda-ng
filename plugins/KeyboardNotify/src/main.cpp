@@ -45,7 +45,6 @@ DWORD dwLastInput = 0;
 POINT lastGlobalMousePos = { 0, 0 };
 
 BYTE bFlashOnMsg;
-BYTE bFlashOnURL;
 BYTE bFlashOnFile;
 BYTE bFlashOnOther;
 BYTE bFullScreenMode;
@@ -663,7 +662,6 @@ int UnhookWindowsHooks()
 void LoadSettings(void)
 {
 	bFlashOnMsg = g_plugin.getByte("onmsg", DEF_SETTING_ONMSG);
-	bFlashOnURL = g_plugin.getByte("onurl", DEF_SETTING_ONURL);
 	bFlashOnFile = g_plugin.getByte("onfile", DEF_SETTING_ONFILE);
 	bFlashOnOther = g_plugin.getByte("onother", DEF_SETTING_OTHER);
 	bFullScreenMode = g_plugin.getByte("fscreenmode", DEF_SETTING_FSCREEN);
@@ -845,7 +843,7 @@ BOOL CheckMsgWnd(MCONTACT hContact, BOOL *focus)
 }
 
 
-void countUnopenEvents(int *msgCount, int *fileCount, int *urlCount, int *otherCount)
+void countUnopenEvents(int *msgCount, int *fileCount, int *otherCount)
 {
 	int nIndex;
 	CLISTEVENT *pCLEvent;

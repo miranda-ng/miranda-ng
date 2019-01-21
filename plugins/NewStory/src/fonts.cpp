@@ -8,9 +8,6 @@ MyColourID colors[] =
 	{ "Incoming Files",        "ColorFileIn",  RGB(0xff, 0xff, 0xff) },
 	{ "Outgoing Files",        "ColorFileOut", RGB(0xff, 0xff, 0xff) },
 
-	{ "Incoming URLs",         "ColorURLIn",   RGB(0xff, 0xff, 0xff) },
-	{ "Outgoing URLs",         "ColorURLOut",  RGB(0xff, 0xff, 0xff) },
-
 	{ "Status changes",        "ColorStatus",  RGB(0xff, 0xff, 0xff) },
 
 	{ "Other Outgoing Events", "ColorOut",     RGB(0xff, 0xff, 0xff) },
@@ -27,9 +24,6 @@ MyFontID fonts[] =
 
 	{ "Incoming Files",        "FontFileIn"  },
 	{ "Outgoing Files",        "FontFileOut" },
-
-	{ "Incoming URLs",         "FontURLIn"   },
-	{ "Outgoing URLs",         "FontURLOut"  },
 
 	{ "Status changes",        "FontStatus"  },
 
