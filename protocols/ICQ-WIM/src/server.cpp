@@ -60,9 +60,16 @@ MCONTACT CIcqProto::CheckOwnMessage(const CMStringA &reqId, const CMStringA &msg
 	for (auto &own: m_arOwnIds) {
 		if (!mir_strcmp(reqId, own->m_guid)) {
 			ProtoBroadcastAck(own->m_hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)own->m_msgid, (LPARAM)msgId.c_str());
+
 			MCONTACT ret = own->m_hContact;
-			if (bRemove)
+			if (bRemove) {
+				// here we filter service messages for SecureIM, OTR etc, i.e. messages that 
+				// weren't initialized by SRMM (we identify it by missing server id)
+				if (db_event_getById(m_szModuleName, msgId) == 0)
+					db_event_setId(m_szModuleName, 1, msgId);
+
 				m_arOwnIds.remove(m_arOwnIds.indexOf(&own));
+			}
 			return ret;
 		}
 	}
