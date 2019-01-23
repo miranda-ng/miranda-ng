@@ -153,6 +153,9 @@ void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 				return;
 			}
 
+			char buf[40];
+			_itoa_s(m_iRClientId, buf, 10);
+			pReq->ReplaceJsonParam("clientId", buf);
 			pReq->ReplaceJsonParam("authToken", m_szRToken);
 			pReq->dataLength = pReq->m_szParam.GetLength();
 			pReq->pData = mir_strdup(pReq->m_szParam);
