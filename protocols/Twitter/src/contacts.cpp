@@ -161,12 +161,8 @@ void TwitterProto::GetAwayMsgWorker(void *arg)
 	if (hContact == 0)
 		return;
 
-	DBVARIANT dbv;
-	if (!db_get_ws(hContact, "CList", "StatusMsg", &dbv)) {
-		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.pwszVal);
-		db_free(&dbv);
-	}
-	else ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_FAILED, (HANDLE)1, 0);
+	ptrW wszMsg(db_get_wsa(hContact, "CList", "StatusMsg"));
+	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, wszMsg);
 }
 
 HANDLE TwitterProto::GetAwayMsg(MCONTACT hContact)

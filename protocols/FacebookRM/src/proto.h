@@ -121,7 +121,6 @@ public:
 				 
 	int      SetStatus(int iNewStatus) override;
 				 
-	HANDLE   GetAwayMsg(MCONTACT hContact) override;
 	int      SetAwayMsg(int iStatus, const wchar_t* msg) override;
 				 
 	int      UserIsTyping(MCONTACT hContact, int type) override;

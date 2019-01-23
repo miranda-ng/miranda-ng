@@ -635,7 +635,7 @@ void __cdecl CMsnProto::MsnGetAwayMsgThread(void* arg)
 
 HANDLE CMsnProto::GetAwayMsg(MCONTACT hContact)
 {
-	AwayMsgInfo* inf = (AwayMsgInfo*)mir_alloc(sizeof(AwayMsgInfo));
+	AwayMsgInfo *inf = (AwayMsgInfo*)mir_alloc(sizeof(AwayMsgInfo));
 	inf->hContact = hContact;
 	inf->id = MSN_GenRandom();
 

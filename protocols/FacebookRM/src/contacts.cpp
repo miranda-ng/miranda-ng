@@ -541,11 +541,6 @@ void FacebookProto::RefreshUserInfo(void *data)
 	ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, nullptr);
 }
 
-HANDLE FacebookProto::GetAwayMsg(MCONTACT)
-{
-	return nullptr; // Status messages are disabled
-}
-
 void FacebookProto::OnContactDeleted(MCONTACT hContact)
 {
 	// Remove this contact from caches

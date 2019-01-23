@@ -588,27 +588,18 @@ int GaduProto::SetStatus(int iNewStatus)
 	return 0;
 }
 
-void __cdecl GaduProto::getawaymsgthread(void *arg)
-{
-	DBVARIANT dbv;
-
-	MCONTACT hContact = (UINT_PTR)arg;
-	debugLogA("getawaymsgthread(): started");
-	gg_sleep(100, FALSE, "getawaymsgthread", 106, 1);
-	if (!db_get_s(hContact, "CList", GG_KEY_STATUSDESCR, &dbv, DBVT_WCHAR)) {
-		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.pwszVal);
-		debugLogW(L"getawaymsgthread(): Reading away msg <%s>.", dbv.pwszVal);
-		db_free(&dbv);
-	}
-	else {
-		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);
-	}
-	debugLogA("getawaymsgthread(): end");
-}
-
 //////////////////////////////////////////////////////////
 // when away message is requested
-//
+
+void __cdecl GaduProto::getawaymsgthread(void *arg)
+{
+	MCONTACT hContact = (UINT_PTR)arg;
+	gg_sleep(100, FALSE, "getawaymsgthread", 106, 1);
+
+	ptrW wszMsg(db_get_wsa(hContact, "CList", "StatusMsg"));
+	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, wszMsg);
+}
+
 HANDLE GaduProto::GetAwayMsg(MCONTACT hContact)
 {
 #ifdef DEBUGMODE
