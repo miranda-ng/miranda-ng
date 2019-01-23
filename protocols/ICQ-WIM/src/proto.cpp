@@ -364,7 +364,10 @@ int CIcqProto::SendMsg(MCONTACT hContact, int, const char *pszSrc)
 
 	auto *pOwn = new IcqOwnMessage(hContact, id, pReq->m_reqId);
 	pReq->pUserInfo = pOwn;
-	m_arOwnIds.insert(pOwn);
+	{
+		mir_cslock lck(m_csOwnIds);
+		m_arOwnIds.insert(pOwn);
+	}
 
 	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("f", "json") << CHAR_PARAM("k", ICQ_APP_ID)
 		<< CHAR_PARAM("mentions", "") << CHAR_PARAM("message", pszSrc) << CHAR_PARAM("offlineIM", "true") << CHAR_PARAM("r", pReq->m_reqId)

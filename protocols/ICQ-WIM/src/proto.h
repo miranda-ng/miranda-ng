@@ -141,6 +141,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	int       m_iRClientId;
 	HGENMENU  m_hUploadGroups;
 
+	mir_cs    m_csOwnIds;
 	OBJLIST<IcqOwnMessage> m_arOwnIds;
 
 	////////////////////////////////////////////////////////////////////////////////////////

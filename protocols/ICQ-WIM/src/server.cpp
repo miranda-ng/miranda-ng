@@ -68,6 +68,7 @@ MCONTACT CIcqProto::CheckOwnMessage(const CMStringA &reqId, const CMStringA &msg
 				if (db_event_getById(m_szModuleName, msgId) == 0)
 					db_event_setId(m_szModuleName, 1, msgId);
 
+				mir_cslock lck(m_csOwnIds);
 				m_arOwnIds.remove(m_arOwnIds.indexOf(&own));
 			}
 			return ret;
@@ -627,6 +628,8 @@ void CIcqProto::OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 	JsonReply root(pReply);
 	if (root.error() != 200) {
 		ProtoBroadcastAck(ownMsg->m_hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)ownMsg->m_msgid, 0);
+
+		mir_cslock lck(m_csOwnIds);
 		for (auto &it : m_arOwnIds) {
 			if (it == ownMsg) {
 				m_arOwnIds.remove(m_arOwnIds.indexOf(&it));
