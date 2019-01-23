@@ -214,9 +214,7 @@ int CIcqProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.szTitle.w = m_tszUserName;
 	odp.flags = ODPF_UNICODE;
 	odp.szGroup.w = LPGENW("Network");
-
 	odp.position = 1;
-//	odp.szTab.w = LPGENW("Account");
 	odp.pDialog = new CIcqOptionsDlg(this, IDD_OPTIONS_FULL, true);
 	g_plugin.addOptions(wParam, &odp);
 	return 0;

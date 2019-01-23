@@ -186,7 +186,7 @@ class CAccountManagerDlg : public CDlgBase
 	{
 		int curSel = m_accList.GetCurSel();
 		if (curSel != LB_ERR) {
-			PROTOACCOUNT *pa = (PROTOACCOUNT *)m_accList.GetItemData(curSel);
+			PROTOACCOUNT *pa = (PROTOACCOUNT*)m_accList.GetItemData(curSel);
 			if (pa) {
 				m_btnEdit.Enable(!pa->bOldProto && !pa->bDynDisabled);
 				m_btnRemove.Enable(true);
@@ -194,7 +194,7 @@ class CAccountManagerDlg : public CDlgBase
 				m_btnOptions.Enable(pa->ppro != nullptr);
 
 				if (m_iSelected >= 0) {
-					PROTOACCOUNT *pa_old = (PROTOACCOUNT *)m_accList.GetItemData(m_iSelected);
+					PROTOACCOUNT *pa_old = (PROTOACCOUNT*)m_accList.GetItemData(m_iSelected);
 					if (pa_old && pa_old != pa && pa_old->hwndAccMgrUI)
 						ShowWindow(pa_old->hwndAccMgrUI, SW_HIDE);
 				}
@@ -489,8 +489,10 @@ public:
 
 	void OnAdd(CCtrlButton*)
 	{
-		if (IDOK == CAccountFormDlg(this, PRAC_ADDED, nullptr).DoModal())
+		if (IDOK == CAccountFormDlg(this, PRAC_ADDED, nullptr).DoModal()) {
+			m_iPrevSel = -1;
 			Refresh();
+		}
 	}
 
 	void OnEdit(CCtrlButton*)
