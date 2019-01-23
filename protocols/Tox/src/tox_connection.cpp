@@ -61,6 +61,8 @@ void CToxProto::CheckConnection()
 void CToxProto::OnToxCheck(void *arg, BYTE)
 {
 	CToxProto *proto = (CToxProto*)arg;
+	if (proto->m_tox == nullptr)
+		return;
 
 	// int retriesCount = proto->getByte("MaxReconnectRetries", TOX_MAX_RECONNECT_RETRIES);
 	if (proto->m_iStatus < ID_STATUS_ONLINE)
