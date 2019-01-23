@@ -148,7 +148,7 @@ void CIcqProto::OnLoginViaPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pRe
 	setString(DB_KEY_SESSIONKEY, m_szSessionKey);
 
 	m_dwUin = _wtoi(data["loginId"].as_mstring());
-	setByte("PhoneReg", 1);
+	setByte(DB_KEY_PHONEREG, 1);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -186,7 +186,7 @@ public:
 		if (wszOldPass != ptrW(edtPassword.GetText())) {
 			m_proto->delSetting(DB_KEY_ATOKEN);
 			m_proto->delSetting(DB_KEY_SESSIONKEY);
-			m_proto->delSetting("PhoneReg");
+			m_proto->delSetting(DB_KEY_PHONEREG);
 		}
 		return true;
 	}
@@ -195,11 +195,8 @@ public:
 	{
 		CIcqRegistrationDlg dlg(m_proto);
 		dlg.SetParent(m_hwnd);
-		if (dlg.DoModal()) {
-			edtUin.SetInt(m_proto->getDword(DB_KEY_UIN));
-			edtPassword.SetText(L"");
-			wszOldPass.Empty();
-		}
+		if (dlg.DoModal()) // force exit to avoid data corruption
+			PostMessage(m_hwndParent, WM_COMMAND, MAKELONG(IDCANCEL, BN_CLICKED), 0);
 	}
 };
 

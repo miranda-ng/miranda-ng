@@ -408,7 +408,7 @@ int CIcqProto::SetStatus(int iNewStatus)
 			return 0;
 		}
 
-		if (!getByte("PhoneReg") && mir_wstrlen(m_szPassword) == 0) {
+		if (!getByte(DB_KEY_PHONEREG) && mir_wstrlen(m_szPassword) == 0) {
 			debugLogA("Thread ended, password is not configured");
 			ConnectionFailed(LOGINERR_BADUSERID);
 			return 0;
