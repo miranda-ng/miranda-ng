@@ -496,6 +496,73 @@ void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 	StartSession();
 }
 
+void CIcqProto::OnFileContinue(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld)
+{
+	IcqFileTransfer *pTransfer = (IcqFileTransfer*)pOld->pUserInfo;
+
+	if (pReply->resultCode != 200) {
+		ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, pTransfer);
+		delete pTransfer;
+		return;
+	}
+
+	// file transfer succeeded?
+	if (pTransfer->pfts.currentFileProgress == pTransfer->pfts.currentFileSize) {
+		FileReply root(pReply);
+		if (root.error() == 200) {
+			ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, pTransfer);
+
+			const JSONNode &data = root.data();
+			CMStringW wszUrl(data["static_url"].as_mstring());
+			SendMsg(pTransfer->pfts.hContact, 0, _T2A(wszUrl));
+		}
+		else ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, pTransfer);
+		delete pTransfer;
+		return;
+	}
+
+	// else send the next portion
+	auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_POST, pTransfer->m_szHost, &CIcqProto::OnFileContinue);
+	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("client", "icq") << CHAR_PARAM("k", ICQ_APP_ID) << INT_PARAM("ts", time(0));
+	CalcHash(pReq);
+	pTransfer->FillHeaders(pReq);
+	Push(pReq);
+
+	pTransfer->pfts.currentFileTime = time(0);
+	ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, pTransfer, (LPARAM)&pTransfer->pfts);
+}
+
+void CIcqProto::OnFileInit(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld)
+{
+	IcqFileTransfer *pTransfer = (IcqFileTransfer*)pOld->pUserInfo;
+	
+	FileReply root(pReply);
+	if (root.error() != 200) {
+		ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, pTransfer);
+		delete pTransfer;
+		return;
+	}
+
+	ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, pTransfer);
+
+	const JSONNode &data = root.data();
+	CMStringW wszHost(data["host"].as_mstring());
+	CMStringW wszUrl(data["url"].as_mstring());
+	pTransfer->m_szHost = L"https://" + wszHost + wszUrl;
+
+	auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_POST, pTransfer->m_szHost, &CIcqProto::OnFileContinue);
+	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("client", "icq") << CHAR_PARAM("k", ICQ_APP_ID) << INT_PARAM("ts", time(0));
+	CalcHash(pReq);
+	pReq->m_szUrl.AppendChar('?');
+	pReq->m_szUrl += pReq->m_szParam; pReq->m_szParam.Empty();
+	pReq->pUserInfo = pTransfer;
+	pTransfer->FillHeaders(pReq);
+	Push(pReq);
+
+	pTransfer->pfts.currentFileTime = time(0);
+	ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, pTransfer, (LPARAM)&pTransfer->pfts);
+}
+
 void CIcqProto::OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
 	RobustReply root(pReply);

@@ -60,7 +60,10 @@ MCONTACT CIcqProto::CreateContact(DWORD dwUin, bool bTemporary)
 
 void CIcqProto::CalcHash(AsyncHttpRequest *pReq)
 {
-	CMStringA hashData(FORMAT, "POST&%s&%s", ptrA(mir_urlEncode(pReq->m_szUrl)), ptrA(mir_urlEncode(pReq->m_szParam)));
+	CMStringA hashData(FORMAT, "%s&%s&%s", 
+		pReq->requestType == REQUEST_POST ? "POST" : "GET",
+		ptrA(mir_urlEncode(pReq->m_szUrl)), ptrA(mir_urlEncode(pReq->m_szParam)));
+
 	unsigned int len;
 	BYTE hashOut[MIR_SHA256_HASH_SIZE];
 	HMAC(EVP_sha256(), m_szSessionKey, m_szSessionKey.GetLength(), (BYTE*)hashData.c_str(), hashData.GetLength(), hashOut, &len);

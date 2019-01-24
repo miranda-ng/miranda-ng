@@ -73,6 +73,49 @@ struct IcqConn
 	int lastTs, timeout;
 };
 
+struct IcqFileTransfer : public MZeroedObject
+{
+	IcqFileTransfer(MCONTACT hContact, const wchar_t *pwszFileName) :
+		m_wszFileName(pwszFileName)
+	{
+		pfts.flags = PFTS_UNICODE | PFTS_SENDING;
+		pfts.hContact = hContact;
+		pfts.szCurrentFile.w = m_wszFileName.GetBuffer();
+	}
+
+	~IcqFileTransfer()
+	{
+		if (m_fileId >= 0)
+			_close(m_fileId);
+	}
+
+	int m_fileId = -1;
+	CMStringW m_wszFileName;
+	CMStringA m_szHost;
+	PROTOFILETRANSFERSTATUS pfts;
+
+	void FillHeaders(AsyncHttpRequest *pReq)
+	{
+		pReq->AddHeader("Content-Type", "application/octet-stream");
+		pReq->AddHeader("Content-Disposition", CMStringA(FORMAT, "attachment; filename=\"%s\"", T2Utf(m_wszFileName)));
+
+		DWORD dwPortion = pfts.currentFileSize - pfts.currentFileProgress;
+		if (dwPortion > 1000000)
+			dwPortion = 1000000;
+
+		pReq->AddHeader("Content-Range", CMStringA(FORMAT, "bytes %d-%d/%d", pfts.currentFileProgress, pfts.currentFileProgress + dwPortion - 1, pfts.currentFileSize));
+		pReq->AddHeader("Content-Length", CMStringA(FORMAT, "%d", dwPortion));
+
+		pReq->dataLength = dwPortion;
+		pReq->pData = (char*)mir_alloc(dwPortion);
+		_lseek(m_fileId, pfts.currentFileProgress, SEEK_SET);
+		_read(m_fileId, pReq->pData, dwPortion);
+
+		pfts.currentFileProgress += dwPortion;
+		pfts.totalProgress += dwPortion;
+	}
+};
+
 class CIcqProto : public PROTO<CIcqProto>
 {
 	friend struct CIcqRegistrationDlg;
@@ -113,6 +156,8 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      OnGetChatInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void      OnGetUserHistory(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void      OnGetUserInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void      OnFileContinue(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void      OnFileInit(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void      OnLoginViaPhone(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void      OnNormalizePhone(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void      OnReceiveAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);

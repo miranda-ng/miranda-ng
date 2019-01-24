@@ -36,6 +36,20 @@ public:
 	__forceinline int detail() const { return m_detailCode; }
 };
 
+class FileReply
+{
+	JSONNode *m_root = nullptr;
+	int m_errorCode = 0;
+	JSONNode* m_data = nullptr;
+
+public:
+	FileReply(NETLIBHTTPREQUEST*);
+	~FileReply();
+
+	__forceinline JSONNode& data() const { return *m_data; }
+	__forceinline int error() const { return m_errorCode; }
+};
+
 class RobustReply
 {
 	JSONNode *m_root = nullptr;

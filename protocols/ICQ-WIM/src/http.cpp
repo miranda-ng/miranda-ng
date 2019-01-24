@@ -265,6 +265,34 @@ JsonReply::~JsonReply()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+FileReply::FileReply(NETLIBHTTPREQUEST *pReply)
+{
+	if (pReply == nullptr) {
+		m_errorCode = 500;
+		return;
+	}
+
+	m_errorCode = pReply->resultCode;
+	if (m_errorCode != 200)
+		return;
+
+	m_root = json_parse(pReply->pData);
+	if (m_root == nullptr) {
+		m_errorCode = 500;
+		return;
+	}
+
+	m_errorCode = (*m_root)["status"].as_int();
+	m_data = &(*m_root)["data"];
+}
+
+FileReply::~FileReply()
+{
+	json_delete(m_root);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 RobustReply::RobustReply(NETLIBHTTPREQUEST *pReply)
 {
 	if (pReply == nullptr) {

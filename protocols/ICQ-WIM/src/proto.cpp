@@ -345,9 +345,41 @@ HANDLE CIcqProto::SearchBasic(const wchar_t *pszSearch)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendFile - sends a file
 
-HANDLE CIcqProto::SendFile(MCONTACT, const wchar_t*, wchar_t**)
+HANDLE CIcqProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t **ppszFiles)
 {
-	return nullptr; // Failure
+	// we can't send more than one file at a time
+	if (ppszFiles[1] != 0)
+		return nullptr;
+
+	struct _stat statbuf;
+	if (_wstat(ppszFiles[0], &statbuf)) {
+		debugLogW(L"'%s' is an invalid filename", ppszFiles[0]);
+		return nullptr;
+	}
+
+	int iFileId = _wopen(ppszFiles[0], _O_RDONLY | _O_BINARY, _S_IREAD);
+	if (iFileId < 0)
+		return nullptr;
+
+	auto *pTransfer = new IcqFileTransfer(hContact, ppszFiles[0]);
+	pTransfer->pfts.totalFiles = 1;
+	pTransfer->pfts.currentFileSize = pTransfer->pfts.totalBytes = statbuf.st_size;
+	pTransfer->m_fileId = iFileId;
+
+	wchar_t *pwszFileName = wcsrchr(ppszFiles[0], '\\');
+	if (pwszFileName != nullptr)
+		pwszFileName++;
+	else
+		pwszFileName = ppszFiles[0];
+
+	auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, "https://files.icq.com/files/init", &CIcqProto::OnFileInit);
+	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("client", "icq") << CHAR_PARAM("f", "json") << WCHAR_PARAM("fileName", pwszFileName) 
+		<< CHAR_PARAM("k", ICQ_APP_ID) << INT_PARAM("size", statbuf.st_size) << INT_PARAM("ts", time(0));
+	CalcHash(pReq);
+	pReq->pUserInfo = pTransfer;
+	Push(pReq);
+
+	return pTransfer; // Failure
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
