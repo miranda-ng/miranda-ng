@@ -847,7 +847,6 @@ HANDLE CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, w
 	if (jid == nullptr)
 		return nullptr;
 
-	struct _stati64 statbuf;
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid);
 	if (item == nullptr)
 		return nullptr;
@@ -893,6 +892,7 @@ HANDLE CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, w
 
 	int i, j;
 	for (i = j = 0; i < ft->std.totalFiles; i++) {
+		struct _stati64 statbuf;
 		if (_wstat64(ppszFiles[i], &statbuf))
 			debugLogW(L"'%s' is an invalid filename", ppszFiles[i]);
 		else {
