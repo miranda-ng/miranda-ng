@@ -344,12 +344,11 @@ void CToxProto::OnConnectionStatusChanged(Tox *tox, uint32_t friendNumber, TOX_C
 	}
 }
 
-int CToxProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
+int CToxProto::OnUserInfoInit(WPARAM wParam, LPARAM hContact)
 {
 	if (!Proto_IsProtocolLoaded(m_szModuleName))
 		return 0;
 
-	MCONTACT hContact = lParam;
 	char *szProto = GetContactProto(hContact);
 	if (szProto != nullptr && !mir_strcmp(szProto, m_szModuleName)) {
 		OPTIONSDIALOGPAGE odp = { sizeof(odp) };

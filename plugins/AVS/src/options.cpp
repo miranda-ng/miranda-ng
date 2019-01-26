@@ -1094,12 +1094,11 @@ static INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wP
 	return FALSE;
 }
 
-int OnDetailsInit(WPARAM wParam, LPARAM lParam)
+int OnDetailsInit(WPARAM wParam, LPARAM hContact)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.szTitle.a = LPGEN("Avatar");
 
-	MCONTACT hContact = lParam;
 	if (hContact == NULL) {
 		// User dialog
 		odp.pfnDlgProc = DlgProcAvatarProtoInfo;

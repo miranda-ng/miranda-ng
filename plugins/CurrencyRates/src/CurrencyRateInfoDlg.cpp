@@ -96,9 +96,8 @@ INT_PTR CALLBACK CurrencyRateInfoDlgProc(HWND hdlg, UINT msg, WPARAM wParam, LPA
 	return CurrencyRateInfoDlgProcImpl(g_hContact, hdlg, msg, wParam, lParam);
 }
 
-int CurrencyRatesEventFunc_OnUserInfoInit(WPARAM wp, LPARAM lp)
+int CurrencyRatesEventFunc_OnUserInfoInit(WPARAM wp, LPARAM hContact)
 {
-	MCONTACT hContact = MCONTACT(lp);
 	if (NULL == hContact)
 		return 0;
 

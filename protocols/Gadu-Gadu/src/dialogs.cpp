@@ -725,9 +725,8 @@ int GaduProto::options_init(WPARAM wParam, LPARAM)
 ////////////////////////////////////////////////////////////////////////////////
 // Info Page : Init
 //
-int GaduProto::details_init(WPARAM wParam, LPARAM lParam)
+int GaduProto::details_init(WPARAM wParam, LPARAM hContact)
 {
-	MCONTACT hContact = lParam;
 	char* pszTemplate;
 
 	if (hContact == NULL) {

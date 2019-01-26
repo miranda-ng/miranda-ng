@@ -309,26 +309,23 @@ static INT_PTR CALLBACK DlgProcUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 //
 // initialize user info
 // lParam = current contact
-int UserInfoInit(WPARAM wParam, LPARAM lParam)
+int UserInfoInit(WPARAM wParam, LPARAM hContact)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 100000000;
 	odp.szTitle.a = MODULENAME;
 
-	if (lParam == 0) {
+	if (hContact == 0) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO);
 		odp.pfnDlgProc = DlgProcINIPage;
 		g_plugin.addUserInfo(wParam, &odp);
 	}
-	else {
-		// check if it is a weather contact
-		if (IsMyContact(lParam)) {
-			// register the contact info page
-			odp.pszTemplate = MAKEINTRESOURCEA(IDD_USERINFO);
-			odp.pfnDlgProc = DlgProcUIPage;
-			odp.flags = ODPF_BOLDGROUPS;
-			g_plugin.addUserInfo(wParam, &odp);
-		}
+	else if (IsMyContact(hContact)) { // check if it is a weather contact
+		// register the contact info page
+		odp.pszTemplate = MAKEINTRESOURCEA(IDD_USERINFO);
+		odp.pfnDlgProc = DlgProcUIPage;
+		odp.flags = ODPF_BOLDGROUPS;
+		g_plugin.addUserInfo(wParam, &odp);
 	}
 	return 0;
 }

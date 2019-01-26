@@ -807,15 +807,14 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnInfoInit - initializes user info option dialogs
 
-int CJabberProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
+int CJabberProto::OnUserInfoInit(WPARAM wParam, LPARAM hContact)
 {
 	if (!Proto_GetAccount(m_szModuleName))
 		return 0;
 
-	MCONTACT hContact = lParam;
 	if (hContact == 0) {
 		// Show our vcard
-		OnUserInfoInit_VCard(wParam, lParam);
+		OnUserInfoInit_VCard(wParam, hContact);
 		return 0;
 	}
 
