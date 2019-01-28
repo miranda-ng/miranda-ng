@@ -21,71 +21,49 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 static const char szHexDigits[] = "0123456789ABCDEF";
 
-MIR_CORE_DLL(char*) mir_urlDecode(const char *szUrl)
+MIR_CORE_DLL(CMStringA) mir_urlDecode(const char *szUrl)
 {
 	if (szUrl == nullptr)
-		return nullptr;
+		return CMStringA();
 
-	char *ret = mir_strdup(szUrl);
+	CMStringA ret(szUrl);
+	ret.Replace("+", " ");
 
-	for (char *p = ret; *p; p++) {
-		switch (*p) {
-		case '%':
-			int ii;
-			sscanf(p+1, "%2x", &ii);
-			strdel(p, 2);
-			*p = ii;
-			break;
-
-		case '+':
-			*p = ' ';
-			break;
-		}
+	for (int i = ret.Find("%", 0); i != -1; i = ret.Find("%", i)) {
+		int ii;
+		sscanf(ret.c_str()+i+1, "%2x", &ii);
+		ret.Delete(i, 3);
+		ret.Insert(i, ii);
 	}
 	return ret;
 }
 
-MIR_CORE_DLL(char*) mir_urlEncode(const char *szUrl)
+MIR_CORE_DLL(CMStringA) mir_urlEncode(const char *szUrl)
 {
 	if (szUrl == nullptr)
-		return nullptr;
+		return CMStringA();
 
-	const BYTE *s;
-	int outputLen;
-	for (outputLen = 0, s = (const BYTE*)szUrl; *s; s++) {
-		if (('0' <= *s && *s <= '9')  || //0-9
-			 ('A' <= *s && *s <= 'Z')  || //ABC...XYZ
-			 ('a' <= *s && *s <= 'z')  || //abc...xyz
-			 *s == '-' || *s == '_' || *s == '.' || *s == ' ' || *s == '~')
-			outputLen++;
-		else 
-			outputLen += 3;
-	}
+	CMStringA ret;
 
-	char *szOutput = (char*)mir_alloc(outputLen+1);
-	if (szOutput == nullptr)
-		return nullptr;
-
-	char *d = szOutput;
-	for (s = (const BYTE*)szUrl; *s; s++) {
-		if (('0' <= *s && *s <= '9') || //0-9
-			('A' <= *s && *s <= 'Z') || //ABC...XYZ
-			('a' <= *s && *s <= 'z') || //abc...xyz
+	for (const BYTE *s = (const BYTE*)szUrl; *s; s++) {
+		if (('0' <= *s && *s <= '9') || // 0-9
+			('A' <= *s && *s <= 'Z') || // ABC...XYZ
+			('a' <= *s && *s <= 'z') || // abc...xyz
 			*s == '-' || *s == '_' || *s == '.' || *s == '~') 
 		{
-			*d++ = *s;
+			ret.AppendChar(*s);
 		}
 		else if (*s == ' ') {
-			*d++ = '+';
+			ret.AppendChar('+');
 		}
 		else {
-			*d++ = '%';
-			*d++ = szHexDigits[*s >> 4];
-			*d++ = szHexDigits[*s & 0xF];
+			ret.AppendChar('%');
+			ret.AppendChar(szHexDigits[*s >> 4]);
+			ret.AppendChar(szHexDigits[*s & 0xF]);
 		}
 	}
-	*d = '\0';
-	return szOutput;
+
+	return ret;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

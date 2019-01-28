@@ -30,6 +30,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	#include "m_system.h"
 #endif
 
+#ifndef M_STRING_H__
+	#include <m_string.h>
+#endif
+
 #if defined(__cplusplus)
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -423,6 +427,12 @@ struct WCHAR_PARAM : public PARAM
 		PARAM(_name), wszValue(_value)
 	{}
 };
+
+///////////////////////////////////////////////////////////////////////////////
+// http support
+
+MIR_CORE_DLL(CMStringA) mir_urlDecode(const char *szUrl);
+MIR_CORE_DLL(CMStringA) mir_urlEncode(const char *szUrl);
 
 #endif
 

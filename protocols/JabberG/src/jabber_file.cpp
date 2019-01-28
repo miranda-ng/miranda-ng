@@ -279,8 +279,8 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 			else
 				p = ft->std.pszFiles.w[i];
 
-			ptrA pFileName(mir_urlEncode(T2Utf(p)));
-			if (pFileName != nullptr) {
+			CMStringA pFileName(mir_urlEncode(T2Utf(p)));
+			if (!pFileName.IsEmpty()) {
 				ft->szId = JabberId2string(SerialNext());
 
 				ptrA myAddr;
@@ -294,7 +294,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 				}
 
 				char szAddr[256];
-				mir_snprintf(szAddr, "http://%s:%d/%s", myAddr, nlb.wPort, pFileName);
+				mir_snprintf(szAddr, "http://%s:%d/%s", myAddr, nlb.wPort, pFileName.c_str());
 
 				size_t len = mir_wstrlen(ptszResource) + mir_wstrlen(ft->jid) + 2;
 				wchar_t *fulljid = (wchar_t *)alloca(sizeof(wchar_t) * len);

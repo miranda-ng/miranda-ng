@@ -326,7 +326,7 @@ HttpRequest* facebook_client::markMessageReadRequest(const LIST<char> &ids)
 		if (id_.substr(0, 3) == "id.")
 			id_ = id_.substr(3);
 
-		CMStringA id(::FORMAT, "ids[%s]", ptrA(mir_urlEncode(id_.c_str())));
+		CMStringA id(::FORMAT, "ids[%s]", mir_urlEncode(id_.c_str()).c_str());
 		p->Body << BOOL_PARAM(id, true);
 	}
 

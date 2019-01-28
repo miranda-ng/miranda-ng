@@ -125,7 +125,7 @@ protected:
 		m_szUrl.AppendFormat("%s=", name);
 		CMStringA value;
 		value.AppendFormatV(valueFormat, valueArgs);
-		m_szUrl.Append(ptrA(mir_urlEncode(value)));
+		m_szUrl += mir_urlEncode(value);
 		va_end(valueArgs);
 	}
 

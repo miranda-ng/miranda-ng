@@ -254,10 +254,8 @@ int CMsnProto::MSN_SetMyAvatar(const wchar_t* sztFname, void* pData, size_t cbLe
 
 	//	ezxml_set_attr(xmlp, "SHA1C", szSha1c);
 
-	char* szBuffer = ezxml_toxml(xmlp, false);
+	ptrA szBuffer(ezxml_toxml(xmlp, false));
 	ezxml_free(xmlp);
-	ptrA szEncodedBuffer(mir_urlEncode(szBuffer));
-	free(szBuffer);
 
 	const wchar_t *szExt;
 	int fmt = ProtoGetBufferFormat(pData, &szExt);
@@ -279,7 +277,7 @@ int CMsnProto::MSN_SetMyAvatar(const wchar_t* sztFname, void* pData, size_t cbLe
 		if (!db_get_static(NULL, m_szModuleName, "AvatarHash", szAvatarHashdOld, sizeof(szAvatarHashdOld))) {
 			char *szAvatarHash = arrayToHex(sha1d, sizeof(sha1d));
 			if (mir_strcmp(szAvatarHashdOld, szAvatarHash)) {
-				setString("PictObject", szEncodedBuffer);
+				setString("PictObject", mir_urlEncode(szBuffer));
 				setString("AvatarHash", szAvatarHash);
 			}
 			mir_free(szAvatarHash);
@@ -405,7 +403,7 @@ int ThreadData::sendMessage(int, const char *email, int netId, const char *parMs
 							break;
 
 					if (*p == 0) {
-						strncpy_s(tFontName, sizeof(tFontName), ptrA(mir_urlEncode(dbv.pszVal)), _TRUNCATE);
+						strncpy_s(tFontName, sizeof(tFontName), mir_urlEncode(dbv.pszVal), _TRUNCATE);
 						db_free(&dbv);
 					}
 				}
@@ -710,10 +708,10 @@ void CMsnProto::MsnInvokeMyURL(bool ismail, const char* url)
 	if (p)
 		*p = 0;
 
-	CMStringA post = HotmailLogin(CMStringA().Format(postdata, (unsigned)time(0), ptrA(mir_urlEncode(url))));
+	CMStringA post = HotmailLogin(CMStringA().Format(postdata, (unsigned)time(0), mir_urlEncode(url).c_str()));
 	if (!post.IsEmpty()) {
 		CMStringA hippy(passport);
-		hippy.AppendFormat("/ppsecure/sha1auth.srf?lc=%d&token=%s", itoa(langpref, passport, 10), ptrA(mir_urlEncode(post)));
+		hippy.AppendFormat("/ppsecure/sha1auth.srf?lc=%d&token=%s", itoa(langpref, passport, 10), mir_urlEncode(post).c_str());
 
 		debugLogA("Starting URL: '%s'", hippy.c_str());
 		Utils_OpenUrl(hippy.GetString());

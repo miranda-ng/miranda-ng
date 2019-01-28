@@ -41,7 +41,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_avatars.h>
 #include <m_acc.h>
 #include <m_imgsrvc.h>
-#include <m_string.h>
 
 #include <m_folders.h>
 #include <m_metacontacts.h>

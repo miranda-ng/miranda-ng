@@ -384,17 +384,16 @@ void __cdecl GaduProto::setavatarthread(void *param)
 	ptrA avatarFileB64(mir_base64_encode(avatarFile, avatarFileLen));
 	mir_free(avatarFile);
 
-	ptrA avatarFileB64Enc(mir_urlEncode(avatarFileB64));
-	size_t avatarFileB64EncLen = mir_strlen(avatarFileB64Enc);
+	CMStringA avatarFileB64Enc(mir_urlEncode(avatarFileB64));
 
 	char dataPrefix[64];
 	mir_snprintf(dataPrefix, "uin=%d&photo=", getDword(GG_KEY_UIN, 0));
 	size_t dataPrefixLen = mir_strlen(dataPrefix);
 
-	size_t dataLen = dataPrefixLen + avatarFileB64EncLen;
+	size_t dataLen = dataPrefixLen + avatarFileB64Enc.GetLength();
 	char* data = (char*)mir_alloc(dataLen);
 	memcpy(data, dataPrefix, dataPrefixLen);
-	memcpy(data + dataPrefixLen, avatarFileB64Enc, avatarFileB64EncLen);
+	memcpy(data + dataPrefixLen, avatarFileB64Enc, avatarFileB64Enc.GetLength());
 
 	//check if we have token, if no - receive new one
 	oauth_checktoken(0);

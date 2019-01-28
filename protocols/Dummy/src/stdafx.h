@@ -48,7 +48,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_protosvc.h>
 #include <m_protoint.h>
 #include <m_skin.h>
-#include <m_string.h>
 #include <m_timezones.h>
 #include <m_toptoolbar.h>
 #include <m_userinfo.h>

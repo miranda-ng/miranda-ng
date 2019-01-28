@@ -70,7 +70,7 @@ class SendTypingRequest : public HttpRequest
 {
 public:
 	SendTypingRequest(const char *username, int iState, LoginInfo &li) :
-	  HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages", li.endpoint.szServer, ptrA(mir_urlEncode(username)))
+	  HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages", li.endpoint.szServer, mir_urlEncode(username).c_str())
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")

@@ -80,7 +80,7 @@ public:
 
 	HttpUri &operator<<(const CHAR_PARAM &param)
 	{
-		AppendFormat("%s=%s", param.szName, ptrA(mir_urlEncode(param.szValue)));
+		AppendFormat("%s=%s", param.szName, mir_urlEncode(param.szValue).c_str());
 		return *this;
 	}
 };
@@ -269,7 +269,7 @@ __forceinline FormUrlEncodedContent* operator<<(FormUrlEncodedContent *content, 
 
 __forceinline FormUrlEncodedContent* operator<<(FormUrlEncodedContent *content, const CHAR_PARAM &param)
 {
-	content->AppendFormat("%s=%s", param.szName, ptrA(mir_urlEncode(param.szValue)));
+	content->AppendFormat("%s=%s", param.szName, mir_urlEncode(param.szValue).c_str());
 	return content;
 }
 

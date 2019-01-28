@@ -48,7 +48,6 @@ Boston, MA 02111-1307, USA.
 
 #include <m_folders.h>
 #include <m_toptoolbar.h>
-#include <m_string.h>
 
 #include "Options.h"
 #include "version.h"

@@ -74,4 +74,3 @@ extern "C" {
 #include <m_chat.h>
 #include <m_genmenu.h>
 #include <m_icolib.h>
-#include <m_string.h>

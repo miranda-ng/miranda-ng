@@ -30,7 +30,6 @@ Boston, MA 02111-1307, USA.
 #include <win2k.h>
 #include <m_icolib.h>
 #include <m_popup.h>
-#include <m_string.h>
 #include <m_chat_int.h>
 
 #include <m_message.h>

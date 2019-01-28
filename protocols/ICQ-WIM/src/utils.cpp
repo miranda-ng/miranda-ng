@@ -62,7 +62,7 @@ void CIcqProto::CalcHash(AsyncHttpRequest *pReq)
 {
 	CMStringA hashData(FORMAT, "%s&%s&%s", 
 		pReq->requestType == REQUEST_POST ? "POST" : "GET",
-		ptrA(mir_urlEncode(pReq->m_szUrl)), ptrA(mir_urlEncode(pReq->m_szParam)));
+		mir_urlEncode(pReq->m_szUrl).c_str(), mir_urlEncode(pReq->m_szParam).c_str());
 
 	unsigned int len;
 	BYTE hashOut[MIR_SHA256_HASH_SIZE];
@@ -170,7 +170,7 @@ INT_PTR __cdecl CIcqProto::SetAvatar(WPARAM, LPARAM lParam)
 	_wremove(wszOldName);
 
 	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, ICQ_API_SERVER "/expressions/upload");
-	pReq->m_szUrl.AppendFormat("?f=json&aimsid=%s&r=%s&type=largeBuddyIcon", ptrA(mir_urlEncode(m_aimsid.c_str())), pReq->m_reqId);
+	pReq->m_szUrl.AppendFormat("?f=json&aimsid=%s&r=%s&type=largeBuddyIcon", mir_urlEncode(m_aimsid.c_str()).c_str(), pReq->m_reqId);
 
 	if (pwszFileName == nullptr)
 		delSetting("AvatarHash");

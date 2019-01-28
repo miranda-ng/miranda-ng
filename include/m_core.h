@@ -151,12 +151,6 @@ MIR_CORE_DLL(pfnExceptionFilter) GetExceptionFilter(void);
 MIR_CORE_DLL(pfnExceptionFilter) SetExceptionFilter(pfnExceptionFilter pMirandaExceptFilter);
 
 ///////////////////////////////////////////////////////////////////////////////
-// http support
-
-MIR_CORE_DLL(char*) mir_urlDecode(const char *szUrl);
-MIR_CORE_DLL(char*) mir_urlEncode(const char *szUrl);
-
-///////////////////////////////////////////////////////////////////////////////
 // icons support
 
 struct IconItem

@@ -78,7 +78,7 @@ MIR_APP_DLL(MHttpRequest*) operator<<(MHttpRequest *pReq, const CHAR_PARAM &para
 	CMStringA &s = pReq->m_szParam;
 	if (!s.IsEmpty())
 		s.AppendChar('&');
-	s.AppendFormat("%s=%s", param.szName, ptrA(mir_urlEncode(param.szValue)));
+	s.AppendFormat("%s=%s", param.szName, mir_urlEncode(param.szValue).c_str());
 	return pReq;
 }
 
@@ -88,6 +88,6 @@ MIR_APP_DLL(MHttpRequest*) operator<<(MHttpRequest *pReq, const WCHAR_PARAM &par
 	CMStringA &s = pReq->m_szParam;
 	if (!s.IsEmpty())
 		s.AppendChar('&');
-	s.AppendFormat("%s=%s", param.szName, ptrA(mir_urlEncode(szValue)));
+	s.AppendFormat("%s=%s", param.szName, mir_urlEncode(szValue).c_str());
 	return pReq;
 }

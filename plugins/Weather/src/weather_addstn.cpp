@@ -310,7 +310,7 @@ int NameSearchProc(wchar_t *name, const int searchId, WINAMESEARCH *sData, wchar
 	// replace spaces with %20
 	char loc[256];
 	T2Utf szSearchName(name);
-	mir_snprintf(loc, sData->SearchURL, ptrA(mir_urlEncode(szSearchName)));
+	mir_snprintf(loc, sData->SearchURL, mir_urlEncode(szSearchName).c_str());
 	if (InternetDownloadFile(loc, nullptr, nullptr, &szData) == 0) {
 		wchar_t* szInfo = szData;
 		search = wcsstr(szInfo, sData->NotFoundStr);	// determine if data is available

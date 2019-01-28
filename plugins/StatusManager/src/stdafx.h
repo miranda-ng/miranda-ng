@@ -30,7 +30,6 @@
 #include <m_toptoolbar.h>
 #include <m_statusplugins.h>
 #include <m_skin.h>
-#include <m_string.h>
 #include <m_utils.h>
 #include <m_variables.h>
 #include <win2k.h>

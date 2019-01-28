@@ -48,7 +48,7 @@ namespace OneDriveAPI
 	{
 	public:
 		UploadFileRequest(const char *token, const char *name, const char *data, size_t size, OnConflict strategy = NONE) :
-			HttpRequest(REQUEST_PUT, FORMAT, ONEDRIVE_API "/special/approot:/%s:/content", ptrA(mir_urlEncode(name)))
+			HttpRequest(REQUEST_PUT, FORMAT, ONEDRIVE_API "/special/approot:/%s:/content", mir_urlEncode(name).c_str())
 		{
 			AddUrlParameter("select=id");
 
@@ -63,7 +63,7 @@ namespace OneDriveAPI
 		}
 
 		UploadFileRequest(const char *token, const char *parentId, const char *name, const char *data, size_t size, OnConflict strategy = NONE) :
-			HttpRequest(REQUEST_PUT, FORMAT, ONEDRIVE_API "/items/%s:/%s:/content", parentId, ptrA(mir_urlEncode(name)))
+			HttpRequest(REQUEST_PUT, FORMAT, ONEDRIVE_API "/items/%s:/%s:/content", parentId, mir_urlEncode(name).c_str())
 		{
 			AddUrlParameter("select=id");
 
@@ -82,7 +82,7 @@ namespace OneDriveAPI
 	{
 	public:
 		CreateUploadSessionRequest(const char *token, const char *name, OnConflict strategy = NONE) :
-			HttpRequest(REQUEST_POST, FORMAT, ONEDRIVE_API "/special/approot:/%s:/createUploadSession", ptrA(mir_urlEncode(name)))
+			HttpRequest(REQUEST_POST, FORMAT, ONEDRIVE_API "/special/approot:/%s:/createUploadSession", mir_urlEncode(name).c_str())
 		{
 			AddBearerAuthHeader(token);
 			AddHeader("Content-Type", "application/json");
@@ -102,7 +102,7 @@ namespace OneDriveAPI
 		}
 
 		CreateUploadSessionRequest(const char *token, const char *parentId, const char *name, OnConflict strategy = NONE) :
-			HttpRequest(REQUEST_POST, FORMAT, ONEDRIVE_API "/items/%s:/%s:/createUploadSession", parentId, ptrA(mir_urlEncode(name)))
+			HttpRequest(REQUEST_POST, FORMAT, ONEDRIVE_API "/items/%s:/%s:/createUploadSession", parentId, mir_urlEncode(name).c_str())
 		{
 			AddBearerAuthHeader(token);
 			AddHeader("Content-Type", "application/json");

@@ -22,7 +22,7 @@ class SendCapabilitiesRequest : public HttpRequest
 {
 public:
 	SendCapabilitiesRequest(const char *hostname, LoginInfo &li) :
-	  HttpRequest(REQUEST_PUT, FORMAT, "%s/v1/users/ME/endpoints/%s/presenceDocs/messagingService", li.endpoint.szServer, ptrA(mir_urlEncode(li.endpoint.szId)))
+	  HttpRequest(REQUEST_PUT, FORMAT, "%s/v1/users/ME/endpoints/%s/presenceDocs/messagingService", li.endpoint.szServer, mir_urlEncode(li.endpoint.szId).c_str())
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")

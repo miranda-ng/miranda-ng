@@ -47,8 +47,8 @@ public:
 			<< CHAR_VALUE("Cookie", cookies);
 
 		Body
-			<< CHAR_VALUE("login", ptrA(mir_urlEncode(login)))
-			<< CHAR_VALUE("passwd", ptrA(mir_urlEncode(password)))
+			<< CHAR_VALUE("login", mir_urlEncode(login))
+			<< CHAR_VALUE("passwd", mir_urlEncode(password))
 			<< CHAR_VALUE("PPFT", ppft);
 	}
 
@@ -59,7 +59,7 @@ public:
 			<< CHAR_VALUE ("Content-Type", "application/x-www-form-urlencoded");
 
 		Body
-			<< CHAR_VALUE ("t", ptrA(mir_urlEncode(t)))
+			<< CHAR_VALUE ("t", mir_urlEncode(t))
 			<< CHAR_VALUE("site_name", "lw.skype.com")
 			<< INT_VALUE ("oauthPartner", 999);
 	}

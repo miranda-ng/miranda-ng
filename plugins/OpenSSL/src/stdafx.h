@@ -38,7 +38,6 @@ typedef struct SslHandle *HSSL;
 #include <newpluginapi.h>
 #include <m_netlib.h>
 #include <m_langpack.h>
-#include <m_string.h>
 #include <m_ssl.h>
 
 #include <openssl/ssl.h>

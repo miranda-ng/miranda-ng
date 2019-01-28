@@ -37,7 +37,7 @@ class DeleteEndpointRequest : public HttpRequest
 {
 public:
 	DeleteEndpointRequest(LoginInfo &li) :
-	  HttpRequest(REQUEST_DELETE, FORMAT, "%s/v1/users/ME/endpoints/%s", li.endpoint.szServer, ptrA(mir_urlEncode(li.endpoint.szId)))
+	  HttpRequest(REQUEST_DELETE, FORMAT, "%s/v1/users/ME/endpoints/%s", li.endpoint.szServer, mir_urlEncode(li.endpoint.szId).c_str())
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")

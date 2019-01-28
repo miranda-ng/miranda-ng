@@ -559,16 +559,16 @@ CMStringA CMsnProto::HotmailLogin(const char* url)
 	derive_key(key2, key1, key1len, data1, data1len);
 
 	CMStringA result;
-	result.Format("%s&da=%s&nonce=", url, ptrA(mir_urlEncode(hotAuthToken)));
+	result.Format("%s&da=%s&nonce=", url, mir_urlEncode(hotAuthToken).c_str());
 
 	ptrA noncenc(mir_base64_encode(nonce, sizeof(nonce)));
-	result.Append(ptrA(mir_urlEncode(noncenc)));
+	result.Append(mir_urlEncode(noncenc));
 
 	BYTE hash[MIR_SHA1_HASH_SIZE];
 	unsigned int len;
 	HMAC(EVP_sha1(), key2, sizeof(key2), (BYTE*)result.GetString(), result.GetLength(), hash, &len);
 	ptrA szHash(mir_base64_encode(hash, sizeof(hash)));
-	result.AppendFormat("&hash=%s", ptrA(mir_urlEncode(szHash)));
+	result.AppendFormat("&hash=%s", mir_urlEncode(szHash).c_str());
 	return result;
 }
 
@@ -690,7 +690,7 @@ bool CMsnProto::RefreshOAuth(const char *pszRefreshToken, const char *pszService
 	nlhr.headers[1].szValue = "application/x-www-form-urlencoded";
 	nlhr.headers[2].szName = "Cookie";
 	nlhr.headers[2].szValue = authCookies;
-	post.Format("client_id=00000000480BC46C&scope=%s&grant_type=refresh_token&refresh_token=%s", ptrA(mir_urlEncode(pszService)), pszRefreshToken);
+	post.Format("client_id=00000000480BC46C&scope=%s&grant_type=refresh_token&refresh_token=%s", mir_urlEncode(pszService).c_str(), pszRefreshToken);
 
 	nlhr.pData = (char*)(const char*)post;
 	nlhr.dataLength = (int)mir_strlen(nlhr.pData);
@@ -930,8 +930,7 @@ bool CMsnProto::parseLoginPage(char *pszHTML, NETLIBHTTPREQUEST *nlhr, CMStringA
 		if (db_get_static(NULL, m_szModuleName, "Password", szPassword, sizeof(szPassword)))
 			return false;
 		szPassword[99] = 0;
-		post->Format("PPFT=%s&login=%s&passwd=%s", ptrA(mir_urlEncode(pPPFT)),
-			ptrA(mir_urlEncode(MyOptions.szEmail)), ptrA(mir_urlEncode(szPassword)));
+		post->Format("PPFT=%s&login=%s&passwd=%s", mir_urlEncode(pPPFT).c_str(), mir_urlEncode(MyOptions.szEmail).c_str(), mir_urlEncode(szPassword).c_str());
 
 		/* Do the login and get the required tokens */
 		nlhr->dataLength = post->GetLength();

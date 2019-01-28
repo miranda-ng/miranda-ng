@@ -59,7 +59,7 @@ INT_PTR CMsnProto::MsnSendHotmail(WPARAM hContact, LPARAM)
 	if (MSN_IsMeByContact(hContact, szEmail))
 		MsnGotoInbox(0, 0);
 	else if (msnLoggedIn)
-		MsnInvokeMyURL(true, CMStringA().Format("http://mail.live.com?rru=compose?to=%s", ptrA(mir_urlEncode(szEmail))));
+		MsnInvokeMyURL(true, CMStringA().Format("http://mail.live.com?rru=compose?to=%s", mir_urlEncode(szEmail).c_str()));
 
 	return 0;
 }

@@ -50,7 +50,7 @@ class GetHistoryRequest : public HttpRequest
 {
 public:
 	GetHistoryRequest(const char *username, int pageSize, bool isChat, LONGLONG timestamp, LoginInfo &li) :
-	  HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations/%d:%s/messages", li.endpoint.szServer, isChat ? 19 : 8, ptrA(mir_urlEncode(username)))
+	  HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations/%d:%s/messages", li.endpoint.szServer, isChat ? 19 : 8, mir_urlEncode(username).c_str())
 	{
 		Url
 			<< LONG_VALUE("startTime", timestamp)

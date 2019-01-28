@@ -144,14 +144,6 @@ procedure KillObjectServices(var ptr); stdcall;
 function CallProtoService(const szModule:PAnsiChar;const szService:PAnsiChar;wParam:WPARAM;lParam:LPARAM):int_ptr; stdcall;
                  external AppDLL name 'CallProtoService';
 
-
-///////////////////////////////////////////////////////////////////////////////
-// http
-
-// returned result must be freed using mir_free()
-function mir_urlEncode(url:PAnsiChar): PAnsiChar; stdcall;
-                 external CoreDLL name 'mir_urlEncode';
-
 ///////////////////////////////////////////////////////////////////////////////
 // wait handles
 

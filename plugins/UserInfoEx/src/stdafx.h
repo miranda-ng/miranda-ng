@@ -72,7 +72,6 @@ using namespace std;
 #include <m_avatars.h>
 #include <m_contacts.h>
 #include <m_icolib.h>
-#include <m_string.h>
 #include <m_popup.h>
 
 /***********************************************************************************************************

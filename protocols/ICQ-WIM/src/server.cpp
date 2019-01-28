@@ -467,7 +467,7 @@ void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 
 	JSONNode &data = root.data();
 	m_szAToken = data["token"]["a"].as_mstring();
-	m_szAToken = ptrA(mir_urlDecode(m_szAToken));
+	m_szAToken = mir_urlDecode(m_szAToken);
 	setString(DB_KEY_ATOKEN, m_szAToken);
 
 	CMStringA szSessionSecret = data["sessionSecret"].as_mstring();

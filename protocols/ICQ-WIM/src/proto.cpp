@@ -377,7 +377,7 @@ HANDLE CIcqProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t **ppszFile
 		pwszFileName = ppszFiles[0];
 
 	auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, "https://files.icq.com/files/init", &CIcqProto::OnFileInit);
-	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("client", "icq") << CHAR_PARAM("f", "json") << CHAR_PARAM("fileName", ptrA(mir_urlEncode(T2Utf(pwszFileName)))) 
+	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("client", "icq") << CHAR_PARAM("f", "json") << CHAR_PARAM("fileName", mir_urlEncode(T2Utf(pwszFileName))) 
 		<< CHAR_PARAM("k", ICQ_APP_ID) << INT_PARAM("size", statbuf.st_size) << INT_PARAM("ts", time(0));
 	CalcHash(pReq);
 	pReq->pUserInfo = pTransfer;

@@ -118,7 +118,7 @@ public:
 			<< CHAR_VALUE("v", "v2")
 			<< INT_VALUE("p", 443)
 			<< CHAR_VALUE("ccid", ccid.c_str())
-			<< CHAR_VALUE("tc", ptrA(mir_urlEncode("{\"cv\":\"2014.8.26\",\"hr\":\"\",\"ua\":\"Miranda_NG\",\"v\":\"\"}")))
+			<< CHAR_VALUE("tc", mir_urlEncode("{\"cv\":\"2014.8.26\",\"hr\":\"\",\"ua\":\"Miranda_NG\",\"v\":\"\"}"))
 			<< LONG_VALUE("t", time(NULL) * 1000);
 
 		Headers
@@ -146,7 +146,7 @@ public:
 			<< CHAR_VALUE("v", "v2")
 			<< INT_VALUE("p", 443)
 			<< CHAR_VALUE("ccid", ccid.c_str())
-			<< CHAR_VALUE("tc", ptrA(mir_urlEncode("{\"cv\":\"2014.8.26\",\"hr\":\"\",\"ua\":\"Miranda_NG\",\"v\":\"\"}")))
+			<< CHAR_VALUE("tc", mir_urlEncode("{\"cv\":\"2014.8.26\",\"hr\":\"\",\"ua\":\"Miranda_NG\",\"v\":\"\"}"))
 			<< LONG_VALUE("t", time(NULL) * 1000);
 
 		Headers

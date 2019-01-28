@@ -28,7 +28,7 @@ public:
 
 		Url
 			<< INT_VALUE  ("client_id", 578134)
-			<< CHAR_VALUE ("redirect_uri", ptrA(mir_urlEncode("https://web.skype.com")));
+			<< CHAR_VALUE ("redirect_uri", mir_urlEncode("https://web.skype.com"));
 	}
 	LoginMSRequest(const char *login, const char *password, const char *cookies_str, const char *ppft) :
 		HttpRequest(REQUEST_POST, "login.live.com/ppsecure/post.srf")
@@ -42,8 +42,8 @@ public:
 			<< CHAR_VALUE ("Cookie", cookies_str);
 
 		Body 
-			<< CHAR_VALUE ("login", ptrA(mir_urlEncode(login)))
-			<< CHAR_VALUE ("passwd", ptrA(mir_urlEncode(password)))
+			<< CHAR_VALUE ("login", mir_urlEncode(login))
+			<< CHAR_VALUE ("passwd", mir_urlEncode(password))
 			<< CHAR_VALUE ("PPFT", ppft);
 	}
 	LoginMSRequest(const char *t) :
@@ -51,16 +51,16 @@ public:
 	{
 		Url
 			<< INT_VALUE  ("client_id", 578134)
-			<< CHAR_VALUE ("redirect_uri", ptrA(mir_urlEncode("https://web.skype.com")));
+			<< CHAR_VALUE ("redirect_uri", mir_urlEncode("https://web.skype.com"));
 
 		Headers
 			<< CHAR_VALUE ("Content-Type", "application/x-www-form-urlencoded");
 
 		Body
-			<< CHAR_VALUE ("t", ptrA(mir_urlEncode(t)))
+			<< CHAR_VALUE ("t", mir_urlEncode(t))
 			<< INT_VALUE ("oauthPartner", 999)
 			<< INT_VALUE ("client_id", 578134)
-			<< CHAR_VALUE ("redirect_uri", ptrA(mir_urlEncode("https://web.skype.com")));
+			<< CHAR_VALUE ("redirect_uri", mir_urlEncode("https://web.skype.com"));
 	}
 
 	LoginMSRequest(const char *t, int) :
@@ -68,16 +68,16 @@ public:
 	{
 		Url
 			<< INT_VALUE  ("client_id", 578134)
-			<< CHAR_VALUE ("redirect_uri", ptrA(mir_urlEncode("https://web.skype.com")));
+			<< CHAR_VALUE ("redirect_uri", mir_urlEncode("https://web.skype.com"));
 
 		Headers
 			<< CHAR_VALUE ("Content-Type", "application/x-www-form-urlencoded");
 
 		Body
-			<< CHAR_VALUE ("t", ptrA(mir_urlEncode(t)))
+			<< CHAR_VALUE ("t", mir_urlEncode(t))
 			<< INT_VALUE ("oauthPartner", 999)
 			<< INT_VALUE ("client_id", 578134)
-			<< CHAR_VALUE ("redirect_uri", ptrA(mir_urlEncode("https://web.skype.com")));
+			<< CHAR_VALUE ("redirect_uri", mir_urlEncode("https://web.skype.com"));
 	}
 
 	LoginMSRequest(const char *url, const char *login, const char *cookies_str, const char *ppft, const char *code) :
@@ -88,9 +88,9 @@ public:
 		Body 
 			<< CHAR_VALUE ("oct", code)
 			<< INT_VALUE ("AdTD", 1)
-			<< CHAR_VALUE ("login", ptrA(mir_urlEncode(login)))
+			<< CHAR_VALUE ("login", mir_urlEncode(login))
 			<< INT_VALUE ("type", 19)
-			<< CHAR_VALUE ("PPFT", ptrA(mir_urlEncode(ppft)));
+			<< CHAR_VALUE ("PPFT", mir_urlEncode(ppft));
 	}
 };
 

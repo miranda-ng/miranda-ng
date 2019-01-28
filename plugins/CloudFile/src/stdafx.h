@@ -22,7 +22,6 @@
 #include <m_file.h>
 #include <m_langpack.h>
 #include <m_message.h>
-#include <m_string.h>
 #include <m_gui.h>
 #include <m_chat.h>
 #include <m_http.h>

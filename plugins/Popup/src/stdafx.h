@@ -81,7 +81,6 @@ https://miranda-ng.org/distr/
 #include <m_avatars.h>
 #include <m_extraicons.h>
 #include <m_popup.h>
-#include <m_string.h>
 #include <m_imgsrvc.h>
 #include <m_timezones.h>
 

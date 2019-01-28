@@ -24,7 +24,6 @@
 #include <m_skin.h>
 #include <m_clist.h>
 #include <m_genmenu.h>
-#include <m_string.h>
 #include <m_imgsrvc.h>
 #include <m_protocols.h>
 #include <m_protosvc.h>

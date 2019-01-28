@@ -462,7 +462,7 @@ bool CVkProto::AutoFillForm(char *pBody, CMStringA &szAction, CMStringA& szResul
 			if (!result.IsEmpty())
 				result.AppendChar('&');
 			result += name + "=";
-			result += ptrA(mir_urlEncode(value));
+			result += mir_urlEncode(value);
 		}
 	}
 

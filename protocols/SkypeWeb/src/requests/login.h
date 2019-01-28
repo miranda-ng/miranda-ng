@@ -32,9 +32,9 @@ public:
 
 		Body
 			<< CHAR_VALUE("scopes", "client")
-			<< CHAR_VALUE("clientVersion", ptrA(mir_urlEncode("0/7.4.85.102/259/")))
-			<< CHAR_VALUE("username", ptrA(mir_urlEncode(username)))
-			<< CHAR_VALUE("passwordHash", pass_ptrA(mir_urlEncode(ptrA(mir_base64_encode(digest, sizeof(digest))))));
+			<< CHAR_VALUE("clientVersion", mir_urlEncode("0/7.4.85.102/259/").c_str())
+			<< CHAR_VALUE("username", mir_urlEncode(username).c_str())
+			<< CHAR_VALUE("passwordHash", mir_urlEncode(ptrA(mir_base64_encode(digest, sizeof(digest)))).c_str());
 	}
 };
 
