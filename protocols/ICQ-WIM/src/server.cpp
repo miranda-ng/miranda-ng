@@ -84,9 +84,32 @@ void CIcqProto::CheckPassword()
 	else StartSession();
 }
 
-void CIcqProto::ConnectionFailed(int iReason)
+void CIcqProto::ConnectionFailed(int iReason, int iErrorCode)
 {
 	debugLogA("ConnectionFailed -> reason %d", iReason);
+
+	if (g_bPopupService) {
+		POPUPDATAT Popup = {};
+		Popup.lchIcon = IcoLib_GetIconByHandle(Skin_GetIconHandle(SKINICON_ERROR), true);
+		wcscpy_s(Popup.lptzContactName, m_tszUserName);
+		switch (iReason) {
+		case LOGINERR_BADUSERID:
+			mir_snwprintf(Popup.lptzText, LPGENW("You have not entered an ICQ number.\nConfigure this in Options -> Network -> ICQ and try again."));
+			break;
+		case LOGINERR_WRONGPASSWORD:
+			mir_snwprintf(Popup.lptzText, LPGENW("Connection failed.\nYour ICQ number or password was rejected (%d)."), iErrorCode);
+			break;
+		case LOGINERR_NONETWORK:
+		case LOGINERR_NOSERVER:
+			mir_snwprintf(Popup.lptzText, LPGENW("Connection failed.\nThe server is temporarily unavailable (%d)."), iErrorCode);
+			break;
+		default:
+			mir_snwprintf(Popup.lptzText, LPGENW("Connection failed.\nUnknown error during sign on: %d"), iErrorCode);
+			break;
+		}
+
+		CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&Popup, 0);
+	}
 
 	ProtoBroadcastAck(0, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, iReason);
 	ShutdownSession();
@@ -457,11 +480,11 @@ void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 
 	case 330:
 	case 440:
-		ConnectionFailed(LOGINERR_WRONGPASSWORD);
+		ConnectionFailed(LOGINERR_WRONGPASSWORD, root.error());
 		return;
 
 	default:
-		ConnectionFailed(LOGINERR_WRONGPROTOCOL);
+		ConnectionFailed(LOGINERR_WRONGPROTOCOL, root.error());
 		return;
 	}
 
@@ -596,11 +619,11 @@ void CIcqProto::OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 			delSetting(DB_KEY_SESSIONKEY);
 			CheckPassword();
 		}
-		else ConnectionFailed(LOGINERR_WRONGPASSWORD);
+		else ConnectionFailed(LOGINERR_WRONGPASSWORD, root.error());
 		return;
 
 	default:
-		ConnectionFailed(LOGINERR_WRONGPROTOCOL);
+		ConnectionFailed(LOGINERR_WRONGPROTOCOL, root.error());
 		return;
 	}
 

@@ -124,7 +124,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	bool      m_bOnline = false, m_bTerminated = false;
 	MCONTACT  CheckOwnMessage(const CMStringA &reqId, const CMStringA &msgId, bool bRemove);
 	void      CheckPassword(void);
-	void      ConnectionFailed(int iReason);
+	void      ConnectionFailed(int iReason, int iErrorCode = 0);
 	void      MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup);
 	void      RetrieveUserHistory(MCONTACT, __int64 startMsgId, __int64 endMsgId);
 	void      RetrieveUserInfo(MCONTACT);
