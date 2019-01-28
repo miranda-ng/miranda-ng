@@ -42,9 +42,11 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr)),
 	m_dwUin(this, DB_KEY_UIN, 0),
 	m_szPassword(this, "Password"),
-	m_bUseFriendly(this, "UseFriendly", 1),
 	m_bHideGroupchats(this, "HideChats", 1)
 {
+	db_set_resident(m_szModuleName, "IdleTS");
+	db_set_resident(m_szModuleName, "OnlineTS");
+
 	// services
 	CreateProtoService(PS_CREATEACCMGRUI, &CIcqProto::CreateAccMgrUI);
 	CreateProtoService(PS_GETAVATARINFO, &CIcqProto::GetAvatarInfo);

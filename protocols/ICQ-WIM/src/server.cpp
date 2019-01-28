@@ -44,17 +44,6 @@ void CIcqProto::CheckLastId(MCONTACT hContact, const JSONNode &ev)
 		setId(hContact, DB_KEY_LASTMSGID, msgId);
 }
 
-void CIcqProto::CheckNickChange(MCONTACT hContact, const JSONNode &ev)
-{
-	// if we already set a nick, ignore change when friendly names aren't used
-	if (!m_bUseFriendly && !getMStringW(hContact, "Nick").IsEmpty())
-		return;
-
-	CMStringW wszNick = ev["friendly"].as_mstring();
-	if (m_bUseFriendly || !wszNick.IsEmpty())
-		setWString(hContact, "Nick", wszNick);
-}
-
 MCONTACT CIcqProto::CheckOwnMessage(const CMStringA &reqId, const CMStringA &msgId, bool bRemove)
 {
 	for (auto &own: m_arOwnIds) {
@@ -158,20 +147,25 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 	CMStringW str(buddy["state"].as_mstring());
 	setDword(hContact, "Status", StatusFromString(str));
 
+	Json2string(hContact, buddy, "friendly", "Nick");
+	Json2string(hContact, buddy, "emailId", "e-mail");
+	Json2string(hContact, buddy, "cellNumber", "Cellular");
+	Json2string(hContact, buddy, "phoneNumber", "Phone");
+	Json2string(hContact, buddy, "workNumber", "CompanyPhone");
+	Json2string(hContact, buddy, "emailId", "e-mail");
+
+	Json2int(hContact, buddy, "official", "Official");
+	Json2int(hContact, buddy, "lastseen", "LastSeen");
+	Json2int(hContact, buddy, "onlineTime", "OnlineTS");
+	Json2int(hContact, buddy, "idleTime", "IdleTS");
+	Json2int(hContact, buddy, "memberSince", DB_KEY_MEMBERSINCE);
+
 	const JSONNode &profile = buddy["profile"];
 	if (profile) {
-		str = profile["firstName"].as_mstring();
-		if (!str.IsEmpty())
-			setWString(hContact, "FirstName", str);
-
-		str = profile["lastName"].as_mstring();
-		if (!str.IsEmpty())
-			setWString(hContact, "LastName", str);
-
-		str = profile["friendlyName"].as_mstring();
-		if (!str.IsEmpty())
-			if (!m_bUseFriendly || getMStringW("Nick").IsEmpty())
-				setWString(hContact, "Nick", str);
+		Json2string(hContact, profile, "friendlyName", DB_KEY_ICQNICK);
+		Json2string(hContact, profile, "firstName", "FirstName");
+		Json2string(hContact, profile, "lastName", "LastName");
+		Json2string(hContact, profile, "aboutMe", DB_KEY_ABOUT);
 
 		time_t birthDate = profile["birthDate"].as_int();
 		if (birthDate != 0) {
@@ -183,12 +177,6 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 			}
 		}
 
-		str = profile["aboutMe"].as_mstring();
-		if (!str.IsEmpty())
-			setWString(hContact, DB_KEY_ABOUT, str);
-		else
-			delSetting(hContact, DB_KEY_ABOUT);
-
 		str = profile["gender"].as_mstring();
 		if (!str.IsEmpty()) {
 			if (str == "male")
@@ -198,25 +186,11 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 		}
 
 		for (auto &it : profile["homeAddress"]) {
-			str = it["city"].as_mstring();
-			if (!str.IsEmpty())
-				setWString(hContact, "City", str);
-
-			str = it["state"].as_mstring();
-			if (!str.IsEmpty())
-				setWString(hContact, "State", str);
-
-			str = it["country"].as_mstring();
-			if (!str.IsEmpty())
-				setWString(hContact, "Country", str);
+			Json2string(hContact, it, "city", "City");
+			Json2string(hContact, it, "state", "State");
+			Json2string(hContact, it, "country", "Country");
 		}
 	}
-
-	CheckNickChange(hContact, buddy);
-
-	int lastLogin = buddy["lastseen"].as_int();
-	if (lastLogin)
-		setDword(hContact, "LastSeen", lastLogin);
 
 	str = buddy["statusMsg"].as_mstring();
 	if (str.IsEmpty())
@@ -899,7 +873,7 @@ void CIcqProto::ProcessImState(const JSONNode &ev)
 
 void CIcqProto::ProcessMyInfo(const JSONNode &ev)
 {
-	CheckNickChange(0, ev);
+	Json2string(0, ev, "friendly", "Nick");
 	CheckAvatarChange(0, ev);
 }
 
@@ -911,7 +885,7 @@ void CIcqProto::ProcessPresence(const JSONNode &ev)
 	if (pCache) {
 		setDword(pCache->m_hContact, "Status", StatusFromString(ev["state"].as_mstring()));
 
-		CheckNickChange(pCache->m_hContact, ev);
+		Json2string(pCache->m_hContact, ev, "friendly", "Nick");
 		CheckAvatarChange(pCache->m_hContact, ev);
 	}
 }

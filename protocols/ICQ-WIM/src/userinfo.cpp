@@ -33,10 +33,11 @@ static INT_PTR CALLBACK IcqDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam
 			MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			CIcqProto *ppro = (CIcqProto*)((PSHNOTIFY*)lParam)->lParam;
 
-			CMStringA szId(ppro->GetUserId(hContact));
-			SetDlgItemTextA(hwndDlg, IDC_UIN, szId);
+			SetDlgItemTextA(hwndDlg, IDC_UIN, ppro->GetUserId(hContact));
+			SetDlgItemTextW(hwndDlg, IDC_NICK, ppro->getMStringW(hContact, DB_KEY_ICQNICK));
 
 			SetDlgItemTextA(hwndDlg, IDC_IDLETIME, time2text(ppro->getDword(hContact, DB_KEY_IDLE)));
+			SetDlgItemTextA(hwndDlg, IDC_MEMBERSINCE, time2text(ppro->getDword(hContact, DB_KEY_MEMBERSINCE)));
 			SetDlgItemTextA(hwndDlg, IDC_ONLINESINCE, time2text(ppro->getDword(hContact, DB_KEY_LASTSEEN)));
 		}
 		break;
@@ -54,7 +55,7 @@ int CIcqProto::OnUserInfoInit(WPARAM wParam, LPARAM hContact)
 		return 0;
 
 	OPTIONSDIALOGPAGE odp = {};
-	odp.flags = ODPF_USERINFOTAB | ODPF_DONTTRANSLATE;
+	odp.flags = ODPF_USERINFOTAB;
 	odp.dwInitParam = LPARAM(this);
 	odp.szTitle.a = "ICQ";
 

@@ -71,6 +71,26 @@ void CIcqProto::CalcHash(AsyncHttpRequest *pReq)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+void CIcqProto::Json2int(MCONTACT hContact, const JSONNode &node, const char *szJson, const char *szSetting)
+{
+	const JSONNode &var = node[szJson];
+	if (var)
+		setDword(hContact, szSetting, var.as_int());
+	else
+		delSetting(hContact, szSetting);
+}
+
+void CIcqProto::Json2string(MCONTACT hContact, const JSONNode &node, const char *szJson, const char *szSetting)
+{
+	const JSONNode &var = node[szJson];
+	if (var)
+		setWString(hContact, szSetting, var.as_mstring());
+	else
+		delSetting(hContact, szSetting);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Avatars
 
 void CIcqProto::GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t cbLen)

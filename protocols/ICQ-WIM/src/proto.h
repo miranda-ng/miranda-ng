@@ -122,20 +122,22 @@ class CIcqProto : public PROTO<CIcqProto>
 	friend class CGroupchatInviteDlg;
 
 	bool      m_bOnline = false, m_bTerminated = false;
-	void      CheckAvatarChange(MCONTACT hContact, const JSONNode&);
-	void      CheckLastId(MCONTACT hContact, const JSONNode&);
-	void      CheckNickChange(MCONTACT hContact, const JSONNode&);
 	MCONTACT  CheckOwnMessage(const CMStringA &reqId, const CMStringA &msgId, bool bRemove);
 	void      CheckPassword(void);
 	void      ConnectionFailed(int iReason);
 	void      MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup);
-	MCONTACT  ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact = -1);
-	void      ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &msg);
 	void      RetrieveUserHistory(MCONTACT, __int64 startMsgId, __int64 endMsgId);
 	void      RetrieveUserInfo(MCONTACT);
 	void      SetServerStatus(int iNewStatus);
 	void      ShutdownSession(void);
 	void      StartSession(void);
+
+	void      CheckAvatarChange(MCONTACT hContact, const JSONNode&);
+	void      CheckLastId(MCONTACT hContact, const JSONNode&);
+	void      Json2int(MCONTACT, const JSONNode&, const char *szJson, const char *szSetting);
+	void      Json2string(MCONTACT, const JSONNode&, const char *szJson, const char *szSetting);
+	MCONTACT  ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact = -1);
+	void      ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &msg);
 
 	void      OnLoggedIn(void);
 	void      OnLoggedOut(void);
@@ -293,7 +295,6 @@ public:
 
 	CMOption<DWORD> m_dwUin;          // our own id
 	CMOption<wchar_t*> m_szPassword;  // password, if present
-	CMOption<BYTE> m_bUseFriendly;    // use friendly names instead of old icq nicks
 	CMOption<BYTE> m_bHideGroupchats; // don't pop up group chat windows on startup
 
 	CMStringA GetUserId(MCONTACT);

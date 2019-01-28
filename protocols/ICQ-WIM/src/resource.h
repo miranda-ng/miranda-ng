@@ -9,8 +9,6 @@
 #define IDD_REGISTER                    105
 #define IDC_PASSWORD                    1001
 #define IDC_UIN                         1002
-#define IDC_USEFRIENDLY                 1003
-#define IDC_USEFRIENDLY2                1004
 #define IDC_HIDECHATS                   1004
 #define IDC_REGISTER                    1005
 #define IDC_PHONE                       1006
@@ -19,6 +17,9 @@
 #define IDC_CODE                        1009
 #define IDC_ONLINESINCE                 1010
 #define IDC_IDLETIME                    1011
+#define IDC_NICK                        1012
+#define IDC_IDLETIME2                   1013
+#define IDC_MEMBERSINCE                 1013
 
 // Next default values for new objects
 // 
