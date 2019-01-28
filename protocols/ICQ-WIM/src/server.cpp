@@ -183,6 +183,12 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 			}
 		}
 
+		str = profile["aboutMe"].as_mstring();
+		if (!str.IsEmpty())
+			setWString(hContact, DB_KEY_ABOUT, str);
+		else
+			delSetting(hContact, DB_KEY_ABOUT);
+
 		str = profile["gender"].as_mstring();
 		if (!str.IsEmpty()) {
 			if (str == "male")

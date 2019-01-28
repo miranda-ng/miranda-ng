@@ -240,3 +240,20 @@ void CIcqProto::setId(MCONTACT hContact, const char *szSetting, __int64 iValue)
 	if (oldVal != iValue)
 		db_set_blob(hContact, m_szModuleName, szSetting, &iValue, sizeof(iValue));
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+char* time2text(time_t time)
+{
+	if (time == 0)
+		return "";
+
+	tm *local = localtime(&time);
+	if (local) {
+		char *str = asctime(local);
+		str[24] = '\0'; // remove new line
+		return str;
+	}
+
+	return "<invalid>";
+}

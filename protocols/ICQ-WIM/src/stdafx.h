@@ -81,8 +81,11 @@
 #define MODULENAME "ICQ"
 
 #define DB_KEY_UIN "UIN"
+#define DB_KEY_IDLE "IdleTS"
+#define DB_KEY_ABOUT "About"
 #define DB_KEY_ATOKEN "AToken"
 #define DB_KEY_PHONEREG "PhoneReg"
+#define DB_KEY_LASTSEEN "LastSeen"
 #define DB_KEY_RCLIENTID "RClientID"
 #define DB_KEY_LASTMSGID "LastMsgId"
 #define DB_KEY_REMOTEREAD "RemoteReadId"
@@ -94,6 +97,7 @@
 bool IsChat(const CMStringW &aimid);
 
 int StatusFromString(const CMStringW&);
+char* time2text(time_t time);
 
 extern HWND g_hwndHeartbeat;
 extern bool g_bMessageState;

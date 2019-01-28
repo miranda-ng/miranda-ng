@@ -88,6 +88,8 @@ void CIcqProto::OnModulesLoaded()
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
 	Chat_Register(&gcr);
+
+	HookProtoEvent(ME_USERINFO_INITIALISE, &CIcqProto::OnUserInfoInit);
 }
 
 void CIcqProto::OnShutdown()

@@ -128,7 +128,6 @@ class CIcqProto : public PROTO<CIcqProto>
 	MCONTACT  CheckOwnMessage(const CMStringA &reqId, const CMStringA &msgId, bool bRemove);
 	void      CheckPassword(void);
 	void      ConnectionFailed(int iReason);
-	CMStringA GetUserId(MCONTACT);
 	void      MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup);
 	MCONTACT  ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact = -1);
 	void      ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &msg);
@@ -249,43 +248,44 @@ class CIcqProto : public PROTO<CIcqProto>
 	////////////////////////////////////////////////////////////////////////////////////////
 	// events
 
-	int        __cdecl OnGroupChange(WPARAM, LPARAM);
-	int        __cdecl OnDbEventRead(WPARAM, LPARAM);
-	int        __cdecl OnOptionsInit(WPARAM, LPARAM);
+	int       __cdecl OnGroupChange(WPARAM, LPARAM);
+	int       __cdecl OnDbEventRead(WPARAM, LPARAM);
+	int       __cdecl OnOptionsInit(WPARAM, LPARAM);
+	int       __cdecl OnUserInfoInit(WPARAM, LPARAM);
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// PROTO_INTERFACE
 
-	MCONTACT   AddToList( int flags, PROTOSEARCHRESULT *psr) override;
-			     
-	int        AuthRequest(MCONTACT hContact, const wchar_t *szMessage) override;
-			     
-	HANDLE     FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath) override;
-	int        FileCancel(MCONTACT hContact, HANDLE hTransfer) override;
-	int        FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szReason) override;
-	int        FileResume( HANDLE hTransfer, int *action, const wchar_t **szFilename) override;
-			     
-	INT_PTR    GetCaps(int type, MCONTACT hContact = NULL) override;
-	int        GetInfo(MCONTACT hContact, int infoType) override;
-			     
-	HANDLE     SearchBasic(const wchar_t *id) override;
-			     
-	HANDLE     SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
-	int        SendMsg(MCONTACT hContact, int flags, const char *msg) override;
-			     
-	int        SetApparentMode(MCONTACT hContact, int mode) override;
-	int        SetStatus(int iNewStatus) override;
-			     
-	HANDLE     GetAwayMsg(MCONTACT hContact) override;
-	int        RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT *evt) override;
-	int        SetAwayMsg(int m_iStatus, const wchar_t *msg) override;
-			     
-	int        UserIsTyping(MCONTACT hContact, int type) override;
-			     
-	void       OnBuildProtoMenu(void) override;
-	void       OnContactDeleted(MCONTACT) override;
-	void       OnModulesLoaded() override;
-	void       OnShutdown() override;
+	MCONTACT  AddToList( int flags, PROTOSEARCHRESULT *psr) override;
+			    
+	int       AuthRequest(MCONTACT hContact, const wchar_t *szMessage) override;
+			    
+	HANDLE    FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath) override;
+	int       FileCancel(MCONTACT hContact, HANDLE hTransfer) override;
+	int       FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szReason) override;
+	int       FileResume( HANDLE hTransfer, int *action, const wchar_t **szFilename) override;
+			    
+	INT_PTR   GetCaps(int type, MCONTACT hContact = NULL) override;
+	int       GetInfo(MCONTACT hContact, int infoType) override;
+			    
+	HANDLE    SearchBasic(const wchar_t *id) override;
+			    
+	HANDLE    SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
+	int       SendMsg(MCONTACT hContact, int flags, const char *msg) override;
+			    
+	int       SetApparentMode(MCONTACT hContact, int mode) override;
+	int       SetStatus(int iNewStatus) override;
+			    
+	HANDLE    GetAwayMsg(MCONTACT hContact) override;
+	int       RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT *evt) override;
+	int       SetAwayMsg(int m_iStatus, const wchar_t *msg) override;
+			    
+	int       UserIsTyping(MCONTACT hContact, int type) override;
+			    
+	void      OnBuildProtoMenu(void) override;
+	void      OnContactDeleted(MCONTACT) override;
+	void      OnModulesLoaded() override;
+	void      OnShutdown() override;
 
 public:
 	CIcqProto(const char*, const wchar_t*);
@@ -295,6 +295,8 @@ public:
 	CMOption<wchar_t*> m_szPassword;  // password, if present
 	CMOption<BYTE> m_bUseFriendly;    // use friendly names instead of old icq nicks
 	CMOption<BYTE> m_bHideGroupchats; // don't pop up group chat windows on startup
+
+	CMStringA GetUserId(MCONTACT);
 };
 
 struct CMPlugin : public ACCPROTOPLUGIN<CIcqProto>
