@@ -234,7 +234,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 
 	CMStringW wszText;
 	CMStringW type(it["mediaType"].as_mstring());
-	if (type == "text")
+	if (type == "text" || type.IsEmpty())
 		wszText = it["text"].as_mstring();
 	else if (type == "sticker") {
 		CMStringW wszUrl, wszSticker(it["sticker"]["id"].as_mstring());
@@ -848,14 +848,12 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 	else hContact = CreateContact(_wtol(wszId), true);
 
 	__int64 lastMsgId = getId(hContact, DB_KEY_LASTMSGID);
-	__int64 srvLastId = _wtoi64(ev["lastMsgId"].as_mstring());
-
-	// on first start we don't load history not to create dups
 	if (lastMsgId == 0)
-		setId(hContact, DB_KEY_LASTMSGID, srvLastId);
+		lastMsgId = _wtoi64(ev["yours"]["lastRead"].as_mstring());
+
 	// or load missing messages if any
-	else if (ev["unreadCnt"].as_int() > 0)
-		RetrieveUserHistory(hContact, lastMsgId, srvLastId);
+	if (ev["unreadCnt"].as_int() > 0)
+		RetrieveUserHistory(hContact, lastMsgId, _wtoi64(ev["lastMsgId"].as_mstring()));
 
 	// check remote read
 	if (g_bMessageState) {
