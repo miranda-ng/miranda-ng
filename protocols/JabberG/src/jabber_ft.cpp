@@ -244,9 +244,7 @@ BOOL CJabberProto::FtIbbSend(int blocksize, filetransfer *ft)
 			// let others send data too
 			Sleep(2);
 
-			char *encoded = mir_base64_encode(buffer, numRead);
-
-			msg << XCHILD(L"data", _A2T(encoded)) << XATTR(L"xmlns", JABBER_FEAT_IBB)
+			msg << XCHILD(L"data", _A2T(ptrA(mir_base64_encode(buffer, numRead)))) << XATTR(L"xmlns", JABBER_FEAT_IBB)
 				<< XATTR(L"sid", ft->jibb->sid) << XATTRI(L"seq", ft->jibb->wPacketId);
 
 			HXML ampNode = msg << XCHILDNS(L"amp", JABBER_FEAT_AMP);
@@ -255,8 +253,6 @@ BOOL CJabberProto::FtIbbSend(int blocksize, filetransfer *ft)
 			ampNode << XCHILD(L"rule") << XATTR(L"condition", L"match-resource")
 				<< XATTR(L"value", L"exact") << XATTR(L"action", L"error");
 			ft->jibb->wPacketId++;
-
-			mir_free(encoded);
 
 			if (ft->jibb->state == JIBB_ERROR || ft->jibb->bStreamClosed || m_ThreadInfo->send(msg) == SOCKET_ERROR) {
 				debugLogA("JabberFtIbbSend unsuccessful exit");
