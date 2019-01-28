@@ -48,20 +48,23 @@ static INT_PTR CALLBACK IcqDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam
 
 int CIcqProto::OnUserInfoInit(WPARAM wParam, LPARAM hContact)
 {
-	if (!hContact || mir_strcmp(GetContactProto(hContact), m_szModuleName))
+	if (hContact && mir_strcmp(GetContactProto(hContact), m_szModuleName))
 		return 0;
 
 	if (isChatRoom(hContact))
 		return 0;
 
 	OPTIONSDIALOGPAGE odp = {};
-	odp.flags = ODPF_USERINFOTAB;
+	odp.flags = ODPF_UNICODE;
 	odp.dwInitParam = LPARAM(this);
-	odp.szTitle.a = "ICQ";
+	if (hContact == 0) {
+		odp.flags |= ODPF_DONTTRANSLATE;
+		odp.szTitle.w = m_tszUserName;
+	}
+	else odp.szTitle.w = L"ICQ";
 
 	odp.pfnDlgProc = IcqDlgProc;
 	odp.position = -1900000000;
-	odp.szTab.a = LPGEN("Details");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_ICQ);
 	g_plugin.addUserInfo(wParam, &odp);
 	return 0;
