@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2015-2018 Leonid Yuriev <leo@yuriev.ru>
  * and other libmdbx authors: please see AUTHORS file.
  * All rights reserved.
@@ -1360,10 +1360,8 @@ const char *__cold mdbx_strerror(int errnum) {
         FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL,
         errnum, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), buffer,
         sizeof(buffer), NULL);
-    if (size) {
-      CharToOemBuffA(buffer, buffer, (DWORD)size);
+    if (size)
       msg = buffer;
-    }
 #else
     if (errnum < 0) {
       static char buffer[32];
@@ -5498,7 +5496,7 @@ fail:
 
 int __cold mdbx_env_get_maxkeysize(MDBX_env *env) {
   if (!env || env->me_signature != MDBX_ME_SIGNATURE || !env->me_maxkey_limit)
-    return -MDBX_EINVAL;
+    return (MDBX_EINVAL > 0) ? -MDBX_EINVAL : MDBX_EINVAL;
   return env->me_maxkey_limit;
 }
 
@@ -7197,13 +7195,13 @@ static int mdbx_page_search(MDBX_cursor *mc, MDBX_val *key, int flags) {
       return rc;
     rc = mdbx_page_search(&mc2, &mc->mc_dbx->md_name, 0);
     if (unlikely(rc != MDBX_SUCCESS))
-      return rc;
+      return (rc == MDBX_NOTFOUND) ? MDBX_BAD_DBI : rc;
     {
       MDBX_val data;
       int exact = 0;
       MDBX_node *leaf = mdbx_node_search(&mc2, &mc->mc_dbx->md_name, &exact);
       if (!exact)
-        return MDBX_NOTFOUND;
+        return MDBX_BAD_DBI;
       if (unlikely((leaf->mn_flags & (F_DUPDATA | F_SUBDATA)) != F_SUBDATA))
         return MDBX_INCOMPATIBLE; /* not a named DB */
       rc = mdbx_node_read(&mc2, leaf, &data);
@@ -12468,7 +12466,7 @@ int __cold mdbx_reader_list(MDBX_env *env, MDBX_msg_func *func, void *ctx) {
   int rc = 0, first = 1;
 
   if (unlikely(!env || !func))
-    return -MDBX_EINVAL;
+    return (MDBX_EINVAL > 0) ? -MDBX_EINVAL : MDBX_EINVAL;
 
   if (unlikely(env->me_signature != MDBX_ME_SIGNATURE))
     return MDBX_EBADSIGN;
@@ -12798,7 +12796,7 @@ __attribute__((no_sanitize_thread, noinline))
 int mdbx_txn_straggler(MDBX_txn *txn, int *percent)
 {
   if (unlikely(!txn))
-    return -MDBX_EINVAL;
+    return (MDBX_EINVAL > 0) ? -MDBX_EINVAL : MDBX_EINVAL;
 
   if (unlikely(txn->mt_signature != MDBX_MT_SIGNATURE))
     return MDBX_EBADSIGN;
@@ -12812,7 +12810,7 @@ int mdbx_txn_straggler(MDBX_txn *txn, int *percent)
       *percent =
           (int)((txn->mt_next_pgno * UINT64_C(100) + txn->mt_end_pgno / 2) /
                 txn->mt_end_pgno);
-    return -1;
+    return 0;
   }
 
   txnid_t recent;
@@ -13517,7 +13515,7 @@ __cold intptr_t mdbx_limits_keysize_max(intptr_t pagesize) {
   else if (unlikely(pagesize < (intptr_t)MIN_PAGESIZE ||
                     pagesize > (intptr_t)MAX_PAGESIZE ||
                     !mdbx_is_power2((size_t)pagesize)))
-    return -MDBX_EINVAL;
+    return (MDBX_EINVAL > 0) ? -MDBX_EINVAL : MDBX_EINVAL;
 
   return mdbx_maxkey(mdbx_nodemax(pagesize));
 }
@@ -13532,7 +13530,7 @@ __cold intptr_t mdbx_limits_dbsize_min(intptr_t pagesize) {
   else if (unlikely(pagesize < (intptr_t)MIN_PAGESIZE ||
                     pagesize > (intptr_t)MAX_PAGESIZE ||
                     !mdbx_is_power2((size_t)pagesize)))
-    return -MDBX_EINVAL;
+    return (MDBX_EINVAL > 0) ? -MDBX_EINVAL : MDBX_EINVAL;
 
   return MIN_PAGENO * pagesize;
 }
@@ -13543,7 +13541,7 @@ __cold intptr_t mdbx_limits_dbsize_max(intptr_t pagesize) {
   else if (unlikely(pagesize < (intptr_t)MIN_PAGESIZE ||
                     pagesize > (intptr_t)MAX_PAGESIZE ||
                     !mdbx_is_power2((size_t)pagesize)))
-    return -MDBX_EINVAL;
+    return (MDBX_EINVAL > 0) ? -MDBX_EINVAL : MDBX_EINVAL;
 
   const uint64_t limit = MAX_PAGENO * (uint64_t)pagesize;
   return (limit < (intptr_t)MAX_MAPSIZE) ? (intptr_t)limit
@@ -13556,7 +13554,7 @@ __cold intptr_t mdbx_limits_txnsize_max(intptr_t pagesize) {
   else if (unlikely(pagesize < (intptr_t)MIN_PAGESIZE ||
                     pagesize > (intptr_t)MAX_PAGESIZE ||
                     !mdbx_is_power2((size_t)pagesize)))
-    return -MDBX_EINVAL;
+    return (MDBX_EINVAL > 0) ? -MDBX_EINVAL : MDBX_EINVAL;
 
   return pagesize * (MDBX_DPL_TXNFULL - 1);
 }
