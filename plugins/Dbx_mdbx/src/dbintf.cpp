@@ -64,8 +64,6 @@ CDbxMDBX::~CDbxMDBX()
 
 int CDbxMDBX::Load()
 {
-	TouchFile();
-
 	unsigned int defFlags = MDBX_CREATE;
 	{
 		txn_ptr trnlck(StartTran());
@@ -267,13 +265,13 @@ int CDbxMDBX::Map()
 void CDbxMDBX::TouchFile()
 {
 	SYSTEMTIME st;
-	::GetLocalTime(&st);
+	::GetSystemTime(&st);
 
 	FILETIME ft;
 	SystemTimeToFileTime(&st, &ft);
 
-	HANDLE hFile = CreateFileW(m_tszProfileName, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
-	if (hFile) {
+	HANDLE hFile = CreateFileW(m_tszProfileName, GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+	if (hFile != INVALID_HANDLE_VALUE) {
 		SetFileTime(hFile, nullptr, &ft, &ft);
 		CloseHandle(hFile);
 	}
