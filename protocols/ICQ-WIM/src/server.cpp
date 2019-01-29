@@ -46,24 +46,33 @@ void CIcqProto::CheckLastId(MCONTACT hContact, const JSONNode &ev)
 
 MCONTACT CIcqProto::CheckOwnMessage(const CMStringA &reqId, const CMStringA &msgId, bool bRemove)
 {
-	for (auto &own: m_arOwnIds) {
-		if (!mir_strcmp(reqId, own->m_guid)) {
-			ProtoBroadcastAck(own->m_hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)own->m_msgid, (LPARAM)msgId.c_str());
-
-			MCONTACT ret = own->m_hContact;
-			if (bRemove) {
-				// here we filter service messages for SecureIM, OTR etc, i.e. messages that 
-				// weren't initialized by SRMM (we identify it by missing server id)
-				if (db_event_getById(m_szModuleName, msgId) == 0)
-					db_event_setId(m_szModuleName, 1, msgId);
-
-				mir_cslock lck(m_csOwnIds);
-				m_arOwnIds.remove(m_arOwnIds.indexOf(&own));
+	IcqOwnMessage *pOwn = nullptr;
+	{
+		mir_cslock lck(m_csOwnIds);
+		for (auto &it : m_arOwnIds) {
+			if (reqId == it->m_guid) {
+				pOwn = it;
+				break;
 			}
-			return ret;
 		}
 	}
-	return 0;
+
+	if (pOwn == nullptr)
+		return 0;
+
+	ProtoBroadcastAck(pOwn->m_hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)pOwn->m_msgid, (LPARAM)msgId.c_str());
+
+	MCONTACT ret = pOwn->m_hContact;
+	if (bRemove) {
+		// here we filter service messages for SecureIM, OTR etc, i.e. messages that 
+		// weren't initialized by SRMM (we identify it by missing server id)
+		if (db_event_getById(m_szModuleName, msgId) == 0)
+			db_event_setId(m_szModuleName, 1, msgId);
+
+		mir_cslock lck(m_csOwnIds);
+		m_arOwnIds.remove(pOwn);
+	}
+	return ret;
 }
 
 void CIcqProto::CheckPassword()
@@ -713,12 +722,7 @@ void CIcqProto::OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 		ProtoBroadcastAck(ownMsg->m_hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)ownMsg->m_msgid, 0);
 
 		mir_cslock lck(m_csOwnIds);
-		for (auto &it : m_arOwnIds) {
-			if (it == ownMsg) {
-				m_arOwnIds.remove(m_arOwnIds.indexOf(&it));
-				break;
-			}
-		}
+		m_arOwnIds.remove(ownMsg);
 	}
 
 	const JSONNode &data = root.data();

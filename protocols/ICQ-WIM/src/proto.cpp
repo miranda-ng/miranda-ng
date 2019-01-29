@@ -36,7 +36,7 @@
 CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	PROTO<CIcqProto>(aProtoName, aUserName),
 	m_arHttpQueue(10),
-	m_arOwnIds(1),
+	m_arOwnIds(1, PtrKeySortT),
 	m_arCache(20, NumericKeySortT),
 	arMarkReadQueue(10, NumericKeySortT),
 	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr)),
