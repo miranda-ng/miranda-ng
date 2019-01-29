@@ -81,6 +81,13 @@ struct IcqFileTransfer : public MZeroedObject
 		pfts.flags = PFTS_UNICODE | PFTS_SENDING;
 		pfts.hContact = hContact;
 		pfts.szCurrentFile.w = m_wszFileName.GetBuffer();
+
+		const wchar_t *p = wcsrchr(pfts.szCurrentFile.w, '\\');
+		if (pwszFileName != nullptr)
+			p++;
+		else
+			p = pfts.szCurrentFile.w;
+		m_wszShortName = p;
 	}
 
 	~IcqFileTransfer()
@@ -90,20 +97,21 @@ struct IcqFileTransfer : public MZeroedObject
 	}
 
 	int m_fileId = -1;
-	CMStringW m_wszFileName;
 	CMStringA m_szHost;
+	CMStringW m_wszFileName;
+	const wchar_t *m_wszShortName;
 	PROTOFILETRANSFERSTATUS pfts;
 
 	void FillHeaders(AsyncHttpRequest *pReq)
 	{
 		pReq->AddHeader("Content-Type", "application/octet-stream");
-		pReq->AddHeader("Content-Disposition", CMStringA(FORMAT, "attachment; filename=\"%s\"", T2Utf(m_wszFileName)));
+		pReq->AddHeader("Content-Disposition", CMStringA(FORMAT, "attachment; filename=\"%s\"", T2Utf(m_wszShortName)));
 
 		DWORD dwPortion = pfts.currentFileSize - pfts.currentFileProgress;
 		if (dwPortion > 1000000)
 			dwPortion = 1000000;
 
-		pReq->AddHeader("Content-Range", CMStringA(FORMAT, "bytes %d-%d/%d", pfts.currentFileProgress, pfts.currentFileProgress + dwPortion - 1, pfts.currentFileSize));
+		pReq->AddHeader("Content-Range", CMStringA(FORMAT, "bytes %lld-%lld/%lld", pfts.currentFileProgress, pfts.currentFileProgress + dwPortion - 1, pfts.currentFileSize));
 		pReq->AddHeader("Content-Length", CMStringA(FORMAT, "%d", dwPortion));
 
 		pReq->dataLength = dwPortion;
