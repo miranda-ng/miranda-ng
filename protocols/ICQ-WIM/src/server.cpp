@@ -177,9 +177,12 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 	Json2string(hContact, buddy, "workNumber", "CompanyPhone");
 	Json2string(hContact, buddy, "emailId", "e-mail");
 
+	// zero here means that a contact is currently online
+	int lastSeen = buddy["lastseen"].as_int();
+	setDword(hContact, DB_KEY_LASTSEEN, lastSeen ? lastSeen : time(0));
+
 	Json2int(hContact, buddy, "official", "Official");
-	Json2int(hContact, buddy, "lastseen", "LastSeen");
-	Json2int(hContact, buddy, "onlineTime", "OnlineTS");
+	Json2int(hContact, buddy, "onlineTime", DB_KEY_ONLINETS);
 	Json2int(hContact, buddy, "idleTime", "IdleTS");
 	Json2int(hContact, buddy, "memberSince", DB_KEY_MEMBERSINCE);
 

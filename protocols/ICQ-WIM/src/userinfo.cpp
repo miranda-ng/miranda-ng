@@ -37,8 +37,9 @@ static INT_PTR CALLBACK IcqDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam
 			SetDlgItemTextW(hwndDlg, IDC_NICK, ppro->getMStringW(hContact, DB_KEY_ICQNICK));
 
 			SetDlgItemTextA(hwndDlg, IDC_IDLETIME, time2text(ppro->getDword(hContact, DB_KEY_IDLE)));
+			SetDlgItemTextA(hwndDlg, IDC_LASTSEEN, time2text(ppro->getDword(hContact, DB_KEY_LASTSEEN)));
 			SetDlgItemTextA(hwndDlg, IDC_MEMBERSINCE, time2text(ppro->getDword(hContact, DB_KEY_MEMBERSINCE)));
-			SetDlgItemTextA(hwndDlg, IDC_ONLINESINCE, time2text(ppro->getDword(hContact, DB_KEY_LASTSEEN)));
+			SetDlgItemTextA(hwndDlg, IDC_ONLINESINCE, time2text(time(0) - ppro->getDword(hContact, DB_KEY_ONLINETS)));
 		}
 		break;
 	}

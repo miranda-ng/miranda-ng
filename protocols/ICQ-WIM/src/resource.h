@@ -20,6 +20,7 @@
 #define IDC_NICK                        1012
 #define IDC_IDLETIME2                   1013
 #define IDC_MEMBERSINCE                 1013
+#define IDC_LASTSEEN                    1014
 
 // Next default values for new objects
 // 
