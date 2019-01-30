@@ -36,8 +36,7 @@ EventNames[] =
 	EVENTTYPE_FILE, LPGENW("File transfer"),
 	EVENTTYPE_AUTHREQUEST, LPGENW("Authorization request"),
 	EVENTTYPE_ADDED, LPGENW("You were added"),
-	EVENTTYPE_CONTACTS, LPGENW("Contacts received"),
-	ICQEVENTTYPE_SMS, LPGENW("SMS message")
+	EVENTTYPE_CONTACTS, LPGENW("Contacts received")
 };
 
 struct TCpTable

@@ -118,8 +118,6 @@ procedure GetEventTextForAuthRequest(EventInfo: TDBEventInfo; var Hi: THistoryIt
 procedure GetEventTextForYouWereAdded(EventInfo: TDBEventInfo; var Hi: THistoryItem);
 procedure GetEventTextForSms(EventInfo: TDBEventInfo; var Hi: THistoryItem);
 procedure GetEventTextForContacts(EventInfo: TDBEventInfo; var Hi: THistoryItem);
-procedure GetEventTextForWebPager(EventInfo: TDBEventInfo; var Hi: THistoryItem);
-procedure GetEventTextForEmailExpress(EventInfo: TDBEventInfo; var Hi: THistoryItem);
 procedure GetEventTextForStatusChange(EventInfo: TDBEventInfo; var Hi: THistoryItem);
 procedure GetEventTextForAvatarChange(EventInfo: TDBEventInfo; var Hi: THistoryItem);
 procedure GetEventTextForICQAuthGranted(EventInfo: TDBEventInfo; var Hi: THistoryItem);
@@ -183,7 +181,7 @@ type
   end;
 
 var
-  EventTable: array[0..27] of TEventTableItem = (
+  EventTable: array[0..25] of TEventTableItem = (
     // must be the first item in array for unknown events
     (EventType: MaxWord;                         MessageType: mtOther;         TextFunction: GetEventTextForOther),
     // events definitions
@@ -195,8 +193,6 @@ var
     (EventType: EVENTTYPE_STATUSCHANGE;          MessageType: mtStatus;        TextFunction: GetEventTextForStatusChange),
     (EventType: EVENTTYPE_SMTPSIMPLE;            MessageType: mtSMTPSimple;    TextFunction: GetEventTextForMessage),
     (EventType: EVENTTYPE_SMS;                   MessageType: mtSMS;           TextFunction: GetEventTextForSMS),
-    (EventType: ICQEVENTTYPE_WEBPAGER;           MessageType: mtWebPager;      TextFunction: GetEventTextForWebPager),
-    (EventType: ICQEVENTTYPE_EMAILEXPRESS;       MessageType: mtEmailExpress;  TextFunction: GetEventTextForEmailExpress),
     (EventType: EVENTTYPE_NICKNAMECHANGE;        MessageType: mtNickChange;    TextFunction: GetEventTextForMessage),
     (EventType: EVENTTYPE_STATUSMESSAGECHANGE;   MessageType: mtStatusMessage; TextFunction: GetEventTextForMessage),
     (EventType: EVENTTYPE_AVATARCHANGE;          MessageType: mtAvatarChange;  TextFunction: GetEventTextForAvatarChange),

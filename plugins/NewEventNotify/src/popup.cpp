@@ -201,10 +201,10 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 		commentFix = POPUP_COMMENT_FILE;
 		break;
 
+	case EVENTTYPE_CONTACTS:
 		// blob format is:
 		// ASCIIZ    nick
 		// ASCIIZ    UID
-	case EVENTTYPE_CONTACTS:
 		if (dbei->pBlob) {
 			// count contacts in event
 			char* pcBlob = (char *)dbei->pBlob;
@@ -227,6 +227,7 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 		commentFix = POPUP_COMMENT_CONTACTS;
 		break;
 
+	case EVENTTYPE_ADDED:
 		// blob format is:
 		// DWORD     numeric uin (ICQ only afaik)
 		// DWORD     HANDLE to contact
@@ -234,7 +235,6 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 		// ASCIIZ    first name
 		// ASCIIZ    last name
 		// ASCIIZ    email (or YID)
-	case EVENTTYPE_ADDED:
 		if (dbei->pBlob) {
 			char szUin[16];
 			wchar_t szBuf[2048];
@@ -288,58 +288,6 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 				comment1 = CMStringW(FORMAT, L"%s%s", szNick, TranslateT(" requested authorization")).Detach();
 		}
 		commentFix = POPUP_COMMENT_AUTH;
-		break;
-
-		// blob format is:
-		// ASCIIZ    text, usually "Sender IP: xxx.xxx.xxx.xxx\r\n%s"
-		// ASCIIZ    from name
-		// ASCIIZ    from e-mail
-	case ICQEVENTTYPE_WEBPAGER:
-		if (dbei->pBlob) comment1 = mir_a2u((const char *)dbei->pBlob);
-		commentFix = POPUP_COMMENT_WEBPAGER;
-		break;
-
-		// blob format is:
-		// ASCIIZ    text, usually of the form "Subject: %s\r\n%s"
-		// ASCIIZ    from name
-		// ASCIIZ    from e-mail
-	case ICQEVENTTYPE_EMAILEXPRESS:
-		if (dbei->pBlob) comment1 = mir_a2u((const char *)dbei->pBlob);
-		commentFix = POPUP_COMMENT_EMAILEXP;
-		break;
-
-		// blob format is:
-		// ASCIIZ    text, usually of the form "SMS From: +XXXXXXXX\r\nTEXT"
-	case ICQEVENTTYPE_SMS:
-		if (dbei->pBlob) {
-			if (dbei->flags & DBEF_UTF) {
-				// utf-8 in blob
-				comment1 = mir_utf8decodeW((char*)dbei->pBlob);
-			}
-			else if (dbei->cbBlob == (mir_wstrlen((wchar_t *)dbei->pBlob) + 1)*(sizeof(wchar_t) + 1)) {
-				// wchar in blob (the old hack)
-				comment1 = mir_wstrdup((wchar_t*)dbei->pBlob);
-			}
-			else comment1 = mir_a2u((char *)dbei->pBlob);
-		}
-		commentFix = POPUP_COMMENT_SMS;
-		break;
-
-		// blob format is:
-		// ASCIIZ text, usually of the form "SMS Confirmation From: +XXXXXXXXXXXX\r\nSMS was sent succesfully"
-	case ICQEVENTTYPE_SMSCONFIRMATION:
-		if (dbei->pBlob) {
-			if (dbei->flags & DBEF_UTF) {
-				// utf-8 in blob
-				comment1 = mir_utf8decodeW((char*)dbei->pBlob);
-			}
-			else if (dbei->cbBlob == (mir_wstrlen((wchar_t *)dbei->pBlob) + 1)*(sizeof(wchar_t) + 1)) {
-				// wchar in blob (the old hack)
-				comment1 = mir_wstrdup((wchar_t*)dbei->pBlob);
-			}
-			else comment1 = mir_a2u((char *)dbei->pBlob);
-		}
-		commentFix = POPUP_COMMENT_SMSCONFIRMATION;
 		break;
 
 	default:

@@ -910,54 +910,6 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 			}
 			break;
 
-		case ICQEVENTTYPE_EMAILEXPRESS:
-		case ICQEVENTTYPE_WEBPAGER:
-			{
-				//e-mail express 
-				//db event added to NULL contact
-				//blob format is:
-				//ASCIIZ    text, usually of the form "Subject: %s\r\n%s"
-				//ASCIIZ    from name
-				//ASCIIZ    from e-mail
-
-				//www pager
-				//db event added to NULL contact
-				//blob format is:
-				//ASCIIZ    text, usually "Sender IP: xxx.xxx.xxx.xxx\r\n%s"
-				//ASCIIZ    from name
-				//ASCIIZ    from e-mail
-				const char* pszStr = (const char*)dbei.pBlob;
-
-				if (dbei.eventType == ICQEVENTTYPE_EMAILEXPRESS)
-					bWriteTextToFile(hFile, LPGENW("EmailExpress from:"), bWriteUTF8Format);
-				else
-					bWriteTextToFile(hFile, LPGENW("WebPager from:"), bWriteUTF8Format);
-
-				bWriteNewLine(hFile, nIndent);
-
-				size_t nMsgLenght = mir_strlen(pszStr) + 1;
-				if (nMsgLenght < dbei.cbBlob) {
-					size_t nFriendlyLen = mir_strlen(&pszStr[nMsgLenght]);
-					bWriteTextToFile(hFile, &pszStr[nMsgLenght], bWriteUTF8Format, (int)nFriendlyLen);
-					size_t nEmailOffset = nMsgLenght + nFriendlyLen + 1;
-					if (nEmailOffset < dbei.cbBlob) {
-						bWriteTextToFile(hFile, L"<", bWriteUTF8Format);
-						size_t nEmailLen = mir_strlen(&pszStr[nEmailOffset]);
-						bWriteTextToFile(hFile, &pszStr[nEmailOffset], bWriteUTF8Format, (int)nEmailLen);
-						bWriteTextToFile(hFile, L">", bWriteUTF8Format);
-					}
-				}
-				else bWriteTextToFile(hFile, LPGENW("No from address"), bWriteUTF8Format);
-
-				bWriteNewLine(hFile, nIndent);
-				bWriteIndentedToFile(hFile, nIndent, _A2T(pszStr), bWriteUTF8Format);
-			}
-			break;
-
-		case ICQEVENTTYPE_SMS:
-			bWriteIndentedToFile(hFile, nIndent, _A2T((const char*)dbei.pBlob), bWriteUTF8Format);
-			break;
-
 		default:
 			int n = mir_snwprintf(szTemp, TranslateT("Unknown event type %d, size %d"), dbei.eventType, dbei.cbBlob);
 			bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, n);

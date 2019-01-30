@@ -127,12 +127,6 @@
 #define POPUP_COMMENT_CONTACTS LPGEN("Contacts")
 #define POPUP_COMMENT_ADDED LPGEN("You were added!")
 #define POPUP_COMMENT_AUTH LPGEN("Requests your authorization")
-#define POPUP_COMMENT_WEBPAGER LPGEN("ICQ Web pager")
-#define POPUP_COMMENT_EMAILEXP LPGEN("ICQ Email express")
-
-#define ICQEVENTTYPE_SMSCONFIRMATION 3001
-#define POPUP_COMMENT_SMS LPGEN("SMS Message")
-#define POPUP_COMMENT_SMSCONFIRMATION LPGEN("SMS Confirmation")
 
 #define POPUP_COMMENT_OTHER LPGEN("Unknown Event")
 

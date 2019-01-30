@@ -312,9 +312,6 @@ int ProtoAck(WPARAM, LPARAM lParam)
 		if (mir_wstrlen(tszMsg))
 			PostMPMessage(MUM_GOTSTATUS, (WPARAM)ack->hContact, (LPARAM)mir_wstrdup(tszMsg));
 	}
-	else if (ack->type == ICQACKTYPE_XSTATUS_RESPONSE)
-		PostMPMessage(MUM_GOTXSTATUS, (WPARAM)ack->hContact, 0);
-
 	return 0;
 }
 

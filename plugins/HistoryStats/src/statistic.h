@@ -37,9 +37,7 @@ public:
 		etMessage             = EVENTTYPE_MESSAGE,
 		// other events
 		etFile                = EVENTTYPE_FILE,
-		etICQSMS              = ICQEVENTTYPE_SMS,
-		etICQWebPager         = ICQEVENTTYPE_WEBPAGER,
-		etICQEMailExpress     = ICQEVENTTYPE_EMAILEXPRESS,
+
 		// authorization and contacts
 		etAuthRequest         = EVENTTYPE_AUTHREQUEST,
 		etAdded               = EVENTTYPE_ADDED,
