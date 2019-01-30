@@ -35,7 +35,6 @@ public:
 	static HANDLE getIconHandle(const char *szName);
 
 	static wchar_t *getFileNameFromPath(wchar_t *stzPath);
-	static CMStringA makeSafeString(CMStringA &input);
 
 	static void createFileDownloadLink(char *szUrl, char *fileName, char *buff, int buffSize);
 	static void copyToClipboard(char *szText);

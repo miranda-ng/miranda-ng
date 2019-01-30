@@ -44,9 +44,7 @@ UploadJob::UploadJob(PackerJob *job) :
 	for (int i = 0; i < _countof(m_lastSpeed); i++)
 		m_lastSpeed[i] = 0;
 
-	CMStringA buf = _T2A(job->m_tszFileName);
-	Utils::makeSafeString(buf);
-	strncpy_s(m_szSafeFileName, buf.c_str(), _TRUNCATE);
+	makeSafeString(job->m_tszFileName);
 
 	m_status = STATUS_CREATED;
 }
@@ -67,9 +65,7 @@ void UploadJob::addToUploadDlg()
 		wcsncpy_s(jobCopy->m_tszFilePath, m_files[i], _TRUNCATE);
 		wcsncpy_s(jobCopy->m_tszFileName, Utils::getFileNameFromPath(jobCopy->m_tszFilePath), _TRUNCATE);
 
-		CMStringA buf = jobCopy->m_tszFileName;
-		Utils::makeSafeString(buf);
-		strncpy_s(jobCopy->m_szSafeFileName, buf.c_str(), _TRUNCATE);
+		jobCopy->makeSafeString(jobCopy->m_tszFileName);
 
 		UploadDialog::Tab *newTab = new UploadDialog::Tab(jobCopy);
 		jobCopy->m_tab = newTab;
@@ -180,7 +176,7 @@ void UploadJob::start()
 	mir_forkThread<UploadJob>(&UploadJob::waitingThread, this);
 }
 
-char *UploadJob::getChmodString()
+char* UploadJob::getChmodString()
 {
 	if (m_ftp->m_ftpProto == ServerList::FTP::FT_SSH)
 		mir_snprintf(m_buff, "%s \"%s/%s\"", m_ftp->m_szChmod, m_ftp->m_szDir, m_szSafeFileName);
@@ -190,7 +186,7 @@ char *UploadJob::getChmodString()
 	return m_buff;
 }
 
-char *UploadJob::getDelFileString()
+char* UploadJob::getDelFileString()
 {
 	if (m_ftp->m_ftpProto == ServerList::FTP::FT_SSH)
 		mir_snprintf(m_buff, "rm \"%s/%s\"", m_ftp->m_szDir, m_szSafeFileName);
@@ -200,7 +196,7 @@ char *UploadJob::getDelFileString()
 	return m_buff;
 }
 
-char *UploadJob::getUrlString()
+char* UploadJob::getUrlString()
 {
 	if (m_ftp->m_szDir[0])
 		mir_snprintf(m_buff, "%s%s/%s/%s", m_ftp->getProtoString(), m_ftp->m_szServer, m_ftp->m_szDir, m_szSafeFileName);
@@ -210,7 +206,7 @@ char *UploadJob::getUrlString()
 	return m_buff;
 }
 
-char *UploadJob::getDelUrlString()
+char* UploadJob::getDelUrlString()
 {
 	if (m_ftp->m_szDir[0] && m_ftp->m_ftpProto != ServerList::FTP::FT_SSH)
 		mir_snprintf(m_buff, "%s%s/%s/", m_ftp->getProtoString(), m_ftp->m_szServer, m_ftp->m_szDir);
@@ -220,7 +216,7 @@ char *UploadJob::getDelUrlString()
 	return m_buff;
 }
 
-CURL *UploadJob::curlInit(char *szUrl, struct curl_slist *headerList)
+CURL* UploadJob::curlInit(char *szUrl, struct curl_slist *headerList)
 {
 	m_hCurl = curl_easy_init();
 	if (!m_hCurl)
@@ -239,6 +235,24 @@ bool UploadJob::fileExistsOnServer()
 	int result = curl_easy_perform(m_hCurl);
 	return result != CURLE_REMOTE_FILE_NOT_FOUND;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+const wchar_t from_chars[] = L"абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ !@#$%^&=,{}[];'`";
+const wchar_t to_chars[] = L"abvgdeezziiklmnoprstufhccwwqyqeuaABVGDEEZZIIKLMNOPRSTUFHCCWWQYQEUA_________________";
+
+void UploadJob::makeSafeString(const wchar_t *input)
+{
+	CMStringW tmp(input);
+
+	size_t len = mir_wstrlen(from_chars);
+	for (size_t i = 0; i < len; i++)
+		tmp.Replace(from_chars[i], to_chars[i]);
+
+	strncpy(this->m_szSafeFileName, _T2A(tmp), _TRUNCATE);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR CALLBACK UploadJob::DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {

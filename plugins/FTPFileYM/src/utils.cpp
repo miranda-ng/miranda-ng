@@ -77,17 +77,6 @@ void Utils::copyToClipboard(char *szText)
 	}
 }
 
-const char from_chars[] = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ !@#$%^&=,{}[];'`";
-const char to_chars[] = "abvgdeezziiklmnoprstufhccwwqyqeuaABVGDEEZZIIKLMNOPRSTUFHCCWWQYQEUA_________________";
-
-CMStringA Utils::makeSafeString(CMStringA &input)
-{
-	size_t len = mir_strlen(from_chars);
-	for (size_t i = 0; i < len; i++)
-		input.Replace(from_chars[i], to_chars[i]);
-	return input;
-}
-
 void Utils::curlSetOpt(CURL *hCurl, ServerList::FTP *ftp, char *url, struct curl_slist *headerList, char *errorBuff)
 {
 	char buff[256];

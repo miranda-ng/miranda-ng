@@ -44,10 +44,10 @@ private:
 	static mir_cs mutexJobCount;
 	static int iRunningJobCount;
 
-	char *getChmodString();
-	char *getDelFileString();
-	char *getUrlString();
-	char *getDelUrlString();
+	char* getChmodString();
+	char* getDelFileString();
+	char* getUrlString();
+	char* getDelUrlString();
 	void copyLinkToML();
 	void autoSend();
 
@@ -58,6 +58,7 @@ private:
 	static INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam); 
 
 	bool fileExistsOnServer();
+	void makeSafeString(const wchar_t*);
 	void upload(); 
 	void updateStats();
 
