@@ -77,7 +77,6 @@ const
     (Name:'Contacts';              XML:'ICQCNT';      i:HPP_ICON_EVENT_CONTACTS;  iName:'hppevn_icqcnt';    iSkin:-1),
     (Name:'SMS message';           XML:'SMS';         i:HPP_ICON_EVENT_SMS;       iName:'hppevn_sms';       iSkin:-1),
     (Name:'Webpager message';      XML:'ICQWP';       i:HPP_ICON_EVENT_WEBPAGER;  iName:'hppevn_icqwp';     iSkin:-1),
-    (Name:'EMail Express message'; XML:'ICQEX';       i:HPP_ICON_EVENT_EEXPRESS;  iName:'hppevn_icqex';     iSkin:-1),
     (Name:'Status changes';        XML:'STATUSCNG';   i:HPP_ICON_EVENT_STATUS;    iName:'hppevn_status';    iSkin:-1),
     (Name:'SMTP Simple Email';     XML:'SMTP';        i:HPP_ICON_EVENT_SMTPSIMPLE;iName:'hppevn_smtp';      iSkin:-1),
     (Name:'Other events (unknown)';XML:'OTHER';       i:HPP_SKIN_OTHER_MIRANDA;                             iSkin:SKINICON_OTHER_MIRANDA),
@@ -181,7 +180,7 @@ type
   end;
 
 var
-  EventTable: array[0..25] of TEventTableItem = (
+  EventTable: array[0..24] of TEventTableItem = (
     // must be the first item in array for unknown events
     (EventType: MaxWord;                         MessageType: mtOther;         TextFunction: GetEventTextForOther),
     // events definitions
@@ -192,7 +191,6 @@ var
     (EventType: EVENTTYPE_CONTACTS;              MessageType: mtContacts;      TextFunction: GetEventTextForContacts),
     (EventType: EVENTTYPE_STATUSCHANGE;          MessageType: mtStatus;        TextFunction: GetEventTextForStatusChange),
     (EventType: EVENTTYPE_SMTPSIMPLE;            MessageType: mtSMTPSimple;    TextFunction: GetEventTextForMessage),
-    (EventType: EVENTTYPE_SMS;                   MessageType: mtSMS;           TextFunction: GetEventTextForSMS),
     (EventType: EVENTTYPE_NICKNAMECHANGE;        MessageType: mtNickChange;    TextFunction: GetEventTextForMessage),
     (EventType: EVENTTYPE_STATUSMESSAGECHANGE;   MessageType: mtStatusMessage; TextFunction: GetEventTextForMessage),
     (EventType: EVENTTYPE_AVATARCHANGE;          MessageType: mtAvatarChange;  TextFunction: GetEventTextForAvatarChange),
@@ -678,25 +676,6 @@ begin
                            [AnsiToWideString(Name,cp),
                            AnsiToWideString(Email,cp),
                            AnsiToWideString(#13#10+Body,cp)]);
-end;
-
-procedure GetEventTextForEmailExpress(EventInfo: TDBEventInfo; var Hi: THistoryItem);
-var
-  BytePos: LongWord;
-  Body,Name,Email: AnsiString;
-  cp: Cardinal;
-begin
-  BytePos := 0;
-  ReadStringTillZeroA(Pointer(EventInfo.pBlob),EventInfo.cbBlob,Body,BytePos);
-  ReadStringTillZeroA(Pointer(EventInfo.pBlob),EventInfo.cbBlob,Name,BytePos);
-  ReadStringTillZeroA(Pointer(EventInfo.pBlob),EventInfo.cbBlob,Email,BytePos);
-  if Boolean(EventInfo.flags and DBEF_UTF) then
-    cp := CP_UTF8
-  else
-    cp := hppCodepage;
-  Hi.Text := Format(TranslateW('Email express from %s (%s): %s'),
-    [AnsiToWideString(Name, cp), AnsiToWideString(Email, cp),
-    AnsiToWideString(#13#10 + Body, cp)]);
 end;
 
 procedure GetEventTextForStatusChange(EventInfo: TDBEventInfo; var Hi: THistoryItem);

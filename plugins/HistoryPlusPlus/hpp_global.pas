@@ -64,7 +64,7 @@ type
   TMessageType = (mtUnknown,
                   mtIncoming, mtOutgoing,
                   mtMessage, mtFile, mtSystem,
-                  mtContacts, mtSMS, mtWebPager, mtEmailExpress, mtStatus, mtSMTPSimple,
+                  mtContacts, mtSMS, mtWebPager, mtStatus, mtSMTPSimple,
                   mtOther,
                   mtNickChange,mtAvatarChange,mtWATrack,mtStatusMessage,mtVoiceCall,mtCustom);
 

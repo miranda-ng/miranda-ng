@@ -51,11 +51,6 @@
   closing history window without closing find dialog don't throws
   exception
 
-  [ Known Issues ]
-
-  * Not very good support of EmailExpress events (togeter
-  with HistoryGrid.pas)
-
   Contributors: theMIROn, Art Fedorov
   ----------------------------------------------------------------------------- }
 

@@ -62,8 +62,6 @@
 
   [ Known Issues ]
   * Some visual bugs when track-scrolling. See WMVScroll for details.
-  * Not very good support of EmailExpress events (togeter
-  with HistoryForm.pas)
 
   Contributors: theMIROn, Art Fedorov
   ----------------------------------------------------------------------------- }

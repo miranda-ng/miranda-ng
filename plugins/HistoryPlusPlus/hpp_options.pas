@@ -134,7 +134,7 @@ const
     (name:'historypp_33'; desc:'Limit Search Range';        group: 'Toolbar'; i:HPP_ICON_SEARCHRANGE)
   );
 
-  hppFontItems: array[0..29] of ThppFontsRec = (
+  hppFontItems: array[0..28] of ThppFontsRec = (
     (_type: [hppFont,hppColor]; name: 'Incoming nick'; nameColor: 'Divider';
        Mes: []; style:DBFONTF_BOLD; size: -11; color: $6B3FC8; back: clGray),
 
@@ -218,9 +218,6 @@ const
 
     (_type: [hppFont,hppColor]; name: 'Webpager message';
        Mes: [mtWebPager,mtIncoming,mtOutgoing]; style:0; size: -11; color: $000000; back: $FFFFFF),
-
-    (_type: [hppFont,hppColor]; name: 'EMail Express message';
-       Mes: [mtEmailExpress,mtIncoming,mtOutgoing]; style:0; size: -11; color: $000000; back: $FFFFFF),
 
     (_type: [hppColor]; nameColor: 'Link';
        Mes: []; back: clBlue)
@@ -377,7 +374,6 @@ begin
   try
     // load fonts
     LoadFont(0, GridOptions.FontContact);
-    // GridOptions.FontSelected := LoadFont(2,GridOptions.FontSelected);
     GridOptions.FontProfile           := LoadFont(1, GridOptions.FontProfile);
     GridOptions.FontSessHeader        := LoadFont(17, GridOptions.FontSessHeader);
     GridOptions.FontIncomingTimestamp := LoadFont(20, GridOptions.FontIncomingTimestamp);
@@ -389,7 +385,7 @@ begin
     GridOptions.ColorSelected     := LoadColorDB(2);
     GridOptions.ColorSessHeader   := LoadColorDB(17);
     GridOptions.ColorBackground   := LoadColorDB(22);
-    GridOptions.ColorLink         := LoadColorDB(29);
+    GridOptions.ColorLink         := LoadColorDB(28);
 
     // load mestype-related
     index := 0;
@@ -408,13 +404,6 @@ begin
         Inc(index);
       end;
     end;
-
-    // for i :=  3 to High(hppFontItems)-1 do begin
-    // if (i-3) > High(GridOptions.ItemOptions) then GridOptions.AddItemOptions;
-    // GridOptions.ItemOptions[i-3].MessageType := hppFontItems[i].Mes;
-    // LoadFont(i,GridOptions.ItemOptions[i-3].textFont);
-    // GridOptions.ItemOptions[i-3].textColor := LoadColorDB(i);
-    // end;
 
     // load others
     GridOptions.ShowIcons := GetDBBool(hppDBName, 'ShowIcons', true);
