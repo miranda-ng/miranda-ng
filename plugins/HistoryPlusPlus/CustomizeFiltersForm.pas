@@ -108,7 +108,7 @@ uses
 
 const
   // commented to use all events in system history
-  //IgnoreEvents: TMessageTypes = [mtSystem, mtWebPager];
+  //IgnoreEvents: TMessageTypes = [mtSystem];
   IgnoreEvents: TMessageTypes = [];
 
 {$R *.dfm}

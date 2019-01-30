@@ -76,7 +76,6 @@ const
     (Name:'System message';        XML:'SYS';         i:HPP_ICON_EVENT_SYSTEM;    iName:'hppevn_sys';       iSkin:-1),
     (Name:'Contacts';              XML:'ICQCNT';      i:HPP_ICON_EVENT_CONTACTS;  iName:'hppevn_icqcnt';    iSkin:-1),
     (Name:'SMS message';           XML:'SMS';         i:HPP_ICON_EVENT_SMS;       iName:'hppevn_sms';       iSkin:-1),
-    (Name:'Webpager message';      XML:'ICQWP';       i:HPP_ICON_EVENT_WEBPAGER;  iName:'hppevn_icqwp';     iSkin:-1),
     (Name:'Status changes';        XML:'STATUSCNG';   i:HPP_ICON_EVENT_STATUS;    iName:'hppevn_status';    iSkin:-1),
     (Name:'SMTP Simple Email';     XML:'SMTP';        i:HPP_ICON_EVENT_SMTPSIMPLE;iName:'hppevn_smtp';      iSkin:-1),
     (Name:'Other events (unknown)';XML:'OTHER';       i:HPP_SKIN_OTHER_MIRANDA;                             iSkin:SKINICON_OTHER_MIRANDA),
@@ -656,26 +655,6 @@ begin
   else
     cp := Hi.CodePage;
   hi.Text := Format(TranslateUnicodeString(hi.Text),[AnsiToWideString(Contacts,cp)]);
-end;
-
-procedure GetEventTextForWebPager(EventInfo: TDBEventInfo; var Hi: THistoryItem);
-var
-  BytePos: LongWord;
-  Body,Name,Email: AnsiString;
-  cp: Cardinal;
-begin
-  BytePos := 0;
-  ReadStringTillZeroA(Pointer(EventInfo.pBlob),EventInfo.cbBlob,Body,BytePos);
-  ReadStringTillZeroA(Pointer(EventInfo.pBlob),EventInfo.cbBlob,Name,BytePos);
-  ReadStringTillZeroA(Pointer(EventInfo.pBlob),EventInfo.cbBlob,Email,BytePos);
-  if Boolean(EventInfo.flags and DBEF_UTF) then
-    cp := CP_UTF8
-  else
-    cp := hppCodepage;
-  hi.Text := Format(TranslateW('Webpager message from %s (%s): %s'),
-                           [AnsiToWideString(Name,cp),
-                           AnsiToWideString(Email,cp),
-                           AnsiToWideString(#13#10+Body,cp)]);
 end;
 
 procedure GetEventTextForStatusChange(EventInfo: TDBEventInfo; var Hi: THistoryItem);

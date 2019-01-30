@@ -134,7 +134,7 @@ const
     (name:'historypp_33'; desc:'Limit Search Range';        group: 'Toolbar'; i:HPP_ICON_SEARCHRANGE)
   );
 
-  hppFontItems: array[0..28] of ThppFontsRec = (
+  hppFontItems: array[0..27] of ThppFontsRec = (
     (_type: [hppFont,hppColor]; name: 'Incoming nick'; nameColor: 'Divider';
        Mes: []; style:DBFONTF_BOLD; size: -11; color: $6B3FC8; back: clGray),
 
@@ -215,9 +215,6 @@ const
 
     (_type: [hppFont,hppColor]; name: 'Voice calls';
        Mes: [mtVoiceCall,mtIncoming,mtOutgoing]; style:0; size: -11; color: $000000; back: $E9DFAB),
-
-    (_type: [hppFont,hppColor]; name: 'Webpager message';
-       Mes: [mtWebPager,mtIncoming,mtOutgoing]; style:0; size: -11; color: $000000; back: $FFFFFF),
 
     (_type: [hppColor]; nameColor: 'Link';
        Mes: []; back: clBlue)
@@ -385,7 +382,7 @@ begin
     GridOptions.ColorSelected     := LoadColorDB(2);
     GridOptions.ColorSessHeader   := LoadColorDB(17);
     GridOptions.ColorBackground   := LoadColorDB(22);
-    GridOptions.ColorLink         := LoadColorDB(28);
+    GridOptions.ColorLink         := LoadColorDB(27);
 
     // load mestype-related
     index := 0;
