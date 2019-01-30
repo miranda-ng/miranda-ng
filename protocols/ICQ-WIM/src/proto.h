@@ -129,7 +129,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	friend struct CIcqRegistrationDlg;
 	friend class CGroupchatInviteDlg;
 
-	bool      m_bOnline = false, m_bTerminated = false;
+	bool      m_bOnline, m_bTerminated, m_bFirstBos;
 	MCONTACT  CheckOwnMessage(const CMStringA &reqId, const CMStringA &msgId, bool bRemove);
 	void      CheckPassword(void);
 	void      ConnectionFailed(int iReason, int iErrorCode = 0);
@@ -145,7 +145,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      Json2int(MCONTACT, const JSONNode&, const char *szJson, const char *szSetting);
 	void      Json2string(MCONTACT, const JSONNode&, const char *szJson, const char *szSetting);
 	MCONTACT  ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact = -1);
-	void      ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &msg);
+	void      ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &msg, bool bFromHistory);
 
 	void      OnLoggedIn(void);
 	void      OnLoggedOut(void);

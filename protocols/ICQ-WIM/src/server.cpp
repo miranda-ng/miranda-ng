@@ -237,7 +237,7 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 	return hContact;
 }
 
-void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &it)
+void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &it, bool bFromHistory)
 {
 	CMStringA szMsgId(it["msgId"].as_mstring());
 	__int64 msgId = _atoi64(szMsgId);
@@ -259,6 +259,8 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 	}
 	else return;
 
+	int iMsgTime = (bFromHistory) ? it["time"].as_int() : time(0);
+
 	if (isChatRoom(hContact)) {
 		CMStringA reqId(it["reqId"].as_mstring());
 		CheckOwnMessage(reqId, szMsgId, true);
@@ -270,7 +272,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		gce.dwFlags = GCEF_ADDTOLOG;
 		gce.ptszUID = wszSender;
 		gce.ptszText = wszText;
-		gce.time = it["time"].as_int();
+		gce.time = iMsgTime;
 		gce.bIsMe = _wtoi(wszSender) == (int)m_dwUin;
 		Chat_Event(&gce);
 	}
@@ -291,7 +293,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		PROTORECVEVENT pre = {};
 		pre.flags = (bIsOutgoing) ? PREF_SENT : 0;
 		pre.szMsgId = szMsgId;
-		pre.timestamp = it["time"].as_int();
+		pre.timestamp = iMsgTime;
 		pre.szMessage = szUtf;
 		ProtoChainRecvMsg(hContact, &pre);
 	}
@@ -598,7 +600,7 @@ void CIcqProto::OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pR
 
 	const JSONNode &results = root.results();
 	for (auto &it : results["messages"])
-		ParseMessage(pReq->hContact, lastMsgId, it);
+		ParseMessage(pReq->hContact, lastMsgId, it, true);
 
 	setId(pReq->hContact, DB_KEY_LASTMSGID, lastMsgId);
 }
@@ -875,7 +877,7 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 	}
 
 	for (auto &it : ev["tail"]["messages"])
-		ParseMessage(hContact, lastMsgId, it);
+		ParseMessage(hContact, lastMsgId, it, m_bFirstBos);
 	setId(hContact, DB_KEY_LASTMSGID, lastMsgId);
 }
 
@@ -950,20 +952,21 @@ void CIcqProto::OnFetchEvents(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 void __cdecl CIcqProto::PollThread(void*)
 {
 	debugLogA("Polling thread started");
-	bool bFirst = true;
+	m_bFirstBos = true;
 
 	while (m_bOnline) {
 		CMStringA szUrl = m_fetchBaseURL;
-		if (bFirst) {
-			bFirst = false;
+		if (m_bFirstBos)
 			szUrl.Append("&first=1");
-		}
-		else szUrl.Append("&timeout=25000");
+		else
+			szUrl.Append("&timeout=25000");
 
 		auto *pReq = new AsyncHttpRequest(CONN_FETCH, REQUEST_GET, szUrl, &CIcqProto::OnFetchEvents);
-		if (!bFirst)
+		if (!m_bFirstBos)
 			pReq->timeout = 62000;
 		ExecuteRequest(pReq);
+
+		m_bFirstBos = false;
 	}
 
 	debugLogA("Polling thread ended");
