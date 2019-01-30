@@ -1,17 +1,44 @@
 #muuid {EFB2355B-82B3-4759-b7d8-95f8e9506291}
 ;============================================================
 ;  File: ICQ.dll
-;  Plugin: Icq/2018 protocol
+;  Plugin: ICQ-WIM protocol
 ;  Version: 0.95.10.1
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
-;file \protocols\Icq10\res\resources.rc
+;file \protocols\ICQ-WIM\res\resources.rc
 [ICQ number:]
 [Password:]
-[Send messages slower, but with full acknowledgment]
-;file \protocols\Icq10\src\options.cpp
+[Sign in/sign up using phone]
+[Hide group chats on startup]
+[Send group chat invitation]
+[&Invite]
+[Cancel]
+[Account registration]
+[Enter full phone number]
+[Send me registration code via SMS]
+[Enter registration code]
+[UIN:]
+[Online since:]
+[Idle since:]
+[Nick:]
+[Member since:]
+[Last seen:]
+;file \protocols\ICQ-WIM\src\groupchats.cpp
+[&Invite a user]
+[&Leave/destroy chat]
+;file \protocols\ICQ-WIM\src\options.cpp
 [Network]
-;file \protocols\Icq10\src\proto.cpp
+;file \protocols\ICQ-WIM\src\proto.cpp
 [%s server connection]
+[Synchronize server groups]
 [ICQ number or phone]
+;file \protocols\ICQ-WIM\src\server.cpp
+[You have not entered an ICQ number.\nConfigure this in Options -> Network -> ICQ and try again.]
+[Connection failed.\nYour ICQ number or password was rejected (%d).]
+[Connection failed.\nThe server is temporarily unavailable (%d).]
+[Connection failed.\nUnknown error during sign on: %d]
+[admin]
+[member]
+[Unknown sticker]
+[User sent a sticker:]

@@ -21,7 +21,6 @@
 [Send]
 [Receive]
 [Message]
-[URL]
 [File transfer]
 [...change status to...]
 [...if status is...]

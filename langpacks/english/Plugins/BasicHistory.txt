@@ -131,11 +131,9 @@
 ;file \plugins\BasicHistory\src\Options.cpp
 [Message]
 [File transfer]
-[Link]
 [Authorization request]
 [You were added]
 [Contacts received]
-[SMS message]
 [Group list]
 [Messages]
 [Searching]

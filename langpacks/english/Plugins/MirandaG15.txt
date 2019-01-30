@@ -39,7 +39,6 @@
 [Incoming messages]
 [Contact signs off]
 [Contact changes status]
-[Incoming URL]
 [Contact list events]
 [Incoming file transfers]
 [Protocol disconnected]

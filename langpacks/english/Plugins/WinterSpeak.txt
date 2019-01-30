@@ -27,7 +27,6 @@
 [Invisible]
 [Occurring Events]
 [Incoming message]
-[Incoming URL]
 [Incoming File]
 [Authorization request]
 [Added to contact list]
@@ -53,7 +52,6 @@
 [testing testing 1 2 3]
 ;file \plugins\WinterSpeak\src\EventInformation.cpp
 [incoming message from %u]
-[incoming URL from %u]
 [you have been added to %u's contact list]
 [%u requests your authorization]
 [there is an incoming file from %u]

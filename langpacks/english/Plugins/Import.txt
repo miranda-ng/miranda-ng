@@ -41,7 +41,6 @@
 [Outgoing]
 [Only since:]
 [Messages]
-[URLs]
 [File Transfers]
 [Other]
 [Choose appropriate accounts for import]

@@ -333,8 +333,6 @@
 [Yesterday]
 [File sent]
 [File received]
-[URL sent]
-[URL received]
 ;file \plugins\Scriver\src\msgoptions.cpp
 [Outgoing messages]
 [Outgoing background]

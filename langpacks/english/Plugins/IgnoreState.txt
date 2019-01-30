@@ -13,11 +13,9 @@
 ;file \plugins\IgnoreState\src\main.cpp
 [All]
 [Messages]
-[URL]
 [Files]
 [User Online]
 [Authorization]
-[You Were Added]
 [Typing Notify]
 [Full Ignore]
 [Partial Ignore]

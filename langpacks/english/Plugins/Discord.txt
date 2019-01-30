@@ -23,7 +23,6 @@
 [Change &topic]
 [&Rename channel]
 [&Destroy channel]
-[&Invite a user]
 [Do you really want to destroy this channel? This action is non-revertable.]
 [Enter new channel name:]
 [Enter new topic:]

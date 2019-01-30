@@ -411,7 +411,6 @@
 [Name:]
 [Enable sound events]
 [The following events are being ignored:]
-[URLs]
 [Files]
 [Online notification]
 [Auth requests]
@@ -901,8 +900,6 @@
 [Invalid message]
 [Outgoing message]
 [Incoming message]
-[Outgoing URL]
-[Incoming URL]
 [Outgoing file]
 [Incoming file]
 [History for %s]
@@ -967,7 +964,7 @@
 [Added event]
 ;file \src\mir_app\src\chat_clist.cpp
 [&Join chat]
-[&Open chat window]
+[&Open/close chat window]
 ;file \src\mir_app\src\chat_log.cpp
 [%s has joined]
 [You have joined %s]
