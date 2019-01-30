@@ -91,19 +91,6 @@ Events in a chain are sorted chronologically automatically
 function db_event_first(hContact:TMCONTACT):TMEVENT; stdcall; external CoreDLL;
 
 {
-Retrieves a handle to the first unread event in the chain for hContact
-Returns the handle, or NULL if hContact is invalid or all its events have been
-read
-
-Events in a chain are sorted chronologically automatically, but this does not
-necessarily mean that all events after the first unread are unread too. They
-should be checked individually with db_event_next() and db_event_get()
-This service is designed for startup, reloading all the events that remained
-unread from last time
-}
-function db_event_firstUnread(hContact:TMCONTACT):TMEVENT; stdcall; external CoreDLL;
-
-{
 Retrieves all the information stored in hDbEvent
 hDbEvent should have been returned by db_event_add/first/last/next/prev()
 Returns 0 on success or nonzero if hDbEvent is invalid

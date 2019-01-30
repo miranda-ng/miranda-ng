@@ -210,7 +210,7 @@ BOOL CDbxMDBX::MetaRemoveSubHistory(DBCachedContact *ccSub)
 			MDBX_val key = { &EI->eventId, sizeof(MEVENT) }, data;
 			if (mdbx_get(trnlck, m_dbEvents, &key, &data) == MDBX_SUCCESS) {
 				DBEvent *pEvent = (DBEvent*)data.iov_base;
-				pEvent->contactID = ccSub->parentID;
+				pEvent->dwContactID = ccSub->parentID;
 				if (mdbx_put(trnlck, m_dbEvents, &key, &data, 0) != MDBX_SUCCESS)
 					return 1;
 			}

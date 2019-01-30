@@ -56,7 +56,7 @@ struct DBContact
 
 struct DBEvent
 {
-	MCONTACT contactID;      // a contact this event belongs to
+	MCONTACT dwContactID;    // a contact this event belongs to
 	uint32_t iModuleId;	    // offset to a DBModuleName struct of the name of
 	uint64_t timestamp;      // seconds since 00:00:00 01/01/1970
 	uint32_t flags;          // see m_database.h, db/event/add
@@ -150,6 +150,7 @@ class CDbxMDBX : public MDatabaseCommon, public MZeroedObject
 		return res;
 	}
 
+	bool CheckEvent(DBCachedContact *cc, const DBEvent *dbe, DBCachedContact *&cc2);
 	bool EditEvent(MCONTACT contactID, MEVENT hDbEvent, DBEVENTINFO *dbe, bool bNew);
 	void FillContacts(void);
 	int  PrepareCheck(void);
