@@ -19,16 +19,12 @@
 Все
 [Messages]
 Сообщения
-[URL]
-Ссылка
 [Files]
 Файлы
 [User Online]
 Пользователь в сети
 [Authorization]
 Авторизация
-[You Were Added]
-Вас добавили
 [Typing Notify]
 Набирает текст
 [Full Ignore]

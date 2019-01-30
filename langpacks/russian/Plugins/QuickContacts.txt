@@ -43,8 +43,6 @@
 Отправить
 [Send file]
 Отправить файл
-[Send URL]
-Отправить URL
 [Open user info]
 Открыть информацию о пользователе
 [Open history]

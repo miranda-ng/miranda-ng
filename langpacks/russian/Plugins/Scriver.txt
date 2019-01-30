@@ -653,10 +653,6 @@ consectetur adipisicing elit
 Отправлен файл
 [File received]
 Получен файл
-[URL sent]
-Отправлен URL
-[URL received]
-Получен URL
 ;file \plugins\Scriver\src\msgoptions.cpp
 [Outgoing messages]
 Исходящие сообщения

@@ -20,8 +20,6 @@
 Всплывающие окна
 [Message]
 Сообщении
-[URL]
-Ссылке
 [File]
 Файле
 [Others]
@@ -91,8 +89,6 @@
  запросил(а) авторизацию
 [This is a sample message event :-)]
 Это пример сообщения :-)
-[This is a sample URL event ;-)]
-Это пример URL ;-)
 [This is a sample file event :-D]
 Это пример входящего файла :-D
 [This is a sample other event ;-D]
@@ -108,14 +104,6 @@
 Вас добавили
 [Requests your authorization]
 Запрос вашей авторизации
-[ICQ Web pager]
-
-[ICQ Email express]
-
-[SMS Message]
-SMS сообщение
-[SMS Confirmation]
-SMS подтверждение
 [Unknown Event]
 Неизвестное событие
 [Notify of new events]

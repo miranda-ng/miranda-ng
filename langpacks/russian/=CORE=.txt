@@ -811,8 +811,6 @@
 Включить звуки событий
 [The following events are being ignored:]
 Следующие события будут проигнорированы:
-[URLs]
-Ссылки
 [Files]
 Файлы
 [Online notification]
@@ -1763,10 +1761,6 @@ Miranda не смогла загрузить встроенную систему
 Исходящее сообщение
 [Incoming message]
 Входящее сообщение
-[Outgoing URL]
-Исходящий URL
-[Incoming URL]
-Входящий URL
 [Outgoing file]
 Исходящий файл
 [Incoming file]
@@ -1888,8 +1882,8 @@ Miranda не смогла загрузить встроенную систему
 ;file \src\mir_app\src\chat_clist.cpp
 [&Join chat]
 Войти в чат
-[&Open chat window]
-&Открыть окно чата
+[&Open/close chat window]
+&Открыть/закрыть окно чата
 ;file \src\mir_app\src\chat_log.cpp
 [%s has joined]
 %s вошёл

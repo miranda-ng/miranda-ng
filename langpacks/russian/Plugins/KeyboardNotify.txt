@@ -16,8 +16,6 @@
 Входящие сообщения
 [Incoming files]
 Входящие файлы
-[Incoming URLs]
-Входящие URL
 [Everything else]
 Все другие
 [Message-Event only]
@@ -164,8 +162,6 @@ Scroll
 Следующие события будут проигнорированы:
 [Ignore messages]
 Сообщения
-[Ignore URLs]
-Адреса (URL)
 [Ignore files]
 Передачи файлов
 [Ignore others]

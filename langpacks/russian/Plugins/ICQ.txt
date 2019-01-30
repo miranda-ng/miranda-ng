@@ -1,24 +1,76 @@
 #muuid {EFB2355B-82B3-4759-b7d8-95f8e9506291}
 ;============================================================
 ;  File: ICQ.dll
-;  Plugin: Icq/2018 protocol
+;  Plugin: ICQ-WIM protocol
 ;  Version: 0.95.10.1
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
 Поддержка протокола ICQ в Miranda NG.
-;file \protocols\Icq10\res\resources.rc
+;file \protocols\ICQ-WIM\res\resources.rc
 [ICQ number:]
 Номер ICQ:
 [Password:]
 Пароль:
-[Send messages slower, but with full acknowledgment]
-Отправлять сообщения медленнее, но с подтверждением
-;file \protocols\Icq10\src\options.cpp
+[Sign in/sign up using phone]
+Войти/зарегистрироваться по номеру телефона
+[Hide group chats on startup]
+
+[Send group chat invitation]
+Пригласить в конференцию
+[&Invite]
+&Пригласить
+[Cancel]
+Отмена
+[Account registration]
+Регистрация учётной записи
+[Enter full phone number]
+Введите номер телефона полностью
+[Send me registration code via SMS]
+Выслать SMS с кодом регистрации
+[Enter registration code]
+Введите код регистрации
+[UIN:]
+Номер:
+[Online since:]
+В сети с:
+[Idle since:]
+Простаивает с:
+[Nick:]
+Ник:
+[Member since:]
+Участник с:
+[Last seen:]
+Был(а):
+;file \protocols\ICQ-WIM\src\groupchats.cpp
+[&Invite a user]
+&Пригласить пользователя
+[&Leave/destroy chat]
+&Покинуть/уничтожить чат
+;file \protocols\ICQ-WIM\src\options.cpp
 [Network]
 Сеть
-;file \protocols\Icq10\src\proto.cpp
+;file \protocols\ICQ-WIM\src\proto.cpp
 [%s server connection]
 %s подключение к серверу
+[Synchronize server groups]
+Синхронизировать группы с сервером
 [ICQ number or phone]
 Номер ICQ или телефон
+;file \protocols\ICQ-WIM\src\server.cpp
+[You have not entered an ICQ number.\nConfigure this in Options -> Network -> ICQ and try again.]
+Вы не ввели номер ICQ.\nУкажите его в разделе "Настройки -> Сеть -> ICQ" и попробуйте снова.
+[Connection failed.\nYour ICQ number or password was rejected (%d).]
+Ошибка подключения.\nВаш номер или пароль не приняты сервером (%d).
+[Connection failed.\nThe server is temporarily unavailable (%d).]
+Ошибка подключения.\nСервер временно недоступен (%d).
+[Connection failed.\nUnknown error during sign on: %d]
+Ошибка подключения.\nНеизвестная ошибка при входе: %d
+[admin]
+админ
+[member]
+пользователь
+[Unknown sticker]
+Неизвестный стикер
+[User sent a sticker:]
+Пользователь отправил стикер:

@@ -122,26 +122,14 @@ HistoryStats - Фильтр слов/сообщений
 ;file \plugins\HistoryStats\src\column_events.cpp
 [Events to count]
 Считать события
-[URLs (incoming)]
-URL (входящие)
-[URLs (outgoing)]
-URL (исходящие)
-[URLs (all)]
-URL (все)
 [Files (incoming)]
 Файлы (входящие)
 [Files (outgoing)]
 Файлы (исходящие)
 [Files (all)]
 Файлы (все)
-[URLs]
-Ссылки
 [Files]
 Файлы
-[Incoming URLs]
-Входящие ссылки
-[Outgoing URLs]
-Исходящие ссылки
 [Incoming files]
 Входящие файлы
 [Outgoing files]

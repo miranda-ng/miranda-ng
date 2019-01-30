@@ -38,8 +38,6 @@
 &Переименовать комнату чата
 [&Destroy channel]
 &Удалить комнату чата
-[&Invite a user]
-&Пригласить пользователя
 [Do you really want to destroy this channel? This action is non-revertable.]
 Удалить этот канал? Удаление невозможно будет отменить.
 [Enter new channel name:]

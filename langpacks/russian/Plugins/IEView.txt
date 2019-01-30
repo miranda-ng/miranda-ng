@@ -73,10 +73,6 @@
 Исходящий файл
 [Incoming File Transfer]
 Входящий файл
-[URL sent]
-Отправлен URL
-[URL received]
-Получен URL
 ;file \plugins\IEView\src\HTMLBuilder.cpp
 [(Unknown Contact)]
 (Неизвестный контакт)

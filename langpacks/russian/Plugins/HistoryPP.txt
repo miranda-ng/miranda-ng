@@ -113,10 +113,6 @@ WATrack: запрос запрещён
 &Выделить всё
 [SMS Message]
 Сообщение SMS
-[WebPager]
-WebPager
-[EMail Express]
-EMail Express
 [Other event]
 Другое событие
 [Global History Search]
@@ -333,10 +329,6 @@ EMail Express
 Отправка контактов: %s
 [Incoming contacts: %s]
 Приём контактов: %s
-[Webpager message from %s (%s): %s]
-Cообщение Webpager от %s (%s): %s
-[Email express from %s (%s): %s]
-Email express от %s (%s): %s
 [Status change: %s]
 Смена статуса: %s
 [Authorization request granted by %s (%d): %s]
@@ -361,10 +353,6 @@ Email express от %s (%s): %s
 Всё, кроме системных
 [Other events (unknown)]
 Другие события (неизвестно)
-[Webpager message]
-Сообщение Webpager
-[EMail Express message]
-Сообщение EMail Express
 [Grid options]
 Настройки сетки
 [Recent events on top]
