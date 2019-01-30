@@ -48,7 +48,6 @@
 #include <m_hotkeys.h>
 #include <m_message.h>
 #include <m_protosvc.h>
-#include <m_icq.h>
 #include <m_clc.h>
 #include <m_utils.h>
 #include <m_popup.h>

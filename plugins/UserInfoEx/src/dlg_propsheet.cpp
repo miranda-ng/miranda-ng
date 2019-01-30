@@ -124,21 +124,8 @@ private:
 				TranslateT("You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only."));
 
 		// start uploading process
-		else {
-			_hUploading = (HANDLE)CallProtoService((*_pPd)->szModuleName, PS_CHANGEINFOEX, CIXT_FULL, NULL);
-			if (_hUploading && _hUploading != (HANDLE)CALLSERVICE_NOTFOUND) {
-				EnableWindow(_pPs->pTree->Window(), FALSE);
-				if (CPsTreeItem *pti = _pPs->pTree->CurrentItem())
-					EnableWindow(pti->Wnd(), FALSE);
+		else _hUploading = 0;
 
-				EnableWindow(GetDlgItem(_pPs->hDlg, IDOK), FALSE);
-				EnableWindow(GetDlgItem(_pPs->hDlg, IDAPPLY), FALSE);
-				mir_snprintf(_pPs->szUpdating, "%s (%s)", Translate("Uploading"), (*_pPd)->szModuleName);
-				ShowWindow(GetDlgItem(_pPs->hDlg, TXT_UPDATING), SW_SHOW);
-				SetTimer(_pPs->hDlg, TIMERID_UPDATING, 100, nullptr);
-				return 0;
-			}
-		}
 		return 1;
 	}
 
@@ -194,13 +181,6 @@ public:
 
 	int UploadNext()
 	{
-		while (_pPd && *_pPd && _numProto-- > 0) {
-			if (ProtoServiceExists((*_pPd)->szModuleName, PS_CHANGEINFOEX) && !Upload()) {
-				_pPd++;
-				return UPLOAD_CONTINUE;
-			}
-			_pPd++;
-		}
 		return _bExitAfterUploading ? UPLOAD_FINISH_CLOSE : UPLOAD_FINISH;
 	}
 };
@@ -1426,12 +1406,7 @@ void DlgContactInfoLoadModule()
 	g_hWindowList = WindowList_Create();
 
 	// check whether changing my details via UserInfoEx is basically possible
-	myGlobals.CanChangeDetails = FALSE;
-
-	for (auto &pa : Accounts())
-		if (IsProtoAccountEnabled(pa)) // update my contact information on icq server
-			if (myGlobals.CanChangeDetails = MIREXISTS(CallProtoService(pa->szModuleName, PS_CHANGEINFOEX, NULL, NULL)))
-				break;
+	myGlobals.CanChangeDetails = false;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -52,7 +52,6 @@
 #include "m_icolib.h"
 #include "m_message.h"
 #include "m_userinfo.h"
-#include "m_icq.h"
 #include "win2k.h"
 
 #include "resource.h"

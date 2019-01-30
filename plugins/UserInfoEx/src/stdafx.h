@@ -60,9 +60,9 @@ using namespace std;
 #include <m_xml.h>
 #include <m_timezones.h>
 #include <m_imgsrvc.h>
+#include <m_protosvc.h>
 #include <m_message.h>
 #include <m_userinfo.h>
-#include <m_icq.h>
 #include <m_email.h>
 #include <win2k.h>
 #include <msapi/vsstyle.h>

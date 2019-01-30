@@ -42,7 +42,6 @@
 #include <m_protosvc.h>
 #include <m_message.h>
 #include <m_options.h>
-#include <m_icq.h>
 
 #include <m_metacontacts.h>
 

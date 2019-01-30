@@ -56,7 +56,6 @@ using std::fstream;
 #include <m_langpack.h>
 #include <m_skin.h>
 #include <m_jabber.h>
-#include <m_icq.h>
 #include <m_message.h>
 #include <m_clist.h>
 #include <m_cluiframes.h>

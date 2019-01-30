@@ -45,7 +45,6 @@ Boston, MA 02111-1307, USA.
 #include <m_skin.h>
 #include <m_timezones.h>
 #include <m_xstatus.h>
-#include <m_icq.h>
 
 #include <m_tipper.h>
 #include <m_fingerprint.h>

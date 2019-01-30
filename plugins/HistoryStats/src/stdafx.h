@@ -63,8 +63,6 @@
 #include <m_imgsrvc.h>
 #include <m_timezones.h>
 
-#include <m_icq.h>         // depends on m_protosvc.h
-
 #include <m_metacontacts.h>
 #include <m_historystats.h> // our own header
 

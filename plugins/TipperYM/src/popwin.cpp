@@ -382,11 +382,6 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 							}
 						}
 					}
-
-					//request xstatus details
-					if (opt.bRetrieveXstatus)
-						if (!db_get_b(0, szProto, "XStatusAuto", 1) && ProtoServiceExists(szProto, PS_ICQ_REQUESTCUSTOMSTATUS))
-							CallProtoService(szProto, PS_ICQ_REQUESTCUSTOMSTATUS, pwd->hContact, 0);
 				}
 
 				SendMessage(hwnd, PUM_REFRESH_VALUES, FALSE, 0);

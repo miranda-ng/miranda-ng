@@ -243,28 +243,6 @@ void InitCheck()
 		}
 		mir_free(path);
 	}
-	if (globals.bAutoExchange) {
-		ICQ_CUSTOMCAP cap;
-		cap.cbSize = sizeof(ICQ_CUSTOMCAP);
-		cap.hIcon = nullptr;
-		strncpy(cap.name, "GPG Key AutoExchange", MAX_CAPNAME);
-		strncpy(cap.caps, "GPGAutoExchange", sizeof(cap.caps));
-
-		for (auto &pa : Accounts())
-			if (ProtoServiceExists(pa->szProtoName, PS_ICQ_ADDCAPABILITY))
-				CallProtoService(pa->szProtoName, PS_ICQ_ADDCAPABILITY, 0, (LPARAM)&cap);
-	}
-	if (globals.bFileTransfers) {
-		ICQ_CUSTOMCAP cap;
-		cap.cbSize = sizeof(ICQ_CUSTOMCAP);
-		cap.hIcon = nullptr;
-		strncpy(cap.name, "GPG Encrypted FileTransfers", MAX_CAPNAME);
-		strncpy(cap.caps, "GPGFileTransfer", sizeof(cap.caps));
-
-		for (auto &pa : Accounts())
-			if (ProtoServiceExists(pa->szProtoName, PS_ICQ_ADDCAPABILITY))
-				CallProtoService(pa->szProtoName, PS_ICQ_ADDCAPABILITY, 0, (LPARAM)&cap);
-	}
 }
 
 void ImportKey(MCONTACT hContact, std::wstring new_key)

@@ -453,39 +453,28 @@ INT_PTR onSendFile(WPARAM w, LPARAM l)
 
 	if (isContactSecured(ccs->hContact)) {
 		char *proto = GetContactProto(ccs->hContact);
-		DWORD uin = db_get_dw(ccs->hContact, proto, "UIN", 0);
 		bool cap_found = false, supported_proto = false;
-		if (uin) {
-			if (ProtoServiceExists(proto, PS_ICQ_CHECKCAPABILITY)) {
-				supported_proto = true;
-				ICQ_CUSTOMCAP cap = { 0 };
-				strncpy(cap.caps, "GPGFileTransfer", sizeof(cap.caps));
-				if (CallProtoService(proto, PS_ICQ_CHECKCAPABILITY, (WPARAM)ccs->hContact, (LPARAM)&cap))
-					cap_found = true;
-			}
-		}
-		else {
-			wchar_t *jid = db_get_wsa(ccs->hContact, proto, "jid", L"");
-			if (jid[0]) {
-				for (auto p : globals.Accounts) {
-					wchar_t *caps = p->getJabberInterface()->GetResourceFeatures(jid);
-					if (caps) {
-						supported_proto = true;
-						wstring str;
-						for (int i = 0;; i++) {
-							str.push_back(caps[i]);
-							if (caps[i] == '\0')
-								if (caps[i + 1] == '\0')
-									break;
-						}
-						mir_free(caps);
-						if (str.find(L"GPG_Encrypted_FileTransfers:0") != string::npos)
-							cap_found = true;
+		wchar_t *jid = db_get_wsa(ccs->hContact, proto, "jid", L"");
+		if (jid[0]) {
+			for (auto p : globals.Accounts) {
+				wchar_t *caps = p->getJabberInterface()->GetResourceFeatures(jid);
+				if (caps) {
+					supported_proto = true;
+					wstring str;
+					for (int i = 0;; i++) {
+						str.push_back(caps[i]);
+						if (caps[i] == '\0')
+							if (caps[i + 1] == '\0')
+								break;
 					}
+					mir_free(caps);
+					if (str.find(L"GPG_Encrypted_FileTransfers:0") != string::npos)
+						cap_found = true;
 				}
 			}
-			mir_free(jid);
 		}
+		mir_free(jid);
+
 		if (supported_proto && !cap_found) {
 			if (MessageBox(nullptr, TranslateT("Capability to decrypt file not found on other side.\nRecipient may be unable to decrypt file(s).\nDo you want to encrypt file(s) anyway?"), TranslateT("File transfer warning"), MB_YESNO) == IDNO)
 				return Proto_ChainSend(w, ccs);
