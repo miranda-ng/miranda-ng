@@ -144,7 +144,6 @@ void CIcqProto::OnLoginViaPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pRe
 	setString(DB_KEY_ATOKEN, m_szAToken);
 
 	m_szSessionKey = data["sessionKey"].as_mstring();
-	m_szSessionKey = mir_urlDecode(m_szSessionKey);
 	setString(DB_KEY_SESSIONKEY, m_szSessionKey);
 
 	m_dwUin = _wtoi(data["loginId"].as_mstring());
