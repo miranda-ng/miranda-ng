@@ -181,7 +181,6 @@
 #define BTN_BROWSEDIR                   1555
 #define CHECK_OPT_AUTOTIMEZONE          1561
 #define CHECK_OPT_SREMAIL_ENABLED       1562
-#define CHECK_OPT_SENDSMS_MENUITEMS3    1563
 #define IDNONE                          1565
 #define CHECK_OPT_READONLYLABEL         1566
 #define TXT_DATEADDED                   1566

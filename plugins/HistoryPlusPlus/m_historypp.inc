@@ -95,7 +95,7 @@ type
     hContact      : TMCONTACT; // handle to the contact for which the event is processed
     hDBEvent      : TMEVENT;   // handle to the event which is processed
     dwEventTime   : DWord;     // timestamp of the event
-    wEventType    : Word;      // Event's flags (see m_database, EVENTTYPE_*; m_icq, ICQEVENTTYPE_*)
+    wEventType    : Word;      // Event's flags (see m_database, EVENTTYPE_*)
     IsEventSent   : ByteBool;  // Outgoing event. True if DBEF_SENT event flag is present (see m_database)
     bHistoryWindow: Byte;      // What kind of window history. See IRDHW_* values
     dwFlags       : DWord;     // Any reasonable combination of IRDF_* flags.
