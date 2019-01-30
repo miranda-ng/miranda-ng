@@ -575,6 +575,7 @@ static renameTable[] =
 	{ L"modernopt.dll",                  nullptr },
 	{ L"msvcp100.dll",                   nullptr },
 	{ L"msvcr100.dll",                   nullptr },
+	{ L"sms.dll",                        nullptr },
 	{ L"tlen.dll",                       nullptr },
 	{ L"whatsapp.dll",                   nullptr },
 	{ L"xfire.dll",                      nullptr },
