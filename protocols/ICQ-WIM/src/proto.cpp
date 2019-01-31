@@ -41,6 +41,7 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	arMarkReadQueue(10, NumericKeySortT),
 	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr)),
 	m_dwUin(this, DB_KEY_UIN, 0),
+	m_szEmail(this, "Email"),
 	m_szPassword(this, "Password"),
 	m_bHideGroupchats(this, "HideChats", 1)
 {
@@ -435,7 +436,7 @@ int CIcqProto::SetStatus(int iNewStatus)
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 
-		if (m_dwUin == 0) {
+		if (m_dwUin == 0 && mir_wstrlen(m_szEmail) == 0) {
 			debugLogA("Thread ended, UIN/password are not configured");
 			ConnectionFailed(LOGINERR_BADUSERID);
 			return 0;

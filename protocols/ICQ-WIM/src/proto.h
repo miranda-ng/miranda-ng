@@ -302,6 +302,7 @@ public:
 	~CIcqProto();
 
 	CMOption<DWORD> m_dwUin;          // our own id
+	CMOption<wchar_t*> m_szEmail;     // email, if present
 	CMOption<wchar_t*> m_szPassword;  // password, if present
 	CMOption<BYTE> m_bHideGroupchats; // don't pop up group chat windows on startup
 

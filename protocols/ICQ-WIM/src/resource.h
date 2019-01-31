@@ -9,6 +9,7 @@
 #define IDD_REGISTER                    105
 #define IDC_PASSWORD                    1001
 #define IDC_UIN                         1002
+#define IDC_UIN2                        1003
 #define IDC_HIDECHATS                   1004
 #define IDC_REGISTER                    1005
 #define IDC_PHONE                       1006
@@ -21,6 +22,7 @@
 #define IDC_IDLETIME2                   1013
 #define IDC_MEMBERSINCE                 1013
 #define IDC_LASTSEEN                    1014
+#define IDC_EMAIL                       1015
 
 // Next default values for new objects
 // 
@@ -28,7 +30,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        108
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1013
+#define _APS_NEXT_CONTROL_VALUE         1016
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
