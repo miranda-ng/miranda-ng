@@ -75,7 +75,6 @@ const
     (Name:'File transfer';         XML:'FILE';        i:HPP_SKIN_EVENT_FILE;                                iSkin:SKINICON_EVENT_FILE),
     (Name:'System message';        XML:'SYS';         i:HPP_ICON_EVENT_SYSTEM;    iName:'hppevn_sys';       iSkin:-1),
     (Name:'Contacts';              XML:'ICQCNT';      i:HPP_ICON_EVENT_CONTACTS;  iName:'hppevn_icqcnt';    iSkin:-1),
-    (Name:'SMS message';           XML:'SMS';         i:HPP_ICON_EVENT_SMS;       iName:'hppevn_sms';       iSkin:-1),
     (Name:'Status changes';        XML:'STATUSCNG';   i:HPP_ICON_EVENT_STATUS;    iName:'hppevn_status';    iSkin:-1),
     (Name:'SMTP Simple Email';     XML:'SMTP';        i:HPP_ICON_EVENT_SMTPSIMPLE;iName:'hppevn_smtp';      iSkin:-1),
     (Name:'Other events (unknown)';XML:'OTHER';       i:HPP_SKIN_OTHER_MIRANDA;                             iSkin:SKINICON_OTHER_MIRANDA),
