@@ -162,10 +162,10 @@ const
     (_type: [hppFont,hppColor]; name: 'Outgoing url';
        Mes: [mtOutgoing]; style:0; size: -11; color: $000000; back: $F4D9CC),
 
-    (_type: [hppFont,hppColor]; name: 'Incoming SMS Message';
+    (_type: [hppFont,hppColor]; name: 'Unused';
        Mes: [mtSMS,mtIncoming]; style:0; size: -11; color: $000000; back: $CFF4FE),
 
-    (_type: [hppFont,hppColor]; name: 'Outgoing SMS Message';
+    (_type: [hppFont,hppColor]; name: 'Unused';
        Mes: [mtSMS,mtOutgoing]; style:0; size: -11; color: $000000; back: $CFF4FE),
 
     (_type: [hppFont,hppColor]; name: 'Incoming contacts';
