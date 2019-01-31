@@ -156,17 +156,17 @@ const
     (_type: [hppFont,hppColor]; name: 'Outgoing file';
        Mes: [mtFile,mtOutgoing]; style:0; size: -11; color: $000000; back: $9BEEE3),
 
-    (_type: [hppFont,hppColor]; name: 'Incoming url';
+    (_type: [hppFont,hppColor]; name: 'Unused';
        Mes: [mtIncoming]; style:0; size: -11; color: $000000; back: $F4D9CC),
 
-    (_type: [hppFont,hppColor]; name: 'Outgoing url';
+    (_type: [hppFont,hppColor]; name: 'Unused';
        Mes: [mtOutgoing]; style:0; size: -11; color: $000000; back: $F4D9CC),
 
     (_type: [hppFont,hppColor]; name: 'Unused';
-       Mes: [mtSMS,mtIncoming]; style:0; size: -11; color: $000000; back: $CFF4FE),
+       Mes: [mtIncoming]; style:0; size: -11; color: $000000; back: $CFF4FE),
 
     (_type: [hppFont,hppColor]; name: 'Unused';
-       Mes: [mtSMS,mtOutgoing]; style:0; size: -11; color: $000000; back: $CFF4FE),
+       Mes: [mtOutgoing]; style:0; size: -11; color: $000000; back: $CFF4FE),
 
     (_type: [hppFont,hppColor]; name: 'Incoming contacts';
        Mes: [mtContacts,mtIncoming]; style:0; size: -11; color: $000000; back: $FEF4CF),

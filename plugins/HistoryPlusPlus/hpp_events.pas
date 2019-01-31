@@ -118,14 +118,6 @@ procedure GetEventTextForSms(EventInfo: TDBEventInfo; var Hi: THistoryItem);
 procedure GetEventTextForContacts(EventInfo: TDBEventInfo; var Hi: THistoryItem);
 procedure GetEventTextForStatusChange(EventInfo: TDBEventInfo; var Hi: THistoryItem);
 procedure GetEventTextForAvatarChange(EventInfo: TDBEventInfo; var Hi: THistoryItem);
-procedure GetEventTextForICQAuthGranted(EventInfo: TDBEventInfo; var Hi: THistoryItem);
-procedure GetEventTextForICQAuthDenied(EventInfo: TDBEventInfo; var Hi: THistoryItem);
-procedure GetEventTextForICQSelfRemove(EventInfo: TDBEventInfo; var Hi: THistoryItem);
-procedure GetEventTextForICQFutureAuth(EventInfo: TDBEventInfo; var Hi: THistoryItem);
-procedure GetEventTextForICQClientChange(EventInfo: TDBEventInfo; var Hi: THistoryItem);
-procedure GetEventTextForICQCheckStatus(EventInfo: TDBEventInfo; var Hi: THistoryItem);
-procedure GetEventTextForICQIgnoreCheckStatus(EventInfo: TDBEventInfo; var Hi: THistoryItem);
-procedure GetEventTextForICQBroadcast(EventInfo: TDBEventInfo; var Hi: THistoryItem);
 procedure GetEventTextForJabberChatStates(EventInfo: TDBEventInfo; var Hi: THistoryItem);
 procedure GetEventTextWATrackRequest(EventInfo: TDBEventInfo; var Hi: THistoryItem);
 procedure GetEventTextWATrackAnswer(EventInfo: TDBEventInfo; var Hi: THistoryItem);
@@ -144,26 +136,6 @@ const // registered Jabber db event types (not public)
 //  JS_DB_GETEVENTTEXT_CHATSTATES            = '/GetEventText2000';
   JABBER_DB_EVENT_CHATSTATES_GONE          = 1;
 
-const // ICQ db events (didn't found anywhere)
-  //auth
-  //db event added to NULL contact
-  //blob format is:
-  //ASCIIZ    text
-  //DWORD     uin
-  //HANDLE    hContact
-  ICQEVENTTYPE_AUTH_GRANTED   = 2004;    //database event type
-  ICQEVENTTYPE_AUTH_DENIED    = 2005;    //database event type
-  ICQEVENTTYPE_SELF_REMOVE    = 2007;    //database event type
-  ICQEVENTTYPE_FUTURE_AUTH    = 2008;    //database event type
-  ICQEVENTTYPE_CLIENT_CHANGE  = 2009;    //database event type
-  ICQEVENTTYPE_CHECK_STATUS   = 2010;    //database event type
-  ICQEVENTTYPE_IGNORECHECK_STATUS = 2011;//database event type
-  //broadcast from server
-  //ASCIIZ    text
-  //ASCIIZ    from name
-  //ASCIIZ    from e-mail
-  ICQEVENTTYPE_BROADCAST      = 2006;    //database event type
-
 type
   TModuleEventRecord = record
     EventDesc: PDBEVENTTYPEDESCR;
@@ -179,7 +151,7 @@ type
   end;
 
 var
-  EventTable: array[0..24] of TEventTableItem = (
+  EventTable: array[0..16] of TEventTableItem = (
     // must be the first item in array for unknown events
     (EventType: MaxWord;                         MessageType: mtOther;         TextFunction: GetEventTextForOther),
     // events definitions
@@ -193,14 +165,6 @@ var
     (EventType: EVENTTYPE_NICKNAMECHANGE;        MessageType: mtNickChange;    TextFunction: GetEventTextForMessage),
     (EventType: EVENTTYPE_STATUSMESSAGECHANGE;   MessageType: mtStatusMessage; TextFunction: GetEventTextForMessage),
     (EventType: EVENTTYPE_AVATARCHANGE;          MessageType: mtAvatarChange;  TextFunction: GetEventTextForAvatarChange),
-    (EventType: ICQEVENTTYPE_AUTH_GRANTED;       MessageType: mtSystem;        TextFunction: GetEventTextForICQAuthGranted),
-    (EventType: ICQEVENTTYPE_AUTH_DENIED;        MessageType: mtSystem;        TextFunction: GetEventTextForICQAuthDenied),
-    (EventType: ICQEVENTTYPE_SELF_REMOVE;        MessageType: mtSystem;        TextFunction: GetEventTextForICQSelfRemove),
-    (EventType: ICQEVENTTYPE_FUTURE_AUTH;        MessageType: mtSystem;        TextFunction: GetEventTextForICQFutureAuth),
-    (EventType: ICQEVENTTYPE_CLIENT_CHANGE;      MessageType: mtSystem;        TextFunction: GetEventTextForICQClientChange),
-    (EventType: ICQEVENTTYPE_CHECK_STATUS;       MessageType: mtSystem;        TextFunction: GetEventTextForICQCheckStatus),
-    (EventType: ICQEVENTTYPE_IGNORECHECK_STATUS; MessageType: mtSystem;        TextFunction: GetEventTextForICQIgnoreCheckStatus),
-    (EventType: ICQEVENTTYPE_BROADCAST;          MessageType: mtSystem;        TextFunction: GetEventTextForICQBroadcast),
     (EventType: JABBER_DB_EVENT_TYPE_CHATSTATES; MessageType: mtStatus;        TextFunction: GetEventTextForJabberChatStates),
     (EventType: EVENTTYPE_CONTACTLEFTCHANNEL;    MessageType: mtStatus;        TextFunction: GetEventTextForMessage),
     (EventType: EVENTTYPE_WAT_REQUEST;           MessageType: mtWATrack;       TextFunction: GetEventTextWATrackRequest),
@@ -712,93 +676,6 @@ begin
     if lstrlenA(msgA) > 0 then
       Hi.Extended := msgA;
   end;
-end;
-
-function GetEventTextForICQSystem(EventInfo: TDBEventInfo; const Template: String): String;
-var
-  BytePos: LongWord;
-  Body: AnsiString;
-  uin: Integer;
-  Name: WideString;
-  cp: Cardinal;
-begin
-  BytePos := 0;
-  ReadStringTillZeroA(Pointer(EventInfo.pBlob), EventInfo.cbBlob, Body, BytePos);
-  if Cardinal(EventInfo.cbBlob) < (BytePos + 4) then
-    uin := 0
-  else
-    uin := PDWord(PAnsiChar(EventInfo.pBlob) + BytePos)^;
-  if Cardinal(EventInfo.cbBlob) < (BytePos + 8) then
-    Name := TranslateW('''(Unknown Contact)''' { TRANSLATE-IGNORE } )
-  else
-    Name := GetContactDisplayName(PDWord(PAnsiChar(EventInfo.pBlob) + BytePos + 4)^, '', true);
-  if Boolean(EventInfo.flags and DBEF_UTF) then
-    cp := CP_UTF8
-  else
-    cp := hppCodepage;
-  Result := Format(Template, [Name, uin, AnsiToWideString(#13#10 + Body, cp)]);
-end;
-
-procedure GetEventTextForICQAuthGranted(EventInfo: TDBEventInfo; var Hi: THistoryItem);
-begin
-  hi.Text := GetEventTextForICQSystem(EventInfo,
-    TranslateW('Authorization request granted by %s (%d): %s'));
-end;
-
-procedure GetEventTextForICQAuthDenied(EventInfo: TDBEventInfo; var Hi: THistoryItem);
-begin
-  hi.Text := GetEventTextForICQSystem(EventInfo,
-    TranslateW('Authorization request denied by %s (%d): %s'));
-end;
-
-procedure GetEventTextForICQSelfRemove(EventInfo: TDBEventInfo; var Hi: THistoryItem);
-begin
-  hi.Text := GetEventTextForICQSystem(EventInfo,
-    TranslateW('User %s (%d) removed himself from your contact list: %s'));
-end;
-
-procedure GetEventTextForICQFutureAuth(EventInfo: TDBEventInfo; var Hi: THistoryItem);
-begin
-  hi.Text := GetEventTextForICQSystem(EventInfo,
-    TranslateW('Authorization future request by %s (%d): %s'));
-end;
-
-procedure GetEventTextForICQClientChange(EventInfo: TDBEventInfo; var Hi: THistoryItem);
-begin
-  hi.Text := GetEventTextForICQSystem(EventInfo,
-    TranslateW('User %s (%d) changed ICQ client: %s'));
-end;
-
-procedure GetEventTextForICQCheckStatus(EventInfo: TDBEventInfo; var Hi: THistoryItem);
-begin
-  hi.Text := GetEventTextForICQSystem(EventInfo,
-    TranslateW('Status request by %s (%d):%s'));
-end;
-
-procedure GetEventTextForICQIgnoreCheckStatus(EventInfo: TDBEventInfo; var Hi: THistoryItem);
-begin
-  hi.Text := GetEventTextForICQSystem(EventInfo,
-    TranslateW('Ignored status request by %s (%d):%s'));
-end;
-
-procedure GetEventTextForICQBroadcast(EventInfo: TDBEventInfo; var Hi: THistoryItem);
-var
-  BytePos: LongWord;
-  Body,Name,Email: AnsiString;
-  cp: Cardinal;
-begin
-  BytePos := 0;
-  ReadStringTillZeroA(Pointer(EventInfo.pBlob),EventInfo.cbBlob,Body,BytePos);
-  ReadStringTillZeroA(Pointer(EventInfo.pBlob),EventInfo.cbBlob,Name,BytePos);
-  ReadStringTillZeroA(Pointer(EventInfo.pBlob),EventInfo.cbBlob,Email,BytePos);
-  hi.Text := TranslateW('Broadcast message from %s (%s): %s');
-  if Boolean(EventInfo.flags and DBEF_UTF) then
-    cp := CP_UTF8
-  else
-    cp := hppCodepage;
-  hi.Text := Format(hi.Text,[AnsiToWideString(Name,cp),
-                             AnsiToWideString(Email,cp),
-                             AnsiToWideString(#13#10+Body,cp)]);
 end;
 
 procedure GetEventTextForJabberChatStates(EventInfo: TDBEventInfo; var Hi: THistoryItem);

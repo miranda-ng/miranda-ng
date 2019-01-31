@@ -64,7 +64,7 @@ type
   TMessageType = (mtUnknown,
                   mtIncoming, mtOutgoing,
                   mtMessage, mtFile, mtSystem,
-                  mtContacts, mtSMS, mtStatus, mtSMTPSimple,
+                  mtContacts, mtStatus, mtSMTPSimple,
                   mtOther,
                   mtNickChange,mtAvatarChange,mtWATrack,mtStatusMessage,mtVoiceCall,mtCustom);
 
@@ -233,9 +233,6 @@ const
   HPP_ICON_EVENT_OUTGOING    = 34;
   HPP_ICON_EVENT_SYSTEM      = 35;
   HPP_ICON_EVENT_CONTACTS    = 36;
-  HPP_ICON_EVENT_SMS         = 37;
-  HPP_ICON_EVENT_WEBPAGER    = 38;
-  HPP_ICON_EVENT_EEXPRESS    = 39;
   HPP_ICON_EVENT_STATUS      = 40;
   HPP_ICON_EVENT_SMTPSIMPLE  = 41;
   HPP_ICON_EVENT_NICK        = 42;

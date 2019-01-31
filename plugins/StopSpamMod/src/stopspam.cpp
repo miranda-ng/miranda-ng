@@ -184,7 +184,6 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 				// add contact to server list and local group
 				if (gbAutoAddToServerList) {
 					db_set_ws(hContact, "CList", "Group", gbAutoAuthGroup.c_str());
-					CallProtoService(dbei->szModule, "/AddServerContact", hContact, 0);
 					db_unset(hContact, "CList", "NotOnList");
 				}
 				
