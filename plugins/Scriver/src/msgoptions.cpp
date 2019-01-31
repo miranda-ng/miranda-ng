@@ -51,8 +51,8 @@ static const fontOptionsList[] =
 	{ LPGENW("Incoming colon"), RGB(215, 0, 0), L"Arial", 0, -11, LPGENW("Incoming background")},
 	{ LPGENW("Message area"), RGB(0, 0, 0), L"Arial", 0, -12, LPGENW("Input area background")},
 	{ LPGENW("Notices"), RGB(90, 90, 160), L"Arial", 0, -12, LPGENW("Incoming background")},
-	{ LPGENW("Outgoing URL"), RGB(0, 0, 255), L"Arial", 0, -12, LPGENW("Outgoing background")},
-	{ LPGENW("Incoming URL"), RGB(0, 0, 255), L"Arial", 0, -12, LPGENW("Incoming background")},
+	{ LPGENW("Unused"), RGB(0, 0, 255), L"Arial", 0, -12, LPGENW("Outgoing background")},
+	{ LPGENW("Unused"), RGB(0, 0, 255), L"Arial", 0, -12, LPGENW("Incoming background")},
 	{ LPGENW("Info bar contact name"), RGB(0, 0, 0), L"Arial", FONTF_BOLD, -19, LPGENW("Info bar background")},
 	{ LPGENW("Info bar status message"), RGB(50, 50, 50), L"Arial", FONTF_ITALIC, -11, LPGENW("Info bar background")}
 };
