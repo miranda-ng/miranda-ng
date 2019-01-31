@@ -48,8 +48,6 @@ CMLan::CMLan()
 	LoadSettings();
 
 	SetAllOffline();
-
-	//m_hookIcqMsgReq = CreateHookableEvent(ME_ICQ_STATUSMSGREQ);
 }
 
 CMLan::~CMLan()
