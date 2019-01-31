@@ -342,8 +342,8 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 		if (!login || !psw)
 			return nullptr;
 
-		CMStringA szAuth(FORMAT, "%S:%S", login, psw);
-		szOutputToken = mir_base64_encode(szAuth.c_str(), szAuth.GetLength());
+		T2Utf szAuth(CMStringW(FORMAT, L"%s:%s", login, psw));
+		szOutputToken = mir_base64_encode(szAuth.get(), mir_strlen(szAuth));
 		complete = true;
 	}
 
