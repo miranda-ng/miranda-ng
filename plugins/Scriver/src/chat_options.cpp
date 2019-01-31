@@ -41,7 +41,7 @@ static struct branch_t branch1[] = {
 	{ LPGENW("Enable button context menus"), "RightClickFilter", 0, 0, nullptr },
 	{ LPGENW("Show topic on your contact list (if supported)"), "TopicOnClist", 0, 0, nullptr },
 	{ LPGENW("Do not play sounds when focused"), "SoundsFocus", 0, 0, nullptr },
-	{ LPGENW("Do not pop up when joining"), "PopupOnJoin", 0, 0, nullptr },
+	{ LPGENW("Do not pop up the window when joining a chat room"), "PopupOnJoin", 0, 0, nullptr },
 	{ LPGENW("Show contact statuses (if supported)"), "ShowContactStatus", 0, 0, nullptr },
 	{ LPGENW("Display contact status icon before role icon"), "ContactStatusFirst", 0, 0, nullptr },
 	{ LPGENW("Add ':' to auto-completed names"), "AddColonToAutoComplete", 0, 1, nullptr }
