@@ -179,6 +179,13 @@ public:
 		wszOldPass = ppro->m_szPassword;
 	}
 
+	bool OnInitDialog() override
+	{
+		if (m_proto->m_dwUin == 0)
+			edtUin.SetText(L"");
+		return true;
+	}
+
 	bool OnApply() override
 	{
 		if (wszOldPass != ptrW(edtPassword.GetText())) {
