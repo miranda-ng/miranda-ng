@@ -13,7 +13,7 @@
 [Password:]
 Пароль:
 [Sign in/sign up using phone]
-Войти/зарегистрироваться по номеру телефона
+Вход/регистрация по номеру телефона
 [Hide group chats on startup]
 
 [Send group chat invitation]
