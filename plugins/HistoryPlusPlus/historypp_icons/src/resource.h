@@ -47,9 +47,6 @@
 #define IDI_ICON43                      43
 #define IDI_ICON44                      44
 #define IDI_ICON45                      45
-#define IDI_ICON46                      46
-#define IDI_ICON47                      47
-#define IDI_ICON48                      48
 
 // Next default values for new objects
 // 
