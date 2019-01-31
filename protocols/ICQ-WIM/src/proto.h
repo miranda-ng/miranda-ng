@@ -52,6 +52,7 @@ struct IcqCacheItem
 	DWORD m_uin;
 	MCONTACT m_hContact;
 	bool m_bInList = false;
+	int m_iApparentMode;
 };
 
 struct IcqOwnMessage
@@ -133,6 +134,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	MCONTACT  CheckOwnMessage(const CMStringA &reqId, const CMStringA &msgId, bool bRemove);
 	void      CheckPassword(void);
 	void      ConnectionFailed(int iReason, int iErrorCode = 0);
+	void      GetPermitDeny(void);
 	void      MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup);
 	void      RetrieveUserHistory(MCONTACT, __int64 startMsgId, __int64 endMsgId);
 	void      RetrieveUserInfo(MCONTACT);
@@ -156,13 +158,14 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	__int64   getId(MCONTACT hContact, const char *szSetting);
 	void      setId(MCONTACT hContact, const char *szSetting, __int64 iValue);
-	  
+
 	void      OnAddBuddy(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void      OnAddClient(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void      OnCheckPassword(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void      OnCheckPhone(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void      OnFetchEvents(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void      OnGetChatInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void      OnGetPermitDeny(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void      OnGetUserHistory(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void      OnGetUserInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void      OnFileContinue(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
@@ -182,6 +185,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      ProcessHistData(const JSONNode&);
 	void      ProcessImState(const JSONNode&);
 	void      ProcessMyInfo(const JSONNode&);
+	void      ProcessPermissions(const JSONNode&);
 	void      ProcessPresence(const JSONNode&);
 	void      ProcessTyping(const JSONNode&);
 
@@ -269,12 +273,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	MCONTACT  AddToList( int flags, PROTOSEARCHRESULT *psr) override;
 			    
 	int       AuthRequest(MCONTACT hContact, const wchar_t *szMessage) override;
-			    
-	HANDLE    FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath) override;
-	int       FileCancel(MCONTACT hContact, HANDLE hTransfer) override;
-	int       FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szReason) override;
-	int       FileResume( HANDLE hTransfer, int *action, const wchar_t **szFilename) override;
-			    
+
 	INT_PTR   GetCaps(int type, MCONTACT hContact = NULL) override;
 	int       GetInfo(MCONTACT hContact, int infoType) override;
 			    
@@ -307,11 +306,16 @@ public:
 	CMOption<BYTE> m_bHideGroupchats; // don't pop up group chat windows on startup
 
 	CMStringA GetUserId(MCONTACT);
+
+	int __cdecl OnContactMenu(WPARAM, LPARAM);
+	void SetPermitDeny(MCONTACT hContact, bool bAllow);
 };
 
 struct CMPlugin : public ACCPROTOPLUGIN<CIcqProto>
 {
 	CMPlugin();
+
+	HGENMENU m_hmiRoot, m_hmiIgnore, m_hmiAllow;
 
 	int Load() override;
 	int Unload() override;

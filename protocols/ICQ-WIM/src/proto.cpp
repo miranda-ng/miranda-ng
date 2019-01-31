@@ -149,6 +149,19 @@ INT_PTR CIcqProto::UploadGroups(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+int CIcqProto::OnContactMenu(WPARAM hContact, LPARAM)
+{
+	Menu_ShowItem(g_plugin.m_hmiRoot, true);
+	Menu_ModifyItem(g_plugin.m_hmiRoot, nullptr, Skin_LoadProtoIcon(GetContactProto(hContact), ID_STATUS_ONLINE));
+
+	bool bIgnorable = getDword(hContact, "ApparentMode") != ID_STATUS_OFFLINE;
+	Menu_ShowItem(g_plugin.m_hmiAllow, !bIgnorable);
+	Menu_ShowItem(g_plugin.m_hmiIgnore, bIgnorable);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CIcqProto::MarkReadTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD)
 {
 	CIcqProto *ppro = (CIcqProto*)id;
@@ -255,38 +268,6 @@ int CIcqProto::AuthRequest(MCONTACT hContact, const wchar_t* szMessage)
 	pReq->hContact = hContact;
 	Push(pReq);
 	return 0;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// PS_FileAllow - starts a file transfer
-
-HANDLE CIcqProto::FileAllow(MCONTACT, HANDLE, const wchar_t*)
-{
-	return nullptr; // Failure
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// PS_FileCancel - cancels a file transfer
-
-int CIcqProto::FileCancel(MCONTACT, HANDLE)
-{
-	return 1; // Failure
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// PS_FileDeny - denies a file transfer
-
-int CIcqProto::FileDeny(MCONTACT, HANDLE, const wchar_t*)
-{
-	return 1; // Invalid contact
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// PS_FileResume - processes file renaming etc
-
-int CIcqProto::FileResume(HANDLE, int*, const wchar_t**)
-{
-	return 1; // Failure
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

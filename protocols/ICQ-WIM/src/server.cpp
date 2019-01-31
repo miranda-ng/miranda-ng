@@ -128,6 +128,13 @@ void CIcqProto::ConnectionFailed(int iReason, int iErrorCode)
 	ShutdownSession();
 }
 
+void CIcqProto::GetPermitDeny()
+{
+	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/preference/getPermitDeny", &CIcqProto::OnGetPermitDeny);
+	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("r", pReq->m_reqId);
+	Push(pReq);
+}
+
 void CIcqProto::MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup)
 {
 	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/moveBuddy");
@@ -142,6 +149,7 @@ void CIcqProto::OnLoggedIn()
 	m_bOnline = true;
 	SetServerStatus(m_iDesiredStatus);
 	RetrieveUserInfo(0);
+	GetPermitDeny();
 }
 
 void CIcqProto::OnLoggedOut()
@@ -383,6 +391,14 @@ void CIcqProto::RetrieveUserHistory(MCONTACT hContact, __int64 startMsgId, __int
 	Push(pReq);
 }
 
+void CIcqProto::SetPermitDeny(MCONTACT hContact, bool bAllow)
+{
+	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/preference/setPermitDeny");
+	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("r", pReq->m_reqId)
+		<< CHAR_PARAM((bAllow) ? "pdIgnoreRemove" : "pdIgnore", GetUserId(hContact));
+	Push(pReq);
+}
+
 void CIcqProto::SetServerStatus(int iStatus)
 {
 	const char *szStatus = "online";
@@ -428,7 +444,7 @@ void CIcqProto::ShutdownSession()
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #define CAPS "094613504c7f11d18222444553540000,094613514c7f11d18222444553540000,094613534c7f11d18222444553540000,094613544c7f11d18222444553540000,094613594c7f11d18222444553540000,0946135b4c7f11d18222444553540000,0946135a4c7f11d18222444553540000"
-#define EVENTS "myInfo,presence,buddylist,typing,dataIM,userAddedToBuddyList,webrtcMsg,mchat,hist,hiddenChat,diff,permitDeny,imState,notification,apps"
+#define EVENTS "myInfo,presence,buddylist,typing,dataIM,userAddedToBuddyList,mchat,hist,hiddenChat,diff,permitDeny,imState,notification,apps"
 #define FIELDS "aimId,buddyIcon,bigBuddyIcon,iconId,bigIconId,largeIconId,displayId,friendly,offlineMsg,state,statusMsg,userType,phoneNumber,cellNumber,smsNumber,workNumber,otherNumber,capabilities,ssl,abPhoneNumber,moodIcon,lastName,abPhones,abContactName,lastseen,mute,livechat,official"
 
 void CIcqProto::StartSession()
@@ -591,6 +607,13 @@ void CIcqProto::OnFileInit(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld)
 
 	pTransfer->pfts.currentFileTime = time(0);
 	ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, pTransfer, (LPARAM)&pTransfer->pfts);
+}
+
+void CIcqProto::OnGetPermitDeny(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+{
+	JsonReply root(pReply);
+	if (root.error() == 200)
+		ProcessPermissions(root.data());
 }
 
 void CIcqProto::OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
@@ -824,6 +847,8 @@ void CIcqProto::ProcessEvent(const JSONNode &ev)
 		ProcessGroupChat(pData);
 	else if (szType == L"myInfo")
 		ProcessMyInfo(pData);
+	else if (szType == L"permitDeny")
+		ProcessPermissions(pData);
 	else if (szType == L"presence")
 		ProcessPresence(pData);
 	else if (szType == L"typing")
@@ -908,6 +933,34 @@ void CIcqProto::ProcessMyInfo(const JSONNode &ev)
 {
 	Json2string(0, ev, "friendly", "Nick");
 	CheckAvatarChange(0, ev);
+}
+
+void CIcqProto::ProcessPermissions(const JSONNode &ev)
+{
+	for (auto &it : m_arCache)
+		it->m_iApparentMode = 0;
+
+	for (auto &it : ev["allows"]) {
+		auto *p = FindContactByUIN(_wtoi(it.as_mstring()));
+		if (p)
+			p->m_iApparentMode = ID_STATUS_ONLINE;
+	}
+
+	for (auto &it : ev["ignores"]) {
+		auto *p = FindContactByUIN(_wtoi(it.as_mstring()));
+		if (p)
+			p->m_iApparentMode = ID_STATUS_OFFLINE;
+	}
+
+	for (auto &it: m_arCache) {
+		int oldMode = getDword(it->m_hContact, "ApparentMode");
+		if (oldMode != it->m_iApparentMode) {
+			if (it->m_iApparentMode == 0)
+				delSetting(it->m_hContact, "ApparentMode");
+			else
+				setDword(it->m_hContact, "ApparentMode", it->m_iApparentMode);
+		}
+	}
 }
 
 void CIcqProto::ProcessPresence(const JSONNode &ev)

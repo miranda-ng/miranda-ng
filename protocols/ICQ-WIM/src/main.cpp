@@ -54,10 +54,57 @@ CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int ModuleLoad(WPARAM, LPARAM)
+static int OnContactMenu(WPARAM hContact, LPARAM lParam)
+{
+	Menu_ShowItem(g_plugin.m_hmiRoot, false);
+
+	CIcqProto *proto = CMPlugin::getInstance(hContact);
+	return proto ? proto->OnContactMenu(hContact, lParam) : 0;
+}
+
+static INT_PTR ICQPermitDeny(WPARAM hContact, LPARAM, LPARAM bAllow)
+{
+	CIcqProto *proto = CMPlugin::getInstance(hContact);
+	if (proto)
+		proto->SetPermitDeny(hContact, bAllow != 0);
+	return 0;
+}
+
+static int ModuleLoad(WPARAM, LPARAM)
 {
 	g_bPopupService = ServiceExists(MS_POPUP_ADDPOPUPT);
 	g_bMessageState = ServiceExists(MS_MESSAGESTATE_UPDATE);
+	return 0;
+}
+
+static int OnModulesLoaded(WPARAM, LPARAM)
+{
+	ModuleLoad(0, 0);
+
+	// init menus
+	CMenuItem mi(&g_plugin);
+
+	SET_UID(mi, 0x9cd3a933, 0x3bd5, 0x4d1c, 0xbd, 0xf1, 0xa8, 0xf9, 0xbf, 0xf0, 0xd7, 0x28);
+	mi.position = 100000;
+	mi.name.a = "ICQ";
+	mi.hIcolibItem = Skin_LoadProtoIcon(g_plugin.getModule(), ID_STATUS_ONLINE);
+	g_plugin.m_hmiRoot = Menu_AddContactMenuItem(&mi);
+
+	mi.flags = CMIF_UNMOVABLE;
+	mi.root = g_plugin.m_hmiRoot;
+	mi.name.a = LPGEN("Ignore");
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REVOKE);
+	mi.pszService = "ICQ/Ignore";
+	g_plugin.m_hmiIgnore = Menu_AddContactMenuItem(&mi);
+	CreateServiceFunctionParam(mi.pszService, ICQPermitDeny, 0);
+
+	mi.name.a = LPGEN("Allow");
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_ADD);
+	mi.pszService = "ICQ/RemoveIgnore";
+	g_plugin.m_hmiAllow = Menu_AddContactMenuItem(&mi);
+	CreateServiceFunctionParam(mi.pszService, ICQPermitDeny, 1);
+
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnContactMenu);
 	return 0;
 }
 
@@ -67,7 +114,7 @@ int CMPlugin::Load()
 
 	HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);
 	HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);
-	HookEvent(ME_SYSTEM_MODULESLOADED, ModuleLoad);
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	return 0;
 };
 
