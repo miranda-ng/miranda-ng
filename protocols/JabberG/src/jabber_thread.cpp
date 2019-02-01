@@ -618,15 +618,6 @@ void CJabberProto::PerformAuthentication(ThreadData *info)
 		}
 	}
 
-	if (auth == nullptr && m_AuthMechs.isNtlmAvailable) {
-		m_AuthMechs.isNtlmAvailable = false;
-		auth = new TNtlmAuth(info, "NTLM");
-		if (!auth->isValid()) {
-			delete auth;
-			auth = nullptr;
-		}
-	}
-
 	if (auth == nullptr && m_AuthMechs.isKerberosAvailable) {
 		m_AuthMechs.isKerberosAvailable = false;
 		auth = new TNtlmAuth(info, "GSSAPI", m_AuthMechs.m_gssapiHostName);
@@ -640,6 +631,15 @@ void CJabberProto::PerformAuthentication(ThreadData *info)
 				delete auth;
 				auth = nullptr;
 			}
+		}
+	}
+
+	if (auth == nullptr && m_AuthMechs.isNtlmAvailable) {
+		m_AuthMechs.isNtlmAvailable = false;
+		auth = new TNtlmAuth(info, "NTLM");
+		if (!auth->isValid()) {
+			delete auth;
+			auth = nullptr;
 		}
 	}
 
