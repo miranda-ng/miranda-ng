@@ -36,7 +36,6 @@ void UninitLogs();
 
 void InitColourPicker();
 void InitHyperlink();
-void InitMetaContacts();
 void InitTimeZones();
 void InitWinver();
 
@@ -114,7 +113,6 @@ static void LoadCoreModule(void)
 	InitHyperlink();
 	InitTimeZones();
 	InitialiseModularEngine();
-	InitMetaContacts();
 
 	CreateServiceFunction(MS_SYSTEM_RESTART, RestartMiranda);
 

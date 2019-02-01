@@ -24,49 +24,157 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "metacontacts.h"
 
-// gets the handle for the 'most online' contact
-// wParam=(MCONTACT)hMetaContact
-// lParam=0
-// returns a handle to the 'most online' contact
+MIR_APP_DLL(BOOL) db_mc_isEnabled(void)
+{
+	return g_bMetaEnabled;
+}
 
-static INT_PTR MetaAPI_GetMostOnline(WPARAM hMetaContact, LPARAM)
+MIR_APP_DLL(void) db_mc_enable(BOOL bEnabled)
+{
+	g_bMetaEnabled = bEnabled != 0;
+
+	NotifyEventHooks(hEventEnabled, g_bMetaEnabled, 0);
+}
+
+MIR_APP_DLL(BOOL) db_mc_isMeta(MCONTACT hContact)
+{
+	if (currDb == nullptr || !g_bMetaEnabled) return FALSE;
+
+	DBCachedContact *cc = currDb->getCache()->GetCachedContact(hContact);
+	return (cc == nullptr) ? FALSE : cc->nSubs != -1;
+}
+
+MIR_APP_DLL(BOOL) db_mc_isSub(MCONTACT hContact)
+{
+	if (currDb == nullptr || !g_bMetaEnabled) return FALSE;
+
+	DBCachedContact *cc = currDb->getCache()->GetCachedContact(hContact);
+	return (cc == nullptr) ? FALSE : cc->parentID != 0;
+}
+
+// returns a handle to the default contact, or null on failure
+MIR_APP_DLL(MCONTACT) db_mc_getDefault(MCONTACT hMetaContact)
+{
+	DBCachedContact *cc = CheckMeta(hMetaContact);
+	if (cc == nullptr)
+		return 0;
+
+	return (cc->nDefault != -1) ? Meta_GetContactHandle(cc, cc->nDefault) : 0;
+}
+
+// returns the default contact number, or -1 on failure
+MIR_APP_DLL(int) db_mc_getDefaultNum(MCONTACT hMetaContact)
+{
+	DBCachedContact *cc = CheckMeta(hMetaContact);
+	return (cc == nullptr) ? -1 : cc->nDefault;
+}
+
+// returns the number of subcontacts, or -1 on failure
+MIR_APP_DLL(int) db_mc_getSubCount(MCONTACT hMetaContact)
+{
+	DBCachedContact *cc = CheckMeta(hMetaContact);
+	return (cc == nullptr) ? -1 : cc->nSubs;
+}
+
+// returns parent hContact for a subcontact or NULL if it's not a sub
+MIR_APP_DLL(MCONTACT) db_mc_getMeta(MCONTACT hSubContact)
+{
+	if (currDb == nullptr) return NULL;
+
+	DBCachedContact *cc = currDb->getCache()->GetCachedContact(hSubContact);
+	return (cc == nullptr) ? NULL : cc->parentID;
+}
+
+// returns parent hContact for a subcontact or hContact itself if it's not a sub
+MIR_APP_DLL(MCONTACT) db_mc_tryMeta(MCONTACT hContact)
+{
+	if (currDb == nullptr) return hContact;
+
+	DBCachedContact *cc = currDb->getCache()->GetCachedContact(hContact);
+	if (cc == nullptr) return hContact;
+
+	return (cc->IsSub()) ? cc->parentID : hContact;
+}
+
+// returns a subcontact with the given index
+MIR_APP_DLL(MCONTACT) db_mc_getSub(MCONTACT hMetaContact, int iNum)
+{
+	DBCachedContact *cc = CheckMeta(hMetaContact);
+	return (cc == nullptr) ? 0 : Meta_GetContactHandle(cc, iNum);
+}
+
+// gets the handle for the 'most online' contact
+MIR_APP_DLL(MCONTACT) db_mc_getMostOnline(MCONTACT hMetaContact)
 {
 	DBCachedContact *cc = CheckMeta(hMetaContact);
 	return (cc == nullptr) ? 0 : Meta_GetMostOnline(cc);
 }
 
-// wParam=(HANDLE)hContact
-// lParam=0
-// convert a given contact into a metacontact
-
-static INT_PTR MetaAPI_ConvertToMeta(WPARAM wParam, LPARAM lParam)
+// returns manually chosen sub in the meta window
+MIR_APP_DLL(MCONTACT) db_mc_getSrmmSub(MCONTACT hContact)
 {
-	return Meta_Convert(wParam, lParam);
+	MetaSrmmData tmp = { hContact };
+	if (MetaSrmmData *p = arMetaWindows.find(&tmp))
+		return p->m_hSub;
+
+	return db_mc_getMostOnline(hContact);
 }
 
-// wParam=(HANDLE)hContact
-// lParam=(HANDLE)hMeta
-// add an existing contact to a metacontact
-
-static INT_PTR MetaAPI_AddToMeta(WPARAM wParam, LPARAM lParam)
+// converts a given contact into a metacontact
+MIR_APP_DLL(MCONTACT) db_mc_convertToMeta(MCONTACT hContact)
 {
-	return Meta_Assign(wParam, lParam, FALSE);
+	return Meta_Convert(hContact, 0);
 }
 
-// wParam=0
-// lParam=(HANDLE)hContact
-// remove a contact from a metacontact
+// adds an existing contact to a metacontact
+MIR_APP_DLL(int) db_mc_addToMeta(MCONTACT hSub, MCONTACT hMetaContact)
+{
+	return Meta_Assign(hSub, hMetaContact, FALSE);
+}
 
-static INT_PTR MetaAPI_RemoveFromMeta(WPARAM wParam, LPARAM lParam)
+// removes a contact from a metacontact
+MIR_APP_DLL(int) db_mc_removeFromMeta(MCONTACT hSub)
 {
 	// notice we switch args - to keep the API function consistent with the others
-	return Meta_Delete(lParam, wParam);
+	return Meta_Delete(hSub, true);
 }
 
-void CreateApiServices()
+// sets the default contact, using the subcontact's handle
+MIR_APP_DLL(int) db_mc_setDefault(MCONTACT hMetaContact, MCONTACT hSub, BOOL bWriteDb)
 {
-	CreateServiceFunction(MS_MC_GETMOSTONLINECONTACT, MetaAPI_GetMostOnline);
-	CreateServiceFunction(MS_MC_CONVERTTOMETA, MetaAPI_ConvertToMeta);
-	CreateServiceFunction(MS_MC_ADDTOMETA, MetaAPI_AddToMeta);
-	CreateServiceFunction(MS_MC_REMOVEFROMMETA, MetaAPI_RemoveFromMeta);
+	DBCachedContact *cc = CheckMeta(hMetaContact);
+	if (cc == nullptr)
+		return 1;
+
+	int contact_number = Meta_GetContactNumber(cc, hSub);
+	if (contact_number == -1) 
+		return 1;
+
+	if (cc->nDefault != contact_number) {
+		cc->nDefault = contact_number;
+		if (bWriteDb)
+			currDb->MetaSetDefault(cc);
+
+		NotifyEventHooks(hEventDefaultChanged, hMetaContact, hSub);
+	}
+	return 0;
+}
+
+// sets the default contact, using the subcontact's number
+MIR_APP_DLL(int) db_mc_setDefaultNum(MCONTACT hMetaContact, int iNum, BOOL bWriteDb)
+{
+	DBCachedContact *cc = CheckMeta(hMetaContact);
+	if (cc == nullptr)
+		return 1;
+	if (iNum >= cc->nSubs || iNum < 0)
+		return 1;
+
+	if (cc->nDefault != iNum) {
+		cc->nDefault = iNum;
+		if (bWriteDb)
+			currDb->MetaSetDefault(cc);
+
+		NotifyEventHooks(hEventDefaultChanged, hMetaContact, Meta_GetContactHandle(cc, iNum));
+	}
+	return 0;
 }

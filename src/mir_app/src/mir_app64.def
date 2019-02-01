@@ -678,3 +678,20 @@ Chat_SetGroup @706
 ??6@YAPEAUMHttpRequest@@PEAU0@AEBUWCHAR_PARAM@@@Z @713 NONAME
 ??6@YAPEAUMHttpRequest@@PEAU0@AEBUINT64_PARAM@@@Z @714 NONAME
 ?AddHeader@MHttpRequest@@QEAAXPEBD0@Z @715 NONAME
+db_mc_addToMeta @716
+db_mc_convertToMeta @717
+db_mc_enable @718
+db_mc_getDefault @719
+db_mc_getDefaultNum @720
+db_mc_getMeta @721
+db_mc_getMostOnline @722
+db_mc_getSrmmSub @723
+db_mc_getSub @724
+db_mc_getSubCount @725
+db_mc_isEnabled @726
+db_mc_isMeta @727
+db_mc_isSub @728
+db_mc_removeFromMeta @729
+db_mc_setDefault @730
+db_mc_setDefaultNum @731
+db_mc_tryMeta @732

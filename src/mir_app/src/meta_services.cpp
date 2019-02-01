@@ -27,16 +27,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "clc.h"
 #include "metacontacts.h"
 
-extern "C" MIR_CORE_DLL(void) db_mc_notifyDefChange(WPARAM wParam, LPARAM lParam);
-
 char *pendingACK = nullptr;    // Name of the protocol in which an ACK is about to come.
 
 int previousMode,        // Previous status of the MetaContacts Protocol
 mcStatus;             // Current status of the MetaContacts Protocol
 
-HANDLE
-hSubcontactsChanged,  // HANDLE to the 'contacts changed' event
-hEventNudge;
+HANDLE hSubcontactsChanged;  // ME_MC_SUBCONTACTSCHANGED
+HANDLE hEventDefaultChanged; // ME_MC_DEFAULTTCHANGED
+HANDLE hEventEnabled;		  // ME_MC_ENABLED
 
 UINT_PTR setStatusTimerId = 0;
 BOOL firstSetOnline = TRUE; // see Meta_SetStatus function
@@ -424,7 +422,7 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 		// set status to that of most online contact
 		MCONTACT hMostOnline = Meta_GetMostOnline(ccMeta);
 		if (hMostOnline != db_mc_getDefault(ccMeta->contactID))
-			db_mc_notifyDefChange(ccMeta->contactID, hMostOnline);
+			NotifyEventHooks(hEventDefaultChanged, ccMeta->contactID, hMostOnline);
 
 		Meta_CopyContactNick(ccMeta, hMostOnline);
 		Meta_FixStatus(ccMeta);
@@ -557,18 +555,6 @@ static int Meta_MessageWindowEvent(WPARAM, LPARAM lParam)
 			}
 
 	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// returns manually chosen sub in the meta window
-
-static INT_PTR Meta_SrmmCurrentSub(WPARAM hMeta, LPARAM)
-{
-	MetaSrmmData tmp = { (MCONTACT)hMeta };
-	if (MetaSrmmData *p = arMetaWindows.find(&tmp))
-		return p->m_hSub;
-
-	return db_mc_getMostOnline(hMeta);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -872,15 +858,14 @@ void Meta_InitServices()
 	CreateProtoServiceFunction(META_FILTER, PSR_MESSAGE, MetaFilter_RecvMessage);
 
 	// API services and events
-	CreateApiServices();
-
 	CreateServiceFunction("MetaContacts/OnOff", Meta_OnOff);
-	CreateServiceFunction(MS_MC_GETSRMMSUB, Meta_SrmmCurrentSub);
 
 	CreateProtoServiceFunction(META_PROTO, PS_SEND_NUDGE, Meta_SendNudge);
 
 	// create our hookable events
+	hEventEnabled = CreateHookableEvent(ME_MC_ENABLED);
 	hSubcontactsChanged = CreateHookableEvent(ME_MC_SUBCONTACTSCHANGED);
+	hEventDefaultChanged = CreateHookableEvent(ME_MC_DEFAULTTCHANGED);
 
 	// hook other module events we need
 	HookEvent(ME_PROTO_ACK, Meta_HandleACK);
@@ -892,9 +877,6 @@ void Meta_InitServices()
 
 	// hook our own events, used to call Meta_GetMostOnline which sets nick for metacontact
 	HookEvent(ME_MC_DEFAULTTCHANGED, Meta_CallMostOnline);
-
-	// redirect nudge events
-	hEventNudge = CreateHookableEvent(META_PROTO PE_NUDGE);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -903,5 +885,4 @@ void Meta_InitServices()
 void Meta_CloseHandles()
 {
 	DestroyHookableEvent(hSubcontactsChanged);
-	DestroyHookableEvent(hEventNudge);
 }

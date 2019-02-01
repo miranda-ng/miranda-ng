@@ -30,12 +30,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define META_PROTO   "MetaContacts"
 #define META_PROTOW L"MetaContacts"
 
-//gets the handle for the 'most online' contact
-//wParam=(HANDLE)hMetaContact
-//lParam=0
-//returns a handle to the 'most online' contact
-#define MS_MC_GETMOSTONLINECONTACT "MetaContacts/GetMostOnline"
-
 // fired when a metacontact's default contact changes (fired upon creation of metacontact also, when default is initially set)
 // wParam=(HANDLE)hMetaContact
 // lParam=(HANDLE)hDefaultContact
@@ -52,26 +46,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // signalizes that metacontacts are enabled or disabled
 #define ME_MC_ENABLED "MetaContacts/OnEnabled"
 
-// wParam=(HANDLE)hContact
-// lParam=0
-// convert a given contact into a metacontact
-#define MS_MC_CONVERTTOMETA "MetaContacts/ConvertToMetacontact"
-
-// wParam=(HANDLE)hContact
-// lParam=(HANDLE)hMeta
-// add an existing contact to a metacontact
-#define MS_MC_ADDTOMETA "MetaContacts/AddToMetacontact"
-
-// wParam=0
-// lParam=(HANDLE)hContact
-// remove a contact from a metacontact
-#define MS_MC_REMOVEFROMMETA "MetaContacts/RemoveFromMetacontact"
-
-// wParam=(HANDLE)hContact
-// lParam=(HANDLE)hMeta
-// add an existing contact to a metacontact
-#define MS_MC_GETSRMMSUB "MetaContacts/GetSrmmSub"
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // binary interface to MC
 
@@ -80,47 +54,54 @@ extern "C"
 {
 #endif
 
-MCONTACT __forceinline db_mc_getMostOnline(MCONTACT hContact)
-{	return CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
-}
-
-MCONTACT __forceinline db_mc_getSrmmSub(MCONTACT hContact)
-{	return CallService(MS_MC_GETSRMMSUB, hContact, 0);
-}
-
 // checks whether metacontacts are enabled
-MIR_CORE_DLL(BOOL) db_mc_isEnabled(void);
-MIR_CORE_DLL(void) db_mc_enable(BOOL);
+MIR_APP_DLL(BOOL) db_mc_isEnabled(void);
+MIR_APP_DLL(void) db_mc_enable(BOOL);
 
 // checks whether a contact is a metacontact
-MIR_CORE_DLL(BOOL) db_mc_isMeta(MCONTACT hMetaContact);
+MIR_APP_DLL(BOOL) db_mc_isMeta(MCONTACT hMetaContact);
 
 // checks whether a contact is a subcontact of existing MC
-MIR_CORE_DLL(BOOL) db_mc_isSub(MCONTACT hSubContact);
+MIR_APP_DLL(BOOL) db_mc_isSub(MCONTACT hSubContact);
 
-//returns a handle to the default contact, or null on failure
-MIR_CORE_DLL(MCONTACT) db_mc_getDefault(MCONTACT hMetaContact);
+// returns a handle to the default contact, or null on failure
+MIR_APP_DLL(MCONTACT) db_mc_getDefault(MCONTACT hMetaContact);
 
-//returns the default contact number, or -1 on failure
-MIR_CORE_DLL(int) db_mc_getDefaultNum(MCONTACT hMetaContact);
+// returns the default contact number, or -1 on failure
+MIR_APP_DLL(int) db_mc_getDefaultNum(MCONTACT hMetaContact);
 
-//returns the number of subcontacts, or -1 on failure
-MIR_CORE_DLL(int) db_mc_getSubCount(MCONTACT hMetaContact);
+// returns the number of subcontacts, or -1 on failure
+MIR_APP_DLL(int) db_mc_getSubCount(MCONTACT hMetaContact);
 
 // returns parent hContact for a subcontact or NULL if it's not a sub
-MIR_CORE_DLL(MCONTACT) db_mc_getMeta(MCONTACT hSubContact);
+MIR_APP_DLL(MCONTACT) db_mc_getMeta(MCONTACT hSubContact);
 
 // returns parent hContact for a subcontact or hContact itself if it's not a sub
-MIR_CORE_DLL(MCONTACT) db_mc_tryMeta(MCONTACT hContact);
+MIR_APP_DLL(MCONTACT) db_mc_tryMeta(MCONTACT hContact);
 
 // returns a subcontact with the given index
-MIR_CORE_DLL(MCONTACT) db_mc_getSub(MCONTACT hMetaContact, int iNum);
+MIR_APP_DLL(MCONTACT) db_mc_getSub(MCONTACT hMetaContact, int iNum);
 
-//sets the default contact, using the subcontact's handle
-MIR_CORE_DLL(int) db_mc_setDefault(MCONTACT hMetaContact, MCONTACT hSub, BOOL bWriteDb);
+// returns the default sub a SRMM window
+MIR_APP_DLL(MCONTACT) db_mc_getSrmmSub(MCONTACT hContact);
 
-//sets the default contact, using the subcontact's number
-MIR_CORE_DLL(int) db_mc_setDefaultNum(MCONTACT hMetaContact, int iNum, BOOL bWriteDb);
+// gets the handle for the 'most online' contact
+MIR_APP_DLL(MCONTACT) db_mc_getMostOnline(MCONTACT hContact);
+
+// sets the default contact, using the subcontact's handle
+MIR_APP_DLL(int) db_mc_setDefault(MCONTACT hMetaContact, MCONTACT hSub, BOOL bWriteDb);
+
+// sets the default contact, using the subcontact's number
+MIR_APP_DLL(int) db_mc_setDefaultNum(MCONTACT hMetaContact, int iNum, BOOL bWriteDb);
+
+// converts a contact into a meta
+MIR_APP_DLL(MCONTACT) db_mc_convertToMeta(MCONTACT hContact);
+
+// adds a contact to meta
+MIR_APP_DLL(int) db_mc_addToMeta(MCONTACT hSub, MCONTACT hMetaContact);
+
+// removes a contact to meta
+MIR_APP_DLL(int) db_mc_removeFromMeta(MCONTACT hSub);
 
 #if defined(__cplusplus)
 }

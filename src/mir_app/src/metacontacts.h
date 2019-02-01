@@ -29,6 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // contact menu items
 void InitMenus();
 extern int mcStatus;
+extern bool g_bMetaEnabled;
 
 struct MetaSrmmData
 {
@@ -98,14 +99,13 @@ extern MetaOptions g_metaOptions;
 int Meta_OptInit(WPARAM wParam, LPARAM lParam);
 int Meta_ReadOptions();
 
-// API function headers
-void CreateApiServices();
+/////////////////////////////////////////////////////////////////////////////////////////
 
 typedef enum {I_MENUOFF, I_MENU, I_CONVERT, I_ADD, I_EDIT, I_SETDEFAULT, I_REMOVE} IconIndex;
 HICON Meta_LoadIconEx(IconIndex i, bool big = false);
 HANDLE Meta_GetIconHandle(IconIndex i);
 
-extern HANDLE hEventForceSend, hEventUnforceSend, hSubcontactsChanged;
+extern HANDLE hSubcontactsChanged, hEventDefaultChanged, hEventEnabled;
 extern POINT menuMousePoint;
 
 #define MAX_PROTOCOLS	20

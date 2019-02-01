@@ -296,16 +296,17 @@ DBCachedContact* CheckMeta(MCONTACT hMeta)
 
 int Meta_GetContactNumber(DBCachedContact *cc, MCONTACT hContact)
 {
-	for (int i = 0; i < cc->nSubs; i++)
-		if (cc->pSubs[i] == hContact)
-			return i;
+	if (g_bMetaEnabled)
+		for (int i = 0; i < cc->nSubs; i++)
+			if (cc->pSubs[i] == hContact)
+				return i;
 
 	return -1;
 }
 
 MCONTACT Meta_GetContactHandle(DBCachedContact *cc, int contact_number)
 {
-	if (contact_number >= cc->nSubs || contact_number < 0)
+	if (contact_number >= cc->nSubs || contact_number < 0 || !g_bMetaEnabled)
 		return 0;
 
 	return cc->pSubs[contact_number];

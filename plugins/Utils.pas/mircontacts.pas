@@ -72,7 +72,7 @@ begin
   Result := Proto_GetProtoName(hContact);
   if StrCmp(Result, META_PROTO)=0 then
   begin
-    SubContact  := CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
+    SubContact  := db_mc_getMostOnline(hContact);
     SubProtocol := Proto_GetProtoName(SubContact);
   end
   else

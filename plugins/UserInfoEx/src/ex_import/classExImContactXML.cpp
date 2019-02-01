@@ -630,7 +630,7 @@ int CExImContactXML::ImportNormalContact()
 
 	// remove contact from a metacontact
 	if (err == ERROR_OK && db_mc_getMeta(_hContact))
-		CallService(MS_MC_REMOVEFROMMETA, NULL, (LPARAM)_hContact);
+		db_mc_removeFromMeta(_hContact);
 
 	return err;
 }
@@ -667,7 +667,7 @@ int CExImContactXML::Import(BYTE keepMetaSubContact)
 					return result;
 
 				// convert default subcontact to metacontact
-				_hContact = (MCONTACT)CallService(MS_MC_CONVERTTOMETA, (WPARAM)vContact.handle(), NULL);
+				_hContact = db_mc_convertToMeta(vContact.handle());
 				if (_hContact == NULL) {
 					_hContact = INVALID_CONTACT_ID;
 					return ERROR_CONVERT_METACONTACT;
@@ -705,7 +705,7 @@ int CExImContactXML::Import(BYTE keepMetaSubContact)
 	// load contact information
 	int result = ImportContact();
 	if (result == ERROR_OK && !keepMetaSubContact)
-		CallService(MS_MC_REMOVEFROMMETA, NULL, (LPARAM)_hContact);
+		db_mc_removeFromMeta(_hContact);
 
 	return result;
 }
@@ -730,7 +730,7 @@ int CExImContactXML::ImportMetaSubContact(CExImContactXML * pMetaContact)
 	// check if contact is subcontact of the desired meta contact
 	if (db_mc_getMeta(_hContact) != pMetaContact->handle()) {
 		// add contact to the metacontact (this service returns TRUE if successful)	
-		err = CallService(MS_MC_ADDTOMETA, _hContact, (LPARAM)pMetaContact->handle());
+		err = db_mc_addToMeta(_hContact, pMetaContact->handle());
 		if (err == FALSE) {
 			// ask to delete new contact
 			if (_isNewContact && _hContact != NULL) {

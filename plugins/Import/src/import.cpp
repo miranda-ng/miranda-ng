@@ -697,7 +697,7 @@ void ImportMeta(DBCachedContact *ccSrc)
 			for (int i = 0; i < ccSrc->nSubs; i++) {
 				MCONTACT hDstSub = MapContact(ccSrc->pSubs[i]);
 				if (db_mc_getMeta(hDstSub) == NULL) // add a sub if needed
-					CallService(MS_MC_ADDTOMETA, hDstSub, hDest);
+					db_mc_addToMeta(hDstSub, hDest);
 			}
 		}
 

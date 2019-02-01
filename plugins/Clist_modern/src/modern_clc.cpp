@@ -1095,11 +1095,11 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 						mir_snwprintf(Wording, TranslateT("Do you want contact '%s' to be converted to metacontact and '%s' be added to it?"), contDest->szText, contSour->szText);
 						int res = MessageBox(hwnd, Wording, TranslateT("Converting to metacontact"), MB_OKCANCEL | MB_ICONQUESTION);
 						if (res == 1) {
-							MCONTACT handle = CallService(MS_MC_CONVERTTOMETA, hDest, 0);
+							MCONTACT handle = db_mc_convertToMeta(hDest);
 							if (!handle)
 								return 0;
 
-							CallService(MS_MC_ADDTOMETA, hcontact, handle);
+							db_mc_addToMeta(hcontact, handle);
 						}
 					}
 					else {
@@ -1108,12 +1108,12 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 						mir_snwprintf(Wording, TranslateT("Do you want contact '%s' to be converted to metacontact and '%s' be added to it (remove it from '%s')?"), contDest->szText, contSour->szText, contSour->subcontacts->szText);
 						int res = MessageBox(hwnd, Wording, TranslateT("Converting to metacontact (moving)"), MB_OKCANCEL | MB_ICONQUESTION);
 						if (res == 1) {
-							MCONTACT handle = (MCONTACT)CallService(MS_MC_CONVERTTOMETA, (WPARAM)hdest, 0);
+							MCONTACT handle = db_mc_convertToMeta(hdest);
 							if (!handle)
 								return 0;
 
-							CallService(MS_MC_REMOVEFROMMETA, 0, hcontact);
-							CallService(MS_MC_ADDTOMETA, hcontact, handle);
+							db_mc_removeFromMeta(hcontact);
+							db_mc_addToMeta(hcontact, handle);
 						}
 					}
 				}
@@ -1136,7 +1136,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 					if (res == 1) {
 						if (!handle)
 							return 0;
-						CallService(MS_MC_ADDTOMETA, hcontact, handle);
+						db_mc_addToMeta(hcontact, handle);
 					}
 				}
 				else if (contSour->subcontacts == contDest) {
@@ -1155,8 +1155,8 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 						if (!handle)
 							return 0;
 
-						CallService(MS_MC_REMOVEFROMMETA, 0, hcontact);
-						CallService(MS_MC_ADDTOMETA, hcontact, handle);
+						db_mc_removeFromMeta(hcontact);
+						db_mc_addToMeta(hcontact, handle);
 					}
 				}
 			}
@@ -1179,7 +1179,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 						if (!handle)
 							return 0;
 
-						CallService(MS_MC_ADDTOMETA, hcontact, handle);
+						db_mc_addToMeta(hcontact, handle);
 					}
 				}
 				else if (contSour->subcontacts != contDest->subcontacts) {
@@ -1191,8 +1191,8 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 						if (!handle)
 							return 0;
 
-						CallService(MS_MC_REMOVEFROMMETA, 0, hcontact);
-						CallService(MS_MC_ADDTOMETA, hcontact, handle);
+						db_mc_removeFromMeta(hcontact);
+						db_mc_addToMeta(hcontact, handle);
 					}
 				}
 			}

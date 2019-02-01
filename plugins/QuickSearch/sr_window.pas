@@ -428,9 +428,9 @@ begin
     if ListView_GetItemState(grid,i,LVIS_SELECTED)<>0 then
     begin
       if hMeta=0 then
-        hMeta:=CallService(MS_MC_CONVERTTOMETA,FlagBuf[LV_GetLParam(grid,i)].contact,0)
+        db_mc_convertToMeta(FlagBuf[LV_GetLParam(grid,i)].contact)
       else
-        CallService(MS_MC_ADDTOMETA,FlagBuf[LV_GetLParam(grid,i)].contact,hMeta);
+        db_mc_addToMeta(FlagBuf[LV_GetLParam(grid,i)].contact,hMeta);
     end;
   end;
 end;
@@ -899,8 +899,7 @@ begin
   AppendMenuW(mmenu,MF_SEPARATOR,0,nil);
   AppendMenuW(mmenu,MF_STRING,101,TranslateW('&Delete'));
   AppendMenuW(mmenu,MF_STRING,102,TranslateW('&Copy'));
-  if ServiceExists(MS_MC_CONVERTTOMETA) then
-    AppendMenuW(mmenu,MF_STRING,103,TranslateW('C&onvert to Meta'));
+  AppendMenuW(mmenu,MF_STRING,103,TranslateW('C&onvert to Meta'));
 
   cntmenu:=MakeContainerMenu(300);
   AppendMenuW(mmenu,MF_POPUP,cntmenu,TranslateW('Attach to &Tab container'));

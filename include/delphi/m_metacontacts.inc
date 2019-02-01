@@ -26,12 +26,6 @@ const
   META_PROTO = 'MetaContacts';
 
 const
-  { gets the handle for the 'most online' contact
-    wParam=(HANDLE)hMetaContact
-    lParam=0
-    returns a handle to the 'most online' contact }
-  MS_MC_GETMOSTONLINECONTACT:PAnsiChar = 'MetaContacts/GetMostOnline';
-
   { fired when a metacontact's default contact changes (fired upon creation of metacontact also, when default is initially set)
     wParam=(HANDLE)hMetaContact
     lParam=(HANDLE)hDefaultContact }
@@ -50,79 +44,52 @@ const
   }
   ME_MC_ENABLED:PAnsiChar = 'MetaContacts/OnEnabled';
 
-  { wParam=(HANDLE)hContact
-    lParam=0
-    convert a given contact into a metacontact
-  }
-  MS_MC_CONVERTTOMETA:PAnsiChar = 'MetaContacts/ConvertToMetacontact';
-
-  { wParam=(HANDLE)hContact
-    lParam=(HANDLE)hMeta
-    add an existing contact to a metacontact
-  }
-  MS_MC_ADDTOMETA:PAnsiChar = 'MetaContacts/AddToMetacontact';
-
-  { wParam=0
-    lParam=(HANDLE)hContact
-    remove a contact from a metacontact
-  }
-  MS_MC_REMOVEFROMMETA:PAnsiChar = 'MetaContacts/RemoveFromMetacontact';
-
-  {
-    wParam=(HANDLE)hContact
-    lParam=(HANDLE)hMeta
-    add an existing contact to a metacontact
-  }
-  MS_MC_GETSRMMSUB:PAnsiChar = 'MetaContacts/GetSrmmSub';
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // binary interface to MC
 
 { returns true if metacontacts are enabled or false otherwise }
-function db_mc_isEnabled():bool; stdcall;
-                 external CoreDLL name 'db_mc_isEnabled';
+function db_mc_isEnabled():bool; stdcall; external AppDLL;
 
 { returns true if a contact is a metacontact or false otherwise }
-procedure db_mc_enable(bEnabled:bool); stdcall;
-                 external CoreDLL name 'db_mc_enable';
+procedure db_mc_enable(bEnabled:bool); stdcall; external AppDLL;
 
 { returns true if a contact is a metacontact or false otherwise }
-function db_mc_isMeta(hContact:TMCONTACT):bool; stdcall;
-                 external CoreDLL name 'db_mc_isMeta';
+function db_mc_isMeta(hContact:TMCONTACT):bool; stdcall; external AppDLL;
 
 { returns true if a contact is a subcontact or false otherwise }
-function db_mc_isSub(hContact:TMCONTACT):bool; stdcall;
-                 external CoreDLL name 'db_mc_isSub';
+function db_mc_isSub(hContact:TMCONTACT):bool; stdcall; external AppDLL;
 
 { gets the handle for the default contact or 0 on error }
-function db_mc_getDefault(hContact:TMCONTACT):TMCONTACT; stdcall;
-                 external CoreDLL name 'db_mc_getDefault';
+function db_mc_getDefault(hContact:TMCONTACT):TMCONTACT; stdcall; external AppDLL;
 
 { gets the contact number for the default contact or -1 on error }
-function db_mc_getDefaultNum(hContact:TMCONTACT):int; stdcall;
-                 external CoreDLL name 'db_mc_getDefaultNum';
+function db_mc_getDefaultNum(hContact:TMCONTACT):int; stdcall; external AppDLL;
 
 { returns a meta contact for a subcontact or 0 otherwise }
-function db_mc_getMeta(hContact:TMCONTACT):TMCONTACT; stdcall;
-                 external CoreDLL name 'db_mc_getMeta';
+function db_mc_getMeta(hContact:TMCONTACT):TMCONTACT; stdcall; external AppDLL;
 
 { returns a meta contact for a subcontact or hContact itself otherwise }
-function db_mc_tryMeta(hContact:TMCONTACT):TMCONTACT; stdcall;
-                 external CoreDLL name 'db_mc_tryMeta';
+function db_mc_tryMeta(hContact:TMCONTACT):TMCONTACT; stdcall; external AppDLL;
 
 { returns a subcontact with the given index or 0 }
-function db_mc_getSub(hContact:TMCONTACT; idx:int):TMCONTACT; stdcall;
-                 external CoreDLL name 'db_mc_getSub';
+function db_mc_getSub(hContact:TMCONTACT; idx:int):TMCONTACT; stdcall; external AppDLL;
+
+// gets the handle for the 'most online' contact
+function db_mc_getMostOnline(hMetaContact:TMCONTACT):TMCONTACT; stdcall; external AppDLL;
 
 { gets the number of subcontacts for a metacontact or -1 on error }
-function db_mc_getSubCount(hContact:TMCONTACT):int; stdcall;
-                 external CoreDLL name 'db_mc_getSubCount';
+function db_mc_getSubCount(hContact:TMCONTACT):int; stdcall; external AppDLL;
 
 { sets the default contact, using the subcontact's handle }
-function db_mc_setDefault(hContact,hSub:TMCONTACT; bWriteDb:bool):int; stdcall;
-                 external CoreDLL name 'db_mc_setDefault';
+function db_mc_setDefault(hContact,hSub:TMCONTACT; bWriteDb:bool):int; stdcall; external AppDLL;
 
 { sets the default contact, using the subcontact's number }
-function db_mc_setDefaultNum(hContact:TMCONTACT; idx:int; bWriteDb:bool):int; stdcall;
-                 external CoreDLL name 'db_mc_setDefaultNum';
+function db_mc_setDefaultNum(hContact:TMCONTACT; idx:int; bWriteDb:bool):int; stdcall; external AppDLL;
+
+// converts a given contact into a metacontact
+function db_mc_convertToMeta(hContact:TMCONTACT):int; stdcall; external AppDLL;
+
+// converts a given contact into a metacontact
+function db_mc_addToMeta(hContact,hMeta:TMCONTACT):int; stdcall; external AppDLL;
+
 {$ENDIF}

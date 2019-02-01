@@ -80,7 +80,7 @@ void CCloudService::OpenUploadDialog(MCONTACT hContact)
 {
 	char *proto = GetContactProto(hContact);
 	if (!mir_strcmpi(proto, META_PROTO))
-		hContact = CallService(MS_MC_GETMOSTONLINECONTACT, hContact);
+		hContact = db_mc_getMostOnline(hContact);
 
 	auto it = InterceptedContacts.find(hContact);
 	if (it == InterceptedContacts.end()) {
