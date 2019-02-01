@@ -311,7 +311,6 @@ void CSrmmWindow::OnDestroy()
 void CSrmmWindow::OnActivate()
 {
 	SetupStatusBar();
-	SetFocus(m_message.GetHwnd());
 	UpdateTitle();
 	UpdateLastMessage();
 	StopFlash();

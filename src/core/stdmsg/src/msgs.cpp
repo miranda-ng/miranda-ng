@@ -46,8 +46,14 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg) {
 	case WM_ACTIVATE:
-		if (LOWORD(wParam) == WA_ACTIVE)
-			OnActivate();
+		if (LOWORD(wParam) != WA_ACTIVE)
+			break;
+
+		SetFocus(m_message.GetHwnd());
+		__fallthrough;
+
+	case WM_MOUSEACTIVATE:
+		OnActivate();
 		break;
 
 	case WM_TIMER:
@@ -57,11 +63,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				FlashWindow(m_pOwner->GetHwnd(), TRUE);
 			m_nFlash++;
 		}
-		break;
-
-	case WM_MOUSEACTIVATE:
-		OnActivate();
-		SetFocus(m_message.GetHwnd());
 		break;
 	}
 
