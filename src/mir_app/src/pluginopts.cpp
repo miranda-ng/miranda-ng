@@ -293,7 +293,7 @@ public:
 		m_plugList.InsertColumn(1, &col);
 
 		col.pszText = TranslateT("Name");
-		col.cx = 180;//max = 220;
+		col.cx = 180;
 		m_plugList.InsertColumn(2, &col);
 
 		col.pszText = TranslateT("Version");
@@ -308,17 +308,16 @@ public:
 		enumPlugins(dialogListPlugins, (WPARAM)m_hwnd, (LPARAM)m_plugList.GetHwnd());
 
 		// sort out the headers
-		m_plugList.SetColumnWidth(1, LVSCW_AUTOSIZE); // dll name
-		int w = m_plugList.GetColumnWidth(1);
-		if (w > 110) {
-			m_plugList.SetColumnWidth(1, w = 110);
-		}
+		m_plugList.SetColumnWidth(0, LVSCW_AUTOSIZE); // dll name
+		int w = m_plugList.GetColumnWidth(0);
+		if (w > 180)
+			m_plugList.SetColumnWidth(0, w = 180);
 
-		int max = w < 110 ? 189 + 110 - w : 189;
-		m_plugList.SetColumnWidth(3, LVSCW_AUTOSIZE); // short name
-		w = m_plugList.GetColumnWidth(2);
+		int max = w < 180 ? 189 + 180 - w : 189;
+		m_plugList.SetColumnWidth(2, LVSCW_AUTOSIZE); // short name
+		w = m_plugList.GetColumnWidth(1);
 		if (w > max)
-			m_plugList.SetColumnWidth(2, max);
+			m_plugList.SetColumnWidth(1, max);
 
 		m_plugList.SortItems(SortPlugins, (LPARAM)m_hwnd);
 		return true;
