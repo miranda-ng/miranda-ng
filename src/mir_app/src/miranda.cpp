@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
+#include "openssl.h"
 
 #if defined(VLD_ENABLED)
 #include "msapi\vld.h"
@@ -325,6 +326,8 @@ int WINAPI mir_main(LPTSTR cmdLine)
 	if (IsWinVer7Plus())
 		CoCreateInstance(CLSID_TaskbarList, nullptr, CLSCTX_ALL, IID_ITaskbarList3, (void**)&pTaskbarInterface);
 
+	OpenSSL_Init();
+	
 	int result = 0;
 	if (LoadDefaultModules()) {
 		g_bMirandaTerminated = true;
@@ -403,6 +406,8 @@ int WINAPI mir_main(LPTSTR cmdLine)
 	if (pTaskbarInterface)
 		pTaskbarInterface->Release();
 
+	OpenSSL_Cleanup();
+	
 	OleUninitialize();
 
 	if (bufferedPaintUninit)
