@@ -290,6 +290,9 @@ MCONTACT Meta_GetMostOnlineSupporting(DBCachedContact *cc, int pflagnum, unsigne
 
 DBCachedContact* CheckMeta(MCONTACT hMeta)
 {
+	if (!g_bMetaEnabled)
+		return nullptr;
+
 	DBCachedContact *cc = currDb->getCache()->GetCachedContact(hMeta);
 	return (cc == nullptr || cc->nSubs == -1) ? nullptr : cc;
 }
