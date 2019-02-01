@@ -37,6 +37,7 @@ struct PluginListItemData
 	wchar_t    fileName[MAX_PATH];
 	HINSTANCE  hInst;
 	int        flags, stdPlugin;
+	bool       bRequiresRestart, bWasLoaded;
 	wchar_t   *author, *description, *copyright, *homepage;
 	MUUID      uuid;
 
@@ -101,18 +102,18 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 	}
 	else ppb = &GetPluginByInstance(hInst);
 
-	PluginListItemData *dat = (PluginListItemData*)mir_alloc(sizeof(PluginListItemData));
+	PluginListItemData *dat = (PluginListItemData*)mir_calloc(sizeof(PluginListItemData));
 	dat->hInst = hInst;
 	dat->flags = ppb->getInfo().flags;
+	dat->bWasLoaded = hInst != nullptr;
 
-	dat->stdPlugin = 0;
 	if (pIds != nullptr)
 		dat->importIds(pIds);
 	else {
 		typedef MUUID* (__cdecl * Miranda_Plugin_Interfaces)(void);
 		Miranda_Plugin_Interfaces pFunc = (Miranda_Plugin_Interfaces)GetProcAddress(ppb->getInst(), "MirandaPluginInterfaces");
 		if (pFunc) {
-			MUUID* pPascalIds = pFunc();
+			MUUID *pPascalIds = pFunc();
 			if (pPascalIds != nullptr)
 				dat->importIds(pPascalIds);
 		}
@@ -122,14 +123,15 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 	wcsncpy_s(dat->fileName, fd->cFileName, _TRUNCATE);
 
 	HWND hwndList = (HWND)lParam;
-
-	LVITEM it = { 0 };
-	// column  1: Checkbox +  Enable/disabled icons
-	it.mask = LVIF_PARAM | LVIF_IMAGE;
-	it.iImage = (hInst != nullptr) ? 2 : 3;
 	bool bNoCheckbox = (dat->flags & STATIC_PLUGIN) != 0;
 	if (bNoCheckbox || hasMuuid(pIds, MIID_CLIST) || hasMuuid(pIds, MIID_SSL))
-		it.iImage += 2;
+		dat->bRequiresRestart = true;
+
+	LVITEM it = { 0 };
+	// column  1: Checkbox + Unicode/ANSI icon + filename
+	it.mask = LVIF_PARAM | LVIF_IMAGE | LVIF_TEXT;
+	it.iImage = (dat->flags & UNICODE_AWARE) ? 0 : 1;
+	it.pszText = fd->cFileName;
 	it.lParam = (LPARAM)dat;
 	int iRow = ListView_InsertItem(hwndList, &it);
 
@@ -137,14 +139,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 		ListView_SetItemState(hwndList, iRow, bNoCheckbox ? 0x3000 : 0x2000, LVIS_STATEIMAGEMASK);
 
 	if (iRow != -1) {
-		// column 2: Unicode/ANSI icon + filename
-		it.mask = LVIF_IMAGE | LVIF_TEXT;
-		it.iItem = iRow;
-		it.iSubItem = 1;
-		it.iImage = (dat->flags & UNICODE_AWARE) ? 0 : 1;
-		it.pszText = fd->cFileName;
-		ListView_SetItem(hwndList, &it);
-
+		// column 2: plugin short name
 		const PLUGININFOEX &ppi = ppb->getInfo();
 		dat->author = sttUtf8auto(ppi.author);
 		dat->copyright = sttUtf8auto(ppi.copyright);
@@ -156,13 +151,12 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 			memset(&dat->uuid, 0, sizeof(dat->uuid));
 
 		wchar_t *shortNameT = mir_a2u(ppi.shortName);
-		// column 3: plugin short name
 		if (shortNameT) {
-			ListView_SetItemText(hwndList, iRow, 2, shortNameT);
+			ListView_SetItemText(hwndList, iRow, 1, shortNameT);
 			mir_free(shortNameT);
 		}
 
-		// column4: version number
+		// column 3: version number
 		DWORD unused, verInfoSize = GetFileVersionInfoSize(buf, &unused);
 		if (verInfoSize != 0) {
 			UINT blockSize;
@@ -175,7 +169,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 		}
 		else mir_snwprintf(buf, L"%d.%d.%d.%d", HIBYTE(HIWORD(ppi.version)), LOBYTE(HIWORD(ppi.version)), HIBYTE(LOWORD(ppi.version)), LOBYTE(LOWORD(ppi.version)));
 
-		ListView_SetItemText(hwndList, iRow, 3, buf);
+		ListView_SetItemText(hwndList, iRow, 2, buf);
 		arPluginList.insert(dat);
 	}
 	else mir_free(dat);
@@ -282,7 +276,6 @@ public:
 		m_timer.OnEvent = Callback(this, &CPluginOptDlg::onTimer);
 
 		m_plugList.OnItemChanged = Callback(this, &CPluginOptDlg::list_ItemChanged);
-		m_plugList.OnClick = Callback(this, &CPluginOptDlg::list_OnClick);
 		m_plugList.OnKeyDown = Callback(this, &CPluginOptDlg::list_OnKeyDown);
 	}
 
@@ -291,18 +284,10 @@ public:
 		HIMAGELIST hIml = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 4, 0);
 		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_UNICODE);
 		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_ANSI);
-		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_LOADED);
-		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_NOTLOADED);
-		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_LOADEDGRAY);
-		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_NOTLOADEDGRAY);
 		m_plugList.SetImageList(hIml, LVSIL_SMALL);
 
 		LVCOLUMN col;
 		col.mask = LVCF_TEXT | LVCF_WIDTH;
-		col.pszText = L"";
-		col.cx = 40;
-		m_plugList.InsertColumn(0, &col);
-
 		col.pszText = TranslateT("Plugin");
 		col.cx = 180;
 		m_plugList.InsertColumn(1, &col);
@@ -312,7 +297,7 @@ public:
 		m_plugList.InsertColumn(2, &col);
 
 		col.pszText = TranslateT("Version");
-		col.cx = 75;
+		col.cx = 115;
 		m_plugList.InsertColumn(3, &col);
 
 		m_plugList.SetExtendedListViewStyleEx(0, LVS_EX_SUBITEMIMAGES | LVS_EX_CHECKBOXES | LVS_EX_LABELTIP | LVS_EX_FULLROWSELECT);
@@ -336,9 +321,6 @@ public:
 			m_plugList.SetColumnWidth(2, max);
 
 		m_plugList.SortItems(SortPlugins, (LPARAM)m_hwnd);
-
-		m_hEvent1 = HookEventMessage(ME_SYSTEM_MODULELOAD, m_hwnd, WM_USER + 1);
-		m_hEvent2 = HookEventMessage(ME_SYSTEM_MODULEUNLOAD, m_hwnd, WM_USER + 2);
 		return true;
 	}
 
@@ -349,7 +331,7 @@ public:
 
 		for (int iRow = 0; iRow != -1;) {
 			wchar_t buf[1024];
-			m_plugList.GetItemText(iRow, 1, buf, _countof(buf));
+			m_plugList.GetItemText(iRow, 0, buf, _countof(buf));
 			int iState = m_plugList.GetItemState(iRow, LVIS_STATEIMAGEMASK);
 			SetPluginOnWhiteList(buf, (iState & 0x2000) ? 1 : 0);
 
@@ -363,22 +345,24 @@ public:
 					lvi.mask = LVIF_IMAGE;
 
 					PluginListItemData *dat = (PluginListItemData*)lvi.lParam;
-					if (iState == 0x2000) {
-						// enabling plugin
-						if (lvi.iImage == 3 || lvi.iImage == 5) {
-							if (lvi.iImage == 3)
+					if (iState == 0x2000) { // enabling plugin
+						if (!dat->bWasLoaded) {
+							if (!dat->bRequiresRestart) {
 								LoadPluginDynamically(dat);
+								dat->bWasLoaded = true;
+							}
 							else {
 								bufRestart.AppendFormat(L" - %s\n", buf);
 								needRestart = true;
 							}
 						}
 					}
-					else {
-						// disabling plugin
-						if (lvi.iImage == 2 || lvi.iImage == 4) {
-							if (lvi.iImage == 2)
+					else { // disabling plugin
+						if (dat->bWasLoaded) {
+							if (!dat->bRequiresRestart) {
 								UnloadPluginDynamically(dat);
+								dat->bWasLoaded = false;
+							}
 							else {
 								bufRestart.AppendFormat(L" - %s\n", buf);
 								needRestart = true;
@@ -418,52 +402,6 @@ public:
 			mir_free(dat->description);
 			mir_free(dat->homepage);
 			mir_free(dat);
-		}
-	}
-
-	INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override
-	{
-		if (uMsg == WM_USER + 1 || uMsg == WM_USER + 2) {
-			LVITEM lvi;
-			lvi.mask = LVIF_PARAM | LVIF_IMAGE;
-			lvi.iSubItem = 0;
-			for (lvi.iItem = 0; m_plugList.GetItem(&lvi); lvi.iItem++) {
-				PluginListItemData *dat = (PluginListItemData*)lvi.lParam;
-				if (dat->hInst == (HINSTANCE)lParam) {
-					lvi.iImage = uMsg - WM_USER + 1;
-					m_plugList.SetItem(&lvi);
-					break;
-				}
-			}
-		}
-
-		return CDlgBase::DlgProc(uMsg, wParam, lParam);
-	}
-
-	void list_OnClick(CCtrlListView::TEventInfo *evt)
-	{
-		auto hdr = evt->nmlv;
-
-		LVHITTESTINFO hi;
-		hi.pt.x = hdr->ptAction.x;
-		hi.pt.y = hdr->ptAction.y;
-		m_plugList.SubItemHitTest(&hi);
-		// Dynamically load/unload a plugin
-		if (hi.iSubItem == 0 && (hi.flags & LVHT_ONITEMICON)) {
-			LVITEM lvi = { 0 };
-			lvi.mask = LVIF_IMAGE | LVIF_PARAM;
-			lvi.stateMask = -1;
-			lvi.iItem = hi.iItem;
-			lvi.iSubItem = 0;
-			if (m_plugList.GetItem(&lvi)) {
-				PluginListItemData *dat = (PluginListItemData*)lvi.lParam;
-				if (lvi.iImage == 3)
-					LoadPluginDynamically(dat); // load plugin
-				else if (lvi.iImage == 2)
-					UnloadPluginDynamically(dat); // unload plugin
-
-				LoadStdPlugins();
-			}
 		}
 	}
 

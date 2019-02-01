@@ -90,7 +90,8 @@ static ColorOptionsList _tabclrs[] = {
 
 extern LOGFONT lfDefault;
 
-static FontOptionsList IM_fontOptionsList[] = {
+static FontOptionsList IM_fontOptionsList[] =
+{
 	{ LPGENW(">> Outgoing messages"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
 	{ LPGENW(">> Outgoing misc events"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
 	{ LPGENW("<< Incoming messages"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
@@ -115,7 +116,8 @@ static FontOptionsList IM_fontOptionsList[] = {
 	{ LPGENW("* Symbols (outgoing)"), RGB(50, 50, 50), L"Webdings", SYMBOL_CHARSET, 0, -12 },
 };
 
-static FontOptionsList IP_fontOptionsList[] = {
+static FontOptionsList IP_fontOptionsList[] =
+{
 	{ LPGENW("Nickname"), RGB(0, 0, 0), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
 	{ LPGENW("UIN"), RGB(0, 0, 0), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
 	{ LPGENW("Status"), RGB(0, 0, 0), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
@@ -124,12 +126,9 @@ static FontOptionsList IP_fontOptionsList[] = {
 	{ LPGENW("Window caption (skinned mode)"), RGB(255, 255, 255), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
 };
 
-static FontOptionsList *fontOptionsList = IM_fontOptionsList;
-static int fontCount = MSGDLGFONTCOUNT;
-
 struct branch_t
 {
-	wchar_t*    szDescr;
+	wchar_t*  szDescr;
 	char*     szDBName;
 	int       iMode;
 	BYTE      bDefault;
@@ -176,10 +175,12 @@ void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour, char *szM
 	char str[32];
 	int db_idx = (section == FONTSECTION_IM) ? i : i + 100;
 
-	FontOptionsList *fol = fontOptionsList;
+	FontOptionsList *fol;
 	switch (section) {
 	case FONTSECTION_IM: fol = IM_fontOptionsList; break;
 	case FONTSECTION_IP: fol = IP_fontOptionsList; break;
+	default: 
+		return;
 	}
 
 	if (colour) {
@@ -289,13 +290,14 @@ void RegisterFontServiceFonts()
 
 	strncpy(fid.dbSettingsGroup, FONTMODULE, _countof(fid.dbSettingsGroup));
 
-	for (int i = 0; i < _countof(IM_fontOptionsList); i++) {
+	int i = 0; 
+	for (auto &it : IM_fontOptionsList) {
 		fid.flags = FIDF_DEFAULTVALID | FIDF_ALLOWEFFECTS;
-		LoadMsgDlgFont(FONTSECTION_IM, i, &lf, &fontOptionsList[i].colour, FONTMODULE);
-		mir_snprintf(fid.setting, "Font%d", i);
+		LoadMsgDlgFont(FONTSECTION_IM, i, &lf, &it.colour, FONTMODULE);
+		mir_snprintf(fid.setting, "Font%d", i++);
 		fid.order = i;
-		wcsncpy(fid.name, fontOptionsList[i].szDescr, _countof(fid.name));
-		fid.deffontsettings.colour = fontOptionsList[i].colour;
+		wcsncpy(fid.name, it.szDescr, _countof(fid.name));
+		fid.deffontsettings.colour = it.colour;
 		fid.deffontsettings.size = (char)lf.lfHeight;
 		fid.deffontsettings.style = (lf.lfWeight >= FW_BOLD ? FONTF_BOLD : 0) | (lf.lfItalic ? FONTF_ITALIC : 0);
 		fid.deffontsettings.charset = lf.lfCharSet;
@@ -347,17 +349,17 @@ void RegisterFontServiceFonts()
 		g_plugin.addFont(&fid);
 	}
 
-	fontOptionsList = IP_fontOptionsList;
+	i = 0;
 	fid.flags = FIDF_DEFAULTVALID | FIDF_ALLOWEFFECTS;
 	wcsncpy(fid.group, LPGENW("Message sessions") L"/" LPGENW("Info Panel"), _countof(fid.group));
 	wcsncpy(fid.backgroundGroup, LPGENW("Message sessions") L"/" LPGENW("Info Panel"), _countof(fid.backgroundGroup));
 	wcsncpy(fid.backgroundName, LPGENW("Fields background"), _countof(fid.backgroundName));
-	for (int i = 0; i < IPFONTCOUNT; i++) {
-		LoadMsgDlgFont(FONTSECTION_IP, i, &lf, &fontOptionsList[i].colour, FONTMODULE);
-		mir_snprintf(fid.setting, "Font%d", i + 100);
-		fid.order = i + 100;
-		wcsncpy(fid.name, fontOptionsList[i].szDescr, _countof(fid.name));
-		fid.deffontsettings.colour = fontOptionsList[i].colour;
+	for (auto &it : IP_fontOptionsList) {
+		LoadMsgDlgFont(FONTSECTION_IP, i, &lf, &it.colour, FONTMODULE);
+		mir_snprintf(fid.setting, "Font%d", i+100);
+		fid.order = i+100;
+		wcsncpy(fid.name, it.szDescr, _countof(fid.name));
+		fid.deffontsettings.colour = it.colour;
 		fid.deffontsettings.size = (char)lf.lfHeight;
 		fid.deffontsettings.style = (lf.lfWeight >= FW_BOLD ? FONTF_BOLD : 0) | (lf.lfItalic ? FONTF_ITALIC : 0);
 		fid.deffontsettings.charset = lf.lfCharSet;
@@ -370,11 +372,12 @@ void RegisterFontServiceFonts()
 			wcsncpy(fid.group, LPGENW("Message sessions"), _countof(fid.group));
 		}
 		g_plugin.addFont(&fid);
+		i++;
 	}
 
 	wcsncpy(cid.group, LPGENW("Message sessions") L"/" LPGENW("Group chats"), _countof(cid.group));
 	strncpy(cid.dbSettingsGroup, CHAT_MODULE, _countof(cid.dbSettingsGroup));
-	for (int i = 0; i <= 7; i++) {
+	for (i = 0; i <= 7; i++) {
 		mir_snprintf(cid.setting, "NickColor%d", i);
 		wcsncpy(cid.name, chatcolorsnames[i], _countof(cid.name));
 		cid.order = i + 1;

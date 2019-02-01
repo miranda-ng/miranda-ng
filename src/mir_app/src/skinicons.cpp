@@ -67,8 +67,8 @@ static struct StandardIconDescription mainIcons[] =
 	{ SKINICON_OTHER_EMPTYBLOB,       LPGEN("Empty blob"),            -IDI_EMPTYBLOB,      0, nullptr }, // 26
 	{ SKINICON_OTHER_UNICODE,         LPGEN("Unicode plugin"),        -IDI_UNICODE,        0, nullptr }, // 27
 	{ SKINICON_OTHER_ANSI,            LPGEN("ANSI plugin"),           -IDI_ANSI,           0, nullptr }, // 28
-	{ SKINICON_OTHER_LOADED,          LPGEN("Running plugin"),        -IDI_LOADED,         0, nullptr }, // 29
-	{ SKINICON_OTHER_NOTLOADED,       LPGEN("Unloaded plugin"),       -IDI_NOTLOADED,      0, nullptr }, // 30
+	{ -1,                             LPGEN("Unused"),                0,                   0, nullptr }, // 29
+	{ -1,                             LPGEN("Unused"),                0,                   0, nullptr }, // 30
 	{ SKINICON_OTHER_UNDO, 	          LPGEN("Undo"),                  -IDI_UNDO,           0, nullptr }, // 31
 	{ SKINICON_OTHER_WINDOW,          LPGEN("Window"),                -IDI_WINDOW,         0, nullptr }, // 32
 	{ SKINICON_OTHER_WINDOWS,         LPGEN("System"),                -IDI_WINDOWS,        0, nullptr }, // 33
@@ -82,8 +82,8 @@ static struct StandardIconDescription mainIcons[] =
 	{ SKINICON_OTHER_GROUP,           LPGEN("Move to group"),         -IDI_MOVETOGROUP,    0, nullptr }, // 41
 	{ SKINICON_OTHER_ON,              LPGEN("On"),                    -IDI_ON,             0, nullptr }, // 42
 	{ SKINICON_OTHER_OFF,             LPGEN("Off"),                   -IDI_OFF,            0, nullptr }, // 43
-	{ SKINICON_OTHER_LOADEDGRAY,      LPGEN("Running core plugin"),   -IDI_LOADED_GRAY,    0, nullptr }, // 44
-	{ SKINICON_OTHER_NOTLOADEDGRAY,   LPGEN("Non-loadable plugin"),   -IDI_NOTLOADED_GRAY, 0, nullptr }, // 45
+	{ -1,                             LPGEN("Unused"),                0,                   0, nullptr }, // 44
+	{ -1,                             LPGEN("Unused"),                0,                   0, nullptr }, // 45
 	{ SKINICON_OTHER_FRAME,           LPGEN("Frames"),                -IDI_FRAME,          0, nullptr }, // 46
 	{ SKINICON_OTHER_GROUPADD,        LPGEN("Add group"),             -IDI_ADDGROUP,       0, nullptr }, // 47
 	{ SKINICON_AUTH_ADD,              LPGEN("Add to list"),           -IDI_AUTH_ADD,       0, nullptr }, // 48
@@ -392,6 +392,9 @@ int LoadSkinIcons(void)
 
 	// Add main icons to list
 	for (int i = 0; i < _countof(mainIcons); i++) {
+		if (mainIcons[i].id == -1)
+			continue;
+
 		mir_snprintf(iconName, "%s%d", mainIconsFmt, i);
 		sid.section.a = mainIcons[i].section == nullptr ? (char*)LPGEN("Main icons") : (char*)mainIcons[i].section;
 		sid.description.a = (char*)mainIcons[i].description;
