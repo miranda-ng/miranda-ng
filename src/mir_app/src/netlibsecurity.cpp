@@ -244,21 +244,16 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 					// Negotiate ANSI? if yes, convert the ANSI name to unicode
 					if ((pkt->flags & 1) == 0) {
 						int bufsz = MultiByteToWideChar(CP_ACP, 0, (char*)domainName, domainLen, nullptr, 0);
-						wchar_t* buf = (wchar_t*)alloca(bufsz * sizeof(wchar_t));
+						wchar_t* buf = (wchar_t*)alloca((bufsz+1) * sizeof(wchar_t));
 						domainLen = MultiByteToWideChar(CP_ACP, 0, (char*)domainName, domainLen, buf, bufsz) - 1;
+						buf[domainLen] = 0;
 						domainName = buf;
 					}
 					else domainLen /= sizeof(wchar_t);
 
 					if (domainLen) {
-						size_t newLoginLen = mir_wstrlen(login) + domainLen + 1;
-						wchar_t *newLogin = (wchar_t*)alloca(newLoginLen * sizeof(wchar_t));
-
-						wcsncpy(newLogin, domainName, domainLen);
-						newLogin[domainLen] = '\\';
-						mir_wstrcpy(newLogin + domainLen + 1, login);
-
-						char* szChl = NtlmCreateResponseFromChallenge(hSecurity, nullptr, newLogin, psw, http, complete);
+						CMStringW wszNewLogin(FORMAT, L"%s\\%s", domainName, login);
+						char* szChl = NtlmCreateResponseFromChallenge(hSecurity, nullptr, wszNewLogin, psw, http, complete);
 						mir_free(szChl);
 					}
 				}
