@@ -937,9 +937,6 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 
 HANDLE openCreateFile(wstring sFilePath)
 {
-	if (g_bUseJson)
-		sFilePath += L".json";
-
 	SetLastError(0);
 
 	HANDLE hFile = CreateFile(sFilePath.c_str(), GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
