@@ -9,6 +9,7 @@
 #include <m_database.h>
 #include <m_protocols.h>
 #include <m_protosvc.h>
+#include <m_metacontacts.h>
 #include <m_langpack.h>
 #include <m_icolib.h>
 #include <m_extraicons.h>

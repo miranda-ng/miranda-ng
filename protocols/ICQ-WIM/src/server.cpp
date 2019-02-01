@@ -918,14 +918,8 @@ void CIcqProto::ProcessImState(const JSONNode &ev)
 		CMStringA reqId(it["sendReqId"].as_mstring());
 		CMStringA msgId(it["histMsgId"].as_mstring());
 		MCONTACT hContact = CheckOwnMessage(reqId, msgId, false);
-		if (hContact) {
+		if (hContact)
 			CheckLastId(hContact, ev);
-
-			if (g_bMessageState) {
-				MessageReadData data(time(0), MRD_TYPE_MESSAGETIME);
-				CallService(MS_MESSAGESTATE_UPDATE, hContact, (LPARAM)&data);
-			}
-		}
 	}
 }
 
