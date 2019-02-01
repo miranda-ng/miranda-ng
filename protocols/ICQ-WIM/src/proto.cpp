@@ -72,8 +72,6 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	m_hWorkerThread = ForkThreadEx(&CIcqProto::ServerThread, nullptr, nullptr);
-
-	InitContactCache();
 }
 
 CIcqProto::~CIcqProto()
@@ -86,6 +84,8 @@ CIcqProto::~CIcqProto()
 
 void CIcqProto::OnModulesLoaded()
 {
+	InitContactCache();
+
 	GCREGISTER gcr = {};
 	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
 	gcr.ptszDispName = m_tszUserName;
