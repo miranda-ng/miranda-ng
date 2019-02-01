@@ -172,7 +172,7 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 				if (it == m_mpOutMessages.end()) {
 					m_mpOutMessages[hMessage] = timestamp;
 				}
-				ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, hMessage, 0);
+				ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, hMessage, (LPARAM)szMessageId.c_str());
 				{
 					mir_cslock lck(m_lckOutMessagesList);
 					m_OutMessages.remove(hMessage);
@@ -185,14 +185,12 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 		}
 		else {
 			CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
-			MEVENT hDbEvent = GetMessageFromDb(hContact, szMessageId);
 
-			if (bEdited && hDbEvent != NULL) {
+			MEVENT hDbEvent = GetMessageFromDb(szMessageId);
+			if (bEdited && hDbEvent != NULL)
 				AppendDBEvent(hContact, hDbEvent, szClearedContent, szMessageId, timestamp);
-			}
-			else {
+			else
 				OnReceiveMessage(hContact, szClearedContent, szMessageId, timestamp, nEmoteOffset);
-			}
 		}
 	}
 	else if (strMessageType == "Event/Call") {

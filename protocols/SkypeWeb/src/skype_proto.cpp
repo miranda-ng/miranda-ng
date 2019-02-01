@@ -325,7 +325,7 @@ int CSkypeProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 		pCurBlob += mir_strlen((char*)pCurBlob) + 1;
 	}
 
-	//memcpy(pCurBlob + 1, szMessageId, mir_strlen(szMessageId));
+	// memcpy(pCurBlob + 1, szMessageId, mir_strlen(szMessageId));
 
 	AddEventToDb(hContact, EVENTTYPE_CONTACTS, pre->timestamp, (pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0, cbBlob, pBlob);
 

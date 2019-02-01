@@ -169,8 +169,6 @@ private:
 	INT_PTR __cdecl SvcGetMyAvatar(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcSetMyAvatar(WPARAM, LPARAM);
 
-	int InternalSetAvatar(MCONTACT hContact, const char *szJid, const wchar_t *ptszFileName);
-
 	// requests
 
 	void InitNetwork();
@@ -293,7 +291,7 @@ private:
 
 	std::map<ULONGLONG, HANDLE> m_mpOutMessagesIds;
 
-	MEVENT GetMessageFromDb(MCONTACT hContact, const char *messageId, LONGLONG timestamp = 0);
+	MEVENT GetMessageFromDb(const char *messageId);
 	MEVENT AddDbEvent(WORD type, MCONTACT hContact, DWORD timestamp, DWORD flags, const char *content, const char *uid);
 	MEVENT AppendDBEvent(MCONTACT hContact, MEVENT hEvent, const char *szContent, const char *szUid, time_t edit_time);
 	int OnReceiveMessage(MCONTACT hContact, const char *szContent, const char *szMessageId, time_t timestamp,  int emoteOffset = 0, bool isRead = false);
@@ -329,12 +327,12 @@ private:
 
 	void OnChatEvent(const JSONNode &node);
 	void OnSendChatMessage(const wchar_t *chat_id, const wchar_t * tszMessage);
-	char *GetChatUsers(const wchar_t *chat_id);
+	char* GetChatUsers(const wchar_t *chat_id);
 	bool IsChatContact(const wchar_t *chat_id, const char *id);
 	void AddMessageToChat(const wchar_t *chat_id, const wchar_t *from, const char *content, bool isAction, int emoteOffset, time_t timestamp, bool isLoading = false);
 	void AddChatContact(const wchar_t *tchat_id, const char *id, const char *name, const wchar_t *role, bool isChange = false);
 	void RemoveChatContact(const wchar_t *tchat_id, const char *id, const char *name, bool isKick = false, const char *initiator = "");
-	wchar_t *GetChatContactNick(const char *chat_id, const char *id, const char *name);
+	wchar_t* GetChatContactNick(const char *chat_id, const char *id, const char *name);
 
 	void RenameChat(const char *chat_id, const char *name);
 	void ChangeChatTopic(const char * chat_id, const char *topic, const char *initiator);
@@ -392,7 +390,6 @@ private:
 	static void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD);
 	//---/
 
-	time_t GetLastMessageTime(MCONTACT hContact);
 	CMStringW RunConfirmationCode();
 	CMStringW ChangeTopicForm();
 	void CloseDialogs();

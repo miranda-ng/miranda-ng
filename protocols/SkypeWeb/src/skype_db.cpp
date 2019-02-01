@@ -30,49 +30,23 @@ struct SkypeDBType { int type; char *name; DWORD flags; } g_SkypeDBTypes[] =
 	{ SKYPE_DB_EVENT_TYPE_UNKNOWN, LPGEN("Unknown event"), 0 },
 };
 
-MEVENT CSkypeProto::GetMessageFromDb(MCONTACT hContact, const char *messageId, LONGLONG timestamp)
+MEVENT CSkypeProto::GetMessageFromDb(const char *messageId)
 {
 	if (messageId == nullptr)
 		return NULL;
 
-	timestamp -= 600; // we check events written 10 minutes ago
-	size_t messageIdLength = mir_strlen(messageId);
-
-	mir_cslock lock(messageSyncLock);
-	for (MEVENT hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent)) {
-		DBEVENTINFO dbei = {};
-		dbei.cbBlob = db_event_getBlobSize(hDbEvent);
-
-		if (dbei.cbBlob < messageIdLength)
-			continue;
-
-		mir_ptr<BYTE> blob((PBYTE)mir_alloc(dbei.cbBlob));
-		dbei.pBlob = blob;
-		db_event_get(hDbEvent, &dbei);
-
-		size_t cbLen = mir_strlen((char*)dbei.pBlob);
-		if (memcmp(&dbei.pBlob[cbLen + 1], messageId, messageIdLength) == 0)
-			return hDbEvent;
-
-		if (dbei.timestamp < timestamp)
-			break;
-	}
-
-	return NULL;
+	return db_event_getById(m_szModuleName, messageId);
 }
 
 MEVENT CSkypeProto::AddDbEvent(WORD type, MCONTACT hContact, DWORD timestamp, DWORD flags, const char *content, const char *uid)
 {
-	if (MEVENT hDbEvent = GetMessageFromDb(hContact, uid, timestamp))
+	if (MEVENT hDbEvent = GetMessageFromDb(uid))
 		return hDbEvent;
-	size_t messageLength = mir_strlen(content) + 1;
-	size_t messageIdLength = mir_strlen(uid);
-	size_t cbBlob = messageLength + messageIdLength;
-	PBYTE pBlob = (PBYTE)mir_alloc(cbBlob);
-	memcpy(pBlob, content, messageLength);
-	memcpy(pBlob + messageLength, uid, messageIdLength);
 
-	return AddEventToDb(hContact, type, timestamp, flags, (DWORD)cbBlob, pBlob);
+	MEVENT ret = AddEventToDb(hContact, type, timestamp, flags, (DWORD)mir_strlen(content), (BYTE*)content);
+	if (uid && ret)
+		db_event_setId(m_szModuleName, ret, uid);
+	return ret;
 }
 
 MEVENT CSkypeProto::AppendDBEvent(MCONTACT hContact, MEVENT hEvent, const char *szContent, const char *szUid, time_t edit_time)
@@ -120,9 +94,8 @@ MEVENT CSkypeProto::AppendDBEvent(MCONTACT hContact, MEVENT hEvent, const char *
 
 		jEdits << jEdit;
 		jMsg << jEdits;
-
-
 	}
+	
 	db_event_delete(hContact, hEvent);
 	return AddDbEvent(SKYPE_DB_EVENT_TYPE_EDITED_MESSAGE, hContact, dbei.timestamp, dbei.flags, jMsg.write().c_str(), szUid);
 }
