@@ -269,7 +269,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Advanced",IDC_STATIC,4,8,293,101
-    CONTROL         "Hide chats on startup",IDC_HIDECHATS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,17,278,10
+    CONTROL         "Do not open chat windows on creation",IDC_HIDECHATS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,17,278,10
     CONTROL         "Sync read message status from server",IDC_SYNC_MSG_STATUS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,28,268,10
     CONTROL         "Always notify as unread for all incoming message",IDC_MESASUREAD,

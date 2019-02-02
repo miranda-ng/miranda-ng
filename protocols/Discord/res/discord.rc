@@ -75,7 +75,7 @@ BEGIN
     GROUPBOX        "Contacts",IDC_STATIC,7,77,291,88
     LTEXT           "Default group:",IDC_STATIC,17,91,61,8,0,WS_EX_RIGHT
     EDITTEXT        IDC_GROUP,84,89,123,13,ES_AUTOHSCROLL
-    CONTROL         "Hide guild chats on startup",IDC_HIDECHATS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,107,248,10
+    CONTROL         "Do not open chat windows on creation",IDC_HIDECHATS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,107,248,10
     CONTROL         "Use subgroups for guild's channels (requires restart)",IDC_USEGROUPS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,121,248,10
 END

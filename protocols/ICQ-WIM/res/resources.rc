@@ -49,7 +49,7 @@ BEGIN
     EDITTEXT        IDC_EMAIL,68,27,106,12,ES_AUTOHSCROLL
     RTEXT           "Password:",IDC_STATIC,12,43,51,8
     EDITTEXT        IDC_PASSWORD,68,42,106,12,ES_PASSWORD | ES_AUTOHSCROLL
-    CONTROL         "Hide group chats on startup",IDC_HIDECHATS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,61,285,10
+    CONTROL         "Do not open chat windows on creation",IDC_HIDECHATS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,61,285,10
     PUSHBUTTON      "Sign in/sign up using phone",IDC_REGISTER,163,79,142,14
 END
 

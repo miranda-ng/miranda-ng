@@ -912,7 +912,7 @@ public:
 		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Autoaccept multiuser chat invitations"),   m_proto->m_bAutoAcceptMUC);
 		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Automatically join bookmarks on login"),   m_proto->m_bAutoJoinBookmarks);
 		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Automatically join conferences on login"), m_proto->m_bAutoJoinConferences);
-		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Hide conference windows at startup"),      m_proto->m_bAutoJoinHidden);
+		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Do not open chat windows on creation"),      m_proto->m_bAutoJoinHidden);
 		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Do not show multiuser chat invitations"),  m_proto->m_bIgnoreMUCInvites);
 		m_otvOptions.AddOption(LPGENW("Log events") L"/" LPGENW("Ban notifications"),                    m_proto->m_bGcLogBans);
 		m_otvOptions.AddOption(LPGENW("Log events") L"/" LPGENW("Room configuration changes"),           m_proto->m_bGcLogConfig);
