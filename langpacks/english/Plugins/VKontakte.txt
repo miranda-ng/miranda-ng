@@ -62,7 +62,7 @@
 [Password:]
 [Open VKontakte site]
 [Advanced]
-[Hide chats on startup]
+[Do not open chat windows on creation]
 [Sync read message status from server]
 [Always notify as unread for all incoming message]
 [Force invisible status upon user activity]

@@ -740,7 +740,7 @@
 [Autoaccept multiuser chat invitations]
 [Automatically join bookmarks on login]
 [Automatically join conferences on login]
-[Hide conference windows at startup]
+[Do not open chat windows on creation]
 [Do not show multiuser chat invitations]
 [Log events]
 [Ban notifications]

@@ -8,9 +8,10 @@
 [ICQ protocol support for Miranda NG.]
 ;file \protocols\ICQ-WIM\res\resources.rc
 [ICQ number:]
+[Email:]
 [Password:]
 [Sign in/sign up using phone]
-[Hide group chats on startup]
+[Do not open chat windows on creation]
 [Send group chat invitation]
 [&Invite]
 [Cancel]
@@ -27,6 +28,9 @@
 ;file \protocols\ICQ-WIM\src\groupchats.cpp
 [&Invite a user]
 [&Leave/destroy chat]
+;file \protocols\ICQ-WIM\src\main.cpp
+[Ignore]
+[Allow]
 ;file \protocols\ICQ-WIM\src\options.cpp
 [Network]
 ;file \protocols\ICQ-WIM\src\proto.cpp

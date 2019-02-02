@@ -12,7 +12,7 @@
 [Password:]
 [Contacts]
 [Default group:]
-[Hide guild chats on startup]
+[Do not open chat windows on creation]
 [Use subgroups for guild's channels (requires restart)]
 [Nick:]
 ;file \protocols\Discord\src\dispatch.cpp
