@@ -18,6 +18,8 @@
 #define IDD_OPT_PROTOCOLORDER           109
 #define IDD_OPT_ICOLIB                  110
 #define IDD_ICOLIB_IMPORT               111
+#define IDI_LOADED_GRAY                 113
+#define IDI_NOTLOADED_GRAY              114
 #define IDD_ADDED                       115
 #define IDD_ENTER_STRING                116
 #define IDI_ADDGROUP                    117
@@ -100,8 +102,10 @@
 #define IDI_UNICODE                     218
 #define IDI_ANSI                        219
 #define IDD_INFO_SUMMARY                220
+#define IDI_LOADED                      220
 #define IDD_INFO_CONTACT                221
 #define IDR_CREDITS                     221
+#define IDI_NOTLOADED                   221
 #define IDD_INFO_BACKGROUND             222
 #define IDD_INFO_NOTES                  223
 #define IDD_ADDEMAIL                    226
