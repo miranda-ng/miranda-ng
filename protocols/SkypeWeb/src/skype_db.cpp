@@ -43,7 +43,7 @@ MEVENT CSkypeProto::AddDbEvent(WORD type, MCONTACT hContact, DWORD timestamp, DW
 	if (MEVENT hDbEvent = GetMessageFromDb(uid))
 		return hDbEvent;
 
-	MEVENT ret = AddEventToDb(hContact, type, timestamp, flags, (DWORD)mir_strlen(content), (BYTE*)content);
+	MEVENT ret = AddEventToDb(hContact, type, timestamp, flags, (DWORD)mir_strlen(content)+1, (BYTE*)content);
 	if (uid && ret)
 		db_event_setId(m_szModuleName, ret, uid);
 	return ret;
