@@ -238,6 +238,18 @@ public:
 		Utils_SaveWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "jidListWnd_");
 	}
 
+	INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override
+	{
+		INT_PTR ret = CSuper::DlgProc(uMsg, wParam, lParam);
+		if (uMsg == WM_SIZE) {
+			RECT rc;
+			GetClientRect(m_list.GetHeader(), &rc);
+			m_list.SetColumnWidth(0, rc.right - rc.left);
+		}
+
+		return ret;
+	}
+
 	int Resizer(UTILRESIZECONTROL *urc) override
 	{
 		switch (urc->wId) {
