@@ -332,12 +332,6 @@ void CJabberProto::OnShutdown()
 
 	UI_SAFE_CLOSE_HWND(m_hwndAgentRegInput);
 	UI_SAFE_CLOSE_HWND(m_hwndRegProgress);
-	UI_SAFE_CLOSE_HWND(m_hwndMucVoiceList);
-	UI_SAFE_CLOSE_HWND(m_hwndMucMemberList);
-	UI_SAFE_CLOSE_HWND(m_hwndMucModeratorList);
-	UI_SAFE_CLOSE_HWND(m_hwndMucBanList);
-	UI_SAFE_CLOSE_HWND(m_hwndMucAdminList);
-	UI_SAFE_CLOSE_HWND(m_hwndMucOwnerList);
 	UI_SAFE_CLOSE_HWND(m_hwndJabberChangePassword);
 	UI_SAFE_CLOSE_HWND(m_hwndJabberAddBookmark);
 	UI_SAFE_CLOSE_HWND(m_hwndPrivacyRule);
@@ -347,6 +341,8 @@ void CJabberProto::OnShutdown()
 	UI_SAFE_CLOSE(m_pDlgServiceDiscovery);
 	UI_SAFE_CLOSE(m_pDlgJabberJoinGroupchat);
 	UI_SAFE_CLOSE(m_pDlgNotes);
+
+	MucShutdown();
 
 	m_iqManager.ExpireAll();
 	m_iqManager.Shutdown();

@@ -1527,7 +1527,7 @@ void CJabberProto::OnIqResultDiscoBookmarks(HXML iqNode, CJabberIqInfo*)
 	}
 }
 
-void CJabberProto::SetBookmarkRequest(XmlNodeIq& iq)
+void CJabberProto::SetBookmarkRequest(XmlNodeIq &iq)
 {
 	HXML query = iq << XQUERY(JABBER_FEAT_PRIVATE_STORAGE);
 	HXML storage = query << XCHILDNS(L"storage", L"storage:bookmarks");

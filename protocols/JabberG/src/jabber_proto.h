@@ -41,6 +41,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_strm_mgmt.h"
 
 struct CJabberProto;
+class CJabberMucJidListDlg;
 
 enum TJabberGcLogInfoType { INFO_BAN, INFO_STATUS, INFO_CONFIG, INFO_AFFILIATION, INFO_ROLE };
 
@@ -219,14 +220,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	HWND   m_hwndAgentRegInput;
 	HWND   m_hwndRegProgress;
 	HWND   m_hwndJabberChangePassword;
-	HWND   m_hwndMucVoiceList;
-	HWND   m_hwndMucMemberList;
-	HWND   m_hwndMucModeratorList;
-	HWND   m_hwndMucBanList;
-	HWND   m_hwndMucAdminList;
-	HWND   m_hwndMucOwnerList;
-	HWND   m_hwndJabberAddBookmark;
 	HWND   m_hwndPrivacyRule;
+	HWND   m_hwndJabberAddBookmark;
 
 	CJabberDlgBase *m_pDlgPrivacyLists;
 	CJabberDlgBase *m_pDlgBookmarks;
@@ -578,6 +573,16 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	void   GroupchatJoinByHContact(MCONTACT hContact, bool autojoin=false);
 
+	//---- jabber_iqid_muc.cpp -----------------------------------------------------------
+
+	CJabberMucJidListDlg *m_pDlgMucVoiceList, *m_pDlgMucMemberList, *m_pDlgMucModeratorList;
+	CJabberMucJidListDlg *m_pDlgMucBanList, *m_pDlgMucAdminList, *m_pDlgMucOwnerList;
+	CJabberMucJidListDlg *& GetMucDlg(JABBER_MUC_JIDLIST_TYPE);
+
+	void   SetMucConfig(HXML node, void *from);
+	void   MucShutdown(void);
+	void   OnIqResultMucGetJidList(HXML iqNode, JABBER_MUC_JIDLIST_TYPE listType);
+
 	//---- jabber_message_handlers.cpp ---------------------------------------------------
 
 	BOOL   OnMessageError(HXML node, ThreadData *pThreadData, CJabberMessageInfo* pInfo);
@@ -604,9 +609,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	bool   ListAddResource(JABBER_LIST list, const wchar_t *jid, int status, const wchar_t *statusMessage, char priority = 0, const wchar_t *nick = nullptr);
 	void   ListRemoveResource(JABBER_LIST list, const wchar_t *jid);
 	wchar_t* ListGetBestClientResourceNamePtr(const wchar_t *jid);
-
-	void   SetMucConfig(HXML node, void *from);
-	void   OnIqResultMucGetJidList(HXML iqNode, JABBER_MUC_JIDLIST_TYPE listType);
 
 	void   OnIqResultServerDiscoInfo(HXML iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultGetVcardPhoto(HXML n, MCONTACT hContact, bool &hasPhoto);
