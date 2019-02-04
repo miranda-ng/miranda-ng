@@ -373,7 +373,7 @@ void CIcqProto::RetrieveUserHistory(MCONTACT hContact, __int64 startMsgId, __int
 	if (endMsgId == 0)
 		endMsgId = -1;
 
-	if (startMsgId >= endMsgId)
+	if (endMsgId != -1 && startMsgId >= endMsgId)
 		return;
 
 	auto *pReq = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER, &CIcqProto::OnGetUserHistory);
@@ -885,12 +885,14 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 	else hContact = CreateContact(_wtol(wszId), true);
 
 	__int64 lastMsgId = getId(hContact, DB_KEY_LASTMSGID);
-	if (lastMsgId == 0)
+	if (lastMsgId == 0) {
 		lastMsgId = _wtoi64(ev["yours"]["lastRead"].as_mstring());
+		setId(hContact, DB_KEY_LASTMSGID, lastMsgId);
+	}
 
 	// or load missing messages if any
 	if (ev["unreadCnt"].as_int() > 0)
-		RetrieveUserHistory(hContact, lastMsgId, _wtoi64(ev["lastMsgId"].as_mstring()));
+		RetrieveUserHistory(hContact, lastMsgId);
 
 	// check remote read
 	if (g_bMessageState) {
@@ -903,10 +905,6 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 			CallService(MS_MESSAGESTATE_UPDATE, hContact, (LPARAM)&data);
 		}
 	}
-
-	for (auto &it : ev["tail"]["messages"])
-		ParseMessage(hContact, lastMsgId, it, m_bFirstBos);
-	setId(hContact, DB_KEY_LASTMSGID, lastMsgId);
 }
 
 void CIcqProto::ProcessImState(const JSONNode &ev)

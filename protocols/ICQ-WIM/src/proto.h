@@ -136,7 +136,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      ConnectionFailed(int iReason, int iErrorCode = 0);
 	void      GetPermitDeny(void);
 	void      MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup);
-	void      RetrieveUserHistory(MCONTACT, __int64 startMsgId, __int64 endMsgId);
+	void      RetrieveUserHistory(MCONTACT, __int64 startMsgId, __int64 endMsgId = -1);
 	void      RetrieveUserInfo(MCONTACT);
 	void      SetServerStatus(int iNewStatus);
 	void      ShutdownSession(void);
