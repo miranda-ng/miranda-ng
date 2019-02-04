@@ -46,6 +46,8 @@ var trunkPath = FSO.GetParentFolderName(FSO.GetParentFolderName(scriptpath));
 var slnfile = FSO.BuildPath(trunkPath, "bin15\\mir_full.sln");
 //core path
 var core = FSO.BuildPath(trunkPath, "src");
+//include path
+var include = FSO.BuildPath(trunkPath, "include");
 //langpack folder "\langpacks\english\" in trunk folder
 var langpack_en = FSO.BuildPath(trunkPath, "langpacks\\english");
 //Crap.txt will contain strings, which are removed by filtering engine as a garbage, in case if this string are not garbage :)
@@ -170,6 +172,7 @@ function GenerateCore() {
     var corestrings = [],
         corehead = [],
         core_src = [],
+		include_src = [],
         core_rc = [],
         nodupes;
     //if log parameter specified, output a log.
@@ -193,10 +196,14 @@ function GenerateCore() {
     FindFiles(core, "\\.rc$", core_rc);
     //find all source files and list files in array
     FindFiles(core, "\\.h$|\\.cpp$|\\.c$", core_src);
+	//find all source files and list files in array
+    FindFiles(include, "\\.h$", include_src);
     //Parse files "core_rc", put result into "corestrings" using "ParseRCFile" function
     ParseFiles(core_rc, corestrings, ParseRCFile);
     //Parse files "core_src", put result into "corestrings" using "ParseSourceFile" function
     ParseFiles(core_src, corestrings, ParseSourceFile);
+	//Parse files "include_src", put result into "corestrings" using "ParseSourceFile" function
+    ParseFiles(include_src, corestrings, ParseSourceFile);
     //Now we have all strings in "corestrings", next we remove duplicate strings from array and put results into "nodupes"
     nodupes = eliminateDuplicates(corestrings);
     //if dupes required, make nodupes with dupes :)
