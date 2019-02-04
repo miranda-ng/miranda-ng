@@ -154,7 +154,7 @@ void CIcqProto::OnLoginViaPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pRe
 
 class CIcqOptionsDlg : public CProtoDlgBase<CIcqProto>
 {
-	CCtrlEdit edtUin, edtEmail, edtPassword;
+	CCtrlEdit edtUin, edtEmail, edtPassword, edtDiff1, edtDiff2;
 	CCtrlSpin spin1, spin2;
 	CCtrlCombo cmbStatus1, cmbStatus2;
 	CCtrlCheck chkHideChats;
@@ -168,6 +168,8 @@ public:
 		spin2(this, IDC_SPIN2),
 		edtUin(this, IDC_UIN),
 		edtEmail(this, IDC_EMAIL),
+		edtDiff1(this, IDC_DIFF1),
+		edtDiff2(this, IDC_DIFF2),
 		btnCreate(this, IDC_REGISTER),
 		cmbStatus1(this, IDC_STATUS1),
 		cmbStatus2(this, IDC_STATUS2),
@@ -175,6 +177,9 @@ public:
 		chkHideChats(this, IDC_HIDECHATS)
 	{
 		btnCreate.OnClick = Callback(this, &CIcqOptionsDlg::onClick_Register);
+
+		edtDiff1.OnChange = Callback(this, &CIcqOptionsDlg::onChange_Timeout1);
+		edtDiff2.OnChange = Callback(this, &CIcqOptionsDlg::onChange_Timeout2);
 
 		CreateLink(edtUin, ppro->m_dwUin);
 		CreateLink(edtEmail, ppro->m_szEmail);
@@ -205,6 +210,8 @@ public:
 				spin1.SetRange(3600);
 				spin2.SetRange(3600);
 			}
+
+			onChange_Timeout1(0);
 		}
 
 		if (m_proto->m_dwUin == 0)
@@ -233,6 +240,21 @@ public:
 		dlg.SetParent(m_hwnd);
 		if (dlg.DoModal()) // force exit to avoid data corruption
 			PostMessage(m_hwndParent, WM_COMMAND, MAKELONG(IDCANCEL, BN_CLICKED), 0);
+	}
+
+	void onChange_Timeout1(CCtrlEdit*)
+	{
+		bool bEnabled = edtDiff1.GetInt() != 0;
+		spin2.Enable(bEnabled);
+		edtDiff2.Enable(bEnabled);
+		cmbStatus1.Enable(bEnabled);
+		cmbStatus2.Enable(bEnabled && edtDiff2.GetInt() != 0);
+	}
+
+	void onChange_Timeout2(CCtrlEdit*)
+	{
+		bool bEnabled = edtDiff2.GetInt() != 0;
+		cmbStatus2.Enable(bEnabled);
 	}
 };
 

@@ -20,7 +20,6 @@
 #define IDC_ONLINESINCE                 1010
 #define IDC_IDLETIME                    1011
 #define IDC_NICK                        1012
-#define IDC_IDLETIME2                   1013
 #define IDC_MEMBERSINCE                 1013
 #define IDC_LASTSEEN                    1014
 #define IDC_EMAIL                       1015
