@@ -98,7 +98,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	g_plugin.m_hmiIgnore = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunctionParam(mi.pszService, ICQPermitDeny, 0);
 
-	mi.name.a = LPGEN("Allow");
+	mi.name.a = LPGEN("Remove Ignore");
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_ADD);
 	mi.pszService = "ICQ/RemoveIgnore";
 	g_plugin.m_hmiAllow = Menu_AddContactMenuItem(&mi);

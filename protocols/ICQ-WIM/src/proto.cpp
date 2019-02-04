@@ -294,7 +294,7 @@ INT_PTR CIcqProto::GetCaps(int type, MCONTACT)
 		break;
 
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR)Translate("ICQ number or phone");
+		return (INT_PTR)Translate("ICQ number");
 	}
 
 	return nReturn;
