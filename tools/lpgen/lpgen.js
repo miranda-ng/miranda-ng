@@ -172,7 +172,7 @@ function GenerateCore() {
     var corestrings = [],
         corehead = [],
         core_src = [],
-		include_src = [],
+        include_src = [],
         core_rc = [],
         nodupes;
     //if log parameter specified, output a log.
