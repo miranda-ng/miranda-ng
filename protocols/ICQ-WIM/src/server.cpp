@@ -97,6 +97,26 @@ void CIcqProto::CheckPassword()
 	else StartSession();
 }
 
+void CIcqProto::CheckStatus()
+{
+	time_t now = time(0);
+	int diff1 = m_iTimeDiff1, diff2 = m_iTimeDiff2;
+
+	for (auto &it : m_arCache) {
+		if (diff2 && it->m_timer2 && now - it->m_timer2 > m_iTimeDiff2) {
+			it->m_timer2 = 0;
+			setDword(it->m_hContact, "Status", m_iStatus2);
+			continue;
+		}
+
+		if (diff1 && it->m_timer1 && now - it->m_timer1 > diff1) {
+			setDword(it->m_hContact, "Status", m_iStatus1);
+			it->m_timer1 = 0;
+			it->m_timer2 = now;
+		}
+	}
+}
+
 void CIcqProto::ConnectionFailed(int iReason, int iErrorCode)
 {
 	debugLogA("ConnectionFailed -> reason %d", iReason);
@@ -136,25 +156,46 @@ void CIcqProto::MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, 
 	Push(pReq);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static void CALLBACK CheckStatusTimerProc(HWND, UINT, UINT_PTR id, DWORD)
+{
+	CIcqProto *ppro = (CIcqProto*)(id - 1);
+	ppro->CheckStatus();	
+}
+
 void CIcqProto::OnLoggedIn()
 {
 	debugLogA("CIcqProto::OnLoggedIn");
 	m_bOnline = true;
+
+	::SetTimer(g_hwndHeartbeat, UINT_PTR(this)+1, 1000, CheckStatusTimerProc);
+	for (auto &it : m_arCache)
+		it->m_timer1 = it->m_timer2 = 0;
+
 	SetServerStatus(m_iDesiredStatus);
 	RetrieveUserInfo(0);
 	GetPermitDeny();
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CIcqProto::OnLoggedOut()
 {
 	debugLogA("CIcqProto::OnLoggedOut");
 	m_bOnline = false;
 
+	::KillTimer(g_hwndHeartbeat, UINT_PTR(this)+1);
+	for (auto &it : m_arCache)
+		it->m_timer1 = it->m_timer2 = 0;
+
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 
 	setAllContactStatuses(ID_STATUS_OFFLINE, false);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 {

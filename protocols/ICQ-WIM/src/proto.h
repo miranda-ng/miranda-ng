@@ -55,6 +55,7 @@ struct IcqCacheItem
 	MCONTACT m_hContact;
 	bool m_bInList = false;
 	int m_iApparentMode;
+	time_t m_timer1, m_timer2;
 };
 
 struct IcqOwnMessage
@@ -311,7 +312,12 @@ public:
 	CMOption<wchar_t*> m_szEmail;     // email, if present
 	CMOption<wchar_t*> m_szPassword;  // password, if present
 	CMOption<BYTE> m_bHideGroupchats; // don't pop up group chat windows on startup
+	CMOption<DWORD> m_iTimeDiff1;		 // set this status to m_iStatus1 after this interval of secs
+	CMOption<DWORD> m_iStatus1;
+	CMOption<DWORD> m_iTimeDiff2;		 // set this status to m_iStatus2 after this interval of secs
+	CMOption<DWORD> m_iStatus2;
 
+	void CheckStatus(void);
 	CMStringA GetUserId(MCONTACT);
 
 	int __cdecl OnContactMenu(WPARAM, LPARAM);

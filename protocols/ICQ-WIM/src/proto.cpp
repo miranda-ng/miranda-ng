@@ -42,6 +42,10 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr)),
 	m_dwUin(this, DB_KEY_UIN, 0),
 	m_szEmail(this, "Email"),
+	m_iStatus1(this, "Status1", ID_STATUS_AWAY),
+	m_iStatus2(this, "Status2", ID_STATUS_NA),
+	m_iTimeDiff1(this, "TimeDiff1", 0),
+	m_iTimeDiff2(this, "TimeDiff2", 0),
 	m_szPassword(this, "Password"),
 	m_bHideGroupchats(this, "HideChats", 1)
 {

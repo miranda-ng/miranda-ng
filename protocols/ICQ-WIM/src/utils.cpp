@@ -226,15 +226,15 @@ bool IsChat(const CMStringW &aimid)
 
 int StatusFromString(const CMStringW &wszStatus)
 {
-	if (wszStatus == "online")
+	if (wszStatus == L"online")
 		return ID_STATUS_ONLINE;
-	if (wszStatus == "n/a")
+	if (wszStatus == L"n/a")
 		return ID_STATUS_NA;
-	if (wszStatus == "away")
+	if (wszStatus == L"away")
 		return ID_STATUS_AWAY;
-	if (wszStatus == "occupied")
+	if (wszStatus == L"occupied")
 		return ID_STATUS_OCCUPIED;
-	if (wszStatus == "dnd")
+	if (wszStatus == L"dnd")
 		return ID_STATUS_DND;
 
 	return ID_STATUS_OFFLINE;

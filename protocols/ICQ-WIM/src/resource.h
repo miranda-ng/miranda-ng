@@ -7,7 +7,7 @@
 #define IDD_GROUPCHAT_INVITE            103
 #define IDD_INFO_ICQ                    104
 #define IDD_REGISTER                    105
-#define IDD_EDITIGNORE						 106
+#define IDD_EDITIGNORE                  106
 #define IDC_PASSWORD                    1001
 #define IDC_UIN                         1002
 #define IDC_UIN2                        1003
@@ -24,15 +24,21 @@
 #define IDC_MEMBERSINCE                 1013
 #define IDC_LASTSEEN                    1014
 #define IDC_EMAIL                       1015
-#define IDC_LIST								 1016
+#define IDC_LIST                        1016
+#define IDC_DIFF1                       1017
+#define IDC_SPIN1                       1018
+#define IDC_STATUS1                     1019
+#define IDC_DIFF2                       1023
+#define IDC_SPIN2                       1024
+#define IDC_STATUS2                     1025
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        108
+#define _APS_NEXT_RESOURCE_VALUE        109
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1017
+#define _APS_NEXT_CONTROL_VALUE         1020
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

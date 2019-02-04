@@ -155,6 +155,8 @@ void CIcqProto::OnLoginViaPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pRe
 class CIcqOptionsDlg : public CProtoDlgBase<CIcqProto>
 {
 	CCtrlEdit edtUin, edtEmail, edtPassword;
+	CCtrlSpin spin1, spin2;
+	CCtrlCombo cmbStatus1, cmbStatus2;
 	CCtrlCheck chkHideChats;
 	CCtrlButton btnCreate;
 	CMStringW wszOldPass;
@@ -162,9 +164,13 @@ class CIcqOptionsDlg : public CProtoDlgBase<CIcqProto>
 public:
 	CIcqOptionsDlg(CIcqProto *ppro, int iDlgID, bool bFullDlg) :
 		CProtoDlgBase<CIcqProto>(ppro, iDlgID),
+		spin1(this, IDC_SPIN1),
+		spin2(this, IDC_SPIN2),
 		edtUin(this, IDC_UIN),
 		edtEmail(this, IDC_EMAIL),
 		btnCreate(this, IDC_REGISTER),
+		cmbStatus1(this, IDC_STATUS1),
+		cmbStatus2(this, IDC_STATUS2),
 		edtPassword(this, IDC_PASSWORD),
 		chkHideChats(this, IDC_HIDECHATS)
 	{
@@ -173,14 +179,34 @@ public:
 		CreateLink(edtUin, ppro->m_dwUin);
 		CreateLink(edtEmail, ppro->m_szEmail);
 		CreateLink(edtPassword, ppro->m_szPassword);
-		if (bFullDlg)
+		if (bFullDlg) {
+			CreateLink(spin1, ppro->m_iTimeDiff1);
+			CreateLink(spin2, ppro->m_iTimeDiff2);
 			CreateLink(chkHideChats, ppro->m_bHideGroupchats);
+		}
 
 		wszOldPass = ppro->m_szPassword;
 	}
 
 	bool OnInitDialog() override
 	{
+		if (cmbStatus1.GetHwnd()) {
+			for (int iStatus = ID_STATUS_OFFLINE; iStatus <= ID_STATUS_OUTTOLUNCH; iStatus++) {
+				int idx = cmbStatus1.AddString(Clist_GetStatusModeDescription(iStatus, 0));
+				cmbStatus1.SetItemData(idx, iStatus);
+				if (iStatus == m_proto->m_iStatus1)
+					cmbStatus1.SetCurSel(idx);
+
+				idx = cmbStatus2.AddString(Clist_GetStatusModeDescription(iStatus, 0));
+				cmbStatus2.SetItemData(idx, iStatus);
+				if (iStatus == m_proto->m_iStatus2)
+					cmbStatus2.SetCurSel(idx);
+
+				spin1.SetRange(3600);
+				spin2.SetRange(3600);
+			}
+		}
+
 		if (m_proto->m_dwUin == 0)
 			edtUin.SetText(L"");
 		return true;
@@ -188,6 +214,11 @@ public:
 
 	bool OnApply() override
 	{
+		if (cmbStatus1.GetHwnd()) {
+			m_proto->m_iStatus1 = cmbStatus1.GetItemData(cmbStatus1.GetCurSel());
+			m_proto->m_iStatus2 = cmbStatus2.GetItemData(cmbStatus2.GetCurSel());
+		}
+
 		if (wszOldPass != ptrW(edtPassword.GetText())) {
 			m_proto->delSetting(DB_KEY_ATOKEN);
 			m_proto->delSetting(DB_KEY_SESSIONKEY);
