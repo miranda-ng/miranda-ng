@@ -37,6 +37,8 @@
 #define ICQ_API_SERVER "https://api.icq.net"
 #define ICQ_ROBUST_SERVER "https://rapi.icq.net"
 
+typedef CProtoDlgBase<CIcqProto> CIcqDlgBase;
+
 enum ChatMenuItems
 {
 	IDM_INVITE = 10, IDM_LEAVE
@@ -129,12 +131,13 @@ class CIcqProto : public PROTO<CIcqProto>
 {
 	friend struct CIcqRegistrationDlg;
 	friend class CGroupchatInviteDlg;
+	friend class CEditIgnoreListDlg;
 
 	bool      m_bOnline, m_bTerminated, m_bFirstBos;
 	MCONTACT  CheckOwnMessage(const CMStringA &reqId, const CMStringA &msgId, bool bRemove);
 	void      CheckPassword(void);
 	void      ConnectionFailed(int iReason, int iErrorCode = 0);
-	void      GetPermitDeny(void);
+	void      GetPermitDeny();
 	void      MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup);
 	void      RetrieveUserHistory(MCONTACT, __int64 startMsgId, __int64 endMsgId = -1);
 	void      RetrieveUserInfo(MCONTACT);
@@ -173,6 +176,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      OnLoginViaPhone(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void      OnNormalizePhone(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void      OnReceiveAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void      OnRefreshEditIgnore(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void      OnSearchResults(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void      OnSendMessage(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void      OnStartSession(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
@@ -201,6 +205,8 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	mir_cs    m_csOwnIds;
 	OBJLIST<IcqOwnMessage> m_arOwnIds;
+
+	CIcqDlgBase *m_pdlgEditIgnore;	
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// group chats
@@ -257,6 +263,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	INT_PTR   __cdecl SetAvatar(WPARAM, LPARAM);
 	
 	INT_PTR   __cdecl CreateAccMgrUI(WPARAM, LPARAM);
+	INT_PTR   __cdecl EditIgnoreList(WPARAM, LPARAM);
 	INT_PTR   __cdecl UploadGroups(WPARAM, LPARAM);
 
 	////////////////////////////////////////////////////////////////////////////////////////
@@ -308,7 +315,7 @@ public:
 	CMStringA GetUserId(MCONTACT);
 
 	int __cdecl OnContactMenu(WPARAM, LPARAM);
-	void SetPermitDeny(MCONTACT hContact, bool bAllow);
+	void SetPermitDeny(const CMStringA &userId, bool bAllow);
 };
 
 struct CMPlugin : public ACCPROTOPLUGIN<CIcqProto>

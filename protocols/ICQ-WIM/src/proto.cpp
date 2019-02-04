@@ -97,6 +97,8 @@ void CIcqProto::OnModulesLoaded()
 
 void CIcqProto::OnShutdown()
 {
+	UI_SAFE_CLOSE(m_pdlgEditIgnore);
+
 	m_bTerminated = true;
 }
 
@@ -128,6 +130,13 @@ void CIcqProto::OnBuildProtoMenu()
 	mi.position = 200001;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_GROUP);
 	m_hUploadGroups = Menu_AddProtoMenuItem(&mi, m_szModuleName);
+
+	mi.pszService = "/EditIgnore";
+	CreateProtoService(mi.pszService, &CIcqProto::EditIgnoreList);
+	mi.name.a = LPGEN("Edit ignore list");
+	mi.position++;
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS);
+	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	Menu_ShowItem(m_hUploadGroups, false);
 }

@@ -66,7 +66,7 @@ static INT_PTR ICQPermitDeny(WPARAM hContact, LPARAM, LPARAM bAllow)
 {
 	CIcqProto *proto = CMPlugin::getInstance(hContact);
 	if (proto)
-		proto->SetPermitDeny(hContact, bAllow != 0);
+		proto->SetPermitDeny(proto->GetUserId(hContact), bAllow != 0);
 	return 0;
 }
 
