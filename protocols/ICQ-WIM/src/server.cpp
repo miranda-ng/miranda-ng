@@ -103,16 +103,25 @@ void CIcqProto::CheckStatus()
 	int diff1 = m_iTimeDiff1, diff2 = m_iTimeDiff2;
 
 	for (auto &it : m_arCache) {
-		if (diff2 && it->m_timer2 && now - it->m_timer2 > m_iTimeDiff2) {
-			it->m_timer2 = 0;
-			setDword(it->m_hContact, "Status", m_iStatus2);
+		// this contact is really offline and is on the first timer
+		// if the first timer is expired, we clear it and look for the second status
+		if (diff1 && it->m_timer1 && now - it->m_timer1 > diff1) {
+			it->m_timer1 = 0;
+
+			// if the second timer is set up, activate it
+			if (m_iTimeDiff2) {
+				setDword(it->m_hContact, "Status", m_iStatus2);
+				it->m_timer2 = now;
+			}
+			// if the second timer is not set, simply mark a contact as offline
+			else setDword(it->m_hContact, "Status", ID_STATUS_OFFLINE);
 			continue;
 		}
 
-		if (diff1 && it->m_timer1 && now - it->m_timer1 > diff1) {
-			setDword(it->m_hContact, "Status", m_iStatus1);
-			it->m_timer1 = 0;
-			it->m_timer2 = now;
+		// if the second timer is expired, set status to offline
+		if (diff2 && it->m_timer2 && now - it->m_timer2 > m_iTimeDiff2) {
+			it->m_timer2 = 0;
+			setDword(it->m_hContact, "Status", ID_STATUS_OFFLINE);
 		}
 	}
 }

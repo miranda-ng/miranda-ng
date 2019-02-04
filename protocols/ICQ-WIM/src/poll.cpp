@@ -195,19 +195,18 @@ void CIcqProto::ProcessPresence(const JSONNode &ev)
 		int iNewStatus = StatusFromString(ev["state"].as_mstring());
 
 		// major crutch dedicated to the official client behaviour to go offline
-		// when its window gets closed. we don't really change the status of a contact
-		// but initialize a timer instead
+		// when its window gets closed. we change the status of a contact to the
+		// first chosen one from options and initialize a timer
 		if (iNewStatus == ID_STATUS_OFFLINE) {
-			if (m_iTimeDiff1)
+			if (m_iTimeDiff1) {
+				iNewStatus = m_iStatus1;
 				pCache->m_timer1 = time(0);
-			else
-				setDword(pCache->m_hContact, "Status", iNewStatus);
+			}
 		}
 		// if a client returns back online, we clear timers not to play with statuses anymore
-		else {
-			pCache->m_timer1 = pCache->m_timer2 = 0;
-			setDword(pCache->m_hContact, "Status", iNewStatus);
-		}
+		else pCache->m_timer1 = pCache->m_timer2 = 0;
+
+		setDword(pCache->m_hContact, "Status", iNewStatus);
 
 		Json2string(pCache->m_hContact, ev, "friendly", "Nick");
 		CheckAvatarChange(pCache->m_hContact, ev);
