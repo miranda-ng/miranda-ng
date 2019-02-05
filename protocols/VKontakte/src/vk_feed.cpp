@@ -455,6 +455,7 @@ CVKNewsItem* CVkProto::GetVkNotificationsItem(const JSONNode &jnItem, OBJLIST<CV
 
 	CMStringW wszType(jnItem["type"].as_mstring());
 	VKObjType vkFeedbackType = vkNull, vkParentType = vkNull;
+	CMStringW wszNotificationTranslate = SpanVKNotificationType(wszType, vkFeedbackType, vkParentType);
 
 	const JSONNode &jnFeedback = jnItem["feedback"];
 	const JSONNode &jnParent = jnItem["parent"];
@@ -476,7 +477,6 @@ CVKNewsItem* CVkProto::GetVkNotificationsItem(const JSONNode &jnItem, OBJLIST<CV
 
 	if (!wszFeedback.IsEmpty()) {
 		CMStringW wszNotificaton;
-		CMStringW wszNotificationTranslate = SpanVKNotificationType(wszType, vkFeedbackType, vkParentType);
 		wszNotificaton.AppendFormat(wszFeedback, wszNotificationTranslate.c_str(), vkNotification->wszText.c_str());
 		vkNotification->wszText = wszNotificaton;
 
