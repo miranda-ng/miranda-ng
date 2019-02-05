@@ -669,7 +669,7 @@ bool CImportFeed::OnClose()
 CFeedEditor::CFeedEditor(int iItem, CCtrlListView *m_feeds, MCONTACT Contact)
 	: CSuper(g_plugin, IDD_ADDFEED),
 	m_feedtitle(this, IDC_FEEDTITLE), m_feedurl(this, IDC_FEEDURL),
-	m_checktime(this, IDC_CHECKTIME), m_checktimespin(this, IDC_TIMEOUT_VALUE_SPIN),
+	m_checktime(this, IDC_CHECKTIME), m_checktimespin(this, IDC_TIMEOUT_VALUE_SPIN, 999),
 	m_checkfeed(this, IDC_DISCOVERY), m_useauth(this, IDC_USEAUTH),
 	m_login(this, IDC_LOGIN), m_password(this, IDC_PASSWORD),
 	m_tagedit(this, IDC_TAGSEDIT), m_reset(this, IDC_RESET),
@@ -691,7 +691,6 @@ bool CFeedEditor::OnInitDialog()
 	else
 		SetWindowText(m_hwnd, TranslateT("Change Feed"));
 	m_checktime.SetMaxLength(3);
-	m_checktimespin.SetRange(999, 0);
 
 	if (m_iItem > -1 && m_hContact == 0) {
 		wchar_t SelNick[MAX_PATH], SelUrl[MAX_PACKAGE_NAME];

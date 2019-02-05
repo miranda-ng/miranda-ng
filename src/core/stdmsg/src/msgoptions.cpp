@@ -330,8 +330,8 @@ public:
 		chkLoadCount(this, IDC_LOADCOUNT),
 		chkLoadUnread(this, IDC_LOADUNREAD),
 		
-		spinTime(this, IDC_LOADTIMESPIN),
-		spinCount(this, IDC_LOADCOUNTSPIN)
+		spinTime(this, IDC_LOADTIMESPIN, 12 * 60),
+		spinCount(this, IDC_LOADCOUNTSPIN, 100)
 	{
 		chkTime.OnChange = Callback(this, &COptionLogDlg::onChange_Time);
 		chkLoadUnread.OnChange = chkLoadCount.OnChange = chkLoadTime.OnChange = Callback(this, &COptionLogDlg::onChange_Load);
@@ -362,9 +362,8 @@ public:
 			EnableWindow(GetDlgItem(m_hwnd, IDC_STMINSOLD), TRUE);
 			break;
 		}
-		spinCount.SetRange(100);
+
 		spinCount.SetPosition(g_dat.nLoadCount);
-		spinTime.SetRange(12 * 60);
 		spinTime.SetPosition(g_dat.nLoadTime);
 
 		onChange_Time(nullptr);

@@ -1,10 +1,13 @@
 #include "stdafx.h"
 
-CSteamOptionsMain::CSteamOptionsMain(CSteamProto *proto, int idDialog, HWND hwndParent)
-	: CSteamDlgBase(proto, idDialog),
-	m_username(this, IDC_USERNAME), m_password(this, IDC_PASSWORD),
-	m_group(this, IDC_GROUP), m_biggerAvatars(this, IDC_BIGGER_AVATARS),
-	m_showChatEvents(this, IDC_SHOW_CHAT_EVENTS), m_pollingErrorLimit(this, IDC_POLLINGERRORLIMITSPIN)
+CSteamOptionsMain::CSteamOptionsMain(CSteamProto *proto, int idDialog, HWND hwndParent) :
+	CSteamDlgBase(proto, idDialog),
+	m_username(this, IDC_USERNAME),
+	m_password(this, IDC_PASSWORD),
+	m_group(this, IDC_GROUP),
+	m_biggerAvatars(this, IDC_BIGGER_AVATARS),
+	m_showChatEvents(this, IDC_SHOW_CHAT_EVENTS),
+	m_pollingErrorLimit(this, IDC_POLLINGERRORLIMITSPIN, 255)
 {
 	SetParent(hwndParent);
 
@@ -26,8 +29,6 @@ bool CSteamOptionsMain::OnInitDialog()
 	SendMessage(m_username.GetHwnd(), EM_LIMITTEXT, 64, 0);
 	SendMessage(m_password.GetHwnd(), EM_LIMITTEXT, 64, 0);
 	SendMessage(m_group.GetHwnd(), EM_LIMITTEXT, 64, 0);
-
-	m_pollingErrorLimit.SetRange(255, 0);
 	return true;
 }
 

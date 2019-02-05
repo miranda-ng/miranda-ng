@@ -59,7 +59,7 @@ public:
 	COptionsDlg() :
 		CDlgBase(g_plugin, IDD_OPT_IDLE),
 		edt1sttime(this, IDC_IDLE1STTIME),
-		spinIdle(this, IDC_IDLESPIN),
+		spinIdle(this, IDC_IDLESPIN, 60, 1),
 		cmbAAStatus(this, IDC_AASTATUS),
 		chkShort(this, IDC_IDLESHORT),
 		chkLocked(this, IDC_LOCKED),
@@ -91,7 +91,6 @@ public:
 	{
 		chkOnWindows.SetState(!g_plugin.bIdleMethod);
 
-		spinIdle.SetRange(60, 1);
 		spinIdle.SetPosition(g_plugin.iIdleTime1st);
 
 		for (auto &it : aa_Status)

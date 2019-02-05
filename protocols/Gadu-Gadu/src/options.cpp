@@ -18,9 +18,9 @@ GaduOptions::GaduOptions(PROTO_INTERFACE *proto) :
 GaduOptionsDlgConference::GaduOptionsDlgConference(GaduProto *proto) :
 	GaduDlgBase(proto, IDD_OPT_GG_CONFERENCE),
 	cmbPolicyForAllChatParticipants(this, IDC_GC_POLICY_TOTAL),
-	edtNumberOfAllChatParticipants(this, IDC_GC_COUNT_TOTAL_SPIN),
+	edtNumberOfAllChatParticipants(this, IDC_GC_COUNT_TOTAL_SPIN, 250),
 	cmbPolicyForUnknownChatParticipants(this, IDC_GC_POLICY_UNKNOWN),
-	edtNumberOfUnknownChatParticipants(this, IDC_GC_COUNT_UNKNOWN_SPIN),
+	edtNumberOfUnknownChatParticipants(this, IDC_GC_COUNT_UNKNOWN_SPIN, 250),
 	cmbDefaultChatPolicy(this, IDC_GC_POLICY_DEFAULT)
 {
 	CreateLink(cmbPolicyForAllChatParticipants, GG_KEY_GC_POLICY_TOTAL, DBVT_WORD, GG_KEYDEF_GC_POLICY_TOTAL);
@@ -40,15 +40,11 @@ bool GaduOptionsDlgConference::OnInitDialog()
 	int listIndex = m_proto->getWord(GG_KEY_GC_POLICY_TOTAL, GG_KEYDEF_GC_POLICY_TOTAL);
 	cmbPolicyForAllChatParticipants.SetCurSel(listIndex);
 
-	edtNumberOfAllChatParticipants.SetRange(250U);
-
 	cmbPolicyForUnknownChatParticipants.AddString(TranslateT("Allow"), 0L);
 	cmbPolicyForUnknownChatParticipants.AddString(TranslateT("Ask"), 1L);
 	cmbPolicyForUnknownChatParticipants.AddString(TranslateT("Ignore"), 2L);
 	listIndex = m_proto->getWord(GG_KEY_GC_POLICY_UNKNOWN, GG_KEYDEF_GC_POLICY_UNKNOWN);
 	cmbPolicyForUnknownChatParticipants.SetCurSel(listIndex);
-
-	edtNumberOfUnknownChatParticipants.SetRange(250U);
 
 	cmbDefaultChatPolicy.AddString(TranslateT("Allow"), 0L);
 	cmbDefaultChatPolicy.AddString(TranslateT("Ask"), 1L);

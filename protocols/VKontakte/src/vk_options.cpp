@@ -233,7 +233,7 @@ CVkOptionAdvancedForm::CVkOptionAdvancedForm(CVkProto *proto) :
 	m_cbMesAsUnread(this, IDC_MESASUREAD),
 	m_cbForceInvisibleStatus(this, IDC_FORCE_ONLINE_ON_ACT),
 	m_edtInvInterval(this, IDC_ED_INT_INVIS),
-	m_spInvInterval(this, IDC_SPIN_INT_INVIS),
+	m_spInvInterval(this, IDC_SPIN_INT_INVIS, 15),
 	m_cbSendVKLinksAsAttachments(this, IDC_SENDVKURLSASATTACH),
 	m_cbLoadSentAttachments(this, IDC_LOADSENTATTACH),
 	m_cbPopupContactsMusic(this, IDC_POPUP_CONTACT_MUSIC),
@@ -272,7 +272,6 @@ bool CVkOptionAdvancedForm::OnInitDialog()
 	m_cbSendMetodBroadcast.SetState(m_proto->m_vkOptions.iMusicSendMetod == MusicSendMetod::sendBroadcastOnly);
 	m_cbMusicSendStatus.SetState(m_proto->m_vkOptions.iMusicSendMetod == MusicSendMetod::sendStatusOnly);
 
-	m_spInvInterval.SetRange(15);
 	m_spInvInterval.SetPosition(m_proto->m_vkOptions.iInvisibleInterval);
 
 	On_cbForceInvisibleStatusChange(&m_cbForceInvisibleStatus);
@@ -315,10 +314,10 @@ CVkOptionFeedsForm::CVkOptionFeedsForm(CVkProto *proto) :
 	CVkDlgBase(proto, IDD_OPT_FEEDS),
 	m_cbNewsEnabled(this, IDC_NEWS_ENBL),
 	m_edtNewsInterval(this, IDC_ED_INT_NEWS),
-	m_spNewsInterval(this, IDC_SPIN_INT_NEWS),
+	m_spNewsInterval(this, IDC_SPIN_INT_NEWS, 60 * 24, 1),
 	m_cbNotificationsEnabled(this, IDC_NOTIF_ENBL),
 	m_edtNotificationsInterval(this, IDC_ED_INT_NOTIF),
-	m_spNotificationsInterval(this, IDC_SPIN_INT_NOTIF),
+	m_spNotificationsInterval(this, IDC_SPIN_INT_NOTIF, 60 * 24, 1),
 	m_cbNotificationsMarkAsViewed(this, IDC_NOTIF_MARK_VIEWED),
 	m_cbSpecialContactAlwaysEnabled(this, IDC_SPEC_CONT_ENBL),
 	m_cbNewsAutoClearHistory(this, IDC_NEWSAUTOCLEAR),
@@ -370,10 +369,7 @@ CVkOptionFeedsForm::CVkOptionFeedsForm(CVkProto *proto) :
 
 bool CVkOptionFeedsForm::OnInitDialog()
 {
-	m_spNewsInterval.SetRange(60 * 24, 1);
 	m_spNewsInterval.SetPosition(m_proto->m_vkOptions.iNewsInterval);
-
-	m_spNotificationsInterval.SetRange(60 * 24, 1);
 	m_spNotificationsInterval.SetPosition(m_proto->m_vkOptions.iNotificationsInterval);
 
 	On_cbNewsEnabledChange(&m_cbNewsEnabled);

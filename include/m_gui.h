@@ -876,17 +876,18 @@ class MIR_CORE_EXPORT CCtrlSpin : public CCtrlData
 {
 	typedef CCtrlData CSuper;
 
+	WORD m_wMin, m_wMax;
+
 	BOOL OnNotify(int, NMHDR*) override;
 
 public:
-	CCtrlSpin(CDlgBase *dlg, int ctrlId);
+	CCtrlSpin(CDlgBase *dlg, int ctrlId, WORD max = 100, WORD min = 0);
 
 	bool OnApply() override;
 	void OnReset() override;
 
 	WORD GetPosition();
 	void SetPosition(WORD pos);
-	void SetRange(WORD max, WORD min = 0);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

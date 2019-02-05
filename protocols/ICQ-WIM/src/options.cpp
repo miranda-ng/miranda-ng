@@ -164,8 +164,8 @@ class CIcqOptionsDlg : public CProtoDlgBase<CIcqProto>
 public:
 	CIcqOptionsDlg(CIcqProto *ppro, int iDlgID, bool bFullDlg) :
 		CProtoDlgBase<CIcqProto>(ppro, iDlgID),
-		spin1(this, IDC_SPIN1),
-		spin2(this, IDC_SPIN2),
+		spin1(this, IDC_SPIN1, 3600),
+		spin2(this, IDC_SPIN2, 3600),
 		edtUin(this, IDC_UIN),
 		edtEmail(this, IDC_EMAIL),
 		edtDiff1(this, IDC_DIFF1),
@@ -206,9 +206,6 @@ public:
 				cmbStatus2.SetItemData(idx, iStatus);
 				if (iStatus == m_proto->m_iStatus2)
 					cmbStatus2.SetCurSel(idx);
-
-				spin1.SetRange(3600);
-				spin2.SetRange(3600);
 			}
 
 			onChange_Timeout1(0);

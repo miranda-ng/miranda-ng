@@ -432,9 +432,9 @@ class COptLogDlg : public CDlgBase
 public:
 	COptLogDlg() :
 		CDlgBase(g_plugin, IDD_OPTIONS2),
-		spin2(this, IDC_SPIN2),
-		spin3(this, IDC_SPIN3),
-		spin4(this, IDC_SPIN4),
+		spin2(this, IDC_SPIN2, 5000),
+		spin3(this, IDC_SPIN3, 10000),
+		spin4(this, IDC_SPIN4, 255, 10),
 		
 		edtGroup(this, IDC_GROUP),
 		edtLimit(this, IDC_LIMIT),
@@ -458,11 +458,8 @@ public:
 
 	bool OnInitDialog() override
 	{
-		spin2.SetRange(5000);
 		spin2.SetPosition(db_get_w(0, CHAT_MODULE, "LogLimit", 100));
-		spin3.SetRange(10000);
 		spin3.SetPosition(db_get_w(0, CHAT_MODULE, "LoggingLimit", 100));
-		spin4.SetRange(255, 10);
 		spin4.SetPosition(db_get_b(0, CHAT_MODULE, "NicklistRowDist", 12));
 
 		edtGroup.SetText(ptrW(Chat_GetGroup()));

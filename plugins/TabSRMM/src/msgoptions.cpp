@@ -579,7 +579,7 @@ public:
 		CDlgBase(g_plugin, IDD_OPT_MSGDLG),
 		urlHelp(this, IDC_HELP_GENERAL, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/General_settings"),
 		btnReset(this, IDC_RESETWARNINGS),
-		spnAvaSize(this, IDC_AVATARSPIN),
+		spnAvaSize(this, IDC_AVATARSPIN, 150),
 		chkAvaPreserve(this, IDC_PRESERVEAVATARSIZE)
 	{
 		btnReset.OnClick = Callback(this, &COptMainDlg::onClick_Reset);
@@ -591,7 +591,6 @@ public:
 
 		chkAvaPreserve.SetState(M.GetByte("dontscaleavatars", 0));
 
-		spnAvaSize.SetRange(150);
 		spnAvaSize.SetPosition(M.GetDword("avatarheight", 100));
 		return true;
 	}
@@ -661,11 +660,11 @@ public:
 		: CDlgBase(g_plugin, IDD_OPT_MSGLOG),
 		btnModify(this, IDC_MODIFY),
 		btnRtlModify(this, IDC_RTLMODIFY),
-		spnTrim(this, IDC_TRIMSPIN),
-		spnLeft(this, IDC_INDENTSPIN),
-		spnRight(this, IDC_RINDENTSPIN),
-		spnLoadTime(this, IDC_LOADTIMESPIN),
-		spnLoadCount(this, IDC_LOADCOUNTSPIN),
+		spnTrim(this, IDC_TRIMSPIN, 1000, 5),
+		spnLeft(this, IDC_INDENTSPIN, 1000),
+		spnRight(this, IDC_RINDENTSPIN, 1000),
+		spnLoadTime(this, IDC_LOADTIMESPIN, 24 * 60),
+		spnLoadCount(this, IDC_LOADCOUNTSPIN, 100),
 		chkLoadTime(this, IDC_LOADTIME),
 		chkLoadCount(this, IDC_LOADCOUNT),
 		chkAlwaysTrim(this, IDC_ALWAYSTRIM),
@@ -707,20 +706,12 @@ public:
 
 		TreeViewInit(GetDlgItem(m_hwnd, IDC_LOGOPTIONS), CTranslator::TREE_LOG, dwFlags, FALSE);
 
-		spnLeft.SetRange(1000);
 		spnLeft.SetPosition(M.GetDword("IndentAmount", 20));
-
-		spnRight.SetRange(1000);
 		spnRight.SetPosition(M.GetDword("RightIndent", 20));
-
-		spnLoadCount.SetRange(100);
 		spnLoadCount.SetPosition(g_plugin.getWord(SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT));
-
-		spnLoadTime.SetRange(24 * 60);
 		spnLoadTime.SetPosition(g_plugin.getWord(SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME));
 
 		DWORD maxhist = M.GetDword("maxhist", 0);
-		spnTrim.SetRange(1000, 5);
 		spnTrim.SetPosition(maxhist);
 		spnTrim.Enable(maxhist != 0);
 		Utils::enableDlgControl(m_hwnd, IDC_TRIM, maxhist != 0);
@@ -1032,7 +1023,7 @@ public:
 		CDlgBase(g_plugin, IDD_OPT_TABBEDMSG),
 		chkLimit(this, IDC_CUT_TABTITLE),
 		edtLimit(this, IDC_CUT_TITLEMAX),
-		spnLimit(this, IDC_CUT_TITLEMAXSPIN),
+		spnLimit(this, IDC_CUT_TITLEMAXSPIN, 20, 5),
 		btnSetup(this, IDC_SETUPAUTOCREATEMODES),
 		cmbEscMode(this, IDC_ESCMODE)
 	{
@@ -1046,7 +1037,6 @@ public:
 		TreeViewInit(GetDlgItem(m_hwnd, IDC_TABMSGOPTIONS), CTranslator::TREE_TAB, 0, FALSE);
 
 		chkLimit.SetState(M.GetByte("cuttitle", 0));
-		spnLimit.SetRange(20, 5);
 		spnLimit.SetPosition(db_get_w(0, SRMSGMOD_T, "cut_at", 15));
 		onChange_Cut(&chkLimit);
 
@@ -1123,9 +1113,9 @@ public:
 	COptContainersDlg()
 		: CDlgBase(g_plugin, IDD_OPT_CONTAINERS),
 		urlHelp(this, IDC_HELP_CONTAINERS, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Containers"),
-		spnNumFlash(this, IDC_NRFLASHSPIN),
-		spnTabLimit(this, IDC_TABLIMITSPIN),
-		spnFlashDelay(this, IDC_FLASHINTERVALSPIN),
+		spnNumFlash(this, IDC_NRFLASHSPIN, 255),
+		spnTabLimit(this, IDC_TABLIMITSPIN, 1000, 1),
+		spnFlashDelay(this, IDC_FLASHINTERVALSPIN, 10000, 500),
 		chkUseAero(this, IDC_USEAERO),
 		chkUseAeroPeek(this, IDC_USEAEROPEEK),
 		cmbAeroEffect(this, IDC_AEROEFFECT),
@@ -1143,17 +1133,13 @@ public:
 		chkGroup.SetState(M.GetByte("useclistgroups", 0));
 		chkLimits.SetState(M.GetByte("limittabs", 0));
 
-		spnTabLimit.SetRange(1000, 1);
 		spnTabLimit.SetPosition(M.GetDword("maxtabs", 1));
 		onChangeLimits(nullptr);
 
 		chkSingle.SetState(M.GetByte("singlewinmode", 0));
 		chkDefault.SetState(!(chkGroup.GetState() || chkLimits.GetState() || chkSingle.GetState()));
 
-		spnNumFlash.SetRange(255);
 		spnNumFlash.SetPosition(M.GetByte("nrflash", 4));
-
-		spnFlashDelay.SetRange(10000, 500);
 		spnFlashDelay.SetPosition(M.GetDword("flashinterval", 1000));
 
 		chkUseAero.SetState(M.GetByte("useAero", 1));
@@ -1208,8 +1194,8 @@ public:
 		CDlgBase(g_plugin, IDD_OPTIONS_PLUS),
 		urlHelp(this, IDC_PLUS_HELP, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Typing_notifications"),
 		btnRevert(this, IDC_PLUS_REVERT),
-		spnTimeout(this, IDC_TIMEOUTSPIN),
-		spnHistSize(this, IDC_HISTORYSIZESPIN)
+		spnTimeout(this, IDC_TIMEOUTSPIN, 300, SRMSGSET_MSGTIMEOUT_MIN / 1000),
+		spnHistSize(this, IDC_HISTORYSIZESPIN, 255, 15)
 	{
 		btnRevert.OnClick = Callback(this, &COptAdvancedDlg::onClick_Revert);
 	}
@@ -1218,10 +1204,7 @@ public:
 	{
 		TreeViewInit(GetDlgItem(m_hwnd, IDC_PLUS_CHECKTREE), CTranslator::TREE_MODPLUS, 0, FALSE);
 
-		spnTimeout.SetRange(300, SRMSGSET_MSGTIMEOUT_MIN / 1000);
 		spnTimeout.SetPosition(PluginConfig.m_MsgTimeout / 1000);
-
-		spnHistSize.SetRange(255, 15);
 		spnHistSize.SetPosition(M.GetByte("historysize", 0));
 		return true;
 	}

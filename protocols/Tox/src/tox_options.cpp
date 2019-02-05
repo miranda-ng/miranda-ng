@@ -2,14 +2,21 @@
 
 CToxOptionsMain::CToxOptionsMain(CToxProto *proto, int idDialog)
 	: CToxDlgBase(proto, idDialog),
-	m_toxAddress(this, IDC_TOXID), m_toxAddressCopy(this, IDC_CLIPBOARD),
-	m_profileCreate(this, IDC_PROFILE_NEW), m_profileImport(this, IDC_PROFILE_IMPORT),
-	m_profileExport(this, IDC_PROFILE_EXPORT), m_nickname(this, IDC_NAME),
-	m_passwordCreate(this, IDC_PASSWORD_CREATE), m_passwordChange(this, IDC_PASSWORD_CHANGE),
-	m_passwordRemove(this, IDC_PASSWORD_REMOVE), m_group(this, IDC_GROUP),
+	m_toxAddress(this, IDC_TOXID),
+	m_toxAddressCopy(this, IDC_CLIPBOARD),
+	m_profileCreate(this, IDC_PROFILE_NEW),
+	m_profileImport(this, IDC_PROFILE_IMPORT),
+	m_profileExport(this, IDC_PROFILE_EXPORT),
+	m_nickname(this, IDC_NAME),
+	m_passwordCreate(this, IDC_PASSWORD_CREATE),
+	m_passwordChange(this, IDC_PASSWORD_CHANGE),
+	m_passwordRemove(this, IDC_PASSWORD_REMOVE),
+	m_group(this, IDC_GROUP),
 	m_enableUdp(this, IDC_ENABLE_UDP), m_enableUdpHolePunching(this, IDC_ENABLE_HOLEPUNCHING),
-	m_enableIPv6(this, IDC_ENABLE_IPV6), m_enableLocalDiscovery(this, IDC_ENABLE_LOCALDISCOVERY),
-	m_maxConnectRetries(this, IDC_MAXCONNECTRETRIESSPIN), m_maxReconnectRetries(this, IDC_MAXRECONNECTRETRIESSPIN)
+	m_enableIPv6(this, IDC_ENABLE_IPV6),
+	m_enableLocalDiscovery(this, IDC_ENABLE_LOCALDISCOVERY),
+	m_maxConnectRetries(this, IDC_MAXCONNECTRETRIESSPIN, 255, 1),
+	m_maxReconnectRetries(this, IDC_MAXRECONNECTRETRIESSPIN, 255, 1)
 {
 	CreateLink(m_toxAddress, TOX_SETTINGS_ID, L"");
 	CreateLink(m_nickname, "Nick", L"");
@@ -65,9 +72,6 @@ bool CToxOptionsMain::OnInitDialog()
 	m_toxAddress.SetMaxLength(TOX_ADDRESS_SIZE * 2);
 	m_nickname.SetMaxLength(TOX_MAX_NAME_LENGTH);
 	m_group.SetMaxLength(64);
-
-	m_maxConnectRetries.SetRange(255, 1);
-	m_maxReconnectRetries.SetRange(255, 1);
 	return true;
 }
 

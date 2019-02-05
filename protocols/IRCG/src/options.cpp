@@ -471,8 +471,8 @@ CConnectPrefsDlg::CConnectPrefsDlg(CIrcProto* _pro)
 	m_enableServer(this, IDC_STARTUP),
 	m_onlineTimer(this, IDC_ONLINETIMER),
 	m_limit(this, IDC_LIMIT),
-	m_spin1(this, IDC_SPIN1),
-	m_spin2(this, IDC_SPIN2),
+	m_spin1(this, IDC_SPIN1, 999, 20),
+	m_spin2(this, IDC_SPIN2, 200),
 	m_ssl(this, IDC_SSL),
 	m_serverlistModified(false)
 {
@@ -516,10 +516,7 @@ bool CConnectPrefsDlg::OnInitDialog()
 		}
 	}
 
-	m_spin1.SetRange(999, 20);
 	m_spin1.SetPosition(m_proto->m_onlineNotificationTime);
-
-	m_spin2.SetRange(200);
 	m_spin2.SetPosition(m_proto->m_onlineNotificationLimit);
 
 	m_nick.SetText(m_proto->m_nick);

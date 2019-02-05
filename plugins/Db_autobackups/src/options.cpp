@@ -130,9 +130,9 @@ public:
 		m_disable(this, IDC_RAD_DISABLED), m_backupOnStart(this, IDC_RAD_START),
 		m_backupOnExit(this, IDC_RAD_EXIT), m_backupPeriodic(this, IDC_RAD_PERIODIC),
 		m_backup(this, IDC_BUT_NOW), m_backupProfile(this, IDC_BACKUPPROFILE),
-		m_period(this, SPIN_PERIOD), m_periodType(this, IDC_PT),
+		m_period(this, SPIN_PERIOD, 60, 1), m_periodType(this, IDC_PT),
 		m_folder(this, IDC_ED_FOLDER), m_browseFolder(this, IDC_BUT_BROWSE), m_filemask(this, IDC_FILEMASK),
-		m_foldersPageLink(this, IDC_LNK_FOLDERS, nullptr), m_numBackups(this, SPIN_NUMBACKUPS),
+		m_foldersPageLink(this, IDC_LNK_FOLDERS, nullptr), m_numBackups(this, SPIN_NUMBACKUPS, 9999, 1),
 		m_disableProgress(this, IDC_CHK_NOPROG), m_disablePopups(this, IDC_CHK_NOPOPUP),
 		m_useZip(this, IDC_CHK_USEZIP), m_useCloudFile(this, IDC_CLOUDFILE),
 		m_cloudFileService(this, IDC_CLOUDFILESEVICE)
@@ -165,9 +165,6 @@ public:
 		m_backupOnExit.SetState(g_plugin.backup_types & BT_EXIT ? TRUE : FALSE);
 		m_backupPeriodic.SetState(g_plugin.backup_types & BT_PERIODIC ? TRUE : FALSE);
 
-		m_period.SetRange(60, 1);
-
-		m_numBackups.SetRange(9999, 1);
 		m_numBackups.SetPosition(g_plugin.num_backups);
 
 		m_periodType.AddString(TranslateT("days"));

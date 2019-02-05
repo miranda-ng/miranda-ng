@@ -602,7 +602,7 @@ class CSrmmToolbarOptions : public CDlgBase
 public:
 	CSrmmToolbarOptions() :
 		CDlgBase(g_plugin, IDD_OPT_TOOLBAR),
-		m_gap(this, IDC_SPIN1),
+		m_gap(this, IDC_SPIN1, 10),
 		m_btnIM(this, IDC_IMCHECK),
 		m_btnChat(this, IDC_CHATCHECK),
 		m_toolBar(this, IDC_TOOLBARTREE),
@@ -628,7 +628,6 @@ public:
 		m_btnChat.Disable();
 		m_btnHidden.Disable();
 
-		m_gap.SetRange(10);
 		m_gap.SetPosition(db_get_b(0, BB_MODULE_NAME, "ButtonsBarGap", 1));
 		return true;
 	}

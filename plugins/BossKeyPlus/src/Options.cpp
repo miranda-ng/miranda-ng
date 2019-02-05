@@ -220,7 +220,7 @@ public:
 		m_chkHideIfWinIdle(this, IDC_MAINOPT_HIDEIFWINIDLE),
 		m_chkHideIfMirIdle(this, IDC_MAINOPT_HIDEIFMIRIDLE),
 		m_edtTime(this, IDC_MAINOPT_TIME),
-		m_spnTime(this, IDC_MAINOPT_SPIN_TIME),
+		m_spnTime(this, IDC_MAINOPT_SPIN_TIME, 99, 1),
 		m_chkHideOnStart(this, IDC_MAINOPT_HIDEONSTART),
 		m_chkMenuItem(this, IDC_MAINOPT_MENUITEM),
 		m_chkRestore(this, IDC_MAINOPT_RESTORE)
@@ -237,7 +237,6 @@ public:
 		wchar_t szMinutes[4] = { 0 };
 		_itow(minutes, szMinutes, 10);
 		m_edtTime.SendMsg(EM_LIMITTEXT, 2, 0);
-		m_spnTime.SetRange(1, 99);
 		m_edtTime.SetText(szMinutes);
 		m_chkHideIfLock.SetState(g_wMaskAdv & OPT_HIDEIFLOCK);
 		m_chkMenuItem.SetState(g_wMaskAdv & OPT_MENUITEM);
