@@ -37,7 +37,7 @@ struct PluginListItemData
 	wchar_t    fileName[MAX_PATH];
 	HINSTANCE  hInst;
 	int        flags, stdPlugin;
-	bool       bRequiresRestart, bWasLoaded;
+	bool       bRequiresRestart, bWasLoaded, bWasChecked;
 	wchar_t   *author, *description, *copyright, *homepage;
 	MUUID      uuid;
 
@@ -135,8 +135,13 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 	it.lParam = (LPARAM)dat;
 	int iRow = ListView_InsertItem(hwndList, &it);
 
-	if (bNoCheckbox || isPluginOnWhiteList(fd->cFileName))
-		ListView_SetItemState(hwndList, iRow, bNoCheckbox ? 0x3000 : 0x2000, LVIS_STATEIMAGEMASK);
+	if (bNoCheckbox) {
+		ListView_SetItemState(hwndList, iRow, 0x3000, LVIS_STATEIMAGEMASK);
+	}
+	else if (isPluginOnWhiteList(fd->cFileName)) {
+		dat->bWasChecked = true;
+		ListView_SetItemState(hwndList, iRow, 0x2000, LVIS_STATEIMAGEMASK);
+	}
 
 	if (iRow != -1) {
 		// column 2: plugin short name
@@ -306,6 +311,10 @@ public:
 		arPluginList.destroy();
 		m_szFilter.Empty();
 		enumPlugins(dialogListPlugins, (WPARAM)m_hwnd, (LPARAM)m_plugList.GetHwnd());
+
+		for (auto &it : arPluginList)
+			if (!it->bWasLoaded && it->bWasChecked && !it->hInst)
+				LoadPluginDynamically(it);
 
 		// sort out the headers
 		m_plugList.SetColumnWidth(0, LVSCW_AUTOSIZE); // dll name
