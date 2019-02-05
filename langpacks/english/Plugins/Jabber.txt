@@ -456,14 +456,14 @@
 [Jabber Bookmarks Error]
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 [%s, %d items (%s)]
+[Reason to ban]
+[Removing %s?]
 [Voice List]
 [Member List]
 [Moderator List]
 [Ban List]
 [Admin List]
 [Owner List]
-[Reason to ban]
-[Removing %s?]
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Http authentication request received]
 ;file \protocols\JabberG\src\jabber_menu.cpp

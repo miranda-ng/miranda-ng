@@ -1649,3 +1649,8 @@
 [PNG bitmaps]
 ;file \src\mir_core\src\timezones.cpp
 [<unspecified>]
+;file \include\m_message.h
+[Message window toolbar]
+;file \include\m_popup.h
+[Do nothing]
+[Dismiss popup]
