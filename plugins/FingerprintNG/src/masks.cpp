@@ -198,7 +198,6 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{ "client_Jimm", L"|*Jimm*|mobicq*", L"Jimm", IDI_JIMM, ICQ_CASE, TRUE },
 	{ "client_Licq", L"Licq*", L"Licq", IDI_LICQ, ICQ_CASE, TRUE },
 	{ "client_LocID", L"LocID*", L"LocID", IDI_LOCID, ICQ_CASE, TRUE },
-	{ "client_QIP_2005", L"QIP*2005*", L"QIP 2005", IDI_QIP_2005, ICQ_CASE, TRUE },
 	{ "client_R&Q", L"|R&Q*|&RQ*", L"R&Q", IDI_RANDQ, ICQ_CASE, TRUE },
 	{ "client_SmartICQ", L"Smart*ICQ*", L"SmartICQ", IDI_SMARTICQ, ICQ_CASE, TRUE },
 	{ "client_StrICQ", L"StrICQ*", L"StrICQ", IDI_STRICQ, ICQ_CASE, TRUE },
@@ -649,8 +648,7 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	//#########################################################################################################################################################################
 	//#################################   PROTO OVERLAYS   ####################################################################################################################
 	//#########################################################################################################################################################################
-	{ "client_ICQJ_Plus_over", L"*ICQ*Plus*", LPGENW("ICQJ Plus Mod overlay"), IDI_ICQJ_PLUS_OVERLAY, OVERLAYS_PROTO_CASE },
-	{ "client_ICQJ_overlay", L"|^ICQ|^ICQ*|*ICQ*|MRA client", LPGENW("ICQJ overlay"), IDI_ICQJ_OVERLAY, OVERLAYS_PROTO_CASE },
+	{ "client_ICQJ_overlay", L"|^ICQ|^ICQ*|*ICQ*", LPGENW("ICQJ overlay"), IDI_ICQJ_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_IRC_overlay", L"|^IRC*|Miranda*IRC*", LPGENW("IRC overlay"), IDI_IRC_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_JGmail_overlay", L"*JGmail*", LPGENW("JGmail overlay"), IDI_GMAIL_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_JGTalk_overlay", L"*JGTalk*", LPGENW("JGTalk overlay"), IDI_JGTALK_OVERLAY, OVERLAYS_PROTO_CASE },
@@ -663,11 +661,6 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	//#########################################################################################################################################################################
 	//#################################   CLIENT VERSION OVERLAYS   ###########################################################################################################
 	//#########################################################################################################################################################################
-	{ "client_ICQ3_over", L"ICQ*2003*", LPGENW("ICQ 2003 overlay"), IDI_ICQ3_OVERLAY, ICQ_CASE },
-	{ "client_ICQ4_over", L"|ICQ*4*|ICQ*lite*4*", LPGENW("ICQ Lite 4 overlay"), IDI_ICQ4_OVERLAY, ICQ_CASE },
-	{ "client_ICQ5_over", L"|ICQ*5*|ICQ*lite*5*|icq5*", LPGENW("ICQ v5.x overlay"), IDI_ICQ5_OVERLAY, ICQ_CASE },
-	{ "client_ICQ6_over", L"ICQ*6*", LPGENW("ICQ v6.x overlay"), IDI_ICQ6_OVERLAY, ICQ_CASE },
-	{ "client_ICQ7_over", L"ICQ*7*", LPGENW("ICQ v7.x overlay"), IDI_ICQ7_OVERLAY, ICQ_CASE },
 	{ "client_ICQ8_over", L"ICQ*8*", LPGENW("ICQ v8.x overlay"), IDI_ICQ8_OVERLAY, ICQ_CASE },
 
 	{ "client_GG_11", L"|Gadu-Gadu*11*|GG*11*", LPGENW("Gadu-Gadu v11 client"), IDI_GG11_OVERLAY, GG_CASE },

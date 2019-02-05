@@ -56,7 +56,6 @@
 #define IDI_PLATFORM_X64                77
 #define IDI_GMAIL_OVERLAY               79
 #define IDI_ICQJ_OVERLAY                80
-#define IDI_ICQJ_PLUS_OVERLAY           81
 #define IDI_IRC_OVERLAY                 82
 #define IDI_JABBER_OVERLAY              83
 #define IDI_JGTALK_OVERLAY              84
@@ -109,11 +108,6 @@
 #define IDI_MIRANDA_YAOL                140
 #define IDI_MIRANDA_ZELEBOBA            141
 #define IDI_ICQ                         190
-#define IDI_ICQ3_OVERLAY                193
-#define IDI_ICQ4_OVERLAY                194
-#define IDI_ICQ5_OVERLAY                195
-#define IDI_ICQ6_OVERLAY                196
-#define IDI_ICQ7_OVERLAY                197
 #define IDI_ICQ8_OVERLAY                198
 #define IDI_ASIA                        202
 #define IDI_DICHAT                      203
@@ -122,7 +116,6 @@
 #define IDI_LIBICQ2000                  216
 #define IDI_LICQ                        217
 #define IDI_LOCID                       218
-#define IDI_QIP_2005                    219
 #define IDI_RANDQ                       220
 #define IDI_SMARTICQ                    221
 #define IDI_SPAM                        222
