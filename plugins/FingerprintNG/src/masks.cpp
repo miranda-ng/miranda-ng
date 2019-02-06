@@ -192,19 +192,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 	//#########################################################################################################################################################################
 	//#################################   ICQ   ###############################################################################################################################
 	//#########################################################################################################################################################################
-	{ "client_D[i]Chat", L"D[i]Chat*", L"D[i]Chat", IDI_DICHAT, ICQ_CASE, TRUE },
-	{ "client_GnomeICU", L"GnomeICU*", L"GnomeICU", IDI_GNOMEICU, ICQ_CASE, TRUE },
-	{ "client_Icy_Juice", L"*Icy*Juice*", L"Icy Juice", IDI_ICY_JUICE, ICQ_CASE, TRUE },
-	{ "client_Jimm", L"|*Jimm*|mobicq*", L"Jimm", IDI_JIMM, ICQ_CASE, TRUE },
-	{ "client_Licq", L"Licq*", L"Licq", IDI_LICQ, ICQ_CASE, TRUE },
-	{ "client_LocID", L"LocID*", L"LocID", IDI_LOCID, ICQ_CASE, TRUE },
 	{ "client_R&Q", L"|R&Q*|&RQ*", L"R&Q", IDI_RANDQ, ICQ_CASE, TRUE },
-	{ "client_SmartICQ", L"Smart*ICQ*", L"SmartICQ", IDI_SMARTICQ, ICQ_CASE, TRUE },
-	{ "client_StrICQ", L"StrICQ*", L"StrICQ", IDI_STRICQ, ICQ_CASE, TRUE },
-
-	{ "client_spam", L"*spam*", LPGENW("spam client"), IDI_SPAM, ICQ_CASE, TRUE },
-	{ "client_libicq2k", L"libicq*", L"LibICQ/JIT", IDI_LIBICQ2000, ICQ_CASE, TRUE },
-	{ "client_TICQClient", L"*TICQ*Client*", L"TICQClient (Delphi lib)", IDI_TICQ, ICQ_CASE, TRUE },
 
 	{ "client_ICQ_all", L"|ICQ?|ICQ?.?|ICQ *|ICQ2*|ICQ", L"ICQ client", IDI_ICQ, ICQ_CASE },
 
@@ -648,7 +636,7 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	//#########################################################################################################################################################################
 	//#################################   PROTO OVERLAYS   ####################################################################################################################
 	//#########################################################################################################################################################################
-	{ "client_ICQJ_overlay", L"|^ICQ|^ICQ*|*ICQ*", LPGENW("ICQJ overlay"), IDI_ICQJ_OVERLAY, OVERLAYS_PROTO_CASE },
+	{ "client_ICQ_overlay", L"|^ICQ|^ICQ*|*ICQ*", LPGENW("ICQ overlay"), IDI_ICQ_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_IRC_overlay", L"|^IRC*|Miranda*IRC*", LPGENW("IRC overlay"), IDI_IRC_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_JGmail_overlay", L"*JGmail*", LPGENW("JGmail overlay"), IDI_GMAIL_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_JGTalk_overlay", L"*JGTalk*", LPGENW("JGTalk overlay"), IDI_JGTALK_OVERLAY, OVERLAYS_PROTO_CASE },

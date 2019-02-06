@@ -55,7 +55,7 @@
 #define IDI_PLATFORM_X32                76
 #define IDI_PLATFORM_X64                77
 #define IDI_GMAIL_OVERLAY               79
-#define IDI_ICQJ_OVERLAY                80
+#define IDI_ICQ_OVERLAY                 80
 #define IDI_IRC_OVERLAY                 82
 #define IDI_JABBER_OVERLAY              83
 #define IDI_JGTALK_OVERLAY              84
@@ -110,17 +110,7 @@
 #define IDI_ICQ                         190
 #define IDI_ICQ8_OVERLAY                198
 #define IDI_ASIA                        202
-#define IDI_DICHAT                      203
-#define IDI_GNOMEICU                    214
-#define IDI_ICY_JUICE                   215
-#define IDI_LIBICQ2000                  216
-#define IDI_LICQ                        217
-#define IDI_LOCID                       218
 #define IDI_RANDQ                       220
-#define IDI_SMARTICQ                    221
-#define IDI_SPAM                        222
-#define IDI_STRICQ                      223
-#define IDI_TICQ                        234
 #define IDI_IRC                         300
 #define IDI_AMIRC                       301
 #define IDI_AMULE                       302
@@ -484,7 +474,6 @@
 #define IDI_JASMINEIM                   1040
 #define IDI_JBOTHER                     1041
 #define IDI_JBUDDY                      1042
-#define IDI_JIMM                        1043
 #define IDI_JIMMY                       1044
 #define IDI_JIMM_ASPRO                  1045
 #define IDI_KMESS                       1046

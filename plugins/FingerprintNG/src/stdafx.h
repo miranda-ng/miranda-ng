@@ -86,8 +86,8 @@ struct FOUNDINFO
 #define QQ_CASE                  3013  // QQ clients (+ versions)
 #define RSS_CASE                 3014  // RSS clients
 #define WEATHER_CASE             3016  // Weather clients
-#define FACEBOOK_CASE            3018  // acebook clients
-#define VK_CASE                  3019  // K clients
+#define FACEBOOK_CASE            3018  // Facebook clients
+#define VK_CASE                  3019  // VK clients
 
 #define OTHER_PROTOS_CASE        3020  // other protocols
 #define OTHERS_CASE              3021  // other icons
