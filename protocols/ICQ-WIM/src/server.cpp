@@ -327,11 +327,9 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		lastMsgId = msgId;
 
 	CMStringW wszText;
-	CMStringW type(it["mediaType"].as_mstring());
-	if (type == "text" || type.IsEmpty())
-		wszText = it["text"].as_mstring();
-	else if (type == "sticker") {
-		CMStringW wszUrl, wszSticker(it["sticker"]["id"].as_mstring());
+	const JSONNode &sticker = it["sticker"];
+	if (sticker) {
+		CMStringW wszUrl, wszSticker(sticker["id"].as_mstring());
 		int iCollectionId, iStickerId;
 		if (2 == swscanf(wszSticker, L"ext:%d:sticker:%d", &iCollectionId, &iStickerId))
 			wszUrl.Format(L"https://c.icq.com/store/stickers/%d/%d/medium", iCollectionId, iStickerId);
@@ -339,7 +337,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 			wszUrl = TranslateT("Unknown sticker");
 		wszText.Format(L"%s\n%s", TranslateT("User sent a sticker:"), wszUrl.c_str());
 	}
-	else return;
+	else wszText = it["text"].as_mstring();
 
 	int iMsgTime = (bFromHistory) ? it["time"].as_int() : time(0);
 
