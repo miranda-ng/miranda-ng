@@ -110,6 +110,7 @@
 #define IDI_ICQ8_OVERLAY                198
 #define IDI_ASIA                        202
 #define IDI_RANDQ                       220
+#define IDI_MANDARIN_IM                 219
 #define IDI_IRC                         300
 #define IDI_AMIRC                       301
 #define IDI_AMULE                       302
