@@ -250,6 +250,10 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 			setString(hContact, "MirVer", "R&Q build by Mikanoshi");
 			bVersionDetected = true;
 		}
+		else if (!memcmp(cap, "Mandarin IM", 11)) {
+			setString(hContact, "MirVer", "Mandarin IM");
+			bVersionDetected = true;
+		}
 	}
 
 	if (!bVersionDetected)
