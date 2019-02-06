@@ -302,7 +302,7 @@ static LRESULT clcOnCreate(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPA
 	dat->menuOwnerType = CLCIT_INVALID;
 
 	corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
-	if (dat->contact_time_show || dat->secondLine.type == TEXT_CONTACT_TIME || dat->thirdLine.type == TEXT_CONTACT_TIME)
+	if (dat->contact_time_show || g_plugin.secondLine.iType == TEXT_CONTACT_TIME || g_plugin.thirdLine.iType == TEXT_CONTACT_TIME)
 		CLUI_SafeSetTimer(hwnd, TIMERID_INVALIDATE, 5000, nullptr);
 	else
 		KillTimer(hwnd, TIMERID_INVALIDATE);

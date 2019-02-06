@@ -64,9 +64,9 @@ void Cache_GetText(ClcData *dat, ClcContact *contact)
 	Cache_GetFirstLineText(dat, contact);
 
 	if (!dat->bForceInDialog) {
-		if (dat->secondLine.show)
+		if (g_plugin.secondLine.bActive)
 			Cache_GetNthLineText(dat, contact->pce, 2);
-		if (dat->thirdLine.show)
+		if (g_plugin.thirdLine.bActive)
 			Cache_GetNthLineText(dat, contact->pce, 3);
 	}
 }
@@ -270,7 +270,7 @@ void CSmileyString::ReplaceSmileys(ClcData *dat, ClcCacheEntry *pdnce, wchar_t *
 // Getting Status name
 // returns -1 for XStatus, 1 for Status
 //
-int GetStatusName(wchar_t *text, int text_size, ClcCacheEntry *pdnce, BOOL xstatus_has_priority)
+int GetStatusName(wchar_t *text, int text_size, ClcCacheEntry *pdnce, BOOL bXstatusHasPriority)
 {
 	BOOL noAwayMsg = FALSE;
 	BOOL noXstatus = FALSE;
@@ -280,7 +280,7 @@ int GetStatusName(wchar_t *text, int text_size, ClcCacheEntry *pdnce, BOOL xstat
 	if (nStatus == ID_STATUS_OFFLINE || nStatus == 0) noXstatus = TRUE;
 	text[0] = '\0';
 	// Get XStatusName
-	if (!noAwayMsg && !noXstatus &&  xstatus_has_priority && pdnce->hContact && pdnce->szProto) {
+	if (!noAwayMsg && !noXstatus &&  bXstatusHasPriority && pdnce->hContact && pdnce->szProto) {
 		DBVARIANT dbv = { 0 };
 		if (!db_get_ws(pdnce->hContact, pdnce->szProto, "XStatusName", &dbv)) {
 			CopySkipUnprintableChars(text, dbv.pwszVal, text_size - 1);
@@ -299,7 +299,7 @@ int GetStatusName(wchar_t *text, int text_size, ClcCacheEntry *pdnce, BOOL xstat
 	}
 
 	// Get XStatusName
-	if (!noAwayMsg && !noXstatus && !xstatus_has_priority && pdnce->hContact && pdnce->szProto) {
+	if (!noAwayMsg && !noXstatus && !bXstatusHasPriority && pdnce->hContact && pdnce->szProto) {
 		DBVARIANT dbv = { 0 };
 		if (!db_get_ws(pdnce->hContact, pdnce->szProto, "XStatusName", &dbv)) {
 			CopySkipUnprintableChars(text, dbv.pwszVal, text_size - 1);
@@ -332,7 +332,7 @@ void GetListeningTo(wchar_t *text, int text_size, ClcCacheEntry *pdnce)
 // Getting Status message(Away message)
 // returns -1 for XStatus, 1 for Status
 //
-int GetStatusMessage(wchar_t *text, int text_size, ClcCacheEntry *pdnce, BOOL xstatus_has_priority)
+int GetStatusMessage(wchar_t *text, int text_size, ClcCacheEntry *pdnce, BOOL bXstatusHasPriority)
 {
 	BOOL noAwayMsg = FALSE;
 	WORD wStatus = pdnce->getStatus();
@@ -343,7 +343,7 @@ int GetStatusMessage(wchar_t *text, int text_size, ClcCacheEntry *pdnce, BOOL xs
 		noAwayMsg = TRUE;
 
 	// Get XStatusMsg
-	if (!noAwayMsg  && xstatus_has_priority && pdnce->hContact && pdnce->szProto) {
+	if (!noAwayMsg  && bXstatusHasPriority && pdnce->hContact && pdnce->szProto) {
 		ptrW tszXStatusMsg(db_get_wsa(pdnce->hContact, pdnce->szProto, "XStatusMsg"));
 		if (tszXStatusMsg != nullptr) {
 			CopySkipUnprintableChars(text, tszXStatusMsg, text_size - 1);
@@ -374,7 +374,7 @@ int GetStatusMessage(wchar_t *text, int text_size, ClcCacheEntry *pdnce, BOOL xs
 	}
 
 	// Get XStatusMsg
-	if (!noAwayMsg && !xstatus_has_priority && pdnce->hContact && pdnce->szProto && text[0] == '\0') {
+	if (!noAwayMsg && !bXstatusHasPriority && pdnce->hContact && pdnce->szProto && text[0] == '\0') {
 		// Try to get XStatusMsg
 		ptrW tszXStatusMsg(db_get_wsa(pdnce->hContact, pdnce->szProto, "XStatusMsg"));
 		if (tszXStatusMsg != nullptr) {
@@ -399,7 +399,7 @@ int Cache_GetLineText(ClcCacheEntry *pdnce, int type, LPTSTR text, int text_size
 	switch (type) {
 	case TEXT_STATUS:
 LBL_Status:
-		if (GetStatusName(text, text_size, pdnce, line.xstatus_has_priority) == -1 && line.use_name_and_message_for_xstatus) {
+		if (GetStatusName(text, text_size, pdnce, line.bXstatusHasPriority) == -1 && line.bUseNameAndMessageForXstatus) {
 			// Try to get XStatusMsg
 			ptrW tszXStatusMsg(db_get_wsa(pdnce->hContact, pdnce->szProto, "XStatusMsg"));
 			if (tszXStatusMsg != nullptr && tszXStatusMsg[0] != 0) {
@@ -421,7 +421,7 @@ LBL_Status:
 		return TEXT_NICKNAME;
 
 	case TEXT_STATUS_MESSAGE:
-		if (GetStatusMessage(text, text_size, pdnce, line.xstatus_has_priority) == -1 && line.use_name_and_message_for_xstatus) {
+		if (GetStatusMessage(text, text_size, pdnce, line.bXstatusHasPriority) == -1 && line.bUseNameAndMessageForXstatus) {
 			// Try to get XStatusName
 			ptrW tszXStatusName(db_get_wsa(pdnce->hContact, pdnce->szProto, "XStatusName"));
 			if (tszXStatusName != nullptr && tszXStatusName[0] != 0) {
@@ -430,7 +430,7 @@ LBL_Status:
 				CopySkipUnprintableChars(text, text, text_size - 1);
 			}
 		}
-		else if (line.use_name_and_message_for_xstatus && line.xstatus_has_priority) {
+		else if (line.bUseNameAndMessageForXstatus && line.bXstatusHasPriority) {
 			// Try to get XStatusName
 			ptrW tszXStatusName(db_get_wsa(pdnce->hContact, pdnce->szProto, "XStatusName"));
 			if (tszXStatusName != nullptr && tszXStatusName[0] != 0) {
@@ -440,13 +440,13 @@ LBL_Status:
 		}
 
 		if (text[0] == '\0') {
-			if (line.show_listening_if_no_away) {
+			if (line.bShowListeningIfNoAway) {
 				GetListeningTo(text, text_size, pdnce);
 				if (text[0] != '\0')
 					return TEXT_LISTENING_TO;
 			}
 
-			if (line.show_status_if_no_away) // re-request status if no away
+			if (line.bShowStatusIfNoAway) // re-request status if no away
 				goto LBL_Status;
 		}
 		return TEXT_STATUS_MESSAGE;
@@ -512,16 +512,16 @@ void Cache_GetFirstLineText(ClcData *dat, ClcContact *contact)
 void Cache_GetNthLineText(ClcData *dat, ClcCacheEntry *pdnce, int n)
 {
 	wchar_t Text[240 - EXTRA_ICON_COUNT]; Text[0] = 0;
-	ClcLineInfo &line = (n == 2) ? dat->secondLine : dat->thirdLine;
+	ClcLineInfo &line = (n == 2) ? g_plugin.secondLine : g_plugin.thirdLine;
 	wchar_t* &szText = (n == 2) ? pdnce->szSecondLineText : pdnce->szThirdLineText;
 
 	// in most cases replaceStrW does nothing
-	if (!line.show) {
+	if (!line.bActive) {
 		replaceStrW(szText, nullptr);
 		return;
 	}
 	
-	int type = Cache_GetLineText(pdnce, line.type, Text, _countof(Text), line);
+	int type = Cache_GetLineText(pdnce, line.iType, Text, _countof(Text), line);
 	if (Text[0] == 0) {
 		replaceStrW(szText, nullptr);
 		return;
@@ -534,7 +534,7 @@ void Cache_GetNthLineText(ClcData *dat, ClcCacheEntry *pdnce, int n)
 	if (type == TEXT_LISTENING_TO && szText[0] != '\0')
 		ss.AddListeningToIcon(dat, szText);
 	else
-		ss.ReplaceSmileys(dat, pdnce, szText, line.draw_smileys);
+		ss.ReplaceSmileys(dat, pdnce, szText, line.bDrawSmilies);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

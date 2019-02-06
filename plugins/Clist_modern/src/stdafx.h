@@ -103,13 +103,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_folders.h>
 #include <m_seenplugin.h>
 
-struct CMPlugin : public PLUGIN<CMPlugin>
-{
-	CMPlugin();
-
-	int Load() override;
-	int Unload() override;
-};
+#define TEXT_TEXT_MAX_LENGTH 1024
 
 #include "modern_global_structure.h"
 #include "modern_defsettings.h"
@@ -126,6 +120,18 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 #include "modern_log.h"
 
 #include "resource.h"
+
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin();
+
+	ClcLineInfo secondLine, thirdLine;
+
+	void ReadSettings();
+
+	int Load() override;
+	int Unload() override;
+};
 
 #define DEFAULT_SKIN_FOLDER		"Skins\\Modern contact list"
 extern wchar_t SkinsFolder[MAX_PATH];

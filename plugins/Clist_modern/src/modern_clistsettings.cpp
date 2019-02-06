@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
+#include "modern_awaymsg.h"
 
 CMStringW UnknownConctactTranslatedName;
 
@@ -134,7 +135,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 				if (g_CluiData.bRemoveAwayMessageForOffline)
 					g_plugin.setString(hContact, "StatusMsg", "");
 
-			if ((g_plugin.getWord("SecondLineType", 0) == TEXT_STATUS_MESSAGE || g_plugin.getWord("ThirdLineType", 0) == TEXT_STATUS_MESSAGE) && pdnce->hContact && pdnce->szProto)
+			if ((g_plugin.secondLine.getType() == TEXT_STATUS_MESSAGE || g_plugin.thirdLine.getType() == TEXT_STATUS_MESSAGE) && pdnce->hContact && pdnce->szProto)
 				amRequestAwayMsg(hContact);
 
 			Clist_Broadcast(INTM_STATUSCHANGED, hContact, 0);
@@ -143,7 +144,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			if (g_clistApi.hwndContactTree && g_flag_bOnModulesLoadedCalled)
 				Clist_InitAutoRebuild(g_clistApi.hwndContactTree);
 
-			if ((g_plugin.getWord("SecondLineType", SETTING_SECONDLINE_TYPE_DEFAULT) == TEXT_STATUS_MESSAGE || g_plugin.getWord("ThirdLineType", SETTING_THIRDLINE_TYPE_DEFAULT) == TEXT_STATUS_MESSAGE) && pdnce->hContact && pdnce->szProto)
+			if ((g_plugin.secondLine.getType() == TEXT_STATUS_MESSAGE || g_plugin.thirdLine.getType() == TEXT_STATUS_MESSAGE) && pdnce->hContact && pdnce->szProto)
 				amRequestAwayMsg(hContact);
 		}
 		else if (!strcmp(cws->szSetting, "ApparentMode"))

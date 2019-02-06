@@ -558,46 +558,6 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 	dat->first_line_append_nick = g_plugin.getByte("FirstLineAppendNick", SETTING_FIRSTLINE_APPENDNICK_DEFAULT);
 	gl_TrimText = g_plugin.getByte("TrimText", SETTING_FIRSTLINE_TRIMTEXT_DEFAULT);
 
-	// Second line
-	if (g_clistApi.hwndContactTree == hwnd || g_clistApi.hwndContactTree == nullptr) {
-		dat->secondLine.show = g_plugin.getByte("SecondLineShow", SETTING_SECONDLINE_SHOW_DEFAULT);
-		dat->secondLine.top_space = g_plugin.getWord("SecondLineTopSpace", SETTING_SECONDLINE_TOPSPACE_DEFAULT);
-		dat->secondLine.draw_smileys = g_plugin.getByte("SecondLineDrawSmileys", SETTING_SECONDLINE_SMILEYS_DEFAULT);
-		dat->secondLine.type = g_plugin.getWord("SecondLineType", SETTING_SECONDLINE_TYPE_DEFAULT);
-
-		ptrW tszLineText(g_plugin.getWStringA("SecondLineText"));
-		if (tszLineText)
-			wcsncpy_s(dat->secondLine.text, tszLineText, _TRUNCATE);
-		else
-			dat->secondLine.text[0] = '\0';
-
-		dat->secondLine.xstatus_has_priority = g_plugin.getByte("SecondLineXStatusHasPriority", SETTING_SECONDLINE_XSTATUS_DEFAULT);
-		dat->secondLine.show_status_if_no_away = g_plugin.getByte("SecondLineShowStatusIfNoAway", SETTING_SECONDLINE_STATUSIFNOAWAY_DEFAULT);
-		dat->secondLine.show_listening_if_no_away = g_plugin.getByte("SecondLineShowListeningIfNoAway", SETTING_SECONDLINE_LISTENINGIFNOAWAY_DEFAULT);
-		dat->secondLine.use_name_and_message_for_xstatus = g_plugin.getByte("SecondLineUseNameAndMessageForXStatus", SETTING_SECONDLINE_XSTATUSNAMETEXT_DEFAULT);
-	}
-	else memset(&dat->secondLine, 0, sizeof(dat->secondLine));
-
-	// Third line
-	if (g_clistApi.hwndContactTree == hwnd || g_clistApi.hwndContactTree == nullptr) {
-		dat->thirdLine.show = g_plugin.getByte("ThirdLineShow", SETTING_THIRDLINE_SHOW_DEFAULT);
-		dat->thirdLine.top_space = g_plugin.getWord("ThirdLineTopSpace", SETTING_THIRDLINE_TOPSPACE_DEFAULT);
-		dat->thirdLine.draw_smileys = g_plugin.getByte("ThirdLineDrawSmileys", SETTING_THIRDLINE_SMILEYS_DEFAULT);
-		dat->thirdLine.type = g_plugin.getWord("ThirdLineType", SETTING_THIRDLINE_TYPE_DEFAULT);
-
-		ptrW tszLineText(g_plugin.getWStringA("ThirdLineText"));
-		if (tszLineText)
-			wcsncpy_s(dat->thirdLine.text, tszLineText, _TRUNCATE);
-		else
-			dat->thirdLine.text[0] = '\0';
-
-		dat->thirdLine.xstatus_has_priority = g_plugin.getByte("ThirdLineXStatusHasPriority", SETTING_THIRDLINE_XSTATUS_DEFAULT);
-		dat->thirdLine.show_status_if_no_away = g_plugin.getByte("ThirdLineShowStatusIfNoAway", SETTING_THIRDLINE_STATUSIFNOAWAY_DEFAULT);
-		dat->thirdLine.show_listening_if_no_away = g_plugin.getByte("ThirdLineShowListeningIfNoAway", SETTING_THIRDLINE_LISTENINGIFNOAWAY_DEFAULT);
-		dat->thirdLine.use_name_and_message_for_xstatus = g_plugin.getByte("ThirdLineUseNameAndMessageForXStatus", SETTING_THIRDLINE_XSTATUSNAMETEXT_DEFAULT);
-	}
-	else memset(&dat->thirdLine, 0, sizeof(dat->thirdLine));
-
 	dat->rightMargin = db_get_b(0, "CLC", "RightMargin", CLCDEFAULT_RIGHTMARGIN);
 	dat->topMargin = db_get_b(0, "CLC", "TopMargin", 0);
 	dat->bottomMargin = db_get_b(0, "CLC", "BottomMargin", 0);

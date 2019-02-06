@@ -758,6 +758,8 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 void ClcOptionsChanged(void)
 {
+	g_plugin.ReadSettings();
+
 	Clist_Broadcast(INTM_RELOADOPTIONS, 0, 0);
 	Clist_Broadcast(INTM_INVALIDATE, 0, 0);
 }

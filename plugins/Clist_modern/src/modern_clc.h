@@ -132,8 +132,6 @@ void clcSetDelayTimer(UINT_PTR uIDEvent, HWND hwnd, int nDelay = -1);
 #define TEXT_CONTACT_TIME 4
 #define TEXT_LISTENING_TO 5
 
-#define TEXT_TEXT_MAX_LENGTH 1024
-
 typedef struct tagClcContactTextPiece
 {
 	int type;
@@ -210,15 +208,19 @@ struct ClcContact : public ClcContactBase
 
 struct ClcLineInfo
 {
-	BOOL  show;
-	int   top_space;
-	BOOL  draw_smileys;
-	int   type;
+	bool bActive;
+	bool bDrawSmilies;
+	int  iType;
+	int  iTopSpace;
+	bool bXstatusHasPriority;
+	bool bShowStatusIfNoAway;
+	bool bShowListeningIfNoAway;
+	bool bUseNameAndMessageForXstatus;
 	wchar_t text[TEXT_TEXT_MAX_LENGTH];
-	BOOL  xstatus_has_priority;
-	BOOL  show_status_if_no_away;
-	BOOL  show_listening_if_no_away;
-	BOOL  use_name_and_message_for_xstatus;
+
+	int getType() const
+	{	return (bActive) ? iType : -1;
+	}
 };
 
 struct ClcModernFontInfo {
@@ -298,9 +300,6 @@ struct ClcData : public ClcDataBase
 	// First line
 	BOOL first_line_draw_smileys;
 	BOOL first_line_append_nick;
-
-	// Second & third line
-	ClcLineInfo secondLine, thirdLine;
 
 	ClcModernFontInfo fontModernInfo[FONTID_MODERN_MAX + 1];
 	HWND  hWnd;

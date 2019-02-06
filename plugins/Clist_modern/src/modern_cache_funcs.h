@@ -36,6 +36,4 @@ void Cache_GetAvatar(ClcData *dat, ClcContact *contact);
 void Cache_GetTimezone(ClcData *dat, MCONTACT hContact);
 int  Cache_GetLineText(ClcCacheEntry *pdnce, int type, LPTSTR text, int text_size, ClcLineInfo &line);
 
-void amRequestAwayMsg(MCONTACT hContact);
-
 #endif // __CACHE_FUNCS_H__

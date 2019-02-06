@@ -1029,7 +1029,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 					// Select font
 					UINT uTextFormat = (dat->text_rtl ? DT_RTLREADING : 0);
 
-					if (dat->secondLine.show && dat->secondLine.type == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
+					if (g_plugin.secondLine.bActive && g_plugin.secondLine.iType == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
 						// Get contact time
 						wchar_t buf[70] = L"";
 						mir_free_and_nil(pdnce->szSecondLineText);
@@ -1057,7 +1057,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 					// Select font
 					UINT uTextFormat = (dat->text_rtl ? DT_RTLREADING : 0);
 
-					if (dat->thirdLine.show && dat->thirdLine.type == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
+					if (g_plugin.thirdLine.bActive && g_plugin.thirdLine.iType == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
 						// Get contact time
 						wchar_t buf[70] = L"";
 						mir_free(pdnce->szThirdLineText);
@@ -2211,15 +2211,15 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 			}
 		}
 		else if (Drawing->type == CLCIT_CONTACT && !CheckMiniMode(dat, selected)) {
-			if (dat->secondLine.show) {
-				if (dat->secondLine.type == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
+			if (g_plugin.secondLine.bActive) {
+				if (g_plugin.secondLine.iType == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
 					// Get contact time
 					wchar_t buf[70] = L"";
 					TimeZone_PrintDateTime(pdnce->hTimeZone, L"t", buf, _countof(buf), 0);
 					replaceStrW(pdnce->szSecondLineText, buf);
 				}
 
-				if (pdnce->szSecondLineText && pdnce->szSecondLineText[0] && free_height > dat->secondLine.top_space) {
+				if (pdnce->szSecondLineText && pdnce->szSecondLineText[0] && free_height > g_plugin.secondLine.iTopSpace) {
 					ChangeToFont(hdcMem, dat, FONTID_SECONDLINE, nullptr);
 
 					// Get sizes
@@ -2227,7 +2227,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 						uTextFormat, dat->text_resize_smileys ? 0 : pdnce->ssSecondLine.iMaxSmileyHeight);
 
 					// Get rect
-					int tmp = min(free_height, dat->secondLine.top_space + second_line_text_size.cy);
+					int tmp = min(free_height, g_plugin.secondLine.iTopSpace + second_line_text_size.cy);
 
 					free_height -= tmp;
 					text_rc.top = free_row_rc.top + (free_height >> 1);
@@ -2241,17 +2241,17 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 					selection_text_rc.top = text_rc.top;
 					selection_text_rc.bottom = min(selection_text_rc.bottom, selection_text_rc.top + text_size.cy);
 
-					max_bottom_selection_border = min(max_bottom_selection_border, dat->secondLine.top_space / 2);
+					max_bottom_selection_border = min(max_bottom_selection_border, g_plugin.secondLine.iTopSpace / 2);
 				}
 			}
-			if (dat->thirdLine.show) {
-				if (dat->thirdLine.type == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
+			if (g_plugin.thirdLine.bActive) {
+				if (g_plugin.thirdLine.iType == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
 					// Get contact time
 					wchar_t buf[70] = L"";
 					TimeZone_PrintDateTime(pdnce->hTimeZone, L"t", buf, _countof(buf), 0);
 					replaceStrW(pdnce->szThirdLineText, buf);
 				}
-				if (pdnce->szThirdLineText != nullptr && pdnce->szThirdLineText[0] && free_height > dat->thirdLine.top_space) {
+				if (pdnce->szThirdLineText != nullptr && pdnce->szThirdLineText[0] && free_height > g_plugin.thirdLine.iTopSpace) {
 					ChangeToFont(hdcMem, dat, FONTID_THIRDLINE, nullptr);
 
 					// Get sizes
@@ -2259,7 +2259,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 						uTextFormat, dat->text_resize_smileys ? 0 : pdnce->ssThirdLine.iMaxSmileyHeight);
 
 					// Get rect
-					int tmp = min(free_height, dat->thirdLine.top_space + third_line_text_size.cy);
+					int tmp = min(free_height, g_plugin.thirdLine.iTopSpace + third_line_text_size.cy);
 
 					free_height -= tmp;
 					text_rc.top = free_row_rc.top + (free_height >> 1);
@@ -2273,7 +2273,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 					selection_text_rc.top = text_rc.top;
 					selection_text_rc.bottom = min(selection_text_rc.bottom, selection_text_rc.top + text_size.cy);
 
-					max_bottom_selection_border = min(max_bottom_selection_border, dat->thirdLine.top_space / 2);
+					max_bottom_selection_border = min(max_bottom_selection_border, g_plugin.thirdLine.iTopSpace / 2);
 				}
 			}
 
@@ -2372,7 +2372,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 				}
 				uTextFormat &= ~DT_VCENTER;
 				if (second_line_text_size.cx > 0 && free_rc.bottom > free_rc.top) {
-					free_rc.top += dat->secondLine.top_space;
+					free_rc.top += g_plugin.secondLine.iTopSpace;
 
 					if (free_rc.bottom > free_rc.top) {
 						RECT rc = free_rc;
@@ -2390,7 +2390,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 				}
 
 				if (third_line_text_size.cx > 0 && free_rc.bottom > free_rc.top) {
-					free_rc.top += dat->thirdLine.top_space;
+					free_rc.top += g_plugin.thirdLine.iTopSpace;
 
 					if (free_rc.bottom > free_rc.top) {
 						RECT rc = free_rc;
