@@ -515,20 +515,6 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{ "client_atom1", L"*Atom*1*", L"Atom 1", IDI_ATOM1, RSS_CASE, TRUE },
 
 	//#########################################################################################################################################################################
-	//#################################    QQ   ###############################################################################################################################
-	//#########################################################################################################################################################################
-	{ "client_MobileQQ", L"|Mobile*QQ*|iPhone*QQ*|QQ WAP*", L"Mobile QQ", IDI_MOBILEQQ, QQ_CASE, TRUE },
-	{ "client_QQConcept", L"QQ*Concept*", L"QQ Concept", IDI_QQCONCEPT, QQ_CASE, TRUE },
-	{ "client_QQCRM", L"QQ*CRM*", L"QQ CRM", IDI_QQCRM, QQ_CASE, TRUE },
-	{ "client_QQSilver", L"QQ*Silverlight*", L"QQ Silverlight", IDI_QQSILVER, QQ_CASE, TRUE },
-	{ "client_TM2008", L"|TM2008*|TM2009*|TM2010*", LPGENW("TM 2008 and >"), IDI_TM2008, QQ_CASE },
-	{ "client_TM", L"TM*", L"TM", IDI_TM, QQ_CASE },
-	{ "client_QQInt", L"QQ*International*", L"QQ International", IDI_QQINT, QQ_CASE },
-	{ "client_YamQQ", L"YamQQ*", L"Yam QQ", IDI_YAMQQ, QQ_CASE },
-	{ "client_WebQQ", L"WebQQ*", L"WebQQ", IDI_WEBQQ, QQ_CASE },
-	{ "client_QQ", L"QQ*", L"QQ", IDI_QQ, QQ_CASE },
-
-	//#########################################################################################################################################################################
 	//#################################   GADU-GADU   #########################################################################################################################
 	//#########################################################################################################################################################################
 	{ "client_GG", L"|Gadu-Gadu*|GG*", LPGENW("Gadu-Gadu client"), IDI_GG, GG_CASE },
@@ -642,7 +628,6 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	{ "client_JGTalk_overlay", L"*JGTalk*", LPGENW("JGTalk overlay"), IDI_JGTALK_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_Jabber_overlay", L"|^jabber*|Miranda*Jabber*|py*jabb*", LPGENW("Jabber overlay"), IDI_JABBER_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_MSN_overlay", L"|^MSN*|*Miranda*MSN*", LPGENW("MSN overlay"), IDI_MSN_OVERLAY, OVERLAYS_PROTO_CASE },
-	{ "client_QQ_overlay", L"|Miranda*QQ*|MIM*QQ*", LPGENW("QQ overlay"), IDI_QQ_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_VK_overlay", L"|Miranda*VKontakte*", LPGENW("VK overlay"), IDI_VK_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_Skype_overlay", L"|Miranda*Skype*", LPGENW("Skype overlay"), IDI_SKYPE_OVERLAY, OVERLAYS_PROTO_CASE },
 
@@ -655,20 +640,6 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	{ "client_GG_10", L"|Gadu-Gadu*10*|GG*10", LPGENW("Gadu-Gadu v10 client"), IDI_GG10_OVERLAY, GG_CASE },
 	{ "client_GG_9", L"|Gadu-Gadu*9*|GG*9*", LPGENW("Gadu-Gadu v9 client"), IDI_GG9_OVERLAY, GG_CASE },
 	{ "client_GG_8", L"|Gadu-Gadu*8*|GG*8*", LPGENW("Gadu-Gadu v8 client"), IDI_GG8_OVERLAY, GG_CASE },
-
-	{ "client_QQ_2012", L"|QQ2012*|TM2012*", LPGENW("TM/QQ 2012 overlay"), IDI_QQ_2012_OVERLAY, QQ_CASE },
-	{ "client_QQ_2011", L"|QQ2011*|TM2011*", LPGENW("TM/QQ 2011 overlay"), IDI_QQ_2011_OVERLAY, QQ_CASE },
-	{ "client_QQ_2010", L"|QQ2010*|TM2010*", LPGENW("TM/QQ 2010 overlay"), IDI_QQ_2010_OVERLAY, QQ_CASE },
-	{ "client_QQ_2009", L"|QQ2009*|TM2009*", LPGENW("TM/QQ 2009 overlay"), IDI_QQ_2009_OVERLAY, QQ_CASE },
-	{ "client_QQ_2008", L"|QQ2008*|TM2008*", LPGENW("TM/QQ 2008 overlay"), IDI_QQ_2008_OVERLAY, QQ_CASE },
-	{ "client_QQ_2007", L"|QQ2007*|TM2007*", LPGENW("TM/QQ 2007 overlay"), IDI_QQ_2007_OVERLAY, QQ_CASE },
-	{ "client_QQ_2006", L"|QQ2006*|TM2006*", LPGENW("TM/QQ 2006 overlay"), IDI_QQ_2006_OVERLAY, QQ_CASE },
-	{ "client_QQ_2005", L"|QQ2005*|TM2005*", LPGENW("TM/QQ 2005 overlay"), IDI_QQ_2005_OVERLAY, QQ_CASE },
-	{ "client_QQ_2004", L"QQ2004*", LPGENW("QQ 2004 overlay"), IDI_QQ_2004_OVERLAY, QQ_CASE },
-	{ "client_QQ_2003", L"|QQ2003*|TM 3.*", LPGENW("TM 3.x / QQ 2003 overlay"), IDI_QQ_2003_OVERLAY, QQ_CASE },
-	{ "client_TM_2002", L"TM 2.*", LPGENW("TM 2.x overlay"), IDI_QQ_2002_OVERLAY, QQ_CASE },
-	{ "client_TM_2001", L"TM 1.*", LPGENW("TM 1.x overlay"), IDI_QQ_2001_OVERLAY, QQ_CASE },
-	{ "client_QQ_2000", L"QQ2000*", LPGENW("QQ 2000 overlay"), IDI_QQ_2000_OVERLAY, QQ_CASE },
 
 	//#########################################################################################################################################################################
 	//#################################   PLATFORM OVERLAYS   #################################################################################################################

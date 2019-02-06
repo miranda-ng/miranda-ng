@@ -83,7 +83,6 @@ struct FOUNDINFO
 #define IRC_CASE                 3009  // IRC clients
 #define JABBER_CASE              3010  // Jabber clients
 #define MSN_CASE                 3012  // MSN clients
-#define QQ_CASE                  3013  // QQ clients (+ versions)
 #define RSS_CASE                 3014  // RSS clients
 #define WEATHER_CASE             3016  // Weather clients
 #define FACEBOOK_CASE            3018  // Facebook clients
