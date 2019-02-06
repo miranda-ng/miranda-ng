@@ -52,11 +52,11 @@ BEGIN
     CONTROL         "Do not open chat windows on creation",IDC_HIDECHATS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,61,285,10
     GROUPBOX        "Advanced",IDC_STATIC,4,75,302,77
-    LTEXT           "If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)",IDC_STATIC,12,88,204,23,0,WS_EX_DLGMODALFRAME
+    LTEXT           "If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)",IDC_STATIC,12,88,204,23
     EDITTEXT        IDC_DIFF1,221,85,54,12,ES_AUTOHSCROLL
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_AUTOBUDDY | UDS_ARROWKEYS,275,84,11,14
     COMBOBOX        IDC_STATUS1,221,100,81,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)",IDC_STATIC,12,121,204,23,0,WS_EX_DLGMODALFRAME
+    LTEXT           "After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)",IDC_STATIC,12,121,204,23
     EDITTEXT        IDC_DIFF2,221,118,54,12,ES_AUTOHSCROLL
     CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_AUTOBUDDY | UDS_ARROWKEYS,275,117,11,14
     COMBOBOX        IDC_STATUS2,221,133,81,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP

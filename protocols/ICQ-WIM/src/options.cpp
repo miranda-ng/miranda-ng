@@ -267,7 +267,7 @@ int CIcqProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.szTitle.w = m_tszUserName;
-	odp.flags = ODPF_UNICODE;
+	odp.flags = ODPF_UNICODE | ODPF_BOLDGROUPS;
 	odp.szGroup.w = LPGENW("Network");
 	odp.position = 1;
 	odp.pDialog = new CIcqOptionsDlg(this, IDD_OPTIONS_FULL, true);
