@@ -382,50 +382,6 @@ Weitere Skins herunterladen
 Aus Skindatei laden
 [Export to skin file]
 In Skindatei speichern
-[Dialog]
-Dialog
-[Ignore these events]
-folgende Ereignisse ignorieren
-[Messages]
-Nachrichten
-[Incoming file transfers]
-Eingehende Dateiübertragungen
-[URL events]
-URL-Ereignisse
-[Suppress auth requests]
-Autorisierungsanfragen
-[Suppress added notifications]
-"Sie wurden hinzugefügt"
-[Suppress online notifications]
-Statusbenachrichtigungen
-[Ignore all]
-Alle ignorieren
-[Ignore none]
-Nichts ignorieren
-[Visibility]
-Sichtbarkeit
-[Appear always online]
-Immer online erscheinen
-[Appear always offline (block contact)]
-Immer offline erscheinen bzw. Kontakt blockieren
-[Other]
-Sonstige
-[Hide this contact from the list]
-Kontakt nicht in der Kontaktliste anzeigen
-[To show a previously hidden contact, navigate to Options -> Contacts -> Ignore, search the contact in the list and tick the checkbox next to its name.]
-Um einen bereits versteckten Kontakt wieder einzublenden, unter Einstellungen -> Kontakte -> Ignorieren einen Haken neben seinem Namen setzen.
-[Display options]
-Anzeigeoptionen
-[Show contact with priority]
-Kontakt hat Priorität
-[Show avatar:]
-Avatar zeigen
-[Show 2nd line:]
-2. Textzeile anzeigen:
-[Draw overlay icon on avatar]
-Überlagerungsicons über Avatar
-[Show local time]
-Lokale Zeit anzeigen
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 Hauptmenü
@@ -527,25 +483,6 @@ Skins
 ;file \plugins\Clist_nicer\src\clcpaint.cpp
 [No events...]
 Keine Ereignisse...
-;file \plugins\Clist_nicer\src\clistmenus.cpp
-[Add permanently]
-Dauerhaft hinzufügen
-[Revert to default]
-Standardeinstellungen
-[Default (global setting)]
-Standard (globale Einstellungen)
-[Show always when available]
-Immer anzeigen, wenn verfügbar
-[Hide always]
-Immer verstecken
-[When space is available]
-Falls Abstand verfügbar ist
-[When needed by status message]
-Wenn sie benötigt wird
-[Contact list display and ignore options for %s]
-Kontaktlistenanzeige- und Ignorieroptionen für %s
-[&Contact list settings...]
-&Kontaktlisteneinstellungen...
 ;file \plugins\Clist_nicer\src\clistopts.cpp
 [Global]
 Global

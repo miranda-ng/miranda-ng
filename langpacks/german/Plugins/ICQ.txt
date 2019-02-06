@@ -1,24 +1,96 @@
 #muuid {EFB2355B-82B3-4759-b7d8-95f8e9506291}
 ;============================================================
 ;  File: ICQ.dll
-;  Plugin: Icq/2018 protocol
+;  Plugin: ICQ-WIM protocol
 ;  Version: 0.95.10.1
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
 ICQ-Protokollunterstützung für Miranda NG.
-;file \protocols\Icq10\res\resources.rc
+;file \protocols\ICQ-WIM\res\resources.rc
 [ICQ number:]
 ICQ-Nummer:
+[Email:]
+E-Mail:
 [Password:]
 Passwort:
-[Send messages slower, but with full acknowledgment]
-Nachrichten langsamer, aber mit voller Bestätigung senden
-;file \protocols\Icq10\src\options.cpp
+[Sign in/sign up using phone]
+
+[Do not open chat windows on creation]
+Chatfenster bei der Erzeugung nicht öffnen
+[Advanced]
+Erweitert
+[If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
+
+[After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
+
+[Send group chat invitation]
+Gruppenchateinladung senden
+[&Invite]
+E&inladen
+[Cancel]
+Abbrechen
+[Account registration]
+
+[Enter full phone number]
+
+[Send me registration code via SMS]
+
+[Enter registration code]
+
+[UIN:]
+UIN:
+[Online since:]
+Online seit:
+[Idle since:]
+Untätig seit:
+[Nick:]
+Nick:
+[Member since:]
+
+[Last seen:]
+Zuletzt gesehen:
+[Ignore list editor]
+
+;file \protocols\ICQ-WIM\src\groupchats.cpp
+[&Invite a user]
+Benutzer in diesen MUC e&inladen
+[&Leave/destroy chat]
+
+;file \protocols\ICQ-WIM\src\ignore.cpp
+[Do you really want to remove it from ignore list?]
+
+;file \protocols\ICQ-WIM\src\main.cpp
+[Ignore]
+Ignorieren
+[Remove Ignore]
+
+;file \protocols\ICQ-WIM\src\options.cpp
 [Network]
 Netzwerk
-;file \protocols\Icq10\src\proto.cpp
+;file \protocols\ICQ-WIM\src\proto.cpp
 [%s server connection]
 %s Serververbindung
-[ICQ number or phone]
-ICQ- oder Telefonnummer 
+[Synchronize server groups]
+
+[Edit ignore list]
+
+[ICQ number]
+ICQ-Nummer
+;file \protocols\ICQ-WIM\src\server.cpp
+[You have not entered an ICQ number.\nConfigure this in Options -> Network -> ICQ and try again.]
+
+[Connection failed.\nYour ICQ number or password was rejected (%d).]
+Verbindung fehlgeschlagen.\nICQ-Nummer oder Passwort wurden abgelehnt (%d).
+[Connection failed.\nThe server is temporarily unavailable (%d).]
+Verbindung fehlgeschlagen.\nDer Server ist temporär nicht verfügbar (%d).
+[Connection failed.\nUnknown error during sign on: %d]
+
+[admin]
+administrator
+[member]
+mitglied
+[Unknown sticker]
+
+[User sent a sticker:]
+

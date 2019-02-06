@@ -81,14 +81,6 @@ Konnte Twitter-Zugriffstoken nicht holen, bitte gehen Sie offline und versuchen 
 [You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or recreate your Miranda Twitter account]
 Ihnen fehlt der Nick-Eintrag in der Datenbank. Das ist nicht weiter schlimm, aber Sie werden einige kleinere Probleme bemerken (eigener Kontakt in der Liste, keine Hervorhebung ausgehender Nachrichten im Gruppenchat usw.). Um dies zu beheben, fügen Sie ihn entweder manuell hinzu oder erstellen Sie Ihr Twitterkonto in den Konteinstellungen neu.
 ;file \protocols\Twitter\src\proto.cpp
-[Send Tweet...]
-Tweet senden...
-[Network]
-Netzwerk
-[Basic]
-Allgemein
-[Popups]
-Popups
 [%s server connection]
 %s Serververbindung
 [Unable to initialize Netlib for %s.]
@@ -97,6 +89,14 @@ Kann Netlib-Verbindung für %s nicht initialisieren.
 %s Avatarverbindung
 [Twitter (avatars)]
 Twitter (Avatare)
+[Send Tweet...]
+Tweet senden...
+[Network]
+Netzwerk
+[Basic]
+Allgemein
+[Popups]
+Popups
 [%s Protocol]
 %s-Protokoll
 [Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?]

@@ -72,8 +72,6 @@ Eingehende Nachrichten
 Kontakt meldet sich ab
 [Contact changes status]
 Kontakt wechselt Status
-[Incoming URL]
-Eingehende URL
 [Contact list events]
 Kontaktlisten-Ereignisse
 [Incoming file transfers]

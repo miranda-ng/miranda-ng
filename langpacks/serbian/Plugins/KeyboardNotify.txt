@@ -16,8 +16,6 @@
 Dolazne poruke
 [Incoming files]
 
-[Incoming URLs]
-
 [Everything else]
 
 [Message-Event only]
@@ -163,8 +161,6 @@ Ostali događaji
 [The following events are being ignored:]
 Ignorišu se događaji:
 [Ignore messages]
-
-[Ignore URLs]
 
 [Ignore files]
 

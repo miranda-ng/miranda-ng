@@ -890,6 +890,10 @@ Protocolos
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 [%s, %d items (%s)]
 
+[Reason to ban]
+
+[Removing %s?]
+
 [Voice List]
 
 [Member List]
@@ -901,10 +905,6 @@ Protocolos
 [Admin List]
 
 [Owner List]
-
-[Reason to ban]
-
-[Removing %s?]
 
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Http authentication request received]
@@ -1451,7 +1451,7 @@ General
 
 [Automatically join conferences on login]
 
-[Hide conference windows at startup]
+[Do not open chat windows on creation]
 
 [Do not show multiuser chat invitations]
 

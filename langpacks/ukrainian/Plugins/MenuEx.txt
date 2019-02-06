@@ -71,16 +71,12 @@
 Усі
 [Messages]
 Повідомлення
-[URL]
-Посилання
 [Files]
 Файли
 [User Online]
 Користувач у мережі
 [Authorization]
 Авторизація
-[You Were Added]
-Вас додали
 [Typing Notify]
 Набирає текст
 [Please authorize me to add you to my contact list.]

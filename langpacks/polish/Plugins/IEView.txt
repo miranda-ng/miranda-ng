@@ -73,10 +73,6 @@ Pobierz więcej szablonów
 Wychodzące transfery
 [Incoming File Transfer]
 Przychodzący transfer plików
-[URL sent]
-Wysłany link
-[URL received]
-Otrzymany link
 ;file \plugins\IEView\src\HTMLBuilder.cpp
 [(Unknown Contact)]
 (Nieznany kontakt)

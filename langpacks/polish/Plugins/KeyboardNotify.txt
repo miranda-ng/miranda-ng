@@ -16,8 +16,6 @@ Wydarzenia, przy których reagować
 Przychodzące wiadomości
 [Incoming files]
 Przychodzące pliki
-[Incoming URLs]
-Przychodzące linki
 [Everything else]
 Pozostałe
 [Message-Event only]
@@ -164,8 +162,6 @@ Użyj niestandardowej skórki
 Następujące zdarzenia są ignorowane:
 [Ignore messages]
 Ignoruj wiadomości
-[Ignore URLs]
-Ignoruj linki
 [Ignore files]
 Ignoruj pliki
 [Ignore others]

@@ -6,8 +6,6 @@
 [Enable raw RTF support]
 [Grid messages]
 [&Select All]
-[WebPager]
-[EMail Express]
 [Disable &Processing]
 [Enable &Processing]
 [Authorization future request by %s (%d): %s]
@@ -33,3 +31,4 @@
 [&Code Editor...]
 [Other (unknown)]
 [Fast history plugin with filter capability\\nBased on improved code of History+ plugin]
+[Unused]

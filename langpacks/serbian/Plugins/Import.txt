@@ -76,8 +76,6 @@ Odlazni
 
 [Messages]
 Poruke
-[URLs]
-Linkovi
 [File Transfers]
 Slanje/Preuzimanje datoteka
 [Other]

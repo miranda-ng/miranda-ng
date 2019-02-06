@@ -251,16 +251,12 @@ Ilość wpisów historii do usunięcia: %d. \nCzy na pewno chcesz to zrobić?
 Wiadomość
 [File transfer]
 Transfer pliku
-[Link]
-Link
 [Authorization request]
 Prośba o autoryzację
 [You were added]
 Zostałeś dodany
 [Contacts received]
 Pobrane kontakty
-[SMS message]
-Wiadomość SMS
 [Group list]
 Lista grup
 [Messages]

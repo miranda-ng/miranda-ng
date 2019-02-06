@@ -811,8 +811,6 @@ Ime:
 Dozvoliti audio obaveštenja
 [The following events are being ignored:]
 Ignorišu se događaji:
-[URLs]
-Linkovi
 [Files]
 Datoteke
 [Online notification]
@@ -1763,10 +1761,6 @@ Neodgovarajuća poruka
 Odlazna poruka
 [Incoming message]
 Dolazna poruka
-[Outgoing URL]
-Odlazni link
-[Incoming URL]
-Dolazni link
 [Outgoing file]
 Odlazna datoteka
 [Incoming file]
@@ -1888,8 +1882,8 @@ Dodat događaj
 ;file \src\mir_app\src\chat_clist.cpp
 [&Join chat]
 &Počni razgovor
-[&Open chat window]
-&Otvori prozor za razgovor
+[&Open/close chat window]
+
 ;file \src\mir_app\src\chat_log.cpp
 [%s has joined]
 Ulazak: %s
@@ -2637,10 +2631,8 @@ Nepopunjeno
 Unicode plug-in
 [ANSI plugin]
 ANSI plug-in
-[Running plugin]
-Pokrenut plug-in
-[Unloaded plugin]
-Nepokrenut plug-in
+[Unused]
+
 [Show/Hide]
 Prikaži/sakrij
 [Exit]
@@ -2655,10 +2647,6 @@ Ubaci u grupu
 Uklj.
 [Off]
 Isklj.
-[Running core plugin]
-Pokrenuti jezgarni plug-inovi
-[Non-loadable plugin]
-Jezgarni plug-inovi koji se ne učitavaju
 [Frames]
 Okviri
 [Add group]
@@ -3204,3 +3192,11 @@ PNG slike
 ;file \src\mir_core\src\timezones.cpp
 [<unspecified>]
 <nije navedeno>
+;file \include\m_message.h
+[Message window toolbar]
+
+;file \include\m_popup.h
+[Do nothing]
+
+[Dismiss popup]
+

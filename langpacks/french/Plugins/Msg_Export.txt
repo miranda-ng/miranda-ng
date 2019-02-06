@@ -79,6 +79,8 @@ Copier
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 [Miranda database contains %d events]
 
+[Failed to open file]
+
 [Search string was not found!]
 Ligne recherchée non trouvée!
 [Save as RTF]
@@ -179,8 +181,6 @@ Page web
 Utilisateur
 [Protocol]
 Protocole
-[URL: ]
-Lien :\s
 [File: ]
 Fichier :\s
 [Description: ]
@@ -202,12 +202,6 @@ Le contact suivant vous fait une demande d'autorisation :
 [The following user added you to their contact list:]
 Le contact suivant vous a ajouté à sa liste :
 [UIN       :]
-
-[EmailExpress from:]
-EmailExpress de :
-[WebPager from:]
-
-[No from address]
 
 [Unknown event type %d, size %d]
 

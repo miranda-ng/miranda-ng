@@ -20,8 +20,6 @@ Zobrazit náhled události
 Možnosti oznámení
 [Message]
 Zpráva
-[URL]
-Odkaz
 [File]
 Soubor
 [Others]
@@ -91,8 +89,6 @@ Přijato %d kontaktů
  žádá o autorizaci
 [This is a sample message event :-)]
 Zkouška události Zpráva :-)
-[This is a sample URL event ;-)]
-Zkouška události Odkaz ;-)
 [This is a sample file event :-D]
 Zkouška události Soubor :-D
 [This is a sample other event ;-D]
@@ -108,14 +104,6 @@ Kontakty
 Byl jste přidán
 [Requests your authorization]
 Žádost o autorizaci
-[ICQ Web pager]
-ICQ WebPager
-[ICQ Email express]
-ICQ EmailExpress
-[SMS Message]
-Zpráva SMS
-[SMS Confirmation]
-Potvrzení SMS
 [Unknown Event]
 Neznámá událost
 [Notify of new events]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.7
+;  Version: 0.9.1.8
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -602,6 +602,9 @@ Kontakte suchen/hinzu&fügen...
 &Über
 [&Show offline users in here]
 Offline-Kontakte hier an&zeigen
+;file \plugins\Clist_modern\src\modern_cachefuncs.cpp
+[Last seen]
+Zuletzt gesehen
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
 Soll Kontakt '%s' in Metakontakt konvertiert und '%s' hinzugefügt werden?

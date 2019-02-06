@@ -171,8 +171,6 @@ Do této kategorie můžete zadat často používané a oblíbené odpovědi.
 
 [Message]
 Zpráva
-[URL]
-Odkaz
 [File]
 Soubor
 [** All contacts **]

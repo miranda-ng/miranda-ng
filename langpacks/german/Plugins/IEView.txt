@@ -73,10 +73,6 @@ Weitere Vorlagen herunterladen
 Ausgehende Dateiübertragung
 [Incoming File Transfer]
 Eingehende Dateiübertragung
-[URL sent]
-URL gesendet
-[URL received]
-URL empfangen
 ;file \plugins\IEView\src\HTMLBuilder.cpp
 [(Unknown Contact)]
 (Unbekannter Kontakt)

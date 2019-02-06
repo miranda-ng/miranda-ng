@@ -382,50 +382,6 @@ ms
 Зареждане от файл
 [Export to skin file]
 Износ като облик
-[Dialog]
-Прозорец
-[Ignore these events]
-Игнориране на следните събития
-[Messages]
-Съобщения
-[Incoming file transfers]
-Входящо прехвърляне на файл
-[URL events]
-URL събития
-[Suppress auth requests]
-
-[Suppress added notifications]
-Без уведомявания за добавяне
-[Suppress online notifications]
-Без уведомявания "На линия"
-[Ignore all]
-Игнорирай всичко
-[Ignore none]
-Без игнориране
-[Visibility]
-Видимост
-[Appear always online]
-Винаги "На линия" за контакта
-[Appear always offline (block contact)]
-Винаги "Извън линия" за контакта (блокиране)
-[Other]
-Друго
-[Hide this contact from the list]
-Скриване на контакта от списъка
-[To show a previously hidden contact, navigate to Options -> Contacts -> Ignore, search the contact in the list and tick the checkbox next to its name.]
-За да покажете скрит контакт отидете в "Настройки > Контакти > Игнориране". Потърсете контакта в списъка и отметнете полето за отметка до него.
-[Display options]
-Настройки за изобразяване
-[Show contact with priority]
-Показвай контакта с предимство
-[Show avatar:]
-Показване на аватар:
-[Show 2nd line:]
-Показване на 2ри ред:
-[Draw overlay icon on avatar]
-Наслагване на икона върху аватара
-[Show local time]
-Показване на местно време
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 Главно меню
@@ -527,25 +483,6 @@ URL събития
 ;file \plugins\Clist_nicer\src\clcpaint.cpp
 [No events...]
 Няма събития...
-;file \plugins\Clist_nicer\src\clistmenus.cpp
-[Add permanently]
-Добавяне за постоянно
-[Revert to default]
-Стандартни настройки
-[Default (global setting)]
-Стандарт (общи настройки)
-[Show always when available]
-Показвай винаги, ако е наличен
-[Hide always]
-Винаги скрит
-[When space is available]
-Ако има налично място
-[When needed by status message]
-При необходимост от текст за състояние
-[Contact list display and ignore options for %s]
-Настройки за списъка с контакти и игнориране за %s
-[&Contact list settings...]
-Настройки за списъка с контакти
 ;file \plugins\Clist_nicer\src\clistopts.cpp
 [Global]
 Общо

@@ -76,8 +76,6 @@
 
 [Messages]
 poruke
-[URLs]
-
 [File Transfers]
 
 [Other]

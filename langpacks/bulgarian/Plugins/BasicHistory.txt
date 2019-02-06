@@ -251,16 +251,12 @@ Dat (mContacts)
 Съобщение
 [File transfer]
 Прехвърляне на файл
-[Link]
-Връзка
 [Authorization request]
 Молба за упълномощаване
 [You were added]
 Вие бяхте добавен
 [Contacts received]
 
-[SMS message]
-SMS съобщение
 [Group list]
 
 [Messages]

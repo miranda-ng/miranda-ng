@@ -452,8 +452,6 @@ Mise à jour des détails
 
 [You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
 Vous n'êtes actuellement pas connecté à ICQ.\nVous devez être connecté afin de mettre à jour les infos sur le serveur.\nVos changements ne seront que sauvegardés dans votre profil Miranda.
-[Uploading]
-Mise à jour...
 [Creating the image list failed!]
 
 [Could not find contact's protocol. Maybe it is not active!]

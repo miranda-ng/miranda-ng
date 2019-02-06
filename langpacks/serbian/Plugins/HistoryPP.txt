@@ -111,12 +111,6 @@ Kopiraj li&nk
 
 [&Select All]
 
-[SMS Message]
-
-[WebPager]
-
-[EMail Express]
-
 [Other event]
 
 [Global History Search]
@@ -333,10 +327,6 @@ Kopiraj li&nk
 
 [Incoming contacts: %s]
 
-[Webpager message from %s (%s): %s]
-
-[Email express from %s (%s): %s]
-
 [Status change: %s]
 
 [Authorization request granted by %s (%d): %s]
@@ -360,10 +350,6 @@ Kopiraj li&nk
 [All except system]
 
 [Other events (unknown)]
-
-[Webpager message]
-
-[EMail Express message]
 
 [Grid options]
 
@@ -429,10 +415,6 @@ Dolazni link
 
 [Outgoing file]
 Odlazna datoteka
-[Outgoing SMS Message]
-
-[Outgoing url]
-Odlazni link
 [Selected background]
 
 [SMTP Simple]
@@ -444,8 +426,6 @@ Odlazni link
 [Toggle &Processing]
 
 [Toolbar]
-
-[Incoming SMS Message]
 
 [Link URLs]
 
@@ -609,8 +589,6 @@ Odlazni link
 
 [Selected file and contact file folder not found]
 
-[SMS Sample]
-
 [Some Contact]
 
 [System History (%s)]
@@ -716,4 +694,6 @@ Korisnički meni
 [Incoming events]
 
 [Outgoing events]
+
+[Unused]
 

@@ -15,7 +15,6 @@
 [Show all contacts]
 [Send message]
 [Send file]
-[Send URL]
 [Open user info]
 [Open history]
 [Open contact menu]

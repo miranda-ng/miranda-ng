@@ -81,14 +81,6 @@ URL:
 [You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or recreate your Miranda Twitter account]
 У базі відсутнє налаштування "Nick". Це може спричинити незначні помилки, як-от появу самого себе у списку, відсутність підсвітки вихідних повідомлень у групових чатах тощо. Щоб їх уникнути, додайте це налаштування вручну або створіть свій обліковий запис Twitter у Miranda заново.
 ;file \protocols\Twitter\src\proto.cpp
-[Send Tweet...]
-Надіслати твіт...
-[Network]
-Мережа
-[Basic]
-Основні
-[Popups]
-Спливаючі вікна
 [%s server connection]
 З'єднання з сервером %s
 [Unable to initialize Netlib for %s.]
@@ -97,6 +89,14 @@ URL:
 З'єднання аватарів %s
 [Twitter (avatars)]
 Twitter (аватари)
+[Send Tweet...]
+Надіслати твіт...
+[Network]
+Мережа
+[Basic]
+Основні
+[Popups]
+Спливаючі вікна
 [%s Protocol]
 Протокол %s
 [Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?]

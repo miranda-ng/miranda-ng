@@ -251,16 +251,12 @@ Dat (мКантакты)
 Паведамленне
 [File transfer]
 Перадача файла
-[Link]
-Спасылка
 [Authorization request]
 Запыт аўтарызацыі
 [You were added]
 Вас дадалі
 [Contacts received]
 Атрыманне кантактаў
-[SMS message]
-Паведамленне SMS
 [Group list]
 Спіс гуртоў
 [Messages]

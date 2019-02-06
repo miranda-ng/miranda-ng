@@ -811,8 +811,6 @@ Název:
 Povolit zvuky
 [The following events are being ignored:]
 Následující události budou ignorovány:
-[URLs]
-Odkazy
 [Files]
 Soubory
 [Online notification]
@@ -1763,10 +1761,6 @@ Neplatná zpráva
 Odchozí zpráva
 [Incoming message]
 Příchozí zpráva
-[Outgoing URL]
-Odchozí odkaz
-[Incoming URL]
-Příchozí odkaz
 [Outgoing file]
 Odchozí soubor
 [Incoming file]
@@ -1888,8 +1882,8 @@ Nová událost
 ;file \src\mir_app\src\chat_clist.cpp
 [&Join chat]
 &Přidat se do diskuse
-[&Open chat window]
-&Otevřít komunikační okno
+[&Open/close chat window]
+
 ;file \src\mir_app\src\chat_log.cpp
 [%s has joined]
 Příchod: %s
@@ -2637,10 +2631,8 @@ Prázdný slot
 Doplněk Unicode
 [ANSI plugin]
 Doplněk ANSI
-[Running plugin]
-Spuštěný doplněk
-[Unloaded plugin]
-Nespuštěný doplněk
+[Unused]
+
 [Show/Hide]
 Zobrazit nebo skrýt
 [Exit]
@@ -2655,10 +2647,6 @@ Přesunout do skupiny
 Zap
 [Off]
 Vyp
-[Running core plugin]
-Běžící doplněk jádra
-[Non-loadable plugin]
-Nenačitatelný doplněk
 [Frames]
 Rámečky
 [Add group]
@@ -3204,3 +3192,11 @@ Obrázky typu PNG
 ;file \src\mir_core\src\timezones.cpp
 [<unspecified>]
 <neurčeno>
+;file \include\m_message.h
+[Message window toolbar]
+
+;file \include\m_popup.h
+[Do nothing]
+Nedělat nic
+[Dismiss popup]
+Zavřít oznámení

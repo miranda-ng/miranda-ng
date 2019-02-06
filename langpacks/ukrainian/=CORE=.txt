@@ -811,8 +811,6 @@
 Увімкнути звуки
 [The following events are being ignored:]
 Ці події ігноруватимуться:
-[URLs]
-Посилання
 [Files]
 Файли
 [Online notification]
@@ -1763,10 +1761,6 @@ UIN, E-mail тощо
 Вихідні повідомлення
 [Incoming message]
 Вхідні повідомлення
-[Outgoing URL]
-Вихідний URL
-[Incoming URL]
-Вхідний URL
 [Outgoing file]
 Вихідний файл
 [Incoming file]
@@ -1888,8 +1882,8 @@ UIN, E-mail тощо
 ;file \src\mir_app\src\chat_clist.cpp
 [&Join chat]
 &Увійти до чату
-[&Open chat window]
-&Відкрити вікно чату
+[&Open/close chat window]
+
 ;file \src\mir_app\src\chat_log.cpp
 [%s has joined]
 %s увійшов
@@ -2637,10 +2631,8 @@ ID облікового запису
 Unicode-плагін
 [ANSI plugin]
 ANSI-плагін
-[Running plugin]
-Запущений плагін
-[Unloaded plugin]
-Незапущений плагін
+[Unused]
+
 [Show/Hide]
 Показати/сховати
 [Exit]
@@ -2655,10 +2647,6 @@ ANSI-плагін
 Увімк.
 [Off]
 Вимк.
-[Running core plugin]
-Плагін ядра
-[Non-loadable plugin]
-Неможливо запустити
 [Frames]
 Фрейми
 [Add group]
@@ -3204,3 +3192,11 @@ ANSI-плагін
 ;file \src\mir_core\src\timezones.cpp
 [<unspecified>]
 <не вказано>
+;file \include\m_message.h
+[Message window toolbar]
+
+;file \include\m_popup.h
+[Do nothing]
+Нічого не робити
+[Dismiss popup]
+Закрити

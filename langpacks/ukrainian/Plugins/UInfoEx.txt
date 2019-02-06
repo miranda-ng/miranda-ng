@@ -452,8 +452,6 @@
 Протокол '%s' не в мережі
 [You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
 Ви не підключені до мережі ICQ.\nЩоб оновлювати дані на сервері, потрібно підключитися до мережі ICQ.\n\nЗміни будуть збережені тільки в локальній базі даних.
-[Uploading]
-Завантаження
 [Creating the image list failed!]
 Помилка при створенні imagelist.
 [Could not find contact's protocol. Maybe it is not active!]

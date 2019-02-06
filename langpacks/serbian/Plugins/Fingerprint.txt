@@ -38,8 +38,6 @@
 
 [Jabber clients]
 
-[MRA clients]
-
 [MSN clients]
 
 [QQ clients]
@@ -93,10 +91,6 @@ Protokol
 
 [MP3 Script for mIRC]
 
-[Mail.Ru Agent (official)]
-
-[Mail.Ru (unknown client)]
-
 [TM 2008 and >]
 
 [Gadu-Gadu client]
@@ -128,8 +122,6 @@ Protokol
 [MSN overlay]
 
 [QQ overlay]
-
-[Mail.Ru Agent overlay]
 
 [VK overlay]
 

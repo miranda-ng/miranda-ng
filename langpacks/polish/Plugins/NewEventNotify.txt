@@ -20,8 +20,6 @@ Pokaż podgląd zdarzenia w popupie
 Opcje popupów
 [Message]
 Wiadomość
-[URL]
-Link
 [File]
 Plik
 [Others]
@@ -91,8 +89,6 @@ Otrzymano %d kontakty.
  poprosił(a) o autoryzację
 [This is a sample message event :-)]
 To jest przykładowe powiadomienie o wiadomości :-)
-[This is a sample URL event ;-)]
-To jest przykładowe powiadomienie o linku ;-)
 [This is a sample file event :-D]
 To jest przykładowe powiadomienie o pliku :-D
 [This is a sample other event ;-D]
@@ -108,14 +104,6 @@ Kontakty
 Zostałeś dodany!
 [Requests your authorization]
 Prośba o twoją autoryzację
-[ICQ Web pager]
-Strona WWW ICQ
-[ICQ Email express]
-Adres e-mail ICQ
-[SMS Message]
-Wiadomość SMS
-[SMS Confirmation]
-Potwierdzenie SMS
 [Unknown Event]
 Nieznane zdarzenie
 [Notify of new events]

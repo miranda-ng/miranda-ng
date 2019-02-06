@@ -298,8 +298,8 @@ KB
 Паказваць тэму ў спісе кантактаў (калі падтрымліваецца)
 [Do not play sounds when focused]
 Не груць гук, калі на пярэднім плане
-[Do not pop up when joining]
-Не паказваць усплывальныя вокны, калі хтосьці заходзіць
+[Do not pop up the window when joining a chat room]
+Не адчыняць вакно чата пры ўваходзе
 [Show contact statuses (if supported)]
 Паказваць статусы (калі падтрымліваецца)
 [Display contact status icon before role icon]
@@ -653,10 +653,6 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Пасылка файла
 [File received]
 Файл атрыманы
-[URL sent]
-URL адасланы
-[URL received]
-URL атрыманы
 ;file \plugins\Scriver\src\msgoptions.cpp
 [Outgoing messages]
 Выходныя паведамленні
@@ -682,10 +678,8 @@ URL атрыманы
 Вобласць паведамлення
 [Input area background]
 Фон поля ўводу
-[Outgoing URL]
-Выходныя URL
-[Incoming URL]
-Уваходны URL
+[Unused]
+
 [Info bar contact name]
 Інфа-Панэль: імя кантакту
 [Info bar background]

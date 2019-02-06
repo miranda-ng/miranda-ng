@@ -122,26 +122,14 @@ maximum
 ;file \plugins\HistoryStats\src\column_events.cpp
 [Events to count]
 
-[URLs (incoming)]
-
-[URLs (outgoing)]
-
-[URLs (all)]
-
 [Files (incoming)]
 
 [Files (outgoing)]
 
 [Files (all)]
 
-[URLs]
-Adresses URL
 [Files]
 Fichiers
-[Incoming URLs]
-Liens reçus
-[Outgoing URLs]
-
 [Incoming files]
 Fichiers entrants
 [Outgoing files]

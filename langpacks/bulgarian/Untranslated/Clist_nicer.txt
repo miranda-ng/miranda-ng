@@ -13,7 +13,6 @@
 [Protocol skins override status text colors]
 [Group top padding]
 [Ignore selection for groups]
-[Suppress auth requests]
 [Overlay icons]
 [Connecting icons]
 [Service failure]

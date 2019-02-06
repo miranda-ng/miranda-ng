@@ -19,16 +19,12 @@
 Усё
 [Messages]
 Паведамленні
-[URL]
-Спасылка
 [Files]
 Файлы
 [User Online]
 Кантакт далучаны
 [Authorization]
 Аўтарызацыя
-[You Were Added]
-Вас дадалі
 [Typing Notify]
 Набірае тэкст
 [Full Ignore]

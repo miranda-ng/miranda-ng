@@ -1,24 +1,96 @@
 #muuid {EFB2355B-82B3-4759-b7d8-95f8e9506291}
 ;============================================================
 ;  File: ICQ.dll
-;  Plugin: Icq/2018 protocol
+;  Plugin: ICQ-WIM protocol
 ;  Version: 0.95.10.1
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
 Падтрымка пратакола ICQ для Miranda NG.
-;file \protocols\Icq10\res\resources.rc
+;file \protocols\ICQ-WIM\res\resources.rc
 [ICQ number:]
 Нумар ICQ:
+[Email:]
+
 [Password:]
 Пароль:
-[Send messages slower, but with full acknowledgment]
-Адсылаць паведамленні павольней, але з пацверджаннем
-;file \protocols\Icq10\src\options.cpp
+[Sign in/sign up using phone]
+
+[Do not open chat windows on creation]
+
+[Advanced]
+Дадаткова
+[If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
+
+[After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
+
+[Send group chat invitation]
+
+[&Invite]
+
+[Cancel]
+Скасаваць
+[Account registration]
+
+[Enter full phone number]
+
+[Send me registration code via SMS]
+
+[Enter registration code]
+
+[UIN:]
+
+[Online since:]
+Далучаны:
+[Idle since:]
+Неактыўны з:
+[Nick:]
+Мянушка:
+[Member since:]
+
+[Last seen:]
+Апошняе з'яўленне:
+[Ignore list editor]
+
+;file \protocols\ICQ-WIM\src\groupchats.cpp
+[&Invite a user]
+
+[&Leave/destroy chat]
+
+;file \protocols\ICQ-WIM\src\ignore.cpp
+[Do you really want to remove it from ignore list?]
+
+;file \protocols\ICQ-WIM\src\main.cpp
+[Ignore]
+Ігнараваць
+[Remove Ignore]
+
+;file \protocols\ICQ-WIM\src\options.cpp
 [Network]
 Сеціва
-;file \protocols\Icq10\src\proto.cpp
+;file \protocols\ICQ-WIM\src\proto.cpp
 [%s server connection]
 Далучэнне да сервера %s
-[ICQ number or phone]
+[Synchronize server groups]
+
+[Edit ignore list]
+
+[ICQ number]
+
+;file \protocols\ICQ-WIM\src\server.cpp
+[You have not entered an ICQ number.\nConfigure this in Options -> Network -> ICQ and try again.]
+
+[Connection failed.\nYour ICQ number or password was rejected (%d).]
+
+[Connection failed.\nThe server is temporarily unavailable (%d).]
+
+[Connection failed.\nUnknown error during sign on: %d]
+
+[admin]
+
+[member]
+
+[Unknown sticker]
+
+[User sent a sticker:]
 

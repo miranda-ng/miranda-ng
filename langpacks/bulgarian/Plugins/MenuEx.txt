@@ -71,16 +71,12 @@ xСъстояние
 Всички
 [Messages]
 Съобщения
-[URL]
-URL
 [Files]
 Файлове
 [User Online]
 Потребител "На линия"
 [Authorization]
 Упълномощаване
-[You Were Added]
-Вие бяхте добавен
 [Typing Notify]
 Уведомяване при писане
 [Please authorize me to add you to my contact list.]

@@ -382,50 +382,6 @@ Grupa
 
 [Export to skin file]
 
-[Dialog]
-
-[Ignore these events]
-
-[Messages]
-Poruke
-[Incoming file transfers]
-
-[URL events]
-
-[Suppress auth requests]
-
-[Suppress added notifications]
-
-[Suppress online notifications]
-
-[Ignore all]
-
-[Ignore none]
-
-[Visibility]
-Vidljivost
-[Appear always online]
-
-[Appear always offline (block contact)]
-
-[Other]
-Ostalo
-[Hide this contact from the list]
-
-[To show a previously hidden contact, navigate to Options -> Contacts -> Ignore, search the contact in the list and tick the checkbox next to its name.]
-
-[Display options]
-
-[Show contact with priority]
-
-[Show avatar:]
-
-[Show 2nd line:]
-
-[Draw overlay icon on avatar]
-
-[Show local time]
-
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 
@@ -526,25 +482,6 @@ Napredno
 
 ;file \plugins\Clist_nicer\src\clcpaint.cpp
 [No events...]
-
-;file \plugins\Clist_nicer\src\clistmenus.cpp
-[Add permanently]
-
-[Revert to default]
-
-[Default (global setting)]
-
-[Show always when available]
-
-[Hide always]
-
-[When space is available]
-
-[When needed by status message]
-
-[Contact list display and ignore options for %s]
-
-[&Contact list settings...]
 
 ;file \plugins\Clist_nicer\src\clistopts.cpp
 [Global]

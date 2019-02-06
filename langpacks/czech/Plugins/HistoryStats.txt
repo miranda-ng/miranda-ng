@@ -122,26 +122,14 @@ Délka diskuse
 ;file \plugins\HistoryStats\src\column_events.cpp
 [Events to count]
 Požadované události
-[URLs (incoming)]
-URL (příchozí)
-[URLs (outgoing)]
-URL (odchozí)
-[URLs (all)]
-URL (všechny)
 [Files (incoming)]
 Soubory (příchozí)
 [Files (outgoing)]
 Soubory (odchozí)
 [Files (all)]
 Soubory (všechny)
-[URLs]
-Odkazy
 [Files]
 Soubory
-[Incoming URLs]
-Příchozí - URL
-[Outgoing URLs]
-Odchozí odkazy
 [Incoming files]
 Příchozí soubory
 [Outgoing files]

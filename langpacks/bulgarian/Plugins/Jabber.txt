@@ -890,6 +890,10 @@ Jabber удостоверяване
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 [%s, %d items (%s)]
 %s, %d елемента (%s)
+[Reason to ban]
+Причина за банване
+[Removing %s?]
+Премахване на %s?
 [Voice List]
 
 [Member List]
@@ -902,10 +906,6 @@ Jabber удостоверяване
 Списък с администратори
 [Owner List]
 Списък със собственици
-[Reason to ban]
-Причина за банване
-[Removing %s?]
-Премахване на %s?
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Http authentication request received]
 Получена е HTTP молба за удостоверяване
@@ -1451,8 +1451,8 @@ Jabber източник
 Автоматично влизане в отметките при вписване
 [Automatically join conferences on login]
 Автоматично влизане в конферентните стаи при вписване
-[Hide conference windows at startup]
-Скриване на конферентните прозорци при стартиране
+[Do not open chat windows on creation]
+
 [Do not show multiuser chat invitations]
 Без показване на покани за конференции
 [Log events]

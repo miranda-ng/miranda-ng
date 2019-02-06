@@ -452,8 +452,6 @@ E-Mail
 Пратакол '%s' не далучаны
 [You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
 Зараз вы не далучаны да ICQ.\nКаб абнавіць інфармацыю на серверы, вы павінны далучыцца.\n\nЗмяненні захаваюцца толькі лакальна.
-[Uploading]
-Загрузка
 [Creating the image list failed!]
 Памылка пры стварэнні imagelist!
 [Could not find contact's protocol. Maybe it is not active!]

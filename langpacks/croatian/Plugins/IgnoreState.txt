@@ -19,16 +19,12 @@
 
 [Messages]
 poruke
-[URL]
-
 [Files]
 
 [User Online]
 Korisnik je na mreži
 [Authorization]
 
-[You Were Added]
-Dodani ste.
 [Typing Notify]
 
 [Full Ignore]

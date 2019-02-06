@@ -38,8 +38,6 @@ Fingerprint NG адлюстроўвае абразкі кліентаў, вык�
 Кліенты IRC
 [Jabber clients]
 Кліенты Jabber
-[MRA clients]
-Кліенты MRA
 [MSN clients]
 Кліенты MSN
 [QQ clients]
@@ -93,10 +91,6 @@ Miranda (невядома)
 PHP Jabber кліент
 [MP3 Script for mIRC]
 MP3 скрыпт для mIRC
-[Mail.Ru Agent (official)]
-Mail.Ru Агент (афіцыйны)
-[Mail.Ru (unknown client)]
-Mail.Ru (невядомы)
 [TM 2008 and >]
 TM 2008 і вышэй
 [Gadu-Gadu client]
@@ -129,8 +123,6 @@ Jabber
 MSN
 [QQ overlay]
 QQ
-[Mail.Ru Agent overlay]
-Mail.Ru Agent
 [VK overlay]
 
 [Skype overlay]

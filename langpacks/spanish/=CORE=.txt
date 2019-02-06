@@ -811,8 +811,6 @@ Nombre:
 Activar eventos de sonido
 [The following events are being ignored:]
 Los siguientes eventos seran ignorados:
-[URLs]
-URLs
 [Files]
 Archivos
 [Online notification]
@@ -1763,10 +1761,6 @@ Mensaje no válido
 Mensaje saliente
 [Incoming message]
 Mensaje entrante
-[Outgoing URL]
-URL saliente
-[Incoming URL]
-URL entrante
 [Outgoing file]
 Archivo saliente
 [Incoming file]
@@ -1888,7 +1882,7 @@ Evento añadido
 ;file \src\mir_app\src\chat_clist.cpp
 [&Join chat]
 &Entrar
-[&Open chat window]
+[&Open/close chat window]
 
 ;file \src\mir_app\src\chat_log.cpp
 [%s has joined]
@@ -2637,10 +2631,8 @@ Mancha vacía
 Plugin unicode
 [ANSI plugin]
 Plugin ANSI
-[Running plugin]
-Ejecutando plugin
-[Unloaded plugin]
-Plugin sin cargar
+[Unused]
+
 [Show/Hide]
 Mostrar/Ocultar
 [Exit]
@@ -2655,10 +2647,6 @@ Mover a grupo
 Encendido
 [Off]
 Apagado
-[Running core plugin]
-Ejecutando plugin del núcleo
-[Non-loadable plugin]
-Plugin no cargable
 [Frames]
 Marcos
 [Add group]
@@ -3204,3 +3192,11 @@ Mapas de bits PNG
 ;file \src\mir_core\src\timezones.cpp
 [<unspecified>]
 <Sin especificar>
+;file \include\m_message.h
+[Message window toolbar]
+
+;file \include\m_popup.h
+[Do nothing]
+No hacer nada
+[Dismiss popup]
+

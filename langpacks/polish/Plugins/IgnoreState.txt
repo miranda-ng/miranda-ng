@@ -19,16 +19,12 @@ Użyj opcji ignorowania Mirandy dla wszystkich kontaktów
 Wszystko
 [Messages]
 Wiadomości
-[URL]
-Link
 [Files]
 Pliki
 [User Online]
 Połączony użytkownik
 [Authorization]
 Autoryzacja
-[You Were Added]
-Zostałeś dodany
 [Typing Notify]
 Pisanie
 [Full Ignore]

@@ -20,8 +20,6 @@
 Popup настройки
 [Message]
 Съобщение
-[URL]
-URL
 [File]
 Файл
 [Others]
@@ -91,8 +89,6 @@ URL
  заявено упълномощаване
 [This is a sample message event :-)]
 Пример за текстово събитие :-)
-[This is a sample URL event ;-)]
-Пример за URL събитие ;-)
 [This is a sample file event :-D]
 Пример за файлово събитие :-D
 [This is a sample other event ;-D]
@@ -108,14 +104,6 @@ URL
 Вие бяхте добавен!
 [Requests your authorization]
 Желае упълномощаване от ваша страна
-[ICQ Web pager]
-
-[ICQ Email express]
-
-[SMS Message]
-SMS съобщение
-[SMS Confirmation]
-
 [Unknown Event]
 Неизвестно събитие
 [Notify of new events]

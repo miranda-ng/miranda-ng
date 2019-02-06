@@ -16,8 +16,6 @@ Cuentas a comprobar
 Mensajes entrantes
 [Incoming files]
 
-[Incoming URLs]
-
 [Everything else]
 
 [Message-Event only]
@@ -163,8 +161,6 @@ Otros eventos
 [The following events are being ignored:]
 Los siguientes eventos seran ignorados:
 [Ignore messages]
-
-[Ignore URLs]
 
 [Ignore files]
 

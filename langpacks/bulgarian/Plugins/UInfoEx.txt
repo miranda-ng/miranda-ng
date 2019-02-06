@@ -452,8 +452,6 @@ popup за годишнина
 Протоколът "%s" е извън линия
 [You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
 В момента не сте свързани с ICQ мрежата.\nНеобходимо е да сте на линия, за да бъде обновена вашата информация на сървъра.\n\nНаправените промени ще бъдат запаметени само в базата данни.
-[Uploading]
-Качване...
 [Creating the image list failed!]
 
 [Could not find contact's protocol. Maybe it is not active!]

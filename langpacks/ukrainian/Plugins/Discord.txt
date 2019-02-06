@@ -18,8 +18,8 @@
 Контакти
 [Default group:]
 Група:
-[Hide guild chats on startup]
-
+[Do not open chat windows on creation]
+Не відкривати вікно чату при створенні
 [Use subgroups for guild's channels (requires restart)]
 
 [Nick:]
@@ -38,8 +38,6 @@
 
 [&Destroy channel]
 
-[&Invite a user]
-&Запросити користувача
 [Do you really want to destroy this channel? This action is non-revertable.]
 
 [Enter new channel name:]

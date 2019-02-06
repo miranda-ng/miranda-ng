@@ -452,8 +452,6 @@ Załaduj szczegóły
 Protokół "%s" jest rozłączony
 [You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
 Obecnie nie jesteś podłączony do sieci ICQ.\n Musisz być połączony aby uaktualnić informacje na serwer.\n\nTwoje zmian zostaną zapisane tylko do profilu.
-[Uploading]
-Wysyłanie
 [Creating the image list failed!]
 Tworzenie listy obrazków nie powiodło się!
 [Could not find contact's protocol. Maybe it is not active!]

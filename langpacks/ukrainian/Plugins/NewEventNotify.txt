@@ -20,8 +20,6 @@
 Спливаючі вікна
 [Message]
 Повідомлення
-[URL]
-Посилання
 [File]
 Файл
 [Others]
@@ -91,8 +89,6 @@
  запитує авторизацію
 [This is a sample message event :-)]
 Це приклад повідомлення :-)
-[This is a sample URL event ;-)]
-Це приклад URL ;-)
 [This is a sample file event :-D]
 Це приклад вхідного файлу :-D
 [This is a sample other event ;-D]
@@ -108,14 +104,6 @@
 Вас додали
 [Requests your authorization]
 Запит авторизації
-[ICQ Web pager]
-Веб-пейджер ICQ
-[ICQ Email express]
-Експрес-пошта ICQ
-[SMS Message]
-Повідомлення SMS
-[SMS Confirmation]
-Підтвердження SMS
 [Unknown Event]
 Невідома подія
 [Notify of new events]

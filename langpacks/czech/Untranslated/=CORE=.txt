@@ -1,4 +1,7 @@
 [View user's history (Ctrl+H)]
 [In a civil union]
+[&Open/close chat window]
 [Compact]
+[Unused]
 [Unselect all]
+[Message window toolbar]

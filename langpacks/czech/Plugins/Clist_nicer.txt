@@ -382,50 +382,6 @@ Stáhnout další skiny
 Importovat skin
 [Export to skin file]
 Exportovat skin
-[Dialog]
-Dialog
-[Ignore these events]
-Filtrování událostí
-[Messages]
-Zprávy
-[Incoming file transfers]
-Přenos příchozích souborů
-[URL events]
-Příchozí odkazy
-[Suppress auth requests]
-Potlačit žádosti o autorizaci
-[Suppress added notifications]
-Potlačit zprávy o přidání
-[Suppress online notifications]
-Neoznamovat přechod online
-[Ignore all]
-Ignorovat vše
-[Ignore none]
-Neignorovat
-[Visibility]
-Viditelnost
-[Appear always online]
-Vůči dané osobě být viditelný
-[Appear always offline (block contact)]
-Vůči dané osobě být offline
-[Other]
-Ostatní
-[Hide this contact from the list]
-Nezobrazovat v seznamu kontaktů
-[To show a previously hidden contact, navigate to Options -> Contacts -> Ignore, search the contact in the list and tick the checkbox next to its name.]
-Chcete-li zobrazit z dřívějška skrytý kontakt, zatrhněte zaškrtávací pole vedle požadovaného kontaktu (Možnosti -> Kontakty -> Filtrování kontaktů).
-[Display options]
-Možnosti zobrazení
-[Show contact with priority]
-Zobrazit kontakt jako prioritní
-[Show avatar:]
-Zobrazit avatar:
-[Show 2nd line:]
-Zobrazit druhý řádek:
-[Draw overlay icon on avatar]
-Použít překryvné ikony (na avatar)
-[Show local time]
-Zobrazit místní čas
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 Zobrazit nabídku
@@ -527,25 +483,6 @@ Skiny
 ;file \plugins\Clist_nicer\src\clcpaint.cpp
 [No events...]
 <žádné události>
-;file \plugins\Clist_nicer\src\clistmenus.cpp
-[Add permanently]
-Přidat natrvalo
-[Revert to default]
-Obnovit výchozí
-[Default (global setting)]
-Výchozí (globální nastavení)
-[Show always when available]
-Vždy zobrazit (pokud existuje)
-[Hide always]
-Vždy skrýt
-[When space is available]
-Pokud to místo dovolí
-[When needed by status message]
-Pokud to vyžaduje zpráva stavu
-[Contact list display and ignore options for %s]
-Možnosti zobrazení a filtrování: %s
-[&Contact list settings...]
-&Nastavení seznamu kontaktů...
 ;file \plugins\Clist_nicer\src\clistopts.cpp
 [Global]
 Globální

@@ -36,8 +36,6 @@
 Атрыманне
 [Message]
 Паведамленне
-[URL]
-Спасылка
 [File transfer]
 Перадача файла
 [...change status to...]

@@ -36,8 +36,6 @@ Na ručku
 
 [Message]
 Poruka
-[URL]
-Link
 [File transfer]
 
 [...change status to...]

@@ -298,8 +298,8 @@ Google Карты
 Показывать тему в списке контактов (если поддерживается)
 [Do not play sounds when focused]
 Не воспроизводить звук, когда окно чата на переднем плане
-[Do not pop up when joining]
-Не раскрывать окно при входе в комнату
+[Do not pop up the window when joining a chat room]
+Не открывать окно чата при входе в комнату чата
 [Show contact statuses (if supported)]
 Показывать статусы (если поддерживается)
 [Display contact status icon before role icon]
@@ -678,10 +678,8 @@ consectetur adipisicing elit
 Область сообщения
 [Input area background]
 Окна ввода текста
-[Outgoing URL]
-Исходящий URL
-[Incoming URL]
-Входящий URL
+[Unused]
+Не используется
 [Info bar contact name]
 Инфо-панель: имя контакта
 [Info bar background]

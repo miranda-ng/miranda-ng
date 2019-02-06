@@ -298,8 +298,8 @@ Google Translate
 Показване на темата в списъка с контакти (ако се поддържа)
 [Do not play sounds when focused]
 Без звук, когато е фокусиран
-[Do not pop up when joining]
-Без изскачане при влизане
+[Do not pop up the window when joining a chat room]
+Без изскачане на прозореца при влизане в чат стая
 [Show contact statuses (if supported)]
 Показване на състояние (ако се поддържа)
 [Display contact status icon before role icon]
@@ -653,10 +653,6 @@ Latin I
 Файлът е изпратен
 [File received]
 Файлът е получен
-[URL sent]
-изпратени URL адреси
-[URL received]
-получени URL адреси
 ;file \plugins\Scriver\src\msgoptions.cpp
 [Outgoing messages]
 Изходящи съобщения
@@ -682,10 +678,8 @@ Latin I
 Поле за съобщения
 [Input area background]
 Фон на полето за въвеждане
-[Outgoing URL]
-Изходящ URL адрес
-[Incoming URL]
-Входящ URL адрес
+[Unused]
+
 [Info bar contact name]
 Име на контакта в информационната лента
 [Info bar background]

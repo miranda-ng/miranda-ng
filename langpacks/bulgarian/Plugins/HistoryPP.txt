@@ -111,12 +111,6 @@ WATrack: отхвърлена молба
 Копиране на всички
 [&Select All]
 
-[SMS Message]
-SMS съобщение
-[WebPager]
-
-[EMail Express]
-
 [Other event]
 Друго събитие
 [Global History Search]
@@ -333,10 +327,6 @@ RTF файлове (*.rtf)|*.rtf
 Изходящи контакти: %s
 [Incoming contacts: %s]
 Входящи контакти: %s
-[Webpager message from %s (%s): %s]
-Webpager съобщение от %s (%s): %s
-[Email express from %s (%s): %s]
-Email express от %s (%s): %s
 [Status change: %s]
 Промяна на състоянието: %s
 [Authorization request granted by %s (%d): %s]
@@ -361,10 +351,6 @@ Email express от %s (%s): %s
 Всички с изключение на системните
 [Other events (unknown)]
 Други събития (неизвестни)
-[Webpager message]
-Webpager съобщение
-[EMail Express message]
-EMail Express съобщение
 [Grid options]
 
 [Recent events on top]
@@ -429,10 +415,6 @@ Enter отваря подробности за събитието
 Изходящи контакти
 [Outgoing file]
 Изходящи файлове
-[Outgoing SMS Message]
-Изходящо SMS съобщение
-[Outgoing url]
-Изходящ url адрес
 [Selected background]
 Фон на маркираното
 [SMTP Simple]
@@ -445,8 +427,6 @@ Enter отваря подробности за събитието
 
 [Toolbar]
 Лента с инструменти
-[Incoming SMS Message]
-Входящо SMS съобщение
 [Link URLs]
 URL връзки
 [History++]
@@ -609,8 +589,6 @@ HTML файл (*.htm; *.html)|*.htm;*.html
 Изберете режим на търсене:
 [Selected file and contact file folder not found]
 Избраният файл и папката не са намерени
-[SMS Sample]
-Пример за SMS
 [Some Contact]
 Някой контакт
 [System History (%s)]
@@ -717,3 +695,5 @@ History++ Предупреждение
 Входящи събития
 [Outgoing events]
 Изходящи събития
+[Unused]
+

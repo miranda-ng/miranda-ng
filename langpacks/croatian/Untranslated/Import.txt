@@ -32,7 +32,6 @@
 [Incoming]
 [Outgoing]
 [Only since:]
-[URLs]
 [File Transfers]
 [Choose appropriate accounts for import]
 [Enter file name for import:]

@@ -36,8 +36,6 @@ Enviar
 Recibir
 [Message]
 Mensaje
-[URL]
-URL
 [File transfer]
 Transferencia de archivos
 [...change status to...]

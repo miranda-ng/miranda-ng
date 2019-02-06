@@ -48,8 +48,6 @@ Neviditelný
 Opakující se události
 [Incoming message]
 Příchozí zpráva
-[Incoming URL]
-Příchozí odkaz
 [Incoming File]
 Příchozí soubor
 [Authorization request]
@@ -97,8 +95,6 @@ Zkouška zkouška 1 2 3
 ;file \plugins\WinterSpeak\src\EventInformation.cpp
 [incoming message from %u]
 příchozí zpráva od %u
-[incoming URL from %u]
-příchozí odkaz od %u
 [you have been added to %u's contact list]
 %u si vás přidal do seznamu uživatelů
 [%u requests your authorization]

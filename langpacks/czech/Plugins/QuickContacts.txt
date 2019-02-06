@@ -43,8 +43,6 @@ Zobrazit všechny kontakty
 Poslat zprávu
 [Send file]
 Poslat soubor
-[Send URL]
-Poslat odkaz
 [Open user info]
 Otevřít informace o kontaktu
 [Open history]

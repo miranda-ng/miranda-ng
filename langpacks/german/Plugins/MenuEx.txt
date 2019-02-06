@@ -71,16 +71,12 @@ xStatus-Nachricht kopieren
 Alle
 [Messages]
 Nachrichten
-[URL]
-URL
 [Files]
 Dateien
 [User Online]
 Benutzer online
 [Authorization]
 Autorisierung
-[You Were Added]
-Sie wurden hinzugefügt
 [Typing Notify]
 Tippbenachrichtigungen
 [Please authorize me to add you to my contact list.]

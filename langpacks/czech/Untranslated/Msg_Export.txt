@@ -3,6 +3,7 @@
 [Use UTF8 in new files]
 [History file for %s (%s, format %s)]
 [Miranda database contains %d events]
+[Failed to open file]
 [Save as RTF]
 [History was saved successfully in file\r\n]
 [Reading database information (Phase 1 of 2)]

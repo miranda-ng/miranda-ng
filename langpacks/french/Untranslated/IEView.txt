@@ -4,8 +4,6 @@
 [Embed YouTube videos]
 [Mode]
 [Download more templates]
-[URL sent]
-[URL received]
 [ was added.]
 [RTL On]
 [RTL Off]

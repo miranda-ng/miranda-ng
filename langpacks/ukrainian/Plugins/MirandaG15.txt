@@ -72,8 +72,6 @@
 Контакт виходить з мережі
 [Contact changes status]
 Контакт змінює статус
-[Incoming URL]
-Вхідний URL
 [Contact list events]
 Події сп. контактів
 [Incoming file transfers]

@@ -73,10 +73,6 @@ Utiliser la date relative
 Transfert de fichiers sortants
 [Incoming File Transfer]
 Transfert de fichier entrant
-[URL sent]
-
-[URL received]
-
 ;file \plugins\IEView\src\HTMLBuilder.cpp
 [(Unknown Contact)]
 (Contact inconnu)

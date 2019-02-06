@@ -72,8 +72,6 @@
 
 [Contact changes status]
 
-[Incoming URL]
-Входящ URL адрес
 [Contact list events]
 
 [Incoming file transfers]

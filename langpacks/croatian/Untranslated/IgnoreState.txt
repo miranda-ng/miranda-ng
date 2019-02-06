@@ -3,7 +3,6 @@
 [Filtered events:]
 [Use Miranda ignore settings for All Contacts]
 [All]
-[URL]
 [Files]
 [Authorization]
 [Typing Notify]

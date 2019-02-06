@@ -79,6 +79,8 @@ Kopiuj
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 [Miranda database contains %d events]
 Baza danych Mirandy zawiera %d zdarzeń
+[Failed to open file]
+
 [Search string was not found!]
 Szukana fraza nie została znaleziona!
 [Save as RTF]
@@ -179,8 +181,6 @@ O kontakcie
 Użytkownik
 [Protocol]
 Protokół
-[URL: ]
-Link:\s
 [File: ]
 Plik:\s
 [Description: ]
@@ -203,12 +203,6 @@ Następujący użytkownik wysłał prośbę o autoryzację:
 Następujący użytkownik dodał cię do swojej listy kontaktów:
 [UIN       :]
 UIN       :
-[EmailExpress from:]
-E-mail z:
-[WebPager from:]
-Link z:
-[No from address]
-Nie z adresu
 [Unknown event type %d, size %d]
 Zdarzenie nieznanego typu %d, rozmiar %d
 [User has been deleted. Do you want to delete the file?]

@@ -298,7 +298,7 @@ Zobrazit kontextové menu u tlačítek
 Zadané téma zobrazit v seznamu kontaktů (je-li to podporováno)
 [Do not play sounds when focused]
 Nepřehrávat zvuky, je-li okno místnosti aktivní
-[Do not pop up when joining]
+[Do not pop up the window when joining a chat room]
 Neaktivovat okno po příchodu do místnosti
 [Show contact statuses (if supported)]
 Zobrazit stav účastníků (je-li to podporováno)
@@ -653,10 +653,6 @@ Včera
 Odeslaný soubor
 [File received]
 Přijatý soubor
-[URL sent]
-Odeslaný odkaz
-[URL received]
-Přijatý odkaz
 ;file \plugins\Scriver\src\msgoptions.cpp
 [Outgoing messages]
 Odchozí zprávy
@@ -682,10 +678,8 @@ Příchozí dvojtečka
 Oblast se zprávou
 [Input area background]
 Pozadí psaní zprávy
-[Outgoing URL]
-Odchozí odkaz
-[Incoming URL]
-Příchozí odkaz
+[Unused]
+
 [Info bar contact name]
 Jméno v informační liště
 [Info bar background]

@@ -251,16 +251,12 @@ Počet položek historie ke smazání: %d.\nJste si jistí, že chcete pokračov
 Zpráva
 [File transfer]
 Přenos souboru
-[Link]
-Adresa
 [Authorization request]
 Žádost o autorizaci
 [You were added]
 Byli jste přidáni
 [Contacts received]
 Přijaty kontakty
-[SMS message]
-Zpráva SMS
 [Group list]
 Seznam skupin
 [Messages]

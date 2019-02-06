@@ -298,7 +298,7 @@
 Показувати тему чат-кімнати в списку контактів (якщо підтримується)
 [Do not play sounds when focused]
 Без звуків, якщо вікно чату активне
-[Do not pop up when joining]
+[Do not pop up the window when joining a chat room]
 Не відкривати вікно чату при вході до кімнати
 [Show contact statuses (if supported)]
 Показувати значки статусів (якщо підтримується протоколом)
@@ -653,10 +653,6 @@ ID поточного контакту (якщо визначено). Напри
 Надіслано файл
 [File received]
 Отримано файл
-[URL sent]
-Надіслано посилання
-[URL received]
-Отримано посилання
 ;file \plugins\Scriver\src\msgoptions.cpp
 [Outgoing messages]
 Вихідні повідомлення
@@ -682,10 +678,8 @@ ID поточного контакту (якщо визначено). Напри
 Поле вводу повідомлення
 [Input area background]
 Фон поля вводу
-[Outgoing URL]
-Вихідний URL
-[Incoming URL]
-Вхідний URL
+[Unused]
+
 [Info bar contact name]
 Інфо-панель: ім'я контакту
 [Info bar background]

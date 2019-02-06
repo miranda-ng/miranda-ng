@@ -122,26 +122,14 @@ HistoryStats - Филтриране на думи/съобщения
 ;file \plugins\HistoryStats\src\column_events.cpp
 [Events to count]
 Събития за броене
-[URLs (incoming)]
-Входящи URL адреси
-[URLs (outgoing)]
-Изходящи URL адреси
-[URLs (all)]
-Всички URL адреси
 [Files (incoming)]
 Входящи файлове
 [Files (outgoing)]
 Изходящи файлове
 [Files (all)]
 Всички файлове
-[URLs]
-URL адреси
 [Files]
 Файлове
-[Incoming URLs]
-Входящи URL адреси
-[Outgoing URLs]
-Изходящи URL адреси
 [Incoming files]
 Входящи файлове
 [Outgoing files]

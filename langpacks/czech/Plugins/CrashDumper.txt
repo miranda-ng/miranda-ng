@@ -26,12 +26,12 @@ Heslo
 Nahrát na server automaticky při změně
 [Crash reports]
 Výpisy chyb
-[Use classic dates]
-Použít klasický formát data
-[Create reports in subfolders naming as current date]
-Vytvářet výpisy chyb v podsložkách s názvem aktuálního data
 [Generate crash reports]
 Vytvářet výpisy chyb
+[Create reports in subfolders naming as current date]
+Vytvářet výpisy chyb v podsložkách s názvem aktuálního data
+[Use classic dates]
+Použít klasický formát data
 [* You need to restart Miranda NG to apply changes]
 * Je vyžadován restart Mirandy NG pro uvedení změn v platnost
 [View]

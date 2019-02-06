@@ -1,6 +1,5 @@
 [Minimum chat duration]
 [[Sum] #{amount}]
-[Outgoing URLs]
 [Outgoing files]
 [Incoming characters]
 [Outgoing characters]

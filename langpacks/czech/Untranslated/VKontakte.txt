@@ -40,7 +40,6 @@
 [Mentions in comments]
 [Accepted friend requests]
 [Open VKontakte site]
-[Hide chats on startup]
 [Sync read message status from server]
 [Force invisible status upon user activity]
 [Invisible interval timeout (min):]

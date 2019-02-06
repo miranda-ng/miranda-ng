@@ -79,6 +79,8 @@ Kopieren
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 [Miranda database contains %d events]
 Miranda-Datenbank enthält %d Ereignisse
+[Failed to open file]
+Konnte die Datei nicht öffnen
 [Search string was not found!]
 Suchpfad wurde nicht gefunden!
 [Save as RTF]
@@ -179,8 +181,6 @@ Homepage
 Benutzer
 [Protocol]
 Protokoll
-[URL: ]
-URL:\s
 [File: ]
 Datei:\s
 [Description: ]
@@ -203,12 +203,6 @@ Der folgende User hat eine Authorisationsanfrage gestellt
 Der folgende User hat dich seiner Kontaktliste hinzugefügt
 [UIN       :]
 UIN        :
-[EmailExpress from:]
-EmailExpress von:
-[WebPager from:]
-WebPager von:
-[No from address]
-Keine von Adresse
 [Unknown event type %d, size %d]
 Unbekannter Ereignistyp %d, Größe %d.
 [User has been deleted. Do you want to delete the file?]

@@ -811,8 +811,6 @@ Nazwa:
 Włącz dźwięki wydarzeń
 [The following events are being ignored:]
 Następujące zdarzenia są ignorowane:
-[URLs]
-Linki
 [Files]
 Pliki
 [Online notification]
@@ -1763,10 +1761,6 @@ Nieprawidłowa wiadomość
 Wychodząca wiadomość
 [Incoming message]
 Przychodząca wiadomość
-[Outgoing URL]
-Wychodzący link
-[Incoming URL]
-Przychodzący link
 [Outgoing file]
 Wychodzący plik
 [Incoming file]
@@ -1888,8 +1882,8 @@ Dodanie kontaktu
 ;file \src\mir_app\src\chat_clist.cpp
 [&Join chat]
 &Dołącz do czatu
-[&Open chat window]
-&Otwórz okno czatu
+[&Open/close chat window]
+
 ;file \src\mir_app\src\chat_log.cpp
 [%s has joined]
 %s dołączył(a)
@@ -2637,10 +2631,8 @@ Pusta kropka
 Wtyczka Unicode
 [ANSI plugin]
 Wtyczka ANSI
-[Running plugin]
-Uruchomione wtyczki
-[Unloaded plugin]
-Niezaładowane wtyczki
+[Unused]
+
 [Show/Hide]
 Pokaż/Ukryj
 [Exit]
@@ -2655,10 +2647,6 @@ Przenieś do grupy
 Wł.
 [Off]
 Wył.
-[Running core plugin]
-Uruchomiona wtyczka rdzenia
-[Non-loadable plugin]
-Nie uruchamialne wtyczki
 [Frames]
 Ramki
 [Add group]
@@ -3204,3 +3192,11 @@ Mapa bitowa PNG
 ;file \src\mir_core\src\timezones.cpp
 [<unspecified>]
 <nieokreślony>
+;file \include\m_message.h
+[Message window toolbar]
+
+;file \include\m_popup.h
+[Do nothing]
+Nic nie rób
+[Dismiss popup]
+Odrzuć popup

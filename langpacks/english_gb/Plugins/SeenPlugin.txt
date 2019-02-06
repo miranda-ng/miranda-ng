@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SeenPlugin.dll
 ;  Plugin: Last seen
-;  Version: 5.0.5.3
+;  Version: 5.0.5.4
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 [Popup Colors]

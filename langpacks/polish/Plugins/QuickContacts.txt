@@ -43,8 +43,6 @@ Pokaż wszystkie kontakty
 Wyślij wiadomość
 [Send file]
 Wyślij plik
-[Send URL]
-Wyślij link
 [Open user info]
 Otwórz dane kontaktu
 [Open history]

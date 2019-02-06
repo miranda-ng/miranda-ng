@@ -251,15 +251,11 @@ opcije
 Poruka
 [File transfer]
 
-[Link]
-Link
 [Authorization request]
 Zahtjev za prihvaćanje
 [You were added]
 Dodani ste.
 [Contacts received]
-
-[SMS message]
 
 [Group list]
 

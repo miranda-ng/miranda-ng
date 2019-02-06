@@ -298,8 +298,8 @@ Buttonkontextmenüs nutzen
 Thema in Kontaktliste zeigen (falls unterstützt)
 [Do not play sounds when focused]
 Keine Klänge abspielen, wenn im Vordergrund
-[Do not pop up when joining]
-Beim Betreten nicht in den Vordergrund holen
+[Do not pop up the window when joining a chat room]
+Fenster nicht automatisch anzeigen, wenn man einen Raum betritt
 [Show contact statuses (if supported)]
 Kontaktstatus zeigen (falls unterstützt)
 [Display contact status icon before role icon]
@@ -653,10 +653,6 @@ Gestern
 Datei gesendet
 [File received]
 Datei empfangen
-[URL sent]
-URL gesendet
-[URL received]
-URL empfangen
 ;file \plugins\Scriver\src\msgoptions.cpp
 [Outgoing messages]
 Ausgehende Nachrichten
@@ -682,10 +678,8 @@ Eingehender Doppelpunkt
 Nachrichtenbereich
 [Input area background]
 Nachrichteneingabefeld Hintergrund
-[Outgoing URL]
-Ausgehende URL
-[Incoming URL]
-Eingehende URL
+[Unused]
+
 [Info bar contact name]
 Statusleisten Kontaktname
 [Info bar background]

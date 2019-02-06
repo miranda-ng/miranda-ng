@@ -890,6 +890,10 @@ Erreur de favori Jabber
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 [%s, %d items (%s)]
 %s, %d éléments (%s)
+[Reason to ban]
+Raison du ban
+[Removing %s?]
+
 [Voice List]
 
 [Member List]
@@ -901,10 +905,6 @@ Liste des Ban
 [Admin List]
 Liste des admins
 [Owner List]
-
-[Reason to ban]
-Raison du ban
-[Removing %s?]
 
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Http authentication request received]
@@ -1451,7 +1451,7 @@ Accepter automatiquement les invitations des utilisateurs d'une conférence
 
 [Automatically join conferences on login]
 Rejoindre automatiquement une conférence à la connexion
-[Hide conference windows at startup]
+[Do not open chat windows on creation]
 
 [Do not show multiuser chat invitations]
 

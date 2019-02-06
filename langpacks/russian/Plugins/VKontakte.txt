@@ -118,8 +118,8 @@ E-mail или номер телефона:
 Открыть страницу ВКонтакте
 [Advanced]
 Дополнительно
-[Hide chats on startup]
-Не открывать окна комнат чата при входе
+[Do not open chat windows on creation]
+Не открывать окна комнат чата при создании
 [Sync read message status from server]
 Синхронизировать статус прочтения с сервером
 [Always notify as unread for all incoming message]

@@ -171,8 +171,6 @@ Recuperando %s mensaje(s)...
 
 [Message]
 Mensaje
-[URL]
-URL
 [File]
 Archivo
 [** All contacts **]

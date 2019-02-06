@@ -251,15 +251,11 @@ Error
 Mensaje
 [File transfer]
 Transferencia de archivos
-[Link]
-Enlace
 [Authorization request]
 Solicitud de autorización
 [You were added]
 Usted fue añadido
 [Contacts received]
-
-[SMS message]
 
 [Group list]
 

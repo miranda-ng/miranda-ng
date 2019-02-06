@@ -122,26 +122,14 @@ Graficzny podgląd czasu rozmowy z danym kontaktem.
 ;file \plugins\HistoryStats\src\column_events.cpp
 [Events to count]
 Zdarzenia do sumowania
-[URLs (incoming)]
-Linki (przychodzące)
-[URLs (outgoing)]
-Linki (wychodzące)
-[URLs (all)]
-Linki (wszystkie)
 [Files (incoming)]
 Pliki (przychodzące)
 [Files (outgoing)]
 Pliki (wychodzące)
 [Files (all)]
 Pliki (wszystkie)
-[URLs]
-Linki
 [Files]
 Pliki
-[Incoming URLs]
-Przychodzące linki
-[Outgoing URLs]
-Wychodzące linki
 [Incoming files]
 Przychodzące pliki
 [Outgoing files]

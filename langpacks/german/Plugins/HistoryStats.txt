@@ -122,26 +122,14 @@ Spalte mit der Zeit, die man durchgängig mit einem Kontakt gechattet hat.
 ;file \plugins\HistoryStats\src\column_events.cpp
 [Events to count]
 Zu zählende Ereignisse
-[URLs (incoming)]
-URLs (eingehend)
-[URLs (outgoing)]
-URLs (ausgehend)
-[URLs (all)]
-URLs (alle)
 [Files (incoming)]
 Dateien (eingehend)
 [Files (outgoing)]
 Dateien (ausgehend)
 [Files (all)]
 Dateien (alle)
-[URLs]
-URLs
 [Files]
 Dateien
-[Incoming URLs]
-Eingehende URLs
-[Outgoing URLs]
-Ausgehende URLs
 [Incoming files]
 Eingehende Dateien
 [Outgoing files]

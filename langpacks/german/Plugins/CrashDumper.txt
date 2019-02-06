@@ -26,12 +26,12 @@ Passwort
 Bei Änderungen automatisch hochladen
 [Crash reports]
 Absturzberichte
-[Use classic dates]
-Klassische Datumsanzeige verwenden
-[Create reports in subfolders naming as current date]
-Absturzberichte in Unterordner mit Zeitanzeige erstellen
 [Generate crash reports]
 Absturzberichte erstellen
+[Create reports in subfolders naming as current date]
+Absturzberichte in Unterordner mit Zeitanzeige erstellen
+[Use classic dates]
+Klassische Datumsanzeige verwenden
 [* You need to restart Miranda NG to apply changes]
 * Sie müssen Miranda NG neu starten damit diese Änderungen wirksam werden.
 [View]

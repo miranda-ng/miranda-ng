@@ -16,8 +16,6 @@
 
 [Incoming files]
 
-[Incoming URLs]
-
 [Everything else]
 
 [Message-Event only]
@@ -163,8 +161,6 @@ sekundi
 [The following events are being ignored:]
 
 [Ignore messages]
-
-[Ignore URLs]
 
 [Ignore files]
 

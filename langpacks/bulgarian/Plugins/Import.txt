@@ -76,8 +76,6 @@
 Само от:
 [Messages]
 Съобщения
-[URLs]
-URL адреси
 [File Transfers]
 Обмен на файлове
 [Other]

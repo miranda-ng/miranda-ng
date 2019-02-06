@@ -76,8 +76,6 @@
 Лише з:
 [Messages]
 Повідомлення
-[URLs]
-Посилання
 [File Transfers]
 Передачі файлів
 [Other]

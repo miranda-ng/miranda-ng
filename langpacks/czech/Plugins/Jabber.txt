@@ -890,6 +890,10 @@ Heslo nelze změnit.
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 [%s, %d items (%s)]
 %s, %d položek (%s)
+[Reason to ban]
+Důvod k zákazu
+[Removing %s?]
+Odebrání %s?
 [Voice List]
 Seznam lidí s uděleným hlasem
 [Member List]
@@ -902,10 +906,6 @@ Seznam zakázaných
 Seznam správců
 [Owner List]
 Seznam vlastníků
-[Reason to ban]
-Důvod k zákazu
-[Removing %s?]
-Odebrání %s?
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Http authentication request received]
 
@@ -1451,8 +1451,8 @@ Automaticky přijímat pozvánky do diskuse
 Po přihlášení automaticky připojit záložky
 [Automatically join conferences on login]
 Po přihlášení se automaticky připojit do diskuse
-[Hide conference windows at startup]
-Při spuštění skrýt diskusní skupiny
+[Do not open chat windows on creation]
+Neotevírat okno se skupinovým rozhovorem po jeho vytvoření
 [Do not show multiuser chat invitations]
 Ignorovat pozvánky do diskuse ve více lidech
 [Log events]

@@ -76,8 +76,6 @@ Sortant
 Seulement depuis :
 [Messages]
 Messages
-[URLs]
-Adresses URL
 [File Transfers]
 Transferts de fichiers
 [Other]

@@ -2631,10 +2631,8 @@ ID учётной записи
 Юникод плагин
 [ANSI plugin]
 ANSI плагин
-[Running plugin]
-Запущенный плагин
-[Unloaded plugin]
-Выгруженный плагин
+[Unused]
+Не используется
 [Show/Hide]
 Скрыть/показать
 [Exit]
@@ -2649,10 +2647,6 @@ ANSI плагин
 Вкл.
 [Off]
 Откл.
-[Running core plugin]
-Неотключаемый плагин ядра
-[Non-loadable plugin]
-Незагружаемый плагин
 [Frames]
 Фреймы
 [Add group]
@@ -3198,3 +3192,11 @@ ANSI плагин
 ;file \src\mir_core\src\timezones.cpp
 [<unspecified>]
 <не указано>
+;file \include\m_message.h
+[Message window toolbar]
+Панель кнопок окна сообщений
+;file \include\m_popup.h
+[Do nothing]
+Ничего не делать
+[Dismiss popup]
+Закрыть

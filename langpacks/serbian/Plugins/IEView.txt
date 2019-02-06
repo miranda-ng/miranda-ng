@@ -73,10 +73,6 @@ Prikaži sekunde
 
 [Incoming File Transfer]
 Pristigla datoteka
-[URL sent]
-
-[URL received]
-
 ;file \plugins\IEView\src\HTMLBuilder.cpp
 [(Unknown Contact)]
 (Nepoznat kontakt)

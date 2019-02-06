@@ -14,7 +14,6 @@
 [Show all contacts (Ctrl+A)]
 [Show all contacts]
 [Send message]
-[Send URL]
 [Open user info]
 [Open contact menu]
 [Quick Contacts]

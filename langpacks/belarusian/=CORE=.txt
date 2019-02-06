@@ -811,8 +811,6 @@
 Уключыць гукі падзей
 [The following events are being ignored:]
 Наступныя падзеі будуць праігнараваны:
-[URLs]
-Спасылкі
 [Files]
 Файлы
 [Online notification]
@@ -1763,10 +1761,6 @@ Miranda не здолела загрузіць убудаваную сістэм
 Выходнае паведамленне
 [Incoming message]
 Уваходнае паведамленне
-[Outgoing URL]
-Выходныя URL
-[Incoming URL]
-Уваходны URL
 [Outgoing file]
 Выходныя файл
 [Incoming file]
@@ -1888,8 +1882,8 @@ Miranda не здолела загрузіць убудаваную сістэм
 ;file \src\mir_app\src\chat_clist.cpp
 [&Join chat]
 Зайсці
-[&Open chat window]
-Адчыніць гутарку
+[&Open/close chat window]
+
 ;file \src\mir_app\src\chat_log.cpp
 [%s has joined]
 %s увайшоў
@@ -2637,10 +2631,8 @@ ID конта
 Юнікод плагін
 [ANSI plugin]
 ANSI плагін
-[Running plugin]
-Запушчаны плагін
-[Unloaded plugin]
-Выгружаны плагін
+[Unused]
+
 [Show/Hide]
 Схаваць/паказаць
 [Exit]
@@ -2655,10 +2647,6 @@ ANSI плагін
 Укл.
 [Off]
 Адкл.
-[Running core plugin]
-Дзейсны плагін ядра
-[Non-loadable plugin]
-Не загружваемы плагін
 [Frames]
 Фрэймы
 [Add group]
@@ -3204,3 +3192,11 @@ BMP
 ;file \src\mir_core\src\timezones.cpp
 [<unspecified>]
 <не пазначана>
+;file \include\m_message.h
+[Message window toolbar]
+
+;file \include\m_popup.h
+[Do nothing]
+Нічога не рабіць
+[Dismiss popup]
+Зачыніць вакно

@@ -14,7 +14,6 @@
 [Show all contacts (Ctrl+A)]
 [Show all contacts]
 [Send file]
-[Send URL]
 [Open user info]
 [Open history]
 [Open contact menu]

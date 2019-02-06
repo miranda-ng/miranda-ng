@@ -811,8 +811,6 @@ Name:
 Klänge aktivieren
 [The following events are being ignored:]
 Die folgenden Ereignisse werden ignoriert:
-[URLs]
-URLs
 [Files]
 Dateien
 [Online notification]
@@ -1763,10 +1761,6 @@ Ungültige Nachricht
 Ausgehende Nachricht
 [Incoming message]
 Eingehende Nachricht
-[Outgoing URL]
-Ausgehende URL
-[Incoming URL]
-Eingehende URL
 [Outgoing file]
 Ausgehende Datei
 [Incoming file]
@@ -1888,8 +1882,8 @@ Sie wurden von jemandem hinzugefügt
 ;file \src\mir_app\src\chat_clist.cpp
 [&Join chat]
 Chat &betreten
-[&Open chat window]
-Chatfenster &öffnen
+[&Open/close chat window]
+
 ;file \src\mir_app\src\chat_log.cpp
 [%s has joined]
 %s ist beigetreten
@@ -2637,10 +2631,8 @@ Leerer Klecks
 Unicode-Plugin
 [ANSI plugin]
 ANSI-Plugin
-[Running plugin]
-Plugin läuft
-[Unloaded plugin]
-Plugin deaktiviert
+[Unused]
+
 [Show/Hide]
 Anzeigen/Verstecken
 [Exit]
@@ -2655,10 +2647,6 @@ In Gruppe verschieben
 Ein
 [Off]
 Aus
-[Running core plugin]
-Geladenes Kern-Plugin
-[Non-loadable plugin]
-Nicht-ladbares Plugin
 [Frames]
 Frames
 [Add group]
@@ -3204,3 +3192,11 @@ PNG-Bilder
 ;file \src\mir_core\src\timezones.cpp
 [<unspecified>]
 <unspezifiziert>
+;file \include\m_message.h
+[Message window toolbar]
+
+;file \include\m_popup.h
+[Do nothing]
+Nichts tun
+[Dismiss popup]
+Popup schließen

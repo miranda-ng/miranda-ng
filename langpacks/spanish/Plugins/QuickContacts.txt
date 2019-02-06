@@ -43,8 +43,6 @@ Contactos
 Enviar mensaje
 [Send file]
 
-[Send URL]
-
 [Open user info]
 
 [Open history]

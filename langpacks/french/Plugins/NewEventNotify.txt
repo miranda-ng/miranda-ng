@@ -20,8 +20,6 @@ Aperçu d'évènement dans popup
 
 [Message]
 Message
-[URL]
-Lien
 [File]
 Fichier
 [Others]
@@ -91,8 +89,6 @@ Notification d'évènements
  demande une autorisation
 [This is a sample message event :-)]
 Ceci est un exemple de message  :-)
-[This is a sample URL event ;-)]
-Ceci est un exemple de lien  ;-)
 [This is a sample file event :-D]
 Ceci est un exemple de transfert de fichier  :-D
 [This is a sample other event ;-D]
@@ -108,14 +104,6 @@ Contacts
 Vous avez été ajouté !
 [Requests your authorization]
 Demande votre autorisation
-[ICQ Web pager]
-
-[ICQ Email express]
-
-[SMS Message]
-
-[SMS Confirmation]
-
 [Unknown Event]
 Évènement inconnu
 [Notify of new events]

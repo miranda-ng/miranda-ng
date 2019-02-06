@@ -251,16 +251,12 @@ dat (плагін mContacts)
 Повідомлення
 [File transfer]
 Передача файлу
-[Link]
-Посилання
 [Authorization request]
 Запит авторизації
 [You were added]
 Вас додали
 [Contacts received]
 Отримання контактів
-[SMS message]
-Повідомлення SMS
 [Group list]
 Список груп
 [Messages]

@@ -18,8 +18,8 @@ Passwort:
 Kontakte
 [Default group:]
 Standardgruppe:
-[Hide guild chats on startup]
-Gilden-Chats beim Start verbergen
+[Do not open chat windows on creation]
+Chatfenster bei der Erzeugung nicht öffnen
 [Use subgroups for guild's channels (requires restart)]
 Untergruppen für Gilden-Chats verwenden (erfordert Neustart)
 [Nick:]
@@ -38,8 +38,6 @@ Channel kontrollieren
 Channel &umbenennen
 [&Destroy channel]
 Channel &zerstören
-[&Invite a user]
-Benutzer e&inladen
 [Do you really want to destroy this channel? This action is non-revertable.]
 Möchten Sie diesen Channel wirklich zerstören? Diese Aktion kann nicht rückgängig gemacht werden.
 [Enter new channel name:]

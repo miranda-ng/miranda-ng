@@ -890,6 +890,10 @@ xHTML-формат повідомлень чату
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 [%s, %d items (%s)]
 %s, %d пунктів (%s)
+[Reason to ban]
+Причина бану
+[Removing %s?]
+Видалити %s?
 [Voice List]
 Список учасників
 [Member List]
@@ -902,10 +906,6 @@ xHTML-формат повідомлень чату
 Список адмінів
 [Owner List]
 Список власників
-[Reason to ban]
-Причина бану
-[Removing %s?]
-Видалити %s?
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Http authentication request received]
 Отримано запит HTTP-авторизації
@@ -1451,8 +1451,8 @@ xHTML-формат повідомлень чату
 Автоматично заходити в закладки
 [Automatically join conferences on login]
 Автоматично заходити в чат-кімнати при вході
-[Hide conference windows at startup]
-Не відкривати вікна чат-кімнат при вході
+[Do not open chat windows on creation]
+Не відкривати вікно чату при створенні
 [Do not show multiuser chat invitations]
 Не показувати запрошення до чатів
 [Log events]

@@ -71,16 +71,12 @@ Zkopírovat rozšířený stav
 Všechno
 [Messages]
 Zprávy
-[URL]
-Odkaz
 [Files]
 Soubory
 [User Online]
 Uživatel online
 [Authorization]
 Autorizace
-[You Were Added]
-Zpráva o zařazení mezi kontakty
 [Typing Notify]
 Psaní zprávy
 [Please authorize me to add you to my contact list.]

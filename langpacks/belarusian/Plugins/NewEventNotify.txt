@@ -20,8 +20,6 @@
 Налады ўсплывальных вокнаў
 [Message]
 Паведамленне
-[URL]
-Спасылка
 [File]
 Файл
 [Others]
@@ -91,8 +89,6 @@
  запытаў(ла) аўтарызацыю
 [This is a sample message event :-)]
 Гэта прыклад паведамлення :-)\n
-[This is a sample URL event ;-)]
-Гэта прыклад URL ;-)
 [This is a sample file event :-D]
 Прыклад файла :-D
 [This is a sample other event ;-D]
@@ -108,14 +104,6 @@
 Вас дадалі
 [Requests your authorization]
 Запыт вашай аўтарызацыі
-[ICQ Web pager]
-
-[ICQ Email express]
-
-[SMS Message]
-Паведамленне SMS
-[SMS Confirmation]
-
 [Unknown Event]
 Невядомая падзея
 [Notify of new events]

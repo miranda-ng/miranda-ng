@@ -16,8 +16,6 @@
 Вхідні повідомлення
 [Incoming files]
 Вхідні файли
-[Incoming URLs]
-Вхідні URL
 [Everything else]
 Інші події
 [Message-Event only]
@@ -164,8 +162,6 @@ xСтатуси
 Ці події ігноруватимуться:
 [Ignore messages]
 Повідомлення
-[Ignore URLs]
-Посилання (URL)
 [Ignore files]
 Файли
 [Ignore others]

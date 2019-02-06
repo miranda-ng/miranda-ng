@@ -16,8 +16,6 @@
 Входящите съобщения
 [Incoming files]
 Входящи файлове
-[Incoming URLs]
-Входящи URL адреси
 [Everything else]
 
 [Message-Event only]
@@ -164,8 +162,6 @@ URL събития
 Следните събития ще бъдат игнорирани:
 [Ignore messages]
 Игнорирай съобщения
-[Ignore URLs]
-Игнорирай URL адреси
 [Ignore files]
 Игнорирай файлове
 [Ignore others]

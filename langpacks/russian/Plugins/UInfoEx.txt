@@ -123,7 +123,7 @@
 [Play sound]
 Играть звук
 [Use ignore list]
-Использовать список игнорирования
+Использовать список игнорируемых
 [Birthday popup colors]
 Настройка дней рождения
 [Background color]

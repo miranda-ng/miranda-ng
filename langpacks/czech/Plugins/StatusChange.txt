@@ -36,8 +36,6 @@ Odeslání
 Přijetí
 [Message]
 Zpráva
-[URL]
-Odkaz
 [File transfer]
 Přenos souboru
 [...change status to...]

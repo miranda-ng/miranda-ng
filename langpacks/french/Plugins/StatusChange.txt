@@ -36,8 +36,6 @@ Parti manger
 
 [Message]
 Message
-[URL]
-Lien
 [File transfer]
 Transfert de fichiers
 [...change status to...]

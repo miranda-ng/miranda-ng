@@ -48,8 +48,6 @@ Nevidljiv
 
 [Incoming message]
 Dolazna poruka
-[Incoming URL]
-Dolazni link
 [Incoming File]
 Dolazna datoteka
 [Authorization request]
@@ -96,8 +94,6 @@ Ukloni
 
 ;file \plugins\WinterSpeak\src\EventInformation.cpp
 [incoming message from %u]
-
-[incoming URL from %u]
 
 [you have been added to %u's contact list]
 

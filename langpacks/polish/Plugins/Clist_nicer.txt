@@ -382,50 +382,6 @@ Pobierz więcej skórek
 Załaduj skórkę z pliku
 [Export to skin file]
 Eksportuj do pliku skórki
-[Dialog]
-Okno
-[Ignore these events]
-Ignorowane zdarzenia
-[Messages]
-Wiadomości
-[Incoming file transfers]
-Przychodzące transfery
-[URL events]
-Linki
-[Suppress auth requests]
-Prośby o autoryzację
-[Suppress added notifications]
-Powiadomienie o dodaniu
-[Suppress online notifications]
-Zmiany statusu
-[Ignore all]
-Ignoruj wszystkie
-[Ignore none]
-Nie ignoruj
-[Visibility]
-Widoczność
-[Appear always online]
-Zawsze dostępny
-[Appear always offline (block contact)]
-Zawsze rozłączony (kontakt zablokowany)
-[Other]
-Inne
-[Hide this contact from the list]
-Ukryj kontakt na liście kontaktów
-[To show a previously hidden contact, navigate to Options -> Contacts -> Ignore, search the contact in the list and tick the checkbox next to its name.]
-Aby wyświetlić wcześniej ukryty kontakt, przejdź do Opcje -> Kontakty -> Ignorowanie, wyszukaj kontakt na liście i zaznacz pole wyboru obok jego nazwy.
-[Display options]
-Opcje wyświetlania
-[Show contact with priority]
-Pokaż według priorytetu
-[Show avatar:]
-Pokaż awatar:
-[Show 2nd line:]
-Pokaż drugą linię:
-[Draw overlay icon on avatar]
-Rysuj nakładkę na awatarze
-[Show local time]
-Pokaż czas kontaktu
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 Pokaż menu
@@ -527,25 +483,6 @@ Skórki
 ;file \plugins\Clist_nicer\src\clcpaint.cpp
 [No events...]
 Brak zdarzeń...
-;file \plugins\Clist_nicer\src\clistmenus.cpp
-[Add permanently]
-Dodaj na stałe
-[Revert to default]
-Przywróć domyślne
-[Default (global setting)]
-Domyślny (ustawienia globalne)
-[Show always when available]
-Pokaż zawsze kiedy dostępny
-[Hide always]
-Zawsze ukryty
-[When space is available]
-Gdy jest dostępna przestrzeń
-[When needed by status message]
-Gdy potrzebna na opis
-[Contact list display and ignore options for %s]
-Opcje wyświetlania i ignorowania dla %s
-[&Contact list settings...]
-&Ustawienia kontaktu
 ;file \plugins\Clist_nicer\src\clistopts.cpp
 [Global]
 Globalne

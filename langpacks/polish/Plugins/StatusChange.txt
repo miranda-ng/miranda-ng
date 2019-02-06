@@ -36,8 +36,6 @@ Wysyłając
 Otrzymując
 [Message]
 Wiadomość
-[URL]
-Link
 [File transfer]
 Transfer pliku
 [...change status to...]

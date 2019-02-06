@@ -72,8 +72,6 @@ Dolazne poruke
 
 [Contact changes status]
 
-[Incoming URL]
-Dolazni link
 [Contact list events]
 
 [Incoming file transfers]

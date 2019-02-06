@@ -811,8 +811,6 @@ Zahtjev za prihvaćanje
 
 [The following events are being ignored:]
 
-[URLs]
-
 [Files]
 
 [Online notification]
@@ -1763,10 +1761,6 @@ Prika&ži/sakrij popis nadimaka
 
 [Incoming message]
 
-[Outgoing URL]
-
-[Incoming URL]
-
 [Outgoing file]
 
 [Incoming file]
@@ -1888,7 +1882,7 @@ Prika&ži/sakrij popis nadimaka
 ;file \src\mir_app\src\chat_clist.cpp
 [&Join chat]
 
-[&Open chat window]
+[&Open/close chat window]
 
 ;file \src\mir_app\src\chat_log.cpp
 [%s has joined]
@@ -2637,10 +2631,8 @@ prazni blob
 unicode kodirani dodatak
 [ANSI plugin]
 Dodatak u kodiranju ansi
-[Running plugin]
-Pokrenuti Dodatak
-[Unloaded plugin]
-Ugašen dodatak
+[Unused]
+
 [Show/Hide]
 Prikaži / Sakrij
 [Exit]
@@ -2655,10 +2647,6 @@ Premjesti na grupu
 Uključen
 [Off]
 isključen
-[Running core plugin]
-Pokrenut glavni dodatak
-[Non-loadable plugin]
-Dodatak koji nije moguće pokrenuti
 [Frames]
 Okviri
 [Add group]
@@ -3204,3 +3192,11 @@ png bitmapovi
 ;file \src\mir_core\src\timezones.cpp
 [<unspecified>]
 nespecificirano
+;file \include\m_message.h
+[Message window toolbar]
+
+;file \include\m_popup.h
+[Do nothing]
+
+[Dismiss popup]
+

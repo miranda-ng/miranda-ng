@@ -43,8 +43,6 @@
 Надіслати
 [Send file]
 Надіслати файл
-[Send URL]
-Надіслати URL
 [Open user info]
 Інформація користувача
 [Open history]

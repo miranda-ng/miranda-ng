@@ -298,8 +298,8 @@ Groupe chats
 
 [Do not play sounds when focused]
 
-[Do not pop up when joining]
-
+[Do not pop up the window when joining a chat room]
+Ne pas afficher automatiquement la fenêtre en joignant un salon
 [Show contact statuses (if supported)]
 
 [Display contact status icon before role icon]
@@ -653,10 +653,6 @@ Menu contact - %s
 Fichier envoyé
 [File received]
 Fichier reçu
-[URL sent]
-
-[URL received]
-
 ;file \plugins\Scriver\src\msgoptions.cpp
 [Outgoing messages]
 Messages envoyés
@@ -682,10 +678,8 @@ Heure entrante
 Zone de message
 [Input area background]
 
-[Outgoing URL]
-Lien envoyé
-[Incoming URL]
-Lien reçu
+[Unused]
+
 [Info bar contact name]
 
 [Info bar background]

@@ -38,8 +38,6 @@ Klienti ICQ
 Klienti IRC
 [Jabber clients]
 Klienti Jabber
-[MRA clients]
-Klienti MRA
 [MSN clients]
 Klienti MSN
 [QQ clients]
@@ -93,10 +91,6 @@ spamovací klient
 PHP Jabber Client
 [MP3 Script for mIRC]
 MP3 skript pro mIRC
-[Mail.Ru Agent (official)]
-Mail.Ru Agent (oficiální)
-[Mail.Ru (unknown client)]
-Mail.Ru (neznámý klient)
 [TM 2008 and >]
 TM 2008 a novější
 [Gadu-Gadu client]
@@ -128,8 +122,6 @@ Nezjištěný klient
 [MSN overlay]
 
 [QQ overlay]
-
-[Mail.Ru Agent overlay]
 
 [VK overlay]
 

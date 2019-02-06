@@ -16,8 +16,6 @@ Auf folgende Ereignisse reagieren
 Eingehende Nachrichten
 [Incoming files]
 Eingehende Dateien
-[Incoming URLs]
-Eingehende URLs
 [Everything else]
 Der ganze Rest
 [Message-Event only]
@@ -164,8 +162,6 @@ Eigenes Theme verwenden
 Die folgenden Ereignisse werden ignoriert:
 [Ignore messages]
 Nachrichten ignorieren
-[Ignore URLs]
-URLs ignorieren
 [Ignore files]
 Dateien ignorieren
 [Ignore others]

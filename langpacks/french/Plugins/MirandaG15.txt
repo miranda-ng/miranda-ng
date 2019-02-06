@@ -72,8 +72,6 @@ Messages reçus
 
 [Contact changes status]
 
-[Incoming URL]
-Lien reçu
 [Contact list events]
 
 [Incoming file transfers]

@@ -171,8 +171,6 @@ Preuzimanje poruke od "%s"...
 
 [Message]
 Poruka
-[URL]
-Link
 [File]
 Datoteka
 [** All contacts **]

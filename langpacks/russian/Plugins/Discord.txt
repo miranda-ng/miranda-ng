@@ -18,8 +18,8 @@
 Контакты
 [Default group:]
 Группа:
-[Hide guild chats on startup]
-Не открывать окно чата при входе в комнату чата
+[Do not open chat windows on creation]
+Не открывать окна комнат чата при создании
 [Use subgroups for guild's channels (requires restart)]
 Создавать подгруппы для каждого сервера (требуется перезапуск)
 [Nick:]

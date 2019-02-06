@@ -26,12 +26,12 @@ Hasło:
 Wyślij automatycznie kiedy nastąpi zmiana
 [Crash reports]
 Raporty o błędach
-[Use classic dates]
-Użyj klasycznych dat
-[Create reports in subfolders naming as current date]
-Twórz raporty w podfolderach używając bieżącej daty
 [Generate crash reports]
 Generuj raporty o błędach
+[Create reports in subfolders naming as current date]
+Twórz raporty w podfolderach używając bieżącej daty
+[Use classic dates]
+Użyj klasycznych dat
 [* You need to restart Miranda NG to apply changes]
 Musisz uruchomić Mirandę ponownie, aby zastosować zmiany
 [View]

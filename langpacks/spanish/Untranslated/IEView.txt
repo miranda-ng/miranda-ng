@@ -24,8 +24,6 @@
 [Use relative timestamp]
 [Download more templates]
 [Outgoing File Transfer]
-[URL sent]
-[URL received]
 [ requested authorization]
 [ was added.]
 [RTL On]

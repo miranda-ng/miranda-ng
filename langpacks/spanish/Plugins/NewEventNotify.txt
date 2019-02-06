@@ -20,8 +20,6 @@
 
 [Message]
 Mensaje
-[URL]
-URL
 [File]
 Archivo
 [Others]
@@ -91,8 +89,6 @@ Ventanas emergentes
 
 [This is a sample message event :-)]
 
-[This is a sample URL event ;-)]
-
 [This is a sample file event :-D]
 
 [This is a sample other event ;-D]
@@ -107,14 +103,6 @@ Contactos
 [You were added!]
 
 [Requests your authorization]
-
-[ICQ Web pager]
-
-[ICQ Email express]
-
-[SMS Message]
-
-[SMS Confirmation]
 
 [Unknown Event]
 

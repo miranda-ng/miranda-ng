@@ -71,16 +71,12 @@ Siempre visible
 Todo
 [Messages]
 Mensajes
-[URL]
-URL
 [Files]
 Archivos
 [User Online]
 Usuario en línea
 [Authorization]
 Autorización
-[You Were Added]
-Usted fue añadido
 [Typing Notify]
 Notificación de escritura
 [Please authorize me to add you to my contact list.]

@@ -79,6 +79,8 @@ UTF8 за нови файлове
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 [Miranda database contains %d events]
 
+[Failed to open file]
+
 [Search string was not found!]
 Търсеният низ не е намерен!
 [Save as RTF]
@@ -179,8 +181,6 @@ Miranda NG (приставка Message Export)
 Потребител
 [Protocol]
 Протокол
-[URL: ]
-URL:
 [File: ]
 Файл:
 [Description: ]
@@ -203,12 +203,6 @@ URL:
 Следният потребител Ви добави към списъка си контакти:
 [UIN       :]
 UIN        :
-[EmailExpress from:]
-EmailExpress от:
-[WebPager from:]
-WebPager от:
-[No from address]
-
 [Unknown event type %d, size %d]
 Неизвестен тип събитие %d, размер %d
 [User has been deleted. Do you want to delete the file?]

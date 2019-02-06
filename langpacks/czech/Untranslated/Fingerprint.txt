@@ -16,7 +16,6 @@
 [Jabber overlay]
 [MSN overlay]
 [QQ overlay]
-[Mail.Ru Agent overlay]
 [VK overlay]
 [Skype overlay]
 [ICQ 2003 overlay]

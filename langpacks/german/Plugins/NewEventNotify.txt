@@ -20,8 +20,6 @@ Vorschau des Ereignisses im Popup
 Popup-Einstellungen
 [Message]
 Nachricht
-[URL]
-URL
 [File]
 Datei
 [Others]
@@ -91,8 +89,6 @@ Ereignismeldungen
  fragte Autorisierung an
 [This is a sample message event :-)]
 Dieses ist ein Beispiel-Popup für Nachrichten
-[This is a sample URL event ;-)]
-Dieses ist ein Beispiel-Popup für den Empfang einer URL
 [This is a sample file event :-D]
 Dieses ist ein Beispiel-Popup für einen Dateitransfer
 [This is a sample other event ;-D]
@@ -108,14 +104,6 @@ Kontakte
 Sie wurden hinzugefügt!
 [Requests your authorization]
 Erbittet Ihre Autorisation
-[ICQ Web pager]
-ICQ Web pager
-[ICQ Email express]
-ICQ-E-Mail-Express
-[SMS Message]
-SMS-Nachricht
-[SMS Confirmation]
-SMS-Bestätigung
 [Unknown Event]
 Unbekanntes Ereignis
 [Notify of new events]

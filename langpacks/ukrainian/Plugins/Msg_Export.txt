@@ -79,6 +79,8 @@ UTF8 у нових файлах
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 [Miranda database contains %d events]
 
+[Failed to open file]
+
 [Search string was not found!]
 Рядок не знайдено!
 [Save as RTF]
@@ -179,8 +181,6 @@ UTF8 у нових файлах
 Користувач
 [Protocol]
 Протокол
-[URL: ]
-Посилання:\s
 [File: ]
 Файл:\s
 [Description: ]
@@ -203,12 +203,6 @@ UTF8 у нових файлах
 Користувач додав вас у свій список контактів:
 [UIN       :]
 
-[EmailExpress from:]
-EmailExpress від:
-[WebPager from:]
-WebPager від:
-[No from address]
-без адреси
 [Unknown event type %d, size %d]
 Невідомий тип події %d, розмір %d
 [User has been deleted. Do you want to delete the file?]

@@ -71,16 +71,12 @@ Uvek vidljiv
 
 [Messages]
 Poruke
-[URL]
-Link
 [Files]
 Datoteke
 [User Online]
 Korisnik na vezi
 [Authorization]
 
-[You Were Added]
-Vaš kontakt je dodat
 [Typing Notify]
 Obaveštenja o kucanju
 [Please authorize me to add you to my contact list.]

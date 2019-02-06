@@ -171,8 +171,6 @@ Sie können Ihre häufig verwendeten und bevorzugten Nachrichten hier ablegen.
 Wenn diese Einstellung aktiviert ist dann zählt NewAwaySys seit der letzten Statusnachrichtenänderung, auch wenn der Statusmodus nicht geändert wurde.\nWenn diese Einstellung nicht aktiviert ist dann wird seit der letzten Statusmodusänderung gezählt (d.h. deaktivierter Zustand ist restriktiver).
 [Message]
 Nachricht
-[URL]
-URL
 [File]
 Datei
 [** All contacts **]

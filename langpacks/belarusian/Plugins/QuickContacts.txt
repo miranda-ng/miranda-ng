@@ -43,8 +43,6 @@
 Адправіць
 [Send file]
 Перадаць файл
-[Send URL]
-Адправіць спасылку
 [Open user info]
 Інфармацыя
 [Open history]

@@ -18,8 +18,8 @@ Heslo:
 Kontakty
 [Default group:]
 Výchozí skupina:
-[Hide guild chats on startup]
-
+[Do not open chat windows on creation]
+Neotevírat okno se skupinovým rozhovorem po jeho vytvoření
 [Use subgroups for guild's channels (requires restart)]
 
 [Nick:]
@@ -38,8 +38,6 @@ Změ&nit přezdívku
 
 [&Destroy channel]
 
-[&Invite a user]
-Pozvat už&ivatele
 [Do you really want to destroy this channel? This action is non-revertable.]
 
 [Enter new channel name:]

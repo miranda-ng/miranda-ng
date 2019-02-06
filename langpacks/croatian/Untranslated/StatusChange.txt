@@ -12,7 +12,6 @@
 [On events...]
 [Send]
 [Receive]
-[URL]
 [File transfer]
 [...change status to...]
 [...if status is...]

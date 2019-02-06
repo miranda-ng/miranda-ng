@@ -43,8 +43,6 @@ Alle Kontakte zeigen
 Nachricht senden
 [Send file]
 Datei senden
-[Send URL]
-URL senden
 [Open user info]
 Benutzerprofil öffnen
 [Open history]

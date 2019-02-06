@@ -452,8 +452,6 @@ Uložit změny
 Protokol '%s' je offline
 [You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
 Informace na serveru lze aktualizovat až po připojení\nk síti ICQ. Do té doby budou provedené změny uloženy\npouze lokálně, do databáze Mirandy.
-[Uploading]
-Nahrávám
 [Creating the image list failed!]
 Nepodařilo se vytvořit seznam obrázků!
 [Could not find contact's protocol. Maybe it is not active!]

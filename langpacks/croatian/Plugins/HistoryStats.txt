@@ -122,25 +122,13 @@
 ;file \plugins\HistoryStats\src\column_events.cpp
 [Events to count]
 
-[URLs (incoming)]
-
-[URLs (outgoing)]
-
-[URLs (all)]
-
 [Files (incoming)]
 
 [Files (outgoing)]
 
 [Files (all)]
 
-[URLs]
-
 [Files]
-
-[Incoming URLs]
-
-[Outgoing URLs]
 
 [Incoming files]
 

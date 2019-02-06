@@ -171,8 +171,6 @@ W tej kategorii możesz umieścić swoje często używane i ulubione opisy.
 Gdy to pole jest zaznaczone, NewAwaySys liczy wysłania od ostatniej zmiany opisu, nawet jeśli status się nie zmieni\nGdy to pole nie jest zaznaczone, wysłania liczone są od ostatniej zmiany statusu (tak więc stan wyłączony jest bardziej restrykcyjny)
 [Message]
 Wiadomości
-[URL]
-Linków
 [File]
 Plików
 [** All contacts **]

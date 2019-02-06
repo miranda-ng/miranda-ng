@@ -21,6 +21,7 @@
 [Reposts]
 [Mentions in comments]
 [Accepted friend requests]
+[Do not open chat windows on creation]
 [Sync read message status from server]
 [Force invisible status upon user activity]
 [Invisible interval timeout (min):]

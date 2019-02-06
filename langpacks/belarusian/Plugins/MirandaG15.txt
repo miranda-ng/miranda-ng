@@ -72,8 +72,6 @@
 Кантакт адключаецца
 [Contact changes status]
 Кантакт мяняе статус
-[Incoming URL]
-Уваходны URL
 [Contact list events]
 Падзеі спісу кантактаў
 [Incoming file transfers]

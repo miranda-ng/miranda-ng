@@ -382,50 +382,6 @@
 Загрузіць з файла
 [Export to skin file]
 Захаваць у файл
-[Dialog]
-Гутарка
-[Ignore these events]
-Ігнараваць падзеі
-[Messages]
-Паведамленні
-[Incoming file transfers]
-Прыем файлаў
-[URL events]
-Спасылкі (URL)
-[Suppress auth requests]
-Замкне "Запыт аўтарызацыі"
-[Suppress added notifications]
-Забарона "Вас дадалі"
-[Suppress online notifications]
-Забарона "Далучаны"
-[Ignore all]
-Ігнараваць усё
-[Ignore none]
-Ніякія падзеі
-[Visibility]
-Бачнасць
-[Appear always online]
-Заўсёды бачны для кантакту
-[Appear always offline (block contact)]
-Заўсёды нябачны (блакаваць кантакт)
-[Other]
-Іншае
-[Hide this contact from the list]
-Схаваць кантакт са спісу
-[To show a previously hidden contact, navigate to Options -> Contacts -> Ignore, search the contact in the list and tick the checkbox next to its name.]
-Каб паказаць раней схаваны кантакт, адкрыйце "Налады -> Кантакты -> Ігнараваць", знайдзіце кантакт, і пастаўце галачку перад яго імем.
-[Display options]
-Опцыі адлюстравання
-[Show contact with priority]
-Кантакт з прыярытэтам
-[Show avatar:]
-Аватар:
-[Show 2nd line:]
-Другі радок:
-[Draw overlay icon on avatar]
-Абразок па-над аватарам
-[Show local time]
-Лакальны час
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 Меню
@@ -527,25 +483,6 @@
 ;file \plugins\Clist_nicer\src\clcpaint.cpp
 [No events...]
 Падзей няма...
-;file \plugins\Clist_nicer\src\clistmenus.cpp
-[Add permanently]
-Дадаць у спіс
-[Revert to default]
-Вярнуць па змаўчанні
-[Default (global setting)]
-Па змаўчанні (глабальна)
-[Show always when available]
-Заўсёды калі даступна
-[Hide always]
-Заўсёды хаваць
-[When space is available]
-Калі дазваляе месца
-[When needed by status message]
-Калі трэба статус паведамленню
-[Contact list display and ignore options for %s]
-Налады адлюстравання і ігнараванні для %s
-[&Contact list settings...]
-Налады кантакт-ліста...
 ;file \plugins\Clist_nicer\src\clistopts.cpp
 [Global]
 Глабальныя

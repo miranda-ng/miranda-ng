@@ -81,14 +81,6 @@ Nie udało się uzyskać tokenów dostępu do Twittera, rozłącz się i spróbu
 [You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or recreate your Miranda Twitter account]
 W bazie danych brakuje klucza Nick. Nie jest to dużym problemem, ale możesz zauważyć pewne problemy (samego siebie na liście, brak wyróżnienia wiadomości wychodzącej w czacie grupowym itp.). Aby to naprawić, dodaj brakujący klucz ręcznie lub utwórz ponownie w Mirandzie swoje konto Twittera.
 ;file \protocols\Twitter\src\proto.cpp
-[Send Tweet...]
-Wyślij Tweet...
-[Network]
-Protokoły
-[Basic]
-Podstawowe
-[Popups]
-Popupy
 [%s server connection]
 Połączenie %s
 [Unable to initialize Netlib for %s.]
@@ -97,6 +89,14 @@ Nie udało się zainicjować połączenia Netlib dla %s.
 Połączenie awatarów %s
 [Twitter (avatars)]
 Twitter (awatary)
+[Send Tweet...]
+Wyślij Tweet...
+[Network]
+Protokoły
+[Basic]
+Podstawowe
+[Popups]
+Popupy
 [%s Protocol]
 Protokół %s
 [Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?]

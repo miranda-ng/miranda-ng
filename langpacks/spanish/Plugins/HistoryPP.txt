@@ -111,12 +111,6 @@
 
 [&Select All]
 &Seleccionar todo
-[SMS Message]
-
-[WebPager]
-
-[EMail Express]
-
 [Other event]
 Otros eventos
 [Global History Search]
@@ -333,10 +327,6 @@ Otros eventos
 
 [Incoming contacts: %s]
 
-[Webpager message from %s (%s): %s]
-
-[Email express from %s (%s): %s]
-
 [Status change: %s]
 
 [Authorization request granted by %s (%d): %s]
@@ -360,10 +350,6 @@ Otros eventos
 [All except system]
 
 [Other events (unknown)]
-
-[Webpager message]
-
-[EMail Express message]
 
 [Grid options]
 
@@ -429,10 +415,6 @@ URL entrante
 Contactos salientes
 [Outgoing file]
 Archivo saliente
-[Outgoing SMS Message]
-
-[Outgoing url]
-URL saliente
 [Selected background]
 
 [SMTP Simple]
@@ -445,8 +427,6 @@ URL saliente
 
 [Toolbar]
 Barra de herramientas
-[Incoming SMS Message]
-
 [Link URLs]
 
 [History++]
@@ -609,8 +589,6 @@ URL saliente
 
 [Selected file and contact file folder not found]
 
-[SMS Sample]
-
 [Some Contact]
 
 [System History (%s)]
@@ -716,4 +694,6 @@ Menú del usuario
 [Incoming events]
 
 [Outgoing events]
+
+[Unused]
 

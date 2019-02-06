@@ -19,16 +19,12 @@ Verwende die Miranda-Einstellungen für alle Kontakte
 Alle
 [Messages]
 Nachrichten
-[URL]
-URL
 [Files]
 Dateien
 [User Online]
 Benutzer online
 [Authorization]
 Autorisierung
-[You Were Added]
-Sie wurden hinzugefügt
 [Typing Notify]
 Tippbenachrichtigungen
 [Full Ignore]

@@ -111,12 +111,6 @@ Date/Heure :
 Tout copier
 [&Select All]
 
-[SMS Message]
-
-[WebPager]
-
-[EMail Express]
-
 [Other event]
 Autre événement
 [Global History Search]
@@ -333,10 +327,6 @@ Vous avez été ajouté par %s (%s%d)
 Contacts sortants : %s
 [Incoming contacts: %s]
 Contacts entrants : %s
-[Webpager message from %s (%s): %s]
-Message Webpager de %s (%s) : %s
-[Email express from %s (%s): %s]
-e-mail express de %s (%s) : %s
 [Status change: %s]
 État changé : %s
 [Authorization request granted by %s (%d): %s]
@@ -361,10 +351,6 @@ Tous, sauf les changements
 Tous, sauf les messages système
 [Other events (unknown)]
 Autres évènements (inconnus)
-[Webpager message]
-
-[EMail Express message]
-
 [Grid options]
 
 [Recent events on top]
@@ -429,10 +415,6 @@ Lien reçu
 Envoi de contacts
 [Outgoing file]
 Fichier envoyé
-[Outgoing SMS Message]
-
-[Outgoing url]
-Lien envoyé
 [Selected background]
 
 [SMTP Simple]
@@ -445,8 +427,6 @@ Voir les infos du destinataire
 
 [Toolbar]
 Barre d'outils
-[Incoming SMS Message]
-
 [Link URLs]
 Liens URLs
 [History++]
@@ -609,8 +589,6 @@ Lien envoyé
 
 [Selected file and contact file folder not found]
 
-[SMS Sample]
-
 [Some Contact]
 
 [System History (%s)]
@@ -717,3 +695,5 @@ Préc
 Éléments reçus
 [Outgoing events]
 Élements envoyés
+[Unused]
+

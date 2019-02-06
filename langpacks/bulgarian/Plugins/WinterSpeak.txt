@@ -48,8 +48,6 @@
 
 [Incoming message]
 Входящо съобщение
-[Incoming URL]
-Входящ URL адрес
 [Incoming File]
 Входящи файлове
 [Authorization request]
@@ -96,8 +94,6 @@
 
 ;file \plugins\WinterSpeak\src\EventInformation.cpp
 [incoming message from %u]
-
-[incoming URL from %u]
 
 [you have been added to %u's contact list]
 

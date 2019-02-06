@@ -81,14 +81,6 @@ Izmenjeno
 [You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or recreate your Miranda Twitter account]
 
 ;file \protocols\Twitter\src\proto.cpp
-[Send Tweet...]
-
-[Network]
-Mreža
-[Basic]
-
-[Popups]
-Balončići
 [%s server connection]
 
 [Unable to initialize Netlib for %s.]
@@ -97,6 +89,14 @@ Balončići
 
 [Twitter (avatars)]
 
+[Send Tweet...]
+
+[Network]
+Mreža
+[Basic]
+
+[Popups]
+Balončići
 [%s Protocol]
 
 [Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?]

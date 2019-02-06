@@ -298,7 +298,7 @@ očisti
 
 [Do not play sounds when focused]
 
-[Do not pop up when joining]
+[Do not pop up the window when joining a chat room]
 
 [Show contact statuses (if supported)]
 
@@ -653,10 +653,6 @@ očisti
 
 [File received]
 
-[URL sent]
-
-[URL received]
-
 ;file \plugins\Scriver\src\msgoptions.cpp
 [Outgoing messages]
 
@@ -682,9 +678,7 @@ očisti
 
 [Input area background]
 
-[Outgoing URL]
-
-[Incoming URL]
+[Unused]
 
 [Info bar contact name]
 

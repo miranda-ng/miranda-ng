@@ -18,7 +18,7 @@ Passe :
 Contacts
 [Default group:]
 Groupes :
-[Hide guild chats on startup]
+[Do not open chat windows on creation]
 
 [Use subgroups for guild's channels (requires restart)]
 
@@ -37,8 +37,6 @@ Pseudo :
 [&Rename channel]
 
 [&Destroy channel]
-
-[&Invite a user]
 
 [Do you really want to destroy this channel? This action is non-revertable.]
 

@@ -1,5 +1,5 @@
 [Discord support for Miranda NG.]
-[Hide guild chats on startup]
+[Do not open chat windows on creation]
 [Use subgroups for guild's channels (requires restart)]
 [edited at]
 [Channel control]

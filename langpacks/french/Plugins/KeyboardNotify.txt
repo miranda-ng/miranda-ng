@@ -16,8 +16,6 @@ Réagi au évènements suivants
 Messages reçus
 [Incoming files]
 Fichiers entrants
-[Incoming URLs]
-Liens reçus
 [Everything else]
 Tous les autres
 [Message-Event only]
@@ -164,8 +162,6 @@ Thème personnalisé
 Les évènements suivants sont ignorés :
 [Ignore messages]
 Ignorer les messages
-[Ignore URLs]
-Ignorer les liens
 [Ignore files]
 Ignorer les fichiers
 [Ignore others]

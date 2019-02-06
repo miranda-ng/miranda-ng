@@ -38,8 +38,6 @@
 Клієнти IRC
 [Jabber clients]
 Клієнти Jabber
-[MRA clients]
-Клієнти MRA
 [MSN clients]
 Клієнти MSN
 [QQ clients]
@@ -93,10 +91,6 @@ Miranda (невідома)
 PHP-клієнт Jabber
 [MP3 Script for mIRC]
 MP3-скрипт для mIRC
-[Mail.Ru Agent (official)]
-Mail.Ru Агент (офіційний)
-[Mail.Ru (unknown client)]
-Mail.Ru (невідомий клієнт)
 [TM 2008 and >]
 TM 2008 і вище
 [Gadu-Gadu client]
@@ -129,8 +123,6 @@ TM 2008 і вище
 Оверлей MSN
 [QQ overlay]
 Оверлей QQ
-[Mail.Ru Agent overlay]
-Оверлей Mail.Ru Agent
 [VK overlay]
 Оверлей ВКонтакті
 [Skype overlay]

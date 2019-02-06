@@ -890,6 +890,10 @@ Jabber ошибка
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 [%s, %d items (%s)]
 %s, %d пункта(ов) (%s)
+[Reason to ban]
+Причина бана
+[Removing %s?]
+Удалить %s?
 [Voice List]
 Список участников
 [Member List]
@@ -902,10 +906,6 @@ Jabber ошибка
 Список админов
 [Owner List]
 Список владельцев
-[Reason to ban]
-Причина бана
-[Removing %s?]
-Удалить %s?
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Http authentication request received]
 Получен запрос HTTP авторизации
@@ -1451,8 +1451,8 @@ OMEMO: Новая сессия
 Автоматически заходить в закладки
 [Automatically join conferences on login]
 Автоматически заходить в комнаты чата при входе
-[Hide conference windows at startup]
-Не открывать окна комнат чата при входе
+[Do not open chat windows on creation]
+Не открывать окна комнат чата при создании
 [Do not show multiuser chat invitations]
 Не показывать приглашения в многопользовательский чат
 [Log events]

@@ -255,6 +255,7 @@
 [&Options...]
 [&About]
 [&Show offline users in here]
+[Last seen]
 [Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
 [Converting to metacontact]
 [Do you want contact '%s' to be converted to metacontact and '%s' be added to it (remove it from '%s')?]

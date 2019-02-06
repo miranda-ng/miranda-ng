@@ -890,6 +890,10 @@ Jabber памылка
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 [%s, %d items (%s)]
 %s, %d пункта(ў) (%s)
+[Reason to ban]
+Чыннік бана
+[Removing %s?]
+Выдаліць %s?
 [Voice List]
 Спіс удзельнікаў
 [Member List]
@@ -902,10 +906,6 @@ Jabber памылка
 Спіс адмінаў
 [Owner List]
 Спіс уладальнікаў
-[Reason to ban]
-Чыннік бана
-[Removing %s?]
-Выдаліць %s?
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Http authentication request received]
 Атрыманы запыт HTTP аўтарызацыі
@@ -1451,8 +1451,8 @@ Jabber Рэсурс
 Аўтаматычна заходзіць у закладкі
 [Automatically join conferences on login]
 Аўтаматычна заходзіць у канферэнцыі пры ўваходзе
-[Hide conference windows at startup]
-Не адкрываць вокны чат-канферэнцый пры ўваходзе
+[Do not open chat windows on creation]
+
 [Do not show multiuser chat invitations]
 Не паказваць запрашэнні ў чат
 [Log events]

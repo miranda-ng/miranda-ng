@@ -10,12 +10,20 @@
 ;file \protocols\ICQ-WIM\res\resources.rc
 [ICQ number:]
 Номер ICQ:
+[Email:]
+Почта:
 [Password:]
 Пароль:
 [Sign in/sign up using phone]
 Вход/регистрация по номеру телефона
-[Hide group chats on startup]
-
+[Do not open chat windows on creation]
+Не открывать окна комнат чата при создании
+[Advanced]
+Дополнительно
+[If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
+Когда контакт выходит из сети, установить ему этот статус и сохранять в течение указанного числа секунд (0 - отключено)
+[After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
+После этого установить контакту следующий статус, а через указанное число секунд установить "Не в сети" (0 - отключено)
 [Send group chat invitation]
 Пригласить в конференцию
 [&Invite]
@@ -35,18 +43,28 @@
 [Online since:]
 В сети с:
 [Idle since:]
-Простаивает с:
+Неактивен с:
 [Nick:]
 Ник:
 [Member since:]
 Участник с:
 [Last seen:]
-Был(а):
+Последнее появление:
+[Ignore list editor]
+Редактор списка игнорируемых
 ;file \protocols\ICQ-WIM\src\groupchats.cpp
 [&Invite a user]
 &Пригласить пользователя
 [&Leave/destroy chat]
 &Покинуть/уничтожить чат
+;file \protocols\ICQ-WIM\src\ignore.cpp
+[Do you really want to remove it from ignore list?]
+Действительно удалить из списка игнорируемых?
+;file \protocols\ICQ-WIM\src\main.cpp
+[Ignore]
+Игнорировать
+[Remove Ignore]
+Убрать игнорирование
 ;file \protocols\ICQ-WIM\src\options.cpp
 [Network]
 Сеть
@@ -55,8 +73,10 @@
 %s подключение к серверу
 [Synchronize server groups]
 Синхронизировать группы с сервером
-[ICQ number or phone]
-Номер ICQ или телефон
+[Edit ignore list]
+Изменить список игнорируемых
+[ICQ number]
+Номер ICQ
 ;file \protocols\ICQ-WIM\src\server.cpp
 [You have not entered an ICQ number.\nConfigure this in Options -> Network -> ICQ and try again.]
 Вы не ввели номер ICQ.\nУкажите его в разделе "Настройки -> Сеть -> ICQ" и попробуйте снова.

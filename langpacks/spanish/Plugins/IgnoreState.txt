@@ -19,16 +19,12 @@ Usar la configuración de Miranda de ignorar para Todos los contactos
 Todo
 [Messages]
 Mensajes
-[URL]
-URL
 [Files]
 Archivos
 [User Online]
 Usuario en línea
 [Authorization]
 Autorización
-[You Were Added]
-Usted fue añadido
 [Typing Notify]
 Notificación de escritura
 [Full Ignore]

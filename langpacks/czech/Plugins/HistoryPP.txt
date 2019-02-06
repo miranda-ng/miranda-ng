@@ -111,12 +111,6 @@ Datum/čas:
 Kopírovat vše
 [&Select All]
 &Vybrat vše
-[SMS Message]
-Zpráva SMS
-[WebPager]
-WebPager
-[EMail Express]
-
 [Other event]
 Ostatní
 [Global History Search]
@@ -333,10 +327,6 @@ Příchozí soubory: %s
 Odchozí kontakty: %s
 [Incoming contacts: %s]
 Příchozí kontakty: %s
-[Webpager message from %s (%s): %s]
-Zpráva přes webpager od %s (%s): %s
-[Email express from %s (%s): %s]
-Zpráva přes Email Express od %s (%s): %s
 [Status change: %s]
 Změna stavu: %s
 [Authorization request granted by %s (%d): %s]
@@ -361,10 +351,6 @@ Všechno kromě změn
 Všechno kromě systémových
 [Other events (unknown)]
 Jiné události (neznámé)
-[Webpager message]
-Zpráva webpageru
-[EMail Express message]
-Zpráva Email Express
 [Grid options]
 Nastavení mřížky
 [Recent events on top]
@@ -429,10 +415,6 @@ Příchozí odkaz
 Odchozí kontakty
 [Outgoing file]
 Odchozí soubor
-[Outgoing SMS Message]
-Odchozí SMS
-[Outgoing url]
-Odchozí odkaz
 [Selected background]
 Vybrané pozadí
 [SMTP Simple]
@@ -445,8 +427,6 @@ Zobrazit informaci o příjemci
 
 [Toolbar]
 Lišta tlačítek
-[Incoming SMS Message]
-Příchozí SMS
 [Link URLs]
 Odkazy
 [History++]
@@ -609,8 +589,6 @@ Uložit vše jako &XML...
 
 [Selected file and contact file folder not found]
 
-[SMS Sample]
-
 [Some Contact]
 
 [System History (%s)]
@@ -717,3 +695,5 @@ Předchozí
 Příchozí události
 [Outgoing events]
 Odchozí události
+[Unused]
+

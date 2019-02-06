@@ -890,6 +890,10 @@ Jabberlesezeichenfehler
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 [%s, %d items (%s)]
 %s, %d Einträge (%s)
+[Reason to ban]
+Begründung für Bann
+[Removing %s?]
+%s entfernen?
 [Voice List]
 Liste der Benutzer mit Stimmrecht
 [Member List]
@@ -902,10 +906,6 @@ Liste verbannter Benutzer
 Administratorenliste
 [Owner List]
 Besitzerliste
-[Reason to ban]
-Begründung für Bann
-[Removing %s?]
-%s entfernen?
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Http authentication request received]
 HTTP-Authentifizierungsanfrage empfangen
@@ -1451,8 +1451,8 @@ Konferenzen bei Einladungen automatisch beitreten
 Lesezeichen beim Einloggen automatisch betreten
 [Automatically join conferences on login]
 Konferenzen beim Einloggen automatisch betreten
-[Hide conference windows at startup]
-Konferenzfenster beim Start von Miranda verbergen
+[Do not open chat windows on creation]
+Chatfenster bei der Erzeugung nicht öffnen
 [Do not show multiuser chat invitations]
 Konferenzeinladungen nicht anzeigen
 [Log events]

@@ -171,8 +171,6 @@ Récupération du message %s...
 
 [Message]
 Message
-[URL]
-Lien
 [File]
 Fichier
 [** All contacts **]

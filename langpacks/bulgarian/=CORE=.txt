@@ -811,8 +811,6 @@ OutputDebugString()
 Включване на звука
 [The following events are being ignored:]
 Следните събития ще бъдат игнорирани:
-[URLs]
-URL адреси
 [Files]
 Файлове
 [Online notification]
@@ -1763,10 +1761,6 @@ Popups за изобразяване
 Изходящо съобщение
 [Incoming message]
 Входящо съобщение
-[Outgoing URL]
-Изходящ URL адрес
-[Incoming URL]
-Входящ URL адрес
 [Outgoing file]
 Изходящи файлове
 [Incoming file]
@@ -1888,8 +1882,8 @@ Popups за изобразяване
 ;file \src\mir_app\src\chat_clist.cpp
 [&Join chat]
 Влизане
-[&Open chat window]
-Отваряне на чат прозореца
+[&Open/close chat window]
+
 ;file \src\mir_app\src\chat_log.cpp
 [%s has joined]
 %s влезе
@@ -2637,10 +2631,8 @@ URL
 Unicode приставка
 [ANSI plugin]
 ANSI приставка
-[Running plugin]
-Стартирана приставка
-[Unloaded plugin]
-Незаредена приставка
+[Unused]
+
 [Show/Hide]
 Показване/Скриване
 [Exit]
@@ -2655,10 +2647,6 @@ ANSI приставка
 Включено
 [Off]
 Изкл.
-[Running core plugin]
-Стартирана приставка от ядрото
-[Non-loadable plugin]
-Приставка, която не може да се зареди
 [Frames]
 Рамки
 [Add group]
@@ -3204,3 +3192,11 @@ PNG изображения
 ;file \src\mir_core\src\timezones.cpp
 [<unspecified>]
 <неуточнено>
+;file \include\m_message.h
+[Message window toolbar]
+
+;file \include\m_popup.h
+[Do nothing]
+Нищо
+[Dismiss popup]
+Затваряне на Popup

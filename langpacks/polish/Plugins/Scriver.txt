@@ -298,8 +298,8 @@ Włącz menu kontekstowe przycisku
 Pokaż temat na liście kontaktów (jeśli obsługiwane)
 [Do not play sounds when focused]
 Nie odtwarzaj dźwięków, jeśli okno jest aktywne
-[Do not pop up when joining]
-Nie aktywuj okna przy dołączaniu
+[Do not pop up the window when joining a chat room]
+Nie pokazuj okna po dołączeniu do pokoju czatu
 [Show contact statuses (if supported)]
 Pokaż statusy kontaktów (jeśli obsługiwane)
 [Display contact status icon before role icon]
@@ -653,10 +653,6 @@ Wczoraj
 Wysłano plik
 [File received]
 Otrzymano plik
-[URL sent]
-Wysłany link
-[URL received]
-Otrzymany link
 ;file \plugins\Scriver\src\msgoptions.cpp
 [Outgoing messages]
 Wychodzące wiadomości
@@ -682,10 +678,8 @@ Przychodzący dwukropek
 Pole tekstowe
 [Input area background]
 Tło obszaru pisania wiadomości
-[Outgoing URL]
-Wychodzący link
-[Incoming URL]
-Przychodzący link
+[Unused]
+
 [Info bar contact name]
 Nazwa kontaktu w pasku informacyjnym
 [Info bar background]

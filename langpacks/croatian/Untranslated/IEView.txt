@@ -28,8 +28,6 @@
 [Download more templates]
 [Outgoing File Transfer]
 [Incoming File Transfer]
-[URL sent]
-[URL received]
 [(Unknown Contact)]
 [ requested authorization]
 [ was added.]

@@ -76,8 +76,6 @@ Saliendo
 
 [Messages]
 Mensajes
-[URLs]
-URLs
 [File Transfers]
 Transferencias de archivos
 [Other]

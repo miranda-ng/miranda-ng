@@ -48,8 +48,6 @@
 Падзеі
 [Incoming message]
 Уваходнае паведамленне
-[Incoming URL]
-Уваходны URL
 [Incoming File]
 Уваходны файл
 [Authorization request]
@@ -97,8 +95,6 @@
 ;file \plugins\WinterSpeak\src\EventInformation.cpp
 [incoming message from %u]
 Паведамленне ад %u.
-[incoming URL from %u]
-спасылка ад %u.
 [you have been added to %u's contact list]
 вы дададзены у спіс канатктаў %u.
 [%u requests your authorization]

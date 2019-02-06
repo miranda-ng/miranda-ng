@@ -452,8 +452,6 @@ Error
 
 [You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
 
-[Uploading]
-
 [Creating the image list failed!]
 
 [Could not find contact's protocol. Maybe it is not active!]

@@ -111,12 +111,6 @@ Datum/Zeit:
 Alles kopieren
 [&Select All]
 Alles au&swählen
-[SMS Message]
-SMS-Nachricht
-[WebPager]
-Webpager
-[EMail Express]
-E-Mail-Express
 [Other event]
 Anderes Ereignis
 [Global History Search]
@@ -333,10 +327,6 @@ Hinzugefügt von %s (%s%d)
 Gesendete Kontakte: %S
 [Incoming contacts: %s]
 Empfangene Kontakte: %s
-[Webpager message from %s (%s): %s]
-Webpagernachricht von %s (%s): %s
-[Email express from %s (%s): %s]
-E-Mail-Express von %s (%s): %s
 [Status change: %s]
 Statusänderung: %s
 [Authorization request granted by %s (%d): %s]
@@ -361,10 +351,6 @@ Alles außer Änderungen
 Alles außer System
 [Other events (unknown)]
 Andere Ereignisse (unbekannt)
-[Webpager message]
-Webpagernachricht
-[EMail Express message]
-E-Mail-Express-Nachricht
 [Grid options]
 Grid-Einstellungen
 [Recent events on top]
@@ -429,10 +415,6 @@ Eingehende URL
 Ausgehende Kontakte
 [Outgoing file]
 Ausgehende Datei
-[Outgoing SMS Message]
-Ausgehende SMS-Nachricht
-[Outgoing url]
-Ausgehende URL
 [Selected background]
 Markierter Hintergrund
 [SMTP Simple]
@@ -445,8 +427,6 @@ Empfängerinformationen anzeigen
 Verarbeitung umschalten
 [Toolbar]
 Toolbar
-[Incoming SMS Message]
-Eingehende SMS-Nachricht
 [Link URLs]
 URLs
 [History++]
@@ -609,8 +589,6 @@ Alles als &XML speichern...
 Suchmodus auswählen:
 [Selected file and contact file folder not found]
 Ausgewählte Datei und Kontaktverzeichnis nicht gefunden
-[SMS Sample]
-SMS-Beispiel
 [Some Contact]
 Irgendein Kontakt
 [System History (%s)]
@@ -717,3 +695,5 @@ Zurück
 Eingehende Ereignisse
 [Outgoing events]
 Ausgehende Ereignisse
+[Unused]
+

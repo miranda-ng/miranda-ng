@@ -382,50 +382,6 @@ Ignorer la sélection des groupes
 Charger depuis un fichier de skin
 [Export to skin file]
 Exporter dans un fichier de skin
-[Dialog]
-Dialogue
-[Ignore these events]
-Ignorer ces évènements
-[Messages]
-Messages
-[Incoming file transfers]
-Transferts de fichiers entrant
-[URL events]
-Liens URL
-[Suppress auth requests]
-Supprimer demandes d'autorisation
-[Suppress added notifications]
-Supprimer les notifications ajoutées
-[Suppress online notifications]
-Pas de notification de connexions
-[Ignore all]
-Ignorer tout
-[Ignore none]
-Ignorer aucun
-[Visibility]
-Visibilité
-[Appear always online]
-Toujours apparaître connecté
-[Appear always offline (block contact)]
-Toujours apparaître déconnecté (contact bloqué)
-[Other]
-Autre
-[Hide this contact from the list]
-Cacher ce contact de la liste
-[To show a previously hidden contact, navigate to Options -> Contacts -> Ignore, search the contact in the list and tick the checkbox next to its name.]
-Pour afficher un contact bloqué, aller dans Paramètres -> Contacts -> Ignorer et cocher le contact en question.
-[Display options]
-Options d'affichage
-[Show contact with priority]
-Afficher le contact avec sa priorité
-[Show avatar:]
-Afficher l'avatar :
-[Show 2nd line:]
-Afficher une seconde ligne :
-[Draw overlay icon on avatar]
-Icônes de sur-couche sur les avatars
-[Show local time]
-Afficher l'heure locale
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 Afficher le menu
@@ -527,25 +483,6 @@ Skins
 ;file \plugins\Clist_nicer\src\clcpaint.cpp
 [No events...]
 Pas d'évènement
-;file \plugins\Clist_nicer\src\clistmenus.cpp
-[Add permanently]
-Ajouter ce contact
-[Revert to default]
-Par défaut
-[Default (global setting)]
-Défaut (options générales)
-[Show always when available]
-Toujours afficher si disponible
-[Hide always]
-Toujours caché
-[When space is available]
-Si l'espace le permet
-[When needed by status message]
-Par le message d'état si nécessaire
-[Contact list display and ignore options for %s]
-Afficher la CList et ignorer les options pour %s
-[&Contact list settings...]
-Options de la liste de &contacts...
 ;file \plugins\Clist_nicer\src\clistopts.cpp
 [Global]
 Général

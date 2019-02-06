@@ -111,12 +111,6 @@ WATrack: запыт забаронены
 Капіяваць усё
 [&Select All]
 &Вылучыць усё
-[SMS Message]
-Паведамленне SMS
-[WebPager]
-WebPager
-[EMail Express]
-EMail Express
 [Other event]
 Іншая падзея
 [Global History Search]
@@ -333,10 +327,6 @@ Unicode (*.txt)|*.txt
 Адпраўка кантактаў: %s
 [Incoming contacts: %s]
 Прыём кантактаў: %s
-[Webpager message from %s (%s): %s]
-Паведамленне Webpager ад %s (%s): %s
-[Email express from %s (%s): %s]
-Email express ад %s (%s): %s
 [Status change: %s]
 Змена статусу: %s
 [Authorization request granted by %s (%d): %s]
@@ -361,10 +351,6 @@ Email express ад %s (%s): %s
 Усё, акрамя сістэмных
 [Other events (unknown)]
 Іншыя падзеі (невядома)
-[Webpager message]
-Паведамленне Webpager
-[EMail Express message]
-Паведамленне EMail Express
 [Grid options]
 Налады сеткі
 [Recent events on top]
@@ -429,10 +415,6 @@ Enter для падрабязнасцяў падзеі
 Выходныя кантакты
 [Outgoing file]
 Выходны файл
-[Outgoing SMS Message]
-Выходнае паведамленне SMS
-[Outgoing url]
-Выходная спасылка
 [Selected background]
 Фон вылучэння
 [SMTP Simple]
@@ -445,8 +427,6 @@ Enter для падрабязнасцяў падзеі
 Пераключыць апрацоўку
 [Toolbar]
 Панэль кнопак
-[Incoming SMS Message]
-Уваходнае SMS паведамленне
 [Link URLs]
 Спасылкі
 [History++]
@@ -609,8 +589,6 @@ HTML (*.htm; *.html)|*.htm;*.htm
 Абераце рэжым пошуку:
 [Selected file and contact file folder not found]
 Абраны файл і тэчка кантакту не знойдзены
-[SMS Sample]
-Гэта SMS паведамленне
 [Some Contact]
 Кантакт
 [System History (%s)]
@@ -717,3 +695,5 @@ Wiki-старонка дадатковых параметраў
 Уваходныя падзеі
 [Outgoing events]
 Выходныя падзеі
+[Unused]
+

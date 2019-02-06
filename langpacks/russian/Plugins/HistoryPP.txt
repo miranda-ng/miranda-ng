@@ -111,8 +111,6 @@ WATrack: запрос запрещён
 Копировать всё
 [&Select All]
 &Выделить всё
-[SMS Message]
-Сообщение SMS
 [Other event]
 Другое событие
 [Global History Search]
@@ -417,10 +415,6 @@ Enter для подробностей события
 Исходящие контакты
 [Outgoing file]
 Исходящий файл
-[Outgoing SMS Message]
-Исходящее сообщение SMS
-[Outgoing url]
-Исходящая ссылка
 [Selected background]
 Фон выделения
 [SMTP Simple]
@@ -433,8 +427,6 @@ Enter для подробностей события
 Переключить &обработку
 [Toolbar]
 Панель кнопок
-[Incoming SMS Message]
-Входящее SMS сообщение
 [Link URLs]
 Ссылки
 [History++]
@@ -597,8 +589,6 @@ HTML файл
 Выберите режим поиска:
 [Selected file and contact file folder not found]
 Выбранный файл и папка контакта не найдены
-[SMS Sample]
-Это SMS сообщение
 [Some Contact]
 Контакт
 [System History (%s)]
@@ -705,3 +695,5 @@ Wiki-страница дополнительных параметров
 Входящие события
 [Outgoing events]
 Исходящие события
+[Unused]
+Не используется

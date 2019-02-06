@@ -111,12 +111,6 @@ WATrack: запит заборонений
 Копіювати всі
 [&Select All]
 &Виділити все
-[SMS Message]
-Повідомлення SMS
-[WebPager]
-WebPager
-[EMail Express]
-EMail Express
 [Other event]
 Інша подія
 [Global History Search]
@@ -333,10 +327,6 @@ EMail Express
 Відправка контактів: %s
 [Incoming contacts: %s]
 Прийом контактів: %s
-[Webpager message from %s (%s): %s]
-Повідомлення WebPager від %s (%s): %s
-[Email express from %s (%s): %s]
-Email Express від %s (%s): %s
 [Status change: %s]
 Зміна статусу: %s
 [Authorization request granted by %s (%d): %s]
@@ -361,10 +351,6 @@ Email Express від %s (%s): %s
 Усі, крім системних
 [Other events (unknown)]
 Інші події (невідомо)
-[Webpager message]
-Повідомлення WebPager
-[EMail Express message]
-Повідомлення EMail Express
 [Grid options]
 Налаштування сітки
 [Recent events on top]
@@ -429,10 +415,6 @@ Enter для подробиць події
 Вихідні контакти
 [Outgoing file]
 Вихідний файл
-[Outgoing SMS Message]
-Вихідне повідомлення SMS
-[Outgoing url]
-Вихідне посилання
 [Selected background]
 Фон виділення
 [SMTP Simple]
@@ -445,8 +427,6 @@ Enter для подробиць події
 Перемкнути &обробку
 [Toolbar]
 Панель кнопок
-[Incoming SMS Message]
-Вхідне повідомлення SMS
 [Link URLs]
 Посилання
 [History++]
@@ -609,8 +589,6 @@ Enter для подробиць події
 Виберіть режим пошуку:
 [Selected file and contact file folder not found]
 Вибраний файл і папка контакту не знайдені
-[SMS Sample]
-Це повідомлення SMS
 [Some Contact]
 Контакт
 [System History (%s)]
@@ -717,3 +695,5 @@ Wiki-сторінка додаткових параметрів
 Вхідні події
 [Outgoing events]
 Вихідні події
+[Unused]
+

@@ -43,8 +43,6 @@
 Изпраща съобщение
 [Send file]
 Изпраща файл
-[Send URL]
-Изпраща URL адрес
 [Open user info]
 Отваря подробности за потребител
 [Open history]

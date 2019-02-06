@@ -48,8 +48,6 @@ Invisible
 
 [Incoming message]
 Message reçu
-[Incoming URL]
-Lien reçu
 [Incoming File]
 Fichier reçu
 [Authorization request]
@@ -96,8 +94,6 @@ Retirer
 
 ;file \plugins\WinterSpeak\src\EventInformation.cpp
 [incoming message from %u]
-
-[incoming URL from %u]
 
 [you have been added to %u's contact list]
 

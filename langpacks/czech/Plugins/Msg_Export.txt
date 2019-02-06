@@ -79,6 +79,8 @@ Zkopírovat
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 [Miranda database contains %d events]
 
+[Failed to open file]
+
 [Search string was not found!]
 Hledaný řetězec nebyl nalezen!
 [Save as RTF]
@@ -179,8 +181,6 @@ Informace
 Uživatel
 [Protocol]
 Protokol
-[URL: ]
-Adresa:\s
 [File: ]
 Soubor:\s
 [Description: ]
@@ -203,12 +203,6 @@ Tento uživatel vás požádal o autorizaci:
 Uživatel, který si vás přidal mezi kontakty:
 [UIN       :]
 UIN       :
-[EmailExpress from:]
-EmailExpress od:
-[WebPager from:]
-WebPager od:
-[No from address]
-Adresa nespecifikována
 [Unknown event type %d, size %d]
 
 [User has been deleted. Do you want to delete the file?]

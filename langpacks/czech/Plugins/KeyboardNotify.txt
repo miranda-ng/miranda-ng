@@ -16,8 +16,6 @@ Reagovat při událostech
 Příchozí zprávy
 [Incoming files]
 Příchozí soubory
-[Incoming URLs]
-Příchozí - URL
 [Everything else]
 Všechno ostatní
 [Message-Event only]
@@ -164,8 +162,6 @@ Použít vlastní téma
 Následující události budou ignorovány:
 [Ignore messages]
 Ignorovat zprávy
-[Ignore URLs]
-Ignorovat adresy
 [Ignore files]
 Ignorovat soubory
 [Ignore others]

@@ -72,8 +72,6 @@ Mensajes entrantes
 
 [Contact changes status]
 
-[Incoming URL]
-URL entrante
 [Contact list events]
 
 [Incoming file transfers]

@@ -76,8 +76,6 @@ Wychodzące
 Tylko od:
 [Messages]
 Wiadomości
-[URLs]
-Linki
 [File Transfers]
 Transfery plików
 [Other]

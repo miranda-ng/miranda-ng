@@ -72,8 +72,6 @@ Przychodzące wiadomości
 Kontakt wylogowuje się
 [Contact changes status]
 Kontakt zmienia status
-[Incoming URL]
-Przychodzący link
 [Contact list events]
 Zdarzenia listy kontaktów
 [Incoming file transfers]

@@ -27,7 +27,6 @@
 [Copy to Account]
 [Copy xStatus Message]
 [All]
-[URL]
 [Files]
 [Authorization]
 [Typing Notify]

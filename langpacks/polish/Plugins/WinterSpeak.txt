@@ -48,8 +48,6 @@ Niewidoczny
 Zdarzenia
 [Incoming message]
 Przychodząca wiadomość
-[Incoming URL]
-Przychodzący link
 [Incoming File]
 Przychodzący plik
 [Authorization request]
@@ -97,8 +95,6 @@ test test 1 2 3
 ;file \plugins\WinterSpeak\src\EventInformation.cpp
 [incoming message from %u]
 Wiadomość od %u
-[incoming URL from %u]
-Link od %u
 [you have been added to %u's contact list]
 Zostałeś dodany do listy kontaktów %u
 [%u requests your authorization]

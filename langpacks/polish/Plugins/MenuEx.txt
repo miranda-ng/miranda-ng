@@ -71,16 +71,12 @@ Kopiuj xStatus
 Wszystko
 [Messages]
 Wiadomości
-[URL]
-Link
 [Files]
 Pliki
 [User Online]
 Połączony użytkownik
 [Authorization]
 Autoryzacja
-[You Were Added]
-Zostałeś dodany
 [Typing Notify]
 Pisanie
 [Please authorize me to add you to my contact list.]

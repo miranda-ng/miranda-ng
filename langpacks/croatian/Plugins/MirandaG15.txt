@@ -72,8 +72,6 @@ sekundi
 
 [Contact changes status]
 
-[Incoming URL]
-
 [Contact list events]
 
 [Incoming file transfers]

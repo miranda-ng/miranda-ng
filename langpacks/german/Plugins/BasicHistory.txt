@@ -251,16 +251,12 @@ Anzahl der zu löschenden Verlaufseinträge: %d.\nSind Sie sich sicher, dass Sie
 Nachricht
 [File transfer]
 Dateiübertragung
-[Link]
-Link
 [Authorization request]
 Eingehende Autorisierungsanfrage
 [You were added]
 Sie wurden hinzugefügt.
 [Contacts received]
 Kontakte empfangen
-[SMS message]
-SMS-Nachricht
 [Group list]
 Gruppenliste
 [Messages]

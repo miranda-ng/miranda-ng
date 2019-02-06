@@ -452,8 +452,6 @@ Profil hochladen
 Protokoll '%s' ist offline.
 [You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
 Es besteht momentan keine Verbindung mit dem ICQ-Netzwerk.\nUm das Profil hochladen zu können, muss vorher eine Verbindung aufgebaut werden.\n\nDas Profil wird nur in der Datenbank gespeichert.
-[Uploading]
-Lade hoch
 [Creating the image list failed!]
 Das Erstellen der Bildliste ist fehlgeschlagen!
 [Could not find contact's protocol. Maybe it is not active!]

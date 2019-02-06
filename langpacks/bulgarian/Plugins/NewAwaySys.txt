@@ -171,8 +171,6 @@
 
 [Message]
 Съобщение
-[URL]
-URL
 [File]
 Файл
 [** All contacts **]

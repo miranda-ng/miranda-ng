@@ -251,15 +251,11 @@ Greška
 Poruka
 [File transfer]
 
-[Link]
-Link
 [Authorization request]
 Zahtev za autorizaciju.
 [You were added]
 Vaš kontakt je dodat
 [Contacts received]
-
-[SMS message]
 
 [Group list]
 
