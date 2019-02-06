@@ -72,6 +72,8 @@ int CMPlugin::Load(void)
 	g_dwMainThreadID = GetCurrentThreadId();
 	g_hMirApp = GetModuleHandleA("mir_app.mir");
 
+	ReadSettings();
+
 	CHECKRES(PreLoadContactListModule());
 	CHECKRES(SubclassClistInterface());
 	CHECKRES(CreateHookableEvents());
