@@ -139,8 +139,10 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 		ListView_SetItemState(hwndList, iRow, 0x3000, LVIS_STATEIMAGEMASK);
 	}
 	else if (isPluginOnWhiteList(fd->cFileName)) {
-		dat->bWasChecked = true;
-		ListView_SetItemState(hwndList, iRow, 0x2000, LVIS_STATEIMAGEMASK);
+		if (!dat->bRequiresRestart)
+			dat->bWasChecked = true;
+		if (hInst)
+			ListView_SetItemState(hwndList, iRow, 0x2000, LVIS_STATEIMAGEMASK);
 	}
 
 	if (iRow != -1) {
