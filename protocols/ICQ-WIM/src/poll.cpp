@@ -57,6 +57,8 @@ void CIcqProto::ProcessBuddyList(const JSONNode &ev)
 	for (auto &it : m_arCache)
 		if (!it->m_bInList)
 			db_set_b(it->m_hContact, "CList", "NotOnList", 1);
+
+	RetrieveUserInfo();
 }
 
 void CIcqProto::ProcessDiff(const JSONNode &ev)

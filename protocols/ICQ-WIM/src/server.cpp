@@ -231,6 +231,30 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 		FindContactByUIN(dwUin)->m_bInList = true;
 	}
 
+	bool bVersionDetected = false;
+	for (auto &it : buddy["capabilities"]) {
+		CMStringW wszCap(it.as_mstring());
+		if (wszCap.GetLength() != 32)
+			continue;
+
+		BYTE cap[16];
+		hex2binW(wszCap, cap, sizeof(cap));
+		if (!memcmp(cap, "MiNG", 4)) { // Miranda
+			int v[4];
+			swscanf(wszCap.c_str() + 16, L"%04x%04x%04x%04x", &v[0], &v[1], &v[2], &v[3]);
+			CMStringA szVer(FORMAT, "Miranda NG %d.%d.%d.%d (ICQ %d.%d.%d.%d)", v[0], v[1], v[2], v[3], cap[4], cap[5], cap[6], cap[7]);
+			setString(hContact, "MirVer", szVer);
+			bVersionDetected = true;
+		}
+		else if (!memcmp(cap, "Mod by Mikanoshi", 16)) {
+			setString(hContact, "MirVer", "R&Q build by Mikanoshi");
+			bVersionDetected = true;
+		}
+	}
+
+	if (!bVersionDetected)
+		delSetting(hContact, "MirVer");
+
 	CMStringW str(buddy["state"].as_mstring());
 	setDword(hContact, "Status", StatusFromString(str));
 
@@ -405,7 +429,13 @@ void CIcqProto::RetrieveUserInfo(MCONTACT hContact)
 	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/presence/get", &CIcqProto::OnGetUserInfo);
 	pReq->flags |= NLHRF_NODUMPSEND;
 	pReq->hContact = hContact;
-	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << INT_PARAM("mdir", 1) << CHAR_PARAM("t", GetUserId(hContact));
+	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << INT_PARAM("mdir", 1) << INT_PARAM("capabilities", 1);
+	if (hContact == INVALID_CONTACT_ID)
+		for (auto &it : m_arCache)
+			pReq << CHAR_PARAM("t", GetUserId(it->m_hContact));
+	else
+		pReq << CHAR_PARAM("t", GetUserId(hContact));
+
 	Push(pReq);
 }
 
@@ -478,7 +508,6 @@ void CIcqProto::ShutdownSession()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-#define CAPS "094613504c7f11d18222444553540000,094613514c7f11d18222444553540000,094613534c7f11d18222444553540000,094613544c7f11d18222444553540000,094613594c7f11d18222444553540000,0946135b4c7f11d18222444553540000,0946135a4c7f11d18222444553540000"
 #define EVENTS "myInfo,presence,buddylist,typing,dataIM,userAddedToBuddyList,mchat,hist,hiddenChat,diff,permitDeny,imState,notification,apps"
 #define FIELDS "aimId,buddyIcon,bigBuddyIcon,iconId,bigIconId,largeIconId,displayId,friendly,offlineMsg,state,statusMsg,userType,phoneNumber,cellNumber,smsNumber,workNumber,otherNumber,capabilities,ssl,abPhoneNumber,moodIcon,lastName,abPhones,abContactName,lastseen,mute,livechat,official"
 
@@ -497,10 +526,15 @@ void CIcqProto::StartSession()
 
 	int ts = time(0);
 	CMStringA nonce(FORMAT, "%d-2", ts);
+	CMStringA caps(WIM_CAP_UNIQ_REQ_ID "," WIM_CAP_EMOJI "," WIM_CAP_MAIL_NOTIFICATIONS "," WIM_CAP_INTRO_DLG_STATE);
+
+	MFileVersion v;
+	Miranda_GetFileVersion(&v);
+	caps.AppendFormat(",%02x%02x%02x%02x%02x%02x%02x%02x%04x%04x%04x%04x", 'M', 'i', 'N', 'G', 
+		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM, v[0], v[1], v[2], v[3]);
 
 	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, ICQ_API_SERVER "/aim/startSession", &CIcqProto::OnStartSession);
-
-	pReq << CHAR_PARAM("a", m_szAToken) << INT_PARAM("activeTimeout", 180) << CHAR_PARAM("assertCaps", CAPS)
+	pReq << CHAR_PARAM("a", m_szAToken) << INT_PARAM("activeTimeout", 180) << CHAR_PARAM("assertCaps", caps)
 		<< INT_PARAM("buildNumber", __BUILD_NUM) << CHAR_PARAM("deviceId", szDeviceId) << CHAR_PARAM("events", EVENTS) 
 		<< CHAR_PARAM("f", "json") << CHAR_PARAM("imf", "plain") << CHAR_PARAM("inactiveView", "offline") 
 		<< CHAR_PARAM("includePresenceFields", FIELDS) << CHAR_PARAM("invisible", "false")

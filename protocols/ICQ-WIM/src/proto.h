@@ -37,6 +37,15 @@
 #define ICQ_API_SERVER "https://api.icq.net"
 #define ICQ_ROBUST_SERVER "https://rapi.icq.net"
 
+#define WIM_CAP_VOIP_VOICE         "094613504c7f11d18222444553540000"
+#define WIM_CAP_VOIP_VIDEO         "094613514c7f11d18222444553540000"
+#define WIM_CAP_FILETRANSFER       "094613434c7f11d18222444553540000"
+#define WIM_CAP_UNIQ_REQ_ID        "094613534c7f11d18222444553540000"
+#define WIM_CAP_EMOJI              "094613544c7f11d18222444553540000"
+#define WIM_CAP_MENTIONS           "0946135b4c7f11d18222444553540000"
+#define WIM_CAP_MAIL_NOTIFICATIONS "094613594c7f11d18222444553540000"
+#define WIM_CAP_INTRO_DLG_STATE    "0946135a4c7f11d18222444553540000"
+
 typedef CProtoDlgBase<CIcqProto> CIcqDlgBase;
 
 enum ChatMenuItems
@@ -141,7 +150,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      GetPermitDeny();
 	void      MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup);
 	void      RetrieveUserHistory(MCONTACT, __int64 startMsgId, __int64 endMsgId = -1);
-	void      RetrieveUserInfo(MCONTACT);
+	void      RetrieveUserInfo(MCONTACT = INVALID_CONTACT_ID);
 	void      SetServerStatus(int iNewStatus);
 	void      ShutdownSession(void);
 	void      StartSession(void);
