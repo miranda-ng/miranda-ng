@@ -391,10 +391,16 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 		CTabBaseDlg *dat = c->getDat();
 		if (!strcmp(setting, "MirVer"))
 			PostMessage(hwnd, DM_CLIENTCHANGED, 0, 0);
+
+		if (dat && !strcmp(setting, "NotOnList") && (cws->value.type == DBVT_DELETED || cws->value.bVal == 0))
+			((CSrmmWindow*)dat)->onClick_CancelAdd(0);
+		
 		if (dat && (fChanged || fExtendedStatusChange))
 			dat->UpdateTitle();
+
 		if (fExtendedStatusChange)
 			PostMessage(hwnd, DM_UPDATESTATUSMSG, 0, 0);
+
 		if (fChanged) {
 			if (dat && c->getStatus() == ID_STATUS_OFFLINE) {			// clear typing notification in the status bar when contact goes offline
 				dat->m_nTypeSecs = 0;

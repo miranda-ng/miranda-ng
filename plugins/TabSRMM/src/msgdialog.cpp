@@ -1159,7 +1159,7 @@ void CSrmmWindow::onClick_Add(CCtrlButton*)
 	Contact_Add(m_hContact, m_hwnd);
 
 	if (!db_get_b(m_hContact, "CList", "NotOnList", 0)) {
-		m_bNotOnList = FALSE;
+		m_bNotOnList = false;
 		ShowMultipleControls(m_hwnd, addControls, _countof(addControls), SW_HIDE);
 		if (!(m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
 			Utils::showDlgControl(m_hwnd, IDC_LOGFROZENTEXT, SW_HIDE);
@@ -1257,7 +1257,7 @@ void CSrmmWindow::onClick_Quote(CCtrlButton*)
 
 void CSrmmWindow::onClick_CancelAdd(CCtrlButton*)
 {
-	m_bNotOnList = FALSE;
+	m_bNotOnList = false;
 	ShowMultipleControls(m_hwnd, addControls, _countof(addControls), SW_HIDE);
 	if (!(m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
 		Utils::showDlgControl(m_hwnd, IDC_LOGFROZENTEXT, SW_HIDE);
