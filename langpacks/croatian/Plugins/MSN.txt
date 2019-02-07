@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MSN.dll
 ;  Plugin: MSN protocol
-;  Version: 0.95.9.1
+;  Version: 0.95.11.1
 ;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes, leecher
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
@@ -150,9 +150,6 @@ Detalji o &Korisniku
 
 [C++ Event Sink]
 
-;file \protocols\MSN\src\msn_links.cpp
-[MSN Link Protocol]
-
 ;file \protocols\MSN\src\msn_lists.cpp
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
 
@@ -246,8 +243,6 @@ lista kontakata
 [Live Mail]
 
 [Live Alert]
-
-[%s plugin HTTPS connections]
 
 [%s plugin connections]
 

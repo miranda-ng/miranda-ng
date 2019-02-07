@@ -2,15 +2,13 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.95.10.1
+;  Version: 0.95.11.1
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
 
 ;file \protocols\ICQ-WIM\res\resources.rc
-[ICQ number:]
-
-[Email:]
+[UIN/e-mail:]
 
 [Password:]
 Contraseña:
@@ -75,7 +73,7 @@ Red
 
 [Edit ignore list]
 
-[ICQ number]
+[UIN/e-mail/phone]
 
 ;file \protocols\ICQ-WIM\src\server.cpp
 [You have not entered an ICQ number.\nConfigure this in Options -> Network -> ICQ and try again.]

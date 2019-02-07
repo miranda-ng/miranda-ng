@@ -40,8 +40,6 @@ Klienty IRC
 Klienty Jabber
 [MSN clients]
 Klienty MSN
-[QQ clients]
-Klienty QQ
 [RSS clients]
 Klienty RSS
 [VKontakte clients]
@@ -85,14 +83,10 @@ Stabilna Miranda NG
 Miranda IM (starsza wersja)
 [Miranda (unknown)]
 Miranda (nieznana)
-[spam client]
-Klient spamer
 [PHP Jabber Client]
 Klient PHP Jabber
 [MP3 Script for mIRC]
 Skrypt MP3 dla mIRC
-[TM 2008 and >]
-TM 2008 i >
 [Gadu-Gadu client]
 Klient Gadu-Gadu
 [Python-based clients]
@@ -107,10 +101,8 @@ Klient nie znaleziony
 Nieznany klient
 [Undetected client]
 Nie wykryty klient
-[ICQJ Plus Mod overlay]
-Nakładka ICQJ Plus Mod
-[ICQJ overlay]
-Nakładka ICQJ
+[ICQ overlay]
+Nakładka ICQ
 [IRC overlay]
 Nakładka IRC
 [JGmail overlay]
@@ -121,22 +113,10 @@ Nakładka JGTalk
 Nakładka Jabber
 [MSN overlay]
 Nakładka MSN
-[QQ overlay]
-Nakładka QQ
 [VK overlay]
 Nakładka VK
 [Skype overlay]
 Nakładka Skype
-[ICQ 2003 overlay]
-Nakładka ICQ 2003
-[ICQ Lite 4 overlay]
-Nakładka ICQ Lite 4
-[ICQ v5.x overlay]
-Nakładka ICQ v5.x
-[ICQ v6.x overlay]
-Nakładka ICQ v6.x
-[ICQ v7.x overlay]
-Nakładka ICQ v7.x
 [ICQ v8.x overlay]
 Nakładka ICQ v8.x
 [Gadu-Gadu v11 client]
@@ -147,32 +127,6 @@ Klient Gadu-Gadu v10
 Klient Gadu-Gadu v9
 [Gadu-Gadu v8 client]
 Klient Gadu-Gadu v8
-[TM/QQ 2012 overlay]
-Nakładka TM/QQ 2012
-[TM/QQ 2011 overlay]
-Nakładka TM/QQ 2011
-[TM/QQ 2010 overlay]
-Nakładka TM/QQ 2010
-[TM/QQ 2009 overlay]
-Nakładka TM/QQ 2009
-[TM/QQ 2008 overlay]
-Nakładka TM/QQ 2008
-[TM/QQ 2007 overlay]
-Nakładka TM/QQ 2007
-[TM/QQ 2006 overlay]
-Nakładka TM/QQ 2006
-[TM/QQ 2005 overlay]
-Nakładka TM/QQ 2005
-[QQ 2004 overlay]
-Nakładka QQ 2004
-[TM 3.x / QQ 2003 overlay]
-Nakładka 3.x/QQ 2003
-[TM 2.x overlay]
-Nakładka TM 2.x
-[TM 1.x overlay]
-Nakładka 1.x
-[QQ 2000 overlay]
-Nakładka QQ 2000
 [Windows overlay]
 Nakładka Windows
 [iOS overlay (iPhone/iPad)]

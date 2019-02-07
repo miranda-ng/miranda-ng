@@ -2,16 +2,14 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.95.10.1
+;  Version: 0.95.11.1
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
 Поддержка протокола ICQ в Miranda NG.
 ;file \protocols\ICQ-WIM\res\resources.rc
-[ICQ number:]
-Номер ICQ:
-[Email:]
-Почта:
+[UIN/e-mail:]
+UIN/почта:
 [Password:]
 Пароль:
 [Sign in/sign up using phone]
@@ -75,8 +73,8 @@
 Синхронизировать группы с сервером
 [Edit ignore list]
 Изменить список игнорируемых
-[ICQ number]
-Номер ICQ
+[UIN/e-mail/phone]
+UIN/почта/телефон
 ;file \protocols\ICQ-WIM\src\server.cpp
 [You have not entered an ICQ number.\nConfigure this in Options -> Network -> ICQ and try again.]
 Вы не ввели номер ICQ.\nУкажите его в разделе "Настройки -> Сеть -> ICQ" и попробуйте снова.

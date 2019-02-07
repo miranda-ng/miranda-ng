@@ -61,7 +61,6 @@
 [Connection]
 [Live Mail]
 [Live Alert]
-[%s plugin HTTPS connections]
 [%s plugin connections]
 [Contact already in your contact list]
 [Protocol is offline]

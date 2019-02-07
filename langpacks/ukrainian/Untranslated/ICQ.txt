@@ -1,4 +1,3 @@
-[Email:]
 [Sign in/sign up using phone]
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
@@ -17,7 +16,6 @@
 [Remove Ignore]
 [Synchronize server groups]
 [Edit ignore list]
-[ICQ number]
 [You have not entered an ICQ number.\nConfigure this in Options -> Network -> ICQ and try again.]
 [Connection failed.\nYour ICQ number or password was rejected (%d).]
 [Connection failed.\nThe server is temporarily unavailable (%d).]

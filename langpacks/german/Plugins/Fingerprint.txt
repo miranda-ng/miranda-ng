@@ -40,8 +40,6 @@ IRC-Clients
 Jabber-Clients
 [MSN clients]
 MSN-Clients
-[QQ clients]
-QQ-Clients
 [RSS clients]
 RSS-Clients
 [VKontakte clients]
@@ -85,14 +83,10 @@ Miranda NG stabil
 Miranda IM (alte Versionen)
 [Miranda (unknown)]
 Miranda (unbekannt)
-[spam client]
-Spamclient
 [PHP Jabber Client]
 PHP-Jabber-Client
 [MP3 Script for mIRC]
 MP3-Script für mIRC
-[TM 2008 and >]
-TM 2008 und höher
 [Gadu-Gadu client]
 Gadu-Gadu-Client
 [Python-based clients]
@@ -107,10 +101,8 @@ Client nicht gefunden
 Unbekannter Client
 [Undetected client]
 Unerkannter Client
-[ICQJ Plus Mod overlay]
-ICQJ Plus Mod overlay
-[ICQJ overlay]
-ICQJ overlay
+[ICQ overlay]
+ICQ overlay
 [IRC overlay]
 IRC overlay
 [JGmail overlay]
@@ -121,22 +113,10 @@ JGTalk overlay
 Jabber overlay
 [MSN overlay]
 MSN overlay
-[QQ overlay]
-QQ overlay
 [VK overlay]
 VK overlay
 [Skype overlay]
 Skype-Overlay
-[ICQ 2003 overlay]
-ICQ 2003 overlay
-[ICQ Lite 4 overlay]
-ICQ Lite 4 overlay
-[ICQ v5.x overlay]
-ICQ v5.x overlay
-[ICQ v6.x overlay]
-ICQ v6.x overlay
-[ICQ v7.x overlay]
-ICQ v7.x overlay
 [ICQ v8.x overlay]
 ICQ v8.x overlay
 [Gadu-Gadu v11 client]
@@ -147,32 +127,6 @@ Gadu-Gadu v10 client
 Gadu-Gadu v9 client
 [Gadu-Gadu v8 client]
 Gadu-Gadu v8 client
-[TM/QQ 2012 overlay]
-TM/QQ 2012 overlay
-[TM/QQ 2011 overlay]
-TM/QQ 2011 overlay
-[TM/QQ 2010 overlay]
-TM/QQ 2010 overlay
-[TM/QQ 2009 overlay]
-TM/QQ 2009 overlay
-[TM/QQ 2008 overlay]
-TM/QQ 2008 overlay
-[TM/QQ 2007 overlay]
-TM/QQ 2007 overlay
-[TM/QQ 2006 overlay]
-TM/QQ 2006 overlay
-[TM/QQ 2005 overlay]
-TM/QQ 2005 overlay
-[QQ 2004 overlay]
-QQ 2004 overlay
-[TM 3.x / QQ 2003 overlay]
-TM 3.x / QQ 2003 overlay
-[TM 2.x overlay]
-TM 2.x overlay
-[TM 1.x overlay]
-TM 1.x overlay
-[QQ 2000 overlay]
-QQ 2000 overlay
 [Windows overlay]
 Windows overlay
 [iOS overlay (iPhone/iPad)]

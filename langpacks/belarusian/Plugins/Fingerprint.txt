@@ -40,8 +40,6 @@ Fingerprint NG адлюстроўвае абразкі кліентаў, вык�
 Кліенты Jabber
 [MSN clients]
 Кліенты MSN
-[QQ clients]
-Кліенты QQ
 [RSS clients]
 Кліенты RSS
 [VKontakte clients]
@@ -85,14 +83,10 @@ Fingerprint NG адлюстроўвае абразкі кліентаў, вык�
 Miranda IM (старая)
 [Miranda (unknown)]
 Miranda (невядома)
-[spam client]
-спам кліент
 [PHP Jabber Client]
 PHP Jabber кліент
 [MP3 Script for mIRC]
 MP3 скрыпт для mIRC
-[TM 2008 and >]
-TM 2008 і вышэй
 [Gadu-Gadu client]
 Gadu-Gadu
 [Python-based clients]
@@ -107,10 +101,8 @@ XMPP
 Невядомы кліент
 [Undetected client]
 Нязнойдзены кліент
-[ICQJ Plus Mod overlay]
-ICQJ Plus Mod
-[ICQJ overlay]
-ICQJ
+[ICQ overlay]
+ICQ
 [IRC overlay]
 IRC
 [JGmail overlay]
@@ -121,21 +113,9 @@ JGTalk
 Jabber
 [MSN overlay]
 MSN
-[QQ overlay]
-QQ
 [VK overlay]
 
 [Skype overlay]
-
-[ICQ 2003 overlay]
-
-[ICQ Lite 4 overlay]
-
-[ICQ v5.x overlay]
-
-[ICQ v6.x overlay]
-
-[ICQ v7.x overlay]
 
 [ICQ v8.x overlay]
 
@@ -146,32 +126,6 @@ QQ
 [Gadu-Gadu v9 client]
 
 [Gadu-Gadu v8 client]
-
-[TM/QQ 2012 overlay]
-
-[TM/QQ 2011 overlay]
-
-[TM/QQ 2010 overlay]
-
-[TM/QQ 2009 overlay]
-
-[TM/QQ 2008 overlay]
-
-[TM/QQ 2007 overlay]
-
-[TM/QQ 2006 overlay]
-
-[TM/QQ 2005 overlay]
-
-[QQ 2004 overlay]
-
-[TM 3.x / QQ 2003 overlay]
-
-[TM 2.x overlay]
-
-[TM 1.x overlay]
-
-[QQ 2000 overlay]
 
 [Windows overlay]
 Windows

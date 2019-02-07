@@ -38,5 +38,3 @@
 [Unselect all]
 [Sint Maarten (Dutch part)]
 [Message window toolbar]
-[Do nothing]
-[Dismiss popup]

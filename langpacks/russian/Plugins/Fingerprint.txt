@@ -40,8 +40,6 @@ Fingerprint NG отображает значки клиентов, исполь�
 Клиенты Jabber
 [MSN clients]
 Клиенты MSN
-[QQ clients]
-Клиенты QQ
 [RSS clients]
 Клиенты RSS
 [VKontakte clients]
@@ -85,14 +83,10 @@ Fingerprint NG отображает значки клиентов, исполь�
 Miranda IM (старая версия)
 [Miranda (unknown)]
 Miranda (неизвестно)
-[spam client]
-спам клиент
 [PHP Jabber Client]
 PHP Jabber клиент
 [MP3 Script for mIRC]
 MP3 скрипт для mIRC
-[TM 2008 and >]
-TM 2008 и выше
 [Gadu-Gadu client]
 Gadu-Gadu клиент
 [Python-based clients]
@@ -107,10 +101,8 @@ XMPP клиент
 Неизвестный клиент
 [Undetected client]
 Неопределённый клиент
-[ICQJ Plus Mod overlay]
-Оверлей ICQJ Plus Mod
-[ICQJ overlay]
-Оверлей ICQJ
+[ICQ overlay]
+Оверлей ICQ
 [IRC overlay]
 Оверлей IRC
 [JGmail overlay]
@@ -121,22 +113,10 @@ XMPP клиент
 Оверлей Jabber
 [MSN overlay]
 Оверлей MSN
-[QQ overlay]
-Оверлей QQ
 [VK overlay]
 Оверлей VK
 [Skype overlay]
 Оверлей Skype
-[ICQ 2003 overlay]
-ICQ 2003 оверлей
-[ICQ Lite 4 overlay]
-ICQ Lite 4 оверлей
-[ICQ v5.x overlay]
-ICQ v5.x оверлей
-[ICQ v6.x overlay]
-ICQ v6.x оверлей
-[ICQ v7.x overlay]
-ICQ v7.x оверлей
 [ICQ v8.x overlay]
 ICQ v8.x оверлей
 [Gadu-Gadu v11 client]
@@ -147,32 +127,6 @@ Gadu-Gadu v10 клиент
 Gadu-Gadu v9 клиент
 [Gadu-Gadu v8 client]
 Gadu-Gadu v8 клиент
-[TM/QQ 2012 overlay]
-TM/QQ 2012 оверлей
-[TM/QQ 2011 overlay]
-TM/QQ 2011 оверлей
-[TM/QQ 2010 overlay]
-TM/QQ 2010 оверлей
-[TM/QQ 2009 overlay]
-TM/QQ 2009 оверлей
-[TM/QQ 2008 overlay]
-TM/QQ 2008 оверлей
-[TM/QQ 2007 overlay]
-TM/QQ 2007 оверлей
-[TM/QQ 2006 overlay]
-TM/QQ 2006 оверлей
-[TM/QQ 2005 overlay]
-TM/QQ 2005 оверлей
-[QQ 2004 overlay]
-QQ 2004 оверлей
-[TM 3.x / QQ 2003 overlay]
-TM 3.x / QQ 2003 оверлей
-[TM 2.x overlay]
-TM 2.x оверлей
-[TM 1.x overlay]
-TM 1.x оверлей
-[QQ 2000 overlay]
-QQ 2000 оверлей
 [Windows overlay]
 Оверлей Windows
 [iOS overlay (iPhone/iPad)]
