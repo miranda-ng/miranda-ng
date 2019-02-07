@@ -428,7 +428,6 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 
 				ft->std.hContact = hContact;
 				ft->tType = SERVER_HTTP;
-				ft->p2p_appID = MSN_APPID_FILE;
 				mir_free(ft->std.szCurrentFile.w);
 				if (!((originalName = ezxml_child(xmli, "OriginalName")) && (pszFile = (char*)ezxml_attr(originalName, "v"))))
 					if ((originalName = ezxml_child(xmli, "meta")))

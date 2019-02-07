@@ -900,9 +900,6 @@ filetransfer::filetransfer(CMsnProto* prt)
 
 filetransfer::~filetransfer(void)
 {
-	if (p2p_sessionid)
-		proto->debugLogA("Destroying file transfer session %08X", p2p_sessionid);
-
 	WaitForSingleObject(hLockHandle, 2000);
 	CloseHandle(hLockHandle);
 	CloseHandle(hResumeEvt);
@@ -910,16 +907,11 @@ filetransfer::~filetransfer(void)
 	if (fileId != -1)
 		_close(fileId);
 
-	if (!bCompleted && p2p_appID == MSN_APPID_FILE) {
+	if (!bCompleted) {
 		std.pszFiles.w = nullptr;
 		std.totalFiles = 0;
 		proto->ProtoBroadcastAck(std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, this);
 	}
-
-	mir_free(p2p_branch);
-	mir_free(p2p_callID);
-	mir_free(p2p_dest);
-	mir_free(p2p_object);
 
 	mir_free(std.szCurrentFile.w);
 	mir_free(std.szWorkingDir.w);
@@ -984,17 +976,9 @@ int filetransfer::openNext(void)
 		if (fileId != -1) {
 			std.currentFileSize = _filelengthi64(fileId);
 			std.currentFileProgress = 0;
-
-			p2p_sendmsgid = 0;
-			p2p_byemsgid = 0;
 			tType = SERVER_NOTIFICATION;
-			bAccepted = false;
-
-			mir_free(p2p_branch); p2p_branch = nullptr;
-			mir_free(p2p_callID); p2p_callID = nullptr;
 		}
-		else
-			proto->MSN_ShowError("Unable to open file '%s' for the file transfer, error %d", std.szCurrentFile.w, errno);
+		else proto->MSN_ShowError("Unable to open file '%s' for the file transfer, error %d", std.szCurrentFile.w, errno);
 	}
 
 	return fileId;

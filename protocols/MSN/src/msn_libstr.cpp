@@ -156,6 +156,14 @@ void HtmlDecode(char *str)
 			else if (!strncmp(p, "&gt;", 4)) { *q = '>'; p += 3; }
 			else if (!strncmp(p, "&lt;", 4)) { *q = '<'; p += 3; }
 			else if (!strncmp(p, "&quot;", 6)) { *q = '"'; p += 5; }
+			else if (p[1] == '#') {
+				int c;
+				if (sscanf(p, "&#%d;", &c) == 1) {
+					*q = c;
+					p = strchr(p, ';');
+				}
+				else *q = *p;
+			}
 			else { *q = *p; }
 		}
 		else *q = *p;

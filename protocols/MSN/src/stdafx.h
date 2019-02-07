@@ -326,7 +326,7 @@ public:
 	void        addString(const char* name, const char* szValue, unsigned flags = 0);
 	void        addLong(const char* name, long lValue, unsigned flags = 0);
 	void        addULong(const char* name, unsigned lValue);
-	void	    addBool(const char* name, bool lValue);
+	void        addBool(const char* name, bool lValue);
 
 	const char* operator[](const char* fieldName) { return find(fieldName); }
 
@@ -379,7 +379,7 @@ struct filetransfer
 	void close(void);
 	void complete(void);
 	int  create(void);
-	int openNext(void);
+	int  openNext(void);
 
 	CMsnProto* proto;
 
@@ -387,7 +387,6 @@ struct filetransfer
 
 	bool        bCanceled;		// flag to interrupt a transfer
 	bool        bCompleted;		// was a FT ever completed?
-	bool        bAccepted;		// was a FT ever completed?
 
 	int			fileId;			// handle of file being transferring (r/w)
 
@@ -396,124 +395,11 @@ struct filetransfer
 
 	ThreadData  *info;
 	TInfoType	tType;
-	TInfoType	tTypeReq;
-	time_t		ts;
-	clock_t     nNotify;
-	unsigned	cf;
-
-	bool        p2p_waitack;    // wait for ack
-	bool        p2p_isV2;       // P2P V2
-
-	unsigned    p2p_sessionid;	// session id
-	unsigned    p2p_acksessid;	// acknowledged session id
-	unsigned    p2p_sendmsgid;  // send message id
-	unsigned    p2p_byemsgid;   // bye message id
-	unsigned    p2p_ackID;		// number of ack's state
-	unsigned    p2p_appID;		// application id: 1 = avatar, 2 = file transfer
-	unsigned    p2p_type;		// application id: 1 = avatar, 2 = file transfer, 3 = custom emoticon
-	char*       p2p_branch;		// header Branch: field
-	char*       p2p_callID;		// header Call-ID: field
-	char*       p2p_dest;		// destination e-mail address
-	char*       p2p_object;     // MSN object for a transfer
+	unsigned    cf;
 
 	//---- receiving a file
 	char*       szInvcookie;	// cookie for receiving
-
-	unsigned __int64 lstFilePtr;
 };
-
-struct directconnection
-{
-	directconnection(const char* CallID, const char* Wlid);
-	~directconnection();
-
-	char* calcHashedNonce(UUID* nonce);
-	char* mNonceToText(void);
-	char* mNonceToHash(void) { return calcHashedNonce(mNonce); }
-	void  xNonceToBin(UUID* nonce);
-
-	UUID* mNonce;
-	char* xNonce;
-
-	char* callId;
-	char* wlid;
-
-	time_t ts;
-
-	bool useHashedNonce;
-	bool bAccepted;
-
-	CMsnProto* proto;
-};
-
-
-#pragma pack(1)
-
-typedef struct _tag_HFileContext
-{
-	unsigned len;
-	unsigned ver;
-	unsigned __int64 dwSize;
-	unsigned type;
-	wchar_t wszFileName[MAX_PATH];
-	char unknown[30];
-	unsigned id;
-	char unknown2[64];
-} HFileContext;
-
-struct P2PB_Header
-{
-	virtual char* parseMsg(char *buf) = 0;
-	virtual char* createMsg(char *buf, const char* wlid, CMsnProto *ppro) = 0;
-	virtual bool isV2Hdr(void) = 0;
-	virtual void logHeader(CMsnProto *ppro) = 0;
-};
-
-struct P2P_Header : P2PB_Header
-{
-	unsigned          mSessionID;
-	unsigned          mID;
-	unsigned __int64  mOffset;
-	unsigned __int64  mTotalSize;
-	unsigned          mPacketLen;
-	unsigned          mFlags;
-	unsigned          mAckSessionID;
-	unsigned          mAckUniqueID;
-	unsigned __int64  mAckDataSize;
-
-	P2P_Header() { memset(&mSessionID, 0, 48); }
-	P2P_Header(char *buf) { parseMsg(buf); }
-
-	char* parseMsg(char *buf)  { memcpy(&mSessionID, buf, 48); return buf + 48; }
-	char* createMsg(char *buf, const char* wlid, CMsnProto *ppro);
-	bool isV2Hdr(void) { return false; }
-	void logHeader(CMsnProto *ppro);
-} ;
-
-struct P2PV2_Header : P2PB_Header
-{
-	unsigned          mSessionID;
-	unsigned          mID;
-	const char*       mCap;
-	unsigned __int64  mRemSize;
-	unsigned          mPacketLen;
-	unsigned          mPacketNum;
-	unsigned          mAckUniqueID;
-	unsigned char     mOpCode;
-	unsigned char     mTFCode;
-
-	P2PV2_Header() { memset(&mSessionID, 0, ((char*)&mTFCode - (char*)&mSessionID) + sizeof(mTFCode)); }
-	P2PV2_Header(char *buf) { parseMsg(buf); }
-
-	char* parseMsg(char *buf);
-	char* createMsg(char *buf, const char* wlid, CMsnProto *ppro);
-	bool isV2Hdr(void) { return true; }
-	void logHeader(CMsnProto *ppro);
-};
-
-#pragma pack()
-
-bool p2p_IsDlFileOk(filetransfer* ft);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //	Thread handling functions and datatypes
@@ -986,8 +872,6 @@ typedef struct _tag_MyConnectionType
 	const IN_ADDR GetMyExtIP(void) { return *((PIN_ADDR)&extIP); }
 	const char* GetMyExtIPStr(void) { return inet_ntoa(GetMyExtIP()); }
 	const char* GetMyUdpConStr(void) { return conStr[udpConType]; }
-	void SetUdpCon(const char* str);
-	void CalculateWeight(void);
 } MyConnectionType;
 
 struct chunkedmsg
