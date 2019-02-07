@@ -148,6 +148,4 @@ void RichEditData_Destroy(void);
 void CloseSmileys(void);
 int CheckForTip(int x, int y, HWND hwnd, wchar_t **smltxt);
 
-void UrlDecode(char *str);
-
 #endif

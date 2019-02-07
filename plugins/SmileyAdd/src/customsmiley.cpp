@@ -67,13 +67,11 @@ SmileyCType::SmileyCType(const CMStringW &fullpath, const wchar_t *filepath)
 
 bool SmileyCType::CreateTriggerText(char *text)
 {
-	UrlDecode(text);
-
-	int len = (int)mir_strlen(text);
-	if (len == 0) return false;
+	if (mir_strlen(text) == 0)
+		return false;
 
 	size_t reslen;
-	ptrA res((char*)mir_base64_decode(text, &reslen));
+	ptrA res((char*)mir_base64_decode(mir_urlDecode(text), &reslen));
 	if (res == NULL)
 		return false;
 

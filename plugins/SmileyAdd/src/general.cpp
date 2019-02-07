@@ -148,40 +148,6 @@ void pathToAbsolute(const CMStringW &pSrc, CMStringW &pOut)
 	pOut = szOutPath;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// UrlDecode - converts URL chars like %20 into printable characters
-
-static int __fastcall SingleHexToDecimal(char c)
-{
-	if (c >= '0' && c <= '9') return c - '0';
-	if (c >= 'a' && c <= 'f') return c - 'a' + 10;
-	if (c >= 'A' && c <= 'F') return c - 'A' + 10;
-	return -1;
-}
-
-void  UrlDecode(char *str)
-{
-	char *s = str, *d = str;
-
-	while (*s) {
-		if (*s == '%') {
-			int digit1 = SingleHexToDecimal(s[1]);
-			if (digit1 != -1) {
-				int digit2 = SingleHexToDecimal(s[2]);
-				if (digit2 != -1) {
-					s += 3;
-					*d++ = (char)((digit1 << 4) | digit2);
-					continue;
-				}
-			}
-		}
-		*d++ = *s++;
-	}
-
-	*d = 0;
-}
-
-
 bool InitGdiPlus(void)
 {
 	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
