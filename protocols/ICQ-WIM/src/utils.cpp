@@ -35,6 +35,13 @@ void CIcqProto::InitContactCache()
 			_itow(dwUin, buf, 10);
 			setWString(it, DB_KEY_ID, buf);
 		}
+		else {
+			CMStringW wszEmail(getMStringW(it, "e-mail"));
+			if (!wszEmail.IsEmpty()) {
+				delSetting(it, "UIN");
+				setWString(it, DB_KEY_ID, wszEmail);
+			}
+		}
 
 		m_arCache.insert(new IcqCacheItem(GetUserId(it), it));
 	}

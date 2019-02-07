@@ -44,6 +44,15 @@ CMPlugin::CMPlugin() :
 	SetUniqueId(DB_KEY_ID);
 }
 
+struct CMPluginMra : public ACCPROTOPLUGIN<CIcqProto>
+{
+	CMPluginMra() : ACCPROTOPLUGIN<CIcqProto>("MRA", pluginInfoEx)
+	{
+		SetUniqueId(DB_KEY_ID);
+	}
+}
+static g_pluginMra;
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };

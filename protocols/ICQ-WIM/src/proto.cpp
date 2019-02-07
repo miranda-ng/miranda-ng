@@ -102,6 +102,8 @@ void CIcqProto::OnModulesLoaded()
 	}
 	else {
 		CMStringW wszEmail(getMStringW("Email"));
+		if (wszEmail.IsEmpty())
+			wszEmail = getMStringW("e-mail");
 		if (!wszEmail.IsEmpty())
 			m_szOwnId = wszEmail;
 	}

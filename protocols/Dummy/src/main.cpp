@@ -112,12 +112,3 @@ struct CMPluginWhatsapp : public ACCPROTOPLUGIN<CDummyProto>
 	}
 }
 static g_pluginWhatsapp;
-
-struct CMPluginMra : public ACCPROTOPLUGIN<CDummyProto>
-{
-	CMPluginMra() : ACCPROTOPLUGIN<CDummyProto>("MRA", pluginInfoEx)
-	{
-		SetUniqueId("e-mail");
-	}
-}
-static g_pluginMra;
