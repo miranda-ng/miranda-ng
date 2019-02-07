@@ -143,7 +143,7 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 			else LoadChatInfo(si);
 		}
 	}
-	else hContact = CreateContact(_wtol(wszId), true);
+	else hContact = CreateContact(wszId, true);
 
 	__int64 lastMsgId = getId(hContact, DB_KEY_LASTMSGID);
 	if (lastMsgId == 0) {
@@ -200,9 +200,9 @@ void CIcqProto::ProcessMyInfo(const JSONNode &ev)
 
 void CIcqProto::ProcessPresence(const JSONNode &ev)
 {
-	DWORD dwUin = _wtol(ev["aimId"].as_mstring());
+	CMStringW aimId = ev["aimId"].as_mstring();
 
-	IcqCacheItem *pCache = FindContactByUIN(dwUin);
+	IcqCacheItem *pCache = FindContactByUIN(aimId);
 	if (pCache) {
 		int iNewStatus = StatusFromString(ev["state"].as_mstring());
 
@@ -227,10 +227,10 @@ void CIcqProto::ProcessPresence(const JSONNode &ev)
 
 void CIcqProto::ProcessTyping(const JSONNode &ev)
 {
-	DWORD dwUin = _wtol(ev["aimId"].as_mstring());
+	CMStringW aimId = ev["aimId"].as_mstring();
 	CMStringW wszStatus = ev["typingStatus"].as_mstring();
 
-	IcqCacheItem *pCache = FindContactByUIN(dwUin);
+	IcqCacheItem *pCache = FindContactByUIN(aimId);
 	if (pCache) {
 		if (wszStatus == "typing")
 			CallService(MS_PROTO_CONTACTISTYPING, pCache->m_hContact, 60);

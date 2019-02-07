@@ -33,15 +33,19 @@
 
 #pragma warning(disable:4355)
 
+static int CompareCache(const IcqCacheItem *p1, const IcqCacheItem *p2)
+{
+	return mir_wstrcmp(p1->m_aimid, p2->m_aimid);
+}
+
 CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	PROTO<CIcqProto>(aProtoName, aUserName),
 	m_arHttpQueue(10),
 	m_arOwnIds(1, PtrKeySortT),
-	m_arCache(20, NumericKeySortT),
+	m_arCache(20, &CompareCache),
 	arMarkReadQueue(10, NumericKeySortT),
 	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr)),
-	m_dwUin(this, DB_KEY_UIN, 0),
-	m_szEmail(this, "Email"),
+	m_szOwnId(this, DB_KEY_ID),
 	m_iStatus1(this, "Status1", ID_STATUS_AWAY),
 	m_iStatus2(this, "Status2", ID_STATUS_NA),
 	m_iTimeDiff1(this, "TimeDiff1", 0),
@@ -88,6 +92,20 @@ CIcqProto::~CIcqProto()
 
 void CIcqProto::OnModulesLoaded()
 {
+	DWORD dwUin = getDword("UIN", -1);
+	if (dwUin != -1) {
+		delSetting("UIN");
+
+		wchar_t buf[100];
+		_itow(dwUin, buf, 10);
+		m_szOwnId = buf;
+	}
+	else {
+		CMStringW wszEmail(getMStringW("Email"));
+		if (!wszEmail.IsEmpty())
+			m_szOwnId = wszEmail;
+	}
+
 	InitContactCache();
 
 	GCREGISTER gcr = {};
@@ -108,12 +126,12 @@ void CIcqProto::OnShutdown()
 
 void CIcqProto::OnContactDeleted(MCONTACT hContact)
 {
-	CMStringA szId(GetUserId(hContact));
+	CMStringW szId(GetUserId(hContact));
 	if (!isChatRoom(hContact))
-		m_arCache.remove(FindContactByUIN(atoi(szId)));
+		m_arCache.remove(FindContactByUIN(szId));
 
 	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/removeBuddy");
-	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("buddy", szId)
+	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << WCHAR_PARAM("buddy", szId)
 		<< CHAR_PARAM("r", pReq->m_reqId) << INT_PARAM("allGroups", 1);
 	pReq->flags |= NLHRF_NODUMPSEND;
 	Push(pReq);
@@ -185,7 +203,7 @@ void CIcqProto::MarkReadTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD)
 
 		auto *pReq = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER);
 		JSONNode request, params; params.set_name("params");
-		params << CHAR_PARAM("sn", ppro->GetUserId(pUser->m_hContact)) << INT64_PARAM("lastRead", ppro->getId(pUser->m_hContact, DB_KEY_LASTMSGID));
+		params << WCHAR_PARAM("sn", ppro->GetUserId(pUser->m_hContact)) << INT64_PARAM("lastRead", ppro->getId(pUser->m_hContact, DB_KEY_LASTMSGID));
 		request << CHAR_PARAM("method", "setDlgStateWim") << CHAR_PARAM("reqId", pReq->m_reqId) 
 			<< CHAR_PARAM("authToken", ppro->m_szRToken) << INT_PARAM("clientId", ppro->m_iRClientId) << params;
 		pReq->m_szParam = ptrW(json_write(&request));
@@ -210,7 +228,7 @@ int CIcqProto::OnDbEventRead(WPARAM, LPARAM hDbEvent)
 	if (m_bOnline) {
 		SetTimer(g_hwndHeartbeat, UINT_PTR(this), 200, &CIcqProto::MarkReadTimerProc);
 		
-		IcqCacheItem *pCache = FindContactByUIN(getDword(hContact, DB_KEY_UIN));
+		IcqCacheItem *pCache = FindContactByUIN(GetUserId(hContact));
 		if (pCache) {
 			mir_cslock lck(csMarkReadQueue);
 			if (arMarkReadQueue.indexOf(pCache) == -1)
@@ -256,9 +274,7 @@ MCONTACT CIcqProto::AddToList(int, PROTOSEARCHRESULT *psr)
 	if (mir_wstrlen(psr->id.w) == 0)
 		return 0;
 
-	DWORD dwUin = _wtol(psr->id.w);
-
-	MCONTACT hContact = CreateContact(dwUin, true);
+	MCONTACT hContact = CreateContact(psr->id.w, true);
 	if (psr->nick.w)
 		setWString(hContact, "Nick", psr->nick.w);
 	if (psr->firstName.w)
@@ -276,7 +292,7 @@ int CIcqProto::AuthRequest(MCONTACT hContact, const wchar_t* szMessage)
 {
 	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, ICQ_API_SERVER "/buddylist/addBuddy", &CIcqProto::OnAddBuddy);
 	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("r", pReq->m_reqId) << WCHAR_PARAM("authorizationMsg", szMessage)
-		<< CHAR_PARAM("buddy", GetUserId(hContact)) << CHAR_PARAM("group", "General") << INT_PARAM("preAuthorized", 1);
+		<< WCHAR_PARAM("buddy", GetUserId(hContact)) << CHAR_PARAM("group", "General") << INT_PARAM("preAuthorized", 1);
 	pReq->flags |= NLHRF_NODUMPSEND;
 	pReq->hContact = hContact;
 	Push(pReq);
@@ -430,7 +446,7 @@ int CIcqProto::SetStatus(int iNewStatus)
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 
-		if (m_dwUin == 0 && mir_wstrlen(m_szEmail) == 0) {
+		if (mir_wstrlen(m_szOwnId) == 0) {
 			debugLogA("Thread ended, UIN/password are not configured");
 			ConnectionFailed(LOGINERR_BADUSERID);
 			return 0;
@@ -484,7 +500,7 @@ int CIcqProto::UserIsTyping(MCONTACT hContact, int type)
 	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/im/setTyping");
 	pReq->flags |= NLHRF_NODUMPSEND;
 	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("f", "json")
-		<< CHAR_PARAM("t", GetUserId(hContact)) << CHAR_PARAM("r", pReq->m_reqId)
+		<< WCHAR_PARAM("t", GetUserId(hContact)) << CHAR_PARAM("r", pReq->m_reqId)
 		<< CHAR_PARAM("typingStatus", (type == PROTOTYPE_SELFTYPING_ON) ? "typing" : "typed");
 	Push(pReq);
 	return 0;

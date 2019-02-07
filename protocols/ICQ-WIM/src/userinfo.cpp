@@ -33,7 +33,7 @@ static INT_PTR CALLBACK IcqDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam
 			MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			CIcqProto *ppro = (CIcqProto*)((PSHNOTIFY*)lParam)->lParam;
 
-			SetDlgItemTextA(hwndDlg, IDC_UIN, ppro->GetUserId(hContact));
+			SetDlgItemTextW(hwndDlg, IDC_UIN, ppro->GetUserId(hContact));
 			SetDlgItemTextW(hwndDlg, IDC_NICK, ppro->getMStringW(hContact, DB_KEY_ICQNICK));
 
 			SetDlgItemTextA(hwndDlg, IDC_IDLETIME, time2text(ppro->getDword(hContact, DB_KEY_IDLE)));

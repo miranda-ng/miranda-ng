@@ -40,7 +40,7 @@ void CIcqProto::LoadChatInfo(SESSION_INFO *si)
 		gce.ptszNick = nick;
 		gce.ptszUID = sn;
 		gce.time = ::time(0);
-		gce.bIsMe = _wtoi(sn) == (int)m_dwUin;
+		gce.bIsMe = sn == m_szOwnId;
 		gce.ptszStatus = TranslateW(role);
 		Chat_Event(&gce);
 
@@ -136,7 +136,7 @@ public:
 
 	bool OnApply() override
 	{
-		CMStringA szMembers;
+		CMStringW szMembers;
 		for (auto &hContact : m_proto->AccContacts()) {
 			if (m_proto->isChatRoom(hContact))
 				continue;
@@ -151,7 +151,7 @@ public:
 		}
 
 		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/mchat/AddChat");
-		pReq << CHAR_PARAM("f", "json") << WCHAR_PARAM("chat_id", m_si->ptszID) << CHAR_PARAM("aimsid", m_proto->m_aimsid) << CHAR_PARAM("r", pReq->m_reqId) << CHAR_PARAM("members", szMembers);
+		pReq << CHAR_PARAM("f", "json") << WCHAR_PARAM("chat_id", m_si->ptszID) << CHAR_PARAM("aimsid", m_proto->m_aimsid) << CHAR_PARAM("r", pReq->m_reqId) << WCHAR_PARAM("members", szMembers);
 		m_proto->Push(pReq);
 		return true;
 	}
@@ -258,10 +258,9 @@ void CIcqProto::Chat_ProcessLogMenu(SESSION_INFO *si, int iChoice)
 void CIcqProto::Chat_SendPrivateMessage(GCHOOK *gch)
 {
 	MCONTACT hContact;
-	DWORD dwUin = _wtoi(gch->ptszUID);
-	auto *pCache = FindContactByUIN(dwUin);
+	auto *pCache = FindContactByUIN(gch->ptszUID);
 	if (pCache == nullptr) {
-		hContact = CreateContact(dwUin, true);
+		hContact = CreateContact(gch->ptszUID, true);
 		setWString(hContact, "Nick", gch->ptszNick);
 		db_set_b(hContact, "CList", "Hidden", 1);
 		db_set_dw(hContact, "Ignore", "Mask1", 0);
@@ -289,14 +288,14 @@ void CIcqProto::ProcessGroupChat(const JSONNode &ev)
 			if (member.IsEmpty())
 				break;
 
-			auto *pCache = FindContactByUIN(_wtoi(member));
+			auto *pCache = FindContactByUIN(member);
 			if (pCache == nullptr)
 				continue;
 
 			gce.ptszNick = Clist_GetContactDisplayName(pCache->m_hContact);
 			gce.ptszUID = member;
 			gce.time = ::time(0);
-			gce.bIsMe = _wtoi(member) == (int)m_dwUin;
+			gce.bIsMe = member == m_szOwnId;
 			Chat_Event(&gce);
 		}
 	}

@@ -80,7 +80,7 @@
 
 #define MODULENAME "ICQ"
 
-#define DB_KEY_UIN "UIN"
+#define DB_KEY_ID "aimId"
 #define DB_KEY_IDLE "IdleTS"
 #define DB_KEY_ABOUT "About"
 #define DB_KEY_ATOKEN "AToken"

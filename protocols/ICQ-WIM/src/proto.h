@@ -55,12 +55,12 @@ enum ChatMenuItems
 
 struct IcqCacheItem
 {
-	IcqCacheItem(DWORD _uin, MCONTACT _contact) :
-		m_uin(_uin),
+	IcqCacheItem(const CMStringW &wszId, MCONTACT _contact) :
+		m_aimid(wszId),
 		m_hContact(_contact)
 	{}
 
-	DWORD m_uin;
+	CMStringW m_aimid;
 	MCONTACT m_hContact;
 	bool m_bInList = false;
 	int m_iApparentMode;
@@ -250,8 +250,8 @@ class CIcqProto : public PROTO<CIcqProto>
 	OBJLIST<IcqCacheItem> m_arCache;
 
 	void      InitContactCache(void);
-	IcqCacheItem* FindContactByUIN(DWORD);
-	MCONTACT  CreateContact(DWORD dwUin, bool bTemporary);
+	IcqCacheItem* FindContactByUIN(const CMStringW &pwszId);
+	MCONTACT  CreateContact(const CMStringW &pwszId, bool bTemporary);
 
 	void      GetAvatarFileName(MCONTACT hContact, wchar_t *pszDest, size_t cbLen);
 
@@ -317,8 +317,7 @@ public:
 	CIcqProto(const char*, const wchar_t*);
 	~CIcqProto();
 
-	CMOption<DWORD> m_dwUin;          // our own id
-	CMOption<wchar_t*> m_szEmail;     // email, if present
+	CMOption<wchar_t*> m_szOwnId;     // our own aim id
 	CMOption<wchar_t*> m_szPassword;  // password, if present
 	CMOption<BYTE> m_bHideGroupchats; // don't pop up group chat windows on startup
 	CMOption<DWORD> m_iTimeDiff1;		 // set this status to m_iStatus1 after this interval of secs
@@ -327,10 +326,10 @@ public:
 	CMOption<DWORD> m_iStatus2;
 
 	void CheckStatus(void);
-	CMStringA GetUserId(MCONTACT);
+	CMStringW GetUserId(MCONTACT);
 
 	int __cdecl OnContactMenu(WPARAM, LPARAM);
-	void SetPermitDeny(const CMStringA &userId, bool bAllow);
+	void SetPermitDeny(const CMStringW &userId, bool bAllow);
 };
 
 struct CMPlugin : public ACCPROTOPLUGIN<CIcqProto>

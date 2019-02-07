@@ -95,7 +95,7 @@ public:
 
 		for (auto &it : pData["ignores"]) {
 			CMStringW wszId(it.as_mstring());
-			auto *p = m_proto->FindContactByUIN(_wtoi(wszId));
+			auto *p = m_proto->FindContactByUIN(wszId);
 			if (p) {
 				lvi.pszText = Clist_GetContactDisplayName(p->m_hContact);
 				lvi.lParam = p->m_hContact;
@@ -127,7 +127,7 @@ public:
 			if (IDYES != MessageBoxW(m_hwnd, TranslateT("Do you really want to remove it from ignore list?"), m_proto->m_tszUserName, MB_YESNO))
 				return;
 
-		CMStringA userId;
+		CMStringW userId;
 		INT_PTR data = m_list.GetItemData(hti.iItem);
 		if (data == -1) {
 			wchar_t buf[100];
@@ -185,13 +185,13 @@ void CIcqProto::ProcessPermissions(const JSONNode &ev)
 		it->m_iApparentMode = 0;
 
 	for (auto &it : ev["allows"]) {
-		auto *p = FindContactByUIN(_wtoi(it.as_mstring()));
+		auto *p = FindContactByUIN(it.as_mstring());
 		if (p)
 			p->m_iApparentMode = ID_STATUS_ONLINE;
 	}
 
 	for (auto &it : ev["ignores"]) {
-		auto *p = FindContactByUIN(_wtoi(it.as_mstring()));
+		auto *p = FindContactByUIN(it.as_mstring());
 		if (p)
 			p->m_iApparentMode = ID_STATUS_OFFLINE;
 	}
@@ -207,10 +207,10 @@ void CIcqProto::ProcessPermissions(const JSONNode &ev)
 	}
 }
 
-void CIcqProto::SetPermitDeny(const CMStringA &userId, bool bAllow)
+void CIcqProto::SetPermitDeny(const CMStringW &userId, bool bAllow)
 {
 	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/preference/setPermitDeny");
 	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("r", pReq->m_reqId)
-		<< CHAR_PARAM((bAllow) ? "pdIgnoreRemove" : "pdIgnore", userId);
+		<< WCHAR_PARAM((bAllow) ? "pdIgnoreRemove" : "pdIgnore", userId);
 	Push(pReq);
 }

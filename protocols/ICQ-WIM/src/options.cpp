@@ -146,7 +146,7 @@ void CIcqProto::OnLoginViaPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pRe
 	m_szSessionKey = data["sessionKey"].as_mstring();
 	setString(DB_KEY_SESSIONKEY, m_szSessionKey);
 
-	m_dwUin = _wtoi(data["loginId"].as_mstring());
+	m_szOwnId = data["loginId"].as_mstring();
 	setByte(DB_KEY_PHONEREG, 1);
 }
 
@@ -154,7 +154,7 @@ void CIcqProto::OnLoginViaPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pRe
 
 class CIcqOptionsDlg : public CProtoDlgBase<CIcqProto>
 {
-	CCtrlEdit edtUin, edtEmail, edtPassword, edtDiff1, edtDiff2;
+	CCtrlEdit edtUin, edtPassword, edtDiff1, edtDiff2;
 	CCtrlSpin spin1, spin2;
 	CCtrlCombo cmbStatus1, cmbStatus2;
 	CCtrlCheck chkHideChats;
@@ -167,7 +167,6 @@ public:
 		spin1(this, IDC_SPIN1, 3600),
 		spin2(this, IDC_SPIN2, 3600),
 		edtUin(this, IDC_UIN),
-		edtEmail(this, IDC_EMAIL),
 		edtDiff1(this, IDC_DIFF1),
 		edtDiff2(this, IDC_DIFF2),
 		btnCreate(this, IDC_REGISTER),
@@ -181,8 +180,7 @@ public:
 		edtDiff1.OnChange = Callback(this, &CIcqOptionsDlg::onChange_Timeout1);
 		edtDiff2.OnChange = Callback(this, &CIcqOptionsDlg::onChange_Timeout2);
 
-		CreateLink(edtUin, ppro->m_dwUin);
-		CreateLink(edtEmail, ppro->m_szEmail);
+		CreateLink(edtUin, ppro->m_szOwnId);
 		CreateLink(edtPassword, ppro->m_szPassword);
 		if (bFullDlg) {
 			CreateLink(spin1, ppro->m_iTimeDiff1);
@@ -211,8 +209,6 @@ public:
 			onChange_Timeout1(0);
 		}
 
-		if (m_proto->m_dwUin == 0)
-			edtUin.SetText(L"");
 		return true;
 	}
 

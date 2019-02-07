@@ -23,27 +23,41 @@
 void CIcqProto::InitContactCache()
 {
 	mir_cslock l(m_csCache);
-	for (auto &it : AccContacts())
-		if (!isChatRoom(it))
-			m_arCache.insert(new IcqCacheItem(getDword(it, DB_KEY_UIN), it));
+	for (auto &it : AccContacts()) {
+		if (isChatRoom(it))
+			continue;
+
+		DWORD dwUin = getDword(it, "UIN", -1);
+		if (dwUin != -1) {
+			delSetting(it, "UIN");
+
+			wchar_t buf[100];
+			_itow(dwUin, buf, 10);
+			setWString(it, DB_KEY_ID, buf);
+		}
+
+		m_arCache.insert(new IcqCacheItem(GetUserId(it), it));
+	}
 }
 
-IcqCacheItem* CIcqProto::FindContactByUIN(DWORD dwUin)
+IcqCacheItem* CIcqProto::FindContactByUIN(const CMStringW &wszId)
 {
+	IcqCacheItem tmp(wszId, -1);
+
 	mir_cslock l(m_csCache);
-	return m_arCache.find((IcqCacheItem*)&dwUin);
+	return m_arCache.find(&tmp);
 }
 
-MCONTACT CIcqProto::CreateContact(DWORD dwUin, bool bTemporary)
+MCONTACT CIcqProto::CreateContact(const CMStringW &wszId, bool bTemporary)
 {
-	auto *pCache = FindContactByUIN(dwUin);
+	auto *pCache = FindContactByUIN(wszId);
 	if (pCache != nullptr)
 		return pCache->m_hContact;
 
 	MCONTACT hContact = db_add_contact();
 	Proto_AddToContact(hContact, m_szModuleName);
-	setDword(hContact, DB_KEY_UIN, dwUin);
-	pCache = new IcqCacheItem(dwUin, hContact);
+	setWString(hContact, DB_KEY_ID, wszId);
+	pCache = new IcqCacheItem(wszId, hContact);
 	{
 		mir_cslock l(m_csCache);
 		m_arCache.insert(pCache);
@@ -211,12 +225,12 @@ INT_PTR __cdecl CIcqProto::SetAvatar(WPARAM, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CMStringA CIcqProto::GetUserId(MCONTACT hContact)
+CMStringW CIcqProto::GetUserId(MCONTACT hContact)
 {
 	if (isChatRoom(hContact))
-		return getMStringA(hContact, "ChatRoomID");
+		return getMStringW(hContact, "ChatRoomID");
 
-	return CMStringA(FORMAT, "%d", getDword(hContact, DB_KEY_UIN));
+	return getMStringW(hContact, DB_KEY_ID);
 }
 
 bool IsChat(const CMStringW &aimid)

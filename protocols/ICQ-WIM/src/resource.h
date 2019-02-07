@@ -22,7 +22,6 @@
 #define IDC_NICK                        1012
 #define IDC_MEMBERSINCE                 1013
 #define IDC_LASTSEEN                    1014
-#define IDC_EMAIL                       1015
 #define IDC_LIST                        1016
 #define IDC_DIFF1                       1017
 #define IDC_SPIN1                       1018

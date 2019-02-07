@@ -80,17 +80,13 @@ void CIcqProto::CheckPassword()
 	char mirVer[100];
 	Miranda_GetVersionText(mirVer, _countof(mirVer));
 
-	CMStringW wszId(m_szEmail);
-	if (wszId.IsEmpty())
-		wszId.Format(L"%d", (DWORD)m_dwUin);
-
 	m_szAToken = getMStringA(DB_KEY_ATOKEN);
 	m_iRClientId = getDword(DB_KEY_RCLIENTID);
 	m_szSessionKey = getMStringA(DB_KEY_SESSIONKEY);
 	if (m_szAToken.IsEmpty() || m_szSessionKey.IsEmpty()) {
 		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, "https://api.login.icq.net/auth/clientLogin", &CIcqProto::OnCheckPassword);
 		pReq << CHAR_PARAM("clientName", "Miranda NG") << CHAR_PARAM("clientVersion", mirVer) << CHAR_PARAM("devId", ICQ_APP_ID)
-			<< CHAR_PARAM("f", "json") << CHAR_PARAM("tokenType", "longTerm") << WCHAR_PARAM("s", wszId) << WCHAR_PARAM("pwd", m_szPassword);
+			<< CHAR_PARAM("f", "json") << CHAR_PARAM("tokenType", "longTerm") << WCHAR_PARAM("s", m_szOwnId) << WCHAR_PARAM("pwd", m_szPassword);
 		pReq->flags |= NLHRF_NODUMPSEND;
 		Push(pReq);
 	}
@@ -161,7 +157,7 @@ void CIcqProto::MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, 
 {
 	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/moveBuddy");
 	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("r", pReq->m_reqId)
-			<< CHAR_PARAM("buddy", GetUserId(hContact)) << WCHAR_PARAM("group", pwszGroup) << WCHAR_PARAM("newGroup", pwszNewGroup);
+			<< WCHAR_PARAM("buddy", GetUserId(hContact)) << WCHAR_PARAM("group", pwszGroup) << WCHAR_PARAM("newGroup", pwszNewGroup);
 	Push(pReq);
 }
 
@@ -209,10 +205,11 @@ void CIcqProto::OnLoggedOut()
 MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 {
 	// user chat?
-	if (buddy["userType"].as_mstring() == "interop") {
+	CMStringW wszId(buddy["aimId"].as_mstring());
+	if (IsChat(wszId)) {
 		CMStringW wszChatId(buddy["aimId"].as_mstring());
 		CMStringW wszChatName(buddy["friendly"].as_mstring());
-		
+
 		SESSION_INFO *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszChatId, wszChatName);
 		if (si == nullptr)
 			return INVALID_CONTACT_ID;
@@ -223,12 +220,10 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 		Chat_Control(m_szModuleName, wszChatId, SESSION_ONLINE);
 		return si->hContact;
 	}
-
-	DWORD dwUin = _wtol(buddy["aimId"].as_mstring());
-
+	
 	if (hContact == -1) {
-		hContact = CreateContact(dwUin, false);
-		FindContactByUIN(dwUin)->m_bInList = true;
+		hContact = CreateContact(wszId, false);
+		FindContactByUIN(wszId)->m_bInList = true;
 	}
 
 	bool bVersionDetected = false;
@@ -353,7 +348,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		gce.ptszUID = wszSender;
 		gce.ptszText = wszText;
 		gce.time = iMsgTime;
-		gce.bIsMe = _wtoi(wszSender) == (int)m_dwUin;
+		gce.bIsMe = wszSender == m_szOwnId;
 		Chat_Event(&gce);
 	}
 	else {
@@ -397,7 +392,7 @@ bool CIcqProto::RefreshRobustToken()
 	tmp->pData = tmp->m_szParam.Detach();
 	tmp->szUrl = tmp->m_szUrl.GetBuffer();
 
-	CMStringA szAgent(FORMAT, "%d Mail.ru Windows ICQ (version 10.0.1999)", DWORD(m_dwUin));
+	CMStringA szAgent(FORMAT, "%S Mail.ru Windows ICQ (version 10.0.1999)", (wchar_t*)m_szOwnId);
 	tmp->AddHeader("User-Agent", szAgent);
 
 	NETLIBHTTPREQUEST *reply = Netlib_HttpTransaction(m_hNetlibUser, tmp);
@@ -434,9 +429,9 @@ void CIcqProto::RetrieveUserInfo(MCONTACT hContact)
 	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << INT_PARAM("mdir", 1) << INT_PARAM("capabilities", 1);
 	if (hContact == INVALID_CONTACT_ID)
 		for (auto &it : m_arCache)
-			pReq << CHAR_PARAM("t", GetUserId(it->m_hContact));
+			pReq << WCHAR_PARAM("t", GetUserId(it->m_hContact));
 	else
-		pReq << CHAR_PARAM("t", GetUserId(hContact));
+		pReq << WCHAR_PARAM("t", GetUserId(hContact));
 
 	Push(pReq);
 }
@@ -456,7 +451,7 @@ void CIcqProto::RetrieveUserHistory(MCONTACT hContact, __int64 startMsgId, __int
 	pReq->hContact = hContact;
 
 	JSONNode request, params; params.set_name("params");
-	params << CHAR_PARAM("sn", GetUserId(hContact)) << INT64_PARAM("fromMsgId", startMsgId);
+	params << WCHAR_PARAM("sn", GetUserId(hContact)) << INT64_PARAM("fromMsgId", startMsgId);
 	if (endMsgId != -1)
 		params << INT64_PARAM("tillMsgId", endMsgId);
 	params << INT_PARAM("count", 1000) << CHAR_PARAM("aimSid", m_aimsid) << CHAR_PARAM("patchVersion", "1") << CHAR_PARAM("language", "ru-ru");
@@ -606,9 +601,9 @@ void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 	m_szSessionKey = ptrA(mir_base64_encode(hashOut, sizeof(hashOut)));
 	setString(DB_KEY_SESSIONKEY, m_szSessionKey);
 
-	CMStringA szUin = data["loginId"].as_mstring();
+	CMStringW szUin = data["loginId"].as_mstring();
 	if (szUin)
-		m_dwUin = atoi(szUin);
+		m_szOwnId = szUin;
 
 	StartSession();
 }
