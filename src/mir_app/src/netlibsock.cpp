@@ -35,20 +35,12 @@ MIR_APP_DLL(int) Netlib_Send(HNETLIBCONN nlc, const char *buf, int len, int flag
 		return SOCKET_ERROR;
 
 	int result;
-	if (nlc->usingHttpGateway && !(flags & MSG_RAW)) {
-		if (!(flags & MSG_NOHTTPGATEWAYWRAP) && nlc->nlu->user.pfnHttpGatewayWrapSend) {
-			NetlibDumpData(nlc, (PBYTE)buf, len, 1, flags);
-			result = nlc->nlu->user.pfnHttpGatewayWrapSend(nlc, (PBYTE)buf, len, flags | MSG_NOHTTPGATEWAYWRAP);
-		}
-		else result = NetlibHttpGatewayPost(nlc, buf, len, flags);
-	}
-	else {
-		NetlibDumpData(nlc, (PBYTE)buf, len, 1, flags);
-		if (nlc->hSsl)
-			result = sslApi.write(nlc->hSsl, buf, len);
-		else
-			result = send(nlc->s, buf, len, flags & 0xFFFF);
-	}
+	NetlibDumpData(nlc, (PBYTE)buf, len, 1, flags);
+	if (nlc->hSsl)
+		result = sslApi.write(nlc->hSsl, buf, len);
+	else
+		result = send(nlc->s, buf, len, flags & 0xFFFF);
+
 	NetlibLeaveNestedCS(&nlc->ncsSend);
 
 	NETLIBNOTIFY nln = { buf, len, flags, result };
@@ -65,19 +57,16 @@ MIR_APP_DLL(int) Netlib_Recv(HNETLIBCONN nlc, char *buf, int len, int flags)
 		return SOCKET_ERROR;
 
 	int recvResult;
-	if (nlc->usingHttpGateway && !(flags & MSG_RAW))
-		recvResult = NetlibHttpGatewayRecv(nlc, buf, len, flags);
-	else {
-		if (!nlc->foreBuf.isEmpty()) {
-			recvResult = min(len, (int)nlc->foreBuf.length());
-			memcpy(buf, nlc->foreBuf.data(), recvResult);
-			nlc->foreBuf.remove(recvResult);
-		}
-		else if (nlc->hSsl)
-			recvResult = sslApi.read(nlc->hSsl, buf, len, (flags & MSG_PEEK) != 0);
-		else
-			recvResult = recv(nlc->s, buf, len, flags & 0xFFFF);
+	if (!nlc->foreBuf.isEmpty()) {
+		recvResult = min(len, (int)nlc->foreBuf.length());
+		memcpy(buf, nlc->foreBuf.data(), recvResult);
+		nlc->foreBuf.remove(recvResult);
 	}
+	else if (nlc->hSsl)
+		recvResult = sslApi.read(nlc->hSsl, buf, len, (flags & MSG_PEEK) != 0);
+	else
+		recvResult = recv(nlc->s, buf, len, flags & 0xFFFF);
+
 	NetlibLeaveNestedCS(&nlc->ncsRecv);
 	if (recvResult <= 0)
 		return recvResult;
@@ -173,16 +162,15 @@ MIR_APP_DLL(int) Netlib_SelectEx(NETLIBSELECTEX *nls)
 
 		if (sslApi.pending(conn->hSsl))
 			nls->hReadStatus[j] = TRUE;
-		if (conn->usingHttpGateway && conn->nlhpi.szHttpGetUrl == nullptr && conn->szProxyBuf.IsEmpty())
-			nls->hReadStatus[j] = (conn->pHttpProxyPacketQueue != nullptr);
-		else
-			nls->hReadStatus[j] = FD_ISSET(conn->s, &readfd);
+		nls->hReadStatus[j] = FD_ISSET(conn->s, &readfd);
 	}
+
 	for (j = 0; j < FD_SETSIZE; j++) {
 		conn = (NetlibConnection*)nls->hWriteConns[j];
 		if (conn == nullptr || conn == INVALID_HANDLE_VALUE) break;
 		nls->hWriteStatus[j] = FD_ISSET(conn->s, &writefd);
 	}
+
 	for (j = 0; j < FD_SETSIZE; j++) {
 		conn = (NetlibConnection*)nls->hExceptConns[j];
 		if (conn == nullptr || conn == INVALID_HANDLE_VALUE) break;

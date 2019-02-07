@@ -74,8 +74,6 @@ struct NetlibConnection : public MZeroedObject
 
 	int handleType;
 	SOCKET s, s2;
-	bool usingHttpGateway;
-	bool usingDirectHttpGateway;
 	bool proxyAuthNeeded;
 	bool dnsThroughProxy;
 	bool termRequested;

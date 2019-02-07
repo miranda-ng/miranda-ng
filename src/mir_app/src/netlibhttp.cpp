@@ -404,9 +404,8 @@ MIR_APP_DLL(int) Netlib_SendHttpRequest(HNETLIBCONN nlc, NETLIBHTTPREQUEST *nlhr
 		return SOCKET_ERROR;
 	}
 
-	if (!nlc->usingHttpGateway)
-		if (!NetlibEnterNestedCS(nlc, NLNCS_SEND))
-			return SOCKET_ERROR;
+	if (!NetlibEnterNestedCS(nlc, NLNCS_SEND))
+		return SOCKET_ERROR;
 
 	const char *pszFullUrl = nlhr->szUrl;
 	const char *pszUrl = nullptr;
@@ -685,7 +684,7 @@ MIR_APP_DLL(int) Netlib_SendHttpRequest(HNETLIBCONN nlc, NETLIBHTTPREQUEST *nlhr
 	mir_free(szHost);
 	mir_free(szNewUrl);
 
-	if (nlc && !nlc->usingHttpGateway)
+	if (nlc)
 		NetlibLeaveNestedCS(&nlc->ncsSend);
 
 	return bytesSent;

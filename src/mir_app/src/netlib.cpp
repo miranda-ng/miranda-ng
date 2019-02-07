@@ -161,17 +161,12 @@ MIR_APP_DLL(HNETLIBUSER) Netlib_RegisterUser(const NETLIBUSER *nlu)
 		thisUser->user.szDescriptiveName.w = (thisUser->user.flags & NUF_UNICODE) ? mir_wstrdup(nlu->szDescriptiveName.w) : mir_a2u(nlu->szDescriptiveName.a);
 
 	if ((thisUser->user.szSettingsModule = mir_strdup(nlu->szSettingsModule)) == nullptr
-		|| (nlu->szDescriptiveName.w && thisUser->user.szDescriptiveName.w == nullptr)
-		|| (nlu->szHttpGatewayUserAgent && (thisUser->user.szHttpGatewayUserAgent = mir_strdup(nlu->szHttpGatewayUserAgent)) == nullptr))
+		|| (nlu->szDescriptiveName.w && thisUser->user.szDescriptiveName.w == nullptr))
 	{
 		mir_free(thisUser);
 		SetLastError(ERROR_OUTOFMEMORY);
 		return nullptr;
 	}
-	if (nlu->szHttpGatewayHello)
-		thisUser->user.szHttpGatewayHello = mir_strdup(nlu->szHttpGatewayHello);
-	else
-		thisUser->user.szHttpGatewayHello = nullptr;
 
 	thisUser->settings.cbSize = sizeof(NETLIBUSERSETTINGS);
 	thisUser->settings.useProxy = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLUseProxy", 0);
@@ -303,8 +298,6 @@ MIR_APP_DLL(int) Netlib_CloseHandle(HANDLE hNetlib)
 		NetlibFreeUserSettingsStruct(&nlu->settings);
 		mir_free(nlu->user.szSettingsModule);
 		mir_free(nlu->user.szDescriptiveName.a);
-		mir_free(nlu->user.szHttpGatewayHello);
-		mir_free(nlu->user.szHttpGatewayUserAgent);
 		mir_free(nlu->szStickyHeaders);
 	}
 	break;
@@ -314,15 +307,12 @@ MIR_APP_DLL(int) Netlib_CloseHandle(HANDLE hNetlib)
 		{
 			NetlibConnection *nlc = (NetlibConnection*)hNetlib;
 			if (GetNetlibHandleType(nlc) == NLH_CONNECTION) {
-				if (nlc->usingHttpGateway)
-					HttpGatewayRemovePacket(nlc, -1);
-				else {
-					if (nlc->s != INVALID_SOCKET)
-						NetlibDoCloseSocket(nlc, nlc->termRequested);
-					if (nlc->s2 != INVALID_SOCKET)
-						closesocket(nlc->s2);
-					nlc->s2 = INVALID_SOCKET;
-				}
+				if (nlc->s != INVALID_SOCKET)
+					NetlibDoCloseSocket(nlc, nlc->termRequested);
+				if (nlc->s2 != INVALID_SOCKET)
+					closesocket(nlc->s2);
+				nlc->s2 = INVALID_SOCKET;
+
 				ReleaseMutex(hConnectionHeaderMutex);
 
 				HANDLE waitHandles[4] = { hConnectionHeaderMutex, nlc->hOkToCloseEvent, nlc->ncsRecv.hMutex, nlc->ncsSend.hMutex };

@@ -65,7 +65,6 @@ const
   NLOCF_V2            = $0004;
   NLOCF_UDP           = $0008; // this connection is UDP
   NLOCF_SSL           = $0010; // this connection is SSL
-  NLOCF_HTTPGATEWAY   = $0020; // this connection is HTTP Gateway
 
   // for TNETLIBHTTPPROXYINFO.flags
 
@@ -174,26 +173,12 @@ const
   {$ENDIF}
 
 type
-  { This function pointer is to the CRT realloc() used by Miranda -- it allows reallocation of memory passed
-  to us (not that we could EVER share the same CRT) but to allow DLLs in general to reallocate memory }
-  TNetlibRealloc = function(Mem: pointer; size_t: int): pointer; cdecl;
-  TNetlibHTTPGatewayInitProc  = function(hConn: THANDLE; nloc: PNETLIBOPENCONNECTION; nlhr: PNETLIBHTTPREQUEST): int; cdecl;
-  TNetlibHTTPGatewayBeginProc = function(hConn: THANDLE; nloc: PNETLIBOPENCONNECTION): int; cdecl;
-  TNetlibHTTPGatewayWrapSendProc = function(hConn: THANDLE; buf: PByte; len: int; flags: int; pfnNetLibSend: TMIRANDASERVICE): int; cdecl;
-  TNetlibHTTPGatewayUnwrapRecvProc = function(nlhr: PNETLIBHTTPREQUEST; buf: PByte; len: int; outBufLen: pInt; NetlibRealloc: TNetlibRealloc): PByte; cdecl;
-
   PNETLIBUSER = ^TNETLIBUSER;
   TNETLIBUSER = record
-    szSettingsModule: PAnsiChar;  // used for DB settings and log, 'NL' stuff
-    szDescriptiveName: TChar; // shows a descriptive name for which different proxy settings can be defined
-    flags: dword;             // see NUF_* constants above
-    szHttpGatewayHello    :PAnsiChar;
-    szHttpGatewayUserAgent:PAnsiChar; // can be NULL(0) to send no User-Agent: also used by HTTPS proxies
-    pfnHttpGatewayInit      :TNetlibHTTPGatewayInitProc;
-    pfnHttpGatewayBegin     :TNetlibHTTPGatewayBeginProc; // can be NULL(0) if no begin is required
-    pfnHttpGatewayWrapSend  :TNetlibHTTPGatewayWrapSendProc; // can be NULL(0) if no wrapping is required
-    pfnHttpGatewayUnwrapRecv:TNetlibHTTPGatewayUnwrapRecvProc; // can be NULL(0) "      "
-    minIncomingPorts: int; // only if NUF_INCOMING, will be used for validation of user input
+    szSettingsModule: PAnsiChar; // used for DB settings and log, 'NL' stuff
+    szDescriptiveName: TChar;    // shows a descriptive name for which different proxy settings can be defined
+    flags: dword;                // see NUF_* constants above
+    minIncomingPorts: int;       // only if NUF_INCOMING, will be used for validation of user input
   end;
 
   PNETLIBUSERSETTINGS = ^TNETLIBUSERSETTINGS;

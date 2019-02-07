@@ -310,15 +310,10 @@ static bool NetlibInitHttpsConnection(NetlibConnection *nlc, NetlibUser *nlu, NE
 	nlhrSend.flags = NLHRF_DUMPPROXY | NLHRF_HTTP11 | NLHRF_NOPROXY | NLHRF_REDIRECT;
 	nlhrSend.szUrl = szUrl.GetBuffer();
 
-	nlc->usingHttpGateway = true;
-
-	if (Netlib_SendHttpRequest(nlc, &nlhrSend) == SOCKET_ERROR) {
-		nlc->usingHttpGateway = false;
+	if (Netlib_SendHttpRequest(nlc, &nlhrSend) == SOCKET_ERROR)
 		return false;
-	}
 
 	NETLIBHTTPREQUEST *nlhrReply = NetlibHttpRecv(nlc, MSG_DUMPPROXY | MSG_RAW, MSG_DUMPPROXY | MSG_RAW, true);
-	nlc->usingHttpGateway = false;
 	if (nlhrReply == nullptr)
 		return false;
 
@@ -735,6 +730,7 @@ bool NetlibDoConnect(NetlibConnection *nlc)
 			break;
 
 		case PROXYTYPE_HTTPS:
+		case PROXYTYPE_HTTP:
 			nlc->proxyAuthNeeded = true;
 			if (!NetlibInitHttpsConnection(nlc, nlu, nloc)) {
 				usingProxy = false;
@@ -743,32 +739,11 @@ bool NetlibDoConnect(NetlibConnection *nlc)
 			}
 			break;
 
-		case PROXYTYPE_HTTP:
-			nlc->proxyAuthNeeded = true;
-			if (!(nloc->flags & NLOCF_HTTPGATEWAY) || nloc->flags & NLOCF_SSL) {
-				// NLOCF_HTTP not specified and no HTTP gateway available: try HTTPS
-				if (!NetlibInitHttpsConnection(nlc, nlu, nloc)) {
-					// can't do HTTPS: try direct
-					usingProxy = false;
-					if (!NetlibHttpFallbackToDirect(nlc, nlu, nloc))
-						return false;
-				}
-			}
-			else if (!NetlibInitHttpConnection(nlc, nlu, nloc))
-				return false;
-
-			break;
-
 		default:
 			SetLastError(ERROR_INVALID_PARAMETER);
 			FreePartiallyInitedConnection(nlc);
 			return false;
 		}
-	}
-	else if (nloc->flags & NLOCF_HTTPGATEWAY) {
-		if (!NetlibInitHttpConnection(nlc, nlu, nloc))
-			return false;
-		nlc->usingDirectHttpGateway = true;
 	}
 
 	Netlib_Logf(nlu, "(%d) Connected to %s:%d", nlc->s, nloc->szHost, nloc->wPort);
@@ -830,10 +805,6 @@ bool NetlibReconnect(NetlibConnection *nlc)
 		if (Miranda_IsTerminated())
 			return false;
 
-		if (nlc->usingHttpGateway) {
-			nlc->proxyAuthNeeded = true;
-			return my_connect(nlc, &nlc->nloc);
-		}
 		return NetlibDoConnect(nlc);
 	}
 	return true;

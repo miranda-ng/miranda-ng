@@ -54,25 +54,13 @@ struct NETLIBOPENCONNECTION;
 // The default settings for registered users that don't have any settings stored
 // in the database are the same as those displayed by the <All connections> page
 // of the netlib options page.
-// See notes below this function for the behaviour of HTTP gateways
 // Errors: ERROR_INVALID_PARAMETER, ERROR_OUTOFMEMORY, ERROR_DUP_NAME
-
-typedef int (*NETLIBHTTPGATEWAYINITPROC)(HNETLIBCONN hConn, NETLIBOPENCONNECTION *nloc, NETLIBHTTPREQUEST *nlhr);
-typedef int (*NETLIBHTTPGATEWAYBEGINPROC)(HNETLIBCONN hConn, NETLIBOPENCONNECTION *nloc);
-typedef int (*NETLIBHTTPGATEWAYWRAPSENDPROC)(HNETLIBCONN hConn, PBYTE buf, int len, int flags);
-typedef PBYTE (*NETLIBHTTPGATEWAYUNWRAPRECVPROC)(NETLIBHTTPREQUEST *nlhr, PBYTE buf, int len, int *outBufLen, void *(*NetlibRealloc)(void*, size_t));
 
 struct NETLIBUSER
 {
 	char *szSettingsModule;          // used for db settings and log
 	MAllStrings szDescriptiveName;   // used in options dialog, already translated
 	DWORD flags;
-	char *szHttpGatewayHello;
-	char *szHttpGatewayUserAgent;		 // can be NULL to send no user-agent, also used by HTTPS proxies
-	NETLIBHTTPGATEWAYINITPROC pfnHttpGatewayInit;
-	NETLIBHTTPGATEWAYBEGINPROC pfnHttpGatewayBegin;		 // can be NULL if no beginning required
-	NETLIBHTTPGATEWAYWRAPSENDPROC pfnHttpGatewayWrapSend;  // can be NULL if no wrapping required
-	NETLIBHTTPGATEWAYUNWRAPRECVPROC pfnHttpGatewayUnwrapRecv;  // can be NULL if no wrapping required
 	int minIncomingPorts;            // only if NUF_INCOMING. Will be used for validation of user input.
 };
 
@@ -330,7 +318,6 @@ EXTERN_C MIR_APP_DLL(HNETLIBBIND) Netlib_BindPort(HNETLIBUSER nlu, NETLIBBIND *n
 #define NLOCF_V2            0x0004 // this connection understands the newer structure, newer cbSize isnt enough
 #define NLOCF_UDP           0x0008 // this connection is UDP
 #define NLOCF_SSL           0x0010 // this connection is SSL
-#define NLOCF_HTTPGATEWAY   0x0020 // this connection is HTTP Gateway
 
 struct NETLIBOPENCONNECTION
 {
