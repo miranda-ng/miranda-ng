@@ -721,7 +721,6 @@ typedef char JabberShaStrBuf[2*MIR_SHA1_HASH_SIZE + 1];
 
 wchar_t* __stdcall JabberNickFromJID(const wchar_t *jid);
 wchar_t*           JabberPrepareJid(const wchar_t *jid);
-void     __stdcall JabberUrlDecodeW(WCHAR *str);
 char*    __stdcall JabberSha1(const char *str, JabberShaStrBuf buf);
 wchar_t* __stdcall JabberStrFixLines(const wchar_t *str);
 void     __stdcall JabberHttpUrlDecode(wchar_t *str);

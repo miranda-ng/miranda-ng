@@ -116,28 +116,6 @@ wchar_t* JabberPrepareJid(const wchar_t *jid)
 	return szNewJid;
 }
 
-void __stdcall JabberUrlDecodeW(WCHAR *str)
-{
-	if (str == nullptr)
-		return;
-
-	WCHAR *p, *q;
-	for (p = q = str; *p != '\0'; p++, q++) {
-		if (*p == '&') {
-			if (!wcsncmp(p, L"&amp;", 5)) { *q = '&'; p += 4; }
-			else if (!wcsncmp(p, L"&apos;", 6)) { *q = '\''; p += 5; }
-			else if (!wcsncmp(p, L"&gt;", 4)) { *q = '>'; p += 3; }
-			else if (!wcsncmp(p, L"&lt;", 4)) { *q = '<'; p += 3; }
-			else if (!wcsncmp(p, L"&quot;", 6)) { *q = '"'; p += 5; }
-			else { *q = *p; }
-		}
-		else {
-			*q = *p;
-		}
-	}
-	*q = '\0';
-}
-
 char* __stdcall JabberSha1(const char *str, JabberShaStrBuf buf)
 {
 	BYTE digest[MIR_SHA1_HASH_SIZE];
