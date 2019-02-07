@@ -932,8 +932,6 @@ int CMsnProto::SetStatus(int iNewStatus)
 			return 0;
 		}
 
-		usingGateway = false;
-
 		int oldMode = m_iStatus;
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldMode, m_iStatus);

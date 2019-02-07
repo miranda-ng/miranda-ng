@@ -29,11 +29,6 @@ int ThreadData::send(const char data[], size_t datalen)
 {
 	resetTimeout();
 
-	if (proto->usingGateway) {
-		mGatewayTimeout = 2;
-		Netlib_SetPollingTimeout(s, mGatewayTimeout);
-	}
-
 	int rlen = Netlib_Send(s, data, (int)datalen);
 	if (rlen == SOCKET_ERROR) {
 		// should really also check if sendlen is the same as datalen
@@ -57,7 +52,7 @@ bool ThreadData::isTimeout(void)
 
 	bool res = false;
 	if (mIsMainThread)
-		res = !proto->usingGateway;
+		res = true;
 	else if (mJoinedContactsWLID.getCount() <= 1 || mChatID[0] == 0)
 		res = true;
 
@@ -73,28 +68,25 @@ bool ThreadData::isTimeout(void)
 
 int ThreadData::recv(char* data, size_t datalen)
 {
-	if (!proto->usingGateway) {
-		resetTimeout();
+	resetTimeout();
 
-		NETLIBSELECT nls = {};
-		nls.dwTimeout = 1000;
-		nls.hReadConns[0] = s;
+	NETLIBSELECT nls = {};
+	nls.dwTimeout = 1000;
+	nls.hReadConns[0] = s;
 
-		for (;;) {
-			int ret = Netlib_Select(&nls);
-			if (ret < 0) {
-				proto->debugLogA("Connection abortively closed, error %d", WSAGetLastError());
-				return ret;
-			}
-			else if (ret == 0) {
-				if (isTimeout()) return 0;
-			}
-			else
-				break;
+	for (;;) {
+		int ret = Netlib_Select(&nls);
+		if (ret < 0) {
+			proto->debugLogA("Connection abortively closed, error %d", WSAGetLastError());
+			return ret;
 		}
+		else if (ret == 0) {
+			if (isTimeout()) return 0;
+		}
+		else
+			break;
 	}
 
-LBL_RecvAgain:
 	int ret = Netlib_Recv(s, data, (int)datalen);
 	if (ret == 0) {
 		proto->debugLogA("Connection closed gracefully");
@@ -104,21 +96,6 @@ LBL_RecvAgain:
 	if (ret < 0) {
 		proto->debugLogA("Connection abortively closed, error %d", WSAGetLastError());
 		return ret;
-	}
-
-	if (proto->usingGateway) {
-		if (ret == 1 && *data == 0) {
-			if (sessionClosed || isTimeout()) return 0;
-			if ((mGatewayTimeout += 2) > 20) mGatewayTimeout = 20;
-
-			Netlib_SetPollingTimeout(s, mGatewayTimeout);
-			goto LBL_RecvAgain;
-		}
-		else {
-			resetTimeout();
-			mGatewayTimeout = 1;
-			Netlib_SetPollingTimeout(s, mGatewayTimeout);
-		}
 	}
 
 	return ret;

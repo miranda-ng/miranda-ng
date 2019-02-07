@@ -38,19 +38,15 @@ void __cdecl CMsnProto::msn_keepAliveThread(void*)
 		switch (WaitForSingleObject(hKeepAliveThreadEvt, msnPingTimeout * 1000)) {
 		case WAIT_TIMEOUT:
 			keepFlag = msnNsThread != nullptr;
-			if (usingGateway)
-				msnPingTimeout = 45;
-			else {
-				msnPingTimeout = 20;
+			msnPingTimeout = 20;
 				
-				if (msnNsThread) {
-					if (lastMsgId)
-						keepFlag = msnNsThread->sendPacketPayload("PNG", "CON", "\bLast-Msg-Id: %I64u\r\n\r\n", lastMsgId);
-					else if (msnRegistration)
-						keepFlag = msnNsThread->sendPacketPayload("PNG", "CON", "\b\r\n");
-					else
-						keepFlag = msnNsThread->sendPacket("PNG", "CON 0");
-				}
+			if (msnNsThread) {
+				if (lastMsgId)
+					keepFlag = msnNsThread->sendPacketPayload("PNG", "CON", "\bLast-Msg-Id: %I64u\r\n\r\n", lastMsgId);
+				else if (msnRegistration)
+					keepFlag = msnNsThread->sendPacketPayload("PNG", "CON", "\b\r\n");
+				else
+					keepFlag = msnNsThread->sendPacket("PNG", "CON 0");
 			}
 
 			if (hHttpsConnection && (clock() - mHttpsTS) > 60 * CLOCKS_PER_SEC) {
@@ -123,44 +119,20 @@ void __cdecl CMsnProto::MSNServerThread(void* arg)
 			*tPortDelim = '\0';
 			if ((tPortNumber = atoi(tPortDelim + 1)) == 0)
 				tPortNumber = -1;
-			else if (usingGateway && !(tPortNumber == 80 || tPortNumber == 443))
-				usingGateway = false;
 		}
 	}
 
-	if (usingGateway) {
-		if (info->mServer[0] == 0)
-			mir_strcpy(info->mServer, MSN_DEFAULT_LOGIN_SERVER);
-		else if (info->mIsMainThread)
-			mir_strcpy(info->mGatewayIP, info->mServer);
-
-		if (info->gatewayType)
-			mir_strcpy(info->mGatewayIP, info->mServer);
-		else {
-			if (info->mGatewayIP[0] == 0 && db_get_static(NULL, m_szModuleName, "GatewayServer", info->mGatewayIP, sizeof(info->mGatewayIP)))
-				mir_strcpy(info->mGatewayIP, MSN_DEFAULT_GATEWAY);
-		}
-	}
-	else {
-		if (info->mServer[0] == 0 && db_get_static(NULL, m_szModuleName, "DirectServer", info->mServer, sizeof(info->mServer)))
-			mir_strcpy(info->mServer, MSN_DEFAULT_LOGIN_SERVER);
-	}
+	if (info->mServer[0] == 0 && db_get_static(NULL, m_szModuleName, "DirectServer", info->mServer, sizeof(info->mServer)))
+		mir_strcpy(info->mServer, MSN_DEFAULT_LOGIN_SERVER);
 
 	NETLIBOPENCONNECTION tConn = { 0 };
 	tConn.cbSize = sizeof(tConn);
 	tConn.flags = NLOCF_V2;
 	tConn.timeout = 5;
+	tConn.flags = NLOCF_SSL;
+	tConn.szHost = info->mServer;
+	tConn.wPort = MSN_DEFAULT_PORT;
 
-	if (usingGateway) {
-		tConn.flags |= NLOCF_HTTPGATEWAY;
-		tConn.szHost = info->mGatewayIP;
-		tConn.wPort = MSN_DEFAULT_GATEWAY_PORT;
-	}
-	else {
-		tConn.flags = NLOCF_SSL;
-		tConn.szHost = info->mServer;
-		tConn.wPort = MSN_DEFAULT_PORT;
-	}
 	if (tPortNumber != -1)
 		tConn.wPort = (WORD)tPortNumber;
 
@@ -177,9 +149,6 @@ void __cdecl CMsnProto::MSNServerThread(void* arg)
 		}
 		return;
 	}
-
-	if (usingGateway)
-		Netlib_SetPollingTimeout(info->s, info->mGatewayTimeout);
 
 	debugLogA("Connected with handle=%08X", info->s);
 
@@ -338,7 +307,6 @@ ThreadData* CMsnProto::MSN_GetThreadByConnection(HANDLE s)
 ThreadData::ThreadData()
 {
 	memset(&mInitialContactWLID, 0, sizeof(ThreadData) - 2 * sizeof(STRLIST));
-	mGatewayTimeout = 2;
 	resetTimeout();
 	hWaitEvent = CreateSemaphore(nullptr, 0, MSN_PACKETS_COMBINE, nullptr);
 	mData = (char*)mir_calloc((mDataSize = 8192) + 1);

@@ -464,7 +464,6 @@ struct ThreadData
    //----| for gateways |----------------------------------------------------------------
    char          mSessionID[50]; // Gateway session ID
    char          mGatewayIP[80]; // Gateway IP address
-   int           mGatewayTimeout;
    bool          sessionClosed;
    bool          termPending;
    bool          gatewayType;

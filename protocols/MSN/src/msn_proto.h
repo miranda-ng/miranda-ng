@@ -148,7 +148,6 @@ struct CMsnProto : public PROTO<CMsnProto>
 
 	ThreadData*	msnNsThread;
 	bool        msnLoggedIn;
-	bool        usingGateway;
 
 	char*       msnExternalIP;
 	char*       msnRegistration;

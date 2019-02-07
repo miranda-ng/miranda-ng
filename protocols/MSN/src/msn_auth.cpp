@@ -525,16 +525,16 @@ static void derive_key(BYTE* der, unsigned char* key, size_t keylen, unsigned ch
 	BYTE* buf = (BYTE*)alloca(buflen);
 
 	unsigned int len;
-	HMAC(EVP_sha1(), key, keylen, data, datalen, hash1, &len);
-	HMAC(EVP_sha1(), key, keylen, hash1, MIR_SHA1_HASH_SIZE, hash3, &len);
+	HMAC(EVP_sha1(), key, (int)keylen, data, (int)datalen, hash1, &len);
+	HMAC(EVP_sha1(), key, (int)keylen, hash1, MIR_SHA1_HASH_SIZE, hash3, &len);
 
 	memcpy(buf, hash1, MIR_SHA1_HASH_SIZE);
 	memcpy(buf + MIR_SHA1_HASH_SIZE, data, datalen);
-	HMAC(EVP_sha1(), key, keylen, buf, buflen, hash2, &len);
+	HMAC(EVP_sha1(), key, (int)keylen, buf, buflen, hash2, &len);
 
 	memcpy(buf, hash3, MIR_SHA1_HASH_SIZE);
 	memcpy(buf + MIR_SHA1_HASH_SIZE, data, datalen);
-	HMAC(EVP_sha1(), key, keylen, buf, buflen, hash4, &len);
+	HMAC(EVP_sha1(), key, (int)keylen, buf, buflen, hash4, &len);
 
 	memcpy(der, hash2, MIR_SHA1_HASH_SIZE);
 	memcpy(der + MIR_SHA1_HASH_SIZE, hash4, 4);
