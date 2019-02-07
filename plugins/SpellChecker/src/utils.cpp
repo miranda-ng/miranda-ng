@@ -707,22 +707,16 @@ int GetClosestLanguage(wchar_t *lang_name)
 
 void GetUserProtoLanguageSetting(Dialog *dlg, MCONTACT hContact, char *group, char *setting)
 {
-	DBVARIANT dbv = { 0 };
-	dbv.type = DBVT_WCHAR;
-	if (db_get_ws(hContact, group, setting, &dbv))
+	ptrW wszLang(db_get_wsa(hContact, group, setting));
+	if (wszLang == nullptr)
 		return;
 
-	if (dbv.type == DBVT_WCHAR && dbv.pwszVal != nullptr) {
-		wchar_t *lang = dbv.pwszVal;
-
-		for (auto &dict : languages) {
-			if (mir_wstrcmpi(dict->localized_name, lang) == 0 || mir_wstrcmpi(dict->english_name, lang) == 0 || mir_wstrcmpi(dict->language, lang) == 0) {
-				mir_wstrncpy(dlg->lang_name, dict->language, _countof(dlg->lang_name));
-				break;
-			}
+	for (auto &dict : languages) {
+		if (mir_wstrcmpi(dict->localized_name, wszLang) == 0 || mir_wstrcmpi(dict->english_name, wszLang) == 0 || mir_wstrcmpi(dict->language, wszLang) == 0) {
+			mir_wstrncpy(dlg->lang_name, dict->language, _countof(dlg->lang_name));
+			break;
 		}
 	}
-	db_free(&dbv);
 }
 
 void GetUserLanguageSetting(Dialog *dlg, char *setting)
