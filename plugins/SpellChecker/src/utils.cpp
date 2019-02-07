@@ -705,7 +705,7 @@ int GetClosestLanguage(wchar_t *lang_name)
 	return -1;
 }
 
-void GetUserProtoLanguageSetting(Dialog *dlg, MCONTACT hContact, char *group, char *setting, BOOL isProtocol = TRUE)
+void GetUserProtoLanguageSetting(Dialog *dlg, MCONTACT hContact, char *group, char *setting)
 {
 	DBVARIANT dbv = { 0 };
 	dbv.type = DBVT_WCHAR;
@@ -735,7 +735,7 @@ void GetUserLanguageSetting(Dialog *dlg, char *setting)
 	if (dlg->lang_name[0] != '\0')
 		return;
 
-	GetUserProtoLanguageSetting(dlg, dlg->hContact, "UserInfo", setting, FALSE);
+	GetUserProtoLanguageSetting(dlg, dlg->hContact, "UserInfo", setting);
 	if (dlg->lang_name[0] != '\0')
 		return;
 
@@ -746,7 +746,7 @@ void GetUserLanguageSetting(Dialog *dlg, char *setting)
 		if (dlg->lang_name[0] != '\0')
 			return;
 
-		GetUserProtoLanguageSetting(dlg, hMetaContact, "UserInfo", setting, FALSE);
+		GetUserProtoLanguageSetting(dlg, hMetaContact, "UserInfo", setting);
 	}
 }
 
