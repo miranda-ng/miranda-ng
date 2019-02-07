@@ -287,7 +287,7 @@ bool SkypeToken::Refresh(bool bForce)
 	nlhr.pData = szPOST.GetBuffer();
 
 	m_proto->mHttpsTS = clock();
-	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(m_proto->hNetlibUserHttps, &nlhr);
+	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(m_proto->m_hNetlibUser, &nlhr);
 	m_proto->mHttpsTS = clock();
 
 	bool bRet = false;
@@ -698,7 +698,7 @@ bool CMsnProto::RefreshOAuth(const char *pszRefreshToken, const char *pszService
 
 	// Query
 	mHttpsTS = clock();
-	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(hNetlibUserHttps, &nlhr);
+	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
 	mHttpsTS = clock();
 	if (nlhrReply) {
 		hHttpsConnection = nlhrReply->nlc;
@@ -1029,7 +1029,7 @@ int CMsnProto::MSN_AuthOAuth(void)
 	// Get oauth20 login data
 	nlhr.szUrl = AUTH_URL;
 	mHttpsTS = clock();
-	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(hNetlibUserHttps, &nlhr);
+	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
 	mHttpsTS = clock();
 
 	if (nlhrReply) {
@@ -1054,7 +1054,7 @@ int CMsnProto::MSN_AuthOAuth(void)
 				nlhr.flags &= (~NLHRF_REDIRECT);
 				mHttpsTS = clock();
 				nlhr.nlc = hHttpsConnection;
-				NETLIBHTTPREQUEST *nlhrReply2 = Netlib_HttpTransaction(hNetlibUserHttps, &nlhr);
+				NETLIBHTTPREQUEST *nlhrReply2 = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
 				mHttpsTS = clock();
 				if (nlhrReply2) {
 					char *pszURL = nullptr, *pAccessToken, *pEnd;
@@ -1158,7 +1158,7 @@ int CMsnProto::MSN_AuthOAuth(void)
 							mHttpsTS = clock();
 							if (nlhrReply)
 								Netlib_FreeHttpRequest(nlhrReply);
-							nlhrReply = Netlib_HttpTransaction(hNetlibUserHttps, &nlhr);
+							nlhrReply = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
 							mHttpsTS = clock();
 							if (nlhrReply) {
 								hHttpsConnection = nlhrReply->nlc;

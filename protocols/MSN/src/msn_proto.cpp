@@ -123,28 +123,12 @@ CMsnProto::CMsnProto(const char* aProtoName, const wchar_t* aUserName) :
 	InitCustomFolders();
 
 	wchar_t szBuffer[MAX_PATH];
-	char  szDbsettings[64];
-
-	NETLIBUSER nlu1 = {};
-	nlu1.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
-	nlu1.szSettingsModule = szDbsettings;
-	nlu1.szDescriptiveName.w = szBuffer;
-
-	mir_snprintf(szDbsettings, "%s_HTTPS", m_szModuleName);
-	mir_snwprintf(szBuffer, TranslateT("%s plugin HTTPS connections"), m_tszUserName);
-	hNetlibUserHttps = Netlib_RegisterUser(&nlu1);
+	mir_snwprintf(szBuffer, TranslateT("%s plugin connections"), m_tszUserName);
 
 	NETLIBUSER nlu = {};
-	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
+	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = m_szModuleName;
 	nlu.szDescriptiveName.w = szBuffer;
-
-	nlu.szHttpGatewayUserAgent = (char*)MSN_USER_AGENT;
-	nlu.pfnHttpGatewayInit = msn_httpGatewayInit;
-	nlu.pfnHttpGatewayWrapSend = msn_httpGatewayWrapSend;
-	nlu.pfnHttpGatewayUnwrapRecv = msn_httpGatewayUnwrapRecv;
-
-	mir_snwprintf(szBuffer, TranslateT("%s plugin connections"), m_tszUserName);
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	m_DisplayNameCache = nullptr;
@@ -157,8 +141,6 @@ CMsnProto::~CMsnProto()
 	AvatarQueue_Uninit();
 	Lists_Uninit();
 	CachedMsg_Uninit();
-
-	Netlib_CloseHandle(hNetlibUserHttps);
 
 	mir_free(mailsoundname);
 	mir_free(alertsoundname);

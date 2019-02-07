@@ -76,7 +76,7 @@ char* CMsnProto::getSslResult(char** parUrl, const char* parAuthInfo, const char
 	}
 
 	// download the page
-	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(hNetlibUserHttps, &nlhr);
+	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
 
 	if (nlhrReply) {
 		hHttpsConnection = nlhrReply->nlc;
@@ -120,7 +120,7 @@ bool CMsnProto::getMyAvatarFile(char *url, wchar_t *fname)
 	nlhr.headers[0].szValue = (char*)MSN_USER_AGENT;
 
 	// download the page
-	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(hNetlibUserHttps, &nlhr);
+	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
 	if (nlhrReply) {
 		if (nlhrReply->resultCode == 200 && nlhrReply->dataLength)
 			MSN_SetMyAvatar(fname, nlhrReply->pData, nlhrReply->dataLength);

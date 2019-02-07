@@ -402,7 +402,7 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 			nlhr.nlc = hHttpsConnection;
 
 			mHttpsTS = clock();
-			nlhrReply = Netlib_HttpTransaction(hNetlibUserHttps, &nlhr);
+			nlhrReply = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
 			mHttpsTS = clock();
 			if (nlhrReply) {
 				hHttpsConnection = nlhrReply->nlc;
