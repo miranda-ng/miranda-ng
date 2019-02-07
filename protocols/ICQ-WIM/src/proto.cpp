@@ -325,7 +325,7 @@ INT_PTR CIcqProto::GetCaps(int type, MCONTACT)
 		break;
 
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR)Translate("ICQ number");
+		return (INT_PTR)Translate("UIN/e-mail/phone");
 	}
 
 	return nReturn;
