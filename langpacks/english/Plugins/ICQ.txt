@@ -2,13 +2,12 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.95.10.1
+;  Version: 0.95.11.1
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
 ;file \protocols\ICQ-WIM\res\resources.rc
-[ICQ number:]
-[Email:]
+[UIN/e-mail:]
 [Password:]
 [Sign in/sign up using phone]
 [Do not open chat windows on creation]
@@ -43,7 +42,7 @@
 [%s server connection]
 [Synchronize server groups]
 [Edit ignore list]
-[ICQ number]
+[UIN/e-mail/phone]
 ;file \protocols\ICQ-WIM\src\server.cpp
 [You have not entered an ICQ number.\nConfigure this in Options -> Network -> ICQ and try again.]
 [Connection failed.\nYour ICQ number or password was rejected (%d).]
