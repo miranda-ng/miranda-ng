@@ -379,9 +379,10 @@ BOOL SM_ChangeNick(const wchar_t *pszID, const char *pszModule, GCEVENT *gce)
 
 void SM_RemoveAll(void)
 {
-	for (auto &it : g_arSessions)
+	for (auto &it : g_arSessions.rev_iter()) {
 		SM_FreeSession(it, false);
-	g_arSessions.destroy();
+		g_arSessions.remove(g_arSessions.indexOf(&it));
+	}
 }
 
 static void SM_AddCommand(const wchar_t *pszID, const char *pszModule, const char* lpNewCommand)
