@@ -28,7 +28,16 @@
 // ----------------------------------------------------------
 
 #define CONVERT(from, to) case to : FreeImage_ConvertLine##from##To##to(bits, scanline, FreeImage_GetWidth(dib)); break;
+
 #define CONVERTWITHPALETTE(from, to) case to : FreeImage_ConvertLine##from##To##to(bits, scanline, FreeImage_GetWidth(dib), FreeImage_GetPalette(dib)); break;
+
+#define CONVERTTO32WITHPALETTE(from) case 32 : \
+    if (bIsTransparent) { \
+        FreeImage_ConvertLine##from##To32MapTransparency(bits, scanline, FreeImage_GetWidth(dib), FreeImage_GetPalette(dib), FreeImage_GetTransparencyTable(dib), FreeImage_GetTransparencyCount(dib)); \
+    } else { \
+        FreeImage_ConvertLine##from##To32(bits, scanline, FreeImage_GetWidth(dib), FreeImage_GetPalette(dib)); \
+    } \
+    break;
 
 #define CONVERTTO16(from) \
 	case 16 : \
@@ -491,14 +500,15 @@ FreeImage_ConvertToRawBits(BYTE *bits, FIBITMAP *dib, int pitch, unsigned bpp, u
 					}
 				}
 			} else if (FreeImage_GetBPP(dib) != bpp) {
+                BOOL bIsTransparent = FreeImage_IsTransparent(dib);
 				switch(FreeImage_GetBPP(dib)) {
 					case 1 :
 						switch(bpp) {
 							CONVERT(1, 8)
 							CONVERTTO16WITHPALETTE(1)
 							CONVERTWITHPALETTE(1, 24)
-							CONVERTWITHPALETTE(1, 32)
-						}
+                            CONVERTTO32WITHPALETTE(1)
+                        }
 
 						break;
 
@@ -507,7 +517,7 @@ FreeImage_ConvertToRawBits(BYTE *bits, FIBITMAP *dib, int pitch, unsigned bpp, u
 							CONVERT(4, 8)
 							CONVERTTO16WITHPALETTE(4)
 							CONVERTWITHPALETTE(4, 24)
-							CONVERTWITHPALETTE(4, 32)
+                            CONVERTTO32WITHPALETTE(4)
 						}
 
 						break;
@@ -516,7 +526,7 @@ FreeImage_ConvertToRawBits(BYTE *bits, FIBITMAP *dib, int pitch, unsigned bpp, u
 						switch(bpp) {
 							CONVERTTO16WITHPALETTE(8)
 							CONVERTWITHPALETTE(8, 24)
-							CONVERTWITHPALETTE(8, 32)
+                            CONVERTTO32WITHPALETTE(8)
 						}
 
 						break;

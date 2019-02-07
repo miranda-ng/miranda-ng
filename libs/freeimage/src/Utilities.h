@@ -22,8 +22,8 @@
 // Use at your own risk!
 // ==========================================================
 
-#ifndef UTILITIES_H
-#define UTILITIES_H
+#ifndef FREEIMAGE_UTILITIES_H
+#define FREEIMAGE_UTILITIES_H
 
 // ==========================================================
 //   Bitmap palette and pixels alignment
@@ -249,25 +249,26 @@ CalculateUsedBits(int bits) {
 }
 
 inline unsigned
-CalculateLine(unsigned width, unsigned bitdepth) {
+CalculateLine(const unsigned width, const unsigned bitdepth) {
 	return (unsigned)( ((unsigned long long)width * bitdepth + 7) / 8 );
 }
 
 inline unsigned
-CalculatePitch(unsigned line) {
-	return line + 3 & ~3;
+CalculatePitch(const unsigned line) {
+	return (line + 3) & ~3;
 }
 
 inline unsigned
-CalculateUsedPaletteEntries(unsigned bit_count) {
-	if ((bit_count >= 1) && (bit_count <= 8))
+CalculateUsedPaletteEntries(const unsigned bit_count) {
+	if ((bit_count >= 1) && (bit_count <= 8)) {
 		return 1 << bit_count;
+	}
 
 	return 0;
 }
 
-inline unsigned char *
-CalculateScanLine(unsigned char *bits, unsigned pitch, int scanline) {
+inline BYTE*
+CalculateScanLine(BYTE *bits, const unsigned pitch, const int scanline) {
 	return bits ? (bits + ((size_t)pitch * scanline)) : NULL;
 }
 
@@ -406,25 +407,6 @@ __SwapUInt32(DWORD arg) {
 	return result; 
 #endif 
 } 
- 
-/**
-for later use ...
-inline uint64_t 
-SwapInt64(uint64_t arg) { 
-#if defined(_MSC_VER) && _MSC_VER >= 1310 
-	return _byteswap_uint64(arg); 
-#else 
-	union Swap { 
-		uint64_t sv; 
-		uint32_t ul[2]; 
-	} tmp, result; 
-	tmp.sv = arg; 
-	result.ul[0] = SwapInt32(tmp.ul[1]);  
-	result.ul[1] = SwapInt32(tmp.ul[0]); 
-	return result.sv; 
-#endif 
-} 
-*/
 
 inline void
 SwapShort(WORD *sp) {
@@ -434,6 +416,24 @@ SwapShort(WORD *sp) {
 inline void
 SwapLong(DWORD *lp) {
 	*lp = __SwapUInt32(*lp);
+}
+ 
+inline void
+SwapInt64(UINT64 *arg) {
+#if defined(_MSC_VER) && _MSC_VER >= 1310
+	*arg = _byteswap_uint64(*arg);
+#else
+	union Swap {
+		UINT64 sv;
+		DWORD ul[2];
+	} tmp, result;
+	tmp.sv = *arg;
+	SwapLong(&tmp.ul[0]);
+	SwapLong(&tmp.ul[1]);
+	result.ul[0] = tmp.ul[1];
+	result.ul[1] = tmp.ul[0];
+	*arg = result.sv;
+#endif
 }
 
 // ==========================================================
@@ -458,17 +458,37 @@ A Standard Default Color Space for the Internet - sRGB.
 #define GREY(r, g, b) (BYTE)(((WORD)r * 169 + (WORD)g * 256 + (WORD)b * 87) >> 9)	// .33R + 0.5G + .17B
 */
 
+/**
+Convert a RGB 24-bit value to a 16-bit 565 value
+*/
 #define RGB565(b, g, r) ((((b) >> 3) << FI16_565_BLUE_SHIFT) | (((g) >> 2) << FI16_565_GREEN_SHIFT) | (((r) >> 3) << FI16_565_RED_SHIFT))
+
+/**
+Convert a RGB 24-bit value to a 16-bit 555 value
+*/
 #define RGB555(b, g, r) ((((b) >> 3) << FI16_555_BLUE_SHIFT) | (((g) >> 3) << FI16_555_GREEN_SHIFT) | (((r) >> 3) << FI16_555_RED_SHIFT))
 
+/**
+Returns TRUE if the format of a dib is RGB565
+*/
 #define IS_FORMAT_RGB565(dib) ((FreeImage_GetRedMask(dib) == FI16_565_RED_MASK) && (FreeImage_GetGreenMask(dib) == FI16_565_GREEN_MASK) && (FreeImage_GetBlueMask(dib) == FI16_565_BLUE_MASK))
+
+/**
+Convert a RGB565 or RGB555 RGBQUAD pixel to a WORD
+*/
 #define RGBQUAD_TO_WORD(dib, color) (IS_FORMAT_RGB565(dib) ? RGB565((color)->rgbBlue, (color)->rgbGreen, (color)->rgbRed) : RGB555((color)->rgbBlue, (color)->rgbGreen, (color)->rgbRed))
 
+/**
+Create a greyscale palette
+*/
 #define CREATE_GREYSCALE_PALETTE(palette, entries) \
 	for (unsigned i = 0, v = 0; i < entries; i++, v += 0x00FFFFFF / (entries - 1)) { \
 		((unsigned *)palette)[i] = v; \
 	}
 
+/**
+Create a reverse greyscale palette
+*/
 #define CREATE_GREYSCALE_PALETTE_REVERSE(palette, entries) \
 	for (unsigned i = 0, v = 0x00FFFFFF; i < entries; i++, v -= (0x00FFFFFF / (entries - 1))) { \
 		((unsigned *)palette)[i] = v; \
@@ -486,4 +506,4 @@ static const char *FI_MSG_ERROR_UNSUPPORTED_FORMAT = "Unsupported format";
 static const char *FI_MSG_ERROR_UNSUPPORTED_COMPRESSION = "Unsupported compression type";
 static const char *FI_MSG_WARNING_INVALID_THUMBNAIL = "Warning: attached thumbnail cannot be written to output file (invalid format) - Thumbnail saving aborted";
 
-#endif // UTILITIES_H
+#endif // FREEIMAGE_UTILITIES_H

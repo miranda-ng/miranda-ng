@@ -791,7 +791,7 @@ FreeImage_GetFIFFromFilenameU(const wchar_t *filename) {
 }
 
 BOOL DLL_CALLCONV
-FreeImage_Validate(FREE_IMAGE_FORMAT fif, FreeImageIO *io, fi_handle handle) {
+FreeImage_ValidateFIF(FREE_IMAGE_FORMAT fif, FreeImageIO *io, fi_handle handle) {
 	if (s_plugins != NULL) {
 		BOOL validated = FALSE;
 

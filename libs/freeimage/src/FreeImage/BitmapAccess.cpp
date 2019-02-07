@@ -1,4 +1,4 @@
-// ==========================================================
+﻿// ==========================================================
 // FreeImage implementation
 //
 // Design and implementation by
@@ -537,6 +537,7 @@ FreeImage_Clone(FIBITMAP *dib) {
 	unsigned height	= FreeImage_GetHeight(dib);
 	unsigned bpp	= FreeImage_GetBPP(dib);
 
+	// if the FIBITMAP is a wrapper to a user provided pixel buffer, get a pointer to this buffer
 	const BYTE *ext_bits = ((FREEIMAGEHEADER *)dib->data)->external_bits;
 	
 	// check for pixel availability ...
@@ -558,7 +559,7 @@ FreeImage_Clone(FIBITMAP *dib) {
 		METADATAMAP *src_metadata = ((FREEIMAGEHEADER *)dib->data)->metadata;
 		METADATAMAP *dst_metadata = ((FREEIMAGEHEADER *)new_dib->data)->metadata;
 
-		// calculate the size of the src image
+		// calculate the size of the dst image
 		// align the palette and the pixels on a FIBITMAP_ALIGNMENT bytes alignment boundary
 		// palette is aligned on a 16 bytes boundary
 		// pixels are aligned on a 16 bytes boundary
@@ -578,6 +579,10 @@ FreeImage_Clone(FIBITMAP *dib) {
 
 		// reset thumbnail link for new_dib
 		((FREEIMAGEHEADER *)new_dib->data)->thumbnail = NULL;
+
+		// reset external wrapped buffer link for new_dib
+		((FREEIMAGEHEADER *)new_dib->data)->external_bits = NULL;
+		((FREEIMAGEHEADER *)new_dib->data)->external_pitch = 0;
 
 		// copy possible ICC profile
 		FreeImage_CreateICCProfile(new_dib, src_iccProfile->data, src_iccProfile->size);
@@ -697,12 +702,14 @@ FreeImage_GetColorType(FIBITMAP *dib) {
 				return FIC_MINISBLACK;
 			}
 			break;
+
 			case FIT_RGB16:
 			case FIT_RGBF:
 				return FIC_RGB;
+
 			case FIT_RGBA16:
 			case FIT_RGBAF:
-				return FIC_RGBALPHA;
+				return (((FreeImage_GetICCProfile(dib)->flags) & FIICC_COLOR_IS_CMYK) == FIICC_COLOR_IS_CMYK) ? FIC_CMYK : FIC_RGBALPHA;
 		}
 
 		return FIC_MINISBLACK;
@@ -767,7 +774,7 @@ FreeImage_GetColorType(FIBITMAP *dib) {
 
 		case 32:
 		{
-			if (FreeImage_GetICCProfile(dib)->flags & FIICC_COLOR_IS_CMYK) {
+			if (((FreeImage_GetICCProfile(dib)->flags) & FIICC_COLOR_IS_CMYK) == FIICC_COLOR_IS_CMYK) {
 				return FIC_CMYK;
 			}
 
@@ -944,7 +951,7 @@ FreeImage_IsTransparent(FIBITMAP *dib) {
 				break;
 			case FIT_RGBA16:
 			case FIT_RGBAF:
-				return TRUE;
+				return (((FreeImage_GetICCProfile(dib)->flags) & FIICC_COLOR_IS_CMYK) == FIICC_COLOR_IS_CMYK) ? FALSE : TRUE;
 			default:
 				break;
 		}
@@ -1085,6 +1092,9 @@ FreeImage_DestroyICCProfile(FIBITMAP *dib) {
 		profile->data = NULL;
 		profile->size = 0;
 	}
+
+	// destroy also Exif-Main ICC profile
+	FreeImage_SetMetadata(FIMD_EXIF_MAIN, dib, "InterColorProfile", NULL);
 }
 
 // ----------------------------------------------------------
@@ -1194,12 +1204,12 @@ FreeImage_FindFirstMetadata(FREE_IMAGE_MDMODEL model, FIBITMAP *dib, FITAG **tag
 		FIMETADATA 	*handle = (FIMETADATA *)malloc(sizeof(FIMETADATA));
 		if(handle) {
 			// calculate the size of a METADATAHEADER
-			int header_size = sizeof(METADATAHEADER);
+			const size_t header_size = sizeof(METADATAHEADER);
 
-			handle->data = (BYTE *)malloc(header_size * sizeof(BYTE));
+			handle->data = (BYTE *)malloc(header_size);
 			
 			if(handle->data) {
-				memset(handle->data, 0, header_size * sizeof(BYTE));
+				memset(handle->data, 0, header_size);
 
 				// write out the METADATAHEADER
 				METADATAHEADER *mdh = (METADATAHEADER *)handle->data;
@@ -1333,6 +1343,11 @@ FreeImage_SetMetadata(FREE_IMAGE_MDMODEL model, FIBITMAP *dib, const char *key, 
 	}
 
 	if(key != NULL) {
+
+		if ((tag == NULL) && !tagmap) {
+			// remove a tag from an unknown tagmap, nothing to do
+			return TRUE;
+		}
 
 		if(!tagmap) {
 			// this model, doesn't exist: create it 

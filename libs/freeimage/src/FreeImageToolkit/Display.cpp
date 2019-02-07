@@ -1,4 +1,4 @@
-// ==========================================================
+﻿// ==========================================================
 // Display routines
 //
 // Design and implementation by
@@ -191,7 +191,7 @@ channel(x, y) = channel(x, y) * alpha_channel(x, y) / 255
 @return Returns TRUE on success, FALSE otherwise (e.g. when the bitdepth of the source dib cannot be handled). 
 */
 BOOL DLL_CALLCONV 
-FreeImage_PremultiplyWithAlpha(FIBITMAP *dib) {
+FreeImage_PreMultiplyWithAlpha(FIBITMAP *dib) {
 	if (!FreeImage_HasPixels(dib)) return FALSE;
 	
 	if ((FreeImage_GetBPP(dib) != 32) || (FreeImage_GetImageType(dib) != FIT_BITMAP)) {

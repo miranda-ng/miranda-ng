@@ -1,4 +1,4 @@
-// ==========================================================
+﻿// ==========================================================
 // Bitmap rotation using B-Splines
 //
 // Design and implementation by
@@ -667,7 +667,11 @@ FreeImage_RotateEx(FIBITMAP *dib, double angle, double x_shift, double y_shift, 
 			// allocate dst image
 			int width  = FreeImage_GetWidth(dib);
 			int height = FreeImage_GetHeight(dib);
-			dst = FreeImage_Allocate(width, height, bpp, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
+			if( bpp == 24 ) {
+				dst = FreeImage_Allocate(width, height, bpp, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
+			} else {
+				dst = FreeImage_Allocate(width, height, bpp, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
+			}
 			if(!dst) throw(1);
 
 			// allocate a temporary 8-bit dib (no need to build a palette)

@@ -19,8 +19,8 @@
 // Use at your own risk!
 // ==========================================================
 
-#ifndef MAPINTROSPECTOR_H_
-#define MAPINTROSPECTOR_H_
+#ifndef FREEIMAGE_MAPINTROSPECTOR_H_
+#define FREEIMAGE_MAPINTROSPECTOR_H_
 
 // we need at least one C++ header included, 
 // that defines the C++ Standard Library's version macro, 
@@ -209,4 +209,5 @@ public:
 
 #endif // Standard C++ Library
 
-#endif // MAPINTROSPECTOR_H_
+#endif // FREEIMAGE_MAPINTROSPECTOR_H_
+

@@ -1,4 +1,4 @@
-// ==========================================================
+﻿// ==========================================================
 // High Dynamic Range bitmap conversion routines
 //
 // Design and implementation by
@@ -19,8 +19,8 @@
 // Use at your own risk!
 // ==========================================================
 
-#ifndef TONE_MAPPING_H
-#define TONE_MAPPING_H
+#ifndef FREEIMAGE_TONE_MAPPING_H
+#define FREEIMAGE_TONE_MAPPING_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -41,4 +41,5 @@ FIBITMAP* ClampConvertRGBFTo24(FIBITMAP *src);
 }
 #endif
 
-#endif // TONE_MAPPING_H
+#endif // FREEIMAGE_TONE_MAPPING_H
+

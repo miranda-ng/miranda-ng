@@ -1,4 +1,4 @@
-// ==========================================================
+﻿// ==========================================================
 // BMP Loader and Writer
 //
 // Design and implementation by
@@ -7,6 +7,7 @@
 // - Martin Weber (martweb@gmx.net)
 // - Hervé Drolon (drolon@infonie.fr)
 // - Michal Novotny (michal@etc.cz)
+// - Mihail Naydenov (mnaydenov@users.sourceforge.net)
 //
 // This file is part of FreeImage 3
 //
@@ -579,8 +580,13 @@ LoadWindowsBMP(FreeImageIO *io, fi_handle handle, int flags, unsigned bitmap_bit
 					DWORD bitfields[4];
 					io->read_proc(bitfields, use_bitfields * sizeof(DWORD), 1, handle);
 					dib = FreeImage_AllocateHeader(header_only, width, height, bit_count, bitfields[0], bitfields[1], bitfields[2]);
-				} else
-					dib = FreeImage_AllocateHeader(header_only, width, height, bit_count, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
+				} else {
+					if( bit_count == 32 ) {
+						dib = FreeImage_AllocateHeader(header_only, width, height, bit_count, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
+					} else {
+						dib = FreeImage_AllocateHeader(header_only, width, height, bit_count, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
+					}
+				}
 
 				if (dib == NULL) {
 					throw FI_MSG_ERROR_DIB_MEMORY;
@@ -782,7 +788,11 @@ LoadOS22XBMP(FreeImageIO *io, fi_handle handle, int flags, unsigned bitmap_bits_
 			case 24 :
 			case 32 :
 			{
-				dib = FreeImage_AllocateHeader(header_only, width, height, bit_count, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
+				if( bit_count == 32 ) {
+					dib = FreeImage_AllocateHeader(header_only, width, height, bit_count, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
+				} else {
+					dib = FreeImage_AllocateHeader(header_only, width, height, bit_count, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
+				}
 
 				if (dib == NULL) {
 					throw FI_MSG_ERROR_DIB_MEMORY;
@@ -925,7 +935,11 @@ LoadOS21XBMP(FreeImageIO *io, fi_handle handle, int flags, unsigned bitmap_bits_
 			case 24 :
 			case 32 :
 			{
-				dib = FreeImage_AllocateHeader(header_only, width, height, bit_count, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
+				if( bit_count == 32 ) {
+					dib = FreeImage_AllocateHeader(header_only, width, height, bit_count, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
+				} else {
+					dib = FreeImage_AllocateHeader(header_only, width, height, bit_count, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
+				}
 
 				if (dib == NULL) {
 					throw FI_MSG_ERROR_DIB_MEMORY;						
@@ -1249,16 +1263,24 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 	if ((dib != NULL) && (handle != NULL)) {
 		// write the file header
 
+		const unsigned dst_width = FreeImage_GetWidth(dib);
+		const unsigned dst_height = FreeImage_GetHeight(dib);
+
+		// note that the dib may have been created using FreeImage_CreateView
+		// we need to recalculate the dst pitch here
+		const unsigned dst_bpp = FreeImage_GetBPP(dib);
+		const unsigned dst_pitch = CalculatePitch(CalculateLine(dst_width, dst_bpp));
+
 		BITMAPFILEHEADER bitmapfileheader;
 		bitmapfileheader.bfType = 0x4D42;
 		bitmapfileheader.bfOffBits = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER) + FreeImage_GetColorsUsed(dib) * sizeof(RGBQUAD);
-		bitmapfileheader.bfSize = bitmapfileheader.bfOffBits + FreeImage_GetHeight(dib) * FreeImage_GetPitch(dib);
+		bitmapfileheader.bfSize = bitmapfileheader.bfOffBits + dst_height * dst_pitch;
 		bitmapfileheader.bfReserved1 = 0;
 		bitmapfileheader.bfReserved2 = 0;
 
 		// take care of the bit fields data of any
 
-		bool bit_fields = (FreeImage_GetBPP(dib) == 16);
+		bool bit_fields = (dst_bpp == 16) ? true : false;
 
 		if (bit_fields) {
 			bitmapfileheader.bfSize += 3 * sizeof(DWORD);
@@ -1268,28 +1290,33 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 #ifdef FREEIMAGE_BIGENDIAN
 		SwapFileHeader(&bitmapfileheader);
 #endif
-		if (io->write_proc(&bitmapfileheader, sizeof(BITMAPFILEHEADER), 1, handle) != 1)
-			return FALSE;		
+		if (io->write_proc(&bitmapfileheader, sizeof(BITMAPFILEHEADER), 1, handle) != 1) {
+			return FALSE;
+		}
 
 		// update the bitmap info header
 
 		BITMAPINFOHEADER bih;
 		memcpy(&bih, FreeImage_GetInfoHeader(dib), sizeof(BITMAPINFOHEADER));
 
-		if (bit_fields)
+		if (bit_fields) {
 			bih.biCompression = BI_BITFIELDS;
-		else if ((bih.biBitCount == 8) && (flags & BMP_SAVE_RLE))
+		}
+		else if ((bih.biBitCount == 8) && ((flags & BMP_SAVE_RLE) == BMP_SAVE_RLE)) {
 			bih.biCompression = BI_RLE8;
-		else
+		}
+		else {
 			bih.biCompression = BI_RGB;
+		}
 
 		// write the bitmap info header
 
 #ifdef FREEIMAGE_BIGENDIAN
 		SwapInfoHeader(&bih);
 #endif
-		if (io->write_proc(&bih, sizeof(BITMAPINFOHEADER), 1, handle) != 1)
+		if (io->write_proc(&bih, sizeof(BITMAPINFOHEADER), 1, handle) != 1) {
 			return FALSE;
+		}
 
 		// write the bit fields when we are dealing with a 16 bit BMP
 
@@ -1298,18 +1325,21 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 
 			d = FreeImage_GetRedMask(dib);
 
-			if (io->write_proc(&d, sizeof(DWORD), 1, handle) != 1)
+			if (io->write_proc(&d, sizeof(DWORD), 1, handle) != 1) {
 				return FALSE;
+			}
 
 			d = FreeImage_GetGreenMask(dib);
 
-			if (io->write_proc(&d, sizeof(DWORD), 1, handle) != 1)
+			if (io->write_proc(&d, sizeof(DWORD), 1, handle) != 1) {
 				return FALSE;
+			}
 
 			d = FreeImage_GetBlueMask(dib);
 
-			if (io->write_proc(&d, sizeof(DWORD), 1, handle) != 1)
+			if (io->write_proc(&d, sizeof(DWORD), 1, handle) != 1) {
 				return FALSE;
+			}
 		}
 
 		// write the palette
@@ -1322,18 +1352,18 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 				bgra.g = pal[i].rgbGreen;
 				bgra.r = pal[i].rgbRed;
 				bgra.a = pal[i].rgbReserved;
-				if (io->write_proc(&bgra, sizeof(FILE_BGRA), 1, handle) != 1)
+				if (io->write_proc(&bgra, sizeof(FILE_BGRA), 1, handle) != 1) {
 					return FALSE;
+				}
 			}
 		}
 
 		// write the bitmap data... if RLE compression is enable, use it
 
-		unsigned bpp = FreeImage_GetBPP(dib);
-		if ((bpp == 8) && (flags & BMP_SAVE_RLE)) {
-			BYTE *buffer = (BYTE*)malloc(FreeImage_GetPitch(dib) * 2 * sizeof(BYTE));
+		if ((dst_bpp == 8) && ((flags & BMP_SAVE_RLE) == BMP_SAVE_RLE)) {
+			BYTE *buffer = (BYTE*)malloc(dst_pitch * 2 * sizeof(BYTE));
 
-			for (DWORD i = 0; i < FreeImage_GetHeight(dib); ++i) {
+			for (unsigned i = 0; i < dst_height; ++i) {
 				int size = RLEEncodeLine(buffer, FreeImage_GetScanLine(dib, i), FreeImage_GetLine(dib));
 
 				if (io->write_proc(buffer, size, 1, handle) != 1) {
@@ -1353,16 +1383,17 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 			free(buffer);
 #ifdef FREEIMAGE_BIGENDIAN
 		} else if (bpp == 16) {
-			int padding = FreeImage_GetPitch(dib) - FreeImage_GetWidth(dib) * sizeof(WORD);
+			int padding = dst_pitch - dst_width * sizeof(WORD);
 			WORD pad = 0;
 			WORD pixel;
-			for(unsigned y = 0; y < FreeImage_GetHeight(dib); y++) {
+			for(unsigned y = 0; y < dst_height; y++) {
 				BYTE *line = FreeImage_GetScanLine(dib, y);
-				for(unsigned x = 0; x < FreeImage_GetWidth(dib); x++) {
+				for(unsigned x = 0; x < dst_width; x++) {
 					pixel = ((WORD *)line)[x];
 					SwapShort(&pixel);
-					if (io->write_proc(&pixel, sizeof(WORD), 1, handle) != 1)
+					if (io->write_proc(&pixel, sizeof(WORD), 1, handle) != 1) {
 						return FALSE;
+					}
 				}
 				if(padding != 0) {
 					if(io->write_proc(&pad, padding, 1, handle) != 1) {
@@ -1373,18 +1404,19 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 #endif
 #if FREEIMAGE_COLORORDER == FREEIMAGE_COLORORDER_RGB
 		} else if (bpp == 24) {
-			int padding = FreeImage_GetPitch(dib) - FreeImage_GetWidth(dib) * sizeof(FILE_BGR);
+			int padding = dst_pitch - dst_width * sizeof(FILE_BGR);
 			DWORD pad = 0;
 			FILE_BGR bgr;
-			for(unsigned y = 0; y < FreeImage_GetHeight(dib); y++) {
+			for(unsigned y = 0; y < dst_height; y++) {
 				BYTE *line = FreeImage_GetScanLine(dib, y);
-				for(unsigned x = 0; x < FreeImage_GetWidth(dib); x++) {
+				for(unsigned x = 0; x < dst_width; x++) {
 					RGBTRIPLE *triple = ((RGBTRIPLE *)line)+x;
 					bgr.b = triple->rgbtBlue;
 					bgr.g = triple->rgbtGreen;
 					bgr.r = triple->rgbtRed;
-					if (io->write_proc(&bgr, sizeof(FILE_BGR), 1, handle) != 1)
+					if (io->write_proc(&bgr, sizeof(FILE_BGR), 1, handle) != 1) {
 						return FALSE;
+					}
 				}
 				if(padding != 0) {
 					if(io->write_proc(&pad, padding, 1, handle) != 1) {
@@ -1394,24 +1426,36 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 			}
 		} else if (bpp == 32) {
 			FILE_BGRA bgra;
-			for(unsigned y = 0; y < FreeImage_GetHeight(dib); y++) {
+			for(unsigned y = 0; y < dst_height; y++) {
 				BYTE *line = FreeImage_GetScanLine(dib, y);
-				for(unsigned x = 0; x < FreeImage_GetWidth(dib); x++) {
+				for(unsigned x = 0; x < dst_width; x++) {
 					RGBQUAD *quad = ((RGBQUAD *)line)+x;
 					bgra.b = quad->rgbBlue;
 					bgra.g = quad->rgbGreen;
 					bgra.r = quad->rgbRed;
 					bgra.a = quad->rgbReserved;
-					if (io->write_proc(&bgra, sizeof(FILE_BGRA), 1, handle) != 1)
+					if (io->write_proc(&bgra, sizeof(FILE_BGRA), 1, handle) != 1) {
 						return FALSE;
+					}
 				}
 			}
 #endif
-		} else if (io->write_proc(FreeImage_GetBits(dib), FreeImage_GetHeight(dib) * FreeImage_GetPitch(dib), 1, handle) != 1) {
-			return FALSE;
+		} 
+		else if (FreeImage_GetPitch(dib) == dst_pitch) {
+			return (io->write_proc(FreeImage_GetBits(dib), dst_height * dst_pitch, 1, handle) != 1) ? FALSE : TRUE;
+		}
+		else {
+			for (unsigned y = 0; y < dst_height; y++) {
+				BYTE *line = (BYTE*)FreeImage_GetScanLine(dib, y);
+				
+				if (io->write_proc(line, dst_pitch, 1, handle) != 1) {
+					return FALSE;
+				}
+			}
 		}
 
 		return TRUE;
+
 	} else {
 		return FALSE;
 	}

@@ -1,4 +1,4 @@
-// ==========================================================
+﻿// ==========================================================
 // Tag manipulation functions
 //
 // Design and implementation by
@@ -19,8 +19,8 @@
 // Use at your own risk!
 // ==========================================================
 
-#ifndef FREEIMAGETAG_H
-#define FREEIMAGETAG_H
+#ifndef FREEIMAGE_TAG_H
+#define FREEIMAGE_TAG_H
 
 // ==========================================================
 // Exif JPEG tags
@@ -484,7 +484,13 @@ BOOL jpegxr_read_exif_gps_profile(FIBITMAP *dib, const BYTE *profile, unsigned l
 BOOL tiff_get_ifd_profile(FIBITMAP *dib, FREE_IMAGE_MDMODEL md_model, BYTE **ppbProfile, unsigned *uProfileLength);
 
 
-// JPEG / TIFF IPTC profile (see IPTC.cpp)
+// PSD Exif profile (see Exif.cpp)
+// --------------------------------------------------------------------------
+BOOL psd_read_exif_profile(FIBITMAP *dib, const BYTE *dataptr, unsigned datalen);
+BOOL psd_read_exif_profile_raw(FIBITMAP *dib, const BYTE *dataptr, unsigned datalen);
+
+
+// JPEG / PSD / TIFF IPTC profile (see IPTC.cpp)
 // --------------------------------------------------------------------------
 BOOL read_iptc_profile(FIBITMAP *dib, const BYTE *dataptr, unsigned int datalen);
 BOOL write_iptc_profile(FIBITMAP *dib, BYTE **profile, unsigned *profile_size);
@@ -494,6 +500,6 @@ BOOL write_iptc_profile(FIBITMAP *dib, BYTE **profile, unsigned *profile_size);
 #endif
 
 
-#endif // FREEIMAGETAG_H
+#endif // FREEIMAGE_TAG_H
 
 

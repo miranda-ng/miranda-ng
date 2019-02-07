@@ -1,4 +1,4 @@
-// ==========================================================
+﻿// ==========================================================
 // JPEG Loader and writer
 // Based on code developed by The Independent JPEG Group
 //
@@ -1126,8 +1126,9 @@ Validate(FreeImageIO *io, fi_handle handle) {
 static BOOL DLL_CALLCONV
 SupportsExportDepth(int depth) {
 	return (
-			(depth == 8) ||
-			(depth == 24)
+			(depth == 8)  ||
+			(depth == 24) ||
+			(depth == 32)	// only if 32-bit CMYK
 		);
 }
 
@@ -1315,6 +1316,10 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 						dst += 3;
 					}
 				}
+				
+				// if original image is CMYK but is converted to RGB, remove ICC profile from Exif-TIFF metadata
+				FreeImage_SetMetadata(FIMD_EXIF_MAIN, dib, "InterColorProfile", NULL);
+
 			} else if((cinfo.out_color_space == JCS_CMYK) && ((flags & JPEG_CMYK) == JPEG_CMYK)) {
 				// convert from LibJPEG CMYK to standard CMYK
 
@@ -1400,12 +1405,12 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 		try {
 			// Check dib format
 
-			const char *sError = "only 24-bit highcolor or 8-bit greyscale/palette bitmaps can be saved as JPEG";
+			const char *sError = "only 24-bit RGB, 8-bit greyscale/palette or 32-bit CMYK bitmaps can be saved as JPEG";
 
 			FREE_IMAGE_COLOR_TYPE color_type = FreeImage_GetColorType(dib);
 			WORD bpp = (WORD)FreeImage_GetBPP(dib);
 
-			if ((bpp != 24) && (bpp != 8)) {
+			if ((bpp != 24) && (bpp != 8) && !(bpp == 32 && (color_type == FIC_CMYK))) {
 				throw sError;
 			}
 
@@ -1454,7 +1459,10 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 					cinfo.in_color_space = JCS_GRAYSCALE;
 					cinfo.input_components = 1;
 					break;
-
+				case FIC_CMYK:
+					cinfo.in_color_space = JCS_CMYK;
+					cinfo.input_components = 4;
+					break;
 				default :
 					cinfo.in_color_space = JCS_RGB;
 					cinfo.input_components = 3;
@@ -1481,14 +1489,14 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 
 			// thumbnail support (JFIF 1.02 extension markers)
 			if(FreeImage_GetThumbnail(dib) != NULL) {
-				cinfo.write_JFIF_header = 1; //<### force it, though when color is CMYK it will be incorrect
+				cinfo.write_JFIF_header = static_cast<boolean>(1); //<### force it, though when color is CMYK it will be incorrect
 				cinfo.JFIF_minor_version = 2;
 			}
 
 			// baseline JPEG support
-			if ((flags & JPEG_BASELINE) ==  JPEG_BASELINE) {
-				cinfo.write_JFIF_header = 0;	// No marker for non-JFIF colorspaces
-				cinfo.write_Adobe_marker = 0;	// write no Adobe marker by default				
+			if ((flags & JPEG_BASELINE) == JPEG_BASELINE) {
+				cinfo.write_JFIF_header = static_cast<boolean>(0);	// No marker for non-JFIF colorspaces
+				cinfo.write_Adobe_marker = static_cast<boolean>(0);	// write no Adobe marker by default				
 			}
 
 			// set subsampling options if required
@@ -1593,6 +1601,33 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 						target_p += 3;
 					}
 #endif
+					// write the scanline
+					jpeg_write_scanlines(&cinfo, &target, 1);
+				}
+				free(target);
+			}
+			else if(color_type == FIC_CMYK) {
+				unsigned pitch = FreeImage_GetPitch(dib);
+				BYTE *target = (BYTE*)malloc(pitch * sizeof(BYTE));
+				if (target == NULL) {
+					throw FI_MSG_ERROR_MEMORY;
+				}
+				
+				while (cinfo.next_scanline < cinfo.image_height) {
+					// get a copy of the scanline
+					memcpy(target, FreeImage_GetScanLine(dib, FreeImage_GetHeight(dib) - cinfo.next_scanline - 1), pitch);
+					
+					BYTE *target_p = target;
+					for(unsigned x = 0; x < cinfo.image_width; x++) {
+						// CMYK pixels are inverted
+						target_p[0] = ~target_p[0];	// C
+						target_p[1] = ~target_p[1];	// M
+						target_p[2] = ~target_p[2];	// Y
+						target_p[3] = ~target_p[3];	// K
+
+						target_p += 4;
+					}
+					
 					// write the scanline
 					jpeg_write_scanlines(&cinfo, &target, 1);
 				}

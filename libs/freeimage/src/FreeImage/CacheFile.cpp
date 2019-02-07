@@ -4,6 +4,7 @@
 // Design and implementation by
 // - Floris van den Berg (flvdberg@wxs.nl)
 // - checkered (checkered@users.sourceforge.net)
+// - Mihail Naydenov (mnaydenov@users.sourceforge.net)
 //
 // This file is part of FreeImage 3
 //
@@ -28,25 +29,31 @@
 
 // ----------------------------------------------------------
 
-CacheFile::CacheFile(const std::string filename, BOOL keep_in_memory) :
+CacheFile::CacheFile() :
 m_file(NULL),
-m_filename(filename),
 m_free_pages(),
 m_page_cache_mem(),
 m_page_cache_disk(),
 m_page_map(),
 m_page_count(0),
 m_current_block(NULL),
-m_keep_in_memory(keep_in_memory) {
+m_keep_in_memory(TRUE) {
 }
 
 CacheFile::~CacheFile() {
+  close();
 }
 
 BOOL
-CacheFile::open() {
+CacheFile::open(const std::string& filename, BOOL keep_in_memory) {
+
+  assert(!m_file);
+
+  m_filename = filename;
+  m_keep_in_memory = keep_in_memory;
+
 	if ((!m_filename.empty()) && (!m_keep_in_memory)) {
-		m_file = fopen(m_filename.c_str(), "w+b");
+		m_file = fopen(m_filename.c_str(), "w+b"); 
 		return (m_file != NULL);
 	}
 
@@ -72,11 +79,10 @@ CacheFile::close() {
 
 	if (m_file) {
 		// close the file
-
 		fclose(m_file);
-
+		m_file = NULL;
+		
 		// delete the file
-
 		remove(m_filename.c_str());
 	}
 }
@@ -164,10 +170,8 @@ BOOL
 CacheFile::unlockBlock(int nr) {
 	if (m_current_block) {
 		m_current_block = NULL;
-
 		return TRUE;
 	}
-
 	return FALSE;
 }
 
@@ -178,8 +182,9 @@ CacheFile::deleteBlock(int nr) {
 
 		// remove block from cache
 
-		if (it != m_page_map.end())
+		if (it != m_page_map.end()) {
 			m_page_map.erase(nr);
+		}
 
 		// add block to free page list
 

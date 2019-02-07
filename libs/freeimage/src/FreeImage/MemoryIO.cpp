@@ -126,22 +126,6 @@ FreeImage_AcquireMemory(FIMEMORY *stream, BYTE **data, DWORD *size_in_bytes) {
 }
 
 // =====================================================================
-// Memory stream file type access
-// =====================================================================
-
-FREE_IMAGE_FORMAT DLL_CALLCONV
-FreeImage_GetFileTypeFromMemory(FIMEMORY *stream, int size) {
-	FreeImageIO io;
-	SetMemoryIO(&io);
-
-	if (stream != NULL) {
-		return FreeImage_GetFileTypeFromHandle(&io, (fi_handle)stream, size);
-	}
-
-	return FIF_UNKNOWN;
-}
-
-// =====================================================================
 // Seeking in Memory stream
 // =====================================================================
 

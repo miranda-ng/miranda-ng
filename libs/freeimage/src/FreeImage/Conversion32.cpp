@@ -131,7 +131,7 @@ FreeImage_ConvertLine24To32(BYTE *target, BYTE *source, int width_in_pixels) {
 
 // ----------------------------------------------------------
 
-inline void 
+void DLL_CALLCONV
 FreeImage_ConvertLine1To32MapTransparency(BYTE *target, BYTE *source, int width_in_pixels, RGBQUAD *palette, BYTE *table, int transparent_pixels) {
 	for (int cols = 0; cols < width_in_pixels; cols++) {
 		int index = (source[cols>>3] & (0x80 >> (cols & 0x07))) != 0 ? 1 : 0;
@@ -144,7 +144,7 @@ FreeImage_ConvertLine1To32MapTransparency(BYTE *target, BYTE *source, int width_
 	}	
 }
 
-inline void 
+void DLL_CALLCONV
 FreeImage_ConvertLine4To32MapTransparency(BYTE *target, BYTE *source, int width_in_pixels, RGBQUAD *palette, BYTE *table, int transparent_pixels) {
 	BOOL low_nibble = FALSE;
 	int x = 0;
@@ -170,7 +170,7 @@ FreeImage_ConvertLine4To32MapTransparency(BYTE *target, BYTE *source, int width_
 	}
 }
 
-inline void 
+void DLL_CALLCONV
 FreeImage_ConvertLine8To32MapTransparency(BYTE *target, BYTE *source, int width_in_pixels, RGBQUAD *palette, BYTE *table, int transparent_pixels) {
 	for (int cols = 0; cols < width_in_pixels; cols++) {
 		target[FI_RGBA_BLUE]	= palette[source[cols]].rgbBlue;

@@ -19,8 +19,8 @@
 // Use at your own risk!
 // ==========================================================
 
-#ifndef CACHEFILE_H
-#define CACHEFILE_H
+#ifndef FREEIMAGE_CACHEFILE_H
+#define FREEIMAGE_CACHEFILE_H
 
 // ----------------------------------------------------------
 
@@ -61,11 +61,12 @@ class CacheFile {
 	typedef std::map<int, PageCacheIt>::iterator PageMapIt;
 
 public :
-	CacheFile(const std::string filename, BOOL keep_in_memory);
+	CacheFile();
 	~CacheFile();
-
-	BOOL open();
+	
+	BOOL open(const std::string& filename = "", BOOL keep_in_memory = TRUE);
 	void close();
+
 	BOOL readFile(BYTE *data, int nr, int size);
 	int writeFile(BYTE *data, int size);
 	void deleteFile(int nr);
@@ -89,4 +90,4 @@ private :
 	BOOL m_keep_in_memory;
 };
 
-#endif // CACHEFILE_H
+#endif // FREEIMAGE_CACHEFILE_H

@@ -1,10 +1,11 @@
-// ==========================================================
+﻿// ==========================================================
 // Metadata functions implementation
 // Exif metadata model
 //
 // Design and implementation by
 // - Hervé Drolon (drolon@infonie.fr)
 // - Mihail Naydenov (mnaydenov@users.sourceforge.net)
+// - Garrick Meeker (garrickmeeker@users.sourceforge.net)
 //
 // Based on the following implementations:
 // - metadata-extractor : http://www.drewnoakes.com/code/exif/
@@ -1250,4 +1251,107 @@ tiff_get_ifd_profile(FIBITMAP *dib, FREE_IMAGE_MDMODEL md_model, BYTE **ppbProfi
 		FreeImage_CloseMemory(hmem);
 		return FALSE;
 	}
+}
+
+// ----------------------------------------------------------
+//   Exif PSD routines
+// ----------------------------------------------------------
+
+/**
+Read and decode PSD image resource (Exif profile)
+@param dib Input FIBITMAP
+@param data Pointer to the resource data
+@param length Resource length
+@return Returns TRUE if successful, FALSE otherwise
+*/
+BOOL
+psd_read_exif_profile(FIBITMAP *dib, const BYTE *data, unsigned int length) {
+	BYTE lsb_first[4] = { 0x49, 0x49, 0x2A, 0x00 };		// Classic TIFF signature - little-endian order
+	BYTE msb_first[4] = { 0x4D, 0x4D, 0x00, 0x2A };		// Classic TIFF signature - big-endian order
+
+	// profile size is up to 32-bit
+	DWORD dwProfileLength = (DWORD)length;
+	BYTE *pbProfile = (BYTE*)data;
+
+	// This is an Exif profile
+	// should contain a TIFF header with up to 2 IFDs (IFD stands for 'Image File Directory')
+	// 0th IFD : the image attributes, 1st IFD : may be used for thumbnail
+
+	// read the TIFF header (8 bytes)
+
+	// check the endianess order
+
+	BOOL bBigEndian = TRUE;
+
+	if(memcmp(pbProfile, lsb_first, sizeof(lsb_first)) == 0) {
+		// Exif section is in little-endian order
+		bBigEndian = FALSE;
+	} else {
+		if(memcmp(pbProfile, msb_first, sizeof(msb_first)) == 0) {
+			// Exif section is in big-endian order
+			bBigEndian = TRUE;
+		} else {
+			// Invalid Exif alignment marker
+			return FALSE;
+		}
+	}
+
+	// this is the offset to the first IFD (Image File Directory)
+	DWORD dwFirstOffset = ReadUint32(bBigEndian, pbProfile + 4);
+	if (dwFirstOffset > dwProfileLength) {
+		// bad Exif data
+		return FALSE;
+	}
+
+	// process Exif directories, starting with Exif-TIFF IFD
+	return jpeg_read_exif_dir(dib, pbProfile, dwFirstOffset, dwProfileLength, 0, bBigEndian, TagLib::EXIF_MAIN);
+}
+
+/**
+Read PSD image resource (Exif profile)
+@param dib Input FIBITMAP
+@param dataptr Pointer to the resource data
+@param datalen Resource length
+@return Returns TRUE if successful, FALSE otherwise
+*/
+BOOL
+psd_read_exif_profile_raw(FIBITMAP *dib, const BYTE *profile, unsigned length) {
+    // marker identifying string for Exif = "Exif\0\0"
+	// used by JPEG not PSD
+    BYTE exif_signature[6] = { 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };
+
+	if(NULL == profile || length == 0) {
+		return FALSE;
+	}
+
+	DWORD dwProfileLength = (DWORD)length + sizeof(exif_signature);
+	BYTE *pbProfile = (BYTE*)malloc(dwProfileLength);
+	if(NULL == pbProfile) {
+		// out of memory ...
+		return FALSE;
+	}
+	memcpy(pbProfile, exif_signature, sizeof(exif_signature));
+	memcpy(pbProfile + sizeof(exif_signature), profile, length);
+
+	// create a tag
+	FITAG *tag = FreeImage_CreateTag();
+	BOOL bSuccess = FALSE;
+	if(tag) {
+		FreeImage_SetTagKey(tag, g_TagLib_ExifRawFieldName);
+		FreeImage_SetTagLength(tag, dwProfileLength);
+		FreeImage_SetTagCount(tag, dwProfileLength);
+		FreeImage_SetTagType(tag, FIDT_BYTE);
+		FreeImage_SetTagValue(tag, pbProfile);
+
+		// store the tag
+		FreeImage_SetMetadata(FIMD_EXIF_RAW, dib, FreeImage_GetTagKey(tag), tag);
+
+		// destroy the tag
+		FreeImage_DeleteTag(tag);
+
+		bSuccess = TRUE;
+	}
+	free(pbProfile);
+
+	return bSuccess;
 }

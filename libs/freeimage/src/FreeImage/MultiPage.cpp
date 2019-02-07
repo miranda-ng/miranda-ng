@@ -10,6 +10,7 @@
 // - Vadim Alexandrov (vadimalexandrov@users.sourceforge.net
 // - Martin Dyring-Andersen (mda@spamfighter.com)
 // - Volodymyr Goncharov (volodymyr.goncharov@gmail.com)
+// - Mihail Naydenov (mnaydenov@users.sourceforge.net)
 //
 // This file is part of FreeImage 3
 //
@@ -32,58 +33,89 @@
 
 #include "../stdafx.h"
 
+namespace {
+
 // ----------------------------------------------------------
 
 enum BlockType { BLOCK_CONTINUEUS, BLOCK_REFERENCE };
 
 // ----------------------------------------------------------
 
-struct BlockTypeS {
-	BlockType m_type;
+class PageBlock {
 
-	BlockTypeS(BlockType type) : m_type(type) {
-	}
-	virtual ~BlockTypeS() {}
-};
+  union {
+    struct {
+      int  m_start;
+      int  m_end;
+    };
+    struct {
+      int  m_reference;
+      int  m_size;
+    };
+  };
 
-struct BlockContinueus : public BlockTypeS {
-	int       m_start;
-	int       m_end;
+public:
+  BlockType m_type;
 
-	BlockContinueus(int s, int e) : BlockTypeS(BLOCK_CONTINUEUS),
-	m_start(s),
-	m_end(e) {
-	}	
-};
+  PageBlock(BlockType type = BLOCK_CONTINUEUS, int val1 = -1, int val2 = -1) : m_type(type)
+  {
+    if(m_type == BLOCK_CONTINUEUS)
+    {
+      m_start = val1;
+      m_end = val2;
+    }
+    else
+    {
+      m_reference = val1;
+      m_size = val2;
+    }
+  }
 
-struct BlockReference : public BlockTypeS {
-	int       m_reference;
-	int       m_size;
+  bool isValid() const { return !(m_type == BLOCK_CONTINUEUS && m_start == -1 && m_end == -1); }
+  /*explicit*/ operator bool() const { return isValid(); }
 
-	BlockReference(int r, int size) : BlockTypeS(BLOCK_REFERENCE),
-	m_reference(r),
-	m_size(size) {
-	}
+  int getStart() const { assert(isValid() && m_type == BLOCK_CONTINUEUS); return m_start; }
+  int getEnd() const { assert(isValid() && m_type == BLOCK_CONTINUEUS); return m_end; }
+
+  bool isSinglePage() const { assert(isValid()); return m_type == BLOCK_CONTINUEUS ? (m_start == m_end) : true; }
+  int getPageCount() const { assert(isValid()); return m_type == BLOCK_CONTINUEUS ? (m_end - m_start + 1) : 1;}
+
+  int getReference() const { assert(isValid() && m_type == BLOCK_REFERENCE); return m_reference; }
+  int getSize() const { assert(isValid() && m_type == BLOCK_REFERENCE); return m_size;  }
 };
 
 // ----------------------------------------------------------
 
-typedef std::list<BlockTypeS *> BlockList;
-typedef std::list<BlockTypeS *>::iterator BlockListIterator;
+typedef std::list<PageBlock> BlockList;
+typedef BlockList::iterator BlockListIterator;
 
 // ----------------------------------------------------------
 
-FI_STRUCT (MULTIBITMAPHEADER) {
+struct MULTIBITMAPHEADER {
+	
+	MULTIBITMAPHEADER()
+		: node(NULL)
+		, fif(FIF_UNKNOWN)
+		, handle(NULL)
+		, changed(FALSE)
+		, page_count(0)
+		, read_only(TRUE)
+		, cache_fif(fif)
+		, load_flags(0)
+	{
+		SetDefaultIO(&io);
+	}
+	
 	PluginNode *node;
 	FREE_IMAGE_FORMAT fif;
-	FreeImageIO *io;
+	FreeImageIO io;
 	fi_handle handle;
-	CacheFile *m_cachefile;
+	CacheFile m_cachefile;
 	std::map<FIBITMAP *, int> locked_pages;
 	BOOL changed;
 	int page_count;
 	BlockList m_blocks;
-	char *m_filename;
+	std::string m_filename;
 	BOOL read_only;
 	FREE_IMAGE_FORMAT cache_fif;
 	int load_flags;
@@ -107,6 +139,9 @@ ReplaceExtension(std::string& dst_filename, const std::string& src_filename, con
 	}
 }
 
+} //< ns
+
+
 // =====================================================================
 // Internal Multipage functions
 // =====================================================================
@@ -127,77 +162,55 @@ FreeImage_FindBlock(FIMULTIBITMAP *bitmap, int position) {
 	int prev_count = 0;
 	int count = 0;
 	BlockListIterator i;
-	BlockTypeS *current_block = NULL;
 
 	for (i = header->m_blocks.begin(); i != header->m_blocks.end(); ++i) {
 		prev_count = count;
+		
+		count += i->getPageCount();
 
-		switch((*i)->m_type) {
-			case BLOCK_CONTINUEUS :
-				count += ((BlockContinueus *)(*i))->m_end - ((BlockContinueus *)(*i))->m_start + 1;
-				break;
-
-			case BLOCK_REFERENCE :
-				count++;
-				break;
-		}
-
-		current_block = *i;
-
-		if (count > position)
+		if (count > position) {
 			break;
+		}
 	}
 
 	// step 2: make sure we found the node. from here it gets a little complicated:
-	// * if the block is there, just return it
-	// * if the block is a series of blocks, split it in max 3 new blocks
-	//   and return the splitted block
-
-	if ((current_block) && (count > position)) {
-		switch(current_block->m_type) {
-			case BLOCK_REFERENCE :
-				return i;
-
-			case BLOCK_CONTINUEUS :
-			{
-				BlockContinueus *block = (BlockContinueus *)current_block;
-
-				if (block->m_start != block->m_end) {
-					int item = block->m_start + (position - prev_count);
-
-					// left part
-
-					if (item != block->m_start) {
-						BlockContinueus *block_a = new BlockContinueus(block->m_start, item - 1);
-						header->m_blocks.insert(i, (BlockTypeS *)block_a);
-					}
-
-					// middle part
-
-					BlockContinueus *block_b = new BlockContinueus(item, item);
-					BlockListIterator block_target = header->m_blocks.insert(i, (BlockTypeS *)block_b);
-
-					// right part
-
-					if (item != block->m_end) {
-						BlockContinueus *block_c = new BlockContinueus(item + 1, block->m_end);
-						header->m_blocks.insert(i, (BlockTypeS *)block_c);
-					}
-
-					// remove the old block that was just splitted
-
-					header->m_blocks.remove((BlockTypeS *)block);
-					delete block;
-
-					// return the splitted block
-					
-					return block_target;
-				}
-
-				return i;
-			}
+	// * if the block is single page, just return it
+	// * if the block is a span of pages, split it in 3 new blocks
+	//   and return the middle block, which is now a single page
+	
+	if ((i != header->m_blocks.end()) && (count > position)) {
+		
+		if (i->isSinglePage()) {
+			return i;
 		}
+		
+		const int item = i->getStart() + (position - prev_count);
+		
+		// left part
+		
+		if (item != i->getStart()) {
+			header->m_blocks.insert(i, PageBlock(BLOCK_CONTINUEUS, i->getStart(), item - 1));
+		}
+		
+		// middle part
+		
+		BlockListIterator block_target = header->m_blocks.insert(i, PageBlock(BLOCK_CONTINUEUS, item, item));
+		
+		// right part
+		
+		if (item != i->getEnd()) {
+			header->m_blocks.insert(i, PageBlock(BLOCK_CONTINUEUS, item + 1, i->getEnd()));
+		}
+		
+		// remove the old block that was just splitted
+		
+		header->m_blocks.erase(i);
+		
+		// return the splitted block
+		
+		return block_target;
 	}
+	
 	// we should never go here ...
 	assert(false);
 	return header->m_blocks.end();
@@ -208,19 +221,19 @@ FreeImage_InternalGetPageCount(FIMULTIBITMAP *bitmap) {
 	if (bitmap) {
 		if (((MULTIBITMAPHEADER *)bitmap->data)->handle) {
 			MULTIBITMAPHEADER *header = FreeImage_GetMultiBitmapHeader(bitmap);
-
-			header->io->seek_proc(header->handle, 0, SEEK_SET);
-
-   			void *data = FreeImage_Open(header->node, header->io, header->handle, TRUE);
-
-			int page_count = (header->node->m_plugin->pagecount_proc != NULL) ? header->node->m_plugin->pagecount_proc(header->io, header->handle, data) : 1;
-
-			FreeImage_Close(header->node, header->io, header->handle, data);
-
+			
+			header->io.seek_proc(header->handle, 0, SEEK_SET);
+			
+			void *data = FreeImage_Open(header->node, &header->io, header->handle, TRUE);
+			
+			int page_count = (header->node->m_plugin->pagecount_proc != NULL) ? header->node->m_plugin->pagecount_proc(&header->io, header->handle, data) : 1;
+			
+			FreeImage_Close(header->node, &header->io, header->handle, data);
+			
 			return page_count;
 		}
 	}
-
+	
 	return 0;
 }
 
@@ -247,10 +260,6 @@ FreeImage_OpenMultiBitmap(FREE_IMAGE_FORMAT fif, const char *filename, BOOL crea
 			PluginNode *node = list->FindNodeFromFIF(fif);
 
 			if (node) {
-				std::auto_ptr<FreeImageIO> io (new FreeImageIO);
-
-				SetDefaultIO(io.get());
-
 				if (!create_new) {
 					handle = fopen(filename, "rb");
 					if (handle == NULL) {
@@ -260,15 +269,12 @@ FreeImage_OpenMultiBitmap(FREE_IMAGE_FORMAT fif, const char *filename, BOOL crea
 
 				std::auto_ptr<FIMULTIBITMAP> bitmap (new FIMULTIBITMAP);
 				std::auto_ptr<MULTIBITMAPHEADER> header (new MULTIBITMAPHEADER);
-				header->m_filename = new char[strlen(filename) + 1];
-				strcpy(header->m_filename, filename);
+				header->m_filename = filename;
+				// io is default
 				header->node = node;
 				header->fif = fif;
-				header->io = io.get ();
 				header->handle = handle;						
-				header->changed = FALSE;						
 				header->read_only = read_only;
-				header->m_cachefile = NULL;
 				header->cache_fif = fif;
 				header->load_flags = flags;
 
@@ -283,7 +289,7 @@ FreeImage_OpenMultiBitmap(FREE_IMAGE_FORMAT fif, const char *filename, BOOL crea
 				// allocate a continueus block to describe the bitmap
 
 				if (!create_new) {
-					header->m_blocks.push_back((BlockTypeS *)new BlockContinueus(0, header->page_count - 1));
+					header->m_blocks.push_back(PageBlock(BLOCK_CONTINUEUS, 0, header->page_count - 1));
 				}
 
 				// set up the cache
@@ -291,13 +297,8 @@ FreeImage_OpenMultiBitmap(FREE_IMAGE_FORMAT fif, const char *filename, BOOL crea
 				if (!read_only) {
 					std::string cache_name;
 					ReplaceExtension(cache_name, filename, "ficache");
-
-					std::auto_ptr<CacheFile> cache_file (new CacheFile(cache_name, keep_cache_in_memory));
-
-					if (cache_file->open()) {
-						// we can use release() as std::bad_alloc won't be thrown from here on
-						header->m_cachefile = cache_file.release();
-					} else {
+					
+					if (!header->m_cachefile.open(cache_name, keep_cache_in_memory)) {
 						// an error occured ...
 						fclose(handle);
 						return NULL;
@@ -306,15 +307,15 @@ FreeImage_OpenMultiBitmap(FREE_IMAGE_FORMAT fif, const char *filename, BOOL crea
 				// return the multibitmap
 				// std::bad_alloc won't be thrown from here on
 				header.release(); // now owned by bitmap
-				io.release();	  // now owned by bitmap
 				return bitmap.release(); // now owned by caller
 			}
 		}
 	} catch (std::bad_alloc &) {
 		/** @todo report error */
 	}
-	if (handle)
+	if (handle) {
 		fclose(handle);
+	}
 	return NULL;
 }
 
@@ -350,15 +351,11 @@ FreeImage_OpenMultiBitmapFromHandle(FREE_IMAGE_FORMAT fif, FreeImageIO *io, fi_h
 				if (node) {
 					std::auto_ptr<FIMULTIBITMAP> bitmap (new FIMULTIBITMAP);
 					std::auto_ptr<MULTIBITMAPHEADER> header (new MULTIBITMAPHEADER);
-					std::auto_ptr<FreeImageIO> tmp_io (new FreeImageIO (*io));
-					header->io = tmp_io.get();
-					header->m_filename = NULL;
+					header->io = *io;
 					header->node = node;
 					header->fif = fif;
 					header->handle = handle;						
-					header->changed = FALSE;						
 					header->read_only = read_only;	
-					header->m_cachefile = NULL;
 					header->cache_fif = fif;
 					header->load_flags = flags;
 							
@@ -371,18 +368,11 @@ FreeImage_OpenMultiBitmapFromHandle(FREE_IMAGE_FORMAT fif, FreeImageIO *io, fi_h
 					header->page_count = FreeImage_InternalGetPageCount(bitmap.get());
 
 					// allocate a continueus block to describe the bitmap
+					
+					header->m_blocks.push_back(PageBlock(BLOCK_CONTINUEUS, 0, header->page_count - 1));
+					
+					// no need to open cache - it is in-memory by default
 
-					header->m_blocks.push_back((BlockTypeS *)new BlockContinueus(0, header->page_count - 1));
-
-					if (!read_only) {
-						// set up the cache
-						std::auto_ptr<CacheFile> cache_file (new CacheFile("", TRUE));
-						
-						if (cache_file->open()) {
-							header->m_cachefile = cache_file.release();
-						}
-					}
-					tmp_io.release();
 					header.release();
 					return bitmap.release();
 				}
@@ -418,8 +408,8 @@ FreeImage_SaveMultiBitmapToHandle(FREE_IMAGE_FORMAT fif, FIMULTIBITMAP *bitmap, 
 			
 			if(header->handle) {
 				// open src
-				header->io->seek_proc(header->handle, 0, SEEK_SET);
-				data_read = FreeImage_Open(header->node, header->io, header->handle, TRUE);
+				header->io.seek_proc(header->handle, 0, SEEK_SET);
+				data_read = FreeImage_Open(header->node, &header->io, header->handle, TRUE);
 			}
 			
 			// write all the pages to the file using handle and io
@@ -428,15 +418,13 @@ FreeImage_SaveMultiBitmapToHandle(FREE_IMAGE_FORMAT fif, FIMULTIBITMAP *bitmap, 
 			
 			for (BlockListIterator i = header->m_blocks.begin(); i != header->m_blocks.end(); i++) {
 				if (success) {
-					switch((*i)->m_type) {
+					switch(i->m_type) {
 						case BLOCK_CONTINUEUS:
 						{
-							BlockContinueus *block = (BlockContinueus *)(*i);
-							
-							for (int j = block->m_start; j <= block->m_end; j++) {
-
+							for (int j = i->getStart(); j <= i->getEnd(); j++) {
+								
 								// load the original source data
-								FIBITMAP *dib = header->node->m_plugin->load_proc(header->io, header->handle, j, header->load_flags, data_read);
+								FIBITMAP *dib = header->node->m_plugin->load_proc(&header->io, header->handle, j, header->load_flags, data_read);
 								
 								// save the data
 								success = node->m_plugin->save_proc(io, dib, handle, count, flags, data);
@@ -450,17 +438,15 @@ FreeImage_SaveMultiBitmapToHandle(FREE_IMAGE_FORMAT fif, FIMULTIBITMAP *bitmap, 
 						
 						case BLOCK_REFERENCE:
 						{
-							BlockReference *ref = (BlockReference *)(*i);
-							
 							// read the compressed data
 							
-							BYTE *compressed_data = (BYTE*)malloc(ref->m_size * sizeof(BYTE));
+							BYTE *compressed_data = (BYTE*)malloc(i->getSize() * sizeof(BYTE));
 							
-							header->m_cachefile->readFile((BYTE *)compressed_data, ref->m_reference, ref->m_size);
+							header->m_cachefile.readFile((BYTE *)compressed_data, i->getReference(), i->getSize());
 							
 							// uncompress the data
 							
-							FIMEMORY *hmem = FreeImage_OpenMemory(compressed_data, ref->m_size);
+							FIMEMORY *hmem = FreeImage_OpenMemory(compressed_data, i->getSize());
 							FIBITMAP *dib = FreeImage_LoadFromMemory(header->cache_fif, hmem, 0);
 							FreeImage_CloseMemory(hmem);
 							
@@ -486,7 +472,7 @@ FreeImage_SaveMultiBitmapToHandle(FREE_IMAGE_FORMAT fif, FIMULTIBITMAP *bitmap, 
 			
 			// close the files
 			
-			FreeImage_Close(header->node, header->io, header->handle, data_read);
+			FreeImage_Close(header->node, &header->io, header->handle, data_read);
 
 			FreeImage_Close(node, io, handle, data); 
 			
@@ -507,7 +493,7 @@ FreeImage_CloseMultiBitmap(FIMULTIBITMAP *bitmap, int flags) {
 			MULTIBITMAPHEADER *header = FreeImage_GetMultiBitmapHeader(bitmap);			
 			
 			// saves changes only of images loaded directly from a file
-			if (header->changed && header->m_filename) {
+			if (header->changed && !header->m_filename.empty()) {
 				try {
 					// open a temp file
 
@@ -524,7 +510,7 @@ FreeImage_CloseMultiBitmap(FIMULTIBITMAP *bitmap, int flags) {
 						FreeImage_OutputMessageProc(header->fif, "Failed to open %s, %s", spool_name.c_str(), strerror(errno));
 						success = FALSE;
 					} else {
-						success = FreeImage_SaveMultiBitmapToHandle(header->fif, bitmap, header->io, (fi_handle)f, flags);
+						success = FreeImage_SaveMultiBitmapToHandle(header->fif, bitmap, &header->io, (fi_handle)f, flags);
 
 						// close the files
 
@@ -540,10 +526,10 @@ FreeImage_CloseMultiBitmap(FIMULTIBITMAP *bitmap, int flags) {
 					// applies changes to the destination file
 
 					if (success) {
-						remove(header->m_filename);
-						success = (rename(spool_name.c_str(), header->m_filename) == 0) ? TRUE:FALSE;
+						remove(header->m_filename.c_str());
+						success = (rename(spool_name.c_str(), header->m_filename.c_str()) == 0) ? TRUE:FALSE;
 						if(!success) {
-							FreeImage_OutputMessageProc(header->fif, "Failed to rename %s to %s", spool_name.c_str(), header->m_filename);
+							FreeImage_OutputMessageProc(header->fif, "Failed to rename %s to %s", spool_name.c_str(), header->m_filename.c_str());
 						}
 					} else {
 						remove(spool_name.c_str());
@@ -553,22 +539,9 @@ FreeImage_CloseMultiBitmap(FIMULTIBITMAP *bitmap, int flags) {
 				}
 
 			} else {
-				if (header->handle && header->m_filename) {
+				if (header->handle && !header->m_filename.empty()) {
 					fclose((FILE *)header->handle);
 				}
-			}
-
-			// clear the blocks list
-
-			for (BlockListIterator i = header->m_blocks.begin(); i != header->m_blocks.end(); ++i) {
-				delete *i;
-			}
-
-			// flush and dispose the cache
-
-			if (header->m_cachefile) {
-				header->m_cachefile->close();
-				delete header->m_cachefile;
 			}
 
 			// delete the last open bitmaps
@@ -577,16 +550,6 @@ FreeImage_CloseMultiBitmap(FIMULTIBITMAP *bitmap, int flags) {
 				FreeImage_Unload(header->locked_pages.begin()->first);
 
 				header->locked_pages.erase(header->locked_pages.begin()->first);
-			}
-
-			// get rid of the IO structure
-
-			delete header->io;
-
-			// delete the filename
-
-			if(header->m_filename) {
-				delete[] header->m_filename;
 			}
 
 			// delete the FIMULTIBITMAPHEADER
@@ -611,15 +574,7 @@ FreeImage_GetPageCount(FIMULTIBITMAP *bitmap) {
 			header->page_count = 0;
 
 			for (BlockListIterator i = header->m_blocks.begin(); i != header->m_blocks.end(); ++i) {
-				switch((*i)->m_type) {
-					case BLOCK_CONTINUEUS :
-						header->page_count += ((BlockContinueus *)(*i))->m_end - ((BlockContinueus *)(*i))->m_start + 1;
-						break;
-
-					case BLOCK_REFERENCE :
-						header->page_count++;
-						break;
-				}
+				header->page_count += i->getPageCount();
 			}
 		}
 
@@ -629,10 +584,13 @@ FreeImage_GetPageCount(FIMULTIBITMAP *bitmap) {
 	return 0;
 }
 
-static BlockReference* 
+static PageBlock
 FreeImage_SavePageToBlock(MULTIBITMAPHEADER *header, FIBITMAP *data) {
-	if (header->read_only || !header->locked_pages.empty())
-		return NULL;
+	PageBlock res;
+	
+	if (header->read_only || !header->locked_pages.empty()) {
+		return res;
+	}
 
 	DWORD compressed_size = 0;
 	BYTE *compressed_data = NULL;
@@ -641,66 +599,69 @@ FreeImage_SavePageToBlock(MULTIBITMAPHEADER *header, FIBITMAP *data) {
 
 	// open a memory handle
 	FIMEMORY *hmem = FreeImage_OpenMemory();
-	if(hmem==NULL) return NULL;
+	if(hmem==NULL) {
+		return res;
+	}
 	// save the file to memory
 	if(!FreeImage_SaveToMemory(header->cache_fif, data, hmem, 0)) {
 		FreeImage_CloseMemory(hmem);
-		return NULL;
+		return res;
 	}
 	// get the buffer from the memory stream
 	if(!FreeImage_AcquireMemory(hmem, &compressed_data, &compressed_size)) {
 		FreeImage_CloseMemory(hmem);
-		return NULL;
+		return res;
 	}
-
+	
 	// write the compressed data to the cache
-	int ref = header->m_cachefile->writeFile(compressed_data, compressed_size);
+	int ref = header->m_cachefile.writeFile(compressed_data, compressed_size);
 	// get rid of the compressed data
 	FreeImage_CloseMemory(hmem);
-
-	return new(std::nothrow) BlockReference(ref, compressed_size);
+	
+	res = PageBlock(BLOCK_REFERENCE, ref, compressed_size);
+	
+	return res;
 }
 
 void DLL_CALLCONV
 FreeImage_AppendPage(FIMULTIBITMAP *bitmap, FIBITMAP *data) {
-	if (!bitmap || !data) 
+	if (!bitmap || !data) {
 		return;
-
+	}
+	
 	MULTIBITMAPHEADER *header = FreeImage_GetMultiBitmapHeader(bitmap);
-
-	BlockReference *block = FreeImage_SavePageToBlock(header, data);
-	if(block==NULL) return;
-
-	// add the block
-	header->m_blocks.push_back((BlockTypeS *)block);
-	header->changed = TRUE;
-	header->page_count = -1;
+	
+	if(const PageBlock block = FreeImage_SavePageToBlock(header, data)) {
+		// add the block
+		header->m_blocks.push_back(block);
+		header->changed = TRUE;
+		header->page_count = -1;
+	}
 }
 
 void DLL_CALLCONV
 FreeImage_InsertPage(FIMULTIBITMAP *bitmap, int page, FIBITMAP *data) {
-	if (!bitmap || !data) 
+	if (!bitmap || !data) {
 		return;
-
-	if (page >= FreeImage_GetPageCount(bitmap)) 
-		return;
-			
-	MULTIBITMAPHEADER *header = FreeImage_GetMultiBitmapHeader(bitmap);
-
-	BlockReference *block = FreeImage_SavePageToBlock(header, data);
-	if(block==NULL) return;
-
-	// add a block
-	if (page > 0) {
-		BlockListIterator block_source = FreeImage_FindBlock(bitmap, page);		
-
-		header->m_blocks.insert(block_source, (BlockTypeS *)block);
-	} else {
-		header->m_blocks.push_front((BlockTypeS *)block);
 	}
-
-	header->changed = TRUE;
-	header->page_count = -1;
+	if (page >= FreeImage_GetPageCount(bitmap)) {
+		return;
+	}
+	
+	MULTIBITMAPHEADER *header = FreeImage_GetMultiBitmapHeader(bitmap);
+	
+	if(const PageBlock block = FreeImage_SavePageToBlock(header, data)) {
+		// add a block
+		if (page > 0) {
+			BlockListIterator block_source = FreeImage_FindBlock(bitmap, page);
+			header->m_blocks.insert(block_source, block);
+		} else {
+			header->m_blocks.push_front(block);
+		}
+		
+		header->changed = TRUE;
+		header->page_count = -1;
+	}
 }
 
 void DLL_CALLCONV
@@ -711,21 +672,19 @@ FreeImage_DeletePage(FIMULTIBITMAP *bitmap, int page) {
 		if ((!header->read_only) && (header->locked_pages.empty())) {
 			if (FreeImage_GetPageCount(bitmap) > 1) {
 				BlockListIterator i = FreeImage_FindBlock(bitmap, page);
-
+				
 				if (i != header->m_blocks.end()) {
-					switch((*i)->m_type) {
+					switch(i->m_type) {
 						case BLOCK_CONTINUEUS :
-							delete *i;
 							header->m_blocks.erase(i);
 							break;
-
+							
 						case BLOCK_REFERENCE :
-							header->m_cachefile->deleteFile(((BlockReference *)(*i))->m_reference);
-							delete *i;
+							header->m_cachefile.deleteFile(i->getReference());
 							header->m_blocks.erase(i);
 							break;
 					}
-
+					
 					header->changed = TRUE;
 					header->page_count = -1;
 				}
@@ -733,7 +692,6 @@ FreeImage_DeletePage(FIMULTIBITMAP *bitmap, int page) {
 		}
 	}
 }
-
 
 FIBITMAP * DLL_CALLCONV
 FreeImage_LockPage(FIMULTIBITMAP *bitmap, int page) {
@@ -749,19 +707,19 @@ FreeImage_LockPage(FIMULTIBITMAP *bitmap, int page) {
 		}
 
 		// open the bitmap
-
-		header->io->seek_proc(header->handle, 0, SEEK_SET);
-
-   		void *data = FreeImage_Open(header->node, header->io, header->handle, TRUE);
-
+		
+		header->io.seek_proc(header->handle, 0, SEEK_SET);
+		
+		void *data = FreeImage_Open(header->node, &header->io, header->handle, TRUE);
+		
 		// load the bitmap data
-
+		
 		if (data != NULL) {
-			FIBITMAP *dib = (header->node->m_plugin->load_proc != NULL) ? header->node->m_plugin->load_proc(header->io, header->handle, page, header->load_flags, data) : NULL;
+			FIBITMAP *dib = (header->node->m_plugin->load_proc != NULL) ? header->node->m_plugin->load_proc(&header->io, header->handle, page, header->load_flags, data) : NULL;
 
 			// close the file
-
-			FreeImage_Close(header->node, header->io, header->handle, data);
+			
+			FreeImage_Close(header->node, &header->io, header->handle, data);
 
 			// if there was still another bitmap open, get rid of it
 
@@ -787,7 +745,7 @@ FreeImage_UnlockPage(FIMULTIBITMAP *bitmap, FIBITMAP *page, BOOL changed) {
 
 		if (header->locked_pages.find(page) != header->locked_pages.end()) {
 			// store the bitmap compressed in the cache for later writing
-
+			
 			if (changed && !header->read_only) {
 				header->changed = TRUE;
 
@@ -808,35 +766,15 @@ FreeImage_UnlockPage(FIMULTIBITMAP *bitmap, FIBITMAP *page, BOOL changed) {
 				FreeImage_AcquireMemory(hmem, &compressed_data, &compressed_size);
 
 				// write the data to the cache
-
-				switch ((*i)->m_type) {
-					case BLOCK_CONTINUEUS :
-					{
-						int iPage = header->m_cachefile->writeFile(compressed_data, compressed_size);
-
-						delete (*i);
-
-						*i = (BlockTypeS *)new BlockReference(iPage, compressed_size);
-
-						break;
-					}
-
-					case BLOCK_REFERENCE :
-					{
-						BlockReference *reference = (BlockReference *)(*i);
-
-						header->m_cachefile->deleteFile(reference->m_reference);
-
-						delete (*i);
-
-						int iPage = header->m_cachefile->writeFile(compressed_data, compressed_size);
-
-						*i = (BlockTypeS *)new BlockReference(iPage, compressed_size);
-
-						break;
-					}
+				
+				if (i->m_type == BLOCK_REFERENCE) {
+					header->m_cachefile.deleteFile(i->getReference());
 				}
-
+				
+				int iPage = header->m_cachefile.writeFile(compressed_data, compressed_size);
+				
+				*i = PageBlock(BLOCK_REFERENCE, iPage, compressed_size);
+				
 				// get rid of the compressed data
 
 				FreeImage_CloseMemory(hmem);
@@ -863,9 +801,9 @@ FreeImage_MovePage(FIMULTIBITMAP *bitmap, int target, int source) {
 
 				header->m_blocks.insert(block_target, *block_source);			
 				header->m_blocks.erase(block_source);
-
+				
 				header->changed = TRUE;
-
+				
 				return TRUE;
 			}
 		}
@@ -889,8 +827,9 @@ FreeImage_GetLockedPageNumbers(FIMULTIBITMAP *bitmap, int *pages, int *count) {
 
 				c++;
 
-				if (c == *count)
+				if (c == *count) {
 					break;
+				}
 			}
 		}
 
@@ -916,10 +855,6 @@ FreeImage_LoadMultiBitmapFromMemory(FREE_IMAGE_FORMAT fif, FIMEMORY *stream, int
 		PluginNode *node = list->FindNodeFromFIF(fif);
 
 		if (node) {
-			FreeImageIO *io = new(std::nothrow) FreeImageIO;
-
-			if (io) {
-				SetMemoryIO(io);
 
 				FIMULTIBITMAP *bitmap = new(std::nothrow) FIMULTIBITMAP;
 
@@ -927,14 +862,11 @@ FreeImage_LoadMultiBitmapFromMemory(FREE_IMAGE_FORMAT fif, FIMEMORY *stream, int
 					MULTIBITMAPHEADER *header = new(std::nothrow) MULTIBITMAPHEADER;
 
 					if (header) {
-						header->m_filename = NULL;
 						header->node = node;
 						header->fif = fif;
-						header->io = io;
+						SetMemoryIO(&header->io);
 						header->handle = (fi_handle)stream;						
-						header->changed = FALSE;						
 						header->read_only = read_only;
-						header->m_cachefile = NULL;
 						header->cache_fif = fif;
 						header->load_flags = flags;
 
@@ -947,26 +879,17 @@ FreeImage_LoadMultiBitmapFromMemory(FREE_IMAGE_FORMAT fif, FIMEMORY *stream, int
 						header->page_count = FreeImage_InternalGetPageCount(bitmap);
 
 						// allocate a continueus block to describe the bitmap
-
-						header->m_blocks.push_back((BlockTypeS *)new BlockContinueus(0, header->page_count - 1));
 						
-						if (!read_only) {
-							// set up the cache
-							CacheFile *cache_file = new(std::nothrow) CacheFile("", TRUE);
-							
-							if (cache_file && cache_file->open()) {
-								header->m_cachefile = cache_file;
-							}
-						}
+						header->m_blocks.push_back(PageBlock(BLOCK_CONTINUEUS, 0, header->page_count - 1));
+						
+						// no need to open cache - it is in-memory by default
 
 						return bitmap;
 					}
 					
 					delete bitmap;
 				}
-				
-				delete io;
-			}
+
 		}
 	}
 

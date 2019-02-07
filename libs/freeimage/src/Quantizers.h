@@ -1,4 +1,4 @@
-// =============================================================
+﻿// =============================================================
 // Quantizer objects and functions
 //
 // Design and implementation by:
@@ -20,7 +20,8 @@
 // Use at your own risk!
 // =============================================================
 
-#pragma once
+#ifndef FREEIMAGE_QUANTIZER_H
+#define FREEIMAGE_QUANTIZER_H
 
 // 
 ////////////////////////////////////////////////////////////////
@@ -354,3 +355,5 @@ protected:
 	void WritePalette(void *palette);
 
 };
+
+#endif // FREEIMAGE_QUANTIZER_H
