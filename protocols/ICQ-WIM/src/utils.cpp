@@ -38,7 +38,7 @@ void CIcqProto::InitContactCache()
 		else {
 			CMStringW wszEmail(getMStringW(it, "e-mail"));
 			if (!wszEmail.IsEmpty()) {
-				delSetting(it, "UIN");
+				delSetting(it, "e-mail");
 				setWString(it, DB_KEY_ID, wszEmail);
 			}
 		}
