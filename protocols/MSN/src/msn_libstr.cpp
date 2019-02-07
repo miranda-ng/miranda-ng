@@ -107,42 +107,6 @@ void parseWLID(char* wlid, char** net, char** email, char** inst)
 		*inst = nullptr;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// UrlDecode - converts URL chars like %20 into printable characters
-
-static int SingleHexToDecimal(char c)
-{
-	if (c >= '0' && c <= '9') return c - '0';
-	if (c >= 'a' && c <= 'f') return c - 'a' + 10;
-	if (c >= 'A' && c <= 'F') return c - 'A' + 10;
-	return -1;
-}
-
-template void UrlDecode(char* str);
-template void UrlDecode(wchar_t* str);
-
-template <class chartype> void UrlDecode(chartype* str)
-{
-	chartype* s = str, *d = str;
-
-	while (*s) {
-		if (*s == '%') {
-			int digit1 = SingleHexToDecimal(s[1]);
-			if (digit1 != -1) {
-				int digit2 = SingleHexToDecimal(s[2]);
-				if (digit2 != -1) {
-					s += 3;
-					*d++ = (char)((digit1 << 4) | digit2);
-					continue;
-				}
-			}
-		}
-		*d++ = *s++;
-	}
-
-	*d = 0;
-}
-
 void HtmlDecode(char *str)
 {
 	if (str == nullptr)

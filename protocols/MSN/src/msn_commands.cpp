@@ -102,7 +102,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 			msgBytes = atol(data.strMsgBytes);
 			nick = data.fromNick;
 			email = data.fromEmail;
-			UrlDecode(nick);
+			mir_urlDecode(nick);
 		}
 		stripBBCode(nick);
 		stripColorCode(nick);
@@ -543,7 +543,7 @@ void CMsnProto::MSN_ProcessYFind(char* buf, size_t len)
 void CMsnProto::MSN_ProcessNLN(const char *userStatus, const char *wlid, char *userNick, const char *objid, char *cmdstring)
 {
 	if (userNick) {
-		UrlDecode(userNick);
+		mir_urlDecode(userNick);
 		stripBBCode(userNick);
 		stripColorCode(userNick);
 	}

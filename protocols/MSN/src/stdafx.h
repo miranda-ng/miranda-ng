@@ -215,8 +215,6 @@ void     parseWLID(char* wlid, char** net, char** email, char** inst);
 
 char*    GetGlobalIp(void);
 
-template <class chartype> void UrlDecode(chartype* str);
-
 char*    MSN_GetAvatarHash(char* szContext, char** pszUrl = nullptr);
 bool     MSN_MsgWndExist(MCONTACT hContact);
 

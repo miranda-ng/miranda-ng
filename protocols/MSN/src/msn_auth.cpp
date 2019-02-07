@@ -1104,7 +1104,6 @@ int CMsnProto::MSN_AuthOAuth(void)
 
 						*pEnd = 0;
 						pAccessToken += 13;
-						UrlDecode(pAccessToken);
 
 						/* Extract refresh token */
 						if (pRefreshToken && (pEnd = strchr(pRefreshToken + 14, '&'))) {
@@ -1122,7 +1121,7 @@ int CMsnProto::MSN_AuthOAuth(void)
 							authTokenExpiretime += atoi(pExpires);
 						}
 						else authTokenExpiretime += 86400;
-						authSkypeComToken.SetToken(pAccessToken, authTokenExpiretime);
+						authSkypeComToken.SetToken(mir_urlDecode(pAccessToken), authTokenExpiretime);
 
 						/* Copy auth Cookies to class for other web requests like contact list fetching to avoid ActiveSync */
 						if (nlhrReply) {
@@ -1172,8 +1171,8 @@ int CMsnProto::MSN_AuthOAuth(void)
 										(pEnd = strchr(pMappingContainer + 20, '"'))) {
 										*pEnd = 0;
 										pMappingContainer += 20;
-										UrlDecode(pMappingContainer);
-										replaceStr(authUIC, pMappingContainer);
+
+										replaceStr(authUIC, mir_urlDecode(pMappingContainer));
 										replaceStr(authUser, MyOptions.szEmail);
 										authMethod = retVal = 2;
 									}

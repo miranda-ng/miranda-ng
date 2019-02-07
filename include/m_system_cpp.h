@@ -431,7 +431,10 @@ struct WCHAR_PARAM : public PARAM
 ///////////////////////////////////////////////////////////////////////////////
 // http support
 
-MIR_CORE_DLL(CMStringA) mir_urlDecode(const char *szUrl);
+// works inline, in the same buffer, thus destroying its contents
+// returns the address of buffer passed
+MIR_CORE_DLL(char*) mir_urlDecode(char *szUrl);
+
 MIR_CORE_DLL(CMStringA) mir_urlEncode(const char *szUrl);
 
 #endif

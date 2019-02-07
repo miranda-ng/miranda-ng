@@ -27,11 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Initialization routines
-
-void MsnLinks_Init(void);
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Global variables
 
 bool g_bTerminated = false;
@@ -71,8 +66,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	avsPresent = ServiceExists(MS_AV_SETMYAVATARW) != 0;
-
-	MsnLinks_Init();
 	return 0;
 }
 

@@ -19,24 +19,46 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static const char szHexDigits[] = "0123456789ABCDEF";
+static int SingleHexToDecimal(char c)
+{
+	if (c >= '0' && c <= '9') return c - '0';
+	if (c >= 'a' && c <= 'f') return c - 'a' + 10;
+	if (c >= 'A' && c <= 'F') return c - 'A' + 10;
+	return -1;
+}
 
-MIR_CORE_DLL(CMStringA) mir_urlDecode(const char *szUrl)
+MIR_CORE_DLL(char*) mir_urlDecode(char *szUrl)
 {
 	if (szUrl == nullptr)
-		return CMStringA();
+		return nullptr;
 
-	CMStringA ret(szUrl);
-	ret.Replace("+", " ");
+	char *d = szUrl;
+	for (char *s = szUrl; *s; d++, s++) {
+		if (*s == '%') {
+			int digit1 = SingleHexToDecimal(s[1]);
+			if (digit1 != -1) {
+				int digit2 = SingleHexToDecimal(s[2]);
+				if (digit2 != -1) {
+					s += 2;
+					*d = (char)((digit1 << 4) | digit2);
+					continue;
+				}
+			}
+		}
 
-	for (int i = ret.Find("%", 0); i != -1; i = ret.Find("%", i)) {
-		int ii;
-		sscanf(ret.c_str()+i+1, "%2x", &ii);
-		ret.Delete(i, 3);
-		ret.Insert(i, ii);
+		if (*s == '+')
+			*d = ' ';
+		else
+			*d = *s;
 	}
-	return ret;
+	*d = 0;
+
+	return szUrl;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static const char szHexDigits[] = "0123456789ABCDEF";
 
 MIR_CORE_DLL(CMStringA) mir_urlEncode(const char *szUrl)
 {

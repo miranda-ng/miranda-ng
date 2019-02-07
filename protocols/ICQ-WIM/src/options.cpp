@@ -140,7 +140,7 @@ void CIcqProto::OnLoginViaPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pRe
 
 	const JSONNode &data = root.data();
 	m_szAToken = data["token"]["a"].as_mstring();
-	m_szAToken = mir_urlDecode(m_szAToken);
+	mir_urlDecode(m_szAToken.GetBuffer());
 	setString(DB_KEY_ATOKEN, m_szAToken);
 
 	m_szSessionKey = data["sessionKey"].as_mstring();
