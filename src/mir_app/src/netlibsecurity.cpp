@@ -64,13 +64,13 @@ static mir_cs csSec;
 
 static void ReportSecError(SECURITY_STATUS scRet, int line)
 {
-	char szMsgBuf[256];
-	FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+	wchar_t szMsgBuf[256];
+	FormatMessageW(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
 		nullptr, scRet, LANG_USER_DEFAULT, szMsgBuf, _countof(szMsgBuf), nullptr);
 
-	char *p = strchr(szMsgBuf, 13); if (p) *p = 0;
+	wchar_t *p = wcschr(szMsgBuf, 13); if (p) *p = 0;
 
-	Netlib_Logf(nullptr, "Security error 0x%x on line %u (%s)", scRet, line, szMsgBuf);
+	Netlib_LogfW(nullptr, L"Security error 0x%x on line %u (%s)", scRet, line, szMsgBuf);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -209,11 +209,12 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 
 	SecBufferDesc outputBufferDescriptor, inputBufferDescriptor;
 	SecBuffer outputSecurityToken, inputSecurityToken;
-	TimeStamp tokenExpiration;
-	ULONG contextAttributes;
 	char *szOutputToken;
 
 	NtlmHandleType *hNtlm = (NtlmHandleType*)hSecurity;
+
+	Netlib_Logf(nullptr, "NtlmCreateResponseFromChallenge (%s): chl=%s {%S:%S} => %d", hNtlm->szProvider, szChallenge, login, psw, complete);
+
 	if (mir_wstrcmpi(hNtlm->szProvider, L"Basic")) {
 		bool isGSSAPI = mir_wstrcmpi(hNtlm->szProvider, L"Kerberos") == 0;
 		bool hasChallenge = szChallenge != nullptr && szChallenge[0] != '\0';
@@ -313,6 +314,8 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 		outputSecurityToken.cbBuffer = hNtlm->cbMaxToken;
 		outputSecurityToken.pvBuffer = alloca(outputSecurityToken.cbBuffer);
 
+		ULONG contextAttributes;
+		TimeStamp tokenExpiration;
 		SECURITY_STATUS sc = InitializeSecurityContext(&hNtlm->hClientCredential,
 			hasChallenge ? &hNtlm->hClientContext : nullptr,
 			hNtlm->szPrincipal, isGSSAPI ? ISC_REQ_MUTUAL_AUTH | ISC_REQ_STREAM : 0, 0, SECURITY_NATIVE_DREP,
