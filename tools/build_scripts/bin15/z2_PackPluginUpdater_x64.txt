@@ -218,6 +218,7 @@ Icons\proto_irc.dll
 Icons\proto_jabber.dll
 Icons\proto_metacontacts.dll
 Icons\proto_minecraftdynmap.dll
+Icons\proto_mra.dll
 Icons\proto_mradio.dll
 Icons\proto_msn.dll
 Icons\proto_newsaggregator.dll

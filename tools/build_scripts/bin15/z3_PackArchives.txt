@@ -75,6 +75,7 @@ Icons\Proto_ICQ.dll
 Icons\Proto_IRC.dll
 Icons\Proto_Jabber.dll
 Icons\Proto_MetaContacts.dll
+Icons\Proto_MRA.dll
 Icons\Proto_MSN.dll
 Icons\TabSRMM_icons.dll
 Icons\Toolbar_icons.dll
