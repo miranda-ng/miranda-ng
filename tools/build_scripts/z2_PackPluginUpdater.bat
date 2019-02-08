@@ -54,7 +54,7 @@ for /f %%a in ('dir plugins\*.dll /B /L') do (
 	if /I "%%a"=="Facebook.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Facebook.dll")
 	if /I "%%a"=="FavContacts.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Gadgets\favcontacts.gadget")
 	if /I "%%a"=="Fingerprint.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Fp_icons.dll")
-	if /I "%%a"=="FTPFile.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Libs\libcurl.mir")
+	if /I "%%a"=="FTPFile.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Libs\libcurl.mir" "Libs\libssh2.mir")
 	if /I "%%a"=="GG.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_GG.dll")
 	if /I "%%a"=="HistoryPP.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\HistoryPP_icons.dll")
 	if /I "%%a"=="ICQ.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_ICQ.dll")

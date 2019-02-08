@@ -190,6 +190,7 @@ Libs\libeay32.mir
 Libs\libcurl.mir
 Libs\libjson.mir
 Libs\libmdbx.mir
+Libs\libssh2.mir
 Libs\mir_app.mir
 Libs\mir_core.mir
 Libs\pcre16.mir
