@@ -238,18 +238,16 @@ bool UploadJob::fileExistsOnServer()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-const wchar_t from_chars[] = L"абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ !@#$%^&=,{}[];'`";
-const wchar_t to_chars[] = L"abvgdeezziiklmnoprstufhccwwqyqeuaABVGDEEZZIIKLMNOPRSTUFHCCWWQYQEUA_________________";
+const wchar_t from_chars[] = L" !@#$%^&=,{}[];'`";
 
 void UploadJob::makeSafeString(const wchar_t *input)
 {
 	CMStringW tmp(input);
 
-	size_t len = mir_wstrlen(from_chars);
-	for (size_t i = 0; i < len; i++)
-		tmp.Replace(from_chars[i], to_chars[i]);
+	for (size_t i = 0; i < _countof(from_chars)-1; i++)
+		tmp.Replace(from_chars[i], '_');
 
-	strncpy(this->m_szSafeFileName, _T2A(tmp), _TRUNCATE);
+	strncpy_s(m_szSafeFileName, T2Utf(tmp), _TRUNCATE);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

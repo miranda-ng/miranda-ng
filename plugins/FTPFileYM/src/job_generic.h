@@ -71,7 +71,7 @@ public:
 	ServerList::FTP *m_ftp;
 	wchar_t m_tszFilePath[1024];
 	wchar_t m_tszFileName[64];
-	char m_szSafeFileName[64];
+	char m_szSafeFileName[256];
 	EMode m_mode;
 	EStatus m_status;
 

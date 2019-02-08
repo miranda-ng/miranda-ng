@@ -300,6 +300,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 				hNtlm->hasDomain = domainLen != 0;
 			}
 
+			TimeStamp tokenExpiration;
 			SECURITY_STATUS sc = AcquireCredentialsHandle(nullptr, hNtlm->szProvider, SECPKG_CRED_OUTBOUND, nullptr, hNtlm->hasDomain ? &auth : nullptr, nullptr, nullptr, &hNtlm->hClientCredential, &tokenExpiration);
 			if (sc != SEC_E_OK) {
 				ReportSecError(sc, __LINE__);
