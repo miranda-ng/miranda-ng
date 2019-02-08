@@ -162,12 +162,6 @@ void NetlibHttpSetLastErrorUsingHttpResult(int result);
 NETLIBHTTPREQUEST* NetlibHttpRecv(NetlibConnection* nlc, DWORD hflags, DWORD dflags, bool isConnect = false);
 void NetlibConnFromUrl(const char* szUrl, bool secur, NETLIBOPENCONNECTION &nloc);
 
-// netlibhttpproxy.c
-int NetlibInitHttpConnection(NetlibConnection *nlc, NetlibUser *nlu, NETLIBOPENCONNECTION *nloc);
-int NetlibHttpGatewayRecv(NetlibConnection *nlc, char *buf, int len, int flags);
-int NetlibHttpGatewayPost(NetlibConnection *nlc, const char *buf, int len, int flags);
-void HttpGatewayRemovePacket(NetlibConnection *nlc, int pck);
-
 // netliblog.c
 void NetlibLogShowOptions(void);
 void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int flags);

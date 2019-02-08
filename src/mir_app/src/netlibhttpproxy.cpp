@@ -41,26 +41,6 @@ RequestType;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int NetlibInitHttpConnection(HNETLIBCONN nlc, NetlibUser *nlu, NETLIBOPENCONNECTION *nloc)
-{
-	NETLIBHTTPREQUEST *nlhrReply = nullptr;
-	{
-		mir_cslock lck(nlc->csHttpSequenceNums);
-		nlc->nlhpi.firstGetSequence = 1;
-		nlc->nlhpi.firstPostSequence = 1;
-	}
-
-	if (nlc->nlhpi.szHttpPostUrl == nullptr) {
-		SetLastError(ERROR_BAD_FORMAT);
-		return 0;
-	}
-
-	// now properly connected
-	return 1;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 MIR_APP_DLL(int) Netlib_SetHttpProxyInfo(HNETLIBCONN nlc, const NETLIBHTTPPROXYINFO *nlhpi)
 {
 	if (GetNetlibHandleType(nlc) != NLH_CONNECTION || nlhpi == nullptr || nlhpi->szHttpPostUrl == nullptr) {

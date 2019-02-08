@@ -21,10 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 #include "msn_proto.h"
 
-int msn_httpGatewayInit(HNETLIBCONN hConn, NETLIBOPENCONNECTION *nloc, NETLIBHTTPREQUEST *nlhr);
-int msn_httpGatewayWrapSend(HNETLIBCONN hConn, PBYTE buf, int len, int flags);
-PBYTE msn_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST *nlhr, PBYTE buf, int len, int *outBufLen, void *(*)(void*, size_t));
-
 static int CompareLists(const MsnContact *p1, const MsnContact *p2)
 {
 	return _stricmp(p1->email, p2->email);
