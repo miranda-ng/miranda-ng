@@ -38,11 +38,9 @@ static PLUGININFOEX pluginInfoEx = {
 	{ 0xEFB2355B, 0x82B3, 0x4759, { 0xb7, 0xd8, 0x95, 0xf8, 0xe9, 0x50, 0x62, 0x91 } } // {EFB2355B-82B3-4759-B7D8-95F8E9506291}
 };
 
-CMPlugin::CMPlugin() :
-	ACCPROTOPLUGIN<CIcqProto>(MODULENAME, pluginInfoEx)
-{
-	SetUniqueId(DB_KEY_ID);
-}
+CMPlugin g_plugin;
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 struct CMPluginMra : public ACCPROTOPLUGIN<CIcqProto>
 {
@@ -55,11 +53,16 @@ static g_pluginMra;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
+CMPlugin::CMPlugin() :
+	ACCPROTOPLUGIN<CIcqProto>(MODULENAME, pluginInfoEx)
+{
+	g_pluginMra.setInst(m_hInst);
+	SetUniqueId(DB_KEY_ID);
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CMPlugin g_plugin;
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
