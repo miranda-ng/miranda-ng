@@ -111,11 +111,11 @@ Abgeschlossen
 [Speed]
 Geschwindigkeit
 [Current IP Address: ]
-Aktuelle IP-Adresse: 
+Aktuelle IP-Adresse:\s
 [Current Address: ]
-Aktuelle Adresse: 
+Aktuelle Adresse:\s
 [IP Address: ]
-IP-Adresse: 
+IP-Adresse:\s
 [You are browsing from]
 Sie browsen von
 [Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
