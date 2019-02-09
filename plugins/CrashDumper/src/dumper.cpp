@@ -202,7 +202,7 @@ static void GetPluginsString(CMStringW &buffer, unsigned &flags)
 				void *pVerInfo = mir_alloc(verInfoSize);
 				GetFileVersionInfo(path, 0, verInfoSize, pVerInfo);
 				VerQueryValue(pVerInfo, L"\\", (LPVOID*)&fi, &blockSize);
-				v1 = HIWORD(fi->dwProductVersionMS), v2 = LOWORD(fi->dwProductVersionMS), v3 = HIWORD(fi->dwProductVersionLS), v4 = LOWORD(fi->dwProductVersionLS);
+				v1 = HIWORD(fi->dwFileVersionMS), v2 = LOWORD(fi->dwFileVersionMS), v3 = HIWORD(fi->dwFileVersionLS), v4 = LOWORD(fi->dwFileVersionLS);
 				mir_free(pVerInfo);
 			}
 			else {
