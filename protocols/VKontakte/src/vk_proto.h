@@ -129,6 +129,7 @@ struct CVkProto : public PROTO<CVkProto>
 private:
 
 	friend struct AsyncHttpRequest;
+	friend class CVkUserItem;
 
 	//==== Enums =========================================================================
 

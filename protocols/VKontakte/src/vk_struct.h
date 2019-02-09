@@ -119,13 +119,13 @@ struct CVkChatInfo : public MZeroedObject
 	CVkChatInfo(int _id) :
 		m_users(10, NumericKeySortT),
 		m_msgs(10, NumericKeySortT),
-		m_chatid(_id),
-		m_admin_id(0),
+		m_iChatId(_id),
+		m_iAdminId(0),
 		m_bHistoryRead(0),
 		m_hContact(INVALID_CONTACT_ID)
 	{}
 
-	int m_chatid, m_admin_id;
+	int m_iChatId, m_iAdminId;
 	bool m_bHistoryRead;
 	ptrW m_wszTopic, m_wszId;
 	MCONTACT m_hContact;
@@ -331,4 +331,86 @@ struct CVKDeactivateEvent {
 
 enum VKContactType : BYTE { vkContactNormal, vkContactSelf, vkContactMUCUser };
 enum VKMesType : BYTE { vkALL, vkIN, vkOUT };
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+enum vkJSONNodeType { vkJSONTypeProfile = 0, vkJSONTypeGroup, vkJSONTypeConversation };
+
+class CVkUserItem : public MZeroedObject {
+	CVkUserItem(CVkProto* vkProto, const JSONNode& jnNode, vkJSONNodeType vkJSONType = vkJSONTypeProfile);
+
+	CVkUserItem(LONG _UserId) :
+		m_iUserId(_UserId),
+		m_bIsGroup(false)
+	{}
+
+	CVkUserItem(LONG _UserId, bool _bIsGroup, CMStringW& _wszUserNick, CMStringW& _wszLink, MCONTACT _hContact = 0) :
+		m_iUserId(_UserId),
+		m_bIsGroup(_bIsGroup),
+		m_wszUserNick(_wszUserNick),
+		m_wszLink(_wszLink),
+		m_hContact(_hContact)
+	{}
+
+	/*
+		"id, first_name, last_name, photo_100, bdate, sex, timezone, contacts, last_seen, online, status, country, city, relation, interests, activities, music, movies, tv, books, games, quotes, about,  domain, is_friend";
+	*/
+	LONG m_iKey;
+
+	LONG m_iUserId;
+	LONG m_iChatId;
+
+	LONG m_iAdminId;
+
+
+	LONG m_iStatus;
+	LONG m_iLastSeen;
+	LONG m_iLastMsgId;
+
+	MCONTACT m_hContact;
+
+	CMStringW m_wszFirstName;
+	CMStringW m_wszLastName;
+	CMStringW m_wszUserNick;
+	CMStringW m_wszLink;
+	CMStringW m_wszDeactivated;
+	CMStringW m_wszCellular;
+	CMStringW m_wszPhone;
+	CMStringW m_wszCountry;
+	CMStringW m_wszCity;
+	CMStringW m_wszAbout;
+	CMStringW m_wszDomain;
+	CMStringW m_wszBDate;
+	CMStringW m_wszAvatarUrl;
+
+	BYTE m_btGender;
+	BYTE m_btTimezone;
+	BYTE m_btMaritalStatus;
+
+	bool m_bIsGroup;
+	bool m_bIsFriend;
+	bool m_bIsUser;
+	bool m_bIsEmail;
+	bool m_bIsMUChat;
+	bool m_bIsDeactivated;
+
+	bool m_bIsHidden;
+	bool m_bIsUpdated;
+
+	CVkProto* m_VK;
+
+	void LoadFromUserProfile(const JSONNode &jnNode);
+	void LoadFromConversation(const JSONNode &jnNode);
+	void LoadFromGroup(const JSONNode &jnNode);
+
+	MCONTACT WriteToDB(bool bForce = false, VKContactType vkContactType = VKContactType::vkContactNormal);
+
+	template <class T>
+		T Set(T& PropertyName, T Value) {
+			m_bIsUpdated = (PropertyName == Value);
+			PropertyName = Value;
+		}
+
+
+};
 

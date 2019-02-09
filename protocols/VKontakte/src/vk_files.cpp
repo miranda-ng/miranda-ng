@@ -355,7 +355,7 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		}
 
 		pMsgReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendChatMsg, AsyncHttpRequest::rpHigh);
-		pMsgReq << INT_PARAM("chat_id", cc->m_chatid);
+		pMsgReq << INT_PARAM("chat_id", cc->m_iChatId);
 		pMsgReq->pUserInfo = pReq->pUserInfo;
 
 	}
