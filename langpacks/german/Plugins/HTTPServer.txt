@@ -9,9 +9,9 @@
 HTTP Web Server plugin für Miranda.
 ;file \plugins\HTTPServer\res\resource.rc
 [IPAddress1]
-
+IPAddress1
 [IPAddress2]
-
+IPAddress2
 [Max downloads]
 Max. Downloads
 [Address]
@@ -111,13 +111,13 @@ Abgeschlossen
 [Speed]
 Geschwindigkeit
 [Current IP Address: ]
-
+Aktuelle IP-Adresse: 
 [Current Address: ]
-
+Aktuelle Adresse: 
 [IP Address: ]
-
+IP-Adresse: 
 [You are browsing from]
-
+Sie browsen von
 [Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
 Ihre externe IP wurde als %d.%d.%d.%d erkannt\r\nvon: %s
 [You need to restart Miranda to change the main menu]

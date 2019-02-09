@@ -1,6 +1,0 @@
-[IPAddress1]
-[IPAddress2]
-[Current IP Address: ]
-[Current Address: ]
-[IP Address: ]
-[You are browsing from]

@@ -679,7 +679,7 @@ Nachrichtenbereich
 [Input area background]
 Nachrichteneingabefeld Hintergrund
 [Unused]
-
+Ungenutzt
 [Info bar contact name]
 Statusleisten Kontaktname
 [Info bar background]

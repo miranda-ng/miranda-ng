@@ -1,3 +1,0 @@
-[&Open/close chat window]
-[Unused]
-[Message window toolbar]

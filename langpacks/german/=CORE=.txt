@@ -1883,7 +1883,7 @@ Sie wurden von jemandem hinzugefügt
 [&Join chat]
 Chat &betreten
 [&Open/close chat window]
-
+Chatfenster &öffnen/schließen
 ;file \src\mir_app\src\chat_log.cpp
 [%s has joined]
 %s ist beigetreten
@@ -2632,7 +2632,7 @@ Unicode-Plugin
 [ANSI plugin]
 ANSI-Plugin
 [Unused]
-
+Ungenutzt
 [Show/Hide]
 Anzeigen/Verstecken
 [Exit]
@@ -3194,7 +3194,7 @@ PNG-Bilder
 <unspezifiziert>
 ;file \include\m_message.h
 [Message window toolbar]
-
+Nachrichtenfenster-Toolbar
 ;file \include\m_popup.h
 [Do nothing]
 Nichts tun
