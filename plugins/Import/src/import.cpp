@@ -772,48 +772,45 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 		}
 	}
 
+	wchar_t *pszUniqueID = L"<Unknown>";
 	DBVARIANT dbv;
-	if (myGet(hSrc, cc->szProto, pszUniqueSetting, &dbv)) {
-		AddMessage(LPGENW("Skipping %S contact, ID not found"), cc->szProto);
-		return 0;
-	}
+	if (!myGet(hSrc, cc->szProto, pszUniqueSetting, &dbv)) {
+		// Does the contact already exist?
+		MCONTACT hDst;
+		wchar_t id[40];
+		switch (dbv.type) {
+		case DBVT_DWORD:
+			pszUniqueID = _ltow(dbv.dVal, id, 10);
+			hDst = HContactFromNumericID(szDstModuleName, pszUniqueSetting, dbv.dVal);
+			break;
 
-	// Does the contact already exist?
-	MCONTACT hDst;
-	wchar_t id[40], *pszUniqueID;
-	switch (dbv.type) {
-	case DBVT_DWORD:
-		pszUniqueID = _ltow(dbv.dVal, id, 10);
-		hDst = HContactFromNumericID(szDstModuleName, pszUniqueSetting, dbv.dVal);
-		break;
+		case DBVT_ASCIIZ:
+		case DBVT_UTF8:
+			pszUniqueID = NEWWSTR_ALLOCA(_A2T(dbv.pszVal));
+			if (bIsChat)
+				hDst = HContactFromChatID(szDstModuleName, pszUniqueID);
+			else
+				hDst = HContactFromID(szDstModuleName, pszUniqueSetting, pszUniqueID);
+			break;
 
-	case DBVT_ASCIIZ:
-	case DBVT_UTF8:
-		pszUniqueID = NEWWSTR_ALLOCA(_A2T(dbv.pszVal));
-		if (bIsChat)
-			hDst = HContactFromChatID(szDstModuleName, pszUniqueID);
-		else
-			hDst = HContactFromID(szDstModuleName, pszUniqueSetting, pszUniqueID);
-		break;
+		case DBVT_WCHAR:
+			pszUniqueID = NEWWSTR_ALLOCA(dbv.pwszVal);
+			if (bIsChat)
+				hDst = HContactFromChatID(szDstModuleName, pszUniqueID);
+			else
+				hDst = HContactFromID(szDstModuleName, pszUniqueSetting, pszUniqueID);
+			break;
 
-	case DBVT_WCHAR:
-		pszUniqueID = NEWWSTR_ALLOCA(dbv.pwszVal);
-		if (bIsChat)
-			hDst = HContactFromChatID(szDstModuleName, pszUniqueID);
-		else
-			hDst = HContactFromID(szDstModuleName, pszUniqueSetting, pszUniqueID);
-		break;
+		default:
+			hDst = INVALID_CONTACT_ID;
+		}
 
-	default:
-		hDst = INVALID_CONTACT_ID;
-		pszUniqueID = nullptr;
-	}
-
-	if (hDst != INVALID_CONTACT_ID) {
-		AddMessage(LPGENW("Skipping duplicate %S contact %s"), cc->szProto, pszUniqueID);
-		srcDb->FreeVariant(&dbv);
-		arContactMap.insert(new ContactMap(hSrc, hDst));
-		return 0;
+		if (hDst != INVALID_CONTACT_ID) {
+			AddMessage(LPGENW("Skipping duplicate %S contact %s"), cc->szProto, pszUniqueID);
+			srcDb->FreeVariant(&dbv);
+			arContactMap.insert(new ContactMap(hSrc, hDst));
+			return 0;
+		}
 	}
 
 	ptrW tszGroup(myGetWs(hSrc, "CList", "Group")), tszNick(myGetWs(hSrc, "CList", "MyHandle"));
@@ -821,7 +818,7 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 		tszNick = myGetWs(hSrc, cc->szProto, "Nick");
 
 	// adding missing contact
-	hDst = db_add_contact();
+	MCONTACT hDst = db_add_contact();
 	if (Proto_AddToContact(hDst, szDstModuleName) != 0) {
 		db_delete_contact(hDst);
 		AddMessage(LPGENW("Failed to add %S contact %s"), szDstModuleName, pszUniqueID);
