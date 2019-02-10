@@ -6,7 +6,7 @@
  */
 
 ColEvents::ColEvents()
-	: m_nSource(5), m_hSource(nullptr)
+	: m_nSource(2), m_hSource(nullptr)
 {
 }
 
@@ -19,7 +19,7 @@ void ColEvents::impl_copyConfig(const Column* pSource)
 
 void ColEvents::impl_configRead(const SettingsTree& settings)
 {
-	m_nSource = settings.readIntRanged(con::KeySource, 5, 0, 5);
+	m_nSource = settings.readIntRanged(con::KeySource, 2, 0, 2);
 }
 
 void ColEvents::impl_configWrite(SettingsTree& settings) const
@@ -70,7 +70,7 @@ void ColEvents::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan)
 
 void ColEvents::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType)
 {
-	static int (Contact::*getData[6])() const = {
+	static int (Contact::*getData[3])() const = {
 		&Contact::getInFiles,
 		&Contact::getOutFiles,
 		&Contact::getTotalFiles,
