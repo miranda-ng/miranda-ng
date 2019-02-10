@@ -169,6 +169,8 @@ class CIcqProto : public PROTO<CIcqProto>
 	LIST<IcqCacheItem> arMarkReadQueue;
 	static    void CALLBACK MarkReadTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD);
 
+	AsyncHttpRequest* UserInfoRequest(MCONTACT);
+
 	__int64   getId(MCONTACT hContact, const char *szSetting);
 	void      setId(MCONTACT hContact, const char *szSetting, __int64 iValue);
 

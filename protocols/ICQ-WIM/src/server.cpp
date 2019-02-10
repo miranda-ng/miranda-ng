@@ -423,17 +423,36 @@ bool CIcqProto::RefreshRobustToken()
 
 void CIcqProto::RetrieveUserInfo(MCONTACT hContact)
 {
+	auto *pReq = UserInfoRequest(hContact);
+
+	if (hContact == INVALID_CONTACT_ID) {
+		int i = 0; 
+		for (auto &it : m_arCache) {
+			if (i == 0)
+				pReq = UserInfoRequest(hContact);
+
+			pReq << WCHAR_PARAM("t", GetUserId(it->m_hContact));
+			if (i == 100) {
+				i = 0;
+				Push(pReq);
+
+				pReq = UserInfoRequest(hContact);
+			}
+			else i++;
+		}
+	}
+	else pReq << WCHAR_PARAM("t", GetUserId(hContact));
+
+	Push(pReq);
+}
+
+AsyncHttpRequest* CIcqProto::UserInfoRequest(MCONTACT hContact)
+{
 	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/presence/get", &CIcqProto::OnGetUserInfo);
 	pReq->flags |= NLHRF_NODUMPSEND;
 	pReq->hContact = hContact;
 	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << INT_PARAM("mdir", 1) << INT_PARAM("capabilities", 1);
-	if (hContact == INVALID_CONTACT_ID)
-		for (auto &it : m_arCache)
-			pReq << WCHAR_PARAM("t", GetUserId(it->m_hContact));
-	else
-		pReq << WCHAR_PARAM("t", GetUserId(hContact));
-
-	Push(pReq);
+	return pReq;
 }
 
 void CIcqProto::RetrieveUserHistory(MCONTACT hContact, __int64 startMsgId, __int64 endMsgId)
