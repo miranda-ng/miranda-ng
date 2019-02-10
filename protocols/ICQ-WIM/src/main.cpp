@@ -24,6 +24,12 @@ bool g_bPopupService, g_bMessageState;
 
 HWND g_hwndHeartbeat;
 
+IconItem iconList[] =
+{
+	{ LPGEN("Email"), "icq_email", IDI_INBOX },
+	{ LPGEN("Email notification"), "icq_email_notif", IDI_MAIL_NOTIFY }
+};
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static PLUGININFOEX pluginInfoEx = {
@@ -123,6 +129,8 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 int CMPlugin::Load()
 {
 	g_hwndHeartbeat = CreateWindowEx(0, L"STATIC", nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, nullptr, nullptr);
+
+	registerIcon("Protocols/ICQ", iconList, "ICQ");
 
 	HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);
 	HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);

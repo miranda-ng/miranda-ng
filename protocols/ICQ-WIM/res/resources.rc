@@ -20,6 +20,16 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 /////////////////////////////////////////////////////////////////////////////
 //
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_INBOX               ICON                    "Mail.ico"
+IDI_MAIL_NOTIFY         ICON                    "MailNotify.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
 // Dialog
 //
 

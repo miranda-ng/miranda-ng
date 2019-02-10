@@ -8,6 +8,8 @@
 #define IDD_INFO_ICQ                    104
 #define IDD_REGISTER                    105
 #define IDD_EDITIGNORE                  106
+#define IDI_INBOX								 107
+#define IDI_MAIL_NOTIFY                 108
 #define IDC_PASSWORD                    1001
 #define IDC_UIN                         1002
 #define IDC_UIN2                        1003

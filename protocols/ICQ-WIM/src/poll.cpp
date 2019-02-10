@@ -205,13 +205,14 @@ void CIcqProto::ProcessNotification(const JSONNode &ev)
 	for (auto &fld : ev["fields"]) {
 		const JSONNode &email = fld["mailbox.newMessage"];
 		if (email) {
-			CMStringW wszFrom(email["from"].as_mstring());
-			CMStringW wszSubj(email["subject"].as_mstring());
-			m_unreadEmails = email["unreadCount"].as_int();
+			JSONROOT root(email.as_string().c_str());
+			CMStringW wszFrom((*root)["from"].as_mstring());
+			CMStringW wszSubj((*root)["subject"].as_mstring());
+			m_unreadEmails = (*root)["unreadCount"].as_int();
 
 			POPUPDATAT Popup = {};
 			mir_snwprintf(Popup.lptzText, LPGENW("You received e-mail from %s: %s"), wszFrom.c_str(), wszSubj.c_str());
-			Popup.lchIcon = IcoLib_GetIconByHandle(Skin_GetIconHandle(SKINICON_EVENT_MESSAGE), true);
+			Popup.lchIcon = IcoLib_GetIconByHandle(iconList[1].hIcolib);
 			if (g_bPopupService) {
 				wcsncpy_s(Popup.lptzContactName, m_tszUserName, _TRUNCATE);
 				CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&Popup, 0);

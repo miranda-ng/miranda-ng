@@ -104,3 +104,4 @@ char* time2text(time_t time);
 
 extern HWND g_hwndHeartbeat;
 extern bool g_bPopupService, g_bMessageState;
+extern IconItem iconList[];
