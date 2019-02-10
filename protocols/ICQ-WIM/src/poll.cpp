@@ -108,6 +108,8 @@ void CIcqProto::ProcessEvent(const JSONNode &ev)
 		ProcessGroupChat(pData);
 	else if (szType == L"myInfo")
 		ProcessMyInfo(pData);
+	else if (szType == L"notification")
+		ProcessNotification(pData);
 	else if (szType == L"permitDeny")
 		ProcessPermissions(pData);
 	else if (szType == L"presence")
@@ -196,6 +198,44 @@ void CIcqProto::ProcessMyInfo(const JSONNode &ev)
 {
 	Json2string(0, ev, "friendly", "Nick");
 	CheckAvatarChange(0, ev);
+}
+
+void CIcqProto::ProcessNotification(const JSONNode &ev)
+{
+	for (auto &fld : ev["fields"]) {
+		const JSONNode &email = fld["mailbox.newMessage"];
+		if (email) {
+			CMStringW wszFrom(email["from"].as_mstring());
+			CMStringW wszSubj(email["subject"].as_mstring());
+			m_unreadEmails = email["unreadCount"].as_int();
+
+			POPUPDATAT Popup = {};
+			mir_snwprintf(Popup.lptzText, LPGENW("You received e-mail from %s: %s"), wszFrom.c_str(), wszSubj.c_str());
+			Popup.lchIcon = IcoLib_GetIconByHandle(Skin_GetIconHandle(SKINICON_EVENT_MESSAGE), true);
+			if (g_bPopupService) {
+				wcsncpy_s(Popup.lptzContactName, m_tszUserName, _TRUNCATE);
+				CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&Popup, 0);
+			}
+
+			char szServiceFunction[MAX_PATH];
+			mir_snprintf(szServiceFunction, "%s%s", m_szModuleName, PS_GOTO_INBOX);
+
+			CLISTEVENT cle = {};
+			cle.lpszProtocol = m_szModuleName;
+			cle.hIcon = Popup.lchIcon;
+			cle.flags = (CLEF_UNICODE | CLEF_PROTOCOLGLOBAL);
+			cle.pszService = szServiceFunction;
+			cle.szTooltip.w = Popup.lptzText;
+			g_clistApi.pfnAddEvent(&cle);
+		}
+
+		const JSONNode &status = fld["mailbox.status"];
+		if (status) {
+			JSONROOT root(status.as_string().c_str());
+			m_szMailBox = (*root)["email"].as_mstring();
+			m_unreadEmails = (*root)["unreadCount"].as_int();
+		}
+	}
 }
 
 void CIcqProto::ProcessPresence(const JSONNode &ev)

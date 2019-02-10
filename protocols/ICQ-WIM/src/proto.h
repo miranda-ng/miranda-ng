@@ -37,6 +37,8 @@
 #define ICQ_API_SERVER "https://api.icq.net"
 #define ICQ_ROBUST_SERVER "https://rapi.icq.net"
 
+#define PS_GOTO_INBOX "/GotoInbox"
+
 #define WIM_CAP_VOIP_VOICE         "094613504c7f11d18222444553540000"
 #define WIM_CAP_VOIP_VIDEO         "094613514c7f11d18222444553540000"
 #define WIM_CAP_FILETRANSFER       "094613434c7f11d18222444553540000"
@@ -201,6 +203,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      ProcessHistData(const JSONNode&);
 	void      ProcessImState(const JSONNode&);
 	void      ProcessMyInfo(const JSONNode&);
+	void      ProcessNotification(const JSONNode&);
 	void      ProcessPermissions(const JSONNode&);
 	void      ProcessPresence(const JSONNode&);
 	void      ProcessTyping(const JSONNode&);
@@ -219,6 +222,9 @@ class CIcqProto : public PROTO<CIcqProto>
 	OBJLIST<IcqOwnMessage> m_arOwnIds;
 
 	CIcqDlgBase *m_pdlgEditIgnore;	
+
+	int       m_unreadEmails = -1;
+	CMStringA m_szMailBox;
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// group chats
@@ -276,6 +282,8 @@ class CIcqProto : public PROTO<CIcqProto>
 	
 	INT_PTR   __cdecl CreateAccMgrUI(WPARAM, LPARAM);
 	INT_PTR   __cdecl EditIgnoreList(WPARAM, LPARAM);
+	INT_PTR   __cdecl GetEmailCount(WPARAM, LPARAM);
+	INT_PTR   __cdecl GotoInbox(WPARAM, LPARAM);
 	INT_PTR   __cdecl UploadGroups(WPARAM, LPARAM);
 
 	////////////////////////////////////////////////////////////////////////////////////////

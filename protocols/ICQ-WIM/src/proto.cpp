@@ -58,9 +58,11 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 
 	// services
 	CreateProtoService(PS_CREATEACCMGRUI, &CIcqProto::CreateAccMgrUI);
+	CreateProtoService(PS_GETAVATARCAPS, &CIcqProto::GetAvatarCaps);
 	CreateProtoService(PS_GETAVATARINFO, &CIcqProto::GetAvatarInfo);
 	CreateProtoService(PS_GETMYAVATAR, &CIcqProto::GetAvatar);
-	CreateProtoService(PS_GETAVATARCAPS, &CIcqProto::GetAvatarCaps);
+	CreateProtoService(PS_GETUNREADEMAILCOUNT, &CIcqProto::GetEmailCount);
+	CreateProtoService(PS_GOTO_INBOX, &CIcqProto::GotoInbox);
 	CreateProtoService(PS_SETMYAVATAR, &CIcqProto::SetAvatar);
 
 	// events
@@ -177,6 +179,20 @@ INT_PTR CIcqProto::UploadGroups(WPARAM, LPARAM)
 		if (wszIcqGroup != wszMirGroup)
 			MoveContactToGroup(it, wszIcqGroup, wszMirGroup);
 	}
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+INT_PTR CIcqProto::GetEmailCount(WPARAM, LPARAM)
+{
+	if (!m_bOnline)
+		return 0;
+	return m_unreadEmails;
+}
+
+INT_PTR CIcqProto::GotoInbox(WPARAM, LPARAM)
+{
 	return 0;
 }
 
