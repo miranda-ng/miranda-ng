@@ -164,8 +164,8 @@ class CIcqOptionsDlg : public CProtoDlgBase<CIcqProto>
 public:
 	CIcqOptionsDlg(CIcqProto *ppro, int iDlgID, bool bFullDlg) :
 		CProtoDlgBase<CIcqProto>(ppro, iDlgID),
-		spin1(this, IDC_SPIN1, MAXWORD),
-		spin2(this, IDC_SPIN2, MAXWORD),
+		spin1(this, IDC_SPIN1, 32000),
+		spin2(this, IDC_SPIN2, 32000),
 		edtUin(this, IDC_UIN),
 		edtDiff1(this, IDC_DIFF1),
 		edtDiff2(this, IDC_DIFF2),
