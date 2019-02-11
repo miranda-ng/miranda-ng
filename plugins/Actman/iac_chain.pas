@@ -35,7 +35,7 @@ type
   public
     constructor Create(uid:dword);
     destructor Destroy; override;
-//    function  Clone:tBaseAction; override;
+
     function  DoAction(var WorkData:tWorkData):LRESULT; override;
     procedure Save(node:pointer;fmt:integer); override;
     procedure Load(node:pointer;fmt:integer); override;
@@ -60,16 +60,7 @@ begin
 
   inherited Destroy;
 end;
-{
-function tChainAction.Clone:tBaseAction;
-begin
-  result:=tChainAction.Create(0);
-  Duplicate(result);
 
-  tChainAction(result).id:=id;
-  StrDupW(tChainAction(result).actname,actname);
-end;
-}
 function tChainAction.DoAction(var WorkData:tWorkData):LRESULT;
 var
   params:tAct_Param;
@@ -139,20 +130,6 @@ begin
       pc:=StrCopyE(section,pAnsiChar(node));
       StrCopy(pc,'text'); id:=DBReadDWord(0,DBBranch,section);
     end;
-
-    1: begin
-      StrDupW(actname,xmlGetText(HXML(node)));
-      flags:=flags or ACF_BYNAME;
-
-      if StrToInt(xmlGetAttrValue(HXML(node),ioNoWait))=1 then
-        flags:=flags or ACF_NOWAIT;
-
-      if StrToInt(xmlGetAttrValue(HXML(node),ioKeepOld))=1 then
-        flags:=flags or ACF_KEEPOLD;
-
-      if StrToInt(xmlGetAttrValue(HXML(node),ioSameThread))=1 then
-        flags:=flags or ACF_SAMETHREAD;
-    end;
   end;
 end;
 
@@ -174,23 +151,7 @@ begin
         StrCopy(pc,opt_actname); DBWriteUnicode(0,DBBranch,section,actname);
       end;
     end;
-{
-    1: begin
-    end;
-}
-{
-    2: begin
-    end;
-}
-{
-    3: begin
-      Out(node,['CallAction',actname,
-                IFF(flags or ACF_SAMETHREAD,'samethread',''),
-                IFF(flags or ACF_NOWAIT    ,'nowait',''),
-                IFF(flags or ACF_KEEPOLD   ,'keepold','')
-               ]);
-    end;
-}
+
     13: begin
       tTextExport(node).AddTextW('actionname',actname);
       tTextExport(node).AddFlag('samethread',(flags or ACF_SAMETHREAD)<>0);

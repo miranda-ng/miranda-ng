@@ -36,7 +36,7 @@ type
   public
     constructor Create(uid:dword);
     destructor Destroy; override;
-//    function  Clone:tBaseAction; override;
+
     function  DoAction(var WorkData:tWorkData):LRESULT; override;
     procedure Save(node:pointer;fmt:integer); override;
     procedure Load(node:pointer;fmt:integer); override;
@@ -60,17 +60,7 @@ begin
 
   inherited Destroy;
 end;
-{
-function tMessageAction.Clone:tBaseAction;
-begin
-  result:=tMessageAction.Create(0);
-  Duplicate(result);
 
-  StrDupW(tMessageAction(result).msgtext ,msgtext);
-  StrDupW(tMessageAction(result).msgtitle,msgtitle);
-  tMessageAction(result).boxopts:=boxopts;
-end;
-}
 function tMessageAction.DoAction(var WorkData:tWorkData):LRESULT;
 var
   i:integer;
@@ -145,15 +135,6 @@ begin
       StrCopy(pc,opt_msgtext ); msgtext :=DBReadUnicode(0,DBBranch,section);
       StrCopy(pc,opt_boxopts ); boxopts :=DBReadDword  (0,DBBranch,section); // v2 = byte
     end;
-
-    1: begin
-      StrDupW(msgtitle,xmlGetAttrValue(HXML(node),ioTitle));
-      StrDupW(msgtext,xmlGetText(HXML(node)));
-      boxopts:=StrToInt(xmlGetAttrValue(HXML(node),ioType));
-
-      if StrToInt(xmlGetAttrValue(HXML(node),ioArgVariable))=1 then flags:=flags or ACF_MSG_TXT;
-      if StrToInt(xmlGetAttrValue(HXML(node),ioVariables  ))=1 then flags:=flags or ACF_MSG_TTL;
-    end;
   end;
 end;
 
@@ -170,10 +151,7 @@ begin
       StrCopy(pc,opt_msgtext ); DBWriteUnicode(0,DBBranch,section,msgtext);
       StrCopy(pc,opt_boxopts ); DBWriteDWord  (0,DBBranch,section,boxopts);
     end;
-{
-    1: begin
-    end;
-}
+
     13: begin
     end;
   end;

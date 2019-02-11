@@ -28,7 +28,6 @@ type
   public
     constructor Create(uid:dword);
     destructor Destroy; override;
-//    function  Clone:tBaseAction; override;
     function  DoAction(var WorkData:tWorkData):LRESULT; override;
     procedure Save(node:pointer;fmt:integer); override;
     procedure Load(node:pointer;fmt:integer); override;
@@ -50,14 +49,7 @@ begin
 
   inherited Destroy;
 end;
-{
-function tStorageAction.Clone:tBaseAction;
-begin
-  result:=.Create(0);
-  Duplicate(result);
 
-end;
-}
 function tStorageAction.DoAction(var WorkData:tWorkData):LRESULT;
 var
   num:integer;
@@ -153,12 +145,6 @@ begin
       pc:=StrCopyE(section,pAnsiChar(node));
       StrCopy(pc,opt_number); Number:=DBReadByte(0,DBBranch,section,0);
     end;
-
-    1: begin
-      if lstrcmpiw(xmlGetAttrValue(HXML(node),ioOper),ioCopy)=1 then
-         flags:=flags or ACF_COPYFROM;
-      Number:=StrToInt(xmlGetAttrValue(HXML(node),ioNumber));
-    end;
   end;
 end;
 
@@ -173,10 +159,7 @@ begin
       pc:=StrCopyE(section,pAnsiChar(node));
       StrCopy(pc,opt_number); DBWriteByte(0,DBBranch,section,Number);
     end;
-{
-    1: begin
-    end;
-}
+
     13: begin
       tTextExport(node).AddDWord('slot',Number);
       tTextExport(node).AddFlag ('copy',(flags or ACF_COPYFROM)<>0);

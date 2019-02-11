@@ -54,7 +54,6 @@ uses
   iac_call,
   iac_ini,
   iac_notes,
-  inoutxml,
   ua in 'ua\ua.pas',
   hooks in 'hooks\hooks.pas',
   scheduler in 'tasks\scheduler.pas';

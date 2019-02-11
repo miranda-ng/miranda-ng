@@ -92,7 +92,7 @@ type
   public
     constructor Create(uid:dword);
     destructor Destroy; override;
-//    function  Clone:tBaseAction; override;
+
     function  DoAction(var WorkData:tWorkData):LRESULT; override;
     procedure Save(node:pointer;fmt:integer); override;
     procedure Load(node:pointer;fmt:integer); override;
@@ -120,25 +120,7 @@ begin
 
   inherited Destroy;
 end;
-{
-function tDataBaseAction.Clone:tBaseAction;
-var
-  tmp:tDataBaseAction;
-begin
-  result:=tDataBaseAction.Create(0);
-  Duplicate(result);
 
-  tmp.dbcontact:=dbcontact;
-  StrDupW(tmp.dbmodule ,dbmodule);
-  StrDupW(tmp.dbsetting,dbsetting);
-
-  if ((flags and ACF_DBDELETE)=0) and
-     ((flags and ACF_LAST)=0)  then
-    StrDupW(tmp.dbvalue,dbvalue);
-
-  result:=tmp;
-end;
-}
 function tDataBaseAction.DoAction(var WorkData:tWorkData):LRESULT;
 var
   sbuf:array [0..31] of WideChar;
@@ -387,42 +369,6 @@ begin
       if (flags2 and ACF2_RW_TVAR)<>0 then flags:=flags or ACF_RW_VALUE;
 
     end;
-
-    1: begin
-      tmp:=xmlGetAttrValue(HXML(node),ioOper);
-      if      lstrcmpiw(tmp,ioDelete)=0 then flags:=flags or ACF_DBDELETE
-      else if lstrcmpiw(tmp,ioWrite )=0 then flags:=flags or ACF_DBWRITE;
-      tmp:=xmlGetAttrValue(HXML(node),ioContact);
-      if      lstrcmpiw(tmp,ioCurrent)=0 then flags:=flags or ACF_CURRENT
-      else if lstrcmpiw(tmp,ioResult )=0 then flags:=flags or ACF_RESULT
-      else if lstrcmpiw(tmp,ioParam  )=0 then flags:=flags or ACF_PARAM
-      else if lstrcmpiw(tmp,ioContact)=0 then
-      begin
-        dbcontact:=ImportContact(HXML(node));
-      end;
-
-      StrDupW(dbmodule ,xmlGetAttrValue(HXML(node),ioModule));
-      StrDupW(dbsetting,xmlGetAttrValue(HXML(node),ioSetting));
-
-      if StrToInt(xmlGetAttrValue(HXML(node),ioFileVariable))=1 then flags:=flags or ACF_RW_MODULE;
-      if StrToInt(xmlGetAttrValue(HXML(node),ioArgVariable ))=1 then flags:=flags or ACF_RW_SETTING;
-      if StrToInt(xmlGetAttrValue(HXML(node),ioVariables   ))=1 then flags:=flags or ACF_RW_VALUE;
-	
-      tmp:=xmlGetAttrValue(HXML(node),ioType);
-      if      lstrcmpiw(tmp,ioByte )=0 then flags:=flags or ACF_DBBYTE
-      else if lstrcmpiw(tmp,ioWord )=0 then flags:=flags or ACF_DBWORD
-      else if lstrcmpiw(tmp,ioDword)=0 then
-      else if lstrcmpiw(tmp,ioAnsi )=0 then flags:=flags or ACF_DBANSI
-      else                                  flags:=flags or ACF_DBUTEXT;
-
-      if StrToInt(xmlGetAttrValue(HXML(node),ioSaveValue))=1 then
-        flags:=flags or ACF_SAVE;
-
-      if StrToInt(xmlGetAttrValue(HXML(node),ioLast))=1 then
-        flags:=flags or ACF_LAST
-      else
-        StrDupW(dbvalue,xmlGetText(HXML(node)));
-    end;
   end;
 end;
 
@@ -445,10 +391,7 @@ begin
         StrCopy(pc,opt_value); DBWriteUnicode(0,DBBranch,section,dbvalue);
       end;
     end;
-{
-    1: begin
-    end;
-}
+
     13: begin
     end;
   end;

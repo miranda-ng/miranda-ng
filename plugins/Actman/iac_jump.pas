@@ -68,7 +68,7 @@ type
   public
     constructor Create(uid:dword);
     destructor Destroy; override;
-//    function  Clone:tBaseAction; override;
+
     function  DoAction(var WorkData:tWorkData):LRESULT; override;
     procedure Save(node:pointer;fmt:integer); override;
     procedure Load(node:pointer;fmt:integer); override;
@@ -94,17 +94,7 @@ begin
 
   inherited Destroy;
 end;
-{
-function tJumpAction.Clone:tBaseAction;
-begin
-  result:=tJumpAction.Create(0);
-  Duplicate(result);
 
-  result.condition:=condition;
-  StrDupW(result.value,value);
-  StrDupW(result.actlabel,actlabel);
-end;
-}
 function tJumpAction.DoAction(var WorkData:tWorkData):LRESULT;
 var
   tmpint:int64;
@@ -229,7 +219,6 @@ var
   buf:array [0..31] of WideChar;
   pc:pAnsiChar;
   tmp:pWideChar;
-  sub:HXML;
   oper,cond:byte;
 begin
   inherited Load(node,fmt);
@@ -291,56 +280,6 @@ begin
         end;
       end;
     end;
-
-    1: begin
-      sub:=xmlGetNthChild(HXML(node),ioIf,0);
-      if sub<>0 then
-      begin
-        tmp:=xmlGetAttrValue(sub,ioOper);
-        if      lstrcmpiw(tmp,'math')=0 then flags:=flags or ACF_MATH
-        else if lstrcmpiw(tmp,ioNop )=0 then flags:=flags or ACF_NOP;
-
-        tmp:=xmlGetAttrValue(sub,ioCond);
-        if lstrcmpiw(tmp,ioNop)=0 then flags:=flags or ACF_NOP // compatibility
-        else if (flags and ACF_NOP)=0 then
-        begin
-          if flags and ACF_MATH<>0 then
-          begin
-            if      lstrcmpiw(tmp,'gt' )=0 then condition:=aeGT
-            else if lstrcmpiw(tmp,'lt' )=0 then condition:=aeLT
-            else if lstrcmpiw(tmp,'eq' )=0 then condition:=aeEQ
-            else if lstrcmpiw(tmp,'xor')=0 then condition:=aeXR
-            else if lstrcmpiw(tmp,'and')=0 then condition:=aeND;
-          end
-          else
-          begin
-            if      lstrcmpiw(tmp,'empty')=0 then condition:=aeEMP
-            else if lstrcmpiw(tmp,'eq'   )=0 then condition:=aeEQU
-            else if lstrcmpiw(tmp,'cont' )=0 then condition:=aeCON
-            else if lstrcmpiw(tmp,'start')=0 then condition:=aeSTR
-            else if lstrcmpiw(tmp,'ends' )=0 then condition:=aeEND;
-
-            if StrToInt(xmlGetAttrValue(sub,ioCase))=1 then
-              flags:=flags or ACF_CASE;
-            if StrToInt(xmlGetAttrValue(sub,ioBack))=1 then
-              flags:=flags or ACF_BACK;
-          end;
-          if StrToInt(xmlGetAttrValue(sub,ioNot))=1 then
-            flags:=flags or ACF_NOT;
-
-          if ((flags and ACF_MATH)<>0) or (condition<>aeEMP) then
-            StrDupW(value,xmlGetAttrValue(sub,ioValue));
-        end;
-      end;
-
-      sub:=xmlGetNthChild(HXML(node),ioPost,0);
-      if sub<>0 then
-      begin
-        tmp:=xmlGetAttrValue(sub,ioOper);
-        if      lstrcmpiw(tmp,ioBreak)=0 then flags:=flags or ACF_BREAK
-        else if lstrcmpiw(tmp,ioJump )=0 then StrDupW(actlabel,xmlGetAttrValue(sub,ioValue));
-      end;
-    end;
   end;
 end;
 
@@ -362,21 +301,6 @@ begin
       begin
         StrCopy(pc,opt_label); DBWriteUnicode(0,DBBranch,section,actlabel);
       end;
-    end;
-{
-    1: begin
-    end;
-}
-    13: begin
-{
-  ACF_NOP   = $00000001;
-  ACF_MATH  = $00000002;
-  ACF_NOT   = $00000004;
-  ACF_CASE  = $00000008;
-  ACF_BREAK = $00000010;
-  ACF_BACK  = $00000020;
-  ACF_VALUE = $00000100;
-}
     end;
   end;
 end;

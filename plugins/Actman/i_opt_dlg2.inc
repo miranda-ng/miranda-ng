@@ -1,8 +1,6 @@
 {}
 
 const
-  inoutfilter:pWideChar = 'XML files'#0'*.xml'#0'All files'#0'*.*'#0#0;
-const
   MaxDescrLen = 128;
 const
   hlpVariables    = 30;
@@ -935,27 +933,6 @@ begin
           end;
 
           case loword(wParam) of
-            IDC_GROUP_IMPORT: begin
-              if ShowDlgW(xmlfilename,xmlfilename,TranslateW(inoutfilter)) then
-              begin
-                // "save" selected macro (in edit list only)
-                BuildActionChain(Dialog);
-
-                if Import(EditMacroList,xmlfilename,0)<>0 then
-                begin
-                  // copy from WM_INITDIALOG
-                  FillMacroList(Dialog);
-                  ChangeListNotify(1);
-
-                  // fill current group
-                  FillActionList(Dialog,EditMacroList[0]);
-                  ChangeListNotify(2);
-
-                  CheckMacroListDirectionButtons(Dialog);
-                end;
-              end;
-            end;
-
             IDC_GROUP_TEST: begin
               li.mask    :=LVIF_PARAM;
               li.iSubItem:=0;

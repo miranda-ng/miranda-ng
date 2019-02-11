@@ -1,6 +1,4 @@
 {}
-var
-  xmlfilename:array [0..511] of WideChar;
 const
   etMacro = 1; // Groups  changed
   etACT   = 2; // Actions changed
@@ -18,8 +16,6 @@ var
 begin
   result:=0;
   NoDescription:=TranslateW('No description');
-
-  StrCopyW(xmlfilename,'c:\export.xml');
 
   DoInitCommonControls(ICC_USEREX_CLASSES);
 

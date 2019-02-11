@@ -237,7 +237,6 @@ var
   {$include m_timezones.inc}
   {$include m_userinfo.inc}
   {$include m_utils.inc}
-  {$include m_xml.inc}
   {$include m_xstatus.inc}
   {$include m_zlib.inc}
 

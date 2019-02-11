@@ -52,7 +52,7 @@ type
   public
     constructor Create(uid:dword);
     destructor Destroy; override;
-//    function  Clone:tBaseAction; override;
+
     function  DoAction(var WorkData:tWorkData):LRESULT; override;
     procedure Save(node:pointer;fmt:integer); override;
     procedure Load(node:pointer;fmt:integer); override;
@@ -98,18 +98,7 @@ begin
 
   inherited Destroy;
 end;
-{
-function tProgramAction.Clone:tBaseAction;
-begin
-  result:=tProgramAction.Create(0);
-  Duplicate(result);
 
-  tProgramAction(result).show   :=show;
-  tProgramAction(result).time   :=time;
-  StrDupW(tProgramAction(result).prgname,prgname);
-  StrDupW(tProgramAction(result).args   ,args);
-end;
-}
 function tProgramAction.DoAction(var WorkData:tWorkData):LRESULT;
 var
   tmp,tmpp,lpath:PWideChar;
@@ -242,55 +231,6 @@ begin
       if (flags2 and ACF2_PRG_PRG)<>0 then flags:=flags or ACF_PRG_PRG;
       if (flags2 and ACF2_PRG_ARG)<>0 then flags:=flags or ACF_PRG_ARG;
     end;
-
-    1: begin
-      StrDupW(prgname,xmlGetText(HXML(node)));
-      StrDupW(args,xmlGetAttrValue(HXML(node),ioArgs));
-      if StrToInt(xmlGetAttrValue(HXML(node),ioCurrent))=1 then
-        flags:=flags or ACF_CURPATH;
-
-      if StrToInt(xmlGetAttrValue(HXML(node),ioParallel))=1 then
-        flags:=flags or ACF_PRTHREAD
-      else
-        time:=StrToInt(xmlGetAttrValue(HXML(node),ioWait));
-
-      if StrToInt(xmlGetAttrValue(HXML(node),ioFileVariable))=1 then
-        flags:=flags or ACF_PRG_PRG;
-
-      if StrToInt(xmlGetAttrValue(HXML(node),ioArgVariable))=1 then
-        flags:=flags or ACF_PRG_ARG;
-
-      tmp:=xmlGetAttrValue(HXML(node),ioWindow);
-      if      lstrcmpiw(tmp,ioHidden   )=0 then show:=SW_HIDE
-      else if lstrcmpiw(tmp,ioMinimized)=0 then show:=SW_SHOWMINIMIZED
-      else if lstrcmpiw(tmp,ioMaximized)=0 then show:=SW_SHOWMAXIMIZED
-      else                                      show:=SW_SHOWNORMAL;
-    end;
-{
-    2: begin
-      UTF8ToWide(GetParamSectionStr(node,ioProgram),prgname);
-      UTF8ToWide(GetParamSectionStr(node,ioArgs   ),args);
-      if GetParamSectionInt(node,ioCurrent)=1 then
-        flags:=flags or ACF_CURPATH;
-
-      if GetParamSectionInt(node,ioParallel)=1 then
-        flags:=flags or ACF_PRTHREAD
-      else
-        time:=GetParamSectionInt(node,ioWait);
-
-      if GetParamSectionInt(node,ioFileVariable)=1 then
-        flags:=flags or ACF_PRG_PRG;
-
-      if GetParamSectionInt(node,ioArgVariable)=1 then
-        flags:=flags or ACF_PRG_ARG;
-
-      pc:=GetParamSectionStr(node,ioWindow);
-      if      lstrcmpi(pc,ioHidden   )=0 then show:=SW_HIDE
-      else if lstrcmpi(pc,ioMinimized)=0 then show:=SW_SHOWMINIMIZED
-      else if lstrcmpi(pc,ioMaximized)=0 then show:=SW_SHOWMAXIMIZED
-      else                                     show:=SW_SHOWNORMAL;
-    end;
-}
   end;
 end;
 

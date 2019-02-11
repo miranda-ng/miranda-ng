@@ -73,7 +73,7 @@ type
   public
     constructor Create(uid:dword);
     destructor Destroy; override;
-//    function  Clone:tBaseAction; override;
+
     function  DoAction(var WorkData:tWorkData):LRESULT; override;
     procedure Save(node:pointer;fmt:integer); override;
     procedure Load(node:pointer;fmt:integer); override;
@@ -94,30 +94,6 @@ begin
 
   inherited Destroy;
 end;
-{
-function tServiceAction.Clone:tBaseAction;
-begin
-  result:=tServiceAction.Create(0);
-  Duplicate(result);
-
-  tServiceAction(result).flags2 :=flags2;
-  StrDup(tServiceAction(result).service,service);
-
-  if (flags and (ACF_NUMBER or ACF_RESULT or ACF_PARAM))=0 then
-    StrDup(pAnsiChar(tServiceAction(result).wparam),pAnsiChar(wparam))
-  else if ((flags and ACF_NUMBER)<>0) and ((flags and ACF_SCRIPT_PARAM)<>0) then
-    StrDup(pAnsiChar(tServiceAction(result).wparam),pAnsiChar(wparam))
-  else
-    tServiceAction(result).wparam:=wparam;
-
-  if (flags2 and (ACF_NUMBER or ACF_RESULT or ACF_PARAM))=0 then
-    StrDup(pAnsiChar(tServiceAction(result).lparam),pAnsiChar(lparam))
-  else if ((flags2 and ACF_NUMBER)<>0) and ((flags and ACF_SCRIPT_PARAM)<>0) then
-    StrDup(pAnsiChar(tServiceAction(result).lparam),pAnsiChar(lparam))
-  else
-    tServiceAction(result).lparam:=lparam;
-end;
-}
 
 function tServiceAction.DoAction(var WorkData:tWorkData):LRESULT;
 var
@@ -167,64 +143,11 @@ begin
   end;
 end;
 
-function ReadParam(act:HXML; var param:pWideChar;isvar:boolean):dword;
-var
-  tmp:pWideChar;
-begin
-  result:=ACF_TYPE_NUMBER;
-  if act=0 then
-    exit;
-  
-  tmp:=xmlGetAttrValue(act,ioType);
-  if      lstrcmpiw(tmp,ioCurrent)=0 then result:=ACF_TYPE_CURRENT
-  else if lstrcmpiw(tmp,ioResult )=0 then result:=ACF_TYPE_RESULT
-  else if lstrcmpiw(tmp,ioParam  )=0 then result:=ACF_TYPE_PARAM
-  else if lstrcmpiw(tmp,ioStruct )=0 then
-  begin
-    result:=ACF_TYPE_STRUCT;
-  end
-  else
-  begin
-    StrDupW(pWideChar(param),xmlGetAttrValue(act,ioValue));
-
-    if      lstrcmpiw(tmp,ioNumber )=0 then result:=ACF_TYPE_NUMBER
-    else if lstrcmpiw(tmp,ioUnicode)=0 then result:=ACF_TYPE_UNICODE
-    else if lstrcmpiw(tmp,ioAnsi   )=0 then result:=ACF_TYPE_STRING;
-  end;
-end;
-{
-function ReadParamINI(node:pointer;prefix:pAnsiChar;var param:pWideChar;isvar:boolean):dword;
-var
-  pc,pc1:pAnsiChar;
-  buf:array [0..63] of AnsiChar;
-begin
-  result:=0;
-  pc1:=StrCopyE(buf,prefix);
-  pc:=GetParamSectionStr(node,StrCopy(pc1,ioType));
-  if      lstrcmpi(pc,ioCurrent)=0 then result:=result or ACF_CURRENT
-  else if lstrcmpi(pc,ioResult )=0 then result:=result or ACF_RESULT
-  else if lstrcmpi(pc,ioParam  )=0 then result:=result or ACF_PARAM
-  else if lstrcmpi(pc,ioStruct )=0 then
-  begin
-    result:=result or ACF_STRUCT;
-//!!!!      param:=ReadStruct(act);
-  end
-  else
-  begin
-    UTF8ToWide(GetParamSectionInt(node,StrCopy(pc1,ioValue)),param);
-
-    if      lstrcmpi(pc,ioNumber )=0 then result:=result or ACF_NUMBER
-    else if lstrcmpi(pc,ioUnicode)=0 then result:=result or ACF_UNICODE;
-//      else if lstrcmpi(pc,ioAnsi)=0 then;
-  end;
-end;
-}
 procedure tServiceAction.Load(node:pointer;fmt:integer);
 var
   section:array [0..127] of AnsiChar;
   buf:array [0..31] of WideChar;
   pc:pAnsiChar;
-  sub:HXML;
   tmp:pWideChar;
   lflags,lflags2:dword;
 begin
@@ -320,38 +243,6 @@ begin
       if (lflags2 and ACF2_FREEMEM )<>0 then service.flags:=service.flags or ACF_FLAG_FREEMEM;
       if (lflags2 and ACF2_SRV_SRVC)<>0 then service.flags:=service.flags or ACF_FLAG_SCRIPT;
     end;
-
-    1: begin
-      service.flags  :=0;
-      service.w_flags:=0;
-      service.l_flags:=0;
-
-      FastWideToAnsi(xmlGetAttrValue(HXML(node),ioService),service.service);
-      if StrToInt(xmlGetAttrValue(HXML(node),ioVariables))=1 then
-        service.flags:=service.flags or ACF_FLAG_SCRIPT;
-
-      sub:=xmlGetNthChild(HXML(node),ioWParam,0);
-      if StrToInt(xmlGetAttrValue(sub,ioVariables))=1 then
-        service.w_flags:=service.w_flags or ACF_FLAG_SCRIPT;
-      service.w_flags:=service.w_flags or
-          ReadParam(sub,PWideChar(service.wparam),(service.w_flags and ACF_FLAG_SCRIPT)<>0);
-
-      sub:=xmlGetNthChild(HXML(node),ioLParam,0);
-      if StrToInt(xmlGetAttrValue(sub,ioVariables))=1 then
-        service.l_flags:=service.l_flags or ACF_FLAG_SCRIPT;
-      service.l_flags:=service.l_flags or
-          ReadParam(sub,PWideChar(service.lparam),(service.l_flags and ACF_FLAG_SCRIPT)<>0);
-
-      sub:=xmlGetNthChild(HXML(node),ioOutput,0);
-      if StrToInt(xmlGetAttrValue(sub,ioFree))=1 then
-        service.flags:=service.flags or ACF_FLAG_FREEMEM;
-
-      tmp:=xmlGetAttrValue(sub,ioType);
-      if      lstrcmpiw(tmp,ioUnicode)=0 then service.flags:=service.flags or ACF_TYPE_UNICODE
-      else if lstrcmpiw(tmp,ioAnsi   )=0 then service.flags:=service.flags or ACF_TYPE_STRING
-      else if lstrcmpiw(tmp,ioStruct )=0 then service.flags:=service.flags or ACF_TYPE_STRUCT
-      else if lstrcmpiw(tmp,ioInt    )=0 then service.flags:=service.flags or ACF_TYPE_NUMBER;
-    end;
   end;
 end;
 
@@ -369,10 +260,7 @@ begin
       StrCopy(pc,opt_service);
       SaveServiceValue(service,DBBranch,section);
     end;
-{
-    1: begin
-    end;
-}
+
     13: begin
     end;
   end;

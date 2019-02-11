@@ -36,7 +36,7 @@ type
   public
     constructor Create(uid:dword);
     destructor Destroy; override;
-//    function  Clone:tBaseAction; override;
+
     function  DoAction(var WorkData:tWorkData):LRESULT; override;
     procedure Save(node:pointer;fmt:integer); override;
     procedure Load(node:pointer;fmt:integer); override;
@@ -59,14 +59,7 @@ begin
 
   inherited Destroy;
 end;
-{
-function tTextAction.Clone:tBaseAction;
-begin
-  result:=.Create(0);
-  Duplicate(result);
 
-end;
-}
 type
   trec = record
     text:PAnsiChar;
@@ -359,14 +352,6 @@ begin
       StrCopy(pc,'varval'); text:=DBReadUnicode(0,DBBranch,section);
       flags:=flags or ACF_TEXTSCRIPT;
     end;
-
-    1: begin
-      StrDupW(text,xmlGetText(HXML(node)));
-      if StrToInt(xmlGetAttrValue(HXML(node),ioVariables))=1 then
-        flags:=flags or ACF_TEXTSCRIPT;
-      if StrToInt(xmlGetAttrValue(HXML(node),ioPost))=1 then
-        flags:=flags or ACF_POSTPROCESS;
-    end;
   end;
 end;
 
@@ -382,10 +367,7 @@ begin
 
       StrCopy(pc,opt_text); DBWriteUnicode(0,DBBranch,section,text);
     end;
-{
-    1: begin
-    end;
-}
+
     13: begin
       tTextExport(node).AddTextW('text'       ,text);
       tTextExport(node).AddFlag ('script'     ,(flags or ACF_TEXTSCRIPT )<>0);

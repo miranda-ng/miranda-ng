@@ -194,7 +194,7 @@ end;
 
 //--------------------------
 
-function ExportMenuItems(node:JSONNODE;MenuItem:tUAMenuItem):HXML;
+function ExportMenuItems(node:JSONNODE;MenuItem:tUAMenuItem):JSONNODE;
 begin
   with jsonparser do
   begin

@@ -62,7 +62,7 @@ type
 
     constructor Create(uid:dword);
     destructor Destroy; override;
-//    function  Clone:tBaseAction; virtual;
+
     function  DoAction(var WorkData:tWorkData):LRESULT; virtual; // process action
     procedure Load(node:pointer;fmt:integer); virtual;           // load/import action
     procedure Save(node:pointer;fmt:integer); virtual;           // save/export action
@@ -99,7 +99,6 @@ function GetLinkName  (hash:dword    ):PAnsiChar;
 function GetLink      (hash:dword    ):pActModule;
 function GetLinkByName(name:pAnsiChar):pActModule;
 
-function ImportContact   (node:HXML   ):TMCONTACT;
 function ImportContactINI(node:pointer):TMCONTACT;
 
 
@@ -143,13 +142,7 @@ begin
   dst.UID  :=UID;
   dst.flags:=flags;
 end;
-{
-function tBaseAction.Clone:tBaseAction;
-begin
-  //dummy
-  result:=nil;
-end;
-}
+
 function tBaseAction.DoAction(var WorkData:tWorkData):LRESULT;
 begin
   result:=0;
@@ -170,13 +163,6 @@ begin
       StrCopy(pc,opt_flags); flags      :=DBReadDword  (0,DBBranch,section);
       // UID reading in main program, set by constructor
     end;
-
-    1: begin
-      if StrToInt(xmlGetAttrValue(HXML(node),ioDisabled))=1 then
-        flags:=flags or ACF_DISABLED;
-
-      StrDupW(ActionDescr,xmlGetAttrValue(HXML(node),ioName));
-    end;
   end;
 end;
 
@@ -192,10 +178,7 @@ begin
       StrCopy(pc,opt_flags); DBWriteDWord  (0,DBBranch,section,flags);
       StrCopy(pc,opt_descr); DBWriteUnicode(0,DBBranch,section,ActionDescr);
     end;
-{
-    1: begin
-    end;
-}
+
     13: begin
       tTextExport(node).AddText ('type'    ,GetLinkName(UID));
       tTextExport(node).AddTextW('name'    ,ActionDescr);
@@ -311,54 +294,6 @@ const
   ioIsChat   = 'ischat';
   ioCUID     = 'cuid';
   ioCUIDType = 'cuidtype';
-
-function ImportContact(node:HXML):TMCONTACT;
-var
-  proto:pAnsiChar;
-  tmpbuf:array [0..63] of AnsiChar;
-  dbv:TDBVARIANT;
-  tmp:pWideChar;
-  is_chat:boolean;
-  bufLen:int; 
-begin
-  proto:=FastWideToAnsiBuf(xmlGetAttrValue(node,ioCProto),tmpbuf);
-  if (proto=nil) or (proto^=#0) then
-  begin
-    result:=0;
-    exit;
-  end;
-  is_chat:=StrToInt(xmlGetAttrValue(node,ioIsChat))<>0;
-
-  tmp:=xmlGetAttrValue(node,ioCUID);
-  if is_chat then
-  begin
-    dbv.szVal.W:=tmp;
-  end
-  else
-  begin
-    FillChar(dbv,SizeOf(TDBVARIANT),0);
-    dbv._type:=StrToInt(xmlGetAttrValue(node,ioCUIDType));
-    case dbv._type of
-      DBVT_BYTE  : dbv.bVal:=StrToInt(tmp);
-      DBVT_WORD  : dbv.wVal:=StrToInt(tmp);
-      DBVT_DWORD : dbv.dVal:=StrToInt(tmp);
-      DBVT_ASCIIZ: FastWideToAnsi(tmp,dbv.szVal.A);
-      DBVT_UTF8  : WideToUTF8(tmp,dbv.szVal.A);
-      DBVT_WCHAR : dbv.szVal.W:=tmp;
-      DBVT_BLOB  : begin
-        dbv.pbVal := mir_base64_decode(FastWideToAnsi(tmp,pAnsiChar(dbv.pbVal)),bufLen);
-        dbv.cpbVal := bufLen;
-      end;
-    end;
-  end;
-  result:=FindContactHandle(proto,dbv,is_chat);
-  if not is_chat then
-    case dbv._type of
-      DBVT_ASCIIZ,
-      DBVT_UTF8  : mFreeMem(dbv.szVal.A);
-      DBVT_BLOB  : mFreeMem(dbv.pbVal);
-    end;
-end;
 
 function ImportContactINI(node:pointer):TMCONTACT;
 {

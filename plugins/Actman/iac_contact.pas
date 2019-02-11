@@ -27,7 +27,7 @@ type
     contact:TMCONTACT;
   public
     constructor Create(uid:dword);
-//    function  Clone:tBaseAction; override;
+
     function  DoAction(var WorkData:tWorkData):LRESULT; override;
     procedure Save(node:pointer;fmt:integer); override;
     procedure Load(node:pointer;fmt:integer); override;
@@ -41,15 +41,6 @@ begin
 
   contact:=0;
 end;
-{
-function tContactAction.Clone:tBaseAction;
-begin
-  result:=tContactAction.Create(0);
-  Duplicate(result);
-
-  tContactAction(result).contact:=contact;
-end;
-}
 
 //----- Object realization -----
 
@@ -82,14 +73,6 @@ begin
   case fmt of
     0: if (flags and ACF_GETACTIVE)=0 then
       contact:=LoadContact(DBBranch,node);
-
-    1: begin
-      contact:=ImportContact(HXML(node));
-      if StrToInt(xmlGetAttrValue(HXML(node),ioKeepOnly))=1 then
-        flags:=flags or ACF_KEEPONLY;
-      if StrToInt(xmlGetAttrValue(HXML(node),ioWindow))=1 then
-        flags:=flags or ACF_GETACTIVE;
-    end;
   end;
 end;
 

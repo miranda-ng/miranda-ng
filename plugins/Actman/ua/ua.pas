@@ -43,7 +43,6 @@ var
 {$include i_options.inc}
 {$include i_opt_dlg.inc}
 {$include i_ua.inc}
-{$include i_inoutxm.inc}
 
 // ------------ base interface functions -------------
 
@@ -78,8 +77,6 @@ begin
   HookEvent(ME_CLIST_PREBUILDMAINMENU   , PreBuildMainMenu);
   HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PreBuildContactMenu);
   HookEvent(ME_CLIST_PREBUILDTRAYMENU   , PreBuildTrayMenu);
-
-  HookEvent(ME_ACT_INOUT,@ActInOut);
 end;
 
 procedure DeInit;

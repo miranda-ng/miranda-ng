@@ -132,16 +132,8 @@ end;
 {$i i_last_dlg.inc}
 
 function SrvLastFMInfo(wParam:WPARAM;lParam:LPARAM):int;cdecl;
-var
-  data:tLastFMInfo;
 begin
-  case wParam of
-    0: result:=GetArtistInfo(data,lParam);
-    1: result:=GetAlbumInfo (data,lParam);
-    2: result:=GetTrackInfo (data,lParam);
-  else
-    result:=0;
-  end;
+  result:=0;
 end;
 
 function SrvLastFM(wParam:WPARAM;lParam:LPARAM):int;cdecl;

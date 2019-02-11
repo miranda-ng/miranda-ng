@@ -38,7 +38,7 @@ type
   public
     constructor Create(uid:dword);
     destructor Destroy; override;
-//    function  Clone:tBaseAction; override;
+
     function  DoAction(var WorkData:tWorkData):LRESULT; override;
     procedure Save(node:pointer;fmt:integer); override;
     procedure Load(node:pointer;fmt:integer); override;
@@ -62,14 +62,7 @@ begin
 
   inherited Destroy;
 end;
-{
-function tINIAction.Clone:tBaseAction;
-begin
-  result:=tServiceAction.Create(0);
-  Duplicate(result);
 
-end;
-}
 function tINIAction.DoAction(var WorkData:tWorkData):LRESULT;
 var
   linifile,

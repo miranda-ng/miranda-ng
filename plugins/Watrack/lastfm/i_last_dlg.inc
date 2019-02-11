@@ -69,16 +69,11 @@ begin
            if loword(wParam)=IDC_INFO_ARTIST then
            begin
              SetDlgItemTextW(Dialog,IDC_ALT,TranslateW('Similar artists'));
-             GetArtistInfo(data,lfm_lang);
              SetDlgItemTextW(Dialog,IDC_DATA_ALBUM,data.similar);
            end
            else
            begin
              SetDlgItemTextW(Dialog,IDC_ALT,TranslateW('Album'));
-             if loword(wParam)=IDC_INFO_TRACK then
-               GetTrackInfo (data,lfm_lang)
-             else
-               GetAlbumInfo (data,lfm_lang);
              SetDlgItemTextW(Dialog,IDC_DATA_ALBUM,data.album);
            end;
 
