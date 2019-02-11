@@ -27,6 +27,11 @@ call makeicons.bat fpc%fpcpl% 15
 if errorlevel 1 goto :Error
 popd
 
+pushd HistoryPlusPlus
+call make.bat %1
+if errorlevel 1 goto :Error
+popd
+
 popd
 goto :eof
 
