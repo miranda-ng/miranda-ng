@@ -631,7 +631,12 @@ void CIcqProto::OnFileContinue(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld
 {
 	IcqFileTransfer *pTransfer = (IcqFileTransfer*)pOld->pUserInfo;
 
-	if (pReply->resultCode != 200) {
+	switch (pReply->resultCode) {
+	case 200: // final ok
+	case 206: // partial ok
+		break;
+
+	default:
 		ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, pTransfer);
 		delete pTransfer;
 		return;
@@ -645,7 +650,29 @@ void CIcqProto::OnFileContinue(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld
 
 			const JSONNode &data = root.data();
 			CMStringW wszUrl(data["static_url"].as_mstring());
-			SendMsg(pTransfer->pfts.hContact, 0, _T2A(wszUrl));
+
+			JSONNode bundle, contents; contents.set_name("captionedContent");
+			contents << WCHAR_PARAM("caption", pTransfer->m_wszDescr) << WCHAR_PARAM("url", wszUrl);
+			bundle << CHAR_PARAM("mediaType", "text") << CHAR_PARAM("text", "") << contents;
+			CMStringW wszParts(FORMAT, L"[%s]", ptrW(json_write(&bundle)));
+
+			if (!pTransfer->m_wszDescr.IsEmpty())
+				wszUrl += L" " + pTransfer->m_wszDescr;
+
+			int id = InterlockedIncrement(&m_msgId);
+			auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, ICQ_API_SERVER "/im/sendIM", &CIcqProto::OnSendMessage);
+
+			auto *pOwn = new IcqOwnMessage(pTransfer->pfts.hContact, id, pReq->m_reqId);
+			pReq->pUserInfo = pOwn;
+			{
+				mir_cslock lck(m_csOwnIds);
+				m_arOwnIds.insert(pOwn);
+			}
+
+			pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("f", "json") << CHAR_PARAM("k", ICQ_APP_ID)
+				<< CHAR_PARAM("mentions", "") << WCHAR_PARAM("message", wszUrl) << CHAR_PARAM("offlineIM", "true") <<	WCHAR_PARAM("parts", wszParts)
+				<< CHAR_PARAM("r", pReq->m_reqId) << WCHAR_PARAM("t", GetUserId(pTransfer->pfts.hContact)) << INT_PARAM("ts", time(0));
+			Push(pReq);
 		}
 		else ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, pTransfer);
 		delete pTransfer;
@@ -656,6 +683,9 @@ void CIcqProto::OnFileContinue(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld
 	auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_POST, pTransfer->m_szHost, &CIcqProto::OnFileContinue);
 	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("client", "icq") << CHAR_PARAM("k", ICQ_APP_ID) << INT_PARAM("ts", time(0));
 	CalcHash(pReq);
+	pReq->m_szUrl.AppendChar('?');
+	pReq->m_szUrl += pReq->m_szParam; pReq->m_szParam.Empty();
+	pReq->pUserInfo = pTransfer;
 	pTransfer->FillHeaders(pReq);
 	Push(pReq);
 

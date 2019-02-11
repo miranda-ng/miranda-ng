@@ -113,7 +113,7 @@ struct IcqFileTransfer : public MZeroedObject
 
 	int m_fileId = -1;
 	CMStringA m_szHost;
-	CMStringW m_wszFileName;
+	CMStringW m_wszFileName, m_wszDescr;
 	const wchar_t *m_wszShortName;
 	PROTOFILETRANSFERSTATUS pfts;
 

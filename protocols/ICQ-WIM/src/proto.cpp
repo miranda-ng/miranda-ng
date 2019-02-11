@@ -378,7 +378,7 @@ HANDLE CIcqProto::SearchBasic(const wchar_t *pszSearch)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendFile - sends a file
 
-HANDLE CIcqProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t **ppszFiles)
+HANDLE CIcqProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles)
 {
 	// we can't send more than one file at a time
 	if (ppszFiles[1] != 0)
@@ -398,9 +398,11 @@ HANDLE CIcqProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t **ppszFile
 	pTransfer->pfts.totalFiles = 1;
 	pTransfer->pfts.currentFileSize = pTransfer->pfts.totalBytes = statbuf.st_size;
 	pTransfer->m_fileId = iFileId;
+	if (mir_wstrlen(szDescription))
+		pTransfer->m_wszDescr = szDescription;
 
 	auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, "https://files.icq.com/files/init", &CIcqProto::OnFileInit);
-	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("client", "icq") << CHAR_PARAM("f", "json") << CHAR_PARAM("fileName", mir_urlEncode(T2Utf(pTransfer->m_wszShortName))) 
+	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("client", "icq") << CHAR_PARAM("f", "json") << CHAR_PARAM("filename", mir_urlEncode(T2Utf(pTransfer->m_wszShortName))) 
 		<< CHAR_PARAM("k", ICQ_APP_ID) << INT_PARAM("size", statbuf.st_size) << INT_PARAM("ts", time(0));
 	CalcHash(pReq);
 	pReq->pUserInfo = pTransfer;
