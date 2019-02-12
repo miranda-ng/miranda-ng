@@ -24,6 +24,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 CMPlugin g_plugin;
 HMODULE hDwmApi;
 
+MGLOBAL myGlobals;
+pfnDwmIsCompositionEnabled	dwmIsCompositionEnabled;
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static PLUGININFOEX pluginInfoEx =

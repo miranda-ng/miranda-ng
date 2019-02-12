@@ -104,10 +104,6 @@ using namespace std;
 #define GetUserData(p)		GetWindowLongPtr((p), GWLP_USERDATA)
 #define SetUserData(p, l)	SetWindowLongPtr((p), GWLP_USERDATA, (LONG_PTR) (l))
 
-unsigned int hashSetting_M2(const wchar_t * key);	//new Murma2 hash
-unsigned int hashSetting_M2(const char * key);		//new Murma2 hash
-unsigned int hashSettingW_M2(const char * key);		//new Murma2 hash
-
 #include "resource.h"
 #include "version.h"
 #include "../IconPacks/default/src/icons.h"
@@ -208,8 +204,6 @@ extern struct CountryListEntry *countries;
 /***********************************************************************************************************
  * UserInfoEx common used functions
  ***********************************************************************************************************/
-
-DWORD	hashSetting(LPCSTR szStr);					//old miranda hash
 
 static FORCEINLINE BOOL IsProtoOnline(LPSTR pszProto)
 {

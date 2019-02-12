@@ -60,13 +60,13 @@ public:
 	__inline void	uida(LPCSTR val)
 	{
 		_dbvUID.type = (_dbvUID.pszVal = mir_utf8decodeA(val))? DBVT_ASCIIZ : DBVT_DELETED;
-		_dbvUIDHash  = hashSetting_M2(_dbvUID.pszVal);
+		_dbvUIDHash  = mir_hashstr(_dbvUID.pszVal);
 	}
 	__inline void	uidu(LPCSTR val)
 	{
 		_dbvUID.type = (_dbvUID.pszVal = mir_strdup(val))? DBVT_UTF8 : DBVT_DELETED;
 		LPWSTR temp  = mir_utf8decodeW(val);
-		_dbvUIDHash  = hashSettingW_M2((const char *)temp);
+		_dbvUIDHash  = mir_hashstrW(temp);
 		mir_free(temp);
 	}
 

@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #define HM_PROTOACK	(WM_USER+100)
 
-typedef INT_PTR	(*PUpdCallback) (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, void *UserData);
+typedef INT_PTR(*PUpdCallback) (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, void *UserData);
 
 /***********************************************************************************************************
  * class CUpdProgress
@@ -51,36 +51,30 @@ protected:
 	 *
 	 * @return	This method returns 0.
 	 **/
-	static INT_PTR CALLBACK DefWndProc(CUpdProgress *pProgress, HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
+	static INT_PTR CALLBACK DefWndProc(CUpdProgress *pProgress, HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
-		__try
-		{
-			if (PtrIsValid(pProgress))
-			{
-				switch (uMsg)
-				{
+		__try {
+			if (PtrIsValid(pProgress)) {
+				switch (uMsg) {
 				case UM_POPUPACTION:
 				case WM_COMMAND:
 					{
-						if (wParam == MAKEWORD(IDSKIP, BN_CLICKED))
-						{
+						if (wParam == MAKEWORD(IDSKIP, BN_CLICKED)) {
 							pProgress->Destroy();
 						}
-						else						
-						if (wParam == MAKEWORD(IDCANCEL, BN_CLICKED))
-						{
-							pProgress->_bIsCanceled = TRUE;
-						}
+						else
+							if (wParam == MAKEWORD(IDCANCEL, BN_CLICKED)) {
+								pProgress->_bIsCanceled = TRUE;
+							}
 					}
 				}
-				if (PtrIsValid(pProgress->_pFnCallBack))
-				{
+				if (PtrIsValid(pProgress->_pFnCallBack)) {
 					pProgress->_pFnCallBack(hWnd, uMsg, wParam, lParam, pProgress->_pData);
 				}
 			}
 		}
-		__except(GetExceptionCode()==EXCEPTION_ACCESS_VIOLATION ? 
-						EXCEPTION_EXECUTE_HANDLER : EXCEPTION_CONTINUE_SEARCH) 
+		__except (GetExceptionCode() == EXCEPTION_ACCESS_VIOLATION ?
+			EXCEPTION_EXECUTE_HANDLER : EXCEPTION_CONTINUE_SEARCH)
 		{ // code to handle exception
 			puts("Exception Occurred");
 		}
@@ -89,10 +83,10 @@ protected:
 
 public:
 
-	virtual HWND	Create		(LPCTSTR szTitle, PUpdCallback pFnCallBack) = 0;
-	virtual void	Destroy		(void) {};
-	virtual void	SetTitle	(LPCTSTR szText) = 0;
-	virtual void	SetText		(LPCTSTR szText) = 0;
+	virtual HWND	Create(LPCTSTR szTitle, PUpdCallback pFnCallBack) = 0;
+	virtual void	Destroy(void) {};
+	virtual void	SetTitle(LPCTSTR szText) = 0;
+	virtual void	SetText(LPCTSTR szText) = 0;
 
 	BYTE IsVisible() const
 	{
@@ -113,15 +107,13 @@ public:
 	 **/
 	void SetTitleParam(LPCTSTR szText, ...)
 	{
-		if (szText)
-		{
+		if (szText) {
 			wchar_t buf[MAXDATASIZE];
 			va_list vl;
-			
+
 			va_start(vl, szText);
-			if (mir_vsnwprintf(buf, _countof(buf), szText, vl) != -1)
-			{
-				SetTitle(buf);	 
+			if (mir_vsnwprintf(buf, _countof(buf), szText, vl) != -1) {
+				SetTitle(buf);
 			}
 			va_end(vl);
 		}
@@ -130,7 +122,7 @@ public:
 	/**
 	 * This method is used to set the popups or dialogs message text.
 	 * It takes text with parameters as sprintf does. If bbcodes are
-	 * disabled this method automatically deletes them from the text. 
+	 * disabled this method automatically deletes them from the text.
 	 *
 	 * @param	szText			- the text to display. Can contain formats like
 	 *							  sprintf does.
@@ -141,47 +133,39 @@ public:
 	 **/
 	void SetTextParam(LPCTSTR szText, ...)
 	{
-		if (szText)
-		{
+		if (szText) {
 			INT_PTR cch = mir_wstrlen(szText);
-			LPTSTR	fmt = (LPTSTR) mir_alloc((cch + 1) * sizeof(wchar_t));
-			
-			if (fmt)
-			{
+			LPTSTR	fmt = (LPTSTR)mir_alloc((cch + 1) * sizeof(wchar_t));
+
+			if (fmt) {
 				wchar_t buf[MAXDATASIZE];
 				va_list vl;
 
 				mir_wstrcpy(fmt, szText);
 
 				// delete bbcodes
-				if (!_bBBCode)
-				{
+				if (!_bBBCode) {
 					LPTSTR s, e;
 
-					for (s = fmt, e = fmt + cch; s[0] != 0; s++)
-					{
-						if (s[0] == '[')
-						{
+					for (s = fmt, e = fmt + cch; s[0] != 0; s++) {
+						if (s[0] == '[') {
 							// leading bbcode tag (e.g.: [b], [u], [i])
-							if ((s[1] == 'b' || s[1] == 'u' || s[1] == 'i') && s[2] == ']')
-							{
+							if ((s[1] == 'b' || s[1] == 'u' || s[1] == 'i') && s[2] == ']') {
 								memmove(s, s + 3, (e - s - 2) * sizeof(wchar_t));
 								e -= 3;
 							}
 							// ending bbcode tag (e.g.: [/b], [/u], [/i])
-							else if (s[1] == '/' && (s[2] == 'b' || s[2] == 'u' || s[2] == 'i') && s[3] == ']')
-							{
+							else if (s[1] == '/' && (s[2] == 'b' || s[2] == 'u' || s[2] == 'i') && s[3] == ']') {
 								memmove(s, s + 4, (e - s - 3) * sizeof(wchar_t));
 								e -= 4;
 							}
 						}
 					}
 				}
-			
+
 				va_start(vl, szText);
-				if (mir_vsnwprintf(buf, _countof(buf), fmt, vl) != -1)
-				{
-					SetText(buf);	 
+				if (mir_vsnwprintf(buf, _countof(buf), fmt, vl) != -1) {
+					SetText(buf);
 				}
 				va_end(vl);
 				mir_free(fmt);
@@ -231,7 +215,7 @@ class CDlgUpdProgress : public CUpdProgress
 	 *
 	 *
 	 **/
-	static INT_PTR CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
+	static INT_PTR CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		switch (uMsg) {
 		case WM_INITDIALOG:
@@ -242,11 +226,11 @@ class CDlgUpdProgress : public CUpdProgress
 					{ ICO_BTN_CANCEL,		BM_SETIMAGE,	IDCANCEL	}
 				};
 				IcoLib_SetCtrlIcons(hWnd, idIcon, g_plugin.getByte(SET_ICONS_BUTTONS, 1) ? 2 : 1);
-	
-				SendDlgItemMessage(hWnd, IDCANCEL,	BUTTONTRANSLATE, NULL, NULL);
-				SendDlgItemMessage(hWnd, IDSKIP,	BUTTONTRANSLATE, NULL, NULL);
+
+				SendDlgItemMessage(hWnd, IDCANCEL, BUTTONTRANSLATE, NULL, NULL);
+				SendDlgItemMessage(hWnd, IDSKIP, BUTTONTRANSLATE, NULL, NULL);
 				SetUserData(hWnd, lParam);
-				
+
 				TranslateDialogDefault(hWnd);
 			}
 			return TRUE;
@@ -260,7 +244,7 @@ class CDlgUpdProgress : public CUpdProgress
 			}
 			return FALSE;
 		}
-		return CUpdProgress::DefWndProc((CUpdProgress *) GetUserData(hWnd), hWnd, uMsg, wParam, lParam);
+		return CUpdProgress::DefWndProc((CUpdProgress *)GetUserData(hWnd), hWnd, uMsg, wParam, lParam);
 	}
 
 public:
@@ -281,13 +265,12 @@ public:
 	virtual HWND Create(LPCTSTR szTitle, PUpdCallback pFnCallBack)
 	{
 		_pFnCallBack = pFnCallBack;
-		_hWnd = CreateDialogParam(g_plugin.getInst(), 
-							MAKEINTRESOURCE(IDD_REFRESHDETAILS), 
-							nullptr, 
-							CDlgUpdProgress::WndProc, 
-							(LPARAM) this);
-		if (_hWnd)
-		{
+		_hWnd = CreateDialogParam(g_plugin.getInst(),
+			MAKEINTRESOURCE(IDD_REFRESHDETAILS),
+			nullptr,
+			CDlgUpdProgress::WndProc,
+			(LPARAM)this);
+		if (_hWnd) {
 			SetTitle(szTitle);
 			ShowWindow(_hWnd, SW_SHOW);
 		}
@@ -300,8 +283,7 @@ public:
 	 **/
 	virtual void Destroy()
 	{
-		if (_hWnd)
-		{
+		if (_hWnd) {
 			SetUserData(_hWnd, NULL);
 			EndDialog(_hWnd, IDOK);
 			_hWnd = nullptr;
@@ -343,16 +325,14 @@ class CPopupUpdProgress : public CUpdProgress
 	 **/
 	void UpdateText()
 	{
-		if (_szText)
-		{
+		if (_szText) {
 			INT_PTR cb = mir_wstrlen(_szText) + 8;
-			LPTSTR	pb = (LPTSTR) mir_alloc(cb * sizeof(wchar_t));
+			LPTSTR	pb = (LPTSTR)mir_alloc(cb * sizeof(wchar_t));
 
-			if (pb)
-			{
+			if (pb) {
 				mir_wstrcpy(pb, _szText);
 
-				SendMessage(_hWnd, UM_CHANGEPOPUP, CPT_TITLET, (LPARAM) pb);
+				SendMessage(_hWnd, UM_CHANGEPOPUP, CPT_TITLET, (LPARAM)pb);
 			}
 		}
 	}
@@ -364,18 +344,17 @@ class CPopupUpdProgress : public CUpdProgress
 	 * if passed to the default windows procedure.
 	 *
 	 **/
-	static LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
+	static LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		// Filter out messages, which must not be passed to default windows procedure or even
 		// to the callback function!
-		switch (uMsg)
-		{
+		switch (uMsg) {
 		case UM_INITPOPUP:
 		case UM_CHANGEPOPUP:
 		case UM_FREEPLUGINDATA:
 			break;
 		default:
-			CUpdProgress::DefWndProc((CUpdProgress *) PUGetPluginData(hWnd), hWnd, uMsg, wParam, lParam);
+			CUpdProgress::DefWndProc((CUpdProgress *)PUGetPluginData(hWnd), hWnd, uMsg, wParam, lParam);
 		}
 		return DefWindowProc(hWnd, uMsg, wParam, lParam);
 	}
@@ -426,11 +405,11 @@ public:
 		// dummy text
 		_szText = mir_wstrdup(szTitle);
 		mir_wstrcpy(pd.lptzContactName, _szText);
-		
+
 		mir_wstrcpy(pd.lptzText, L" ");
-		
+
 		_pFnCallBack = pFnCallBack;
-		_hWnd = (HWND) CallService(MS_POPUP_ADDPOPUPT, (WPARAM) &pd, APF_RETURN_HWND|APF_NEWDATA);
+		_hWnd = (HWND)CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&pd, APF_RETURN_HWND | APF_NEWDATA);
 		return _hWnd;
 	}
 
@@ -440,8 +419,7 @@ public:
 	 **/
 	virtual void Destroy()
 	{
-		if (_hWnd)
-		{
+		if (_hWnd) {
 			PUDeletePopup(_hWnd);
 			_hWnd = nullptr;
 		}
@@ -465,7 +443,7 @@ public:
 	 **/
 	virtual void SetText(LPCTSTR szText)
 	{
-		SendMessage(_hWnd, UM_CHANGEPOPUP, CPT_TEXTT, (LPARAM) mir_wstrdup(szText));
+		SendMessage(_hWnd, UM_CHANGEPOPUP, CPT_TEXTT, (LPARAM)mir_wstrdup(szText));
 	}
 };
 
@@ -497,25 +475,21 @@ class CContactUpdater : public CContactQueue
 	 *
 	 * @return	This method returns 0.
 	 **/
-	static int DlgProc(HWND, UINT uMsg, WPARAM wParam, LPARAM, CContactUpdater* u) 
+	static int DlgProc(HWND, UINT uMsg, WPARAM wParam, LPARAM, CContactUpdater* u)
 	{
-		switch (uMsg) 
-		{
+		switch (uMsg) {
 
-		/**
-		 * User has clicked on the skip or cancel button.
-		 **/
+			/**
+			 * User has clicked on the skip or cancel button.
+			 **/
 		case UM_POPUPACTION:
-		case WM_COMMAND: 
+		case WM_COMMAND:
 			{
-				if (PtrIsValid(u))
-				{
-					switch (LOWORD(wParam))
-					{
+				if (PtrIsValid(u)) {
+					switch (LOWORD(wParam)) {
 					case IDCANCEL:
 						{
-							if (HIWORD(wParam) == BN_CLICKED) 
-							{
+							if (HIWORD(wParam) == BN_CLICKED) {
 								u->Cancel();
 							}
 						}
@@ -534,7 +508,7 @@ class CContactUpdater : public CContactQueue
 	 * the time is shortend to 4s.
 	 *
 	 * @param	wParam		- not used
-	 * @param	ack			- pointer to an ACKDATA structure containing all 
+	 * @param	ack			- pointer to an ACKDATA structure containing all
 	 *						  data for the acknoledgement.
 	 *
 	 * @return	nothing
@@ -547,7 +521,7 @@ class CContactUpdater : public CContactQueue
 					_nContactAcks = (INT_PTR)ack->hProcess;
 					_hContactAcks = (PBYTE)mir_calloc(sizeof(BYTE) * (INT_PTR)ack->hProcess);
 				}
-				
+
 				if (ack->result == ACKRESULT_SUCCESS || ack->result == ACKRESULT_FAILED)
 					_hContactAcks[ack->lParam] = 1;
 
@@ -569,11 +543,10 @@ class CContactUpdater : public CContactQueue
 	 *
 	 * @return	nothing
 	 **/
-	virtual void OnEmpty() 
+	virtual void OnEmpty()
 	{
 		// This was the last contact, so destroy the progress window.
-		if (_hProtoAckEvent)
-		{
+		if (_hProtoAckEvent) {
 			UnhookEvent(_hProtoAckEvent);
 			_hProtoAckEvent = nullptr;
 		}
@@ -584,8 +557,7 @@ class CContactUpdater : public CContactQueue
 		_hContact = NULL;
 
 		// close progress bar
-		if (_pProgress)
-		{
+		if (_pProgress) {
 			_pProgress->Destroy();
 
 			delete _pProgress;
@@ -606,66 +578,44 @@ class CContactUpdater : public CContactQueue
 	 *
 	 * @return	nothing
 	 **/
+
 	virtual void Callback(MCONTACT hContact, PVOID)
 	{
-		LPSTR	pszProto	= Proto_GetBaseAccountName(hContact);
+		LPSTR	pszProto = Proto_GetBaseAccountName(hContact);
 
-		if (pszProto && pszProto[0])
-		{
+		if (pszProto && pszProto[0]) {
 			MIR_FREE(_hContactAcks);
 			_nContactAcks = 0;
 			_hContact = hContact;
 
 			if (!_hProtoAckEvent)
-			{
-				_hProtoAckEvent = (HANDLE) ThisHookEvent(ME_PROTO_ACK, (EVENTHOOK) &CContactUpdater::OnProtoAck);
-			}
+				_hProtoAckEvent = (HANDLE)ThisHookEvent(ME_PROTO_ACK, (EVENTHOOK)&CContactUpdater::OnProtoAck);
 
 			if (_pProgress)
-			{
-				_pProgress->SetTextParam(TranslateT("[b]%s (%S)...[/b]\n%d Contacts remaining"),
-					Clist_GetContactDisplayName(_hContact), pszProto, Size());
-			}
+				_pProgress->SetTextParam(TranslateT("[b]%s (%S)...[/b]\n%d Contacts remaining"), Clist_GetContactDisplayName(_hContact), pszProto, Size());
+
 			if (IsProtoOnline(pszProto))
-			{
-				int i;
-				for (i = 0; i < 3 && ProtoChainSend(hContact, PSS_GETINFO, 0, 0); i++)
-				{
+				for (int i = 0; i < 3 && ProtoChainSend(hContact, PSS_GETINFO, 0, 0); i++)
 					Sleep(3000);
-				}
-			}
 		}
 	}
 
 public:
-
-	/**
-	 * This is the default constructor
-	 *
-	 **/
 	CContactUpdater() : CContactQueue()
 	{
-		_hContactAcks	= nullptr;
-		_nContactAcks	= 0;
-		_hContact		= NULL;
-		_pProgress		= nullptr;
-		_hProtoAckEvent	= nullptr;
+		_hContactAcks = nullptr;
+		_nContactAcks = 0;
+		_hContact = NULL;
+		_pProgress = nullptr;
+		_hProtoAckEvent = nullptr;
 	}
 
-	/**
-	 *
-	 *
-	 **/
 	~CContactUpdater()
 	{
 		RemoveAll();
 		OnEmpty();
 	}
 
-	/**
-	 *
-	 *
-	 **/
 	BOOL QueueAddRefreshContact(MCONTACT hContact, int iWait)
 	{
 		LPSTR pszProto = Proto_GetBaseAccountName(hContact);
@@ -676,10 +626,6 @@ public:
 		return 0;
 	}
 
-	/**
-	 *
-	 *
-	 **/
 	void RefreshAll()
 	{
 		int iWait = 100;
@@ -688,18 +634,15 @@ public:
 			if (QueueAddRefreshContact(hContact, iWait))
 				iWait += 5000;
 
-		if (Size() && !_pProgress)
-		{
-			if (ServiceExists(MS_POPUP_CHANGETEXTT) && g_plugin.getByte("PopupProgress", FALSE))
-			{
+		if (Size() && !_pProgress) {
+			if (ServiceExists(MS_POPUP_CHANGETEXTT) && g_plugin.getByte("PopupProgress", FALSE)) {
 				_pProgress = new CPopupUpdProgress(this);
 			}
-			else
-			{
+			else {
 				_pProgress = new CDlgUpdProgress(this);
 			}
 
-			_pProgress->Create(TranslateT("Refresh contact details"), (PUpdCallback) CContactUpdater::DlgProc);
+			_pProgress->Create(TranslateT("Refresh contact details"), (PUpdCallback)CContactUpdater::DlgProc);
 			_pProgress->SetText(TranslateT("Preparing..."));
 		}
 
@@ -708,10 +651,6 @@ public:
 			Menu_ModifyItem(hMenuItemRefresh, LPGENW("Abort Refreshing Contact Details"), IcoLib_GetIcon(ICO_BTN_CANCEL));
 	}
 
-	/**
-	 *
-	 *
-	 **/
 	void Cancel()
 	{
 		RemoveAll();
@@ -725,14 +664,15 @@ static CContactUpdater	*ContactUpdater = nullptr;
  * common helper functions
  ***********************************************************************************************************/
 
-/**
- * This function checks, whether at least one protocol is online!
- *
- * @param	none
- *
- * @retval	TRUE		- At least one protocol is online.
- * @retval	FALSE		- All protocols are offline.
- **/
+ /**
+  * This function checks, whether at least one protocol is online!
+  *
+  * @param	none
+  *
+  * @retval	TRUE		- At least one protocol is online.
+  * @retval	FALSE		- All protocols are offline.
+  **/
+
 static BOOL IsMirandaOnline()
 {
 	for (auto &pa : Accounts())
@@ -746,47 +686,35 @@ static BOOL IsMirandaOnline()
  * services
  ***********************************************************************************************************/
 
-/**
- * This is the service function being called by MS_USERINFO_REFRESH.
- * It adds each contact, whose protocol is online, to the queue of contacts to refresh.
- * The queue is running a separate thread, which is responsible for requesting the contact information
- * one after another with a certain time to wait in between.
- *
- * @param	wParam		- not used
- * @param	lParam		- not used
- *
- * @return	This service function always returns 0.
- **/
+ /**
+  * This is the service function being called by MS_USERINFO_REFRESH.
+  * It adds each contact, whose protocol is online, to the queue of contacts to refresh.
+  * The queue is running a separate thread, which is responsible for requesting the contact information
+  * one after another with a certain time to wait in between.
+  *
+  * @param	wParam		- not used
+  * @param	lParam		- not used
+  *
+  * @return	This service function always returns 0.
+  **/
+
 static INT_PTR RefreshService(WPARAM, LPARAM)
 {
-	try
-	{
-		if (IsMirandaOnline())
-		{
-			if (!ContactUpdater)
-			{
-				ContactUpdater = new CContactUpdater();
-			}
+	if (!IsMirandaOnline()) {
+		MsgErr(nullptr, LPGENW("Miranda must be online for refreshing contact information!"));
+		return 0;
+	}
 
-			if (ContactUpdater->Size() == 0)
-			{
-				ContactUpdater->RefreshAll();
-			}
-			else if (IDYES == MsgBox(nullptr, MB_YESNO|MB_ICON_QUESTION, LPGENW("Refresh contact details"), nullptr, 
-				LPGENW("Do you want to cancel the current refresh procedure?")))
-			{
-				ContactUpdater->Cancel();
-			}
-		}
-		else
-		{
-			MsgErr(nullptr, LPGENW("Miranda must be online for refreshing contact information!"));
-		}
+	if (!ContactUpdater)
+		ContactUpdater = new CContactUpdater();
+
+	if (ContactUpdater->Size() == 0)
+		ContactUpdater->RefreshAll();
+	else if (IDYES == MsgBox(nullptr, MB_YESNO | MB_ICON_QUESTION, LPGENW("Refresh contact details"), nullptr,
+		LPGENW("Do you want to cancel the current refresh procedure?"))) {
+		ContactUpdater->Cancel();
 	}
-	catch(...)
-	{
-		MsgErr(nullptr, LPGENW("The function caused an exception!"));
-	}
+
 	return 0;
 }
 
@@ -794,39 +722,22 @@ static INT_PTR RefreshService(WPARAM, LPARAM)
  * events
  ***********************************************************************************************************/
 
-/**
- *
- *
- **/
 static int OnContactAdded(WPARAM hContact, LPARAM)
 {
-	try
-	{
-		DWORD dwStmp = db_get_dw(hContact, USERINFO, SET_CONTACT_ADDEDTIME, 0);
-		if (!dwStmp)
-		{
-			MTime mt;
-			
-			mt.GetLocalTime();
-			mt.DBWriteStamp(hContact, USERINFO, SET_CONTACT_ADDEDTIME);
+	DWORD dwStmp = db_get_dw(hContact, USERINFO, SET_CONTACT_ADDEDTIME, 0);
+	if (!dwStmp) {
+		MTime mt;
+		mt.GetLocalTime();
+		mt.DBWriteStamp(hContact, USERINFO, SET_CONTACT_ADDEDTIME);
 
-			// create updater, if not yet exists
-			if (!ContactUpdater)
-			{
-				ContactUpdater = new CContactUpdater();
-			}
-			
-			// add to the end of the queue
-			ContactUpdater->AddIfDontHave(
-				(ContactUpdater->Size() > 0) 
-					? max(ContactUpdater->Get(ContactUpdater->Size() - 1)->check_time + 15000, 4000) 
-					: 4000, hContact);
-		}
+		// create updater, if not yet exists
+		if (!ContactUpdater)
+			ContactUpdater = new CContactUpdater();
+
+		// add to the end of the queue
+		ContactUpdater->AddIfDontHave((ContactUpdater->Size() > 0) ? max(ContactUpdater->Get(ContactUpdater->Size() - 1)->check_time + 15000, 4000) : 4000, hContact);
 	}
-	catch(...)
-	{
-		MsgErr(nullptr, LPGENW("The function caused an exception!"));
-	}
+
 	return 0;
 }
 
@@ -839,6 +750,7 @@ static int OnContactAdded(WPARAM hContact, LPARAM)
  *
  * @return	This function always returns 0.
  **/
+
 static int OnPreShutdown(WPARAM, LPARAM)
 {
 	if (ContactUpdater) {
@@ -853,9 +765,6 @@ static int OnPreShutdown(WPARAM, LPARAM)
  * initialization
  ***********************************************************************************************************/
 
-/**
- * This function initially loads the module upon startup.
- **/
 void SvcRefreshContactInfoLoadModule(void)
 {
 	CreateServiceFunction(MS_USERINFO_REFRESH, RefreshService);

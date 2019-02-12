@@ -334,13 +334,13 @@ BYTE CExImContactBase::compareUID(DBVARIANT *dbv)
 			}
 			break;
 		case DBVT_ASCIIZ:
-			hash = hashSetting_M2(dbv->pszVal);
+			hash = mir_hashstr(dbv->pszVal);
 		case DBVT_WCHAR:
-			if (!hash) hash = hashSettingW_M2((const char *)dbv->pwszVal);
+			if (!hash) hash = mir_hashstrW(dbv->pwszVal);
 		case DBVT_UTF8:
 			if (!hash) {
 				LPWSTR tmp = mir_utf8decodeW(dbv->pszVal);
-				hash = hashSettingW_M2((const char *)tmp);
+				hash = mir_hashstrW(tmp);
 				mir_free(tmp);
 			}
 			if (hash == _dbvUIDHash)

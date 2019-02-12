@@ -1290,7 +1290,7 @@ int CtrlContactAddItemFromDB(
 	CBEXITEM cbi;
 
 	cbi.pszVal = nullptr;
-	cbi.dwID = hashSetting(szSettingVal);
+	cbi.dwID = mir_hashstr(szSettingVal);
 	cbi.wFlags = CBEXIF_CATREADONLY|DB::Setting::GetTStringCtrl(hContact, pszModule, pszModule, pszProto, szSettingVal, &dbv);
 	if (dbv.type >= DBVT_WCHAR) {
 		// no value read from database
@@ -1355,7 +1355,7 @@ int CtrlContactAddMyItemsFromDB(
 		i++)
 	{
 		// read value
-		cbi.dwID = hashSetting(pszSetting);
+		cbi.dwID = mir_hashstr(pszSetting);
 		cbi.pszVal = dbv.pwszVal;
 		dbv.type = DBVT_DELETED;
 		dbv.pwszVal = nullptr;
@@ -1421,7 +1421,7 @@ int CtrlContactWriteItemToDB(
 	cbi.pszVal = szVal;
 	cbi.ccVal = MAXDATASIZE - 4;
 	cbi.iItem = 0;
-	cbi.dwID = hashSetting(pszSetting);
+	cbi.dwID = mir_hashstr(pszSetting);
 	if (!CtrlContactWndProc(hCtrl, CBEXM_GETITEM, NULL, (LPARAM)&cbi)) return 1;
 	if (!(cbi.wFlags & CTRLF_CHANGED)) return 0;
 	if (!hContact && !(pszModule = pszProto)) return 1;

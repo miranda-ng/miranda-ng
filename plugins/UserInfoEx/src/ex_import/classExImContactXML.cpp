@@ -83,7 +83,7 @@ BYTE CExImContactXML::IsContactInfo(LPCSTR pszKey)
 	if (pszKey && *pszKey) {
 		char buf[MAXSETTING];
 		// convert to hash and make bsearch as it is much faster then working with strings
-		const DWORD dwHash = hashSetting(_strlwr(mir_strncpy(buf, pszKey, _countof(buf))));
+		const DWORD dwHash = mir_hashstr(_strlwr(mir_strncpy(buf, pszKey, _countof(buf))));
 		return bsearch(&dwHash, dwCiHash, _countof(dwCiHash), sizeof(dwCiHash[0]), (int (*)(const void*, const void*))SortProc) != nullptr;
 	}
 	return FALSE;

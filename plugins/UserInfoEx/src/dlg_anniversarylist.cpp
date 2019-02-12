@@ -927,17 +927,11 @@ public:
 INT_PTR DlgAnniversaryListShow(WPARAM, LPARAM)
 {
 	if (!gpDlg) {
-		try {
-			myGlobals.WantAeroAdaption = g_plugin.getByte(SET_PROPSHEET_AEROADAPTION, TRUE);
-			gpDlg = new CAnnivList();
-		}
-		catch(...) {
-			delete gpDlg;
-			gpDlg = nullptr;
-		}
+		myGlobals.WantAeroAdaption = g_plugin.getByte(SET_PROPSHEET_AEROADAPTION, TRUE);
+		gpDlg = new CAnnivList();
 	} 
-	else
-		gpDlg->BringToFront();
+	else gpDlg->BringToFront();
+	
 	return 0;
 }
 
