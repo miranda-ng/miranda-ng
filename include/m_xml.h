@@ -28,43 +28,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <tchar.h>
 #include <m_core.h>
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// new API to replace the old one
+
+#ifdef MIR_CORE_EXPORTS
+#define TINYXML2_EXPORT 1
+#else
+#define TINYXML2_IMPORT 1
+#endif
+
+#include "../src/mir_core/src/tinyxml2.h"
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// old API to be removed once
+
 DECLARE_HANDLE(HXML);
-typedef int XML_ELEMENT_POS; // XML_ELEMENT_POS is not interchangeable with simple indexes
-
-enum XML_ELEMENT_TYPE
-{
-	XML_ELEM_TYPE_CHILD = 0,
-	XML_ELEM_TYPE_ATTRIBUTE = 1,
-	XML_ELEM_TYPE_TEXT = 2,
-	XML_ELEM_TYPE_CLEAR = 3,
-};
-
-/// Enumeration for XML parse errors.
-enum XMLError
-{
-	eXMLErrorNone = 0,
-	eXMLErrorMissingEndTag,
-	eXMLErrorNoXMLTagFound,
-	eXMLErrorEmpty,
-	eXMLErrorMissingTagName,
-	eXMLErrorMissingEndTagName,
-	eXMLErrorUnmatchedEndTag,
-	eXMLErrorUnmatchedEndClearTag,
-	eXMLErrorUnexpectedToken,
-	eXMLErrorNoElements,
-	eXMLErrorFileNotFound,
-	eXMLErrorFirstTagNotFound,
-	eXMLErrorUnknownCharacterEntity,
-	eXMLErrorCharacterCodeAbove255,
-	eXMLErrorCharConversionError,
-	eXMLErrorCannotOpenWriteFile,
-	eXMLErrorCannotWriteFile,
-
-	eXMLErrorBase64DataSizeIsNotMultipleOf4,
-	eXMLErrorBase64DecodeIllegalCharacter,
-	eXMLErrorBase64DecodeTruncatedData,
-	eXMLErrorBase64DecodeBufferTooSmall
-};
 
 EXTERN_C MIR_APP_DLL(HXML)    xmlCreateNode(LPCTSTR name, LPCTSTR text, char isDeclaration);
 EXTERN_C MIR_APP_DLL(void)    xmlDestroyNode(HXML node);
@@ -100,6 +78,6 @@ EXTERN_C MIR_APP_DLL(void)    xmlFree(void*);
 EXTERN_C MIR_APP_DLL(LPCTSTR) xmlGetClear(HXML, int i, LPCTSTR *openTag, LPCTSTR *closeTag);
 
 EXTERN_C MIR_APP_DLL(HXML)     xmlParseFile(LPCTSTR filename, int *datalen, LPCTSTR tag);
-EXTERN_C MIR_APP_DLL(XMLError) xmlToFile(HXML node, LPCTSTR filename, int withformattiing);
+EXTERN_C MIR_APP_DLL(int)      xmlToFile(HXML node, LPCTSTR filename, int withformattiing);
 
 #endif // M_XML_H__

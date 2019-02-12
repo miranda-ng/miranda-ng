@@ -164,7 +164,7 @@ MIR_APP_DLL(LPTSTR) xmlToString(HXML _n, int* datalen)
 	return XMLNode(_n).createXMLString(0, datalen);
 }
 
-MIR_APP_DLL(XMLError) xmlToFile(HXML _n, LPCTSTR filename, int withformatting)
+MIR_APP_DLL(int) xmlToFile(HXML _n, LPCTSTR filename, int withformatting)
 {
 	return XMLNode(_n).writeToFile(filename, nullptr, withformatting);
 }
