@@ -75,46 +75,34 @@ class CAnnivList
 
 	struct CFilter
 	{
-		WORD	wDaysBefore;
-		BYTE	bFilterIndex;
-		LPSTR	pszProto;
-		LPTSTR	pszAnniv;
-
-		CFilter()
-		{
-			wDaysBefore		= (WORD)-1;
-			bFilterIndex	= 0;
-			pszProto		= nullptr;
-			pszAnniv		= nullptr;
-		}
+		WORD	wDaysBefore = (WORD)-1;
+		BYTE	bFilterIndex = 0;
+		LPSTR	pszProto = nullptr;
+		LPTSTR pszAnniv = nullptr;
 	} _filter;
 
 	struct CItemData
 	{
 		MCONTACT	_hContact;
-		MAnnivDate	*_pDate;
+		MAnnivDate _pDate;
 		WORD		_wDaysBefore;
 		BYTE		_wReminderState;
 
-		CItemData(MCONTACT hContact, MAnnivDate &date)
+		CItemData(MCONTACT hContact, MAnnivDate &date) :
+			_pDate(date)
 		{
 			_hContact = hContact;
 			_wReminderState = date.RemindOption();
 			_wDaysBefore = date.RemindOffset();
-			_pDate = new MAnnivDate(date);
 		}
 
 		~CItemData()
 		{
-			if (_pDate) {
-				// save changes
-				if (_wReminderState != _pDate->RemindOption() || _wDaysBefore != _pDate->RemindOffset()) {
-					_pDate->RemindOffset(_wDaysBefore);
-					_pDate->RemindOption(_wReminderState);
-					_pDate->DBWriteReminderOpts(_hContact);
-				}
-				delete _pDate;
-				_pDate = nullptr;
+			// save changes
+			if (_wReminderState != _pDate.RemindOption() || _wDaysBefore != _pDate.RemindOffset()) {
+				_pDate.RemindOffset(_wDaysBefore);
+				_pDate.RemindOption(_wReminderState);
+				_pDate.DBWriteReminderOpts(_hContact);
 			}
 		}
 	};
@@ -133,9 +121,9 @@ class CAnnivList
 		};
 
 	private:
-		WINDOWPOS	*_wndPos;
-		HDWP		_hdWnds;
-		RECT		_rcParent;
+		WINDOWPOS *_wndPos;
+		HDWP _hdWnds;
+		RECT _rcParent;
 
 		void _ScreenToClient(HWND hWnd, LPRECT rc)
 		{
@@ -231,8 +219,6 @@ class CAnnivList
 	 **/
 	static int CALLBACK cmpProc(int iItem1, int iItem2, CAnnivList *pDlg)
 	{
-		int result;
-
 		if (pDlg) {
 			wchar_t szText1[MAX_PATH];
 			wchar_t szText2[MAX_PATH];
@@ -244,32 +230,22 @@ class CAnnivList
 			case COLUMN_DESC:
 				ListView_GetItemText(pDlg->_hList, iItem1, pDlg->_sortHeader, szText1, _countof(szText1));
 				ListView_GetItemText(pDlg->_hList, iItem2, pDlg->_sortHeader, szText2, _countof(szText2));
-				result = pDlg->_sortOrder * mir_wstrcmp(szText1, szText2);
-				break;
+				return pDlg->_sortOrder * mir_wstrcmp(szText1, szText2);
 
 			case COLUMN_AGE:
 			case COLUMN_ETA:
 				ListView_GetItemText(pDlg->_hList, iItem1, pDlg->_sortHeader, szText1, _countof(szText1));
 				ListView_GetItemText(pDlg->_hList, iItem2, pDlg->_sortHeader, szText2, _countof(szText2));
-				result = pDlg->_sortOrder * (_wtoi(szText1) - _wtoi(szText2));
-				break;
+				return pDlg->_sortOrder * (_wtoi(szText1) - _wtoi(szText2));
 
 			case COLUMN_DATE: 
-				{
-					CItemData *id1 = pDlg->ItemData(iItem1), *id2 = pDlg->ItemData(iItem2);
-
-					if (PtrIsValid(id1) && PtrIsValid(id2)) {
-						result = pDlg->_sortOrder * id1->_pDate->Compare(*id2->_pDate);
-						break;
-					}
-				}
-			default:
-				result = 0;
+				CItemData *id1 = pDlg->ItemData(iItem1), *id2 = pDlg->ItemData(iItem2);
+				if (PtrIsValid(id1) && PtrIsValid(id2))
+					return pDlg->_sortOrder * id1->_pDate.Compare(id2->_pDate);
 			}
 		}
-		else
-			result = 0;
-		return result;
+		
+		return 0;
 	}
 
 	/**
@@ -282,6 +258,7 @@ class CAnnivList
 	 *
 	 * @return	depends on message
 	 **/
+
 	static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		CAnnivList *pDlg = (CAnnivList *)GetUserData(hDlg);
