@@ -39,6 +39,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../src/mir_core/src/tinyxml2.h"
 
+typedef tinyxml2::XMLNode TiXmlNode;
+typedef tinyxml2::XMLText TiXmlText;
+typedef tinyxml2::XMLElement TiXmlElement;
+typedef tinyxml2::XMLDocument TiXmlDocument;
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // old API to be removed once
 

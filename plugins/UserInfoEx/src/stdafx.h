@@ -141,8 +141,6 @@ unsigned int hashSettingW_M2(const char * key);		//new Murma2 hash
 #include "psp_base.h"
 #include "psp_options.h"
 #include "ex_import/svc_ExImport.h"
-#include "ex_import/tinystr.h"
-#include "ex_import/tinyxml.h"
 #include "ex_import/mir_rfcCodecs.h"
 #include "ex_import/classExImContactBase.h"
 #include "ex_import/dlg_ExImProgress.h"

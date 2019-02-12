@@ -45,11 +45,12 @@ enum EError {
 	ERROR_EMPTY_MODULE			= 13
 };
 
-class CExImContactXML : public CExImContactBase {
-
-	CFileXml      *_pXmlFile; // the xmlfile
-	TiXmlElement  *_xmlNode;  // xmlnode with contact information
-	MEVENT         _hEvent;
+class CExImContactXML : public CExImContactBase
+{
+	CFileXml     *_pXmlFile; // the xmlfile
+	TiXmlDocument _xmlDoc;
+	TiXmlElement *_xmlNode;  // xmlnode with contact information
+	MEVENT        _hEvent;
 
 	BYTE IsContactInfo(LPCSTR pszKey);
 
@@ -60,12 +61,12 @@ class CExImContactXML : public CExImContactBase {
 	int		ImportContact();
 	int		ImportNormalContact();
 	int		ImportMetaSubContact(CExImContactXML * pMetaContact);
-	void	CountKeys(DWORD &numSettings, DWORD &numEvents);
+	void		CountKeys(DWORD &numSettings, DWORD &numEvents);
 
 	// private exporting methods
 	int		ExportModule(LPCSTR pszModule);
 	int		ExportSetting(TiXmlElement *xmlModule, LPCSTR pszModule, LPCSTR pszSetting);
-	BYTE	ExportEvents();
+	BYTE     ExportEvents();
 
 	int		ExportContact(DB::CEnumList* pModules);
 	int		ExportSubContact(CExImContactXML *vMetaContact, DB::CEnumList* pModules);

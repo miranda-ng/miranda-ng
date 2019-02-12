@@ -346,7 +346,7 @@ int CFileXml::Import(MCONTACT hContact, LPCSTR pszFileName)
 		TiXmlDocument doc;
 		if (!doc.LoadFile(pszFileName)) {
 			MsgErr(nullptr, LPGENW("Parser is unable to load XMLCard \"%s\"\nError: %d\nDescription: %s"),
-				pszFileName, doc.ErrorId(), doc.ErrorDesc());
+				pszFileName, doc.ErrorID(), doc.Error());
 			return 1;
 		}
 		// is xmlfile a XMLCard ?
@@ -384,12 +384,6 @@ int CFileXml::Import(MCONTACT hContact, LPCSTR pszFileName)
 			}
 		}
 		else {
-#ifdef _DEBUG
-			LARGE_INTEGER freq, t1, t2;
-
-			QueryPerformanceFrequency(&freq);
-			QueryPerformanceCounter(&t1);
-#endif
 			// count contacts in file for progress bar
 			_numContactsTodo = CountContacts(xmlCard);
 			if (_numContactsTodo > 0) {
@@ -404,11 +398,6 @@ int CFileXml::Import(MCONTACT hContact, LPCSTR pszFileName)
 			// finally hide the progress dialog
 			_progress.Hide();
 
-#ifdef _DEBUG
-			QueryPerformanceCounter(&t2);
-			MsgErr(nullptr, LPGENW("Import took %f ms"),
-				(long double)(t2.QuadPart - t1.QuadPart) / freq.QuadPart * 1000.);
-#endif
 			// show results
 			MsgBox(nullptr, MB_ICONINFORMATION, LPGENW("Import complete"), LPGENW("Some basic statistics"), 
 				LPGENW("added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u"),

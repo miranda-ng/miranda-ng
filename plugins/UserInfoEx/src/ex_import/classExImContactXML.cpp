@@ -96,7 +96,7 @@ BYTE CExImContactXML::IsContactInfo(LPCSTR pszKey)
 /**
 * name:	CreateXmlNode
 * class:	CExImContactXML
-* desc:	creates a new TiXmlElement representing the contact
+* desc:	creates a _xmlDoc.NewElement representing the contact
 *			whose information are stored in this class
 * param:	none
 * return:	pointer to the newly created TiXmlElement
@@ -106,34 +106,31 @@ TiXmlElement* CExImContactXML::CreateXmlElement()
 {
 	if (_hContact) {
 		if (_pszProto) {
-			_xmlNode = new TiXmlElement(XKEY_CONTACT);
+			_xmlDoc.InsertEndChild(_xmlNode = _xmlDoc.NewElement(XKEY_CONTACT));
 
-			if (_xmlNode) {
-				LPSTR pszUID = uid2String(TRUE);
-				_xmlNode->SetAttribute("ampro", _pszAMPro);
-				_xmlNode->SetAttribute("proto", _pszProto);
+			LPSTR pszUID = uid2String(TRUE);
+			_xmlNode->SetAttribute("ampro", _pszAMPro);
+			_xmlNode->SetAttribute("proto", _pszProto);
 
-				if (_pszDisp)  _xmlNode->SetAttribute("disp", _pszDisp);
-				if (_pszNick)  _xmlNode->SetAttribute("nick", _pszNick);
-				if (_pszGroup) _xmlNode->SetAttribute("group", _pszGroup);
+			if (_pszDisp)  _xmlNode->SetAttribute("disp", _pszDisp);
+			if (_pszNick)  _xmlNode->SetAttribute("nick", _pszNick);
+			if (_pszGroup) _xmlNode->SetAttribute("group", _pszGroup);
 
-				if (pszUID) {
-
-					if (_pszUIDKey) {
-						_xmlNode->SetAttribute("uidk", _pszUIDKey);
-						_xmlNode->SetAttribute("uidv", pszUID);
-					}
-					else {
-						_xmlNode->SetAttribute("uidk", "#NV");
-						_xmlNode->SetAttribute("uidv", "UNLOADED");
-					}
-					mir_free(pszUID);
+			if (pszUID) {
+				if (_pszUIDKey) {
+					_xmlNode->SetAttribute("uidk", _pszUIDKey);
+					_xmlNode->SetAttribute("uidv", pszUID);
 				}
+				else {
+					_xmlNode->SetAttribute("uidk", "#NV");
+					_xmlNode->SetAttribute("uidv", "UNLOADED");
+				}
+				mir_free(pszUID);
 			}
 		}
 		else _xmlNode = nullptr;
 	}
-	else _xmlNode = new TiXmlElement(XKEY_OWNER);
+	else _xmlDoc.InsertEndChild(_xmlNode = _xmlDoc.NewElement(XKEY_OWNER));
 
 	return _xmlNode;
 }
@@ -184,7 +181,6 @@ int CExImContactXML::ExportSubContact(CExImContactXML *vMetaContact, DB::CEnumLi
 		if (!_xmlNode->NoChildren() && vMetaContact->_xmlNode->LinkEndChild(_xmlNode)) 
 			return ERROR_OK;
 
-	delete _xmlNode;
 	return ERROR_NOT_ADDED;
 }
 
@@ -232,15 +228,17 @@ int CExImContactXML::Export(FILE *xmlfile, DB::CEnumList* pModules)
 
 	// add xContact to document
 	if (_xmlNode->NoChildren()) {
-		delete _xmlNode;
 		_xmlNode = nullptr;
+		_xmlDoc.Clear();
 		return ERROR_NOT_ADDED;
 	}
-	_xmlNode->Print(xmlfile, 1);
+
+	tinyxml2::XMLPrinter printer(xmlfile, false);
+	_xmlDoc.Print(&printer);
 	fputc('\n', xmlfile);
 
-	delete _xmlNode;
 	_xmlNode = nullptr;
+	_xmlDoc.Clear();
 
 	return ERROR_OK;
 }
@@ -260,7 +258,7 @@ int CExImContactXML::ExportModule(LPCSTR pszModule)
 		return ERROR_INVALID_PARAMS;
 
 	if (!Settings.EnumSettings(_hContact, pszModule)) {
-		TiXmlElement *xmod = new TiXmlElement(XKEY_MOD);
+		TiXmlElement *xmod = _xmlDoc.NewElement(XKEY_MOD);
 		if (!xmod)
 			return ERROR_MEMORY_ALLOC;
 
@@ -270,8 +268,6 @@ int CExImContactXML::ExportModule(LPCSTR pszModule)
 
 		if (!xmod->NoChildren() && _xmlNode->LinkEndChild(xmod))
 			return ERROR_OK;
-
-		delete xmod;
 	}
 
 	return ERROR_EMPTY_MODULE;
@@ -302,17 +298,17 @@ int CExImContactXML::ExportSetting(TiXmlElement *xmlModule, LPCSTR pszModule, LP
 	case DBVT_BYTE:		//'b' bVal and cVal are valid
 		buf[0] = 'b';
 		_ultoa(dbv.bVal, buf + 1, 10);
-		xmlValue = new TiXmlText(buf);
+		xmlValue = _xmlDoc.NewText(buf);
 		break;
 	case DBVT_WORD:		//'w' wVal and sVal are valid
 		buf[0] = 'w';
 		_ultoa(dbv.wVal, buf + 1, 10);
-		xmlValue = new TiXmlText(buf);
+		xmlValue = _xmlDoc.NewText(buf);
 		break;
 	case DBVT_DWORD:	//'d' dVal and lVal are valid
 		buf[0] = 'd';
 		_ultoa(dbv.dVal, buf + 1, 10);
-		xmlValue = new TiXmlText(buf);
+		xmlValue = _xmlDoc.NewText(buf);
 		break;
 	case DBVT_ASCIIZ:	//'s' pszVal is valid
 		if (mir_IsEmptyA(dbv.pszVal)) break;
@@ -320,7 +316,7 @@ int CExImContactXML::ExportSetting(TiXmlElement *xmlModule, LPCSTR pszModule, LP
 		if (str = (LPSTR)mir_alloc(mir_strlen(dbv.pszVal) + 2)) {
 			str[0] = 's';
 			mir_strcpy(&str[1], dbv.pszVal);
-			xmlValue = new TiXmlText(str);
+			xmlValue = _xmlDoc.NewText(str);
 			mir_free(str);
 		}
 		break;
@@ -329,7 +325,7 @@ int CExImContactXML::ExportSetting(TiXmlElement *xmlModule, LPCSTR pszModule, LP
 		if (str = (LPSTR)mir_alloc(mir_strlen(dbv.pszVal) + 2)) {
 			str[0] = 'u';
 			mir_strcpy(&str[1], dbv.pszVal);
-			xmlValue = new TiXmlText(str);
+			xmlValue = _xmlDoc.NewText(str);
 			mir_free(str);
 		}
 		break;
@@ -339,7 +335,7 @@ int CExImContactXML::ExportSetting(TiXmlElement *xmlModule, LPCSTR pszModule, LP
 		if (str = (LPSTR)mir_alloc(mir_strlen(dbv.pszVal) + 2)) {
 			str[0] = 'u';
 			mir_strcpy(&str[1], dbv.pszVal);
-			xmlValue = new TiXmlText(str);
+			xmlValue = _xmlDoc.NewText(str);
 			mir_free(str);
 		}
 		break;
@@ -353,7 +349,7 @@ int CExImContactXML::ExportSetting(TiXmlElement *xmlModule, LPCSTR pszModule, LP
 			if (mir_base64_encodebuf(dbv.pbVal, dbv.cpbVal, str+1, baselen)) {
 				str[baselen+1] = 0;
 				str[0] = 'n';
-				xmlValue = new TiXmlText(str);
+				xmlValue = _xmlDoc.NewText(str);
 			}
 			mir_free(str);
 		}
@@ -367,14 +363,12 @@ int CExImContactXML::ExportSetting(TiXmlElement *xmlModule, LPCSTR pszModule, LP
 	}
 	db_free(&dbv);
 	if (xmlValue) {
-		xmlEntry = new TiXmlElement(XKEY_SET);
+		xmlEntry = _xmlDoc.NewElement(XKEY_SET);
 		if (xmlEntry) {
 			xmlEntry->SetAttribute("key", pszSetting);
 			if (xmlEntry->LinkEndChild(xmlValue) && xmlModule->LinkEndChild(xmlEntry))
 				return ERROR_OK;
-			delete xmlEntry;
 		}
-		delete xmlValue;
 	}
 	return ERROR_MEMORY_ALLOC;
 }
@@ -404,13 +398,13 @@ BYTE CExImContactXML::ExportEvents()
 		// encode data
 		LPSTR pBase64Data = mir_base64_encode(dbei.pBlob, dbei.cbBlob);
 		if (pBase64Data) {
-			TiXmlElement *xmlEvent = new TiXmlElement("evt");
+			TiXmlElement *xmlEvent = _xmlDoc.NewElement("evt");
 			if (xmlEvent) {
 				xmlEvent->SetAttribute("type", dbei.eventType);
-				xmlEvent->SetAttribute("time", dbei.timestamp);
-				xmlEvent->SetAttribute("flag", dbei.flags);
+				xmlEvent->SetAttribute("time", (int)dbei.timestamp);
+				xmlEvent->SetAttribute("flag", (int)dbei.flags);
 
-				TiXmlText *xmlText = new TiXmlText(pBase64Data);
+				TiXmlText *xmlText = _xmlDoc.NewText(pBase64Data);
 				xmlEvent->LinkEndChild(xmlText);
 
 				// find module
@@ -421,7 +415,7 @@ BYTE CExImContactXML::ExportEvents()
 
 				// create new module
 				if (!xmlModule) {
-					xmlModule = _xmlNode->InsertEndChild(TiXmlElement(XKEY_MOD));
+					xmlModule = _xmlNode->InsertEndChild(_xmlDoc.NewElement(XKEY_MOD));
 					if (!xmlModule)
 						break;
 					((TiXmlElement*)xmlModule)->SetAttribute("key", dbei.szModule);
@@ -452,9 +446,7 @@ void CExImContactXML::CountKeys(DWORD &numSettings, DWORD &numEvents)
 {
 	numSettings = numEvents = 0;
 
-	for (TiXmlNode *xmod = _xmlNode->FirstChild();
-		xmod != nullptr; 
-		xmod = xmod->NextSibling(XKEY_MOD)) {
+	for (TiXmlNode *xmod = _xmlNode->FirstChild(); xmod != nullptr; xmod = xmod->NextSiblingElement(XKEY_MOD)) {
 		for (TiXmlNode *xkey = xmod->FirstChild();
 			xkey != nullptr;
 			xkey = xkey->NextSibling()) {
@@ -592,7 +584,7 @@ int CExImContactXML::ImportContact()
 		_pXmlFile->_numEventsTodo += numEvents;
 
 		// import all modules
-		for (TiXmlNode *xmod = _xmlNode->FirstChild(); xmod != nullptr; xmod = xmod->NextSibling(XKEY_MOD)) {
+		for (TiXmlNode *xmod = _xmlNode->FirstChild(); xmod != nullptr; xmod = xmod->NextSiblingElement(XKEY_MOD)) {
 			// import module
 			if (ImportModule(xmod) == ERROR_ABORTED) {
 				// ask to delete new incomplete contact
@@ -854,7 +846,7 @@ int CExImContactXML::ImportSetting(LPCSTR pszModule, TiXmlElement *xmlEntry)
 
 	// validate value
 	TiXmlText* xval = (TiXmlText*)xmlEntry->FirstChild();
-	if (!xval || xval->Type() != TiXmlText::TEXT)
+	if (!xval || xval->ToText() == nullptr)
 		return ERROR_INVALID_VALUE;
 
 	LPCSTR value = xval->Value();
@@ -935,12 +927,12 @@ int CExImContactXML::ImportEvent(LPCSTR pszModule, TiXmlElement *xmlEvent)
 
 	// timestamp must be valid
 	DBEVENTINFO	dbei = {};
-	xmlEvent->Attribute("time", (LPINT)&dbei.timestamp);
+	xmlEvent->SetAttribute("time", (LPINT)&dbei.timestamp);
 	if (dbei.timestamp == 0)
 		return ERROR_INVALID_TIMESTAMP;
 
 	TiXmlText *xmlValue = (TiXmlText*)xmlEvent->FirstChild();
-	if (!xmlValue || xmlValue->Type() != TiXmlText::TEXT)
+	if (!xmlValue || xmlValue->ToText() == nullptr)
 		return ERROR_INVALID_VALUE;
 
 	LPCSTR tmp = xmlValue->Value();
@@ -955,8 +947,8 @@ int CExImContactXML::ImportEvent(LPCSTR pszModule, TiXmlElement *xmlEvent)
 		dbei.cbBlob = (WORD)baselen;
 		dbei.szModule = (LPSTR)pszModule;
 
-		xmlEvent->Attribute("type", (LPINT)&dbei.eventType);
-		xmlEvent->Attribute("flag", (LPINT)&dbei.flags);
+		xmlEvent->SetAttribute("type", (LPINT)&dbei.eventType);
+		xmlEvent->SetAttribute("flag", (LPINT)&dbei.flags);
 		if (dbei.flags == 0)
 			dbei.flags = DBEF_READ;
 
