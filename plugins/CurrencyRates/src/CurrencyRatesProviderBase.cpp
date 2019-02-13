@@ -16,27 +16,23 @@ inline tstring get_ini_file_name(LPCTSTR pszFileName)
 	return CreateFilePath(pszFileName);
 }
 
-bool parse_currencyrate(const IXMLNode::TXMLNodePtr& pTop, CCurrencyRatesProviderBase::CCurrencyRate& q)
+bool parse_currencyrate(const TiXmlNode *pTop, CCurrencyRatesProviderBase::CCurrencyRate &q)
 {
-	tstring sSymbol;
-	tstring sDescription;
-	tstring sID;
+	tstring sSymbol, sDescription, sID;
 
-	size_t cChild = pTop->GetChildCount();
-	for (size_t i = 0; i < cChild; ++i) {
-		IXMLNode::TXMLNodePtr pNode = pTop->GetChildNode(i);
-		tstring sName = pNode->GetName();
-		if (0 == mir_wstrcmpi(L"symbol", sName.c_str())) {
-			sSymbol = pNode->GetText();
-			if (true == sSymbol.empty())
+	for (auto *pNode = pTop->FirstChildElement(); pNode != nullptr; pNode = pNode->NextSiblingElement()) {
+		const char *sName = pNode->Value();
+		if (!mir_strcmpi(sName, "symbol")) {
+			sSymbol = GetNodeText(pNode);
+			if (sSymbol.empty())
 				return false;
 		}
-		else if (0 == mir_wstrcmpi(L"description", sName.c_str())) {
-			sDescription = pNode->GetText();
+		else if (!mir_strcmpi(sName, "description")) {
+			sDescription = GetNodeText(pNode);
 		}
-		else if (0 == mir_wstrcmpi(L"id", sName.c_str())) {
-			sID = pNode->GetText();
-			if (true == sID.empty())
+		else if (!mir_strcmpi(sName, "id")) {
+			sID = GetNodeText(pNode);
+			if (sID.empty())
 				return false;
 		}
 	}
@@ -45,29 +41,27 @@ bool parse_currencyrate(const IXMLNode::TXMLNodePtr& pTop, CCurrencyRatesProvide
 	return true;
 }
 
-bool parse_section(const IXMLNode::TXMLNodePtr& pTop, CCurrencyRatesProviderBase::CCurrencyRateSection& qs)
+bool parse_section(const TiXmlNode *pTop, CCurrencyRatesProviderBase::CCurrencyRateSection &qs)
 {
 	CCurrencyRatesProviderBase::CCurrencyRateSection::TSections aSections;
 	CCurrencyRatesProviderBase::CCurrencyRateSection::TCurrencyRates aCurrencyRates;
 	tstring sSectionName;
 
-	size_t cChild = pTop->GetChildCount();
-	for (size_t i = 0; i < cChild; ++i) {
-		IXMLNode::TXMLNodePtr pNode = pTop->GetChildNode(i);
-		tstring sName = pNode->GetName();
-		if (0 == mir_wstrcmpi(L"section", sName.c_str())) {
+	for (auto *pNode = pTop->FirstChildElement(); pNode != nullptr; pNode = pNode->NextSiblingElement()) {
+		const char *sName = pNode->Value();
+		if (!mir_strcmpi(sName, "section")) {
 			CCurrencyRatesProviderBase::CCurrencyRateSection qs1;
 			if (true == parse_section(pNode, qs1))
 				aSections.push_back(qs1);
 		}
-		else if (0 == mir_wstrcmpi(L"currencyrate", sName.c_str())) {
+		else if (!mir_strcmpi(sName, "currencyrate")) {
 			CCurrencyRatesProviderBase::CCurrencyRate q;
 			if (true == parse_currencyrate(pNode, q))
 				aCurrencyRates.push_back(q);
 		}
-		else if (0 == mir_wstrcmpi(L"name", sName.c_str())) {
-			sSectionName = pNode->GetText();
-			if (true == sSectionName.empty())
+		else if (!mir_strcmpi(sName, "name")) {
+			sSectionName = GetNodeText(pNode);
+			if (sSectionName.empty())
 				return false;
 		}
 	}
@@ -76,14 +70,13 @@ bool parse_section(const IXMLNode::TXMLNodePtr& pTop, CCurrencyRatesProviderBase
 	return true;
 }
 
-IXMLNode::TXMLNodePtr find_provider(const IXMLNode::TXMLNodePtr& pRoot)
+const TiXmlNode* find_provider(const TiXmlNode *pRoot)
 {
-	IXMLNode::TXMLNodePtr pProvider;
-	size_t cChild = pRoot->GetChildCount();
-	for (size_t i = 0; i < cChild; ++i) {
-		IXMLNode::TXMLNodePtr pNode = pRoot->GetChildNode(i);
-		tstring sName = pNode->GetName();
-		if (0 == mir_wstrcmpi(L"Provider", sName.c_str())) {
+	const TiXmlNode *pProvider = nullptr;
+
+	for (auto *pNode = pRoot->FirstChildElement(); pNode != nullptr; pNode = pNode->NextSiblingElement()) {
+		const char *sName = pNode->Value();
+		if (!mir_strcmpi(sName, "Provider")) {
 			pProvider = pNode;
 			break;
 		}
@@ -96,32 +89,29 @@ IXMLNode::TXMLNodePtr find_provider(const IXMLNode::TXMLNodePtr& pRoot)
 	return pProvider;
 }
 
-CCurrencyRatesProviderBase::CXMLFileInfo parse_ini_file(const tstring& rsXMLFile, bool& rbSucceded)
+CCurrencyRatesProviderBase::CXMLFileInfo parse_ini_file(const tstring &rsXMLFile, bool &rbSucceded)
 {
 	CCurrencyRatesProviderBase::CXMLFileInfo res;
 	CCurrencyRatesProviderBase::CCurrencyRateSection::TSections aSections;
 
-	const CModuleInfo::TXMLEnginePtr& pXMLEngine = CModuleInfo::GetXMLEnginePtr();
-	IXMLNode::TXMLNodePtr pRoot = pXMLEngine->LoadFile(rsXMLFile);
-	if (pRoot) {
-		IXMLNode::TXMLNodePtr pProvider = find_provider(pRoot);
+	TiXmlDocument doc;
+	if (doc.LoadFile(_T2A(rsXMLFile.c_str())) == tinyxml2::XML_SUCCESS) {
+		const TiXmlNode *pProvider = find_provider(&doc);
 		if (pProvider) {
 			rbSucceded = true;
-			size_t cChild = pProvider->GetChildCount();
-			for (size_t i = 0; i < cChild; ++i) {
-				IXMLNode::TXMLNodePtr pNode = pProvider->GetChildNode(i);
-				tstring sName = pNode->GetName();
-				if (0 == mir_wstrcmpi(L"section", sName.c_str())) {
+			for (auto *pNode = pProvider->FirstChildElement(); pNode != nullptr; pNode = pNode->NextSiblingElement()) {
+				const char *sName = pNode->Value();
+				if (!mir_strcmpi(sName, "section")) {
 					CCurrencyRatesProviderBase::CCurrencyRateSection qs;
-					if (true == parse_section(pNode, qs))
+					if (parse_section(pNode, qs))
 						aSections.push_back(qs);
 				}
-				else if (0 == mir_wstrcmpi(L"Name", sName.c_str()))
-					res.m_pi.m_sName = pNode->GetText();
-				else if (0 == mir_wstrcmpi(L"ref", sName.c_str()))
-					res.m_pi.m_sURL = pNode->GetText();
-				else if (0 == mir_wstrcmpi(L"url", sName.c_str()))
-					res.m_sURL = pNode->GetText();
+				else if (!mir_strcmpi(sName, "Name"))
+					res.m_pi.m_sName = GetNodeText(pNode);
+				else if (!mir_strcmpi(sName, "ref"))
+					res.m_pi.m_sURL = GetNodeText(pNode);
+				else if (!mir_strcmpi(sName, "url"))
+					res.m_sURL = GetNodeText(pNode);
 			}
 		}
 	}

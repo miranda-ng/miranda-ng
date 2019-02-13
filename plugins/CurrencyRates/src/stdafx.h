@@ -109,8 +109,6 @@ inline tstring currencyrates_a2t(const char* s)
 #include "IHTMLParser.h"
 #include "IHTMLEngine.h"
 #include "HTMLParserMS.h"
-#include "IXMLEngine.h"
-#include "XMLEngineMI.h"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {

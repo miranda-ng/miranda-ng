@@ -1,34 +1,23 @@
 #include "StdAfx.h"
 
-static CModuleInfo::TXMLEnginePtr g_pXMLEngine;
+static CModuleInfo mi;
 static CModuleInfo::THTMLEnginePtr g_pHTMLEngine;
 static mir_cs g_lmParsers;
 
-CModuleInfo::CModuleInfo()
-{
-}
-
-CModuleInfo::~CModuleInfo()
-{
-}
-
-CModuleInfo& CModuleInfo::GetInstance()
-{
-	static CModuleInfo mi;
-	return mi;
-}
+typedef std::map<std::string, MWindowList> THandles;
+static THandles g_ahWindowLists;
 
 MWindowList CModuleInfo::GetWindowList(const std::string& rsKey, bool bAllocateIfNonExist /*= true*/)
 {
 	MWindowList hResult = nullptr;
-	THandles::const_iterator i = m_ahWindowLists.find(rsKey);
-	if (i != m_ahWindowLists.end()) {
+	THandles::const_iterator i = g_ahWindowLists.find(rsKey);
+	if (i != g_ahWindowLists.end()) {
 		hResult = i->second;
 	}
 	else if (bAllocateIfNonExist) {
 		hResult = WindowList_Create();
 		if (hResult)
-			m_ahWindowLists.insert(std::make_pair(rsKey, hResult));
+			g_ahWindowLists.insert(std::make_pair(rsKey, hResult));
 	}
 
 	return hResult;
@@ -36,7 +25,7 @@ MWindowList CModuleInfo::GetWindowList(const std::string& rsKey, bool bAllocateI
 
 void CModuleInfo::OnMirandaShutdown()
 {
-	BOOST_FOREACH(THandles::value_type p, m_ahWindowLists)
+	BOOST_FOREACH(THandles::value_type p, g_ahWindowLists)
 	{
 		WindowList_Broadcast(p.second, WM_CLOSE, 0, 0);
 	}
@@ -46,17 +35,6 @@ CModuleInfo::TCurrencyRatesProvidersPtr CModuleInfo::GetCurrencyRateProvidersPtr
 {
 	static TCurrencyRatesProvidersPtr pProviders(new CCurrencyRatesProviders);
 	return pProviders;
-}
-
-CModuleInfo::TXMLEnginePtr CModuleInfo::GetXMLEnginePtr()
-{
-	if (!g_pXMLEngine) {
-		mir_cslock lck(g_lmParsers);
-		if (!g_pXMLEngine)
-			g_pXMLEngine = TXMLEnginePtr(new CXMLEngineMI);
-	}
-
-	return g_pXMLEngine;
 }
 
 CModuleInfo::THTMLEnginePtr CModuleInfo::GetHTMLEngine()
@@ -82,11 +60,6 @@ bool CModuleInfo::Verify()
 	icc.dwICC = ICC_WIN95_CLASSES | ICC_LINK_CLASS;
 	if (FALSE == ::InitCommonControlsEx(&icc))
 		return false;
-
-	if (!GetXMLEnginePtr()) {
-		CurrencyRates_MessageBox(nullptr, TranslateT("Miranda could not load CurrencyRates plugin. XML parser is missing."), MB_OK | MB_ICONERROR);
-		return false;
-	}
 
 	if (!g_pHTMLEngine && (false == CHTMLParserMS::IsInstalled())) {
 		CurrencyRates_MessageBox(nullptr,

@@ -94,18 +94,16 @@ void InitMenu()
 	SET_UID(mi, 0x7cca4fd9, 0x903f, 0x4b7d, 0x93, 0x7a, 0x18, 0x63, 0x23, 0xd4, 0xa9, 0xa9);
 	mi.name.w = LPGENW("Export All Currency Rates");
 	mi.hIcolibItem = CurrencyRates_GetIconHandle(IDI_ICON_EXPORT);
-	mi.pszService = "CurrencyRates/ExportAll";
+	mi.pszService = MS_CURRENCYRATES_EXPORT;
 	mi.position = 20100003;
 	Menu_AddMainMenuItem(&mi);
-	CreateServiceFunction(mi.pszService, CurrencyRatesMenu_ExportAll);
 
 	SET_UID(mi, 0xa994d3b, 0x77c2, 0x4612, 0x8d, 0x5, 0x6a, 0xae, 0x8c, 0x21, 0xbd, 0xc9);
 	mi.name.w = LPGENW("Import All Currency Rates");
 	mi.hIcolibItem = CurrencyRates_GetIconHandle(IDI_ICON_IMPORT);
-	mi.pszService = "CurrencyRates/ImportAll";
+	mi.pszService = MS_CURRENCYRATES_IMPORT;
 	mi.position = 20100004;
 	Menu_AddMainMenuItem(&mi);
-	CreateServiceFunction(mi.pszService, CurrencyRatesMenu_ImportAll);
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, CurrencyRates_PrebuildContactMenu);
 
@@ -250,7 +248,7 @@ int CurrencyRatesEventFunc_PreShutdown(WPARAM, LPARAM)
 {
 	::SetEvent(g_hEventWorkThreadStop);
 
-	CModuleInfo::GetInstance().OnMirandaShutdown();
+	CModuleInfo::OnMirandaShutdown();
 	return 0;
 }
 

@@ -1,11 +1,12 @@
 #include "StdAfx.h"
 
-std::string CurrencyRates_DBGetStringA(MCONTACT hContact, const char* szModule, const char* szSetting, const char* pszDefValue)
+std::wstring GetNodeText(const TiXmlElement *pNode)
 {
-	if (pszDefValue == nullptr)
-		pszDefValue = "";
+	auto *pszText = pNode->GetText();
+	if (pszText)
+		return Utf2T(pszText);
 
-	return std::string(ptrA(db_get_sa(hContact, szModule, szSetting, pszDefValue)));
+	return std::wstring();
 }
 
 std::wstring CurrencyRates_DBGetStringW(MCONTACT hContact, const char* szModule, const char* szSetting, const wchar_t* pszDefValue)

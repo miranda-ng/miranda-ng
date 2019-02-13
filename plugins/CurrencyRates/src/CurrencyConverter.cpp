@@ -87,7 +87,7 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hDlg);
 		{
-			MWindowList hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX, false);
+			MWindowList hWL = CModuleInfo::GetWindowList(WINDOW_PREFIX, false);
 			assert(hWL);
 			WindowList_Add(hWL, hDlg);
 
@@ -140,7 +140,7 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 
 	case WM_CLOSE:
 		{
-			MWindowList hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX, false);
+			MWindowList hWL = CModuleInfo::GetWindowList(WINDOW_PREFIX, false);
 			assert(hWL);
 			WindowList_Remove(hWL, hDlg);
 			Utils_SaveWindowPosition(hDlg, NULL, CURRENCYRATES_MODULE_NAME, WINDOW_PREFIX);
@@ -254,7 +254,7 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 
 INT_PTR CurrencyRatesMenu_CurrencyConverter(WPARAM, LPARAM)
 {
-	MWindowList hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX, true);
+	MWindowList hWL = CModuleInfo::GetWindowList(WINDOW_PREFIX, true);
 	HWND hWnd = WindowList_Find(hWL, NULL);
 	if (nullptr != hWnd) {
 		SetForegroundWindow(hWnd);

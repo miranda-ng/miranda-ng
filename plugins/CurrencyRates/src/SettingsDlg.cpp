@@ -252,7 +252,7 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 		{
 			MCONTACT hContact = MCONTACT(lp);
 
-			MWindowList hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_SETTINGS, false);
+			MWindowList hWL = CModuleInfo::GetWindowList(WINDOW_PREFIX_SETTINGS, false);
 			assert(hWL);
 			WindowList_Add(hWL, hWnd, hContact);
 
@@ -450,7 +450,7 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 		CSettingWindowParam* pParam = get_param(hWnd);
 		SetWindowLongPtr(hWnd, GWLP_USERDATA, 0);
 
-		MWindowList hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_SETTINGS, false);
+		MWindowList hWL = CModuleInfo::GetWindowList(WINDOW_PREFIX_SETTINGS, false);
 		assert(hWL);
 		WindowList_Remove(hWL, hWnd);
 		Utils_SaveWindowPosition(hWnd, pParam->m_hContact, CURRENCYRATES_MODULE_NAME, WINDOW_PREFIX_SETTINGS);
@@ -463,7 +463,7 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 
 void ShowSettingsDlg(MCONTACT hContact)
 {
-	MWindowList hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_SETTINGS, true);
+	MWindowList hWL = CModuleInfo::GetWindowList(WINDOW_PREFIX_SETTINGS, true);
 	assert(hWL);
 	HWND hWnd = WindowList_Find(hWL, hContact);
 	if (nullptr != hWnd) {

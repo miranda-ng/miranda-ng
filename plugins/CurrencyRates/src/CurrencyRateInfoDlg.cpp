@@ -168,7 +168,7 @@ static INT_PTR CALLBACK CurrencyRateInfoDlgProc1(HWND hdlg, UINT msg, WPARAM wPa
 	switch (msg) {
 	case WM_INITDIALOG:
 		hContact = MCONTACT(lParam);
-		hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_INFO, false);
+		hWL = CModuleInfo::GetWindowList(WINDOW_PREFIX_INFO, false);
 		assert(hWL);
 		WindowList_Add(hWL, hdlg, hContact);
 
@@ -186,7 +186,7 @@ static INT_PTR CALLBACK CurrencyRateInfoDlgProc1(HWND hdlg, UINT msg, WPARAM wPa
 		if (hContact) {
 			SetWindowLongPtr(hdlg, GWLP_USERDATA, 0);
 
-			hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_INFO, false);
+			hWL = CModuleInfo::GetWindowList(WINDOW_PREFIX_INFO, false);
 			assert(hWL);
 			WindowList_Remove(hWL, hdlg);
 			Utils_SaveWindowPosition(hdlg, hContact, CURRENCYRATES_MODULE_NAME, WINDOW_PREFIX_INFO);
@@ -211,7 +211,7 @@ int CurrencyRates_OnContactDoubleClick(WPARAM wp, LPARAM/* lp*/)
 {
 	MCONTACT hContact = MCONTACT(wp);
 	if (CModuleInfo::GetCurrencyRateProvidersPtr()->GetContactProviderPtr(hContact)) {
-		MWindowList hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_INFO, true);
+		MWindowList hWL = CModuleInfo::GetWindowList(WINDOW_PREFIX_INFO, true);
 		assert(hWL);
 		HWND hWnd = WindowList_Find(hWL, hContact);
 		if (nullptr != hWnd) {

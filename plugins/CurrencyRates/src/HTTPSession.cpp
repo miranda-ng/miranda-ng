@@ -52,35 +52,29 @@ public:
 		return true;
 	}
 
-	virtual bool ReadResponce(tstring& rsResponce)const
+	virtual bool ReadResponce(tstring &rsResponce)const
 	{
 		if (true == m_aURL.empty())
 			return false;
 
-		NETLIBHTTPREQUEST nlhr = { 0 };
+		NETLIBHTTPHEADER headers[] =
+		{
+			{ "User-Agent", NETLIB_USER_AGENT },
+			{ "Connection", "close" },
+			{ "Cache-Control", "no-cache" },
+			{ "Pragma", "no-cache" }
+		};
+
+		NETLIBHTTPREQUEST nlhr = {};
 		nlhr.cbSize = sizeof(nlhr);
 		nlhr.requestType = REQUEST_GET;
 		nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_REDIRECT;
-		char* pURL = &*(m_aURL.begin());
-		nlhr.szUrl = pURL;
-
-		nlhr.headersCount = 4;
-		nlhr.headers = (NETLIBHTTPHEADER*)mir_alloc(sizeof(NETLIBHTTPHEADER)*nlhr.headersCount);
-		nlhr.headers[0].szName = "User-Agent";
-		nlhr.headers[0].szValue = NETLIB_USER_AGENT;
-		nlhr.headers[1].szName = "Connection";
-		nlhr.headers[1].szValue = "close";
-		nlhr.headers[2].szName = "Cache-Control";
-		nlhr.headers[2].szValue = "no-cache";
-		nlhr.headers[3].szName = "Pragma";
-		nlhr.headers[3].szValue = "no-cache";
-		// 			nlhr.headers[4].szName  = "Accept-Encoding";
-		// 			nlhr.headers[4].szValue = "deflate, gzip";
-		// 			nlhr.headers[5].szName  = "Cookie";
-		// 			nlhr.headers[5].szValue = cookie;
+		nlhr.szUrl = &*(m_aURL.begin());
+		nlhr.headersCount = _countof(headers);
+		nlhr.headers = headers;
 
 		bool bResult = false;
-		NETLIBHTTPREQUEST* pReply = nullptr;
+		NETLIBHTTPREQUEST *pReply = nullptr;
 		{
 			mir_cslock lck(m_mx);
 			pReply = Netlib_HttpTransaction(g_hNetLib, &nlhr);
@@ -95,14 +89,10 @@ public:
 				char* pResult = &*(apBuffer.begin());
 				int nIndex = find_header(pReply, "Content-Type");
 				if ((-1 != nIndex) && (nullptr != strstr(_strlwr(pReply->headers[nIndex].szValue), "utf-8"))) {
-					wchar_t* p = mir_utf8decodeW(pResult);
-					rsResponce = p;
-					mir_free(p);
+					rsResponce = ptrW(mir_utf8decodeW(pResult));
 				}
 				else {
-					// 						USES_CONVERSION;
-					// 						LPCTSTR p = A2CT(pResult);
-					rsResponce = currencyrates_a2t(pResult);//p;
+					rsResponce = currencyrates_a2t(pResult);
 				}
 
 				bResult = true;
@@ -110,9 +100,6 @@ public:
 
 			Netlib_FreeHttpRequest(pReply);
 		}
-
-		mir_free(nlhr.headers);
-
 		return bResult;
 	}
 

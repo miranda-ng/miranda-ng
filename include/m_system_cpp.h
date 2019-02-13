@@ -352,6 +352,16 @@ public:
 	#endif
 };
 
+class Utf2T : public ptrW
+{
+public:
+	__forceinline Utf2T(const char *str) : ptrW(mir_utf8decodeW(str)) {}
+	__forceinline operator wchar_t* () const { return data; }
+	#ifdef _XSTRING_
+	std::wstring str() const { return std::wstring(data); }
+	#endif
+};
+
 ///////////////////////////////////////////////////////////////////////////////
 // basic class for classes that should be cleared inside new()
 
