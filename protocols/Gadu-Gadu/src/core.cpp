@@ -1126,37 +1126,6 @@ retry:
 		}
 		break;
 
-		//case GG_EVENT_XML_ACTION:
-		//	if (getByte(GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS)) {
-		//		wchar_t *xmlAction = mir_a2u(e->event.xml_action.data);
-		//		wchar_t *tag = mir_a2u("events");
-		//		HXML hXml = xmlParseString(xmlAction, nullptr, tag);
-
-		//		if (hXml != nullptr) {
-		//			mir_free(tag);
-		//			tag = mir_a2u("event/type");
-		//			HXML node = xmlGetChildByPath(hXml, tag, 0);
-		//			char *type = node != nullptr ? mir_u2a(xmlGetText(node)) : nullptr;
-
-		//			mir_free(tag);
-		//			tag = mir_a2u("event/sender");
-		//			node = xmlGetChildByPath(hXml, tag, 0);
-		//			char *sender = node != nullptr ? mir_u2a(xmlGetText(node)) : nullptr;
-		//			debugLogA("mainthread() (%x): XML Action type: %s.", this, type != nullptr ? type : "unknown");
-		//			// Avatar change notify
-		//			if (type != nullptr && !mir_strcmp(type, "28")) {
-		//				debugLogA("mainthread() (%x): Client %s changed his avatar.", this, sender);
-		//				requestAvatarInfo(getcontact(atoi(sender), 0, 0, nullptr), 0);
-		//			}
-		//			mir_free(type);
-		//			mir_free(sender);
-		//			xmlDestroyNode(hXml);
-		//		}
-		//		mir_free(tag);
-		//		mir_free(xmlAction);
-		//	}
-		//	break;
-
 		case GG_EVENT_TYPING_NOTIFICATION:
 		{
 			MCONTACT hContact = getcontact(e->event.typing_notification.uin, 0, 0, nullptr);

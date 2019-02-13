@@ -81,27 +81,25 @@ bool GaduProto::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 	}
 
 	if ((strncmp(resp->pData, "<result>", 8) == 0) || (strncmp(resp->pData, "<?xml", 5) == 0)) {
-		//if this url returned xml data (before and after 11.2013 gg convention)
-		wchar_t *xmlAction = mir_a2u(resp->pData);
-		HXML hXml = xmlParseString(xmlAction, nullptr, L"result");
-		if (hXml != nullptr) {
-			HXML node = xmlGetChildByPath(hXml, L"users/user/avatars/avatar", 0);
-			const wchar_t *blank = (node != nullptr) ? xmlGetAttrValue(node, L"blank") : nullptr;
-			if (blank != nullptr && mir_wstrcmp(blank, L"1")) {
-				node = xmlGetChildByPath(hXml, L"users/user/avatars/avatar/timestamp", 0);
-				*avatarts = node != nullptr ? mir_u2a(xmlGetText(node)) : nullptr;
-				node = xmlGetChildByPath(hXml, L"users/user/avatars/avatar/bigavatar", 0); //new gg convention
-				if (node == nullptr) {
-					node = xmlGetChildByPath(hXml, L"users/user/avatars/avatar/originBigAvatar", 0); //old gg convention
-				}
-				*avatarurl = node != nullptr ? mir_u2a(xmlGetText(node)) : nullptr;
+		// if this url returned xml data (before and after 11.2013 gg convention)
+		TiXmlDocument doc;
+		if (doc.Parse(resp->pData) == 0) {
+			tinyxml2::XMLConstHandle pRoot(doc.FirstChildElement("result"));
+			auto *node = pRoot.FirstChildElement("users").FirstChildElement("user").FirstChildElement("avatars").FirstChildElement("avatar").ToElement();
+			const char *blank = (node != nullptr) ? node->Attribute("blank") : nullptr;
+			if (mir_strcmp(blank, "1")) {
+				auto *p = node->FirstChildElement("timestamp");
+				if (p)
+					*avatarts = mir_strdup(p->GetText());
+
+				p = node->FirstChildElement("bigavatar"); // new gg convention
+				if (p)
+					*avatarurl = mir_strdup(p->GetText());
 			}
-			xmlDestroyNode(hXml);
 		}
-		mir_free(xmlAction);
 	}
 	else if (strncmp(resp->pData, "{\"result\":", 10) == 0) {
-		//if this url returns json data (11.2013 gg convention)
+		// if this url returns json data (11.2013 gg convention)
 		JSONNode root = JSONNode::parse(resp->pData);
 		if (root) {
 			const JSONNode &respJSONavatars = root["result"].at("users").at("user").at("avatars");

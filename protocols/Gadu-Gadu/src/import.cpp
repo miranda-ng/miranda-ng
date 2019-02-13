@@ -404,9 +404,9 @@ INT_PTR GaduProto::import_text(WPARAM, LPARAM)
 	else
 	{
 		wchar_t error[256];
-		mir_snwprintf(error, TranslateT("List cannot be imported from file \"%s\" because of error:\n\t%s (Error: %d)"), str, _tcserror(errno), errno);
+		mir_snwprintf(error, TranslateT("List cannot be imported from file \"%s\" because of error:\n\t%s (Error: %d)"), str, _wcserror(errno), errno);
 		MessageBox(nullptr, error, m_tszUserName, MB_OK | MB_ICONSTOP);
-		debugLogW(L"import_text(): Cannot import list from file \"%s\". errno=%d: %s", str, errno, _tcserror(errno));
+		debugLogW(L"import_text(): Cannot import list from file \"%s\". errno=%d: %s", str, errno, _wcserror(errno));
 		if (f)
 			fclose(f);
 
@@ -473,9 +473,9 @@ INT_PTR GaduProto::export_text(WPARAM, LPARAM)
 	else
 	{
 		wchar_t error[128];
-		mir_snwprintf(error, TranslateT("List cannot be exported to file \"%s\" because of error:\n\t%s (Error: %d)"), str, _tcserror(errno), errno);
+		mir_snwprintf(error, TranslateT("List cannot be exported to file \"%s\" because of error:\n\t%s (Error: %d)"), str, _wcserror(errno), errno);
 		MessageBox(nullptr, error, m_tszUserName, MB_OK | MB_ICONSTOP);
-		debugLogW(L"export_text(): Cannot export list to file \"%s\". errno=%d: %s", str, errno, _tcserror(errno));
+		debugLogW(L"export_text(): Cannot export list to file \"%s\". errno=%d: %s", str, errno, _wcserror(errno));
 	}
 
 	return 0;

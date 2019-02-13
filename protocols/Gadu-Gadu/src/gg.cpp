@@ -77,7 +77,7 @@ wchar_t* ws_strerror(int code)
 	}
 
 	// Return normal error
-	return _tcserror(code);
+	return _wcserror(code);
 }
 
 char* as_strerror(int code)

@@ -244,9 +244,9 @@ INT_PTR GaduProto::getavatarinfo(WPARAM wParam, LPARAM lParam)
 		}
 		if ((wParam & GAIF_FORCE) != 0) {
 			if (_wremove(pai->filename) != 0) {
-				debugLogW(L"getavatarinfo(): refresh. _wremove 1 file %s error. errno=%d: %s", pai->filename, errno, _tcserror(errno));
+				debugLogW(L"getavatarinfo(): refresh. _wremove 1 file %s error. errno=%d: %s", pai->filename, errno, _wcserror(errno));
 				wchar_t error[512];
-				mir_snwprintf(error, TranslateT("Cannot remove old avatar file before refresh. ERROR: %d: %s\n%s"), errno, _tcserror(errno), pai->filename);
+				mir_snwprintf(error, TranslateT("Cannot remove old avatar file before refresh. ERROR: %d: %s\n%s"), errno, _wcserror(errno), pai->filename);
 				showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 			}
 			setString(pai->hContact, GG_KEY_AVATARHASH, AvatarHash);
@@ -259,9 +259,9 @@ INT_PTR GaduProto::getavatarinfo(WPARAM wParam, LPARAM lParam)
 		if (AvatarHash == NULL && AvatarSavedHash != NULL) {
 			getAvatarFilename(pai->hContact, pai->filename, _countof(pai->filename));
 			if (_wremove(pai->filename) != 0) {
-				debugLogW(L"getavatarinfo(): delete. _wremove file %s error. errno=%d: %s", pai->filename, errno, _tcserror(errno));
+				debugLogW(L"getavatarinfo(): delete. _wremove file %s error. errno=%d: %s", pai->filename, errno, _wcserror(errno));
 				wchar_t error[512];
-				mir_snwprintf(error, TranslateT("Cannot remove old avatar file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), pai->filename);
+				mir_snwprintf(error, TranslateT("Cannot remove old avatar file. ERROR: %d: %s\n%s"), errno, _wcserror(errno), pai->filename);
 				showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 			}
 			delSetting(pai->hContact, GG_KEY_AVATARHASH);

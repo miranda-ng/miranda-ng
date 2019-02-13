@@ -820,7 +820,7 @@ int GaduProto::img_displayasmsg(MCONTACT hContact, void *img)
 		else {
 			debugLogW(L"img_displayasmsg(): Can not create directory for image cache: %s. errno=%d: %s", szPath, errno, strerror(errno));
 			wchar_t error[512];
-			mir_snwprintf(error, TranslateT("Cannot create image cache directory. ERROR: %d: %s\n%s"), errno, _tcserror(errno), szPath);
+			mir_snwprintf(error, TranslateT("Cannot create image cache directory. ERROR: %d: %s\n%s"), errno, _wcserror(errno), szPath);
 			showpopup(m_tszUserName, error, GG_POPUP_ERROR | GG_POPUP_ALLOW_MSGBOX | GG_POPUP_ONCE);
 		}
 	}
@@ -854,7 +854,7 @@ int GaduProto::img_displayasmsg(MCONTACT hContact, void *img)
 		else {
 			debugLogW(L"img_displayasmsg(): Cannot open file %s for write image. errno=%d: %s", szPath, errno, strerror(errno));
 			wchar_t error[512];
-			mir_snwprintf(error, TranslateT("Cannot save received image to file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), szPath);
+			mir_snwprintf(error, TranslateT("Cannot save received image to file. ERROR: %d: %s\n%s"), errno, _wcserror(errno), szPath);
 			showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 
 			return 0;
@@ -986,7 +986,7 @@ void* GaduProto::img_loadpicture(gg_event* e, wchar_t *szFileName)
 			free(dat);
 			debugLogW(L"img_loadpicture(): fopen(\"%s\", \"rb\" failed. errno=%d: %s)", szFileName, errno, strerror(errno));
 			wchar_t error[512];
-			mir_snwprintf(error, TranslateT("Cannot open image file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), szFileName);
+			mir_snwprintf(error, TranslateT("Cannot open image file. ERROR: %d: %s\n%s"), errno, _wcserror(errno), szFileName);
 			showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 			return nullptr;
 		}

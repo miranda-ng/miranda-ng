@@ -302,26 +302,21 @@ int GaduProto::oauth_receivetoken()
 	if (resp) {
 		nlc = resp->nlc;
 		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
-			wchar_t *xmlAction = mir_a2u(resp->pData);
-			HXML hXml = xmlParseString(xmlAction, nullptr, L"result");
-			if (hXml != nullptr) {
-				HXML node = xmlGetChildByPath(hXml, L"oauth_token", 0);
-				token = node != nullptr ? mir_u2a(xmlGetText(node)) : nullptr;
+			TiXmlDocument doc;
+			if (0 == doc.Parse(resp->pData)) {
+				tinyxml2::XMLConstHandle hXml(doc.FirstChildElement("result"));
+				if (auto *p = hXml.FirstChildElement("oauth_token").ToElement())
+					token = mir_strdup(p->GetText());
 
-				node = xmlGetChildByPath(hXml, L"oauth_token_secret", 0);
-				token_secret = node != nullptr ? mir_u2a(xmlGetText(node)) : nullptr;
-
-				xmlDestroyNode(hXml);
+				if (auto *p = hXml.FirstChildElement("oauth_token_secret").ToElement())
+					token_secret = mir_strdup(p->GetText());
 			}
-			mir_free(xmlAction);
 		}
-		else
-			debugLogA("oauth_receivetoken(): Invalid response code from HTTP request");
+		else debugLogA("oauth_receivetoken(): Invalid response code from HTTP request");
 
 		Netlib_FreeHttpRequest(resp);
 	}
-	else
-		debugLogA("oauth_receivetoken(): No response from HTTP request");
+	else debugLogA("oauth_receivetoken(): No response from HTTP request");
 
 	// 2. Obtaining User Authorization
 	debugLogA("oauth_receivetoken(): Obtaining User Authorization...");
@@ -376,27 +371,22 @@ int GaduProto::oauth_receivetoken()
 	resp = Netlib_HttpTransaction(m_hNetlibUser, &req);
 	if (resp) {
 		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
-			wchar_t *xmlAction = mir_a2u(resp->pData);
-			HXML hXml = xmlParseString(xmlAction, nullptr, L"result");
-			if (hXml != nullptr) {
-				HXML node = xmlGetChildByPath(hXml, L"oauth_token", 0);
-				token = mir_u2a(xmlGetText(node));
+			TiXmlDocument doc;
+			if (0 == doc.Parse(resp->pData)) {
+				tinyxml2::XMLConstHandle hXml(doc.FirstChildElement("result"));
+				if (auto *p = hXml.FirstChildElement("oauth_token").ToElement())
+					token = mir_strdup(p->GetText());
 
-				node = xmlGetChildByPath(hXml, L"oauth_token_secret", 0);
-				token_secret = mir_u2a(xmlGetText(node));
-
-				xmlDestroyNode(hXml);
+				if (auto *p = hXml.FirstChildElement("oauth_token_secret").ToElement())
+					token_secret = mir_strdup(p->GetText());
 			}
-			mir_free(xmlAction);
 		}
-		else
-			debugLogA("oauth_receivetoken(): Invalid response code from HTTP request");
+		else debugLogA("oauth_receivetoken(): Invalid response code from HTTP request");
 
 		Netlib_CloseHandle(resp->nlc);
 		Netlib_FreeHttpRequest(resp);
 	}
-	else
-		debugLogA("oauth_receivetoken(): No response from HTTP request");
+	else debugLogA("oauth_receivetoken(): No response from HTTP request");
 
 	mir_free(password);
 	mir_free(str);
