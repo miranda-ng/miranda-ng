@@ -43,7 +43,7 @@ struct GroupItemSort
 
 	static int compare(const GroupItemSort* d1, const GroupItemSort* d2)
 	{
-		return _tcscoll(d1->name, d2->name);
+		return wcscoll(d1->name, d2->name);
 	}
 };
 

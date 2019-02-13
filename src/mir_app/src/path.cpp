@@ -44,7 +44,7 @@ wchar_t* GetContactID(MCONTACT hContact)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Variables parser
 
-#define XSTR(target, s) _xstrselect(target, s, _T(s))
+#define XSTR(target, s) _xstrselect(target, s, _A2W(s))
 
 static __forceinline int _xcscmp(const char *s1, const char *s2) { return strcmp(s1, s2); }
 static __forceinline int _xcsncmp(const char *s1, const char *s2, size_t n) { return strncmp(s1, s2, n); }

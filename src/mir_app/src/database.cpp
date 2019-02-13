@@ -460,7 +460,7 @@ int LoadDatabaseModule(void)
 {
 	wchar_t szProfile[MAX_PATH];
 	PathToAbsoluteW(L".", szProfile);
-	_tchdir(szProfile);
+	_wchdir(szProfile);
 	szProfile[0] = 0;
 
 	// find out which profile to load

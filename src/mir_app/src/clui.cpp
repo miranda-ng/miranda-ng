@@ -293,12 +293,12 @@ int LoadCLUIModule(void)
 	wndclass.hIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA, true);
 	wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)(COLOR_3DFACE + 1);
-	wndclass.lpszClassName = _T(MIRANDACLASS);
+	wndclass.lpszClassName = _A2W(MIRANDACLASS);
 	wndclass.hIconSm = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	RegisterClassEx(&wndclass);
 
 	if (db_get_ws(0, "CList", "TitleText", &dbv))
-		mir_wstrncpy(titleText, _T(MIRANDANAME), _countof(titleText));
+		mir_wstrncpy(titleText, _A2W(MIRANDANAME), _countof(titleText));
 	else {
 		mir_wstrncpy(titleText, dbv.pwszVal, _countof(titleText));
 		db_free(&dbv);
@@ -314,7 +314,7 @@ int LoadCLUIModule(void)
 
 	g_clistApi.hwndContactList = CreateWindowEx(
 		(db_get_b(0, "CList", "ToolWindow", SETTING_TOOLWINDOW_DEFAULT) ? WS_EX_TOOLWINDOW : WS_EX_APPWINDOW),
-		_T(MIRANDACLASS),
+		_A2W(MIRANDACLASS),
 		titleText,
 		WS_POPUPWINDOW | WS_THICKFRAME | WS_CLIPCHILDREN |
 		(db_get_b(0, "CLUI", "ShowCaption", SETTING_SHOWCAPTION_DEFAULT) ? WS_CAPTION | WS_SYSMENU |

@@ -389,7 +389,7 @@ bool IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
 
 		// time to get the next/first word in the incoming text string
 		for (const wchar_t *p = buf; *p != '\0'; p += wcscspn(p, L" ")) {
-			p += _tcsspn(p, L" ");
+			p += wcsspn(p, L" ");
 
 			// compare the words, using wildcards
 			if (wildcmpiw(p, tszToken))

@@ -280,7 +280,7 @@ MIR_APP_DLL(HICON) Skin_LoadProtoIcon(const char *szProto, int status, bool big)
 
 			// Queried protocol isn't in list, adding
 			wchar_t tszSection[MAX_PATH];
-			mir_snwprintf(tszSection, _T(PROTOCOLS_PREFIX)L"/%s", pa->tszAccountName);
+			mir_snwprintf(tszSection, _A2W(PROTOCOLS_PREFIX)L"/%s", pa->tszAccountName);
 
 			SKINICONDESC sid = {};
 			sid.section.w = tszSection;
