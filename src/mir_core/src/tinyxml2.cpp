@@ -763,7 +763,7 @@ XMLNode::~XMLNode()
 const char* XMLNode::Value() const
 {
     // Edge case: XMLDocuments don't have a Value. Return null.
-    if ( this->ToDocument() )
+    if ( this == nullptr || this->ToDocument() )
         return 0;
     return _value.GetStr();
 }
@@ -1447,6 +1447,12 @@ void XMLAttribute::SetAttribute( const char* v )
 }
 
 
+void XMLAttribute::SetAttribute( const wchar_t* v )
+{
+	_value.SetStr( T2Utf(v).get() );
+}
+
+
 void XMLAttribute::SetAttribute( int v )
 {
     char buf[BUF_SIZE];
@@ -1594,6 +1600,12 @@ void	XMLElement::SetText( const char* inText )
 		XMLText*	theText = GetDocument()->NewText( inText );
 		InsertFirstChild( theText );
 	}
+}
+
+
+void	XMLElement::SetText(const wchar_t* inText)
+{
+	SetText( T2Utf(inText).get() );
 }
 
 

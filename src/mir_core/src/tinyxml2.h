@@ -1205,9 +1205,11 @@ public:
     /// See QueryIntValue
     XMLError QueryFloatValue( float* value ) const;
 
-    /// Set the attribute to a string value.
-    void SetAttribute( const char* value );
-    /// Set the attribute to value.
+	 /// Set the attribute to a string value.
+	 void SetAttribute( const char* value );
+	 /// Set the attribute to a wide string value.
+	 void SetAttribute( const wchar_t* value );
+	 /// Set the attribute to value.
     void SetAttribute( int value );
     /// Set the attribute to value.
     void SetAttribute( unsigned value );
@@ -1430,7 +1432,11 @@ public:
         XMLAttribute* a = FindOrCreateAttribute( name );
         a->SetAttribute( value );
     }
-    /// Sets the named attribute to value.
+	 void SetAttribute( const char* name, const wchar_t* value )	{
+		 XMLAttribute* a = FindOrCreateAttribute( name );
+		 a->SetAttribute( value );
+	 }
+	 /// Sets the named attribute to value.
     void SetAttribute( const char* name, int value )			{
         XMLAttribute* a = FindOrCreateAttribute( name );
         a->SetAttribute( value );
@@ -1539,8 +1545,9 @@ public:
     		<foo>Hullaballoo!</foo>
     	@endverbatim
     */
-	void SetText( const char* inText );
-    /// Convenience method for setting text inside an element. See SetText() for important limitations.
+	 void SetText( const char* inText );
+	 void SetText( const wchar_t* inText );
+	 /// Convenience method for setting text inside an element. See SetText() for important limitations.
     void SetText( int value );
     /// Convenience method for setting text inside an element. See SetText() for important limitations.
     void SetText( unsigned value );

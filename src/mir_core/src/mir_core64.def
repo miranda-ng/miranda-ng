@@ -1410,3 +1410,6 @@ db_event_edit @1268
 ?_errorNames@XMLDocument@tinyxml2@@0PAPEBDA @1623 NONAME
 ?writeBoolFalse@XMLUtil@tinyxml2@@0PEBDEB @1624 NONAME
 ?writeBoolTrue@XMLUtil@tinyxml2@@0PEBDEB @1625 NONAME
+?SetText@XMLElement@tinyxml2@@QEAAXPEB_W@Z @1626 NONAME
+?SetAttribute@XMLAttribute@tinyxml2@@QEAAXPEB_W@Z @1627 NONAME
+?SetAttribute@XMLElement@tinyxml2@@QEAAXPEBDPEB_W@Z @1628 NONAME
