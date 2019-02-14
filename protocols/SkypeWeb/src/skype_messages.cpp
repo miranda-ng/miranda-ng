@@ -237,54 +237,50 @@ void CSkypeProto::MarkMessagesRead(MCONTACT hContact, MEVENT hDbEvent)
 		PushRequest(new MarkMessageReadRequest(Contacts[hContact], timestamp, timestamp, false, li));
 }
 
-
 void CSkypeProto::ProcessContactRecv(MCONTACT hContact, time_t timestamp, const char *szContent, const char *szMessageId)
 {
-	HXML xmlNode = xmlParseString(mir_utf8decodeW(szContent), nullptr, L"contacts");
-	if (xmlNode) {
-		int nCount = 0;
-		PROTOSEARCHRESULT **psr;
-		for (int i = 0; i < xmlGetChildCount(xmlNode); i++)
-			nCount++;
+	TiXmlDocument doc;
+	if (0 != doc.Parse(szContent))
+		return;
 
-		if (psr = (PROTOSEARCHRESULT**)mir_calloc(sizeof(PROTOSEARCHRESULT*) * nCount)) {
-			nCount = 0;
-			for (int i = 0; i < xmlGetChildCount(xmlNode); i++) {
-				HXML xmlContact = xmlGetNthChild(xmlNode, L"c", i);
-				if (xmlContact != nullptr) {
-					const wchar_t *tszContactId = xmlGetAttrValue(xmlContact, L"s");
-					//const wchar_t *tszContactName = xmlGetAttrValue(xmlContact, L"f");
+	auto *xmlNode = doc.FirstChildElement("contacts");
+	if (xmlNode == nullptr)
+		return;
 
-					psr[nCount] = (PROTOSEARCHRESULT*)mir_calloc(sizeof(PROTOSEARCHRESULT));
-					psr[nCount]->cbSize = sizeof(psr);
-					psr[nCount]->flags = PSR_UNICODE;
-					psr[nCount]->id.w = mir_wstrdup(tszContactId);
-					//psr[nCount]->nick.w = mir_wstrdup(tszContactName == NULL ? L"" : tszContactName);
-					nCount++;
-				}
-			}
-			if (nCount) {
-				PROTORECVEVENT pre = { 0 };
-				pre.timestamp = (DWORD)timestamp;
-				pre.szMessage = (char*)psr;
+	int nCount = 0;
+	for (auto *it : TiXmlEnum(xmlNode))
+		nCount++;
 
-				PBYTE b = (PBYTE)mir_calloc(sizeof(DWORD) + mir_strlen(szMessageId) + 1);
-				PBYTE pCur = b;
-				*((PDWORD)pCur) = nCount;
-				pCur += sizeof(DWORD);
-
-				mir_strcpy((char*)pCur, szMessageId);
-
-				pre.lParam = (LPARAM)b;
-
-				ProtoChainRecv(hContact, PSR_CONTACTS, 0, (LPARAM)&pre);
-				for (DWORD i = 0; i < *((PDWORD)b); i++) {
-					mir_free(psr[i]->id.w);
-					mir_free(psr[i]);
-				}
-				mir_free(b);
-			}
-			mir_free(psr);
-		}
+	PROTOSEARCHRESULT **psr = (PROTOSEARCHRESULT**)mir_calloc(sizeof(PROTOSEARCHRESULT*) * nCount);
+	
+	nCount = 0;
+	for (auto *xmlContact : TiXmlFilter(xmlNode, "c")) {
+		psr[nCount] = (PROTOSEARCHRESULT*)mir_calloc(sizeof(PROTOSEARCHRESULT));
+		psr[nCount]->cbSize = sizeof(psr);
+		psr[nCount]->id.a = mir_strdup(xmlContact->Attribute("s"));
+		nCount++;
 	}
+
+	if (nCount) {
+		PROTORECVEVENT pre = {};
+		pre.timestamp = (DWORD)timestamp;
+		pre.szMessage = (char*)psr;
+
+		PBYTE b = (PBYTE)mir_calloc(sizeof(DWORD) + mir_strlen(szMessageId) + 1);
+		PBYTE pCur = b;
+		*((PDWORD)pCur) = nCount;
+		pCur += sizeof(DWORD);
+
+		mir_strcpy((char*)pCur, szMessageId);
+
+		pre.lParam = (LPARAM)b;
+
+		ProtoChainRecv(hContact, PSR_CONTACTS, 0, (LPARAM)&pre);
+		for (DWORD i = 0; i < *((PDWORD)b); i++) {
+			mir_free(psr[i]->id.a);
+			mir_free(psr[i]);
+		}
+		mir_free(b);
+	}
+	mir_free(psr);
 }
