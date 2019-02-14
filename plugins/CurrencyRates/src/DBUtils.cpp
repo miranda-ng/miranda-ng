@@ -4,7 +4,7 @@ std::wstring GetNodeText(const TiXmlElement *pNode)
 {
 	auto *pszText = pNode->GetText();
 	if (pszText)
-		return Utf2T(pszText);
+		return Utf2T(pszText).get();
 
 	return std::wstring();
 }

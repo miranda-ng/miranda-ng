@@ -20,7 +20,7 @@ bool parse_currencyrate(const TiXmlNode *pTop, CCurrencyRatesProviderBase::CCurr
 {
 	tstring sSymbol, sDescription, sID;
 
-	for (auto *pNode = pTop->FirstChildElement(); pNode != nullptr; pNode = pNode->NextSiblingElement()) {
+	for (auto *pNode : TiXmlEnum(pTop)) {
 		const char *sName = pNode->Value();
 		if (!mir_strcmpi(sName, "symbol")) {
 			sSymbol = GetNodeText(pNode);
@@ -47,7 +47,7 @@ bool parse_section(const TiXmlNode *pTop, CCurrencyRatesProviderBase::CCurrencyR
 	CCurrencyRatesProviderBase::CCurrencyRateSection::TCurrencyRates aCurrencyRates;
 	tstring sSectionName;
 
-	for (auto *pNode = pTop->FirstChildElement(); pNode != nullptr; pNode = pNode->NextSiblingElement()) {
+	for (auto *pNode : TiXmlEnum(pTop)) {
 		const char *sName = pNode->Value();
 		if (!mir_strcmpi(sName, "section")) {
 			CCurrencyRatesProviderBase::CCurrencyRateSection qs1;
@@ -72,21 +72,16 @@ bool parse_section(const TiXmlNode *pTop, CCurrencyRatesProviderBase::CCurrencyR
 
 const TiXmlNode* find_provider(const TiXmlNode *pRoot)
 {
-	const TiXmlNode *pProvider = nullptr;
-
-	for (auto *pNode = pRoot->FirstChildElement(); pNode != nullptr; pNode = pNode->NextSiblingElement()) {
+	for (auto *pNode : TiXmlEnum(pRoot)) {
 		const char *sName = pNode->Value();
-		if (!mir_strcmpi(sName, "Provider")) {
-			pProvider = pNode;
-			break;
-		}
+		if (!mir_strcmpi(sName, "Provider"))
+			return pNode;
 
-		pProvider = find_provider(pNode);
-		if (pProvider)
-			break;
+		if (auto *pProvider = find_provider(pNode))
+			return pProvider;
 	}
 
-	return pProvider;
+	return nullptr;
 }
 
 CCurrencyRatesProviderBase::CXMLFileInfo parse_ini_file(const tstring &rsXMLFile, bool &rbSucceded)
@@ -99,7 +94,7 @@ CCurrencyRatesProviderBase::CXMLFileInfo parse_ini_file(const tstring &rsXMLFile
 		const TiXmlNode *pProvider = find_provider(&doc);
 		if (pProvider) {
 			rbSucceded = true;
-			for (auto *pNode = pProvider->FirstChildElement(); pNode != nullptr; pNode = pNode->NextSiblingElement()) {
+			for (auto *pNode : TiXmlEnum(pProvider)) {
 				const char *sName = pNode->Value();
 				if (!mir_strcmpi(sName, "section")) {
 					CCurrencyRatesProviderBase::CCurrencyRateSection qs;

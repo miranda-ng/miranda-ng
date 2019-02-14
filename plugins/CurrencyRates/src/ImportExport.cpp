@@ -253,7 +253,7 @@ bool handle_module(MCONTACT hContact, const TiXmlElement *pXmlModule)
 
 	DBCONTACTWRITESETTING dbs;
 	dbs.szModule = szModuleName;
-	for (auto *pSetting = pXmlModule->FirstChildElement(g_szXmlSetting); pSetting != nullptr; pSetting = pSetting->NextSiblingElement(g_szXmlSetting)) {
+	for (auto *pSetting : TiXmlFilter(pXmlModule, g_szXmlSetting)) {
 		auto *pNode = pSetting->FirstChildElement(g_szXmlName);
 		if (pNode == nullptr)
 			continue;
@@ -342,7 +342,7 @@ size_t count_contacts(const TiXmlNode *pXmlRoot, bool bInContactsGroup)
 {
 	size_t cContacts = 0;
 
-	for (auto *pNode = pXmlRoot->FirstChildElement(); pNode != nullptr; pNode = pNode->NextSiblingElement()) {
+	for (auto *pNode : TiXmlEnum(pXmlRoot)) {
 		const char *sName = pNode->Name();
 		if (false == bInContactsGroup) {
 			if (!mir_strcmpi(g_szXmlContacts, sName))
@@ -378,7 +378,7 @@ struct CContactState
 
 const TiXmlNode* find_currencyrates_module(const TiXmlNode *pXmlContact)
 {
-	for (auto *pNode = pXmlContact->FirstChildElement(); pNode != nullptr; pNode = pNode->NextSiblingElement())
+	for (auto *pNode : TiXmlEnum(pXmlContact))
 		if ((!mir_strcmpi(g_szXmlModule, pNode->Name())) && (!mir_strcmpi(CURRENCYRATES_MODULE_NAME, pNode->GetText())))
 			return pNode;
 
@@ -391,7 +391,7 @@ TNameValue parse_setting_node(const TiXmlNode *pXmlSetting)
 	assert(pXmlSetting);
 
 	const char *sName, *sValue;
-	for (auto *pNode = pXmlSetting->FirstChildElement(); pNode != nullptr; pNode = pNode->NextSiblingElement()) {
+	for (auto *pNode : TiXmlEnum(pXmlSetting)) {
 		if (!mir_strcmpi(g_szXmlName, pNode->Name()))
 			sName = pNode->GetText();
 		else if (!mir_strcmpi(g_szXmlValue, pNode->Name()))
@@ -403,7 +403,7 @@ TNameValue parse_setting_node(const TiXmlNode *pXmlSetting)
 
 CCurrencyRatesProviders::TCurrencyRatesProviderPtr find_provider(const TiXmlNode *pXmlCurrencyRatesModule)
 {
-	for (auto *pNode = pXmlCurrencyRatesModule->FirstChildElement(g_szXmlSetting); pNode != nullptr; pNode = pNode->NextSiblingElement(g_szXmlSetting)) {
+	for (auto *pNode : TiXmlFilter(pXmlCurrencyRatesModule, g_szXmlSetting)) {
 		TNameValue Item = parse_setting_node(pNode);
 		if ((!mir_strcmpi(DB_STR_CURRENCYRATE_PROVIDER, Item.first)) && Item.second)
 			return CModuleInfo::GetCurrencyRateProvidersPtr()->FindProvider(Utf2T(Item.second).get());
@@ -429,7 +429,7 @@ bool get_contact_state(const TiXmlNode *pXmlContact, CContactState& cst)
 		{
 			const char *sFromID = nullptr, *sToID = nullptr;
 
-			for (auto *pNode = m_pXmlCurrencyRates->FirstChildElement(g_szXmlSetting); pNode != nullptr; pNode = pNode->NextSiblingElement(g_szXmlSetting)) {
+			for (auto *pNode : TiXmlFilter(m_pXmlCurrencyRates, g_szXmlSetting)) {
 				TNameValue Item = parse_setting_node(pNode);
 				if (!mir_strcmpi(Item.first, DB_STR_FROM_ID))
 					sFromID = Item.second;
@@ -443,7 +443,7 @@ bool get_contact_state(const TiXmlNode *pXmlContact, CContactState& cst)
 
 		tstring GetXMLNodeValue(const char* pszXMLNodeName) const
 		{
-			for (auto *pNode = m_pXmlCurrencyRates->FirstChildElement(g_szXmlSetting); pNode != nullptr; pNode = pNode->NextSiblingElement(g_szXmlSetting)) {
+			for (auto *pNode : TiXmlFilter(m_pXmlCurrencyRates, g_szXmlSetting)) {
 				TNameValue Item = parse_setting_node(pNode);
 				if (!mir_strcmpi(Item.first, pszXMLNodeName))
 					return Utf2T(Item.second).get();
@@ -489,7 +489,7 @@ bool import_contact(const TiXmlNode *pXmlContact, CImportContext &impctx)
 	if (!cst.m_hContact)
 		return false;
 
-	for (auto *pNode = pXmlContact->FirstChildElement(g_szXmlModule); pNode != nullptr; pNode = pNode->NextSiblingElement(g_szXmlModule))
+	for (auto *pNode : TiXmlFilter(pXmlContact, g_szXmlModule))
 		if (!handle_module(cst.m_hContact, pNode))
 			return false;
 
@@ -503,7 +503,7 @@ bool import_contact(const TiXmlNode *pXmlContact, CImportContext &impctx)
 size_t import_contacts(const TiXmlNode *pXmlContacts, CImportContext &impctx)
 {
 	size_t cContacts = 0;
-	for (auto *pNode = pXmlContacts->FirstChildElement(g_szXmlContact); pNode != nullptr; pNode = pNode->NextSiblingElement(g_szXmlContact))
+	for (auto *pNode : TiXmlFilter(pXmlContacts, g_szXmlContact))
 		if (import_contact(pNode, impctx))
 			++cContacts;
 
@@ -513,7 +513,7 @@ size_t import_contacts(const TiXmlNode *pXmlContacts, CImportContext &impctx)
 size_t handle_contacts_node(const TiXmlNode *pXmlRoot, CImportContext& impctx)
 {
 	size_t cContacts = 0;
-	for (auto *pNode = pXmlRoot->FirstChildElement(); pNode != nullptr; pNode = pNode->NextSiblingElement()) {
+	for (auto *pNode : TiXmlEnum(pXmlRoot)) {
 		if (!mir_strcmpi(g_szXmlContacts, pNode->Name()))
 			cContacts += import_contacts(pNode, impctx);
 		else

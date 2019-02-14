@@ -45,6 +45,134 @@ typedef tinyxml2::XMLElement TiXmlElement;
 typedef tinyxml2::XMLDocument TiXmlDocument;
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// simple element iterator
+//
+// allows traversing subnodes in a cycle like
+// for (auto *pNode : TiXmlEnum(pRoot)) {
+
+class TiXmlIterator
+{
+	const TiXmlElement *m_pCurr;
+
+public:
+	TiXmlIterator(const TiXmlElement *pNode) :
+		m_pCurr(pNode)
+	{
+	}
+
+	TiXmlIterator& operator=(const TiXmlElement *pNode) 
+	{ 
+		m_pCurr = pNode; 
+		return *this; 
+	} 
+
+	// Prefix ++ overload 
+	TiXmlIterator& operator++() 
+	{ 
+		if (m_pCurr) 
+			m_pCurr = m_pCurr->NextSiblingElement();
+		return *this; 
+	} 
+
+	const TiXmlElement* operator*()
+	{
+		return m_pCurr;
+	}
+
+	bool operator!=(const TiXmlIterator &iterator) 
+	{ 
+		return m_pCurr != iterator.m_pCurr; 
+	} 
+};
+
+class TiXmlEnum
+{
+	const TiXmlElement *m_pFirst;
+
+public:
+	TiXmlEnum(const TiXmlNode *pNode)
+	{
+		m_pFirst = (pNode) ? pNode->FirstChildElement() : nullptr;
+	}
+
+	TiXmlIterator begin()
+	{
+		return TiXmlIterator(m_pFirst);
+	}
+
+	TiXmlIterator end()
+	{
+		return TiXmlIterator(nullptr);
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// filtered element iterator
+//
+// allows traversing subnodes of the specified name in a cycle like
+// for (auto *pNode : TiXmlFilter(pRoot, "element")) {
+
+class TiXmlFilterIterator
+{
+	const TiXmlElement *m_pCurr;
+	const char *m_pszFilter;
+
+public:
+	TiXmlFilterIterator(const TiXmlElement *pNode, const char *pszNodeName) :
+		m_pszFilter(pszNodeName),
+		m_pCurr(pNode)
+	{
+	}
+
+	TiXmlFilterIterator& operator=(const TiXmlElement *pNode) 
+	{ 
+		m_pCurr = pNode; 
+		return *this; 
+	} 
+
+	// Prefix ++ overload 
+	TiXmlFilterIterator& operator++() 
+	{ 
+		if (m_pCurr) 
+			m_pCurr = m_pCurr->NextSiblingElement(m_pszFilter);
+		return *this; 
+	} 
+
+	const TiXmlElement* operator*()
+	{
+		return m_pCurr;
+	}
+
+	bool operator!=(const TiXmlFilterIterator &iterator) 
+	{ 
+		return m_pCurr != iterator.m_pCurr; 
+	} 
+};
+
+class TiXmlFilter
+{
+	const TiXmlElement *m_pFirst;
+	const char *m_pszFilter;
+
+public:
+	TiXmlFilter(const TiXmlNode *pNode, const char *pszNodeName) :
+		m_pszFilter(pszNodeName)
+	{
+		m_pFirst = (pNode) ? pNode->FirstChildElement() : nullptr;
+	}
+
+	TiXmlFilterIterator begin()
+	{
+		return TiXmlFilterIterator(m_pFirst, m_pszFilter);
+	}
+
+	TiXmlFilterIterator end()
+	{
+		return TiXmlFilterIterator(nullptr, nullptr);
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // old API to be removed once
 
 DECLARE_HANDLE(HXML);
