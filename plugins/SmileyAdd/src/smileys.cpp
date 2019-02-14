@@ -438,11 +438,7 @@ bool SmileyPackType::LoadSmileyFileXEP(const CMStringW &fileName, bool onlyInfo)
 	}
 
 	if (!onlyInfo) {
-		auto *pDataRoot = doc.FirstChildElement("dataroot");
-		if (pDataRoot == nullptr)
-			return false;
-
-		auto *pImages = tinyxml2::XMLConstHandle(&doc).FirstChildElement("lists").FirstChildElement("images").ToElement();
+		auto *pImages = TiXmlConst(&doc)["lists"]["images"].ToElement();
 		if (pImages) {
 			IStream *pStream = DecodeBase64Data(pImages->GetText());
 			if (pStream) {
@@ -453,7 +449,7 @@ bool SmileyPackType::LoadSmileyFileXEP(const CMStringW &fileName, bool onlyInfo)
 			}
 		}
 
-		for (auto *nRec : TiXmlFilter(pDataRoot, "record")) {
+		for (auto *nRec : TiXmlFilter(doc.FirstChildElement("dataroot"), "record")) {
 			int idx = nRec->IntAttribute("ImageIndex", -1);
 			if (idx == -1)
 				continue;

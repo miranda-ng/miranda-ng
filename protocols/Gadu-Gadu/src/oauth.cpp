@@ -304,11 +304,11 @@ int GaduProto::oauth_receivetoken()
 		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
 			TiXmlDocument doc;
 			if (0 == doc.Parse(resp->pData)) {
-				tinyxml2::XMLConstHandle hXml(doc.FirstChildElement("result"));
-				if (auto *p = hXml.FirstChildElement("oauth_token").ToElement())
+				TiXmlConst hXml(doc.FirstChildElement("result"));
+				if (auto *p = hXml["oauth_token"].ToElement())
 					token = mir_strdup(p->GetText());
 
-				if (auto *p = hXml.FirstChildElement("oauth_token_secret").ToElement())
+				if (auto *p = hXml["oauth_token_secret"].ToElement())
 					token_secret = mir_strdup(p->GetText());
 			}
 		}
@@ -373,11 +373,11 @@ int GaduProto::oauth_receivetoken()
 		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
 			TiXmlDocument doc;
 			if (0 == doc.Parse(resp->pData)) {
-				tinyxml2::XMLConstHandle hXml(doc.FirstChildElement("result"));
-				if (auto *p = hXml.FirstChildElement("oauth_token").ToElement())
+				TiXmlConst hXml(doc.FirstChildElement("result"));
+				if (auto *p = hXml["oauth_token"].ToElement())
 					token = mir_strdup(p->GetText());
 
-				if (auto *p = hXml.FirstChildElement("oauth_token_secret").ToElement())
+				if (auto *p = hXml["oauth_token_secret"].ToElement())
 					token_secret = mir_strdup(p->GetText());
 			}
 		}

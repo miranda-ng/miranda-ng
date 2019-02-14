@@ -1413,3 +1413,5 @@ db_event_edit @1268
 ?SetText@XMLElement@tinyxml2@@QEAAXPEB_W@Z @1626 NONAME
 ?SetAttribute@XMLAttribute@tinyxml2@@QEAAXPEB_W@Z @1627 NONAME
 ?SetAttribute@XMLElement@tinyxml2@@QEAAXPEBDPEB_W@Z @1628 NONAME
+??AXMLConstHandle@tinyxml2@@QEBA?BV01@PEBD@Z @1629 NONAME
+??AXMLHandle@tinyxml2@@QEAA?AV01@PEBD@Z @1630 NONAME

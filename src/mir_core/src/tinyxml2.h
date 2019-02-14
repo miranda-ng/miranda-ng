@@ -2012,6 +2012,10 @@ public:
         return *this;
     }
 
+	 XMLHandle operator[]( const char* name ) {
+		 return XMLHandle( _node ? _node->FirstChildElement( name ) : 0 );
+	 }
+
     /// Get the first child of this handle.
     XMLHandle FirstChild() 													{
         return XMLHandle( _node ? _node->FirstChild() : 0 );
@@ -2089,6 +2093,10 @@ public:
         _node = ref._node;
         return *this;
     }
+
+	 const XMLConstHandle operator[]( const char* name ) const {
+		 return XMLConstHandle( _node ? _node->FirstChildElement( name ) : 0 );
+	 }
 
     const XMLConstHandle FirstChild() const											{
         return XMLConstHandle( _node ? _node->FirstChild() : 0 );

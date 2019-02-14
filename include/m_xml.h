@@ -44,6 +44,9 @@ typedef tinyxml2::XMLText TiXmlText;
 typedef tinyxml2::XMLElement TiXmlElement;
 typedef tinyxml2::XMLDocument TiXmlDocument;
 
+typedef tinyxml2::XMLHandle TiXmlHandle;
+typedef tinyxml2::XMLConstHandle TiXmlConst;
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // simple element iterator
 //

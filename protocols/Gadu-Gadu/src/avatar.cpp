@@ -84,8 +84,7 @@ bool GaduProto::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 		// if this url returned xml data (before and after 11.2013 gg convention)
 		TiXmlDocument doc;
 		if (doc.Parse(resp->pData) == 0) {
-			tinyxml2::XMLConstHandle pRoot(doc.FirstChildElement("result"));
-			auto *node = pRoot.FirstChildElement("users").FirstChildElement("user").FirstChildElement("avatars").FirstChildElement("avatar").ToElement();
+			auto *node = TiXmlConst(doc.FirstChildElement("result"))["users"]["user"]["avatars"]["avatar"].ToElement();
 			const char *blank = (node != nullptr) ? node->Attribute("blank") : nullptr;
 			if (mir_strcmp(blank, "1")) {
 				auto *p = node->FirstChildElement("timestamp");
