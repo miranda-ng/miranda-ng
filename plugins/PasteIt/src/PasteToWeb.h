@@ -28,7 +28,7 @@ class PasteToWeb
 {
 protected:
 	virtual void SendToServer(std::wstring str, std::wstring fileName, std::wstring format) = 0;
-	wchar_t* SendToWeb(char* url, std::map<std::string, std::string>& headers, std::wstring content);
+	char* SendToWeb(char* url, std::map<std::string, std::string>& headers, std::wstring content);
 	PasteToWeb();
 	wchar_t bufErr[1024];
 public:

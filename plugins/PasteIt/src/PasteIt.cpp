@@ -29,7 +29,7 @@ HGENMENU hWebPageMenus[PasteToWeb::pages];
 HANDLE hOptionsInit;
 HANDLE hWindowEvent = nullptr;
 
-static IconItem iconList[] = 
+static IconItem iconList[] =
 {
 	{ LPGEN("Paste It"), "PasteIt_main", IDI_MENU }
 };
@@ -59,7 +59,8 @@ PLUGININFOEX pluginInfoEx =
 
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
-{}
+{
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

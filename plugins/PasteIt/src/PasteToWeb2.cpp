@@ -55,80 +55,53 @@ void PasteToWeb2::SendToServer(std::wstring str, std::wstring fileName, std::wst
 	std::map<std::string, std::string> headers;
 	headers["Content-Type"] = "text/xml";
 	std::wstring content = L"<?xml version=\"1.0\"?>\r\n<methodCall><methodName>create_paste</methodName><params><param><value>";
-	if (fileName == L"")
-	{
+	if (fileName == L"") {
 		content += format;
 		content += L"</value></param><param><value>";
 	}
-	else
-	{
-		content += L"</value></param><param><value>";
-	}
-	for (std::wstring::iterator it = str.begin(); it != str.end(); ++it)
-	{
-		if (*it == L'&')
-		{
+	else content += L"</value></param><param><value>";
+
+	for (std::wstring::iterator it = str.begin(); it != str.end(); ++it) {
+		if (*it == L'&') {
 			content += L"&amp;";
 		}
-		else if (*it == L'<')
-		{
+		else if (*it == L'<') {
 			content += L"&lt;";
 		}
-		else
-		{
+		else {
 			content += *it;
 		}
 	}
 
 	content += L"</value></param><param><value></value></param><param><value>";
-	if (fileName != L"")
-	{
-		for (std::wstring::iterator it = fileName.begin(); it != fileName.end(); ++it)
-		{
-			if (*it == L'&')
-			{
+	if (fileName != L"") {
+		for (std::wstring::iterator it = fileName.begin(); it != fileName.end(); ++it) {
+			if (*it == L'&') {
 				content += L"&amp;";
 			}
-			else if (*it == L'<')
-			{
+			else if (*it == L'<') {
 				content += L"&lt;";
 			}
-			else
-			{
+			else {
 				content += *it;
 			}
 		}
 	}
 	content += L"</value></param><param><value></value></param><param><value><double>1.5</double></value></param></params></methodCall>";
 
-	wchar_t* resCont = SendToWeb("http://wklej.to/api/", headers, content);
+	char *resCont = SendToWeb("http://wklej.to/api/", headers, content);
 	error = TranslateT("Error during sending text to web page");
-	if (resCont != nullptr)
-	{
-		HXML hXml = xmlParseString(resCont, nullptr, L"methodResponse");
-		if (hXml != nullptr)
-		{
-			HXML node = xmlGetChildByPath(hXml, L"params/param/value/array/data/value/int", 0);
-			if (node != nullptr && !mir_wstrcmp(xmlGetText(node), L"1"))
-			{
-				node = xmlGetChildByPath(hXml, L"params/param/value/array/data", 0);
-				if (node != nullptr)
-				{
-					node = xmlGetNthChild(node, L"value", 1);
-					if (node != nullptr)
-					{
-						node = xmlGetChildByPath(node, L"string", 0);
-						if (node != nullptr)
-						{
-							char* s = mir_u2a_cp(xmlGetText(node), CP_ACP);
-							mir_strncpy(szFileLink, s, _countof(szFileLink));
-							mir_free(s);
-							error = nullptr;
-						}
-					}
+	if (resCont != nullptr) {
+		TiXmlDocument doc;
+		if (0 == doc.Parse(resCont)) {
+			auto *pData = TiXmlConst(&doc)["methodResponse"]["params"]["param"]["value"]["array"]["data"].ToElement();
+			for (auto *it : TiXmlFilter(pData, "value")) {
+				auto *pString = it->FirstChildElement("string");
+				if (pString) {
+					mir_strncpy(szFileLink, pString->GetText(), _countof(szFileLink));
+					error = nullptr;
 				}
 			}
-			xmlDestroyNode(hXml);
 		}
 		mir_free(resCont);
 	}
@@ -142,90 +115,67 @@ std::list<PasteFormat> PasteToWeb2::GetFormats()
 	headers["Content-Type"] = "text/xml";
 	std::wstring content = L"<?xml version=\"1.0\"?>\r\n<methodCall><methodName>types</methodName></methodCall>";
 
-	wchar_t* resCont = SendToWeb("http://wklej.to/api/", headers, content);
-	if (resCont != nullptr)
-	{
-		HXML hXml = xmlParseString(resCont, nullptr, L"methodResponse");
-		if (hXml != nullptr)
-		{
-			HXML node = xmlGetChildByPath(hXml, L"params/param/value/array/data/value/int", 0);
-			if (node != nullptr && !mir_wstrcmp(xmlGetText(node), L"1"))
-			{
-				node = xmlGetChildByPath(hXml, L"params/param/value/array/data", 0);
-				if (node != nullptr)
-				{
-					node = xmlGetNthChild(node, L"value", 1);
-					if (node != nullptr)
-					{
-						node = xmlGetChildByPath(node, L"string", 0);
-						if (node != nullptr)
-						{
-							std::wstring str = xmlGetText(node);
-							std::wstring::size_type pos = str.find(L'\n');
-							if (pos < str.length())
-							{
-								str = str.substr(pos + 1);
-							}
-							pos = str.find(L'\n');
-							if (pos < str.length())
-							{
-								str = str.substr(pos + 1);
-							}
-							pos = str.find(L'\n');
-							while (pos < str.length())
-							{
-								std::wstring line = str.substr(0, pos);
-								std::wstring::size_type sep = line.find(L':');
-								if (sep < line.length())
-								{
-									PasteFormat pf;
-									pf.name = line.substr(0, sep);
-									std::wstring::size_type sep2 = line.find(L',');
-									if (sep2 < line.length())
-									{
-										pf.id = line.substr(sep + 2, sep2 - sep - 2);
-									}
-									else
-									{
-										pf.id = line.substr(sep + 2);
-									}
-									ret.push_back(pf);
-								}
+	char* resCont = SendToWeb("http://wklej.to/api/", headers, content);
+	if (resCont != nullptr) {
+		TiXmlDocument doc;
+		if (0 == doc.Parse(resCont)) {
+			auto *pData = TiXmlConst(&doc)["methodResponse"]["params"]["param"]["value"]["array"]["data"].ToElement();
+			for (auto *it : TiXmlFilter(pData, "value")) {
+				auto *pString = it->FirstChildElement("string");
+				if (pString == nullptr)
+					continue;
 
-								if (pos < str.length() - 1)
-								{
-									str = str.substr(pos + 1);
-								}
-								else
-								{
-									str = L"";
-								}
-								pos = str.find(L'\n');
-							}
-							{
-								std::wstring line = str;
-								std::wstring::size_type sep = line.find(L':');
-								if (sep < line.length())
-								{
-									PasteFormat pf;
-									pf.name = line.substr(0, sep);
-									std::wstring::size_type sep2 = line.find(L',');
-									if (sep2 < line.length())
-									{
-										pf.id = line.substr(sep + 2, sep2 - sep - 2);
-									}
-									else
-									{
-										pf.id = line.substr(sep + 2);
-									}
-									ret.push_back(pf);
-								}
-							}
+				std::wstring str = Utf2T(pString->GetText()).get();
+				std::wstring::size_type pos = str.find(L'\n');
+				if (pos < str.length()) {
+					str = str.substr(pos + 1);
+				}
+				pos = str.find(L'\n');
+				if (pos < str.length()) {
+					str = str.substr(pos + 1);
+				}
+				pos = str.find(L'\n');
+				while (pos < str.length()) {
+					std::wstring line = str.substr(0, pos);
+					std::wstring::size_type sep = line.find(L':');
+					if (sep < line.length()) {
+						PasteFormat pf;
+						pf.name = line.substr(0, sep);
+						std::wstring::size_type sep2 = line.find(L',');
+						if (sep2 < line.length()) {
+							pf.id = line.substr(sep + 2, sep2 - sep - 2);
 						}
+						else {
+							pf.id = line.substr(sep + 2);
+						}
+						ret.push_back(pf);
+					}
+
+					if (pos < str.length() - 1) {
+						str = str.substr(pos + 1);
+					}
+					else {
+						str = L"";
+					}
+					pos = str.find(L'\n');
+				}
+				{
+					std::wstring line = str;
+					std::wstring::size_type sep = line.find(L':');
+					if (sep < line.length()) {
+						PasteFormat pf;
+						pf.name = line.substr(0, sep);
+						std::wstring::size_type sep2 = line.find(L',');
+						if (sep2 < line.length()) {
+							pf.id = line.substr(sep + 2, sep2 - sep - 2);
+						}
+						else {
+							pf.id = line.substr(sep + 2);
+						}
+						ret.push_back(pf);
 					}
 				}
 			}
-			xmlDestroyNode(hXml);
 		}
 		mir_free(resCont);
 	}

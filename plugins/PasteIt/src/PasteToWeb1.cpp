@@ -273,52 +273,37 @@ void PasteToWeb1::SendToServer(std::wstring str, std::wstring fileName, std::wst
 	content += Options::instance->webOptions[pageIndex]->combo1.empty() ? L"1M" : Options::instance->webOptions[pageIndex]->combo1;
 	content += L"&api_dev_key=dcba056bf9cc71729fdad76dddcb0dcd&api_paste_format=";
 	content += format;
-	if (!Options::instance->webOptions[pageIndex]->pastebinUserKey.empty())
-	{
+	if (!Options::instance->webOptions[pageIndex]->pastebinUserKey.empty()) {
 		content += L"&api_user_key=";
 		content += Options::instance->webOptions[pageIndex]->pastebinUserKey;
 	}
 	content += L"&api_paste_code=";
-	for (std::wstring::iterator it = str.begin(); it != str.end(); ++it)
-	{
-		if (*it == L'%')
-		{
+	for (std::wstring::iterator it = str.begin(); it != str.end(); ++it) {
+		if (*it == L'%') {
 			content += L"%25";
 		}
-		else if (*it == L'&')
-		{
+		else if (*it == L'&') {
 			content += L"%26";
 		}
-		else if (*it == L'=')
-		{
+		else if (*it == L'=') {
 			content += L"%3D";
 		}
-		else
-		{
+		else {
 			content += *it;
 		}
 	}
 
-	wchar_t* resCont = SendToWeb("http://pastebin.com/api/api_post.php", headers, content);
-	if (resCont != nullptr)
-	{
-		if (memcmp(L"Bad API request, ", resCont, 17 * sizeof(wchar_t)) == 0)
-		{
-			mir_snwprintf(bufErr, TranslateT("Error during sending text to web page: %s"), resCont + 17);
+	char *resCont = SendToWeb("http://pastebin.com/api/api_post.php", headers, content);
+	if (resCont != nullptr) {
+		if (memcmp("Bad API request, ", resCont, 17) == 0) {
+			mir_snwprintf(bufErr, TranslateT("Error during sending text to web page: %S"), resCont + 17);
 			error = bufErr;
 		}
-		else
-		{
-			char* s = mir_u2a_cp(resCont, CP_ACP);
-			mir_strncpy(szFileLink, s, _countof(szFileLink));
-			mir_free(s);
-		}
+		else mir_strncpy(szFileLink, resCont, _countof(szFileLink));
+
 		mir_free(resCont);
 	}
-	else
-	{
-		error = TranslateT("Error during sending text to web page");
-	}
+	else error = TranslateT("Error during sending text to web page");
 }
 
 std::wstring PasteToWeb1::GetUserKey(std::wstring& user, std::wstring& password)
@@ -330,17 +315,14 @@ std::wstring PasteToWeb1::GetUserKey(std::wstring& user, std::wstring& password)
 	content += L"&api_user_password=";
 	content += password;
 	content += L"&api_dev_key=dcba056bf9cc71729fdad76dddcb0dcd";
-	wchar_t* resCont = SendToWeb("http://pastebin.com/api/api_login.php", headers, content);
+	char *resCont = SendToWeb("http://pastebin.com/api/api_login.php", headers, content);
 	std::wstring toRet;
-	if (resCont != nullptr)
-	{
-		if (memcmp(L"Bad API request, ", resCont, 17 * sizeof(wchar_t)) == 0)
-		{
-			mir_snwprintf(bufErr, TranslateT("Error during getting user key from web page: %s"), resCont + 17);
+	if (resCont != nullptr) {
+		if (memcmp("Bad API request, ", resCont, 17) == 0) {
+			mir_snwprintf(bufErr, TranslateT("Error during getting user key from web page: %S"), resCont + 17);
 			MessageBox(nullptr, bufErr, TranslateT("Error"), MB_OK | MB_ICONERROR);
 		}
-		else
-			toRet = resCont;
+		else toRet = Utf2T(resCont).get();
 		mir_free(resCont);
 	}
 
@@ -388,4 +370,3 @@ void PasteToWeb1::ConfigureSettings()
 	Options::instance->webOptions[pageIndex]->combo1 = L"1M";
 	Options::instance->webOptions[pageIndex]->isPastebin = true;
 }
-

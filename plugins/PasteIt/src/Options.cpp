@@ -76,8 +76,8 @@ INT_PTR CALLBACK Options::DlgProcOptsMain(HWND hwndDlg, UINT msg, WPARAM wParam,
 {
 	switch (msg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 		{
-			TranslateDialogDefault(hwndDlg);
 			CheckDlgButton(hwndDlg, IDC_AUTOUTF, instance->autoUTF ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_CONFDLG, instance->confDlg ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_AUTOSEND, instance->autoSend ? BST_CHECKED : BST_UNCHECKED);
@@ -89,35 +89,33 @@ INT_PTR CALLBACK Options::DlgProcOptsMain(HWND hwndDlg, UINT msg, WPARAM wParam,
 			ComboBox_SetCurSel(GetDlgItem(hwndDlg, IDC_WEBLIST), instance->defWeb);
 
 			InitCodepageCB(GetDlgItem(hwndDlg, IDC_CODEPAGE), instance->codepage);
-			return TRUE;
 		}
+		return TRUE;
+
 	case WM_COMMAND:
-		{
-			if (LOWORD(wParam) == IDC_CODEPAGE) {
-				if (HIWORD(wParam) == CBN_KILLFOCUS) {
-					GetCodepageCB(GetDlgItem(hwndDlg, IDC_CODEPAGE), true, instance->codepage);
-				}
+		if (LOWORD(wParam) == IDC_CODEPAGE) {
+			if (HIWORD(wParam) == CBN_KILLFOCUS) {
+				GetCodepageCB(GetDlgItem(hwndDlg, IDC_CODEPAGE), true, instance->codepage);
 			}
-
-			if (HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == CBN_SELCHANGE || HIWORD(wParam) == CBN_EDITCHANGE)
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			return TRUE;
 		}
+
+		if (HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == CBN_SELCHANGE || HIWORD(wParam) == CBN_EDITCHANGE)
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		return TRUE;
+
 	case WM_NOTIFY:
-		{
-			if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-				instance->codepage = GetCodepageCB(GetDlgItem(hwndDlg, IDC_CODEPAGE), false, instance->codepage);
-				instance->autoUTF = IsDlgButtonChecked(hwndDlg, IDC_AUTOUTF) ? true : false;
-				instance->confDlg = IsDlgButtonChecked(hwndDlg, IDC_CONFDLG) ? true : false;
-				instance->autoSend = IsDlgButtonChecked(hwndDlg, IDC_AUTOSEND) ? true : false;
-				instance->defWeb = ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_WEBLIST));
+		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
+			instance->codepage = GetCodepageCB(GetDlgItem(hwndDlg, IDC_CODEPAGE), false, instance->codepage);
+			instance->autoUTF = IsDlgButtonChecked(hwndDlg, IDC_AUTOUTF) ? true : false;
+			instance->confDlg = IsDlgButtonChecked(hwndDlg, IDC_CONFDLG) ? true : false;
+			instance->autoSend = IsDlgButtonChecked(hwndDlg, IDC_AUTOSEND) ? true : false;
+			instance->defWeb = ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_WEBLIST));
 
-				DefWebPageChanged();
+			DefWebPageChanged();
 
-				Options::instance->Save();
-			}
-			return TRUE;
+			Options::instance->Save();
 		}
+		return TRUE;
 	}
 
 	return FALSE;
@@ -171,9 +169,9 @@ void ReloadFormatsCombo(HWND hWnd, WebOptions* wo)
 			sel = i;
 		++i;
 	}
-	if (!wo->formats.empty()) {
+	
+	if (!wo->formats.empty())
 		ComboBox_SetCurSel(hWnd, sel);
-	}
 }
 
 void GetPagesSettings(HWND hwndDlg, OptsPagesData* optsPagesData)
@@ -204,6 +202,7 @@ void GetPagesSettings(HWND hwndDlg, OptsPagesData* optsPagesData)
 			}
 		}
 	}
+	
 	if (optsPagesData->webOptions[selected]->isPublicPaste) {
 		if (IsDlgButtonChecked(hwndDlg, IDC_GUEST)) {
 			optsPagesData->webOptions[selected]->pastebinUserKey = L"";
@@ -220,20 +219,18 @@ INT_PTR CALLBACK Options::DlgProcOptsPages(HWND hwndDlg, UINT msg, WPARAM wParam
 {
 	switch (msg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 		{
-			TranslateDialogDefault(hwndDlg);
 			OptsPagesData* optsPagesData = new OptsPagesData();
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)optsPagesData);
 
 			HWND btnhwnd = GetDlgItem(hwndDlg, IDC_PASTEBIN_LOGIN);
 			int btSize = Button_GetTextLength(btnhwnd);
-			if (btSize > 20) {
+			if (btSize > 20)
 				SetWindowPos(btnhwnd, nullptr, 0, 0, 115, 34, SWP_NOZORDER | SWP_NOMOVE | SWP_NOREPOSITION | SWP_NOACTIVATE | SWP_NOREDRAW);
-			}
 
-			for (int i = 0; i < PasteToWeb::pages; ++i) {
+			for (int i = 0; i < PasteToWeb::pages; ++i)
 				ComboBox_AddString(GetDlgItem(hwndDlg, IDC_WEBPAGE), pasteToWebs[i]->GetName());
-			}
 
 			ComboBox_SetCurSel(GetDlgItem(hwndDlg, IDC_WEBPAGE), 0);
 			ReloadFormatsCombo(GetDlgItem(hwndDlg, IDC_DEFFORMAT), optsPagesData->webOptions[0]);
@@ -275,9 +272,7 @@ INT_PTR CALLBACK Options::DlgProcOptsPages(HWND hwndDlg, UINT msg, WPARAM wParam
 					Static_Enable(GetDlgItem(hwndDlg, IDC_PASTEBIN_KEY_DESC), FALSE);
 					Button_Enable(GetDlgItem(hwndDlg, IDC_PASTEBIN_LOGIN), FALSE);
 				}
-				else {
-					Edit_SetText(GetDlgItem(hwndDlg, IDC_PASTEBIN_KEY), pastebinUserKey.c_str());
-				}
+				else Edit_SetText(GetDlgItem(hwndDlg, IDC_PASTEBIN_KEY), pastebinUserKey.c_str());
 			}
 			else {
 				ShowWindow(GetDlgItem(hwndDlg, IDC_GUEST), SW_HIDE);
@@ -287,8 +282,9 @@ INT_PTR CALLBACK Options::DlgProcOptsPages(HWND hwndDlg, UINT msg, WPARAM wParam
 			}
 
 			optsPagesData->init = true;
-			return TRUE;
 		}
+		return TRUE;
+
 	case WM_COMMAND:
 		{
 			OptsPagesData* optsPagesData = (OptsPagesData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -326,15 +322,13 @@ INT_PTR CALLBACK Options::DlgProcOptsPages(HWND hwndDlg, UINT msg, WPARAM wParam
 					ShowWindow(GetDlgItem(hwndDlg, IDC_AUTOFORMAT), SW_SHOW);
 					CheckDlgButton(hwndDlg, IDC_AUTOFORMAT, optsPagesData->webOptions[optsPagesData->lastPage]->sendFileName ? BST_CHECKED : BST_UNCHECKED);
 				}
-				else
-					ShowWindow(GetDlgItem(hwndDlg, IDC_AUTOFORMAT), SW_HIDE);
+				else ShowWindow(GetDlgItem(hwndDlg, IDC_AUTOFORMAT), SW_HIDE);
 
 				if (optsPagesData->webOptions[optsPagesData->lastPage]->isPublicPaste) {
 					ShowWindow(GetDlgItem(hwndDlg, IDC_PUBLICPASTE), SW_SHOW);
 					CheckDlgButton(hwndDlg, IDC_PUBLICPASTE, optsPagesData->webOptions[optsPagesData->lastPage]->publicPaste ? BST_CHECKED : BST_UNCHECKED);
 				}
-				else
-					ShowWindow(GetDlgItem(hwndDlg, IDC_PUBLICPASTE), SW_HIDE);
+				else ShowWindow(GetDlgItem(hwndDlg, IDC_PUBLICPASTE), SW_HIDE);
 
 				if (optsPagesData->webOptions[optsPagesData->lastPage]->isCombo1) {
 					ShowWindow(GetDlgItem(hwndDlg, IDC_COMBO1), SW_SHOW);
@@ -357,7 +351,6 @@ INT_PTR CALLBACK Options::DlgProcOptsPages(HWND hwndDlg, UINT msg, WPARAM wParam
 					ShowWindow(GetDlgItem(hwndDlg, IDC_COMBO1), SW_HIDE);
 					ShowWindow(GetDlgItem(hwndDlg, IDC_COMBO1_DESC), SW_HIDE);
 				}
-
 
 				if (optsPagesData->webOptions[optsPagesData->lastPage]->isPastebin) {
 					ShowWindow(GetDlgItem(hwndDlg, IDC_GUEST), SW_SHOW);
@@ -392,28 +385,26 @@ INT_PTR CALLBACK Options::DlgProcOptsPages(HWND hwndDlg, UINT msg, WPARAM wParam
 
 			if (optsPagesData->init && ((HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) != IDC_CONFIGURE && LOWORD(wParam) != IDC_PASTEBIN_LOGIN) || (HIWORD(wParam) == CBN_SELCHANGE && LOWORD(wParam) != IDC_WEBPAGE) || HIWORD(wParam) == EN_CHANGE))
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			return TRUE;
 		}
-	case WM_NOTIFY:
-		{
-			if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-				OptsPagesData* optsPagesData = (OptsPagesData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				GetPagesSettings(hwndDlg, optsPagesData);
-				for (int i = 0; i < PasteToWeb::pages; ++i) {
-					*Options::instance->webOptions[i] = *optsPagesData->webOptions[i];
-				}
+		return TRUE;
 
-				Options::instance->Save();
+	case WM_NOTIFY:
+		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
+			OptsPagesData* optsPagesData = (OptsPagesData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+			GetPagesSettings(hwndDlg, optsPagesData);
+			for (int i = 0; i < PasteToWeb::pages; ++i) {
+				*Options::instance->webOptions[i] = *optsPagesData->webOptions[i];
 			}
-			return TRUE;
+
+			Options::instance->Save();
 		}
+		return TRUE;
+
 	case WM_CLOSE:
-		{
-			OptsPagesData *optsPagesData = (OptsPagesData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-			delete optsPagesData;
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
-			break;
-		}
+		OptsPagesData *optsPagesData = (OptsPagesData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+		delete optsPagesData;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
+		break;
 	}
 
 	return FALSE;
@@ -443,8 +434,8 @@ INT_PTR CALLBACK Options::DlgProcOptsConfigure(HWND hwndDlg, UINT msg, WPARAM wP
 {
 	switch (msg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 		{
-			TranslateDialogDefault(hwndDlg);
 			OptsConfigureData* optsConfigureData = (OptsConfigureData*)lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
@@ -454,116 +445,115 @@ INT_PTR CALLBACK Options::DlgProcOptsConfigure(HWND hwndDlg, UINT msg, WPARAM wP
 			}
 
 			SelectLbConfigure(hwndDlg, -1, optsConfigureData);
-			return TRUE;
 		}
+		return TRUE;
+
 	case WM_COMMAND:
-		{
-			if (HIWORD(wParam) == BN_CLICKED) {
-				if (LOWORD(wParam) == IDOK) {
-					EndDialog(hwndDlg, IDOK);
-				}
-				else if (LOWORD(wParam) == IDCANCEL) {
-					EndDialog(hwndDlg, IDCANCEL);
-				}
-				else if (LOWORD(wParam) == IDC_DELETE) {
-					HWND lb = GetDlgItem(hwndDlg, IDC_FORMATTING);
-					OptsConfigureData* optsConfigureData = (OptsConfigureData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-					int sel = ListBox_GetCurSel(lb);
-					if (sel >= 0) {
-						ListBox_DeleteString(lb, sel);
-						int i = sel;
-						for (std::list<PasteFormat>::iterator it = optsConfigureData->tempFormats.begin(); it != optsConfigureData->tempFormats.end(); ++it) {
-							if (i-- <= 0) {
-								optsConfigureData->tempFormats.erase(it);
-								ListBox_SetCurSel(lb, sel);
-								SelectLbConfigure(hwndDlg, sel, optsConfigureData);
-								break;
-							}
-						}
-					}
-				}
-				else if (LOWORD(wParam) == IDC_UP) {
-					HWND lb = GetDlgItem(hwndDlg, IDC_FORMATTING);
-					OptsConfigureData* optsConfigureData = (OptsConfigureData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-					int sel = ListBox_GetCurSel(lb);
-					if (sel > 0) {
-						int i = sel;
-						for (std::list<PasteFormat>::iterator it = optsConfigureData->tempFormats.begin(); it != optsConfigureData->tempFormats.end(); ++it) {
-							if (i-- <= 0) {
-								PasteFormat pf = *it;
-								std::list<PasteFormat>::iterator prevIt = it;
-								--prevIt;
-								optsConfigureData->tempFormats.erase(it);
-								optsConfigureData->tempFormats.insert(prevIt, pf);
-								ListBox_DeleteString(lb, sel--);
-								ListBox_InsertString(lb, sel, pf.name.c_str());
-								ListBox_SetCurSel(lb, sel);
-								SelectLbConfigure(hwndDlg, sel, optsConfigureData);
-								break;
-							}
-						}
-					}
-				}
-				else if (LOWORD(wParam) == IDC_DOWN) {
-					HWND lb = GetDlgItem(hwndDlg, IDC_FORMATTING);
-					OptsConfigureData* optsConfigureData = (OptsConfigureData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-					int sel = ListBox_GetCurSel(lb);
-					if (sel >= 0 && sel + 1 < (int)optsConfigureData->tempFormats.size()) {
-						int i = sel;
-						for (std::list<PasteFormat>::iterator it = optsConfigureData->tempFormats.begin(); it != optsConfigureData->tempFormats.end(); ++it) {
-							if (i-- <= 0) {
-								PasteFormat pf = *it;
-								std::list<PasteFormat>::iterator nextIt = it;
-								++(++nextIt);
-								optsConfigureData->tempFormats.erase(it);
-								optsConfigureData->tempFormats.insert(nextIt, pf);
-								ListBox_DeleteString(lb, sel++);
-								ListBox_InsertString(lb, sel, pf.name.c_str());
-								ListBox_SetCurSel(lb, sel);
-								SelectLbConfigure(hwndDlg, sel, optsConfigureData);
-								break;
-							}
-						}
-					}
-				}
-				else if (LOWORD(wParam) == IDC_DOWNLOAD) {
-					OptsConfigureData* optsConfigureData = (OptsConfigureData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-					HWND lb = GetDlgItem(hwndDlg, IDC_FORMATTING);
-					while (ListBox_DeleteString(lb, 0) > 0);
-					SelectLbConfigure(hwndDlg, -1, optsConfigureData);
-					optsConfigureData->tempFormats = pasteToWebs[optsConfigureData->page]->GetFormats();
-					for (std::list<PasteFormat>::iterator it = optsConfigureData->tempFormats.begin(); it != optsConfigureData->tempFormats.end(); ++it) {
-						ListBox_AddString(lb, it->name.c_str());
-					}
-				}
-				else if (LOWORD(wParam) == IDC_RESTORE) {
-					OptsConfigureData* optsConfigureData = (OptsConfigureData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-					HWND lb = GetDlgItem(hwndDlg, IDC_FORMATTING);
-					while (ListBox_DeleteString(lb, 0) > 0);
-					SelectLbConfigure(hwndDlg, -1, optsConfigureData);
-					optsConfigureData->tempFormats = pasteToWebs[optsConfigureData->page]->GetDefFormats();
-					for (std::list<PasteFormat>::iterator it = optsConfigureData->tempFormats.begin(); it != optsConfigureData->tempFormats.end(); ++it) {
-						ListBox_AddString(lb, it->name.c_str());
-					}
-				}
+		if (HIWORD(wParam) == BN_CLICKED) {
+			if (LOWORD(wParam) == IDOK) {
+				EndDialog(hwndDlg, IDOK);
 			}
-			else if (HIWORD(wParam) == LBN_SELCHANGE && LOWORD(wParam) == IDC_FORMATTING) {
+			else if (LOWORD(wParam) == IDCANCEL) {
+				EndDialog(hwndDlg, IDCANCEL);
+			}
+			else if (LOWORD(wParam) == IDC_DELETE) {
+				HWND lb = GetDlgItem(hwndDlg, IDC_FORMATTING);
 				OptsConfigureData* optsConfigureData = (OptsConfigureData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				int sel = ListBox_GetCurSel(GetDlgItem(hwndDlg, IDC_FORMATTING));
-				SelectLbConfigure(hwndDlg, sel, optsConfigureData);
+				int sel = ListBox_GetCurSel(lb);
+				if (sel >= 0) {
+					ListBox_DeleteString(lb, sel);
+					int i = sel;
+					for (std::list<PasteFormat>::iterator it = optsConfigureData->tempFormats.begin(); it != optsConfigureData->tempFormats.end(); ++it) {
+						if (i-- <= 0) {
+							optsConfigureData->tempFormats.erase(it);
+							ListBox_SetCurSel(lb, sel);
+							SelectLbConfigure(hwndDlg, sel, optsConfigureData);
+							break;
+						}
+					}
+				}
 			}
-			return TRUE;
+			else if (LOWORD(wParam) == IDC_UP) {
+				HWND lb = GetDlgItem(hwndDlg, IDC_FORMATTING);
+				OptsConfigureData* optsConfigureData = (OptsConfigureData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+				int sel = ListBox_GetCurSel(lb);
+				if (sel > 0) {
+					int i = sel;
+					for (std::list<PasteFormat>::iterator it = optsConfigureData->tempFormats.begin(); it != optsConfigureData->tempFormats.end(); ++it) {
+						if (i-- <= 0) {
+							PasteFormat pf = *it;
+							std::list<PasteFormat>::iterator prevIt = it;
+							--prevIt;
+							optsConfigureData->tempFormats.erase(it);
+							optsConfigureData->tempFormats.insert(prevIt, pf);
+							ListBox_DeleteString(lb, sel--);
+							ListBox_InsertString(lb, sel, pf.name.c_str());
+							ListBox_SetCurSel(lb, sel);
+							SelectLbConfigure(hwndDlg, sel, optsConfigureData);
+							break;
+						}
+					}
+				}
+			}
+			else if (LOWORD(wParam) == IDC_DOWN) {
+				HWND lb = GetDlgItem(hwndDlg, IDC_FORMATTING);
+				OptsConfigureData* optsConfigureData = (OptsConfigureData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+				int sel = ListBox_GetCurSel(lb);
+				if (sel >= 0 && sel + 1 < (int)optsConfigureData->tempFormats.size()) {
+					int i = sel;
+					for (std::list<PasteFormat>::iterator it = optsConfigureData->tempFormats.begin(); it != optsConfigureData->tempFormats.end(); ++it) {
+						if (i-- <= 0) {
+							PasteFormat pf = *it;
+							std::list<PasteFormat>::iterator nextIt = it;
+							++(++nextIt);
+							optsConfigureData->tempFormats.erase(it);
+							optsConfigureData->tempFormats.insert(nextIt, pf);
+							ListBox_DeleteString(lb, sel++);
+							ListBox_InsertString(lb, sel, pf.name.c_str());
+							ListBox_SetCurSel(lb, sel);
+							SelectLbConfigure(hwndDlg, sel, optsConfigureData);
+							break;
+						}
+					}
+				}
+			}
+			else if (LOWORD(wParam) == IDC_DOWNLOAD) {
+				OptsConfigureData* optsConfigureData = (OptsConfigureData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+				HWND lb = GetDlgItem(hwndDlg, IDC_FORMATTING);
+				while (ListBox_DeleteString(lb, 0) > 0);
+				SelectLbConfigure(hwndDlg, -1, optsConfigureData);
+				optsConfigureData->tempFormats = pasteToWebs[optsConfigureData->page]->GetFormats();
+				for (std::list<PasteFormat>::iterator it = optsConfigureData->tempFormats.begin(); it != optsConfigureData->tempFormats.end(); ++it) {
+					ListBox_AddString(lb, it->name.c_str());
+				}
+			}
+			else if (LOWORD(wParam) == IDC_RESTORE) {
+				OptsConfigureData* optsConfigureData = (OptsConfigureData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+				HWND lb = GetDlgItem(hwndDlg, IDC_FORMATTING);
+				while (ListBox_DeleteString(lb, 0) > 0);
+				SelectLbConfigure(hwndDlg, -1, optsConfigureData);
+				optsConfigureData->tempFormats = pasteToWebs[optsConfigureData->page]->GetDefFormats();
+				for (std::list<PasteFormat>::iterator it = optsConfigureData->tempFormats.begin(); it != optsConfigureData->tempFormats.end(); ++it) {
+					ListBox_AddString(lb, it->name.c_str());
+				}
+			}
 		}
+		else if (HIWORD(wParam) == LBN_SELCHANGE && LOWORD(wParam) == IDC_FORMATTING) {
+			OptsConfigureData* optsConfigureData = (OptsConfigureData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+			int sel = ListBox_GetCurSel(GetDlgItem(hwndDlg, IDC_FORMATTING));
+			SelectLbConfigure(hwndDlg, sel, optsConfigureData);
+		}
+		return TRUE;
+
 	case WM_VKEYTOITEM:
 		if (LOWORD(wParam) == VK_DELETE && (HWND)lParam == GetDlgItem(hwndDlg, IDC_FORMATTING)) {
 			DlgProcOptsConfigure(hwndDlg, WM_COMMAND, MAKELONG(IDC_DELETE, BN_CLICKED), NULL);
 			return -2;
 		}
 		return -1;
+
 	case WM_NOTIFY:
-		{
-			return TRUE;
-		}
+		return TRUE;
 	}
 
 	return FALSE;
@@ -573,35 +563,31 @@ INT_PTR CALLBACK Options::DlgProcOptsLogin(HWND hwndDlg, UINT msg, WPARAM wParam
 {
 	switch (msg) {
 	case WM_INITDIALOG:
-		{
-			TranslateDialogDefault(hwndDlg);
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-			Edit_LimitText(GetDlgItem(hwndDlg, IDC_PASTEBIN_USER), 99);
-			Edit_LimitText(GetDlgItem(hwndDlg, IDC_PASTEBIN_PASSWORD), 99);
-			return TRUE;
-		}
+		TranslateDialogDefault(hwndDlg);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+		Edit_LimitText(GetDlgItem(hwndDlg, IDC_PASTEBIN_USER), 99);
+		Edit_LimitText(GetDlgItem(hwndDlg, IDC_PASTEBIN_PASSWORD), 99);
+		return TRUE;
+
 	case WM_COMMAND:
-		{
-			if (HIWORD(wParam) == BN_CLICKED) {
-				if (LOWORD(wParam) == IDOK) {
-					wchar_t buf[100];
-					OptsLoginData* optsLoginData = (OptsLoginData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-					Edit_GetText(GetDlgItem(hwndDlg, IDC_PASTEBIN_USER), buf, 100);
-					optsLoginData->user = buf;
-					Edit_GetText(GetDlgItem(hwndDlg, IDC_PASTEBIN_PASSWORD), buf, 100);
-					optsLoginData->password = buf;
-					EndDialog(hwndDlg, IDOK);
-				}
-				else if (LOWORD(wParam) == IDCANCEL) {
-					EndDialog(hwndDlg, IDCANCEL);
-				}
+		if (HIWORD(wParam) == BN_CLICKED) {
+			if (LOWORD(wParam) == IDOK) {
+				wchar_t buf[100];
+				OptsLoginData* optsLoginData = (OptsLoginData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+				Edit_GetText(GetDlgItem(hwndDlg, IDC_PASTEBIN_USER), buf, 100);
+				optsLoginData->user = buf;
+				Edit_GetText(GetDlgItem(hwndDlg, IDC_PASTEBIN_PASSWORD), buf, 100);
+				optsLoginData->password = buf;
+				EndDialog(hwndDlg, IDOK);
 			}
-			return TRUE;
+			else if (LOWORD(wParam) == IDCANCEL) {
+				EndDialog(hwndDlg, IDCANCEL);
+			}
 		}
+		return TRUE;
+
 	case WM_NOTIFY:
-		{
-			return TRUE;
-		}
+		return TRUE;
 	}
 
 	return FALSE;
