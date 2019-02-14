@@ -470,6 +470,9 @@ bool CSkypeProto::IsFileExists(std::wstring path)
 
 CMStringA CSkypeProto::ParseUrl(const char *url, const char *token)
 {
+	if (url == nullptr)
+		return CMStringA();
+
 	const char *start = strstr(url, token);
 	if (start == nullptr)
 		return CMStringA();

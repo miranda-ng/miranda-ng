@@ -245,7 +245,6 @@ INT_PTR CSkypeProto::OnLeaveChatRoom(WPARAM hContact, LPARAM)
 
 void CSkypeProto::OnChatEvent(const JSONNode &node)
 {
-	//CMStringA szMessageId = node["clientmessageid"] ? node["clientmessageid"].as_string().c_str() : node["skypeeditedid"].as_string().c_str();
 	CMStringA szConversationName(UrlToSkypename(node["conversationLink"].as_string().c_str()));
 	CMStringA szFromSkypename(UrlToSkypename(node["from"].as_string().c_str()));
 
@@ -256,7 +255,6 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 	std::string strContent = node["content"].as_string();
 	int nEmoteOffset = node["skypeemoteoffset"].as_int();
 
-
 	if (FindChatRoom(szConversationName) == NULL)
 		SendRequest(new GetChatInfoRequest(szConversationName, li), &CSkypeProto::OnGetChatInfo, szTopic.Detach());
 
@@ -266,97 +264,71 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 		AddMessageToChat(_A2T(szConversationName), _A2T(szFromSkypename), szClearedContent, nEmoteOffset != NULL, nEmoteOffset, timestamp);
 	}
 	else if (messageType == "ThreadActivity/AddMember") {
-		ptrA xinitiator, xtarget, initiator;
-		//content = <addmember><eventtime>1429186229164</eventtime><initiator>8:initiator</initiator><target>8:user</target></addmember>
-
-		HXML xml = xmlParseString(ptrW(mir_utf8decodeW(strContent.c_str())), nullptr, L"addmember");
-		if (xml == nullptr)
+		// <addmember><eventtime>1429186229164</eventtime><initiator>8:initiator</initiator><target>8:user</target></addmember>
+		TiXmlDocument doc;
+		if (0 != doc.Parse(strContent.c_str()))
 			return;
 
-		for (int i = 0; i < xmlGetChildCount(xml); i++) {
-			HXML xmlNode = xmlGetNthChild(xml, L"target", i);
-			if (xmlNode == nullptr)
-				break;
-
-			xtarget = mir_u2a(xmlGetText(xmlNode));
-
-			CMStringA target = ParseUrl(xtarget, "8:");
+		if (auto *pRoot = doc.FirstChildElement("addMember")) {
+			CMStringA target = ParseUrl(pRoot->FirstChildElement("target")->Value(), "8:");
 			AddChatContact(_A2T(szConversationName), target, target, L"User");
 		}
-		xmlDestroyNode(xml);
 	}
 	else if (messageType == "ThreadActivity/DeleteMember") {
-		ptrA xinitiator, xtarget;
-		//content = <addmember><eventtime>1429186229164</eventtime><initiator>8:initiator</initiator><target>8:user</target></addmember>
-
-		HXML xml = xmlParseString(ptrW(mir_utf8decodeW(strContent.c_str())), nullptr, L"deletemember");
-		if (xml != nullptr) {
-			HXML xmlNode = xmlGetChildByPath(xml, L"initiator", 0);
-			xinitiator = node != NULL ? mir_u2a(xmlGetText(xmlNode)) : nullptr;
-
-			xmlNode = xmlGetChildByPath(xml, L"target", 0);
-			xtarget = xmlNode != nullptr ? mir_u2a(xmlGetText(xmlNode)) : nullptr;
-
-			xmlDestroyNode(xml);
-		}
-		if (xtarget == NULL)
+		// <deletemember><eventtime>1429186229164</eventtime><initiator>8:initiator</initiator><target>8:user</target></deletemember>
+		TiXmlDocument doc;
+		if (0 != doc.Parse(strContent.c_str()))
 			return;
 
-		CMStringA target = ParseUrl(xtarget, "8:");
-		CMStringA initiator = ParseUrl(xinitiator, "8:");
-		RemoveChatContact(_A2T(szConversationName), target, target, true, initiator);
-
+		if (auto *pRoot = doc.FirstChildElement("deletemember")) {
+			CMStringA target = ParseUrl(pRoot->FirstChildElement("target")->Value(), "8:");
+			CMStringA initiator = ParseUrl(pRoot->FirstChildElement("initiator")->Value(), "8:");
+			RemoveChatContact(_A2T(szConversationName), target, target, true, initiator);
+		}
 	}
 	else if (messageType == "ThreadActivity/TopicUpdate") {
-		//content=<topicupdate><eventtime>1429532702130</eventtime><initiator>8:user</initiator><value>test topic</value></topicupdate>
-		ptrA xinitiator, value;
-		HXML xml = xmlParseString(ptrW(mir_utf8decodeW(strContent.c_str())), nullptr, L"topicupdate");
-		if (xml != nullptr) {
-			HXML xmlNode = xmlGetChildByPath(xml, L"initiator", 0);
-			xinitiator = xmlNode != nullptr ? mir_u2a(xmlGetText(xmlNode)) : nullptr;
+		// <topicupdate><eventtime>1429532702130</eventtime><initiator>8:user</initiator><value>test topic</value></topicupdate>
+		TiXmlDocument doc;
+		if (0 != doc.Parse(strContent.c_str()))
+			return;
 
-			xmlNode = xmlGetChildByPath(xml, L"value", 0);
-			value = xmlNode != nullptr ? mir_u2a(xmlGetText(xmlNode)) : nullptr;
-
-			xmlDestroyNode(xml);
+		auto *pRoot = doc.FirstChildElement("topicupdate");
+		if (pRoot) {
+			CMStringA initiator = ParseUrl(pRoot->FirstChildElement("initiator")->Value(), "8:");
+			CMStringA value = pRoot->FirstChildElement("value")->Value();
+			RenameChat(szConversationName, value);
+			ChangeChatTopic(szConversationName, value, initiator);
 		}
-
-		CMStringA initiator = ParseUrl(xinitiator, "8:");
-		RenameChat(szConversationName, value);
-		ChangeChatTopic(szConversationName, value, initiator);
 	}
 	else if (messageType == "ThreadActivity/RoleUpdate") {
-		//content=<roleupdate><eventtime>1429551258363</eventtime><initiator>8:user</initiator><target><id>8:user1</id><role>admin</role></target></roleupdate>
-		ptrA xinitiator, xId, xRole;
-		HXML xml = xmlParseString(ptrW(mir_utf8decodeW(strContent.c_str())), nullptr, L"roleupdate");
-		if (xml != nullptr) {
-			HXML xmlNode = xmlGetChildByPath(xml, L"initiator", 0);
-			xinitiator = xmlNode != nullptr ? mir_u2a(xmlGetText(xmlNode)) : nullptr;
+		// <roleupdate><eventtime>1429551258363</eventtime><initiator>8:user</initiator><target><id>8:user1</id><role>admin</role></target></roleupdate>
+		TiXmlDocument doc;
+		if (0 != doc.Parse(strContent.c_str()))
+			return;
 
-			xmlNode = xmlGetChildByPath(xml, L"target", 0);
-			if (xmlNode != nullptr) {
-				HXML xmlId = xmlGetChildByPath(xmlNode, L"id", 0);
-				HXML xmlRole = xmlGetChildByPath(xmlNode, L"role", 0);
-				xId = xmlId != nullptr ? mir_u2a(xmlGetText(xmlId)) : nullptr;
-				xRole = xmlRole != nullptr ? mir_u2a(xmlGetText(xmlRole)) : nullptr;
+		auto *pRoot = doc.FirstChildElement("roleupdate");
+		if (pRoot) {
+			CMStringA initiator = ParseUrl(pRoot->FirstChildElement("initiator")->Value(), "8:");
+
+			auto *pTarget = pRoot->FirstChildElement("target");
+			if (pTarget) {
+				CMStringA id = ParseUrl(pTarget->FirstChildElement("id")->Value(), "8:");
+				const char *role = pTarget->FirstChildElement("role")->Value();
+
+				ptrW tszId(mir_a2u(id));
+				ptrW tszRole(mir_a2u(role));
+				ptrW tszInitiator(mir_a2u(initiator));
+
+				GCEVENT gce = { m_szModuleName, _A2T(szConversationName), !mir_strcmpi(role, "Admin") ? GC_EVENT_ADDSTATUS : GC_EVENT_REMOVESTATUS };
+				gce.dwFlags = GCEF_ADDTOLOG;
+				gce.ptszNick = tszId;
+				gce.ptszUID = tszId;
+				gce.ptszText = tszInitiator;
+				gce.time = time(0);
+				gce.bIsMe = IsMe(id);
+				gce.ptszStatus = TranslateT("Admin");
+				Chat_Event(&gce);
 			}
-			xmlDestroyNode(xml);
-
-			CMStringA initiator = ParseUrl(xinitiator, "8:");
-			CMStringA id = ParseUrl(xId, "8:");
-			ptrW tszId(mir_a2u(id));
-			ptrW tszRole(mir_a2u(xRole));
-			ptrW tszInitiator(mir_a2u(initiator));
-
-			GCEVENT gce = { m_szModuleName, _A2T(szConversationName), !mir_strcmpi(xRole, "Admin") ? GC_EVENT_ADDSTATUS : GC_EVENT_REMOVESTATUS };
-			gce.dwFlags = GCEF_ADDTOLOG;
-			gce.ptszNick = tszId;
-			gce.ptszUID = tszId;
-			gce.ptszText = tszInitiator;
-			gce.time = time(0);
-			gce.bIsMe = IsMe(id);
-			gce.ptszStatus = TranslateT("Admin");
-			Chat_Event(&gce);
 		}
 	}
 }

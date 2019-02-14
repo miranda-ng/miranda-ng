@@ -16,13 +16,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "stdafx.h"
-#define INVALID_DATA Translate("SkypeWeb error: Invalid data!")
 
 INT_PTR CSkypeProto::GetEventText(WPARAM pEvent, LPARAM datatype)
 {
 	DBEVENTINFO *dbei = (DBEVENTINFO*)pEvent;
 
-	CMStringA szText;
+	CMStringA szText = Translate("SkypeWeb error: Invalid data!");
 
 	BOOL bUseBB = db_get_b(0, dbei->szModule, "UseBBCodes", 1);
 	switch (dbei->eventType) {
@@ -42,74 +41,54 @@ INT_PTR CSkypeProto::GetEventText(WPARAM pEvent, LPARAM datatype)
 
 					szText.AppendFormat(bUseBB ? Translate("[b]Edited at %s:[/b]\n%s\n") : Translate("Edited at %s:\n%s\n"), szTime, mir_utf8decodeA(jEdit["text"].as_string().c_str()));
 				}
-
 			}
-			else {
-				szText = INVALID_DATA;
-			}
-			break;
 		}
+		break;
 
 	case SKYPE_DB_EVENT_TYPE_CALL_INFO:
 		{
-			HXML xml = xmlParseString(ptrW(mir_utf8decodeW((char*)dbei->pBlob)), nullptr, L"partlist");
-			if (xml != nullptr) {
-				ptrA type(mir_u2a(xmlGetAttrValue(xml, L"type")));
-				bool bType = (!mir_strcmpi(type, "started")) ? 1 : 0;
+			TiXmlDocument doc;
+			if (0 != doc.Parse((char*)dbei->pBlob))
+				break;
+
+			if (auto *pRoot = doc.FirstChildElement("partlist")) {
+				bool bType = pRoot->IntAttribute("started") ? 1 : 0;
+
 				time_t callDuration = 0;
-
-				for (int i = 0; i < xmlGetChildCount(xml); i++) {
-					HXML xmlPart = xmlGetNthChild(xml, L"part", i);
-					if (xmlPart != nullptr) {
-						HXML xmlDuration = xmlGetChildByPath(xmlPart, L"duration", 0);
-
-						if (xmlDuration != nullptr) {
-							callDuration = _wtol(xmlGetText(xmlDuration));
-							break;
-						}
+				for (auto *it : TiXmlFilter(pRoot, "part")) {
+					auto *xmlDuration = it->FirstChildElement("duration");
+					if (xmlDuration != nullptr) {
+						callDuration = atoi(xmlDuration->GetText());
+						break;
 					}
 				}
 
-				if (bType) {
+				if (bType)
 					szText = Translate("Call");
-				}
+				else if (callDuration == 0)
+					szText = Translate("Call missed");
 				else {
-					if (callDuration == 0) {
-						szText = Translate("Call missed");
-					}
-					else {
-						char szTime[100];
-						strftime(szTime, sizeof(szTime), "%X", gmtime(&callDuration));
-						szText.Format(Translate("Call ended (%s)"), szTime);
-					}
+					char szTime[100];
+					strftime(szTime, sizeof(szTime), "%X", gmtime(&callDuration));
+					szText.Format(Translate("Call ended (%s)"), szTime);
 				}
-				xmlDestroyNode(xml);
 			}
-			else {
-				szText = INVALID_DATA;
-			}
-			break;
 		}
+		break;
+
 	case SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO:
 		{
-			HXML xml = xmlParseString(ptrW(mir_utf8decodeW((char*)dbei->pBlob)), nullptr, L"files");
-			if (xml != nullptr) {
-				for (int i = 0; i < xmlGetChildCount(xml); i++) {
-					LONGLONG fileSize = 0;
-					HXML xmlNode = xmlGetNthChild(xml, L"file", i);
-					if (xmlNode != nullptr) {
-						fileSize = _wtol(xmlGetAttrValue(xmlNode, L"size"));
-						char *fileName = _T2A(xmlGetText(xmlNode));
-						if (fileName != nullptr) {
-							szText.AppendFormat(Translate("File transfer:\n\tFile name: %s \n\tSize: %lld bytes \n"), fileName, fileSize);
-						}
+			TiXmlDocument doc;
+			if (0 != doc.Parse((char*)dbei->pBlob))
+				break;
 
-					}
+			if (auto *pRoot = doc.FirstChildElement("files")) {
+				for (auto *it : TiXmlFilter(pRoot, "file")) {
+					LONGLONG fileSize = it->Int64Attribute("size");
+					const char *fileName = it->GetText();
+					if (fileName != nullptr)
+						szText.AppendFormat(Translate("File transfer:\n\tFile name: %s \n\tSize: %lld bytes \n"), fileName, fileSize);
 				}
-				xmlDestroyNode(xml);
-			}
-			else {
-				szText = INVALID_DATA;
 			}
 		}
 		break;
@@ -118,18 +97,13 @@ INT_PTR CSkypeProto::GetEventText(WPARAM pEvent, LPARAM datatype)
 	case SKYPE_DB_EVENT_TYPE_MOJI:
 	case SKYPE_DB_EVENT_TYPE_URIOBJ:
 		{
-			HXML xml = xmlParseString(ptrW(mir_utf8decodeW((char*)dbei->pBlob)), nullptr, L"URIObject");
-			if (xml != nullptr) {
-				//szText.Append(_T2A(xmlGetText(xml)));
-				HXML xmlA = xmlGetChildByPath(xml, L"a", 0);
-				if (xmlA != nullptr) {
-					szText += T2Utf(xmlGetAttrValue(xmlA, L"href"));
-				}
-				xmlDestroyNode(xml);
-			}
-			else {
-				szText = INVALID_DATA;
-			}
+			TiXmlDocument doc;
+			if (0 != doc.Parse((char*)dbei->pBlob))
+				break;
+
+			if (auto *pRoot = doc.FirstChildElement("URIObject"))
+				if (auto *xmlA = pRoot->FirstChildElement("a"))
+					szText += xmlA->Attribute("href");
 		}
 		break;
 

@@ -74,22 +74,28 @@ void CSkypeProto::OnASMObjectUploaded(const NETLIBHTTPREQUEST *response, void *a
 
 	wchar_t *tszFile = wcsrchr(fup->tszFileName, L'\\') + 1;
 
-	HXML xml = xmlCreateNode(L"URIObject", nullptr, 0);
-	xmlAddChild(xml, L"Title", tszFile);
-	xmlAddChild(xml, L"Description", fup->tszDesc);
-	HXML xmlA = xmlAddChild(xml, L"a", CMStringW(FORMAT, L"https://login.skype.com/login/sso?go=webclient.xmm&docid=%s", _A2T(fup->uid)));
-	xmlAddAttr(xmlA, L"href", CMStringW(FORMAT, L"https://login.skype.com/login/sso?go=webclient.xmm&docid=%s", _A2T(fup->uid)));
-	HXML xmlOrigName = xmlAddChild(xml, L"OriginalName", nullptr);
-	xmlAddAttr(xmlOrigName, L"v", tszFile);
-	HXML xmlSize = xmlAddChild(xml, L"FileSize", nullptr);
-	xmlAddAttr(xmlSize, L"v", CMStringW(FORMAT, L"%d", fup->size));
+	TiXmlDocument doc;
+	auto *pRoot = doc.NewElement("URIObject");
+	doc.InsertEndChild(pRoot);
 
-	xmlAddAttr(xml, L"Type", L"File.1");
-	xmlAddAttr(xml, L"uri", CMStringW(FORMAT, L"https://api.asm.skype.com/v1/objects/%s", _A2T(fup->uid)));
-	xmlAddAttr(xml, L"url_thumbnail", CMStringW(FORMAT, L"https://api.asm.skype.com/v1/objects/%s/views/thumbnail", _A2T(fup->uid)));
+	auto *pTitle = doc.NewElement("Title"); pTitle->SetText(tszFile); pRoot->InsertEndChild(pTitle);
+	auto *pDescr = doc.NewElement("Description"); pDescr->SetText(fup->tszDesc.get()); pRoot->InsertEndChild(pDescr);
 
-	SendRequest(new SendMessageRequest(Contacts[fup->hContact], time(NULL), T2Utf(ptrW(xmlToString(xml, nullptr))), li, "RichText/Media_GenericFile"));
-	xmlDestroyNode(xml);
+	auto *xmlA = doc.NewElement("a"); xmlA->SetText(CMStringA(FORMAT, "https://login.skype.com/login/sso?go=webclient.xmm&docid=%s", fup->uid));
+	xmlA->SetAttribute("href", CMStringA(FORMAT, "https://login.skype.com/login/sso?go=webclient.xmm&docid=%s", fup->uid));
+	pRoot->InsertEndChild(xmlA);
+
+	auto *xmlOrigName = doc.NewElement("OriginalName"); xmlOrigName->SetAttribute("v", tszFile); pRoot->InsertEndChild(xmlOrigName);
+	auto *xmlSize = doc.NewElement("FileSize"); xmlSize->SetAttribute("v", (int)fup->size); pRoot->InsertEndChild(xmlSize);
+
+	pRoot->SetAttribute("Type", "File.1");
+	pRoot->SetAttribute("uri", CMStringA(FORMAT, "https://api.asm.skype.com/v1/objects/%s", fup->uid));
+	pRoot->SetAttribute("url_thumbnail", CMStringA(FORMAT, "https://api.asm.skype.com/v1/objects/%s/views/thumbnail", fup->uid));
+
+	tinyxml2::XMLPrinter printer(0, true);
+	doc.Print(&printer);
+	SendRequest(new SendMessageRequest(Contacts[fup->hContact], time(NULL), printer.CStr(), li, "RichText/Media_GenericFile"));
+
 	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (HANDLE)fup);
 	delete fup;
 }
