@@ -43,10 +43,10 @@ class CFileXml {
 
 	CProgress _progress;
 
-	int ImportOwner(TiXmlElement* xmlContact);
-	int ImportContacts(TiXmlElement* xmlParent);
+	int ImportOwner(const TiXmlElement* xmlContact);
+	int ImportContacts(const TiXmlElement* xmlParent);
 	
-	DWORD CountContacts(TiXmlElement* xmlParent);
+	DWORD CountContacts(const TiXmlElement* xmlParent);
 
 	/*
 	int ExportOwner(FILE *xmlfile, BYTE bExportEvents);

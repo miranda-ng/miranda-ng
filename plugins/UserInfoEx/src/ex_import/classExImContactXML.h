@@ -47,17 +47,21 @@ enum EError {
 
 class CExImContactXML : public CExImContactBase
 {
-	CFileXml     *_pXmlFile; // the xmlfile
-	TiXmlDocument _xmlDoc;
-	TiXmlElement *_xmlNode;  // xmlnode with contact information
-	MEVENT        _hEvent;
+	CFileXml *_pXmlFile; // the xmlfile
+	TiXmlDocument _xmlDoc; // whole document in memory
+	union {
+		TiXmlElement *_xmlWriter; // xml node being prepared for export
+		const TiXmlElement *_xmlReader; // xml node being used for import
+	};
+
+	MEVENT _hEvent;
 
 	BYTE IsContactInfo(LPCSTR pszKey);
 
 	// private importing methods
-	int		ImportModule(TiXmlNode* xmlModule);
-	int		ImportSetting(LPCSTR pszModule, TiXmlElement *xmlEntry);
-	int		ImportEvent(LPCSTR pszModule, TiXmlElement *xmlEvent);
+	int		ImportModule(const TiXmlElement *xmlModule);
+	int		ImportSetting(LPCSTR pszModule, const TiXmlElement *xmlEntry);
+	int		ImportEvent(LPCSTR pszModule, const TiXmlElement *xmlEvent);
 	int		ImportContact();
 	int		ImportNormalContact();
 	int		ImportMetaSubContact(CExImContactXML * pMetaContact);
@@ -79,12 +83,8 @@ public:
 	int		Export(FILE *xmlfile, DB::CEnumList* pModules);
 
 	// importing stuff
-	int		LoadXmlElemnt(TiXmlElement *xContact);
+	int		LoadXmlElement(const TiXmlElement *xContact);
 	int		Import(BYTE keepMetaSubContact = FALSE);
-
-	BYTE operator=(TiXmlElement* xmlContact)	{
-		return LoadXmlElemnt(xmlContact) == ERROR_OK;	
-	}
 };
 
 #endif /* _CLASS_EXIM_CONTACT_XML_INCLUDED_ */

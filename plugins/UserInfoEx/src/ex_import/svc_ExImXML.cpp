@@ -90,12 +90,10 @@ int CFileXml::Export(lpExImParam ExImContact, LPCSTR pszFileName)
 {
 	DB::CEnumList Modules;
 
-	DWORD result = (DWORD)DialogBox(g_plugin.getInst(),
-		MAKEINTRESOURCE(IDD_EXPORT_DATAHISTORY),
-		nullptr, DlgProc_DataHistory);
-	if (LOWORD(result) != IDOK) {
+	DWORD result = (DWORD)DialogBox(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EXPORT_DATAHISTORY), nullptr, DlgProc_DataHistory);
+	if (LOWORD(result) != IDOK)
 		return 0;
-	}
+
 	_wExport = HIWORD(result);
 
 	// show dialog to enable user to select modules for export
@@ -126,18 +124,17 @@ int CFileXml::Export(lpExImParam ExImContact, LPCSTR pszFileName)
 		if (ExImContact->Typ == EXIM_CONTACT) {
 			// export single contact
 			_hContactToWorkOn = ExImContact->hContact;
-			if (vContact.fromDB(ExImContact->hContact)) {
+			if (vContact.fromDB(ExImContact->hContact))
 				vContact.Export(xmlfile, &Modules);
-			}
 		}
 		else {
 			// other export mode
 			_hContactToWorkOn = INVALID_CONTACT_ID;
 
 			// export owner contact
-			if (ExImContact->Typ == EXIM_ALL && vContact.fromDB(NULL)) {
+			if (ExImContact->Typ == EXIM_ALL && vContact.fromDB(NULL))
 				vContact.Export(xmlfile, &Modules);
-			}
+
 			// loop for all other contact
 			for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
 				switch (ExImContact->Typ) {
@@ -169,7 +166,7 @@ int CFileXml::Export(lpExImParam ExImContact, LPCSTR pszFileName)
 					}
 					break;
 				}
-			} // *end for
+			}
 		}
 		// *end other export mode
 
@@ -184,7 +181,6 @@ int CFileXml::Export(lpExImParam ExImContact, LPCSTR pszFileName)
 	}
 	return 0;
 }
-
 
 /***********************************************************************************************************
  * importing stuff
@@ -211,11 +207,11 @@ CFileXml::CFileXml()
  *			stat		- structure used to collect some statistics
  * return:	ERROR_OK on success or one other element of ImportError to tell the type of failure
  **/
-int CFileXml::ImportOwner(TiXmlElement* xContact)
+
+int CFileXml::ImportOwner(const TiXmlElement* xContact)
 {
 	CExImContactXML vContact(this);
-
-	if (vContact = xContact) {
+	if (vContact.LoadXmlElement(xContact) == ERROR_OK) {
 		vContact.Import();
 		return ERROR_OK;
 	}
@@ -230,18 +226,19 @@ int CFileXml::ImportOwner(TiXmlElement* xContact)
  *			stat		 - structure used to collect some statistics
  * return:	ERROR_OK if at least one contact was successfully imported
  **/
-int CFileXml::ImportContacts(TiXmlElement* xmlParent)
+
+int CFileXml::ImportContacts(const TiXmlElement *xmlParent)
 {
 	CExImContactXML vContact(this);
 
 	// import contacts
-	for (TiXmlElement *xContact = xmlParent->FirstChildElement(); xContact != nullptr; xContact = xContact->NextSiblingElement()) {
+	for (auto *xContact : TiXmlEnum(xmlParent)) {
 		if (!mir_strcmpi(xContact->Value(), XKEY_CONTACT)) {
 			// update progressbar and abort if user clicked cancel
 			LPTSTR pszNick = mir_utf8decodeW(xContact->Attribute("nick"));
 			// user clicked abort button
 			if (_progress.UpdateContact(LPGENW("Contact: %s (%S)"), pszNick, xContact->Attribute("proto"))) {
-				int result = vContact.LoadXmlElemnt(xContact);
+				int result = vContact.LoadXmlElement(xContact);
 				switch (result) {
 				case ERROR_OK:
 					// init contact class and import if matches the user desires
@@ -265,7 +262,7 @@ int CFileXml::ImportContacts(TiXmlElement* xmlParent)
 			if (pszNick) mir_free(pszNick);
 		}
 		// import owner contact
-		else if (_hContactToWorkOn == INVALID_CONTACT_ID && !mir_strcmpi(xContact->Value(), XKEY_OWNER) && (vContact = xContact)) {
+		else if (_hContactToWorkOn == INVALID_CONTACT_ID && !mir_strcmpi(xContact->Value(), XKEY_OWNER) && vContact.LoadXmlElement(xContact) == ERROR_OK) {
 			int result = vContact.Import();
 			switch (result) {
 			case ERROR_OK:
@@ -285,13 +282,13 @@ int CFileXml::ImportContacts(TiXmlElement* xmlParent)
  * params:	xContact	- the contact, who is the owner of the keys to count
  * return:	nothing
  **/
-DWORD CFileXml::CountContacts(TiXmlElement* xmlParent)
+DWORD CFileXml::CountContacts(const TiXmlElement *xmlParent)
 {
 	DWORD dwCount = 0;
 	// count contacts in file for progress bar
-	for (TiXmlNode *xContact = xmlParent->FirstChild(); xContact != nullptr; xContact = xContact->NextSibling())
-		if (!mir_strcmpi(xContact->Value(), XKEY_CONTACT) || !mir_strcmpi(xContact->Value(), XKEY_OWNER))
-			dwCount += CountContacts(xContact->ToElement()) + 1;
+	for (auto *xContact : TiXmlEnum(xmlParent))
+		if (!mir_strcmpi(xContact->Name(), XKEY_CONTACT) || !mir_strcmpi(xContact->Name(), XKEY_OWNER))
+			dwCount += CountContacts(xContact) + 1;
 
 	return dwCount;
 }
