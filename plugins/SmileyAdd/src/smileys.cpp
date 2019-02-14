@@ -352,10 +352,7 @@ bool SmileyPackType::LoadSmileyFile(const CMStringW &filename, const CMStringW &
 
 	CMStringW modpath;
 	pathToAbsolute(filename, modpath);
-
-	// Load file
-	int fh = _wopen(modpath.c_str(), _O_BINARY | _O_RDONLY);
-	if (fh == -1) {
+	if (_waccess(filename, 4) != 0) {
 		if (!noerr) {
 			static const wchar_t errmsg[] = LPGENW("Smiley pack %s for category \"%s\" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.");
 			wchar_t msgtxt[1024];
@@ -368,6 +365,135 @@ bool SmileyPackType::LoadSmileyFile(const CMStringW &filename, const CMStringW &
 	}
 
 	m_Filename = filename;
+
+	// Load file
+	bool res;
+	if (filename.Find(L".xep") == -1)
+		res = LoadSmileyFileMSL(modpath, onlyInfo, modpath);
+	else
+		res = LoadSmileyFileXEP(modpath, onlyInfo);
+
+	if (errorFound)
+		ReportError(TranslateT("There were problems loading smiley pack (it should be corrected).\nSee network log for details."));
+
+	return res;
+}
+
+static IStream* DecodeBase64Data(const char *pString)
+{
+	if (pString == nullptr)
+		return nullptr;
+
+	size_t dataLen;
+	ptrA data((char*)mir_base64_decode(pString, &dataLen));
+	if (data == nullptr)
+		return nullptr;
+
+	// Read image list
+	HGLOBAL hBuffer = GlobalAlloc(GMEM_MOVEABLE, dataLen);
+	if (!hBuffer)
+		return nullptr;
+
+	void *dst = GlobalLock(hBuffer);
+	memcpy(dst, data, dataLen);
+	GlobalUnlock(hBuffer);
+
+	IStream *pStream = nullptr;
+	CreateStreamOnHGlobal(hBuffer, TRUE, &pStream);
+	return pStream;
+}
+
+static CMStringW FilterQuotes(const char *pStr)
+{
+	CMStringW res(pStr);
+	int iStart = res.Find('\"', 0);
+	if (iStart != -1) {
+		int iEnd = res.Find('\"', ++iStart);
+		if (iEnd != -1)
+			res = res.Mid(iStart, iEnd - iStart);
+	}
+
+	return res.Trim();
+}
+
+bool SmileyPackType::LoadSmileyFileXEP(const CMStringW &fileName, bool onlyInfo)
+{
+	FILE *in = _wfopen(fileName, L"rb");
+	if (in == nullptr)
+		return false;
+
+	TiXmlDocument doc;
+	int ret = doc.LoadFile(in);
+	fclose(in);
+	if (ret != 0)
+		return false;
+
+	auto *pSettings = doc.FirstChildElement("settings");
+	if (pSettings != nullptr) {
+		if (auto *pNode = pSettings->FirstChildElement("DataBaseName"))
+			m_Name = CMStringW(Utf2T(pNode->GetText())).Trim();
+
+		if (auto *pNode = pSettings->FirstChildElement("PackageAuthor"))
+			m_Author = CMStringW(Utf2T(pNode->GetText())).Trim();
+	}
+
+	if (!onlyInfo) {
+		auto *pDataRoot = doc.FirstChildElement("dataroot");
+		if (pDataRoot == nullptr)
+			return false;
+
+		auto *pImages = tinyxml2::XMLConstHandle(&doc).FirstChildElement("lists").FirstChildElement("images").ToElement();
+		if (pImages) {
+			IStream *pStream = DecodeBase64Data(pImages->GetText());
+			if (pStream) {
+				if (m_hSmList != nullptr)
+					ImageList_Destroy(m_hSmList);
+				m_hSmList = ImageList_Read(pStream);
+				pStream->Release();
+			}
+		}
+
+		for (auto *nRec : TiXmlFilter(pDataRoot, "record")) {
+			int idx = nRec->IntAttribute("ImageIndex", -1);
+			if (idx == -1)
+				continue;
+
+			SmileyType *dat = new SmileyType;
+			dat->SetRegEx(true);
+			dat->SetImList(m_hSmList, idx);
+			dat->m_ToolText = FilterQuotes(nRec->GetText());
+
+			if (auto *pNode = nRec->FirstChildElement("Expression"))
+				dat->m_TriggerText = FilterQuotes(pNode->GetText());
+			if (auto *pNode = nRec->FirstChildElement("PasteText"))
+				dat->m_InsertText = FilterQuotes(pNode->GetText());
+
+			dat->SetHidden(dat->m_InsertText.IsEmpty());
+
+			if (auto *pNode = nRec->FirstChildElement("Image")) {
+				IStream *pStream = DecodeBase64Data(pNode->GetText());
+				if (pStream) {
+					dat->LoadFromImage(pStream);
+					pStream->Release();
+				}
+			}
+
+			m_SmileyList.insert(dat);
+		}
+	}
+
+	m_VisibleCount = m_SmileyList.getCount();
+	AddTriggersToSmileyLookup();
+
+	selec.x = selec.y = win.x = win.y = 0;
+	return true;
+}
+
+bool SmileyPackType::LoadSmileyFileMSL(const CMStringW &filename, bool onlyInfo, CMStringW &modpath)
+{
+	int fh = _wopen(filename.c_str(), _O_BINARY | _O_RDONLY);
+	if (fh == -1)
+		return false;
 
 	// Find file size
 	const long flen = _filelength(fh);
@@ -392,116 +518,6 @@ bool SmileyPackType::LoadSmileyFile(const CMStringW &filename, const CMStringW &
 
 	delete[] buf;
 
-	bool res;
-	if (filename.Find(L".xep") == -1)
-		res = LoadSmileyFileMSL(tbuf, onlyInfo, modpath);
-	else
-		res = LoadSmileyFileXEP(tbuf, onlyInfo);
-
-	if (errorFound)
-		ReportError(TranslateT("There were problems loading smiley pack (it should be corrected).\nSee network log for details."));
-
-	return res;
-}
-
-static IStream* DecodeBase64Data(const wchar_t *pString)
-{
-	size_t dataLen;
-	ptrA data((char*)mir_base64_decode(_T2A(pString), &dataLen));
-	if (data == nullptr)
-		return nullptr;
-
-	// Read image list
-	HGLOBAL hBuffer = GlobalAlloc(GMEM_MOVEABLE, dataLen);
-	if (!hBuffer)
-		return nullptr;
-
-	void *dst = GlobalLock(hBuffer);
-	memcpy(dst, data, dataLen);
-	GlobalUnlock(hBuffer);
-
-	IStream *pStream = nullptr;
-	CreateStreamOnHGlobal(hBuffer, TRUE, &pStream);
-	return pStream;
-}
-
-static CMStringW FilterQuotes(const wchar_t *pStr)
-{
-	CMStringW res(pStr);
-	int iStart = res.Find('\"', 0);
-	if (iStart != -1) {
-		int iEnd = res.Find('\"', ++iStart);
-		if (iEnd != -1)
-			res = res.Mid(iStart, iEnd - iStart);
-	}
-
-	return res;
-}
-
-bool SmileyPackType::LoadSmileyFileXEP(CMStringW &tbuf, bool onlyInfo)
-{
-	HXML node, xmlRoot = xmlParseString(tbuf, nullptr, nullptr);
-	if (!xmlRoot)
-		return false;
-
-	if (node = xmlGetChildByPath(xmlRoot, L"settings/DataBaseName", 0))
-		m_Name = xmlGetText(node);
-	if (node = xmlGetChildByPath(xmlRoot, L"settings/PackageAuthor", 0))
-		m_Author = xmlGetText(node);
-
-	if (!onlyInfo) {
-		const wchar_t *pStr = xmlGetClear(xmlGetChildByPath(xmlRoot, L"lists/images", 0), 0, 0, 0);
-		if (pStr) {
-			IStream *pStream = DecodeBase64Data(pStr);
-			if (pStream) {
-				if (m_hSmList != nullptr)
-					ImageList_Destroy(m_hSmList);
-				m_hSmList = ImageList_Read(pStream);
-				pStream->Release();
-			}
-		}
-
-		HXML nRec, dataRoot = xmlGetChildByPath(xmlRoot, L"dataroot", 0);
-		for (int i = 0; (nRec = xmlGetNthChild(dataRoot, L"record", i)) != 0; i++) {
-			pStr = xmlGetAttrValue(nRec, L"ImageIndex");
-			if (pStr == nullptr)
-				continue;
-
-			SmileyType *dat = new SmileyType;
-			dat->SetRegEx(true);
-			dat->SetImList(m_hSmList, _wtoi(pStr));
-			dat->m_ToolText = FilterQuotes(xmlGetText(nRec));
-
-			if (node = xmlGetChildByPath(nRec, L"Expression", 0))
-				dat->m_TriggerText = FilterQuotes(xmlGetText(node));
-			if (node = xmlGetChildByPath(nRec, L"PasteText", 0))
-				dat->m_InsertText = FilterQuotes(xmlGetText(node));
-
-			dat->SetHidden(dat->m_InsertText.IsEmpty());
-
-			if (node = xmlGetChildByPath(nRec, L"Image", 0)) {
-				IStream *pStream = DecodeBase64Data(xmlGetText(node));
-				if (pStream) {
-					dat->LoadFromImage(pStream);
-					pStream->Release();
-				}
-			}
-
-			m_SmileyList.insert(dat);
-		}
-	}
-
-	xmlDestroyNode(xmlRoot);
-
-	m_VisibleCount = m_SmileyList.getCount();
-	AddTriggersToSmileyLookup();
-
-	selec.x = selec.y = win.x = win.y = 0;
-	return true;
-}
-
-bool SmileyPackType::LoadSmileyFileMSL(CMStringW &tbuf, bool onlyInfo, CMStringW &modpath)
-{
 	CMStringW pathstr, packstr;
 	{
 		MRegexp16 pathsplit(L"(.*\\\\)(.*)\\.|$");
