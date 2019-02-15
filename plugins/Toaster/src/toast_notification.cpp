@@ -39,35 +39,35 @@ HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXml
 	ComPtr<ABI::Windows::Data::Xml::Dom::IXmlDocumentIO> xmlDocument;
 	CHECKHR(Windows::Foundation::ActivateInstance(StringReferenceWrapper(RuntimeClass_Windows_Data_Xml_Dom_XmlDocument).Get(), &xmlDocument));
 
-	HXML xmlToast = xmlCreateNode(L"toast", nullptr, 0);
+	TiXmlDocument doc;
+	TiXmlElement *xmlToast = doc.NewElement("toast"); doc.InsertEndChild(xmlToast);
 
-	HXML xmlAudioNode = xmlAddChild(xmlToast, L"audio", nullptr);
-	xmlAddAttr(xmlAudioNode, L"silent", L"true");
+	TiXmlElement *xmlAudioNode = doc.NewElement("audio"); xmlToast->InsertEndChild(xmlAudioNode);
+	xmlAudioNode->SetAttribute("silent", "true");
 
-	HXML xmlVisualNode = xmlAddChild(xmlToast, L"visual", nullptr);
+	TiXmlElement *xmlVisualNode = doc.NewElement("visual"); xmlToast->InsertEndChild(xmlVisualNode);
 
-	HXML xmlBindingNode = xmlAddChild(xmlVisualNode, L"binding", nullptr);
-	xmlAddAttr(xmlBindingNode, L"template", L"ToastImageAndText02");
-	if (_imagePath)
-	{
-		HXML xmlImageNode = xmlAddChild(xmlBindingNode, L"image", nullptr);
-		xmlAddAttr(xmlImageNode, L"id", L"1");
-		xmlAddAttr(xmlImageNode, L"src", CMStringW(FORMAT, L"file:///%s", _imagePath));
+	TiXmlElement *xmlBindingNode = doc.NewElement("binding"); xmlVisualNode->InsertEndChild(xmlBindingNode);
+	xmlBindingNode->SetAttribute("template", "ToastImageAndText02");
+	
+	if (_imagePath) {
+		TiXmlElement *xmlImageNode = doc.NewElement("image"); xmlBindingNode->InsertEndChild(xmlImageNode);
+		xmlImageNode->SetAttribute("id", 1);
+		xmlImageNode->SetAttribute("src", CMStringW(FORMAT, L"file:///%s", _imagePath));
 	}
 
-	HXML xmlTitleNode = xmlAddChild(xmlBindingNode, L"text", _caption != nullptr ? _caption : L"Miranda NG");
-	xmlAddAttr(xmlTitleNode, L"id", L"1");
-	if (_text)
-	{
-		HXML xmlTextNode = xmlAddChild(xmlBindingNode, L"text", _text);
-		xmlAddAttr(xmlTextNode, L"id", L"2");
+	TiXmlElement *xmlTitleNode = doc.NewElement("text"); xmlBindingNode->InsertEndChild(xmlTitleNode);
+	xmlTitleNode->SetAttribute("id", 1); xmlTitleNode->SetText(_caption != nullptr ? _caption : L"Miranda NG");
+	
+	if (_text) {
+		TiXmlElement *xmlTextNode = doc.NewElement("text"); xmlBindingNode->InsertEndChild(xmlTextNode);
+		xmlTextNode->SetAttribute("id", 2); xmlTextNode->SetText(_text);
 	}
 
-	int nLength;
-	ptrW xtmp(xmlToString(xmlToast, &nLength));
-	xmlDestroyNode(xmlToast);
-
-	CHECKHR(xmlDocument->LoadXml(StringReferenceWrapper(xtmp, nLength).Get()));
+	tinyxml2::XMLPrinter printer(0, true);
+	doc.Print(&printer);
+	Utf2T xtmp(printer.CStr());
+	CHECKHR(xmlDocument->LoadXml(StringReferenceWrapper(xtmp, mir_wstrlen(xtmp)).Get()));
 
 	return xmlDocument.CopyTo(xml);
 }
