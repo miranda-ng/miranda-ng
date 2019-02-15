@@ -126,7 +126,7 @@ void     CALLBACK timerProc2(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTim
 
 bool     IsMyContact(MCONTACT hContact);
 void     GetNewsData(wchar_t *szUrl, char **szData, MCONTACT hContact, CFeedEditor *pEditDlg);
-time_t   __stdcall DateToUnixTime(const wchar_t *stamp, bool FeedType);
+time_t   DateToUnixTime(const char *stamp, bool FeedType);
 void     CheckCurrentFeed(MCONTACT hContact);
 void     CheckCurrentFeedAvatar(MCONTACT hContact);
 LPCTSTR  CheckFeed(wchar_t* tszURL, CFeedEditor *pEditDlg);

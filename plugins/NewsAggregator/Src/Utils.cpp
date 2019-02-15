@@ -106,17 +106,17 @@ void GetNewsData(wchar_t *tszUrl, char **szData, MCONTACT hContact, CFeedEditor 
 	mir_free(szUrl);
 }
 
-time_t __stdcall DateToUnixTime(const wchar_t *stamp, bool FeedType)
+time_t DateToUnixTime(const char *stamp, bool FeedType)
 {
 	struct tm timestamp;
-	wchar_t date[9];
+	char date[9];
 	int i, y;
 	time_t t;
 
 	if (stamp == nullptr)
 		return 0;
 
-	wchar_t *p = NEWWSTR_ALLOCA(stamp);
+	char *p = NEWSTR_ALLOCA(stamp);
 
 	if (FeedType) {
 		// skip '-' chars
@@ -129,58 +129,57 @@ time_t __stdcall DateToUnixTime(const wchar_t *stamp, bool FeedType)
 		}
 	}
 	else {
-		wchar_t *weekday, monthstr[4], timezonesign[2];
+		char monthstr[4], timezonesign[2];
 		int day, month = 0, year, hour, min, sec, timezoneh, timezonem;
-		if (wcschr(p, L',')) {
-			weekday = wcstok(p, L",");
-			p = wcstok(nullptr, L",");
-			swscanf(p + 1, L"%d %3s %d %d:%d:%d %1s%02d%02d", &day, &monthstr, &year, &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
-			if (!mir_wstrcmpi(monthstr, L"Jan"))
+		if (strchr(p, ',')) {
+			strtok(p, ",");
+			p = strtok(nullptr, ",");
+			sscanf(p + 1, "%d %3s %d %d:%d:%d %1s%02d%02d", &day, &monthstr, &year, &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
+			if (!mir_strcmpi(monthstr, "Jan"))
 				month = 1;
-			if (!mir_wstrcmpi(monthstr, L"Feb"))
+			if (!mir_strcmpi(monthstr, "Feb"))
 				month = 2;
-			if (!mir_wstrcmpi(monthstr, L"Mar"))
+			if (!mir_strcmpi(monthstr, "Mar"))
 				month = 3;
-			if (!mir_wstrcmpi(monthstr, L"Apr"))
+			if (!mir_strcmpi(monthstr, "Apr"))
 				month = 4;
-			if (!mir_wstrcmpi(monthstr, L"May"))
+			if (!mir_strcmpi(monthstr, "May"))
 				month = 5;
-			if (!mir_wstrcmpi(monthstr, L"Jun"))
+			if (!mir_strcmpi(monthstr, "Jun"))
 				month = 6;
-			if (!mir_wstrcmpi(monthstr, L"Jul"))
+			if (!mir_strcmpi(monthstr, "Jul"))
 				month = 7;
-			if (!mir_wstrcmpi(monthstr, L"Aug"))
+			if (!mir_strcmpi(monthstr, "Aug"))
 				month = 8;
-			if (!mir_wstrcmpi(monthstr, L"Sep"))
+			if (!mir_strcmpi(monthstr, "Sep"))
 				month = 9;
-			if (!mir_wstrcmpi(monthstr, L"Oct"))
+			if (!mir_strcmpi(monthstr, "Oct"))
 				month = 10;
-			if (!mir_wstrcmpi(monthstr, L"Nov"))
+			if (!mir_strcmpi(monthstr, "Nov"))
 				month = 11;
-			if (!mir_wstrcmpi(monthstr, L"Dec"))
+			if (!mir_strcmpi(monthstr, "Dec"))
 				month = 12;
 			if (year < 2000)
 				year += 2000;
-			if (!mir_wstrcmp(timezonesign, L"+"))
-				mir_snwprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour - timezoneh, min - timezonem, sec);
-			else if (!mir_wstrcmp(timezonesign, L"-"))
-				mir_snwprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour + timezoneh, min + timezonem, sec);
+			if (!mir_strcmp(timezonesign, "+"))
+				mir_snprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, "%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour - timezoneh, min - timezonem, sec);
+			else if (!mir_strcmp(timezonesign, "-"))
+				mir_snprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, "%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour + timezoneh, min + timezonem, sec);
 			else
-				mir_snwprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour, min, sec);
+				mir_snprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, "%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour, min, sec);
 		}
-		else if (wcschr(p, L'T')) {
-			swscanf(p, L"%d-%d-%dT%d:%d:%d", &year, &month, &day, &hour, &min, &sec);
-			mir_snwprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour, min, sec);
+		else if (strchr(p, 'T')) {
+			sscanf(p, "%d-%d-%dT%d:%d:%d", &year, &month, &day, &hour, &min, &sec);
+			mir_snprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, "%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour, min, sec);
 		}
-		else
-		{
-			swscanf(p, L"%d-%d-%d %d:%d:%d %1s%02d%02d", &year, &month, &day, &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
-			if (!mir_wstrcmp(timezonesign, L"+"))
-				mir_snwprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour - timezoneh, min - timezonem, sec);
-			else if (!mir_wstrcmp(timezonesign, L"-"))
-				mir_snwprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour + timezoneh, min + timezonem, sec);
+		else {
+			sscanf(p, "%d-%d-%d %d:%d:%d %1s%02d%02d", &year, &month, &day, &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
+			if (!mir_strcmp(timezonesign, "+"))
+				mir_snprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, "%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour - timezoneh, min - timezonem, sec);
+			else if (!mir_strcmp(timezonesign, "-"))
+				mir_snprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, "%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour + timezoneh, min + timezonem, sec);
 			else
-				mir_snwprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour, min, sec);
+				mir_snprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, "%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour, min, sec);
 		}
 	}
 	// Get the date part
@@ -211,7 +210,7 @@ time_t __stdcall DateToUnixTime(const wchar_t *stamp, bool FeedType)
 	for (; *p != '\0' && !isdigit(*p); p++);
 
 	// Parse time
-	if (swscanf(p, L"%d:%d:%d", &timestamp.tm_hour, &timestamp.tm_min, &timestamp.tm_sec) != 3)
+	if (sscanf(p, "%d:%d:%d", &timestamp.tm_hour, &timestamp.tm_min, &timestamp.tm_sec) != 3)
 		return 0;
 
 	timestamp.tm_isdst = 0;	// DST is already present in _timezone below
@@ -258,14 +257,13 @@ bool DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 				}
 			}
 			if (date != nullptr && size != nullptr) {
-				wchar_t *tdate = mir_a2u(date);
 				wchar_t *tsize = mir_a2u(size);
 				struct _stat buf;
 
 				int fh = _wopen(tszLocal, _O_RDONLY);
 				if (fh != -1) {
 					_fstat(fh, &buf);
-					time_t modtime = DateToUnixTime(tdate, 0);
+					time_t modtime = DateToUnixTime(date, 0);
 					time_t filemodtime = mktime(localtime(&buf.st_atime));
 					if (modtime > filemodtime && buf.st_size != _wtoi(tsize)) {
 						DWORD dwBytes;
@@ -285,7 +283,6 @@ bool DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 					if (hFile)
 						CloseHandle(hFile);
 				}
-				mir_free(tdate);
 				mir_free(tsize);
 			}
 			else {
