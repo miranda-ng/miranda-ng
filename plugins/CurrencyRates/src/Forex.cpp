@@ -38,7 +38,8 @@ void UpdateMenu(bool bAutoUpdate)
 INT_PTR CurrencyRatesMenu_RefreshAll(WPARAM, LPARAM)
 {
 	const CCurrencyRatesProviders::TCurrencyRatesProviders& apProviders = CModuleInfo::GetCurrencyRateProvidersPtr()->GetProviders();
-	std::for_each(apProviders.begin(), apProviders.end(), boost::bind(&ICurrencyRatesProvider::RefreshAllContacts, _1));
+	for (auto &it : apProviders)
+		it->RefreshAllContacts();
 	return 0;
 }
 
@@ -48,14 +49,13 @@ INT_PTR CurrencyRatesMenu_EnableDisable(WPARAM, LPARAM)
 	db_set_b(0, CURRENCYRATES_MODULE_NAME, DB_STR_AUTO_UPDATE, g_bAutoUpdate);
 
 	const CModuleInfo::TCurrencyRatesProvidersPtr& pProviders = CModuleInfo::GetCurrencyRateProvidersPtr();
-	const CCurrencyRatesProviders::TCurrencyRatesProviders& rapProviders = pProviders->GetProviders();
-	std::for_each(std::begin(rapProviders), std::end(rapProviders), [](const CCurrencyRatesProviders::TCurrencyRatesProviderPtr& pProvider) {
+	for (auto &pProvider : pProviders->GetProviders()) {
 		pProvider->RefreshSettings();
 		if (g_bAutoUpdate)
 			pProvider->RefreshAllContacts();
-	});
-	UpdateMenu(g_bAutoUpdate);
+	}
 
+	UpdateMenu(g_bAutoUpdate);
 	return 0;
 }
 
@@ -126,25 +126,25 @@ void InitMenu()
 	Menu_ConfigureItem(g_hMenuOpenLogFile, MCI_OPT_EXECPARAM, 1);
 	CreateServiceFunction(mi.pszService, CurrencyRatesMenu_OpenLogFile);
 
-#ifdef CHART_IMPLEMENT
+	#ifdef CHART_IMPLEMENT
 	SET_UID(mi, 0x65da7256, 0x43a2, 0x4857, 0xac, 0x52, 0x1c, 0xb7, 0xff, 0xd7, 0x96, 0xfa);
 	mi.name.w = LPGENW("Chart...");
 	mi.hIcolibItem = nullptr;
 	mi.pszService = "CurrencyRates/Chart";
 	g_hMenuChart = Menu_AddContactMenuItem(&mi, CURRENCYRATES_PROTOCOL_NAME);
 	CreateServiceFunction(mi.pszService, CurrencyRatesMenu_Chart);
-#endif
+	#endif
 
 	SET_UID(mi, 0xac5fc17, 0x5640, 0x4f81, 0xa3, 0x44, 0x8c, 0xb6, 0x9a, 0x5c, 0x98, 0xf);
 	mi.name.w = LPGENW("Edit Settings...");
 	mi.hIcolibItem = nullptr;
 	mi.pszService = "CurrencyRates/EditSettings";
 	g_hMenuEditSettings = Menu_AddContactMenuItem(&mi, CURRENCYRATES_PROTOCOL_NAME);
-#ifdef CHART_IMPLEMENT
+	#ifdef CHART_IMPLEMENT
 	Menu_ConfigureItem(g_hMenuEditSettings, MCI_OPT_EXECPARAM, 3);
-#else
+	#else
 	Menu_ConfigureItem(g_hMenuEditSettings, MCI_OPT_EXECPARAM, 2);
-#endif
+	#endif
 	CreateServiceFunction(mi.pszService, CurrencyRatesMenu_EditSettings);
 }
 
@@ -254,16 +254,14 @@ int CurrencyRatesEventFunc_PreShutdown(WPARAM, LPARAM)
 
 int CurrencyRatesEventFunc_OptInitialise(WPARAM wp, LPARAM/* lp*/)
 {
-	const CModuleInfo::TCurrencyRatesProvidersPtr& pProviders = CModuleInfo::GetCurrencyRateProvidersPtr();
-	const CCurrencyRatesProviders::TCurrencyRatesProviders& rapProviders = pProviders->GetProviders();
-
 	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 910000000;
 	odp.szTitle.w = LPGENW("Currency Rates");
 	odp.szGroup.w = LPGENW("Network");
 	odp.flags = ODPF_USERINFOTAB | ODPF_UNICODE;
 
-	std::for_each(rapProviders.begin(), rapProviders.end(), boost::bind(&ICurrencyRatesProvider::ShowPropertyPage, _1, wp, boost::ref(odp)));
+	for (auto &it : CModuleInfo::GetCurrencyRateProvidersPtr()->GetProviders())
+		it->ShowPropertyPage(wp, odp);
 	return 0;
 }
 

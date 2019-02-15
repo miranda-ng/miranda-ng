@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 
-CCurrencyRatesProviderVisitorDbSettings::CCurrencyRatesProviderVisitorDbSettings()
-	: m_pszDbRefreshRateType(nullptr),
+CCurrencyRatesProviderVisitorDbSettings::CCurrencyRatesProviderVisitorDbSettings() :
+	m_pszDbRefreshRateType(nullptr),
 	m_pszDbRefreshRateValue(nullptr),
 	m_pszDbDisplayNameFormat(nullptr),
 	m_pszDefDisplayFormat(nullptr),

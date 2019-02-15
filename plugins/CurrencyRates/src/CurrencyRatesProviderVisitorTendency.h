@@ -18,8 +18,8 @@ private:
 private:
 	MCONTACT m_hContact;
 	wchar_t m_chr;
-	bool m_bValid;
-	double m_dResult;
+	bool m_bValid = false;
+	double m_dResult = 0.0;
 };
 
 #endif //__AD721194_E9944366_9CF1_0307460EF32F_CurrencyRatesProviderVisitorTendency_h__

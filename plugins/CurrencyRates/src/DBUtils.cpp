@@ -9,7 +9,7 @@ std::wstring GetNodeText(const TiXmlElement *pNode)
 	return std::wstring();
 }
 
-std::wstring CurrencyRates_DBGetStringW(MCONTACT hContact, const char* szModule, const char* szSetting, const wchar_t* pszDefValue)
+std::wstring CurrencyRates_DBGetStringW(MCONTACT hContact, const char *szModule, const char *szSetting, const wchar_t *pszDefValue)
 {
 	if (pszDefValue == nullptr)
 		pszDefValue = L"";
@@ -17,14 +17,14 @@ std::wstring CurrencyRates_DBGetStringW(MCONTACT hContact, const char* szModule,
 	return std::wstring(ptrW(db_get_wsa(hContact, szModule, szSetting, pszDefValue)));
 }
 
-bool CurrencyRates_DBWriteDouble(MCONTACT hContact, const char* szModule, const char* szSetting, double dValue)
+bool CurrencyRates_DBWriteDouble(MCONTACT hContact, const char *szModule, const char *szSetting, double dValue)
 {
 	return 0 == db_set_blob(hContact, szModule, szSetting, &dValue, sizeof(dValue));
 }
 
-bool CurrencyRates_DBReadDouble(MCONTACT hContact, const char* szModule, const char* szSetting, double& rdValue)
+bool CurrencyRates_DBReadDouble(MCONTACT hContact, const char *szModule, const char *szSetting, double& rdValue)
 {
-	DBVARIANT dbv = { 0 };
+	DBVARIANT dbv = {};
 	dbv.type = DBVT_BLOB;
 
 	bool bResult = ((0 == db_get(hContact, szModule, szSetting, &dbv)) && (DBVT_BLOB == dbv.type));

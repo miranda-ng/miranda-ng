@@ -31,6 +31,7 @@
 #include <m_netlib.h>
 #include <m_popup.h>
 #include <m_userinfo.h>
+#include <m_gui.h>
 
 #include <m_variables.h>
 #include <m_CurrencyRates.h>
@@ -41,6 +42,8 @@
 #include <boost\foreach.hpp>
 #include <boost\date_time\posix_time\posix_time.hpp>
 #include <boost\date_time\c_local_time_adjustor.hpp>
+
+#include "../../../miranda-private-keys/CurrencyRates/secret_key.h"
 
 typedef std::wstring tstring;
 typedef std::wostringstream tostringstream;

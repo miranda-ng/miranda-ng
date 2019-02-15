@@ -253,7 +253,7 @@ public:
 			default:
 				if (false == std::isspace(chr))
 					bValid = false;
-				else 
+				else
 					++i;
 				break;
 
@@ -363,17 +363,17 @@ tstring format_rate(const ICurrencyRatesProvider *pProvider, MCONTACT hContact, 
 			sResult += chr;
 			++i;
 			break;
-		
+
 		case '\\':
 			++i;
 			if (i != rsFrmt.end()) {
 				wchar_t t = *i;
 				switch (t) {
-					case '%':  sResult += L"%"; break;
-					case 't':  sResult += L"\t"; break;
-					case 'n':  sResult += L"\n"; break;
-					case '\\': sResult += L"\\"; break;
-					default:       sResult += chr; sResult += t; break;
+				case '%':  sResult += L"%"; break;
+				case 't':  sResult += L"\t"; break;
+				case 'n':  sResult += L"\n"; break;
+				case '\\': sResult += L"\\"; break;
+				default:       sResult += chr; sResult += t; break;
 				}
 				++i;
 			}
@@ -781,12 +781,12 @@ void CCurrencyRatesProviderBase::Run()
 				anContacts = m_aContacts;
 			}
 			break;
+
 		case WAIT_OBJECT_0 + REFRESH_CONTACT:
 			{
 				DWORD dwTimeRest = ::GetTickCount() - dwBegin;
-				if (INFINITE != nTimeout && dwTimeRest < nTimeout) {
+				if (INFINITE != nTimeout && dwTimeRest < nTimeout)
 					nTimeout -= dwTimeRest;
-				}
 
 				{
 					mir_cslock lck(m_cs);
@@ -800,6 +800,7 @@ void CCurrencyRatesProviderBase::Run()
 				}
 			}
 			break;
+
 		case WAIT_TIMEOUT:
 			nTimeout = get_refresh_timeout_miliseconds(visitor);
 			{
@@ -830,7 +831,8 @@ void CCurrencyRatesProviderBase::OnEndRun()
 	}
 
 	CBoolGuard bg(m_bRefreshInProgress);
-	std::for_each(anContacts.begin(), anContacts.end(), boost::bind(&SetContactStatus, _1, ID_STATUS_OFFLINE));
+	for (auto &it : anContacts)
+		SetContactStatus(it, ID_STATUS_OFFLINE);
 }
 
 void CCurrencyRatesProviderBase::Accept(CCurrencyRatesProviderVisitor &visitor)const
@@ -845,10 +847,10 @@ void CCurrencyRatesProviderBase::RefreshSettings()
 
 void CCurrencyRatesProviderBase::RefreshAllContacts()
 {
-	{// for CCritSection
-		mir_cslock lck(m_cs);
+	{	mir_cslock lck(m_cs);
 		m_aRefreshingContacts.clear();
-		std::for_each(std::begin(m_aContacts), std::end(m_aContacts), [&](MCONTACT hContact) { m_aRefreshingContacts.push_back(hContact); });
+		for (auto &hContact : m_aContacts)
+			m_aRefreshingContacts.push_back(hContact);
 	}
 
 	::SetEvent(m_hEventRefreshContact);
@@ -856,8 +858,7 @@ void CCurrencyRatesProviderBase::RefreshAllContacts()
 
 void CCurrencyRatesProviderBase::RefreshContact(MCONTACT hContact)
 {
-	{// for CCritSection
-		mir_cslock lck(m_cs);
+	{	mir_cslock lck(m_cs);
 		m_aRefreshingContacts.push_back(hContact);
 	}
 

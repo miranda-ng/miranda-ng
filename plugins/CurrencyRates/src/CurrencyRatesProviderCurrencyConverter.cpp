@@ -3,186 +3,175 @@
 #include <boost\property_tree\ptree.hpp>
 #include <boost\property_tree\json_parser.hpp>
 
-namespace
+tstring build_url(const tstring &rsURL, const tstring &from, const tstring &to)
 {
-	tstring build_url(const tstring& rsURL, const tstring& from, const tstring& to)
+	tostringstream o;
+	o << rsURL << L"?q=" << from << L"_" << to << "&compact=ultra&apiKey=" << API_KEY;
+	return o.str();
+}
+
+tstring build_url(MCONTACT hContact, const tstring &rsURL)
+{
+	tstring sFrom = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_ID);
+	tstring sTo = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_ID);
+	return build_url(rsURL, sFrom, sTo);
+}
+
+bool parse_responce(const tstring &rsJSON, double &dRate)
+{
+	try {
+		boost::property_tree::ptree pt;
+		std::istringstream i_stream(currencyrates_t2a(rsJSON.c_str()));
+
+		boost::property_tree::read_json(i_stream, pt);
+		if (!pt.empty()) {
+			auto pt_nested = pt.begin()->second;
+			dRate = pt_nested.get_value<double>();
+		}
+		else {
+			dRate = pt.get_value<double>();
+		}
+
+		return true;
+	}
+	catch (boost::property_tree::ptree_error&) {
+	}
+	return false;
+}
+
+using TWatchedRates = std::vector<CCurrencyRatesProviderCurrencyConverter::TRateInfo>;
+TWatchedRates g_aWatchedRates;
+
+INT_PTR CALLBACK OptDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	auto  get_provider = []()->CCurrencyRatesProviderCurrencyConverter*
+	{
+		auto pProviders = CModuleInfo::GetCurrencyRateProvidersPtr();
+		const auto& rapCurrencyRatesProviders = pProviders->GetProviders();
+		for (auto i = rapCurrencyRatesProviders.begin(); i != rapCurrencyRatesProviders.end(); ++i) {
+			const auto& pProvider = *i;
+			if (auto p = dynamic_cast<CCurrencyRatesProviderCurrencyConverter*>(pProvider.get())) {
+				return p;
+			}
+		}
+
+		assert(!"We should never get here!");
+		return nullptr;
+	};
+
+	auto make_currencyrate_name = [](const CCurrencyRatesProviderBase::CCurrencyRate& rCurrencyRate)->tstring
+	{
+		const tstring& rsDesc = rCurrencyRate.GetName();
+		return((false == rsDesc.empty()) ? rsDesc : rCurrencyRate.GetSymbol());
+	};
+
+	auto make_contact_name = [](const tstring& rsSymbolFrom, const tstring& rsSymbolTo)->tstring
 	{
 		tostringstream o;
-		o << rsURL << L"?q=" << from << L"_" << to << "&compact=ultra";
+		o << rsSymbolFrom << L"/" << rsSymbolTo;
 		return o.str();
-	}
+	};
 
-	tstring build_url(MCONTACT hContact, const tstring& rsURL)
+
+	auto make_rate_name = [make_contact_name](const CCurrencyRatesProviderCurrencyConverter::TRateInfo& ri)->tstring
 	{
-		tstring sFrom = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_ID);
-		tstring sTo = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_ID);
-		return build_url(rsURL, sFrom, sTo);
-	}
+		if ((false == ri.first.GetName().empty()) && (false == ri.second.GetName().empty()))
+			return make_contact_name(ri.first.GetName(), ri.second.GetName());
 
-	bool parse_responce(const tstring& rsJSON, double& dRate)
-	{
-		try
-		{
-			boost::property_tree::ptree pt;
-			std::istringstream i_stream(currencyrates_t2a(rsJSON.c_str()));
-
-			boost::property_tree::read_json(i_stream, pt);
-			if (!pt.empty())
-			{
-				auto pt_nested = pt.begin()->second;
-				dRate = pt_nested.get_value<double>();
-			}
-			else
-			{
-				dRate = pt.get_value<double>();
-			}
-
-			return true;
-		}
-		catch (boost::property_tree::ptree_error& )
-		{
-		}		
-		return false;
-	}
-
-	using TWatchedRates =  std::vector<CCurrencyRatesProviderCurrencyConverter::TRateInfo>;
-	TWatchedRates g_aWatchedRates;
-
-	INT_PTR CALLBACK OptDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam)
-	{
-		auto  get_provider = []()->CCurrencyRatesProviderCurrencyConverter*
-		{
-			auto pProviders = CModuleInfo::GetCurrencyRateProvidersPtr();
-			const auto& rapCurrencyRatesProviders = pProviders->GetProviders();
-			for (auto i = rapCurrencyRatesProviders.begin(); i != rapCurrencyRatesProviders.end(); ++i) {
-				const auto& pProvider = *i;
-				if (auto p = dynamic_cast<CCurrencyRatesProviderCurrencyConverter*>(pProvider.get()))
-				{
-					return p;
-				}
-			}
-
-			assert(!"We should never get here!");
-			return nullptr;
-		};
-
-		auto make_currencyrate_name = [](const CCurrencyRatesProviderBase::CCurrencyRate& rCurrencyRate)->tstring
-		{
-			const tstring& rsDesc = rCurrencyRate.GetName();
-			return((false == rsDesc.empty()) ? rsDesc : rCurrencyRate.GetSymbol());
-		};
-
-		auto make_contact_name = [](const tstring& rsSymbolFrom, const tstring& rsSymbolTo)->tstring
-		{
-			tostringstream o;
-			o << rsSymbolFrom << L"/" << rsSymbolTo;
-			return o.str();
-		};
+		return make_contact_name(ri.first.GetSymbol(), ri.second.GetSymbol());
+	};
 
 
-		auto make_rate_name = [make_contact_name](const CCurrencyRatesProviderCurrencyConverter::TRateInfo& ri)->tstring
-		{
-			if ((false == ri.first.GetName().empty()) && (false == ri.second.GetName().empty()))
-				return make_contact_name(ri.first.GetName(), ri.second.GetName());
+	auto pProvider = get_provider();
 
-			return make_contact_name(ri.first.GetSymbol(), ri.second.GetSymbol());
-		};
+	CCommonDlgProcData d(pProvider);
+	CommonOptionDlgProc(hdlg, message, wParam, lParam, d);
 
-
-		auto pProvider = get_provider();
-
-		CCommonDlgProcData d(pProvider);
-		CommonOptionDlgProc(hdlg, message, wParam, lParam, d);
-
-		switch (message) {
-		case WM_NOTIFY:
+	switch (message) {
+	case WM_NOTIFY:
 		{
 			LPNMHDR pNMHDR = reinterpret_cast<LPNMHDR>(lParam);
 			switch (pNMHDR->code) {
 			case PSN_APPLY:
-			{
-				if (pProvider) {
-					TWatchedRates aTemp(g_aWatchedRates);
-					TWatchedRates aRemove;
-					size_t cWatchedRates = pProvider->GetWatchedRateCount();
-					for (size_t i = 0; i < cWatchedRates; ++i) {
-						CCurrencyRatesProviderCurrencyConverter::TRateInfo ri;
-						if (true == pProvider->GetWatchedRateInfo(i, ri)) {
-							auto it = std::find_if(aTemp.begin(), aTemp.end(), [&ri](const auto& other)->bool 
-							{
-								return ((0 == mir_wstrcmpi(ri.first.GetID().c_str(), other.first.GetID().c_str()))
-									&& ((0 == mir_wstrcmpi(ri.second.GetID().c_str(), other.second.GetID().c_str()))));
-							});
-							if (it == aTemp.end()) {
-								aRemove.push_back(ri);
-							}
-							else {
-								aTemp.erase(it);
+				{
+					if (pProvider) {
+						TWatchedRates aTemp(g_aWatchedRates);
+						TWatchedRates aRemove;
+						size_t cWatchedRates = pProvider->GetWatchedRateCount();
+						for (size_t i = 0; i < cWatchedRates; ++i) {
+							CCurrencyRatesProviderCurrencyConverter::TRateInfo ri;
+							if (true == pProvider->GetWatchedRateInfo(i, ri)) {
+								auto it = std::find_if(aTemp.begin(), aTemp.end(), [&ri](const auto& other)->bool
+								{
+									return ((0 == mir_wstrcmpi(ri.first.GetID().c_str(), other.first.GetID().c_str()))
+										&& ((0 == mir_wstrcmpi(ri.second.GetID().c_str(), other.second.GetID().c_str()))));
+								});
+								if (it == aTemp.end()) {
+									aRemove.push_back(ri);
+								}
+								else {
+									aTemp.erase(it);
+								}
 							}
 						}
-					}
 
-					std::for_each(aRemove.begin(), aRemove.end(), [pProvider](const auto& ri) {pProvider->WatchForRate(ri, false); });
-					std::for_each(aTemp.begin(), aTemp.end(), [pProvider](const auto& ri) {pProvider->WatchForRate(ri, true); });
-					pProvider->RefreshSettings();
+						for (auto &it : aRemove) pProvider->WatchForRate(it, false);
+						for (auto &it : aTemp)   pProvider->WatchForRate(it, true);
+						pProvider->RefreshSettings();
+					}
 				}
-			}
-			break;
+				break;
 			}
 		}
 		break;
 
-		case WM_INITDIALOG:
-			TranslateDialogDefault(hdlg);
-			{
-				g_aWatchedRates.clear();
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hdlg);
+		{
+			g_aWatchedRates.clear();
 
-				HWND hcbxFrom = ::GetDlgItem(hdlg, IDC_COMBO_CONVERT_FROM);
-				HWND hcbxTo = ::GetDlgItem(hdlg, IDC_COMBO_CONVERT_INTO);
+			HWND hcbxFrom = ::GetDlgItem(hdlg, IDC_COMBO_CONVERT_FROM);
+			HWND hcbxTo = ::GetDlgItem(hdlg, IDC_COMBO_CONVERT_INTO);
 
-				CCurrencyRatesProviderBase::CCurrencyRateSection rSection;
-				const auto& rCurrencyRates = pProvider->GetCurrencyRates();
-				if (rCurrencyRates.GetSectionCount() > 0)
-				{
-					rSection = rCurrencyRates.GetSection(0);
-				}
-
-				auto cCurrencyRates = rSection.GetCurrencyRateCount();
-				for (auto i = 0u; i < cCurrencyRates; ++i) 
-				{
-					const auto& rCurrencyRate = rSection.GetCurrencyRate(i);
-					tstring sName = make_currencyrate_name(rCurrencyRate);
-					LPCTSTR pszName = sName.c_str();
-					::SendMessage(hcbxFrom, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(pszName));
-					::SendMessage(hcbxTo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(pszName));
-				}
-
-				auto cWatchedRates = pProvider->GetWatchedRateCount();
-				for (auto i = 0u; i < cWatchedRates; ++i) 
-				{
-					CCurrencyRatesProviderCurrencyConverter::TRateInfo ri;
-					if (true == pProvider->GetWatchedRateInfo(i, ri)) 
-					{
-						g_aWatchedRates.push_back(ri);
-						tstring sRate = make_rate_name(ri);
-						LPCTSTR pszRateName = sRate.c_str();
-						::SendDlgItemMessage(hdlg, IDC_LIST_RATES, LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(pszRateName));
-					}
-				}
-
-				::EnableWindow(::GetDlgItem(hdlg, IDC_BUTTON_ADD), FALSE);
-				::EnableWindow(::GetDlgItem(hdlg, IDC_BUTTON_REMOVE), FALSE);
+			CCurrencyRatesProviderBase::CCurrencyRateSection rSection;
+			const auto& rCurrencyRates = pProvider->GetCurrencyRates();
+			if (rCurrencyRates.GetSectionCount() > 0) {
+				rSection = rCurrencyRates.GetSection(0);
 			}
-			return TRUE;
 
-		case WM_COMMAND:
-			switch (HIWORD(wParam)) {
-			case CBN_SELCHANGE:
-				switch (LOWORD(wParam)) {
-				case IDC_COMBO_REFRESH_RATE:
-					break;
-				case IDC_COMBO_CONVERT_FROM:
-				case IDC_COMBO_CONVERT_INTO:
+			auto cCurrencyRates = rSection.GetCurrencyRateCount();
+			for (auto i = 0u; i < cCurrencyRates; ++i) {
+				const auto& rCurrencyRate = rSection.GetCurrencyRate(i);
+				tstring sName = make_currencyrate_name(rCurrencyRate);
+				LPCTSTR pszName = sName.c_str();
+				::SendMessage(hcbxFrom, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(pszName));
+				::SendMessage(hcbxTo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(pszName));
+			}
+
+			auto cWatchedRates = pProvider->GetWatchedRateCount();
+			for (auto i = 0u; i < cWatchedRates; ++i) {
+				CCurrencyRatesProviderCurrencyConverter::TRateInfo ri;
+				if (true == pProvider->GetWatchedRateInfo(i, ri)) {
+					g_aWatchedRates.push_back(ri);
+					tstring sRate = make_rate_name(ri);
+					LPCTSTR pszRateName = sRate.c_str();
+					::SendDlgItemMessage(hdlg, IDC_LIST_RATES, LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(pszRateName));
+				}
+			}
+
+			::EnableWindow(::GetDlgItem(hdlg, IDC_BUTTON_ADD), FALSE);
+			::EnableWindow(::GetDlgItem(hdlg, IDC_BUTTON_REMOVE), FALSE);
+		}
+		return TRUE;
+
+	case WM_COMMAND:
+		switch (HIWORD(wParam)) {
+		case CBN_SELCHANGE:
+			switch (LOWORD(wParam)) {
+			case IDC_COMBO_REFRESH_RATE:
+				break;
+			case IDC_COMBO_CONVERT_FROM:
+			case IDC_COMBO_CONVERT_INTO:
 				{
 					int nFrom = static_cast<int>(::SendDlgItemMessage(hdlg, IDC_COMBO_CONVERT_FROM, CB_GETCURSEL, 0, 0));
 					int nTo = static_cast<int>(::SendDlgItemMessage(hdlg, IDC_COMBO_CONVERT_INTO, CB_GETCURSEL, 0, 0));
@@ -190,33 +179,30 @@ namespace
 					EnableWindow(GetDlgItem(hdlg, IDC_BUTTON_ADD), bEnableAddButton);
 				}
 				break;
-				case IDC_LIST_RATES:
+			case IDC_LIST_RATES:
 				{
 					int nSel = ::SendDlgItemMessage(hdlg, IDC_LIST_RATES, LB_GETCURSEL, 0, 0);
 					::EnableWindow(::GetDlgItem(hdlg, IDC_BUTTON_REMOVE), (LB_ERR != nSel));
 				}
 				break;
-				}
-				break;
+			}
+			break;
 
-			case BN_CLICKED:
-				switch (LOWORD(wParam)) {
-				case IDC_BUTTON_ADD:
+		case BN_CLICKED:
+			switch (LOWORD(wParam)) {
+			case IDC_BUTTON_ADD:
 				{
 					size_t nFrom = static_cast<size_t>(::SendDlgItemMessage(hdlg, IDC_COMBO_CONVERT_FROM, CB_GETCURSEL, 0, 0));
 					size_t nTo = static_cast<size_t>(::SendDlgItemMessage(hdlg, IDC_COMBO_CONVERT_INTO, CB_GETCURSEL, 0, 0));
-					if ((CB_ERR != nFrom) && (CB_ERR != nTo) && (nFrom != nTo)) 
-					{
+					if ((CB_ERR != nFrom) && (CB_ERR != nTo) && (nFrom != nTo)) {
 						CCurrencyRatesProviderBase::CCurrencyRateSection rSection;
 						const auto& rCurrencyRates = pProvider->GetCurrencyRates();
-						if (rCurrencyRates.GetSectionCount() > 0)
-						{
+						if (rCurrencyRates.GetSectionCount() > 0) {
 							rSection = rCurrencyRates.GetSection(0);
 						}
 
 						auto cCurrencyRates = rSection.GetCurrencyRateCount();
-						if ((nFrom < cCurrencyRates) && (nTo < cCurrencyRates)) 
-						{
+						if ((nFrom < cCurrencyRates) && (nTo < cCurrencyRates)) {
 							CCurrencyRatesProviderCurrencyConverter::TRateInfo ri;
 							ri.first = rSection.GetCurrencyRate(nFrom);
 							ri.second = rSection.GetCurrencyRate(nTo);
@@ -232,39 +218,35 @@ namespace
 				}
 				break;
 
-				case IDC_BUTTON_REMOVE:
-					HWND hWnd = ::GetDlgItem(hdlg, IDC_LIST_RATES);
-					int nSel = ::SendMessage(hWnd, LB_GETCURSEL, 0, 0);
-					if (LB_ERR != nSel) {
-						if ((LB_ERR != ::SendMessage(hWnd, LB_DELETESTRING, nSel, 0))
-							&& (nSel < static_cast<int>(g_aWatchedRates.size()))) {
+			case IDC_BUTTON_REMOVE:
+				HWND hWnd = ::GetDlgItem(hdlg, IDC_LIST_RATES);
+				int nSel = ::SendMessage(hWnd, LB_GETCURSEL, 0, 0);
+				if (LB_ERR != nSel) {
+					if ((LB_ERR != ::SendMessage(hWnd, LB_DELETESTRING, nSel, 0))
+						&& (nSel < static_cast<int>(g_aWatchedRates.size()))) {
 
-							TWatchedRates::iterator i = g_aWatchedRates.begin();
-							std::advance(i, nSel);
-							g_aWatchedRates.erase(i);
-							PropSheet_Changed(::GetParent(hdlg), hdlg);
-						}
+						TWatchedRates::iterator i = g_aWatchedRates.begin();
+						std::advance(i, nSel);
+						g_aWatchedRates.erase(i);
+						PropSheet_Changed(::GetParent(hdlg), hdlg);
 					}
-
-					nSel = ::SendMessage(hWnd, LB_GETCURSEL, 0, 0);
-					::EnableWindow(::GetDlgItem(hdlg, IDC_BUTTON_REMOVE), (LB_ERR != nSel));
-					break;
 				}
+
+				nSel = ::SendMessage(hWnd, LB_GETCURSEL, 0, 0);
+				::EnableWindow(::GetDlgItem(hdlg, IDC_BUTTON_REMOVE), (LB_ERR != nSel));
 				break;
 			}
 			break;
 		}
-
-		return FALSE;
+		break;
 	}
 
+	return FALSE;
 }
-
 
 CCurrencyRatesProviderCurrencyConverter::CCurrencyRatesProviderCurrencyConverter()
 {
 }
-
 
 CCurrencyRatesProviderCurrencyConverter::~CCurrencyRatesProviderCurrencyConverter()
 {
@@ -318,9 +300,7 @@ double CCurrencyRatesProviderCurrencyConverter::Convert(double dAmount, const CC
 		if ((true == http.ReadResponce(sHTML))) {
 			double dResult = 0.0;
 			if ((true == parse_responce(sHTML, dResult)))
-			{
-				return dResult*dAmount;
-			}
+				return dResult * dAmount;
 
 			throw std::runtime_error(Translate("Error occurred during HTML parsing."));
 		}
@@ -338,23 +318,21 @@ size_t CCurrencyRatesProviderCurrencyConverter::GetWatchedRateCount()const
 
 bool CCurrencyRatesProviderCurrencyConverter::GetWatchedRateInfo(size_t nIndex, TRateInfo& rRateInfo)
 {
-	if(nIndex < m_aContacts.size()) {
-		MCONTACT hContact = m_aContacts[nIndex];
-		tstring sSymbolFrom = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_ID);
-		tstring sSymbolTo = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_ID);
-		tstring sDescFrom = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_DESCRIPTION);
-		tstring sDescTo = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_DESCRIPTION);
-
-		rRateInfo.first = CCurrencyRate(sSymbolFrom, sSymbolFrom, sDescFrom);
-		rRateInfo.second = CCurrencyRate(sSymbolTo, sSymbolTo, sDescTo);
-		return true;
-	}
-	else {
+	if (nIndex >= m_aContacts.size())
 		return false;
-	}
+
+	MCONTACT hContact = m_aContacts[nIndex];
+	tstring sSymbolFrom = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_ID);
+	tstring sSymbolTo = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_ID);
+	tstring sDescFrom = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_DESCRIPTION);
+	tstring sDescTo = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_DESCRIPTION);
+
+	rRateInfo.first = CCurrencyRate(sSymbolFrom, sSymbolFrom, sDescFrom);
+	rRateInfo.second = CCurrencyRate(sSymbolTo, sSymbolTo, sDescTo);
+	return true;
 }
 
-bool CCurrencyRatesProviderCurrencyConverter::WatchForRate(const TRateInfo& ri, bool bWatch)
+bool CCurrencyRatesProviderCurrencyConverter::WatchForRate(const TRateInfo &ri, bool bWatch)
 {
 	auto i = std::find_if(m_aContacts.begin(), m_aContacts.end(), [&ri](auto hContact)->bool
 	{
@@ -372,28 +350,23 @@ bool CCurrencyRatesProviderCurrencyConverter::WatchForRate(const TRateInfo& ri, 
 	};
 
 
-	if ((true == bWatch) && (i == m_aContacts.end())) 
-	{
+	if ((true == bWatch) && (i == m_aContacts.end())) {
 		tstring sName = make_contact_name(ri.first.GetSymbol(), ri.second.GetSymbol());
 		MCONTACT hContact = CreateNewContact(sName);
-		if (hContact) 
-		{
+		if (hContact) {
 			db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_ID, ri.first.GetID().c_str());
 			db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_ID, ri.second.GetID().c_str());
-			if (false == ri.first.GetName().empty()) 
-			{
+			if (false == ri.first.GetName().empty()) {
 				db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_DESCRIPTION, ri.first.GetName().c_str());
 			}
-			if (false == ri.second.GetName().empty()) 
-			{
+			if (false == ri.second.GetName().empty()) {
 				db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_DESCRIPTION, ri.second.GetName().c_str());
 			}
 
 			return true;
 		}
 	}
-	else if ((false == bWatch) && (i != m_aContacts.end()))
-	{
+	else if ((false == bWatch) && (i != m_aContacts.end())) {
 		MCONTACT hContact = *i;
 		{// for CCritSection
 			mir_cslock lck(m_cs);
@@ -416,8 +389,8 @@ MCONTACT CCurrencyRatesProviderCurrencyConverter::GetContactByID(const tstring& 
 		tstring sFrom = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_ID);
 		tstring sTo = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_ID);
 		return ((0 == mir_wstrcmpi(rsFromID.c_str(), sFrom.c_str())) && (0 == mir_wstrcmpi(rsToID.c_str(), sTo.c_str())));
-
 	});
+
 	if (i != m_aContacts.end())
 		return *i;
 

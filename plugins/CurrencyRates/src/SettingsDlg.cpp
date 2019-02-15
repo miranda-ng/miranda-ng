@@ -2,8 +2,8 @@
 
 #define WINDOW_PREFIX_SETTINGS "Edit Settings_"
 
-LPCTSTR g_pszVariableCurrencyRateName = L"%currencyratename%";
-LPCTSTR g_pszVariableUserProfile = L"%miranda_userdata%";
+const wchar_t g_pszVariableCurrencyRateName[] = L"%currencyratename%";
+const wchar_t g_pszVariableUserProfile[] = L"%miranda_userdata%";
 
 void update_file_controls(HWND hDlg)
 {
@@ -955,18 +955,6 @@ bool ShowSettingsDlg(HWND hWndParent, CAdvProviderSettings* pAdvSettings)
 		reinterpret_cast<LPARAM>(pAdvSettings)));
 }
 
-static void replace_invalid_char(tstring::value_type& rChar, tstring::value_type repl)
-{
-	static const wchar_t charInvalidSigns[] = { '\\', '/', ':', '*', '?', '\"', '<', '>', '|' };
-
-	for (int i = 0; i < sizeof(charInvalidSigns) / sizeof(charInvalidSigns[0]); ++i) {
-		if (rChar == charInvalidSigns[i]) {
-			rChar = repl;
-			break;
-		}
-	}
-}
-
 tstring GenerateLogFileName(const tstring &rsLogFilePattern, const tstring &rsCurrencyRateSymbol, int nFlags)
 {
 	tstring sPath = rsLogFilePattern;
@@ -976,8 +964,10 @@ tstring GenerateLogFileName(const tstring &rsLogFilePattern, const tstring &rsCu
 		tstring::size_type n = sPath.find(g_pszVariableCurrencyRateName);
 		if (tstring::npos != n) {
 			tstring s = rsCurrencyRateSymbol;
-			std::for_each(s.begin(), s.end(), boost::bind(replace_invalid_char, _1, '_'));
-			sPath.replace(n, mir_wstrlen(g_pszVariableCurrencyRateName), s.c_str());
+			for (auto &c : s)
+				if (wcschr(L"\\/:*?\"<>|", c))
+					c = '_';
+			sPath.replace(n, _countof(g_pszVariableCurrencyRateName)-1, s.c_str());
 		}
 	}
 

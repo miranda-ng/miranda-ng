@@ -1,8 +1,8 @@
 #include "StdAfx.h"
 #include "CurrencyRatesProviderCurrencyConverter.h"
 
-CCurrencyRatesProviderVisitorFormater::CCurrencyRatesProviderVisitorFormater(MCONTACT hContact, wchar_t chr, int nWidth)
-	: m_hContact(hContact),
+CCurrencyRatesProviderVisitorFormater::CCurrencyRatesProviderVisitorFormater(MCONTACT hContact, wchar_t chr, int nWidth) :
+	m_hContact(hContact),
 	m_chr(chr),
 	m_nWidth(nWidth)
 {
