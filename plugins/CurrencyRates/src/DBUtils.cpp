@@ -34,3 +34,10 @@ bool CurrencyRates_DBReadDouble(MCONTACT hContact, const char *szModule, const c
 	db_free(&dbv);
 	return bResult;
 }
+
+void FixInvalidChars(tstring &s)
+{
+	for (auto &c : s)
+		if (wcschr(L"\\/:*?\"<>|", c))
+			c = '_';
+}

@@ -25,10 +25,8 @@ MWindowList CModuleInfo::GetWindowList(const std::string& rsKey, bool bAllocateI
 
 void CModuleInfo::OnMirandaShutdown()
 {
-	BOOST_FOREACH(THandles::value_type p, g_ahWindowLists)
-	{
+	for (auto &p : g_ahWindowLists)
 		WindowList_Broadcast(p.second, WM_CLOSE, 0, 0);
-	}
 }
 
 CModuleInfo::TCurrencyRatesProvidersPtr CModuleInfo::GetCurrencyRateProvidersPtr()

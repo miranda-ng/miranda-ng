@@ -37,9 +37,7 @@
 #include <m_CurrencyRates.h>
 #include <m_toptoolbar.h>
 
-#include <boost\bind.hpp>
 #include <boost\scoped_ptr.hpp>
-#include <boost\foreach.hpp>
 #include <boost\date_time\posix_time\posix_time.hpp>
 #include <boost\date_time\c_local_time_adjustor.hpp>
 

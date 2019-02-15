@@ -964,9 +964,7 @@ tstring GenerateLogFileName(const tstring &rsLogFilePattern, const tstring &rsCu
 		tstring::size_type n = sPath.find(g_pszVariableCurrencyRateName);
 		if (tstring::npos != n) {
 			tstring s = rsCurrencyRateSymbol;
-			for (auto &c : s)
-				if (wcschr(L"\\/:*?\"<>|", c))
-					c = '_';
+			FixInvalidChars(s);
 			sPath.replace(n, _countof(g_pszVariableCurrencyRateName)-1, s.c_str());
 		}
 	}
