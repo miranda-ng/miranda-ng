@@ -175,45 +175,4 @@ public:
 	}
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// old API to be removed once
-
-DECLARE_HANDLE(HXML);
-
-EXTERN_C MIR_APP_DLL(HXML)    xmlCreateNode(LPCTSTR name, LPCTSTR text, char isDeclaration);
-EXTERN_C MIR_APP_DLL(void)    xmlDestroyNode(HXML node);
-
-EXTERN_C MIR_APP_DLL(HXML)    xmlParseString(LPCTSTR string, int *datalen, LPCTSTR tag);
-EXTERN_C MIR_APP_DLL(LPTSTR)  xmlToString(HXML node, int *datalen);
-
-EXTERN_C MIR_APP_DLL(HXML)    xmlAddChild(HXML parent, LPCTSTR name, LPCTSTR text);
-EXTERN_C MIR_APP_DLL(void)    xmlAddChild2(HXML child, HXML parent);
-EXTERN_C MIR_APP_DLL(HXML)    xmlCopyNode(HXML parent);
-EXTERN_C MIR_APP_DLL(HXML)    xmlGetChild(HXML parent, int number);
-EXTERN_C MIR_APP_DLL(int)     xmlGetChildCount(HXML);
-EXTERN_C MIR_APP_DLL(HXML)    xmlGetChildByAttrValue(HXML parent, LPCTSTR name, LPCTSTR attrName, LPCTSTR attrValue);
-EXTERN_C MIR_APP_DLL(HXML)    xmlGetFirstChild(HXML parent);
-EXTERN_C MIR_APP_DLL(HXML)    xmlGetNthChild(HXML parent, LPCTSTR name, int i);
-EXTERN_C MIR_APP_DLL(HXML)    xmlGetChildByPath(HXML parent, LPCTSTR path, char createNodeIfMissing);
-EXTERN_C MIR_APP_DLL(HXML)    xmlGetNextNode(HXML node);
-EXTERN_C MIR_APP_DLL(LPCTSTR) xmlGetName(HXML);
-EXTERN_C MIR_APP_DLL(HXML)    xmlGetParent(HXML);
-EXTERN_C MIR_APP_DLL(LPCTSTR) xmlGetText(HXML);
-EXTERN_C MIR_APP_DLL(void)    xmlSetText(HXML, LPCTSTR);
-
-EXTERN_C MIR_APP_DLL(LPCTSTR) xmlGetAttr(HXML, int i);
-EXTERN_C MIR_APP_DLL(LPCTSTR) xmlGetAttrName(HXML, int i);
-EXTERN_C MIR_APP_DLL(LPCTSTR) xmlGetAttrValue(HXML, LPCTSTR attrName);
-EXTERN_C MIR_APP_DLL(int)     xmlGetAttrCount(HXML);
-EXTERN_C MIR_APP_DLL(void)    xmlAddAttr(HXML, LPCTSTR attrName, LPCTSTR attrValue);
-EXTERN_C MIR_APP_DLL(void)    xmlAddAttrInt(HXML, LPCTSTR attrName, int attrValue);
-
-EXTERN_C MIR_APP_DLL(void)    xmlFree(void*);
-
-// methods added in xml API v2
-EXTERN_C MIR_APP_DLL(LPCTSTR) xmlGetClear(HXML, int i, LPCTSTR *openTag, LPCTSTR *closeTag);
-
-EXTERN_C MIR_APP_DLL(HXML)     xmlParseFile(LPCTSTR filename, int *datalen, LPCTSTR tag);
-EXTERN_C MIR_APP_DLL(int)      xmlToFile(HXML node, LPCTSTR filename, int withformattiing);
-
 #endif // M_XML_H__
