@@ -54,6 +54,12 @@ struct CMPluginMra : public ACCPROTOPLUGIN<CIcqProto>
 	{
 		SetUniqueId(DB_KEY_ID);
 	}
+
+	void Register()
+	{
+		m_hInst = g_plugin.getInst();
+		RegisterProtocol(PROTOTYPE_PROTOCOL, g_plugin.fnInit, g_plugin.fnUninit);
+	}
 }
 static g_pluginMra;
 
@@ -62,7 +68,6 @@ static g_pluginMra;
 CMPlugin::CMPlugin() :
 	ACCPROTOPLUGIN<CIcqProto>(MODULENAME, pluginInfoEx)
 {
-	g_pluginMra.setInst(m_hInst);
 	SetUniqueId(DB_KEY_ID);
 }
 
@@ -128,6 +133,9 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
+	// register the second instance of this plugin as MRA
+	g_pluginMra.Register();
+
 	g_hwndHeartbeat = CreateWindowEx(0, L"STATIC", nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, nullptr, nullptr);
 
 	registerIcon("Protocols/ICQ", iconList, "ICQ");
@@ -136,7 +144,7 @@ int CMPlugin::Load()
 	HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	return 0;
-};
+}
 
 int CMPlugin::Unload()
 {
