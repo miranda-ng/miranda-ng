@@ -1,4 +1,4 @@
-/* 
+/*
 Copyright (C) 2012 Mataes
 
 This is free software; you can redistribute it and/or
@@ -14,7 +14,7 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 #include "stdafx.h"
@@ -22,7 +22,7 @@ Boston, MA 02111-1307, USA.
 CExportFeed::CExportFeed()
 	: CSuper(g_plugin, IDD_FEEDEXPORT),
 	m_feedslist(this, IDC_FEEDSLIST), m_feedsexportlist(this, IDC_FEEDSEXPORTLIST),
-	m_addfeed(this, IDC_ADDFEED), m_removefeed(this, IDC_REMOVEFEED), 
+	m_addfeed(this, IDC_ADDFEED), m_removefeed(this, IDC_REMOVEFEED),
 	m_addallfeeds(this, IDC_ADDALLFEEDS), m_removeallfeeds(this, IDC_REMOVEALLFEEDS),
 	m_ok(this, IDOK)
 {
@@ -167,6 +167,29 @@ void CExportFeed::OnFeedsExportList(CCtrlBase*)
 	}
 }
 
+static const TiXmlElement* AdviceNode(const TiXmlElement *node)
+{
+	auto *tmpnode = node;
+
+	// try to rest on the same level first
+	node = node->NextSiblingElement();
+	if (node)
+		return node;
+
+	do {
+		// go up one level
+		node = tmpnode->Parent()->ToElement();
+		tmpnode = node;
+		node = node->NextSiblingElement();
+		if (node)
+			return node;
+	}
+		while (mir_strcmpi(tmpnode->Name(), "body"));
+	
+	// nothing found or we reached body
+	return nullptr;
+}
+
 void CExportFeed::OnOk(CCtrlBase*)
 {
 	wchar_t FileName[MAX_PATH];
@@ -185,60 +208,71 @@ void CExportFeed::OnOk(CCtrlBase*)
 	ofn.lpstrInitialDir = tszMirDir;
 	*FileName = '\0';
 	ofn.lpstrDefExt = L"";
+	if (!GetSaveFileName(&ofn))
+		return;
 
-	if (GetSaveFileName(&ofn)) {
-		HXML hXml = xmlCreateNode(L"opml", nullptr, FALSE);
-		xmlAddAttr(hXml, L"version", L"1.0");
-		HXML header = xmlAddChild(hXml, L"head", nullptr);
-		xmlAddChild(header, L"title", L"Miranda NG NewsAggregator plugin export");
-		header = xmlAddChild(hXml, L"body", nullptr);
+	TiXmlDocument doc;
+	auto *hXml = doc.NewElement("opml"); doc.InsertEndChild(hXml);
+	hXml->SetAttribute("version", "1.0"); 
 
-		int count = m_feedsexportlist.GetCount();
-		for (int i = 0; i < count; i++) {
-			wchar_t item[MAX_PATH];
-			m_feedsexportlist.GetItemText(i, item, _countof(item));
-			MCONTACT hContact = GetContactByNick(item);
-			wchar_t
-				*title = g_plugin.getWStringA(hContact, "Nick"),
-				*url = g_plugin.getWStringA(hContact, "URL"),
-				*siteurl = g_plugin.getWStringA(hContact, "Homepage"),
-				*group = db_get_wsa(hContact, "CList", "Group");
+	auto *xmlHeader = doc.NewElement("head"); hXml->InsertEndChild(xmlHeader);
+	auto *xmlTitle = doc.NewElement("title"); xmlTitle->SetText("Miranda NG NewsAggregator plugin export"); xmlHeader->InsertEndChild(xmlTitle);
+		
+	auto *xmlBody = doc.NewElement("body"); hXml->InsertEndChild(xmlBody);
 
-			HXML elem = header;
-			if (group)
-			{
-				wchar_t *section = wcstok(group, L"\\");
-				while (section != nullptr)
-				{
-					HXML existgroup = xmlGetChildByAttrValue(header, L"outline", L"title", section);
-					if (!existgroup)
-					{
-						elem = xmlAddChild(elem, L"outline", nullptr);
-						xmlAddAttr(elem, L"title", section);
-						xmlAddAttr(elem, L"text", section);
+	int count = m_feedsexportlist.GetCount();
+	for (int i = 0; i < count; i++) {
+		wchar_t item[MAX_PATH];
+		m_feedsexportlist.GetItemText(i, item, _countof(item));
+		MCONTACT hContact = GetContactByNick(item);
+		wchar_t
+			*title = g_plugin.getWStringA(hContact, "Nick"),
+			*url = g_plugin.getWStringA(hContact, "URL"),
+			*siteurl = g_plugin.getWStringA(hContact, "Homepage"),
+			*group = db_get_wsa(hContact, "CList", "Group");
+
+		TiXmlElement *elem = xmlBody;
+		if (group) {
+			wchar_t *section = wcstok(group, L"\\");
+			while (section != nullptr) {
+				TiXmlElement *existgroup = 0;
+				for (auto *it : TiXmlFilter(elem, "outline")) {
+					if (it->Attribute("title", T2Utf(section))) {
+						existgroup = (TiXmlElement*)it;
+						break;
 					}
-					else {
-						elem = existgroup;
-					}
-					section = wcstok(nullptr, L"\\");
 				}
-				elem = xmlAddChild(elem, L"outline", nullptr);
-			}
-			else
-				elem = xmlAddChild(elem, L"outline", nullptr);
-			xmlAddAttr(elem, L"text", title);
-			xmlAddAttr(elem, L"title", title);
-			xmlAddAttr(elem, L"type", L"rss");
-			xmlAddAttr(elem, L"xmlUrl", url);
-			xmlAddAttr(elem, L"htmlUrl", siteurl);
 
-			mir_free(title);
-			mir_free(url);
-			mir_free(siteurl);
-			mir_free(group);
+				if (!existgroup) {
+					auto *pNew = doc.NewElement("outline");
+					pNew->SetAttribute("title", section); pNew->SetAttribute("text", section);
+					elem->InsertEndChild(pNew);
+					elem = pNew;
+				}
+				else elem = existgroup;
+
+				section = wcstok(nullptr, L"\\");
+			}
 		}
-		xmlToFile(hXml, FileName, 1);
-		xmlDestroyNode(hXml);
+
+		auto *pNew = doc.NewElement("outline"); elem->InsertEndChild(pNew);
+		pNew->SetAttribute("text", title);
+		pNew->SetAttribute("title", title);
+		pNew->SetAttribute("type", "rss");
+		pNew->SetAttribute("xmlUrl", url);
+		pNew->SetAttribute("htmlUrl", siteurl);
+
+		mir_free(title);
+		mir_free(url);
+		mir_free(siteurl);
+		mir_free(group);
+	}
+
+	FILE *out = _wfopen(FileName, L"wb");
+	if (out) {
+		tinyxml2::XMLPrinter printer(out);
+		doc.Print(&printer);
+		fclose(out);
 	}
 }
 
@@ -301,76 +335,47 @@ void CImportFeed::OnBrowseFile(CCtrlBase*)
 	ofn.lpstrInitialDir = tszMirDir;
 	*FileName = '\0';
 	ofn.lpstrDefExt = L"";
+	if (!GetOpenFileName(&ofn))
+		return;
 
-	if (GetOpenFileName(&ofn)) {
-		int bytesParsed = 0;
-		HXML hXml = xmlParseFile(FileName, &bytesParsed, nullptr);
-		if (hXml != nullptr) {
-			HXML node = xmlGetChildByPath(hXml, L"opml/body/outline", 0);
-			if (!node)
-				node = xmlGetChildByPath(hXml, L"body/outline", 0);
-			if (node) {
-				while (node) {
-					int outlineAttr = xmlGetAttrCount(node);
-					int outlineChildsCount = xmlGetChildCount(node);
-					wchar_t *xmlUrl = (wchar_t *)xmlGetAttrValue(node, L"xmlUrl");
-					if (!xmlUrl && !outlineChildsCount) {
-						HXML tmpnode = node;
-						node = xmlGetNextNode(node);
-						if (!node) {
-							do {
-								node = tmpnode;
-								node = xmlGetParent(node);
-								tmpnode = node;
-								node = xmlGetNextNode(node);
-								if (node)
-									break;
-							} while (mir_wstrcmpi(xmlGetName(node), L"body"));
-						}
-					}
-					else if (!xmlUrl && outlineChildsCount)
-						node = xmlGetFirstChild(node);
-					else if (xmlUrl) {
-						for (int i = 0; i < outlineAttr; i++) {
-							if (!mir_wstrcmpi(xmlGetAttrName(node, i), L"text")) {
-								wchar_t *text = mir_utf8decodeW(_T2A(xmlGetAttrValue(node, xmlGetAttrName(node, i))));
-								bool isTextUTF;
-								if (!text) {
-									isTextUTF = false;
-									text = (wchar_t *)xmlGetAttrValue(node, xmlGetAttrName(node, i));
-								}
-								else
-									isTextUTF = true;
-								m_feedslist.AddString(text);
-								m_addfeed.Enable();
-								m_addallfeeds.Enable();
-								if (isTextUTF)
-									mir_free(text);
-							}
-						}
+	FILE *in = _wfopen(FileName, L"rb");
+	if (in == nullptr)
+		return;
 
-						HXML tmpnode = node;
-						node = xmlGetNextNode(node);
-						if (!node) {
-							do {
-								node = tmpnode;
-								node = xmlGetParent(node);
-								tmpnode = node;
-								node = xmlGetNextNode(node);
-								if (node)
-									break;
-							} while (mir_wstrcmpi(xmlGetName(tmpnode), L"body"));
-						}
-					}
-				}
+	TiXmlDocument doc;
+	int res = doc.LoadFile(in);
+	fclose(in);
+	if (res != 0) {
+		MessageBox(m_hwnd, TranslateT("Not valid import file."), TranslateT("Error"), MB_OK | MB_ICONERROR);
+		return;
+	}
+
+	m_importfile.SetText(FileName);
+
+	auto *node = TiXmlConst(&doc)["opml"]["body"]["outline"].ToElement();
+	if (!node)
+		node = TiXmlConst(&doc)["body"]["outline"].ToElement();
+	if (node == nullptr) {
+		MessageBox(m_hwnd, TranslateT("Not valid import file."), TranslateT("Error"), MB_OK | MB_ICONERROR);
+		return;
+	}
+		
+	while (node) {
+		auto *pszUrl = node->Attribute("xmlUrl");
+		if (!pszUrl && node->NoChildren())
+			node = AdviceNode(node);
+		else if (!pszUrl && !node->NoChildren())
+			node = node->FirstChildElement();
+		else if (pszUrl) {
+			if (auto *pszText = node->Attribute("text")) {
+				Utf2T text(pszText);
+				m_feedslist.AddString(text);
+				m_addfeed.Enable();
+				m_addallfeeds.Enable();
 			}
-			else
-				MessageBox(m_hwnd, TranslateT("Not valid import file."), TranslateT("Error"), MB_OK | MB_ICONERROR);
-			xmlDestroyNode(hXml);
-			m_importfile.SetText(FileName);
+
+			node = AdviceNode(node);
 		}
-		else
-			MessageBox(m_hwnd, TranslateT("Not valid import file."), TranslateT("Error"), MB_OK | MB_ICONERROR);
 	}
 }
 
@@ -382,7 +387,7 @@ void CImportFeed::OnAddFeed(CCtrlBase*)
 		m_removeallfeeds.Enable();
 	if (!m_ok.Enabled())
 		m_ok.Enable();
-	int cursel =  m_feedslist.GetCurSel();
+	int cursel = m_feedslist.GetCurSel();
 	wchar_t item[MAX_PATH];
 	m_feedslist.GetItemText(cursel, item, _countof(item));
 	m_feedsimportlist.AddString(item);
@@ -491,169 +496,107 @@ void CImportFeed::OnOk(CCtrlBase*)
 {
 	wchar_t FileName[MAX_PATH];
 	m_importfile.GetText(FileName, _countof(FileName));
-	int bytesParsed = 0;
-	HXML hXml = xmlParseFile(FileName, &bytesParsed, nullptr);
-	if (hXml != nullptr) {
-		bool isTextUTF = false, isURLUTF = false, isSiteURLUTF = false, isGroupUTF = false;
-		HXML node = xmlGetChildByPath(hXml, L"opml/body/outline", 0);
-		if (!node)
-			node = xmlGetChildByPath(hXml, L"body/outline", 0);
-		int count = m_feedsimportlist.GetCount();
-		int DUPES = 0;
-		if (node) {
-			while (node) {
-				int outlineAttr = xmlGetAttrCount(node);
-				int outlineChildsCount = xmlGetChildCount(node);
-				wchar_t *xmlUrl = (wchar_t *)xmlGetAttrValue(node, L"xmlUrl");
-				if (!xmlUrl && !outlineChildsCount) {
-					HXML tmpnode = node;
-					node = xmlGetNextNode(node);
-					if (!node) {
-						do {
-							node = tmpnode;
-							node = xmlGetParent(node);
-							tmpnode = node;
-							node = xmlGetNextNode(node);
-							if (node)
-								break;
-						} while (mir_wstrcmpi(xmlGetName(node), L"body"));
-					}
-				}
-				else if (!xmlUrl && outlineChildsCount)
-					node = xmlGetFirstChild(node);
-				else if (xmlUrl) {
-					wchar_t *text = nullptr, *url = nullptr, *siteurl = nullptr, *group = nullptr;
-					BYTE NeedToImport = FALSE;
-					for (int i = 0; i < outlineAttr; i++) {
-						if (!mir_wstrcmpi(xmlGetAttrName(node, i), L"text")) {
-							text = mir_utf8decodeW(_T2A(xmlGetAttrValue(node, xmlGetAttrName(node, i))));
-							if (!text) {
-								isTextUTF = 0;
-								text = (wchar_t *)xmlGetAttrValue(node, xmlGetAttrName(node, i));
-							}
-							else
-								isTextUTF = 1;
 
-							for (int j = 0; j < count; j++) {
-								wchar_t item[MAX_PATH];
-								m_feedsimportlist.GetItemText(j, item, _countof(item));
-								if (!mir_wstrcmpi(item, text)) {
-									NeedToImport = TRUE;
-									break;
-								}
-							}
-							continue;
-						}
-						if (!mir_wstrcmpi(xmlGetAttrName(node, i), L"xmlUrl")) {
-							url = mir_utf8decodeW(_T2A(xmlGetAttrValue(node, xmlGetAttrName(node, i))));
-							if (!url) {
-								isURLUTF = false;
-								url = (wchar_t *)xmlGetAttrValue(node, xmlGetAttrName(node, i));
-							}
-							else
-								isURLUTF = true;
-							if (GetContactByURL(url) && NeedToImport) {
-								NeedToImport = FALSE;
-								DUPES++;
-							}
-							continue;
-						}
-						if (!mir_wstrcmpi(xmlGetAttrName(node, i), L"htmlUrl")) {
-							siteurl = mir_utf8decodeW(_T2A(xmlGetAttrValue(node, xmlGetAttrName(node, i))));
-							if (!siteurl) {
-								isSiteURLUTF = false;
-								siteurl = (wchar_t *)xmlGetAttrValue(node, xmlGetAttrName(node, i));
-							}
-							else
-								isSiteURLUTF = true;
-							continue;
-						}
-						if (text && url && siteurl)
-							break;
-					}
+	FILE *in = _wfopen(FileName, L"rb");
+	if (in == nullptr)
+		return;
 
-					if (NeedToImport) {
-						HXML parent = xmlGetParent(node);
-						wchar_t tmpgroup[1024];
-						while (mir_wstrcmpi(xmlGetName(parent), L"body")) {
-							for (int i = 0; i < xmlGetAttrCount(parent); i++) {
-								if (!mir_wstrcmpi(xmlGetAttrName(parent, i), L"text")) {
-									if (!group)
-										group = (wchar_t *)xmlGetAttrValue(parent, xmlGetAttrName(parent, i));
-									else {
-										mir_snwprintf(tmpgroup, L"%s\\%s", xmlGetAttrValue(parent, xmlGetAttrName(parent, i)), group);
-										group = tmpgroup;
-									}
-									break;
-								}
-							}
-							parent = xmlGetParent(parent);
-						}
+	TiXmlDocument doc;
+	int res = doc.LoadFile(in);
+	fclose(in);
+	if (res != 0)
+		return;
 
-						wchar_t *ptszGroup = nullptr;
-						if (group) {
-							ptszGroup = mir_utf8decodeW(_T2A(group));
-							if (!ptszGroup) {
-								isGroupUTF = false;
-								ptszGroup = group;
-							}
-							else
-								isGroupUTF = 1;
-						}
+	auto *node = TiXmlConst(&doc)["opml"]["body"]["outline"].ToElement();
+	if (!node)
+		node = TiXmlConst(&doc)["body"]["outline"].ToElement();
+	if (node == nullptr)
+		return;
 
-						MCONTACT hContact = db_add_contact();
-						Proto_AddToContact(hContact, MODULENAME);
-						g_plugin.setWString(hContact, "Nick", text);
-						g_plugin.setWString(hContact, "URL", url);
-						g_plugin.setWString(hContact, "Homepage", siteurl);
-						g_plugin.setByte(hContact, "CheckState", 1);
-						g_plugin.setDword(hContact, "UpdateTime", DEFAULT_UPDATE_TIME);
-						g_plugin.setWString(hContact, "MsgFormat", TAGSDEFAULT);
-						g_plugin.setWord(hContact, "Status", Proto_GetStatus(MODULENAME));
+	int count = m_feedsimportlist.GetCount();
+	int DUPES = 0;
 
-						if (m_list != nullptr) {
-							int iItem = m_list->AddItem(text, -1);
-							m_list->SetItem(iItem, 1, url);
-							m_list->SetCheckState(iItem, 1);
-						}
+	while (node) {
+		auto *pszUrl = node->Attribute("xmlUrl");
+		if (!pszUrl && node->NoChildren())
+			node = AdviceNode(node);
+		else if (!pszUrl && !node->NoChildren())
+			node = node->FirstChildElement();
+		else if (pszUrl) {
+			wchar_t *text = nullptr, *url = nullptr, *siteurl = nullptr;
+			bool bNeedToImport = false;
 
-						if (ptszGroup) {
-							db_set_ws(hContact, "CList", "Group", ptszGroup);
-							Clist_GroupCreate(0, ptszGroup);
-						}
-						if (isGroupUTF)
-							mir_free(ptszGroup);
-					}
-					if (isTextUTF)
-						mir_free(text);
-					if (isURLUTF)
-						mir_free(url);
-					if (isSiteURLUTF)
-						mir_free(siteurl);
+			if (auto *pszText = node->Attribute("text")) {
+				text = mir_utf8decodeW(pszText);
 
-					HXML tmpnode = node;
-					node = xmlGetNextNode(node);
-					if (!node) {
-						do {
-							node = tmpnode;
-							node = xmlGetParent(node);
-							tmpnode = node;
-							node = xmlGetNextNode(node);
-							if (node)
-								break;
-						} while (mir_wstrcmpi(xmlGetName(tmpnode), L"body"));
+				for (int j = 0; j < count; j++) {
+					wchar_t item[MAX_PATH];
+					m_feedsimportlist.GetItemText(j, item, _countof(item));
+					if (!mir_wstrcmpi(item, text)) {
+						bNeedToImport = true;
+						break;
 					}
 				}
 			}
+
+			if (auto *pszText = node->Attribute("xmlUrl")) {
+				url = mir_utf8decodeW(pszText);
+				if (GetContactByURL(url) && bNeedToImport) {
+					bNeedToImport = false;
+					DUPES++;
+				}
+			}
+
+			if (auto *pszText = node->Attribute("htmlUrl"))
+				siteurl = mir_utf8decodeW(pszText);
+
+			if (bNeedToImport && text && url && siteurl) {
+				CMStringW wszGroup;
+				auto *parent = node->Parent()->ToElement();
+				while (mir_strcmpi(parent->Name(), "body")) {
+					if (auto *pszText = parent->Attribute("text")) {
+						if (!wszGroup.IsEmpty())
+							wszGroup.Insert(0, L"\\");
+						wszGroup.Insert(0, Utf2T(pszText));
+					}
+					parent = parent->Parent()->ToElement();
+				}
+
+				MCONTACT hContact = db_add_contact();
+				Proto_AddToContact(hContact, MODULENAME);
+				g_plugin.setWString(hContact, "Nick", text);
+				g_plugin.setWString(hContact, "URL", url);
+				g_plugin.setWString(hContact, "Homepage", siteurl);
+				g_plugin.setByte(hContact, "CheckState", 1);
+				g_plugin.setDword(hContact, "UpdateTime", DEFAULT_UPDATE_TIME);
+				g_plugin.setWString(hContact, "MsgFormat", TAGSDEFAULT);
+				g_plugin.setWord(hContact, "Status", Proto_GetStatus(MODULENAME));
+
+				if (m_list != nullptr) {
+					int iItem = m_list->AddItem(text, -1);
+					m_list->SetItem(iItem, 1, url);
+					m_list->SetCheckState(iItem, 1);
+				}
+
+				if (!wszGroup.IsEmpty()) {
+					db_set_ws(hContact, "CList", "Group", wszGroup);
+					Clist_GroupCreate(0, wszGroup);
+				}
+			}
+			mir_free(text);
+			mir_free(url);
+			mir_free(siteurl);
+
+			node = AdviceNode(node);
 		}
-		xmlDestroyNode(hXml);
-		wchar_t mes[MAX_PATH];
-		if (DUPES)
-			mir_snwprintf(mes, TranslateT("Imported %d feed(s)\r\nNot imported %d duplicate(s)."), count - DUPES, DUPES);
-		else
-			mir_snwprintf(mes, TranslateT("Imported %d feed(s)."), count);
-		MessageBox(m_hwnd, mes, TranslateT("News Aggregator"), MB_OK | MB_ICONINFORMATION);
 	}
+
+	wchar_t mes[MAX_PATH];
+	if (DUPES)
+		mir_snwprintf(mes, TranslateT("Imported %d feed(s)\r\nNot imported %d duplicate(s)."), count - DUPES, DUPES);
+	else
+		mir_snwprintf(mes, TranslateT("Imported %d feed(s)."), count);
+	MessageBox(m_hwnd, mes, TranslateT("News Aggregator"), MB_OK | MB_ICONINFORMATION);
 }
 
 bool CImportFeed::OnClose()
@@ -758,7 +701,7 @@ bool CFeedEditor::OnInitDialog()
 			ptrW szLogin(g_plugin.getWStringA(m_hContact, "Login"));
 			if (szLogin)
 				m_login.SetText(szLogin);
-			
+
 			pass_ptrA pwd(g_plugin.getStringA(m_hContact, "Password"));
 			m_password.SetTextA(pwd);
 		}
@@ -934,8 +877,7 @@ bool COptionsMain::OnApply()
 		for (int i = 0; i < m_feeds.GetItemCount(); i++) {
 			wchar_t nick[MAX_PATH];
 			m_feeds.GetItemText(i, 0, nick, _countof(nick));
-			if (mir_wstrcmp(dbNick, nick) == 0)
-			{
+			if (mir_wstrcmp(dbNick, nick) == 0) {
 				g_plugin.setByte(hContact, "CheckState", m_feeds.GetCheckState(i));
 				if (!m_feeds.GetCheckState(i))
 					db_set_b(hContact, "CList", "Hidden", 1);
@@ -964,8 +906,7 @@ void COptionsMain::OnChangeButtonClick(CCtrlBase*)
 {
 	int isel = m_feeds.GetSelectionMark();
 	CFeedEditor *pDlg = nullptr;
-	for (auto &it : g_arFeeds)
-	{
+	for (auto &it : g_arFeeds) {
 		wchar_t nick[MAX_PATH], url[MAX_PATH];
 		m_feeds.GetItemText(isel, 0, nick, _countof(nick));
 		m_feeds.GetItemText(isel, 1, url, _countof(url));

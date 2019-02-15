@@ -19,7 +19,7 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-const CMStringA DetectEncoding(const TiXmlDocument &doc)
+static CMStringA DetectEncoding(const TiXmlDocument &doc)
 {
 	auto *pChild = doc.FirstChild();
 	if (pChild)
@@ -38,7 +38,7 @@ const CMStringA DetectEncoding(const TiXmlDocument &doc)
 	return CMStringA();
 }
 
-wchar_t* EncodeResult(const char *szString, const CMStringA &szEncoding)
+static wchar_t* EncodeResult(const char *szString, const CMStringA &szEncoding)
 {
 	if (szEncoding == "koi8-r")
 		return mir_a2u_cp(szString, 20866);
@@ -47,6 +47,32 @@ wchar_t* EncodeResult(const char *szString, const CMStringA &szEncoding)
 
 	return mir_utf8decodeW(szString);
 }
+
+static void SetAvatar(MCONTACT hContact, const char *pszValue)
+{
+	Utf2T url(pszValue);
+	g_plugin.setWString(hContact, "ImageURL", url);
+
+	PROTO_AVATAR_INFORMATION ai = { 0 };
+	ai.hContact = hContact;
+
+	ptrW szNick(g_plugin.getWStringA(hContact, "Nick"));
+	if (szNick) {
+		wchar_t *ext = wcsrchr((wchar_t *)url, '.') + 1;
+		ai.format = ProtoGetAvatarFormat(ext);
+
+		wchar_t *filename = szNick;
+		mir_snwprintf(ai.filename, L"%s\\%s.%s", tszRoot, filename, ext);
+		if (DownloadFile(url, ai.filename)) {
+			g_plugin.setWString(hContact, "ImagePath", ai.filename);
+			ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, NULL);
+		}
+		else ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&ai, NULL);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// touches a feed to verify whether it exists
 
 LPCTSTR CheckFeed(wchar_t *tszURL, CFeedEditor *pEditDlg)
 {
@@ -85,6 +111,9 @@ LPCTSTR CheckFeed(wchar_t *tszURL, CFeedEditor *pEditDlg)
 	MessageBox(pEditDlg->GetHwnd(), mes, TranslateT("News Aggregator"), MB_OK | MB_ICONERROR);
 	return nullptr;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// loads a feed completely, with messages
 
 static void XmlToMsg(MCONTACT hContact, CMStringW &title, CMStringW &link, CMStringW &descr, CMStringW &author, CMStringW &comments, CMStringW &guid, CMStringW &category, time_t stamp)
 {
@@ -208,118 +237,94 @@ void CheckCurrentFeed(MCONTACT hContact)
 			else if (isAtom)
 				g_plugin.setWString(hContact, "MirVer", L"RSS 1.0");
 
-			for (auto *channel : TiXmlEnum(it)) {
-				for (auto *child : TiXmlEnum(channel)) {
-					auto *childName = child->Name();
-					if (!mir_strcmpi(childName, "title")) {
-						ptrW szChildText(EncodeResult(child->GetText(), codepage));
-						if (szChildText)
-							g_plugin.setWString(hContact, "FirstName", ClearText(szValue, szChildText));
+			for (auto *child : TiXmlEnum(it->FirstChildElement())) {
+				auto *childName = child->Name();
+				if (!mir_strcmpi(childName, "title")) {
+					ptrW szChildText(EncodeResult(child->GetText(), codepage));
+					if (szChildText)
+						g_plugin.setWString(hContact, "FirstName", ClearText(szValue, szChildText));
+				}
+				else if (!mir_strcmpi(childName, "link")) {
+					ptrW szChildText(EncodeResult(child->GetText(), codepage));
+					if (szChildText)
+						g_plugin.setWString(hContact, "Homepage", ClearText(szValue, szChildText));
+				}
+				else if (!mir_strcmpi(childName, "description")) {
+					ptrW szChildText(EncodeResult(child->GetText(), codepage));
+					if (szChildText) {
+						ClearText(szValue, szChildText);
+						g_plugin.setWString(hContact, "About", szValue);
+						db_set_ws(hContact, "CList", "StatusMsg", szValue);
 					}
-					else if (!mir_strcmpi(childName, "link")) {
-						ptrW szChildText(EncodeResult(child->GetText(), codepage));
-						if (szChildText)
-							g_plugin.setWString(hContact, "Homepage", ClearText(szValue, szChildText));
+				}
+				else if (!mir_strcmpi(childName, "language")) {
+					ptrW szChildText(EncodeResult(child->GetText(), codepage));
+					if (szChildText)
+						g_plugin.setWString(hContact, "Language1", ClearText(szValue, szChildText));
+				}
+				else if (!mir_strcmpi(childName, "managingEditor")) {
+					ptrW szChildText(EncodeResult(child->GetText(), codepage));
+					if (szChildText)
+						g_plugin.setWString(hContact, "e-mail", ClearText(szValue, szChildText));
+				}
+				else if (!mir_strcmpi(childName, "category")) {
+					ptrW szChildText(EncodeResult(child->GetText(), codepage));
+					if (szChildText)
+						g_plugin.setWString(hContact, "Interest0Text", ClearText(szValue, szChildText));
+				}
+				else if (!mir_strcmpi(childName, "copyright")) {
+					ptrW szChildText(EncodeResult(child->GetText(), codepage));
+					if (szChildText)
+						db_set_s(hContact, "UserInfo", "MyNotes", _T2A(ClearText(szValue, szChildText)));
+				}
+				else if (!mir_strcmpi(childName, "image")) {
+					for (auto *xmlImage : TiXmlFilter(child, "url"))
+						SetAvatar(hContact, xmlImage->GetText());
+				}
+				else if (!mir_strcmpi(childName, "lastBuildDate")) {
+					time_t stamp = DateToUnixTime(child->GetText(), 0);
+					double deltaupd = difftime(time(0), stamp);
+					double deltacheck = difftime(time(0), (time_t)g_plugin.getDword(hContact, "LastCheck"));
+					if (deltaupd - deltacheck >= 0) {
+						g_plugin.setDword(hContact, "LastCheck", (DWORD)time(0));
+						return;
 					}
-					else if (!mir_strcmpi(childName, "description")) {
-						ptrW szChildText(EncodeResult(child->GetText(), codepage));
-						if (szChildText) {
-							ClearText(szValue, szChildText);
-							g_plugin.setWString(hContact, "About", szValue);
-							db_set_ws(hContact, "CList", "StatusMsg", szValue);
+				}
+				else if (!mir_strcmpi(childName, "item")) {
+					CMStringW title, link, descr, author, comments, guid, category;
+					time_t stamp = 0;
+					for (auto *itemval : TiXmlEnum(child)) {
+						auto *itemName = itemval->Name();
+						ptrW value(EncodeResult(itemval->GetText(), codepage));
+
+						// We only use the first tag for now and ignore the rest.
+						if (!mir_strcmpi(itemName, "title"))
+							ClearText(title, value);
+
+						else if (!mir_strcmpi(itemName, "link"))
+							ClearText(link, value);
+
+						else if (!mir_strcmpi(itemName, "pubDate") || !mir_strcmpi(itemName, "date")) {
+							if (stamp == 0)
+								stamp = DateToUnixTime(itemval->GetText(), 0);
 						}
+						else if (!mir_strcmpi(itemName, "description") || !mir_strcmpi(itemName, "encoded"))
+							ClearText(descr, value);
+
+						else if (!mir_strcmpi(itemName, "author") || !mir_strcmpi(itemName, "creator"))
+							ClearText(author, value);
+
+						else if (!mir_strcmpi(itemName, "comments"))
+							ClearText(comments, value);
+
+						else if (!mir_strcmpi(itemName, "guid"))
+							ClearText(guid, value);
+
+						else if (!mir_strcmpi(itemName, "category"))
+							ClearText(category, value);
 					}
-					else if (!mir_strcmpi(childName, "language")) {
-						ptrW szChildText(EncodeResult(child->GetText(), codepage));
-						if (szChildText)
-							g_plugin.setWString(hContact, "Language1", ClearText(szValue, szChildText));
-					}
-					else if (!mir_strcmpi(childName, "managingEditor")) {
-						ptrW szChildText(EncodeResult(child->GetText(), codepage));
-						if (szChildText)
-							g_plugin.setWString(hContact, "e-mail", ClearText(szValue, szChildText));
-					}
-					else if (!mir_strcmpi(childName, "category")) {
-						ptrW szChildText(EncodeResult(child->GetText(), codepage));
-						if (szChildText)
-							g_plugin.setWString(hContact, "Interest0Text", ClearText(szValue, szChildText));
-					}
-					else if (!mir_strcmpi(childName, "copyright")) {
-						ptrW szChildText(EncodeResult(child->GetText(), codepage));
-						if (szChildText)
-							db_set_s(hContact, "UserInfo", "MyNotes", _T2A(ClearText(szValue, szChildText)));
-					}
-					else if (!mir_strcmpi(childName, "image")) {
-						for (auto *xmlImage : TiXmlFilter(child, "url")) {
-							Utf2T url(xmlImage->GetText());
-							g_plugin.setWString(hContact, "ImageURL", url);
 
-							PROTO_AVATAR_INFORMATION ai = { 0 };
-							ai.hContact = hContact;
-
-							ptrW szNick(g_plugin.getWStringA(hContact, "Nick"));
-							if (szNick) {
-								wchar_t *ext = wcsrchr((wchar_t *)url, '.') + 1;
-								ai.format = ProtoGetAvatarFormat(url);
-
-								CMStringW filename = szNick;
-								filename.Replace(L"/", L"_");
-								mir_snwprintf(ai.filename, L"%s\\%s.%s", tszRoot, filename.c_str(), ext);
-								CreateDirectoryTreeW(tszRoot);
-								if (DownloadFile(url, ai.filename)) {
-									g_plugin.setWString(hContact, "ImagePath", ai.filename);
-									ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, NULL);
-								}
-								else ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&ai, NULL);
-								break;
-							}
-						}
-					}
-					else if (!mir_strcmpi(childName, "lastBuildDate")) {
-						time_t stamp = DateToUnixTime(child->GetText(), 0);
-						double deltaupd = difftime(time(0), stamp);
-						double deltacheck = difftime(time(0), (time_t)g_plugin.getDword(hContact, "LastCheck"));
-						if (deltaupd - deltacheck >= 0) {
-							g_plugin.setDword(hContact, "LastCheck", (DWORD)time(0));
-							return;
-						}
-					}
-					else if (!mir_strcmpi(childName, "item")) {
-						CMStringW title, link, descr, author, comments, guid, category;
-						time_t stamp = 0;
-						for (auto *itemval : TiXmlEnum(child)) {
-							auto *itemName = itemval->Name();
-							ptrW value(EncodeResult(itemval->GetText(), codepage));
-
-							// We only use the first tag for now and ignore the rest.
-							if (!mir_strcmpi(itemName, "title"))
-								ClearText(title, value);
-
-							else if (!mir_strcmpi(itemName, "link"))
-								ClearText(link, value);
-
-							else if (!mir_strcmpi(itemName, "pubDate") || !mir_strcmpi(itemName, "date")) {
-								if (stamp == 0)
-									stamp = DateToUnixTime(itemval->GetText(), 0);
-							}
-							else if (!mir_strcmpi(itemName, "description") || !mir_strcmpi(itemName, "encoded"))
-								ClearText(descr, value);
-
-							else if (!mir_strcmpi(itemName, "author") || !mir_strcmpi(itemName, "creator"))
-								ClearText(author, value);
-
-							else if (!mir_strcmpi(itemName, "comments"))
-								ClearText(comments, value);
-
-							else if (!mir_strcmpi(itemName, "guid"))
-								ClearText(guid, value);
-
-							else if (!mir_strcmpi(itemName, "category"))
-								ClearText(category, value);
-						}
-
-						XmlToMsg(hContact, title, link, descr, author, comments, guid, category, stamp);
-					}
+					XmlToMsg(hContact, title, link, descr, author, comments, guid, category, stamp);
 				}
 			}
 		}
@@ -362,27 +367,8 @@ void CheckCurrentFeed(MCONTACT hContact)
 						g_plugin.setWString(hContact, "Interest0Text", ClearText(szValue, szChildText));
 				}
 				else if (!mir_strcmpi(szChildName, "icon")) {
-					for (auto *imageval : TiXmlFilter(child, "url")) {
-						ptrW url(EncodeResult(imageval->GetText(), codepage));
-						g_plugin.setWString(hContact, "ImageURL", url);
-
-						ptrW szNick(g_plugin.getWStringA(hContact, "Nick"));
-						if (szNick) {
-							PROTO_AVATAR_INFORMATION ai = { 0 };
-							ai.hContact = hContact;
-							wchar_t *ext = wcsrchr((wchar_t *)url, '.') + 1;
-							ai.format = ProtoGetAvatarFormat(ext);
-
-							wchar_t *filename = szNick;
-							mir_snwprintf(ai.filename, L"%s\\%s.%s", tszRoot, filename, ext);
-							if (DownloadFile(url, ai.filename)) {
-								g_plugin.setWString(hContact, "ImagePath", ai.filename);
-								ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, NULL);
-							}
-							else ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&ai, NULL);
-							break;
-						}
-					}
+					for (auto *imageval : TiXmlFilter(child, "url"))
+						SetAvatar(hContact, imageval->GetText());
 				}
 				else if (!mir_strcmpi(szChildName, "updated")) {
 					time_t stamp = DateToUnixTime(child->GetText(), 1);
@@ -447,6 +433,9 @@ void CheckCurrentFeed(MCONTACT hContact)
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// downloads avatars from a given feed
+
 void CheckCurrentFeedAvatar(MCONTACT hContact)
 {
 	if (!g_plugin.getByte(hContact, "CheckState", 1))
@@ -463,86 +452,23 @@ void CheckCurrentFeedAvatar(MCONTACT hContact)
 	if (szData == nullptr)
 		return;
 
-	wchar_t *tszData = mir_utf8decodeW(szData);
-	if (!tszData)
-		tszData = mir_a2u(szData);
-	int bytesParsed = 0;
-	HXML hXml = xmlParseString(tszData, &bytesParsed, nullptr);
-	mir_free(tszData);
+	TiXmlDocument doc;
+	int ret = doc.Parse(szData);
 	mir_free(szData);
-	if (hXml == nullptr)
+	if (ret != ERROR_SUCCESS)
 		return;
 
-	int childcount = 0;
-	HXML node = xmlGetChild(hXml, childcount);
-	while (node) {
-		LPCTSTR szNodeName = xmlGetName(node);
-		if (!mir_wstrcmpi(szNodeName, L"rss") || !mir_wstrcmpi(szNodeName, L"rdf")) {
-			HXML chan = xmlGetChild(node, 0);
-			for (int j = 0; j < xmlGetChildCount(chan); j++) {
-				HXML child = xmlGetChild(chan, j);
-				if (!mir_wstrcmpi(xmlGetName(child), L"image")) {
-					for (int x = 0; x < xmlGetChildCount(child); x++) {
-						HXML imageval = xmlGetChild(child, x);
-						if (!mir_wstrcmpi(xmlGetName(imageval), L"url")) {
-							LPCTSTR url = xmlGetText(imageval);
-							g_plugin.setWString(hContact, "ImageURL", url);
-
-							PROTO_AVATAR_INFORMATION ai = { 0 };
-							ai.hContact = hContact;
-
-							ptrW szNick(g_plugin.getWStringA(hContact, "Nick"));
-							if (szNick) {
-								wchar_t *ext = wcsrchr((wchar_t *)url, '.') + 1;
-								ai.format = ProtoGetAvatarFormat(ext);
-
-								wchar_t *filename = szNick;
-								mir_snwprintf(ai.filename, L"%s\\%s.%s", tszRoot, filename, ext);
-								if (DownloadFile(url, ai.filename)) {
-									g_plugin.setWString(hContact, "ImagePath", ai.filename);
-									ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, NULL);
-								}
-								else ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&ai, NULL);
-								break;
-							}
-						}
-					}
-				}
-			}
+	for (auto *it : TiXmlEnum(&doc)) {
+		auto *szNodeName = it->Name();
+		if (!mir_strcmpi(szNodeName, "rss") || !mir_strcmpi(szNodeName, "rdf")) {
+			for (auto *child : TiXmlFilter(it->FirstChildElement(), "image"))
+				for (auto *xmlImage : TiXmlFilter(child, "url"))
+					SetAvatar(hContact, xmlImage->GetText());
 		}
-		else if (!mir_wstrcmpi(szNodeName, L"feed")) {
-			for (int j = 0; j < xmlGetChildCount(node); j++) {
-				HXML child = xmlGetChild(node, j);
-				if (!mir_wstrcmpi(xmlGetName(child), L"icon")) {
-					for (int x = 0; x < xmlGetChildCount(child); x++) {
-						HXML imageval = xmlGetChild(child, x);
-						if (!mir_wstrcmpi(xmlGetName(imageval), L"url")) {
-							LPCTSTR url = xmlGetText(imageval);
-							g_plugin.setWString(hContact, "ImageURL", url);
-
-							ptrW szNick(g_plugin.getWStringA(hContact, "Nick"));
-							if (szNick) {
-								PROTO_AVATAR_INFORMATION ai = { 0 };
-								ai.hContact = hContact;
-
-								wchar_t *ext = wcsrchr((wchar_t *)url, '.') + 1;
-								ai.format = ProtoGetAvatarFormat(ext);
-
-								wchar_t *filename = szNick;
-								mir_snwprintf(ai.filename, L"%s\\%s.%s", tszRoot, filename, ext);
-								if (DownloadFile(url, ai.filename)) {
-									g_plugin.setWString(hContact, "ImagePath", ai.filename);
-									ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, NULL);
-								}
-								else ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&ai, NULL);
-								break;
-							}
-						}
-					}
-				}
-			}
+		else if (!mir_strcmpi(szNodeName, "feed")) {
+			for (auto *child : TiXmlFilter(it, "icon"))
+				for (auto *xmlImage : TiXmlFilter(child, "url"))
+					SetAvatar(hContact, xmlImage->GetText());
 		}
-		node = xmlGetChild(hXml, ++childcount);
 	}
-	xmlDestroyNode(hXml);
 }
