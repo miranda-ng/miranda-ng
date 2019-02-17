@@ -118,19 +118,29 @@ public:
 		return db_get_dw(hContact, m_szModuleName, name, defaultValue); }
 
 	__forceinline INT_PTR getString(const char *name, DBVARIANT *result) {
-		return db_get_s(NULL, m_szModuleName, name, result); }
+		return db_get_s(NULL, m_szModuleName, name, result, DBVT_ASCIIZ); }
 	__forceinline INT_PTR getString(MCONTACT hContact, const char *name, DBVARIANT *result) {
-		return db_get_s(hContact, m_szModuleName, name, result); }
+		return db_get_s(hContact, m_szModuleName, name, result, DBVT_ASCIIZ); }
+
+	__forceinline INT_PTR getUString(const char *name, DBVARIANT *result) {
+		return db_get_s(NULL, m_szModuleName, name, result, DBVT_UTF8); }
+	__forceinline INT_PTR getUString(MCONTACT hContact, const char *name, DBVARIANT *result) {
+		return db_get_s(hContact, m_szModuleName, name, result, DBVT_UTF8); }
 
 	__forceinline INT_PTR getWString(const char *name, DBVARIANT *result) {
-		return db_get_ws(NULL, m_szModuleName, name, result); }
+		return db_get_s(NULL, m_szModuleName, name, result, DBVT_WCHAR); }
 	__forceinline INT_PTR getWString(MCONTACT hContact, const char *name, DBVARIANT *result) {
-		return db_get_ws(hContact, m_szModuleName, name, result); }
+		return db_get_s(hContact, m_szModuleName, name, result, DBVT_WCHAR); }
 
 	__forceinline char* getStringA(const char *name) {
 		return db_get_sa(NULL, m_szModuleName, name); }
 	__forceinline char* getStringA(MCONTACT hContact, const char *name) {
 		return db_get_sa(hContact, m_szModuleName, name); }
+
+	__forceinline char* getUStringA(const char *name) {
+		return db_get_utfa(NULL, m_szModuleName, name); }
+	__forceinline char* getUStringA(MCONTACT hContact, const char *name) {
+		return db_get_utfa(hContact, m_szModuleName, name); }
 
 	__forceinline wchar_t* getWStringA(const char *name) {
 		return db_get_wsa(NULL, m_szModuleName, name); }
@@ -158,6 +168,9 @@ public:
 
 	__forceinline void setString(const char *name, const char* value) { db_set_s(NULL, m_szModuleName, name, value); }
 	__forceinline void setString(MCONTACT hContact, const char *name, const char* value) { db_set_s(hContact, m_szModuleName, name, value); }
+
+	__forceinline void setStringU(const char *name, const char* value) { db_set_utf(NULL, m_szModuleName, name, value); }
+	__forceinline void setStringU(MCONTACT hContact, const char *name, const char* value) { db_set_utf(hContact, m_szModuleName, name, value); }
 
 	__forceinline void setWString(const char *name, const wchar_t* value) { db_set_ws(NULL, m_szModuleName, name, value); }
 	__forceinline void setWString(MCONTACT hContact, const char *name, const wchar_t* value) { db_set_ws(hContact, m_szModuleName, name, value); }
