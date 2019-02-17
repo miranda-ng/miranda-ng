@@ -30,6 +30,37 @@ static char fieldsName[] = "id, first_name, last_name, photo_100, bdate, sex, ti
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+bool CVkProto::CheckHealthThreads()
+{
+	if (!IsOnline()) {
+		debugLogA("CVkProto::CheckHealthThreads Offline");
+		return false;
+	}
+
+	time_t tNow = time(0);
+
+	{
+		mir_cslock lck(m_csWorkThreadTimer);
+		if ((m_tWorkThreadTimer + 3 * 60) < tNow) {
+			debugLogA("CVkProto::CheckHealthThreads Work Thread is freeze => ShutdownSession()");
+			ShutdownSession();
+			return false;
+		}
+	}
+
+	{
+		mir_cslock lck(m_csPoolThreadTimer);
+		if ((m_tPoolThreadTimer + 3 * 60) < tNow) {
+			debugLogA("CVkProto::CheckHealthThreads Pool Thread is freeze => ShutdownSession()");
+			ShutdownSession();
+			return false;
+		}
+	}
+
+	debugLogA("CVkProto::CheckHealthThreads OK");
+	return true;
+}
+
 void CVkProto::ShutdownSession()
 {
 	debugLogA("CVkProto::ShutdownSession");
@@ -56,7 +87,8 @@ static VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 	for (auto &it : g_plugin.g_arInstances)
 		if (it->IsOnline()) {
 			it->debugLogA("Tic timer for %s", it->m_szModuleName);
-			it->OnTimerTic();
+			if (it->CheckHealthThreads())
+				it->OnTimerTic();
 		}
 }
 

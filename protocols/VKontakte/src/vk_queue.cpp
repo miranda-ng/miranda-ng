@@ -191,6 +191,10 @@ void CVkProto::WorkerThread(void*)
 				// There can be maximum 3 requests to API methods per second from a client
 				// see https://vk.com/dev/api_requests
 			}
+			{
+				mir_cslock lck(m_csWorkThreadTimer);
+				m_tWorkThreadTimer = time(0);
+			}
 			ExecuteRequest(pReq);
 		}
 	}

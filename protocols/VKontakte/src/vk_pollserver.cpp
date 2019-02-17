@@ -260,6 +260,11 @@ int CVkProto::PollServer()
 	req.timeout = 30000;
 	req.nlc = m_pollingConn;
 
+	{
+		mir_cslock lck(m_csPoolThreadTimer);
+		m_tPoolThreadTimer = time(0);
+	}
+
 	while ((reply = Netlib_HttpTransaction(m_hNetlibUser, &req)) == nullptr) {
 		debugLogA("CVkProto::PollServer is dead");
 		ClosePollingConnection();

@@ -117,6 +117,7 @@ struct CVkProto : public PROTO<CVkProto>
 
 	void CreateNewChat(LPCSTR uids, LPCWSTR pwszTitle);
 	__forceinline bool IsOnline() const { return m_bOnline; }
+	bool CheckHealthThreads();
 	void OnTimerTic();
 	void ClearAccessToken();
 	wchar_t* GetUserStoredPassword(void);
@@ -206,7 +207,13 @@ private:
 		m_csChatTyping,
 		m_csLoadHistoryTask,
 		m_csRequestsQueue,
-		m_csSetStatus;
+		m_csSetStatus,
+		m_csWorkThreadTimer,
+		m_csPoolThreadTimer;
+
+	time_t
+		m_tWorkThreadTimer,
+		m_tPoolThreadTimer;
 
 	int m_iLoadHistoryTask;
 

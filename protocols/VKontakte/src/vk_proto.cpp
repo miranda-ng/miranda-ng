@@ -42,6 +42,8 @@ CVkProto::CVkProto(const char *szModuleName, const wchar_t *pwszUserName) :
 	m_bNeedSendOnline(false),
 	m_vkOptions(this)
 {
+	m_tWorkThreadTimer = m_tPoolThreadTimer = time(0);
+
 	InitQueue();
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CVkProto::SvcCreateAccMgrUI);
