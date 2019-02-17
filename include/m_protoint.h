@@ -169,8 +169,8 @@ public:
 	__forceinline void setString(const char *name, const char* value) { db_set_s(NULL, m_szModuleName, name, value); }
 	__forceinline void setString(MCONTACT hContact, const char *name, const char* value) { db_set_s(hContact, m_szModuleName, name, value); }
 
-	__forceinline void setStringU(const char *name, const char* value) { db_set_utf(NULL, m_szModuleName, name, value); }
-	__forceinline void setStringU(MCONTACT hContact, const char *name, const char* value) { db_set_utf(hContact, m_szModuleName, name, value); }
+	__forceinline void setUString(const char *name, const char* value) { db_set_utf(NULL, m_szModuleName, name, value); }
+	__forceinline void setUString(MCONTACT hContact, const char *name, const char* value) { db_set_utf(hContact, m_szModuleName, name, value); }
 
 	__forceinline void setWString(const char *name, const wchar_t* value) { db_set_ws(NULL, m_szModuleName, name, value); }
 	__forceinline void setWString(MCONTACT hContact, const char *name, const wchar_t* value) { db_set_ws(hContact, m_szModuleName, name, value); }
