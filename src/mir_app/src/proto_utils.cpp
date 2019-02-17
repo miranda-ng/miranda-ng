@@ -371,29 +371,29 @@ MIR_APP_DLL(int) ProtoGetAvatarFileFormat(const wchar_t *ptszFileName)
 /////////////////////////////////////////////////////////////////////////////////////////
 // mime type functions
 
-static wchar_t *wszMimeTypes[] =
+static char *wszMimeTypes[] =
 {
-	L"application/octet-stream", // PA_FORMAT_UNKNOWN
-	L"image/png",                // PA_FORMAT_PNG
-	L"image/jpeg",               // PA_FORMAT_JPEG
-	L"image/icon",               // PA_FORMAT_ICON
-	L"image/bmp",                // PA_FORMAT_BMP
-	L"image/gif",                // PA_FORMAT_GIF
-	L"image/swf",                // PA_FORMAT_SWF
-	L"application/xml"           // PA_FORMAT_XML
+	"application/octet-stream", // PA_FORMAT_UNKNOWN
+	"image/png",                // PA_FORMAT_PNG
+	"image/jpeg",               // PA_FORMAT_JPEG
+	"image/icon",               // PA_FORMAT_ICON
+	"image/bmp",                // PA_FORMAT_BMP
+	"image/gif",                // PA_FORMAT_GIF
+	"image/swf",                // PA_FORMAT_SWF
+	"application/xml"           // PA_FORMAT_XML
 };
 
-MIR_APP_DLL(const wchar_t*) ProtoGetAvatarMimeType(int iFileType)
+MIR_APP_DLL(const char*) ProtoGetAvatarMimeType(int iFileType)
 {
 	if (iFileType >= 0 && iFileType < _countof(wszMimeTypes))
 		return wszMimeTypes[iFileType];
 	return nullptr;
 }
 
-MIR_APP_DLL(int) ProtoGetAvatarFormatByMimeType(const wchar_t *pwszMimeType)
+MIR_APP_DLL(int) ProtoGetAvatarFormatByMimeType(const char *pwszMimeType)
 {
 	for (int i = 0; i < _countof(wszMimeTypes); i++)
-		if (!mir_wstrcmp(pwszMimeType, wszMimeTypes[i]))
+		if (!mir_strcmp(pwszMimeType, wszMimeTypes[i]))
 			return i;
 	
 	return PA_FORMAT_UNKNOWN;

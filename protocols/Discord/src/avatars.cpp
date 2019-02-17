@@ -71,7 +71,7 @@ LBL_Error:
 
 	for (int i = 0; i < reply->headersCount; i++)
 		if (!mir_strcmp(reply->headers[i].szName, "Content-Type")) {
-			ai.format = ProtoGetAvatarFormatByMimeType(_A2T(reply->headers[i].szValue));
+			ai.format = ProtoGetAvatarFormatByMimeType(reply->headers[i].szValue);
 			break;
 		}
 
@@ -170,12 +170,12 @@ INT_PTR CDiscordProto::SetMyAvatar(WPARAM, LPARAM lParam)
 
 	CMStringA szPayload("data:");
 
-	const wchar_t *wszMimeType = ProtoGetAvatarMimeType(ProtoGetAvatarFileFormat(pwszFilename));
-	if (wszMimeType == nullptr) {
+	const char *szMimeType = ProtoGetAvatarMimeType(ProtoGetAvatarFileFormat(pwszFilename));
+	if (szMimeType == nullptr) {
 		debugLogA("invalid file format for avatar %S", pwszFilename);
 		return 1;
 	}
-	szPayload.AppendFormat("%S;base64,", wszMimeType);
+	szPayload.AppendFormat("%s;base64,", szMimeType);
 	FILE *in = _wfopen(pwszFilename, L"rb");
 	if (in == nullptr) {
 		debugLogA("cannot open avatar file %S for reading", pwszFilename);

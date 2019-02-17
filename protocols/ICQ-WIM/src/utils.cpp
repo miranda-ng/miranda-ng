@@ -223,7 +223,7 @@ INT_PTR __cdecl CIcqProto::SetAvatar(WPARAM, LPARAM lParam)
 			return 3;
 		}
 		
-		pReq->AddHeader("Content-Type", _T2A(ProtoGetAvatarMimeType(iAvatarType)));
+		pReq->AddHeader("Content-Type", ProtoGetAvatarMimeType(iAvatarType));
 	}
 	Push(pReq);
 
