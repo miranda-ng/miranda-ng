@@ -174,6 +174,17 @@ MIR_CORE_DLL(char*) db_get_sa(MCONTACT hContact, const char *szModule, const cha
 	return (szValue == nullptr) ? nullptr : mir_strdup(szValue);
 }
 
+MIR_CORE_DLL(char*) db_get_utfa(MCONTACT hContact, const char *szModule, const char *szSetting, const char *szValue)
+{
+	if (currDb) {
+		DBVARIANT dbv = { DBVT_UTF8 };
+		if (!currDb->GetContactSettingStr(hContact, szModule, szSetting, &dbv))
+			return dbv.pszVal;
+	}
+
+	return (szValue == nullptr) ? nullptr : mir_strdup(szValue);
+}
+
 MIR_CORE_DLL(wchar_t*) db_get_wsa(MCONTACT hContact, const char *szModule, const char *szSetting, const wchar_t *szValue)
 {
 	if (currDb) {

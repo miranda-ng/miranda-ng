@@ -379,25 +379,21 @@ EXTERN_C MIR_CORE_DLL(MEVENT) db_event_setId(const char *szModule, MEVENT hDbEve
 // Database settings
 
 EXTERN_C MIR_CORE_DLL(INT_PTR)  db_get(MCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);
+
 EXTERN_C MIR_CORE_DLL(int)      db_get_b(MCONTACT hContact, const char *szModule, const char *szSetting, int errorValue = 0);
 EXTERN_C MIR_CORE_DLL(int)      db_get_w(MCONTACT hContact, const char *szModule, const char *szSetting, int errorValue = 0);
 EXTERN_C MIR_CORE_DLL(DWORD)    db_get_dw(MCONTACT hContact, const char *szModule, const char *szSetting, DWORD errorValue = 0);
 
 EXTERN_C MIR_CORE_DLL(char*)    db_get_sa(MCONTACT hContact, const char *szModule, const char *szSetting, const char *szValue = nullptr);
+EXTERN_C MIR_CORE_DLL(char*)    db_get_utfa(MCONTACT hContact, const char *szModule, const char *szSetting, const char *szValue = nullptr);
 EXTERN_C MIR_CORE_DLL(wchar_t*) db_get_wsa(MCONTACT hContact, const char *szModule, const char *szSetting, const wchar_t *szValue = nullptr);
 
-MIR_CORE_DLL(CMStringA) db_get_sm(MCONTACT hContact, const char *szModule, const char *szSetting);
-MIR_CORE_DLL(CMStringW) db_get_wsm(MCONTACT hContact, const char *szModule, const char *szSetting);
+MIR_CORE_DLL(CMStringA)         db_get_sm(MCONTACT hContact, const char *szModule, const char *szSetting);
+MIR_CORE_DLL(CMStringW)         db_get_wsm(MCONTACT hContact, const char *szModule, const char *szSetting);
 
 EXTERN_C MIR_CORE_DLL(int)      db_get_static(MCONTACT hContact, const char *szModule, const char *szSetting, char *pDest, int cbDest);
 EXTERN_C MIR_CORE_DLL(int)      db_get_static_utf(MCONTACT hContact, const char *szModule, const char *szSetting, char *pDest, int cbDest);
 EXTERN_C MIR_CORE_DLL(int)      db_get_wstatic(MCONTACT hContact, const char *szModule, const char *szSetting, wchar_t *pDest, int cbDest);
-
-#if defined(__cplusplus)
-EXTERN_C MIR_CORE_DLL(INT_PTR) db_get_s(MCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv, const int nType = DBVT_ASCIIZ);
-#else
-EXTERN_C MIR_CORE_DLL(INT_PTR) db_get_s(MCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv, const int nType);
-#endif
 
 EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set(MCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);
 EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set_b(MCONTACT hContact, const char *szModule, const char *szSetting, BYTE val);
@@ -408,16 +404,13 @@ EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set_ws(MCONTACT hContact, const char *szModul
 EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set_utf(MCONTACT hContact, const char *szModule, const char *szSetting, const char *val);
 EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set_blob(MCONTACT hContact, const char *szModule, const char *szSetting, void *val, unsigned len);
 
-EXTERN_C MIR_CORE_DLL(INT_PTR) db_unset(MCONTACT hContact, const char *szModule, const char *szSetting);
+EXTERN_C MIR_CORE_DLL(INT_PTR)  db_unset(MCONTACT hContact, const char *szModule, const char *szSetting);
 
-#if defined(__cplusplus)
-EXTERN_C MIR_CORE_DLL(BOOL) db_set_resident(const char *szModule, const char *szService, BOOL bEnable = TRUE);
-#else
-EXTERN_C MIR_CORE_DLL(BOOL) db_set_resident(const char *szModule, const char *szService, BOOL bEnable);
-#endif
+EXTERN_C MIR_CORE_DLL(BOOL)     db_set_resident(const char *szModule, const char *szService, BOOL bEnable = true);
 
-#define db_get_ws(a,b,c,d)    db_get_s(a,b,c,d,DBVT_WCHAR)
-#define db_get_utf(a,b,c,d)   db_get_s(a,b,c,d,DBVT_UTF8)
+EXTERN_C MIR_CORE_DLL(INT_PTR)  db_get_s(MCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv, const int nType = DBVT_ASCIIZ);
+#define db_get_ws(a,b,c,d)      db_get_s(a,b,c,d,DBVT_WCHAR)
+#define db_get_utf(a,b,c,d)     db_get_s(a,b,c,d,DBVT_UTF8)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Profile services

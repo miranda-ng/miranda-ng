@@ -1415,3 +1415,4 @@ db_event_edit @1268
 ?SetAttribute@XMLElement@tinyxml2@@QEAAXPEBDPEB_W@Z @1628 NONAME
 ??AXMLConstHandle@tinyxml2@@QEBA?BV01@PEBD@Z @1629 NONAME
 ??AXMLHandle@tinyxml2@@QEAA?AV01@PEBD@Z @1630 NONAME
+db_get_utfa @1631
