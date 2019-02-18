@@ -1096,6 +1096,7 @@ char* XMLNode::ParseDeep( char* p, StrPair* parentEndTag, int* curLineNumPtr )
         }
         InsertEndChild( node );
     }
+	 _document->_bytesParsed = (int)(p-_document->_charBuffer);
     return 0;
 }
 
@@ -2395,6 +2396,7 @@ void XMLDocument::Parse()
     TIXMLASSERT( _charBuffer );
     _parseCurLineNum = 1;
     _parseLineNum = 1;
+	 _bytesParsed = 0;
     char* p = _charBuffer;
     p = XMLUtil::SkipWhiteSpace( p, &_parseCurLineNum );
     p = const_cast<char*>( XMLUtil::ReadBOM( p, &_writeBOM ) );

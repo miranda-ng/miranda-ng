@@ -1735,6 +1735,9 @@ public:
     Whitespace WhitespaceMode() const	{
         return _whitespaceMode;
     }
+	 int BytesParsed() const {
+		  return _bytesParsed;
+	 }
 
     /**
     	Returns true if this document has a leading Byte Order Mark of UTF8.
@@ -1884,7 +1887,8 @@ private:
     int             _errorLineNum;
     char*			_charBuffer;
     int				_parseCurLineNum;
-	int				_parsingDepth;
+	 int				_parsingDepth;
+	 int           _bytesParsed;
 	// Memory tracking does add some overhead.
 	// However, the code assumes that you don't
 	// have a bunch of unlinked nodes around.

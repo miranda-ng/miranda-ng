@@ -1418,3 +1418,4 @@ db_event_edit @1268
 db_get_utfa @1631
 ?GetTextU@CCtrlBase@@QAEPADPADI@Z @1632 NONAME
 ?GetTextU@CCtrlBase@@QAEPADXZ @1633 NONAME
+?BytesParsed@XMLDocument@tinyxml2@@QBEHXZ @1634 NONAME
