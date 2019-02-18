@@ -841,19 +841,21 @@ void CJabberProto::GroupchatProcessPresence(const TiXmlElement *node)
 
 		// Update status of room participant
 		int status = ID_STATUS_ONLINE;
-		const char *ptszShow = node->FirstChildElement("show")->GetText();
-		if (ptszShow) {
-			if (!mir_strcmp(ptszShow, "away")) status = ID_STATUS_AWAY;
-			else if (!mir_strcmp(ptszShow, "xa")) status = ID_STATUS_NA;
-			else if (!mir_strcmp(ptszShow, "dnd")) status = ID_STATUS_DND;
-			else if (!mir_strcmp(ptszShow, "chat")) status = ID_STATUS_FREECHAT;
+		if (auto *n = node->FirstChildElement("show")) {
+			if (!mir_strcmp(n->GetText(), "away")) status = ID_STATUS_AWAY;
+			else if (!mir_strcmp(n->GetText(), "xa")) status = ID_STATUS_NA;
+			else if (!mir_strcmp(n->GetText(), "dnd")) status = ID_STATUS_DND;
+			else if (!mir_strcmp(n->GetText(), "chat")) status = ID_STATUS_FREECHAT;
 		}
 
-		const char *str = node->FirstChildElement("status")->GetText();
+		const char *str = nullptr;
+		if (auto *n = node->FirstChildElement("status"))
+			str = n->GetText();
 
 		char priority = 0;
-		if (auto *ptszPriority = node->FirstChildElement("priority")->GetText())
-			priority = atoi(ptszPriority);
+		if (auto *n = node->FirstChildElement("priority"))
+			if (n->GetText())
+				priority = atoi(n->GetText());
 
 		bool bStatusChanged = false, bRoomCreated = false, bAffiliationChanged = false, bRoleChanged = false;
 		int  newRes = ListAddResource(LIST_CHATROOM, from, status, str, priority, cnick) ? GC_EVENT_JOIN : 0;

@@ -132,7 +132,9 @@ TiXmlElement* XmlAddChild(TiXmlElement *hXml, const char *name)
 	if (hXml == nullptr)
 		return nullptr;
 
-	return hXml->GetDocument()->NewElement(name);
+	auto *res = hXml->GetDocument()->NewElement(name);
+	hXml->InsertEndChild(res);
+	return res;
 }
 
 TiXmlElement* XmlAddChild(TiXmlElement *hXml, const char *name, const char *value)
@@ -141,7 +143,9 @@ TiXmlElement* XmlAddChild(TiXmlElement *hXml, const char *name, const char *valu
 		return nullptr;
 
 	auto *res = hXml->GetDocument()->NewElement(name);
-	res->SetText(value);
+	if (value)
+		res->SetText(value);
+	hXml->InsertEndChild(res);
 	return res;
 }
 
@@ -151,7 +155,9 @@ TiXmlElement* XmlAddChild(TiXmlElement *hXml, const char *name, int value)
 		return nullptr;
 
 	auto *res = hXml->GetDocument()->NewElement(name);
-	res->SetText(value);
+	if (value)
+		res->SetText(value);
+	hXml->InsertEndChild(res);
 	return res;
 }
 

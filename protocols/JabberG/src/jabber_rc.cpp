@@ -341,10 +341,11 @@ int CJabberProto::AdhocSetStatusHandler(const TiXmlElement*, CJabberIqInfo *pInf
 		if (!fieldNode)
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
-		const char *pszValue = fieldNode->FirstChildElement("value")->GetText();
-		if (pszValue == nullptr)
+		auto *nodeValue = fieldNode->FirstChildElement("value");
+		if (nodeValue == nullptr)
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
+		const char *pszValue = nodeValue->GetText();
 		int status;
 		if (!mir_strcmp(pszValue, "away")) status = ID_STATUS_AWAY;
 		else if (!mir_strcmp(pszValue, "xa")) status = ID_STATUS_NA;

@@ -319,8 +319,7 @@ void CJabberProto::FtHandleSiRequest(const TiXmlElement *iqNode)
 
 			if (!bIbbOnly) {
 				for (auto *it : TiXmlFilter(fieldNode, "option")) {
-					auto *n = it->FirstChildElement("value");
-					if (n != nullptr && n->GetText()) {
+					if (auto *n = it->FirstChildElement("value")) {
 						if (!mir_strcmp(n->GetText(), JABBER_FEAT_BYTESTREAMS)) {
 							optionNode = it;
 							ftType = FT_BYTESTREAM;
@@ -333,8 +332,7 @@ void CJabberProto::FtHandleSiRequest(const TiXmlElement *iqNode)
 			// try IBB only if bytestreams support not found or BsOnlyIBB flag exists
 			if (bIbbOnly || !optionNode) {
 				for (auto *it : TiXmlFilter(fieldNode, "option")) {
-					auto *n = it->FirstChildElement("value");
-					if (n != nullptr && n->GetText()) {
+					if (auto *n = it->FirstChildElement("value")) {
 						if (!mir_strcmp(n->GetText(), JABBER_FEAT_IBB)) {
 							optionNode = it;
 							ftType = FT_IBB;

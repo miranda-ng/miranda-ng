@@ -138,7 +138,7 @@ struct XATTRID
 
 __forceinline TiXmlElement *operator<<(TiXmlElement *node, const XATTRID& attr)
 {
-	node->SetAttribute("id", attr.id);
+	XmlAddAttrID(node, attr.id);
 	return node;
 }
 
@@ -224,7 +224,7 @@ public:
 		{
 			case T_ATTRIBUTE: return m_hXml->Attribute(m_szParam);
 			case T_NODE:      return m_hXml->GetText();
-			case T_NODESET:   return m_hXml->FirstChildElement()->GetText();
+			case T_NODESET:   return (m_hXml->FirstChildElement()) ? m_hXml->FirstChildElement()->GetText() : 0;
 		}
 		return nullptr;
 	}

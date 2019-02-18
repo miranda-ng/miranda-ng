@@ -122,9 +122,9 @@ class CJabberMucJidListDlg : public CJabberDlgBase
 
 						lvi.pszText = (wchar_t*)jid;
 						if (m_info->type == MUC_BANLIST) {
-							const char *reason = itemNode->FirstChildElement("reason")->GetText();
+							auto *reason = itemNode->FirstChildElement("reason");
 							if (reason != nullptr) {
-								mir_snwprintf(tszItemText, L"%s (%s)", Utf2T(jid).get(), Utf2T(reason).get());
+								mir_snwprintf(tszItemText, L"%s (%s)", Utf2T(jid).get(), Utf2T(reason->GetText()).get());
 								lvi.pszText = tszItemText;
 							}
 						}

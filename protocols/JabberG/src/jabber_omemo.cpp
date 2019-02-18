@@ -2018,22 +2018,22 @@ void CJabberProto::OmemoOnIqResultGetBundle(const TiXmlElement *iqNode, CJabberI
 		debugLogA("Jabber OMEMO: error: device bundle does not contain bundle node");
 		return;
 	}
-	const char *signedPreKeyPublic = bundle->FirstChildElement("signedPreKeyPublic")->GetText();
+	auto *signedPreKeyPublic = bundle->FirstChildElement("signedPreKeyPublic");
 	if (!signedPreKeyPublic) {
 		debugLogA("Jabber OMEMO: error: device bundle does not contain signedPreKeyPublic node");
 		return;
 	}
-	const char *signedPreKeyId = bundle->FirstChildElement("signedPreKeyPublic")->Attribute("signedPreKeyId");
+	const char *signedPreKeyId = signedPreKeyPublic->Attribute("signedPreKeyId");
 	if (!signedPreKeyId) {
 		debugLogA("Jabber OMEMO: error: device bundle does not contain signedPreKeyId attr");
 		return;
 	}
-	const char *signedPreKeySignature = bundle->FirstChildElement("signedPreKeySignature")->GetText();
+	auto *signedPreKeySignature = bundle->FirstChildElement("signedPreKeySignature");
 	if (!signedPreKeySignature) {
 		debugLogA("Jabber OMEMO: error: device bundle does not contain signedPreKeySignature node");
 		return;
 	}
-	const char *identityKey = bundle->FirstChildElement("identityKey")->GetText();
+	auto *identityKey = bundle->FirstChildElement("identityKey");
 	if (!identityKey) {
 		debugLogA("Jabber OMEMO: error: device bundle does not contain identityKey node");
 		return;
@@ -2068,7 +2068,7 @@ void CJabberProto::OmemoOnIqResultGetBundle(const TiXmlElement *iqNode, CJabberI
 		return; //failed to create session store
 	}
 
-	if (!m_omemo.build_session(hContact, jid, device_id, preKeyId, preKeyPublic, signedPreKeyId, signedPreKeyPublic, signedPreKeySignature, identityKey)) {
+	if (!m_omemo.build_session(hContact, jid, device_id, preKeyId, preKeyPublic, signedPreKeyId, signedPreKeyPublic->GetText(), signedPreKeySignature->GetText(), identityKey->GetText())) {
 		debugLogA("Jabber OMEMO: error: omemo::build_session failed");
 		return; //failed to build signal(omemo) session
 	}

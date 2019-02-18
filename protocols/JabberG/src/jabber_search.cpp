@@ -323,8 +323,8 @@ void CJabberProto::OnIqResultAdvancedSearch(const TiXmlElement *iqNode, CJabberI
 				U_TCHAR_MAP *pUserColumn = new U_TCHAR_MAP(10);
 				for (auto *fieldNode : TiXmlFilter(itemNode, "field")) {
 					if (const char* var = fieldNode->Attribute("var")) {
-						if (const char* Text = fieldNode->FirstChildElement("value")->GetText()) {
-							Utf2T wszVar(var), wszText(Text);
+						if (auto *textNode = fieldNode->FirstChildElement("value")) {
+							Utf2T wszVar(var), wszText(textNode->GetText());
 							if (!mColumnsNames[wszVar])
 								mColumnsNames.insert(wszVar, wszVar);
 							pUserColumn->insert(wszVar, wszText);

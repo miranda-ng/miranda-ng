@@ -214,10 +214,10 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, TiXmlElement *workNode
 			// use jabber:x:data form
 			HWND hFrame = GetDlgItem(hwndDlg, IDC_FRAME);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_FRAME_TEXT), SW_HIDE);
-			if (const char *ptszInstr = xNode->FirstChildElement("instructions")->GetText())
-				JabberFormSetInstruction(hwndDlg, ptszInstr);
-			else if (const char *ptszTitle = xNode->FirstChildElement("title")->GetText())
-				JabberFormSetInstruction(hwndDlg, ptszTitle);
+			if (auto *n = xNode->FirstChildElement("instructions"))
+				JabberFormSetInstruction(hwndDlg, n->GetText());
+			else if (n = xNode->FirstChildElement("title"))
+				JabberFormSetInstruction(hwndDlg, n->GetText());
 			else
 				JabberFormSetInstruction(hwndDlg, Translate(status));
 			JabberFormCreateUI(hFrame, xNode, &dat->CurrentHeight);
@@ -228,8 +228,8 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, TiXmlElement *workNode
 			int toHide[] = { IDC_FRAME_TEXT, IDC_FRAME, IDC_VSCROLL, 0 };
 			sttShowControls(hwndDlg, FALSE, toHide);
 
-			const char *noteText = commandNode->FirstChildElement("note")->GetText();
-			JabberFormSetInstruction(hwndDlg, noteText ? noteText : Translate(status));
+			auto *note = commandNode->FirstChildElement("note");
+			JabberFormSetInstruction(hwndDlg, note ? note->GetText() : Translate(status));
 		}
 
 		// check actions

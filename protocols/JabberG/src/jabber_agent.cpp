@@ -161,8 +161,8 @@ public:
 
 				if (auto *xNode = queryNode->FirstChildElement("x")) {
 					// use new jabber:x:data form
-					if (const char *ptszInstr = xNode->FirstChildElement("instructions")->GetText())
-						JabberFormSetInstruction(m_hwnd, ptszInstr);
+					if (auto *n = xNode->FirstChildElement("instructions"))
+						JabberFormSetInstruction(m_hwnd, n->GetText());
 
 					JabberFormCreateUI(hFrame, xNode, &m_formHeight /*dummy*/);
 				}

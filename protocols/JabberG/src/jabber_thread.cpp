@@ -204,16 +204,15 @@ void CJabberProto::xmlStreamInitializeNow(ThreadData *info)
 		m_szXmlStreamToBeInitialized = nullptr;
 	}
 
-	XmlNode n("xml"); n << XATTR("version", "1.0") << XATTR("encoding", "UTF-8");
-
-	TiXmlElement *stream = n << XCHILDNS("stream:stream", "jabber:client") << XATTR("to", info->conn.server)
-		<< XATTR("xmlns:stream", "http://etherx.jabber.org/streams");
+	XmlNode n("stream:stream"); 
+	n << XATTR("xmlns", "jabber:client") << XATTR("to", info->conn.server) << XATTR("xmlns:stream", "http://etherx.jabber.org/streams");
+	n.InsertFirstChild(n.NewDeclaration("xml version=\"1.0\" encoding=\"UTF-8\""));
 
 	if (m_tszSelectedLang)
-		XmlAddAttr(stream, "xml:lang", m_tszSelectedLang);
+		n << XATTR("xml:lang", m_tszSelectedLang);
 
 	if (!m_bDisable3920auth)
-		XmlAddAttr(stream, "version", "1.0");
+		n << XATTR("version", "1.0");
 
 	tinyxml2::XMLPrinter printer(0, true);
 	n.Print(&printer);
@@ -408,7 +407,6 @@ LBL_FatalError:
 		}
 
 		xmlStreamInitializeNow(&info);
-		const wchar_t *tag = L"stream:stream";
 
 		debugLogA("Entering main recv loop");
 		int datalen = 0;
@@ -451,12 +449,24 @@ LBL_FatalError:
 recvRest:
 			info.buffer[datalen] = '\0';
 
+			int bytesParsed = 0;
 			TiXmlDocument root;
-			if (0 == root.Parse(info.buffer, datalen))
+			if (0 == root.Parse(info.buffer)) {
 				for (auto *n : TiXmlEnum(&root))
 					OnProcessProtocol(n, &info);
+				bytesParsed = root.BytesParsed();
+			}
+			else if (root.ErrorID() == 14) {
+				root.Clear();
+				strcpy(&info.buffer[datalen], "</stream:stream>");
+				datalen = (int)strlen(info.buffer);
+				if (0 == root.Parse(info.buffer)) {
+					for (auto *n : TiXmlEnum(&root))
+						OnProcessProtocol(n, &info);
+					bytesParsed = root.BytesParsed();
+				}
+			}
 
-			int bytesParsed = 0;
 			debugLogA("bytesParsed = %d", bytesParsed);
 
 			if (bytesParsed > 0) {
@@ -475,10 +485,8 @@ recvRest:
 			}
 			else debugLogA("Unknown state: bytesParsed=%d, datalen=%d, jabberNetworkBufferSize=%d", bytesParsed, datalen, jabberNetworkBufferSize);
 
-			if (m_szXmlStreamToBeInitialized) {
+			if (m_szXmlStreamToBeInitialized)
 				xmlStreamInitializeNow(&info);
-				tag = L"stream:stream";
-			}
 
 			if (root.FirstChild() && datalen)
 				goto recvRest;
@@ -1111,10 +1119,10 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 	if (bodyNode == nullptr)
 		bodyNode = node->FirstChildElement("body");
 
-	const char *ptszSubject = node->FirstChildElement("subject")->GetText();
-	if (ptszSubject && *ptszSubject) {
+	auto *subject = node->FirstChildElement("subject");
+	if (subject && subject->GetText()) {
 		szMessage.Append("Subject: ");
-		szMessage.Append(ptszSubject);
+		szMessage.Append(subject->GetText());
 		szMessage.Append("\r\n");
 	}
 
@@ -1212,9 +1220,9 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 		memset(pParams, 0, sizeof(CJabberHttpAuthParams));
 		pParams->m_nType = CJabberHttpAuthParams::MSG;
 		pParams->m_szFrom = mir_strdup(from);
-		const char *ptszThread = node->FirstChildElement("thread")->GetText();
-		if (ptszThread && *ptszThread)
-			pParams->m_szThreadId = mir_strdup(ptszThread);
+		auto *threadNode = node->FirstChildElement("thread");
+		if (threadNode)
+			pParams->m_szThreadId = mir_strdup(threadNode->GetText());
 		pParams->m_szId = mir_strdup(szId);
 		pParams->m_szMethod = mir_strdup(szMethod);
 		pParams->m_szUrl = mir_strdup(szUrl);
@@ -1321,23 +1329,25 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 			}
 		}
 		else if (!mir_strcmp(pszXmlns, JABBER_FEAT_OOB2)) {
-			const char *pszUrl = xNode->FirstChildElement("url")->GetText();
-			if (pszUrl != nullptr && *pszUrl) {
+			auto *url = xNode->FirstChildElement("url");
+			if (url != nullptr && url->GetText()) {
 				if (!szMessage.IsEmpty())
 					szMessage.Append("\r\n");
-				szMessage.Append(pszUrl);
+				szMessage.Append(url->GetText());
 			}
 		}
 		else if (!mir_strcmp(pszXmlns, JABBER_FEAT_MUC_USER)) {
 			auto *inviteNode = xNode->FirstChildElement("invite");
 			if (inviteNode != nullptr) {
 				inviteFromJid = inviteNode->Attribute("from");
-				inviteReason = inviteNode->FirstChildElement("reason")->GetText();
+				if (auto *reasonNode = inviteNode->FirstChildElement("reason"))
+					inviteReason = reasonNode->GetText();
 				inviteRoomJid = from;
 				if (inviteReason == nullptr)
 					inviteReason = szMessage;
 				isChatRoomInvitation = true;
-				invitePassword = xNode->FirstChildElement("password")->GetText();
+				if (auto *n = xNode->FirstChildElement("password"))
+					invitePassword = n->GetText();
 			}
 		}
 		else if (!mir_strcmp(pszXmlns, JABBER_FEAT_ROSTER_EXCHANGE) && item != nullptr && (item->subscription == SUB_BOTH || item->subscription == SUB_TO)) {
@@ -1347,12 +1357,12 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 				const char *action = iNode->Attribute("action");
 				const char *jid = iNode->Attribute("jid");
 				const char *nick = iNode->Attribute("name");
-				const char *group = iNode->FirstChildElement("group")->GetText();
+				auto *group = iNode->FirstChildElement("group");
 				if (action && jid && strstr(jid, chkJID)) {
 					if (!mir_strcmp(action, "add")) {
 						MCONTACT cc = DBCreateContact(jid, nick, false, false);
-						if (group)
-							db_set_utf(cc, "CList", "Group", group);
+						if (group && group->GetText())
+							db_set_utf(cc, "CList", "Group", group->GetText());
 					}
 					else if (!mir_strcmp(action, "delete")) {
 						MCONTACT cc = HContactFromJID(jid);
@@ -1607,11 +1617,16 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 			}
 		}
 
-		char priority = 0;
-		if (const char *ptszPriority = node->FirstChildElement("priority")->GetText())
-			priority = atoi(ptszPriority);
+		int priority = 0;
+		if (auto *n = node->FirstChildElement("priority"))
+			if (n->GetText())
+				priority = atoi(n->GetText());
 
-		ListAddResource(LIST_ROSTER, from, status, node->FirstChildElement("status")->GetText(), priority);
+		const char *pszStatus = nullptr;
+		if (auto *n = node->FirstChildElement("status"))
+			pszStatus = n->GetText();
+
+		ListAddResource(LIST_ROSTER, from, status, pszStatus, priority);
 
 		// XEP-0115: Entity Capabilities
 		pResourceStatus r(ResourceInfoFromJID(from));
@@ -1631,14 +1646,14 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 			debugLogA("Avatar enabled");
 			for (auto *xNode : TiXmlFilter(node, "x")) {
 				if (!bHasAvatar && !mir_strcmp(xNode->Attribute("xmlns"), "jabber:x:avatar")) {
-					const char *ptszHash = xNode->FirstChildElement("hash")->GetText();
-					if (ptszHash != nullptr) {
+					auto *xmlHash = xNode->FirstChildElement("hash");
+					if (xmlHash != nullptr && xmlHash->GetText()) {
 						delSetting(hContact, "AvatarXVcard");
 						debugLogA("AvatarXVcard deleted");
-						setString(hContact, "AvatarHash", ptszHash);
+						setString(hContact, "AvatarHash", xmlHash->GetText());
 						bHasAvatar = true;
 						ptrA saved(getStringA(hContact, "AvatarSaved"));
-						if (saved == nullptr || mir_strcmp(saved, ptszHash)) {
+						if (saved == nullptr || mir_strcmp(saved, xmlHash->GetText())) {
 							debugLogA("Avatar was changed");
 							ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, nullptr, 0);
 						}
@@ -1705,7 +1720,8 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 			// set status only if no more available resources
 			if (!item->arResources.getCount()) {
 				item->getTemp()->m_iStatus = ID_STATUS_OFFLINE;
-				item->getTemp()->m_szStatusMessage = mir_strdup(node->FirstChildElement("status")->GetText());
+				if (auto *n = node->FirstChildElement("status"))
+					item->getTemp()->m_szStatusMessage = mir_strdup(n->GetText());
 			}
 		}
 		else debugLogW(L"SKIP Receive presence offline from %s (who is not in my roster)", from);
@@ -2057,8 +2073,11 @@ int ThreadData::send(TiXmlElement *node)
 	if (this == nullptr)
 		return 0;
 
-	while (auto *parent = node->Parent()->ToElement())
-		node = parent;
+	while (auto *parent = node->Parent()) {
+		if (parent->ToDocument())
+			break;
+		node = parent->ToElement();
+	}
 
 	if (proto->m_bEnableStreamMgmt)
 		proto->m_StrmMgmt.HandleOutgoingNode(node); //TODO: is this a correct place ?, looks like some nodes does not goes here...

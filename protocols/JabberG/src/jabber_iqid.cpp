@@ -400,8 +400,8 @@ void CJabberProto::OnIqResultGetRoster(const TiXmlElement *iqNode, CJabberIqInfo
 
 		mir_free(item->nick); item->nick = nick;
 
-		auto *groupNode = itemNode->FirstChildElement("group");
-		replaceStr(item->group, groupNode->GetText());
+		if (auto *groupNode = itemNode->FirstChildElement("group"))
+			replaceStr(item->group, groupNode->GetText());
 
 		// check group delimiters
 		if (item->group && szGroupDelimeter) {
@@ -573,9 +573,9 @@ void CJabberProto::OnIqResultGetVcardPhoto(const TiXmlElement *n, MCONTACT hCont
 		return;
 
 	const char *szPicType = nullptr;
-	if (const char *ptszType = n->FirstChildElement("TYPE")->GetText())
-		if (ProtoGetAvatarFormatByMimeType(ptszType) != PA_FORMAT_UNKNOWN)
-			szPicType = ptszType;
+	if (auto *t = n->FirstChildElement("TYPE"))
+		if (ProtoGetAvatarFormatByMimeType(t->GetText()) != PA_FORMAT_UNKNOWN)
+			szPicType = t->GetText();
 
 	if (szPicType == nullptr)
 		szPicType = ProtoGetAvatarMimeType(ProtoGetBufferFormat(buffer));
@@ -1153,14 +1153,14 @@ void CJabberProto::OnIqResultSetSearch(const TiXmlElement *iqNode, CJabberIqInfo
 			if (auto *jid = itemNode->Attribute("jid")) {
 				psr.id.w = mir_utf8decodeW(jid);
 				debugLogW(L"Result jid = %s", jid);
-				if (auto *p = itemNode->FirstChildElement("nick")->GetText())
-					psr.nick.w = mir_utf8decodeW(p);
-				if (auto *p = itemNode->FirstChildElement("first")->GetText())
-					psr.firstName.w = mir_utf8decodeW(p);
-				if (auto *p = itemNode->FirstChildElement("last")->GetText())
-					psr.lastName.w = mir_utf8decodeW(p);
-				if (auto *p = itemNode->FirstChildElement("email")->GetText())
-					psr.email.w = mir_utf8decodeW(p);
+				if (auto *p = itemNode->FirstChildElement("nick"))
+					psr.nick.w = mir_utf8decodeW(p->GetText());
+				if (auto *p = itemNode->FirstChildElement("first"))
+					psr.firstName.w = mir_utf8decodeW(p->GetText());
+				if (auto *p = itemNode->FirstChildElement("last"))
+					psr.lastName.w = mir_utf8decodeW(p->GetText());
+				if (auto *p = itemNode->FirstChildElement("email"))
+					psr.email.w = mir_utf8decodeW(p->GetText());
 				ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&psr);
 
 				replaceStrW(psr.id.w, 0);
@@ -1208,7 +1208,7 @@ void CJabberProto::OnIqResultExtSearch(const TiXmlElement *iqNode, CJabberIqInfo
 					continue;
 
 				if (!mir_strcmp(fieldName, "jid")) {
-					psr.id.w = (wchar_t*)n->GetText();
+					psr.id.w = mir_utf8decodeW(n->GetText());
 					debugLogW(L"Result jid = %s", psr.id.w);
 				}
 				else if (!mir_strcmp(fieldName, "nickname"))
@@ -1284,13 +1284,13 @@ void CJabberProto::OnIqResultGetVCardAvatar(const TiXmlElement *iqNode, CJabberI
 		return;
 	}
 
-	const char *mimeType = vCard->FirstChildElement("TYPE")->GetText();
+	auto *mimeType = vCard->FirstChildElement("TYPE");
 	auto *n = vCard->FirstChildElement("BINVAL");
 	if (n == nullptr)
 		return;
 
 	setByte(hContact, "AvatarXVcard", 1);
-	OnIqResultGotAvatar(hContact, n, mimeType);
+	OnIqResultGotAvatar(hContact, n, mimeType->GetText());
 }
 
 void CJabberProto::OnIqResultGetClientAvatar(const TiXmlElement *iqNode, CJabberIqInfo*)

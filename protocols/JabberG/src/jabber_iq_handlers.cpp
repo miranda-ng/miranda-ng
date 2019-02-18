@@ -331,19 +331,19 @@ BOOL CJabberProto::OnIqRequestOOB(const TiXmlElement*, CJabberIqInfo *pInfo)
 	ft->httpPath = nullptr;
 
 	// Parse the URL
-	wchar_t *str = (wchar_t*)n->GetText();	// URL of the file to get
-	if (!wcsnicmp(str, L"http://", 7)) {
-		wchar_t *p = str + 7, *q;
-		if ((q = wcschr(p, '/')) != nullptr) {
-			wchar_t text[1024];
+	const char *str = n->GetText();	// URL of the file to get
+	if (!mir_strncmpi(str, "http://", 7)) {
+		const char *p = str + 7, *q;
+		if ((q = strchr(p, '/')) != nullptr) {
+			char text[1024];
 			if (q - p < _countof(text)) {
-				wcsncpy_s(text, p, q - p);
+				strncpy_s(text, p, q - p);
 				text[q - p] = '\0';
-				if ((p = wcschr(text, ':')) != nullptr) {
-					ft->httpPort = (WORD)_wtoi(p + 1);
-					*p = '\0';
+				if (char *d = strchr(text, ':')) {
+					ft->httpPort = (WORD)atoi(d + 1);
+					*d = '\0';
 				}
-				ft->httpHostName = mir_u2a(text);
+				ft->httpHostName = mir_strdup(text);
 			}
 		}
 	}

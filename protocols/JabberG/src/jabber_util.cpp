@@ -66,7 +66,7 @@ MCONTACT CJabberProto::HContactFromJID(const char *jid, bool bStripResource)
 	return 0;
 }
 
-char*  JabberNickFromJID(const char *jid)
+char* JabberNickFromJID(const char *jid)
 {
 	if (jid == nullptr)
 		return mir_strdup("");
@@ -165,7 +165,7 @@ wchar_t* JabberStrFixLines(const wchar_t *str)
 	return buf;
 }
 
-void  JabberHttpUrlDecode(wchar_t *str)
+void JabberHttpUrlDecode(wchar_t *str)
 {
 	wchar_t *p, *q;
 	unsigned int code;
@@ -183,7 +183,7 @@ void  JabberHttpUrlDecode(wchar_t *str)
 	*q = '\0';
 }
 
-int  JabberCombineStatus(int status1, int status2)
+int JabberCombineStatus(int status1, int status2)
 {
 	// Combine according to the following priority (high to low)
 	// ID_STATUS_FREECHAT
@@ -258,7 +258,9 @@ wchar_t* JabberErrorMsg(const TiXmlElement *errorNode, int* pErrorCode)
 
 	auto *str = errorNode->GetText();
 	if (str == nullptr)
-		str = errorNode->FirstChildElement("text")->GetText();
+		if (auto *n = errorNode->FirstChildElement("text"))
+			str = n->GetText();
+	
 	if (str == nullptr) {
 		for (auto *c : TiXmlEnum(errorNode)) {
 			const char *attr = c->Attribute("xmlns");
@@ -502,7 +504,7 @@ void CJabberProto::SendPresence(int status, bool bSendToAll)
 ///////////////////////////////////////////////////////////////////////////////
 // JabberGetPacketID - converts the xml id attribute into an integer
 
-int  JabberGetPacketID(const TiXmlElement *n)
+int JabberGetPacketID(const TiXmlElement *n)
 {
 	const char *str = n->Attribute("id");
 	if (str)
@@ -512,7 +514,7 @@ int  JabberGetPacketID(const TiXmlElement *n)
 	return -1;
 }
 
-char*  JabberId2string(int id)
+char* JabberId2string(int id)
 {
 	char text[100];
 	mir_snprintf(text, JABBER_IQID "%d", id);
