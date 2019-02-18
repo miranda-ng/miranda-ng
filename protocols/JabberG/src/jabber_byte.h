@@ -31,19 +31,20 @@ typedef enum { JBT_INIT, JBT_AUTH, JBT_CONNECT, JBT_SOCKSERR, JBT_SENDING, JBT_R
 struct CJabberProto;
 struct filetransfer;
 
-struct JABBER_BYTE_TRANSFER
+struct JABBER_BYTE_TRANSFER : public MZeroedObject
 {
 	~JABBER_BYTE_TRANSFER();
 
-	wchar_t *sid;
-	wchar_t *srcJID;
-	wchar_t *dstJID;
-	wchar_t *streamhostJID;
-	wchar_t *iqId;
+	char *sid;
+	char *srcJID;
+	char *dstJID;
+	char *streamhostJID;
+	char *iqId;
 	JABBER_BYTE_STATE state;
 	HANDLE hConn;
 	HANDLE hEvent;
-	HXML   iqNode;
+	TiXmlDocument doc;
+	TiXmlElement *iqNode;
 	BOOL (CJabberProto::*pfnSend)(HNETLIBCONN hConn, filetransfer *ft);
 	int (CJabberProto::*pfnRecv)(HNETLIBCONN hConn, filetransfer *ft, char* buffer, int datalen);
 	void (CJabberProto::*pfnFinal)(BOOL success, filetransfer *ft);
@@ -52,10 +53,10 @@ struct JABBER_BYTE_TRANSFER
 	// XEP-0065 proxy support
 	BOOL bProxyDiscovered;
 	HANDLE hProxyEvent;
-	wchar_t *szProxyHost;
-	wchar_t *szProxyPort;
-	wchar_t *szProxyJid;
-	wchar_t *szStreamhostUsed;
+	char *szProxyHost;
+	char *szProxyPort;
+	char *szProxyJid;
+	char *szStreamhostUsed;
 	BOOL bStreamActivated;
 	HANDLE hSendEvent;
 };

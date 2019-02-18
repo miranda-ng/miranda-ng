@@ -43,7 +43,7 @@ int g_cbCountries;
 CountryListEntry *g_countries;
 
 unsigned int g_nTempFileId;
-wchar_t szCoreVersion[100];
+char szCoreVersion[100];
 
 HANDLE hExtraActivity = nullptr;
 HANDLE hExtraMood = nullptr;
@@ -156,9 +156,7 @@ int CMPlugin::Load()
 	bPlatform = 0;
 	#endif
 
-	char mirVer[100];
-	Miranda_GetVersionText(mirVer, _countof(mirVer));
-	mir_wstrcpy(szCoreVersion, _A2T(mirVer));
+	Miranda_GetVersionText(szCoreVersion, _countof(szCoreVersion));
 
 	CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&g_cbCountries, (LPARAM)&g_countries);
 

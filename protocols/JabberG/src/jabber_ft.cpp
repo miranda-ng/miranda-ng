@@ -75,12 +75,11 @@ void CJabberProto::FtCancel(filetransfer *ft)
 
 ///////////////// File sending using stream initiation /////////////////////////
 
-void CJabberProto::FtInitiate(wchar_t* jid, filetransfer *ft)
+void CJabberProto::FtInitiate(char* jid, filetransfer *ft)
 {
-	wchar_t *rs;
-	wchar_t *filename, *p;
+	char *rs;
 	int i;
-	wchar_t sid[9];
+	char sid[9];
 
 	if (jid == nullptr || ft == nullptr || !m_bJabberOnline || (rs = ListGetBestClientResourceNamePtr(jid)) == nullptr) {
 		if (ft) {
@@ -93,60 +92,58 @@ void CJabberProto::FtInitiate(wchar_t* jid, filetransfer *ft)
 	for (i = 0; i < 8; i++)
 		sid[i] = (rand() % 10) + '0';
 	sid[8] = '\0';
-	if (ft->sid != nullptr) mir_free(ft->sid);
-	ft->sid = mir_wstrdup(sid);
-	filename = ft->std.pszFiles.w[ft->std.currentFileNumber];
-	if ((p = wcsrchr(filename, '\\')) != nullptr)
+	replaceStr(ft->sid, sid);
+	wchar_t *filename = ft->std.pszFiles.w[ft->std.currentFileNumber];
+	if (wchar_t *p = wcsrchr(filename, '\\'))
 		filename = p + 1;
 
-	wchar_t tszJid[512];
-	mir_snwprintf(tszJid, L"%s/%s", jid, rs);
+	char tszJid[512];
+	mir_snprintf(tszJid, "%s/%s", jid, rs);
 
 	XmlNodeIq iq(AddIQ(&CJabberProto::OnFtSiResult, JABBER_IQ_TYPE_SET, tszJid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_TO, -1, ft));
-	HXML si = iq << XCHILDNS(L"si", JABBER_FEAT_SI) << XATTR(L"id", sid)
-		<< XATTR(L"mime-type", L"binary/octet-stream") << XATTR(L"profile", JABBER_FEAT_SI_FT);
-	si << XCHILDNS(L"file", JABBER_FEAT_SI_FT) << XATTR(L"name", filename)
-		<< XATTRI64(L"size", ft->fileSize[ft->std.currentFileNumber]) << XCHILD(L"desc", ft->szDescription);
+	TiXmlElement *si = iq << XCHILDNS("si", JABBER_FEAT_SI) << XATTR("id", sid)
+		<< XATTR("mime-type", "binary/octet-stream") << XATTR("profile", JABBER_FEAT_SI_FT);
+	si << XCHILDNS("file", JABBER_FEAT_SI_FT) << XATTR("name", T2Utf(filename))
+		<< XATTRI64("size", ft->fileSize[ft->std.currentFileNumber]) << XCHILD("desc", T2Utf(ft->szDescription));
 
-	HXML field = si << XCHILDNS(L"feature", JABBER_FEAT_FEATURE_NEG)
-		<< XCHILDNS(L"x", JABBER_FEAT_DATA_FORMS) << XATTR(L"type", L"form")
-		<< XCHILD(L"field") << XATTR(L"var", L"stream-method") << XATTR(L"type", L"list-single");
+	TiXmlElement *field = si << XCHILDNS("feature", JABBER_FEAT_FEATURE_NEG)
+		<< XCHILDNS("x", JABBER_FEAT_DATA_FORMS) << XATTR("type", "form")
+		<< XCHILD("field") << XATTR("var", "stream-method") << XATTR("type", "list-single");
 
 	BOOL bDirect = m_bBsDirect;
 	BOOL bProxy = m_bBsProxyManual;
 
 	// bytestreams support?
 	if (bDirect || bProxy)
-		field << XCHILD(L"option") << XCHILD(L"value", JABBER_FEAT_BYTESTREAMS);
+		field << XCHILD("option") << XCHILD("value", JABBER_FEAT_BYTESTREAMS);
 
-	field << XCHILD(L"option") << XCHILD(L"value", JABBER_FEAT_IBB);
+	field << XCHILD("option") << XCHILD("value", JABBER_FEAT_IBB);
 	m_ThreadInfo->send(iq);
 }
 
-void CJabberProto::OnFtSiResult(HXML iqNode, CJabberIqInfo *pInfo)
+void CJabberProto::OnFtSiResult(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
-	HXML siNode, featureNode, xNode, fieldNode, valueNode;
 	filetransfer *ft = (filetransfer *)pInfo->GetUserData();
-	if (!ft) return;
+	if (!ft)
+		return;
 
 	if ((pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) && pInfo->m_szFrom && pInfo->m_szTo) {
-		if ((siNode = XmlGetChild(iqNode, "si")) != nullptr) {
-
+		if (auto *siNode = iqNode->FirstChildElement("si")) {
 			// fix for very smart clients, like gajim
 			BOOL bDirect = m_bBsDirect;
 			BOOL bProxy = m_bBsProxyManual;
 
-			if ((featureNode = XmlGetChild(siNode, "feature")) != nullptr) {
-				if ((xNode = XmlGetChildByTag(featureNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS)) != nullptr) {
-					if ((fieldNode = XmlGetChildByTag(xNode, "field", "var", L"stream-method")) != nullptr) {
-						if ((valueNode = XmlGetChild(fieldNode, "value")) != nullptr && XmlGetText(valueNode) != nullptr) {
-							if ((bDirect || bProxy) && !mir_wstrcmp(XmlGetText(valueNode), JABBER_FEAT_BYTESTREAMS)) {
+			if (auto *featureNode = siNode->FirstChildElement("feature")) {
+				if (auto *xNode = XmlGetChildByTag(featureNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS)) {
+					if (auto *fieldNode = XmlGetChildByTag(xNode, "field", "var", "stream-method")) {
+						if (auto *valueNode = fieldNode->FirstChildElement("value")) {
+							if ((bDirect || bProxy) && !mir_strcmp(valueNode->GetText(), JABBER_FEAT_BYTESTREAMS)) {
 								// Start Bytestream session
 								JABBER_BYTE_TRANSFER *jbt = new JABBER_BYTE_TRANSFER;
 								memset(jbt, 0, sizeof(JABBER_BYTE_TRANSFER));
-								jbt->srcJID = mir_wstrdup(pInfo->m_szTo);
-								jbt->dstJID = mir_wstrdup(pInfo->m_szFrom);
-								jbt->sid = mir_wstrdup(ft->sid);
+								jbt->srcJID = mir_strdup(pInfo->m_szTo);
+								jbt->dstJID = mir_strdup(pInfo->m_szFrom);
+								jbt->sid = mir_strdup(ft->sid);
 								jbt->pfnSend = &CJabberProto::FtSend;
 								jbt->pfnFinal = &CJabberProto::FtSendFinal;
 								jbt->ft = ft;
@@ -154,12 +151,12 @@ void CJabberProto::OnFtSiResult(HXML iqNode, CJabberIqInfo *pInfo)
 								ft->jbt = jbt;
 								ForkThread((MyThreadFunc)&CJabberProto::ByteSendThread, jbt);
 							}
-							else if (!mir_wstrcmp(XmlGetText(valueNode), JABBER_FEAT_IBB)) {
+							else if (!mir_strcmp(valueNode->GetText(), JABBER_FEAT_IBB)) {
 								JABBER_IBB_TRANSFER *jibb = (JABBER_IBB_TRANSFER *)mir_alloc(sizeof(JABBER_IBB_TRANSFER));
 								memset(jibb, 0, sizeof(JABBER_IBB_TRANSFER));
-								jibb->srcJID = mir_wstrdup(pInfo->m_szTo);
-								jibb->dstJID = mir_wstrdup(pInfo->m_szFrom);
-								jibb->sid = mir_wstrdup(ft->sid);
+								jibb->srcJID = mir_strdup(pInfo->m_szTo);
+								jibb->dstJID = mir_strdup(pInfo->m_szFrom);
+								jibb->sid = mir_strdup(ft->sid);
 								jibb->pfnSend = &CJabberProto::FtIbbSend;
 								jibb->pfnFinal = &CJabberProto::FtSendFinal;
 								jibb->ft = ft;
@@ -237,21 +234,21 @@ BOOL CJabberProto::FtIbbSend(int blocksize, filetransfer *ft)
 		int numRead;
 		while ((numRead = _read(fd, buffer, blocksize)) > 0) {
 			int iqId = SerialNext();
-			XmlNode msg(L"message");
-			XmlAddAttr(msg, L"to", ft->jibb->dstJID);
+			XmlNode msg("message");
+			XmlAddAttr(msg, "to", ft->jibb->dstJID);
 			msg << XATTRID(iqId);
 
 			// let others send data too
 			Sleep(2);
 
-			msg << XCHILD(L"data", _A2T(ptrA(mir_base64_encode(buffer, numRead)))) << XATTR(L"xmlns", JABBER_FEAT_IBB)
-				<< XATTR(L"sid", ft->jibb->sid) << XATTRI(L"seq", ft->jibb->wPacketId);
+			msg << XCHILD("data", ptrA(mir_base64_encode(buffer, numRead))) << XATTR("xmlns", JABBER_FEAT_IBB)
+				<< XATTR("sid", ft->jibb->sid) << XATTRI("seq", ft->jibb->wPacketId);
 
-			HXML ampNode = msg << XCHILDNS(L"amp", JABBER_FEAT_AMP);
-			ampNode << XCHILD(L"rule") << XATTR(L"condition", L"deliver-at")
-				<< XATTR(L"value", L"stored") << XATTR(L"action", L"error");
-			ampNode << XCHILD(L"rule") << XATTR(L"condition", L"match-resource")
-				<< XATTR(L"value", L"exact") << XATTR(L"action", L"error");
+			TiXmlElement *ampNode = msg << XCHILDNS("amp", JABBER_FEAT_AMP);
+			ampNode << XCHILD("rule") << XATTR("condition", "deliver-at")
+				<< XATTR("value", "stored") << XATTR("action", "error");
+			ampNode << XCHILD("rule") << XATTR("condition", "match-resource")
+				<< XATTR("value", "exact") << XATTR("action", "error");
 			ft->jibb->wPacketId++;
 
 			if (ft->jibb->state == JIBB_ERROR || ft->jibb->bStreamClosed || m_ThreadInfo->send(msg) == SOCKET_ERROR) {
@@ -294,46 +291,40 @@ void CJabberProto::FtSendFinal(BOOL success, filetransfer *ft)
 
 ///////////////// File receiving through stream initiation /////////////////////////
 
-void CJabberProto::FtHandleSiRequest(HXML iqNode)
+void CJabberProto::FtHandleSiRequest(const TiXmlElement *iqNode)
 {
-	const wchar_t *from, *sid, *str, *szId, *filename;
-	HXML siNode, fileNode, featureNode, xNode, fieldNode, n;
-	int i;
-	unsigned __int64 filesize;
+	const char *from, *sid, *str, *szId, *filename;
+	const TiXmlElement *siNode, *fileNode, *featureNode, *xNode, *fieldNode;
 
 	if (!iqNode ||
-		(from = XmlGetAttrValue(iqNode, L"from")) == nullptr ||
-		(str = XmlGetAttrValue(iqNode, L"type")) == nullptr || mir_wstrcmp(str, L"set") ||
+		(from = iqNode->Attribute("from")) == nullptr ||
+		(str = iqNode->Attribute("type")) == nullptr || mir_strcmp(str, "set") ||
 		(siNode = XmlGetChildByTag(iqNode, "si", "xmlns", JABBER_FEAT_SI)) == nullptr)
 		return;
 
-	szId = XmlGetAttrValue(iqNode, L"id");
-	if ((sid = XmlGetAttrValue(siNode, L"id")) != nullptr &&
+	szId = iqNode->Attribute("id");
+	if ((sid = siNode->Attribute("id")) != nullptr &&
 		(fileNode = XmlGetChildByTag(siNode, "file", "xmlns", JABBER_FEAT_SI_FT)) != nullptr &&
-		(filename = XmlGetAttrValue(fileNode, L"name")) != nullptr &&
-		(str = XmlGetAttrValue(fileNode, L"size")) != nullptr) {
+		(filename = fileNode->Attribute("name")) != nullptr &&
+		(str = fileNode->Attribute("size")) != nullptr) {
 
-		filesize = _wtoi64(str);
+		unsigned __int64 filesize = _atoi64(str);
 		if ((featureNode = XmlGetChildByTag(siNode, "feature", "xmlns", JABBER_FEAT_FEATURE_NEG)) != nullptr &&
 			(xNode = XmlGetChildByTag(featureNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS)) != nullptr &&
-			(fieldNode = XmlGetChildByTag(xNode, "field", "var", L"stream-method")) != nullptr) {
+			(fieldNode = XmlGetChildByTag(xNode, "field", "var", "stream-method")) != nullptr) {
 
 			BOOL bIbbOnly = m_bBsOnlyIBB;
-			HXML optionNode = nullptr;
+			const TiXmlElement *optionNode = nullptr;
 			JABBER_FT_TYPE ftType = FT_OOB;
 
 			if (!bIbbOnly) {
-				for (i = 0; ; i++) {
-					optionNode = XmlGetChild(fieldNode, i);
-					if (!optionNode)
-						break;
-
-					if (!mir_wstrcmp(XmlGetName(optionNode), L"option")) {
-						if ((n = XmlGetChild(optionNode, "value")) != nullptr && XmlGetText(n)) {
-							if (!mir_wstrcmp(XmlGetText(n), JABBER_FEAT_BYTESTREAMS)) {
-								ftType = FT_BYTESTREAM;
-								break;
-							}
+				for (auto *it : TiXmlFilter(fieldNode, "option")) {
+					auto *n = it->FirstChildElement("value");
+					if (n != nullptr && n->GetText()) {
+						if (!mir_strcmp(n->GetText(), JABBER_FEAT_BYTESTREAMS)) {
+							optionNode = it;
+							ftType = FT_BYTESTREAM;
+							break;
 						}
 					}
 				}
@@ -341,17 +332,13 @@ void CJabberProto::FtHandleSiRequest(HXML iqNode)
 
 			// try IBB only if bytestreams support not found or BsOnlyIBB flag exists
 			if (bIbbOnly || !optionNode) {
-				for (i = 0; ; i++) {
-					optionNode = XmlGetChild(fieldNode, i);
-					if (!optionNode)
-						break;
-
-					if (!mir_wstrcmp(XmlGetName(optionNode), L"option")) {
-						if ((n = XmlGetChild(optionNode, "value")) != nullptr && XmlGetText(n)) {
-							if (!mir_wstrcmp(XmlGetText(n), JABBER_FEAT_IBB)) {
-								ftType = FT_IBB;
-								break;
-							}
+				for (auto *it : TiXmlFilter(fieldNode, "option")) {
+					auto *n = it->FirstChildElement("value");
+					if (n != nullptr && n->GetText()) {
+						if (!mir_strcmp(n->GetText(), JABBER_FEAT_IBB)) {
+							optionNode = it;
+							ftType = FT_IBB;
+							break;
 						}
 					}
 				}
@@ -361,14 +348,16 @@ void CJabberProto::FtHandleSiRequest(HXML iqNode)
 				// Found known stream mechanism
 				filetransfer *ft = new filetransfer(this);
 				ft->dwExpectedRecvFileSize = filesize;
-				ft->jid = mir_wstrdup(from);
+				ft->jid = mir_strdup(from);
 				ft->std.hContact = HContactFromJID(from);
-				ft->sid = mir_wstrdup(sid);
-				ft->szId = mir_wstrdup(szId);
+				ft->sid = mir_strdup(sid);
+				ft->szId = mir_strdup(szId);
 				ft->type = ftType;
 				ft->std.totalFiles = 1;
-				ft->std.szCurrentFile.w = mir_wstrdup(filename);
+				ft->std.szCurrentFile.w = mir_utf8decodeW(filename);
 				ft->std.totalBytes = ft->std.currentFileSize = filesize;
+
+				CMStringW wszDescr;
 
 				PROTORECVFILE pre = { 0 };
 				pre.dwFlags = PRFF_UNICODE;
@@ -376,29 +365,21 @@ void CJabberProto::FtHandleSiRequest(HXML iqNode)
 				pre.timestamp = time(0);
 				pre.files.w = (wchar_t**)&filename;
 				pre.lParam = (LPARAM)ft;
-				if ((n = XmlGetChild(fileNode, "desc")) != nullptr)
-					pre.descr.w = (wchar_t*)XmlGetText(n);
+				if (auto *n = fileNode->FirstChildElement("desc"))
+					wszDescr = Utf2T(n->GetText());
+				pre.descr.w = wszDescr.GetBuffer();
 
 				ProtoChainRecvFile(ft->std.hContact, &pre);
-				return;
-			}
-			else {
-				// Unknown stream mechanism
-				XmlNodeIq iq(L"error", szId, from);
-				HXML e = iq << XCHILD(L"error") << XATTRI(L"code", 400) << XATTR(L"type", L"cancel");
-				e << XCHILDNS(L"bad-request", L"urn:ietf:params:xml:ns:xmpp-stanzas");
-				e << XCHILDNS(L"no-valid-streams", JABBER_FEAT_SI);
-				m_ThreadInfo->send(iq);
 				return;
 			}
 		}
 	}
 
 	// Bad stream initiation, reply with bad-profile
-	XmlNodeIq iq(L"error", szId, from);
-	HXML e = iq << XCHILD(L"error") << XATTRI(L"code", 400) << XATTR(L"type", L"cancel");
-	e << XCHILDNS(L"bad-request", L"urn:ietf:params:xml:ns:xmpp-stanzas");
-	e << XCHILDNS(L"bad-profile", JABBER_FEAT_SI);
+	XmlNodeIq iq("error", szId, from);
+	TiXmlElement *e = iq << XCHILD("error") << XATTRI("code", 400) << XATTR("type", "cancel");
+	e << XCHILDNS("bad-request", "urn:ietf:params:xml:ns:xmpp-stanzas");
+	e << XCHILDNS("bad-profile", JABBER_FEAT_SI);
 	m_ThreadInfo->send(iq);
 }
 
@@ -411,12 +392,12 @@ void CJabberProto::FtAcceptSiRequest(filetransfer *ft)
 		item->ft = ft;
 
 		m_ThreadInfo->send(
-			XmlNodeIq(L"result", ft->szId, ft->jid)
-			<< XCHILDNS(L"si", JABBER_FEAT_SI)
-			<< XCHILDNS(L"feature", JABBER_FEAT_FEATURE_NEG)
-			<< XCHILDNS(L"x", JABBER_FEAT_DATA_FORMS) << XATTR(L"type", L"submit")
-			<< XCHILD(L"field") << XATTR(L"var", L"stream-method")
-			<< XCHILD(L"value", JABBER_FEAT_BYTESTREAMS));
+			XmlNodeIq("result", ft->szId, ft->jid)
+			<< XCHILDNS("si", JABBER_FEAT_SI)
+			<< XCHILDNS("feature", JABBER_FEAT_FEATURE_NEG)
+			<< XCHILDNS("x", JABBER_FEAT_DATA_FORMS) << XATTR("type", "submit")
+			<< XCHILD("field") << XATTR("var", "stream-method")
+			<< XCHILD("value", JABBER_FEAT_BYTESTREAMS));
 	}
 }
 
@@ -429,27 +410,26 @@ void CJabberProto::FtAcceptIbbRequest(filetransfer *ft)
 		item->ft = ft;
 
 		m_ThreadInfo->send(
-			XmlNodeIq(L"result", ft->szId, ft->jid)
-			<< XCHILDNS(L"si", JABBER_FEAT_SI)
-			<< XCHILDNS(L"feature", JABBER_FEAT_FEATURE_NEG)
-			<< XCHILDNS(L"x", JABBER_FEAT_DATA_FORMS) << XATTR(L"type", L"submit")
-			<< XCHILD(L"field") << XATTR(L"var", L"stream-method")
-			<< XCHILD(L"value", JABBER_FEAT_IBB));
+			XmlNodeIq("result", ft->szId, ft->jid)
+			<< XCHILDNS("si", JABBER_FEAT_SI)
+			<< XCHILDNS("feature", JABBER_FEAT_FEATURE_NEG)
+			<< XCHILDNS("x", JABBER_FEAT_DATA_FORMS) << XATTR("type", "submit")
+			<< XCHILD("field") << XATTR("var", "stream-method")
+			<< XCHILD("value", JABBER_FEAT_IBB));
 	}
 }
 
-BOOL CJabberProto::FtHandleBytestreamRequest(HXML iqNode, CJabberIqInfo *pInfo)
+BOOL CJabberProto::FtHandleBytestreamRequest(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
-	HXML queryNode = pInfo->GetChildNode();
+	auto *queryNode = pInfo->GetChildNode();
 
-	const wchar_t *sid;
-	JABBER_LIST_ITEM *item;
+	const char *sid = queryNode->Attribute("sid");
+	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_FTRECV, sid);
 
-	if ((sid = XmlGetAttrValue(queryNode, L"sid")) != nullptr && (item = ListGetItemPtr(LIST_FTRECV, sid)) != nullptr) {
+	if ((sid ) != nullptr && (item ) != nullptr) {
 		// Start Bytestream session
 		JABBER_BYTE_TRANSFER *jbt = new JABBER_BYTE_TRANSFER;
-		memset(jbt, 0, sizeof(JABBER_BYTE_TRANSFER));
-		jbt->iqNode = xmlCopyNode(iqNode);
+		jbt->iqNode = iqNode->DeepClone(&jbt->doc)->ToElement();
 		jbt->pfnRecv = &CJabberProto::FtReceive;
 		jbt->pfnFinal = &CJabberProto::FtReceiveFinal;
 		jbt->ft = item->ft;
@@ -463,28 +443,28 @@ BOOL CJabberProto::FtHandleBytestreamRequest(HXML iqNode, CJabberIqInfo *pInfo)
 	return TRUE;
 }
 
-BOOL CJabberProto::FtHandleIbbRequest(HXML iqNode, BOOL bOpen)
+BOOL CJabberProto::FtHandleIbbRequest(const TiXmlElement *iqNode, BOOL bOpen)
 {
 	if (iqNode == nullptr) return FALSE;
 
-	const wchar_t *id = XmlGetAttrValue(iqNode, L"id");
-	const wchar_t *from = XmlGetAttrValue(iqNode, L"from");
-	const wchar_t *to = XmlGetAttrValue(iqNode, L"to");
+	const char *id = iqNode->Attribute("id");
+	const char *from = iqNode->Attribute("from");
+	const char *to = iqNode->Attribute("to");
 	if (!id || !from || !to) return FALSE;
 
-	HXML ibbNode = XmlGetChildByTag(iqNode, bOpen ? "open" : "close", "xmlns", JABBER_FEAT_IBB);
+	auto *ibbNode = XmlGetChildByTag(iqNode, bOpen ? "open" : "close", "xmlns", JABBER_FEAT_IBB);
 	if (!ibbNode) return FALSE;
 
-	const wchar_t *sid = XmlGetAttrValue(ibbNode, L"sid");
+	const char *sid = ibbNode->Attribute("sid");
 	if (!sid) return FALSE;
 
 	// already closed?
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_FTRECV, sid);
 	if (item == nullptr) {
 		m_ThreadInfo->send(
-			XmlNodeIq(L"error", id, from)
-			<< XCHILD(L"error") << XATTRI(L"code", 404) << XATTR(L"type", L"cancel")
-			<< XCHILDNS(L"item-not-found", L"urn:ietf:params:xml:ns:xmpp-stanzas"));
+			XmlNodeIq("error", id, from)
+			<< XCHILD("error") << XATTRI("code", 404) << XATTR("type", "cancel")
+			<< XCHILDNS("item-not-found", "urn:ietf:params:xml:ns:xmpp-stanzas"));
 		return FALSE;
 	}
 
@@ -493,9 +473,9 @@ BOOL CJabberProto::FtHandleIbbRequest(HXML iqNode, BOOL bOpen)
 		if (!item->jibb) {
 			JABBER_IBB_TRANSFER *jibb = (JABBER_IBB_TRANSFER *)mir_alloc(sizeof(JABBER_IBB_TRANSFER));
 			memset(jibb, 0, sizeof(JABBER_IBB_TRANSFER));
-			jibb->srcJID = mir_wstrdup(from);
-			jibb->dstJID = mir_wstrdup(to);
-			jibb->sid = mir_wstrdup(sid);
+			jibb->srcJID = mir_strdup(from);
+			jibb->dstJID = mir_strdup(to);
+			jibb->sid = mir_strdup(sid);
 			jibb->pfnRecv = &CJabberProto::FtReceive;
 			jibb->pfnFinal = &CJabberProto::FtReceiveFinal;
 			jibb->ft = item->ft;
@@ -503,14 +483,14 @@ BOOL CJabberProto::FtHandleIbbRequest(HXML iqNode, BOOL bOpen)
 			item->jibb = jibb;
 			ForkThread((MyThreadFunc)&CJabberProto::IbbReceiveThread, jibb);
 
-			m_ThreadInfo->send(XmlNodeIq(L"result", id, from));
+			m_ThreadInfo->send(XmlNodeIq("result", id, from));
 			return TRUE;
 		}
 		// stream already open
 		m_ThreadInfo->send(
-			XmlNodeIq(L"error", id, from)
-			<< XCHILD(L"error") << XATTRI(L"code", 404) << XATTR(L"type", L"cancel")
-			<< XCHILDNS(L"item-not-found", L"urn:ietf:params:xml:ns:xmpp-stanzas"));
+			XmlNodeIq("error", id, from)
+			<< XCHILD("error") << XATTRI("code", 404) << XATTR("type", "cancel")
+			<< XCHILDNS("item-not-found", "urn:ietf:params:xml:ns:xmpp-stanzas"));
 		return FALSE;
 	}
 
@@ -519,7 +499,7 @@ BOOL CJabberProto::FtHandleIbbRequest(HXML iqNode, BOOL bOpen)
 		item->jibb->bStreamClosed = TRUE;
 		SetEvent(item->jibb->hEvent);
 
-		m_ThreadInfo->send(XmlNodeIq(L"result", id, from));
+		m_ThreadInfo->send(XmlNodeIq("result", id, from));
 		return TRUE;
 	}
 

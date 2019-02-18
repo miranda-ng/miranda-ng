@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /////////////////////////////////////////////////////////////////////////////////////////
 // ntlm auth - LanServer based authorization
 
-TNtlmAuth::TNtlmAuth(ThreadData *info, const char *mechanism, const wchar_t *hostname) :
+TNtlmAuth::TNtlmAuth(ThreadData *info, const char *mechanism, const char *hostname) :
 	TJabberAuth(info)
 {
 	szName = mechanism;
@@ -106,19 +106,19 @@ char* TNtlmAuth::getInitialRequest()
 
 	// This generates login method advertisement packet
 	if (info->conn.password[0] != 0)
-		return Netlib_NtlmCreateResponse(hProvider, "", info->conn.username, info->conn.password, complete);
+		return Netlib_NtlmCreateResponse(hProvider, "", Utf2T(info->conn.username), Utf2T(info->conn.password), complete);
 
 	return Netlib_NtlmCreateResponse(hProvider, "", nullptr, nullptr, complete);
 }
 
-char* TNtlmAuth::getChallenge(const wchar_t *challenge)
+char* TNtlmAuth::getChallenge(const char *challenge)
 {
 	if (!hProvider)
 		return nullptr;
 
-	ptrA text((!mir_wstrcmp(challenge, L"=")) ? mir_strdup("") : mir_u2a(challenge));
+	const char *text((!mir_strcmp(challenge, "=")) ? "" : challenge);
 	if (info->conn.password[0] != 0)
-		return Netlib_NtlmCreateResponse(hProvider, text, info->conn.username, info->conn.password, complete);
+		return Netlib_NtlmCreateResponse(hProvider, text, Utf2T(info->conn.username), Utf2T(info->conn.password), complete);
 	
 	return Netlib_NtlmCreateResponse(hProvider, text, nullptr, nullptr, complete);
 }
@@ -137,7 +137,7 @@ TMD5Auth::~TMD5Auth()
 {
 }
 
-char* TMD5Auth::getChallenge(const wchar_t *challenge)
+char* TMD5Auth::getChallenge(const char *challenge)
 {
 	if (iCallCount > 0)
 		return nullptr;
@@ -145,7 +145,7 @@ char* TMD5Auth::getChallenge(const wchar_t *challenge)
 	iCallCount++;
 
 	size_t resultLen;
-	ptrA text((char*)mir_base64_decode( _T2A(challenge), &resultLen));
+	ptrA text((char*)mir_base64_decode(challenge, &resultLen));
 
 	TStringPairs pairs(text);
 	const char *realm = pairs["realm"], *nonce = pairs["nonce"];
@@ -157,15 +157,14 @@ char* TMD5Auth::getChallenge(const wchar_t *challenge)
 	Utils_GetRandom(digest, sizeof(digest));
 	mir_snprintf(cnonce, "%08x%08x%08x%08x", htonl(digest[0]), htonl(digest[1]), htonl(digest[2]), htonl(digest[3]));
 
-	T2Utf uname(info->conn.username), passw(info->conn.password);
-	ptrA  serv(mir_utf8encode(info->conn.server));
+	ptrA serv(mir_utf8encode(info->conn.server));
 
 	mir_md5_init(&ctx);
-	mir_md5_append(&ctx, (BYTE*)(char*)uname, (int)mir_strlen(uname));
+	mir_md5_append(&ctx, (BYTE*)info->conn.username, (int)mir_strlen(info->conn.username));
 	mir_md5_append(&ctx, (BYTE*)":", 1);
 	mir_md5_append(&ctx, (BYTE*)realm, (int)mir_strlen(realm));
 	mir_md5_append(&ctx, (BYTE*)":", 1);
-	mir_md5_append(&ctx, (BYTE*)(char*)passw, (int)mir_strlen(passw));
+	mir_md5_append(&ctx, (BYTE*)info->conn.password, (int)mir_strlen(info->conn.password));
 	mir_md5_finish(&ctx, (BYTE*)hash1);
 
 	mir_md5_init(&ctx);
@@ -198,7 +197,7 @@ char* TMD5Auth::getChallenge(const wchar_t *challenge)
 	int cbLen = mir_snprintf(buf, 8000,
 		"username=\"%s\",realm=\"%s\",nonce=\"%s\",cnonce=\"%s\",nc=%08d,"
 		"qop=auth,digest-uri=\"xmpp/%s\",charset=utf-8,response=%08x%08x%08x%08x",
-		uname, realm, nonce, cnonce, iCallCount, serv,
+		info->conn.username, realm, nonce, cnonce, iCallCount, serv,
 		htonl(digest[0]), htonl(digest[1]), htonl(digest[2]), htonl(digest[3]));
 
 	return mir_base64_encode(buf, cbLen);
@@ -231,7 +230,7 @@ void TScramAuth::Hi(BYTE* res, char* passw, size_t passwLen, char* salt, size_t 
 
 	for (int i = 0; i < ind; i++) {
 		unsigned int len;
-		HMAC(EVP_sha1(), (BYTE*)passw, passwLen, u, bufLen, u, &len);
+		HMAC(EVP_sha1(), (BYTE*)passw, (unsigned)passwLen, u, (unsigned)bufLen, u, &len);
 		bufLen = MIR_SHA1_HASH_SIZE;
 
 		for (unsigned j = 0; j < MIR_SHA1_HASH_SIZE; j++)
@@ -239,13 +238,13 @@ void TScramAuth::Hi(BYTE* res, char* passw, size_t passwLen, char* salt, size_t 
 	}
 }
 
-char* TScramAuth::getChallenge(const wchar_t *challenge)
+char* TScramAuth::getChallenge(const char *challenge)
 {
 	size_t chlLen, saltLen = 0;
 	ptrA snonce, salt;
 	int ind = -1;
 
-	ptrA chl((char*)mir_base64_decode(_T2A(challenge), &chlLen));
+	ptrA chl((char*)mir_base64_decode(challenge, &chlLen));
 
 	for (char *p = strtok(NEWSTR_ALLOCA(chl), ","); p != nullptr; p = strtok(nullptr, ",")) {
 		if (*p == 'r' && p[1] == '=') { // snonce
@@ -262,11 +261,8 @@ char* TScramAuth::getChallenge(const wchar_t *challenge)
 	if (snonce == nullptr || salt == nullptr || ind == -1)
 		return nullptr;
 
-	ptrA passw(mir_utf8encodeW(info->conn.password));
-	size_t passwLen = mir_strlen(passw);
-
 	BYTE saltedPassw[MIR_SHA1_HASH_SIZE];
-	Hi(saltedPassw, passw, passwLen, salt, saltLen, ind);
+	Hi(saltedPassw, info->conn.password, mir_strlen(info->conn.password), salt, saltLen, ind);
 
 	BYTE clientKey[MIR_SHA1_HASH_SIZE];
 	unsigned int len;
@@ -305,22 +301,20 @@ char* TScramAuth::getChallenge(const wchar_t *challenge)
 
 char* TScramAuth::getInitialRequest()
 {
-	T2Utf uname(info->conn.username);
-
 	unsigned char nonce[24];
 	Utils_GetRandom(nonce, sizeof(nonce));
 	cnonce = mir_base64_encode(nonce, sizeof(nonce));
 
 	char buf[4096];
-	int cbLen = mir_snprintf(buf, "n,,n=%s,r=%s", uname, cnonce);
+	int cbLen = mir_snprintf(buf, "n,,n=%s,r=%s", info->conn.username, cnonce);
 	msg1 = mir_strdup(buf + 3);
 	return mir_base64_encode(buf, cbLen);
 }
 
-bool TScramAuth::validateLogin(const wchar_t *challenge)
+bool TScramAuth::validateLogin(const char *challenge)
 {
 	size_t chlLen;
-	ptrA chl((char*)mir_base64_decode(_T2A(challenge), &chlLen));
+	ptrA chl((char*)mir_base64_decode(challenge, &chlLen));
 	return chl && strncmp((char*)chl + 2, serverSignature, chlLen - 2) == 0;
 }
 
@@ -340,16 +334,13 @@ TPlainAuth::~TPlainAuth()
 
 char* TPlainAuth::getInitialRequest()
 {
-	T2Utf uname(info->conn.username), passw(info->conn.password);
-
-	size_t size = 2 * mir_strlen(uname) + mir_strlen(passw) + mir_strlen(info->conn.server) + 4;
-	char *toEncode = (char*)alloca(size);
+	CMStringA buf;
 	if (bOld)
-		size = mir_snprintf(toEncode, size, "%s@%s%c%s%c%s", uname, info->conn.server, 0, uname, 0, passw);
+		buf.Format("%s@%s%c%s%c%s", info->conn.username, info->conn.server, 0, info->conn.username, 0, info->conn.password);
 	else
-		size = mir_snprintf(toEncode, size, "%c%s%c%s", 0, uname, 0, passw);
+		buf.Format("%c%s%c%s", 0, info->conn.username, 0, info->conn.password);
 
-	return mir_base64_encode(toEncode, size);
+	return mir_base64_encode(buf, buf.GetLength());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -372,12 +363,12 @@ char* TJabberAuth::getInitialRequest()
 	return nullptr;
 }
 
-char* TJabberAuth::getChallenge(const wchar_t*)
+char* TJabberAuth::getChallenge(const char*)
 {
 	return nullptr;
 }
 
-bool TJabberAuth::validateLogin(const wchar_t*)
+bool TJabberAuth::validateLogin(const char*)
 {
 	return true;
 }

@@ -27,12 +27,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct CAPTCHA_FORM_PARAMS
 {
-	const wchar_t *from;
-	const wchar_t *challenge;
-	const wchar_t *fromjid;
-	const wchar_t *sid;
-	const wchar_t *to;
-	const wchar_t *hint;
+	const char *from;
+	const char *challenge;
+	const char *fromjid;
+	const char *sid;
+	const char *to;
+	const char *hint;
 	HBITMAP bmp;
 	int w,h;
 	wchar_t Result[MAX_PATH];
@@ -47,10 +47,11 @@ INT_PTR CALLBACK JabberCaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 		Window_SetSkinIcon_IcoLib(hwndDlg, IDI_KEYS);
 		params = (CAPTCHA_FORM_PARAMS*)lParam;
 
-		const wchar_t *hint = params->hint;
+		const char *hint = params->hint;
 		if (hint == nullptr)
-			hint = TranslateT("Enter the text you see");
-		SetDlgItemText(hwndDlg, IDC_INSTRUCTION, TranslateW(hint));
+			SetDlgItemTextW(hwndDlg, IDC_INSTRUCTION, TranslateT("Enter the text you see"));
+		else
+			SetDlgItemTextW(hwndDlg, IDC_INSTRUCTION, TranslateW(Utf2T(hint)));
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)params);
 
 		return TRUE;
@@ -109,40 +110,40 @@ INT_PTR CALLBACK JabberCaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 	return FALSE;
 }
 
-bool CJabberProto::ProcessCaptcha(HXML node, HXML parentNode, ThreadData *info)
+bool CJabberProto::ProcessCaptcha(const TiXmlElement *node, const TiXmlElement *parentNode, ThreadData *info)
 {
-	HXML x = XmlGetChildByTag(node, "x", "xmlns", JABBER_FEAT_DATA_FORMS);
+	auto *x = XmlGetChildByTag(node, "x", "xmlns", JABBER_FEAT_DATA_FORMS);
 	if (x == nullptr)
 		return false;
 
-	HXML y = XmlGetChildByTag(x, L"field", L"var", L"from");
+	auto *y = XmlGetChildByTag(x, "field", "var", "from");
 	if (y == nullptr)
 		return false;
-	if ((y = XmlGetChild(y, "value")) == nullptr)
+	if ((y = y->FirstChildElement("value")) == nullptr)
 		return false;
 
 	CAPTCHA_FORM_PARAMS param;
-	param.fromjid = XmlGetText(y);
+	param.fromjid = y->GetText();
 
-	if ((y = XmlGetChildByTag(x, L"field", L"var", L"sid")) == nullptr)
+	if ((y = XmlGetChildByTag(x, "field", "var", "sid")) == nullptr)
 		return false;
-	if ((y = XmlGetChild(y, "value")) == nullptr)
+	if ((y = y->FirstChildElement("value")) == nullptr)
 		return false;
-	param.sid = XmlGetText(y);
+	param.sid = y->GetText();
 
-	if ((y = XmlGetChildByTag(x, L"field", L"var", L"ocr")) == nullptr)
+	if ((y = XmlGetChildByTag(x, "field", "var", "ocr")) == nullptr)
 		return false;
-	param.hint = XmlGetAttrValue (y, L"label");
+	param.hint = y->Attribute("label");
 
-	param.from = XmlGetAttrValue(parentNode, L"from");
-	param.to = XmlGetAttrValue(parentNode, L"to");
-	param.challenge = XmlGetAttrValue(parentNode, L"id");
-	HXML o = XmlGetChild(parentNode, "data");
-	if (o == nullptr || XmlGetText(o) == nullptr)
+	param.from = parentNode->Attribute("from");
+	param.to = parentNode->Attribute("to");
+	param.challenge = parentNode->Attribute("id");
+	auto *o = parentNode->FirstChildElement("data");
+	if (o == nullptr || o->GetText() == nullptr)
 		return false;
 
 	size_t bufferLen;
-	ptrA buffer((char*)mir_base64_decode( _T2A(XmlGetText(o)), &bufferLen));
+	ptrA buffer((char*)mir_base64_decode(o->GetText(), &bufferLen));
 	if (buffer == nullptr)
 		return false;
 	
@@ -156,27 +157,27 @@ bool CJabberProto::ProcessCaptcha(HXML node, HXML parentNode, ThreadData *info)
 	if (mir_wstrcmp(param.Result, L"") == 0 || !res)
 		sendCaptchaError(info, param.from, param.to, param.challenge);
 	else
-		sendCaptchaResult(param.Result, info, param.from, param.challenge, param.fromjid, param.sid);
+		sendCaptchaResult(T2Utf(param.Result), info, param.from, param.challenge, param.fromjid, param.sid);
 	return true;
 }
 
-void CJabberProto::sendCaptchaResult(wchar_t* buf, ThreadData *info, const wchar_t *from, const wchar_t *challenge, const wchar_t *fromjid,  const wchar_t *sid)
+void CJabberProto::sendCaptchaResult(char* buf, ThreadData *info, const char *from, const char *challenge, const char *fromjid,  const char *sid)
 {
-	XmlNodeIq iq(L"set", SerialNext());
-	HXML query= iq <<XATTR(L"to", from) << XCHILDNS(L"captcha", L"urn:xmpp:captcha") << XCHILDNS(L"x", JABBER_FEAT_DATA_FORMS) << XATTR(L"type", L"submit");
-		query << XCHILD(L"field") << XATTR (L"var", L"FORM_TYPE") << XCHILD(L"value", L"urn:xmpp:captcha");
-		query << XCHILD(L"field") << XATTR (L"var", L"from") << XCHILD(L"value", fromjid);
-		query << XCHILD(L"field") << XATTR (L"var", L"challenge") << XCHILD(L"value", challenge);
-		query << XCHILD(L"field") << XATTR (L"var", L"sid") << XCHILD(L"value", sid);
-		query << XCHILD(L"field") << XATTR (L"var", L"ocr") << XCHILD(L"value", buf);
+	XmlNodeIq iq("set", SerialNext());
+	TiXmlElement *query= iq << XATTR("to", from) << XCHILDNS("captcha", "urn:xmpp:captcha") << XCHILDNS("x", JABBER_FEAT_DATA_FORMS) << XATTR("type", "submit");
+		query << XCHILD("field") << XATTR ("var", "FORM_TYPE") << XCHILD("value", "urn:xmpp:captcha");
+		query << XCHILD("field") << XATTR ("var", "from") << XCHILD("value", fromjid);
+		query << XCHILD("field") << XATTR ("var", "challenge") << XCHILD("value", challenge);
+		query << XCHILD("field") << XATTR ("var", "sid") << XCHILD("value", sid);
+		query << XCHILD("field") << XATTR ("var", "ocr") << XCHILD("value", buf);
 	info -> send (iq);
 }
 
-void CJabberProto::sendCaptchaError(ThreadData *info, const wchar_t *from, const wchar_t *to, const wchar_t *challenge)
+void CJabberProto::sendCaptchaError(ThreadData *info, const char *from, const char *to, const char *challenge)
 {
-	XmlNode message(L"message");
-	message << XATTR(L"type", L"error") << XATTR(L"to", from) << XATTR(L"id", challenge) << XATTR(L"from", to)
-		<< XCHILD(L"error") << XATTR(L"type", L"modify")
-			<< XCHILDNS(L"not-acceptable", L"urn:ietf:params:xml:ns:xmpp-stanzas");
+	XmlNode message("message");
+	message << XATTR("type", "error") << XATTR("to", from) << XATTR("id", challenge) << XATTR("from", to)
+		<< XCHILD("error") << XATTR("type", "modify")
+			<< XCHILDNS("not-acceptable", "urn:ietf:params:xml:ns:xmpp-stanzas");
 	info->send(message);
 }

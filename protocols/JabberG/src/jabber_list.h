@@ -90,20 +90,20 @@ public:
 	void Release();
 
 	int    m_iStatus;
-	ptrW   m_tszResourceName;
-	ptrW   m_tszStatusMessage;
+	ptrA   m_szResourceName;
+	ptrA   m_szStatusMessage;
 	int    m_iPriority; // resource priority, -128..+127
 	time_t m_dwIdleStartTime;// XEP-0012 support
 
 	// groupchat support
 	JABBER_GC_AFFILIATION m_affiliation;
 	JABBER_GC_ROLE m_role;
-	ptrW  m_tszNick;
-	ptrW  m_tszRealJid; // real jid for jabber conferences
+	ptrA  m_szNick;
+	ptrA  m_szRealJid; // real jid for jabber conferences
 
 	// XEP-0115 support
 	CJabberClientPartialCaps *m_pCaps;
-	ptrW  m_tszCapsExt;
+	ptrA  m_tszCapsExt;
 	DWORD m_dwDiscoInfoRequestTime;
 
 	JabberCapsBits m_jcbCachedCaps;
@@ -150,14 +150,14 @@ struct JABBER_LIST_ITEM : public MZeroedObject
 	~JABBER_LIST_ITEM();
 
 	JABBER_LIST list;
-	wchar_t* jid;
+	char *jid;
 	MCONTACT hContact;
 
 	// LIST_ROSTER
 	// jid = jid of the contact
-	wchar_t* nick;
+	char *nick;
 
-	pResourceStatus findResource(const wchar_t *resourceName) const;
+	pResourceStatus findResource(const char *resourceName) const;
 	pResourceStatus getBestResource() const;
 	JABBER_RESOURCE_MODE resourceMode;
 	LIST<JABBER_RESOURCE_STATUS> arResources; // array of resources
@@ -168,18 +168,18 @@ struct JABBER_LIST_ITEM : public MZeroedObject
 		*getTemp();           // allocates m_pItemResource if needed
 
 	JABBER_SUBSCRIPTION subscription;
-	wchar_t* group;
-	wchar_t* photoFileName;
-	wchar_t* messageEventIdStr;
+	char *group;
+	char *photoFileName;
+	char *messageEventIdStr;
 
 	// LIST_AGENT
 	// jid = jid of the agent
-	wchar_t* name;
-	wchar_t* service;
+	wchar_t *name;
+	char *service;
 
 	// LIST_ROOM
 	// jid = room JID
-	wchar_t* type;	// room type
+	char *type;	// room type
 
 	// LIST_CHATROOM
 	// jid = room JID
@@ -206,7 +206,7 @@ struct JABBER_LIST_ITEM : public MZeroedObject
 
 	//LIST_BOOKMARK
 	// jid = room JID
-	wchar_t* password;	// password for room
+	char *password;	// password for room
 	bool bAutoJoin;
 
 	bool bUseResource;
@@ -218,11 +218,11 @@ struct JABBER_LIST_ITEM : public MZeroedObject
 
 struct JABBER_HTTP_AVATARS
 {
-	char * Url;
+	char *Url;
 	MCONTACT hContact;
 
-	JABBER_HTTP_AVATARS(const wchar_t *tUrl, MCONTACT thContact)
-		: Url(mir_u2a(tUrl)), hContact(thContact) {}
+	JABBER_HTTP_AVATARS(const char *tUrl, MCONTACT thContact)
+		: Url(mir_strdup(tUrl)), hContact(thContact) {}
 
 	~JABBER_HTTP_AVATARS() { mir_free(Url); }
 

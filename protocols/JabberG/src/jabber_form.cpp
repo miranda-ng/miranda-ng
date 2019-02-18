@@ -104,33 +104,11 @@ void JabberFormCenterContent(HWND hwndStatic)
 	}
 }
 
-void JabberFormSetInstruction(HWND hwndForm, const wchar_t *text)
+void JabberFormSetInstruction(HWND hwndForm, const char *text)
 {
-	if (!text) text = L"";
-
-	size_t len = mir_wstrlen(text);
-	size_t fixedLen = len;
-	for (size_t i = 1; i < len; i++)
-		if ((text[i - 1] == '\n') && (text[i] != '\r'))
-			++fixedLen;
-
-	wchar_t *fixedText = nullptr;
-	if (fixedLen != len) {
-		fixedText = (wchar_t *)mir_alloc(sizeof(wchar_t) * (fixedLen + 1));
-		wchar_t *p = fixedText;
-		for (size_t i = 0; i < len; i++) {
-			*p = text[i];
-			if (i && (text[i] == '\n') && (text[i] != '\r')) {
-				*p++ = '\r';
-				*p = '\n';
-			}
-			++p;
-		}
-		*p = 0;
-		text = fixedText;
-	}
-
-	SetDlgItemText(hwndForm, IDC_INSTRUCTION, text);
+	CMStringW buf(text == nullptr ? "" : text);
+	buf.Replace(L"\n\r", L"\r\n");
+	SetDlgItemText(hwndForm, IDC_INSTRUCTION, buf);
 
 	RECT rcText;
 	GetWindowRect(GetDlgItem(hwndForm, IDC_INSTRUCTION), &rcText);
@@ -140,7 +118,7 @@ void JabberFormSetInstruction(HWND hwndForm, const wchar_t *text)
 	SetRect(&rcText, 0, 0, rcText.right - rcText.left, 0);
 	HDC hdcEdit = GetDC(GetDlgItem(hwndForm, IDC_INSTRUCTION));
 	HFONT hfntSave = (HFONT)SelectObject(hdcEdit, (HFONT)SendDlgItemMessage(hwndForm, IDC_INSTRUCTION, WM_GETFONT, 0, 0));
-	DrawTextEx(hdcEdit, (wchar_t *)text, (int)mir_wstrlen(text), &rcText, DT_CALCRECT | DT_EDITCONTROL | DT_TOP | DT_WORDBREAK, nullptr);
+	DrawTextExW(hdcEdit, buf.GetBuffer(), buf.GetLength(), &rcText, DT_CALCRECT | DT_EDITCONTROL | DT_TOP | DT_WORDBREAK, nullptr);
 	SelectObject(hdcEdit, hfntSave);
 	ReleaseDC(GetDlgItem(hwndForm, IDC_INSTRUCTION), hdcEdit);
 
@@ -197,38 +175,38 @@ void JabberFormSetInstruction(HWND hwndForm, const wchar_t *text)
 		rcText.right - rcText.left,
 		rcText.bottom - rcText.top,
 		SWP_NOZORDER);
-
-	if (fixedText) mir_free(fixedText);
 }
 
-static TJabberFormControlType JabberFormTypeNameToId(const wchar_t *type)
+static TJabberFormControlType JabberFormTypeNameToId(const char *type)
 {
-	if (!mir_wstrcmp(type, L"text-private"))
+	if (!mir_strcmp(type, "text-private"))
 		return JFORM_CTYPE_TEXT_PRIVATE;
-	if (!mir_wstrcmp(type, L"text-multi") || !mir_wstrcmp(type, L"jid-multi"))
+	if (!mir_strcmp(type, "text-multi") || !mir_strcmp(type, "jid-multi"))
 		return JFORM_CTYPE_TEXT_MULTI;
-	if (!mir_wstrcmp(type, L"boolean"))
+	if (!mir_strcmp(type, "boolean"))
 		return JFORM_CTYPE_BOOLEAN;
-	if (!mir_wstrcmp(type, L"list-single"))
+	if (!mir_strcmp(type, "list-single"))
 		return JFORM_CTYPE_LIST_SINGLE;
-	if (!mir_wstrcmp(type, L"list-multi"))
+	if (!mir_strcmp(type, "list-multi"))
 		return JFORM_CTYPE_LIST_MULTI;
-	if (!mir_wstrcmp(type, L"fixed"))
+	if (!mir_strcmp(type, "fixed"))
 		return JFORM_CTYPE_FIXED;
-	if (!mir_wstrcmp(type, L"hidden"))
+	if (!mir_strcmp(type, "hidden"))
 		return JFORM_CTYPE_HIDDEN;
 
 	return JFORM_CTYPE_TEXT_SINGLE;
 }
 
-void JabberFormLayoutSingleControl(TJabberFormControlInfo *item, TJabberFormLayoutInfo *layout_info, const wchar_t *labelStr, const wchar_t *valueStr)
+void JabberFormLayoutSingleControl(TJabberFormControlInfo *item, TJabberFormLayoutInfo *layout_info, const char *labelStr, const char *valueStr)
 {
+	Utf2T wszLabel(labelStr), wszValue(valueStr);
+
 	RECT rcLabel = { 0 }, rcCtrl = { 0 };
 	if (item->hLabel) {
 		SetRect(&rcLabel, 0, 0, layout_info->width, 0);
 		HDC hdc = GetDC(item->hLabel);
 		HFONT hfntSave = (HFONT)SelectObject(hdc, (HFONT)SendMessage(item->hLabel, WM_GETFONT, 0, 0));
-		DrawText(hdc, labelStr, -1, &rcLabel, DT_CALCRECT | DT_WORDBREAK);
+		DrawTextW(hdc, wszLabel, -1, &rcLabel, DT_CALCRECT | DT_WORDBREAK);
 		SelectObject(hdc, hfntSave);
 		ReleaseDC(item->hLabel, hdc);
 	}
@@ -248,7 +226,7 @@ void JabberFormLayoutSingleControl(TJabberFormControlInfo *item, TJabberFormLayo
 		SetRect(&rcCtrl, 0, 0, layout_info->width - 20, 0);
 		HDC hdc = GetDC(item->hCtrl);
 		HFONT hfntSave = (HFONT)SelectObject(hdc, (HFONT)SendMessage(item->hCtrl, WM_GETFONT, 0, 0));
-		DrawText(hdc, labelStr, -1, &rcCtrl, DT_CALCRECT | DT_RIGHT | DT_WORDBREAK);
+		DrawText(hdc, wszLabel, -1, &rcCtrl, DT_CALCRECT | DT_RIGHT | DT_WORDBREAK);
 		SelectObject(hdc, hfntSave);
 		ReleaseDC(item->hCtrl, hdc);
 		rcCtrl.right += 20;
@@ -257,7 +235,7 @@ void JabberFormLayoutSingleControl(TJabberFormControlInfo *item, TJabberFormLayo
 		SetRect(&rcCtrl, 0, 0, layout_info->width, 0);
 		HDC hdc = GetDC(item->hCtrl);
 		HFONT hfntSave = (HFONT)SelectObject(hdc, (HFONT)SendMessage(item->hCtrl, WM_GETFONT, 0, 0));
-		DrawText(hdc, valueStr, -1, &rcCtrl, DT_CALCRECT | DT_EDITCONTROL);
+		DrawText(hdc, wszValue, -1, &rcCtrl, DT_CALCRECT | DT_EDITCONTROL);
 		rcCtrl.right += 20;
 		SelectObject(hdc, hfntSave);
 		ReleaseDC(item->hCtrl, hdc);
@@ -281,10 +259,10 @@ void JabberFormLayoutSingleControl(TJabberFormControlInfo *item, TJabberFormLayo
 }
 
 #define JabberFormCreateLabel()	\
-	CreateWindow(L"static", labelStr, WS_CHILD|WS_VISIBLE|SS_CENTERIMAGE, \
+	CreateWindow(L"static", wszLabel, WS_CHILD|WS_VISIBLE|SS_CENTERIMAGE, \
 		0, 0, 0, 0, hwndStatic, (HMENU)-1, g_plugin.getInst(), nullptr)
 
-TJabberFormControlInfo *JabberFormAppendControl(HWND hwndStatic, TJabberFormLayoutInfo *layout_info, TJabberFormControlType type, const wchar_t *labelStr, const wchar_t *valueStr)
+HJFORMCTRL JabberFormAppendControl(HWND hwndStatic, HJFORMLAYOUT layout_info, TJabberFormControlType type, const char *labelStr, const char *valueStr)
 {
 	TJabberFormControlList *controls = (TJabberFormControlList *)GetWindowLongPtr(hwndStatic, GWLP_USERDATA);
 	if (!controls) {
@@ -295,11 +273,12 @@ TJabberFormControlInfo *JabberFormAppendControl(HWND hwndStatic, TJabberFormLayo
 	TJabberFormControlInfo *item = (TJabberFormControlInfo *)mir_alloc(sizeof(TJabberFormControlInfo));
 	item->type = type;
 	item->hLabel = item->hCtrl = nullptr;
+	Utf2T wszLabel(labelStr), wszValue(valueStr);
 
 	switch (type) {
 	case JFORM_CTYPE_TEXT_PRIVATE:
 		item->hLabel = JabberFormCreateLabel();
-		item->hCtrl = CreateWindowEx(WS_EX_CLIENTEDGE, L"edit", valueStr,
+		item->hCtrl = CreateWindowEx(WS_EX_CLIENTEDGE, L"edit", wszValue,
 			WS_CHILD | WS_VISIBLE | WS_TABSTOP | ES_LEFT | ES_AUTOHSCROLL | ES_PASSWORD,
 			0, 0, 0, 0,
 			hwndStatic, (HMENU)layout_info->id, g_plugin.getInst(), nullptr);
@@ -308,7 +287,7 @@ TJabberFormControlInfo *JabberFormAppendControl(HWND hwndStatic, TJabberFormLayo
 
 	case JFORM_CTYPE_TEXT_MULTI:
 		item->hLabel = JabberFormCreateLabel();
-		item->hCtrl = CreateWindowEx(WS_EX_CLIENTEDGE, L"edit", valueStr,
+		item->hCtrl = CreateWindowEx(WS_EX_CLIENTEDGE, L"edit", wszValue,
 			WS_CHILD | WS_VISIBLE | WS_TABSTOP | WS_VSCROLL | ES_LEFT | ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN,
 			0, 0, 0, 0,
 			hwndStatic, (HMENU)layout_info->id, g_plugin.getInst(), nullptr);
@@ -317,11 +296,11 @@ TJabberFormControlInfo *JabberFormAppendControl(HWND hwndStatic, TJabberFormLayo
 		break;
 
 	case JFORM_CTYPE_BOOLEAN:
-		item->hCtrl = CreateWindowEx(0, L"button", labelStr,
+		item->hCtrl = CreateWindowEx(0, L"button", wszLabel,
 			WS_CHILD | WS_VISIBLE | WS_TABSTOP | BS_AUTOCHECKBOX | BS_MULTILINE,
 			0, 0, 0, 0,
 			hwndStatic, (HMENU)layout_info->id, g_plugin.getInst(), nullptr);
-		if (valueStr && !mir_wstrcmp(valueStr, L"1"))
+		if (valueStr && !mir_wstrcmp(wszValue, L"1"))
 			SendMessage(item->hCtrl, BM_SETCHECK, 1, 0);
 		++layout_info->id;
 		break;
@@ -345,7 +324,7 @@ TJabberFormControlInfo *JabberFormAppendControl(HWND hwndStatic, TJabberFormLayo
 		break;
 
 	case JFORM_CTYPE_FIXED:
-		item->hCtrl = CreateWindow(L"edit", valueStr,
+		item->hCtrl = CreateWindow(L"edit", wszValue,
 			WS_CHILD | WS_VISIBLE | ES_MULTILINE | ES_READONLY | ES_AUTOHSCROLL,
 			0, 0, 0, 0,
 			hwndStatic, (HMENU)-1, g_plugin.getInst(), nullptr);
@@ -356,7 +335,7 @@ TJabberFormControlInfo *JabberFormAppendControl(HWND hwndStatic, TJabberFormLayo
 
 	case JFORM_CTYPE_TEXT_SINGLE:
 		item->hLabel = labelStr ? (JabberFormCreateLabel()) : nullptr;
-		item->hCtrl = CreateWindowEx(WS_EX_CLIENTEDGE, L"edit", valueStr,
+		item->hCtrl = CreateWindowEx(WS_EX_CLIENTEDGE, L"edit", wszValue,
 			WS_CHILD | WS_VISIBLE | WS_TABSTOP | ES_LEFT | ES_AUTOHSCROLL,
 			0, 0, 0, 0,
 			hwndStatic, (HMENU)layout_info->id, g_plugin.getInst(), nullptr);
@@ -374,22 +353,25 @@ TJabberFormControlInfo *JabberFormAppendControl(HWND hwndStatic, TJabberFormLayo
 	return item;
 }
 
-static void JabberFormAddListItem(TJabberFormControlInfo *item, const wchar_t *text, bool selected)
+static void JabberFormAddListItem(TJabberFormControlInfo *item, const char *text, bool selected)
 {
+	Utf2T wszText(text);
+
 	DWORD dwIndex;
 	switch (item->type) {
 	case JFORM_CTYPE_LIST_MULTI:
-		dwIndex = SendMessage(item->hCtrl, LB_ADDSTRING, 0, (LPARAM)text);
+		dwIndex = SendMessage(item->hCtrl, LB_ADDSTRING, 0, wszText);
 		if (selected) SendMessage(item->hCtrl, LB_SETSEL, TRUE, dwIndex);
 		break;
+
 	case JFORM_CTYPE_LIST_SINGLE:
-		dwIndex = SendMessage(item->hCtrl, CB_ADDSTRING, 0, (LPARAM)text);
+		dwIndex = SendMessage(item->hCtrl, CB_ADDSTRING, 0, wszText);
 		if (selected) SendMessage(item->hCtrl, CB_SETCURSEL, dwIndex, 0);
 		break;
 	}
 }
 
-void JabberFormLayoutControls(HWND hwndStatic, TJabberFormLayoutInfo *layout_info, int *formHeight)
+void JabberFormLayoutControls(HWND hwndStatic, HJFORMLAYOUT layout_info, int *formHeight)
 {
 	TJabberFormControlList *controls = (TJabberFormControlList *)GetWindowLongPtr(hwndStatic, GWLP_USERDATA);
 	if (!controls) return;
@@ -429,19 +411,17 @@ HJFORMLAYOUT JabberFormCreateLayout(HWND hwndStatic)
 	return layout_info;
 }
 
-void JabberFormCreateUI(HWND hwndStatic, HXML xNode, int *formHeight, BOOL bCompact)
+void JabberFormCreateUI(HWND hwndStatic, TiXmlElement *xNode, int *formHeight, BOOL bCompact)
 {
 	JabberFormDestroyUI(hwndStatic);
 
-	HXML v, vs;
+	const char *typeName, *str, *valueText, *labelStr;
+	char *valueStr;
 
-	const wchar_t *label, *typeName, *varStr, *str, *valueText;
-	wchar_t *labelStr, *valueStr;
-	RECT frameRect;
-
-	if (xNode == nullptr || XmlGetName(xNode) == nullptr || mir_wstrcmp(XmlGetName(xNode), L"x") || hwndStatic == nullptr)
+	if (xNode == nullptr || xNode->Name() == nullptr || mir_strcmp(xNode->Name(), "x") || hwndStatic == nullptr)
 		return;
 
+	RECT frameRect;
 	GetClientRect(hwndStatic, &frameRect);
 
 	TJabberFormLayoutInfo layout_info;
@@ -454,99 +434,67 @@ void JabberFormCreateUI(HWND hwndStatic, HXML xNode, int *formHeight, BOOL bComp
 	layout_info.maxLabelWidth = layout_info.width * 2 / 5;
 	layout_info.offset = 10;
 	layout_info.y_pos = bCompact ? 0 : 14;
-	for (int i = 0;; i++) {
-		HXML n = XmlGetChild(xNode, i);
-		if (!n)
-			break;
-
-		if (mir_wstrcmp(XmlGetName(n), L"field"))
+	for (auto *n : TiXmlFilter(xNode, "field")) {
+		if ((typeName = n->Attribute("type")) == nullptr)
 			continue;
 
-		varStr = XmlGetAttrValue(n, L"var");
-		if ((typeName = XmlGetAttrValue(n, L"type")) == nullptr)
-			continue;
-
-		if ((label = XmlGetAttrValue(n, L"label")) != nullptr)
-			labelStr = mir_wstrdup(label);
+		if (auto *label = n->Attribute("label"))
+			labelStr = label;
 		else
-			labelStr = mir_wstrdup(varStr);
+			labelStr = n->Attribute("var");
 
 		TJabberFormControlType type = JabberFormTypeNameToId(typeName);
 
-		if ((v = XmlGetChild(n, "value")) != nullptr) {
-			valueText = XmlGetText(v);
+		if (auto *v = n->FirstChildElement("value")) {
+			valueText = v->GetText();
 			if (type != JFORM_CTYPE_TEXT_MULTI)
-				valueStr = mir_wstrdup(valueText);
+				valueStr = mir_strdup(valueText);
 			else {
-				size_t size = 1;
-				for (int j = 0;; j++) {
-					v = XmlGetChild(n, j);
-					if (!v)
-						break;
-					if (XmlGetName(v) && !mir_wstrcmp(XmlGetName(v), L"value") && XmlGetText(v))
-						size += mir_wstrlen(XmlGetText(v)) + 2;
-				}
-				valueStr = (wchar_t*)mir_alloc(sizeof(wchar_t)*size);
-				valueStr[0] = '\0';
-				for (int j = 0;; j++) {
-					v = XmlGetChild(n, j);
-					if (!v)
-						break;
-					if (XmlGetName(v) && !mir_wstrcmp(XmlGetName(v), L"value") && XmlGetText(v)) {
-						if (valueStr[0])
-							mir_wstrcat(valueStr, L"\r\n");
-						mir_wstrcat(valueStr, XmlGetText(v));
+				CMStringA tmp;
+				for (auto *it : TiXmlEnum(n)) {
+					if (it->Name() && !mir_strcmp(it->Name(), "value") && it->GetText()) {
+						if (!tmp.IsEmpty())
+							tmp.Append("\r\n");
+						tmp.Append(it->GetText());
 					}
 				}
+				valueStr = tmp.Detach();
 			}
 		}
 		else valueText = valueStr = nullptr;
 
 		TJabberFormControlInfo *item = JabberFormAppendControl(hwndStatic, &layout_info, type, labelStr, valueStr);
 
-		mir_free(labelStr);
 		mir_free(valueStr);
 
 		if (type == JFORM_CTYPE_LIST_SINGLE) {
-			for (int j = 0;; j++) {
-				HXML o = XmlGetChild(n, j);
-				if (o == nullptr)
-					break;
-
-				if (mir_wstrcmp(XmlGetName(o), L"option"))
+			for (auto *o : TiXmlFilter(n, "option")) {
+				auto *v = o->FirstChildElement("value");
+				if (v == nullptr || v->GetText() == nullptr)
 					continue;
-				if ((v = XmlGetChild(o, "value")) == nullptr || XmlGetText(v) == nullptr)
-					continue;
-				if ((str = XmlGetAttrValue(o, L"label")) == nullptr)
-					str = XmlGetText(v);
+				if ((str = o->Attribute("label")) == nullptr)
+					str = v->GetText();
 				if (str == nullptr)
 					continue;
 
-				bool selected = !mir_wstrcmp(valueText, XmlGetText(v));
+				bool selected = !mir_strcmp(valueText, v->GetText());
 				JabberFormAddListItem(item, str, selected);
 			}
 		}
 		else if (type == JFORM_CTYPE_LIST_MULTI) {
-			for (int j = 0;; j++) {
-				HXML o = XmlGetChild(n, j);
-				if (o == nullptr)
-					break;
+			for (auto *o : TiXmlFilter(n, "option")) {
+				auto *v = o->FirstChildElement("value");
+				if (v == nullptr || v->GetText() == nullptr)
+					continue;
 
-				if (mir_wstrcmp(XmlGetName(o), L"option"))
-					continue;
-				if ((v = XmlGetChild(o, "value")) == nullptr || XmlGetText(v) == nullptr)
-					continue;
-				if ((str = XmlGetAttrValue(o, L"label")) == nullptr)
-					str = XmlGetText(v);
+				if ((str = o->Attribute("label")) == nullptr)
+					str = v->GetText();
 				if (str == nullptr)
 					continue;
 
 				bool selected = false;
-				for (int k = 0;; k++) {
-					vs = XmlGetChild(n, k);
-					if (!vs)
-						break;
-					if (!mir_wstrcmp(XmlGetName(vs), L"value") && !mir_wstrcmp(XmlGetText(vs), XmlGetText(v))) {
+				for (auto *vs : TiXmlEnum(n)) {
+					if (!mir_strcmp(vs->Name(), "value") && !mir_strcmp(vs->GetText(), v->GetText())) {
 						selected = true;
 						break;
 					}
@@ -570,104 +518,83 @@ void JabberFormDestroyUI(HWND hwndStatic)
 	}
 }
 
-HXML JabberFormGetData(HWND hwndStatic, HXML xNode)
+TiXmlElement* JabberFormGetData(HWND hwndStatic, TiXmlDocument *doc, TiXmlElement *xNode)
 {
-	HWND hFrame, hCtrl;
-	HXML n, v, o;
-	int id, j, k, len;
-	const wchar_t *varName, *type, *fieldStr, *labelText, *str2;
+	const char *varName, *type, *labelText, *str2;
 	wchar_t *p, *q, *str;
 
-	if (xNode == nullptr || XmlGetName(xNode) == nullptr || mir_wstrcmp(XmlGetName(xNode), L"x") || hwndStatic == nullptr)
+	if (xNode == nullptr || xNode->Name() == nullptr || mir_strcmp(xNode->Name(), "x") || hwndStatic == nullptr)
 		return nullptr;
 
-	hFrame = hwndStatic;
-	id = 0;
-	XmlNode x(L"x");
-	x << XATTR(L"xmlns", JABBER_FEAT_DATA_FORMS) << XATTR(L"type", L"submit");
+	HWND hFrame = hwndStatic;
+	int id = 0;
+	XmlNode x("x");
+	x << XATTR("xmlns", JABBER_FEAT_DATA_FORMS) << XATTR("type", "submit");
 
-	for (int i = 0;; i++) {
-		n = XmlGetChild(xNode, i);
-		if (!n)
-			break;
-
-		fieldStr = nullptr;
-		if (mir_wstrcmp(XmlGetName(n), L"field"))
+	for (auto *n : TiXmlFilter(xNode, "field")) {
+		if ((varName = n->Attribute("var")) == nullptr || (type = n->Attribute("type")) == nullptr)
 			continue;
 
-		if ((varName = XmlGetAttrValue(n, L"var")) == nullptr || (type = XmlGetAttrValue(n, L"type")) == nullptr)
-			continue;
+		HWND hCtrl = GetDlgItem(hFrame, id);
+		TiXmlElement *field = x << XCHILD("field") << XATTR("var", varName);
 
-		hCtrl = GetDlgItem(hFrame, id);
-		HXML field = x << XCHILD(L"field") << XATTR(L"var", varName);
-
-		if (!mir_wstrcmp(type, L"text-multi") || !mir_wstrcmp(type, L"jid-multi")) {
-			len = GetWindowTextLength(GetDlgItem(hFrame, id));
+		if (!mir_strcmp(type, "text-multi") || !mir_strcmp(type, "jid-multi")) {
+			int len = GetWindowTextLength(GetDlgItem(hFrame, id));
 			str = (wchar_t*)mir_alloc(sizeof(wchar_t)*(len + 1));
 			GetDlgItemText(hFrame, id, str, len + 1);
 			p = str;
 			while (p != nullptr) {
 				if ((q = wcsstr(p, L"\r\n")) != nullptr)
 					*q = '\0';
-				field << XCHILD(L"value", p);
+				field << XCHILD("value", T2Utf(p));
 				p = q ? q + 2 : nullptr;
 			}
 			mir_free(str);
 			id++;
 		}
-		else if (!mir_wstrcmp(type, L"boolean")) {
+		else if (!mir_strcmp(type, "boolean")) {
 			wchar_t buf[10];
 			_itow(IsDlgButtonChecked(hFrame, id) == BST_CHECKED ? 1 : 0, buf, 10);
-			field << XCHILD(L"value", buf);
+			field << XCHILD("value", T2Utf(buf));
 			id++;
 		}
-		else if (!mir_wstrcmp(type, L"list-single")) {
-			len = GetWindowTextLength(GetDlgItem(hFrame, id));
+		else if (!mir_strcmp(type, "list-single")) {
+			int len = GetWindowTextLength(GetDlgItem(hFrame, id));
 			str = (wchar_t*)mir_alloc(sizeof(wchar_t)*(len + 1));
 			GetDlgItemText(hFrame, id, str, len + 1);
-			v = nullptr;
-			for (j = 0;; j++) {
-				o = XmlGetChild(n, j);
-				if (!o)
-					break;
 
-				if (!mir_wstrcmp(XmlGetName(o), L"option")) {
-					if ((v = XmlGetChild(o, "value")) != nullptr && XmlGetText(v)) {
-						if ((str2 = XmlGetAttrValue(o, L"label")) == nullptr)
-							str2 = XmlGetText(v);
-						if (!mir_wstrcmp(str2, str))
-							break;
+			for (auto *o : TiXmlFilter(n, "option")) {
+				auto *v = o->FirstChildElement("value");
+				if (v != nullptr && v->GetText()) {
+					if ((str2 = o->Attribute("label")) == nullptr)
+						str2 = v->GetText();
+					if (!mir_strcmp(str2, T2Utf(str))) {
+						field << XCHILD("value", v->GetText());
+						break;
 					}
 				}
 			}
 
-			if (o)
-				field << XCHILD(L"value", XmlGetText(v));
-
 			mir_free(str);
 			id++;
 		}
-		else if (!mir_wstrcmp(type, L"list-multi")) {
+		else if (!mir_strcmp(type, "list-multi")) {
 			int count = SendMessage(hCtrl, LB_GETCOUNT, 0, 0);
-			for (j = 0; j < count; j++) {
+			for (int j = 0; j < count; j++) {
 				if (SendMessage(hCtrl, LB_GETSEL, j, 0) > 0) {
 					// an entry is selected
-					len = SendMessage(hCtrl, LB_GETTEXTLEN, j, 0);
+					int len = SendMessage(hCtrl, LB_GETTEXTLEN, j, 0);
 					if ((str = (wchar_t*)mir_alloc((len + 1) * sizeof(wchar_t))) != nullptr) {
 						SendMessage(hCtrl, LB_GETTEXT, j, (LPARAM)str);
-						for (k = 0;; k++) {
-							o = XmlGetChild(n, k);
-							if (!o)
-								break;
 
-							if (XmlGetName(o) && !mir_wstrcmp(XmlGetName(o), L"option")) {
-								if ((v = XmlGetChild(o, "value")) != nullptr && XmlGetText(v)) {
-									if ((labelText = XmlGetAttrValue(o, L"label")) == nullptr)
-										labelText = XmlGetText(v);
+						for (auto *o : TiXmlFilter(n, "option")) {
+							auto *v = o->FirstChildElement("value");
+							if (v != nullptr && v->GetText()) {
+								if ((labelText = o->Attribute("label")) == nullptr)
+									labelText = v->GetText();
 
-									if (!mir_wstrcmp(labelText, str))
-										field << XCHILD(L"value", XmlGetText(v));
-								}
+								if (!mir_strcmp(labelText, T2Utf(str)))
+									field << XCHILD("value", v->GetText());
 							}
 						}
 						mir_free(str);
@@ -676,22 +603,22 @@ HXML JabberFormGetData(HWND hwndStatic, HXML xNode)
 			}
 			id++;
 		}
-		else if (!mir_wstrcmp(type, L"fixed") || !mir_wstrcmp(type, L"hidden")) {
-			v = XmlGetChild(n, "value");
-			if (v != nullptr && XmlGetText(v) != nullptr)
-				field << XCHILD(L"value", XmlGetText(v));
+		else if (!mir_strcmp(type, "fixed") || !mir_strcmp(type, "hidden")) {
+			auto *v = n->FirstChildElement("value");
+			if (v != nullptr && v->GetText() != nullptr)
+				field << XCHILD("value", v->GetText());
 		}
 		else { // everything else is considered "text-single" or "text-private"
-			len = GetWindowTextLength(GetDlgItem(hFrame, id));
+			int len = GetWindowTextLength(GetDlgItem(hFrame, id));
 			str = (wchar_t*)mir_alloc(sizeof(wchar_t)*(len + 1));
 			GetDlgItemText(hFrame, id, str, len + 1);
-			field << XCHILD(L"value", str);
+			field << XCHILD("value", T2Utf(str));
 			mir_free(str);
 			id++;
 		}
 	}
 
-	return xmlCopyNode(x);
+	return x.ToElement()->DeepClone(doc)->ToElement();
 }
 
 struct JABBER_FORM_INFO
@@ -699,7 +626,8 @@ struct JABBER_FORM_INFO
 	~JABBER_FORM_INFO();
 
 	CJabberProto *ppro;
-	HXML xNode;
+	TiXmlDocument doc;
+	TiXmlElement *xNode;
 	wchar_t defTitle[128];	// Default title if no <title/> in xNode
 	RECT frameRect;		// Clipping region of the frame to scroll
 	int frameHeight;	// Height of the frame (can be eliminated, redundant to frameRect)
@@ -720,22 +648,22 @@ static INT_PTR CALLBACK JabberFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 		ShowWindow(GetDlgItem(hwndDlg, IDC_FRAME_TEXT), SW_HIDE);
 		jfi = (JABBER_FORM_INFO*)lParam;
 		if (jfi != nullptr) {
-			HXML n;
+			TiXmlElement *n;
 			LONG frameExStyle;
 			// Set dialog title
-			if (jfi->xNode != nullptr && (n = XmlGetChild(jfi->xNode, L"title")) != nullptr && XmlGetText(n) != nullptr)
-				SetWindowText(hwndDlg, XmlGetText(n));
+			if (jfi->xNode != nullptr && (n = jfi->xNode->FirstChildElement("title")) != nullptr && n->GetText() != nullptr)
+				SetWindowText(hwndDlg, Utf2T(n->GetText()));
 			else
 				SetWindowText(hwndDlg, TranslateW(jfi->defTitle));
 
 			// Set instruction field
-			if (jfi->xNode != nullptr && (n = XmlGetChild(jfi->xNode, L"instructions")) != nullptr && XmlGetText(n) != nullptr)
-				JabberFormSetInstruction(hwndDlg, XmlGetText(n));
+			if (jfi->xNode != nullptr && (n = jfi->xNode->FirstChildElement("instructions")) != nullptr && n->GetText() != nullptr)
+				JabberFormSetInstruction(hwndDlg, n->GetText());
 			else {
-				if (jfi->xNode != nullptr && (n = XmlGetChild(jfi->xNode, L"title")) != nullptr && XmlGetText(n) != nullptr)
-					JabberFormSetInstruction(hwndDlg, XmlGetText(n));
+				if (jfi->xNode != nullptr && (n = jfi->xNode->FirstChildElement("title")) != nullptr && n->GetText() != nullptr)
+					JabberFormSetInstruction(hwndDlg, n->GetText());
 				else
-					JabberFormSetInstruction(hwndDlg, TranslateW(jfi->defTitle));
+					JabberFormSetInstruction(hwndDlg, Translate(T2Utf(jfi->defTitle)));
 			}
 
 			// Create form
@@ -823,9 +751,8 @@ static INT_PTR CALLBACK JabberFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 		switch (LOWORD(wParam)) {
 		case IDC_SUBMIT:
 			if (jfi != nullptr) {
-				HXML n = JabberFormGetData(GetDlgItem(hwndDlg, IDC_FRAME), jfi->xNode);
+				TiXmlElement *n = JabberFormGetData(GetDlgItem(hwndDlg, IDC_FRAME), &jfi->doc, jfi->xNode);
 				(jfi->ppro->*(jfi->pfnSubmit))(n, jfi->userdata);
-				xmlDestroyNode(n);
 			}
 			__fallthrough;
 
@@ -854,14 +781,14 @@ static VOID CALLBACK JabberFormCreateDialogApcProc(void* param)
 	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FORM), nullptr, JabberFormDlgProc, (LPARAM)param);
 }
 
-void CJabberProto::FormCreateDialog(HXML xNode, wchar_t* defTitle, JABBER_FORM_SUBMIT_FUNC pfnSubmit, void *userdata)
+void CJabberProto::FormCreateDialog(const TiXmlElement *xNode, char *defTitle, JABBER_FORM_SUBMIT_FUNC pfnSubmit, void *userdata)
 {
 	JABBER_FORM_INFO *jfi = new JABBER_FORM_INFO;
 	memset(jfi, 0, sizeof(JABBER_FORM_INFO));
 	jfi->ppro = this;
-	jfi->xNode = xmlCopyNode(xNode);
+	jfi->xNode = xNode->DeepClone(&jfi->doc)->ToElement();
 	if (defTitle)
-		wcsncpy_s(jfi->defTitle, defTitle, _TRUNCATE);
+		wcsncpy_s(jfi->defTitle, Utf2T(defTitle), _TRUNCATE);
 	jfi->pfnSubmit = pfnSubmit;
 	jfi->userdata = userdata;
 
@@ -872,6 +799,5 @@ void CJabberProto::FormCreateDialog(HXML xNode, wchar_t* defTitle, JABBER_FORM_S
 
 JABBER_FORM_INFO::~JABBER_FORM_INFO()
 {
-	xmlDestroyNode(xNode);
 	mir_free(userdata);
 }

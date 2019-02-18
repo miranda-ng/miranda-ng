@@ -34,7 +34,7 @@ class CJabberAdhocSession;
 #define JABBER_ADHOC_HANDLER_STATUS_COMPLETED            2
 #define JABBER_ADHOC_HANDLER_STATUS_CANCEL               3
 #define JABBER_ADHOC_HANDLER_STATUS_REMOVE_SESSION       4
-typedef int (CJabberProto::*JABBER_ADHOC_HANDLER)(HXML iqNode, CJabberIqInfo *pInfo, CJabberAdhocSession* pSession);
+typedef int (CJabberProto::*JABBER_ADHOC_HANDLER)(const TiXmlElement *iqNode, CJabberIqInfo *pInfo, CJabberAdhocSession *pSession);
 
 // 5 minutes to fill out form :)
 #define JABBER_ADHOC_SESSION_EXPIRE_TIME                 300000
@@ -42,7 +42,7 @@ typedef int (CJabberProto::*JABBER_ADHOC_HANDLER)(HXML iqNode, CJabberIqInfo *pI
 class CJabberAdhocSession
 {
 protected:
-	CMStringW m_szSessionId;
+	CMStringA m_szSessionId;
 	CJabberAdhocSession* m_pNext;
 	DWORD m_dwStartTime;
 
@@ -74,7 +74,7 @@ public:
 	{
 		return m_dwStartTime;
 	}
-	const wchar_t *GetSessionId()
+	const char* GetSessionId()
 	{
 		return m_szSessionId;
 	}
@@ -102,19 +102,19 @@ class CJabberAdhocNode;
 class CJabberAdhocNode
 {
 protected:
-	wchar_t *m_szJid;
-	wchar_t *m_szNode;
-	wchar_t *m_szName;
+	char *m_szJid;
+	char *m_szNode;
+	char *m_szName;
 	CJabberAdhocNode* m_pNext;
 	JABBER_ADHOC_HANDLER m_pHandler;
 	CJabberProto *m_pProto;
 public:
-	CJabberAdhocNode(CJabberProto* pProto, wchar_t* szJid, wchar_t* szNode, wchar_t* szName, JABBER_ADHOC_HANDLER pHandler)
+	CJabberAdhocNode(CJabberProto* pProto, const char *szJid, const char *szNode, const char *szName, JABBER_ADHOC_HANDLER pHandler)
 	{
 		memset(this, 0, sizeof(CJabberAdhocNode));
-		replaceStrW(m_szJid, szJid);
-		replaceStrW(m_szNode, szNode);
-		replaceStrW(m_szName, szName);
+		replaceStr(m_szJid, szJid);
+		replaceStr(m_szNode, szNode);
+		replaceStr(m_szName, szName);
 		m_pHandler = pHandler;
 		m_pProto = pProto;
 	}
@@ -127,7 +127,7 @@ public:
 		if (m_pNext)
 			delete m_pNext;
 	}
-	CJabberAdhocNode* GetNext()
+	CJabberAdhocNode* GetNext() const 
 	{
 		return m_pNext;
 	}
@@ -137,19 +137,19 @@ public:
 		m_pNext = pNext;
 		return pRetVal;
 	}
-	wchar_t* GetJid()
+	char* GetJid() const 
 	{
 		return m_szJid;
 	}
-	wchar_t* GetNode()
+	char* GetNode() const 
 	{
 		return m_szNode;
 	}
-	wchar_t* GetName()
+	char* GetName() const 
 	{
 		return m_szName;
 	}
-	BOOL CallHandler(HXML iqNode, CJabberIqInfo *pInfo, CJabberAdhocSession* pSession)
+	BOOL CallHandler(const TiXmlElement *iqNode, CJabberIqInfo *pInfo, CJabberAdhocSession *pSession)
 	{
 		if (m_pHandler == nullptr)
 			return FALSE;
@@ -165,11 +165,11 @@ protected:
 	CJabberAdhocSession* m_pSessions;
 	mir_cs m_cs;
 
-	CJabberAdhocSession* FindSession(const wchar_t *szSession)
+	CJabberAdhocSession* FindSession(const char *szSession)
 	{
-		CJabberAdhocSession* pSession = m_pSessions;
+		CJabberAdhocSession *pSession = m_pSessions;
 		while (pSession) {
-			if (!mir_wstrcmp(pSession->GetSessionId(), szSession))
+			if (!mir_strcmp(pSession->GetSessionId(), szSession))
 				return pSession;
 			pSession = pSession->GetNext();
 		}
@@ -178,7 +178,7 @@ protected:
 
 	CJabberAdhocSession* AddNewSession()
 	{
-		CJabberAdhocSession* pSession = new CJabberAdhocSession(m_pProto);
+		CJabberAdhocSession *pSession = new CJabberAdhocSession(m_pProto);
 		if (!pSession)
 			return nullptr;
 
@@ -188,18 +188,18 @@ protected:
 		return pSession;
 	}
 
-	CJabberAdhocNode* FindNode(const wchar_t *szNode)
+	CJabberAdhocNode* FindNode(const char *szNode)
 	{
 		CJabberAdhocNode* pNode = m_pNodes;
 		while (pNode) {
-			if (!mir_wstrcmp(pNode->GetNode(), szNode))
+			if (!mir_strcmp(pNode->GetNode(), szNode))
 				return pNode;
 			pNode = pNode->GetNext();
 		}
 		return nullptr;
 	}
 
-	BOOL RemoveSession(CJabberAdhocSession* pSession)
+	BOOL RemoveSession(CJabberAdhocSession *pSession)
 	{
 		if (!m_pSessions)
 			return FALSE;
@@ -229,7 +229,7 @@ protected:
 		if (!m_pSessions)
 			return FALSE;
 
-		CJabberAdhocSession* pSession = m_pSessions;
+		CJabberAdhocSession *pSession = m_pSessions;
 		if (pSession->GetSessionStartTime() < dwExpireTime) {
 			m_pSessions = pSession->GetNext();
 			pSession->SetNext(nullptr);
@@ -264,7 +264,8 @@ public:
 	}
 
 	BOOL FillDefaultNodes();
-	BOOL AddNode(wchar_t* szJid, wchar_t* szNode, wchar_t* szName, JABBER_ADHOC_HANDLER pHandler)
+	
+	BOOL AddNode(const char *szJid, const char *szNode, const char *szName, JABBER_ADHOC_HANDLER pHandler)
 	{
 		CJabberAdhocNode* pNode = new CJabberAdhocNode(m_pProto, szJid, szNode, szName, pHandler);
 		if (!pNode)
@@ -287,9 +288,9 @@ public:
 		return m_pNodes;
 	}
 
-	BOOL HandleItemsRequest(HXML iqNode, CJabberIqInfo *pInfo, const wchar_t *szNode);
-	BOOL HandleInfoRequest(HXML iqNode, CJabberIqInfo *pInfo, const wchar_t *szNode);
-	BOOL HandleCommandRequest(HXML iqNode, CJabberIqInfo *pInfo, const wchar_t *szNode);
+	BOOL HandleItemsRequest(const TiXmlElement *iqNode, CJabberIqInfo *pInfo, const char *szNode);
+	BOOL HandleInfoRequest(const TiXmlElement *iqNode, CJabberIqInfo *pInfo, const char *szNode);
+	BOOL HandleCommandRequest(const TiXmlElement *iqNode, CJabberIqInfo *pInfo, const char *szNode);
 
 	BOOL ExpireSessions()
 	{

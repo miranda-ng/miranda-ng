@@ -357,7 +357,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 	return szResult.Detach();
 }
 
-MIR_APP_DLL(char*) Netlib_NtlmCreateResponse(HANDLE hProvider, char *szChallenge, wchar_t *pwszLogin, wchar_t *pwszPassword, unsigned &complete)
+MIR_APP_DLL(char*) Netlib_NtlmCreateResponse(HANDLE hProvider, const char *szChallenge, wchar_t *pwszLogin, wchar_t *pwszPassword, unsigned &complete)
 {
 	return NtlmCreateResponseFromChallenge(hProvider, szChallenge, pwszLogin, pwszPassword, false, complete);
 }

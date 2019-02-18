@@ -45,15 +45,17 @@ namespace omemo
 		unsigned long GetOwnDeviceId();
 		void RefreshDevice();
 		omemo_device* create_device();
-		bool create_session_store(MCONTACT hContact, const wchar_t *device_id);
-		bool build_session(MCONTACT hContact, const wchar_t *jid, const wchar_t *dev_id, const wchar_t *key_id, const wchar_t *pre_key_public, const wchar_t *signed_pre_key_id,
-			const wchar_t *signed_pre_key_public, const wchar_t *signed_pre_key_signature, const wchar_t *identity_key);
+		bool create_session_store(MCONTACT hContact, const char *device_id);
+		bool build_session(MCONTACT hContact, const char *jid, const char *dev_id, const char *key_id, const char *pre_key_public, const char *signed_pre_key_id,
+			const char *signed_pre_key_public, const char *signed_pre_key_signature, const char *identity_key);
 
 		mir_cslockfull *signal_mutex;
 		std::map<MCONTACT, std::map<unsigned int, struct omemo_session_jabber_internal_ptrs>> sessions;
 		std::map<MCONTACT, bool> session_checked;
-		std::list<struct incomming_message> incoming_messages;
+		std::list<struct incoming_message> incoming_messages;
 		std::list<struct outgoing_message> outgoing_messages;
+
+		TiXmlDocument doc;
 
 	private:
 		CJabberProto *proto;

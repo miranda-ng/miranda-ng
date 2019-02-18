@@ -29,28 +29,28 @@ struct CJabberProto;
 
 class strm_mgmt
 {
-	void OnProcessSMa(HXML node);
-	void OnProcessSMr(HXML node);
+	void OnProcessSMa(const TiXmlElement *node);
+	void OnProcessSMr(const TiXmlElement *node);
 	void ResendNodes(uint32_t count);
 	void FinishLoginProcess(ThreadData *info);
 
-
 	CJabberProto *proto;
+	TiXmlDocument xmlStorage;
 	uint32_t m_nStrmMgmtSrvHCount, m_nStrmMgmtLocalHCount, m_nStrmMgmtLocalSCount, m_nStrmMgmtResumeMaxSeconds;
 	const uint32_t m_nStrmMgmtCacheSize = 10;
-	bool m_bStrmMgmtPendingEnable, m_bStrmMgmtEnabled, m_bStrmMgmtResumeSupported, bSessionResumed;
-	std::wstring m_sStrmMgmtResumeId;
-	std::list<HXML> NodeCache;
+	bool m_bStrmMgmtPendingEnable = false, m_bStrmMgmtEnabled = false, m_bStrmMgmtResumeSupported = false, bSessionResumed = false;
+	std::string m_sStrmMgmtResumeId;
+	std::list<TiXmlElement*> NodeCache;
 
 public:
 	strm_mgmt(CJabberProto *proto);
 	void EnableStrmMgmt();
-	void HandleOutgoingNode(HXML node);
-	void HandleIncommingNode(HXML node);
-	void OnProcessEnabled(HXML node, ThreadData *info);
-	void OnProcessResumed(HXML node, ThreadData *info);
-	void OnProcessFailed(HXML node, ThreadData * info);
-	void CheckStreamFeatures(HXML node);
+	void HandleOutgoingNode(TiXmlElement *node);
+	void HandleIncommingNode(const TiXmlElement *node);
+	void OnProcessEnabled(const TiXmlElement *node, ThreadData *info);
+	void OnProcessResumed(const TiXmlElement *node, ThreadData *info);
+	void OnProcessFailed(const TiXmlElement *node, ThreadData * info);
+	void CheckStreamFeatures(const TiXmlElement *node);
 	void CheckState();
 	void ResetState();
 	void SendAck();

@@ -178,8 +178,8 @@ void JabberFileServerConnection(HNETLIBCONN hConnection, DWORD /*dwRemoteIP*/, v
 	NETLIBCONNINFO connInfo = {};
 	Netlib_GetConnectionInfo(hConnection, &connInfo);
 
-	wchar_t szPort[10];
-	mir_snwprintf(szPort, L"%d", connInfo.wPort);
+	char szPort[10];
+	_itoa(connInfo.wPort, szPort, 10);
 	ppro->debugLogA("File server incoming connection accepted: %s", connInfo.szIpPort);
 
 	JABBER_LIST_ITEM *item = ppro->ListGetItemPtr(LIST_FILE, szPort);
@@ -259,12 +259,12 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 	HANDLE hEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 	ft->hFileEvent = hEvent;
 
-	wchar_t szPort[20];
-	mir_snwprintf(szPort, L"%d", nlb.wPort);
+	char szPort[20];
+	_itoa(nlb.wPort, szPort, 10);
 	JABBER_LIST_ITEM *item = ListAdd(LIST_FILE, szPort);
 	item->ft = ft;
 
-	wchar_t *ptszResource = ListGetBestClientResourceNamePtr(ft->jid);
+	char *ptszResource = ListGetBestClientResourceNamePtr(ft->jid);
 	if (ptszResource != nullptr) {
 		ft->state = FT_CONNECTING;
 		for (int i = 0; i < ft->std.totalFiles && ft->state != FT_ERROR && ft->state != FT_DENIED; i++) {
@@ -296,14 +296,10 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 				char szAddr[256];
 				mir_snprintf(szAddr, "http://%s:%d/%s", myAddr, nlb.wPort, pFileName.c_str());
 
-				size_t len = mir_wstrlen(ptszResource) + mir_wstrlen(ft->jid) + 2;
-				wchar_t *fulljid = (wchar_t *)alloca(sizeof(wchar_t) * len);
-				mir_snwprintf(fulljid, len, L"%s/%s", ft->jid, ptszResource);
-
-				XmlNodeIq iq(L"set", ft->szId, fulljid);
-				HXML query = iq << XQUERY(JABBER_FEAT_OOB);
-				query << XCHILD(L"url", _A2T(szAddr));
-				query << XCHILD(L"desc", ft->szDescription);
+				XmlNodeIq iq("set", ft->szId, CMStringA(FORMAT, "%s/%s", ft->jid, ptszResource));
+				TiXmlElement *query = iq << XQUERY(JABBER_FEAT_OOB);
+				query << XCHILD("url", szAddr);
+				query << XCHILD("desc", T2Utf(ft->szDescription));
 				m_ThreadInfo->send(iq);
 
 				debugLogA("Waiting for the file to be sent...");

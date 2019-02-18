@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-BOOL CJabberProto::OnMessageError(HXML node, ThreadData*, CJabberMessageInfo* pInfo)
+BOOL CJabberProto::OnMessageError(const TiXmlElement *node, ThreadData*, CJabberMessageInfo* pInfo)
 {
 	// we check if is message delivery failure
 	int id = JabberGetPacketID(node);
@@ -39,9 +39,9 @@ BOOL CJabberProto::OnMessageError(HXML node, ThreadData*, CJabberMessageInfo* pI
 			ProtoBroadcastAck(pInfo->GetHContact(), ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)id, szErrText);
 		else {
 			wchar_t buf[512];
-			HXML bodyNode = XmlGetChild(node, "body");
+			auto *bodyNode = node->FirstChildElement("body");
 			if (bodyNode)
-				mir_snwprintf(buf, L"%s:\n%s\n%s", pInfo->GetFrom(), XmlGetText(bodyNode), szErrText);
+				mir_snwprintf(buf, L"%s:\n%s\n%s", pInfo->GetFrom(), bodyNode->GetText(), szErrText);
 			else
 				mir_snwprintf(buf, L"%s:\n%s", pInfo->GetFrom(), szErrText);
 
@@ -51,24 +51,24 @@ BOOL CJabberProto::OnMessageError(HXML node, ThreadData*, CJabberMessageInfo* pI
 	return TRUE;
 }
 
-BOOL CJabberProto::OnMessageIbb(HXML, ThreadData*, CJabberMessageInfo* pInfo)
+BOOL CJabberProto::OnMessageIbb(const TiXmlElement*, ThreadData*, CJabberMessageInfo* pInfo)
 {
 	BOOL bOk = FALSE;
-	const wchar_t *sid = XmlGetAttrValue(pInfo->GetChildNode(), L"sid");
-	const wchar_t *seq = XmlGetAttrValue(pInfo->GetChildNode(), L"seq");
-	if (sid && seq && XmlGetText(pInfo->GetChildNode()))
-		bOk = OnIbbRecvdData(XmlGetText(pInfo->GetChildNode()), sid, seq);
+	const char *sid = pInfo->GetChildNode()->Attribute("sid");
+	const char *seq = pInfo->GetChildNode()->Attribute("seq");
+	if (sid && seq && pInfo->GetChildNode()->GetText())
+		bOk = OnIbbRecvdData(pInfo->GetChildNode()->GetText(), sid, seq);
 
 	return TRUE;
 }
 
-BOOL CJabberProto::OnMessagePubsubEvent(HXML node, ThreadData*, CJabberMessageInfo*)
+BOOL CJabberProto::OnMessagePubsubEvent(const TiXmlElement *node, ThreadData*, CJabberMessageInfo*)
 {
 	OnProcessPubsubEvent(node);
 	return TRUE;
 }
 
-BOOL CJabberProto::OnMessageGroupchat(HXML node, ThreadData*, CJabberMessageInfo* pInfo)
+BOOL CJabberProto::OnMessageGroupchat(const TiXmlElement *node, ThreadData*, CJabberMessageInfo* pInfo)
 {
 	JABBER_LIST_ITEM *chatItem = ListGetItemPtr(LIST_CHATROOM, pInfo->GetFrom());
 	if (chatItem) // process GC message

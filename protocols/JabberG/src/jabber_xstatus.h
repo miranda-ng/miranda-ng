@@ -32,12 +32,12 @@ struct CJabberProto;
 class CPepService
 {
 public:
-	CPepService(CJabberProto *proto, char *name, wchar_t *node);
+	CPepService(CJabberProto *proto, char *name, char *node);
 	virtual ~CPepService();
 
 	HGENMENU GetMenu() { return m_hMenuItem; }
-	wchar_t *GetNode() { return m_node; }
-	virtual void ProcessItems(const wchar_t *from, HXML items) = 0;
+	char* GetNode() { return m_node; }
+	virtual void ProcessItems(const char *from, const TiXmlElement *items) = 0;
 
 	void Publish();
 	void Retract();
@@ -53,10 +53,10 @@ protected:
 	CJabberProto *m_proto;
 	bool m_wasPublished;
 	char *m_name;
-	wchar_t *m_node;
+	char *m_node;
 	HGENMENU m_hMenuItem;
 
-	virtual void CreateData(HXML) = 0;
+	virtual void CreateData(TiXmlElement*) = 0;
 	void ForceRepublishOnLogin();
 };
 
@@ -65,10 +65,10 @@ class CPepServiceList: public OBJLIST<CPepService>
 public:
 	CPepServiceList(): OBJLIST<CPepService>(1) {}
 
-	void ProcessEvent(const wchar_t *from, HXML eventNode)
+	void ProcessEvent(const char *from, const TiXmlElement *eventNode)
 	{
 		for (auto &it : *this) {
-			HXML itemsNode = XmlGetChildByTag(eventNode, L"items", L"node", it->GetNode());
+			auto *itemsNode = XmlGetChildByTag(eventNode, "items", "node", it->GetNode());
 			if (itemsNode)
 				it->ProcessItems(from, itemsNode);
 		}
@@ -110,10 +110,10 @@ public:
 			it->ResetPublish();
 	}
 
-	CPepService *Find(wchar_t *node)
+	CPepService* Find(const char *node)
 	{
 		for (auto &it : *this)
-			if (!mir_wstrcmp(it->GetNode(), node))
+			if (!mir_strcmp(it->GetNode(), node))
 				return it;
 		return nullptr;
 	}
@@ -123,7 +123,7 @@ class CPepGuiService: public CPepService
 {
 	typedef CPepService CSuper;
 public:
-	CPepGuiService(CJabberProto *proto, char *name, wchar_t *node);
+	CPepGuiService(CJabberProto *proto, char *name, char *node);
 	~CPepGuiService();
 	void InitGui();
 	void RebuildMenu();
@@ -149,7 +149,7 @@ class CPepMood: public CPepGuiService
 public:
 	CPepMood(CJabberProto *proto);
 	~CPepMood();
-	void ProcessItems(const wchar_t *from, HXML items);
+	void ProcessItems(const char *from, const TiXmlElement *items);
 	void ResetExtraIcon(MCONTACT hContact);
 
 public:
@@ -160,8 +160,8 @@ protected:
 	void ShowSetDialog(BYTE bQuiet) override;
 	void UpdateMenuView(void) override;
 
-	void CreateData(HXML);
 	void SetExtraIcon(MCONTACT hContact, char *szMood);
+	void CreateData(TiXmlElement*);
 
 	void SetMood(MCONTACT hContact, const wchar_t *szMood, const wchar_t *szText);
 };
@@ -172,7 +172,7 @@ class CPepActivity: public CPepGuiService
 public:
 	CPepActivity(CJabberProto *proto);
 	~CPepActivity();
-	void ProcessItems(const wchar_t *from, HXML items);
+	void ProcessItems(const char *from, const TiXmlElement *items);
 	void ResetExtraIcon(MCONTACT hContact);
 
 protected:
@@ -182,10 +182,10 @@ protected:
 	void ShowSetDialog(BYTE bQuiet) override;
 	void UpdateMenuView(void) override;
 
-	void CreateData(HXML);
+	void CreateData(TiXmlElement*);
 	void SetExtraIcon(MCONTACT hContact, char *szActivity);
 
-	void SetActivity(MCONTACT hContact, const wchar_t *szFirst, const wchar_t *szSecond, const wchar_t *szText);
+	void SetActivity(MCONTACT hContact, const char *szFirst, const char *szSecond, const wchar_t *szText);
 };
 
 #endif // _JABBER_XSTATUS_H_

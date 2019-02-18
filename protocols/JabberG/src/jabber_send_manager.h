@@ -30,12 +30,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_xml.h"
 
 struct CJabberProto;
-typedef void (CJabberProto::*JABBER_SEND_PFUNC)(HXML node, void *usedata);
+typedef void (CJabberProto::*JABBER_SEND_PFUNC)(const TiXmlElement *node, void *usedata);
 typedef void (*SEND_USER_DATA_FREE_FUNC)(void *pUserData);
 
 class CJabberSendInfo;
 
-typedef BOOL (CJabberProto::*JABBER_SEND_HANDLER)(HXML node, ThreadData *pThreadData, CJabberSendInfo* pInfo);
+typedef BOOL (CJabberProto::*JABBER_SEND_HANDLER)(const TiXmlElement *node, ThreadData *pThreadData, CJabberSendInfo* pInfo);
 
 class CJabberSendInfo
 {
@@ -99,7 +99,7 @@ public:
 	CJabberSendPermanentInfo* AddPermanentHandler(JABBER_SEND_HANDLER pHandler, void *pUserData = nullptr, SEND_USER_DATA_FREE_FUNC pUserDataFree = nullptr, int iPriority = JH_PRIORITY_DEFAULT);
 	bool DeletePermanentHandler(CJabberSendPermanentInfo *pInfo);
 
-	bool HandleSendPermanent(HXML node, ThreadData *pThreadData);
+	bool HandleSendPermanent(TiXmlElement *node, ThreadData *pThreadData);
 };
 
 #endif

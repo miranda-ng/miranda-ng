@@ -30,12 +30,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_xml.h"
 
 struct CJabberProto;
-typedef void (CJabberProto::*JABBER_PRESENCE_PFUNC)(HXML node, void *usedata);
+typedef void (CJabberProto::*JABBER_PRESENCE_PFUNC)(const TiXmlElement *node, void *usedata);
 typedef void (*PRESENCE_USER_DATA_FREE_FUNC)(void *pUserData);
 
 class CJabberPresenceInfo;
 
-typedef BOOL (CJabberProto::*JABBER_PRESENCE_HANDLER)(HXML node, ThreadData *pThreadData, CJabberPresenceInfo* pInfo);
+typedef BOOL (CJabberProto::*JABBER_PRESENCE_HANDLER)(const TiXmlElement *node, ThreadData *pThreadData, CJabberPresenceInfo* pInfo);
 
 class CJabberPresenceInfo
 {
@@ -98,7 +98,7 @@ public:
 	CJabberPresencePermanentInfo* AddPermanentHandler(JABBER_PRESENCE_HANDLER pHandler, void *pUserData = nullptr, PRESENCE_USER_DATA_FREE_FUNC pUserDataFree = nullptr, int iPriority = JH_PRIORITY_DEFAULT);
 	bool DeletePermanentHandler(CJabberPresencePermanentInfo *pInfo);
 	
-	bool HandlePresencePermanent(HXML node, ThreadData *pThreadData);
+	bool HandlePresencePermanent(const TiXmlElement *node, ThreadData *pThreadData);
 };
 
 #endif

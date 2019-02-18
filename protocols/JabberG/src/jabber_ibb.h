@@ -28,10 +28,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 typedef enum { JIBB_INIT, JIBB_CONNECT, JIBB_SENDING, JIBB_RECVING, JIBB_DONE, JIBB_ERROR } JABBER_IBB_STATE;
 
-typedef struct {
-	wchar_t *sid;
-	wchar_t *srcJID;
-	wchar_t *dstJID;
+struct JABBER_IBB_TRANSFER
+{
+	char *sid;
+	char *srcJID;
+	char *dstJID;
 	unsigned __int64 dwTransferredSize;
 	JABBER_IBB_STATE state;
 	HANDLE hEvent;
@@ -42,7 +43,6 @@ typedef struct {
 	int (CJabberProto::*pfnRecv)(HNETLIBCONN hConn, filetransfer *ft, char* buffer, int datalen);
 	void (CJabberProto::*pfnFinal)(BOOL success, filetransfer *ft);
 	filetransfer *ft;
-}
-	JABBER_IBB_TRANSFER;
+};
 
 #endif

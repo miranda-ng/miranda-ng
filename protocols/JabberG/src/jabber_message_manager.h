@@ -30,12 +30,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_xml.h"
 
 struct CJabberProto;
-typedef void (CJabberProto::*JABBER_MESSAGE_PFUNC)(HXML messageNode, void *usedata);
+typedef void (CJabberProto::*JABBER_MESSAGE_PFUNC)(const TiXmlElement *messageNode, void *usedata);
 typedef void (*MESSAGE_USER_DATA_FREE_FUNC)(void *pUserData);
 
 class CJabberMessageInfo;
 
-typedef BOOL (CJabberProto::*JABBER_PERMANENT_MESSAGE_HANDLER)(HXML messageNode, ThreadData *pThreadData, CJabberMessageInfo* pInfo);
+typedef BOOL (CJabberProto::*JABBER_PERMANENT_MESSAGE_HANDLER)(const TiXmlElement *messageNode, ThreadData *pThreadData, CJabberMessageInfo* pInfo);
 
 #define JABBER_MESSAGE_PARSE_FROM					(1<<3)
 #define JABBER_MESSAGE_PARSE_HCONTACT				((1<<4)|JABBER_MESSAGE_PARSE_FROM)
@@ -47,19 +47,19 @@ class CJabberMessageInfo : public MZeroedObject
 protected:
 	friend class CJabberMessageManager;
 	JABBER_PERMANENT_MESSAGE_HANDLER m_pHandler;
-	CJabberMessageInfo* m_pNext;
+	CJabberMessageInfo *m_pNext;
 
 public:
 	void *m_pUserData;
 // parsed data
 	int m_nMessageType;
-	const wchar_t *m_szFrom;
-	const wchar_t *m_szChildTagXmlns;
-	const wchar_t *m_szChildTagName;
-	HXML m_hChildNode;
+	const char *m_szFrom;
+	const char *m_szChildTagXmlns;
+	const char *m_szChildTagName;
+	const TiXmlElement *m_hChildNode;
 	MCONTACT m_hContact;
-	const wchar_t *m_szTo;
-	const wchar_t *m_szId;
+	const char *m_szTo;
+	const char *m_szId;
 
 public:
 	__forceinline int GetMessageType()
@@ -68,22 +68,22 @@ public:
 	__forceinline void* GetUserData()
 	{	return m_pUserData;
 	}
-	__forceinline const wchar_t *GetFrom()
+	__forceinline const char* GetFrom()
 	{	return m_szFrom;
 	}
-	__forceinline const wchar_t *GetTo()
+	__forceinline const char* GetTo()
 	{	return m_szTo;
 	}
-	__forceinline const wchar_t *GetIdStr()
+	__forceinline const char* GetIdStr()
 	{	return m_szId;
 	}
 	__forceinline MCONTACT GetHContact()
 	{	return m_hContact;
 	}
-	__forceinline HXML GetChildNode()
+	__forceinline const TiXmlElement* GetChildNode()
 	{	return m_hChildNode;
 	}
-	__forceinline const wchar_t *GetChildNodeName()
+	__forceinline const char *GetChildNodeName()
 	{	return m_szChildTagName;
 	}
 };
@@ -95,8 +95,8 @@ class CJabberMessagePermanentInfo : public MZeroedObject
 	JABBER_PERMANENT_MESSAGE_HANDLER m_pHandler;
 	DWORD m_dwParamsToParse;
 	int m_nMessageTypes;
-	LPTSTR m_szXmlns;
-	LPTSTR m_szTag;
+	char *m_szXmlns;
+	char *m_szTag;
 	BOOL m_bAllowPartialNs;
 	void *m_pUserData;
 	MESSAGE_USER_DATA_FREE_FUNC m_pUserDataFree;
@@ -125,10 +125,10 @@ public:
 	CJabberMessageManager(CJabberProto *proto);
 	~CJabberMessageManager();
 
-	CJabberMessagePermanentInfo* AddPermanentHandler(JABBER_PERMANENT_MESSAGE_HANDLER pHandler, int nMessageTypes, DWORD dwParamsToParse, const wchar_t *szXmlns, BOOL bAllowPartialNs, const wchar_t *szTag, void *pUserData = nullptr, MESSAGE_USER_DATA_FREE_FUNC pUserDataFree = nullptr, int iPriority = JH_PRIORITY_DEFAULT);
+	CJabberMessagePermanentInfo* AddPermanentHandler(JABBER_PERMANENT_MESSAGE_HANDLER pHandler, int nMessageTypes, DWORD dwParamsToParse, const char *szXmlns, BOOL bAllowPartialNs, const char *szTag, void *pUserData = nullptr, MESSAGE_USER_DATA_FREE_FUNC pUserDataFree = nullptr, int iPriority = JH_PRIORITY_DEFAULT);
 	bool DeletePermanentHandler(CJabberMessagePermanentInfo *pInfo);
 
-	bool HandleMessagePermanent(HXML node, ThreadData *pThreadData);
+	bool HandleMessagePermanent(const TiXmlElement *node, ThreadData *pThreadData);
 	void FillPermanentHandlers();
 };
 

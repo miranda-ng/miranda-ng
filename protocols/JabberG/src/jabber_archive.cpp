@@ -33,8 +33,8 @@ bool operator==(const DBEVENTINFO &ev1, const DBEVENTINFO &ev2)
 
 void CJabberProto::EnableArchive(bool bEnable)
 {
-	m_ThreadInfo->send(XmlNodeIq(L"set", SerialNext())
-		<< XCHILDNS(L"auto", JABBER_FEAT_ARCHIVE) << XATTR(L"save", (bEnable) ? L"true" : L"false"));
+	m_ThreadInfo->send(XmlNodeIq("set", SerialNext())
+		<< XCHILDNS("auto", JABBER_FEAT_ARCHIVE) << XATTR("save", (bEnable) ? "true" : "false"));
 }
 
 void CJabberProto::RetrieveMessageArchive(MCONTACT hContact, JABBER_LIST_ITEM *pItem)
@@ -45,38 +45,34 @@ void CJabberProto::RetrieveMessageArchive(MCONTACT hContact, JABBER_LIST_ITEM *p
 	pItem->bHistoryRead = true;
 
 	XmlNodeIq iq(AddIQ(&CJabberProto::OnIqResultGetCollectionList, JABBER_IQ_TYPE_GET));
-	HXML list = iq << XCHILDNS(L"list", JABBER_FEAT_ARCHIVE) << XATTR(L"with", pItem->jid);
+	TiXmlElement *list = iq << XCHILDNS("list", JABBER_FEAT_ARCHIVE) << XATTR("with", pItem->jid);
 
 	time_t tmLast = getDword(hContact, "LastCollection", 0);
 	if (tmLast) {
-		wchar_t buf[40];
-		list << XATTR(L"start", time2str(tmLast, buf, _countof(buf)));
+		char buf[40];
+		list << XATTR("start", time2str(tmLast, buf, _countof(buf)));
 	}
 	m_ThreadInfo->send(iq);
 }
 
-void CJabberProto::OnIqResultGetCollectionList(HXML iqNode, CJabberIqInfo*)
+void CJabberProto::OnIqResultGetCollectionList(const TiXmlElement *iqNode, CJabberIqInfo*)
 {
-	const wchar_t *to = XmlGetAttrValue(iqNode, L"to");
-	if (to == nullptr || mir_wstrcmp(XmlGetAttrValue(iqNode, L"type"), L"result"))
+	const char *to = iqNode->Attribute("to");
+	if (to == nullptr || mir_strcmp(iqNode->Attribute("type"), "result"))
 		return;
 
-	HXML list = XmlGetChild(iqNode, "list");
-	if (!list || mir_wstrcmp(XmlGetAttrValue(list, L"xmlns"), JABBER_FEAT_ARCHIVE))
+	auto *list = iqNode->FirstChildElement("list");
+	if (!list || mir_strcmp(list->Attribute("xmlns"), JABBER_FEAT_ARCHIVE))
 		return;
 
-	for (int nodeIdx = 1;; nodeIdx++) {
-		HXML itemNode = XmlGetNthChild(list, L"chat", nodeIdx);
-		if (!itemNode)
-			break;
-
-		const wchar_t* start = XmlGetAttrValue(itemNode, L"start");
-		const wchar_t* with = XmlGetAttrValue(itemNode, L"with");
+	for (auto *itemNode : TiXmlFilter(list, "chat")) {
+		const char *start = itemNode->Attribute("start");
+		const char *with = itemNode->Attribute("with");
 		if (!start || !with)
 			continue;
 
 		m_ThreadInfo->send(XmlNodeIq(AddIQ(&CJabberProto::OnIqResultGetCollection, JABBER_IQ_TYPE_GET))
-			<< XCHILDNS(L"retrieve", JABBER_FEAT_ARCHIVE) << XATTR(L"with", with) << XATTR(L"start", start));
+			<< XCHILDNS("retrieve", JABBER_FEAT_ARCHIVE) << XATTR("with", with) << XATTR("start", start));
 	}
 }
 
@@ -214,17 +210,17 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO& dbei)
 	return FALSE;
 }
 
-void CJabberProto::OnIqResultGetCollection(HXML iqNode, CJabberIqInfo*)
+void CJabberProto::OnIqResultGetCollection(const TiXmlElement *iqNode, CJabberIqInfo*)
 {
-	if (mir_wstrcmp(XmlGetAttrValue(iqNode, L"type"), L"result"))
+	if (mir_strcmp(iqNode->Attribute("type"), "result"))
 		return;
 
-	HXML chatNode = XmlGetChild(iqNode, "chat");
-	if (!chatNode || mir_wstrcmp(XmlGetAttrValue(chatNode, L"xmlns"), JABBER_FEAT_ARCHIVE))
+	auto *chatNode = iqNode->FirstChildElement("chat");
+	if (!chatNode || mir_strcmp(chatNode->Attribute("xmlns"), JABBER_FEAT_ARCHIVE))
 		return;
 
-	const wchar_t* start = XmlGetAttrValue(chatNode, L"start");
-	const wchar_t* with = XmlGetAttrValue(chatNode, L"with");
+	const char* start = chatNode->Attribute("start");
+	const char* with = chatNode->Attribute("with");
 	if (!start || !with)
 		return;
 
@@ -237,38 +233,32 @@ void CJabberProto::OnIqResultGetCollection(HXML iqNode, CJabberIqInfo*)
 
 	time_t tmLast = getDword(hContact, "LastCollection", 0);
 
-	for (int nodeIdx = 0;; nodeIdx++) {
-		HXML itemNode = XmlGetChild(chatNode, nodeIdx);
-		if (!itemNode)
-			break;
-
+	for (auto *itemNode : TiXmlEnum(chatNode)) {
 		int from;
-		const wchar_t *itemName = XmlGetName(itemNode);
-		if (!mir_wstrcmp(itemName, L"to"))
+		const char *itemName = itemNode->Name();
+		if (!mir_strcmp(itemName, "to"))
 			from = DBEF_SENT;
-		else if (!mir_wstrcmp(itemName, L"from"))
+		else if (!mir_strcmp(itemName, "from"))
 			from = 0;
 		else
 			continue;
 
-		HXML body = XmlGetChild(itemNode, "body");
+		const TiXmlElement *body = itemNode->FirstChildElement("body");
 		if (!body)
 			continue;
 
-		const wchar_t *tszBody = XmlGetText(body);
-		const wchar_t *tszSecs = XmlGetAttrValue(itemNode, L"secs");
+		const char *tszBody = body->GetText();
+		const char *tszSecs = itemNode->Attribute("secs");
 		if (!tszBody || !tszSecs)
 			continue;
-
-		T2Utf szEventText(tszBody);
 
 		DBEVENTINFO dbei = {};
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		dbei.szModule = m_szModuleName;
-		dbei.cbBlob = (DWORD)mir_strlen(szEventText) + 1;
+		dbei.cbBlob = (DWORD)mir_strlen(tszBody) + 1;
 		dbei.flags = DBEF_READ + DBEF_UTF + from;
-		dbei.pBlob = szEventText;
-		dbei.timestamp = tmStart + _wtol(tszSecs);
+		dbei.pBlob = (BYTE*)tszBody;
+		dbei.timestamp = tmStart + atol(tszSecs);
 		if (!IsDuplicateEvent(hContact, dbei))
 			db_event_add(hContact, &dbei);
 

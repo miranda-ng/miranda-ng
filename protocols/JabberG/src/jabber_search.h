@@ -28,19 +28,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma once
 
-typedef struct _tagJabberSearchFieldsInfo
+struct JabberSearchFieldsInfo
 {
 	wchar_t * szFieldName;
 	wchar_t * szFieldCaption;
 	HWND hwndCaptionItem;
 	HWND hwndValueItem;
-} JabberSearchFieldsInfo;
+};
 
-typedef struct _tagJabberSearchData
+struct JabberSearchData : public MZeroedObject
 {
 	struct CJabberProto *ppro;
-	JabberSearchFieldsInfo *  pJSInf;
-	HXML xNode;
+	JabberSearchFieldsInfo *pJSInf;
+	TiXmlDocument doc;
+	TiXmlElement *xNode;
 	int nJSInfCount;
 	int lastRequestIq;
 	int CurrentHeight;
@@ -48,10 +49,9 @@ typedef struct _tagJabberSearchData
 	int frameHeight;
 	RECT frameRect;
 	BOOL fSearchRequestIsXForm;
+};
 
-}JabberSearchData;
-
-typedef struct tag_Data
+struct Data
 {
 	wchar_t *Label;
 	wchar_t * Var;
@@ -60,19 +60,9 @@ typedef struct tag_Data
 	BOOL  bReadOnly;
 	int Order;
 
-} Data;
+};
 
 static HWND searchHandleDlg = nullptr;
-
-//local functions declarations
-static int JabberSearchFrameProc(HWND hwnd, int msg, WPARAM wParam, LPARAM lParam);
-static int JabberSearchAddField(HWND hwndDlg, Data* FieldDat);
-static void JabberIqResultGetSearchFields(HXML iqNode, void *userdata);
-static void JabberSearchFreeData(HWND hwndDlg, JabberSearchData * dat);
-static void JabberSearchRefreshFrameScroll(HWND hwndDlg, JabberSearchData * dat);
-static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-static void JabberSearchDeleteFromRecent(wchar_t * szAddr, BOOL deleteLastFromDB);
-void SearchAddToRecent(wchar_t * szAddr, HWND hwnd);
 
 // Implementation of MAP class (the list
 template <typename _KEYTYPE, int(*COMPARATOR)(_KEYTYPE*, _KEYTYPE*) >
@@ -103,7 +93,7 @@ private:
 	int _nextOrder;
 	LIST<_RECORD> _Records;
 
-	static int _KeysEqual(const _RECORD* p1, const _RECORD* p2)
+	static int _KeysEqual(const _RECORD *p1, const _RECORD *p2)
 	{
 		if (COMPARATOR)
 			return (int)(COMPARATOR((p1->_key), (p2->_key)));
@@ -252,4 +242,9 @@ public:
 inline int TCharKeyCmp(wchar_t* a, wchar_t* b)
 {
 	return (int)(mir_wstrcmpi(a, b));
+}
+
+inline int CharKeyCmp(char *a, char *b)
+{
+	return mir_strcmpi(a, b);
 }

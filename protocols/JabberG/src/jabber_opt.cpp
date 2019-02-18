@@ -35,192 +35,192 @@ static BOOL(WINAPI *pfnEnableThemeDialogTexture)(HANDLE, DWORD) = nullptr;
 
 #define STR_FORMAT L"%s %s@%S:%d?"
 
-struct { wchar_t *szCode; wchar_t *szDescription; } g_LanguageCodes[] = {
-	{ L"aa", LPGENW("Afar") },
-	{ L"ab", LPGENW("Abkhazian") },
-	{ L"af", LPGENW("Afrikaans") },
-	{ L"ak", LPGENW("Akan") },
-	{ L"sq", LPGENW("Albanian") },
-	{ L"am", LPGENW("Amharic") },
-	{ L"ar", LPGENW("Arabic") },
-	{ L"an", LPGENW("Aragonese") },
-	{ L"hy", LPGENW("Armenian") },
-	{ L"as", LPGENW("Assamese") },
-	{ L"av", LPGENW("Avaric") },
-	{ L"ae", LPGENW("Avestan") },
-	{ L"ay", LPGENW("Aymara") },
-	{ L"az", LPGENW("Azerbaijani") },
-	{ L"ba", LPGENW("Bashkir") },
-	{ L"bm", LPGENW("Bambara") },
-	{ L"eu", LPGENW("Basque") },
-	{ L"be", LPGENW("Belarusian") },
-	{ L"bn", LPGENW("Bengali") },
-	{ L"bh", LPGENW("Bihari") },
-	{ L"bi", LPGENW("Bislama") },
-	{ L"bs", LPGENW("Bosnian") },
-	{ L"br", LPGENW("Breton") },
-	{ L"bg", LPGENW("Bulgarian") },
-	{ L"my", LPGENW("Burmese") },
-	{ L"ca", LPGENW("Catalan; Valencian") },
-	{ L"ch", LPGENW("Chamorro") },
-	{ L"ce", LPGENW("Chechen") },
-	{ L"zh", LPGENW("Chinese") },
-	{ L"cu", LPGENW("Church Slavic; Old Slavonic") },
-	{ L"cv", LPGENW("Chuvash") },
-	{ L"kw", LPGENW("Cornish") },
-	{ L"co", LPGENW("Corsican") },
-	{ L"cr", LPGENW("Cree") },
-	{ L"cs", LPGENW("Czech") },
-	{ L"da", LPGENW("Danish") },
-	{ L"dv", LPGENW("Divehi; Dhivehi; Maldivian") },
-	{ L"nl", LPGENW("Dutch; Flemish") },
-	{ L"dz", LPGENW("Dzongkha") },
-	{ L"en", LPGENW("English") },
-	{ L"eo", LPGENW("Esperanto") },
-	{ L"et", LPGENW("Estonian") },
-	{ L"ee", LPGENW("Ewe") },
-	{ L"fo", LPGENW("Faroese") },
-	{ L"fj", LPGENW("Fijian") },
-	{ L"fi", LPGENW("Finnish") },
-	{ L"fr", LPGENW("French") },
-	{ L"fy", LPGENW("Western Frisian") },
-	{ L"ff", LPGENW("Fulah") },
-	{ L"ka", LPGENW("Georgian") },
-	{ L"de", LPGENW("German") },
-	{ L"gd", LPGENW("Gaelic; Scottish Gaelic") },
-	{ L"ga", LPGENW("Irish") },
-	{ L"gl", LPGENW("Galician") },
-	{ L"gv", LPGENW("Manx") },
-	{ L"el", LPGENW("Greek, Modern (1453-)") },
-	{ L"gn", LPGENW("Guarani") },
-	{ L"gu", LPGENW("Gujarati") },
-	{ L"ht", LPGENW("Haitian; Haitian Creole") },
-	{ L"ha", LPGENW("Hausa") },
-	{ L"he", LPGENW("Hebrew") },
-	{ L"hz", LPGENW("Herero") },
-	{ L"hi", LPGENW("Hindi") },
-	{ L"ho", LPGENW("Hiri Motu") },
-	{ L"hu", LPGENW("Hungarian") },
-	{ L"ig", LPGENW("Igbo") },
-	{ L"is", LPGENW("Icelandic") },
-	{ L"io", LPGENW("Ido") },
-	{ L"ii", LPGENW("Sichuan Yi") },
-	{ L"iu", LPGENW("Inuktitut") },
-	{ L"ie", LPGENW("Interlingue") },
-	{ L"ia", LPGENW("Interlingua (International Auxiliary Language Association)") },
-	{ L"id", LPGENW("Indonesian") },
-	{ L"ik", LPGENW("Inupiaq") },
-	{ L"it", LPGENW("Italian") },
-	{ L"jv", LPGENW("Javanese") },
-	{ L"ja", LPGENW("Japanese") },
-	{ L"kl", LPGENW("Kalaallisut; Greenlandic") },
-	{ L"kn", LPGENW("Kannada") },
-	{ L"ks", LPGENW("Kashmiri") },
-	{ L"kr", LPGENW("Kanuri") },
-	{ L"kk", LPGENW("Kazakh") },
-	{ L"km", LPGENW("Central Khmer") },
-	{ L"ki", LPGENW("Kikuyu; Gikuyu") },
-	{ L"rw", LPGENW("Kinyarwanda") },
-	{ L"ky", LPGENW("Kirghiz; Kyrgyz") },
-	{ L"kv", LPGENW("Komi") },
-	{ L"kg", LPGENW("Kongo") },
-	{ L"ko", LPGENW("Korean") },
-	{ L"kj", LPGENW("Kuanyama; Kwanyama") },
-	{ L"ku", LPGENW("Kurdish") },
-	{ L"lo", LPGENW("Lao") },
-	{ L"la", LPGENW("Latin") },
-	{ L"lv", LPGENW("Latvian") },
-	{ L"li", LPGENW("Limburgan; Limburger; Limburgish") },
-	{ L"ln", LPGENW("Lingala") },
-	{ L"lt", LPGENW("Lithuanian") },
-	{ L"lb", LPGENW("Luxembourgish; Letzeburgesch") },
-	{ L"lu", LPGENW("Luba-Katanga") },
-	{ L"lg", LPGENW("Ganda") },
-	{ L"mk", LPGENW("Macedonian") },
-	{ L"mh", LPGENW("Marshallese") },
-	{ L"ml", LPGENW("Malayalam") },
-	{ L"mi", LPGENW("Maori") },
-	{ L"mr", LPGENW("Marathi") },
-	{ L"ms", LPGENW("Malay") },
-	{ L"mg", LPGENW("Malagasy") },
-	{ L"mt", LPGENW("Maltese") },
-	{ L"mo", LPGENW("Moldavian") },
-	{ L"mn", LPGENW("Mongolian") },
-	{ L"na", LPGENW("Nauru") },
-	{ L"nv", LPGENW("Navajo; Navaho") },
-	{ L"nr", LPGENW("Ndebele, South; South Ndebele") },
-	{ L"nd", LPGENW("Ndebele, North; North Ndebele") },
-	{ L"ng", LPGENW("Ndonga") },
-	{ L"ne", LPGENW("Nepali") },
-	{ L"nn", LPGENW("Norwegian Nynorsk; Nynorsk, Norwegian") },
-	{ L"nb", LPGENW("Bokmaal, Norwegian; Norwegian Bokmaal") },
-	{ L"no", LPGENW("Norwegian") },
-	{ L"ny", LPGENW("Chichewa; Chewa; Nyanja") },
-	{ L"oc", LPGENW("Occitan (post 1500); Provencal") },
-	{ L"oj", LPGENW("Ojibwa") },
-	{ L"or", LPGENW("Oriya") },
-	{ L"om", LPGENW("Oromo") },
-	{ L"os", LPGENW("Ossetian; Ossetic") },
-	{ L"pa", LPGENW("Panjabi; Punjabi") },
-	{ L"fa", LPGENW("Persian") },
-	{ L"pi", LPGENW("Pali") },
-	{ L"pl", LPGENW("Polish") },
-	{ L"pt", LPGENW("Portuguese") },
-	{ L"ps", LPGENW("Pushto") },
-	{ L"qu", LPGENW("Quechua") },
-	{ L"rm", LPGENW("Romansh") },
-	{ L"ro", LPGENW("Romanian") },
-	{ L"rn", LPGENW("Rundi") },
-	{ L"ru", LPGENW("Russian") },
-	{ L"sg", LPGENW("Sango") },
-	{ L"sa", LPGENW("Sanskrit") },
-	{ L"sr", LPGENW("Serbian") },
-	{ L"hr", LPGENW("Croatian") },
-	{ L"si", LPGENW("Sinhala; Sinhalese") },
-	{ L"sk", LPGENW("Slovak") },
-	{ L"sl", LPGENW("Slovenian") },
-	{ L"se", LPGENW("Northern Sami") },
-	{ L"sm", LPGENW("Samoan") },
-	{ L"sn", LPGENW("Shona") },
-	{ L"sd", LPGENW("Sindhi") },
-	{ L"so", LPGENW("Somali") },
-	{ L"st", LPGENW("Sotho, Southern") },
-	{ L"es", LPGENW("Spanish; Castilian") },
-	{ L"sc", LPGENW("Sardinian") },
-	{ L"ss", LPGENW("Swati") },
-	{ L"su", LPGENW("Sundanese") },
-	{ L"sw", LPGENW("Swahili") },
-	{ L"sv", LPGENW("Swedish") },
-	{ L"ty", LPGENW("Tahitian") },
-	{ L"ta", LPGENW("Tamil") },
-	{ L"tt", LPGENW("Tatar") },
-	{ L"te", LPGENW("Telugu") },
-	{ L"tg", LPGENW("Tajik") },
-	{ L"tl", LPGENW("Tagalog") },
-	{ L"th", LPGENW("Thai") },
-	{ L"bo", LPGENW("Tibetan") },
-	{ L"ti", LPGENW("Tigrinya") },
-	{ L"to", LPGENW("Tonga (Tonga Islands)") },
-	{ L"tn", LPGENW("Tswana") },
-	{ L"ts", LPGENW("Tsonga") },
-	{ L"tk", LPGENW("Turkmen") },
-	{ L"tr", LPGENW("Turkish") },
-	{ L"tw", LPGENW("Twi") },
-	{ L"ug", LPGENW("Uighur; Uyghur") },
-	{ L"uk", LPGENW("Ukrainian") },
-	{ L"ur", LPGENW("Urdu") },
-	{ L"uz", LPGENW("Uzbek") },
-	{ L"ve", LPGENW("Venda") },
-	{ L"vi", LPGENW("Vietnamese") },
-	{ L"vo", LPGENW("Volapuk") },
-	{ L"cy", LPGENW("Welsh") },
-	{ L"wa", LPGENW("Walloon") },
-	{ L"wo", LPGENW("Wolof") },
-	{ L"xh", LPGENW("Xhosa") },
-	{ L"yi", LPGENW("Yiddish") },
-	{ L"yo", LPGENW("Yoruba") },
-	{ L"za", LPGENW("Zhuang; Chuang") },
-	{ L"zu", LPGENW("Zulu") },
+struct { char *szCode; wchar_t *szDescription; } g_LanguageCodes[] = {
+	{ "aa", LPGENW("Afar") },
+	{ "ab", LPGENW("Abkhazian") },
+	{ "af", LPGENW("Afrikaans") },
+	{ "ak", LPGENW("Akan") },
+	{ "sq", LPGENW("Albanian") },
+	{ "am", LPGENW("Amharic") },
+	{ "ar", LPGENW("Arabic") },
+	{ "an", LPGENW("Aragonese") },
+	{ "hy", LPGENW("Armenian") },
+	{ "as", LPGENW("Assamese") },
+	{ "av", LPGENW("Avaric") },
+	{ "ae", LPGENW("Avestan") },
+	{ "ay", LPGENW("Aymara") },
+	{ "az", LPGENW("Azerbaijani") },
+	{ "ba", LPGENW("Bashkir") },
+	{ "bm", LPGENW("Bambara") },
+	{ "eu", LPGENW("Basque") },
+	{ "be", LPGENW("Belarusian") },
+	{ "bn", LPGENW("Bengali") },
+	{ "bh", LPGENW("Bihari") },
+	{ "bi", LPGENW("Bislama") },
+	{ "bs", LPGENW("Bosnian") },
+	{ "br", LPGENW("Breton") },
+	{ "bg", LPGENW("Bulgarian") },
+	{ "my", LPGENW("Burmese") },
+	{ "ca", LPGENW("Catalan; Valencian") },
+	{ "ch", LPGENW("Chamorro") },
+	{ "ce", LPGENW("Chechen") },
+	{ "zh", LPGENW("Chinese") },
+	{ "cu", LPGENW("Church Slavic; Old Slavonic") },
+	{ "cv", LPGENW("Chuvash") },
+	{ "kw", LPGENW("Cornish") },
+	{ "co", LPGENW("Corsican") },
+	{ "cr", LPGENW("Cree") },
+	{ "cs", LPGENW("Czech") },
+	{ "da", LPGENW("Danish") },
+	{ "dv", LPGENW("Divehi; Dhivehi; Maldivian") },
+	{ "nl", LPGENW("Dutch; Flemish") },
+	{ "dz", LPGENW("Dzongkha") },
+	{ "en", LPGENW("English") },
+	{ "eo", LPGENW("Esperanto") },
+	{ "et", LPGENW("Estonian") },
+	{ "ee", LPGENW("Ewe") },
+	{ "fo", LPGENW("Faroese") },
+	{ "fj", LPGENW("Fijian") },
+	{ "fi", LPGENW("Finnish") },
+	{ "fr", LPGENW("French") },
+	{ "fy", LPGENW("Western Frisian") },
+	{ "ff", LPGENW("Fulah") },
+	{ "ka", LPGENW("Georgian") },
+	{ "de", LPGENW("German") },
+	{ "gd", LPGENW("Gaelic; Scottish Gaelic") },
+	{ "ga", LPGENW("Irish") },
+	{ "gl", LPGENW("Galician") },
+	{ "gv", LPGENW("Manx") },
+	{ "el", LPGENW("Greek, Modern (1453-)") },
+	{ "gn", LPGENW("Guarani") },
+	{ "gu", LPGENW("Gujarati") },
+	{ "ht", LPGENW("Haitian; Haitian Creole") },
+	{ "ha", LPGENW("Hausa") },
+	{ "he", LPGENW("Hebrew") },
+	{ "hz", LPGENW("Herero") },
+	{ "hi", LPGENW("Hindi") },
+	{ "ho", LPGENW("Hiri Motu") },
+	{ "hu", LPGENW("Hungarian") },
+	{ "ig", LPGENW("Igbo") },
+	{ "is", LPGENW("Icelandic") },
+	{ "io", LPGENW("Ido") },
+	{ "ii", LPGENW("Sichuan Yi") },
+	{ "iu", LPGENW("Inuktitut") },
+	{ "ie", LPGENW("Interlingue") },
+	{ "ia", LPGENW("Interlingua (International Auxiliary Language Association)") },
+	{ "id", LPGENW("Indonesian") },
+	{ "ik", LPGENW("Inupiaq") },
+	{ "it", LPGENW("Italian") },
+	{ "jv", LPGENW("Javanese") },
+	{ "ja", LPGENW("Japanese") },
+	{ "kl", LPGENW("Kalaallisut; Greenlandic") },
+	{ "kn", LPGENW("Kannada") },
+	{ "ks", LPGENW("Kashmiri") },
+	{ "kr", LPGENW("Kanuri") },
+	{ "kk", LPGENW("Kazakh") },
+	{ "km", LPGENW("Central Khmer") },
+	{ "ki", LPGENW("Kikuyu; Gikuyu") },
+	{ "rw", LPGENW("Kinyarwanda") },
+	{ "ky", LPGENW("Kirghiz; Kyrgyz") },
+	{ "kv", LPGENW("Komi") },
+	{ "kg", LPGENW("Kongo") },
+	{ "ko", LPGENW("Korean") },
+	{ "kj", LPGENW("Kuanyama; Kwanyama") },
+	{ "ku", LPGENW("Kurdish") },
+	{ "lo", LPGENW("Lao") },
+	{ "la", LPGENW("Latin") },
+	{ "lv", LPGENW("Latvian") },
+	{ "li", LPGENW("Limburgan; Limburger; Limburgish") },
+	{ "ln", LPGENW("Lingala") },
+	{ "lt", LPGENW("Lithuanian") },
+	{ "lb", LPGENW("Luxembourgish; Letzeburgesch") },
+	{ "lu", LPGENW("Luba-Katanga") },
+	{ "lg", LPGENW("Ganda") },
+	{ "mk", LPGENW("Macedonian") },
+	{ "mh", LPGENW("Marshallese") },
+	{ "ml", LPGENW("Malayalam") },
+	{ "mi", LPGENW("Maori") },
+	{ "mr", LPGENW("Marathi") },
+	{ "ms", LPGENW("Malay") },
+	{ "mg", LPGENW("Malagasy") },
+	{ "mt", LPGENW("Maltese") },
+	{ "mo", LPGENW("Moldavian") },
+	{ "mn", LPGENW("Mongolian") },
+	{ "na", LPGENW("Nauru") },
+	{ "nv", LPGENW("Navajo; Navaho") },
+	{ "nr", LPGENW("Ndebele, South; South Ndebele") },
+	{ "nd", LPGENW("Ndebele, North; North Ndebele") },
+	{ "ng", LPGENW("Ndonga") },
+	{ "ne", LPGENW("Nepali") },
+	{ "nn", LPGENW("Norwegian Nynorsk; Nynorsk, Norwegian") },
+	{ "nb", LPGENW("Bokmaal, Norwegian; Norwegian Bokmaal") },
+	{ "no", LPGENW("Norwegian") },
+	{ "ny", LPGENW("Chichewa; Chewa; Nyanja") },
+	{ "oc", LPGENW("Occitan (post 1500); Provencal") },
+	{ "oj", LPGENW("Ojibwa") },
+	{ "or", LPGENW("Oriya") },
+	{ "om", LPGENW("Oromo") },
+	{ "os", LPGENW("Ossetian; Ossetic") },
+	{ "pa", LPGENW("Panjabi; Punjabi") },
+	{ "fa", LPGENW("Persian") },
+	{ "pi", LPGENW("Pali") },
+	{ "pl", LPGENW("Polish") },
+	{ "pt", LPGENW("Portuguese") },
+	{ "ps", LPGENW("Pushto") },
+	{ "qu", LPGENW("Quechua") },
+	{ "rm", LPGENW("Romansh") },
+	{ "ro", LPGENW("Romanian") },
+	{ "rn", LPGENW("Rundi") },
+	{ "ru", LPGENW("Russian") },
+	{ "sg", LPGENW("Sango") },
+	{ "sa", LPGENW("Sanskrit") },
+	{ "sr", LPGENW("Serbian") },
+	{ "hr", LPGENW("Croatian") },
+	{ "si", LPGENW("Sinhala; Sinhalese") },
+	{ "sk", LPGENW("Slovak") },
+	{ "sl", LPGENW("Slovenian") },
+	{ "se", LPGENW("Northern Sami") },
+	{ "sm", LPGENW("Samoan") },
+	{ "sn", LPGENW("Shona") },
+	{ "sd", LPGENW("Sindhi") },
+	{ "so", LPGENW("Somali") },
+	{ "st", LPGENW("Sotho, Southern") },
+	{ "es", LPGENW("Spanish; Castilian") },
+	{ "sc", LPGENW("Sardinian") },
+	{ "ss", LPGENW("Swati") },
+	{ "su", LPGENW("Sundanese") },
+	{ "sw", LPGENW("Swahili") },
+	{ "sv", LPGENW("Swedish") },
+	{ "ty", LPGENW("Tahitian") },
+	{ "ta", LPGENW("Tamil") },
+	{ "tt", LPGENW("Tatar") },
+	{ "te", LPGENW("Telugu") },
+	{ "tg", LPGENW("Tajik") },
+	{ "tl", LPGENW("Tagalog") },
+	{ "th", LPGENW("Thai") },
+	{ "bo", LPGENW("Tibetan") },
+	{ "ti", LPGENW("Tigrinya") },
+	{ "to", LPGENW("Tonga (Tonga Islands)") },
+	{ "tn", LPGENW("Tswana") },
+	{ "ts", LPGENW("Tsonga") },
+	{ "tk", LPGENW("Turkmen") },
+	{ "tr", LPGENW("Turkish") },
+	{ "tw", LPGENW("Twi") },
+	{ "ug", LPGENW("Uighur; Uyghur") },
+	{ "uk", LPGENW("Ukrainian") },
+	{ "ur", LPGENW("Urdu") },
+	{ "uz", LPGENW("Uzbek") },
+	{ "ve", LPGENW("Venda") },
+	{ "vi", LPGENW("Vietnamese") },
+	{ "vo", LPGENW("Volapuk") },
+	{ "cy", LPGENW("Welsh") },
+	{ "wa", LPGENW("Walloon") },
+	{ "wo", LPGENW("Wolof") },
+	{ "xh", LPGENW("Xhosa") },
+	{ "yi", LPGENW("Yiddish") },
+	{ "yo", LPGENW("Yoruba") },
+	{ "za", LPGENW("Zhuang; Chuang") },
+	{ "zu", LPGENW("Zulu") },
 	{ nullptr, nullptr }
 };
 
@@ -453,7 +453,7 @@ protected:
 
 		for (int i = 0; g_LanguageCodes[i].szCode; i++) {
 			int iItem = m_cbLocale.AddString(TranslateW(g_LanguageCodes[i].szDescription), (LPARAM)g_LanguageCodes[i].szCode);
-			if (!mir_wstrcmp(m_proto->m_tszSelectedLang, g_LanguageCodes[i].szCode))
+			if (!mir_strcmp(m_proto->m_tszSelectedLang, g_LanguageCodes[i].szCode))
 				m_cbLocale.SetCurSel(iItem);
 		}
 
@@ -489,12 +489,10 @@ protected:
 
 		int index = m_cbLocale.GetCurSel();
 		if (index >= 0) {
-			wchar_t *szLanguageCode = (wchar_t *)m_cbLocale.GetItemData(index);
+			char *szLanguageCode = (char*)m_cbLocale.GetItemData(index);
 			if (szLanguageCode) {
-				m_proto->setWString("XmlLang", szLanguageCode);
-
-				mir_free(m_proto->m_tszSelectedLang);
-				m_proto->m_tszSelectedLang = mir_wstrdup(szLanguageCode);
+				m_proto->setString("XmlLang", szLanguageCode);
+				replaceStr(m_proto->m_tszSelectedLang, szLanguageCode);
 			}
 		}
 
@@ -529,7 +527,7 @@ protected:
 			break;
 
 		case WM_JABBER_REFRESH:
-			RefreshServers((HXML)lParam);
+			RefreshServers((TiXmlElement*)lParam);
 			break;
 		}
 		return CSuper::DlgProc(msg, wParam, lParam);
@@ -546,8 +544,8 @@ private:
 		SendMessage(m_hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
 
 		JABBER_CONN_DATA regInfo;
-		m_txtUsername.GetText(regInfo.username, _countof(regInfo.username));
-		m_txtPassword.GetText(regInfo.password, _countof(regInfo.password));
+		m_txtUsername.GetTextU(regInfo.username, _countof(regInfo.username));
+		m_txtPassword.GetTextU(regInfo.password, _countof(regInfo.password));
 		m_cbServer.GetTextA(regInfo.server, _countof(regInfo.server));
 		if (m_chkManualHost.GetState() == BST_CHECKED) {
 			regInfo.port = (WORD)m_txtManualPort.GetInt();
@@ -572,8 +570,8 @@ private:
 
 		if (res == IDYES)
 			m_proto->m_ThreadInfo->send(
-			XmlNodeIq(L"set", m_proto->SerialNext(), m_proto->m_szJabberJID) << XQUERY(JABBER_FEAT_REGISTER)
-			<< XCHILD(L"remove"));
+			XmlNodeIq("set", m_proto->SerialNext(), m_proto->m_szJabberJID) << XQUERY(JABBER_FEAT_REGISTER)
+			<< XCHILD("remove"));
 	}
 
 	void btnChangePassword_OnClick(CCtrlButton *)
@@ -665,8 +663,8 @@ private:
 	void CheckRegistration()
 	{
 		JABBER_CONN_DATA regInfo;
-		m_txtUsername.GetText(regInfo.username, _countof(regInfo.username));
-		m_txtPassword.GetText(regInfo.password, _countof(regInfo.password));
+		m_txtUsername.GetTextU(regInfo.username, _countof(regInfo.username));
+		m_txtPassword.GetTextU(regInfo.password, _countof(regInfo.password));
 		m_cbServer.GetTextA(regInfo.server, _countof(regInfo.server));
 		if (m_chkManualHost.GetState() == BST_CHECKED) {
 			regInfo.port = (WORD)m_txtManualPort.GetInt();
@@ -683,7 +681,7 @@ private:
 			EnableWindow(GetDlgItem(m_hwnd, IDC_BUTTON_REGISTER), FALSE);
 	}
 
-	void RefreshServers(HXML node)
+	void RefreshServers(TiXmlElement *node)
 	{
 		m_gotservers = node != nullptr;
 
@@ -692,18 +690,13 @@ private:
 		if (bDropdown) m_cbServer.ShowDropdown(false);
 
 		m_cbServer.ResetContent();
-		if (node) {
-			for (int i = 0;; i++) {
-				HXML n = XmlGetChild(node, i);
-				if (!n)
-					break;
-
-				if (!mir_wstrcmp(XmlGetName(n), L"item"))
-					if (const wchar_t *jid = XmlGetAttrValue(n, L"jid"))
-						if (m_cbServer.FindString(jid, -1, true) == CB_ERR)
-							m_cbServer.AddString(jid);
-			}
-		}
+		if (node)
+			for (auto *n : TiXmlFilter(node, "item"))
+				if (const char *jid = n->Attribute("jid")) {
+					Utf2T wszJid(jid);
+					if (m_cbServer.FindString(wszJid, -1, true) == CB_ERR)
+						m_cbServer.AddString(wszJid);
+				}
 
 		m_cbServer.SetText(server);
 
@@ -729,14 +722,12 @@ private:
 		NETLIBHTTPREQUEST *result = Netlib_HttpTransaction(wnd->GetProto()->m_hNetlibUser, &request);
 		if (result) {
 			if (result->resultCode == 200 && result->dataLength && result->pData) {
-				wchar_t *buf = mir_a2u(result->pData);
-				XmlNode node(buf, nullptr, nullptr);
-				if (node) {
-					HXML queryNode = XmlGetChild(node, L"query");
+				TiXmlDocument doc;
+				if (0 == doc.Parse(result->pData)) {
+					TiXmlElement *queryNode = doc.FirstChildElement("query");
 					SendMessage(hwnd, WM_JABBER_REFRESH, 0, (LPARAM)queryNode);
 					bIsError = false;
 				}
-				mir_free(buf);
 			}
 			Netlib_FreeHttpRequest(result);
 		}
@@ -837,7 +828,7 @@ public:
 		{
 			JABBER_LIST_ITEM *item = m_proto->ListGetItemPtrFromIndex(index);
 			if (item != nullptr) {
-				if (wcschr(item->jid, '@') == nullptr) {
+				if (strchr(item->jid, '@') == nullptr) {
 					MCONTACT hContact = m_proto->HContactFromJID(item->jid);
 					if (hContact != 0) {
 						if (bChecked) {
@@ -906,8 +897,8 @@ public:
 		m_otvOptions(this, IDC_OPTTREE)
 	{
 		CreateLink(m_txtAltNick, "GcAltNick", L"");
-		CreateLink(m_txtSlap, "GcMsgSlap", TranslateW(JABBER_GC_MSG_SLAP));
-		CreateLink(m_txtQuit, "GcMsgQuit", TranslateW(JABBER_GC_MSG_QUIT));
+		CreateLink(m_txtSlap, "GcMsgSlap", TranslateW(_T(JABBER_GC_MSG_SLAP)));
+		CreateLink(m_txtQuit, "GcMsgQuit", TranslateW(_T(JABBER_GC_MSG_QUIT)));
 
 		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Autoaccept multiuser chat invitations"),   m_proto->m_bAutoAcceptMUC);
 		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Automatically join bookmarks on login"),   m_proto->m_bAutoJoinBookmarks);
@@ -945,7 +936,7 @@ struct ROSTEREDITDAT
 	int subindex;
 };
 
-static int	_RosterInsertListItem(HWND hList, const wchar_t *jid, const wchar_t *nick, const wchar_t *group, const wchar_t *subscr, BOOL bChecked)
+static int	_RosterInsertListItem(HWND hList, const char *jid, const char *nick, const char *group, const char *subscr, BOOL bChecked)
 {
 	LVITEM item = { 0 };
 	item.mask = LVIF_TEXT | LVIF_STATE;
@@ -958,10 +949,10 @@ static int	_RosterInsertListItem(HWND hList, const wchar_t *jid, const wchar_t *
 
 	ListView_SetCheckState(hList, index, bChecked);
 
-	ListView_SetItemText(hList, index, 0, (wchar_t*)jid);
-	ListView_SetItemText(hList, index, 1, (wchar_t*)nick);
-	ListView_SetItemText(hList, index, 2, (wchar_t*)group);
-	ListView_SetItemText(hList, index, 3, TranslateW(subscr));
+	ListView_SetItemText(hList, index, 0, Utf2T(jid));
+	ListView_SetItemText(hList, index, 1, Utf2T(nick));
+	ListView_SetItemText(hList, index, 2, Utf2T(group));
+	ListView_SetItemText(hList, index, 3, Utf2T(subscr));
 	return index;
 }
 
@@ -1000,26 +991,22 @@ static void _RosterListClear(HWND hwndDlg)
 	ListView_SetColumnWidth(hList, 3, width * 10 / 100);
 }
 
-void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
+void CJabberProto::_RosterHandleGetRequest(const TiXmlElement *node, CJabberIqInfo*)
 {
 	HWND hList = GetDlgItem(rrud.hwndDlg, IDC_ROSTER);
 	if (rrud.bRRAction == RRA_FILLLIST) {
 		_RosterListClear(rrud.hwndDlg);
-		HXML query = XmlGetChild(node, "query");
+		auto *query = node->FirstChildElement("query");
 		if (query == nullptr) return;
-		int i = 1;
-		while (TRUE) {
-			HXML item = XmlGetNthChild(query, L"item", i++);
-			if (item == nullptr)
-				break;
 
-			const wchar_t *jid = XmlGetAttrValue(item, L"jid");
+		for (auto *item : TiXmlFilter(query, "item")) {
+			const char *jid = item->Attribute("jid");
 			if (jid == nullptr)
 				continue;
 
-			const wchar_t *name = XmlGetAttrValue(item, L"name");
-			const wchar_t *subscription = XmlGetAttrValue(item, L"subscription");
-			const wchar_t *group = XmlGetText(XmlGetChild(item, "group"));
+			const char *name = item->Attribute("name");
+			const char *subscription = item->Attribute("subscription");
+			const char *group = item->FirstChildElement("group")->GetText();
 			_RosterInsertListItem(hList, jid, name, group, subscription, TRUE);
 		}
 
@@ -1038,9 +1025,9 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 				if (p) *p = 0;
 			}
 			if (ListView_FindItem(hList, -1, &lvfi) == -1) {
-				ptrW tszName(db_get_wsa(hContact, "CList", "MyHandle"));
-				ptrW tszGroup(db_get_wsa(hContact, "CList", "Group"));
-				_RosterInsertListItem(hList, tszJid, tszName, tszGroup, nullptr, FALSE);
+				ptrA tszName(db_get_utfa(hContact, "CList", "MyHandle"));
+				ptrA tszGroup(db_get_utfa(hContact, "CList", "Group"));
+				_RosterInsertListItem(hList, T2Utf(tszJid), tszName, tszGroup, nullptr, FALSE);
 			}
 		}
 		rrud.bReadyToDownload = FALSE;
@@ -1053,56 +1040,58 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 
 	if (rrud.bRRAction == RRA_SYNCROSTER) {
 		SetDlgItemText(rrud.hwndDlg, IDC_UPLOAD, TranslateT("Uploading..."));
-		HXML queryRoster = XmlGetChild(node, "query");
+		auto *queryRoster = node->FirstChildElement("query");
 		if (!queryRoster)
 			return;
 
 		XmlNodeIq iq(AddIQ(&CJabberProto::_RosterHandleGetRequest, JABBER_IQ_TYPE_SET));
 
-		HXML query = iq << XCHILDNS(L"query", JABBER_FEAT_IQ_ROSTER);
+		TiXmlElement *query = iq << XCHILDNS("query", JABBER_FEAT_IQ_ROSTER);
 
 		int itemCount = 0;
 		int ListItemCount = ListView_GetItemCount(hList);
 		for (int index = 0; index < ListItemCount; index++) {
 			wchar_t jid[JABBER_MAX_JID_LEN] = L"";
-			wchar_t name[260] = L"";
-			wchar_t group[260] = L"";
-			wchar_t subscr[260] = L"";
+			wchar_t name[260];
+			wchar_t group[260];
+			wchar_t subscr[260];
 			ListView_GetItemText(hList, index, 0, jid, _countof(jid));
 			ListView_GetItemText(hList, index, 1, name, _countof(name));
 			ListView_GetItemText(hList, index, 2, group, _countof(group));
 			ListView_GetItemText(hList, index, 3, subscr, _countof(subscr));
-			HXML itemRoster = XmlGetChildByTag(queryRoster, "item", "jid", jid);
+
+			T2Utf szJid(jid), szName(name), szGroup(group), szSubscr(subscr);
+			auto *itemRoster = XmlGetChildByTag(queryRoster, "item", "jid", szJid);
 			BOOL bRemove = !ListView_GetCheckState(hList, index);
 			if (itemRoster && bRemove) {
 				//delete item
-				query << XCHILD(L"item") << XATTR(L"jid", jid) << XATTR(L"subscription", L"remove");
+				query << XCHILD("item") << XATTR("jid", szJid) << XATTR("subscription", "remove");
 				itemCount++;
 			}
 			else if (!bRemove) {
 				BOOL bPushed = itemRoster ? TRUE : FALSE;
 				if (!bPushed) {
-					const wchar_t *rosterName = XmlGetAttrValue(itemRoster, L"name");
-					if ((rosterName != nullptr || name[0] != 0) && mir_wstrcmpi(rosterName, name))
+					const char *rosterName = itemRoster->Attribute("name");
+					if ((rosterName != nullptr || name[0] != 0) && mir_strcmpi(rosterName, szName))
 						bPushed = TRUE;
 					if (!bPushed) {
-						rosterName = XmlGetAttrValue(itemRoster, L"subscription");
-						if ((rosterName != nullptr || subscr[0] != 0) && mir_wstrcmpi(rosterName, subscr))
+						rosterName = itemRoster->Attribute("subscription");
+						if ((rosterName != nullptr || subscr[0] != 0) && mir_strcmpi(rosterName, T2Utf(subscr)))
 							bPushed = TRUE;
 					}
 					if (!bPushed) {
-						const wchar_t *rosterGroup = XmlGetText(XmlGetChild(itemRoster, "group"));
-						if ((rosterGroup != nullptr || group[0] != 0) && mir_wstrcmpi(rosterGroup, group))
+						const char *rosterGroup = itemRoster->FirstChildElement("group")->GetText();
+						if ((rosterGroup != nullptr || group[0] != 0) && mir_strcmpi(rosterGroup, szGroup))
 							bPushed = TRUE;
 					}
 				}
 				if (bPushed) {
-					HXML item = query << XCHILD(L"item");
+					TiXmlElement *item = query << XCHILD("item");
 					if (mir_wstrlen(group))
-						item << XCHILD(L"group", group);
+						item << XCHILD("group", szGroup);
 					if (mir_wstrlen(name))
-						item << XATTR(L"name", name);
-					item << XATTR(L"jid", jid) << XATTR(L"subscription", subscr[0] ? subscr : L"none");
+						item << XATTR("name", szName);
+					item << XATTR("jid", szJid) << XATTR("subscription", subscr[0] ? szSubscr : "none");
 					itemCount++;
 				}
 			}
@@ -1129,7 +1118,7 @@ void CJabberProto::_RosterSendRequest(HWND hwndDlg, BYTE rrAction)
 
 	m_ThreadInfo->send(
 		XmlNodeIq(AddIQ(&CJabberProto::_RosterHandleGetRequest, JABBER_IQ_TYPE_GET))
-		<< XCHILDNS(L"query", JABBER_FEAT_IQ_ROSTER));
+		<< XCHILDNS("query", JABBER_FEAT_IQ_ROSTER));
 }
 
 static void _RosterItemEditEnd(HWND hEditor, ROSTEREDITDAT * edat, BOOL bCancel)
@@ -1201,21 +1190,21 @@ void CJabberProto::_RosterExportToFile(HWND hwndDlg)
 	ofn.lpstrDefExt = L"xml";
 	if (!GetSaveFileName(&ofn)) return;
 
-	FILE * fp = fopent(filename, L"w");
+	FILE * fp = fopent(filename, L"wb");
 	if (!fp) return;
 	HWND hList = GetDlgItem(hwndDlg, IDC_ROSTER);
 	int ListItemCount = ListView_GetItemCount(hList);
 
-	XmlNode root(L"Workbook");
-	root << XATTR(L"xmlns", L"urn:schemas-microsoft-com:office:spreadsheet")
-	     << XATTR(L"xmlns:o", L"urn:schemas-microsoft-com:office:office")
-	     << XATTR(L"xmlns:x", L"urn:schemas-microsoft-com:office:excel")
-	     << XATTR(L"xmlns:ss", L"urn:schemas-microsoft-com:office:spreadsheet")
-	     << XATTR(L"xmlns:html", L"http://www.w3.org/TR/REC-html40");
-	root << XCHILD(L"ExcelWorkbook")
-	     << XATTR(L"xmlns", L"urn:schemas-microsoft-com:office:excel");
-	HXML table = root << XCHILD(L"Worksheet") << XATTR(L"ss:Name", L"Exported roster")
-	                  << XCHILD(L"Table");
+	XmlNode root("Workbook");
+	root << XATTR("xmlns", "urn:schemas-microsoft-com:office:spreadsheet")
+	     << XATTR("xmlns:o", "urn:schemas-microsoft-com:office:office")
+	     << XATTR("xmlns:x", "urn:schemas-microsoft-com:office:excel")
+	     << XATTR("xmlns:ss", "urn:schemas-microsoft-com:office:spreadsheet")
+	     << XATTR("xmlns:html", "http://www.w3.org/TR/REC-html40");
+	root << XCHILD("ExcelWorkbook")
+	     << XATTR("xmlns", "urn:schemas-microsoft-com:office:excel");
+	TiXmlElement *table = root << XCHILD("Worksheet") << XATTR("ss:Name", "Exported roster")
+	                  << XCHILD("Table");
 
 	for (int index = 0; index < ListItemCount; index++) {
 		wchar_t jid[JABBER_MAX_JID_LEN] = L"";
@@ -1227,29 +1216,30 @@ void CJabberProto::_RosterExportToFile(HWND hwndDlg)
 		ListView_GetItemText(hList, index, 2, group, _countof(group));
 		ListView_GetItemText(hList, index, 3, subscr, _countof(subscr));
 
-		HXML node = table << XCHILD(L"Row");
-		node << XCHILD(L"Cell") << XCHILD(L"Data", L"+") << XATTR(L"ss:Type", L"String");
-		node << XCHILD(L"Cell") << XCHILD(L"Data", jid) << XATTR(L"ss:Type", L"String");
-		node << XCHILD(L"Cell") << XCHILD(L"Data", name) << XATTR(L"ss:Type", L"String");
-		node << XCHILD(L"Cell") << XCHILD(L"Data", group) << XATTR(L"ss:Type", L"String");
-		node << XCHILD(L"Cell") << XCHILD(L"Data", subscr) << XATTR(L"ss:Type", L"String");
+		TiXmlElement *node = table << XCHILD("Row");
+		node << XCHILD("Cell") << XCHILD("Data", "+") << XATTR("ss:Type", "String");
+		node << XCHILD("Cell") << XCHILD("Data", T2Utf(jid)) << XATTR("ss:Type", "String");
+		node << XCHILD("Cell") << XCHILD("Data", T2Utf(name)) << XATTR("ss:Type", "String");
+		node << XCHILD("Cell") << XCHILD("Data", T2Utf(group)) << XATTR("ss:Type", "String");
+		node << XCHILD("Cell") << XCHILD("Data", T2Utf(subscr)) << XATTR("ss:Type", "String");
 
 	}
 
 	char header[] = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<?mso-application progid=\"Excel.Sheet\"?>\n";
 	fwrite(header, 1, sizeof(header) - 1 /* for zero terminator */, fp);
 
-	wchar_t *xtmp = xmlToString(root, nullptr);
-	fputs(T2Utf(xtmp), fp);
-	xmlFree(xtmp);
+	tinyxml2::XMLPrinter printer(0);
+	root.Print(&printer);
+	fputs(printer.CStr(), fp);
 	fclose(fp);
 }
 
 void CJabberProto::_RosterImportFromFile(HWND hwndDlg)
 {
-	char filename[MAX_PATH] = { 0 };
-	char *filter = "XML for MS Excel (UTF-8 encoded)(*.xml)\0*.xml\0\0";
-	OPENFILENAMEA ofn = { 0 };
+	wchar_t filename[MAX_PATH] = { 0 };
+	wchar_t *filter = L"XML for MS Excel (UTF-8 encoded)(*.xml)\0*.xml\0\0";
+	
+	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	ofn.hwndOwner = hwndDlg;
 	ofn.hInstance = nullptr;
@@ -1258,86 +1248,64 @@ void CJabberProto::_RosterImportFromFile(HWND hwndDlg)
 	ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
 	ofn.nMaxFile = _countof(filename);
 	ofn.nMaxFileTitle = MAX_PATH;
-	ofn.lpstrDefExt = "xml";
-	if (!GetOpenFileNameA(&ofn))
+	ofn.lpstrDefExt = L"xml";
+	if (!GetOpenFileNameW(&ofn))
 		return;
 
-	FILE * fp = fopen(filename, "r");
+	FILE * fp = _wfopen(filename, L"rb");
 	if (!fp)
 		return;
 
-	DWORD bufsize = _filelength(_fileno(fp));
-	if (bufsize <= 0) {
-		fclose(fp);
-		return;
-	}
-
-	char* buffer = (char*)mir_calloc(bufsize + 1); // zero-terminate it
-	fread(buffer, 1, bufsize, fp);
+	TiXmlDocument doc;
+	int ret = doc.LoadFile(fp);
 	fclose(fp);
+	if (ret != 0)
+		return;
+
 	_RosterListClear(hwndDlg);
 
-	wchar_t *newBuf = mir_utf8decodeW(buffer);
-	mir_free(buffer);
+	const TiXmlElement *Table = TiXmlConst(&doc)["Workbook"]["Worksheet"]["Table"].ToElement();
+	if (Table) {
+		HWND hList = GetDlgItem(hwndDlg, IDC_ROSTER);
+		for (auto *Row : TiXmlFilter(Table, "Row")) {
+			BOOL bAdd = FALSE;
+			const char *jid = nullptr;
+			const char *name = nullptr;
+			const char *group = nullptr;
+			const char *subscr = nullptr;
+			auto *Cell = Row->FirstChildElement("Cell");
+			auto *Data = Cell->FirstChildElement("Data");
+			if (Data) {
+				if (!mir_strcmpi(Data->GetText(), "+")) bAdd = TRUE;
+				else if (mir_strcmpi(Data->GetText(), "-")) continue;
 
-	int nBytesProcessed = 0;
-	XmlNode node(newBuf, &nBytesProcessed, nullptr);
-	if (node) {
-		HXML Workbook = XmlGetChild(node, L"Workbook");
-		if (Workbook) {
-			HXML Worksheet = XmlGetChild(Workbook, "Worksheet");
-			if (Worksheet) {
-				HXML Table = XmlGetChild(Worksheet, "Table");
-				if (Table) {
-					int index = 1;
-					HWND hList = GetDlgItem(hwndDlg, IDC_ROSTER);
-					while (TRUE) {
-						HXML Row = XmlGetNthChild(Table, L"Row", index++);
-						if (!Row)
-							break;
-
-						BOOL bAdd = FALSE;
-						const wchar_t *jid = nullptr;
-						const wchar_t *name = nullptr;
-						const wchar_t *group = nullptr;
-						const wchar_t *subscr = nullptr;
-						HXML Cell = XmlGetNthChild(Row, L"Cell", 1);
-						HXML Data = (Cell) ? XmlGetChild(Cell, "Data") : XmlNode();
-						if (Data) {
-							if (!mir_wstrcmpi(XmlGetText(Data), L"+")) bAdd = TRUE;
-							else if (mir_wstrcmpi(XmlGetText(Data), L"-")) continue;
-
-							Cell = XmlGetNthChild(Row, L"Cell", 2);
-							if (Cell) Data = XmlGetChild(Cell, "Data");
-							else Data = nullptr;
-							if (Data) {
-								jid = XmlGetText(Data);
-								if (!jid || mir_wstrlen(jid) == 0) continue;
-							}
-
-							Cell = XmlGetNthChild(Row, L"Cell", 3);
-							if (Cell) Data = XmlGetChild(Cell, "Data");
-							else Data = nullptr;
-							if (Data) name = XmlGetText(Data);
-
-							Cell = XmlGetNthChild(Row, L"Cell", 4);
-							if (Cell) Data = XmlGetChild(Cell, "Data");
-							else Data = nullptr;
-							if (Data) group = XmlGetText(Data);
-
-							Cell = XmlGetNthChild(Row, L"Cell", 5);
-							if (Cell) Data = XmlGetChild(Cell, "Data");
-							else Data = nullptr;
-							if (Data) subscr = XmlGetText(Data);
-						}
-						_RosterInsertListItem(hList, jid, name, group, subscr, bAdd);
-					}
+				Cell = Cell->NextSiblingElement("Cell");
+				if (Cell) Data = Cell->FirstChildElement("Data");
+				else Data = nullptr;
+				if (Data) {
+					jid = Data->GetText();
+					if (!jid || mir_strlen(jid) == 0) continue;
 				}
+
+				Cell = Cell->NextSiblingElement("Cell");
+				if (Cell) Data = Cell->FirstChildElement("Data");
+				else Data = nullptr;
+				if (Data) name = Data->GetText();
+
+				Cell = Cell->NextSiblingElement("Cell");
+				if (Cell) Data = Cell->FirstChildElement("Data");
+				else Data = nullptr;
+				if (Data) group = Data->GetText();
+
+				Cell = Cell->NextSiblingElement("Cell");
+				if (Cell) Data = Cell->FirstChildElement("Data");
+				else Data = nullptr;
+				if (Data) subscr = Data->GetText();
 			}
+			_RosterInsertListItem(hList, jid, name, group, subscr, bAdd);
 		}
 	}
 
-	mir_free(newBuf);
 	SendMessage(hwndDlg, JM_STATUSCHANGED, 0, 0);
 }
 
@@ -1823,7 +1791,7 @@ protected:
 	{
 		switch (msg) {
 		case WM_JABBER_REFRESH:
-			RefreshServers((HXML)lParam);
+			RefreshServers((TiXmlElement*)lParam);
 			break;
 		}
 		return CSuper::DlgProc(msg, wParam, lParam);
@@ -1841,8 +1809,8 @@ private:
 		SendMessage(m_hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
 
 		JABBER_CONN_DATA regInfo;
-		m_txtUsername.GetText(regInfo.username, _countof(regInfo.username));
-		m_txtPassword.GetText(regInfo.password, _countof(regInfo.password));
+		m_txtUsername.GetTextU(regInfo.username, _countof(regInfo.username));
+		m_txtPassword.GetTextU(regInfo.password, _countof(regInfo.password));
 		m_cbServer.GetTextA(regInfo.server, _countof(regInfo.server));
 		regInfo.port = (WORD)m_txtPort.GetInt();
 		if (m_chkManualHost.GetState() == BST_CHECKED)
@@ -1909,8 +1877,8 @@ private:
 		}
 
 		JABBER_CONN_DATA regInfo;
-		m_txtUsername.GetText(regInfo.username, _countof(regInfo.username));
-		m_txtPassword.GetText(regInfo.password, _countof(regInfo.password));
+		m_txtUsername.GetTextU(regInfo.username, _countof(regInfo.username));
+		m_txtPassword.GetTextU(regInfo.password, _countof(regInfo.password));
 		m_cbServer.GetTextA(regInfo.server, _countof(regInfo.server));
 		regInfo.port = m_txtPort.GetInt();
 		if (m_chkManualHost.GetState() == BST_CHECKED)
@@ -2149,7 +2117,7 @@ private:
 		m_btnRegister.Disable();
 	}
 
-	void RefreshServers(HXML node)
+	void RefreshServers(TiXmlElement *node)
 	{
 		m_gotservers = node != nullptr;
 
@@ -2158,18 +2126,13 @@ private:
 		if (bDropdown) m_cbServer.ShowDropdown(false);
 
 		m_cbServer.ResetContent();
-		if (node) {
-			for (int i = 0;; i++) {
-				HXML n = XmlGetChild(node, i);
-				if (!n)
-					break;
-
-				if (!mir_wstrcmp(XmlGetName(n), L"item"))
-					if (const wchar_t *jid = XmlGetAttrValue(n, L"jid"))
-						if (m_cbServer.FindString(jid, -1, true) == CB_ERR)
-							m_cbServer.AddString(jid);
-			}
-		}
+		if (node)
+			for (auto *n : TiXmlFilter(node, "item"))
+				if (const char *jid = n->Attribute("jid")) {
+					Utf2T wszJid(jid);
+					if (m_cbServer.FindString(wszJid, -1, true) == CB_ERR)
+						m_cbServer.AddString(wszJid);
+				}
 
 		m_cbServer.SetText(server);
 
@@ -2191,16 +2154,14 @@ private:
 		NETLIBHTTPREQUEST *result = Netlib_HttpTransaction(wnd->GetProto()->m_hNetlibUser, &request);
 		if (result && IsWindow(hwnd)) {
 			if ((result->resultCode == 200) && result->dataLength && result->pData) {
-				wchar_t *ptszText = mir_a2u(result->pData);
-				XmlNode node(ptszText, nullptr, nullptr);
-				if (node) {
-					HXML queryNode = XmlGetChild(node, L"query");
+				TiXmlDocument doc;
+				if (0 == doc.Parse(result->pData)) {
+					const TiXmlElement *queryNode = doc.FirstChildElement("query");
 					if (queryNode && IsWindow(hwnd)) {
 						SendMessage(hwnd, WM_JABBER_REFRESH, 0, (LPARAM)queryNode);
 						bIsError = false;
 					}
 				}
-				mir_free(ptszText);
 			}
 		}
 

@@ -307,7 +307,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 	bool bIsTransport = getBool(hContact, "IsTransport", false);
 
 	if ((bIsChatRoom == GCW_CHATROOM) || bIsChatRoom == 0) {
-		if (ptrW(getWStringA(hContact, bIsChatRoom ? (char*)"ChatRoomID" : (char*)"jid")) != nullptr) {
+		if (ptrW(getWStringA(hContact, bIsChatRoom ? "ChatRoomID" : "jid")) != nullptr) {
 			Menu_ShowItem(g_hMenuConvert, TRUE);
 			Menu_ModifyItem(g_hMenuConvert, bIsChatRoom ? LPGENW("&Convert to Contact") : LPGENW("&Convert to Chat Room"));
 		}
@@ -321,7 +321,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 		Menu_ModifyItem(g_hMenuDirectPresence[i + 1], nullptr, Skin_LoadProtoIcon(m_szModuleName, PresenceModeArray[i].mode));
 
 	if (bIsChatRoom) {
-		ptrW roomid(getWStringA(hContact, "ChatRoomID"));
+		ptrA roomid(getUStringA(hContact, "ChatRoomID"));
 		if (roomid != nullptr) {
 			Menu_ShowItem(g_hMenuRosterAdd, FALSE);
 
@@ -339,7 +339,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 		Menu_ShowItem(g_hMenuRefresh, TRUE);
 	}
 
-	ptrW jid(getWStringA(hContact, "jid"));
+	ptrA jid(getUStringA(hContact, "jid"));
 	if (jid == nullptr)
 		return 0;
 
@@ -374,7 +374,6 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 	mi.flags = CMIF_SYSTEM;
 	mi.pszService = text;
 
-	CMStringW szTmp;
 	for (int i = 0; i < nMenuResourceItemsNew; i++) {
 		mir_snprintf(text, "/UseResource_%d", i);
 		if (i >= m_nMenuResourceItems) {
@@ -391,10 +390,13 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 			Menu_SetChecked(m_phMenuResourceItems[i], item->resourceMode == RSMODE_MANUAL && item->m_pManualResource == r);
 
 			if (ServiceExists(MS_FP_GETCLIENTICONT)) {
+				CMStringA szTmp;
 				FormatMirVer(r, szTmp);
-				hIcon = Finger_GetClientIcon(szTmp, 0);
+				hIcon = Finger_GetClientIcon(Utf2T(szTmp), 0);
 			}
-			szTmp.Format(L"%s [%s, %d]", r->m_tszResourceName, Clist_GetStatusModeDescription(r->m_iStatus, 0), r->m_iPriority);
+
+			CMStringW szTmp;
+			szTmp.Format(L"%s [%s, %d]", Utf2T(r->m_szResourceName), Clist_GetStatusModeDescription(r->m_iStatus, 0), r->m_iPriority);
 			Menu_ModifyItem(m_phMenuResourceItems[i], szTmp, hIcon);
 			DestroyIcon(hIcon);
 		}
@@ -424,22 +426,22 @@ INT_PTR __cdecl CJabberProto::OnMenuRosterAdd(WPARAM hContact, LPARAM)
 	if (!hContact)
 		return 0; // we do not add ourself to the roster. (buggy situation - should not happen)
 
-	ptrW roomID(getWStringA(hContact, "ChatRoomID"));
+	ptrA roomID(getUStringA(hContact, "ChatRoomID"));
 	if (roomID == nullptr)
 		return 0;
 
 	if (ListGetItemPtr(LIST_ROSTER, roomID) == nullptr) {
-		ptrW group(db_get_wsa(hContact, "CList", "Group"));
-		ptrW nick(getWStringA(hContact, "Nick"));
+		ptrA group(db_get_utfa(hContact, "CList", "Group"));
+		ptrA nick(getUStringA(hContact, "Nick"));
 
 		AddContactToRoster(roomID, nick, group);
 		if (m_bAddRoster2Bookmarks == TRUE) {
 			JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_BOOKMARK, roomID);
 			if (item == nullptr) {
 				item = new JABBER_LIST_ITEM();
-				item->jid = mir_wstrdup(roomID);
-				item->name = mir_wstrdup(nick);
-				item->nick = getWStringA(hContact, "MyNick");
+				item->jid = mir_strdup(roomID);
+				item->name = mir_wstrdup(Utf2T(nick));
+				item->nick = getUStringA(hContact, "MyNick");
 				AddEditBookmark(item);
 				delete item;
 			}
@@ -451,9 +453,9 @@ INT_PTR __cdecl CJabberProto::OnMenuRosterAdd(WPARAM hContact, LPARAM)
 INT_PTR __cdecl CJabberProto::OnMenuHandleRequestAuth(WPARAM hContact, LPARAM)
 {
 	if (hContact != 0 && m_bJabberOnline) {
-		ptrW jid(getWStringA(hContact, "jid"));
+		ptrA jid(getUStringA(hContact, "jid"));
 		if (jid != nullptr)
-			m_ThreadInfo->send(XmlNode(L"presence") << XATTR(L"to", jid) << XATTR(L"type", L"subscribe"));
+			m_ThreadInfo->send(XmlNode("presence") << XATTR("to", jid) << XATTR("type", "subscribe"));
 	}
 	return 0;
 }
@@ -461,9 +463,9 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleRequestAuth(WPARAM hContact, LPARAM)
 INT_PTR __cdecl CJabberProto::OnMenuHandleGrantAuth(WPARAM hContact, LPARAM)
 {
 	if (hContact != 0 && m_bJabberOnline) {
-		ptrW jid(getWStringA(hContact, "jid"));
+		ptrA jid(getUStringA(hContact, "jid"));
 		if (jid != nullptr)
-			m_ThreadInfo->send(XmlNode(L"presence") << XATTR(L"to", jid) << XATTR(L"type", L"subscribed"));
+			m_ThreadInfo->send(XmlNode("presence") << XATTR("to", jid) << XATTR("type", "subscribed"));
 	}
 	return 0;
 }
@@ -471,9 +473,9 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleGrantAuth(WPARAM hContact, LPARAM)
 INT_PTR __cdecl CJabberProto::OnMenuHandleRevokeAuth(WPARAM hContact, LPARAM)
 {
 	if (hContact != 0 && m_bJabberOnline) {
-		ptrW jid(getWStringA(hContact, "jid"));
+		ptrA jid(getUStringA(hContact, "jid"));
 		if (jid != nullptr)
-			m_ThreadInfo->send(XmlNode(L"presence") << XATTR(L"to", jid) << XATTR(L"type", L"unsubscribed"));
+			m_ThreadInfo->send(XmlNode("presence") << XATTR("to", jid) << XATTR("type", "unsubscribed"));
 	}
 	return 0;
 }
@@ -483,11 +485,11 @@ INT_PTR __cdecl CJabberProto::OnMenuTransportLogin(WPARAM hContact, LPARAM)
 	if (!getByte(hContact, "IsTransport", 0))
 		return 0;
 
-	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, ptrW(getWStringA(hContact, "jid")));
+	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, ptrA(getUStringA(hContact, "jid")));
 	if (item != nullptr) {
-		XmlNode p(L"presence"); XmlAddAttr(p, L"to", item->jid);
+		XmlNode p("presence"); XmlAddAttr(p, "to", item->jid);
 		if (item->getTemp()->m_iStatus == ID_STATUS_ONLINE)
-			XmlAddAttr(p, L"type", L"unavailable");
+			XmlAddAttr(p, "type", "unavailable");
 		m_ThreadInfo->send(p);
 	}
 	return 0;
@@ -498,7 +500,7 @@ INT_PTR __cdecl CJabberProto::OnMenuTransportResolve(WPARAM hContact, LPARAM)
 	if (!getByte(hContact, "IsTransport", 0))
 		return 0;
 
-	ptrW jid(getWStringA(hContact, "jid"));
+	ptrA jid(getUStringA(hContact, "jid"));
 	if (jid != nullptr)
 		ResolveTransportNicks(jid);
 	return 0;
@@ -509,16 +511,16 @@ INT_PTR __cdecl CJabberProto::OnMenuBookmarkAdd(WPARAM hContact, LPARAM)
 	if (!hContact)
 		return 0; // we do not add ourself to the roster. (buggy situation - should not happen)
 
-	ptrW roomID(getWStringA(hContact, "ChatRoomID"));
+	ptrA roomID(getUStringA(hContact, "ChatRoomID"));
 	if (roomID == nullptr)
 		return 0;
 
 	if (ListGetItemPtr(LIST_BOOKMARK, roomID) == nullptr) {
 		JABBER_LIST_ITEM *item = new JABBER_LIST_ITEM();
-		item->jid = mir_wstrdup(roomID);
+		item->jid = mir_strdup(roomID);
 		item->name = Clist_GetContactDisplayName(hContact);
-		item->type = L"conference";
-		item->nick = getWStringA(hContact, "MyNick");
+		item->type = "conference";
+		item->nick = getUStringA(hContact, "MyNick");
 		AddEditBookmark(item);
 		delete item;
 	}
@@ -894,7 +896,7 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 			hDialogsList = WindowList_Create();
 		WindowList_Add(hDialogsList, event->hwndWindow, event->hContact);
 
-		ptrW jid(getWStringA(event->hContact, "jid"));
+		ptrA jid(getUStringA(event->hContact, "jid"));
 		if (jid != nullptr) {
 			JABBER_LIST_ITEM *pItem = ListGetItemPtr(LIST_ROSTER, jid);
 			if (pItem && m_ThreadInfo && (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_ARCHIVE_AUTO) && m_bEnableMsgArchive)
@@ -919,14 +921,14 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 		if (!bSupportTyping || !m_bJabberOnline)
 			return 0;
 
-		wchar_t jid[JABBER_MAX_JID_LEN];
+		char jid[JABBER_MAX_JID_LEN];
 		if (GetClientJID(event->hContact, jid, _countof(jid))) {
 			pResourceStatus r(ResourceInfoFromJID(jid));
 			if (r && r->m_bMessageSessionActive) {
 				r->m_bMessageSessionActive = FALSE;
 
 				if (GetResourceCapabilities(jid) & JABBER_CAPS_CHATSTATES)
-					m_ThreadInfo->send(XmlNode(L"message") << XATTR(L"to", jid) << XATTR(L"type", L"chat") << XATTRID(SerialNext()) << XCHILDNS(L"gone", JABBER_FEAT_CHATSTATES));
+					m_ThreadInfo->send(XmlNode("message") << XATTR("to", jid) << XATTR("type", "chat") << XATTRID(SerialNext()) << XCHILDNS("gone", JABBER_FEAT_CHATSTATES));
 			}
 		}
 	}
@@ -943,7 +945,7 @@ int CJabberProto::OnProcessSrmmIconClick(WPARAM hContact, LPARAM lParam)
 	if (!hContact)
 		return 0;
 
-	JABBER_LIST_ITEM *LI = ListGetItemPtr(LIST_ROSTER, ptrW(getWStringA(hContact, "jid")));
+	JABBER_LIST_ITEM *LI = ListGetItemPtr(LIST_ROSTER, ptrA(getUStringA(hContact, "jid")));
 	if (LI == nullptr)
 		return 0;
 
@@ -951,14 +953,14 @@ int CJabberProto::OnProcessSrmmIconClick(WPARAM hContact, LPARAM lParam)
 	wchar_t buf[256];
 
 	mir_snwprintf(buf, TranslateT("Last active (%s)"),
-		LI->m_pLastSeenResource ? LI->m_pLastSeenResource->m_tszResourceName : TranslateT("No activity yet, use server's choice"));
+		LI->m_pLastSeenResource ? Utf2T(LI->m_pLastSeenResource->m_szResourceName) : TranslateT("No activity yet, use server's choice"));
 	AppendMenu(hMenu, MF_STRING, MENUITEM_LASTSEEN, buf);
 
 	AppendMenu(hMenu, MF_STRING, MENUITEM_SERVER, TranslateT("Highest priority (server's choice)"));
 
 	AppendMenu(hMenu, MF_SEPARATOR, 0, nullptr);
 	for (int i = 0; i < LI->arResources.getCount(); i++)
-		AppendMenu(hMenu, MF_STRING, MENUITEM_RESOURCES + i, LI->arResources[i]->m_tszResourceName);
+		AppendMenu(hMenu, MF_STRING, MENUITEM_RESOURCES + i, Utf2T(LI->arResources[i]->m_szResourceName));
 
 	if (LI->resourceMode == RSMODE_LASTSEEN)
 		CheckMenuItem(hMenu, MENUITEM_LASTSEEN, MF_BYCOMMAND | MF_CHECKED);
@@ -993,7 +995,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleResource(WPARAM hContact, LPARAM, LPAR
 	if (!m_bJabberOnline || !hContact)
 		return 0;
 
-	ptrW tszJid(getWStringA(hContact, "jid"));
+	ptrA tszJid(getUStringA(hContact, "jid"));
 	if (tszJid == nullptr)
 		return 0;
 
@@ -1024,10 +1026,10 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleDirectPresence(WPARAM hContact, LPARAM
 	if (!m_bJabberOnline || !hContact)
 		return 0;
 
-	wchar_t *jid, text[1024];
-	ptrW tszJid(getWStringA(hContact, "jid"));
+	char *jid, text[1024];
+	ptrA tszJid(getUStringA(hContact, "jid"));
 	if (tszJid == nullptr) {
-		ptrW roomid(getWStringA(hContact, "ChatRoomID"));
+		ptrA roomid(getUStringA(hContact, "ChatRoomID"));
 		if (roomid == nullptr)
 			return 0;
 
@@ -1035,14 +1037,14 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleDirectPresence(WPARAM hContact, LPARAM
 		if (item == nullptr)
 			return 0;
 
-		mir_snwprintf(text, L"%s/%s", item->jid, item->nick);
+		mir_snprintf(text, "%s/%s", item->jid, item->nick);
 		jid = text;
 	}
 	else jid = tszJid;
 
 	CMStringW szValue;
 	if (EnterString(szValue, TranslateT("Status Message"), ESF_MULTILINE))
-		SendPresenceTo(res, jid, nullptr, szValue);
+		SendPresenceTo(res, jid, nullptr, T2Utf(szValue));
 	return 0;
 }
 

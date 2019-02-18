@@ -78,12 +78,12 @@ static void sttEmptyBuf(StringBuf *buf);
 #define RTF_ENDPLAINXML		"\\par"
 #define RTF_SEPARATOR		"\\sl-1\\slmult0\\highlight5\\cf5\\-\\par\\sl0"
 
-static void sttRtfAppendXml(StringBuf *buf, HXML node, DWORD flags, int indent);
+static void sttRtfAppendXml(StringBuf *buf, const TiXmlElement *node, DWORD flags, int indent);
 
-void CJabberProto::OnConsoleProcessXml(HXML node, DWORD flags)
+void CJabberProto::OnConsoleProcessXml(const TiXmlElement *node, DWORD flags)
 {
 	if (node && m_pDlgConsole) {
-		if (XmlGetName(node)) {
+		if (node->Name()) {
 			if (FilterXml(node, flags)) {
 				StringBuf buf = {};
 				sttAppendBufRaw(&buf, RTF_HEADER);
@@ -95,48 +95,46 @@ void CJabberProto::OnConsoleProcessXml(HXML node, DWORD flags)
 			}
 		}
 		else {
-			for (int i=0; i < XmlGetChildCount(node); i++)
-				OnConsoleProcessXml(XmlGetChild(node, i), flags);
+			for (auto *it : TiXmlEnum(node))
+				OnConsoleProcessXml(it, flags);
 		}
 	}
 }
 
-bool CJabberProto::RecursiveCheckFilter(HXML node, DWORD flags)
+bool CJabberProto::RecursiveCheckFilter(const TiXmlElement *node, DWORD flags)
 {
-	for (int i = 0; i < XmlGetAttrCount(node); i++)
-		if (JabberStrIStr(XmlGetAttr(node, i), m_filterInfo.pattern))
-			return true;
+	// !!!!!!!!!!!!!!!!for (int i = 0; i < node->Attribute); i++)
+	// !!!!!!!!!!!!!!!!	if (JabberStrIStr(XmlGetAttr(node, i), m_filterInfo.pattern))
+	// !!!!!!!!!!!!!!!! return true;
 
-	for (int i = 0; i < XmlGetChildCount(node); i++)
-		if (RecursiveCheckFilter(XmlGetChild(node, i), flags))
+	for (auto *it : TiXmlEnum(node))
+		if (RecursiveCheckFilter(it, flags))
 			return true;
 
 	return false;
 }
 
-bool CJabberProto::FilterXml(HXML node, DWORD flags)
+bool CJabberProto::FilterXml(const TiXmlElement *node, DWORD flags)
 {
-	if (!m_filterInfo.msg && !mir_wstrcmp(XmlGetName(node), L"message")) return false;
-	if (!m_filterInfo.presence && !mir_wstrcmp(XmlGetName(node), L"presence")) return false;
-	if (!m_filterInfo.iq && !mir_wstrcmp(XmlGetName(node), L"iq")) return false;
+	if (!m_filterInfo.msg && !mir_strcmp(node->Name(), "message")) return false;
+	if (!m_filterInfo.presence && !mir_strcmp(node->Name(), "presence")) return false;
+	if (!m_filterInfo.iq && !mir_strcmp(node->Name(), "iq")) return false;
 	if (m_filterInfo.type == TFilterInfo::T_OFF) return true;
 
 	mir_cslock lck(m_filterInfo.csPatternLock);
 
-	const wchar_t *attrValue;
+	const char *attrValue;
 	switch (m_filterInfo.type) {
 	case TFilterInfo::T_JID:
-		attrValue = XmlGetAttrValue(node, (flags & JCPF_OUT) ? L"to" : L"from");
+		attrValue = node->Attribute((flags & JCPF_OUT) ? "to" : "from");
 		if (attrValue)
-			return JabberStrIStr(attrValue, m_filterInfo.pattern) != nullptr;
+			return JabberStrIStr(Utf2T(attrValue), m_filterInfo.pattern) != nullptr;
 		break;
 
 	case TFilterInfo::T_XMLNS:
-		if (XmlGetChildCount(node)) {
-			attrValue = XmlGetAttrValue(XmlGetChild(node, 0), L"xmlns");
-			if (attrValue)
-				return JabberStrIStr(attrValue, m_filterInfo.pattern) != nullptr;
-		}
+		attrValue = node->FirstChildElement(0)->Attribute("xmlns");
+		if (attrValue)
+			return JabberStrIStr(Utf2T(attrValue), m_filterInfo.pattern) != nullptr;
 		break;
 
 	case TFilterInfo::T_ANY:
@@ -191,10 +189,10 @@ static void sttEmptyBuf(StringBuf *buf)
 	buf->offset = 0;
 }
 
-static void sttRtfAppendXml(StringBuf *buf, HXML node, DWORD flags, int indent)
+static void sttRtfAppendXml(StringBuf *buf, const TiXmlElement *node, DWORD flags, int indent)
 {
 	char indentLevel[128];
-	mir_snprintf(indentLevel, RTF_INDENT_FMT, (int)(indent*200));
+	mir_snprintf(indentLevel, RTF_INDENT_FMT, (int)(indent * 200));
 
 	sttAppendBufRaw(buf, RTF_BEGINTAG);
 	sttAppendBufRaw(buf, indentLevel);
@@ -202,10 +200,11 @@ static void sttRtfAppendXml(StringBuf *buf, HXML node, DWORD flags, int indent)
 	if (flags&JCPF_OUT)	sttAppendBufRaw(buf, "\\highlight4 ");
 	sttAppendBufRaw(buf, "<");
 	sttAppendBufRaw(buf, RTF_BEGINTAGNAME);
-	sttAppendBufW(buf, (wchar_t*)XmlGetName(node));
+	sttAppendBufRaw(buf, node->Name());
 	sttAppendBufRaw(buf, RTF_ENDTAGNAME);
 
-	for (int i = 0; i < XmlGetAttrCount(node); i++) {
+	// !!!!!!!!!!!!!!!!
+	/*for (int i = 0; i < XmlGetAttrCount(node); i++) {
 		wchar_t *attr = (wchar_t*)xmlGetAttrName(node, i);
 		sttAppendBufRaw(buf, " ");
 		sttAppendBufRaw(buf, RTF_BEGINATTRNAME);
@@ -217,35 +216,36 @@ static void sttRtfAppendXml(StringBuf *buf, HXML node, DWORD flags, int indent)
 		sttAppendBufRaw(buf, "\"");
 		sttAppendBufRaw(buf, RTF_ENDATTRVAL);
 	}
+	*/
 
-	if (XmlGetChild(node) || XmlGetText(node)) {
+	if (!node->NoChildren() || node->GetText()) {
 		sttAppendBufRaw(buf, ">");
-		if (XmlGetChild(node))
+		if (!node->NoChildren())
 			sttAppendBufRaw(buf, RTF_ENDTAG);
 	}
 
-	if (XmlGetText(node)) {
-		if (XmlGetChildCount(node)) {
+	if (node->GetText()) {
+		if (!node->NoChildren()) {
 			sttAppendBufRaw(buf, RTF_BEGINTEXT);
 			char indentTextLevel[128];
 			mir_snprintf(indentTextLevel, RTF_TEXTINDENT_FMT, (int)((indent + 1) * 200));
 			sttAppendBufRaw(buf, indentTextLevel);
 		}
 
-		sttAppendBufT(buf, XmlGetText(node));
-		if (XmlGetChild(node))
+		sttAppendBufT(buf, Utf2T(node->GetText()));
+		if (!node->NoChildren())
 			sttAppendBufRaw(buf, RTF_ENDTEXT);
 	}
 
-	for (int i = 0; i < XmlGetChildCount(node); i++)
-		sttRtfAppendXml(buf, XmlGetChild(node, i), flags & ~(JCPF_IN | JCPF_OUT), indent + 1);
+	for (auto *it : TiXmlEnum(node))
+		sttRtfAppendXml(buf, it, flags & ~(JCPF_IN | JCPF_OUT), indent + 1);
 
-	if (XmlGetChildCount(node) || XmlGetText(node)) {
+	if (!node->NoChildren() || node->GetText()) {
 		sttAppendBufRaw(buf, RTF_BEGINTAG);
 		sttAppendBufRaw(buf, indentLevel);
 		sttAppendBufRaw(buf, "</");
 		sttAppendBufRaw(buf, RTF_BEGINTAGNAME);
-		sttAppendBufT(buf, XmlGetName(node));
+		sttAppendBufRaw(buf, node->Name());
 		sttAppendBufRaw(buf, RTF_ENDTAGNAME);
 		sttAppendBufRaw(buf, ">");
 	}
@@ -311,7 +311,7 @@ static filter_modes[] =
 	{ TFilterInfo::T_OFF,   L"disabled",       "sd_filter_reset" },
 };
 
-class CJabberDlgConsole: public CJabberDlgBase
+class CJabberDlgConsole : public CJabberDlgBase
 {
 	typedef CJabberDlgBase CSuper;
 
@@ -328,7 +328,7 @@ protected:
 	void OnProtoRefresh(WPARAM wParam, LPARAM lParam);
 };
 
-CJabberDlgConsole::CJabberDlgConsole(CJabberProto *proto):
+CJabberDlgConsole::CJabberDlgConsole(CJabberProto *proto) :
 	CJabberDlgBase(proto, IDD_CONSOLE)
 {
 }
@@ -347,7 +347,7 @@ bool CJabberDlgConsole::OnInitDialog()
 	m_proto->m_filterInfo.type = (TFilterInfo::Type)m_proto->getByte("consoleWnd_ftype", TFilterInfo::T_OFF);
 
 	*m_proto->m_filterInfo.pattern = 0;
-	ptrW tszPattern( m_proto->getWStringA("consoleWnd_fpattern"));
+	ptrW tszPattern(m_proto->getWStringA("consoleWnd_fpattern"));
 	if (tszPattern != nullptr)
 		mir_wstrncpy(m_proto->m_filterInfo.pattern, tszPattern, _countof(m_proto->m_filterInfo.pattern));
 
@@ -427,11 +427,11 @@ void CJabberDlgConsole::OnProtoRefresh(WPARAM, LPARAM lParam)
 	StringBuf *buf = (StringBuf *)lParam;
 	buf->streamOffset = 0;
 
-	EDITSTREAM es = {0};
+	EDITSTREAM es = { 0 };
 	es.dwCookie = (DWORD_PTR)buf;
 	es.pfnCallback = sttStreamInCallback;
 
-	SCROLLINFO si = {0};
+	SCROLLINFO si = { 0 };
 	si.cbSize = sizeof(si);
 	si.fMask = SIF_ALL;
 	GetScrollInfo(GetDlgItem(m_hwnd, IDC_CONSOLE), SB_VERT, &si);
@@ -442,7 +442,7 @@ void CJabberDlgConsole::OnProtoRefresh(WPARAM, LPARAM lParam)
 	SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_EXGETSEL, 0, (LPARAM)&oldSel);
 	sel.cpMin = sel.cpMax = GetWindowTextLength(GetDlgItem(m_hwnd, IDC_CONSOLE));
 	SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_EXSETSEL, 0, (LPARAM)&sel);
-	SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_STREAMIN, SF_RTF|SFF_SELECTION, (LPARAM)&es);
+	SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_STREAMIN, SF_RTF | SFF_SELECTION, (LPARAM)&es);
 	SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_EXSETSEL, 0, (LPARAM)&oldSel);
 
 	// magic expression from tabsrmm :)
@@ -508,10 +508,9 @@ INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				wchar_t *textToSend = (wchar_t *)mir_alloc(length * sizeof(wchar_t));
 				GetDlgItemText(m_hwnd, IDC_CONSOLEIN, textToSend, length);
 
-				int bytesProcessed = 0;
-				XmlNode xmlTmp(textToSend, &bytesProcessed, nullptr);
-				if (xmlTmp)
-					m_proto->m_ThreadInfo->send(xmlTmp);
+				TiXmlDocument doc;
+				if (0 == doc.Parse(T2Utf(textToSend)))
+					m_proto->m_ThreadInfo->send(doc.ToElement());
 				else {
 					StringBuf buf = {};
 					sttAppendBufRaw(&buf, RTF_HEADER);

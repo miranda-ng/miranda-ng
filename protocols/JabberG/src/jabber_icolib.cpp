@@ -41,38 +41,38 @@ HIMAGELIST hAdvancedStatusIcon = nullptr;
 
 struct CTransportProtoTableItem
 {
-	wchar_t *mask;
+	char *mask;
 	char*  proto;
 };
 
 static CTransportProtoTableItem TransportProtoTable[] =
 {
-	{ L"|*icq*|jit*",     "ICQ" },
-	{ L"msn*",            "MSN" },
-	{ L"yahoo*",          "YAHOO" },
-	{ L"mrim*",           "MRA" },
-	{ L"aim*",            "AIM" },
+	{ "|*icq*|jit*",     "ICQ" },
+	{ "msn*",            "MSN" },
+	{ "yahoo*",          "YAHOO" },
+	{ "mrim*",           "MRA" },
+	{ "aim*",            "AIM" },
 	//request #3094
-	{ L"|gg*|gadu*",      "GaduGadu" },
-	{ L"tv*",             "TV" },
-	{ L"dict*",           "Dictionary" },
-	{ L"weather*",        "Weather" },
-	{ L"skype*",          "Skype" },
-	{ L"sms*",            "SMS" },
-	{ L"smtp*",           "SMTP" },
+	{ "|gg*|gadu*",      "GaduGadu" },
+	{ "tv*",             "TV" },
+	{ "dict*",           "Dictionary" },
+	{ "weather*",        "Weather" },
+	{ "skype*",          "Skype" },
+	{ "sms*",            "SMS" },
+	{ "smtp*",           "SMTP" },
 	//j2j
-	{ L"gtalk.*.*",       "GTalk" },
-	{ L"|xmpp.*.*|j2j.*.*","Jabber2Jabber" },
+	{ "gtalk.*.*",       "GTalk" },
+	{ "|xmpp.*.*|j2j.*.*","Jabber2Jabber" },
 	//jabbim.cz - services
-	{ L"disk*",           "Jabber Disk" },
-	{ L"irc*",            "IRC" },
-	{ L"rss*",            "RSS" },
-	{ L"tlen*",           "Tlen" },
+	{ "disk*",           "Jabber Disk" },
+	{ "irc*",            "IRC" },
+	{ "rss*",            "RSS" },
+	{ "tlen*",           "Tlen" },
 
 	// German social networks
-	{ L"studivz*",        "StudiVZ" },
-	{ L"schuelervz*",     "SchuelerVZ" },
-	{ L"meinvz*",         "MeinVZ" },
+	{ "studivz*",        "StudiVZ" },
+	{ "schuelervz*",     "SchuelerVZ" },
+	{ "meinvz*",         "MeinVZ" },
 };
 
 static int skinIconStatusToResourceId[] = {IDI_OFFLINE,IDI_ONLINE,IDI_AWAY,IDI_DND,IDI_NA,IDI_NA,/*IDI_OCCUPIED,*/IDI_FREE4CHAT,IDI_INVISIBLE,IDI_ONTHEPHONE,IDI_OUTTOLUNCH};
@@ -199,9 +199,9 @@ static inline wchar_t qtoupper(wchar_t c)
 	return (c >= 'a' && c <= 'z') ? c - 'a' + 'A' : c;
 }
 
-static BOOL WildComparei(const wchar_t *name, const wchar_t *mask)
+static BOOL WildComparei(const char *name, const char *mask)
 {
-	const wchar_t *last = nullptr;
+	const char *last = nullptr;
 	for (;; mask++, name++) {
 		if (*mask != '?' && qtoupper(*mask) != qtoupper(*name))
 			break;
@@ -226,7 +226,7 @@ static BOOL WildComparei(const wchar_t *name, const wchar_t *mask)
 	}
 }
 
-static BOOL MatchMask(const wchar_t *name, const wchar_t *mask)
+static BOOL MatchMask(const char *name, const char *mask)
 {
 	if (!mask || !name)
 		return mask == name;
@@ -234,7 +234,7 @@ static BOOL MatchMask(const wchar_t *name, const wchar_t *mask)
 	if (*mask != '|')
 		return WildComparei(name, mask);
 
-	wchar_t *temp = NEWWSTR_ALLOCA(mask);
+	char *temp = NEWSTR_ALLOCA(mask);
 	for (int e = 1; mask[e] != '\0'; e++) {
 		int s = e;
 		while (mask[e] != '\0' && mask[e] != '|')
@@ -332,7 +332,7 @@ int CJabberProto::LoadAdvancedIcons(int iID)
 	return 0;
 }
 
-int CJabberProto::GetTransportProtoID(wchar_t* TransportDomain)
+int CJabberProto::GetTransportProtoID(char *TransportDomain)
 {
 	for (int i = 0; i < _countof(TransportProtoTable); i++)
 		if (MatchMask(TransportDomain, TransportProtoTable[i].mask))
@@ -389,7 +389,7 @@ INT_PTR __cdecl CJabberProto::JGetAdvancedStatusIcon(WPARAM hContact, LPARAM)
 	if (!getByte(hContact, "IsTransported", 0))
 		return -1;
 
-	int iID = GetTransportProtoID(ptrW(getWStringA(hContact, "Transport")));
+	int iID = GetTransportProtoID(ptrA(getUStringA(hContact, "Transport")));
 	if (iID < 0)
 		return -1;
 
@@ -404,22 +404,22 @@ INT_PTR __cdecl CJabberProto::JGetAdvancedStatusIcon(WPARAM hContact, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 //   Transport check functions
 
-BOOL CJabberProto::DBCheckIsTransportedContact(const wchar_t *jid, MCONTACT hContact)
+BOOL CJabberProto::DBCheckIsTransportedContact(const char *jid, MCONTACT hContact)
 {
 	// check if transport is already set
 	if (!jid || !hContact)
 		return FALSE;
 
 	// strip domain part from jid
-	wchar_t *domain = wcschr((wchar_t*)jid, '@');
+	char *domain = (char*)strchr(jid, '@');
 	BOOL isAgent = (domain == nullptr) ? TRUE : FALSE;
 	BOOL isTransported = FALSE;
 	if (domain != nullptr)
-		domain = NEWWSTR_ALLOCA(domain + 1);
+		domain = NEWSTR_ALLOCA(domain + 1);
 	else
-		domain = NEWWSTR_ALLOCA(jid);
+		domain = NEWSTR_ALLOCA(jid);
 
-	wchar_t *resourcepos = wcschr(domain, '/');
+	char *resourcepos = strchr(domain, '/');
 	if (resourcepos != nullptr)
 		*resourcepos = '\0';
 
@@ -431,12 +431,12 @@ BOOL CJabberProto::DBCheckIsTransportedContact(const wchar_t *jid, MCONTACT hCon
 		}
 
 	if (m_lstTransports.getIndex(domain) == -1 && isAgent) {
-		m_lstTransports.insert(mir_wstrdup(domain));
+		m_lstTransports.insert(mir_strdup(domain));
 		setByte(hContact, "IsTransport", 1);
 	}
 
 	if (isTransported) {
-		setWString(hContact, "Transport", domain);
+		setUString(hContact, "Transport", domain);
 		setByte(hContact, "IsTransported", 1);
 	}
 	return isTransported;
@@ -445,7 +445,7 @@ BOOL CJabberProto::DBCheckIsTransportedContact(const wchar_t *jid, MCONTACT hCon
 void CJabberProto::CheckAllContactsAreTransported()
 {
 	for (auto &hContact : AccContacts()) {
-		ptrW jid(getWStringA(hContact, "jid"));
+		ptrA jid(getUStringA(hContact, "jid"));
 		if (jid)
 			DBCheckIsTransportedContact(jid, hContact);
 	}
@@ -474,11 +474,11 @@ static IconItem sharedIconList1[] =
 	{ LPGEN("AdHoc Command"),         "adhoc",            IDI_COMMAND            },
 	{ LPGEN("XML Console"),           "xmlconsole",       IDI_CONSOLE            },
 	{ LPGEN("OpenID Request"),        "openid",           IDI_HTTP_AUTH          },
-	{ LPGEN("Add contact"),			  "addcontact",       IDI_ADDCONTACT		 },
-	{ LPGEN("Delete"),				  "delete",		      IDI_DELETE             },
-	{ LPGEN("Edit"),				  "edit",		      IDI_EDIT               },
-	{ LPGEN("Open"),				  "open",		      IDI_OPEN               },
-	{ LPGEN("Save"),				  "save",		      IDI_SAVE               }
+	{ LPGEN("Add contact"),           "addcontact",       IDI_ADDCONTACT         },
+	{ LPGEN("Delete"),                "delete",           IDI_DELETE             },
+	{ LPGEN("Edit"),                  "edit",             IDI_EDIT               },
+	{ LPGEN("Open"),                  "open",             IDI_OPEN               },
+	{ LPGEN("Save"),                  "save",	            IDI_SAVE               }
 };
 
 static IconItem sharedIconList2[] =

@@ -36,8 +36,8 @@ typedef void (*IQ_USER_DATA_FREE_FUNC)(void *pUserData);
 // 2 minutes, milliseconds
 #define JABBER_DEFAULT_IQ_REQUEST_TIMEOUT		120000
 
-typedef void (CJabberProto::*JABBER_IQ_HANDLER)(HXML iqNode, CJabberIqInfo *pInfo);
-typedef BOOL (CJabberProto::*JABBER_PERMANENT_IQ_HANDLER)(HXML iqNode, CJabberIqInfo *pInfo);
+typedef void (CJabberProto::*JABBER_IQ_HANDLER)(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
+typedef BOOL (CJabberProto::*JABBER_PERMANENT_IQ_HANDLER)(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 
 #define JABBER_IQ_PARSE_CHILD_TAG_NODE  (1)
 #define JABBER_IQ_PARSE_CHILD_TAG_NAME  ((1<<1)|JABBER_IQ_PARSE_CHILD_TAG_NODE)
@@ -55,23 +55,23 @@ protected:
 	friend class CJabberIqManager;
 	JABBER_IQ_HANDLER m_pHandler;
 
-	int      m_nIqId;
-	DWORD    m_dwParamsToParse;
-	DWORD    m_dwRequestTime;
-	DWORD    m_dwTimeout;
-	wchar_t *m_szReceiver;
-	int      m_iPriority;
+	int           m_nIqId;
+	DWORD         m_dwParamsToParse;
+	DWORD         m_dwRequestTime;
+	DWORD         m_dwTimeout;
+	char*         m_szReceiver;
+	int           m_iPriority;
 
 public:
-	void    *m_pUserData;
-	int      m_nIqType;
-	wchar_t *m_szFrom;
-	wchar_t *m_szChildTagXmlns;
-	wchar_t *m_szChildTagName;
-	HXML     m_pChildNode;
-	MCONTACT m_hContact;
-	wchar_t *m_szTo;
-	wchar_t *m_szId;
+	void*         m_pUserData;
+	int           m_nIqType;
+	const char*   m_szFrom;
+	const char*   m_szChildTagXmlns;
+	const char*   m_szChildTagName;
+	const TiXmlElement *m_pChildNode;
+	MCONTACT      m_hContact;
+	const char*   m_szTo;
+	const char*   m_szId;
 
 public:
 	__forceinline CJabberIqInfo()
@@ -81,22 +81,23 @@ public:
 	{	mir_free(m_szReceiver);
 	}
 
-	__forceinline void SetReceiver(const wchar_t *szReceiver) { replaceStrW(m_szReceiver, szReceiver); }
+	__forceinline void SetReceiver(const char *szReceiver) { replaceStr(m_szReceiver, szReceiver); }
 	__forceinline void SetParamsToParse(DWORD dwParamsToParse) { m_dwParamsToParse = dwParamsToParse; }
 	__forceinline void SetTimeout(DWORD dwTimeout) { m_dwTimeout = dwTimeout; }
 
-	__forceinline int      GetIqId() const { return m_nIqId; }
-	__forceinline DWORD    GetRequestTime() const { return m_dwRequestTime; }
-	__forceinline int      GetIqType() const { return m_nIqType; }	
-	__forceinline void*    GetUserData() const {	return m_pUserData; }
-	__forceinline wchar_t* GetFrom() const {	return m_szFrom; }
-	__forceinline wchar_t* GetTo() const { return m_szTo; }
-	__forceinline wchar_t* GetIdStr() const { return m_szId; }
-	__forceinline MCONTACT GetHContact() const { return m_hContact; }
-	__forceinline HXML     GetChildNode() const { return m_pChildNode; }
-	__forceinline wchar_t* GetChildNodeName() const { return m_szChildTagName; }
-	__forceinline wchar_t* GetReceiver() const { return m_szReceiver; }
-	__forceinline int      GetPriority() const { return m_iPriority; }
+	__forceinline int         GetIqId() const { return m_nIqId; }
+	__forceinline DWORD       GetRequestTime() const { return m_dwRequestTime; }
+	__forceinline int         GetIqType() const { return m_nIqType; }	
+	__forceinline void*       GetUserData() const {	return m_pUserData; }
+	__forceinline const char* GetFrom() const {	return m_szFrom; }
+	__forceinline const char* GetTo() const { return m_szTo; }
+	__forceinline const char* GetIdStr() const { return m_szId; }
+	__forceinline MCONTACT    GetHContact() const { return m_hContact; }
+	__forceinline const char* GetChildNodeName() const { return m_szChildTagName; }
+	__forceinline const char* GetReceiver() const { return m_szReceiver; }
+	__forceinline int         GetPriority() const { return m_iPriority; }
+
+	__forceinline const TiXmlElement *GetChildNode() const { return m_pChildNode; }
 
 	char* GetCharIqType()
 	{
@@ -117,8 +118,8 @@ class CJabberIqPermanentInfo : public MZeroedObject
 	JABBER_PERMANENT_IQ_HANDLER m_pHandler;
 	DWORD m_dwParamsToParse;
 	int m_nIqTypes;
-	wchar_t *m_szXmlns;
-	wchar_t *m_szTag;
+	char *m_szXmlns;
+	char *m_szTag;
 	BOOL m_bAllowPartialNs;
 	void *m_pUserData;
 	IQ_USER_DATA_FREE_FUNC m_pUserDataFree;
@@ -165,15 +166,15 @@ public:
 	void Shutdown();
 
 	// fucking params, maybe just return CJabberIqRequestInfo pointer ?
-	CJabberIqInfo* AddHandler(JABBER_IQ_HANDLER pHandler, int nIqType, const wchar_t *szReceiver, DWORD dwParamsToParse, int nIqId, void *pUserData, int iPriority);
-	CJabberIqPermanentInfo* AddPermanentHandler(JABBER_PERMANENT_IQ_HANDLER pHandler, int nIqTypes, DWORD dwParamsToParse, const wchar_t *szXmlns, BOOL bAllowPartialNs, const wchar_t *szTag, void *pUserData = nullptr, IQ_USER_DATA_FREE_FUNC pUserDataFree = nullptr, int iPriority = JH_PRIORITY_DEFAULT);
+	CJabberIqInfo* AddHandler(JABBER_IQ_HANDLER pHandler, int nIqType, const char *szReceiver, DWORD dwParamsToParse, int nIqId, void *pUserData, int iPriority);
+	CJabberIqPermanentInfo* AddPermanentHandler(JABBER_PERMANENT_IQ_HANDLER pHandler, int nIqTypes, DWORD dwParamsToParse, const char *szXmlns, BOOL bAllowPartialNs, const char *szTag, void *pUserData = nullptr, IQ_USER_DATA_FREE_FUNC pUserDataFree = nullptr, int iPriority = JH_PRIORITY_DEFAULT);
 
 	// returns TRUE when pInfo found, or FALSE otherwise
 	bool DeletePermanentHandler(CJabberIqPermanentInfo *pInfo);
 	bool DeleteHandler(CJabberIqInfo *pInfo);
 
-	bool HandleIq(int nIqId, HXML pNode);
-	bool HandleIqPermanent(HXML pNode);
+	bool HandleIq(int nIqId, const TiXmlElement *pNode);
+	bool HandleIqPermanent(const TiXmlElement *pNode);
 
 	void ExpireIq(int nIqId);
 	void ExpirerThread(void);

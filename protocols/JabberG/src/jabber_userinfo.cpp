@@ -170,15 +170,17 @@ void sttCleanupInfo(HWND hwndTree, int stage)
 	}
 }
 
-static HTREEITEM sttFillInfoLine(HWND hwndTree, HTREEITEM htiRoot, HICON hIcon, const wchar_t *title, const wchar_t *value, LPARAM id = INFOLINE_BAD_ID, bool expand = false)
+static HTREEITEM sttFillInfoLine(HWND hwndTree, HTREEITEM htiRoot, HICON hIcon, const wchar_t *title, const char *value, LPARAM id = INFOLINE_BAD_ID, bool expand = false)
 {
 	HTREEITEM hti = sttFindInfoLine(hwndTree, htiRoot, id);
 
+	Utf2T wszValue(value);
+	const wchar_t *pwszValue = (value == nullptr) ? TranslateT("<not specified>") : wszValue;
 	wchar_t buf[256];
 	if (title)
-		mir_snwprintf(buf, L"%s: %s", title, value);
+		mir_snwprintf(buf, L"%s: %s", title, pwszValue);
 	else
-		mir_wstrncpy(buf, value, _countof(buf));
+		mir_wstrncpy(buf, pwszValue, _countof(buf));
 
 	TVINSERTSTRUCT tvis = {};
 	tvis.hParent = htiRoot;
@@ -212,17 +214,16 @@ static HTREEITEM sttFillInfoLine(HWND hwndTree, HTREEITEM htiRoot, HICON hIcon, 
 
 static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM htiRoot, JABBER_LIST_ITEM *item, int resource)
 {
-	wchar_t buf[256];
 	HTREEITEM htiResource = htiRoot;
 	pResourceStatus r = resource ? item->arResources[resource - 1] : item->getTemp();
 
-	if (r->m_tszResourceName && *r->m_tszResourceName)
+	if (r->m_szResourceName && *r->m_szResourceName)
 		htiResource = sttFillInfoLine(hwndTree, htiRoot, Skin_LoadProtoIcon(ppro->m_szModuleName, r->m_iStatus),
-			TranslateT("Resource"), r->m_tszResourceName, sttInfoLineId(resource, INFOLINE_NAME), true);
+			TranslateT("Resource"), r->m_szResourceName, sttInfoLineId(resource, INFOLINE_NAME), true);
 
 	// StatusMsg
 	sttFillInfoLine(hwndTree, htiResource, nullptr /*Skin_LoadIcon(SKINICON_EVENT_MESSAGE)*/,
-		TranslateT("Message"), r->m_tszStatusMessage ? r->m_tszStatusMessage : TranslateT("<not specified>"),
+		TranslateT("Message"), r->m_szStatusMessage,
 		sttInfoLineId(resource, INFOLINE_MESSAGE));
 
 	// Software
@@ -231,81 +232,74 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 
 		if (ServiceExists(MS_FP_GETCLIENTICONT)) {
 			if (pCaps->GetSoft()) {
+				wchar_t buf[256];
 				mir_snwprintf(buf, L"%s %s", pCaps->GetSoft(), pCaps->GetSoftVer());
 				hIcon = Finger_GetClientIcon(buf, 0);
 			}
 		}
 
-		sttFillInfoLine(hwndTree, htiResource, hIcon, TranslateT("Software"),
-			pCaps->GetSoft() ? pCaps->GetSoft() : TranslateT("<not specified>"),
-			sttInfoLineId(resource, INFOLINE_SOFTWARE));
+		sttFillInfoLine(hwndTree, htiResource, hIcon, TranslateT("Software"), pCaps->GetSoft(), sttInfoLineId(resource, INFOLINE_SOFTWARE));
 
 		// Version
-		const wchar_t *wszVer = pCaps->GetSoftMir() ? pCaps->GetSoftMir() : pCaps->GetSoftVer();
-		sttFillInfoLine(hwndTree, htiResource, nullptr, TranslateT("Version"),
-			wszVer ? wszVer : TranslateT("<not specified>"),
-			sttInfoLineId(resource, INFOLINE_VERSION));
+		sttFillInfoLine(hwndTree, htiResource, nullptr, TranslateT("Version"), pCaps->GetSoftMir() ? pCaps->GetSoftMir() : pCaps->GetSoftVer(), sttInfoLineId(resource, INFOLINE_VERSION));
 
 		// System
-		wszVer = pCaps->GetOsVer() ? pCaps->GetOsVer() : pCaps->GetOs();
-		sttFillInfoLine(hwndTree, htiResource, nullptr, TranslateT("System"),
-			wszVer ? wszVer : TranslateT("<not specified>"),
-			sttInfoLineId(resource, INFOLINE_SYSTEM));
+		sttFillInfoLine(hwndTree, htiResource, nullptr, TranslateT("System"), pCaps->GetOsVer() ? pCaps->GetOsVer() : pCaps->GetOs(), sttInfoLineId(resource, INFOLINE_SYSTEM));
 
 		if (hIcon)
 			DestroyIcon(hIcon);
 	}
 
 	// Resource priority
-	wchar_t szPriority[128];
-	mir_snwprintf(szPriority, L"%d", (int)r->m_iPriority);
-	sttFillInfoLine(hwndTree, htiResource, nullptr, TranslateT("Resource priority"), szPriority, sttInfoLineId(resource, INFOLINE_PRIORITY));
+	char buf[256];
+	itoa(r->m_iPriority, buf, 10);
+	sttFillInfoLine(hwndTree, htiResource, nullptr, TranslateT("Resource priority"), buf, sttInfoLineId(resource, INFOLINE_PRIORITY));
 
 	// Idle
 	if (r->m_dwIdleStartTime > 0) {
-		mir_wstrncpy(buf, _wctime(&r->m_dwIdleStartTime), _countof(buf));
-		size_t len = mir_wstrlen(buf);
+		mir_strncpy(buf, ctime(&r->m_dwIdleStartTime), _countof(buf));
+		size_t len = mir_strlen(buf);
 		if (len > 0)
 			buf[len - 1] = 0;
 	}
 	else if (!r->m_dwIdleStartTime)
-		mir_wstrncpy(buf, TranslateT("unknown"), _countof(buf));
+		mir_strncpy(buf, Translate("unknown"), _countof(buf));
 	else
-		mir_wstrncpy(buf, TranslateT("<not specified>"), _countof(buf));
+		mir_strncpy(buf, Translate("<not specified>"), _countof(buf));
 
 	sttFillInfoLine(hwndTree, htiResource, nullptr, TranslateT("Idle since"), buf, sttInfoLineId(resource, INFOLINE_IDLE));
 
 	// caps
-	mir_snwprintf(buf, L"%s/%s", item->jid, r->m_tszResourceName);
+	mir_snprintf(buf, "%s/%s", item->jid, r->m_szResourceName);
 	JabberCapsBits jcb = ppro->GetResourceCapabilities(buf, r);
 
 	if (!(jcb & JABBER_RESOURCE_CAPS_ERROR)) {
-		HTREEITEM htiCaps = sttFillInfoLine(hwndTree, htiResource, ppro->LoadIconEx("main"), nullptr, TranslateT("Client capabilities"), sttInfoLineId(resource, INFOLINE_CAPS));
+		HTREEITEM htiCaps = sttFillInfoLine(hwndTree, htiResource, ppro->LoadIconEx("main"), nullptr, Translate("Client capabilities"), sttInfoLineId(resource, INFOLINE_CAPS));
 		int i;
 		for (i = 0; i < g_cJabberFeatCapPairs; i++)
 			if (jcb & g_JabberFeatCapPairs[i].jcbCap) {
-				wchar_t szDescription[1024];
+				char szDescription[1024];
 				if (g_JabberFeatCapPairs[i].tszDescription)
-					mir_snwprintf(szDescription, L"%s (%s)", TranslateW(g_JabberFeatCapPairs[i].tszDescription), g_JabberFeatCapPairs[i].szFeature);
+					mir_snprintf(szDescription, "%s (%s)", Translate(g_JabberFeatCapPairs[i].tszDescription), g_JabberFeatCapPairs[i].szFeature);
 				else
-					wcsncpy_s(szDescription, g_JabberFeatCapPairs[i].szFeature, _TRUNCATE);
+					strncpy_s(szDescription, g_JabberFeatCapPairs[i].szFeature, _TRUNCATE);
 				sttFillInfoLine(hwndTree, htiCaps, nullptr, nullptr, szDescription, sttInfoLineId(resource, INFOLINE_CAPS, i));
 			}
 
 		for (auto &it : ppro->m_lstJabberFeatCapPairsDynamic) {
 			if (jcb & it->jcbCap) {
-				wchar_t szDescription[1024];
+				char szDescription[1024];
 				if (it->szDescription)
-					mir_snwprintf(szDescription, L"%s (%s)", TranslateW(it->szDescription), it->szFeature);
+					mir_snprintf(szDescription, "%s (%s)", Translate(it->szDescription), it->szFeature);
 				else
-					wcsncpy_s(szDescription, it->szFeature, _TRUNCATE);
+					strncpy_s(szDescription, it->szFeature, _TRUNCATE);
 				sttFillInfoLine(hwndTree, htiCaps, nullptr, nullptr, szDescription, sttInfoLineId(resource, INFOLINE_CAPS, i++));
 			}
 		}
 	}
 
 	// Software info
-	HTREEITEM htiSoftwareInfo = sttFillInfoLine(hwndTree, htiResource, ppro->LoadIconEx("main"), nullptr, TranslateT("Software information"), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION));
+	HTREEITEM htiSoftwareInfo = sttFillInfoLine(hwndTree, htiResource, ppro->LoadIconEx("main"), nullptr, Translate("Software information"), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION));
 	int nLineId = 0;
 	if (CJabberClientPartialCaps *pCaps = r->m_pCaps) {
 		if (pCaps->GetOs())
@@ -333,7 +327,7 @@ static void sttFillAdvStatusInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM ht
 			mir_snwprintf(szText, L"%s (%s)", TranslateW(szAdvStatusTitle), szAdvStatusText);
 		else
 			wcsncpy_s(szText, TranslateW(szAdvStatusTitle), _TRUNCATE);
-		sttFillInfoLine(hwndTree, htiRoot, IcoLib_GetIcon(szAdvStatusIcon), szTitle, szText, dwInfoLine);
+		sttFillInfoLine(hwndTree, htiRoot, IcoLib_GetIcon(szAdvStatusIcon), szTitle, T2Utf(szText), dwInfoLine);
 	}
 
 	mir_free(szAdvStatusIcon);
@@ -348,7 +342,6 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 	sttCleanupInfo(hwndTree, 0);
 
 	HTREEITEM htiRoot = sttFillInfoLine(hwndTree, nullptr, ppro->LoadIconEx("main"), L"JID", item->jid, sttInfoLineId(0, INFOLINE_NAME), true);
-	wchar_t buf[256];
 
 	if (MCONTACT hContact = ppro->HContactFromJID(item->jid)) {
 		sttFillAdvStatusInfo(ppro, hwndTree, htiRoot, sttInfoLineId(0, INFOLINE_MOOD), hContact, TranslateT("Mood"), ADVSTATUS_MOOD);
@@ -359,54 +352,52 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 	// subscription
 	switch (item->subscription) {
 	case SUB_BOTH:
-		sttFillInfoLine(hwndTree, htiRoot, nullptr, TranslateT("Subscription"), TranslateT("both"), sttInfoLineId(0, INFOLINE_SUBSCRIPTION));
+		sttFillInfoLine(hwndTree, htiRoot, nullptr, TranslateT("Subscription"), Translate("both"), sttInfoLineId(0, INFOLINE_SUBSCRIPTION));
 		break;
 	case SUB_TO:
-		sttFillInfoLine(hwndTree, htiRoot, nullptr, TranslateT("Subscription"), TranslateT("to"), sttInfoLineId(0, INFOLINE_SUBSCRIPTION));
+		sttFillInfoLine(hwndTree, htiRoot, nullptr, TranslateT("Subscription"), Translate("to"), sttInfoLineId(0, INFOLINE_SUBSCRIPTION));
 		break;
 	case SUB_FROM:
-		sttFillInfoLine(hwndTree, htiRoot, nullptr, TranslateT("Subscription"), TranslateT("from"), sttInfoLineId(0, INFOLINE_SUBSCRIPTION));
+		sttFillInfoLine(hwndTree, htiRoot, nullptr, TranslateT("Subscription"), Translate("from"), sttInfoLineId(0, INFOLINE_SUBSCRIPTION));
 		break;
 	default:
-		sttFillInfoLine(hwndTree, htiRoot, nullptr, TranslateT("Subscription"), TranslateT("none"), sttInfoLineId(0, INFOLINE_SUBSCRIPTION));
+		sttFillInfoLine(hwndTree, htiRoot, nullptr, TranslateT("Subscription"), Translate("none"), sttInfoLineId(0, INFOLINE_SUBSCRIPTION));
 		break;
 	}
 
 	// logoff
+	char buf[256];
 	JABBER_RESOURCE_STATUS *r = item->getTemp();
 	if (r->m_dwIdleStartTime > 0) {
-		mir_wstrncpy(buf, _wctime(&r->m_dwIdleStartTime), _countof(buf));
-		size_t len = mir_wstrlen(buf);
+		mir_strncpy(buf, ctime(&r->m_dwIdleStartTime), _countof(buf));
+		size_t len = mir_strlen(buf);
 		if (len > 0)
 			buf[len - 1] = 0;
 	}
 	else if (!r->m_dwIdleStartTime)
-		mir_wstrncpy(buf, TranslateT("unknown"), _countof(buf));
+		mir_strncpy(buf, Translate("unknown"), _countof(buf));
 	else
-		mir_wstrncpy(buf, TranslateT("<not specified>"), _countof(buf));
+		mir_strncpy(buf, Translate("<not specified>"), _countof(buf));
 
 	sttFillInfoLine(hwndTree, htiRoot, nullptr,
-		(item->jid && wcschr(item->jid, '@')) ? TranslateT("Last logoff time") : TranslateT("Uptime"), buf,
+		(item->jid && strchr(item->jid, '@')) ? TranslateT("Last logoff time") : TranslateT("Uptime"), buf,
 		sttInfoLineId(0, INFOLINE_LOGOFF));
 
-	sttFillInfoLine(hwndTree, htiRoot, nullptr, TranslateT("Logoff message"),
-		r->m_tszStatusMessage ? r->m_tszStatusMessage : TranslateT("<not specified>"), sttInfoLineId(0, INFOLINE_LOGOFF_MSG));
+	sttFillInfoLine(hwndTree, htiRoot, nullptr, TranslateT("Logoff message"), r->m_szStatusMessage, sttInfoLineId(0, INFOLINE_LOGOFF_MSG));
 
 	// activity
 	if (item->m_pLastSeenResource)
-		mir_wstrncpy(buf, item->m_pLastSeenResource->m_tszResourceName, _countof(buf));
+		mir_strncpy(buf, item->m_pLastSeenResource->m_szResourceName, _countof(buf));
 	else
-		mir_wstrncpy(buf, TranslateT("<no information available>"), _countof(buf));
-
-	sttFillInfoLine(hwndTree, htiRoot, nullptr, TranslateT("Last active resource"), buf,
-		sttInfoLineId(0, INFOLINE_LASTACTIVE));
+		mir_strncpy(buf, Translate("<no information available>"), _countof(buf));
+	sttFillInfoLine(hwndTree, htiRoot, nullptr, TranslateT("Last active resource"), buf, sttInfoLineId(0, INFOLINE_LASTACTIVE));
 
 	// resources
 	if (item->arResources.getCount()) {
 		for (int i = 0; i < item->arResources.getCount(); i++)
 			sttFillResourceInfo(ppro, hwndTree, htiRoot, item, i + 1);
 	}
-	else if (!wcschr(item->jid, '@') || (r->m_iStatus != ID_STATUS_OFFLINE))
+	else if (!strchr(item->jid, '@') || (r->m_iStatus != ID_STATUS_OFFLINE))
 		sttFillResourceInfo(ppro, hwndTree, htiRoot, item, 0);
 
 	sttCleanupInfo(hwndTree, 1);
@@ -480,7 +471,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		if (dat == nullptr) break;
 
 		if (dat->item == nullptr) {
-			ptrW jid(dat->ppro->getWStringA(dat->hContact, "jid"));
+			ptrA jid(dat->ppro->getUStringA(dat->hContact, "jid"));
 			if (jid == nullptr)
 				break;
 
@@ -492,8 +483,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 				HWND hwndTree = GetDlgItem(hwndDlg, IDC_TV_INFO);
 				TreeView_DeleteAllItems(hwndTree);
 				HTREEITEM htiRoot = sttFillInfoLine(hwndTree, nullptr, dat->ppro->LoadIconEx("main"), L"JID", jid, sttInfoLineId(0, INFOLINE_NAME), true);
-				sttFillInfoLine(hwndTree, htiRoot, dat->ppro->LoadIconEx("vcard"), nullptr,
-					TranslateT("Please switch online to see more details."));
+				sttFillInfoLine(hwndTree, htiRoot, dat->ppro->LoadIconEx("vcard"), nullptr, Translate("Please switch online to see more details."));
 				break;
 			}
 		}
@@ -570,7 +560,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			case PSN_PARAMCHANGED:
 				dat->ppro = (CJabberProto*)((PSHNOTIFY*)lParam)->lParam;
 				if (dat->hContact != 0) {
-					ptrW jid(dat->ppro->getWStringA(dat->hContact, "jid"));
+					ptrA jid(dat->ppro->getUStringA(dat->hContact, "jid"));
 					if (jid != nullptr)
 						if (!(dat->item = dat->ppro->ListGetItemPtr(LIST_VCARD_TEMP, jid)))
 							dat->item = dat->ppro->ListGetItemPtr(LIST_ROSTER, jid);
@@ -652,7 +642,7 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 		}
 		ShowWindow(GetDlgItem(hwndDlg, IDC_SAVE), SW_HIDE);
 		{
-			ptrW jid(photoInfo->ppro->getWStringA(photoInfo->hContact, "jid"));
+			ptrA jid(photoInfo->ppro->getUStringA(photoInfo->hContact, "jid"));
 			if (jid != nullptr) {
 				JABBER_LIST_ITEM *item = photoInfo->ppro->ListGetItemPtr(LIST_VCARD_TEMP, jid);
 				if (item == nullptr)
@@ -660,7 +650,7 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 				if (item != nullptr) {
 					if (item->photoFileName) {
 						photoInfo->ppro->debugLogW(L"Showing picture from %s", item->photoFileName);
-						photoInfo->hBitmap = Bitmap_Load(item->photoFileName);
+						photoInfo->hBitmap = Bitmap_Load(Utf2T(item->photoFileName));
 						FreeImage_Premultiply(photoInfo->hBitmap);
 						ShowWindow(GetDlgItem(hwndDlg, IDC_SAVE), SW_SHOW);
 					}
@@ -676,7 +666,7 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 		case IDC_SAVE:
 			static wchar_t szFilter[512];
 
-			ptrW jid(photoInfo->ppro->getWStringA(photoInfo->hContact, "jid"));
+			ptrA jid(photoInfo->ppro->getUStringA(photoInfo->hContact, "jid"));
 			if (jid == nullptr)
 				break;
 
@@ -685,7 +675,7 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 				if ((item = photoInfo->ppro->ListGetItemPtr(LIST_ROSTER, jid)) == nullptr)
 					break;
 
-			switch (ProtoGetAvatarFileFormat(item->photoFileName)) {
+			switch (ProtoGetAvatarFileFormat(Utf2T(item->photoFileName))) {
 			case PA_FORMAT_BMP:
 				mir_snwprintf(szFilter, L"BMP %s (*.bmp)%c*.BMP", TranslateT("format"), 0);
 				break;
@@ -712,7 +702,7 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 			ofn.Flags = OFN_OVERWRITEPROMPT;
 			if (GetSaveFileName(&ofn)) {
 				photoInfo->ppro->debugLogW(L"File selected is %s", szFileName);
-				CopyFile(item->photoFileName, szFileName, FALSE);
+				CopyFile(Utf2T(item->photoFileName), szFileName, FALSE);
 			}
 		}
 		break;

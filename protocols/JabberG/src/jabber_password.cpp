@@ -56,22 +56,22 @@ public:
 		if (!m_proto->m_bJabberOnline || m_proto->m_ThreadInfo == nullptr)
 			return false;
 
-		ptrW newPass1(edtPass1.GetText()), newPass2(edtPass2.GetText());
-		if (mir_wstrcmp(newPass1, newPass2)) {
+		ptrA newPass1(edtPass1.GetTextU()), newPass2(edtPass2.GetTextU());
+		if (mir_strcmp(newPass1, newPass2)) {
 			MessageBox(m_hwnd, TranslateT("New password does not match."), TranslateT("Change Password"), MB_OK|MB_ICONSTOP|MB_SETFOREGROUND);
 			return false;
 		}
 
-		if (mir_wstrcmp(ptrW(edtOldPass.GetText()), m_proto->m_ThreadInfo->conn.password)) {
+		if (mir_strcmp(ptrA(edtOldPass.GetTextU()), m_proto->m_ThreadInfo->conn.password)) {
 			MessageBox(m_hwnd, TranslateT("Current password is incorrect."), TranslateT("Change Password"), MB_OK|MB_ICONSTOP|MB_SETFOREGROUND);
 			return false;
 		}
 		m_proto->m_ThreadInfo->tszNewPassword = newPass1.detach();
 
-		XmlNodeIq iq(m_proto->AddIQ(&CJabberProto::OnIqResultSetPassword, JABBER_IQ_TYPE_SET, _A2T(m_proto->m_ThreadInfo->conn.server)));
-		HXML q = iq << XQUERY(JABBER_FEAT_REGISTER);
-		q << XCHILD(L"username", m_proto->m_ThreadInfo->conn.username);
-		q << XCHILD(L"password", m_proto->m_ThreadInfo->tszNewPassword);
+		XmlNodeIq iq(m_proto->AddIQ(&CJabberProto::OnIqResultSetPassword, JABBER_IQ_TYPE_SET, m_proto->m_ThreadInfo->conn.server));
+		TiXmlElement *q = iq << XQUERY(JABBER_FEAT_REGISTER);
+		q << XCHILD("username", m_proto->m_ThreadInfo->conn.username);
+		q << XCHILD("password", m_proto->m_ThreadInfo->tszNewPassword);
 		m_proto->m_ThreadInfo->send(iq);
 		return true;
 	}

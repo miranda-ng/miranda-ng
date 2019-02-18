@@ -773,7 +773,7 @@ EXTERN_C MIR_APP_DLL(void) Netlib_DestroySecurityProvider(HANDLE hProvider);
 /////////////////////////////////////////////////////////////////////////////////////////
 // Returns the NTLM response string. The result value should be freed using mir_free
 
-EXTERN_C MIR_APP_DLL(char*) Netlib_NtlmCreateResponse(HANDLE hProvider, char *szChallenge, wchar_t *szLogin, wchar_t *szPass, unsigned &complete);
+EXTERN_C MIR_APP_DLL(char*) Netlib_NtlmCreateResponse(HANDLE hProvider, const char *szChallenge, wchar_t *szLogin, wchar_t *szPass, unsigned &complete);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Netlib hooks (0.8+)

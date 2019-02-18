@@ -23,27 +23,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "jabber_strm_mgmt.h"
 
-strm_mgmt::strm_mgmt(CJabberProto *_proto) : proto(_proto), m_bStrmMgmtPendingEnable(false),
-m_bStrmMgmtEnabled(false),
-m_bStrmMgmtResumeSupported(false),
-bSessionResumed(false)
+strm_mgmt::strm_mgmt(CJabberProto *_proto) :
+	proto(_proto)
 {
-
 }
 
-void strm_mgmt::OnProcessEnabled(HXML node, ThreadData * /*info*/)
+void strm_mgmt::OnProcessEnabled(const TiXmlElement *node, ThreadData * /*info*/)
 {
 	m_bStrmMgmtEnabled = true;
-	auto val = XmlGetAttrValue(node, L"max");
-	if(val)
-		m_nStrmMgmtResumeMaxSeconds = _wtoi(val);
-	val = XmlGetAttrValue(node, L"resume");
+	auto *val = node->Attribute("max");
 	if (val)
-	{
-		if (mir_wstrcmp(val, L"true") || mir_wstrcmp(val, L"1"))
-		{
+		m_nStrmMgmtResumeMaxSeconds = atoi(val);
+	val = node->Attribute("resume");
+	if (val) {
+		if (mir_strcmp(val, "true") || mir_strcmp(val, "1")) {
 			m_bStrmMgmtResumeSupported = true;
-			m_sStrmMgmtResumeId = XmlGetAttrValue(node, L"id");
+			m_sStrmMgmtResumeId = node->Attribute("id");
 		}
 	}
 	//TODO: handle 'location'
@@ -51,30 +46,29 @@ void strm_mgmt::OnProcessEnabled(HXML node, ThreadData * /*info*/)
 	m_nStrmMgmtSrvHCount = 0;
 }
 
-void strm_mgmt::OnProcessResumed(HXML node, ThreadData * /*info*/)
+void strm_mgmt::OnProcessResumed(const TiXmlElement *node, ThreadData * /*info*/)
 {
-	if (mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
+	if (mir_strcmp(node->Attribute("xmlns"), "urn:xmpp:sm:3"))
 		return;
-	auto var = XmlGetAttrValue(node, L"previd");
+	auto *var = node->Attribute("previd");
 	if (!var)
 		return;
 	if (m_sStrmMgmtResumeId != var)
 		return; //TODO: unknown session, what we should do ?
-	var = XmlGetAttrValue(node, L"h");
+	var = node->Attribute("h");
 	if (!var)
 		return;
 	bSessionResumed = true;
 	m_bStrmMgmtEnabled = true;
 	m_bStrmMgmtPendingEnable = false;
-	m_nStrmMgmtSrvHCount = _wtoi(var);
+	m_nStrmMgmtSrvHCount = atoi(var);
 	int size = m_nStrmMgmtLocalSCount - m_nStrmMgmtSrvHCount;
 
 	//FinishLoginProcess(info);
 	proto->OnLoggedIn();
 	proto->ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)proto->m_iStatus, proto->m_iDesiredStatus);
 
-	if (size < 0)
-	{
+	if (size < 0) {
 		proto->debugLogA("strm_mgmt: error: locally sent nodes count %d, server side received count %d", m_nStrmMgmtLocalSCount, m_nStrmMgmtSrvHCount);
 		m_nStrmMgmtLocalSCount = m_nStrmMgmtSrvHCount; //temporary workaround
 		//TODO: this should never happen, indicates server side bug
@@ -82,24 +76,22 @@ void strm_mgmt::OnProcessResumed(HXML node, ThreadData * /*info*/)
 	}
 	else if (size > 0 && !NodeCache.empty()) //TODO: NodeCache cannot be empty if size >0, it's a bug
 		ResendNodes(size);
-	else
-	{
+	else {
 		for (auto i : NodeCache)
-			xmlFree(i);
+			xmlStorage.DeleteNode(i);
 		NodeCache.clear();
 	}
 }
 
-void strm_mgmt::OnProcessSMa(HXML node)
+void strm_mgmt::OnProcessSMa(const TiXmlElement *node)
 {
-	if (mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
+	if (mir_strcmp(node->Attribute("xmlns"), "urn:xmpp:sm:3"))
 		return;
-	auto val = XmlGetAttrValue(node, L"h");
-	m_nStrmMgmtSrvHCount = _wtoi(val);
+
+	m_nStrmMgmtSrvHCount = node->IntAttribute("h");
 	proto->debugLogA("strm_mgmt: info: locally sent nodes count %d, server side received count %d", m_nStrmMgmtLocalSCount, m_nStrmMgmtSrvHCount);
 	int size = m_nStrmMgmtLocalSCount - m_nStrmMgmtSrvHCount;
-	if (size < 0)
-	{
+	if (size < 0) {
 		proto->debugLogA("strm_mgmt: error: locally sent nodes count %d, server side received count %d", m_nStrmMgmtLocalSCount, m_nStrmMgmtSrvHCount);
 		m_nStrmMgmtLocalSCount = m_nStrmMgmtSrvHCount; //temporary workaround
 		//TODO: this should never happen, indicates server side bug
@@ -107,10 +99,9 @@ void strm_mgmt::OnProcessSMa(HXML node)
 	}
 	else if (size > 0 && !NodeCache.empty()) //TODO: NodeCache cannot be empty if size >0, it's a bug
 		ResendNodes(size);
-	else
-	{
+	else {
 		for (auto i : NodeCache)
-			xmlFree(i);
+			xmlStorage.DeleteNode(i);
 		NodeCache.clear();
 	}
 }
@@ -118,50 +109,42 @@ void strm_mgmt::OnProcessSMa(HXML node)
 void strm_mgmt::ResendNodes(uint32_t size)
 {
 	proto->debugLogA("strm_mgmt: info: resending  %d missed nodes", size);
-	if (size < NodeCache.size())
-	{
+	if (size < NodeCache.size()) {
 		proto->debugLogA("strm_mgmt: info: resending nodes: need to resend %d nodes, nodes in cache %d, cleaning cache to match resending node count", size, NodeCache.size());
 		const size_t diff = NodeCache.size() - size;
-		if (diff)
-		{
+		if (diff) {
 			size_t diff_tmp = diff;
-			for (auto i : NodeCache)
-			{
-				if (diff_tmp > 0)
-				{
-					xmlFree(i);
+			for (auto i : NodeCache) {
+				if (diff_tmp > 0) {
+					xmlStorage.DeleteNode(i);
 					diff_tmp--;
 				}
 			}
 			diff_tmp = diff;
-			while (diff_tmp)
-			{
+			while (diff_tmp) {
 				NodeCache.pop_front();
 				diff_tmp--;
 			}
 		}
 	}
-	std::list<HXML> tmp_list = NodeCache;
+	std::list<TiXmlElement*> tmp_list = NodeCache;
 	NodeCache.clear();
 	m_nStrmMgmtLocalSCount = m_nStrmMgmtSrvHCount; //we have handled missed nodes, set our counter to match server side value
 	for (auto i : tmp_list)
-	{
 		proto->m_ThreadInfo->send(i);
-		//proto->m_ThreadInfo->send_no_strm_mgmt(i); //freed by send ?
-												   //xmlFree(i);
-	}
 }
 
-void strm_mgmt::OnProcessSMr(HXML node)
+void strm_mgmt::OnProcessSMr(const TiXmlElement *node)
 {
-	if (!mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
+	if (!mir_strcmp(node->Attribute("xmlns"), "urn:xmpp:sm:3"))
 		SendAck();
 }
 
-void strm_mgmt::OnProcessFailed(HXML node, ThreadData * info) //used failed instead of failure, notes: https://xmpp.org/extensions/xep-0198.html#errors
+void strm_mgmt::OnProcessFailed(const TiXmlElement *node, ThreadData * info) //used failed instead of failure, notes: https://xmpp.org/extensions/xep-0198.html#errors
 {
-	if (mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
+	if (mir_strcmp(node->Attribute("xmlns"), "urn:xmpp:sm:3"))
 		return;
+	
 	proto->debugLogW(L"strm_mgmt: error: Failed to resume session %s", m_sStrmMgmtResumeId.c_str());
 
 	m_bStrmMgmtEnabled = false;
@@ -172,23 +155,19 @@ void strm_mgmt::OnProcessFailed(HXML node, ThreadData * info) //used failed inst
 	for (auto &hContact : proto->AccContacts())
 		proto->SetContactOfflineStatus(hContact);
 
-	{
-		HXML subnode = XmlGetChild(node, L"item-not-found");
-		if (subnode)
-		{
-			m_bStrmMgmtPendingEnable = true;
-			FinishLoginProcess(info);
-		}
-		else
-			EnableStrmMgmt(); //resume failed, try to enable strm_mgmt instead
+	auto *subnode = node->FirstChildElement("item-not-found");
+	if (subnode) {
+		m_bStrmMgmtPendingEnable = true;
+		FinishLoginProcess(info);
 	}
+	else EnableStrmMgmt(); //resume failed, try to enable strm_mgmt instead
 }
 
-void strm_mgmt::CheckStreamFeatures(HXML node)
+void strm_mgmt::CheckStreamFeatures(const TiXmlElement *node)
 {
 	if (!IsResumeIdPresent())
 		ResetState(); //this may be necessary to reset counters if session resume id is not set
-	if (mir_wstrcmp(XmlGetName(node), L"sm") || !XmlGetAttrValue(node, L"xmlns") || mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3")) //we work only with version 3 or higher of sm
+	if (mir_strcmp(node->Name(), "sm") || !node->Attribute("xmlns") || mir_strcmp(node->Attribute("xmlns"), "urn:xmpp:sm:3")) //we work only with version 3 or higher of sm
 		return;
 	if (!(proto->m_bJabberOnline))
 		m_bStrmMgmtPendingEnable = true;
@@ -205,12 +184,12 @@ void strm_mgmt::CheckState()
 	EnableStrmMgmt();
 }
 
-void strm_mgmt::HandleOutgoingNode(HXML node)
+void strm_mgmt::HandleOutgoingNode(TiXmlElement *node)
 {
 	if (!m_bStrmMgmtEnabled)
 		return;
 	m_nStrmMgmtLocalSCount++;
-	NodeCache.push_back(xmlCopyNode(node));
+	NodeCache.push_back(node->DeepClone(&xmlStorage)->ToElement());
 	if ((m_nStrmMgmtLocalSCount - m_nStrmMgmtSrvHCount) >= m_nStrmMgmtCacheSize)
 		RequestAck();
 }
@@ -226,13 +205,13 @@ void strm_mgmt::ResetState()
 	m_sStrmMgmtResumeId.clear();
 }
 
-void strm_mgmt::HandleIncommingNode(HXML node)
+void strm_mgmt::HandleIncommingNode(const TiXmlElement *node)
 {
-	if (m_bStrmMgmtEnabled && mir_wstrcmp(XmlGetName(node), L"r") && mir_wstrcmp(XmlGetName(node), L"a")) //TODO: something better
+	if (m_bStrmMgmtEnabled && mir_strcmp(node->Name(), "r") && mir_strcmp(node->Name(), "a")) //TODO: something better
 		m_nStrmMgmtLocalHCount++;
-	else if (!mir_wstrcmp(XmlGetName(node), L"r"))
+	else if (!mir_strcmp(node->Name(), "r"))
 		OnProcessSMr(node);
-	else if (!mir_wstrcmp(XmlGetName(node), L"a"))
+	else if (!mir_strcmp(node->Name(), "a"))
 		OnProcessSMa(node);
 }
 
@@ -240,20 +219,17 @@ void strm_mgmt::EnableStrmMgmt()
 {
 	if (m_bStrmMgmtEnabled)
 		return;
-	if (m_sStrmMgmtResumeId.empty())
-	{
-		XmlNode enable_sm(L"enable");
-		XmlAddAttr(enable_sm, L"xmlns", L"urn:xmpp:sm:3");
-		XmlAddAttr(enable_sm, L"resume", L"true"); //enable resumption (most useful part of this xep)
+	if (m_sStrmMgmtResumeId.empty()) {
+		XmlNode enable_sm("enable");
+		XmlAddAttr(enable_sm, "xmlns", "urn:xmpp:sm:3");
+		XmlAddAttr(enable_sm, "resume", "true"); //enable resumption (most useful part of this xep)
 		proto->m_ThreadInfo->send(enable_sm);
 		m_nStrmMgmtLocalSCount = 1; //TODO: this MUST be 0, i have bug somewhere, feel free to fix it.
 	}
 	else //resume session
 	{
-		XmlNode enable_sm(L"resume");
-		XmlAddAttr(enable_sm, L"xmlns", L"urn:xmpp:sm:3");
-		xmlAddAttrInt(enable_sm, L"h", m_nStrmMgmtLocalHCount);
-		XmlAddAttr(enable_sm, L"previd", m_sStrmMgmtResumeId.c_str());
+		XmlNode enable_sm("resume");
+		enable_sm << XATTR("xmlns", "urn:xmpp:sm:3") <<	XATTRI("h", m_nStrmMgmtLocalHCount) <<	XATTR("previd", m_sStrmMgmtResumeId.c_str());
 		proto->m_ThreadInfo->send(enable_sm);
 	}
 }
@@ -263,9 +239,8 @@ void strm_mgmt::SendAck()
 	if (!m_bStrmMgmtEnabled)
 		return;
 	proto->debugLogA("strm_mgmt: info: sending ack: locally received node count %d", m_nStrmMgmtLocalHCount);
-	XmlNode enable_sm(L"a");
-	XmlAddAttr(enable_sm, L"xmlns", L"urn:xmpp:sm:3");
-	xmlAddAttrInt(enable_sm, L"h", m_nStrmMgmtLocalHCount);
+	XmlNode enable_sm("a");
+	enable_sm << XATTR("xmlns", "urn:xmpp:sm:3") << XATTRI("h", m_nStrmMgmtLocalHCount);
 	proto->m_ThreadInfo->send_no_strm_mgmt(enable_sm);
 }
 
@@ -273,8 +248,8 @@ void strm_mgmt::RequestAck()
 {
 	if (!m_bStrmMgmtEnabled)
 		return;
-	XmlNode enable_sm(L"r");
-	XmlAddAttr(enable_sm, L"xmlns", L"urn:xmpp:sm:3");
+
+	XmlNode enable_sm("r"); enable_sm << XATTR("xmlns", "urn:xmpp:sm:3");
 	proto->m_ThreadInfo->send_no_strm_mgmt(enable_sm);
 }
 
@@ -291,12 +266,11 @@ bool strm_mgmt::IsResumeIdPresent()
 void strm_mgmt::FinishLoginProcess(ThreadData *info)
 {
 
-	if (info->auth) 
-	{ //We are already logged-in
+	if (info->auth) { //We are already logged-in
 		info->send(
 			XmlNodeIq(proto->AddIQ(&CJabberProto::OnIqResultBind, JABBER_IQ_TYPE_SET))
-			<< XCHILDNS(L"bind", L"urn:ietf:params:xml:ns:xmpp-bind")
-			<< XCHILD(L"resource", info->resource));
+			<< XCHILDNS("bind", "urn:ietf:params:xml:ns:xmpp-bind")
+			<< XCHILD("resource", info->resource));
 
 		if (proto->m_AuthMechs.isSessionAvailable)
 			info->bIsSessionAvailable = TRUE;
@@ -306,5 +280,4 @@ void strm_mgmt::FinishLoginProcess(ThreadData *info)
 
 	//mechanisms not available and we are not logged in
 	proto->PerformIqAuth(info);
-
 }

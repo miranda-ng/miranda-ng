@@ -376,7 +376,7 @@ BOOL CJabberDlgPepSimple::OnWmGetMinMaxInfo(UINT, WPARAM, LPARAM lParam)
 ///////////////////////////////////////////////////////////////////////////////
 // CPepService base class
 
-CPepService::CPepService(CJabberProto *proto, char *name, wchar_t *node) :
+CPepService::CPepService(CJabberProto *proto, char *name, char *node) :
 	m_proto(proto),
 	m_name(name),
 	m_node(node),
@@ -391,11 +391,11 @@ CPepService::~CPepService()
 
 void CPepService::Publish()
 {
-	XmlNodeIq iq(L"set", m_proto->SerialNext());
+	XmlNodeIq iq("set", m_proto->SerialNext());
 	CreateData(
-		iq << XCHILDNS(L"pubsub", JABBER_FEAT_PUBSUB)
-		<< XCHILD(L"publish") << XATTR(L"node", m_node)
-		<< XCHILD(L"item") << XATTR(L"id", L"current"));
+		iq << XCHILDNS("pubsub", JABBER_FEAT_PUBSUB)
+		<< XCHILD("publish") << XATTR("node", m_node)
+		<< XCHILD("item") << XATTR("id", "current"));
 	m_proto->m_ThreadInfo->send(iq);
 
 	m_wasPublished = true;
@@ -403,17 +403,15 @@ void CPepService::Publish()
 
 void CPepService::Retract()
 {
-	wchar_t *tempName = mir_a2u(m_name);
-	wcslwr(tempName);
+	char *tempName = NEWSTR_ALLOCA(m_name);
+	strlwr(tempName);
 
 	m_proto->m_ThreadInfo->send(
-		XmlNodeIq(L"set", m_proto->SerialNext())
-		<< XCHILDNS(L"pubsub", JABBER_FEAT_PUBSUB)
-		<< XCHILD(L"publish") << XATTR(L"node", m_node)
-		<< XCHILD(L"item")
+		XmlNodeIq("set", m_proto->SerialNext())
+		<< XCHILDNS("pubsub", JABBER_FEAT_PUBSUB)
+		<< XCHILD("publish") << XATTR("node", m_node)
+		<< XCHILD("item")
 		<< XCHILDNS(tempName, m_node));
-
-	mir_free(tempName);
 }
 
 void CPepService::ResetPublish()
@@ -430,7 +428,7 @@ void CPepService::ForceRepublishOnLogin()
 ///////////////////////////////////////////////////////////////////////////////
 // CPepGuiService base class
 
-CPepGuiService::CPepGuiService(CJabberProto *proto, char *name, wchar_t *node) :
+CPepGuiService::CPepGuiService(CJabberProto *proto, char *name, char *node) :
 	CPepService(proto, name, node),
 	m_bGuiOpen(false),
 	m_hIcolibItem(nullptr),
@@ -616,7 +614,7 @@ CPepMood::~CPepMood()
 	mir_free(m_text);
 }
 
-void CPepMood::ProcessItems(const wchar_t *from, HXML itemsNode)
+void CPepMood::ProcessItems(const char *from, const TiXmlElement *itemsNode)
 {
 	MCONTACT hContact = 0, hSelfContact = 0;
 	if (!m_proto->IsMyOwnJID(from)) {
@@ -625,40 +623,41 @@ void CPepMood::ProcessItems(const wchar_t *from, HXML itemsNode)
 	}
 	else hSelfContact = m_proto->HContactFromJID(from);
 
-	if (XmlGetChild(itemsNode, L"retract")) {
+	if (itemsNode->FirstChildElement("retract")) {
 		if (hSelfContact)
 			SetMood(hSelfContact, nullptr, nullptr);
 		SetMood(hContact, nullptr, nullptr);
 		return;
 	}
 
-	HXML n, moodNode = XPath(itemsNode, L"item/mood[@xmlns='" JABBER_FEAT_USER_MOOD L"']");
-	if (!moodNode) return;
+	auto *moodNode = XmlGetChildByTag(itemsNode->FirstChildElement("item"), "mood", "xmlns", JABBER_FEAT_USER_MOOD);
+	if (!moodNode)
+		return;
 
-	const wchar_t *moodType = nullptr, *moodText = nullptr;
-	for (int i = 0; n = XmlGetChild(moodNode, i); i++) {
-		if (!mir_wstrcmp(XmlGetName(n), L"text"))
-			moodText = XmlGetText(n);
+	const char *moodType = nullptr, *moodText = nullptr;
+	for (auto *n : TiXmlEnum(moodNode)) {
+		if (!mir_strcmp(n->Name(), "text"))
+			moodText = n->GetText();
 		else
-			moodType = XmlGetName(n);
+			moodType = n->Name();
 	}
 
-	wchar_t *fixedText = JabberStrFixLines(moodText);
+	wchar_t *fixedText = JabberStrFixLines(Utf2T(moodText));
 	if (hSelfContact)
-		SetMood(hSelfContact, moodType, fixedText);
-	SetMood(hContact, moodType, fixedText);
+		SetMood(hSelfContact, Utf2T(moodType), fixedText);
+	SetMood(hContact, Utf2T(moodType), fixedText);
 	mir_free(fixedText);
 
 	if (!hContact && m_mode >= 0)
 		ForceRepublishOnLogin();
 }
 
-void CPepMood::CreateData(HXML n)
+void CPepMood::CreateData(TiXmlElement *n)
 {
-	HXML moodNode = n << XCHILDNS(L"mood", JABBER_FEAT_USER_MOOD);
-	moodNode << XCHILD(_A2T(g_arrMoods[m_mode].szTag));
+	TiXmlElement *moodNode = n << XCHILDNS("mood", JABBER_FEAT_USER_MOOD);
+	moodNode << XCHILD(g_arrMoods[m_mode].szTag);
 	if (m_text)
-		moodNode << XCHILD(L"text", m_text);
+		moodNode << XCHILD("text", T2Utf(m_text));
 }
 
 void CPepMood::ResetExtraIcon(MCONTACT hContact)
@@ -859,25 +858,23 @@ inline char *ActivityGetId(int id)
 }
 
 // -1 if not found, otherwise activity number
-static int ActivityCheck(const wchar_t *szFirstNode, const wchar_t *szSecondNode)
+static int ActivityCheck(const char *szFirstNode, const char *szSecondNode)
 {
 	if (!szFirstNode) return 0;
-
-	char *s1 = mir_u2a(szFirstNode), *s2 = mir_u2a(szSecondNode);
 
 	int i = 0, nFirst = -1, nSecond = -1;
 	while (g_arrActivities[i].szFirst || g_arrActivities[i].szSecond) {
 		// check first node
-		if (g_arrActivities[i].szFirst && !mir_strcmp(s1, g_arrActivities[i].szFirst)) {
+		if (g_arrActivities[i].szFirst && !mir_strcmp(szFirstNode, g_arrActivities[i].szFirst)) {
 			// first part found
 			nFirst = i;
-			if (!s2) {
+			if (!szSecondNode) {
 				nSecond = i;
 				break;
 			}
 			i++; // move to next
 			while (g_arrActivities[i].szSecond) {
-				if (!mir_strcmp(g_arrActivities[i].szSecond, s2)) {
+				if (!mir_strcmp(g_arrActivities[i].szSecond, szSecondNode)) {
 					nSecond = i;
 					break;
 				}
@@ -887,9 +884,6 @@ static int ActivityCheck(const wchar_t *szFirstNode, const wchar_t *szSecondNode
 		}
 		i++;
 	}
-
-	mir_free(s1);
-	mir_free(s2);
 
 	if (nSecond != -1)
 		return nSecond;
@@ -989,7 +983,7 @@ CPepActivity::~CPepActivity()
 	mir_free(m_text);
 }
 
-void CPepActivity::ProcessItems(const wchar_t *from, HXML itemsNode)
+void CPepActivity::ProcessItems(const char *from, const TiXmlElement *itemsNode)
 {
 	MCONTACT hContact = 0, hSelfContact = 0;
 	if (!m_proto->IsMyOwnJID(from)) {
@@ -998,32 +992,31 @@ void CPepActivity::ProcessItems(const wchar_t *from, HXML itemsNode)
 	}
 	else hSelfContact = m_proto->HContactFromJID(from);
 
-	if (XmlGetChild(itemsNode, "retract")) {
+	if (itemsNode->FirstChildElement("retract")) {
 		if (hSelfContact)
 			SetActivity(hSelfContact, nullptr, nullptr, nullptr);
 		SetActivity(hContact, nullptr, nullptr, nullptr);
 		return;
 	}
 
-	HXML actNode = XPath(itemsNode, L"item/activity[@xmlns='" JABBER_FEAT_USER_ACTIVITY L"']");
+	auto *actNode = XmlGetChildByTag(itemsNode->FirstChildElement("item"), "activity", "xmlns", JABBER_FEAT_USER_ACTIVITY);
 	if (!actNode)
 		return;
 
-	const wchar_t *szText = XPathT(actNode, "text");
-	const wchar_t *szFirstNode = nullptr, *szSecondNode = nullptr;
+	const char *szText = XPath(actNode, "text");
+	const char *szFirstNode = nullptr, *szSecondNode = nullptr;
 
-	HXML n;
-	for (int i = 0; n = XmlGetChild(actNode, i); i++) {
-		if (mir_wstrcmp(XmlGetName(n), L"text")) {
-			szFirstNode = XmlGetName(n);
-			HXML secondNode = XmlGetChild(n, 0);
-			if (szFirstNode && secondNode && XmlGetName(secondNode))
-				szSecondNode = XmlGetName(secondNode);
+	for (auto *n : TiXmlFilter(actNode, "text")) {
+		if (mir_strcmp(n->Name(), "text")) {
+			szFirstNode = n->Name();
+			auto *secondNode = n->FirstChildElement();
+			if (szFirstNode && secondNode && secondNode->Name())
+				szSecondNode = secondNode->Name();
 			break;
 		}
 	}
 
-	wchar_t *fixedText = JabberStrFixLines(szText);
+	ptrW fixedText(JabberStrFixLines(Utf2T(szText)));
 	if (hSelfContact)
 		SetActivity(hSelfContact, szFirstNode, szSecondNode, fixedText);
 	SetActivity(hContact, szFirstNode, szSecondNode, fixedText);
@@ -1033,19 +1026,19 @@ void CPepActivity::ProcessItems(const wchar_t *from, HXML itemsNode)
 		ForceRepublishOnLogin();
 }
 
-void CPepActivity::CreateData(HXML n)
+void CPepActivity::CreateData(TiXmlElement *n)
 {
 	char *szFirstNode = ActivityGetFirst(m_mode);
 	char *szSecondNode = ActivityGetSecond(m_mode);
 
-	HXML activityNode = n << XCHILDNS(L"activity", JABBER_FEAT_USER_ACTIVITY);
-	HXML firstNode = activityNode << XCHILD(_A2T(szFirstNode));
+	TiXmlElement *activityNode = n << XCHILDNS("activity", JABBER_FEAT_USER_ACTIVITY);
+	TiXmlElement *firstNode = activityNode << XCHILD(szFirstNode);
 
 	if (firstNode && szSecondNode)
-		firstNode << XCHILD(_A2T(szSecondNode));
+		firstNode << XCHILD(szSecondNode);
 
 	if (m_text)
-		activityNode << XCHILD(L"text", m_text);
+		activityNode << XCHILD("text", T2Utf(m_text));
 }
 
 void CPepActivity::ResetExtraIcon(MCONTACT hContact)
@@ -1060,7 +1053,7 @@ void CPepActivity::SetExtraIcon(MCONTACT hContact, char *szActivity)
 	ExtraIcon_SetIcon(hExtraActivity, hContact, szActivity == nullptr ? nullptr : g_ActivityIcons.GetIcolibHandle(szActivity));
 }
 
-void CPepActivity::SetActivity(MCONTACT hContact, const wchar_t *szFirst, const wchar_t *szSecond, const wchar_t *szText)
+void CPepActivity::SetActivity(MCONTACT hContact, const char *szFirst, const char *szSecond, const wchar_t *szText)
 {
 	int activity = -1;
 	if (szFirst || szSecond) {
@@ -1169,18 +1162,18 @@ BOOL CJabberProto::SendPepTune(wchar_t* szArtist, wchar_t* szLength, wchar_t* sz
 	if (!m_bJabberOnline || !m_bPepSupported)
 		return FALSE;
 
-	XmlNodeIq iq(L"set", SerialNext());
-	HXML tuneNode = iq << XCHILDNS(L"pubsub", JABBER_FEAT_PUBSUB)
-							<< XCHILD(L"publish") << XATTR(L"node", JABBER_FEAT_USER_TUNE)
-							<< XCHILD(L"item") << XCHILDNS(L"tune", JABBER_FEAT_USER_TUNE);
+	XmlNodeIq iq("set", SerialNext());
+	TiXmlElement *tuneNode = iq << XCHILDNS("pubsub", JABBER_FEAT_PUBSUB)
+		<< XCHILD("publish") << XATTR("node", JABBER_FEAT_USER_TUNE)
+		<< XCHILD("item") << XCHILDNS("tune", JABBER_FEAT_USER_TUNE);
 
 	if (szArtist || szLength || szSource || szTitle || szUri) {
-		if (szArtist) tuneNode << XCHILD(L"artist", szArtist);
-		if (szLength) tuneNode << XCHILD(L"length", szLength);
-		if (szSource) tuneNode << XCHILD(L"source", szSource);
-		if (szTitle) tuneNode << XCHILD(L"title", szTitle);
-		if (szTrack) tuneNode << XCHILD(L"track", szTrack);
-		if (szUri) tuneNode << XCHILD(L"uri", szUri);
+		if (szArtist) tuneNode << XCHILD("artist", T2Utf(szArtist));
+		if (szLength) tuneNode << XCHILD("length", T2Utf(szLength));
+		if (szSource) tuneNode << XCHILD("source", T2Utf(szSource));
+		if (szTitle) tuneNode << XCHILD("title", T2Utf(szTitle));
+		if (szTrack) tuneNode << XCHILD("track", T2Utf(szTrack));
+		if (szUri) tuneNode << XCHILD("uri", T2Utf(szUri));
 	}
 	m_ThreadInfo->send(iq);
 

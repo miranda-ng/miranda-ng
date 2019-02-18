@@ -86,6 +86,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <win2k.h>
 #include <m_imgsrvc.h>
 #include <m_clc.h>
+#include <m_xml.h>
 
 #include <m_folders.h>
 #include <m_fingerprint.h>
@@ -179,8 +180,8 @@ protected:
 #define JABBER_IQID "mir_"
 #define JABBER_MAX_JID_LEN  1024
 
-#define JABBER_GC_MSG_QUIT				LPGENW("I'm happy Miranda NG user. Get it at https://miranda-ng.org/.")
-#define JABBER_GC_MSG_SLAP				LPGENW("/me slaps %s around a bit with a large trout")
+#define JABBER_GC_MSG_QUIT				LPGEN("I'm happy Miranda NG user. Get it at https://miranda-ng.org/.")
+#define JABBER_GC_MSG_SLAP				LPGEN("/me slaps %s around a bit with a large trout")
 #define JABBER_SERVER_URL				"https://xmpp.net/services.php"
 
 // registered db event types
@@ -309,12 +310,12 @@ enum {
 struct CJabberHttpAuthParams
 {
 	enum {IQ = 1, MSG = 2} m_nType;
-	wchar_t *m_szFrom;
-	wchar_t *m_szIqId;
-	wchar_t *m_szThreadId;
-	wchar_t *m_szId;
-	wchar_t *m_szMethod;
-	wchar_t *m_szUrl;
+	char *m_szFrom;
+	char *m_szIqId;
+	char *m_szThreadId;
+	char *m_szId;
+	char *m_szMethod;
+	char *m_szUrl;
 	CJabberHttpAuthParams()
 	{
 		memset(this, 0, sizeof(CJabberHttpAuthParams));
@@ -353,14 +354,14 @@ struct CJabberHttpAuthParams
 
 struct JABBER_CONN_DATA : public MZeroedObject
 {
-	wchar_t username[512];
-	wchar_t password[512];
-	char  server[128];
-	char  manualHost[128];
-	int   port;
-	BOOL  useSSL;
+	char username[512];
+	char password[512];
+	char server[128];
+	char manualHost[128];
+	int  port;
+	BOOL useSSL;
 
-	HWND  reg_hwndDlg;
+	HWND reg_hwndDlg;
 };
 
 struct ThreadData
@@ -402,9 +403,9 @@ struct ThreadData
 
 	// connection & login data
 	JABBER_CONN_DATA conn;
-	wchar_t    resource[128];
-	wchar_t    fullJID[JABBER_MAX_JID_LEN];
-	ptrW     tszNewPassword;
+	char     resource[128];
+	char     fullJID[JABBER_MAX_JID_LEN];
+	ptrA     tszNewPassword;
 
 	class TJabberAuth *auth;
 	JabberCapsBits jabberServerCaps;
@@ -413,8 +414,8 @@ struct ThreadData
 	void  shutdown(void);
 	int   recv(char* buf, size_t len);
 	int   send(char* buffer, int bufsize = -1);
-	int   send(HXML node);
-	int   send_no_strm_mgmt(HXML node);
+	int   send(TiXmlElement *node);
+	int   send_no_strm_mgmt(TiXmlElement *node);
 
 	int   recvws(char* buffer, size_t bufsize, int flags);
 	int   sendws(char* buffer, size_t bufsize, int flags);
@@ -422,11 +423,11 @@ struct ThreadData
 
 struct JABBER_MODEMSGS
 {
-	wchar_t *szOnline;
-	wchar_t *szAway;
-	wchar_t *szNa;
-	wchar_t *szDnd;
-	wchar_t *szFreechat;
+	char *szOnline;
+	char *szAway;
+	char *szNa;
+	char *szDnd;
+	char *szFreechat;
 };
 
 typedef enum { FT_SI, FT_OOB, FT_BYTESTREAM, FT_IBB } JABBER_FT_TYPE;
@@ -446,10 +447,10 @@ struct filetransfer
 	JABBER_FT_TYPE type;
 	HNETLIBCONN s;
 	JABBER_FILE_STATE state;
-	wchar_t *jid;
+	char*  jid;
 	int    fileId;
-	wchar_t* szId;
-	wchar_t *sid;
+	char*  szId;
+	char*  sid;
 	int    bCompleted;
 	HANDLE hWaitEvent;
 
@@ -497,19 +498,20 @@ enum JABBER_MUC_JIDLIST_TYPE
 	MUC_OWNERLIST
 };
 
-struct JABBER_MUC_JIDLIST_INFO
+struct JABBER_MUC_JIDLIST_INFO : public MZeroedObject
 {
 	~JABBER_MUC_JIDLIST_INFO();
 
 	JABBER_MUC_JIDLIST_TYPE type;
-	wchar_t *roomJid;	// filled-in by the WM_JABBER_REFRESH code
-	HXML   iqNode;
+	char *roomJid;	// filled-in by the WM_JABBER_REFRESH code
+	TiXmlDocument doc;
+	TiXmlElement *iqNode;
 	CJabberProto *ppro;
 
-	wchar_t *type2str(void) const;
+	wchar_t* type2str(void) const;
 };
 
-typedef void (CJabberProto::*JABBER_FORM_SUBMIT_FUNC)(HXML values, void *userdata);
+typedef void (CJabberProto::*JABBER_FORM_SUBMIT_FUNC)(TiXmlElement *values, void *userdata);
 
 //---- jabber_treelist.c ------------------------------------------------
 
@@ -590,7 +592,7 @@ private:
 extern HANDLE hExtraMood;
 extern HANDLE hExtraActivity;
 
-extern wchar_t szCoreVersion[];
+extern char szCoreVersion[];
 
 extern unsigned int g_nTempFileId;
 extern int g_cbCountries;
@@ -637,14 +639,14 @@ enum TJabberFormControlType
 typedef struct TJabberFormControlInfo *HJFORMCTRL;
 typedef struct TJabberFormLayoutInfo *HJFORMLAYOUT;
 
-void JabberFormCreateUI(HWND hwndStatic, HXML xNode, int *formHeight, BOOL bCompact = FALSE);
+void JabberFormCreateUI(HWND hwndStatic, TiXmlElement *xNode, int *formHeight, BOOL bCompact = FALSE);
 void JabberFormDestroyUI(HWND hwndStatic);
-void JabberFormSetInstruction(HWND hwndForm, const wchar_t *text);
+void JabberFormSetInstruction(HWND hwndForm, const char *text);
 HJFORMLAYOUT JabberFormCreateLayout(HWND hwndStatic); // use mir_free to destroy
-HJFORMCTRL JabberFormAppendControl(HWND hwndStatic, HJFORMLAYOUT layout_info, TJabberFormControlType type, const wchar_t *labelStr, const wchar_t *valueStr);
+HJFORMCTRL JabberFormAppendControl(HWND hwndStatic, HJFORMLAYOUT layout_info, TJabberFormControlType type, const char *labelStr, const char *valueStr);
 void JabberFormLayoutControls(HWND hwndStatic, HJFORMLAYOUT layout_info, int *formHeight);
 
-HXML JabberFormGetData(HWND hwndStatic, HXML xNode);
+TiXmlElement* JabberFormGetData(HWND hwndStatic, TiXmlDocument *doc, TiXmlElement *xNode);
 
 //---- jabber_icolib.c ----------------------------------------------
 
@@ -670,15 +672,15 @@ int    g_OnToolbarInit(WPARAM, LPARAM);
 
 struct CJabberAdhocStartupParams
 {
-	wchar_t *m_szJid;
-	wchar_t *m_szNode;
+	char *m_szJid;
+	char *m_szNode;
 	CJabberProto *m_pProto;
 
-	CJabberAdhocStartupParams(CJabberProto *proto, wchar_t* szJid, wchar_t* szNode = nullptr)
+	CJabberAdhocStartupParams(CJabberProto *proto, const char *szJid, const char *szNode = nullptr)
 	{
 		m_pProto = proto;
-		m_szJid = mir_wstrdup(szJid);
-		m_szNode = szNode ? mir_wstrdup(szNode) : nullptr;
+		m_szJid = mir_strdup(szJid);
+		m_szNode = szNode ? mir_strdup(szNode) : nullptr;
 	}
 	~CJabberAdhocStartupParams()
 	{
@@ -687,16 +689,18 @@ struct CJabberAdhocStartupParams
 	}
 };
 
-struct JabberAdHocData
+struct JabberAdHocData : public MZeroedObject
 {
 	CJabberProto *proto;
-	int      CurrentHeight;
-	int      curPos;
-	int      frameHeight;
-	RECT     frameRect;
-	HXML     AdHocNode;
-	HXML     CommandsNode;
-	wchar_t *ResponderJID;
+
+	int CurrentHeight;
+	int curPos;
+	int frameHeight;
+	RECT frameRect;
+	TiXmlDocument doc;
+	TiXmlElement *AdHocNode;
+	TiXmlElement *CommandsNode;
+	char* ResponderJID;
 };
 
 //---- jabber_util.cpp ------------------------------------------------------------------
@@ -719,27 +723,31 @@ struct TStringPairs
 
 typedef char JabberShaStrBuf[2*MIR_SHA1_HASH_SIZE + 1];
 
-wchar_t* __stdcall JabberNickFromJID(const wchar_t *jid);
-wchar_t*           JabberPrepareJid(const wchar_t *jid);
-char*    __stdcall JabberSha1(const char *str, JabberShaStrBuf buf);
-wchar_t* __stdcall JabberStrFixLines(const wchar_t *str);
-void     __stdcall JabberHttpUrlDecode(wchar_t *str);
-int      __stdcall JabberCombineStatus(int status1, int status2);
-wchar_t* __stdcall JabberErrorStr(int errorCode);
-wchar_t* __stdcall JabberErrorMsg(HXML errorNode, int *errorCode = nullptr);
-time_t   __stdcall JabberIsoToUnixTime(const wchar_t *stamp);
-wchar_t* __stdcall JabberStripJid(const wchar_t *jid, wchar_t *dest, size_t destLen);
-int      __stdcall JabberGetPacketID(HXML n);
-wchar_t* __stdcall JabberId2string(int id);
+char*  JabberNickFromJID(const char *jid);
+char*  JabberPrepareJid(const char *jid);
+char*  JabberSha1(const char *str, JabberShaStrBuf buf);
+void   JabberHttpUrlDecode(wchar_t *str);
+int    JabberCombineStatus(int status1, int status2);
+time_t JabberIsoToUnixTime(const char *stamp);
+char*  JabberStripJid(const char *jid, char *dest, size_t destLen);
+int    JabberGetPacketID(const TiXmlElement *n);
+char*  JabberId2string(int id);
 
-wchar_t* time2str(time_t _time, wchar_t *buf, size_t bufLen);
-time_t   str2time(const wchar_t*);
+char*  time2str(time_t _time, char *buf, size_t bufLen);
+time_t str2time(const char*);
 
-const wchar_t* JabberStrIStr(const wchar_t *str, const wchar_t *substr);
-void          JabberCopyText(HWND hwnd, const wchar_t *text);
-CJabberProto* JabberChooseInstance(bool bIsLink=false);
+wchar_t* JabberStrFixLines(const wchar_t *str);
 
-bool JabberReadXep203delay(HXML node, time_t &msgTime);
+wchar_t* JabberErrorStr(int errorCode);
+wchar_t* JabberErrorMsg(const TiXmlElement *errorNode, int *errorCode = nullptr);
+
+const wchar_t *JabberStrIStr(const wchar_t *str, const wchar_t *substr);
+void           JabberCopyText(HWND hwnd, const wchar_t *text);
+CJabberProto*  JabberChooseInstance(bool bIsLink=false);
+
+bool JabberReadXep203delay(const TiXmlElement *node, time_t &msgTime);
+
+void SetDlgItemTextUtf(HWND hwndDlg, int ctrlId, const char *szValue);
 
 int  UIEmulateBtnClick(HWND hwndDlg, UINT idcButton);
 void UIShowControls(HWND hwndDlg, int *idList, int nCmdShow);

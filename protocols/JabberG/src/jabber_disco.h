@@ -36,16 +36,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 class CJabberSDIdentity
 {
 protected:
-	wchar_t *m_szCategory;
-	wchar_t *m_szType;
-	wchar_t *m_szName;
+	char *m_szCategory;
+	char *m_szType;
+	char *m_szName;
 	CJabberSDIdentity *m_pNext;
+
 public:
-	CJabberSDIdentity(const wchar_t *szCategory, const wchar_t *szType, const wchar_t *szName)
+	CJabberSDIdentity(const char *szCategory, const char *szType, const char *szName)
 	{
-		m_szCategory = mir_wstrdup(szCategory);
-		m_szType = mir_wstrdup(szType);
-		m_szName = mir_wstrdup(szName);
+		m_szCategory = mir_strdup(szCategory);
+		m_szType = mir_strdup(szType);
+		m_szName = mir_strdup(szName);
 		m_pNext = nullptr;
 	}
 	~CJabberSDIdentity()
@@ -56,15 +57,15 @@ public:
 		if (m_pNext)
 			delete m_pNext;
 	}
-	wchar_t *GetCategory()
+	char *GetCategory()
 	{
 		return m_szCategory;
 	}
-	wchar_t *GetType()
+	char *GetType()
 	{
 		return m_szType;
 	}
-	wchar_t *GetName()
+	char *GetName()
 	{
 		return m_szName;
 	}
@@ -84,12 +85,12 @@ class CJabberSDFeature;
 class CJabberSDFeature
 {
 protected:
-	wchar_t *m_szVar;
+	char *m_szVar;
 	CJabberSDFeature *m_pNext;
 public:
-	CJabberSDFeature(const wchar_t *szVar)
+	CJabberSDFeature(const char *szVar)
 	{
-		m_szVar = szVar ? mir_wstrdup(szVar) : nullptr;
+		m_szVar = szVar ? mir_strdup(szVar) : nullptr;
 		m_pNext = nullptr;
 	}
 	~CJabberSDFeature()
@@ -98,7 +99,7 @@ public:
 		if (m_pNext)
 			delete m_pNext;
 	}
-	wchar_t *GetVar()
+	char* GetVar()
 	{
 		return m_szVar;
 	}
@@ -117,9 +118,9 @@ public:
 class CJabberSDNode
 {
 protected:
-	wchar_t *m_szJid;
-	wchar_t *m_szNode;
-	wchar_t *m_szName;
+	char *m_szJid;
+	char *m_szNode;
+	char *m_szName;
 	CJabberSDIdentity *m_pIdentities;
 	CJabberSDFeature *m_pFeatures;
 	CJabberSDNode *m_pNext;
@@ -131,12 +132,13 @@ protected:
 	HTREELISTITEM m_hTreeItem;
 	wchar_t *m_szInfoError;
 	wchar_t *m_szItemsError;
+
 public:
-	CJabberSDNode(const wchar_t *szJid = nullptr, const wchar_t *szNode = nullptr, const wchar_t *szName = nullptr)
+	CJabberSDNode(const char *szJid = nullptr, const char *szNode = nullptr, const char *szName = nullptr)
 	{
-		m_szJid = mir_wstrdup(szJid);
-		m_szNode = mir_wstrdup(szNode);
-		m_szName = mir_wstrdup(szName);
+		m_szJid = mir_strdup(szJid);
+		m_szNode = mir_strdup(szNode);
+		m_szName = mir_strdup(szName);
 		m_pIdentities = nullptr;
 		m_pFeatures = nullptr;
 		m_pNext = nullptr;
@@ -155,9 +157,9 @@ public:
 	}
 	BOOL RemoveAll()
 	{
-		replaceStrW(m_szJid, nullptr);
-		replaceStrW(m_szNode, nullptr);
-		replaceStrW(m_szName, nullptr);
+		replaceStr(m_szJid, nullptr);
+		replaceStr(m_szNode, nullptr);
+		replaceStr(m_szName, nullptr);
 		replaceStrW(m_szInfoError, nullptr);
 		replaceStrW(m_szItemsError, nullptr);
 		if (m_pIdentities)
@@ -227,25 +229,25 @@ public:
 	{
 		return m_nItemsRequestId;
 	}
-	BOOL SetJid(wchar_t *szJid)
+	BOOL SetJid(char *szJid)
 	{
-		replaceStrW(m_szJid, szJid);
+		replaceStr(m_szJid, szJid);
 		return TRUE;
 	}
-	wchar_t *GetJid()
+	char* GetJid()
 	{
 		return m_szJid;
 	}
-	BOOL SetNode(wchar_t *szNode)
+	BOOL SetNode(char *szNode)
 	{
-		replaceStrW(m_szNode, szNode);
+		replaceStr(m_szNode, szNode);
 		return TRUE;
 	}
-	wchar_t *GetNode()
+	char* GetNode()
 	{
 		return m_szNode;
 	}
-	wchar_t *GetName()
+	char *GetName()
 	{
 		return m_szName;
 	}
@@ -291,7 +293,7 @@ public:
 		}
 		return nullptr;
 	}
-	BOOL AddFeature(const wchar_t *szFeature)
+	BOOL AddFeature(const char *szFeature)
 	{
 		if (!szFeature)
 			return FALSE;
@@ -305,7 +307,7 @@ public:
 
 		return TRUE;
 	}
-	BOOL AddIdentity(const wchar_t *szCategory, const wchar_t *szType, const wchar_t *szName)
+	BOOL AddIdentity(const char *szCategory, const char *szType, const char*szName)
 	{
 		if (!szCategory || !szType)
 			return FALSE;
@@ -319,7 +321,7 @@ public:
 
 		return TRUE;
 	}
-	BOOL AddChildNode(const wchar_t *szJid, const wchar_t *szNode, const wchar_t *szName)
+	BOOL AddChildNode(const char *szJid, const char *szNode, const char *szName)
 	{
 		if (!szJid)
 			return FALSE;
@@ -333,7 +335,7 @@ public:
 		return TRUE;
 	}
 
-	BOOL SetItemsRequestErrorText(wchar_t *szError)
+	BOOL SetItemsRequestErrorText(const wchar_t *szError)
 	{
 		replaceStrW(m_szItemsError, szError);
 		return TRUE;
@@ -423,7 +425,7 @@ public:
 		return m_pPrimaryNodes;
 	}
 
-	CJabberSDNode* AddPrimaryNode(const wchar_t *szJid, const wchar_t *szNode, const wchar_t *szName)
+	CJabberSDNode* AddPrimaryNode(const char *szJid, const char *szNode, const char *szName)
 	{
 		if (!szJid)
 			return nullptr;

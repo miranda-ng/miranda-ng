@@ -32,7 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void JabberIbbFreeJibb(JABBER_IBB_TRANSFER *jibb)
 {
-	if (jibb)  {
+	if (jibb) {
 		filetransfer* pft = jibb->ft;
 		if (pft)
 			pft->jibb = nullptr;
@@ -42,33 +42,34 @@ void JabberIbbFreeJibb(JABBER_IBB_TRANSFER *jibb)
 		mir_free(jibb->sid);
 
 		mir_free(jibb);
-}	}
+	}
+}
 
-BOOL CJabberProto::OnFtHandleIbbIq(HXML iqNode, CJabberIqInfo *pInfo)
+BOOL CJabberProto::OnFtHandleIbbIq(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
-	if (!mir_wstrcmp(pInfo->GetChildNodeName(), L"open"))
+	if (!mir_strcmp(pInfo->GetChildNodeName(), "open"))
 		FtHandleIbbRequest(iqNode, TRUE);
-	else if (!mir_wstrcmp(pInfo->GetChildNodeName(), L"close"))
+	else if (!mir_strcmp(pInfo->GetChildNodeName(), "close"))
 		FtHandleIbbRequest(iqNode, FALSE);
-	else if (!mir_wstrcmp(pInfo->GetChildNodeName(), L"data")) {
+	else if (!mir_strcmp(pInfo->GetChildNodeName(), "data")) {
 		BOOL bOk = FALSE;
-		const wchar_t *sid = XmlGetAttrValue(pInfo->GetChildNode(), L"sid");
-		const wchar_t *seq = XmlGetAttrValue(pInfo->GetChildNode(), L"seq");
-		if (sid && seq && XmlGetText(pInfo->GetChildNode()))
-			bOk = OnIbbRecvdData(XmlGetText(pInfo->GetChildNode()), sid, seq);
+		const char *sid = pInfo->GetChildNode()->Attribute("sid");
+		const char *seq = pInfo->GetChildNode()->Attribute("seq");
+		if (sid && seq && pInfo->GetChildNode()->GetText())
+			bOk = OnIbbRecvdData(pInfo->GetChildNode()->GetText(), sid, seq);
 
 		if (bOk)
-			m_ThreadInfo->send( XmlNodeIq(L"result", pInfo));
+			m_ThreadInfo->send(XmlNodeIq("result", pInfo));
 		else
 			m_ThreadInfo->send(
-				XmlNodeIq(L"error", pInfo)
-					<< XCHILD(L"error") << XATTRI(L"code", 404) << XATTR(L"type", L"cancel")
-						<< XCHILDNS(L"item-not-found", L"urn:ietf:params:xml:ns:xmpp-stanzas"));
+				XmlNodeIq("error", pInfo)
+				<< XCHILD("error") << XATTRI("code", 404) << XATTR("type", "cancel")
+				<< XCHILDNS("item-not-found", "urn:ietf:params:xml:ns:xmpp-stanzas"));
 	}
 	return TRUE;
 }
 
-void CJabberProto::OnIbbInitiateResult(HXML, CJabberIqInfo *pInfo)
+void CJabberProto::OnIbbInitiateResult(const TiXmlElement*, CJabberIqInfo *pInfo)
 {
 	JABBER_IBB_TRANSFER *jibb = (JABBER_IBB_TRANSFER *)pInfo->GetUserData();
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT)
@@ -77,7 +78,7 @@ void CJabberProto::OnIbbInitiateResult(HXML, CJabberIqInfo *pInfo)
 		SetEvent(jibb->hEvent);
 }
 
-void CJabberProto::OnIbbCloseResult(HXML, CJabberIqInfo *pInfo)
+void CJabberProto::OnIbbCloseResult(const TiXmlElement*, CJabberIqInfo *pInfo)
 {
 	JABBER_IBB_TRANSFER *jibb = (JABBER_IBB_TRANSFER *)pInfo->GetUserData();
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT)
@@ -98,8 +99,8 @@ void CJabberProto::IbbSendThread(JABBER_IBB_TRANSFER *jibb)
 
 	m_ThreadInfo->send(
 		XmlNodeIq(AddIQ(&CJabberProto::OnIbbInitiateResult, JABBER_IQ_TYPE_SET, jibb->dstJID, 0, -1, jibb))
-			<< XCHILDNS(L"open", JABBER_FEAT_IBB) << XATTR(L"sid", jibb->sid) << XATTRI(L"block-size", JABBER_IBB_BLOCK_SIZE)
-			<< XATTR(L"stanza", L"message"));
+		<< XCHILDNS("open", JABBER_FEAT_IBB) << XATTR("sid", jibb->sid) << XATTRI("block-size", JABBER_IBB_BLOCK_SIZE)
+		<< XATTR("stanza", "message"));
 
 	WaitForSingleObject(jibb->hEvent, INFINITE);
 	CloseHandle(jibb->hEvent);
@@ -115,7 +116,7 @@ void CJabberProto::IbbSendThread(JABBER_IBB_TRANSFER *jibb)
 
 			m_ThreadInfo->send(
 				XmlNodeIq(AddIQ(&CJabberProto::OnIbbCloseResult, JABBER_IQ_TYPE_SET, jibb->dstJID, 0, -1, jibb))
-					<< XCHILDNS(L"close", JABBER_FEAT_IBB) << XATTR(L"sid", jibb->sid));
+				<< XCHILDNS("close", JABBER_FEAT_IBB) << XATTR("sid", jibb->sid));
 
 			WaitForSingleObject(jibb->hEvent, INFINITE);
 			CloseHandle(jibb->hEvent);
@@ -127,7 +128,7 @@ void CJabberProto::IbbSendThread(JABBER_IBB_TRANSFER *jibb)
 		else jibb->state = JIBB_ERROR;
 	}
 
-	(this->*jibb->pfnFinal)((jibb->state==JIBB_DONE)?TRUE:FALSE, jibb->ft);
+	(this->*jibb->pfnFinal)((jibb->state == JIBB_DONE) ? TRUE : FALSE, jibb->ft);
 	jibb->ft = nullptr;
 	JabberIbbFreeJibb(jibb);
 }
@@ -151,12 +152,12 @@ void __cdecl CJabberProto::IbbReceiveThread(JABBER_IBB_TRANSFER *jibb)
 	jibb->hEvent = nullptr;
 
 	if (jibb->state == JIBB_ERROR)
-		m_ThreadInfo->send( XmlNodeIq(L"set", SerialNext(), jibb->dstJID) << XCHILDNS(L"close", JABBER_FEAT_IBB) << XATTR(L"sid", jibb->sid));
+		m_ThreadInfo->send(XmlNodeIq("set", SerialNext(), jibb->dstJID) << XCHILDNS("close", JABBER_FEAT_IBB) << XATTR("sid", jibb->sid));
 
 	if (jibb->bStreamClosed && jibb->dwTransferredSize == ft->dwExpectedRecvFileSize)
 		jibb->state = JIBB_DONE;
 
-	(this->*jibb->pfnFinal)((jibb->state==JIBB_DONE)?TRUE:FALSE, jibb->ft);
+	(this->*jibb->pfnFinal)((jibb->state == JIBB_DONE) ? TRUE : FALSE, jibb->ft);
 	jibb->ft = nullptr;
 
 	ListRemove(LIST_FTRECV, jibb->sid);
@@ -164,12 +165,12 @@ void __cdecl CJabberProto::IbbReceiveThread(JABBER_IBB_TRANSFER *jibb)
 	JabberIbbFreeJibb(jibb);
 }
 
-BOOL CJabberProto::OnIbbRecvdData(const wchar_t *data, const wchar_t *sid, const wchar_t *seq)
+BOOL CJabberProto::OnIbbRecvdData(const char *data, const char *sid, const char *seq)
 {
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_FTRECV, sid);
 	if (item == nullptr) return FALSE;
 
-	WORD wSeq = (WORD)_wtoi(seq);
+	WORD wSeq = (WORD)atoi(seq);
 	if (wSeq != item->jibb->wPacketId) {
 		if (item->jibb->hEvent)
 			SetEvent(item->jibb->hEvent);
@@ -179,7 +180,7 @@ BOOL CJabberProto::OnIbbRecvdData(const wchar_t *data, const wchar_t *sid, const
 	item->jibb->wPacketId++;
 
 	size_t length;
-	ptrA decodedData((char*)mir_base64_decode( _T2A(data), &length));
+	ptrA decodedData((char*)mir_base64_decode(data, &length));
 	if (decodedData == nullptr)
 		return FALSE;
 

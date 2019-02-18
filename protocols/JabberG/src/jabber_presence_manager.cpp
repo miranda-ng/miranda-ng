@@ -64,7 +64,7 @@ bool CJabberPresenceManager::DeletePermanentHandler(CJabberPresencePermanentInfo
 	return m_arHandlers.remove(pInfo) == 1;
 }
 
-bool CJabberPresenceManager::HandlePresencePermanent(HXML node, ThreadData *pThreadData)
+bool CJabberPresenceManager::HandlePresencePermanent(const TiXmlElement *node, ThreadData *pThreadData)
 {
 	for (auto &it : m_arHandlers) {
 		CJabberPresenceInfo presenceInfo;
