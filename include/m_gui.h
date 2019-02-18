@@ -549,10 +549,12 @@ public:
 	void SetInt(int value);
 
 	wchar_t* GetText();
-	char *   GetTextA();
+	char*    GetTextA();
+	char*    GetTextU();
 
-	wchar_t* GetText(wchar_t *buf, int size);
-	char*    GetTextA(char *buf, int size);
+	wchar_t* GetText(wchar_t *buf, size_t size);
+	char*    GetTextA(char *buf, size_t size);
+	char*    GetTextU(char *buf, size_t size);
 
 	int      GetInt();
 

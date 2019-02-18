@@ -144,17 +144,29 @@ char* CCtrlBase::GetTextA()
 	return result;
 }
 
-wchar_t* CCtrlBase::GetText(wchar_t *buf, int size)
+char* CCtrlBase::GetTextU()
+{
+	return mir_utf8encodeW(ptrW(GetText()));
+}
+
+wchar_t* CCtrlBase::GetText(wchar_t *buf, size_t size)
 {
 	GetWindowTextW(m_hwnd, buf, size);
 	buf[size - 1] = 0;
 	return buf;
 }
 
-char* CCtrlBase::GetTextA(char *buf, int size)
+char* CCtrlBase::GetTextA(char *buf, size_t size)
 {
 	GetWindowTextA(m_hwnd, buf, size);
 	buf[size - 1] = 0;
+	return buf;
+}
+
+char* CCtrlBase::GetTextU(char *buf, size_t size)
+{
+	ptrW wszText(GetText());
+	strncpy_s(buf, size, T2Utf(wszText), _TRUNCATE);
 	return buf;
 }
 

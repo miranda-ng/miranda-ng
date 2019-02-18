@@ -676,9 +676,9 @@ mir_wstrcmpi                  @280
 ?GetState@CCtrlCheck@@QAEHXZ @862 NONAME
 ?GetStringWidth@CCtrlListView@@QAEHPBD@Z @863 NONAME
 ?GetSubItemRect@CCtrlListView@@QAEHHHHPAUtagRECT@@@Z @864 NONAME
-?GetText@CCtrlBase@@QAEPA_WPA_WH@Z @865 NONAME
+?GetText@CCtrlBase@@QAEPA_WPA_WI@Z @865 NONAME
 ?GetText@CCtrlBase@@QAEPA_WXZ @866 NONAME
-?GetTextA@CCtrlBase@@QAEPADPADH@Z @867 NONAME
+?GetTextA@CCtrlBase@@QAEPADPADI@Z @867 NONAME
 ?GetTextA@CCtrlBase@@QAEPADXZ @868 NONAME
 ?GetTextBkColor@CCtrlListView@@QAEKXZ @869 NONAME
 ?GetTextColor@CCtrlListView@@QAEKXZ @870 NONAME
@@ -1416,3 +1416,5 @@ db_event_edit @1268
 ??AXMLConstHandle@tinyxml2@@QBE?BV01@PBD@Z @1629 NONAME
 ??AXMLHandle@tinyxml2@@QAE?AV01@PBD@Z @1630 NONAME
 db_get_utfa @1631
+?GetTextU@CCtrlBase@@QAEPADPADI@Z @1632 NONAME
+?GetTextU@CCtrlBase@@QAEPADXZ @1633 NONAME
