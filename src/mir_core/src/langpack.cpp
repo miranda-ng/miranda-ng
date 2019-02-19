@@ -43,6 +43,7 @@ struct LangPackEntry
 {
 	DWORD englishHash;
 	char *szLocal;
+	char *utfLocal;
 	wchar_t *wszLocal;
 	MUUID *pMuuid;
 	LangPackEntry* pNext;  // for langpack items with the same hash value
@@ -480,7 +481,7 @@ char* LangPackTranslateString(const MUUID *pUuid, const char *szEnglish, const i
 		return (char*)szEnglish;
 
 	LangPackEntry key, *entry;
-	key.englishHash = W ? hashstrW(szEnglish) : mir_hashstr(szEnglish);
+	key.englishHash = (W == 1) ? hashstrW(szEnglish) : mir_hashstr(szEnglish);
 	entry = (LangPackEntry*)bsearch(&key, g_pEntries, g_entryCount, sizeof(LangPackEntry), (int(*)(const void*, const void*))SortLangPackHashesProc2);
 	if (entry == nullptr)
 		return (char*)szEnglish;
@@ -495,12 +496,22 @@ char* LangPackTranslateString(const MUUID *pUuid, const char *szEnglish, const i
 		}
 	}
 
-	if (W)
+	switch (W) {
+	case 0:
+		if (entry->szLocal == nullptr && entry->wszLocal != nullptr)
+			entry->szLocal = mir_u2a_cp(entry->wszLocal, langPack.codepage);
+		return entry->szLocal;
+
+	case 1:
 		return (char*)entry->wszLocal;
 
-	if (entry->szLocal == nullptr && entry->wszLocal != nullptr)
-		entry->szLocal = mir_u2a_cp(entry->wszLocal, langPack.codepage);
-	return entry->szLocal;
+	case 2:
+		if (entry->utfLocal == nullptr && entry->wszLocal != nullptr)
+			entry->utfLocal = mir_utf8encodeW(entry->wszLocal);
+		return entry->utfLocal;
+	}
+
+	return nullptr;
 }
 
 MIR_CORE_DLL(int) Langpack_GetDefaultCodePage()
@@ -529,12 +540,17 @@ MIR_CORE_DLL(wchar_t*) Langpack_PcharToTchar(const char *pszStr)
 
 MIR_CORE_DLL(char*) TranslateA_LP(const char *str, HPLUGIN pPlugin)
 {
-	return (char*)LangPackTranslateString(GetMuid(pPlugin), str, FALSE);
+	return (char*)LangPackTranslateString(GetMuid(pPlugin), str, 0);
+}
+
+MIR_CORE_DLL(char*) TranslateU_LP(const char *str, HPLUGIN pPlugin)
+{
+	return (char*)LangPackTranslateString(GetMuid(pPlugin), str, 2);
 }
 
 MIR_CORE_DLL(wchar_t*) TranslateW_LP(const wchar_t *str, HPLUGIN pPlugin)
 {
-	return (wchar_t*)LangPackTranslateString(GetMuid(pPlugin), (LPCSTR)str, TRUE);
+	return (wchar_t*)LangPackTranslateString(GetMuid(pPlugin), (LPCSTR)str, 1);
 }
 
 MIR_CORE_DLL(void) TranslateMenu_LP(HMENU hMenu, HPLUGIN pPlugin)

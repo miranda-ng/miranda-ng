@@ -1419,3 +1419,4 @@ db_get_utfa @1631
 ?GetTextU@CCtrlBase@@QEAAPEADPEAD_K@Z @1632 NONAME
 ?GetTextU@CCtrlBase@@QEAAPEADXZ @1633 NONAME
 ?BytesParsed@XMLDocument@tinyxml2@@QEBAHXZ @1634 NONAME
+TranslateU_LP @1635

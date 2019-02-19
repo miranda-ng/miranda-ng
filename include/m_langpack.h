@@ -46,10 +46,12 @@ EXTERN_C MIR_CORE_DLL(int)      LoadLangPack(const wchar_t *szLangPack);
 EXTERN_C MIR_CORE_DLL(void)     ReloadLangpack(wchar_t *pszStr);
 
 EXTERN_C MIR_CORE_DLL(char*)    TranslateA_LP(const char *str, HPLUGIN = nullptr);
+EXTERN_C MIR_CORE_DLL(char*)    TranslateU_LP(const char *str, HPLUGIN = nullptr);
 EXTERN_C MIR_CORE_DLL(wchar_t*) TranslateW_LP(const wchar_t *str, HPLUGIN = nullptr);
 EXTERN_C MIR_CORE_DLL(void)     TranslateDialog_LP(HWND hDlg, HPLUGIN = nullptr);
 
 #define Translate(s) TranslateA_LP(s, &g_plugin)
+#define TranslateU(s) TranslateU_LP(s, &g_plugin)
 #define TranslateW(s) TranslateW_LP(s, &g_plugin)
 #define TranslateT(s) TranslateW_LP(_A2W(s), &g_plugin)
 #define TranslateDialogDefault(h) TranslateDialog_LP(h, &g_plugin)
