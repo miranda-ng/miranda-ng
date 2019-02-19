@@ -132,7 +132,7 @@ bool CJabberProto::FilterXml(const TiXmlElement *node, DWORD flags)
 		break;
 
 	case TFilterInfo::T_XMLNS:
-		attrValue = node->FirstChildElement(0)->Attribute("xmlns");
+		attrValue = node->FirstChildElement()->Attribute("xmlns");
 		if (attrValue)
 			return JabberStrIStr(Utf2T(attrValue), m_filterInfo.pattern) != nullptr;
 		break;

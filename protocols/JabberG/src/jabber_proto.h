@@ -516,7 +516,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   OnIqResultGetVCardAvatar(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultGetClientAvatar(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultGetServerAvatar(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
-	void   OnIqResultGotAvatar(MCONTACT hContact, const TiXmlElement *n, const char *mimeType);
+	void   OnIqResultGotAvatar(MCONTACT hContact, const char *pszText, const char *mimeType);
 	void   OnIqResultGetMuc(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultGetRegister(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultGetRoster(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
@@ -606,9 +606,9 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	pResourceStatus ListFindResource(JABBER_LIST list, const char *jid);
 
-	bool   ListAddResource(JABBER_LIST list, const char *jid, int status, const char *statusMessage, char priority = 0, const char *nick = nullptr);
+	bool   ListAddResource(JABBER_LIST list, const char *jid, int status, const char *statusMessage, int priority = 0, const char *nick = nullptr);
 	void   ListRemoveResource(JABBER_LIST list, const char *jid);
-	char* ListGetBestClientResourceNamePtr(const char *jid);
+	char*  ListGetBestClientResourceNamePtr(const char *jid);
 
 	void   OnIqResultServerDiscoInfo(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultGetVcardPhoto(const TiXmlElement *n, MCONTACT hContact, bool &hasPhoto);

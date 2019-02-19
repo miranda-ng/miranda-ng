@@ -93,7 +93,7 @@ MCONTACT CJabberProto::DBCreateContact(const char *jid, const char *nick, bool t
 	if (JABBER_LIST_ITEM *pItem = ListAdd(LIST_ROSTER, jid, hNewContact))
 		pItem->bUseResource = strchr(szJid, '/') != nullptr;
 	
-	debugLogW(L"Create Jabber contact jid=%s, nick=%s", szJid, nick);
+	debugLogA("Create Jabber contact jid=%s, nick=%s", szJid, nick);
 	DBCheckIsTransportedContact(szJid, hNewContact);
 	return hNewContact;
 }
@@ -276,7 +276,7 @@ void CJabberProto::UpdateMirVer(JABBER_LIST_ITEM *item)
 	if (!hContact)
 		return;
 
-	debugLogW(L"JabberUpdateMirVer: for jid %s", item->jid);
+	debugLogA("JabberUpdateMirVer: for jid %s", item->jid);
 
 	if (item->resourceMode == RSMODE_LASTSEEN)
 		UpdateMirVer(hContact, pResourceStatus(item->m_pLastSeenResource));

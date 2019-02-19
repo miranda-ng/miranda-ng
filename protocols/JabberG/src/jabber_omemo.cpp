@@ -1496,8 +1496,8 @@ bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid,
 		debugLogA("Jabber OMEMO: omemo message does not contain payload, it's may be \"KeyTransportElement\" which is currently unused by our implementation");
 		return true; //this is "KeyTransportElement" which is currently unused
 	}
-	const char *payload_base64w = payload_node->GetText();
-	if (!payload_base64w) {
+	const char *payload_base64 = payload_node->GetText();
+	if (!payload_base64) {
 		debugLogA("Jabber OMEMO: error: failed to get payload data");
 		return true; //this should never happen
 	}
@@ -1640,7 +1640,7 @@ bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid,
 		int dec_success = 0;
 		size_t payload_len = 0;
 		int outl = 0, round_len = 0, tag_len = 0;
-		unsigned char *payload = (unsigned char*)mir_base64_decode(payload_base64w, &payload_len);
+		unsigned char *payload = (unsigned char*)mir_base64_decode(payload_base64, &payload_len);
 		out = (char*)mir_alloc(payload_len + 32); //TODO: check this
 		unsigned char key[16], *tag;
 		{

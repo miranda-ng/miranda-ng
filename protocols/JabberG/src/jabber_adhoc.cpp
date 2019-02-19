@@ -153,7 +153,7 @@ int CJabberProto::AdHoc_OnJAHMCommandListResult(HWND hwndDlg, TiXmlElement *iqNo
 		dat->CurrentHeight = 0;
 		dat->curPos = 0;
 		SetScrollPos(GetDlgItem(hwndDlg, IDC_VSCROLL), SB_CTL, 0, FALSE);
-		TiXmlElement *queryNode = iqNode->FirstChildElement("query");
+		auto *queryNode = iqNode->FirstChildElement("query");
 		if (queryNode) {
 			const char *xmlns = queryNode->Attribute("xmlns");
 			const char *node = queryNode->Attribute("node");
@@ -214,10 +214,10 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, TiXmlElement *workNode
 			// use jabber:x:data form
 			HWND hFrame = GetDlgItem(hwndDlg, IDC_FRAME);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_FRAME_TEXT), SW_HIDE);
-			if (auto *n = xNode->FirstChildElement("instructions"))
-				JabberFormSetInstruction(hwndDlg, n->GetText());
-			else if (n = xNode->FirstChildElement("title"))
-				JabberFormSetInstruction(hwndDlg, n->GetText());
+			if (auto *pszText = XmlGetChildText(xNode, "instructions"))
+				JabberFormSetInstruction(hwndDlg, pszText);
+			else if (pszText = XmlGetChildText(xNode, "title"))
+				JabberFormSetInstruction(hwndDlg, pszText);
 			else
 				JabberFormSetInstruction(hwndDlg, Translate(status));
 			JabberFormCreateUI(hFrame, xNode, &dat->CurrentHeight);
@@ -228,8 +228,8 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, TiXmlElement *workNode
 			int toHide[] = { IDC_FRAME_TEXT, IDC_FRAME, IDC_VSCROLL, 0 };
 			sttShowControls(hwndDlg, FALSE, toHide);
 
-			auto *note = commandNode->FirstChildElement("note");
-			JabberFormSetInstruction(hwndDlg, note ? note->GetText() : Translate(status));
+			auto *pszText = XmlGetChildText(commandNode, "note");
+			JabberFormSetInstruction(hwndDlg, pszText ? pszText : Translate(status));
 		}
 
 		// check actions

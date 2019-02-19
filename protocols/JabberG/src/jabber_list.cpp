@@ -261,7 +261,7 @@ pResourceStatus CJabberProto::ListFindResource(JABBER_LIST list, const char *jid
 	return (q == nullptr) ? nullptr : LI->findResource(q + 1);
 }
 
-bool CJabberProto::ListAddResource(JABBER_LIST list, const char *jid, int status, const char *statusMessage, char priority, const char *nick)
+bool CJabberProto::ListAddResource(JABBER_LIST list, const char *jid, int status, const char *statusMessage, int priority, const char *nick)
 {
 	mir_cslockfull lck(m_csLists);
 	JABBER_LIST_ITEM *LI = ListGetItemPtr(list, jid);

@@ -648,23 +648,20 @@ static INT_PTR CALLBACK JabberFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 		ShowWindow(GetDlgItem(hwndDlg, IDC_FRAME_TEXT), SW_HIDE);
 		jfi = (JABBER_FORM_INFO*)lParam;
 		if (jfi != nullptr) {
-			TiXmlElement *n;
 			LONG frameExStyle;
 			// Set dialog title
-			if (jfi->xNode != nullptr && (n = jfi->xNode->FirstChildElement("title")) != nullptr && n->GetText() != nullptr)
-				SetWindowText(hwndDlg, Utf2T(n->GetText()));
+			if (auto *pszText = XmlGetChildText(jfi->xNode, "title"))
+				SetWindowTextUtf(hwndDlg, pszText);
 			else
 				SetWindowText(hwndDlg, TranslateW(jfi->defTitle));
 
 			// Set instruction field
-			if (jfi->xNode != nullptr && (n = jfi->xNode->FirstChildElement("instructions")) != nullptr && n->GetText() != nullptr)
-				JabberFormSetInstruction(hwndDlg, n->GetText());
-			else {
-				if (jfi->xNode != nullptr && (n = jfi->xNode->FirstChildElement("title")) != nullptr && n->GetText() != nullptr)
-					JabberFormSetInstruction(hwndDlg, n->GetText());
-				else
-					JabberFormSetInstruction(hwndDlg, Translate(T2Utf(jfi->defTitle)));
-			}
+			if (auto *pszText = XmlGetChildText(jfi->xNode, "instructions"))
+				JabberFormSetInstruction(hwndDlg, pszText);
+			else if (pszText = XmlGetChildText(jfi->xNode, "title"))
+				JabberFormSetInstruction(hwndDlg, pszText);
+			else
+				JabberFormSetInstruction(hwndDlg, Translate(T2Utf(jfi->defTitle)));
 
 			// Create form
 			if (jfi->xNode != nullptr) {

@@ -244,22 +244,24 @@ wchar_t* JabberErrorStr(int errorCode)
 	return JabberErrorCodeToStrMapping[i].str;
 }
 
-wchar_t* JabberErrorMsg(const TiXmlElement *errorNode, int* pErrorCode)
+CMStringW JabberErrorMsg(const TiXmlElement *errorNode, int *pErrorCode)
 {
-	wchar_t *errorStr = (wchar_t*)mir_alloc(256 * sizeof(wchar_t));
+	CMStringW ret;
 	if (errorNode == nullptr) {
 		if (pErrorCode)
 			*pErrorCode = -1;
-		mir_snwprintf(errorStr, 256, L"%s -1: %s", TranslateT("Error"), TranslateT("Unknown error message"));
-		return errorStr;
+		ret.Format(L"%s -1: %s", TranslateT("Error"), TranslateT("Unknown error message"));
+		return ret;
 	}
+
+	if (auto *pChild = errorNode->FirstChildElement("error"))
+		errorNode = pChild;
 
 	int errorCode = errorNode->IntAttribute("code");
 
-	auto *str = errorNode->GetText();
+	const char *str = errorNode->GetText();
 	if (str == nullptr)
-		if (auto *n = errorNode->FirstChildElement("text"))
-			str = n->GetText();
+		str = XmlGetChildText(errorNode, "text");
 	
 	if (str == nullptr) {
 		for (auto *c : TiXmlEnum(errorNode)) {
@@ -272,13 +274,13 @@ wchar_t* JabberErrorMsg(const TiXmlElement *errorNode, int* pErrorCode)
 	}
 
 	if (str != nullptr)
-		mir_snwprintf(errorStr, 256, L"%s %d: %s\r\n%s", TranslateT("Error"), errorCode, TranslateW(JabberErrorStr(errorCode)), Utf2T(str).get());
+		ret.Format(L"%s %d: %s\r\n%s", TranslateT("Error"), errorCode, TranslateW(JabberErrorStr(errorCode)), Utf2T(str).get());
 	else
-		mir_snwprintf(errorStr, 256, L"%s %d: %s", TranslateT("Error"), errorCode, TranslateW(JabberErrorStr(errorCode)));
+		ret.Format(L"%s %d: %s", TranslateT("Error"), errorCode, TranslateW(JabberErrorStr(errorCode)));
 
 	if (pErrorCode)
 		*pErrorCode = errorCode;
-	return errorStr;
+	return ret;
 }
 
 void CJabberProto::SendVisibleInvisiblePresence(bool invisible)
@@ -928,6 +930,12 @@ void SetDlgItemTextUtf(HWND hwndDlg, int ctrlId, const char *szValue)
 {
 	if (szValue)
 		SetDlgItemTextW(hwndDlg, ctrlId, Utf2T(szValue));
+}
+
+void SetWindowTextUtf(HWND hwndDlg, const char *szValue)
+{
+	if (szValue)
+		SetWindowTextW(hwndDlg, Utf2T(szValue));
 }
 
 int UIEmulateBtnClick(HWND hwndDlg, UINT idcButton)

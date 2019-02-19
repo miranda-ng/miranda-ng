@@ -187,7 +187,7 @@ BOOL CJabberProto::FtSend(HNETLIBCONN hConn, filetransfer *ft)
 	debugLogW(L"Sending [%s]", ft->std.pszFiles.w[ft->std.currentFileNumber]);
 	_wstat64(ft->std.pszFiles.w[ft->std.currentFileNumber], &statbuf);	// file size in statbuf.st_size
 	if ((fd = _wopen(ft->std.pszFiles.w[ft->std.currentFileNumber], _O_BINARY | _O_RDONLY)) < 0) {
-		debugLogW(L"File cannot be opened");
+		debugLogA("File cannot be opened");
 		return FALSE;
 	}
 
@@ -319,12 +319,10 @@ void CJabberProto::FtHandleSiRequest(const TiXmlElement *iqNode)
 
 			if (!bIbbOnly) {
 				for (auto *it : TiXmlFilter(fieldNode, "option")) {
-					if (auto *n = it->FirstChildElement("value")) {
-						if (!mir_strcmp(n->GetText(), JABBER_FEAT_BYTESTREAMS)) {
-							optionNode = it;
-							ftType = FT_BYTESTREAM;
-							break;
-						}
+					if (!mir_strcmp(XmlGetChildText(it, "value"), JABBER_FEAT_BYTESTREAMS)) {
+						optionNode = it;
+						ftType = FT_BYTESTREAM;
+						break;
 					}
 				}
 			}
@@ -332,12 +330,10 @@ void CJabberProto::FtHandleSiRequest(const TiXmlElement *iqNode)
 			// try IBB only if bytestreams support not found or BsOnlyIBB flag exists
 			if (bIbbOnly || !optionNode) {
 				for (auto *it : TiXmlFilter(fieldNode, "option")) {
-					if (auto *n = it->FirstChildElement("value")) {
-						if (!mir_strcmp(n->GetText(), JABBER_FEAT_IBB)) {
-							optionNode = it;
-							ftType = FT_IBB;
-							break;
-						}
+					if (!mir_strcmp(XmlGetChildText(it, "value"), JABBER_FEAT_IBB)) {
+						optionNode = it;
+						ftType = FT_IBB;
+						break;
 					}
 				}
 			}
@@ -355,7 +351,7 @@ void CJabberProto::FtHandleSiRequest(const TiXmlElement *iqNode)
 				ft->std.szCurrentFile.w = mir_utf8decodeW(filename);
 				ft->std.totalBytes = ft->std.currentFileSize = filesize;
 
-				CMStringW wszDescr;
+				Utf2T wszDescr(XmlGetChildText(fileNode, "desc"));
 
 				PROTORECVFILE pre = { 0 };
 				pre.dwFlags = PRFF_UNICODE;
@@ -363,10 +359,7 @@ void CJabberProto::FtHandleSiRequest(const TiXmlElement *iqNode)
 				pre.timestamp = time(0);
 				pre.files.w = (wchar_t**)&filename;
 				pre.lParam = (LPARAM)ft;
-				if (auto *n = fileNode->FirstChildElement("desc"))
-					wszDescr = Utf2T(n->GetText());
-				pre.descr.w = wszDescr.GetBuffer();
-
+				pre.descr.w = wszDescr;
 				ProtoChainRecvFile(ft->std.hContact, &pre);
 				return;
 			}

@@ -356,7 +356,7 @@ void CJabberProto::OnShutdown()
 
 MCONTACT CJabberProto::AddToListByJID(const char *newJid, DWORD flags)
 {
-	debugLogW(L"AddToListByJID jid = %s", newJid);
+	debugLogA("AddToListByJID jid = %s", newJid);
 
 	MCONTACT hContact = DBCreateContact(newJid, nullptr, true, false);
 	if (flags & PALF_TEMPORARY)
@@ -422,7 +422,7 @@ int CJabberProto::Authorize(MEVENT hDbEvent)
 	if (m_bAutoAdd) {
 		JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, blob.get_email());
 		if (item == nullptr || (item->subscription != SUB_BOTH && item->subscription != SUB_TO)) {
-			debugLogW(L"Try adding contact automatically jid = %s", blob.get_email());
+			debugLogA("Try adding contact automatically jid = %s", blob.get_email());
 			if (MCONTACT hContact = AddToListByJID(blob.get_email(), 0)) {
 				// Trigger actual add by removing the "NotOnList" added by AddToListByJID()
 				// See AddToListByJID() and JabberDbSettingChanged().
@@ -698,7 +698,7 @@ void __cdecl CJabberProto::BasicSearchThread(JABBER_SEARCH_BASIC *jsb)
 
 HANDLE CJabberProto::SearchBasic(const wchar_t *szJid)
 {
-	debugLogW(L"JabberBasicSearch called with lParam = '%s'", szJid);
+	debugLogA("JabberBasicSearch called with lParam = '%s'", szJid);
 
 	JABBER_SEARCH_BASIC *jsb;
 	if (!m_bJabberOnline || (jsb = (JABBER_SEARCH_BASIC*)mir_alloc(sizeof(JABBER_SEARCH_BASIC))) == nullptr)
@@ -727,7 +727,7 @@ HANDLE CJabberProto::SearchBasic(const wchar_t *szJid)
 	}
 	else wcsncpy_s(jsb->jid, szJid, _TRUNCATE);
 
-	debugLogW(L"Adding '%s' without validation", jsb->jid);
+	debugLogA("Adding '%s' without validation", jsb->jid);
 	jsb->hSearch = SerialNext();
 	ForkThread((MyThreadFunc)&CJabberProto::BasicSearchThread, jsb);
 	return (HANDLE)jsb->hSearch;

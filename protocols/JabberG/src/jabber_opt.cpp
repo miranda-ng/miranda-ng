@@ -1006,8 +1006,8 @@ void CJabberProto::_RosterHandleGetRequest(const TiXmlElement *node, CJabberIqIn
 
 			const char *name = item->Attribute("name");
 			const char *subscription = item->Attribute("subscription");
-			auto *group = item->FirstChildElement("group");
-			_RosterInsertListItem(hList, jid, name, (group) ? group->GetText() : 0, subscription, TRUE);
+			const char *group = XmlGetChildText(item, "group");
+			_RosterInsertListItem(hList, jid, name, group, subscription, TRUE);
 		}
 
 		// now it is require to process whole contact list to add not in roster contacts
@@ -1080,8 +1080,8 @@ void CJabberProto::_RosterHandleGetRequest(const TiXmlElement *node, CJabberIqIn
 							bPushed = TRUE;
 					}
 					if (!bPushed) {
-						auto *rosterGroup = itemRoster->FirstChildElement("group");
-						if ((rosterGroup != nullptr || group[0] != 0) && mir_strcmpi(rosterGroup->GetText(), szGroup))
+						auto *rosterGroup = XmlGetChildText(itemRoster, "group");
+						if (rosterGroup != nullptr && mir_strcmpi(rosterGroup, szGroup))
 							bPushed = TRUE;
 					}
 				}

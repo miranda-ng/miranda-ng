@@ -32,14 +32,12 @@ TiXmlElement* XmlAddChild(TiXmlElement*, const char *pszName);
 TiXmlElement* XmlAddChild(TiXmlElement*, const char *pszName, const char *ptszValue);
 TiXmlElement* XmlAddChild(TiXmlElement*, const char *pszName, int iValue);
 
-const TiXmlElement* XmlGetChildByTag(const TiXmlElement*, const char *key, const char *attrName, const char *attrValue);
+int XmlGetChildInt(const TiXmlElement *hXml, const char *key);
+const char* XmlGetChildText(const TiXmlElement *hXml, const char *key);
+const TiXmlElement* XmlGetChildByTag(const TiXmlElement *hXml, const char *key, const char *attrName, const char *attrValue);
 
 void XmlAddAttr(TiXmlElement*, const char *pszName, const char *ptszValue);
 void XmlAddAttrID(TiXmlElement*, int id);
-
-int XmlGetAttrCount(TiXmlElement*);
-const char* XmlGetAttr(TiXmlElement*, int n);
-const char* XmlGetAttrName(TiXmlElement*, int n);
 
 class XmlNode : public TiXmlDocument, private MNonCopyable
 {
@@ -227,11 +225,6 @@ public:
 			case T_NODESET:   return (m_hXml->FirstChildElement()) ? m_hXml->FirstChildElement()->GetText() : 0;
 		}
 		return nullptr;
-	}
-	operator int()
-	{
-		if (LPCSTR s = *this) return atoi(s);
-		return 0;
 	}
 	__forceinline bool operator== (char *str)
 	{

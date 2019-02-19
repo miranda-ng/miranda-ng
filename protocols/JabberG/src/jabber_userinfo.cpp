@@ -649,7 +649,7 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 					item = photoInfo->ppro->ListGetItemPtr(LIST_ROSTER, jid);
 				if (item != nullptr) {
 					if (item->photoFileName) {
-						photoInfo->ppro->debugLogW(L"Showing picture from %s", item->photoFileName);
+						photoInfo->ppro->debugLogA("Showing picture from %s", item->photoFileName);
 						photoInfo->hBitmap = Bitmap_Load(Utf2T(item->photoFileName));
 						FreeImage_Premultiply(photoInfo->hBitmap);
 						ShowWindow(GetDlgItem(hwndDlg, IDC_SAVE), SW_SHOW);

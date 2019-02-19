@@ -163,6 +163,24 @@ TiXmlElement* XmlAddChild(TiXmlElement *hXml, const char *name, int value)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+const char* XmlGetChildText(const TiXmlElement *hXml, const char *key)
+{
+	if (hXml == nullptr)
+		return nullptr;
+
+	auto *pChild = hXml->FirstChildElement(key);
+	return (pChild == nullptr) ? nullptr : pChild->GetText();
+}
+
+int XmlGetChildInt(const TiXmlElement *hXml, const char *key)
+{
+	if (hXml == nullptr)
+		return 0;
+
+	auto *pChild = hXml->FirstChildElement(key);
+	return (pChild == nullptr) ? 0 : atoi(pChild->GetText());
+}
+
 const TiXmlElement* XmlGetChildByTag(const TiXmlElement *hXml, const char *key, const char *attrName, const char *attrValue)
 {
 	if (hXml == nullptr)

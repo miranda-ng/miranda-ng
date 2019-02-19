@@ -50,11 +50,14 @@ void strm_mgmt::OnProcessResumed(const TiXmlElement *node, ThreadData * /*info*/
 {
 	if (mir_strcmp(node->Attribute("xmlns"), "urn:xmpp:sm:3"))
 		return;
+	
 	auto *var = node->Attribute("previd");
 	if (!var)
 		return;
+	
 	if (m_sStrmMgmtResumeId != var)
 		return; //TODO: unknown session, what we should do ?
+	
 	var = node->Attribute("h");
 	if (!var)
 		return;
@@ -145,7 +148,7 @@ void strm_mgmt::OnProcessFailed(const TiXmlElement *node, ThreadData * info) //u
 	if (mir_strcmp(node->Attribute("xmlns"), "urn:xmpp:sm:3"))
 		return;
 	
-	proto->debugLogW(L"strm_mgmt: error: Failed to resume session %s", m_sStrmMgmtResumeId.c_str());
+	proto->debugLogA("strm_mgmt: error: Failed to resume session %s", m_sStrmMgmtResumeId.c_str());
 
 	m_bStrmMgmtEnabled = false;
 	bSessionResumed = false;

@@ -360,9 +360,7 @@ int CJabberProto::AdhocSetStatusHandler(const TiXmlElement*, CJabberIqInfo *pInf
 		int priority = -9999;
 
 		if (fieldNode = XmlGetChildByTag(xNode, "field", "var", "status-priority"))
-			if (auto *valueNode = fieldNode->FirstChildElement("value"))
-				if (pszValue = valueNode->GetText())
-					priority = atoi(pszValue);
+			priority = XmlGetChildInt(fieldNode, "value");
 
 		if (priority >= -128 && priority <= 127)
 			setDword("Priority", priority);
@@ -378,12 +376,12 @@ int CJabberProto::AdhocSetStatusHandler(const TiXmlElement*, CJabberIqInfo *pInf
 
 		db_set_utf(0, "SRAway", StatusModeToDbSetting(status, "Msg"), szStatusMessage ? szStatusMessage : "");
 
-		if (fieldNode = XmlGetChildByTag(xNode, "field", "var", "status-global"))
-			if (auto *valueNode = fieldNode->FirstChildElement("value"))
-				if ((pszValue = valueNode->GetText()) != nullptr && atoi(pszValue))
-					Clist_SetStatusMode(status);
-				else
-					CallProtoService(m_szModuleName, PS_SETSTATUS, status, 0);
+		if (fieldNode = XmlGetChildByTag(xNode, "field", "var", "status-global")) {
+			if (XmlGetChildInt(fieldNode, "value") > 0)
+				Clist_SetStatusMode(status);
+			else
+				CallProtoService(m_szModuleName, PS_SETSTATUS, status, 0);
+		}
 
 		SetAwayMsg(status, Utf2T(szStatusMessage));
 
@@ -441,21 +439,15 @@ int CJabberProto::AdhocOptionsHandler(const TiXmlElement*, CJabberIqInfo *pInfo,
 
 		// Automatically Accept File Transfers
 		if (auto *fieldNode = XmlGetChildByTag(xNode, "field", "var", "auto-files"))
-			if (auto *valueNode = fieldNode->FirstChildElement("value"))
-				if (valueNode->GetText())
-					db_set_b(0, "SRFile", "AutoAccept", (BYTE)atoi(valueNode->GetText()));
+			db_set_b(0, "SRFile", "AutoAccept", XmlGetChildInt(fieldNode, "value"));
 
 		// Use sounds
 		if (auto *fieldNode = XmlGetChildByTag(xNode, "field", "var", "sounds"))
-			if (auto *valueNode = fieldNode->FirstChildElement("value"))
-				if (valueNode->GetText())
-					db_set_b(0, "Skin", "UseSound", (BYTE)atoi(valueNode->GetText()));
+			db_set_b(0, "Skin", "UseSound", XmlGetChildInt(fieldNode, "value"));
 
 		// Disable remote controlling
 		if (auto *fieldNode = XmlGetChildByTag(xNode, "field", "var", "enable-rc"))
-			if (auto *valueNode = fieldNode->FirstChildElement("value"))
-				if (valueNode->GetText() && atoi(valueNode->GetText()))
-					m_bEnableRemoteControl = 0;
+			m_bEnableRemoteControl = XmlGetChildInt(fieldNode, "value");
 
 		return JABBER_ADHOC_HANDLER_STATUS_COMPLETED;
 	}
@@ -540,10 +532,8 @@ int CJabberProto::AdhocForwardHandler(const TiXmlElement*, CJabberIqInfo *pInfo,
 		BOOL bRemoveCListEvents = TRUE;
 
 		// remove clist events
-		auto *fieldNode = XmlGetChildByTag(xNode, "field", "var", "remove-clist-events");
-		if (auto *valueNode = fieldNode->FirstChildElement("value"))
-			if (valueNode->GetText() && !atoi(valueNode->GetText()))
-				bRemoveCListEvents = FALSE;
+		if (auto *fieldNode = XmlGetChildByTag(xNode, "field", "var", "remove-clist-events"))
+			bRemoveCListEvents = XmlGetChildInt(fieldNode, "value");
 
 		m_bRcMarkMessagesAsRead = bRemoveCListEvents ? 1 : 0;
 
@@ -675,9 +665,8 @@ int CJabberProto::AdhocQuitMirandaHandler(const TiXmlElement*, CJabberIqInfo *pI
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
 		// I Agree checkbox
-		auto *fieldNode = XmlGetChildByTag(xNode, "field", "var", "allow-shutdown");
-		if (auto *valueNode = fieldNode->FirstChildElement("value"))
-			if (valueNode->GetText() && atoi(valueNode->GetText()))
+		if (auto *fieldNode = XmlGetChildByTag(xNode, "field", "var", "allow-shutdown"))
+			if (XmlGetChildInt(fieldNode, "value"))
 				CallFunctionAsync(JabberQuitMirandaIMThread, nullptr);
 
 		return JABBER_ADHOC_HANDLER_STATUS_COMPLETED;

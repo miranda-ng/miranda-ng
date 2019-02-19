@@ -296,9 +296,9 @@ void CJabberProto::OnIqResultBind(const TiXmlElement *iqNode, CJabberIqInfo *pIn
 		const char *szJid = XPath(iqNode, "bind[@xmlns='urn:ietf:params:xml:ns:xmpp-bind']/jid");
 		if (szJid) {
 			if (!strncmp(m_ThreadInfo->fullJID, szJid, _countof(m_ThreadInfo->fullJID)))
-				debugLogW(L"Result Bind: %s confirmed ", m_ThreadInfo->fullJID);
+				debugLogA("Result Bind: %s confirmed ", m_ThreadInfo->fullJID);
 			else {
-				debugLogW(L"Result Bind: %s changed to %s", m_ThreadInfo->fullJID, szJid);
+				debugLogA("Result Bind: %s changed to %s", m_ThreadInfo->fullJID, szJid);
 				strncpy_s(m_ThreadInfo->fullJID, szJid, _TRUNCATE);
 			}
 		}
@@ -399,9 +399,7 @@ void CJabberProto::OnIqResultGetRoster(const TiXmlElement *iqNode, CJabberIqInfo
 		item->bRealContact = true;
 
 		mir_free(item->nick); item->nick = nick;
-
-		if (auto *groupNode = itemNode->FirstChildElement("group"))
-			replaceStr(item->group, groupNode->GetText());
+		replaceStr(item->group, XmlGetChildText(itemNode, "group"));
 
 		// check group delimiters
 		if (item->group && szGroupDelimeter) {
@@ -473,7 +471,7 @@ void CJabberProto::OnIqResultGetRoster(const TiXmlElement *iqNode, CJabberIqInfo
 		{
 			JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
 			if (item && item->hContact && !item->bRealContact) {
-				debugLogW(L"Syncing roster: preparing to delete %s (hContact=0x%x)", item->jid, item->hContact);
+				debugLogA("Syncing roster: preparing to delete %s (hContact=0x%x)", item->jid, item->hContact);
 				db_delete_contact(item->hContact);
 			}
 		}
@@ -516,12 +514,8 @@ void CJabberProto::OnIqResultGetRegister(const TiXmlElement *iqNode, CJabberIqIn
 			SendMessage(m_hwndAgentRegInput, WM_JABBER_REGINPUT_ACTIVATE, 1 /*success*/, (LPARAM)iqNode);
 	}
 	else if (!mir_strcmp(type, "error")) {
-		if (m_hwndAgentRegInput) {
-			auto *errorNode = iqNode->FirstChildElement("error");
-			wchar_t *str = JabberErrorMsg(errorNode);
-			SendMessage(m_hwndAgentRegInput, WM_JABBER_REGINPUT_ACTIVATE, 0 /*error*/, (LPARAM)str);
-			mir_free(str);
-		}
+		if (m_hwndAgentRegInput)
+			SendMessage(m_hwndAgentRegInput, WM_JABBER_REGINPUT_ACTIVATE, 0 /*error*/, (LPARAM)JabberErrorMsg(iqNode).c_str());
 	}
 }
 
@@ -544,12 +538,8 @@ void CJabberProto::OnIqResultSetRegister(const TiXmlElement *iqNode, CJabberIqIn
 			SendMessage(m_hwndRegProgress, WM_JABBER_REGDLG_UPDATE, 100, (LPARAM)TranslateT("Registration successful"));
 	}
 	else if (!mir_strcmp(type, "error")) {
-		if (m_hwndRegProgress) {
-			auto *errorNode = iqNode->FirstChildElement("error");
-			wchar_t *str = JabberErrorMsg(errorNode);
-			SendMessage(m_hwndRegProgress, WM_JABBER_REGDLG_UPDATE, 100, (LPARAM)str);
-			mir_free(str);
-		}
+		if (m_hwndRegProgress)
+			SendMessage(m_hwndRegProgress, WM_JABBER_REGDLG_UPDATE, 100, (LPARAM)JabberErrorMsg(iqNode).c_str());
 	}
 }
 
@@ -562,9 +552,8 @@ void CJabberProto::OnIqResultGetVcardPhoto(const TiXmlElement *n, MCONTACT hCont
 	if (hasPhoto)
 		return;
 
-	auto *o = n->FirstChildElement("BINVAL");
-	const char *ptszBinval = o->GetText();
-	if (o == nullptr || ptszBinval == nullptr)
+	const char *ptszBinval = XmlGetChildText(n, "BINVAL");
+	if (ptszBinval == nullptr)
 		return;
 
 	size_t bufferLen;
@@ -572,14 +561,9 @@ void CJabberProto::OnIqResultGetVcardPhoto(const TiXmlElement *n, MCONTACT hCont
 	if (buffer == nullptr)
 		return;
 
-	const char *szPicType = nullptr;
-	if (auto *t = n->FirstChildElement("TYPE"))
-		if (ProtoGetAvatarFormatByMimeType(t->GetText()) != PA_FORMAT_UNKNOWN)
-			szPicType = t->GetText();
-
-	if (szPicType == nullptr)
+	const char *szPicType = XmlGetChildText(n, "TYPE");
+	if (ProtoGetAvatarFormatByMimeType(szPicType) == PA_FORMAT_UNKNOWN)
 		szPicType = ProtoGetAvatarMimeType(ProtoGetBufferFormat(buffer));
-
 	if (szPicType == nullptr)
 		return;
 
@@ -621,7 +605,7 @@ void CJabberProto::OnIqResultGetVcardPhoto(const TiXmlElement *n, MCONTACT hCont
 					DeleteFile(oldFile);
 				replaceStr(item->photoFileName, T2Utf(szAvatarFileName));
 				debugLogW(L"Contact's picture saved to %s", szAvatarFileName);
-				OnIqResultGotAvatar(hContact, o, szPicType);
+				OnIqResultGotAvatar(hContact, ptszBinval, szPicType);
 			}
 		}
 	}
@@ -630,18 +614,9 @@ void CJabberProto::OnIqResultGetVcardPhoto(const TiXmlElement *n, MCONTACT hCont
 		DeleteFile(szAvatarFileName);
 }
 
-static char* sttGetText(const TiXmlElement *node, const char *tag)
-{
-	auto *n = node->FirstChildElement(tag);
-	if (n == nullptr)
-		return nullptr;
-
-	return (char*)n->GetText();
-}
-
 void CJabberProto::OnIqResultGetVcard(const TiXmlElement *iqNode, CJabberIqInfo*)
 {
-	const TiXmlElement *vCardNode, *m, *o;
+	const TiXmlElement *vCardNode;
 	const char *type, *jid;
 	MCONTACT hContact;
 	DBVARIANT dbv;
@@ -658,10 +633,10 @@ void CJabberProto::OnIqResultGetVcard(const TiXmlElement *iqNode, CJabberIqInfo*
 			if (!mir_strcmp(type, "result")) {
 				PROTOSEARCHRESULT  psr = { 0 };
 				psr.cbSize = sizeof(psr);
-				psr.nick.a = sttGetText(vCardNode, "NICKNAME");
-				psr.firstName.a = sttGetText(vCardNode, "FN");
+				psr.nick.a = (char*)XmlGetChildText(vCardNode, "NICKNAME");
+				psr.firstName.a = (char*)XmlGetChildText(vCardNode, "FN");
 				psr.lastName.a = "";
-				psr.email.a = sttGetText(vCardNode, "EMAIL");
+				psr.email.a = (char*)XmlGetChildText(vCardNode, "EMAIL");
 				psr.id.a = NEWSTR_ALLOCA(jid);
 				ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&psr);
 				ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
@@ -722,25 +697,23 @@ void CJabberProto::OnIqResultGetVcard(const TiXmlElement *iqNode, CJabberIqInfo*
 			else if (!mir_strcmp(n->Name(), "N")) {
 				// First/Last name
 				if (!hasGiven && !hasFamily && !hasMiddle) {
-					if ((m = n->FirstChildElement("GIVEN")) != nullptr && m->GetText() != nullptr) {
+					if (auto *p = XmlGetChildText(n, "GIVEN")) {
 						hasGiven = true;
-						setUString(hContact, "FirstName", m->GetText());
+						setUString(hContact, "FirstName", p);
 					}
-					if ((m = n->FirstChildElement("FAMILY")) != nullptr && m->GetText() != nullptr) {
+					if (auto *p = XmlGetChildText(n, "FAMILY")) {
 						hasFamily = true;
-						setUString(hContact, "LastName", m->GetText());
+						setUString(hContact, "LastName", p);
 					}
-					if ((m = n->FirstChildElement("MIDDLE")) != nullptr && m->GetText() != nullptr) {
+					if (auto *p = XmlGetChildText(n, "MIDDLE")) {
 						hasMiddle = true;
-						setUString(hContact, "MiddleName", m->GetText());
+						setUString(hContact, "MiddleName", p);
 					}
 				}
 			}
 			else if (!mir_strcmp(n->Name(), "EMAIL")) {
 				// E-mail address(es)
-				if ((m = n->FirstChildElement("USERID")) == nullptr)	// Some bad client put e-mail directly in <EMAIL/> instead of <USERID/>
-					m = n;
-				if (m->GetText() != nullptr) {
+				if (auto *p = XmlGetChildText(n, "USERID")) {
 					char text[100];
 					if (hContact != 0) {
 						if (nEmail == 0)
@@ -749,7 +722,7 @@ void CJabberProto::OnIqResultGetVcard(const TiXmlElement *iqNode, CJabberIqInfo*
 							mir_snprintf(text, "e-mail%d", nEmail - 1);
 					}
 					else mir_snprintf(text, "e-mail%d", nEmail);
-					setUString(hContact, text, m->GetText());
+					setUString(hContact, text, p);
 
 					if (hContact == 0) {
 						mir_snprintf(text, "e-mailFlag%d", nEmail);
@@ -808,107 +781,108 @@ void CJabberProto::OnIqResultGetVcard(const TiXmlElement *iqNode, CJabberIqInfo*
 					// Home address
 					char text[128];
 					hasHome = true;
-					if ((m = n->FirstChildElement("STREET")) != nullptr && m->GetText() != nullptr) {
+					if (auto *p = XmlGetChildText(n, "STREET")) {
 						hasHomeStreet = true;
 						if (hContact != 0) {
-							if ((o = n->FirstChildElement("EXTADR")) != nullptr && o->GetText() != nullptr)
-								mir_snprintf(text, "%s\r\n%s", m->GetText(), o->GetText());
-							else if ((o = n->FirstChildElement("EXTADD")) != nullptr && o->GetText() != nullptr)
-								mir_snprintf(text, "%s\r\n%s", m->GetText(), o->GetText());
+							if (auto *o = XmlGetChildText(n, "EXTADR"))
+								mir_snprintf(text, "%s\r\n%s", p, o);
+							else if (o = XmlGetChildText(n, "EXTADD"))
+								mir_snprintf(text, "%s\r\n%s", p, o);
 							else
-								strncpy_s(text, m->GetText(), _TRUNCATE);
+								strncpy_s(text, p, _TRUNCATE);
 
 							setUString(hContact, "Street", text);
 						}
 						else {
-							setUString(hContact, "Street", m->GetText());
-							if ((m = n->FirstChildElement("EXTADR")) == nullptr)
-								m = n->FirstChildElement("EXTADD");
-							if (m != nullptr && m->GetText() != nullptr) {
+							setUString(hContact, "Street", p);
+							if (p = XmlGetChildText(n, "EXTADR")) {
 								hasHomeStreet2 = true;
-								setUString(hContact, "Street2", m->GetText());
+								setUString(hContact, "Street2", p);
+							}
+							else if (p = XmlGetChildText(n, "EXTADD")) {
+								hasHomeStreet2 = true;
+								setUString(hContact, "Street2", p);
 							}
 						}
 					}
 
-					if ((m = n->FirstChildElement("LOCALITY")) != nullptr && m->GetText() != nullptr) {
+					if (auto *p = XmlGetChildText(n, "LOCALITY")) {
 						hasHomeLocality = true;
-						setUString(hContact, "City", m->GetText());
+						setUString(hContact, "City", p);
 					}
-					if ((m = n->FirstChildElement("REGION")) != nullptr && m->GetText() != nullptr) {
+					if (auto *p = XmlGetChildText(n, "REGION")) {
 						hasHomeRegion = true;
-						setUString(hContact, "State", m->GetText());
+						setUString(hContact, "State", p);
 					}
-					if ((m = n->FirstChildElement("PCODE")) != nullptr && m->GetText() != nullptr) {
+					if (auto *p = XmlGetChildText(n, "PCODE")) {
 						hasHomePcode = true;
-						setUString(hContact, "ZIP", m->GetText());
+						setUString(hContact, "ZIP", p);
 					}
-					if ((m = n->FirstChildElement("CTRY")) == nullptr || m->GetText() == nullptr)	// Some bad client use <COUNTRY/> instead of <CTRY/>
-						m = n->FirstChildElement("COUNTRY");
-					if (m != nullptr && m->GetText() != nullptr) {
+					if (auto *p = XmlGetChildText(n, "CTRY"))	{ // Some bad client use <COUNTRY/> instead of <CTRY/>
 						hasHomeCtry = true;
-						setUString(hContact, "Country", m->GetText());
+						setUString(hContact, "Country", p);
 					}
 				}
 
 				if (!hasWork && n->FirstChildElement("WORK") != nullptr) {
 					// Work address
 					hasWork = true;
-					if ((m = n->FirstChildElement("STREET")) != nullptr && m->GetText() != nullptr) {
+					if (auto *p = XmlGetChildText(n, "STREET")) {
 						char text[128];
 						hasWorkStreet = true;
 						if (hContact != 0) {
-							if ((o = n->FirstChildElement("EXTADR")) != nullptr && o->GetText() != nullptr)
-								mir_snprintf(text, "%s\r\n%s", m->GetText(), o->GetText());
-							else if ((o = n->FirstChildElement("EXTADD")) != nullptr && o->GetText() != nullptr)
-								mir_snprintf(text, "%s\r\n%s", m->GetText(), o->GetText());
+							if (auto *o = XmlGetChildText(n, "EXTADR"))
+								mir_snprintf(text, "%s\r\n%s", p, o);
+							else if (o = XmlGetChildText(n, "EXTADD"))
+								mir_snprintf(text, "%s\r\n%s", p, o);
 							else
-								strncpy_s(text, m->GetText(), _TRUNCATE);
+								strncpy_s(text, p, _TRUNCATE);
 							text[_countof(text) - 1] = '\0';
 							setUString(hContact, "CompanyStreet", text);
 						}
 						else {
-							setUString(hContact, "CompanyStreet", m->GetText());
-							if ((m = n->FirstChildElement("EXTADR")) == nullptr)
-								m = n->FirstChildElement("EXTADD");
-							if (m != nullptr && m->GetText() != nullptr) {
+							setUString(hContact, "CompanyStreet", p);
+							
+							if (p = XmlGetChildText(n, "EXTADR")) {
 								hasWorkStreet2 = true;
-								setUString(hContact, "CompanyStreet2", m->GetText());
+								setUString(hContact, "CompanyStreet2", p);
+							}
+							else if (p = XmlGetChildText(n, "EXTADD")) {
+								hasWorkStreet2 = true;
+								setUString(hContact, "CompanyStreet2", p);
 							}
 						}
 					}
 
-					if ((m = n->FirstChildElement("LOCALITY")) != nullptr && m->GetText() != nullptr) {
+					if (auto *p = XmlGetChildText(n, "LOCALITY")) {
 						hasWorkLocality = true;
-						setUString(hContact, "CompanyCity", m->GetText());
+						setUString(hContact, "CompanyCity", p);
 					}
-					if ((m = n->FirstChildElement("REGION")) != nullptr && m->GetText() != nullptr) {
+					if (auto *p = XmlGetChildText(n, "REGION")) {
 						hasWorkRegion = true;
-						setUString(hContact, "CompanyState", m->GetText());
+						setUString(hContact, "CompanyState", p);
 					}
-					if ((m = n->FirstChildElement("PCODE")) != nullptr && m->GetText() != nullptr) {
+					if (auto *p = XmlGetChildText(n, "PCODE")) {
 						hasWorkPcode = true;
-						setUString(hContact, "CompanyZIP", m->GetText());
+						setUString(hContact, "CompanyZIP", p);
 					}
-					if ((m = n->FirstChildElement("CTRY")) == nullptr || m->GetText() == nullptr)	// Some bad client use <COUNTRY/> instead of <CTRY/>
-						m = n->FirstChildElement("COUNTRY");
-					if (m != nullptr && m->GetText() != nullptr) {
+					if (auto *p = XmlGetChildText(n, "CTRY")) {
 						hasWorkCtry = true;
-						setUString(hContact, "CompanyCountry", m->GetText());
+						setUString(hContact, "CompanyCountry", p);
 					}
 				}
 			}
 			else if (!mir_strcmp(n->Name(), "TEL")) {
 				// Telephone/Fax/Cellular
-				if ((m = n->FirstChildElement("NUMBER")) != nullptr && m->GetText() != nullptr) {
+				if (auto *p = XmlGetChildText(n, "NUMBER")) {
 					if (hContact != 0) {
 						if (!hasFax && n->FirstChildElement("FAX") != nullptr) {
 							hasFax = true;
-							setUString(hContact, "Fax", m->GetText());
+							setUString(hContact, "Fax", p);
 						}
 						else if (!hasCell && n->FirstChildElement("CELL") != nullptr) {
 							hasCell = true;
-							setUString(hContact, "Cellular", m->GetText());
+							setUString(hContact, "Cellular", p);
 						}
 						else if (!hasPhone &&
 							(n->FirstChildElement("HOME") != nullptr || n->FirstChildElement("WORK") != nullptr || n->FirstChildElement("VOICE") != nullptr ||
@@ -923,13 +897,13 @@ void CJabberProto::OnIqResultGetVcard(const TiXmlElement *iqNode, CJabberIqInfo*
 							 n->FirstChildElement("PCS") == nullptr)))
 						{
 							hasPhone = true;
-							setUString(hContact, "Phone", m->GetText());
+							setUString(hContact, "Phone", p);
 						}
 					}
 					else {
 						char text[100];
 						mir_snprintf(text, "Phone%d", nPhone);
-						setUString(text, m->GetText());
+						setUString(text, p);
 
 						mir_snprintf(text, "PhoneFlag%d", nPhone);
 						int nFlag = 0;
@@ -959,13 +933,13 @@ void CJabberProto::OnIqResultGetVcard(const TiXmlElement *iqNode, CJabberIqInfo*
 			}
 			else if (!mir_strcmp(n->Name(), "ORG")) {
 				if (!hasOrgname && !hasOrgunit) {
-					if ((m = n->FirstChildElement("ORGNAME")) != nullptr && m->GetText() != nullptr) {
+					if (auto *p = XmlGetChildText(n, "ORGNAME")) {
 						hasOrgname = true;
-						setUString(hContact, "Company", m->GetText());
+						setUString(hContact, "Company", p);
 					}
-					if ((m = n->FirstChildElement("ORGUNIT")) != nullptr && m->GetText() != nullptr) {	// The real vCard can have multiple <ORGUNIT/> but we will only display the first one
+					if (auto *p = XmlGetChildText(n, "ORGUNIT")) {
 						hasOrgunit = true;
-						setUString(hContact, "CompanyDepartment", m->GetText());
+						setUString(hContact, "CompanyDepartment", p);
 					}
 				}
 			}
@@ -1152,15 +1126,15 @@ void CJabberProto::OnIqResultSetSearch(const TiXmlElement *iqNode, CJabberIqInfo
 		for (auto *itemNode : TiXmlFilter(queryNode, "item")) {
 			if (auto *jid = itemNode->Attribute("jid")) {
 				psr.id.w = mir_utf8decodeW(jid);
-				debugLogW(L"Result jid = %s", jid);
-				if (auto *p = itemNode->FirstChildElement("nick"))
-					psr.nick.w = mir_utf8decodeW(p->GetText());
-				if (auto *p = itemNode->FirstChildElement("first"))
-					psr.firstName.w = mir_utf8decodeW(p->GetText());
-				if (auto *p = itemNode->FirstChildElement("last"))
-					psr.lastName.w = mir_utf8decodeW(p->GetText());
-				if (auto *p = itemNode->FirstChildElement("email"))
-					psr.email.w = mir_utf8decodeW(p->GetText());
+				debugLogA("Result jid = %s", jid);
+				if (auto *p = XmlGetChildText(itemNode, "nick"))
+					psr.nick.w = mir_utf8decodeW(p);
+				if (auto *p = XmlGetChildText(itemNode, "first"))
+					psr.firstName.w = mir_utf8decodeW(p);
+				if (auto *p = XmlGetChildText(itemNode, "last"))
+					psr.lastName.w = mir_utf8decodeW(p);
+				if (auto *p = XmlGetChildText(itemNode, "email"))
+					psr.email.w = mir_utf8decodeW(p);
 				ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&psr);
 
 				replaceStrW(psr.id.w, 0);
@@ -1284,13 +1258,10 @@ void CJabberProto::OnIqResultGetVCardAvatar(const TiXmlElement *iqNode, CJabberI
 		return;
 	}
 
-	auto *mimeType = vCard->FirstChildElement("TYPE");
-	auto *n = vCard->FirstChildElement("BINVAL");
-	if (n == nullptr)
-		return;
-
-	setByte(hContact, "AvatarXVcard", 1);
-	OnIqResultGotAvatar(hContact, n, mimeType->GetText());
+	if (auto *pszText = XmlGetChildText(vCard, "BINVAL")) {
+		setByte(hContact, "AvatarXVcard", 1);
+		OnIqResultGotAvatar(hContact, pszText, XmlGetChildText(vCard, "TYPE"));
+	}
 }
 
 void CJabberProto::OnIqResultGetClientAvatar(const TiXmlElement *iqNode, CJabberIqInfo*)
@@ -1317,7 +1288,7 @@ void CJabberProto::OnIqResultGetClientAvatar(const TiXmlElement *iqNode, CJabber
 	}
 
 	if (n != nullptr) {
-		OnIqResultGotAvatar(hContact, n, n->Attribute("mimetype"));
+		OnIqResultGotAvatar(hContact, n->GetText(), n->Attribute("mimetype"));
 		return;
 	}
 
@@ -1357,7 +1328,7 @@ void CJabberProto::OnIqResultGetServerAvatar(const TiXmlElement *iqNode, CJabber
 	}
 
 	if (n != nullptr) {
-		OnIqResultGotAvatar(hContact, n, n->Attribute("mimetype"));
+		OnIqResultGotAvatar(hContact, n->GetText(), n->Attribute("mimetype"));
 		return;
 	}
 
@@ -1373,10 +1344,10 @@ void CJabberProto::OnIqResultGetServerAvatar(const TiXmlElement *iqNode, CJabber
 }
 
 
-void CJabberProto::OnIqResultGotAvatar(MCONTACT hContact, const TiXmlElement *n, const char *mimeType)
+void CJabberProto::OnIqResultGotAvatar(MCONTACT hContact, const char *pszText, const char *mimeType)
 {
 	size_t resultLen;
-	ptrA body((char*)mir_base64_decode(n->GetText(), &resultLen));
+	ptrA body((char*)mir_base64_decode(pszText, &resultLen));
 	if (body == nullptr)
 		return;
 
@@ -1386,7 +1357,7 @@ void CJabberProto::OnIqResultGotAvatar(MCONTACT hContact, const TiXmlElement *n,
 	else
 		pictureType = ProtoGetBufferFormat(body, nullptr);
 	if (pictureType == PA_FORMAT_UNKNOWN) {
-		debugLogW(L"Invalid mime type specified for picture: %s", mimeType);
+		debugLogA("Invalid mime type specified for picture: %s", mimeType);
 		return;
 	}
 
@@ -1529,10 +1500,7 @@ void CJabberProto::OnIqResultSetBookmarks(const TiXmlElement *iqNode, CJabberIqI
 		UI_SAFE_NOTIFY(m_pDlgBookmarks, WM_JABBER_REFRESH);
 	}
 	else if (!mir_strcmp(type, "error")) {
-		auto *errorNode = iqNode->FirstChildElement("error");
-		wchar_t *str = JabberErrorMsg(errorNode);
-		MessageBox(nullptr, str, TranslateT("Jabber Bookmarks Error"), MB_OK | MB_SETFOREGROUND);
-		mir_free(str);
+		MessageBox(nullptr, JabberErrorMsg(iqNode), TranslateT("Jabber Bookmarks Error"), MB_OK | MB_SETFOREGROUND);
 		UI_SAFE_NOTIFY(m_pDlgBookmarks, WM_JABBER_ACTIVATE);
 	}
 }
@@ -1546,16 +1514,14 @@ void CJabberProto::OnIqResultLastActivity(const TiXmlElement *iqNode, CJabberIqI
 
 	time_t lastActivity = -1;
 	if (pInfo->m_nIqType == JABBER_IQ_TYPE_RESULT) {
-		const char *szSeconds = XPath(iqNode, "query[@xmlns='jabber:iq:last']/@seconds");
-		if (szSeconds) {
-			int nSeconds = atoi(szSeconds);
+		if (auto *xmlLast = XmlGetChildByTag(iqNode, "query", "xmlns", JABBER_FEAT_LAST_ACTIVITY)) {
+			int nSeconds = XmlGetChildInt(xmlLast, "seconds");
 			if (nSeconds > 0)
 				lastActivity = time(0) - nSeconds;
-		}
 
-		const char *szLastStatusMessage = XPath(iqNode, "query[@xmlns='jabber:iq:last']");
-		if (szLastStatusMessage) // replace only if it exists
-			r->m_szStatusMessage = mir_strdup(szLastStatusMessage);
+			if (const char *szLastStatusMessage = xmlLast->GetText())
+				r->m_szStatusMessage = mir_strdup(szLastStatusMessage);
+		}
 	}
 
 	r->m_dwIdleStartTime = lastActivity;

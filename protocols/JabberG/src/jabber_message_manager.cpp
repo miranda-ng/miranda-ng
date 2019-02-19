@@ -96,7 +96,7 @@ bool CJabberMessageManager::HandleMessagePermanent(const TiXmlElement *node, Thr
 						messageInfo.m_hContact = ppro->HContactFromJID(messageInfo.m_szFrom);
 
 					if (messageInfo.m_szFrom)
-						ppro->debugLogW(L"Handling message from %s", messageInfo.m_szFrom);
+						ppro->debugLogA("Handling message from %s", messageInfo.m_szFrom);
 					if ((ppro->*(it->m_pHandler))(node, pThreadData, &messageInfo))
 						return true;
 				}

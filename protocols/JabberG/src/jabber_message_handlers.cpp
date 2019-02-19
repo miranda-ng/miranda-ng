@@ -34,16 +34,16 @@ BOOL CJabberProto::OnMessageError(const TiXmlElement *node, ThreadData*, CJabber
 	if (item == nullptr)
 		item = ListGetItemPtr(LIST_CHATROOM, pInfo->GetFrom());
 	if (item != nullptr) { // yes, it is
-		ptrW szErrText(JabberErrorMsg(pInfo->GetChildNode()));
+		CMStringW szErrText(JabberErrorMsg(pInfo->GetChildNode()));
 		if (id != -1)
-			ProtoBroadcastAck(pInfo->GetHContact(), ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)id, szErrText);
+			ProtoBroadcastAck(pInfo->GetHContact(), ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)id, (LPARAM)szErrText.c_str());
 		else {
 			wchar_t buf[512];
-			auto *bodyNode = node->FirstChildElement("body");
-			if (bodyNode)
-				mir_snwprintf(buf, L"%s:\n%s\n%s", pInfo->GetFrom(), bodyNode->GetText(), szErrText);
+			auto *body = XmlGetChildText(node, "body");
+			if (body)
+				mir_snwprintf(buf, L"%s:\n%s\n%s", pInfo->GetFrom(), body, szErrText.c_str());
 			else
-				mir_snwprintf(buf, L"%s:\n%s", pInfo->GetFrom(), szErrText);
+				mir_snwprintf(buf, L"%s:\n%s", pInfo->GetFrom(), szErrText.c_str());
 
 			MsgPopup(0, buf, TranslateT("Jabber Error"));
 		}

@@ -739,7 +739,7 @@ time_t str2time(const char*);
 wchar_t* JabberStrFixLines(const wchar_t *str);
 
 wchar_t* JabberErrorStr(int errorCode);
-wchar_t* JabberErrorMsg(const TiXmlElement *errorNode, int *errorCode = nullptr);
+CMStringW JabberErrorMsg(const TiXmlElement *errorNode, int *errorCode = nullptr);
 
 const wchar_t *JabberStrIStr(const wchar_t *str, const wchar_t *substr);
 void           JabberCopyText(HWND hwnd, const wchar_t *text);
@@ -747,6 +747,7 @@ CJabberProto*  JabberChooseInstance(bool bIsLink=false);
 
 bool JabberReadXep203delay(const TiXmlElement *node, time_t &msgTime);
 
+void SetWindowTextUtf(HWND hwndDlg, const char *szValue);
 void SetDlgItemTextUtf(HWND hwndDlg, int ctrlId, const char *szValue);
 
 int  UIEmulateBtnClick(HWND hwndDlg, UINT idcButton);

@@ -615,7 +615,7 @@ void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 					port = (WORD)atoi(szPort);
 					replaceStr(jbt->streamhostJID, str);
 
-					debugLogW(L"bytestream_recv connecting to %s:%d", szHost, port);
+					debugLogA("bytestream_recv connecting to %s:%d", szHost, port);
 					NETLIBOPENCONNECTION nloc = { 0 };
 					nloc.cbSize = sizeof(nloc);
 					nloc.szHost = mir_strdup(szHost);

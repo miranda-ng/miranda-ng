@@ -341,7 +341,7 @@ public:
 		return TRUE;
 	}
 
-	BOOL SetInfoRequestErrorText(wchar_t *szError)
+	BOOL SetInfoRequestErrorText(const wchar_t *szError)
 	{
 		replaceStrW(m_szInfoError, szError);
 		return TRUE;

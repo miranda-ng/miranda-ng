@@ -248,8 +248,7 @@ BOOL CJabberProto::OnRosterPushRequest(const TiXmlElement*, CJabberIqInfo *pInfo
 				replaceStr(item->nick, nick);
 				item->bRealContact = true;
 
-				auto *groupNode = itemNode->FirstChildElement("group");
-				replaceStr(item->group, groupNode->GetText());
+				replaceStr(item->group, XmlGetChildText(itemNode, "group"));
 
 				if (name != nullptr) {
 					ptrA tszNick(getUStringA(hContact, "Nick"));
@@ -283,7 +282,7 @@ BOOL CJabberProto::OnRosterPushRequest(const TiXmlElement*, CJabberIqInfo *pInfo
 			else
 				item->subscription = SUB_NONE;
 
-			debugLogW(L"Roster push for jid=%s (hContact=%d), set subscription to %s", jid, item->hContact, str);
+			debugLogA("Roster push for jid=%s (hContact=%d), set subscription to %s", jid, item->hContact, str);
 
 			// subscription = remove is to remove from roster list
 			// but we will just set the contact to offline and not actually
@@ -309,8 +308,8 @@ BOOL CJabberProto::OnIqRequestOOB(const TiXmlElement*, CJabberIqInfo *pInfo)
 	if (!pInfo->GetFrom() || !pInfo->GetHContact())
 		return TRUE;
 
-	auto *n = pInfo->GetChildNode()->FirstChildElement("url");
-	if (!n || !n->GetText())
+	const char *pszUrl = XmlGetChildText(pInfo->GetChildNode(), "url");
+	if (!pszUrl)
 		return TRUE;
 
 	if (m_bBsOnlyIBB) {
@@ -331,9 +330,8 @@ BOOL CJabberProto::OnIqRequestOOB(const TiXmlElement*, CJabberIqInfo *pInfo)
 	ft->httpPath = nullptr;
 
 	// Parse the URL
-	const char *str = n->GetText();	// URL of the file to get
-	if (!mir_strncmpi(str, "http://", 7)) {
-		const char *p = str + 7, *q;
+	if (!mir_strncmpi(pszUrl, "http://", 7)) {
+		const char *p = pszUrl + 7, *q;
 		if ((q = strchr(p, '/')) != nullptr) {
 			char text[1024];
 			if (q - p < _countof(text)) {
@@ -352,14 +350,12 @@ BOOL CJabberProto::OnIqRequestOOB(const TiXmlElement*, CJabberIqInfo *pInfo)
 		ft->szId = JabberId2string(pInfo->GetIqId());
 
 	if (ft->httpHostName && ft->httpPath) {
-		const char *desc = nullptr;
-
 		debugLogA("Host=%s Port=%d Path=%s", ft->httpHostName, ft->httpPort, ft->httpPath);
-		if ((n = pInfo->GetChildNode()->FirstChildElement("desc")) != nullptr)
-			desc = n->GetText();
+
+		const char *desc = XmlGetChildText(pInfo->GetChildNode(), "desc");
+		debugLogA("description = %s", desc);
 
 		wchar_t *str2;
-		debugLogW(L"description = %s", desc);
 		if ((str2 = wcsrchr(ft->httpPath, '/')) != nullptr)
 			str2++;
 		else

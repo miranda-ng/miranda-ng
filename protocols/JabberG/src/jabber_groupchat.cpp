@@ -331,13 +331,10 @@ void CJabberProto::OnIqResultDiscovery(const TiXmlElement *iqNode, CJabberIqInfo
 		}
 	}
 	else if (pInfo->GetIqType() == JABBER_IQ_TYPE_ERROR) {
-		auto *errorNode = iqNode->FirstChildElement("error");
-		wchar_t *str = JabberErrorMsg(errorNode);
 		sttRoomListAppend(hwndList, RoomInfo::ROOM_FAIL,
 			TranslateT("Jabber Error"),
-			str,
+			JabberErrorMsg(iqNode),
 			L"");
-		mir_free(str);
 	}
 	else
 		sttRoomListAppend(hwndList, RoomInfo::ROOM_FAIL,
@@ -841,25 +838,18 @@ void CJabberProto::GroupchatProcessPresence(const TiXmlElement *node)
 
 		// Update status of room participant
 		int status = ID_STATUS_ONLINE;
-		if (auto *n = node->FirstChildElement("show")) {
-			if (!mir_strcmp(n->GetText(), "away")) status = ID_STATUS_AWAY;
-			else if (!mir_strcmp(n->GetText(), "xa")) status = ID_STATUS_NA;
-			else if (!mir_strcmp(n->GetText(), "dnd")) status = ID_STATUS_DND;
-			else if (!mir_strcmp(n->GetText(), "chat")) status = ID_STATUS_FREECHAT;
+		if (auto *pszStatus = XmlGetChildText(node, "show")) {
+			if (!mir_strcmp(pszStatus, "away")) status = ID_STATUS_AWAY;
+			else if (!mir_strcmp(pszStatus, "xa")) status = ID_STATUS_NA;
+			else if (!mir_strcmp(pszStatus, "dnd")) status = ID_STATUS_DND;
+			else if (!mir_strcmp(pszStatus, "chat")) status = ID_STATUS_FREECHAT;
 		}
 
-		const char *str = nullptr;
-		if (auto *n = node->FirstChildElement("status"))
-			str = n->GetText();
-
-		char priority = 0;
-		if (auto *n = node->FirstChildElement("priority"))
-			if (n->GetText())
-				priority = atoi(n->GetText());
+		const char *str = XmlGetChildText(node, "status");
+		int priority = XmlGetChildInt(node, "priority");
+		int newRes = ListAddResource(LIST_CHATROOM, from, status, str, priority, cnick) ? GC_EVENT_JOIN : 0;
 
 		bool bStatusChanged = false, bRoomCreated = false, bAffiliationChanged = false, bRoleChanged = false;
-		int  newRes = ListAddResource(LIST_CHATROOM, from, status, str, priority, cnick) ? GC_EVENT_JOIN : 0;
-
 		if (pResourceStatus oldRes = ListFindResource(LIST_CHATROOM, from))
 			if ((oldRes->m_iStatus != status) || mir_strcmp(oldRes->m_szStatusMessage, str))
 				bStatusChanged = true;
@@ -930,13 +920,10 @@ void CJabberProto::GroupchatProcessPresence(const TiXmlElement *node)
 
 		// Check <created/>
 		if (bRoomCreated) {
-			auto *n = node->FirstChildElement("created");
-			if (n != nullptr && (str = n->Attribute("xmlns")) != nullptr && !mir_strcmp(str, JABBER_FEAT_MUC_OWNER))
+			if (XmlGetChildByTag(node, "created", "xmlns", JABBER_FEAT_MUC_OWNER))
 				// A new room just created by me
 				// Request room config
-				m_ThreadInfo->send(
-					XmlNodeIq(AddIQ(&CJabberProto::OnIqResultGetMuc, JABBER_IQ_TYPE_GET, item->jid))
-					<< XQUERY(JABBER_FEAT_MUC_OWNER));
+				m_ThreadInfo->send(XmlNodeIq(AddIQ(&CJabberProto::OnIqResultGetMuc, JABBER_IQ_TYPE_GET, item->jid)) << XQUERY(JABBER_FEAT_MUC_OWNER));
 		}
 	}
 
@@ -991,8 +978,7 @@ void CJabberProto::GroupchatProcessPresence(const TiXmlElement *node)
 	// processing room errors
 	else if (!mir_strcmp(type, "error")) {
 		int errorCode = 0;
-		auto *errorNode = node->FirstChildElement("error");
-		ptrW str(JabberErrorMsg(errorNode, &errorCode));
+		CMStringW str(JabberErrorMsg(node, &errorCode));
 
 		if (errorCode == JABBER_ERROR_CONFLICT) {
 			ptrA newNick(getUStringA("GcAltNick"));
