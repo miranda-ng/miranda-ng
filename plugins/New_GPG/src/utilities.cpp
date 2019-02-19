@@ -454,26 +454,25 @@ INT_PTR onSendFile(WPARAM w, LPARAM l)
 	if (isContactSecured(ccs->hContact)) {
 		char *proto = GetContactProto(ccs->hContact);
 		bool cap_found = false, supported_proto = false;
-		wchar_t *jid = db_get_wsa(ccs->hContact, proto, "jid", L"");
+		ptrA jid(db_get_utfa(ccs->hContact, proto, "jid", ""));
 		if (jid[0]) {
 			for (auto p : globals.Accounts) {
-				wchar_t *caps = p->getJabberInterface()->GetResourceFeatures(jid);
+				ptrA caps(p->getJabberInterface()->GetResourceFeatures(jid));
 				if (caps) {
 					supported_proto = true;
-					wstring str;
+					string str;
 					for (int i = 0;; i++) {
 						str.push_back(caps[i]);
 						if (caps[i] == '\0')
 							if (caps[i + 1] == '\0')
 								break;
 					}
-					mir_free(caps);
-					if (str.find(L"GPG_Encrypted_FileTransfers:0") != string::npos)
+
+					if (str.find("GPG_Encrypted_FileTransfers:0") != string::npos)
 						cap_found = true;
 				}
 			}
 		}
-		mir_free(jid);
 
 		if (supported_proto && !cap_found) {
 			if (MessageBox(nullptr, TranslateT("Capability to decrypt file not found on other side.\nRecipient may be unable to decrypt file(s).\nDo you want to encrypt file(s) anyway?"), TranslateT("File transfer warning"), MB_YESNO) == IDNO)
@@ -583,13 +582,14 @@ int GetJabberInterface(WPARAM, LPARAM) //get interface for all jabber accounts, 
 	return 0;
 }
 
-static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void*)
+static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, TiXmlElement *node, void*)
 {
-	HXML local_node = node;
-	for (int n = 0; n <= xmlGetChildCount(node); local_node = xmlGetChild(node, n++)) {
-		LPCTSTR str = xmlGetText(local_node);
-		LPCTSTR nodename = xmlGetName(local_node);
-		LPCTSTR attr = xmlGetAttrValue(local_node, L"to");
+	TiXmlDocument *pDoc = node->GetDocument();
+
+	for (auto *local_node = node->FirstChildElement(); local_node; local_node = local_node->NextSiblingElement()) {
+		LPCSTR str = local_node->GetText();
+		LPCSTR nodename = local_node->Name();
+		LPCSTR attr = local_node->Attribute("to");
 		if (attr) {
 			MCONTACT hContact = ji->ContactFromJID(attr);
 			if (hContact)
@@ -601,43 +601,45 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void*)
 			continue;
 
 		// TODO: make following block more readable
-		if (wcsstr(str, L"-----BEGIN PGP MESSAGE-----") && wcsstr(str, L"-----END PGP MESSAGE-----")) {
-			wstring data = str;
-			xmlSetText(local_node, L"This message is encrypted.");
-			wstring::size_type p1 = data.find(L"-----BEGIN PGP MESSAGE-----") + mir_wstrlen(L"-----BEGIN PGP MESSAGE-----");
-			while (data.find(L"Version: ", p1) != wstring::npos) {
-				p1 = data.find(L"Version: ", p1);
-				p1 = data.find(L"\n", p1);
+		if (strstr(str, "-----BEGIN PGP MESSAGE-----") && strstr(str, "-----END PGP MESSAGE-----")) {
+			string data = str;
+			local_node->SetText("This message is encrypted.");
+			string::size_type p1 = data.find("-----BEGIN PGP MESSAGE-----") + mir_strlen("-----BEGIN PGP MESSAGE-----");
+			while (data.find("Version: ", p1) != wstring::npos) {
+				p1 = data.find("Version: ", p1);
+				p1 = data.find("\n", p1);
 			}
-			while (data.find(L"Comment: ", p1) != wstring::npos) {
-				p1 = data.find(L"Comment: ", p1);
-				p1 = data.find(L"\n", p1);
+			while (data.find("Comment: ", p1) != wstring::npos) {
+				p1 = data.find("Comment: ", p1);
+				p1 = data.find("\n", p1);
 			}
-			while (data.find(L"Encoding: ", p1) != wstring::npos) {
-				p1 = data.find(L"Encoding: ", p1);
-				p1 = data.find(L"\n", p1);
+			while (data.find("Encoding: ", p1) != wstring::npos) {
+				p1 = data.find("Encoding: ", p1);
+				p1 = data.find("\n", p1);
 			}
 			p1 += 3;
-			wstring::size_type p2 = data.find(L"-----END PGP MESSAGE-----");
-			wstring data2 = data.substr(p1, p2 - p1 - 2);
+			string::size_type p2 = data.find("-----END PGP MESSAGE-----");
+			string data2 = data.substr(p1, p2 - p1 - 2);
 			strip_line_term(data2);
 			if (globals.bDebugLog)
-				globals.debuglog << std::string(time_str() + ": jabber_api: attaching:\r\n\r\n" + toUTF8(data2) + "\n\n\t to outgoing xml");
-			HXML encrypted_data = xmlAddChild(node, L"x", data2.c_str());
-			xmlAddAttr(encrypted_data, L"xmlns", L"jabber:x:encrypted");
+				globals.debuglog << std::string(time_str() + ": jabber_api: attaching:\r\n\r\n" + data2 + "\n\n\t to outgoing xml");
+			
+			TiXmlElement *encrypted_data = pDoc->NewElement("x"); node->InsertEndChild(encrypted_data);
+			encrypted_data->SetText(data2.c_str());
+			encrypted_data->SetAttribute("xmlns", "jabber:x:encrypted");
 			break;
 		}
 
-		if (globals.bPresenceSigning && nodename && wcsstr(nodename, L"status")) {
-			wchar_t *path_c = db_get_wsa(0, MODULENAME, "szHomePath", L"");
-			wstring path_out = path_c;
-			wstring file = toUTF16(get_random(10));
+		if (globals.bPresenceSigning && nodename && strstr(nodename, "status")) {
+			char *path_c = db_get_utfa(0, MODULENAME, "szHomePath", "");
+			string path_out = path_c;
+			string file = get_random(10);
 			mir_free(path_c);
-			path_out += L"\\tmp\\";
+			path_out += "\\tmp\\";
 			path_out += file;
 			boost::filesystem::remove(path_out);
 			wfstream f(path_out.c_str(), std::ios::out);
-			f << toUTF8(str).c_str();
+			f << str;
 			f.close();
 			if (!boost::filesystem::exists(path_out)) {
 				if (globals.bDebugLog)
@@ -690,15 +692,13 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void*)
 			}
 
 			cmd.push_back(L"--local-user");
-			path_c = db_get_wsa(0, MODULENAME, "KeyID", L"");
-			cmd.push_back(path_c);
+			cmd.push_back(ptrW(db_get_wsa(0, MODULENAME, "KeyID", L"")).get());
 			cmd.push_back(L"--default-key");
-			cmd.push_back(path_c);
-			mir_free(path_c);
+			cmd.push_back(ptrW(db_get_wsa(0, MODULENAME, "KeyID", L"")).get());
 			cmd.push_back(L"--batch");
 			cmd.push_back(L"--yes");
 			cmd.push_back(L"-abs");
-			cmd.push_back(path_out);
+			cmd.push_back(Utf2T(path_out.c_str()).get());
 			gpg_execution_params params(cmd);
 			pxResult result;
 			params.out = &out;
@@ -706,7 +706,7 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void*)
 			params.result = &result;
 			gpg_launcher(params, boost::posix_time::seconds(15)); // TODO: handle errors
 			boost::filesystem::remove(path_out);
-			path_out += L".asc";
+			path_out += ".asc";
 			f.open(path_out.c_str(), std::ios::in | std::ios::ate | std::ios::binary);
 			wstring data;
 			if (f.is_open()) {
@@ -751,12 +751,12 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void*)
 					p1 += 1;
 				p1++;
 				wstring::size_type p2 = data.find(L"-----END PGP SIGNATURE-----");
-				{
-					std::wstring tmp = data.substr(p1, p2 - p1);
-					strip_line_term(tmp);
-					HXML encrypted_data = xmlAddChild(node, L"x", tmp.c_str());
-					xmlAddAttr(encrypted_data, L"xmlns", L"jabber:x:signed");
-				}
+
+				std::wstring tmp = data.substr(p1, p2 - p1);
+				strip_line_term(tmp);
+				TiXmlElement* encrypted_data = pDoc->NewElement("x"); node->InsertEndChild(encrypted_data);
+				encrypted_data->SetText(tmp.c_str());
+				encrypted_data->SetAttribute("xmlns", "jabber:x:signed");
 			}
 			break;
 		}
@@ -764,112 +764,107 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void*)
 	return FALSE;
 }
 
-static JABBER_HANDLER_FUNC PresenceHandler(IJabberInterface*, HXML node, void*)
+static JABBER_HANDLER_FUNC PresenceHandler(IJabberInterface*, TiXmlElement* node, void*)
 {
-	HXML local_node = node;
-	for (int n = 0; n <= xmlGetChildCount(node); n++) {
-		LPCTSTR nodename = xmlGetName(local_node);
-		if (nodename) {
-			if (wcsstr(nodename, L"x")) {
-				for (int i = 0; i < xmlGetAttrCount(local_node); i++) {
-					LPCTSTR name = xmlGetAttrName(local_node, i);
-					LPCTSTR value = xmlGetAttrValue(local_node, name);
-					if (wcsstr(value, L"jabber:x:signed")) {
-						std::wstring status_str;
-						HXML local_node2 = node;
-						for (int k = 0; k <= xmlGetChildCount(node); k++) {
-							LPCTSTR nodename2 = xmlGetName(local_node2);
-							if (wcsstr(nodename2, L"status")) {
-								LPCTSTR status = xmlGetText(local_node2);
-								if (status)
-									status_str = status;
-								break;
-							}
-							local_node2 = xmlGetChild(node, k);
-						}
-						LPCTSTR data = xmlGetText(local_node);
-						wstring sign = L"-----BEGIN PGP SIGNATURE-----\n\n";
-						wstring file = toUTF16(get_random(10)), status_file = toUTF16(get_random(10));
-						sign += data;
-						sign += L"\n-----END PGP SIGNATURE-----\n";
-						wchar_t *path_c = db_get_wsa(0, MODULENAME, "szHomePath", L"");
-						wstring path_out = path_c, status_file_out = path_c;
-						mir_free(path_c);
-						path_out += L"\\tmp\\";
-						path_out += file;
-						path_out += L".sig";
-						status_file_out += L"\\tmp\\";
-						status_file_out += status_file;
-						status_file_out += L".status";
-						//						sign_file_mutex.lock();
-						boost::filesystem::remove(path_out);
-						boost::filesystem::remove(status_file_out);
-						wfstream f(path_out.c_str(), std::ios::out);
-						while (!f.is_open())
-							f.open(path_out.c_str(), std::ios::out);
-						f << toUTF8(sign).c_str();
-						f.close();
-						f.open(status_file_out.c_str(), std::ios::out);
-						while (!f.is_open())
-							f.open(status_file_out.c_str(), std::ios::out);
-						f << toUTF8(status_str).c_str();
-						f.close();
-						if (!boost::filesystem::exists(path_out)) {
-							//								sign_file_mutex.unlock();
-							if (globals.bDebugLog)
-								globals.debuglog << std::string(time_str() + ": info: Failed to write sign in file");
-							return FALSE;
-						}
-						{ //gpg
-							string out;
-							DWORD code;
-							std::vector<wstring> cmd;
-							cmd.push_back(L"--verify");
-							cmd.push_back(L"-a");
-							cmd.push_back(path_out);
-							cmd.push_back(status_file_out);
-							gpg_execution_params params(cmd);
-							pxResult result;
-							params.out = &out;
-							params.code = &code;
-							params.result = &result;
-							if (!gpg_launcher(params, boost::posix_time::seconds(15))) {
-								return FALSE;
-							}
-							if (result == pxNotFound) {
-								return FALSE;
-							}
-							boost::filesystem::remove(path_out);
-							boost::filesystem::remove(status_file_out);
-							if (out.find("key ID ") != string::npos) {
-								//need to get hcontact here, i can get jid from hxml, and get handle from jid, maybe exists better way ?
-								string::size_type p1 = out.find("key ID ") + mir_strlen("key ID ");
-								string::size_type p2 = out.find("\n", p1);
-								if (p1 != string::npos && p2 != string::npos) {
-									MCONTACT hContact = NULL;
-									{
-										for (auto p : globals.Accounts) {
-											/*if (!p)
-												break;*/
-											hContact = p->getJabberInterface()->ContactFromJID(xmlGetAttrValue(node, L"from"));
-											if (hContact)
-												globals.hcontact_data[hContact].key_in_prescense = out.substr(p1, p2 - p1 - 1).c_str();
-										}
-									}
-								}
-							}
-						}
-						return FALSE;
+	for (auto *local_node = node->FirstChildElement(); local_node; local_node = local_node->NextSiblingElement()) {
+		LPCSTR nodename = local_node->Name();
+		if (nodename == nullptr)
+			continue;
+
+		if (!mir_strcmp(nodename, "x"))
+			continue;
+
+		for (auto *pAttr = local_node->FirstAttribute(); pAttr; pAttr = pAttr->Next()) {
+			LPCSTR value = pAttr->Value();
+			if (!mir_strcmp(value, "jabber:x:signed")) {
+				std::string status_str;
+				
+				for (auto *local_node2 = node->FirstChildElement(); local_node2; local_node2 = local_node2->NextSiblingElement()) {
+					LPCSTR nodename2 = local_node2->Name();
+					if (!mir_strcmp(nodename2, "status")) {
+						LPCSTR status = local_node2->GetText();
+						if (status)
+							status_str = status;
+						break;
 					}
 				}
+
+				LPCSTR data = local_node->GetText();
+				string sign = "-----BEGIN PGP SIGNATURE-----\n\n";
+				wstring file = toUTF16(get_random(10)), status_file = toUTF16(get_random(10));
+				sign += data;
+				sign += "\n-----END PGP SIGNATURE-----\n";
+				wchar_t *path_c = db_get_wsa(0, MODULENAME, "szHomePath", L"");
+				wstring path_out = path_c, status_file_out = path_c;
+				mir_free(path_c);
+				path_out += L"\\tmp\\";
+				path_out += file;
+				path_out += L".sig";
+				status_file_out += L"\\tmp\\";
+				status_file_out += status_file;
+				status_file_out += L".status";
+				
+				boost::filesystem::remove(path_out);
+				boost::filesystem::remove(status_file_out);
+				wfstream f(path_out.c_str(), std::ios::out);
+				while (!f.is_open())
+					f.open(path_out.c_str(), std::ios::out);
+				f << sign.c_str();
+				f.close();
+				f.open(status_file_out.c_str(), std::ios::out);
+				while (!f.is_open())
+					f.open(status_file_out.c_str(), std::ios::out);
+				f << status_str.c_str();
+				f.close();
+				if (!boost::filesystem::exists(path_out)) {
+					if (globals.bDebugLog)
+						globals.debuglog << std::string(time_str() + ": info: Failed to write sign in file");
+					return FALSE;
+				}
+				{ //gpg
+					string out;
+					DWORD code;
+					std::vector<wstring> cmd;
+					cmd.push_back(L"--verify");
+					cmd.push_back(L"-a");
+					cmd.push_back(path_out);
+					cmd.push_back(status_file_out);
+					gpg_execution_params params(cmd);
+					pxResult result;
+					params.out = &out;
+					params.code = &code;
+					params.result = &result;
+					if (!gpg_launcher(params, boost::posix_time::seconds(15))) {
+						return FALSE;
+					}
+					if (result == pxNotFound) {
+						return FALSE;
+					}
+					boost::filesystem::remove(path_out);
+					boost::filesystem::remove(status_file_out);
+					if (out.find("key ID ") != string::npos) {
+						//need to get hcontact here, i can get jid from hxml, and get handle from jid, maybe exists better way ?
+						string::size_type p1 = out.find("key ID ") + mir_strlen("key ID ");
+						string::size_type p2 = out.find("\n", p1);
+						if (p1 != string::npos && p2 != string::npos) {
+							MCONTACT hContact = NULL;
+
+							for (auto p : globals.Accounts) {
+								hContact = p->getJabberInterface()->ContactFromJID(node->Attribute("from"));
+								if (hContact)
+									globals.hcontact_data[hContact].key_in_prescense = out.substr(p1, p2 - p1 - 1).c_str();
+							}
+						}
+					}
+				}
+				return FALSE;
 			}
 		}
-		local_node = xmlGetChild(node, n);
 	}
 	return FALSE;
 }
 
-static JABBER_HANDLER_FUNC MessageHandler(IJabberInterface*, HXML, void*)
+static JABBER_HANDLER_FUNC MessageHandler(IJabberInterface*, TiXmlElement*, void*)
 {
 	return FALSE;
 }
@@ -886,12 +881,12 @@ void AddHandlers()
 			p->setPresenceHandler(p->getJabberInterface()->AddPresenceHandler((JABBER_HANDLER_FUNC)PresenceHandler));
 
 		if (globals.bAutoExchange) {
-			p->getJabberInterface()->RegisterFeature(L"GPG_Key_Auto_Exchange:0", L"Indicates that gpg installed and configured to public key auto exchange (currently implemented in new_gpg plugin for Miranda IM and Miranda NG)");
-			p->getJabberInterface()->AddFeatures(L"GPG_Key_Auto_Exchange:0\0\0");
+			p->getJabberInterface()->RegisterFeature("GPG_Key_Auto_Exchange:0", "Indicates that gpg installed and configured to public key auto exchange (currently implemented in new_gpg plugin for Miranda IM and Miranda NG)");
+			p->getJabberInterface()->AddFeatures("GPG_Key_Auto_Exchange:0\0\0");
 		}
 		if (globals.bFileTransfers) {
-			p->getJabberInterface()->RegisterFeature(L"GPG_Encrypted_FileTransfers:0", L"Indicates that gpg installed and configured to encrypt files (currently implemented in new_gpg plugin for Miranda IM and Miranda NG)");
-			p->getJabberInterface()->AddFeatures(L"GPG_Encrypted_FileTransfers:0\0\0");
+			p->getJabberInterface()->RegisterFeature("GPG_Encrypted_FileTransfers:0", "Indicates that gpg installed and configured to encrypt files (currently implemented in new_gpg plugin for Miranda IM and Miranda NG)");
+			p->getJabberInterface()->AddFeatures("GPG_Encrypted_FileTransfers:0\0\0");
 		}
 	}
 }

@@ -557,27 +557,26 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 	}
 	else if (!isContactHaveKey(ccs->hContact) && globals.bAutoExchange && globals.gpg_valid && globals.gpg_keyexist) {
 		char *proto = GetContactProto(ccs->hContact);
-		wchar_t *jid = db_get_wsa(ccs->hContact, proto, "jid", L"");
+		ptrA jid(db_get_utfa(ccs->hContact, proto, "jid", ""));
 		if (jid[0]) {
 			for (auto p : globals.Accounts) {
-				wchar_t *caps = p->getJabberInterface()->GetResourceFeatures(jid);
+				ptrA caps(p->getJabberInterface()->GetResourceFeatures(jid));
 				if (caps) {
-					wstring str1;
+					string str1;
 					for (int i = 0;; i++) {
 						str1.push_back(caps[i]);
 						if (caps[i] == '\0')
 							if (caps[i + 1] == '\0')
 								break;
 					}
-					mir_free(caps);
-					if (str1.find(L"GPG_Key_Auto_Exchange:0") != string::npos) {
+
+					if (str1.find("GPG_Key_Auto_Exchange:0") != string::npos) {
 						ProtoChainSend(ccs->hContact, PSS_MESSAGE, 0, (LPARAM)"-----PGP KEY REQUEST-----");
 						return 0;
 					}
 				}
 			}
 		}
-		mir_free(jid);
 	}
 
 	if (!strstr(msg, "-----BEGIN PGP MESSAGE-----"))
@@ -845,22 +844,22 @@ int HookSendMsg(WPARAM w, LPARAM l)
 				globals.debuglog << std::string(time_str() + ": info: checking for autoexchange possibility, name: " + toUTF8(Clist_GetContactDisplayName(hContact)));
 
 			LPSTR proto = GetContactProto(hContact);
-			wchar_t *jid = db_get_wsa(hContact, proto, "jid", L"");
+			ptrA jid(db_get_utfa(hContact, proto, "jid", ""));
 			if (jid[0]) {
 				if (globals.bDebugLog)
 					globals.debuglog << std::string(time_str() + ": info(autoexchange): protocol looks like jabber, name: " + toUTF8(Clist_GetContactDisplayName(hContact)));
 				for (auto p : globals.Accounts) {
-					wchar_t *caps = p->getJabberInterface()->GetResourceFeatures(jid);
+					ptrA caps(p->getJabberInterface()->GetResourceFeatures(jid));
 					if (caps) {
-						wstring str;
+						string str;
 						for (int i = 0;; i++) {
 							str.push_back(caps[i]);
 							if (caps[i] == '\0')
 								if (caps[i + 1] == '\0')
 									break;
 						}
-						mir_free(caps);
-						if (str.find(L"GPG_Key_Auto_Exchange:0") != string::npos) {
+
+						if (str.find("GPG_Key_Auto_Exchange:0") != string::npos) {
 							if (globals.bDebugLog)
 								globals.debuglog << std::string(time_str() + ": info(autoexchange, jabber): autoexchange capability found, sending key request, name: " + toUTF8(Clist_GetContactDisplayName(hContact)));
 							ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)"-----PGP KEY REQUEST-----");
@@ -871,7 +870,6 @@ int HookSendMsg(WPARAM w, LPARAM l)
 					}
 				}
 			}
-			mir_free(jid);
 		}
 		else return 0;
 	}
