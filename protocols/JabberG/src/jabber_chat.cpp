@@ -246,7 +246,7 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const char *r
 {
 	int statusToSet = 0;
 
-	const char *szReason = reason->GetText();
+	const char *szReason = (reason) ? reason->GetText() : nullptr;
 	if (szReason == nullptr) {
 		if (nStatusCode == 322)
 			szReason = Translate("because room is now members-only");

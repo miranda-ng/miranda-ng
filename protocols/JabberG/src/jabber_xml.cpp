@@ -104,10 +104,9 @@ TiXmlElement*operator<<(TiXmlElement *node, const XCHILDNS &child)
 
 TiXmlElement* operator<<(TiXmlElement *node, const XQUERY &child)
 {
-	TiXmlElement *n = node->GetDocument()->NewElement("query");
-	if (n)
-		n->SetAttribute("xmlns", child.ns);
-	return n;
+	TiXmlElement *res = XmlAddChild(node, "query");
+	res->SetAttribute("xmlns", child.ns);
+	return res;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -259,7 +259,7 @@ void CJabberProto::GroupchatJoinRoom(const char *server, const char *room, const
 	if (info.m_password && info.m_password[0])
 		x << XCHILD("password", info.m_password);
 
-	SendPresenceTo(status, text, x);
+	SendPresenceTo(status, text, x.ToElement());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -755,6 +755,9 @@ static VOID CALLBACK JabberGroupchatChangeNickname(void* arg)
 
 static int sttGetStatusCode(const TiXmlElement *node)
 {
+	if (node == nullptr)
+		return -1;
+
 	auto *statusNode = node->FirstChildElement("status");
 	if (statusNode == nullptr)
 		return -1;
@@ -816,16 +819,20 @@ void CJabberProto::GroupchatProcessPresence(const TiXmlElement *node)
 
 	pResourceStatus r(item->findResource(resource));
 
-	auto *nNode = XmlGetChildByTag(node, "nick", "xmlns", JABBER_FEAT_NICK);
-	const char *cnick = nNode->GetText();
+	const char *cnick = nullptr;
+	if (auto *n = XmlGetChildByTag(node, "nick", "xmlns", JABBER_FEAT_NICK))
+		cnick = n->GetText();
+
 	const char *nick = cnick ? cnick : (r && r->m_szNick ? r->m_szNick : resource);
 
 	// process custom nick change
 	if (cnick && r && r->m_szNick && mir_strcmp(cnick, r->m_szNick))
 		r->m_szNick = mir_strdup(cnick);
 
+	const TiXmlElement *itemNode = nullptr;
 	auto *xNode = XmlGetChildByTag(node, "x", "xmlns", JABBER_FEAT_MUC_USER);
-	auto *itemNode = xNode->FirstChildElement("item");
+	if (xNode)
+		itemNode = xNode->FirstChildElement("item");
 
 	// entering room or a usual room presence
 	const char *type = node->Attribute("type");

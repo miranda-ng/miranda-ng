@@ -165,27 +165,114 @@ class CJabberDlgBookmarks : public CJabberDlgBase
 {
 	typedef CJabberDlgBase CSuper;
 
-public:
-	CJabberDlgBookmarks(CJabberProto *proto);
-
-	void UpdateData();
-
-protected:
-	bool OnInitDialog() override;
-	bool OnClose() override;
-	void OnDestroy() override;
-	int Resizer(UTILRESIZECONTROL *urc) override;
-
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
-	void OnProtoCheckOnline(WPARAM wParam, LPARAM lParam);
-	void OnProtoRefresh(WPARAM, LPARAM);
-	void OpenBookmark();
-
-private:
 	CCtrlMButton	m_btnAdd;
 	CCtrlMButton	m_btnEdit;
 	CCtrlMButton	m_btnRemove;
 	CCtrlFilterListView	m_lvBookmarks;
+
+public:
+	CJabberDlgBookmarks(CJabberProto *proto) :
+		CSuper(proto, IDD_BOOKMARKS),
+		m_btnAdd(this, IDC_ADD, SKINICON_OTHER_ADDCONTACT, LPGEN("Add")),
+		m_btnEdit(this, IDC_EDIT, SKINICON_OTHER_RENAME, LPGEN("Edit")),
+		m_btnRemove(this, IDC_REMOVE, SKINICON_OTHER_DELETE, LPGEN("Remove")),
+		m_lvBookmarks(this, IDC_BM_LIST, true, true)
+	{
+		m_lvBookmarks.OnItemActivate = Callback(this, &CJabberDlgBookmarks::lvBookmarks_OnDoubleClick);
+		m_btnAdd.OnClick = Callback(this, &CJabberDlgBookmarks::btnAdd_OnClick);
+		m_btnEdit.OnClick = Callback(this, &CJabberDlgBookmarks::btnEdit_OnClick);
+		m_btnRemove.OnClick = Callback(this, &CJabberDlgBookmarks::btnRemove_OnClick);
+	}
+
+	bool OnInitDialog() override
+	{
+		CSuper::OnInitDialog();
+
+		Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_BOOKMARKS));
+
+		m_btnAdd.Disable();
+		m_btnEdit.Disable();
+		m_btnRemove.Disable();
+
+		m_lvBookmarks.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_HEADERDRAGDROP | LVS_EX_DOUBLEBUFFER);
+
+		HIMAGELIST hIml = m_lvBookmarks.CreateImageList(LVSIL_SMALL);
+		ImageList_AddIcon_Icolib(hIml, m_proto->LoadIconEx("group"));
+		ImageList_AddIcon_Icolib(hIml, Skin_LoadIcon(SKINICON_EVENT_URL));
+
+		m_lvBookmarks.AddColumn(0, TranslateT("Bookmark Name"), m_proto->getWord("bookmarksWnd_cx0", 120));
+		m_lvBookmarks.AddColumn(1, TranslateT("Address (JID or URL)"), m_proto->getWord("bookmarksWnd_cx1", 210));
+		m_lvBookmarks.AddColumn(2, TranslateT("Nickname"), m_proto->getWord("bookmarksWnd_cx2", 90));
+
+		m_lvBookmarks.EnableGroupView(TRUE);
+		m_lvBookmarks.AddGroup(0, TranslateT("Conferences"));
+		m_lvBookmarks.AddGroup(1, TranslateT("Links"));
+
+		Utils_RestoreWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "bookmarksWnd_");
+		return true;
+	}
+
+	bool OnClose() override
+	{
+		LVCOLUMN lvc = { 0 };
+		lvc.mask = LVCF_WIDTH;
+		m_lvBookmarks.GetColumn(0, &lvc);
+		m_proto->setWord("bookmarksWnd_cx0", lvc.cx);
+		m_lvBookmarks.GetColumn(1, &lvc);
+		m_proto->setWord("bookmarksWnd_cx1", lvc.cx);
+		m_lvBookmarks.GetColumn(2, &lvc);
+		m_proto->setWord("bookmarksWnd_cx2", lvc.cx);
+
+		Utils_SaveWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "bookmarksWnd_");
+
+		return CSuper::OnClose();
+	}
+
+	void OnDestroy() override
+	{
+		m_proto->m_pDlgBookmarks = nullptr;
+		CSuper::OnDestroy();
+	}
+
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	{
+		switch (msg) {
+		case WM_GETMINMAXINFO:
+			{
+				LPMINMAXINFO lpmmi = (LPMINMAXINFO)lParam;
+				lpmmi->ptMinTrackSize.x = 451;
+				lpmmi->ptMinTrackSize.y = 320;
+				return 0;
+			}
+
+		case WM_COMMAND:
+			switch (LOWORD(wParam)) {
+			case IDOK:
+				OpenBookmark();
+				return TRUE;
+			}
+			break;
+		}
+
+		return CSuper::DlgProc(msg, wParam, lParam);
+	}
+
+	int Resizer(UTILRESIZECONTROL *urc) override
+	{
+		switch (urc->wId) {
+		case IDC_BM_LIST:
+			return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+
+		case IDCANCEL:
+			return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
+
+		case IDC_ADD:
+		case IDC_EDIT:
+		case IDC_REMOVE:
+			return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
+		}
+		return CSuper::Resizer(urc);
+	}
 
 	void lvBookmarks_OnDoubleClick(CCtrlFilterListView *)
 	{
@@ -254,189 +341,61 @@ private:
 		m_proto->SetBookmarkRequest(iq);
 		m_proto->m_ThreadInfo->send(iq);
 	}
-};
 
-CJabberDlgBookmarks::CJabberDlgBookmarks(CJabberProto *proto) :
-	CSuper(proto, IDD_BOOKMARKS),
-	m_btnAdd(this, IDC_ADD, SKINICON_OTHER_ADDCONTACT, LPGEN("Add")),
-	m_btnEdit(this, IDC_EDIT, SKINICON_OTHER_RENAME, LPGEN("Edit")),
-	m_btnRemove(this, IDC_REMOVE, SKINICON_OTHER_DELETE, LPGEN("Remove")),
-	m_lvBookmarks(this, IDC_BM_LIST, true, true)
-{
-	m_lvBookmarks.OnItemActivate = Callback(this, &CJabberDlgBookmarks::lvBookmarks_OnDoubleClick);
-	m_btnAdd.OnClick = Callback(this, &CJabberDlgBookmarks::btnAdd_OnClick);
-	m_btnEdit.OnClick = Callback(this, &CJabberDlgBookmarks::btnEdit_OnClick);
-	m_btnRemove.OnClick = Callback(this, &CJabberDlgBookmarks::btnRemove_OnClick);
-}
-
-void CJabberDlgBookmarks::UpdateData()
-{
-	if (!m_proto->m_bJabberOnline) return;
-
-	m_proto->m_ThreadInfo->send(
-		XmlNodeIq(m_proto->AddIQ(&CJabberProto::OnIqResultDiscoBookmarks, JABBER_IQ_TYPE_GET))
-		<< XQUERY(JABBER_FEAT_PRIVATE_STORAGE) << XCHILDNS("storage", "storage:bookmarks"));
-}
-
-bool CJabberDlgBookmarks::OnInitDialog()
-{
-	CSuper::OnInitDialog();
-
-	Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_BOOKMARKS));
-
-	m_btnAdd.Disable();
-	m_btnEdit.Disable();
-	m_btnRemove.Disable();
-
-	m_lvBookmarks.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_HEADERDRAGDROP | LVS_EX_DOUBLEBUFFER);
-
-	HIMAGELIST hIml = m_lvBookmarks.CreateImageList(LVSIL_SMALL);
-	ImageList_AddIcon_Icolib(hIml, m_proto->LoadIconEx("group"));
-	ImageList_AddIcon_Icolib(hIml, Skin_LoadIcon(SKINICON_EVENT_URL));
-
-	m_lvBookmarks.AddColumn(0, TranslateT("Bookmark Name"), m_proto->getWord("bookmarksWnd_cx0", 120));
-	m_lvBookmarks.AddColumn(1, TranslateT("Address (JID or URL)"), m_proto->getWord("bookmarksWnd_cx1", 210));
-	m_lvBookmarks.AddColumn(2, TranslateT("Nickname"), m_proto->getWord("bookmarksWnd_cx2", 90));
-
-	m_lvBookmarks.EnableGroupView(TRUE);
-	m_lvBookmarks.AddGroup(0, TranslateT("Conferences"));
-	m_lvBookmarks.AddGroup(1, TranslateT("Links"));
-
-	Utils_RestoreWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "bookmarksWnd_");
-	return true;
-}
-
-bool CJabberDlgBookmarks::OnClose()
-{
-	LVCOLUMN lvc = { 0 };
-	lvc.mask = LVCF_WIDTH;
-	m_lvBookmarks.GetColumn(0, &lvc);
-	m_proto->setWord("bookmarksWnd_cx0", lvc.cx);
-	m_lvBookmarks.GetColumn(1, &lvc);
-	m_proto->setWord("bookmarksWnd_cx1", lvc.cx);
-	m_lvBookmarks.GetColumn(2, &lvc);
-	m_proto->setWord("bookmarksWnd_cx2", lvc.cx);
-
-	Utils_SaveWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "bookmarksWnd_");
-
-	return CSuper::OnClose();
-}
-
-void CJabberDlgBookmarks::OnDestroy()
-{
-	m_proto->m_pDlgBookmarks = nullptr;
-
-	CSuper::OnDestroy();
-}
-
-void CJabberDlgBookmarks::OpenBookmark()
-{
-	int iItem = m_lvBookmarks.GetNextItem(-1, LVNI_SELECTED);
-	if (iItem < 0)
-		return;
-
-	char *address = (char*)m_lvBookmarks.GetItemData(iItem);
-	if (address == nullptr)
-		return;
-
-	JABBER_LIST_ITEM *item = m_proto->ListGetItemPtr(LIST_BOOKMARK, address);
-	if (item == nullptr)
-		return;
-
-	if (!mir_strcmpi(item->type, "conference")) {
-		m_lvBookmarks.SetItemState(iItem, 0, LVIS_SELECTED); // Unselect the item
-
-		/* some hack for using bookmark to transport not under XEP-0048 */
-		if (!strchr(item->jid, '@'))
-			//the room name is not provided let consider that it is transport and send request to registration
-			m_proto->RegisterAgent(nullptr, item->jid);
-		else {
-			char *room = NEWSTR_ALLOCA(item->jid);
-			char *server = strchr(room, '@');
-			*(server++) = 0;
-
-			if (item->nick && *item->nick)
-				m_proto->GroupchatJoinRoom(server, room, item->nick, item->password);
-			else
-				m_proto->GroupchatJoinRoom(server, room, ptrA(JabberNickFromJID(m_proto->m_szJabberJID)), item->password);
-		}
-	}
-	else Utils_OpenUrl(item->jid);
-}
-
-INT_PTR CJabberDlgBookmarks::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-	case WM_GETMINMAXINFO:
-		{
-			LPMINMAXINFO lpmmi = (LPMINMAXINFO)lParam;
-			lpmmi->ptMinTrackSize.x = 451;
-			lpmmi->ptMinTrackSize.y = 320;
-			return 0;
-		}
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDOK:
-			OpenBookmark();
-			return TRUE;
-		}
-		break;
-	}
-
-	return CSuper::DlgProc(msg, wParam, lParam);
-}
-
-void CJabberDlgBookmarks::OnProtoCheckOnline(WPARAM, LPARAM)
-{
-	if (!m_proto->m_bJabberOnline) {
-		m_btnAdd.Disable();
-		m_btnEdit.Disable();
-		m_btnRemove.Disable();
-	}
-	else UpdateData();
-}
-
-void CJabberDlgBookmarks::OnProtoRefresh(WPARAM, LPARAM)
-{
-	m_lvBookmarks.DeleteAllItems();
-
-	JABBER_LIST_ITEM *item = nullptr;
-	LISTFOREACH(i, m_proto, LIST_BOOKMARK)
+	void OnProtoCheckOnline(WPARAM, LPARAM)
 	{
-		if (item = m_proto->ListGetItemPtrFromIndex(i)) {
-			int itemType = mir_strcmpi(item->type, "conference") ? 1 : 0;
-			int iItem = m_lvBookmarks.AddItem(item->name, itemType, (LPARAM)item->jid, itemType);
-			m_lvBookmarks.SetItem(iItem, 1, Utf2T(item->jid));
-			if (itemType == 0)
-				m_lvBookmarks.SetItem(iItem, 2, Utf2T(item->nick));
+		if (!m_proto->m_bJabberOnline) {
+			m_btnAdd.Disable();
+			m_btnEdit.Disable();
+			m_btnRemove.Disable();
 		}
+		else UpdateData();
 	}
 
-	if (item) {
-		m_btnEdit.Enable();
-		m_btnRemove.Enable();
+	void OpenBookmark()
+	{
+		int iItem = m_lvBookmarks.GetNextItem(-1, LVNI_SELECTED);
+		if (iItem < 0)
+			return;
+
+		char *address = (char*)m_lvBookmarks.GetItemData(iItem);
+		if (address == nullptr)
+			return;
+
+		JABBER_LIST_ITEM *item = m_proto->ListGetItemPtr(LIST_BOOKMARK, address);
+		if (item == nullptr)
+			return;
+
+		if (!mir_strcmpi(item->type, "conference")) {
+			m_lvBookmarks.SetItemState(iItem, 0, LVIS_SELECTED); // Unselect the item
+
+																				  /* some hack for using bookmark to transport not under XEP-0048 */
+			if (!strchr(item->jid, '@'))
+				//the room name is not provided let consider that it is transport and send request to registration
+				m_proto->RegisterAgent(nullptr, item->jid);
+			else {
+				char *room = NEWSTR_ALLOCA(item->jid);
+				char *server = strchr(room, '@');
+				*(server++) = 0;
+
+				if (item->nick && *item->nick)
+					m_proto->GroupchatJoinRoom(server, room, item->nick, item->password);
+				else
+					m_proto->GroupchatJoinRoom(server, room, ptrA(JabberNickFromJID(m_proto->m_szJabberJID)), item->password);
+			}
+		}
+		else Utils_OpenUrl(item->jid);
 	}
 
-	m_btnAdd.Enable();
-}
+	void UpdateData()
+	{
+		if (!m_proto->m_bJabberOnline) return;
 
-int CJabberDlgBookmarks::Resizer(UTILRESIZECONTROL *urc)
-{
-	switch (urc->wId) {
-	case IDC_BM_LIST:
-		return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
-
-	case IDCANCEL:
-		return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
-
-	case IDC_ADD:
-	case IDC_EDIT:
-	case IDC_REMOVE:
-		return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
+		m_proto->m_ThreadInfo->send(
+			XmlNodeIq(m_proto->AddIQ(&CJabberProto::OnIqResultDiscoBookmarks, JABBER_IQ_TYPE_GET))
+			<< XQUERY(JABBER_FEAT_PRIVATE_STORAGE) << XCHILDNS("storage", "storage:bookmarks"));
 	}
-	return CSuper::Resizer(urc);
-}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Launches the Bookmarks manager window
