@@ -190,20 +190,16 @@ void ThreadData::xmpp_client_query(void)
 void CJabberProto::xmlStreamInitialize(char *szWhich)
 {
 	debugLogA("Stream will be initialized %s", szWhich);
-	if (m_szXmlStreamToBeInitialized)
-		free(m_szXmlStreamToBeInitialized);
-	m_szXmlStreamToBeInitialized = _strdup(szWhich);
+	replaceStr(m_szXmlStreamToBeInitialized, szWhich);
 }
 
 void CJabberProto::xmlStreamInitializeNow(ThreadData *info)
 {
 	debugLogA("Stream is initializing %s",
 		m_szXmlStreamToBeInitialized ? m_szXmlStreamToBeInitialized : "after connect");
-	if (m_szXmlStreamToBeInitialized) {
-		free(m_szXmlStreamToBeInitialized);
-		m_szXmlStreamToBeInitialized = nullptr;
-	}
+	replaceStr(m_szXmlStreamToBeInitialized, 0);
 
+	m_bStreamSent = true;
 	XmlNode n("stream:stream"); 
 	n << XATTR("xmlns", "jabber:client") << XATTR("to", info->conn.server) << XATTR("xmlns:stream", "http://etherx.jabber.org/streams");
 	n.InsertFirstChild(n.NewDeclaration("xml version=\"1.0\" encoding=\"UTF-8\""));
@@ -451,23 +447,34 @@ recvRest:
 
 			int bytesParsed = 0;
 			TiXmlDocument root;
-			if (0 == root.Parse(info.buffer)) {
-				for (auto *n : TiXmlEnum(&root))
-					OnProcessProtocol(n, &info);
-				bytesParsed = root.BytesParsed();
+			if (m_bStreamSent) {
+				m_bStreamSent = false;
+				char *p = strstr(info.buffer, "<stream:stream");
+				if (p) {
+					char *q = strchr(p + 15, '>');
+					if (q) {
+						CMStringA tmp(info.buffer, int(q - info.buffer)+1);
+						tmp.Append("</stream:stream>");
+
+						if (0 == root.Parse(tmp)) {
+							for (auto *n : TiXmlEnum(&root))
+								OnProcessProtocol(n, &info);
+							bytesParsed = root.BytesParsed() - 16;
+							debugLogA("bytesParsed = %d", bytesParsed);
+						}
+					}
+				}
 			}
-			else if (root.ErrorID() == 14) {
-				root.Clear();
-				strcpy(&info.buffer[datalen], "</stream:stream>");
-				datalen = (int)strlen(info.buffer);
+			
+			if (bytesParsed == 0) {
 				if (0 == root.Parse(info.buffer)) {
 					for (auto *n : TiXmlEnum(&root))
 						OnProcessProtocol(n, &info);
 					bytesParsed = root.BytesParsed();
+					debugLogA("bytesParsed = %d", bytesParsed);
 				}
+				else debugLogA("parsing error %d: %s", root.ErrorID(), root.ErrorStr());
 			}
-
-			debugLogA("bytesParsed = %d", bytesParsed);
 
 			if (bytesParsed > 0) {
 				if (bytesParsed < datalen)

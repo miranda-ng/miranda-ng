@@ -131,8 +131,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_bUseOMEMO(this, "UseOMEMO", false),
 	m_bEnableStreamMgmt(this, "UseStreamMgmt", false)
 {
-	m_szXmlStreamToBeInitialized = nullptr;
-
 	debugLogA("Setting protocol/module name to '%s'", m_szModuleName);
 
 	// Protocol services and events...

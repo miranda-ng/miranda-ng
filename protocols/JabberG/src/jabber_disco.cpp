@@ -1215,7 +1215,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 
 	case SD_ACT_REFRESHCHILDREN:
 		{
-			TiXmlDocument packet;
+			XmlNode packet(nullptr);
 			{
 				mir_cslock lck(m_SDManager.cs());
 				for (int iChild = TreeList_GetChildrenCount(hItem); iChild--;) {
@@ -1224,14 +1224,14 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 					if (n) {
 						TreeList_ResetItem(GetDlgItem(m_pDlgServiceDiscovery->GetHwnd(), IDC_TREE_DISCO), hNode);
 						n->ResetInfo();
-						SendBothRequests(n, packet.ToElement());
+						SendBothRequests(n, packet);
 						TreeList_MakeFakeParent(hNode, FALSE);
 					}
 
-					//!!!!!!!!!!!!!!!!!! if (packet > 50) {
-					m_ThreadInfo->send(packet.ToElement());
-					packet.Clear();
-					///}
+					if (XmlGetChildCount(packet) > 50) {
+						m_ThreadInfo->send(packet);
+						packet.Clear();
+					}
 				}
 			}
 

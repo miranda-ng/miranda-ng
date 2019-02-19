@@ -103,9 +103,9 @@ void CJabberProto::OnConsoleProcessXml(const TiXmlElement *node, DWORD flags)
 
 bool CJabberProto::RecursiveCheckFilter(const TiXmlElement *node, DWORD flags)
 {
-	// !!!!!!!!!!!!!!!!for (int i = 0; i < node->Attribute); i++)
-	// !!!!!!!!!!!!!!!!	if (JabberStrIStr(XmlGetAttr(node, i), m_filterInfo.pattern))
-	// !!!!!!!!!!!!!!!! return true;
+	for (auto *p = node->FirstAttribute(); p; p = p->Next())
+		if (JabberStrIStr(Utf2T(p->Value()), m_filterInfo.pattern))
+			return true;
 
 	for (auto *it : TiXmlEnum(node))
 		if (RecursiveCheckFilter(it, flags))
@@ -203,20 +203,17 @@ static void sttRtfAppendXml(StringBuf *buf, const TiXmlElement *node, DWORD flag
 	sttAppendBufRaw(buf, node->Name());
 	sttAppendBufRaw(buf, RTF_ENDTAGNAME);
 
-	// !!!!!!!!!!!!!!!!
-	/*for (int i = 0; i < XmlGetAttrCount(node); i++) {
-		wchar_t *attr = (wchar_t*)xmlGetAttrName(node, i);
+	for (auto *p = node->FirstAttribute(); p; p = p->Next()) {
 		sttAppendBufRaw(buf, " ");
 		sttAppendBufRaw(buf, RTF_BEGINATTRNAME);
-		sttAppendBufW(buf, attr);
+		sttAppendBufW(buf, Utf2T(p->Name()));
 		sttAppendBufRaw(buf, RTF_ENDATTRNAME);
 		sttAppendBufRaw(buf, "=\"");
 		sttAppendBufRaw(buf, RTF_BEGINATTRVAL);
-		sttAppendBufT(buf, (wchar_t*)XmlGetAttr(node, i));
+		sttAppendBufT(buf, Utf2T(p->Value()));
 		sttAppendBufRaw(buf, "\"");
 		sttAppendBufRaw(buf, RTF_ENDATTRVAL);
 	}
-	*/
 
 	if (!node->NoChildren() || node->GetText()) {
 		sttAppendBufRaw(buf, ">");

@@ -561,7 +561,6 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 						continue;
 
 					gc_item *pItem = sttFindGcMenuItem(_countof(sttListItems), sttListItems, idx);
-					//!!!!!!!!!!!!!!!!!! pItem->pszDesc = item->jid;
 					pItem->uType = MENU_POPUPITEM;
 					if (++idx > IDM_LINK9)
 						break;

@@ -216,6 +216,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	bool   m_bShutdown;
 	bool   m_bSendKeepAlive;
 	bool   m_bPepSupported;
+	bool   m_bStreamSent;
 
 	HWND   m_hwndAgentRegInput;
 	HWND   m_hwndRegProgress;
