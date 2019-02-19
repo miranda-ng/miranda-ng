@@ -33,8 +33,6 @@ static BOOL(WINAPI *pfnEnableThemeDialogTexture)(HANDLE, DWORD) = nullptr;
 /////////////////////////////////////////////////////////////////////////////////////////
 // JabberRegisterDlgProc - the dialog proc for registering new account
 
-#define STR_FORMAT L"%s %s@%S:%d?"
-
 struct { char *szCode; wchar_t *szDescription; } g_LanguageCodes[] = {
 	{ "aa", LPGENW("Afar") },
 	{ "ab", LPGENW("Abkhazian") },
@@ -227,6 +225,12 @@ struct { char *szCode; wchar_t *szDescription; } g_LanguageCodes[] = {
 class CJabberDlgRegister : public CJabberDlgBase
 {
 	typedef CJabberDlgBase CSuper;
+
+	bool m_bProcessStarted;
+	JABBER_CONN_DATA *m_regInfo;
+
+	CCtrlButton m_btnOk;
+
 public:
 	CJabberDlgRegister(CJabberProto *proto, HWND hwndParent, JABBER_CONN_DATA *regInfo) :
 		CJabberDlgBase(proto, IDD_OPT_REGISTER),
@@ -239,12 +243,10 @@ public:
 		m_btnOk.OnClick = Callback(this, &CJabberDlgRegister::btnOk_OnClick);
 	}
 
-protected:
 	bool OnInitDialog() override
 	{
-		wchar_t text[256];
-		mir_snwprintf(text, STR_FORMAT, TranslateT("Register"), m_regInfo->username, m_regInfo->server, m_regInfo->port);
-		SetDlgItemText(m_hwnd, IDC_REG_STATUS, text);
+		CMStringA text(FORMAT, "%s %s@%s:%d?", Translate("Register"), m_regInfo->username, m_regInfo->server, m_regInfo->port);
+		SetDlgItemTextUtf(m_hwnd, IDC_REG_STATUS, text);
 		return true;
 	}
 
@@ -253,9 +255,9 @@ protected:
 		switch (msg) {
 		case WM_JABBER_REGDLG_UPDATE:	// wParam=progress (0-100), lparam=status string
 			if ((wchar_t*)lParam == nullptr)
-				SetDlgItemText(m_hwnd, IDC_REG_STATUS, TranslateT("No message"));
+				SetDlgItemTextW(m_hwnd, IDC_REG_STATUS, TranslateT("No message"));
 			else
-				SetDlgItemText(m_hwnd, IDC_REG_STATUS, (wchar_t*)lParam);
+				SetDlgItemTextW(m_hwnd, IDC_REG_STATUS, (wchar_t*)lParam);
 
 			SendDlgItemMessage(m_hwnd, IDC_PROGRESS_REG, PBM_SETPOS, wParam, 0);
 			if (wParam >= 100)
@@ -268,12 +270,6 @@ protected:
 
 		return CSuper::DlgProc(msg, wParam, lParam);
 	}
-
-private:
-	bool m_bProcessStarted;
-	JABBER_CONN_DATA *m_regInfo;
-
-	CCtrlButton m_btnOk;
 
 	void btnOk_OnClick(CCtrlButton*)
 	{
