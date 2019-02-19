@@ -1139,13 +1139,13 @@ void __cdecl CJabberProto::GetAwayMsgThread(void *param)
 		JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid);
 		if (item != nullptr) {
 			if (item->arResources.getCount() > 0) {
-				CMStringW str;
+				CMStringA str;
 				for (auto &r : item->arResources)
 					if (r->m_szStatusMessage)
-						str.AppendFormat(L"(%s): %s\r\n", r->m_szResourceName, r->m_szStatusMessage);
+						str.AppendFormat("(%s): %s\r\n", r->m_szResourceName, r->m_szStatusMessage);
 
 				str.TrimRight();
-				ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)str.c_str());
+				ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, Utf2T(str));
 				return;
 			}
 
