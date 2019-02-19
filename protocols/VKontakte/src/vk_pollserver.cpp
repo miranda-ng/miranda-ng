@@ -259,13 +259,20 @@ int CVkProto::PollServer()
 	req.flags = VK_NODUMPHEADERS | NLHRF_PERSISTENT | NLHRF_HTTP11 | NLHRF_SSL;
 	req.timeout = 30000;
 	req.nlc = m_pollingConn;
-
+	time_t tLocalPoolThreadTimer;
 	{
 		mir_cslock lck(m_csPoolThreadTimer);
-		m_tPoolThreadTimer = time(0);
+		tLocalPoolThreadTimer = m_tPoolThreadTimer = time(0);
 	}
 
 	while ((reply = Netlib_HttpTransaction(m_hNetlibUser, &req)) == nullptr) {
+		{
+			mir_cslock lck(m_csPoolThreadTimer);
+			if (m_tPoolThreadTimer != tLocalPoolThreadTimer) {
+				debugLogA("CVkProto::PollServer is living dead => return");
+				return -2;
+			}
+		}
 		debugLogA("CVkProto::PollServer is dead");
 		ClosePollingConnection();
 		if (iPollConnRetry && !m_bTerminated) {
@@ -319,9 +326,14 @@ void CVkProto::PollingThread(void*)
 {
 	debugLogA("CVkProto::PollingThread: entering");
 
-	while (!m_bTerminated)
-		if (PollServer() == -1 || !m_hPollingThread)
+	while (!m_bTerminated) {
+		int iRetVal = PollServer();
+		if (iRetVal == -2)
+			return;
+
+		if (iRetVal == -1 || !m_hPollingThread)
 			break;
+	}
 
 	ClosePollingConnection();
 	debugLogA("CVkProto::PollingThread: leaving");

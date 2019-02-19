@@ -367,7 +367,7 @@ private:
 	bool IsMessageExist(UINT iMsgId, VKMesType vkType = vkALL);
 	void InitQueue();
 	void UninitQueue();
-	void ExecuteRequest(AsyncHttpRequest*);
+	bool ExecuteRequest(AsyncHttpRequest*);
 	void __cdecl WorkerThread(void*);
 	AsyncHttpRequest* Push(MHttpRequest *pReq, int iTimeout = 10000);
 	bool RunCaptchaForm(LPCSTR szUrl, CMStringA&);

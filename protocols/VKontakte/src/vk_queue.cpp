@@ -32,7 +32,7 @@ void CVkProto::UninitQueue()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
+bool CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 {
 	CMStringA str;
 	do {
@@ -57,8 +57,24 @@ void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		if (m_bTerminated)
 			break;
 
+		time_t tLocalWorkThreadTimer = 0;
+		{
+			mir_cslock lck(m_csWorkThreadTimer);
+			tLocalWorkThreadTimer = m_tWorkThreadTimer = time(0);
+		}
+
 		debugLogA("CVkProto::ExecuteRequest \n====\n%s\n====\n", pReq->szUrl);
 		NETLIBHTTPREQUEST *reply = Netlib_HttpTransaction(m_hNetlibUser, pReq);
+
+		{
+			mir_cslock lck(m_csWorkThreadTimer);
+			if (tLocalWorkThreadTimer != m_tWorkThreadTimer) {
+				debugLogA("CVkProto::WorkerThread is living Dead => return");
+				delete pReq;
+				return false;
+			}
+		}
+
 		if (reply != nullptr) {
 			if (pReq->m_pFunc != nullptr)
 				(this->*(pReq->m_pFunc))(reply, pReq); // may be set pReq->bNeedsRestart
@@ -89,6 +105,7 @@ void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 
 	} while (pReq->bNeedsRestart && !m_bTerminated);
 	delete pReq;
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -191,11 +208,9 @@ void CVkProto::WorkerThread(void*)
 				// There can be maximum 3 requests to API methods per second from a client
 				// see https://vk.com/dev/api_requests
 			}
-			{
-				mir_cslock lck(m_csWorkThreadTimer);
-				m_tWorkThreadTimer = time(0);
-			}
-			ExecuteRequest(pReq);
+
+			if (!ExecuteRequest(pReq))
+				return;
 		}
 	}
 
