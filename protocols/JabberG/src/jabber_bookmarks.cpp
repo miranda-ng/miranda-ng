@@ -274,12 +274,12 @@ public:
 		return CSuper::Resizer(urc);
 	}
 
-	void lvBookmarks_OnDoubleClick(CCtrlFilterListView *)
+	void lvBookmarks_OnDoubleClick(CCtrlFilterListView*)
 	{
 		OpenBookmark();
 	}
 
-	void btnAdd_OnClick(CCtrlFilterListView *)
+	void btnAdd_OnClick(CCtrlFilterListView*)
 	{
 		if (!m_proto->m_bJabberOnline) return;
 
@@ -289,7 +289,7 @@ public:
 		DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_BOOKMARK_ADD), m_hwnd, JabberAddBookmarkDlgProc, (LPARAM)&param);
 	}
 
-	void btnEdit_OnClick(CCtrlFilterListView *)
+	void btnEdit_OnClick(CCtrlFilterListView*)
 	{
 		if (!m_proto->m_bJabberOnline)
 			return;
@@ -312,7 +312,7 @@ public:
 		DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_BOOKMARK_ADD), m_hwnd, JabberAddBookmarkDlgProc, (LPARAM)&param);
 	}
 
-	void btnRemove_OnClick(CCtrlFilterListView *)
+	void btnRemove_OnClick(CCtrlFilterListView*)
 	{
 		if (!m_proto->m_bJabberOnline)
 			return;

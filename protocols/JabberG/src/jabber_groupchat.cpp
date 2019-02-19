@@ -399,9 +399,7 @@ public:
 		mir_free(m_jid);
 	}
 
-protected:
-
-	bool OnInitDialog()
+	bool OnInitDialog() override
 	{
 		CSuper::OnInitDialog();
 

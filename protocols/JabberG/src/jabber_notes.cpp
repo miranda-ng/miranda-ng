@@ -147,15 +147,6 @@ class CJabberDlgNoteItem : public CJabberDlgBase
 	typedef CJabberDlgBase CSuper;
 	typedef void (CJabberProto::*TFnProcessNote)(CNoteItem *, bool ok);
 
-public:
-	CJabberDlgNoteItem(CJabberDlgBase *parent, CNoteItem *pNote);
-	CJabberDlgNoteItem(CJabberProto *proto, CNoteItem *pNote, TFnProcessNote fnProcess);
-
-protected:
-	bool OnInitDialog() override;
-		int Resizer(UTILRESIZECONTROL *urc);
-
-private:
 	CNoteItem *m_pNote;
 	TFnProcessNote m_fnProcess;
 
@@ -164,7 +155,73 @@ private:
 	CCtrlEdit m_txtTags;
 	CCtrlButton m_btnOk;
 
-	void btnOk_OnClick(CCtrlButton *)
+public:
+	CJabberDlgNoteItem(CJabberDlgBase *parent, CNoteItem *pNote) :
+		CSuper(parent->GetProto(), IDD_NOTE_EDIT),
+		m_pNote(pNote),
+		m_fnProcess(nullptr),
+		m_txtTitle(this, IDC_TXT_TITLE),
+		m_txtText(this, IDC_TXT_TEXT),
+		m_txtTags(this, IDC_TXT_TAGS),
+		m_btnOk(this, IDOK)
+	{
+		SetParent(parent->GetHwnd());
+		m_btnOk.OnClick = Callback(this, &CJabberDlgNoteItem::btnOk_OnClick);
+	}
+
+	CJabberDlgNoteItem(CJabberProto *proto, CNoteItem *pNote, TFnProcessNote fnProcess) :
+		CSuper(proto, IDD_NOTE_EDIT),
+		m_pNote(pNote),
+		m_fnProcess(fnProcess),
+		m_txtTitle(this, IDC_TXT_TITLE),
+		m_txtText(this, IDC_TXT_TEXT),
+		m_txtTags(this, IDC_TXT_TAGS),
+		m_btnOk(this, IDOK)
+	{
+		m_btnOk.OnClick = Callback(this, &CJabberDlgNoteItem::btnOk_OnClick);
+	}
+
+	bool OnInitDialog() override
+	{
+		CSuper::OnInitDialog();
+		Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_NOTES));
+
+		if (m_fnProcess) {
+			CMStringW buf;
+			if (m_fnProcess == &CJabberProto::ProcessIncomingNote)
+				buf.Format(TranslateT("Incoming note from %s"), m_pNote->GetFrom());
+			else
+				buf.Format(TranslateT("Send note to %s"), m_pNote->GetFrom());
+
+			SetWindowText(m_hwnd, buf);
+		}
+
+		m_txtTitle.SetText(Utf2T(m_pNote->GetTitle()));
+		m_txtText.SetText(m_pNote->GetText());
+		m_txtTags.SetText(Utf2T(m_pNote->GetTagsStr()));
+		return true;
+	}
+
+	int Resizer(UTILRESIZECONTROL *urc) override
+	{
+		switch (urc->wId) {
+		case IDC_TXT_TITLE:
+			return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
+		case IDC_TXT_TEXT:
+			return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+		case IDC_ST_TAGS:
+		case IDC_TXT_TAGS:
+			return RD_ANCHORX_WIDTH | RD_ANCHORY_BOTTOM;
+
+		case IDOK:
+		case IDCANCEL:
+			return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
+		}
+
+		return CSuper::Resizer(urc);
+	}
+
+	void btnOk_OnClick(CCtrlButton*)
 	{
 		T2Utf szTitle(ptrW(m_txtTitle.GetText()));
 		T2Utf szTags(ptrW(m_txtTags.GetText()));
@@ -182,71 +239,6 @@ private:
 		return CSuper::OnClose();
 	}
 };
-
-CJabberDlgNoteItem::CJabberDlgNoteItem(CJabberDlgBase *parent, CNoteItem *pNote) :
-	CSuper(parent->GetProto(), IDD_NOTE_EDIT),
-	m_pNote(pNote),
-	m_fnProcess(nullptr),
-	m_txtTitle(this, IDC_TXT_TITLE),
-	m_txtText(this, IDC_TXT_TEXT),
-	m_txtTags(this, IDC_TXT_TAGS),
-	m_btnOk(this, IDOK)
-{
-	SetParent(parent->GetHwnd());
-	m_btnOk.OnClick = Callback(this, &CJabberDlgNoteItem::btnOk_OnClick);
-}
-
-CJabberDlgNoteItem::CJabberDlgNoteItem(CJabberProto *proto, CNoteItem *pNote, TFnProcessNote fnProcess) :
-	CSuper(proto, IDD_NOTE_EDIT),
-	m_pNote(pNote),
-	m_fnProcess(fnProcess),
-	m_txtTitle(this, IDC_TXT_TITLE),
-	m_txtText(this, IDC_TXT_TEXT),
-	m_txtTags(this, IDC_TXT_TAGS),
-	m_btnOk(this, IDOK)
-{
-	m_btnOk.OnClick = Callback(this, &CJabberDlgNoteItem::btnOk_OnClick);
-}
-
-bool CJabberDlgNoteItem::OnInitDialog()
-{
-	CSuper::OnInitDialog();
-	Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_NOTES));
-
-	if (m_fnProcess) {
-		CMStringW buf;
-		if (m_fnProcess == &CJabberProto::ProcessIncomingNote)
-			buf.Format(TranslateT("Incoming note from %s"), m_pNote->GetFrom());
-		else
-			buf.Format(TranslateT("Send note to %s"), m_pNote->GetFrom());
-
-		SetWindowText(m_hwnd, buf);
-	}
-
-	m_txtTitle.SetText(Utf2T(m_pNote->GetTitle()));
-	m_txtText.SetText(m_pNote->GetText());
-	m_txtTags.SetText(Utf2T(m_pNote->GetTagsStr()));
-	return true;
-}
-
-int CJabberDlgNoteItem::Resizer(UTILRESIZECONTROL *urc)
-{
-	switch (urc->wId) {
-	case IDC_TXT_TITLE:
-		return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
-	case IDC_TXT_TEXT:
-		return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
-	case IDC_ST_TAGS:
-	case IDC_TXT_TAGS:
-		return RD_ANCHORX_WIDTH | RD_ANCHORY_BOTTOM;
-
-	case IDOK:
-	case IDCANCEL:
-		return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
-	}
-
-	return CSuper::Resizer(urc);
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Notebook window
@@ -411,20 +403,6 @@ class CJabberDlgNotes : public CJabberDlgBase
 {
 	typedef CJabberDlgBase CSuper;
 
-public:
-	CJabberDlgNotes(CJabberProto *proto);
-	void UpdateData();
-
-protected:
-	bool OnInitDialog() override;
-	bool OnClose() override;
-	void OnDestroy();
-	int Resizer(UTILRESIZECONTROL *urc);
-
-	void OnProtoCheckOnline(WPARAM wParam, LPARAM lParam);
-	void OnProtoRefresh(WPARAM wParam, LPARAM lParam);
-
-private:
 	CCtrlMButton		m_btnAdd;
 	CCtrlMButton		m_btnEdit;
 	CCtrlMButton		m_btnRemove;
@@ -511,7 +489,88 @@ private:
 		EnableControls();
 	}
 
-	void btnAdd_OnClick(CCtrlFilterListView *)
+public:
+	CJabberDlgNotes(CJabberProto *proto) :
+		CSuper(proto, IDD_NOTEBOOK),
+		m_btnAdd(this, IDC_ADD, SKINICON_OTHER_ADDCONTACT, LPGEN("Add")),
+		m_btnEdit(this, IDC_EDIT, SKINICON_OTHER_RENAME, LPGEN("Edit")),
+		m_btnRemove(this, IDC_REMOVE, SKINICON_OTHER_DELETE, LPGEN("Remove")),
+		m_lstNotes(this, IDC_LST_NOTES),
+		m_tvFilter(this, IDC_TV_FILTER),
+		m_btnSave(this, IDC_APPLY)
+	{
+		m_btnAdd.OnClick = Callback(this, &CJabberDlgNotes::btnAdd_OnClick);
+		m_btnEdit.OnClick = Callback(this, &CJabberDlgNotes::btnEdit_OnClick);
+		m_btnRemove.OnClick = Callback(this, &CJabberDlgNotes::btnRemove_OnClick);
+		m_lstNotes.OnDblClick = Callback(this, &CJabberDlgNotes::btnEdit_OnClick);
+		m_lstNotes.OnSelChange = Callback(this, &CJabberDlgNotes::lstNotes_OnSelChange);
+		m_btnSave.OnClick = Callback(this, &CJabberDlgNotes::btnSave_OnClick);
+
+		m_tvFilter.OnSelChanged = Callback(this, &CJabberDlgNotes::tvFilter_OnSelChanged);
+		m_tvFilter.OnDeleteItem = Callback(this, &CJabberDlgNotes::tvFilter_OnDeleteItem);
+	}
+	
+	bool OnInitDialog() override
+	{
+		CSuper::OnInitDialog();
+		Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_NOTES));
+
+		LOGFONT lf, lfTmp;
+		m_hfntNormal = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
+		GetObject(m_hfntNormal, sizeof(lf), &lf);
+		lfTmp = lf; lfTmp.lfWeight = FW_BOLD;
+		m_hfntBold = CreateFontIndirect(&lfTmp);
+		lfTmp = lf; lfTmp.lfHeight *= 0.8;
+		m_hfntSmall = CreateFontIndirect(&lfTmp);
+		m_lstNotes.SetFonts(m_hfntNormal, m_hfntSmall, m_hfntBold);
+
+		Utils_RestoreWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "notesWnd_");
+		return true;
+	}
+
+	bool OnClose() override
+	{
+		if (m_proto->m_notes.IsModified())
+			if (IDYES != MessageBox(m_hwnd, TranslateT("Notes are not saved, close this window without uploading data to server?"), TranslateT("Are you sure?"), MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2))
+				return false;
+
+		Utils_SaveWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "notesWnd_");
+		DeleteObject(m_hfntSmall);
+		DeleteObject(m_hfntBold);
+		return CSuper::OnClose();
+	}
+
+	void OnDestroy() override
+	{
+		m_tvFilter.DeleteAllItems();
+		m_proto->m_pDlgNotes = nullptr;
+		CSuper::OnDestroy();
+	}
+
+	int Resizer(UTILRESIZECONTROL *urc) override
+	{
+		switch (urc->wId) {
+		case IDC_TV_FILTER:
+			return RD_ANCHORX_LEFT | RD_ANCHORY_HEIGHT;
+		case IDC_LST_NOTES:
+			return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+		case IDC_APPLY:
+		case IDCANCEL:
+			return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
+		case IDC_ADD:
+		case IDC_EDIT:
+		case IDC_REMOVE:
+			return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
+		}
+		return CSuper::Resizer(urc);
+	}
+
+	void OnProtoCheckOnline(WPARAM, LPARAM) override
+	{
+		EnableControls();
+	}
+
+	void btnAdd_OnClick(CCtrlFilterListView*)
 	{
 		CNoteItem *pNote = new CNoteItem();
 		CJabberDlgNoteItem dlg(this, pNote);
@@ -529,7 +588,7 @@ private:
 		EnableControls();
 	}
 
-	void btnEdit_OnClick(CCtrlFilterListView *)
+	void btnEdit_OnClick(CCtrlFilterListView*)
 	{
 		int idx = m_lstNotes.GetCurSel();
 		if (idx != LB_ERR) {
@@ -544,7 +603,7 @@ private:
 		EnableControls();
 	}
 
-	void btnRemove_OnClick(CCtrlFilterListView *)
+	void btnRemove_OnClick(CCtrlFilterListView*)
 	{
 		int idx = m_lstNotes.GetCurSel();
 		if (idx != LB_ERR) {
@@ -576,7 +635,7 @@ private:
 		EnableControls();
 	}
 
-	void btnSave_OnClick(CCtrlButton *)
+	void btnSave_OnClick(CCtrlButton*)
 	{
 		XmlNodeIq iq("set");
 		TiXmlElement *query = iq << XQUERY(JABBER_FEAT_PRIVATE_STORAGE);
@@ -585,97 +644,13 @@ private:
 		m_proto->m_ThreadInfo->send(iq);
 		EnableControls();
 	}
-};
 
-CJabberDlgNotes::CJabberDlgNotes(CJabberProto *proto) :
-	CSuper(proto, IDD_NOTEBOOK),
-	m_btnAdd(this, IDC_ADD, SKINICON_OTHER_ADDCONTACT, LPGEN("Add")),
-	m_btnEdit(this, IDC_EDIT, SKINICON_OTHER_RENAME, LPGEN("Edit")),
-	m_btnRemove(this, IDC_REMOVE, SKINICON_OTHER_DELETE, LPGEN("Remove")),
-	m_lstNotes(this, IDC_LST_NOTES),
-	m_tvFilter(this, IDC_TV_FILTER),
-	m_btnSave(this, IDC_APPLY)
-{
-	m_btnAdd.OnClick = Callback(this, &CJabberDlgNotes::btnAdd_OnClick);
-	m_btnEdit.OnClick = Callback(this, &CJabberDlgNotes::btnEdit_OnClick);
-	m_btnRemove.OnClick = Callback(this, &CJabberDlgNotes::btnRemove_OnClick);
-	m_lstNotes.OnDblClick = Callback(this, &CJabberDlgNotes::btnEdit_OnClick);
-	m_lstNotes.OnSelChange = Callback(this, &CJabberDlgNotes::lstNotes_OnSelChange);
-	m_btnSave.OnClick = Callback(this, &CJabberDlgNotes::btnSave_OnClick);
-
-	m_tvFilter.OnSelChanged = Callback(this, &CJabberDlgNotes::tvFilter_OnSelChanged);
-	m_tvFilter.OnDeleteItem = Callback(this, &CJabberDlgNotes::tvFilter_OnDeleteItem);
-}
-
-void CJabberDlgNotes::UpdateData()
-{
-	RebuildTree();
-	EnableControls();
-}
-
-bool CJabberDlgNotes::OnInitDialog()
-{
-	CSuper::OnInitDialog();
-	Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_NOTES));
-
-	LOGFONT lf, lfTmp;
-	m_hfntNormal = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
-	GetObject(m_hfntNormal, sizeof(lf), &lf);
-	lfTmp = lf; lfTmp.lfWeight = FW_BOLD;
-	m_hfntBold = CreateFontIndirect(&lfTmp);
-	lfTmp = lf; lfTmp.lfHeight *= 0.8;
-	m_hfntSmall = CreateFontIndirect(&lfTmp);
-	m_lstNotes.SetFonts(m_hfntNormal, m_hfntSmall, m_hfntBold);
-
-	Utils_RestoreWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "notesWnd_");
-	return true;
-}
-
-bool CJabberDlgNotes::OnClose()
-{
-	if (m_proto->m_notes.IsModified())
-		if (IDYES != MessageBox(m_hwnd, TranslateT("Notes are not saved, close this window without uploading data to server?"), TranslateT("Are you sure?"), MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2))
-			return false;
-
-	Utils_SaveWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "notesWnd_");
-	DeleteObject(m_hfntSmall);
-	DeleteObject(m_hfntBold);
-	return CSuper::OnClose();
-}
-
-void CJabberDlgNotes::OnDestroy()
-{
-	m_tvFilter.DeleteAllItems();
-	m_proto->m_pDlgNotes = nullptr;
-	CSuper::OnDestroy();
-}
-
-void CJabberDlgNotes::OnProtoCheckOnline(WPARAM, LPARAM)
-{
-	EnableControls();
-}
-
-void CJabberDlgNotes::OnProtoRefresh(WPARAM, LPARAM)
-{
-}
-
-int CJabberDlgNotes::Resizer(UTILRESIZECONTROL *urc)
-{
-	switch (urc->wId) {
-	case IDC_TV_FILTER:
-		return RD_ANCHORX_LEFT | RD_ANCHORY_HEIGHT;
-	case IDC_LST_NOTES:
-		return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
-	case IDC_APPLY:
-	case IDCANCEL:
-		return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
-	case IDC_ADD:
-	case IDC_EDIT:
-	case IDC_REMOVE:
-		return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
+	void UpdateData()
+	{
+		RebuildTree();
+		EnableControls();
 	}
-	return CSuper::Resizer(urc);
-}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Launches the incoming note window

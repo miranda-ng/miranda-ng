@@ -313,283 +313,271 @@ class CJabberDlgConsole : public CJabberDlgBase
 	typedef CJabberDlgBase CSuper;
 
 public:
-	CJabberDlgConsole(CJabberProto *proto);
+	CJabberDlgConsole(CJabberProto *proto):
+		CJabberDlgBase(proto, IDD_CONSOLE)
+	{}
 
-protected:
-	bool OnInitDialog() override;
-	bool OnClose() override;
-	void OnDestroy() override;
-	int Resizer(UTILRESIZECONTROL *urc) override;
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
-
-	void OnProtoRefresh(WPARAM wParam, LPARAM lParam);
-};
-
-CJabberDlgConsole::CJabberDlgConsole(CJabberProto *proto) :
-	CJabberDlgBase(proto, IDD_CONSOLE)
-{
-}
-
-bool CJabberDlgConsole::OnInitDialog()
-{
-	CSuper::OnInitDialog();
-
-	Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_CONSOLE));
-	SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_SETEDITSTYLE, SES_EXTENDBACKCOLOR, SES_EXTENDBACKCOLOR);
-	SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_EXLIMITTEXT, 0, 0x80000000);
-
-	m_proto->m_filterInfo.msg = m_proto->getByte("consoleWnd_msg", TRUE);
-	m_proto->m_filterInfo.presence = m_proto->getByte("consoleWnd_presence", TRUE);
-	m_proto->m_filterInfo.iq = m_proto->getByte("consoleWnd_iq", TRUE);
-	m_proto->m_filterInfo.type = (TFilterInfo::Type)m_proto->getByte("consoleWnd_ftype", TFilterInfo::T_OFF);
-
-	*m_proto->m_filterInfo.pattern = 0;
-	ptrW tszPattern(m_proto->getWStringA("consoleWnd_fpattern"));
-	if (tszPattern != nullptr)
-		mir_wstrncpy(m_proto->m_filterInfo.pattern, tszPattern, _countof(m_proto->m_filterInfo.pattern));
-
-	sttJabberConsoleRebuildStrings(m_proto, GetDlgItem(m_hwnd, IDC_CB_FILTER));
-	SetDlgItemText(m_hwnd, IDC_CB_FILTER, m_proto->m_filterInfo.pattern);
-
-	struct
+	bool OnInitDialog() override
 	{
-		int idc;
-		char *title;
-		char *icon;
-		bool push;
-		BOOL pushed;
-	}
-	static buttons[] =
-	{
-		{ IDC_BTN_MSG,            "Messages",     "pl_msg_allow",    true,  m_proto->m_filterInfo.msg},
-		{ IDC_BTN_PRESENCE,       "Presences",    "pl_prin_allow",   true,  m_proto->m_filterInfo.presence},
-		{ IDC_BTN_IQ,             "Queries",      "pl_iq_allow",     true,  m_proto->m_filterInfo.iq},
-		{ IDC_BTN_FILTER,         "Filter mode",  "sd_filter_apply", true,  FALSE},
-		{ IDC_BTN_FILTER_REFRESH, "Refresh list", "sd_nav_refresh",  false, FALSE},
-	};
+		CSuper::OnInitDialog();
 
-	for (auto &it : buttons) {
-		SendDlgItemMessage(m_hwnd, it.idc, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(it.icon));
-		SendDlgItemMessage(m_hwnd, it.idc, BUTTONSETASFLATBTN, TRUE, 0);
-		SendDlgItemMessage(m_hwnd, it.idc, BUTTONADDTOOLTIP, (WPARAM)it.title, 0);
-		if (it.push)
-			SendDlgItemMessage(m_hwnd, it.idc, BUTTONSETASPUSHBTN, TRUE, 0);
-		if (it.pushed)
-			CheckDlgButton(m_hwnd, it.idc, BST_CHECKED);
-	}
+		Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_CONSOLE));
+		SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_SETEDITSTYLE, SES_EXTENDBACKCOLOR, SES_EXTENDBACKCOLOR);
+		SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_EXLIMITTEXT, 0, 0x80000000);
 
-	for (auto &it : filter_modes)
-		if (it.type == m_proto->m_filterInfo.type) {
-			IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(it.icon)));
-			SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(it.icon));
-			break;
-		}
+		m_proto->m_filterInfo.msg = m_proto->getByte("consoleWnd_msg", TRUE);
+		m_proto->m_filterInfo.presence = m_proto->getByte("consoleWnd_presence", TRUE);
+		m_proto->m_filterInfo.iq = m_proto->getByte("consoleWnd_iq", TRUE);
+		m_proto->m_filterInfo.type = (TFilterInfo::Type)m_proto->getByte("consoleWnd_ftype", TFilterInfo::T_OFF);
 
-	EnableWindow(GetDlgItem(m_hwnd, IDC_CB_FILTER), (m_proto->m_filterInfo.type == TFilterInfo::T_OFF) ? FALSE : TRUE);
-	EnableWindow(GetDlgItem(m_hwnd, IDC_BTN_FILTER_REFRESH), (m_proto->m_filterInfo.type == TFilterInfo::T_OFF) ? FALSE : TRUE);
+		*m_proto->m_filterInfo.pattern = 0;
+		ptrW tszPattern(m_proto->getWStringA("consoleWnd_fpattern"));
+		if (tszPattern != nullptr)
+			mir_wstrncpy(m_proto->m_filterInfo.pattern, tszPattern, _countof(m_proto->m_filterInfo.pattern));
 
-	Utils_RestoreWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "consoleWnd_");
-	return true;
-}
+		sttJabberConsoleRebuildStrings(m_proto, GetDlgItem(m_hwnd, IDC_CB_FILTER));
+		SetDlgItemText(m_hwnd, IDC_CB_FILTER, m_proto->m_filterInfo.pattern);
 
-bool CJabberDlgConsole::OnClose()
-{
-	m_proto->setByte("consoleWnd_msg", m_proto->m_filterInfo.msg);
-	m_proto->setByte("consoleWnd_presence", m_proto->m_filterInfo.presence);
-	m_proto->setByte("consoleWnd_iq", m_proto->m_filterInfo.iq);
-	m_proto->setByte("consoleWnd_ftype", m_proto->m_filterInfo.type);
-	m_proto->setWString("consoleWnd_fpattern", m_proto->m_filterInfo.pattern);
-
-	Utils_SaveWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "consoleWnd_");
-	DestroyWindow(m_hwnd);
-	return CSuper::OnClose();
-}
-
-void CJabberDlgConsole::OnDestroy()
-{
-	IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_MSG, BM_SETIMAGE, IMAGE_ICON, 0));
-	IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_PRESENCE, BM_SETIMAGE, IMAGE_ICON, 0));
-	IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_IQ, BM_SETIMAGE, IMAGE_ICON, 0));
-	IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, 0));
-	IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER_REFRESH, BM_SETIMAGE, IMAGE_ICON, 0));
-
-	m_proto->m_pDlgConsole = nullptr;
-	CSuper::OnDestroy();
-}
-
-void CJabberDlgConsole::OnProtoRefresh(WPARAM, LPARAM lParam)
-{
-	SendDlgItemMessage(m_hwnd, IDC_CONSOLE, WM_SETREDRAW, FALSE, 0);
-
-	StringBuf *buf = (StringBuf *)lParam;
-	buf->streamOffset = 0;
-
-	EDITSTREAM es = { 0 };
-	es.dwCookie = (DWORD_PTR)buf;
-	es.pfnCallback = sttStreamInCallback;
-
-	SCROLLINFO si = { 0 };
-	si.cbSize = sizeof(si);
-	si.fMask = SIF_ALL;
-	GetScrollInfo(GetDlgItem(m_hwnd, IDC_CONSOLE), SB_VERT, &si);
-
-	CHARRANGE oldSel, sel;
-	POINT ptScroll;
-	SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_GETSCROLLPOS, 0, (LPARAM)&ptScroll);
-	SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_EXGETSEL, 0, (LPARAM)&oldSel);
-	sel.cpMin = sel.cpMax = GetWindowTextLength(GetDlgItem(m_hwnd, IDC_CONSOLE));
-	SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_EXSETSEL, 0, (LPARAM)&sel);
-	SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_STREAMIN, SF_RTF | SFF_SELECTION, (LPARAM)&es);
-	SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_EXSETSEL, 0, (LPARAM)&oldSel);
-
-	// magic expression from tabsrmm :)
-	if ((UINT)si.nPos >= (UINT)si.nMax - si.nPage - 5 || si.nMax - si.nMin - si.nPage < 50) {
-		SendDlgItemMessage(m_hwnd, IDC_CONSOLE, WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
-		sel.cpMin = sel.cpMax = GetWindowTextLength(GetDlgItem(m_hwnd, IDC_CONSOLE));
-		SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_EXSETSEL, 0, (LPARAM)&sel);
-	}
-	else SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_SETSCROLLPOS, 0, (LPARAM)&ptScroll);
-
-	SendDlgItemMessage(m_hwnd, IDC_CONSOLE, WM_SETREDRAW, TRUE, 0);
-	InvalidateRect(GetDlgItem(m_hwnd, IDC_CONSOLE), nullptr, FALSE);
-}
-
-int CJabberDlgConsole::Resizer(UTILRESIZECONTROL *urc)
-{
-	switch (urc->wId) {
-	case IDC_CONSOLE:
-		return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
-	case IDC_CONSOLEIN:
-		return RD_ANCHORX_WIDTH | RD_ANCHORY_BOTTOM;
-
-	case IDC_BTN_MSG:
-	case IDC_BTN_PRESENCE:
-	case IDC_BTN_IQ:
-	case IDC_BTN_FILTER:
-		return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
-
-	case IDC_RESET:
-	case IDOK:
-	case IDC_BTN_FILTER_REFRESH:
-		return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
-
-	case IDC_CB_FILTER:
-		RECT rc;
-		GetWindowRect(GetDlgItem(m_hwnd, urc->wId), &rc);
-		urc->rcItem.right += (urc->dlgNewSize.cx - urc->dlgOriginalSize.cx);
-		urc->rcItem.top += (urc->dlgNewSize.cy - urc->dlgOriginalSize.cy);
-		urc->rcItem.bottom = urc->rcItem.top + rc.bottom - rc.top;
-		return 0;
-	}
-	return CSuper::Resizer(urc);
-}
-
-INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-	case WM_GETMINMAXINFO:
+		struct
 		{
-			LPMINMAXINFO lpmmi = (LPMINMAXINFO)lParam;
-			lpmmi->ptMinTrackSize.x = 300;
-			lpmmi->ptMinTrackSize.y = 400;
-			return 0;
+			int idc;
+			char *title;
+			char *icon;
+			bool push;
+			BOOL pushed;
+		}
+		static buttons[] =
+		{
+			{ IDC_BTN_MSG,            "Messages",     "pl_msg_allow",    true,  m_proto->m_filterInfo.msg},
+			{ IDC_BTN_PRESENCE,       "Presences",    "pl_prin_allow",   true,  m_proto->m_filterInfo.presence},
+			{ IDC_BTN_IQ,             "Queries",      "pl_iq_allow",     true,  m_proto->m_filterInfo.iq},
+			{ IDC_BTN_FILTER,         "Filter mode",  "sd_filter_apply", true,  FALSE},
+			{ IDC_BTN_FILTER_REFRESH, "Refresh list", "sd_nav_refresh",  false, FALSE},
+		};
+
+		for (auto &it : buttons) {
+			SendDlgItemMessage(m_hwnd, it.idc, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(it.icon));
+			SendDlgItemMessage(m_hwnd, it.idc, BUTTONSETASFLATBTN, TRUE, 0);
+			SendDlgItemMessage(m_hwnd, it.idc, BUTTONADDTOOLTIP, (WPARAM)it.title, 0);
+			if (it.push)
+				SendDlgItemMessage(m_hwnd, it.idc, BUTTONSETASPUSHBTN, TRUE, 0);
+			if (it.pushed)
+				CheckDlgButton(m_hwnd, it.idc, BST_CHECKED);
 		}
 
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDOK:
-			if (!m_proto->m_bJabberOnline)
-				MessageBox(m_hwnd, TranslateT("Can't send data while you are offline."), TranslateT("Jabber Error"), MB_ICONSTOP | MB_OK);
-			else {
-				int length = GetWindowTextLength(GetDlgItem(m_hwnd, IDC_CONSOLEIN)) + 1;
-				wchar_t *textToSend = (wchar_t *)mir_alloc(length * sizeof(wchar_t));
-				GetDlgItemText(m_hwnd, IDC_CONSOLEIN, textToSend, length);
-
-				TiXmlDocument doc;
-				if (0 == doc.Parse(T2Utf(textToSend)))
-					m_proto->m_ThreadInfo->send(doc.ToElement());
-				else {
-					StringBuf buf = {};
-					sttAppendBufRaw(&buf, RTF_HEADER);
-					sttAppendBufRaw(&buf, RTF_BEGINPLAINXML);
-					sttAppendBufT(&buf, TranslateT("Outgoing XML parsing error"));
-					sttAppendBufRaw(&buf, RTF_ENDPLAINXML);
-					sttAppendBufRaw(&buf, RTF_SEPARATOR);
-					sttAppendBufRaw(&buf, RTF_FOOTER);
-					SendMessage(m_hwnd, WM_JABBER_REFRESH, 0, (LPARAM)&buf);
-					sttEmptyBuf(&buf);
-				}
-
-				mir_free(textToSend);
-
-				SetDlgItemText(m_hwnd, IDC_CONSOLEIN, L"");
+		for (auto &it : filter_modes)
+			if (it.type == m_proto->m_filterInfo.type) {
+				IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(it.icon)));
+				SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(it.icon));
+				break;
 			}
-			return TRUE;
 
-		case IDC_RESET:
-			SetDlgItemText(m_hwnd, IDC_CONSOLE, L"");
-			break;
+		EnableWindow(GetDlgItem(m_hwnd, IDC_CB_FILTER), (m_proto->m_filterInfo.type == TFilterInfo::T_OFF) ? FALSE : TRUE);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_BTN_FILTER_REFRESH), (m_proto->m_filterInfo.type == TFilterInfo::T_OFF) ? FALSE : TRUE);
+
+		Utils_RestoreWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "consoleWnd_");
+		return true;
+	}
+
+	bool OnClose() override
+	{
+		m_proto->setByte("consoleWnd_msg", m_proto->m_filterInfo.msg);
+		m_proto->setByte("consoleWnd_presence", m_proto->m_filterInfo.presence);
+		m_proto->setByte("consoleWnd_iq", m_proto->m_filterInfo.iq);
+		m_proto->setByte("consoleWnd_ftype", m_proto->m_filterInfo.type);
+		m_proto->setWString("consoleWnd_fpattern", m_proto->m_filterInfo.pattern);
+
+		Utils_SaveWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "consoleWnd_");
+		DestroyWindow(m_hwnd);
+		return CSuper::OnClose();
+	}
+
+	void OnDestroy() override
+	{
+		IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_MSG, BM_SETIMAGE, IMAGE_ICON, 0));
+		IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_PRESENCE, BM_SETIMAGE, IMAGE_ICON, 0));
+		IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_IQ, BM_SETIMAGE, IMAGE_ICON, 0));
+		IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, 0));
+		IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER_REFRESH, BM_SETIMAGE, IMAGE_ICON, 0));
+
+		m_proto->m_pDlgConsole = nullptr;
+		CSuper::OnDestroy();
+	}
+
+	int Resizer(UTILRESIZECONTROL *urc) override
+	{
+		switch (urc->wId) {
+		case IDC_CONSOLE:
+			return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+		case IDC_CONSOLEIN:
+			return RD_ANCHORX_WIDTH | RD_ANCHORY_BOTTOM;
 
 		case IDC_BTN_MSG:
 		case IDC_BTN_PRESENCE:
 		case IDC_BTN_IQ:
-			m_proto->m_filterInfo.msg = IsDlgButtonChecked(m_hwnd, IDC_BTN_MSG);
-			m_proto->m_filterInfo.presence = IsDlgButtonChecked(m_hwnd, IDC_BTN_PRESENCE);
-			m_proto->m_filterInfo.iq = IsDlgButtonChecked(m_hwnd, IDC_BTN_IQ);
-			break;
+		case IDC_BTN_FILTER:
+			return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
 
+		case IDC_RESET:
+		case IDOK:
 		case IDC_BTN_FILTER_REFRESH:
-			sttJabberConsoleRebuildStrings(m_proto, GetDlgItem(m_hwnd, IDC_CB_FILTER));
-			break;
+			return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
 
 		case IDC_CB_FILTER:
-			if (HIWORD(wParam) == CBN_SELCHANGE) {
-				int idx = SendDlgItemMessage(m_hwnd, IDC_CB_FILTER, CB_GETCURSEL, 0, 0);
-				int len = SendDlgItemMessage(m_hwnd, IDC_CB_FILTER, CB_GETLBTEXTLEN, idx, 0) + 1;
-
-				mir_cslock lck(m_proto->m_filterInfo.csPatternLock);
-
-				if (len > _countof(m_proto->m_filterInfo.pattern)) {
-					wchar_t *buf = (wchar_t *)_alloca(len * sizeof(wchar_t));
-					SendDlgItemMessage(m_hwnd, IDC_CB_FILTER, CB_GETLBTEXT, idx, (LPARAM)buf);
-					mir_wstrncpy(m_proto->m_filterInfo.pattern, buf, _countof(m_proto->m_filterInfo.pattern));
-				}
-				else SendDlgItemMessage(m_hwnd, IDC_CB_FILTER, CB_GETLBTEXT, idx, (LPARAM)m_proto->m_filterInfo.pattern);
-			}
-			else if (HIWORD(wParam) == CBN_EDITCHANGE) {
-				mir_cslock lck(m_proto->m_filterInfo.csPatternLock);
-				GetDlgItemText(m_hwnd, IDC_CB_FILTER, m_proto->m_filterInfo.pattern, _countof(m_proto->m_filterInfo.pattern));
-			}
-			break;
-
-		case IDC_BTN_FILTER:
-			HMENU hMenu = CreatePopupMenu();
-			for (auto &it : filter_modes)
-				AppendMenu(hMenu, MF_STRING | ((it.type == m_proto->m_filterInfo.type) ? MF_CHECKED : 0), it.type + 1, TranslateW(it.title));
-
-			RECT rc; GetWindowRect(GetDlgItem(m_hwnd, IDC_BTN_FILTER), &rc);
-			CheckDlgButton(m_hwnd, IDC_BTN_FILTER, BST_CHECKED);
-			int res = TrackPopupMenu(hMenu, TPM_RETURNCMD | TPM_BOTTOMALIGN, rc.left, rc.top, 0, m_hwnd, nullptr);
-			CheckDlgButton(m_hwnd, IDC_BTN_FILTER, BST_UNCHECKED);
-			DestroyMenu(hMenu);
-
-			if (res) {
-				m_proto->m_filterInfo.type = (TFilterInfo::Type)(res - 1);
-				for (auto &it : filter_modes) {
-					if (it.type == m_proto->m_filterInfo.type) {
-						IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(it.icon)));
-						break;
-					}
-				}
-				EnableWindow(GetDlgItem(m_hwnd, IDC_CB_FILTER), (m_proto->m_filterInfo.type == TFilterInfo::T_OFF) ? FALSE : TRUE);
-				EnableWindow(GetDlgItem(m_hwnd, IDC_BTN_FILTER_REFRESH), (m_proto->m_filterInfo.type == TFilterInfo::T_OFF) ? FALSE : TRUE);
-			}
+			RECT rc;
+			GetWindowRect(GetDlgItem(m_hwnd, urc->wId), &rc);
+			urc->rcItem.right += (urc->dlgNewSize.cx - urc->dlgOriginalSize.cx);
+			urc->rcItem.top += (urc->dlgNewSize.cy - urc->dlgOriginalSize.cy);
+			urc->rcItem.bottom = urc->rcItem.top + rc.bottom - rc.top;
+			return 0;
 		}
-		break;
+		return CSuper::Resizer(urc);
 	}
 
-	return CSuper::DlgProc(msg, wParam, lParam);
-}
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	{
+		switch (msg) {
+		case WM_GETMINMAXINFO:
+			{
+				LPMINMAXINFO lpmmi = (LPMINMAXINFO)lParam;
+				lpmmi->ptMinTrackSize.x = 300;
+				lpmmi->ptMinTrackSize.y = 400;
+				return 0;
+			}
+
+		case WM_COMMAND:
+			switch (LOWORD(wParam)) {
+			case IDOK:
+				if (!m_proto->m_bJabberOnline)
+					MessageBox(m_hwnd, TranslateT("Can't send data while you are offline."), TranslateT("Jabber Error"), MB_ICONSTOP | MB_OK);
+				else {
+					int length = GetWindowTextLength(GetDlgItem(m_hwnd, IDC_CONSOLEIN)) + 1;
+					wchar_t *textToSend = (wchar_t *)mir_alloc(length * sizeof(wchar_t));
+					GetDlgItemText(m_hwnd, IDC_CONSOLEIN, textToSend, length);
+
+					TiXmlDocument doc;
+					if (0 == doc.Parse(T2Utf(textToSend)))
+						m_proto->m_ThreadInfo->send(doc.ToElement());
+					else {
+						StringBuf buf = {};
+						sttAppendBufRaw(&buf, RTF_HEADER);
+						sttAppendBufRaw(&buf, RTF_BEGINPLAINXML);
+						sttAppendBufT(&buf, TranslateT("Outgoing XML parsing error"));
+						sttAppendBufRaw(&buf, RTF_ENDPLAINXML);
+						sttAppendBufRaw(&buf, RTF_SEPARATOR);
+						sttAppendBufRaw(&buf, RTF_FOOTER);
+						SendMessage(m_hwnd, WM_JABBER_REFRESH, 0, (LPARAM)&buf);
+						sttEmptyBuf(&buf);
+					}
+
+					mir_free(textToSend);
+
+					SetDlgItemText(m_hwnd, IDC_CONSOLEIN, L"");
+				}
+				return TRUE;
+
+			case IDC_RESET:
+				SetDlgItemText(m_hwnd, IDC_CONSOLE, L"");
+				break;
+
+			case IDC_BTN_MSG:
+			case IDC_BTN_PRESENCE:
+			case IDC_BTN_IQ:
+				m_proto->m_filterInfo.msg = IsDlgButtonChecked(m_hwnd, IDC_BTN_MSG);
+				m_proto->m_filterInfo.presence = IsDlgButtonChecked(m_hwnd, IDC_BTN_PRESENCE);
+				m_proto->m_filterInfo.iq = IsDlgButtonChecked(m_hwnd, IDC_BTN_IQ);
+				break;
+
+			case IDC_BTN_FILTER_REFRESH:
+				sttJabberConsoleRebuildStrings(m_proto, GetDlgItem(m_hwnd, IDC_CB_FILTER));
+				break;
+
+			case IDC_CB_FILTER:
+				if (HIWORD(wParam) == CBN_SELCHANGE) {
+					int idx = SendDlgItemMessage(m_hwnd, IDC_CB_FILTER, CB_GETCURSEL, 0, 0);
+					int len = SendDlgItemMessage(m_hwnd, IDC_CB_FILTER, CB_GETLBTEXTLEN, idx, 0) + 1;
+
+					mir_cslock lck(m_proto->m_filterInfo.csPatternLock);
+
+					if (len > _countof(m_proto->m_filterInfo.pattern)) {
+						wchar_t *buf = (wchar_t *)_alloca(len * sizeof(wchar_t));
+						SendDlgItemMessage(m_hwnd, IDC_CB_FILTER, CB_GETLBTEXT, idx, (LPARAM)buf);
+						mir_wstrncpy(m_proto->m_filterInfo.pattern, buf, _countof(m_proto->m_filterInfo.pattern));
+					}
+					else SendDlgItemMessage(m_hwnd, IDC_CB_FILTER, CB_GETLBTEXT, idx, (LPARAM)m_proto->m_filterInfo.pattern);
+				}
+				else if (HIWORD(wParam) == CBN_EDITCHANGE) {
+					mir_cslock lck(m_proto->m_filterInfo.csPatternLock);
+					GetDlgItemText(m_hwnd, IDC_CB_FILTER, m_proto->m_filterInfo.pattern, _countof(m_proto->m_filterInfo.pattern));
+				}
+				break;
+
+			case IDC_BTN_FILTER:
+				HMENU hMenu = CreatePopupMenu();
+				for (auto &it : filter_modes)
+					AppendMenu(hMenu, MF_STRING | ((it.type == m_proto->m_filterInfo.type) ? MF_CHECKED : 0), it.type + 1, TranslateW(it.title));
+
+				RECT rc; GetWindowRect(GetDlgItem(m_hwnd, IDC_BTN_FILTER), &rc);
+				CheckDlgButton(m_hwnd, IDC_BTN_FILTER, BST_CHECKED);
+				int res = TrackPopupMenu(hMenu, TPM_RETURNCMD | TPM_BOTTOMALIGN, rc.left, rc.top, 0, m_hwnd, nullptr);
+				CheckDlgButton(m_hwnd, IDC_BTN_FILTER, BST_UNCHECKED);
+				DestroyMenu(hMenu);
+
+				if (res) {
+					m_proto->m_filterInfo.type = (TFilterInfo::Type)(res - 1);
+					for (auto &it : filter_modes) {
+						if (it.type == m_proto->m_filterInfo.type) {
+							IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(it.icon)));
+							break;
+						}
+					}
+					EnableWindow(GetDlgItem(m_hwnd, IDC_CB_FILTER), (m_proto->m_filterInfo.type == TFilterInfo::T_OFF) ? FALSE : TRUE);
+					EnableWindow(GetDlgItem(m_hwnd, IDC_BTN_FILTER_REFRESH), (m_proto->m_filterInfo.type == TFilterInfo::T_OFF) ? FALSE : TRUE);
+				}
+			}
+			break;
+		}
+
+		return CSuper::DlgProc(msg, wParam, lParam);
+	}
+
+	void OnProtoRefresh(WPARAM, LPARAM lParam) override
+	{
+		SendDlgItemMessage(m_hwnd, IDC_CONSOLE, WM_SETREDRAW, FALSE, 0);
+
+		StringBuf *buf = (StringBuf *)lParam;
+		buf->streamOffset = 0;
+
+		EDITSTREAM es = { 0 };
+		es.dwCookie = (DWORD_PTR)buf;
+		es.pfnCallback = sttStreamInCallback;
+
+		SCROLLINFO si = { 0 };
+		si.cbSize = sizeof(si);
+		si.fMask = SIF_ALL;
+		GetScrollInfo(GetDlgItem(m_hwnd, IDC_CONSOLE), SB_VERT, &si);
+
+		CHARRANGE oldSel, sel;
+		POINT ptScroll;
+		SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_GETSCROLLPOS, 0, (LPARAM)&ptScroll);
+		SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_EXGETSEL, 0, (LPARAM)&oldSel);
+		sel.cpMin = sel.cpMax = GetWindowTextLength(GetDlgItem(m_hwnd, IDC_CONSOLE));
+		SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_EXSETSEL, 0, (LPARAM)&sel);
+		SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_STREAMIN, SF_RTF | SFF_SELECTION, (LPARAM)&es);
+		SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_EXSETSEL, 0, (LPARAM)&oldSel);
+
+		// magic expression from tabsrmm :)
+		if ((UINT)si.nPos >= (UINT)si.nMax - si.nPage - 5 || si.nMax - si.nMin - si.nPage < 50) {
+			SendDlgItemMessage(m_hwnd, IDC_CONSOLE, WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
+			sel.cpMin = sel.cpMax = GetWindowTextLength(GetDlgItem(m_hwnd, IDC_CONSOLE));
+			SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_EXSETSEL, 0, (LPARAM)&sel);
+		}
+		else SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_SETSCROLLPOS, 0, (LPARAM)&ptScroll);
+
+		SendDlgItemMessage(m_hwnd, IDC_CONSOLE, WM_SETREDRAW, TRUE, 0);
+		InvalidateRect(GetDlgItem(m_hwnd, IDC_CONSOLE), nullptr, FALSE);
+	}
+};
 
 void __cdecl CJabberProto::ConsoleThread(void*)
 {

@@ -536,7 +536,7 @@ protected:
 private:
 	bool m_gotservers;
 
-	void btnRegister_OnClick(CCtrlButton *)
+	void btnRegister_OnClick(CCtrlButton*)
 	{
 		PSHNOTIFY pshn = {};
 		pshn.hdr.code = PSN_APPLY;
@@ -562,7 +562,7 @@ private:
 		}
 	}
 
-	void btnUnregister_OnClick(CCtrlButton *)
+	void btnUnregister_OnClick(CCtrlButton*)
 	{
 		int res = MessageBox(nullptr,
 			TranslateT("This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?"),
@@ -574,7 +574,7 @@ private:
 			<< XCHILD("remove"));
 	}
 
-	void btnChangePassword_OnClick(CCtrlButton *)
+	void btnChangePassword_OnClick(CCtrlButton*)
 	{
 		if (!m_proto->m_bJabberOnline) {
 			MessageBox(nullptr,
@@ -1801,7 +1801,7 @@ private:
 	bool m_gotservers;
 	bool m_canregister;
 
-	void btnRegister_OnClick(CCtrlButton *)
+	void btnRegister_OnClick(CCtrlButton*)
 	{
 		PSHNOTIFY pshn = {};
 		pshn.hdr.code = PSN_APPLY;

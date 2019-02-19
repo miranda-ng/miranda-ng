@@ -170,7 +170,7 @@ private:
 	LPARAM m_active;
 	wchar_t *m_activeText;
 
-	void btnOk_OnClick(CCtrlButton *btn);
+	void btnOk_OnClick(CCtrlButton*btn);
 	void global_OnChange(CCtrlData *);
 	void cbModes_OnChange(CCtrlData *);
 };
