@@ -182,14 +182,11 @@ int XmlGetChildInt(const TiXmlElement *hXml, const char *key)
 
 const TiXmlElement* XmlGetChildByTag(const TiXmlElement *hXml, const char *key, const char *attrName, const char *attrValue)
 {
-	if (hXml == nullptr)
-		return nullptr;
+	for (auto *pChild : TiXmlFilter(hXml, key))
+		if (pChild->Attribute(attrName, attrValue))
+			return pChild;
 
-	auto *pChild = hXml->FirstChildElement(key);
-	if (pChild == nullptr)
-		return nullptr;
-
-	return (pChild->Attribute(attrName, attrValue)) ? pChild : nullptr;
+	return nullptr;
 }
 
 int XmlGetChildCount(const TiXmlElement *hXml)
