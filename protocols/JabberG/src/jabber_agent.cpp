@@ -267,7 +267,7 @@ public:
 					}
 					else {
 						GetDlgItemText(hFrame, id, str2, 128);
-						XmlAddChild(query, pszName, T2Utf(str2));
+						XmlAddChild(query, pszName, T2Utf(str2).get());
 						id++;
 					}
 				}

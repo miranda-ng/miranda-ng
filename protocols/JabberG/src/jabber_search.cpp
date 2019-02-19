@@ -325,7 +325,7 @@ void CJabberProto::OnIqResultAdvancedSearch(const TiXmlElement *iqNode, CJabberI
 					if (const char* var = fieldNode->Attribute("var")) {
 						if (auto *textNode = fieldNode->FirstChildElement("value")) {
 							Utf2T wszVar(var), wszText(textNode->GetText());
-							if (!mColumnsNames[wszVar])
+							if (!mColumnsNames[wszVar.get()])
 								mColumnsNames.insert(wszVar, wszVar);
 							pUserColumn->insert(wszVar, wszText);
 						}
@@ -751,7 +751,7 @@ HWND CJabberProto::SearchAdvanced(HWND hwndDlg)
 			wchar_t szFieldValue[100];
 			GetWindowText(dat->pJSInf[i].hwndValueItem, szFieldValue, _countof(szFieldValue));
 			if (szFieldValue[0] != 0) {
-				XmlAddChild(query, T2Utf(dat->pJSInf[i].szFieldName), T2Utf(szFieldValue));
+				XmlAddChild(query, T2Utf(dat->pJSInf[i].szFieldName).get(), T2Utf(szFieldValue).get());
 				fRequestNotEmpty = TRUE;
 			}
 		}

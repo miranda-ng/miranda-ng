@@ -416,7 +416,7 @@ protected:
 			if (hData) {
 				wchar_t *buf = (wchar_t *)GlobalLock(hData);
 				if (buf && wcschr(buf, '@') && !wcschr(buf, ' '))
-					pInfo = new JabberGcRecentInfo(m_proto, T2Utf(buf));
+					pInfo = new JabberGcRecentInfo(m_proto, T2Utf(buf).get());
 				GlobalUnlock(hData);
 			}
 			CloseClipboard();
