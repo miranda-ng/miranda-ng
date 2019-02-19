@@ -189,7 +189,7 @@ void CJabberProto::OnIqResultGetSearchFields(const TiXmlElement *iqNode, CJabber
 		}
 
 		char buff[255];
-		mir_snprintf(buff, Translate("Error %s %s\r\nPlease select other server"), code, description);
+		mir_snprintf(buff, TranslateU("Error %s %s\r\nPlease select other server"), code, description);
 		SetDlgItemTextUtf(searchHandleDlg, IDC_INSTRUCTIONS, buff);
 	}
 	else SetDlgItemText(searchHandleDlg, IDC_INSTRUCTIONS, TranslateT("Error: unknown reply received\r\nPlease select other server"));
@@ -375,7 +375,7 @@ void CJabberProto::OnIqResultAdvancedSearch(const TiXmlElement *iqNode, CJabberI
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
 
 		char buff[255];
-		mir_snprintf(buff, Translate("Error %s %s\r\nTry to specify more detailed"), code, description);
+		mir_snprintf(buff, TranslateU("Error %s %s\r\nTry to specify more detailed"), code, description);
 		if (searchHandleDlg)
 			SetDlgItemTextUtf(searchHandleDlg, IDC_INSTRUCTIONS, buff);
 		else

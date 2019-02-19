@@ -457,7 +457,7 @@ public:
 				break;
 
 			char jid[JABBER_MAX_JID_LEN];
-			mir_snprintf(jid, "%s@%s (%s)", info.m_room, info.m_server, info.m_nick ? info.m_nick : Translate("<no nick>"));
+			mir_snprintf(jid, "%s@%s (%s)", info.m_room, info.m_server, info.m_nick ? info.m_nick : TranslateU("<no nick>"));
 			SetDlgItemTextUtf(m_hwnd, IDC_RECENT1 + i, jid);
 		}
 		sttJoinDlgShowRecentItems(m_hwnd, i);
@@ -1045,7 +1045,7 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 
 			const char *tmptr = strstr(tmpnick, "has set the subject to:"); //ejabberd
 			if (tmptr == nullptr)
-				tmptr = strstr(tmpnick, Translate("has set the subject to:")); //ejabberd
+				tmptr = strstr(tmpnick, TranslateU("has set the subject to:")); //ejabberd
 			if (tmptr != nullptr && *tmptr != 0) {
 				*(wchar_t*)(--tmptr) = 0;
 				resource = tmpnick;

@@ -889,7 +889,7 @@ class CJabberDlgPrivacyLists : public CJabberDlgBase
 		if (!pList) {
 			if (!szActive) bActive = true;
 			if (!szDefault) bDefault = true;
-			szName = Translate("<none>");
+			szName = TranslateU("<none>");
 		}
 		else {
 			if (!mir_strcmp(pList->GetListName(), szActive)) bActive = true;

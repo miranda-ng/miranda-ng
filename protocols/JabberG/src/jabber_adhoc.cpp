@@ -145,7 +145,7 @@ int CJabberProto::AdHoc_OnJAHMCommandListResult(HWND hwndDlg, TiXmlElement *iqNo
 			description = errorNode->GetText();
 		}
 
-		JabberFormSetInstruction(hwndDlg, CMStringA(FORMAT, Translate("Error %s %s"), code, description));
+		JabberFormSetInstruction(hwndDlg, CMStringA(FORMAT, TranslateU("Error %s %s"), code, description));
 	}
 	else if (!mir_strcmp(type, "result")) {
 		BOOL validResponse = FALSE;
@@ -174,12 +174,12 @@ int CJabberProto::AdHoc_OnJAHMCommandListResult(HWND hwndDlg, TiXmlElement *iqNo
 		}
 
 		if (nodeIdx > 1) {
-			JabberFormSetInstruction(hwndDlg, Translate("Select Command"));
+			JabberFormSetInstruction(hwndDlg, TranslateU("Select Command"));
 			ShowDlgItem(hwndDlg, IDC_FRAME, SW_SHOW);
 			ShowDlgItem(hwndDlg, IDC_VSCROLL, SW_SHOW);
 			EnableDlgItem(hwndDlg, IDC_SUBMIT, TRUE);
 		}
-		else JabberFormSetInstruction(hwndDlg, Translate("Not supported"));
+		else JabberFormSetInstruction(hwndDlg, TranslateU("Not supported"));
 	}
 
 	JabberAdHoc_RefreshFrameScroll(hwndDlg, dat);
@@ -219,7 +219,7 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, TiXmlElement *workNode
 			else if (pszText = XmlGetChildText(xNode, "title"))
 				JabberFormSetInstruction(hwndDlg, pszText);
 			else
-				JabberFormSetInstruction(hwndDlg, Translate(status));
+				JabberFormSetInstruction(hwndDlg, TranslateU(status));
 			JabberFormCreateUI(hFrame, xNode, &dat->CurrentHeight);
 			ShowDlgItem(hwndDlg, IDC_FRAME, SW_SHOW);
 		}
@@ -229,7 +229,7 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, TiXmlElement *workNode
 			sttShowControls(hwndDlg, FALSE, toHide);
 
 			auto *pszText = XmlGetChildText(commandNode, "note");
-			JabberFormSetInstruction(hwndDlg, pszText ? pszText : Translate(status));
+			JabberFormSetInstruction(hwndDlg, pszText ? pszText : TranslateU(status));
 		}
 
 		// check actions
@@ -269,7 +269,7 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, TiXmlElement *workNode
 			description = errorNode->GetText();
 		}
 		
-		JabberFormSetInstruction(hwndDlg, CMStringA(FORMAT, Translate("Error %s %s"), code, description));
+		JabberFormSetInstruction(hwndDlg, CMStringA(FORMAT, TranslateU("Error %s %s"), code, description));
 	}
 	JabberAdHoc_RefreshFrameScroll(hwndDlg, dat);
 	return TRUE;
@@ -299,7 +299,7 @@ int CJabberProto::AdHoc_SubmitCommandForm(HWND hwndDlg, JabberAdHocData *dat, ch
 	command->InsertEndChild(dataNode);
 	m_ThreadInfo->send(iq);
 
-	JabberFormSetInstruction(hwndDlg, Translate("In progress. Please Wait..."));
+	JabberFormSetInstruction(hwndDlg, TranslateU("In progress. Please Wait..."));
 
 	static const int toDisable[] = { IDC_SUBMIT, IDC_PREV, IDC_NEXT, IDC_COMPLETE, 0 };
 	sttEnableControls(hwndDlg, FALSE, toDisable);
@@ -364,7 +364,7 @@ static INT_PTR CALLBACK JabberAdHoc_CommandDlgProc(HWND hwndDlg, UINT msg, WPARA
 			SetWindowPos(GetDlgItem(hwndDlg, IDC_VSCROLL), HWND_BOTTOM, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 
 			SetDlgItemText(hwndDlg, IDC_SUBMIT, TranslateT("Execute"));
-			JabberFormSetInstruction(hwndDlg, Translate("Requesting command list. Please wait..."));
+			JabberFormSetInstruction(hwndDlg, TranslateU("Requesting command list. Please wait..."));
 
 			if (!pStartupParams->m_szNode) {
 				dat->proto->AdHoc_RequestListOfCommands(pStartupParams->m_szJid, hwndDlg);

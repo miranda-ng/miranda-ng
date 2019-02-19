@@ -915,13 +915,13 @@ HANDLE CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, w
 
 struct TFakeAckParams
 {
-	inline TFakeAckParams(MCONTACT _hContact, const char* _msg, int _msgid = 0)
+	inline TFakeAckParams(MCONTACT _hContact, const wchar_t *_msg, int _msgid = 0)
 		: hContact(_hContact), msg(_msg), msgid(_msgid)
 	{
 	}
 
 	MCONTACT hContact;
-	const char *msg;
+	const wchar_t *msg;
 	int msgid;
 };
 
@@ -943,7 +943,7 @@ int CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const char *psz
 {
 	char szClientJid[JABBER_MAX_JID_LEN];
 	if (!m_bJabberOnline || !GetClientJID(hContact, szClientJid, _countof(szClientJid))) {
-		TFakeAckParams *param = new TFakeAckParams(hContact, Translate("Protocol is offline or no JID"));
+		TFakeAckParams *param = new TFakeAckParams(hContact, TranslateT("Protocol is offline or no JID"));
 		ForkThread(&CJabberProto::SendMessageAckThread, param);
 		return 1;
 	}
@@ -981,7 +981,7 @@ int CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const char *psz
 	if (m_bUseOMEMO && OmemoIsEnabled(hContact) && !mir_strcmp(msgType, "chat")) {
 		// TODO: check if message encrypted for at least one session and return error if not
 		if (!OmemoEncryptMessage(m, pszSrc, hContact)) {
-			TFakeAckParams *param = new TFakeAckParams(hContact, Translate("No valid OMEMO session exists"));
+			TFakeAckParams *param = new TFakeAckParams(hContact, TranslateT("No valid OMEMO session exists"));
 			ForkThread(&CJabberProto::SendMessageAckThread, param);
 			return 0;
 		}

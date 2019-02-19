@@ -245,7 +245,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		CMStringA text(FORMAT, "%s %s@%s:%d?", Translate("Register"), m_regInfo->username, m_regInfo->server, m_regInfo->port);
+		CMStringA text(FORMAT, "%s %s@%s:%d?", TranslateU("Register"), m_regInfo->username, m_regInfo->server, m_regInfo->port);
 		SetDlgItemTextUtf(m_hwnd, IDC_REG_STATUS, text);
 		return true;
 	}

@@ -193,7 +193,7 @@ BOOL CJabberAdhocManager::HandleCommandRequest(const TiXmlElement *iqNode, CJabb
 			XmlNodeIq("result", pInfo)
 			<< XCHILDNS("command", JABBER_FEAT_COMMANDS) << XATTR("node", szNode)
 			<< XATTR("sessionid", pSession->GetSessionId()) << XATTR("status", "completed")
-			<< XCHILD("note", Translate("Command completed successfully")) << XATTR("type", "info"));
+			<< XCHILD("note", TranslateU("Command completed successfully")) << XATTR("type", "info"));
 
 		RemoveSession(pSession);
 		pSession = nullptr;
@@ -203,7 +203,7 @@ BOOL CJabberAdhocManager::HandleCommandRequest(const TiXmlElement *iqNode, CJabb
 			XmlNodeIq("result", pInfo)
 			<< XCHILDNS("command", JABBER_FEAT_COMMANDS) << XATTR("node", szNode)
 			<< XATTR("sessionid", pSession->GetSessionId()) << XATTR("status", "canceled")
-			<< XCHILD("note", Translate("Error occurred during processing command")) << XATTR("type", "error"));
+			<< XCHILD("note", TranslateU("Error occurred during processing command")) << XATTR("type", "error"));
 
 		RemoveSession(pSession);
 		pSession = nullptr;
@@ -218,12 +218,12 @@ BOOL CJabberAdhocManager::HandleCommandRequest(const TiXmlElement *iqNode, CJabb
 
 BOOL CJabberAdhocManager::FillDefaultNodes()
 {
-	AddNode(nullptr, JABBER_FEAT_RC_SET_STATUS, Translate("Set status"), &CJabberProto::AdhocSetStatusHandler);
-	AddNode(nullptr, JABBER_FEAT_RC_SET_OPTIONS, Translate("Set options"), &CJabberProto::AdhocOptionsHandler);
-	AddNode(nullptr, JABBER_FEAT_RC_FORWARD, Translate("Forward unread messages"), &CJabberProto::AdhocForwardHandler);
-	AddNode(nullptr, JABBER_FEAT_RC_LEAVE_GROUPCHATS, Translate("Leave group chats"), &CJabberProto::AdhocLeaveGroupchatsHandler);
-	AddNode(nullptr, JABBER_FEAT_RC_WS_LOCK, Translate("Lock workstation"), &CJabberProto::AdhocLockWSHandler);
-	AddNode(nullptr, JABBER_FEAT_RC_QUIT_MIRANDA, Translate("Quit Miranda NG"), &CJabberProto::AdhocQuitMirandaHandler);
+	AddNode(nullptr, JABBER_FEAT_RC_SET_STATUS, TranslateU("Set status"), &CJabberProto::AdhocSetStatusHandler);
+	AddNode(nullptr, JABBER_FEAT_RC_SET_OPTIONS, TranslateU("Set options"), &CJabberProto::AdhocOptionsHandler);
+	AddNode(nullptr, JABBER_FEAT_RC_FORWARD, TranslateU("Forward unread messages"), &CJabberProto::AdhocForwardHandler);
+	AddNode(nullptr, JABBER_FEAT_RC_LEAVE_GROUPCHATS, TranslateU("Leave group chats"), &CJabberProto::AdhocLeaveGroupchatsHandler);
+	AddNode(nullptr, JABBER_FEAT_RC_WS_LOCK, TranslateU("Lock workstation"), &CJabberProto::AdhocLockWSHandler);
+	AddNode(nullptr, JABBER_FEAT_RC_QUIT_MIRANDA, TranslateU("Quit Miranda NG"), &CJabberProto::AdhocQuitMirandaHandler);
 	return TRUE;
 }
 
@@ -263,13 +263,13 @@ int CJabberProto::AdhocSetStatusHandler(const TiXmlElement*, CJabberIqInfo *pInf
 			<< XATTR("sessionid", pSession->GetSessionId()) << XATTR("status", "executing")
 			<< XCHILDNS("x", JABBER_FEAT_DATA_FORMS) << XATTR("type", "form");
 
-		xNode << XCHILD("title", Translate("Change Status"));
-		xNode << XCHILD("instructions", Translate("Choose the status and status message"));
+		xNode << XCHILD("title", TranslateU("Change Status"));
+		xNode << XCHILD("instructions", TranslateU("Choose the status and status message"));
 
 		xNode << XCHILD("field") << XATTR("type", "hidden") << XATTR("var", "FORM_TYPE")
 			<< XATTR("value", JABBER_FEAT_RC);
 
-		TiXmlElement *fieldNode = xNode << XCHILD("field") << XATTR("label", Translate("Status"))
+		TiXmlElement *fieldNode = xNode << XCHILD("field") << XATTR("label", TranslateU("Status"))
 			<< XATTR("type", "list-single") << XATTR("var", "status");
 
 		fieldNode << XCHILD("required");
@@ -300,26 +300,26 @@ int CJabberProto::AdhocSetStatusHandler(const TiXmlElement*, CJabberIqInfo *pInf
 			break;
 		}
 
-		fieldNode << XCHILD("option") << XATTR("label", Translate("Free for chat")) << XCHILD("value", "chat");
-		fieldNode << XCHILD("option") << XATTR("label", Translate("Online")) << XCHILD("value", "online");
-		fieldNode << XCHILD("option") << XATTR("label", Translate("Away")) << XCHILD("value", "away");
-		fieldNode << XCHILD("option") << XATTR("label", Translate("Extended away (Not available)")) << XCHILD("value", "xa");
-		fieldNode << XCHILD("option") << XATTR("label", Translate("Do not disturb")) << XCHILD("value", "dnd");
-		fieldNode << XCHILD("option") << XATTR("label", Translate("Invisible")) << XCHILD("value", "invisible");
-		fieldNode << XCHILD("option") << XATTR("label", Translate("Offline")) << XCHILD("value", "offline");
+		fieldNode << XCHILD("option") << XATTR("label", TranslateU("Free for chat")) << XCHILD("value", "chat");
+		fieldNode << XCHILD("option") << XATTR("label", TranslateU("Online")) << XCHILD("value", "online");
+		fieldNode << XCHILD("option") << XATTR("label", TranslateU("Away")) << XCHILD("value", "away");
+		fieldNode << XCHILD("option") << XATTR("label", TranslateU("Extended away (Not available)")) << XCHILD("value", "xa");
+		fieldNode << XCHILD("option") << XATTR("label", TranslateU("Do not disturb")) << XCHILD("value", "dnd");
+		fieldNode << XCHILD("option") << XATTR("label", TranslateU("Invisible")) << XCHILD("value", "invisible");
+		fieldNode << XCHILD("option") << XATTR("label", TranslateU("Offline")) << XCHILD("value", "offline");
 
 		// priority
 		char szPriority[20];
 		itoa(getDword("Priority", 5), szPriority, 10);
-		xNode << XCHILD("field") << XATTR("label", Translate("Priority")) << XATTR("type", "text-single")
+		xNode << XCHILD("field") << XATTR("label", TranslateU("Priority")) << XATTR("type", "text-single")
 			<< XATTR("var", "status-priority") << XCHILD("value", szPriority);
 
 		// status message text
-		xNode << XCHILD("field") << XATTR("label", Translate("Status message"))
+		xNode << XCHILD("field") << XATTR("label", TranslateU("Status message"))
 			<< XATTR("type", "text-multi") << XATTR("var", "status-message");
 
 		// global status
-		fieldNode = xNode << XCHILD("field") << XATTR("label", Translate("Change global status"))
+		fieldNode = xNode << XCHILD("field") << XATTR("label", TranslateU("Change global status"))
 			<< XATTR("type", "boolean") << XATTR("var", "status-global");
 
 		ptrW tszStatusMsg((wchar_t*)CallService(MS_AWAYMSG_GETSTATUSMSGW, status, 0));
@@ -405,8 +405,8 @@ int CJabberProto::AdhocOptionsHandler(const TiXmlElement*, CJabberIqInfo *pInfo,
 			<< XATTR("sessionid", pSession->GetSessionId()) << XATTR("status", "executing")
 			<< XCHILDNS("x", JABBER_FEAT_DATA_FORMS) << XATTR("type", "form");
 
-		xNode << XCHILD("title", Translate("Set Options"));
-		xNode << XCHILD("instructions", Translate("Set the desired options"));
+		xNode << XCHILD("title", TranslateU("Set Options"));
+		xNode << XCHILD("instructions", TranslateU("Set the desired options"));
 
 		xNode << XCHILD("field") << XATTR("type", "hidden") << XATTR("var", "FORM_TYPE")
 			<< XATTR("value", JABBER_FEAT_RC);
@@ -414,16 +414,16 @@ int CJabberProto::AdhocOptionsHandler(const TiXmlElement*, CJabberIqInfo *pInfo,
 		// Automatically Accept File Transfers
 		char szTmpBuff[20];
 		_itoa_s(db_get_b(0, "SRFile", "AutoAccept", 0), szTmpBuff, 10);
-		xNode << XCHILD("field") << XATTR("label", Translate("Automatically Accept File Transfers"))
+		xNode << XCHILD("field") << XATTR("label", TranslateU("Automatically Accept File Transfers"))
 			<< XATTR("type", "boolean") << XATTR("var", "auto-files") << XCHILD("value", szTmpBuff);
 
 		// Use sounds
 		_itoa_s(db_get_b(0, "Skin", "UseSound", 0), szTmpBuff, 10);
-		xNode << XCHILD("field") << XATTR("label", Translate("Play sounds"))
+		xNode << XCHILD("field") << XATTR("label", TranslateU("Play sounds"))
 			<< XATTR("type", "boolean") << XATTR("var", "sounds") << XCHILD("value", szTmpBuff);
 
 		// Disable remote controlling
-		xNode << XCHILD("field") << XATTR("label", Translate("Disable remote controlling (check twice what you are doing)"))
+		xNode << XCHILD("field") << XATTR("label", TranslateU("Disable remote controlling (check twice what you are doing)"))
 			<< XATTR("type", "boolean") << XATTR("var", "enable-rc") << XCHILD("value", "0");
 
 		m_ThreadInfo->send(iq);
@@ -491,7 +491,7 @@ int CJabberProto::AdhocForwardHandler(const TiXmlElement*, CJabberIqInfo *pInfo,
 				XmlNodeIq("result", pInfo)
 				<< XCHILDNS("command", JABBER_FEAT_COMMANDS) << XATTR("node", JABBER_FEAT_RC_FORWARD)
 				<< XATTR("sessionid", pSession->GetSessionId()) << XATTR("status", "completed")
-				<< XCHILD("note", Translate("There is no messages to forward")) << XATTR("type", "info"));
+				<< XCHILD("note", TranslateU("There is no messages to forward")) << XATTR("type", "info"));
 
 			return JABBER_ADHOC_HANDLER_STATUS_REMOVE_SESSION;
 		}
@@ -505,17 +505,17 @@ int CJabberProto::AdhocForwardHandler(const TiXmlElement*, CJabberIqInfo *pInfo,
 			<< XATTR("sessionid", pSession->GetSessionId()) << XATTR("status", "executing")
 			<< XCHILDNS("x", JABBER_FEAT_DATA_FORMS) << XATTR("type", "form");
 
-		xNode << XCHILD("title", Translate("Forward options"));
+		xNode << XCHILD("title", TranslateU("Forward options"));
 
 		char szMsg[1024];
-		mir_snprintf(szMsg, Translate("%d message(s) to be forwarded"), nUnreadEvents);
+		mir_snprintf(szMsg, TranslateU("%d message(s) to be forwarded"), nUnreadEvents);
 		xNode << XCHILD("instructions", szMsg);
 
 		xNode << XCHILD("field") << XATTR("type", "hidden") << XATTR("var", "FORM_TYPE")
 			<< XCHILD("value", JABBER_FEAT_RC);
 
 		// remove clist events
-		xNode << XCHILD("field") << XATTR("label", Translate("Mark messages as read")) << XATTR("type", "boolean")
+		xNode << XCHILD("field") << XATTR("label", TranslateU("Mark messages as read")) << XATTR("type", "boolean")
 			<< XATTR("var", "remove-clist-events") << XCHILD("value", m_bRcMarkMessagesAsRead == 1 ? "1" : "0");
 
 		m_ThreadInfo->send(iq);
@@ -599,7 +599,7 @@ int CJabberProto::AdhocForwardHandler(const TiXmlElement*, CJabberIqInfo *pInfo,
 			XmlNodeIq("result", pInfo)
 			<< XCHILDNS("command", JABBER_FEAT_COMMANDS) << XATTR("node", JABBER_FEAT_RC_FORWARD)
 			<< XATTR("sessionid", pSession->GetSessionId()) << XATTR("status", "completed")
-			<< XCHILD("note", CMStringA(FORMAT, Translate("%d message(s) forwarded"), nEventsSent)) << XATTR("type", "info"));
+			<< XCHILD("note", CMStringA(FORMAT, TranslateU("%d message(s) forwarded"), nEventsSent)) << XATTR("type", "info"));
 
 		return JABBER_ADHOC_HANDLER_STATUS_REMOVE_SESSION;
 	}
@@ -613,9 +613,9 @@ int CJabberProto::AdhocLockWSHandler(const TiXmlElement*, CJabberIqInfo *pInfo, 
 
 	char szMsg[1024];
 	if (bOk)
-		mir_snprintf(szMsg, Translate("Workstation successfully locked"));
+		mir_snprintf(szMsg, TranslateU("Workstation successfully locked"));
 	else
-		mir_snprintf(szMsg, Translate("Error %d occurred during workstation lock"), GetLastError());
+		mir_snprintf(szMsg, TranslateU("Error %d occurred during workstation lock"), GetLastError());
 
 	m_ThreadInfo->send(
 		XmlNodeIq("result", pInfo)
@@ -643,8 +643,8 @@ int CJabberProto::AdhocQuitMirandaHandler(const TiXmlElement*, CJabberIqInfo *pI
 			<< XATTR("sessionid", pSession->GetSessionId()) << XATTR("status", "executing")
 			<< XCHILDNS("x", JABBER_FEAT_DATA_FORMS) << XATTR("type", "form");
 
-		xNode << XCHILD("title", Translate("Confirmation needed"));
-		xNode << XCHILD("instructions", Translate("Please confirm Miranda NG shutdown"));
+		xNode << XCHILD("title", TranslateU("Confirmation needed"));
+		xNode << XCHILD("instructions", TranslateU("Please confirm Miranda NG shutdown"));
 
 		xNode << XCHILD("field") << XATTR("type", "hidden") << XATTR("var", "FORM_TYPE")
 			<< XCHILD("value", JABBER_FEAT_RC);
@@ -695,7 +695,7 @@ int CJabberProto::AdhocLeaveGroupchatsHandler(const TiXmlElement*, CJabberIqInfo
 				XmlNodeIq("result", pInfo)
 				<< XCHILDNS("command", JABBER_FEAT_COMMANDS) << XATTR("node", JABBER_FEAT_RC_LEAVE_GROUPCHATS)
 				<< XATTR("sessionid", pSession->GetSessionId()) << XATTR("status", "completed")
-				<< XCHILD("note", Translate("There is no group chats to leave")) << XATTR("type", "info"));
+				<< XCHILD("note", TranslateU("There is no group chats to leave")) << XATTR("type", "info"));
 
 			return JABBER_ADHOC_HANDLER_STATUS_REMOVE_SESSION;
 		}
@@ -708,8 +708,8 @@ int CJabberProto::AdhocLeaveGroupchatsHandler(const TiXmlElement*, CJabberIqInfo
 			<< XATTR("sessionid", pSession->GetSessionId()) << XATTR("status", "executing")
 			<< XCHILDNS("x", JABBER_FEAT_DATA_FORMS) << XATTR("type", "form");
 
-		xNode << XCHILD("title", Translate("Leave group chats"));
-		xNode << XCHILD("instructions", Translate("Choose the group chats you want to leave"));
+		xNode << XCHILD("title", TranslateU("Leave group chats"));
+		xNode << XCHILD("instructions", TranslateU("Choose the group chats you want to leave"));
 
 		xNode << XCHILD("field") << XATTR("type", "hidden") << XATTR("var", "FORM_TYPE")
 			<< XATTR("value", JABBER_FEAT_RC);

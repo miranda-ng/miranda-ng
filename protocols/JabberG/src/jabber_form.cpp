@@ -661,7 +661,7 @@ static INT_PTR CALLBACK JabberFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			else if (pszText = XmlGetChildText(jfi->xNode, "title"))
 				JabberFormSetInstruction(hwndDlg, pszText);
 			else
-				JabberFormSetInstruction(hwndDlg, Translate(T2Utf(jfi->defTitle)));
+				JabberFormSetInstruction(hwndDlg, TranslateU(T2Utf(jfi->defTitle)));
 
 			// Create form
 			if (jfi->xNode != nullptr) {

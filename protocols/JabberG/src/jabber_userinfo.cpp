@@ -263,9 +263,9 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 			buf[len - 1] = 0;
 	}
 	else if (!r->m_dwIdleStartTime)
-		mir_strncpy(buf, Translate("unknown"), _countof(buf));
+		mir_strncpy(buf, TranslateU("unknown"), _countof(buf));
 	else
-		mir_strncpy(buf, Translate("<not specified>"), _countof(buf));
+		mir_strncpy(buf, TranslateU("<not specified>"), _countof(buf));
 
 	sttFillInfoLine(hwndTree, htiResource, nullptr, TranslateT("Idle since"), buf, sttInfoLineId(resource, INFOLINE_IDLE));
 
@@ -274,13 +274,13 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 	JabberCapsBits jcb = ppro->GetResourceCapabilities(buf, r);
 
 	if (!(jcb & JABBER_RESOURCE_CAPS_ERROR)) {
-		HTREEITEM htiCaps = sttFillInfoLine(hwndTree, htiResource, ppro->LoadIconEx("main"), nullptr, Translate("Client capabilities"), sttInfoLineId(resource, INFOLINE_CAPS));
+		HTREEITEM htiCaps = sttFillInfoLine(hwndTree, htiResource, ppro->LoadIconEx("main"), nullptr, TranslateU("Client capabilities"), sttInfoLineId(resource, INFOLINE_CAPS));
 		int i;
 		for (i = 0; i < g_cJabberFeatCapPairs; i++)
 			if (jcb & g_JabberFeatCapPairs[i].jcbCap) {
 				char szDescription[1024];
 				if (g_JabberFeatCapPairs[i].tszDescription)
-					mir_snprintf(szDescription, "%s (%s)", Translate(g_JabberFeatCapPairs[i].tszDescription), g_JabberFeatCapPairs[i].szFeature);
+					mir_snprintf(szDescription, "%s (%s)", TranslateU(g_JabberFeatCapPairs[i].tszDescription), g_JabberFeatCapPairs[i].szFeature);
 				else
 					strncpy_s(szDescription, g_JabberFeatCapPairs[i].szFeature, _TRUNCATE);
 				sttFillInfoLine(hwndTree, htiCaps, nullptr, nullptr, szDescription, sttInfoLineId(resource, INFOLINE_CAPS, i));
@@ -290,7 +290,7 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 			if (jcb & it->jcbCap) {
 				char szDescription[1024];
 				if (it->szDescription)
-					mir_snprintf(szDescription, "%s (%s)", Translate(it->szDescription), it->szFeature);
+					mir_snprintf(szDescription, "%s (%s)", TranslateU(it->szDescription), it->szFeature);
 				else
 					strncpy_s(szDescription, it->szFeature, _TRUNCATE);
 				sttFillInfoLine(hwndTree, htiCaps, nullptr, nullptr, szDescription, sttInfoLineId(resource, INFOLINE_CAPS, i++));
@@ -299,7 +299,7 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 	}
 
 	// Software info
-	HTREEITEM htiSoftwareInfo = sttFillInfoLine(hwndTree, htiResource, ppro->LoadIconEx("main"), nullptr, Translate("Software information"), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION));
+	HTREEITEM htiSoftwareInfo = sttFillInfoLine(hwndTree, htiResource, ppro->LoadIconEx("main"), nullptr, TranslateU("Software information"), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION));
 	int nLineId = 0;
 	if (CJabberClientPartialCaps *pCaps = r->m_pCaps) {
 		if (pCaps->GetOs())
@@ -352,16 +352,16 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 	// subscription
 	switch (item->subscription) {
 	case SUB_BOTH:
-		sttFillInfoLine(hwndTree, htiRoot, nullptr, TranslateT("Subscription"), Translate("both"), sttInfoLineId(0, INFOLINE_SUBSCRIPTION));
+		sttFillInfoLine(hwndTree, htiRoot, nullptr, TranslateT("Subscription"), TranslateU("both"), sttInfoLineId(0, INFOLINE_SUBSCRIPTION));
 		break;
 	case SUB_TO:
-		sttFillInfoLine(hwndTree, htiRoot, nullptr, TranslateT("Subscription"), Translate("to"), sttInfoLineId(0, INFOLINE_SUBSCRIPTION));
+		sttFillInfoLine(hwndTree, htiRoot, nullptr, TranslateT("Subscription"), TranslateU("to"), sttInfoLineId(0, INFOLINE_SUBSCRIPTION));
 		break;
 	case SUB_FROM:
-		sttFillInfoLine(hwndTree, htiRoot, nullptr, TranslateT("Subscription"), Translate("from"), sttInfoLineId(0, INFOLINE_SUBSCRIPTION));
+		sttFillInfoLine(hwndTree, htiRoot, nullptr, TranslateT("Subscription"), TranslateU("from"), sttInfoLineId(0, INFOLINE_SUBSCRIPTION));
 		break;
 	default:
-		sttFillInfoLine(hwndTree, htiRoot, nullptr, TranslateT("Subscription"), Translate("none"), sttInfoLineId(0, INFOLINE_SUBSCRIPTION));
+		sttFillInfoLine(hwndTree, htiRoot, nullptr, TranslateT("Subscription"), TranslateU("none"), sttInfoLineId(0, INFOLINE_SUBSCRIPTION));
 		break;
 	}
 
@@ -375,9 +375,9 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 			buf[len - 1] = 0;
 	}
 	else if (!r->m_dwIdleStartTime)
-		mir_strncpy(buf, Translate("unknown"), _countof(buf));
+		mir_strncpy(buf, TranslateU("unknown"), _countof(buf));
 	else
-		mir_strncpy(buf, Translate("<not specified>"), _countof(buf));
+		mir_strncpy(buf, TranslateU("<not specified>"), _countof(buf));
 
 	sttFillInfoLine(hwndTree, htiRoot, nullptr,
 		(item->jid && strchr(item->jid, '@')) ? TranslateT("Last logoff time") : TranslateT("Uptime"), buf,
@@ -389,7 +389,7 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 	if (item->m_pLastSeenResource)
 		mir_strncpy(buf, item->m_pLastSeenResource->m_szResourceName, _countof(buf));
 	else
-		mir_strncpy(buf, Translate("<no information available>"), _countof(buf));
+		mir_strncpy(buf, TranslateU("<no information available>"), _countof(buf));
 	sttFillInfoLine(hwndTree, htiRoot, nullptr, TranslateT("Last active resource"), buf, sttInfoLineId(0, INFOLINE_LASTACTIVE));
 
 	// resources
@@ -483,7 +483,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 				HWND hwndTree = GetDlgItem(hwndDlg, IDC_TV_INFO);
 				TreeView_DeleteAllItems(hwndTree);
 				HTREEITEM htiRoot = sttFillInfoLine(hwndTree, nullptr, dat->ppro->LoadIconEx("main"), L"JID", jid, sttInfoLineId(0, INFOLINE_NAME), true);
-				sttFillInfoLine(hwndTree, htiRoot, dat->ppro->LoadIconEx("vcard"), nullptr, Translate("Please switch online to see more details."));
+				sttFillInfoLine(hwndTree, htiRoot, dat->ppro->LoadIconEx("vcard"), nullptr, TranslateU("Please switch online to see more details."));
 				break;
 			}
 		}

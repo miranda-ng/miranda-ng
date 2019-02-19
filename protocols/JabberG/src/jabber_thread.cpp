@@ -1135,7 +1135,7 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 		if (addressNode) {
 			const char *szJid = addressNode->Attribute("jid");
 			if (szJid) {
-				szMessage.AppendFormat(Translate("Message redirected from: %s\r\n"), from);
+				szMessage.AppendFormat(TranslateU("Message redirected from: %s\r\n"), from);
 				from = szJid;
 				// rewrite hContact
 				hContact = HContactFromJID(from);

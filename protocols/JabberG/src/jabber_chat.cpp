@@ -249,9 +249,9 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const char *r
 	const char *szReason = (reason) ? reason->GetText() : nullptr;
 	if (szReason == nullptr) {
 		if (nStatusCode == 322)
-			szReason = Translate("because room is now members-only");
+			szReason = TranslateU("because room is now members-only");
 		else if (nStatusCode == 301)
-			szReason = Translate("user banned");
+			szReason = TranslateU("user banned");
 	}
 
 	ptrA myNick(mir_strdup(item->nick));
@@ -321,7 +321,7 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, const TiXmlElement *
 		if (quitMessage != nullptr)
 			szMessage = quitMessage;
 		else
-			szMessage = Translate(JABBER_GC_MSG_QUIT);
+			szMessage = TranslateU(JABBER_GC_MSG_QUIT);
 	}
 	else {
 		ptrA myNick(JabberNickFromJID(m_szJabberJID));
@@ -846,11 +846,11 @@ static INT_PTR CALLBACK sttUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		SendDlgItemMessage(hwndDlg, IDC_ICO_STATUS, STM_SETICON, (WPARAM)Skin_LoadProtoIcon(dat->ppro->m_szModuleName, dat->him->m_iStatus), 0);
 
 		char buf[256];
-		mir_snprintf(buf, Translate("%s from\n%s"), dat->him->m_szResourceName, dat->item->jid);
+		mir_snprintf(buf, TranslateU("%s from\n%s"), dat->him->m_szResourceName, dat->item->jid);
 		SetDlgItemTextUtf(hwndDlg, IDC_HEADERBAR, buf);
 
 		SetDlgItemTextUtf(hwndDlg, IDC_TXT_NICK, dat->him->m_szResourceName);
-		SetDlgItemTextUtf(hwndDlg, IDC_TXT_JID, dat->him->m_szRealJid ? dat->him->m_szRealJid : Translate("Real JID not available"));
+		SetDlgItemTextUtf(hwndDlg, IDC_TXT_JID, dat->him->m_szRealJid ? dat->him->m_szRealJid : TranslateU("Real JID not available"));
 		SetDlgItemTextUtf(hwndDlg, IDC_TXT_STATUS, dat->him->m_szStatusMessage);
 
 		for (auto &it : sttRoleItems) {
@@ -999,7 +999,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 		if (ppro->m_bJabberOnline) {
 			ptrA szMessage(ppro->getUStringA("GcMsgSlap"));
 			if (szMessage == nullptr)
-				szMessage = mir_strdup(Translate(JABBER_GC_MSG_SLAP));
+				szMessage = mir_strdup(TranslateU(JABBER_GC_MSG_SLAP));
 
 			CMStringA buf;
 			// do not use snprintf to avoid possible problems with % symbol

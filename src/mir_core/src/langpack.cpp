@@ -284,7 +284,7 @@ static void LoadLangPackFile(FILE *fp, char *line)
 
 			LangPackEntry *E = &g_pEntries[g_entryCount - 1];
 			E->englishHash = mir_hashstr(pszLine);
-			E->szLocal = nullptr;
+			E->szLocal = E->utfLocal = nullptr;
 			E->wszLocal = nullptr;
 			E->pMuuid = pCurrentMuuid;
 			E->pNext = nullptr;
