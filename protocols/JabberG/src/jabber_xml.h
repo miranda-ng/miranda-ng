@@ -152,7 +152,7 @@ struct XCHILD
 		{}
 };
 
-__forceinline TiXmlElement *operator<<(TiXmlElement *node, const XCHILD& child)
+__forceinline TiXmlElement *operator<<(TiXmlElement *node, const XCHILD &child)
 {
 	return XmlAddChild(node, child.name, child.value);
 }
@@ -169,7 +169,7 @@ struct XCHILDNS
 		{}
 };
 
-TiXmlElement *__fastcall operator<<(TiXmlElement *node, const XCHILDNS& child);
+TiXmlElement* __fastcall operator<<(TiXmlElement *node, const XCHILDNS &child);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -182,7 +182,7 @@ struct XQUERY
 		{}
 };
 
-TiXmlElement *__fastcall operator<<(TiXmlElement *node, const XQUERY& child);
+TiXmlElement* __fastcall operator<<(TiXmlElement *node, const XQUERY& child);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Limited XPath support

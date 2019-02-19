@@ -34,28 +34,28 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 XmlNodeIq::XmlNodeIq(const char *type, int id, const char *to) :
 	XmlNode("iq")
 {
-	if (type != nullptr) *this << XATTR("type", type);
-	if (to   != nullptr) *this << XATTR("to",   to);
-	if (id   != -1  ) *this << XATTRID(id);
+	if (type != nullptr) XmlAddAttr(*this, "type", type);
+	if (to   != nullptr) XmlAddAttr(*this, "to",   to);
+	if (id   != -1  )    XmlAddAttrID(*this, id);
 }
 
 XmlNodeIq::XmlNodeIq(const char *type, const char *idStr, const char *to) :
 	XmlNode("iq")
 {
-	if (type  != nullptr) *this << XATTR("type", type );
-	if (to    != nullptr) *this << XATTR("to",   to   );
-	if (idStr != nullptr) *this << XATTR("id",   idStr);
+	if (type  != nullptr) XmlAddAttr(*this, "type", type );
+	if (to    != nullptr) XmlAddAttr(*this, "to",   to   );
+	if (idStr != nullptr) XmlAddAttr(*this, "id",   idStr);
 }
 
 XmlNodeIq::XmlNodeIq(const char *type, TiXmlElement *node, const char *to) :
 	XmlNode("iq")
 {
-	if (type  != nullptr) *this << XATTR("type", type );
-	if (to    != nullptr) *this << XATTR("to",   to   );
+	if (type  != nullptr) XmlAddAttr(*this, "type", type );
+	if (to    != nullptr) XmlAddAttr(*this, "to",   to   );
 	if (node  != nullptr) {
 		const char *iqId = node->Attribute("id");
 		if (iqId != nullptr)
-			*this << XATTR("id", iqId);
+			XmlAddAttr(*this, "id", iqId);
 	}
 }
 
@@ -63,19 +63,19 @@ XmlNodeIq::XmlNodeIq(CJabberIqInfo *pInfo) :
 	XmlNode("iq")
 {
 	if (pInfo) {
-		if (pInfo->GetCharIqType() != nullptr) *this << XATTR("type", pInfo->GetCharIqType());
-		if (pInfo->GetReceiver()   != nullptr) *this << XATTR("to", pInfo->GetReceiver());
-		if (pInfo->GetIqId()       != -1)   *this << XATTRID(pInfo->GetIqId());
+		if (pInfo->GetCharIqType() != nullptr) XmlAddAttr(*this, "type", pInfo->GetCharIqType());
+		if (pInfo->GetReceiver()   != nullptr) XmlAddAttr(*this, "to", pInfo->GetReceiver());
+		if (pInfo->GetIqId()       != -1)      XmlAddAttrID(*this, pInfo->GetIqId());
 	}
 }
 
 XmlNodeIq::XmlNodeIq(const char *type, CJabberIqInfo *pInfo) :
 	XmlNode("iq")
 {
-	if (type != nullptr) *this << XATTR("type", type);
+	if (type != nullptr) XmlAddAttr(*this, "type", type);
 	if (pInfo) {
-		if (pInfo->GetFrom()  != nullptr) *this << XATTR("to", pInfo->GetFrom());
-		if (pInfo->GetIdStr() != nullptr) *this << XATTR("id", pInfo->GetIdStr());
+		if (pInfo->GetFrom()  != nullptr) XmlAddAttr(*this, "to", pInfo->GetFrom());
+		if (pInfo->GetIdStr() != nullptr) XmlAddAttr(*this, "id", pInfo->GetIdStr());
 	}
 }
 
@@ -95,14 +95,14 @@ XmlNode::XmlNode(const char *pszName, const char *ptszText)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-TiXmlElement*operator<<(TiXmlElement *node, const XCHILDNS &child)
+TiXmlElement* __fastcall operator<<(TiXmlElement *node, const XCHILDNS &child)
 {
 	TiXmlElement *res = XmlAddChild(node, child.name);
 	res->SetAttribute("xmlns", child.ns);
 	return res;
 }
 
-TiXmlElement* operator<<(TiXmlElement *node, const XQUERY &child)
+TiXmlElement* __fastcall operator<<(TiXmlElement *node, const XQUERY &child)
 {
 	TiXmlElement *res = XmlAddChild(node, "query");
 	res->SetAttribute("xmlns", child.ns);

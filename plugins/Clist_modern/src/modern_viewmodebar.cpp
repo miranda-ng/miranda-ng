@@ -116,7 +116,7 @@ int FillModes(char *szsetting)
 
 	ptrW temp(mir_utf8decodeW(szsetting));
 	if (temp != nullptr)
-		SendDlgItemMessage(clvmHwnd, IDC_VIEWMODES, LB_INSERTSTRING, -1, (LPARAM)temp);
+		SendDlgItemMessage(clvmHwnd, IDC_VIEWMODES, LB_INSERTSTRING, -1, (LPARAM)temp.get());
 	return 1;
 }
 
