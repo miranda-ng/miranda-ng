@@ -342,7 +342,31 @@ public:
 		m_proto->m_ThreadInfo->send(iq);
 	}
 
-	void OnProtoCheckOnline(WPARAM, LPARAM)
+	void OnProtoRefresh(WPARAM, LPARAM) override
+	{
+		m_lvBookmarks.DeleteAllItems();
+
+		JABBER_LIST_ITEM *item = nullptr;
+		LISTFOREACH(i, m_proto, LIST_BOOKMARK)
+		{
+			if (item = m_proto->ListGetItemPtrFromIndex(i)) {
+				int itemType = mir_strcmpi(item->type, "conference") ? 1 : 0;
+				int iItem = m_lvBookmarks.AddItem(item->name, itemType, (LPARAM)item->jid, itemType);
+				m_lvBookmarks.SetItem(iItem, 1, Utf2T(item->jid));
+				if (itemType == 0)
+					m_lvBookmarks.SetItem(iItem, 2, Utf2T(item->nick));
+			}
+		}
+
+		if (item) {
+			m_btnEdit.Enable();
+			m_btnRemove.Enable();
+		}
+
+		m_btnAdd.Enable();
+	}
+
+	void OnProtoCheckOnline(WPARAM, LPARAM) override
 	{
 		if (!m_proto->m_bJabberOnline) {
 			m_btnAdd.Disable();
