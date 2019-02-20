@@ -216,7 +216,7 @@ void CJabberProto::OnIqResultServiceDiscoveryRootItems(const TiXmlElement *iqNod
 
 			XmlNodeIq iq(pNewInfo);
 			iq << XQUERY(JABBER_FEAT_DISCO_INFO) << XATTR("node", szNode);
-			packet.InsertEndChild(iq);
+			packet.InsertEndChild(iq.node()->DeepClone(&packet));
 		}
 	}
 	lck.unlock();
