@@ -434,8 +434,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   OnIqResultServiceDiscoveryItems(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultServiceDiscoveryRootInfo(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultServiceDiscoveryRootItems(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
-	BOOL   SendInfoRequest(CJabberSDNode *pNode, TiXmlElement *parent);
-	BOOL   SendBothRequests(CJabberSDNode *pNode, TiXmlElement *parent);
+	BOOL   SendInfoRequest(CJabberSDNode *pNode, TiXmlNode *parent);
+	BOOL   SendBothRequests(CJabberSDNode *pNode, TiXmlNode *parent = nullptr);
 	void   PerformBrowse(HWND hwndDlg);
 	BOOL   IsNodeRegistered(CJabberSDNode *pNode);
 	void   ApplyNodeIcon(HTREELISTITEM hItem, CJabberSDNode *pNode);

@@ -741,8 +741,10 @@ wchar_t* JabberStrFixLines(const wchar_t *str);
 wchar_t* JabberErrorStr(int errorCode);
 CMStringW JabberErrorMsg(const TiXmlElement *errorNode, int *errorCode = nullptr);
 
+void JabberCopyText(HWND hwnd, const char *text);
+void JabberCopyText(HWND hwnd, const wchar_t *text);
+
 const wchar_t *JabberStrIStr(const wchar_t *str, const wchar_t *substr);
-void           JabberCopyText(HWND hwnd, const wchar_t *text);
 CJabberProto*  JabberChooseInstance(bool bIsLink=false);
 
 bool JabberReadXep203delay(const TiXmlElement *node, time_t &msgTime);

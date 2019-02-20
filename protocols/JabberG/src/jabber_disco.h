@@ -347,51 +347,50 @@ public:
 		return TRUE;
 	}
 
-	BOOL GetTooltipText(wchar_t *szText, int nMaxLength)
+	CMStringA GetTooltipText()
 	{
-		CMStringW tszTmp;
+		CMStringA ret;
 
-		tszTmp.AppendFormat(L"Jid: %s\r\n", m_szJid);
+		ret.AppendFormat("Jid: %s\r\n", m_szJid);
 
 		if (m_szNode)
-			tszTmp.AppendFormat(L"%s: %s\r\n", TranslateT("Node"), m_szNode);
+			ret.AppendFormat("%s: %s\r\n", TranslateU("Node"), m_szNode);
 
 		if (m_pIdentities) {
-			tszTmp.AppendFormat(L"\r\n%s:\r\n", TranslateT("Identities"));
+			ret.AppendFormat("\r\n%s:\r\n", TranslateU("Identities"));
 
 			CJabberSDIdentity *pIdentity = m_pIdentities;
 			while (pIdentity) {
 				if (pIdentity->GetName())
-					tszTmp.AppendFormat(L" %c %s (%s: %s, %s: %s)\r\n",
+					ret.AppendFormat(" %c %s (%s: %s, %s: %s)\r\n",
 						CHR_BULLET, pIdentity->GetName(),
-							TranslateT("category"), pIdentity->GetCategory(),
-							TranslateT("type"), pIdentity->GetType());
+							TranslateU("category"), pIdentity->GetCategory(),
+							TranslateU("type"), pIdentity->GetType());
 				else
-					tszTmp.AppendFormat(L" %c %s: %s, %s: %s\r\n",
+					ret.AppendFormat(" %c %s: %s, %s: %s\r\n",
 						CHR_BULLET,
-						TranslateT("Category"), pIdentity->GetCategory(),
-						TranslateT("Type"), pIdentity->GetType());
+						TranslateU("Category"), pIdentity->GetCategory(),
+						TranslateU("Type"), pIdentity->GetType());
 
 				pIdentity = pIdentity->GetNext();
 			}
 		}
 
 		if (m_pFeatures) {
-			tszTmp.AppendFormat(L"\r\n%s:\r\n", TranslateT("Supported features"));
+			ret.AppendFormat("\r\n%s:\r\n", TranslateU("Supported features"));
 
 			for (CJabberSDFeature *pFeature = m_pFeatures; pFeature; pFeature = pFeature->GetNext())
-				tszTmp.AppendFormat(L" %c %s\r\n", CHR_BULLET, pFeature->GetVar());
+				ret.AppendFormat(" %c %s\r\n", CHR_BULLET, pFeature->GetVar());
 		}
 
 		if (m_szInfoError)
-			tszTmp.AppendFormat(L"\r\n%s: %s\r\n", TranslateT("Info request error"), m_szInfoError);
+			ret.AppendFormat("\r\n%s: %s\r\n", TranslateU("Info request error"), T2Utf(m_szInfoError).get());
 
 		if (m_szItemsError)
-			tszTmp.AppendFormat(L"\r\n%s: %s\r\n", TranslateT("Items request error"), m_szItemsError);
+			ret.AppendFormat("\r\n%s: %s\r\n", TranslateU("Items request error"), T2Utf(m_szItemsError).get());
 
-		tszTmp.TrimRight();
-		wcsncpy_s(szText, nMaxLength, tszTmp, _TRUNCATE);
-		return TRUE;
+		ret.TrimRight();
+		return ret;
 	}
 };
 

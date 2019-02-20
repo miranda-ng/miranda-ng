@@ -189,7 +189,7 @@ void CJabberProto::OnIqResultServiceDiscoveryRootInfo(const TiXmlElement *iqNode
 		for (auto *feature : TiXmlFilter(iqNode->FirstChildElement("query"), "feature")) {
 			if (!mir_strcmp(feature->Attribute("var"), (char*)pInfo->m_pUserData)) {
 				CJabberSDNode *pNode = m_SDManager.AddPrimaryNode(pInfo->GetReceiver(), iqNode->Attribute("node"), nullptr);
-				SendBothRequests(pNode, nullptr);
+				SendBothRequests(pNode);
 				break;
 			}
 		}
@@ -225,7 +225,7 @@ void CJabberProto::OnIqResultServiceDiscoveryRootItems(const TiXmlElement *iqNod
 		m_ThreadInfo->send(packet.ToElement());
 }
 
-BOOL CJabberProto::SendInfoRequest(CJabberSDNode *pNode, TiXmlElement *parent)
+BOOL CJabberProto::SendInfoRequest(CJabberSDNode *pNode, TiXmlNode *parent)
 {
 	if (!pNode || !m_bJabberOnline)
 		return FALSE;
@@ -242,7 +242,7 @@ BOOL CJabberProto::SendInfoRequest(CJabberSDNode *pNode, TiXmlElement *parent)
 			query->SetAttribute("node", pNode->GetNode());
 
 		if (parent)
-			parent->InsertEndChild(iq);
+			parent->InsertEndChild(iq.node()->DeepClone(parent->GetDocument()));
 		else
 			m_ThreadInfo->send(iq);
 	}
@@ -255,7 +255,7 @@ BOOL CJabberProto::SendInfoRequest(CJabberSDNode *pNode, TiXmlElement *parent)
 	return TRUE;
 }
 
-BOOL CJabberProto::SendBothRequests(CJabberSDNode *pNode, TiXmlElement *parent)
+BOOL CJabberProto::SendBothRequests(CJabberSDNode *pNode, TiXmlNode *parent)
 {
 	if (!pNode || !m_bJabberOnline)
 		return FALSE;
@@ -272,7 +272,7 @@ BOOL CJabberProto::SendBothRequests(CJabberSDNode *pNode, TiXmlElement *parent)
 			query->SetAttribute("node", pNode->GetNode());
 
 		if (parent)
-			parent->InsertEndChild(iq);
+			parent->InsertEndChild(iq.node()->DeepClone(parent->GetDocument()));
 		else
 			m_ThreadInfo->send(iq);
 	}
@@ -289,7 +289,7 @@ BOOL CJabberProto::SendBothRequests(CJabberSDNode *pNode, TiXmlElement *parent)
 			query->SetAttribute("node", pNode->GetNode());
 
 		if (parent)
-			parent->InsertEndChild(iq);
+			parent->InsertEndChild(iq.node()->DeepClone(parent->GetDocument()));
 		else
 			m_ThreadInfo->send(iq);
 	}
@@ -337,7 +337,7 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 						m_lstTransports.insert(mir_strdup(item->jid));
 
 					CJabberSDNode *pNode = m_SDManager.AddPrimaryNode(item->jid, nullptr, nullptr);
-					SendBothRequests(pNode, nullptr);
+					SendBothRequests(pNode);
 				}
 			}
 		}
@@ -375,13 +375,13 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 			mir_snprintf(setting, "discoWnd_favNode_%d", i);
 			ptrA dbvNode(getUStringA(setting));
 			CJabberSDNode *pNode = m_SDManager.AddPrimaryNode(dbvJid, dbvNode, tszName);
-			SendBothRequests(pNode, nullptr);
+			SendBothRequests(pNode);
 		}
 	}
 	else {
 		sttBrowseMode = SD_BROWSE_NORMAL;
 		CJabberSDNode *pNode = m_SDManager.AddPrimaryNode(T2Utf(szJid), T2Utf(szNode), nullptr);
-		SendBothRequests(pNode, nullptr);
+		SendBothRequests(pNode);
 	}
 	lck.unlock();
 
@@ -810,7 +810,7 @@ public:
 		if (pNode) {
 			TreeList_ResetItem(GetDlgItem(m_hwnd, IDC_TREE_DISCO), hItem);
 			pNode->ResetInfo();
-			m_proto->SendBothRequests(pNode, packet.ToElement());
+			m_proto->SendBothRequests(pNode, &packet);
 			TreeList_MakeFakeParent(hItem, FALSE);
 		}
 		lck.unlock();
@@ -921,11 +921,11 @@ public:
 						if (!pNode || pNode->GetInfoRequestId())
 							continue;
 
-						m_proto->SendInfoRequest(pNode, packet.ToElement());
+						m_proto->SendInfoRequest(pNode, &packet);
 					}
 				}
-				if (packet.FirstChildElement())
-					m_proto->m_ThreadInfo->send(packet.ToElement());
+				if (!packet.NoChildren())
+					m_proto->m_ThreadInfo->send(packet.RootElement());
 
 				KillTimer(m_hwnd, AUTODISCO_TIMER);
 				m_proto->m_dwSDLastRefresh = GetTickCount();
@@ -973,22 +973,22 @@ public:
 					mir_cslock lck(m_proto->m_SDManager.cs());
 					CJabberSDNode *pNode = (CJabberSDNode*)TreeList_GetData(hItem);
 					if (pNode)
-						pNode->GetTooltipText(pInfoTip->pszText, pInfoTip->cchTextMax);
+						wcsncpy_s(pInfoTip->pszText, pInfoTip->cchTextMax, Utf2T(pNode->GetTooltipText()), _TRUNCATE);
 				}
 				else if (pHeader->code == TVN_ITEMEXPANDED) {
 					NMTREEVIEW *pNmTreeView = (NMTREEVIEW *)lParam;
 					HTREELISTITEM hItem = (HTREELISTITEM)pNmTreeView->itemNew.hItem;
-					XmlNode packet(0);
+					TiXmlDocument packet;
 					{
 						mir_cslock lck(m_proto->m_SDManager.cs());
 						CJabberSDNode *pNode = (CJabberSDNode*)TreeList_GetData(hItem);
 						if (pNode) {
-							m_proto->SendBothRequests(pNode, packet);
+							m_proto->SendBothRequests(pNode, &packet);
 							TreeList_MakeFakeParent(hItem, FALSE);
 						}
 					}
 					if (packet.FirstChildElement())
-						m_proto->m_ThreadInfo->send(packet);
+						m_proto->m_ThreadInfo->send(packet.RootElement());
 				}
 				else if (pHeader->code == NM_CUSTOMDRAW) {
 					LPNMLVCUSTOMDRAW lpnmlvcd = (LPNMLVCUSTOMDRAW)lParam;
@@ -1178,24 +1178,24 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 	switch (res) {
 	case SD_ACT_REFRESH:
 		{
-			XmlNode packet(nullptr);
+			TiXmlDocument packet;
 			{
 				mir_cslock lck(m_SDManager.cs());
 				if (pNode) {
 					TreeList_ResetItem(GetDlgItem(m_pDlgServiceDiscovery->GetHwnd(), IDC_TREE_DISCO), hItem);
 					pNode->ResetInfo();
-					SendBothRequests(pNode, packet);
+					SendBothRequests(pNode, &packet);
 					TreeList_MakeFakeParent(hItem, FALSE);
 				}
 			}
 			if (!packet.NoChildren())
-				m_ThreadInfo->send(packet);
+				m_ThreadInfo->send(packet.RootElement());
 		}
 		break;
 
 	case SD_ACT_REFRESHCHILDREN:
 		{
-			XmlNode packet(nullptr);
+			TiXmlDocument packet;
 			{
 				mir_cslock lck(m_SDManager.cs());
 				for (int iChild = TreeList_GetChildrenCount(hItem); iChild--;) {
@@ -1204,36 +1204,32 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 					if (n) {
 						TreeList_ResetItem(GetDlgItem(m_pDlgServiceDiscovery->GetHwnd(), IDC_TREE_DISCO), hNode);
 						n->ResetInfo();
-						SendBothRequests(n, packet);
+						SendBothRequests(n, &packet);
 						TreeList_MakeFakeParent(hNode, FALSE);
 					}
 
-					if (XmlGetChildCount(packet) > 50) {
-						m_ThreadInfo->send(packet);
+					if (XmlGetChildCount(packet.RootElement()) > 50) {
+						m_ThreadInfo->send(packet.RootElement());
 						packet.Clear();
 					}
 				}
 			}
 
 			if (!packet.NoChildren())
-				m_ThreadInfo->send(packet.ToElement());
+				m_ThreadInfo->send(packet.RootElement());
 		}
 		break;
 
 	case SD_ACT_COPYJID:
-		JabberCopyText(m_pDlgServiceDiscovery->GetHwnd(), Utf2T(pNode->GetJid()));
+		JabberCopyText(m_pDlgServiceDiscovery->GetHwnd(), pNode->GetJid());
 		break;
 
 	case SD_ACT_COPYNODE:
-		JabberCopyText(m_pDlgServiceDiscovery->GetHwnd(), Utf2T(pNode->GetNode()));
+		JabberCopyText(m_pDlgServiceDiscovery->GetHwnd(), pNode->GetNode());
 		break;
 
 	case SD_ACT_COPYINFO:
-		{
-			wchar_t buf[8192];
-			pNode->GetTooltipText(buf, _countof(buf));
-			JabberCopyText(m_pDlgServiceDiscovery->GetHwnd(), buf);
-		}
+		JabberCopyText(m_pDlgServiceDiscovery->GetHwnd(), pNode->GetTooltipText());
 		break;
 
 	case SD_ACT_FAVORITE:

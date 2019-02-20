@@ -33,44 +33,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static MWindowList hUserInfoList = nullptr;
 
-struct UserInfoStringBuf
-{
-	enum { STRINGBUF_INCREMENT = 1024 };
-
-	wchar_t *buf;
-	size_t size, offset;
-
-	UserInfoStringBuf() { buf = nullptr; size = 0; offset = 0; }
-	~UserInfoStringBuf() { mir_free(buf); }
-
-	void append(wchar_t *str)
-	{
-		if (!str) return;
-
-		size_t length = mir_wstrlen(str);
-		if (size - offset < length + 1) {
-			size += (length + STRINGBUF_INCREMENT);
-			buf = (wchar_t *)mir_realloc(buf, size * sizeof(wchar_t));
-		}
-		mir_wstrcpy(buf + offset, str);
-		offset += length;
-	}
-
-	wchar_t* allocate(int length)
-	{
-		if (size - offset < length) {
-			size += (length + STRINGBUF_INCREMENT);
-			buf = (wchar_t *)mir_realloc(buf, size * sizeof(wchar_t));
-		}
-		return buf + offset;
-	}
-
-	void actualize()
-	{
-		if (buf) offset = mir_wstrlen(buf);
-	}
-};
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // JabberUserInfoDlgProc - main user info dialog
 
@@ -406,24 +368,22 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 	RedrawWindow(hwndTree, nullptr, nullptr, RDW_INVALIDATE);
 }
 
-static void sttGetNodeText(HWND hwndTree, HTREEITEM hti, UserInfoStringBuf *buf, int indent = 0)
+static void sttGetNodeText(HWND hwndTree, HTREEITEM hti, CMStringW &buf, int indent = 0)
 {
 	for (int i = 0; i < indent; i++)
-		buf->append(L"\t");
+		buf.AppendChar('\t');
 
+	wchar_t wszText[256];
 	TVITEMEX tvi = { 0 };
 	tvi.mask = TVIF_HANDLE | TVIF_TEXT | TVIF_STATE;
 	tvi.hItem = hti;
-	tvi.cchTextMax = 256;
-	tvi.pszText = buf->allocate(tvi.cchTextMax);
-	if (!TreeView_GetItem(hwndTree, &tvi)) { // failure, maybe item was removed...
-		buf->buf[buf->offset] = 0;
-		buf->actualize();
+	tvi.cchTextMax = _countof(wszText);
+	tvi.pszText = wszText;
+	if (!TreeView_GetItem(hwndTree, &tvi)) // failure, maybe item was removed...
 		return;
-	}
 
-	buf->actualize();
-	buf->append(L"\r\n");
+	buf.Append(wszText);
+	buf.Append(L"\r\n");
 
 	if (tvi.state & TVIS_EXPANDED)
 		for (hti = TreeView_GetChild(hwndTree, hti); hti; hti = TreeView_GetNextSibling(hwndTree, hti))
@@ -527,9 +487,9 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 				AppendMenu(hMenu, MF_STRING, (UINT_PTR)0, TranslateT("Cancel"));
 				int nReturnCmd = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, nullptr);
 				if (nReturnCmd == 1) {
-					UserInfoStringBuf buf;
-					sttGetNodeText(hwndTree, hItem, &buf);
-					JabberCopyText(hwndDlg, buf.buf);
+					CMStringW buf;
+					sttGetNodeText(hwndTree, hItem, buf);
+					JabberCopyText(hwndDlg, buf);
 				}
 				else if (nReturnCmd == 2) {
 					wchar_t szBuffer[1024];

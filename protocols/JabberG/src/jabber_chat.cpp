@@ -1175,16 +1175,16 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 		break;
 
 	case IDM_CPY_NICK:
-		JabberCopyText(g_clistApi.hwndContactList, Utf2T(him->m_szResourceName));
+		JabberCopyText(g_clistApi.hwndContactList, him->m_szResourceName);
 		break;
 
 	case IDM_RJID_COPY:
 	case IDM_CPY_RJID:
-		JabberCopyText(g_clistApi.hwndContactList, Utf2T(him->m_szRealJid));
+		JabberCopyText(g_clistApi.hwndContactList, him->m_szRealJid);
 		break;
 
 	case IDM_CPY_INROOMJID:
-		JabberCopyText(g_clistApi.hwndContactList, CMStringW(FORMAT, L"%s/%s", Utf2T(item->jid).get(), Utf2T(him->m_szResourceName).get()));
+		JabberCopyText(g_clistApi.hwndContactList, CMStringA(FORMAT, "%s/%s", item->jid, him->m_szResourceName));
 		break;
 
 	case IDM_RJID_VCARD:
@@ -1331,11 +1331,11 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 		break;
 
 	case IDM_CPY_RJID:
-		JabberCopyText(g_clistApi.hwndContactList, Utf2T(item->jid));
+		JabberCopyText(g_clistApi.hwndContactList, item->jid);
 		break;
 
 	case IDM_CPY_TOPIC:
-		JabberCopyText(g_clistApi.hwndContactList, Utf2T(item->getTemp()->m_szStatusMessage));
+		JabberCopyText(g_clistApi.hwndContactList, item->getTemp()->m_szStatusMessage);
 		break;
 	}
 }

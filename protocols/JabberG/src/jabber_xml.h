@@ -47,6 +47,10 @@ public:
 	XmlNode(const char *name);
 	XmlNode(const char *pszName, const char *ptszText);
 
+	__forceinline TiXmlElement* node() const
+	{	return m_hXml;
+	}
+
 	__forceinline operator TiXmlElement*()
 	{	return m_hXml;
 	}
