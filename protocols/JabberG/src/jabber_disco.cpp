@@ -40,7 +40,6 @@ enum
 	SD_BROWSE_CONFERENCES,
 	SD_BROWSE_FAVORITES
 };
-static int sttBrowseMode = SD_BROWSE_NORMAL;
 
 #define REFRESH_TIMEOUT		500
 #define REFRESH_TIMER		1607
@@ -222,7 +221,7 @@ void CJabberProto::OnIqResultServiceDiscoveryRootItems(const TiXmlElement *iqNod
 	lck.unlock();
 
 	if (packet.FirstChildElement())
-		m_ThreadInfo->send(packet.ToElement());
+		m_ThreadInfo->send(packet.RootElement());
 }
 
 BOOL CJabberProto::SendInfoRequest(CJabberSDNode *pNode, TiXmlNode *parent)
@@ -323,7 +322,6 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 	mir_cslockfull lck(m_SDManager.cs());
 	m_SDManager.RemoveAll();
 	if (!mir_wstrcmp(szJid, _T(SD_FAKEJID_MYAGENTS))) {
-		sttBrowseMode = SD_BROWSE_MYAGENTS;
 		JABBER_LIST_ITEM *item = nullptr;
 		LISTFOREACH(i, this, LIST_ROSTER)
 		{
@@ -343,7 +341,6 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 		}
 	}
 	else if (!mir_wstrcmp(szJid, _T(SD_FAKEJID_CONFERENCES))) {
-		sttBrowseMode = SD_BROWSE_CONFERENCES;
 		CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultServiceDiscoveryRootItems, JABBER_IQ_TYPE_GET, m_ThreadInfo->conn.server);
 		pInfo->m_pUserData = (void*)JABBER_FEAT_MUC;
 		pInfo->SetTimeout(30000);
@@ -352,7 +349,6 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 		m_ThreadInfo->send(iq);
 	}
 	else if (!mir_wstrcmp(szJid, _T(SD_FAKEJID_AGENTS))) {
-		sttBrowseMode = SD_BROWSE_AGENTS;
 		CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultServiceDiscoveryRootItems, JABBER_IQ_TYPE_GET, m_ThreadInfo->conn.server);
 		pInfo->m_pUserData = (void*)L"jabber:iq:gateway";
 		pInfo->SetTimeout(30000);
@@ -361,7 +357,6 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 		m_ThreadInfo->send(iq);
 	}
 	else if (!mir_wstrcmp(szJid, _T(SD_FAKEJID_FAVORITES))) {
-		sttBrowseMode = SD_BROWSE_FAVORITES;
 		int count = getDword("discoWnd_favCount", 0);
 		for (int i = 0; i < count; i++) {
 			char setting[MAXMODULELABELLENGTH];
@@ -379,7 +374,6 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 		}
 	}
 	else {
-		sttBrowseMode = SD_BROWSE_NORMAL;
 		CJabberSDNode *pNode = m_SDManager.AddPrimaryNode(T2Utf(szJid), T2Utf(szNode), nullptr);
 		SendBothRequests(pNode);
 	}
@@ -816,7 +810,7 @@ public:
 		lck.unlock();
 
 		if (packet.FirstChildElement())
-			m_proto->m_ThreadInfo->send(packet.ToElement());
+			m_proto->m_ThreadInfo->send(packet.RootElement());
 	}
 
 	void btnBrowse_OnClick(CCtrlButton*)
