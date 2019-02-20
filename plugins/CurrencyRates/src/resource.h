@@ -1,19 +1,19 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by C:\Code\miranda-ng-from-github\plugins\CurrencyRates\res\Forex.rc
+// Used by w:\miranda-ng\plugins\CurrencyRates\res\Forex.rc
 //
 #define IDI_ICON_MAIN                   102
-#define IDD_DIALOG_CURRENCYRATE_INFO           102
+#define IDD_DIALOG_CURRENCYRATE_INFO    102
 #define IDD_DIALOG_OPT_GOOGLE           103
 #define IDI_ICON_SECTION                110
-#define IDI_ICON_CURRENCYRATE                  111
+#define IDI_ICON_CURRENCYRATE           111
 #define IDI_ICON_UP                     113
 #define IDI_ICON_DOWN                   114
 #define IDD_CONTACT_SETTINGS            115
 #define IDI_ICON_NOTCHANGED             116
 #define IDD_CURRENCY_CONVERTER          116
 #define IDI_ICON_CURRENCY_CONVERTER     117
-#define IDD_DIALOG_CURRENCYRATE_INFO_1         118
+#define IDD_DIALOG_CURRENCYRATE_INFO_1  118
 #define IDI_ICON_REFRESH                118
 #define IDI_ICON_IMPORT                 119
 #define IDI_ICON_EXPORT                 120
@@ -26,10 +26,10 @@
 #define IDC_EDIT_REFRESH_RATE           1002
 #define IDC_SPIN_REFRESH_RATE           1003
 #define IDC_COMBO_REFRESH_RATE          1004
-#define IDC_STATIC_CURRENCYRATE_NAME           1008
+#define IDC_STATIC_CURRENCYRATE_NAME    1008
 #define IDC_SYSLINK_PROVIDER            1009
 #define IDC_STATIC_CHART                1010
-#define IDC_STATIC_CURRENCYRATE_CHART          1010
+#define IDC_STATIC_CURRENCYRATE_CHART   1010
 #define IDC_COMBO_CONVERT_FROM          1011
 #define IDC_COMBO_CONVERT_INTO          1012
 #define IDC_BUTTON_ADD                  1013
@@ -46,6 +46,8 @@
 #define IDC_EDIT_FILE_NAME              1022
 #define IDC_EDIT_TENDENCY_FORMAT        1022
 #define IDC_BUTTON_BROWSE               1023
+#define IDC_EDIT_TENDENCY_FORMAT2       1023
+#define IDC_EDIT_PERSONAL_KEY           1023
 #define IDC_STATIC_SELECT_FILE          1024
 #define IDC_EDIT_NAME                   1025
 #define IDC_EDIT_HISTORY_FORMAT         1026
@@ -92,7 +94,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        125
+#define _APS_NEXT_RESOURCE_VALUE        126
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1073
 #define _APS_NEXT_SYMED_VALUE           101

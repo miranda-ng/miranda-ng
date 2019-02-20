@@ -15,7 +15,6 @@ private:
 
 private:
 	void FormatDoubleHelper(LPCSTR pszDbSet, const tstring sInvalid = L"-");
-	// 	void FormatChangeValueHelper(bool bPercentage);
 
 private:
 	MCONTACT m_hContact;

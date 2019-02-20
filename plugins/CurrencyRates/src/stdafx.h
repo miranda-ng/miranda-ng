@@ -98,7 +98,6 @@ inline tstring currencyrates_a2t(const char* s)
 #include "CurrencyRatesProviders.h"
 #include "CurrencyRatesProviderBase.h"
 #include "CurrencyRatesProviderVisitor.h"
-#include "CurrencyRatesProviderVisitorDbSettings.h"
 #include "CurrencyRatesProviderVisitorFormater.h"
 #include "CurrencyRatesProviderVisitorTendency.h"
 #include "CurrencyRatesProviderVisitorFormatSpecificator.h"

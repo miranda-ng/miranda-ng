@@ -34,25 +34,21 @@ void CommonOptionDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp, CCommonDlgPr
 		{
 			assert(rData.m_pCurrencyRatesProvider);
 
-			CCurrencyRatesProviderVisitorDbSettings visitor;
-			rData.m_pCurrencyRatesProvider->Accept(visitor);
-			assert(visitor.m_pszDbRefreshRateType);
-			assert(visitor.m_pszDbRefreshRateValue);
-			assert(visitor.m_pszDbDisplayNameFormat);
-			assert(visitor.m_pszDbStatusMsgFormat);
-			assert(visitor.m_pszDbTendencyFormat);
-
 			// set contact list display format
-			tstring sDspNameFrmt = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbDisplayNameFormat, visitor.m_pszDefDisplayFormat);
+			tstring sDspNameFrmt = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, DB_KEY_DisplayNameFormat, DB_DEF_DisplayNameFormat);
 			::SetDlgItemText(hWnd, IDC_EDIT_CONTACT_LIST_FORMAT, sDspNameFrmt.c_str());
 
 			// set status message display format
-			tstring sStatusMsgFrmt = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbStatusMsgFormat, visitor.m_pszDefStatusMsgFormat);
+			tstring sStatusMsgFrmt = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, DB_KEY_StatusMsgFormat, DB_DEF_StatusMsgFormat);
 			::SetDlgItemText(hWnd, IDC_EDIT_STATUS_MESSAGE_FORMAT, sStatusMsgFrmt.c_str());
 
 			// set tendency format
-			tstring sTendencyFrmt = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbTendencyFormat, visitor.m_pszDefTendencyFormat);
+			tstring sTendencyFrmt = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, DB_KEY_TendencyFormat, DB_DEF_TendencyFormat);
 			::SetDlgItemText(hWnd, IDC_EDIT_TENDENCY_FORMAT, sTendencyFrmt.c_str());
+
+			// set api key
+			tstring sApiKey = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, DB_KEY_ApiKey, L"");
+			::SetDlgItemText(hWnd, IDC_EDIT_PERSONAL_KEY, sApiKey.c_str());
 
 			// refresh rate
 			HWND hwndCombo = ::GetDlgItem(hWnd, IDC_COMBO_REFRESH_RATE);
@@ -60,11 +56,11 @@ void CommonOptionDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp, CCommonDlgPr
 			for (int i = 0; i < _countof(pszRefreshRateTypes); ++i)
 				::SendMessage(hwndCombo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(pszRefreshRateTypes[i]));
 
-			int nRefreshRateType = db_get_w(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbRefreshRateType, RRT_MINUTES);
+			int nRefreshRateType = db_get_w(0, CURRENCYRATES_MODULE_NAME, DB_KEY_RefreshRateType, RRT_MINUTES);
 			if (nRefreshRateType < RRT_SECONDS || nRefreshRateType > RRT_HOURS)
 				nRefreshRateType = RRT_MINUTES;
 
-			UINT nRate = db_get_w(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbRefreshRateValue, 1);
+			UINT nRate = db_get_w(0, CURRENCYRATES_MODULE_NAME, DB_KEY_RefreshRateValue, 1);
 			switch (nRefreshRateType) {
 			default:
 			case RRT_SECONDS:
@@ -119,6 +115,7 @@ void CommonOptionDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp, CCommonDlgPr
 			case IDC_EDIT_CONTACT_LIST_FORMAT:
 			case IDC_EDIT_STATUS_MESSAGE_FORMAT:
 			case IDC_EDIT_TENDENCY_FORMAT:
+			case IDC_EDIT_PERSONAL_KEY:
 				if (reinterpret_cast<HWND>(lp) == ::GetFocus())
 					PropSheet_Changed(::GetParent(hWnd), hWnd);
 				break;
@@ -193,25 +190,21 @@ void CommonOptionDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp, CCommonDlgPr
 
 				assert(rData.m_pCurrencyRatesProvider);
 
-				CCurrencyRatesProviderVisitorDbSettings visitor;
-				rData.m_pCurrencyRatesProvider->Accept(visitor);
-				assert(visitor.m_pszDbRefreshRateType);
-				assert(visitor.m_pszDbRefreshRateValue);
-				assert(visitor.m_pszDbDisplayNameFormat);
-				assert(visitor.m_pszDbStatusMsgFormat);
-
 				rData.m_bFireSetingsChangedEvent = true;
-				db_set_w(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbRefreshRateType, nType);
-				db_set_w(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbRefreshRateValue, nRefreshRate);
+				db_set_w(0, CURRENCYRATES_MODULE_NAME, DB_KEY_RefreshRateType, nType);
+				db_set_w(0, CURRENCYRATES_MODULE_NAME, DB_KEY_RefreshRateValue, nRefreshRate);
 
 				tstring s = get_window_text(::GetDlgItem(hWnd, IDC_EDIT_CONTACT_LIST_FORMAT));
-				db_set_ws(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbDisplayNameFormat, s.c_str());
+				db_set_ws(0, CURRENCYRATES_MODULE_NAME, DB_KEY_DisplayNameFormat, s.c_str());
 
 				s = get_window_text(::GetDlgItem(hWnd, IDC_EDIT_STATUS_MESSAGE_FORMAT));
-				db_set_ws(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbStatusMsgFormat, s.c_str());
+				db_set_ws(0, CURRENCYRATES_MODULE_NAME, DB_KEY_StatusMsgFormat, s.c_str());
 
 				s = get_window_text(::GetDlgItem(hWnd, IDC_EDIT_TENDENCY_FORMAT));
-				db_set_ws(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbTendencyFormat, s.c_str());
+				db_set_ws(0, CURRENCYRATES_MODULE_NAME, DB_KEY_TendencyFormat, s.c_str());
+
+				s = get_window_text(::GetDlgItem(hWnd, IDC_EDIT_PERSONAL_KEY));
+				db_set_ws(0, CURRENCYRATES_MODULE_NAME, DB_KEY_ApiKey, s.c_str());
 
 				CAdvProviderSettings* pAdvSet = get_adv_settings(rData.m_pCurrencyRatesProvider, false);
 				if (pAdvSet)

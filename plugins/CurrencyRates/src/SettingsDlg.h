@@ -1,8 +1,6 @@
 #ifndef __E211E4D9_383C_43BE_A787_7EF1D585B90D_SettingsDlg_h__
 #define __E211E4D9_383C_43BE_A787_7EF1D585B90D_SettingsDlg_h__
 
-class ICurrencyRatesProvider;
-
 class CPopupSettings
 {
 public:
@@ -20,7 +18,7 @@ public:
 	};
 
 public:
-	CPopupSettings(const ICurrencyRatesProvider* pCurrencyRatesProvider);
+	CPopupSettings();
 
 	static COLORREF GetDefColourBk();
 	static COLORREF GetDefColourText();

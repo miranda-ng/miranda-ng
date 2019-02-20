@@ -1,13 +1,21 @@
 #include "StdAfx.h"
 
+#define ERROR_MSG LPGENW("This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail")
+
+void CALLBACK waitStub()
+{
+	if (IDYES == MessageBox(0, TranslateW(ERROR_MSG), _A2W(CURRENCYRATES_MODULE_NAME), MB_YESNOCANCEL))
+		Utils_OpenUrl("https://free.currencyconverterapi.com/free-api-key");
+}
+
 class CHTTPSession::CImpl
 {
 public:
 	CImpl() {}
 	virtual ~CImpl() {}
 
-	virtual bool OpenURL(const tstring& rsURL) = 0;
-	virtual bool ReadResponce(tstring& rsResponce)const = 0;
+	virtual bool OpenURL(const tstring &rsURL) = 0;
+	virtual bool ReadResponce(tstring &rsResponce)const = 0;
 };
 
 int find_header(const NETLIBHTTPREQUEST* pRequest, const char* hdr)
@@ -31,6 +39,10 @@ public:
 	static bool Init()
 	{
 		assert(nullptr == g_hNetLib);
+
+		ptrA szApiKey(g_plugin.getStringA(DB_KEY_ApiKey));
+		if (szApiKey == nullptr)
+			Miranda_WaitOnHandle(waitStub);
 
 		NETLIBUSER nlu = {};
 		nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_UNICODE;

@@ -138,27 +138,14 @@ CCurrencyRatesProviderBase::~CCurrencyRatesProviderBase()
 bool CCurrencyRatesProviderBase::Init()
 {
 	bool bSucceded = m_pXMLInfo != nullptr;
-	if (!m_pXMLInfo) {
-		CCurrencyRatesProviderVisitorDbSettings visitor;
-		Accept(visitor);
-		assert(visitor.m_pszXMLIniFileName);
-
-		m_pXMLInfo.reset(new CXMLFileInfo(init_xml_info(visitor.m_pszXMLIniFileName, bSucceded)));
-	}
+	if (!m_pXMLInfo)
+		m_pXMLInfo.reset(new CXMLFileInfo(init_xml_info(DB_DEF_IniFileName, bSucceded)));
 
 	return bSucceded;
 }
 
 CCurrencyRatesProviderBase::CXMLFileInfo* CCurrencyRatesProviderBase::GetXMLFileInfo()const
 {
-	// 	if(!m_pXMLInfo)
-	// 	{
-	// 		CCurrencyRatesProviderVisitorDbSettings visitor;
-	// 		Accept(visitor);
-	// 		assert(visitor.m_pszXMLIniFileName);
-	// 		m_pXMLInfo.reset(new CXMLFileInfo(init_xml_info(visitor.m_pszXMLIniFileName)));
-	// 	}
-
 	return m_pXMLInfo.get();
 }
 
@@ -599,11 +586,8 @@ void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRat
 			sLogFileName = GenerateLogFileName(sLogFileName, sSymbol);
 
 			tstring sFormat = global_settings.GetLogFormat();
-			if (bUseContactSpecific) {
-				CCurrencyRatesProviderVisitorDbSettings visitor;
-				Accept(visitor);
-				sFormat = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_LOG_FILE, visitor.m_pszDefLogFileFormat);
-			}
+			if (bUseContactSpecific)
+				sFormat = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_LOG_FILE, DB_DEF_LogFormat);
 
 			log_to_file(this, hContact, sLogFileName, sFormat);
 		}
@@ -667,19 +651,16 @@ MCONTACT CCurrencyRatesProviderBase::CreateNewContact(const tstring& rsName)
 	return hContact;
 }
 
-DWORD get_refresh_timeout_miliseconds(const CCurrencyRatesProviderVisitorDbSettings& visitor)
+DWORD get_refresh_timeout_miliseconds()
 {
 	if (!g_bAutoUpdate)
 		return INFINITE;
 
-	assert(visitor.m_pszDbRefreshRateType);
-	assert(visitor.m_pszDbRefreshRateValue);
-
-	int nRefreshRateType = db_get_w(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbRefreshRateType, RRT_MINUTES);
+	int nRefreshRateType = db_get_w(0, CURRENCYRATES_MODULE_NAME, DB_KEY_RefreshRateType, RRT_MINUTES);
 	if (nRefreshRateType < RRT_SECONDS || nRefreshRateType > RRT_HOURS)
 		nRefreshRateType = RRT_MINUTES;
 
-	DWORD nTimeout = db_get_w(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbRefreshRateValue, 1);
+	DWORD nTimeout = db_get_w(0, CURRENCYRATES_MODULE_NAME, DB_KEY_RefreshRateValue, 1);
 	switch (nRefreshRateType) {
 	default:
 	case RRT_SECONDS:
@@ -717,13 +698,10 @@ private:
 
 void CCurrencyRatesProviderBase::Run()
 {
-	CCurrencyRatesProviderVisitorDbSettings visitor;
-	Accept(visitor);
-
-	DWORD nTimeout = get_refresh_timeout_miliseconds(visitor);
-	m_sContactListFormat = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbDisplayNameFormat, visitor.m_pszDefDisplayFormat);
-	m_sStatusMsgFormat = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbStatusMsgFormat, visitor.m_pszDefStatusMsgFormat);
-	m_sTendencyFormat = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbTendencyFormat, visitor.m_pszDefTendencyFormat);
+	DWORD nTimeout = get_refresh_timeout_miliseconds();
+	m_sContactListFormat = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, DB_KEY_DisplayNameFormat, DB_DEF_DisplayNameFormat);
+	m_sStatusMsgFormat = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, DB_KEY_StatusMsgFormat, DB_DEF_StatusMsgFormat);
+	m_sTendencyFormat = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, DB_KEY_TendencyFormat, DB_DEF_TendencyFormat);
 
 	enum
 	{
@@ -772,10 +750,10 @@ void CCurrencyRatesProviderBase::Run()
 			break;
 
 		case WAIT_OBJECT_0 + SETTINGS_CHANGED:
-			nTimeout = get_refresh_timeout_miliseconds(visitor);
-			m_sContactListFormat = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbDisplayNameFormat, visitor.m_pszDefDisplayFormat);
-			m_sStatusMsgFormat = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbStatusMsgFormat, visitor.m_pszDefStatusMsgFormat);
-			m_sTendencyFormat = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbTendencyFormat, visitor.m_pszDefTendencyFormat);
+			nTimeout = get_refresh_timeout_miliseconds();
+			m_sContactListFormat = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, DB_KEY_DisplayNameFormat, DB_DEF_DisplayNameFormat);
+			m_sStatusMsgFormat = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, DB_KEY_StatusMsgFormat, DB_DEF_StatusMsgFormat);
+			m_sTendencyFormat = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, DB_KEY_TendencyFormat, DB_DEF_TendencyFormat);
 			{
 				mir_cslock lck(m_cs);
 				anContacts = m_aContacts;
@@ -802,7 +780,7 @@ void CCurrencyRatesProviderBase::Run()
 			break;
 
 		case WAIT_TIMEOUT:
-			nTimeout = get_refresh_timeout_miliseconds(visitor);
+			nTimeout = get_refresh_timeout_miliseconds();
 			{
 				mir_cslock lck(m_cs);
 				anContacts = m_aContacts;

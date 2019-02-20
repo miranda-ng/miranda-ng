@@ -78,7 +78,7 @@ public:
 	virtual void AddContact(MCONTACT hContact);
 	virtual void DeleteContact(MCONTACT hContact);
 	virtual void Run();
-	virtual void Accept(CCurrencyRatesProviderVisitor& visitor)const;
+	virtual void Accept(CCurrencyRatesProviderVisitor& visitor) const;
 	virtual void RefreshAllContacts();
 	virtual void RefreshSettings();
 	virtual void RefreshContact(MCONTACT hContact);

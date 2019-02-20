@@ -6,7 +6,10 @@
 tstring build_url(const tstring &rsURL, const tstring &from, const tstring &to)
 {
 	tostringstream o;
-	o << rsURL << L"?q=" << from << L"_" << to << "&compact=ultra&apiKey=" << API_KEY;
+	o << rsURL << L"?q=" << from << L"_" << to << "&compact=ultra";
+	ptrA szApiKey(g_plugin.getStringA(DB_KEY_ApiKey));
+	if (szApiKey != nullptr)
+		o << "&apiKey=" << szApiKey.get();
 	return o.str();
 }
 
@@ -50,9 +53,8 @@ INT_PTR CALLBACK OptDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lPara
 		const auto& rapCurrencyRatesProviders = pProviders->GetProviders();
 		for (auto i = rapCurrencyRatesProviders.begin(); i != rapCurrencyRatesProviders.end(); ++i) {
 			const auto& pProvider = *i;
-			if (auto p = dynamic_cast<CCurrencyRatesProviderCurrencyConverter*>(pProvider.get())) {
+			if (auto p = dynamic_cast<CCurrencyRatesProviderCurrencyConverter*>(pProvider.get()))
 				return p;
-			}
 		}
 
 		assert(!"We should never get here!");

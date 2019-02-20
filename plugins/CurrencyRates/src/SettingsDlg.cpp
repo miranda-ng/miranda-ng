@@ -345,9 +345,7 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 			if (BN_CLICKED == HIWORD(wp)) {
 				CSettingWindowParam* pParam = get_param(hWnd);
 				if (!pParam->m_pPopupSettings) {
-					CCurrencyRatesProviders::TCurrencyRatesProviderPtr pProvider = CModuleInfo::GetCurrencyRateProvidersPtr()->GetContactProviderPtr(pParam->m_hContact);
-
-					pParam->m_pPopupSettings = new CPopupSettings(pProvider.get());
+					pParam->m_pPopupSettings = new CPopupSettings();
 					pParam->m_pPopupSettings->InitForContact(pParam->m_hContact);
 				}
 
@@ -644,23 +642,11 @@ CAdvProviderSettings::CAdvProviderSettings(const ICurrencyRatesProvider* pCurren
 {
 	assert(m_pCurrencyRatesProvider);
 
-	CCurrencyRatesProviderVisitorDbSettings visitor;
-	m_pCurrencyRatesProvider->Accept(visitor);
+	m_wLogMode = db_get_w(0, CURRENCYRATES_MODULE_NAME, DB_KEY_LogMode, static_cast<WORD>(lmDisabled));
+	m_sFormatHistory = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, DB_KEY_HistoryFormat, DB_DEF_HistoryFormat);
+	m_bIsOnlyChangedHistory = 1 == db_get_b(0, CURRENCYRATES_MODULE_NAME, DB_KEY_HistoryCondition, 0);
 
-	assert(visitor.m_pszDefLogFileFormat);
-	assert(visitor.m_pszDefHistoryFormat);
-	assert(visitor.m_pszDbLogMode);
-	assert(visitor.m_pszDbHistoryFormat);
-	assert(visitor.m_pszDbHistoryCondition);
-	assert(visitor.m_pszDbLogFile);
-	assert(visitor.m_pszDbLogFormat);
-	assert(visitor.m_pszDbLogCondition);
-
-	m_wLogMode = db_get_w(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbLogMode, static_cast<WORD>(lmDisabled));
-	m_sFormatHistory = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbHistoryFormat, visitor.m_pszDefHistoryFormat);
-	m_bIsOnlyChangedHistory = 1 == db_get_b(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbHistoryCondition, 0);
-
-	m_sLogFileName = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbLogFile);
+	m_sLogFileName = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, DB_KEY_LogFile);
 	if (true == m_sLogFileName.empty()) {
 		m_sLogFileName = g_pszVariableUserProfile;
 		m_sLogFileName += L"\\CurrencyRates\\";
@@ -668,11 +654,11 @@ CAdvProviderSettings::CAdvProviderSettings(const ICurrencyRatesProvider* pCurren
 		m_sLogFileName += L".log";
 	}
 
-	m_sFormatLogFile = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbLogFormat, visitor.m_pszDefLogFileFormat);
-	m_bIsOnlyChangedLogFile = (1 == db_get_b(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbLogCondition, 0));
+	m_sFormatLogFile = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, DB_KEY_LogFormat, DB_DEF_LogFormat);
+	m_bIsOnlyChangedLogFile = (1 == db_get_b(0, CURRENCYRATES_MODULE_NAME, DB_KEY_LogCondition, 0));
 
-	m_sPopupFormat = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupFormat, visitor.m_pszDefPopupFormat);
-	m_bShowPopupIfValueChanged = (1 == db_get_b(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupCondition, 0));
+	m_sPopupFormat = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupFormat, DB_DEF_PopupFormat);
+	m_bShowPopupIfValueChanged = (1 == db_get_b(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupCondition, 0));
 }
 
 CAdvProviderSettings::~CAdvProviderSettings()
@@ -687,38 +673,22 @@ const ICurrencyRatesProvider* CAdvProviderSettings::GetProviderPtr()const
 
 void CAdvProviderSettings::SaveToDb()const
 {
-	CCurrencyRatesProviderVisitorDbSettings visitor;
-	m_pCurrencyRatesProvider->Accept(visitor);
-
-	assert(visitor.m_pszDbLogMode);
-	assert(visitor.m_pszDbHistoryFormat);
-	assert(visitor.m_pszDbHistoryCondition);
-	assert(visitor.m_pszDbLogFile);
-	assert(visitor.m_pszDbLogFormat);
-	assert(visitor.m_pszDbLogCondition);
-	assert(visitor.m_pszDbPopupColourMode);
-	assert(visitor.m_pszDbPopupBkColour);
-	assert(visitor.m_pszDbPopupTextColour);
-	assert(visitor.m_pszDbPopupDelayMode);
-	assert(visitor.m_pszDbPopupDelayTimeout);
-	assert(visitor.m_pszDbPopupHistoryFlag);
-
-	db_set_w(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbLogMode, m_wLogMode);
-	db_set_ws(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbHistoryFormat, m_sFormatHistory.c_str());
-	db_set_b(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbHistoryCondition, m_bIsOnlyChangedHistory);
-	db_set_ws(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbLogFile, m_sLogFileName.c_str());
-	db_set_ws(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbLogFormat, m_sFormatLogFile.c_str());
-	db_set_b(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbLogCondition, m_bIsOnlyChangedLogFile);
-	db_set_ws(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupFormat, m_sPopupFormat.c_str());
-	db_set_b(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupCondition, m_bShowPopupIfValueChanged);
+	db_set_w(0, CURRENCYRATES_MODULE_NAME, DB_KEY_LogMode, m_wLogMode);
+	db_set_ws(0, CURRENCYRATES_MODULE_NAME, DB_KEY_HistoryFormat, m_sFormatHistory.c_str());
+	db_set_b(0, CURRENCYRATES_MODULE_NAME, DB_KEY_HistoryCondition, m_bIsOnlyChangedHistory);
+	db_set_ws(0, CURRENCYRATES_MODULE_NAME, DB_KEY_LogFile, m_sLogFileName.c_str());
+	db_set_ws(0, CURRENCYRATES_MODULE_NAME, DB_KEY_LogFormat, m_sFormatLogFile.c_str());
+	db_set_b(0, CURRENCYRATES_MODULE_NAME, DB_KEY_LogCondition, m_bIsOnlyChangedLogFile);
+	db_set_ws(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupFormat, m_sPopupFormat.c_str());
+	db_set_b(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupCondition, m_bShowPopupIfValueChanged);
 
 	if (nullptr != m_pPopupSettings) {
-		db_set_b(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupColourMode, static_cast<BYTE>(m_pPopupSettings->GetColourMode()));
-		db_set_dw(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupBkColour, m_pPopupSettings->GetColourBk());
-		db_set_dw(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupTextColour, m_pPopupSettings->GetColourText());
-		db_set_b(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupDelayMode, static_cast<BYTE>(m_pPopupSettings->GetDelayMode()));
-		db_set_w(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupDelayTimeout, m_pPopupSettings->GetDelayTimeout());
-		db_set_b(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupHistoryFlag, m_pPopupSettings->GetHistoryFlag());
+		db_set_b(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupColourMode, static_cast<BYTE>(m_pPopupSettings->GetColourMode()));
+		db_set_dw(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupBkColour, m_pPopupSettings->GetColourBk());
+		db_set_dw(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupTextColour, m_pPopupSettings->GetColourText());
+		db_set_b(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupDelayMode, static_cast<BYTE>(m_pPopupSettings->GetDelayMode()));
+		db_set_w(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupDelayTimeout, m_pPopupSettings->GetDelayTimeout());
+		db_set_b(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupHistoryFlag, m_pPopupSettings->GetHistoryFlag());
 	}
 }
 
@@ -805,13 +775,16 @@ void CAdvProviderSettings::SetShowPopupIfValueChangedFlag(bool val)
 CPopupSettings* CAdvProviderSettings::GetPopupSettingsPtr()const
 {
 	if (nullptr == m_pPopupSettings)
-		m_pPopupSettings = new CPopupSettings(m_pCurrencyRatesProvider);
+		m_pPopupSettings = new CPopupSettings();
 
 	return m_pPopupSettings;
 }
 
-CPopupSettings::CPopupSettings(const ICurrencyRatesProvider* pCurrencyRatesProvider)
-	: m_modeColour(colourDefault),
+/////////////////////////////////////////////////////////////////////////////////////////
+// class CPopupSettings
+
+CPopupSettings::CPopupSettings() :
+	m_modeColour(colourDefault),
 	m_modeDelay(delayFromPopup),
 	m_rgbBkg(GetDefColourBk()),
 	m_rgbText(GetDefColourText()),
@@ -819,29 +792,19 @@ CPopupSettings::CPopupSettings(const ICurrencyRatesProvider* pCurrencyRatesProvi
 	m_bUseHistory(false)
 
 {
-	CCurrencyRatesProviderVisitorDbSettings visitor;
-	pCurrencyRatesProvider->Accept(visitor);
-
-	assert(visitor.m_pszDbPopupColourMode);
-	assert(visitor.m_pszDbPopupBkColour);
-	assert(visitor.m_pszDbPopupTextColour);
-	assert(visitor.m_pszDbPopupDelayMode);
-	assert(visitor.m_pszDbPopupDelayTimeout);
-	assert(visitor.m_pszDbPopupHistoryFlag);
-
-	BYTE m = db_get_b(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupColourMode, static_cast<BYTE>(m_modeColour));
+	BYTE m = db_get_b(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupColourMode, static_cast<BYTE>(m_modeColour));
 	if (m >= colourDefault && m <= colourUserDefined)
 		m_modeColour = static_cast<EColourMode>(m);
 
-	m_rgbBkg = db_get_dw(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupBkColour, m_rgbBkg);
-	m_rgbText = db_get_dw(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupTextColour, m_rgbText);
+	m_rgbBkg = db_get_dw(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupBkColour, m_rgbBkg);
+	m_rgbText = db_get_dw(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupTextColour, m_rgbText);
 
-	m = db_get_b(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupDelayMode, static_cast<BYTE>(m_modeDelay));
+	m = db_get_b(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupDelayMode, static_cast<BYTE>(m_modeDelay));
 	if (m >= delayFromPopup && m <= delayPermanent) {
 		m_modeDelay = static_cast<EDelayMode>(m);
 	}
-	m_wDelay = db_get_w(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupDelayTimeout, m_wDelay);
-	m_bUseHistory = (1 == db_get_b(0, CURRENCYRATES_MODULE_NAME, visitor.m_pszDbPopupHistoryFlag, m_bUseHistory));
+	m_wDelay = db_get_w(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupDelayTimeout, m_wDelay);
+	m_bUseHistory = (1 == db_get_b(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupHistoryFlag, m_bUseHistory));
 }
 
 /*static */

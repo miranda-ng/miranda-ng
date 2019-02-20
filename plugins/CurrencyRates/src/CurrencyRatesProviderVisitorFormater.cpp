@@ -12,7 +12,7 @@ CCurrencyRatesProviderVisitorFormater::~CCurrencyRatesProviderVisitorFormater()
 {
 }
 
-const tstring& CCurrencyRatesProviderVisitorFormater::GetResult()const
+const tstring& CCurrencyRatesProviderVisitorFormater::GetResult() const
 {
 	return m_sResult;
 }
