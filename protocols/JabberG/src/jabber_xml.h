@@ -85,7 +85,7 @@ struct XATTR
 
 __forceinline TiXmlElement *operator<<(TiXmlElement *node, const XATTR& attr)
 {
-	node->SetAttribute(attr.name, attr.value);
+	XmlAddAttr(node, attr.name, attr.value);
 	return node;
 }
 

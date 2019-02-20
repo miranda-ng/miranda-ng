@@ -2056,7 +2056,7 @@ int ThreadData::send(char* buf, int bufsize)
 // Caution: DO NOT use ->send() to send binary (non-string) data
 int ThreadData::send(TiXmlElement *node)
 {
-	if (this == nullptr)
+	if (this == nullptr || node == nullptr)
 		return 0;
 
 	while (auto *parent = node->Parent()) {
