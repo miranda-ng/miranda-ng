@@ -90,7 +90,8 @@ XmlNode::XmlNode(const char *pszName)
 XmlNode::XmlNode(const char *pszName, const char *ptszText)
 {
 	m_hXml = NewElement(pszName); InsertEndChild(m_hXml);
-	m_hXml->SetText(ptszText);
+	if (ptszText)
+		m_hXml->SetText(ptszText);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
