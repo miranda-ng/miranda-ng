@@ -158,8 +158,8 @@ void CJabberProto::GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t
 		mir_snwprintf(pszDest + tPathLen, MAX_PATH - tPathLen, L"%S%s", JabberSha1(str, buf), szFileType);
 	}
 	else if (m_ThreadInfo != nullptr) {
-		mir_snwprintf(pszDest + tPathLen, MAX_PATH - tPathLen, L"%s@%S avatar%s",
-			m_ThreadInfo->conn.username, m_ThreadInfo->conn.server, szFileType);
+		mir_snwprintf(pszDest + tPathLen, MAX_PATH - tPathLen, L"%s@%s avatar%s",
+			Utf2T(m_ThreadInfo->conn.username).get(), Utf2T(m_ThreadInfo->conn.server).get(), szFileType);
 	}
 	else {
 		ptrA res1(getStringA("LoginName")), res2(getStringA("LoginServer"));

@@ -293,7 +293,7 @@ LBL_FatalError:
 		}
 
 		char jidStr[512];
-		mir_snprintf(jidStr, "%s@%S/%s", info.conn.username, info.conn.server, info.resource);
+		mir_snprintf(jidStr, "%s@%s/%s", info.conn.username, info.conn.server, info.resource);
 		strncpy_s(info.fullJID, jidStr, _TRUNCATE);
 
 		if (m_bUseDomainLogin) // in the case of NTLM auth we have no need in password
@@ -302,7 +302,7 @@ LBL_FatalError:
 			if (m_savedPassword != nullptr)
 				strncpy_s(info.conn.password, T2Utf(m_savedPassword), _TRUNCATE);
 			else {
-				mir_snprintf(jidStr, "%s@%S", info.conn.username, info.conn.server);
+				mir_snprintf(jidStr, "%s@%s", info.conn.username, info.conn.server);
 
 				JabberPasswordDlgParam param;
 				param.pro = this;
@@ -395,7 +395,7 @@ LBL_FatalError:
 	// User may change status to OFFLINE while we are connecting above
 	if (m_iDesiredStatus != ID_STATUS_OFFLINE || info.bIsReg) {
 		if (!info.bIsReg) {
-			m_szJabberJID = CMStringA(FORMAT, "%s@%S", info.conn.username, info.conn.server).Detach();
+			m_szJabberJID = CMStringA(FORMAT, "%s@%s", info.conn.username, info.conn.server).Detach();
 			m_bSendKeepAlive = m_bKeepAlive != 0;
 			setUString("jid", m_szJabberJID); // store jid in database
 
@@ -663,9 +663,10 @@ void CJabberProto::PerformAuthentication(ThreadData *info)
 			return;
 		}
 
-		wchar_t text[1024];
-		mir_snwprintf(text, TranslateT("Authentication failed for %s@%S."), info->conn.username, info->conn.server);
-		MsgPopup(0, text, TranslateT("Jabber Authentication"));
+		char text[1024];
+		mir_snprintf(text, TranslateU("Authentication failed for %s@%s."), info->conn.username, info->conn.server);
+		MsgPopup(0, Utf2T(text), TranslateT("Jabber Authentication"));
+	
 		JLoginFailed(LOGINERR_WRONGPASSWORD);
 		info->send("</stream:stream>");
 		m_ThreadInfo = nullptr;
@@ -1629,7 +1630,7 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 		if (strchr(from, '@') == nullptr) {
 			UI_SAFE_NOTIFY(m_pDlgServiceDiscovery, WM_JABBER_TRANSPORT_REFRESH);
 		}
-		debugLogA("%s (%s) online, set contact status to %S", nick, from, Clist_GetStatusModeDescription(status, 0));
+		debugLogA("%s (%s) online, set contact status to %s", nick, from, T2Utf(Clist_GetStatusModeDescription(status, 0)));
 
 		if (m_bEnableAvatars) {
 			bool bHasAvatar = false, bRemovedAvatar = false;
@@ -1896,7 +1897,7 @@ void CJabberProto::SetRegConfig(TiXmlElement *node, void *from)
 		iqIdRegSetReg = SerialNext();
 
 		char text[MAX_PATH];
-		mir_snprintf(text, "%s@%S", g_pRegInfo->conn.username, g_pRegInfo->conn.server);
+		mir_snprintf(text, "%s@%s", g_pRegInfo->conn.username, g_pRegInfo->conn.server);
 		XmlNodeIq iq("set", iqIdRegSetReg, (const char*)from);
 		iq << XATTR("from", text);
 		TiXmlElement *query = iq << XQUERY(JABBER_FEAT_REGISTER);

@@ -44,9 +44,9 @@ public:
 		Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_KEYS));
 
 		if (m_proto->m_bJabberOnline && m_proto->m_ThreadInfo != nullptr) {
-			wchar_t text[1024];
-			mir_snwprintf(text, TranslateT("Set New Password for %s@%S"), m_proto->m_ThreadInfo->conn.username, m_proto->m_ThreadInfo->conn.server);
-			SetCaption(text);
+			char text[1024];
+			mir_snprintf(text, TranslateU("Set New Password for %s@%s"), m_proto->m_ThreadInfo->conn.username, m_proto->m_ThreadInfo->conn.server);
+			SetWindowTextUtf(m_hwnd, text);
 		}
 		return true;
 	}

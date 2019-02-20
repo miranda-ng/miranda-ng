@@ -176,7 +176,7 @@ void CJabberProto::OnIqResultCapsDiscoInfo(const TiXmlElement*, CJabberIqInfo *p
 					root.push_back(JSONNode("sm", pCaps->m_szSoftMir.get()));
 				root.push_back(JSONNode("c", CMStringA(FORMAT, "%lld", jcbCaps)));
 
-				CMStringA szName(FORMAT, "%S#%S", pCaps->GetNode(), pCaps->GetHash());
+				CMStringA szName(FORMAT, "%s#%s", pCaps->GetNode(), pCaps->GetHash());
 				json_string szValue = root.write();
 				db_set_s(0, "JabberCaps", szName, szValue.c_str());
 			}
