@@ -7,7 +7,7 @@ public:
 	CCurrencyRatesProviderVisitorFormater(MCONTACT hContact, wchar_t chr, int nWidth);
 	~CCurrencyRatesProviderVisitorFormater();
 
-	const tstring& GetResult()const;
+	const tstring& GetResult() const;
 
 private:
 	virtual void Visit(const CCurrencyRatesProviderBase& rProvider) override;

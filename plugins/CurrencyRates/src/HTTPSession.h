@@ -10,7 +10,7 @@ public:
 	static bool Init();
 
 	bool OpenURL(const tstring& rsURL);
-	bool ReadResponce(tstring& rsResponce)const;
+	bool ReadResponce(tstring& rsResponce) const;
 
 
 public:

@@ -3,11 +3,11 @@
 extern bool g_bAutoUpdate;
 extern HANDLE g_hEventWorkThreadStop;
 
-struct CCurrencyRatesProviderBase::CXMLFileInfo
+struct CXMLFileInfo
 {
 	CXMLFileInfo() : m_qs(L"Unknown") {}
 	ICurrencyRatesProvider::CProviderInfo m_pi;
-	CCurrencyRatesProviderBase::CCurrencyRateSection m_qs;
+	CCurrencyRateSection m_qs;
 	tstring m_sURL;
 };
 
@@ -16,7 +16,7 @@ inline tstring get_ini_file_name(LPCTSTR pszFileName)
 	return CreateFilePath(pszFileName);
 }
 
-bool parse_currencyrate(const TiXmlNode *pTop, CCurrencyRatesProviderBase::CCurrencyRate &q)
+bool parse_currencyrate(const TiXmlNode *pTop, CCurrencyRate &q)
 {
 	tstring sSymbol, sDescription, sID;
 
@@ -37,25 +37,25 @@ bool parse_currencyrate(const TiXmlNode *pTop, CCurrencyRatesProviderBase::CCurr
 		}
 	}
 
-	q = CCurrencyRatesProviderBase::CCurrencyRate(sID, TranslateW(sSymbol.c_str()), TranslateW(sDescription.c_str()));
+	q = CCurrencyRate(sID, TranslateW(sSymbol.c_str()), TranslateW(sDescription.c_str()));
 	return true;
 }
 
-bool parse_section(const TiXmlNode *pTop, CCurrencyRatesProviderBase::CCurrencyRateSection &qs)
+bool parse_section(const TiXmlNode *pTop, CCurrencyRateSection &qs)
 {
-	CCurrencyRatesProviderBase::CCurrencyRateSection::TSections aSections;
-	CCurrencyRatesProviderBase::CCurrencyRateSection::TCurrencyRates aCurrencyRates;
+	CCurrencyRateSection::TSections aSections;
+	CCurrencyRateSection::TCurrencyRates aCurrencyRates;
 	tstring sSectionName;
 
 	for (auto *pNode : TiXmlEnum(pTop)) {
 		const char *sName = pNode->Value();
 		if (!mir_strcmpi(sName, "section")) {
-			CCurrencyRatesProviderBase::CCurrencyRateSection qs1;
+			CCurrencyRateSection qs1;
 			if (true == parse_section(pNode, qs1))
 				aSections.push_back(qs1);
 		}
 		else if (!mir_strcmpi(sName, "currencyrate")) {
-			CCurrencyRatesProviderBase::CCurrencyRate q;
+			CCurrencyRate q;
 			if (true == parse_currencyrate(pNode, q))
 				aCurrencyRates.push_back(q);
 		}
@@ -66,7 +66,7 @@ bool parse_section(const TiXmlNode *pTop, CCurrencyRatesProviderBase::CCurrencyR
 		}
 	}
 
-	qs = CCurrencyRatesProviderBase::CCurrencyRateSection(TranslateW(sSectionName.c_str()), aSections, aCurrencyRates);
+	qs = CCurrencyRateSection(TranslateW(sSectionName.c_str()), aSections, aCurrencyRates);
 	return true;
 }
 
@@ -84,10 +84,10 @@ const TiXmlNode* find_provider(const TiXmlNode *pRoot)
 	return nullptr;
 }
 
-CCurrencyRatesProviderBase::CXMLFileInfo parse_ini_file(const tstring &rsXMLFile, bool &rbSucceded)
+CXMLFileInfo parse_ini_file(const tstring &rsXMLFile, bool &rbSucceded)
 {
-	CCurrencyRatesProviderBase::CXMLFileInfo res;
-	CCurrencyRatesProviderBase::CCurrencyRateSection::TSections aSections;
+	CXMLFileInfo res;
+	CCurrencyRateSection::TSections aSections;
 
 	TiXmlDocument doc;
 	if (doc.LoadFile(_T2A(rsXMLFile.c_str())) == tinyxml2::XML_SUCCESS) {
@@ -97,7 +97,7 @@ CCurrencyRatesProviderBase::CXMLFileInfo parse_ini_file(const tstring &rsXMLFile
 			for (auto *pNode : TiXmlEnum(pProvider)) {
 				const char *sName = pNode->Value();
 				if (!mir_strcmpi(sName, "section")) {
-					CCurrencyRatesProviderBase::CCurrencyRateSection qs;
+					CCurrencyRateSection qs;
 					if (parse_section(pNode, qs))
 						aSections.push_back(qs);
 				}
@@ -111,11 +111,11 @@ CCurrencyRatesProviderBase::CXMLFileInfo parse_ini_file(const tstring &rsXMLFile
 		}
 	}
 
-	res.m_qs = CCurrencyRatesProviderBase::CCurrencyRateSection(res.m_pi.m_sName, aSections);
+	res.m_qs = CCurrencyRateSection(res.m_pi.m_sName, aSections);
 	return res;
 }
 
-CCurrencyRatesProviderBase::CXMLFileInfo init_xml_info(LPCTSTR pszFileName, bool& rbSucceded)
+CXMLFileInfo init_xml_info(LPCTSTR pszFileName, bool& rbSucceded)
 {
 	rbSucceded = false;
 	tstring sIniFile = get_ini_file_name(pszFileName);
@@ -144,22 +144,22 @@ bool CCurrencyRatesProviderBase::Init()
 	return bSucceded;
 }
 
-CCurrencyRatesProviderBase::CXMLFileInfo* CCurrencyRatesProviderBase::GetXMLFileInfo()const
+CXMLFileInfo* CCurrencyRatesProviderBase::GetXMLFileInfo() const
 {
 	return m_pXMLInfo.get();
 }
 
-const CCurrencyRatesProviderBase::CProviderInfo& CCurrencyRatesProviderBase::GetInfo()const
+const CCurrencyRatesProviderBase::CProviderInfo& CCurrencyRatesProviderBase::GetInfo() const
 {
 	return GetXMLFileInfo()->m_pi;
 }
 
-const CCurrencyRatesProviderBase::CCurrencyRateSection& CCurrencyRatesProviderBase::GetCurrencyRates()const
+const CCurrencyRateSection& CCurrencyRatesProviderBase::GetCurrencyRates() const
 {
 	return GetXMLFileInfo()->m_qs;
 }
 
-const tstring& CCurrencyRatesProviderBase::GetURL()const
+const tstring& CCurrencyRatesProviderBase::GetURL() const
 {
 	return GetXMLFileInfo()->m_sURL;
 }
@@ -181,7 +181,7 @@ void CCurrencyRatesProviderBase::DeleteContact(MCONTACT hContact)
 {
 	mir_cslock lck(m_cs);
 
-	TContracts::iterator i = std::find(m_aContacts.begin(), m_aContacts.end(), hContact);
+	TContacts::iterator i = std::find(m_aContacts.begin(), m_aContacts.end(), hContact);
 	if (i != m_aContacts.end())
 		m_aContacts.erase(i);
 }
@@ -294,9 +294,9 @@ public:
 		return (bValid && IsValid());
 	}
 
-	bool IsValid()const { return (m_abValueFlags[0] && m_abValueFlags[1] && (m_nComparison != NonValid)); }
+	bool IsValid() const { return (m_abValueFlags[0] && m_abValueFlags[1] && (m_nComparison != NonValid)); }
 
-	EResult Compare()const
+	EResult Compare() const
 	{
 		switch (m_nComparison) {
 		case Greater:
@@ -716,7 +716,7 @@ void CCurrencyRatesProviderBase::Run()
 	anEvents[SETTINGS_CHANGED] = m_hEventSettingsChanged;
 	anEvents[REFRESH_CONTACT] = m_hEventRefreshContact;
 
-	TContracts anContacts;
+	TContacts anContacts;
 	{
 		mir_cslock lck(m_cs);
 		anContacts = m_aContacts;
@@ -801,7 +801,7 @@ void CCurrencyRatesProviderBase::Run()
 
 void CCurrencyRatesProviderBase::OnEndRun()
 {
-	TContracts anContacts;
+	TContacts anContacts;
 	{
 		mir_cslock lck(m_cs);
 		anContacts = m_aContacts;
@@ -813,7 +813,7 @@ void CCurrencyRatesProviderBase::OnEndRun()
 		SetContactStatus(it, ID_STATUS_OFFLINE);
 }
 
-void CCurrencyRatesProviderBase::Accept(CCurrencyRatesProviderVisitor &visitor)const
+void CCurrencyRatesProviderBase::Accept(CCurrencyRatesProviderVisitor &visitor) const
 {
 	visitor.Visit(*this);
 }
@@ -841,4 +841,17 @@ void CCurrencyRatesProviderBase::RefreshContact(MCONTACT hContact)
 	}
 
 	::SetEvent(m_hEventRefreshContact);
+}
+
+void CCurrencyRatesProviderBase::FillFormat(TFormatSpecificators &array) const
+{
+	array.push_back(CFormatSpecificator(L"%S", TranslateT("Source of Information")));
+	array.push_back(CFormatSpecificator(L"%r", TranslateT("Rate Value")));
+	array.push_back(CFormatSpecificator(L"%p", TranslateT("Previous Rate Value")));
+	array.push_back(CFormatSpecificator(L"%X", TranslateT("Fetch Time")));
+	array.push_back(CFormatSpecificator(L"%x", TranslateT("Fetch Date")));
+	array.push_back(CFormatSpecificator(L"%t", TranslateT("Fetch Time and Date")));
+	array.push_back(CFormatSpecificator(L"\\%", TranslateT("Percentage Character (%)")));
+	array.push_back(CFormatSpecificator(L"\\t", TranslateT("Tabulation")));
+	array.push_back(CFormatSpecificator(L"\\\\", TranslateT("Left slash (\\)")));
 }

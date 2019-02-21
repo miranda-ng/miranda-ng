@@ -7,23 +7,18 @@
 #define DB_STR_CC_CURRENCYRATE_TO_ID "CurrencyConverter_ToID"
 #define DB_STR_CC_AMOUNT "CurrencyConverter_Amount"
 
-static CCurrencyRatesProviderCurrencyConverter* get_currency_converter_provider()
+static CCurrencyRatesProviderCurrencyConverter *get_currency_converter_provider()
 {
 	CModuleInfo::TCurrencyRatesProvidersPtr pProviders = CModuleInfo::GetCurrencyRateProvidersPtr();
-	const CCurrencyRatesProviders::TCurrencyRatesProviders& rapCurrencyRatesProviders = pProviders->GetProviders();
-	for (CCurrencyRatesProviders::TCurrencyRatesProviders::const_iterator i = rapCurrencyRatesProviders.begin(); i != rapCurrencyRatesProviders.end(); ++i) {
-		const CCurrencyRatesProviders::TCurrencyRatesProviderPtr& pProvider = *i;
-		if (auto p = dynamic_cast<CCurrencyRatesProviderCurrencyConverter*>(pProvider.get()))
-		{
+	for (auto &it : pProviders->GetProviders())
+		if (auto p = dynamic_cast<CCurrencyRatesProviderCurrencyConverter*>(it.get()))
 			return p;
-		}
-	}
 
 	assert(!"We should never get here!");
 	return nullptr;
 }
 
-CCurrencyRatesProviderBase::CCurrencyRateSection get_currencyrates(const CCurrencyRatesProviderCurrencyConverter* pProvider = nullptr)
+CCurrencyRateSection get_currencyrates(const CCurrencyRatesProviderCurrencyConverter* pProvider = nullptr)
 {
 	if (nullptr == pProvider)
 		pProvider = get_currency_converter_provider();
@@ -34,12 +29,12 @@ CCurrencyRatesProviderBase::CCurrencyRateSection get_currencyrates(const CCurren
 			return rCurrencyRates.GetSection(0);
 	}
 
-	return CCurrencyRatesProviderBase::CCurrencyRateSection();
+	return CCurrencyRateSection();
 }
 
-inline tstring make_currencyrate_name(const CCurrencyRatesProviderBase::CCurrencyRate& rCurrencyRate)
+inline tstring make_currencyrate_name(const CCurrencyRate &rCurrencyRate)
 {
-	const tstring& rsDesc = rCurrencyRate.GetName();
+	const tstring &rsDesc = rCurrencyRate.GetName();
 	return((false == rsDesc.empty()) ? rsDesc : rCurrencyRate.GetSymbol());
 }
 

@@ -17,14 +17,14 @@ public:
 	IHTMLNode() {}
 	virtual ~IHTMLNode() {}
 
-	virtual size_t GetChildCount()const = 0;
+	virtual size_t GetChildCount() const = 0;
 	virtual THTMLNodePtr GetChildPtr(size_t nIndex) = 0;
-	virtual bool Is(EType nType)const = 0;
+	virtual bool Is(EType nType) const = 0;
 
-	virtual THTMLNodePtr GetElementByID(const tstring& rsID)const = 0;
+	virtual THTMLNodePtr GetElementByID(const tstring& rsID) const = 0;
 
-	virtual tstring GetAttribute(const tstring& rsAttrName)const = 0;
-	virtual tstring GetText()const = 0;
+	virtual tstring GetAttribute(const tstring& rsAttrName) const = 0;
+	virtual tstring GetText() const = 0;
 };
 
 class IHTMLParser

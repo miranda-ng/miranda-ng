@@ -14,12 +14,12 @@ public:
 
 	bool OnInitDialog() override
 	{
-		CCurrencyRatesProviderVisitorFormatSpecificator visitor;
-		m_pProvider->Accept(visitor);
+		TFormatSpecificators aSpecificators;
+		m_pProvider->FillFormat(aSpecificators);
 
 		tostringstream o;
-		for (auto &spec : visitor.GetSpecificators())
-			o << spec.m_sSymbol << '\t' << spec.m_sDesc << L"\r\n";
+		for (auto &spec : aSpecificators)
+			o << spec.first << '\t' << spec.second << L"\r\n";
 		::SetDlgItemText(m_hwnd, IDC_EDIT_VARIABLE, o.str().c_str());
 		return true;
 	}

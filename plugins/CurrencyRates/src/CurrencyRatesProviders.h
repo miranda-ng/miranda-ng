@@ -13,9 +13,9 @@ public:
 	CCurrencyRatesProviders();
 	~CCurrencyRatesProviders();
 
-	TCurrencyRatesProviderPtr FindProvider(const tstring& rsName)const;
-	TCurrencyRatesProviderPtr GetContactProviderPtr(MCONTACT hContact)const;
-	const TCurrencyRatesProviders& GetProviders()const;
+	TCurrencyRatesProviderPtr FindProvider(const tstring& rsName) const;
+	TCurrencyRatesProviderPtr GetContactProviderPtr(MCONTACT hContact) const;
+	const TCurrencyRatesProviders& GetProviders() const;
 
 private:
 	void InitProviders();

@@ -74,7 +74,7 @@ public:
 		m_rect.bottom = y + cy;
 	}
 
-	void Draw(HDC hdc)const
+	void Draw(HDC hdc) const
 	{
 		RECT rc = m_rect;
 		DrawBackground(hdc, rc);
@@ -101,14 +101,14 @@ public:
 	}
 
 private:
-	void DrawBackground(HDC hdc, RECT& rc)const
+	void DrawBackground(HDC hdc, RECT& rc) const
 	{
 		// 		HBRUSH hBrush = ::CreateSolidBrush(RGB(255,0,0));//user preferable background color here!
 		// 		::FillRect(hdc,&m_rect,hBrush);
 		// 		::DeleteBrush(hBrush);
 	}
 
-	void DrawGrid(HDC hdc, RECT& rc)const
+	void DrawGrid(HDC hdc, RECT& rc) const
 	{
 		enum{ number_of_lines = 5 };
 		HPEN hPen = ::CreatePen(PS_SOLID, 1, RGB(125, 125, 125));
@@ -204,7 +204,7 @@ private:
 		assert(TRUE == bResult);
 	}
 
-	void DrawAxis(HDC hdc, RECT& rc)const
+	void DrawAxis(HDC hdc, RECT& rc) const
 	{
 		HPEN hPen = ::CreatePen(PS_SOLID, 2, RGB(0, 0, 0));
 		HPEN hPenOld = static_cast<HPEN>(::SelectObject(hdc, hPen));
@@ -226,7 +226,7 @@ private:
 		assert(TRUE == bResult);
 	}
 
-	void DrawPoints(HDC hdc, RECT& rc)const
+	void DrawPoints(HDC hdc, RECT& rc) const
 	{
 		TXValue xMin(m_aValues[0].first);
 		double dx = TXConverter::Convert(m_aValues[m_aValues.size() - 1].first - xMin);

@@ -26,7 +26,7 @@ public:
 	CHTMLEngineMS();
 	~CHTMLEngineMS();
 
-	virtual THTMLParserPtr GetParserPtr()const;
+	virtual THTMLParserPtr GetParserPtr() const;
 };
 
 #endif //__3c99e3f7_ecd9_4d9b_8f86_fe293c5fc8e6_HTMLParserMS_h__

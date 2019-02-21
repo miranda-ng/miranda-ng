@@ -17,7 +17,7 @@ public:
 	{
 	}
 
-	virtual THTMLNodePtr GetElementByID(const tstring& rsID)const
+	virtual THTMLNodePtr GetElementByID(const tstring& rsID) const
 	{
 		if (m_pDocument) {
 			CComPtr<IHTMLElement> pElement;
@@ -31,7 +31,7 @@ public:
 		return THTMLNodePtr();
 	}
 
-	virtual size_t GetChildCount()const
+	virtual size_t GetChildCount() const
 	{
 		TElementCollectionPtr pColl = GetElementCollectionPtr();
 		if (pColl) {
@@ -62,7 +62,7 @@ public:
 		return THTMLNodePtr();
 	}
 
-	virtual bool Is(EType nType)const
+	virtual bool Is(EType nType) const
 	{
 		switch (nType) {
 		case Table:
@@ -85,7 +85,7 @@ public:
 		return false;
 	}
 
-	virtual tstring GetAttribute(const tstring& rsAttrName)const
+	virtual tstring GetAttribute(const tstring& rsAttrName) const
 	{
 		tstring sAttr;
 		CComPtr<IHTMLElement> pElement;
@@ -108,7 +108,7 @@ public:
 		return sAttr;
 	}
 
-	virtual tstring GetText()const
+	virtual tstring GetText() const
 	{
 		tstring sText;
 		CComPtr<IHTMLElement> pElement;
@@ -129,7 +129,7 @@ public:
 	}
 
 protected:
-	virtual TElementCollectionPtr GetElementCollectionPtr()const
+	virtual TElementCollectionPtr GetElementCollectionPtr() const
 	{
 		TElementCollectionPtr pColl;
 		HRESULT hr = m_pElement->QueryInterface(IID_IHTMLElementCollection, reinterpret_cast<void**>(&pColl));
@@ -248,7 +248,7 @@ CHTMLEngineMS::~CHTMLEngineMS()
 {
 }
 
-CHTMLEngineMS::THTMLParserPtr CHTMLEngineMS::GetParserPtr()const
+CHTMLEngineMS::THTMLParserPtr CHTMLEngineMS::GetParserPtr() const
 {
 	return THTMLParserPtr(new CHTMLParserMS);
 }

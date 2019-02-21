@@ -12,7 +12,7 @@ public:
 	IHTMLEngine(void){}
 	virtual ~IHTMLEngine() {}
 
-	virtual THTMLParserPtr GetParserPtr()const = 0;
+	virtual THTMLParserPtr GetParserPtr() const = 0;
 };
 
 #endif //__85dbfa97_919b_4776_919c_7410a1c3d787_HTMLEngine_h__

@@ -13,7 +13,7 @@ CCurrencyRatesProviders::~CCurrencyRatesProviders()
 	ClearProviders();
 }
 
-const CCurrencyRatesProviders::TCurrencyRatesProviders& CCurrencyRatesProviders::GetProviders()const
+const CCurrencyRatesProviders::TCurrencyRatesProviders& CCurrencyRatesProviders::GetProviders() const
 {
 	return m_apProviders;
 }
@@ -61,7 +61,7 @@ void CCurrencyRatesProviders::InitProviders()
 	db_set_w(0, CURRENCYRATES_MODULE_NAME, LAST_RUN_VERSION, nCurrentVersion);
 }
 
-CCurrencyRatesProviders::TCurrencyRatesProviderPtr CCurrencyRatesProviders::GetContactProviderPtr(MCONTACT hContact)const
+CCurrencyRatesProviders::TCurrencyRatesProviderPtr CCurrencyRatesProviders::GetContactProviderPtr(MCONTACT hContact) const
 {
 	char* szProto = GetContactProto(hContact);
 	if (nullptr == szProto || 0 != ::_stricmp(szProto, CURRENCYRATES_PROTOCOL_NAME))
@@ -74,7 +74,7 @@ CCurrencyRatesProviders::TCurrencyRatesProviderPtr CCurrencyRatesProviders::GetC
 	return FindProvider(sProvider);
 }
 
-CCurrencyRatesProviders::TCurrencyRatesProviderPtr CCurrencyRatesProviders::FindProvider(const tstring& rsName)const
+CCurrencyRatesProviders::TCurrencyRatesProviderPtr CCurrencyRatesProviders::FindProvider(const tstring& rsName) const
 {
 	TCurrencyRatesProviderPtr pResult;
 	for (TCurrencyRatesProviders::const_iterator i = m_apProviders.begin(); i != m_apProviders.end(); ++i) {

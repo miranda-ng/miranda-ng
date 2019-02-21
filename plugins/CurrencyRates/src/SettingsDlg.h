@@ -24,24 +24,24 @@ public:
 	static COLORREF GetDefColourText();
 
 	void InitForContact(MCONTACT hContact);
-	void SaveForContact(MCONTACT hContact)const;
+	void SaveForContact(MCONTACT hContact) const;
 
-	EColourMode GetColourMode()const;
+	EColourMode GetColourMode() const;
 	void SetColourMode(EColourMode nMode);
 
-	COLORREF GetColourBk()const;
+	COLORREF GetColourBk() const;
 	void SetColourBk(COLORREF rgb);
 
-	COLORREF GetColourText()const;
+	COLORREF GetColourText() const;
 	void SetColourText(COLORREF rgb);
 
-	EDelayMode GetDelayMode()const;
+	EDelayMode GetDelayMode() const;
 	void SetDelayMode(EDelayMode nMode);
 
-	WORD GetDelayTimeout()const;
+	WORD GetDelayTimeout() const;
 	void SetDelayTimeout(WORD delay);
 
-	bool GetHistoryFlag()const;
+	bool GetHistoryFlag() const;
 	void SetHistoryFlag(bool flag);
 
 private:
@@ -60,22 +60,22 @@ public:
 	CAdvProviderSettings(const ICurrencyRatesProvider* pCurrencyRatesProvider);
 	~CAdvProviderSettings();
 
-	void SaveToDb()const;
+	void SaveToDb() const;
 
-	const ICurrencyRatesProvider* GetProviderPtr()const;
+	const ICurrencyRatesProvider* GetProviderPtr() const;
 
-	WORD GetLogMode()const;
+	WORD GetLogMode() const;
 	void SetLogMode(WORD wMode);
-	tstring GetHistoryFormat()const;
+	tstring GetHistoryFormat() const;
 	void SetHistoryFormat(const tstring& rsFormat);
-	bool GetHistoryOnlyChangedFlag()const;
+	bool GetHistoryOnlyChangedFlag() const;
 	void SetHistoryOnlyChangedFlag(bool bMode);
 
-	tstring GetLogFileName()const;
+	tstring GetLogFileName() const;
 	void SetLogFileName(const tstring& rsFile);
-	tstring GetLogFormat()const;
+	tstring GetLogFormat() const;
 	void SetLogFormat(const tstring& rsFormat);
-	bool GetLogOnlyChangedFlag()const;
+	bool GetLogOnlyChangedFlag() const;
 	void SetLogOnlyChangedFlag(bool bMode);
 
 	const tstring& GetPopupFormat() const;
@@ -84,7 +84,7 @@ public:
 	bool GetShowPopupIfValueChangedFlag() const;
 	void SetShowPopupIfValueChangedFlag(bool val);
 
-	CPopupSettings* GetPopupSettingsPtr()const;
+	CPopupSettings* GetPopupSettingsPtr() const;
 
 private:
 	const ICurrencyRatesProvider* m_pCurrencyRatesProvider;

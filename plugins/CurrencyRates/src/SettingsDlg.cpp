@@ -666,12 +666,12 @@ CAdvProviderSettings::~CAdvProviderSettings()
 	delete m_pPopupSettings;
 }
 
-const ICurrencyRatesProvider* CAdvProviderSettings::GetProviderPtr()const
+const ICurrencyRatesProvider* CAdvProviderSettings::GetProviderPtr() const
 {
 	return m_pCurrencyRatesProvider;
 }
 
-void CAdvProviderSettings::SaveToDb()const
+void CAdvProviderSettings::SaveToDb() const
 {
 	db_set_w(0, CURRENCYRATES_MODULE_NAME, DB_KEY_LogMode, m_wLogMode);
 	db_set_ws(0, CURRENCYRATES_MODULE_NAME, DB_KEY_HistoryFormat, m_sFormatHistory.c_str());
@@ -692,7 +692,7 @@ void CAdvProviderSettings::SaveToDb()const
 	}
 }
 
-WORD CAdvProviderSettings::GetLogMode()const
+WORD CAdvProviderSettings::GetLogMode() const
 {
 	return m_wLogMode;
 }
@@ -702,7 +702,7 @@ void CAdvProviderSettings::SetLogMode(WORD wMode)
 	m_wLogMode = wMode;
 }
 
-tstring CAdvProviderSettings::GetHistoryFormat()const
+tstring CAdvProviderSettings::GetHistoryFormat() const
 {
 	return m_sFormatHistory;
 }
@@ -712,7 +712,7 @@ void CAdvProviderSettings::SetHistoryFormat(const tstring& rsFormat)
 	m_sFormatHistory = rsFormat;
 }
 
-bool CAdvProviderSettings::GetHistoryOnlyChangedFlag()const
+bool CAdvProviderSettings::GetHistoryOnlyChangedFlag() const
 {
 	return m_bIsOnlyChangedHistory;
 }
@@ -722,7 +722,7 @@ void CAdvProviderSettings::SetHistoryOnlyChangedFlag(bool bMode)
 	m_bIsOnlyChangedHistory = bMode;
 }
 
-tstring CAdvProviderSettings::GetLogFileName()const
+tstring CAdvProviderSettings::GetLogFileName() const
 {
 	return m_sLogFileName;
 }
@@ -732,7 +732,7 @@ void CAdvProviderSettings::SetLogFileName(const tstring& rsFile)
 	m_sLogFileName = rsFile;
 }
 
-tstring CAdvProviderSettings::GetLogFormat()const
+tstring CAdvProviderSettings::GetLogFormat() const
 {
 	return m_sFormatLogFile;
 }
@@ -742,7 +742,7 @@ void CAdvProviderSettings::SetLogFormat(const tstring& rsFormat)
 	m_sFormatLogFile = rsFormat;
 }
 
-bool CAdvProviderSettings::GetLogOnlyChangedFlag()const
+bool CAdvProviderSettings::GetLogOnlyChangedFlag() const
 {
 	return m_bIsOnlyChangedLogFile;
 }
@@ -772,7 +772,7 @@ void CAdvProviderSettings::SetShowPopupIfValueChangedFlag(bool val)
 	m_bShowPopupIfValueChanged = val;
 }
 
-CPopupSettings* CAdvProviderSettings::GetPopupSettingsPtr()const
+CPopupSettings* CAdvProviderSettings::GetPopupSettingsPtr() const
 {
 	if (nullptr == m_pPopupSettings)
 		m_pPopupSettings = new CPopupSettings();
@@ -837,7 +837,7 @@ void CPopupSettings::InitForContact(MCONTACT hContact)
 	m_bUseHistory = 1 == db_get_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_HISTORY_FLAG, m_bUseHistory);
 }
 
-void CPopupSettings::SaveForContact(MCONTACT hContact)const
+void CPopupSettings::SaveForContact(MCONTACT hContact) const
 {
 	db_set_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_COLOUR_MODE, static_cast<BYTE>(m_modeColour));
 	db_set_dw(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_COLOUR_BK, m_rgbBkg);
@@ -847,7 +847,7 @@ void CPopupSettings::SaveForContact(MCONTACT hContact)const
 	db_set_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_HISTORY_FLAG, m_bUseHistory);
 }
 
-CPopupSettings::EColourMode CPopupSettings::GetColourMode()const
+CPopupSettings::EColourMode CPopupSettings::GetColourMode() const
 {
 	return m_modeColour;
 }
@@ -857,7 +857,7 @@ void CPopupSettings::SetColourMode(EColourMode nMode)
 	m_modeColour = nMode;
 }
 
-COLORREF CPopupSettings::GetColourBk()const
+COLORREF CPopupSettings::GetColourBk() const
 {
 	return m_rgbBkg;
 }
@@ -867,7 +867,7 @@ void CPopupSettings::SetColourBk(COLORREF rgb)
 	m_rgbBkg = rgb;
 }
 
-COLORREF CPopupSettings::GetColourText()const
+COLORREF CPopupSettings::GetColourText() const
 {
 	return m_rgbText;
 }
@@ -877,7 +877,7 @@ void CPopupSettings::SetColourText(COLORREF rgb)
 	m_rgbText = rgb;
 }
 
-CPopupSettings::EDelayMode CPopupSettings::GetDelayMode()const
+CPopupSettings::EDelayMode CPopupSettings::GetDelayMode() const
 {
 	return m_modeDelay;
 }
@@ -887,7 +887,7 @@ void CPopupSettings::SetDelayMode(EDelayMode nMode)
 	m_modeDelay = nMode;
 }
 
-WORD CPopupSettings::GetDelayTimeout()const
+WORD CPopupSettings::GetDelayTimeout() const
 {
 	return m_wDelay;
 }
@@ -897,7 +897,7 @@ void CPopupSettings::SetDelayTimeout(WORD delay)
 	m_wDelay = delay;
 }
 
-bool CPopupSettings::GetHistoryFlag()const
+bool CPopupSettings::GetHistoryFlag() const
 {
 	return m_bUseHistory;
 }

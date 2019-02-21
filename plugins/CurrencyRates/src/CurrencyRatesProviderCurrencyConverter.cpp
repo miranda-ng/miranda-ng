@@ -61,13 +61,13 @@ INT_PTR CALLBACK OptDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lPara
 		return nullptr;
 	};
 
-	auto make_currencyrate_name = [](const CCurrencyRatesProviderBase::CCurrencyRate& rCurrencyRate)->tstring
+	auto make_currencyrate_name = [](const CCurrencyRate &rCurrencyRate)->tstring
 	{
 		const tstring& rsDesc = rCurrencyRate.GetName();
 		return((false == rsDesc.empty()) ? rsDesc : rCurrencyRate.GetSymbol());
 	};
 
-	auto make_contact_name = [](const tstring& rsSymbolFrom, const tstring& rsSymbolTo)->tstring
+	auto make_contact_name = [](const tstring &rsSymbolFrom, const tstring &rsSymbolTo)->tstring
 	{
 		tostringstream o;
 		o << rsSymbolFrom << L"/" << rsSymbolTo;
@@ -75,7 +75,7 @@ INT_PTR CALLBACK OptDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lPara
 	};
 
 
-	auto make_rate_name = [make_contact_name](const CCurrencyRatesProviderCurrencyConverter::TRateInfo& ri)->tstring
+	auto make_rate_name = [make_contact_name](const CCurrencyRatesProviderCurrencyConverter::TRateInfo &ri)->tstring
 	{
 		if ((false == ri.first.GetName().empty()) && (false == ri.second.GetName().empty()))
 			return make_contact_name(ri.first.GetName(), ri.second.GetName());
@@ -135,7 +135,7 @@ INT_PTR CALLBACK OptDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lPara
 			HWND hcbxFrom = ::GetDlgItem(hdlg, IDC_COMBO_CONVERT_FROM);
 			HWND hcbxTo = ::GetDlgItem(hdlg, IDC_COMBO_CONVERT_INTO);
 
-			CCurrencyRatesProviderBase::CCurrencyRateSection rSection;
+			CCurrencyRateSection rSection;
 			const auto& rCurrencyRates = pProvider->GetCurrencyRates();
 			if (rCurrencyRates.GetSectionCount() > 0) {
 				rSection = rCurrencyRates.GetSection(0);
@@ -197,7 +197,7 @@ INT_PTR CALLBACK OptDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lPara
 					size_t nFrom = static_cast<size_t>(::SendDlgItemMessage(hdlg, IDC_COMBO_CONVERT_FROM, CB_GETCURSEL, 0, 0));
 					size_t nTo = static_cast<size_t>(::SendDlgItemMessage(hdlg, IDC_COMBO_CONVERT_INTO, CB_GETCURSEL, 0, 0));
 					if ((CB_ERR != nFrom) && (CB_ERR != nTo) && (nFrom != nTo)) {
-						CCurrencyRatesProviderBase::CCurrencyRateSection rSection;
+						CCurrencyRateSection rSection;
 						const auto& rCurrencyRates = pProvider->GetCurrencyRates();
 						if (rCurrencyRates.GetSectionCount() > 0) {
 							rSection = rCurrencyRates.GetSection(0);
@@ -254,13 +254,13 @@ CCurrencyRatesProviderCurrencyConverter::~CCurrencyRatesProviderCurrencyConverte
 {
 }
 
-void CCurrencyRatesProviderCurrencyConverter::Accept(CCurrencyRatesProviderVisitor& visitor)const
+void CCurrencyRatesProviderCurrencyConverter::Accept(CCurrencyRatesProviderVisitor &visitor) const
 {
 	CCurrencyRatesProviderBase::Accept(visitor);
 	visitor.Visit(*this);
 }
 
-void CCurrencyRatesProviderCurrencyConverter::ShowPropertyPage(WPARAM wp, OPTIONSDIALOGPAGE& odp)
+void CCurrencyRatesProviderCurrencyConverter::ShowPropertyPage(WPARAM wp, OPTIONSDIALOGPAGE &odp)
 {
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG_OPT_GOOGLE);
 	odp.pfnDlgProc = OptDlgProc;
@@ -268,12 +268,12 @@ void CCurrencyRatesProviderCurrencyConverter::ShowPropertyPage(WPARAM wp, OPTION
 	g_plugin.addOptions(wp, &odp);
 }
 
-void CCurrencyRatesProviderCurrencyConverter::RefreshCurrencyRates(TContracts& anContacts)
+void CCurrencyRatesProviderCurrencyConverter::RefreshCurrencyRates(TContacts &anContacts)
 {
 	CHTTPSession http;
 	tstring sURL = GetURL();
 
-	for (TContracts::const_iterator i = anContacts.begin(); i != anContacts.end() && IsOnline(); ++i) {
+	for (TContacts::const_iterator i = anContacts.begin(); i != anContacts.end() && IsOnline(); ++i) {
 		MCONTACT hContact = *i;
 
 		tstring sFullURL = build_url(hContact, sURL);
@@ -292,7 +292,7 @@ void CCurrencyRatesProviderCurrencyConverter::RefreshCurrencyRates(TContracts& a
 	}
 }
 
-double CCurrencyRatesProviderCurrencyConverter::Convert(double dAmount, const CCurrencyRate& from, const CCurrencyRate& to)const
+double CCurrencyRatesProviderCurrencyConverter::Convert(double dAmount, const CCurrencyRate &from, const CCurrencyRate &to) const
 {
 	tstring sFullURL = build_url(GetURL(), from.GetID(), to.GetID());
 
@@ -313,12 +313,12 @@ double CCurrencyRatesProviderCurrencyConverter::Convert(double dAmount, const CC
 	return 0.0;
 }
 
-size_t CCurrencyRatesProviderCurrencyConverter::GetWatchedRateCount()const
+size_t CCurrencyRatesProviderCurrencyConverter::GetWatchedRateCount() const
 {
 	return m_aContacts.size();
 }
 
-bool CCurrencyRatesProviderCurrencyConverter::GetWatchedRateInfo(size_t nIndex, TRateInfo& rRateInfo)
+bool CCurrencyRatesProviderCurrencyConverter::GetWatchedRateInfo(size_t nIndex, TRateInfo &rRateInfo)
 {
 	if (nIndex >= m_aContacts.size())
 		return false;
@@ -344,7 +344,7 @@ bool CCurrencyRatesProviderCurrencyConverter::WatchForRate(const TRateInfo &ri, 
 			&& (0 == mir_wstrcmpi(ri.second.GetID().c_str(), sTo.c_str())));
 	});
 
-	auto make_contact_name = [](const tstring& rsSymbolFrom, const tstring& rsSymbolTo)->tstring
+	auto make_contact_name = [](const tstring &rsSymbolFrom, const tstring &rsSymbolTo)->tstring
 	{
 		tostringstream o;
 		o << rsSymbolFrom << L"/" << rsSymbolTo;
@@ -382,7 +382,7 @@ bool CCurrencyRatesProviderCurrencyConverter::WatchForRate(const TRateInfo &ri, 
 	return false;
 }
 
-MCONTACT CCurrencyRatesProviderCurrencyConverter::GetContactByID(const tstring& rsFromID, const tstring& rsToID)const
+MCONTACT CCurrencyRatesProviderCurrencyConverter::GetContactByID(const tstring& rsFromID, const tstring& rsToID) const
 {
 	mir_cslock lck(m_cs);
 
@@ -397,4 +397,15 @@ MCONTACT CCurrencyRatesProviderCurrencyConverter::GetContactByID(const tstring& 
 		return *i;
 
 	return NULL;
+}
+
+void CCurrencyRatesProviderCurrencyConverter::FillFormat(TFormatSpecificators &array) const
+{
+	CSuper::FillFormat(array);
+
+	array.push_back(CFormatSpecificator(L"%F", TranslateT("From Currency Full Name")));
+	array.push_back(CFormatSpecificator(L"%f", TranslateT("From Currency Short Name")));
+	array.push_back(CFormatSpecificator(L"%I", TranslateT("Into Currency Full Name")));
+	array.push_back(CFormatSpecificator(L"%i", TranslateT("Into Currency Short Name")));
+	array.push_back(CFormatSpecificator(L"%s", TranslateT("Short notation for \"%f/%i\"")));
 }

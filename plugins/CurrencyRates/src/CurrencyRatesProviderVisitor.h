@@ -14,11 +14,11 @@ public:
 	CCurrencyRatesProviderVisitor() {}
 	virtual ~CCurrencyRatesProviderVisitor() {}
 
-	virtual void Visit(const CCurrencyRatesProviderBase&){}
-	virtual void Visit(const CCurrencyRatesProviderFinance&){}
-	virtual void Visit(const CCurrencyRatesProviderDukasCopy&){}
-	virtual void Visit(const CCurrencyRatesProviderGoogleFinance&){}
-	virtual void Visit(const CCurrencyRatesProviderYahoo&){}
+	virtual void Visit(const CCurrencyRatesProviderBase&) {}
+	virtual void Visit(const CCurrencyRatesProviderFinance&) {}
+	virtual void Visit(const CCurrencyRatesProviderDukasCopy& ){}
+	virtual void Visit(const CCurrencyRatesProviderGoogleFinance&) {}
+	virtual void Visit(const CCurrencyRatesProviderYahoo&) {}
 	virtual void Visit(const CCurrencyRatesProviderCurrencyConverter&) {}
 };
 

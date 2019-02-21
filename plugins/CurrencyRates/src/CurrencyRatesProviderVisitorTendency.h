@@ -6,8 +6,8 @@ class CCurrencyRatesProviderVisitorTendency : public CCurrencyRatesProviderVisit
 public:
 	CCurrencyRatesProviderVisitorTendency(MCONTACT hContact, wchar_t chr);
 
-	bool IsValid()const{ return m_bValid; }
-	double GetResult()const{ return m_dResult; }
+	bool IsValid() const{ return m_bValid; }
+	double GetResult() const{ return m_dResult; }
 
 private:
 	virtual void Visit(const CCurrencyRatesProviderBase& rProvider);

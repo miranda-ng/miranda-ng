@@ -15,7 +15,7 @@ public:
 	virtual ~CImpl() {}
 
 	virtual bool OpenURL(const tstring &rsURL) = 0;
-	virtual bool ReadResponce(tstring &rsResponce)const = 0;
+	virtual bool ReadResponce(tstring &rsResponce) const = 0;
 };
 
 int find_header(const NETLIBHTTPREQUEST* pRequest, const char* hdr)
@@ -64,7 +64,7 @@ public:
 		return true;
 	}
 
-	virtual bool ReadResponce(tstring &rsResponce)const
+	virtual bool ReadResponce(tstring &rsResponce) const
 	{
 		if (true == m_aURL.empty())
 			return false;
@@ -138,7 +138,7 @@ bool CHTTPSession::OpenURL(const tstring& rsURL)
 	return m_pImpl->OpenURL(rsURL);
 }
 
-bool CHTTPSession::ReadResponce(tstring& rsResponce)const
+bool CHTTPSession::ReadResponce(tstring& rsResponce) const
 {
 	return m_pImpl->ReadResponce(rsResponce);
 }
