@@ -440,6 +440,7 @@ int CGlobals::MetaContactEvent(WPARAM hContact, LPARAM)
 		CTabBaseDlg *pDlg = c->getDat();
 		if (pDlg) {
 			pDlg->UpdateTitle();
+			pDlg->GetClientIcon();
 			::PostMessage(pDlg->GetHwnd(), DM_UPDATEPICLAYOUT, 0, 0);
 			InvalidateRect(pDlg->GetHwnd(), nullptr, TRUE); // force redraw
 		}
