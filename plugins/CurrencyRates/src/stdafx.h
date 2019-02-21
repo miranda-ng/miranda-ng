@@ -41,8 +41,6 @@
 #include <boost\date_time\posix_time\posix_time.hpp>
 #include <boost\date_time\c_local_time_adjustor.hpp>
 
-#include "../../../miranda-private-keys/CurrencyRates/secret_key.h"
-
 typedef std::wstring tstring;
 typedef std::wostringstream tostringstream;
 typedef std::wistringstream tistringstream;
