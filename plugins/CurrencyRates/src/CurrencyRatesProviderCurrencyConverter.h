@@ -23,8 +23,10 @@ public:
 	MCONTACT GetContactByID(const tstring &rsFromID, const tstring &rsToID) const;
 
 private:
-	void Accept(CCurrencyRatesProviderVisitor &visitor) const override;
 	void FillFormat(TFormatSpecificators &) const override;
 	void RefreshCurrencyRates(TContacts &anContacts) override;
 	void ShowPropertyPage(WPARAM wp, OPTIONSDIALOGPAGE &odp) override;
+
+	MCONTACT ImportContact(const TiXmlNode*) override;
+	tstring FormatSymbol(MCONTACT hContact, wchar_t c, int nWidth) const override;
 };

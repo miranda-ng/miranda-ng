@@ -32,6 +32,7 @@ public:
 
 	virtual void AddContact(MCONTACT hContact) = 0;
 	virtual void DeleteContact(MCONTACT hContact) = 0;
+	virtual MCONTACT ImportContact(const TiXmlNode*) = 0;
 
 	virtual void ShowPropertyPage(WPARAM wp, OPTIONSDIALOGPAGE& odp) = 0;
 
@@ -40,10 +41,10 @@ public:
 	virtual void RefreshContact(MCONTACT hContact) = 0;
 
 	virtual void FillFormat(TFormatSpecificators&) const = 0;
+	virtual bool ParseSymbol(MCONTACT hContact, wchar_t c, double &d) = 0;
+	virtual tstring FormatSymbol(MCONTACT hContact, wchar_t c, int nWidth = 0) const = 0;
 
 	virtual void Run() = 0;
-	
-	virtual void Accept(CCurrencyRatesProviderVisitor &visitor) const = 0;
 };
 
 #endif //__ac71e133_786c_41a7_ab07_625b76ff2a8c_CurrencyRatesProvider_h__

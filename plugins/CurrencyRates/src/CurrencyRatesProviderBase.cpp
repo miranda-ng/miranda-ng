@@ -380,10 +380,7 @@ tstring format_rate(const ICurrencyRatesProvider *pProvider, MCONTACT hContact, 
 					else chr = *i;
 				}
 
-				CCurrencyRatesProviderVisitorFormater visitor(hContact, chr, nWidth);
-				pProvider->Accept(visitor);
-				const tstring& s = visitor.GetResult();
-				sResult += s;
+				sResult += pProvider->FormatSymbol(hContact, chr, nWidth);
 				++i;
 			}
 			else sResult += chr;
@@ -399,15 +396,7 @@ void log_to_file(const ICurrencyRatesProvider* pProvider,
 	const tstring& rsLogFileName,
 	const tstring& rsFormat)
 {
-	std::string sPath = currencyrates_t2a(rsLogFileName.c_str());
-
-	std::string::size_type n = sPath.find_last_of("\\/");
-	if (std::string::npos != n)
-		sPath.erase(n);
-
-	DWORD dwAttributes = ::GetFileAttributesA(sPath.c_str());
-	if ((0xffffffff == dwAttributes) || (0 == (dwAttributes&FILE_ATTRIBUTE_DIRECTORY)))
-		CreateDirectoryTree(sPath.c_str());
+	CreatePathToFileW(rsLogFileName.c_str());
 
 	tofstream file(rsLogFileName.c_str(), std::ios::app | std::ios::out);
 	file.imbue(GetSystemLocale());
@@ -474,10 +463,7 @@ bool show_popup(const ICurrencyRatesProvider* pProvider,
 			ppd.lchIcon = CurrencyRates_LoadIconEx(IDI_ICON_DOWN);
 	}
 
-	CCurrencyRatesProviderVisitorFormater visitor(hContact, 's', 0);
-	pProvider->Accept(visitor);
-	const tstring& sTitle = visitor.GetResult();
-	mir_wstrncpy(ppd.lptzContactName, sTitle.c_str(), MAX_CONTACTNAME);
+	mir_wstrncpy(ppd.lptzContactName, pProvider->FormatSymbol(hContact, 's').c_str(), MAX_CONTACTNAME);
 	{
 		ptrW ss(variables_parsedup((wchar_t*)rsFormat.c_str(), nullptr, hContact));
 		tstring sText = format_rate(pProvider, hContact, tstring(ss));
@@ -769,10 +755,8 @@ void CCurrencyRatesProviderBase::Run()
 					m_aRefreshingContacts.clear();
 				}
 
-				{
-					CBoolGuard bg(m_bRefreshInProgress);
-					RefreshCurrencyRates(anContacts);
-				}
+				CBoolGuard bg(m_bRefreshInProgress);
+				RefreshCurrencyRates(anContacts);
 			}
 			break;
 
@@ -808,11 +792,6 @@ void CCurrencyRatesProviderBase::OnEndRun()
 	CBoolGuard bg(m_bRefreshInProgress);
 	for (auto &it : anContacts)
 		SetContactStatus(it, ID_STATUS_OFFLINE);
-}
-
-void CCurrencyRatesProviderBase::Accept(CCurrencyRatesProviderVisitor &visitor) const
-{
-	visitor.Visit(*this);
 }
 
 void CCurrencyRatesProviderBase::RefreshSettings()
@@ -866,4 +845,94 @@ bool CCurrencyRatesProviderBase::ParseSymbol(MCONTACT hContact, wchar_t c, doubl
 	}
 
 	return false;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static bool get_fetch_time(MCONTACT hContact, time_t &rTime)
+{
+	DBVARIANT dbv;
+	if (db_get(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FETCH_TIME, &dbv) || (DBVT_DWORD != dbv.type))
+		return false;
+
+	rTime = dbv.dVal;
+	return true;
+}
+
+static tstring format_fetch_time(MCONTACT hContact, const tstring &rsFormat)
+{
+	time_t nTime;
+	if (true == get_fetch_time(hContact, nTime)) {
+		boost::posix_time::ptime time = boost::date_time::c_local_adjustor<boost::posix_time::ptime>::utc_to_local(boost::posix_time::from_time_t(nTime));
+		tostringstream k;
+		k.imbue(std::locale(GetSystemLocale(), new ttime_facet(rsFormat.c_str())));
+		k << time;
+		return k.str();
+	}
+
+	return tstring();
+}
+
+static tstring format_double(double dValue, int nWidth)
+{
+	tostringstream o;
+	o.imbue(GetSystemLocale());
+
+	if (nWidth > 0 && nWidth <= 9)
+		o << std::setprecision(nWidth) << std::showpoint << std::fixed;
+
+	o << dValue;
+
+	return o.str();
+}
+
+tstring CCurrencyRatesProviderBase::FormatSymbol(MCONTACT hContact, wchar_t c, int nWidth) const
+{
+	tstring ret;
+	double d = 0.0;
+
+	switch (c) {
+	case '%':
+	case '\t':
+	case '\\':
+		ret = c;
+		break;
+	case 'S':
+		ret = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_PROVIDER);
+		break;
+	case 's':
+		ret = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL);
+		break;
+	case 'X':
+		ret = format_fetch_time(hContact, CurrencyRates_GetTimeFormat(true));
+		break;
+	case 'x':
+		ret = format_fetch_time(hContact, CurrencyRates_GetDateFormat(true));
+		break;
+	case 't':
+		{
+			tstring sFrmt = CurrencyRates_GetDateFormat(true);
+			sFrmt += L" ";
+			sFrmt += CurrencyRates_GetTimeFormat(true);
+			ret = format_fetch_time(hContact, sFrmt);
+		}
+		break;
+	case 'r':
+	case 'R':
+		if (true == CurrencyRates_DBReadDouble(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_CURR_VALUE, d))
+			ret = format_double(d, nWidth);
+		else
+			ret = L"-";
+		break;
+
+	case 'p':
+	case 'P':
+		if (true == CurrencyRates_DBReadDouble(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_PREV_VALUE, d))
+			ret = format_double(d, nWidth);
+		else
+			ret = L"-";
+		break;
+	}
+
+	return ret;
 }

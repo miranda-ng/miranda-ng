@@ -254,12 +254,6 @@ CCurrencyRatesProviderCurrencyConverter::~CCurrencyRatesProviderCurrencyConverte
 {
 }
 
-void CCurrencyRatesProviderCurrencyConverter::Accept(CCurrencyRatesProviderVisitor &visitor) const
-{
-	CCurrencyRatesProviderBase::Accept(visitor);
-	visitor.Visit(*this);
-}
-
 void CCurrencyRatesProviderCurrencyConverter::ShowPropertyPage(WPARAM wp, OPTIONSDIALOGPAGE &odp)
 {
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG_OPT_GOOGLE);
@@ -408,4 +402,41 @@ void CCurrencyRatesProviderCurrencyConverter::FillFormat(TFormatSpecificators &a
 	array.push_back(CFormatSpecificator(L"%I", TranslateT("Into Currency Full Name")));
 	array.push_back(CFormatSpecificator(L"%i", TranslateT("Into Currency Short Name")));
 	array.push_back(CFormatSpecificator(L"%s", TranslateT("Short notation for \"%f/%i\"")));
+}
+
+tstring CCurrencyRatesProviderCurrencyConverter::FormatSymbol(MCONTACT hContact, wchar_t c, int nWidth) const
+{
+	switch (c) {
+	case 'F':
+		return CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_DESCRIPTION);
+
+	case 'f':
+		return CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_ID);
+
+	case 'I':
+		return CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_DESCRIPTION);
+
+	case 'i':
+		return CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_ID);
+	}
+
+	return CSuper::FormatSymbol(hContact, c, nWidth);
+}
+
+MCONTACT CCurrencyRatesProviderCurrencyConverter::ImportContact(const TiXmlNode *pRoot)
+{
+	const char *sFromID = nullptr, *sToID = nullptr;
+
+	for (auto *pNode : TiXmlFilter(pRoot, "Setting")) {
+		TNameValue Item = parse_setting_node(pNode);
+		if (!mir_strcmpi(Item.first, DB_STR_FROM_ID))
+			sFromID = Item.second;
+		else if (!mir_strcmpi(Item.first, DB_STR_TO_ID))
+			sToID = Item.second;
+	}
+
+	if (sFromID && sToID)
+		return GetContactByID(Utf2T(sFromID).get(), Utf2T(sToID).get());
+
+	return 0;
 }

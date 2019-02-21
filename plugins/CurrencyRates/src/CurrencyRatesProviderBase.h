@@ -99,14 +99,13 @@ public:
 	
 	void Run() override;
 	
-	void Accept(CCurrencyRatesProviderVisitor &visitor) const override;
-	
 	void RefreshAllContacts() override;
 	void RefreshSettings() override;
 	void RefreshContact(MCONTACT hContact) override;
 	
 	void FillFormat(TFormatSpecificators&) const override;
-	bool ParseSymbol(MCONTACT hContact, wchar_t c, double &d);
+	bool ParseSymbol(MCONTACT hContact, wchar_t c, double &d) override;
+	tstring FormatSymbol(MCONTACT hContact, wchar_t c, int nWidth = 0) const override;
 
 protected:
 	const tstring& GetURL() const;

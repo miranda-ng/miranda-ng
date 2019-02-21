@@ -1,5 +1,4 @@
 #include "StdAfx.h"
-#include "CurrencyRatesProviderCurrencyConverter.h"
 
 const char g_szXmlValue[] = "Value";
 const char g_szXmlName[] = "Name";
@@ -385,7 +384,6 @@ const TiXmlNode* find_currencyrates_module(const TiXmlNode *pXmlContact)
 	return nullptr;
 }
 
-typedef std::pair<const char*, const char*> TNameValue; // first is name,second is value
 TNameValue parse_setting_node(const TiXmlNode *pXmlSetting)
 {
 	assert(pXmlSetting);
@@ -414,49 +412,6 @@ CCurrencyRatesProviders::TCurrencyRatesProviderPtr find_provider(const TiXmlNode
 
 bool get_contact_state(const TiXmlNode *pXmlContact, CContactState& cst)
 {
-	class visitor : public CCurrencyRatesProviderVisitor
-	{
-	public:
-		visitor(const TiXmlNode *pXmlCurrencyRates)
-			: m_hContact(NULL), m_pXmlCurrencyRates(pXmlCurrencyRates)
-		{
-		}
-
-		MCONTACT GetContact() const { return m_hContact; }
-
-	private:
-		void Visit(const CCurrencyRatesProviderCurrencyConverter &rProvider) override
-		{
-			const char *sFromID = nullptr, *sToID = nullptr;
-
-			for (auto *pNode : TiXmlFilter(m_pXmlCurrencyRates, g_szXmlSetting)) {
-				TNameValue Item = parse_setting_node(pNode);
-				if (!mir_strcmpi(Item.first, DB_STR_FROM_ID))
-					sFromID = Item.second;
-				else if (!mir_strcmpi(Item.first, DB_STR_TO_ID))
-					sToID = Item.second;
-			}
-
-			if (sFromID && sToID)
-				m_hContact = rProvider.GetContactByID(Utf2T(sFromID).get(), Utf2T(sToID).get());
-		}
-
-		tstring GetXMLNodeValue(const char* pszXMLNodeName) const
-		{
-			for (auto *pNode : TiXmlFilter(m_pXmlCurrencyRates, g_szXmlSetting)) {
-				TNameValue Item = parse_setting_node(pNode);
-				if (!mir_strcmpi(Item.first, pszXMLNodeName))
-					return Utf2T(Item.second).get();
-			}
-
-			return tstring();
-		}
-
-	private:
-		MCONTACT m_hContact;
-		const TiXmlNode *m_pXmlCurrencyRates;
-	};
-
 	auto *pXmlCurrencyRates = find_currencyrates_module(pXmlContact);
 	if (!pXmlCurrencyRates)
 		return false;
@@ -465,9 +420,7 @@ bool get_contact_state(const TiXmlNode *pXmlContact, CContactState& cst)
 	if (!cst.m_pProvider)
 		return false;
 
-	visitor vs(pXmlCurrencyRates);
-	cst.m_pProvider->Accept(vs);
-	cst.m_hContact = vs.GetContact();
+	cst.m_hContact = cst.m_pProvider->ImportContact(pXmlCurrencyRates);
 	return true;
 }
 

@@ -5,6 +5,7 @@
 
 #pragma once
 
+#undef _HAS_EXCEPTIONS
 #define _HAS_EXCEPTIONS 1
 
 #include <windows.h>
@@ -97,8 +98,6 @@ inline tstring currencyrates_a2t(const char* s)
 #include "ICurrencyRatesProvider.h"
 #include "CurrencyRatesProviders.h"
 #include "CurrencyRatesProviderBase.h"
-#include "CurrencyRatesProviderVisitor.h"
-#include "CurrencyRatesProviderVisitorFormater.h"
 
 #define CHART_IMPLEMENT
 #ifdef CHART_IMPLEMENT
