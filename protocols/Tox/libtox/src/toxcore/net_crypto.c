@@ -3036,6 +3036,9 @@ uint32_t crypto_run_interval(const Net_Crypto *c)
 /* Main loop. */
 void do_net_crypto(Net_Crypto *c, void *userdata)
 {
+	if (c == nullptr)  // !!!!!!!!!!!!!!!!!
+		return;
+
     kill_timedout(c, userdata);
     do_tcp(c, userdata);
     send_crypto_packets(c);
