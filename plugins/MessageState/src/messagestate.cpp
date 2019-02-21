@@ -64,7 +64,6 @@ int IconsUpdate(MCONTACT hContact)
 		SetSRMMIcon(hContact, ICON_HIDDEN);
 
 	ExtraIconsApply(hContact, 0);
-
 	return 0;
 }
 
@@ -90,6 +89,14 @@ static int OnEventFilterAdd(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
+static int OnSrmmWindowOpened(WPARAM, LPARAM lParam)
+{
+	auto *pEvent = (MessageWindowEventData*)lParam;
+	if (pEvent->uType == MSG_WINDOW_EVT_OPENING)
+		IconsUpdate(pEvent->hContact);
+	return 0;
+}
+
 static int OnMetaChanged(WPARAM hContact, LPARAM)
 {
 	IconsUpdate(hContact);
@@ -102,6 +109,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_DB_EVENT_FILTER_ADD, OnEventFilterAdd);
 	HookEvent(ME_MC_DEFAULTTCHANGED, OnMetaChanged);
 	HookEvent(ME_MC_SUBCONTACTSCHANGED, OnMetaChanged);
+	HookEvent(ME_MSG_WINDOWEVENT, OnSrmmWindowOpened);
 
 	g_plugin.registerIcon(MODULENAME, Icons);
 
