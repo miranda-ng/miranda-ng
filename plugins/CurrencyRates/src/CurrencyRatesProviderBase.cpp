@@ -227,7 +227,7 @@ public:
 public:
 	CTendency() : m_nComparison(NonValid) {}
 
-	bool Parse(const ICurrencyRatesProvider* pProvider, const tstring& rsFrmt, MCONTACT hContact)
+	bool Parse(CCurrencyRatesProviderBase *pProvider, const tstring& rsFrmt, MCONTACT hContact)
 	{
 		m_abValueFlags[0] = false;
 		m_abValueFlags[1] = false;
@@ -249,13 +249,10 @@ public:
 				if (i != rsFrmt.end()) {
 					wchar_t t = *i;
 					++i;
-					CCurrencyRatesProviderVisitorTendency visitor(hContact, t);
-					pProvider->Accept(visitor);
-					if (false == visitor.IsValid()) {
-						bValid = false;
-					}
-					else {
-						double d = visitor.GetResult();
+
+					double d;
+					bValid = pProvider->ParseSymbol(hContact, t, d);
+					if (bValid) {
 						m_adValues[nCurValue] = d;
 						m_abValueFlags[nCurValue] = true;
 						++nCurValue;
@@ -854,4 +851,19 @@ void CCurrencyRatesProviderBase::FillFormat(TFormatSpecificators &array) const
 	array.push_back(CFormatSpecificator(L"\\%", TranslateT("Percentage Character (%)")));
 	array.push_back(CFormatSpecificator(L"\\t", TranslateT("Tabulation")));
 	array.push_back(CFormatSpecificator(L"\\\\", TranslateT("Left slash (\\)")));
+}
+
+bool CCurrencyRatesProviderBase::ParseSymbol(MCONTACT hContact, wchar_t c, double &d)
+{
+	switch (c) {
+	case 'r':
+	case 'R':
+		return CurrencyRates_DBReadDouble(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_CURR_VALUE, d);
+	
+	case 'p':
+	case 'P':
+		return CurrencyRates_DBReadDouble(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_PREV_VALUE, d);
+	}
+
+	return false;
 }

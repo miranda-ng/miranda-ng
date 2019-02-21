@@ -106,6 +106,7 @@ public:
 	void RefreshContact(MCONTACT hContact) override;
 	
 	void FillFormat(TFormatSpecificators&) const override;
+	bool ParseSymbol(MCONTACT hContact, wchar_t c, double &d);
 
 protected:
 	const tstring& GetURL() const;
