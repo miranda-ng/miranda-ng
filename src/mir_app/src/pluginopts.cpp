@@ -36,7 +36,7 @@ struct PluginListItemData
 {
 	wchar_t    fileName[MAX_PATH];
 	HINSTANCE  hInst;
-	int        flags, stdPlugin;
+	int        flags, stdPlugin, iRow;
 	bool       bRequiresRestart, bWasLoaded, bWasChecked;
 	wchar_t   *author, *description, *copyright, *homepage;
 	MUUID      uuid;
@@ -122,30 +122,31 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 	CharLower(fd->cFileName);
 	wcsncpy_s(dat->fileName, fd->cFileName, _TRUNCATE);
 
-	HWND hwndList = (HWND)lParam;
+	CCtrlListView *pCtrl = (CCtrlListView*)lParam;
 	bool bNoCheckbox = (dat->flags & STATIC_PLUGIN) != 0;
 	if (bNoCheckbox || hasMuuid(pIds, MIID_CLIST) || hasMuuid(pIds, MIID_SSL))
 		dat->bRequiresRestart = true;
 
 	LVITEM it = { 0 };
 	// column  1: Checkbox + Unicode/ANSI icon + filename
+	it.iItem = dat->iRow = arPluginList.getCount();
 	it.mask = LVIF_PARAM | LVIF_IMAGE | LVIF_TEXT;
 	it.iImage = (dat->flags & UNICODE_AWARE) ? 0 : 1;
 	it.pszText = fd->cFileName;
 	it.lParam = (LPARAM)dat;
-	int iRow = ListView_InsertItem(hwndList, &it);
+	pCtrl->InsertItem(&it);
 
 	if (bNoCheckbox) {
-		ListView_SetItemState(hwndList, iRow, 0x3000, LVIS_STATEIMAGEMASK);
+		pCtrl->SetItemState(dat->iRow, 0x3000, LVIS_STATEIMAGEMASK);
 	}
 	else if (isPluginOnWhiteList(fd->cFileName)) {
 		if (!dat->bRequiresRestart)
 			dat->bWasChecked = true;
 		if (hInst)
-			ListView_SetItemState(hwndList, iRow, 0x2000, LVIS_STATEIMAGEMASK);
+			pCtrl->SetItemState(dat->iRow, 0x2000, LVIS_STATEIMAGEMASK);
 	}
 
-	if (iRow != -1) {
+	if (dat->iRow != -1) {
 		// column 2: plugin short name
 		const PLUGININFOEX &ppi = ppb->getInfo();
 		dat->author = sttUtf8auto(ppi.author);
@@ -159,7 +160,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 
 		wchar_t *shortNameT = mir_a2u(ppi.shortName);
 		if (shortNameT) {
-			ListView_SetItemText(hwndList, iRow, 1, shortNameT);
+			pCtrl->SetItemText(dat->iRow, 1, shortNameT);
 			mir_free(shortNameT);
 		}
 
@@ -176,7 +177,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 		}
 		else mir_snwprintf(buf, L"%d.%d.%d.%d", HIBYTE(HIWORD(ppi.version)), LOBYTE(HIWORD(ppi.version)), HIBYTE(LOWORD(ppi.version)), LOBYTE(LOWORD(ppi.version)));
 
-		ListView_SetItemText(hwndList, iRow, 2, buf);
+		pCtrl->SetItemText(dat->iRow, 2, buf);
 		arPluginList.insert(dat);
 	}
 	else mir_free(dat);
@@ -312,11 +313,12 @@ public:
 		// scan the plugin dir for plugins, cos
 		arPluginList.destroy();
 		m_szFilter.Empty();
-		enumPlugins(dialogListPlugins, (WPARAM)m_hwnd, (LPARAM)m_plugList.GetHwnd());
+		enumPlugins(dialogListPlugins, (WPARAM)m_hwnd, (LPARAM)&m_plugList);
 
 		for (auto &it : arPluginList)
 			if (!it->bWasLoaded && it->bWasChecked && !it->hInst)
-				LoadPluginDynamically(it);
+				if (LoadPluginDynamically(it))
+					m_plugList.SetItemState(it->iRow, 0x2000, LVIS_STATEIMAGEMASK);
 
 		// sort out the headers
 		m_plugList.SetColumnWidth(0, LVSCW_AUTOSIZE); // dll name
