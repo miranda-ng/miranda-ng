@@ -621,7 +621,7 @@ TiXmlElement* JabberFormGetData(HWND hwndStatic, TiXmlDocument *doc, TiXmlElemen
 	return x.ToElement()->DeepClone(doc)->ToElement();
 }
 
-struct JABBER_FORM_INFO
+struct JABBER_FORM_INFO : public MZeroedObject
 {
 	~JABBER_FORM_INFO();
 
@@ -781,7 +781,6 @@ static VOID CALLBACK JabberFormCreateDialogApcProc(void* param)
 void CJabberProto::FormCreateDialog(const TiXmlElement *xNode, char *defTitle, JABBER_FORM_SUBMIT_FUNC pfnSubmit, void *userdata)
 {
 	JABBER_FORM_INFO *jfi = new JABBER_FORM_INFO;
-	memset(jfi, 0, sizeof(JABBER_FORM_INFO));
 	jfi->ppro = this;
 	jfi->xNode = xNode->DeepClone(&jfi->doc)->ToElement();
 	if (defTitle)
