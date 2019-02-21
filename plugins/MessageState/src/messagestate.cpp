@@ -101,6 +101,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_PROTO_ACK, OnProtoAck);
 	HookEvent(ME_DB_EVENT_FILTER_ADD, OnEventFilterAdd);
 	HookEvent(ME_MC_DEFAULTTCHANGED, OnMetaChanged);
+	HookEvent(ME_MC_SUBCONTACTSCHANGED, OnMetaChanged);
 
 	g_plugin.registerIcon(MODULENAME, Icons);
 
