@@ -25,7 +25,7 @@ public:
 	}
 };
 
-void show_variable_list(HWND hwndParent, const ICurrencyRatesProvider* pProvider)
+void show_variable_list(HWND hwndParent, const ICurrencyRatesProvider *pProvider)
 {
 	CVariableListDlg(hwndParent, pProvider).DoModal();
 }

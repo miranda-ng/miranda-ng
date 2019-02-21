@@ -37,9 +37,8 @@ void UpdateMenu(bool bAutoUpdate)
 
 INT_PTR CurrencyRatesMenu_RefreshAll(WPARAM, LPARAM)
 {
-	const CCurrencyRatesProviders::TCurrencyRatesProviders& apProviders = CModuleInfo::GetCurrencyRateProvidersPtr()->GetProviders();
-	for (auto &it : apProviders)
-		it->RefreshAllContacts();
+	for (auto &pProvider : g_apProviders)
+		pProvider->RefreshAllContacts();
 	return 0;
 }
 
@@ -48,8 +47,7 @@ INT_PTR CurrencyRatesMenu_EnableDisable(WPARAM, LPARAM)
 	g_bAutoUpdate = (g_bAutoUpdate) ? false : true;
 	db_set_b(0, CURRENCYRATES_MODULE_NAME, DB_STR_AUTO_UPDATE, g_bAutoUpdate);
 
-	const CModuleInfo::TCurrencyRatesProvidersPtr& pProviders = CModuleInfo::GetCurrencyRateProvidersPtr();
-	for (auto &pProvider : pProviders->GetProviders()) {
+	for (auto &pProvider : g_apProviders) {
 		pProvider->RefreshSettings();
 		if (g_bAutoUpdate)
 			pProvider->RefreshAllContacts();
@@ -198,22 +196,14 @@ int CurrencyRatesEventFunc_OnModulesLoaded(WPARAM, LPARAM)
 
 	::ResetEvent(g_hEventWorkThreadStop);
 
-	const CModuleInfo::TCurrencyRatesProvidersPtr& pProviders = CModuleInfo::GetCurrencyRateProvidersPtr();
-	const CCurrencyRatesProviders::TCurrencyRatesProviders& rapProviders = pProviders->GetProviders();
-	for (CCurrencyRatesProviders::TCurrencyRatesProviders::const_iterator i = rapProviders.begin(); i != rapProviders.end(); ++i) {
-		const CCurrencyRatesProviders::TCurrencyRatesProviderPtr& pProvider = *i;
-		g_ahThreads.push_back(mir_forkthread(WorkingThread, pProvider.get()));
-	}
-
+	for (auto &pProvider : g_apProviders)
+		g_ahThreads.push_back(mir_forkthread(WorkingThread, pProvider));
 	return 0;
 }
 
-int CurrencyRatesEventFunc_OnContactDeleted(WPARAM wParam, LPARAM)
+int CurrencyRatesEventFunc_OnContactDeleted(WPARAM hContact, LPARAM)
 {
-	MCONTACT hContact = MCONTACT(wParam);
-
-	const CModuleInfo::TCurrencyRatesProvidersPtr& pProviders = CModuleInfo::GetCurrencyRateProvidersPtr();
-	CCurrencyRatesProviders::TCurrencyRatesProviderPtr pProvider = pProviders->GetContactProviderPtr(hContact);
+	auto pProvider = GetContactProviderPtr(hContact);
 	if (pProvider)
 		pProvider->DeleteContact(hContact);
 	return 0;
@@ -260,7 +250,7 @@ int CurrencyRatesEventFunc_OptInitialise(WPARAM wp, LPARAM/* lp*/)
 	odp.szGroup.w = LPGENW("Network");
 	odp.flags = ODPF_USERINFOTAB | ODPF_UNICODE;
 
-	for (auto &it : CModuleInfo::GetCurrencyRateProvidersPtr()->GetProviders())
+	for (auto &it : g_apProviders)
 		it->ShowPropertyPage(wp, odp);
 	return 0;
 }
@@ -307,6 +297,8 @@ int CMPlugin::Load(void)
 	CurrencyRates_IconsInit();
 	CurrencyRates_InitExtraIcons();
 
+	InitProviders();
+
 	CreateProtoServiceFunction(CURRENCYRATES_PROTOCOL_NAME, PS_GETCAPS, CurrencyRateProtoFunc_GetCaps);
 	CreateProtoServiceFunction(CURRENCYRATES_PROTOCOL_NAME, PS_GETSTATUS, CurrencyRateProtoFunc_GetStatus);
 
@@ -327,6 +319,7 @@ int CMPlugin::Unload(void)
 {
 	WaitForWorkingThreads();
 
+	ClearProviders();
 	::CloseHandle(g_hEventWorkThreadStop);
 	return 0;
 }

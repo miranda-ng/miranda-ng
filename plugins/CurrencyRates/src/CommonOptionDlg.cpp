@@ -5,7 +5,7 @@ typedef std::map<const ICurrencyRatesProvider*, TAdvSettingsPtr> TAdvSettings;
 
 TAdvSettings g_aAdvSettings;
 
-CAdvProviderSettings* get_adv_settings(const ICurrencyRatesProvider* pProvider, bool bCreateIfNonExist)
+CAdvProviderSettings* get_adv_settings(const ICurrencyRatesProvider *pProvider, bool bCreateIfNonExist)
 {
 	TAdvSettings::iterator i = g_aAdvSettings.find(pProvider);
 	if (i != g_aAdvSettings.end())

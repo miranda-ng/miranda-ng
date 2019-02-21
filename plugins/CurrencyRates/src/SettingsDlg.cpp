@@ -259,12 +259,11 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 			tstring sName = GetContactName(hContact);
 			::SetDlgItemText(hWnd, IDC_EDIT_NAME, sName.c_str());
 
-			CCurrencyRatesProviders::TCurrencyRatesProviderPtr pProvider = CModuleInfo::GetCurrencyRateProvidersPtr()->GetContactProviderPtr(hContact);
-
 			BYTE bUseContactSpecific = db_get_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CONTACT_SPEC_SETTINGS, 0);
 			::CheckDlgButton(hWnd, IDC_CHECK_CONTACT_SPECIFIC, bUseContactSpecific ? BST_CHECKED : BST_UNCHECKED);
 
-			CAdvProviderSettings setGlobal(pProvider.get());
+			auto pProvider = GetContactProviderPtr(hContact);
+			CAdvProviderSettings setGlobal(pProvider);
 			// log to history
 			WORD dwLogMode = db_get_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG, setGlobal.GetLogMode());
 			UINT nCheck = (dwLogMode&lmInternalHistory) ? 1 : 0;
@@ -314,10 +313,8 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 		case IDC_BUTTON_HISTORY_DESCRIPTION:
 		case IDC_BUTTON_LOG_FILE_DESCRIPTION:
 		case IDC_BUTTON_POPUP_FORMAT_DESCRIPTION:
-			if (BN_CLICKED == HIWORD(wp)) {
-				CCurrencyRatesProviders::TCurrencyRatesProviderPtr pProvider = CModuleInfo::GetCurrencyRateProvidersPtr()->GetContactProviderPtr(get_param(hWnd)->m_hContact);
-				show_variable_list(hWnd, pProvider.get());
-			}
+			if (BN_CLICKED == HIWORD(wp))
+				show_variable_list(hWnd, GetContactProviderPtr(get_param(hWnd)->m_hContact));
 			break;
 
 		case IDC_CHECK_CONTACT_SPECIFIC:
@@ -632,7 +629,7 @@ INT_PTR CALLBACK EditSettingsPerProviderDlgProc(HWND hWnd, UINT msg, WPARAM wp, 
 	return FALSE;
 }
 
-CAdvProviderSettings::CAdvProviderSettings(const ICurrencyRatesProvider* pCurrencyRatesProvider)
+CAdvProviderSettings::CAdvProviderSettings(const ICurrencyRatesProvider *pCurrencyRatesProvider)
 	: m_pCurrencyRatesProvider(pCurrencyRatesProvider),
 	m_wLogMode(lmDisabled),
 	m_bIsOnlyChangedHistory(false),
@@ -947,14 +944,14 @@ tstring GetContactLogFileName(MCONTACT hContact)
 {
 	tstring result;
 
-	const CCurrencyRatesProviders::TCurrencyRatesProviderPtr& pProvider = CModuleInfo::GetCurrencyRateProvidersPtr()->GetContactProviderPtr(hContact);
+	auto pProvider = GetContactProviderPtr(hContact);
 	if (pProvider) {
 		tstring sPattern;
 		bool bUseContactSpecific = (db_get_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CONTACT_SPEC_SETTINGS, 0) > 0);
 		if (bUseContactSpecific)
 			sPattern = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG_FILE);
 		else {
-			CAdvProviderSettings global_settings(pProvider.get());
+			CAdvProviderSettings global_settings(pProvider);
 			sPattern = global_settings.GetLogFileName();
 		}
 

@@ -16,8 +16,6 @@ public:
 
 	static bool Verify();
 
-	static TCurrencyRatesProvidersPtr GetCurrencyRateProvidersPtr();
-
 	static THTMLEnginePtr GetHTMLEngine();
 	static void SetHTMLEngine(THTMLEnginePtr pEngine);
 };

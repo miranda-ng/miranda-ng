@@ -38,7 +38,6 @@
 #include <m_CurrencyRates.h>
 #include <m_toptoolbar.h>
 
-#include <boost\scoped_ptr.hpp>
 #include <boost\date_time\posix_time\posix_time.hpp>
 #include <boost\date_time\c_local_time_adjustor.hpp>
 
@@ -96,7 +95,6 @@ inline tstring currencyrates_a2t(const char* s)
 #include "ExtraImages.h"
 #include "IsWithinAccuracy.h"
 #include "ICurrencyRatesProvider.h"
-#include "CurrencyRatesProviders.h"
 #include "CurrencyRatesProviderBase.h"
 
 #define CHART_IMPLEMENT

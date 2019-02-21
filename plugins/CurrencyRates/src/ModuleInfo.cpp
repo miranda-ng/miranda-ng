@@ -29,12 +29,6 @@ void CModuleInfo::OnMirandaShutdown()
 		WindowList_Broadcast(p.second, WM_CLOSE, 0, 0);
 }
 
-CModuleInfo::TCurrencyRatesProvidersPtr CModuleInfo::GetCurrencyRateProvidersPtr()
-{
-	static TCurrencyRatesProvidersPtr pProviders(new CCurrencyRatesProviders);
-	return pProviders;
-}
-
 CModuleInfo::THTMLEnginePtr CModuleInfo::GetHTMLEngine()
 {
 	if (!g_pHTMLEngine) {

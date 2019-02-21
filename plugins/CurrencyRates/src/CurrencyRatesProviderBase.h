@@ -73,10 +73,8 @@ class CCurrencyRatesProviderBase : public ICurrencyRatesProvider
 {
 	void OnEndRun();
 
-	struct CXMLFileInfo* GetXMLFileInfo() const;
+	struct CXMLFileInfo *m_pXMLInfo = nullptr;
 
-	typedef boost::scoped_ptr<CXMLFileInfo> TXMLFileInfoPtr;
-	mutable TXMLFileInfoPtr m_pXMLInfo;
 	HANDLE m_hEventSettingsChanged;
 	HANDLE m_hEventRefreshContact;
 	tstring m_sContactListFormat;

@@ -14,8 +14,7 @@ MCONTACT g_hContact;
 
 inline bool IsMyContact(MCONTACT hContact)
 {
-	CCurrencyRatesProviders::TCurrencyRatesProviderPtr pProvider = CModuleInfo::GetCurrencyRateProvidersPtr()->GetContactProviderPtr(hContact);
-	return (nullptr != pProvider);
+	return nullptr != GetContactProviderPtr(hContact);
 }
 
 inline MCONTACT get_contact(HWND hWnd)
@@ -66,9 +65,7 @@ INT_PTR CALLBACK CurrencyRateInfoDlgProcImpl(MCONTACT hContact, HWND hdlg, UINT 
 				}
 			}
 
-			CCurrencyRatesProviders::TCurrencyRatesProviderPtr pProvider = CModuleInfo::GetCurrencyRateProvidersPtr()->GetContactProviderPtr(hContact);
-
-			const ICurrencyRatesProvider::CProviderInfo& pi = pProvider->GetInfo();
+			const ICurrencyRatesProvider::CProviderInfo& pi = GetContactProviderPtr(hContact)->GetInfo();
 			tostringstream o;
 			o << TranslateT("Info provided by") << L" <a href=\"" << pi.m_sURL << L"\">" << pi.m_sName << L"</a>";
 
@@ -152,11 +149,9 @@ INT_PTR CurrencyRatesMenu_RefreshContact(WPARAM wp, LPARAM)
 	if (NULL == hContact)
 		return 0;
 
-	CCurrencyRatesProviders::TCurrencyRatesProviderPtr pProvider = CModuleInfo::GetCurrencyRateProvidersPtr()->GetContactProviderPtr(hContact);
-	if (!pProvider)
-		return 0;
-
-	pProvider->RefreshContact(hContact);
+	ICurrencyRatesProvider *pProvider = GetContactProviderPtr(hContact);
+	if (pProvider)
+		pProvider->RefreshContact(hContact);
 	return 0;
 }
 
@@ -210,7 +205,7 @@ static INT_PTR CALLBACK CurrencyRateInfoDlgProc1(HWND hdlg, UINT msg, WPARAM wPa
 int CurrencyRates_OnContactDoubleClick(WPARAM wp, LPARAM/* lp*/)
 {
 	MCONTACT hContact = MCONTACT(wp);
-	if (CModuleInfo::GetCurrencyRateProvidersPtr()->GetContactProviderPtr(hContact)) {
+	if (GetContactProviderPtr(hContact)) {
 		MWindowList hWL = CModuleInfo::GetWindowList(WINDOW_PREFIX_INFO, true);
 		assert(hWL);
 		HWND hWnd = WindowList_Find(hWL, hContact);

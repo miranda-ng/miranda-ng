@@ -21,7 +21,7 @@ inline void prepare_edit_ctrl_for_error(HWND hwndEdit)
 	::SendMessage(hwndEdit, EM_SCROLLCARET, 0, 0);
 }
 
-void show_variable_list(HWND hwndParent, const ICurrencyRatesProvider* pProvider);
+void show_variable_list(HWND hwndParent, const ICurrencyRatesProvider *pProvider);
 
 inline int CurrencyRates_MessageBox(HWND hWnd, LPCTSTR pszText, UINT nType = MB_OK)
 {

@@ -57,7 +57,7 @@ private:
 class CAdvProviderSettings
 {
 public:
-	CAdvProviderSettings(const ICurrencyRatesProvider* pCurrencyRatesProvider);
+	CAdvProviderSettings(const ICurrencyRatesProvider *pCurrencyRatesProvider);
 	~CAdvProviderSettings();
 
 	void SaveToDb() const;
@@ -87,7 +87,7 @@ public:
 	CPopupSettings* GetPopupSettingsPtr() const;
 
 private:
-	const ICurrencyRatesProvider* m_pCurrencyRatesProvider;
+	const ICurrencyRatesProvider *m_pCurrencyRatesProvider;
 	WORD m_wLogMode;
 	tstring m_sFormatHistory;
 	bool m_bIsOnlyChangedHistory;

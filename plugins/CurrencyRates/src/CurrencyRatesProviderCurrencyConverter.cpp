@@ -47,15 +47,11 @@ TWatchedRates g_aWatchedRates;
 
 INT_PTR CALLBACK OptDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	auto  get_provider = []()->CCurrencyRatesProviderCurrencyConverter*
+	auto get_provider = []()->CCurrencyRatesProviderCurrencyConverter*
 	{
-		auto pProviders = CModuleInfo::GetCurrencyRateProvidersPtr();
-		const auto& rapCurrencyRatesProviders = pProviders->GetProviders();
-		for (auto i = rapCurrencyRatesProviders.begin(); i != rapCurrencyRatesProviders.end(); ++i) {
-			const auto& pProvider = *i;
-			if (auto p = dynamic_cast<CCurrencyRatesProviderCurrencyConverter*>(pProvider.get()))
+		for (auto &pProvider : g_apProviders)
+			if (auto p = dynamic_cast<CCurrencyRatesProviderCurrencyConverter*>(pProvider))
 				return p;
-		}
 
 		assert(!"We should never get here!");
 		return nullptr;

@@ -9,9 +9,8 @@
 
 static CCurrencyRatesProviderCurrencyConverter *get_currency_converter_provider()
 {
-	CModuleInfo::TCurrencyRatesProvidersPtr pProviders = CModuleInfo::GetCurrencyRateProvidersPtr();
-	for (auto &it : pProviders->GetProviders())
-		if (auto p = dynamic_cast<CCurrencyRatesProviderCurrencyConverter*>(it.get()))
+	for (auto &it : g_apProviders)
+		if (auto p = dynamic_cast<CCurrencyRatesProviderCurrencyConverter*>(it))
 			return p;
 
 	assert(!"We should never get here!");

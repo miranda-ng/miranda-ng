@@ -122,8 +122,8 @@ CXMLFileInfo init_xml_info(LPCTSTR pszFileName, bool& rbSucceded)
 	return parse_ini_file(sIniFile, rbSucceded);
 }
 
-CCurrencyRatesProviderBase::CCurrencyRatesProviderBase()
-	: m_hEventSettingsChanged(::CreateEvent(nullptr, FALSE, FALSE, nullptr)),
+CCurrencyRatesProviderBase::CCurrencyRatesProviderBase() :
+	m_hEventSettingsChanged(::CreateEvent(nullptr, FALSE, FALSE, nullptr)),
 	m_hEventRefreshContact(::CreateEvent(nullptr, FALSE, FALSE, nullptr)),
 	m_bRefreshInProgress(false)
 {
@@ -131,37 +131,34 @@ CCurrencyRatesProviderBase::CCurrencyRatesProviderBase()
 
 CCurrencyRatesProviderBase::~CCurrencyRatesProviderBase()
 {
+	delete m_pXMLInfo;
+
 	::CloseHandle(m_hEventSettingsChanged);
 	::CloseHandle(m_hEventRefreshContact);
 }
 
 bool CCurrencyRatesProviderBase::Init()
 {
-	bool bSucceded = m_pXMLInfo != nullptr;
+	bool bSucceded = (m_pXMLInfo == nullptr);
 	if (!m_pXMLInfo)
-		m_pXMLInfo.reset(new CXMLFileInfo(init_xml_info(DB_DEF_IniFileName, bSucceded)));
+		m_pXMLInfo = new CXMLFileInfo(init_xml_info(DB_DEF_IniFileName, bSucceded));
 
 	return bSucceded;
 }
 
-CXMLFileInfo* CCurrencyRatesProviderBase::GetXMLFileInfo() const
-{
-	return m_pXMLInfo.get();
-}
-
 const CCurrencyRatesProviderBase::CProviderInfo& CCurrencyRatesProviderBase::GetInfo() const
 {
-	return GetXMLFileInfo()->m_pi;
+	return m_pXMLInfo->m_pi;
 }
 
 const CCurrencyRateSection& CCurrencyRatesProviderBase::GetCurrencyRates() const
 {
-	return GetXMLFileInfo()->m_qs;
+	return m_pXMLInfo->m_qs;
 }
 
 const tstring& CCurrencyRatesProviderBase::GetURL() const
 {
-	return GetXMLFileInfo()->m_sURL;
+	return m_pXMLInfo->m_sURL;
 }
 
 bool CCurrencyRatesProviderBase::IsOnline()
@@ -391,7 +388,7 @@ tstring format_rate(const ICurrencyRatesProvider *pProvider, MCONTACT hContact, 
 	return sResult;
 }
 
-void log_to_file(const ICurrencyRatesProvider* pProvider,
+void log_to_file(const ICurrencyRatesProvider *pProvider,
 	MCONTACT hContact,
 	const tstring& rsLogFileName,
 	const tstring& rsFormat)
@@ -406,7 +403,7 @@ void log_to_file(const ICurrencyRatesProvider* pProvider,
 	}
 }
 
-void log_to_history(const ICurrencyRatesProvider* pProvider,
+void log_to_history(const ICurrencyRatesProvider *pProvider,
 	MCONTACT hContact,
 	time_t nTime,
 	const tstring& rsFormat)
@@ -440,7 +437,7 @@ bool do_set_contact_extra_icon(MCONTACT hContact, const CTendency& tendency)
 	return false;
 }
 
-bool show_popup(const ICurrencyRatesProvider* pProvider,
+bool show_popup(const ICurrencyRatesProvider *pProvider,
 	MCONTACT hContact,
 	const CTendency& tendency,
 	const tstring& rsFormat,

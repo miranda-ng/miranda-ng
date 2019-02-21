@@ -3,37 +3,30 @@
 
 #define LAST_RUN_VERSION "LastRunVersion"
 
-CCurrencyRatesProviders::CCurrencyRatesProviders()
-{
-	InitProviders();
-}
+TCurrencyRatesProviders g_apProviders;
 
-CCurrencyRatesProviders::~CCurrencyRatesProviders()
-{
-	ClearProviders();
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
-const CCurrencyRatesProviders::TCurrencyRatesProviders& CCurrencyRatesProviders::GetProviders() const
+template<class T>void create_provider(TCurrencyRatesProviders& g_apProviders)
 {
-	return m_apProviders;
-}
-
-template<class T>void create_provider(CCurrencyRatesProviders::TCurrencyRatesProviders& apProviders)
-{
-	CCurrencyRatesProviders::TCurrencyRatesProviderPtr pProvider(new T);
+	ICurrencyRatesProvider *pProvider = new T;
 	if (pProvider->Init())
-		apProviders.push_back(pProvider);
+		g_apProviders.push_back(pProvider);
 };
 
-void CCurrencyRatesProviders::CreateProviders()
+void CreateProviders()
 {
-	create_provider<CCurrencyRatesProviderCurrencyConverter>(m_apProviders);
+	create_provider<CCurrencyRatesProviderCurrencyConverter>(g_apProviders);
 }
 
-void CCurrencyRatesProviders::ClearProviders()
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void ClearProviders()
 {
-	m_apProviders.clear();
+	g_apProviders.clear();
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void convert_contact_settings(MCONTACT hContact)
 {
@@ -42,7 +35,7 @@ void convert_contact_settings(MCONTACT hContact)
 		db_set_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CONTACT_SPEC_SETTINGS, 1);
 }
 
-void CCurrencyRatesProviders::InitProviders()
+void InitProviders()
 {
 	CreateProviders();
 
@@ -50,7 +43,7 @@ void CCurrencyRatesProviders::InitProviders()
 	WORD nVersion = db_get_w(0, CURRENCYRATES_MODULE_NAME, LAST_RUN_VERSION, 1);
 
 	for (auto &hContact : Contacts(CURRENCYRATES_MODULE_NAME)) {
-		TCurrencyRatesProviderPtr pProvider = GetContactProviderPtr(hContact);
+		ICurrencyRatesProvider *pProvider = GetContactProviderPtr(hContact);
 		if (pProvider) {
 			pProvider->AddContact(hContact);
 			if (nVersion < nCurrentVersion)
@@ -61,30 +54,30 @@ void CCurrencyRatesProviders::InitProviders()
 	db_set_w(0, CURRENCYRATES_MODULE_NAME, LAST_RUN_VERSION, nCurrentVersion);
 }
 
-CCurrencyRatesProviders::TCurrencyRatesProviderPtr CCurrencyRatesProviders::GetContactProviderPtr(MCONTACT hContact) const
+/////////////////////////////////////////////////////////////////////////////////////////
+
+ICurrencyRatesProvider* GetContactProviderPtr(MCONTACT hContact)
 {
 	char* szProto = GetContactProto(hContact);
 	if (nullptr == szProto || 0 != ::_stricmp(szProto, CURRENCYRATES_PROTOCOL_NAME))
-		return TCurrencyRatesProviderPtr();
+		return nullptr;
 
 	tstring sProvider = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_PROVIDER);
 	if (true == sProvider.empty())
-		return TCurrencyRatesProviderPtr();
+		return nullptr;
 
 	return FindProvider(sProvider);
 }
 
-CCurrencyRatesProviders::TCurrencyRatesProviderPtr CCurrencyRatesProviders::FindProvider(const tstring& rsName) const
+/////////////////////////////////////////////////////////////////////////////////////////
+
+ICurrencyRatesProvider* FindProvider(const tstring& rsName)
 {
-	TCurrencyRatesProviderPtr pResult;
-	for (TCurrencyRatesProviders::const_iterator i = m_apProviders.begin(); i != m_apProviders.end(); ++i) {
-		const TCurrencyRatesProviderPtr& pProvider = *i;
+	for (auto &pProvider : g_apProviders) {
 		const ICurrencyRatesProvider::CProviderInfo& rInfo = pProvider->GetInfo();
-		if (0 == ::mir_wstrcmpi(rsName.c_str(), rInfo.m_sName.c_str())) {
-			pResult = pProvider;
-			break;
-		}
+		if (0 == ::mir_wstrcmpi(rsName.c_str(), rInfo.m_sName.c_str()))
+			return pProvider;
 	}
 
-	return pResult;
+	return nullptr;
 }

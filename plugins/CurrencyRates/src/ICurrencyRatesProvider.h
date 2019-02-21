@@ -47,4 +47,16 @@ public:
 	virtual void Run() = 0;
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+typedef std::vector<ICurrencyRatesProvider*> TCurrencyRatesProviders;
+extern TCurrencyRatesProviders g_apProviders;
+
+ICurrencyRatesProvider* FindProvider(const tstring& rsName);
+ICurrencyRatesProvider* GetContactProviderPtr(MCONTACT hContact);
+
+void InitProviders();
+void CreateProviders();
+void ClearProviders();
+
 #endif //__ac71e133_786c_41a7_ab07_625b76ff2a8c_CurrencyRatesProvider_h__

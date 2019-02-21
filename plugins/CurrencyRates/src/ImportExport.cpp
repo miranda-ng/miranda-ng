@@ -206,15 +206,13 @@ INT_PTR CurrencyRates_Export(WPARAM wp, LPARAM lp)
 	}
 	else sFileName = currencyrates_a2t(pszFile);
 
-	CModuleInfo::TCurrencyRatesProvidersPtr pProviders = CModuleInfo::GetCurrencyRateProvidersPtr();
-
 	TiXmlDocument doc;
 	auto *pRoot = doc.NewElement(g_szXmlContacts);
 	doc.InsertFirstChild(pRoot);
 
 	MCONTACT hContact = MCONTACT(wp);
 	if (hContact) {
-		CCurrencyRatesProviders::TCurrencyRatesProviderPtr pProvider = pProviders->GetContactProviderPtr(hContact);
+		auto pProvider = GetContactProviderPtr(hContact);
 		if (pProvider) {
 			auto *pNode = export_contact(hContact, doc);
 			if (pNode)
@@ -223,7 +221,7 @@ INT_PTR CurrencyRates_Export(WPARAM wp, LPARAM lp)
 	}
 	else {
 		for (auto &cc : Contacts(CURRENCYRATES_MODULE_NAME)) {
-			CCurrencyRatesProviders::TCurrencyRatesProviderPtr pProvider = pProviders->GetContactProviderPtr(cc);
+			auto pProvider = GetContactProviderPtr(cc);
 			if (pProvider) {
 				auto *pNode = export_contact(cc, doc);
 				if (pNode)
@@ -371,7 +369,7 @@ struct CContactState
 {
 	CContactState() : m_hContact(NULL), m_bNewContact(false) {}
 	MCONTACT m_hContact;
-	CCurrencyRatesProviders::TCurrencyRatesProviderPtr m_pProvider;
+	ICurrencyRatesProvider *m_pProvider;
 	bool m_bNewContact;
 };
 
@@ -399,15 +397,15 @@ TNameValue parse_setting_node(const TiXmlNode *pXmlSetting)
 	return std::make_pair(sName, sValue);
 }
 
-CCurrencyRatesProviders::TCurrencyRatesProviderPtr find_provider(const TiXmlNode *pXmlCurrencyRatesModule)
+ICurrencyRatesProvider* find_provider(const TiXmlNode *pXmlCurrencyRatesModule)
 {
 	for (auto *pNode : TiXmlFilter(pXmlCurrencyRatesModule, g_szXmlSetting)) {
 		TNameValue Item = parse_setting_node(pNode);
 		if ((!mir_strcmpi(DB_STR_CURRENCYRATE_PROVIDER, Item.first)) && Item.second)
-			return CModuleInfo::GetCurrencyRateProvidersPtr()->FindProvider(Utf2T(Item.second).get());
+			return FindProvider(Utf2T(Item.second).get());
 	}
 
-	return CCurrencyRatesProviders::TCurrencyRatesProviderPtr();
+	return nullptr;
 }
 
 bool get_contact_state(const TiXmlNode *pXmlContact, CContactState& cst)
