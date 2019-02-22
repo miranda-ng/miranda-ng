@@ -212,7 +212,7 @@ MIR_CORE_DLL(int) mir_snwprintf(wchar_t *buffer, size_t count, const wchar_t* fm
 {
 	va_list va;
 	va_start(va, fmt);
-	int len = _vsntprintf(buffer, count-1, fmt, va);
+	int len = _vsnwprintf(buffer, count-1, fmt, va);
 	va_end(va);
 	buffer[count-1] = 0;
 	return len;
@@ -231,7 +231,7 @@ MIR_CORE_DLL(int) mir_vsnprintf(char *buffer, size_t count, const char* fmt, va_
 
 MIR_CORE_DLL(int) mir_vsnwprintf(wchar_t *buffer, size_t count, const wchar_t* fmt, va_list va)
 {
-	int len = _vsntprintf(buffer, count-1, fmt, va);
+	int len = _vsnwprintf(buffer, count-1, fmt, va);
 	buffer[count-1] = 0;
 	return len;
 }
