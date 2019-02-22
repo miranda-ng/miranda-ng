@@ -582,7 +582,7 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 			}
 
 			if (him->m_szRealJid && *him->m_szRealJid) {
-				mir_snwprintf(sttRJidBuf, TranslateT("Real &JID: %s"), him->m_szRealJid);
+				mir_snwprintf(sttRJidBuf, TranslateT("Real &JID: %s"), Utf2T(him->m_szRealJid).get());
 				if (wchar_t *tmp = wcschr(sttRJidBuf, '/')) *tmp = 0;
 
 				if (MCONTACT hContact = HContactFromJID(him->m_szRealJid)) {
