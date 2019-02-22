@@ -127,8 +127,6 @@ private:
 
 	bool m_bHistorySynced;
 
-	std::map<HANDLE, time_t> m_mpOutMessages;
-
 	std::map<std::string, std::string> cookies;
 	static std::map<std::wstring, std::wstring> languages;
 
@@ -139,11 +137,11 @@ private:
 
 	LIST<void> m_PopupClasses;
 	LIST<void> m_OutMessages;
-	//dialogs
+	// dialogs
 	LIST<CSkypeInviteDlg> m_InviteDialogs;
 	LIST<CSkypeGCCreateDlg> m_GCCreateDialogs;
 
-	//locks
+	// locks
 	mir_cs m_lckOutMessagesList;
 	mir_cs m_InviteDialogsLock;
 	mir_cs m_GCCreateDialogsLock;

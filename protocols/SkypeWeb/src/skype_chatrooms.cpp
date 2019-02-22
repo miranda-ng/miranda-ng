@@ -333,7 +333,7 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 	}
 }
 
-void CSkypeProto::OnSendChatMessage(const wchar_t *chat_id, const wchar_t * tszMessage)
+void CSkypeProto::OnSendChatMessage(const wchar_t *chat_id, const wchar_t *tszMessage)
 {
 	if (!IsOnline())
 		return;

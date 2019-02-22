@@ -76,10 +76,9 @@ MCONTACT CSkypeProto::AddContact(const char *skypename, bool isTemporary)
 
 		setString(hContact, SKYPE_SETTINGS_ID, skypename);
 
-		DBVARIANT dbv;
-		if (!getWString(SKYPE_SETTINGS_GROUP, &dbv)) {
-			db_set_ws(hContact, "CList", "Group", dbv.pwszVal);
-			db_free(&dbv);
+		if (m_opts.wstrCListGroup) {
+			Clist_GroupCreate(0, m_opts.wstrCListGroup);
+			db_set_ws(hContact, "CList", "Group", m_opts.wstrCListGroup);
 		}
 
 		setByte(hContact, "Auth", 1);

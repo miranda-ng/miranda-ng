@@ -38,7 +38,7 @@ int CSkypeProto::OnReceiveMessage(MCONTACT hContact, const char *szContent, cons
 struct SendMessageParam
 {
 	MCONTACT hContact;
-	LONGLONG hMessage;
+	DWORD hMessage;
 };
 
 // outcoming message flow
@@ -51,7 +51,8 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int, const char *szMessage)
 
 	SendMessageParam *param = new SendMessageParam();
 	param->hContact = hContact;
-	param->hMessage = time(0);
+	Utils_GetRandom(&param->hMessage, sizeof(param->hMessage));
+	param->hMessage &= ~0x80000000;
 
 	ptrA username(getStringA(hContact, "Skypename"));
 
@@ -75,31 +76,14 @@ void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 	delete param;
 
 	if (response != nullptr) {
-		if (response->resultCode == 201) {
-			if (m_OutMessages.getIndex(hMessage) != -1) {
-				if (response->pData != nullptr) {
-					JSONNode jRoot = JSONNode::parse(response->pData);
-					if (m_mpOutMessages.find(hMessage) == m_mpOutMessages.end()) {
-						m_mpOutMessages[hMessage] = std::stoull(jRoot["OriginalArrivalTime"].as_string()) / 1000;
-					}
-				}
-				ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, hMessage, 0);
-				{
-					mir_cslock lck(m_lckOutMessagesList);
-					m_OutMessages.remove(hMessage);
-				}
-			}
-		}
-		else {
+		if (response->resultCode != 201) {
 			std::string strError = Translate("Unknown error!");
 
 			if (response->pData != nullptr) {
 				JSONNode jRoot = JSONNode::parse(response->pData);
 				const JSONNode &jErr = jRoot["errorCode"];
-
-				if (jErr) {
+				if (jErr)
 					strError = jErr.as_string();
-				}
 			}
 
 			ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, hMessage, _A2T(strError.c_str()));
@@ -108,7 +92,7 @@ void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 	else ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, hMessage, (LPARAM)TranslateT("Network error!"));
 }
 
-// preparing message/action to writing into db
+// preparing message/action to be written into db
 int CSkypeProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 {
 	MessageWindowEvent *evt = (MessageWindowEvent*)lParam;
@@ -121,18 +105,6 @@ int CSkypeProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 		memmove(evt->dbei->pBlob, &evt->dbei->pBlob[4], evt->dbei->cbBlob);
 		evt->dbei->eventType = SKYPE_DB_EVENT_TYPE_ACTION;
 	}
-
-	CMStringA messageId(FORMAT, "%d", evt->seq);
-	evt->dbei->pBlob = (PBYTE)mir_realloc(evt->dbei->pBlob, evt->dbei->cbBlob + messageId.GetLength());
-	memcpy(&evt->dbei->pBlob[evt->dbei->cbBlob], messageId, messageId.GetLength());
-	evt->dbei->cbBlob += messageId.GetLength();
-
-	auto it = m_mpOutMessages.find((HANDLE)evt->seq);
-	if (it != m_mpOutMessages.end()) {
-		evt->dbei->timestamp = it->second;
-		m_mpOutMessages.erase(it);
-	}
-
 	return 0;
 }
 
@@ -166,12 +138,8 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 	}
 	else if (strMessageType == "Text" || strMessageType == "RichText") {
 		if (IsMe(szFromSkypename)) {
-			HANDLE hMessage = (HANDLE)(std::stoull(szMessageId.GetString()));
+			HANDLE hMessage = (HANDLE)atoi(szMessageId);
 			if (m_OutMessages.getIndex(hMessage) != -1) {
-				auto it = m_mpOutMessages.find(hMessage);
-				if (it == m_mpOutMessages.end()) {
-					m_mpOutMessages[hMessage] = timestamp;
-				}
 				ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, hMessage, (LPARAM)szMessageId.c_str());
 				{
 					mir_cslock lck(m_lckOutMessagesList);
@@ -248,8 +216,10 @@ void CSkypeProto::ProcessContactRecv(MCONTACT hContact, time_t timestamp, const 
 		return;
 
 	int nCount = 0;
-	for (auto *it : TiXmlEnum(xmlNode))
+	for (auto *it : TiXmlEnum(xmlNode)) {
+		UNREFERENCED_PARAMETER(it);
 		nCount++;
+	}
 
 	PROTOSEARCHRESULT **psr = (PROTOSEARCHRESULT**)mir_calloc(sizeof(PROTOSEARCHRESULT*) * nCount);
 	

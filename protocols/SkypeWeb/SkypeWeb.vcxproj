@@ -26,7 +26,6 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
-    <ClInclude Include="res\Icons\*" />
     <ClInclude Include="src\requests\avatars.h" />
     <ClInclude Include="src\requests\capabilities.h" />
     <ClInclude Include="src\requests\chatrooms.h" />
