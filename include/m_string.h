@@ -376,12 +376,12 @@ public:
 		return reinterpret_cast<LPSTR>(_mbsrev(reinterpret_cast<unsigned char*>(psz)));
 	}
 
-	static int __stdcall GetFormattedLength(LPCSTR pszFormat, va_list args)
+	static int __stdcall GetFormattedLength(_Printf_format_string_ LPCSTR pszFormat, va_list args)
 	{
 		return _vscprintf(pszFormat, args);
 	}
 
-	static int __stdcall Format(LPSTR pszBuffer, size_t nlength, LPCSTR pszFormat, va_list args)
+	static int __stdcall Format(LPSTR pszBuffer, size_t nlength, _Printf_format_string_ LPCSTR pszFormat, va_list args)
 	{
 		return vsprintf_s(pszBuffer, nlength, pszFormat, args);
 	}
@@ -596,12 +596,12 @@ public:
 		return _wcsrev(psz);
 	}
 
-	static int __stdcall GetFormattedLength(LPCWSTR pszFormat, va_list args)
+	static int __stdcall GetFormattedLength(_Printf_format_string_ LPCWSTR pszFormat, va_list args)
 	{
 		return _vscwprintf(pszFormat, args);
 	}
 
-	static int __stdcall Format(LPWSTR pszBuffer, LPCWSTR pszFormat, va_list args)
+	static int __stdcall Format(LPWSTR pszBuffer, _Printf_format_string_ LPCWSTR pszFormat, va_list args)
 	{
 		#pragma warning(push)
 		#pragma warning(disable : 4996)
@@ -609,7 +609,7 @@ public:
 		#pragma warning(pop)
 	}
 
-	static int __stdcall Format(LPWSTR pszBuffer, size_t nLength, LPCWSTR pszFormat, va_list args)
+	static int __stdcall Format(LPWSTR pszBuffer, size_t nLength, _Printf_format_string_ LPCWSTR pszFormat, va_list args)
 	{
 		#pragma warning(push)
 		#pragma warning(disable : 4996)
@@ -739,7 +739,7 @@ public:
 	CMStringT(const CMStringT& strSrc);
 
 	CMStringT(const XCHAR* pszSrc);
-	CMStringT(CMStringDataFormat, const XCHAR* pszFormat, ...);
+	CMStringT(CMStringDataFormat, _Printf_format_string_ const XCHAR* pszFormat, ...);
 
 	CMStringT(const YCHAR* pszSrc);
 	CMStringT(const unsigned char* pszSrc);
@@ -883,12 +883,12 @@ public:
 	CMStringT SpanExcluding(PCXSTR pszCharSet) const;
 
 	// Format data using format string 'pszFormat'
-	PCXSTR Format(PCXSTR pszFormat, ...);
-	PCXSTR FormatV(PCXSTR pszFormat, va_list args);
+	PCXSTR Format(PCXSTR _Printf_format_string_ pszFormat, ...);
+	PCXSTR FormatV(PCXSTR _Printf_format_string_ pszFormat, va_list args);
 
 	// Append formatted data using format string 'pszFormat'
-	PCXSTR AppendFormat(PCXSTR pszFormat, ...);
-	void   AppendFormatV(PCXSTR pszFormat, va_list args);
+	PCXSTR AppendFormat(PCXSTR _Printf_format_string_ pszFormat, ...);
+	void   AppendFormatV(PCXSTR _Printf_format_string_ pszFormat, va_list args);
 
 	// return a copy of string to be freed by mir_free()
 	PXSTR Detach() const;
