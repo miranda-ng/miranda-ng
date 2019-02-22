@@ -101,6 +101,9 @@ void CIcqProto::OnModulesLoaded()
 		wchar_t buf[100];
 		_itow(dwUin, buf, 10);
 		m_szOwnId = buf;
+
+		for (auto &it : AccContacts())
+			delSetting(it, "e-mail");
 	}
 	else {
 		CMStringW wszEmail(getMStringW("Email"));
