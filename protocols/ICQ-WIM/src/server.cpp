@@ -226,7 +226,9 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 		FindContactByUIN(wszId)->m_bInList = true;
 	}
 
+	CMStringA szVer;
 	bool bVersionDetected = false;
+
 	for (auto &it : buddy["capabilities"]) {
 		CMStringW wszCap(it.as_mstring());
 		if (wszCap.GetLength() != 32)
@@ -237,21 +239,27 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 		if (!memcmp(cap, "MiNG", 4)) { // Miranda
 			int v[4];
 			swscanf(wszCap.c_str() + 16, L"%04x%04x%04x%04x", &v[0], &v[1], &v[2], &v[3]);
-			CMStringA szVer(FORMAT, "Miranda NG %d.%d.%d.%d (ICQ %d.%d.%d.%d)", v[0], v[1], v[2], v[3], cap[4], cap[5], cap[6], cap[7]);
+			szVer.Format("Miranda NG %d.%d.%d.%d (ICQ %d.%d.%d.%d)", v[0], v[1], v[2], v[3], cap[4], cap[5], cap[6], cap[7]);
 			setString(hContact, "MirVer", szVer);
 			bVersionDetected = true;
 		}
+		else if (!memcmp(cap, NG_CAP_SECUREIM, 16)) {
+			szVer.Append(" + SecureIM");
+			bVersionDetected = true;
+		}
 		else if (!memcmp(cap, "Mod by Mikanoshi", 16)) {
-			setString(hContact, "MirVer", "R&Q build by Mikanoshi");
+			szVer = "R&Q build by Mikanoshi";
 			bVersionDetected = true;
 		}
 		else if (!memcmp(cap, "Mandarin IM", 11)) {
-			setString(hContact, "MirVer", "Mandarin IM");
+			szVer = "Mandarin IM";
 			bVersionDetected = true;
 		}
 	}
 
-	if (!bVersionDetected)
+	if (bVersionDetected)
+		setString(hContact, "MirVer", szVer);
+	else
 		delSetting(hContact, "MirVer");
 
 	CMStringW str(buddy["state"].as_mstring());
@@ -543,6 +551,10 @@ void CIcqProto::StartSession()
 	int ts = time(0);
 	CMStringA nonce(FORMAT, "%d-2", ts);
 	CMStringA caps(WIM_CAP_UNIQ_REQ_ID "," WIM_CAP_EMOJI "," WIM_CAP_MAIL_NOTIFICATIONS "," WIM_CAP_INTRO_DLG_STATE);
+	if (g_bSecureIM) {
+		caps.AppendChar(',');
+		caps.Append(NG_CAP_SECUREIM);
+	}
 
 	MFileVersion v;
 	Miranda_GetFileVersion(&v);
