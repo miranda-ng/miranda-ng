@@ -1397,7 +1397,7 @@ int CJabberProto::JabberGcEventHook(WPARAM, LPARAM lParam)
 		break;
 
 	case GC_USER_PRIVMESS:
-		sttSendPrivateMessage(this, item, roomJid);
+		sttSendPrivateMessage(this, item, T2Utf(gch->ptszUID));
 		break;
 
 	case GC_USER_LOGMENU:
