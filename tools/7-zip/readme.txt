@@ -1,9 +1,9 @@
-7-Zip 18.06
+7-Zip 19.00
 -----------
 
 7-Zip is a file archiver for Windows.
 
-7-Zip Copyright (C) 1999-2018 Igor Pavlov.
+7-Zip Copyright (C) 1999-2019 Igor Pavlov.
 
 The main features of 7-Zip: 
 
