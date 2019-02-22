@@ -5,6 +5,7 @@
 
 #pragma once
 
+#undef _HAS_EXCEPTIONS
 #define _HAS_EXCEPTIONS 1
 
 #include <Windows.h>
