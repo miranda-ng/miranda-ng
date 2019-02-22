@@ -106,11 +106,11 @@ void CIcqProto::OnModulesLoaded()
 			delSetting(it, "e-mail");
 	}
 	else {
-		CMStringW wszEmail(getMStringW("Email"));
-		if (wszEmail.IsEmpty())
-			wszEmail = getMStringW("e-mail");
-		if (!wszEmail.IsEmpty())
+		CMStringW wszEmail(getMStringW("e-mail"));
+		if (!wszEmail.IsEmpty()) {
 			m_szOwnId = wszEmail;
+			delSetting("e-mail");
+		}
 	}
 
 	InitContactCache();
