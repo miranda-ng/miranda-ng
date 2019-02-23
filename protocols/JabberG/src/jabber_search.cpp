@@ -743,8 +743,7 @@ HWND CJabberProto::SearchAdvanced(HWND hwndDlg)
 	// Forms: XEP-0055 Example 7
 	if (dat->fSearchRequestIsXForm) {
 		fRequestNotEmpty = TRUE;
-		TiXmlElement *n = JabberFormGetData(GetDlgItem(hwndDlg, IDC_FRAME), &iq, dat->xNode);
-		query->InsertEndChild(n);
+		JabberFormGetData(GetDlgItem(hwndDlg, IDC_FRAME), query, dat->xNode);
 	}
 	else { //and Simple fields: XEP-0055 Example 3
 		for (int i = 0; i < dat->nJSInfCount; i++) {

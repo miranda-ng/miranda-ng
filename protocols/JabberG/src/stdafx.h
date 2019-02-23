@@ -511,8 +511,6 @@ struct JABBER_MUC_JIDLIST_INFO : public MZeroedObject
 	wchar_t* type2str(void) const;
 };
 
-typedef void (CJabberProto::*JABBER_FORM_SUBMIT_FUNC)(TiXmlElement *values, void *userdata);
-
 //---- jabber_treelist.c ------------------------------------------------
 
 typedef struct TTreeList_ItemInfo *HTREELISTITEM;
@@ -636,17 +634,64 @@ enum TJabberFormControlType
 	JFORM_CTYPE_FIXED, JFORM_CTYPE_HIDDEN, JFORM_CTYPE_TEXT_SINGLE
 };
 
-typedef struct TJabberFormControlInfo *HJFORMCTRL;
-typedef struct TJabberFormLayoutInfo *HJFORMLAYOUT;
+struct TJabberFormControlInfo;
+
+struct TJabberFormLayoutInfo
+{
+	TJabberFormLayoutInfo(HWND hwndCtrl, bool bCompact);
+
+	TJabberFormControlInfo* AppendControl(TJabberFormControlType type, const char *labelStr, const char *valueStr);
+	HWND CreateLabel(const wchar_t *pwszLabel);
+	void OrderControls(int *formHeight);
+	void PositionControl(TJabberFormControlInfo *item, const char *labelStr, const char *valueStr);
+
+	HWND m_hwnd;
+	int  m_ctrlHeight;
+	int  m_offset, m_width, m_maxLabelWidth;
+	int  m_yPos, m_ySpacing;
+	int  m_id;
+	bool m_bCompact;
+};
 
 void JabberFormCreateUI(HWND hwndStatic, TiXmlElement *xNode, int *formHeight, BOOL bCompact = FALSE);
 void JabberFormDestroyUI(HWND hwndStatic);
+void JabberFormGetData(HWND hwndStatic, TiXmlElement* pRoot, TiXmlElement *xNode);
 void JabberFormSetInstruction(HWND hwndForm, const char *text);
-HJFORMLAYOUT JabberFormCreateLayout(HWND hwndStatic); // use mir_free to destroy
-HJFORMCTRL JabberFormAppendControl(HWND hwndStatic, HJFORMLAYOUT layout_info, TJabberFormControlType type, const char *labelStr, const char *valueStr);
-void JabberFormLayoutControls(HWND hwndStatic, HJFORMLAYOUT layout_info, int *formHeight);
 
-TiXmlElement* JabberFormGetData(HWND hwndStatic, TiXmlDocument *doc, TiXmlElement *xNode);
+class CJabberFormDlg : public CJabberDlgBase
+{
+	typedef CJabberDlgBase CSuper;
+
+	TiXmlDocument m_doc;
+	TiXmlElement *m_xNode;
+
+	ptrA m_defTitle;	// Default title if no <title/> in xNode
+	JABBER_FORM_SUBMIT_FUNC m_pfnSubmit, m_pfnCancel = nullptr;
+	void *m_pUserdata;
+
+	RECT m_frameRect;		// Clipping region of the frame to scroll
+	int m_frameHeight;	// Height of the frame (can be eliminated, redundant to frameRect)
+	int m_formHeight;		// Actual height of the form
+	int m_curPos;			// Current scroll position
+
+	CCtrlButton btnSubmit, btnCancel;
+	void onClick_Submit(CCtrlButton*);
+	void onClick_Cancel(CCtrlButton*);
+
+public:
+	CJabberFormDlg(CJabberProto *ppro, const TiXmlElement *xNode, char *defTitle, JABBER_FORM_SUBMIT_FUNC pfnSubmit, void *userdata);
+
+	void Display();
+	void GetData(TiXmlElement *xDest);
+
+	void SetCancel(JABBER_FORM_SUBMIT_FUNC pFunc) {
+		m_pfnCancel = pFunc;
+	}
+
+	bool OnInitDialog() override;
+	void OnDestroy() override;
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+};
 
 //---- jabber_icolib.c ----------------------------------------------
 

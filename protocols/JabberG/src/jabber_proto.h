@@ -43,6 +43,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 struct CJabberProto;
 class CJabberMucJidListDlg;
 
+class CJabberFormDlg;
+typedef void (CJabberProto::*JABBER_FORM_SUBMIT_FUNC)(CJabberFormDlg *pDlg, void *userdata);
+
 enum TJabberGcLogInfoType { INFO_BAN, INFO_STATUS, INFO_CONFIG, INFO_AFFILIATION, INFO_ROLE };
 
 typedef UNIQUE_MAP<wchar_t, TCharKeyCmp> U_TCHAR_MAP;
@@ -456,10 +459,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   RenameParticipantNick(JABBER_LIST_ITEM *item, const char *oldNick, const TiXmlElement *itemNode);
 	void   AcceptGroupchatInvite(const char *roomJid, const char *reason, const char *password);
 
-	//---- jabber_form.c -----------------------------------------------------------------
-
-	void   FormCreateDialog(const TiXmlElement *xNode, char* defTitle, JABBER_FORM_SUBMIT_FUNC pfnSubmit, void *userdata);
-
 	//---- jabber_ft.c -------------------------------------------------------------------
 
 	void   __cdecl FileReceiveThread(filetransfer *ft);
@@ -580,7 +579,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CJabberMucJidListDlg *m_pDlgMucBanList, *m_pDlgMucAdminList, *m_pDlgMucOwnerList;
 	CJabberMucJidListDlg *& GetMucDlg(JABBER_MUC_JIDLIST_TYPE);
 
-	void   SetMucConfig(TiXmlElement *node, void *from);
+	void   SetMucConfig(CJabberFormDlg *pDlg, void *from);
 	void   MucShutdown(void);
 	void   OnIqResultMucGetJidList(const TiXmlElement *iqNode, JABBER_MUC_JIDLIST_TYPE listType);
 
@@ -779,10 +778,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   OnProcessPresence(const TiXmlElement *node, ThreadData *info);
 	void   OnProcessPresenceCapabilites(const TiXmlElement *node, pResourceStatus &resource);
 	void   OnProcessPubsubEvent(const TiXmlElement *node);
-	//XEP-0198 specific types handlers
-	void   OnProcessSMa(const TiXmlElement *node, ThreadData *info);
-	void   OnProcessSMr(const TiXmlElement *node, ThreadData *info);
-
 	void   OnProcessStreamOpening(const TiXmlElement *node, ThreadData *info);
 	void   OnProcessProtocol(const TiXmlElement *node, ThreadData *info);
 
@@ -799,7 +794,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	BOOL   OnProcessJingle(const TiXmlElement *node);
 	void   OnProcessIq(const TiXmlElement *node);
-	void   SetRegConfig(TiXmlElement *node, void *from);
+	void   SetRegConfig(CJabberFormDlg *pDlg, void *from);
+	void   CancelRegConfig(CJabberFormDlg *pDlg, void *from);
 	void   OnProcessRegIq(const TiXmlElement *node, ThreadData *info);
 	void   OnPingReply(const TiXmlElement *node, CJabberIqInfo *pInfo);
 

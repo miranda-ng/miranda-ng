@@ -1891,7 +1891,13 @@ void CJabberProto::OnProcessIq(const TiXmlElement *node)
 	}
 }
 
-void CJabberProto::SetRegConfig(TiXmlElement *node, void *from)
+void CJabberProto::CancelRegConfig(CJabberFormDlg*, void*)
+{
+	if (g_pRegInfo)
+		SendMessage(g_pRegInfo->conn.reg_hwndDlg, WM_JABBER_REGDLG_UPDATE, 100, (LPARAM)TranslateT("Registration canceled"));
+}
+
+void CJabberProto::SetRegConfig(CJabberFormDlg *pDlg, void *from)
 {
 	if (g_pRegInfo) {
 		iqIdRegSetReg = SerialNext();
@@ -1901,7 +1907,7 @@ void CJabberProto::SetRegConfig(TiXmlElement *node, void *from)
 		XmlNodeIq iq("set", iqIdRegSetReg, (const char*)from);
 		iq << XATTR("from", text);
 		TiXmlElement *query = iq << XQUERY(JABBER_FEAT_REGISTER);
-		query->InsertEndChild(node);
+		pDlg->GetData(query);
 		g_pRegInfo->send(iq);
 	}
 }
@@ -1924,7 +1930,11 @@ void CJabberProto::OnProcessRegIq(const TiXmlElement *node, ThreadData *info)
 				if (xNode != nullptr) {
 					if (!mir_strcmp(xNode->Attribute("xmlns"), JABBER_FEAT_DATA_FORMS)) {
 						g_pRegInfo = info;
-						FormCreateDialog(xNode, "Jabber register new user", &CJabberProto::SetRegConfig, mir_strdup(node->Attribute("from")));
+
+						auto *pDlg = new CJabberFormDlg(this, xNode, "Jabber register new user", &CJabberProto::SetRegConfig, mir_strdup(node->Attribute("from")));
+						pDlg->SetParent(info->conn.reg_hwndDlg);
+						pDlg->SetCancel(&CJabberProto::CancelRegConfig);
+						pDlg->Display();
 						return;
 					}
 				}

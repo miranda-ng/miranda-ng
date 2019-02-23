@@ -105,7 +105,6 @@
 #define IDC_AGENT_BROWSE                1029
 #define IDC_INSTRUCTION                 1030
 #define IDC_FRAME                       1037
-#define IDC_FRAME_TEXT                  1038
 #define IDC_SIMPLE                      1041
 #define IDC_KEEPALIVE                   1042
 #define IDC_HOST                        1043

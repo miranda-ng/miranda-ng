@@ -213,7 +213,6 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, TiXmlElement *workNode
 		if ((xNode = commandNode->FirstChildElement("x"))) {
 			// use jabber:x:data form
 			HWND hFrame = GetDlgItem(hwndDlg, IDC_FRAME);
-			ShowWindow(GetDlgItem(hwndDlg, IDC_FRAME_TEXT), SW_HIDE);
 			if (auto *pszText = XmlGetChildText(xNode, "instructions"))
 				JabberFormSetInstruction(hwndDlg, pszText);
 			else if (pszText = XmlGetChildText(xNode, "title"))
@@ -225,7 +224,7 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, TiXmlElement *workNode
 		}
 		else {
 			// NO X FORM
-			int toHide[] = { IDC_FRAME_TEXT, IDC_FRAME, IDC_VSCROLL, 0 };
+			int toHide[] = { IDC_FRAME, IDC_VSCROLL, 0 };
 			sttShowControls(hwndDlg, FALSE, toHide);
 
 			auto *pszText = XmlGetChildText(commandNode, "note");
@@ -258,7 +257,7 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, TiXmlElement *workNode
 	}
 	else if (!mir_strcmp(type, "error")) {
 		// error occurred here
-		int toHide[] = { IDC_FRAME, IDC_FRAME_TEXT, IDC_VSCROLL, IDC_PREV, IDC_NEXT, IDC_COMPLETE, IDC_SUBMIT, 0 };
+		int toHide[] = { IDC_FRAME, IDC_VSCROLL, IDC_PREV, IDC_NEXT, IDC_COMPLETE, IDC_SUBMIT, 0 };
 		sttShowControls(hwndDlg, FALSE, toHide);
 
 		const char *code = "";
@@ -295,8 +294,7 @@ int CJabberProto::AdHoc_SubmitCommandForm(HWND hwndDlg, JabberAdHocData *dat, ch
 	if (action)
 		command << XATTR("action", action);
 
-	TiXmlElement *dataNode = JabberFormGetData(GetDlgItem(hwndDlg, IDC_FRAME), &iq, xNode);
-	command->InsertEndChild(dataNode);
+	JabberFormGetData(GetDlgItem(hwndDlg, IDC_FRAME), command, xNode);
 	m_ThreadInfo->send(iq);
 
 	JabberFormSetInstruction(hwndDlg, TranslateU("In progress. Please Wait..."));
@@ -353,7 +351,7 @@ static INT_PTR CALLBACK JabberAdHoc_CommandDlgProc(HWND hwndDlg, UINT msg, WPARA
 			frameExStyle |= WS_EX_CONTROLPARENT;
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_FRAME), GWL_EXSTYLE, frameExStyle);
 
-			int toHide[] = { IDC_FRAME, IDC_VSCROLL, IDC_PREV, IDC_NEXT, IDC_COMPLETE, IDC_FRAME_TEXT, 0 };
+			int toHide[] = { IDC_FRAME, IDC_VSCROLL, IDC_PREV, IDC_NEXT, IDC_COMPLETE, 0 };
 			sttShowControls(hwndDlg, FALSE, toHide);
 
 			int toShow[] = { IDC_INSTRUCTION, IDC_SUBMIT, IDCANCEL, 0 };

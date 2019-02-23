@@ -27,12 +27,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_iq.h"
 #include "jabber_caps.h"
 
-void CJabberProto::SetMucConfig(TiXmlElement *node, void *from)
+void CJabberProto::SetMucConfig(CJabberFormDlg *pDlg, void *from)
 {
 	if (m_ThreadInfo && from) {
 		XmlNodeIq iq("set", SerialNext(), (char*)from);
-		TiXmlElement *query = iq << XQUERY(JABBER_FEAT_MUC_OWNER);
-		query->InsertEndChild(node);
+		auto *query = iq << XQUERY(JABBER_FEAT_MUC_OWNER);
+		pDlg->GetData(query);
 		m_ThreadInfo->send(iq);
 	}
 }
@@ -50,7 +50,7 @@ void CJabberProto::OnIqResultGetMuc(const TiXmlElement *iqNode, CJabberIqInfo*)
 	if (!mir_strcmp(type, "result"))
 		if (auto *queryNode = XmlGetChildByTag(iqNode, "query", "xmlns", JABBER_FEAT_MUC_OWNER))
 			if (auto *xNode = XmlGetChildByTag(queryNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS))
-				FormCreateDialog(xNode, "Jabber Conference Room Configuration", &CJabberProto::SetMucConfig, mir_strdup(from));
+				(new CJabberFormDlg(this, xNode, "Jabber Conference Room Configuration", &CJabberProto::SetMucConfig, mir_strdup(from)))->Display();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
