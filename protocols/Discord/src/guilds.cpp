@@ -214,6 +214,12 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 		pUser->lastMsgId = ::getId(pch["last_message_id"]);
 		pUser->parentId = _wtoi64(pch["parent_id"].as_mstring());
 
+		SnowFlake oldMsgId = getId(pUser->hContact, DB_KEY_LASTMSGID);
+		if (oldMsgId == 0)
+			RetrieveHistory(pUser, MSG_BEFORE, pUser->lastMsgId, 20);
+		else if (pUser->lastMsgId > oldMsgId)
+			RetrieveHistory(pUser, MSG_AFTER, oldMsgId, 99);
+
 		setId(pUser->hContact, DB_KEY_ID, channelId);
 		setId(pUser->hContact, DB_KEY_CHANNELID, channelId);
 		return pUser;
@@ -298,7 +304,7 @@ void CDiscordProto::ParseGuildContents(CDiscordGuild *pGuild, const JSONNode &pR
 
 		SnowFlake oldMsgId = getId(it->hContact, DB_KEY_LASTMSGID);
 		if (oldMsgId != 0 && it->lastMsgId > oldMsgId)
-			RetrieveHistory(it->hContact, MSG_AFTER, oldMsgId, 99);
+			RetrieveHistory(it, MSG_AFTER, oldMsgId, 99);
 	}
 
 	pGuild->bSynced = true;

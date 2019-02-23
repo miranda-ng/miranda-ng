@@ -338,7 +338,7 @@ public:
 	void RetrieveMyInfo();
 	void OnReceiveMyInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
-	void RetrieveHistory(MCONTACT hContact, CDiscordHistoryOp iOp = MSG_NOFILTER, SnowFlake msgid = 0, int iLimit = 50);
+	void RetrieveHistory(CDiscordUser *pUser, CDiscordHistoryOp iOp = MSG_NOFILTER, SnowFlake msgid = 0, int iLimit = 50);
 	void OnReceiveHistory(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	bool RetrieveAvatar(MCONTACT hContact);

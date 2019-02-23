@@ -28,12 +28,8 @@ void CDiscordProto::RemoveFriend(SnowFlake id)
 /////////////////////////////////////////////////////////////////////////////////////////
 // retrieves server history 
 
-void CDiscordProto::RetrieveHistory(MCONTACT hContact, CDiscordHistoryOp iOp, SnowFlake msgid, int iLimit)
+void CDiscordProto::RetrieveHistory(CDiscordUser *pUser, CDiscordHistoryOp iOp, SnowFlake msgid, int iLimit)
 {
-	CDiscordUser *pUser = FindUser(getId(hContact, DB_KEY_ID));
-	if (pUser == nullptr)
-		return;
-
 	CMStringA szUrl(FORMAT, "/channels/%lld/messages", pUser->channelId);
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, szUrl, &CDiscordProto::OnReceiveHistory);
 	pReq << INT_PARAM("limit", iLimit);
@@ -138,7 +134,7 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 
 	// if we fetched 99 messages, but have smth more to go, continue fetching
 	if (iNumMessages == 99 && lastId < pUser->lastMsgId)
-		RetrieveHistory(pUser->hContact, MSG_AFTER, lastId, 99);
+		RetrieveHistory(pUser, MSG_AFTER, lastId, 99);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
