@@ -72,6 +72,7 @@ const
     (Name:'Incoming events';       XML:'';            i:HPP_ICON_EVENT_INCOMING;  iName:'hppevn_inc';       iSkin:-1),
     (Name:'Outgoing events';       XML:'';            i:HPP_ICON_EVENT_OUTGOING;  iName:'hppevn_out';       iSkin:-1),
     (Name:'Message';               XML:'MSG';         i:HPP_SKIN_EVENT_MESSAGE;                             iSkin:SKINICON_EVENT_MESSAGE),
+    (Name:'Link';                  XML:'URL';         i:HPP_SKIN_EVENT_URL;                                 iSkin:SKINICON_EVENT_URL),
     (Name:'File transfer';         XML:'FILE';        i:HPP_SKIN_EVENT_FILE;                                iSkin:SKINICON_EVENT_FILE),
     (Name:'System message';        XML:'SYS';         i:HPP_ICON_EVENT_SYSTEM;    iName:'hppevn_sys';       iSkin:-1),
     (Name:'Contacts';              XML:'ICQCNT';      i:HPP_ICON_EVENT_CONTACTS;  iName:'hppevn_icqcnt';    iSkin:-1),
@@ -111,6 +112,7 @@ function GetEventCoreText(EventInfo: TDBEventInfo; var Hi: THistoryItem): Boolea
 // specific routines
 procedure GetEventTextForMessage(EventInfo: TDBEventInfo; var Hi: THistoryItem);
 procedure GetEventTextForFile(EventInfo: TDBEventInfo; var Hi: THistoryItem);
+procedure GetEventTextForUrl(EventInfo: TDBEventInfo; var Hi: THistoryItem);
 procedure GetEventTextForAuthRequest(EventInfo: TDBEventInfo; var Hi: THistoryItem);
 procedure GetEventTextForYouWereAdded(EventInfo: TDBEventInfo; var Hi: THistoryItem);
 procedure GetEventTextForSms(EventInfo: TDBEventInfo; var Hi: THistoryItem);
@@ -150,11 +152,12 @@ type
   end;
 
 var
-  EventTable: array[0..16] of TEventTableItem = (
+  EventTable: array[0..17] of TEventTableItem = (
     // must be the first item in array for unknown events
     (EventType: MaxWord;                         MessageType: mtOther;         TextFunction: GetEventTextForOther),
     // events definitions
     (EventType: EVENTTYPE_MESSAGE;               MessageType: mtMessage;       TextFunction: GetEventTextForMessage),
+    (EventType: EVENTTYPE_URL;                   MessageType: mtUrl;           TextFunction: GetEventTextForUrl),
     (EventType: EVENTTYPE_FILE;                  MessageType: mtFile;          TextFunction: GetEventTextForFile),
     (EventType: EVENTTYPE_AUTHREQUEST;           MessageType: mtSystem;        TextFunction: GetEventTextForAuthRequest),
     (EventType: EVENTTYPE_ADDED;                 MessageType: mtSystem;        TextFunction: GetEventTextForYouWereAdded),
@@ -332,6 +335,48 @@ begin
   end;
 end;
 
+function TextHasUrls(var Text: String): Boolean;
+var
+  i,len,lenW: Integer;
+  pText,pPos: PChar;
+begin
+  Result := False;
+  len := Length(Text);
+  if len=0 then exit;
+
+  pText := PChar(Text);
+  for i := 0 to High(UrlPrefix) do
+  begin
+    pPos := StrPos(pText, PChar(UrlPrefix[i]));
+    if not Assigned(pPos) then
+      continue;
+    Result := ((uint_ptr(pPos) = uint_ptr(pText)) or not IsWideCharAlphaNumeric((pPos - 1)^)) and
+      IsWideCharAlphaNumeric((pPos + Length(UrlPrefix[i]))^);
+    if Result then
+      exit;
+  end;
+
+  if not Assigned(StrPos(PChar(Text),':/')) then exit;
+
+  lenW := (len+1)*SizeOf(Char);
+
+  TextBuffer.Lock;
+  TextBuffer.Allocate(lenW);
+  Move(Text[1],TextBuffer.Buffer^,lenW);
+  CharLowerBuffW(PChar(TextBuffer.Buffer),len);
+  for i := 0 to High(UrlProto) do
+  begin
+    pPos := StrPos(PChar(TextBuffer.Buffer), PChar(UrlProto[i].proto));
+    if not Assigned(pPos) then
+      continue;
+    Result := ((uint_ptr(pPos) = uint_ptr(TextBuffer.Buffer)) or
+      not IsWideCharAlphaNumeric((pPos - 1)^));
+    if Result then
+      break;
+  end;
+  TextBuffer.Unlock;
+end;
+
 function GetEventInfo(hDBEvent: THANDLE): TDBEventInfo;
 var
   BlobSize: integer;
@@ -399,6 +444,12 @@ begin
       EventTable[EventIndex].TextFunction(EventInfo, Result);
     Result.Text := AdjustLineBreaks(Result.Text);
     Result.Text := TrimRight(Result.Text);
+    if mtMessage in Result.MessageType then
+      if TextHasUrls(Result.Text) then
+      begin
+        exclude(Result.MessageType, mtMessage);
+        include(Result.MessageType, mtUrl);
+      end;
   finally
     EventBuffer.Unlock;
   end;
@@ -482,6 +533,23 @@ begin
     else
       Hi.Text := AnsiToWideString(msgA, Hi.CodePage, msglen - 1);
   end;
+end;
+
+procedure GetEventTextForUrl(EventInfo: TDBEventInfo; var Hi: THistoryItem);
+var
+  BytePos:LongWord;
+  Url,Desc: AnsiString;
+  cp: Cardinal;
+begin
+  BytePos:=0;
+  ReadStringTillZeroA(Pointer(EventInfo.pBlob),EventInfo.cbBlob,Url,BytePos);
+  ReadStringTillZeroA(Pointer(EventInfo.pBlob),EventInfo.cbBlob,Desc,BytePos);
+  if Boolean(EventInfo.flags and DBEF_UTF) then
+    cp := CP_UTF8
+  else
+    cp := Hi.CodePage;
+  hi.Text := Format(TranslateW('URL: %s'),[AnsiToWideString(url+#13#10+desc,cp)]);
+  hi.Extended := Url;
 end;
 
 procedure GetEventTextForFile(EventInfo: TDBEventInfo; var Hi: THistoryItem);

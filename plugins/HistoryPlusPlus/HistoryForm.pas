@@ -2274,6 +2274,14 @@ begin
     else
       Item.FileName := UTF8Encode(MakeTextXMLedA(tmp));
   end
+  else if mtUrl in hg.Items[Index].MessageType then
+  begin
+    tmp := hg.Items[Index].Extended;
+    if tmp = '' then
+      Item.Url := '&UNK;'
+    else
+      Item.Url := UTF8Encode(MakeTextXMLedA(tmp));
+  end
   else if mtAvatarChange in hg.Items[Index].MessageType then
   begin
     tmp := hg.Items[Index].Extended;

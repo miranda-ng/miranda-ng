@@ -66,7 +66,7 @@ type
                   mtMessage, mtFile, mtSystem,
                   mtContacts, mtStatus, mtSMTPSimple,
                   mtOther,
-                  mtNickChange,mtAvatarChange,mtWATrack,mtStatusMessage,mtVoiceCall,mtCustom);
+                  mtNickChange,mtAvatarChange,mtWATrack,mtStatusMessage,mtVoiceCall,mtCustom, mtUrl);
 
   PMessageTypes = ^TMessageTypes;
   TMessageTypes = set of TMessageType;
@@ -144,6 +144,9 @@ const
   HM_MIEV_PRESHUTDOWN     = HM_MIEV_BASE + 3; // ME_SYSTEM_PRESHUTDOWN
   HM_MIEV_CONTACTDELETED  = HM_MIEV_BASE + 4; // ME_DB_CONTACT_DELETED
   HM_MIEV_METADEFCHANGED  = HM_MIEV_BASE + 5; // ME_MC_DEFAULTTCHANGED
+
+const
+  EVENTTYPE_URL         = 1;
 
 const
   // History Grid options flags
