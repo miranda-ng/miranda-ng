@@ -4,7 +4,15 @@ pause
 
 set comp=bin15
 
-for /F "tokens=1,2,3 delims= " %%i in (build/build.no.stable) do set Branch=%%i_%%j_%%k
+for /F "tokens=1,2,3,4 delims= " %%i in (build/build.no.stable) do (
+  if "%%l" == "" (
+     set Branch=%%i_%%j_%%k
+     set MirVer=%%i.%%j.%%k
+  ) else (
+     set Branch=%%i_%%j_%%k_%%l
+     set MirVer=%%i.%%j.%%k.%%l
+  )
+)
 
 call git_update.bat %Branch%
 set GIT_STATUS=%ERRORLEVEL%
@@ -18,10 +26,9 @@ del /F /Q version.txt
 pushd build
 copy build.no.stable build.no
 copy make_ver_stable.bat make_ver.bat
-for /F "tokens=1,2,3,4 delims= " %%i in (build.no.stable) do set MirVer=%%i.%%j.%%k.%%l
 popd
 
-echo v%MirVer% > version.txt
+echo Building v%MirVer% > version.txt
 
 start /min /wait z1_ReBuild_Full.bat 32 %comp%
 
