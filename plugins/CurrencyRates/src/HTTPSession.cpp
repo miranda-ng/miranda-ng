@@ -2,7 +2,7 @@
 
 HNETLIBUSER CHTTPSession::g_hNetLib = nullptr;
 
-#define ERROR_MSG LPGENW("This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail")
+#define ERROR_MSG LPGENW("This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.")
 
 void CALLBACK waitStub()
 {
