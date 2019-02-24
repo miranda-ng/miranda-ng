@@ -1,10 +1,10 @@
 @echo off
 
-set ProfileDir=%~dp0Profiles
-
 for /F "tokens=1,2 delims==" %%a in ('findstr "ProfileDir=" mirandaboot.ini') do (
   call set ProfileDir=%%b
 )
+
+if "%ProfileDir%"=="" set ProfileDir=%~dp0Profiles
 
 echo Using profile directory %ProfileDir%
 
