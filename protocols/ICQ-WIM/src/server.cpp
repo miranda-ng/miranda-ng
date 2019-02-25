@@ -351,10 +351,11 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		CMStringW wszSender(it["chat"]["sender"].as_mstring());
 		CMStringW wszChatId(getMStringW(hContact, "ChatRoomID"));
 
-		GCEVENT gce = { m_szModuleName, wszChatId, GC_EVENT_MESSAGE };
+		GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
+		gce.pszID.w = wszChatId;
 		gce.dwFlags = GCEF_ADDTOLOG;
-		gce.ptszUID = wszSender;
-		gce.ptszText = wszText;
+		gce.pszUID.w = wszSender;
+		gce.pszText.w = wszText;
 		gce.time = iMsgTime;
 		gce.bIsMe = wszSender == m_szOwnId;
 		Chat_Event(&gce);

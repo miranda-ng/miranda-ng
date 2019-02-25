@@ -85,31 +85,31 @@ BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
 	switch (gce->iType) {
 	case GC_EVENT_MESSAGE | GC_EVENT_HIGHLIGHT:
 	case GC_EVENT_ACTION | GC_EVENT_HIGHLIGHT:
-		g_chatApi.AddEvent(si->hContact, Skin_LoadIcon(SKINICON_EVENT_MESSAGE), GC_FAKE_EVENT, 0, TranslateT("%s wants your attention in %s"), gce->ptszNick, si->ptszName);
+		g_chatApi.AddEvent(si->hContact, Skin_LoadIcon(SKINICON_EVENT_MESSAGE), GC_FAKE_EVENT, 0, TranslateT("%s wants your attention in %s"), gce->pszNick.w, si->ptszName);
 		break;
 	case GC_EVENT_MESSAGE:
-		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_MESSAGE], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s speaks in %s"), gce->ptszNick, si->ptszName);
+		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_MESSAGE], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s speaks in %s"), gce->pszNick.w, si->ptszName);
 		break;
 	case GC_EVENT_ACTION:
-		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_ACTION], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s speaks in %s"), gce->ptszNick, si->ptszName);
+		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_ACTION], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s speaks in %s"), gce->pszNick.w, si->ptszName);
 		break;
 	case GC_EVENT_JOIN:
-		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_JOIN], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s has joined %s"), gce->ptszNick, si->ptszName);
+		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_JOIN], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s has joined %s"), gce->pszNick.w, si->ptszName);
 		break;
 	case GC_EVENT_PART:
-		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_PART], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s has left %s"), gce->ptszNick, si->ptszName);
+		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_PART], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s has left %s"), gce->pszNick.w, si->ptszName);
 		break;
 	case GC_EVENT_QUIT:
-		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_QUIT], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s has disconnected"), gce->ptszNick);
+		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_QUIT], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s has disconnected"), gce->pszNick.w);
 		break;
 	case GC_EVENT_NICK:
-		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_NICK], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s is now known as %s"), gce->ptszNick, gce->ptszText);
+		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_NICK], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s is now known as %s"), gce->pszNick.w, gce->pszText.w);
 		break;
 	case GC_EVENT_KICK:
-		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_KICK], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s kicked %s from %s"), gce->ptszStatus, gce->ptszNick, si->ptszName);
+		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_KICK], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s kicked %s from %s"), gce->pszStatus.w, gce->pszNick.w, si->ptszName);
 		break;
 	case GC_EVENT_NOTICE:
-		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_NOTICE], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("Notice from %s"), gce->ptszNick);
+		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_NOTICE], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("Notice from %s"), gce->pszNick.w);
 		break;
 	case GC_EVENT_TOPIC:
 		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_TOPIC], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("Topic change in %s"), si->ptszName);
@@ -118,10 +118,10 @@ BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
 		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_INFO], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("Information in %s"), si->ptszName);
 		break;
 	case GC_EVENT_ADDSTATUS:
-		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_ADDSTATUS], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s enables '%s' status for %s in %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick, si->ptszName);
+		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_ADDSTATUS], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s enables '%s' status for %s in %s"), gce->pszText.w, gce->pszStatus.w, gce->pszNick.w, si->ptszName);
 		break;
 	case GC_EVENT_REMOVESTATUS:
-		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_REMSTATUS], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s disables '%s' status for %s in %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick, si->ptszName);
+		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_REMSTATUS], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s disables '%s' status for %s in %s"), gce->pszText.w, gce->pszStatus.w, gce->pszNick.w, si->ptszName);
 		break;
 	}
 
@@ -210,58 +210,58 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 {
 	switch (gce->iType) {
 	case GC_EVENT_MESSAGE | GC_EVENT_HIGHLIGHT:
-		g_chatApi.ShowPopup(si->hContact, si, Skin_LoadIcon(SKINICON_EVENT_MESSAGE), si->pszModule, si->ptszName, g_chatApi.aFonts[16].color, TranslateT("%s says: %s"), gce->ptszNick, RemoveFormatting(gce->ptszText));
+		g_chatApi.ShowPopup(si->hContact, si, Skin_LoadIcon(SKINICON_EVENT_MESSAGE), si->pszModule, si->ptszName, g_chatApi.aFonts[16].color, TranslateT("%s says: %s"), gce->pszNick.w, RemoveFormatting(gce->pszText.w));
 		break;
 	case GC_EVENT_ACTION | GC_EVENT_HIGHLIGHT:
-		g_chatApi.ShowPopup(si->hContact, si, Skin_LoadIcon(SKINICON_EVENT_MESSAGE), si->pszModule, si->ptszName, g_chatApi.aFonts[16].color, L"%s %s", gce->ptszNick, RemoveFormatting(gce->ptszText));
+		g_chatApi.ShowPopup(si->hContact, si, Skin_LoadIcon(SKINICON_EVENT_MESSAGE), si->pszModule, si->ptszName, g_chatApi.aFonts[16].color, L"%s %s", gce->pszNick.w, RemoveFormatting(gce->pszText.w));
 		break;
 	case GC_EVENT_MESSAGE:
-		g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_MESSAGE], si->pszModule, si->ptszName, g_chatApi.aFonts[9].color, TranslateT("%s says: %s"), gce->ptszNick, RemoveFormatting(gce->ptszText));
+		g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_MESSAGE], si->pszModule, si->ptszName, g_chatApi.aFonts[9].color, TranslateT("%s says: %s"), gce->pszNick.w, RemoveFormatting(gce->pszText.w));
 		break;
 	case GC_EVENT_ACTION:
-		g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_ACTION], si->pszModule, si->ptszName, g_chatApi.aFonts[15].color, L"%s %s", gce->ptszNick, RemoveFormatting(gce->ptszText));
+		g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_ACTION], si->pszModule, si->ptszName, g_chatApi.aFonts[15].color, L"%s %s", gce->pszNick.w, RemoveFormatting(gce->pszText.w));
 		break;
 	case GC_EVENT_JOIN:
-		g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_JOIN], si->pszModule, si->ptszName, g_chatApi.aFonts[3].color, TranslateT("%s has joined"), gce->ptszNick);
+		g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_JOIN], si->pszModule, si->ptszName, g_chatApi.aFonts[3].color, TranslateT("%s has joined"), gce->pszNick.w);
 		break;
 	case GC_EVENT_PART:
-		if (!gce->ptszText)
-			g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_PART], si->pszModule, si->ptszName, g_chatApi.aFonts[4].color, TranslateT("%s has left"), gce->ptszNick);
+		if (!gce->pszText.w)
+			g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_PART], si->pszModule, si->ptszName, g_chatApi.aFonts[4].color, TranslateT("%s has left"), gce->pszNick.w);
 		else
-			g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_PART], si->pszModule, si->ptszName, g_chatApi.aFonts[4].color, TranslateT("%s has left (%s)"), gce->ptszNick, RemoveFormatting(gce->ptszText));
+			g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_PART], si->pszModule, si->ptszName, g_chatApi.aFonts[4].color, TranslateT("%s has left (%s)"), gce->pszNick.w, RemoveFormatting(gce->pszText.w));
 		break;
 	case GC_EVENT_QUIT:
-		if (!gce->ptszText)
-			g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_QUIT], si->pszModule, si->ptszName, g_chatApi.aFonts[5].color, TranslateT("%s has disconnected"), gce->ptszNick);
+		if (!gce->pszText.w)
+			g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_QUIT], si->pszModule, si->ptszName, g_chatApi.aFonts[5].color, TranslateT("%s has disconnected"), gce->pszNick.w);
 		else
-			g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_QUIT], si->pszModule, si->ptszName, g_chatApi.aFonts[5].color, TranslateT("%s has disconnected (%s)"), gce->ptszNick, RemoveFormatting(gce->ptszText));
+			g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_QUIT], si->pszModule, si->ptszName, g_chatApi.aFonts[5].color, TranslateT("%s has disconnected (%s)"), gce->pszNick.w, RemoveFormatting(gce->pszText.w));
 		break;
 	case GC_EVENT_NICK:
-		g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_NICK], si->pszModule, si->ptszName, g_chatApi.aFonts[7].color, TranslateT("%s is now known as %s"), gce->ptszNick, gce->ptszText);
+		g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_NICK], si->pszModule, si->ptszName, g_chatApi.aFonts[7].color, TranslateT("%s is now known as %s"), gce->pszNick.w, gce->pszText.w);
 		break;
 	case GC_EVENT_KICK:
-		if (!gce->ptszText)
-			g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_KICK], si->pszModule, si->ptszName, g_chatApi.aFonts[6].color, TranslateT("%s kicked %s"), (char *)gce->ptszStatus, gce->ptszNick);
+		if (!gce->pszText.w)
+			g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_KICK], si->pszModule, si->ptszName, g_chatApi.aFonts[6].color, TranslateT("%s kicked %s"), gce->pszStatus.w, gce->pszNick.w);
 		else
-			g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_KICK], si->pszModule, si->ptszName, g_chatApi.aFonts[6].color, TranslateT("%s kicked %s (%s)"), (char *)gce->ptszStatus, gce->ptszNick, RemoveFormatting(gce->ptszText));
+			g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_KICK], si->pszModule, si->ptszName, g_chatApi.aFonts[6].color, TranslateT("%s kicked %s (%s)"), gce->pszStatus.w, gce->pszNick.w, RemoveFormatting(gce->pszText.w));
 		break;
 	case GC_EVENT_NOTICE:
-		g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_NOTICE], si->pszModule, si->ptszName, g_chatApi.aFonts[8].color, TranslateT("Notice from %s: %s"), gce->ptszNick, RemoveFormatting(gce->ptszText));
+		g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_NOTICE], si->pszModule, si->ptszName, g_chatApi.aFonts[8].color, TranslateT("Notice from %s: %s"), gce->pszNick.w, RemoveFormatting(gce->pszText.w));
 		break;
 	case GC_EVENT_TOPIC:
-		if (!gce->ptszNick)
-			g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_TOPIC], si->pszModule, si->ptszName, g_chatApi.aFonts[11].color, TranslateT("The topic is '%s'"), RemoveFormatting(gce->ptszText));
+		if (!gce->pszNick.w)
+			g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_TOPIC], si->pszModule, si->ptszName, g_chatApi.aFonts[11].color, TranslateT("The topic is '%s'"), RemoveFormatting(gce->pszText.w));
 		else
-			g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_TOPIC], si->pszModule, si->ptszName, g_chatApi.aFonts[11].color, TranslateT("The topic is '%s' (set by %s)"), RemoveFormatting(gce->ptszText), gce->ptszNick);
+			g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_TOPIC], si->pszModule, si->ptszName, g_chatApi.aFonts[11].color, TranslateT("The topic is '%s' (set by %s)"), RemoveFormatting(gce->pszText.w), gce->pszNick.w);
 		break;
 	case GC_EVENT_INFORMATION:
-		g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_INFO], si->pszModule, si->ptszName, g_chatApi.aFonts[12].color, L"%s", RemoveFormatting(gce->ptszText));
+		g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_INFO], si->pszModule, si->ptszName, g_chatApi.aFonts[12].color, L"%s", RemoveFormatting(gce->pszText.w));
 		break;
 	case GC_EVENT_ADDSTATUS:
-		g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_ADDSTATUS], si->pszModule, si->ptszName, g_chatApi.aFonts[13].color, TranslateT("%s enables '%s' status for %s"), gce->ptszText, (char *)gce->ptszStatus, gce->ptszNick);
+		g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_ADDSTATUS], si->pszModule, si->ptszName, g_chatApi.aFonts[13].color, TranslateT("%s enables '%s' status for %s"), gce->pszText.w, (char *)gce->pszStatus.w, gce->pszNick.w);
 		break;
 	case GC_EVENT_REMOVESTATUS:
-		g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_REMSTATUS], si->pszModule, si->ptszName, g_chatApi.aFonts[14].color, TranslateT("%s disables '%s' status for %s"), gce->ptszText, (char *)gce->ptszStatus, gce->ptszNick);
+		g_chatApi.ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_REMSTATUS], si->pszModule, si->ptszName, g_chatApi.aFonts[14].color, TranslateT("%s disables '%s' status for %s"), gce->pszText.w, (char *)gce->pszStatus.w, gce->pszNick.w);
 		break;
 	}
 
@@ -363,14 +363,14 @@ bool IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
 	if (!g_Settings->bHighlightEnabled || !g_Settings->pszHighlightWords || !gce || !si)
 		return FALSE;
 
-	if (gce->ptszText == nullptr)
+	if (gce->pszText.w == nullptr)
 		return FALSE;
 
 	USERINFO *pMe = si->getMe();
 	if (pMe == nullptr)
 		return FALSE;
 
-	wchar_t *buf = RemoveFormatting(NEWWSTR_ALLOCA(gce->ptszText));
+	wchar_t *buf = RemoveFormatting(NEWWSTR_ALLOCA(gce->pszText.w));
 
 	int iStart = 0;
 	CMStringW tszHighlightWords(g_Settings->pszHighlightWords);
@@ -427,15 +427,15 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 	wchar_t* pszNick = nullptr;
 	if (bFileJustCreated)
 		fputws((const wchar_t*)"\377\376", hFile);		//UTF-16 LE BOM == FF FE
-	if (gce->ptszNick) {
-		if (g_Settings->bLogLimitNames && mir_wstrlen(gce->ptszNick) > 20) {
-			mir_wstrncpy(szTemp2, gce->ptszNick, 20);
+	if (gce->pszNick.w) {
+		if (g_Settings->bLogLimitNames && mir_wstrlen(gce->pszNick.w) > 20) {
+			mir_wstrncpy(szTemp2, gce->pszNick.w, 20);
 			mir_wstrncpy(szTemp2 + 20, L"...", 4);
 		}
-		else mir_wstrncpy(szTemp2, gce->ptszNick, 511);
+		else mir_wstrncpy(szTemp2, gce->pszNick.w, 511);
 
-		if (gce->ptszUserInfo)
-			mir_snwprintf(szTemp, L"%s (%s)", szTemp2, gce->ptszUserInfo);
+		if (gce->pszUserInfo.w)
+			mir_snwprintf(szTemp, L"%s (%s)", szTemp2, gce->pszUserInfo.w);
 		else
 			wcsncpy_s(szTemp, szTemp2, _TRUNCATE);
 		pszNick = szTemp;
@@ -445,12 +445,12 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 	case GC_EVENT_MESSAGE:
 	case GC_EVENT_MESSAGE | GC_EVENT_HIGHLIGHT:
 		p = '*';
-		mir_snwprintf(szBuffer, L"%s: %s", gce->ptszNick, g_chatApi.RemoveFormatting(gce->ptszText));
+		mir_snwprintf(szBuffer, L"%s: %s", gce->pszNick.w, g_chatApi.RemoveFormatting(gce->pszText.w));
 		break;
 	case GC_EVENT_ACTION:
 	case GC_EVENT_ACTION | GC_EVENT_HIGHLIGHT:
 		p = '*';
-		mir_snwprintf(szBuffer, L"%s %s", gce->ptszNick, g_chatApi.RemoveFormatting(gce->ptszText));
+		mir_snwprintf(szBuffer, L"%s %s", gce->pszNick.w, g_chatApi.RemoveFormatting(gce->pszText.w));
 		break;
 	case GC_EVENT_JOIN:
 		p = '>';
@@ -458,51 +458,51 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 		break;
 	case GC_EVENT_PART:
 		p = '<';
-		if (!gce->ptszText)
+		if (!gce->pszText.w)
 			mir_snwprintf(szBuffer, TranslateT("%s has left"), pszNick);
 		else
-			mir_snwprintf(szBuffer, TranslateT("%s has left (%s)"), pszNick, g_chatApi.RemoveFormatting(gce->ptszText));
+			mir_snwprintf(szBuffer, TranslateT("%s has left (%s)"), pszNick, g_chatApi.RemoveFormatting(gce->pszText.w));
 		break;
 	case GC_EVENT_QUIT:
 		p = '<';
-		if (!gce->ptszText)
+		if (!gce->pszText.w)
 			mir_snwprintf(szBuffer, TranslateT("%s has disconnected"), pszNick);
 		else
-			mir_snwprintf(szBuffer, TranslateT("%s has disconnected (%s)"), pszNick, g_chatApi.RemoveFormatting(gce->ptszText));
+			mir_snwprintf(szBuffer, TranslateT("%s has disconnected (%s)"), pszNick, g_chatApi.RemoveFormatting(gce->pszText.w));
 		break;
 	case GC_EVENT_NICK:
 		p = '^';
-		mir_snwprintf(szBuffer, TranslateT("%s is now known as %s"), gce->ptszNick, gce->ptszText);
+		mir_snwprintf(szBuffer, TranslateT("%s is now known as %s"), gce->pszNick.w, gce->pszText.w);
 		break;
 	case GC_EVENT_KICK:
 		p = '~';
-		if (!gce->ptszText)
-			mir_snwprintf(szBuffer, TranslateT("%s kicked %s"), gce->ptszStatus, gce->ptszNick);
+		if (!gce->pszText.w)
+			mir_snwprintf(szBuffer, TranslateT("%s kicked %s"), gce->pszStatus.w, gce->pszNick.w);
 		else
-			mir_snwprintf(szBuffer, TranslateT("%s kicked %s (%s)"), gce->ptszStatus, gce->ptszNick, g_chatApi.RemoveFormatting(gce->ptszText));
+			mir_snwprintf(szBuffer, TranslateT("%s kicked %s (%s)"), gce->pszStatus.w, gce->pszNick.w, g_chatApi.RemoveFormatting(gce->pszText.w));
 		break;
 	case GC_EVENT_NOTICE:
 		p = 'o';
-		mir_snwprintf(szBuffer, TranslateT("Notice from %s: %s"), gce->ptszNick, g_chatApi.RemoveFormatting(gce->ptszText));
+		mir_snwprintf(szBuffer, TranslateT("Notice from %s: %s"), gce->pszNick.w, g_chatApi.RemoveFormatting(gce->pszText.w));
 		break;
 	case GC_EVENT_TOPIC:
 		p = '#';
-		if (!gce->ptszNick)
-			mir_snwprintf(szBuffer, TranslateT("The topic is '%s'"), g_chatApi.RemoveFormatting(gce->ptszText));
+		if (!gce->pszNick.w)
+			mir_snwprintf(szBuffer, TranslateT("The topic is '%s'"), g_chatApi.RemoveFormatting(gce->pszText.w));
 		else
-			mir_snwprintf(szBuffer, TranslateT("The topic is '%s' (set by %s)"), g_chatApi.RemoveFormatting(gce->ptszText), gce->ptszNick);
+			mir_snwprintf(szBuffer, TranslateT("The topic is '%s' (set by %s)"), g_chatApi.RemoveFormatting(gce->pszText.w), gce->pszNick.w);
 		break;
 	case GC_EVENT_INFORMATION:
 		p = '!';
-		wcsncpy_s(szBuffer, g_chatApi.RemoveFormatting(gce->ptszText), _TRUNCATE);
+		wcsncpy_s(szBuffer, g_chatApi.RemoveFormatting(gce->pszText.w), _TRUNCATE);
 		break;
 	case GC_EVENT_ADDSTATUS:
 		p = '+';
-		mir_snwprintf(szBuffer, TranslateT("%s enables '%s' status for %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick);
+		mir_snwprintf(szBuffer, TranslateT("%s enables '%s' status for %s"), gce->pszText.w, gce->pszStatus.w, gce->pszNick.w);
 		break;
 	case GC_EVENT_REMOVESTATUS:
 		p = '-';
-		mir_snwprintf(szBuffer, TranslateT("%s disables '%s' status for %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick);
+		mir_snwprintf(szBuffer, TranslateT("%s disables '%s' status for %s"), gce->pszText.w, gce->pszStatus.w, gce->pszNick.w);
 		break;
 	}
 

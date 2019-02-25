@@ -27,7 +27,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 static volatile LONG g_msgid = 1;
 
 TwitterProto::TwitterProto(const char *proto_name, const wchar_t *username) :
-	PROTO<TwitterProto>(proto_name, username)
+	PROTO<TwitterProto>(proto_name, username),
+	m_szChatId(mir_utf8encodeW(username))
 {
 	CreateProtoService(PS_CREATEACCMGRUI, &TwitterProto::SvcCreateAccMgrUI);
 

@@ -24,34 +24,31 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void TwitterProto::UpdateChat(const twitter_user &update)
 {
-	GCEVENT gce = { m_szModuleName, m_tszUserName, GC_EVENT_MESSAGE };
+	GCEVENT gce = { m_szModuleName, m_szChatId, GC_EVENT_MESSAGE };
+	gce.dwFlags = GCEF_UTF8 + GCEF_ADDTOLOG;
 	gce.bIsMe = (update.username == twit_.get_username());
-	gce.dwFlags = GCEF_ADDTOLOG;
-	gce.ptszUID = mir_a2u(update.username.c_str());
+	gce.pszUID.a = update.username.c_str();
 	//TODO: write code here to replace % with %% in update.status.text (which is a std::string)
 
 	std::string chatText = update.status.text;
 
 	replaceAll(chatText, "%", "%%");
 
-	gce.ptszText = mir_a2u_cp(chatText.c_str(), CP_UTF8);
-	//gce.ptszText = mir_a2u_cp(update.status.text.c_str(),CP_UTF8);
+	gce.pszText.a = chatText.c_str();
 	gce.time = static_cast<DWORD>(update.status.time);
 
-	DBVARIANT nick;
 	MCONTACT hContact = UsernameToHContact(update.username.c_str());
-	if (hContact && !db_get_s(hContact, "CList", "MyHandle", &nick)) {
-		gce.ptszNick = mir_a2u(nick.pszVal);
-		db_free(&nick);
-	}
+	CMStringA szNick = db_get_sm(hContact, "CList", "MyHandle");
+	if (hContact && !szNick.IsEmpty())
+		gce.pszNick.a = szNick;
 	else
-		gce.ptszNick = mir_a2u(update.username.c_str());
+		gce.pszNick.a = update.username.c_str();
 
 	Chat_Event(&gce);
 
-	mir_free(const_cast<wchar_t*>(gce.ptszNick));
-	mir_free(const_cast<wchar_t*>(gce.ptszUID));
-	mir_free(const_cast<wchar_t*>(gce.ptszText));
+	mir_free(const_cast<wchar_t*>(gce.pszNick.w));
+	mir_free(const_cast<wchar_t*>(gce.pszUID.w));
+	mir_free(const_cast<wchar_t*>(gce.pszText.w));
 }
 
 int TwitterProto::OnChatOutgoing(WPARAM, LPARAM lParam)
@@ -88,25 +85,21 @@ int TwitterProto::OnChatOutgoing(WPARAM, LPARAM lParam)
 // TODO: remove nick?
 void TwitterProto::AddChatContact(const char *name, const char *nick)
 {
-	ptrW wszId(mir_a2u(name));
-	ptrW wszNick(mir_a2u(nick ? nick : name));
-
-	GCEVENT gce = { m_szModuleName, m_tszUserName, GC_EVENT_JOIN };
+	GCEVENT gce = { m_szModuleName, m_szChatId, GC_EVENT_JOIN };
+	gce.dwFlags = GCEF_UTF8;
 	gce.time = DWORD(time(0));
-	gce.ptszNick = wszNick;
-	gce.ptszUID = wszId;
-	gce.ptszStatus = L"Normal";
+	gce.pszNick.a = nick ? nick : name;
+	gce.pszUID.a = name;
+	gce.pszStatus.a = "Normal";
 	Chat_Event(&gce);
 }
 
 void TwitterProto::DeleteChatContact(const char *name)
 {
-	ptrW wszId(mir_a2u(name));
-
-	GCEVENT gce = { m_szModuleName, m_tszUserName, GC_EVENT_PART };
+	GCEVENT gce = { m_szModuleName, m_szChatId, GC_EVENT_PART };
+	gce.dwFlags = GCEF_UTF8;
 	gce.time = DWORD(time(0));
-	gce.ptszNick = wszId;
-	gce.ptszUID = gce.ptszNick;
+	gce.pszUID.a = gce.pszNick.a = name;
 	Chat_Event(&gce);
 }
 

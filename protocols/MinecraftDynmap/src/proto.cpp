@@ -58,6 +58,7 @@ MinecraftDynmapProto::MinecraftDynmapProto(const char* proto_name, const wchar_t
 	// Client instantiation
 	this->error_count_ = 0;
 	this->chatHandle_ = nullptr;
+	this->szRoomName = mir_utf8encodeW(username);
 }
 
 MinecraftDynmapProto::~MinecraftDynmapProto()

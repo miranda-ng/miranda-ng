@@ -22,6 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class TwitterProto : public PROTO<TwitterProto>
 {
+	ptrA     m_szChatId;
+
 public:
 	TwitterProto(const char*,const wchar_t*);
 	~TwitterProto();

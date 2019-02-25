@@ -50,23 +50,18 @@ void FacebookProto::UpdateChat(const char *chat_id, const char *id, const char *
 	std::string smessage = message;
 	utils::text::replace_all(&smessage, "%", "%%");
 
-	ptrW tid(mir_a2u(id));
-	ptrW tnick(mir_a2u_cp(name, CP_UTF8));
-	ptrW ttext(mir_a2u_cp(smessage.c_str(), CP_UTF8));
-	ptrW tchat_id(mir_a2u(chat_id));
-
-	GCEVENT gce = { m_szModuleName, tchat_id, GC_EVENT_MESSAGE };
-	gce.ptszText = ttext;
+	GCEVENT gce = { m_szModuleName, chat_id, GC_EVENT_MESSAGE };
+	gce.pszText.a = smessage.c_str();
 	gce.time = timestamp ? timestamp : ::time(0);
 	if (id != nullptr)
 		gce.bIsMe = !mir_strcmp(id, facy.self_.user_id.c_str());
-	gce.dwFlags |= GCEF_ADDTOLOG;
+	gce.dwFlags = GCEF_ADDTOLOG | GCEF_UTF8;
 	if (is_old) {
 		gce.dwFlags |= GCEF_NOTNOTIFY;
 		gce.dwFlags &= ~GCEF_ADDTOLOG;
 	}
-	gce.ptszNick = tnick;
-	gce.ptszUID = tid;
+	gce.pszNick.a = name;
+	gce.pszUID.a = id;
 	Chat_Event(&gce);
 
 	facy.erase_reader(ChatIDToHContact(chat_id));
@@ -74,9 +69,7 @@ void FacebookProto::UpdateChat(const char *chat_id, const char *id, const char *
 
 void FacebookProto::RenameChat(const char *chat_id, const char *name)
 {
-	ptrW tchat_id(mir_a2u(chat_id));
-	ptrW tname(mir_a2u_cp(name, CP_UTF8));
-	Chat_ChangeSessionName(m_szModuleName, tchat_id, tname);
+	Chat_ChangeSessionName(m_szModuleName, _A2T(chat_id), Utf2T(name));
 }
 
 int FacebookProto::OnGCEvent(WPARAM, LPARAM lParam)
@@ -172,30 +165,26 @@ void FacebookProto::AddChatContact(const char *chat_id, const chatroom_participa
 	if (IsChatContact(chat_id, user.user_id.c_str()))
 		return;
 
-	ptrW tchat_id(mir_a2u(chat_id));
-	ptrW tnick(mir_a2u_cp(user.nick.c_str(), CP_UTF8));
-	ptrW tid(mir_a2u(user.user_id.c_str()));
-
-	GCEVENT gce = { m_szModuleName, tchat_id, GC_EVENT_JOIN };
-	gce.dwFlags = addToLog ? GCEF_ADDTOLOG : 0;
-	gce.ptszNick = tnick;
-	gce.ptszUID = tid;
+	GCEVENT gce = { m_szModuleName, chat_id, GC_EVENT_JOIN };
+	gce.dwFlags = GCEF_UTF8 + (addToLog ? GCEF_ADDTOLOG : 0);
+	gce.pszNick.a = user.nick.c_str();
+	gce.pszUID.a = user.user_id.c_str();
 	gce.time = ::time(0);
 	gce.bIsMe = (user.role == ROLE_ME);
 
 	if (user.is_former) {
-		gce.ptszStatus = TranslateT("Former");
+		gce.pszStatus.a = TranslateU("Former");
 	}
 	else {
 		switch (user.role) {
 		case ROLE_ME:
-			gce.ptszStatus = TranslateT("Myself");
+			gce.pszStatus.a = TranslateU("Myself");
 			break;
 		case ROLE_FRIEND:
-			gce.ptszStatus = TranslateT("Friend");
+			gce.pszStatus.a = TranslateU("Friend");
 			break;
 		case ROLE_NONE:
-			gce.ptszStatus = TranslateT("User");
+			gce.pszStatus.a = TranslateU("User");
 			break;
 		}
 	}
@@ -205,14 +194,10 @@ void FacebookProto::AddChatContact(const char *chat_id, const chatroom_participa
 
 void FacebookProto::RemoveChatContact(const char *chat_id, const char *id, const char *name)
 {
-	ptrW tchat_id(mir_a2u(chat_id));
-	ptrW tnick(mir_a2u_cp(name, CP_UTF8));
-	ptrW tid(mir_a2u(id));
-
-	GCEVENT gce = { m_szModuleName, tchat_id, GC_EVENT_PART };
-	gce.dwFlags = GCEF_ADDTOLOG;
-	gce.ptszNick = tnick;
-	gce.ptszUID = tid;
+	GCEVENT gce = { m_szModuleName, chat_id, GC_EVENT_PART };
+	gce.dwFlags = GCEF_UTF8 + GCEF_ADDTOLOG;
+	gce.pszNick.a = name;
+	gce.pszUID.a = id;
 	gce.time = ::time(0);
 	gce.bIsMe = false;
 
@@ -387,16 +372,13 @@ void FacebookProto::UpdateNotificationsChatRoom(facebook_notification *notificat
 	std::string message = text.str();
 	utils::text::replace_all(&message, "%", "%%");
 
-	ptrW idT(mir_wstrdup(_A2W(FACEBOOK_NOTIFICATIONS_CHATROOM)));
-	ptrW messageT(mir_a2u_cp(message.c_str(), CP_UTF8));
-
-	GCEVENT gce = { m_szModuleName, _A2W(FACEBOOK_NOTIFICATIONS_CHATROOM), GC_EVENT_MESSAGE };
-	gce.ptszText = messageT;
+	GCEVENT gce = { m_szModuleName, FACEBOOK_NOTIFICATIONS_CHATROOM, GC_EVENT_MESSAGE };
+	gce.pszText.a = message.c_str();
 	gce.time = notification->time ? notification->time : ::time(0);
 	gce.bIsMe = false;
-	gce.dwFlags |= GCEF_ADDTOLOG;
-	gce.ptszNick = TranslateT("Notifications");
-	gce.ptszUID = idT;
+	gce.dwFlags = GCEF_UTF8 + GCEF_ADDTOLOG;
+	gce.pszNick.a = TranslateU("Notifications");
+	gce.pszUID.a = FACEBOOK_NOTIFICATIONS_CHATROOM;
 
 	Chat_Event(&gce);
 }

@@ -814,12 +814,13 @@ retry:
 						wchar_t id[32];
 						UIN2IDT(e->event.msg.sender, id);
 
-						GCEVENT gce = { m_szModuleName, chat, GC_EVENT_MESSAGE };
+						GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
 						time_t t = time(0);
-						gce.ptszUID = id;
+						gce.pszID.w = chat;
+						gce.pszUID.w = id;
 						wchar_t* messageT = mir_utf8decodeW(e->event.msg.message);
-						gce.ptszText = messageT;
-						gce.ptszNick = (wchar_t*)Clist_GetContactDisplayName(getcontact(e->event.msg.sender, 1, 0, nullptr));
+						gce.pszText.w = messageT;
+						gce.pszNick.w = (wchar_t*)Clist_GetContactDisplayName(getcontact(e->event.msg.sender, 1, 0, nullptr));
 						gce.time = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
 						gce.dwFlags = GCEF_ADDTOLOG;
 						debugLogW(L"mainthread() (%x): Conference message to room %s & id %s.", this, chat, id);
@@ -875,10 +876,11 @@ retry:
 					wchar_t id[32];
 					UIN2IDT(getDword(GG_KEY_UIN, 0), id);
 
-					GCEVENT gce = { m_szModuleName, chat, GC_EVENT_MESSAGE };
-					gce.ptszUID = id;
+					GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
+					gce.pszID.w = chat;
+					gce.pszUID.w = id;
 					wchar_t* messageT = mir_utf8decodeW(e->event.multilogon_msg.message);
-					gce.ptszText = messageT;
+					gce.pszText.w = messageT;
 					wchar_t* nickT;
 					if (!getWString(GG_KEY_NICK, &dbv)) {
 						nickT = mir_wstrdup(dbv.pwszVal);
@@ -887,7 +889,7 @@ retry:
 					else
 						nickT = mir_wstrdup(TranslateT("Me"));
 
-					gce.ptszNick = nickT;
+					gce.pszNick.w = nickT;
 					gce.time = e->event.multilogon_msg.time;
 					gce.bIsMe = 1;
 					gce.dwFlags = GCEF_ADDTOLOG;

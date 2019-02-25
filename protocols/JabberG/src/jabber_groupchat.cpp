@@ -788,15 +788,16 @@ void CJabberProto::RenameParticipantNick(JABBER_LIST_ITEM *item, const char *old
 			setUString(hContact, "MyNick", newNick);
 	}
 
-	Utf2T wszRoomId(item->jid), wszOld(oldNick), wszNew(newNick), wszInfo(jid);
-	Chat_ChangeUserId(m_szModuleName, wszRoomId, wszOld, wszNew);
+	Chat_ChangeUserId(m_szModuleName, Utf2T(item->jid), Utf2T(oldNick), Utf2T(newNick));
 
-	GCEVENT gce = { m_szModuleName, wszRoomId, GC_EVENT_NICK };
-	gce.ptszUserInfo = wszInfo;
+	GCEVENT gce = { m_szModuleName, item->jid, GC_EVENT_NICK };
+	gce.dwFlags = GCEF_UTF8;
+	gce.pszID.a = item->jid;
+	gce.pszUserInfo.a = jid;
 	gce.time = time(0);
-	gce.ptszNick = wszOld;
-	gce.ptszUID = wszNew;
-	gce.ptszText = wszNew;
+	gce.pszNick.a = oldNick;
+	gce.pszUID.a = newNick;
+	gce.pszText.a = newNick;
 	Chat_Event(&gce);
 }
 
@@ -1010,7 +1011,7 @@ void CJabberProto::GroupchatProcessPresence(const TiXmlElement *node)
 void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 {
 	const TiXmlElement *n, *m;
-	const char *from, *type, *p, *nick, *resource;
+	const char *from, *type, *p, *nick;
 	JABBER_LIST_ITEM *item;
 	CMStringW imgLink;
 
@@ -1022,12 +1023,10 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 	if (!mir_strcmp(type, "error"))
 		return;
 
-	Utf2T roomJid(item->jid);
-	GCEVENT gce = { m_szModuleName, roomJid, 0 };
+	GCEVENT gce = { m_szModuleName, item->jid, 0 };
+	gce.dwFlags = GCEF_UTF8;
 
-	const char *msgText = nullptr;
-
-	resource = strchr(from, '/');
+	const char *resource = strchr(from, '/'), *msgText;
 	if (resource != nullptr && *++resource == '\0')
 		resource = nullptr;
 
@@ -1051,6 +1050,7 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 				resource = tmpnick;
 			}
 		}
+		
 		item->getTemp()->m_szStatusMessage = mir_strdup(msgText);
 	}
 	else {
@@ -1093,15 +1093,14 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 	}
 	else nick = nullptr;
 
-	CMStringW tszText(Utf2T(msgText).get());
-	tszText.Replace(L"%", L"%%");
-	tszText += imgLink;
+	CMStringA szText(msgText);
+	szText.Replace("%", "%%");
+	szText += imgLink;
 
-	Utf2T wszUserId(resource), wszNick(nick);
-	gce.ptszUID = wszUserId;
-	gce.ptszNick = wszNick;
+	gce.pszUID.a = resource;
+	gce.pszNick.a = nick;
 	gce.time = msgTime;
-	gce.ptszText = tszText;
+	gce.pszText.a = szText;
 	gce.bIsMe = nick == nullptr ? FALSE : (mir_strcmp(resource, item->nick) == 0);
 
 	if (!isHistory)
@@ -1115,7 +1114,7 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 	item->bChatActive = 2;
 
 	if (gce.iType == GC_EVENT_TOPIC)
-		Chat_SetStatusbarText(m_szModuleName, roomJid, tszText);
+		Chat_SetStatusbarText(m_szModuleName, Utf2T(item->jid), Utf2T(szText));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

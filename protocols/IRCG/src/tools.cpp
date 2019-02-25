@@ -377,21 +377,21 @@ INT_PTR CIrcProto::DoEvent(int iEvent, const wchar_t* pszWindow, const wchar_t* 
 			sID = pszWindow + (CMStringW)L" - " + m_info.sNetwork;
 		else
 			sID = pszWindow;
-		gce.ptszID = (wchar_t*)sID.c_str();
+		gce.pszID.w = (wchar_t*)sID.c_str();
 	}
-	else gce.ptszID = nullptr;
+	else gce.pszID.w = nullptr;
 
-	gce.ptszStatus = pszStatus;
+	gce.pszStatus.w = pszStatus;
 	gce.dwFlags = (bAddToLog) ? GCEF_ADDTOLOG : 0;
-	gce.ptszNick = pszNick;
-	gce.ptszUID = pszNick;
+	gce.pszNick.w = pszNick;
+	gce.pszUID.w = pszNick;
 	if (iEvent == GC_EVENT_TOPIC)
-		gce.ptszUserInfo = pszUserInfo;
+		gce.pszUserInfo.w = pszUserInfo;
 	else
-		gce.ptszUserInfo = m_showAddresses ? pszUserInfo : nullptr;
+		gce.pszUserInfo.w = m_showAddresses ? pszUserInfo : nullptr;
 
 	if (!sText.IsEmpty())
-		gce.ptszText = sText.c_str();
+		gce.pszText.w = sText.c_str();
 
 	gce.dwItemData = dwItemData;
 	if (timestamp == 1)

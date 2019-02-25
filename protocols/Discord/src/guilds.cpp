@@ -112,9 +112,10 @@ void CDiscordProto::CreateChat(CDiscordGuild *pGuild, CDiscordUser *pUser)
 	if (!pUser->wszTopic.IsEmpty()) {
 		Chat_SetStatusbarText(m_szModuleName, pUser->wszUsername, pUser->wszTopic);
 
-		GCEVENT gce = { m_szModuleName, pUser->wszUsername, GC_EVENT_TOPIC };
+		GCEVENT gce = { m_szModuleName, 0, GC_EVENT_TOPIC };
+		gce.pszID.w = pUser->wszUsername;
 		gce.time = time(0);
-		gce.ptszText = pUser->wszTopic;
+		gce.pszText.w = pUser->wszTopic;
 		Chat_Event(&gce);
 	}
 }

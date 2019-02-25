@@ -117,10 +117,11 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 		else {
 			ParseSpecialChars(si, wszText);
 
-			GCEVENT gce = { m_szModuleName, pUser->wszUsername, GC_EVENT_MESSAGE };
+			GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
+			gce.pszID.w = pUser->wszUsername;
 			gce.dwFlags = GCEF_ADDTOLOG;
-			gce.ptszUID = wszUserId;
-			gce.ptszText = wszText;
+			gce.pszUID.w = wszUserId;
+			gce.pszText.w = wszText;
 			gce.time = dwTimeStamp;
 			gce.bIsMe = authorid == m_ownId;
 			Chat_Event(&gce);

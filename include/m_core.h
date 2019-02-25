@@ -428,15 +428,23 @@ __forceinline char* lrtrimp(char *str) { return ltrimp(rtrim(str)); };
 ///////////////////////////////////////////////////////////////////////////////
 // text conversion functions
 
-typedef union {
+union MAllStrings
+{
 	char *a; // utf8 or ansi strings
 	wchar_t *w; // strings of WCHARs
-} MAllStrings;
+};
 
-typedef union {
+union MAllCStrings
+{
+	const char *a; // utf8 or ansi strings
+	const wchar_t *w; // strings of WCHARs
+};
+
+union MAllStringArray
+{
 	char **a; // array of utf8 or ansi strings
 	wchar_t **w; // array of strings of WCHARs
-} MAllStringArray;
+};
 
 MIR_CORE_DLL(wchar_t*) mir_a2u_cp(const char* src, int codepage);
 MIR_CORE_DLL(wchar_t*) mir_a2u(const char* src);

@@ -193,7 +193,7 @@ passed:
 
 	if (iNewEvent == GC_EVENT_MESSAGE) {
 		ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_MESSAGE], si->pszModule, si->ptszName, clr ? clr : g_chatApi.aFonts[9].color,
-			TranslateT("%s%s says:%s %s"), bbStart, gce->ptszNick, bbEnd, g_chatApi.RemoveFormatting(gce->ptszText));
+			TranslateT("%s%s says:%s %s"), bbStart, gce->pszNick.w, bbEnd, g_chatApi.RemoveFormatting(gce->pszText.w));
 	}
 	else oldDoPopup(si, gce);
 
@@ -556,17 +556,17 @@ bool IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
 	GCEVENT evTmp = *gce;
 
 	int dwMask = 0;
-	if (gce->ptszText != nullptr)
+	if (gce->pszText.w != nullptr)
 		dwMask |= CMUCHighlight::MATCH_TEXT;
 
-	if (gce->ptszNick != nullptr) {
+	if (gce->pszNick.w != nullptr) {
 		dwMask |= CMUCHighlight::MATCH_NICKNAME;
 		if (si && g_Settings.bLogClassicIndicators) {
-			size_t len = mir_wstrlen(gce->ptszNick) + 1;
+			size_t len = mir_wstrlen(gce->pszNick.w) + 1;
 			wchar_t *tmp = (wchar_t*)_alloca(sizeof(wchar_t)*(len + 1));
-			*tmp = GetIndicator(si, gce->ptszNick, nullptr);
-			mir_wstrcpy(tmp + 1, gce->ptszNick);
-			evTmp.ptszNick = tmp;
+			*tmp = GetIndicator(si, gce->pszNick.w, nullptr);
+			mir_wstrcpy(tmp + 1, gce->pszNick.w);
+			evTmp.pszNick.w = tmp;
 		}
 	}
 	return g_Settings.Highlight->match(&evTmp, si, dwMask);

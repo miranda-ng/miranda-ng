@@ -27,25 +27,22 @@ void MinecraftDynmapProto::UpdateChat(const char *name, const char *message, con
 	std::string smessage = message;
 	utils::text::replace_all(&smessage, "%", "%%");
 
-	ptrW tmessage(mir_a2u_cp(smessage.c_str(), CP_UTF8));
-	ptrW tname(mir_a2u_cp(name, CP_UTF8));
-
-	GCEVENT gce = { m_szModuleName, m_tszUserName, GC_EVENT_MESSAGE };
+	GCEVENT gce = { m_szModuleName, szRoomName, GC_EVENT_MESSAGE };
+	gce.dwFlags = GCEF_UTF8;
 	gce.time = timestamp;
-	gce.ptszText = tmessage;
+	gce.pszText.a = smessage.c_str();
 
-	if (tname == NULL) {
+	if (name == NULL) {
 		gce.iType = GC_EVENT_INFORMATION;
-		tname = mir_wstrdup(TranslateT("Server"));
+		name = TranslateU("Server");
 		gce.bIsMe = false;
 	}
 	else gce.bIsMe = (m_nick == name);
 
 	if (addtolog)
-		gce.dwFlags  |= GCEF_ADDTOLOG;
+		gce.dwFlags |= GCEF_ADDTOLOG;
 
-	gce.ptszNick = tname;
-	gce.ptszUID  = gce.ptszNick;
+	gce.pszUID.a = gce.pszNick.a = name;
 	Chat_Event(&gce);
 }
 
@@ -84,34 +81,27 @@ int MinecraftDynmapProto::OnChatEvent(WPARAM, LPARAM lParam)
 
 void MinecraftDynmapProto::AddChatContact(const char *name)
 {	
-	ptrW tname(mir_a2u_cp(name, CP_UTF8));
-
-	GCEVENT gce = { m_szModuleName, m_tszUserName, GC_EVENT_JOIN };
+	GCEVENT gce = { m_szModuleName, szRoomName, GC_EVENT_JOIN };
 	gce.time = DWORD(time(0));
-	gce.dwFlags = GCEF_ADDTOLOG;
-	gce.ptszNick = tname;
-	gce.ptszUID = gce.ptszNick;
+	gce.dwFlags = GCEF_UTF8 + GCEF_ADDTOLOG;
+	gce.pszUID.a = gce.pszNick.a = name;
 	gce.bIsMe = (m_nick == name);
 
 	if (gce.bIsMe)
-		gce.ptszStatus = L"Admin";
+		gce.pszStatus.a = "Admin";
 	else
-		gce.ptszStatus = L"Normal";
+		gce.pszStatus.a = "Normal";
 
 	Chat_Event(&gce);
 }
 
 void MinecraftDynmapProto::DeleteChatContact(const char *name)
 {
-	ptrW tname(mir_a2u_cp(name, CP_UTF8));
-
-	GCEVENT gce = { m_szModuleName, m_tszUserName, GC_EVENT_PART };
-	gce.dwFlags = GCEF_ADDTOLOG;
-	gce.ptszNick = tname;
-	gce.ptszUID = gce.ptszNick;
+	GCEVENT gce = { m_szModuleName, szRoomName, GC_EVENT_PART };
+	gce.dwFlags = GCEF_UTF8 + GCEF_ADDTOLOG;
+	gce.pszUID.a = gce.pszNick.a = name;
 	gce.time = DWORD(time(0));
 	gce.bIsMe = (m_nick == name);
-
 	Chat_Event(&gce);
 }
 
@@ -137,12 +127,10 @@ INT_PTR MinecraftDynmapProto::OnJoinChat(WPARAM,LPARAM suppress)
 
 void MinecraftDynmapProto::SetTopic(const char *topic)
 {		
-	ptrW ttopic(mir_a2u_cp(topic, CP_UTF8));
-
-	GCEVENT gce = { m_szModuleName, m_tszUserName, GC_EVENT_TOPIC };
+	GCEVENT gce = { m_szModuleName, szRoomName, GC_EVENT_TOPIC };
+	gce.dwFlags = GCEF_UTF8;
 	gce.time = ::time(0);
-	gce.ptszText = ttopic;
-
+	gce.pszText.a = topic;
 	Chat_Event( &gce);
 }
 

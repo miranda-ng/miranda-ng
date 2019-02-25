@@ -35,13 +35,14 @@ void CIcqProto::LoadChatInfo(SESSION_INFO *si)
 		CMStringW role((*node)["role"].as_mstring());
 		CMStringW sn((*node)["sn"].as_mstring());
 
-		GCEVENT gce = { m_szModuleName, si->ptszID, GC_EVENT_JOIN };
+		GCEVENT gce = { m_szModuleName, 0, GC_EVENT_JOIN };
 		gce.dwFlags = GCEF_SILENT;
-		gce.ptszNick = nick;
-		gce.ptszUID = sn;
+		gce.pszID.w = si->ptszID;
+		gce.pszNick.w = nick;
+		gce.pszUID.w = sn;
 		gce.time = ::time(0);
 		gce.bIsMe = sn == m_szOwnId;
-		gce.ptszStatus = TranslateW(role);
+		gce.pszStatus.w = TranslateW(role);
 		Chat_Event(&gce);
 
 		json_delete(node);
@@ -279,7 +280,8 @@ void CIcqProto::ProcessGroupChat(const JSONNode &ev)
 			continue;
 
 		CMStringW method(it["method"].as_mstring());
-		GCEVENT gce = { m_szModuleName, si->ptszID, (method == "add_members") ? GC_EVENT_JOIN : GC_EVENT_PART };
+		GCEVENT gce = { m_szModuleName, 0, (method == "add_members") ? GC_EVENT_JOIN : GC_EVENT_PART };
+		gce.pszID.w = si->ptszID;
 
 		int iStart = 0;
 		CMStringW members(it["members"].as_mstring());
@@ -292,8 +294,8 @@ void CIcqProto::ProcessGroupChat(const JSONNode &ev)
 			if (pCache == nullptr)
 				continue;
 
-			gce.ptszNick = Clist_GetContactDisplayName(pCache->m_hContact);
-			gce.ptszUID = member;
+			gce.pszNick.w = Clist_GetContactDisplayName(pCache->m_hContact);
+			gce.pszUID.w = member;
 			gce.time = ::time(0);
 			gce.bIsMe = member == m_szOwnId;
 			Chat_Event(&gce);

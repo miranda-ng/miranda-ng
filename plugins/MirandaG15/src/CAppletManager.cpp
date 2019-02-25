@@ -1078,7 +1078,7 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 		return 0;
 	}
 
-	TRACE(L"<< [%s:%s] event %04X\n", toTstring(gce->pszModule).c_str(), gce->ptszID, gce->iType);
+	TRACE(L"<< [%s:%s] event %04X\n", toTstring(gce->pszModule).c_str(), gce->pszID.w, gce->iType);
 
 	// get the matching irc connection entry
 	CIRCConnection *pIRCCon = CAppletManager::GetInstance()->GetIRCConnection(toTstring(gce->pszModule));
@@ -1105,13 +1105,13 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 	Event.hValue = lParam;
 
 	CIRCHistory *pHistory = nullptr;
-	if (gce->ptszID) {
-		tstring strChannel = toTstring(gce->ptszID);
+	if (gce->pszID.w) {
+		tstring strChannel = toTstring(gce->pszID.w);
 		tstring::size_type pos = strChannel.find('-');
 		if (pos != tstring::npos)
 			strChannel = strChannel.substr(0, pos - 1);
 		else {
-			if (mir_wstrcmpi(gce->ptszID, L"Network log"))
+			if (mir_wstrcmpi(gce->pszID.w, L"Network log"))
 				TRACE(L"\t WARNING: ignoring unknown event!\n");
 			return 0;
 		}
@@ -1120,7 +1120,7 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 			if (gce->iType == GC_EVENT_JOIN) {
 				pHistory = CAppletManager::GetInstance()->CreateIRCHistoryByName(pIRCCon->strProtocol, strChannel);
 				if (pHistory)
-					pHistory->LUsers.push_back(toTstring(gce->ptszNick));
+					pHistory->LUsers.push_back(toTstring(gce->pszNick.w));
 			}
 			return 0;
 		}
@@ -1134,17 +1134,17 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 		Event.hContact = NULL;
 
 	// Ignore events from hidden chatrooms, except for join events
-	if (gce->ptszID != nullptr && db_get_b(Event.hContact, "CList", "Hidden", 0)) {
+	if (gce->pszID.w != nullptr && db_get_b(Event.hContact, "CList", "Hidden", 0)) {
 		if (gce->iType == GC_EVENT_JOIN && pHistory)
-			pHistory->LUsers.push_back(toTstring(gce->ptszNick));
+			pHistory->LUsers.push_back(toTstring(gce->pszNick.w));
 
 		TRACE(L"\t Chatroom is hidden, skipping event!\n");
 		return 0;
 	}
 
-	tstring strText = StripIRCFormatting(toTstring(gce->ptszText));
-	tstring strNick = toTstring(gce->ptszNick);
-	tstring strStatus = toTstring(gce->ptszStatus);
+	tstring strText = StripIRCFormatting(toTstring(gce->pszText.w));
+	tstring strNick = toTstring(gce->pszNick.w);
+	tstring strStatus = toTstring(gce->pszStatus.w);
 
 	if (CConfig::GetBoolSetting(NOTIFY_NICKCUTOFF) && strNick.length() > (tstring::size_type)CConfig::GetIntSetting(NOTIFY_NICKCUTOFF_OFFSET))
 		strNick = strNick.erase(CConfig::GetIntSetting(NOTIFY_NICKCUTOFF_OFFSET)) + L"...";
@@ -1174,7 +1174,7 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 		break;
 	case GC_EVENT_JOIN:
 		// Add the user to the list
-		pHistory->LUsers.push_back(toTstring(gce->ptszNick));
+		pHistory->LUsers.push_back(toTstring(gce->pszNick.w));
 
 		if (CConfig::GetBoolSetting(NOTIFY_IRC_USERS))
 			Event.bNotification = true;
@@ -1188,7 +1188,7 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 		{
 			if (CConfig::GetBoolSetting(NOTIFY_IRC_USERS))
 				Event.bNotification = true;
-			tstring strFullNick = toTstring(gce->ptszNick);
+			tstring strFullNick = toTstring(gce->pszNick.w);
 			Event.strValue = TranslateString(strText.empty() ? L"%s has left" : L"%s has left: %s", strNick.c_str(), strText.c_str());
 			if (pHistory) {
 				// Remove the user from the list
@@ -1217,7 +1217,7 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 		{
 			if (CConfig::GetBoolSetting(NOTIFY_IRC_USERS))
 				Event.bNotification = true;
-			tstring strFullNick = toTstring(gce->ptszNick);
+			tstring strFullNick = toTstring(gce->pszNick.w);
 
 			if (CConfig::GetBoolSetting(NOTIFY_NICKCUTOFF) && strText.length() > (tstring::size_type)CConfig::GetIntSetting(NOTIFY_NICKCUTOFF_OFFSET))
 				strText = strText.erase(CConfig::GetIntSetting(NOTIFY_NICKCUTOFF_OFFSET)) + L"...";
@@ -1248,7 +1248,7 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 		{
 			if (CConfig::GetBoolSetting(NOTIFY_IRC_STATUS))
 				Event.bNotification = true;
-			tstring strNick2 = toTstring(gce->ptszStatus);
+			tstring strNick2 = toTstring(gce->pszStatus.w);
 			if (CConfig::GetBoolSetting(NOTIFY_NICKCUTOFF) && strNick2.length() > (tstring::size_type)CConfig::GetIntSetting(NOTIFY_NICKCUTOFF_OFFSET))
 				strNick2 = strNick2.erase(CConfig::GetIntSetting(NOTIFY_NICKCUTOFF_OFFSET)) + L"...";
 
@@ -1259,7 +1259,7 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 		{
 			if (CConfig::GetBoolSetting(NOTIFY_IRC_STATUS))
 				Event.bNotification = true;
-			tstring strNick2 = toTstring(gce->ptszStatus);
+			tstring strNick2 = toTstring(gce->pszStatus.w);
 			if (CConfig::GetBoolSetting(NOTIFY_NICKCUTOFF) && strNick2.length() > (tstring::size_type)CConfig::GetIntSetting(NOTIFY_NICKCUTOFF_OFFSET))
 				strNick2 = strNick2.erase(CConfig::GetIntSetting(NOTIFY_NICKCUTOFF_OFFSET)) + L"...";
 
@@ -1270,7 +1270,7 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 		TRACE(L"OK!\n");
 		return 0;
 	}
-	if (gce->bIsMe || gce->ptszID == nullptr)
+	if (gce->bIsMe || gce->pszID.w == nullptr)
 		Event.bNotification = false;
 
 	// set the event's timestamp
@@ -1291,8 +1291,8 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 		if (pHistory->LMessages.size() > CConfig::GetIntSetting(SESSION_LOGSIZE))
 			pHistory->LMessages.pop_front();
 	}
-	else if (gce->ptszNick && gce->iType == GC_EVENT_QUIT) {
-		strNick = toTstring(gce->ptszNick);
+	else if (gce->pszNick.w && gce->iType == GC_EVENT_QUIT) {
+		strNick = toTstring(gce->pszNick.w);
 
 		if (!CAppletManager::GetInstance()->m_LIRCHistorys.empty()) {
 			list<CIRCHistory*>::iterator iter = CAppletManager::GetInstance()->m_LIRCHistorys.begin();
@@ -1323,7 +1323,7 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 		TRACE(L"OK!\n");
 		return 0;
 	}
-	else if (gce->ptszID != nullptr) {
+	else if (gce->pszID.w != nullptr) {
 		TRACE(L"OK!\n");
 		return 0;
 	}

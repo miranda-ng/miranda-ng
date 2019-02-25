@@ -120,7 +120,8 @@ void mwServiceConf_conf_opened(mwConference* conf, GList* members)
 	Chat_AddGroup(si, TranslateT("Normal"));
 
 	// add users
-	GCEVENT gce = { proto->m_szModuleName, tszConfId, GC_EVENT_JOIN };
+	GCEVENT gce = { proto->m_szModuleName, 0, GC_EVENT_JOIN };
+	gce.pszID.w = tszConfId;
 
 	GList *user = members;
 	for (;user; user=user->next) {
@@ -129,8 +130,8 @@ void mwServiceConf_conf_opened(mwConference* conf, GList* members)
 		ptrW tszUserName(mir_utf8decodeW(((mwLoginInfo*)user->data)->user_name));
 		ptrW tszUserId(mir_utf8decodeW(((mwLoginInfo*)user->data)->login_id));
 		gce.dwFlags = GCEF_ADDTOLOG;
-		gce.ptszNick = tszUserName;
-		gce.ptszUID = tszUserId;
+		gce.pszNick.w = tszUserName;
+		gce.pszUID.w = tszUserId;
 		gce.bIsMe = (strcmp(((mwLoginInfo*)user->data)->login_id, proto->my_login_info->login_id) == 0);
 		Chat_Event( &gce);
 	}
@@ -181,11 +182,12 @@ void mwServiceConf_on_peer_joined(mwConference* conf, mwLoginInfo *user)
 	ptrW tszUserId(mir_utf8decodeW(user->login_id));
 
 	// add user
-	GCEVENT gce = { proto->m_szModuleName, tszConfId, GC_EVENT_JOIN };
+	GCEVENT gce = { proto->m_szModuleName, 0, GC_EVENT_JOIN };
+	gce.pszID.w = tszConfId;
 	gce.dwFlags = GCEF_ADDTOLOG;
-	gce.ptszNick = tszUserName;
-	gce.ptszUID = tszUserId;
-	gce.ptszStatus = L"Normal";
+	gce.pszNick.w = tszUserName;
+	gce.pszUID.w = tszUserId;
+	gce.pszStatus.w = L"Normal";
 	gce.time = (DWORD)time(0);
 
 	Chat_Event( &gce);
@@ -206,11 +208,12 @@ void mwServiceConf_on_peer_parted(mwConference* conf, mwLoginInfo* user)
 	ptrW tszUserId(mir_utf8decodeW(user->login_id));
 
 	// remove user
-	GCEVENT gce = { proto->m_szModuleName, tszConfId, GC_EVENT_PART };
+	GCEVENT gce = { proto->m_szModuleName, 0, GC_EVENT_PART };
+	gce.pszID.w = tszConfId;
 	gce.dwFlags = GCEF_ADDTOLOG;
-	gce.ptszNick = tszUserName;
-	gce.ptszUID = tszUserId;
-	gce.ptszStatus = L"Normal";
+	gce.pszNick.w = tszUserName;
+	gce.pszUID.w = tszUserId;
+	gce.pszStatus.w = L"Normal";
 	gce.time = (DWORD)time(0);
 	Chat_Event(&gce);
 }
@@ -226,11 +229,12 @@ void mwServiceConf_on_text(mwConference* conf, mwLoginInfo* user, const char* wh
 	ptrW tszUserId(mir_utf8decodeW(user->login_id));
 	ptrW tszUserName(mir_utf8decodeW(user->user_name));
 
-	GCEVENT gce = { proto->m_szModuleName, tszConfId, GC_EVENT_MESSAGE };
+	GCEVENT gce = { proto->m_szModuleName, 0, GC_EVENT_MESSAGE };
+	gce.pszID.w = tszConfId;
 	gce.dwFlags = GCEF_ADDTOLOG;
-	gce.ptszText = textT;
-	gce.ptszNick = tszUserName;
-	gce.ptszUID = tszUserId;
+	gce.pszText.w = textT;
+	gce.pszNick.w = tszUserName;
+	gce.pszUID.w = tszUserId;
 	gce.time = (DWORD)time(0);
 	Chat_Event(&gce);
 }

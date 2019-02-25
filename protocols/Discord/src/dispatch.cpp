@@ -143,8 +143,9 @@ void CDiscordProto::OnCommandChannelUpdated(const JSONNode &pRoot)
 		CMStringW wszTopic = pRoot["topic"].as_mstring();
 		Chat_SetStatusbarText(m_szModuleName, pUser->wszUsername, wszTopic);
 
-		GCEVENT gce = { m_szModuleName, pUser->wszUsername, GC_EVENT_TOPIC };
-		gce.ptszText = wszTopic;
+		GCEVENT gce = { m_szModuleName, 0, GC_EVENT_TOPIC };
+		gce.pszID.w	 = pUser->wszUsername;
+		gce.pszText.w = wszTopic;
 		gce.time = time(0);
 		Chat_Event(&gce);
 	}
@@ -226,9 +227,10 @@ void CDiscordProto::OnCommandGuildMemberRemoved(const JSONNode &pRoot)
 		if (pUser->pGuild != pGuild)
 			continue;
 
-		GCEVENT gce = { m_szModuleName, pUser->wszUsername, GC_EVENT_PART };
+		GCEVENT gce = { m_szModuleName, 0, GC_EVENT_PART };
+		gce.pszUID.w = pUser->wszUsername;
 		gce.time = time(0);
-		gce.ptszUID = wszUserId;
+		gce.pszUID.w = wszUserId;
 		Chat_Event(&gce);
 	}
 }
@@ -260,11 +262,12 @@ void CDiscordProto::OnCommandGuildMemberUpdated(const JSONNode &pRoot)
 				wszOldNick = ui->pszNick;
 		}
 
-		GCEVENT gce = { m_szModuleName, it->wszUsername, GC_EVENT_NICK };
+		GCEVENT gce = { m_szModuleName, 0, GC_EVENT_NICK };
+		gce.pszID.w = it->wszUsername;
 		gce.time = time(0);
-		gce.ptszUID = wszUserId;
-		gce.ptszNick = wszOldNick;
-		gce.ptszText = gm->wszNick;
+		gce.pszUID.w = wszUserId;
+		gce.pszNick.w = wszOldNick;
+		gce.pszText.w = gm->wszNick;
 		Chat_Event(&gce);
 	}
 }
@@ -417,15 +420,16 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 
 			ParseSpecialChars(si, wszText);
 
-			GCEVENT gce = { m_szModuleName, pUser->wszUsername, GC_EVENT_MESSAGE };
+			GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
+			gce.pszID.w = pUser->wszUsername;
 			gce.dwFlags = GCEF_ADDTOLOG;
-			gce.ptszUID = wszUserId;
-			gce.ptszText = wszText;
+			gce.pszUID.w = wszUserId;
+			gce.pszText.w = wszText;
 			gce.time = (DWORD)StringToDate(pRoot["timestamp"].as_mstring());
 			gce.bIsMe = bOurMessage;
 			Chat_Event(&gce);
 
-			debugLogW(L"New channel %s message from %s: %s", si->ptszID, gce.ptszUID, gce.ptszText);
+			debugLogW(L"New channel %s message from %s: %s", si->ptszID, gce.pszUID.w, gce.pszText.w);
 		}
 	}
 

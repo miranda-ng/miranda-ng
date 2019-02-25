@@ -118,7 +118,7 @@ bool CMUCHighlight::match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dw
 		return false;
 
 	if ((m_dwFlags & MATCH_TEXT) && (dwFlags & MATCH_TEXT) && (m_fHighlightMe || m_iTextPatterns > 0) && psi != nullptr) {
-		wchar_t *p = g_chatApi.RemoveFormatting(pgce->ptszText);
+		wchar_t *p = g_chatApi.RemoveFormatting(pgce->pszText.w);
 		p = NEWWSTR_ALLOCA(p);
 		if (p == nullptr)
 			return false;
@@ -164,12 +164,12 @@ bool CMUCHighlight::match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dw
 skip_textpatterns:
 
 	// optionally, match the nickname against the list of nicks to highlight
-	if ((m_dwFlags & MATCH_NICKNAME) && (dwFlags & MATCH_NICKNAME) && pgce->ptszNick && m_iNickPatterns > 0) {
+	if ((m_dwFlags & MATCH_NICKNAME) && (dwFlags & MATCH_NICKNAME) && pgce->pszNick.w && m_iNickPatterns > 0) {
 		for (UINT i = 0; i < m_iNickPatterns && !nResult; i++) {
-			if (pgce->ptszNick)
-				nResult = wildcmpw(pgce->ptszNick, m_NickPatterns[i]) ? MATCH_NICKNAME : 0;
-			if ((m_dwFlags & MATCH_UIN) && pgce->ptszUserInfo)
-				nResult = wildcmpw(pgce->ptszUserInfo, m_NickPatterns[i]) ? MATCH_NICKNAME : 0;
+			if (pgce->pszNick.w)
+				nResult = wildcmpw(pgce->pszNick.w, m_NickPatterns[i]) ? MATCH_NICKNAME : 0;
+			if ((m_dwFlags & MATCH_UIN) && pgce->pszUserInfo.w)
+				nResult = wildcmpw(pgce->pszUserInfo.w, m_NickPatterns[i]) ? MATCH_NICKNAME : 0;
 		}
 	}
 

@@ -324,13 +324,13 @@ private:
 	void OnGetChatInfo(const NETLIBHTTPREQUEST *response, void *p);
 
 	void OnChatEvent(const JSONNode &node);
-	void OnSendChatMessage(const wchar_t *chat_id, const wchar_t * tszMessage);
-	char* GetChatUsers(const wchar_t *chat_id);
-	bool IsChatContact(const wchar_t *chat_id, const char *id);
-	void AddMessageToChat(const wchar_t *chat_id, const wchar_t *from, const char *content, bool isAction, int emoteOffset, time_t timestamp, bool isLoading = false);
-	void AddChatContact(const wchar_t *tchat_id, const char *id, const char *name, const wchar_t *role, bool isChange = false);
-	void RemoveChatContact(const wchar_t *tchat_id, const char *id, const char *name, bool isKick = false, const char *initiator = "");
-	wchar_t* GetChatContactNick(const char *chat_id, const char *id, const char *name);
+	void OnSendChatMessage(const char *chat_id, const wchar_t *tszMessage);
+	char* GetChatUsers(const char *chat_id);
+	bool IsChatContact(const char *chat_id, const char *id);
+	void AddMessageToChat(const char *chat_id, const char *from, const char *content, bool isAction, int emoteOffset, time_t timestamp, bool isLoading = false);
+	void AddChatContact(const char *chat_id, const char *id, const char *name, const char *role, bool isChange = false);
+	void RemoveChatContact(const char *chat_id, const char *id, const char *name, bool isKick = false, const char *initiator = "");
+	char* GetChatContactNick(const char *chat_id, const char *id, const char *name);
 
 	void RenameChat(const char *chat_id, const char *name);
 	void ChangeChatTopic(const char * chat_id, const char *topic, const char *initiator);

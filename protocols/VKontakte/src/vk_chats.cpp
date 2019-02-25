@@ -166,11 +166,12 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			cu->m_bUnknown = false;
 
 			if (bNew) {
-				GCEVENT gce = { m_szModuleName, cc->m_wszId, GC_EVENT_JOIN };
+				GCEVENT gce = { m_szModuleName, 0, GC_EVENT_JOIN };
+				gce.pszID.w = cc->m_wszId;
 				gce.bIsMe = uid == m_myUserId;
-				gce.ptszUID = wszId;
-				gce.ptszNick = wszNick;
-				gce.ptszStatus = TranslateW(sttStatuses[uid == cc->m_iAdminId]);
+				gce.pszUID.w = wszId;
+				gce.pszNick.w = wszNick;
+				gce.pszStatus.w = TranslateW(sttStatuses[uid == cc->m_iAdminId]);
 				gce.dwItemData = (INT_PTR)cu;
 				Chat_Event(&gce);
 			}
@@ -184,11 +185,12 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			wchar_t wszId[20];
 			_itow(cu->m_uid, wszId, 10);
 
-			GCEVENT gce = { m_szModuleName, cc->m_wszId, GC_EVENT_PART };
-			gce.ptszUID = wszId;
+			GCEVENT gce = { m_szModuleName, 0, GC_EVENT_PART };
+			gce.pszID.w = cc->m_wszId;
+			gce.pszUID.w = wszId;
 			gce.dwFlags = GCEF_NOTNOTIFY;
 			gce.time = time(0);
-			gce.ptszNick = mir_wstrdup(CMStringW(FORMAT, L"%s (https://vk.com/id%s)", cu->m_wszNick, wszId));
+			gce.pszNick.w = mir_wstrdup(CMStringW(FORMAT, L"%s (https://vk.com/id%s)", cu->m_wszNick, wszId));
 			Chat_Event(&gce);
 
 			cc->m_users.remove(T.indexOf(&cu));
@@ -397,13 +399,14 @@ void CVkProto::AppendChatMessage(CVkChatInfo *cc, int uid, int msgTime, LPCWSTR 
 	wchar_t wszId[20];
 	_itow(uid, wszId, 10);
 
-	GCEVENT gce = { m_szModuleName, cc->m_wszId, bIsAction ? GC_EVENT_ACTION : GC_EVENT_MESSAGE };
+	GCEVENT gce = { m_szModuleName, 0, bIsAction ? GC_EVENT_ACTION : GC_EVENT_MESSAGE };
+	gce.pszID.w = cc->m_wszId;
 	gce.bIsMe = (uid == m_myUserId);
-	gce.ptszUID = wszId;
+	gce.pszUID.w = wszId;
 	gce.time = msgTime;
 	gce.dwFlags = (bIsHistory) ? GCEF_NOTNOTIFY : GCEF_ADDTOLOG;
-	gce.ptszNick = cu->m_wszNick ? mir_wstrdup(cu->m_wszNick) : mir_wstrdup(hContact ? ptrW(db_get_wsa(hContact, m_szModuleName, "Nick")) : TranslateT("Unknown"));
-	gce.ptszText = IsEmpty((wchar_t *)pwszBody) ? mir_wstrdup(L"...") : mir_wstrdup(pwszBody);
+	gce.pszNick.w = cu->m_wszNick ? mir_wstrdup(cu->m_wszNick) : mir_wstrdup(hContact ? ptrW(db_get_wsa(hContact, m_szModuleName, "Nick")) : TranslateT("Unknown"));
+	gce.pszText.w = IsEmpty((wchar_t *)pwszBody) ? mir_wstrdup(L"...") : mir_wstrdup(pwszBody);
 	Chat_Event(&gce);
 	StopChatContactTyping(cc->m_iChatId, uid);
 }
@@ -731,11 +734,12 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 			wchar_t wszId[20];
 			_itow(cu->m_uid, wszId, 10);
 
-			GCEVENT gce = { m_szModuleName, cc->m_wszId, GC_EVENT_NICK };
-			gce.ptszNick = mir_wstrdup(cu->m_wszNick);
+			GCEVENT gce = { m_szModuleName, 0, GC_EVENT_NICK };
+			gce.pszID.w = cc->m_wszId;
+			gce.pszNick.w = mir_wstrdup(cu->m_wszNick);
 			gce.bIsMe = (cu->m_uid == m_myUserId);
-			gce.ptszUID = wszId;
-			gce.ptszText = mir_wstrdup(wszNewNick);
+			gce.pszUID.w = wszId;
+			gce.pszText.w = mir_wstrdup(wszNewNick);
 			gce.dwFlags = GCEF_ADDTOLOG;
 			gce.time = time(0);
 			Chat_Event(&gce);

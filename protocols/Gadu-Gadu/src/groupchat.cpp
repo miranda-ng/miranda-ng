@@ -82,8 +82,7 @@ void GaduProto::gc_menus_init(HGENMENU hRoot)
 int GaduProto::gc_destroy()
 {
 	list_t l;
-	for (l = chats; l; l = l->next)
-	{
+	for (l = chats; l; l = l->next) {
 		GGGC *chat = (GGGC *)l->data;
 		free(chat->recipients);
 	}
@@ -97,8 +96,7 @@ GGGC* GaduProto::gc_lookup(const wchar_t *id)
 	GGGC *chat;
 	list_t l;
 
-	for (l = chats; l; l = l->next)
-	{
+	for (l = chats; l; l = l->next) {
 		chat = (GGGC *)l->data;
 		if (chat && !mir_wstrcmp(chat->id, id))
 			return chat;
@@ -123,8 +121,7 @@ int GaduProto::gc_event(WPARAM, LPARAM lParam)
 		return 0;
 
 	// Window terminated (Miranda exit)
-	if (gch->iType == SESSION_TERMINATE)
-	{
+	if (gch->iType == SESSION_TERMINATE) {
 		debugLogW(L"gc_event(): Terminating chat %x, id %s from chat window...", chat, gch->ptszID);
 		// Destroy chat entry
 		free(chat->recipients);
@@ -150,9 +147,10 @@ int GaduProto::gc_event(WPARAM, LPARAM lParam)
 		UIN2IDT(uin, id);
 		DBVARIANT dbv;
 
-		GCEVENT gce = { m_szModuleName, gch->ptszID, GC_EVENT_MESSAGE };
-		gce.ptszUID = id;
-		gce.ptszText = gch->ptszText;
+		GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
+		gce.pszID.w = gch->ptszID;
+		gce.pszUID.w = id;
+		gce.pszText.w = gch->ptszText;
 		wchar_t* nickT;
 		if (!getWString(GG_KEY_NICK, &dbv)) {
 			nickT = mir_wstrdup(dbv.pwszVal);
@@ -161,7 +159,7 @@ int GaduProto::gc_event(WPARAM, LPARAM lParam)
 		else
 			nickT = mir_wstrdup(TranslateT("Me"));
 
-		gce.ptszNick = nickT;
+		gce.pszNick.w = nickT;
 
 		// Get rid of CRLF at back
 		int lc = (int)mir_wstrlen(gch->ptszText) - 1;
@@ -183,8 +181,7 @@ int GaduProto::gc_event(WPARAM, LPARAM lParam)
 	}
 
 	// Privmessage selected
-	if (gch->iType == GC_USER_PRIVMESS)
-	{
+	if (gch->iType == GC_USER_PRIVMESS) {
 		MCONTACT hContact = NULL;
 		if ((uin = _wtoi(gch->ptszUID)) && (hContact = getcontact(uin, 1, 0, nullptr)))
 			CallService(MS_MSG_SENDMESSAGE, hContact, 0);
@@ -215,18 +212,15 @@ wchar_t* GaduProto::gc_getchat(uin_t sender, uin_t *recipients, int recipients_c
 		return nullptr;
 
 	// Look for existing chat
-	for (l = chats; l; l = l->next)
-	{
+	for (l = chats; l; l = l->next) {
 		chat = (GGGC *)l->data;
 		if (!chat) continue;
 
-		if (chat->recipients_count == recipients_count + (sender ? 1 : 0))
-		{
+		if (chat->recipients_count == recipients_count + (sender ? 1 : 0)) {
 			int sok = (sender == 0);
 			if (!sok) {
 				for (int i = 0; i < chat->recipients_count; i++) {
-					if (sender == chat->recipients[i])
-					{
+					if (sender == chat->recipients[i]) {
 						sok = 1;
 						break;
 					}
@@ -241,8 +235,7 @@ wchar_t* GaduProto::gc_getchat(uin_t sender, uin_t *recipients, int recipients_c
 							++found;
 
 			// Found all recipients
-			if (found == recipients_count)
-			{
+			if (found == recipients_count) {
 				if (chat->ignore)
 					debugLogW(L"gc_getchat(): Ignoring existing id %s, size %d.", chat->id, chat->recipients_count);
 				else
@@ -258,8 +251,7 @@ wchar_t* GaduProto::gc_getchat(uin_t sender, uin_t *recipients, int recipients_c
 	chat->ignore = FALSE;
 
 	// Check groupchat policy (new) / only for incoming
-	if (sender)
-	{
+	if (sender) {
 		int unknown = (getcontact(sender, 0, 0, nullptr) == NULL),
 			unknownSender = unknown;
 		for (int i = 0; i < recipients_count; i++)
@@ -270,8 +262,7 @@ wchar_t* GaduProto::gc_getchat(uin_t sender, uin_t *recipients, int recipients_c
 			(getWord(GG_KEY_GC_POLICY_TOTAL, GG_KEYDEF_GC_POLICY_TOTAL) == 2 &&
 				recipients_count >= getWord(GG_KEY_GC_COUNT_TOTAL, GG_KEYDEF_GC_COUNT_TOTAL)) ||
 				(getWord(GG_KEY_GC_POLICY_UNKNOWN, GG_KEYDEF_GC_POLICY_UNKNOWN) == 2 &&
-					unknown >= getWord(GG_KEY_GC_COUNT_UNKNOWN, GG_KEYDEF_GC_COUNT_UNKNOWN)))
-		{
+					unknown >= getWord(GG_KEY_GC_COUNT_UNKNOWN, GG_KEYDEF_GC_COUNT_UNKNOWN))) {
 			chat->ignore = TRUE;
 		}
 
@@ -279,8 +270,7 @@ wchar_t* GaduProto::gc_getchat(uin_t sender, uin_t *recipients, int recipients_c
 			(getWord(GG_KEY_GC_POLICY_TOTAL, GG_KEYDEF_GC_POLICY_TOTAL) == 1 &&
 				recipients_count >= getWord(GG_KEY_GC_COUNT_TOTAL, GG_KEYDEF_GC_COUNT_TOTAL)) ||
 				(getWord(GG_KEY_GC_POLICY_UNKNOWN, GG_KEYDEF_GC_POLICY_UNKNOWN) == 1 &&
-					unknown >= getWord(GG_KEY_GC_COUNT_UNKNOWN, GG_KEYDEF_GC_COUNT_UNKNOWN))))
-		{
+					unknown >= getWord(GG_KEY_GC_COUNT_UNKNOWN, GG_KEYDEF_GC_COUNT_UNKNOWN)))) {
 			wchar_t *senderName = unknownSender ?
 				TranslateT("Unknown") : Clist_GetContactDisplayName(getcontact(sender, 0, 0, nullptr));
 			wchar_t error[256];
@@ -289,8 +279,7 @@ wchar_t* GaduProto::gc_getchat(uin_t sender, uin_t *recipients, int recipients_c
 			chat->ignore = MessageBox(nullptr, error, m_tszUserName, MB_OKCANCEL | MB_ICONEXCLAMATION) != IDOK;
 		}
 
-		if (chat->ignore)
-		{
+		if (chat->ignore) {
 			// Copy recipient list
 			chat->recipients_count = recipients_count + 1;
 			chat->recipients = (uin_t *)calloc(chat->recipients_count, sizeof(uin_t));
@@ -307,13 +296,11 @@ wchar_t* GaduProto::gc_getchat(uin_t sender, uin_t *recipients, int recipients_c
 	// Create new chat window
 	wchar_t status[256];
 	wchar_t *senderName;
-	if (sender)
-	{
+	if (sender) {
 		senderName = Clist_GetContactDisplayName(getcontact(sender, 1, 0, nullptr));
 		mir_snwprintf(status, TranslateT("%s initiated the conference."), senderName);
 	}
-	else
-	{
+	else {
 		senderName = nullptr;
 		mir_snwprintf(status, TranslateT("This is my own conference."));
 	}
@@ -331,25 +318,25 @@ wchar_t* GaduProto::gc_getchat(uin_t sender, uin_t *recipients, int recipients_c
 
 	wchar_t id[32];
 
-	GCEVENT gce = { m_szModuleName, chat->id, GC_EVENT_JOIN };
-	gce.ptszUID = id;
+	GCEVENT gce = { m_szModuleName, 0, GC_EVENT_JOIN };
+	gce.pszID.w = chat->id;
+	gce.pszUID.w = id;
 	gce.dwFlags = GCEF_ADDTOLOG;
 
 	// Add myself
 	uin_t uin = getDword(GG_KEY_UIN, 0);
-	if (uin)
-	{
+	if (uin) {
 		UIN2IDT(uin, id);
 
 		ptrW nickT(getWStringA(GG_KEY_NICK));
 		if (nickT == NULL)
 			nickT = mir_wstrdup(TranslateT("Me"));
 
-		gce.ptszNick = nickT;
+		gce.pszNick.w = nickT;
 		gce.bIsMe = 1;
 		Chat_Event(&gce);
 		mir_free(nickT);
-		debugLogW(L"gc_getchat(): Myself %s: %s (%s) to the list...", gce.ptszUID, gce.ptszNick, gce.ptszStatus);
+		debugLogW(L"gc_getchat(): Myself %s: %s (%s) to the list...", gce.pszUID.w, gce.pszNick.w, gce.pszStatus.w);
 	}
 	else
 		debugLogA("gc_getchat(): Myself adding failed with uin %d !!!", uin);
@@ -368,12 +355,12 @@ wchar_t* GaduProto::gc_getchat(uin_t sender, uin_t *recipients, int recipients_c
 		MCONTACT hContact = getcontact(chat->recipients[i], 1, 0, nullptr);
 		UIN2IDT(chat->recipients[i], id);
 		if (hContact)
-			gce.ptszNick = Clist_GetContactDisplayName(hContact);
+			gce.pszNick.w = Clist_GetContactDisplayName(hContact);
 		else
-			gce.ptszNick = TranslateT("'Unknown'");
+			gce.pszNick.w = TranslateT("'Unknown'");
 		gce.bIsMe = 0;
 		gce.dwFlags = 0;
-		debugLogW(L"gc_getchat(): Added %s: %s (%s) to the list...", gce.ptszUID, gce.ptszNick, gce.ptszStatus);
+		debugLogW(L"gc_getchat(): Added %s: %s (%s) to the list...", gce.pszUID.w, gce.pszNick.w, gce.pszStatus.w);
 		Chat_Event(&gce);
 	}
 
@@ -423,78 +410,67 @@ static int gg_gc_countcheckmarks(HWND hwndList)
 
 static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	switch (message)
-	{
+	switch (message) {
 	case WM_INITDIALOG:
-	{
-		CLCINFOITEM cii = { 0 };
-		HANDLE hMetaContactsEvent;
+		{
+			SetWindowLongPtr(hwndDlg, DWLP_USER, (LONG_PTR)lParam);
+			TranslateDialogDefault(hwndDlg);
+			Window_SetIcon_IcoLib(hwndDlg, GetIconHandle(IDI_CONFERENCE));
+			gg_gc_resetclistopts(GetDlgItem(hwndDlg, IDC_CLIST));
 
-		SetWindowLongPtr(hwndDlg, DWLP_USER, (LONG_PTR)lParam);
-		TranslateDialogDefault(hwndDlg);
-		Window_SetIcon_IcoLib(hwndDlg, GetIconHandle(IDI_CONFERENCE));
-		gg_gc_resetclistopts(GetDlgItem(hwndDlg, IDC_CLIST));
-
-		// Hook MetaContacts event (if available)
-		hMetaContactsEvent = HookEventMessage(ME_MC_SUBCONTACTSCHANGED, hwndDlg, HM_SUBCONTACTSCHANGED);
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)hMetaContactsEvent);
-	}
-	return TRUE;
+			// Hook MetaContacts event (if available)
+			HANDLE hMetaContactsEvent = HookEventMessage(ME_MC_SUBCONTACTSCHANGED, hwndDlg, HM_SUBCONTACTSCHANGED);
+			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)hMetaContactsEvent);
+		}
+		return TRUE;
 
 	case WM_COMMAND:
-	{
-		switch (LOWORD(wParam))
 		{
-		case IDOK:
-		{
-			HWND hwndList = GetDlgItem(hwndDlg, IDC_CLIST);
-			GaduProto* gg = (GaduProto*)GetWindowLongPtr(hwndDlg, DWLP_USER);
-			int count = 0, i = 0;
-			// Check if connected
-			if (!gg->isonline())
-			{
-				MessageBox(nullptr,
-					TranslateT("You have to be connected to open new conference."),
-					gg->m_tszUserName, MB_OK | MB_ICONSTOP);
-			}
-			else if (hwndList && (count = gg_gc_countcheckmarks(hwndList)) >= 2)
-			{
-				// Create new participiants table
-				uin_t* participants = (uin_t*)calloc(count, sizeof(uin_t));
-				gg->debugLogA("gg_gc_openconfdlg(): WM_COMMAND IDOK Opening new conference for %d contacts.", count);
-				for (auto &hContact : Contacts()) {
-					HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
-					if (hItem && SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
-						MCONTACT hMetaContact = gg_getsubcontact(gg, hContact); // MetaContacts support
-						participants[i++] = db_get_dw(hMetaContact ? hMetaContact : hContact, gg->m_szModuleName, GG_KEY_UIN, 0);
+			switch (LOWORD(wParam)) {
+			case IDOK:
+				{
+					HWND hwndList = GetDlgItem(hwndDlg, IDC_CLIST);
+					GaduProto* gg = (GaduProto*)GetWindowLongPtr(hwndDlg, DWLP_USER);
+					int count = 0, i = 0;
+					// Check if connected
+					if (!gg->isonline()) {
+						MessageBox(nullptr,
+							TranslateT("You have to be connected to open new conference."),
+							gg->m_tszUserName, MB_OK | MB_ICONSTOP);
+					}
+					else if (hwndList && (count = gg_gc_countcheckmarks(hwndList)) >= 2) {
+						// Create new participiants table
+						uin_t* participants = (uin_t*)calloc(count, sizeof(uin_t));
+						gg->debugLogA("gg_gc_openconfdlg(): WM_COMMAND IDOK Opening new conference for %d contacts.", count);
+						for (auto &hContact : Contacts()) {
+							HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
+							if (hItem && SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
+								MCONTACT hMetaContact = gg_getsubcontact(gg, hContact); // MetaContacts support
+								participants[i++] = db_get_dw(hMetaContact ? hMetaContact : hContact, gg->m_szModuleName, GG_KEY_UIN, 0);
+							}
+						}
+						if (count > i)
+							i = count;
+
+						wchar_t *chat = gg->gc_getchat(0, participants, count);
+						if (chat)
+							Chat_Control(gg->m_szModuleName, chat, WINDOW_VISIBLE);
+
+						free(participants);
 					}
 				}
-				if (count > i)
-					i = count;
-
-				wchar_t *chat = gg->gc_getchat(0, participants, count);
-				if (chat)
-					Chat_Control(gg->m_szModuleName, chat, WINDOW_VISIBLE);
-
-				free(participants);
+				// fall through
+			case IDCANCEL:
+				DestroyWindow(hwndDlg);
+				break;
 			}
 		}
-		// fall through
-		case IDCANCEL:
-			DestroyWindow(hwndDlg);
-			break;
-		}
 		break;
-	}
 
 	case WM_NOTIFY:
-	{
-		switch (((NMHDR*)lParam)->idFrom)
-		{
+		switch (((NMHDR*)lParam)->idFrom) {
 		case IDC_CLIST:
-		{
-			switch (((NMHDR*)lParam)->code)
-			{
+			switch (((NMHDR*)lParam)->code) {
 			case CLN_OPTIONSCHANGED:
 				gg_gc_resetclistopts(GetDlgItem(hwndDlg, IDC_CLIST));
 				break;
@@ -502,34 +478,34 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 			case CLN_NEWCONTACT:
 			case CLN_CONTACTMOVED:
 			case CLN_LISTREBUILT:
-			{
-				char* szProto;
-				uin_t uin;
-				GaduProto* gg = (GaduProto*)GetWindowLongPtr(hwndDlg, DWLP_USER);
+				{
+					char* szProto;
+					uin_t uin;
+					GaduProto* gg = (GaduProto*)GetWindowLongPtr(hwndDlg, DWLP_USER);
 
-				if (!gg)
-					break;
+					if (!gg)
+						break;
 
-				// Delete non-gg contacts
-				for (auto &hContact : Contacts()) {
-					MCONTACT hItem = (MCONTACT)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
-					if (hItem) {
-						MCONTACT hMetaContact = gg_getsubcontact(gg, hContact); // MetaContacts support
-						if (hMetaContact) {
-							szProto = gg->m_szModuleName;
-							uin = (uin_t)gg->getDword(hMetaContact, GG_KEY_UIN, 0);
+					// Delete non-gg contacts
+					for (auto &hContact : Contacts()) {
+						MCONTACT hItem = (MCONTACT)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
+						if (hItem) {
+							MCONTACT hMetaContact = gg_getsubcontact(gg, hContact); // MetaContacts support
+							if (hMetaContact) {
+								szProto = gg->m_szModuleName;
+								uin = (uin_t)gg->getDword(hMetaContact, GG_KEY_UIN, 0);
+							}
+							else {
+								szProto = GetContactProto(hContact);
+								uin = (uin_t)gg->getDword(hContact, GG_KEY_UIN, 0);
+							}
+
+							if (szProto == nullptr || mir_strcmp(szProto, gg->m_szModuleName) || !uin || uin == gg->getDword(GG_KEY_UIN, 0))
+								SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_DELETEITEM, (WPARAM)hItem, 0);
 						}
-						else {
-							szProto = GetContactProto(hContact);
-							uin = (uin_t)gg->getDword(hContact, GG_KEY_UIN, 0);
-						}
-
-						if (szProto == nullptr || mir_strcmp(szProto, gg->m_szModuleName) || !uin || uin == gg->getDword(GG_KEY_UIN, 0))
-							SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_DELETEITEM, (WPARAM)hItem, 0);
 					}
 				}
-			}
-			break;
+				break;
 
 			case CLN_CHECKCHANGED:
 				EnableWindow(GetDlgItem(hwndDlg, IDOK), gg_gc_countcheckmarks(GetDlgItem(hwndDlg, IDC_CLIST)) >= 2);
@@ -537,30 +513,26 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 			}
 			break;
 		}
-		}
 		break;
-	}
 
 	case HM_SUBCONTACTSCHANGED:
-	{
-		HWND hwndList = GetDlgItem(hwndDlg, IDC_CLIST);
-		SendMessage(hwndList, CLM_AUTOREBUILD, 0, 0);
-		EnableWindow(GetDlgItem(hwndDlg, IDOK), gg_gc_countcheckmarks(hwndList) >= 2);
+		{
+			HWND hwndList = GetDlgItem(hwndDlg, IDC_CLIST);
+			SendMessage(hwndList, CLM_AUTOREBUILD, 0, 0);
+			EnableWindow(GetDlgItem(hwndDlg, IDOK), gg_gc_countcheckmarks(hwndList) >= 2);
+		}
 		break;
-	}
 
 	case WM_CLOSE:
 		DestroyWindow(hwndDlg);
 		break;
 
 	case WM_DESTROY:
-	{
 		HANDLE hMetaContactsEvent = (HANDLE)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 		if (hMetaContactsEvent)
 			UnhookEvent(hMetaContactsEvent);
 		Window_FreeIcon_IcoLib(hwndDlg);
 		break;
-	}
 	}
 
 	return FALSE;
@@ -570,12 +542,10 @@ INT_PTR GaduProto::gc_clearignored(WPARAM, LPARAM)
 {
 	list_t l = chats;
 	BOOL cleared = FALSE;
-	while (l)
-	{
+	while (l) {
 		GGGC *chat = (GGGC *)l->data;
 		l = l->next;
-		if (chat->ignore)
-		{
+		if (chat->ignore) {
 			free(chat->recipients);
 			list_remove(&chats, chat, 1);
 			cleared = TRUE;
@@ -585,8 +555,7 @@ INT_PTR GaduProto::gc_clearignored(WPARAM, LPARAM)
 		cleared ?
 		TranslateT("All ignored conferences are now unignored and the conference policy will act again.") :
 		TranslateT("There are no ignored conferences."),
-		m_tszUserName, MB_OK | MB_ICONINFORMATION
-	);
+		m_tszUserName, MB_OK | MB_ICONINFORMATION);
 
 	return 0;
 }
@@ -594,12 +563,10 @@ INT_PTR GaduProto::gc_clearignored(WPARAM, LPARAM)
 INT_PTR GaduProto::gc_openconf(WPARAM, LPARAM)
 {
 	// Check if connected
-	if (!isonline())
-	{
+	if (!isonline()) {
 		MessageBox(nullptr,
 			TranslateT("You have to be connected to open new conference."),
-			m_tszUserName, MB_OK | MB_ICONSTOP
-		);
+			m_tszUserName, MB_OK | MB_ICONSTOP);
 		return 0;
 	}
 
@@ -620,14 +587,14 @@ int GaduProto::gc_changenick(MCONTACT hContact, wchar_t *ptszNick)
 		if (chat->recipients && chat->recipients_count)
 			for (int i = 0; i < chat->recipients_count; i++)
 				// Rename this window if it's exising in the chat
-				if (chat->recipients[i] == uin)
-				{
+				if (chat->recipients[i] == uin) {
 					wchar_t id[32];
 					UIN2IDT(uin, id);
 
-					GCEVENT gce = { m_szModuleName, chat->id, GC_EVENT_NICK };
-					gce.ptszUID = id;
-					gce.ptszText = ptszNick;
+					GCEVENT gce = { m_szModuleName, 0, GC_EVENT_NICK };
+					gce.pszID.w = chat->id;
+					gce.pszUID.w = id;
+					gce.pszText.w = ptszNick;
 
 					debugLogW(L"gc_changenick(): Found room %s with uin %d, sending nick change %s.", chat->id, uin, id);
 					Chat_Event(&gce);

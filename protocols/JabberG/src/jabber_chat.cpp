@@ -97,7 +97,7 @@ static TRoleOrAffiliationInfo sttRoleItems[] =
 /////////////////////////////////////////////////////////////////////////////////////////
 // JabberGcInit - initializes the new chat
 
-static const wchar_t *sttStatuses[] = { LPGENW("Visitors"), LPGENW("Participants"), LPGENW("Moderators"), LPGENW("Owners") };
+static const char *sttStatuses[] = { LPGEN("Owners"), LPGEN("Moderators"),  LPGEN("Participants"), LPGEN("Visitors") };
 
 int JabberGcGetStatus(JABBER_GC_AFFILIATION a, JABBER_GC_ROLE r)
 {
@@ -162,7 +162,7 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 	item->bChatActive = true;
 
 	for (int i = _countof(sttStatuses) - 1; i >= 0; i--)
-		Chat_AddGroup(si, TranslateW(sttStatuses[i]));
+		Chat_AddGroup(si, TranslateW(Utf2T(sttStatuses[i])));
 
 	Chat_Control(m_szModuleName, wszJid, (item->bAutoJoin && m_bAutoJoinHidden) ? WINDOW_HIDDEN : SESSION_INITDONE);
 	Chat_Control(m_szModuleName, wszJid, SESSION_ONLINE);
@@ -173,69 +173,67 @@ void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus 
 {
 	if (!item || !user || (item->bChatActive != 2)) return;
 
-	CMStringW buf;
-	Utf2T wszRoomJid(item->jid), wszUserId(user->m_szResourceName);
+	CMStringA buf;
 
 	switch (type) {
 	case INFO_BAN:
 		if (m_bGcLogBans)
-			buf.Format(TranslateT("User %s is now banned."), wszUserId.get());
+			buf.Format(TranslateU("User %s is now banned."), user->m_szResourceName);
 		break;
 
 	case INFO_STATUS:
 		if (m_bGcLogStatuses) {
 			wchar_t *ptszDescr = Clist_GetStatusModeDescription(user->m_iStatus, 0);
 			if (user->m_szStatusMessage)
-				buf.Format(TranslateT("User %s changed status to %s with message: %s"), wszUserId.get(), ptszDescr, user->m_szStatusMessage);
+				buf.Format(TranslateU("User %s changed status to %s with message: %s"), user->m_szResourceName, ptszDescr, user->m_szStatusMessage);
 			else
-				buf.Format(TranslateT("User %s changed status to %s"), wszUserId.get(), ptszDescr);
+				buf.Format(TranslateU("User %s changed status to %s"), user->m_szResourceName, ptszDescr);
 		}
 		break;
 
 	case INFO_CONFIG:
 		if (m_bGcLogConfig)
-			buf.Format(TranslateT("Room configuration was changed."));
+			buf.Append(TranslateU("Room configuration was changed."));
 		break;
 
 	case INFO_AFFILIATION:
 		if (m_bGcLogAffiliations) {
-			wchar_t *name = nullptr;
+			const char *name = nullptr;
 			switch (user->m_affiliation) {
-			case AFFILIATION_NONE:		name = TranslateT("None"); break;
-			case AFFILIATION_MEMBER:	name = TranslateT("Member"); break;
-			case AFFILIATION_ADMIN:		name = TranslateT("Admin"); break;
-			case AFFILIATION_OWNER:		name = TranslateT("Owner"); break;
-			case AFFILIATION_OUTCAST:	name = TranslateT("Outcast"); break;
+			case AFFILIATION_NONE:		name = TranslateU("None"); break;
+			case AFFILIATION_MEMBER:	name = TranslateU("Member"); break;
+			case AFFILIATION_ADMIN:		name = TranslateU("Admin"); break;
+			case AFFILIATION_OWNER:		name = TranslateU("Owner"); break;
+			case AFFILIATION_OUTCAST:	name = TranslateU("Outcast"); break;
 			}
 			if (name)
-				buf.Format(TranslateT("Affiliation of %s was changed to '%s'."), wszUserId.get(), name);
+				buf.Format(TranslateU("Affiliation of %s was changed to '%s'."), user->m_szResourceName, name);
 		}
 		break;
 
 	case INFO_ROLE:
 		if (m_bGcLogRoles) {
-			wchar_t *name = nullptr;
+			const char *name = nullptr;
 			switch (user->m_role) {
-			case ROLE_NONE:			name = TranslateT("None"); break;
-			case ROLE_VISITOR:		name = TranslateT("Visitor"); break;
-			case ROLE_PARTICIPANT:	name = TranslateT("Participant"); break;
-			case ROLE_MODERATOR:    name = TranslateT("Moderator"); break;
+			case ROLE_NONE:			name = TranslateU("None"); break;
+			case ROLE_VISITOR:		name = TranslateU("Visitor"); break;
+			case ROLE_PARTICIPANT:	name = TranslateU("Participant"); break;
+			case ROLE_MODERATOR:    name = TranslateU("Moderator"); break;
 			}
 
 			if (name)
-				buf.Format(TranslateT("Role of %s was changed to '%s'."), wszUserId.get(), name);
+				buf.Format(Translate("Role of %s was changed to '%s'."), user->m_szResourceName, name);
 		}
 		break;
 	}
 
 	if (!buf.IsEmpty()) {
-		buf.Replace(L"%", L"%%");
+		buf.Replace("%", "%%");
 
-		GCEVENT gce = { m_szModuleName, wszRoomJid, GC_EVENT_INFORMATION };
-		gce.ptszNick = wszUserId;
-		gce.ptszUID = wszUserId;
-		gce.ptszText = buf;
-		gce.dwFlags = GCEF_ADDTOLOG;
+		GCEVENT gce = { m_szModuleName, item->jid, GC_EVENT_INFORMATION };
+		gce.dwFlags = GCEF_UTF8 + GCEF_ADDTOLOG;
+		gce.pszNick.a = gce.pszUID.a = user->m_szResourceName;
+		gce.pszText.a = buf;
 		gce.time = time(0);
 		Chat_Event(&gce);
 	}
@@ -257,12 +255,12 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const char *r
 	if (myNick == nullptr)
 		myNick = JabberNickFromJID(m_szJabberJID);
 
-	Utf2T wszRoomJid(item->jid), wszNick(nick), wszUserId(resource), wszText(szReason), wszUserInfo(jid);
-	GCEVENT gce = { m_szModuleName, wszRoomJid };
-	gce.ptszNick = wszNick;
-	gce.ptszUID = wszUserId;
-	gce.ptszUserInfo = wszUserInfo;
-	gce.ptszText = wszText;
+	GCEVENT gce = { m_szModuleName, item->jid, 0 };
+	gce.dwFlags = GCEF_UTF8;
+	gce.pszNick.a = nick;
+	gce.pszUID.a = resource;
+	gce.pszUserInfo.a = jid;
+	gce.pszText.a = szReason;
 	if (item->bChatActive == 2) {
 		gce.dwFlags |= GCEF_ADDTOLOG;
 		gce.time = time(0);
@@ -271,7 +269,7 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const char *r
 	switch (gce.iType = action) {
 	case GC_EVENT_PART:  break;
 	case GC_EVENT_KICK:
-		gce.ptszStatus = TranslateT("Moderator");
+		gce.pszStatus.a = TranslateU("Moderator");
 		break;
 	
 	default:
@@ -285,27 +283,26 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const char *r
 					case GC_EVENT_REMOVESTATUS:
 						gce.dwFlags &= ~GCEF_ADDTOLOG;
 					}
-					gce.ptszText = TranslateT("Moderator");
+					gce.pszText.a = TranslateU("Moderator");
 				}
-				gce.ptszStatus = TranslateW(sttStatuses[JabberGcGetStatus(JS)]);
+				gce.pszStatus.a = TranslateU(sttStatuses[JabberGcGetStatus(JS)]);
 				gce.bIsMe = (mir_strcmp(nick, myNick) == 0);
 				statusToSet = JS->m_iStatus;
 				break;
 			}
 		}
 	}
-
 	Chat_Event(&gce);
 
 	if (statusToSet != 0) {
 		int flags = GC_SSE_ONLYLISTED;
 		if (statusToSet == ID_STATUS_AWAY || statusToSet == ID_STATUS_NA || statusToSet == ID_STATUS_DND)
 			flags += GC_SSE_ONLINE;
-		Chat_SetStatusEx(m_szModuleName, wszRoomJid, flags, wszNick);
+		Chat_SetStatusEx(m_szModuleName, Utf2T(item->jid), flags, Utf2T(nick));
 
 		gce.iType = GC_EVENT_SETCONTACTSTATUS;
-		gce.ptszText = wszNick;
-		gce.ptszUID = wszUserId;
+		gce.pszText.a = nick;
+		gce.pszUID.a = resource;
 		gce.dwItemData = statusToSet;
 		Chat_Event(&gce);
 	}

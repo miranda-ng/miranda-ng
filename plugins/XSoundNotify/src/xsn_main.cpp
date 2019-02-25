@@ -143,13 +143,13 @@ static int ProcessChatEvent(WPARAM, LPARAM lParam)
 	if (gce->iType != GC_EVENT_MESSAGE)
 		return 0;
 
-	MCONTACT hContact = g_chatApi.FindRoom(gce->pszModule, gce->ptszID);
+	MCONTACT hContact = g_chatApi.FindRoom(gce->pszModule, gce->pszID.w);
 	if (hContact != 0) {
 		ptrW nick(db_get_wsa(hContact, gce->pszModule, "MyNick"));
-		if (nick == NULL || gce->ptszText == nullptr)
+		if (nick == NULL || gce->pszText.w == nullptr)
 			return 0;
 		
-		if (wcsstr(gce->ptszText, nick)) {
+		if (wcsstr(gce->pszText.w, nick)) {
 			isIgnoreSound = g_plugin.getByte(hContact, SETTINGSIGNOREKEY, 0);
 			DBVARIANT dbv;
 			if (!isIgnoreSound && !g_plugin.getWString(hContact, SETTINGSKEY, &dbv)) {

@@ -212,10 +212,10 @@ BOOL SM_AddEvent(const wchar_t *pszID, const char *pszModule, GCEVENT *gce, bool
 	si->iEventCount++;
 
 	li->iType = gce->iType;
-	li->ptszNick = mir_wstrdup(gce->ptszNick);
-	li->ptszText = mir_wstrdup(gce->ptszText);
-	li->ptszStatus = mir_wstrdup(gce->ptszStatus);
-	li->ptszUserInfo = mir_wstrdup(gce->ptszUserInfo);
+	li->ptszNick = mir_wstrdup(gce->pszNick.w);
+	li->ptszText = mir_wstrdup(gce->pszText.w);
+	li->ptszStatus = mir_wstrdup(gce->pszStatus.w);
+	li->ptszUserInfo = mir_wstrdup(gce->pszUserInfo.w);
 
 	li->bIsMe = gce->bIsMe;
 	li->time = gce->time;
@@ -360,9 +360,9 @@ BOOL SM_ChangeNick(const wchar_t *pszID, const char *pszModule, GCEVENT *gce)
 
 	for (auto &si : g_arSessions) {
 		if ((!pszID || !mir_wstrcmpi(si->ptszID, pszID)) && !mir_strcmpi(si->pszModule, pszModule)) {
-			USERINFO *ui = g_chatApi.UM_FindUser(si, gce->ptszUID);
+			USERINFO *ui = g_chatApi.UM_FindUser(si, gce->pszUID.w);
 			if (ui) {
-				replaceStrW(ui->pszNick, gce->ptszText);
+				replaceStrW(ui->pszNick, gce->pszText.w);
 				UM_SortUser(si, ui->pszUID);
 				if (si->pDlg)
 					si->pDlg->UpdateNickList();

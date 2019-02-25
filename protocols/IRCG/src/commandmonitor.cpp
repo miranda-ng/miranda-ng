@@ -1298,11 +1298,12 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage *pmsg)
 						while (PrefixToStatus(sTemp[0]) != pwszNormal)
 							sTemp.Delete(0, 1);
 
-						GCEVENT gce = { m_szModuleName, sID, GC_EVENT_JOIN };
-						gce.ptszUID = sTemp;
-						gce.ptszNick = sTemp;
-						gce.ptszStatus = sStat;
-						gce.bIsMe = (!mir_wstrcmpi(gce.ptszNick, m_info.sNick)) ? TRUE : FALSE;
+						GCEVENT gce = { m_szModuleName, 0, GC_EVENT_JOIN };
+						gce.pszID.w = sID;
+						gce.pszUID.w = sTemp;
+						gce.pszNick.w = sTemp;
+						gce.pszStatus.w = sStat;
+						gce.bIsMe = (!mir_wstrcmpi(gce.pszNick.w, m_info.sNick)) ? TRUE : FALSE;
 						if (gce.bIsMe) {
 							char BitNr = -1;
 							switch (sTemp2[0]) {

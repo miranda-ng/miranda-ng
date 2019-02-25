@@ -347,18 +347,19 @@ EXTERN_C MIR_APP_DLL(struct SESSION_INFO*) Chat_NewSession(
 #define GCEF_ADDTOLOG       0x0001	 // force adding to log
 #define GCEF_SILENT         0x0002   // never add to log
 #define GCEF_NOTNOTIFY      0x0004
+#define GCEF_UTF8           0x0008
 
 struct GCEVENT
 {
-	LPCSTR  pszModule;             // Name of the protocol (same as you registered with)
-	LPCTSTR ptszID;                // Unique identifier of the session, or NULL to broadcast to all sessions as specified above
-	int     iType;                 // Use GC_EVENT_* as defined above. Only one event per service call.
-
-	LPCTSTR ptszText;					 //
-	LPCTSTR ptszNick;					 //
-	LPCTSTR ptszUID;					 //
-	LPCTSTR ptszStatus;				 //
-	LPCTSTR ptszUserInfo;			 //
+	LPCSTR      pszModule;         // Name of the protocol (same as you registered with)
+	MAllCStrings pszID;            // Unique identifier of the session, or NULL to broadcast to all sessions as specified above
+	int         iType;             // Use GC_EVENT_* as defined above. Only one event per service call.
+			   
+	MAllCStrings pszText;          //
+	MAllCStrings pszNick;          //
+	MAllCStrings pszUID;           //
+	MAllCStrings pszStatus;        //
+	MAllCStrings pszUserInfo;      //
 
 	BOOL    bIsMe;                 // Is this event from the Miranda user?
 	DWORD   dwFlags;               // event flags: GCEF_*

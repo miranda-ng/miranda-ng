@@ -363,13 +363,13 @@ MIR_APP_DLL(int) Chat_Terminate(const char *szModule, const wchar_t *wszId, bool
 
 static void AddUser(GCEVENT *gce)
 {
-	SESSION_INFO *si = SM_FindSession(gce->ptszID, gce->pszModule);
+	SESSION_INFO *si = SM_FindSession(gce->pszID.w, gce->pszModule);
 	if (si == nullptr)
 		return;
 
-	WORD status = TM_StringToWord(si->pStatuses, gce->ptszStatus);
+	WORD status = TM_StringToWord(si->pStatuses, gce->pszStatus.w);
 
-	USERINFO *ui = g_chatApi.UM_AddUser(si, gce->ptszUID, gce->ptszNick, status);
+	USERINFO *ui = g_chatApi.UM_AddUser(si, gce->pszUID.w, gce->pszNick.w, status);
 	if (ui == nullptr)
 		return;
 
@@ -396,7 +396,7 @@ static BOOL AddEventToAllMatchingUID(GCEVENT *gce)
 		if (!si->bInitDone || mir_strcmpi(si->pszModule, gce->pszModule))
 			continue;
 
-		if (!g_chatApi.UM_FindUser(si, gce->ptszUID))
+		if (!g_chatApi.UM_FindUser(si, gce->pszUID.w))
 			continue;
 
 		if (g_chatApi.OnEventBroadcast)
@@ -423,6 +423,16 @@ static BOOL AddEventToAllMatchingUID(GCEVENT *gce)
 static INT_PTR CALLBACK sttEventStub(void *_param)
 {
 	GCEVENT *gce = (GCEVENT*)_param;
+	if (gce->dwFlags & GCEF_UTF8) {
+		gce->pszID.w = NEWWSTR_ALLOCA(Utf2T(gce->pszID.a));
+		gce->pszUID.w = NEWWSTR_ALLOCA(Utf2T(gce->pszUID.a));
+		gce->pszNick.w = NEWWSTR_ALLOCA(Utf2T(gce->pszNick.a));
+		gce->pszText.w = NEWWSTR_ALLOCA(Utf2T(gce->pszText.a));
+		gce->pszStatus.w = NEWWSTR_ALLOCA(Utf2T(gce->pszStatus.a));
+		gce->pszUserInfo.w = NEWWSTR_ALLOCA(Utf2T(gce->pszUserInfo.a));
+		gce->dwFlags &= ~GCEF_UTF8;
+	}
+
 	if (NotifyEventHooks(hHookEvent, 0, LPARAM(gce)))
 		return 1;
 
@@ -431,11 +441,11 @@ static INT_PTR CALLBACK sttEventStub(void *_param)
 	// Do different things according to type of event
 	switch (gce->iType) {
 	case GC_EVENT_SETCONTACTSTATUS:
-		return SM_SetContactStatus(gce->ptszID, gce->pszModule, gce->ptszUID, (WORD)gce->dwItemData);
+		return SM_SetContactStatus(gce->pszID.w, gce->pszModule, gce->pszUID.w, (WORD)gce->dwItemData);
 
 	case GC_EVENT_TOPIC:
-		if (SESSION_INFO *si = SM_FindSession(gce->ptszID, gce->pszModule)) {
-			wchar_t *pwszNew = RemoveFormatting(gce->ptszText);
+		if (SESSION_INFO *si = SM_FindSession(gce->pszID.w, gce->pszModule)) {
+			wchar_t *pwszNew = RemoveFormatting(gce->pszText.w);
 			if (!mir_wstrcmp(si->ptszTopic, pwszNew)) // nothing changed? exiting
 				return 0;
 
@@ -458,25 +468,25 @@ static INT_PTR CALLBACK sttEventStub(void *_param)
 		break;
 
 	case GC_EVENT_ADDSTATUS:
-		SM_GiveStatus(gce->ptszID, gce->pszModule, gce->ptszUID, gce->ptszStatus);
+		SM_GiveStatus(gce->pszID.w, gce->pszModule, gce->pszUID.w, gce->pszStatus.w);
 		bIsHighlighted = g_chatApi.IsHighlighted(nullptr, gce);
 		break;
 
 	case GC_EVENT_REMOVESTATUS:
-		SM_TakeStatus(gce->ptszID, gce->pszModule, gce->ptszUID, gce->ptszStatus);
+		SM_TakeStatus(gce->pszID.w, gce->pszModule, gce->pszUID.w, gce->pszStatus.w);
 		bIsHighlighted = g_chatApi.IsHighlighted(nullptr, gce);
 		break;
 
 	case GC_EVENT_MESSAGE:
 	case GC_EVENT_ACTION:
-		if (!gce->bIsMe && gce->ptszID && gce->ptszText) {
-			SESSION_INFO *si = SM_FindSession(gce->ptszID, gce->pszModule);
+		if (!gce->bIsMe && gce->pszID.w && gce->pszText.w) {
+			SESSION_INFO *si = SM_FindSession(gce->pszID.w, gce->pszModule);
 			bIsHighlighted = g_chatApi.IsHighlighted(si, gce);
 		}
 		break;
 
 	case GC_EVENT_NICK:
-		SM_ChangeNick(gce->ptszID, gce->pszModule, gce);
+		SM_ChangeNick(gce->pszID.w, gce->pszModule, gce);
 		bIsHighlighted = g_chatApi.IsHighlighted(nullptr, gce);
 		break;
 
@@ -496,8 +506,8 @@ static INT_PTR CALLBACK sttEventStub(void *_param)
 	// Decide which window (log) should have the event
 	LPCTSTR pWnd = nullptr;
 	LPCSTR pMod = nullptr;
-	if (gce->ptszID) {
-		pWnd = gce->ptszID;
+	if (gce->pszID.w) {
+		pWnd = gce->pszID.w;
 		pMod = gce->pszModule;
 	}
 	else if (gce->iType == GC_EVENT_NOTICE || gce->iType == GC_EVENT_INFORMATION) {
@@ -530,10 +540,10 @@ static INT_PTR CALLBACK sttEventStub(void *_param)
 			return 0;
 
 		if (si && (si->bInitDone || gce->iType == GC_EVENT_TOPIC || (gce->iType == GC_EVENT_JOIN && gce->bIsMe))) {
-			if (gce->ptszNick == nullptr && gce->ptszUID != nullptr) {
-				USERINFO *ui = g_chatApi.UM_FindUser(si, gce->ptszUID);
+			if (gce->pszNick.w == nullptr && gce->pszUID.w != nullptr) {
+				USERINFO *ui = g_chatApi.UM_FindUser(si, gce->pszUID.w);
 				if (ui != nullptr)
-					gce->ptszNick = ui->pszNick;
+					gce->pszNick.w = ui->pszNick;
 			}
 
 			int isOk = SM_AddEvent(pWnd, pMod, gce, bIsHighlighted);
@@ -556,7 +566,7 @@ static INT_PTR CALLBACK sttEventStub(void *_param)
 	}
 
 	if (bRemoveFlag)
-		return SM_RemoveUser(gce->ptszID, gce->pszModule, gce->ptszUID) == 0;
+		return SM_RemoveUser(gce->pszID.w, gce->pszModule, gce->pszUID.w) == 0;
 
 	return GC_EVENT_ERROR;
 }
