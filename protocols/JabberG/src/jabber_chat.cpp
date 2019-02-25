@@ -174,21 +174,21 @@ void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus 
 	if (!item || !user || (item->bChatActive != 2)) return;
 
 	CMStringW buf;
+	Utf2T wszRoomJid(item->jid), wszUserId(user->m_szResourceName);
 
 	switch (type) {
 	case INFO_BAN:
 		if (m_bGcLogBans)
-			buf.Format(TranslateT("User %s is now banned."), user->m_szResourceName);
+			buf.Format(TranslateT("User %s is now banned."), wszUserId.get());
 		break;
 
 	case INFO_STATUS:
 		if (m_bGcLogStatuses) {
 			wchar_t *ptszDescr = Clist_GetStatusModeDescription(user->m_iStatus, 0);
 			if (user->m_szStatusMessage)
-				buf.Format(TranslateT("User %s changed status to %s with message: %s"),
-				user->m_szResourceName, ptszDescr, user->m_szStatusMessage);
+				buf.Format(TranslateT("User %s changed status to %s with message: %s"), wszUserId.get(), ptszDescr, user->m_szStatusMessage);
 			else
-				buf.Format(TranslateT("User %s changed status to %s"), user->m_szResourceName, ptszDescr);
+				buf.Format(TranslateT("User %s changed status to %s"), wszUserId.get(), ptszDescr);
 		}
 		break;
 
@@ -208,7 +208,7 @@ void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus 
 			case AFFILIATION_OUTCAST:	name = TranslateT("Outcast"); break;
 			}
 			if (name)
-				buf.Format(TranslateT("Affiliation of %s was changed to '%s'."), user->m_szResourceName, name);
+				buf.Format(TranslateT("Affiliation of %s was changed to '%s'."), wszUserId.get(), name);
 		}
 		break;
 
@@ -223,7 +223,7 @@ void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus 
 			}
 
 			if (name)
-				buf.Format(TranslateT("Role of %s was changed to '%s'."), user->m_szResourceName, name);
+				buf.Format(TranslateT("Role of %s was changed to '%s'."), wszUserId.get(), name);
 		}
 		break;
 	}
@@ -231,7 +231,6 @@ void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus 
 	if (!buf.IsEmpty()) {
 		buf.Replace(L"%", L"%%");
 
-		Utf2T wszRoomJid(item->jid), wszUserId(user->m_szResourceName);
 		GCEVENT gce = { m_szModuleName, wszRoomJid, GC_EVENT_INFORMATION };
 		gce.ptszNick = wszUserId;
 		gce.ptszUID = wszUserId;
