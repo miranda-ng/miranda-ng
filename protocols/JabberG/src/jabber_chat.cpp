@@ -1258,7 +1258,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 			if (ppro->ListGetItemPtr(LIST_CHATROOM, roomJid) != nullptr) {
 				char text[1024];
 				mir_snprintf(text, "%s/%s", roomJid.get(), szBuffer.c_str());
-				ppro->SendPresenceTo(ppro->m_iStatus == ID_STATUS_INVISIBLE ? ID_STATUS_ONLINE : ppro->m_iStatus, text, nullptr);
+				ppro->SendPresenceTo(ppro->m_iStatus == ID_STATUS_INVISIBLE ? ID_STATUS_ONLINE : ppro->m_iStatus, text);
 			}
 		}
 		break;

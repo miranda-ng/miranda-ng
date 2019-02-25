@@ -1064,13 +1064,13 @@ int CJabberProto::SetApparentMode(MCONTACT hContact, int mode)
 		break;
 	case ID_STATUS_OFFLINE:
 		if (m_iStatus != ID_STATUS_INVISIBLE || oldMode == ID_STATUS_ONLINE)
-			SendPresenceTo(ID_STATUS_INVISIBLE, jid, nullptr);
+			SendPresenceTo(ID_STATUS_INVISIBLE, jid);
 		break;
 	case 0:
 		if (oldMode == ID_STATUS_ONLINE && m_iStatus == ID_STATUS_INVISIBLE)
-			SendPresenceTo(ID_STATUS_INVISIBLE, jid, nullptr);
+			SendPresenceTo(ID_STATUS_INVISIBLE, jid);
 		else if (oldMode == ID_STATUS_OFFLINE && m_iStatus != ID_STATUS_INVISIBLE)
-			SendPresenceTo(m_iStatus, jid, nullptr);
+			SendPresenceTo(m_iStatus, jid);
 		break;
 	}
 

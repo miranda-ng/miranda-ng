@@ -255,11 +255,11 @@ void CJabberProto::GroupchatJoinRoom(const char *server, const char *room, const
 	replaceStr(item->password, info.m_password);
 
 	int status = (m_iStatus == ID_STATUS_INVISIBLE) ? ID_STATUS_ONLINE : m_iStatus;
-	XmlNode x("x"); x << XATTR("xmlns", JABBER_FEAT_MUC);
-	if (info.m_password && info.m_password[0])
-		x << XCHILD("password", info.m_password);
-
-	SendPresenceTo(status, text, x.ToElement());
+	if (mir_strlen(info.m_password)) {
+		XmlNode x("x"); x << XATTR("xmlns", JABBER_FEAT_MUC) << XCHILD("password", info.m_password);
+		SendPresenceTo(status, text, x);
+	}
+	else SendPresenceTo(status, text);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -744,7 +744,7 @@ static VOID CALLBACK JabberGroupchatChangeNickname(void* arg)
 		if (param->ppro->EnterString(szBuffer, szTitle, ESF_COMBO, "gcNick_")) {
 			T2Utf newNick(szBuffer);
 			replaceStr(item->nick, newNick);
-			param->ppro->SendPresenceTo(param->ppro->m_iStatus, CMStringA(FORMAT, "%s/%s", item->jid, newNick.get()), nullptr);
+			param->ppro->SendPresenceTo(param->ppro->m_iStatus, CMStringA(FORMAT, "%s/%s", item->jid, newNick.get()));
 		}
 	}
 
@@ -992,7 +992,7 @@ void CJabberProto::GroupchatProcessPresence(const TiXmlElement *node)
 				replaceStr(item->nick, newNick);
 				char text[1024];
 				mir_snprintf(text, "%s/%s", item->jid, newNick);
-				SendPresenceTo(m_iStatus, text, nullptr);
+				SendPresenceTo(m_iStatus, text);
 			}
 			else {
 				CallFunctionAsync(JabberGroupchatChangeNickname, new JabberGroupchatChangeNicknameParam(this, from));

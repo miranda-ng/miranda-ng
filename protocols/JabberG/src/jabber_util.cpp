@@ -301,7 +301,7 @@ void CJabberProto::SendVisibleInvisiblePresence(bool invisible)
 		if (invisible && apparentMode == ID_STATUS_OFFLINE)
 			m_ThreadInfo->send(XmlNode("presence") << XATTR("to", item->jid) << XATTR("type", "invisible"));
 		else if (!invisible && apparentMode == ID_STATUS_ONLINE)
-			SendPresenceTo(m_iStatus, item->jid, nullptr);
+			SendPresenceTo(m_iStatus, item->jid);
 	}
 }
 
@@ -356,7 +356,7 @@ time_t JabberIsoToUnixTime(const char *stamp)
 	return (t >= 0) ? t : 0;
 }
 
-void CJabberProto::SendPresenceTo(int status, const char *to, TiXmlElement *extra, const char *msg)
+void CJabberProto::SendPresenceTo(int status, const char *to, const TiXmlElement *extra, const char *msg)
 {
 	if (!m_bJabberOnline) return;
 
@@ -372,7 +372,7 @@ void CJabberProto::SendPresenceTo(int status, const char *to, TiXmlElement *extr
 		p << XATTR("to", to);
 
 	if (extra)
-		p.InsertEndChild(extra);
+		p.InsertEndChild(extra->DeepClone(&p)->ToElement());
 
 	// XEP-0115:Entity Capabilities
 	if (m_bAllowVersionRequests) {
@@ -486,7 +486,7 @@ void CJabberProto::SendPresenceTo(int status, const char *to, TiXmlElement *extr
 
 void CJabberProto::SendPresence(int status, bool bSendToAll)
 {
-	SendPresenceTo(status, nullptr, nullptr);
+	SendPresenceTo(status, nullptr);
 	SendVisibleInvisiblePresence(status == ID_STATUS_INVISIBLE);
 
 	// Also update status in all chatrooms
@@ -497,7 +497,7 @@ void CJabberProto::SendPresence(int status, bool bSendToAll)
 			if (item != nullptr && item->nick != nullptr) {
 				char text[1024];
 				mir_snprintf(text, "%s/%s", item->jid, item->nick);
-				SendPresenceTo(status == ID_STATUS_INVISIBLE ? ID_STATUS_ONLINE : status, text, nullptr);
+				SendPresenceTo(status == ID_STATUS_INVISIBLE ? ID_STATUS_ONLINE : status, text);
 			}
 		}
 	}

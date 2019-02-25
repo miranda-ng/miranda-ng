@@ -809,7 +809,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	MCONTACT HContactFromJID(const char *jid, bool bStripResource = true);
 	MCONTACT ChatRoomHContactFromJID(const char *jid);
 	void   SendVisibleInvisiblePresence(bool invisible);
-	void   SendPresenceTo(int status, const char* to, TiXmlElement *extra, const char *msg = nullptr);
+	void   SendPresenceTo(int status, const char* to, const TiXmlElement *extra = nullptr, const char *msg = nullptr);
 	void   SendPresence(int m_iStatus, bool bSendToAll);
 
 	void   RebuildInfoFrame(void);
@@ -819,9 +819,9 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	char* GetClientJID(MCONTACT hContact, char *dest, size_t destLen);
 	char* GetClientJID(const char *jid, char *dest, size_t destLen);
 
-	void   ComboLoadRecentStrings(HWND hwndDlg, UINT idcCombo, char *param, int recentCount=JABBER_DEFAULT_RECENT_COUNT);
-	void   ComboAddRecentString(HWND hwndDlg, UINT idcCombo, char *param, const wchar_t *string, int recentCount=JABBER_DEFAULT_RECENT_COUNT);
-	BOOL   EnterString(CMStringW &result, const wchar_t *caption, int type, char *windowName=nullptr, int recentCount=JABBER_DEFAULT_RECENT_COUNT, int timeout=0);
+	void   ComboLoadRecentStrings(HWND hwndDlg, UINT idcCombo, char *param, int recentCount = JABBER_DEFAULT_RECENT_COUNT);
+	void   ComboAddRecentString(HWND hwndDlg, UINT idcCombo, char *param, const wchar_t *string, int recentCount = JABBER_DEFAULT_RECENT_COUNT);
+	BOOL   EnterString(CMStringW &result, const wchar_t *caption, int type, char *windowName=nullptr, int recentCount = JABBER_DEFAULT_RECENT_COUNT, int timeout = 0);
 	bool   IsMyOwnJID(const char *szJID);
 
 	void __cdecl LoadHttpAvatars(void* param);
