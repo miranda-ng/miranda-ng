@@ -1159,7 +1159,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage *pmsg)
 						setWString(hContact, "User", pmsg->prefix.sUser);
 						setWString(hContact, "Host", pmsg->prefix.sHost);
 
-						wchar_t* tszTemp = sFile.GetBuffer();
+						const wchar_t* tszTemp = sFile;
 
 						PROTORECVFILE pre = { 0 };
 						pre.dwFlags = PRFF_UNICODE;

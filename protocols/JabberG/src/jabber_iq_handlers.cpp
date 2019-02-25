@@ -343,6 +343,8 @@ BOOL CJabberProto::OnIqRequestOOB(const TiXmlElement*, CJabberIqInfo *pInfo)
 				}
 				ft->httpHostName = mir_strdup(text);
 			}
+			ft->httpPath = mir_strdup(q);
+			mir_urlDecode(ft->httpPath);
 		}
 	}
 
@@ -355,24 +357,19 @@ BOOL CJabberProto::OnIqRequestOOB(const TiXmlElement*, CJabberIqInfo *pInfo)
 		const char *desc = XmlGetChildText(pInfo->GetChildNode(), "desc");
 		debugLogA("description = %s", desc);
 
-		wchar_t *str2;
-		if ((str2 = wcsrchr(ft->httpPath, '/')) != nullptr)
+		const char *str2;
+		if ((str2 = strrchr(ft->httpPath, '/')) != nullptr)
 			str2++;
 		else
 			str2 = ft->httpPath;
-		str2 = mir_wstrdup(str2);
-		JabberHttpUrlDecode(str2);
 
-		Utf2T wszDescr(desc);
 		PROTORECVFILE pre;
-		pre.dwFlags = PRFF_UNICODE;
 		pre.timestamp = time(0);
-		pre.descr.w = wszDescr;
-		pre.files.w = &str2;
+		pre.descr.a = desc;
+		pre.files.a = &str2;
 		pre.fileCount = 1;
 		pre.lParam = (LPARAM)ft;
 		ProtoChainRecvFile(ft->std.hContact, &pre);
-		mir_free(str2);
 	}
 	else { // reject
 		XmlNodeIq iq("error", pInfo);

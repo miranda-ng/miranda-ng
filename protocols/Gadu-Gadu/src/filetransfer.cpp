@@ -392,21 +392,18 @@ void __cdecl GaduProto::dccmainthread(void*)
 					{
 						// Make new ggtransfer struct
 						local_dcc->contact = (void*)getcontact(local_dcc->peer_uin, 0, 0, nullptr);
-						wchar_t* filenameT = mir_utf8decodeW((char*)m_dcc->file_info.filename);
+						const char *pszFileName = (const char *)m_dcc->file_info.filename;
 
 						PROTORECVFILE pre = { 0 };
-						pre.dwFlags = PRFF_UNICODE;
 						pre.fileCount = 1;
 						pre.timestamp = time(0);
-						pre.descr.w = filenameT;
-						pre.files.w = &filenameT;
+						pre.descr.a = pszFileName;
+						pre.files.a = &pszFileName;
 						pre.lParam = (LPARAM)local_dcc;
 
 						gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 7, "ft_mutex", 1);
 						ProtoChainRecvFile((UINT_PTR)local_dcc->contact, &pre);
 						gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
-
-						mir_free(filenameT);
 					}
 					break;
 

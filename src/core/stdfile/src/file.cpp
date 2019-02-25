@@ -368,9 +368,9 @@ static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 
 	bool bUnicode = (pre->dwFlags & PRFF_UNICODE) == PRFF_UNICODE;
 
-	char *szDescr, **pszFiles;
+	const char *szDescr, **pszFiles;
 	if (bUnicode) {
-		pszFiles = (char**)alloca(pre->fileCount * sizeof(char*));
+		pszFiles = (const char**)alloca(pre->fileCount * sizeof(char*));
 		for (int i = 0; i < pre->fileCount; i++)
 			pszFiles[i] = mir_utf8encodeW(pre->files.w[i]);
 		
@@ -397,12 +397,12 @@ static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 		mir_strcpy((char*)p, pszFiles[i]);
 		p += mir_strlen(pszFiles[i]) + 1;
 		if (bUnicode)
-			mir_free(pszFiles[i]);
+			mir_free((void*)pszFiles[i]);
 	}
 
 	mir_strcpy((char*)p, (szDescr == nullptr) ? "" : szDescr);
 	if (bUnicode)
-		mir_free(szDescr);
+		mir_free((void*)szDescr);
 
 	MEVENT hdbe = db_event_add(ccs->hContact, &dbei);
 	PushFileEvent(ccs->hContact, hdbe, pre->lParam);

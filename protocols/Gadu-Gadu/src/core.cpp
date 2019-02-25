@@ -1038,18 +1038,16 @@ retry:
 			debugLogA("mainthread() (%x): Client: %d, File ack filename \"%s\" size %d.", this, dcc7->peer_uin,
 				dcc7->filename, dcc7->size);
 
-			wchar_t* filenameT = mir_a2u((char*)dcc7->filename);
+			const char *fileName = (const char*)dcc7->filename;
 
 			PROTORECVFILE pre = { 0 };
-			pre.dwFlags = PRFF_UNICODE;
 			pre.fileCount = 1;
 			pre.timestamp = time(0);
-			pre.descr.w = filenameT;
-			pre.files.w = &filenameT;
+			pre.descr.a = fileName;
+			pre.files.a = &fileName;
 			pre.lParam = (LPARAM)dcc7;
 			ProtoChainRecvFile((UINT_PTR)dcc7->contact, &pre);
 
-			mir_free(filenameT);
 			e->event.dcc7_new = nullptr;
 		}
 		break;

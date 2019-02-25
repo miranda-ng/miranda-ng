@@ -446,6 +446,12 @@ union MAllStringArray
 	wchar_t **w; // array of strings of WCHARs
 };
 
+union MAllCStringArray
+{
+	const char **a; // array of utf8 or ansi strings
+	const wchar_t **w; // array of strings of WCHARs
+};
+
 MIR_CORE_DLL(wchar_t*) mir_a2u_cp(const char* src, int codepage);
 MIR_CORE_DLL(wchar_t*) mir_a2u(const char* src);
 MIR_CORE_DLL(char*)  mir_u2a_cp(const wchar_t* src, int codepage);

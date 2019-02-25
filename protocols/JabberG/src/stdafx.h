@@ -462,7 +462,7 @@ struct filetransfer
 	// Used by file receiving only
 	char* httpHostName;
 	WORD httpPort;
-	wchar_t *httpPath;
+	char* httpPath;
 	unsigned __int64 dwExpectedRecvFileSize;
 
 	// Used by file sending only

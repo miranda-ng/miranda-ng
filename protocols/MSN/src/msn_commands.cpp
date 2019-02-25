@@ -423,7 +423,7 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 
 			if (fileSize) {
 				filetransfer* ft = new filetransfer(this);
-				char *pszFile = "", *pszType;
+				const char *pszFile = "", *pszType;
 				ezxml_t originalName, desc;
 
 				ft->std.hContact = hContact;
@@ -431,7 +431,7 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 				mir_free(ft->std.szCurrentFile.w);
 				if (!((originalName = ezxml_child(xmli, "OriginalName")) && (pszFile = (char*)ezxml_attr(originalName, "v"))))
 					if ((originalName = ezxml_child(xmli, "meta")))
-						pszFile = (char*)ezxml_attr(originalName, "originalName");
+						pszFile = ezxml_attr(originalName, "originalName");
 
 				if (!pszFile || !*pszFile) {
 					if ((originalName = ezxml_child(xmli, "meta")) && (pszFile = (char*)ezxml_attr(originalName, "type")))
@@ -442,7 +442,7 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 						pszFile = "file";
 				}
 
-				char *p;
+				const char *p;
 				if ((p = strrchr(pszFile, '\\')) || (p = strrchr(pszFile, '/')))
 					pszFile = p + 1;
 
@@ -455,18 +455,16 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 				else
 					sprintf(ft->szInvcookie, "%s/content/imgpsh", uri);
 
-				wchar_t tComment[40];
-				mir_snwprintf(tComment, TranslateT("%I64u bytes"), ft->std.currentFileSize);
+				char tComment[40];
+				mir_snprintf(tComment, TranslateU("%I64u bytes"), ft->std.currentFileSize);
 
 				PROTORECVFILE pre = { 0 };
-				pre.dwFlags = PRFF_UNICODE;
 				pre.fileCount = 1;
 				pre.timestamp = time(0);
-				pre.descr.w = (desc = ezxml_child(xmli, "Description")) ? mir_utf8decodeW(desc->txt) : tComment;
-				pre.files.w = &ft->std.szCurrentFile.w;
+				pre.descr.a = (desc = ezxml_child(xmli, "Description")) ? desc->txt : tComment;
+				pre.files.a = &pszFile;
 				pre.lParam = (LPARAM)ft;
 				ProtoChainRecvFile(ft->std.hContact, &pre);
-				if (desc) mir_free(pre.descr.w);
 			}
 			else uri = nullptr;
 		}

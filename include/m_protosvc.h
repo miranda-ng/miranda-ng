@@ -778,9 +778,9 @@ struct PROTORECVFILE
 {
 	DWORD dwFlags;          // PRFF_*
 	DWORD timestamp;        // unix time
-	MAllStrings descr;	   // file description
+	MAllCStrings descr;     // file description
 	int fileCount;          // number of files being transferred
-	MAllStringArray files;  // array of file names
+	MAllCStringArray files; // array of file names
 	LPARAM lParam;          // extra space for the network level protocol module
 };
 

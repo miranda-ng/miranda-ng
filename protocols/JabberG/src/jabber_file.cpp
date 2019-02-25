@@ -113,12 +113,12 @@ int CJabberProto::FileReceiveParse(filetransfer *ft, char* buffer, int datalen)
 			}
 			else {	// FT_INITIALIZING
 				if (str[0] == '\0') {
-					wchar_t *s;
-					if ((s = wcsrchr(ft->httpPath, '/')) != nullptr)
+					char *s;
+					if ((s = strrchr(ft->httpPath, '/')) != nullptr)
 						s++;
 					else
 						s = ft->httpPath;
-					ft->std.szCurrentFile.w = mir_wstrdup(s);
+					ft->std.szCurrentFile.w = mir_utf8decodeW(s);
 					JabberHttpUrlDecode(ft->std.szCurrentFile.w);
 					if (ft->create() == -1) {
 						ft->state = FT_ERROR;
@@ -270,8 +270,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 		for (int i = 0; i < ft->std.totalFiles && ft->state != FT_ERROR && ft->state != FT_DENIED; i++) {
 			ft->std.currentFileNumber = i;
 			ft->state = FT_CONNECTING;
-			if (ft->httpPath) mir_free(ft->httpPath);
-			ft->httpPath = nullptr;
+			replaceStr(ft->httpPath, nullptr);
 
 			wchar_t *p;
 			if ((p = wcschr(ft->std.pszFiles.w[i], '\\')) != nullptr)
@@ -366,8 +365,8 @@ int CJabberProto::FileSendParse(HNETLIBCONN s, filetransfer *ft, char* buffer, i
 				for (t = str + 4; *t != '\0' && *t != ' '; t++);
 				*t = '\0';
 				for (t = str + 4; *t != '\0' && *t == '/'; t++);
-				ft->httpPath = mir_a2u(t);
-				JabberHttpUrlDecode(ft->httpPath);
+				ft->httpPath = mir_strdup(t);
+				mir_urlDecode(ft->httpPath);
 				ft->state = FT_INITIALIZING;
 				debugLogA("Change to FT_INITIALIZING");
 			}
@@ -386,11 +385,11 @@ int CJabberProto::FileSendParse(HNETLIBCONN s, filetransfer *ft, char* buffer, i
 				else
 					t = ft->std.pszFiles.w[currentFile];
 
-				if (ft->httpPath == nullptr || mir_wstrcmp(ft->httpPath, t)) {
+				if (ft->httpPath == nullptr || mir_strcmp(ft->httpPath, T2Utf(t))) {
 					if (ft->httpPath == nullptr)
 						debugLogA("Requested file name does not matched (httpPath == nullptr)");
 					else
-						debugLogW(L"Requested file name does not matched ('%s' vs. '%s')", ft->httpPath, t);
+						debugLogA("Requested file name does not match ('%s' vs. '%S')", ft->httpPath, t);
 					ft->state = FT_ERROR;
 					break;
 				}
@@ -399,8 +398,7 @@ int CJabberProto::FileSendParse(HNETLIBCONN s, filetransfer *ft, char* buffer, i
 				if ((fileId = _wopen(ft->std.pszFiles.w[currentFile], _O_BINARY | _O_RDONLY)) < 0) {
 					debugLogA("File cannot be opened");
 					ft->state = FT_ERROR;
-					mir_free(ft->httpPath);
-					ft->httpPath = nullptr;
+					replaceStr(ft->httpPath, nullptr);
 					break;
 				}
 
@@ -425,8 +423,7 @@ int CJabberProto::FileSendParse(HNETLIBCONN s, filetransfer *ft, char* buffer, i
 				if (ft->state != FT_ERROR)
 					ft->state = FT_DONE;
 				debugLogA("Finishing this file...");
-				mir_free(ft->httpPath);
-				ft->httpPath = nullptr;
+				replaceStr(ft->httpPath, nullptr);
 				break;
 		}	}
 

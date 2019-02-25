@@ -28,27 +28,21 @@ void mwFileTransfer_offered(mwFileTransfer* ft)
 
 	proto->ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)ft, 0);
 
-	wchar_t* filenameT = mir_utf8decodeW(mwFileTransfer_getFileName(ft));
+	const char *filename = mwFileTransfer_getFileName(ft);
 	const char* message = mwFileTransfer_getMessage(ft);
-	wchar_t descriptionT[512];
-	if (message) {
-		wchar_t* messageT = mir_utf8decodeW(message);
-		mir_snwprintf(descriptionT, L"%s - %s", filenameT, messageT);
-		mir_free(messageT);
-	} else
-		wcsncpy_s(descriptionT, filenameT, _TRUNCATE);
+	char description[512];
+	if (message)
+		mir_snprintf(description, "%s - %s", filename, message);
+	else
+		strncpy_s(description, filename, _TRUNCATE);
 
 	PROTORECVFILE pre = {0};
-	pre.dwFlags = PRFF_UNICODE;
 	pre.fileCount = 1;
 	pre.timestamp = time(0);
-	pre.descr.w = descriptionT;
-	pre.files.w = &filenameT;
+	pre.descr.a = description;
+	pre.files.a = &filename;
 	pre.lParam = (LPARAM)ft;
-
 	ProtoChainRecvFile(hContact, &pre);
-	
-	mir_free(filenameT);
 }
 
 //returns 0 if finished with current file

@@ -44,8 +44,8 @@ void CToxProto::OnFriendFile(Tox *tox, uint32_t friendNumber, uint32_t fileNumbe
 		{
 			proto->debugLogA(__FUNCTION__": incoming file (%d) from %s (%d)", fileNumber, (const char*)pubKey, friendNumber);
 
-			CMStringA rawName((char*)fileName, fileNameLength);
-			wchar_t *name = mir_utf8decodeW(rawName);
+			CMStringA rawName((char*)fileName, (int)fileNameLength);
+			const wchar_t *name = mir_utf8decodeW(rawName);
 
 			FileTransferParam *transfer = new FileTransferParam(friendNumber, fileNumber, name, fileSize);
 			transfer->pfts.flags |= PFTS_RECEIVING;

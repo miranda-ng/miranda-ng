@@ -351,15 +351,12 @@ void CJabberProto::FtHandleSiRequest(const TiXmlElement *iqNode)
 				ft->std.szCurrentFile.w = mir_utf8decodeW(filename);
 				ft->std.totalBytes = ft->std.currentFileSize = filesize;
 
-				Utf2T wszDescr(XmlGetChildText(fileNode, "desc"));
-
 				PROTORECVFILE pre = { 0 };
-				pre.dwFlags = PRFF_UNICODE;
 				pre.fileCount = 1;
 				pre.timestamp = time(0);
-				pre.files.w = (wchar_t**)&filename;
+				pre.files.a = &filename;
 				pre.lParam = (LPARAM)ft;
-				pre.descr.w = wszDescr;
+				pre.descr.a = XmlGetChildText(fileNode, "desc");
 				ProtoChainRecvFile(ft->std.hContact, &pre);
 				return;
 			}
