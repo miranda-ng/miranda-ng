@@ -618,12 +618,9 @@ int CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 			<< XCHILDNS("time", JABBER_FEAT_ENTITY_TIME));
 
 		// XEP-0012, last logoff time
-		XmlNodeIq iq2(AddIQ(&CJabberProto::OnIqResultLastActivity, JABBER_IQ_TYPE_GET, jid, JABBER_IQ_PARSE_FROM));
-		iq2 << XQUERY(JABBER_FEAT_LAST_ACTIVITY);
-		m_ThreadInfo->send(iq2);
+		m_ThreadInfo->send(XmlNodeIq(AddIQ(&CJabberProto::OnIqResultLastActivity, JABBER_IQ_TYPE_GET, jid, JABBER_IQ_PARSE_FROM)) << XQUERY(JABBER_FEAT_LAST_ACTIVITY));
 
 		JABBER_LIST_ITEM *item = nullptr;
-
 		if ((item = ListGetItemPtr(LIST_VCARD_TEMP, jid)) == nullptr)
 			item = ListGetItemPtr(LIST_ROSTER, jid);
 
@@ -647,17 +644,14 @@ int CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 					char tmp[JABBER_MAX_JID_LEN];
 					mir_snprintf(tmp, "%s/%s", szBareJid, r->m_szResourceName);
 
-					if (r->m_jcbCachedCaps & JABBER_CAPS_DISCO_INFO) {
-						XmlNodeIq iq5(AddIQ(&CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE | JABBER_IQ_PARSE_HCONTACT));
-						iq5 << XQUERY(JABBER_FEAT_DISCO_INFO);
-						m_ThreadInfo->send(iq5);
-					}
+					if (r->m_jcbCachedCaps & JABBER_CAPS_DISCO_INFO)
+						m_ThreadInfo->send(
+							XmlNodeIq(AddIQ(&CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE | JABBER_IQ_PARSE_HCONTACT)) 
+							<< XQUERY(JABBER_FEAT_DISCO_INFO));
 
-					if (!mir_strcmp(tmp, jid)) {
-						XmlNodeIq iq3(AddIQ(&CJabberProto::OnIqResultLastActivity, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM));
-						iq3 << XQUERY(JABBER_FEAT_LAST_ACTIVITY);
-						m_ThreadInfo->send(iq3);
-					}
+					if (mir_strcmp(tmp, jid)) // skip current resource, we've already sent this iq to it
+						m_ThreadInfo->send(
+							XmlNodeIq(AddIQ(&CJabberProto::OnIqResultLastActivity, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM)) << XQUERY(JABBER_FEAT_LAST_ACTIVITY));
 				}
 			}
 		}
