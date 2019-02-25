@@ -605,7 +605,7 @@ int CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 	if (!m_bJabberOnline || isChatRoom(hContact))
 		return 1;
 
-	ptrA jid(getUStringA("jid"));
+	ptrA jid(getUStringA(hContact, "jid"));
 	if (!jid)
 		return 1;
 
