@@ -605,12 +605,12 @@ int CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 	if (!m_bJabberOnline || isChatRoom(hContact))
 		return 1;
 
-	char jid[JABBER_MAX_JID_LEN], szBareJid[JABBER_MAX_JID_LEN];
-	if (!GetClientJID(hContact, jid, _countof(jid)))
+	ptrA jid(getUStringA("jid"));
+	if (!jid)
 		return 1;
 
+	char szBareJid[JABBER_MAX_JID_LEN];
 	JabberStripJid(jid, szBareJid, _countof(szBareJid));
-	bool bUseResource = ListGetItemPtr(LIST_CHATROOM, szBareJid) != nullptr;
 
 	if (m_ThreadInfo) {
 		m_ThreadInfo->send(
@@ -657,7 +657,7 @@ int CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 		}
 	}
 
-	SendGetVcard(bUseResource ? jid : szBareJid);
+	SendGetVcard(jid);
 	return 0;
 }
 
