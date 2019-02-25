@@ -1516,8 +1516,7 @@ void CJabberProto::OnIqResultLastActivity(const TiXmlElement *iqNode, CJabberIqI
 	if (pInfo->m_nIqType == JABBER_IQ_TYPE_RESULT) {
 		if (auto *xmlLast = XmlGetChildByTag(iqNode, "query", "xmlns", JABBER_FEAT_LAST_ACTIVITY)) {
 			int nSeconds = xmlLast->IntAttribute("seconds");
-			if (nSeconds > 0)
-				lastActivity = time(0) - nSeconds;
+			lastActivity = (nSeconds == 0) ? 0 : time(0) - nSeconds;
 
 			if (const char *szLastStatusMessage = xmlLast->GetText())
 				r->m_szStatusMessage = mir_strdup(szLastStatusMessage);

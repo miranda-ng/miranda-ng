@@ -218,18 +218,17 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 	sttFillInfoLine(hwndTree, htiResource, nullptr, TranslateT("Resource priority"), buf, sttInfoLineId(resource, INFOLINE_PRIORITY));
 
 	// Idle
-	if (r->m_dwIdleStartTime > 0) {
-		mir_strncpy(buf, ctime(&r->m_dwIdleStartTime), _countof(buf));
-		size_t len = mir_strlen(buf);
-		if (len > 0)
-			buf[len - 1] = 0;
-	}
-	else if (!r->m_dwIdleStartTime)
-		mir_strncpy(buf, TranslateU("unknown"), _countof(buf));
-	else
-		mir_strncpy(buf, TranslateU("<not specified>"), _countof(buf));
+	if (r->m_dwIdleStartTime != -1) {
+		if (r->m_dwIdleStartTime != 0) {
+			mir_strncpy(buf, ctime(&r->m_dwIdleStartTime), _countof(buf));
+			size_t len = mir_strlen(buf);
+			if (len > 0)
+				buf[len - 1] = 0;
+		}
+		else mir_strncpy(buf, TranslateU("<currenty online>"), _countof(buf));
 
-	sttFillInfoLine(hwndTree, htiResource, nullptr, TranslateT("Idle since"), buf, sttInfoLineId(resource, INFOLINE_IDLE));
+		sttFillInfoLine(hwndTree, htiResource, nullptr, TranslateT("Last activity"), buf, sttInfoLineId(resource, INFOLINE_IDLE));
+	}
 
 	// caps
 	mir_snprintf(buf, "%s/%s", item->jid, r->m_szResourceName);
@@ -330,22 +329,22 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 	// logoff
 	char buf[256];
 	JABBER_RESOURCE_STATUS *r = item->getTemp();
-	if (r->m_dwIdleStartTime > 0) {
-		mir_strncpy(buf, ctime(&r->m_dwIdleStartTime), _countof(buf));
-		size_t len = mir_strlen(buf);
-		if (len > 0)
-			buf[len - 1] = 0;
+	if (r->m_dwIdleStartTime != -1) {
+		if (r->m_dwIdleStartTime > 0) {
+			mir_strncpy(buf, ctime(&r->m_dwIdleStartTime), _countof(buf));
+			size_t len = mir_strlen(buf);
+			if (len > 0)
+				buf[len - 1] = 0;
+		}
+		else mir_strncpy(buf, TranslateU("<currently online>"), _countof(buf));
+
+		sttFillInfoLine(hwndTree, htiRoot, nullptr,
+			(item->jid && strchr(item->jid, '@')) ? TranslateT("Last logoff time") : TranslateT("Uptime"), buf,
+			sttInfoLineId(0, INFOLINE_LOGOFF));
 	}
-	else if (!r->m_dwIdleStartTime)
-		mir_strncpy(buf, TranslateU("unknown"), _countof(buf));
-	else
-		mir_strncpy(buf, TranslateU("<not specified>"), _countof(buf));
 
-	sttFillInfoLine(hwndTree, htiRoot, nullptr,
-		(item->jid && strchr(item->jid, '@')) ? TranslateT("Last logoff time") : TranslateT("Uptime"), buf,
-		sttInfoLineId(0, INFOLINE_LOGOFF));
-
-	sttFillInfoLine(hwndTree, htiRoot, nullptr, TranslateT("Logoff message"), r->m_szStatusMessage, sttInfoLineId(0, INFOLINE_LOGOFF_MSG));
+	if (r->m_szStatusMessage)
+		sttFillInfoLine(hwndTree, htiRoot, nullptr, TranslateT("Logoff message"), r->m_szStatusMessage, sttInfoLineId(0, INFOLINE_LOGOFF_MSG));
 
 	// activity
 	if (item->m_pLastSeenResource)
