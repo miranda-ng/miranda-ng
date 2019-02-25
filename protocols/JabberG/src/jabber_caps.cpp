@@ -161,25 +161,30 @@ void CJabberProto::OnIqResultCapsDiscoInfo(const TiXmlElement*, CJabberIqInfo *p
 		}
 
 		for (auto *xform : TiXmlFilter(query, "x")) {
-			const char *szFormTypeValue = XPath(xform, "field[@var='FORM_TYPE']/value");
-			if (!mir_strcmp(szFormTypeValue, "urn:xmpp:dataforms:softwareinfo")) {
-				JSONNode root;
-				if (pCaps->m_szOs = mir_strdup(XPath(xform, "field[@var='os']/value")))
-					root.push_back(JSONNode("o", pCaps->m_szOs.get()));
-				if (pCaps->m_szOsVer = mir_strdup(XPath(xform, "field[@var='os_version']/value")))
-					root.push_back(JSONNode("ov", pCaps->m_szOsVer.get()));
-				if (pCaps->m_szSoft = mir_strdup(XPath(xform, "field[@var='software']/value")))
-					root.push_back(JSONNode("s", pCaps->m_szSoft.get()));
-				if (pCaps->m_szSoftVer = mir_strdup(XPath(xform, "field[@var='software_version']/value")))
-					root.push_back(JSONNode("sv", pCaps->m_szSoftVer.get()));
-				if (pCaps->m_szSoftMir = mir_strdup(XPath(xform, "field[@var='x-miranda-core-version']/value")))
-					root.push_back(JSONNode("sm", pCaps->m_szSoftMir.get()));
-				root.push_back(JSONNode("c", CMStringA(FORMAT, "%lld", jcbCaps)));
+			// check that this is a form of required type
+			auto *formType = XmlGetChildText(XmlGetChildByTag(xform, "field", "var", "FORM_TYPE"), "value");
+			if (!formType || mir_strcmp(formType, "urn:xmpp:dataforms:softwareinfo"))
+				continue;
 
-				CMStringA szName(FORMAT, "%s#%s", pCaps->GetNode(), pCaps->GetHash());
-				json_string szValue = root.write();
-				db_set_s(0, "JabberCaps", szName, szValue.c_str());
+			JSONNode root;
+			for (auto *field : TiXmlFilter(xform, "field")) {
+				const char *fieldName = field->Attribute("var"), *fieldValue = XmlGetChildText(field, "value");
+				if (!mir_strcmp(fieldName, "os"))
+					root.push_back(JSONNode("o", pCaps->m_szOs = mir_strdup(fieldValue)));
+				else if (!mir_strcmp(fieldName, "os_version"))
+					root.push_back(JSONNode("ov", pCaps->m_szOsVer = mir_strdup(fieldValue)));
+				else if (!mir_strcmp(fieldName, "software"))
+					root.push_back(JSONNode("s", pCaps->m_szSoft = mir_strdup(fieldValue)));
+				else if (!mir_strcmp(fieldName, "software_version"))
+					root.push_back(JSONNode("sv", pCaps->m_szSoftVer = mir_strdup(fieldValue)));
+				else if (!mir_strcmp(fieldName, "x-miranda-core-version"))
+					root.push_back(JSONNode("sm", pCaps->m_szSoftMir = mir_strdup(fieldValue)));
 			}
+			root.push_back(JSONNode("c", CMStringA(FORMAT, "%lld", jcbCaps)));
+
+			CMStringA szName(FORMAT, "%s#%s", pCaps->GetNode(), pCaps->GetHash());
+			json_string szValue = root.write();
+			db_set_s(0, "JabberCaps", szName, szValue.c_str());
 		}
 
 		pCaps->SetCaps(jcbCaps, pInfo->GetIqId());

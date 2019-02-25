@@ -272,7 +272,7 @@ void strm_mgmt::FinishLoginProcess(ThreadData *info)
 	if (info->auth) { //We are already logged-in
 		info->send(
 			XmlNodeIq(proto->AddIQ(&CJabberProto::OnIqResultBind, JABBER_IQ_TYPE_SET))
-			<< XCHILDNS("bind", "urn:ietf:params:xml:ns:xmpp-bind")
+			<< XCHILDNS("bind", JABBER_FEAT_BIND)
 			<< XCHILD("resource", info->resource));
 
 		if (proto->m_AuthMechs.isSessionAvailable)

@@ -82,14 +82,14 @@ void CJabberProto::OnIqResultServerDiscoInfo(const TiXmlElement *iqNode, CJabber
 
 void CJabberProto::OnIqResultNestedRosterGroups(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
-	const char *szGroupDelimeter = nullptr;
+	const char *szGroupDelimiter = nullptr;
 	bool bPrivateStorageSupport = false;
 
 	if (iqNode && pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
 		bPrivateStorageSupport = true;
-		szGroupDelimeter = XPathFmt(iqNode, "query[@xmlns='%s']/roster[@xmlns='%s']", JABBER_FEAT_PRIVATE_STORAGE, JABBER_FEAT_NESTED_ROSTER_GROUPS);
-		if (szGroupDelimeter && !szGroupDelimeter[0])
-			szGroupDelimeter = nullptr; // "" as roster delimeter is not supported :)
+		auto *xmlDelimiter = XmlGetChildByTag(XmlGetChildByTag(iqNode, "query", "xmlns", JABBER_FEAT_PRIVATE_STORAGE), "roster", "xmlns", JABBER_FEAT_NESTED_ROSTER_GROUPS);
+		if (xmlDelimiter)
+			szGroupDelimiter = xmlDelimiter->GetText();
 	}
 
 	// global fuckup
@@ -97,13 +97,13 @@ void CJabberProto::OnIqResultNestedRosterGroups(const TiXmlElement *iqNode, CJab
 		return;
 
 	// is our default delimiter?
-	if ((!szGroupDelimeter && bPrivateStorageSupport) || (szGroupDelimeter && mir_strcmp(szGroupDelimeter, "\\")))
+	if ((!szGroupDelimiter && bPrivateStorageSupport) || (szGroupDelimiter && mir_strcmp(szGroupDelimiter, "\\")))
 		m_ThreadInfo->send(
 			XmlNodeIq("set", SerialNext()) << XQUERY(JABBER_FEAT_PRIVATE_STORAGE)
 				<< XCHILD("roster", "\\") << XATTR("xmlns", JABBER_FEAT_NESTED_ROSTER_GROUPS));
 
 	// roster request
-	char *szUserData = mir_strdup(szGroupDelimeter ? szGroupDelimeter : "\\");
+	char *szUserData = mir_strdup(szGroupDelimiter ? szGroupDelimiter : "\\");
 	m_ThreadInfo->send(
 		XmlNodeIq(AddIQ(&CJabberProto::OnIqResultGetRoster, JABBER_IQ_TYPE_GET, nullptr, 0, -1, (void*)szUserData))
 			<< XCHILDNS("query", JABBER_FEAT_IQ_ROSTER));
@@ -293,7 +293,7 @@ void CJabberProto::OnIqResultBind(const TiXmlElement *iqNode, CJabberIqInfo *pIn
 	if (!m_ThreadInfo || !iqNode)
 		return;
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
-		const char *szJid = XPath(iqNode, "bind[@xmlns='urn:ietf:params:xml:ns:xmpp-bind']/jid");
+		const char *szJid = XmlGetChildText(XmlGetChildByTag(iqNode, "bind", "xmlns", JABBER_FEAT_BIND), "jid");
 		if (szJid) {
 			if (!strncmp(m_ThreadInfo->fullJID, szJid, _countof(m_ThreadInfo->fullJID)))
 				debugLogA("Result Bind: %s confirmed ", m_ThreadInfo->fullJID);
@@ -351,7 +351,7 @@ void CJabberProto::GroupchatJoinByHContact(MCONTACT hContact, bool autojoin)
 void CJabberProto::OnIqResultGetRoster(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
 	debugLogA("<iq/> iqIdGetRoster");
-	ptrA szGroupDelimeter((char *)pInfo->GetUserData());
+	ptrA szGroupDelimiter((char *)pInfo->GetUserData());
 	if (pInfo->GetIqType() != JABBER_IQ_TYPE_RESULT)
 		return;
 
@@ -362,8 +362,8 @@ void CJabberProto::OnIqResultGetRoster(const TiXmlElement *iqNode, CJabberIqInfo
 	if (mir_strcmp(queryNode->Attribute("xmlns"), JABBER_FEAT_IQ_ROSTER))
 		return;
 
-	if (!mir_strcmp(szGroupDelimeter, "\\"))
-		szGroupDelimeter = nullptr;
+	if (!mir_strcmp(szGroupDelimiter, "\\"))
+		szGroupDelimiter = nullptr;
 
 	LIST<void> chatRooms(10);
 	OBJLIST<JABBER_HTTP_AVATARS> *httpavatars = new OBJLIST<JABBER_HTTP_AVATARS>(20, JABBER_HTTP_AVATARS::compare);
@@ -402,10 +402,10 @@ void CJabberProto::OnIqResultGetRoster(const TiXmlElement *iqNode, CJabberIqInfo
 		replaceStr(item->group, XmlGetChildText(itemNode, "group"));
 
 		// check group delimiters
-		if (item->group && szGroupDelimeter) {
-			while (char *szPos = strstr(item->group, szGroupDelimeter)) {
+		if (item->group && szGroupDelimiter) {
+			while (char *szPos = strstr(item->group, szGroupDelimiter)) {
 				*szPos = 0;
-				szPos += mir_strlen(szGroupDelimeter);
+				szPos += mir_strlen(szGroupDelimiter);
 				CMStringA szNewGroup(FORMAT, "%s\\%s", item->group, szPos);
 				replaceStr(item->group, szNewGroup.Detach());
 			}
@@ -491,8 +491,8 @@ void CJabberProto::OnIqResultGetRoster(const TiXmlElement *iqNode, CJabberIqInfo
 
 	UI_SAFE_NOTIFY(m_pDlgServiceDiscovery, WM_JABBER_TRANSPORT_REFRESH);
 
-	if (szGroupDelimeter)
-		mir_free(szGroupDelimeter);
+	if (szGroupDelimiter)
+		mir_free(szGroupDelimiter);
 
 	OnProcessLoginRq(m_ThreadInfo, JABBER_LOGIN_ROSTER);
 	RebuildInfoFrame();
@@ -1424,8 +1424,8 @@ void CJabberProto::OnIqResultDiscoBookmarks(const TiXmlElement *iqNode, CJabberI
 						item->name = mir_utf8decodeW(itemNode->Attribute("name"));
 						item->type = mir_strdup("conference");
 						item->bUseResource = true;
-						item->nick = mir_strdup(XPath(itemNode, "nick"));
-						item->password = mir_strdup(XPath(itemNode, "password"));
+						item->nick = mir_strdup(XmlGetChildText(itemNode, "nick"));
+						item->password = mir_strdup(XmlGetChildText(itemNode, "password"));
 
 						const char *autoJ = itemNode->Attribute("autojoin");
 						if (autoJ != nullptr)
@@ -1515,7 +1515,7 @@ void CJabberProto::OnIqResultLastActivity(const TiXmlElement *iqNode, CJabberIqI
 	time_t lastActivity = -1;
 	if (pInfo->m_nIqType == JABBER_IQ_TYPE_RESULT) {
 		if (auto *xmlLast = XmlGetChildByTag(iqNode, "query", "xmlns", JABBER_FEAT_LAST_ACTIVITY)) {
-			int nSeconds = XmlGetChildInt(xmlLast, "seconds");
+			int nSeconds = xmlLast->IntAttribute("seconds");
 			if (nSeconds > 0)
 				lastActivity = time(0) - nSeconds;
 
@@ -1536,24 +1536,27 @@ void CJabberProto::OnIqResultEntityTime(const TiXmlElement *pIqNode, CJabberIqIn
 		return;
 
 	if (pInfo->m_nIqType == JABBER_IQ_TYPE_RESULT) {
-		const char *szTzo = XPathFmt(pIqNode, "time[@xmlns='%s']/tzo", JABBER_FEAT_ENTITY_TIME);
-		if (szTzo && szTzo[0]) {
-			const char *szMin = strchr(szTzo, ':');
-			int nTz = atoi(szTzo) * -2;
-			nTz += (nTz < 0 ? -1 : 1) * (szMin ? atoi(szMin + 1) / 30 : 0);
+		auto *xmlTime = XmlGetChildByTag(pIqNode, "time", "xmlns", JABBER_FEAT_ENTITY_TIME);
+		if (xmlTime) {
+			const char *szTzo = XmlGetChildText(xmlTime, "tzo");
+			if (szTzo && szTzo[0]) {
+				const char *szMin = strchr(szTzo, ':');
+				int nTz = atoi(szTzo) * -2;
+				nTz += (nTz < 0 ? -1 : 1) * (szMin ? atoi(szMin + 1) / 30 : 0);
 
-			TIME_ZONE_INFORMATION tzinfo;
-			if (GetTimeZoneInformation(&tzinfo) == TIME_ZONE_ID_DAYLIGHT)
-				nTz -= tzinfo.DaylightBias / 30;
+				TIME_ZONE_INFORMATION tzinfo;
+				if (GetTimeZoneInformation(&tzinfo) == TIME_ZONE_ID_DAYLIGHT)
+					nTz -= tzinfo.DaylightBias / 30;
 
-			setByte(pInfo->m_hContact, "Timezone", (signed char)nTz);
+				setByte(pInfo->m_hContact, "Timezone", (signed char)nTz);
 
-			const char *szTz = XPathFmt(pIqNode, "time[@xmlns='%s']/tz", JABBER_FEAT_ENTITY_TIME);
-			if (szTz)
-				setUString(pInfo->m_hContact, "TzName", szTz);
-			else
-				delSetting(pInfo->m_hContact, "TzName");
-			return;
+				const char *szTz = XmlGetChildText(xmlTime, "tz");
+				if (szTz)
+					setUString(pInfo->m_hContact, "TzName", szTz);
+				else
+					delSetting(pInfo->m_hContact, "TzName");
+				return;
+			}
 		}
 	}
 	else if (pInfo->m_nIqType == JABBER_IQ_TYPE_ERROR) {

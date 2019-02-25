@@ -77,7 +77,6 @@ public:
 		OBJLIST<CNoteItem>::remove(p);
 	}
 
-	void AddNote(TiXmlElement *hXml, const char *szFrom = nullptr);
 	void LoadXml(const TiXmlElement *hXml);
 	void SaveXml(TiXmlElement *hXmlParent);
 

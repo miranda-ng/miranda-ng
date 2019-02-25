@@ -38,10 +38,10 @@ CNoteItem::CNoteItem()
 CNoteItem::CNoteItem(const TiXmlElement *hXml, const char *szFrom)
 {
 	SetData(
-		XPath(hXml, "title"),
-		szFrom ? szFrom : XPath(hXml, "@from"),
-		Utf2T(XPath(hXml, "text")),
-		XPath(hXml, "@tags"));
+		XmlGetChildText(hXml, "title"),
+		szFrom ? szFrom : hXml->Attribute("from"),
+		Utf2T(XmlGetChildText(hXml, "text")),
+		hXml->Attribute("tags"));
 }
 
 CNoteItem::~CNoteItem()
@@ -105,12 +105,6 @@ int CNoteItem::cmp(const CNoteItem *p1, const CNoteItem *p2)
 	if (p1 < p2) return -1;
 	if (p1 > p2) return 1;
 	return 0;
-}
-
-void CNoteList::AddNote(TiXmlElement *hXml, const char *szFrom)
-{
-	m_bIsModified = true;
-	insert(new CNoteItem(hXml, szFrom));
 }
 
 void CNoteList::LoadXml(const TiXmlElement *hXml)

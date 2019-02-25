@@ -760,7 +760,7 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 		if (info->auth) { //We are already logged-in
 			info->send(
 				XmlNodeIq(AddIQ(&CJabberProto::OnIqResultBind, JABBER_IQ_TYPE_SET))
-				<< XCHILDNS("bind", "urn:ietf:params:xml:ns:xmpp-bind")
+				<< XCHILDNS("bind", JABBER_FEAT_BIND)
 				<< XCHILD("resource", info->resource));
 
 			if (m_AuthMechs.isSessionAvailable)
@@ -989,10 +989,10 @@ void CJabberProto::OnProcessPubsubEvent(const TiXmlElement *node)
 		if (!tuneNode)
 			return;
 
-		const char *szArtist = XPath(tuneNode, "artist");
-		const char *szSource = XPath(tuneNode, "source");
-		const char *szTitle = XPath(tuneNode, "title");
-		const char *szTrack = XPath(tuneNode, "track");
+		const char *szArtist = XmlGetChildText(tuneNode, "artist");
+		const char *szSource = XmlGetChildText(tuneNode, "source");
+		const char *szTitle = XmlGetChildText(tuneNode, "title");
+		const char *szTrack = XmlGetChildText(tuneNode, "track");
 
 		wchar_t szLengthInTime[20];
 		int nLength = XmlGetChildInt(tuneNode, "length");

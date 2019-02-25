@@ -1003,7 +1003,7 @@ void CPepActivity::ProcessItems(const char *from, const TiXmlElement *itemsNode)
 	if (!actNode)
 		return;
 
-	const char *szText = XPath(actNode, "text");
+	const char *szText = XmlGetChildText(actNode, "text");
 	const char *szFirstNode = nullptr, *szSecondNode = nullptr;
 
 	for (auto *n : TiXmlFilter(actNode, "text")) {
