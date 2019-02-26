@@ -85,8 +85,8 @@ class CChatRoomDlg;
 
 struct USERINFO : public MZeroedObject, public MNonCopyable
 {
-	wchar_t* pszNick;
 	wchar_t* pszUID;
+	wchar_t* pszNick;
 	WORD     Status;
 	int      iStatusEx;
 	WORD     ContactStatus;
@@ -97,15 +97,15 @@ struct MIR_APP_EXPORT GCModuleInfoBase : public MZeroedObject, public MNonCopyab
 	GCModuleInfoBase();
 	~GCModuleInfoBase();
 
-	char     *pszModule;
-	wchar_t  *ptszModDispName;
-	char     *pszHeader;
+	char*    pszModule;
+	wchar_t* ptszModDispName;
+	char*    pszHeader;
 	
-	bool      bBold, bItalics, bUnderline;
-	bool      bColor, bBkgColor;
-	bool      bChanMgr, bAckMsg;
+	bool     bBold, bItalics, bUnderline;
+	bool     bColor, bBkgColor;
+	bool     bChanMgr, bAckMsg;
 	
-	int       iMaxText;
+	int      iMaxText;
 };
 
 struct COMMANDINFO
@@ -180,6 +180,7 @@ struct MIR_APP_EXPORT GCSessionInfoBase : public MZeroedObject, public MNonCopya
 	MODULEINFO *pMI;
 	GCSessionInfoBase *pParent;
 
+	LIST<USERINFO> arKeys;
 	OBJLIST<USERINFO> arUsers;
 
 	wchar_t pszLogFileName[MAX_PATH];
@@ -190,6 +191,10 @@ struct MIR_APP_EXPORT GCSessionInfoBase : public MZeroedObject, public MNonCopya
 
 	__forceinline OBJLIST<USERINFO>& getUserList()
 	{	return (pParent != nullptr) ? pParent->arUsers : arUsers;
+	}
+
+	__forceinline LIST<USERINFO>& getKeyList()
+	{	return (pParent != nullptr) ? pParent->arKeys : arKeys;
 	}
 };
 

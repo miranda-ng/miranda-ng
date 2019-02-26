@@ -26,6 +26,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define WINDOWS_COMMANDS_MAX 30
 
+static int CompareKeys(const USERINFO *u1, const USERINFO *u2)
+{
+	return mir_wstrcmp(u1->pszUID, u2->pszUID);
+}
+
 static int CompareUser(const USERINFO *u1, const USERINFO *u2)
 {
 	return g_chatApi.UM_CompareItem(u1, u2);
@@ -72,6 +77,7 @@ static SESSION_INFO* GetActiveSession(void)
 //	Keeps track of all sessions and its windows
 
 GCSessionInfoBase::GCSessionInfoBase() :
+	arKeys(10, CompareKeys),
 	arUsers(10, CompareUser)
 {}
 
@@ -671,11 +677,9 @@ static USERINFO* UM_FindUser(SESSION_INFO *si, const wchar_t *pszUID)
 	if (!si || !pszUID)
 		return nullptr;
 
-	for (auto &ui : si->getUserList())
-		if (!mir_wstrcmpi(ui->pszUID, pszUID))
-			return ui;
-
-	return nullptr;
+	USERINFO tmp;
+	tmp.pszUID = (wchar_t*)pszUID;
+	return si->getKeyList().find(&tmp);
 }
 
 static int compareStub(const void *p1, const void *p2)
@@ -694,15 +698,20 @@ bool UM_SortUser(SESSION_INFO *si, const wchar_t *pszUID)
 
 USERINFO* UM_AddUser(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszNick, WORD wStatus)
 {
-	if (si == nullptr || pszNick == nullptr)
+	if (pszNick == nullptr)
 		return nullptr;
 
-	USERINFO *node = new USERINFO();
-	node->pszUID = mir_wstrdup(pszUID);
-	node->pszNick = mir_wstrdup(pszNick);
-	node->Status = wStatus;
-	si->getUserList().insert(node);
-	return node;
+	auto *pUser = UM_FindUser(si, pszUID);
+	if (pUser)
+		return pUser;
+
+	pUser = new USERINFO();
+	pUser->pszUID = mir_wstrdup(pszUID);
+	pUser->pszNick = mir_wstrdup(pszNick);
+	pUser->Status = wStatus;
+	si->getKeyList().insert(pUser);
+	si->getUserList().insert(pUser);
+	return pUser;
 }
 
 static int UM_CompareItem(const USERINFO *u1, const USERINFO *u2)

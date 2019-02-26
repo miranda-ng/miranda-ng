@@ -325,8 +325,6 @@ private:
 
 	void OnChatEvent(const JSONNode &node);
 	void OnSendChatMessage(const char *chat_id, const wchar_t *tszMessage);
-	char* GetChatUsers(const char *chat_id);
-	bool IsChatContact(const char *chat_id, const char *id);
 	void AddMessageToChat(const char *chat_id, const char *from, const char *content, bool isAction, int emoteOffset, time_t timestamp, bool isLoading = false);
 	void AddChatContact(const char *chat_id, const char *id, const char *name, const char *role, bool isChange = false);
 	void RemoveChatContact(const char *chat_id, const char *id, const char *name, bool isKick = false, const char *initiator = "");

@@ -389,8 +389,7 @@ void CSkypeProto::OnGetChatInfo(const NETLIBHTTPREQUEST *response, void *p)
 
 		CMStringA username(UrlToSkypename(member["userLink"].as_string().c_str()));
 		std::string role = member["role"].as_string();
-		if (!IsChatContact(chatId, username))
-			AddChatContact(chatId, username, username, role.c_str(), true);
+		AddChatContact(chatId, username, username, role.c_str(), true);
 	}
 	PushRequest(new GetHistoryRequest(chatId, 15, true, 0, li), &CSkypeProto::OnGetServerHistory);
 }
@@ -410,24 +409,6 @@ void CSkypeProto::ChangeChatTopic(const char *chat_id, const char *topic, const 
 	gce.pszNick.a = initiator;
 	gce.pszText.a = topic;
 	Chat_Event(&gce);
-}
-
-bool CSkypeProto::IsChatContact(const char *chat_id, const char *id)
-{
-	ptrA users(GetChatUsers(chat_id));
-	return (users != NULL && strstr(users, id) != nullptr);
-}
-
-char* CSkypeProto::GetChatUsers(const char *chat_id)
-{
-	Utf2T id(chat_id);
-
-	GC_INFO gci = { 0 };
-	gci.Flags = GCF_USERS;
-	gci.pszModule = m_szModuleName;
-	gci.pszID = id;
-	Chat_GetInfo(&gci);
-	return gci.pszUsers;
 }
 
 char* CSkypeProto::GetChatContactNick(const char *chat_id, const char *id, const char *name)
@@ -465,9 +446,6 @@ char* CSkypeProto::GetChatContactNick(const char *chat_id, const char *id, const
 
 void CSkypeProto::AddChatContact(const char *chat_id, const char *id, const char *name, const char *role, bool isChange)
 {
-	if (IsChatContact(chat_id, id))
-		return;
-
 	ptrA szNick(GetChatContactNick(chat_id, id, name));
 
 	GCEVENT gce = { m_szModuleName, chat_id, GC_EVENT_JOIN };
