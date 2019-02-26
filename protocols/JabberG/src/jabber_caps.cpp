@@ -169,6 +169,9 @@ void CJabberProto::OnIqResultCapsDiscoInfo(const TiXmlElement*, CJabberIqInfo *p
 			JSONNode root;
 			for (auto *field : TiXmlFilter(xform, "field")) {
 				const char *fieldName = XmlGetAttr(field, "var"), *fieldValue = XmlGetChildText(field, "value");
+				if (fieldValue == nullptr)
+					continue;
+
 				if (!mir_strcmp(fieldName, "os"))
 					root.push_back(JSONNode("o", pCaps->m_szOs = mir_strdup(fieldValue)));
 				else if (!mir_strcmp(fieldName, "os_version"))

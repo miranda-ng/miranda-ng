@@ -295,7 +295,7 @@ bool CJabberIqManager::HandleIqPermanent(const TiXmlElement *pNode)
 		// have to get all data here, in the loop, because there's always possibility that previous handler modified it
 		const char *szType = XmlGetAttr(pNode, "type");
 		if (!szType)
-			return FALSE;
+			return false;
 
 		CJabberIqInfo iqInfo;
 		iqInfo.m_nIqType = JABBER_IQ_TYPE_FAIL;
@@ -304,14 +304,14 @@ bool CJabberIqManager::HandleIqPermanent(const TiXmlElement *pNode)
 		else if (!mir_strcmpi(szType, "set"))
 			iqInfo.m_nIqType = JABBER_IQ_TYPE_SET;
 		else
-			return FALSE;
+			return false;
 
 		if (!(pInfo->m_nIqTypes & iqInfo.m_nIqType))
 			continue;
 
 		auto *pFirstChild = XmlFirstChild(pNode);
 		if (!pFirstChild || !pFirstChild->Name())
-			return FALSE;
+			return false;
 
 		const char *szTagName = pFirstChild->Name();
 		const char *szXmlns = XmlGetAttr(pFirstChild, "xmlns");
