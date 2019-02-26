@@ -851,6 +851,7 @@ BOOL UM_RemoveAll(SESSION_INFO *si)
 			mir_free(ui->pszUID);
 			mir_free(ui->pszNick);
 		}
+		si->arKeys.destroy();
 		si->arUsers.destroy();
 	}
 	return TRUE;
