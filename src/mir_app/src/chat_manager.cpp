@@ -826,8 +826,12 @@ static wchar_t* UM_FindUserAutoComplete(SESSION_INFO *si, const wchar_t* pszOrig
 
 static BOOL UM_RemoveUser(SESSION_INFO *si, const wchar_t *pszUID)
 {
-	if (!si || !pszUID)
+	auto *pUser = UM_FindUser(si, pszUID);
+	if (pUser == nullptr)
 		return FALSE;
+
+	auto &arKeys = si->getKeyList();
+	arKeys.remove(pUser);
 
 	auto &arUsers = si->getUserList();
 	for (auto &ui : arUsers) {
@@ -835,10 +839,10 @@ static BOOL UM_RemoveUser(SESSION_INFO *si, const wchar_t *pszUID)
 			mir_free(ui->pszNick);
 			mir_free(ui->pszUID);
 			arUsers.remove(arUsers.indexOf(&ui));
-			return TRUE;
+			break;
 		}
 	}
-	return FALSE;
+	return TRUE;
 }
 
 BOOL UM_RemoveAll(SESSION_INFO *si)
