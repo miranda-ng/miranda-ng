@@ -183,7 +183,7 @@ BOOL CJabberProto::OnIqRequestAvatar(const TiXmlElement*, CJabberIqInfo *pInfo)
 
 BOOL CJabberProto::OnSiRequest(const TiXmlElement *node, CJabberIqInfo *pInfo)
 {
-	const char *szProfile = pInfo->GetChildNode()->Attribute("profile");
+	const char *szProfile = XmlGetAttr(pInfo->GetChildNode(), "profile");
 
 	if (szProfile && !mir_strcmp(szProfile, JABBER_FEAT_SI_FT))
 		FtHandleSiRequest(node);
@@ -229,13 +229,13 @@ BOOL CJabberProto::OnRosterPushRequest(const TiXmlElement*, CJabberIqInfo *pInfo
 
 	debugLogA("<iq/> Got roster push");
 	for (auto *itemNode : TiXmlFilter(queryNode, "item")) {
-		const char *jid = itemNode->Attribute("jid"), *str = itemNode->Attribute("subscription");
+		const char *jid = XmlGetAttr(itemNode, "jid"), *str = XmlGetAttr(itemNode, "subscription");
 		if (jid == nullptr || str == nullptr)
 			continue;
 
 		// we will not add new account when subscription=remove
 		if (!mir_strcmp(str, "to") || !mir_strcmp(str, "both") || !mir_strcmp(str, "from") || !mir_strcmp(str, "none")) {
-			const char *name = itemNode->Attribute("name");
+			const char *name = XmlGetAttr(itemNode, "name");
 			ptrA nick((name != nullptr) ? mir_strdup(name) : JabberNickFromJID(jid));
 			if (nick != nullptr) {
 				MCONTACT hContact = HContactFromJID(jid, false);
@@ -315,7 +315,7 @@ BOOL CJabberProto::OnIqRequestOOB(const TiXmlElement*, CJabberIqInfo *pInfo)
 	if (m_bBsOnlyIBB) {
 		// reject
 		XmlNodeIq iq("error", pInfo);
-		TiXmlElement *e = XmlAddChild(iq, "error", "File transfer refused"); e->SetAttribute("code", 406);
+		TiXmlElement *e = XmlAddChildA(iq, "error", "File transfer refused"); e->SetAttribute("code", 406);
 		m_ThreadInfo->send(iq);
 		return TRUE;
 	}
@@ -373,7 +373,7 @@ BOOL CJabberProto::OnIqRequestOOB(const TiXmlElement*, CJabberIqInfo *pInfo)
 	}
 	else { // reject
 		XmlNodeIq iq("error", pInfo);
-		TiXmlElement *e = XmlAddChild(iq, "error", "File transfer refused"); e->SetAttribute("code", 406);
+		TiXmlElement *e = XmlAddChildA(iq, "error", "File transfer refused"); e->SetAttribute("code", 406);
 		m_ThreadInfo->send(iq);
 		delete ft;
 	}
@@ -385,7 +385,7 @@ BOOL CJabberProto::OnHandleDiscoInfoRequest(const TiXmlElement *iqNode, CJabberI
 	if (!pInfo->GetChildNode())
 		return TRUE;
 
-	const char *szNode = pInfo->GetChildNode()->Attribute("node");
+	const char *szNode = XmlGetAttr(pInfo->GetChildNode(), "node");
 	// caps hack
 	if (m_clientCapsManager.HandleInfoRequest(iqNode, pInfo, szNode))
 		return TRUE;
@@ -408,7 +408,7 @@ BOOL CJabberProto::OnHandleDiscoItemsRequest(const TiXmlElement *iqNode, CJabber
 		return TRUE;
 
 	// ad-hoc commands check:
-	const char *szNode = pInfo->GetChildNode()->Attribute("node");
+	const char *szNode = XmlGetAttr(pInfo->GetChildNode(), "node");
 	if (szNode && m_adhocManager.HandleItemsRequest(iqNode, pInfo, szNode))
 		return TRUE;
 
@@ -449,13 +449,13 @@ BOOL CJabberProto::OnIqHttpAuth(const TiXmlElement *node, CJabberIqInfo *pInfo)
 	if (!node || !pInfo->GetChildNode() || !pInfo->GetFrom() || !pInfo->GetIdStr())
 		return TRUE;
 
-	auto *pConfirm = node->FirstChildElement("confirm");
+	auto *pConfirm = XmlFirstChild(node, "confirm");
 	if (!pConfirm)
 		return TRUE;
 
-	const char *szId = pConfirm->Attribute("id");
-	const char *szMethod = pConfirm->Attribute("method");
-	const char *szUrl = pConfirm->Attribute("url");
+	const char *szId = XmlGetAttr(pConfirm, "id");
+	const char *szUrl = XmlGetAttr(pConfirm, "url");
+	const char *szMethod = XmlGetAttr(pConfirm, "method");
 	if (!szId || !szMethod || !szUrl)
 		return TRUE;
 

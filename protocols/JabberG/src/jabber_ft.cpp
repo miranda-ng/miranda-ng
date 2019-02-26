@@ -128,15 +128,15 @@ void CJabberProto::OnFtSiResult(const TiXmlElement *iqNode, CJabberIqInfo *pInfo
 		return;
 
 	if ((pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) && pInfo->m_szFrom && pInfo->m_szTo) {
-		if (auto *siNode = iqNode->FirstChildElement("si")) {
+		if (auto *siNode = XmlFirstChild(iqNode, "si")) {
 			// fix for very smart clients, like gajim
 			BOOL bDirect = m_bBsDirect;
 			BOOL bProxy = m_bBsProxyManual;
 
-			if (auto *featureNode = siNode->FirstChildElement("feature")) {
+			if (auto *featureNode = XmlFirstChild(siNode, "feature")) {
 				if (auto *xNode = XmlGetChildByTag(featureNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS)) {
 					if (auto *fieldNode = XmlGetChildByTag(xNode, "field", "var", "stream-method")) {
-						if (auto *valueNode = fieldNode->FirstChildElement("value")) {
+						if (auto *valueNode = XmlFirstChild(fieldNode, "value")) {
 							if ((bDirect || bProxy) && !mir_strcmp(valueNode->GetText(), JABBER_FEAT_BYTESTREAMS)) {
 								// Start Bytestream session
 								JABBER_BYTE_TRANSFER *jbt = new JABBER_BYTE_TRANSFER;
@@ -293,20 +293,20 @@ void CJabberProto::FtSendFinal(BOOL success, filetransfer *ft)
 
 void CJabberProto::FtHandleSiRequest(const TiXmlElement *iqNode)
 {
-	const char *from, *sid, *str, *szId, *filename;
+	const char *from, *sid, *str, *filename;
 	const TiXmlElement *siNode, *fileNode, *featureNode, *xNode, *fieldNode;
 
 	if (!iqNode ||
-		(from = iqNode->Attribute("from")) == nullptr ||
-		(str = iqNode->Attribute("type")) == nullptr || mir_strcmp(str, "set") ||
+		(from = XmlGetAttr(iqNode, "from")) == nullptr ||
+		(str = XmlGetAttr(iqNode, "type")) == nullptr || mir_strcmp(str, "set") ||
 		(siNode = XmlGetChildByTag(iqNode, "si", "xmlns", JABBER_FEAT_SI)) == nullptr)
 		return;
 
-	szId = iqNode->Attribute("id");
-	if ((sid = siNode->Attribute("id")) != nullptr &&
+	const char *szId = XmlGetAttr(iqNode, "id");
+	if ((sid = XmlGetAttr(siNode, "id")) != nullptr &&
 		(fileNode = XmlGetChildByTag(siNode, "file", "xmlns", JABBER_FEAT_SI_FT)) != nullptr &&
-		(filename = fileNode->Attribute("name")) != nullptr &&
-		(str = fileNode->Attribute("size")) != nullptr) {
+		(filename = XmlGetAttr(fileNode, "name")) != nullptr &&
+		(str = XmlGetAttr(fileNode, "size")) != nullptr) {
 
 		unsigned __int64 filesize = _atoi64(str);
 		if ((featureNode = XmlGetChildByTag(siNode, "feature", "xmlns", JABBER_FEAT_FEATURE_NEG)) != nullptr &&
@@ -411,7 +411,7 @@ BOOL CJabberProto::FtHandleBytestreamRequest(const TiXmlElement *iqNode, CJabber
 {
 	auto *queryNode = pInfo->GetChildNode();
 
-	const char *sid = queryNode->Attribute("sid");
+	const char *sid = XmlGetAttr(queryNode, "sid");
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_FTRECV, sid);
 
 	if ((sid ) != nullptr && (item ) != nullptr) {
@@ -435,15 +435,15 @@ BOOL CJabberProto::FtHandleIbbRequest(const TiXmlElement *iqNode, BOOL bOpen)
 {
 	if (iqNode == nullptr) return FALSE;
 
-	const char *id = iqNode->Attribute("id");
-	const char *from = iqNode->Attribute("from");
-	const char *to = iqNode->Attribute("to");
+	const char *id = XmlGetAttr(iqNode, "id");
+	const char *from = XmlGetAttr(iqNode, "from");
+	const char *to = XmlGetAttr(iqNode, "to");
 	if (!id || !from || !to) return FALSE;
 
 	auto *ibbNode = XmlGetChildByTag(iqNode, bOpen ? "open" : "close", "xmlns", JABBER_FEAT_IBB);
 	if (!ibbNode) return FALSE;
 
-	const char *sid = ibbNode->Attribute("sid");
+	const char *sid = XmlGetAttr(ibbNode, "sid");
 	if (!sid) return FALSE;
 
 	// already closed?

@@ -1420,3 +1420,13 @@ db_get_utfa @1631
 ?GetTextU@CCtrlBase@@QEAAPEADXZ @1633 NONAME
 ?BytesParsed@XMLDocument@tinyxml2@@QEBAHXZ @1634 NONAME
 TranslateU_LP @1635
+XmlAddAttr @1636
+XmlAddChild @1637
+XmlAddChildA @1638
+XmlAddChildI @1639
+XmlFirstChild @1640
+XmlGetAttr @1641
+XmlGetChildByTag @1642
+XmlGetChildCount @1643
+XmlGetChildInt @1644
+XmlGetChildText @1645

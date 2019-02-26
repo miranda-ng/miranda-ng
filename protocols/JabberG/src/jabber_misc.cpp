@@ -449,10 +449,10 @@ CMStringA CJabberProto::ExtractImage(const TiXmlElement *node)
 	const char *src;
 	CMStringA link;
 
-	if ((nHtml = node->FirstChildElement("html")) != nullptr &&
-		(nBody = nHtml->FirstChildElement("body")) != nullptr &&
-		(nImg = nBody->FirstChildElement("img")) != nullptr &&
-		(src = nImg->Attribute("src")) != nullptr) {
+	if ((nHtml = XmlFirstChild(node, "html")) != nullptr &&
+		(nBody = XmlFirstChild(nHtml, "body")) != nullptr &&
+		(nImg = XmlFirstChild(nBody, "img")) != nullptr &&
+		(src = XmlGetAttr(nImg, "src")) != nullptr) {
 
 		CMStringA strSrc(src);
 		if (strSrc.Left(11).Compare("data:image/") == 0) {

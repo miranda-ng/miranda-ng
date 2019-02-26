@@ -623,14 +623,14 @@ void CPepMood::ProcessItems(const char *from, const TiXmlElement *itemsNode)
 	}
 	else hSelfContact = m_proto->HContactFromJID(from);
 
-	if (itemsNode->FirstChildElement("retract")) {
+	if (XmlFirstChild(itemsNode, "retract")) {
 		if (hSelfContact)
 			SetMood(hSelfContact, nullptr, nullptr);
 		SetMood(hContact, nullptr, nullptr);
 		return;
 	}
 
-	auto *moodNode = XmlGetChildByTag(itemsNode->FirstChildElement("item"), "mood", "xmlns", JABBER_FEAT_USER_MOOD);
+	auto *moodNode = XmlGetChildByTag(XmlFirstChild(itemsNode, "item"), "mood", "xmlns", JABBER_FEAT_USER_MOOD);
 	if (!moodNode)
 		return;
 
@@ -992,14 +992,14 @@ void CPepActivity::ProcessItems(const char *from, const TiXmlElement *itemsNode)
 	}
 	else hSelfContact = m_proto->HContactFromJID(from);
 
-	if (itemsNode->FirstChildElement("retract")) {
+	if (XmlFirstChild(itemsNode, "retract")) {
 		if (hSelfContact)
 			SetActivity(hSelfContact, nullptr, nullptr, nullptr);
 		SetActivity(hContact, nullptr, nullptr, nullptr);
 		return;
 	}
 
-	auto *actNode = XmlGetChildByTag(itemsNode->FirstChildElement("item"), "activity", "xmlns", JABBER_FEAT_USER_ACTIVITY);
+	auto *actNode = XmlGetChildByTag(XmlFirstChild(itemsNode, "item"), "activity", "xmlns", JABBER_FEAT_USER_ACTIVITY);
 	if (!actNode)
 		return;
 
@@ -1009,7 +1009,7 @@ void CPepActivity::ProcessItems(const char *from, const TiXmlElement *itemsNode)
 	for (auto *n : TiXmlFilter(actNode, "text")) {
 		if (mir_strcmp(n->Name(), "text")) {
 			szFirstNode = n->Name();
-			auto *secondNode = n->FirstChildElement();
+			auto *secondNode = XmlFirstChild(n);
 			if (szFirstNode && secondNode && secondNode->Name())
 				szSecondNode = secondNode->Name();
 			break;

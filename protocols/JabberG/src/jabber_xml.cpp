@@ -34,28 +34,36 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 XmlNodeIq::XmlNodeIq(const char *type, int id, const char *to) :
 	XmlNode("iq")
 {
-	if (type != nullptr) XmlAddAttr(*this, "type", type);
-	if (to   != nullptr) XmlAddAttr(*this, "to",   to);
-	if (id   != -1  )    XmlAddAttrID(*this, id);
+	if (type != nullptr)
+		m_hXml->SetAttribute("type", type);
+	if (to != nullptr)
+		m_hXml->SetAttribute("to", to);
+	if (id != -1)
+		XmlAddAttrID(*this, id);
 }
 
 XmlNodeIq::XmlNodeIq(const char *type, const char *idStr, const char *to) :
 	XmlNode("iq")
 {
-	if (type  != nullptr) XmlAddAttr(*this, "type", type );
-	if (to    != nullptr) XmlAddAttr(*this, "to",   to   );
-	if (idStr != nullptr) XmlAddAttr(*this, "id",   idStr);
+	if (type != nullptr)
+		m_hXml->SetAttribute("type", type);
+	if (to != nullptr)
+		m_hXml->SetAttribute("to", to);
+	if (idStr != nullptr)
+		m_hXml->SetAttribute("id", idStr);
 }
 
 XmlNodeIq::XmlNodeIq(const char *type, TiXmlElement *node, const char *to) :
 	XmlNode("iq")
 {
-	if (type  != nullptr) XmlAddAttr(*this, "type", type );
-	if (to    != nullptr) XmlAddAttr(*this, "to",   to   );
-	if (node  != nullptr) {
-		const char *iqId = node->Attribute("id");
+	if (type != nullptr)
+		m_hXml->SetAttribute("type", type);
+	if (to != nullptr)
+		m_hXml->SetAttribute("to", to);
+	if (node != nullptr) {
+		const char *iqId = XmlGetAttr(node, "id");
 		if (iqId != nullptr)
-			XmlAddAttr(*this, "id", iqId);
+			m_hXml->SetAttribute("id", iqId);
 	}
 }
 
@@ -63,19 +71,26 @@ XmlNodeIq::XmlNodeIq(CJabberIqInfo *pInfo) :
 	XmlNode("iq")
 {
 	if (pInfo) {
-		if (pInfo->GetCharIqType() != nullptr) XmlAddAttr(*this, "type", pInfo->GetCharIqType());
-		if (pInfo->GetReceiver()   != nullptr) XmlAddAttr(*this, "to", pInfo->GetReceiver());
-		if (pInfo->GetIqId()       != -1)      XmlAddAttrID(*this, pInfo->GetIqId());
+		if (pInfo->GetCharIqType() != nullptr)
+			m_hXml->SetAttribute("type", pInfo->GetCharIqType());
+		if (pInfo->GetReceiver() != nullptr)
+			m_hXml->SetAttribute("to", pInfo->GetReceiver());
+		if (pInfo->GetIqId() != -1)
+			XmlAddAttrID(*this, pInfo->GetIqId());
 	}
 }
 
 XmlNodeIq::XmlNodeIq(const char *type, CJabberIqInfo *pInfo) :
 	XmlNode("iq")
 {
-	if (type != nullptr) XmlAddAttr(*this, "type", type);
+	if (type != nullptr)
+		m_hXml->SetAttribute("type", type);
+	
 	if (pInfo) {
-		if (pInfo->GetFrom()  != nullptr) XmlAddAttr(*this, "to", pInfo->GetFrom());
-		if (pInfo->GetIdStr() != nullptr) XmlAddAttr(*this, "id", pInfo->GetIdStr());
+		if (pInfo->GetFrom() != nullptr)
+			m_hXml->SetAttribute("to", pInfo->GetFrom());
+		if (pInfo->GetIdStr() != nullptr)
+			m_hXml->SetAttribute("id", pInfo->GetIdStr());
 	}
 }
 
@@ -112,12 +127,6 @@ TiXmlElement* __fastcall operator<<(TiXmlElement *node, const XQUERY &child)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void XmlAddAttr(TiXmlElement *hXml, const char *name, const char *value)
-{
-	if (value)
-		hXml->SetAttribute(name, value);
-}
-
 void XmlAddAttrID(TiXmlElement *hXml, int id)
 {
 	char text[100];
@@ -125,77 +134,3 @@ void XmlAddAttrID(TiXmlElement *hXml, int id)
 	hXml->SetAttribute("id", text);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-TiXmlElement* XmlAddChild(TiXmlElement *hXml, const char *name)
-{
-	if (hXml == nullptr)
-		return nullptr;
-
-	auto *res = hXml->GetDocument()->NewElement(name);
-	hXml->InsertEndChild(res);
-	return res;
-}
-
-TiXmlElement* XmlAddChild(TiXmlElement *hXml, const char *name, const char *value)
-{
-	if (hXml == nullptr)
-		return nullptr;
-
-	auto *res = hXml->GetDocument()->NewElement(name);
-	if (value)
-		res->SetText(value);
-	hXml->InsertEndChild(res);
-	return res;
-}
-
-TiXmlElement* XmlAddChild(TiXmlElement *hXml, const char *name, int value)
-{
-	if (hXml == nullptr)
-		return nullptr;
-
-	auto *res = hXml->GetDocument()->NewElement(name);
-	if (value)
-		res->SetText(value);
-	hXml->InsertEndChild(res);
-	return res;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-const char* XmlGetChildText(const TiXmlElement *hXml, const char *key)
-{
-	if (hXml == nullptr)
-		return nullptr;
-
-	auto *pChild = hXml->FirstChildElement(key);
-	return (pChild == nullptr) ? nullptr : pChild->GetText();
-}
-
-int XmlGetChildInt(const TiXmlElement *hXml, const char *key)
-{
-	if (hXml == nullptr)
-		return 0;
-
-	auto *pChild = hXml->FirstChildElement(key);
-	return (pChild == nullptr) ? 0 : atoi(pChild->GetText());
-}
-
-const TiXmlElement* XmlGetChildByTag(const TiXmlElement *hXml, const char *key, const char *attrName, const char *attrValue)
-{
-	for (auto *pChild : TiXmlFilter(hXml, key))
-		if (pChild->Attribute(attrName, attrValue))
-			return pChild;
-
-	return nullptr;
-}
-
-int XmlGetChildCount(const TiXmlElement *hXml)
-{
-	int iCount = 0;
-	for (auto *it : TiXmlEnum(hXml)) {
-		UNREFERENCED_PARAMETER(it);
-		iCount++;
-	}
-	return iCount;
-}

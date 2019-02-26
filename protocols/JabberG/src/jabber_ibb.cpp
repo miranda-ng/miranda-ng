@@ -53,8 +53,8 @@ BOOL CJabberProto::OnFtHandleIbbIq(const TiXmlElement *iqNode, CJabberIqInfo *pI
 		FtHandleIbbRequest(iqNode, FALSE);
 	else if (!mir_strcmp(pInfo->GetChildNodeName(), "data")) {
 		BOOL bOk = FALSE;
-		const char *sid = pInfo->GetChildNode()->Attribute("sid");
-		const char *seq = pInfo->GetChildNode()->Attribute("seq");
+		const char *sid = XmlGetAttr(pInfo->GetChildNode(), "sid");
+		const char *seq = XmlGetAttr(pInfo->GetChildNode(), "seq");
 		if (sid && seq && pInfo->GetChildNode()->GetText())
 			bOk = OnIbbRecvdData(pInfo->GetChildNode()->GetText(), sid, seq);
 

@@ -58,7 +58,7 @@ BOOL CJabberProto::HandleAdhocCommandRequest(const TiXmlElement *iqNode, CJabber
 		return TRUE;
 	}
 
-	const char *szNode = pInfo->GetChildNode()->Attribute("node");
+	const char *szNode = XmlGetAttr(pInfo->GetChildNode(), "node");
 	if (!szNode)
 		return TRUE;
 
@@ -154,7 +154,7 @@ BOOL CJabberAdhocManager::HandleCommandRequest(const TiXmlElement *iqNode, CJabb
 		return FALSE;
 	}
 
-	const char *szSessionId = commandNode->Attribute("sessionid");
+	const char *szSessionId = XmlGetAttr(commandNode, "sessionid");
 
 	CJabberAdhocSession *pSession = nullptr;
 	if (szSessionId) {
@@ -341,7 +341,7 @@ int CJabberProto::AdhocSetStatusHandler(const TiXmlElement*, CJabberIqInfo *pInf
 		if (!fieldNode)
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
-		auto *nodeValue = fieldNode->FirstChildElement("value");
+		auto *nodeValue = XmlFirstChild(fieldNode, "value");
 		if (nodeValue == nullptr)
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
@@ -367,7 +367,7 @@ int CJabberProto::AdhocSetStatusHandler(const TiXmlElement*, CJabberIqInfo *pInf
 
 		const char *szStatusMessage = nullptr;
 		if (fieldNode = XmlGetChildByTag(xNode, "field", "var", "status-message"))
-			if (auto *valueNode = fieldNode->FirstChildElement("value"))
+			if (auto *valueNode = XmlFirstChild(fieldNode, "value"))
 				szStatusMessage = valueNode->GetText();
 
 		// skip f...ng away dialog

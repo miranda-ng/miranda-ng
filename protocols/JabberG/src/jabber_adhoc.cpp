@@ -114,9 +114,9 @@ int CJabberProto::AdHoc_ExecuteCommand(HWND hwndDlg, char*, JabberAdHocData *dat
 		if (BST_UNCHECKED == IsDlgButtonChecked(GetDlgItem(hwndDlg, IDC_FRAME), i++))
 			continue;
 
-		const char *node = itemNode->Attribute("node");
+		const char *node = XmlGetAttr(itemNode, "node");
 		if (node) {
-			const char *jid2 = itemNode->Attribute("jid");
+			const char *jid2 = XmlGetAttr(itemNode, "jid");
 			m_ThreadInfo->send(
 				XmlNodeIq(AddIQ(&CJabberProto::OnIqResult_CommandExecution, JABBER_IQ_TYPE_SET, jid2, 0, -1, hwndDlg))
 				<< XCHILDNS("command", JABBER_FEAT_COMMANDS) << XATTR("node", node) << XATTR("action", "execute"));
@@ -133,15 +133,15 @@ int CJabberProto::AdHoc_ExecuteCommand(HWND hwndDlg, char*, JabberAdHocData *dat
 int CJabberProto::AdHoc_OnJAHMCommandListResult(HWND hwndDlg, TiXmlElement *iqNode, JabberAdHocData *dat)
 {
 	int nodeIdx = 0;
-	const char *type = iqNode->Attribute("type");
+	const char *type = XmlGetAttr(iqNode, "type");
 	if (!type || !mir_strcmp(type, "error")) {
 		// error occurred here
 		const char *code = "";
 		const char *description = "";
 
-		TiXmlElement *errorNode = iqNode->FirstChildElement("error");
+		auto *errorNode = XmlFirstChild(iqNode, "error");
 		if (errorNode) {
-			code = errorNode->Attribute("code");
+			code = XmlGetAttr(errorNode, "code");
 			description = errorNode->GetText();
 		}
 
@@ -153,21 +153,21 @@ int CJabberProto::AdHoc_OnJAHMCommandListResult(HWND hwndDlg, TiXmlElement *iqNo
 		dat->CurrentHeight = 0;
 		dat->curPos = 0;
 		SetScrollPos(GetDlgItem(hwndDlg, IDC_VSCROLL), SB_CTL, 0, FALSE);
-		auto *queryNode = iqNode->FirstChildElement("query");
+		auto *queryNode = XmlFirstChild(iqNode, "query");
 		if (queryNode) {
-			const char *xmlns = queryNode->Attribute("xmlns");
-			const char *node = queryNode->Attribute("node");
+			const char *xmlns = XmlGetAttr(queryNode, "xmlns");
+			const char *node = XmlGetAttr(queryNode, "node");
 			if (xmlns && node && !mir_strcmp(xmlns, JABBER_FEAT_DISCO_ITEMS) && !mir_strcmp(node, JABBER_FEAT_COMMANDS))
 				validResponse = TRUE;
 		}
-		if (queryNode && queryNode->FirstChildElement(0) && validResponse) {
+		if (queryNode && XmlFirstChild(queryNode, 0) && validResponse) {
 			dat->CommandsNode = queryNode->DeepClone(&dat->doc)->ToElement();
 
 			int ypos = 20;
 			for (auto *itemNode : TiXmlFilter(queryNode, "item")) {
-				const char *name = itemNode->Attribute("name");
+				const char *name = XmlGetAttr(itemNode, "name");
 				if (!name)
-					name = itemNode->Attribute("node");
+					name = XmlGetAttr(itemNode, "node");
 				ypos = AdHoc_AddCommandRadio(GetDlgItem(hwndDlg, IDC_FRAME), name, nodeIdx, ypos, (nodeIdx == 1) ? 1 : 0);
 				dat->CurrentHeight = ypos;
 			}
@@ -199,18 +199,18 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, TiXmlElement *workNode
 	dat->AdHocNode = workNode->DeepClone(&dat->doc)->ToElement();
 
 	const char *type;
-	if ((type = workNode->Attribute("type")) == nullptr) return TRUE;
+	if ((type = XmlGetAttr(workNode, "type")) == nullptr) return TRUE;
 	if (!mir_strcmp(type, "result")) {
 		// wParam = <iq/> node from responder as a result of command execution
-		TiXmlElement *commandNode, *xNode;
-		if ((commandNode = dat->AdHocNode->FirstChildElement("command")) == nullptr)
+		const TiXmlElement *commandNode, *xNode;
+		if ((commandNode = XmlFirstChild(dat->AdHocNode, "command")) == nullptr)
 			return TRUE;
 
-		const char *status = commandNode->Attribute("status");
+		const char *status = XmlGetAttr(commandNode, "status");
 		if (!status)
 			status = "completed";
 
-		if ((xNode = commandNode->FirstChildElement("x"))) {
+		if ((xNode = XmlFirstChild(commandNode, "x"))) {
 			// use jabber:x:data form
 			HWND hFrame = GetDlgItem(hwndDlg, IDC_FRAME);
 			if (auto *pszText = XmlGetChildText(xNode, "instructions"))
@@ -232,11 +232,11 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, TiXmlElement *workNode
 		}
 
 		// check actions
-		TiXmlElement *actionsNode = commandNode->FirstChildElement("actions");
+		auto *actionsNode = XmlFirstChild(commandNode, "actions");
 		if (actionsNode != nullptr) {
-			ShowDlgItem(hwndDlg, IDC_PREV, (actionsNode->FirstChildElement("prev") != nullptr) ? SW_SHOW : SW_HIDE);
-			ShowDlgItem(hwndDlg, IDC_NEXT, (actionsNode->FirstChildElement("next") != nullptr) ? SW_SHOW : SW_HIDE);
-			ShowDlgItem(hwndDlg, IDC_COMPLETE, (actionsNode->FirstChildElement("complete") != nullptr) ? SW_SHOW : SW_HIDE);
+			ShowDlgItem(hwndDlg, IDC_PREV, (XmlFirstChild(actionsNode, "prev") != nullptr) ? SW_SHOW : SW_HIDE);
+			ShowDlgItem(hwndDlg, IDC_NEXT, (XmlFirstChild(actionsNode, "next") != nullptr) ? SW_SHOW : SW_HIDE);
+			ShowDlgItem(hwndDlg, IDC_COMPLETE, (XmlFirstChild(actionsNode, "complete") != nullptr) ? SW_SHOW : SW_HIDE);
 			ShowDlgItem(hwndDlg, IDC_SUBMIT, SW_HIDE);
 
 			int toEnable[] = { IDC_PREV, IDC_NEXT, IDC_COMPLETE, 0 };
@@ -262,9 +262,9 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, TiXmlElement *workNode
 
 		const char *code = "";
 		const char *description = "";
-		TiXmlElement *errorNode = workNode->FirstChildElement("error");
+		auto *errorNode = XmlFirstChild(workNode, "error");
 		if (errorNode) {
-			code = errorNode->Attribute("code");
+			code = XmlGetAttr(errorNode, "code");
 			description = errorNode->GetText();
 		}
 		
@@ -276,18 +276,18 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, TiXmlElement *workNode
 
 int CJabberProto::AdHoc_SubmitCommandForm(HWND hwndDlg, JabberAdHocData *dat, char* action)
 {
-	TiXmlElement *commandNode = dat->AdHocNode->FirstChildElement("command");
-	TiXmlElement *xNode = commandNode->FirstChildElement("x");
+	auto *commandNode = XmlFirstChild(dat->AdHocNode, "command");
+	auto *xNode = XmlFirstChild(commandNode, "x");
 
-	const char *jid2 = dat->AdHocNode->Attribute("from");
+	const char *jid2 = XmlGetAttr(dat->AdHocNode, "from");
 	XmlNodeIq iq(AddIQ(&CJabberProto::OnIqResult_CommandExecution, JABBER_IQ_TYPE_SET, jid2, 0, -1, hwndDlg));
 	TiXmlElement *command = iq << XCHILDNS("command", JABBER_FEAT_COMMANDS);
 
-	const char *sessionId = commandNode->Attribute("sessionid");
+	const char *sessionId = XmlGetAttr(commandNode, "sessionid");
 	if (sessionId)
 		command << XATTR("sessionid", sessionId);
 
-	const char *node = commandNode->Attribute("node");
+	const char *node = XmlGetAttr(commandNode, "node");
 	if (node)
 		command << XATTR("node", node);
 

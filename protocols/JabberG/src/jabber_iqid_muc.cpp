@@ -42,8 +42,8 @@ void CJabberProto::SetMucConfig(CJabberFormDlg *pDlg, void *from)
 void CJabberProto::OnIqResultGetMuc(const TiXmlElement *iqNode, CJabberIqInfo*)
 {
 	debugLogA("<iq/> iqIdGetMuc");
-	const char *type = iqNode->Attribute("type");
-	const char *from = iqNode->Attribute("from");
+	const char *type = XmlGetAttr(iqNode, "type");
+	const char *from = XmlGetAttr(iqNode, "from");
 	if (type == nullptr || from == nullptr)
 		return;
 
@@ -110,13 +110,13 @@ class CJabberMucJidListDlg : public CJabberDlgBase
 		wchar_t tszItemText[JABBER_MAX_JID_LEN + 256];
 		TiXmlElement *iqNode = m_info->iqNode;
 		if (iqNode != nullptr) {
-			const char *from = iqNode->Attribute("from");
+			const char *from = XmlGetAttr(iqNode, "from");
 			if (from != nullptr) {
-				TiXmlElement *queryNode = iqNode->FirstChildElement("query");
+				auto *queryNode = XmlFirstChild(iqNode, "query");
 				if (queryNode != nullptr) {
 					lvi.iItem = 0;
 					for (auto *itemNode : TiXmlEnum(queryNode)) {
-						const char *jid = itemNode->Attribute("jid");
+						const char *jid = XmlGetAttr(itemNode, "jid");
 						if (jid == nullptr)
 							continue;
 
@@ -128,7 +128,7 @@ class CJabberMucJidListDlg : public CJabberDlgBase
 							}
 						}
 						else if (m_info->type == MUC_VOICELIST || m_info->type == MUC_MODERATORLIST) {
-							const char *nick = itemNode->Attribute("nick");
+							const char *nick = XmlGetAttr(itemNode, "nick");
 							if (nick != nullptr) {
 								mir_snwprintf(tszItemText, L"%s (%s)", Utf2T(nick).get(), Utf2T(jid).get());
 								lvi.pszText = tszItemText;
@@ -259,10 +259,10 @@ public:
 		if (pInfo != nullptr) {
 			TiXmlElement *iqNode = pInfo->iqNode;
 			if (iqNode != nullptr) {
-				const char *from = iqNode->Attribute("from");
+				const char *from = XmlGetAttr(iqNode, "from");
 				if (from != nullptr) {
 					pInfo->roomJid = mir_strdup(from);
-					TiXmlElement *queryNode = iqNode->FirstChildElement("query");
+					auto *queryNode = XmlFirstChild(iqNode, "query");
 					if (queryNode != nullptr)
 						mir_snwprintf(title, TranslateT("%s, %d items (%s)"), pInfo->type2str(), XmlGetChildCount(queryNode), Utf2T(from).get());
 				}
@@ -348,11 +348,11 @@ static void CALLBACK JabberMucJidListCreateDialogApcProc(void* param)
 	if (iqNode == nullptr)
 		return;
 
-	const char *from = iqNode->Attribute("from");
+	const char *from = XmlGetAttr(iqNode, "from");
 	if (from == nullptr)
 		return;
 
-	TiXmlElement *queryNode = iqNode->FirstChildElement("query");
+	auto *queryNode = XmlFirstChild(iqNode, "query");
 	if (queryNode == nullptr)
 		return;
 
@@ -371,7 +371,7 @@ static void CALLBACK JabberMucJidListCreateDialogApcProc(void* param)
 
 void CJabberProto::OnIqResultMucGetJidList(const TiXmlElement *iqNode, JABBER_MUC_JIDLIST_TYPE listType)
 {
-	const char *type = iqNode->Attribute("type");
+	const char *type = XmlGetAttr(iqNode, "type");
 	if (type == nullptr)
 		return;
 

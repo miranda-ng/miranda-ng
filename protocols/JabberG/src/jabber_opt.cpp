@@ -688,7 +688,7 @@ private:
 		m_cbServer.ResetContent();
 		if (node)
 			for (auto *n : TiXmlFilter(node, "item"))
-				if (const char *jid = n->Attribute("jid")) {
+				if (const char *jid = XmlGetAttr(n, "jid")) {
 					Utf2T wszJid(jid);
 					if (m_cbServer.FindString(wszJid, -1, true) == CB_ERR)
 						m_cbServer.AddString(wszJid);
@@ -992,16 +992,16 @@ void CJabberProto::_RosterHandleGetRequest(const TiXmlElement *node, CJabberIqIn
 	HWND hList = GetDlgItem(rrud.hwndDlg, IDC_ROSTER);
 	if (rrud.bRRAction == RRA_FILLLIST) {
 		_RosterListClear(rrud.hwndDlg);
-		auto *query = node->FirstChildElement("query");
+		auto *query = XmlFirstChild(node, "query");
 		if (query == nullptr) return;
 
 		for (auto *item : TiXmlFilter(query, "item")) {
-			const char *jid = item->Attribute("jid");
+			const char *jid = XmlGetAttr(item, "jid");
 			if (jid == nullptr)
 				continue;
 
-			const char *name = item->Attribute("name");
-			const char *subscription = item->Attribute("subscription");
+			const char *name = XmlGetAttr(item, "name");
+			const char *subscription = XmlGetAttr(item, "subscription");
 			const char *group = XmlGetChildText(item, "group");
 			_RosterInsertListItem(hList, jid, name, group, subscription, TRUE);
 		}
@@ -1036,7 +1036,7 @@ void CJabberProto::_RosterHandleGetRequest(const TiXmlElement *node, CJabberIqIn
 
 	if (rrud.bRRAction == RRA_SYNCROSTER) {
 		SetDlgItemText(rrud.hwndDlg, IDC_UPLOAD, TranslateT("Uploading..."));
-		auto *queryRoster = node->FirstChildElement("query");
+		auto *queryRoster = XmlFirstChild(node, "query");
 		if (!queryRoster)
 			return;
 
@@ -1067,11 +1067,11 @@ void CJabberProto::_RosterHandleGetRequest(const TiXmlElement *node, CJabberIqIn
 			else if (!bRemove) {
 				BOOL bPushed = itemRoster ? TRUE : FALSE;
 				if (!bPushed) {
-					const char *rosterName = itemRoster->Attribute("name");
+					const char *rosterName = XmlGetAttr(itemRoster, "name");
 					if ((rosterName != nullptr || name[0] != 0) && mir_strcmpi(rosterName, szName))
 						bPushed = TRUE;
 					if (!bPushed) {
-						rosterName = itemRoster->Attribute("subscription");
+						rosterName = XmlGetAttr(itemRoster, "subscription");
 						if ((rosterName != nullptr || subscr[0] != 0) && mir_strcmpi(rosterName, T2Utf(subscr)))
 							bPushed = TRUE;
 					}
@@ -1269,14 +1269,14 @@ void CJabberProto::_RosterImportFromFile(HWND hwndDlg)
 			const char *name = nullptr;
 			const char *group = nullptr;
 			const char *subscr = nullptr;
-			auto *Cell = Row->FirstChildElement("Cell");
-			auto *Data = Cell->FirstChildElement("Data");
+			auto *Cell = XmlFirstChild(Row, "Cell");
+			auto *Data = XmlFirstChild(Cell, "Data");
 			if (Data) {
 				if (!mir_strcmpi(Data->GetText(), "+")) bAdd = TRUE;
 				else if (mir_strcmpi(Data->GetText(), "-")) continue;
 
 				Cell = Cell->NextSiblingElement("Cell");
-				if (Cell) Data = Cell->FirstChildElement("Data");
+				if (Cell) Data = XmlFirstChild(Cell, "Data");
 				else Data = nullptr;
 				if (Data) {
 					jid = Data->GetText();
@@ -1284,17 +1284,17 @@ void CJabberProto::_RosterImportFromFile(HWND hwndDlg)
 				}
 
 				Cell = Cell->NextSiblingElement("Cell");
-				if (Cell) Data = Cell->FirstChildElement("Data");
+				if (Cell) Data = XmlFirstChild(Cell, "Data");
 				else Data = nullptr;
 				if (Data) name = Data->GetText();
 
 				Cell = Cell->NextSiblingElement("Cell");
-				if (Cell) Data = Cell->FirstChildElement("Data");
+				if (Cell) Data = XmlFirstChild(Cell, "Data");
 				else Data = nullptr;
 				if (Data) group = Data->GetText();
 
 				Cell = Cell->NextSiblingElement("Cell");
-				if (Cell) Data = Cell->FirstChildElement("Data");
+				if (Cell) Data = XmlFirstChild(Cell, "Data");
 				else Data = nullptr;
 				if (Data) subscr = Data->GetText();
 			}
@@ -2124,7 +2124,7 @@ private:
 		m_cbServer.ResetContent();
 		if (node)
 			for (auto *n : TiXmlFilter(node, "item"))
-				if (const char *jid = n->Attribute("jid")) {
+				if (const char *jid = XmlGetAttr(n, "jid")) {
 					Utf2T wszJid(jid);
 					if (m_cbServer.FindString(wszJid, -1, true) == CB_ERR)
 						m_cbServer.AddString(wszJid);

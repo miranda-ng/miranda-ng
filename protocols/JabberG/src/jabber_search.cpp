@@ -137,19 +137,19 @@ void CJabberProto::OnIqResultGetSearchFields(const TiXmlElement *iqNode, CJabber
 	if (!searchHandleDlg)
 		return;
 
-	const char *type = iqNode->Attribute("type");
+	const char *type = XmlGetAttr(iqNode, "type");
 	if (type == nullptr)
 		return;
 
 	if (!mir_strcmp(type, "result")) {
-		auto *queryNode = iqNode->FirstChildElement("query");
+		auto *queryNode = XmlFirstChild(iqNode, "query");
 		auto *xNode = XmlGetChildByTag(queryNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS);
 
 		ShowWindow(searchHandleDlg, SW_HIDE);
 		if (xNode) {
 			// 1. Form
 			PostMessage(searchHandleDlg, WM_USER + 11, (WPARAM)xNode, 0);
-			auto *xcNode = xNode->FirstChildElement("instructions");
+			auto *xcNode = XmlFirstChild(xNode, "instructions");
 			if (xcNode)
 				SetDlgItemTextUtf(searchHandleDlg, IDC_INSTRUCTIONS, xcNode->GetText());
 		}
@@ -173,7 +173,7 @@ void CJabberProto::OnIqResultGetSearchFields(const TiXmlElement *iqNode, CJabber
 			}
 		}
 
-		const char *szFrom = iqNode->Attribute("from");
+		const char *szFrom = XmlGetAttr(iqNode, "from");
 		if (szFrom)
 			SearchAddToRecent(szFrom, searchHandleDlg);
 		PostMessage(searchHandleDlg, WM_USER + 10, 0, 0);
@@ -182,9 +182,9 @@ void CJabberProto::OnIqResultGetSearchFields(const TiXmlElement *iqNode, CJabber
 	else if (!mir_strcmp(type, "error")) {
 		const char *code = "";
 		const char *description = "";
-		auto *errorNode = iqNode->FirstChildElement("error");
+		auto *errorNode = XmlFirstChild(iqNode, "error");
 		if (errorNode) {
-			code = errorNode->Attribute("code");
+			code = XmlGetAttr(errorNode, "code");
 			description = errorNode->GetText();
 		}
 
@@ -301,20 +301,20 @@ void CJabberProto::OnIqResultAdvancedSearch(const TiXmlElement *iqNode, CJabberI
 	U_TCHAR_MAP mColumnsNames(10);
 	LIST<void> SearchResults(2);
 
-	if (((id = JabberGetPacketID(iqNode)) == -1) || ((type = iqNode->Attribute("type")) == nullptr)) {
+	if (((id = JabberGetPacketID(iqNode)) == -1) || ((type = XmlGetAttr(iqNode, "type")) == nullptr)) {
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
 		return;
 	}
 
 	if (!mir_strcmp(type, "result")) {
-		auto *queryNode = iqNode->FirstChildElement("query");
+		auto *queryNode = XmlFirstChild(iqNode, "query");
 		auto *xNode = XmlGetChildByTag(queryNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS);
 		if (xNode) {
 			// 1. Form search results info
-			for (auto *fieldNode : TiXmlFilter(xNode->FirstChildElement("reported"), "field")) {
-				const char *var = fieldNode->Attribute("var");
+			for (auto *fieldNode : TiXmlFilter(XmlFirstChild(xNode, "reported"), "field")) {
+				const char *var = XmlGetAttr(fieldNode, "var");
 				if (var) {
-					Utf2T wszVar(var), wszLabel(fieldNode->Attribute("label"));
+					Utf2T wszVar(var), wszLabel(XmlGetAttr(fieldNode, "label"));
 					mColumnsNames.insert(wszVar, (wszLabel != nullptr) ? wszLabel: wszVar);
 				}
 			}
@@ -322,8 +322,8 @@ void CJabberProto::OnIqResultAdvancedSearch(const TiXmlElement *iqNode, CJabberI
 			for (auto *itemNode : TiXmlFilter(xNode, "item")) {
 				U_TCHAR_MAP *pUserColumn = new U_TCHAR_MAP(10);
 				for (auto *fieldNode : TiXmlFilter(itemNode, "field")) {
-					if (const char* var = fieldNode->Attribute("var")) {
-						if (auto *textNode = fieldNode->FirstChildElement("value")) {
+					if (const char* var = XmlGetAttr(fieldNode, "var")) {
+						if (auto *textNode = XmlFirstChild(fieldNode, "value")) {
 							Utf2T wszVar(var), wszText(textNode->GetText());
 							if (!mColumnsNames[wszVar.get()])
 								mColumnsNames.insert(wszVar, wszVar);
@@ -340,7 +340,7 @@ void CJabberProto::OnIqResultAdvancedSearch(const TiXmlElement *iqNode, CJabberI
 			for (auto *itemNode : TiXmlFilter(queryNode, "item")) {
 				U_TCHAR_MAP *pUserColumn = new U_TCHAR_MAP(10);
 
-				Utf2T jid(itemNode->Attribute("jid"));
+				Utf2T jid(XmlGetAttr(itemNode, "jid"));
 				wchar_t *keyReturned;
 				mColumnsNames.insertCopyKey(L"jid", L"jid", &keyReturned, CopyKey, DestroyKey);
 				mColumnsNames.insert(L"jid", keyReturned);
@@ -366,9 +366,9 @@ void CJabberProto::OnIqResultAdvancedSearch(const TiXmlElement *iqNode, CJabberI
 	else if (!mir_strcmp(type, "error")) {
 		const char *code = "";
 		const char *description = "";
-		auto *errorNode = iqNode->FirstChildElement("error");
+		auto *errorNode = XmlFirstChild(iqNode, "error");
 		if (errorNode) {
-			code = errorNode->Attribute("code");
+			code = XmlGetAttr(errorNode, "code");
 			description = errorNode->GetText();
 		}
 
@@ -750,7 +750,7 @@ HWND CJabberProto::SearchAdvanced(HWND hwndDlg)
 			wchar_t szFieldValue[100];
 			GetWindowText(dat->pJSInf[i].hwndValueItem, szFieldValue, _countof(szFieldValue));
 			if (szFieldValue[0] != 0) {
-				XmlAddChild(query, T2Utf(dat->pJSInf[i].szFieldName).get(), T2Utf(szFieldValue).get());
+				XmlAddChildA(query, T2Utf(dat->pJSInf[i].szFieldName).get(), T2Utf(szFieldValue).get());
 				fRequestNotEmpty = TRUE;
 			}
 		}

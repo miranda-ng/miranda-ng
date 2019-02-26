@@ -55,7 +55,7 @@ bool CJabberMessageManager::HandleMessagePermanent(const TiXmlElement *node, Thr
 		// have to get all data here, in the loop, because there's always possibility that previous handler modified it
 		CJabberMessageInfo messageInfo;
 
-		const char *szType = node->Attribute("type");
+		const char *szType = XmlGetAttr(node, "type");
 		if (szType) {
 			if (!mir_strcmpi(szType, "normal"))
 				messageInfo.m_nMessageType = JABBER_MESSAGE_TYPE_NORMAL;
@@ -76,7 +76,7 @@ bool CJabberMessageManager::HandleMessagePermanent(const TiXmlElement *node, Thr
 			// enumerate all children and see whether this node suits handler criteria
 			for (auto *child : TiXmlEnum(node)) {
 				const char *szTagName = child->Name();
-				const char *szXmlns = child->Attribute("xmlns");
+				const char *szXmlns = XmlGetAttr(child, "xmlns");
 
 				if ((!it->m_szXmlns || (szXmlns && !mir_strcmp(it->m_szXmlns, szXmlns))) && (!it->m_szTag || !mir_strcmp(it->m_szTag, szTagName))) {
 					// node suits handler criteria, call the handler
@@ -84,13 +84,13 @@ bool CJabberMessageManager::HandleMessagePermanent(const TiXmlElement *node, Thr
 					messageInfo.m_szChildTagName = szTagName;
 					messageInfo.m_szChildTagXmlns = szXmlns;
 					messageInfo.m_pUserData = it->m_pUserData;
-					messageInfo.m_szFrom = node->Attribute("from"); // is necessary for ppro->debugLogA() below, that's why we must parse it even if JABBER_MESSAGE_PARSE_FROM flag is not set
+					messageInfo.m_szFrom = XmlGetAttr(node, "from"); // is necessary for ppro->debugLogA() below, that's why we must parse it even if JABBER_MESSAGE_PARSE_FROM flag is not set
 
 					if (it->m_dwParamsToParse & JABBER_MESSAGE_PARSE_ID_STR)
-						messageInfo.m_szId = node->Attribute("id");
+						messageInfo.m_szId = XmlGetAttr(node, "id");
 
 					if (it->m_dwParamsToParse & JABBER_IQ_PARSE_TO)
-						messageInfo.m_szTo = node->Attribute("to");
+						messageInfo.m_szTo = XmlGetAttr(node, "to");
 
 					if (it->m_dwParamsToParse & JABBER_MESSAGE_PARSE_HCONTACT)
 						messageInfo.m_hContact = ppro->HContactFromJID(messageInfo.m_szFrom);

@@ -119,7 +119,7 @@ bool CJabberProto::ProcessCaptcha(const TiXmlElement *node, const TiXmlElement *
 	auto *y = XmlGetChildByTag(x, "field", "var", "from");
 	if (y == nullptr)
 		return false;
-	if ((y = y->FirstChildElement("value")) == nullptr)
+	if ((y = XmlFirstChild(y, "value")) == nullptr)
 		return false;
 
 	CAPTCHA_FORM_PARAMS param;
@@ -127,18 +127,18 @@ bool CJabberProto::ProcessCaptcha(const TiXmlElement *node, const TiXmlElement *
 
 	if ((y = XmlGetChildByTag(x, "field", "var", "sid")) == nullptr)
 		return false;
-	if ((y = y->FirstChildElement("value")) == nullptr)
+	if ((y = XmlFirstChild(y, "value")) == nullptr)
 		return false;
 	param.sid = y->GetText();
 
 	if ((y = XmlGetChildByTag(x, "field", "var", "ocr")) == nullptr)
 		return false;
-	param.hint = y->Attribute("label");
+	param.hint = XmlGetAttr(y, "label");
 
-	param.from = parentNode->Attribute("from");
-	param.to = parentNode->Attribute("to");
-	param.challenge = parentNode->Attribute("id");
-	auto *o = parentNode->FirstChildElement("data");
+	param.from = XmlGetAttr(parentNode, "from");
+	param.to = XmlGetAttr(parentNode, "to");
+	param.challenge = XmlGetAttr(parentNode, "id");
+	auto *o = XmlFirstChild(parentNode, "data");
 	if (o == nullptr || o->GetText() == nullptr)
 		return false;
 

@@ -1486,12 +1486,12 @@ bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid,
 		debugLogA("Jabber OMEMO: sessions not yet created, session creation launched");
 		return false;
 	}
-	auto *header_node = node->FirstChildElement("header");
+	auto *header_node = XmlFirstChild(node, "header");
 	if (!header_node) {
 		debugLogA("Jabber OMEMO: error: omemo message does not contain header");
 		return true; //this should never happen
 	}
-	auto *payload_node = node->FirstChildElement("payload");
+	auto *payload_node = XmlFirstChild(node, "payload");
 	if (!payload_node) {
 		debugLogA("Jabber OMEMO: omemo message does not contain payload, it's may be \"KeyTransportElement\" which is currently unused by our implementation");
 		return true; //this is "KeyTransportElement" which is currently unused
@@ -1501,12 +1501,12 @@ bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid,
 		debugLogA("Jabber OMEMO: error: failed to get payload data");
 		return true; //this should never happen
 	}
-	const char *iv_base64 = header_node->FirstChildElement("iv")->GetText();
+	const char *iv_base64 = XmlFirstChild(header_node, "iv")->GetText();
 	if (!iv_base64) {
 		Netlib_Log(nullptr, "Jabber OMEMO: error: failed to get iv data");
 		return true;
 	}
-	const char *sender_dev_id = header_node->Attribute("sid");
+	const char *sender_dev_id = XmlGetAttr(header_node, "sid");
 	if (!sender_dev_id) {
 		debugLogA("Jabber OMEMO: error: failed to get sender device id");
 		return true;
@@ -1728,9 +1728,9 @@ void CJabberProto::OmemoHandleDeviceList(const TiXmlElement *node)
 	auto *message = node->Parent()->ToElement();
 	message = message->Parent()->ToElement();
 	
-	const char *jid = message->Attribute("from");
+	const char *jid = XmlGetAttr(message, "from");
 	MCONTACT hContact = HContactFromJID(jid);
-	node = node->FirstChildElement("item"); //get <item> node
+	node = XmlFirstChild(node, "item"); //get <item> node
 	if (!node) {
 		debugLogA("Jabber OMEMO: error: omemo devicelist does not have <item> node");
 		return;
@@ -1972,10 +1972,10 @@ void CJabberProto::OmemoOnIqResultGetBundle(const TiXmlElement *iqNode, CJabberI
 	if (iqNode == nullptr)
 		return;
 
-	const char *jid = iqNode->Attribute("from");
+	const char *jid = XmlGetAttr(iqNode, "from");
 	MCONTACT hContact = HContactFromJID(jid);
 
-	const char *type = iqNode->Attribute("type");
+	const char *type = XmlGetAttr(iqNode, "type");
 	if (mir_strcmp(type, "result")) {
 		// failed to get bundle, do not try to build session
 		unsigned int *dev_id = (unsigned int*)pInfo->GetUserData();
@@ -2008,44 +2008,44 @@ void CJabberProto::OmemoOnIqResultGetBundle(const TiXmlElement *iqNode, CJabberI
 		return;
 	}
 
-	auto *items = pubsub->FirstChildElement("items");
-	const char *items_node_val = items->Attribute("node");
+	auto *items = XmlFirstChild(pubsub, "items");
+	const char *items_node_val = XmlGetAttr(items, "node");
 	const char *device_id = items_node_val;
 	device_id += mir_wstrlen(JABBER_FEAT_OMEMO L".bundles:");
 	
-	auto *bundle = items->FirstChildElement("item")->FirstChildElement("bundle");
+	auto *bundle = XmlFirstChild(XmlFirstChild(items, "item"), "bundle");
 	if (!bundle) {
 		debugLogA("Jabber OMEMO: error: device bundle does not contain bundle node");
 		return;
 	}
-	auto *signedPreKeyPublic = bundle->FirstChildElement("signedPreKeyPublic");
+	auto *signedPreKeyPublic = XmlFirstChild(bundle, "signedPreKeyPublic");
 	if (!signedPreKeyPublic) {
 		debugLogA("Jabber OMEMO: error: device bundle does not contain signedPreKeyPublic node");
 		return;
 	}
-	const char *signedPreKeyId = signedPreKeyPublic->Attribute("signedPreKeyId");
+	const char *signedPreKeyId = XmlGetAttr(signedPreKeyPublic, "signedPreKeyId");
 	if (!signedPreKeyId) {
 		debugLogA("Jabber OMEMO: error: device bundle does not contain signedPreKeyId attr");
 		return;
 	}
-	auto *signedPreKeySignature = bundle->FirstChildElement("signedPreKeySignature");
+	auto *signedPreKeySignature = XmlFirstChild(bundle, "signedPreKeySignature");
 	if (!signedPreKeySignature) {
 		debugLogA("Jabber OMEMO: error: device bundle does not contain signedPreKeySignature node");
 		return;
 	}
-	auto *identityKey = bundle->FirstChildElement("identityKey");
+	auto *identityKey = XmlFirstChild(bundle, "identityKey");
 	if (!identityKey) {
 		debugLogA("Jabber OMEMO: error: device bundle does not contain identityKey node");
 		return;
 	}
 	
-	auto *prekeys = bundle->FirstChildElement("prekeys");
+	auto *prekeys = XmlFirstChild(bundle, "prekeys");
 	if (!prekeys) {
 		debugLogA("Jabber OMEMO: error: device bundle does not contain prekeys node");
 		return;
 	}
 
-	auto *prekey_node = prekeys->FirstChildElement("preKeyPublic");
+	auto *prekey_node = XmlFirstChild(prekeys, "preKeyPublic");
 	if (!prekey_node) {
 		debugLogA("Jabber OMEMO: error: device bundle does not contain preKeyPublic node");
 		return;
@@ -2057,7 +2057,7 @@ void CJabberProto::OmemoOnIqResultGetBundle(const TiXmlElement *iqNode, CJabberI
 		return;
 	}
 
-	const char *preKeyId = prekey_node->Attribute("preKeyId");
+	const char *preKeyId = XmlGetAttr(prekey_node, "preKeyId");
 	if (!preKeyId) {
 		debugLogA("Jabber OMEMO: error: failed to get preKeyId data");
 		return;

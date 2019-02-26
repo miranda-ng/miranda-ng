@@ -112,15 +112,15 @@ void CJabberProto::OnIqResultServiceDiscoveryInfo(const TiXmlElement *iqNode, CJ
 		return;
 
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
-		auto *query = iqNode->FirstChildElement("query");
+		auto *query = XmlFirstChild(iqNode, "query");
 		if (query == nullptr)
 			pNode->SetInfoRequestId(JABBER_DISCO_RESULT_ERROR);
 		else {
 			for (auto *feature : TiXmlFilter(query, "feature"))
-				pNode->AddFeature(feature->Attribute("var"));
+				pNode->AddFeature(XmlGetAttr(feature, "var"));
 
 			for (auto *identity : TiXmlFilter(query, "identity"))
-				pNode->AddIdentity(identity->Attribute("category"), identity->Attribute("type"), identity->Attribute("name"));
+				pNode->AddIdentity(XmlGetAttr(identity, "category"), XmlGetAttr(identity, "type"), XmlGetAttr(identity, "name"));
 
 			pNode->SetInfoRequestId(JABBER_DISCO_RESULT_OK);
 			pNode->SetInfoRequestErrorText(nullptr);
@@ -151,12 +151,12 @@ void CJabberProto::OnIqResultServiceDiscoveryItems(const TiXmlElement *iqNode, C
 		return;
 
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
-		auto *query = iqNode->FirstChildElement("query");
+		auto *query = XmlFirstChild(iqNode, "query");
 		if (query == nullptr)
 			pNode->SetItemsRequestId(JABBER_DISCO_RESULT_ERROR);
 		else {
 			for (auto *item : TiXmlEnum(query))
-				pNode->AddChildNode(item->Attribute("jid"), item->Attribute("node"), item->Attribute("name"));
+				pNode->AddChildNode(XmlGetAttr(item, "jid"), XmlGetAttr(item, "node"), XmlGetAttr(item, "name"));
 
 			pNode->SetItemsRequestId(JABBER_DISCO_RESULT_OK);
 			pNode->SetItemsRequestErrorText(nullptr);
@@ -185,9 +185,9 @@ void CJabberProto::OnIqResultServiceDiscoveryRootInfo(const TiXmlElement *iqNode
 
 	mir_cslockfull lck(m_SDManager.cs());
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
-		for (auto *feature : TiXmlFilter(iqNode->FirstChildElement("query"), "feature")) {
-			if (!mir_strcmp(feature->Attribute("var"), (char*)pInfo->m_pUserData)) {
-				CJabberSDNode *pNode = m_SDManager.AddPrimaryNode(pInfo->GetReceiver(), iqNode->Attribute("node"), nullptr);
+		for (auto *feature : TiXmlFilter(XmlFirstChild(iqNode, "query"), "feature")) {
+			if (!mir_strcmp(XmlGetAttr(feature, "var"), (char*)pInfo->m_pUserData)) {
+				CJabberSDNode *pNode = m_SDManager.AddPrimaryNode(pInfo->GetReceiver(), XmlGetAttr(iqNode, "node"), nullptr);
 				SendBothRequests(pNode);
 				break;
 			}
@@ -206,9 +206,9 @@ void CJabberProto::OnIqResultServiceDiscoveryRootItems(const TiXmlElement *iqNod
 	TiXmlDocument packet;
 	mir_cslockfull lck(m_SDManager.cs());
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
-		for (auto *item : TiXmlFilter(iqNode->FirstChildElement("query"), "item")) {
-			const char *szJid = item->Attribute("jid");
-			const char *szNode = item->Attribute("node");
+		for (auto *item : TiXmlFilter(XmlFirstChild(iqNode, "query"), "item")) {
+			const char *szJid = XmlGetAttr(item, "jid");
+			const char *szNode = XmlGetAttr(item, "node");
 			CJabberIqInfo *pNewInfo = AddIQ(&CJabberProto::OnIqResultServiceDiscoveryRootInfo, JABBER_IQ_TYPE_GET, szJid);
 			pNewInfo->m_pUserData = pInfo->m_pUserData;
 			pNewInfo->SetTimeout(30000);

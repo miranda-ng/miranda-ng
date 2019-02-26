@@ -653,9 +653,9 @@ struct TJabberFormLayoutInfo
 	bool m_bCompact;
 };
 
-void JabberFormCreateUI(HWND hwndStatic, TiXmlElement *xNode, int *formHeight, BOOL bCompact = FALSE);
+void JabberFormCreateUI(HWND hwndStatic, const TiXmlElement *xNode, int *formHeight, BOOL bCompact = FALSE);
 void JabberFormDestroyUI(HWND hwndStatic);
-void JabberFormGetData(HWND hwndStatic, TiXmlElement* pRoot, TiXmlElement *xNode);
+void JabberFormGetData(HWND hwndStatic, TiXmlElement* pRoot, const TiXmlElement *xNode);
 void JabberFormSetInstruction(HWND hwndForm, const char *text);
 
 class CJabberFormDlg : public CJabberDlgBase

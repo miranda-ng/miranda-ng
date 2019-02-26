@@ -254,7 +254,7 @@ CMStringW JabberErrorMsg(const TiXmlElement *errorNode, int *pErrorCode)
 		return ret;
 	}
 
-	if (auto *pChild = errorNode->FirstChildElement("error"))
+	if (auto *pChild = XmlFirstChild(errorNode, "error"))
 		errorNode = pChild;
 
 	int errorCode = errorNode->IntAttribute("code");
@@ -265,7 +265,7 @@ CMStringW JabberErrorMsg(const TiXmlElement *errorNode, int *pErrorCode)
 	
 	if (str == nullptr) {
 		for (auto *c : TiXmlEnum(errorNode)) {
-			const char *attr = c->Attribute("xmlns");
+			const char *attr = XmlGetAttr(c, "xmlns");
 			if (attr && !mir_strcmp(attr, "urn:ietf:params:xml:ns:xmpp-stanzas")) {
 				str = c->Name();
 				break;
@@ -508,7 +508,7 @@ void CJabberProto::SendPresence(int status, bool bSendToAll)
 
 int JabberGetPacketID(const TiXmlElement *n)
 {
-	const char *str = n->Attribute("id");
+	const char *str = XmlGetAttr(n, "id");
 	if (str)
 		if (!strncmp(str, JABBER_IQID, _countof(JABBER_IQID) - 1))
 			return atoi(str + _countof(JABBER_IQID) - 1);
@@ -833,7 +833,7 @@ bool JabberReadXep203delay(const TiXmlElement *node, time_t &msgTime)
 	if (n == nullptr)
 		return false;
 
-	const char *ptszTimeStamp = n->Attribute("stamp");
+	const char *ptszTimeStamp = XmlGetAttr(n, "stamp");
 	if (ptszTimeStamp == nullptr)
 		return false;
 

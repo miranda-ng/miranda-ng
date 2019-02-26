@@ -39,9 +39,9 @@ CNoteItem::CNoteItem(const TiXmlElement *hXml, const char *szFrom)
 {
 	SetData(
 		XmlGetChildText(hXml, "title"),
-		szFrom ? szFrom : hXml->Attribute("from"),
+		szFrom ? szFrom : XmlGetAttr(hXml, "from"),
 		Utf2T(XmlGetChildText(hXml, "text")),
-		hXml->Attribute("tags"));
+		XmlGetAttr(hXml, "tags"));
 }
 
 CNoteItem::~CNoteItem()

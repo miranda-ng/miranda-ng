@@ -372,7 +372,7 @@ static void JabberFormAddListItem(TJabberFormControlInfo *item, const char *text
 	}
 }
 
-void JabberFormCreateUI(HWND hwndStatic, TiXmlElement *xNode, int *formHeight, BOOL bCompact)
+void JabberFormCreateUI(HWND hwndStatic, const TiXmlElement *xNode, int *formHeight, BOOL bCompact)
 {
 	JabberFormDestroyUI(hwndStatic);
 
@@ -383,14 +383,14 @@ void JabberFormCreateUI(HWND hwndStatic, TiXmlElement *xNode, int *formHeight, B
 
 	CMStringA valueStr;
 	for (auto *n : TiXmlFilter(xNode, "field")) {
-		const char *labelStr = n->Attribute("label");
+		const char *labelStr = XmlGetAttr(n, "label");
 		if (labelStr == nullptr)
-			labelStr = n->Attribute("var");
+			labelStr = XmlGetAttr(n, "var");
 
-		TJabberFormControlType type = JabberFormTypeNameToId(n->Attribute("type"));
+		TJabberFormControlType type = JabberFormTypeNameToId(XmlGetAttr(n, "type"));
 
 		const char *str, *valueText;
-		if (auto *v = n->FirstChildElement("value")) {
+		if (auto *v = XmlFirstChild(n, "value")) {
 			valueText = v->GetText();
 			if (type != JFORM_CTYPE_TEXT_MULTI)
 				valueStr = valueText;
@@ -409,15 +409,15 @@ void JabberFormCreateUI(HWND hwndStatic, TiXmlElement *xNode, int *formHeight, B
 
 		TJabberFormControlInfo *item = layout_info.AppendControl(type, labelStr, valueStr);
 
-		if (n->FirstChildElement("required"))
+		if (XmlFirstChild(n, "required"))
 			item->bRequired = true;
 
 		if (type == JFORM_CTYPE_LIST_SINGLE) {
 			for (auto *o : TiXmlFilter(n, "option")) {
-				auto *v = o->FirstChildElement("value");
+				auto *v = XmlFirstChild(o, "value");
 				if (v == nullptr || v->GetText() == nullptr)
 					continue;
-				if ((str = o->Attribute("label")) == nullptr)
+				if ((str = XmlGetAttr(o, "label")) == nullptr)
 					str = v->GetText();
 				if (str == nullptr)
 					continue;
@@ -428,11 +428,11 @@ void JabberFormCreateUI(HWND hwndStatic, TiXmlElement *xNode, int *formHeight, B
 		}
 		else if (type == JFORM_CTYPE_LIST_MULTI) {
 			for (auto *o : TiXmlFilter(n, "option")) {
-				auto *v = o->FirstChildElement("value");
+				auto *v = XmlFirstChild(o, "value");
 				if (v == nullptr || v->GetText() == nullptr)
 					continue;
 
-				if ((str = o->Attribute("label")) == nullptr)
+				if ((str = XmlGetAttr(o, "label")) == nullptr)
 					str = v->GetText();
 				if (str == nullptr)
 					continue;
@@ -463,7 +463,7 @@ void JabberFormDestroyUI(HWND hwndStatic)
 	}
 }
 
-void JabberFormGetData(HWND hwndStatic, TiXmlElement *xRoot, TiXmlElement *xNode)
+void JabberFormGetData(HWND hwndStatic, TiXmlElement *xRoot, const TiXmlElement *xNode)
 {
 	const char *varName, *labelText, *str2;
 	wchar_t *p, *q, *str;
@@ -476,10 +476,10 @@ void JabberFormGetData(HWND hwndStatic, TiXmlElement *xRoot, TiXmlElement *xNode
 	auto *x = xRoot << XCHILD("x") << XATTR("xmlns", JABBER_FEAT_DATA_FORMS) << XATTR("type", "submit");
 
 	for (auto *n : TiXmlFilter(xNode, "field")) {
-		if ((varName = n->Attribute("var")) == nullptr)
+		if ((varName = XmlGetAttr(n, "var")) == nullptr)
 			continue;
 
-		const char *type = n->Attribute("type");
+		const char *type = XmlGetAttr(n, "type");
 		if (type == nullptr)
 			type = "text-single";
 
@@ -512,9 +512,9 @@ void JabberFormGetData(HWND hwndStatic, TiXmlElement *xRoot, TiXmlElement *xNode
 			GetDlgItemText(hFrame, id, str, len + 1);
 
 			for (auto *o : TiXmlFilter(n, "option")) {
-				auto *v = o->FirstChildElement("value");
+				auto *v = XmlFirstChild(o, "value");
 				if (v != nullptr && v->GetText()) {
-					if ((str2 = o->Attribute("label")) == nullptr)
+					if ((str2 = XmlGetAttr(o, "label")) == nullptr)
 						str2 = v->GetText();
 					if (!mir_strcmp(str2, T2Utf(str))) {
 						field << XCHILD("value", v->GetText());
@@ -536,9 +536,9 @@ void JabberFormGetData(HWND hwndStatic, TiXmlElement *xRoot, TiXmlElement *xNode
 						SendMessage(hCtrl, LB_GETTEXT, j, (LPARAM)str);
 
 						for (auto *o : TiXmlFilter(n, "option")) {
-							auto *v = o->FirstChildElement("value");
+							auto *v = XmlFirstChild(o, "value");
 							if (v != nullptr && v->GetText()) {
-								if ((labelText = o->Attribute("label")) == nullptr)
+								if ((labelText = XmlGetAttr(o, "label")) == nullptr)
 									labelText = v->GetText();
 
 								if (!mir_strcmp(labelText, T2Utf(str)))
@@ -552,7 +552,7 @@ void JabberFormGetData(HWND hwndStatic, TiXmlElement *xRoot, TiXmlElement *xNode
 			id++;
 		}
 		else if (!mir_strcmp(type, "fixed") || !mir_strcmp(type, "hidden")) {
-			auto *v = n->FirstChildElement("value");
+			auto *v = XmlFirstChild(n, "value");
 			if (v != nullptr && v->GetText() != nullptr)
 				field << XCHILD("value", v->GetText());
 		}

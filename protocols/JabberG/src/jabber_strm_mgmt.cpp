@@ -31,14 +31,14 @@ strm_mgmt::strm_mgmt(CJabberProto *_proto) :
 void strm_mgmt::OnProcessEnabled(const TiXmlElement *node, ThreadData * /*info*/)
 {
 	m_bStrmMgmtEnabled = true;
-	auto *val = node->Attribute("max");
+	auto *val = XmlGetAttr(node, "max");
 	if (val)
 		m_nStrmMgmtResumeMaxSeconds = atoi(val);
-	val = node->Attribute("resume");
+	val = XmlGetAttr(node, "resume");
 	if (val) {
 		if (mir_strcmp(val, "true") || mir_strcmp(val, "1")) {
 			m_bStrmMgmtResumeSupported = true;
-			m_sStrmMgmtResumeId = node->Attribute("id");
+			m_sStrmMgmtResumeId = XmlGetAttr(node, "id");
 		}
 	}
 	//TODO: handle 'location'
@@ -48,17 +48,17 @@ void strm_mgmt::OnProcessEnabled(const TiXmlElement *node, ThreadData * /*info*/
 
 void strm_mgmt::OnProcessResumed(const TiXmlElement *node, ThreadData * /*info*/)
 {
-	if (mir_strcmp(node->Attribute("xmlns"), "urn:xmpp:sm:3"))
+	if (mir_strcmp(XmlGetAttr(node, "xmlns"), "urn:xmpp:sm:3"))
 		return;
 	
-	auto *var = node->Attribute("previd");
+	auto *var = XmlGetAttr(node, "previd");
 	if (!var)
 		return;
 	
 	if (m_sStrmMgmtResumeId != var)
 		return; //TODO: unknown session, what we should do ?
 	
-	var = node->Attribute("h");
+	var = XmlGetAttr(node, "h");
 	if (!var)
 		return;
 	bSessionResumed = true;
@@ -88,7 +88,7 @@ void strm_mgmt::OnProcessResumed(const TiXmlElement *node, ThreadData * /*info*/
 
 void strm_mgmt::OnProcessSMa(const TiXmlElement *node)
 {
-	if (mir_strcmp(node->Attribute("xmlns"), "urn:xmpp:sm:3"))
+	if (mir_strcmp(XmlGetAttr(node, "xmlns"), "urn:xmpp:sm:3"))
 		return;
 
 	m_nStrmMgmtSrvHCount = node->IntAttribute("h");
@@ -139,13 +139,13 @@ void strm_mgmt::ResendNodes(uint32_t size)
 
 void strm_mgmt::OnProcessSMr(const TiXmlElement *node)
 {
-	if (!mir_strcmp(node->Attribute("xmlns"), "urn:xmpp:sm:3"))
+	if (!mir_strcmp(XmlGetAttr(node, "xmlns"), "urn:xmpp:sm:3"))
 		SendAck();
 }
 
 void strm_mgmt::OnProcessFailed(const TiXmlElement *node, ThreadData * info) //used failed instead of failure, notes: https://xmpp.org/extensions/xep-0198.html#errors
 {
-	if (mir_strcmp(node->Attribute("xmlns"), "urn:xmpp:sm:3"))
+	if (mir_strcmp(XmlGetAttr(node, "xmlns"), "urn:xmpp:sm:3"))
 		return;
 	
 	proto->debugLogA("strm_mgmt: error: Failed to resume session %s", m_sStrmMgmtResumeId.c_str());
@@ -158,7 +158,7 @@ void strm_mgmt::OnProcessFailed(const TiXmlElement *node, ThreadData * info) //u
 	for (auto &hContact : proto->AccContacts())
 		proto->SetContactOfflineStatus(hContact);
 
-	auto *subnode = node->FirstChildElement("item-not-found");
+	auto *subnode = XmlFirstChild(node, "item-not-found");
 	if (subnode) {
 		m_bStrmMgmtPendingEnable = true;
 		FinishLoginProcess(info);
@@ -170,7 +170,7 @@ void strm_mgmt::CheckStreamFeatures(const TiXmlElement *node)
 {
 	if (!IsResumeIdPresent())
 		ResetState(); //this may be necessary to reset counters if session resume id is not set
-	if (mir_strcmp(node->Name(), "sm") || !node->Attribute("xmlns") || mir_strcmp(node->Attribute("xmlns"), "urn:xmpp:sm:3")) //we work only with version 3 or higher of sm
+	if (mir_strcmp(node->Name(), "sm") || !XmlGetAttr(node, "xmlns") || mir_strcmp(XmlGetAttr(node, "xmlns"), "urn:xmpp:sm:3")) //we work only with version 3 or higher of sm
 		return;
 	if (!(proto->m_bJabberOnline))
 		m_bStrmMgmtPendingEnable = true;

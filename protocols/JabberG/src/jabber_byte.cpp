@@ -56,15 +56,15 @@ void CJabberProto::IqResultProxyDiscovery(const TiXmlElement *iqNode, CJabberIqI
 	JABBER_BYTE_TRANSFER *jbt = (JABBER_BYTE_TRANSFER *)pInfo->GetUserData();
 
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
-		auto *queryNode = iqNode->FirstChildElement("query");
+		auto *queryNode = XmlFirstChild(iqNode, "query");
 		if (queryNode) {
-			const char *queryXmlns = queryNode->Attribute("xmlns");
+			const char *queryXmlns = XmlGetAttr(queryNode, "xmlns");
 			if (queryXmlns && !mir_strcmp(queryXmlns, JABBER_FEAT_BYTESTREAMS)) {
-				auto *streamHostNode = queryNode->FirstChildElement("streamhost");
+				auto *streamHostNode = XmlFirstChild(queryNode, "streamhost");
 				if (streamHostNode) {
-					const char *streamJid = streamHostNode->Attribute("jid");
-					const char *streamHost = streamHostNode->Attribute("host");
-					const char *streamPort = streamHostNode->Attribute("port");
+					const char *streamJid = XmlGetAttr(streamHostNode, "jid");
+					const char *streamHost = XmlGetAttr(streamHostNode, "host");
+					const char *streamPort = XmlGetAttr(streamHostNode, "port");
 					if (streamJid && streamHost && streamPort) {
 						jbt->szProxyHost = mir_strdup(streamHost);
 						jbt->szProxyJid = mir_strdup(streamJid);
@@ -305,9 +305,9 @@ void CJabberProto::ByteInitiateResult(const TiXmlElement *iqNode, CJabberIqInfo 
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
 		auto *queryNode = XmlGetChildByTag(iqNode, "query", "xmlns", JABBER_FEAT_BYTESTREAMS);
 		if (queryNode) {
-			auto *streamHostNode = queryNode->FirstChildElement("streamhost-used");
+			auto *streamHostNode = XmlFirstChild(queryNode, "streamhost-used");
 			if (streamHostNode) {
-				const char *streamJid = streamHostNode->Attribute("jid");
+				const char *streamJid = XmlGetAttr(streamHostNode, "jid");
 				if (streamJid)
 					jbt->szStreamhostUsed = mir_strdup(streamJid);
 			}
@@ -419,7 +419,7 @@ void CJabberProto::IqResultStreamActivate(const TiXmlElement *iqNode, CJabberIqI
 	if (item == nullptr)
 		return;
 
-	if (!mir_strcmp(iqNode->Attribute("type"), "result"))
+	if (!mir_strcmp(XmlGetAttr(iqNode, "type"), "result"))
 		item->jbt->bStreamActivated = TRUE;
 
 	if (item->jbt->hProxyEvent)
@@ -577,7 +577,7 @@ int CJabberProto::ByteSendProxyParse(HNETLIBCONN hConn, JABBER_BYTE_TRANSFER *jb
 
 void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 {
-	TiXmlElement *iqNode, *queryNode = nullptr;
+	const TiXmlElement *iqNode, *queryNode = nullptr;
 	WORD port;
 	char data[3];
 	char* buffer;
@@ -591,13 +591,13 @@ void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 
 	const char *sid = nullptr, *from = nullptr, *to = nullptr, *szId = nullptr;
 	if (iqNode = jbt->iqNode) {
-		from = iqNode->Attribute("from");
-		to = iqNode->Attribute("to");
-		szId = iqNode->Attribute("id");
+		from = XmlGetAttr(iqNode, "from");
+		to = XmlGetAttr(iqNode, "to");
+		szId = XmlGetAttr(iqNode, "id");
 
-		queryNode = iqNode->FirstChildElement("query");
+		queryNode = XmlFirstChild(iqNode, "query");
 		if (queryNode)
-			sid = queryNode->Attribute("sid");
+			sid = XmlGetAttr(queryNode, "sid");
 	}
 
 	if (szId && from && to && sid) {
@@ -608,9 +608,9 @@ void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 
 		if ((buffer = (char*)mir_alloc(JABBER_NETWORK_BUFFER_SIZE))) {
 			for (auto *n : TiXmlFilter(queryNode, "streamhost")) {
-				const char *str = n->Attribute("jid");
-				const char *szHost = n->Attribute("host");
-				const char *szPort = n->Attribute("port");
+				const char *str = XmlGetAttr(n, "jid");
+				const char *szHost = XmlGetAttr(n, "host");
+				const char *szPort = XmlGetAttr(n, "port");
 				if (str != nullptr && szHost != nullptr && szPort != nullptr) {
 					port = (WORD)atoi(szPort);
 					replaceStr(jbt->streamhostJID, str);

@@ -134,7 +134,7 @@ void CJabberProto::OnIqResultCapsDiscoInfo(const TiXmlElement*, CJabberIqInfo *p
 		JabberCapsBits jcbCaps = 0;
 
 		for (auto *feature : TiXmlFilter(query, "feature")) {
-			const char *featureName = feature->Attribute("var");
+			const char *featureName = XmlGetAttr(feature, "var");
 			if (!featureName)
 				continue;
 
@@ -155,7 +155,7 @@ void CJabberProto::OnIqResultCapsDiscoInfo(const TiXmlElement*, CJabberIqInfo *p
 		}
 
 		for (auto *identity : TiXmlFilter(query, "identity")) {
-			const char *identityName = identity->Attribute("name");
+			const char *identityName = XmlGetAttr(identity, "name");
 			if (identityName)
 				pCaps->SetVer(identityName);
 		}
@@ -168,7 +168,7 @@ void CJabberProto::OnIqResultCapsDiscoInfo(const TiXmlElement*, CJabberIqInfo *p
 
 			JSONNode root;
 			for (auto *field : TiXmlFilter(xform, "field")) {
-				const char *fieldName = field->Attribute("var"), *fieldValue = XmlGetChildText(field, "value");
+				const char *fieldName = XmlGetAttr(field, "var"), *fieldValue = XmlGetChildText(field, "value");
 				if (!mir_strcmp(fieldName, "os"))
 					root.push_back(JSONNode("o", pCaps->m_szOs = mir_strdup(fieldValue)));
 				else if (!mir_strcmp(fieldName, "os_version"))

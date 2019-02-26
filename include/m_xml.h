@@ -48,6 +48,23 @@ typedef tinyxml2::XMLHandle TiXmlHandle;
 typedef tinyxml2::XMLConstHandle TiXmlConst;
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// safe wrappers
+
+EXTERN_C MIR_CORE_DLL(int) XmlGetChildCount(const TiXmlElement*);
+
+EXTERN_C MIR_CORE_DLL(TiXmlElement*) XmlAddChild(TiXmlElement*, const char *pszName);
+EXTERN_C MIR_CORE_DLL(TiXmlElement*) XmlAddChildA(TiXmlElement*, const char *pszName, const char *ptszValue);
+EXTERN_C MIR_CORE_DLL(TiXmlElement*) XmlAddChildI(TiXmlElement*, const char *pszName, int iValue);
+
+EXTERN_C MIR_CORE_DLL(int) XmlGetChildInt(const TiXmlElement *hXml, const char *key);
+EXTERN_C MIR_CORE_DLL(const char*) XmlGetChildText(const TiXmlElement *hXml, const char *key);
+EXTERN_C MIR_CORE_DLL(const TiXmlElement*) XmlGetChildByTag(const TiXmlElement *hXml, const char *key, const char *attrName, const char *attrValue);
+EXTERN_C MIR_CORE_DLL(const TiXmlElement*) XmlFirstChild(const TiXmlElement *hXml, const char *key = nullptr);
+
+EXTERN_C MIR_CORE_DLL(void) XmlAddAttr(TiXmlElement*, const char *pszName, const char *ptszValue);
+EXTERN_C MIR_CORE_DLL(const char*) XmlGetAttr(const TiXmlElement*, const char *pszName);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // simple element iterator
 //
 // allows traversing subnodes in a cycle like

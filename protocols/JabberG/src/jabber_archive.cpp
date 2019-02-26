@@ -57,17 +57,17 @@ void CJabberProto::RetrieveMessageArchive(MCONTACT hContact, JABBER_LIST_ITEM *p
 
 void CJabberProto::OnIqResultGetCollectionList(const TiXmlElement *iqNode, CJabberIqInfo*)
 {
-	const char *to = iqNode->Attribute("to");
-	if (to == nullptr || mir_strcmp(iqNode->Attribute("type"), "result"))
+	const char *to = XmlGetAttr(iqNode, "to");
+	if (to == nullptr || mir_strcmp(XmlGetAttr(iqNode, "type"), "result"))
 		return;
 
-	auto *list = iqNode->FirstChildElement("list");
-	if (!list || mir_strcmp(list->Attribute("xmlns"), JABBER_FEAT_ARCHIVE))
+	auto *list = XmlFirstChild(iqNode, "list");
+	if (mir_strcmp(XmlGetAttr(list, "xmlns"), JABBER_FEAT_ARCHIVE))
 		return;
 
 	for (auto *itemNode : TiXmlFilter(list, "chat")) {
-		const char *start = itemNode->Attribute("start");
-		const char *with = itemNode->Attribute("with");
+		const char *start = XmlGetAttr(itemNode, "start");
+		const char *with = XmlGetAttr(itemNode, "with");
 		if (!start || !with)
 			continue;
 
@@ -212,15 +212,15 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO& dbei)
 
 void CJabberProto::OnIqResultGetCollection(const TiXmlElement *iqNode, CJabberIqInfo*)
 {
-	if (mir_strcmp(iqNode->Attribute("type"), "result"))
+	if (mir_strcmp(XmlGetAttr(iqNode, "type"), "result"))
 		return;
 
-	auto *chatNode = iqNode->FirstChildElement("chat");
-	if (!chatNode || mir_strcmp(chatNode->Attribute("xmlns"), JABBER_FEAT_ARCHIVE))
+	auto *chatNode = XmlFirstChild(iqNode, "chat");
+	if (!chatNode || mir_strcmp(XmlGetAttr(chatNode, "xmlns"), JABBER_FEAT_ARCHIVE))
 		return;
 
-	const char* start = chatNode->Attribute("start");
-	const char* with = chatNode->Attribute("with");
+	const char* start = XmlGetAttr(chatNode, "start");
+	const char* with = XmlGetAttr(chatNode, "with");
 	if (!start || !with)
 		return;
 
@@ -243,12 +243,12 @@ void CJabberProto::OnIqResultGetCollection(const TiXmlElement *iqNode, CJabberIq
 		else
 			continue;
 
-		const TiXmlElement *body = itemNode->FirstChildElement("body");
+		const TiXmlElement *body = XmlFirstChild(itemNode, "body");
 		if (!body)
 			continue;
 
 		const char *tszBody = body->GetText();
-		const char *tszSecs = itemNode->Attribute("secs");
+		const char *tszSecs = XmlGetAttr(itemNode, "secs");
 		if (!tszBody || !tszSecs)
 			continue;
 

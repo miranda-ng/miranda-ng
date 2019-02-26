@@ -150,7 +150,7 @@ public:
 					return TRUE;
 				
 				m_agentRegIqNode = m_agentRegIqNode->DeepClone(&m_doc)->ToElement();
-				auto *queryNode = m_agentRegIqNode->FirstChildElement("query");
+				auto *queryNode = XmlFirstChild(m_agentRegIqNode, "query");
 				if (queryNode == nullptr)
 					return TRUE;
 
@@ -163,7 +163,7 @@ public:
 				GetClientRect(GetDlgItem(m_hwnd, IDC_FRAME), &rect);
 				m_frameHeight = rect.bottom - rect.top;
 
-				if (auto *xNode = queryNode->FirstChildElement("x")) {
+				if (auto *xNode = XmlFirstChild(queryNode, "x")) {
 					// use new jabber:x:data form
 					if (const char *pszText = XmlGetChildText(xNode, "instructions"))
 						JabberFormSetInstruction(m_hwnd, pszText);
@@ -236,19 +236,19 @@ public:
 		if (m_agentRegIqNode == nullptr)
 			return;
 
-		TiXmlElement *queryNode;
-		const char *from;
-		if ((from = m_agentRegIqNode->Attribute("from")) == nullptr) return;
-		if ((queryNode = m_agentRegIqNode->FirstChildElement("query")) == nullptr) return;
+		auto *queryNode = XmlFirstChild(m_agentRegIqNode, "query");
+		const char *from = XmlGetAttr(m_agentRegIqNode, "from");
+		if (from == nullptr || queryNode == nullptr)
+			return;
+		
 		HWND hwndFrame = GetDlgItem(m_hwnd, IDC_FRAME);
-
 		wchar_t *str2 = (wchar_t*)alloca(sizeof(wchar_t) * 128);
 		int id = 0;
 
 		XmlNodeIq iq(m_proto->AddIQ(&CJabberProto::OnIqResultSetRegister, JABBER_IQ_TYPE_SET, from));
 		TiXmlElement *query = iq << XQUERY(JABBER_FEAT_REGISTER);
 
-		if (auto *xNode = queryNode->FirstChildElement("x")) {
+		if (auto *xNode = XmlFirstChild(queryNode, "x")) {
 			// use new jabber:x:data form
 			JabberFormGetData(hwndFrame, query, xNode);
 		}
@@ -260,7 +260,7 @@ public:
 					if (!mir_strcmp(pszName, "key")) {
 						// field that must be passed along with the registration
 						if (n->GetText())
-							XmlAddChild(query, pszName, n->GetText());
+							XmlAddChildA(query, pszName, n->GetText());
 						else
 							XmlAddChild(query, pszName);
 					}
@@ -269,7 +269,7 @@ public:
 					}
 					else {
 						GetDlgItemText(hwndFrame, id, str2, 128);
-						XmlAddChild(query, pszName, T2Utf(str2).get());
+						XmlAddChildA(query, pszName, T2Utf(str2).get());
 						id++;
 					}
 				}

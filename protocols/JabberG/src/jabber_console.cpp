@@ -126,13 +126,13 @@ bool CJabberProto::FilterXml(const TiXmlElement *node, DWORD flags)
 	const char *attrValue;
 	switch (m_filterInfo.type) {
 	case TFilterInfo::T_JID:
-		attrValue = node->Attribute((flags & JCPF_OUT) ? "to" : "from");
+		attrValue = XmlGetAttr(node, (flags & JCPF_OUT) ? "to" : "from");
 		if (attrValue)
 			return JabberStrIStr(Utf2T(attrValue), m_filterInfo.pattern) != nullptr;
 		break;
 
 	case TFilterInfo::T_XMLNS:
-		attrValue = node->FirstChildElement()->Attribute("xmlns");
+		attrValue = XmlGetAttr(XmlFirstChild(node), "xmlns");
 		if (attrValue)
 			return JabberStrIStr(Utf2T(attrValue), m_filterInfo.pattern) != nullptr;
 		break;

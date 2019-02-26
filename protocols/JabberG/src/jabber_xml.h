@@ -26,21 +26,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef _JABBER_XML_H_
 #define _JABBER_XML_H_
 
-int XmlGetChildCount(const TiXmlElement*);
-
-TiXmlElement* XmlAddChild(TiXmlElement*, const char *pszName);
-TiXmlElement* XmlAddChild(TiXmlElement*, const char *pszName, const char *ptszValue);
-TiXmlElement* XmlAddChild(TiXmlElement*, const char *pszName, int iValue);
-
-int XmlGetChildInt(const TiXmlElement *hXml, const char *key);
-const char* XmlGetChildText(const TiXmlElement *hXml, const char *key);
-const TiXmlElement* XmlGetChildByTag(const TiXmlElement *hXml, const char *key, const char *attrName, const char *attrValue);
-
-void XmlAddAttr(TiXmlElement*, const char *pszName, const char *ptszValue);
 void XmlAddAttrID(TiXmlElement*, int id);
-
 class XmlNode : public TiXmlDocument, private MNonCopyable
 {
+protected:
 	TiXmlElement *m_hXml;
 
 public:
@@ -140,7 +129,7 @@ struct XATTRID
 
 __forceinline TiXmlElement *operator<<(TiXmlElement *node, const XATTRID& attr)
 {
-	XmlAddAttrID(node, attr.id);
+	node->SetAttribute("id", attr.id);
 	return node;
 }
 
@@ -158,7 +147,7 @@ struct XCHILD
 
 __forceinline TiXmlElement *operator<<(TiXmlElement *node, const XCHILD &child)
 {
-	return XmlAddChild(node, child.name, child.value);
+	return XmlAddChildA(node, child.name, child.value);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

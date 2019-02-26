@@ -54,8 +54,8 @@ BOOL CJabberProto::OnMessageError(const TiXmlElement *node, ThreadData*, CJabber
 BOOL CJabberProto::OnMessageIbb(const TiXmlElement*, ThreadData*, CJabberMessageInfo* pInfo)
 {
 	BOOL bOk = FALSE;
-	const char *sid = pInfo->GetChildNode()->Attribute("sid");
-	const char *seq = pInfo->GetChildNode()->Attribute("seq");
+	const char *sid = XmlGetAttr(pInfo->GetChildNode(), "sid");
+	const char *seq = XmlGetAttr(pInfo->GetChildNode(), "seq");
 	if (sid && seq && pInfo->GetChildNode()->GetText())
 		bOk = OnIbbRecvdData(pInfo->GetChildNode()->GetText(), sid, seq);
 

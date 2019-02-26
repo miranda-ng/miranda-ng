@@ -73,21 +73,21 @@ void CJabberProto::OnIqResultPrivacyList(const TiXmlElement *iqNode, CJabberIqIn
 	if (iqNode == nullptr)
 		return;
 
-	const char *type = iqNode->Attribute("type");
+	const char *type = XmlGetAttr(iqNode, "type");
 	if (type == nullptr)
 		return;
 
 	if (mir_strcmp(type, "result"))
 		return;
 
-	auto *query = iqNode->FirstChildElement("query");
+	auto *query = XmlFirstChild(iqNode, "query");
 	if (query == nullptr)
 		return;
-	auto *list = query->FirstChildElement("list");
+	auto *list = XmlFirstChild(query, "list");
 	if (list == nullptr)
 		return;
 	
-	const char *szListName = (char*)list->Attribute("name");
+	const char *szListName = (char*)XmlGetAttr(list, "name");
 	if (!szListName)
 		return;
 
@@ -101,7 +101,7 @@ void CJabberProto::OnIqResultPrivacyList(const TiXmlElement *iqNode, CJabberIqIn
 	}
 
 	for (auto *item : TiXmlFilter(list, "item")) {
-		const char *itemType = item->Attribute("type");
+		const char *itemType = XmlGetAttr(item, "type");
 		PrivacyListRuleType nItemType = Else;
 		if (itemType) {
 			if (!mir_strcmpi(itemType, "jid"))
@@ -112,25 +112,25 @@ void CJabberProto::OnIqResultPrivacyList(const TiXmlElement *iqNode, CJabberIqIn
 				nItemType = Subscription;
 		}
 
-		const char *itemValue = item->Attribute("value");
-		const char *itemAction = item->Attribute("action");
+		const char *itemValue = XmlGetAttr(item, "value");
+		const char *itemAction = XmlGetAttr(item, "action");
 		BOOL bAllow = TRUE;
 		if (itemAction && !mir_strcmpi(itemAction, "deny"))
 			bAllow = FALSE;
 
-		const char *itemOrder = item->Attribute("order");
+		const char *itemOrder = XmlGetAttr(item, "order");
 		DWORD dwOrder = 0;
 		if (itemOrder)
 			dwOrder = atoi(itemOrder);
 
 		DWORD dwPackets = 0;
-		if (item->FirstChildElement("message"))
+		if (XmlFirstChild(item, "message"))
 			dwPackets |= JABBER_PL_RULE_TYPE_MESSAGE;
-		if (item->FirstChildElement("presence-in"))
+		if (XmlFirstChild(item, "presence-in"))
 			dwPackets |= JABBER_PL_RULE_TYPE_PRESENCE_IN;
-		if (item->FirstChildElement("presence-out"))
+		if (XmlFirstChild(item, "presence-out"))
 			dwPackets |= JABBER_PL_RULE_TYPE_PRESENCE_OUT;
-		if (item->FirstChildElement("iq"))
+		if (XmlFirstChild(item, "iq"))
 			dwPackets |= JABBER_PL_RULE_TYPE_IQ;
 		pList->AddRule(nItemType, itemValue, bAllow, dwOrder, dwPackets);
 	}
@@ -178,7 +178,7 @@ void CJabberProto::OnIqResultPrivacyListActive(const TiXmlElement *iqNode, CJabb
 	if (iqNode == nullptr)
 		return;
 
-	const char *type = iqNode->Attribute("type");
+	const char *type = XmlGetAttr(iqNode, "type");
 	if (type == nullptr)
 		return;
 
@@ -213,7 +213,7 @@ void CJabberProto::OnIqResultPrivacyListDefault(const TiXmlElement *iqNode, CJab
 	if (iqNode == nullptr)
 		return;
 
-	const char *type = iqNode->Attribute("type");
+	const char *type = XmlGetAttr(iqNode, "type");
 	if (type == nullptr)
 		return;
 
@@ -246,7 +246,7 @@ void CJabberProto::OnIqResultPrivacyLists(const TiXmlElement *iqNode, CJabberIqI
 	if (pInfo->m_nIqType != JABBER_IQ_TYPE_RESULT)
 		return;
 
-	auto *query = iqNode->FirstChildElement("query");
+	auto *query = XmlFirstChild(iqNode, "query");
 	if (query == nullptr)
 		return;
 
@@ -257,7 +257,7 @@ void CJabberProto::OnIqResultPrivacyLists(const TiXmlElement *iqNode, CJabberIqI
 		m_privacyListManager.RemoveAllLists();
 
 		for (auto *list : TiXmlFilter(query, "list")) {
-			const char *listName = list->Attribute("name");
+			const char *listName = XmlGetAttr(list, "name");
 			if (listName) {
 				m_privacyListManager.AddList(listName);
 
@@ -270,15 +270,15 @@ void CJabberProto::OnIqResultPrivacyLists(const TiXmlElement *iqNode, CJabberIqI
 		}
 
 		const char *szName = nullptr;
-		auto *node = query->FirstChildElement("active");
+		auto *node = XmlFirstChild(query, "active");
 		if (node)
-			szName = node->Attribute("name");
+			szName = XmlGetAttr(node, "name");
 		m_privacyListManager.SetActiveListName(szName);
 
 		szName = nullptr;
-		node = query->FirstChildElement("default");
+		node = XmlFirstChild(query, "default");
 		if (node)
-			szName = node->Attribute("name");
+			szName = XmlGetAttr(node, "name");
 		m_privacyListManager.SetDefaultListName(szName);
 	}
 	UI_SAFE_NOTIFY(m_pDlgPrivacyLists, WM_JABBER_REFRESH);

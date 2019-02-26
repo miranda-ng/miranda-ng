@@ -243,7 +243,7 @@ bool CJabberIqManager::HandleIq(int nIqId, const TiXmlElement *pNode)
 	if (nIqId == -1 || pNode == nullptr)
 		return false;
 
-	const char *szType = pNode->Attribute("type");
+	const char *szType = XmlGetAttr(pNode, "type");
 	if (!szType)
 		return false;
 
@@ -263,24 +263,24 @@ bool CJabberIqManager::HandleIq(int nIqId, const TiXmlElement *pNode)
 		pInfo->m_nIqType = nIqType;
 		if (nIqType == JABBER_IQ_TYPE_RESULT) {
 			if (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_CHILD_TAG_NODE)
-				pInfo->m_pChildNode = pNode->FirstChildElement();
+				pInfo->m_pChildNode = XmlFirstChild(pNode);
 
 			if (pInfo->m_pChildNode && (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_CHILD_TAG_NAME))
 				pInfo->m_szChildTagName = pInfo->m_pChildNode->Name();
 			if (pInfo->m_pChildNode && (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_CHILD_TAG_XMLNS))
-				pInfo->m_szChildTagXmlns = pNode->Attribute("xmlns");
+				pInfo->m_szChildTagXmlns = XmlGetAttr(pNode, "xmlns");
 		}
 
 		if (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_TO)
-			pInfo->m_szTo = pNode->Attribute("to");
+			pInfo->m_szTo = XmlGetAttr(pNode, "to");
 
 		if (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_FROM)
-			pInfo->m_szFrom = pNode->Attribute("from");
+			pInfo->m_szFrom = XmlGetAttr(pNode, "from");
 		if (pInfo->m_szFrom && (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_HCONTACT))
 			pInfo->m_hContact = ppro->HContactFromJID(pInfo->m_szFrom);
 
 		if (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_ID_STR)
-			pInfo->m_szId = pNode->Attribute("id");
+			pInfo->m_szId = XmlGetAttr(pNode, "id");
 
 		(ppro->*(pInfo->m_pHandler))(pNode, pInfo);
 		delete pInfo;
@@ -293,7 +293,7 @@ bool CJabberIqManager::HandleIqPermanent(const TiXmlElement *pNode)
 {
 	for (auto &pInfo : m_arHandlers) {
 		// have to get all data here, in the loop, because there's always possibility that previous handler modified it
-		const char *szType = pNode->Attribute("type");
+		const char *szType = XmlGetAttr(pNode, "type");
 		if (!szType)
 			return FALSE;
 
@@ -309,12 +309,12 @@ bool CJabberIqManager::HandleIqPermanent(const TiXmlElement *pNode)
 		if (!(pInfo->m_nIqTypes & iqInfo.m_nIqType))
 			continue;
 
-		auto *pFirstChild = pNode->FirstChildElement();
+		auto *pFirstChild = XmlFirstChild(pNode);
 		if (!pFirstChild || !pFirstChild->Name())
 			return FALSE;
 
 		const char *szTagName = pFirstChild->Name();
-		const char *szXmlns = pFirstChild->Attribute("xmlns");
+		const char *szXmlns = XmlGetAttr(pFirstChild, "xmlns");
 
 		if ((!pInfo->m_szXmlns || (szXmlns && !mir_strcmp(pInfo->m_szXmlns, szXmlns))) &&
 			(!pInfo->m_szTag || !mir_strcmp(pInfo->m_szTag, szTagName))) {
@@ -322,14 +322,14 @@ bool CJabberIqManager::HandleIqPermanent(const TiXmlElement *pNode)
 			iqInfo.m_pChildNode = pFirstChild;
 			iqInfo.m_szChildTagName = szTagName;
 			iqInfo.m_szChildTagXmlns = szXmlns;
-			iqInfo.m_szId = pNode->Attribute("id");
+			iqInfo.m_szId = XmlGetAttr(pNode, "id");
 			iqInfo.m_pUserData = pInfo->m_pUserData;
 
 			if (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_TO)
-				iqInfo.m_szTo = pNode->Attribute("to");
+				iqInfo.m_szTo = XmlGetAttr(pNode, "to");
 
 			if (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_FROM)
-				iqInfo.m_szFrom = pNode->Attribute("from");
+				iqInfo.m_szFrom = XmlGetAttr(pNode, "from");
 
 			if ((pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_HCONTACT) && (iqInfo.m_szFrom))
 				iqInfo.m_hContact = ppro->HContactFromJID(iqInfo.m_szFrom);

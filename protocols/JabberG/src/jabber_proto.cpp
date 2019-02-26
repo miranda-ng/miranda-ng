@@ -1002,6 +1002,8 @@ int CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const char *psz
 	if (jcb & JABBER_CAPS_CHATSTATES)
 		m << XCHILDNS("active", JABBER_FEAT_CHATSTATES);
 
+	m << XATTR("to", szClientJid);
+
 	if (
 		// if message delivery check disabled by entity caps manager
 		(jcb & JABBER_CAPS_MESSAGE_EVENTS_NO_DELIVERY) ||
@@ -1010,19 +1012,18 @@ int CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const char *psz
 		// if message sent to groupchat
 		!mir_strcmp(msgType, "groupchat") ||
 		// if message delivery check disabled in settings
-		!m_bMsgAck || !getByte(hContact, "MsgAck", true)) {
-		if (!mir_strcmp(msgType, "groupchat"))
-			XmlAddAttr(m, "to", szClientJid);
-		else {
+		!m_bMsgAck || !getByte(hContact, "MsgAck", true))
+	{
+		if (mir_strcmp(msgType, "groupchat")) {
 			id = SerialNext();
-			XmlAddAttr(m, "to", szClientJid); XmlAddAttrID(m, id);
+			XmlAddAttrID(m, id);
 		}
 		m_ThreadInfo->send(m);
 
 		ForkThread(&CJabberProto::SendMessageAckThread, new TFakeAckParams(hContact, nullptr, id));
 	}
 	else {
-		XmlAddAttr(m, "to", szClientJid); XmlAddAttrID(m, id);
+		XmlAddAttrID(m, id);
 
 		// message receipts XEP priority
 		if (jcb & JABBER_CAPS_MESSAGE_RECEIPTS)

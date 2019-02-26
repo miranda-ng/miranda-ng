@@ -297,7 +297,7 @@ void CJabberProto::OnIqResultDiscovery(const TiXmlElement *iqNode, CJabberIqInfo
 	SendMessage(hwndList, CB_RESETCONTENT, 0, 0);
 
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
-		auto *query = iqNode->FirstChildElement("query");
+		auto *query = XmlFirstChild(iqNode, "query");
 		if (query == nullptr) {
 			sttRoomListAppend(hwndList, RoomInfo::ROOM_FAIL,
 				TranslateT("Jabber Error"),
@@ -307,7 +307,7 @@ void CJabberProto::OnIqResultDiscovery(const TiXmlElement *iqNode, CJabberIqInfo
 		else {
 			bool found = false;
 			for (auto *item : TiXmlFilter(query, "item")) {
-				const char *jid = item->Attribute("jid");
+				const char *jid = XmlGetAttr(item, "jid");
 				char *name = NEWSTR_ALLOCA(jid);
 				if (name) {
 					if (char *p = strchr(name, '@'))
@@ -317,7 +317,7 @@ void CJabberProto::OnIqResultDiscovery(const TiXmlElement *iqNode, CJabberIqInfo
 
 				sttRoomListAppend(hwndList,
 					ListGetItemPtr(LIST_BOOKMARK, jid) ? RoomInfo::ROOM_BOOKMARK : RoomInfo::ROOM_DEFAULT,
-					Utf2T(item->Attribute("name")), Utf2T(jid), Utf2T(name));
+					Utf2T(XmlGetAttr(item, "name")), Utf2T(jid), Utf2T(name));
 
 				found = true;
 			}
@@ -756,11 +756,11 @@ static int sttGetStatusCode(const TiXmlElement *node)
 	if (node == nullptr)
 		return -1;
 
-	auto *statusNode = node->FirstChildElement("status");
+	auto *statusNode = XmlFirstChild(node, "status");
 	if (statusNode == nullptr)
 		return -1;
 
-	const char *statusCode = statusNode->Attribute("code");
+	const char *statusCode = XmlGetAttr(statusNode, "code");
 	if (statusCode == nullptr)
 		return -1;
 
@@ -769,8 +769,8 @@ static int sttGetStatusCode(const TiXmlElement *node)
 
 void CJabberProto::RenameParticipantNick(JABBER_LIST_ITEM *item, const char *oldNick, const TiXmlElement *itemNode)
 {
-	const char *jid = itemNode->Attribute("jid");
-	const char *newNick = itemNode->Attribute("nick");
+	const char *jid = XmlGetAttr(itemNode, "jid");
+	const char *newNick = XmlGetAttr(itemNode, "nick");
 	if (newNick == nullptr)
 		return;
 
@@ -806,7 +806,7 @@ void CJabberProto::GroupchatProcessPresence(const TiXmlElement *node)
 	const char *from;
 
 	if (!node || !node->Name() || mir_strcmp(node->Name(), "presence")) return;
-	if ((from = node->Attribute("from")) == nullptr) return;
+	if ((from = XmlGetAttr(node, "from")) == nullptr) return;
 
 	const char *resource = strchr(from, '/');
 	if (resource == nullptr || *++resource == '\0')
@@ -831,10 +831,10 @@ void CJabberProto::GroupchatProcessPresence(const TiXmlElement *node)
 	const TiXmlElement *itemNode = nullptr;
 	auto *xNode = XmlGetChildByTag(node, "x", "xmlns", JABBER_FEAT_MUC_USER);
 	if (xNode)
-		itemNode = xNode->FirstChildElement("item");
+		itemNode = XmlFirstChild(xNode, "item");
 
 	// entering room or a usual room presence
-	const char *type = node->Attribute("type");
+	const char *type = XmlGetAttr(node, "type");
 	if (type == nullptr || !mir_strcmp(type, "available")) {
 		if (ptrA(JabberNickFromJID(from)) == nullptr)
 			return;
@@ -868,14 +868,14 @@ void CJabberProto::GroupchatProcessPresence(const TiXmlElement *node)
 				JABBER_GC_AFFILIATION affiliation = r->m_affiliation;
 				JABBER_GC_ROLE role = r->m_role;
 
-				if ((str = itemNode->Attribute("affiliation")) != nullptr) {
+				if ((str = XmlGetAttr(itemNode, "affiliation")) != nullptr) {
 					if (!mir_strcmp(str, "owner"))        affiliation = AFFILIATION_OWNER;
 					else if (!mir_strcmp(str, "admin"))   affiliation = AFFILIATION_ADMIN;
 					else if (!mir_strcmp(str, "member"))  affiliation = AFFILIATION_MEMBER;
 					else if (!mir_strcmp(str, "none"))	  affiliation = AFFILIATION_NONE;
 					else if (!mir_strcmp(str, "outcast")) affiliation = AFFILIATION_OUTCAST;
 				}
-				if ((str = itemNode->Attribute("role")) != nullptr) {
+				if ((str = XmlGetAttr(itemNode, "role")) != nullptr) {
 					if (!mir_strcmp(str, "moderator"))        role = ROLE_MODERATOR;
 					else if (!mir_strcmp(str, "participant")) role = ROLE_PARTICIPANT;
 					else if (!mir_strcmp(str, "visitor"))     role = ROLE_VISITOR;
@@ -898,7 +898,7 @@ void CJabberProto::GroupchatProcessPresence(const TiXmlElement *node)
 						bRoleChanged = true;
 				}
 
-				if (str = itemNode->Attribute("jid"))
+				if (str = XmlGetAttr(itemNode, "jid"))
 					r->m_szRealJid = mir_strdup(str);
 
 				// XEP-0115: Entity Capabilities
@@ -937,8 +937,8 @@ void CJabberProto::GroupchatProcessPresence(const TiXmlElement *node)
 	else if (!mir_strcmp(type, "unavailable")) {
 		const char *str = nullptr;
 		if (xNode != nullptr && item->nick != nullptr) {
-			auto *reasonNode = itemNode->FirstChildElement("reason");
-			str = itemNode->Attribute("jid");
+			auto *reasonNode = XmlFirstChild(itemNode, "reason");
+			str = XmlGetAttr(itemNode, "jid");
 
 			int iStatus = sttGetStatusCode(xNode);
 			if (iStatus == 301 && r != nullptr)
@@ -972,7 +972,7 @@ void CJabberProto::GroupchatProcessPresence(const TiXmlElement *node)
 			}
 		}
 
-		auto *statusNode = node->FirstChildElement("status");
+		auto *statusNode = XmlFirstChild(node, "status");
 		GcLogUpdateMemberStatus(item, resource, nick, str, GC_EVENT_PART, statusNode);
 		ListRemoveResource(LIST_CHATROOM, from);
 
@@ -1016,10 +1016,10 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 	CMStringW imgLink;
 
 	if (!node->Name() || mir_strcmp(node->Name(), "message")) return;
-	if ((from = node->Attribute("from")) == nullptr) return;
+	if ((from = XmlGetAttr(node, "from")) == nullptr) return;
 	if ((item = ListGetItemPtr(LIST_CHATROOM, from)) == nullptr) return;
 
-	if ((type = node->Attribute("type")) == nullptr) return;
+	if ((type = XmlGetAttr(node, "type")) == nullptr) return;
 	if (!mir_strcmp(type, "error"))
 		return;
 
@@ -1030,14 +1030,14 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 	if (resource != nullptr && *++resource == '\0')
 		resource = nullptr;
 
-	if ((n = node->FirstChildElement("subject")) != nullptr) {
+	if ((n = XmlFirstChild(node, "subject")) != nullptr) {
 		msgText = n->GetText();
 		if (msgText == nullptr || msgText[0] == '\0')
 			return;
 
 		gce.iType = GC_EVENT_TOPIC;
 
-		if (resource == nullptr && (m = node->FirstChildElement("body")) != nullptr) {
+		if (resource == nullptr && (m = XmlFirstChild(node, "body")) != nullptr) {
 			const char *tmpnick = m->GetText();
 			if (tmpnick == nullptr || *tmpnick == 0)
 				return;
@@ -1057,7 +1057,7 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 		imgLink = ExtractImage(node);
 
 		if ((n = XmlGetChildByTag(node, "body", "xml:lang", m_tszSelectedLang)) == nullptr)
-			if ((n = node->FirstChildElement("body")) == nullptr)
+			if ((n = XmlFirstChild(node, "body")) == nullptr)
 				return;
 
 		msgText = n->GetText();
@@ -1078,7 +1078,7 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 	time_t msgTime = 0;
 	if (!JabberReadXep203delay(node, msgTime)) {
 		auto *xDelay = XmlGetChildByTag(node, "x", "xmlns", "jabber:x:delay");
-		if (xDelay && (p = xDelay->Attribute("stamp")) != nullptr)
+		if (xDelay && (p = XmlGetAttr(xDelay, "stamp")) != nullptr)
 			msgTime = JabberIsoToUnixTime(p);
 	}
 
