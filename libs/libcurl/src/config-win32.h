@@ -713,6 +713,9 @@ Vista
 /* Define to use the Windows crypto library. */
 #define USE_WIN32_CRYPTO
 
+/* if SSL is enabled */
+#define USE_OPENSSL 1
+
 /* Define to use Unix sockets. */
 #if defined(_MSC_VER) && _MSC_VER >= 1900
 /* #define USE_UNIX_SOCKETS */
