@@ -76,12 +76,4 @@ typedef struct tagRowCell
 }
 ROWCELL, *pROWCELL;
 
-// Структура для доступа к контейнерам элемента контакта внутри дерева опивания
-#ifndef _CPPCODE
-int cppCalculateRowHeight(ROWCELL	*RowRoot);
-void cppCalculateRowItemsPos(ROWCELL	*RowRoot, int width);
-ROWCELL *cppInitModernRow(ROWCELL	** tabAccess);
-void cppDeleteTree(ROWCELL	* RowRoot);
-#endif
-
 #endif // modern_row_h__

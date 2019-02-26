@@ -59,10 +59,10 @@ typedef INT_PTR(*PSYNCCALLBACKPROC)(WPARAM, LPARAM);
 
 
 /* CLCItems */
-bool CLCItems_IsShowOfflineGroup(ClcGroup *group);
+bool    CLCItems_IsShowOfflineGroup(ClcGroup *group);
 
 /* CListMod */
-int CListMod_HideWindow();
+int     CListMod_HideWindow();
 
 /* CLUI */
 HANDLE  RegisterIcolibIconHandle(char *szIcoID, char *szSectionName, char *szDescription, wchar_t *tszDefaultFile, int iDefaultIndex, HINSTANCE hDefaultModule, int iDefaultResource);
@@ -125,7 +125,7 @@ HBITMAP ske_LoadGlyphImage(const wchar_t *szFileName);
 HRESULT SkinEngineLoadModule();
 void    ske_LoadSkinFromDB(void);
 int     ske_LoadSkinFromIniFile(wchar_t*, BOOL);
-wchar_t*  ske_ParseText(wchar_t *stzText);
+wchar_t* ske_ParseText(wchar_t *stzText);
 int     ske_PrepareImageButDontUpdateIt(RECT *r);
 int     ske_ReCreateBackImage(BOOL Erase, RECT *w);
 int     ske_RedrawCompleteWindow();
@@ -143,20 +143,20 @@ int     ske_ValidateFrameImageProc(RECT *r);
 
 /* CLUIFrames.c PROXIED */
 
-int CLUIFrames_ActivateSubContainers(BOOL wParam);
-int CLUIFrames_OnClistResize_mod(WPARAM wParam, LPARAM lParam);
-int CLUIFrames_OnMoving(HWND, RECT *);
-int CLUIFrames_OnShowHide(int mode);
-int CLUIFrames_SetLayeredMode(BOOL fLayeredMode, HWND hwnd);
-int CLUIFrames_SetParentForContainers(HWND parent);
-int CLUIFramesOnClistResize(WPARAM wParam, LPARAM lParam);
+int     CLUIFrames_ActivateSubContainers(BOOL wParam);
+int     CLUIFrames_OnClistResize_mod(WPARAM wParam, LPARAM lParam);
+int     CLUIFrames_OnMoving(HWND, RECT *);
+int     CLUIFrames_OnShowHide(int mode);
+int     CLUIFrames_SetLayeredMode(BOOL fLayeredMode, HWND hwnd);
+int     CLUIFrames_SetParentForContainers(HWND parent);
+int     CLUIFramesOnClistResize(WPARAM wParam, LPARAM lParam);
 
-FRAMEWND * FindFrameByItsHWND(HWND FrameHwnd);                  //cluiframes.c
+FRAMEWND* FindFrameByItsHWND(HWND FrameHwnd);                  //cluiframes.c
 
-int DrawTitleBar(HDC hdcMem2, RECT *rect, int Frameid);
+int     DrawTitleBar(HDC hdcMem2, RECT *rect, int Frameid);
 
-int FindFrameID(HWND FrameHwnd);
-int SetAlpha(BYTE Alpha);
+int     FindFrameID(HWND FrameHwnd);
+int     SetAlpha(BYTE Alpha);
 
 
 /* others TODO: move above */
@@ -164,8 +164,6 @@ int     Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam);
 void    DrawBackGround(HWND hwnd, HDC mhdc, HBITMAP hBmpBackground, COLORREF bkColour, DWORD backgroundBmpUse);
 HRESULT BackgroundsLoadModule();
 int     BackgroundsUnloadModule();
-INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);   //RowTemplate.c
-BOOL    FindMenuHanleByGlobalID(HMENU hMenu, int globalID, struct _MenuItemHandles * dat);   //GenMenu.c
 char*   GetParamN(char *string, char *buf, int buflen, BYTE paramN, char Delim, BOOL SkipSpaces);  //mod_skin_selector.c
 WCHAR*  GetParamN(WCHAR *string, WCHAR *buf, int buflen, BYTE paramN, WCHAR Delim, BOOL SkipSpaces);
 DWORD   CompareContacts2_getLMTime(MCONTACT u);                                    //contact.c
@@ -180,35 +178,27 @@ int     GetContactCachedStatus(MCONTACT hContact);                              
 int     GetContactIconC(ClcCacheEntry *cacheEntry);                           //clistmod.c
 int     GetStatusForContact(MCONTACT hContact, char *szProto);                           //clistsettings.c
 int     InitCustomMenus(void);                                                //clistmenus.c
-int     LoadMoveToGroup();                                                   //movetogroup.c
 int     LoadStatusBarData();                                                //modern_statusbar.c
-int     MenuModulesLoaded(WPARAM wParam, LPARAM lParam);                              //clistmenu.c
-int     MenuModulesShutdown(WPARAM wParam, LPARAM lParam);                           //clistmenu.c
-int     MenuProcessCommand(WPARAM wParam, LPARAM lParam);                           //clistmenu.c
 int     OnFrameTitleBarBackgroundChange(WPARAM wParam, LPARAM lParam);                  //cluiframes.c
 int     QueueAllFramesUpdating(bool);                                          //cluiframes.c
 int     RecursiveDeleteMenu(HMENU hMenu);                                       //clistmenus.c
 int     ModernSkinButtonRedrawAll();                                                //modern_button.c
 int     RegisterButtonByParce(char *ObjectName, char *Params);                     //mod_skin_selector.c
-int     RestoreAllContactData(ClcData *dat);                                 //cache_funcs.c
-
 int     SkinSelector_DeleteMask(MODERNMASK *mm);                                 //mod_skin_selector.c
-int     StoreAllContactData(ClcData *dat);                                 //cache_func.c
 INT_PTR ToggleHideOffline(WPARAM wParam, LPARAM lParam);                              //contact.c
 INT_PTR SetUseGroups(WPARAM wParam, LPARAM lParam);                                 //contact.c
 INT_PTR ToggleSounds(WPARAM wParam, LPARAM lParam);                                 //contact.c
 void    ClcOptionsChanged();                                                //clc.c
 void    Docking_GetMonitorRectFromWindow(HWND hWnd, RECT *rc);                        //Docking.c
 void    DrawAvatarImageWithGDIp(HDC hDestDC, int x, int y, DWORD width, DWORD height, HBITMAP hbmp, int x1, int y1, DWORD width1, DWORD height1, DWORD flag, BYTE alpha);   //gdiplus.cpp
-void    FreeRowCell();                                                      //RowHeight
 void    InitGdiPlus();                                                      //gdiplus.cpp
 void    ShutdownGdiPlus();                                                   //gdiplus.cpp
 void    UnloadAvatarOverlayIcon();                                             //clc.c
 void    UnLoadContactListModule();                                             //clistmod.c
 void    UpdateAllAvatars(ClcData *dat);                                    //cache_func.c
 
-void ApplyViewMode(const char *Name, bool onlySelector = false);
-void SaveViewMode(const char *name, const wchar_t *szGroupFilter, const char *szProtoFilter, DWORD statusMask, DWORD stickyStatusMask, unsigned int options, unsigned int stickies, unsigned int operators, unsigned int lmdat);
+void    ApplyViewMode(const char *Name, bool onlySelector = false);
+void    SaveViewMode(const char *name, const wchar_t *szGroupFilter, const char *szProtoFilter, DWORD statusMask, DWORD stickyStatusMask, unsigned int options, unsigned int stickies, unsigned int operators, unsigned int lmdat);
 
 // cluiframes.c
 int     ExtraImage_ExtraIDToColumnNum(int extra);
@@ -268,15 +258,11 @@ struct DWM_BLURBEHIND
 };
 extern HRESULT(WINAPI *g_proc_DWMEnableBlurBehindWindow)(HWND hWnd, DWM_BLURBEHIND *pBlurBehind);
 
-extern tPaintCallbackProc CLCPaint_PaintCallbackProc(HWND hWnd, HDC hDC, RECT *rcPaint, HRGN rgn, DWORD dFlags, void * CallBackData);
-
 /* SkinEngine.c */
-
 
 BYTE SkinDBGetContactSettingByte(MCONTACT hContact, const char* szSection, const char*szKey, BYTE bDefault);
 
 extern OVERLAYICONINFO g_pAvatarOverlayIcons[ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE + 1];
 extern OVERLAYICONINFO g_pStatusOverlayIcons[ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE + 1];
-
 
 #endif

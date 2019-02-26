@@ -83,8 +83,6 @@ int ske_ValidateFrameImageProc(RECT *r);
 
 HWND StatusBar_Create(HWND parent);
 
-void RowHeight_InitModernRow();
-
 int UnhookAll();
 
 /* Module function prototypes */

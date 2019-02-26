@@ -901,9 +901,6 @@ struct
 static row_opt_items[] =
 {
 	{ LPGEN("Row"), IDD_OPT_ITEM_ROW, DlgProcItemRowOpts },
-#ifdef _DEBUG
-	{ LPGEN("Row design"), IDD_OPT_ROWTMPL, DlgTmplEditorOpts },
-#endif
 	{ LPGEN("Avatar"), IDD_OPT_ITEM_AVATAR, DlgProcItemAvatarOpts },
 	{ LPGEN("Icon"), IDD_OPT_ITEM_ICON, DlgProcItemIconOpts },
 	{ LPGEN("Contact time"), IDD_OPT_ITEM_CONTACT_TIME, DlgProcItemContactTimeOpts },

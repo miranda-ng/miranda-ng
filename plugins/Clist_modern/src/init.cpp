@@ -102,7 +102,6 @@ int CMPlugin::Unload(void)
 	XPThemesUnloadModule();
 
 	UnloadAvatarOverlayIcon();
-	FreeRowCell();
 	EventArea_UnloadModule();
 
 	TRACE("Unloading Clist Modern COMPLETE\r\n");

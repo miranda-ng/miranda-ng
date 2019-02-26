@@ -269,7 +269,6 @@ m_hDwmapiDll(nullptr)
 
 	// TODO Add Row template loading here.
 
-	RowHeight_InitModernRow();
 	nLastRequiredHeight = 0;
 
 	LoadCLUIFramesModule();
