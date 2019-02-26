@@ -302,35 +302,39 @@ MIR_APP_DLL(void) Clist_DeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 	ClcData *dat = (ClcData*)GetWindowLongPtr(hwnd, 0);
 	dat->bNeedsResort = true;
 
+	// if a contact is found in our contact list, remove it from its group and detach from cache
 	ClcGroup *group;
 	ClcContact *contact;
-	if (!Clist_FindItem(hwnd, dat, hItem, &contact, &group)) {
-		if (!IsHContactContact(hItem))
-			return;
+	if (Clist_FindItem(hwnd, dat, hItem, &contact, &group)) {
+		Clist_RemoveItemFromGroup(hwnd, group, contact, 1);
+		contact->pce = nullptr;
+	}
+
+	// if we don't have this contact, simply try to update the number of contacts in a group
+	if (!IsHContactContact(hItem))
+		return;
 		
-		ptrW wszGroup(db_get_wsa(hItem, "CList", "Group"));
-		if (wszGroup == nullptr)
-			return;
+	ptrW wszGroup(db_get_wsa(hItem, "CList", "Group"));
+	if (wszGroup == nullptr)
+		return;
 
-		// decrease member counts of all parent groups too
-		group = &dat->list;
-		int nameOffset = 0;
-		for (int i = 0;; i++) {
-			if (group->scanIndex == group->cl.getCount())
-				break;
+	// decrease member counts of all parent groups too
+	group = &dat->list;
+	int nameOffset = 0;
+	for (int i = 0;; i++) {
+		if (group->scanIndex == group->cl.getCount())
+			break;
 
-			ClcContact *cc = group->cl[i];
-			if (cc->type == CLCIT_GROUP) {
-				size_t len = mir_wstrlen(cc->szText);
-				if (!wcsncmp(cc->szText, wszGroup.get() + nameOffset, len) && (wszGroup[nameOffset + len] == '\\' || wszGroup[nameOffset + len] == '\0')) {
-					group->totalMembers--;
-					if (wszGroup[nameOffset + len] == '\0')
-						break;
-				}
+		ClcContact *cc = group->cl[i];
+		if (cc->type == CLCIT_GROUP) {
+			size_t len = mir_wstrlen(cc->szText);
+			if (!wcsncmp(cc->szText, wszGroup.get() + nameOffset, len) && (wszGroup[nameOffset + len] == '\\' || wszGroup[nameOffset + len] == '\0')) {
+				group->totalMembers--;
+				if (wszGroup[nameOffset + len] == '\0')
+					break;
 			}
 		}
 	}
-	else Clist_RemoveItemFromGroup(hwnd, group, contact, 1);
 }
 
 int fnGetContactHiddenStatus(MCONTACT hContact, char*, ClcData*)
