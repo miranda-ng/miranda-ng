@@ -222,9 +222,9 @@ void CIcqProto::ProcessNotification(const JSONNode &ev)
 			mir_snprintf(szServiceFunction, "%s%s", m_szModuleName, PS_GOTO_INBOX);
 
 			CLISTEVENT cle = {};
-			cle.lpszProtocol = m_szModuleName;
+			cle.hDbEvent = 1;
 			cle.hIcon = Popup.lchIcon;
-			cle.flags = (CLEF_UNICODE | CLEF_PROTOCOLGLOBAL);
+			cle.flags = CLEF_UNICODE;
 			cle.pszService = szServiceFunction;
 			cle.szTooltip.w = Popup.lptzText;
 			g_clistApi.pfnAddEvent(&cle);
