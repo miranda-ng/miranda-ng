@@ -63,10 +63,10 @@ type
   //       be show as the last entry
   TMessageType = (mtUnknown,
                   mtIncoming, mtOutgoing,
-                  mtMessage, mtFile, mtSystem,
+                  mtMessage, mtUrl, mtFile, mtSystem,
                   mtContacts, mtStatus, mtSMTPSimple,
                   mtOther,
-                  mtNickChange,mtAvatarChange,mtWATrack,mtStatusMessage,mtVoiceCall,mtCustom, mtUrl);
+                  mtNickChange,mtAvatarChange,mtWATrack,mtStatusMessage,mtVoiceCall,mtCustom);
 
   PMessageTypes = ^TMessageTypes;
   TMessageTypes = set of TMessageType;
