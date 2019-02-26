@@ -419,6 +419,7 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 			}
 
 			ParseSpecialChars(si, wszText);
+			wszText.Replace(L"%", L"%%");
 
 			GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
 			gce.pszID.w = pUser->wszUsername;
