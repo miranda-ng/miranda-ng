@@ -200,6 +200,20 @@ void CIcqProto::ProcessMyInfo(const JSONNode &ev)
 	CheckAvatarChange(0, ev);
 }
 
+void CIcqProto::EmailNotification(const wchar_t *pwszText)
+{
+	char szServiceFunction[MAX_PATH];
+	mir_snprintf(szServiceFunction, "%s%s", m_szModuleName, PS_GOTO_INBOX);
+
+	CLISTEVENT cle = {};
+	cle.hDbEvent = 1;
+	cle.hIcon = IcoLib_GetIconByHandle(iconList[1].hIcolib);
+	cle.flags = CLEF_UNICODE;
+	cle.pszService = szServiceFunction;
+	cle.szTooltip.w = pwszText;
+	g_clistApi.pfnAddEvent(&cle);
+}
+
 void CIcqProto::ProcessNotification(const JSONNode &ev)
 {
 	for (auto &fld : ev["fields"]) {
@@ -218,23 +232,19 @@ void CIcqProto::ProcessNotification(const JSONNode &ev)
 				CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&Popup, 0);
 			}
 
-			char szServiceFunction[MAX_PATH];
-			mir_snprintf(szServiceFunction, "%s%s", m_szModuleName, PS_GOTO_INBOX);
-
-			CLISTEVENT cle = {};
-			cle.hDbEvent = 1;
-			cle.hIcon = Popup.lchIcon;
-			cle.flags = CLEF_UNICODE;
-			cle.pszService = szServiceFunction;
-			cle.szTooltip.w = Popup.lptzText;
-			g_clistApi.pfnAddEvent(&cle);
+			EmailNotification(Popup.lptzText);
 		}
 
 		const JSONNode &status = fld["mailbox.status"];
 		if (status) {
 			JSONROOT root(status.as_string().c_str());
-			m_szMailBox = (*root)["email"].as_mstring();
+			m_szMailBox = (*root)["email"].as_mstring();			
 			m_unreadEmails = (*root)["unreadCount"].as_int();
+
+			if (m_unreadEmails > 0) {
+				CMStringW wszMessage(FORMAT, TranslateT("You have %d unread emails"), m_unreadEmails);
+				EmailNotification(wszMessage);
+			}
 		}
 	}
 }

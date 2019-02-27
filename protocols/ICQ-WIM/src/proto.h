@@ -151,6 +151,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	MCONTACT  CheckOwnMessage(const CMStringA &reqId, const CMStringA &msgId, bool bRemove);
 	void      CheckPassword(void);
 	void      ConnectionFailed(int iReason, int iErrorCode = 0);
+	void      EmailNotification(const wchar_t *pwszText);
 	void      GetPermitDeny();
 	void      MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup);
 	void      RetrieveUserHistory(MCONTACT, __int64 startMsgId, __int64 endMsgId = -1);
