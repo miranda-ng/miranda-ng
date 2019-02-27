@@ -123,20 +123,12 @@ typedef struct
 
 // deprecatet !!! (only for compatibility) use new POPUPDATA2 struct for extended popup
 // Unicode version of POPUPDATAEX_V2
-typedef struct
+struct POPUPDATAW_V2
 {
 	MCONTACT lchContact;
 	HICON lchIcon;
-	union
-	{
-		wchar_t lptzContactName[MAX_CONTACTNAME];
-		wchar_t lpwzContactName[MAX_CONTACTNAME];
-	};
-	union
-	{
-		wchar_t lptzText[MAX_SECONDLINE];
-		wchar_t lpwzText[MAX_SECONDLINE];
-	};
+	wchar_t lpwzContactName[MAX_CONTACTNAME];
+	wchar_t lpwzText[MAX_SECONDLINE];
 	COLORREF colorBack;
 	COLORREF colorText;
 	WNDPROC PluginWindowProc;
@@ -148,67 +140,37 @@ typedef struct
 	int actionCount;
 	LPPOPUPACTION lpActions;
 	int cbSize;
-} POPUPDATAW_V2, *LPPOPUPDATAW_V2;
-
-// deprecatet !!! (only for compatibility) use new POPUPDATA2 struct for extended popup
-#if defined(_UNICODE) || defined(UNICODE)
-typedef POPUPDATAW_V2		POPUPDATAT_V2;
-typedef LPPOPUPDATAW_V2	LPPOPUPDATAT_V2;
-#endif
+};
 
 // Extended popup data
-typedef struct
+struct POPUPDATA
 {
 	MCONTACT lchContact;
 	HICON lchIcon;
-	union
-	{
-		char lptzContactName[MAX_CONTACTNAME];
-		char lpzContactName[MAX_CONTACTNAME];
-	};
-	union
-	{
-		char lptzText[MAX_SECONDLINE];
-		char lpzText[MAX_SECONDLINE];
-	};
+	char lpzContactName[MAX_CONTACTNAME];
+	char lpzText[MAX_SECONDLINE];
 	COLORREF colorBack;
 	COLORREF colorText;
 	WNDPROC PluginWindowProc;
 	void *PluginData;
 	int iSeconds;								// Custom delay time in seconds. -1 means "forever", 0 means "default time".
 	char cZero[16];								// Some unused bytes which may come useful in the future.
-} POPUPDATA, *LPPOPUPDATA;
+};
 
 // Unicode version of POPUPDATA
-typedef struct
+struct POPUPDATAW
 {
 	MCONTACT lchContact;
 	HICON lchIcon;
-	union
-	{
-		wchar_t lptzContactName[MAX_CONTACTNAME];
-		wchar_t lpwzContactName[MAX_CONTACTNAME];
-	};
-	union
-	{
-		wchar_t lptzText[MAX_SECONDLINE];
-		wchar_t lpwzText[MAX_SECONDLINE];
-	};
+	wchar_t lpwzContactName[MAX_CONTACTNAME];
+	wchar_t lpwzText[MAX_SECONDLINE];
 	COLORREF colorBack;
 	COLORREF colorText;
 	WNDPROC PluginWindowProc;
 	void *PluginData;
 	int iSeconds;
 	char cZero[16];
-} POPUPDATAW, *LPPOPUPDATAW;
-
-#if defined(_UNICODE) || defined(UNICODE)
-	typedef POPUPDATAW   POPUPDATAT;
-	typedef LPPOPUPDATAW	LPPOPUPDATAT;
-#else
-	typedef POPUPDATA    POPUPDATAT;
-	typedef LPPOPUPDATA  LPPOPUPDATAT;
-#endif
+};
 
 /* Popup/AddPopup
 Creates, adds and shows a popup, given a (valid) POPUPDATA structure pointer.
@@ -233,27 +195,21 @@ You may pass additional creation flags via lParam:
 #define APF_NEWDATA      0x10	//deprecatet!! only for use with old POPUPDATAEX_V2/POPUPDATAW_V2 structs
 
 #define MS_POPUP_ADDPOPUP "Popup/AddPopupEx"
-static INT_PTR __inline PUAddPopup(POPUPDATA* ppdp) {
+__forceinline INT_PTR PUAddPopup(POPUPDATA *ppdp)
+{
 	return CallService(MS_POPUP_ADDPOPUP, (WPARAM)ppdp, 0);
 }
 
 #define MS_POPUP_ADDPOPUPW "Popup/AddPopupW"
-static INT_PTR __inline PUAddPopupW(POPUPDATAW* ppdp) {
+__forceinline INT_PTR PUAddPopupW(POPUPDATAW *ppdp)
+{
 	return CallService(MS_POPUP_ADDPOPUPW, (WPARAM)ppdp, 0);
 }
 
-static INT_PTR __inline PUAddPopupW(POPUPDATAW_V2* ppdp) {
+__forceinline INT_PTR PUAddPopupW(POPUPDATAW_V2 *ppdp)
+{
 	return CallService(MS_POPUP_ADDPOPUPW, (WPARAM)ppdp, 0);
 }
-
-#if defined(_UNICODE) || defined(UNICODE)
-	#define MS_POPUP_ADDPOPUPT	MS_POPUP_ADDPOPUPW
-	#define PUAddPopupT			PUAddPopupW
-#else
-	#define MS_POPUP_ADDPOPUPT	MS_POPUP_ADDPOPUP
-	#define PUAddPopupT			PUAddPopup
-#endif
-
 
 /* Popup/GetContact
 Returns the handle to the contact associated to the specified PopupWindow.
@@ -264,7 +220,7 @@ lParam = 0;
 Returns: the HANDLE of the contact. Can return NULL, meaning it's the main contact. -1 means failure.
 */
 #define MS_POPUP_GETCONTACT "Popup/GetContact"
-static MCONTACT __inline PUGetContact(HWND hPopupWindow)
+__forceinline MCONTACT PUGetContact(HWND hPopupWindow)
 {
 	return (MCONTACT)CallService(MS_POPUP_GETCONTACT, (WPARAM)hPopupWindow, 0);
 }
@@ -286,9 +242,9 @@ and it will work. Just look at the example I've written above (PopupDlgProc).
 
 */
 #define MS_POPUP_GETPLUGINDATA "Popup/GetPluginData"
-static void __inline * PUGetPluginData(HWND hPopupWindow) {
-	long * uselessPointer = nullptr;
-	return (void*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hPopupWindow, (LPARAM)uselessPointer);
+__forceinline void* PUGetPluginData(HWND hPopupWindow)
+{
+	return (void*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hPopupWindow, 0);
 }
 
 /* Popup/Query
@@ -322,7 +278,8 @@ lParam = 0
 */
 #define MS_POPUP_DESTROYPOPUP "Popup/Delete"
 #define UM_DESTROYPOPUP          (WM_USER + 0x0201)
-static int __inline PUDeletePopup(HWND hWndPopup) {
+__forceinline int PUDeletePopup(HWND hWndPopup)
+{
 	return (int)CallService(MS_POPUP_DESTROYPOPUP, 0, (LPARAM)hWndPopup);
 }
 
@@ -347,14 +304,11 @@ PUIsSecondLineShown() before changing the text...)
 */
 
 #define MS_POPUP_CHANGETEXTW "Popup/ChangetextW"
-static int __inline PUChangeTextW(HWND hWndPopup, LPCWSTR lpwzNewText) {
+
+__forceinline int PUChangeTextW(HWND hWndPopup, LPCWSTR lpwzNewText)
+{
 	return (int)CallService(MS_POPUP_CHANGETEXTW, (WPARAM)hWndPopup, (LPARAM)lpwzNewText);
 }
-
-#if defined(_UNICODE) || defined(UNICODE)
-	#define MS_POPUP_CHANGETEXTT	MS_POPUP_CHANGETEXTW
-	#define PUChangeTextT			PUChangeTextW
-#endif
 
 /* Popup/Change
 Changes the entire popup
@@ -364,18 +318,15 @@ lParam = (LPARAM)(POPUPDATA*)newData
 */
 
 #define MS_POPUP_CHANGEW "Popup/ChangeW"
-static int __inline PUChangeW(HWND hWndPopup, POPUPDATAW *newData) {
+__forceinline int PUChangeW(HWND hWndPopup, POPUPDATAW *newData)
+{
 	return (int)CallService(MS_POPUP_CHANGEW, (WPARAM)hWndPopup, (LPARAM)newData);
 }
 
-static int __inline PUChangeW(HWND hWndPopup, POPUPDATAW_V2 *newData) {
+__forceinline int PUChangeW(HWND hWndPopup, POPUPDATAW_V2 *newData)
+{
 	return (int)CallService(MS_POPUP_CHANGEW, (WPARAM)hWndPopup, (LPARAM)newData);
 }
-
-#if defined(_UNICODE) || defined(UNICODE)
-	#define MS_POPUP_CHANGET MS_POPUP_CHANGEW
-	#define PUChangeT        PUChangeW
-#endif
 
 /* UM_CHANGEPOPUP
 This message is triggered by Change/ChangeText services. You also may post it directly :)
@@ -390,12 +341,6 @@ lParam = value of type defined by wParam
 #define CPT_DATA2	8 // lParam = (POPUPDATA2 *)data -- see m_popup2.h for details
 
 #define UM_CHANGEPOPUP			(WM_USER + 0x0203)
-
-#if defined(_UNICODE) || defined(UNICODE)
-	#define CPT_TEXTT  CPT_TEXTW
-	#define CPT_TITLET CPT_TITLEW
-	#define CPT_DATAT  CPT_DATAW
-#endif
 
 /* UM_POPUPACTION
 Popup Action notification
@@ -413,14 +358,15 @@ wParam = (WPARAM)(LPPOPUPACTIONID)&actionId
 lParam = (LPARAM)(HICON)hIcon
 */
 
-typedef struct
+struct POPUPACTIONID
 {
 	WPARAM wParam;
 	LPARAM lParam;
-} POPUPACTIONID, *LPPOPUPACTIONID;
+};
 
 #define UM_POPUPMODIFYACTIONICON  (WM_USER + 0x0205)
-static int __inline PUModifyActionIcon(HWND hWndPopup, WPARAM wParam, LPARAM lParam, HICON hIcon) {
+__forceinline int PUModifyActionIcon(HWND hWndPopup, WPARAM wParam, LPARAM lParam, HICON hIcon)
+{
 	POPUPACTIONID actionId = { wParam, lParam };
 	return (int)SendMessage(hWndPopup, UM_POPUPMODIFYACTIONICON, (WPARAM)&actionId, (LPARAM)hIcon);
 }
@@ -443,7 +389,8 @@ Returns: 0 if the popup was shown, -1 in case of failure.
 */
 #define MS_POPUP_REGISTERACTIONS "Popup/RegisterActions"
 
-static int __inline PURegisterActions(LPPOPUPACTION actions, int count) {
+__forceinline int PURegisterActions(LPPOPUPACTION actions, int count)
+{
 	return (int)CallService(MS_POPUP_REGISTERACTIONS, (WPARAM)actions, (LPARAM)count);
 }
 
@@ -505,7 +452,8 @@ typedef struct
 	DLGPROC pfnReserved2;	// reserved for future use
 } POPUPNOTIFICATION, *LPPOPUPNOTIFICATION;
 
-static HANDLE __inline PURegisterNotification(LPPOPUPNOTIFICATION notification) {
+__forceinline HANDLE PURegisterNotification(LPPOPUPNOTIFICATION notification)
+{
 	return (HANDLE)CallService(MS_POPUP_REGISTERNOTIFICATION, (WPARAM)notification, 0);
 }
 
@@ -540,7 +488,8 @@ lParam = (LPARAM)(HANDLE)hEventUnhooked
 */
 #define UM_POPUPUNHOOKCOMPLETE           (WM_USER + 0x0206)
 
-static int __inline PUUnhookEventAsync(HWND hwndPopup, HANDLE hEvent) {
+__forceinline int PUUnhookEventAsync(HWND hwndPopup, HANDLE hEvent)
+{
 	if (ServiceExists(MS_POPUP_UNHOOKEVENTASYNC))
 		return (int)CallService(MS_POPUP_UNHOOKEVENTASYNC, (WPARAM)hwndPopup, (LPARAM)hEvent);
 
@@ -604,19 +553,15 @@ Returns: 0 if the popup was shown, -1 in case of failure.
 #define MS_POPUP_SHOWMESSAGE "Popup/ShowMessage"
 #define MS_POPUP_SHOWMESSAGEW "Popup/ShowMessageW"
 
-static int __inline PUShowMessage(char *lpzText, DWORD kind) {
+__forceinline int PUShowMessage(char *lpzText, DWORD kind)
+{
 	return (int)CallService(MS_POPUP_SHOWMESSAGE, (WPARAM)lpzText, (LPARAM)kind);
 }
 
-static int __inline PUShowMessageW(wchar_t *lpwzText, DWORD kind) {
+__forceinline int PUShowMessageW(wchar_t *lpwzText, DWORD kind)
+{
 	return (int)CallService(MS_POPUP_SHOWMESSAGEW, (WPARAM)lpwzText, (LPARAM)kind);
 }
-
-#ifdef _UNICODE
-#define PUShowMessageT	PUShowMessageW
-#else
-#define PUShowMessageT	PUShowMessage
-#endif
 
 /* Popup/Filter
 Filters popups out
@@ -655,7 +600,7 @@ struct POPUPCLASS
 // lParam = (POPUPCLASS *)&pc
 #define MS_POPUP_REGISTERCLASS   "Popup/RegisterClass"
 
-HANDLE __forceinline Popup_RegisterClass(POPUPCLASS *pc)
+__forceinline HANDLE Popup_RegisterClass(POPUPCLASS *pc)
 {
 	if (!ServiceExists(MS_POPUP_REGISTERCLASS))
 		return nullptr;
@@ -664,7 +609,7 @@ HANDLE __forceinline Popup_RegisterClass(POPUPCLASS *pc)
 
 #define MS_POPUP_UNREGISTERCLASS "Popup/UnregisterClass"
 
-void __forceinline Popup_UnregisterClass(HANDLE ppc)
+__forceinline void Popup_UnregisterClass(HANDLE ppc)
 {
 	if (ppc)
 		CallService(MS_POPUP_UNREGISTERCLASS, 0, LPARAM(ppc));
@@ -672,7 +617,7 @@ void __forceinline Popup_UnregisterClass(HANDLE ppc)
 
 typedef struct {
 	int cbSize;
-	char *pszClassName;
+	const char *pszClassName;
 	union {
 		const char *pszTitle;
 		const wchar_t *pwszTitle;
@@ -689,24 +634,20 @@ typedef struct {
 // lParam = (POPUPDATACLASS *)&pdc
 #define MS_POPUP_ADDPOPUPCLASS	"Popup/AddPopupClass"
 
-static INT_PTR __inline ShowClassPopup(char *name, char *title, char *text) {
+__forceinline INT_PTR ShowClassPopup(const char *name, const char *title, const char *text)
+{
 	POPUPDATACLASS d = {sizeof(d), name};
 	d.pszTitle = title;
 	d.pszText = text;
 	return CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&d);
 }
 
-static INT_PTR __inline ShowClassPopupW(char *name, wchar_t *title, wchar_t *text) {
+__forceinline INT_PTR ShowClassPopupW(const char *name, const wchar_t *title, const wchar_t *text)
+{
 	POPUPDATACLASS d = {sizeof(d), name};
 	d.pwszTitle = title;
 	d.pwszText = text;
 	return CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&d);
 }
-
-#ifdef _UNICODE
-#define ShowClassPopupT		ShowClassPopupW
-#else
-#define ShowClassPopupT		ShowClassPopup
-#endif
 
 #endif // __m_popup_h__

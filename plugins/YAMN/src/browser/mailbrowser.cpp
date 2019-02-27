@@ -495,7 +495,7 @@ int AddNewMailsToListView(HWND hListView, HACCOUNT ActualAccount, DWORD nflags)
 		lfoundi = 0;
 	}
 
-	POPUPDATAT NewMailPopup = { 0 };
+	POPUPDATAW NewMailPopup = { 0 };
 	NewMailPopup.lchContact = (ActualAccount->hContact != NULL) ? ActualAccount->hContact : (UINT_PTR)ActualAccount;
 	NewMailPopup.lchIcon = g_LoadIconEx(2);
 	if (nflags & YAMN_ACC_POPC) {
@@ -587,8 +587,8 @@ int AddNewMailsToListView(HWND hListView, HACCOUNT ActualAccount, DWORD nflags)
 		}
 
 		if ((nflags & YAMN_ACC_POP) && (ActualAccount->Flags & YAMN_ACC_POPN) && (msgq->Flags & YAMN_MSG_POPUP) && (msgq->Flags & YAMN_MSG_NEW)) {
-			mir_wstrncpy(NewMailPopup.lptzContactName, FromStr, _countof(NewMailPopup.lptzContactName));
-			mir_wstrncpy(NewMailPopup.lptzText, UnicodeHeader.Subject, _countof(NewMailPopup.lptzText));
+			mir_wstrncpy(NewMailPopup.lpwzContactName, FromStr, _countof(NewMailPopup.lpwzContactName));
+			mir_wstrncpy(NewMailPopup.lpwzText, UnicodeHeader.Subject, _countof(NewMailPopup.lpwzText));
 
 			PYAMN_MAILSHOWPARAM MailParam = (PYAMN_MAILSHOWPARAM)malloc(sizeof(YAMN_MAILSHOWPARAM));
 			if (MailParam) {
@@ -596,7 +596,7 @@ int AddNewMailsToListView(HWND hListView, HACCOUNT ActualAccount, DWORD nflags)
 				MailParam->mail = msgq;
 				MailParam->ThreadRunningEV = nullptr;
 				NewMailPopup.PluginData = MailParam;
-				PUAddPopupT(&NewMailPopup);
+				PUAddPopupW(&NewMailPopup);
 			}
 		}
 
@@ -656,7 +656,7 @@ void DoMailActions(HWND hDlg, HACCOUNT ActualAccount, struct CMailNumbers *MN, D
 	if ((nflags & YAMN_ACC_POP) &&
 		!(ActualAccount->Flags & YAMN_ACC_POPN) &&
 		(MN->Real.PopupRun + MN->Virtual.PopupRun)) {
-		POPUPDATAT NewMailPopup = { 0 };
+		POPUPDATAW NewMailPopup = { 0 };
 
 		NewMailPopup.lchContact = (ActualAccount->hContact != NULL) ? ActualAccount->hContact : (UINT_PTR)ActualAccount;
 		NewMailPopup.lchIcon = g_LoadIconEx(2);
@@ -673,9 +673,9 @@ void DoMailActions(HWND hDlg, HACCOUNT ActualAccount, struct CMailNumbers *MN, D
 		NewMailPopup.PluginWindowProc = NewMailPopupProc;
 		NewMailPopup.PluginData = (void *)nullptr;	//multiple popups
 
-		mir_wstrncpy(NewMailPopup.lptzContactName, _A2T(ActualAccount->Name), _countof(NewMailPopup.lptzContactName));
-		mir_snwprintf(NewMailPopup.lptzText, TranslateT("%d new mail message(s), %d total"), MN->Real.PopupNC + MN->Virtual.PopupNC, MN->Real.PopupTC + MN->Virtual.PopupTC);
-		PUAddPopupT(&NewMailPopup);
+		mir_wstrncpy(NewMailPopup.lpwzContactName, _A2T(ActualAccount->Name), _countof(NewMailPopup.lpwzContactName));
+		mir_snwprintf(NewMailPopup.lpwzText, TranslateT("%d new mail message(s), %d total"), MN->Real.PopupNC + MN->Virtual.PopupNC, MN->Real.PopupTC + MN->Virtual.PopupTC);
+		PUAddPopupW(&NewMailPopup);
 	}
 
 	// destroy tray icon if no new mail
@@ -744,7 +744,7 @@ void DoMailActions(HWND hDlg, HACCOUNT ActualAccount, struct CMailNumbers *MN, D
 			Skin_PlaySound(YAMN_NEWMAILSOUND);
 
 	if ((nnflags & YAMN_ACC_POP) && (MN->Real.PopupRun + MN->Virtual.PopupRun == 0)) {
-		POPUPDATAT NoNewMailPopup;
+		POPUPDATAW NoNewMailPopup;
 
 		NoNewMailPopup.lchContact = (ActualAccount->hContact != NULL) ? ActualAccount->hContact : (UINT_PTR)ActualAccount;
 		NoNewMailPopup.lchIcon = g_LoadIconEx(1);
@@ -761,12 +761,12 @@ void DoMailActions(HWND hDlg, HACCOUNT ActualAccount, struct CMailNumbers *MN, D
 		NoNewMailPopup.PluginWindowProc = NoNewMailPopupProc;
 		NoNewMailPopup.PluginData = nullptr;					//it's not new mail popup
 
-		mir_wstrncpy(NoNewMailPopup.lptzContactName, _A2T(ActualAccount->Name), _countof(NoNewMailPopup.lptzContactName));
+		mir_wstrncpy(NoNewMailPopup.lpwzContactName, _A2T(ActualAccount->Name), _countof(NoNewMailPopup.lpwzContactName));
 		if (MN->Real.PopupSL2NC + MN->Virtual.PopupSL2NC)
-			mir_snwprintf(NoNewMailPopup.lptzText, TranslateT("No new mail message, %d spam(s)"), MN->Real.PopupSL2NC + MN->Virtual.PopupSL2NC);
+			mir_snwprintf(NoNewMailPopup.lpwzText, TranslateT("No new mail message, %d spam(s)"), MN->Real.PopupSL2NC + MN->Virtual.PopupSL2NC);
 		else
-			mir_wstrncpy(NoNewMailPopup.lptzText, TranslateT("No new mail message"), _countof(NoNewMailPopup.lptzText));
-		PUAddPopupT(&NoNewMailPopup);
+			mir_wstrncpy(NoNewMailPopup.lpwzText, TranslateT("No new mail message"), _countof(NoNewMailPopup.lpwzText));
+		PUAddPopupW(&NoNewMailPopup);
 	}
 
 	if ((nflags & YAMN_ACC_CONT) && (MN->Real.PopupRun + MN->Virtual.PopupRun == 0)) {

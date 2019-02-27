@@ -85,7 +85,7 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg, UINT msg, WPARAM wParam, LP
 			char* TitleStrA;
 			char *Message1A = nullptr;
 			wchar_t *Message1W = nullptr;
-			POPUPDATAT BadConnectPopup;
+			POPUPDATAW BadConnectPopup;
 
 			ActualAccount = ((struct BadConnectionParam *)lParam)->account;
 			ErrorCode = ((struct BadConnectionParam *)lParam)->errcode;
@@ -117,29 +117,29 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg, UINT msg, WPARAM wParam, LP
 
 				BadConnectPopup.PluginWindowProc = BadConnectPopupProc;
 				BadConnectPopup.PluginData = ActualAccount;
-				mir_wstrncpy(BadConnectPopup.lptzContactName, _A2T(ActualAccount->Name), _countof(BadConnectPopup.lptzContactName));
+				mir_wstrncpy(BadConnectPopup.lpwzContactName, _A2T(ActualAccount->Name), _countof(BadConnectPopup.lpwzContactName));
 			}
 
 			if (ActualAccount->Plugin->Fcn != nullptr && ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr != nullptr) {
 				Message1W = ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr(ErrorCode);
 				SetDlgItemText(hDlg, IDC_STATICMSG, Message1W);
-				wcsncpy_s(BadConnectPopup.lptzText, Message1W, _TRUNCATE);
+				wcsncpy_s(BadConnectPopup.lpwzText, Message1W, _TRUNCATE);
 				if (ShowPopup)
-					PUAddPopupT(&BadConnectPopup);
+					PUAddPopupW(&BadConnectPopup);
 			}
 			else if (ActualAccount->Plugin->Fcn != nullptr && ActualAccount->Plugin->Fcn->GetErrorStringAFcnPtr != nullptr) {
 				Message1W = ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr(ErrorCode);
 				SetDlgItemText(hDlg, IDC_STATICMSG, Message1W);
-				wcsncpy_s(BadConnectPopup.lptzText, Message1W, _TRUNCATE);
+				wcsncpy_s(BadConnectPopup.lpwzText, Message1W, _TRUNCATE);
 				if (ShowPopup)
-					PUAddPopupT(&BadConnectPopup);
+					PUAddPopupW(&BadConnectPopup);
 			}
 			else {
 				Message1W = TranslateT("Unknown error");
 				SetDlgItemText(hDlg, IDC_STATICMSG, Message1W);
-				wcsncpy_s(BadConnectPopup.lptzText, Message1W, _TRUNCATE);
+				wcsncpy_s(BadConnectPopup.lpwzText, Message1W, _TRUNCATE);
 				if (ShowPopup)
-					PUAddPopupT(&BadConnectPopup);
+					PUAddPopupW(&BadConnectPopup);
 			}
 
 			if (!ShowMsg && !ShowIco)

@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void ShowThePreview()
 {
-	if (!ServiceExists(MS_POPUP_ADDPOPUPT)) {
+	if (!ServiceExists(MS_POPUP_ADDPOPUPW)) {
 		MessageBox(nullptr, TranslateT("Popup plugin not found!"), TranslateT("Error"), MB_OK | MB_ICONSTOP);
 		return;
 	}
@@ -108,7 +108,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 			SendDlgItemMessage(hwndDlg,IDC_COLOR_BACK,CPM_SETCOLOUR,0,WumfOptions.ColorBack);
 			SendDlgItemMessage(hwndDlg,IDC_COLOR_TEXT,CPM_SETCOLOUR,0,WumfOptions.ColorText);
 		}
-		if ( !ServiceExists(MS_POPUP_ADDPOPUPT)) {
+		if ( !ServiceExists(MS_POPUP_ADDPOPUPW)) {
 			DisableDelayOptions(hwndDlg);
 			break;
 		}

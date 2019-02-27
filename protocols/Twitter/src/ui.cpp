@@ -314,7 +314,7 @@ namespace popup_options
 
 	static void preview(HWND hwndDlg)
 	{
-		POPUPDATAT popup = {};
+		POPUPDATAW popup = {};
 
 		// Pick a random contact
 		MCONTACT hContact = 0;
@@ -328,15 +328,15 @@ namespace popup_options
 
 		// Pick a random quote
 		int q = rand() % _countof(quotes);
-		wcsncpy(popup.lptzContactName, quotes[q].name, MAX_CONTACTNAME);
-		wcsncpy(popup.lptzText, quotes[q].text, MAX_SECONDLINE);
+		wcsncpy(popup.lpwzContactName, quotes[q].name, MAX_CONTACTNAME);
+		wcsncpy(popup.lpwzText, quotes[q].text, MAX_SECONDLINE);
 
 		popup.lchContact = hContact;
 		popup.iSeconds = get_timeout(hwndDlg);
 		popup.colorText = get_text_color(hwndDlg, false);
 		popup.colorBack = get_back_color(hwndDlg, false);
 
-		PUAddPopupT(&popup);
+		PUAddPopupW(&popup);
 	}
 }
 

@@ -484,11 +484,11 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 
 void TwitterProto::ShowContactPopup(MCONTACT hContact, const std::string &text, const std::string *url)
 {
-	if (!ServiceExists(MS_POPUP_ADDPOPUPT) || getByte(TWITTER_KEY_POPUP_SHOW) == 0) {
+	if (!ServiceExists(MS_POPUP_ADDPOPUPW) || getByte(TWITTER_KEY_POPUP_SHOW) == 0) {
 		return;
 	}
 
-	POPUPDATAT popup = {};
+	POPUPDATAW popup = {};
 	popup.lchContact = hContact;
 	popup.iSeconds = getDword(TWITTER_KEY_POPUP_TIMEOUT);
 
@@ -501,7 +501,7 @@ void TwitterProto::ShowContactPopup(MCONTACT hContact, const std::string &text, 
 
 	DBVARIANT dbv;
 	if (!db_get_ws(hContact, "CList", "MyHandle", &dbv) || !getWString(hContact, TWITTER_KEY_UN, &dbv)) {
-		wcsncpy(popup.lptzContactName, dbv.pwszVal, MAX_CONTACTNAME);
+		wcsncpy(popup.lpwzContactName, dbv.pwszVal, MAX_CONTACTNAME);
 		db_free(&dbv);
 	}
 
@@ -510,8 +510,8 @@ void TwitterProto::ShowContactPopup(MCONTACT hContact, const std::string &text, 
 		popup.PluginData = (void *)url;
 	}
 
-	mbcs_to_tcs(CP_UTF8, text.c_str(), popup.lptzText, MAX_SECONDLINE);
-	PUAddPopupT(&popup);
+	mbcs_to_tcs(CP_UTF8, text.c_str(), popup.lpwzText, MAX_SECONDLINE);
+	PUAddPopupW(&popup);
 }
 
 void TwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)

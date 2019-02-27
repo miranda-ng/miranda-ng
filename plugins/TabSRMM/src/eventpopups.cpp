@@ -369,7 +369,7 @@ static int PopupUpdateT(MCONTACT hContact, MEVENT hEvent)
 	if (dbe.pBlob)
 		mir_free(dbe.pBlob);
 
-	PUChangeTextT(pdata->hWnd, lpzText);
+	PUChangeTextW(pdata->hWnd, lpzText);
 	return 0;
 }
 
@@ -393,7 +393,7 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, MCONTACT hContact, MEVENT hEve
 	if (hEvent == 0 && hContact == 0)
 		dbe.szModule = Translate("Unknown module or contact");
 
-	POPUPDATAT pud = { 0 };
+	POPUPDATAW pud = { 0 };
 	long iSeconds;
 	switch (eventType) {
 	case EVENTTYPE_MESSAGE:
@@ -426,27 +426,27 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, MCONTACT hContact, MEVENT hEve
 	pud.PluginData = pdata;
 
 	if (hContact)
-		wcsncpy_s(pud.lptzContactName, Clist_GetContactDisplayName(hContact), _TRUNCATE);
+		wcsncpy_s(pud.lpwzContactName, Clist_GetContactDisplayName(hContact), _TRUNCATE);
 	else
-		wcsncpy_s(pud.lptzContactName, _A2T(dbe.szModule), _TRUNCATE);
+		wcsncpy_s(pud.lpwzContactName, _A2T(dbe.szModule), _TRUNCATE);
 
 	wchar_t *szPreview = GetPreviewT((WORD)eventType, &dbe);
 	if (szPreview) {
-		wcsncpy_s(pud.lptzText, szPreview, _TRUNCATE);
+		wcsncpy_s(pud.lpwzText, szPreview, _TRUNCATE);
 		mir_free(szPreview);
 	}
-	else wcsncpy(pud.lptzText, L" ", MAX_SECONDLINE);
+	else wcsncpy(pud.lpwzText, L" ", MAX_SECONDLINE);
 
 	pdata->eventData = (EVENT_DATAT *)mir_alloc(NR_MERGED * sizeof(EVENT_DATAT));
 	pdata->eventData[0].hEvent = hEvent;
 	pdata->eventData[0].timestamp = dbe.timestamp;
-	wcsncpy(pdata->eventData[0].tszText, pud.lptzText, MAX_SECONDLINE);
+	wcsncpy(pdata->eventData[0].tszText, pud.lpwzText, MAX_SECONDLINE);
 	pdata->eventData[0].tszText[MAX_SECONDLINE - 1] = 0;
 	pdata->nrEventsAlloced = NR_MERGED;
 	pdata->nrMerged = 1;
 
 	// fix for broken popups -- process failures
-	if (PUAddPopupT(&pud) < 0) {
+	if (PUAddPopupW(&pud) < 0) {
 		mir_free(pdata->eventData);
 		mir_free(pdata);
 	}
@@ -647,7 +647,7 @@ static INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPA
 
 void Popup_Options(WPARAM wParam)
 {
-	if (!ServiceExists(MS_POPUP_ADDPOPUPT))
+	if (!ServiceExists(MS_POPUP_ADDPOPUPW))
 		return;
 
 	OPTIONSDIALOGPAGE odp = {};

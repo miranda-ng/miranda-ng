@@ -65,7 +65,7 @@ static int OnShutdown(WPARAM, LPARAM)
 
 void InitScheduler()
 {
-	bPopupsEnabled = ServiceExists(MS_POPUP_ADDPOPUPT) || ServiceExists(MS_POPUP_ADDPOPUPCLASS);
+	bPopupsEnabled = ServiceExists(MS_POPUP_ADDPOPUPW) || ServiceExists(MS_POPUP_ADDPOPUPCLASS);
 
 	POPUPCLASS test = { sizeof(test) };
 	test.flags = PCF_UNICODE;
@@ -1298,13 +1298,13 @@ void DoError(const TaskOptions& to, const std::wstring _error)
 			return;
 
 		if (ServiceExists(MS_POPUP_ADDPOPUPCLASS))
-			ShowClassPopupT(MODULENAME, msg, (wchar_t*)_error.c_str());
-		else if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
-			POPUPDATAT ppd = { 0 };
+			ShowClassPopupW(MODULENAME, msg, _error.c_str());
+		else if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
+			POPUPDATAW ppd = { 0 };
 			ppd.lchIcon = Skin_LoadIcon(SKINICON_OTHER_HISTORY);
-			wcscpy_s(ppd.lptzContactName, msg);
-			wcscpy_s(ppd.lptzText, _error.c_str());
-			CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, 0);
+			wcscpy_s(ppd.lpwzContactName, msg);
+			wcscpy_s(ppd.lpwzText, _error.c_str());
+			CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&ppd, 0);
 		}
 	}
 }

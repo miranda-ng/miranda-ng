@@ -448,10 +448,10 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 			LPTSTR ptszPopupText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t));
 			mir_wstrcpy(ptszPopupText, ptszMBox);
 
-			POPUPDATAT_V2 pdtData = { 0 };
+			POPUPDATAW_V2 pdtData = { 0 };
 			pdtData.cbSize = sizeof(pdtData);
-			wcsncpy(pdtData.lptzContactName, TranslateT(MODULENAME), MAX_CONTACTNAME);
-			wcsncpy(pdtData.lptzText, ptszPopupText, MAX_SECONDLINE);
+			wcsncpy(pdtData.lpwzContactName, TranslateT(MODULENAME), MAX_CONTACTNAME);
+			wcsncpy(pdtData.lpwzText, ptszPopupText, MAX_SECONDLINE);
 
 			switch (poOptions.bColourType) {
 			case PPC_POPUP:
@@ -486,7 +486,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 			pdtData.lpActions = poOptions.paActions;
 			pdtData.actionCount = 1;
 
-			if (CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&pdtData, APF_NEWDATA) < 0) {
+			if (CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&pdtData, APF_NEWDATA) < 0) {
 				mir_free(ptszPopupText);
 				MessageBox(nullptr, ptszMBox, TranslateT(MODULENAME), MB_ICONINFORMATION);
 			}

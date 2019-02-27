@@ -127,26 +127,26 @@ void CIcqProto::ConnectionFailed(int iReason, int iErrorCode)
 	debugLogA("ConnectionFailed -> reason %d", iReason);
 
 	if (g_bPopupService) {
-		POPUPDATAT Popup = {};
+		POPUPDATAW Popup = {};
 		Popup.lchIcon = IcoLib_GetIconByHandle(Skin_GetIconHandle(SKINICON_ERROR), true);
-		wcscpy_s(Popup.lptzContactName, m_tszUserName);
+		wcscpy_s(Popup.lpwzContactName, m_tszUserName);
 		switch (iReason) {
 		case LOGINERR_BADUSERID:
-			mir_snwprintf(Popup.lptzText, LPGENW("You have not entered an ICQ number.\nConfigure this in Options -> Network -> ICQ and try again."));
+			mir_snwprintf(Popup.lpwzText, LPGENW("You have not entered an ICQ number.\nConfigure this in Options -> Network -> ICQ and try again."));
 			break;
 		case LOGINERR_WRONGPASSWORD:
-			mir_snwprintf(Popup.lptzText, LPGENW("Connection failed.\nYour ICQ number or password was rejected (%d)."), iErrorCode);
+			mir_snwprintf(Popup.lpwzText, LPGENW("Connection failed.\nYour ICQ number or password was rejected (%d)."), iErrorCode);
 			break;
 		case LOGINERR_NONETWORK:
 		case LOGINERR_NOSERVER:
-			mir_snwprintf(Popup.lptzText, LPGENW("Connection failed.\nThe server is temporarily unavailable (%d)."), iErrorCode);
+			mir_snwprintf(Popup.lpwzText, LPGENW("Connection failed.\nThe server is temporarily unavailable (%d)."), iErrorCode);
 			break;
 		default:
-			mir_snwprintf(Popup.lptzText, LPGENW("Connection failed.\nUnknown error during sign on: %d"), iErrorCode);
+			mir_snwprintf(Popup.lpwzText, LPGENW("Connection failed.\nUnknown error during sign on: %d"), iErrorCode);
 			break;
 		}
 
-		CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&Popup, 0);
+		CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&Popup, 0);
 	}
 
 	ProtoBroadcastAck(0, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, iReason);

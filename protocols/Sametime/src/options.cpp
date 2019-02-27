@@ -160,7 +160,7 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		}
 
 
-		if (!ServiceExists(MS_POPUP_ADDPOPUPT)) {
+		if (!ServiceExists(MS_POPUP_ADDPOPUPW)) {
 			HWND hw = GetDlgItem(hwndDlg, IDC_RAD_ERRPOP);
 			EnableWindow(hw, FALSE);
 		}

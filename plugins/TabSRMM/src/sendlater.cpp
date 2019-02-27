@@ -118,17 +118,17 @@ CSendLaterJob::~CSendLaterJob()
 			if (PluginConfig.g_bPopupAvail && fShowPopup) {
 				wchar_t	*tszName = Clist_GetContactDisplayName(hContact);
 
-				POPUPDATAT ppd = { 0 };
+				POPUPDATAW ppd = { 0 };
 				ppd.lchContact = hContact;
-				wcsncpy_s(ppd.lptzContactName, (tszName ? tszName : TranslateT("'(Unknown contact)'")), _TRUNCATE);
+				wcsncpy_s(ppd.lpwzContactName, (tszName ? tszName : TranslateT("'(Unknown contact)'")), _TRUNCATE);
 				wchar_t *msgPreview = Utils::GetPreviewWithEllipsis(reinterpret_cast<wchar_t *>(&pBuf[mir_strlen((char *)pBuf) + 1]), 100);
 				if (fSuccess) {
-					mir_snwprintf(ppd.lptzText, TranslateT("A send later job completed successfully.\nThe original message: %s"),
+					mir_snwprintf(ppd.lpwzText, TranslateT("A send later job completed successfully.\nThe original message: %s"),
 						msgPreview);
 					mir_free(msgPreview);
 				}
 				else if (fFailed) {
-					mir_snwprintf(ppd.lptzText, TranslateT("A send later job failed to complete.\nThe original message: %s"),
+					mir_snwprintf(ppd.lpwzText, TranslateT("A send later job failed to complete.\nThe original message: %s"),
 						msgPreview);
 					mir_free(msgPreview);
 				}
@@ -141,7 +141,7 @@ CSendLaterJob::~CSendLaterJob()
 				ppd.lchIcon = fFailed ? PluginConfig.g_iconErr : PluginConfig.g_IconMsgEvent;
 				ppd.PluginData = nullptr;
 				ppd.iSeconds = fFailed ? -1 : nen_options.iDelayMsg;
-				PUAddPopupT(&ppd);
+				PUAddPopupW(&ppd);
 			}
 		}
 		if (fFailed && (bCode == JOB_AGE || bCode == JOB_REMOVABLE) && szId[0] == 'S')

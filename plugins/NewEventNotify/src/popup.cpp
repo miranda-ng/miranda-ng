@@ -393,12 +393,12 @@ int PopupShow(MCONTACT hContact, MEVENT hEvent, UINT eventType)
 
 	// if hContact is NULL, && hEvent is NULL then popup is only Test
 	if ((hContact == NULL) && (hEvent == NULL)) {
-		wcsncpy(pudw.lptzContactName, TranslateT("Plugin Test"), MAX_CONTACTNAME);
-		wcsncpy(pudw.lptzText, TranslateW(sampleEvent), MAX_SECONDLINE);
+		wcsncpy(pudw.lpwzContactName, TranslateT("Plugin Test"), MAX_CONTACTNAME);
+		wcsncpy(pudw.lpwzText, TranslateW(sampleEvent), MAX_SECONDLINE);
 	}
 	else { // get the needed event data
-		wcsncpy(pudw.lptzContactName, Clist_GetContactDisplayName(hContact), MAX_CONTACTNAME);
-		wcsncpy(pudw.lptzText, ptrW(GetEventPreview(&dbe)), MAX_SECONDLINE);
+		wcsncpy(pudw.lpwzContactName, Clist_GetContactDisplayName(hContact), MAX_CONTACTNAME);
+		wcsncpy(pudw.lpwzText, ptrW(GetEventPreview(&dbe)), MAX_SECONDLINE);
 	}
 
 	PopupCount++;
@@ -406,7 +406,7 @@ int PopupShow(MCONTACT hContact, MEVENT hEvent, UINT eventType)
 	PopupList[NumberPopupData(NULL, -1)] = pdata;
 	// send data to popup plugin
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
 		// popup creation failed, release popupdata
 		if (PUAddPopupW(&pudw) < 0) {
 			FreePopupEventData(pdata);
@@ -503,7 +503,7 @@ int PopupUpdate(MCONTACT hContact, MEVENT hEvent)
 	if ((doReverse && eventData->next) || (!doReverse && eventData->prev))
 		mir_snwprintf(lpzText, L"%s\n...", lpzText);
 
-	PUChangeTextT(pdata->hWnd, lpzText);
+	PUChangeTextW(pdata->hWnd, lpzText);
 	return 0;
 }
 

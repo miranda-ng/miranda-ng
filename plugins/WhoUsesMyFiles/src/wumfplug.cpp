@@ -55,7 +55,7 @@ void LoadOptions()
 	WumfOptions.DelayInf = g_plugin.getByte(DELAY_INF, FALSE);
 	WumfOptions.DelaySet = g_plugin.getByte(DELAY_SET, FALSE);
 	WumfOptions.DelaySec = g_plugin.getByte(DELAY_SEC, 0);
-	if (!ServiceExists(MS_POPUP_ADDPOPUPT)) {
+	if (!ServiceExists(MS_POPUP_ADDPOPUPW)) {
 		WumfOptions.DelayDef = TRUE;
 		WumfOptions.DelaySet = FALSE;
 		WumfOptions.DelayInf = FALSE;
@@ -134,7 +134,7 @@ void ShowWumfPopup(PWumf w)
 
 void ShowThePopup(PWumf w, LPTSTR title, LPTSTR text)
 {
-	POPUPDATAT ppd = { 0 };
+	POPUPDATAW ppd = { 0 };
 	ppd.lchContact = NULL;
 	ppd.lchIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_DRIVE));
 
@@ -145,8 +145,8 @@ void ShowThePopup(PWumf w, LPTSTR title, LPTSTR text)
 	else if (WumfOptions.DelaySet)
 		ppd.iSeconds = WumfOptions.DelaySec;
 
-	mir_wstrncpy(ppd.lptzContactName, title, MAX_CONTACTNAME);
-	mir_wstrncpy(ppd.lptzText, text, MAX_SECONDLINE);
+	mir_wstrncpy(ppd.lpwzContactName, title, MAX_CONTACTNAME);
+	mir_wstrncpy(ppd.lpwzText, text, MAX_SECONDLINE);
 	if (WumfOptions.UseWinColor) {
 		ppd.colorBack = GetSysColor(COLOR_WINDOW);
 		ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
@@ -158,7 +158,7 @@ void ShowThePopup(PWumf w, LPTSTR title, LPTSTR text)
 
 	ppd.PluginWindowProc = PopupDlgProc;
 	ppd.PluginData = w;
-	PUAddPopupT(&ppd);
+	PUAddPopupW(&ppd);
 }
 
 void ThreadProc(LPVOID)

@@ -476,25 +476,25 @@ void ShowPopup(MCONTACT hcontact, const char * lpzProto, int newStatus)
 	mir_snprintf(szSetting, "Col_%d", newStatus - ID_STATUS_OFFLINE);
 	DWORD sett = g_plugin.getDword(szSetting, StatusColors15bits[newStatus - ID_STATUS_OFFLINE]);
 
-	POPUPDATAT ppd = { 0 };
+	POPUPDATAW ppd = { 0 };
 	GetColorsFromDWord(&ppd.colorBack, &ppd.colorText, sett);
 
 	ppd.lchContact = hcontact;
 	ppd.lchIcon = Skin_LoadProtoIcon(lpzProto, newStatus);
 
 	if (!g_plugin.getWString("PopupStamp", &dbv)) {
-		wcsncpy(ppd.lptzContactName, ParseString(dbv.pwszVal, hcontact), MAX_CONTACTNAME);
+		wcsncpy(ppd.lpwzContactName, ParseString(dbv.pwszVal, hcontact), MAX_CONTACTNAME);
 		db_free(&dbv);
 	}
-	else wcsncpy(ppd.lptzContactName, ParseString(DEFAULT_POPUPSTAMP, hcontact), MAX_CONTACTNAME);
+	else wcsncpy(ppd.lpwzContactName, ParseString(DEFAULT_POPUPSTAMP, hcontact), MAX_CONTACTNAME);
 
 	if (!g_plugin.getWString("PopupStampText", &dbv)) {
-		wcsncpy(ppd.lptzText, ParseString(dbv.pwszVal, hcontact), MAX_SECONDLINE);
+		wcsncpy(ppd.lpwzText, ParseString(dbv.pwszVal, hcontact), MAX_SECONDLINE);
 		db_free(&dbv);
 	}
-	else wcsncpy(ppd.lptzText, ParseString(DEFAULT_POPUPSTAMPTEXT, hcontact), MAX_SECONDLINE);
+	else wcsncpy(ppd.lpwzText, ParseString(DEFAULT_POPUPSTAMPTEXT, hcontact), MAX_SECONDLINE);
 	ppd.PluginWindowProc = PopupDlgProc;
-	PUAddPopupT(&ppd);
+	PUAddPopupW(&ppd);
 }
 
 void myPlaySound(MCONTACT hcontact, WORD newStatus, WORD oldStatus)

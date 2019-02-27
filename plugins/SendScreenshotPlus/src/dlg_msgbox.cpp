@@ -499,13 +499,13 @@ static INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM, LPARAM lParam)
 		MoveWindow(hDlg, -10, -10, 0, 0, FALSE);
 		LPMSGPOPUPDATA pmpd = (LPMSGPOPUPDATA)mir_alloc(sizeof(MSGPOPUPDATA));
 		if (pmpd) {
-			POPUPDATAT_V2 pd = { 0 };
+			POPUPDATAW_V2 pd = { 0 };
 			pd.cbSize = sizeof(pd);
 			pd.lchContact = NULL; // (HANDLE)wParam;
 			// icon
 			pd.lchIcon = MsgLoadIcon(pMsgBox);
-			mir_wstrncpy(pd.lptzContactName, pMsgBox->ptszTitle, _countof(pd.lptzContactName));
-			mir_wstrncpy(pd.lptzText, pMsgBox->ptszMsg, _countof(pd.lptzText));
+			mir_wstrncpy(pd.lpwzContactName, pMsgBox->ptszTitle, _countof(pd.lpwzContactName));
+			mir_wstrncpy(pd.lpwzText, pMsgBox->ptszMsg, _countof(pd.lpwzText));
 
 			// CALLBAC Proc
 			pd.PluginWindowProc = PopupProc;
@@ -576,7 +576,7 @@ static INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM, LPARAM lParam)
 			}
 
 			// create popup
-			CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&pd, APF_NEWDATA);
+			CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&pd, APF_NEWDATA);
 			if (MB_TYPE(pMsgBox->uType) == MB_OK)
 				EndDialog(hDlg, IDOK);
 		}
@@ -652,7 +652,7 @@ INT_PTR MsgBoxService(WPARAM, LPARAM lParam)
 	if (PtrIsValid(pMsgBox) && pMsgBox->cbSize == sizeof(MSGBOX)) {
 		// Shall the MessageBox displayed as popup?
 		if (!(pMsgBox->uType & (MB_INFOBAR | MB_NOPOPUP))				// message box can be a popup?
-			&& ServiceExists(MS_POPUP_ADDPOPUPT)						// popups exist?
+			&& ServiceExists(MS_POPUP_ADDPOPUPW)						// popups exist?
 			&& myGlobals.PopupActionsExist == 1							// popup support ext stuct?
 			&& (db_get_dw(0, "Popup", "Actions", 0) & 1)				// popup++ actions on?
 			&& db_get_b(0, MODNAME, SET_POPUPMSGBOX, DEFVAL_POPUPMSGBOX))	// user likes popups?

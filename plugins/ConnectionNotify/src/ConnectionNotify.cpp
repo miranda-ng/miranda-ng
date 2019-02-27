@@ -755,7 +755,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 void showMsg(wchar_t *pName, DWORD pid, wchar_t *intIp, wchar_t *extIp, int intPort, int extPort, int state)
 {
 
-	POPUPDATAT ppd;
+	POPUPDATAW ppd;
 	//hContact = A_VALID_HANDLE_YOU_GOT_FROM_SOMEWHERE;
 	//hIcon = A_VALID_HANDLE_YOU_GOT_SOMEWHERE;
 	//char * lpzContactName = (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)lhContact,0);
@@ -772,11 +772,11 @@ void showMsg(wchar_t *pName, DWORD pid, wchar_t *intIp, wchar_t *extIp, int intP
 	if (settingResolveIp) {
 		wchar_t hostName[128];
 		getDnsName(extIp, hostName, _countof(hostName));
-		mir_snwprintf(ppd.lptzText, L"%s:%d\n%s:%d", hostName, extPort, intIp, intPort);
+		mir_snwprintf(ppd.lpwzText, L"%s:%d\n%s:%d", hostName, extPort, intIp, intPort);
 	}
-	else mir_snwprintf(ppd.lptzText, L"%s:%d\n%s:%d", extIp, extPort, intIp, intPort);
+	else mir_snwprintf(ppd.lpwzText, L"%s:%d\n%s:%d", extIp, extPort, intIp, intPort);
 
-	mir_snwprintf(ppd.lptzContactName, L"%s (%s)", pName, tcpStates[state - 1]);
+	mir_snwprintf(ppd.lpwzContactName, L"%s (%s)", pName, tcpStates[state - 1]);
 
 	if (settingSetColours) {
 		ppd.colorBack = settingBgColor;
@@ -797,7 +797,7 @@ void showMsg(wchar_t *pName, DWORD pid, wchar_t *intIp, wchar_t *extIp, int intP
 	ppd.PluginData = mpd;
 
 	//Now that every field has been filled, we want to see the popup.
-	PUAddPopupT(&ppd);
+	PUAddPopupW(&ppd);
 }
 
 //called after all plugins loaded.

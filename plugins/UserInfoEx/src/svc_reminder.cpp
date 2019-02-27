@@ -249,17 +249,17 @@ static int NotifyWithPopup(MCONTACT hContact, CEvent::EType eventType, int DaysT
 	if (!gRemindOpts.bPopups)
 		return 1;
 
-	POPUPDATAT ppd = { 0 };
+	POPUPDATAW ppd = { 0 };
 	ppd.PluginWindowProc = PopupWindowProc;
 	ppd.iSeconds = (int)g_plugin.getByte(SET_POPUP_DELAY, 0);
 
 	if (hContact) {
 		ppd.lchContact = hContact;
-		mir_snwprintf(ppd.lptzContactName, L"%s - %s", TranslateW(pszDesc), Clist_GetContactDisplayName(hContact));
+		mir_snwprintf(ppd.lpwzContactName, L"%s - %s", TranslateW(pszDesc), Clist_GetContactDisplayName(hContact));
 	}
-	else mir_wstrncpy(ppd.lptzContactName, TranslateT("Reminder"), _countof(ppd.lptzContactName));
+	else mir_wstrncpy(ppd.lpwzContactName, TranslateT("Reminder"), _countof(ppd.lpwzContactName));
 
-	mir_wstrncpy(ppd.lptzText, pszMsg, MAX_SECONDLINE);
+	mir_wstrncpy(ppd.lpwzText, pszMsg, MAX_SECONDLINE);
 
 	ppd.lchIcon = GetAnnivIcon(CEvent(eventType, DaysToAnniv));
 
@@ -291,7 +291,7 @@ static int NotifyWithPopup(MCONTACT hContact, CEvent::EType eventType, int DaysT
 			break;
 		}
 	}
-	return PUAddPopupT(&ppd);
+	return PUAddPopupW(&ppd);
 }
 
 /**
@@ -830,7 +830,7 @@ void SvcReminderEnable(BYTE bEnable)
 		gRemindOpts.bCListExtraIcon = g_plugin.getByte(SET_REMIND_EXTRAICON, 1);
 		gRemindOpts.bCheckVisibleOnly = g_plugin.getByte(SET_REMIND_CHECKVISIBLE, DEFVAL_REMIND_CHECKVISIBLE);
 		gRemindOpts.bFlashCList = g_plugin.getByte(SET_REMIND_FLASHICON, FALSE);
-		gRemindOpts.bPopups = ServiceExists(MS_POPUP_ADDPOPUPT) && g_plugin.getByte(SET_POPUP_ENABLED, DEFVAL_POPUP_ENABLED);
+		gRemindOpts.bPopups = ServiceExists(MS_POPUP_ADDPOPUPW) && g_plugin.getByte(SET_POPUP_ENABLED, DEFVAL_POPUP_ENABLED);
 
 		// init the timer
 		UpdateTimer(TRUE);

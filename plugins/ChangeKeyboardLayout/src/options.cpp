@@ -352,10 +352,10 @@ INT_PTR CALLBACK DlgPopupsProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, 
 			if ((HIWORD(wParam) == BN_CLICKED )) {
 				ptszPopupPreviewText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t));
 
-				POPUPDATAT_V2 pdtData = { 0 };
+				POPUPDATAW_V2 pdtData = { 0 };
 				pdtData.cbSize = sizeof(pdtData);
-				wcsncpy(pdtData.lptzContactName, TranslateT(MODULENAME), MAX_CONTACTNAME);
-				wcsncpy(pdtData.lptzText, L"Ghbdtn? rfr ltkf&", MAX_SECONDLINE);
+				wcsncpy(pdtData.lpwzContactName, TranslateT(MODULENAME), MAX_CONTACTNAME);
+				wcsncpy(pdtData.lpwzText, L"Ghbdtn? rfr ltkf&", MAX_SECONDLINE);
 
 				switch(poOptionsTemp.bColourType) {
 				case PPC_POPUP:
@@ -382,7 +382,7 @@ INT_PTR CALLBACK DlgPopupsProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, 
 					pdtData.iSeconds = poOptionsTemp.bTimeout;
 					break;
 				}
-				mir_wstrcpy(ptszPopupPreviewText, pdtData.lptzText);
+				mir_wstrcpy(ptszPopupPreviewText, pdtData.lpwzText);
 				pdtData.PluginData = ptszPopupPreviewText;
 				pdtData.lchIcon = hPopupIcon;
 				poOptions.paActions[0].lchIcon = hCopyIcon;
@@ -390,7 +390,7 @@ INT_PTR CALLBACK DlgPopupsProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, 
 				pdtData.actionCount = 1;
 				pdtData.PluginWindowProc = (WNDPROC)CKLPopupDlgProc;
 
-				if ( CallService(MS_POPUP_ADDPOPUPT, (WPARAM) &pdtData, APF_NEWDATA) < 0)
+				if ( CallService(MS_POPUP_ADDPOPUPW, (WPARAM) &pdtData, APF_NEWDATA) < 0)
 					mir_free(ptszPopupPreviewText);
 			}
 			break;

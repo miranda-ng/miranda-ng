@@ -1197,7 +1197,7 @@ int OptionsInitialize(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = DlgProcFiltering;
 	g_plugin.addOptions(wParam, &odp);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
 		odp.szTitle.a = LPGEN("Status Notify");
 		odp.szGroup.a = LPGEN("Popups");
 		odp.szTab.a = LPGEN("General");

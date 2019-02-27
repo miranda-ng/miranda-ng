@@ -227,7 +227,7 @@ CMPlugin::CMPlugin() :
 
 int hook_ModulesLoaded(WPARAM, LPARAM)
 {
-	g_myGlobals.PopupExist = ServiceExists(MS_POPUP_ADDPOPUPT);
+	g_myGlobals.PopupExist = ServiceExists(MS_POPUP_ADDPOPUPW);
 	g_myGlobals.PopupActionsExist = ServiceExists(MS_POPUP_REGISTERACTIONS);
 	g_myGlobals.PluginHTTPExist = ServiceExists(MS_HTTP_ACCEPT_CONNECTIONS);
 	g_myGlobals.PluginFTPExist = ServiceExists(MS_FTPFILE_UPLOAD);

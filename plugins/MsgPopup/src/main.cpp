@@ -66,7 +66,7 @@ MSGBOXPROC prevMessageBox;
 
 void popupMessage(LPCTSTR lpText, LPCTSTR lpCaption, UINT uType)
 {
-	POPUPDATAT ppd = { 0 };
+	POPUPDATAW ppd = { 0 };
 	int iIcon;
 	int indx;
 
@@ -94,9 +94,9 @@ void popupMessage(LPCTSTR lpText, LPCTSTR lpCaption, UINT uType)
 	ppd.iSeconds = options.Timeout[indx];
 
 	ppd.lchIcon = (HICON)LoadImage(nullptr, MAKEINTRESOURCE(iIcon), IMAGE_ICON, SM_CXSMICON, SM_CYSMICON, LR_SHARED);
-	mir_wstrcpy(ppd.lptzContactName, lpCaption);
-	mir_wstrcpy(ppd.lptzText, lpText);
-	PUAddPopupT(&ppd);
+	mir_wstrcpy(ppd.lpwzContactName, lpCaption);
+	mir_wstrcpy(ppd.lpwzText, lpText);
+	PUAddPopupW(&ppd);
 	if (options.Sound)
 		MessageBeep(uType);
 }
@@ -189,7 +189,7 @@ int HookedInit(WPARAM, LPARAM)
 
 int HookedOptions(WPARAM wParam, LPARAM)
 {
-	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
 		OPTIONSDIALOGPAGE odp = {};
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 		odp.szTitle.w = LPGENW("MessagePopup");

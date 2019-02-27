@@ -113,7 +113,7 @@ void CGlobals::reloadSystemModulesChanged()
 
 	m_hwndClist = g_clistApi.hwndContactList;
 
-	g_bPopupAvail = ServiceExists(MS_POPUP_ADDPOPUPT) != 0;
+	g_bPopupAvail = ServiceExists(MS_POPUP_ADDPOPUPW) != 0;
 
 	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x58d8dc1, 0x1c25, 0x49c0, 0xb8, 0x7c, 0xa3, 0x22, 0x2b, 0x3d, 0xf1, 0xd8);

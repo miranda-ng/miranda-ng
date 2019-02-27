@@ -90,9 +90,9 @@ PopupDataType;
 void ShowPopupEx(MCONTACT hContact, const wchar_t *title, const wchar_t *description,
 	void *plugin_data, int type, const Options *op)
 {
-	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
 		// Make popup
-		POPUPDATAT ppd = { 0 };
+		POPUPDATAW ppd = { 0 };
 
 		ppd.lchContact = hContact;
 		ppd.lchIcon = createProtoOverlayedIcon(hContact);
@@ -102,12 +102,12 @@ void ShowPopupEx(MCONTACT hContact, const wchar_t *title, const wchar_t *descrip
 		((PopupDataType*)ppd.PluginData)->hIcon = ppd.lchIcon;
 
 		if (title != nullptr)
-			mir_wstrncpy(ppd.lptzContactName, title, _countof(ppd.lptzContactName));
+			mir_wstrncpy(ppd.lpwzContactName, title, _countof(ppd.lpwzContactName));
 		else if (hContact != NULL)
-			mir_wstrncpy(ppd.lptzContactName, Clist_GetContactDisplayName(hContact), _countof(ppd.lptzContactName));
+			mir_wstrncpy(ppd.lpwzContactName, Clist_GetContactDisplayName(hContact), _countof(ppd.lpwzContactName));
 
 		if (description != nullptr)
-			mir_wstrncpy(ppd.lptzText, description, _countof(ppd.lptzText));
+			mir_wstrncpy(ppd.lpwzText, description, _countof(ppd.lpwzText));
 
 		if (type == POPUP_TYPE_NORMAL || type == POPUP_TYPE_TEST) {
 			if (op->popup_use_default_colors) {
@@ -159,7 +159,7 @@ void ShowPopupEx(MCONTACT hContact, const wchar_t *title, const wchar_t *descrip
 		}
 
 		// Now that every field has been filled, we want to see the popup.
-		PUAddPopupT(&ppd);
+		PUAddPopupW(&ppd);
 	}
 	else {
 		MessageBox(nullptr, description, title ? title : Clist_GetContactDisplayName(hContact), MB_OK);

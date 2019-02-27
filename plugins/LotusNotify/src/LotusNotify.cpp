@@ -447,7 +447,7 @@ BOOL checkNotesIniFile(BOOL bInfo)
 void showMsg(wchar_t* sender,wchar_t* text, DWORD id, char *strUID)
 {
 
-	POPUPDATAT ppd;
+	POPUPDATAW ppd;
 	//hContact = A_VALID_HANDLE_YOU_GOT_FROM_SOMEWHERE;
 	//hIcon = A_VALID_HANDLE_YOU_GOT_SOMEWHERE;
 	//char * lpzContactName = (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)lhContact,0);
@@ -460,8 +460,8 @@ void showMsg(wchar_t* sender,wchar_t* text, DWORD id, char *strUID)
 	memset(&ppd, 0, sizeof(ppd)); //This is always a good thing to do.
 	ppd.lchContact = NULL; //(HANDLE)hContact; //Be sure to use a GOOD handle, since this will not be checked.
 	ppd.lchIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_ICON1));
-	wcscpy_s(ppd.lptzContactName, _countof(ppd.lptzContactName), sender);
-	wcscpy_s(ppd.lptzText, _countof(ppd.lptzText), text);
+	wcscpy_s(ppd.lpwzContactName, _countof(ppd.lpwzContactName), sender);
+	wcscpy_s(ppd.lpwzText, _countof(ppd.lpwzText), text);
 	if(settingSetColours)
 	{
 		ppd.colorBack = settingBgColor;
@@ -479,7 +479,7 @@ void showMsg(wchar_t* sender,wchar_t* text, DWORD id, char *strUID)
 	ppd.PluginData = mpd;
 
 	//Now that every field has been filled, we want to see the popup.
-	PUAddPopupT(&ppd);
+	PUAddPopupW(&ppd);
 }
 
 
@@ -499,7 +499,7 @@ void ErMsgT(wchar_t* msg)
 		wcsncpy_s(buffer, L"LotusNotify: ", _TRUNCATE);
 		wcscat_s(buffer, msg);
 		isPopupWaiting = TRUE;
-		PUShowMessageT(buffer, SM_WARNING);
+		PUShowMessageW(buffer, SM_WARNING);
 		isPopupWaiting = FALSE;
 	}
 }

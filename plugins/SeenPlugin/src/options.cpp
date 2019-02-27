@@ -138,7 +138,7 @@ INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 			else
 				idText = wparam + 20, idBack = wparam;
 
-			POPUPDATAT ppd = { 0 };
+			POPUPDATAW ppd = { 0 };
 			ppd.colorBack = SendDlgItemMessage(hdlg, idBack, CPM_GETCOLOUR, 0, 0);
 			ppd.colorText = SendDlgItemMessage(hdlg, idText, CPM_GETCOLOUR, 0, 0);
 			DWORD temp = GetDWordFromColors(ppd.colorBack, ppd.colorText);
@@ -148,12 +148,12 @@ INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 			ppd.lchIcon = Skin_LoadProtoIcon(nullptr, idBack);
 
 			GetDlgItemText(hdlg, IDC_POPUPSTAMP, szstamp, _countof(szstamp));
-			wcsncpy(ppd.lptzContactName, ParseString(szstamp, NULL), MAX_CONTACTNAME);
+			wcsncpy(ppd.lpwzContactName, ParseString(szstamp, NULL), MAX_CONTACTNAME);
 
 			GetDlgItemText(hdlg, IDC_POPUPSTAMPTEXT, szstamp, _countof(szstamp));
-			wcsncpy(ppd.lptzText, ParseString(szstamp, NULL), MAX_SECONDLINE);
+			wcsncpy(ppd.lpwzText, ParseString(szstamp, NULL), MAX_SECONDLINE);
 
-			PUAddPopupT(&ppd);
+			PUAddPopupW(&ppd);
 			SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
 		}
 
@@ -495,7 +495,7 @@ int OptionsInit(WPARAM wparam, LPARAM)
 	odp.pfnDlgProc = OptsSettingsDlgProc;
 	g_plugin.addOptions(wparam, &odp);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPS);
 		odp.szGroup.w = LPGENW("Popups");
 		odp.szTitle.w = LPGENW("Last seen");

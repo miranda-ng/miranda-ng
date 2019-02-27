@@ -886,12 +886,12 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 		switch (LOWORD(wParam)) {
 		case BTN_PREVIEW:
 			{
-				POPUPDATAT ppd = { 0 };
+				POPUPDATAW ppd = { 0 };
 				ppd.iSeconds = (int)g_plugin.getByte(SET_POPUP_DELAY, 0);
-				mir_wstrncpy(ppd.lptzText, TranslateT("This is the reminder message"), MAX_SECONDLINE);
+				mir_wstrncpy(ppd.lpwzText, TranslateT("This is the reminder message"), MAX_SECONDLINE);
 
 				// Birthday
-				mir_wstrncpy(ppd.lptzContactName, TranslateT("Birthday"), _countof(ppd.lptzContactName));
+				mir_wstrncpy(ppd.lpwzContactName, TranslateT("Birthday"), _countof(ppd.lpwzContactName));
 				ppd.lchIcon = IcoLib_GetIcon(ICO_RMD_DTB0);
 				if (IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_WINCLR)) {
 					ppd.colorBack = GetSysColor(COLOR_BTNFACE);
@@ -901,10 +901,10 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 					ppd.colorBack = SendDlgItemMessage(hDlg, CLR_BBACK, CPM_GETCOLOUR, 0, 0);
 					ppd.colorText = SendDlgItemMessage(hDlg, CLR_BTEXT, CPM_GETCOLOUR, 0, 0);
 				}
-				PUAddPopupT(&ppd);
+				PUAddPopupW(&ppd);
 
 				// Anniversary
-				mir_wstrncpy(ppd.lptzContactName, TranslateT("Anniversary"), _countof(ppd.lptzContactName));
+				mir_wstrncpy(ppd.lpwzContactName, TranslateT("Anniversary"), _countof(ppd.lpwzContactName));
 				ppd.lchIcon = IcoLib_GetIcon(ICO_RMD_DTAX);
 				if (IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_WINCLR)) {
 					ppd.colorBack = GetSysColor(COLOR_BTNFACE);
@@ -918,7 +918,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 					ppd.colorBack = SendDlgItemMessage(hDlg, CLR_ABACK, CPM_GETCOLOUR, 0, 0);
 					ppd.colorText = SendDlgItemMessage(hDlg, CLR_ATEXT, CPM_GETCOLOUR, 0, 0);
 				}
-				PUAddPopupT(&ppd);
+				PUAddPopupW(&ppd);
 			}
 			break;
 
@@ -1068,7 +1068,7 @@ int OnInitOptions(WPARAM wParam, LPARAM)
 	g_plugin.addOptions(wParam, &odp);
 
 	// Popups page
-	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
 		odp.szTitle.a = MODULELONGNAME;
 		odp.szGroup.a = LPGEN("Popups");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUP);

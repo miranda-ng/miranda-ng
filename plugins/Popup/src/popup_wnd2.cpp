@@ -688,8 +688,8 @@ void PopupWnd2::updateData(POPUPDATAW_V2 *ppd)
 	if (m_textType == TT_NONE)
 		m_textType = TT_UNICODE;
 
-	replaceStrW(m_lptzTitle, ppd->lptzContactName);
-	replaceStrW(m_lptzText, ppd->lptzText);
+	replaceStrW(m_lptzTitle, ppd->lpwzContactName);
+	replaceStrW(m_lptzText, ppd->lpwzText);
 	setIcon(ppd->lchIcon);
 	m_hNotification = ppd->hNotification;
 
@@ -718,7 +718,7 @@ void PopupWnd2::updateData(POPUPDATA2 *ppd)
 		if (m_textType == TT_NONE)
 			m_textType = TT_UNICODE;
 		replaceStrW(m_lptzTitle, ppd->lptzTitle);
-		replaceStrW(m_lptzText, ppd->lptzText);
+		replaceStrW(m_lptzText, ppd->lpwzText);
 	}
 	else {
 		replaceStrW(m_lptzTitle, nullptr);
@@ -991,7 +991,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 
 	case UM_POPUPMODIFYACTIONICON:
 		{
-			LPPOPUPACTIONID actionId = (LPPOPUPACTIONID)wParam;
+			POPUPACTIONID *actionId = (POPUPACTIONID*)wParam;
 			for (int i = 0; i < m_actionCount; ++i)
 				if ((m_actions[i].actionA.wParam == actionId->wParam) &&
 					(m_actions[i].actionA.lParam == actionId->lParam)) {

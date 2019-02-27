@@ -78,7 +78,7 @@ void PopupPreview()
 	ppd.flags = PU2_UNICODE;
 
 	ppd.lptzTitle = lptzTitle1Eng;
-	ppd.lptzText = lptzText1Eng;
+	ppd.lpwzText = lptzText1Eng;
 	ppd.lchIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	CallService(MS_POPUP_ADDPOPUP2, (WPARAM)&ppd, APF_NO_HISTORY);
 	if (PopupOptions.UseAnimations || PopupOptions.UseEffect) Sleep((ANIM_TIME * 2) / 3); // Pause
@@ -87,20 +87,20 @@ void PopupPreview()
 	ppd.cbSize = sizeof(ppd);
 	ppd.flags = PU2_UNICODE;
 	ppd.lptzTitle = lptzTitle2;
-	ppd.lptzText = lptzText2;
+	ppd.lpwzText = lptzText2;
 	ppd.lchIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	ppd.hbmAvatar = hbmNoAvatar;
 
 	CallService(MS_POPUP_ADDPOPUP2, (WPARAM)&ppd, APF_NO_HISTORY);
 	if (PopupOptions.UseAnimations || PopupOptions.UseEffect) Sleep((ANIM_TIME * 2) / 3); // Pause
 
-	PUShowMessageT(TranslateT("This is a notification message"), (DWORD)SM_NOTIFY | 0x80000000);
+	PUShowMessageW(TranslateT("This is a notification message"), (DWORD)SM_NOTIFY | 0x80000000);
 	if (PopupOptions.UseAnimations || PopupOptions.UseEffect) Sleep((ANIM_TIME * 2) / 3); // Pause
 
-	PUShowMessageT(TranslateT("This is a warning message"), (DWORD)SM_WARNING | 0x80000000);
+	PUShowMessageW(TranslateT("This is a warning message"), (DWORD)SM_WARNING | 0x80000000);
 	if (PopupOptions.UseAnimations || PopupOptions.UseEffect) Sleep((ANIM_TIME * 2) / 3); // Pause
 
-	PUShowMessageT(TranslateT("This is an error message"), (DWORD)SM_ERROR | 0x80000000);
+	PUShowMessageW(TranslateT("This is an error message"), (DWORD)SM_ERROR | 0x80000000);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////

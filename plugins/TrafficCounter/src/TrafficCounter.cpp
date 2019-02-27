@@ -147,7 +147,7 @@ int TrafficCounterShutdown(WPARAM, LPARAM)
 
 int ModuleLoad(WPARAM, LPARAM)
 {
-	bPopupExists = ServiceExists(MS_POPUP_ADDPOPUPT);
+	bPopupExists = ServiceExists(MS_POPUP_ADDPOPUPW);
 	bVariablesExists = ServiceExists(MS_VARS_FORMATSTRING) && ServiceExists(MS_VARS_REGISTERTOKEN);
 	bTooltipExists = ServiceExists("mToolTip/ShowTipW") || ServiceExists("mToolTip/ShowTip");
 	return 0;
@@ -882,34 +882,34 @@ void UpdateNotifyTimer(void)
 
 void NotifyOnSend(void)
 {
-	POPUPDATAT ppd;
+	POPUPDATAW ppd;
 
 	memset(&ppd, 0, sizeof(ppd));
 	ppd.lchContact = NULL;
 	ppd.lchIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
-	wcsncpy(ppd.lptzContactName, TranslateT("Traffic counter notification"), MAX_CONTACTNAME);
-	mir_snwprintf(ppd.lptzText, TranslateT("%d kilobytes sent"), notify_send_size = OverallInfo.CurrentSentTraffic >> 10);
+	wcsncpy(ppd.lpwzContactName, TranslateT("Traffic counter notification"), MAX_CONTACTNAME);
+	mir_snwprintf(ppd.lpwzText, TranslateT("%d kilobytes sent"), notify_send_size = OverallInfo.CurrentSentTraffic >> 10);
 	ppd.colorBack = Traffic_PopupBkColor;
 	ppd.colorText = Traffic_PopupFontColor;
 	ppd.PluginWindowProc = nullptr;
 	ppd.iSeconds = (Traffic_PopupTimeoutDefault ? 0 : Traffic_PopupTimeoutValue);
-	PUAddPopupT(&ppd);
+	PUAddPopupW(&ppd);
 }
 
 void NotifyOnRecv(void)
 {
-	POPUPDATAT ppd;
+	POPUPDATAW ppd;
 
 	memset(&ppd, 0, sizeof(ppd));
 	ppd.lchContact = NULL;
 	ppd.lchIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
-	wcsncpy(ppd.lptzContactName, TranslateT("Traffic counter notification"), MAX_CONTACTNAME);
-	mir_snwprintf(ppd.lptzText, TranslateT("%d kilobytes received"), notify_recv_size = OverallInfo.CurrentRecvTraffic >> 10);
+	wcsncpy(ppd.lpwzContactName, TranslateT("Traffic counter notification"), MAX_CONTACTNAME);
+	mir_snwprintf(ppd.lpwzText, TranslateT("%d kilobytes received"), notify_recv_size = OverallInfo.CurrentRecvTraffic >> 10);
 	ppd.colorBack = Traffic_PopupBkColor;
 	ppd.colorText = Traffic_PopupFontColor;
 	ppd.PluginWindowProc = nullptr;
 	ppd.iSeconds = (Traffic_PopupTimeoutDefault ? 0 : Traffic_PopupTimeoutValue);
-	PUAddPopupT(&ppd);
+	PUAddPopupW(&ppd);
 }
 
 void CreateProtocolList(void)

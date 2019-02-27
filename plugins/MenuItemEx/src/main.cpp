@@ -199,13 +199,13 @@ static void ShowPopup(const wchar_t *pwszText, MCONTACT hContact)
 {
 	if (!pwszText) return;
 
-	POPUPDATAT ppd = {};
+	POPUPDATAW ppd = {};
 	ppd.lchIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	ppd.lchContact = hContact;
-	wcsncpy(ppd.lptzContactName, Clist_GetContactDisplayName(hContact), MAX_CONTACTNAME - 1);
-	wcsncpy(ppd.lptzText, pwszText, MAX_SECONDLINE - 1);
+	wcsncpy(ppd.lpwzContactName, Clist_GetContactDisplayName(hContact), MAX_CONTACTNAME - 1);
+	wcsncpy(ppd.lpwzText, pwszText, MAX_SECONDLINE - 1);
 	ppd.iSeconds = -1;
-	PUAddPopupT(&ppd);
+	PUAddPopupW(&ppd);
 }
 
 BOOL DirectoryExists(MCONTACT hContact)
@@ -897,7 +897,7 @@ static int ContactWindowOpen(WPARAM, LPARAM lParam)
 
 static int ModuleLoad(WPARAM, LPARAM)
 {
-	bPopupService = ServiceExists(MS_POPUP_ADDPOPUPT);
+	bPopupService = ServiceExists(MS_POPUP_ADDPOPUPW);
 	return 0;
 }
 

@@ -118,7 +118,7 @@ static void ReportSslError(SECURITY_STATUS scRet, int line, bool = false)
 	Netlib_LogfW(nullptr, tszMsg);
 
 	SetLastError(scRet);
-	PUShowMessageT(tszMsg.GetBuffer(), SM_WARNING);
+	PUShowMessageW(tszMsg.GetBuffer(), SM_WARNING);
 }
 
 void NetlibSslFree(SslHandle *ssl)

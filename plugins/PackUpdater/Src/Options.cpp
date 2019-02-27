@@ -55,7 +55,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		ComboBox_SetCurSel(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), PeriodMeasure);
 
 		CheckDlgButton(hwndDlg, IDC_REMINDER, Reminder ? BST_CHECKED : BST_UNCHECKED);
-		if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
+		if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
 			ShowWindow(GetDlgItem(hwndDlg, IDC_NOTIFY2), SW_HIDE);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_MSG_BOXES2), SW_HIDE);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_ERRORS2), SW_HIDE);
@@ -141,7 +141,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			g_plugin.setByte("PeriodMeasure", PeriodMeasure);
 			Reminder = IsDlgButtonChecked(hwndDlg, IDC_REMINDER);
 			g_plugin.setByte("Reminder", Reminder);
-			if (!ServiceExists(MS_POPUP_ADDPOPUPT)) {
+			if (!ServiceExists(MS_POPUP_ADDPOPUPW)) {
 				for (int i = 1; i < POPUPS; i++) {
 					mir_snprintf(str, "Popups%dM", i);
 					g_plugin.setByte(str, (BYTE)(IsDlgButtonChecked(hwndDlg, (i + 1029))));
@@ -389,7 +389,7 @@ int OptInit(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = UpdateNotifyOptsProc;
 	g_plugin.addOptions(wParam, &odp);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP);
 		odp.szGroup.w = LPGENW("Popups");
 		odp.szTitle.w = LPGENW("Pack Updater");

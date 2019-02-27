@@ -74,7 +74,7 @@ void WritePopupOptions()
 
 void RegPopupActions()
 {
-	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
 		poOptions.paActions[0].cbSize = sizeof(POPUPACTION);
 		strncpy_s(poOptions.paActions[0].lpzTitle, MODULENAME, _TRUNCATE);
 		strncat_s(poOptions.paActions[0].lpzTitle, _countof(poOptions.paActions[0].lpzTitle), "/Copy to clipboard", _TRUNCATE);
@@ -148,7 +148,7 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = DlgMainProcOptions;
 	g_plugin.addOptions(wParam, &odp);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP_OPTION_FORM);
 		odp.szGroup.a = LPGEN("Popups");
 		odp.pfnDlgProc = DlgPopupsProcOptions;

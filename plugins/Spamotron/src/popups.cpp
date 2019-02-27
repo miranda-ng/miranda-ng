@@ -145,7 +145,7 @@ INT_PTR CALLBACK DlgProcOptionsPopups(HWND optDlg, UINT msg, WPARAM wParam, LPAR
 
 int ShowPopupPreview(HWND optDlg, BYTE popupType, wchar_t *line1, wchar_t *line2)
 {
-	POPUPDATAT ppdp = {0};
+	POPUPDATAW ppdp = {0};
 	switch (popupType)
 	{
 		case POPUP_DEFAULT:
@@ -185,16 +185,16 @@ int ShowPopupPreview(HWND optDlg, BYTE popupType, wchar_t *line1, wchar_t *line2
 		ppdp.iSeconds = 0;
 
 	ppdp.lchContact = NULL;
-	wcsncpy_s(ppdp.lptzContactName, (line1 ? line1 : _A2W(MODULENAME)), _TRUNCATE);
+	wcsncpy_s(ppdp.lpwzContactName, (line1 ? line1 : _A2W(MODULENAME)), _TRUNCATE);
 	if (line2)
-		wcsncpy_s(ppdp.lptzText, line2, _TRUNCATE);
-	return PUAddPopupT(&ppdp);
+		wcsncpy_s(ppdp.lpwzText, line2, _TRUNCATE);
+	return PUAddPopupW(&ppdp);
 
 }
 
 int ShowPopup(MCONTACT hContact, BYTE popupType, wchar_t *line1, wchar_t *line2)
 {
-	POPUPDATAT ppdp = {0};
+	POPUPDATAW ppdp = {0};
 	switch (popupType)
 	{
 		case POPUP_DEFAULT:
@@ -234,8 +234,8 @@ int ShowPopup(MCONTACT hContact, BYTE popupType, wchar_t *line1, wchar_t *line2)
 		ppdp.iSeconds = 0;
 
 	ppdp.lchContact = hContact;
-	wcsncpy_s(ppdp.lptzContactName, (line1 ? line1 : _A2W(MODULENAME)), _TRUNCATE);
+	wcsncpy_s(ppdp.lpwzContactName, (line1 ? line1 : _A2W(MODULENAME)), _TRUNCATE);
 	if (line2)
-		wcsncpy_s(ppdp.lptzText, line2, _TRUNCATE);
-	return PUAddPopupT(&ppdp);
+		wcsncpy_s(ppdp.lpwzText, line2, _TRUNCATE);
+	return PUAddPopupW(&ppdp);
 }

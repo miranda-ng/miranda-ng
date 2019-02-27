@@ -289,14 +289,14 @@ static INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		}
 
 		// delay
-		EnableWindow(GetDlgItem(hwndDlg, IDC_DELAYCUSTOM), ServiceExists(MS_POPUP_ADDPOPUPT));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_DELAYFROMPU), ServiceExists(MS_POPUP_ADDPOPUPT));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_DELAYPERMANENT), ServiceExists(MS_POPUP_ADDPOPUPT));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_DELAY), ServiceExists(MS_POPUP_ADDPOPUPT));
+		EnableWindow(GetDlgItem(hwndDlg, IDC_DELAYCUSTOM), ServiceExists(MS_POPUP_ADDPOPUPW));
+		EnableWindow(GetDlgItem(hwndDlg, IDC_DELAYFROMPU), ServiceExists(MS_POPUP_ADDPOPUPW));
+		EnableWindow(GetDlgItem(hwndDlg, IDC_DELAYPERMANENT), ServiceExists(MS_POPUP_ADDPOPUPW));
+		EnableWindow(GetDlgItem(hwndDlg, IDC_DELAY), ServiceExists(MS_POPUP_ADDPOPUPW));
 		switch (db_get_b(0, KSMODULENAME, SETTING_POPUP_DELAYTYPE, POPUP_DELAYFROMPU)) {
 		case POPUP_DELAYCUSTOM:
 			CheckDlgButton(hwndDlg, IDC_DELAYCUSTOM, BST_CHECKED);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_DELAY), ServiceExists(MS_POPUP_ADDPOPUPT));
+			EnableWindow(GetDlgItem(hwndDlg, IDC_DELAY), ServiceExists(MS_POPUP_ADDPOPUPW));
 			break;
 
 		case POPUP_DELAYPERMANENT:
@@ -375,10 +375,10 @@ static INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 		case IDC_PREV:
 			{
-				POPUPDATAT ppd = {};
+				POPUPDATAW ppd = {};
 				ppd.lchIcon = Skin_LoadIcon(SKINICON_STATUS_OFFLINE);
-				wcsncpy(ppd.lptzContactName, TranslateT("Keep status"), MAX_CONTACTNAME);
-				wcsncpy(ppd.lptzText, TranslateT("You broke the Internet!"), MAX_SECONDLINE);
+				wcsncpy(ppd.lpwzContactName, TranslateT("Keep status"), MAX_CONTACTNAME);
+				wcsncpy(ppd.lpwzText, TranslateT("You broke the Internet!"), MAX_SECONDLINE);
 				if (IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS)) {
 					ppd.colorBack = GetSysColor(COLOR_BTNFACE);
 					ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
@@ -402,7 +402,7 @@ static INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				else if (IsDlgButtonChecked(hwndDlg, IDC_DELAYPERMANENT)) {
 					ppd.iSeconds = -1;
 				}
-				PUAddPopupT(&ppd);
+				PUAddPopupW(&ppd);
 			}
 			break;
 		}
@@ -471,7 +471,7 @@ int KeepStatusOptionsInit(WPARAM wparam, LPARAM)
 	odp.pfnDlgProc = DlgProcKSAdvOpts;
 	KSPlugin.addOptions(wparam, &odp);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
 		memset(&odp, 0, sizeof(odp));
 		odp.position = 150000000;
 		odp.szGroup.a = LPGEN("Popups");

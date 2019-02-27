@@ -87,20 +87,20 @@ static void __cdecl AdvSt(void*)
 	Thread_SetName("StartupSilenc: AdvSt");
 
 	if ((Enabled == 1)) {
-		POPUPDATAT ppd = { 0 };
-		wchar_t *lptzText = L"";
+		POPUPDATAW ppd = { 0 };
+		wchar_t *lpwzText = L"";
 		db_set_b(0, "Skin", "UseSound", 0);
 		EnablePopupModule();
 
 		if (PopUp == 1) {
-			lptzText = NonStatusAllow == 1 ? ALL_DISABLED_FLT : ALL_DISABLED;
+			lpwzText = NonStatusAllow == 1 ? ALL_DISABLED_FLT : ALL_DISABLED;
 			ppd.lchIcon = IcoLib_GetIconByHandle((NonStatusAllow == 1) ? GetIconHandle(ALL_ENABLED_FLT) : GetIconHandle(MENU_NAME));
 			ppd.lchContact = NULL;
 			ppd.iSeconds = PopUpTime;
-			wcsncpy_s(ppd.lptzText, lptzText, _TRUNCATE);
-			lptzText = TranslateW(MENU_NAMEW);
-			wcsncpy_s(ppd.lptzContactName, lptzText, _TRUNCATE);
-			PUAddPopupT(&ppd);
+			wcsncpy_s(ppd.lpwzText, lpwzText, _TRUNCATE);
+			lpwzText = TranslateW(MENU_NAMEW);
+			wcsncpy_s(ppd.lpwzContactName, lpwzText, _TRUNCATE);
+			PUAddPopupW(&ppd);
 		}
 
 		timer = 2;
@@ -108,10 +108,10 @@ static void __cdecl AdvSt(void*)
 		timer = 0;
 
 		if (PopUp == 1) {
-			lptzText = (DefEnabled == 1 && DefPopup == 1) ? TranslateT(ALL_ENABLED_FLT) : ALL_ENABLED;
+			lpwzText = (DefEnabled == 1 && DefPopup == 1) ? TranslateT(ALL_ENABLED_FLT) : ALL_ENABLED;
 			ppd.lchIcon = IcoLib_GetIconByHandle((DefEnabled == 1 && DefPopup == 1) ? GetIconHandle(ALL_ENABLED_FLT) : GetIconHandle(MENU_NAME));
-			wcsncpy_s(ppd.lptzText, lptzText, _TRUNCATE);
-			PUAddPopupT(&ppd);
+			wcsncpy_s(ppd.lpwzText, lpwzText, _TRUNCATE);
+			PUAddPopupW(&ppd);
 		}
 		if (DefEnabled == 1) { //predefined sound setting
 			db_set_b(0, "Skin", "UseSound", DefSound);
@@ -217,15 +217,15 @@ static INT_PTR StartupSilenceEnabled(WPARAM, LPARAM)
 	if (MenuItem == 1)
 		UpdateMenu();
 	if (PopUp == 1) {
-		wchar_t * lptzText = Enabled == 1 ? S_MODE_CHANGEDON : S_MODE_CHANGEDOFF;
-		POPUPDATAT ppd = { 0 };
+		wchar_t * lpwzText = Enabled == 1 ? S_MODE_CHANGEDON : S_MODE_CHANGEDOFF;
+		POPUPDATAW ppd = { 0 };
 		ppd.lchIcon = IcoLib_GetIconByHandle((Enabled == 1) ? GetIconHandle(ENABLE_SILENCE) : GetIconHandle(DISABLE_SILENCE));
 		ppd.lchContact = NULL;
 		ppd.iSeconds = PopUpTime;
-		wcsncpy_s(ppd.lptzText, lptzText, _TRUNCATE);
-		lptzText = TranslateW(MENU_NAMEW);
-		wcsncpy_s(ppd.lptzContactName, lptzText, _TRUNCATE);
-		PUAddPopupT(&ppd);
+		wcsncpy_s(ppd.lpwzText, lpwzText, _TRUNCATE);
+		lpwzText = TranslateW(MENU_NAMEW);
+		wcsncpy_s(ppd.lpwzContactName, lpwzText, _TRUNCATE);
+		PUAddPopupW(&ppd);
 	}
 	return 0;
 }

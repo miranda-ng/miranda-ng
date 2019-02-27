@@ -325,8 +325,8 @@ void FacebookProto::LoadHistory(void *pParam)
 	pd.iSeconds = 5;
 	pd.lchContact = hContact;
 	pd.lchIcon = IcoLib_GetIconByHandle(GetIconHandle("conversation")); // TODO: Use better icon
-	wcsncpy(pd.lptzContactName, m_tszUserName, MAX_CONTACTNAME);
-	wcsncpy(pd.lptzText, TranslateT("Loading history started."), MAX_SECONDLINE);
+	wcsncpy(pd.lpwzContactName, m_tszUserName, MAX_CONTACTNAME);
+	wcsncpy(pd.lpwzText, TranslateT("Loading history started."), MAX_SECONDLINE);
 
 	HWND popupHwnd = nullptr;
 	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
@@ -413,7 +413,7 @@ void FacebookProto::LoadHistory(void *pParam)
 			PUChangeTextW(popupHwnd, text);
 		}
 		else if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
-			wcsncpy(pd.lptzText, text, MAX_SECONDLINE);
+			wcsncpy(pd.lpwzText, text, MAX_SECONDLINE);
 			pd.iSeconds = 1;
 			popupHwnd = (HWND)CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&pd, (LPARAM)0);
 		}
@@ -435,7 +435,7 @@ void FacebookProto::LoadHistory(void *pParam)
 		PUChangeTextW(popupHwnd, TranslateT("Loading history completed."));
 	else if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
 		pd.iSeconds = 5;
-		wcsncpy(pd.lptzText, TranslateT("Loading history completed."), MAX_SECONDLINE);
+		wcsncpy(pd.lpwzText, TranslateT("Loading history completed."), MAX_SECONDLINE);
 		popupHwnd = (HWND)CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&pd, (LPARAM)0);
 	}
 }

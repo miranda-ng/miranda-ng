@@ -1084,7 +1084,7 @@ void InitMainMenuItem()
 	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x22b7b4db, 0xa9a1, 0x4d43, 0x88, 0x80, 0x4c, 0x23, 0x20, 0x31, 0xc6, 0xa0);
 	mi.flags = CMIF_UNICODE;
-	if (ServiceExists(MS_POPUP_ADDPOPUPT))
+	if (ServiceExists(MS_POPUP_ADDPOPUPW))
 		mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Popups"), 0);
 	mi.pszService = MS_STATUSCHANGE_MENUCOMMAND;
 	hEnableDisableMenu = Menu_AddMainMenuItem(&mi);

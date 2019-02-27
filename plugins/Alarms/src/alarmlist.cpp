@@ -611,19 +611,19 @@ static LRESULT CALLBACK PopupAlarmDlgProc(HWND hWnd, UINT message, WPARAM wParam
 
 void ShowPopup(ALARM *alarm)
 {
-	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
 		ALARM *data = new ALARM;
 		memset(data, 0, sizeof(ALARM));
 		copy_alarm_data(data, alarm);
 
-		POPUPDATAT ppd = { 0 };
+		POPUPDATAW ppd = { 0 };
 		ppd.lchIcon = hIconMenuSet;
-		mir_wstrncpy(ppd.lptzContactName, data->szTitle, MAX_CONTACTNAME);
-		mir_wstrncpy(ppd.lptzText, data->szDesc, MAX_SECONDLINE);
+		mir_wstrncpy(ppd.lpwzContactName, data->szTitle, MAX_CONTACTNAME);
+		mir_wstrncpy(ppd.lpwzText, data->szDesc, MAX_SECONDLINE);
 		ppd.PluginWindowProc = PopupAlarmDlgProc;
 		ppd.PluginData = data;
 		ppd.iSeconds = -1;
-		PUAddPopupT(&ppd);
+		PUAddPopupW(&ppd);
 	}
 }
 
@@ -658,7 +658,7 @@ void DoAlarm(ALARM *alarm)
 		}
 
 		if (alarm->action & AAF_POPUP) {
-			if (options.use_popup_module && ServiceExists(MS_POPUP_ADDPOPUPT))
+			if (options.use_popup_module && ServiceExists(MS_POPUP_ADDPOPUPW))
 				ShowPopup(alarm);
 			else {
 				HWND hwndDlg = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ALARM), GetDesktopWindow(), DlgProcAlarm);

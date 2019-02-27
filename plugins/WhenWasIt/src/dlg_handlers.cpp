@@ -217,7 +217,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 			CheckDlgButton(hWnd, IDC_USE_DIALOG, (commonData.bUseDialog) ? BST_CHECKED : BST_UNCHECKED);
 			EnableDialogGroup(hWnd, commonData.bUseDialog);
 
-			if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
+			if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
 				CheckDlgButton(hWnd, IDC_USE_POPUPS, commonData.bUsePopups ? BST_CHECKED : BST_UNCHECKED);
 				EnablePopupsGroup(hWnd, commonData.bUsePopups);
 			}

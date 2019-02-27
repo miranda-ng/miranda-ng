@@ -43,11 +43,11 @@ int WeatherError(WPARAM wParam, LPARAM lParam)
 	wchar_t* tszMsg = (wchar_t*)wParam;
 
 	if ((DWORD)lParam == SM_WARNING)
-		PUShowMessageT(tszMsg, SM_WARNING);
+		PUShowMessageW(tszMsg, SM_WARNING);
 	else if ((DWORD)lParam == SM_NOTIFY)
-		PUShowMessageT(tszMsg, SM_NOTIFY);
+		PUShowMessageW(tszMsg, SM_NOTIFY);
 	else if ((DWORD)lParam == SM_WEATHERALERT) {
-		POPUPDATAT ppd = { 0 };
+		POPUPDATAW ppd = { 0 };
 		wchar_t str1[512], str2[512];
 
 		// get the 2 strings
@@ -67,12 +67,12 @@ int WeatherError(WPARAM wParam, LPARAM lParam)
 		// setup the popup
 		ppd.lchIcon = (HICON)LoadImage(nullptr, MAKEINTRESOURCE(OIC_BANG), IMAGE_ICON,
 			GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_SHARED);
-		mir_wstrcpy(ppd.lptzContactName, str1);
-		mir_wstrcpy(ppd.lptzText, str2);
+		mir_wstrcpy(ppd.lpwzContactName, str1);
+		mir_wstrcpy(ppd.lpwzText, str2);
 		ppd.colorBack = (opt.UseWinColors) ? GetSysColor(COLOR_BTNFACE) : opt.BGColour;
 		ppd.colorText = (opt.UseWinColors) ? GetSysColor(COLOR_WINDOWTEXT) : opt.TextColour;
 		ppd.iSeconds = opt.pDelay;
-		PUAddPopupT(&ppd);
+		PUAddPopupW(&ppd);
 	}
 	return 0;
 }
@@ -129,16 +129,16 @@ int WeatherPopup(WPARAM hContact, LPARAM lParam)
 		WEATHERINFO winfo = LoadWeatherInfo(hContact);
 
 		// setup the popup
-		POPUPDATAT ppd = { 0 };
+		POPUPDATAW ppd = { 0 };
 		ppd.lchContact = hContact;
 		ppd.PluginData = ppd.lchIcon = Skin_LoadProtoIcon(MODULENAME, winfo.status);
-		GetDisplay(&winfo, opt.pTitle, ppd.lptzContactName);
-		GetDisplay(&winfo, opt.pText, ppd.lptzText);
+		GetDisplay(&winfo, opt.pTitle, ppd.lpwzContactName);
+		GetDisplay(&winfo, opt.pText, ppd.lpwzText);
 		ppd.PluginWindowProc = PopupDlgProc;
 		ppd.colorBack = (opt.UseWinColors) ? GetSysColor(COLOR_BTNFACE) : opt.BGColour;
 		ppd.colorText = (opt.UseWinColors) ? GetSysColor(COLOR_WINDOWTEXT) : opt.TextColour;
 		ppd.iSeconds = opt.pDelay;
-		PUAddPopupT(&ppd);
+		PUAddPopupW(&ppd);
 	}
 	return 0;
 }

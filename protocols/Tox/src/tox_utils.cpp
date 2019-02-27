@@ -104,14 +104,14 @@ void CToxProto::ShowNotification(const wchar_t *caption, const wchar_t *message,
 		return;
 	}
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(0, "Popup", "ModuleIsEnabled", 1)) {
-		POPUPDATAT ppd = { 0 };
+	if (ServiceExists(MS_POPUP_ADDPOPUPW) && db_get_b(0, "Popup", "ModuleIsEnabled", 1)) {
+		POPUPDATAW ppd = { 0 };
 		ppd.lchContact = hContact;
 		wcsncpy(ppd.lpwzContactName, caption, MAX_CONTACTNAME);
 		wcsncpy(ppd.lpwzText, message, MAX_SECONDLINE);
 		ppd.lchIcon = IcoLib_GetIcon("Tox_main");
 
-		if (!PUAddPopupT(&ppd))
+		if (!PUAddPopupW(&ppd))
 			return;
 	}
 

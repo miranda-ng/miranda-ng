@@ -84,7 +84,7 @@ int StartServer()
 
 				failure = 0;
 			}
-			else PUShowMessageT(TranslateT("Could not create CommandLine listening server!"), SM_WARNING);
+			else PUShowMessageW(TranslateT("Could not create CommandLine listening server!"), SM_WARNING);
 		}
 		else MessageBox(nullptr, TranslateT("You can only run one instance of CmdLine plugin."), TranslateT("Error"), MB_ICONERROR | MB_OK);
 	}

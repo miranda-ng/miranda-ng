@@ -196,6 +196,7 @@ INT_PTR CIcqProto::GetEmailCount(WPARAM, LPARAM)
 
 INT_PTR CIcqProto::GotoInbox(WPARAM, LPARAM)
 {
+	Utils_OpenUrl("https://e.mail.ru/messages/inbox");
 	return 0;
 }
 

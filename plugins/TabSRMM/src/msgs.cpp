@@ -251,10 +251,10 @@ void CTabBaseDlg::NotifyDeliveryFailure() const
 	if (CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0) != 1)
 		return;
 
-	POPUPDATAT ppd = { 0 };
+	POPUPDATAW ppd = { 0 };
 	ppd.lchContact = m_hContact;
-	wcsncpy_s(ppd.lptzContactName, m_cache->getNick(), _TRUNCATE);
-	wcsncpy_s(ppd.lptzText, TranslateT("A message delivery has failed.\nClick to open the message window."), _TRUNCATE);
+	wcsncpy_s(ppd.lpwzContactName, m_cache->getNick(), _TRUNCATE);
+	wcsncpy_s(ppd.lpwzText, TranslateT("A message delivery has failed.\nClick to open the message window."), _TRUNCATE);
 
 	if (!(BOOL)db_get_b(0, MODULE, OPT_COLDEFAULT_ERR, TRUE)) {
 		ppd.colorText = (COLORREF)db_get_dw(0, MODULE, OPT_COLTEXT_ERR, DEFAULT_COLTEXT);
@@ -266,7 +266,7 @@ void CTabBaseDlg::NotifyDeliveryFailure() const
 	ppd.lchIcon = PluginConfig.g_iconErr;
 	ppd.PluginData = nullptr;
 	ppd.iSeconds = (int)db_get_dw(0, MODULE, OPT_DELAY_ERR, (DWORD)DEFAULT_DELAY);
-	PUAddPopupT(&ppd);
+	PUAddPopupW(&ppd);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

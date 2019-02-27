@@ -96,7 +96,7 @@ static INT_PTR ICQPermitDeny(WPARAM hContact, LPARAM, LPARAM bAllow)
 static int ModuleLoad(WPARAM, LPARAM)
 {
 	g_bSecureIM = ServiceExists("SecureIM/IsContactSecured");
-	g_bPopupService = ServiceExists(MS_POPUP_ADDPOPUPT);
+	g_bPopupService = ServiceExists(MS_POPUP_ADDPOPUPW);
 	g_bMessageState = ServiceExists(MS_MESSAGESTATE_UPDATE);
 	return 0;
 }

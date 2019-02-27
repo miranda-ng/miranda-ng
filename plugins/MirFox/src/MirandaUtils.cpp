@@ -207,9 +207,9 @@ void MirandaUtils::sendMessage(ActionThreadArgStruct* args, MFENUM_SEND_MESSAGE_
 					mir_snwprintf(buffer, 1024, TranslateT("Message sent"));
 
 				if(ServiceExists(MS_POPUP_ADDPOPUPCLASS))
-					ShowClassPopupT("MirFox_Notify", L"MirFox", buffer);
+					ShowClassPopupW("MirFox_Notify", L"MirFox", buffer);
 				else
-					PUShowMessageT(buffer, SM_NOTIFY);
+					PUShowMessageW(buffer, SM_NOTIFY);
 
 				delete[] buffer;
 			}
@@ -249,9 +249,9 @@ void MirandaUtils::sendMessage(ActionThreadArgStruct* args, MFENUM_SEND_MESSAGE_
 			}
 
 			if(ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
-				ShowClassPopupT("MirFox_Error", TranslateT("MirFox error"), buffer);
+				ShowClassPopupW("MirFox_Error", TranslateT("MirFox error"), buffer);
 			} else {
-				PUShowMessageT(buffer, SM_WARNING);
+				PUShowMessageW(buffer, SM_WARNING);
 			}
 
 			//if MFENUM_SMM_SEND_AND_SHOW_MW, even if error sending message - notify hook to open window
@@ -396,9 +396,9 @@ void MirandaUtils::setStatusOnAccount(ActionThreadArgStruct* args)
 		}
 
 		if(ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
-			ShowClassPopupT("MirFox_Notify", L"MirFox", buffer);
+			ShowClassPopupW("MirFox_Notify", L"MirFox", buffer);
 		} else {
-			PUShowMessageT(buffer, SM_NOTIFY);
+			PUShowMessageW(buffer, SM_NOTIFY);
 		}
 	} else {
 		if (tszAccountName != nullptr){
@@ -410,9 +410,9 @@ void MirandaUtils::setStatusOnAccount(ActionThreadArgStruct* args)
 		}
 
 		if(ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
-			ShowClassPopupT("MirFox_Error", TranslateT("MirFox error"), buffer);
+			ShowClassPopupW("MirFox_Error", TranslateT("MirFox error"), buffer);
 		} else {
-			PUShowMessageT(buffer, SM_WARNING);
+			PUShowMessageW(buffer, SM_WARNING);
 		}
 	}
 	delete[] buffer;

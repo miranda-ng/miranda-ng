@@ -350,7 +350,7 @@ void AddMenuItems(void)
 	Menu_AddMainMenuItem(&mi);
 
 	// only run if popup service exists
-	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
 		SET_UID(mi, 0xdc5411cb, 0xb7c7, 0x443b, 0x88, 0x5a, 0x90, 0x24, 0x43, 0xde, 0x54, 0x3e);
 		CreateServiceFunction(MODULENAME "/PopupMenu", MenuitemNotifyCmd);
 		mi.name.a = LPGEN("Weather Notification");

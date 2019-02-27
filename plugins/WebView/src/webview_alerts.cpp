@@ -111,21 +111,21 @@ int WAlertOSD(MCONTACT hContact, wchar_t *displaytext)
 /*****************************************************************************/
 int PopupAlert(WPARAM hContact, LPARAM lParam)
 {
-	POPUPDATAT ppd = { 0 };
+	POPUPDATAW ppd = { 0 };
 
 	if (hContact != 0)
-		mir_wstrncpy(ppd.lptzContactName, ptrW(g_plugin.getWStringA(hContact, PRESERVE_NAME_KEY)), _countof(ppd.lptzContactName));
+		mir_wstrncpy(ppd.lpwzContactName, ptrW(g_plugin.getWStringA(hContact, PRESERVE_NAME_KEY)), _countof(ppd.lpwzContactName));
 	else
-		mir_wstrcpy(ppd.lptzContactName, _A2W(MODULENAME));
+		mir_wstrcpy(ppd.lpwzContactName, _A2W(MODULENAME));
 
 	ppd.lchContact = hContact;
 	ppd.lchIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_SITE));
 
 	wchar_t *displaytext = (wchar_t*)lParam;
 	if ((mir_wstrlen(displaytext) == MAX_SECONDLINE) || (mir_wstrlen(displaytext) > MAX_SECONDLINE))
-		mir_snwprintf(ppd.lptzText, displaytext);
+		mir_snwprintf(ppd.lpwzText, displaytext);
 	else if (mir_wstrlen(displaytext) < MAX_SECONDLINE)
-		mir_snwprintf(ppd.lptzText, displaytext);
+		mir_snwprintf(ppd.lpwzText, displaytext);
 
 	if (g_plugin.getByte(POP_USECUSTCLRS_KEY, 0)) {
 		ppd.colorBack = g_plugin.getDword(POP_BG_CLR_KEY, Def_color_bg);
@@ -143,8 +143,8 @@ int PopupAlert(WPARAM hContact, LPARAM lParam)
 	ppd.PluginWindowProc = nullptr;
 	ppd.iSeconds = g_plugin.getDword(POP_DELAY_KEY, 0);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT))
-		CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, 0);
+	if (ServiceExists(MS_POPUP_ADDPOPUPW))
+		CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&ppd, 0);
 
 	return 0;
 }
@@ -184,9 +184,9 @@ int ErrorMsgs(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	wchar_t *ptszContactName = Clist_GetContactDisplayName(hContact);
-	if (ServiceExists(MS_POPUP_ADDPOPUPT) && g_plugin.getByte(ERROR_POPUP_KEY, 0)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPW) && g_plugin.getByte(ERROR_POPUP_KEY, 0)) {
 		mir_snwprintf(newdisplaytext, L"%s\n%s", ptszContactName, displaytext);
-		PUShowMessageT(newdisplaytext, SM_WARNING);
+		PUShowMessageW(newdisplaytext, SM_WARNING);
 	}
 	else if (ServiceExists("OSD/Announce") && g_plugin.getByte(ERROR_POPUP_KEY, 0)) {
 		mir_snwprintf(newdisplaytext, L"%s: %s", ptszContactName, TranslateW(displaytext));

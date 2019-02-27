@@ -237,7 +237,7 @@ INT_PTR Popup_ShowMessageW(WPARAM wParam, LPARAM lParam)
 	POPUPDATA2 ppd2 = { 0 };
 	ppd2.cbSize = sizeof(ppd2);
 	ppd2.flags = PU2_UNICODE;
-	ppd2.lptzText = (wchar_t*)wParam;
+	ppd2.lpwzText = (wchar_t*)wParam;
 	switch (lParam & 0x7fffffff) {
 	case SM_ERROR:
 		ppd2.lchIcon = LoadIconEx(IDI_MB_STOP, 0);
@@ -459,7 +459,7 @@ INT_PTR Popup_CreateClassPopup(WPARAM wParam, LPARAM lParam)
 	if (pc->flags & PCF_UNICODE) {
 		ppd2.flags = PU2_UNICODE;
 		ppd2.lptzTitle = (wchar_t*)pdc->pwszTitle;
-		ppd2.lptzText = (wchar_t*)pdc->pwszText;
+		ppd2.lpwzText = (wchar_t*)pdc->pwszText;
 	}
 	else {
 		ppd2.flags = PU2_ANSI;

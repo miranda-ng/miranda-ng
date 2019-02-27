@@ -130,26 +130,26 @@ void ShowPopup(const wchar_t* line1, const wchar_t* line2, int timeout, const MC
 		return;
 	}
 
-	POPUPDATAT ppd = {0};
-	//memset((void *)&ppd, 0, sizeof(POPUPDATAT));
+	POPUPDATAW ppd = {0};
+	//memset((void *)&ppd, 0, sizeof(POPUPDATAW));
 
 	ppd.lchContact = hContact;
 	ppd.lchIcon = nullptr;
 
 	if(line1 && line2) {
-		wcsncpy( ppd.lptzContactName, line1, MAX_CONTACTNAME-1 );
-		wcsncpy( ppd.lptzText, line2, MAX_SECONDLINE-1 );
+		wcsncpy( ppd.lpwzContactName, line1, MAX_CONTACTNAME-1 );
+		wcsncpy( ppd.lpwzText, line2, MAX_SECONDLINE-1 );
 	} else if(line1)
-		wcsncpy( ppd.lptzText, line1, MAX_SECONDLINE-1 );
+		wcsncpy( ppd.lpwzText, line1, MAX_SECONDLINE-1 );
 	else if(line2)
-		wcsncpy( ppd.lptzText, line2, MAX_SECONDLINE-1 );
+		wcsncpy( ppd.lpwzText, line2, MAX_SECONDLINE-1 );
 
 	ppd.iSeconds = timeout;
 
 	ppd.PluginWindowProc = nullptr;
 	ppd.PluginData = nullptr;
 
-	PUAddPopupT(&ppd);
+	PUAddPopupW(&ppd);
 
 }
 
@@ -169,7 +169,7 @@ void ShowWarning(wchar_t *msg) {
 			int size = int(mir_wstrlen(msg) + 515);
 			wchar_t *message = new wchar_t[size]; // newline and null terminator
 			mir_snwprintf(message, size, L"%s\r\n%s", buffer, msg);
-			PUShowMessageT(message, SM_WARNING);
+			PUShowMessageW(message, SM_WARNING);
 			delete[] message;
 		}
 		break;
@@ -199,7 +199,7 @@ void ShowError(wchar_t *msg) {
 			int size = int(mir_wstrlen(msg) + 515);
 			message = new wchar_t[size]; // newline and null terminator
 			mir_snwprintf(message, size, L"%s\r\n%s", buffer, msg);
-			PUShowMessageT(message, SM_WARNING);
+			PUShowMessageW(message, SM_WARNING);
 			delete[] message;
 		}
 		break;

@@ -941,7 +941,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DEL), FALSE);
 			}
 
-			if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
+			if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
 				CheckDlgButton(hwndDlg, IDC_CHK_POPUPS, temp_options.use_popup_module ? BST_CHECKED : BST_UNCHECKED);
 				if (options.use_popup_module)
 					bChecked = FALSE;
@@ -1179,7 +1179,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			int reminder_period = GetDlgItemInt(hwndDlg, IDC_ED_PERIOD, &translated, FALSE);
 			if (translated) temp_options.reminder_period = reminder_period;
 
-			if (!ServiceExists(MS_POPUP_ADDPOPUPT) || !options.use_popup_module)
+			if (!ServiceExists(MS_POPUP_ADDPOPUPW) || !options.use_popup_module)
 				temp_options.loop_sound = IsDlgButtonChecked(hwndDlg, IDC_CHK_LOOPSOUND) ? true : false;
 
 			options = temp_options;

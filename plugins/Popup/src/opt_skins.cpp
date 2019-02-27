@@ -77,7 +77,7 @@ static void updatePreviewImage(HWND hwndBox)
 	ppd.flags = PU2_UNICODE;
 	ppd.lchIcon = Skin_LoadIcon(SKINICON_STATUS_ONLINE);
 	ppd.lptzTitle = TranslateT("Skin preview");
-	ppd.lptzText = TranslateT("Just take a look at this skin... ;)");
+	ppd.lpwzText = TranslateT("Just take a look at this skin... ;)");
 
 	POPUPOPTIONS customOptions = PopupOptions;
 	customOptions.DynamicResize = FALSE;

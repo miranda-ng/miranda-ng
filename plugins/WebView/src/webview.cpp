@@ -299,7 +299,7 @@ int OptInitialise(WPARAM wParam, LPARAM)
 	g_plugin.addOptions(wParam, &odp);
 
 	// if popup service exists
-	if ((ServiceExists(MS_POPUP_ADDPOPUPT))) {
+	if ((ServiceExists(MS_POPUP_ADDPOPUPW))) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP);
 		odp.szGroup.a = LPGEN("Popups");
 		odp.pfnDlgProc = DlgPopUpOpts;

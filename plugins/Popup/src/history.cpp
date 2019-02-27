@@ -75,7 +75,7 @@ void PopupHistoryAdd(POPUPDATA2 *ppdNew)
 	*ppd = *ppdNew;
 	if (ppd->flags & PU2_UNICODE) {
 		ppd->lptzTitle = mir_wstrdup(ppd->lpwzTitle);
-		ppd->lptzText = mir_wstrdup(ppd->lptzText);
+		ppd->lpwzText = mir_wstrdup(ppd->lpwzText);
 	}
 	else {
 		ppd->lpzTitle = mir_strdup(ppd->lpzTitle);
@@ -188,7 +188,7 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 					if (ppd->flags & PU2_UNICODE) {
 						ieData.dwFlags |= IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK;
 						ieData.pszNickW = ppd->lptzTitle;
-						ieData.pszTextW = ppd->lptzText;
+						ieData.pszTextW = ppd->lpwzText;
 						ieData.pszText2W = nullptr;
 					}
 					else {
@@ -372,7 +372,7 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 			if (ppd->flags & PU2_UNICODE) {
 				ieData.dwFlags |= IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK;
 				ieData.pszNickW = ppd->lptzTitle;
-				ieData.pszTextW = ppd->lptzText;
+				ieData.pszTextW = ppd->lpwzText;
 				ieData.pszText2W = nullptr;
 			}
 			else {

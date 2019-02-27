@@ -571,7 +571,7 @@ int OnOptInitialize(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = DlgProcOptionsBayes;
 	g_plugin.addOptions(wParam, &odp);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_SPAMOTRON_POPUPS);
 		odp.pfnDlgProc = DlgProcOptionsPopups;
 		odp.szGroup.a = LPGEN("Popups");

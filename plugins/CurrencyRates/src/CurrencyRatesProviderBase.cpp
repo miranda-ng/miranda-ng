@@ -443,10 +443,10 @@ bool show_popup(const ICurrencyRatesProvider *pProvider,
 	const tstring& rsFormat,
 	const CPopupSettings& ps)
 {
-	if (!ServiceExists(MS_POPUP_ADDPOPUPT))
+	if (!ServiceExists(MS_POPUP_ADDPOPUPW))
 		return false;
 
-	POPUPDATAT ppd;
+	POPUPDATAW ppd;
 	memset(&ppd, 0, sizeof(ppd));
 	ppd.lchContact = hContact;
 
@@ -460,11 +460,11 @@ bool show_popup(const ICurrencyRatesProvider *pProvider,
 			ppd.lchIcon = CurrencyRates_LoadIconEx(IDI_ICON_DOWN);
 	}
 
-	mir_wstrncpy(ppd.lptzContactName, pProvider->FormatSymbol(hContact, 's').c_str(), MAX_CONTACTNAME);
+	mir_wstrncpy(ppd.lpwzContactName, pProvider->FormatSymbol(hContact, 's').c_str(), MAX_CONTACTNAME);
 	{
 		ptrW ss(variables_parsedup((wchar_t*)rsFormat.c_str(), nullptr, hContact));
 		tstring sText = format_rate(pProvider, hContact, tstring(ss));
-		mir_wstrncpy(ppd.lptzText, sText.c_str(), MAX_SECONDLINE);
+		mir_wstrncpy(ppd.lpwzText, sText.c_str(), MAX_SECONDLINE);
 	}
 
 	if (CPopupSettings::colourDefault == ps.GetColourMode()) {
@@ -494,7 +494,7 @@ bool show_popup(const ICurrencyRatesProvider *pProvider,
 	if (false == ps.GetHistoryFlag())
 		lp |= 0x08;
 
-	return (0 == CallService(MS_POPUP_ADDPOPUPT, reinterpret_cast<WPARAM>(&ppd), lp));
+	return (0 == CallService(MS_POPUP_ADDPOPUPW, reinterpret_cast<WPARAM>(&ppd), lp));
 }
 
 void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRate, const tstring& rsSymbol/* = ""*/)

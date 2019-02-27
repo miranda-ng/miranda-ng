@@ -306,23 +306,23 @@ LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
-void ShowMessage(int type, const wchar_t* format, ...)
+void ShowMessage(int type, const wchar_t *format, ...)
 {
-	POPUPDATAT pi = {};
+	POPUPDATAW pi = {};
 
 	va_list va;
 	va_start(va, format);
-	int len = mir_vsnwprintf(pi.lptzText, _countof(pi.lptzText) - 1, format, va);
-	pi.lptzText[len] = 0;
+	int len = mir_vsnwprintf(pi.lpwzText, _countof(pi.lpwzText) - 1, format, va);
+	pi.lpwzText[len] = 0;
 	va_end(va);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
-		mir_wstrcpy(pi.lptzContactName, _A2W(MODULENAME));
+	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
+		mir_wstrcpy(pi.lpwzContactName, _A2W(MODULENAME));
 		pi.lchIcon = LoadIconEx(IDI_VI);
 		pi.PluginWindowProc = DlgProcPopup;
 		pi.PluginData = (void*)type;
 
-		PUAddPopupT(&pi);
+		PUAddPopupW(&pi);
 	}
-	else MessageBox(nullptr, pi.lptzText, _A2W(MODULENAME), MB_OK | MB_ICONINFORMATION);
+	else MessageBox(nullptr, pi.lpwzText, _A2W(MODULENAME), MB_OK | MB_ICONINFORMATION);
 }

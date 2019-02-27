@@ -480,9 +480,9 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 
 int showMessage(const popup_t &msg)
 {
-	POPUPDATAT ppd = { 0 };
-	wcsncpy(ppd.lptzText, strip(msg.message).c_str(), MAX_SECONDLINE);
-	wcsncpy(ppd.lptzContactName, msg.contact.c_str(), MAX_CONTACTNAME);
+	POPUPDATAW ppd = { 0 };
+	wcsncpy(ppd.lpwzText, strip(msg.message).c_str(), MAX_SECONDLINE);
+	wcsncpy(ppd.lpwzContactName, msg.contact.c_str(), MAX_CONTACTNAME);
 	ppd.colorBack = msg.background;
 	ppd.colorText = msg.foreground;
 	ppd.lchIcon = getIcon(msg.icon);
@@ -498,7 +498,7 @@ int showMessage(const popup_t &msg)
 	g_anon_popups.insert(msgp);
 	ppd.PluginData = msgp;
 
-	return PUAddPopupT(&ppd);
+	return PUAddPopupW(&ppd);
 }
 
 void replaceMessage(const popup_t &msg)
@@ -531,7 +531,7 @@ void replaceMessage(const popup_t &msg)
 			if (!msg.closed.empty())
 				nmsg.closed = msg.closed;
 
-			PUChangeTextT(i->second->hwnd, strip(i->second->message).c_str());
+			PUChangeTextW(i->second->hwnd, strip(i->second->message).c_str());
 			return;
 		}
 	}

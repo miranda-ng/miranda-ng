@@ -23,7 +23,7 @@
 
 void ShowChangePopup(MCONTACT hContact, HICON hIcon, WORD newStatus, const wchar_t *stzText, PLUGINDATA *pdp)
 {
-	POPUPDATAT ppd = { 0 };
+	POPUPDATAW ppd = { 0 };
 	ppd.lchContact = hContact;
 	ppd.lchIcon = hIcon;
 	CMStringW buf(Clist_GetContactDisplayName(hContact));
@@ -34,8 +34,8 @@ void ShowChangePopup(MCONTACT hContact, HICON hIcon, WORD newStatus, const wchar
 		if (tszGroup)
 			buf.AppendFormat(L" (%s)", tszGroup);
 	}
-	wcsncpy_s(ppd.lptzContactName, buf, _TRUNCATE);
-	wcsncpy_s(ppd.lptzText, stzText, _TRUNCATE);
+	wcsncpy_s(ppd.lpwzContactName, buf, _TRUNCATE);
+	wcsncpy_s(ppd.lpwzText, stzText, _TRUNCATE);
 
 	switch (opt.Colors) {
 	case POPUP_COLOR_OWN:
@@ -55,7 +55,7 @@ void ShowChangePopup(MCONTACT hContact, HICON hIcon, WORD newStatus, const wchar
 
 	ppd.PluginData = pdp;
 	ppd.iSeconds = opt.PopupTimeout;
-	PUAddPopupT(&ppd);
+	PUAddPopupW(&ppd);
 }
 
 static int AwayMsgHook(WPARAM, LPARAM lParam, LPARAM pObj)
@@ -88,7 +88,7 @@ static int AwayMsgHook(WPARAM, LPARAM lParam, LPARAM pObj)
 	else
 		wcsncpy(stzText, tszStatus, _countof(stzText));
 	SendMessage(pdp->hWnd, WM_SETREDRAW, FALSE, 0);
-	PUChangeTextT(pdp->hWnd, stzText);
+	PUChangeTextW(pdp->hWnd, stzText);
 	SendMessage(pdp->hWnd, WM_SETREDRAW, TRUE, 0);
 	return 0;
 }

@@ -99,22 +99,22 @@ void TN_TypingMessage(MCONTACT hContact, int iMode)
 	}
 
 	int notyping;
-	POPUPDATAT_V2 ppd = { 0 };
+	POPUPDATAW_V2 ppd = { 0 };
 	ppd.cbSize = sizeof(ppd);
 
 	if (iMode == PROTOTYPE_CONTACTTYPING_OFF) {
 		if (StopDisabled)
 			return;
-		wcsncpy_s(ppd.lptzContactName, szContactName, _TRUNCATE);
-		wcsncpy_s(ppd.lptzText, szStop, _TRUNCATE);
+		wcsncpy_s(ppd.lpwzContactName, szContactName, _TRUNCATE);
+		wcsncpy_s(ppd.lpwzText, szStop, _TRUNCATE);
 		ppd.hNotification = hntfStopped;
 		notyping = 1;
 	}
 	else {
 		if (StartDisabled)
 			return;
-		wcsncpy_s(ppd.lptzContactName, szContactName, _TRUNCATE);
-		wcsncpy_s(ppd.lptzText, szStart, _TRUNCATE);
+		wcsncpy_s(ppd.lpwzContactName, szContactName, _TRUNCATE);
+		wcsncpy_s(ppd.lpwzText, szStart, _TRUNCATE);
 		ppd.hNotification = hntfStarted;
 		notyping = 0;
 	}
@@ -167,7 +167,7 @@ void TN_TypingMessage(MCONTACT hContact, int iMode)
 	ppd.lchIcon = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
 	ppd.lchContact = hContact;
 	ppd.PluginWindowProc = PopupDlgProc;
-	CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, APF_NEWDATA);
+	CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&ppd, APF_NEWDATA);
 }
 
 static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -292,17 +292,17 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 		case IDC_PREVIEW:
 			if (PluginConfig.g_bPopupAvail) {
-				POPUPDATAT ppd = { 0 };
+				POPUPDATAW ppd = { 0 };
 				for (int i = 0; i < 2; i++) {
 					int notyping;
 					if (i == PROTOTYPE_CONTACTTYPING_OFF) {
-						wcsncpy_s(ppd.lptzContactName, TranslateT("Contact"), _TRUNCATE);
-						wcsncpy_s(ppd.lptzText, szStop, _TRUNCATE);
+						wcsncpy_s(ppd.lpwzContactName, TranslateT("Contact"), _TRUNCATE);
+						wcsncpy_s(ppd.lpwzText, szStop, _TRUNCATE);
 						notyping = 1;
 					}
 					else {
-						wcsncpy_s(ppd.lptzContactName, TranslateT("Contact"), _TRUNCATE);
-						wcsncpy_s(ppd.lptzText, szStart, _TRUNCATE);
+						wcsncpy_s(ppd.lpwzContactName, TranslateT("Contact"), _TRUNCATE);
+						wcsncpy_s(ppd.lpwzText, szStart, _TRUNCATE);
 						notyping = 0;
 					}
 
@@ -355,7 +355,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					ppd.lchContact = wParam;
 					ppd.PluginWindowProc = nullptr;
 					ppd.PluginData = nullptr;
-					PUAddPopupT(&ppd);
+					PUAddPopupW(&ppd);
 				}
 			}
 			break;
@@ -489,7 +489,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 int TN_OptionsInitialize(WPARAM wParam, LPARAM)
 {
-	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
 		OPTIONSDIALOGPAGE odp = {};
 		odp.position = 100000000;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TYPINGNOTIFYPOPUP);

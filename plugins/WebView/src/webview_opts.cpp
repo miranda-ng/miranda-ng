@@ -187,7 +187,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		case IDC_PREVIEW:
 			wchar_t str3[512];
-			POPUPDATAT ppd = { 0 };
+			POPUPDATAW ppd = { 0 };
 
 			GetDlgItemText(hdlg, IDC_DELAY, str3, _countof(str3));
 
@@ -204,15 +204,15 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				TextColour = TextClr;
 			}
 			ppd.lchContact = NULL;
-			mir_wstrcpy(ppd.lptzContactName, _A2W(MODULENAME));
+			mir_wstrcpy(ppd.lpwzContactName, _A2W(MODULENAME));
 			ppd.lchIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_SITE));
-			mir_wstrcpy(ppd.lptzText, TranslateT("This is a preview popup."));
+			mir_wstrcpy(ppd.lpwzText, TranslateT("This is a preview popup."));
 			ppd.colorBack = BGColour;
 			ppd.colorText = TextColour;
 			ppd.PluginWindowProc = nullptr;
 			ppd.iSeconds = _wtol(str3);
 			// display popups
-			PUAddPopupT(&ppd);
+			PUAddPopupW(&ppd);
 		}
 		break;
 
@@ -1092,11 +1092,11 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 			}
 			else {
 				CheckDlgButton(hwndDlg, IDC_SUPPRESS, BST_UNCHECKED);
-				if ((ServiceExists(MS_POPUP_ADDPOPUPT) != 0))
+				if ((ServiceExists(MS_POPUP_ADDPOPUPW) != 0))
 					EnableWindow(GetDlgItem(hwndDlg, IDC_ERROR_POPUP), 1);
 			}
 
-			if (ServiceExists(MS_POPUP_ADDPOPUPT) == 0)
+			if (ServiceExists(MS_POPUP_ADDPOPUPW) == 0)
 				EnableWindow(GetDlgItem(hwndDlg, IDC_ERROR_POPUP), 0);
 
 			if (g_plugin.getByte(UPDATE_ONSTART_KEY, 0)) {
@@ -1167,7 +1167,7 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 			break;
 
 		case IDC_SUPPRESS:
-			if ((ServiceExists(MS_POPUP_ADDPOPUPT) != 0))
+			if ((ServiceExists(MS_POPUP_ADDPOPUPW) != 0))
 				EnableWindow(GetDlgItem(hwndDlg, IDC_ERROR_POPUP), (!(IsDlgButtonChecked(hwndDlg, IDC_SUPPRESS))));
 			break;
 

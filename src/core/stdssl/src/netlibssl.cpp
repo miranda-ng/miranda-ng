@@ -87,7 +87,7 @@ static void ReportSslError(SECURITY_STATUS scRet, int line, bool = false)
 	mir_free(szMsg);
 
 	SetLastError(scRet);
-	PUShowMessageT(szMsgBuf2, SM_WARNING);
+	PUShowMessageW(szMsgBuf2, SM_WARNING);
 }
 
 static bool AcquireCredentials(void)

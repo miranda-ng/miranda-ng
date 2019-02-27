@@ -588,7 +588,7 @@ int OptInit(WPARAM wParam, LPARAM)
 	g_plugin.addOptions(wParam, &odp);
 
 	// if popup service exists, load the weather popup options
-	if ((ServiceExists(MS_POPUP_ADDPOPUPT))) {
+	if ((ServiceExists(MS_POPUP_ADDPOPUPW))) {
 		odp.position = 100000000;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP);
 		odp.szGroup.a = LPGEN("Popups");

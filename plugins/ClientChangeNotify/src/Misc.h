@@ -25,14 +25,14 @@ extern BOOL bPopupExists;
 __inline void ShowMsg(wchar_t *FirstLine, wchar_t *SecondLine = L"", bool IsErrorMsg = false, int Timeout = 0)
 {
 	if (bPopupExists) {
-		POPUPDATAT ppd = { 0 };
+		POPUPDATAW ppd = { 0 };
 		ppd.lchIcon = LoadIcon(NULL, IsErrorMsg ? IDI_EXCLAMATION : IDI_INFORMATION);
-		mir_wstrcpy(ppd.lptzContactName, FirstLine);
-		mir_wstrcpy(ppd.lptzText, SecondLine);
+		mir_wstrcpy(ppd.lpwzContactName, FirstLine);
+		mir_wstrcpy(ppd.lpwzText, SecondLine);
 		ppd.colorBack = IsErrorMsg ? 0x0202E3 : 0xE8F1FD;
 		ppd.colorText = IsErrorMsg ? 0xE8F1FD : 0x000000;
 		ppd.iSeconds = Timeout;
-		PUAddPopupT(&ppd);
+		PUAddPopupW(&ppd);
 	}
 	else {
 		MessageBox(NULL, SecondLine, FirstLine, MB_OK | (IsErrorMsg ? MB_ICONEXCLAMATION : MB_ICONINFORMATION));

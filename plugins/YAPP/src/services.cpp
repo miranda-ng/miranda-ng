@@ -288,11 +288,11 @@ static INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam)
 		return -1;
 
 	if (db_get_b(0, "Popup", "ModuleIsEnabled", 1)) {
-		POPUPDATAT pd = {0};
-		mir_wstrcpy(pd.lptzContactName, lParam == SM_WARNING ? L"Warning" : L"Notification");
+		POPUPDATAW pd = {0};
+		mir_wstrcpy(pd.lpwzContactName, lParam == SM_WARNING ? L"Warning" : L"Notification");
 		pd.lchIcon = LoadIcon(nullptr, lParam == SM_WARNING ? IDI_WARNING : IDI_INFORMATION);
-		wcsncpy(pd.lptzText, _A2T((char *)wParam), MAX_SECONDLINE); pd.lptzText[MAX_SECONDLINE-1] = 0;
-		CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&pd, 0);
+		wcsncpy(pd.lpwzText, _A2T((char *)wParam), MAX_SECONDLINE); pd.lpwzText[MAX_SECONDLINE-1] = 0;
+		CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&pd, 0);
 	}
 	return 0;
 }

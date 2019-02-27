@@ -768,10 +768,10 @@ static VOID CALLBACK CheckContinueslyTimer(HWND, UINT, UINT_PTR, DWORD)
 
 static INT_PTR ShowPopup(const wchar_t *msg, HICON hIcon)
 {
-	POPUPDATAT ppd = {};
+	POPUPDATAW ppd = {};
 	ppd.lchIcon = hIcon;
-	wcsncpy(ppd.lptzContactName, TranslateT("Keep status"), MAX_CONTACTNAME);
-	wcsncpy(ppd.lptzText, msg, MAX_SECONDLINE);
+	wcsncpy(ppd.lpwzContactName, TranslateT("Keep status"), MAX_CONTACTNAME);
+	wcsncpy(ppd.lpwzText, msg, MAX_SECONDLINE);
 	if (KSPlugin.getByte(SETTING_POPUP_USEWINCOLORS, 0)) {
 		ppd.colorBack = GetSysColor(COLOR_BTNFACE);
 		ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
@@ -798,7 +798,7 @@ static INT_PTR ShowPopup(const wchar_t *msg, HICON hIcon)
 		ppd.iSeconds = 0;
 		break;
 	}
-	return PUAddPopupT(&ppd);
+	return PUAddPopupW(&ppd);
 }
 
 static wchar_t* GetHumanName(LPARAM lParam)
@@ -809,7 +809,7 @@ static wchar_t* GetHumanName(LPARAM lParam)
 
 static int ProcessPopup(int reason, LPARAM lParam)
 {
-	if (!KSPlugin.getByte(SETTING_SHOWCONNECTIONPOPUPS, FALSE) || !ServiceExists(MS_POPUP_ADDPOPUPT))
+	if (!KSPlugin.getByte(SETTING_SHOWCONNECTIONPOPUPS, FALSE) || !ServiceExists(MS_POPUP_ADDPOPUPW))
 		return -1;
 
 	HICON hIcon = nullptr;

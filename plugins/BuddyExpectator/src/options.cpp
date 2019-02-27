@@ -94,7 +94,7 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		if (!ServiceExists(MS_POPUP_ADDPOPUPT))
+		if (!ServiceExists(MS_POPUP_ADDPOPUPW))
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHECK_POPUP), FALSE);
 
 		//iAbsencePeriod
@@ -313,7 +313,7 @@ static INT_PTR CALLBACK PopupOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_PREVIEW) {
-			POPUPDATAT ppd;
+			POPUPDATAW ppd;
 			memset(&ppd, 0, sizeof(ppd));
 
 			//iPopupDelay
@@ -325,10 +325,10 @@ static INT_PTR CALLBACK PopupOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 
 			ppd.lchContact = NULL;
 			ppd.lchIcon = hIcon;
-			wcsncpy(ppd.lptzContactName, TranslateT("Contact name"), MAX_CONTACTNAME);
+			wcsncpy(ppd.lpwzContactName, TranslateT("Contact name"), MAX_CONTACTNAME);
 			wchar_t szPreviewText[250];
 			mir_snwprintf(szPreviewText, TranslateT("has returned after being absent since %d days"), rand() % 30);
-			wcsncpy(ppd.lptzText, szPreviewText, MAX_SECONDLINE);
+			wcsncpy(ppd.lpwzText, szPreviewText, MAX_SECONDLINE);
 
 			// Get current popups colors options
 			if (IsDlgButtonChecked(hwndDlg, IDC_COLORS_POPUP))
@@ -344,12 +344,12 @@ static INT_PTR CALLBACK PopupOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 			ppd.PluginData = nullptr;
 			ppd.iSeconds = options.iPopupDelay;
 
-			CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, APF_NO_HISTORY);
+			CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&ppd, APF_NO_HISTORY);
 
-			wcsncpy(ppd.lptzText, TranslateT("You awaited this contact!"), MAX_SECONDLINE);
+			wcsncpy(ppd.lpwzText, TranslateT("You awaited this contact!"), MAX_SECONDLINE);
 			ppd.lchIcon = IcoLib_GetIcon("enabled_icon");
 
-			CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, APF_NO_HISTORY);
+			CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&ppd, APF_NO_HISTORY);
 		}
 		else {
 			if ((HIWORD(wParam) == BN_CLICKED) || (HIWORD(wParam) == CBN_SELCHANGE) || ((HIWORD(wParam) == EN_CHANGE) && !ChangeLock))
@@ -439,7 +439,7 @@ int OptionsInit(WPARAM wParam, LPARAM)
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	g_plugin.addOptions(wParam, &odp);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
 		odp.szGroup.w = LPGENW("Popups");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPPANEL);
 		odp.pfnDlgProc = PopupOptionsFrameProc;

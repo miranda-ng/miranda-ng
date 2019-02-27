@@ -175,7 +175,7 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char *pszProtoNa
 	mir_vsnwprintf(szBuf, 4096, fmt, marker);
 	va_end(marker);
 
-	POPUPDATAT pd = { 0 };
+	POPUPDATAW pd = { 0 };
 	pd.lchContact = hContact;
 
 	if (hIcon)
@@ -184,8 +184,8 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char *pszProtoNa
 		pd.lchIcon = LoadIconEx("window", FALSE);
 
 	PROTOACCOUNT *pa = Proto_GetAccount(pszProtoName);
-	mir_snwprintf(pd.lptzContactName, L"%s - %s", (pa == nullptr) ? _A2T(pszProtoName) : pa->tszAccountName, Clist_GetContactDisplayName(hContact));
-	mir_wstrncpy(pd.lptzText, TranslateW(szBuf), _countof(pd.lptzText));
+	mir_snwprintf(pd.lpwzContactName, L"%s - %s", (pa == nullptr) ? _A2T(pszProtoName) : pa->tszAccountName, Clist_GetContactDisplayName(hContact));
+	mir_wstrncpy(pd.lpwzText, TranslateW(szBuf), _countof(pd.lpwzText));
 	pd.iSeconds = g_Settings->iPopupTimeout;
 
 	if (g_Settings->iPopupStyle == 2) {
@@ -203,7 +203,7 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char *pszProtoNa
 
 	pd.PluginWindowProc = PopupDlgProc;
 	pd.PluginData = si;
-	return PUAddPopupT(&pd);
+	return PUAddPopupW(&pd);
 }
 
 BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)

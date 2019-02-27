@@ -220,9 +220,9 @@ int ThreadCheckEmail(int bForceAttempt)
 
 void _popupUtil(wchar_t* szMsg)
 {
-	POPUPDATAT ppd = { 0 };
+	POPUPDATAW ppd = { 0 };
 	ppd.lchIcon = hiMailIcon;
-	wcsncpy(ppd.lptzContactName, L"Exchange notifier", MAX_CONTACTNAME - 1);
-	wcsncpy(ppd.lptzText, szMsg, MAX_SECONDLINE - 1);
-	PUAddPopupT(&ppd); //show a popup to tell the user what we're doing.
+	wcsncpy(ppd.lpwzContactName, L"Exchange notifier", MAX_CONTACTNAME - 1);
+	wcsncpy(ppd.lpwzText, szMsg, MAX_SECONDLINE - 1);
+	PUAddPopupW(&ppd); //show a popup to tell the user what we're doing.
 }

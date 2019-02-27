@@ -40,7 +40,7 @@ void update_popup_controls(HWND hDlg)
 
 bool enable_popup_controls(HWND hDlg)
 {
-	bool bIsPopupServiceEnabled = 1 == ServiceExists(MS_POPUP_ADDPOPUPT);
+	bool bIsPopupServiceEnabled = 1 == ServiceExists(MS_POPUP_ADDPOPUPW);
 	::EnableWindow(::GetDlgItem(hDlg, IDC_CHECK_SHOW_POPUP), bIsPopupServiceEnabled);
 	::EnableWindow(::GetDlgItem(hDlg, IDC_EDIT_POPUP_FORMAT), bIsPopupServiceEnabled);
 	::EnableWindow(::GetDlgItem(hDlg, IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED), bIsPopupServiceEnabled);
@@ -72,7 +72,7 @@ void update_all_controls(HWND hDlg)
 	::EnableWindow(::GetDlgItem(hDlg, IDC_BUTTON_HISTORY_DESCRIPTION), (bIsCheckedContactSpec&&bIsCheckedHistory));
 	::EnableWindow(::GetDlgItem(hDlg, IDC_CHECK_HISTORY_CONDITION), (bIsCheckedContactSpec&&bIsCheckedHistory));
 
-	bool bIsPopupServiceEnabled = 1 == ServiceExists(MS_POPUP_ADDPOPUPT);
+	bool bIsPopupServiceEnabled = 1 == ServiceExists(MS_POPUP_ADDPOPUPW);
 	bool bIsCheckedShowPopup = (1 == ::IsDlgButtonChecked(hDlg, IDC_CHECK_SHOW_POPUP));
 	::EnableWindow(::GetDlgItem(hDlg, IDC_CHECK_SHOW_POPUP), (bIsCheckedContactSpec&&bIsPopupServiceEnabled));
 	::EnableWindow(::GetDlgItem(hDlg, IDC_EDIT_POPUP_FORMAT), (bIsCheckedContactSpec&&bIsPopupServiceEnabled&&bIsCheckedShowPopup));

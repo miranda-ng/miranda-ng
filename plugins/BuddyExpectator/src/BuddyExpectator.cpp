@@ -224,13 +224,13 @@ bool isContactGoneFor(MCONTACT hContact, int days)
 	if (options.hideInactive)
 		if (daysSinceMessage >= options.iSilencePeriod)
 			if (!db_get_b(hContact, "CList", "Hidden", 0) && !g_plugin.getByte(hContact, "NeverHide", 0)) {
-				POPUPDATAT_V2 ppd = { 0 };
+				POPUPDATAW_V2 ppd = { 0 };
 				ppd.cbSize = sizeof(ppd);
 				ppd.lchContact = hContact;
 				ppd.lchIcon = IcoLib_GetIcon("enabled_icon");
 
-				mir_snwprintf(ppd.lptzContactName, TranslateT("Hiding %s (%S)"), Clist_GetContactDisplayName(hContact), GetContactProto(hContact));
-				mir_snwprintf(ppd.lptzText, TranslateT("%d days since last message"), daysSinceMessage);
+				mir_snwprintf(ppd.lpwzContactName, TranslateT("Hiding %s (%S)"), Clist_GetContactDisplayName(hContact), GetContactProto(hContact));
+				mir_snwprintf(ppd.lpwzText, TranslateT("%d days since last message"), daysSinceMessage);
 
 				if (!options.iUsePopupColors) {
 					ppd.colorBack = options.iPopupColorBack;
@@ -243,7 +243,7 @@ bool isContactGoneFor(MCONTACT hContact, int days)
 				ppd.lpActions = hideactions;
 				ppd.actionCount = 2;
 
-				CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, APF_NEWDATA);
+				CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&ppd, APF_NEWDATA);
 
 				Skin_PlaySound("buddyExpectatorHide");
 			}
@@ -260,11 +260,11 @@ void ReturnNotify(MCONTACT hContact, wchar_t *message)
 
 	if (options.iShowPopup > 0) {
 		// Display Popup
-		POPUPDATAT ppd = { 0 };
+		POPUPDATAW ppd = { 0 };
 		ppd.lchContact = hContact;
 		ppd.lchIcon = hIcon;
-		wcsncpy(ppd.lptzContactName, Clist_GetContactDisplayName(hContact), MAX_CONTACTNAME);
-		wcsncpy(ppd.lptzText, message, MAX_SECONDLINE);
+		wcsncpy(ppd.lpwzContactName, Clist_GetContactDisplayName(hContact), MAX_CONTACTNAME);
+		wcsncpy(ppd.lpwzText, message, MAX_SECONDLINE);
 		if (!options.iUsePopupColors) {
 			ppd.colorBack = options.iPopupColorBack;
 			ppd.colorText = options.iPopupColorFore;
@@ -272,7 +272,7 @@ void ReturnNotify(MCONTACT hContact, wchar_t *message)
 		ppd.PluginWindowProc = PopupDlgProc;
 		ppd.PluginData = nullptr;
 		ppd.iSeconds = options.iPopupDelay;
-		PUAddPopupT(&ppd);
+		PUAddPopupW(&ppd);
 	}
 
 	if (options.iShowEvent > 0) {
@@ -297,11 +297,11 @@ void GoneNotify(MCONTACT hContact, wchar_t *message)
 
 	if (options.iShowPopup2 > 0) {
 		// Display Popup
-		POPUPDATAT ppd = { 0 };
+		POPUPDATAW ppd = { 0 };
 		ppd.lchContact = hContact;
 		ppd.lchIcon = hIcon;
-		wcsncpy(ppd.lptzContactName, Clist_GetContactDisplayName(hContact), MAX_CONTACTNAME);
-		wcsncpy(ppd.lptzText, message, MAX_SECONDLINE);
+		wcsncpy(ppd.lpwzContactName, Clist_GetContactDisplayName(hContact), MAX_CONTACTNAME);
+		wcsncpy(ppd.lpwzText, message, MAX_SECONDLINE);
 		if (!options.iUsePopupColors) {
 			ppd.colorBack = options.iPopupColorBack;
 			ppd.colorText = options.iPopupColorFore;
@@ -310,7 +310,7 @@ void GoneNotify(MCONTACT hContact, wchar_t *message)
 		ppd.PluginData = nullptr;
 		ppd.iSeconds = options.iPopupDelay;
 
-		PUAddPopupT(&ppd);
+		PUAddPopupW(&ppd);
 	}
 
 	if (options.iShowEvent2 > 0) {
@@ -478,13 +478,13 @@ int SettingChanged(WPARAM hContact, LPARAM lParam)
 	if (prevStatus == ID_STATUS_OFFLINE) {
 		if (g_plugin.getByte(hContact, "MissYou", 0)) {
 			// Display Popup
-			POPUPDATAT_V2 ppd = { 0 };
+			POPUPDATAW_V2 ppd = { 0 };
 			ppd.cbSize = sizeof(ppd);
 
 			ppd.lchContact = hContact;
 			ppd.lchIcon = IcoLib_GetIcon("enabled_icon");
-			wcsncpy(ppd.lptzContactName, Clist_GetContactDisplayName(hContact), MAX_CONTACTNAME);
-			wcsncpy(ppd.lptzText, TranslateT("You awaited this contact!"), MAX_SECONDLINE);
+			wcsncpy(ppd.lpwzContactName, Clist_GetContactDisplayName(hContact), MAX_CONTACTNAME);
+			wcsncpy(ppd.lpwzText, TranslateT("You awaited this contact!"), MAX_SECONDLINE);
 			if (!options.iUsePopupColors) {
 				ppd.colorBack = options.iPopupColorBack;
 				ppd.colorText = options.iPopupColorFore;
@@ -497,7 +497,7 @@ int SettingChanged(WPARAM hContact, LPARAM lParam)
 			ppd.lpActions = missyouactions;
 			ppd.actionCount = 1;
 
-			CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, APF_NEWDATA);
+			CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&ppd, APF_NEWDATA);
 
 			Skin_PlaySound("buddyExpectatorMissYou");
 		}

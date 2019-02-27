@@ -565,7 +565,7 @@ int OptInit(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = UpdateNotifyOptsProc;
 	g_plugin.addOptions(wParam, &odp);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP);
 		odp.szGroup.w = LPGENW("Popups");
 		odp.szTitle.w = LPGENW("Plugin Updater");

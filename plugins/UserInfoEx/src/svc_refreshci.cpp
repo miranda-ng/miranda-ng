@@ -332,7 +332,7 @@ class CPopupUpdProgress : public CUpdProgress
 			if (pb) {
 				mir_wstrcpy(pb, _szText);
 
-				SendMessage(_hWnd, UM_CHANGEPOPUP, CPT_TITLET, (LPARAM)pb);
+				SendMessage(_hWnd, UM_CHANGEPOPUP, CPT_TITLEW, (LPARAM)pb);
 			}
 		}
 	}
@@ -393,7 +393,7 @@ public:
 	 **/
 	virtual HWND Create(LPCTSTR szTitle, PUpdCallback pFnCallBack)
 	{
-		POPUPDATAT_V2 pd = { 0 };
+		POPUPDATAW_V2 pd = { 0 };
 		pd.cbSize = sizeof(pd);
 		pd.lchIcon = IcoLib_GetIcon(ICO_BTN_UPDATE);
 		pd.iSeconds = -1;
@@ -404,12 +404,12 @@ public:
 
 		// dummy text
 		_szText = mir_wstrdup(szTitle);
-		mir_wstrcpy(pd.lptzContactName, _szText);
+		mir_wstrcpy(pd.lpwzContactName, _szText);
 
-		mir_wstrcpy(pd.lptzText, L" ");
+		mir_wstrcpy(pd.lpwzText, L" ");
 
 		_pFnCallBack = pFnCallBack;
-		_hWnd = (HWND)CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&pd, APF_RETURN_HWND | APF_NEWDATA);
+		_hWnd = (HWND)CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&pd, APF_RETURN_HWND | APF_NEWDATA);
 		return _hWnd;
 	}
 
@@ -443,7 +443,7 @@ public:
 	 **/
 	virtual void SetText(LPCTSTR szText)
 	{
-		SendMessage(_hWnd, UM_CHANGEPOPUP, CPT_TEXTT, (LPARAM)mir_wstrdup(szText));
+		SendMessage(_hWnd, UM_CHANGEPOPUP, CPT_TEXTW, (LPARAM)mir_wstrdup(szText));
 	}
 };
 
@@ -635,7 +635,7 @@ public:
 				iWait += 5000;
 
 		if (Size() && !_pProgress) {
-			if (ServiceExists(MS_POPUP_CHANGETEXTT) && g_plugin.getByte("PopupProgress", FALSE)) {
+			if (ServiceExists(MS_POPUP_CHANGETEXTW) && g_plugin.getByte("PopupProgress", FALSE)) {
 				_pProgress = new CPopupUpdProgress(this);
 			}
 			else {

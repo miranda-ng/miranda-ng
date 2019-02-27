@@ -142,7 +142,7 @@ struct PLUGIN_DATAT
 	MCONTACT     hContact;
 	UINT         eventType;
 	NEN_OPTIONS *pluginOptions;
-	POPUPDATAT  *pud;
+	POPUPDATAW  *pud;
 	HWND         hWnd;
 	long         iSeconds;
 	int          nrMerged;

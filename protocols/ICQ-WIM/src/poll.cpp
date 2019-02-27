@@ -224,15 +224,15 @@ void CIcqProto::ProcessNotification(const JSONNode &ev)
 			CMStringW wszSubj((*root)["subject"].as_mstring());
 			m_unreadEmails = (*root)["unreadCount"].as_int();
 
-			POPUPDATAT Popup = {};
-			mir_snwprintf(Popup.lptzText, LPGENW("You received e-mail from %s: %s"), wszFrom.c_str(), wszSubj.c_str());
+			POPUPDATAW Popup = {};
+			mir_snwprintf(Popup.lpwzText, LPGENW("You received e-mail from %s: %s"), wszFrom.c_str(), wszSubj.c_str());
 			Popup.lchIcon = IcoLib_GetIconByHandle(iconList[1].hIcolib);
 			if (g_bPopupService) {
-				wcsncpy_s(Popup.lptzContactName, m_tszUserName, _TRUNCATE);
-				CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&Popup, 0);
+				wcsncpy_s(Popup.lpwzContactName, m_tszUserName, _TRUNCATE);
+				CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&Popup, 0);
 			}
 
-			EmailNotification(Popup.lptzText);
+			EmailNotification(Popup.lpwzText);
 		}
 
 		const JSONNode &status = fld["mailbox.status"];

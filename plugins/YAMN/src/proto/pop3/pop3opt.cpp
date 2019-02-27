@@ -173,7 +173,7 @@ int YAMNOptInitSvc(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = DlgProcPluginOpt;
 	g_plugin.addOptions(wParam, &odp);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
 		odp.szGroup.a = LPGEN("Popups");
 		odp.szTab.a = LPGEN("YAMN");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POP3ACCOUNTPOPUP);
@@ -1272,9 +1272,9 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 
 			case IDC_PREVIEW:
 				{
-					POPUPDATAT Tester;
-					POPUPDATAT TesterF;
-					POPUPDATAT TesterN;
+					POPUPDATAW Tester;
+					POPUPDATAW TesterF;
+					POPUPDATAW TesterN;
 					BOOL TesterC = (IsDlgButtonChecked(hDlg, IDC_CHECKCOL) == BST_CHECKED);
 					BOOL TesterFC = (IsDlgButtonChecked(hDlg, IDC_CHECKFCOL) == BST_CHECKED);
 					BOOL TesterNC = (IsDlgButtonChecked(hDlg, IDC_CHECKNCOL) == BST_CHECKED);
@@ -1286,12 +1286,12 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 					TesterF.lchIcon = g_LoadIconEx(3);
 					TesterN.lchIcon = g_LoadIconEx(1);
 
-					mir_wstrncpy(Tester.lptzContactName, TranslateT("Account Test"), MAX_CONTACTNAME);
-					mir_wstrncpy(TesterF.lptzContactName, TranslateT("Account Test (failed)"), MAX_CONTACTNAME);
-					mir_wstrncpy(TesterN.lptzContactName, TranslateT("Account Test"), MAX_CONTACTNAME);
-					mir_wstrncpy(Tester.lptzText, TranslateT("You have N new mail messages"), MAX_SECONDLINE);
-					mir_wstrncpy(TesterF.lptzText, TranslateT("Connection failed message"), MAX_SECONDLINE);
-					mir_wstrncpy(TesterN.lptzText, TranslateT("No new mail message"), MAX_SECONDLINE);
+					mir_wstrncpy(Tester.lpwzContactName, TranslateT("Account Test"), MAX_CONTACTNAME);
+					mir_wstrncpy(TesterF.lpwzContactName, TranslateT("Account Test (failed)"), MAX_CONTACTNAME);
+					mir_wstrncpy(TesterN.lpwzContactName, TranslateT("Account Test"), MAX_CONTACTNAME);
+					mir_wstrncpy(Tester.lpwzText, TranslateT("You have N new mail messages"), MAX_SECONDLINE);
+					mir_wstrncpy(TesterF.lpwzText, TranslateT("Connection failed message"), MAX_SECONDLINE);
+					mir_wstrncpy(TesterN.lpwzText, TranslateT("No new mail message"), MAX_SECONDLINE);
 					if (TesterC) {
 						Tester.colorBack = SendDlgItemMessage(hDlg, IDC_CPB, CPM_GETCOLOUR, 0, 0);
 						Tester.colorText = SendDlgItemMessage(hDlg, IDC_CPT, CPM_GETCOLOUR, 0, 0);
@@ -1324,11 +1324,11 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 					TesterN.PluginData = nullptr;
 
 					if (IsDlgButtonChecked(hDlg, IDC_CHECKPOP) == BST_CHECKED)
-						PUAddPopupT(&Tester);
+						PUAddPopupW(&Tester);
 					if (IsDlgButtonChecked(hDlg, IDC_CHECKFPOP) == BST_CHECKED)
-						PUAddPopupT(&TesterF);
+						PUAddPopupW(&TesterF);
 					if (IsDlgButtonChecked(hDlg, IDC_CHECKNPOP) == BST_CHECKED)
-						PUAddPopupT(&TesterN);
+						PUAddPopupW(&TesterN);
 					Changed = TRUE;
 				}
 				break;

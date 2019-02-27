@@ -87,7 +87,7 @@ void LoadOptions()
 	options.end_offline = (g_plugin.getByte("EndOffline", 1) == 1);
 	options.end_window_close = (g_plugin.getByte("EndWindowClose", 0) == 1);
 
-	options.bHavePopups = 0 != ServiceExists(MS_POPUP_ADDPOPUPT) && ServiceExists(MS_POPUP_SHOWMESSAGE);
+	options.bHavePopups = 0 != ServiceExists(MS_POPUP_ADDPOPUPW) && ServiceExists(MS_POPUP_SHOWMESSAGE);
 	options.bHaveSecureIM = 0 != ServiceExists("SecureIM/IsContactSecured");
 
 	LoadFilenames();

@@ -294,7 +294,7 @@ int CExchangeServer::Check(int bNoEmailsNotify)
 
 int ShowMessage(wchar_t *message, int cUnreadEmails)
 {
-	int usePopups = ServiceExists(MS_POPUP_ADDPOPUPT) ? g_plugin.getByte("UsePopups", 0) : 0;
+	int usePopups = ServiceExists(MS_POPUP_ADDPOPUPW) ? g_plugin.getByte("UsePopups", 0) : 0;
 	if (usePopups)
 		return ShowPopupMessage(TranslateT("Exchange email"), message, cUnreadEmails);
 
@@ -303,16 +303,16 @@ int ShowMessage(wchar_t *message, int cUnreadEmails)
 
 int ShowPopupMessage(wchar_t *title, wchar_t *message, int cUnreadEmails)
 {
-	POPUPDATAT popup = {0};
+	POPUPDATAW popup = {0};
 	popup.lchContact = NULL;
 	popup.colorBack = NULL;
 	popup.colorText = NULL;
 	popup.lchIcon = hiMailIcon;
-	wcsncpy_s(popup.lptzContactName, MAX_CONTACTNAME, title, _TRUNCATE);
-	wcsncpy_s(popup.lptzText, MAX_SECONDLINE, message, _TRUNCATE);
+	wcsncpy_s(popup.lpwzContactName, MAX_CONTACTNAME, title, _TRUNCATE);
+	wcsncpy_s(popup.lpwzText, MAX_SECONDLINE, message, _TRUNCATE);
 	popup.PluginWindowProc = DlgProcPopup;
 	popup.PluginData = (int *) cUnreadEmails;
-	return PUAddPopupT(&popup);
+	return PUAddPopupW(&popup);
 }
 
 int ShowMessageBoxMessage(wchar_t *title, wchar_t *message, int cUnreadEmails)

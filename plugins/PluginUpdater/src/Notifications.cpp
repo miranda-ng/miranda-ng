@@ -95,12 +95,12 @@ static LRESULT CALLBACK PopupDlgProcRestart(HWND hPopup, UINT uMsg, WPARAM wPara
 
 void ShowPopup(LPCTSTR ptszTitle, LPCTSTR ptszText, int Number)
 {
-	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(0, "Popup", "ModuleIsEnabled", 1)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPW) && db_get_b(0, "Popup", "ModuleIsEnabled", 1)) {
 		char setting[100];
 		mir_snprintf(setting, "Popups%d", Number);
 
 		if (g_plugin.getByte(setting, DEFAULT_POPUP_ENABLED)) {
-			POPUPDATAT pd = { 0 };
+			POPUPDATAW pd = { 0 };
 			pd.lchContact = NULL;
 			pd.lchIcon = IcoLib_GetIconByHandle(iconList[0].hIcolib);
 
@@ -113,8 +113,8 @@ void ShowPopup(LPCTSTR ptszTitle, LPCTSTR ptszText, int Number)
 				pd.iSeconds = PopupOptions.Timeout;
 			}
 
-			lstrcpyn(pd.lptzText, ptszText, MAX_SECONDLINE);
-			lstrcpyn(pd.lptzContactName, ptszTitle, MAX_CONTACTNAME);
+			lstrcpyn(pd.lpwzText, ptszText, MAX_SECONDLINE);
+			lstrcpyn(pd.lpwzContactName, ptszTitle, MAX_CONTACTNAME);
 
 			switch (PopupOptions.DefColors) {
 			case byCOLOR_WINDOWS:
@@ -129,7 +129,7 @@ void ShowPopup(LPCTSTR ptszTitle, LPCTSTR ptszText, int Number)
 				pd.colorBack = pd.colorText = 0;
 				break;
 			}
-			PUAddPopupT(&pd);
+			PUAddPopupW(&pd);
 			return;
 		}
 	}

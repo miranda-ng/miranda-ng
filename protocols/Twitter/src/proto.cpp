@@ -279,7 +279,7 @@ int TwitterProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = options_proc;
 	g_plugin.addOptions(wParam, &odp);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
 		odp.szTab.w = LPGENW("Popups");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_POPUPS);
 		odp.pfnDlgProc = popup_options_proc;
@@ -335,9 +335,9 @@ int TwitterProto::ShowPinDialog()
 
 void TwitterProto::ShowPopup(const wchar_t *text, int Error)
 {
-	POPUPDATAT popup = {};
-	mir_snwprintf(popup.lptzContactName, TranslateT("%s Protocol"), m_tszUserName);
-	wcsncpy_s(popup.lptzText, text, _TRUNCATE);
+	POPUPDATAW popup = {};
+	mir_snwprintf(popup.lpwzContactName, TranslateT("%s Protocol"), m_tszUserName);
+	wcsncpy_s(popup.lpwzText, text, _TRUNCATE);
 
 	if (Error) {
 		popup.iSeconds = -1;
@@ -345,27 +345,27 @@ void TwitterProto::ShowPopup(const wchar_t *text, int Error)
 		popup.colorText = 0x00FFFFFF;
 	}
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT))
-		PUAddPopupT(&popup);
+	if (ServiceExists(MS_POPUP_ADDPOPUPW))
+		PUAddPopupW(&popup);
 	else
-		MessageBox(nullptr, popup.lptzText, popup.lptzContactName, 0);
+		MessageBox(nullptr, popup.lpwzText, popup.lpwzContactName, 0);
 }
 
 void TwitterProto::ShowPopup(const char *text, int Error)
 {
-	POPUPDATAT popup = {};
-	mir_snwprintf(popup.lptzContactName, TranslateT("%s Protocol"), m_tszUserName);
-	mbcs_to_tcs(CP_UTF8, text, popup.lptzText, _countof(popup.lptzText));
+	POPUPDATAW popup = {};
+	mir_snwprintf(popup.lpwzContactName, TranslateT("%s Protocol"), m_tszUserName);
+	mbcs_to_tcs(CP_UTF8, text, popup.lpwzText, _countof(popup.lpwzText));
 	if (Error) {
 		popup.iSeconds = -1;
 		popup.colorBack = 0x000000FF;
 		popup.colorText = 0x00FFFFFF;
 	}
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT))
-		PUAddPopupT(&popup);
+	if (ServiceExists(MS_POPUP_ADDPOPUPW))
+		PUAddPopupW(&popup);
 	else
-		MessageBox(nullptr, popup.lptzText, popup.lptzContactName, 0);
+		MessageBox(nullptr, popup.lpwzText, popup.lpwzContactName, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

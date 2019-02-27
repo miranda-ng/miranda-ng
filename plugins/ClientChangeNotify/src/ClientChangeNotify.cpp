@@ -149,7 +149,7 @@ void ShowPopup(SHOWPOPUP_DATA *sd)
 	}
 
 	PLUGIN_DATA *pdata = (PLUGIN_DATA*)calloc(1, sizeof(PLUGIN_DATA));
-	POPUPDATAT ppd = { 0 };
+	POPUPDATAW ppd = { 0 };
 	ppd.lchContact = sd->hContact;
 	char *szProto = GetContactProto(sd->hContact);
 	pdata->hIcon = ppd.lchIcon = Finger_GetClientIcon(sd->MirVer, false);
@@ -159,8 +159,8 @@ void ShowPopup(SHOWPOPUP_DATA *sd)
 		ppd.lchIcon = Skin_LoadProtoIcon(szProto, db_get_w(sd->hContact, szProto, "Status", ID_STATUS_OFFLINE));
 		pdata->hIcon = nullptr;
 	}
-	wcsncpy(ppd.lptzContactName, Clist_GetContactDisplayName(sd->hContact), _countof(ppd.lptzContactName) - 1);
-	wcsncpy(ppd.lptzText, PopupText, _countof(ppd.lptzText) - 1);
+	wcsncpy(ppd.lpwzContactName, Clist_GetContactDisplayName(sd->hContact), _countof(ppd.lpwzContactName) - 1);
+	wcsncpy(ppd.lpwzText, PopupText, _countof(ppd.lpwzText) - 1);
 	ppd.colorBack = (sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_DEFBGCOLOUR) ? 0 : sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_BGCOLOUR));
 	ppd.colorText = (sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_DEFTEXTCOLOUR) ? 0 : sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_TEXTCOLOUR));
 	ppd.PluginWindowProc = PopupWndProc;
@@ -168,7 +168,7 @@ void ShowPopup(SHOWPOPUP_DATA *sd)
 	pdata->PopupRClickAction = sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_RCLICK_ACTION);
 	ppd.iSeconds = sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_POPUPDELAY);
 	ppd.PluginData = pdata;
-	PUAddPopupT(&ppd);
+	PUAddPopupW(&ppd);
 }
 
 int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
@@ -301,7 +301,7 @@ INT_PTR CALLBACK CCNErrorDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM)
 
 static int ModuleLoad(WPARAM, LPARAM)
 {
-	bPopupExists = ServiceExists(MS_POPUP_ADDPOPUPT);
+	bPopupExists = ServiceExists(MS_POPUP_ADDPOPUPW);
 	bFingerprintExists = ServiceExists(MS_FP_SAMECLIENTST) && ServiceExists(MS_FP_GETCLIENTICONT);
 	bVariablesExists = ServiceExists(MS_VARS_FORMATSTRING);
 	return 0;

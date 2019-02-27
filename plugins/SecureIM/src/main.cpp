@@ -52,7 +52,7 @@ static HGENMENU MyAddSubItem(HGENMENU hRoot, LPCSTR name, int pos, int poppos, L
 
 static int onModuleLoad(WPARAM, LPARAM)
 {
-	bPopupExists = ServiceExists(MS_POPUP_ADDPOPUPT);
+	bPopupExists = ServiceExists(MS_POPUP_ADDPOPUPW);
 	return 0;
 }
 

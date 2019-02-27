@@ -28,16 +28,16 @@ static LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 
 static void ShowPopup(const wchar_t *ptszText, wchar_t *ptszHeader, wchar_t *ptszPath)
 {
-	POPUPDATAT ppd = { 0 };
+	POPUPDATAW ppd = { 0 };
 
-	wcsncpy_s(ppd.lptzText, ptszText, _TRUNCATE);
-	wcsncpy_s(ppd.lptzContactName, ptszHeader, _TRUNCATE);
+	wcsncpy_s(ppd.lpwzText, ptszText, _TRUNCATE);
+	wcsncpy_s(ppd.lpwzContactName, ptszHeader, _TRUNCATE);
 	if (ptszPath != nullptr)
 		ppd.PluginData = (void*)mir_wstrdup(ptszPath);
 	ppd.PluginWindowProc = DlgProcPopup;
 	ppd.lchIcon = IcoLib_GetIcon(iconList[0].szName);
 
-	PUAddPopupT(&ppd);
+	PUAddPopupW(&ppd);
 }
 
 static INT_PTR CALLBACK DlgProcProgress(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
