@@ -308,6 +308,7 @@ MIR_APP_DLL(void) Clist_DeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 	if (Clist_FindItem(hwnd, dat, hItem, &contact, &group)) {
 		Clist_RemoveItemFromGroup(hwnd, group, contact, 1);
 		contact->pce = nullptr;
+		return;
 	}
 
 	// if we don't have this contact, simply try to update the number of contacts in a group
