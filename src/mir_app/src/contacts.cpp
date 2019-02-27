@@ -186,8 +186,9 @@ MIR_APP_DLL(wchar_t*) Contact_GetInfo(int type, MCONTACT hContact, const char *s
 			case 0: // custom name
 				// make sure we aren't in CNF_DISPLAYNC mode
 				// don't get custom name for nullptr contact
-				if (hContact != 0 && type == CNF_DISPLAY && (res = ProcessDatabaseValueDefault(hContact, "CList", "MyHandle")) != nullptr)
-					return res;
+				if (type == CNF_DISPLAY)
+					if (res = ProcessDatabaseValueDefault(hContact, (hContact != 0) ? "CList" : szProto, "MyHandle"))
+						return res;
 				break;
 
 			case 1:
