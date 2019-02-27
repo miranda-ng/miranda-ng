@@ -137,7 +137,7 @@ void   InitTray(void);
 void   TrayIconSetToBase(char *szPreferredProto);
 void   TrayIconTaskbarCreated(HWND hwnd);
 int    TrayIconUpdate(HICON hNewIcon, const wchar_t *szNewTip, const char *szPreferredProto, int isBase);
-void   TrayIconUpdateWithImageList(int iImage, const wchar_t *szNewTip, char *szPreferredProto);
+void   TrayIconUpdateWithImageList(int iImage, const wchar_t *szNewTip, const char *szPreferredProto);
 
 /* clui.c */
 LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);

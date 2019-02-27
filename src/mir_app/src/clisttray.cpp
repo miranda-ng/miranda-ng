@@ -421,7 +421,7 @@ MIR_APP_DLL(int) Clist_TrayIconSetBaseInfo(HICON hIcon, const char *szPreferredP
 	goto LBL_Error;
 }
 
-void TrayIconUpdateWithImageList(int iImage, const wchar_t *szNewTip, char *szPreferredProto)
+void TrayIconUpdateWithImageList(int iImage, const wchar_t *szNewTip, const char *szPreferredProto)
 {
 	HICON hIcon = ImageList_GetIcon(hCListImages, iImage, ILD_NORMAL);
 	TrayIconUpdate(hIcon, szNewTip, szPreferredProto, 0);

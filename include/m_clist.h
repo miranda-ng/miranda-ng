@@ -249,11 +249,11 @@ struct CLISTEVENT
 	HICON hIcon;            // icon to flash
 	union {
 		MEVENT hDbEvent;     // caller defined but should be unique for hContact
-		char *lpszProtocol;
+		const char *lpszProtocol;
 	};
 	LPARAM lParam;	         // caller defined
-	char *pszService;       // name of the service to call on activation
-	MAllStrings szTooltip;  // short description of the event to display as a tooltip on the system tray
+	const char *pszService; // name of the service to call on activation
+	MAllCStrings szTooltip; // short description of the event to display as a tooltip on the system tray
 };
 
 #define CLEF_URGENT    1   // flashes the icon even if the user is occupied,

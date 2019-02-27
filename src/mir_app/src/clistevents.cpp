@@ -66,7 +66,7 @@ static int CompareEvents(const CListEvent *p1, const CListEvent *p2)
 
 OBJLIST<CListEvent> g_cliEvents(10, CompareEvents);
 
-static char* GetEventProtocol(int idx)
+static const char* GetEventProtocol(int idx)
 {
 	if (!g_cliEvents.getCount() || idx < 0 && idx >= g_cliEvents.getCount())
 		return nullptr;
@@ -117,7 +117,7 @@ static void ShowEventsInTray()
 			pTrayProtos[nTrayProtoCnt++] = g_clistApi.trayIcon[i].szProto;
 
 	for (int i = 0; i < g_cliEvents.getCount(); i++) {
-		char *iEventProto = GetEventProtocol(i);
+		const char *iEventProto = GetEventProtocol(i);
 
 		int j;
 		for (j = 0; j < nTrayProtoCnt; j++)
@@ -176,7 +176,7 @@ CListEvent* fnAddEvent(CLISTEVENT *cle)
 	g_cliEvents.insert(p);
 
 	if (g_cliEvents.getCount() == 1) {
-		char *szProto;
+		const char *szProto;
 		if (cle->hContact == 0) {
 			if (cle->flags & CLEF_PROTOCOLGLOBAL)
 				szProto = cle->lpszProtocol;
@@ -220,11 +220,11 @@ int fnRemoveEvent(MCONTACT hContact, MEVENT dbEvent)
 	// count same protocoled events
 	int nSameProto = 0;
 	for (auto &it : g_cliEvents) {
-		char *szEventProto;
+		const char *szEventProto;
 		if (it->hContact)
 			szEventProto = GetContactProto((it->hContact));
 		else if (it->flags & CLEF_PROTOCOLGLOBAL)
-			szEventProto = (char*)it->lpszProtocol;
+			szEventProto = it->lpszProtocol;
 		else
 			szEventProto = nullptr;
 		if (szEventProto && szProto && !mir_strcmp(szEventProto, szProto))
@@ -298,7 +298,7 @@ MIR_APP_DLL(int) Clist_EventsProcessTrayDoubleClick(int index)
 			}
 			if (szProto) {
 				for (auto &it : g_cliEvents) {
-					char *eventProto = nullptr;
+					const char *eventProto = nullptr;
 					if (it->hContact)
 						eventProto = GetContactProto(it->hContact);
 					if (!eventProto)
@@ -314,7 +314,7 @@ MIR_APP_DLL(int) Clist_EventsProcessTrayDoubleClick(int index)
 				if (pEvent == nullptr) {
 					if (click_in_first_icon) {
 						for (auto &it : g_cliEvents) {
-							char *eventProto = nullptr;
+							const char *eventProto = nullptr;
 							if (it->hContact)
 								eventProto = GetContactProto(it->hContact);
 							if (!eventProto)
