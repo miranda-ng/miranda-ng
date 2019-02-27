@@ -116,17 +116,10 @@ MIR_APP_DLL(wchar_t*) Contact_GetInfo(int type, MCONTACT hContact, const char *s
 	case CNF_COSTATE:    return ProcessDatabaseValueDefault(hContact, szProto, "CompanyState");
 	case CNF_COZIP:      return ProcessDatabaseValueDefault(hContact, szProto, "CompanyZIP");
 	case CNF_COHOMEPAGE: return ProcessDatabaseValueDefault(hContact, szProto, "CompanyHomepage");
-
-	case CNF_CUSTOMNICK:
-		{
-			const char* saveProto = szProto; szProto = "CList";
-			if (hContact != 0 && !ProcessDatabaseValueDefault(hContact, szProto, "MyHandle")) {
-				szProto = saveProto;
-				return nullptr;
-			}
-			szProto = saveProto;
-		}
-		break;
+	case CNF_CUSTOMNICK: 
+		if (hContact)
+			return ProcessDatabaseValueDefault(hContact, "CList", "MyHandle");
+		return ProcessDatabaseValueDefault(0, szProto, "MyHandle");
 
 	case CNF_COUNTRY:
 	case CNF_COCOUNTRY:

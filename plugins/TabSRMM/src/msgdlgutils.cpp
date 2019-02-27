@@ -1568,7 +1568,9 @@ void CTabBaseDlg::GetClientIcon()
 
 void CTabBaseDlg::GetMyNick()
 {
-	ptrW tszNick(Contact_GetInfo(CNF_NICK, 0, m_cache->getActiveProto()));
+	ptrW tszNick(Contact_GetInfo(CNF_CUSTOMNICK, 0, m_cache->getActiveProto()));
+	if (tszNick == nullptr)
+		tszNick = Contact_GetInfo(CNF_NICK, 0, m_cache->getActiveProto());
 	if (tszNick != nullptr) {
 		if (mir_wstrlen(tszNick) == 0 || !mir_wstrcmp(tszNick, TranslateT("'(Unknown contact)'")))
 			wcsncpy_s(m_wszMyNickname, (m_myUin[0] ? m_myUin : TranslateT("'(Unknown contact)'")), _TRUNCATE);
