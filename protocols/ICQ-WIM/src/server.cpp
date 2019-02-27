@@ -227,7 +227,7 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 	}
 
 	CMStringA szVer;
-	bool bVersionDetected = false;
+	bool bVersionDetected = false, bSecureIM = false;
 
 	for (auto &it : buddy["capabilities"]) {
 		CMStringW wszCap(it.as_mstring());
@@ -243,9 +243,8 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 			setString(hContact, "MirVer", szVer);
 			bVersionDetected = true;
 		}
-		else if (!memcmp(cap, NG_CAP_SECUREIM, 16)) {
-			szVer.Append(" + SecureIM");
-			bVersionDetected = true;
+		else if (wszCap == _A2W(NG_CAP_SECUREIM)) {
+			bSecureIM = bVersionDetected = true;
 		}
 		else if (!memcmp(cap, "Mod by Mikanoshi", 16)) {
 			szVer = "R&Q build by Mikanoshi";
@@ -257,10 +256,12 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 		}
 	}
 
-	if (bVersionDetected)
+	if (bVersionDetected) {
+		if (bSecureIM)
+			szVer.Append(" + SecureIM");
 		setString(hContact, "MirVer", szVer);
-	else
-		delSetting(hContact, "MirVer");
+	}
+	else delSetting(hContact, "MirVer");
 
 	CMStringW str(buddy["state"].as_mstring());
 	setDword(hContact, "Status", StatusFromString(str));
