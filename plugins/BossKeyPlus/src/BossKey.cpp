@@ -166,17 +166,20 @@ BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM)
 		wchar_t szTemp[32];
 		GetClassName(hWnd, szTemp, 32);
 
-		if (mir_wstrcmp(szTemp, L"MirandaThumbsWnd") == 0) // hide floating contacts
-		{
+		if (!mir_wstrcmp(szTemp, L"MirandaThumbsWnd")) { // hide floating contacts
 			CallService("FloatingContacts/MainHideAllThumbs", 0, 0);
 			g_bOldSetting |= OLD_FLTCONT;
 		}
-		else if (mir_wstrcmp(szTemp, L"PopupWnd2") == 0 || mir_wstrcmp(szTemp, L"YAPPWinClass") == 0) // destroy opened popups
+		else if (!mir_wstrcmp(szTemp, L"PopupWnd2") || !mir_wstrcmp(szTemp, L"YAPPWinClass")) // destroy opened popups
 			PUDeletePopup(hWnd);
 		else {
+			DWORD threadId = GetWindowThreadProcessId(hWnd, 0);
+			if (threadId != GetCurrentThreadId())
+				return false;
+
+			// add to list
 			HWND_ITEM *node = new HWND_ITEM;
 			node->hWnd = hWnd;
-			// add to list
 			node->next = g_pMirWnds;
 			g_pMirWnds = node;
 			ShowWindow(hWnd, SW_HIDE);
