@@ -157,17 +157,35 @@ int CDiscordProto::GroupchatEventHook(WPARAM, LPARAM lParam)
 
 	switch (gch->iType) {
 	case GC_USER_MESSAGE:
-		if (mir_wstrlen(gch->ptszText) > 0) {
-			rtrimw(gch->ptszText);
+		if (m_bOnline && mir_wstrlen(gch->ptszText) > 0) {
+			CMStringW wszText(gch->ptszText);
+			wszText.TrimRight();
 
-			if (m_bOnline) {
-				wchar_t *wszText = NEWWSTR_ALLOCA(gch->ptszText);
-				Chat_UnescapeTags(wszText);
+			int pos = wszText.Find(':');
+			if (pos != -1) {
+				auto wszWord = wszText.Left(pos);
+				wszWord.Trim();
+				if (auto *si = g_chatApi.SM_FindSession(gch->ptszID, gch->pszModule)) {
+					USERINFO *pUser = nullptr;
 
-				JSONNode body; body << WCHAR_PARAM("content", wszText);
-				CMStringA szUrl(FORMAT, "/channels/%S/messages", gch->ptszID);
-				Push(new AsyncHttpRequest(this, REQUEST_POST, szUrl, nullptr, &body));
+					for (auto &U : si->getUserList())
+						if (wszWord == U->pszNick) {
+							pUser = U;
+							break;
+						}
+
+					if (pUser) {
+						wszText.Delete(0, pos);
+						wszText.Insert(0, L"<@" + CMStringW(pUser->pszUID) + L">");
+					}
+				}
 			}
+
+			Chat_UnescapeTags(wszText.GetBuffer());
+
+			JSONNode body; body << WCHAR_PARAM("content", wszText);
+			CMStringA szUrl(FORMAT, "/channels/%S/messages", gch->ptszID);
+			Push(new AsyncHttpRequest(this, REQUEST_POST, szUrl, nullptr, &body));
 		}
 		break;
 

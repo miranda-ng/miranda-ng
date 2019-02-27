@@ -268,7 +268,7 @@ void CDiscordProto::ParseSpecialChars(SESSION_INFO *si, CMStringW &str)
 
 			USERINFO *ui = g_chatApi.UM_FindUser(si, wszWord.c_str() + iStart);
 			if (ui != nullptr)
-				str.Replace(L"<" + wszWord + L">", CMStringW('@') + ui->pszNick);
+				str.Replace(L"<" + wszWord + L">", CMStringW(ui->pszNick) + L": ");
 		}
 		else if (wszWord[0] == '#') {
 			CDiscordUser *pUser = FindUserByChannel(_wtoi64(wszWord.c_str() + 1));

@@ -244,7 +244,11 @@ void CDiscordProto::AddGuildUser(CDiscordGuild *pGuild, const CDiscordGuildMembe
 
 	wchar_t wszUserId[100];
 	_i64tow_s(pUser.userId, wszUserId, _countof(wszUserId), 10);
-	g_chatApi.UM_AddUser(pGuild->pParentSi, wszUserId, pUser.wszNick, (pStatus) ? pStatus->iStatus : 0)->iStatusEx = flags;
+	
+	auto *p = g_chatApi.UM_AddUser(pGuild->pParentSi, wszUserId, pUser.wszNick, (pStatus) ? pStatus->iStatus : 0);
+	p->iStatusEx = flags;
+	if (pUser.userId == m_ownId)
+		pGuild->pParentSi->pMe = p;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
