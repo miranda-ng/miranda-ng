@@ -130,6 +130,10 @@ int cliCompareContacts(const ClcContact *contact1, const ClcContact *contact2)
 			r = GetProtoIndex(contact1->pce->szProto) - GetProtoIndex(contact2->pce->szProto);
 			break;
 
+		case SORTBY_LAST_ONLINE:
+			r = int(c2->dwLastOnlineTime) - int(c1->dwLastOnlineTime); // reverse order 
+			break;
+
 		case SORTBY_RATE:
 			r = contact2->bContactRate - contact1->bContactRate; // reverse order 
 			break;

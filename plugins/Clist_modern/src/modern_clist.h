@@ -92,7 +92,7 @@ struct ClcCacheEntry : public ClcCacheEntryBase
 	CSmileyString ssThirdLine;
 
 	HANDLE   hTimeZone;
-	DWORD    dwLastMsgTime;
+	DWORD    dwLastMsgTime, dwLastOnlineTime;
 
 	int __forceinline getStatus() const
 	{	return m_iStatus;

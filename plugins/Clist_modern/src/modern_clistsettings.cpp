@@ -128,6 +128,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (!strcmp(cws->szModule, pdnce->szProto)) {
 		if (!strcmp(cws->szSetting, "Status")) {
 			pdnce->m_iStatus = cws->value.wVal;
+			pdnce->dwLastOnlineTime = time(0);
 			if (pdnce->bIsHidden)
 				return 0;
 

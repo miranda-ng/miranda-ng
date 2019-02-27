@@ -482,8 +482,9 @@ static int _GetNetVisibleProtoCount()
 	return netProtoCount;
 }
 
-wchar_t *sortby[] = { LPGENW("Name"), LPGENW("Name (use locale settings)"), LPGENW("Status"), LPGENW("Last message time"), LPGENW("Account name"), LPGENW("Rate"), LPGENW("-Nothing-") };
-int sortbyValue[] = { SORTBY_NAME, SORTBY_NAME_LOCALE, SORTBY_STATUS, SORTBY_LASTMSG, SORTBY_PROTO, SORTBY_RATE, SORTBY_NOTHING };
+static wchar_t* sortby[] = { LPGENW("Name"), LPGENW("Name (use locale settings)"), LPGENW("Status"), LPGENW("Last message time"), LPGENW("Account name"), LPGENW("Rate"), LPGENW("Last online"), LPGENW("-Nothing-") };
+static int sortbyValue[] = { SORTBY_NAME, SORTBY_NAME_LOCALE, SORTBY_STATUS, SORTBY_LASTMSG, SORTBY_PROTO, SORTBY_RATE, SORTBY_LAST_ONLINE, SORTBY_NOTHING };
+
 static INT_PTR CALLBACK DlgProcClistOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
@@ -501,7 +502,6 @@ static INT_PTR CALLBACK DlgProcClistOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		CheckDlgButton(hwndDlg, IDC_HILIGHTMODE2, db_get_b(0, "CLC", "HiLightMode", SETTING_HILIGHTMODE_DEFAULT) == 2 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_HILIGHTMODE3, db_get_b(0, "CLC", "HiLightMode", SETTING_HILIGHTMODE_DEFAULT) == 3 ? BST_CHECKED : BST_UNCHECKED);
 		{
-			int s1, s2, s3;
 			for (auto &it : sortby) {
 				int item = SendDlgItemMessage(hwndDlg, IDC_CLSORT1, CB_ADDSTRING, 0, (LPARAM)TranslateW(it));
 				SendDlgItemMessage(hwndDlg, IDC_CLSORT1, CB_SETITEMDATA, item, 0);
@@ -511,9 +511,9 @@ static INT_PTR CALLBACK DlgProcClistOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				SendDlgItemMessage(hwndDlg, IDC_CLSORT3, CB_SETITEMDATA, item, 0);
 
 			}
-			s1 = g_plugin.getByte("SortBy1", SETTING_SORTBY1_DEFAULT);
-			s2 = g_plugin.getByte("SortBy2", SETTING_SORTBY2_DEFAULT);
-			s3 = g_plugin.getByte("SortBy3", SETTING_SORTBY3_DEFAULT);
+			int s1 = g_plugin.getByte("SortBy1", SETTING_SORTBY1_DEFAULT);
+			int s2 = g_plugin.getByte("SortBy2", SETTING_SORTBY2_DEFAULT);
+			int s3 = g_plugin.getByte("SortBy3", SETTING_SORTBY3_DEFAULT);
 
 			for (int i = 0; i < _countof(sortby); i++) {
 				if (s1 == sortbyValue[i])

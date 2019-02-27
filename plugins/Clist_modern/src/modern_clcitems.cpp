@@ -333,6 +333,7 @@ ClcCacheEntry* cliCreateCacheItem(MCONTACT hContact)
 	pdnce->ApparentMode = db_get_w(hContact, pdnce->szProto, "ApparentMode", 0);
 	pdnce->NotOnList = g_plugin.getByte(hContact, "NotOnList");
 	pdnce->IsExpanded = g_plugin.getByte(hContact, "Expanded");
+	pdnce->dwLastOnlineTime = db_get_dw(hContact, pdnce->szProto, "LastSeen", 0);
 	pdnce->dwLastMsgTime = -1;
 	return pdnce;
 }
