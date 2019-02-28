@@ -178,7 +178,7 @@ public:
 	TiXmlFilter(const TiXmlNode *pNode, const char *pszNodeName) :
 		m_pszFilter(pszNodeName)
 	{
-		m_pFirst = (pNode) ? pNode->FirstChildElement() : nullptr;
+		m_pFirst = (pNode) ? pNode->FirstChildElement(pszNodeName) : nullptr;
 	}
 
 	TiXmlFilterIterator begin()

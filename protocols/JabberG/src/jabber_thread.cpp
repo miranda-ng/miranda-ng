@@ -1084,15 +1084,14 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 			if (!m_bEnableCarbons)
 				return;
 
-			const TiXmlElement *forwarded = nullptr;
-			const TiXmlElement *message = nullptr;
+			auto *xmlForwarded = XmlGetChildByTag(carbon, "forwarded", "xmlns", JABBER_XMLNS_FORWARD);
+			auto *xmlMessage = XmlFirstChild(xmlForwarded, "message");
 			// Carbons MUST have forwarded/message content
-			if (!(forwarded = XmlGetChildByTag(carbon, "forwarded", "xmlns", JABBER_XMLNS_FORWARD))
-				|| !(message = XmlFirstChild(forwarded, "message")))
+			if (xmlMessage == nullptr)
 				return;
 
 			// Unwrap the carbon in any case
-			node = message;
+			node = xmlMessage;
 			type = XmlGetAttr(node, "type");
 
 			if (!carbonSent) {

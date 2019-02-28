@@ -151,14 +151,14 @@ char* CCtrlBase::GetTextU()
 
 wchar_t* CCtrlBase::GetText(wchar_t *buf, size_t size)
 {
-	GetWindowTextW(m_hwnd, buf, size);
+	GetWindowTextW(m_hwnd, buf, (int)size);
 	buf[size - 1] = 0;
 	return buf;
 }
 
 char* CCtrlBase::GetTextA(char *buf, size_t size)
 {
-	GetWindowTextA(m_hwnd, buf, size);
+	GetWindowTextA(m_hwnd, buf, (int)size);
 	buf[size - 1] = 0;
 	return buf;
 }
