@@ -208,8 +208,6 @@ void CheckCurrentFeed(MCONTACT hContact)
 	GetNewsData(szURL, &szData, hContact, nullptr);
 	mir_free(szURL);
 
-	g_plugin.setDword(hContact, "LastCheck", (DWORD)time(0));
-
 	if (szData == nullptr)
 		return;
 
@@ -431,6 +429,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 			}
 		}
 	}
+	g_plugin.setDword(hContact, "LastCheck", (DWORD)time(0));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
