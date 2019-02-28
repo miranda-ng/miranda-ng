@@ -8,18 +8,18 @@ static HGENMENU hStopItem, hStartItem;
 int StartOTR(MCONTACT hContact)
 {
 	const char *proto = GetContactProto(hContact);
-	if (!proto) return 1; // error
-	char *uname = contact_get_id(hContact);
-	if (!uname) return 1; // error
+	if (!proto)
+		return 1; // error
+	
+	ptrA uname(contact_get_id(hContact));
+	if (!uname)
+		return 1; // error
+	
 	DWORD pol = g_plugin.getDword(hContact, "Policy", CONTACT_DEFAULT_POLICY);
-	if (pol == CONTACT_DEFAULT_POLICY) pol = options.default_policy;
+	if (pol == CONTACT_DEFAULT_POLICY)
+		pol = options.default_policy;
 
-	lib_cs_lock();
-#ifndef MIROTR_PROTO_HELLO_MSG
-	char *msg = otrl_proto_default_query_msg(MODULENAME, pol);
-	otr_gui_inject_message((void*)hContact, proto, proto, uname, msg ? msg : MIROTR_PROTO_HELLO);
-	free(msg);
-#else
+	mir_cslock lck(lib_cs);
 	wchar_t* nick = ProtoGetNickname(proto);
 	if (nick) {
 		wchar_t msg[1024];
@@ -44,8 +44,6 @@ int StartOTR(MCONTACT hContact)
 		T2Utf msg_utf8(msg);
 		otr_gui_inject_message((void*)hContact, proto, proto, uname, msg_utf8 ? msg_utf8 : MIROTR_PROTO_HELLO);
 	}
-#endif
-	mir_free(uname);
 	return 0;
 }
 
@@ -86,10 +84,7 @@ INT_PTR SVC_RefreshOTR(WPARAM hContact, LPARAM)
 	mir_snwprintf(buff, TranslateW(LANG_SESSION_TRY_CONTINUE_OTR), contact_get_nameT(hContact));
 	ShowMessage(hContact, buff);
 
-	int res = StartOTR(hContact);
-	if (res) return res;
-
-	return 0;
+	return StartOTR(hContact);
 }
 
 int otr_disconnect_contact(MCONTACT hContact)
@@ -99,20 +94,23 @@ int otr_disconnect_contact(MCONTACT hContact)
 		hContact = hSub;
 
 	const char *proto = GetContactProto(hContact);
-	if (!proto) return 1; // error
-	char *uname = contact_get_id(hContact);
-	if (!uname) return 1; // error
-
-	lib_cs_lock();
+	if (!proto)
+		return 1; // error
+	
+	ptrA uname(contact_get_id(hContact));
+	if (!uname)
+		return 1; // error
+	
+	mir_cslock lck(lib_cs);
 	otrl_message_disconnect_all_instances(otr_user_state, &ops, (void*)hContact, proto, proto, uname);
-	mir_free(uname);
 	return 0;
 }
 
 INT_PTR SVC_StopOTR(WPARAM hContact, LPARAM)
 {
 	// prevent this filter from acting on injeceted messages for metas, when they are passed though the subcontact's proto send chain
-	if (otr_disconnect_contact(hContact)) return 0;
+	if (otr_disconnect_contact(hContact))
+		return 0;
 
 	SetEncryptionStatus(hContact, TRUST_NOT_PRIVATE);
 
@@ -132,7 +130,6 @@ INT_PTR SVC_VerifyOTR(WPARAM hContact, LPARAM)
 	if (!context)
 		return 1;
 
-	//VerifyContextDialog(context);	
 	SMPInitDialog(context);
 	return 0;
 }

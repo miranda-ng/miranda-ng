@@ -39,9 +39,9 @@ INT_PTR SVC_OTRSendMessage(WPARAM wParam,LPARAM lParam){
 	}
 	
 	char *newmessage = nullptr;
-	char *username = contact_get_id(ccs->hContact);
-	gcry_error_t err = otrl_message_sending(otr_user_state, &ops, (void*)ccs->hContact, proto, proto, username, OTRL_INSTAG_BEST, oldmessage, nullptr, &newmessage, OTRL_FRAGMENT_SEND_ALL_BUT_LAST, nullptr, add_appdata, (void*)ccs->hContact);
-	mir_free(username);
+	gcry_error_t err = otrl_message_sending(otr_user_state, &ops, (void*)ccs->hContact, proto, proto, 
+		ptrA(contact_get_id(ccs->hContact)), OTRL_INSTAG_BEST, oldmessage, nullptr, &newmessage, 
+		OTRL_FRAGMENT_SEND_ALL_BUT_LAST, nullptr, add_appdata, (void*)ccs->hContact);
 	
 	if (err) { /* Be *sure* not to send out plaintext */
 		DEBUGOUTA("otrl_message_sending err");
@@ -97,15 +97,15 @@ INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam)
 		return 1;
 
 	ConnContext* context=nullptr;
-	char *uname = contact_get_id(ccs->hContact);
 	char *newmessage = nullptr;
 	OtrlTLV *tlvs = nullptr;
 	
-	lib_cs_lock();
-	int ignore_msg = otrl_message_receiving(otr_user_state, &ops, (void*)ccs->hContact,
-		proto, proto, uname, oldmessage,
-		&newmessage, &tlvs, &context, add_appdata, (void*)ccs->hContact);
-	mir_free(uname);
+	int ignore_msg;
+	{
+		mir_cslock lck(lib_cs);
+		ignore_msg = otrl_message_receiving(otr_user_state, &ops, (void*)ccs->hContact, proto, proto, ptrA(contact_get_id(ccs->hContact)),
+			oldmessage, &newmessage, &tlvs, &context, add_appdata, (void*)ccs->hContact);
+	}
 	
 	OtrlTLV *tlv = otrl_tlv_find(tlvs, OTRL_TLV_DISCONNECTED);
 	if (tlv && !Miranda_IsTerminated()) {

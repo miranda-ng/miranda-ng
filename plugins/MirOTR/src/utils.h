@@ -1,10 +1,8 @@
 #pragma once
 #ifndef __HEADER_UTILS_H
 #define __HEADER_UTILS_H
-#include "stdafx.h"
 
-
-void lib_cs_lock();
+extern mir_cs lib_cs;
 
 MCONTACT find_contact(const char* userid, const char* protocol);
 ConnContext * otrl_context_find_miranda(OtrlUserState us, MCONTACT hContact);

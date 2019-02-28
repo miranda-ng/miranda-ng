@@ -11,16 +11,13 @@ MCONTACT find_contact(const char* userid, const char* protocol)
 {
 	for (auto &hContact : Contacts()) {
 		const char *proto = GetContactProto(hContact);
-		if(proto && mir_strcmp(proto, protocol) == 0) {
-			char *name = contact_get_id(hContact);
-			if(name && mir_strcmp(name, userid) == 0) {
-				mir_free(name);
+		if (proto && mir_strcmp(proto, protocol) == 0) {
+			ptrA name(contact_get_id(hContact));
+			if (name && mir_strcmp(name, userid) == 0)
 				return hContact;
-			}
-			mir_free(name);
 		}
 	}
-	
+
 	return 0;
 }
 
@@ -29,13 +26,10 @@ MCONTACT find_contact(const char* userid, const char* protocol)
 * context if one does not currently exist.  In that event, call
 * add_app_data(data, context) so that app_data and app_data_free can be
 * filled in by the application, and set *addedp to 1. */
-ConnContext * otrl_context_find_miranda(OtrlUserState us, MCONTACT hContact)
+ConnContext* otrl_context_find_miranda(OtrlUserState us, MCONTACT hContact)
 {
 	const char *proto = GetContactProto(hContact);
-	char *username = contact_get_id(hContact);
-	ConnContext* ret = otrl_context_find(us, username, proto, proto, OTRL_INSTAG_BEST, 0, nullptr, nullptr, nullptr);
-	mir_free(username);
-	return ret;
+	return otrl_context_find(us, ptrA(contact_get_id(hContact)), proto, proto, OTRL_INSTAG_BEST, 0, nullptr, nullptr, nullptr);
 }
 
 /* What level of trust do we have in the privacy of this ConnContext? */

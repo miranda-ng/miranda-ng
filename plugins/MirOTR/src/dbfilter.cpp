@@ -181,8 +181,11 @@ int WindowEvent(WPARAM, LPARAM lParam)
 	if (!Proto_IsProtoOnContact(hContact, MODULENAME))
 		return 0;
 
-	lib_cs_lock();
-	ConnContext *context = otrl_context_find_miranda(otr_user_state, hContact);
+	ConnContext *context;
+	{
+		mir_cslock lck(lib_cs);
+		context = otrl_context_find_miranda(otr_user_state, hContact);
+	}
 	SetEncryptionStatus(hContact, otr_context_get_trust(context));
 	return 0;
 }
@@ -197,7 +200,7 @@ int StatusModeChange(WPARAM wParam, LPARAM lParam)
 
 	const char *proto = (char *)lParam;
 
-	lib_cs_lock();
+	mir_cslock lck(lib_cs);
 
 	ConnContext *context = otr_user_state->context_root;
 	while (context) {

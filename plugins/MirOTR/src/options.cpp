@@ -120,7 +120,8 @@ extern "C" void set_context_contact(void *, ConnContext *context)
 void ReadPrivkeyFiles()
 {
 	DEBUGOUTA("READ privkey");
-	lib_cs_lock();
+
+	mir_cslock lck(lib_cs);
 	otrl_privkey_read(otr_user_state, _T2A(g_private_key_filename));
 	otrl_privkey_read_fingerprints(otr_user_state, _T2A(g_fingerprint_store_filename), set_context_contact, nullptr);
 	otrl_instag_read(otr_user_state, _T2A(g_instag_filename));

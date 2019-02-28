@@ -26,9 +26,6 @@ CMPlugin::CMPlugin() :
 
 int ModulesLoaded(WPARAM, LPARAM)
 {
-	lib_cs_lock();
-	otr_user_state = otrl_userstate_create();
-
 	// this calls ReadPrivkeyFiles (above) to set filename values (also called on ME_FOLDERS_PATH_CHANGED)
 	InitOptions();
 
@@ -51,7 +48,10 @@ int ModulesLoaded(WPARAM, LPARAM)
 int CMPlugin::Load()
 {
 	DEBUGOUTA("LOAD MIROTR");
-
+	{
+		mir_cslock lck(lib_cs);
+		otr_user_state = otrl_userstate_create();
+	}
 	InitIcons();
 
 	OTRL_INIT;
@@ -91,8 +91,7 @@ int CMPlugin::Unload()
 	DeinitSRMM();
 	DeinitDBFilter();
 
-	lib_cs_lock();
+	mir_cslock lck(lib_cs);
 	otrl_userstate_free(otr_user_state);
-
 	return 0;
 }

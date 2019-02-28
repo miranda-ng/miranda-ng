@@ -55,11 +55,9 @@ using namespace std;
 #include "dialogs.h"
 #include "version.h"
 #include "entities.h"
-#include "icons.h"
 #include "mirotrmenu.h"
 #include "striphtml.h"
 #include "ekhtml.h"
-#include "svcs_proto.h"
 
 #ifdef _DEBUG
 	#define DEBUGOUTA(x)	OutputDebugStringA(x)
