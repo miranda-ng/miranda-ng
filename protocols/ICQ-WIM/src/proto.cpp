@@ -51,7 +51,8 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	m_iTimeDiff1(this, "TimeDiff1", 0),
 	m_iTimeDiff2(this, "TimeDiff2", 0),
 	m_szPassword(this, "Password"),
-	m_bHideGroupchats(this, "HideChats", 1)
+	m_bHideGroupchats(this, "HideChats", true),
+	m_bUseTrayIcon(this, "UseTrayIcon", false)
 {
 	db_set_resident(m_szModuleName, "IdleTS");
 	db_set_resident(m_szModuleName, "OnlineTS");

@@ -330,12 +330,13 @@ public:
 	CIcqProto(const char*, const wchar_t*);
 	~CIcqProto();
 
-	CMOption<wchar_t*> m_szOwnId;     // our own aim id
-	CMOption<wchar_t*> m_szPassword;  // password, if present
-	CMOption<BYTE> m_bHideGroupchats; // don't pop up group chat windows on startup
-	CMOption<DWORD> m_iTimeDiff1;		 // set this status to m_iStatus1 after this interval of secs
+	CMOption<wchar_t*> m_szOwnId;      // our own aim id
+	CMOption<wchar_t*> m_szPassword;   // password, if present
+	CMOption<BYTE>  m_bHideGroupchats; // don't pop up group chat windows on startup
+	CMOption<BYTE>  m_bUseTrayIcon;    // use tray icon notifications
+	CMOption<DWORD> m_iTimeDiff1;		  // set this status to m_iStatus1 after this interval of secs
 	CMOption<DWORD> m_iStatus1;
-	CMOption<DWORD> m_iTimeDiff2;		 // set this status to m_iStatus2 after this interval of secs
+	CMOption<DWORD> m_iTimeDiff2;		  // set this status to m_iStatus2 after this interval of secs
 	CMOption<DWORD> m_iStatus2;
 
 	void CheckStatus(void);

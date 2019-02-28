@@ -298,3 +298,49 @@ char* time2text(time_t time)
 
 	return "<invalid>";
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch (message) {
+	case WM_CONTEXTMENU:
+		PUDeletePopup(hWnd);
+		break;
+
+	case WM_COMMAND:
+		CIcqProto *ppro = (CIcqProto*)PUGetPluginData(hWnd);
+		CallProtoService(ppro->m_szModuleName, PS_GOTO_INBOX);
+		PUDeletePopup(hWnd);
+		break;
+	}
+
+	return DefWindowProc(hWnd, message, wParam, lParam);
+}
+
+void CIcqProto::EmailNotification(const wchar_t *pwszText)
+{
+	if (g_bPopupService) {
+		POPUPDATAW Popup = {};
+		Popup.lchIcon = IcoLib_GetIconByHandle(iconList[0].hIcolib);
+		wcsncpy_s(Popup.lpwzText, pwszText, _TRUNCATE);
+		wcsncpy_s(Popup.lpwzContactName, m_tszUserName, _TRUNCATE);
+		Popup.iSeconds = 20;
+		Popup.PluginData = this;
+		Popup.PluginWindowProc = PopupDlgProc;
+		PUAddPopupW(&Popup);
+	}
+
+	if (m_bUseTrayIcon) {
+		char szServiceFunction[MAX_PATH];
+		mir_snprintf(szServiceFunction, "%s%s", m_szModuleName, PS_GOTO_INBOX);
+
+		CLISTEVENT cle = {};
+		cle.hDbEvent = 1;
+		cle.hIcon = IcoLib_GetIconByHandle(iconList[0].hIcolib);
+		cle.flags = CLEF_UNICODE;
+		cle.pszService = szServiceFunction;
+		cle.szTooltip.w = pwszText;
+		g_clistApi.pfnAddEvent(&cle);
+	}
+}

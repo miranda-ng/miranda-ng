@@ -26,7 +26,9 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_INBOX               ICON                    "Mail.ico"
+
 IDI_MAIL_NOTIFY         ICON                    "MailNotify.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -45,28 +47,29 @@ BEGIN
     PUSHBUTTON      "Sign in/sign up using phone",IDC_REGISTER,42,34,142,14
 END
 
-IDD_OPTIONS_FULL DIALOGEX 0, 0, 310, 161
+IDD_OPTIONS_FULL DIALOGEX 0, 0, 310, 174
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "ICQ",IDC_STATIC,4,0,302,63
-    RTEXT           "UIN/e-mail:",IDC_STATIC,12,14,51,8
-    EDITTEXT        IDC_UIN,68,12,106,12,ES_AUTOHSCROLL
-    RTEXT           "Password:",IDC_STATIC,12,30,51,8
-    EDITTEXT        IDC_PASSWORD,68,29,106,12,ES_PASSWORD | ES_AUTOHSCROLL
+    GROUPBOX        "ICQ",IDC_STATIC,4,0,302,74
+    RTEXT           "UIN/e-mail:",IDC_STATIC,10,14,79,8
+    EDITTEXT        IDC_UIN,98,12,106,12,ES_AUTOHSCROLL
+    RTEXT           "Password:",IDC_STATIC,10,30,79,8
+    EDITTEXT        IDC_PASSWORD,98,29,106,12,ES_PASSWORD | ES_AUTOHSCROLL
     CONTROL         "Do not open chat windows on creation",IDC_HIDECHATS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,48,285,10
-    GROUPBOX        "Advanced",IDC_STATIC,4,62,302,77
-    LTEXT           "If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)",IDC_STATIC,12,75,204,23
-    EDITTEXT        IDC_DIFF1,221,72,54,12,ES_AUTOHSCROLL
-    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_AUTOBUDDY | UDS_ARROWKEYS,275,71,11,14
-    COMBOBOX        IDC_STATUS1,221,87,81,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)",IDC_STATIC,12,108,204,23
-    EDITTEXT        IDC_DIFF2,221,105,54,12,ES_AUTOHSCROLL
-    CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_AUTOBUDDY | UDS_ARROWKEYS,275,104,11,14
-    COMBOBOX        IDC_STATUS2,221,120,81,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      "Sign in/sign up using phone",IDC_REGISTER,165,143,142,14
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,47,285,10
+    CONTROL         "Use tray icon notifications",IDC_USETRAYICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,59,285,10
+    GROUPBOX        "Advanced",IDC_STATIC,4,75,302,77
+    LTEXT           "If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)",IDC_STATIC,12,88,204,23
+    EDITTEXT        IDC_DIFF1,221,85,54,12,ES_AUTOHSCROLL
+    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_AUTOBUDDY | UDS_ARROWKEYS,275,84,11,14
+    COMBOBOX        IDC_STATUS1,221,100,81,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)",IDC_STATIC,12,121,204,23
+    EDITTEXT        IDC_DIFF2,221,118,54,12,ES_AUTOHSCROLL
+    CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_AUTOBUDDY | UDS_ARROWKEYS,275,117,11,14
+    COMBOBOX        IDC_STATUS2,221,133,81,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Sign in/sign up using phone",IDC_REGISTER,165,155,142,14
 END
 
 IDD_GROUPCHAT_INVITE DIALOGEX 0, 0, 215, 263
@@ -139,7 +142,7 @@ BEGIN
 
     IDD_OPTIONS_FULL, DIALOG
     BEGIN
-        BOTTOMMARGIN, 156
+        BOTTOMMARGIN, 169
     END
 
     IDD_GROUPCHAT_INVITE, DIALOG

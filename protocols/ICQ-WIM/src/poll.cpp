@@ -200,20 +200,6 @@ void CIcqProto::ProcessMyInfo(const JSONNode &ev)
 	CheckAvatarChange(0, ev);
 }
 
-void CIcqProto::EmailNotification(const wchar_t *pwszText)
-{
-	char szServiceFunction[MAX_PATH];
-	mir_snprintf(szServiceFunction, "%s%s", m_szModuleName, PS_GOTO_INBOX);
-
-	CLISTEVENT cle = {};
-	cle.hDbEvent = 1;
-	cle.hIcon = IcoLib_GetIconByHandle(iconList[1].hIcolib);
-	cle.flags = CLEF_UNICODE;
-	cle.pszService = szServiceFunction;
-	cle.szTooltip.w = pwszText;
-	g_clistApi.pfnAddEvent(&cle);
-}
-
 void CIcqProto::ProcessNotification(const JSONNode &ev)
 {
 	for (auto &fld : ev["fields"]) {
@@ -224,15 +210,8 @@ void CIcqProto::ProcessNotification(const JSONNode &ev)
 			CMStringW wszSubj((*root)["subject"].as_mstring());
 			m_unreadEmails = (*root)["unreadCount"].as_int();
 
-			POPUPDATAW Popup = {};
-			mir_snwprintf(Popup.lpwzText, LPGENW("You received e-mail from %s: %s"), wszFrom.c_str(), wszSubj.c_str());
-			Popup.lchIcon = IcoLib_GetIconByHandle(iconList[1].hIcolib);
-			if (g_bPopupService) {
-				wcsncpy_s(Popup.lpwzContactName, m_tszUserName, _TRUNCATE);
-				CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&Popup, 0);
-			}
-
-			EmailNotification(Popup.lpwzText);
+			CMStringW wszMessage(FORMAT, TranslateT("You received e-mail from %s: %s"), wszFrom.c_str(), wszSubj.c_str());
+			EmailNotification(wszMessage);
 		}
 
 		const JSONNode &status = fld["mailbox.status"];

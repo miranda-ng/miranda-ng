@@ -157,7 +157,7 @@ class CIcqOptionsDlg : public CProtoDlgBase<CIcqProto>
 	CCtrlEdit edtUin, edtPassword, edtDiff1, edtDiff2;
 	CCtrlSpin spin1, spin2;
 	CCtrlCombo cmbStatus1, cmbStatus2;
-	CCtrlCheck chkHideChats;
+	CCtrlCheck chkHideChats, chkTrayIcon;
 	CCtrlButton btnCreate;
 	CMStringW wszOldPass;
 
@@ -173,6 +173,7 @@ public:
 		cmbStatus1(this, IDC_STATUS1),
 		cmbStatus2(this, IDC_STATUS2),
 		edtPassword(this, IDC_PASSWORD),
+		chkTrayIcon(this, IDC_USETRAYICON),
 		chkHideChats(this, IDC_HIDECHATS)
 	{
 		btnCreate.OnClick = Callback(this, &CIcqOptionsDlg::onClick_Register);
@@ -186,6 +187,7 @@ public:
 			CreateLink(spin1, ppro->m_iTimeDiff1);
 			CreateLink(spin2, ppro->m_iTimeDiff2);
 			CreateLink(chkHideChats, ppro->m_bHideGroupchats);
+			CreateLink(chkTrayIcon, ppro->m_bUseTrayIcon);
 		}
 
 		wszOldPass = ppro->m_szPassword;
