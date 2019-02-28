@@ -802,14 +802,14 @@ void CJabberProto::OnProcessError(const TiXmlElement *node, ThreadData *info)
 		return;
 
 	bool skipMsg = false;
-	CMStringW buff;
+	CMStringA buff;
 	for (auto *n : TiXmlEnum(node)) {
 		const char *name = n->Name();
 		const char *desc = n->GetText();
 		if (desc)
-			buff.AppendFormat(L"%s: %s\r\n", name, desc);
+			buff.AppendFormat("%s: %s\r\n", name, desc);
 		else
-			buff.AppendFormat(L"%s\r\n", name);
+			buff.AppendFormat("%s\r\n", name);
 
 		if (!mir_strcmp(name, "conflict"))
 			ProtoBroadcastAck(0, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_OTHERLOCATION);
@@ -818,7 +818,7 @@ void CJabberProto::OnProcessError(const TiXmlElement *node, ThreadData *info)
 		}
 	}
 	if (!skipMsg)
-		MsgPopup(0, buff, TranslateT("Jabber Error"));
+		MsgPopup(0, Utf2T(buff), TranslateT("Jabber Error"));
 
 	if (m_bEnableStreamMgmt) //TODO: check if needed/work here
 		m_StrmMgmt.SendAck();
@@ -1091,7 +1091,7 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 				|| !(message = XmlFirstChild(forwarded, "message")))
 				return;
 
-			//Unwrap the carbon in any case
+			// Unwrap the carbon in any case
 			node = message;
 			type = XmlGetAttr(node, "type");
 
@@ -1883,7 +1883,7 @@ void CJabberProto::OnProcessIq(const TiXmlElement *node)
 
 		auto *pFirstChild = XmlFirstChild(node);
 		if (pFirstChild)
-			iq.InsertEndChild((TiXmlElement*)pFirstChild);
+			iq.InsertEndChild(pFirstChild->DeepClone(&iq)->ToElement());
 
 		iq << XCHILD("error") << XATTR("type", "cancel")
 			<< XCHILDNS("service-unavailable", "urn:ietf:params:xml:ns:xmpp-stanzas");
