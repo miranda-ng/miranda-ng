@@ -122,9 +122,9 @@ void ReadPrivkeyFiles()
 	DEBUGOUTA("READ privkey");
 
 	mir_cslock lck(lib_cs);
-	otrl_privkey_read(otr_user_state, _T2A(g_private_key_filename));
-	otrl_privkey_read_fingerprints(otr_user_state, _T2A(g_fingerprint_store_filename), set_context_contact, nullptr);
-	otrl_instag_read(otr_user_state, _T2A(g_instag_filename));
+	otrl_privkey_read(otr_user_state, g_private_key_filename);
+	otrl_privkey_read_fingerprints(otr_user_state, g_fingerprint_store_filename, set_context_contact, nullptr);
+	otrl_instag_read(otr_user_state, g_instag_filename);
 }
 
 static INT_PTR CALLBACK DlgProcMirOTROpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -418,7 +418,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 						OtrlPrivKey *key = otrl_privkey_find(otr_user_state, proto, proto);
 						if (key) {
 							otrl_privkey_forget(key);
-							otrl_privkey_write(otr_user_state, _T2A(g_private_key_filename));
+							otrl_privkey_write(otr_user_state, g_private_key_filename);
 							ListView_SetItemText(GetDlgItem(hwndDlg, IDC_LV_PROTO_PROTOS), sel, 2, L"");
 						}
 					}
@@ -683,13 +683,13 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 			// items.
 			lvI.mask = LVIF_TEXT | LVIF_PARAM;// | LVIF_NORECOMPUTE;// | LVIF_IMAGE;
 
-			wchar_t *user, hash[45] = { 0 };
 			for (ConnContext *context = otr_user_state->context_root; context; context = context->next) {
 				if (context->app_data) {
-					user = (wchar_t*)contact_get_nameT((UINT_PTR)context->app_data);
+					wchar_t *user = (wchar_t*)contact_get_nameT((UINT_PTR)context->app_data);
 					if (user) {
 						PROTOACCOUNT *pa = Proto_GetAccount(context->protocol);
 
+						wchar_t hash[45];
 						for (Fingerprint *fp = context->fingerprint_root.next; fp; fp = fp->next) {
 							otrl_privkey_hash_to_humanT(hash, fp->fingerprint);
 							lvI.iSubItem = 0;

@@ -70,13 +70,13 @@ OtrlInsTag * otrl_instag_find(OtrlUserState us, const char *accountname,
 
 /* Read our instance tag from a file on disk into the given
  * OtrlUserState. */
-gcry_error_t otrl_instag_read(OtrlUserState us, const char *filename)
+gcry_error_t otrl_instag_read(OtrlUserState us, const wchar_t *filename)
 {
     gcry_error_t err;
     FILE *instf;
 
     /* Open the instance tag file. */
-    instf = fopen(filename, "rb");
+    instf = _wfopen(filename, L"rb");
     if (!instf) {
 	return gcry_error_from_errno(errno);
     }
@@ -183,14 +183,14 @@ gcry_error_t otrl_instag_read_FILEp(OtrlUserState us, FILE *instf)
 }
 
 /* Generate a new instance tag for the given account and write to file */
-gcry_error_t otrl_instag_generate(OtrlUserState us, const char *filename,
+gcry_error_t otrl_instag_generate(OtrlUserState us, const wchar_t *filename,
 	const char *accountname, const char *protocol)
 {
     gcry_error_t err;
     FILE *instf;
 
     /* Open the instance tag file. */
-    instf = fopen(filename, "wb");
+    instf = _wfopen(filename, L"wb");
     if (!instf) {
 	return gcry_error_from_errno(errno);
     }
@@ -243,13 +243,13 @@ gcry_error_t otrl_instag_generate_FILEp(OtrlUserState us, FILE *instf,
 }
 
 /* Write our instance tags to a file on disk. */
-gcry_error_t otrl_instag_write(OtrlUserState us, const char *filename)
+gcry_error_t otrl_instag_write(OtrlUserState us, const wchar_t *filename)
 {
     gcry_error_t err;
     FILE *instf;
 
     /* Open the instance tag file. */
-    instf = fopen(filename, "wb");
+    instf = _wfopen(filename, L"wb");
     if (!instf) {
 	return gcry_error_from_errno(errno);
     }

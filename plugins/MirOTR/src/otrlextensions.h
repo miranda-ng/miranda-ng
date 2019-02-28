@@ -26,10 +26,10 @@
 #include <userstate.h>
 
 /* Store all keys of an OtrlUserState. */
-gcry_error_t otrl_privkey_write(OtrlUserState us, const char* filename);
+gcry_error_t otrl_privkey_write(OtrlUserState us, const wchar_t *filename);
 
 /* Store all keys of an OtrlUserState.
  * The FILE* must be open for reading and writing. */
-gcry_error_t otrl_privkey_write_FILEp(OtrlUserState us, FILE* privf);
+gcry_error_t otrl_privkey_write_FILEp(OtrlUserState us, FILE *privf);
 
 #endif

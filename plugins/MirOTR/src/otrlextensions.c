@@ -55,7 +55,7 @@ static gcry_error_t account_write(FILE* privf, const char* accountname,
     const char* protocol, gcry_sexp_t privkey)
 {
     gcry_error_t err;
-    gcry_sexp_t names, protos;
+    gcry_sexp_t names, protos = 0;
 
     fprintf(privf, " (account\n");
 
@@ -97,7 +97,7 @@ gcry_error_t otrl_privkey_write_FILEp(OtrlUserState us, FILE* privf)
 }
 
 /* Store all keys of an OtrlUserState. */
-gcry_error_t otrl_privkey_write(OtrlUserState us, const char* filename)
+gcry_error_t otrl_privkey_write(OtrlUserState us, const wchar_t *filename)
 {
     gcry_error_t err;
     FILE* privf;
@@ -108,7 +108,7 @@ gcry_error_t otrl_privkey_write(OtrlUserState us, const char* filename)
 #ifndef WIN32
     oldmask = umask(077);
 #endif
-    privf = fopen(filename, "w+b");
+    privf = _wfopen(filename, L"w+b");
     if (!privf) {
 #ifndef WIN32
         umask(oldmask);

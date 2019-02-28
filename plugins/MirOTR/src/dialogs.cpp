@@ -258,17 +258,11 @@ static INT_PTR CALLBACK DlgSMPResponseProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			case IDOK:
 				SMPInitUpdateDialog(context, true);
 				{
-					int len = SendDlgItemMessage(hwndDlg, IDC_EDT_SMP_FIELD2, WM_GETTEXTLENGTH, 0, 0);
-					wchar_t *answer = new wchar_t[len + 1];
-					GetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD2, answer, len + 1);
-
-					T2Utf ans(answer);
-					otr_continue_smp(context, (const unsigned char *)ans, mir_strlen(ans));
-					delete[] answer;
-
-					SetWindowLongPtr(hwndDlg, GWLP_USERDATA, NULL);
-					DestroyWindow(hwndDlg);
+					ptrA ans(GetDlgItemTextUtf(hwndDlg, IDC_EDT_SMP_FIELD2));
+					otr_continue_smp(context, (const unsigned char *)ans.get(), mir_strlen(ans));
 				}
+				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, NULL);
+				DestroyWindow(hwndDlg);
 				break;
 
 			case IDCANCEL:
@@ -397,20 +391,11 @@ static INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam
 							ShowError(szMsg);
 						}
 						else {
-							int len = SendDlgItemMessage(hwndDlg, IDC_EDT_SMP_FIELD1, WM_GETTEXTLENGTH, 0, 0);
-							wchar_t *question = new wchar_t[len + 1];
-							GetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD1, question, len + 1);
-							T2Utf quest(question);
-							delete[] question;
-
-							len = SendDlgItemMessage(hwndDlg, IDC_EDT_SMP_FIELD2, WM_GETTEXTLENGTH, 0, 0);
-							wchar_t *answer = new wchar_t[len + 1];
-							GetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD2, answer, len + 1);
-							T2Utf ans(answer);
-							delete[] answer;
+							ptrA quest(GetDlgItemTextUtf(hwndDlg, IDC_EDT_SMP_FIELD1));
+							ptrA ans(GetDlgItemTextUtf(hwndDlg, IDC_EDT_SMP_FIELD2));
 
 							SMPInitUpdateDialog(context, false);
-							otr_start_smp(context, quest, (const unsigned char*)ans, mir_strlen(ans));
+							otr_start_smp(context, quest, (const unsigned char*)ans.get(), mir_strlen(ans));
 						}
 
 					}
@@ -420,14 +405,10 @@ static INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam
 							ShowError(szMsg);
 						}
 						else {
-							int len = SendDlgItemMessage(hwndDlg, IDC_EDT_SMP_FIELD2, WM_GETTEXTLENGTH, 0, 0);
-							wchar_t *answer = new wchar_t[len + 1];
-							GetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD2, answer, len + 1);
-							T2Utf ans(answer);
-							delete[] answer;
+							ptrA ans(GetDlgItemTextUtf(hwndDlg, IDC_EDT_SMP_FIELD2));
 
 							SMPInitUpdateDialog(context, false);
-							otr_start_smp(context, nullptr, (const unsigned char*)ans, mir_strlen(ans));
+							otr_start_smp(context, nullptr, (const unsigned char*)ans.get(), mir_strlen(ans));
 						}
 
 					}
@@ -455,8 +436,10 @@ static INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam
 					DestroyWindow(hwndDlg);
 					return TRUE;
 				}
+				
 				BOOL trusted = false;
-				if (fp->trust && fp->trust[0] != '\0') trusted = true;
+				if (fp->trust && fp->trust[0] != '\0')
+					trusted = true;
 
 				wchar_t buff[512];
 				GetDlgItemText(hwndDlg, IDC_CBO_SMP_CHOOSE, buff, 255);

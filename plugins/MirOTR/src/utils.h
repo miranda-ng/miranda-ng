@@ -19,11 +19,12 @@ void VerifyFingerprintMessage(ConnContext *context, bool verify);
 
 void otrl_privkey_hash_to_humanT(wchar_t human[45], const unsigned char hash[20]);
 
-char* contact_get_id(MCONTACT hContact, bool bNameOnError=true);
-__inline const char* contact_get_account(MCONTACT hContact);
+char* contact_get_id(MCONTACT hContact);
 extern __inline const wchar_t* contact_get_nameT(MCONTACT hContact);
 
 wchar_t* ProtoGetNickname(const char* proto);
+
+char* GetDlgItemTextUtf(HWND hwndDlg, int ctrlId);
 
 void ShowPopup(const wchar_t* line1, const wchar_t* line2, int timeout, const MCONTACT hContact = NULL);
 void ShowWarning(wchar_t* msg);

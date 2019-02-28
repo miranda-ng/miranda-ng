@@ -61,7 +61,7 @@ OtrlInsTag * otrl_instag_find(OtrlUserState us, const char *accountname,
 
 /* Read our instance tag from a file on disk into the given
  * OtrlUserState. */
-gcry_error_t otrl_instag_read(OtrlUserState us, const char *filename);
+gcry_error_t otrl_instag_read(OtrlUserState us, const wchar_t *filename);
 
 /* Read our instance tag from a file on disk into the given
  * OtrlUserState. The FILE* must be open for reading. */
@@ -71,7 +71,7 @@ gcry_error_t otrl_instag_read_FILEp(OtrlUserState us, FILE *instf);
 otrl_instag_t otrl_instag_get_new();
 
 /* Get a new instance tag for the given account and write to file*/
-gcry_error_t otrl_instag_generate(OtrlUserState us, const char *filename,
+gcry_error_t otrl_instag_generate(OtrlUserState us, const wchar_t *filename,
 	const char *accountname, const char *protocol);
 
 /* Get a new instance tag for the given account and write to file
@@ -80,7 +80,7 @@ gcry_error_t otrl_instag_generate_FILEp(OtrlUserState us, FILE *instf,
 	const char *accountname, const char *protocol);
 
 /* Write our instance tags to a file on disk. */
-gcry_error_t otrl_instag_write(OtrlUserState us, const char *filename);
+gcry_error_t otrl_instag_write(OtrlUserState us, const wchar_t *filename);
 
 /* Write our instance tags to a file on disk.
  * The FILE* must be open for writing. */

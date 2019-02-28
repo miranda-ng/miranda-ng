@@ -177,7 +177,7 @@ static gcry_error_t make_pubkey(unsigned char **pubbufp, size_t *publenp,
 
 /* Read a sets of private DSA keys from a file on disk into the given
  * OtrlUserState. */
-gcry_error_t otrl_privkey_read(OtrlUserState us, const char *filename)
+gcry_error_t otrl_privkey_read(OtrlUserState us, const wchar_t *filename)
 {
     FILE *privf;
     gcry_error_t err;
@@ -185,7 +185,7 @@ gcry_error_t otrl_privkey_read(OtrlUserState us, const char *filename)
     /* Open the privkey file.  We use rb mode so that on WIN32, fread()
      * reads the same number of bytes that fstat() indicates are in the
      * file. */
-    privf = fopen(filename, "rb");
+    privf = _wfopen(filename, L"rb");
     if (!privf) {
 	err = gcry_error_from_errno(errno);
 	return err;
@@ -526,7 +526,7 @@ gcry_error_t otrl_privkey_generate_calculate(void *newkey)
     return gcry_error(GPG_ERR_NO_ERROR);
 }
 
-static FILE* privkey_fopen(const char *filename, gcry_error_t *errp)
+static FILE* privkey_fopen(const wchar_t *filename, gcry_error_t *errp)
 {
     FILE *privf;
 #ifndef WIN32
@@ -536,7 +536,7 @@ static FILE* privkey_fopen(const char *filename, gcry_error_t *errp)
 #ifndef WIN32
     oldmask = umask(077);
 #endif
-    privf = fopen(filename, "w+b");
+    privf = _wfopen(filename, L"w+b");
     if (!privf && errp) {
 	*errp = gcry_error_from_errno(errno);
     }
@@ -568,7 +568,7 @@ void otrl_privkey_generate_cancelled(OtrlUserState us, void *newkey)
 /* Call this from the main thread only.  It will write the newly created
  * private key into the given file and store it in the OtrlUserState. */
 gcry_error_t otrl_privkey_generate_finish(OtrlUserState us,
-	void *newkey, const char *filename)
+	void *newkey, const wchar_t *filename)
 {
     gcry_error_t err;
     FILE *privf = privkey_fopen(filename, &err);
@@ -623,7 +623,7 @@ gcry_error_t otrl_privkey_generate_finish_FILEp(OtrlUserState us,
 /* Generate a private DSA key for a given account, storing it into a
  * file on disk, and loading it into the given OtrlUserState.  Overwrite any
  * previously generated keys for that account in that OtrlUserState. */
-gcry_error_t otrl_privkey_generate(OtrlUserState us, const char *filename,
+gcry_error_t otrl_privkey_generate(OtrlUserState us, const wchar_t *filename,
 	const char *accountname, const char *protocol)
 {
     gcry_error_t err;
@@ -670,14 +670,14 @@ static unsigned int ctoh(char c)
  * OtrlUserState.  Use add_app_data to add application data to each
  * ConnContext so created. */
 gcry_error_t otrl_privkey_read_fingerprints(OtrlUserState us,
-	const char *filename,
+	const wchar_t*filename,
 	void (*add_app_data)(void *data, ConnContext *context),
 	void  *data)
 {
     gcry_error_t err;
     FILE *storef;
 
-    storef = fopen(filename, "rb");
+    storef = _wfopen(filename, L"rb");
     if (!storef) {
 	err = gcry_error_from_errno(errno);
 	return err;
@@ -765,12 +765,12 @@ gcry_error_t otrl_privkey_read_fingerprints_FILEp(OtrlUserState us,
 
 /* Write the fingerprint store from a given OtrlUserState to a file on disk. */
 gcry_error_t otrl_privkey_write_fingerprints(OtrlUserState us,
-	const char *filename)
+	const wchar_t *filename)
 {
     gcry_error_t err;
     FILE *storef;
 
-    storef = fopen(filename, "wb");
+    storef = _wfopen(filename, L"wb");
     if (!storef) {
 	err = gcry_error_from_errno(errno);
 	return err;

@@ -49,7 +49,7 @@ unsigned char *otrl_privkey_fingerprint_raw(OtrlUserState us,
 
 /* Read a sets of private DSA keys from a file on disk into the given
  * OtrlUserState. */
-gcry_error_t otrl_privkey_read(OtrlUserState us, const char *filename);
+gcry_error_t otrl_privkey_read(OtrlUserState us, const wchar_t *filename);
 
 /* Read a sets of private DSA keys from a FILE* into the given
  * OtrlUserState.  The FILE* must be open for reading. */
@@ -76,7 +76,7 @@ gcry_error_t otrl_privkey_generate_calculate(void *newkey);
 /* Call this from the main thread only.  It will write the newly created
  * private key into the given file and store it in the OtrlUserState. */
 gcry_error_t otrl_privkey_generate_finish(OtrlUserState us,
-	void *newkey, const char *filename);
+	void *newkey, const wchar_t *filename);
 
 /* Call this from the main thread only.  It will write the newly created
  * private key into the given FILE* (which must be open for reading and
@@ -92,7 +92,7 @@ void otrl_privkey_generate_cancelled(OtrlUserState us, void *newkey);
 /* Generate a private DSA key for a given account, storing it into a
  * file on disk, and loading it into the given OtrlUserState.  Overwrite any
  * previously generated keys for that account in that OtrlUserState. */
-gcry_error_t otrl_privkey_generate(OtrlUserState us, const char *filename,
+gcry_error_t otrl_privkey_generate(OtrlUserState us, const wchar_t *filename,
 	const char *accountname, const char *protocol);
 
 /* Generate a private DSA key for a given account, storing it into a
@@ -106,7 +106,7 @@ gcry_error_t otrl_privkey_generate_FILEp(OtrlUserState us, FILE *privf,
  * OtrlUserState.  Use add_app_data to add application data to each
  * ConnContext so created. */
 gcry_error_t otrl_privkey_read_fingerprints(OtrlUserState us,
-	const char *filename,
+	const wchar_t *filename,
 	void (*add_app_data)(void *data, ConnContext *context),
 	void  *data);
 
@@ -120,7 +120,7 @@ gcry_error_t otrl_privkey_read_fingerprints_FILEp(OtrlUserState us,
 
 /* Write the fingerprint store from a given OtrlUserState to a file on disk. */
 gcry_error_t otrl_privkey_write_fingerprints(OtrlUserState us,
-	const char *filename);
+	const wchar_t *filename);
 
 /* Write the fingerprint store from a given OtrlUserState to a FILE*.
  * The FILE* must be open for writing. */
