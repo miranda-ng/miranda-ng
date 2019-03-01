@@ -291,7 +291,7 @@ private:
 
 	MEVENT GetMessageFromDb(const char *messageId);
 	MEVENT AddDbEvent(WORD type, MCONTACT hContact, DWORD timestamp, DWORD flags, const char *content, const char *uid);
-	MEVENT AppendDBEvent(MCONTACT hContact, MEVENT hEvent, const char *szContent, const char *szUid, time_t edit_time);
+	void EditEvent(MCONTACT hContact, MEVENT hEvent, const char *szContent, time_t edit_time);
 	int OnReceiveMessage(MCONTACT hContact, const char *szContent, const char *szMessageId, time_t timestamp,  int emoteOffset = 0, bool isRead = false);
 
 	int OnSendMessage(MCONTACT hContact, int flags, const char *message);

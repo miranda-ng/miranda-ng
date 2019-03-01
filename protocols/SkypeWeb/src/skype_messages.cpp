@@ -156,7 +156,7 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 
 			MEVENT hDbEvent = GetMessageFromDb(szMessageId);
 			if (bEdited && hDbEvent != NULL)
-				AppendDBEvent(hContact, hDbEvent, szClearedContent, szMessageId, timestamp);
+				EditEvent(hContact, hDbEvent, szClearedContent, timestamp);
 			else
 				OnReceiveMessage(hContact, szClearedContent, szMessageId, timestamp, nEmoteOffset);
 		}

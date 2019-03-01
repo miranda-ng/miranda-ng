@@ -49,7 +49,7 @@ MEVENT CSkypeProto::AddDbEvent(WORD type, MCONTACT hContact, DWORD timestamp, DW
 	return ret;
 }
 
-MEVENT CSkypeProto::AppendDBEvent(MCONTACT hContact, MEVENT hEvent, const char *szContent, const char *szUid, time_t edit_time)
+void CSkypeProto::EditEvent(MCONTACT hContact, MEVENT hEvent, const char *szContent, time_t edit_time)
 {
 	mir_cslock lck(m_AppendMessageLock);
 	DBEVENTINFO dbei = {};
@@ -66,7 +66,7 @@ MEVENT CSkypeProto::AppendDBEvent(MCONTACT hContact, MEVENT hEvent, const char *
 				const JSONNode &jEdit = *it;
 
 				if (jEdit["time"].as_int() == edit_time)
-					return hEvent;
+					return;
 			}
 			JSONNode jEdit;
 			jEdit
@@ -96,8 +96,10 @@ MEVENT CSkypeProto::AppendDBEvent(MCONTACT hContact, MEVENT hEvent, const char *
 		jMsg << jEdits;
 	}
 	
-	db_event_delete(hContact, hEvent);
-	return AddDbEvent(SKYPE_DB_EVENT_TYPE_EDITED_MESSAGE, hContact, dbei.timestamp, dbei.flags, jMsg.write().c_str(), szUid);
+	std::string newMsg = jMsg.write().c_str();
+	dbei.cbBlob = newMsg.size() + 1;
+	dbei.pBlob = (PBYTE)newMsg.c_str();
+	db_event_edit(hContact, hEvent, &dbei);
 }
 
 MEVENT CSkypeProto::AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob)

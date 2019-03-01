@@ -72,7 +72,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 				ptrA szMessage(messageType == "RichText" ? RemoveHtml(content.c_str()) : mir_strdup(content.c_str()));
 				MEVENT dbevent = GetMessageFromDb(szMessageId);
 				if (isEdited && dbevent != NULL)
-					AppendDBEvent(hContact, dbevent, szMessage, szMessageId, timestamp);
+					EditEvent(hContact, dbevent, szMessage, timestamp);
 				else
 					AddDbEvent(emoteOffset == 0 ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_ACTION, hContact, timestamp, iFlags, &szMessage[emoteOffset], szMessageId);
 			}
