@@ -534,7 +534,7 @@ begin
   // tabSRMM still doesn't marks events read in case of hpp log is in use...
   // if (FGridMode = gmIEView) and
   if (mtIncoming in Item.MessageType) and (MessageTypesToDWord(Item.MessageType) and
-    MessageTypesToDWord([mtMessage]) > 0) then
+    MessageTypesToDWord([mtMessage, mtUrl]) > 0) then
   begin
     if (not Item.IsRead) then
       db_event_markRead(Items[Index].hContact, Items[Index].hDBEvent);
