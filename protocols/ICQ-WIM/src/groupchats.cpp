@@ -151,9 +151,8 @@ public:
 			}
 		}
 
-		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/mchat/AddChat");
-		pReq << CHAR_PARAM("f", "json") << WCHAR_PARAM("chat_id", m_si->ptszID) << CHAR_PARAM("aimsid", m_proto->m_aimsid) << CHAR_PARAM("r", pReq->m_reqId) << WCHAR_PARAM("members", szMembers);
-		m_proto->Push(pReq);
+		m_proto->Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/mchat/AddChat")
+			<< AIMSID(m_proto) << WCHAR_PARAM("chat_id", m_si->ptszID) << WCHAR_PARAM("members", szMembers));
 		return true;
 	}
 };
@@ -168,10 +167,8 @@ void CIcqProto::InviteUserToChat(SESSION_INFO *si)
 
 void CIcqProto::LeaveDestroyChat(SESSION_INFO *si)
 {
-	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/hideChat");
-	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << WCHAR_PARAM("buddy", si->ptszID)
-		<< CHAR_PARAM("r", pReq->m_reqId) << INT64_PARAM("lastMsgId", getId(si->hContact, DB_KEY_LASTMSGID));
-	Push(pReq);
+	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/hideChat")
+		<< AIMSID(this) << WCHAR_PARAM("buddy", si->ptszID) << INT64_PARAM("lastMsgId", getId(si->hContact, DB_KEY_LASTMSGID)));
 
 	Chat_Terminate(si->pszModule, si->ptszID, true);
 }

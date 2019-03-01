@@ -155,10 +155,8 @@ void CIcqProto::ConnectionFailed(int iReason, int iErrorCode)
 
 void CIcqProto::MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup)
 {
-	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/moveBuddy");
-	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("r", pReq->m_reqId)
-			<< WCHAR_PARAM("buddy", GetUserId(hContact)) << WCHAR_PARAM("group", pwszGroup) << WCHAR_PARAM("newGroup", pwszNewGroup);
-	Push(pReq);
+	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/moveBuddy")
+		<< AIMSID(this) << WCHAR_PARAM("buddy", GetUserId(hContact)) << WCHAR_PARAM("group", pwszGroup) << WCHAR_PARAM("newGroup", pwszNewGroup));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -459,9 +457,8 @@ void CIcqProto::RetrieveUserInfo(MCONTACT hContact)
 AsyncHttpRequest* CIcqProto::UserInfoRequest(MCONTACT hContact)
 {
 	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/presence/get", &CIcqProto::OnGetUserInfo);
-	pReq->flags |= NLHRF_NODUMPSEND;
 	pReq->hContact = hContact;
-	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << INT_PARAM("mdir", 1) << INT_PARAM("capabilities", 1);
+	pReq << AIMSID(this) << INT_PARAM("mdir", 1) << INT_PARAM("capabilities", 1);
 	return pReq;
 }
 
@@ -496,7 +493,7 @@ void CIcqProto::SetServerStatus(int iStatus)
 	int invisible = 0;
 
 	switch (iStatus) {
-	case ID_STATUS_OFFLINE: szStatus = "offline"; break;
+	case ID_STATUS_OFFLINE: szStatus = "offline"; break;	
 	case ID_STATUS_NA: szStatus = "occupied"; break;
 	case ID_STATUS_AWAY:
 	case ID_STATUS_DND: szStatus = "away"; break;
@@ -504,11 +501,11 @@ void CIcqProto::SetServerStatus(int iStatus)
 		invisible = 1;	
 	}
 
-	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/presence/setState");
-	pReq->flags |= NLHRF_NODUMPSEND;
-	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("r", pReq->m_reqId) 
-		<< CHAR_PARAM("view", szStatus) << INT_PARAM("invisible", invisible);
-	Push(pReq);
+	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/presence/setState")
+		<< AIMSID(this) << CHAR_PARAM("view", szStatus) << INT_PARAM("invisible", invisible));
+
+	if (iStatus == ID_STATUS_OFFLINE)
+		Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/aim/endSession") << AIMSID(this));
 
 	int iOldStatus = m_iStatus; m_iStatus = iStatus;
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
@@ -683,9 +680,8 @@ void CIcqProto::OnFileContinue(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld
 				m_arOwnIds.insert(pOwn);
 			}
 
-			pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("f", "json") << CHAR_PARAM("k", ICQ_APP_ID)
-				<< CHAR_PARAM("mentions", "") << WCHAR_PARAM("message", wszUrl) << CHAR_PARAM("offlineIM", "true") <<	WCHAR_PARAM("parts", wszParts)
-				<< CHAR_PARAM("r", pReq->m_reqId) << WCHAR_PARAM("t", GetUserId(pTransfer->pfts.hContact)) << INT_PARAM("ts", time(0));
+			pReq << AIMSID(this) << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", ICQ_APP_ID) << CHAR_PARAM("mentions", "") << WCHAR_PARAM("message", wszUrl) 
+				<< CHAR_PARAM("offlineIM", "true") <<	WCHAR_PARAM("parts", wszParts) << WCHAR_PARAM("t", GetUserId(pTransfer->pfts.hContact)) << INT_PARAM("ts", time(0));
 			Push(pReq);
 		}
 		else ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, pTransfer);

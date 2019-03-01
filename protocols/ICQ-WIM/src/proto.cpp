@@ -139,11 +139,8 @@ void CIcqProto::OnContactDeleted(MCONTACT hContact)
 	if (!isChatRoom(hContact))
 		m_arCache.remove(FindContactByUIN(szId));
 
-	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/removeBuddy");
-	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << WCHAR_PARAM("buddy", szId)
-		<< CHAR_PARAM("r", pReq->m_reqId) << INT_PARAM("allGroups", 1);
-	pReq->flags |= NLHRF_NODUMPSEND;
-	Push(pReq);
+	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/removeBuddy")
+		<< AIMSID(this) << WCHAR_PARAM("buddy", szId) << INT_PARAM("allGroups", 1));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -269,8 +266,7 @@ int CIcqProto::OnGroupChange(WPARAM hContact, LPARAM lParam)
 
 	CLISTGROUPCHANGE *pParam = (CLISTGROUPCHANGE*)lParam;
 	if (hContact == 0) { // whole group is changed
-		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/");
-		pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("r", pReq->m_reqId);
+		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/") << AIMSID(this);
 		if (pParam->pszOldName == nullptr) {
 			pReq->m_szUrl += "addGroup";
 			pReq << WCHAR_PARAM("group", pParam->pszNewName);
@@ -315,9 +311,7 @@ MCONTACT CIcqProto::AddToList(int, PROTOSEARCHRESULT *psr)
 int CIcqProto::AuthRequest(MCONTACT hContact, const wchar_t* szMessage)
 {
 	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, ICQ_API_SERVER "/buddylist/addBuddy", &CIcqProto::OnAddBuddy);
-	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("r", pReq->m_reqId) << WCHAR_PARAM("authorizationMsg", szMessage)
-		<< WCHAR_PARAM("buddy", GetUserId(hContact)) << CHAR_PARAM("group", "General") << INT_PARAM("preAuthorized", 1);
-	pReq->flags |= NLHRF_NODUMPSEND;
+	pReq << AIMSID(this) << WCHAR_PARAM("authorizationMsg", szMessage) << WCHAR_PARAM("buddy", GetUserId(hContact)) << CHAR_PARAM("group", "General") << INT_PARAM("preAuthorized", 1);
 	pReq->hContact = hContact;
 	Push(pReq);
 	return 0;
@@ -436,9 +430,8 @@ int CIcqProto::SendMsg(MCONTACT hContact, int, const char *pszSrc)
 		m_arOwnIds.insert(pOwn);
 	}
 
-	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("f", "json") << CHAR_PARAM("k", ICQ_APP_ID)
-		<< CHAR_PARAM("mentions", "") << CHAR_PARAM("message", pszSrc) << CHAR_PARAM("offlineIM", "true") << CHAR_PARAM("r", pReq->m_reqId)
-		<< CHAR_PARAM("t", szUserid) << INT_PARAM("ts", time(0));
+	pReq << AIMSID(this) << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", ICQ_APP_ID) << CHAR_PARAM("mentions", "") 
+		<< CHAR_PARAM("message", pszSrc) << CHAR_PARAM("offlineIM", "true") << CHAR_PARAM("t", szUserid) << INT_PARAM("ts", time(0));
 	Push(pReq);
 	return id;
 }
@@ -523,12 +516,8 @@ int CIcqProto::SetAwayMsg(int, const wchar_t*)
 
 int CIcqProto::UserIsTyping(MCONTACT hContact, int type)
 {
-	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/im/setTyping");
-	pReq->flags |= NLHRF_NODUMPSEND;
-	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("f", "json")
-		<< WCHAR_PARAM("t", GetUserId(hContact)) << CHAR_PARAM("r", pReq->m_reqId)
-		<< CHAR_PARAM("typingStatus", (type == PROTOTYPE_SELFTYPING_ON) ? "typing" : "typed");
-	Push(pReq);
+	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/im/setTyping")
+		<< AIMSID(this) << WCHAR_PARAM("t", GetUserId(hContact)) << CHAR_PARAM("typingStatus", (type == PROTOTYPE_SELFTYPING_ON) ? "typing" : "typed"));
 	return 0;
 }
 

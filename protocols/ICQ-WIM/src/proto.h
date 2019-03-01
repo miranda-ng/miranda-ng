@@ -53,6 +53,15 @@
 
 typedef CProtoDlgBase<CIcqProto> CIcqDlgBase;
 
+struct AIMSID
+{
+	AIMSID(CIcqProto *_ppro) :
+		m_ppro(_ppro)
+	{}
+
+	CIcqProto *m_ppro;
+};
+
 enum ChatMenuItems
 {
 	IDM_INVITE = 10, IDM_LEAVE
@@ -147,6 +156,8 @@ class CIcqProto : public PROTO<CIcqProto>
 	friend struct CIcqRegistrationDlg;
 	friend class CGroupchatInviteDlg;
 	friend class CEditIgnoreListDlg;
+
+	friend AsyncHttpRequest* operator <<(AsyncHttpRequest*, const AIMSID&);
 
 	bool      m_bOnline, m_bTerminated, m_bFirstBos;
 	MCONTACT  CheckOwnMessage(const CMStringA &reqId, const CMStringA &msgId, bool bRemove);

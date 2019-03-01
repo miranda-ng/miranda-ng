@@ -52,9 +52,8 @@ public:
 		m_list.InsertColumn(0, &lvc);
 
 		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/preference/getPermitDeny", &CIcqProto::OnRefreshEditIgnore);
-		pReq->flags |= NLHRF_NODUMPHEADERS;
+		pReq << AIMSID(m_proto);
 		pReq->pUserInfo = this;
-		pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_proto->m_aimsid) << CHAR_PARAM("r", pReq->m_reqId);
 		m_proto->ExecuteRequest(pReq);
 
 		Utils_RestoreWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "editIgnore_");
@@ -166,10 +165,7 @@ INT_PTR CIcqProto::EditIgnoreList(WPARAM, LPARAM)
 
 void CIcqProto::GetPermitDeny()
 {
-	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/preference/getPermitDeny", &CIcqProto::OnGetPermitDeny);
-	pReq->flags |= NLHRF_NODUMPHEADERS;
-	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("r", pReq->m_reqId);
-	Push(pReq);
+	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/preference/getPermitDeny", &CIcqProto::OnGetPermitDeny) << AIMSID(this));
 }
 
 void CIcqProto::OnGetPermitDeny(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
@@ -209,8 +205,6 @@ void CIcqProto::ProcessPermissions(const JSONNode &ev)
 
 void CIcqProto::SetPermitDeny(const CMStringW &userId, bool bAllow)
 {
-	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/preference/setPermitDeny");
-	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("r", pReq->m_reqId)
-		<< WCHAR_PARAM((bAllow) ? "pdIgnoreRemove" : "pdIgnore", userId);
-	Push(pReq);
+	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/preference/setPermitDeny")
+		<< AIMSID(this) << WCHAR_PARAM((bAllow) ? "pdIgnoreRemove" : "pdIgnore", userId));
 }

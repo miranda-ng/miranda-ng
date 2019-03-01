@@ -234,6 +234,15 @@ void CIcqProto::Push(MHttpRequest *p)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+AsyncHttpRequest* operator<<(AsyncHttpRequest *pReq, const AIMSID &param)
+{
+	pReq << CHAR_PARAM("f", "json") << CHAR_PARAM("aimsid", param.m_ppro->m_aimsid) << CHAR_PARAM("r", pReq->m_reqId);
+	pReq->flags |= NLHRF_NODUMPSEND;
+	return pReq;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 JsonReply::JsonReply(NETLIBHTTPREQUEST *pReply)
 {
 	if (pReply == nullptr) {

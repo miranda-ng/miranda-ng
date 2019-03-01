@@ -281,7 +281,7 @@ void __cdecl CIcqProto::PollThread(void*)
 	debugLogA("Polling thread started");
 	m_bFirstBos = true;
 
-	while (m_bOnline) {
+	while (m_bOnline && !m_fetchBaseURL.IsEmpty()) {
 		CMStringA szUrl = m_fetchBaseURL;
 		if (m_bFirstBos)
 			szUrl.Append("&first=1");
