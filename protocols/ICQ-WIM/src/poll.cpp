@@ -154,18 +154,9 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 	}
 
 	// or load missing messages if any
-	switch (ev["unreadCnt"].as_int()) {
-	case 0: break;
-	case 1:
-		if (!IsChat(wszId))
-			for (auto &it : ev["tail"]["messages"])
-				ParseMessage(hContact, lastMsgId, it, false);
-		setId(hContact, DB_KEY_LASTMSGID, lastMsgId);
-		break;
-
-	default:
+	__int64 srvLastId = _wtoi64(ev["lastMsgId"].as_mstring());
+	if (srvLastId > lastMsgId)
 		RetrieveUserHistory(hContact, lastMsgId);
-	}
 
 	// check remote read
 	if (g_bMessageState) {
