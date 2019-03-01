@@ -37,6 +37,7 @@
 #define ICQ_API_SERVER "https://api.icq.net"
 #define ICQ_ROBUST_SERVER "https://rapi.icq.net"
 
+#define PS_DUMMY "/DoNothing"
 #define PS_GOTO_INBOX "/GotoInbox"
 
 #define WIM_CAP_VOIP_VOICE         "094613504c7f11d18222444553540000"
@@ -334,6 +335,7 @@ public:
 	CMOption<wchar_t*> m_szPassword;   // password, if present
 	CMOption<BYTE>  m_bHideGroupchats; // don't pop up group chat windows on startup
 	CMOption<BYTE>  m_bUseTrayIcon;    // use tray icon notifications
+	CMOption<BYTE>  m_bLaunchMailbox;  // launch browser to view email
 	CMOption<DWORD> m_iTimeDiff1;		  // set this status to m_iStatus1 after this interval of secs
 	CMOption<DWORD> m_iStatus1;
 	CMOption<DWORD> m_iTimeDiff2;		  // set this status to m_iStatus2 after this interval of secs

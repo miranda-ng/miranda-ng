@@ -333,7 +333,15 @@ void CIcqProto::EmailNotification(const wchar_t *pwszText)
 
 	if (m_bUseTrayIcon) {
 		char szServiceFunction[MAX_PATH];
-		mir_snprintf(szServiceFunction, "%s%s", m_szModuleName, PS_GOTO_INBOX);
+		if (m_bLaunchMailbox)
+			mir_snprintf(szServiceFunction, "%s%s", m_szModuleName, PS_GOTO_INBOX);
+		else
+			mir_snprintf(szServiceFunction, "%s%s", m_szModuleName, PS_DUMMY);
+
+		int i = 0;
+		while (CLISTEVENT *pcle = g_clistApi.pfnGetEvent(-1, i++))
+			if (!mir_strcmp(pcle->pszService, szServiceFunction))
+				return;
 
 		CLISTEVENT cle = {};
 		cle.hDbEvent = 1;

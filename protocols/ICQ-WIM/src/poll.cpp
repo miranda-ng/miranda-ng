@@ -220,7 +220,8 @@ void CIcqProto::ProcessNotification(const JSONNode &ev)
 			m_szMailBox = (*root)["email"].as_mstring();			
 			m_unreadEmails = (*root)["unreadCount"].as_int();
 
-			if (m_unreadEmails > 0) {
+			// we notify about initial mail count only during login
+			if (m_bFirstBos && m_unreadEmails > 0) {
 				CMStringW wszMessage(FORMAT, TranslateT("You have %d unread emails"), m_unreadEmails);
 				EmailNotification(wszMessage);
 			}

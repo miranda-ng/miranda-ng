@@ -10,6 +10,7 @@
 #define IDD_EDITIGNORE                  106
 #define IDI_INBOX                       107
 #define IDI_MAIL_NOTIFY                 108
+#define IDD_OPTIONS_ADV                 109
 #define IDC_PASSWORD                    1001
 #define IDC_UIN                         1002
 #define IDC_UIN2                        1003
@@ -29,6 +30,7 @@
 #define IDC_SPIN1                       1018
 #define IDC_STATUS1                     1019
 #define IDC_USETRAYICON                 1020
+#define IDC_LAUNCH_MAILBOX              1021
 #define IDC_DIFF2                       1023
 #define IDC_SPIN2                       1024
 #define IDC_STATUS2                     1025
@@ -37,7 +39,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        109
+#define _APS_NEXT_RESOURCE_VALUE        110
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1021
 #define _APS_NEXT_SYMED_VALUE           101
