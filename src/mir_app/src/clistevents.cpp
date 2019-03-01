@@ -66,12 +66,8 @@ static int CompareEvents(const CListEvent *p1, const CListEvent *p2)
 
 OBJLIST<CListEvent> g_cliEvents(10, CompareEvents);
 
-static const char* GetEventProtocol(int idx)
+static const char* GetEventProtocol(const CListEvent &ev)
 {
-	if (!g_cliEvents.getCount() || idx < 0 && idx >= g_cliEvents.getCount())
-		return nullptr;
-
-	CListEvent &ev = g_cliEvents[idx];
 	if (ev.hContact != 0)
 		return GetContactProto(ev.hContact);
 
@@ -91,9 +87,9 @@ int fnGetImlIconIndex(HICON hIcon)
 	return p->index = ImageList_AddIcon(hCListImages, hIcon);
 }
 
-static void ShowOneEventInTray(int idx)
+static void ShowOneEventInTray(const CListEvent &ev)
 {
-	TrayIconUpdateWithImageList((iconsOn || disableTrayFlash) ? g_cliEvents[idx].imlIconIndex : 0, g_cliEvents[idx].szTooltip.w, GetEventProtocol(idx));
+	TrayIconUpdateWithImageList((iconsOn || disableTrayFlash) ? ev.imlIconIndex : 0, ev.szTooltip.w, GetEventProtocol(ev));
 }
 
 static void ShowEventsInTray()
@@ -103,7 +99,7 @@ static void ShowEventsInTray()
 		return;
 
 	if (g_cliEvents.getCount() == 1 || nTrayCnt == 1) {
-		ShowOneEventInTray(0); //for only one icon in tray show topmost event
+		ShowOneEventInTray(g_cliEvents[0]); //for only one icon in tray show topmost event
 		return;
 	}
 
@@ -116,8 +112,8 @@ static void ShowEventsInTray()
 		if (g_clistApi.trayIcon[i].id != 0 && g_clistApi.trayIcon[i].szProto)
 			pTrayProtos[nTrayProtoCnt++] = g_clistApi.trayIcon[i].szProto;
 
-	for (int i = 0; i < g_cliEvents.getCount(); i++) {
-		const char *iEventProto = GetEventProtocol(i);
+	for (auto &ev : g_cliEvents) {
+		const char *iEventProto = GetEventProtocol(*ev);
 
 		int j;
 		for (j = 0; j < nTrayProtoCnt; j++)
@@ -126,7 +122,7 @@ static void ShowEventsInTray()
 		if (j >= nTrayProtoCnt)   // event was not found so assume first icon
 			j = 0;
 		if (pTrayProtos[j])       // if not already set
-			ShowOneEventInTray(i); // show it
+			ShowOneEventInTray(*ev); // show it
 		pTrayProtos[j] = nullptr;    // and clear slot
 	}
 }
@@ -176,18 +172,9 @@ CListEvent* fnAddEvent(CLISTEVENT *cle)
 	g_cliEvents.insert(p);
 
 	if (g_cliEvents.getCount() == 1) {
-		const char *szProto;
-		if (cle->hContact == 0) {
-			if (cle->flags & CLEF_PROTOCOLGLOBAL)
-				szProto = cle->lpszProtocol;
-			else
-				szProto = nullptr;
-		}
-		else szProto = GetContactProto(cle->hContact);
-
 		iconsOn = 1;
 		flashTimerId = SetTimer(nullptr, 0, db_get_w(0, "CList", "IconFlashTime", 550), IconFlashTimer);
-		TrayIconUpdateWithImageList(p->imlIconIndex, p->szTooltip.w, szProto);
+		TrayIconUpdateWithImageList(p->imlIconIndex, p->szTooltip.w, GetEventProtocol(*p));
 	}
 	Clist_ChangeContactIcon(cle->hContact, p->imlIconIndex);
 	return p;
@@ -220,13 +207,7 @@ int fnRemoveEvent(MCONTACT hContact, MEVENT dbEvent)
 	// count same protocoled events
 	int nSameProto = 0;
 	for (auto &it : g_cliEvents) {
-		const char *szEventProto;
-		if (it->hContact)
-			szEventProto = GetContactProto((it->hContact));
-		else if (it->flags & CLEF_PROTOCOLGLOBAL)
-			szEventProto = it->lpszProtocol;
-		else
-			szEventProto = nullptr;
+		const char *szEventProto = GetEventProtocol(*it);
 		if (szEventProto && szProto && !mir_strcmp(szEventProto, szProto))
 			nSameProto++;
 	}
@@ -298,12 +279,7 @@ MIR_APP_DLL(int) Clist_EventsProcessTrayDoubleClick(int index)
 			}
 			if (szProto) {
 				for (auto &it : g_cliEvents) {
-					const char *eventProto = nullptr;
-					if (it->hContact)
-						eventProto = GetContactProto(it->hContact);
-					if (!eventProto)
-						eventProto = it->lpszProtocol;
-
+					const char *eventProto = GetEventProtocol(*it);
 					if (!eventProto || !_strcmpi(eventProto, szProto)) {
 						pEvent = it;
 						break;
@@ -314,11 +290,7 @@ MIR_APP_DLL(int) Clist_EventsProcessTrayDoubleClick(int index)
 				if (pEvent == nullptr) {
 					if (click_in_first_icon) {
 						for (auto &it : g_cliEvents) {
-							const char *eventProto = nullptr;
-							if (it->hContact)
-								eventProto = GetContactProto(it->hContact);
-							if (!eventProto)
-								eventProto = it->lpszProtocol;
+							const char *eventProto = GetEventProtocol(*it);
 							if (!eventProto)
 								continue;
 
