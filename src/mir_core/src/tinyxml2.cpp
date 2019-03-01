@@ -1069,7 +1069,8 @@ char* XMLNode::ParseDeep( char* p, StrPair* parentEndTag, int* curLineNumPtr )
                 }
                 node->_memPool->SetTracked();   // created and then immediately deleted.
                 DeleteNode( node );
-                return p;
+					 _document->_bytesParsed = (int)(p-_document->_charBuffer);
+					 return p;
             }
 
             // Handle an end tag returned to this level.
