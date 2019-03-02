@@ -261,13 +261,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NoHistory", "..\plugins\NoH
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NotesReminders", "..\plugins\NotesAndReminders\NotesReminders_15.vcxproj", "{EEB57129-946C-4B98-8856-FDA501AE2A5E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YAMN", "..\plugins\YAMN\YAMN.vcxproj", "{C5A87409-F08C-4A07-A8F9-1F5D52BA6D72}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YAMN", "..\protocols\YAMN\YAMN.vcxproj", "{C5A87409-F08C-4A07-A8F9-1F5D52BA6D72}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewsAggregator", "..\plugins\NewsAggregator\NewsAggregator.vcxproj", "{6DE11A47-2268-4B08-8DE5-15A1705FCE28}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewsAggregator", "..\protocols\NewsAggregator\NewsAggregator.vcxproj", "{6DE11A47-2268-4B08-8DE5-15A1705FCE28}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CurrencyRates", "..\plugins\CurrencyRates\Forex.vcxproj", "{C619A811-8023-4441-B3D7-785388A09DF0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CurrencyRates", "..\protocols\CurrencyRates\Forex.vcxproj", "{C619A811-8023-4441-B3D7-785388A09DF0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Weather", "..\plugins\Weather\weather.vcxproj", "{6BFE3E13-BD5D-4C1C-BB29-A82FB51A16CE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Weather", "..\protocols\Weather\weather.vcxproj", "{6BFE3E13-BD5D-4C1C-BB29-A82FB51A16CE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ping", "..\plugins\Ping\ping.vcxproj", "{F31BD1B6-EE9D-4F76-A047-F8AEADC26086}"
 EndProject
@@ -303,7 +303,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BuddyPounce", "..\plugins\B
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MsgPopup", "..\plugins\MsgPopup\MsgPopup.vcxproj", "{1E702CF1-E52F-49F8-915A-FCBBCE554774}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NimContact", "..\plugins\Non-IM Contact\nimcontact.vcxproj", "{A556E0B5-73A1-4676-BA1F-133820DE7D5A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NimContact", "..\protocols\Non-IM Contact\nimcontact.vcxproj", "{A556E0B5-73A1-4676-BA1F-133820DE7D5A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XSoundNotify", "..\plugins\XSoundNotify\XSoundNotify.vcxproj", "{5935CC24-A1C9-4CF9-8B1C-1AA2321627DE}"
 EndProject
@@ -317,15 +317,15 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "New_GPG", "..\plugins\New_G
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Spamotron", "..\plugins\Spamotron\Spamotron.vcxproj", "{DBB261B4-E433-4DFF-8A5D-6C3B5B5F4FF4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LotusNotify", "..\plugins\LotusNotify\LotusNotify.vcxproj", "{0E046380-14CA-4C23-A807-8C678519A605}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LotusNotify", "..\protocols\LotusNotify\LotusNotify.vcxproj", "{0E046380-14CA-4C23-A807-8C678519A605}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MirFox", "..\plugins\MirFox\MirFoxNG_15.vcxproj", "{3E9DA555-4C7B-463C-AD5C-214073DE29D6}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConnectionNotify", "..\plugins\ConnectionNotify\ConnectionNotify.vcxproj", "{3C83B0AB-9739-41C1-A127-ED7DB9551F76}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConnectionNotify", "..\protocols\ConnectionNotify\ConnectionNotify.vcxproj", "{3C83B0AB-9739-41C1-A127-ED7DB9551F76}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Exchange", "..\plugins\Exchange\Exchange.vcxproj", "{F462FDA1-BDCD-49B2-B996-D7DE71D07393}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WebView", "..\plugins\WebView\webview.vcxproj", "{475ED6ED-C311-4188-ACB2-1C41830B22EE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WebView", "..\protocols\WebView\webview.vcxproj", "{475ED6ED-C311-4188-ACB2-1C41830B22EE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ShlExt", "..\plugins\ShellExt\shellext.vcxproj", "{B27B85B5-0EF1-496D-99D7-0702A98A342A}"
 EndProject
@@ -347,7 +347,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sametime", "..\protocols\Sa
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glib", "..\protocols\Sametime\src\glib\glib_15.vcxproj", "{12BCA020-EABF-429E-876A-A476BC9C10C0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GmailNotifier", "..\plugins\GmailNotifier\GmailNotifier.vcxproj", "{EDAAD28B-505B-4969-A8BB-97EAE818DEEA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GmailNotifier", "..\protocols\GmailNotifier\GmailNotifier.vcxproj", "{EDAAD28B-505B-4969-A8BB-97EAE818DEEA}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Pcre16", "..\libs\Pcre16\pcre16.vcxproj", "{6124E997-426E-4A0B-9617-D6D577D5E7D7}"
 EndProject
@@ -391,7 +391,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StatusManager", "..\plugins
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Discord", "..\protocols\Discord\discord.vcxproj", "{88928401-2CE8-4568-AAA7-226141870CBF}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CloudFile", "..\plugins\CloudFile\CloudFile.vcxproj", "{E876FE63-0701-4CDA-BED5-7C73A379C1D1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CloudFile", "..\protocols\CloudFile\CloudFile.vcxproj", "{E876FE63-0701-4CDA-BED5-7C73A379C1D1}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "m_schedule", "..\plugins\MirLua\Modules\m_schedule\m_schedule.vcxproj", "{FBB46BDD-FD4C-4F95-98E8-6F0B6E8067A9}"
 EndProject
@@ -436,8 +436,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Encryption", "Encryption", "{30218E20-9E62-4027-BB87-2627B17F6CA3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notifications", "Notifications", "{703CFA44-C8E8-4547-B597-AE239F4F6DD9}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1AD312F8-831B-4255-9888-3897A11B6C27}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ProxySwitch", "..\plugins\ProxySwitch\ProxySwitch.vcxproj", "{7446276D-5845-4258-A245-83D1D4D3CEC3}"
 EndProject

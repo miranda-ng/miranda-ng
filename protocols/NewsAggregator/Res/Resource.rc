@@ -1,0 +1,184 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "..\src\resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian (Russia) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON                ICON                    "Main.ico"
+IDI_CHECKALL            ICON                    "CheckAll.ico"
+IDI_ADDFEED             ICON                    "AddFeed.ico"
+IDI_IMPORTFEEDS         ICON                    "Import.ico"
+IDI_EXPORTFEEDS         ICON                    "Export.ico"
+IDI_ENABLED             ICON                    "Enabled.ico"
+IDI_DISABLED            ICON                    "Disabled.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPTIONS DIALOGEX 0, 0, 314, 234
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_FEEDLIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,9,8,294,174
+    PUSHBUTTON      "Add",IDC_ADD,79,187,50,14
+    PUSHBUTTON      "Change",IDC_CHANGE,133,187,50,14
+    PUSHBUTTON      "Remove",IDC_REMOVE,187,187,50,14
+    PUSHBUTTON      "Import",IDC_IMPORT,252,204,50,14
+    PUSHBUTTON      "Export",IDC_EXPORT,252,219,50,14
+    CONTROL         "Retrieve news at startup",IDC_STARTUPRETRIEVE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,205,203,10
+END
+
+IDD_ADDFEED DIALOGEX 0, 0, 250, 228
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_NOFAILCREATE | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,140,209,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,194,209,50,14
+    GROUPBOX        "General Settings",IDC_STATIC,6,3,238,61
+    RTEXT           "Title",IDC_STATIC,17,16,44,8
+    EDITTEXT        IDC_FEEDTITLE,63,14,173,13,ES_AUTOHSCROLL
+    RTEXT           "URL",IDC_STATIC,17,31,44,8
+    EDITTEXT        IDC_FEEDURL,63,29,173,13,ES_AUTOHSCROLL
+    RTEXT           "Check every",IDC_STATIC,7,46,54,8
+    LTEXT           "minutes",IDC_STATIC,100,46,75,8
+    PUSHBUTTON      "Check Feed",IDC_DISCOVERY,177,44,59,12
+    GROUPBOX        "Authentication",IDC_STATIC,6,67,238,48
+    CONTROL         "Use &authentication",IDC_USEAUTH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,80,157,10
+    RTEXT           "Login",IDC_STATIC,16,96,42,8
+    EDITTEXT        IDC_LOGIN,61,94,63,14,ES_AUTOHSCROLL | WS_DISABLED
+    RTEXT           "Password",IDC_STATIC,129,96,41,8
+    EDITTEXT        IDC_PASSWORD,173,94,63,14,ES_PASSWORD | ES_AUTOHSCROLL | WS_DISABLED
+    GROUPBOX        "Visualization",IDC_STATIC,6,119,238,85
+    LTEXT           "Display news using the following format:",IDC_STATIC,13,132,168,8
+    EDITTEXT        IDC_TAGSEDIT,13,143,224,36,ES_MULTILINE | ES_AUTOHSCROLL | ES_WANTRETURN | WS_VSCROLL
+    LTEXT           "All item's tags are valid. Put them between #. Example: #<author>#",IDC_STATIC,14,182,160,16
+    PUSHBUTTON      "Reset",IDC_RESET,192,184,45,14
+    PUSHBUTTON      "?",IDC_TAGHELP,175,184,15,14
+    LTEXT           "0 - check manually",IDC_STATIC,100,55,78,8
+    EDITTEXT        IDC_CHECKTIME,64,45,32,12,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_TIMEOUT_VALUE_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,85,45,11,12
+END
+
+IDD_AUTHENTICATION DIALOGEX 0, 0, 211, 106
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "Authentication"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CTEXT           "Feed name",IDC_FEEDNAME,7,5,196,8
+    LTEXT           "This feed seems to need authentication. Please fill username and password fields:",IDC_STATIC,7,19,196,22
+    RTEXT           "Username",IDC_STATIC,25,49,42,8
+    EDITTEXT        IDC_FEEDUSERNAME,71,46,80,14,ES_AUTOHSCROLL
+    RTEXT           "Password",IDC_STATIC,25,66,42,8
+    EDITTEXT        IDC_FEEDPASSWORD,71,63,80,14,ES_PASSWORD | ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,98,87,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,153,87,50,14
+END
+
+IDD_FEEDEXPORT DIALOGEX 0, 0, 275, 138
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_ACCEPTFILES | WS_EX_CONTROLPARENT
+CAPTION "Export"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "Available feeds:",IDC_STATIC,6,6,100,8
+    LTEXT           "Feeds to be exported:",IDC_STATIC,150,6,98,8
+    LISTBOX         IDC_FEEDSLIST,6,18,120,98,LBS_SORT | LBS_NOINTEGRALHEIGHT | LBS_EXTENDEDSEL | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    LISTBOX         IDC_FEEDSEXPORTLIST,150,18,120,98,LBS_SORT | LBS_NOINTEGRALHEIGHT | LBS_EXTENDEDSEL | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    PUSHBUTTON      "->",IDC_ADDFEED,129,24,17,14
+    PUSHBUTTON      "<-",IDC_REMOVEFEED,129,40,17,14
+    PUSHBUTTON      "&Export",IDOK,164,120,50,14
+    PUSHBUTTON      "&Close",IDCANCEL,220,120,50,14
+    PUSHBUTTON      "->>",IDC_ADDALLFEEDS,129,78,17,14
+    PUSHBUTTON      "<<-",IDC_REMOVEALLFEEDS,129,95,17,14
+END
+
+IDD_FEEDIMPORT DIALOGEX 0, 0, 276, 161
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_ACCEPTFILES | WS_EX_CONTROLPARENT
+CAPTION "Import"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "Import from:",IDC_STATIC,6,7,47,8
+    EDITTEXT        IDC_IMPORTFILEPATH,59,5,186,14,ES_AUTOHSCROLL | ES_READONLY
+    PUSHBUTTON      "...",IDC_BROWSEIMPORTFILE,248,5,22,14
+    LTEXT           "Available feeds:",IDC_STATIC,6,26,100,8
+    LTEXT           "Feeds to be imported:",IDC_STATIC,150,26,101,8
+    LISTBOX         IDC_FEEDSLIST,6,38,120,98,LBS_SORT | LBS_NOINTEGRALHEIGHT | LBS_EXTENDEDSEL | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    LISTBOX         IDC_FEEDSIMPORTLIST,150,38,120,98,LBS_SORT | LBS_NOINTEGRALHEIGHT | LBS_EXTENDEDSEL | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    PUSHBUTTON      "->",IDC_ADDFEED,129,47,17,14
+    PUSHBUTTON      "<-",IDC_REMOVEFEED,129,63,17,14
+    PUSHBUTTON      "&Import",IDOK,165,141,50,14
+    PUSHBUTTON      "&Close",IDCANCEL,220,141,50,14
+    PUSHBUTTON      "->>",IDC_ADDALLFEEDS,129,97,17,14
+    PUSHBUTTON      "<<-",IDC_REMOVEALLFEEDS,129,113,17,14
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "..\\src\\resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+#endif    // Russian (Russia) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

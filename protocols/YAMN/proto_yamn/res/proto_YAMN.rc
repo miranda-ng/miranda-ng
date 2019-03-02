@@ -1,0 +1,16 @@
+#include "..\src\resource.h"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+
+IDI_ICON1             ICON         "icooffline.ico"
+IDI_ICON2             ICON         "icoonline.ico"
+IDI_ICON5             ICON         "icooffline.ico"
+IDI_ICON7             ICON         "icooccupied.ico"
+IDI_ICON3             ICON         "icoaway.ico"

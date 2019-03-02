@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<installscript>
+ <info>
+  <name>Yet Another Mail Notifier</name>
+  <author>majvan</author>
+  <version>0.2.4.7</version>
+  <type>Plugin</type>
+ </info>
+
+ <packageinfo>
+  <title>Plugin</title>
+  <file>YAMN.dll</file>
+ </packageinfo>
+
+ <packageinfo>
+  <optional/>
+  <title>Documentation</title>
+  <file>YAMN-Readme.txt</file>
+  <file>YAMN-License.txt</file>
+  <document/>
+ </packageinfo>
+
+ <packageinfo>
+  <optional/>
+  <title>Developers Information</title>
+  <file>YAMN-Readme.developers.txt</file>
+  <document/>
+ </packageinfo>
+
+ <packageinfo>
+  <optional/>
+  <title>Simple filter plugin</title>
+  <file>YAMN\simple.dll</file>
+  <file>YAMN\simple-readme.txt</file>
+ </packageinfo>
+
+ <packageinfo>
+  <optional/>
+  <title>Base filter plugin</title>
+  <file>YAMN\base.dll</file>
+  <file>YAMN\base-readme.txt</file>
+ </packageinfo>
+
+ <autorun>
+  <file>YAMN-Readme.txt</file>
+  <document/>
+ </autorun>
+
+</installscript>

@@ -1,0 +1,482 @@
+<?xml version="1.0"?>
+
+<feed xmlns="http://www.w3.org/2005/Atom">
+ <updated>2012-01-04T06:45:38Z</updated>
+ <id>http://code.google.com/feeds/p/watcher-miranda/updates/basic</id>
+ 
+ <title>watcher-miranda project updates - Google Code</title>
+ 
+ <link rel="self" type="application/atom+xml;type=feed" href="http://code.google.com/feeds/p/watcher-miranda/updates/basic"/>
+ <link rel="alternate" type="text/html" href="http://code.google.com/p/watcher-miranda/updates/list"/>
+ 
+ <entry>
+ <updated>2012-01-04T06:45:38Z</updated>
+ <id>http://code.google.com/feeds/p/watcher-miranda/updates/basic/z12pftbjzm31hlgp204cepjgmoicsl1oq1w</id>
+ <link rel="alternate" type="text/html" href="http://code.google.com/p/watcher-miranda/downloads/detail?name=miranda-0.10.latest-vc2010_x64-static.7z" />
+ <title type="html">&lt;a class=&quot;ot-download-link&quot; href=&quot;http://code.google.com/p/watcher-miranda/downloads/detail?name=miranda-0.10.latest-vc2010_x64-static.7z&quot;&gt;miranda-0.10.latest-vc2010_x64-static.7z&lt;/a&gt; (Miranda IM 0.10.0 Alpha #2 VC2010 x64) file uploaded by &lt;a class=&quot;ot-profile-link-2&quot; href=&quot;http://code.google.com/u/watcherhd/&quot;&gt;watcherhd&lt;/a&gt;</title>
+ <author>
+ <name>watcherhd</name>
+ </author>
+ <category term="ProjectNewDownload" scheme="http://code.google.com/updates/type"/>
+ <content type="html">&lt;div class=&quot;ot-labels-field-wrapper&quot;&gt;
+ &lt;span class=&quot;ot-labels-field-name&quot;&gt;Labels: &lt;/span&gt;
+ &lt;span class=&quot;ot-labels-field-value&quot;&gt;
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;Featured&lt;/span&gt;
+ 
+ 
+ &lt;/span&gt;
+ &lt;/div&gt;</content>
+</entry>
+
+ 
+ <entry>
+ <updated>2012-01-03T21:06:03Z</updated>
+ <id>http://code.google.com/feeds/p/watcher-miranda/updates/basic/z12qdzfqdumlchjgm04cepjgmoicsl1oq1w</id>
+ <link rel="alternate" type="text/html" href="http://code.google.com/p/watcher-miranda/downloads/detail?name=miranda-v0100a2w11.7z" />
+ <title type="html">&lt;a class=&quot;ot-download-link&quot; href=&quot;http://code.google.com/p/watcher-miranda/downloads/detail?name=miranda-v0100a2w11.7z&quot;&gt;miranda-v0100a2w11.7z&lt;/a&gt; (T  -  ) file uploaded by &lt;a class=&quot;ot-profile-link-2&quot; href=&quot;http://code.google.com/u/watcherhd/&quot;&gt;watcherhd&lt;/a&gt;</title>
+ <author>
+ <name>watcherhd</name>
+ </author>
+ <category term="ProjectNewDownload" scheme="http://code.google.com/updates/type"/>
+ <content type="html">&lt;div class=&quot;ot-labels-field-wrapper&quot;&gt;
+ &lt;span class=&quot;ot-labels-field-name&quot;&gt;Labels: &lt;/span&gt;
+ &lt;span class=&quot;ot-labels-field-value&quot;&gt;
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;Featured&lt;/span&gt;
+ 
+ 
+ &lt;/span&gt;
+ &lt;/div&gt;</content>
+</entry>
+
+ 
+ <entry>
+ <updated>2012-01-03T20:47:25Z</updated>
+ <id>http://code.google.com/feeds/p/watcher-miranda/updates/basic/z135ypx45kehgtcq304cepjgmoicsl1oq1w</id>
+ <link rel="alternate" type="text/html" href="http://code.google.com/p/watcher-miranda/downloads/detail?name=miranda-v0100a2w11.7z" />
+ <title type="html">&lt;a class=&quot;ot-download-link&quot; href=&quot;http://code.google.com/p/watcher-miranda/downloads/detail?name=miranda-v0100a2w11.7z&quot;&gt;miranda-v0100a2w11.7z&lt;/a&gt; (Miranda IM 0.10.0 Alpha #2 VC6111) file uploaded by &lt;a class=&quot;ot-profile-link-2&quot; href=&quot;http://code.google.com/u/watcherhd/&quot;&gt;watcherhd&lt;/a&gt;</title>
+ <author>
+ <name>watcherhd</name>
+ </author>
+ <category term="ProjectNewDownload" scheme="http://code.google.com/updates/type"/>
+ <content type="html">&lt;div class=&quot;ot-labels-field-wrapper&quot;&gt;
+ &lt;span class=&quot;ot-labels-field-name&quot;&gt;Labels: &lt;/span&gt;
+ &lt;span class=&quot;ot-labels-field-value&quot;&gt;
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;Featured&lt;/span&gt;
+ 
+ 
+ &lt;/span&gt;
+ &lt;/div&gt;</content>
+</entry>
+
+ 
+ <entry>
+ <updated>2012-01-03T09:21:55Z</updated>
+ <id>http://code.google.com/feeds/p/watcher-miranda/updates/basic/z12szb1zzybuejnnv22pfv4p3ma4ch5kj</id>
+ <link rel="alternate" type="text/html" href="http://code.google.com/p/watcher-miranda/downloads/detail?name=mirotr1.7z" />
+ <title type="html">&lt;a class=&quot;ot-download-link&quot; href=&quot;http://code.google.com/p/watcher-miranda/downloads/detail?name=mirotr1.7z&quot;&gt;mirotr1.7z&lt;/a&gt; (Miranda IM 0.10.0 Alpha #2 VC6) file uploaded by &lt;a class=&quot;ot-profile-link-2&quot; href=&quot;http://code.google.com/u/watcherhd/&quot;&gt;watcherhd&lt;/a&gt;</title>
+ <author>
+ <name>watcherhd</name>
+ </author>
+ <category term="ProjectNewDownload" scheme="http://code.google.com/updates/type"/>
+ <content type="html">&lt;div class=&quot;ot-labels-field-wrapper&quot;&gt;
+ &lt;span class=&quot;ot-labels-field-name&quot;&gt;Labels: &lt;/span&gt;
+ &lt;span class=&quot;ot-labels-field-value&quot;&gt;
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;Featured&lt;/span&gt;
+ 
+ 
+ &lt;/span&gt;
+ &lt;/div&gt;</content>
+</entry>
+
+ 
+ <entry>
+ <updated>2012-01-02T20:12:28Z</updated>
+ <id>http://code.google.com/feeds/p/watcher-miranda/updates/basic/z12ltxpzuvr4xvahk04cepjgmoicsl1oq1w</id>
+ <link rel="alternate" type="text/html" href="http://code.google.com/p/watcher-miranda/downloads/detail?name=miranda32.exe" />
+ <title type="html">&lt;a class=&quot;ot-download-link&quot; href=&quot;http://code.google.com/p/watcher-miranda/downloads/detail?name=miranda32.exe&quot;&gt;miranda32.exe&lt;/a&gt; (Miranda32 v.0.9.40.0) file uploaded by &lt;a class=&quot;ot-profile-link-2&quot; href=&quot;http://code.google.com/u/watcherhd/&quot;&gt;watcherhd&lt;/a&gt;</title>
+ <author>
+ <name>watcherhd</name>
+ </author>
+ <category term="ProjectNewDownload" scheme="http://code.google.com/updates/type"/>
+ <content type="html">&lt;div class=&quot;ot-labels-field-wrapper&quot;&gt;
+ &lt;span class=&quot;ot-labels-field-name&quot;&gt;Labels: &lt;/span&gt;
+ &lt;span class=&quot;ot-labels-field-value&quot;&gt;
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;Featured&lt;/span&gt;
+ 
+ 
+ &lt;/span&gt;
+ &lt;/div&gt;</content>
+</entry>
+
+ 
+ <entry>
+ <updated>2012-01-01T18:00:06Z</updated>
+ <id>http://code.google.com/feeds/p/watcher-miranda/updates/basic/z13idtjadwu5y3q2322pfv4p3ma4ch5kj</id>
+ <link rel="alternate" type="text/html" href="http://code.google.com/p/watcher-miranda/downloads/detail?name=Miranda%20IM%20Watcher%20Pack%20v3.1.0.exe" />
+ <title type="html">&lt;a class=&quot;ot-download-link&quot; href=&quot;http://code.google.com/p/watcher-miranda/downloads/detail?name=Miranda%20IM%20Watcher%20Pack%20v3.1.0.exe&quot;&gt;Miranda IM Watcher Pack v3.1.0.exe&lt;/a&gt; (Miranda IM Watcher Pack v3.1.0) file uploaded by &lt;a class=&quot;ot-profile-link-2&quot; href=&quot;http://code.google.com/u/watcherhd/&quot;&gt;watcherhd&lt;/a&gt;</title>
+ <author>
+ <name>watcherhd</name>
+ </author>
+ <category term="ProjectNewDownload" scheme="http://code.google.com/updates/type"/>
+ <content type="html">&lt;div class=&quot;ot-labels-field-wrapper&quot;&gt;
+ &lt;span class=&quot;ot-labels-field-name&quot;&gt;Labels: &lt;/span&gt;
+ &lt;span class=&quot;ot-labels-field-value&quot;&gt;
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;Featured&lt;/span&gt;
+ 
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;Type-Installer&lt;/span&gt;
+ 
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;OpSys-Windows&lt;/span&gt;
+ 
+ 
+ &lt;/span&gt;
+ &lt;/div&gt;</content>
+</entry>
+
+ 
+ <entry>
+ <updated>2011-12-30T11:06:47Z</updated>
+ <id>http://code.google.com/feeds/p/watcher-miranda/updates/basic/z12vzfygpwqng3m3b22pfv4p3ma4ch5kj</id>
+ <link rel="alternate" type="text/html" href="http://code.google.com/p/watcher-miranda/downloads/detail?name=Miranda_Empoli_Pack_Mod.exe" />
+ <title type="html">&lt;a class=&quot;ot-download-link&quot; href=&quot;http://code.google.com/p/watcher-miranda/downloads/detail?name=Miranda_Empoli_Pack_Mod.exe&quot;&gt;Miranda_Empoli_Pack_Mod.exe&lt;/a&gt; (Miranda IM Empoli Pack Mod v.2.2 (core 0.9.39)) file uploaded by &lt;a class=&quot;ot-profile-link-2&quot; href=&quot;http://code.google.com/u/watcherhd/&quot;&gt;watcherhd&lt;/a&gt;</title>
+ <author>
+ <name>watcherhd</name>
+ </author>
+ <category term="ProjectNewDownload" scheme="http://code.google.com/updates/type"/>
+ <content type="html">&lt;div class=&quot;ot-labels-field-wrapper&quot;&gt;
+ &lt;span class=&quot;ot-labels-field-name&quot;&gt;Labels: &lt;/span&gt;
+ &lt;span class=&quot;ot-labels-field-value&quot;&gt;
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;Featured&lt;/span&gt;
+ 
+ 
+ &lt;/span&gt;
+ &lt;/div&gt;</content>
+</entry>
+
+ 
+ <entry>
+ <updated>2011-12-29T14:08:24Z</updated>
+ <id>http://code.google.com/feeds/p/watcher-miranda/updates/basic/z135in4x1yi1fd2ou04cepjgmoicsl1oq1w</id>
+ <link rel="alternate" type="text/html" href="http://code.google.com/p/watcher-miranda/downloads/detail?name=mirotr.7z" />
+ <title type="html">&lt;a class=&quot;ot-download-link&quot; href=&quot;http://code.google.com/p/watcher-miranda/downloads/detail?name=mirotr.7z&quot;&gt;mirotr.7z&lt;/a&gt; (MirOTR 0.11.0.3) file uploaded by &lt;a class=&quot;ot-profile-link-2&quot; href=&quot;http://code.google.com/u/watcherhd/&quot;&gt;watcherhd&lt;/a&gt;</title>
+ <author>
+ <name>watcherhd</name>
+ </author>
+ <category term="ProjectNewDownload" scheme="http://code.google.com/updates/type"/>
+ <content type="html">&lt;div class=&quot;ot-labels-field-wrapper&quot;&gt;
+ &lt;span class=&quot;ot-labels-field-name&quot;&gt;Labels: &lt;/span&gt;
+ &lt;span class=&quot;ot-labels-field-value&quot;&gt;
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;Featured&lt;/span&gt;
+ 
+ 
+ &lt;/span&gt;
+ &lt;/div&gt;</content>
+</entry>
+
+ 
+ <entry>
+ <updated>2011-12-25T10:59:24Z</updated>
+ <id>http://code.google.com/feeds/p/watcher-miranda/updates/basic/z13dgrs5elfkfp0n122pfv4p3ma4ch5kj</id>
+ <link rel="alternate" type="text/html" href="http://code.google.com/p/watcher-miranda/downloads/detail?name=LangpackSuite.exe" />
+ <title type="html">&lt;a class=&quot;ot-download-link&quot; href=&quot;http://code.google.com/p/watcher-miranda/downloads/detail?name=LangpackSuite.exe&quot;&gt;LangpackSuite.exe&lt;/a&gt; (Test upload) file uploaded by &lt;a class=&quot;ot-profile-link-2&quot; href=&quot;http://code.google.com/u/watcherhd/&quot;&gt;watcherhd&lt;/a&gt;</title>
+ <author>
+ <name>watcherhd</name>
+ </author>
+ <category term="ProjectNewDownload" scheme="http://code.google.com/updates/type"/>
+ <content type="html">&lt;div class=&quot;ot-labels-field-wrapper&quot;&gt;
+ &lt;span class=&quot;ot-labels-field-name&quot;&gt;Labels: &lt;/span&gt;
+ &lt;span class=&quot;ot-labels-field-value&quot;&gt;
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;Featured&lt;/span&gt;
+ 
+ 
+ &lt;/span&gt;
+ &lt;/div&gt;</content>
+</entry>
+
+ 
+ <entry>
+ <updated>2011-12-25T10:58:18Z</updated>
+ <id>http://code.google.com/feeds/p/watcher-miranda/updates/basic/z13cu14hyzzawjmev22pfv4p3ma4ch5kj</id>
+ <link rel="alternate" type="text/html" href="http://code.google.com/p/watcher-miranda/downloads/detail?name=LangpackSuite.exe" />
+ <title type="html">&lt;a class=&quot;ot-download-link&quot; href=&quot;http://code.google.com/p/watcher-miranda/downloads/detail?name=LangpackSuite.exe&quot;&gt;LangpackSuite.exe&lt;/a&gt; (Test) file uploaded by &lt;a class=&quot;ot-profile-link-2&quot; href=&quot;http://code.google.com/u/watcherhd/&quot;&gt;watcherhd&lt;/a&gt;</title>
+ <author>
+ <name>watcherhd</name>
+ </author>
+ <category term="ProjectNewDownload" scheme="http://code.google.com/updates/type"/>
+ <content type="html">&lt;div class=&quot;ot-labels-field-wrapper&quot;&gt;
+ &lt;span class=&quot;ot-labels-field-name&quot;&gt;Labels: &lt;/span&gt;
+ &lt;span class=&quot;ot-labels-field-value&quot;&gt;
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;Featured&lt;/span&gt;
+ 
+ 
+ &lt;/span&gt;
+ &lt;/div&gt;</content>
+</entry>
+
+ 
+ <entry>
+ <updated>2011-12-21T21:55:28Z</updated>
+ <id>http://code.google.com/feeds/p/watcher-miranda/updates/basic/z12sh1jqflzkj3ofd22pfv4p3ma4ch5kj</id>
+ <link rel="alternate" type="text/html" href="http://code.google.com/p/watcher-miranda/downloads/detail?name=Miranda%20IM%20Watcher%20Pack%20v3.0.9.exe" />
+ <title type="html">&lt;a class=&quot;ot-download-link&quot; href=&quot;http://code.google.com/p/watcher-miranda/downloads/detail?name=Miranda%20IM%20Watcher%20Pack%20v3.0.9.exe&quot;&gt;Miranda IM Watcher Pack v3.0.9.exe&lt;/a&gt; (Miranda IM Watcher Pack v3.0.9) file uploaded by &lt;a class=&quot;ot-profile-link-2&quot; href=&quot;http://code.google.com/u/watcherhd/&quot;&gt;watcherhd&lt;/a&gt;</title>
+ <author>
+ <name>watcherhd</name>
+ </author>
+ <category term="ProjectNewDownload" scheme="http://code.google.com/updates/type"/>
+ <content type="html">&lt;div class=&quot;ot-labels-field-wrapper&quot;&gt;
+ &lt;span class=&quot;ot-labels-field-name&quot;&gt;Labels: &lt;/span&gt;
+ &lt;span class=&quot;ot-labels-field-value&quot;&gt;
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;Featured&lt;/span&gt;
+ 
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;Type-Installer&lt;/span&gt;
+ 
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;OpSys-Windows&lt;/span&gt;
+ 
+ 
+ &lt;/span&gt;
+ &lt;/div&gt;</content>
+</entry>
+
+ 
+ <entry>
+ <updated>2011-12-13T19:46:02Z</updated>
+ <id>http://code.google.com/feeds/p/watcher-miranda/updates/basic/z13nxvbpft3ezr5ps04cepjgmoicsl1oq1w</id>
+ <link rel="alternate" type="text/html" href="http://code.google.com/p/watcher-miranda/downloads/detail?name=Miranda%20IM%20Watcher%20Pack%20v3.0.8.exe" />
+ <title type="html">&lt;a class=&quot;ot-download-link&quot; href=&quot;http://code.google.com/p/watcher-miranda/downloads/detail?name=Miranda%20IM%20Watcher%20Pack%20v3.0.8.exe&quot;&gt;Miranda IM Watcher Pack v3.0.8.exe&lt;/a&gt; (Miranda IM Watcher Pack v3.0.8) file uploaded by &lt;a class=&quot;ot-profile-link-2&quot; href=&quot;http://code.google.com/u/watcherhd/&quot;&gt;watcherhd&lt;/a&gt;</title>
+ <author>
+ <name>watcherhd</name>
+ </author>
+ <category term="ProjectNewDownload" scheme="http://code.google.com/updates/type"/>
+ <content type="html">&lt;div class=&quot;ot-labels-field-wrapper&quot;&gt;
+ &lt;span class=&quot;ot-labels-field-name&quot;&gt;Labels: &lt;/span&gt;
+ &lt;span class=&quot;ot-labels-field-value&quot;&gt;
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;Featured&lt;/span&gt;
+ 
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;Type-Installer&lt;/span&gt;
+ 
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;OpSys-Windows&lt;/span&gt;
+ 
+ 
+ &lt;/span&gt;
+ &lt;/div&gt;</content>
+</entry>
+
+ 
+ <entry>
+ <updated>2011-12-04T10:52:49Z</updated>
+ <id>http://code.google.com/feeds/p/watcher-miranda/updates/basic/z13vubiqswqqe1cf222pfv4p3ma4ch5kj</id>
+ <link rel="alternate" type="text/html" href="http://code.google.com/p/watcher-miranda/downloads/detail?name=Fingerprint.dll" />
+ <title type="html">&lt;a class=&quot;ot-download-link&quot; href=&quot;http://code.google.com/p/watcher-miranda/downloads/detail?name=Fingerprint.dll&quot;&gt;Fingerprint.dll&lt;/a&gt; (Fingerprint.dll WP update) file uploaded by &lt;a class=&quot;ot-profile-link-2&quot; href=&quot;http://code.google.com/u/watcherhd/&quot;&gt;watcherhd&lt;/a&gt;</title>
+ <author>
+ <name>watcherhd</name>
+ </author>
+ <category term="ProjectNewDownload" scheme="http://code.google.com/updates/type"/>
+ <content type="html"></content>
+</entry>
+
+ 
+ <entry>
+ <updated>2011-12-04T10:52:32Z</updated>
+ <id>http://code.google.com/feeds/p/watcher-miranda/updates/basic/z125fjy5qruixxloh04cepjgmoicsl1oq1w</id>
+ <link rel="alternate" type="text/html" href="http://code.google.com/p/watcher-miranda/downloads/detail?name=PackUpdater.dll" />
+ <title type="html">&lt;a class=&quot;ot-download-link&quot; href=&quot;http://code.google.com/p/watcher-miranda/downloads/detail?name=PackUpdater.dll&quot;&gt;PackUpdater.dll&lt;/a&gt; (PackUpdater.dll WP update) file uploaded by &lt;a class=&quot;ot-profile-link-2&quot; href=&quot;http://code.google.com/u/watcherhd/&quot;&gt;watcherhd&lt;/a&gt;</title>
+ <author>
+ <name>watcherhd</name>
+ </author>
+ <category term="ProjectNewDownload" scheme="http://code.google.com/updates/type"/>
+ <content type="html"></content>
+</entry>
+
+ 
+ <entry>
+ <updated>2011-12-03T15:01:42Z</updated>
+ <id>http://code.google.com/feeds/p/watcher-miranda/updates/basic/z13etferquvuyzd0z22pfv4p3ma4ch5kj</id>
+ <link rel="alternate" type="text/html" href="http://code.google.com/p/watcher-miranda/downloads/detail?name=packupdater.7z" />
+ <title type="html">&lt;a class=&quot;ot-download-link&quot; href=&quot;http://code.google.com/p/watcher-miranda/downloads/detail?name=packupdater.7z&quot;&gt;packupdater.7z&lt;/a&gt; (Pack Updater 0.0.1.0) file uploaded by &lt;a class=&quot;ot-profile-link-2&quot; href=&quot;http://code.google.com/u/watcherhd/&quot;&gt;watcherhd&lt;/a&gt;</title>
+ <author>
+ <name>watcherhd</name>
+ </author>
+ <category term="ProjectNewDownload" scheme="http://code.google.com/updates/type"/>
+ <content type="html">&lt;div class=&quot;ot-labels-field-wrapper&quot;&gt;
+ &lt;span class=&quot;ot-labels-field-name&quot;&gt;Labels: &lt;/span&gt;
+ &lt;span class=&quot;ot-labels-field-value&quot;&gt;
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;Featured&lt;/span&gt;
+ 
+ 
+ &lt;/span&gt;
+ &lt;/div&gt;</content>
+</entry>
+
+ 
+ <entry>
+ <updated>2011-12-02T22:21:54Z</updated>
+ <id>http://code.google.com/feeds/p/watcher-miranda/updates/basic/z12ysnhy4zi2wvudo22pfv4p3ma4ch5kj</id>
+ <link rel="alternate" type="text/html" href="http://code.google.com/p/watcher-miranda/downloads/detail?name=fingerprintmodplus.7z" />
+ <title type="html">&lt;a class=&quot;ot-download-link&quot; href=&quot;http://code.google.com/p/watcher-miranda/downloads/detail?name=fingerprintmodplus.7z&quot;&gt;fingerprintmodplus.7z&lt;/a&gt; (Fingerprint Mod Plus 0.2.2.4 (latest svn revision)) file uploaded by &lt;a class=&quot;ot-profile-link-2&quot; href=&quot;http://code.google.com/u/watcherhd/&quot;&gt;watcherhd&lt;/a&gt;</title>
+ <author>
+ <name>watcherhd</name>
+ </author>
+ <category term="ProjectNewDownload" scheme="http://code.google.com/updates/type"/>
+ <content type="html">&lt;div class=&quot;ot-labels-field-wrapper&quot;&gt;
+ &lt;span class=&quot;ot-labels-field-name&quot;&gt;Labels: &lt;/span&gt;
+ &lt;span class=&quot;ot-labels-field-value&quot;&gt;
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;Featured&lt;/span&gt;
+ 
+ 
+ &lt;/span&gt;
+ &lt;/div&gt;</content>
+</entry>
+
+ 
+ <entry>
+ <updated>2011-11-28T06:15:02Z</updated>
+ <id>http://code.google.com/feeds/p/watcher-miranda/updates/basic/z13hy1xpcr2hgbrfv22pfv4p3ma4ch5kj</id>
+ <link rel="alternate" type="text/html" href="http://code.google.com/p/watcher-miranda/downloads/detail?name=Miranda%20IM%20Watcher%20Pack%20v3.0.7.exe" />
+ <title type="html">&lt;a class=&quot;ot-download-link&quot; href=&quot;http://code.google.com/p/watcher-miranda/downloads/detail?name=Miranda%20IM%20Watcher%20Pack%20v3.0.7.exe&quot;&gt;Miranda IM Watcher Pack v3.0.7.exe&lt;/a&gt; (Miranda IM Watcher Pack v3.0.7) file uploaded by &lt;a class=&quot;ot-profile-link-2&quot; href=&quot;http://code.google.com/u/watcherhd/&quot;&gt;watcherhd&lt;/a&gt;</title>
+ <author>
+ <name>watcherhd</name>
+ </author>
+ <category term="ProjectNewDownload" scheme="http://code.google.com/updates/type"/>
+ <content type="html">&lt;div class=&quot;ot-labels-field-wrapper&quot;&gt;
+ &lt;span class=&quot;ot-labels-field-name&quot;&gt;Labels: &lt;/span&gt;
+ &lt;span class=&quot;ot-labels-field-value&quot;&gt;
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;Featured&lt;/span&gt;
+ 
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;Type-Installer&lt;/span&gt;
+ 
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;OpSys-Windows&lt;/span&gt;
+ 
+ 
+ &lt;/span&gt;
+ &lt;/div&gt;</content>
+</entry>
+
+ 
+ <entry>
+ <updated>2011-11-24T16:35:48Z</updated>
+ <id>http://code.google.com/feeds/p/watcher-miranda/updates/basic/z13mcvxqurmeybypn04cepjgmoicsl1oq1w</id>
+ <link rel="alternate" type="text/html" href="http://code.google.com/p/watcher-miranda/downloads/detail?name=Miranda%20IM%20Watcher%20Pack%20v3.0.6.exe" />
+ <title type="html">&lt;a class=&quot;ot-download-link&quot; href=&quot;http://code.google.com/p/watcher-miranda/downloads/detail?name=Miranda%20IM%20Watcher%20Pack%20v3.0.6.exe&quot;&gt;Miranda IM Watcher Pack v3.0.6.exe&lt;/a&gt; (Miranda IM Watcher Pack v3.0.6) file uploaded by &lt;a class=&quot;ot-profile-link-2&quot; href=&quot;http://code.google.com/u/watcherhd/&quot;&gt;watcherhd&lt;/a&gt;</title>
+ <author>
+ <name>watcherhd</name>
+ </author>
+ <category term="ProjectNewDownload" scheme="http://code.google.com/updates/type"/>
+ <content type="html">&lt;div class=&quot;ot-labels-field-wrapper&quot;&gt;
+ &lt;span class=&quot;ot-labels-field-name&quot;&gt;Labels: &lt;/span&gt;
+ &lt;span class=&quot;ot-labels-field-value&quot;&gt;
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;Featured&lt;/span&gt;
+ 
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;Type-Installer&lt;/span&gt;
+ 
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;OpSys-Windows&lt;/span&gt;
+ 
+ 
+ &lt;/span&gt;
+ &lt;/div&gt;</content>
+</entry>
+
+ 
+ <entry>
+ <updated>2011-11-23T04:58:16Z</updated>
+ <id>http://code.google.com/feeds/p/watcher-miranda/updates/basic/z13rxxbauu3wxtfmz22pfv4p3ma4ch5kj</id>
+ <link rel="alternate" type="text/html" href="http://code.google.com/p/watcher-miranda/downloads/detail?name=simplestatusmsg.7z" />
+ <title type="html">&lt;a class=&quot;ot-download-link&quot; href=&quot;http://code.google.com/p/watcher-miranda/downloads/detail?name=simplestatusmsg.7z&quot;&gt;simplestatusmsg.7z&lt;/a&gt; (Simple Status Message 1.9.0.4) file uploaded by &lt;a class=&quot;ot-profile-link-2&quot; href=&quot;http://code.google.com/u/watcherhd/&quot;&gt;watcherhd&lt;/a&gt;</title>
+ <author>
+ <name>watcherhd</name>
+ </author>
+ <category term="ProjectNewDownload" scheme="http://code.google.com/updates/type"/>
+ <content type="html">&lt;div class=&quot;ot-labels-field-wrapper&quot;&gt;
+ &lt;span class=&quot;ot-labels-field-name&quot;&gt;Labels: &lt;/span&gt;
+ &lt;span class=&quot;ot-labels-field-value&quot;&gt;
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;Featured&lt;/span&gt;
+ 
+ 
+ &lt;/span&gt;
+ &lt;/div&gt;</content>
+</entry>
+
+ 
+ <entry>
+ <updated>2011-11-19T06:13:19Z</updated>
+ <id>http://code.google.com/feeds/p/watcher-miranda/updates/basic/z13di1rprvjfhpta004cepjgmoicsl1oq1w</id>
+ <link rel="alternate" type="text/html" href="http://code.google.com/p/watcher-miranda/downloads/detail?name=Miranda%20IM%20Watcher%20Pack%20v3.0.5.exe" />
+ <title type="html">&lt;a class=&quot;ot-download-link&quot; href=&quot;http://code.google.com/p/watcher-miranda/downloads/detail?name=Miranda%20IM%20Watcher%20Pack%20v3.0.5.exe&quot;&gt;Miranda IM Watcher Pack v3.0.5.exe&lt;/a&gt; (Miranda IM Watcher Pack v3.0.5) file uploaded by &lt;a class=&quot;ot-profile-link-2&quot; href=&quot;http://code.google.com/u/watcherhd/&quot;&gt;watcherhd&lt;/a&gt;</title>
+ <author>
+ <name>watcherhd</name>
+ </author>
+ <category term="ProjectNewDownload" scheme="http://code.google.com/updates/type"/>
+ <content type="html">&lt;div class=&quot;ot-labels-field-wrapper&quot;&gt;
+ &lt;span class=&quot;ot-labels-field-name&quot;&gt;Labels: &lt;/span&gt;
+ &lt;span class=&quot;ot-labels-field-value&quot;&gt;
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;Featured&lt;/span&gt;
+ 
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;Type-Installer&lt;/span&gt;
+ 
+ 
+ 
+ &lt;span class=&quot;ot-field-label&quot;&gt;OpSys-Windows&lt;/span&gt;
+ 
+ 
+ &lt;/span&gt;
+ &lt;/div&gt;</content>
+</entry>
+
+ 
+</feed>
