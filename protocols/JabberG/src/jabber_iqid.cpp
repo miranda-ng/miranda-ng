@@ -403,12 +403,9 @@ void CJabberProto::OnIqResultGetRoster(const TiXmlElement *iqNode, CJabberIqInfo
 
 		// check group delimiters
 		if (item->group && szGroupDelimiter) {
-			while (char *szPos = strstr(item->group, szGroupDelimiter)) {
-				*szPos = 0;
-				szPos += mir_strlen(szGroupDelimiter);
-				CMStringA szNewGroup(FORMAT, "%s\\%s", item->group, szPos);
-				replaceStr(item->group, szNewGroup.Detach());
-			}
+			CMStringA szNewGroup(item->group);
+			szNewGroup.Replace(szGroupDelimiter, "\\");
+			replaceStr(item->group, szNewGroup.Detach());
 		}
 
 		if (name != nullptr) {
