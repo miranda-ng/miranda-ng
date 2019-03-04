@@ -364,12 +364,11 @@ static INT_PTR CALLBACK JabberAdHoc_CommandDlgProc(HWND hwndDlg, UINT msg, WPARA
 			SetDlgItemText(hwndDlg, IDC_SUBMIT, TranslateT("Execute"));
 			JabberFormSetInstruction(hwndDlg, TranslateU("Requesting command list. Please wait..."));
 
+			char Caption[512];
 			if (!pStartupParams->m_szNode) {
 				dat->proto->AdHoc_RequestListOfCommands(pStartupParams->m_szJid, hwndDlg);
 
-				wchar_t Caption[512];
-				mir_snwprintf(Caption, TranslateT("Jabber Ad-Hoc commands at %s"), dat->ResponderJID);
-				SetWindowText(hwndDlg, Caption);
+				mir_snprintf(Caption, TranslateU("Jabber Ad-Hoc commands at %s"), dat->ResponderJID);
 			}
 			else {
 				dat->proto->m_ThreadInfo->send(
@@ -380,10 +379,9 @@ static INT_PTR CALLBACK JabberAdHoc_CommandDlgProc(HWND hwndDlg, UINT msg, WPARA
 				EnableDlgItem(hwndDlg, IDC_SUBMIT, FALSE);
 				SetDlgItemText(hwndDlg, IDC_SUBMIT, TranslateT("OK"));
 
-				wchar_t Caption[512];
-				mir_snwprintf(Caption, TranslateT("Sending Ad-Hoc command to %s"), dat->ResponderJID);
-				SetWindowText(hwndDlg, Caption);
+				mir_snprintf(Caption, TranslateU("Sending Ad-Hoc command to %s"), dat->ResponderJID);
 			}
+			SetWindowTextUtf(hwndDlg, Caption);
 
 			delete pStartupParams;
 		}
