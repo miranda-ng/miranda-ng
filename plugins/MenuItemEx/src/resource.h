@@ -21,7 +21,6 @@
 #define IDC_HIDE                        1002
 #define IDC_IGNORE                      1003
 #define IDC_PROTOS                      1004
-#define IDC_AUTHREQ                     1007
 #define IDC_COPYID                      1008
 #define IDC_RECVFILES                   1009
 #define IDC_STATUSMSG                   1010
@@ -39,7 +38,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        124
+#define _APS_NEXT_RESOURCE_VALUE        125
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1017
 #define _APS_NEXT_SYMED_VALUE           125

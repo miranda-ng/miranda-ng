@@ -43,26 +43,25 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 int OptionsInit(WPARAM, LPARAM);
 
-#define MAX_PROTOS	32
-#define MAX_GROUPS	32
-#define MAX_IDLEN	16
+#define MAX_PROTOS 32
+#define MAX_GROUPS 32
+#define MAX_IDLEN  16
 
-#define VF_VS		0x00000001
-#define	VF_SMNAME	0x00000002
-#define	VF_HFL		0x00000004
-#define VF_IGN		0x00000008
-#define VF_PROTO	0x00000010
-#define VF_SHOWID	0x00000020
-#define VF_REQ		0x00000080
-#define VF_CID		0x00000100
-#define VF_RECV		0x00000200
-#define VF_STAT		0x00000400
-#define VF_CIDN		0x00000800
-#define VF_CIP		0x00001000
-#define VF_SAI		0x00002000
-#define VF_TRIMID	0x00004000
-#define VF_CMV		0x00008000
-#define VF_IGNH		0x00010000
+#define VF_VS     0x00000001
+#define VF_SMNAME 0x00000002
+#define VF_HFL    0x00000004
+#define VF_IGN    0x00000008
+#define VF_PROTO  0x00000010
+#define VF_SHOWID 0x00000020
+#define VF_CID    0x00000100
+#define VF_RECV   0x00000200
+#define VF_STAT   0x00000400
+#define VF_CIDN   0x00000800
+#define VF_CIP    0x00001000
+#define VF_SAI    0x00002000
+#define VF_TRIMID 0x00004000
+#define VF_CMV    0x00008000
+#define VF_IGNH   0x00010000
 
 #define CTRL_IS_PRESSED (GetAsyncKeyState(VK_CONTROL)&0x8000)
 

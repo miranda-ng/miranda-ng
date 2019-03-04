@@ -17,7 +17,6 @@ static const checkboxes[] = {
 	{ IDC_IGNORE, VF_IGN },
 	{ IDC_IGNOREHIDE, VF_IGNH },
 	{ IDC_PROTOS, VF_PROTO },
-	{ IDC_AUTHREQ, VF_REQ },
 	{ IDC_SHOWID, VF_SHOWID },
 	{ IDC_COPYIDNAME, VF_CIDN },
 	{ IDC_RECVFILES, VF_RECV },
@@ -29,7 +28,7 @@ class COptDialog : public CDlgBase
 {
 	DWORD m_flags;
 
-	CCtrlCheck m_chkVis, m_chkAlpha, m_chkHide, m_chkIgnore, m_chkProtos, m_chkAuthReq, m_chkRecvFiles, m_chkCopyIP, m_chkCopyMirver, m_chkStatusMsg,
+	CCtrlCheck m_chkVis, m_chkAlpha, m_chkHide, m_chkIgnore, m_chkProtos, m_chkRecvFiles, m_chkCopyIP, m_chkCopyMirver, m_chkStatusMsg,
 		m_chkSMName, m_chkCopyID, m_chkCopyIDName, m_chkShowID, m_chkTrimID, m_chkIgnoreHide;
 	CCtrlLabel m_lblHint;
 
@@ -51,7 +50,6 @@ public:
 		m_chkHide(this, IDC_HIDE),
 		m_chkIgnore(this, IDC_IGNORE),
 		m_chkProtos(this, IDC_PROTOS),
-		m_chkAuthReq(this, IDC_AUTHREQ),
 		m_chkRecvFiles(this, IDC_RECVFILES),
 		m_chkCopyIP(this, IDC_COPYIP),
 		m_chkCopyMirver(this, IDC_COPYMIRVER),

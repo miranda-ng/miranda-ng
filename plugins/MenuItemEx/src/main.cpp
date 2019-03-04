@@ -5,7 +5,6 @@
 #define MS_HIDE       "MenuEx/Hide"
 #define MS_IGNORE     "MenuEx/Ignore"
 #define MS_PROTO      "MenuEx/ChangeProto"
-#define MS_AUTHREQ    "MenuEx/SendAuthReq"
 #define MS_COPYID     "MenuEx/CopyID"
 #define MS_RECVFILES  "MenuEx/RecvFiles"
 #define MS_STATUSMSG  "MenuEx/CopyStatusMsg"
@@ -15,7 +14,7 @@
 
 const int vf_default = VF_VS | VF_HFL | VF_IGN | VF_CID | VF_SHOWID | VF_RECV | VF_STAT | VF_SMNAME | VF_CIDN | VF_CIP;
 
-HGENMENU hmenuVis, hmenuOff, hmenuHide, hmenuIgnore, hmenuProto, hmenuAuthReq;
+HGENMENU hmenuVis, hmenuOff, hmenuHide, hmenuIgnore, hmenuProto;
 HGENMENU hmenuCopyID, hmenuRecvFiles, hmenuStatusMsg, hmenuCopyIP, hmenuCopyMirVer;
 static HGENMENU hIgnoreItem[9], hProtoItem[MAX_PROTOS];
 HICON hIcons[5];
@@ -356,55 +355,10 @@ static LRESULT CALLBACK AuthReqEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 	return mir_callNextSubclass(hwnd, AuthReqEditSubclassProc, msg, wParam, lParam);
 }
 
-static INT_PTR CALLBACK AuthReqWndProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
-{
-	static MCONTACT hcontact;
-
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hdlg);
-		mir_subclassWindow(GetDlgItem(hdlg, IDC_REASON), AuthReqEditSubclassProc);
-		SendDlgItemMessage(hdlg, IDC_REASON, EM_LIMITTEXT, (WPARAM)255, 0);
-		SetDlgItemText(hdlg, IDC_REASON, TranslateT("Please authorize me to add you to my contact list."));
-		hcontact = (MCONTACT)lparam;
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wparam)) {
-		case IDOK:
-			wchar_t tszReason[256];
-			GetDlgItemText(hdlg, IDC_REASON, tszReason, _countof(tszReason));
-			ProtoChainSend(hcontact, PSS_AUTHREQUEST, 0, (LPARAM)tszReason);
-			__fallthrough;
-
-		case IDCANCEL:
-			DestroyWindow(hdlg);
-			break;
-		}
-		break;
-	}
-
-	return 0;
-}
-
 static BOOL isProtoOnline(char *szProto)
 {
 	int protoStatus = Proto_GetStatus(szProto);
 	return (protoStatus > ID_STATUS_OFFLINE && protoStatus < ID_STATUS_IDLE);
-}
-
-static INT_PTR onSendAuthRequest(WPARAM wparam, LPARAM)
-{
-	MCONTACT hContact = (MCONTACT)wparam;
-	char *szProto = GetContactProto(hContact);
-
-	DWORD flags = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
-	if (flags&PF4_NOCUSTOMAUTH)
-		ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, (LPARAM)L"");
-	else
-		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_AUTHREQ), g_clistApi.hwndContactList, AuthReqWndProc, (LPARAM)hContact);
-
-	return 0;
 }
 
 // set the invisible-flag in db
@@ -673,9 +627,6 @@ static INT_PTR onChangeProto(WPARAM hContact, LPARAM lparam)
 		else
 			return 0;
 	}
-	if (MessageBox(nullptr, TranslateT("Do you want to send authorization request\nto new contact?"), L"Miranda NG", MB_OKCANCEL | MB_SETFOREGROUND | MB_TOPMOST) == IDOK)
-		onSendAuthRequest((WPARAM)hContactNew, 0);
-
 	return 0;
 }
 
@@ -785,8 +736,6 @@ static int BuildMenu(WPARAM wparam, LPARAM)
 		Menu_ShowItem(hmenuProto, j > 1);
 	}
 	else Menu_ShowItem(hmenuProto, false);
-
-	Menu_ShowItem(hmenuAuthReq, (bShowAll || (flags & VF_REQ)) && bIsOnline && pa->IsEnabled());
 
 	bEnabled = bShowAll || (flags & VF_CID);
 	Menu_ShowItem(hmenuCopyID, bEnabled);
@@ -956,13 +905,6 @@ static int PluginInit(WPARAM, LPARAM)
 
 	mi.flags = CMIF_UNICODE;
 
-	SET_UID(mi, 0x332c5564, 0x6283, 0x43ff, 0xa2, 0xfc, 0x58, 0x29, 0x27, 0x83, 0xea, 0x1a);
-	mi.position++;
-	mi.name.w = LPGENW("Request authorization");
-	mi.pszService = MS_AUTHREQ;
-	mi.hIcolibItem = Skin_LoadIcon(SKINICON_AUTH_REQUEST);
-	hmenuAuthReq = Menu_AddContactMenuItem(&mi);
-
 	SET_UID(mi, 0x92826bf6, 0xd44c, 0x4dc2, 0xb2, 0xdd, 0xfe, 0xaf, 0x9b, 0x86, 0xe1, 0x53);
 	mi.position++;
 	mi.name.w = LPGENW("Copy ID");
@@ -1017,7 +959,6 @@ int CMPlugin::Load()
 	CreateServiceFunction(MS_HIDE, onHide);
 	CreateServiceFunction(MS_IGNORE, onIgnore);
 	CreateServiceFunction(MS_PROTO, onChangeProto);
-	CreateServiceFunction(MS_AUTHREQ, onSendAuthRequest);
 	CreateServiceFunction(MS_COPYID, onCopyID);
 	CreateServiceFunction(MS_RECVFILES, onRecvFiles);
 	CreateServiceFunction(MS_STATUSMSG, onCopyStatusMsg);
