@@ -885,7 +885,7 @@ static LONGLONG PeriodToMilliseconds(const int period, BYTE &periodMeasure)
 	return result;
 }
 
-void InitTimer(void *type)
+void __stdcall InitTimer(void *type)
 {
 	if (!opts.bUpdateOnPeriod)
 		return;
