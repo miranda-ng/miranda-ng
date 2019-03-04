@@ -46,7 +46,7 @@
 #define IDD_JIDLIST                     171
 #define IDD_GROUPCHAT_INVITE            183
 #define IDD_GROUPCHAT_INVITE_ACCEPT     184
-#define IDD_OPT_JABBER3                 185
+#define IDD_ROSTER_EDITOR               185
 #define IDI_LOGIN                       186
 #define IDI_COMMAND                     188
 #define IDI_DISCO_OK                    190

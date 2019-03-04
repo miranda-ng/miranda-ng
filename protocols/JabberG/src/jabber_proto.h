@@ -42,6 +42,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct CJabberProto;
 class CJabberMucJidListDlg;
+class CRosterEditorDlg;
 
 class CJabberFormDlg;
 typedef void (CJabberProto::*JABBER_FORM_SUBMIT_FUNC)(CJabberFormDlg *pDlg, void *userdata);
@@ -51,14 +52,6 @@ enum TJabberGcLogInfoType { INFO_BAN, INFO_STATUS, INFO_CONFIG, INFO_AFFILIATION
 typedef UNIQUE_MAP<wchar_t, TCharKeyCmp> U_TCHAR_MAP;
 
 #define JABBER_DEFAULT_RECENT_COUNT 10
-
-struct ROSTERREQUSERDATA
-{
-	HWND hwndDlg;
-	BYTE bRRAction;
-	BOOL bReadyToDownload;
-	BOOL bReadyToUpload;
-};
 
 struct TFilterInfo
 {
@@ -663,20 +656,11 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CMStringA ExtractImage(const TiXmlElement *node);
 	const char* GetSoftName(const char *wszName);
 
-	//---- jabber_opt.cpp ----------------------------------------------------------------
-	INT_PTR  __cdecl OnMenuHandleRosterControl(WPARAM wParam, LPARAM lParam);
-
-	void   _RosterExportToFile(HWND hwndDlg);
-	void   _RosterImportFromFile(HWND hwndDlg);
-	void   _RosterSendRequest(HWND hwndDlg, BYTE rrAction);
-	void   _RosterHandleGetRequest(const TiXmlElement *node, CJabberIqInfo*);
-
 	//---- jabber_password.cpp --------------------------------------------------------------
 
 	INT_PTR    __cdecl OnMenuHandleChangePassword(WPARAM wParam, LPARAM lParam);
 
 	//---- jabber_privacy.cpp ------------------------------------------------------------
-	ROSTERREQUSERDATA rrud;
 
 	INT_PTR __cdecl menuSetPrivacyList(WPARAM wParam, LPARAM lParam, LPARAM iList);
 	INT_PTR __cdecl OnMenuHandlePrivacyLists(WPARAM wParam, LPARAM lParam);
@@ -707,6 +691,13 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	//---- jabber_rc.cpp -----------------------------------------------------------------
 
 	int    RcGetUnreadEventsCount(void);
+
+	//---- jabber_rostereditor.cpp -------------------------------------------------------
+
+	CRosterEditorDlg *m_hwndRosterEditor;
+
+	INT_PTR  __cdecl OnMenuHandleRosterControl(WPARAM wParam, LPARAM lParam);
+	void   _RosterHandleGetRequest(const TiXmlElement *node, CJabberIqInfo*);
 
 	//---- jabber_search.cpp -------------------------------------------------------------
 
