@@ -37,7 +37,7 @@ void CJabberProto::OnContactDeleted(MCONTACT hContact)
 		return;
 
 	ptrA jid(getUStringA(hContact, isChatRoom(hContact) ? "ChatRoomID" : "jid"));
-	if (jid)
+	if (jid == nullptr)
 		return;
 
 	if (ListGetItemPtr(LIST_ROSTER, jid)) {
