@@ -564,7 +564,7 @@ public:
 		EnableControls();
 	}
 
-	void btnAdd_OnClick(CCtrlFilterListView*)
+	void btnAdd_OnClick(CCtrlButton*)
 	{
 		CNoteItem *pNote = new CNoteItem();
 		CJabberDlgNoteItem dlg(this, pNote);
@@ -582,7 +582,7 @@ public:
 		EnableControls();
 	}
 
-	void btnEdit_OnClick(CCtrlFilterListView*)
+	void btnEdit_OnClick(CCtrlButton*)
 	{
 		int idx = m_lstNotes.GetCurSel();
 		if (idx != LB_ERR) {
@@ -597,7 +597,7 @@ public:
 		EnableControls();
 	}
 
-	void btnRemove_OnClick(CCtrlFilterListView*)
+	void btnRemove_OnClick(CCtrlButton*)
 	{
 		int idx = m_lstNotes.GetCurSel();
 		if (idx != LB_ERR) {

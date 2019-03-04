@@ -165,10 +165,8 @@ class CJabberDlgBookmarks : public CJabberDlgBase
 {
 	typedef CJabberDlgBase CSuper;
 
-	CCtrlMButton	m_btnAdd;
-	CCtrlMButton	m_btnEdit;
-	CCtrlMButton	m_btnRemove;
-	CCtrlFilterListView	m_lvBookmarks;
+	CCtrlMButton m_btnAdd, m_btnEdit, m_btnRemove;
+	CCtrlListView m_lvBookmarks;
 
 public:
 	CJabberDlgBookmarks(CJabberProto *proto) :
@@ -176,7 +174,7 @@ public:
 		m_btnAdd(this, IDC_ADD, SKINICON_OTHER_ADDCONTACT, LPGEN("Add")),
 		m_btnEdit(this, IDC_EDIT, SKINICON_OTHER_RENAME, LPGEN("Edit")),
 		m_btnRemove(this, IDC_REMOVE, SKINICON_OTHER_DELETE, LPGEN("Remove")),
-		m_lvBookmarks(this, IDC_BM_LIST, true, true)
+		m_lvBookmarks(this, IDC_BM_LIST)
 	{
 		m_lvBookmarks.OnItemActivate = Callback(this, &CJabberDlgBookmarks::lvBookmarks_OnDoubleClick);
 		m_btnAdd.OnClick = Callback(this, &CJabberDlgBookmarks::btnAdd_OnClick);
@@ -274,12 +272,12 @@ public:
 		return CSuper::Resizer(urc);
 	}
 
-	void lvBookmarks_OnDoubleClick(CCtrlFilterListView*)
+	void lvBookmarks_OnDoubleClick(CCtrlButton*)
 	{
 		OpenBookmark();
 	}
 
-	void btnAdd_OnClick(CCtrlFilterListView*)
+	void btnAdd_OnClick(CCtrlButton*)
 	{
 		if (!m_proto->m_bJabberOnline) return;
 
@@ -289,7 +287,7 @@ public:
 		DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_BOOKMARK_ADD), m_hwnd, JabberAddBookmarkDlgProc, (LPARAM)&param);
 	}
 
-	void btnEdit_OnClick(CCtrlFilterListView*)
+	void btnEdit_OnClick(CCtrlButton*)
 	{
 		if (!m_proto->m_bJabberOnline)
 			return;
@@ -312,7 +310,7 @@ public:
 		DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_BOOKMARK_ADD), m_hwnd, JabberAddBookmarkDlgProc, (LPARAM)&param);
 	}
 
-	void btnRemove_OnClick(CCtrlFilterListView*)
+	void btnRemove_OnClick(CCtrlButton*)
 	{
 		if (!m_proto->m_bJabberOnline)
 			return;

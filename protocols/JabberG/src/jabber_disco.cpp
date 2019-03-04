@@ -499,7 +499,8 @@ class CJabberDlgDiscovery : public CJabberDlgBase
 	CCtrlMButton m_btnBookmarks;
 	CCtrlMButton m_btnRefresh;
 	CCtrlMButton m_btnBrowse;
-	CCtrlFilterListView m_lstDiscoTree;
+	CCtrlListView m_lstDiscoTree;
+	CCtrlEdit m_filter;
 
 public:
 	CJabberDlgDiscovery(CJabberProto *proto, char *jid) :
@@ -511,7 +512,8 @@ public:
 		m_btnBookmarks(this, IDC_BTN_FAVORITE, proto->LoadIconEx("bookmarks"), "Favorites"),
 		m_btnRefresh(this, IDC_BTN_REFRESH, proto->LoadIconEx("sd_nav_refresh"), "Refresh node"),
 		m_btnBrowse(this, IDC_BUTTON_BROWSE, proto->LoadIconEx("sd_browse"), "Browse"),
-		m_lstDiscoTree(this, IDC_TREE_DISCO, true, false)
+		m_lstDiscoTree(this, IDC_TREE_DISCO), 
+		m_filter(this, IDC_FILTER)
 	{
 		m_btnViewAsTree.OnClick = Callback(this, &CJabberDlgDiscovery::btnViewAsTree_OnClick);
 		m_btnViewAsList.OnClick = Callback(this, &CJabberDlgDiscovery::btnViewAsList_OnClick);
@@ -519,7 +521,8 @@ public:
 		m_btnBookmarks.OnClick = Callback(this, &CJabberDlgDiscovery::btnBookmarks_OnClick);
 		m_btnRefresh.OnClick = Callback(this, &CJabberDlgDiscovery::btnRefresh_OnClick);
 		m_btnBrowse.OnClick = Callback(this, &CJabberDlgDiscovery::btnBrowse_OnClick);
-		m_lstDiscoTree.OnFilterChanged = Callback(this, &CJabberDlgDiscovery::lstDiscoTree_OnFilter);
+		
+		m_filter.OnChange = Callback(this, &CJabberDlgDiscovery::lstDiscoTree_OnFilter);
 	}
 
 	bool OnInitDialog() override
@@ -534,7 +537,7 @@ public:
 			m_focusEditAfterBrowse = false;
 		}
 		else {
-			SetDlgItemTextA(m_hwnd, IDC_COMBO_JID, m_proto->m_ThreadInfo->conn.server);
+			SetDlgItemTextUtf(m_hwnd, IDC_COMBO_JID, m_proto->m_ThreadInfo->conn.server);
 			SetDlgItemText(m_hwnd, IDC_COMBO_NODE, L"");
 			m_focusEditAfterBrowse = true;
 		}
@@ -544,8 +547,6 @@ public:
 		m_btnBookmarks.MakePush();
 
 		CheckDlgButton(m_hwnd, m_proto->getByte("discoWnd_useTree", 1) ? IDC_BTN_VIEWTREE : IDC_BTN_VIEWLIST, BST_CHECKED);
-
-		EnableWindow(GetDlgItem(m_hwnd, IDC_BTN_FILTERRESET), FALSE);
 
 		SendDlgItemMessage(m_hwnd, IDC_COMBO_JID, CB_ADDSTRING, 0, (LPARAM)_T(SD_FAKEJID_CONFERENCES));
 		SendDlgItemMessage(m_hwnd, IDC_COMBO_JID, CB_ADDSTRING, 0, (LPARAM)_T(SD_FAKEJID_MYAGENTS));
@@ -656,15 +657,15 @@ public:
 
 		case IDC_BUTTON_BROWSE:
 			return RD_ANCHORX_RIGHT | RD_ANCHORY_TOP;
+		
 		case IDC_TREE_DISCO:
 			return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+
 		case IDC_TXT_FILTER:
 			return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
-		case IDC_TXT_FILTERTEXT:
+
+		case IDC_FILTER:
 			return RD_ANCHORX_WIDTH | RD_ANCHORY_BOTTOM;
-		case IDC_BTN_FILTERAPPLY:
-		case IDC_BTN_FILTERRESET:
-			return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
 		}
 		return CSuper::Resizer(urc);
 	}
@@ -821,9 +822,9 @@ public:
 		m_proto->PerformBrowse(m_hwnd);
 	}
 
-	void lstDiscoTree_OnFilter(CCtrlFilterListView *)
+	void lstDiscoTree_OnFilter(CCtrlEdit*)
 	{
-		TreeList_SetFilter(GetDlgItem(m_hwnd, IDC_TREE_DISCO), m_lstDiscoTree.GetFilterText());
+		TreeList_SetFilter(GetDlgItem(m_hwnd, IDC_TREE_DISCO), ptrW(m_filter.GetText()));
 	}
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
@@ -1009,11 +1010,9 @@ public:
 				{
 					HWND hwndFocus = GetFocus();
 					if (!hwndFocus) return TRUE;
-					if (GetWindowLongPtr(hwndFocus, GWL_ID) == IDC_TXT_FILTERTEXT)
-						PostMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(IDC_BTN_FILTERAPPLY, 0), 0);
-					else if (m_hwnd == (hwndFocus = GetParent(hwndFocus)))
+					if (m_hwnd == (hwndFocus = GetParent(hwndFocus)))
 						break;
-					else if ((GetWindowLongPtr(hwndFocus, GWL_ID) == IDC_COMBO_NODE) || (GetWindowLongPtr(hwndFocus, GWL_ID) == IDC_COMBO_JID))
+					if ((GetWindowLongPtr(hwndFocus, GWL_ID) == IDC_COMBO_NODE) || (GetWindowLongPtr(hwndFocus, GWL_ID) == IDC_COMBO_JID))
 						PostMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(IDC_BUTTON_BROWSE, 0), 0);
 				}
 				return TRUE;

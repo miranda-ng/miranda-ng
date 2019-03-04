@@ -222,7 +222,6 @@
 #define IDC_ACTIVATE                    1245
 #define IDC_BTN_NAVHOME                 1246
 #define IDC_UPLOAD                      1246
-#define IDC_TXT_FILTERTEXT              1247
 #define IDC_IMPORT                      1247
 #define IDC_BTN_FILTERRESET             1248
 #define IDC_EXPORT                      1248

@@ -143,32 +143,6 @@ protected:
 	}
 };
 
-struct CFilterData;
-class CCtrlFilterListView : public CCtrlListView
-{
-	typedef CCtrlListView CSuper;
-
-public:
-	CCtrlFilterListView(CDlgBase* dlg, int ctrlId, bool trackFilter, bool keepHiglight);
-	~CCtrlFilterListView();
-
-	wchar_t *GetFilterText();
-	CCallback<CCtrlFilterListView> OnFilterChanged;
-
-protected:
-	CFilterData *fdat;
-	bool m_trackFilter;
-	bool m_keepHiglight;
-
-	void OnInit();
-	LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam);
-	void FilterHighlight(wchar_t *filter);
-};
-
-#if !defined(OPENFILENAME_SIZE_VERSION_400)
-	#define OPENFILENAME_SIZE_VERSION_400 sizeof(OPENFILENAME)
-#endif
-
 /*******************************************************************
  * Global constants
  *******************************************************************/
