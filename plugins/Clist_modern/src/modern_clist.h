@@ -95,7 +95,7 @@ struct ClcCacheEntry : public ClcCacheEntryBase
 	DWORD    dwLastMsgTime, dwLastOnlineTime;
 
 	int __forceinline getStatus() const
-	{	return m_iStatus;
+	{	return (this == nullptr) ? ID_STATUS_OFFLINE : m_iStatus;
 	}
 };
 

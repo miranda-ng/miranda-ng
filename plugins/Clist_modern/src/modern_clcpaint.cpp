@@ -597,17 +597,13 @@ void CLCPaint::_RTLRect(RECT *rect, int width)
 
 void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT row_rc, RECT free_row_rc, int selected, int hottrack)
 {
-	int i = 0;
-	int dx = free_row_rc.left;
 	int dy = row_rc.top + dat->row_border;
 	int dg = 0;
 
 	// Let calc placeholder
 	int minheight = dat->row_min_heigh;
-	int mode2 = -1;
 	BOOL InClistWindow = (dat->hWnd == g_clistApi.hwndContactTree);
 	int height = RowHeight_CalcRowHeight(dat, Drawing, -1);
-	ClcCacheEntry *pdnce = Drawing->pce;
 
 	// TO DO DEPRECATE OLD ROW LAYOUT
 
