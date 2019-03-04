@@ -1,13 +1,8 @@
 #include "stdafx.h"
 
-// HGENMENU CToxProto::ContactMenuItems[CMI_MAX];
-
 int CToxProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 {
-	// for (auto &it : ContactMenuItems)
-	//	Menu_ShowItem(it, false);
-
-	if (!hContact)
+	if (!Proto_IsProtoOnContact(hContact, m_szModuleName))
 		return 0;
 
 	if (!this->IsOnline())
