@@ -147,16 +147,29 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 	}
 	else hContact = CreateContact(wszId, true);
 
+	// restore reading from the previous point, if we just installed Miranda
 	__int64 lastMsgId = getId(hContact, DB_KEY_LASTMSGID);
 	if (lastMsgId == 0) {
 		lastMsgId = _wtoi64(ev["yours"]["lastRead"].as_mstring());
 		setId(hContact, DB_KEY_LASTMSGID, lastMsgId);
 	}
 
-	// or load missing messages if any
-	__int64 srvLastId = _wtoi64(ev["lastMsgId"].as_mstring());
-	if (srvLastId > lastMsgId)
-		RetrieveUserHistory(hContact, lastMsgId);
+	// we load history in the very beginning or if the previous message 
+	if (m_bFirstBos) {
+		__int64 srvLastId = _wtoi64(ev["lastMsgId"].as_mstring());
+		if (srvLastId > lastMsgId)
+			RetrieveUserHistory(hContact, lastMsgId);
+	}
+	else {
+		// if the previous message is one that we already have, just parse the tail
+		__int64 srvOlderId = _wtoi64(ev["tail"]["olderMsgId"].as_mstring());
+		if (srvOlderId == lastMsgId) {
+			for (auto &it : ev["tail"]["messages"])
+				ParseMessage(hContact, lastMsgId, it, false);
+			setId(hContact, DB_KEY_LASTMSGID, lastMsgId);
+		}
+		else RetrieveUserHistory(hContact, lastMsgId);
+	}
 
 	// check remote read
 	if (g_bMessageState) {
