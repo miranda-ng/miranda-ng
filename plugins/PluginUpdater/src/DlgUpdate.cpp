@@ -368,7 +368,7 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 
 		g_plugin.setDword(DB_SETTING_LAST_UPDATE, time(0));
 
-		mir_forkthread(InitTimer);
+		InitTimer(0);
 		break;
 	}
 
@@ -794,7 +794,7 @@ static void CheckUpdates(void *)
 		else CallFunctionAsync(LaunchDialog, UpdateFiles);
 	}
 
-	mir_forkthread(InitTimer, (success ? nullptr : (void*)2));
+	CallFunctionAsync(InitTimer, (success ? nullptr : (void*)2));
 
 	hashes.destroy();
 	hCheckThread = nullptr;
@@ -889,7 +889,6 @@ void InitTimer(void *type)
 {
 	if (!opts.bUpdateOnPeriod)
 		return;
-	Thread_SetName("PluginUpdater: InitTimer");
 
 	LONGLONG interval;
 
@@ -922,12 +921,10 @@ void InitTimer(void *type)
 	li.HighPart = ft.dwHighDateTime;
 	li.QuadPart += interval * 10000LL;
 	SetWaitableTimer(hTimer, &li, 0, TimerAPCProc, nullptr, 0);
-
-	// Wait in an alertable state for the timer to go off.
-	SleepEx(INFINITE, TRUE);
 }
 
-void CreateTimer() {
+void CreateTimer()
+{
 	hTimer = CreateWaitableTimer(nullptr, FALSE, nullptr);
-	mir_forkthread(InitTimer);
+	InitTimer(0);
 }

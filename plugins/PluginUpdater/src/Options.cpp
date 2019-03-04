@@ -287,7 +287,7 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				Edit_GetText(GetDlgItem(hwndDlg, IDC_PERIOD), buffer, _countof(buffer));
 				g_plugin.setDword("Period", opts.Period = _wtoi(buffer));
 
-				mir_forkthread(InitTimer, (void*)1);
+				InitTimer((void*)1);
 
 				bool bNoSymbols = false;
 				if (IsDlgButtonChecked(hwndDlg, IDC_STABLE)) {

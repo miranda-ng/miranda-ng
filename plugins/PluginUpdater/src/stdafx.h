@@ -237,7 +237,7 @@ bool   DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc);
 void  ShowPopup(LPCTSTR Title, LPCTSTR Text, int Number);
 void  __stdcall OpenPluginOptions(void*);
 void  CheckUpdateOnStartup();
-void  InitTimer(void *type);
+void  __stdcall InitTimer(void *type);
 
 bool unzip(const wchar_t *ptszZipFile, wchar_t *ptszDestPath, wchar_t *ptszBackPath,bool ch);
 
