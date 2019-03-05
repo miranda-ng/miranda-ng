@@ -221,6 +221,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      ProcessNotification(const JSONNode&);
 	void      ProcessPermissions(const JSONNode&);
 	void      ProcessPresence(const JSONNode&);
+	void      ProcessSessionEnd(const JSONNode&);
 	void      ProcessTyping(const JSONNode&);
 
 	IcqConn   m_ConnPool[CONN_LAST];

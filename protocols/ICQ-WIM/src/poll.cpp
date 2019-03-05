@@ -115,7 +115,7 @@ void CIcqProto::ProcessEvent(const JSONNode &ev)
 	else if (szType == L"presence")
 		ProcessPresence(pData);
 	else if (szType == L"sessionEnded")
-		ShutdownSession();
+		ProcessSessionEnd(pData);
 	else if (szType == L"typing")
 		ProcessTyping(pData);
 }
@@ -260,6 +260,15 @@ void CIcqProto::ProcessPresence(const JSONNode &ev)
 		Json2string(pCache->m_hContact, ev, "friendly", "Nick");
 		CheckAvatarChange(pCache->m_hContact, ev);
 	}
+}
+
+void CIcqProto::ProcessSessionEnd(const JSONNode&)
+{
+	m_szRToken.Empty();
+	m_iRClientId = 0;
+	delSetting(DB_KEY_RCLIENTID);
+
+	ShutdownSession();
 }
 
 void CIcqProto::ProcessTyping(const JSONNode &ev)

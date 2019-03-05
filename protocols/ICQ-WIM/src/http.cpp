@@ -106,22 +106,11 @@ AsyncHttpRequest::AsyncHttpRequest(IcqConnection conn, int iType, const char *sz
 	}
 }
 
-void AsyncHttpRequest::ReplaceJsonParam(const char *paramName, const char *newValue)
+void AsyncHttpRequest::ReplaceJsonParam(const JSONNode &n)
 {
-	CMStringA szOldValue(FORMAT, "\"%s\":\"", paramName);
-	int idx = m_szParam.Find(szOldValue);
-	if (idx == -1)
-		return;
-
-	idx += szOldValue.GetLength();
-	int iEnd = m_szParam.Find("\"", idx);
-	if (iEnd == -1)
-		return;
-
-	szOldValue += m_szParam.Mid(idx, iEnd + 1 - idx);
-	
-	CMStringA szNewValue(FORMAT, "\"%s\":\"%s\"", paramName, newValue);
-	m_szParam.Replace(szOldValue, szNewValue);
+	JSONNode root = JSONNode::parse(m_szParam);
+	root[n.name()] = n;
+	m_szParam = root.write().c_str();
 
 	replaceStr(pData, nullptr);
 	dataLength = 0;
@@ -153,10 +142,8 @@ void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 				return;
 			}
 
-			char buf[40];
-			_itoa_s(m_iRClientId, buf, 10);
-			pReq->ReplaceJsonParam("clientId", buf);
-			pReq->ReplaceJsonParam("authToken", m_szRToken);
+			pReq->ReplaceJsonParam(JSONNode("clientId", m_iRClientId));
+			pReq->ReplaceJsonParam(JSONNode("authToken", m_szRToken));
 			pReq->dataLength = pReq->m_szParam.GetLength();
 			pReq->pData = mir_strdup(pReq->m_szParam);
 		}
@@ -193,7 +180,7 @@ void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 				
 				// if token refresh succeeded, replace it in the query and push request back
 				if (RefreshRobustToken()) { 
-					pReq->ReplaceJsonParam("authToken", m_szRToken);
+					pReq->ReplaceJsonParam(JSONNode("authToken", m_szRToken));
 					Push(pReq);
 				}
 				else delete pReq;
