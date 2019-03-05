@@ -650,11 +650,6 @@ retry:
 	return rc == 0;
 }
 
-static bool my_connect(NetlibConnection *nlc, NETLIBOPENCONNECTION *nloc)
-{
-	return my_connectIPv6(nlc, nloc);
-}
-
 static int NetlibHttpFallbackToDirect(NetlibConnection *nlc, NetlibUser *nlu, NETLIBOPENCONNECTION *nloc)
 {
 	NetlibDoCloseSocket(nlc, true);
@@ -664,7 +659,7 @@ static int NetlibHttpFallbackToDirect(NetlibConnection *nlc, NetlibUser *nlu, NE
 	nlc->proxyAuthNeeded = false;
 	nlc->proxyType = 0;
 	replaceStr(nlc->szProxyServer, nullptr);
-	if (!my_connect(nlc, nloc)) {
+	if (!my_connectIPv6(nlc, nloc)) {
 		Netlib_Logf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "connect", WSAGetLastError());
 		return false;
 	}
@@ -692,7 +687,7 @@ bool NetlibDoConnect(NetlibConnection *nlc)
 		}
 	}
 
-	while (!my_connect(nlc, nloc)) {
+	while (!my_connectIPv6(nlc, nloc)) {
 		// if connection failed, the state of nlc might be unpredictable
 		if (GetNetlibHandleType(nlc) == NLH_CONNECTION) {
 			// Fallback to direct only when using HTTP proxy, as this is what used by companies
