@@ -235,8 +235,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenFolder", "..\plugins\Op
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyDetails", "..\plugins\MyDetails\mydetails.vcxproj", "{A4855451-6447-437C-B024-B36C3C7901EA}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YAPP", "..\plugins\YAPP\yapp.vcxproj", "{B6FC188B-8E54-4197-9444-8BADE9AA75E2}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Msg_Export", "..\plugins\Msg_Export\msg_export.vcxproj", "{4CE78D43-FF23-4134-A5AC-B2CF0F8D9F3B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StopSpamMod", "..\plugins\StopSpamMod\stopspam_mod.vcxproj", "{0FF6989B-880A-4C3F-B69D-AFF93296044D}"
@@ -1245,14 +1243,6 @@ Global
 		{A4855451-6447-437C-B024-B36C3C7901EA}.Release|Win32.Build.0 = Release|Win32
 		{A4855451-6447-437C-B024-B36C3C7901EA}.Release|x64.ActiveCfg = Release|x64
 		{A4855451-6447-437C-B024-B36C3C7901EA}.Release|x64.Build.0 = Release|x64
-		{B6FC188B-8E54-4197-9444-8BADE9AA75E2}.Debug|Win32.ActiveCfg = Debug|Win32
-		{B6FC188B-8E54-4197-9444-8BADE9AA75E2}.Debug|Win32.Build.0 = Debug|Win32
-		{B6FC188B-8E54-4197-9444-8BADE9AA75E2}.Debug|x64.ActiveCfg = Debug|x64
-		{B6FC188B-8E54-4197-9444-8BADE9AA75E2}.Debug|x64.Build.0 = Debug|x64
-		{B6FC188B-8E54-4197-9444-8BADE9AA75E2}.Release|Win32.ActiveCfg = Release|Win32
-		{B6FC188B-8E54-4197-9444-8BADE9AA75E2}.Release|Win32.Build.0 = Release|Win32
-		{B6FC188B-8E54-4197-9444-8BADE9AA75E2}.Release|x64.ActiveCfg = Release|x64
-		{B6FC188B-8E54-4197-9444-8BADE9AA75E2}.Release|x64.Build.0 = Release|x64
 		{4CE78D43-FF23-4134-A5AC-B2CF0F8D9F3B}.Debug|Win32.ActiveCfg = Debug|Win32
 		{4CE78D43-FF23-4134-A5AC-B2CF0F8D9F3B}.Debug|Win32.Build.0 = Debug|Win32
 		{4CE78D43-FF23-4134-A5AC-B2CF0F8D9F3B}.Debug|x64.ActiveCfg = Debug|x64
