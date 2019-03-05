@@ -797,42 +797,40 @@ bool facebook_client::reconnect()
 
 	// Request reconnect
 	http::response resp = sendRequest(reconnectRequest());
-
-	switch (resp.code) {
-	case HTTP_CODE_OK:
-		{
-			this->chat_channel_ = utils::text::source_get_value(&resp.data, 2, "\"user_channel\":\"", "\"");
-			parent->debugLogA("    Got self channel: %s", this->chat_channel_.c_str());
-
-			this->chat_channel_partition_ = utils::text::source_get_value2(&resp.data, "\"partition\":", ",}");
-			parent->debugLogA("    Got self channel partition: %s", this->chat_channel_partition_.c_str());
-
-			this->chat_channel_host_ = utils::text::source_get_value(&resp.data, 2, "\"host\":\"", "\"");
-			parent->debugLogA("    Got self channel host: %s", this->chat_channel_host_.c_str());
-
-			this->chat_sequence_num_ = utils::text::source_get_value2(&resp.data, "\"seq\":", ",}");
-			parent->debugLogA("    Got self sequence number: %s", this->chat_sequence_num_.c_str());
-
-			this->chat_conn_num_ = utils::text::source_get_value2(&resp.data, "\"max_conn\":", ",}");
-			parent->debugLogA("    Got self max_conn: %s", this->chat_conn_num_.c_str());
-
-			this->chat_sticky_num_ = utils::text::source_get_value(&resp.data, 2, "\"sticky_token\":\"", "\"");
-			parent->debugLogA("    Got self sticky_token: %s", this->chat_sticky_num_.c_str());
-
-			//std::string retry_interval = utils::text::source_get_value2(&resp.data, "\"retry_interval\":", ",}");
-			//parent->debugLogA("    Got self retry_interval: %s", retry_interval.c_str());
-
-			//std::string visibility = utils::text::source_get_value2(&resp.data, "\"visibility\":", ",}");
-			//parent->debugLogA("    Got self visibility: %s", visibility.c_str());
-
-			// Send activity_ping after each reconnect
-			activity_ping();
-		}
-		return handle_success("reconnect");
-
-	default:
+	if (resp.code != HTTP_CODE_OK)
 		return handle_error("reconnect", FORCE_DISCONNECT);
+
+	std::string redir = utils::text::source_get_value(&resp.data, 2, "\"redirect\":\"", "\"");
+	if (!redir.empty()) {
+		parent->debugLogA("Redirecting to %s", redir.c_str());
+
+		auto *p = new HttpRequest(REQUEST_GET, FACEBOOK_SERVER_REGULAR);
+		p->m_szUrl = redir.c_str();
+		resp = sendRequest(p);
+		if (resp.code != HTTP_CODE_OK)
+			return handle_error("reconnect", FORCE_DISCONNECT);
 	}
+
+	this->chat_channel_ = utils::text::source_get_value(&resp.data, 2, "\"user_channel\":\"", "\"");
+	parent->debugLogA("    Got self channel: %s", this->chat_channel_.c_str());
+
+	this->chat_channel_partition_ = utils::text::source_get_value2(&resp.data, "\"partition\":", ",}");
+	parent->debugLogA("    Got self channel partition: %s", this->chat_channel_partition_.c_str());
+
+	this->chat_channel_host_ = utils::text::source_get_value(&resp.data, 2, "\"host\":\"", "\"");
+	parent->debugLogA("    Got self channel host: %s", this->chat_channel_host_.c_str());
+
+	this->chat_sequence_num_ = utils::text::source_get_value2(&resp.data, "\"seq\":", ",}");
+	parent->debugLogA("    Got self sequence number: %s", this->chat_sequence_num_.c_str());
+
+	this->chat_conn_num_ = utils::text::source_get_value2(&resp.data, "\"max_conn\":", ",}");
+	parent->debugLogA("    Got self max_conn: %s", this->chat_conn_num_.c_str());
+
+	this->chat_sticky_num_ = utils::text::source_get_value(&resp.data, 2, "\"sticky_token\":\"", "\"");
+	parent->debugLogA("    Got self sticky_token: %s", this->chat_sticky_num_.c_str());
+
+	activity_ping();
+	return handle_success("reconnect");
 }
 
 bool facebook_client::channel()
