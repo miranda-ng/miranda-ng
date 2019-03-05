@@ -451,10 +451,9 @@ int CIcqProto::SetStatus(int iNewStatus)
 
 	// go offline
 	if (iNewStatus == ID_STATUS_OFFLINE) {
-		if (m_bOnline) {
+		if (m_bOnline)
 			SetServerStatus(ID_STATUS_OFFLINE);
-			ShutdownSession();
-		}
+
 		m_iStatus = m_iDesiredStatus;
 		setAllContactStatuses(ID_STATUS_OFFLINE, false);
 

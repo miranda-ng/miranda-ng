@@ -114,6 +114,8 @@ void CIcqProto::ProcessEvent(const JSONNode &ev)
 		ProcessPermissions(pData);
 	else if (szType == L"presence")
 		ProcessPresence(pData);
+	else if (szType == L"sessionEnded")
+		ShutdownSession();
 	else if (szType == L"typing")
 		ProcessTyping(pData);
 }
