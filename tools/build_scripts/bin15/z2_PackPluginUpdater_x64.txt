@@ -163,7 +163,6 @@ Plugins\whousesmyfiles.dll
 Plugins\winterspeak.dll
 Plugins\xsoundnotify.dll
 Plugins\yamn.dll
-Plugins\yapp.dll
 Plugins\yarelay.dll
 Plugins\zeronotify.dll
 Plugins\zeroswitch.dll
