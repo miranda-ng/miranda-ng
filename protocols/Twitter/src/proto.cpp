@@ -279,12 +279,10 @@ int TwitterProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = options_proc;
 	g_plugin.addOptions(wParam, &odp);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
-		odp.szTab.w = LPGENW("Popups");
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_POPUPS);
-		odp.pfnDlgProc = popup_options_proc;
-		g_plugin.addOptions(wParam, &odp);
-	}
+	odp.szTab.w = LPGENW("Popups");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_POPUPS);
+	odp.pfnDlgProc = popup_options_proc;
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 
@@ -344,11 +342,7 @@ void TwitterProto::ShowPopup(const wchar_t *text, int Error)
 		popup.colorBack = 0x000000FF;
 		popup.colorText = 0x00FFFFFF;
 	}
-
-	if (ServiceExists(MS_POPUP_ADDPOPUPW))
-		PUAddPopupW(&popup);
-	else
-		MessageBox(nullptr, popup.lpwzText, popup.lpwzContactName, 0);
+	PUAddPopupW(&popup);
 }
 
 void TwitterProto::ShowPopup(const char *text, int Error)
@@ -361,11 +355,7 @@ void TwitterProto::ShowPopup(const char *text, int Error)
 		popup.colorBack = 0x000000FF;
 		popup.colorText = 0x00FFFFFF;
 	}
-
-	if (ServiceExists(MS_POPUP_ADDPOPUPW))
-		PUAddPopupW(&popup);
-	else
-		MessageBox(nullptr, popup.lpwzText, popup.lpwzContactName, 0);
+	PUAddPopupW(&popup);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

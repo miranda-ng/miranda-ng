@@ -107,8 +107,6 @@ extern UINT opt_not_restarted;
 extern COLORREF opt_bgColor;
 extern COLORREF opt_txtColor;
 
-extern UINT opt_popupPluginInstalled;
-
 void LoadSettings(void);
 void SaveSettings(void);
 

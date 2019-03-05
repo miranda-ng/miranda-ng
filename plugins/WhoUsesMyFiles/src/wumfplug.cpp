@@ -55,11 +55,6 @@ void LoadOptions()
 	WumfOptions.DelayInf = g_plugin.getByte(DELAY_INF, FALSE);
 	WumfOptions.DelaySet = g_plugin.getByte(DELAY_SET, FALSE);
 	WumfOptions.DelaySec = g_plugin.getByte(DELAY_SEC, 0);
-	if (!ServiceExists(MS_POPUP_ADDPOPUPW)) {
-		WumfOptions.DelayDef = TRUE;
-		WumfOptions.DelaySet = FALSE;
-		WumfOptions.DelayInf = FALSE;
-	}
 	WumfOptions.LogToFile = g_plugin.getByte(LOG_INTO_FILE, FALSE);
 	WumfOptions.LogFolders = g_plugin.getByte(LOG_FOLDER, TRUE);
 	WumfOptions.AlertFolders = g_plugin.getByte(ALERT_FOLDER, TRUE);

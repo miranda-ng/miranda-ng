@@ -1092,12 +1092,10 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 			}
 			else {
 				CheckDlgButton(hwndDlg, IDC_SUPPRESS, BST_UNCHECKED);
-				if ((ServiceExists(MS_POPUP_ADDPOPUPW) != 0))
-					EnableWindow(GetDlgItem(hwndDlg, IDC_ERROR_POPUP), 1);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_ERROR_POPUP), 1);
 			}
 
-			if (ServiceExists(MS_POPUP_ADDPOPUPW) == 0)
-				EnableWindow(GetDlgItem(hwndDlg, IDC_ERROR_POPUP), 0);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_ERROR_POPUP), 0);
 
 			if (g_plugin.getByte(UPDATE_ONSTART_KEY, 0)) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_START_DELAY), 1);
@@ -1167,8 +1165,7 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 			break;
 
 		case IDC_SUPPRESS:
-			if ((ServiceExists(MS_POPUP_ADDPOPUPW) != 0))
-				EnableWindow(GetDlgItem(hwndDlg, IDC_ERROR_POPUP), (!(IsDlgButtonChecked(hwndDlg, IDC_SUPPRESS))));
+			EnableWindow(GetDlgItem(hwndDlg, IDC_ERROR_POPUP), (!(IsDlgButtonChecked(hwndDlg, IDC_SUPPRESS))));
 			break;
 
 		case IDC_UPDATE_ONSTART:

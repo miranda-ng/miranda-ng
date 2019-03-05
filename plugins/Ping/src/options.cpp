@@ -36,13 +36,8 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_LOGBROWSE), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_LOGCSV), FALSE);
 		}
-
-		if (!ServiceExists(MS_POPUP_ADDPOPUPW)) {
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CHECKPOPUP), FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CHECKPOPUP2), FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_BLOCK), FALSE);
-		}
 		return TRUE;
+
 	case WM_COMMAND:
 		if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus()) {
 			switch (LOWORD(wParam)) {

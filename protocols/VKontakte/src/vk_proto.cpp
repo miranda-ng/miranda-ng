@@ -433,23 +433,16 @@ void CVkProto::InitPopups(void)
 
 void CVkProto::MsgPopup(MCONTACT hContact, const wchar_t *wszMsg, const wchar_t *wszTitle, bool err)
 {
-	if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
-		char name[256];
+	char name[256];
 
-		POPUPDATACLASS ppd = { sizeof(ppd) };
-		ppd.pwszTitle = wszTitle;
-		ppd.pwszText = wszMsg;
-		ppd.pszClassName = name;
-		ppd.hContact = hContact;
-		ppd.PluginData = new CVkSendMsgParam(hContact);
-		mir_snprintf(name, "%s_%s", m_szModuleName, err ? "Error" : "Notification");
-
-		CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
-	}
-	else {
-		DWORD mtype = MB_OK | MB_SETFOREGROUND | (err ? MB_ICONERROR : MB_ICONINFORMATION);
-		MessageBoxW(nullptr, wszMsg, wszTitle, mtype);
-	}
+	POPUPDATACLASS ppd = { sizeof(ppd) };
+	ppd.pwszTitle = wszTitle;
+	ppd.pwszText = wszMsg;
+	ppd.pszClassName = name;
+	ppd.hContact = hContact;
+	ppd.PluginData = new CVkSendMsgParam(hContact);
+	mir_snprintf(name, "%s_%s", m_szModuleName, err ? "Error" : "Notification");
+	CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
 }
 
 void CVkProto::MsgPopup(const wchar_t *wszMsg, const wchar_t *wszTitle, bool err)

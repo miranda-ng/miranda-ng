@@ -60,23 +60,19 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 
 void ShowPopup(MCONTACT hContact, const wchar_t *msg)
 {
-	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
-		wchar_t *lpzContactName = Clist_GetContactDisplayName(hContact);
+	wchar_t *lpzContactName = Clist_GetContactDisplayName(hContact);
 
-		POPUPDATAW ppd = { 0 };
-		ppd.lchContact = hContact; //Be sure to use a GOOD handle, since this will not be checked.
-		ppd.lchIcon = hIconList1;
-		mir_wstrncpy(ppd.lpwzContactName, lpzContactName, MAX_CONTACTNAME);
-		mir_wstrncpy(ppd.lpwzText, msg, MAX_SECONDLINE);
-		ppd.colorBack = GetSysColor(COLOR_BTNFACE);
-		ppd.colorText = RGB(0, 0, 0);
-		ppd.PluginWindowProc = PopupDlgProc;
-		ppd.PluginData = nullptr;
-		ppd.iSeconds = 3;
-
-		// Now that every field has been filled, we want to see the popup.
-		PUAddPopupW(&ppd);
-	}
+	POPUPDATAW ppd = { 0 };
+	ppd.lchContact = hContact; //Be sure to use a GOOD handle, since this will not be checked.
+	ppd.lchIcon = hIconList1;
+	mir_wstrncpy(ppd.lpwzContactName, lpzContactName, MAX_CONTACTNAME);
+	mir_wstrncpy(ppd.lpwzText, msg, MAX_SECONDLINE);
+	ppd.colorBack = GetSysColor(COLOR_BTNFACE);
+	ppd.colorText = RGB(0, 0, 0);
+	ppd.PluginWindowProc = PopupDlgProc;
+	ppd.PluginData = nullptr;
+	ppd.iSeconds = 3;
+	PUAddPopupW(&ppd);
 }
 
 HBITMAP LoadBmpFromIcon(int IdRes)

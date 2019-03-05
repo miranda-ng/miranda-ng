@@ -68,24 +68,21 @@ HWND FacebookProto::NotifyEvent(const wchar_t* title, const wchar_t* text, MCONT
 	}
 
 	if (!getByte(FACEBOOK_KEY_SYSTRAY_NOTIFY, DEFAULT_SYSTRAY_NOTIFY)) {
-		if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
-			POPUPDATACLASS pd = { sizeof(pd) };
-			pd.pwszTitle = title;
-			pd.pwszText = text;
-			pd.pszClassName = name;
-			pd.hContact = contact;
+		POPUPDATACLASS pd = { sizeof(pd) };
+		pd.pwszTitle = title;
+		pd.pwszText = text;
+		pd.pszClassName = name;
+		pd.hContact = contact;
 
-			if (url != nullptr || notification_id != nullptr) {
-				popup_data *data = new popup_data(this);
-				if (url != nullptr)
-					data->url = *url;
-				if (notification_id != nullptr)
-					data->notification_id = *notification_id;
-				pd.PluginData = data;
-			}
-
-			return (HWND)CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&pd);
+		if (url != nullptr || notification_id != nullptr) {
+			popup_data *data = new popup_data(this);
+			if (url != nullptr)
+				data->url = *url;
+			if (notification_id != nullptr)
+				data->notification_id = *notification_id;
+			pd.PluginData = data;
 		}
+		return (HWND)CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&pd);
 	}
 	else {
 		if (!Clist_TrayNotifyW(m_szModuleName, title, text, type == EVENT_CLIENT ? NIIF_WARNING : NIIF_INFO, 10000))

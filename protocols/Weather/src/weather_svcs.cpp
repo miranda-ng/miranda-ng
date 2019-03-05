@@ -349,18 +349,15 @@ void AddMenuItems(void)
 	mi.pszService = MS_WEATHER_REFRESHALL;
 	Menu_AddMainMenuItem(&mi);
 
-	// only run if popup service exists
-	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
-		SET_UID(mi, 0xdc5411cb, 0xb7c7, 0x443b, 0x88, 0x5a, 0x90, 0x24, 0x43, 0xde, 0x54, 0x3e);
-		CreateServiceFunction(MODULENAME "/PopupMenu", MenuitemNotifyCmd);
-		mi.name.a = LPGEN("Weather Notification");
-		mi.hIcolibItem = GetIconHandle("popup");
-		mi.position = 0;
-		mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Popups"), 0);
-		mi.pszService = MODULENAME "/PopupMenu";
-		hEnableDisablePopupMenu = Menu_AddMainMenuItem(&mi);
-		UpdatePopupMenu(opt.UsePopup);
-	}
+	SET_UID(mi, 0xdc5411cb, 0xb7c7, 0x443b, 0x88, 0x5a, 0x90, 0x24, 0x43, 0xde, 0x54, 0x3e);
+	CreateServiceFunction(MODULENAME "/PopupMenu", MenuitemNotifyCmd);
+	mi.name.a = LPGEN("Weather Notification");
+	mi.hIcolibItem = GetIconHandle("popup");
+	mi.position = 0;
+	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Popups"), 0);
+	mi.pszService = MODULENAME "/PopupMenu";
+	hEnableDisablePopupMenu = Menu_AddMainMenuItem(&mi);
+	UpdatePopupMenu(opt.UsePopup);
 
 	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 		SET_UID(mi, 0xe193fe9b, 0xf6ad, 0x41ac, 0x95, 0x29, 0x45, 0x4, 0x44, 0xb1, 0xeb, 0x5d);

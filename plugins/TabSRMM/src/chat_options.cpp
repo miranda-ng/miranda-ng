@@ -554,7 +554,7 @@ class CChatSettingsDlg : public CChatBaseOptionDlg
 
 		TVINSERTSTRUCT tvis = {};
 
-		for (int i = 0; i < nValues; i++) {
+		for (size_t i = 0; i < nValues; i++) {
 			tvis.hParent = hParent;
 			tvis.hInsertAfter = TVI_LAST;
 			tvis.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;

@@ -159,12 +159,6 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			}
 		}
 
-
-		if (!ServiceExists(MS_POPUP_ADDPOPUPW)) {
-			HWND hw = GetDlgItem(hwndDlg, IDC_RAD_ERRPOP);
-			EnableWindow(hw, FALSE);
-		}
-
 		switch (proto->options.err_method) {
 			case ED_POP: CheckDlgButton(hwndDlg, IDC_RAD_ERRPOP, BST_CHECKED); break;
 			case ED_MB: CheckDlgButton(hwndDlg, IDC_RAD_ERRMB, BST_CHECKED); break;
@@ -396,15 +390,10 @@ void CSametimeProto::LoadOptions()
 
 	// if popups not installed, will be changed to 'ED_BAL' (balloons) in main.cpp, modules loaded
 	options.err_method = (ErrorDisplay)db_get_b(0, m_szModuleName, "ErrorDisplay", ED_POP);
-	// funny logic :) ... try to avoid message boxes
-	// if want popups but no popups, try baloons
-	if (options.err_method == ED_POP && !ServiceExists(MS_POPUP_SHOWMESSAGE))
-		options.err_method = ED_BAL;
 
-	debugLogW(L"LoadOptions() loaded: ServerName:len=[%d], id:len=[%d], pword:len=[%d]", options.server_name == nullptr ? -1 : mir_strlen(options.server_name), options.id == nullptr ? -1 : mir_strlen(options.id), options.pword == nullptr ? -1 : mir_strlen(options.pword));
-	debugLogW(L"LoadOptions() loaded: port=[%d], encrypt_session=[%d], ClientID=[%d], ClientVersionMajor=[%d], ClientVersionMinor=[%d]", options.port, options.encrypt_session, options.client_id, options.client_versionMajor, options.client_versionMinor);
-	debugLogW(L"LoadOptions() loaded: get_server_contacts=[%d], add_contacts=[%d], idle_as_away=[%d], err_method=[%d]", options.get_server_contacts, options.add_contacts, options.idle_as_away, options.err_method);
-
+	debugLogA("LoadOptions() loaded: ServerName:len=[%d], id:len=[%d], pword:len=[%d]", options.server_name == nullptr ? -1 : mir_strlen(options.server_name), options.id == nullptr ? -1 : mir_strlen(options.id), options.pword == nullptr ? -1 : mir_strlen(options.pword));
+	debugLogA("LoadOptions() loaded: port=[%d], encrypt_session=[%d], ClientID=[%d], ClientVersionMajor=[%d], ClientVersionMinor=[%d]", options.port, options.encrypt_session, options.client_id, options.client_versionMajor, options.client_versionMinor);
+	debugLogA("LoadOptions() loaded: get_server_contacts=[%d], add_contacts=[%d], idle_as_away=[%d], err_method=[%d]", options.get_server_contacts, options.add_contacts, options.idle_as_away, options.err_method);
 }
 
 void CSametimeProto::SaveOptions()

@@ -376,7 +376,9 @@ void SwitchLayout(bool lastword)
 
 	wchar_t szClassName[MAX_PATH];
 	GetClassName(hwnd2, szClassName, _countof(szClassName));
-	if ((mir_wstrcmp(szClassName, L"THppRichEdit.UnicodeClass") == 0 || mir_wstrcmp(szClassName, L"THistoryGrid.UnicodeClass") == 0 || mir_wstrcmp(szClassName, L"TExtHistoryGrid.UnicodeClass") == 0 || mir_wstrcmp(szClassName, L"Internet Explorer_Server") == 0) && ServiceExists(MS_POPUP_SHOWMESSAGE)) {	// make popup here
+
+	// make popup here
+	if ((mir_wstrcmp(szClassName, L"THppRichEdit.UnicodeClass") == 0 || mir_wstrcmp(szClassName, L"THistoryGrid.UnicodeClass") == 0 || mir_wstrcmp(szClassName, L"TExtHistoryGrid.UnicodeClass") == 0 || mir_wstrcmp(szClassName, L"Internet Explorer_Server") == 0)) {
 		wchar_t buf[2048];
 		if (mir_wstrcmp(szClassName, L"Internet Explorer_Server") == 0) {
 			IEVIEWEVENT event;

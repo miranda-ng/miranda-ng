@@ -113,8 +113,6 @@ void CGlobals::reloadSystemModulesChanged()
 
 	m_hwndClist = g_clistApi.hwndContactList;
 
-	g_bPopupAvail = ServiceExists(MS_POPUP_ADDPOPUPW) != 0;
-
 	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x58d8dc1, 0x1c25, 0x49c0, 0xb8, 0x7c, 0xa3, 0x22, 0x2b, 0x3d, 0xf1, 0xd8);
 	mi.position = -2000090000;
@@ -312,8 +310,7 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 
 	::RegisterFontServiceFonts();
 	::CacheLogFonts();
-	if (PluginConfig.g_bPopupAvail)
-		TN_ModuleInit();
+	TN_ModuleInit();
 
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, DBSettingChanged);
 	HookEvent(ME_DB_CONTACT_DELETED, DBContactDeleted);

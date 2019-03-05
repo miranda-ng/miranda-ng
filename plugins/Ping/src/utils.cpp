@@ -19,42 +19,17 @@ LRESULT CALLBACK NullWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 static INT_PTR CALLBACK sttMainThreadCallback(void *dwParam)
 {
 	POPUPDATAW* ppd = (POPUPDATAW*)dwParam;
-
-	if (ServiceExists(MS_POPUP_ADDPOPUPW))
-		PUAddPopupW(ppd);
-
+	PUAddPopupW(ppd);
 	free(ppd);
 	return 0;
 }
 
 void __stdcall	ShowPopup(wchar_t *line1, wchar_t *line2, int flags)
 {
-	if (Miranda_IsTerminated()) return;
-
-	if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
-		ShowClassPopupW("pingpopups", line1, line2);
-	}
-	else if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
-		POPUPDATAW *ppd = (POPUPDATAW*)calloc(sizeof(POPUPDATAW), 1);
-
-		ppd->lchContact = NULL;
-		ppd->lchIcon = (flags ? hIconResponding : hIconNotResponding);
-		mir_wstrncpy(ppd->lpwzContactName, line1, _countof(ppd->lpwzContactName));
-		mir_wstrncpy(ppd->lpwzText, line2, _countof(ppd->lpwzText));
-
-		ppd->colorBack = GetSysColor(COLOR_BTNFACE);
-		ppd->colorText = GetSysColor(COLOR_WINDOWTEXT);
-		ppd->iSeconds = 10;
-
-		ppd->PluginWindowProc = NullWindowProc;
-		ppd->PluginData = nullptr;
-
-		CallFunctionSync(sttMainThreadCallback, ppd);
-	}
-	else{
-		MessageBox(nullptr, line2, _A2W(MODULENAME) L" Message", MB_OK | MB_ICONINFORMATION);
+	if (Miranda_IsTerminated())
 		return;
-	}
+
+	ShowClassPopupW("pingpopups", line1, line2);
 }
 
 // service functions

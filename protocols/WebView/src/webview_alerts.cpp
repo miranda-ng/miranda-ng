@@ -142,10 +142,7 @@ int PopupAlert(WPARAM hContact, LPARAM lParam)
 
 	ppd.PluginWindowProc = nullptr;
 	ppd.iSeconds = g_plugin.getDword(POP_DELAY_KEY, 0);
-
-	if (ServiceExists(MS_POPUP_ADDPOPUPW))
-		CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&ppd, 0);
-
+	PUAddPopupW(&ppd);
 	return 0;
 }
 
@@ -184,7 +181,7 @@ int ErrorMsgs(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	wchar_t *ptszContactName = Clist_GetContactDisplayName(hContact);
-	if (ServiceExists(MS_POPUP_ADDPOPUPW) && g_plugin.getByte(ERROR_POPUP_KEY, 0)) {
+	if (g_plugin.getByte(ERROR_POPUP_KEY, 0)) {
 		mir_snwprintf(newdisplaytext, L"%s\n%s", ptszContactName, displaytext);
 		PUShowMessageW(newdisplaytext, SM_WARNING);
 	}

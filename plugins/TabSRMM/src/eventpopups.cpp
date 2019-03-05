@@ -379,9 +379,6 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, MCONTACT hContact, MEVENT hEve
 	if (arPopupList.getCount() >= MAX_POPUPS)
 		return 2;
 
-	if (!PluginConfig.g_bPopupAvail)
-		return 0;
-
 	DBEVENTINFO dbe = {};
 	// fix for a crash
 	if (hEvent && (pluginOptions->bPreview || hContact == 0)) {
@@ -471,16 +468,6 @@ static INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPA
 		TranslateDialogDefault(hWnd);
 		{
 			TreeViewInit(GetDlgItem(hWnd, IDC_EVENTOPTIONS), CTranslator::TREE_NEN, 0, TRUE);
-
-			if (!PluginConfig.g_bPopupAvail) {
-				HWND	hwndChild = FindWindowEx(hWnd, nullptr, nullptr, nullptr);
-				while (hwndChild) {
-					ShowWindow(hwndChild, SW_HIDE);
-					hwndChild = FindWindowEx(hWnd, hwndChild, nullptr, nullptr);
-				}
-				Utils::showDlgControl(hWnd, IDC_NOPOPUPAVAIL, SW_SHOW);
-			}
-			else Utils::showDlgControl(hWnd, IDC_NOPOPUPAVAIL, SW_HIDE);
 
 			SendDlgItemMessage(hWnd, IDC_COLBACK_MESSAGE, CPM_SETCOLOUR, 0, nen_options.colBackMsg);
 			SendDlgItemMessage(hWnd, IDC_COLTEXT_MESSAGE, CPM_SETCOLOUR, 0, nen_options.colTextMsg);
@@ -647,9 +634,6 @@ static INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPA
 
 void Popup_Options(WPARAM wParam)
 {
-	if (!ServiceExists(MS_POPUP_ADDPOPUPW))
-		return;
-
 	OPTIONSDIALOGPAGE odp = {};
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.position = 910000000;
@@ -772,9 +756,6 @@ int tabSRMM_ShowPopup(MCONTACT hContact, MEVENT hDbEvent, WORD eventType, int wi
 		return 0;
 	}
 passed:
-	if (!PluginConfig.g_bPopupAvail)
-		return 0;
-
 	if (PU_GetByContact(hContact) && nen_options.bMergePopup && eventType == EVENTTYPE_MESSAGE) {
 		if (PopupUpdateT(hContact, hDbEvent) != 0)
 			PopupShowT(&nen_options, hContact, hDbEvent, eventType, pContainer ? pContainer->m_hwnd : nullptr);
@@ -787,7 +768,7 @@ passed:
 // remove all popups for hContact, but only if the mask matches the current "mode"
 void TSAPI DeletePopupsForContact(MCONTACT hContact, DWORD dwMask)
 {
-	if (!(dwMask & nen_options.dwRemoveMask) || nen_options.iDisable || !PluginConfig.g_bPopupAvail)
+	if (!(dwMask & nen_options.dwRemoveMask) || nen_options.iDisable)
 		return;
 
 	PLUGIN_DATAT *_T = nullptr;

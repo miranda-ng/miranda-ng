@@ -949,22 +949,19 @@ retry:
 			}
 			gg_LeaveCriticalSection(&sessions_mutex, "mainthread", 19, 1, "sessions_mutex", 1);
 			sessions_updatedlg();
-			if (ServiceExists(MS_POPUP_ADDPOPUPCLASS))
-			{
-				const wchar_t* szText = time(0) - logonTime > 3
-					? TranslateT("You have logged in at another location")
-					: TranslateT("You are logged in at another location");
-				for (i = 0; i < e->event.multilogon_info.count; i++)
-				{
-					wchar_t szMsg[MAX_SECONDLINE];
-					if (iIndexes && iIndexes[i])
-						continue;
 
-					mir_snwprintf(szMsg, L"%s (%s)", szText,
-						*e->event.multilogon_info.sessions[i].name != '\0' ?
-						_A2T(e->event.multilogon_info.sessions[i].name) : TranslateT("Unknown client"));
-					showpopup(m_tszUserName, szMsg, GG_POPUP_MULTILOGON);
-				}
+			const wchar_t* szText = time(0) - logonTime > 3
+				? TranslateT("You have logged in at another location")
+				: TranslateT("You are logged in at another location");
+			for (i = 0; i < e->event.multilogon_info.count; i++) {
+				wchar_t szMsg[MAX_SECONDLINE];
+				if (iIndexes && iIndexes[i])
+					continue;
+
+				mir_snwprintf(szMsg, L"%s (%s)", szText,
+					*e->event.multilogon_info.sessions[i].name != '\0' ?
+					_A2T(e->event.multilogon_info.sessions[i].name) : TranslateT("Unknown client"));
+				showpopup(m_tszUserName, szMsg, GG_POPUP_MULTILOGON);
 			}
 			mir_free(iIndexes);
 		}

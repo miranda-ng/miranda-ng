@@ -13,35 +13,25 @@ void __stdcall ShowToastNotification(void* p)
 		return;
 
 	ptrW imagePath;
-	if (td->hContact != NULL && td->hContact != INVALID_CONTACT_ID)
-	{
-		const char* szProto = GetContactProto(td->hContact);
-		if (ProtoServiceExists(szProto, PS_GETAVATARINFO))
-		{
+	if (td->hContact != NULL && td->hContact != INVALID_CONTACT_ID) {
+		const char *szProto = GetContactProto(td->hContact);
+		if (ProtoServiceExists(szProto, PS_GETAVATARINFO)) {
 			PROTO_AVATAR_INFORMATION pai = { td->hContact };
 			if (CallProtoService(szProto, PS_GETAVATARINFO, 0, (LPARAM)&pai) == GAIR_SUCCESS)
-			{
 				imagePath = mir_wstrdup(pai.filename);
-			}
 		}
 
-		if (imagePath == NULL)
-		{
-			if (szProto)	imagePath = ToasterImage(szProto);
-			else
-			{
+		if (imagePath == NULL) {
+			if (szProto)
+				imagePath = ToasterImage(szProto);
+			else {
 				if (td->iType == 1 && td->hBitmap)		imagePath = ToasterImage(td->hBitmap);
 				else if (td->iType == 2 && td->hIcon)	imagePath = ToasterImage(td->hIcon);
 			}
 		}
 	}
-	else
-	{
-		if (td->hIcon)
-		{
-			imagePath = ToasterImage(td->hIcon);
-		}
-	}
+	else if (td->hIcon)
+		imagePath = ToasterImage(td->hIcon);
 
 	new (std::nothrow) ToastNotification(td->tszText, td->tszTitle, imagePath, td->hContact, td->pPopupProc, td->vPopupData);
 }
@@ -175,7 +165,7 @@ void CleanupClasses()
 
 static INT_PTR PopupQuery(WPARAM wParam, LPARAM)
 {
-	switch (wParam) 
+	switch (wParam)
 	{
 	case PUQS_ENABLEPOPUPS:
 	{

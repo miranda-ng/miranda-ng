@@ -486,7 +486,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 			pdtData.lpActions = poOptions.paActions;
 			pdtData.actionCount = 1;
 
-			if (CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&pdtData, APF_NEWDATA) < 0) {
+			if (PUAddPopupW(&pdtData, APF_NEWDATA) < 0) {
 				mir_free(ptszPopupText);
 				MessageBox(nullptr, ptszMBox, TranslateT(MODULENAME), MB_ICONINFORMATION);
 			}

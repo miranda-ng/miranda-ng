@@ -94,10 +94,7 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		if (!ServiceExists(MS_POPUP_ADDPOPUPW))
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CHECK_POPUP), FALSE);
-
-		//iAbsencePeriod
+		// iAbsencePeriod
 		SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD, CB_RESETCONTENT, 0, 0);
 		SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD, CB_ADDSTRING, 0, (LPARAM)TranslateT("days"));
 		SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD, CB_ADDSTRING, 0, (LPARAM)TranslateT("weeks"));
@@ -344,12 +341,12 @@ static INT_PTR CALLBACK PopupOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 			ppd.PluginData = nullptr;
 			ppd.iSeconds = options.iPopupDelay;
 
-			CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&ppd, APF_NO_HISTORY);
+			PUAddPopupW(&ppd, APF_NO_HISTORY);
 
 			wcsncpy(ppd.lpwzText, TranslateT("You awaited this contact!"), MAX_SECONDLINE);
 			ppd.lchIcon = IcoLib_GetIcon("enabled_icon");
 
-			CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&ppd, APF_NO_HISTORY);
+			PUAddPopupW(&ppd, APF_NO_HISTORY);
 		}
 		else {
 			if ((HIWORD(wParam) == BN_CLICKED) || (HIWORD(wParam) == CBN_SELCHANGE) || ((HIWORD(wParam) == EN_CHANGE) && !ChangeLock))
@@ -439,13 +436,10 @@ int OptionsInit(WPARAM wParam, LPARAM)
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	g_plugin.addOptions(wParam, &odp);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
-		odp.szGroup.w = LPGENW("Popups");
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPPANEL);
-		odp.pfnDlgProc = PopupOptionsFrameProc;
-		g_plugin.addOptions(wParam, &odp);
-	}
-
+	odp.szGroup.w = LPGENW("Popups");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPPANEL);
+	odp.pfnDlgProc = PopupOptionsFrameProc;
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

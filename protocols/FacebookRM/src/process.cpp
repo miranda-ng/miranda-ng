@@ -328,10 +328,7 @@ void FacebookProto::LoadHistory(void *pParam)
 	wcsncpy(pd.lpwzContactName, m_tszUserName, MAX_CONTACTNAME);
 	wcsncpy(pd.lpwzText, TranslateT("Loading history started."), MAX_SECONDLINE);
 
-	HWND popupHwnd = nullptr;
-	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
-		popupHwnd = (HWND)CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&pd, (LPARAM)APF_RETURN_HWND);
-	}
+	HWND popupHwnd = (HWND)PUAddPopupW(&pd, (LPARAM)APF_RETURN_HWND);
 
 	std::vector<facebook_message> messages;
 	std::string firstTimestamp;
@@ -409,13 +406,12 @@ void FacebookProto::LoadHistory(void *pParam)
 		CMStringW text;
 		text.AppendFormat(TranslateT("Loading messages: %d/%d"), loadedMessages, messagesCount);
 
-		if (ServiceExists(MS_POPUP_CHANGETEXTW) && popupHwnd) {
+		if (popupHwnd)
 			PUChangeTextW(popupHwnd, text);
-		}
-		else if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
+		else {
 			wcsncpy(pd.lpwzText, text, MAX_SECONDLINE);
 			pd.iSeconds = 1;
-			popupHwnd = (HWND)CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&pd, (LPARAM)0);
+			popupHwnd = (HWND)PUAddPopupW(&pd);
 		}
 
 		// There is no more messages
@@ -431,12 +427,12 @@ void FacebookProto::LoadHistory(void *pParam)
 	// Reset loading history flag
 	facy.loading_history = false;
 
-	if (ServiceExists(MS_POPUP_CHANGETEXTW) && popupHwnd)
+	if (popupHwnd)
 		PUChangeTextW(popupHwnd, TranslateT("Loading history completed."));
-	else if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
+	else {
 		pd.iSeconds = 5;
 		wcsncpy(pd.lpwzText, TranslateT("Loading history completed."), MAX_SECONDLINE);
-		popupHwnd = (HWND)CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&pd, (LPARAM)0);
+		popupHwnd = (HWND)PUAddPopupW(&pd);
 	}
 }
 

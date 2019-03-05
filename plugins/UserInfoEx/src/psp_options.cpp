@@ -1068,13 +1068,11 @@ int OnInitOptions(WPARAM wParam, LPARAM)
 	g_plugin.addOptions(wParam, &odp);
 
 	// Popups page
-	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
-		odp.szTitle.a = MODULELONGNAME;
-		odp.szGroup.a = LPGEN("Popups");
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUP);
-		odp.pfnDlgProc = DlgProc_Popups;
-		odp.flags = ODPF_BOLDGROUPS;
-		g_plugin.addOptions(wParam, &odp);
-	}
+	odp.szTitle.a = MODULELONGNAME;
+	odp.szGroup.a = LPGEN("Popups");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUP);
+	odp.pfnDlgProc = DlgProc_Popups;
+	odp.flags = ODPF_BOLDGROUPS;
+	g_plugin.addOptions(wParam, &odp);
 	return MIR_OK;
 }

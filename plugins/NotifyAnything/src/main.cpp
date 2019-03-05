@@ -85,7 +85,7 @@ void dbg_msg(std::wstring str, int type)
 
 	if (g_settings.debug_messages)
 		// Execute it in main thread
-		CallServiceSync(MS_POPUP_SHOWMESSAGEW, (WPARAM)str.c_str(), (LPARAM)type);
+		PUShowMessageW(str.c_str(), type);
 
 	if (g_settings.log_to_file) {
 		time_t t_;

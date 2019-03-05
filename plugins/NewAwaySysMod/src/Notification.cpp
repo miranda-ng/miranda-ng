@@ -23,17 +23,14 @@
 
 void ShowMsg(wchar_t *FirstLine, wchar_t *SecondLine, bool IsErrorMsg, int Timeout)
 {
-	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
-		POPUPDATAW ppd = { 0 };
-		ppd.lchIcon = LoadIcon(nullptr, IsErrorMsg ? IDI_EXCLAMATION : IDI_INFORMATION);
-		mir_wstrncpy(ppd.lpwzContactName, FirstLine, MAX_CONTACTNAME);
-		mir_wstrncpy(ppd.lpwzText, SecondLine, MAX_SECONDLINE);
-		ppd.colorBack = IsErrorMsg ? 0x0202E3 : 0xE8F1FD;
-		ppd.colorText = IsErrorMsg ? 0xE8F1FD : 0x000000;
-		ppd.iSeconds = Timeout;
-		PUAddPopupW(&ppd);
-	}
-	else MessageBox(nullptr, SecondLine, FirstLine, MB_OK | (IsErrorMsg ? MB_ICONEXCLAMATION : MB_ICONINFORMATION));
+	POPUPDATAW ppd = { 0 };
+	ppd.lchIcon = LoadIcon(nullptr, IsErrorMsg ? IDI_EXCLAMATION : IDI_INFORMATION);
+	mir_wstrncpy(ppd.lpwzContactName, FirstLine, MAX_CONTACTNAME);
+	mir_wstrncpy(ppd.lpwzText, SecondLine, MAX_SECONDLINE);
+	ppd.colorBack = IsErrorMsg ? 0x0202E3 : 0xE8F1FD;
+	ppd.colorText = IsErrorMsg ? 0xE8F1FD : 0x000000;
+	ppd.iSeconds = Timeout;
+	PUAddPopupW(&ppd);
 }
 
 void ShowLog(TCString &LogFilePath)

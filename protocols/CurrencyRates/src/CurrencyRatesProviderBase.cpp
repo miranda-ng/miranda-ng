@@ -443,9 +443,6 @@ bool show_popup(const ICurrencyRatesProvider *pProvider,
 	const tstring& rsFormat,
 	const CPopupSettings& ps)
 {
-	if (!ServiceExists(MS_POPUP_ADDPOPUPW))
-		return false;
-
 	POPUPDATAW ppd;
 	memset(&ppd, 0, sizeof(ppd));
 	ppd.lchContact = hContact;
@@ -490,11 +487,11 @@ bool show_popup(const ICurrencyRatesProvider *pProvider,
 		break;
 	}
 
-	LPARAM lp = 0;
+	int lp = 0;
 	if (false == ps.GetHistoryFlag())
-		lp |= 0x08;
+		lp |= APF_NO_POPUP;
 
-	return (0 == CallService(MS_POPUP_ADDPOPUPW, reinterpret_cast<WPARAM>(&ppd), lp));
+	return (0 == PUAddPopupW(&ppd, lp));
 }
 
 void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRate, const tstring& rsSymbol/* = ""*/)

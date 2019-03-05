@@ -20,7 +20,7 @@
 
 #include "stdafx.h"
 
-bool g_bPopupService, g_bSecureIM, g_bMessageState;
+bool g_bSecureIM, g_bMessageState;
 
 HWND g_hwndHeartbeat;
 
@@ -96,7 +96,6 @@ static INT_PTR ICQPermitDeny(WPARAM hContact, LPARAM, LPARAM bAllow)
 static int ModuleLoad(WPARAM, LPARAM)
 {
 	g_bSecureIM = ServiceExists("SecureIM/IsContactSecured");
-	g_bPopupService = ServiceExists(MS_POPUP_ADDPOPUPW);
 	g_bMessageState = ServiceExists(MS_MESSAGESTATE_UPDATE);
 	return 0;
 }

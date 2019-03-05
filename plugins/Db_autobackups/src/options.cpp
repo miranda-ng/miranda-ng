@@ -194,7 +194,7 @@ public:
 			CreateToolTip(tszTooltipText, TranslateT("Variables"));
 		}
 
-		m_disablePopups.Show(ServiceExists(MS_POPUP_ADDPOPUPW));
+		m_disablePopups.Show();
 
 		m_useCloudFile.Enable(ServiceExists(MS_CLOUDFILE_UPLOAD));
 		if (ServiceExists(MS_CLOUDFILE_ENUMSERVICES)) {

@@ -828,7 +828,7 @@ void CALLBACK sttMainThreadCallback(void *param)
 	PopupData* pud = (PopupData*)param;
 
 	bool iserr = (pud->flags & MSN_SHOW_ERROR) != 0;
-	if ((iserr && !pud->proto->MyOptions.ShowErrorsAsPopups) || !ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
+	if ((iserr && !pud->proto->MyOptions.ShowErrorsAsPopups)) {
 		if (pud->flags & MSN_ALLOW_MSGBOX) {
 			wchar_t szMsg[MAX_SECONDLINE + MAX_CONTACTNAME];
 			mir_snwprintf(szMsg, L"%s:\n%s", pud->title, pud->text);

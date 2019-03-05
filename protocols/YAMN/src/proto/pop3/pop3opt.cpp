@@ -173,13 +173,11 @@ int YAMNOptInitSvc(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = DlgProcPluginOpt;
 	g_plugin.addOptions(wParam, &odp);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
-		odp.szGroup.a = LPGEN("Popups");
-		odp.szTab.a = LPGEN("YAMN");
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POP3ACCOUNTPOPUP);
-		odp.pfnDlgProc = DlgProcPOP3AccPopup;
-		g_plugin.addOptions(wParam, &odp);
-	}
+	odp.szGroup.a = LPGEN("Popups");
+	odp.szTab.a = LPGEN("YAMN");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_POP3ACCOUNTPOPUP);
+	odp.pfnDlgProc = DlgProcPOP3AccPopup;
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

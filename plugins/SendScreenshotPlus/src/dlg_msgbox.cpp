@@ -576,7 +576,7 @@ static INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM, LPARAM lParam)
 			}
 
 			// create popup
-			CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&pd, APF_NEWDATA);
+			PUAddPopupW(&pd, APF_NEWDATA);
 			if (MB_TYPE(pMsgBox->uType) == MB_OK)
 				EndDialog(hDlg, IDOK);
 		}
@@ -652,7 +652,6 @@ INT_PTR MsgBoxService(WPARAM, LPARAM lParam)
 	if (PtrIsValid(pMsgBox) && pMsgBox->cbSize == sizeof(MSGBOX)) {
 		// Shall the MessageBox displayed as popup?
 		if (!(pMsgBox->uType & (MB_INFOBAR | MB_NOPOPUP))				// message box can be a popup?
-			&& ServiceExists(MS_POPUP_ADDPOPUPW)						// popups exist?
 			&& myGlobals.PopupActionsExist == 1							// popup support ext stuct?
 			&& (db_get_dw(0, "Popup", "Actions", 0) & 1)				// popup++ actions on?
 			&& db_get_b(0, MODNAME, SET_POPUPMSGBOX, DEFVAL_POPUPMSGBOX))	// user likes popups?

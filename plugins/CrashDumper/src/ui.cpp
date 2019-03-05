@@ -316,13 +316,9 @@ void ShowMessage(int type, const wchar_t *format, ...)
 	pi.lpwzText[len] = 0;
 	va_end(va);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
-		mir_wstrcpy(pi.lpwzContactName, _A2W(MODULENAME));
-		pi.lchIcon = LoadIconEx(IDI_VI);
-		pi.PluginWindowProc = DlgProcPopup;
-		pi.PluginData = (void*)type;
-
-		PUAddPopupW(&pi);
-	}
-	else MessageBox(nullptr, pi.lpwzText, _A2W(MODULENAME), MB_OK | MB_ICONINFORMATION);
+	mir_wstrcpy(pi.lpwzContactName, _A2W(MODULENAME));
+	pi.lchIcon = LoadIconEx(IDI_VI);
+	pi.PluginWindowProc = DlgProcPopup;
+	pi.PluginData = (void*)type;
+	PUAddPopupW(&pi);
 }

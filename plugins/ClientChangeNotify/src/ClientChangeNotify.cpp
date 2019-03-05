@@ -24,7 +24,7 @@ HGENMENU g_hTogglePopupsMenuItem;
 CMPlugin g_plugin;
 
 COptPage *g_PreviewOptPage; // we need to show popup even for the NULL contact if g_PreviewOptPage is not NULL (used for popup preview)
-BOOL bPopupExists = FALSE, bFingerprintExists = FALSE, bVariablesExists = FALSE;
+BOOL bFingerprintExists = FALSE, bVariablesExists = FALSE;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -268,12 +268,10 @@ static INT_PTR srvTogglePopups(WPARAM, LPARAM)
 static int PrebuildMainMenu(WPARAM, LPARAM)
 {
 	// we have to use ME_CLIST_PREBUILDMAINMENU instead of updating menu items only on settings change, because "popup_enabled" and "popup_disabled" icons are not always available yet in ModulesLoaded
-	if (bPopupExists) {
-		if (g_PopupOptPage.GetDBValueCopy(IDC_POPUPOPTDLG_POPUPNOTIFY))
-			Menu_ModifyItem(g_hTogglePopupsMenuItem, LPGENW("Disable c&lient change notification"), IcoLib_GetIcon("popup_enabled"));
-		else
-			Menu_ModifyItem(g_hTogglePopupsMenuItem, LPGENW("Enable c&lient change notification"), IcoLib_GetIcon("popup_disabled"));
-	}
+	if (g_PopupOptPage.GetDBValueCopy(IDC_POPUPOPTDLG_POPUPNOTIFY))
+		Menu_ModifyItem(g_hTogglePopupsMenuItem, LPGENW("Disable c&lient change notification"), IcoLib_GetIcon("popup_enabled"));
+	else
+		Menu_ModifyItem(g_hTogglePopupsMenuItem, LPGENW("Enable c&lient change notification"), IcoLib_GetIcon("popup_disabled"));
 	return 0;
 }
 
@@ -301,7 +299,6 @@ INT_PTR CALLBACK CCNErrorDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM)
 
 static int ModuleLoad(WPARAM, LPARAM)
 {
-	bPopupExists = ServiceExists(MS_POPUP_ADDPOPUPW);
 	bFingerprintExists = ServiceExists(MS_FP_SAMECLIENTST) && ServiceExists(MS_FP_GETCLIENTICONT);
 	bVariablesExists = ServiceExists(MS_VARS_FORMATSTRING);
 	return 0;
@@ -316,22 +313,20 @@ static int MirandaLoaded(WPARAM, LPARAM)
 
 	g_plugin.addSound(CLIENTCHANGED_SOUND, nullptr, LPGENW("ClientChangeNotify: Client changed"));
 
-	if (bPopupExists) {
-		CreateServiceFunction(MS_CCN_TOGGLEPOPUPS, srvTogglePopups);
-		HookEvent(ME_CLIST_PREBUILDMAINMENU, PrebuildMainMenu);
+	CreateServiceFunction(MS_CCN_TOGGLEPOPUPS, srvTogglePopups);
+	HookEvent(ME_CLIST_PREBUILDMAINMENU, PrebuildMainMenu);
 
-		CMenuItem mi(&g_plugin);
-		SET_UID(mi, 0xfabb9181, 0xdb92, 0x43f4, 0x86, 0x40, 0xca, 0xb6, 0x4c, 0x93, 0x34, 0x27);
-		mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Popups"), 0);
-		mi.flags = CMIF_UNICODE;
-		if (g_PopupOptPage.GetDBValueCopy(IDC_POPUPOPTDLG_POPUPNOTIFY))
-			mi.name.w = LPGENW("Disable c&lient change notification");
-		else
-			mi.name.w = LPGENW("Enable c&lient change notification");
+	CMenuItem mi(&g_plugin);
+	SET_UID(mi, 0xfabb9181, 0xdb92, 0x43f4, 0x86, 0x40, 0xca, 0xb6, 0x4c, 0x93, 0x34, 0x27);
+	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Popups"), 0);
+	mi.flags = CMIF_UNICODE;
+	if (g_PopupOptPage.GetDBValueCopy(IDC_POPUPOPTDLG_POPUPNOTIFY))
+		mi.name.w = LPGENW("Disable c&lient change notification");
+	else
+		mi.name.w = LPGENW("Enable c&lient change notification");
 
-		mi.pszService = MS_CCN_TOGGLEPOPUPS;
-		g_hTogglePopupsMenuItem = Menu_AddMainMenuItem(&mi);
-	}
+	mi.pszService = MS_CCN_TOGGLEPOPUPS;
+	g_hTogglePopupsMenuItem = Menu_AddMainMenuItem(&mi);
 
 	// seems that Fingerprint is not installed
 	if (!bFingerprintExists && !g_plugin.getByte(DB_NO_FINGERPRINT_ERROR, 0))

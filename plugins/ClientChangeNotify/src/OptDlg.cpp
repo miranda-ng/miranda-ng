@@ -160,16 +160,14 @@ INT_PTR CALLBACK PopupOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 int OptionsDlgInit(WPARAM wParam, LPARAM)
 {
-	if (bPopupExists) {
-		OPTIONSDIALOGPAGE optDi = {};
-		optDi.position = 920000000;
-		optDi.szGroup.a = LPGEN("Popups");
-		optDi.szTitle.a = LPGEN("ClientChangeNotify");
-		optDi.pfnDlgProc = PopupOptDlg;
-		optDi.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPOPTDLG);
-		optDi.flags = ODPF_BOLDGROUPS;
-		g_plugin.addOptions(wParam, &optDi);
-	}
+	OPTIONSDIALOGPAGE optDi = {};
+	optDi.position = 920000000;
+	optDi.szGroup.a = LPGEN("Popups");
+	optDi.szTitle.a = LPGEN("ClientChangeNotify");
+	optDi.pfnDlgProc = PopupOptDlg;
+	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPOPTDLG);
+	optDi.flags = ODPF_BOLDGROUPS;
+	g_plugin.addOptions(wParam, &optDi);
 	return 0;
 }
 

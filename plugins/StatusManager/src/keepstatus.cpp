@@ -809,7 +809,7 @@ static wchar_t* GetHumanName(LPARAM lParam)
 
 static int ProcessPopup(int reason, LPARAM lParam)
 {
-	if (!KSPlugin.getByte(SETTING_SHOWCONNECTIONPOPUPS, FALSE) || !ServiceExists(MS_POPUP_ADDPOPUPW))
+	if (!KSPlugin.getByte(SETTING_SHOWCONNECTIONPOPUPS, FALSE))
 		return -1;
 
 	HICON hIcon = nullptr;

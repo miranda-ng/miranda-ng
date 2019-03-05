@@ -224,7 +224,6 @@ static void ShowRoom(SESSION_INFO *si)
 int OnCheckPlugins(WPARAM, LPARAM)
 {
 	g_dat.bSmileyInstalled = ServiceExists(MS_SMILEYADD_REPLACESMILEYS);
-	g_dat.bPopupInstalled = ServiceExists(MS_POPUP_ADDPOPUPW);
 	return 0;
 }
 

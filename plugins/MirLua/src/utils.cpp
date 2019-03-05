@@ -21,8 +21,7 @@ void ShowNotification(const char *caption, const char *message, int flags, MCONT
 	if (Miranda_IsTerminated())
 		return;
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPW) && db_get_b(0, "Popup", "ModuleIsEnabled", 1))
-	{
+	if (db_get_b(0, "Popup", "ModuleIsEnabled", 1)) {
 		POPUPDATA ppd = { 0 };
 		ppd.lchContact = hContact;
 		mir_strncpy(ppd.lpzContactName, caption, MAX_CONTACTNAME);

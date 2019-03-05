@@ -50,12 +50,6 @@ static HGENMENU MyAddSubItem(HGENMENU hRoot, LPCSTR name, int pos, int poppos, L
 	return res;
 }
 
-static int onModuleLoad(WPARAM, LPARAM)
-{
-	bPopupExists = ServiceExists(MS_POPUP_ADDPOPUPW);
-	return 0;
-}
-
 static int onModulesLoaded(WPARAM, LPARAM)
 {
 	InitNetlib();
@@ -64,7 +58,6 @@ static int onModulesLoaded(WPARAM, LPARAM)
 
 	InitIcons();
 	GetFlags();
-	onModuleLoad(0, 0);
 
 	// RSA/AES
 	Sent_NetLog("rsa_init");
@@ -316,8 +309,6 @@ int CMPlugin::Load(void)
 	// hook events
 	HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, onShutdown);
-	HookEvent(ME_SYSTEM_MODULELOAD, onModuleLoad);
-	HookEvent(ME_SYSTEM_MODULEUNLOAD, onModuleLoad);
 	HookEvent(ME_OPT_INITIALISE, onRegisterOptions);
 
 	g_hEvent[0] = CreateHookableEvent(MODULENAME"/Disabled");

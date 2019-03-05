@@ -294,7 +294,7 @@ int CExchangeServer::Check(int bNoEmailsNotify)
 
 int ShowMessage(wchar_t *message, int cUnreadEmails)
 {
-	int usePopups = ServiceExists(MS_POPUP_ADDPOPUPW) ? g_plugin.getByte("UsePopups", 0) : 0;
+	int usePopups = g_plugin.getByte("UsePopups", 0);
 	if (usePopups)
 		return ShowPopupMessage(TranslateT("Exchange email"), message, cUnreadEmails);
 

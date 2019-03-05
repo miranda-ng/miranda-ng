@@ -406,12 +406,10 @@ int PopupShow(MCONTACT hContact, MEVENT hEvent, UINT eventType)
 	PopupList[NumberPopupData(NULL, -1)] = pdata;
 	// send data to popup plugin
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
-		// popup creation failed, release popupdata
-		if (PUAddPopupW(&pudw) < 0) {
-			FreePopupEventData(pdata);
-			mir_free(pdata);
-		}
+	// popup creation failed, release popupdata
+	if (PUAddPopupW(&pudw) < 0) {
+		FreePopupEventData(pdata);
+		mir_free(pdata);
 	}
 
 	if (dbe.pBlob)

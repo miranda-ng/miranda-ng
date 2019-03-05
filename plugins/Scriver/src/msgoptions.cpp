@@ -940,14 +940,13 @@ int OptInitialise(WPARAM wParam, LPARAM)
 	odp.szTab.a = nullptr;
 	g_plugin.addOptions(wParam, &odp);
 
-	if (g_dat.popupInstalled) {
-		odp.position = 910000002;
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSPOPUP);
-		odp.szGroup.a = LPGEN("Popups");
-		odp.szTitle.a = LPGEN("Messaging");
-		odp.pfnDlgProc = DlgProcOptionsPopup;
-		odp.flags = ODPF_BOLDGROUPS;
-		g_plugin.addOptions(wParam, &odp);
-	}
+	////////////////////////////////////////////////////////////////////////////////////////
+	odp.position = 910000002;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSPOPUP);
+	odp.szGroup.a = LPGEN("Popups");
+	odp.szTitle.a = LPGEN("Messaging");
+	odp.pfnDlgProc = DlgProcOptionsPopup;
+	odp.flags = ODPF_BOLDGROUPS;
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

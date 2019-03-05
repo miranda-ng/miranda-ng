@@ -409,7 +409,7 @@ public:
 		mir_wstrcpy(pd.lpwzText, L" ");
 
 		_pFnCallBack = pFnCallBack;
-		_hWnd = (HWND)CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&pd, APF_RETURN_HWND | APF_NEWDATA);
+		_hWnd = (HWND)PUAddPopupW(&pd, APF_RETURN_HWND | APF_NEWDATA);
 		return _hWnd;
 	}
 
@@ -635,12 +635,10 @@ public:
 				iWait += 5000;
 
 		if (Size() && !_pProgress) {
-			if (ServiceExists(MS_POPUP_CHANGETEXTW) && g_plugin.getByte("PopupProgress", FALSE)) {
+			if (g_plugin.getByte("PopupProgress", FALSE))
 				_pProgress = new CPopupUpdProgress(this);
-			}
-			else {
+			else
 				_pProgress = new CDlgUpdProgress(this);
-			}
 
 			_pProgress->Create(TranslateT("Refresh contact details"), (PUpdCallback)CContactUpdater::DlgProc);
 			_pProgress->SetText(TranslateT("Preparing..."));

@@ -114,7 +114,6 @@ BEGIN
     CONTROL         "",IDC_DELAY_ERR_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,253,227,9,13
     CONTROL         "Use the message log color theme for group chat popups",IDC_MUC_LOGCOLORS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,240,263,12
-    LTEXT           "No compatible popup plugin was found. The event notification\nsystem is not available.",IDC_NOPOPUPAVAIL,6,30,303,109
 END
 
 IDD_CHOOSESTATUSMODES DIALOGEX 0, 0, 226, 154

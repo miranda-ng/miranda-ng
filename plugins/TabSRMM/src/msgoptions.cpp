@@ -940,12 +940,6 @@ public:
 		SendDlgItemMessage(m_hwnd, IDC_MTN_POPUPMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Only when no message window is open"));
 
 		SendDlgItemMessage(m_hwnd, IDC_MTN_POPUPMODE, CB_SETCURSEL, (WPARAM)M.GetByte("MTN_PopupMode", 0), 0);
-
-		if (!PluginConfig.g_bPopupAvail) {
-			Utils::showDlgControl(m_hwnd, IDC_NOTIFYPOPUP, SW_HIDE);
-			Utils::showDlgControl(m_hwnd, IDC_STATIC111, SW_HIDE);
-			Utils::showDlgControl(m_hwnd, IDC_MTN_POPUPMODE, SW_HIDE);
-		}
 		return true;
 	}
 
@@ -1448,8 +1442,7 @@ INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 int OptInitialise(WPARAM wParam, LPARAM lParam)
 {
-	if (PluginConfig.g_bPopupAvail)
-		TN_OptionsInitialize(wParam, lParam);
+	TN_OptionsInitialize(wParam, lParam);
 
 	// message sessions' options
 	OPTIONSDIALOGPAGE odpnew = {};

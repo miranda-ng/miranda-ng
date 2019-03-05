@@ -83,36 +83,36 @@ INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 {
 	DBVARIANT dbv;
 	wchar_t szstamp[256];
-	BOOL hasPopups;
 	BYTE bchecked;
 
 	switch (msg) {
 	case WM_INITDIALOG:
-		if (hasPopups = (ServiceExists(MS_POPUP_QUERY)) != 0)
-			hasPopups = CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0);
-
 		TranslateDialogDefault(hdlg);
-		ShowWindow(GetDlgItem(hdlg, IDC_POPUPS), hasPopups ? SW_SHOW : SW_HIDE);
-		ShowWindow(GetDlgItem(hdlg, IDC_POPUPSTAMP), hasPopups ? SW_SHOW : SW_HIDE);
-		ShowWindow(GetDlgItem(hdlg, IDC_LABTEXT), hasPopups ? SW_SHOW : SW_HIDE);
-		ShowWindow(GetDlgItem(hdlg, IDC_LABTTITLE), hasPopups ? SW_SHOW : SW_HIDE);
-		ShowWindow(GetDlgItem(hdlg, IDC_POPUPSTAMPTEXT), hasPopups ? SW_SHOW : SW_HIDE);
-		CheckDlgButton(hdlg, IDC_POPUPS, (g_plugin.getByte("UsePopups", 0) & hasPopups) ? BST_CHECKED : BST_UNCHECKED);
-		EnableWindow(GetDlgItem(hdlg, IDC_POPUPS), hasPopups);
-		hasPopups = IsDlgButtonChecked(hdlg, IDC_POPUPS);
-		EnableWindow(GetDlgItem(hdlg, IDC_POPUPSTAMP), hasPopups);
-		EnableWindow(GetDlgItem(hdlg, IDC_POPUPSTAMPTEXT), hasPopups);
-		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
-			char szSetting[100];
-			mir_snprintf(szSetting, "Col_%d", i - ID_STATUS_OFFLINE);
-			DWORD sett = g_plugin.getDword(szSetting, StatusColors15bits[i - ID_STATUS_OFFLINE]);
+		{
+			int hasPopups = CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0);
+			ShowWindow(GetDlgItem(hdlg, IDC_POPUPS), hasPopups ? SW_SHOW : SW_HIDE);
+			ShowWindow(GetDlgItem(hdlg, IDC_POPUPSTAMP), hasPopups ? SW_SHOW : SW_HIDE);
+			ShowWindow(GetDlgItem(hdlg, IDC_LABTEXT), hasPopups ? SW_SHOW : SW_HIDE);
+			ShowWindow(GetDlgItem(hdlg, IDC_LABTTITLE), hasPopups ? SW_SHOW : SW_HIDE);
+			ShowWindow(GetDlgItem(hdlg, IDC_POPUPSTAMPTEXT), hasPopups ? SW_SHOW : SW_HIDE);
+			CheckDlgButton(hdlg, IDC_POPUPS, (g_plugin.getByte("UsePopups", 0) & hasPopups) ? BST_CHECKED : BST_UNCHECKED);
+			EnableWindow(GetDlgItem(hdlg, IDC_POPUPS), hasPopups);
+			hasPopups = IsDlgButtonChecked(hdlg, IDC_POPUPS);
+			EnableWindow(GetDlgItem(hdlg, IDC_POPUPSTAMP), hasPopups);
+			EnableWindow(GetDlgItem(hdlg, IDC_POPUPSTAMPTEXT), hasPopups);
 
-			COLORREF back, text;
-			GetColorsFromDWord(&back, &text, sett);
-			SendDlgItemMessage(hdlg, i, CPM_SETCOLOUR, 0, back);
-			SendDlgItemMessage(hdlg, i + 20, CPM_SETCOLOUR, 0, text);
-			EnableWindow(GetDlgItem(hdlg, i), hasPopups);
-			EnableWindow(GetDlgItem(hdlg, i + 20), hasPopups);
+			for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+				char szSetting[100];
+				mir_snprintf(szSetting, "Col_%d", i - ID_STATUS_OFFLINE);
+				DWORD sett = g_plugin.getDword(szSetting, StatusColors15bits[i - ID_STATUS_OFFLINE]);
+
+				COLORREF back, text;
+				GetColorsFromDWord(&back, &text, sett);
+				SendDlgItemMessage(hdlg, i, CPM_SETCOLOUR, 0, back);
+				SendDlgItemMessage(hdlg, i + 20, CPM_SETCOLOUR, 0, text);
+				EnableWindow(GetDlgItem(hdlg, i), hasPopups);
+				EnableWindow(GetDlgItem(hdlg, i + 20), hasPopups);
+			}
 		}
 
 		if (!g_plugin.getWString("PopupStamp", &dbv)) {
@@ -160,14 +160,17 @@ INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 		if (HIWORD(wparam) == BN_CLICKED) {
 			switch (LOWORD(wparam)) {
 			case IDC_POPUPS:
-				hasPopups = IsDlgButtonChecked(hdlg, IDC_POPUPS);
-				EnableWindow(GetDlgItem(hdlg, IDC_POPUPSTAMP), hasPopups);
-				EnableWindow(GetDlgItem(hdlg, IDC_POPUPSTAMPTEXT), hasPopups);
-				for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
-					EnableWindow(GetDlgItem(hdlg, i), hasPopups);
-					EnableWindow(GetDlgItem(hdlg, i + 20), hasPopups);
+				{
+					int hasPopups = IsDlgButtonChecked(hdlg, IDC_POPUPS);
+					EnableWindow(GetDlgItem(hdlg, IDC_POPUPSTAMP), hasPopups);
+					EnableWindow(GetDlgItem(hdlg, IDC_POPUPSTAMPTEXT), hasPopups);
+					for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+						EnableWindow(GetDlgItem(hdlg, i), hasPopups);
+						EnableWindow(GetDlgItem(hdlg, i + 20), hasPopups);
+					}
 				}
 				break;
+
 			case IDC_DEFAULTCOL:
 				for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
 					DWORD sett = StatusColors15bits[i - ID_STATUS_OFFLINE];
@@ -495,12 +498,10 @@ int OptionsInit(WPARAM wparam, LPARAM)
 	odp.pfnDlgProc = OptsSettingsDlgProc;
 	g_plugin.addOptions(wparam, &odp);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPS);
-		odp.szGroup.w = LPGENW("Popups");
-		odp.szTitle.w = LPGENW("Last seen");
-		odp.pfnDlgProc = OptsPopupsDlgProc;
-		g_plugin.addOptions(wparam, &odp);
-	}
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPS);
+	odp.szGroup.w = LPGENW("Popups");
+	odp.szTitle.w = LPGENW("Last seen");
+	odp.pfnDlgProc = OptsPopupsDlgProc;
+	g_plugin.addOptions(wparam, &odp);
 	return 0;
 }

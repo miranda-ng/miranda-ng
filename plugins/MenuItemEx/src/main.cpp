@@ -18,7 +18,6 @@ HGENMENU hmenuVis, hmenuOff, hmenuHide, hmenuIgnore, hmenuProto;
 HGENMENU hmenuCopyID, hmenuRecvFiles, hmenuStatusMsg, hmenuCopyIP, hmenuCopyMirVer;
 static HGENMENU hIgnoreItem[9], hProtoItem[MAX_PROTOS];
 HICON hIcons[5];
-BOOL bPopupService = FALSE;
 PROTOACCOUNT **accs;
 int protoCount;
 CMPlugin g_plugin;
@@ -514,7 +513,7 @@ static INT_PTR onCopyID(WPARAM hContact, LPARAM)
 	else wcsncpy_s(buffer, szID, _TRUNCATE);
 
 	CopyToClipboard(buffer);
-	if (CTRL_IS_PRESSED && bPopupService)
+	if (CTRL_IS_PRESSED)
 		ShowPopup(buffer, hContact);
 
 	return 0;
@@ -550,7 +549,7 @@ static INT_PTR onCopyStatusMsg(WPARAM hContact, LPARAM)
 	}
 
 	CopyToClipboard(wszBuffer);
-	if (CTRL_IS_PRESSED && bPopupService)
+	if (CTRL_IS_PRESSED)
 		ShowPopup(wszBuffer, hContact);
 
 	return 0;
@@ -570,7 +569,7 @@ static INT_PTR onCopyIP(WPARAM hContact, LPARAM)
 		wszBuffer.AppendFormat(L"Internal IP: %d.%d.%d.%d\r\n", rIP >> 24, (rIP >> 16) & 0xFF, (rIP >> 8) & 0xFF, rIP & 0xFF);
 
 	CopyToClipboard(wszBuffer);
-	if (CTRL_IS_PRESSED && bPopupService)
+	if (CTRL_IS_PRESSED)
 		ShowPopup(wszBuffer, hContact);
 
 	return 0;
@@ -581,7 +580,7 @@ static INT_PTR onCopyMirVer(WPARAM hContact, LPARAM)
 	LPWSTR msg = getMirVer(hContact);
 	if (msg) {
 		CopyToClipboard(msg);
-		if (CTRL_IS_PRESSED && bPopupService)
+		if (CTRL_IS_PRESSED)
 			ShowPopup(msg, hContact);
 
 		mir_free(msg);
@@ -844,18 +843,10 @@ static int ContactWindowOpen(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-static int ModuleLoad(WPARAM, LPARAM)
-{
-	bPopupService = ServiceExists(MS_POPUP_ADDPOPUPW);
-	return 0;
-}
-
 // called when all modules are loaded
 static int PluginInit(WPARAM, LPARAM)
 {
 	int pos = 1000;
-
-	ModuleLoad(0, 0);
 
 	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNICODE;
@@ -967,8 +958,6 @@ int CMPlugin::Load()
 	CreateServiceFunction(MS_OPENIGNORE, OpenIgnoreOptions);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, PluginInit);
-	HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);
-	HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, BuildMenu);
 	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, EnumProtoSubmenu);

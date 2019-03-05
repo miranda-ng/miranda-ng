@@ -74,15 +74,13 @@ void WritePopupOptions()
 
 void RegPopupActions()
 {
-	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
-		poOptions.paActions[0].cbSize = sizeof(POPUPACTION);
-		strncpy_s(poOptions.paActions[0].lpzTitle, MODULENAME, _TRUNCATE);
-		strncat_s(poOptions.paActions[0].lpzTitle, _countof(poOptions.paActions[0].lpzTitle), "/Copy to clipboard", _TRUNCATE);
-		poOptions.paActions[0].flags = PAF_ENABLED;
-		poOptions.paActions[0].wParam = poOptions.paActions[0].lParam = 0;
-		poOptions.paActions[0].lchIcon = hCopyIcon;
-		CallService(MS_POPUP_REGISTERACTIONS, (WPARAM)&poOptions.paActions, 1);
-	}
+	poOptions.paActions[0].cbSize = sizeof(POPUPACTION);
+	strncpy_s(poOptions.paActions[0].lpzTitle, MODULENAME, _TRUNCATE);
+	strncat_s(poOptions.paActions[0].lpzTitle, _countof(poOptions.paActions[0].lpzTitle), "/Copy to clipboard", _TRUNCATE);
+	poOptions.paActions[0].flags = PAF_ENABLED;
+	poOptions.paActions[0].wParam = poOptions.paActions[0].lParam = 0;
+	poOptions.paActions[0].lchIcon = hCopyIcon;
+	CallService(MS_POPUP_REGISTERACTIONS, (WPARAM)&poOptions.paActions, 1);
 }
 
 int OnIconsChanged(WPARAM, LPARAM)
@@ -148,12 +146,10 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = DlgMainProcOptions;
 	g_plugin.addOptions(wParam, &odp);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP_OPTION_FORM);
-		odp.szGroup.a = LPGEN("Popups");
-		odp.pfnDlgProc = DlgPopupsProcOptions;
-		g_plugin.addOptions(wParam, &odp);
-	}
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP_OPTION_FORM);
+	odp.szGroup.a = LPGEN("Popups");
+	odp.pfnDlgProc = DlgPopupsProcOptions;
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

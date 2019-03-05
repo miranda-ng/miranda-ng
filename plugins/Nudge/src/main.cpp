@@ -276,31 +276,13 @@ void Nudge_ShowPopup(CNudgeElement*, MCONTACT hContact, wchar_t * Message)
 	hContact = db_mc_tryMeta(hContact);
 	wchar_t *lpzContactName = Clist_GetContactDisplayName(hContact);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
-		POPUPDATACLASS NudgePopup = { 0 };
-		NudgePopup.cbSize = sizeof(NudgePopup);
-		NudgePopup.hContact = hContact;
-		NudgePopup.pwszText = Message;
-		NudgePopup.pwszTitle = lpzContactName;
-		NudgePopup.pszClassName = "nudge";
-		CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&NudgePopup);
-	}
-	else if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
-		POPUPDATAW NudgePopup = { 0 };
-		NudgePopup.lchContact = hContact;
-		NudgePopup.lchIcon = IcoLib_GetIconByHandle(iconList[0].hIcolib);
-		NudgePopup.colorBack = 0;
-		NudgePopup.colorText = 0;
-		NudgePopup.iSeconds = 0;
-		NudgePopup.PluginWindowProc = NudgePopupProc;
-		NudgePopup.PluginData = (void *)1;
-
-		wcscpy_s(NudgePopup.lpwzText, Message);
-		wcscpy_s(NudgePopup.lpwzContactName, lpzContactName);
-
-		CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&NudgePopup, 0);
-	}
-	else MessageBox(nullptr, Message, lpzContactName, 0);
+	POPUPDATACLASS NudgePopup = { 0 };
+	NudgePopup.cbSize = sizeof(NudgePopup);
+	NudgePopup.hContact = hContact;
+	NudgePopup.pwszText = Message;
+	NudgePopup.pwszTitle = lpzContactName;
+	NudgePopup.pszClassName = "nudge";
+	CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&NudgePopup);
 }
 
 void Nudge_SentStatus(CNudgeElement *n, MCONTACT hContact)

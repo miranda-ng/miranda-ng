@@ -95,7 +95,7 @@ static LRESULT CALLBACK PopupDlgProcRestart(HWND hPopup, UINT uMsg, WPARAM wPara
 
 void ShowPopup(LPCTSTR ptszTitle, LPCTSTR ptszText, int Number)
 {
-	if (ServiceExists(MS_POPUP_ADDPOPUPW) && db_get_b(0, "Popup", "ModuleIsEnabled", 1)) {
+	if (db_get_b(0, "Popup", "ModuleIsEnabled", 1)) {
 		char setting[100];
 		mir_snprintf(setting, "Popups%d", Number);
 

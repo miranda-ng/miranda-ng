@@ -320,8 +320,7 @@ class COptMainDlg : public CDlgBase
 		CheckHeading(hListHeading3);
 		CheckHeading(hListHeading4);
 		CheckHeading(hListHeading5);
-		if (g_dat.bPopupInstalled)
-			CheckHeading(hListHeading6);
+		CheckHeading(hListHeading6);
 	}
 
 public:
@@ -341,17 +340,15 @@ public:
 		hListHeading3 = InsertBranch(LPGEN("Default events to show in new chat rooms if the 'event filter' is enabled"), db_get_b(0, CHAT_MODULE, "Branch3Exp", 0) ? TRUE : FALSE);
 		hListHeading4 = InsertBranch(LPGEN("Icons to display in the message log"), db_get_b(0, CHAT_MODULE, "Branch4Exp", 0) ? TRUE : FALSE);
 		hListHeading5 = InsertBranch(LPGEN("Icons to display in the tray"), db_get_b(0, CHAT_MODULE, "Branch5Exp", 0) ? TRUE : FALSE);
+		hListHeading6 = InsertBranch(LPGEN("Popups to display"), db_get_b(0, CHAT_MODULE, "Branch6Exp", 0) ? TRUE : FALSE);
 
 		FillBranch(hListHeading1, branch1, _countof(branch1), 0);
 		FillBranch(hListHeading2, branch2, _countof(branch2), 0);
 		FillBranch(hListHeading3, branch3, _countof(branch3), 0x03E0);
 		FillBranch(hListHeading4, branch4, _countof(branch4), 0x0000);
 		FillBranch(hListHeading5, branch5, _countof(branch5), 0x1000);
-		
-		if (g_dat.bPopupInstalled) {
-			hListHeading6 = InsertBranch(LPGEN("Popups to display"), db_get_b(0, CHAT_MODULE, "Branch6Exp", 0) ? TRUE : FALSE);
-			FillBranch(hListHeading6, branch6, _countof(branch6), 0x0000);
-		}
+		FillBranch(hListHeading6, branch6, _countof(branch6), 0x0000);
+
 		FixHeadings();
 		return true;
 	}
@@ -363,8 +360,7 @@ public:
 		SaveBranch(branch3, _countof(branch3));
 		SaveBranch(branch4, _countof(branch4));
 		SaveBranch(branch5, _countof(branch5));
-		if (g_dat.bPopupInstalled)
-			SaveBranch(branch6, _countof(branch6));
+		SaveBranch(branch6, _countof(branch6));
 
 		g_chatApi.ReloadSettings();
 		Chat_UpdateOptions();
@@ -383,11 +379,8 @@ public:
 		db_set_b(0, CHAT_MODULE, "Branch4Exp", b);
 		b = checkBoxes.GetItemState(hListHeading5, TVIS_EXPANDED) & TVIS_EXPANDED ? 1 : 0;
 		db_set_b(0, CHAT_MODULE, "Branch5Exp", b);
-
-		if (g_dat.bPopupInstalled) {
-			b = checkBoxes.GetItemState(hListHeading6, TVIS_EXPANDED) & TVIS_EXPANDED ? 1 : 0;
-			db_set_b(0, CHAT_MODULE, "Branch6Exp", b);
-		}
+		b = checkBoxes.GetItemState(hListHeading6, TVIS_EXPANDED) & TVIS_EXPANDED ? 1 : 0;
+		db_set_b(0, CHAT_MODULE, "Branch6Exp", b);
 	}
 
 	void onChange_Tree(CCtrlTreeView::TEventInfo *evt)
@@ -669,13 +662,11 @@ int ChatOptionsInitialize(WPARAM wParam)
 	odp.pDialog = new COptLogDlg();
 	g_plugin.addOptions(wParam, &odp);
 
-	if (g_dat.bPopupInstalled) {
-		odp.position = 910000002;
-		odp.szTitle.a = LPGEN("Chat");
-		odp.szGroup.a = LPGEN("Popups");
-		odp.szTab.a = nullptr;
-		odp.pDialog = new COptPopupDlg();
-		g_plugin.addOptions(wParam, &odp);
-	}
+	odp.position = 910000002;
+	odp.szTitle.a = LPGEN("Chat");
+	odp.szGroup.a = LPGEN("Popups");
+	odp.szTab.a = nullptr;
+	odp.pDialog = new COptPopupDlg();
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

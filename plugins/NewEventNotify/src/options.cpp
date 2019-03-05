@@ -263,16 +263,13 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, L
 
 int OptionsAdd(WPARAM addInfo, LPARAM)
 {
-	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
-		OPTIONSDIALOGPAGE odp = {};
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
-		odp.szTitle.a = LPGEN("Event Notify");
-		odp.szGroup.a = LPGEN("Popups");
-		odp.flags = ODPF_BOLDGROUPS;
-		odp.pfnDlgProc = OptionsDlgProc;
-		g_plugin.addOptions(addInfo, &odp);
-	}
-
+	OPTIONSDIALOGPAGE odp = {};
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
+	odp.szTitle.a = LPGEN("Event Notify");
+	odp.szGroup.a = LPGEN("Popups");
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.pfnDlgProc = OptionsDlgProc;
+	g_plugin.addOptions(addInfo, &odp);
 	return 0;
 }
 

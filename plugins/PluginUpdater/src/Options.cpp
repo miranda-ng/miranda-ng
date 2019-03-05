@@ -565,12 +565,10 @@ int OptInit(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = UpdateNotifyOptsProc;
 	g_plugin.addOptions(wParam, &odp);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP);
-		odp.szGroup.w = LPGENW("Popups");
-		odp.szTitle.w = LPGENW("Plugin Updater");
-		odp.pfnDlgProc = DlgPopupOpts;
-		g_plugin.addOptions(wParam, &odp);
-	}
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP);
+	odp.szGroup.w = LPGENW("Popups");
+	odp.szTitle.w = LPGENW("Plugin Updater");
+	odp.pfnDlgProc = DlgPopupOpts;
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

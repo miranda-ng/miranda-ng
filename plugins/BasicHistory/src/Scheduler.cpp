@@ -21,7 +21,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "ExportManager.h"
 #include "HistoryWindow.h"
 
-bool bPopupsEnabled;
 bool DoTask(TaskOptions& to);
 bool IsValidTask(TaskOptions& to, std::list<TaskOptions>* top = nullptr, std::wstring* err = nullptr, std::wstring* errDescr = nullptr);
 std::wstring GetFileName(const std::wstring &baseName, std::wstring contactName, std::map<std::wstring, bool>& existingContacts, bool replaceContact);
@@ -65,8 +64,6 @@ static int OnShutdown(WPARAM, LPARAM)
 
 void InitScheduler()
 {
-	bPopupsEnabled = ServiceExists(MS_POPUP_ADDPOPUPW) || ServiceExists(MS_POPUP_ADDPOPUPCLASS);
-
 	POPUPCLASS test = { sizeof(test) };
 	test.flags = PCF_UNICODE;
 	test.hIcon = Skin_LoadIcon(SKINICON_OTHER_HISTORY);
@@ -1297,14 +1294,6 @@ void DoError(const TaskOptions& to, const std::wstring _error)
 		if (Miranda_IsTerminated())
 			return;
 
-		if (ServiceExists(MS_POPUP_ADDPOPUPCLASS))
-			ShowClassPopupW(MODULENAME, msg, _error.c_str());
-		else if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
-			POPUPDATAW ppd = { 0 };
-			ppd.lchIcon = Skin_LoadIcon(SKINICON_OTHER_HISTORY);
-			wcscpy_s(ppd.lpwzContactName, msg);
-			wcscpy_s(ppd.lpwzText, _error.c_str());
-			CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&ppd, 0);
-		}
+		ShowClassPopupW(MODULENAME, msg, _error.c_str());
 	}
 }

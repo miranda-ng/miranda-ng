@@ -20,18 +20,16 @@ bool COptions::OnInitDialog()
 void COptions::Shortcut_OnClick(CCtrlBase*)
 {
 	if (FAILED(TryCreateShortcut()))
-	{
-		CallService(MS_POPUP_SHOWMESSAGEW, (WPARAM)TranslateT("Failed to create shortcut"), (LPARAM)SM_ERROR);
-		return;
-	}
-	CallService(MS_POPUP_SHOWMESSAGEW, (WPARAM)TranslateT("Shortcut was added to the start menu"), (LPARAM)SM_NOTIFY);
+		PUShowMessageW(TranslateT("Failed to create shortcut"), SM_ERROR);
+	else
+		PUShowMessageW(TranslateT("Shortcut was added to the start menu"), SM_NOTIFY);
 }
 
 void COptions::Preview_OnClick(CCtrlBase*)
 {
-	CallService(MS_POPUP_SHOWMESSAGEW, (WPARAM)TranslateT("Information"), (LPARAM)SM_NOTIFY);
-	CallService(MS_POPUP_SHOWMESSAGEW, (WPARAM)TranslateT("Warning"), (LPARAM)SM_WARNING);
-	CallService(MS_POPUP_SHOWMESSAGEW, (WPARAM)TranslateT("Error"), (LPARAM)SM_ERROR);
+	PUShowMessageW(TranslateT("Information"), SM_NOTIFY);
+	PUShowMessageW(TranslateT("Warning"), SM_WARNING);
+	PUShowMessageW(TranslateT("Error"), SM_ERROR);
 }
 
 void COptions::Enabled_OnChange(CCtrlCheck* chk)

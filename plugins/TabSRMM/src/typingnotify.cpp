@@ -42,13 +42,10 @@ static colorPicker[4] =
 static INT_PTR EnableDisableMenuCommand(WPARAM, LPARAM)
 {
 	Disabled = !Disabled;
-
-	if (PluginConfig.g_bPopupAvail) {
-		if (!Disabled)
-			Menu_ModifyItem(hDisableMenu, LPGENW("Disable &typing notification"), IcoLib_GetIcon("tabSRMM_popups_enabled"));
-		else
-			Menu_ModifyItem(hDisableMenu, LPGENW("Enable &typing notification"), IcoLib_GetIcon("tabSRMM_popups_disabled"));
-	}
+	if (!Disabled)
+		Menu_ModifyItem(hDisableMenu, LPGENW("Disable &typing notification"), IcoLib_GetIcon("tabSRMM_popups_enabled"));
+	else
+		Menu_ModifyItem(hDisableMenu, LPGENW("Enable &typing notification"), IcoLib_GetIcon("tabSRMM_popups_disabled"));
 
 	return 0;
 }
@@ -85,7 +82,7 @@ void TN_TypingMessage(MCONTACT hContact, int iMode)
 	if (db_get_b(hContact, "CList", "Hidden", 0) || (db_get_dw(hContact, "Ignore", "Mask1", 0) & 1)) // 9 - online notification
 		return;
 
-	if (!PluginConfig.g_bPopupAvail || Disabled)
+	if (Disabled)
 		return;
 
 	wchar_t *szContactName = Clist_GetContactDisplayName(hContact);
@@ -167,7 +164,7 @@ void TN_TypingMessage(MCONTACT hContact, int iMode)
 	ppd.lchIcon = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
 	ppd.lchContact = hContact;
 	ppd.PluginWindowProc = PopupDlgProc;
-	CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&ppd, APF_NEWDATA);
+	PUAddPopupW(&ppd, APF_NEWDATA);
 }
 
 static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -214,10 +211,6 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 		CheckDlgButton(hwndDlg, IDC_ONEPOPUP, (OnePopup) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SHOWMENU, (ShowMenu) ? BST_CHECKED : BST_UNCHECKED);
-
-		Utils::enableDlgControl(hwndDlg, IDC_ONEPOPUP, PluginConfig.g_bPopupAvail);
-		Utils::enableDlgControl(hwndDlg, IDC_SHOWMENU, PluginConfig.g_bPopupAvail);
-		Utils::enableDlgControl(hwndDlg, IDC_PREVIEW, PluginConfig.g_bPopupAvail);
 
 		newTimeout = Timeout;
 		newTimeoutMode = TimeoutMode;
@@ -291,72 +284,70 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			break;
 
 		case IDC_PREVIEW:
-			if (PluginConfig.g_bPopupAvail) {
-				POPUPDATAW ppd = { 0 };
-				for (int i = 0; i < 2; i++) {
-					int notyping;
-					if (i == PROTOTYPE_CONTACTTYPING_OFF) {
-						wcsncpy_s(ppd.lpwzContactName, TranslateT("Contact"), _TRUNCATE);
-						wcsncpy_s(ppd.lpwzText, szStop, _TRUNCATE);
-						notyping = 1;
-					}
-					else {
-						wcsncpy_s(ppd.lpwzContactName, TranslateT("Contact"), _TRUNCATE);
-						wcsncpy_s(ppd.lpwzText, szStart, _TRUNCATE);
-						notyping = 0;
-					}
-
-					switch (newColorMode) {
-					case COLOR_OWN:
-						ppd.colorText = SendDlgItemMessage(hwndDlg, colorPicker[2 * notyping + 1].res, CPM_GETCOLOUR, 0, 0);
-						ppd.colorBack = SendDlgItemMessage(hwndDlg, colorPicker[2 * notyping].res, CPM_GETCOLOUR, 0, 0);
-						break;
-					case COLOR_WINDOWS:
-						ppd.colorBack = GetSysColor(COLOR_BTNFACE);
-						ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
-						break;
-					case COLOR_POPUP:
-					default:
-						ppd.colorBack = ppd.colorText = 0;
-						break;
-					}
-
-					if (notyping)
-						switch (newTimeoutMode2) {
-						case TIMEOUT_CUSTOM:
-							ppd.iSeconds = newTimeout2;
-							break;
-						case TIMEOUT_PERMANENT:
-							ppd.iSeconds = -1;
-							break;
-						case TIMEOUT_POPUP:
-						default:
-							ppd.iSeconds = 0;
-							break;
-					}
-					else
-						switch (newTimeoutMode) {
-						case TIMEOUT_CUSTOM:
-							ppd.iSeconds = newTimeout;
-							break;
-						case TIMEOUT_PROTO:
-							ppd.iSeconds = 10;
-							break;
-						case TIMEOUT_PERMANENT:
-							ppd.iSeconds = -1;
-							break;
-						case TIMEOUT_POPUP:
-						default:
-							ppd.iSeconds = 0;
-							break;
-					}
-
-					ppd.lchIcon = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
-					ppd.lchContact = wParam;
-					ppd.PluginWindowProc = nullptr;
-					ppd.PluginData = nullptr;
-					PUAddPopupW(&ppd);
+			for (int i = 0; i < 2; i++) {
+				POPUPDATAW ppd = {};
+				int notyping;
+				if (i == PROTOTYPE_CONTACTTYPING_OFF) {
+					wcsncpy_s(ppd.lpwzContactName, TranslateT("Contact"), _TRUNCATE);
+					wcsncpy_s(ppd.lpwzText, szStop, _TRUNCATE);
+					notyping = 1;
 				}
+				else {
+					wcsncpy_s(ppd.lpwzContactName, TranslateT("Contact"), _TRUNCATE);
+					wcsncpy_s(ppd.lpwzText, szStart, _TRUNCATE);
+					notyping = 0;
+				}
+
+				switch (newColorMode) {
+				case COLOR_OWN:
+					ppd.colorText = SendDlgItemMessage(hwndDlg, colorPicker[2 * notyping + 1].res, CPM_GETCOLOUR, 0, 0);
+					ppd.colorBack = SendDlgItemMessage(hwndDlg, colorPicker[2 * notyping].res, CPM_GETCOLOUR, 0, 0);
+					break;
+				case COLOR_WINDOWS:
+					ppd.colorBack = GetSysColor(COLOR_BTNFACE);
+					ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
+					break;
+				case COLOR_POPUP:
+				default:
+					ppd.colorBack = ppd.colorText = 0;
+					break;
+				}
+
+				if (notyping)
+					switch (newTimeoutMode2) {
+					case TIMEOUT_CUSTOM:
+						ppd.iSeconds = newTimeout2;
+						break;
+					case TIMEOUT_PERMANENT:
+						ppd.iSeconds = -1;
+						break;
+					case TIMEOUT_POPUP:
+					default:
+						ppd.iSeconds = 0;
+						break;
+				}
+				else
+					switch (newTimeoutMode) {
+					case TIMEOUT_CUSTOM:
+						ppd.iSeconds = newTimeout;
+						break;
+					case TIMEOUT_PROTO:
+						ppd.iSeconds = 10;
+						break;
+					case TIMEOUT_PERMANENT:
+						ppd.iSeconds = -1;
+						break;
+					case TIMEOUT_POPUP:
+					default:
+						ppd.iSeconds = 0;
+						break;
+				}
+
+				ppd.lchIcon = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
+				ppd.lchContact = wParam;
+				ppd.PluginWindowProc = nullptr;
+				ppd.PluginData = nullptr;
+				PUAddPopupW(&ppd);
 			}
 			break;
 
@@ -489,16 +480,14 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 int TN_OptionsInitialize(WPARAM wParam, LPARAM)
 {
-	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
-		OPTIONSDIALOGPAGE odp = {};
-		odp.position = 100000000;
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TYPINGNOTIFYPOPUP);
-		odp.szTitle.a = LPGEN("Typing notify");
-		odp.szGroup.a = LPGEN("Popups");
-		odp.flags = ODPF_BOLDGROUPS;
-		odp.pfnDlgProc = DlgProcOpts;
-		g_plugin.addOptions(wParam, &odp);
-	}
+	OPTIONSDIALOGPAGE odp = {};
+	odp.position = 100000000;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TYPINGNOTIFYPOPUP);
+	odp.szTitle.a = LPGEN("Typing notify");
+	odp.szGroup.a = LPGEN("Popups");
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.pfnDlgProc = DlgProcOpts;
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 
@@ -527,7 +516,7 @@ int TN_ModuleInit()
 	mir_snwprintf(szStart, TranslateT("...is typing a message."));
 	mir_snwprintf(szStop, TranslateT("...has stopped typing."));
 
-	if (PluginConfig.g_bPopupAvail && ShowMenu) {
+	if (ShowMenu) {
 		CreateServiceFunction("TypingNotify/EnableDisableMenuCommand", EnableDisableMenuCommand);
 
 		CMenuItem mi(&g_plugin);

@@ -47,35 +47,28 @@ void CSkypeProto::ShowNotification(const wchar_t *caption, const wchar_t *messag
 	if (Miranda_IsTerminated())
 		return;
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
-		CMStringA className(FORMAT, "%s_", m_szModuleName);
+	CMStringA className(FORMAT, "%s_", m_szModuleName);
 
-		switch (type) {
-		case 1:
-			className.Append("Error");
-			break;
+	switch (type) {
+	case 1:
+		className.Append("Error");
+		break;
 
-		case SKYPE_DB_EVENT_TYPE_INCOMING_CALL:
-			className.Append("Call");
-			break;
+	case SKYPE_DB_EVENT_TYPE_INCOMING_CALL:
+		className.Append("Call");
+		break;
 
-		default:
-			className.Append("Notification");
-			break;
-		}
-
-		POPUPDATACLASS ppd = { sizeof(ppd) };
-		ppd.pwszTitle = caption;
-		ppd.pwszText = message;
-		ppd.pszClassName = className.GetBuffer();
-		ppd.hContact = hContact;
-
-		CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
+	default:
+		className.Append("Notification");
+		break;
 	}
-	else {
-		DWORD mtype = MB_OK | MB_SETFOREGROUND | MB_ICONSTOP;
-		MessageBox(nullptr, message, caption, mtype);
-	}
+
+	POPUPDATACLASS ppd = { sizeof(ppd) };
+	ppd.pwszTitle = caption;
+	ppd.pwszText = message;
+	ppd.pszClassName = className.GetBuffer();
+	ppd.hContact = hContact;
+	CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
 }
 
 void CSkypeProto::ShowNotification(const wchar_t *message, MCONTACT hContact)

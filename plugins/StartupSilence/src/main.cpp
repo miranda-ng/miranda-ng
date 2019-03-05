@@ -350,12 +350,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			break;
 
 		case IDC_DELAY2:
-			if (!ServiceExists(MS_POPUP_QUERY)) {
-				MessageBox(nullptr, NEEDPOPUP, NOTICE, MB_OK);
-				CheckDlgButton(hwndDlg, IDC_DELAY2, BST_UNCHECKED);
-				PopUp = db_set_b(0, MODULENAME, PopUpComp, 0);
-			}
-			else PopUp = db_set_b(0, MODULENAME, PopUpComp, IsDlgButtonChecked(hwndDlg, IDC_DELAY2) == BST_CHECKED);
+			PopUp = db_set_b(0, MODULENAME, PopUpComp, IsDlgButtonChecked(hwndDlg, IDC_DELAY2) == BST_CHECKED);
 			break;
 
 		case IDC_MENU:

@@ -433,7 +433,6 @@
 #define IDC_THEME                       1394
 #define IDC_INFOPANEL                   1395
 #define IDC_SHOWAVATAR                  1396
-#define IDC_NOPOPUPAVAIL                1398
 #define IDC_QHTM                        1399
 #define IDC_TSLABEL_ACTIVE              1400
 #define IDC_TSLABEL_INACTIVE            1401

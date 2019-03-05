@@ -243,7 +243,7 @@ bool isContactGoneFor(MCONTACT hContact, int days)
 				ppd.lpActions = hideactions;
 				ppd.actionCount = 2;
 
-				CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&ppd, APF_NEWDATA);
+				PUAddPopupW(&ppd, APF_NEWDATA);
 
 				Skin_PlaySound("buddyExpectatorHide");
 			}
@@ -497,7 +497,7 @@ int SettingChanged(WPARAM hContact, LPARAM lParam)
 			ppd.lpActions = missyouactions;
 			ppd.actionCount = 1;
 
-			CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&ppd, APF_NEWDATA);
+			PUAddPopupW(&ppd, APF_NEWDATA);
 
 			Skin_PlaySound("buddyExpectatorMissYou");
 		}

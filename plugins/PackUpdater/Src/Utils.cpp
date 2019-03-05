@@ -193,7 +193,7 @@ static void CheckUpdates(void *)
 	if (!tszDownloadURL) { // URL is not set
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("URL for checking updates not found.");
-		if (ServiceExists(MS_POPUP_ADDPOPUPW) && db_get_b(0, "Popup", "ModuleIsEnabled", 1) && g_plugin.getByte("Popups1", DEFAULT_POPUP_ENABLED)) {
+		if (db_get_b(0, "Popup", "ModuleIsEnabled", 1) && g_plugin.getByte("Popups1", DEFAULT_POPUP_ENABLED)) {
 			Number = 1;
 			show_popup(nullptr, Title, Text, Number, 0);
 		}
@@ -248,7 +248,7 @@ static void CheckUpdates(void *)
 		if (wcsstr(tszBuff, L"\\")) { //check update name
 			Title = TranslateT("Pack Updater");
 			Text = TranslateT("Name of Update's file is not supported.");
-			if (ServiceExists(MS_POPUP_ADDPOPUPW) && db_get_b(0, "Popup", "ModuleIsEnabled", 1) && g_plugin.getByte("Popups1", DEFAULT_POPUP_ENABLED)) {
+			if (db_get_b(0, "Popup", "ModuleIsEnabled", 1) && g_plugin.getByte("Popups1", DEFAULT_POPUP_ENABLED)) {
 				Number = 1;
 				show_popup(nullptr, Title, Text, Number, 0);
 			}
@@ -339,7 +339,7 @@ static void CheckUpdates(void *)
 	if (!UpdatesCount && !Silent) {
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("No updates found.");
-		if (ServiceExists(MS_POPUP_ADDPOPUPW) && db_get_b(0, "Popup", "ModuleIsEnabled", 1) && g_plugin.getByte("Popups2", DEFAULT_POPUP_ENABLED)) {
+		if (db_get_b(0, "Popup", "ModuleIsEnabled", 1) && g_plugin.getByte("Popups2", DEFAULT_POPUP_ENABLED)) {
 			Number = 2;
 			show_popup(nullptr, Title, Text, Number, 0);
 		}
@@ -350,7 +350,7 @@ static void CheckUpdates(void *)
 	if (!FileCount) {
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("No files for update.");
-		if (ServiceExists(MS_POPUP_ADDPOPUPW) && db_get_b(0, "Popup", "ModuleIsEnabled", 1) && g_plugin.getByte("Popups2", DEFAULT_POPUP_ENABLED)) {
+		if (db_get_b(0, "Popup", "ModuleIsEnabled", 1) && g_plugin.getByte("Popups2", DEFAULT_POPUP_ENABLED)) {
 			Number = 2;
 			show_popup(nullptr, Title, Text, Number, 0);
 		}
@@ -365,7 +365,7 @@ void DoCheck(int iFlag)
 	if (hCheckThread != nullptr) {
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("Update checking already started!");
-		if (ServiceExists(MS_POPUP_ADDPOPUPW) && db_get_b(0, "Popup", "ModuleIsEnabled", 1) && g_plugin.getByte("Popups2", DEFAULT_POPUP_ENABLED)) {
+		if (db_get_b(0, "Popup", "ModuleIsEnabled", 1) && g_plugin.getByte("Popups2", DEFAULT_POPUP_ENABLED)) {
 			Number = 2;
 			show_popup(nullptr, Title, Text, Number, 0);
 		}

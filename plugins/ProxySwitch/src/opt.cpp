@@ -49,11 +49,10 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 		CheckDlgButton(hdlg, IDC_CHECK_DEFAULTCOLORS, opt_defaultColors ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hdlg, IDC_CHECK_SHOWPROXYSTATUS, opt_showProxyState ? BST_CHECKED : BST_UNCHECKED);
 		EnableWindow(GetDlgItem(hdlg, IDC_CHECK_FIREFOX), Firefox_Installed());
-		EnableWindow(GetDlgItem(hdlg, IDC_CHECK_POPUPS), opt_popupPluginInstalled);
-		EnableWindow(GetDlgItem(hdlg, IDC_BGCOLOR), opt_popupPluginInstalled && opt_popups && !opt_defaultColors);
-		EnableWindow(GetDlgItem(hdlg, IDC_TEXTCOLOR), opt_popupPluginInstalled && opt_popups && !opt_defaultColors);
-		EnableWindow(GetDlgItem(hdlg, IDC_CHECK_DEFAULTCOLORS), opt_popupPluginInstalled && opt_popups);
-		EnableWindow(GetDlgItem(hdlg, IDC_CHECK_SHOWPROXYSTATUS), opt_popupPluginInstalled && opt_popups);
+		EnableWindow(GetDlgItem(hdlg, IDC_BGCOLOR), opt_popups && !opt_defaultColors);
+		EnableWindow(GetDlgItem(hdlg, IDC_TEXTCOLOR), opt_popups && !opt_defaultColors);
+		EnableWindow(GetDlgItem(hdlg, IDC_CHECK_DEFAULTCOLORS), opt_popups);
+		EnableWindow(GetDlgItem(hdlg, IDC_CHECK_SHOWPROXYSTATUS), opt_popups);
 		ShowWindow(GetDlgItem(hdlg, IDC_RESTARTREQUIRED), opt_not_restarted ? SW_SHOW : SW_HIDE);
 		TranslateDialogDefault(hdlg);
 		opt_startup = FALSE;
@@ -108,8 +107,6 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 
 		case IDC_CHECK_DEFAULTCOLORS:
 		case IDC_CHECK_POPUPS:
-			if (!opt_popupPluginInstalled)
-				break;
 			EnableWindow(GetDlgItem(hdlg, IDC_BGCOLOR), IsDlgButtonChecked(hdlg, IDC_CHECK_POPUPS) && !IsDlgButtonChecked(hdlg, IDC_CHECK_DEFAULTCOLORS));
 			EnableWindow(GetDlgItem(hdlg, IDC_TEXTCOLOR), IsDlgButtonChecked(hdlg, IDC_CHECK_POPUPS) && !IsDlgButtonChecked(hdlg, IDC_CHECK_DEFAULTCOLORS));
 			EnableWindow(GetDlgItem(hdlg, IDC_CHECK_DEFAULTCOLORS), IsDlgButtonChecked(hdlg, IDC_CHECK_POPUPS));

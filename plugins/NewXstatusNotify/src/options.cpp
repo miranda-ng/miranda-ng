@@ -1197,23 +1197,22 @@ int OptionsInitialize(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = DlgProcFiltering;
 	g_plugin.addOptions(wParam, &odp);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
-		odp.szTitle.a = LPGEN("Status Notify");
-		odp.szGroup.a = LPGEN("Popups");
-		odp.szTab.a = LPGEN("General");
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUP);
-		odp.pfnDlgProc = DlgProcPopupOpts;
-		g_plugin.addOptions(wParam, &odp);
+	// Popups
+	odp.szTitle.a = LPGEN("Status Notify");
+	odp.szGroup.a = LPGEN("Popups");
+	odp.szTab.a = LPGEN("General");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUP);
+	odp.pfnDlgProc = DlgProcPopupOpts;
+	g_plugin.addOptions(wParam, &odp);
 
-		odp.szTab.a = LPGEN("Extra status");
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_XPOPUP);
-		odp.pfnDlgProc = DlgProcXPopupOpts;
-		g_plugin.addOptions(wParam, &odp);
+	odp.szTab.a = LPGEN("Extra status");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_XPOPUP);
+	odp.pfnDlgProc = DlgProcXPopupOpts;
+	g_plugin.addOptions(wParam, &odp);
 
-		odp.szTab.a = LPGEN("Status message");
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SMPOPUP);
-		odp.pfnDlgProc = DlgProcSMPopupOpts;
-		g_plugin.addOptions(wParam, &odp);
-	}
+	odp.szTab.a = LPGEN("Status message");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SMPOPUP);
+	odp.pfnDlgProc = DlgProcSMPopupOpts;
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

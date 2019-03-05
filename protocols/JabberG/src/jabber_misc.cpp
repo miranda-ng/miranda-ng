@@ -425,22 +425,15 @@ void CJabberProto::InitPopups(void)
 
 void CJabberProto::MsgPopup(MCONTACT hContact, const wchar_t *szMsg, const wchar_t *szTitle)
 {
-	if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
-		char name[256];
+	char name[256];
 
-		POPUPDATACLASS ppd = { sizeof(ppd) };
-		ppd.pwszTitle = szTitle;
-		ppd.pwszText = szMsg;
-		ppd.pszClassName = name;
-		ppd.hContact = hContact;
-		mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
-
-		CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
-	}
-	else {
-		DWORD mtype = MB_OK | MB_SETFOREGROUND | MB_ICONSTOP;
-		MessageBox(nullptr, szMsg, szTitle, mtype);
-	}
+	POPUPDATACLASS ppd = { sizeof(ppd) };
+	ppd.pwszTitle = szTitle;
+	ppd.pwszText = szMsg;
+	ppd.pszClassName = name;
+	ppd.hContact = hContact;
+	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
+	CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
 }
 
 CMStringA CJabberProto::ExtractImage(const TiXmlElement *node)

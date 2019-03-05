@@ -1694,11 +1694,9 @@ int onRegisterOptions(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc = OptionsDlgProc;
 	g_plugin.addOptions(wParam, &odp);
 
-	if (bPopupExists) {
-		odp.pszTemplate = MAKEINTRESOURCE(IDD_POPUP);
-		odp.szGroup.a = LPGEN("Popups");
-		odp.pfnDlgProc = PopOptionsDlgProc;
-		g_plugin.addOptions(wParam, &odp);
-	}
+	odp.pszTemplate = MAKEINTRESOURCE(IDD_POPUP);
+	odp.szGroup.a = LPGEN("Popups");
+	odp.pfnDlgProc = PopOptionsDlgProc;
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

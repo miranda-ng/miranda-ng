@@ -571,12 +571,10 @@ int OnOptInitialize(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = DlgProcOptionsBayes;
 	g_plugin.addOptions(wParam, &odp);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_SPAMOTRON_POPUPS);
-		odp.pfnDlgProc = DlgProcOptionsPopups;
-		odp.szGroup.a = LPGEN("Popups");
-		odp.szTab.a = nullptr;
-		g_plugin.addOptions(wParam, &odp);
-	}
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SPAMOTRON_POPUPS);
+	odp.pfnDlgProc = DlgProcOptionsPopups;
+	odp.szGroup.a = LPGEN("Popups");
+	odp.szTab.a = nullptr;
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

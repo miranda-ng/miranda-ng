@@ -154,14 +154,12 @@ int OptInit(WPARAM wParam, LPARAM)
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	g_plugin.addOptions(wParam, &odp);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
-		odp.szGroup.w = LPGENW("Popups");
-		odp.szTitle.w = LPGENW("Avatar change");
-		odp.pfnDlgProc = PopupsDlgProc;
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPS);
-		odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
-		g_plugin.addOptions(wParam, &odp);
-	}
+	odp.szGroup.w = LPGENW("Popups");
+	odp.szTitle.w = LPGENW("Avatar change");
+	odp.pfnDlgProc = PopupsDlgProc;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPS);
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

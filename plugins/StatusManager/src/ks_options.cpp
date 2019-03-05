@@ -35,7 +35,7 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			SetDlgItemInt(hwndDlg, IDC_MAXRETRIES, db_get_b(0, KSMODULENAME, SETTING_MAXRETRIES, DEFAULT_MAXRETRIES), FALSE);
 			SetDlgItemInt(hwndDlg, IDC_INITDELAY, db_get_dw(0, KSMODULENAME, SETTING_INITDELAY, DEFAULT_INITDELAY), FALSE);
 			CheckDlgButton(hwndDlg, IDC_CHECKCONNECTION, db_get_b(0, KSMODULENAME, SETTING_CHECKCONNECTION, FALSE) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SHOWCONNECTIONPOPUPS, (db_get_b(0, KSMODULENAME, SETTING_SHOWCONNECTIONPOPUPS, FALSE) && ServiceExists(MS_POPUP_SHOWMESSAGE)) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SHOWCONNECTIONPOPUPS, db_get_b(0, KSMODULENAME, SETTING_SHOWCONNECTIONPOPUPS, FALSE) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_CHKINET, db_get_b(0, KSMODULENAME, SETTING_CHKINET, FALSE) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_CONTCHECK, db_get_b(0, KSMODULENAME, SETTING_CONTCHECK, FALSE) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_BYPING, db_get_b(0, KSMODULENAME, SETTING_BYPING, FALSE) ? BST_CHECKED : BST_UNCHECKED);
@@ -72,7 +72,7 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				lvItem.iItem++;
 			}
 			EnableWindow(GetDlgItem(hwndDlg, IDC_MAXRETRIES), IsDlgButtonChecked(hwndDlg, IDC_CHECKCONNECTION));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWCONNECTIONPOPUPS), ServiceExists(MS_POPUP_SHOWMESSAGE) && IsDlgButtonChecked(hwndDlg, IDC_CHECKCONNECTION));
+			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWCONNECTIONPOPUPS), IsDlgButtonChecked(hwndDlg, IDC_CHECKCONNECTION));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_INITDELAY), IsDlgButtonChecked(hwndDlg, IDC_CHECKCONNECTION));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_PROTOCOLLIST), IsDlgButtonChecked(hwndDlg, IDC_CHECKCONNECTION));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHKINET), IsDlgButtonChecked(hwndDlg, IDC_CHECKCONNECTION));
@@ -92,7 +92,7 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		case IDC_BYPING:
 			BOOL bEnabled = IsDlgButtonChecked(hwndDlg, IDC_CHECKCONNECTION);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_MAXRETRIES), bEnabled);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWCONNECTIONPOPUPS), ServiceExists(MS_POPUP_SHOWMESSAGE) && bEnabled);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWCONNECTIONPOPUPS), bEnabled);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_INITDELAY), bEnabled);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_PROTOCOLLIST), bEnabled);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHKINET), bEnabled);
@@ -289,14 +289,10 @@ static INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		}
 
 		// delay
-		EnableWindow(GetDlgItem(hwndDlg, IDC_DELAYCUSTOM), ServiceExists(MS_POPUP_ADDPOPUPW));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_DELAYFROMPU), ServiceExists(MS_POPUP_ADDPOPUPW));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_DELAYPERMANENT), ServiceExists(MS_POPUP_ADDPOPUPW));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_DELAY), ServiceExists(MS_POPUP_ADDPOPUPW));
 		switch (db_get_b(0, KSMODULENAME, SETTING_POPUP_DELAYTYPE, POPUP_DELAYFROMPU)) {
 		case POPUP_DELAYCUSTOM:
 			CheckDlgButton(hwndDlg, IDC_DELAYCUSTOM, BST_CHECKED);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_DELAY), ServiceExists(MS_POPUP_ADDPOPUPW));
+			EnableWindow(GetDlgItem(hwndDlg, IDC_DELAY), TRUE);
 			break;
 
 		case POPUP_DELAYPERMANENT:
@@ -471,15 +467,13 @@ int KeepStatusOptionsInit(WPARAM wparam, LPARAM)
 	odp.pfnDlgProc = DlgProcKSAdvOpts;
 	KSPlugin.addOptions(wparam, &odp);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
-		memset(&odp, 0, sizeof(odp));
-		odp.position = 150000000;
-		odp.szGroup.a = LPGEN("Popups");
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_PUOPT_KEEPSTATUS);
-		odp.szTitle.a = LPGEN("Keep status");
-		odp.pfnDlgProc = PopupOptDlgProc;
-		odp.flags = ODPF_BOLDGROUPS;
-		KSPlugin.addOptions(wparam, &odp);
-	}
+	memset(&odp, 0, sizeof(odp));
+	odp.position = 150000000;
+	odp.szGroup.a = LPGEN("Popups");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PUOPT_KEEPSTATUS);
+	odp.szTitle.a = LPGEN("Keep status");
+	odp.pfnDlgProc = PopupOptDlgProc;
+	odp.flags = ODPF_BOLDGROUPS;
+	KSPlugin.addOptions(wparam, &odp);
 	return 0;
 }

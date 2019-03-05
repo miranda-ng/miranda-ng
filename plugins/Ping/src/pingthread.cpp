@@ -182,7 +182,7 @@ void __cdecl sttCheckStatusThreadProc(void*)
 					if (pa.miss_count == -1 - options.retries ||
 						(((-pa.miss_count) % (options.retries + 1)) == 0 && !options.block_reps)) {
 						reply = true;
-						if (options.show_popup2 && ServiceExists(MS_POPUP_SHOWMESSAGE)) {
+						if (options.show_popup2) {
 							ShowPopup(TranslateT("Ping Reply"), pa.pszLabel, 1);
 						}
 					}

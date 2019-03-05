@@ -484,9 +484,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 
 void TwitterProto::ShowContactPopup(MCONTACT hContact, const std::string &text, const std::string *url)
 {
-	if (!ServiceExists(MS_POPUP_ADDPOPUPW) || getByte(TWITTER_KEY_POPUP_SHOW) == 0) {
+	if (!getByte(TWITTER_KEY_POPUP_SHOW))
 		return;
-	}
 
 	POPUPDATAW popup = {};
 	popup.lchContact = hContact;

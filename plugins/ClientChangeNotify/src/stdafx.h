@@ -110,7 +110,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 #define CLIENTCHANGED_SOUND "ClientChanged"
 
-extern BOOL bPopupExists, bFingerprintExists;
+extern BOOL bFingerprintExists;
 
 extern COptPage g_PopupOptPage;
 extern COptPage *g_PreviewOptPage;

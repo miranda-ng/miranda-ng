@@ -90,81 +90,75 @@ PopupDataType;
 void ShowPopupEx(MCONTACT hContact, const wchar_t *title, const wchar_t *description,
 	void *plugin_data, int type, const Options *op)
 {
-	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
-		// Make popup
-		POPUPDATAW ppd = { 0 };
+	// Make popup
+	POPUPDATAW ppd = { 0 };
 
-		ppd.lchContact = hContact;
-		ppd.lchIcon = createProtoOverlayedIcon(hContact);
+	ppd.lchContact = hContact;
+	ppd.lchIcon = createProtoOverlayedIcon(hContact);
 
-		ppd.PluginData = mir_alloc(sizeof(PopupDataType));
-		((PopupDataType*)ppd.PluginData)->plugin_data = plugin_data;
-		((PopupDataType*)ppd.PluginData)->hIcon = ppd.lchIcon;
+	ppd.PluginData = mir_alloc(sizeof(PopupDataType));
+	((PopupDataType*)ppd.PluginData)->plugin_data = plugin_data;
+	((PopupDataType*)ppd.PluginData)->hIcon = ppd.lchIcon;
 
-		if (title != nullptr)
-			mir_wstrncpy(ppd.lpwzContactName, title, _countof(ppd.lpwzContactName));
-		else if (hContact != NULL)
-			mir_wstrncpy(ppd.lpwzContactName, Clist_GetContactDisplayName(hContact), _countof(ppd.lpwzContactName));
+	if (title != nullptr)
+		mir_wstrncpy(ppd.lpwzContactName, title, _countof(ppd.lpwzContactName));
+	else if (hContact != NULL)
+		mir_wstrncpy(ppd.lpwzContactName, Clist_GetContactDisplayName(hContact), _countof(ppd.lpwzContactName));
 
-		if (description != nullptr)
-			mir_wstrncpy(ppd.lpwzText, description, _countof(ppd.lpwzText));
+	if (description != nullptr)
+		mir_wstrncpy(ppd.lpwzText, description, _countof(ppd.lpwzText));
 
-		if (type == POPUP_TYPE_NORMAL || type == POPUP_TYPE_TEST) {
-			if (op->popup_use_default_colors) {
-				ppd.colorBack = 0;
-				ppd.colorText = 0;
-			}
-			else if (op->popup_use_win_colors) {
-				ppd.colorBack = GetSysColor(COLOR_BTNFACE);
-				ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
-			}
-			else {
-				ppd.colorBack = op->popup_bkg_color;
-				ppd.colorText = op->popup_text_color;
-			}
+	if (type == POPUP_TYPE_NORMAL || type == POPUP_TYPE_TEST) {
+		if (op->popup_use_default_colors) {
+			ppd.colorBack = 0;
+			ppd.colorText = 0;
 		}
-		else // if (type == POPUP_TYPE_ERROR)
-		{
-			ppd.colorBack = RGB(200, 0, 0);
-			ppd.colorText = RGB(255, 255, 255);
+		else if (op->popup_use_win_colors) {
+			ppd.colorBack = GetSysColor(COLOR_BTNFACE);
+			ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
 		}
-
-		if (type == POPUP_TYPE_NORMAL) {
-			ppd.PluginWindowProc = PopupDlgProc;
+		else {
+			ppd.colorBack = op->popup_bkg_color;
+			ppd.colorText = op->popup_text_color;
 		}
-		else // if (type == POPUP_TYPE_TEST || type == POPUP_TYPE_ERROR)
-		{
-			ppd.PluginWindowProc = DumbPopupDlgProc;
-		}
+	}
+	else // if (type == POPUP_TYPE_ERROR)
+	{
+		ppd.colorBack = RGB(200, 0, 0);
+		ppd.colorText = RGB(255, 255, 255);
+	}
 
-		if (type == POPUP_TYPE_NORMAL || type == POPUP_TYPE_TEST) {
-			switch (op->popup_delay_type) {
-			case POPUP_DELAY_CUSTOM:
-				ppd.iSeconds = opts.popup_timeout;
-				break;
+	if (type == POPUP_TYPE_NORMAL) {
+		ppd.PluginWindowProc = PopupDlgProc;
+	}
+	else // if (type == POPUP_TYPE_TEST || type == POPUP_TYPE_ERROR)
+	{
+		ppd.PluginWindowProc = DumbPopupDlgProc;
+	}
 
-			case POPUP_DELAY_PERMANENT:
-				ppd.iSeconds = -1;
-				break;
+	if (type == POPUP_TYPE_NORMAL || type == POPUP_TYPE_TEST) {
+		switch (op->popup_delay_type) {
+		case POPUP_DELAY_CUSTOM:
+			ppd.iSeconds = opts.popup_timeout;
+			break;
 
-			case POPUP_DELAY_DEFAULT:
-			default:
-				ppd.iSeconds = 0;
-				break;
-			}
-		}
-		else // if (type == POPUP_TYPE_ERROR)
-		{
+		case POPUP_DELAY_PERMANENT:
+			ppd.iSeconds = -1;
+			break;
+
+		case POPUP_DELAY_DEFAULT:
+		default:
 			ppd.iSeconds = 0;
+			break;
 		}
-
-		// Now that every field has been filled, we want to see the popup.
-		PUAddPopupW(&ppd);
 	}
-	else {
-		MessageBox(nullptr, description, title ? title : Clist_GetContactDisplayName(hContact), MB_OK);
+	else // if (type == POPUP_TYPE_ERROR)
+	{
+		ppd.iSeconds = 0;
 	}
 
+	// Now that every field has been filled, we want to see the popup.
+	PUAddPopupW(&ppd);
 }
 
 

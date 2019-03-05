@@ -116,31 +116,10 @@ wchar_t* ProtoGetNickname(const char* proto)
 
 void ShowPopup(const wchar_t* line1, const wchar_t* line2, int timeout, const MCONTACT hContact)
 {
-	if (Miranda_IsTerminated()) return;
-
-	if (!options.bHavePopups) {
-		wchar_t title[256];
-		mir_snwprintf(title, L"%s Message", _A2W(MODULENAME));
-
-		if (line1 && line2) {
-			int size = int(mir_wstrlen(line1) + mir_wstrlen(line2) + 3);
-			wchar_t *message = new wchar_t[size]; // newline and null terminator
-			mir_snwprintf(message, size, L"%s\r\n%s", line1, line2);
-			MessageBox(nullptr, message, title, MB_OK | MB_ICONINFORMATION);
-			delete[] message;
-		}
-		else if (line1) {
-			MessageBox(nullptr, line1, title, MB_OK | MB_ICONINFORMATION);
-		}
-		else if (line2) {
-			MessageBox(nullptr, line2, title, MB_OK | MB_ICONINFORMATION);
-		}
+	if (Miranda_IsTerminated())
 		return;
-	}
 
-	POPUPDATAW ppd = { 0 };
-	//memset((void *)&ppd, 0, sizeof(POPUPDATAW));
-
+	POPUPDATAW ppd = {};
 	ppd.lchContact = hContact;
 	ppd.lchIcon = nullptr;
 
@@ -154,26 +133,17 @@ void ShowPopup(const wchar_t* line1, const wchar_t* line2, int timeout, const MC
 		wcsncpy(ppd.lpwzText, line2, MAX_SECONDLINE - 1);
 
 	ppd.iSeconds = timeout;
-
 	ppd.PluginWindowProc = nullptr;
 	ppd.PluginData = nullptr;
-
 	PUAddPopupW(&ppd);
-
 }
 
 void ShowWarning(wchar_t *msg)
 {
 	wchar_t buffer[512];
-	ErrorDisplay disp = options.err_method;
-	// funny logic :) ... try to avoid message boxes
-	// if want popups but no popups, try baloons
-	if (disp == ED_POP && !options.bHavePopups)
-		disp = ED_BAL;
-
 	mir_snwprintf(buffer, L"%s Warning", _A2W(MODULENAME));
 
-	switch (disp) {
+	switch (options.err_method) {
 	case ED_POP:
 		{
 			int size = int(mir_wstrlen(msg) + 515);
@@ -195,16 +165,10 @@ void ShowWarning(wchar_t *msg)
 void ShowError(wchar_t *msg)
 {
 	wchar_t buffer[512];
-	ErrorDisplay disp = options.err_method;
-	// funny logic :) ... try to avoid message boxes
-	// if want popups but no popups, try baloons
-	if (disp == ED_POP && !options.bHavePopups)
-		disp = ED_BAL;
-
 	mir_snwprintf(buffer, L"%s Error", _A2W(MODULENAME));
 
 	wchar_t *message;
-	switch (disp) {
+	switch (options.err_method) {
 	case ED_POP:
 		{
 			int size = int(mir_wstrlen(msg) + 515);

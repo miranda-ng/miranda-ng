@@ -115,7 +115,7 @@ CSendLaterJob::~CSendLaterJob()
 			/*
 			 * show a popup notification, unless they are disabled
 			 */
-			if (PluginConfig.g_bPopupAvail && fShowPopup) {
+			if (fShowPopup) {
 				wchar_t	*tszName = Clist_GetContactDisplayName(hContact);
 
 				POPUPDATAW ppd = { 0 };
@@ -678,14 +678,8 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		::SendMessage(m_hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_LABELTIP | LVS_EX_DOUBLEBUFFER);
 		qMgrSetupColumns();
 		qMgrFillList();
-		if (PluginConfig.g_bPopupAvail) {
-			::CheckDlgButton(m_hwndDlg, IDC_QMGR_SUCCESSPOPUPS, m_fSuccessPopups ? BST_CHECKED : BST_UNCHECKED);
-			::CheckDlgButton(m_hwndDlg, IDC_QMGR_ERRORPOPUPS, m_fErrorPopups ? BST_CHECKED : BST_UNCHECKED);
-		}
-		else {
-			Utils::showDlgControl(m_hwndDlg, IDC_QMGR_ERRORPOPUPS, SW_HIDE);
-			Utils::showDlgControl(m_hwndDlg, IDC_QMGR_SUCCESSPOPUPS, SW_HIDE);
-		}
+		::CheckDlgButton(m_hwndDlg, IDC_QMGR_SUCCESSPOPUPS, m_fSuccessPopups ? BST_CHECKED : BST_UNCHECKED);
+		::CheckDlgButton(m_hwndDlg, IDC_QMGR_ERRORPOPUPS, m_fErrorPopups ? BST_CHECKED : BST_UNCHECKED);
 		::ShowWindow(hwnd, SW_NORMAL);
 		return FALSE;
 

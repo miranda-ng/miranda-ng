@@ -830,7 +830,7 @@ void SvcReminderEnable(BYTE bEnable)
 		gRemindOpts.bCListExtraIcon = g_plugin.getByte(SET_REMIND_EXTRAICON, 1);
 		gRemindOpts.bCheckVisibleOnly = g_plugin.getByte(SET_REMIND_CHECKVISIBLE, DEFVAL_REMIND_CHECKVISIBLE);
 		gRemindOpts.bFlashCList = g_plugin.getByte(SET_REMIND_FLASHICON, FALSE);
-		gRemindOpts.bPopups = ServiceExists(MS_POPUP_ADDPOPUPW) && g_plugin.getByte(SET_POPUP_ENABLED, DEFVAL_POPUP_ENABLED);
+		gRemindOpts.bPopups = g_plugin.getByte(SET_POPUP_ENABLED, DEFVAL_POPUP_ENABLED);
 
 		// init the timer
 		UpdateTimer(TRUE);

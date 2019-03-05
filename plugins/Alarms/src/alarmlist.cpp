@@ -611,20 +611,18 @@ static LRESULT CALLBACK PopupAlarmDlgProc(HWND hWnd, UINT message, WPARAM wParam
 
 void ShowPopup(ALARM *alarm)
 {
-	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
-		ALARM *data = new ALARM;
-		memset(data, 0, sizeof(ALARM));
-		copy_alarm_data(data, alarm);
+	ALARM *data = new ALARM;
+	memset(data, 0, sizeof(ALARM));
+	copy_alarm_data(data, alarm);
 
-		POPUPDATAW ppd = { 0 };
-		ppd.lchIcon = hIconMenuSet;
-		mir_wstrncpy(ppd.lpwzContactName, data->szTitle, MAX_CONTACTNAME);
-		mir_wstrncpy(ppd.lpwzText, data->szDesc, MAX_SECONDLINE);
-		ppd.PluginWindowProc = PopupAlarmDlgProc;
-		ppd.PluginData = data;
-		ppd.iSeconds = -1;
-		PUAddPopupW(&ppd);
-	}
+	POPUPDATAW ppd = { 0 };
+	ppd.lchIcon = hIconMenuSet;
+	mir_wstrncpy(ppd.lpwzContactName, data->szTitle, MAX_CONTACTNAME);
+	mir_wstrncpy(ppd.lpwzText, data->szDesc, MAX_SECONDLINE);
+	ppd.PluginWindowProc = PopupAlarmDlgProc;
+	ppd.PluginData = data;
+	ppd.iSeconds = -1;
+	PUAddPopupW(&ppd);
 }
 
 void DoAlarm(ALARM *alarm)
@@ -658,7 +656,7 @@ void DoAlarm(ALARM *alarm)
 		}
 
 		if (alarm->action & AAF_POPUP) {
-			if (options.use_popup_module && ServiceExists(MS_POPUP_ADDPOPUPW))
+			if (options.use_popup_module)
 				ShowPopup(alarm);
 			else {
 				HWND hwndDlg = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ALARM), GetDesktopWindow(), DlgProcAlarm);

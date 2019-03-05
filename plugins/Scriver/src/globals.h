@@ -93,7 +93,6 @@ struct GlobalMessageData
 	SendMode   sendMode;
 	int        tabIconListUsageSize;
 	int        smileyAddInstalled;
-	int        popupInstalled;
 	int        ieviewInstalled;
 	int        limitTabsNum;
 	int        limitChatsTabsNum;

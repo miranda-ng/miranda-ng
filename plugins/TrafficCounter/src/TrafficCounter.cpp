@@ -30,7 +30,7 @@ HWND TrafficHwnd;
 
 CMPlugin g_plugin;
 
-BOOL bPopupExists = FALSE, bVariablesExists = FALSE, bTooltipExists = FALSE;
+BOOL bVariablesExists = FALSE, bTooltipExists = FALSE;
 
 static wchar_t wszDefaultFormat[] =
 _A2W("{I4}\x0D\x0A\x0A\
@@ -147,7 +147,6 @@ int TrafficCounterShutdown(WPARAM, LPARAM)
 
 int ModuleLoad(WPARAM, LPARAM)
 {
-	bPopupExists = ServiceExists(MS_POPUP_ADDPOPUPW);
 	bVariablesExists = ServiceExists(MS_VARS_FORMATSTRING) && ServiceExists(MS_VARS_REGISTERTOKEN);
 	bTooltipExists = ServiceExists("mToolTip/ShowTipW") || ServiceExists("mToolTip/ShowTip");
 	return 0;
@@ -872,8 +871,6 @@ void Traffic_AddMainMenuItem(void)
 /*-------------------------------------------------------------------------------------------------------------------*/
 void UpdateNotifyTimer(void)
 {
-	if (!bPopupExists) return;
-
 	if (Traffic_Notify_time_value && unOptions.NotifyByTime)
 		SetTimer(TrafficHwnd, TIMER_NOTIFY_TICK, Traffic_Notify_time_value * 1000 * 60, nullptr);
 	else

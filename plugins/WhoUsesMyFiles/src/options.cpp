@@ -19,11 +19,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void ShowThePreview()
 {
-	if (!ServiceExists(MS_POPUP_ADDPOPUPW)) {
-		MessageBox(nullptr, TranslateT("Popup plugin not found!"), TranslateT("Error"), MB_OK | MB_ICONSTOP);
-		return;
-	}
-
 	if (WumfOptions.AlertFolders) {
 		ShowThePopup(nullptr, L"Guest", L"C:\\My Share");
 		Sleep(300);
@@ -108,10 +103,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 			SendDlgItemMessage(hwndDlg,IDC_COLOR_BACK,CPM_SETCOLOUR,0,WumfOptions.ColorBack);
 			SendDlgItemMessage(hwndDlg,IDC_COLOR_TEXT,CPM_SETCOLOUR,0,WumfOptions.ColorText);
 		}
-		if ( !ServiceExists(MS_POPUP_ADDPOPUPW)) {
-			DisableDelayOptions(hwndDlg);
-			break;
-		}
+
 		CheckDlgButton(hwndDlg, IDC_DELAY_INF, WumfOptions.DelayInf ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_DELAY_DEF, WumfOptions.DelayDef ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_DELAY_SET, WumfOptions.DelaySet ? BST_CHECKED : BST_UNCHECKED);

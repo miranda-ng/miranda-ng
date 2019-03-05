@@ -165,7 +165,7 @@ extern char Traffic_AdditionSpace;
 extern wchar_t Traffic_CounterFormat[512];
 extern wchar_t Traffic_TooltipFormat[512];
 
-extern BOOL bPopupExists, bVariablesExists, bTooltipExists;
+extern BOOL bVariablesExists, bTooltipExists;
 
 extern BOOL UseKeyColor;
 extern COLORREF KeyColor;

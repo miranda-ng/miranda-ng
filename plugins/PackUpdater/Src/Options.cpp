@@ -31,8 +31,6 @@ LRESULT CALLBACK MyEditProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPara
 
 INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	char str[20];
-
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
@@ -55,19 +53,12 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		ComboBox_SetCurSel(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), PeriodMeasure);
 
 		CheckDlgButton(hwndDlg, IDC_REMINDER, Reminder ? BST_CHECKED : BST_UNCHECKED);
-		if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
-			ShowWindow(GetDlgItem(hwndDlg, IDC_NOTIFY2), SW_HIDE);
-			ShowWindow(GetDlgItem(hwndDlg, IDC_MSG_BOXES2), SW_HIDE);
-			ShowWindow(GetDlgItem(hwndDlg, IDC_ERRORS2), SW_HIDE);
-			ShowWindow(GetDlgItem(hwndDlg, IDC_INFO_MESSAGES2), SW_HIDE);
-			ShowWindow(GetDlgItem(hwndDlg, IDC_PROGR_DLG2), SW_HIDE);
-		}
-		else {
-			for (int i = 1; i < POPUPS; i++) {
-				mir_snprintf(str, "Popups%dM", i);
-				CheckDlgButton(hwndDlg, (i + 1029), (g_plugin.getByte(str, DEFAULT_MESSAGE_ENABLED)) ? BST_CHECKED : BST_UNCHECKED);
-			}
-		}
+
+		ShowWindow(GetDlgItem(hwndDlg, IDC_NOTIFY2), SW_HIDE);
+		ShowWindow(GetDlgItem(hwndDlg, IDC_MSG_BOXES2), SW_HIDE);
+		ShowWindow(GetDlgItem(hwndDlg, IDC_ERRORS2), SW_HIDE);
+		ShowWindow(GetDlgItem(hwndDlg, IDC_INFO_MESSAGES2), SW_HIDE);
+		ShowWindow(GetDlgItem(hwndDlg, IDC_PROGR_DLG2), SW_HIDE);
 		return TRUE;
 
 	case WM_COMMAND:
@@ -141,12 +132,6 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			g_plugin.setByte("PeriodMeasure", PeriodMeasure);
 			Reminder = IsDlgButtonChecked(hwndDlg, IDC_REMINDER);
 			g_plugin.setByte("Reminder", Reminder);
-			if (!ServiceExists(MS_POPUP_ADDPOPUPW)) {
-				for (int i = 1; i < POPUPS; i++) {
-					mir_snprintf(str, "Popups%dM", i);
-					g_plugin.setByte(str, (BYTE)(IsDlgButtonChecked(hwndDlg, (i + 1029))));
-				}
-			}
 		}
 		break;
 	}
@@ -389,12 +374,10 @@ int OptInit(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = UpdateNotifyOptsProc;
 	g_plugin.addOptions(wParam, &odp);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP);
-		odp.szGroup.w = LPGENW("Popups");
-		odp.szTitle.w = LPGENW("Pack Updater");
-		odp.pfnDlgProc = DlgPopupOpts;
-		g_plugin.addOptions(wParam, &odp);
-	}
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP);
+	odp.szGroup.w = LPGENW("Popups");
+	odp.szTitle.w = LPGENW("Pack Updater");
+	odp.pfnDlgProc = DlgPopupOpts;
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

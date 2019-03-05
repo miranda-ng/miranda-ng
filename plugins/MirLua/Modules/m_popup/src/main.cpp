@@ -41,7 +41,7 @@ static int lua_AddPopup(lua_State *L)
 
 	mir_ptr<POPUPDATAW> ppd(MakePopupData(L));
 
-	INT_PTR res = ::CallService(MS_POPUP_ADDPOPUPW, (WPARAM)ppd, 0);
+	INT_PTR res = ::PUAddPopupW(ppd);
 	lua_pushinteger(L, res);
 
 	return 1;

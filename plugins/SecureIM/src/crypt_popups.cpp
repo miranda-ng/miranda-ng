@@ -6,8 +6,6 @@
 
 void showPopup(LPCSTR lpzText, MCONTACT hContact, HICON hIcon, UINT type)
 {
-	if (!bPopupExists) return;
-
 	COLORREF colorBack, colorText;
 	int timeout = 0;
 

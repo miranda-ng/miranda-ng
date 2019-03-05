@@ -105,48 +105,21 @@ void GaduProto::initpopups()
 //
 void CALLBACK sttMainThreadCallback(PVOID dwParam)
 {
-	PopupData* puData = (PopupData*)dwParam;
-	GaduProto* gg = puData->gg;
+	PopupData *puData = (PopupData*)dwParam;
+	GaduProto *gg = puData->gg;
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
-		char szName[256];
-		POPUPDATACLASS ppd = { sizeof(ppd) };
-		ppd.pwszTitle = puData->title;
-		ppd.pwszText = puData->text;
-		ppd.PluginData = puData;
-		ppd.pszClassName = szName;
+	char szName[256];
+	POPUPDATACLASS ppd = { sizeof(ppd) };
+	ppd.pwszTitle = puData->title;
+	ppd.pwszText = puData->text;
+	ppd.PluginData = puData;
+	ppd.pszClassName = szName;
 
-		if (puData->flags & GG_POPUP_ERROR || puData->flags & GG_POPUP_WARNING)
-			mir_snprintf(szName, "%s_%s", gg->m_szModuleName, "Error");
-		else
-			mir_snprintf(szName, "%s_%s", gg->m_szModuleName, "Notify");
-
-		CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
-		return;
-	}
-
-	if (puData->flags & GG_POPUP_ALLOW_MSGBOX) {
-		BOOL bShow = TRUE;
-
-		if (puData->flags & GG_POPUP_ONCE) {
-			HWND hWnd = FindWindow(nullptr, gg->m_tszUserName);
-			while (hWnd != nullptr) {
-				if (FindWindowEx(hWnd, nullptr, nullptr, puData->text) != nullptr) {
-					bShow = FALSE;
-					break;
-				}
-				hWnd = FindWindowEx(nullptr, hWnd, nullptr, gg->m_tszUserName);
-			}
-		}
-
-		if (bShow) {
-			UINT uIcon = puData->flags & GG_POPUP_ERROR ? MB_ICONERROR : puData->flags & GG_POPUP_WARNING ? MB_ICONEXCLAMATION : MB_ICONINFORMATION;
-			MessageBox(nullptr, puData->text, gg->m_tszUserName, MB_OK | uIcon);
-		}
-	}
-	mir_free(puData->title);
-	mir_free(puData->text);
-	mir_free(puData);
+	if (puData->flags & GG_POPUP_ERROR || puData->flags & GG_POPUP_WARNING)
+		mir_snprintf(szName, "%s_%s", gg->m_szModuleName, "Error");
+	else
+		mir_snprintf(szName, "%s_%s", gg->m_szModuleName, "Notify");
+	CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
 }
 
 void GaduProto::showpopup(const wchar_t* nickname, const wchar_t* msg, int flags)

@@ -53,8 +53,6 @@ UINT opt_not_restarted;
 COLORREF opt_bgColor;
 COLORREF opt_txtColor;
 
-UINT opt_popupPluginInstalled;
-
 static HANDLE hEventConnect = NULL;
 static HANDLE hEventDisconnect = NULL;
 static HANDLE hSvcPopupSwitch = NULL;
@@ -77,17 +75,12 @@ void PopupMyIPAddrs(const wchar_t *msg)
 		POPUPDATAW ppd = {};
 		wcsncpy_s(ppd.lpwzText, Print_NIF_List(list, msg), _TRUNCATE);
 
-		if (opt_popupPluginInstalled) {
-			LoadSettings();
-			ppd.lchIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_PROXY));
-			wcsncpy_s(ppd.lpwzContactName, TranslateT("Current IP address"), _TRUNCATE);
-			ppd.colorBack = opt_defaultColors ? 0 : opt_bgColor;
-			ppd.colorText = opt_defaultColors ? 0 : opt_txtColor;
-			PUAddPopupW(&ppd);
-		}
-		else {
-			MessageBox(NULL, ppd.lpwzText, _A2T(MODULENAME), MB_OK | MB_ICONINFORMATION);
-		}
+		LoadSettings();
+		ppd.lchIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_PROXY));
+		wcsncpy_s(ppd.lpwzContactName, TranslateT("Current IP address"), _TRUNCATE);
+		ppd.colorBack = opt_defaultColors ? 0 : opt_bgColor;
+		ppd.colorText = opt_defaultColors ? 0 : opt_txtColor;
+		PUAddPopupW(&ppd);
 	}
 }
 
@@ -248,8 +241,6 @@ int CMPlugin::Load()
 
 int Init(WPARAM, LPARAM)
 {
-	opt_popupPluginInstalled = ServiceExists(MS_POPUP_ADDPOPUP);
-
 	hEventRebound = CreateEvent(NULL, TRUE, FALSE, NULL);
 	mir_forkthread(IP_WatchDog, 0);
 
@@ -295,17 +286,14 @@ int Init(WPARAM, LPARAM)
 
 	UpdateInterfacesMenu();
 
-	if (opt_popupPluginInstalled) {
-		mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Popups"), 0xC0000000);
-		mi.name.w = LPGENW("IP change notification");
-		mi.hIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_LOGO));
-		mi.pszService = MS_PROXYSWITCH_POPUPSWITCH;
-		hEnableDisablePopupMenu = Menu_AddMainMenuItem(&mi);
-		hSvcPopupSwitch = CreateServiceFunction(mi.pszService, PopupSwitch);
+	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Popups"), 0xC0000000);
+	mi.name.w = LPGENW("IP change notification");
+	mi.hIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_LOGO));
+	mi.pszService = MS_PROXYSWITCH_POPUPSWITCH;
+	hEnableDisablePopupMenu = Menu_AddMainMenuItem(&mi);
+	hSvcPopupSwitch = CreateServiceFunction(mi.pszService, PopupSwitch);
 
-		UpdatePopupMenu(opt_popups);
-	}
-
+	UpdatePopupMenu(opt_popups);
 	return 0;
 }
 

@@ -465,9 +465,6 @@ void ShowPopup(MCONTACT hcontact, const char * lpzProto, int newStatus)
 	if (CallService(MS_IGNORE_ISIGNORED, (WPARAM)hcontact, IGNOREEVENT_USERONLINE))
 		return;
 
-	if (!ServiceExists(MS_POPUP_QUERY))
-		return;
-
 	if (!g_plugin.getByte("UsePopups", 0) || !db_get_b(hcontact, "CList", "Hidden", 0))
 		return;
 

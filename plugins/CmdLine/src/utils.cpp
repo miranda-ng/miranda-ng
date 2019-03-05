@@ -34,15 +34,6 @@ int Info(char *title, char *format, ...)
 	return MessageBoxA(nullptr, str, title, MB_OK | MB_ICONINFORMATION);
 }
 
-int MyPUShowMessage(char *lpzText, BYTE kind)
-{
-	if (ServiceExists(MS_POPUP_SHOWMESSAGE))
-		return PUShowMessage(lpzText, kind);
-
-	char *title = (kind == SM_NOTIFY) ? Translate("Notify") : Translate("Warning");
-	return MessageBoxA(nullptr, lpzText, title, MB_OK | (kind == SM_NOTIFY) ? MB_ICONINFORMATION : MB_ICONEXCLAMATION);
-}
-
 #define HEX_SIZE 8
 
 char *BinToHex(int size, PBYTE data)

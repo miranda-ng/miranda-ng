@@ -21,7 +21,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "resource.h"
 
 extern bool g_SmileyAddAvail;
-extern bool bPopupsEnabled;
 
 Options *Options::instance;
 
@@ -1430,9 +1429,6 @@ INT_PTR CALLBACK Options::DlgProcOptsScheduler(HWND hwndDlg, UINT msg, WPARAM wP
 			HWND listTasks = GetDlgItem(hwndDlg, IDC_LIST_TASKS);
 			for (std::list<TaskOptions>::iterator it = tasks->begin(); it != tasks->end(); ++it)
 				ListBox_AddString(listTasks, it->taskName.c_str());
-
-			if (!bPopupsEnabled)
-				EnableWindow(GetDlgItem(hwndDlg, IDC_SCHEDULER_ALERTS), FALSE);
 
 			CheckDlgButton(hwndDlg, IDC_SCHEDULER_ALERTS, instance->schedulerAlerts ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_SCHEDULER_HISTORY_ALERTS, instance->schedulerHistoryAlerts ? BST_CHECKED : BST_UNCHECKED);

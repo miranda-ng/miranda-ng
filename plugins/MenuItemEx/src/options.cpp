@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-extern BOOL bPopupService;
-
 struct {
 	int idc;
 	int flag;
@@ -78,16 +76,12 @@ public:
 			item.SetState(m_flags & it.flag);
 		}
 
-		if (bPopupService) {
-			for (int i = 0; i < 4; i++) {
-				CCtrlCheck &item = *(CCtrlCheck*)FindControl(checkboxes[i].idc);
-				CMStringW buffer;
-				buffer.Format(L"%s *", item.GetText());
-				item.SetText(buffer);
-			}
+		for (int i = 0; i < 4; i++) {
+			CCtrlCheck &item = *(CCtrlCheck*)FindControl(checkboxes[i].idc);
+			CMStringW buffer;
+			buffer.Format(L"%s *", item.GetText());
+			item.SetText(buffer);
 		}
-		else
-			m_lblHint.Hide();
 
 		EnableWindowChecks();
 		return true;

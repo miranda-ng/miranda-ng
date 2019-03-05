@@ -292,7 +292,7 @@ static INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam)
 		mir_wstrcpy(pd.lpwzContactName, lParam == SM_WARNING ? L"Warning" : L"Notification");
 		pd.lchIcon = LoadIcon(nullptr, lParam == SM_WARNING ? IDI_WARNING : IDI_INFORMATION);
 		wcsncpy(pd.lpwzText, _A2T((char *)wParam), MAX_SECONDLINE); pd.lpwzText[MAX_SECONDLINE-1] = 0;
-		CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&pd, 0);
+		PUAddPopupW(&pd);
 	}
 	return 0;
 }
@@ -307,7 +307,7 @@ static INT_PTR ShowMessageW(WPARAM wParam, LPARAM lParam)
 		mir_wstrcpy(pd.lpwzContactName, lParam == SM_WARNING ? L"Warning" : L"Notification");
 		pd.lchIcon = LoadIcon(nullptr, lParam == SM_WARNING ? IDI_WARNING : IDI_INFORMATION);
 		wcsncpy(pd.lpwzText, (wchar_t *)wParam, MAX_SECONDLINE);
-		CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&pd, 0);
+		PUAddPopupW(&pd);
 	}
 	return 0;
 }

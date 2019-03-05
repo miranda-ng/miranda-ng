@@ -15,7 +15,6 @@ HICON g_hICO[ICO_CNT], g_hPOP[POP_CNT], g_hIEC[1 + IEC_CNT*MODE_CNT] = {};
 HANDLE g_IEC[1 + IEC_CNT*MODE_CNT];
 
 int iBmpDepth;
-BOOL bPopupExists = false;
 BOOL bPGPloaded = false, bPGPkeyrings = false, bUseKeyrings = false, bPGPprivkey = false;
 BOOL bGPGloaded = false, bGPGkeyrings = false, bSavePass = false;
 BOOL bSFT, bSOM, bASI, bMCD, bSCM, bDGP, bAIP, bNOL, bAAK, bMCM;

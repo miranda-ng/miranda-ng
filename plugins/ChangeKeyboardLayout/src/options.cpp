@@ -390,7 +390,7 @@ INT_PTR CALLBACK DlgPopupsProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, 
 				pdtData.actionCount = 1;
 				pdtData.PluginWindowProc = (WNDPROC)CKLPopupDlgProc;
 
-				if ( CallService(MS_POPUP_ADDPOPUPW, (WPARAM) &pdtData, APF_NEWDATA) < 0)
+				if (PUAddPopupW( &pdtData, APF_NEWDATA) < 0)
 					mir_free(ptszPopupPreviewText);
 			}
 			break;

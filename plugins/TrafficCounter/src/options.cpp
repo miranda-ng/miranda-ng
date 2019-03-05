@@ -359,13 +359,11 @@ int TrafficCounterOptInitialise(WPARAM wParam, LPARAM)
 	g_plugin.addOptions(wParam, &odp);
 
 	// Popups option page
-	if (bPopupExists) {
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TRAFFIC_POPUPS);
-		odp.szGroup.a = LPGEN("Popups");
-		odp.szTitle.a = LPGEN("Traffic counter");
-		odp.pfnDlgProc = DlgProcPopupsTraffic;
-		odp.flags = ODPF_BOLDGROUPS;
-		g_plugin.addOptions(wParam, &odp);
-	}
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TRAFFIC_POPUPS);
+	odp.szGroup.a = LPGEN("Popups");
+	odp.szTitle.a = LPGEN("Traffic counter");
+	odp.pfnDlgProc = DlgProcPopupsTraffic;
+	odp.flags = ODPF_BOLDGROUPS;
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

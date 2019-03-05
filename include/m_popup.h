@@ -195,20 +195,20 @@ You may pass additional creation flags via lParam:
 #define APF_NEWDATA      0x10	//deprecatet!! only for use with old POPUPDATAEX_V2/POPUPDATAW_V2 structs
 
 #define MS_POPUP_ADDPOPUP "Popup/AddPopupEx"
-__forceinline INT_PTR PUAddPopup(POPUPDATA *ppdp)
+__forceinline INT_PTR PUAddPopup(POPUPDATA *ppdp, int flags = 0)
 {
-	return CallService(MS_POPUP_ADDPOPUP, (WPARAM)ppdp, 0);
+	return CallService(MS_POPUP_ADDPOPUP, (WPARAM)ppdp, flags);
 }
 
 #define MS_POPUP_ADDPOPUPW "Popup/AddPopupW"
-__forceinline INT_PTR PUAddPopupW(POPUPDATAW *ppdp)
+__forceinline INT_PTR PUAddPopupW(POPUPDATAW *ppdp, int flags = 0)
 {
-	return CallService(MS_POPUP_ADDPOPUPW, (WPARAM)ppdp, 0);
+	return CallService(MS_POPUP_ADDPOPUPW, (WPARAM)ppdp, flags);
 }
 
-__forceinline INT_PTR PUAddPopupW(POPUPDATAW_V2 *ppdp)
+__forceinline INT_PTR PUAddPopupW(POPUPDATAW_V2 *ppdp, int flags = 0)
 {
-	return CallService(MS_POPUP_ADDPOPUPW, (WPARAM)ppdp, 0);
+	return CallService(MS_POPUP_ADDPOPUPW, (WPARAM)ppdp, flags);
 }
 
 /* Popup/GetContact
@@ -553,12 +553,12 @@ Returns: 0 if the popup was shown, -1 in case of failure.
 #define MS_POPUP_SHOWMESSAGE "Popup/ShowMessage"
 #define MS_POPUP_SHOWMESSAGEW "Popup/ShowMessageW"
 
-__forceinline int PUShowMessage(char *lpzText, DWORD kind)
+__forceinline int PUShowMessage(const char *lpzText, DWORD kind)
 {
 	return (int)CallService(MS_POPUP_SHOWMESSAGE, (WPARAM)lpzText, (LPARAM)kind);
 }
 
-__forceinline int PUShowMessageW(wchar_t *lpwzText, DWORD kind)
+__forceinline int PUShowMessageW(const wchar_t *lpwzText, DWORD kind)
 {
 	return (int)CallService(MS_POPUP_SHOWMESSAGEW, (WPARAM)lpwzText, (LPARAM)kind);
 }
