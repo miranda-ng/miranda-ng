@@ -300,6 +300,10 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
 {}
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_POPUP, MIID_LAST };
+
 //===== Load ============================================================================
 // Initializes the services provided and the link to those needed
 // Called when the plugin is loaded into Miranda

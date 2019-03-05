@@ -177,6 +177,7 @@ Core\stdcrypt.dll
 Core\stdemail.dll
 Core\stdfile.dll
 Core\stdmsg.dll
+Core\stdpopup.dll
 Core\stdssl.dll
 Core\stduihist.dll
 Core\stduserinfo.dll

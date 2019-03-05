@@ -139,6 +139,7 @@ static MuuidReplacement pluginDefault[] =
 	{ MIID_AUTOAWAY,   L"stdautoaway",   nullptr }, // 6
 	{ MIID_USERONLINE, L"stduseronline", nullptr }, // 7
 	{ MIID_SRAWAY,     L"stdaway",       nullptr }, // 8
+	{ MIID_POPUP,      L"stdpopup",      nullptr }, // 9
 };
 
 int getDefaultPluginIdx(const MUUID &muuid)

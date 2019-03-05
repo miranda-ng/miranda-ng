@@ -581,6 +581,7 @@ static renameTable[] =
 	{ L"xfire.dll",                      nullptr },
 	{ L"yahoo.dll",                      nullptr },
 	{ L"yahoogroups.dll",                nullptr },
+	{ L"yapp.dll",                       nullptr },
 	{ L"WART-*.exe",                     nullptr },
 };
 
