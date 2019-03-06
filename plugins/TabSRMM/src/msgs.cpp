@@ -248,7 +248,7 @@ void CTabBaseDlg::NotifyDeliveryFailure() const
 	if (M.GetByte("adv_noErrorPopups", 0))
 		return;
 
-	if (CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0) != 1)
+	if (!Popup_Enabled())
 		return;
 
 	POPUPDATAW ppd = { 0 };

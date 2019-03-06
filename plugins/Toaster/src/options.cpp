@@ -13,7 +13,7 @@ COptions::COptions()
 
 bool COptions::OnInitDialog()
 {
-	m_enabled.SetState(CallService(MS_POPUP_QUERY, PUQS_GETSTATUS));
+	m_enabled.SetState(Popup_Enabled());
 	return true;
 }
 
@@ -34,10 +34,7 @@ void COptions::Preview_OnClick(CCtrlBase*)
 
 void COptions::Enabled_OnChange(CCtrlCheck* chk)
 {
-	if (chk->GetState())
-		CallService(MS_POPUP_QUERY, PUQS_ENABLEPOPUPS);
-	else 
-		CallService(MS_POPUP_QUERY, PUQS_DISABLEPOPUPS);
+	Popup_Enable(chk->GetState());
 }
 
 /////////////////////////////////////////////////////////////////////////////////

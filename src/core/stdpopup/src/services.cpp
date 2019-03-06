@@ -70,7 +70,7 @@ static INT_PTR CreatePopup(WPARAM wParam, LPARAM)
 	pd_out->timeout = pd_in->iSeconds;
 
 	lstPopupHistory.Add(pd_out->pwzTitle, pd_out->pwzText, time(0));
-	if (!db_get_b(0, "Popup", "ModuleIsEnabled", 1)) {
+	if (!Popup_Enabled()) {
 		mir_free(pd_out->pwzTitle);
 		mir_free(pd_out->pwzText);
 		mir_free(pd_out);
@@ -111,7 +111,7 @@ static INT_PTR CreatePopupW(WPARAM wParam, LPARAM)
 	pd_out->timeout = pd_in->iSeconds;
 
 	lstPopupHistory.Add(pd_out->pwzTitle, pd_out->pwzText, time(0));
-	if (!db_get_b(0, "Popup", "ModuleIsEnabled", 1)) {
+	if (!Popup_Enabled()) {
 		mir_free(pd_out->pwzTitle);
 		mir_free(pd_out->pwzText);
 		mir_free(pd_out);
@@ -151,7 +151,7 @@ void ShowPopup(PopupData &pd_in)
 
 	lstPopupHistory.Add(pd_out->pwzTitle, pd_out->pwzText, time(0));
 
-	if (!db_get_b(0, "Popup", "ModuleIsEnabled", 1)) {
+	if (!Popup_Enabled()) {
 		mir_free(pd_out->pwzTitle);
 		mir_free(pd_out->pwzText);
 		mir_free(pd_out);
@@ -193,7 +193,7 @@ static INT_PTR GetOpaque(WPARAM wParam, LPARAM)
 
 void UpdateMenu()
 {
-	bool isEnabled = db_get_b(0, "Popup", "ModuleIsEnabled", 1) == 1;
+	bool isEnabled = Popup_Enabled() == 1;
 	if (isEnabled) {
 		Menu_ModifyItem(hMenuItem, LPGENW("Disable Popups"), IcoLib_GetIcon(ICO_POPUP_ON));
 		Menu_ModifyItem(hMenuRoot, nullptr, IcoLib_GetIcon(ICO_POPUP_ON));
@@ -207,38 +207,10 @@ void UpdateMenu()
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, isEnabled ? TTBST_PUSHED : 0);
 }
 
-INT_PTR PopupQuery(WPARAM wParam, LPARAM)
-{
-	switch(wParam) {
-	case PUQS_ENABLEPOPUPS:
-		{
-			bool enabled = db_get_b(0, "Popup", "ModuleIsEnabled", 1) != 0;
-			if (!enabled) db_set_b(0, "Popup", "ModuleIsEnabled", 1);
-			UpdateMenu();
-			return !enabled;
-		}
-		break;
-	case PUQS_DISABLEPOPUPS:
-		{
-			bool enabled = db_get_b(0, "Popup", "ModuleIsEnabled", 1) != 0;
-			if (enabled) db_set_b(0, "Popup", "ModuleIsEnabled", 0);
-			UpdateMenu();
-			return enabled;
-		}
-		break;
-
-	case PUQS_GETSTATUS:
-		return db_get_b(0, "Popup", "ModuleIsEnabled", 1);
-	default:
-		UpdateMenu();
-		return 1;
-	}
-}
-
 static INT_PTR TogglePopups(WPARAM, LPARAM)
 {
-	BYTE val = db_get_b(0, "Popup", "ModuleIsEnabled", 1);
-	db_set_b(0, "Popup", "ModuleIsEnabled", !val);
+	BYTE val = Popup_Enabled();
+	Popup_Enable(!val);
 	UpdateMenu();
 	return 0;
 }
@@ -287,7 +259,7 @@ static INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam)
 	if (bShutdown)
 		return -1;
 
-	if (db_get_b(0, "Popup", "ModuleIsEnabled", 1)) {
+	if (Popup_Enabled()) {
 		POPUPDATAW pd = {0};
 		mir_wstrcpy(pd.lpwzContactName, lParam == SM_WARNING ? L"Warning" : L"Notification");
 		pd.lchIcon = LoadIcon(nullptr, lParam == SM_WARNING ? IDI_WARNING : IDI_INFORMATION);
@@ -302,7 +274,7 @@ static INT_PTR ShowMessageW(WPARAM wParam, LPARAM lParam)
 	if (bShutdown)
 		return -1;
 
-	if (db_get_b(0, "Popup", "ModuleIsEnabled", 1)) {
+	if (Popup_Enabled()) {
 		POPUPDATAW pd = {0};
 		mir_wstrcpy(pd.lpwzContactName, lParam == SM_WARNING ? L"Warning" : L"Notification");
 		pd.lchIcon = LoadIcon(nullptr, lParam == SM_WARNING ? IDI_WARNING : IDI_INFORMATION);
@@ -399,8 +371,8 @@ static INT_PTR CreateClassPopup(WPARAM wParam, LPARAM lParam)
 
 		pd.hContact = pdc->hContact;
 		pd.opaque = pdc->PluginData;
-		pd.pszTitle = (char *)pdc->pszTitle;
-		pd.pszText = (char *)pdc->pszText;
+		pd.pszTitle = (char *)pdc->szTitle.a;
+		pd.pszText = (char *)pdc->szText.a;
 
 		ShowPopup(pd);
 	}
@@ -428,7 +400,6 @@ void InitServices()
 	CreateServiceFunction(MS_POPUP_CHANGEW, PopupChangeW);
 	CreateServiceFunction(MS_POPUP_GETCONTACT, GetContact);
 	CreateServiceFunction(MS_POPUP_GETPLUGINDATA, GetOpaque);
-	CreateServiceFunction(MS_POPUP_QUERY, PopupQuery);
 
 	CreateServiceFunction(MS_POPUP_SHOWMESSAGE, ShowMessage);
 	CreateServiceFunction(MS_POPUP_SHOWMESSAGEW, ShowMessageW);

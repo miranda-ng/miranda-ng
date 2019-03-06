@@ -71,23 +71,22 @@ void PopupPreview()
 		LPGENW("This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)")
 		);
 
-	POPUPDATA2 ppd = { 0 };
-
-	memset(&ppd, 0, sizeof(ppd));
+	POPUPDATA2 ppd = {};
 	ppd.cbSize = sizeof(ppd);
 	ppd.flags = PU2_UNICODE;
 
-	ppd.lptzTitle = lptzTitle1Eng;
-	ppd.lpwzText = lptzText1Eng;
+	ppd.szTitle.w = lptzTitle1Eng;
+	ppd.szText.w = lptzText1Eng;
 	ppd.lchIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	CallService(MS_POPUP_ADDPOPUP2, (WPARAM)&ppd, APF_NO_HISTORY);
-	if (PopupOptions.UseAnimations || PopupOptions.UseEffect) Sleep((ANIM_TIME * 2) / 3); // Pause
+	if (PopupOptions.UseAnimations || PopupOptions.UseEffect)
+		Sleep((ANIM_TIME * 2) / 3); // Pause
 
 	memset(&ppd, 0, sizeof(ppd));
 	ppd.cbSize = sizeof(ppd);
 	ppd.flags = PU2_UNICODE;
-	ppd.lptzTitle = lptzTitle2;
-	ppd.lpwzText = lptzText2;
+	ppd.szTitle.w = lptzTitle2;
+	ppd.szText.w = lptzText2;
 	ppd.lchIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	ppd.hbmAvatar = hbmNoAvatar;
 

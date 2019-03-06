@@ -352,8 +352,7 @@ INT_PTR CALLBACK DlgPopupsProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, 
 			if ((HIWORD(wParam) == BN_CLICKED )) {
 				ptszPopupPreviewText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t));
 
-				POPUPDATAW_V2 pdtData = { 0 };
-				pdtData.cbSize = sizeof(pdtData);
+				POPUPDATAW pdtData = { 0 };
 				wcsncpy(pdtData.lpwzContactName, TranslateT(MODULENAME), MAX_CONTACTNAME);
 				wcsncpy(pdtData.lpwzText, L"Ghbdtn? rfr ltkf&", MAX_SECONDLINE);
 
@@ -389,8 +388,7 @@ INT_PTR CALLBACK DlgPopupsProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, 
 				pdtData.lpActions = poOptions.paActions;
 				pdtData.actionCount = 1;
 				pdtData.PluginWindowProc = (WNDPROC)CKLPopupDlgProc;
-
-				if (PUAddPopupW( &pdtData, APF_NEWDATA) < 0)
+				if (PUAddPopupW(&pdtData) < 0)
 					mir_free(ptszPopupPreviewText);
 			}
 			break;

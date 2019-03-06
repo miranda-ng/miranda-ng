@@ -37,8 +37,8 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 static void FreeHistoryItem(POPUPDATA2 *ppd)
 {
-	mir_free(ppd->lpzTitle);
-	mir_free(ppd->lpzText);
+	mir_free(ppd->szTitle.w);
+	mir_free(ppd->szText.w);
 	mir_free(ppd->lpzSkin);
 	mir_free(ppd);
 }
@@ -74,12 +74,12 @@ void PopupHistoryAdd(POPUPDATA2 *ppdNew)
 	POPUPDATA2 *ppd = (POPUPDATA2*)mir_alloc(sizeof(POPUPDATA2));
 	*ppd = *ppdNew;
 	if (ppd->flags & PU2_UNICODE) {
-		ppd->lptzTitle = mir_wstrdup(ppd->lpwzTitle);
-		ppd->lpwzText = mir_wstrdup(ppd->lpwzText);
+		ppd->szTitle.w = mir_wstrdup(ppd->szTitle.w);
+		ppd->szText.w = mir_wstrdup(ppd->szText.w);
 	}
 	else {
-		ppd->lpzTitle = mir_strdup(ppd->lpzTitle);
-		ppd->lpzText = mir_strdup(ppd->lpzText);
+		ppd->szTitle.a = mir_strdup(ppd->szTitle.a);
+		ppd->szText.a = mir_strdup(ppd->szText.a);
 	}
 	ppd->lpzSkin = mir_strdup(ppd->lpzSkin);
 	ppd->dwTimestamp = time(0);
@@ -187,14 +187,14 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 					ieData.color = ppd->colorText;
 					if (ppd->flags & PU2_UNICODE) {
 						ieData.dwFlags |= IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK;
-						ieData.pszNickW = ppd->lptzTitle;
-						ieData.pszTextW = ppd->lpwzText;
+						ieData.pszNickW = ppd->szTitle.w;
+						ieData.pszTextW = ppd->szText.w;
 						ieData.pszText2W = nullptr;
 					}
 					else {
 						ieData.dwFlags |= 0;
-						ieData.pszNick = ppd->lpzTitle;
-						ieData.pszText = ppd->lpzText;
+						ieData.pszNick = ppd->szTitle.a;
+						ieData.pszText = ppd->szText.a;
 						ieData.pszText2 = nullptr;
 					}
 					ieData.bIsMe = FALSE;
@@ -371,14 +371,14 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 			ieData.color = ppd->colorText;
 			if (ppd->flags & PU2_UNICODE) {
 				ieData.dwFlags |= IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK;
-				ieData.pszNickW = ppd->lptzTitle;
-				ieData.pszTextW = ppd->lpwzText;
+				ieData.pszNickW = ppd->szTitle.w;
+				ieData.pszTextW = ppd->szText.w;
 				ieData.pszText2W = nullptr;
 			}
 			else {
 				ieData.dwFlags |= 0;
-				ieData.pszNick = ppd->lpzTitle;
-				ieData.pszText = ppd->lpzText;
+				ieData.pszNick = ppd->szTitle.a;
+				ieData.pszText = ppd->szText.a;
 				ieData.pszText2 = nullptr;
 			}
 			ieData.bIsMe = FALSE;

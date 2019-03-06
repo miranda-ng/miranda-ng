@@ -89,7 +89,7 @@ INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hdlg);
 		{
-			int hasPopups = CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0);
+			int hasPopups = Popup_Enabled();
 			ShowWindow(GetDlgItem(hdlg, IDC_POPUPS), hasPopups ? SW_SHOW : SW_HIDE);
 			ShowWindow(GetDlgItem(hdlg, IDC_POPUPSTAMP), hasPopups ? SW_SHOW : SW_HIDE);
 			ShowWindow(GetDlgItem(hdlg, IDC_LABTEXT), hasPopups ? SW_SHOW : SW_HIDE);

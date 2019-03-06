@@ -16,7 +16,7 @@
 #include <m_langpack.h>
 #include <m_avatars.h>
 #include <m_protocols.h>
-#include <m_popup.h>
+#include <m_popup_int.h>
 #include <m_message.h>
 #include <m_chat.h>
 #include <m_skin.h>

@@ -69,8 +69,8 @@ HWND FacebookProto::NotifyEvent(const wchar_t* title, const wchar_t* text, MCONT
 
 	if (!getByte(FACEBOOK_KEY_SYSTRAY_NOTIFY, DEFAULT_SYSTRAY_NOTIFY)) {
 		POPUPDATACLASS pd = { sizeof(pd) };
-		pd.pwszTitle = title;
-		pd.pwszText = text;
+		pd.szTitle.w = title;
+		pd.szText.w = text;
 		pd.pszClassName = name;
 		pd.hContact = contact;
 
@@ -82,7 +82,7 @@ HWND FacebookProto::NotifyEvent(const wchar_t* title, const wchar_t* text, MCONT
 				data->notification_id = *notification_id;
 			pd.PluginData = data;
 		}
-		return (HWND)CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&pd);
+		return Popup_AddClass(&pd);
 	}
 	else {
 		if (!Clist_TrayNotifyW(m_szModuleName, title, text, type == EVENT_CLIENT ? NIIF_WARNING : NIIF_INFO, 10000))

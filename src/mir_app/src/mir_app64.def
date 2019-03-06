@@ -652,3 +652,24 @@ db_mc_tryMeta @732
 ?setUString@PROTO_INTERFACE@@QEAAXPEBD0@Z @742 NONAME
 ?setUString@CMPluginBase@@QEAAXIPEBD0@Z @743 NONAME
 ?setUString@CMPluginBase@@QEAAXPEBD0@Z @744 NONAME
+?getKeyList@GCSessionInfoBase@@QEAAAEAU?$LIST@UUSERINFO@@@@XZ @745 NONAME
+PUAddPopup @746
+PUAddPopupW @747
+PUChangeTextW @748
+PUChangeW @749
+PUDeletePopup @750
+PUGetContact @751
+PUGetPluginData @752
+PURegisterActions @753
+PURegisterNotification @754
+PUShowMessage @755
+PUShowMessageW @756
+Popup_RegisterClass @757
+Popup_UnregisterClass @758
+ShowClassPopup @759
+ShowClassPopupW @760
+Popup_Enable @761
+Popup_Enabled @762
+Popup_AddClass @763
+Popup_Add @764
+Popup_Change @765

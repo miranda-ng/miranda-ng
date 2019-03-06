@@ -816,21 +816,15 @@ int StatusModeChanged(WPARAM wParam, LPARAM lParam)
 			BYTE hlpDisablePopup = g_plugin.getByte(szSetting, 0);
 
 			if (hlpDisablePopup != opt.PopupAutoDisabled) {
-				BYTE hlpPopupStatus = (BYTE)CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0);
+				bool hlpPopupStatus = Popup_Enabled();
 				opt.PopupAutoDisabled = hlpDisablePopup;
 
 				if (hlpDisablePopup) {
 					g_plugin.setByte("OldPopupStatus", hlpPopupStatus);
-					CallService(MS_POPUP_QUERY, PUQS_DISABLEPOPUPS, 0);
+					Popup_Enable(false);
 				}
-				else {
-					if (hlpPopupStatus == FALSE) {
-						if (g_plugin.getByte("OldPopupStatus", TRUE) == TRUE)
-							CallService(MS_POPUP_QUERY, PUQS_ENABLEPOPUPS, 0);
-						else
-							CallService(MS_POPUP_QUERY, PUQS_DISABLEPOPUPS, 0);
-					}
-				}
+				else if (!hlpPopupStatus)
+					Popup_Enable(g_plugin.getByte("OldPopupStatus", true));
 			}
 		}
 

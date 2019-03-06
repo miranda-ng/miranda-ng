@@ -291,7 +291,7 @@ static int NotifyWithPopup(MCONTACT hContact, CEvent::EType eventType, int DaysT
 			break;
 		}
 	}
-	return PUAddPopupW(&ppd);
+	return (INT_PTR)PUAddPopupW(&ppd);
 }
 
 /**

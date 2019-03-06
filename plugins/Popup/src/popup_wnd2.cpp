@@ -677,7 +677,7 @@ void PopupWnd2::setIcon(HICON hNewIcon)
 	}
 }
 
-void PopupWnd2::updateData(POPUPDATAW_V2 *ppd)
+void PopupWnd2::updateData(POPUPDATAW *ppd)
 {
 	m_hContact = ppd->lchContact;
 
@@ -717,8 +717,8 @@ void PopupWnd2::updateData(POPUPDATA2 *ppd)
 	if (ppd->flags & PU2_UNICODE) {
 		if (m_textType == TT_NONE)
 			m_textType = TT_UNICODE;
-		replaceStrW(m_lptzTitle, ppd->lptzTitle);
-		replaceStrW(m_lptzText, ppd->lpwzText);
+		replaceStrW(m_lptzTitle, ppd->szTitle.w);
+		replaceStrW(m_lptzText, ppd->szText.w);
 	}
 	else {
 		replaceStrW(m_lptzTitle, nullptr);
@@ -1127,7 +1127,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 		switch (wParam) {
 		case CPT_TEXTW:  updateText((wchar_t *)lParam);       mir_free((void *)lParam); break;
 		case CPT_TITLEW: updateTitle((wchar_t *)lParam);      mir_free((void *)lParam); break;
-		case CPT_DATAW:  updateData((POPUPDATAW_V2 *)lParam);  mir_free((void *)lParam); break;
+		case CPT_DATAW:  updateData((POPUPDATAW *)lParam);  mir_free((void *)lParam); break;
 		}
 		update();
 		break;

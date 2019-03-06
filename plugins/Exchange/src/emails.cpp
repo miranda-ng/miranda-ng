@@ -312,7 +312,7 @@ int ShowPopupMessage(wchar_t *title, wchar_t *message, int cUnreadEmails)
 	wcsncpy_s(popup.lpwzText, MAX_SECONDLINE, message, _TRUNCATE);
 	popup.PluginWindowProc = DlgProcPopup;
 	popup.PluginData = (int *) cUnreadEmails;
-	return PUAddPopupW(&popup);
+	return (int)PUAddPopupW(&popup);
 }
 
 int ShowMessageBoxMessage(wchar_t *title, wchar_t *message, int cUnreadEmails)

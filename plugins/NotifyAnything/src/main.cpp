@@ -498,7 +498,7 @@ int showMessage(const popup_t &msg)
 	g_anon_popups.insert(msgp);
 	ppd.PluginData = msgp;
 
-	return PUAddPopupW(&ppd);
+	return (int)PUAddPopupW(&ppd);
 }
 
 void replaceMessage(const popup_t &msg)

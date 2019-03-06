@@ -448,8 +448,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 			LPTSTR ptszPopupText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t));
 			mir_wstrcpy(ptszPopupText, ptszMBox);
 
-			POPUPDATAW_V2 pdtData = { 0 };
-			pdtData.cbSize = sizeof(pdtData);
+			POPUPDATAW pdtData = { 0 };
 			wcsncpy(pdtData.lpwzContactName, TranslateT(MODULENAME), MAX_CONTACTNAME);
 			wcsncpy(pdtData.lpwzText, ptszPopupText, MAX_SECONDLINE);
 
@@ -486,7 +485,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 			pdtData.lpActions = poOptions.paActions;
 			pdtData.actionCount = 1;
 
-			if (PUAddPopupW(&pdtData, APF_NEWDATA) < 0) {
+			if (PUAddPopupW(&pdtData) < 0) {
 				mir_free(ptszPopupText);
 				MessageBox(nullptr, ptszMBox, TranslateT(MODULENAME), MB_ICONINFORMATION);
 			}

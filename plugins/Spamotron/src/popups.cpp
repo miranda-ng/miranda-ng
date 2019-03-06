@@ -188,8 +188,7 @@ int ShowPopupPreview(HWND optDlg, BYTE popupType, wchar_t *line1, wchar_t *line2
 	wcsncpy_s(ppdp.lpwzContactName, (line1 ? line1 : _A2W(MODULENAME)), _TRUNCATE);
 	if (line2)
 		wcsncpy_s(ppdp.lpwzText, line2, _TRUNCATE);
-	return PUAddPopupW(&ppdp);
-
+	return (int)PUAddPopupW(&ppdp);
 }
 
 int ShowPopup(MCONTACT hContact, BYTE popupType, wchar_t *line1, wchar_t *line2)
@@ -237,5 +236,5 @@ int ShowPopup(MCONTACT hContact, BYTE popupType, wchar_t *line1, wchar_t *line2)
 	wcsncpy_s(ppdp.lpwzContactName, (line1 ? line1 : _A2W(MODULENAME)), _TRUNCATE);
 	if (line2)
 		wcsncpy_s(ppdp.lpwzText, line2, _TRUNCATE);
-	return PUAddPopupW(&ppdp);
+	return (int)PUAddPopupW(&ppdp);
 }

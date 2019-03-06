@@ -849,8 +849,8 @@ void CALLBACK sttMainThreadCallback(void *param)
 	char name[256];
 
 	POPUPDATACLASS ppd = { sizeof(ppd) };
-	ppd.pwszTitle = pud->title;
-	ppd.pwszText = pud->text;
+	ppd.szTitle.w = pud->title;
+	ppd.szText.w = pud->text;
 	ppd.PluginData = pud;
 	ppd.pszClassName = name;
 
@@ -861,7 +861,7 @@ void CALLBACK sttMainThreadCallback(void *param)
 	else
 		mir_snprintf(name, "%s_%s", pud->proto->m_szModuleName, "Notify");
 
-	CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
+	Popup_AddClass(&ppd);
 }
 
 void CMsnProto::MSN_ShowPopup(const wchar_t* nickname, const wchar_t* msg, int flags, const char* url)

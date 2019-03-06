@@ -128,7 +128,7 @@ public:
 
 	void  setIcon(HICON);
 
-	void	updateData(POPUPDATAW_V2 *ppd);
+	void	updateData(POPUPDATAW *ppd);
 	void	updateData(POPUPDATA2 *ppd);
 	void	buildMText();
 	void	updateText(wchar_t *text);
@@ -208,7 +208,7 @@ public:
 		SendMessage(m_hwnd, UM_CALLMETHOD, (WPARAM)method_copy, (LPARAM)lParam);
 	}
 
-	LRESULT m_updateData_POPUPDATAW_V2(LPARAM arg)	{ updateData((POPUPDATAW_V2 *)arg); update(); return 0; }
+	LRESULT m_updateData_POPUPDATAW_V2(LPARAM arg)	{ updateData((POPUPDATAW *)arg); update(); return 0; }
 	LRESULT m_updateData_POPUPDATA2(LPARAM arg)		{ updateData((POPUPDATA2 *)arg); update(); return 0; }
 	LRESULT m_updateText(LPARAM arg)				{ updateText((wchar_t *)arg); update(); return 0; }
 	LRESULT m_updateTitle(LPARAM arg)				{ updateTitle((wchar_t *)arg); update(); return 0; }

@@ -80,7 +80,7 @@ https://miranda-ng.org/distr/
 #include <m_fontservice.h>
 #include <m_avatars.h>
 #include <m_extraicons.h>
-#include <m_popup.h>
+#include <m_popup_int.h>
 #include <m_imgsrvc.h>
 #include <m_timezones.h>
 

@@ -64,11 +64,11 @@ void CSkypeProto::ShowNotification(const wchar_t *caption, const wchar_t *messag
 	}
 
 	POPUPDATACLASS ppd = { sizeof(ppd) };
-	ppd.pwszTitle = caption;
-	ppd.pwszText = message;
+	ppd.szTitle.w = caption;
+	ppd.szText.w = message;
 	ppd.pszClassName = className.GetBuffer();
 	ppd.hContact = hContact;
-	CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
+	Popup_AddClass(&ppd);
 }
 
 void CSkypeProto::ShowNotification(const wchar_t *message, MCONTACT hContact)

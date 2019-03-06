@@ -13,16 +13,15 @@
 
 LRESULT CALLBACK BadConnectPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	DWORD PluginParam;
 	switch (msg) {
 	case WM_COMMAND:
 		// if clicked and it's new mail popup window
-		if ((HIWORD(wParam) == STN_CLICKED) && (CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, (LPARAM)&PluginParam))) {
+		if ((HIWORD(wParam) == STN_CLICKED) && (PUGetPluginData(hWnd))) {
 			PROCESS_INFORMATION pi;
 			STARTUPINFOW si;
 			memset(&si, 0, sizeof(si));
 			si.cb = sizeof(si);
-			HACCOUNT ActualAccount = (HACCOUNT)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, 0);
+			HACCOUNT ActualAccount = (HACCOUNT)PUGetPluginData(hWnd);
 #ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile, "PopupProc:LEFTCLICK:ActualAccountSO-read wait\n");
 #endif

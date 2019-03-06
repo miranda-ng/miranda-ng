@@ -279,10 +279,10 @@ void Nudge_ShowPopup(CNudgeElement*, MCONTACT hContact, wchar_t * Message)
 	POPUPDATACLASS NudgePopup = { 0 };
 	NudgePopup.cbSize = sizeof(NudgePopup);
 	NudgePopup.hContact = hContact;
-	NudgePopup.pwszText = Message;
-	NudgePopup.pwszTitle = lpzContactName;
+	NudgePopup.szText.w = Message;
+	NudgePopup.szTitle.w = lpzContactName;
 	NudgePopup.pszClassName = "nudge";
-	CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&NudgePopup);
+	Popup_AddClass(&NudgePopup);
 }
 
 void Nudge_SentStatus(CNudgeElement *n, MCONTACT hContact)

@@ -798,7 +798,7 @@ static INT_PTR ShowPopup(const wchar_t *msg, HICON hIcon)
 		ppd.iSeconds = 0;
 		break;
 	}
-	return PUAddPopupW(&ppd);
+	return (int)PUAddPopupW(&ppd);
 }
 
 static wchar_t* GetHumanName(LPARAM lParam)

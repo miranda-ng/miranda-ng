@@ -101,11 +101,8 @@ void popupMessage(LPCTSTR lpText, LPCTSTR lpCaption, UINT uType)
 		MessageBeep(uType);
 }
 
-int WINAPI newMessageBox(HWND hWnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType)
+int WINAPI newMessageBox(HWND, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType)
 {
-	if (CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0) == CALLSERVICE_NOTFOUND || (uType & 0x0F))
-		return prevMessageBox(hWnd, lpText, lpCaption, uType);
-
 	popupMessage(lpText, lpCaption, uType);
 	return IDOK;
 }

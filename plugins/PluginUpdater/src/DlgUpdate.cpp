@@ -469,7 +469,7 @@ static void DlgUpdateSilent(void *param)
 	wchar_t tszTitle[100];
 	mir_snwprintf(tszTitle, TranslateT("%d component(s) was updated"), count);
 
-	if (db_get_b(0, "Popup", "ModuleIsEnabled", 1))
+	if (Popup_Enabled())
 		ShowPopup(tszTitle,TranslateT("You need to restart your Miranda to apply installed updates."),POPUP_TYPE_MSG);
 	else {
 		if (Clist_TrayNotifyW(MODULEA, tszTitle, TranslateT("You need to restart your Miranda to apply installed updates."), NIIF_INFO, 30000)) {

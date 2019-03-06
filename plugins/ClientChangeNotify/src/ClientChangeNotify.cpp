@@ -77,7 +77,7 @@ static VOID CALLBACK ShowContactMenu(void *param)
 
 void Popup_DoAction(HWND hWnd, BYTE Action, PLUGIN_DATA*)
 {
-	MCONTACT hContact = (MCONTACT)CallService(MS_POPUP_GETCONTACT, (WPARAM)hWnd, 0);
+	MCONTACT hContact = PUGetContact(hWnd);
 	switch (Action) {
 	case PCA_OPENMESSAGEWND: // open message window
 		if (hContact && hContact != INVALID_CONTACT_ID)
@@ -110,7 +110,7 @@ void Popup_DoAction(HWND hWnd, BYTE Action, PLUGIN_DATA*)
 
 static LRESULT CALLBACK PopupWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	PLUGIN_DATA *pdata = (PLUGIN_DATA*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, 0);
+	PLUGIN_DATA *pdata = (PLUGIN_DATA*)PUGetPluginData(hWnd);
 	if (pdata) {
 		switch (message) {
 		case WM_COMMAND:

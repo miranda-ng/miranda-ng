@@ -79,14 +79,14 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 	if (disp == ED_POP) {
 		POPUPDATACLASS ppd = { sizeof(ppd) };
 		char szName[256];
-		ppd.pwszTitle = puData->title;
-		ppd.pwszText = puData->text;
+		ppd.szTitle.w = puData->title;
+		ppd.szText.w = puData->text;
 		if (puData->flag == SAMETIME_POPUP_ERROR)
 			mir_snprintf(szName, "%s_%s", proto->m_szModuleName, "Error");
 		else
 			mir_snprintf(szName, "%s_%s", proto->m_szModuleName, "Notify");
 		ppd.pszClassName = szName;
-		CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
+		Popup_AddClass(&ppd);
 	}
 	else if (disp == ED_BAL) {
 		int flags, timeout;

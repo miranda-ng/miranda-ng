@@ -429,16 +429,16 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 						POPUPCLASS pc = *arNewClasses[i];
 						pc.PluginWindowProc = nullptr;
 						POPUPDATACLASS d = {sizeof(d), pc.pszName};
-						d.pwszTitle = L"Preview";
-						d.pwszText = L"The quick brown fox jumps over the lazy dog.";
+						d.szTitle.w = L"Preview";
+						d.szText.w = L"The quick brown fox jumps over the lazy dog.";
 						CallService(MS_POPUP_ADDPOPUPCLASS, (WPARAM)&pc, (LPARAM)&d);
 					}
 					else {
 						POPUPCLASS pc = *arNewClasses[i];
 						pc.PluginWindowProc = nullptr;
 						POPUPDATACLASS d = {sizeof(d), pc.pszName};
-						d.pszTitle = "Preview";
-						d.pszText = "The quick brown fox jumps over the lazy dog.";
+						d.szTitle.a = "Preview";
+						d.szText.a = "The quick brown fox jumps over the lazy dog.";
 						CallService(MS_POPUP_ADDPOPUPCLASS, (WPARAM)&pc, (LPARAM)&d);
 					}
 					break;

@@ -48,7 +48,6 @@ typedef struct tagPOPUPOPTIONS {
 	BYTE ReorderPopups;
 	BYTE ReorderPopupsWarning;
 	//Disable when
-	BOOL ModuleIsEnabled;
 	BYTE DisableWhenFullscreen;
 	//others
 	BYTE debug;

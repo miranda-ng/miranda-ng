@@ -737,7 +737,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 
 	case UM_INITPOPUP:
 		//struct CONNECTON *conn=NULL;
-		//conn = (struct CONNECTION*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd,(LPARAM)conn);
+		//conn = (struct CONNECTION*)PUGetPluginData(hWnd,(LPARAM)conn);
 		//MessageBox(NULL,conn->extIp);
 		//PUDeletePopUp(hWnd);
 		break;

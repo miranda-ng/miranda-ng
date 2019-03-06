@@ -34,7 +34,6 @@ HANDLE Buttons = nullptr;
 int DisablePopup(WPARAM wParam, LPARAM lParam);
 
 void RemoveTTButtons();
-void EnablePopupModule();
 BYTE Enabled;
 DWORD delay;
 BYTE PopUp;
@@ -90,7 +89,7 @@ static void __cdecl AdvSt(void*)
 		POPUPDATAW ppd = { 0 };
 		wchar_t *lpwzText = L"";
 		db_set_b(0, "Skin", "UseSound", 0);
-		EnablePopupModule();
+		Popup_Enable(true);
 
 		if (PopUp == 1) {
 			lpwzText = NonStatusAllow == 1 ? ALL_DISABLED_FLT : ALL_DISABLED;
@@ -141,11 +140,6 @@ int DisablePopup(WPARAM wParam, LPARAM)
 	else if (timer == 2)
 		return 1;	//block all popups at startup
 	return 0;	//---> just allow all popups with this return
-}
-
-void EnablePopupModule()
-{
-	CallService(MS_POPUP_QUERY, PUQS_ENABLEPOPUPS);
 }
 
 void InitSettings()

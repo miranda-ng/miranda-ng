@@ -192,7 +192,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			else if (i > 0)
 				EnableWindow(GetDlgItem(hdlg, (i + 1024)), TRUE);
 		}
-		if (!(db_get_dw(0, "Popup", "Actions", 0) & 1) || !ServiceExists(MS_POPUP_REGISTERACTIONS))
+		if (!(db_get_dw(0, "Popup", "Actions", 0) & 1))
 			EnableWindow(GetDlgItem(hdlg, (40071)), FALSE);
 		else
 			EnableWindow(GetDlgItem(hdlg, (40071)), TRUE);
@@ -200,7 +200,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		return TRUE;
 
 	case WM_SHOWWINDOW:
-		if (!(db_get_dw(0, "Popup", "Actions", 0) & 1) || !ServiceExists(MS_POPUP_REGISTERACTIONS))
+		if (!(db_get_dw(0, "Popup", "Actions", 0) & 1))
 			EnableWindow(GetDlgItem(hdlg, (40071)), FALSE);
 		else
 			EnableWindow(GetDlgItem(hdlg, (40071)), TRUE);

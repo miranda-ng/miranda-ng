@@ -499,8 +499,7 @@ static INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM, LPARAM lParam)
 		MoveWindow(hDlg, -10, -10, 0, 0, FALSE);
 		LPMSGPOPUPDATA pmpd = (LPMSGPOPUPDATA)mir_alloc(sizeof(MSGPOPUPDATA));
 		if (pmpd) {
-			POPUPDATAW_V2 pd = { 0 };
-			pd.cbSize = sizeof(pd);
+			POPUPDATAW pd = { 0 };
 			pd.lchContact = NULL; // (HANDLE)wParam;
 			// icon
 			pd.lchIcon = MsgLoadIcon(pMsgBox);
@@ -576,7 +575,7 @@ static INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM, LPARAM lParam)
 			}
 
 			// create popup
-			PUAddPopupW(&pd, APF_NEWDATA);
+			PUAddPopupW(&pd);
 			if (MB_TYPE(pMsgBox->uType) == MB_OK)
 				EndDialog(hDlg, IDOK);
 		}

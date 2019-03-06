@@ -21,7 +21,7 @@
 #include <m_clistint.h>
 #include <m_fontservice.h>
 #include <m_avatars.h>
-#include <m_popup.h>
+#include <m_popup_int.h>
 #include <m_icolib.h>
 #include <m_toptoolbar.h>
 #include <win2k.h>

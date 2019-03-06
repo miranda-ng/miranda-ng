@@ -341,8 +341,8 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 						POPUPDATA2 ppd = { 0 };
 						ppd.cbSize = sizeof(ppd);
 						ppd.flags = PU2_UNICODE;
-						ppd.lptzTitle = ptd->pszDescription;
-						ppd.lpwzText = TranslateT("Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!");
+						ppd.szTitle.w = ptd->pszDescription;
+						ppd.szText.w = TranslateT("Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!");
 						ppd.iSeconds = ptd->timeoutValue;
 						ppd.colorBack = ptd->colorBack;
 						ppd.colorText = ptd->colorText;

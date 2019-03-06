@@ -41,7 +41,7 @@ static int lua_AddPopup(lua_State *L)
 
 	mir_ptr<POPUPDATAW> ppd(MakePopupData(L));
 
-	INT_PTR res = ::PUAddPopupW(ppd);
+	INT_PTR res = (INT_PTR)::PUAddPopupW(ppd);
 	lua_pushinteger(L, res);
 
 	return 1;
@@ -60,11 +60,11 @@ static POPUPDATA2* MakePopupData2(lua_State *L)
 		ppd->flags |= PU2_UNICODE;
 
 	lua_getfield(L, -1, "Title");
-	ppd->lptzTitle = mir_utf8decodeW(lua_tostring(L, -1));
+	ppd->szTitle.w = mir_utf8decodeW(lua_tostring(L, -1));
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Text");
-	ppd->lpwzText = mir_utf8decodeW(luaL_checkstring(L, -1));
+	ppd->szText.w = mir_utf8decodeW(luaL_checkstring(L, -1));
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "hContact");
@@ -104,11 +104,11 @@ static int lua_AddPopup2(lua_State *L)
 
 	mir_ptr<POPUPDATA2> ppd(MakePopupData2(L));
 
-	INT_PTR res = ::CallService(MS_POPUP_ADDPOPUP2, (WPARAM)ppd, 0);
+	INT_PTR res = (INT_PTR)Popup_Add(ppd.get());
 	lua_pushinteger(L, res);
 
-	mir_free(ppd->lptzTitle);
-	mir_free(ppd->lpwzText);
+	mir_free(ppd->szTitle.w);
+	mir_free(ppd->szText.w);
 
 	return 1;
 }

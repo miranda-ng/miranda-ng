@@ -109,9 +109,7 @@ static int IconsChanged(WPARAM, LPARAM)
 {
 	LoadActions();
 
-	HANDLE hIcon = PopupOptions.ModuleIsEnabled == TRUE
-		? GetIconHandle(IDI_POPUP)
-		: GetIconHandle(IDI_NOPOPUP);
+	HANDLE hIcon = Popup_Enabled() ? GetIconHandle(IDI_POPUP) : GetIconHandle(IDI_NOPOPUP);
 
 	Menu_ModifyItem(hMenuItem, nullptr, hIcon);
 	Menu_ModifyItem(hMenuRoot, nullptr, hIcon);
@@ -126,7 +124,7 @@ static int TTBLoaded(WPARAM, LPARAM)
 	ttb.pszService = MENUCOMMAND_SVC;
 	ttb.lParamUp = 1;
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ASPUSHBUTTON;
-	if (PopupOptions.ModuleIsEnabled)
+	if (Popup_Enabled())
 		ttb.dwFlags |= TTBBF_PUSHED;
 	ttb.name = LPGEN("Toggle Popups");
 	ttb.hIconHandleUp = GetIconHandle(IDI_NOPOPUP);
@@ -141,25 +139,23 @@ static int TTBLoaded(WPARAM, LPARAM)
 INT_PTR svcEnableDisableMenuCommand(WPARAM, LPARAM)
 {
 	HANDLE hIcon;
-	if (PopupOptions.ModuleIsEnabled) {
+	if (Popup_Enabled()) {
 		// The module is enabled.
 		// The action to do is "disable popups" (show disabled) and we must write "enable popup" in the new item.
-		PopupOptions.ModuleIsEnabled = FALSE;
-		db_set_b(0, "Popup", "ModuleIsEnabled", FALSE);
+		Popup_Enable(false);
 		Menu_ModifyItem(hMenuItem, LPGENW("Enable Popups"), hIcon = GetIconHandle(IDI_NOPOPUP));
 	}
 	else {
 		// The module is disabled.
 		// The action to do is enable popups (show enabled), then write "disable popup" in the new item.
-		PopupOptions.ModuleIsEnabled = TRUE;
-		db_set_b(0, "Popup", "ModuleIsEnabled", TRUE);
+		Popup_Enable(true);
 		Menu_ModifyItem(hMenuItem, LPGENW("Disable Popups"), hIcon = GetIconHandle(IDI_POPUP));
 	}
 
 	Menu_ModifyItem(hMenuRoot, nullptr, hIcon);
 
 	if (hTTButton)
-		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, (PopupOptions.ModuleIsEnabled) ? TTBST_PUSHED : 0);
+		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, (Popup_Enabled()) ? TTBST_PUSHED : 0);
 
 	return 0;
 }
@@ -175,7 +171,7 @@ void InitMenuItems(void)
 	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNICODE;
 
-	HANDLE hIcon = GetIconHandle(PopupOptions.ModuleIsEnabled ? IDI_POPUP : IDI_NOPOPUP);
+	HANDLE hIcon = GetIconHandle(Popup_Enabled() ? IDI_POPUP : IDI_NOPOPUP);
 
 	// Build main menu
 	hMenuRoot = mi.root = g_plugin.addRootMenu(MO_MAIN, MODULNAME_PLUW, -1000000000, hIcon);
@@ -185,7 +181,7 @@ void InitMenuItems(void)
 	SET_UID(mi, 0x4353d44e, 0x177, 0x4843, 0x88, 0x30, 0x25, 0x5d, 0x91, 0xad, 0xdf, 0x3f);
 	mi.pszService = MENUCOMMAND_SVC;
 	CreateServiceFunction(mi.pszService, svcEnableDisableMenuCommand);
-	mi.name.w = PopupOptions.ModuleIsEnabled ? LPGENW("Disable Popups") : LPGENW("Enable Popups");
+	mi.name.w = Popup_Enabled() ? LPGENW("Disable Popups") : LPGENW("Enable Popups");
 	mi.hIcolibItem = hIcon;
 	hMenuItem = Menu_AddMainMenuItem(&mi);
 
@@ -197,12 +193,6 @@ void InitMenuItems(void)
 	mi.name.w = LPGENW("Popup History");
 	mi.hIcolibItem = GetIconHandle(IDI_HISTORY);
 	hMenuItemHistory = Menu_AddMainMenuItem(&mi);
-}
-
-//===== GetStatus =======================================================================
-INT_PTR GetStatus(WPARAM, LPARAM)
-{
-	return PopupOptions.ModuleIsEnabled;
 }
 
 // register Hotkey
@@ -324,8 +314,6 @@ static int OnShutdown(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
-	CreateServiceFunction(MS_POPUP_GETSTATUS, GetStatus);
-
 #if defined(_DEBUG)
 	PopupOptions.debug = g_plugin.getByte("debug", FALSE);
 #else
@@ -377,7 +365,6 @@ int CMPlugin::Load()
 
 	CreateServiceFunction(MS_POPUP_SHOWMESSAGE, Popup_ShowMessage);
 	CreateServiceFunction(MS_POPUP_SHOWMESSAGEW, Popup_ShowMessageW);
-	CreateServiceFunction(MS_POPUP_QUERY, Popup_Query);
 
 	CreateServiceFunction(MS_POPUP_REGISTERACTIONS, Popup_RegisterActions);
 	CreateServiceFunction(MS_POPUP_REGISTERNOTIFICATION, Popup_RegisterNotification);

@@ -490,8 +490,7 @@ static INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM, LPARAM lParam)
 		MoveWindow(hDlg, -10, -10, 0, 0, FALSE);
 		LPMSGPOPUPDATA pmpd = (LPMSGPOPUPDATA)mir_alloc(sizeof(MSGPOPUPDATA));
 		if (pmpd) {
-			POPUPDATAW_V2 pd = { 0 };
-			pd.cbSize = sizeof(pd);
+			POPUPDATAW pd = { 0 };
 			pd.lchContact = NULL; //(HANDLE)wParam;
 			// icon
 			pd.lchIcon = MsgLoadIcon(pMsgBox);
@@ -567,7 +566,7 @@ static INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM, LPARAM lParam)
 			}
 
 			// create popup
-			PUAddPopupW(&pd, APF_NEWDATA);
+			PUAddPopupW(&pd);
 			if (MB_TYPE(pMsgBox->uType) == MB_OK)
 				EndDialog(hDlg, IDOK);
 		}
@@ -642,7 +641,6 @@ INT_PTR MsgBoxService(WPARAM, LPARAM lParam)
 	if (PtrIsValid(pMsgBox) && pMsgBox->cbSize == sizeof(MSGBOX)) {
 		// Shall the MessageBox displayed as popup?
 		if (!(pMsgBox->uType & (MB_INFOBAR | MB_NOPOPUP))				// message box can be a popup?
-			&& myGlobals.PopupActionsExist == 1							// popup support ext stuct?
 			&& (db_get_dw(0, "Popup", "Actions", 0) & 1)				// popup++ actions on?
 			&& g_plugin.getByte(SET_POPUPMSGBOX, DEFVAL_POPUPMSGBOX))	// user likes popups?
 			return DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_MSGBOXDUMMI), pMsgBox->hParent, MsgBoxPop, lParam);

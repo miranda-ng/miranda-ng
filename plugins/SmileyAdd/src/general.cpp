@@ -201,6 +201,6 @@ void ReportError(const wchar_t *errmsg)
 	mir_wstrcpy(pd.lpwzContactName, title);
 	mir_wstrcpy(pd.lpwzText, errmsg);
 	pd.iSeconds = -1;
-	if (PUAddPopupW(&pd) == CALLSERVICE_NOTFOUND)
+	if (PUAddPopupW(&pd) == INVALID_HANDLE_VALUE)
 		MessageBox(nullptr, errmsg, title, MB_OK | MB_ICONWARNING | MB_TOPMOST);
 }

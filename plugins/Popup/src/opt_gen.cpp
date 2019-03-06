@@ -121,7 +121,6 @@ void LoadOption_General()
 	PopupOptions.ReorderPopupsWarning = g_plugin.getByte("ReorderPopupsWarning", TRUE);
 
 	// disable When
-	PopupOptions.ModuleIsEnabled = db_get_b(0, "Popup", "ModuleIsEnabled", TRUE);
 	PopupOptions.DisableWhenFullscreen = g_plugin.getByte("DisableWhenFullscreen", TRUE);
 }
 
@@ -195,10 +194,13 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		CheckDlgButton(hwnd, IDC_REORDERPOPUPS, PopupOptions.ReorderPopups ? BST_CHECKED : BST_UNCHECKED);
 
 		// Popup enabled
-		CheckDlgButton(hwnd, IDC_POPUPENABLED, PopupOptions.ModuleIsEnabled ? BST_UNCHECKED : BST_CHECKED);
-		CheckDlgButton(hwnd, IDC_DISABLEINFS, PopupOptions.DisableWhenFullscreen ? BST_CHECKED : BST_UNCHECKED);
-		EnableWindow(GetDlgItem(hwnd, IDC_DISABLEINFS), PopupOptions.ModuleIsEnabled);
-		EnableWindow(GetDlgItem(hwnd, IDC_STATUSES), PopupOptions.ModuleIsEnabled);
+		{
+			bool bEnabled = Popup_Enabled();
+			CheckDlgButton(hwnd, IDC_POPUPENABLED, bEnabled ? BST_UNCHECKED : BST_CHECKED);
+			CheckDlgButton(hwnd, IDC_DISABLEINFS, PopupOptions.DisableWhenFullscreen ? BST_CHECKED : BST_UNCHECKED);
+			EnableWindow(GetDlgItem(hwnd, IDC_DISABLEINFS), bEnabled);
+			EnableWindow(GetDlgItem(hwnd, IDC_STATUSES), bEnabled);
+		}
 
 		// new status options
 		{
@@ -341,11 +343,12 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			case IDC_POPUPENABLED:
 				{
+					bool bEnabled = Popup_Enabled();
 					int chk = IsDlgButtonChecked(hwnd, IDC_POPUPENABLED);
-					if (PopupOptions.ModuleIsEnabled&&chk || !PopupOptions.ModuleIsEnabled && !chk)
+					if (bEnabled && chk || !bEnabled && !chk)
 						svcEnableDisableMenuCommand(0, 0);
-					EnableWindow(GetDlgItem(hwnd, IDC_STATUSES), PopupOptions.ModuleIsEnabled);
-					EnableWindow(GetDlgItem(hwnd, IDC_DISABLEINFS), PopupOptions.ModuleIsEnabled);
+					EnableWindow(GetDlgItem(hwnd, IDC_STATUSES), bEnabled);
+					EnableWindow(GetDlgItem(hwnd, IDC_DISABLEINFS), bEnabled);
 				}
 				break;
 

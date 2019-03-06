@@ -9,7 +9,7 @@ void __stdcall ShowToastNotification(void* p)
 {
 	std::unique_ptr<ToastData> td((ToastData*)p);
 
-	if (!db_get_b(0, "Popup", "ModuleIsEnabled", 1))
+	if (!Popup_Enabled())
 		return;
 
 	ptrW imagePath;
@@ -80,13 +80,13 @@ static INT_PTR CreatePopup2(WPARAM wParam, LPARAM)
 	ptrW text, title;
 	if (ppd->flags & PU2_UNICODE)
 	{
-		text = mir_wstrdup(ppd->lpwzText);
-		title = mir_wstrdup(ppd->lpwzTitle);
+		text = mir_wstrdup(ppd->szText.w);
+		title = mir_wstrdup(ppd->szTitle.w);
 	}
 	else
 	{
-		text = mir_a2u(ppd->lpzText);
-		title = mir_a2u(ppd->lpzTitle);
+		text = mir_a2u(ppd->szText.a);
+		title = mir_a2u(ppd->szTitle.a);
 	}
 
 	ToastData *td = nullptr;
@@ -122,16 +122,11 @@ static INT_PTR CreateClassPopup(WPARAM, LPARAM lParam)
 	auto it = mp_Classes.find(ppc->pszClassName);
 	if (it != mp_Classes.end())
 	{
-		ToastData *td = nullptr;
-
+		ToastData *td;
 		if (it->second->iFlags & PCF_UNICODE)
-		{
-			td = new ToastData(ppc->hContact, ppc->pwszTitle, ppc->pwszText, it->second->hIcon);
-		}
+			td = new ToastData(ppc->hContact, ppc->szTitle.w, ppc->szText.w, it->second->hIcon);
 		else
-		{
-			td = new ToastData(ppc->hContact, ptrW(mir_utf8decodeW(ppc->pszTitle)), ptrW(mir_utf8decodeW(ppc->pszText)), it->second->hIcon);
-		}
+			td = new ToastData(ppc->hContact, ptrW(mir_utf8decodeW(ppc->szTitle.a)), ptrW(mir_utf8decodeW(ppc->szText.a)), it->second->hIcon);
 
 		td->vPopupData = ppc->PluginData;
 		td->pPopupProc = it->second->pPopupProc;
@@ -161,30 +156,6 @@ void CleanupClasses()
 	for (auto it = mp_Classes.begin(); it != mp_Classes.end(); ++it)
 		delete it->second;
 	mp_Classes.clear();
-}
-
-static INT_PTR PopupQuery(WPARAM wParam, LPARAM)
-{
-	switch (wParam)
-	{
-	case PUQS_ENABLEPOPUPS:
-	{
-		bool enabled = db_get_b(0, "Popup", "ModuleIsEnabled", 1) != 0;
-		if (!enabled) db_set_b(0, "Popup", "ModuleIsEnabled", 1);
-		return !enabled;
-	}
-	case PUQS_DISABLEPOPUPS:
-	{
-		bool enabled = db_get_b(0, "Popup", "ModuleIsEnabled", 1) != 0;
-		if (enabled) db_set_b(0, "Popup", "ModuleIsEnabled", 0);
-		CallFunctionAsync(HideAllToasts, nullptr);
-		return enabled;
-	}
-	case PUQS_GETSTATUS:
-		return db_get_b(0, "Popup", "ModuleIsEnabled", 1);
-	default:
-		return 1;
-	}
 }
 
 static INT_PTR ShowMessageW(WPARAM wParam, LPARAM lParam)
@@ -238,8 +209,6 @@ void InitServices()
 	CreateServiceFunction(MS_POPUP_ADDPOPUP, CreatePopup);
 	CreateServiceFunction(MS_POPUP_ADDPOPUPW, CreatePopupW);
 	CreateServiceFunction(MS_POPUP_ADDPOPUP2, CreatePopup2);
-
-	CreateServiceFunction(MS_POPUP_QUERY, PopupQuery);
 
 	CreateServiceFunction(MS_POPUP_ADDPOPUPCLASS, CreateClassPopup);
 	CreateServiceFunction(MS_POPUP_REGISTERCLASS, RegisterPopupClass);

@@ -104,7 +104,7 @@ void CToxProto::ShowNotification(const wchar_t *caption, const wchar_t *message,
 		return;
 	}
 
-	if (db_get_b(0, "Popup", "ModuleIsEnabled", 1)) {
+	if (Popup_Enabled()) {
 		POPUPDATAW ppd = { 0 };
 		ppd.lchContact = hContact;
 		wcsncpy(ppd.lpwzContactName, caption, MAX_CONTACTNAME);

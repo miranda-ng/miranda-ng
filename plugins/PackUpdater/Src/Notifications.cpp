@@ -111,8 +111,7 @@ void show_popup(HWND hDlg, LPCTSTR pszTitle, LPCTSTR pszText, int iNumber, int A
 	if (!pmpd)
 		return;
 
-	POPUPDATAW_V2 pd = { 0 };
-	pd.cbSize = sizeof(pd);
+	POPUPDATAW pd = { 0 };
 	pd.lchContact = NULL; //(HANDLE)wParam;
 	pd.lchIcon = Skin_LoadIcon(PopupsList[iNumber].Icon);
 	mir_wstrncpy(pd.lpwzText, pszText, _countof(pd.lpwzText));
@@ -147,8 +146,7 @@ void show_popup(HWND hDlg, LPCTSTR pszTitle, LPCTSTR pszText, int iNumber, int A
 		MakePopupAction(pmpd->pa[pd.actionCount++], IDYES);
 		MakePopupAction(pmpd->pa[pd.actionCount++], IDNO);
 	}
-
-	PUAddPopupW(&pd, APF_NEWDATA);
+	PUAddPopupW(&pd);
 }
 
 INT_PTR CALLBACK DlgDownload(HWND hDlg, UINT message, WPARAM, LPARAM)
@@ -176,7 +174,7 @@ INT_PTR CALLBACK DlgDownloadPop(HWND hDlg, UINT uMsg, WPARAM, LPARAM)
 
 static void __stdcall CreateDownloadDialog(void*)
 {
-	if (db_get_b(0, "Popup", "ModuleIsEnabled", 1) && g_plugin.getByte("Popups3", DEFAULT_POPUP_ENABLED))
+	if (Popup_Enabled() && g_plugin.getByte("Popups3", DEFAULT_POPUP_ENABLED))
 		hDlgDld = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_POPUPDUMMI), nullptr, DlgDownloadPop);
 	else if (g_plugin.getByte("Popups3M", DEFAULT_MESSAGE_ENABLED)) {
 		mir_wstrncpy(tszDialogMsg, Text, _countof(tszDialogMsg));
@@ -195,7 +193,7 @@ void DlgDownloadProc()
 	if (!DownloadFile(pFileUrl->tszDownloadURL, pFileUrl->tszDiskPath)) {
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("An error occurred while downloading the update.");
-		if (db_get_b(0, "Popup", "ModuleIsEnabled", 1) && g_plugin.getByte("Popups1", DEFAULT_POPUP_ENABLED)) {
+		if (Popup_Enabled() && g_plugin.getByte("Popups1", DEFAULT_POPUP_ENABLED)) {
 			Number = 1;
 			show_popup(nullptr, Title, Text, Number, 0);
 		}
@@ -420,7 +418,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 					INT rc = -1;
 					Title = TranslateT("Pack Updater");
 					Text = tszBuff;
-					if (ServiceExists(MS_POPUP_REGISTERACTIONS) && db_get_b(0, "Popup", "ModuleIsEnabled", 1) && g_plugin.getByte("Popups0", DEFAULT_POPUP_ENABLED) && (db_get_dw(0, "Popup", "Actions", 0) & 1))
+					if (Popup_Enabled() && g_plugin.getByte("Popups0", DEFAULT_POPUP_ENABLED) && (db_get_dw(0, "Popup", "Actions", 0) & 1))
 						rc = DialogBox(g_plugin.getInst(), MAKEINTRESOURCE(IDD_POPUPDUMMI), nullptr, DlgMsgPop);
 					else
 						rc = MessageBox(nullptr, tszBuff, Title, MB_YESNO | MB_ICONQUESTION);
@@ -508,7 +506,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 						mir_snwprintf(tszBuff, TranslateT("You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s"), arFilePath[0].c_str());
 						Title = TranslateT("Pack Updater");
 						Text = tszBuff;
-						if (db_get_b(0, "Popup", "ModuleIsEnabled", 1) && g_plugin.getByte("Popups2", DEFAULT_POPUP_ENABLED)) {
+						if (Popup_Enabled() && g_plugin.getByte("Popups2", DEFAULT_POPUP_ENABLED)) {
 							Number = 2;
 							show_popup(nullptr, Title, Text, Number, 0);
 						}

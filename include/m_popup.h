@@ -18,10 +18,11 @@ them!
 #ifndef M_POPUP_H
 #define M_POPUP_H
 
-#include <m_database.h>
+EXTERN_C MIR_APP_DLL(void) Popup_Enable(bool bEnable);
+EXTERN_C MIR_APP_DLL(bool) Popup_Enabled();
 
 /*
-NOTE! Since Popup 1.0.1.2 there is a main meun group called "Popups" where I
+NOTE! Since Popup 1.0.1.2 there is a main menu group called "Popups" where I
 have put a "Enable/Disable" item. You can add your own "enable/disable" items
 by adding these lines before you call MS_CLIST_ADDMAINMENUITEM:
 mi.pszPopupName = Translate("Popups");
@@ -38,7 +39,7 @@ mi.position = 0; //You don't need it and it's better if you put it to zero.
 // popup you are requesting
 
 // ANSI Popup Action
-typedef struct
+struct POPUPACTION
 {
 	int cbSize;		// sizeof(POPUPACTION)
 	HICON lchIcon;	// Action Icon
@@ -49,7 +50,7 @@ typedef struct
 	DWORD flags;	// set of PAF_* flags
 	WPARAM wParam;	// wParam for UM_POPUPACTION message
 	LPARAM lParam;	// lParam for UM_POPUPACTION message
-} POPUPACTION, *LPPOPUPACTION;
+};
 
 ///////////////////////////////////////////////////////////////
 // Few notes about new popup api
@@ -65,7 +66,7 @@ typedef struct
 #define PU2_UNICODE      0x01
 #define PU2_CUSTOM_POPUP 0x02
 
-typedef struct
+struct POPUPDATA2
 {
 	// general
 	int cbSize;
@@ -80,18 +81,9 @@ typedef struct
 	COLORREF colorText;
 	HICON lchIcon;
 	HBITMAP hbmAvatar;
-	union
-	{
-		char *lpzTitle;
-		wchar_t *lpwzTitle;
-		wchar_t *lptzTitle;
-	};
-	union
-	{
-		char *lpzText;
-		wchar_t *lpwzText;
-		wchar_t *lptzText;
-	};
+	MAllStrings szTitle;
+	MAllStrings szText;
+
 	char *lpzSkin;
 
 	// time and timeout
@@ -107,42 +99,20 @@ typedef struct
 	POPUPACTION *lpActions;
 
 	HANDLE lchNotification;
-} POPUPDATA2, *LPPOPUPDATA2;
-
-// Creates new popup
-//    wParam = (WPARAM)(LPPOPUPDATA2)&ppd2
-//    lParam = (LPARAM)(combination of APF_* flags)
-//    returns: window handle (if requested) of NULL on success, -1 on failure.
-#define MS_POPUP_ADDPOPUP2 "Popup/AddPopup2"
-
-// Update an popup
-//    wParam = (WPARAM)(HWND)hwndPopup
-//    lParam = (LPARAM)(LPPOPUPDATA2)&ppd2
-//    returns: zero on success, -1 on failure.
-#define MS_POPUP_CHANGEPOPUP2 "Popup/ChangePopup2"
-
-// deprecatet !!! (only for compatibility) use new POPUPDATA2 struct for extended popup
-// Unicode version of POPUPDATAEX_V2
-struct POPUPDATAW_V2
-{
-	MCONTACT lchContact;
-	HICON lchIcon;
-	wchar_t lpwzContactName[MAX_CONTACTNAME];
-	wchar_t lpwzText[MAX_SECONDLINE];
-	COLORREF colorBack;
-	COLORREF colorText;
-	WNDPROC PluginWindowProc;
-	void * PluginData;
-	int iSeconds;
-	// +2.1.0.3
-	// you *MUST* pass APF_NEWDATA flag for services to take care of this data
-	HANDLE hNotification;
-	int actionCount;
-	LPPOPUPACTION lpActions;
-	int cbSize;
 };
 
-// Extended popup data
+#define APF_RETURN_HWND  0x1
+#define APF_CUSTOM_POPUP 0x2
+#define APF_NO_HISTORY   0x04	// do not log this popup in popup history (useful for previews)
+#define APF_NO_POPUP     0x08	// do not show popup. this is useful if you want popup yo be stored in history only
+
+EXTERN_C MIR_APP_DLL(HWND) Popup_Add(const POPUPDATA2 *pData, int flags = 0 /* combination of APF_* */);
+EXTERN_C MIR_APP_DLL(void) Popup_Change(HWND hwndPopup, const POPUPDATA2 *pData);
+
+// Creates, adds and shows a popup, given a (valid) POPUPDATA structure pointer.
+// Returns: > 0 on success, 0 if creation went bad, INVALID_HANDLE if the PopupData contained unacceptable values.
+// NOTE: it returns -1 if the PopupData was not valid, if there were already too many popups, if the module was disabled.
+
 struct POPUPDATA
 {
 	MCONTACT lchContact;
@@ -153,11 +123,9 @@ struct POPUPDATA
 	COLORREF colorText;
 	WNDPROC PluginWindowProc;
 	void *PluginData;
-	int iSeconds;								// Custom delay time in seconds. -1 means "forever", 0 means "default time".
-	char cZero[16];								// Some unused bytes which may come useful in the future.
+	int iSeconds;       // Custom delay time in seconds. -1 means "forever", 0 means "default time".
 };
 
-// Unicode version of POPUPDATA
 struct POPUPDATAW
 {
 	MCONTACT lchContact;
@@ -168,172 +136,55 @@ struct POPUPDATAW
 	COLORREF colorText;
 	WNDPROC PluginWindowProc;
 	void *PluginData;
-	int iSeconds;
-	char cZero[16];
+	int iSeconds;      // Custom delay time in seconds. -1 means "forever", 0 means "default time".
+	HANDLE hNotification;
+	int actionCount;
+	POPUPACTION *lpActions;
 };
 
-/* Popup/AddPopup
-Creates, adds and shows a popup, given a (valid) POPUPDATA structure pointer.
+EXTERN_C MIR_APP_DLL(HWND) PUAddPopup(POPUPDATA *ppdp, int flags = 0 /* combination of APF_* */);
+EXTERN_C MIR_APP_DLL(HWND) PUAddPopupW(POPUPDATAW *ppdp, int flags = 0 /* combination of APF_* */);
 
-wParam = (WPARAM)(*POPUPDATA)PopupDataAddress
-lParam = 0
+// Deletes a popup window
+EXTERN_C MIR_APP_DLL(int) PUDeletePopup(HWND hWndPopup);
 
-Returns: > 0 on success, 0 if creation went bad, -1 if the PopupData contained unacceptable values.
-NOTE: it returns -1 if the PopupData was not valid, if there were already too many popups, if the module was disabled.
-Otherwise, it can return anything else...
+// Returns the handle to the contact associated to the specified PopupWindow or -1 on failure
+EXTERN_C MIR_APP_DLL(MCONTACT) PUGetContact(HWND hPopupWindow);
 
-Popup Plus 2.0.4.0+
-You may pass additional creation flags via lParam:
-	APF_RETURN_HWND ....... function returns handle to newly created popup window (however this calls are a bit slower)
-	APF_CUSTOM_POPUP ...... new popup is created in hidden state and doesn't obey to popup queue rules.
-							you may control it via UM_* messages and custom window procedure
-*/
-#define APF_RETURN_HWND  0x1
-#define APF_CUSTOM_POPUP 0x2
-#define APF_NO_HISTORY   0x04	//do not log this popup in popup history (useful for previews)
-#define APF_NO_POPUP     0x08	//do not show popup. this is useful if you want popup yo be stored in history only
-#define APF_NEWDATA      0x10	//deprecatet!! only for use with old POPUPDATAEX_V2/POPUPDATAW_V2 structs
+// Returns custom plugin date associated with popup
+EXTERN_C MIR_APP_DLL(void*) PUGetPluginData(HWND hPopupWindow);
 
-#define MS_POPUP_ADDPOPUP "Popup/AddPopupEx"
-__forceinline INT_PTR PUAddPopup(POPUPDATA *ppdp, int flags = 0)
-{
-	return CallService(MS_POPUP_ADDPOPUP, (WPARAM)ppdp, flags);
-}
+// Changes the entire popup
+EXTERN_C MIR_APP_DLL(int) PUChangeW(HWND hWndPopup, POPUPDATAW *newData);
 
-#define MS_POPUP_ADDPOPUPW "Popup/AddPopupW"
-__forceinline INT_PTR PUAddPopupW(POPUPDATAW *ppdp, int flags = 0)
-{
-	return CallService(MS_POPUP_ADDPOPUPW, (WPARAM)ppdp, flags);
-}
+// Changes the text displayed in the second line of the popup.
+EXTERN_C MIR_APP_DLL(int) PUChangeTextW(HWND hWndPopup, const wchar_t *lpwzNewText);
 
-__forceinline INT_PTR PUAddPopupW(POPUPDATAW_V2 *ppdp, int flags = 0)
-{
-	return CallService(MS_POPUP_ADDPOPUPW, (WPARAM)ppdp, flags);
-}
+/////////////////////////////////////////////////////////////////////////////////////////
+// Popup messages
 
-/* Popup/GetContact
-Returns the handle to the contact associated to the specified PopupWindow.
-
-wParam = (WPARAM)(HWND)hPopupWindow
-lParam = 0;
-
-Returns: the HANDLE of the contact. Can return NULL, meaning it's the main contact. -1 means failure.
-*/
-#define MS_POPUP_GETCONTACT "Popup/GetContact"
-__forceinline MCONTACT PUGetContact(HWND hPopupWindow)
-{
-	return (MCONTACT)CallService(MS_POPUP_GETCONTACT, (WPARAM)hPopupWindow, 0);
-}
-
-/* Popup/GetPluginData
-Returns custom plugin date associated with popup
-
-wParam = (WPARAM)(HWND)hPopupWindow
-lParam = (LPARAM)(PLUGINDATA*)PluginDataAddress;
-
-Returns: the address of the PLUGINDATA structure. Can return NULL, meaning nothing was given. -1 means failure.
-
-IMPORTANT NOTE: it doesn't seem to work if you do:
-CallService(..., (LPARAM)aPointerToAStruct);
-and then use that struct.
-Do this, instead:
-aPointerToStruct = CallService(..., (LPARAM)aPointerToAStruct);
-and it will work. Just look at the example I've written above (PopupDlgProc).
-
-*/
-#define MS_POPUP_GETPLUGINDATA "Popup/GetPluginData"
-__forceinline void* PUGetPluginData(HWND hPopupWindow)
-{
-	return (void*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hPopupWindow, 0);
-}
-
-/* Popup/Query
-
-Requests an action or an answer from Popup module.
-
-wParam = (WPARAM)wpQuery
-
-returns 0 on success, -1 on error, 1 on stupid calls ;-)
-*/
-
-#define PUQS_ENABLEPOPUPS	1	// returns 0 if state was changed, 1 if state wasn't changed
-#define PUQS_DISABLEPOPUPS	2	// " "
-#define PUQS_GETSTATUS		3	//Returns 1 (TRUE) if popups are enabled, 0 (FALSE) if popups are disabled.
-
-#define MS_POPUP_QUERY "Popup/Query"
-
-/* UM_FREEPLUGINDATA
-Process this message if you have allocated your own memory. (i.e.: POPUPDATA.PluginData != NULL)
-
-wParam = 0
-lParam = 0
-*/
+// UM_FREEPLUGINDATA
+// Process this message if you have allocated your own memory. (i.e.: POPUPDATA.PluginData != NULL)
 #define UM_FREEPLUGINDATA        (WM_USER + 0x0200)
 
-/* UM_DESTROYPOPUP
-Send this message when you want to destroy the popup, or use the function below.
-
-wParam = 0
-lParam = 0
-*/
-#define MS_POPUP_DESTROYPOPUP "Popup/Delete"
+// UM_DESTROYPOPUP
+// Send this message when you want to destroy the popup, or use the function below.
+// wParam = 0
+// lParam = HWND
 #define UM_DESTROYPOPUP          (WM_USER + 0x0201)
-__forceinline int PUDeletePopup(HWND hWndPopup)
-{
-	return (int)CallService(MS_POPUP_DESTROYPOPUP, 0, (LPARAM)hWndPopup);
-}
 
-/* UM_INITPOPUP
-This message is sent to the Popup when its creation has been finished, so POPUPDATA (and thus your PluginData) is reachable.
-Catch it if you needed to catch WM_CREATE or WM_INITDIALOG, which you'll never ever get in your entire popup-life.
-Return value: if you process this message, return 0. If you don't process it, return 0. Do whatever you like ;-)
-
-wParam = (WPARAM)(HWND)hPopupWindow (this is useless, you get message inside your popup window)
-lParam = 0
-*/
+// UM_INITPOPUP
+// This message is sent to the Popup when its creation has been finished, so POPUPDATA (and thus your PluginData) is reachable.
+// Catch it if you needed to catch WM_CREATE or WM_INITDIALOG, which you'll never ever get in your entire popup-life.
+// Return value: if you process this message, return 0. If you don't process it, return 0. Do whatever you like ;-)
+// wParam = (WPARAM)(HWND)hPopupWindow (this is useless, you get message inside your popup window)
+// lParam = 0
 #define UM_INITPOPUP             (WM_USER + 0x0202)
 
-/* Popup/Changetext
-Changes the text displayed in the second line of the popup.
-
-wParam = (WPARAM)(HWND)hPopupWindow
-lParam = (LPARAM)(char*)lpzNewText
-
-returns: > 0 for success, -1 for failure, 0 if the failure is due to second line not being shown. (but you could call
-PUIsSecondLineShown() before changing the text...)
-*/
-
-#define MS_POPUP_CHANGETEXTW "Popup/ChangetextW"
-
-__forceinline int PUChangeTextW(HWND hWndPopup, LPCWSTR lpwzNewText)
-{
-	return (int)CallService(MS_POPUP_CHANGETEXTW, (WPARAM)hWndPopup, (LPARAM)lpwzNewText);
-}
-
-/* Popup/Change
-Changes the entire popup
-
-wParam = (WPARAM)(HWND)hPopupWindow
-lParam = (LPARAM)(POPUPDATA*)newData
-*/
-
-#define MS_POPUP_CHANGEW "Popup/ChangeW"
-__forceinline int PUChangeW(HWND hWndPopup, POPUPDATAW *newData)
-{
-	return (int)CallService(MS_POPUP_CHANGEW, (WPARAM)hWndPopup, (LPARAM)newData);
-}
-
-__forceinline int PUChangeW(HWND hWndPopup, POPUPDATAW_V2 *newData)
-{
-	return (int)CallService(MS_POPUP_CHANGEW, (WPARAM)hWndPopup, (LPARAM)newData);
-}
-
-/* UM_CHANGEPOPUP
-This message is triggered by Change/ChangeText services. You also may post it directly :)
-
-wParam = Modification type
-lParam = value of type defined by wParam
-*/
+// UM_CHANGEPOPUP
+// This message is triggered by Change/ChangeText services. You also may post it directly :)
+// wParam = Modification type
+// lParam = value of type defined by wParam
 
 #define CPT_TEXTW	 2 // lParam = (wchar_t *)text
 #define CPT_TITLEW 4 // lParam = (wchar_t *)title
@@ -342,21 +193,16 @@ lParam = value of type defined by wParam
 
 #define UM_CHANGEPOPUP			(WM_USER + 0x0203)
 
-/* UM_POPUPACTION
-Popup Action notification
-
-wParam and lParam are specified bu plugin.
-wParam = 0 is used buy popup plus internally!
-*/
-
+// UM_POPUPACTION
+// Popup Action notification
+// wParam and lParam are specified bu plugin.
+// wParam = 0 is used buy popup plus internally!
 #define UM_POPUPACTION           (WM_USER + 0x0204)
 
-/* UM_POPUPMODIFYACTIONICON
-Modify Popup Action Icon
-
-wParam = (WPARAM)(LPPOPUPACTIONID)&actionId
-lParam = (LPARAM)(HICON)hIcon
-*/
+// UM_POPUPMODIFYACTIONICON
+// Modify Popup Action Icon
+// wParam = (WPARAM)(LPPOPUPACTIONID)&actionId
+// lParam = (LPARAM)(HICON)hIcon
 
 struct POPUPACTIONID
 {
@@ -371,38 +217,21 @@ __forceinline int PUModifyActionIcon(HWND hWndPopup, WPARAM wParam, LPARAM lPara
 	return (int)SendMessage(hWndPopup, UM_POPUPMODIFYACTIONICON, (WPARAM)&actionId, (LPARAM)hIcon);
 }
 
-/* UM_POPUPSHOW
-Show popup at position
-
-wParam = x
-lParam = y
-*/
+// UM_POPUPSHOW
+// Show popup at position
+// wParam = x
+// lParam = y
 #define UM_POPUPSHOW			 (WM_USER + 0x0206)
 
-/* Popup/RegisterActions
-Registers your action in popup action list
+// Registers your action in popup action list
 
-wParam = (WPARAM)(LPPOPUPACTION)actions
-lParam = (LPARAM)actionCount
+EXTERN_C MIR_APP_DLL(int) PURegisterActions(POPUPACTION *actions, int count);
 
-Returns: 0 if the popup was shown, -1 in case of failure.
-*/
-#define MS_POPUP_REGISTERACTIONS "Popup/RegisterActions"
-
-__forceinline int PURegisterActions(LPPOPUPACTION actions, int count)
-{
-	return (int)CallService(MS_POPUP_REGISTERACTIONS, (WPARAM)actions, (LPARAM)count);
-}
-
-/* Popup/RegisterNotification
-Registers your action in popup action list
-
-wParam = (WPARAM)(LPPOPUPNOTIFICATION)info
-lParam = 0
-
-Returns: handle of registered notification or sero on failure
-*/
-#define MS_POPUP_REGISTERNOTIFICATION "Popup/RegisterNotification"
+// Popup/RegisterNotification
+// Registers your action in popup action list
+// wParam = (WPARAM)(LPPOPUPNOTIFICATION)info
+// lParam = 0
+// Returns: handle of registered notification or sero on failure
 
 #define PNAF_CALLBACK			0x01
 
@@ -452,10 +281,7 @@ typedef struct
 	DLGPROC pfnReserved2;	// reserved for future use
 } POPUPNOTIFICATION, *LPPOPUPNOTIFICATION;
 
-__forceinline HANDLE PURegisterNotification(LPPOPUPNOTIFICATION notification)
-{
-	return (HANDLE)CallService(MS_POPUP_REGISTERNOTIFICATION, (WPARAM)notification, 0);
-}
+EXTERN_C MIR_APP_DLL(HANDLE) PURegisterNotification(LPPOPUPNOTIFICATION notification);
 
 /* Popup/UnhookEventAsync
 Using of "UnhookEvent" inside PluginWindowProc in conjunction with HookEventMessage
@@ -498,13 +324,6 @@ __forceinline int PUUnhookEventAsync(HWND hwndPopup, HANDLE hEvent)
 	PostMessage(hwndPopup, UM_POPUPUNHOOKCOMPLETE, 0, (LPARAM)hEvent);
 	return 0;
 }
-
-/* Popup/GetStatus
-Returns 1 when popups are showen and 0 when not
-wParam = 0
-lParam = 0
-*/
-#define MS_POPUP_GETSTATUS	"Popup/GetStatus"
 
 #ifdef __cplusplus
 /* Popup/RegisterVfx
@@ -550,31 +369,21 @@ Returns: 0 if the popup was shown, -1 in case of failure.
 #define SM_WARNING	0x01	//Triangle icon.
 #define SM_NOTIFY	0x02	//Exclamation mark icon.
 #define SM_ERROR	0x03	//Cross icon.
-#define MS_POPUP_SHOWMESSAGE "Popup/ShowMessage"
-#define MS_POPUP_SHOWMESSAGEW "Popup/ShowMessageW"
 
-__forceinline int PUShowMessage(const char *lpzText, DWORD kind)
-{
-	return (int)CallService(MS_POPUP_SHOWMESSAGE, (WPARAM)lpzText, (LPARAM)kind);
-}
+EXTERN_C MIR_APP_DLL(int) PUShowMessage(const char *lpzText, DWORD kind);
+EXTERN_C MIR_APP_DLL(int) PUShowMessageW(const wchar_t *lpwzText, DWORD kind);
 
-__forceinline int PUShowMessageW(const wchar_t *lpwzText, DWORD kind)
-{
-	return (int)CallService(MS_POPUP_SHOWMESSAGEW, (WPARAM)lpwzText, (LPARAM)kind);
-}
-
-/* Popup/Filter
-Filters popups out
-
-wParam = (HANDLE)hContact
-lParam = (void*)pWindowProc;
-
-returns: 0 = popup allowed, 1 = popup filtered out
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// Popup/Filter
+// Filters popups out
+// wParam = (MCONTACT)hContact
+// lParam = (void*)pWindowProc;
+// returns: 0 = popup allowed, 1 = popup filtered out
 
 #define ME_POPUP_FILTER "Popup/Filter"
 
-//------------- Class API ----------------//
+/////////////////////////////////////////////////////////////////////////////////////////
+// Popup classes API
 
 #define PCF_UNICODE  0x0001
 
@@ -596,58 +405,25 @@ struct POPUPCLASS
 	LPARAM lParam; //APF_RETURN_HWND, APF_CUSTOM_POPUP  ... as above
 };
 
-// wParam = 0
-// lParam = (POPUPCLASS *)&pc
-#define MS_POPUP_REGISTERCLASS   "Popup/RegisterClass"
+EXTERN_C MIR_APP_DLL(HANDLE) Popup_RegisterClass(POPUPCLASS *pc);
+EXTERN_C MIR_APP_DLL(void) Popup_UnregisterClass(HANDLE ppc);
 
-__forceinline HANDLE Popup_RegisterClass(POPUPCLASS *pc)
+/////////////////////////////////////////////////////////////////////////////////////////
+// structure to add a popup using given class
+
+struct POPUPDATACLASS 
 {
-	if (!ServiceExists(MS_POPUP_REGISTERCLASS))
-		return nullptr;
-	return (HANDLE)CallService(MS_POPUP_REGISTERCLASS, 0, LPARAM(pc));
-}
-
-#define MS_POPUP_UNREGISTERCLASS "Popup/UnregisterClass"
-
-__forceinline void Popup_UnregisterClass(HANDLE ppc)
-{
-	if (ppc)
-		CallService(MS_POPUP_UNREGISTERCLASS, 0, LPARAM(ppc));
-}
-
-typedef struct {
 	int cbSize;
 	const char *pszClassName;
-	union {
-		const char *pszTitle;
-		const wchar_t *pwszTitle;
-	};
-	union {
-		const char *pszText;
-		const wchar_t *pwszText;
-	};
+	MAllCStrings szTitle;
+	MAllCStrings szText;
 	void *PluginData;
 	MCONTACT hContact;
-} POPUPDATACLASS;
+};
 
-// wParam = 0
-// lParam = (POPUPDATACLASS *)&pdc
-#define MS_POPUP_ADDPOPUPCLASS	"Popup/AddPopupClass"
+EXTERN_C MIR_APP_DLL(HWND) Popup_AddClass(POPUPDATACLASS*);
 
-__forceinline INT_PTR ShowClassPopup(const char *name, const char *title, const char *text)
-{
-	POPUPDATACLASS d = {sizeof(d), name};
-	d.pszTitle = title;
-	d.pszText = text;
-	return CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&d);
-}
-
-__forceinline INT_PTR ShowClassPopupW(const char *name, const wchar_t *title, const wchar_t *text)
-{
-	POPUPDATACLASS d = {sizeof(d), name};
-	d.pwszTitle = title;
-	d.pwszText = text;
-	return CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&d);
-}
+EXTERN_C MIR_APP_DLL(HWND) ShowClassPopup(const char *name, const char *title, const char *text);
+EXTERN_C MIR_APP_DLL(HWND) ShowClassPopupW(const char *name, const wchar_t *title, const wchar_t *text);
 
 #endif // __m_popup_h__

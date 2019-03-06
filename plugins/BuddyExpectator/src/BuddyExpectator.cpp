@@ -224,8 +224,7 @@ bool isContactGoneFor(MCONTACT hContact, int days)
 	if (options.hideInactive)
 		if (daysSinceMessage >= options.iSilencePeriod)
 			if (!db_get_b(hContact, "CList", "Hidden", 0) && !g_plugin.getByte(hContact, "NeverHide", 0)) {
-				POPUPDATAW_V2 ppd = { 0 };
-				ppd.cbSize = sizeof(ppd);
+				POPUPDATAW ppd = { 0 };
 				ppd.lchContact = hContact;
 				ppd.lchIcon = IcoLib_GetIcon("enabled_icon");
 
@@ -243,7 +242,7 @@ bool isContactGoneFor(MCONTACT hContact, int days)
 				ppd.lpActions = hideactions;
 				ppd.actionCount = 2;
 
-				PUAddPopupW(&ppd, APF_NEWDATA);
+				PUAddPopupW(&ppd);
 
 				Skin_PlaySound("buddyExpectatorHide");
 			}
@@ -478,9 +477,7 @@ int SettingChanged(WPARAM hContact, LPARAM lParam)
 	if (prevStatus == ID_STATUS_OFFLINE) {
 		if (g_plugin.getByte(hContact, "MissYou", 0)) {
 			// Display Popup
-			POPUPDATAW_V2 ppd = { 0 };
-			ppd.cbSize = sizeof(ppd);
-
+			POPUPDATAW ppd = { 0 };
 			ppd.lchContact = hContact;
 			ppd.lchIcon = IcoLib_GetIcon("enabled_icon");
 			wcsncpy(ppd.lpwzContactName, Clist_GetContactDisplayName(hContact), MAX_CONTACTNAME);
@@ -496,8 +493,7 @@ int SettingChanged(WPARAM hContact, LPARAM lParam)
 			missyouactions[0].flags = PAF_ENABLED;
 			ppd.lpActions = missyouactions;
 			ppd.actionCount = 1;
-
-			PUAddPopupW(&ppd, APF_NEWDATA);
+			PUAddPopupW(&ppd);
 
 			Skin_PlaySound("buddyExpectatorMissYou");
 		}

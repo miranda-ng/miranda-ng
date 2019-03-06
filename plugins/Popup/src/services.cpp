@@ -41,8 +41,8 @@ INT_PTR Popup_AddPopup(WPARAM wParam, LPARAM lParam)
 	ppd2.flags = PU2_UNICODE;
 	ppd2.lchContact = ppd->lchContact;
 	ppd2.lchIcon = ppd->lchIcon;
-	ppd2.lpwzTitle = wszTitle;
-	ppd2.lpwzText = wszText;
+	ppd2.szTitle.w = wszTitle;
+	ppd2.szText.w = wszText;
 	ppd2.colorBack = ppd->colorBack;
 	ppd2.colorText = ppd->colorText;
 	ppd2.PluginWindowProc = ppd->PluginWindowProc;
@@ -57,7 +57,7 @@ INT_PTR Popup_AddPopupW(WPARAM wParam, LPARAM lParam)
 	if (!gbPopupLoaded)
 		return -1;
 
-	POPUPDATAW_V2 *ppd = (POPUPDATAW_V2*)wParam;
+	POPUPDATAW *ppd = (POPUPDATAW*)wParam;
 	if (!ppd)
 		return -1;
 
@@ -66,19 +66,16 @@ INT_PTR Popup_AddPopupW(WPARAM wParam, LPARAM lParam)
 	ppd2.flags = PU2_UNICODE;
 	ppd2.lchContact = ppd->lchContact;
 	ppd2.lchIcon = ppd->lchIcon;
-	ppd2.lpwzTitle = ppd->lpwzContactName;
-	ppd2.lpwzText = ppd->lpwzText;
+	ppd2.szTitle.w = ppd->lpwzContactName;
+	ppd2.szText.w = ppd->lpwzText;
 	ppd2.colorBack = ppd->colorBack;
 	ppd2.colorText = ppd->colorText;
 	ppd2.PluginWindowProc = ppd->PluginWindowProc;
 	ppd2.PluginData = ppd->PluginData;
 	ppd2.iSeconds = ppd->iSeconds;
-
-	if (lParam & APF_NEWDATA) {
-		ppd2.lchNotification = ppd->hNotification;
-		ppd2.actionCount = ppd->actionCount;
-		ppd2.lpActions = ppd->lpActions;
-	}
+	ppd2.lchNotification = ppd->hNotification;
+	ppd2.actionCount = ppd->actionCount;
+	ppd2.lpActions = ppd->lpActions;
 
 	return Popup_AddPopup2((WPARAM)&ppd2, lParam);
 }
@@ -132,7 +129,7 @@ INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 		return -1;
 
 	if (bShowMode != PU_SHOWMODE_FAVORITE) {
-		if (!PopupOptions.ModuleIsEnabled)
+		if (!Popup_Enabled())
 			return -1;
 
 		if (PopupOptions.DisableWhenFullscreen && (bShowMode != PU_SHOWMODE_FULLSCREEN) && IsFullScreen())
@@ -237,28 +234,28 @@ INT_PTR Popup_ShowMessageW(WPARAM wParam, LPARAM lParam)
 	POPUPDATA2 ppd2 = { 0 };
 	ppd2.cbSize = sizeof(ppd2);
 	ppd2.flags = PU2_UNICODE;
-	ppd2.lpwzText = (wchar_t*)wParam;
+	ppd2.szText.w = (wchar_t*)wParam;
 	switch (lParam & 0x7fffffff) {
 	case SM_ERROR:
 		ppd2.lchIcon = LoadIconEx(IDI_MB_STOP, 0);
 		ppd2.colorBack = RGB(191, 0, 0);
 		ppd2.colorText = RGB(255, 245, 225);
 		ppd2.lchNotification = g_hntfError;
-		ppd2.lptzTitle = TranslateT("Error");
+		ppd2.szTitle.w = TranslateT("Error");
 		break;
 	case SM_WARNING:
 		ppd2.lchIcon = LoadIconEx(IDI_MB_WARN, 0);
 		ppd2.colorBack = RGB(210, 210, 150);
 		ppd2.colorText = RGB(0, 0, 0);
 		ppd2.lchNotification = g_hntfWarning;
-		ppd2.lptzTitle = TranslateT("Warning");
+		ppd2.szTitle.w = TranslateT("Warning");
 		break;
 	case SM_NOTIFY:
 		ppd2.lchIcon = LoadIconEx(IDI_MB_INFO, 0);
 		ppd2.colorBack = RGB(230, 230, 230);
 		ppd2.colorText = RGB(0, 0, 0);
 		ppd2.lchNotification = g_hntfNotification;
-		ppd2.lptzTitle = TranslateT("Notify");
+		ppd2.szTitle.w = TranslateT("Notify");
 		break;
 	default: // No no no... you must give me a good value.
 		return -1;
@@ -275,42 +272,11 @@ INT_PTR Popup_ShowMessage(WPARAM wParam, LPARAM lParam)
 	return Popup_ShowMessageW(wszMsg, lParam);
 }
 
-//===== Popup/Query
-INT_PTR Popup_Query(WPARAM wParam, LPARAM)
-{
-	if (!gbPopupLoaded) return -1;
-
-	if (closing)
-		return 0;
-
-	switch (wParam) {
-	case PUQS_ENABLEPOPUPS:
-		if (PopupOptions.ModuleIsEnabled)
-			return 1; // They're already ON!!!
-		
-		// Module was disabled.
-		svcEnableDisableMenuCommand(0, 0);
-		return 0;
-
-	case PUQS_DISABLEPOPUPS:
-		if (!(PopupOptions.ModuleIsEnabled))
-			return 1; // They're already OFF!!!
-
-		svcEnableDisableMenuCommand(0, 0);
-		return 0;
-
-	case PUQS_GETSTATUS:
-		return (PopupOptions.ModuleIsEnabled);
-
-	default:
-		return -1;
-	}
-}
 
 //===== Popup/RegisterActions
 INT_PTR Popup_RegisterActions(WPARAM wParam, LPARAM lParam)
 {
-	LPPOPUPACTION actions = (LPPOPUPACTION)wParam;
+	POPUPACTION *actions = (POPUPACTION*)wParam;
 	for (int i = 0; i < lParam; ++i)
 		RegisterAction(&actions[i]);
 	return 0;
@@ -458,13 +424,13 @@ INT_PTR Popup_CreateClassPopup(WPARAM wParam, LPARAM lParam)
 	ppd2.PluginWindowProc = pc->PluginWindowProc;
 	if (pc->flags & PCF_UNICODE) {
 		ppd2.flags = PU2_UNICODE;
-		ppd2.lptzTitle = (wchar_t*)pdc->pwszTitle;
-		ppd2.lpwzText = (wchar_t*)pdc->pwszText;
+		ppd2.szTitle.w = (wchar_t*)pdc->szTitle.w;
+		ppd2.szText.w = (wchar_t*)pdc->szText.w;
 	}
 	else {
 		ppd2.flags = PU2_ANSI;
-		ppd2.lpzTitle = (char *)pdc->pszTitle;
-		ppd2.lpzText = (char *)pdc->pszText;
+		ppd2.szTitle.a = (char *)pdc->szTitle.a;
+		ppd2.szText.a = (char *)pdc->szText.a;
 	}
 	ppd2.lchContact = pdc->hContact;
 	ppd2.PluginData = pdc->PluginData;

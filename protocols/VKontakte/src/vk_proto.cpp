@@ -436,13 +436,13 @@ void CVkProto::MsgPopup(MCONTACT hContact, const wchar_t *wszMsg, const wchar_t 
 	char name[256];
 
 	POPUPDATACLASS ppd = { sizeof(ppd) };
-	ppd.pwszTitle = wszTitle;
-	ppd.pwszText = wszMsg;
+	ppd.szTitle.w = wszTitle;
+	ppd.szText.w = wszMsg;
 	ppd.pszClassName = name;
 	ppd.hContact = hContact;
 	ppd.PluginData = new CVkSendMsgParam(hContact);
 	mir_snprintf(name, "%s_%s", m_szModuleName, err ? "Error" : "Notification");
-	CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
+	Popup_AddClass(&ppd);
 }
 
 void CVkProto::MsgPopup(const wchar_t *wszMsg, const wchar_t *wszTitle, bool err)

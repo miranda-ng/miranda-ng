@@ -77,7 +77,7 @@ static int TTBLoaded(WPARAM, LPARAM)
 	ttb.pszService = "Popup/EnableDisableMenuCommand";
 	ttb.lParamUp = 1;
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ASPUSHBUTTON;
-	if (db_get_b(0, "Popup", "ModuleIsEnabled", 1))
+	if (Popup_Enabled())
 		ttb.dwFlags |= TTBBF_PUSHED;
 	ttb.name = LPGEN("Toggle Popups");
 	ttb.hIconHandleUp = IcoLib_GetIconHandle(ICO_TB_POPUP_OFF);
@@ -157,7 +157,7 @@ static void InitFonts()
 
 static void InitMenuItems(void)
 {
-	bool isEnabled = db_get_b(0, "Popup", "ModuleIsEnabled", 1) == 1;
+	bool isEnabled = Popup_Enabled() == 1;
 
 	hMenuRoot = g_plugin.addRootMenu(MO_MAIN, LPGENW("Popups"), 500010000, IcoLib_GetIcon(isEnabled ? ICO_POPUP_ON : ICO_POPUP_OFF, 0));
 	Menu_ConfigureItem(hMenuRoot, MCI_OPT_UID, "043A641A-2767-4C57-AA57-9233D6F9DC54");

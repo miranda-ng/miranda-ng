@@ -96,8 +96,7 @@ void TN_TypingMessage(MCONTACT hContact, int iMode)
 	}
 
 	int notyping;
-	POPUPDATAW_V2 ppd = { 0 };
-	ppd.cbSize = sizeof(ppd);
+	POPUPDATAW ppd = { 0 };
 
 	if (iMode == PROTOTYPE_CONTACTTYPING_OFF) {
 		if (StopDisabled)
@@ -164,7 +163,7 @@ void TN_TypingMessage(MCONTACT hContact, int iMode)
 	ppd.lchIcon = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
 	ppd.lchContact = hContact;
 	ppd.PluginWindowProc = PopupDlgProc;
-	PUAddPopupW(&ppd, APF_NEWDATA);
+	PUAddPopupW(&ppd);
 }
 
 static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)

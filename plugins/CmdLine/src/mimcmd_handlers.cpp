@@ -386,29 +386,29 @@ void Set2StateReply(PReply reply, int state, int failure, wchar_t *successTrue, 
 
 void HandlePopupsCommand(PCommand command, TArgument *argv, int argc, PReply reply)
 {
-	int state, failure;
+	int state, failure = 0;
 
 	switch (argc) {
 	case 2:
-		state = CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0);
+		state = Popup_Enabled();
 		Set2StateReply(reply, state, 0, LPGENW("Popups are currently enabled."), L"", LPGENW("Popups are currently disabled."), L"");
 		break;
 
 	case 3:
 		switch (Get2StateValue(argv[2])) {
 		case STATE_ON:
-			failure = CallService(MS_POPUP_QUERY, PUQS_ENABLEPOPUPS, 0);
+			Popup_Enable(true);
 			state = TRUE;
 			break;
 
 		case STATE_OFF:
-			failure = CallService(MS_POPUP_QUERY, PUQS_DISABLEPOPUPS, 0);
+			Popup_Enable(false);
 			state = FALSE;
 			break;
 
 		case STATE_TOGGLE:
-			state = CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0);
-			failure = CallService(MS_POPUP_QUERY, (state) ? PUQS_DISABLEPOPUPS : PUQS_ENABLEPOPUPS, 0);
+			state = Popup_Enabled();
+			Popup_Enable(!state);
 			state = !state;
 			break;
 

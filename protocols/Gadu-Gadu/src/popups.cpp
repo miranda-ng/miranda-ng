@@ -110,8 +110,8 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 
 	char szName[256];
 	POPUPDATACLASS ppd = { sizeof(ppd) };
-	ppd.pwszTitle = puData->title;
-	ppd.pwszText = puData->text;
+	ppd.szTitle.w = puData->title;
+	ppd.szText.w = puData->text;
 	ppd.PluginData = puData;
 	ppd.pszClassName = szName;
 
@@ -119,7 +119,7 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 		mir_snprintf(szName, "%s_%s", gg->m_szModuleName, "Error");
 	else
 		mir_snprintf(szName, "%s_%s", gg->m_szModuleName, "Notify");
-	CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
+	Popup_AddClass(&ppd);
 }
 
 void GaduProto::showpopup(const wchar_t* nickname, const wchar_t* msg, int flags)

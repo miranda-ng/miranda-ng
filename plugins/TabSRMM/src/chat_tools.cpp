@@ -124,7 +124,7 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoNa
 
 	pd.PluginWindowProc = PopupDlgProc;
 	pd.PluginData = si;
-	return PUAddPopupW(&pd);
+	return (int)PUAddPopupW(&pd);
 }
 
 BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)

@@ -80,7 +80,7 @@ void RegPopupActions()
 	poOptions.paActions[0].flags = PAF_ENABLED;
 	poOptions.paActions[0].wParam = poOptions.paActions[0].lParam = 0;
 	poOptions.paActions[0].lchIcon = hCopyIcon;
-	CallService(MS_POPUP_REGISTERACTIONS, (WPARAM)&poOptions.paActions, 1);
+	PURegisterActions(poOptions.paActions, 1);
 }
 
 int OnIconsChanged(WPARAM, LPARAM)
@@ -187,7 +187,7 @@ LRESULT CALLBACK Keyboard_Hook(int code, WPARAM wParam, LPARAM lParam)
 
 int CALLBACK CKLPopupDlgProc(HWND hWnd, UINT uiMessage, WPARAM wParam, LPARAM lParam)
 {
-	LPTSTR ptszPopupText = (LPTSTR)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, (LPARAM)&ptszPopupText);
+	LPTSTR ptszPopupText = (LPTSTR)PUGetPluginData(hWnd);
 
 	switch (uiMessage) {
 	case WM_COMMAND:

@@ -393,8 +393,7 @@ public:
 	 **/
 	virtual HWND Create(LPCTSTR szTitle, PUpdCallback pFnCallBack)
 	{
-		POPUPDATAW_V2 pd = { 0 };
-		pd.cbSize = sizeof(pd);
+		POPUPDATAW pd = { 0 };
 		pd.lchIcon = IcoLib_GetIcon(ICO_BTN_UPDATE);
 		pd.iSeconds = -1;
 		pd.PluginData = this;
@@ -409,7 +408,7 @@ public:
 		mir_wstrcpy(pd.lpwzText, L" ");
 
 		_pFnCallBack = pFnCallBack;
-		_hWnd = (HWND)PUAddPopupW(&pd, APF_RETURN_HWND | APF_NEWDATA);
+		_hWnd = PUAddPopupW(&pd, APF_RETURN_HWND);
 		return _hWnd;
 	}
 

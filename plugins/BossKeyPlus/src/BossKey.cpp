@@ -262,7 +262,7 @@ static void CreateTrayIcon(bool create)
 static void RestoreOldSettings(void)
 {
 	if (g_bOldSetting & OLD_POPUP)
-		CallService(MS_POPUP_QUERY, PUQS_ENABLEPOPUPS, 0);
+		Popup_Enable(true);
 
 	if (g_bOldSetting & OLD_SOUND)
 		db_set_b(0, "Skin", "UseSound", 1);
@@ -331,10 +331,10 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 				CreateTrayIcon(true);
 
 			// disable popups
-			if (CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0) == 1) {
+			if (Popup_Enabled()) {
 				// save current
 				g_bOldSetting |= OLD_POPUP;
-				CallService(MS_POPUP_QUERY, PUQS_DISABLEPOPUPS, 0);
+				Popup_Enable(false);
 			}
 
 			// disable sounds
@@ -667,13 +667,13 @@ int CMPlugin::Load()
 
 	if ((g_bOldSetting & OLD_POPUP) && !(g_wMaskAdv & OPT_RESTORE)) // Restore popup settings if Miranda was crushed or killed in hidden mode and "Restore hiding on startup after failure" option is disabled
 	{
-		if (db_get_b(0, "Popup", "ModuleIsEnabled", 1) == 0)
-			db_set_b(0, "Popup", "ModuleIsEnabled", 1);
+		if (Popup_Enabled() == 0)
+			Popup_Enable(true);
 	}
-	if (g_wMaskAdv & OPT_HIDEONSTART && db_get_b(0, "Popup", "ModuleIsEnabled", 0)) // hack for disabling popup on startup if "Hide Miranda on startup" is enabled
+	if (g_wMaskAdv & OPT_HIDEONSTART && Popup_Enabled()) // hack for disabling popup on startup if "Hide Miranda on startup" is enabled
 	{
 		g_bOldSetting |= OLD_POPUP;
-		db_set_b(0, "Popup", "ModuleIsEnabled", 0);
+		Popup_Enable(false);
 	}
 
 	g_plugin.registerIcon("BossKey", iconList);

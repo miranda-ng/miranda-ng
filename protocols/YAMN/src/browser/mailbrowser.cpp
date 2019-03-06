@@ -790,8 +790,8 @@ LRESULT CALLBACK NewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 	INT_PTR PluginParam = 0;
 	switch (msg) {
 	case WM_COMMAND:
-		//if clicked and it's new mail popup window
-		if ((HIWORD(wParam) == STN_CLICKED) && (-1 != (PluginParam = CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, (LPARAM)&PluginParam)))) {
+		// if clicked and it's new mail popup window
+		if ((HIWORD(wParam) == STN_CLICKED) && (-1 != (PluginParam = (INT_PTR)PUGetPluginData(hWnd)))) {
 			MCONTACT hContact = 0;
 			HACCOUNT Account;
 			if (PluginParam) {

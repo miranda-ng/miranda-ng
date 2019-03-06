@@ -784,11 +784,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 				DBGetCheckBtn(hDlg, CHECK_OPT_POPUP_MSGBOX, SET_POPUPMSGBOX, DEFVAL_POPUPMSGBOX);
 				DBGetCheckBtn(hDlg, CHECK_OPT_POPUP_PROGRESS, "PopupProgress", FALSE);
 				// disable if popup plugin dos not sopport buttons inside popop
-				if (!myGlobals.PopupActionsExist) {
-					EnableDlgItem(hDlg, CHECK_OPT_POPUP_MSGBOX, FALSE);
-					EnableDlgItem(hDlg, CHECK_OPT_POPUP_PROGRESS, FALSE);
-				}
-				else if (!(db_get_dw(0, "Popup","Actions", 0) & 1))
+				if (!(db_get_dw(0, "Popup","Actions", 0) & 1))
 					EnableDlgItem(hDlg, CHECK_OPT_POPUP_MSGBOX, FALSE);
 
 				// enable/disable popups

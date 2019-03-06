@@ -94,8 +94,6 @@ static int OnTopToolBarLoaded(WPARAM, LPARAM)
  **/
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
-	myGlobals.PopupActionsExist = ServiceExists(MS_POPUP_REGISTERACTIONS);
-
 	// create services to receive string lists of languages and timezones
 	SvcConstantsLoadModule();
 
