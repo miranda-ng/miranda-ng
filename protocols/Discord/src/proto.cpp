@@ -110,6 +110,11 @@ void CDiscordProto::OnModulesLoaded()
 		pNew->wszUsername = ptrW(getWStringA(hContact, DB_KEY_NICK));
 		pNew->iDiscriminator = getDword(hContact, DB_KEY_DISCR);
 		arUsers.insert(pNew);
+
+		// set EnableSync = 1 by default for all existing guilds
+		if (getByte(hContact, "ChatRoom") == 2)
+			if (getDword(hContact, "EnableSync", -1) == -1)
+				setDword(hContact, "EnableSync", 1);
 	}
 
 	GCREGISTER gcr = {};

@@ -209,8 +209,9 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	INT_PTR __cdecl OnMenuCreateChannel(WPARAM, LPARAM);
 	INT_PTR __cdecl OnMenuJoinGuild(WPARAM, LPARAM);
 	INT_PTR __cdecl OnMenuLeaveGuild(WPARAM, LPARAM);
+	INT_PTR __cdecl OnMenuToggleSync(WPARAM, LPARAM);
 
-	HGENMENU m_hMenuLeaveGuild, m_hMenuCreateChannel;
+	HGENMENU m_hMenuLeaveGuild, m_hMenuCreateChannel, m_hMenuToggleSync;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// guilds

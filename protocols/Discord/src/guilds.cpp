@@ -130,9 +130,6 @@ void CDiscordProto::ProcessGuild(const JSONNode &p)
 		arGuilds.insert(pGuild);
 	}
 
-	if (!pGuild->bSynced)
-		GatewaySendGuildInfo(guildId);
-	
 	pGuild->ownerId = ::getId(p["owner_id"]);
 	pGuild->wszName = p["name"].as_mstring();
 	if (m_bUseGuildGroups)
@@ -142,6 +139,8 @@ void CDiscordProto::ProcessGuild(const JSONNode &p)
 	pGuild->pParentSi = (SESSION_INFO*)si;
 	pGuild->hContact = si->hContact;
 	setId(si->hContact, DB_KEY_CHANNELID, guildId);
+	if (!pGuild->bSynced && getByte(si->hContact, "EnableSync"))
+		GatewaySendGuildInfo(guildId);
 
 	Chat_Control(m_szModuleName, pGuild->wszName, WINDOW_HIDDEN);
 	Chat_Control(m_szModuleName, pGuild->wszName, SESSION_ONLINE);

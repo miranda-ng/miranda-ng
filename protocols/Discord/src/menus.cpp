@@ -76,15 +76,33 @@ INT_PTR CDiscordProto::OnMenuLeaveGuild(WPARAM hContact, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+INT_PTR CDiscordProto::OnMenuToggleSync(WPARAM hContact, LPARAM)
+{
+	bool bEnabled = !getBool(hContact, "EnableSync");
+	setByte(hContact, "EnableSync", bEnabled);
+
+	if (bEnabled)
+		GatewaySendGuildInfo(getId(hContact, DB_KEY_CHANNELID));
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int CDiscordProto::OnMenuPrebuild(WPARAM hContact, LPARAM)
 {
 	// "Leave guild" menu item should be visible only for the guild contacts
 	bool bIsGuild = getByte(hContact, "ChatRoom") == 2;
 	Menu_ShowItem(m_hMenuLeaveGuild, bIsGuild);
 	Menu_ShowItem(m_hMenuCreateChannel, bIsGuild);
+	Menu_ShowItem(m_hMenuToggleSync, bIsGuild);
 
 	if (getWord(hContact, "ApparentMode") != 0)
 		Menu_ShowItem(m_hmiReqAuth, true);
+
+	if (getByte(hContact, "EnableSync"))
+		Menu_ModifyItem(m_hMenuToggleSync, LPGENW("Disable sync"), Skin_GetIconHandle(SKINICON_CHAT_LEAVE));
+	else
+		Menu_ModifyItem(m_hMenuToggleSync, LPGENW("Enable sync"), Skin_GetIconHandle(SKINICON_CHAT_JOIN));
 	return 0;
 }
 
@@ -135,6 +153,14 @@ void CDiscordProto::InitMenus()
 	mi2.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERONLINE);
 	SET_UID(mi2, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x8E);
 	Menu_AddContactMenuItem(&mi2, m_szModuleName);
+
+	mi2.pszService = "/ToggleSync";
+	CreateProtoService(mi2.pszService, &CDiscordProto::OnMenuToggleSync);
+	mi2.name.a = LPGEN("Enable guild");
+	mi2.position = -200001003;
+	mi2.hIcolibItem = Skin_GetIconHandle(SKINICON_CHAT_JOIN);
+	SET_UID(mi2, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x8F);
+	m_hMenuToggleSync = Menu_AddContactMenuItem(&mi2, m_szModuleName);
 
 	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CDiscordProto::OnMenuPrebuild);
 }
