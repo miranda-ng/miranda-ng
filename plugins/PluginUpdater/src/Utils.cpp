@@ -228,8 +228,9 @@ bool DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 
 	CMStringA szUserAgent("Miranda ");
 	szUserAgent.Append(szMirVer);
-	szUserAgent.Append("; ");
+	szUserAgent.Append(" (");
 	szUserAgent.Append(_T2A(wszOsVer));
+	szUserAgent.Append(")");
 
 	NETLIBHTTPREQUEST nlhr = {};
 	nlhr.cbSize = sizeof(nlhr);
