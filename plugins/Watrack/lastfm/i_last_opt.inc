@@ -23,9 +23,7 @@ begin
   mFreeMem(lfm_login   ); lfm_login   :=DBReadString(0,PluginShort,optLogin);
   mFreeMem(lfm_password); lfm_password:=DBReadString(0,PluginShort,optPassword);
   if (lfm_login=nil) or (lfm_password=nil) then
-    CallService(MS_POPUP_SHOWMESSAGEW,
-      wparam(TranslateW('Don''t forget to enter Login and Password to use Last.fm service')),
-      SM_WARNING);
+    PUShowMessageW(TranslateW('Don''t forget to enter Login and Password to use Last.fm service'), SM_WARNING);
 end;
 
 procedure FreeOpt;

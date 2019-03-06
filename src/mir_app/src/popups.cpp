@@ -24,13 +24,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+static bool bModuleInit = false, bPopupsEnabled = true;
+
 MIR_APP_DLL(bool) Popup_Enabled()
 {
-	return db_get_b(0, "Popup", "ModuleIsEnabled", 1) != 0;
+	if (!bModuleInit) {
+		bModuleInit = true;
+		bPopupsEnabled = db_get_b(0, "Popup", "ModuleIsEnabled", 1) != 0;
+	}
+
+	return bPopupsEnabled;
 }
 
 MIR_APP_DLL(void) Popup_Enable(bool bEnable)
 {
+	bPopupsEnabled = bEnable;
 	db_set_b(0, "Popup", "ModuleIsEnabled", bEnable);
 }
 

@@ -26,9 +26,7 @@ begin
   mFreeMem(msh_login   ); msh_login   :=DBReadString(0,PluginShort,optLogin);
   mFreeMem(msh_password); msh_password:=DBReadString(0,PluginShort,optPassword);
   if (msh_login=nil) or (msh_password=nil) then
-    CallService(MS_POPUP_SHOWMESSAGEW,
-      WPARAM(TranslateW('Don''t forget to enter Login and Password to use MyShows service')),
-      SM_WARNING);
+    PUShowMessageW(TranslateW('Don''t forget to enter Login and Password to use MyShows service'), SM_WARNING);
 end;
 
 procedure FreeOpt;

@@ -98,7 +98,7 @@ begin
               ppd^.colorBack:=SendMessage(back,CPM_GETCOLOUR,0,0);
               ppd^.colorText:=SendMessage(fore,CPM_GETCOLOUR,0,0);
             end;
-            CallService(MS_POPUP_ADDPOPUPW,twparam(ppd),0);
+            PUAddPopupW(ppd,0);
             mFreeMem(ppd);
           end;
           IDC_DELAYCUST:

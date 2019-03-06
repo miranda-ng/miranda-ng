@@ -81,7 +81,7 @@ begin
       else if StrCmp(res,'BADAUTH' )=0 then StrCopy(tmp,Translate('Bad Auth. Check login and password'))
       else if StrCmp(res,'BADTIME' )=0 then StrCopy(tmp,Translate('Bad TimeStamp'))
       else if StrCmp(res,'FAILED',6)=0 then StrCopy(tmp,res+7);
-      CallService(MS_POPUP_SHOWMESSAGE,wparam(@request),SM_ERROR);
+      PUShowMessage(@request,SM_ERROR);
     end;
     mFreeMem(res);
   end;
@@ -194,7 +194,7 @@ begin
       else if StrCmp(res,'FAILED',6)=0 then
       begin
         StrCopy(StrCopyE(args,Translate('Last.fm error: ')),res+7);
-        CallService(MS_POPUP_SHOWMESSAGE,wparam(@args),SM_NOTIFY);
+        PUShowMessage(@args,SM_NOTIFY);
         result:=0;
       end;
       mFreeMem(res);

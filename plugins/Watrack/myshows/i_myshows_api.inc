@@ -36,10 +36,7 @@ begin
   end;
   StrCopyW(StrCopyEW(buf,'MyShows: '),TranslateW(ppc));
   
-  if ServiceExists(MS_POPUP_SHOWMESSAGEW) then
-    CallService(MS_POPUP_SHOWMESSAGEW,TWPARAM(@buf),SM_WARNING)
-  else
-    MessageBoxW(0,@buf,'ERROR',MB_ICONERROR)
+  PUShowMessage(@buf,SM_WARNING);
 end;
 
 function GetMD5Str(const digest:TMD5Hash; buf:pAnsiChar):PAnsiChar;
@@ -199,28 +196,25 @@ begin
     if SendMSRequest(buf,show) then
     begin
       //!! add option to show it??
-      if ServiceExists(MS_POPUP_SHOWMESSAGEW) then
-      begin
-        jn:=json_get(jroot,'show');
-        shId:=json_as_string(json_get(jn,'title'));
+      jn:=json_get(jroot,'show');
+      shId:=json_as_string(json_get(jn,'title'));
 
-        jn:=json_get(jn,'episodes');
-        jn:=json_get(jn,'episodes');
-        pWideChar(epId):=json_as_string(json_get(jn,'title'));
+      jn:=json_get(jn,'episodes');
+      jn:=json_get(jn,'episodes');
+      pWideChar(epId):=json_as_string(json_get(jn,'title'));
 
-        mGetMem(pc,1024);
-        StrCopyW(
+      mGetMem(pc,1024);
+      StrCopyW(
+        StrCopyEW(
           StrCopyEW(
             StrCopyEW(
-              StrCopyEW(
-                StrCopyEW(pWideChar(pc),'Show "'),
-              shId),
-            '"'#13#10'episode "'),
-          pWideChar(epId)),
-        '" checked');
-        CallService(MS_POPUP_SHOWMESSAGEW,TWPARAM(pc),SM_NOTIFY);
-        mFreeMem(pc);
-      end;
+              StrCopyEW(pWideChar(pc),'Show "'),
+            shId),
+          '"'#13#10'episode "'),
+        pWideChar(epId)),
+      '" checked');
+      PUShowMessage(pc,SM_NOTIFY);
+      mFreeMem(pc);
       result:=true;
     end;
   end;

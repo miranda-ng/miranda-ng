@@ -97,8 +97,7 @@ begin
         result:=CallServiceSync(MS_WAT_PRESSBUTTON,lParam,0);
     end;
     UM_FREEPLUGINDATA: begin
-      h:=0;
-      h:=CallService(MS_POPUP_GETPLUGINDATA,wnd,h);
+      h:=PUGetPluginData(wnd);
       if h<>0 then
         DeleteObject(h);
       result:=0;
@@ -144,10 +143,9 @@ end;
 
 procedure ThShowPopup(si:pSongInfo); cdecl;
 var
-  ppdu:PPOPUPDATAW;
+  ppdu:TPOPUPDATAW;
   title,descr:pWideChar;
   flag:dword;
-  ppd2:PPOPUPDATA2;
   Icon:HICON;
   sec:integer;
   cb,ct:TCOLORREF;
@@ -185,78 +183,35 @@ begin
       ct:=0;
     end;
 
-    if IsPopup2Present then
+    FillChar(ppdu,SizeOf(TPOPUPDATAW),0);
+    with ppdu do
     begin
-      mGetMem (ppd2 ,SizeOf(TPOPUPDATA2));
-      FillChar(ppd2^,SizeOf(TPOPUPDATA2),0);
-      with ppd2^ do
+      if title<>nil then
+        StrCopyW(lpwzContactName,title,MAX_CONTACTNAME-1)
+      else
+        lpwzContactName[0]:=' ';
+      if descr<>nil then
+        StrCopyW(lpwzText,descr,MAX_SECONDLINE-1)
+      else
+        lpwzText[0]:=' ';
+
+      lchIcon         :=Icon;
+      PluginWindowProc:=@DumbPopupDlgProc;
+      iSeconds        :=sec;
+      colorBack       :=cb;
+      colorText       :=ct;
+
+      if ActionList=nil then
+        flag:=0
+      else
       begin
-        cbSize          :=SizeOf(TPOPUPDATA2);
-        flags           :=PU2_UNICODE;
-        lchIcon         :=Icon;
-        colorBack       :=cb;
-        colorText       :=ct;
-        PluginWindowProc:=@DumbPopupDlgProc;
-
-        pzTitle.w:=title;
-        pzText .w:=descr;
-
-        if ActionList=nil then
-          flag:=0
-        else
-        begin
-          flag       :=APF_NEWDATA;
-          actionCount:=7;
-          lpActions  :=ActionList;
-        end;
-
-        if si.cover<>nil then
-        begin
-          hbmAvatar:=Image_Load(si.cover, IMGL_WCHAR);
-          if hbmAvatar=0 then
-          begin
-            hbmAvatar:=CallService(MS_UTILS_LOADBITMAPW,0,lparam(si.cover));
-          end;
-        end;
-        PluginData:=pointer(hbmAvatar);
+        flag       :=0;
+        actionCount:=7;
+        lpActions  :=ActionList;
       end;
-      CallService(MS_POPUP_ADDPOPUP2,wparam(ppd2),flag);
-      mFreeMem(ppd2);
-    end
-    else
-    begin
-      mGetMem (ppdu ,SizeOf(TPOPUPDATAW));
-      FillChar(ppdu^,SizeOf(TPOPUPDATAW),0);
-      with ppdu^ do
-      begin
-        if title<>nil then
-          StrCopyW(lpwzContactName,title,MAX_CONTACTNAME-1)
-        else
-          lpwzContactName[0]:=' ';
-        if descr<>nil then
-          StrCopyW(lpwzText,descr,MAX_SECONDLINE-1)
-        else
-          lpwzText[0]:=' ';
-
-        lchIcon         :=Icon;
-        PluginWindowProc:=@DumbPopupDlgProc;
-        iSeconds        :=sec;
-        colorBack       :=cb;
-        colorText       :=ct;
-
-        if ActionList=nil then
-          flag:=0
-        else
-        begin
-          flag       :=APF_NEWDATA;
-          icbSize    :=SizeOf(TPOPUPDATAW);
-          actionCount:=7;
-          lpActions  :=ActionList;
-        end;
-      end;
-      CallService(MS_POPUP_ADDPOPUPW,wparam(ppdu),flag);
-      mFreeMem(ppdu);
     end;
+    PUAddPopupW(@ppdu,flag);
+
     mFreeMem(title);
     mFreeMem(descr);
   end;
@@ -339,7 +294,7 @@ begin
   begin
     mFreeMem(ActionList);
     ActionList:=MakeActions;
-    CallService(MS_POPUP_REGISTERACTIONS,twparam(ActionList),7);
+    PURegisterActions(ActionList,7);
   end;
 end;
 
@@ -385,31 +340,19 @@ var
   newstate:boolean;
 begin
   result:=true;
-  // Popups
-  newstate:=ServiceExists(MS_POPUP_ADDPOPUPW);
-  if newstate=PopupPresent then
-    exit;
 
-  PopupPresent:=newstate;
-  if PopupPresent then
+  // Popups
+  if PopupPresent=false then
   begin
-    IsPopup2Present   :=ServiceExists(MS_POPUP_ADDPOPUP2);
+    PopupPresent:=true;
     opthook:=HookEvent(ME_OPT_INITIALISE,@OnOptInitialise);
 
-    if ServiceExists(MS_POPUP_REGISTERACTIONS) then
+    if RegisterButtonIcons then
     begin
-      if RegisterButtonIcons then
-      begin
-        ActionList:=MakeActions;
-        if ActionList<>nil then
-          CallService(MS_POPUP_REGISTERACTIONS,wparam(ActionList),7);
-      end;
+      ActionList:=MakeActions;
+      if ActionList<>nil then
+        PURegisterActions(ActionList,7);
     end;
-  end
-  else
-  begin
-    UnhookEvent(opthook);
-    mFreeMem(ActionList);
   end;
 
   // TTB
@@ -474,28 +417,18 @@ begin
   hMenuInfo:=Menu_AddMainMenuItem(@mi);
 
   ActionList:=nil;
-  if ServiceExists(MS_POPUP_ADDPOPUPW) then
-  begin
-    IsPopup2Present := ServiceExists(MS_POPUP_ADDPOPUP2);
-    PopupPresent:=true;
-    opthook:=HookEvent(ME_OPT_INITIALISE,@OnOptInitialise);
-    loadpopup;
 
-    if ServiceExists(MS_POPUP_REGISTERACTIONS) then
-    begin
-      if RegisterButtonIcons then
-      begin
-        ActionList:=MakeActions;
-        if ActionList<>nil then
-          CallService(MS_POPUP_REGISTERACTIONS,wparam(ActionList),7);
-      end;
-    end;
-  end
-  else
+  PopupPresent:=true;
+  opthook:=HookEvent(ME_OPT_INITIALISE,@OnOptInitialise);
+  loadpopup;
+
+  if RegisterButtonIcons then
   begin
-    PopupPresent:=false;
-    opthook:=0;
+    ActionList:=MakeActions;
+    if ActionList<>nil then
+      PURegisterActions(ActionList,7);
   end;
+
   regpophotkey;
 
   plStatusHook:=HookEvent(ME_WAT_NEWSTATUS,@NewPlStatus);

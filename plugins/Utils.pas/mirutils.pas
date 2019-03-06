@@ -228,16 +228,13 @@ procedure ShowPopupW(text:PWideChar;title:PWideChar=nil);
 var
   ppdu:TPOPUPDATAW;
 begin
-  if not ServiceExists(MS_POPUP_ADDPOPUPW) then
-    exit;
-
   FillChar(ppdu,SizeOf(TPOPUPDATAW),0);
   StrCopyW(ppdu.lpwzText,text,MAX_SECONDLINE-1);
   if title<>nil then
     StrCopyW(ppdu.lpwzContactName,title,MAX_CONTACTNAME-1)
   else
     ppdu.lpwzContactName[0]:=' ';
-  CallService(MS_POPUP_ADDPOPUPW,wparam(@ppdu),APF_NO_HISTORY);
+  PUAddPopupW(@ppdu,APF_NO_HISTORY);
 end;
 
 function TranslateA2W(sz:PAnsiChar):PWideChar;
