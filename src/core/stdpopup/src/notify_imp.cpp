@@ -96,7 +96,7 @@ int NotifyOptionsInitialize(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_NOTIFY);
-	odp.szTitle.a = LPGEN("YAPP Popups");
+	odp.szTitle.a = LPGEN("Popups");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcPopups;
 	CallService(MS_NOTIFY_OPT_ADDPAGE, wParam, (LPARAM)&odp);
