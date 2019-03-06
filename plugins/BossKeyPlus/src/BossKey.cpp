@@ -170,7 +170,7 @@ BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM)
 			CallService("FloatingContacts/MainHideAllThumbs", 0, 0);
 			g_bOldSetting |= OLD_FLTCONT;
 		}
-		else if (!mir_wstrcmp(szTemp, L"PopupWnd2") || !mir_wstrcmp(szTemp, L"YAPPWinClass")) // destroy opened popups
+		else if (!mir_wstrcmp(szTemp, L"PopupWnd2")) // destroy opened popups
 			PUDeletePopup(hWnd);
 		else {
 			DWORD threadId = GetWindowThreadProcessId(hWnd, 0);
