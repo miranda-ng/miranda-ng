@@ -802,6 +802,7 @@ bool facebook_client::reconnect()
 
 	std::string redir = utils::text::source_get_value(&resp.data, 2, "\"redirect\":\"", "\"");
 	if (!redir.empty()) {
+		redir = utils::text::html_entities_decode(redir);
 		parent->debugLogA("Redirecting to %s", redir.c_str());
 
 		auto *p = new HttpRequest(REQUEST_GET, FACEBOOK_SERVER_REGULAR);
