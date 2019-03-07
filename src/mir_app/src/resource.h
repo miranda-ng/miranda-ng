@@ -18,13 +18,11 @@
 #define IDD_OPT_PROTOCOLORDER           109
 #define IDD_OPT_ICOLIB                  110
 #define IDD_ICOLIB_IMPORT               111
-#define IDI_POPUP                       112
 #define IDI_LOADED_GRAY                 113
 #define IDI_NOTLOADED_GRAY              114
 #define IDD_ADDED                       115
 #define IDD_ENTER_STRING                116
 #define IDI_ADDGROUP                    117
-#define IDI_NOPOPUP                     118
 #define IDD_AUTHREQ                     121
 #define IDD_DETAILS                     125
 #define IDD_HISTORY                     127
@@ -584,6 +582,8 @@
 #define IDM_SEARCH_GOOGLE_TRANSLATE     40085
 #define IDM_SEARCH_YAHOO                40086
 #define IDM_SEARCH_FOODNETWORK          40087
+#define IDI_POPUP                       40088
+#define IDI_NOPOPUP                     40089
 
 #define LEGAL_COPYRIGHT "Copyright © 2000-11 Miranda IM, 2012-19 Miranda NG team. This software is released under the terms of the GNU General Public License.\0"
 

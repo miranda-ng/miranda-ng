@@ -1142,8 +1142,6 @@ IDI_LOADED              ICON                    "icon_loaded.ico"
 IDI_LOADED_GRAY         ICON                    "icon_loaded_gray.ico"
 IDI_NOTLOADED           ICON                    "icon_notloaded.ico"
 IDI_NOTLOADED_GRAY      ICON                    "icon_notloaded_gray.ico"
-IDI_POPUP               ICON                    "icon_popup.ico"
-IDI_NOPOPUP             ICON                    "icon_popup_no.ico"
 IDI_FRAME               ICON                    "icon_frame.ico"
 IDI_MFATAL              ICON                    "icon_fatal.ico"
 IDI_MERROR              ICON                    "icon_error.ico"
@@ -1178,6 +1176,8 @@ IDI_MCCONVERT           ICON                    "meta_convert.ico"
 IDI_MCADD               ICON                    "meta_add.ico"
 IDI_MCSETDEFAULT        ICON                    "meta_set_as_default.ico"
 IDI_ADDGROUP            ICON                    "addgroup.ico"
+IDI_POPUP               ICON                    "icon_popup.ico"
+IDI_NOPOPUP             ICON                    "icon_popup_no.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
