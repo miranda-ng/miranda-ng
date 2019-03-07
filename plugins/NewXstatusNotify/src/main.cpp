@@ -36,20 +36,19 @@ HWND SecretWnd;
 
 int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus);
 
-IconItem iconList[] =
+IconItem iconList[ICO_MAXID] =
 {
-	{ LPGEN("Reset"), ICO_RESET, IDI_RESET },
-	{ LPGEN("Popups"), ICO_POPUP, IDI_POPUP },
-	{ LPGEN("Sounds"), ICO_SOUND, IDI_SOUND },
-	{ LPGEN("Notification enabled"), ICO_NOTIFICATION_OFF, IDI_NOTIFICATION_OFF },
-	{ LPGEN("Notification disabled"), ICO_NOTIFICATION_ON, IDI_NOTIFICATION_ON },
-	{ LPGEN("Extra status notify"), ICO_XSTATUS, IDI_XSTATUS },
-	{ LPGEN("Disable all"), ICO_DISABLEALL, IDI_DISABLEALL },
-	{ LPGEN("Enable all"), ICO_ENABLEALL, IDI_ENABLEALL },
-	{ LPGEN("Variables"), ICO_VARIABLES, IDI_VARIABLES },
-	{ LPGEN("Status message notify"), ICO_STATUS_MESSAGE, IDI_STATUS_MESSAGE },
-	{ LPGEN("Extra status logging"), ICO_LOGGING_XSTATUS, IDI_LOGGING_XSTATUS },
-	{ LPGEN("Status message logging"), ICO_LOGGING_SMSG, IDI_LOGGING_SMSG }
+	{ LPGEN("Reset"),                  "reset",                  IDI_RESET },
+	{ LPGEN("Sounds"),                 "sound",                  IDI_SOUND },
+	{ LPGEN("Notification enabled"),   "notification_off",       IDI_NOTIFICATION_OFF },
+	{ LPGEN("Notification disabled"),  "notification_on",        IDI_NOTIFICATION_ON },
+	{ LPGEN("Extra status notify"),    "xstatus",                IDI_XSTATUS },
+	{ LPGEN("Disable all"),            "disable_all",            IDI_DISABLEALL },
+	{ LPGEN("Enable all"),             "enable_all",             IDI_ENABLEALL },
+	{ LPGEN("Variables"),              "variables",              IDI_VARIABLES },
+	{ LPGEN("Status message notify"),  "status_message",         IDI_STATUS_MESSAGE },
+	{ LPGEN("Extra status logging"),   "logging_xstatus",        IDI_LOGGING_XSTATUS },
+	{ LPGEN("Status message logging"), "logging_status_message", IDI_LOGGING_SMSG }
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -95,13 +94,6 @@ BYTE GetGender(MCONTACT hContact)
 	}
 
 	return GENDER_UNSPECIFIED;
-}
-
-HANDLE GetIconHandle(char *szIcon)
-{
-	char szSettingName[64];
-	mir_snprintf(szSettingName, "%s_%s", MODULENAME, szIcon);
-	return IcoLib_GetIconHandle(szSettingName);
 }
 
 static int __inline CheckStr(char *str, int not_empty, int empty)
@@ -1065,9 +1057,9 @@ INT_PTR EnableDisableMenuCommand(WPARAM, LPARAM)
 	g_plugin.setByte("TempDisable", opt.TempDisabled = !opt.TempDisabled);
 
 	if (opt.TempDisabled)
-		Menu_ModifyItem(hEnableDisableMenu, LPGENW("Enable status notification"), GetIconHandle(ICO_NOTIFICATION_OFF));
+		Menu_ModifyItem(hEnableDisableMenu, LPGENW("Enable status notification"), iconList[ICO_NOTIFICATION_OFF].hIcolib);
 	else
-		Menu_ModifyItem(hEnableDisableMenu, LPGENW("Disable status notification"), GetIconHandle(ICO_NOTIFICATION_ON));
+		Menu_ModifyItem(hEnableDisableMenu, LPGENW("Disable status notification"), iconList[ICO_NOTIFICATION_ON].hIcolib);
 
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hToolbarButton, opt.TempDisabled ? 0 : TTBST_PUSHED);
 	return 0;
@@ -1101,8 +1093,8 @@ static int InitTopToolbar(WPARAM, LPARAM)
 	tbb.pszService = MS_STATUSCHANGE_MENUCOMMAND;
 	tbb.dwFlags = (opt.TempDisabled ? 0 : TTBBF_PUSHED) | TTBBF_ASPUSHBUTTON;
 	tbb.name = LPGEN("Toggle status notification");
-	tbb.hIconHandleUp = iconList[3].hIcolib;
-	tbb.hIconHandleDn = iconList[4].hIcolib;
+	tbb.hIconHandleUp = iconList[ICO_NOTIFICATION_OFF].hIcolib;
+	tbb.hIconHandleDn = iconList[ICO_NOTIFICATION_ON].hIcolib;
 	tbb.pszTooltipUp = LPGEN("Enable status notification");
 	tbb.pszTooltipDn = LPGEN("Disable status notification");
 	hToolbarButton = g_plugin.addTTB(&tbb);
@@ -1171,7 +1163,7 @@ int CMPlugin::Load()
 	evtype.module = MODULENAME;
 	evtype.eventType = EVENTTYPE_STATUSCHANGE;
 	evtype.descr = LPGEN("Status change");
-	evtype.eventIcon = iconList[3].hIcolib;
+	evtype.eventIcon = iconList[ICO_NOTIFICATION_OFF].hIcolib;
 	evtype.flags = DETF_HISTORY | DETF_MSGWINDOW;
 	DbEvent_RegisterType(&evtype);
 

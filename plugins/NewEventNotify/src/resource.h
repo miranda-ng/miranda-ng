@@ -3,9 +3,6 @@
 // Used by ..\res\resource.rc
 //
 #define IDD_OPT                         101
-#define IDI_ENABLED                     106
-#define IDI_ICON2                       107
-#define IDI_DISABLED                    107
 #define IDC_PREVIEW                     1000
 #define IDC_CHKNOTIFY_MESSAGE           1001
 #define IDC_CHKNOTIFY_FILE              1003

@@ -43,9 +43,9 @@ static INT_PTR EnableDisableMenuCommand(WPARAM, LPARAM)
 {
 	Disabled = !Disabled;
 	if (!Disabled)
-		Menu_ModifyItem(hDisableMenu, LPGENW("Disable &typing notification"), IcoLib_GetIcon("tabSRMM_popups_enabled"));
+		Menu_ModifyItem(hDisableMenu, LPGENW("Disable &typing notification"), Skin_LoadIcon(SKINICON_OTHER_POPUP));
 	else
-		Menu_ModifyItem(hDisableMenu, LPGENW("Enable &typing notification"), IcoLib_GetIcon("tabSRMM_popups_disabled"));
+		Menu_ModifyItem(hDisableMenu, LPGENW("Enable &typing notification"), Skin_LoadIcon(SKINICON_OTHER_NOPOPUP));
 
 	return 0;
 }
@@ -522,11 +522,11 @@ int TN_ModuleInit()
 		SET_UID(mi, 0xe18fd2cf, 0xcf90, 0x459e, 0xb6, 0xe6, 0x70, 0xec, 0xad, 0xc6, 0x73, 0xef);
 		if (!Disabled) {
 			mi.name.a = LPGEN("Disable &typing notification");
-			mi.hIcolibItem = IcoLib_GetIcon("tabSRMM_popups_enabled");
+			mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_POPUP);
 		}
 		else {
 			mi.name.a = LPGEN("Enable &typing notification");
-			mi.hIcolibItem = IcoLib_GetIcon("tabSRMM_popups_disabled");
+			mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_NOPOPUP);
 		}
 		mi.pszService = "TypingNotify/EnableDisableMenuCommand";
 		mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Popups"), 0);

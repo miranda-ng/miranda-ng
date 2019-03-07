@@ -3,8 +3,6 @@
 // Used by ..\res\resource.rc
 //
 #define IDD_OPTIONS                     101
-#define IDI_POPUP                       102
-#define IDI_NOPOPUP                     103
 #define IDI_DRIVE                       106
 #define IDD_CONNLIST                    107
 #define IDC_COLOR_SET                   1000

@@ -84,7 +84,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "",IDC_INDSNDLIST,"CListControl",WS_TABSTOP | 0x1d0,5,5,290,170,WS_EX_CLIENTEDGE
     ICON            IDI_SOUND,IDC_SOUNDICON,8,178,21,20,SS_CENTERIMAGE
-    ICON            IDI_POPUP,IDC_POPUPICON,109,178,21,20,SS_CENTERIMAGE
+    ICON            IDC_STATIC,IDC_POPUPICON,109,178,21,20,SS_CENTERIMAGE
     LTEXT           "Sounds",IDC_STATIC,26,182,80,9
     LTEXT           "Popups",IDC_STATIC,127,182,80,9
     ICON            IDI_XSTATUS,IDC_XSTATUSICON,8,194,21,20,SS_CENTERIMAGE
@@ -357,7 +357,6 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_RESET               ICON                    "reset.ico"
-IDI_POPUP               ICON                    "popup.ico"
 IDI_SOUND               ICON                    "sound.ico"
 IDI_NOTIFICATION_OFF    ICON                    "main_off.ico"
 IDI_NOTIFICATION_ON     ICON                    "main_on.ico"

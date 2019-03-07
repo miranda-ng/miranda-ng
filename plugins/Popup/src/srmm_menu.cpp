@@ -109,7 +109,7 @@ void SrmmMenu_Load()
 
 	sid.dwId = 0;
 	sid.szTooltip = LPGEN("Popup Mode: Auto");
-	sid.hIcon = sid.hIconDisabled = LoadIconEx(IDI_POPUP);
+	sid.hIcon = sid.hIconDisabled = Skin_LoadIcon(SKINICON_OTHER_POPUP);
 	Srmm_AddIcon(&sid, &g_plugin);
 
 	sid.dwId = 1;
@@ -124,7 +124,7 @@ void SrmmMenu_Load()
 
 	sid.dwId = 3;
 	sid.szTooltip = LPGEN("Popup Mode: Block contact");
-	sid.hIcon = sid.hIconDisabled = LoadIconEx(IDI_NOPOPUP);
+	sid.hIcon = sid.hIconDisabled = Skin_LoadIcon(SKINICON_OTHER_NOPOPUP);
 	Srmm_AddIcon(&sid, &g_plugin);
 
 	HookEvent(ME_MSG_ICONPRESSED, SrmmMenu_ProcessIconClick);

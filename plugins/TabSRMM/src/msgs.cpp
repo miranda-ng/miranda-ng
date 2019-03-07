@@ -905,18 +905,6 @@ static int TSAPI SetupIconLibConfig()
 	sid.description.a = LPGEN("Feature enabled (used as overlay)");
 	sid.iDefaultIndex = -IDI_FEATURE_ENABLED;
 	g_plugin.addIcon(&sid);
-
-	sid.section.a = LPGEN("Message Sessions") "/" LPGEN("Popups");
-	sid.pszName = "tabSRMM_popups_disabled";
-	sid.description.a = LPGEN("Enable typing notification");
-	sid.iDefaultIndex = -IDI_DISABLED;
-	g_plugin.addIcon(&sid);
-
-	sid.pszName = "tabSRMM_popups_enabled";
-	sid.description.a = LPGEN("Disable typing notification");
-	sid.iDefaultIndex = -IDI_ENABLED;
-	g_plugin.addIcon(&sid);
-
 	return 1;
 }
 

@@ -87,6 +87,8 @@
 #define SKINICON_AUTH_GRANT          245
 #define SKINICON_AUTH_REVOKE         246
 #define SKINICON_OTHER_GROUPADD      247
+#define SKINICON_OTHER_POPUP         248
+#define SKINICON_OTHER_NOPOPUP       249
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Miranda skin

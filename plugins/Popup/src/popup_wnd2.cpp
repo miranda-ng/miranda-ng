@@ -55,7 +55,7 @@ bool	LoadPopupWnd2()
 	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 	wcl.lpszClassName = POPUP_WNDCLASS;
-	wcl.hIconSm = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_POPUP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR);
+	wcl.hIconSm = Skin_LoadIcon(SKINICON_OTHER_POPUP);
 	g_wndClass.cPopupWnd2 = RegisterClassEx(&wcl);
 	DWORD err = GetLastError();
 	if (!g_wndClass.cPopupWnd2) {
@@ -95,7 +95,7 @@ bool	LoadPopupWnd2()
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 	wcl.lpszMenuName = nullptr;
 	wcl.lpszClassName = L"PopupMenuHostWnd";
-	wcl.hIconSm = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_POPUP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR);
+	wcl.hIconSm = Skin_LoadIcon(SKINICON_OTHER_POPUP);
 	g_wndClass.cPopupMenuHostWnd = RegisterClassEx(&wcl);
 	err = GetLastError();
 	if (!g_wndClass.cPopupMenuHostWnd) {

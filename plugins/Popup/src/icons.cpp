@@ -26,8 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static IconItem iconList1[] =
 {
 	// common popup
-	{ LPGEN("Popups are enabled"), "enabled", IDI_POPUP },
-	{ LPGEN("Popups are disabled"), "disabled", IDI_NOPOPUP },
 	{ LPGEN("With \"favorite\" overlay"), "favourite", IDI_PU_FAVOURITE },
 	{ LPGEN("With \"fullscreen\" overlay"), "fullscreen", IDI_PU_FULLSCREEN },
 	{ LPGEN("Popup History"), "history", IDI_HISTORY },

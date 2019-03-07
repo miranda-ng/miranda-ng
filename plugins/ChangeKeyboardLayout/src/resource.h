@@ -4,7 +4,6 @@
 //
 #define IDD_MAIN_OPTION_FORM            101
 #define IDD_POPUP_OPTION_FORM           102
-#define IDI_POPUPICON                   103
 #define IDI_COPYICON                    104
 #define IDB_BITMAP_WIN                  110
 #define IDB_BITMAP_ALT                  111

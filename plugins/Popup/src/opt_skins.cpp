@@ -43,7 +43,7 @@ void RegisterOptPrevBox()
 	wcl.hbrBackground = nullptr; // (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 	wcl.lpszMenuName = nullptr;
 	wcl.lpszClassName = BOXPREVIEW_WNDCLASS;
-	wcl.hIconSm = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_POPUP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR);
+	wcl.hIconSm = Skin_LoadIcon(SKINICON_OTHER_POPUP);
 	g_wndClass.cPopupPreviewBoxWndclass = RegisterClassEx(&wcl);
 	err = GetLastError();
 	if (!g_wndClass.cPopupPreviewBoxWndclass) {
@@ -545,7 +545,7 @@ static void BoxPreview_OnPaint(HWND hwnd, HDC mydc, int mode)
 			HFONT hfnt = (HFONT)SelectObject(mydc, fonts.title);
 			GetClientRect(hwnd, &rc);
 			FillRect(mydc, &rc, hbr);
-			DrawIconEx(mydc, 10, (rc.bottom - rc.top - 16) / 2, LoadIconEx(IDI_POPUP), 16, 16, 0, hbr, DI_NORMAL);
+			DrawIconEx(mydc, 10, (rc.bottom - rc.top - 16) / 2, Skin_LoadIcon(SKINICON_OTHER_POPUP), 16, 16, 0, hbr, DI_NORMAL);
 			SetBkMode(mydc, TRANSPARENT);
 			GetClientRect(hwnd, &rc);
 			rc.left += 30; //  10+16+4 -- icon

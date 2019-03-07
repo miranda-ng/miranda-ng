@@ -26,10 +26,8 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_POPUP               ICON                    "popup.ico"
 IDI_PU_FULLSCREEN       ICON                    "popup_fs.ico"
 IDI_PU_FAVOURITE        ICON                    "popup_fav.ico"
-IDI_NOPOPUP             ICON                    "popup_no.ico"
 IDI_HISTORY             ICON                    "popup_history.ico"
 IDI_RELOAD              ICON                    "reload.ico"
 IDI_ACT_INFO            ICON                    "info.ico"

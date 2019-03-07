@@ -13,7 +13,6 @@
 #define IDD_OPT_FILTERS                 114
 #define IDD_OPT_POPUP                   115
 #define IDD_OPT_XLOG                    116
-#define IDI_POPUP                       117
 #define IDD_OPT_SMPOPUP                 117
 #define IDI_SOUND                       118
 #define IDD_OPT_LOG                     118

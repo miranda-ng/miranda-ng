@@ -422,21 +422,21 @@ INT_PTR CALLBACK DlgProcFiltering(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 
 		HIMAGELIST hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 3, 3);
 
-		ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[2].hIcolib));
+		ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[ICO_SOUND].hIcolib));
 		SendDlgItemMessage(hwndDlg, IDC_SOUNDICON, STM_SETICON, (WPARAM)ImageList_GetIcon(hImageList, EXTRA_IMAGE_SOUND, ILD_NORMAL), 0);
-		ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[1].hIcolib));
+		ImageList_AddIcon(hImageList, Skin_LoadIcon(SKINICON_OTHER_POPUP));
 		SendDlgItemMessage(hwndDlg, IDC_POPUPICON, STM_SETICON, (WPARAM)ImageList_GetIcon(hImageList, EXTRA_IMAGE_POPUP, ILD_NORMAL), 0);
-		ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[5].hIcolib));
+		ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[ICO_XSTATUS].hIcolib));
 		SendDlgItemMessage(hwndDlg, IDC_XSTATUSICON, STM_SETICON, (WPARAM)ImageList_GetIcon(hImageList, EXTRA_IMAGE_XSTATUS, ILD_NORMAL), 0);
-		ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[10].hIcolib));
+		ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[ICO_LOGGING_XSTATUS].hIcolib));
 		SendDlgItemMessage(hwndDlg, IDC_XLOGGINGICON, STM_SETICON, (WPARAM)ImageList_GetIcon(hImageList, EXTRA_IMAGE_XLOGGING, ILD_NORMAL), 0);
-		ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[9].hIcolib));
+		ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[ICO_STATUS_MESSAGE].hIcolib));
 		SendDlgItemMessage(hwndDlg, IDC_SMSGICON, STM_SETICON, (WPARAM)ImageList_GetIcon(hImageList, EXTRA_IMAGE_STATUSMSG, ILD_NORMAL), 0);
-		ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[11].hIcolib));
+		ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[ICO_LOGGING_SMSG].hIcolib));
 		SendDlgItemMessage(hwndDlg, IDC_SMSGLOGGINGICON, STM_SETICON, (WPARAM)ImageList_GetIcon(hImageList, EXTRA_IMAGE_SMSGLOGGING, ILD_NORMAL), 0);
-		ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[6].hIcolib));
+		ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[ICO_DISABLEALL].hIcolib));
 		SendDlgItemMessage(hwndDlg, IDC_DISABLEALLICON, STM_SETICON, (WPARAM)ImageList_GetIcon(hImageList, EXTRA_IMAGE_DISABLEALL, ILD_NORMAL), 0);
-		ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[7].hIcolib));
+		ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[ICO_ENABLEALL].hIcolib));
 		SendDlgItemMessage(hwndDlg, IDC_ENABLEALLICON, STM_SETICON, (WPARAM)ImageList_GetIcon(hImageList, EXTRA_IMAGE_ENABLEALL, ILD_NORMAL), 0);
 
 		ImageList_AddIcon(hImageList, Skin_LoadIcon(SKINICON_OTHER_SMALLDOT));

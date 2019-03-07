@@ -85,7 +85,7 @@ void RegPopupActions()
 
 int OnIconsChanged(WPARAM, LPARAM)
 {
-	hPopupIcon = IcoLib_GetIcon("ckl_popup_icon");
+	hPopupIcon = Skin_LoadIcon(SKINICON_OTHER_POPUP);
 	hCopyIcon = IcoLib_GetIcon("ckl_copy_icon");
 	RegPopupActions();
 	return 0;

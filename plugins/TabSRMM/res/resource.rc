@@ -837,14 +837,10 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
+
 IDI_FEATURE_DISABLED    ICON                    "overlay_disabled.ico"
 
-IDI_ENABLED             ICON                    "res_TN\\popup.ico"
-
-IDI_DISABLED            ICON                    "res_TN\\popup_no.ico"
-
 IDI_FEATURE_ENABLED     ICON                    "overlay_enabled.ico"
-
 
 /////////////////////////////////////////////////////////////////////////////
 //

@@ -13,8 +13,6 @@
 #define IDD_POSITION                    109
 #define IDB_NOAVATAR                    110
 #define IDR_WHATSNEW                    111
-#define IDI_POPUP                       118
-#define IDI_NOPOPUP                     120
 #define IDI_HISTORY                     184
 #define IDI_RELOAD                      185
 #define IDI_MB_STOP                     189

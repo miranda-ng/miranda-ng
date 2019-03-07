@@ -67,8 +67,8 @@ static struct StandardIconDescription mainIcons[] =
 	{ SKINICON_OTHER_EMPTYBLOB,       LPGEN("Empty blob"),            -IDI_EMPTYBLOB,      0, nullptr }, // 26
 	{ SKINICON_OTHER_UNICODE,         LPGEN("Unicode plugin"),        -IDI_UNICODE,        0, nullptr }, // 27
 	{ SKINICON_OTHER_ANSI,            LPGEN("ANSI plugin"),           -IDI_ANSI,           0, nullptr }, // 28
-	{ -1,                             LPGEN("Unused"),                0,                   0, nullptr }, // 29
-	{ -1,                             LPGEN("Unused"),                0,                   0, nullptr }, // 30
+	{ SKINICON_OTHER_POPUP,           LPGEN("Popups are enabled"),    -IDI_POPUP,          0, nullptr }, // 29
+	{ SKINICON_OTHER_NOPOPUP,         LPGEN("Popups are disabled"),   -IDI_NOPOPUP,        0, nullptr }, // 30
 	{ SKINICON_OTHER_UNDO, 	          LPGEN("Undo"),                  -IDI_UNDO,           0, nullptr }, // 31
 	{ SKINICON_OTHER_WINDOW,          LPGEN("Window"),                -IDI_WINDOW,         0, nullptr }, // 32
 	{ SKINICON_OTHER_WINDOWS,         LPGEN("System"),                -IDI_WINDOWS,        0, nullptr }, // 33

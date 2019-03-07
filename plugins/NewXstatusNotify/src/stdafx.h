@@ -105,18 +105,21 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 #define COLOR_BG_NAVAILDEFAULT	RGB(255,189,189)
 #define COLOR_TX_DEFAULT		RGB(0,0,0)
 
-#define ICO_RESET				"reset"
-#define ICO_POPUP				"popup"
-#define ICO_SOUND				"sound"
-#define ICO_NOTIFICATION_OFF	"notification_off"
-#define ICO_NOTIFICATION_ON		"notification_on"
-#define ICO_XSTATUS				"xstatus"
-#define ICO_DISABLEALL			"disable_all"
-#define ICO_ENABLEALL			"enable_all"
-#define ICO_VARIABLES			"variables"
-#define ICO_STATUS_MESSAGE		"status_message"
-#define ICO_LOGGING_XSTATUS		"logging_xstatus"
-#define ICO_LOGGING_SMSG		"logging_status_message"
+enum
+{
+	ICO_RESET,
+	ICO_SOUND,
+	ICO_NOTIFICATION_OFF,
+	ICO_NOTIFICATION_ON,
+	ICO_XSTATUS,
+	ICO_DISABLEALL,
+	ICO_ENABLEALL,
+	ICO_VARIABLES,
+	ICO_STATUS_MESSAGE,
+	ICO_LOGGING_XSTATUS,
+	ICO_LOGGING_SMSG,
+	ICO_MAXID
+};
 
 #define JS_PARSE_XMPP_URI		"/ParseXmppURI"
 
@@ -165,7 +168,7 @@ extern TEMPLATES templates;
 extern HGENMENU hEnableDisableMenu;
 extern STATUS StatusList[STATUS_COUNT];
 extern STATUS StatusListEx[STATUSEX_COUNT];
-extern IconItem iconList[];
+extern IconItem iconList[ICO_MAXID];
 
 wchar_t* GetStr(STATUSMSGINFO *n, const wchar_t *tmplt);
 void LogSMsgToDB(STATUSMSGINFO *smi, const wchar_t *tmplt);

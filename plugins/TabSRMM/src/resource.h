@@ -525,8 +525,6 @@
 #define IDI_STOP1                       30161
 #define IDI_START2                      30162
 #define IDI_STOP2                       30163
-#define IDI_ENABLED                     30164
-#define IDI_DISABLED                    30165
 #define IDD_OPT                         30166
 #define IDC_START                       30167
 #define IDC_STOP                        30168

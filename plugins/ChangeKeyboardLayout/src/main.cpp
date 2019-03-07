@@ -19,7 +19,6 @@ HANDLE hOptionsInitialize;
 
 static IconItem iconList[] =
 {
-	{ LPGEN("Popup"), "ckl_popup_icon", IDI_POPUPICON },
 	{ LPGEN("Copy to clipboard"), "ckl_copy_icon", IDI_COPYICON }
 };
 

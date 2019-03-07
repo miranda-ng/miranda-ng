@@ -228,7 +228,7 @@ static unsigned __stdcall PopupThread(void *)
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 	wcl.lpszMenuName = nullptr;
 	wcl.lpszClassName = L"PopupThreadManagerWnd";
-	wcl.hIconSm = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_POPUP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR);
+	wcl.hIconSm = Skin_LoadIcon(SKINICON_OTHER_POPUP);
 	g_wndClass.cPopupThreadManagerWnd = RegisterClassExW(&wcl);
 	err = GetLastError();
 	if (!g_wndClass.cPopupThreadManagerWnd) {

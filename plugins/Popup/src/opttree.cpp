@@ -161,7 +161,7 @@ BOOL OptTree_ProcessMessage(HWND hwnd, UINT msg, WPARAM, LPARAM lparam, int *res
 		TreeView_DeleteAllItems(hwndTree);
 
 		hImgLst = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR | ILC_COLOR32 | ILC_MASK, 5, 1);
-		ImageList_ReplaceIcon(hImgLst, -1, (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_POPUP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR | LR_SHARED));
+		ImageList_ReplaceIcon(hImgLst, -1, (HICON)Skin_LoadIcon(SKINICON_OTHER_POPUP));
 		ImageList_ReplaceIcon(hImgLst, -1, (HICON)Skin_LoadIcon(SKINICON_OTHER_TICK));
 		ImageList_ReplaceIcon(hImgLst, -1, (HICON)Skin_LoadIcon(SKINICON_OTHER_NOTICK));
 		ImageList_ReplaceIcon(hImgLst, -1, (HICON)Skin_LoadIcon(SKINICON_OTHER_TICK));

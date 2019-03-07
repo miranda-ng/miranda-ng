@@ -109,7 +109,7 @@ static int IconsChanged(WPARAM, LPARAM)
 {
 	LoadActions();
 
-	HANDLE hIcon = Popup_Enabled() ? GetIconHandle(IDI_POPUP) : GetIconHandle(IDI_NOPOPUP);
+	HANDLE hIcon = Popup_Enabled() ? Skin_GetIconHandle(SKINICON_OTHER_POPUP) : Skin_GetIconHandle(SKINICON_OTHER_NOPOPUP);
 
 	Menu_ModifyItem(hMenuItem, nullptr, hIcon);
 	Menu_ModifyItem(hMenuRoot, nullptr, hIcon);
@@ -127,8 +127,8 @@ static int TTBLoaded(WPARAM, LPARAM)
 	if (Popup_Enabled())
 		ttb.dwFlags |= TTBBF_PUSHED;
 	ttb.name = LPGEN("Toggle Popups");
-	ttb.hIconHandleUp = GetIconHandle(IDI_NOPOPUP);
-	ttb.hIconHandleDn = GetIconHandle(IDI_POPUP);
+	ttb.hIconHandleUp = Skin_GetIconHandle(SKINICON_OTHER_NOPOPUP);
+	ttb.hIconHandleDn = Skin_GetIconHandle(SKINICON_OTHER_POPUP);
 	ttb.pszTooltipUp = LPGEN("Enable Popups");
 	ttb.pszTooltipDn = LPGEN("Disable Popups");
 	hTTButton = g_plugin.addTTB(&ttb);
@@ -143,19 +143,19 @@ INT_PTR svcEnableDisableMenuCommand(WPARAM, LPARAM)
 		// The module is enabled.
 		// The action to do is "disable popups" (show disabled) and we must write "enable popup" in the new item.
 		Popup_Enable(false);
-		Menu_ModifyItem(hMenuItem, LPGENW("Enable Popups"), hIcon = GetIconHandle(IDI_NOPOPUP));
+		Menu_ModifyItem(hMenuItem, LPGENW("Enable Popups"), hIcon = Skin_GetIconHandle(SKINICON_OTHER_NOPOPUP));
 	}
 	else {
 		// The module is disabled.
 		// The action to do is enable popups (show enabled), then write "disable popup" in the new item.
 		Popup_Enable(true);
-		Menu_ModifyItem(hMenuItem, LPGENW("Disable Popups"), hIcon = GetIconHandle(IDI_POPUP));
+		Menu_ModifyItem(hMenuItem, LPGENW("Disable Popups"), hIcon = Skin_GetIconHandle(SKINICON_OTHER_POPUP));
 	}
 
 	Menu_ModifyItem(hMenuRoot, nullptr, hIcon);
 
 	if (hTTButton)
-		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, (Popup_Enabled()) ? TTBST_PUSHED : 0);
+		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, Popup_Enabled() ? TTBST_PUSHED : 0);
 
 	return 0;
 }
@@ -171,7 +171,7 @@ void InitMenuItems(void)
 	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNICODE;
 
-	HANDLE hIcon = GetIconHandle(Popup_Enabled() ? IDI_POPUP : IDI_NOPOPUP);
+	HANDLE hIcon = Skin_GetIconHandle(Popup_Enabled() ? SKINICON_OTHER_POPUP : SKINICON_OTHER_NOPOPUP);
 
 	// Build main menu
 	hMenuRoot = mi.root = g_plugin.addRootMenu(MO_MAIN, MODULNAME_PLUW, -1000000000, hIcon);

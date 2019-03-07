@@ -187,11 +187,11 @@ static INT_PTR WumfMenuCommand(WPARAM, LPARAM)
 {
 	if (WumfOptions.PopupsEnabled == TRUE) {
 		WumfOptions.PopupsEnabled = FALSE;
-		Menu_ModifyItem(hMenuItem, LPGENW("Enable WUMF popups"), LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_NOPOPUP)));
+		Menu_ModifyItem(hMenuItem, LPGENW("Enable WUMF popups"), Skin_LoadIcon(SKINICON_OTHER_NOPOPUP));
 	}
 	else {
 		WumfOptions.PopupsEnabled = TRUE;
-		Menu_ModifyItem(hMenuItem, LPGENW("Disable WUMF popups"), LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_POPUP)));
+		Menu_ModifyItem(hMenuItem, LPGENW("Disable WUMF popups"), Skin_LoadIcon(SKINICON_OTHER_POPUP));
 	}
 
 	g_plugin.setByte(POPUPS_ENABLED, (BYTE)WumfOptions.PopupsEnabled);
@@ -224,11 +224,11 @@ int CMPlugin::Load()
 	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Popups"), 1999990000);
 	if (WumfOptions.PopupsEnabled == FALSE) {
 		mi.name.a = LPGEN("Enable WUMF popups");
-		mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_NOPOPUP));
+		mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_NOPOPUP);
 	}
 	else {
 		mi.name.a = LPGEN("Disable WUMF popups");
-		mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_POPUP));
+		mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_POPUP);
 	}
 	mi.pszService = MS_WUMF_SWITCHPOPUP;
 	hMenuItem = Menu_AddMainMenuItem(&mi);
