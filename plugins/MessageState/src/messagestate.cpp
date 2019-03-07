@@ -37,11 +37,11 @@ void SetSRMMIcon(MCONTACT hContact, SRMM_ICON_TYPE type, time_t time)
 			if (g_plugin.getDword(hActualContact, DBKEY_MESSAGE_READ_TIME_TYPE, -1) == MRD_TYPE_READTIME) {
 				wchar_t buf[100];
 				wcsftime(buf, _countof(buf), TranslateT("Last message read at %X %x"), localtime(&time));
-				sid.tszTooltip = buf;
+				sid.szTooltip.w = buf;
 			}
-			else sid.tszTooltip = TranslateT("Last message read (unknown time)");
+			else sid.szTooltip.w = TranslateT("Last message read (unknown time)");
 		}
-		else sid.tszTooltip = TranslateW(Tooltips[type]);
+		else sid.szTooltip.w = TranslateW(Tooltips[type]);
 	}
 	else sid.flags |= MBF_HIDDEN;
 

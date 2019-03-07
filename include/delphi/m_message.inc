@@ -36,32 +36,6 @@ const
    MS_MSG_SENDMESSAGE :PAnsiChar = 'SRMsg/SendCommand';
    MS_MSG_SENDMESSAGEW:PAnsiChar = 'SRMsg/SendCommandW';
 
-   ME_MSG_WINDOWEVENT:PAnsiChar = 'MessageAPI/WindowEvent';
-
-   MS_MSG_CONVERS:PAnsiChar = 'SRMsg/LaunchMessageWindow';
-
-  {wparam=0 }
-  {lparam=(WPARAM)(MessageWindowEventData*)hWindowEvent; }
-  {Event types }
-  MSG_WINDOW_EVT_OPENING = 1; // window is about to be opened
-  MSG_WINDOW_EVT_OPEN    = 2; // window has been opened
-  MSG_WINDOW_EVT_CLOSING = 3; // window is about to be closed
-  MSG_WINDOW_EVT_CLOSE   = 4; // window has been closed
-
-const
-  { wparam=0
-    lparam=0
-    Returns a dword with the current message api version
-    Current version is 0,0,0,4
-  }
-  MS_MSG_GETWINDOWAPI:PAnsiChar = 'MessageAPI/WindowAPI';
-
-  { wparam=(AnsiChar*)szBuf
-    lparam=(int)cbSize size of buffer
-    Sets the window class name in wParam (ex. "SRMM" for srmm.dll)
-  }
-  MS_MSG_GETWINDOWCLASS:PAnsiChar = 'MessageAPI/WindowClass';
-
 const
   MSG_WINDOW_STATE_EXISTS  = $00000001; // Window exists should always be true if hwndWindow exists
   MSG_WINDOW_STATE_VISIBLE = $00000002;
@@ -77,91 +51,5 @@ type
   end;
 
 function Srmm_GetWindowData(hContact:TMCONTACT; pResult:PMessageWindowData) : int; stdcall; external AppDll;
-
-{ wparam=0(unused)
-  lparam=(pMessageWindowEvent) event written
-  fired before SRMM writes an entered message into the database
-}
-
-type
-  pMessageWindowEvent = ^tMessageWindowEvent;
-  tMessageWindowEvent = record
-    seq      :int;          // number returned by PSS_MESSAGE
-    hContact :TMCONTACT;
-    dbei     :PDBEVENTINFO; // database event written on the basis of message sent
-  end;
-
-const
-  ME_MSG_PRECREATEEVENT:PAnsiChar = 'MessageAPI/PreCreateEvent';
-
-{ wParam = 0
- lParam = (MessageWindowPopupData *)&MessageWindowPopupData;
- Fired to allow plugins to add itens to the msg window popup menu
- Always fired twice: once with MSG_WINDOWPOPUP_SHOWING and once with MSG_WINDOWPOPUP_SELECTED.
- This is done to allow cleaning of resources.
-}
-  ME_MSG_WINDOWPOPUP:PAnsiChar = 'MessageAPI/WindowPopupRequested';
-
-  MSG_WINDOWPOPUP_SHOWING  = 1;
-  MSG_WINDOWPOPUP_SELECTED = 2;
-
-  MSG_WINDOWPOPUP_INPUT = 1;
-  MSG_WINDOWPOPUP_LOG   = 2;
-
-type
-  tMessageWindowPopupData = record
-    uType    :uint;     // see popup types above
-    uFlags   :uint;     // used to indicate in which window the popup was requested
-    hContact :TMCONTACT;
-    hwnd     :HWND;     // window where the popup was requested
-    hMenu    :HMENU;    // The handle to the menu
-    pt       :TPOINT;   // The point, in screen coords
-    selection:int;      // The menu control id or 0 if no one was selected
-  end;
-
-// status icons
-const
-  MBF_DISABLED = 1;
-  MBF_HIDDEN   = 2;
-  MBF_UNICODE  = 4;
-
-type
-  pStatusIconData = ^tStatusIconData;
-  tStatusIconData = record
-    szModule     :PAnsiChar; // used in combo with the dwId below to create a unique identifier
-    dwId         :dword;     // uniquely defines a button inside a module
-    hIcon,
-    hIconDisabled:HICON;     // hIconDisabled is optional - if null, will use hIcon in the disabled state
-    flags        :int;       // one of MBF_* above
-    szTooltip    :TChar;     // controlled by MBF_UNICODE
-  end;
-
-const
-  MBCF_RIGHTBUTTON = 1; // if this flag is specified, the click was a right button -
-                        // otherwize it was a left click
-
-type
-  pStatusIconClickData = ^tStatusIconClickData;
-  tStatusIconClickData = record
-    clickLocation:TPOINT;    // click location, in screen coordinates
-    szModule     :PAnsiChar;
-    dwId         :dword;
-    flags        :int;       // one of MBCF_* above
-  end;
-
-const
-{
- wParam = (HANDLE)hContact;
- lParam = (StatusIconClickData *)&StatusIconClickData;
- catch to show a popup menu, etc.
-}
-  ME_MSG_ICONPRESSED:PAnsiChar = 'MessageAPI/IconPressed';
-
-{
-  wParam = (HANDLE)hContact;
-  lParam = (StatusIconkData*)pIcon
-  catch to be notified about the icon list's change.
-}
-  ME_MSG_ICONSCHANGED:PAnsiChar = 'MessageAPI/IconsChanged';
 
 {$ENDIF}

@@ -74,7 +74,7 @@ static int IconsChanged(WPARAM, LPARAM)
 
 		wchar_t tmp[128];
 		mir_snwprintf(tmp, L"%s - %s", TranslateT("Spell Checker"), languages[i]->full_name);
-		sid.tszTooltip = tmp;
+		sid.szTooltip.w = tmp;
 
 		HICON hIcon = (opts.use_flags) ? IcoLib_GetIconByHandle(languages[i]->hIcolib) : IcoLib_GetIcon("spellchecker_enabled");
 		sid.hIcon = CopyIcon(hIcon);
@@ -194,7 +194,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 		wchar_t tmp[128];
 		mir_snwprintf(tmp, L"%s - %s", TranslateT("Spell Checker"), languages[i]->full_name);
-		sid.tszTooltip = tmp;
+		sid.szTooltip.w = tmp;
 		sid.hIcon = (opts.use_flags) ? IcoLib_GetIconByHandle(languages[i]->hIcolib) : IcoLib_GetIcon("spellchecker_enabled");
 		Srmm_AddIcon(&sid, &g_plugin);
 	}

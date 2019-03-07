@@ -95,7 +95,7 @@ static void __fastcall SetStatusIcon(MCONTACT hContact,int countryNumber)
 	if (countryNumber != 0xFFFF || bUseUnknown) {
 		/* copy icon as status icon API will call DestroyIcon() on it */
 		sid.hIcon = LoadFlagIcon(countryNumber);
-		sid.szTooltip = (char*) CallService(MS_UTILS_GETCOUNTRYBYNUMBER,countryNumber,0);
+		sid.szTooltip.a = (char*) CallService(MS_UTILS_GETCOUNTRYBYNUMBER,countryNumber,0);
 	}	
 	else sid.flags = MBF_HIDDEN;
 

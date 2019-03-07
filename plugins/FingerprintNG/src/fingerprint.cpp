@@ -151,7 +151,7 @@ static void SetSrmmIcon(MCONTACT hContact, LPTSTR ptszMirver)
 	sid.szModule = MODULENAME;
 	sid.dwId = 1;
 	sid.flags = MBF_UNICODE;
-	sid.tszTooltip = ptszMirver;
+	sid.szTooltip.w = ptszMirver;
 
 	if (mir_wstrlen(ptszMirver))
 		sid.hIcon = (HICON)ServiceGetClientIconW((WPARAM)ptszMirver, TRUE);

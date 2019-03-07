@@ -230,6 +230,11 @@ MIR_APP_DLL(void) Button_FreeIcon_IcoLib(HWND hwndDlg, int itemId)
 
 MIR_APP_DLL(HICON) Skin_LoadProtoIcon(const char *szProto, int status, bool big)
 {
+	return IcoLib_GetIconByHandle(Skin_GetProtoIcon(szProto, status), big);
+}
+
+MIR_APP_DLL(HANDLE) Skin_GetProtoIcon(const char *szProto, int status)
+{
 	char iconName[MAX_PATH];
 	INT_PTR caps2;
 	if (szProto == nullptr)
@@ -239,7 +244,7 @@ MIR_APP_DLL(HICON) Skin_LoadProtoIcon(const char *szProto, int status, bool big)
 
 	if (IsStatusConnecting(status)) {
 		mir_snprintf(iconName, "%s%d", mainIconsFmt, 7);
-		return IcoLib_GetIcon(iconName, big);
+		return IcoLib_GetIconHandle(iconName);
 	}
 
 	int statusIndx = -1;
@@ -259,26 +264,28 @@ MIR_APP_DLL(HICON) Skin_LoadProtoIcon(const char *szProto, int status, bool big)
 			// format: core_status_%proto%statusindex
 			mir_snprintf(iconName, "%s%s%d", statusIconsFmt, szProto, statusIndx);
 
-			HICON hIcon = IcoLib_GetIcon(iconName, big);
-			if (hIcon)
-				return hIcon;
+			HANDLE hIcolib = IcoLib_GetIconHandle(iconName);
+			if (hIcolib)
+				return hIcolib;
 		}
 
 		// format: core_status_%s%d
 		mir_snprintf(iconName, "%s%s%d", statusIconsFmt, GLOBAL_PROTO_NAME, statusIndx);
-		return IcoLib_GetIcon(iconName, big);
+		return IcoLib_GetIconHandle(iconName);
 	}
 
 	// format: core_status_%s%d
 	mir_snprintf(iconName, "%s%s%d", statusIconsFmt, szProto, statusIndx);
-	HICON hIcon = IcoLib_GetIcon(iconName, big);
-	if (hIcon == nullptr && (caps2 == 0 || (caps2 & statusIcons[statusIndx].pf2))) {
+	if (HANDLE hIcolib = IcoLib_GetIconHandle(iconName))
+		return hIcolib;
+
+	// Queried protocol isn't in list, adding them
+	if (caps2 == 0 || (caps2 & statusIcons[statusIndx].pf2)) {
 		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 		if (pa) {
 			wchar_t szPath[MAX_PATH], szFullPath[MAX_PATH], *str;
 			GetModuleFileName(nullptr, szPath, _countof(szPath));
 
-			// Queried protocol isn't in list, adding
 			wchar_t tszSection[MAX_PATH];
 			mir_snwprintf(tszSection, _A2W(PROTOCOLS_PREFIX)L"/%s", pa->tszAccountName);
 
@@ -289,11 +296,13 @@ MIR_APP_DLL(HICON) Skin_LoadProtoIcon(const char *szProto, int status, bool big)
 			str = wcsrchr(szPath, '\\');
 			if (str != nullptr)
 				*str = 0;
+			
 			mir_snwprintf(szFullPath, L"%s\\Icons\\proto_%S.dll", szPath, pa->szProtoName);
 			if (GetFileAttributes(szFullPath) != INVALID_FILE_ATTRIBUTES)
 				sid.defaultFile.w = szFullPath;
 			else {
 				mir_snwprintf(szFullPath, L"%s\\Plugins\\%S.dll", szPath, szProto);
+				HICON hIcon = nullptr;
 				if (int(ExtractIconEx(szFullPath, statusIcons[statusIndx].resource_id, nullptr, &hIcon, 1)) > 0) {
 					DestroyIcon(hIcon);
 					sid.defaultFile.w = szFullPath;
@@ -328,17 +337,15 @@ MIR_APP_DLL(HICON) Skin_LoadProtoIcon(const char *szProto, int status, bool big)
 
 		// format: core_status_%s%d
 		mir_snprintf(iconName, "%s%s%d", statusIconsFmt, szProto, statusIndx);
-		hIcon = IcoLib_GetIcon(iconName, big);
-		if (hIcon)
-			return hIcon;
+		if (HANDLE hIcolib = IcoLib_GetIconHandle(iconName))
+			return hIcolib;
 	}
 
-	if (hIcon == nullptr) {
-		mir_snprintf(iconName, "%s%s%d", statusIconsFmt, GLOBAL_PROTO_NAME, statusIndx);
-		hIcon = IcoLib_GetIcon(iconName, big);
-	}
+	mir_snprintf(iconName, "%s%s%d", statusIconsFmt, GLOBAL_PROTO_NAME, statusIndx);
+	if (HANDLE hIcolib = IcoLib_GetIconHandle(iconName))
+		return hIcolib;
 
-	return hIcon;
+	return nullptr;
 }
 
 MIR_APP_DLL(HANDLE) Skin_GetIconHandle(int idx)

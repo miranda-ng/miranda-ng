@@ -149,15 +149,11 @@ struct MessageWindowPopupData
 
 struct StatusIconData
 {
-	char *szModule;                  // used in combo with the dwId below to create a unique identifier
+	const char *szModule;            // used in combo with the dwId below to create a unique identifier
 	DWORD dwId;                      // uniquely defines a button inside a module
 	HICON hIcon, hIconDisabled;      // hIconDisabled is optional - if null, will use hIcon in the disabled state
 	int   flags;                     // bitwize OR of MBF_* flags above
-	union {
-		char *szTooltip;              // controlled by MBF_UNICODE
-		wchar_t *tszTooltip;
-		wchar_t *wszTooltip;
-	};
+	MAllCStrings szTooltip;          // controlled by MBF_UNICODE
 };
 
 #define MBCF_RIGHTBUTTON   0x01     // if this flag is specified, the click was a right button - otherwize it was a left click
@@ -185,7 +181,7 @@ EXTERN_C MIR_APP_DLL(StatusIconData*) Srmm_GetNthIcon(MCONTACT hContact, int ind
 struct StatusIconClickData
 {
 	POINT clickLocation;             // click location, in screen coordinates
-	char *szModule;
+	const char *szModule;
 	DWORD dwId;
 	int   flags;                       // bitwize OR of MBCF_* flags above
 };

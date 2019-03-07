@@ -113,12 +113,12 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	sid.flags = MBF_HIDDEN;
 	sid.dwId = 0x00000001;
 	sid.hIcon = IcoLib_GetIcon("secured");
-	sid.szTooltip = LPGEN("GPG Turn off encryption");
+	sid.szTooltip.a = LPGEN("GPG Turn off encryption");
 	Srmm_AddIcon(&sid, &g_plugin);
 
 	sid.dwId = 0x00000002;
 	sid.hIcon = IcoLib_GetIcon("unsecured");
-	sid.szTooltip = LPGEN("GPG Turn on encryption");
+	sid.szTooltip.a = LPGEN("GPG Turn on encryption");
 	Srmm_AddIcon(&sid, &g_plugin);
 
 	if (globals.bJabberAPI) {

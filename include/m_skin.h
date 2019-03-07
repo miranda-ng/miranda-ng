@@ -93,6 +93,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 // Miranda skin
 // in all these functions idx = SKINICON_* constant
+
 EXTERN_C MIR_APP_DLL(HICON)  Skin_LoadIcon(int idx, bool big = false);
 EXTERN_C MIR_APP_DLL(HANDLE) Skin_GetIconHandle(int idx);
 EXTERN_C MIR_APP_DLL(char*)  Skin_GetIconName(int idx);
@@ -117,6 +118,7 @@ EXTERN_C MIR_APP_DLL(char*)  Skin_GetIconName(int idx);
 // status icon.
 
 EXTERN_C MIR_APP_DLL(HICON) Skin_LoadProtoIcon(const char *szProto, int status, bool big = false);
+EXTERN_C MIR_APP_DLL(HANDLE) Skin_GetProtoIcon(const char *szProto, int status);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // plays a registered sound

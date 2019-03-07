@@ -120,7 +120,7 @@ void InitSRMM()
 	sid.hIcon = hIconFinished;
 	sid.hIconDisabled = hIconNotSecure;
 	sid.flags = MBF_DISABLED | MBF_HIDDEN;
-	sid.szTooltip = LANG_OTR_TOOLTIP;
+	sid.szTooltip.a = LANG_OTR_TOOLTIP;
 	Srmm_AddIcon(&sid, &g_plugin);
 
 	sid.dwId = 1;

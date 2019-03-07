@@ -168,20 +168,20 @@ void SaveSettings(HWND hwndDlg)
 	sid.szModule = MODULENAME;
 	sid.dwId = 0;
 	sid.hIcon = LoadIconEx("actG");
-	if (st == 0)	sid.szTooltip = LPGEN("Keep all events");
-	else if (st == 1)	sid.szTooltip = LPGEN(time_stamp_strings[g_plugin.getByte("StartupShutdownOlder", 0)]);
-	else if (st == 2)	sid.szTooltip = LPGEN(keep_strings[g_plugin.getByte("StartupShutdownKeep", 0)]);
-	else if (st == 3)	sid.szTooltip = LPGEN("Delete all events");
+	if (st == 0)	sid.szTooltip.a = LPGEN("Keep all events");
+	else if (st == 1)	sid.szTooltip.a = LPGEN(time_stamp_strings[g_plugin.getByte("StartupShutdownOlder", 0)]);
+	else if (st == 2)	sid.szTooltip.a = LPGEN(keep_strings[g_plugin.getByte("StartupShutdownKeep", 0)]);
+	else if (st == 3)	sid.szTooltip.a = LPGEN("Delete all events");
 	Srmm_ModifyIcon(NULL, &sid);
 
 	sid.dwId = 1;
 	sid.hIcon = LoadIconEx("act1");
-	sid.szTooltip = time_stamp_strings[g_plugin.getByte("StartupShutdownOlder", 0)];
+	sid.szTooltip.a = time_stamp_strings[g_plugin.getByte("StartupShutdownOlder", 0)];
 	Srmm_ModifyIcon(NULL, &sid);
 
 	sid.dwId = 2;
 	sid.hIcon = LoadIconEx("act2");
-	sid.szTooltip = keep_strings[g_plugin.getByte("StartupShutdownKeep", 0)];
+	sid.szTooltip.a = keep_strings[g_plugin.getByte("StartupShutdownKeep", 0)];
 	Srmm_ModifyIcon(NULL, &sid);
 }
 

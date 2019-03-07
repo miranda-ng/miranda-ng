@@ -631,7 +631,7 @@ int Meta_ModulesLoaded(WPARAM, LPARAM)
 	StatusIconData sid = {};
 	sid.szModule = META_PROTO;
 	sid.flags = MBF_UNICODE;
-	sid.tszTooltip = LPGENW("Select metacontact");
+	sid.szTooltip.w = LPGENW("Select metacontact");
 	sid.hIcon = Skin_LoadProtoIcon(META_PROTO, ID_STATUS_ONLINE);
 	Srmm_AddIcon(&sid, &g_plugin);
 	return 0;

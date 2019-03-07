@@ -79,32 +79,32 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 	sid.hIcon = LoadIconEx("actG");
 	if (sweep == 0)
-		sid.szTooltip = LPGEN("Keep all events");
+		sid.szTooltip.a = LPGEN("Keep all events");
 	else if (sweep == 1)
-		sid.szTooltip = time_stamp_strings[g_plugin.getByte("StartupShutdownOlder", 0)];
+		sid.szTooltip.a = time_stamp_strings[g_plugin.getByte("StartupShutdownOlder", 0)];
 	else if (sweep == 2)
-		sid.szTooltip = keep_strings[g_plugin.getByte("StartupShutdownKeep", 0)];
+		sid.szTooltip.a = keep_strings[g_plugin.getByte("StartupShutdownKeep", 0)];
 	else if (sweep == 3)
-		sid.szTooltip = LPGEN("Delete all events");
+		sid.szTooltip.a = LPGEN("Delete all events");
 
 	sid.flags = MBF_HIDDEN;
 	Srmm_AddIcon(&sid, &g_plugin);
 
 	sid.dwId = 1;
 	sid.hIcon = LoadIconEx("act1");
-	sid.szTooltip = time_stamp_strings[g_plugin.getByte("StartupShutdownOlder", 0)];
+	sid.szTooltip.a = time_stamp_strings[g_plugin.getByte("StartupShutdownOlder", 0)];
 	sid.flags = MBF_HIDDEN;
 	Srmm_AddIcon(&sid, &g_plugin);
 
 	sid.dwId = 2;
 	sid.hIcon = LoadIconEx("act2");
-	sid.szTooltip = keep_strings[g_plugin.getByte("StartupShutdownKeep", 0)];
+	sid.szTooltip.a = keep_strings[g_plugin.getByte("StartupShutdownKeep", 0)];
 	sid.flags = MBF_HIDDEN;
 	Srmm_AddIcon(&sid, &g_plugin);
 
 	sid.dwId = 3;
 	sid.hIcon = LoadIconEx("actDel");
-	sid.szTooltip = LPGEN("Delete all events");
+	sid.szTooltip.a = LPGEN("Delete all events");
 	sid.flags = MBF_HIDDEN;
 	Srmm_AddIcon(&sid, &g_plugin);
 

@@ -283,7 +283,7 @@ void CJabberProto::OnModulesLoaded()
 	sid.szModule = m_szModuleName;
 	sid.hIcon = LoadIconEx("main");
 	sid.flags = MBF_HIDDEN;
-	sid.szTooltip = LPGEN("Jabber Resource");
+	sid.szTooltip.a = LPGEN("Jabber Resource");
 	Srmm_AddIcon(&sid, &g_plugin);
 
 	HookProtoEvent(ME_MSG_ICONPRESSED, &CJabberProto::OnProcessSrmmIconClick);

@@ -103,7 +103,7 @@ void MsgWndData::FlagsIconSet()
 		sid.flags = MBF_HIDDEN;
 	if (m_countryID != 0xFFFF || g_bUseUnknownFlag) {
 		sid.hIcon = LoadFlagIcon(m_countryID);
-		sid.szTooltip = Translate((char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, m_countryID, 0));
+		sid.szTooltip.a = Translate((char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, m_countryID, 0));
 	}
 	else sid.flags = MBF_HIDDEN;
 	

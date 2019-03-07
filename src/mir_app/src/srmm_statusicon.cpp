@@ -44,13 +44,14 @@ struct StatusIconChild : public MZeroedObject
 	{
 		SafeDestroyIcon(hIcon);
 		SafeDestroyIcon(hIconDisabled);
-		mir_free(tszTooltip);
+		mir_free(pwszTooltip);
 	}
 
 	MCONTACT hContact;
-	HICON  hIcon, hIconDisabled;
+	HICON hIcon, hIconDisabled;
+	HANDLE hIcolibOn, hIcolibOff;
 	int    flags;
-	wchar_t *tszTooltip;
+	wchar_t *pwszTooltip;
 };
 
 struct StatusIconMain : public MZeroedObject
@@ -61,12 +62,13 @@ struct StatusIconMain : public MZeroedObject
 
 	~StatusIconMain()
 	{
-		mir_free(sid.szModule);
-		mir_free(sid.szTooltip);
+		mir_free((void*)sid.szModule);
+		mir_free((void*)sid.szTooltip.w);
 	}
 
 	StatusIconData sid;
 
+	HANDLE hIcolibOn, hIcolibOff;
 	HPLUGIN pPlugin;
 	OBJLIST<StatusIconChild> arChildren;
 };
@@ -80,7 +82,7 @@ static int CompareIcons(const StatusIconMain *p1, const StatusIconMain *p2)
 	return p1->sid.dwId - p2->sid.dwId;
 }
 
-static OBJLIST<StatusIconMain> arIcons(3, CompareIcons);
+static OBJLIST<StatusIconMain> arIcons(10, CompareIcons);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -97,10 +99,12 @@ MIR_APP_DLL(int) Srmm_AddIcon(StatusIconData *sid, HPLUGIN pPlugin)
 	memcpy(&p->sid, sid, sizeof(p->sid));
 	p->pPlugin = pPlugin;
 	p->sid.szModule = mir_strdup(sid->szModule);
+	p->hIcolibOn = IcoLib_IsManaged(sid->hIcon);
+	p->hIcolibOff = IcoLib_IsManaged(sid->hIconDisabled);
 	if (sid->flags & MBF_UNICODE)
-		p->sid.tszTooltip = mir_wstrdup(sid->wszTooltip);
+		p->sid.szTooltip.w = mir_wstrdup(sid->szTooltip.w);
 	else
-		p->sid.tszTooltip = mir_a2u(sid->szTooltip);
+		p->sid.szTooltip.w = mir_a2u(sid->szTooltip.a);
 	arIcons.insert(p);
 
 	NotifyEventHooks(hHookIconsChanged, 0, (LPARAM)p);
@@ -119,11 +123,13 @@ MIR_APP_DLL(int) Srmm_ModifyIcon(MCONTACT hContact, StatusIconData *sid)
 		return 1;
 
 	if (hContact == 0) {
-		mir_free(p->sid.szModule);
-		mir_free(p->sid.szTooltip);
+		mir_free((void*)p->sid.szModule);
+		mir_free((void*)p->sid.szTooltip.w);
 		memcpy(&p->sid, sid, sizeof(p->sid));
+		p->hIcolibOn = IcoLib_IsManaged(sid->hIcon);
+		p->hIcolibOff = IcoLib_IsManaged(sid->hIconDisabled);
 		p->sid.szModule = mir_strdup(sid->szModule);
-		p->sid.tszTooltip = (sid->flags & MBF_UNICODE) ? mir_wstrdup(sid->wszTooltip) : mir_a2u(sid->szTooltip);
+		p->sid.szTooltip.w = (sid->flags & MBF_UNICODE) ? mir_wstrdup(sid->szTooltip.w) : mir_a2u(sid->szTooltip.a);
 
 		NotifyEventHooks(hHookIconsChanged, 0, (LPARAM)p);
 		return 0;
@@ -135,14 +141,13 @@ MIR_APP_DLL(int) Srmm_ModifyIcon(MCONTACT hContact, StatusIconData *sid)
 		pc->hContact = hContact;
 		p->arChildren.insert(pc);
 	}
-	else SafeDestroyIcon(pc->hIcon);
 
 	pc->flags = sid->flags;
 	pc->hIcon = sid->hIcon;
 	pc->hIconDisabled = sid->hIconDisabled;
-
-	mir_free(pc->tszTooltip);
-	pc->tszTooltip = (sid->flags & MBF_UNICODE) ? mir_wstrdup(sid->wszTooltip) : mir_a2u(sid->szTooltip);
+	pc->hIcolibOn = IcoLib_IsManaged(sid->hIcon);
+	pc->hIcolibOff = IcoLib_IsManaged(sid->hIconDisabled);
+	replaceStrW(pc->pwszTooltip, (sid->flags & MBF_UNICODE) ? mir_wstrdup(sid->szTooltip.w) : mir_a2u(sid->szTooltip.a));
 
 	NotifyEventHooks(hHookIconsChanged, hContact, (LPARAM)p);
 	return 0;
@@ -177,15 +182,17 @@ MIR_APP_DLL(StatusIconData*) Srmm_GetNthIcon(MCONTACT hContact, int index)
 		if (nVis == index) {
 			memcpy(&res, it, sizeof(res));
 			if (pc) {
-				if (pc->hIcon) res.hIcon = pc->hIcon;
+				if (pc->hIcon)
+					res.hIcon = pc->hIcon;
 				if (pc->hIconDisabled)
 					res.hIconDisabled = pc->hIconDisabled;
 				else if (pc->hIcon)
 					res.hIconDisabled = pc->hIcon;
-				if (pc->tszTooltip) res.tszTooltip = pc->tszTooltip;
+				if (pc->pwszTooltip)
+					res.szTooltip.w = pc->pwszTooltip;
 				res.flags = pc->flags;
 			}
-			res.tszTooltip = TranslateW_LP(res.tszTooltip, it->pPlugin);
+			res.szTooltip.w = TranslateW_LP(res.szTooltip.w, it->pPlugin);
 			return &res;
 		}
 		nVis++;
@@ -216,7 +223,7 @@ int LoadSrmmModule()
 	g_hCurHyperlinkHand = LoadCursor(nullptr, IDC_HAND);
 
 	LoadSrmmToolbarModule();
-	
+
 	hHookSrmmEvent = CreateHookableEvent(ME_MSG_WINDOWEVENT);
 	hHookIconsChanged = CreateHookableEvent(ME_MSG_ICONSCHANGED);
 	hHookIconPressedEvt = CreateHookableEvent(ME_MSG_ICONPRESSED);
