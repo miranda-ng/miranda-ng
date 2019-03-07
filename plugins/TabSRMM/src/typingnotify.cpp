@@ -19,8 +19,6 @@ static int    newTimeout2;
 static BYTE   newTimeoutMode;
 static BYTE   newTimeoutMode2;
 static BYTE   newColorMode;
-static wchar_t  szStart[128];
-static wchar_t  szStop[128];
 
 static HANDLE hntfStarted = nullptr;
 static HANDLE hntfStopped = nullptr;
@@ -39,14 +37,18 @@ static colorPicker[4] =
 	{ IDC_TYPEOFF_TX, "OFF_TX", RGB(0, 0, 0) }
 };
 
-static INT_PTR EnableDisableMenuCommand(WPARAM, LPARAM)
+static void UpdateMenuItems()
 {
-	Disabled = !Disabled;
 	if (!Disabled)
 		Menu_ModifyItem(hDisableMenu, LPGENW("Disable &typing notification"), Skin_LoadIcon(SKINICON_OTHER_POPUP));
 	else
 		Menu_ModifyItem(hDisableMenu, LPGENW("Enable &typing notification"), Skin_LoadIcon(SKINICON_OTHER_NOPOPUP));
+}
 
+static INT_PTR EnableDisableMenuCommand(WPARAM, LPARAM)
+{
+	Disabled = !Disabled;
+	UpdateMenuItems();
 	return 0;
 }
 
@@ -102,7 +104,7 @@ void TN_TypingMessage(MCONTACT hContact, int iMode)
 		if (StopDisabled)
 			return;
 		wcsncpy_s(ppd.lpwzContactName, szContactName, _TRUNCATE);
-		wcsncpy_s(ppd.lpwzText, szStop, _TRUNCATE);
+		wcsncpy_s(ppd.lpwzText, TranslateT("...has stopped typing."), _TRUNCATE);
 		ppd.hNotification = hntfStopped;
 		notyping = 1;
 	}
@@ -110,7 +112,7 @@ void TN_TypingMessage(MCONTACT hContact, int iMode)
 		if (StartDisabled)
 			return;
 		wcsncpy_s(ppd.lpwzContactName, szContactName, _TRUNCATE);
-		wcsncpy_s(ppd.lpwzText, szStart, _TRUNCATE);
+		wcsncpy_s(ppd.lpwzText, TranslateT("...is typing a message."), _TRUNCATE);
 		ppd.hNotification = hntfStarted;
 		notyping = 0;
 	}
@@ -288,12 +290,12 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				int notyping;
 				if (i == PROTOTYPE_CONTACTTYPING_OFF) {
 					wcsncpy_s(ppd.lpwzContactName, TranslateT("Contact"), _TRUNCATE);
-					wcsncpy_s(ppd.lpwzText, szStop, _TRUNCATE);
+					wcsncpy_s(ppd.lpwzText, TranslateT("...has stopped typing."), _TRUNCATE);
 					notyping = 1;
 				}
 				else {
 					wcsncpy_s(ppd.lpwzContactName, TranslateT("Contact"), _TRUNCATE);
-					wcsncpy_s(ppd.lpwzText, szStart, _TRUNCATE);
+					wcsncpy_s(ppd.lpwzText, TranslateT("...is typing a message."), _TRUNCATE);
 					notyping = 0;
 				}
 
@@ -512,25 +514,14 @@ int TN_ModuleInit()
 		for (auto &it : colorPicker)
 			it.color = db_get_dw(0, TypigModule, it.desc, 0);
 
-	mir_snwprintf(szStart, TranslateT("...is typing a message."));
-	mir_snwprintf(szStop, TranslateT("...has stopped typing."));
-
 	if (ShowMenu) {
-		CreateServiceFunction("TypingNotify/EnableDisableMenuCommand", EnableDisableMenuCommand);
-
 		CMenuItem mi(&g_plugin);
 		SET_UID(mi, 0xe18fd2cf, 0xcf90, 0x459e, 0xb6, 0xe6, 0x70, 0xec, 0xad, 0xc6, 0x73, 0xef);
-		if (!Disabled) {
-			mi.name.a = LPGEN("Disable &typing notification");
-			mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_POPUP);
-		}
-		else {
-			mi.name.a = LPGEN("Enable &typing notification");
-			mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_NOPOPUP);
-		}
 		mi.pszService = "TypingNotify/EnableDisableMenuCommand";
 		mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Popups"), 0);
 		hDisableMenu = Menu_AddMainMenuItem(&mi);
+		UpdateMenuItems();
+		CreateServiceFunction(mi.pszService, EnableDisableMenuCommand);
 	}
 
 	g_plugin.addSound("TNStart", LPGENW("Instant messages"), LPGENW("Contact started typing"));
