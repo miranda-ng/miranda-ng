@@ -19,6 +19,7 @@ namespace fs = std::experimental::filesystem;
 #include <m_langpack.h>
 #include <m_options.h>
 #include <m_popup.h>
+#include <m_skin.h>
 #include <m_icolib.h>
 #include <m_autobackups.h>
 #include <m_gui.h>
@@ -33,6 +34,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
+	bool               bTerminated;
 	CMOption<BYTE>	    backup_types;
 	CMOption<WORD>	    period;
 	CMOption<BYTE>	    period_type;

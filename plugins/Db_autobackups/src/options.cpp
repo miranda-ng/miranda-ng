@@ -21,7 +21,6 @@ class COptionsDlg : public CDlgBase
 		m_filemask.Enable(bEnabled);
 		m_foldersPageLink.Enable(bEnabled);
 		m_disableProgress.Enable(bEnabled);
-		m_disablePopups.Enable(bEnabled);
 		m_useZip.Enable(bEnabled);
 		periodText.Enable(bEnabled);
 		m_period.Enable(bEnabled);
@@ -116,7 +115,6 @@ class COptionsDlg : public CDlgBase
 	CCtrlHyperlink m_foldersPageLink;
 	CCtrlSpin m_numBackups;
 	CCtrlCheck m_disableProgress;
-	CCtrlCheck m_disablePopups;
 	CCtrlCheck m_useZip;
 	CCtrlCheck m_backupProfile;
 	CCtrlCheck m_useCloudFile;
@@ -133,14 +131,13 @@ public:
 		m_period(this, SPIN_PERIOD, 60, 1), m_periodType(this, IDC_PT),
 		m_folder(this, IDC_ED_FOLDER), m_browseFolder(this, IDC_BUT_BROWSE), m_filemask(this, IDC_FILEMASK),
 		m_foldersPageLink(this, IDC_LNK_FOLDERS, nullptr), m_numBackups(this, SPIN_NUMBACKUPS, 9999, 1),
-		m_disableProgress(this, IDC_CHK_NOPROG), m_disablePopups(this, IDC_CHK_NOPOPUP),
+		m_disableProgress(this, IDC_CHK_NOPROG),
 		m_useZip(this, IDC_CHK_USEZIP), m_useCloudFile(this, IDC_CLOUDFILE),
 		m_cloudFileService(this, IDC_CLOUDFILESEVICE)
 	{
 		CreateLink(m_period, g_plugin.period);
 		CreateLink(m_numBackups, g_plugin.num_backups);
 		CreateLink(m_disableProgress, g_plugin.disable_progress);
-		CreateLink(m_disablePopups, g_plugin.disable_popups);
 		CreateLink(m_useZip, g_plugin.use_zip);
 		CreateLink(m_filemask, g_plugin.file_mask);
 		CreateLink(m_backupProfile, g_plugin.backup_profile);
@@ -193,8 +190,6 @@ public:
 				L"%xxxxxxx%", TranslateT("any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)"));
 			CreateToolTip(tszTooltipText, TranslateT("Variables"));
 		}
-
-		m_disablePopups.Show();
 
 		m_useCloudFile.Enable(ServiceExists(MS_CLOUDFILE_UPLOAD));
 		if (ServiceExists(MS_CLOUDFILE_ENUMSERVICES)) {

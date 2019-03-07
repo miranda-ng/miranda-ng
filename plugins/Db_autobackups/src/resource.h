@@ -19,7 +19,6 @@
 #define IDC_LNK_FOLDERS                 1669
 #define IDC_CHK_NOPROG                  1670
 #define IDC_BUT_NOW                     1671
-#define IDC_CHK_NOPOPUP                 1672
 #define IDC_CHK_USEZIP                  1673
 #define IDC_CLOUDFILE                   1674
 #define IDC_BACKUPPROFILE               1675

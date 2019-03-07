@@ -2,6 +2,7 @@
 
 CMPlugin g_plugin;
 
+HGENMENU g_hPopupMenu;
 HANDLE hFolder;
 char g_szMirVer[100];
 
@@ -34,6 +35,16 @@ CMPlugin::CMPlugin() :
 	use_cloudfile(MODULENAME, "UseCloudFile", 0),
 	cloudfile_service(MODULENAME, "CloudFileService", nullptr)
 {
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static void UpdateMenuIcons()
+{
+	if (g_plugin.disable_popups)
+		Menu_ModifyItem(g_hPopupMenu, LPGENW("Enable &AutoBackups notification"), Skin_LoadIcon(SKINICON_OTHER_NOPOPUP));
+	else
+		Menu_ModifyItem(g_hPopupMenu, LPGENW("Disable &AutoBackups notification"), Skin_LoadIcon(SKINICON_OTHER_POPUP));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -74,11 +85,19 @@ static int FoldersGetBackupPath(WPARAM, LPARAM)
 	return 0;
 }
 
+static INT_PTR OnTogglePopups(WPARAM, LPARAM)
+{
+	g_plugin.disable_popups = !g_plugin.disable_popups;
+	UpdateMenuIcons();
+	return 0;
+}
+
 static int ModulesLoad(WPARAM, LPARAM)
 {
 	CMenuItem mi(&g_plugin);
 	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Database"), 500100000);
 
+	// Main menu items
 	SET_UID(mi, 0x1439b1db, 0x7d95, 0x495b, 0xbf, 0x5, 0x3d, 0x21, 0xc1, 0xeb, 0xf7, 0x58);
 	mi.name.a = LPGEN("Backup profile");
 	mi.pszService = MS_AB_BACKUP;
@@ -92,6 +111,15 @@ static int ModulesLoad(WPARAM, LPARAM)
 	mi.hIcolibItem = iconList[1].hIcolib;
 	mi.position = 500100001;
 	Menu_AddMainMenuItem(&mi);
+
+	// Popup menu item
+	SET_UID(mi, 0xe9250a75, 0x30da, 0x42f2, 0x85, 0x27, 0x54, 0x24, 0x62, 0x59, 0x9e, 0xae);
+	mi.position = 0;
+	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Popups"), 0);
+	mi.pszService = "DbAutoBackup/EnableDisableMenuCommand";
+	g_hPopupMenu = Menu_AddMainMenuItem(&mi);
+	UpdateMenuIcons();
+	CreateServiceFunction(mi.pszService, &OnTogglePopups);
 
 	if (hFolder = FoldersRegisterCustomPathT(LPGEN("Database backups"), LPGEN("Backup folder"), DIR SUB_DIR)) {
 		HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersGetBackupPath);
@@ -114,10 +142,10 @@ static int ModulesLoad(WPARAM, LPARAM)
 // for setting changed event not cleared. the backup on exit function will write to the db, calling those hooks.
 static int PreShutdown(WPARAM, LPARAM)
 {
-	if (g_plugin.backup_types & BT_EXIT) {
-		g_plugin.disable_popups = 1; // Don't try to show popups on exit
+	g_plugin.bTerminated = true;
+
+	if (g_plugin.backup_types & BT_EXIT)
 		BackupStart(nullptr);
-	}
 	return 0;
 }
 
