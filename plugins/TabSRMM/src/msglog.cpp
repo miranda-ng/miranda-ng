@@ -309,9 +309,9 @@ static int AppendUnicodeToBuffer(CMStringA &str, const wchar_t *line, int mode)
 static void Build_RTF_Header(CMStringA &str, CTabBaseDlg *dat)
 {
 	int i;
-	LOGFONTA *logFonts = dat->m_pContainer->theme.logFonts;
-	COLORREF *fontColors = dat->m_pContainer->theme.fontColors;
-	TLogTheme *theme = &dat->m_pContainer->theme;
+	LOGFONTA *logFonts = dat->m_pContainer->m_theme.logFonts;
+	COLORREF *fontColors = dat->m_pContainer->m_theme.fontColors;
+	TLogTheme *theme = &dat->m_pContainer->m_theme;
 
 	str.Append("{\\rtf1\\ansi\\deff0{\\fonttbl");
 
@@ -530,7 +530,7 @@ static char* Template_CreateRTFFromDbEvent(CTabBaseDlg *dat, MCONTACT hContact, 
 		event_time = *gmtime(&local_time);
 	}
 
-	TTemplateSet *this_templateset = dbei.flags & DBEF_RTL ? dat->m_pContainer->rtl_templates : dat->m_pContainer->ltr_templates;
+	TTemplateSet *this_templateset = dbei.flags & DBEF_RTL ? dat->m_pContainer->m_rtl_templates : dat->m_pContainer->m_ltr_templates;
 
 	wchar_t *szTemplate;
 	if (bIsStatusChangeEvent)
@@ -1128,9 +1128,9 @@ void CTabBaseDlg::ReplaceIcons(LONG startAt, int fAppend, BOOL isSent)
 				if (cf2.crBackColor != 0)
 					crDefault = cf2.crBackColor;
 				else if (bDirection == '>')
-					crDefault = (fAppend) ? m_pContainer->theme.outbg : m_pContainer->theme.oldoutbg;
+					crDefault = (fAppend) ? m_pContainer->m_theme.outbg : m_pContainer->m_theme.oldoutbg;
 				else
-					crDefault = (fAppend) ? m_pContainer->theme.inbg : m_pContainer->theme.oldinbg;
+					crDefault = (fAppend) ? m_pContainer->m_theme.inbg : m_pContainer->m_theme.oldinbg;
 
 				TLogIcon theIcon(Logicons[bIconIndex], crDefault);
 				CImageDataObject::InsertBitmap(ole, theIcon.m_hBmp);
@@ -1183,7 +1183,7 @@ void CTabBaseDlg::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, D
 	// calc time limit for grouping
 	HWND hwndrtf = m_hwndIEView ? m_hwndIWebBrowserControl : m_log.GetHwnd();
 
-	rtfFonts = m_pContainer->theme.rtfFonts ? m_pContainer->theme.rtfFonts : &(rtfFontsGlobal[0][0]);
+	rtfFonts = m_pContainer->m_theme.rtfFonts ? m_pContainer->m_theme.rtfFonts : &(rtfFontsGlobal[0][0]);
 	time_t now = time(0);
 
 	struct tm tm_now = *localtime(&now);
@@ -1308,8 +1308,8 @@ void CTabBaseDlg::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, D
 
 	if (m_isAutoRTL & 1)
 		m_log.SendMsg(EM_SETBKGNDCOLOR, 0, (LOWORD(m_iLastEventType) & DBEF_SENT)
-			? (fAppend ? m_pContainer->theme.outbg : m_pContainer->theme.oldoutbg)
-			: (fAppend ? m_pContainer->theme.inbg : m_pContainer->theme.oldinbg));
+			? (fAppend ? m_pContainer->m_theme.outbg : m_pContainer->m_theme.oldoutbg)
+			: (fAppend ? m_pContainer->m_theme.inbg : m_pContainer->m_theme.oldinbg));
 
 	if (!(m_isAutoRTL & 1)) {
 		GETTEXTLENGTHEX gtxl = { 0 };

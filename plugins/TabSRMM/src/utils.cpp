@@ -544,18 +544,18 @@ int Utils::WriteContainerSettingsToDB(const MCONTACT hContact, TContainerSetting
 
 void Utils::SettingsToContainer(TContainerData *pContainer)
 {
-	pContainer->dwFlags = pContainer->settings->dwFlags;
-	pContainer->dwFlagsEx = pContainer->settings->dwFlagsEx;
-	pContainer->avatarMode = pContainer->settings->avatarMode;
-	pContainer->ownAvatarMode = pContainer->settings->ownAvatarMode;
+	pContainer->m_dwFlags = pContainer->m_pSettings->dwFlags;
+	pContainer->m_dwFlagsEx = pContainer->m_pSettings->dwFlagsEx;
+	pContainer->m_avatarMode = pContainer->m_pSettings->avatarMode;
+	pContainer->m_ownAvatarMode = pContainer->m_pSettings->ownAvatarMode;
 }
 
 void Utils::ContainerToSettings(TContainerData *pContainer)
 {
-	pContainer->settings->dwFlags = pContainer->dwFlags;
-	pContainer->settings->dwFlagsEx = pContainer->dwFlagsEx;
-	pContainer->settings->avatarMode = pContainer->avatarMode;
-	pContainer->settings->ownAvatarMode = pContainer->ownAvatarMode;
+	pContainer->m_pSettings->dwFlags = pContainer->m_dwFlags;
+	pContainer->m_pSettings->dwFlagsEx = pContainer->m_dwFlagsEx;
+	pContainer->m_pSettings->avatarMode = pContainer->m_avatarMode;
+	pContainer->m_pSettings->ownAvatarMode = pContainer->m_ownAvatarMode;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -570,37 +570,37 @@ void Utils::ReadPrivateContainerSettings(TContainerData *pContainer, bool fForce
 	TContainerSettings csTemp;
 	memcpy(&csTemp, &PluginConfig.globalContainerSettings, sizeof(csTemp));
 
-	mir_snprintf(szCname, "%s%d", CNT_BASEKEYNAME, pContainer->iContainerIndex);
+	mir_snprintf(szCname, "%s%d", CNT_BASEKEYNAME, pContainer->m_iContainerIndex);
 	Utils::ReadContainerSettingsFromDB(0, &csTemp, szCname);
 	if (csTemp.fPrivate || fForce) {
-		if (pContainer->settings == nullptr || pContainer->settings == &PluginConfig.globalContainerSettings)
-			pContainer->settings = (TContainerSettings *)mir_alloc(sizeof(csTemp));
-		memcpy(pContainer->settings, &csTemp, sizeof(csTemp));
-		pContainer->settings->fPrivate = true;
+		if (pContainer->m_pSettings == nullptr || pContainer->m_pSettings == &PluginConfig.globalContainerSettings)
+			pContainer->m_pSettings = (TContainerSettings *)mir_alloc(sizeof(csTemp));
+		memcpy(pContainer->m_pSettings, &csTemp, sizeof(csTemp));
+		pContainer->m_pSettings->fPrivate = true;
 	}
-	else pContainer->settings = &PluginConfig.globalContainerSettings;
+	else pContainer->m_pSettings = &PluginConfig.globalContainerSettings;
 }
 
 void Utils::SaveContainerSettings(TContainerData *pContainer, const char *szSetting)
 {
 	char szCName[50];
 
-	pContainer->dwFlags &= ~(CNT_DEFERREDCONFIGURE | CNT_CREATE_MINIMIZED | CNT_DEFERREDSIZEREQUEST | CNT_CREATE_CLONED);
-	if (pContainer->settings->fPrivate) {
-		mir_snprintf(szCName, "%s%d", szSetting, pContainer->iContainerIndex);
-		WriteContainerSettingsToDB(0, pContainer->settings, szCName);
+	pContainer->m_dwFlags &= ~(CNT_DEFERREDCONFIGURE | CNT_CREATE_MINIMIZED | CNT_DEFERREDSIZEREQUEST | CNT_CREATE_CLONED);
+	if (pContainer->m_pSettings->fPrivate) {
+		mir_snprintf(szCName, "%s%d", szSetting, pContainer->m_iContainerIndex);
+		WriteContainerSettingsToDB(0, pContainer->m_pSettings, szCName);
 	}
-	mir_snprintf(szCName, "%s%d_theme", szSetting, pContainer->iContainerIndex);
-	if (mir_wstrlen(pContainer->szRelThemeFile) > 1) {
-		if (pContainer->fPrivateThemeChanged == TRUE) {
-			PathToRelativeW(pContainer->szRelThemeFile, pContainer->szAbsThemeFile, M.getDataPath());
-			db_set_ws(0, SRMSGMOD_T, szCName, pContainer->szAbsThemeFile);
-			pContainer->fPrivateThemeChanged = FALSE;
+	mir_snprintf(szCName, "%s%d_theme", szSetting, pContainer->m_iContainerIndex);
+	if (mir_wstrlen(pContainer->m_szRelThemeFile) > 1) {
+		if (pContainer->m_fPrivateThemeChanged == TRUE) {
+			PathToRelativeW(pContainer->m_szRelThemeFile, pContainer->m_szAbsThemeFile, M.getDataPath());
+			db_set_ws(0, SRMSGMOD_T, szCName, pContainer->m_szAbsThemeFile);
+			pContainer->m_fPrivateThemeChanged = FALSE;
 		}
 	}
 	else {
 		::db_unset(0, SRMSGMOD_T, szCName);
-		pContainer->fPrivateThemeChanged = FALSE;
+		pContainer->m_fPrivateThemeChanged = FALSE;
 	}
 }
 
@@ -746,10 +746,10 @@ void Utils::addMenuItem(const HMENU& m, MENUITEMINFO &mii, HICON hIcon, const wc
 
 int CTabBaseDlg::MustPlaySound() const
 {
-	if (m_pContainer->fHidden)		// hidden container is treated as closed, so play the sound
+	if (m_pContainer->m_bHidden)		// hidden container is treated as closed, so play the sound
 		return 1;
 
-	if (m_pContainer->dwFlags & CNT_NOSOUND || nen_options.iNoSounds)
+	if (m_pContainer->m_dwFlags & CNT_NOSOUND || nen_options.iNoSounds)
 		return 0;
 
 	bool fActiveWindow = (m_pContainer->m_hwnd == ::GetForegroundWindow() ? true : false);
@@ -758,15 +758,15 @@ int CTabBaseDlg::MustPlaySound() const
 
 	// window minimized, check if sound has to be played
 	if (fIconic)
-		return(m_pContainer->dwFlagsEx & CNT_EX_SOUNDS_MINIMIZED ? 1 : 0);
+		return(m_pContainer->m_dwFlagsEx & CNT_EX_SOUNDS_MINIMIZED ? 1 : 0);
 
 	// window in foreground
 	if (!fActiveWindow)
-		return(m_pContainer->dwFlagsEx & CNT_EX_SOUNDS_UNFOCUSED ? 1 : 0);
+		return(m_pContainer->m_dwFlagsEx & CNT_EX_SOUNDS_UNFOCUSED ? 1 : 0);
 
 	if (fActiveTab)
-		return(m_pContainer->dwFlagsEx & CNT_EX_SOUNDS_FOCUSED ? 1 : 0);
-	return(m_pContainer->dwFlagsEx & CNT_EX_SOUNDS_INACTIVETABS ? 1 : 0);
+		return(m_pContainer->m_dwFlagsEx & CNT_EX_SOUNDS_FOCUSED ? 1 : 0);
+	return(m_pContainer->m_dwFlagsEx & CNT_EX_SOUNDS_INACTIVETABS ? 1 : 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

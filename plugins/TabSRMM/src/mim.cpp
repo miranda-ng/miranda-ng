@@ -237,7 +237,7 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 	}
 	else fShowOnClist = false;
 
-	if ((!foundWin || !(pContainer->dwFlags & CNT_NOSOUND)) && preTyping != (mode != 0))
+	if ((!foundWin || !(pContainer->m_dwFlags & CNT_NOSOUND)) && preTyping != (mode != 0))
 		Skin_PlaySound(mode ? "TNStart" : "TNStop");
 
 	if (g_plugin.getByte("ShowTypingPopup", 0)) {
@@ -259,7 +259,7 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 				if (PluginConfig.m_bHideOnClose) {
 					TContainerData *pCont = nullptr;
 					SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pCont);
-					if (pCont && pCont->fHidden)
+					if (pCont && pCont->m_bHidden)
 						fShow = true;
 				}
 			}

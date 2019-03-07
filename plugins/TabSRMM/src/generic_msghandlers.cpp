@@ -130,7 +130,7 @@ bool CTabBaseDlg::DM_GenericHotkeysCheck(MSG *message)
 		return true;
 
 	case TABSRMM_HK_CONTAINEROPTIONS:
-		if (m_pContainer->hWndOptions == nullptr)
+		if (m_pContainer->m_hWndOptions == nullptr)
 			CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONTAINEROPTIONS), m_pContainer->m_hwnd, DlgProcContainerOptions, (LPARAM)m_pContainer);
 		return true;
 
@@ -155,7 +155,7 @@ bool CTabBaseDlg::DM_GenericHotkeysCheck(MSG *message)
 		return true;
 
 	case TABSRMM_HK_TOGGLESIDEBAR:
-		if (m_pContainer->SideBar->isActive())
+		if (m_pContainer->m_pSideBar->isActive())
 			SendMessage(m_hwnd, WM_COMMAND, IDC_TOGGLESIDEBAR, 0);
 		return true;
 
@@ -329,9 +329,9 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 
 	case IDC_TOGGLETOOLBAR:
 		if (lParam == 1)
-			ApplyContainerSetting(m_pContainer, CNT_NOMENUBAR, m_pContainer->dwFlags & CNT_NOMENUBAR ? 0 : 1, true);
+			ApplyContainerSetting(m_pContainer, CNT_NOMENUBAR, m_pContainer->m_dwFlags & CNT_NOMENUBAR ? 0 : 1, true);
 		else
-			ApplyContainerSetting(m_pContainer, CNT_HIDETOOLBAR, m_pContainer->dwFlags & CNT_HIDETOOLBAR ? 0 : 1, true);
+			ApplyContainerSetting(m_pContainer, CNT_HIDETOOLBAR, m_pContainer->m_dwFlags & CNT_HIDETOOLBAR ? 0 : 1, true);
 		break;
 
 	case IDC_INFOPANELMENU:
@@ -524,7 +524,7 @@ void CTabBaseDlg::DM_InitRichEdit()
 {
 	bool fIsChat = isChat();
 
-	COLORREF colour = fIsChat ? g_Settings.crLogBackground : m_pContainer->theme.bg;
+	COLORREF colour = fIsChat ? g_Settings.crLogBackground : m_pContainer->m_theme.bg;
 	COLORREF inputcharcolor;
 
 	char *szStreamOut = nullptr;
@@ -533,7 +533,7 @@ void CTabBaseDlg::DM_InitRichEdit()
 	SetWindowText(m_message.GetHwnd(), L"");
 
 	m_log.SendMsg(EM_SETBKGNDCOLOR, 0, colour);
-	m_message.SendMsg(EM_SETBKGNDCOLOR, 0, m_pContainer->theme.inputbg);
+	m_message.SendMsg(EM_SETBKGNDCOLOR, 0, m_pContainer->m_theme.inputbg);
 
 	CHARFORMAT2A cf2;
 	memset(&cf2, 0, sizeof(CHARFORMAT2A));
@@ -546,7 +546,7 @@ void CTabBaseDlg::DM_InitRichEdit()
 		cf2.dwMask = CFM_COLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_ITALIC | CFM_BACKCOLOR;
 		cf2.crTextColor = inputcharcolor;
 		cf2.bCharSet = lf.lfCharSet;
-		cf2.crBackColor = m_pContainer->theme.inputbg;
+		cf2.crBackColor = m_pContainer->m_theme.inputbg;
 		strncpy(cf2.szFaceName, lf.lfFaceName, LF_FACESIZE);
 		cf2.dwEffects = 0;
 		cf2.wWeight = (WORD)lf.lfWeight;
@@ -554,8 +554,8 @@ void CTabBaseDlg::DM_InitRichEdit()
 		cf2.yHeight = abs(lf.lfHeight) * 15;
 	}
 	else {
-		LOGFONTA lf = m_pContainer->theme.logFonts[MSGFONTID_MESSAGEAREA];
-		inputcharcolor = m_pContainer->theme.fontColors[MSGFONTID_MESSAGEAREA];
+		LOGFONTA lf = m_pContainer->m_theme.logFonts[MSGFONTID_MESSAGEAREA];
+		inputcharcolor = m_pContainer->m_theme.fontColors[MSGFONTID_MESSAGEAREA];
 
 		for (auto &it : Utils::rtf_clrs)
 			if (it->clr == inputcharcolor)
@@ -597,7 +597,7 @@ void CTabBaseDlg::DM_InitRichEdit()
 		pf2.dxStartIndent = 30;
 		pf2.dxRightIndent = 30;
 	}
-	pf2.dxOffset = m_pContainer->theme.left_indent + 30;
+	pf2.dxOffset = m_pContainer->m_theme.left_indent + 30;
 
 	if (!fIsChat) {
 		ClearLog();
@@ -625,7 +625,7 @@ void CTabBaseDlg::DM_InitRichEdit()
 
 void CTabBaseDlg::DM_SetDBButtonStates()
 {
-	ButtonItem *buttonItem = m_pContainer->buttonItems;
+	ButtonItem *buttonItem = m_pContainer->m_buttonItems;
 	MCONTACT hFinalContact = 0;
 	HWND hwndContainer = m_pContainer->m_hwnd;
 
@@ -712,7 +712,7 @@ void CTabBaseDlg::DM_ScrollToBottom(WPARAM wParam, LPARAM lParam)
 
 void CTabBaseDlg::DM_RecalcPictureSize()
 {
-	HBITMAP hbm = ((m_pPanel.isActive()) && m_pContainer->avatarMode != 3) ? m_hOwnPic : (m_ace ? m_ace->hbmPic : PluginConfig.g_hbmUnknown);
+	HBITMAP hbm = ((m_pPanel.isActive()) && m_pContainer->m_avatarMode != 3) ? m_hOwnPic : (m_ace ? m_ace->hbmPic : PluginConfig.g_hbmUnknown);
 	if (hbm) {
 		BITMAP bminfo;
 		GetObject(hbm, sizeof(bminfo), &bminfo);
@@ -724,28 +724,28 @@ void CTabBaseDlg::DM_RecalcPictureSize()
 
 void CTabBaseDlg::DM_UpdateLastMessage() const
 {
-	if (m_pContainer->hwndStatus == nullptr || m_pContainer->m_hwndActive != m_hwnd)
+	if (m_pContainer->m_hwndStatus == nullptr || m_pContainer->m_hwndActive != m_hwnd)
 		return;
 
 	wchar_t szBuf[100];
 	if (m_bShowTyping) {
-		SendMessage(m_pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
+		SendMessage(m_pContainer->m_hwndStatus, SB_SETICON, 0, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
 		mir_snwprintf(szBuf, TranslateT("%s is typing a message..."), m_cache->getNick());
 	}
 	else if (m_bStatusSet) {
-		SendMessage(m_pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)m_szStatusIcon);
-		SendMessage(m_pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)m_szStatusText.c_str());
+		SendMessage(m_pContainer->m_hwndStatus, SB_SETICON, 0, (LPARAM)m_szStatusIcon);
+		SendMessage(m_pContainer->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)m_szStatusText.c_str());
 		return;
 	}
 	else {
-		SendMessage(m_pContainer->hwndStatus, SB_SETICON, 0, 0);
+		SendMessage(m_pContainer->m_hwndStatus, SB_SETICON, 0, 0);
 
-		if (m_pContainer->dwFlags & CNT_UINSTATUSBAR)
+		if (m_pContainer->m_dwFlags & CNT_UINSTATUSBAR)
 			mir_snwprintf(szBuf, L"UID: %s", m_cache->getUIN());
 		else if (m_lastMessage) {
 			wchar_t date[64], time[64];
 			TimeZone_PrintTimeStamp(nullptr, m_lastMessage, L"d", date, _countof(date), 0);
-			if (m_pContainer->dwFlags & CNT_UINSTATUSBAR && mir_wstrlen(date) > 6)
+			if (m_pContainer->m_dwFlags & CNT_UINSTATUSBAR && mir_wstrlen(date) > 6)
 				date[mir_wstrlen(date) - 5] = 0;
 			TimeZone_PrintTimeStamp(nullptr, m_lastMessage, L"t", time, _countof(time), 0);
 			mir_snwprintf(szBuf, TranslateT("Last received: %s at %s"), date, time);
@@ -753,7 +753,7 @@ void CTabBaseDlg::DM_UpdateLastMessage() const
 		else szBuf[0] = 0;
 	}
 
-	SendMessage(m_pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)szBuf);
+	SendMessage(m_pContainer->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)szBuf);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -799,7 +799,7 @@ LRESULT CTabBaseDlg::DM_MouseWheelHandler(WPARAM wParam, LPARAM lParam)
 	if (PtInRect(&rc, pt))
 		return 1;
 
-	if (m_pContainer->dwFlags & CNT_SIDEBAR) {
+	if (m_pContainer->m_dwFlags & CNT_SIDEBAR) {
 		GetWindowRect(GetDlgItem(m_pContainer->m_hwnd, IDC_SIDEBARUP), &rc);
 		GetWindowRect(GetDlgItem(m_pContainer->m_hwnd, IDC_SIDEBARDOWN), &rc1);
 		rc.bottom = rc1.bottom;
@@ -940,15 +940,15 @@ void CTabBaseDlg::DM_NotifyTyping(int mode)
 void CSrmmWindow::DM_OptionsApplied(WPARAM, LPARAM lParam)
 {
 	m_szMicroLf[0] = 0;
-	if (!(m_pContainer->theme.isPrivate)) {
+	if (!(m_pContainer->m_theme.isPrivate)) {
 		LoadThemeDefaults(m_pContainer);
-		m_dwFlags = m_pContainer->theme.dwFlags;
+		m_dwFlags = m_pContainer->m_theme.dwFlags;
 	}
 
 	LoadLocalFlags();
 	m_hTimeZone = TimeZone_CreateByContact(m_hContact, nullptr, TZF_KNOWNONLY);
 
-	m_bShowUIElements = (m_pContainer->dwFlags & CNT_HIDETOOLBAR) == 0;
+	m_bShowUIElements = (m_pContainer->m_dwFlags & CNT_HIDETOOLBAR) == 0;
 
 	m_dwFlagsEx = M.GetByte(m_hContact, "splitoverride", 0) ? MWF_SHOW_SPLITTEROVERRIDE : 0;
 	m_pPanel.getVisibility();
@@ -981,7 +981,7 @@ void CSrmmWindow::DM_OptionsApplied(WPARAM, LPARAM lParam)
 void CTabBaseDlg::DM_Typing(bool fForceOff)
 {
 	HWND hwndContainer = m_pContainer->m_hwnd;
-	HWND hwndStatus = m_pContainer->hwndStatus;
+	HWND hwndStatus = m_pContainer->m_hwndStatus;
 
 	if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON && GetTickCount() - m_nLastTyping > TIMEOUT_TYPEOFF)
 		DM_NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
@@ -1008,7 +1008,7 @@ void CTabBaseDlg::DM_Typing(bool fForceOff)
 				m_pContainer->UpdateTitle(0);
 			else
 				m_pContainer->UpdateTitle(0, dat_active);
-			if (!(m_pContainer->dwFlags & CNT_NOFLASH) && PluginConfig.m_FlashOnMTN)
+			if (!(m_pContainer->m_dwFlags & CNT_NOFLASH) && PluginConfig.m_FlashOnMTN)
 				ReflashContainer(m_pContainer);
 		}
 	}
@@ -1031,8 +1031,8 @@ void CTabBaseDlg::DM_Typing(bool fForceOff)
 		}
 		if (IsIconic(hwndContainer) || !IsActive()) {
 			SetWindowText(hwndContainer, m_wszStatusBar);
-			m_pContainer->dwFlags |= CNT_NEED_UPDATETITLE;
-			if (!(m_pContainer->dwFlags & CNT_NOFLASH) && PluginConfig.m_FlashOnMTN)
+			m_pContainer->m_dwFlags |= CNT_NEED_UPDATETITLE;
+			if (!(m_pContainer->m_dwFlags & CNT_NOFLASH) && PluginConfig.m_FlashOnMTN)
 				ReflashContainer(m_pContainer);
 		}
 
@@ -1043,12 +1043,12 @@ void CTabBaseDlg::DM_Typing(bool fForceOff)
 		}
 		else { // active tab may show icon if status bar is disabled
 			if (!hwndStatus) {
-				if (TabCtrl_GetItemCount(m_hwndParent) > 1 || !(m_pContainer->dwFlags & CNT_HIDETABS))
+				if (TabCtrl_GetItemCount(m_hwndParent) > 1 || !(m_pContainer->m_dwFlags & CNT_HIDETABS))
 					HandleIconFeedback(this, PluginConfig.g_IconTypingEvent);
 			}
 		}
-		if ((GetForegroundWindow() != hwndContainer) || (m_pContainer->hwndStatus == nullptr) || (m_pContainer->m_hwndActive != m_hwnd))
-			SendMessage(hwndContainer, DM_SETICON, (WPARAM)this, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
+		if ((GetForegroundWindow() != hwndContainer) || (m_pContainer->m_hwndStatus == nullptr) || (m_pContainer->m_hwndActive != m_hwnd))
+			m_pContainer->SetIcon(this, PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
 
 		m_bShowTyping = 1;
 	}
@@ -1063,7 +1063,7 @@ int CTabBaseDlg::DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam)
 {
 	CTabBaseDlg *srcDat = PluginConfig.lastSPlitterPos.pSrcDat;
 	TContainerData *srcCnt = PluginConfig.lastSPlitterPos.pSrcContainer;
-	bool fCntGlobal = (!m_pContainer->settings->fPrivate ? true : false);
+	bool fCntGlobal = (!m_pContainer->m_pSettings->fPrivate ? true : false);
 
 	if (m_bIsAutosizingInput)
 		return 0;
@@ -1086,7 +1086,7 @@ int CTabBaseDlg::DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam)
 			newPos = 0;
 
 		if (this == srcDat) {
-			m_pContainer->settings->iSplitterY = m_iSplitterY;
+			m_pContainer->m_pSettings->iSplitterY = m_iSplitterY;
 			if (fCntGlobal)
 				SaveSplitter();
 			return 0;
@@ -1094,7 +1094,7 @@ int CTabBaseDlg::DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam)
 
 		if (!fCntGlobal && m_pContainer != srcCnt)
 			return 0;
-		if (srcCnt->settings->fPrivate && m_pContainer != srcCnt)
+		if (srcCnt->m_pSettings->fPrivate && m_pContainer != srcCnt)
 			return 0;
 
 		// for inactive sessions, delay the splitter repositioning until they become
@@ -1153,7 +1153,7 @@ void CTabBaseDlg::DM_EventAdded(WPARAM hContact, LPARAM lParam)
 			m_bShowTyping = 0;
 		}
 		HandleIconFeedback(this, (HICON)-1);
-		if (m_pContainer->hwndStatus)
+		if (m_pContainer->m_hwndStatus)
 			PostMessage(m_hwnd, DM_UPDATELASTMESSAGE, 0, 0);
 	}
 
@@ -1171,9 +1171,9 @@ void CTabBaseDlg::DM_EventAdded(WPARAM hContact, LPARAM lParam)
 				DM_AddDivider();
 		}
 		if (!bDisableNotify)
-			tabSRMM_ShowPopup(hContact, hDbEvent, dbei.eventType, m_pContainer->fHidden ? 0 : 1, m_pContainer, m_hwnd, m_cache->getActiveProto());
+			tabSRMM_ShowPopup(hContact, hDbEvent, dbei.eventType, m_pContainer->m_bHidden ? 0 : 1, m_pContainer, m_hwnd, m_cache->getActiveProto());
 		if (IsWindowVisible(m_pContainer->m_hwnd))
-			m_pContainer->fHidden = false;
+			m_pContainer->m_bHidden = false;
 	}
 	m_cache->updateStats(TSessionStats::UPDATE_WITH_LAST_RCV, 0);
 
@@ -1228,7 +1228,7 @@ void CTabBaseDlg::DM_EventAdded(WPARAM hContact, LPARAM lParam)
 					ShowWindow(m_pContainer->m_hwndActive, SW_HIDE);
 					m_pContainer->m_hwndActive = m_hwnd;
 					m_pContainer->UpdateTitle(m_hContact);
-					m_pContainer->dwFlags |= CNT_DEFERREDTABSELECT;
+					m_pContainer->m_dwFlags |= CNT_DEFERREDTABSELECT;
 				}
 			}
 		}
@@ -1237,10 +1237,10 @@ void CTabBaseDlg::DM_EventAdded(WPARAM hContact, LPARAM lParam)
 	// flash window if it is not focused
 	if (!bDisableNotify && !bIsStatusChangeEvent)
 		if (!IsActive() && !(dbei.flags & DBEF_SENT)) {
-			if (!(m_pContainer->dwFlags & CNT_NOFLASH) && !m_pContainer->IsActive())
+			if (!(m_pContainer->m_dwFlags & CNT_NOFLASH) && !m_pContainer->IsActive())
 				FlashContainer(m_pContainer, 1, 0);
-			SendMessage(m_pContainer->m_hwnd, DM_SETICON, (WPARAM)this, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
-			m_pContainer->dwFlags |= CNT_NEED_UPDATETITLE;
+			m_pContainer->SetIcon(this, Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
+			m_pContainer->m_dwFlags |= CNT_NEED_UPDATETITLE;
 		}
 
 	// play a sound
@@ -1280,7 +1280,7 @@ void CTabBaseDlg::DM_HandleAutoSizeRequest(REQRESIZE* rr)
 		iNewHeight = (cy - panelHeight) / 2;
 
 	m_dynaSplitter = iNewHeight - DPISCALEY_S(2);
-	if (m_pContainer->dwFlags & CNT_BOTTOMTOOLBAR)
+	if (m_pContainer->m_dwFlags & CNT_BOTTOMTOOLBAR)
 		m_dynaSplitter += DPISCALEY_S(22);
 	m_iSplitterY = m_dynaSplitter + DPISCALEY_S(34);
 	DM_RecalcPictureSize();
@@ -1321,7 +1321,7 @@ void CTabBaseDlg::DrawStatusIcons(HDC hDC, const RECT &rc, int gap)
 				DrawIconEx(hDC, x, y, PluginConfig.g_buttonBarIcons[ICON_DEFAULT_SOUNDS],
 					PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, 0, nullptr, DI_NORMAL);
 
-				DrawIconEx(hDC, x, y, m_pContainer->dwFlags & CNT_NOSOUND ?
+				DrawIconEx(hDC, x, y, m_pContainer->m_dwFlags & CNT_NOSOUND ?
 					PluginConfig.g_iconOverlayDisabled : PluginConfig.g_iconOverlayEnabled,
 					PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, 0, nullptr, DI_NORMAL);
 			}
@@ -1374,18 +1374,18 @@ void CTabBaseDlg::CheckStatusIconClick(POINT pt, const RECT &rc, int gap, int co
 		if (sid->dwId == MSG_ICON_SOUND && code != NM_RCLICK) {
 			if (GetKeyState(VK_SHIFT) & 0x8000) {
 				for (TContainerData *p = pFirstContainer; p; p = p->pNext) {
-					p->dwFlags = ((m_pContainer->dwFlags & CNT_NOSOUND) ? p->dwFlags | CNT_NOSOUND : p->dwFlags & ~CNT_NOSOUND);
-					InvalidateRect(m_pContainer->hwndStatus, nullptr, TRUE);
+					p->m_dwFlags = ((m_pContainer->m_dwFlags & CNT_NOSOUND) ? p->m_dwFlags | CNT_NOSOUND : p->m_dwFlags & ~CNT_NOSOUND);
+					InvalidateRect(m_pContainer->m_hwndStatus, nullptr, TRUE);
 				}
 			}
 			else {
-				m_pContainer->dwFlags ^= CNT_NOSOUND;
-				InvalidateRect(m_pContainer->hwndStatus, nullptr, TRUE);
+				m_pContainer->m_dwFlags ^= CNT_NOSOUND;
+				InvalidateRect(m_pContainer->m_hwndStatus, nullptr, TRUE);
 			}
 		}
 		else if (sid->dwId == MSG_ICON_UTN && code != NM_RCLICK && (!isChat() || m_si->iType == GCW_PRIVMESS)) {
 			SendMessage(m_pContainer->m_hwndActive, WM_COMMAND, IDC_SELFTYPING, 0);
-			InvalidateRect(m_pContainer->hwndStatus, nullptr, TRUE);
+			InvalidateRect(m_pContainer->m_hwndStatus, nullptr, TRUE);
 		}
 		else if (sid->dwId == MSG_ICON_SESSION) {
 			if (code == NM_CLICK)
@@ -1401,7 +1401,7 @@ void CTabBaseDlg::CheckStatusIconClick(POINT pt, const RECT &rc, int gap, int co
 		sicd.szModule = sid->szModule;
 		sicd.flags = (code == NM_RCLICK ? MBCF_RIGHTBUTTON : 0);
 		Srmm_ClickStatusIcon(m_hContact, &sicd);
-		InvalidateRect(m_pContainer->hwndStatus, nullptr, TRUE);
+		InvalidateRect(m_pContainer->m_hwndStatus, nullptr, TRUE);
 	}
 }
 

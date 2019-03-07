@@ -99,7 +99,7 @@ void TSAPI HandleMenuEntryFromhContact(MCONTACT hContact)
 		SendMessage(hWnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
 		if (pContainer) {
 			ActivateExistingTab(pContainer, hWnd);
-			pContainer->hwndSaved = nullptr;
+			pContainer->m_hwndSaved = nullptr;
 			SetForegroundWindow(pContainer->m_hwnd);
 		}
 		else CallService(MS_MSG_SENDMESSAGE, hContact, 0);
@@ -400,8 +400,8 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					if (M.m_pfnDwmExtendFrameIntoClientArea)
 						M.m_pfnDwmExtendFrameIntoClientArea(pCont->m_hwnd, &m);
 				}
-				if (pCont->SideBar)
-					if (pCont->SideBar->isActive()) // the container for the sidebar buttons
+				if (pCont->m_pSideBar)
+					if (pCont->m_pSideBar->isActive()) // the container for the sidebar buttons
 						RedrawWindow(GetDlgItem(pCont->m_hwnd, 5000), nullptr, nullptr, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW);
 				RedrawWindow(pCont->m_hwnd, nullptr, nullptr, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
 			}
@@ -483,11 +483,11 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_DISPLAYCHANGE:
 		for (TContainerData *pCont = pFirstContainer; pCont; pCont = pCont->pNext)
 			if (CSkin::m_skinEnabled) {             // invalidate cached background DCs for skinned containers
-				pCont->oldDCSize.cx = pCont->oldDCSize.cy = 0;
-				SelectObject(pCont->cachedDC, pCont->oldHBM);
-				DeleteObject(pCont->cachedHBM);
-				DeleteDC(pCont->cachedDC);
-				pCont->cachedDC = nullptr;
+				pCont->m_oldDCSize.cx = pCont->m_oldDCSize.cy = 0;
+				SelectObject(pCont->m_cachedDC, pCont->m_oldHBM);
+				DeleteObject(pCont->m_cachedHBM);
+				DeleteDC(pCont->m_cachedDC);
+				pCont->m_cachedDC = nullptr;
 				RedrawWindow(pCont->m_hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW | RDW_FRAME);
 			}
 		break;

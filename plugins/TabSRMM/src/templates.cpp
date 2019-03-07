@@ -129,7 +129,7 @@ CTemplateEditDlg::CTemplateEditDlg(BOOL _rtl, HWND hwndParent) :
 
 	m_pContainer = (TContainerData*)mir_calloc(sizeof(TContainerData));
 	LoadOverrideTheme(m_pContainer);
-	tSet = rtl ? m_pContainer->rtl_templates : m_pContainer->ltr_templates;
+	tSet = rtl ? m_pContainer->m_rtl_templates : m_pContainer->m_ltr_templates;
 
 	listTemplates.OnDblClick = Callback(this, &CTemplateEditDlg::onDblClick_List);
 	listTemplates.OnSelChange = Callback(this, &CTemplateEditDlg::onSelChange_List);
@@ -158,7 +158,7 @@ bool CTemplateEditDlg::OnInitDialog()
 		m_hContact = db_find_next(m_hContact);
 		m_szProto = GetContactProto(m_hContact);
 	}
-	m_dwFlags = m_pContainer->theme.dwFlags;
+	m_dwFlags = m_pContainer->m_theme.dwFlags;
 
 	m_cache = CContactCache::getContactCache(m_hContact);
 	m_cache->updateNick();

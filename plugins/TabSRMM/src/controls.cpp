@@ -137,7 +137,7 @@ void CMenuBar::releaseHook()
 
 LONG CMenuBar::getHeight() const
 {
-	return((m_pContainer->dwFlags & CNT_NOMENUBAR) ? 0 : m_size_y);
+	return((m_pContainer->m_dwFlags & CNT_NOMENUBAR) ? 0 : m_size_y);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -186,7 +186,7 @@ LONG_PTR CMenuBar::processMsg(const UINT msg, const WPARAM, const LPARAM lParam)
 		}
 	}
 	else if (msg == WM_LBUTTONDOWN) {
-		if (m_pContainer->dwFlags & CNT_NOTITLE) {
+		if (m_pContainer->m_dwFlags & CNT_NOTITLE) {
 			POINT	pt;
 			::GetCursorPos(&pt);
 			return ::SendMessage(m_pContainer->m_hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));
@@ -440,31 +440,31 @@ void CMenuBar::updateState(const HMENU hMenu) const
 {
 	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(m_pContainer->m_hwndActive, GWLP_USERDATA);
 	if (dat) {
-		::CheckMenuItem(hMenu, ID_VIEW_SHOWMENUBAR, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_NOMENUBAR ? MF_UNCHECKED : MF_CHECKED);
-		::CheckMenuItem(hMenu, ID_VIEW_SHOWSTATUSBAR, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_NOSTATUSBAR ? MF_UNCHECKED : MF_CHECKED);
+		::CheckMenuItem(hMenu, ID_VIEW_SHOWMENUBAR, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_NOMENUBAR ? MF_UNCHECKED : MF_CHECKED);
+		::CheckMenuItem(hMenu, ID_VIEW_SHOWSTATUSBAR, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_NOSTATUSBAR ? MF_UNCHECKED : MF_CHECKED);
 		::CheckMenuItem(hMenu, ID_VIEW_SHOWAVATAR, MF_BYCOMMAND | (dat->m_bShowAvatar ? MF_CHECKED : MF_UNCHECKED));
-		::CheckMenuItem(hMenu, ID_VIEW_SHOWTITLEBAR, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_NOTITLE ? MF_UNCHECKED : MF_CHECKED);
+		::CheckMenuItem(hMenu, ID_VIEW_SHOWTITLEBAR, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_NOTITLE ? MF_UNCHECKED : MF_CHECKED);
 
 		::EnableMenuItem(hMenu, ID_VIEW_SHOWTITLEBAR, CSkin::m_skinEnabled && CSkin::m_frameSkins ? MF_GRAYED : MF_ENABLED);
 
-		::CheckMenuItem(hMenu, ID_VIEW_TABSATBOTTOM, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_TABSBOTTOM ? MF_CHECKED : MF_UNCHECKED);
-		::CheckMenuItem(hMenu, ID_VIEW_VERTICALMAXIMIZE, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_VERTICALMAX ? MF_CHECKED : MF_UNCHECKED);
-		::CheckMenuItem(hMenu, ID_VIEW_SHOWTOOLBAR, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_HIDETOOLBAR ? MF_UNCHECKED : MF_CHECKED);
-		::CheckMenuItem(hMenu, ID_VIEW_BOTTOMTOOLBAR, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_BOTTOMTOOLBAR ? MF_CHECKED : MF_UNCHECKED);
+		::CheckMenuItem(hMenu, ID_VIEW_TABSATBOTTOM, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_TABSBOTTOM ? MF_CHECKED : MF_UNCHECKED);
+		::CheckMenuItem(hMenu, ID_VIEW_VERTICALMAXIMIZE, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_VERTICALMAX ? MF_CHECKED : MF_UNCHECKED);
+		::CheckMenuItem(hMenu, ID_VIEW_SHOWTOOLBAR, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_HIDETOOLBAR ? MF_UNCHECKED : MF_CHECKED);
+		::CheckMenuItem(hMenu, ID_VIEW_BOTTOMTOOLBAR, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_BOTTOMTOOLBAR ? MF_CHECKED : MF_UNCHECKED);
 
 		::CheckMenuItem(hMenu, ID_VIEW_SHOWMULTISENDCONTACTLIST, MF_BYCOMMAND | (dat->m_sendMode & SMODE_MULTIPLE) ? MF_CHECKED : MF_UNCHECKED);
-		::CheckMenuItem(hMenu, ID_VIEW_STAYONTOP, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_STICKY ? MF_CHECKED : MF_UNCHECKED);
+		::CheckMenuItem(hMenu, ID_VIEW_STAYONTOP, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_STICKY ? MF_CHECKED : MF_UNCHECKED);
 
 		::EnableMenuItem(hMenu, 2, MF_BYPOSITION | (nen_options.bWindowCheck ? MF_GRAYED : MF_ENABLED));
-		::CheckMenuItem(hMenu, ID_EVENTPOPUPS_DISABLEALLEVENTPOPUPS, MF_BYCOMMAND | m_pContainer->dwFlags & (CNT_DONTREPORT | CNT_DONTREPORTUNFOCUSED | CNT_DONTREPORTFOCUSED | CNT_ALWAYSREPORTINACTIVE) ? MF_UNCHECKED : MF_CHECKED);
-		::CheckMenuItem(hMenu, ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISMINIMIZED, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_DONTREPORT ? MF_CHECKED : MF_UNCHECKED);
-		::CheckMenuItem(hMenu, ID_EVENTPOPUPS_SHOWPOPUPSFORALLINACTIVESESSIONS, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_ALWAYSREPORTINACTIVE ? MF_CHECKED : MF_UNCHECKED);
-		::CheckMenuItem(hMenu, ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISUNFOCUSED, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_DONTREPORTUNFOCUSED ? MF_CHECKED : MF_UNCHECKED);
-		::CheckMenuItem(hMenu, ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISFOCUSED, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_DONTREPORTFOCUSED ? MF_CHECKED : MF_UNCHECKED);
+		::CheckMenuItem(hMenu, ID_EVENTPOPUPS_DISABLEALLEVENTPOPUPS, MF_BYCOMMAND | m_pContainer->m_dwFlags & (CNT_DONTREPORT | CNT_DONTREPORTUNFOCUSED | CNT_DONTREPORTFOCUSED | CNT_ALWAYSREPORTINACTIVE) ? MF_UNCHECKED : MF_CHECKED);
+		::CheckMenuItem(hMenu, ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISMINIMIZED, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_DONTREPORT ? MF_CHECKED : MF_UNCHECKED);
+		::CheckMenuItem(hMenu, ID_EVENTPOPUPS_SHOWPOPUPSFORALLINACTIVESESSIONS, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_ALWAYSREPORTINACTIVE ? MF_CHECKED : MF_UNCHECKED);
+		::CheckMenuItem(hMenu, ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISUNFOCUSED, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_DONTREPORTUNFOCUSED ? MF_CHECKED : MF_UNCHECKED);
+		::CheckMenuItem(hMenu, ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISFOCUSED, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_DONTREPORTFOCUSED ? MF_CHECKED : MF_UNCHECKED);
 
-		::CheckMenuItem(hMenu, ID_WINDOWFLASHING_USEDEFAULTVALUES, MF_BYCOMMAND | (m_pContainer->dwFlags & (CNT_NOFLASH | CNT_FLASHALWAYS)) ? MF_UNCHECKED : MF_CHECKED);
-		::CheckMenuItem(hMenu, ID_WINDOWFLASHING_DISABLEFLASHING, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_NOFLASH ? MF_CHECKED : MF_UNCHECKED);
-		::CheckMenuItem(hMenu, ID_WINDOWFLASHING_FLASHUNTILFOCUSED, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_FLASHALWAYS ? MF_CHECKED : MF_UNCHECKED);
+		::CheckMenuItem(hMenu, ID_WINDOWFLASHING_USEDEFAULTVALUES, MF_BYCOMMAND | (m_pContainer->m_dwFlags & (CNT_NOFLASH | CNT_FLASHALWAYS)) ? MF_UNCHECKED : MF_CHECKED);
+		::CheckMenuItem(hMenu, ID_WINDOWFLASHING_DISABLEFLASHING, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_NOFLASH ? MF_CHECKED : MF_UNCHECKED);
+		::CheckMenuItem(hMenu, ID_WINDOWFLASHING_FLASHUNTILFOCUSED, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_FLASHALWAYS ? MF_CHECKED : MF_UNCHECKED);
 	}
 }
 
@@ -496,8 +496,8 @@ void CMenuBar::configureMenu() const
 
 void CMenuBar::autoShow(const int showcmd)
 {
-	if (m_mustAutoHide && !(m_pContainer->dwFlags & CNT_NOMENUBAR)) {
-		m_pContainer->dwFlags |= CNT_NOMENUBAR;
+	if (m_mustAutoHide && !(m_pContainer->m_dwFlags & CNT_NOMENUBAR)) {
+		m_pContainer->m_dwFlags |= CNT_NOMENUBAR;
 		m_mustAutoHide = false;
 		::SendMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 1);
 		releaseHook();
@@ -508,9 +508,9 @@ void CMenuBar::autoShow(const int showcmd)
 		return;
 	}
 
-	if (m_pContainer->dwFlags & CNT_NOMENUBAR) {
+	if (m_pContainer->m_dwFlags & CNT_NOMENUBAR) {
 		m_mustAutoHide = true;
-		m_pContainer->dwFlags &= ~CNT_NOMENUBAR;
+		m_pContainer->m_dwFlags &= ~CNT_NOMENUBAR;
 		::SendMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 1);
 	}
 	else // do nothing, already visible
@@ -923,7 +923,7 @@ LONG_PTR CALLBACK CTabBaseDlg::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM
 		rcLastStatusBarClick.top = pt.y - 2;
 		rcLastStatusBarClick.bottom = pt.y + 2;
 
-		if (pContainer->dwFlags & CNT_NOTITLE) {
+		if (pContainer->m_dwFlags & CNT_NOTITLE) {
 			POINT	pt1 = pt;
 			ScreenToClient(hWnd, &pt1);
 
@@ -960,7 +960,7 @@ LONG_PTR CALLBACK CTabBaseDlg::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM
 				if (!mir_strcmp(sid->szModule, MSG_ICON_MODULE)) {
 					if (sid->dwId == MSG_ICON_SOUND)
 						mir_snwprintf(wBuf, TranslateT("Sounds are %s. Click to toggle status, hold Shift and click to set for all open containers"),
-							pContainer->dwFlags & CNT_NOSOUND ? TranslateT("disabled") : TranslateT("enabled"));
+							pContainer->m_dwFlags & CNT_NOSOUND ? TranslateT("disabled") : TranslateT("enabled"));
 
 					else if (sid->dwId == MSG_ICON_UTN && (!dat->isChat() || dat->m_si->iType == GCW_PRIVMESS)) {
 						int mtnStatus = g_plugin.getByte(dat->m_hContact, SRMSGSET_TYPING, g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
@@ -989,12 +989,12 @@ LONG_PTR CALLBACK CTabBaseDlg::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM
 				CallService("mToolTip/ShowTipW", (WPARAM)wBuf, (LPARAM)&ti);
 			}
 
-			if (SendMessage(dat->m_pContainer->hwndStatus, SB_GETTEXT, 0, (LPARAM)wBuf)) {
+			if (SendMessage(dat->m_pContainer->m_hwndStatus, SB_GETTEXT, 0, (LPARAM)wBuf)) {
 				HDC hdc;
-				int iLen = SendMessage(dat->m_pContainer->hwndStatus, SB_GETTEXTLENGTH, 0, 0);
+				int iLen = SendMessage(dat->m_pContainer->m_hwndStatus, SB_GETTEXTLENGTH, 0, 0);
 				SendMessage(hWnd, SB_GETRECT, 0, (LPARAM)&rc);
-				GetTextExtentPoint32(hdc = GetDC(dat->m_pContainer->hwndStatus), wBuf, iLen, &size);
-				ReleaseDC(dat->m_pContainer->hwndStatus, hdc);
+				GetTextExtentPoint32(hdc = GetDC(dat->m_pContainer->m_hwndStatus), wBuf, iLen, &size);
+				ReleaseDC(dat->m_pContainer->m_hwndStatus, hdc);
 
 				if (PtInRect(&rc, pt) && ((rc.right - rc.left) < size.cx)) {
 					if (dat->isChat()) {

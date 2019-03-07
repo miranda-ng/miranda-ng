@@ -175,61 +175,62 @@ struct TContainerData
 	wchar_t  m_wszName[CONTAINER_NAMELEN + 4];		// container name
 	HWND     m_hwndActive;		// active message window
 	HWND     m_hwnd;				// the container handle
-	int      iTabIndex;			// next tab id
-	int	   iChilds;
-	int      iContainerIndex;
-	bool	   fHidden;
+	int      m_iTabIndex;			// next tab id
+	int	   m_iChilds;
+	int      m_iContainerIndex;
+	bool	   m_bHidden;
 	HWND     m_hwndTip;			// tab - tooltips...
-	BOOL     bDontSmartClose;      // if set, do not search and select the next possible tab after closing one.
-	DWORD    dwFlags;
-	DWORD    dwFlagsEx;
-	LONG     uChildMinHeight;
-	int      tBorder;
-	int	   tBorder_outer_left, tBorder_outer_right, tBorder_outer_top, tBorder_outer_bottom;
-	MCONTACT hContactFrom;
-	BOOL     isCloned;
-	HWND     hwndStatus;
-	int      statusBarHeight;
-	DWORD    dwLastActivity;
-	int      hIcon;                	// current window icon stick indicator
-	HICON	   hIconTaskbarOverlay;	// contains a "sticky" taskbar overlay (e.g. new message icon)
-	DWORD    dwFlashingStarted;
-	HWND     hWndOptions;
-	BOOL     bSizingLoop;
-	wchar_t  szRelThemeFile[MAX_PATH], szAbsThemeFile[MAX_PATH];
-	TTemplateSet *ltr_templates, *rtl_templates;
-	HDC      cachedDC;
-	HBITMAP  cachedHBM, oldHBM;
-	SIZE     oldDCSize;
-	RECT     rcClose, rcMin, rcMax;
-	TitleBtn buttons[3];
-	TitleBtn oldbuttons[3];
-	int      ncActive;
-	HWND     hwndSaved;
-	ButtonItem *buttonItems;
-	RECT     rcSaved, rcLogSaved;
-	POINT	   ptLogSaved;
-	DWORD    exFlags;
-	BOOL	   fPrivateThemeChanged;
-	MARGINS  mOld;
-	HDC		cachedToolbarDC;
-	HBITMAP  hbmToolbarBG, oldhbmToolbarBG;
-	SIZE	   szOldToolbarSize;
-	SIZE     oldSize, preSIZE;
-	WORD	   avatarMode, ownAvatarMode;
-	BYTE	   bTBRenderingMode;
-	TLogTheme theme;
-	TContainerSettings* settings;
-	CTaskbarInteract*	TaskBar;
-	CMenuBar *MenuBar;
-	CSideBar *SideBar;
+	BOOL     m_bDontSmartClose;      // if set, do not search and select the next possible tab after closing one.
+	DWORD    m_dwFlags;
+	DWORD    m_dwFlagsEx;
+	LONG     m_uChildMinHeight;
+	int      m_tBorder;
+	int	   m_tBorder_outer_left, m_tBorder_outer_right, m_tBorder_outer_top, m_tBorder_outer_bottom;
+	MCONTACT m_hContactFrom;
+	BOOL     m_isCloned;
+	HWND     m_hwndStatus;
+	int      m_statusBarHeight;
+	DWORD    m_dwLastActivity;
+	int      m_hIcon;                	// current window icon stick indicator
+	HICON	   m_hIconTaskbarOverlay;	// contains a "sticky" taskbar overlay (e.g. new message icon)
+	DWORD    m_dwFlashingStarted;
+	HWND     m_hWndOptions;
+	BOOL     m_bSizingLoop;
+	wchar_t  m_szRelThemeFile[MAX_PATH], m_szAbsThemeFile[MAX_PATH];
+	TTemplateSet *m_ltr_templates, *m_rtl_templates;
+	HDC      m_cachedDC;
+	HBITMAP  m_cachedHBM, m_oldHBM;
+	SIZE     m_oldDCSize;
+	RECT     m_rcClose, m_rcMin, m_rcMax;
+	TitleBtn m_buttons[3];
+	TitleBtn m_oldbuttons[3];
+	int      m_ncActive;
+	HWND     m_hwndSaved;
+	ButtonItem *m_buttonItems;
+	RECT     m_rcSaved, m_rcLogSaved;
+	POINT	   m_ptLogSaved;
+	DWORD    m_exFlags;
+	BOOL	   m_fPrivateThemeChanged;
+	MARGINS  m_mOld;
+	HDC		m_cachedToolbarDC;
+	HBITMAP  m_hbmToolbarBG, m_oldhbmToolbarBG;
+	SIZE	   m_szOldToolbarSize;
+	SIZE     m_oldSize, m_preSIZE;
+	WORD	   m_avatarMode, m_ownAvatarMode;
+	BYTE	   m_bTBRenderingMode;
+	TLogTheme m_theme;
+	TContainerSettings* m_pSettings;
+	CTaskbarInteract*	m_pTaskBar;
+	CMenuBar *m_pMenuBar;
+	CSideBar *m_pSideBar;
 
 	void InitRedraw();
+	void SetIcon(CTabBaseDlg *pDlg, HICON hIcon);
 	void UpdateTabs();
 	void UpdateTitle(MCONTACT, class CTabBaseDlg* = nullptr);
 
 	void ClearMargins()
-	{	memset(&mOld, 0xfe, sizeof(mOld));
+	{	memset(&m_mOld, 0xfe, sizeof(m_mOld));
 	}
 
 	bool IsActive()
@@ -777,7 +778,6 @@ struct TIconDescW
 #define DM_UINTOCLIPBOARD        (TM_USER+59)
 #define DM_FORCEDREMAKELOG       (TM_USER+62)
 #define DM_STATUSBARCHANGED      (TM_USER+64)
-#define DM_SETICON               (TM_USER+68)
 #define DM_CHECKQUEUEFORCLOSE    (TM_USER+70)
 #define DM_CHECKAUTOHIDE         (TM_USER+71)
 #define DM_HANDLECLISTEVENT      (TM_USER+73)

@@ -124,7 +124,7 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoNa
 
 	pd.PluginWindowProc = PopupDlgProc;
 	pd.PluginData = si;
-	return (int)PUAddPopupW(&pd);
+	return (INT_PTR)PUAddPopupW(&pd);
 }
 
 BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
@@ -161,18 +161,18 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 		if (nen_options.bWindowCheck) {                  // no popups at all for open windows... no exceptions
 			if (!PluginConfig.m_bHideOnClose)
 				return 0;
-			if (pContainer->fHidden)
+			if (pContainer->m_bHidden)
 				goto passed;
 			return 0;
 		}
-		if (pContainer->dwFlags & CNT_DONTREPORT && IsIconic(pContainer->m_hwnd))        // in tray counts as "minimised"
+		if (pContainer->m_dwFlags & CNT_DONTREPORT && IsIconic(pContainer->m_hwnd))        // in tray counts as "minimised"
 			goto passed;
-		if (pContainer->dwFlags & CNT_DONTREPORTUNFOCUSED) {
+		if (pContainer->m_dwFlags & CNT_DONTREPORTUNFOCUSED) {
 			if (!IsIconic(pContainer->m_hwnd) && !pContainer->IsActive())
 				goto passed;
 		}
-		if (pContainer->dwFlags & CNT_ALWAYSREPORTINACTIVE) {
-			if (pContainer->dwFlags & CNT_DONTREPORTFOCUSED)
+		if (pContainer->m_dwFlags & CNT_ALWAYSREPORTINACTIVE) {
+			if (pContainer->m_dwFlags & CNT_DONTREPORTFOCUSED)
 				goto passed;
 
 			if (pContainer->m_hwndActive == si->pDlg->GetHwnd())
@@ -249,14 +249,14 @@ void DoFlashAndSoundWorker(FLASH_PARAMS *p)
 					ShowWindow(dat->m_pContainer->m_hwndActive, SW_HIDE);
 					dat->m_pContainer->m_hwndActive = si->pDlg->GetHwnd();
 					dat->m_pContainer->UpdateTitle(dat->m_hContact);
-					dat->m_pContainer->dwFlags |= CNT_DEFERREDTABSELECT;
+					dat->m_pContainer->m_dwFlags |= CNT_DEFERREDTABSELECT;
 				}
 			}
 		}
 
 		// flash window if it is not focused
 		if (p->bMustFlash && p->bInactive)
-			if (!(dat->m_pContainer->dwFlags & CNT_NOFLASH))
+			if (!(dat->m_pContainer->m_dwFlags & CNT_NOFLASH))
 				FlashContainer(dat->m_pContainer, 1, 0);
 
 		if (p->hNotifyIcon && p->bInactive && ((p->iEvent & si->iLogTrayFlags) || bForcedIcon)) {
@@ -273,8 +273,8 @@ void DoFlashAndSoundWorker(FLASH_PARAMS *p)
 
 			HICON hIcon = (HICON)SendMessage(dat->m_pContainer->m_hwnd, WM_GETICON, ICON_BIG, 0);
 			if (p->hNotifyIcon == g_chatApi.hIcons[ICON_HIGHLIGHT] || (hIcon != g_chatApi.hIcons[ICON_MESSAGE] && hIcon != g_chatApi.hIcons[ICON_HIGHLIGHT])) {
-				SendMessage(dat->m_pContainer->m_hwnd, DM_SETICON, (WPARAM)dat, (LPARAM)p->hNotifyIcon);
-				dat->m_pContainer->dwFlags |= CNT_NEED_UPDATETITLE;
+				dat->m_pContainer->SetIcon(dat, p->hNotifyIcon);
+				dat->m_pContainer->m_dwFlags |= CNT_NEED_UPDATETITLE;
 			}
 		}
 

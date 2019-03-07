@@ -281,8 +281,8 @@ int CTabBaseDlg::LoadLocalFlags()
 	DWORD	dwGlobal = M.GetDword("mwflags", MWF_LOG_DEFAULT);
 
 	m_dwFlags &= ~MWF_LOG_ALL;
-	if (m_pContainer->theme.isPrivate)
-		m_dwFlags |= (m_pContainer->theme.dwFlags & MWF_LOG_ALL);
+	if (m_pContainer->m_theme.isPrivate)
+		m_dwFlags |= (m_pContainer->m_theme.dwFlags & MWF_LOG_ALL);
 	else
 		m_dwFlags |= (dwGlobal & MWF_LOG_ALL);
 

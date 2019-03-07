@@ -88,7 +88,7 @@ CTabBaseDlg::~CTabBaseDlg()
 
 void CTabBaseDlg::LoadSettings()
 {
-	m_clrInputBG = m_pContainer->theme.inputbg;
+	m_clrInputBG = m_pContainer->m_theme.inputbg;
 	LoadLogfont(FONTSECTION_IM, MSGFONTID_MESSAGEAREA, nullptr, &m_clrInputFG, FONTMODULE);
 }
 
@@ -141,7 +141,7 @@ INT_PTR CTabBaseDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					if (srcDat->isChat() != isChat() && M.GetByte("syncAllPanels", 0) == 0)
 						return 0;
 
-					if (m_pContainer->settings->fPrivate && srcDat->m_pContainer != m_pContainer)
+					if (m_pContainer->m_pSettings->fPrivate && srcDat->m_pContainer != m_pContainer)
 						return 0;
 
 					m_pPanel.setHeight((LONG)lParam);
@@ -340,16 +340,16 @@ int TSAPI MessageWindowOpened(MCONTACT hContact, HWND _hwnd)
 
 	SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
 	if (pContainer) {
-		if (pContainer->dwFlags & CNT_DONTREPORT) {
+		if (pContainer->m_dwFlags & CNT_DONTREPORT) {
 			if (IsIconic(pContainer->m_hwnd))
 				return 0;
 		}
-		if (pContainer->dwFlags & CNT_DONTREPORTUNFOCUSED) {
+		if (pContainer->m_dwFlags & CNT_DONTREPORTUNFOCUSED) {
 			if (!IsIconic(pContainer->m_hwnd) && !pContainer->IsActive())
 				return 0;
 		}
-		if (pContainer->dwFlags & CNT_ALWAYSREPORTINACTIVE) {
-			if (pContainer->dwFlags & CNT_DONTREPORTFOCUSED)
+		if (pContainer->m_dwFlags & CNT_ALWAYSREPORTINACTIVE) {
+			if (pContainer->m_dwFlags & CNT_DONTREPORTFOCUSED)
 				return 0;
 
 			return pContainer->m_hwndActive == hwnd;
@@ -519,7 +519,7 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 
 	NMHDR nmhdr = {};
 	nmhdr.code = TCN_SELCHANGE;
-	if (TabCtrl_GetItemCount(GetDlgItem(pContainer->m_hwnd, IDC_MSGTABS)) > 1 && !(pContainer->dwFlags & CNT_DEFERREDTABSELECT)) {
+	if (TabCtrl_GetItemCount(GetDlgItem(pContainer->m_hwnd, IDC_MSGTABS)) > 1 && !(pContainer->m_dwFlags & CNT_DEFERREDTABSELECT)) {
 		TabCtrl_SetCurSel(GetDlgItem(pContainer->m_hwnd, IDC_MSGTABS), GetTabIndexFromHWND(GetDlgItem(pContainer->m_hwnd, IDC_MSGTABS), hwndChild));
 		SendMessage(pContainer->m_hwnd, WM_NOTIFY, 0, (LPARAM)&nmhdr);	// just select the tab and let WM_NOTIFY do the rest
 	}
@@ -602,10 +602,10 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	if (pContainer->m_hwndActive && bActivateTab)
 		ShowWindow(pContainer->m_hwndActive, SW_HIDE);
 
-	int iTabIndex_wanted = M.GetDword(hContact, "tabindex", pContainer->iChilds * 100);
+	int iTabIndex_wanted = M.GetDword(hContact, "tabindex", pContainer->m_iChilds * 100);
 	int iCount = TabCtrl_GetItemCount(hwndTab);
 
-	pContainer->iTabIndex = iCount;
+	pContainer->m_iTabIndex = iCount;
 	if (iCount > 0) {
 		for (int i = iCount - 1; i >= 0; i--) {
 			HWND hwnd = GetTabWindow(hwndTab, i);
@@ -613,7 +613,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 			if (dat) {
 				int relPos = M.GetDword(dat->m_hContact, "tabindex", i * 100);
 				if (iTabIndex_wanted <= relPos)
-					pContainer->iTabIndex = i;
+					pContainer->m_iTabIndex = i;
 			}
 		}
 	}
@@ -623,7 +623,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	item.mask = TCIF_TEXT | TCIF_IMAGE;
 	item.iImage = 0;
 	item.cchTextMax = _countof(tabtitle);
-	int iTabId = TabCtrl_InsertItem(hwndTab, pContainer->iTabIndex, &item);
+	int iTabId = TabCtrl_InsertItem(hwndTab, pContainer->m_iTabIndex, &item);
 
 	SendMessage(hwndTab, EM_REFRESHWITHOUTCLIP, 0, 0);
 	if (bActivateTab)
@@ -633,7 +633,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	pWindow->m_hContact = hContact;
 	pWindow->m_iTabID = iTabId;
 	pWindow->m_pContainer = pContainer;
-	pContainer->iChilds++;
+	pContainer->m_iChilds++;
 
 	pWindow->m_bActivate = bActivateTab;
 	pWindow->m_bWantPopup = bWantPopup;
@@ -646,8 +646,8 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	HWND hwndNew = pWindow->GetHwnd();
 
 	// switchbar support
-	if (pContainer->dwFlags & CNT_SIDEBAR)
-		pContainer->SideBar->addSession(pWindow, pContainer->iTabIndex);
+	if (pContainer->m_dwFlags & CNT_SIDEBAR)
+		pContainer->m_pSideBar->addSession(pWindow, pContainer->m_iTabIndex);
 
 	SendMessage(pContainer->m_hwnd, WM_SIZE, 0, 0);
 
@@ -658,8 +658,8 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 			SetFocus(pContainer->m_hwndActive);
 		}
 		else {
-			if (pContainer->dwFlags & CNT_NOFLASH)
-				SendMessage(pContainer->m_hwnd, DM_SETICON, 0, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
+			if (pContainer->m_dwFlags & CNT_NOFLASH)
+				pContainer->SetIcon(0, Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
 			else
 				FlashContainer(pContainer, 1, 0);
 		}
@@ -717,7 +717,7 @@ TContainerData* TSAPI FindMatchingContainer(const wchar_t *szName)
 	if (iMaxTabs > 0 && M.GetByte("limittabs", 0) && !wcsncmp(szName, L"default", 6)) {
 		// search a "default" with less than iMaxTabs opened...
 		for (TContainerData *p = pFirstContainer; p; p = p->pNext)
-			if (!wcsncmp(p->m_wszName, L"default", 6) && p->iChilds < iMaxTabs)
+			if (!wcsncmp(p->m_wszName, L"default", 6) && p->m_iChilds < iMaxTabs)
 				return p;
 
 		return nullptr;

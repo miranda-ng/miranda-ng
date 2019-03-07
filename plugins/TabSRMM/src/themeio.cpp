@@ -221,10 +221,10 @@ void TSAPI WriteThemeToINI(const wchar_t *szIniFilenameT, CSrmmWindow *dat)
 	WritePrivateProfileStringA("Message Log", "ExtraMicroLF", _itoa(M.GetByte("extramicrolf", 0), szBuf, 10), szIniFilename);
 
 	for (i = 0; i <= TMPL_ERRMSG; i++) {
-		T2Utf szLTR((dat == nullptr) ? LTR_Active.szTemplates[i] : dat->m_pContainer->ltr_templates->szTemplates[i]);
+		T2Utf szLTR((dat == nullptr) ? LTR_Active.szTemplates[i] : dat->m_pContainer->m_ltr_templates->szTemplates[i]);
 		WritePrivateProfileStringA("Templates", TemplateNames[i], szLTR, szIniFilename);
 
-		T2Utf szRTL((dat == nullptr) ? RTL_Active.szTemplates[i] : dat->m_pContainer->rtl_templates->szTemplates[i]);
+		T2Utf szRTL((dat == nullptr) ? RTL_Active.szTemplates[i] : dat->m_pContainer->m_rtl_templates->szTemplates[i]);
 		WritePrivateProfileStringA("RTLTemplates", TemplateNames[i], szRTL, szIniFilename);
 	}
 	for (i = 0; i < CUSTOM_COLORS; i++) {
@@ -232,7 +232,7 @@ void TSAPI WriteThemeToINI(const wchar_t *szIniFilenameT, CSrmmWindow *dat)
 		if (dat == nullptr)
 			WritePrivateProfileStringA("Custom Colors", szTemp, _itoa(M.GetDword(szTemp, 0), szBuf, 10), szIniFilename);
 		else
-			WritePrivateProfileStringA("Custom Colors", szTemp, _itoa(dat->m_pContainer->theme.custom_colors[i], szBuf, 10), szIniFilename);
+			WritePrivateProfileStringA("Custom Colors", szTemp, _itoa(dat->m_pContainer->m_theme.custom_colors[i], szBuf, 10), szIniFilename);
 	}
 	for (i = 0; i <= 7; i++)
 		WritePrivateProfileStringA("Nick Colors", _itoa(i, szBuf, 10), _itoa(g_Settings.nickColors[i], szTemp, 10), szIniFilename);
@@ -336,31 +336,31 @@ void TSAPI ReadThemeFromINI(const wchar_t *szIniFilenameT, TContainerData *dat, 
 		if (!noAdvanced) {
 			for (i = 0; i < MSGDLGFONTCOUNT; i++) {
 				mir_snprintf(szTemp, "Font%d", i);
-				LoadLogfontFromINI(i, szTemp, &dat->theme.logFonts[i], &dat->theme.fontColors[i], szIniFilename);
-				wsprintfA(dat->theme.rtfFonts + (i * RTFCACHELINESIZE), "\\f%u\\cf%u\\b%d\\i%d\\ul%d\\fs%u", i, i, dat->theme.logFonts[i].lfWeight >= FW_BOLD ? 1 : 0, dat->theme.logFonts[i].lfItalic, dat->theme.logFonts[i].lfUnderline, 2 * abs(dat->theme.logFonts[i].lfHeight) * 74 / SY); //!!!!!!!!
+				LoadLogfontFromINI(i, szTemp, &dat->m_theme.logFonts[i], &dat->m_theme.fontColors[i], szIniFilename);
+				wsprintfA(dat->m_theme.rtfFonts + (i * RTFCACHELINESIZE), "\\f%u\\cf%u\\b%d\\i%d\\ul%d\\fs%u", i, i, dat->m_theme.logFonts[i].lfWeight >= FW_BOLD ? 1 : 0, dat->m_theme.logFonts[i].lfItalic, dat->m_theme.logFonts[i].lfUnderline, 2 * abs(dat->m_theme.logFonts[i].lfHeight) * 74 / SY); //!!!!!!!!
 			}
-			wsprintfA(dat->theme.rtfFonts + (MSGDLGFONTCOUNT * RTFCACHELINESIZE), "\\f%u\\cf%u\\b%d\\i%d\\ul%d\\fs%u", MSGDLGFONTCOUNT, MSGDLGFONTCOUNT, 0, 0, 0, 0); //!!!!!!!!!
+			wsprintfA(dat->m_theme.rtfFonts + (MSGDLGFONTCOUNT * RTFCACHELINESIZE), "\\f%u\\cf%u\\b%d\\i%d\\ul%d\\fs%u", MSGDLGFONTCOUNT, MSGDLGFONTCOUNT, 0, 0, 0, 0); //!!!!!!!!!
 		}
-		dat->theme.bg = GetPrivateProfileIntA("Message Log", "BackgroundColor", RGB(224, 224, 224), szIniFilename);
-		dat->theme.inbg = GetPrivateProfileIntA("Message Log", "IncomingBG", RGB(224, 224, 224), szIniFilename);
-		dat->theme.outbg = GetPrivateProfileIntA("Message Log", "OutgoingBG", RGB(224, 224, 224), szIniFilename);
+		dat->m_theme.bg = GetPrivateProfileIntA("Message Log", "BackgroundColor", RGB(224, 224, 224), szIniFilename);
+		dat->m_theme.inbg = GetPrivateProfileIntA("Message Log", "IncomingBG", RGB(224, 224, 224), szIniFilename);
+		dat->m_theme.outbg = GetPrivateProfileIntA("Message Log", "OutgoingBG", RGB(224, 224, 224), szIniFilename);
 
-		dat->theme.oldinbg = GetPrivateProfileIntA("Message Log", "OldIncomingBG", RGB(224, 224, 224), szIniFilename);
-		dat->theme.oldoutbg = GetPrivateProfileIntA("Message Log", "OldOutgoingBG", RGB(224, 224, 224), szIniFilename);
-		dat->theme.statbg = GetPrivateProfileIntA("Message Log", "StatusBG", RGB(224, 224, 224), szIniFilename);
+		dat->m_theme.oldinbg = GetPrivateProfileIntA("Message Log", "OldIncomingBG", RGB(224, 224, 224), szIniFilename);
+		dat->m_theme.oldoutbg = GetPrivateProfileIntA("Message Log", "OldOutgoingBG", RGB(224, 224, 224), szIniFilename);
+		dat->m_theme.statbg = GetPrivateProfileIntA("Message Log", "StatusBG", RGB(224, 224, 224), szIniFilename);
 
-		dat->theme.inputbg = GetPrivateProfileIntA("Message Log", "InputBG", RGB(224, 224, 224), szIniFilename);
-		dat->theme.hgrid = GetPrivateProfileIntA("Message Log", "HgridColor", RGB(224, 224, 224), szIniFilename);
-		dat->theme.dwFlags = GetPrivateProfileIntA("Message Log", "DWFlags", MWF_LOG_DEFAULT, szIniFilename);
+		dat->m_theme.inputbg = GetPrivateProfileIntA("Message Log", "InputBG", RGB(224, 224, 224), szIniFilename);
+		dat->m_theme.hgrid = GetPrivateProfileIntA("Message Log", "HgridColor", RGB(224, 224, 224), szIniFilename);
+		dat->m_theme.dwFlags = GetPrivateProfileIntA("Message Log", "DWFlags", MWF_LOG_DEFAULT, szIniFilename);
 		db_set_b(0, SRMSGMOD_T, "wantvgrid", (BYTE)(GetPrivateProfileIntA("Message Log", "VGrid", 0, szIniFilename)));
 		db_set_b(0, SRMSGMOD_T, "extramicrolf", (BYTE)(GetPrivateProfileIntA("Message Log", "ExtraMicroLF", 0, szIniFilename)));
 
-		dat->theme.left_indent = GetPrivateProfileIntA("Message Log", "LeftIndent", 0, szIniFilename);
-		dat->theme.right_indent = GetPrivateProfileIntA("Message Log", "RightIndent", 0, szIniFilename);
+		dat->m_theme.left_indent = GetPrivateProfileIntA("Message Log", "LeftIndent", 0, szIniFilename);
+		dat->m_theme.right_indent = GetPrivateProfileIntA("Message Log", "RightIndent", 0, szIniFilename);
 
 		for (i = 0; i < CUSTOM_COLORS; i++) {
 			mir_snprintf(szTemp, "cc%d", i + 1);
-			dat->theme.custom_colors[i] = GetPrivateProfileIntA("Custom Colors", szTemp, RGB(224, 224, 224), szIniFilename);
+			dat->m_theme.custom_colors[i] = GetPrivateProfileIntA("Custom Colors", szTemp, RGB(224, 224, 224), szIniFilename);
 		}
 	}
 
@@ -378,7 +378,7 @@ void TSAPI ReadThemeFromINI(const wchar_t *szIniFilenameT, TContainerData *dat, 
 					if (dat == nullptr)
 						wcsncpy_s(LTR_Active.szTemplates[i], decoded, _TRUNCATE);
 					else
-						wcsncpy_s(dat->ltr_templates->szTemplates[i], decoded, _TRUNCATE);
+						wcsncpy_s(dat->m_ltr_templates->szTemplates[i], decoded, _TRUNCATE);
 					mir_free(decoded);
 				}
 
@@ -391,7 +391,7 @@ void TSAPI ReadThemeFromINI(const wchar_t *szIniFilenameT, TContainerData *dat, 
 					if (dat == nullptr)
 						wcsncpy_s(RTL_Active.szTemplates[i], decoded, _TRUNCATE);
 					else
-						wcsncpy_s(dat->rtl_templates->szTemplates[i], decoded, _TRUNCATE);
+						wcsncpy_s(dat->m_rtl_templates->szTemplates[i], decoded, _TRUNCATE);
 					mir_free(decoded);
 				}
 			}

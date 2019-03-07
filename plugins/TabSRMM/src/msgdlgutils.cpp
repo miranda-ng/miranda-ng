@@ -202,8 +202,8 @@ void CTabBaseDlg::FlashTab(bool bInvertMode)
 	TCITEM item = {};
 	item.mask = TCIF_IMAGE;
 	TabCtrl_SetItem(m_hwndParent, m_iTabID, &item);
-	if (m_pContainer->dwFlags & CNT_SIDEBAR)
-		m_pContainer->SideBar->updateSession(this);
+	if (m_pContainer->m_dwFlags & CNT_SIDEBAR)
+		m_pContainer->m_pSideBar->updateSession(this);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -212,14 +212,14 @@ void CTabBaseDlg::FlashTab(bool bInvertMode)
 
 void CTabBaseDlg::CalcDynamicAvatarSize(BITMAP *bminfo)
 {
-	if (m_dwFlags & MWF_WASBACKGROUNDCREATE || m_pContainer->dwFlags & CNT_DEFERREDCONFIGURE || m_pContainer->dwFlags & CNT_CREATE_MINIMIZED || IsIconic(m_pContainer->m_hwnd))
+	if (m_dwFlags & MWF_WASBACKGROUNDCREATE || m_pContainer->m_dwFlags & CNT_DEFERREDCONFIGURE || m_pContainer->m_dwFlags & CNT_CREATE_MINIMIZED || IsIconic(m_pContainer->m_hwnd))
 		return;  // at this stage, the layout is not yet ready...
 
 	RECT rc;
 	GetClientRect(m_hwnd, &rc);
 
-	BOOL bBottomToolBar = m_pContainer->dwFlags & CNT_BOTTOMTOOLBAR;
-	BOOL bToolBar = m_pContainer->dwFlags & CNT_HIDETOOLBAR ? 0 : 1;
+	BOOL bBottomToolBar = m_pContainer->m_dwFlags & CNT_BOTTOMTOOLBAR;
+	BOOL bToolBar = m_pContainer->m_dwFlags & CNT_HIDETOOLBAR ? 0 : 1;
 	int  iSplitOffset = m_bIsAutosizingInput ? 1 : 0;
 
 	double picAspect = (bminfo->bmWidth == 0 || bminfo->bmHeight == 0) ? 1.0 : (double)(bminfo->bmWidth / (double)bminfo->bmHeight);
@@ -308,7 +308,7 @@ int CTabBaseDlg::MsgWindowMenuHandler(int selection, int menuId)
 			CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SELECTCONTAINER), m_hwnd, SelectContainerDlgProc, (LPARAM)m_hwnd);
 			return 1;
 		case ID_TABMENU_CONTAINEROPTIONS:
-			if (m_pContainer->hWndOptions == nullptr)
+			if (m_pContainer->m_hWndOptions == nullptr)
 				CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONTAINEROPTIONS), m_hwnd, DlgProcContainerOptions, (LPARAM)m_pContainer);
 			return 1;
 		case ID_TABMENU_CLOSECONTAINER:
@@ -402,7 +402,7 @@ int CTabBaseDlg::MsgWindowMenuHandler(int selection, int menuId)
 
 void CTabBaseDlg::UpdateReadChars() const
 {
-	if (!m_pContainer->hwndStatus || m_pContainer->m_hwndActive != m_hwnd)
+	if (!m_pContainer->m_hwndStatus || m_pContainer->m_hwndActive != m_hwnd)
 		return;
 
 	int len;
@@ -432,9 +432,9 @@ void CTabBaseDlg::UpdateReadChars() const
 
 	wchar_t buf[128];
 	mir_snwprintf(buf, L"%s%s %d/%d", szBuf, m_lcID, m_iOpenJobs, len);
-	SendMessage(m_pContainer->hwndStatus, SB_SETTEXT, 1, (LPARAM)buf);
+	SendMessage(m_pContainer->m_hwndStatus, SB_SETTEXT, 1, (LPARAM)buf);
 	if (PluginConfig.m_visualMessageSizeIndicator)
-		InvalidateRect(m_pContainer->hwndStatus, nullptr, FALSE);
+		InvalidateRect(m_pContainer->m_hwndStatus, nullptr, FALSE);
 }
 
 void CTabBaseDlg::UpdateSaveAndSendButton()
@@ -469,31 +469,31 @@ void CTabBaseDlg::UpdateSaveAndSendButton()
 
 void CTabBaseDlg::tabUpdateStatusBar() const
 {
-	if (m_pContainer->hwndStatus && m_pContainer->m_hwndActive == m_hwnd) {
+	if (m_pContainer->m_hwndStatus && m_pContainer->m_hwndActive == m_hwnd) {
 		if (!isChat()) {
 			if (m_wszStatusBar[0]) {
-				SendMessage(m_pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
-				SendMessage(m_pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)m_wszStatusBar);
+				SendMessage(m_pContainer->m_hwndStatus, SB_SETICON, 0, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
+				SendMessage(m_pContainer->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)m_wszStatusBar);
 			}
 			else if (m_bStatusSet) {
-				SendMessage(m_pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)m_szStatusIcon);
-				SendMessage(m_pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)m_szStatusText.c_str());
+				SendMessage(m_pContainer->m_hwndStatus, SB_SETICON, 0, (LPARAM)m_szStatusIcon);
+				SendMessage(m_pContainer->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)m_szStatusText.c_str());
 			}
 			else {
-				SendMessage(m_pContainer->hwndStatus, SB_SETICON, 0, 0);
+				SendMessage(m_pContainer->m_hwndStatus, SB_SETICON, 0, 0);
 				DM_UpdateLastMessage();
 			}
 		}
 		else {
 			if (m_bStatusSet) {
-				SendMessage(m_pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)m_szStatusIcon);
-				SendMessage(m_pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)m_szStatusText.c_str());
+				SendMessage(m_pContainer->m_hwndStatus, SB_SETICON, 0, (LPARAM)m_szStatusIcon);
+				SendMessage(m_pContainer->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)m_szStatusText.c_str());
 			}
-			else SendMessage(m_pContainer->hwndStatus, SB_SETICON, 0, 0);
+			else SendMessage(m_pContainer->m_hwndStatus, SB_SETICON, 0, 0);
 		}
 		UpdateReadChars();
-		InvalidateRect(m_pContainer->hwndStatus, nullptr, TRUE);
-		SendMessage(m_pContainer->hwndStatus, WM_USER + 101, 0, (LPARAM)this);
+		InvalidateRect(m_pContainer->m_hwndStatus, nullptr, TRUE);
+		SendMessage(m_pContainer->m_hwndStatus, WM_USER + 101, 0, (LPARAM)this);
 	}
 }
 
@@ -518,8 +518,8 @@ void TSAPI HandleIconFeedback(CTabBaseDlg *dat, HICON iIcon)
 
 	item.iImage = 0;
 	item.mask = TCIF_IMAGE;
-	if (dat->m_pContainer->dwFlags & CNT_SIDEBAR)
-		dat->m_pContainer->SideBar->updateSession(dat);
+	if (dat->m_pContainer->m_dwFlags & CNT_SIDEBAR)
+		dat->m_pContainer->m_pSideBar->updateSession(dat);
 	else
 		TabCtrl_SetItem(GetDlgItem(dat->m_pContainer->m_hwnd, IDC_MSGTABS), dat->m_iTabID, &item);
 }
@@ -550,8 +550,8 @@ void TSAPI ProcessAvatarChange(HWND hwnd, LPARAM lParam)
 
 bool CTabBaseDlg::GetAvatarVisibility()
 {
-	BYTE bAvatarMode = m_pContainer->avatarMode;
-	BYTE bOwnAvatarMode = m_pContainer->ownAvatarMode;
+	BYTE bAvatarMode = m_pContainer->m_avatarMode;
+	BYTE bOwnAvatarMode = m_pContainer->m_ownAvatarMode;
 	char hideOverride = (char)M.GetByte(m_hContact, "hideavatar", -1);
 
 	// infopanel visible, consider own avatar display
@@ -708,7 +708,7 @@ void CTabBaseDlg::AdjustBottomAvatarDisplay()
 	GetAvatarVisibility();
 
 	bool bInfoPanel = m_pPanel.isActive();
-	HBITMAP hbm = (bInfoPanel && m_pContainer->avatarMode != 3) ? m_hOwnPic : (m_ace ? m_ace->hbmPic : PluginConfig.g_hbmUnknown);
+	HBITMAP hbm = (bInfoPanel && m_pContainer->m_avatarMode != 3) ? m_hOwnPic : (m_ace ? m_ace->hbmPic : PluginConfig.g_hbmUnknown);
 	if (hbm) {
 		if (m_dynaSplitter == 0 || m_iSplitterY == 0)
 			LoadSplitter();
@@ -730,7 +730,7 @@ void CTabBaseDlg::ShowPicture(bool showNewPic)
 		m_pic.cy = m_pic.cx = DPISCALEY_S(60);
 
 	if (showNewPic) {
-		if (m_pPanel.isActive() && m_pContainer->avatarMode != 3) {
+		if (m_pPanel.isActive() && m_pContainer->m_avatarMode != 3) {
 			if (!m_hwndPanelPic) {
 				InvalidateRect(m_hwnd, nullptr, TRUE);
 				UpdateWindow(m_hwnd);
@@ -841,7 +841,7 @@ BOOL CTabBaseDlg::DoRtfToTags(CMStringW &pszText) const
 		return FALSE;
 
 	// used to filter out attributes which are already set for the default message input area font
-	LOGFONTA lf = m_pContainer->theme.logFonts[MSGFONTID_MESSAGEAREA];
+	LOGFONTA lf = m_pContainer->m_theme.logFonts[MSGFONTID_MESSAGEAREA];
 
 	// create an index of colors in the module and map them to
 	// corresponding colors in the RTF color table
@@ -887,7 +887,7 @@ BOOL CTabBaseDlg::DoRtfToTags(CMStringW &pszText) const
 					if (isChat()) {
 						if (mi && mi->bColor) {
 							if (iInd >= 0) {
-								if (!(res.IsEmpty() && m_pContainer->theme.fontColors[MSGFONTID_MESSAGEAREA] == pColors[iInd]))
+								if (!(res.IsEmpty() && m_pContainer->m_theme.fontColors[MSGFONTID_MESSAGEAREA] == pColors[iInd]))
 									res.AppendFormat(L"%%c%u", iInd);
 							}
 							else if (!res.IsEmpty())
@@ -905,7 +905,7 @@ BOOL CTabBaseDlg::DoRtfToTags(CMStringW &pszText) const
 						int iInd = RtfColorToIndex(iNumColors, pIndex, _wtoi(p + 10));
 						if (iInd >= 0) {
 							// if the entry field is empty & the color passed is the back color, skip it
-							if (!(res.IsEmpty() && m_pContainer->theme.inputbg == pColors[iInd]))
+							if (!(res.IsEmpty() && m_pContainer->m_theme.inputbg == pColors[iInd]))
 								res.AppendFormat(L"%%f%u", iInd);
 						}
 						else if (!res.IsEmpty())
@@ -1186,8 +1186,8 @@ void CTabBaseDlg::SaveSplitter()
 	if (m_dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE)
 		db_set_dw(m_hContact, SRMSGMOD_T, "splitsplity", m_iSplitterY);
 	else {
-		if (m_pContainer->settings->fPrivate)
-			m_pContainer->settings->iSplitterY = m_iSplitterY;
+		if (m_pContainer->m_pSettings->fPrivate)
+			m_pContainer->m_pSettings->iSplitterY = m_iSplitterY;
 		else
 			db_set_dw(0, SRMSGMOD_T, "splitsplity", m_iSplitterY);
 	}
@@ -1201,10 +1201,10 @@ void CTabBaseDlg::LoadSplitter()
 	}
 
 	if (!(m_dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE)) {
-		if (!m_pContainer->settings->fPrivate)
+		if (!m_pContainer->m_pSettings->fPrivate)
 			m_iSplitterY = (int)M.GetDword("splitsplity", 60);
 		else
-			m_iSplitterY = m_pContainer->settings->iSplitterY;
+			m_iSplitterY = m_pContainer->m_pSettings->iSplitterY;
 	}
 	else m_iSplitterY = (int)M.GetDword(m_hContact, "splitsplity", M.GetDword("splitsplity", 60));
 
@@ -1251,7 +1251,7 @@ void CSrmmWindow::LoadContactAvatar()
 	AdjustBottomAvatarDisplay();
 	CalcDynamicAvatarSize(&bm);
 
-	if (!m_pPanel.isActive() || m_pContainer->avatarMode == 3) {
+	if (!m_pPanel.isActive() || m_pContainer->m_avatarMode == 3) {
 		m_iRealAvatarHeight = 0;
 		PostMessage(m_hwnd, WM_SIZE, 0, 0);
 	}
@@ -1274,7 +1274,7 @@ void CSrmmWindow::LoadOwnAvatar()
 	else
 		m_hOwnPic = PluginConfig.g_hbmUnknown;
 
-	if (m_pPanel.isActive() && m_pContainer->avatarMode != 3) {
+	if (m_pPanel.isActive() && m_pContainer->m_avatarMode != 3) {
 		BITMAP bm;
 
 		m_iRealAvatarHeight = 0;
@@ -1451,17 +1451,17 @@ int CTabBaseDlg::MsgWindowDrawHandler(DRAWITEMSTRUCT *dis)
 
 void TSAPI LoadThemeDefaults(TContainerData *pContainer)
 {
-	memset(&pContainer->theme, 0, sizeof(TLogTheme));
-	pContainer->theme.bg = db_get_dw(0, FONTMODULE, SRMSGSET_BKGCOLOUR, GetSysColor(COLOR_WINDOW));
-	pContainer->theme.statbg = PluginConfig.crStatus;
-	pContainer->theme.oldinbg = PluginConfig.crOldIncoming;
-	pContainer->theme.oldoutbg = PluginConfig.crOldOutgoing;
-	pContainer->theme.inbg = PluginConfig.crIncoming;
-	pContainer->theme.outbg = PluginConfig.crOutgoing;
-	pContainer->theme.hgrid = db_get_dw(0, FONTMODULE, "hgrid", RGB(224, 224, 224));
-	pContainer->theme.left_indent = M.GetDword("IndentAmount", 20) * 15;
-	pContainer->theme.right_indent = M.GetDword("RightIndent", 20) * 15;
-	pContainer->theme.inputbg = db_get_dw(0, FONTMODULE, "inputbg", SRMSGDEFSET_BKGCOLOUR);
+	memset(&pContainer->m_theme, 0, sizeof(TLogTheme));
+	pContainer->m_theme.bg = db_get_dw(0, FONTMODULE, SRMSGSET_BKGCOLOUR, GetSysColor(COLOR_WINDOW));
+	pContainer->m_theme.statbg = PluginConfig.crStatus;
+	pContainer->m_theme.oldinbg = PluginConfig.crOldIncoming;
+	pContainer->m_theme.oldoutbg = PluginConfig.crOldOutgoing;
+	pContainer->m_theme.inbg = PluginConfig.crIncoming;
+	pContainer->m_theme.outbg = PluginConfig.crOutgoing;
+	pContainer->m_theme.hgrid = db_get_dw(0, FONTMODULE, "hgrid", RGB(224, 224, 224));
+	pContainer->m_theme.left_indent = M.GetDword("IndentAmount", 20) * 15;
+	pContainer->m_theme.right_indent = M.GetDword("RightIndent", 20) * 15;
+	pContainer->m_theme.inputbg = db_get_dw(0, FONTMODULE, "inputbg", SRMSGDEFSET_BKGCOLOUR);
 
 	for (int i = 1; i <= 5; i++) {
 		char szTemp[40];
@@ -1469,47 +1469,47 @@ void TSAPI LoadThemeDefaults(TContainerData *pContainer)
 		COLORREF	colour = M.GetDword(szTemp, RGB(224, 224, 224));
 		if (colour == 0)
 			colour = RGB(1, 1, 1);
-		pContainer->theme.custom_colors[i - 1] = colour;
+		pContainer->m_theme.custom_colors[i - 1] = colour;
 	}
-	pContainer->theme.logFonts = logfonts;
-	pContainer->theme.fontColors = fontcolors;
-	pContainer->theme.rtfFonts = nullptr;
-	pContainer->ltr_templates = &LTR_Active;
-	pContainer->rtl_templates = &RTL_Active;
-	pContainer->theme.dwFlags = (M.GetDword("mwflags", MWF_LOG_DEFAULT) & MWF_LOG_ALL);
-	pContainer->theme.isPrivate = false;
+	pContainer->m_theme.logFonts = logfonts;
+	pContainer->m_theme.fontColors = fontcolors;
+	pContainer->m_theme.rtfFonts = nullptr;
+	pContainer->m_ltr_templates = &LTR_Active;
+	pContainer->m_rtl_templates = &RTL_Active;
+	pContainer->m_theme.dwFlags = (M.GetDword("mwflags", MWF_LOG_DEFAULT) & MWF_LOG_ALL);
+	pContainer->m_theme.isPrivate = false;
 }
 
 void TSAPI LoadOverrideTheme(TContainerData *pContainer)
 {
-	memset(&pContainer->theme, 0, sizeof(TLogTheme));
-	if (mir_wstrlen(pContainer->szAbsThemeFile) > 1) {
-		if (PathFileExists(pContainer->szAbsThemeFile)) {
-			if (CheckThemeVersion(pContainer->szAbsThemeFile) == 0) {
+	memset(&pContainer->m_theme, 0, sizeof(TLogTheme));
+	if (mir_wstrlen(pContainer->m_szAbsThemeFile) > 1) {
+		if (PathFileExists(pContainer->m_szAbsThemeFile)) {
+			if (CheckThemeVersion(pContainer->m_szAbsThemeFile) == 0) {
 				LoadThemeDefaults(pContainer);
 				return;
 			}
-			if (pContainer->ltr_templates == nullptr) {
-				pContainer->ltr_templates = (TTemplateSet *)mir_alloc(sizeof(TTemplateSet));
-				memcpy(pContainer->ltr_templates, &LTR_Active, sizeof(TTemplateSet));
+			if (pContainer->m_ltr_templates == nullptr) {
+				pContainer->m_ltr_templates = (TTemplateSet *)mir_alloc(sizeof(TTemplateSet));
+				memcpy(pContainer->m_ltr_templates, &LTR_Active, sizeof(TTemplateSet));
 			}
-			if (pContainer->rtl_templates == nullptr) {
-				pContainer->rtl_templates = (TTemplateSet *)mir_alloc(sizeof(TTemplateSet));
-				memcpy(pContainer->rtl_templates, &RTL_Active, sizeof(TTemplateSet));
+			if (pContainer->m_rtl_templates == nullptr) {
+				pContainer->m_rtl_templates = (TTemplateSet *)mir_alloc(sizeof(TTemplateSet));
+				memcpy(pContainer->m_rtl_templates, &RTL_Active, sizeof(TTemplateSet));
 			}
 
-			pContainer->theme.logFonts = (LOGFONTA *)mir_alloc(sizeof(LOGFONTA) * (MSGDLGFONTCOUNT + 2));
-			pContainer->theme.fontColors = (COLORREF *)mir_alloc(sizeof(COLORREF) * (MSGDLGFONTCOUNT + 2));
-			pContainer->theme.rtfFonts = (char *)mir_alloc((MSGDLGFONTCOUNT + 2) * RTFCACHELINESIZE);
+			pContainer->m_theme.logFonts = (LOGFONTA *)mir_alloc(sizeof(LOGFONTA) * (MSGDLGFONTCOUNT + 2));
+			pContainer->m_theme.fontColors = (COLORREF *)mir_alloc(sizeof(COLORREF) * (MSGDLGFONTCOUNT + 2));
+			pContainer->m_theme.rtfFonts = (char *)mir_alloc((MSGDLGFONTCOUNT + 2) * RTFCACHELINESIZE);
 
-			ReadThemeFromINI(pContainer->szAbsThemeFile, pContainer, 0, THEME_READ_ALL);
-			pContainer->theme.left_indent *= 15;
-			pContainer->theme.right_indent *= 15;
-			pContainer->theme.isPrivate = true;
+			ReadThemeFromINI(pContainer->m_szAbsThemeFile, pContainer, 0, THEME_READ_ALL);
+			pContainer->m_theme.left_indent *= 15;
+			pContainer->m_theme.right_indent *= 15;
+			pContainer->m_theme.isPrivate = true;
 			if (CSkin::m_skinEnabled)
-				pContainer->theme.bg = SkinItems[ID_EXTBKCONTAINER].COLOR;
+				pContainer->m_theme.bg = SkinItems[ID_EXTBKCONTAINER].COLOR;
 			else
-				pContainer->theme.bg = PluginConfig.m_fillColor ? PluginConfig.m_fillColor : GetSysColor(COLOR_WINDOW);
+				pContainer->m_theme.bg = PluginConfig.m_fillColor ? PluginConfig.m_fillColor : GetSysColor(COLOR_WINDOW);
 			return;
 		}
 	}
@@ -1631,18 +1631,18 @@ void CTabBaseDlg::DetermineMinHeight()
 {
 	RECT rc;
 	LONG height = (m_pPanel.isActive() ? m_pPanel.getHeight() + 2 : 0);
-	if (!(m_pContainer->dwFlags & CNT_HIDETOOLBAR))
+	if (!(m_pContainer->m_dwFlags & CNT_HIDETOOLBAR))
 		height += DPISCALEY_S(24); // toolbar
 	GetClientRect(m_message.GetHwnd(), &rc);
 	height += rc.bottom; // input area
 	height += 40; // min space for log area and some padding
 
-	m_pContainer->uChildMinHeight = height;
+	m_pContainer->m_uChildMinHeight = height;
 }
 
 LONG CTabBaseDlg::GetDefaultMinimumInputHeight() const
 {
-	LONG height = (m_pContainer->dwFlags & CNT_BOTTOMTOOLBAR) ? DPISCALEY_S(46 + 22) : DPISCALEY_S(46);
+	LONG height = (m_pContainer->m_dwFlags & CNT_BOTTOMTOOLBAR) ? DPISCALEY_S(46 + 22) : DPISCALEY_S(46);
 
 	if (CSkin::m_skinEnabled && !SkinItems[ID_EXTBKINPUTAREA].IGNORED)
 		height += (SkinItems[ID_EXTBKINPUTAREA].MARGIN_BOTTOM + SkinItems[ID_EXTBKINPUTAREA].MARGIN_TOP - 2);
@@ -1652,7 +1652,7 @@ LONG CTabBaseDlg::GetDefaultMinimumInputHeight() const
 
 bool CTabBaseDlg::IsAutoSplitEnabled() const
 {
-	return (m_pContainer->dwFlags & CNT_AUTOSPLITTER) && !(m_dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE);
+	return (m_pContainer->m_dwFlags & CNT_AUTOSPLITTER) && !(m_dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE);
 }
 
 void CTabBaseDlg::LimitMessageText(int iLen)

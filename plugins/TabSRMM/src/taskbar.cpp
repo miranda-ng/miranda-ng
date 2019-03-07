@@ -335,9 +335,9 @@ void CProxyWindow::sendPreview()
 		::ScreenToClient(m_dat->m_pContainer->m_hwnd, &pt);
 	}
 	else {
-		rcLog = m_dat->m_pContainer->rcLogSaved;
-		rcContainer = m_dat->m_pContainer->rcSaved;
-		pt = m_dat->m_pContainer->ptLogSaved;
+		rcLog = m_dat->m_pContainer->m_rcLogSaved;
+		rcContainer = m_dat->m_pContainer->m_rcSaved;
+		pt = m_dat->m_pContainer->m_ptLogSaved;
 	}
 
 	::GetWindowRect(::GetDlgItem(m_dat->m_pContainer->m_hwndActive, IDC_SRMM_LOG), &rcTemp);
@@ -372,7 +372,7 @@ void CProxyWindow::sendPreview()
 	HBITMAP hbmRich = CSkin::CreateAeroCompatibleBitmap(rcRich, hdcRich);
 	HBITMAP hbmRichOld = reinterpret_cast<HBITMAP>(::SelectObject(hdcRich, hbmRich));
 
-	COLORREF clr = fIsChat ? db_get_dw(0, FONTMODULE, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR) : m_dat->m_pContainer->theme.inbg;
+	COLORREF clr = fIsChat ? db_get_dw(0, FONTMODULE, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR) : m_dat->m_pContainer->m_theme.inbg;
 	HBRUSH br = ::CreateSolidBrush(clr);
 	::FillRect(hdcRich, &rcRich, br);
 	::DeleteObject(br);
@@ -381,7 +381,7 @@ void CProxyWindow::sendPreview()
 		::SendMessage(m_dat->m_hwndIEView, WM_PRINT, reinterpret_cast<WPARAM>(hdcRich), PRF_CLIENT | PRF_NONCLIENT);
 	else if (m_dat->m_hwndHPP) {
 		CSkin::RenderText(hdcRich, m_dat->m_hTheme, TranslateT("Previews not available when using History++ plugin for message log display."),
-			&rcRich, DT_VCENTER | DT_CENTER | DT_WORDBREAK, 10, m_dat->m_pContainer->theme.fontColors[MSGFONTID_MYMSG], false);
+			&rcRich, DT_VCENTER | DT_CENTER | DT_WORDBREAK, 10, m_dat->m_pContainer->m_theme.fontColors[MSGFONTID_MYMSG], false);
 	}
 	else {
 		rcRich.right *= twips;
@@ -413,7 +413,7 @@ void CProxyWindow::sendPreview()
 	}
 	else pt.x = pt.y = 0;
 
-	CMimAPI::m_pfnDwmSetIconicLivePreviewBitmap(m_hwndProxy, hbm, &pt, m_dat->m_pContainer->dwFlags & CNT_CREATE_MINIMIZED ? 0 : DWM_SIT_DISPLAYFRAME);
+	CMimAPI::m_pfnDwmSetIconicLivePreviewBitmap(m_hwndProxy, hbm, &pt, m_dat->m_pContainer->m_dwFlags & CNT_CREATE_MINIMIZED ? 0 : DWM_SIT_DISPLAYFRAME);
 	::ReleaseDC(m_dat->GetHwnd(), dc);
 	::DeleteObject(hbm);
 }

@@ -204,11 +204,11 @@ BOOL CTabBaseDlg::BB_SetButtonsPos()
 		return 0;
 
 	BYTE gap = DPISCALEX_S(g_plugin.getByte("ButtonsBarGap", 1));
-	bool showToolbar = !(m_pContainer->dwFlags & CNT_HIDETOOLBAR);
-	bool bBottomToolbar = (m_pContainer->dwFlags & CNT_BOTTOMTOOLBAR) != 0;
+	bool showToolbar = !(m_pContainer->m_dwFlags & CNT_HIDETOOLBAR);
+	bool bBottomToolbar = (m_pContainer->m_dwFlags & CNT_BOTTOMTOOLBAR) != 0;
 
 	HWND hwndToggleSideBar = GetDlgItem(m_hwnd, IDC_TOGGLESIDEBAR);
-	ShowWindow(hwndToggleSideBar, (showToolbar && m_pContainer->SideBar->isActive()) ? SW_SHOW : SW_HIDE);
+	ShowWindow(hwndToggleSideBar, (showToolbar && m_pContainer->m_pSideBar->isActive()) ? SW_SHOW : SW_HIDE);
 
 	HDWP hdwp = BeginDeferWindowPos(Srmm_GetButtonCount() + 1);
 
@@ -229,7 +229,7 @@ BOOL CTabBaseDlg::BB_SetButtonsPos()
 	if ((rect.bottom - ptSplitter.y - (rcSplitter.bottom - rcSplitter.top) /*- DPISCALEY(2)*/ - (bBottomToolbar ? DPISCALEY_S(24) : 0) < m_pic.cy - DPISCALEY_S(2)) && m_bShowAvatar && !PluginConfig.m_bAlwaysFullToolbarWidth)
 		foravatar = m_pic.cx + gap;
 
-	if ((m_pContainer->dwFlags & CNT_SIDEBAR) && (m_pContainer->SideBar->getFlags() & CSideBar::SIDEBARORIENTATION_LEFT)) {
+	if ((m_pContainer->m_dwFlags & CNT_SIDEBAR) && (m_pContainer->m_pSideBar->getFlags() & CSideBar::SIDEBARORIENTATION_LEFT)) {
 		if (nullptr != hwndToggleSideBar) /* Wine fix. */
 			hdwp = DeferWindowPos(hdwp, hwndToggleSideBar, nullptr, 4, 2 + splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		lwidth += 10;
@@ -280,7 +280,7 @@ BOOL CTabBaseDlg::BB_SetButtonsPos()
 		}
 	}
 
-	if ((m_pContainer->dwFlags & CNT_SIDEBAR) && (m_pContainer->SideBar->getFlags() & CSideBar::SIDEBARORIENTATION_RIGHT)) {
+	if ((m_pContainer->m_dwFlags & CNT_SIDEBAR) && (m_pContainer->m_pSideBar->getFlags() & CSideBar::SIDEBARORIENTATION_RIGHT)) {
 		if (nullptr != hwndToggleSideBar) /* Wine fix. */
 			hdwp = DeferWindowPos(hdwp, hwndToggleSideBar, nullptr, rect.right - foravatar - 10, 2 + splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		rwidth += 12;

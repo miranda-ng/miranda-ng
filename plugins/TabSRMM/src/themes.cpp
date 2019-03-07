@@ -1854,7 +1854,7 @@ void CSkin::SkinDrawBG(HWND hwndClient, HWND hwnd, TContainerData *pContainer, R
 	pt.y = rcWindow.top + rcClient->top;
 	::ScreenToClient(hwnd, &pt);
 	if (pContainer)
-		dc = pContainer->cachedDC;
+		dc = pContainer->m_cachedDC;
 	else
 		dc = ::GetDC(hwnd);
 	pt.y = max(pt.y, 0);
@@ -2144,7 +2144,7 @@ void CSkin::MapClientToParent(HWND hwndClient, HWND hwndParent, RECT &rc)
 
 void CTabBaseDlg::RenderToolbarBG(HDC hdc, const RECT &rcWindow) const
 {
-	if (m_pContainer->dwFlags & CNT_HIDETOOLBAR)
+	if (m_pContainer->m_dwFlags & CNT_HIDETOOLBAR)
 		return;
 
 	bool	 bAero = M.isAero();
@@ -2154,7 +2154,7 @@ void CTabBaseDlg::RenderToolbarBG(HDC hdc, const RECT &rcWindow) const
 	RECT 	rc, rcToolbar;
 	POINT	pt;
 
-	if (!(m_pContainer->dwFlags & CNT_BOTTOMTOOLBAR)) {
+	if (!(m_pContainer->m_dwFlags & CNT_BOTTOMTOOLBAR)) {
 		::GetWindowRect(m_log.GetHwnd(), &rc);
 		pt.y = rc.bottom + 0;
 		::ScreenToClient(m_hwnd, &pt);
@@ -2196,36 +2196,36 @@ void CTabBaseDlg::RenderToolbarBG(HDC hdc, const RECT &rcWindow) const
 	rcCachedToolbar.right = cx;
 	rcCachedToolbar.bottom = cy;
 
-	if (m_pContainer->cachedToolbarDC == nullptr)
-		m_pContainer->cachedToolbarDC = ::CreateCompatibleDC(hdc);
+	if (m_pContainer->m_cachedToolbarDC == nullptr)
+		m_pContainer->m_cachedToolbarDC = ::CreateCompatibleDC(hdc);
 
-	if (m_pContainer->szOldToolbarSize.cx != cx || m_pContainer->szOldToolbarSize.cy != cy) {
-		if (m_pContainer->oldhbmToolbarBG) {
-			::SelectObject(m_pContainer->cachedToolbarDC, m_pContainer->oldhbmToolbarBG);
-			::DeleteObject(m_pContainer->hbmToolbarBG);
+	if (m_pContainer->m_szOldToolbarSize.cx != cx || m_pContainer->m_szOldToolbarSize.cy != cy) {
+		if (m_pContainer->m_oldhbmToolbarBG) {
+			::SelectObject(m_pContainer->m_cachedToolbarDC, m_pContainer->m_oldhbmToolbarBG);
+			::DeleteObject(m_pContainer->m_hbmToolbarBG);
 		}
-		m_pContainer->hbmToolbarBG = CSkin::CreateAeroCompatibleBitmap(rcCachedToolbar, hdc);// ::CreateCompatibleBitmap(hdc, cx, cy);
-		m_pContainer->oldhbmToolbarBG = reinterpret_cast<HBITMAP>(::SelectObject(m_pContainer->cachedToolbarDC, m_pContainer->hbmToolbarBG));
+		m_pContainer->m_hbmToolbarBG = CSkin::CreateAeroCompatibleBitmap(rcCachedToolbar, hdc);// ::CreateCompatibleBitmap(hdc, cx, cy);
+		m_pContainer->m_oldhbmToolbarBG = reinterpret_cast<HBITMAP>(::SelectObject(m_pContainer->m_cachedToolbarDC, m_pContainer->m_hbmToolbarBG));
 	}
-	m_pContainer->szOldToolbarSize.cx = cx;
-	m_pContainer->szOldToolbarSize.cy = cy;
+	m_pContainer->m_szOldToolbarSize.cx = cx;
+	m_pContainer->m_szOldToolbarSize.cy = cy;
 
 	if (!fMustDrawNonThemed && M.isVSThemed()) {
-		DrawThemeBackground(m_hThemeToolbar, m_pContainer->cachedToolbarDC, 6, 1, &rcCachedToolbar, &rcCachedToolbar);
-		m_pContainer->bTBRenderingMode = 1;				// tell TSButton how to render the tool bar buttons
+		DrawThemeBackground(m_hThemeToolbar, m_pContainer->m_cachedToolbarDC, 6, 1, &rcCachedToolbar, &rcCachedToolbar);
+		m_pContainer->m_bTBRenderingMode = 1;				// tell TSButton how to render the tool bar buttons
 	}
 	else {
-		m_pContainer->bTBRenderingMode = (M.isVSThemed() ? 1 : 0);
+		m_pContainer->m_bTBRenderingMode = (M.isVSThemed() ? 1 : 0);
 		CSkin::m_tmp_tb_high = PluginConfig.m_tbBackgroundHigh ? PluginConfig.m_tbBackgroundHigh :
 			((bAero && CSkin::m_pCurrentAeroEffect) ? CSkin::m_pCurrentAeroEffect->m_clrToolbar : ::GetSysColor(COLOR_3DFACE));
 		CSkin::m_tmp_tb_low = PluginConfig.m_tbBackgroundLow ? PluginConfig.m_tbBackgroundLow :
 			((bAero && CSkin::m_pCurrentAeroEffect) ? CSkin::m_pCurrentAeroEffect->m_clrToolbar2 : ::GetSysColor(COLOR_3DFACE));
 
 		bAlphaOffset = PluginConfig.m_tbBackgroundHigh ? 40 : 0;
-		::DrawAlpha(m_pContainer->cachedToolbarDC, &rcCachedToolbar, CSkin::m_tmp_tb_high, 55 + bAlphaOffset, CSkin::m_tmp_tb_low, 0, 9, 0, 0, nullptr);
+		::DrawAlpha(m_pContainer->m_cachedToolbarDC, &rcCachedToolbar, CSkin::m_tmp_tb_high, 55 + bAlphaOffset, CSkin::m_tmp_tb_low, 0, 9, 0, 0, nullptr);
 	}
 
-	::BitBlt(hdc, rcToolbar.left, rcToolbar.top, cx, cy, m_pContainer->cachedToolbarDC, 0, 0, SRCCOPY);
+	::BitBlt(hdc, rcToolbar.left, rcToolbar.top, cx, cy, m_pContainer->m_cachedToolbarDC, 0, 0, SRCCOPY);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
