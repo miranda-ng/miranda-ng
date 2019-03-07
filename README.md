@@ -10,7 +10,7 @@ fast.
 - Em-LAN
 - Facebook
 - Gadu-Gadu
-- ICQ
+- ICQ / MRA
 - IRC (Internet Relay Chat)
 - Jabber
 - MinecraftDynmap
