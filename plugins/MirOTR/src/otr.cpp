@@ -55,7 +55,7 @@ INT_PTR CALLBACK GenKeyDlgBoxProc(HWND hWndDlg, UINT msg, WPARAM, LPARAM lParam)
 			return 0;
 		}
 		TranslateDialogDefault(hWndDlg);
-		SetClassLongPtr(hWndDlg, GCLP_HICON, (LONG_PTR)IcoLib_GetIcon(ICON_OTR, 1));
+		SetClassLongPtr(hWndDlg, GCLP_HICON, (LONG_PTR)IcoLib_GetIconByHandle(iconList[ICON_OTR].hIcolib, 1));
 		wchar_t buff[256];
 		wchar_t *proto = mir_a2u((char*)lParam);
 		mir_snwprintf(buff, TranslateW(LANG_GENERATE_KEY), proto);
@@ -71,7 +71,6 @@ INT_PTR CALLBACK GenKeyDlgBoxProc(HWND hWndDlg, UINT msg, WPARAM, LPARAM lParam)
 		return TRUE;
 	case WM_DESTROY:
 		SetClassLongPtr(hWndDlg, GCLP_HICON, 0);
-		IcoLib_Release(ICON_OTR, 1);
 	}
 	return FALSE;
 }

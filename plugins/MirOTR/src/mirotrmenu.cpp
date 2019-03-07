@@ -69,20 +69,20 @@ INT_PTR MirOTRMenuCheckService(WPARAM wParam, LPARAM)
 			switch (level) {
 			case TRUST_PRIVATE:
 				mir_snwprintf(text, L"%s [v%i]", TranslateW(LANG_STATUS_PRIVATE), context->protocol_version);
-				Menu_ModifyItem(hStatusInfoItem, text, IcoLib_GetIconHandle(ICON_PRIVATE));
+				Menu_ModifyItem(hStatusInfoItem, text, iconList[ICON_PRIVATE].hIcolib);
 				break;
 
 			case TRUST_UNVERIFIED:
 				mir_snwprintf(text, L"%s [v%i]", TranslateW(LANG_STATUS_UNVERIFIED), context->protocol_version);
-				Menu_ModifyItem(hStatusInfoItem, text, IcoLib_GetIconHandle(ICON_UNVERIFIED));
+				Menu_ModifyItem(hStatusInfoItem, text, iconList[ICON_UNVERIFIED].hIcolib);
 				break;
 
 			case TRUST_FINISHED:
-				Menu_ModifyItem(hStatusInfoItem, TranslateW(LANG_STATUS_FINISHED), IcoLib_GetIconHandle(ICON_UNVERIFIED));
+				Menu_ModifyItem(hStatusInfoItem, TranslateW(LANG_STATUS_FINISHED), iconList[ICON_UNVERIFIED].hIcolib);
 				break;
 
 			default:
-				Menu_ModifyItem(hStatusInfoItem, TranslateW(LANG_STATUS_DISABLED), IcoLib_GetIconHandle(ICON_NOT_PRIVATE));
+				Menu_ModifyItem(hStatusInfoItem, TranslateW(LANG_STATUS_DISABLED), iconList[ICON_NOT_PRIVATE].hIcolib);
 			}
 		}
 		else if (pcpp->MenuItemHandle == hHTMLConvMenuItem)
@@ -175,25 +175,25 @@ void InitMirOTRMenu(void)
 	mi.flags = CMIF_UNICODE | CMIF_NOTPRIVATE | CMIF_NOTUNVERIFIED;
 	mi.name.w = LANG_MENU_START;
 	mi.position = 100001;
-	mi.hIcolibItem = IcoLib_GetIconHandle(ICON_UNVERIFIED);
+	mi.hIcolibItem = iconList[ICON_UNVERIFIED].hIcolib;
 	AddMirOTRMenuItem(&mi, MS_OTR_MENUSTART);
 
 	mi.flags = CMIF_UNICODE | CMIF_NOTNOTPRIVATE | CMIF_NOTFINISHED;
 	mi.name.w = LANG_MENU_REFRESH;
 	mi.position = 100002;
-	mi.hIcolibItem = IcoLib_GetIconHandle(ICON_FINISHED);
+	mi.hIcolibItem = iconList[ICON_REFRESH].hIcolib;
 	AddMirOTRMenuItem(&mi, MS_OTR_MENUREFRESH);
 
 	mi.flags = CMIF_UNICODE | CMIF_NOTNOTPRIVATE;
 	mi.name.w = LANG_MENU_STOP;
 	mi.position = 100003;
-	mi.hIcolibItem = IcoLib_GetIconHandle(ICON_NOT_PRIVATE);
+	mi.hIcolibItem = iconList[ICON_NOT_PRIVATE].hIcolib;
 	AddMirOTRMenuItem(&mi, MS_OTR_MENUSTOP);
 
 	mi.flags = CMIF_UNICODE | CMIF_NOTNOTPRIVATE | CMIF_NOTFINISHED;
 	mi.name.w = LANG_MENU_VERIFY;
 	mi.position = 200001;
-	mi.hIcolibItem = IcoLib_GetIconHandle(ICON_PRIVATE);
+	mi.hIcolibItem = iconList[ICON_PRIVATE].hIcolib;
 	AddMirOTRMenuItem(&mi, MS_OTR_MENUVERIFY);
 
 	mi.flags = CMIF_UNICODE | CMIF_CHECKED;

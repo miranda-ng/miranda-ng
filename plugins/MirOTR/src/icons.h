@@ -1,9 +1,16 @@
 #pragma once
-#define ICON_FINISHED (MODULENAME"_finished")
-#define ICON_UNVERIFIED (MODULENAME"_unverified")
-#define ICON_PRIVATE (MODULENAME"_private")
-#define ICON_NOT_PRIVATE (MODULENAME"_not_private")
-#define ICON_OTR (MODULENAME"_otr")
-#define ICON_REFRESH (MODULENAME"_refresh")
+
+enum
+{
+	ICON_OTR,
+	ICON_PRIVATE,
+	ICON_UNVERIFIED,
+	ICON_FINISHED,
+	ICON_NOT_PRIVATE,
+	ICON_REFRESH,
+	ICON_MAXID
+};
+
+extern IconItem iconList[ICON_MAXID];
 
 void InitIcons();

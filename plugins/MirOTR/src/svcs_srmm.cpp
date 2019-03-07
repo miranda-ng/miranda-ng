@@ -39,22 +39,22 @@ void SetEncryptionStatus(MCONTACT hContact, TrustLevel level)
 		case TRUST_FINISHED:
 			sid.flags = 0;
 			button.pwszTooltip = TranslateW(LANG_STATUS_FINISHED);
-			button.hIcon = IcoLib_GetIconHandle(ICON_FINISHED);
+			button.hIcon = iconList[ICON_FINISHED].hIcolib;
 			break;
 		case TRUST_UNVERIFIED:
 			sid2.flags = MBF_DISABLED;
 			button.pwszTooltip = TranslateW(LANG_STATUS_UNVERIFIED);
-			button.hIcon = IcoLib_GetIconHandle(ICON_UNVERIFIED);
+			button.hIcon = iconList[ICON_UNVERIFIED].hIcolib;
 			break;
 		case TRUST_PRIVATE:
 			sid2.flags = 0;
 			button.pwszTooltip = TranslateW(LANG_STATUS_PRIVATE);
-			button.hIcon = IcoLib_GetIconHandle(ICON_PRIVATE);
+			button.hIcon = iconList[ICON_PRIVATE].hIcolib;
 			break;
 		default:
 			sid.flags = MBF_DISABLED;
 			button.pwszTooltip = TranslateW(LANG_STATUS_DISABLED);
-			button.hIcon = IcoLib_GetIconHandle(ICON_NOT_PRIVATE);
+			button.hIcon = iconList[ICON_NOT_PRIVATE].hIcolib;
 			break;
 		}
 		button.bbbFlags = 0;
@@ -110,10 +110,10 @@ void InitSRMM()
 	// add icon to srmm status icons
 	InitMirOTRMenu();
 
-	hIconNotSecure = IcoLib_GetIcon(ICON_NOT_PRIVATE, 0);
-	hIconFinished = IcoLib_GetIcon(ICON_FINISHED, 0);
-	hIconPrivate = IcoLib_GetIcon(ICON_PRIVATE, 0);
-	hIconUnverified = IcoLib_GetIcon(ICON_UNVERIFIED, 0);
+	hIconNotSecure = IcoLib_GetIconByHandle(iconList[ICON_NOT_PRIVATE].hIcolib, 0);
+	hIconFinished = IcoLib_GetIconByHandle(iconList[ICON_FINISHED].hIcolib, 0);
+	hIconPrivate = IcoLib_GetIconByHandle(iconList[ICON_PRIVATE].hIcolib, 0);
+	hIconUnverified = IcoLib_GetIconByHandle(iconList[ICON_UNVERIFIED].hIcolib, 0);
 
 	StatusIconData sid = {};
 	sid.szModule = MODULENAME;
@@ -136,7 +136,7 @@ void InitSRMM()
 	OTRButton.dwDefPos = 200;
 	OTRButton.bbbFlags = BBBF_ISRSIDEBUTTON | BBBF_CANBEHIDDEN | BBBF_ISIMBUTTON;
 	OTRButton.pwszTooltip = TranslateT(LANG_OTR_TOOLTIP);
-	OTRButton.hIcon = IcoLib_GetIconHandle(ICON_NOT_PRIVATE);
+	OTRButton.hIcon = iconList[ICON_NOT_PRIVATE].hIcolib;
 
 	HookEvent(ME_MSG_BUTTONPRESSED, SVC_ButtonsBarPressed);
 
@@ -145,10 +145,10 @@ void InitSRMM()
 
 void DeinitSRMM()
 {
-	IcoLib_Release(ICON_NOT_PRIVATE, 0);
-	IcoLib_Release(ICON_FINISHED, 0);
-	IcoLib_Release(ICON_PRIVATE, 0);
-	IcoLib_Release(ICON_UNVERIFIED, 0);
+	IcoLib_ReleaseIcon(hIconNotSecure);
+	IcoLib_ReleaseIcon(hIconFinished);
+	IcoLib_ReleaseIcon(hIconPrivate);
+	IcoLib_ReleaseIcon(hIconUnverified);
 	hIconNotSecure = hIconFinished = hIconPrivate = hIconUnverified =nullptr;
 
 	UninitMirOTRMenu();
