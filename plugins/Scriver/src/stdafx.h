@@ -98,7 +98,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 extern HCURSOR hDragCursor;
 extern ITaskbarList3 *pTaskbarInterface;
 
-void ChangeStatusIcons();
 void LoadInfobarFonts();
 
 #define SPLITTER_HEIGHT   4

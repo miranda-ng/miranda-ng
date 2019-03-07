@@ -22,26 +22,26 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 // Time Stamps strings
-char* time_stamp_strings[] =
+wchar_t* time_stamp_strings[] =
 {
-	LPGEN("Delete older than 1 day"),
-	LPGEN("Delete older than 3 days"),
-	LPGEN("Delete older than 7 days"),
-	LPGEN("Delete older than 2 weeks (14 days)"),
-	LPGEN("Delete older than 1 month (30 days)"),
-	LPGEN("Delete older than 3 months (90 days)"),
-	LPGEN("Delete older than 6 months (180 days)"),
-	LPGEN("Delete older than 1 year (365 days)")
+	LPGENW("Delete older than 1 day"),
+	LPGENW("Delete older than 3 days"),
+	LPGENW("Delete older than 7 days"),
+	LPGENW("Delete older than 2 weeks (14 days)"),
+	LPGENW("Delete older than 1 month (30 days)"),
+	LPGENW("Delete older than 3 months (90 days)"),
+	LPGENW("Delete older than 6 months (180 days)"),
+	LPGENW("Delete older than 1 year (365 days)")
 };
 
-char* keep_strings[] =
+wchar_t* keep_strings[] =
 {
-	LPGEN("Keep 1 last event"),
-	LPGEN("Keep 2 last events"),
-	LPGEN("Keep 5 last events"),
-	LPGEN("Keep 10 last events"),
-	LPGEN("Keep 20 last events"),
-	LPGEN("Keep 50 last events")
+	LPGENW("Keep 1 last event"),
+	LPGENW("Keep 2 last events"),
+	LPGENW("Keep 5 last events"),
+	LPGENW("Keep 10 last events"),
+	LPGENW("Keep 20 last events"),
+	LPGENW("Keep 50 last events")
 };
 
 static IconItem iconList[] =
@@ -75,7 +75,7 @@ HANDLE GetIconHandle(const char* name)
 	return nullptr;
 }
 
-void  ReleaseIconEx(const char* name)
+void ReleaseIconEx(const char* name)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, "%s_%s", MODULENAME, name);
@@ -117,15 +117,11 @@ void LoadSettings(HWND hwndDlg)
 	SendDlgItemMessage(hwndDlg, IDC_SSOLDER, CB_RESETCONTENT, 0, 0);
 	SendDlgItemMessage(hwndDlg, IDC_SSKEEP, CB_RESETCONTENT, 0, 0);
 
-	for (auto &it : time_stamp_strings) {
-		ptrW ptszTimeStr(Langpack_PcharToTchar(it));
-		SendDlgItemMessage(hwndDlg, IDC_SSOLDER, CB_ADDSTRING, 0, (LPARAM)ptszTimeStr);
-	}
+	for (auto &it : time_stamp_strings)
+		SendDlgItemMessage(hwndDlg, IDC_SSOLDER, CB_ADDSTRING, 0, (LPARAM)TranslateW(it));
 
-	for (auto &it : keep_strings) {
-		ptrW ptszTimeStr(Langpack_PcharToTchar(it));
-		SendDlgItemMessage(hwndDlg, IDC_SSKEEP, CB_ADDSTRING, 0, (LPARAM)ptszTimeStr);
-	}
+	for (auto &it : keep_strings)
+		SendDlgItemMessage(hwndDlg, IDC_SSKEEP, CB_ADDSTRING, 0, (LPARAM)TranslateW(it));
 
 	SendDlgItemMessage(hwndDlg, IDC_SSOLDER, CB_SETCURSEL, g_plugin.getByte("StartupShutdownOlder", 0), 0);
 	SendDlgItemMessage(hwndDlg, IDC_SSKEEP, CB_SETCURSEL, g_plugin.getByte("StartupShutdownKeep", 0), 0);
@@ -164,25 +160,19 @@ void SaveSettings(HWND hwndDlg)
 	// set tooltips
 	int st = g_plugin.getByte("SweepHistory", 0);
 
-	StatusIconData sid = {};
-	sid.szModule = MODULENAME;
-	sid.dwId = 0;
-	sid.hIcon = LoadIconEx("actG");
-	if (st == 0)	sid.szTooltip.a = LPGEN("Keep all events");
-	else if (st == 1)	sid.szTooltip.a = LPGEN(time_stamp_strings[g_plugin.getByte("StartupShutdownOlder", 0)]);
-	else if (st == 2)	sid.szTooltip.a = LPGEN(keep_strings[g_plugin.getByte("StartupShutdownKeep", 0)]);
-	else if (st == 3)	sid.szTooltip.a = LPGEN("Delete all events");
-	Srmm_ModifyIcon(NULL, &sid);
+	const wchar_t *pwszToolTip = nullptr;
+	if (st == 0)
+		pwszToolTip = LPGENW("Keep all events");
+	else if (st == 1)
+		pwszToolTip = time_stamp_strings[g_plugin.getByte("StartupShutdownOlder", 0)];
+	else if (st == 2)
+		pwszToolTip = keep_strings[g_plugin.getByte("StartupShutdownKeep", 0)];
+	else if (st == 3)
+		pwszToolTip = LPGENW("Delete all events");
+	Srmm_ModifyIcon(NULL, MODULENAME, 0, nullptr, pwszToolTip);
 
-	sid.dwId = 1;
-	sid.hIcon = LoadIconEx("act1");
-	sid.szTooltip.a = time_stamp_strings[g_plugin.getByte("StartupShutdownOlder", 0)];
-	Srmm_ModifyIcon(NULL, &sid);
-
-	sid.dwId = 2;
-	sid.hIcon = LoadIconEx("act2");
-	sid.szTooltip.a = keep_strings[g_plugin.getByte("StartupShutdownKeep", 0)];
-	Srmm_ModifyIcon(NULL, &sid);
+	Srmm_ModifyIcon(NULL, MODULENAME, 1, nullptr, time_stamp_strings[g_plugin.getByte("StartupShutdownOlder", 0)]);
+	Srmm_ModifyIcon(NULL, MODULENAME, 2, nullptr, keep_strings[g_plugin.getByte("StartupShutdownKeep", 0)]);
 }
 
 INT_PTR CALLBACK DlgProcHSOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)

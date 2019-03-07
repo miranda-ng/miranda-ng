@@ -66,7 +66,6 @@ DBCachedContact* CheckMeta(MCONTACT hMeta);
 
 // function to copy history from one contact to another - courtesy JdGordon with mods (thx)
 void Meta_FixStatus(DBCachedContact *ccMeta);
-void Meta_UpdateSrmmIcon(DBCachedContact *ccMeta, int iStatus);
 
 INT_PTR Meta_GetCaps(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_GetName(WPARAM wParam,LPARAM lParam);

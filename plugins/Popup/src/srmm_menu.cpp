@@ -38,14 +38,8 @@ static void SrmmMenu_UpdateIcon(MCONTACT hContact)
 
 	int mode = g_plugin.getByte(hContact, "ShowMode", PU_SHOWMODE_AUTO);
 
-	StatusIconData sid = {};
-	sid.szModule = MODULENAME;
-
-	for (int i = 0; i < 4; i++) {
-		sid.dwId = i;
-		sid.flags = (i == mode) ? 0 : MBF_HIDDEN;
-		Srmm_ModifyIcon(hContact, &sid);
-	}
+	for (int i = 0; i < 4; i++)
+		Srmm_SetIconFlags(hContact, MODULENAME, i, (i == mode) ? 0 : MBF_HIDDEN);
 }
 
 static int SrmmMenu_ProcessEvent(WPARAM, LPARAM lParam)

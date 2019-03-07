@@ -19,11 +19,6 @@ const wchar_t* Tooltips[] =
 
 void SetSRMMIcon(MCONTACT hContact, SRMM_ICON_TYPE type, time_t time)
 {
-	StatusIconData sid = {};
-	sid.szModule = MODULENAME;
-	sid.dwId = 1;
-	sid.flags = MBF_UNICODE;
-
 	MCONTACT hActualContact;
 	if (db_mc_isMeta(hContact))
 		hActualContact = db_mc_getSrmmSub(hContact);
@@ -31,21 +26,20 @@ void SetSRMMIcon(MCONTACT hContact, SRMM_ICON_TYPE type, time_t time)
 		hActualContact = hContact;
 
 	if (type != ICON_HIDDEN) {
-		sid.hIcon = IcoLib_GetIconByHandle(Icons[type].hIcolib);
-
+		const wchar_t *pwszToolTip;
 		if (type == ICON_READ) {
 			if (g_plugin.getDword(hActualContact, DBKEY_MESSAGE_READ_TIME_TYPE, -1) == MRD_TYPE_READTIME) {
 				wchar_t buf[100];
 				wcsftime(buf, _countof(buf), TranslateT("Last message read at %X %x"), localtime(&time));
-				sid.szTooltip.w = buf;
+				pwszToolTip = buf;
 			}
-			else sid.szTooltip.w = TranslateT("Last message read (unknown time)");
+			else pwszToolTip = TranslateT("Last message read (unknown time)");
 		}
-		else sid.szTooltip.w = TranslateW(Tooltips[type]);
+		else pwszToolTip = TranslateW(Tooltips[type]);
+		
+		Srmm_ModifyIcon(hContact, MODULENAME, 1, IcoLib_GetIconByHandle(Icons[type].hIcolib), pwszToolTip);
 	}
-	else sid.flags |= MBF_HIDDEN;
-
-	Srmm_ModifyIcon(hContact, &sid);
+	else Srmm_SetIconFlags(hContact, MODULENAME, 1, MBF_HIDDEN);
 }
 
 int IconsUpdate(MCONTACT hContact)

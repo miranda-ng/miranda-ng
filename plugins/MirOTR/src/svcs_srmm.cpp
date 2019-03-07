@@ -24,35 +24,27 @@ void SetEncryptionStatus(MCONTACT hContact, TrustLevel level)
 	bool chat_room = (proto && db_get_b(hContact, proto, "ChatRoom", 0));
 
 	BBButton button = OTRButton;
-
-	StatusIconData sid = {}, sid2 = {};
-	sid.szModule = MODULENAME;
-	sid.dwId = 0;
-	sid.flags = MBF_HIDDEN;
-
-	sid2.szModule = MODULENAME;
-	sid2.dwId = 1;
-	sid2.flags = MBF_HIDDEN;
+	int flags1 = MBF_HIDDEN, flags2 = MBF_HIDDEN;
 
 	if (!chat_room) {
 		switch (level) {
 		case TRUST_FINISHED:
-			sid.flags = 0;
+			flags1 = 0;
 			button.pwszTooltip = TranslateW(LANG_STATUS_FINISHED);
 			button.hIcon = iconList[ICON_FINISHED].hIcolib;
 			break;
 		case TRUST_UNVERIFIED:
-			sid2.flags = MBF_DISABLED;
+			flags2 = MBF_DISABLED;
 			button.pwszTooltip = TranslateW(LANG_STATUS_UNVERIFIED);
 			button.hIcon = iconList[ICON_UNVERIFIED].hIcolib;
 			break;
 		case TRUST_PRIVATE:
-			sid2.flags = 0;
+			flags2 = 0;
 			button.pwszTooltip = TranslateW(LANG_STATUS_PRIVATE);
 			button.hIcon = iconList[ICON_PRIVATE].hIcolib;
 			break;
 		default:
-			sid.flags = MBF_DISABLED;
+			flags1 = MBF_DISABLED;
 			button.pwszTooltip = TranslateW(LANG_STATUS_DISABLED);
 			button.hIcon = iconList[ICON_NOT_PRIVATE].hIcolib;
 			break;
@@ -61,8 +53,8 @@ void SetEncryptionStatus(MCONTACT hContact, TrustLevel level)
 	}
 	else button.bbbFlags = BBSF_HIDDEN;
 
-	Srmm_ModifyIcon(hContact, &sid);
-	Srmm_ModifyIcon(hContact, &sid2);
+	Srmm_SetIconFlags(hContact, MODULENAME, 0, flags1);
+	Srmm_SetIconFlags(hContact, MODULENAME, 1, flags2);
 	Srmm_SetButtonState(hContact, &button);
 
 	g_plugin.setDword(hContact, "TrustLevel", level);

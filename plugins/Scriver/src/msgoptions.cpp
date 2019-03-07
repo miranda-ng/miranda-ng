@@ -130,7 +130,6 @@ int IconsChanged(WPARAM, LPARAM)
 	LoadGlobalIcons();
 	FreeMsgLogIcons();
 	LoadMsgLogIcons();
-	ChangeStatusIcons();
 	Srmm_Broadcast(DM_REMAKELOG, 0, 0);
 	Srmm_Broadcast(DM_CHANGEICONS, 0, 1);
 	return 0;

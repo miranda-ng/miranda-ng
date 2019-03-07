@@ -48,21 +48,15 @@ void setSrmmIcon(MCONTACT h)
 	bool enabled = isContactSecured(hContact);
 	MCONTACT hMC = db_mc_tryMeta(hContact);
 
-	StatusIconData sid = {};
-	sid.szModule = MODULENAME;
-	sid.hIcon = IcoLib_GetIcon("secured");
-	sid.dwId = 1;
-	sid.flags = enabled ? 0 : MBF_HIDDEN;
-	Srmm_ModifyIcon(hContact, &sid);
+	int flags = enabled ? 0 : MBF_HIDDEN;
+	Srmm_SetIconFlags(hContact, MODULENAME, 1, flags);
 	if (hMC != hContact)
-		Srmm_ModifyIcon(hMC, &sid);
+		Srmm_SetIconFlags(hMC, MODULENAME, 1, flags);
 
-	sid.hIcon = IcoLib_GetIcon("unsecured");
-	sid.dwId = 2;
-	sid.flags = enabled ? MBF_HIDDEN : 0;
-	Srmm_ModifyIcon(hContact, &sid);
+	flags = enabled ? MBF_HIDDEN : 0;
+	Srmm_SetIconFlags(hContact, MODULENAME, 2, flags);
 	if (hMC != hContact)
-		Srmm_ModifyIcon(hMC, &sid);
+		Srmm_SetIconFlags(hMC, MODULENAME, 2, flags);
 }
 
 void RefreshContactListIcons()

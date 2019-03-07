@@ -62,11 +62,15 @@ struct StatusIconMain : public MZeroedObject
 
 	~StatusIconMain()
 	{
-		mir_free((void*)sid.szModule);
-		mir_free((void*)sid.szTooltip.w);
+		mir_free(szModule);
+		mir_free(pwszTooltip);
 	}
 
-	StatusIconData sid;
+	char* szModule;
+	DWORD dwId;
+	HICON hIcon, hIconDisabled;
+	int   flags;
+	wchar_t* pwszTooltip;
 
 	HANDLE hIcolibOn, hIcolibOff;
 	HPLUGIN pPlugin;
@@ -75,11 +79,11 @@ struct StatusIconMain : public MZeroedObject
 
 static int CompareIcons(const StatusIconMain *p1, const StatusIconMain *p2)
 {
-	int res = mir_strcmp(p1->sid.szModule, p2->sid.szModule);
+	int res = mir_strcmp(p1->szModule, p2->szModule);
 	if (res)
 		return res;
 	
-	return p1->sid.dwId - p2->sid.dwId;
+	return p1->dwId - p2->dwId;
 }
 
 static OBJLIST<StatusIconMain> arIcons(10, CompareIcons);
@@ -93,18 +97,23 @@ MIR_APP_DLL(int) Srmm_AddIcon(StatusIconData *sid, HPLUGIN pPlugin)
 
 	StatusIconMain *p = arIcons.find((StatusIconMain*)sid);
 	if (p != nullptr)
-		return Srmm_ModifyIcon(0, sid);
+		return 2;
 
 	p = new StatusIconMain;
-	memcpy(&p->sid, sid, sizeof(p->sid));
+	p->szModule = mir_strdup(sid->szModule);
+	p->dwId = sid->dwId;
+	p->flags = sid->flags;
 	p->pPlugin = pPlugin;
-	p->sid.szModule = mir_strdup(sid->szModule);
-	p->hIcolibOn = IcoLib_IsManaged(sid->hIcon);
-	p->hIcolibOff = IcoLib_IsManaged(sid->hIconDisabled);
+
+	if ((p->hIcolibOn = IcoLib_IsManaged(sid->hIcon)) == nullptr)
+		p->hIcon = sid->hIcon;
+	if ((p->hIcolibOff = IcoLib_IsManaged(sid->hIconDisabled)) == nullptr)
+		p->hIconDisabled = sid->hIconDisabled;
+
 	if (sid->flags & MBF_UNICODE)
-		p->sid.szTooltip.w = mir_wstrdup(sid->szTooltip.w);
+		p->pwszTooltip = mir_wstrdup(sid->szTooltip.w);
 	else
-		p->sid.szTooltip.w = mir_a2u(sid->szTooltip.a);
+		p->pwszTooltip = mir_a2u(sid->szTooltip.a);
 	arIcons.insert(p);
 
 	NotifyEventHooks(hHookIconsChanged, 0, (LPARAM)p);
@@ -113,44 +122,65 @@ MIR_APP_DLL(int) Srmm_AddIcon(StatusIconData *sid, HPLUGIN pPlugin)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(int) Srmm_ModifyIcon(MCONTACT hContact, StatusIconData *sid)
+MIR_APP_DLL(void) Srmm_ModifyIcon(MCONTACT hContact, const char *szModule, DWORD iconId, HICON hIcon, const wchar_t *pwszToolTip)
 {
-	if (sid == nullptr)
-		return 1;
+	StatusIconData sid;
+	sid.szModule = szModule;
+	sid.dwId = iconId;
 
-	StatusIconMain *p = arIcons.find((StatusIconMain*)sid);
+	StatusIconMain *p = arIcons.find((StatusIconMain*)&sid);
 	if (p == nullptr)
-		return 1;
+		return;
 
 	if (hContact == 0) {
-		mir_free((void*)p->sid.szModule);
-		mir_free((void*)p->sid.szTooltip.w);
-		memcpy(&p->sid, sid, sizeof(p->sid));
-		p->hIcolibOn = IcoLib_IsManaged(sid->hIcon);
-		p->hIcolibOff = IcoLib_IsManaged(sid->hIconDisabled);
-		p->sid.szModule = mir_strdup(sid->szModule);
-		p->sid.szTooltip.w = (sid->flags & MBF_UNICODE) ? mir_wstrdup(sid->szTooltip.w) : mir_a2u(sid->szTooltip.a);
+		if (hIcon)
+			if ((p->hIcolibOn = IcoLib_IsManaged(hIcon)) == nullptr)
+				p->hIcon = hIcon;
 
-		NotifyEventHooks(hHookIconsChanged, 0, (LPARAM)p);
-		return 0;
+		replaceStrW(p->pwszTooltip, pwszToolTip);
 	}
+	else {
+		StatusIconChild *pc = p->arChildren.find((StatusIconChild*)&hContact);
+		if (pc == nullptr) {
+			pc = new StatusIconChild();
+			pc->hContact = hContact;
+			p->arChildren.insert(pc);
+		}
 
-	StatusIconChild *pc = p->arChildren.find((StatusIconChild*)&hContact);
-	if (pc == nullptr) {
-		pc = new StatusIconChild();
-		pc->hContact = hContact;
-		p->arChildren.insert(pc);
+		if (hIcon)
+			if ((pc->hIcolibOn = IcoLib_IsManaged(hIcon)) == nullptr)
+				pc->hIcon = hIcon;
+		
+		replaceStrW(pc->pwszTooltip, pwszToolTip);
 	}
-
-	pc->flags = sid->flags;
-	pc->hIcon = sid->hIcon;
-	pc->hIconDisabled = sid->hIconDisabled;
-	pc->hIcolibOn = IcoLib_IsManaged(sid->hIcon);
-	pc->hIcolibOff = IcoLib_IsManaged(sid->hIconDisabled);
-	replaceStrW(pc->pwszTooltip, (sid->flags & MBF_UNICODE) ? mir_wstrdup(sid->szTooltip.w) : mir_a2u(sid->szTooltip.a));
 
 	NotifyEventHooks(hHookIconsChanged, hContact, (LPARAM)p);
-	return 0;
+}
+
+MIR_APP_DLL(void) Srmm_SetIconFlags(MCONTACT hContact, const char *szModule, DWORD iconId, int flags)
+{
+	StatusIconData sid;
+	sid.szModule = szModule;
+	sid.dwId = iconId;
+
+	StatusIconMain *p = arIcons.find((StatusIconMain*)&sid);
+	if (p == nullptr)
+		return;
+
+	if (hContact == 0)
+		p->flags = flags;
+	else {
+		StatusIconChild *pc = p->arChildren.find((StatusIconChild*)&hContact);
+		if (pc == nullptr) {
+			pc = new StatusIconChild();
+			pc->hContact = hContact;
+			p->arChildren.insert(pc);
+		}
+
+		pc->flags = flags;
+	}
+
+	NotifyEventHooks(hHookIconsChanged, hContact, (LPARAM)p);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -165,6 +195,16 @@ MIR_APP_DLL(void) Srmm_RemoveIcon(const char *szProto, DWORD iconId)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static void tryIcolib(HANDLE hIcolib, HICON hIcon, HICON &dest)
+{
+	if (hIcolib != nullptr)
+		hIcon = IcoLib_GetIconByHandle(hIcolib);
+	if (hIcon != nullptr)
+		dest = hIcon;
+	if (hIcolib != nullptr)
+		IcoLib_ReleaseIcon(hIcon);
+}
+
 MIR_APP_DLL(StatusIconData*) Srmm_GetNthIcon(MCONTACT hContact, int index)
 {
 	static StatusIconData res;
@@ -176,22 +216,26 @@ MIR_APP_DLL(StatusIconData*) Srmm_GetNthIcon(MCONTACT hContact, int index)
 			if (pc->flags & MBF_HIDDEN)
 				continue;
 		}
-		else if (it->sid.flags & MBF_HIDDEN)
+		else if (it->flags & MBF_HIDDEN)
 			continue;
 
 		if (nVis == index) {
 			memcpy(&res, it, sizeof(res));
 			if (pc) {
-				if (pc->hIcon)
-					res.hIcon = pc->hIcon;
-				if (pc->hIconDisabled)
-					res.hIconDisabled = pc->hIconDisabled;
-				else if (pc->hIcon)
-					res.hIconDisabled = pc->hIcon;
+				tryIcolib(pc->hIcolibOn, pc->hIcon, res.hIcon);
+				tryIcolib(pc->hIcolibOff, pc->hIconDisabled, res.hIconDisabled);
 				if (pc->pwszTooltip)
 					res.szTooltip.w = pc->pwszTooltip;
 				res.flags = pc->flags;
 			}
+
+			if (res.hIcon == nullptr)
+				tryIcolib(it->hIcolibOn, it->hIcon, res.hIcon);
+			if (res.hIconDisabled == nullptr)
+				tryIcolib(it->hIcolibOff, it->hIconDisabled, res.hIconDisabled);
+
+			if (res.hIconDisabled == nullptr)
+				res.hIconDisabled = res.hIcon;
 			res.szTooltip.w = TranslateW_LP(res.szTooltip.w, it->pPlugin);
 			return &res;
 		}

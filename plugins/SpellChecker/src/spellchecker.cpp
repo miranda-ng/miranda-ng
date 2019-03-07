@@ -62,30 +62,6 @@ CMPlugin::CMPlugin() :
 
 // Functions ////////////////////////////////////////////////////////////////////////////
 
-static int IconsChanged(WPARAM, LPARAM)
-{
-	StatusIconData sid = {};
-	sid.szModule = MODULENAME;
-	sid.hIconDisabled = IcoLib_GetIcon("spellchecker_disabled");
-	sid.flags = MBF_HIDDEN | MBF_UNICODE;
-
-	for (int i = 0; i < languages.getCount(); i++) {
-		sid.dwId = i;
-
-		wchar_t tmp[128];
-		mir_snwprintf(tmp, L"%s - %s", TranslateT("Spell Checker"), languages[i]->full_name);
-		sid.szTooltip.w = tmp;
-
-		HICON hIcon = (opts.use_flags) ? IcoLib_GetIconByHandle(languages[i]->hIcolib) : IcoLib_GetIcon("spellchecker_enabled");
-		sid.hIcon = CopyIcon(hIcon);
-		IcoLib_ReleaseIcon(hIcon);
-
-		Srmm_ModifyIcon(NULL, &sid);
-	}
-
-	return 0;
-}
-
 static int PreShutdown(WPARAM, LPARAM)
 {
 	mir_free(dictionariesFolder);
@@ -179,7 +155,6 @@ static int ModulesLoaded(WPARAM, LPARAM)
 			dict->load();
 	}
 
-	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
 	HookEvent(ME_MSG_WINDOWEVENT, MsgWindowEvent);
 	HookEvent(ME_MSG_WINDOWPOPUP, MsgWindowPopup);
 	HookEvent(ME_MSG_ICONPRESSED, IconPressed);

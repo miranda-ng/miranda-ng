@@ -52,10 +52,7 @@ int ProcessSrmmEvent(WPARAM, LPARAM lParam)
 		WindowList_Add(hDialogsList, event->hwndWindow, event->hContact);
 
 		BYTE fav = g_plugin.getByte(event->hContact, "IsFavourite");
-		StatusIconData sid = {};
-		sid.szModule = MODULENAME;
-		sid.flags = fav ? 0 : MBF_DISABLED;
-		Srmm_ModifyIcon(event->hContact, &sid);
+		Srmm_SetIconFlags(event->hContact, MODULENAME, 0, fav ? 0 : MBF_DISABLED);
 
 		if (event->hContact == hContactToActivate) {
 			HWND hwndRoot = event->hwndWindow;
@@ -94,10 +91,7 @@ int ProcessSrmmIconClick(WPARAM hContact, LPARAM lParam)
 		if (fav)
 			CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
 
-		StatusIconData sid = {};
-		sid.szModule = MODULENAME;
-		sid.flags = fav ? 0 : MBF_DISABLED;
-		Srmm_ModifyIcon(hContact, &sid);
+		Srmm_SetIconFlags(hContact, MODULENAME, 0, fav ? 0 : MBF_DISABLED);
 	}
 	else ShowMenu(false);
 

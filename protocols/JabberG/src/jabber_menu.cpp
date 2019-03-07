@@ -878,13 +878,8 @@ void CJabberProto::MenuUpdateSrmmIcon(JABBER_LIST_ITEM *item)
 		return;
 
 	MCONTACT hContact = HContactFromJID(item->jid);
-	if (!hContact)
-		return;
-
-	StatusIconData sid = {};
-	sid.szModule = m_szModuleName;
-	sid.flags = item->arResources.getCount() ? 0 : MBF_DISABLED;
-	Srmm_ModifyIcon(hContact, &sid);
+	if (hContact)
+		Srmm_SetIconFlags(hContact, m_szModuleName, 0, item->arResources.getCount() ? 0 : MBF_DISABLED);
 }
 
 int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)

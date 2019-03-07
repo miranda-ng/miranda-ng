@@ -97,26 +97,17 @@ MsgWndData::~MsgWndData()
 
 void MsgWndData::FlagsIconSet()
 {
-	StatusIconData sid = {};
-	sid.szModule = MODNAMEFLAGS;
-	if (!g_bShowStatusIconFlag)
-		sid.flags = MBF_HIDDEN;
-	if (m_countryID != 0xFFFF || g_bUseUnknownFlag) {
-		sid.hIcon = LoadFlagIcon(m_countryID);
-		sid.szTooltip.a = Translate((char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, m_countryID, 0));
+	if (!g_bShowStatusIconFlag || (m_countryID == 0xFFFF && !g_bUseUnknownFlag))
+		Srmm_SetIconFlags(m_hContact, MODNAMEFLAGS, 0, MBF_HIDDEN);
+	else {
+		char *szTooltip = (char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, m_countryID, 0);
+		Srmm_ModifyIcon(m_hContact, MODNAMEFLAGS, 0, LoadFlagIcon(m_countryID), TranslateW(_A2T(szTooltip)));
 	}
-	else sid.flags = MBF_HIDDEN;
-	
-	Srmm_ModifyIcon(m_hContact, &sid);
 }
 
 void UpdateStatusIcons()
 {
-	StatusIconData sid = {};
-	sid.szModule = MODNAMEFLAGS;
-	if (!g_bShowStatusIconFlag)
-		sid.flags = MBF_HIDDEN;
-	Srmm_ModifyIcon(NULL, &sid);
+	Srmm_SetIconFlags(NULL, MODNAMEFLAGS, 0, MBF_HIDDEN);
 
 	/* enum all opened message windows */
 	for (auto &it : gMsgWndList)

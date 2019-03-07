@@ -548,13 +548,5 @@ void Meta_FixStatus(DBCachedContact *ccMeta)
 	}
 
 	db_set_w(ccMeta->contactID, META_PROTO, "Status", status);
-	Meta_UpdateSrmmIcon(ccMeta, status);
-}
-
-void Meta_UpdateSrmmIcon(DBCachedContact *ccMeta, int)
-{
-	StatusIconData sid = {};
-	sid.szModule = META_PROTO;
-	sid.flags = (ccMeta->IsMeta()) ? 0 : MBF_HIDDEN;
-	Srmm_ModifyIcon(ccMeta->contactID, &sid);
+	Srmm_SetIconFlags(ccMeta->contactID, META_PROTO, 0, ccMeta->IsMeta() ? 0 : MBF_HIDDEN);
 }

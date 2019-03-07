@@ -534,7 +534,7 @@ static int Meta_MessageWindowEvent(WPARAM, LPARAM lParam)
 	if (mwed->uType == MSG_WINDOW_EVT_OPEN) {
 		DBCachedContact *cc = currDb->getCache()->GetCachedContact(mwed->hContact);
 		if (cc != nullptr) {
-			Meta_UpdateSrmmIcon(cc, db_get_w(cc->contactID, META_PROTO, "Status", ID_STATUS_OFFLINE));
+			Srmm_SetIconFlags(cc->contactID, META_PROTO, 0, cc->IsMeta() ? 0 : MBF_HIDDEN);
 			if (cc->IsMeta()) {
 				MetaSrmmData *p = new MetaSrmmData;
 				p->m_hMeta = cc->contactID;

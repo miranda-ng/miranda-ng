@@ -147,18 +147,10 @@ void RegisterIcons()
 
 static void SetSrmmIcon(MCONTACT hContact, LPTSTR ptszMirver)
 {
-	StatusIconData sid = {};
-	sid.szModule = MODULENAME;
-	sid.dwId = 1;
-	sid.flags = MBF_UNICODE;
-	sid.szTooltip.w = ptszMirver;
-
 	if (mir_wstrlen(ptszMirver))
-		sid.hIcon = (HICON)ServiceGetClientIconW((WPARAM)ptszMirver, TRUE);
+		Srmm_ModifyIcon(hContact, MODULENAME, 1, (HICON)ServiceGetClientIconW((WPARAM)ptszMirver, TRUE), ptszMirver);
 	else
-		sid.flags |= MBF_HIDDEN;
-
-	Srmm_ModifyIcon(hContact, &sid);
+		Srmm_SetIconFlags(hContact, MODULENAME, 1, MBF_HIDDEN);
 }
 
 int __fastcall ApplyFingerprintImage(MCONTACT hContact, LPTSTR szMirVer)

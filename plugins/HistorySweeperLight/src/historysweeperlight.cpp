@@ -239,12 +239,6 @@ void SetSrmmIcon(MCONTACT hContact)
 {
 	int sweep = g_plugin.getByte(hContact, "SweepHistory");
 
-	StatusIconData sid = {};
-	sid.szModule = MODULENAME;
-
-	for (int i = 0; i < 4; i++) {
-		sid.dwId = i;
-		sid.flags = (sweep == i) ? 0 : MBF_HIDDEN;
-		Srmm_ModifyIcon(hContact, &sid);
-	}
+	for (int i = 0; i < 4; i++)
+		Srmm_SetIconFlags(hContact, MODULENAME, i, (sweep == i) ? 0 : MBF_HIDDEN);
 }

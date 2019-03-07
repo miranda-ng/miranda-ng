@@ -56,8 +56,8 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 extern LIST<void> g_hWindows;
 
 // options.c
-extern char* time_stamp_strings[];
-extern char* keep_strings[];
+extern wchar_t* time_stamp_strings[];
+extern wchar_t* keep_strings[];
 int HSOptInitialise(WPARAM wParam, LPARAM lParam);
 void InitIcons(void);
 void  ReleaseIconEx(const char* name);

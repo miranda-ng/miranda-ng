@@ -515,9 +515,7 @@ void CChatRoomDlg::UpdateStatusBar()
 	sbd.pszText = L"";
 	SendMessage(m_hwndParent, CM_UPDATESTATUSBAR, (WPARAM)&sbd, (LPARAM)m_hwnd);
 
-	StatusIconData sid = {};
-	sid.szModule = SRMM_MODULE;
-	Srmm_ModifyIcon(m_hContact, &sid);
+	Srmm_SetIconFlags(m_hContact, SRMM_MODULE, 0, 0);
 }
 
 void CChatRoomDlg::UpdateTitle()

@@ -769,17 +769,13 @@ void CSrmmWindow::UpdateStatusBar()
 		SendMessage(m_hwndParent, CM_UPDATESTATUSBAR, (WPARAM)&sbd, (LPARAM)m_hwnd);
 		UpdateReadChars();
 
-		StatusIconData sid = {};
-		sid.szModule = SRMM_MODULE;
-		sid.flags = MBF_DISABLED;
-		Srmm_ModifyIcon(m_hContact, &sid);
-		sid.dwId = 1;
-		if (IsTypingNotificationSupported() && g_dat.flags2 & SMF2_SHOWTYPINGSWITCH)
-			sid.flags = (g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW))) ? 0 : MBF_DISABLED;
-		else
-			sid.flags = MBF_HIDDEN;
+		Srmm_SetIconFlags(m_hContact, SRMM_MODULE, 0, MBF_DISABLED);
 
-		Srmm_ModifyIcon(m_hContact, &sid);
+		if (IsTypingNotificationSupported() && g_dat.flags2 & SMF2_SHOWTYPINGSWITCH) {
+			int mode = g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
+			Srmm_SetIconFlags(m_hContact, SRMM_MODULE, 1, mode ? 0 : MBF_DISABLED);
+		}
+		else Srmm_SetIconFlags(m_hContact, SRMM_MODULE, 1, MBF_HIDDEN);
 	}
 }
 
@@ -1273,14 +1269,9 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case DM_SWITCHTYPING:
 		if (IsTypingNotificationSupported()) {
-			StatusIconData sid = {};
-			sid.szModule = SRMM_MODULE;
-			sid.dwId = 1;
-
 			BYTE typingNotify = (g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)));
 			g_plugin.setByte(m_hContact, SRMSGSET_TYPING, (BYTE)!typingNotify);
-			sid.flags = typingNotify ? MBF_DISABLED : 0;
-			Srmm_ModifyIcon(m_hContact, &sid);
+			Srmm_SetIconFlags(m_hContact, SRMM_MODULE, 1, typingNotify ? MBF_DISABLED : 0);
 		}
 		break;
 

@@ -79,16 +79,13 @@ void ShowStatusIcon(MCONTACT hContact, int mode)
 			ExtraIcon_Clear(g_hCLIcon, hMC);
 	}
 
-	StatusIconData sid = {};
-	sid.szModule = (char*)MODULENAME;
 	for (int i = MODE_NATIVE; i < MODE_CNT; i++) {
-		sid.dwId = i;
-		sid.flags = (mode & SECURED) ? 0 : MBF_DISABLED;
+		int flags = (mode & SECURED) ? 0 : MBF_DISABLED;
 		if (mode == -1 || (mode & 0x0f) != i || isChatRoom(hContact))
-			sid.flags |= MBF_HIDDEN;  // отключаем все ненужные иконки
-		Srmm_ModifyIcon(hContact, &sid);
+			flags |= MBF_HIDDEN;  // отключаем все ненужные иконки
+		Srmm_SetIconFlags(hContact, MODULENAME, i, flags);
 		if (hMC)
-			Srmm_ModifyIcon(hMC, &sid);
+			Srmm_SetIconFlags(hMC, MODULENAME, i, flags);
 	}
 }
 

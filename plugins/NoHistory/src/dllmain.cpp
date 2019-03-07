@@ -157,14 +157,8 @@ INT_PTR ServiceToggle(WPARAM hContact, LPARAM)
 	remove = !remove;
 	g_plugin.setByte(hContact, DBSETTING_REMOVE, remove != 0);
 
-	StatusIconData sid = {};
-	sid.szModule = MODULENAME;
-
-	for (int i = 0; i < 2; ++i) {
-		sid.dwId = i;
-		sid.flags = (i == remove) ? 0 : MBF_HIDDEN;
-		Srmm_ModifyIcon(hContact, &sid);
-	}
+	for (int i = 0; i < 2; ++i)
+		Srmm_SetIconFlags(hContact, MODULENAME, i, (i == remove) ? 0 : MBF_HIDDEN);
 	return 0;
 }
 
@@ -183,13 +177,8 @@ int WindowEvent(WPARAM, LPARAM lParam)
 		bool chat_room = (proto && db_get_b(hContact, proto, "ChatRoom", 0) != 0);
 		int remove = g_plugin.getByte(hContact, DBSETTING_REMOVE) != 0;
 
-		StatusIconData sid = {};
-		sid.szModule = MODULENAME;
-		for (int i=0; i < 2; ++i) {
-			sid.dwId = i;
-			sid.flags = (chat_room ? MBF_HIDDEN : (i == remove) ? 0 : MBF_HIDDEN);
-			Srmm_ModifyIcon(hContact, &sid);
-		}
+		for (int i = 0; i < 2; ++i)
+			Srmm_SetIconFlags(hContact, MODULENAME, i, chat_room ? MBF_HIDDEN : (i == remove) ? 0 : MBF_HIDDEN);
 	}
 
 	return 0;

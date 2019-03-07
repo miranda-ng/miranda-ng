@@ -408,17 +408,6 @@ static void RegisterStatusIcons()
 	Srmm_AddIcon(&sid, &g_plugin);
 }
 
-void ChangeStatusIcons()
-{
-	StatusIconData sid = {};
-	sid.szModule = SRMM_MODULE;
-	sid.dwId = 1;
-	sid.hIcon = GetCachedIcon("scriver_TYPING");
-	sid.hIconDisabled = GetCachedIcon("scriver_TYPINGOFF");
-	sid.flags = MBF_HIDDEN;
-	Srmm_ModifyIcon(0, &sid);
-}
-
 int StatusIconPressed(WPARAM wParam, LPARAM lParam)
 {
 	StatusIconClickData *sicd = (StatusIconClickData *) lParam;

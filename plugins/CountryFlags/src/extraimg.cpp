@@ -49,7 +49,7 @@ static void CALLBACK SetExtraImage(MCONTACT hContact)
 {
 	if (!bShowExtraIcon)
 		return;
-		
+
 	int countryNumber = ServiceDetectContactOriginCountry(hContact, 0);
 	if (countryNumber == 0xFFFF && !bUseUnknown)
 		ExtraIcon_Clear(hExtraIcon, hContact);
@@ -87,48 +87,31 @@ void UpdateExtraImages()
 #define STATUSICON_REFRESHDELAY  100  /* time for which setting changes are buffered */
 
 // always call in context of main thread
-static void __fastcall SetStatusIcon(MCONTACT hContact,int countryNumber)
+static void __fastcall SetStatusIcon(MCONTACT hContact, int countryNumber)
 {
-	StatusIconData sid = {};
-	sid.szModule = MODULENAME;
-
-	if (countryNumber != 0xFFFF || bUseUnknown) {
+	if (countryNumber != 0xFFFF || bUseUnknown)
 		/* copy icon as status icon API will call DestroyIcon() on it */
-		sid.hIcon = LoadFlagIcon(countryNumber);
-		sid.szTooltip.a = (char*) CallService(MS_UTILS_GETCOUNTRYBYNUMBER,countryNumber,0);
-	}	
-	else sid.flags = MBF_HIDDEN;
-
-	Srmm_ModifyIcon(hContact, &sid);
-
-	if (sid.hIcon)
-		IcoLib_ReleaseIcon(sid.hIcon);
-}
-
-// always call in context of main thread
-static void __fastcall UnsetStatusIcon(MCONTACT hContact)
-{
-	StatusIconData sid = {};
-	sid.szModule = MODULENAME;
-	sid.flags = MBF_HIDDEN;
-	Srmm_ModifyIcon(hContact, &sid);
+		Srmm_ModifyIcon(hContact, MODULENAME, 0, LoadFlagIcon(countryNumber), _A2T((char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, countryNumber, 0)));
+	else
+		Srmm_SetIconFlags(hContact, MODULENAME, 0, MBF_HIDDEN);
 }
 
 static int MsgWndEvent(WPARAM, LPARAM lParam)
 {
-	MessageWindowEventData *msgwe=(MessageWindowEventData*)lParam;
-	switch(msgwe->uType) {
+	MessageWindowEventData *msgwe = (MessageWindowEventData*)lParam;
+	switch (msgwe->uType) {
 	case MSG_WINDOW_EVT_OPENING:
 	case MSG_WINDOW_EVT_CLOSE:
 		if (bShowStatusIcon) {
 			int countryNumber = ServiceDetectContactOriginCountry((WPARAM)msgwe->hContact, 0);
 			if (msgwe->uType == MSG_WINDOW_EVT_OPENING && countryNumber != 0xFFFF)
-				SetStatusIcon(msgwe->hContact,countryNumber);
+				SetStatusIcon(msgwe->hContact, countryNumber);
 			else
-				UnsetStatusIcon(msgwe->hContact);
+				Srmm_SetIconFlags(msgwe->hContact, MODULENAME, 0, MBF_HIDDEN);
 		}
-		/* ensure it is hidden, RemoveStatusIcons() only enums currently opened ones  */
-		else UnsetStatusIcon(msgwe->hContact);
+		// ensure it is hidden, RemoveStatusIcons() only enums currently opened ones
+		else 
+			Srmm_SetIconFlags(msgwe->hContact, MODULENAME, 0, MBF_HIDDEN);
 	}
 	return 0;
 }
@@ -143,7 +126,7 @@ void CALLBACK UpdateStatusIcons(LPARAM)
 				int countryNumber = ServiceDetectContactOriginCountry(hContact, 0);
 				SetStatusIcon(hContact, countryNumber);
 			}
-			else UnsetStatusIcon(hContact);
+			else Srmm_SetIconFlags(hContact, MODULENAME, 0, MBF_HIDDEN);
 		}
 	}
 }
@@ -160,11 +143,11 @@ static int ExtraImgSettingChanged(WPARAM hContact, LPARAM lParam)
 	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING*)lParam;
 	if (hContact) {
 		/* user details update */
-		if (!strcmp(dbcws->szSetting,"RealIP") || !strcmp(dbcws->szSetting,"Country") || !strcmp(dbcws->szSetting,"CompanyCountry")) {
+		if (!strcmp(dbcws->szSetting, "RealIP") || !strcmp(dbcws->szSetting, "Country") || !strcmp(dbcws->szSetting, "CompanyCountry")) {
 			/* Extra Image */
 			SetExtraImage(hContact);
 			/* Status Icon */
-			CallFunctionBuffered(UpdateStatusIcons,0,FALSE,STATUSICON_REFRESHDELAY);
+			CallFunctionBuffered(UpdateStatusIcons, 0, FALSE, STATUSICON_REFRESHDELAY);
 		}
 	}
 	return 0;

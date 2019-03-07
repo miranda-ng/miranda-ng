@@ -165,15 +165,16 @@ EXTERN_C MIR_APP_DLL(int) Srmm_AddIcon(StatusIconData *sid, HPLUGIN pPlugin);
 EXTERN_C MIR_APP_DLL(void) Srmm_RemoveIcon(const char *szProto, DWORD iconId);
 
 // if hContact is null, icon is modified for all contacts
-// otherwise, only the flags field is valid
-// if either hIcon, hIconDisabled or szTooltip is null, they will not be modified
-EXTERN_C MIR_APP_DLL(int) Srmm_ModifyIcon(MCONTACT hContact, StatusIconData *sid);
+// if either hIcon or pwszTooltip is null, they will not be modified
+EXTERN_C MIR_APP_DLL(void) Srmm_ModifyIcon(MCONTACT hContact, const char *szModule, DWORD iconId, HICON hIcon, const wchar_t *pwszToolTip);
 
-// wParam = (HANDLE)hContact
-// lParam = (int)zero-based index of a visible icon
-// returns (StatusIconData*)icon description filled for the required contact
+// if hContact is null, flags are modified for all contacts
+EXTERN_C MIR_APP_DLL(void) Srmm_SetIconFlags(MCONTACT hContact, const char *szModule, DWORD iconId, int flags);
+
+// idx is zero-based index of a visible icon
+// returns (StatusIconData*)icon description filled for the required contact or NULL if there're no more icons
 // don't free this memory.
-EXTERN_C MIR_APP_DLL(StatusIconData*) Srmm_GetNthIcon(MCONTACT hContact, int index);
+EXTERN_C MIR_APP_DLL(StatusIconData*) Srmm_GetNthIcon(MCONTACT hContact, int idx);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // status icons click notification

@@ -814,18 +814,11 @@ void GetContactLanguage(Dialog *dlg)
 
 void ModifyIcon(Dialog *dlg)
 {
-	StatusIconData sid = {};
-	sid.szModule = MODULENAME;
-
 	for (int i = 0; i < languages.getCount(); i++) {
-		sid.dwId = i;
-
 		if (languages[i] == dlg->lang)
-			sid.flags = (dlg->enabled ? 0 : MBF_DISABLED);
+			Srmm_SetIconFlags(dlg->hContact, MODULENAME, i, dlg->enabled ? 0 : MBF_DISABLED);
 		else
-			sid.flags = MBF_HIDDEN;
-
-		Srmm_ModifyIcon(dlg->hContact, &sid);
+			Srmm_SetIconFlags(dlg->hContact, MODULENAME, i, MBF_HIDDEN);
 	}
 }
 

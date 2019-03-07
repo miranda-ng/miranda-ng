@@ -674,3 +674,4 @@ Popup_AddClass @763
 Popup_Add @764
 Popup_Change @765
 Skin_GetProtoIcon @766
+Srmm_SetIconFlags @767

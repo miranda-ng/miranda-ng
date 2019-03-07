@@ -53,19 +53,12 @@ static int OnIconPressed(WPARAM hContact, LPARAM lParam)
 
 	if (!(sicd->flags & MBCF_RIGHTBUTTON) && !mir_strcmp(sicd->szModule, MODULENAME) && g_plugin.getByte("ChangeInMW", 0)) {
 		int nh = sicd->dwId;
-
-		StatusIconData sid = {};
-		sid.szModule = MODULENAME;
-		sid.dwId = nh;
-		sid.flags = MBF_HIDDEN;
-		Srmm_ModifyIcon(hContact, &sid);
+		Srmm_SetIconFlags(hContact, MODULENAME, nh, MBF_HIDDEN);
 
 		nh = (nh + 1) % 4;
-		g_plugin.setByte(hContact, "SweepHistory", (BYTE)nh);
 
-		sid.dwId = nh;
-		sid.flags = 0;
-		Srmm_ModifyIcon(hContact, &sid);
+		g_plugin.setByte(hContact, "SweepHistory", (BYTE)nh);
+		Srmm_SetIconFlags(hContact, MODULENAME, nh, 0);
 	}
 	return 0;
 }
@@ -79,33 +72,30 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 	sid.hIcon = LoadIconEx("actG");
 	if (sweep == 0)
-		sid.szTooltip.a = LPGEN("Keep all events");
+		sid.szTooltip.w = LPGENW("Keep all events");
 	else if (sweep == 1)
-		sid.szTooltip.a = time_stamp_strings[g_plugin.getByte("StartupShutdownOlder", 0)];
+		sid.szTooltip.w = time_stamp_strings[g_plugin.getByte("StartupShutdownOlder", 0)];
 	else if (sweep == 2)
-		sid.szTooltip.a = keep_strings[g_plugin.getByte("StartupShutdownKeep", 0)];
+		sid.szTooltip.w = keep_strings[g_plugin.getByte("StartupShutdownKeep", 0)];
 	else if (sweep == 3)
-		sid.szTooltip.a = LPGEN("Delete all events");
+		sid.szTooltip.w = LPGENW("Delete all events");
 
-	sid.flags = MBF_HIDDEN;
+	sid.flags = MBF_HIDDEN | MBF_UNICODE;
 	Srmm_AddIcon(&sid, &g_plugin);
 
 	sid.dwId = 1;
 	sid.hIcon = LoadIconEx("act1");
-	sid.szTooltip.a = time_stamp_strings[g_plugin.getByte("StartupShutdownOlder", 0)];
-	sid.flags = MBF_HIDDEN;
+	sid.szTooltip.w = time_stamp_strings[g_plugin.getByte("StartupShutdownOlder", 0)];
 	Srmm_AddIcon(&sid, &g_plugin);
 
 	sid.dwId = 2;
 	sid.hIcon = LoadIconEx("act2");
-	sid.szTooltip.a = keep_strings[g_plugin.getByte("StartupShutdownKeep", 0)];
-	sid.flags = MBF_HIDDEN;
+	sid.szTooltip.w = keep_strings[g_plugin.getByte("StartupShutdownKeep", 0)];
 	Srmm_AddIcon(&sid, &g_plugin);
 
 	sid.dwId = 3;
 	sid.hIcon = LoadIconEx("actDel");
-	sid.szTooltip.a = LPGEN("Delete all events");
-	sid.flags = MBF_HIDDEN;
+	sid.szTooltip.w = LPGENW("Delete all events");
 	Srmm_AddIcon(&sid, &g_plugin);
 
 	HookEvent(ME_MSG_WINDOWEVENT, OnWindowEvent);
