@@ -86,7 +86,7 @@ static void __cdecl AdvSt(void*)
 	Thread_SetName("StartupSilenc: AdvSt");
 
 	if ((Enabled == 1)) {
-		POPUPDATAW ppd = { 0 };
+		POPUPDATAW ppd;
 		wchar_t *lpwzText = L"";
 		db_set_b(0, "Skin", "UseSound", 0);
 		Popup_Enable(true);
@@ -212,7 +212,7 @@ static INT_PTR StartupSilenceEnabled(WPARAM, LPARAM)
 		UpdateMenu();
 	if (PopUp == 1) {
 		wchar_t * lpwzText = Enabled == 1 ? S_MODE_CHANGEDON : S_MODE_CHANGEDOFF;
-		POPUPDATAW ppd = { 0 };
+		POPUPDATAW ppd;
 		ppd.lchIcon = IcoLib_GetIconByHandle((Enabled == 1) ? GetIconHandle(ENABLE_SILENCE) : GetIconHandle(DISABLE_SILENCE));
 		ppd.lchContact = NULL;
 		ppd.iSeconds = PopUpTime;

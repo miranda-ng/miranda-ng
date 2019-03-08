@@ -880,15 +880,11 @@ void UpdateNotifyTimer(void)
 void NotifyOnSend(void)
 {
 	POPUPDATAW ppd;
-
-	memset(&ppd, 0, sizeof(ppd));
-	ppd.lchContact = NULL;
 	ppd.lchIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	wcsncpy(ppd.lpwzContactName, TranslateT("Traffic counter notification"), MAX_CONTACTNAME);
 	mir_snwprintf(ppd.lpwzText, TranslateT("%d kilobytes sent"), notify_send_size = OverallInfo.CurrentSentTraffic >> 10);
 	ppd.colorBack = Traffic_PopupBkColor;
 	ppd.colorText = Traffic_PopupFontColor;
-	ppd.PluginWindowProc = nullptr;
 	ppd.iSeconds = (Traffic_PopupTimeoutDefault ? 0 : Traffic_PopupTimeoutValue);
 	PUAddPopupW(&ppd);
 }
@@ -896,15 +892,11 @@ void NotifyOnSend(void)
 void NotifyOnRecv(void)
 {
 	POPUPDATAW ppd;
-
-	memset(&ppd, 0, sizeof(ppd));
-	ppd.lchContact = NULL;
 	ppd.lchIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	wcsncpy(ppd.lpwzContactName, TranslateT("Traffic counter notification"), MAX_CONTACTNAME);
 	mir_snwprintf(ppd.lpwzText, TranslateT("%d kilobytes received"), notify_recv_size = OverallInfo.CurrentRecvTraffic >> 10);
 	ppd.colorBack = Traffic_PopupBkColor;
 	ppd.colorText = Traffic_PopupFontColor;
-	ppd.PluginWindowProc = nullptr;
 	ppd.iSeconds = (Traffic_PopupTimeoutDefault ? 0 : Traffic_PopupTimeoutValue);
 	PUAddPopupW(&ppd);
 }

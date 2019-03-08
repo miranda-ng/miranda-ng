@@ -480,7 +480,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 
 int showMessage(const popup_t &msg)
 {
-	POPUPDATAW ppd = { 0 };
+	POPUPDATAW ppd;
 	wcsncpy(ppd.lpwzText, strip(msg.message).c_str(), MAX_SECONDLINE);
 	wcsncpy(ppd.lpwzContactName, msg.contact.c_str(), MAX_CONTACTNAME);
 	ppd.colorBack = msg.background;

@@ -490,35 +490,35 @@ static INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM, LPARAM lParam)
 		MoveWindow(hDlg, -10, -10, 0, 0, FALSE);
 		LPMSGPOPUPDATA pmpd = (LPMSGPOPUPDATA)mir_alloc(sizeof(MSGPOPUPDATA));
 		if (pmpd) {
-			POPUPDATAW pd = { 0 };
-			pd.lchContact = NULL; //(HANDLE)wParam;
+			POPUPDATAW ppd;
+			ppd.lchContact = NULL; //(HANDLE)wParam;
 			// icon
-			pd.lchIcon = MsgLoadIcon(pMsgBox);
-			mir_wstrncpy(pd.lpwzContactName, pMsgBox->ptszTitle, _countof(pd.lpwzContactName));
-			mir_wstrncpy(pd.lpwzText, pMsgBox->ptszMsg, _countof(pd.lpwzText));
+			ppd.lchIcon = MsgLoadIcon(pMsgBox);
+			mir_wstrncpy(ppd.lpwzContactName, pMsgBox->ptszTitle, _countof(ppd.lpwzContactName));
+			mir_wstrncpy(ppd.lpwzText, pMsgBox->ptszMsg, _countof(ppd.lpwzText));
 
 			// CALLBAC Proc
-			pd.PluginWindowProc = PopupProc;
-			pd.PluginData = pmpd;
-			pd.iSeconds = -1;
-			pd.lpActions = pmpd->pa;
+			ppd.PluginWindowProc = PopupProc;
+			ppd.PluginData = pmpd;
+			ppd.iSeconds = -1;
+			ppd.lpActions = pmpd->pa;
 
 			// set color of popup
 			switch (pMsgBox->uType & MB_ICONMASK) {
 			case MB_ICON_ERROR:
-				pd.colorBack = RGB(200, 10, 0);
-				pd.colorText = RGB(255, 255, 255);
+				ppd.colorBack = RGB(200, 10, 0);
+				ppd.colorText = RGB(255, 255, 255);
 				break;
 
 			case MB_ICON_WARNING:
-				pd.colorBack = RGB(200, 100, 0);
-				pd.colorText = RGB(255, 255, 255);
+				ppd.colorBack = RGB(200, 100, 0);
+				ppd.colorText = RGB(255, 255, 255);
 				break;
 
 			default:
 				if (pMsgBox->uType & MB_CUSTOMCOLOR) {
-					pd.colorBack = pMsgBox->colorBack;
-					pd.colorText = pMsgBox->colorText;
+					ppd.colorBack = pMsgBox->colorBack;
+					ppd.colorText = pMsgBox->colorText;
 				}
 			}
 
@@ -528,45 +528,45 @@ static INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM, LPARAM lParam)
 			// active buttons
 			switch (MB_TYPE(pMsgBox->uType)) {
 			case MB_OK:
-				MakePopupAction(pmpd->pa[pd.actionCount++], IDOK);
+				MakePopupAction(pmpd->pa[ppd.actionCount++], IDOK);
 				break;
 
 			case MB_OKCANCEL:
-				MakePopupAction(pmpd->pa[pd.actionCount++], IDOK);
-				MakePopupAction(pmpd->pa[pd.actionCount++], IDCANCEL);
+				MakePopupAction(pmpd->pa[ppd.actionCount++], IDOK);
+				MakePopupAction(pmpd->pa[ppd.actionCount++], IDCANCEL);
 				break;
 
 			case MB_RETRYCANCEL:
-				MakePopupAction(pmpd->pa[pd.actionCount++], IDRETRY);
-				MakePopupAction(pmpd->pa[pd.actionCount++], IDCANCEL);
+				MakePopupAction(pmpd->pa[ppd.actionCount++], IDRETRY);
+				MakePopupAction(pmpd->pa[ppd.actionCount++], IDCANCEL);
 				break;
 
 			case MB_YESNO:
-				MakePopupAction(pmpd->pa[pd.actionCount++], IDYES);
-				MakePopupAction(pmpd->pa[pd.actionCount++], IDNO);
+				MakePopupAction(pmpd->pa[ppd.actionCount++], IDYES);
+				MakePopupAction(pmpd->pa[ppd.actionCount++], IDNO);
 				break;
 
 			case MB_ABORTRETRYIGNORE:
-				MakePopupAction(pmpd->pa[pd.actionCount++], IDABORT);
-				MakePopupAction(pmpd->pa[pd.actionCount++], IDRETRY);
-				MakePopupAction(pmpd->pa[pd.actionCount++], IDIGNORE);
+				MakePopupAction(pmpd->pa[ppd.actionCount++], IDABORT);
+				MakePopupAction(pmpd->pa[ppd.actionCount++], IDRETRY);
+				MakePopupAction(pmpd->pa[ppd.actionCount++], IDIGNORE);
 				break;
 
 			case MB_YESNOCANCEL:
-				MakePopupAction(pmpd->pa[pd.actionCount++], IDYES);
-				MakePopupAction(pmpd->pa[pd.actionCount++], IDNO);
-				MakePopupAction(pmpd->pa[pd.actionCount++], IDCANCEL);
+				MakePopupAction(pmpd->pa[ppd.actionCount++], IDYES);
+				MakePopupAction(pmpd->pa[ppd.actionCount++], IDNO);
+				MakePopupAction(pmpd->pa[ppd.actionCount++], IDCANCEL);
 				break;
 
 			case MB_YESALLNO:
-				MakePopupAction(pmpd->pa[pd.actionCount++], IDYES);
-				MakePopupAction(pmpd->pa[pd.actionCount++], IDALL);
-				MakePopupAction(pmpd->pa[pd.actionCount++], IDNO);
+				MakePopupAction(pmpd->pa[ppd.actionCount++], IDYES);
+				MakePopupAction(pmpd->pa[ppd.actionCount++], IDALL);
+				MakePopupAction(pmpd->pa[ppd.actionCount++], IDNO);
 				break;
 			}
 
 			// create popup
-			PUAddPopupW(&pd);
+			PUAddPopupW(&ppd);
 			if (MB_TYPE(pMsgBox->uType) == MB_OK)
 				EndDialog(hDlg, IDOK);
 		}

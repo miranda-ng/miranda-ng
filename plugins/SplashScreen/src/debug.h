@@ -20,7 +20,7 @@ int inline _DebugPopup(MCONTACT hContact, wchar_t *fmt, ...)
 	mir_snwprintf(debug, fmt, va);
     
 	if(CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0) == 1) {
-		POPUPDATAW ppd = { 0 };
+		POPUPDATAW ppd;
 		ppd.lchContact = hContact;
 		ppd.lchIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 		if(hContact != 0)

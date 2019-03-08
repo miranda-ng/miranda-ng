@@ -31,7 +31,7 @@ static void ShowPopup(const wchar_t *ptszText, wchar_t *ptszHeader, wchar_t *pts
 	if (g_plugin.bTerminated)
 		return;
 
-	POPUPDATAW ppd = {};
+	POPUPDATAW ppd;
 	wcsncpy_s(ppd.lpwzText, ptszText, _TRUNCATE);
 	wcsncpy_s(ppd.lpwzContactName, ptszHeader, _TRUNCATE);
 	if (ptszPath != nullptr)

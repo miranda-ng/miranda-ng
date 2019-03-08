@@ -111,42 +111,41 @@ void show_popup(HWND hDlg, LPCTSTR pszTitle, LPCTSTR pszText, int iNumber, int A
 	if (!pmpd)
 		return;
 
-	POPUPDATAW pd = { 0 };
-	pd.lchContact = NULL; //(HANDLE)wParam;
-	pd.lchIcon = Skin_LoadIcon(PopupsList[iNumber].Icon);
-	mir_wstrncpy(pd.lpwzText, pszText, _countof(pd.lpwzText));
-	mir_wstrncpy(pd.lpwzContactName, pszTitle, _countof(pd.lpwzContactName));
+	POPUPDATAW ppd;
+	ppd.lchIcon = Skin_LoadIcon(PopupsList[iNumber].Icon);
+	mir_wstrncpy(ppd.lpwzText, pszText, _countof(ppd.lpwzText));
+	mir_wstrncpy(ppd.lpwzContactName, pszTitle, _countof(ppd.lpwzContactName));
 	switch (MyOptions.DefColors) {
 	case byCOLOR_WINDOWS:
-		pd.colorBack = GetSysColor(COLOR_BTNFACE);
-		pd.colorText = GetSysColor(COLOR_WINDOWTEXT);
+		ppd.colorBack = GetSysColor(COLOR_BTNFACE);
+		ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
 		break;
 	case byCOLOR_OWN:
-		pd.colorBack = PopupsList[iNumber].colorBack;
-		pd.colorText = PopupsList[iNumber].colorText;
+		ppd.colorBack = PopupsList[iNumber].colorBack;
+		ppd.colorText = PopupsList[iNumber].colorText;
 		break;
 	case byCOLOR_POPUP:
-		pd.colorBack = pd.colorText = 0;
+		ppd.colorBack = ppd.colorText = 0;
 		break;
 	}
 	if (iNumber == 0 && ActType != 0)
-		pd.PluginWindowProc = (WNDPROC)PopupDlgProc;
+		ppd.PluginWindowProc = (WNDPROC)PopupDlgProc;
 	else
-		pd.PluginWindowProc = (WNDPROC)PopupDlgProc2;
-	pd.PluginData = pmpd;
+		ppd.PluginWindowProc = (WNDPROC)PopupDlgProc2;
+	ppd.PluginData = pmpd;
 	if (iNumber == 0)
-		pd.iSeconds = -1;
+		ppd.iSeconds = -1;
 	else
-		pd.iSeconds = MyOptions.Timeout;
-	pd.hNotification = nullptr;
-	pd.lpActions = pmpd->pa;
+		ppd.iSeconds = MyOptions.Timeout;
+	ppd.hNotification = nullptr;
+	ppd.lpActions = pmpd->pa;
 
 	pmpd->hDialog = hDlg;
 	if (ActType == 1) {
-		MakePopupAction(pmpd->pa[pd.actionCount++], IDYES);
-		MakePopupAction(pmpd->pa[pd.actionCount++], IDNO);
+		MakePopupAction(pmpd->pa[ppd.actionCount++], IDYES);
+		MakePopupAction(pmpd->pa[ppd.actionCount++], IDNO);
 	}
-	PUAddPopupW(&pd);
+	PUAddPopupW(&ppd);
 }
 
 INT_PTR CALLBACK DlgDownload(HWND hDlg, UINT message, WPARAM, LPARAM)

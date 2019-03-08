@@ -224,7 +224,7 @@ bool isContactGoneFor(MCONTACT hContact, int days)
 	if (options.hideInactive)
 		if (daysSinceMessage >= options.iSilencePeriod)
 			if (!db_get_b(hContact, "CList", "Hidden", 0) && !g_plugin.getByte(hContact, "NeverHide", 0)) {
-				POPUPDATAW ppd = { 0 };
+				POPUPDATAW ppd;
 				ppd.lchContact = hContact;
 				ppd.lchIcon = IcoLib_GetIcon("enabled_icon");
 
@@ -259,7 +259,7 @@ void ReturnNotify(MCONTACT hContact, wchar_t *message)
 
 	if (options.iShowPopup > 0) {
 		// Display Popup
-		POPUPDATAW ppd = { 0 };
+		POPUPDATAW ppd;
 		ppd.lchContact = hContact;
 		ppd.lchIcon = hIcon;
 		wcsncpy(ppd.lpwzContactName, Clist_GetContactDisplayName(hContact), MAX_CONTACTNAME);
@@ -296,7 +296,7 @@ void GoneNotify(MCONTACT hContact, wchar_t *message)
 
 	if (options.iShowPopup2 > 0) {
 		// Display Popup
-		POPUPDATAW ppd = { 0 };
+		POPUPDATAW ppd;
 		ppd.lchContact = hContact;
 		ppd.lchIcon = hIcon;
 		wcsncpy(ppd.lpwzContactName, Clist_GetContactDisplayName(hContact), MAX_CONTACTNAME);
@@ -477,7 +477,7 @@ int SettingChanged(WPARAM hContact, LPARAM lParam)
 	if (prevStatus == ID_STATUS_OFFLINE) {
 		if (g_plugin.getByte(hContact, "MissYou", 0)) {
 			// Display Popup
-			POPUPDATAW ppd = { 0 };
+			POPUPDATAW ppd;
 			ppd.lchContact = hContact;
 			ppd.lchIcon = IcoLib_GetIcon("enabled_icon");
 			wcsncpy(ppd.lpwzContactName, Clist_GetContactDisplayName(hContact), MAX_CONTACTNAME);

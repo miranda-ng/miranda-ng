@@ -311,7 +311,6 @@ static INT_PTR CALLBACK PopupOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_PREVIEW) {
 			POPUPDATAW ppd;
-			memset(&ppd, 0, sizeof(ppd));
 
 			//iPopupDelay
 			options.iPopupDelay = GetDlgItemInt(hwndDlg, IDC_EDIT_POPUPDELAY, nullptr, FALSE);
@@ -340,12 +339,10 @@ static INT_PTR CALLBACK PopupOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 			}
 			ppd.PluginData = nullptr;
 			ppd.iSeconds = options.iPopupDelay;
-
 			PUAddPopupW(&ppd, APF_NO_HISTORY);
 
 			wcsncpy(ppd.lpwzText, TranslateT("You awaited this contact!"), MAX_SECONDLINE);
 			ppd.lchIcon = IcoLib_GetIcon("enabled_icon");
-
 			PUAddPopupW(&ppd, APF_NO_HISTORY);
 		}
 		else {

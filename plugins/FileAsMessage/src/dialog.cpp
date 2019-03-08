@@ -96,7 +96,7 @@ void MakePopupMsg(HWND hDlg, MCONTACT hContact, wchar_t *msg)
 	HWND hFocused = GetForegroundWindow();
 	if (hDlg == hFocused || hDlg == GetParent(hFocused)) return;
 
-	POPUPDATAW ppd = { 0 };
+	POPUPDATAW ppd;
 	ppd.lchContact = hContact;
 	ppd.lchIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_SMALLICON));
 	mir_wstrcpy(ppd.lpwzContactName, Clist_GetContactDisplayName(hContact));

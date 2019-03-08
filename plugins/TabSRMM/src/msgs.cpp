@@ -251,7 +251,7 @@ void CTabBaseDlg::NotifyDeliveryFailure() const
 	if (!Popup_Enabled())
 		return;
 
-	POPUPDATAW ppd = { 0 };
+	POPUPDATAW ppd;
 	ppd.lchContact = m_hContact;
 	wcsncpy_s(ppd.lpwzContactName, m_cache->getNick(), _TRUNCATE);
 	wcsncpy_s(ppd.lpwzText, TranslateT("A message delivery has failed.\nClick to open the message window."), _TRUNCATE);

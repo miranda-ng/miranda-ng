@@ -882,7 +882,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 		switch (LOWORD(wParam)) {
 		case BTN_PREVIEW:
 			{
-				POPUPDATAW ppd = { 0 };
+				POPUPDATAW ppd;
 				ppd.iSeconds = (int)g_plugin.getByte(SET_POPUP_DELAY, 0);
 				mir_wstrncpy(ppd.lpwzText, TranslateT("This is the reminder message"), MAX_SECONDLINE);
 

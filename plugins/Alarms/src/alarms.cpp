@@ -62,7 +62,7 @@ void ShowPopup(MCONTACT hContact, const wchar_t *msg)
 {
 	wchar_t *lpzContactName = Clist_GetContactDisplayName(hContact);
 
-	POPUPDATAW ppd = { 0 };
+	POPUPDATAW ppd;
 	ppd.lchContact = hContact; //Be sure to use a GOOD handle, since this will not be checked.
 	ppd.lchIcon = hIconList1;
 	mir_wstrncpy(ppd.lpwzContactName, lpzContactName, MAX_CONTACTNAME);

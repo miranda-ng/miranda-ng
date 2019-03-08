@@ -149,7 +149,7 @@ void ShowPopup(SHOWPOPUP_DATA *sd)
 	}
 
 	PLUGIN_DATA *pdata = (PLUGIN_DATA*)calloc(1, sizeof(PLUGIN_DATA));
-	POPUPDATAW ppd = { 0 };
+	POPUPDATAW ppd;
 	ppd.lchContact = sd->hContact;
 	char *szProto = GetContactProto(sd->hContact);
 	pdata->hIcon = ppd.lchIcon = Finger_GetClientIcon(sd->MirVer, false);

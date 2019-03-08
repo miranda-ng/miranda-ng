@@ -115,6 +115,10 @@ EXTERN_C MIR_APP_DLL(void) Popup_Change(HWND hwndPopup, const POPUPDATA2 *pData)
 
 struct POPUPDATA
 {
+	__forceinline POPUPDATA()
+	{	memset(this, 0, sizeof(*this));
+	}
+
 	MCONTACT lchContact;
 	HICON lchIcon;
 	char lpzContactName[MAX_CONTACTNAME];
@@ -128,6 +132,10 @@ struct POPUPDATA
 
 struct POPUPDATAW
 {
+	__forceinline POPUPDATAW()
+	{	memset(this, 0, sizeof(*this));
+	}
+
 	MCONTACT lchContact;
 	HICON lchIcon;
 	wchar_t lpwzContactName[MAX_CONTACTNAME];

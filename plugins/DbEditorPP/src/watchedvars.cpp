@@ -359,7 +359,7 @@ void popupWatchedVar(MCONTACT hContact, const char *module, const char *setting)
 	int type = GetValue(hContact, module, setting, value, _countof(value));
 	mir_snwprintf(text, TranslateT("Database Setting Changed: \nModule: \"%s\", Setting: \"%s\"\nNew Value (%s): \"%s\""), _A2T(module), _A2T(setting), DBVType(type), value);
 
-	POPUPDATAW ppd = { 0 };
+	POPUPDATAW ppd;
 	ppd.lchContact = (MCONTACT)hContact;
 	ppd.lchIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(ICO_REGEDIT));
 	mir_wstrncpy(ppd.lpwzContactName, name, _countof(ppd.lpwzContactName));

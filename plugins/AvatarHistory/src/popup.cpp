@@ -91,7 +91,7 @@ void ShowPopupEx(MCONTACT hContact, const wchar_t *title, const wchar_t *descrip
 	void *plugin_data, int type, const Options *op)
 {
 	// Make popup
-	POPUPDATAW ppd = { 0 };
+	POPUPDATAW ppd;
 
 	ppd.lchContact = hContact;
 	ppd.lchIcon = createProtoOverlayedIcon(hContact);

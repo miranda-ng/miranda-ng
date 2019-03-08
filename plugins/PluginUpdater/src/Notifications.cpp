@@ -100,36 +100,36 @@ void ShowPopup(LPCTSTR ptszTitle, LPCTSTR ptszText, int Number)
 		mir_snprintf(setting, "Popups%d", Number);
 
 		if (g_plugin.getByte(setting, DEFAULT_POPUP_ENABLED)) {
-			POPUPDATAW pd = { 0 };
-			pd.lchContact = NULL;
-			pd.lchIcon = IcoLib_GetIconByHandle(iconList[0].hIcolib);
+			POPUPDATAW ppd;
+			ppd.lchContact = NULL;
+			ppd.lchIcon = IcoLib_GetIconByHandle(iconList[0].hIcolib);
 
 			if (Number == POPUP_TYPE_MSG) {
-				pd.PluginWindowProc = PopupDlgProcRestart;
-				pd.iSeconds = -1;
+				ppd.PluginWindowProc = PopupDlgProcRestart;
+				ppd.iSeconds = -1;
 			}
 			else {
-				pd.PluginWindowProc = PopupDlgProc;
-				pd.iSeconds = PopupOptions.Timeout;
+				ppd.PluginWindowProc = PopupDlgProc;
+				ppd.iSeconds = PopupOptions.Timeout;
 			}
 
-			lstrcpyn(pd.lpwzText, ptszText, MAX_SECONDLINE);
-			lstrcpyn(pd.lpwzContactName, ptszTitle, MAX_CONTACTNAME);
+			lstrcpyn(ppd.lpwzText, ptszText, MAX_SECONDLINE);
+			lstrcpyn(ppd.lpwzContactName, ptszTitle, MAX_CONTACTNAME);
 
 			switch (PopupOptions.DefColors) {
 			case byCOLOR_WINDOWS:
-				pd.colorBack = GetSysColor(COLOR_BTNFACE);
-				pd.colorText = GetSysColor(COLOR_WINDOWTEXT);
+				ppd.colorBack = GetSysColor(COLOR_BTNFACE);
+				ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
 				break;
 			case byCOLOR_OWN:
-				pd.colorBack = PopupsList[Number].colorBack;
-				pd.colorText = PopupsList[Number].colorText;
+				ppd.colorBack = PopupsList[Number].colorBack;
+				ppd.colorText = PopupsList[Number].colorText;
 				break;
 			case byCOLOR_POPUP:
-				pd.colorBack = pd.colorText = 0;
+				ppd.colorBack = ppd.colorText = 0;
 				break;
 			}
-			PUAddPopupW(&pd);
+			PUAddPopupW(&ppd);
 			return;
 		}
 	}

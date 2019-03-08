@@ -98,7 +98,7 @@ void TN_TypingMessage(MCONTACT hContact, int iMode)
 	}
 
 	int notyping;
-	POPUPDATAW ppd = { 0 };
+	POPUPDATAW ppd;
 
 	if (iMode == PROTOTYPE_CONTACTTYPING_OFF) {
 		if (StopDisabled)
@@ -286,7 +286,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 		case IDC_PREVIEW:
 			for (int i = 0; i < 2; i++) {
-				POPUPDATAW ppd = {};
+				POPUPDATAW ppd;
 				int notyping;
 				if (i == PROTOTYPE_CONTACTTYPING_OFF) {
 					wcsncpy_s(ppd.lpwzContactName, TranslateT("Contact"), _TRUNCATE);

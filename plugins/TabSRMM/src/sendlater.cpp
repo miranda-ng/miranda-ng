@@ -118,7 +118,7 @@ CSendLaterJob::~CSendLaterJob()
 			if (fShowPopup) {
 				wchar_t	*tszName = Clist_GetContactDisplayName(hContact);
 
-				POPUPDATAW ppd = { 0 };
+				POPUPDATAW ppd;
 				ppd.lchContact = hContact;
 				wcsncpy_s(ppd.lpwzContactName, (tszName ? tszName : TranslateT("'(Unknown contact)'")), _TRUNCATE);
 				wchar_t *msgPreview = Utils::GetPreviewWithEllipsis(reinterpret_cast<wchar_t *>(&pBuf[mir_strlen((char *)pBuf) + 1]), 100);

@@ -36,7 +36,7 @@ void showPopup(LPCSTR lpzText, MCONTACT hContact, HICON hIcon, UINT type)
 		}
 	}
 
-	POPUPDATAW ppd = { 0 };
+	POPUPDATAW ppd;
 	ppd.lchContact = hContact; //Be sure to use a GOOD handle, since this will not be checked.
 	ppd.lchIcon = hIcon;
 	LPWSTR lpwzContactName = Clist_GetContactDisplayName(hContact);

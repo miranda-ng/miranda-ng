@@ -22,7 +22,7 @@ void ShowNotification(const char *caption, const char *message, int flags, MCONT
 		return;
 
 	if (Popup_Enabled()) {
-		POPUPDATA ppd = { 0 };
+		POPUPDATA ppd;
 		ppd.lchContact = hContact;
 		mir_strncpy(ppd.lpzContactName, caption, MAX_CONTACTNAME);
 		mir_strncpy(ppd.lpzText, message, MAX_SECONDLINE);

@@ -23,7 +23,7 @@
 
 void ShowChangePopup(MCONTACT hContact, HICON hIcon, WORD newStatus, const wchar_t *stzText, PLUGINDATA *pdp)
 {
-	POPUPDATAW ppd = { 0 };
+	POPUPDATAW ppd;
 	ppd.lchContact = hContact;
 	ppd.lchIcon = hIcon;
 	CMStringW buf(Clist_GetContactDisplayName(hContact));

@@ -138,7 +138,7 @@ INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 			else
 				idText = wparam + 20, idBack = wparam;
 
-			POPUPDATAW ppd = { 0 };
+			POPUPDATAW ppd;
 			ppd.colorBack = SendDlgItemMessage(hdlg, idBack, CPM_GETCOLOUR, 0, 0);
 			ppd.colorText = SendDlgItemMessage(hdlg, idText, CPM_GETCOLOUR, 0, 0);
 			DWORD temp = GetDWordFromColors(ppd.colorBack, ppd.colorText);

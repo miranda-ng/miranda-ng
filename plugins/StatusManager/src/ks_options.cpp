@@ -371,7 +371,7 @@ static INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 		case IDC_PREV:
 			{
-				POPUPDATAW ppd = {};
+				POPUPDATAW ppd;
 				ppd.lchIcon = Skin_LoadIcon(SKINICON_STATUS_OFFLINE);
 				wcsncpy(ppd.lpwzContactName, TranslateT("Keep status"), MAX_CONTACTNAME);
 				wcsncpy(ppd.lpwzText, TranslateT("You broke the Internet!"), MAX_SECONDLINE);

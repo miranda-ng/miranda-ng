@@ -768,7 +768,7 @@ static VOID CALLBACK CheckContinueslyTimer(HWND, UINT, UINT_PTR, DWORD)
 
 static INT_PTR ShowPopup(const wchar_t *msg, HICON hIcon)
 {
-	POPUPDATAW ppd = {};
+	POPUPDATAW ppd;
 	ppd.lchIcon = hIcon;
 	wcsncpy(ppd.lpwzContactName, TranslateT("Keep status"), MAX_CONTACTNAME);
 	wcsncpy(ppd.lpwzText, msg, MAX_SECONDLINE);

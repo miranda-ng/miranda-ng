@@ -145,96 +145,96 @@ INT_PTR CALLBACK DlgProcOptionsPopups(HWND optDlg, UINT msg, WPARAM wParam, LPAR
 
 int ShowPopupPreview(HWND optDlg, BYTE popupType, wchar_t *line1, wchar_t *line2)
 {
-	POPUPDATAW ppdp = {0};
+	POPUPDATAW ppd;
 	switch (popupType)
 	{
 		case POPUP_DEFAULT:
-			ppdp.colorText = SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_APPROVED_FOREGROUND,CPM_GETCOLOUR,0,0);
-			ppdp.colorBack = SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_APPROVED_BACKGROUND,CPM_GETCOLOUR,0,0);
+			ppd.colorText = SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_APPROVED_FOREGROUND,CPM_GETCOLOUR,0,0);
+			ppd.colorBack = SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_APPROVED_BACKGROUND,CPM_GETCOLOUR,0,0);
 			break;
 		case POPUP_BLOCKED:
-			ppdp.colorText = SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_BLOCKED_FOREGROUND,CPM_GETCOLOUR,0,0);
-			ppdp.colorBack = SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_BLOCKED_BACKGROUND,CPM_GETCOLOUR,0,0);
-			ppdp.iSeconds = GetDlgItemInt(optDlg, IDC_OPT_POPUPS_BLOCKED_TIMEOUT, nullptr, TRUE);
-			ppdp.lchIcon = Skin_LoadIcon(SKINICON_OTHER_DELETE);
+			ppd.colorText = SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_BLOCKED_FOREGROUND,CPM_GETCOLOUR,0,0);
+			ppd.colorBack = SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_BLOCKED_BACKGROUND,CPM_GETCOLOUR,0,0);
+			ppd.iSeconds = GetDlgItemInt(optDlg, IDC_OPT_POPUPS_BLOCKED_TIMEOUT, nullptr, TRUE);
+			ppd.lchIcon = Skin_LoadIcon(SKINICON_OTHER_DELETE);
 			break;
 		case POPUP_APPROVED:
-			ppdp.colorText = SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_APPROVED_FOREGROUND,CPM_GETCOLOUR,0,0);
-			ppdp.colorBack = SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_APPROVED_BACKGROUND,CPM_GETCOLOUR,0,0);
-			ppdp.iSeconds = GetDlgItemInt(optDlg, IDC_OPT_POPUPS_APPROVED_TIMEOUT, nullptr, TRUE);
-			ppdp.lchIcon = Skin_LoadIcon(SKINICON_OTHER_ADDCONTACT);
+			ppd.colorText = SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_APPROVED_FOREGROUND,CPM_GETCOLOUR,0,0);
+			ppd.colorBack = SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_APPROVED_BACKGROUND,CPM_GETCOLOUR,0,0);
+			ppd.iSeconds = GetDlgItemInt(optDlg, IDC_OPT_POPUPS_APPROVED_TIMEOUT, nullptr, TRUE);
+			ppd.lchIcon = Skin_LoadIcon(SKINICON_OTHER_ADDCONTACT);
 			break;
 		case POPUP_CHALLENGE:
-			ppdp.colorText = SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_CHALLENGE_FOREGROUND,CPM_GETCOLOUR,0,0);
-			ppdp.colorBack = SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_CHALLENGE_BACKGROUND,CPM_GETCOLOUR,0,0);
-			ppdp.iSeconds = GetDlgItemInt(optDlg, IDC_OPT_POPUPS_CHALLENGE_TIMEOUT, nullptr, TRUE);
-			ppdp.lchIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
+			ppd.colorText = SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_CHALLENGE_FOREGROUND,CPM_GETCOLOUR,0,0);
+			ppd.colorBack = SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_CHALLENGE_BACKGROUND,CPM_GETCOLOUR,0,0);
+			ppd.iSeconds = GetDlgItemInt(optDlg, IDC_OPT_POPUPS_CHALLENGE_TIMEOUT, nullptr, TRUE);
+			ppd.lchIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 			break;
 	}
 	if (IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_WINDOWS_COLORS)) {
-		ppdp.colorText = GetSysColor(COLOR_WINDOWTEXT);
-		ppdp.colorBack = GetSysColor(COLOR_WINDOW);
+		ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
+		ppd.colorBack = GetSysColor(COLOR_WINDOW);
 	}
 	if (IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_DEFAULT_COLORS)) {
-		ppdp.colorText = NULL;
-		ppdp.colorBack = NULL;
+		ppd.colorText = NULL;
+		ppd.colorBack = NULL;
 	}
-	if (ppdp.iSeconds < 1)
-		ppdp.iSeconds = -1;
+	if (ppd.iSeconds < 1)
+		ppd.iSeconds = -1;
 	if (IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_DEFAULT_TIMEOUT) || popupType == POPUP_DEFAULT)
-		ppdp.iSeconds = 0;
+		ppd.iSeconds = 0;
 
-	ppdp.lchContact = NULL;
-	wcsncpy_s(ppdp.lpwzContactName, (line1 ? line1 : _A2W(MODULENAME)), _TRUNCATE);
+	ppd.lchContact = NULL;
+	wcsncpy_s(ppd.lpwzContactName, (line1 ? line1 : _A2W(MODULENAME)), _TRUNCATE);
 	if (line2)
-		wcsncpy_s(ppdp.lpwzText, line2, _TRUNCATE);
-	return (int)PUAddPopupW(&ppdp);
+		wcsncpy_s(ppd.lpwzText, line2, _TRUNCATE);
+	return (int)PUAddPopupW(&ppd);
 }
 
 int ShowPopup(MCONTACT hContact, BYTE popupType, wchar_t *line1, wchar_t *line2)
 {
-	POPUPDATAW ppdp = {0};
+	POPUPDATAW ppd;
 	switch (popupType)
 	{
 		case POPUP_DEFAULT:
-			ppdp.colorText = g_plugin.getDword("PopupApprovedForeground", defaultPopupApprovedForeground);
-			ppdp.colorBack = g_plugin.getDword("PopupApprovedBackground", defaultPopupApprovedBackground);
+			ppd.colorText = g_plugin.getDword("PopupApprovedForeground", defaultPopupApprovedForeground);
+			ppd.colorBack = g_plugin.getDword("PopupApprovedBackground", defaultPopupApprovedBackground);
 			break;
 		case POPUP_BLOCKED:
-			ppdp.colorText = g_plugin.getDword("PopupBlockedForeground", defaultPopupBlockedForeground);
-			ppdp.colorBack = g_plugin.getDword("PopupBlockedBackground", defaultPopupBlockedBackground);
-			ppdp.iSeconds = g_plugin.getDword("PopupBlockedTimeout", defaultPopupBlockedTimeout);
-			ppdp.lchIcon = Skin_LoadIcon(SKINICON_OTHER_DELETE);
+			ppd.colorText = g_plugin.getDword("PopupBlockedForeground", defaultPopupBlockedForeground);
+			ppd.colorBack = g_plugin.getDword("PopupBlockedBackground", defaultPopupBlockedBackground);
+			ppd.iSeconds = g_plugin.getDword("PopupBlockedTimeout", defaultPopupBlockedTimeout);
+			ppd.lchIcon = Skin_LoadIcon(SKINICON_OTHER_DELETE);
 			break;
 		case POPUP_APPROVED:
-			ppdp.colorText = g_plugin.getDword("PopupApprovedForeground", defaultPopupApprovedForeground);
-			ppdp.colorBack = g_plugin.getDword("PopupApprovedBackground", defaultPopupApprovedBackground);
-			ppdp.iSeconds = g_plugin.getDword("PopupApprovedTimeout", defaultPopupApprovedTimeout);
-			ppdp.lchIcon = Skin_LoadIcon(SKINICON_OTHER_ADDCONTACT);
+			ppd.colorText = g_plugin.getDword("PopupApprovedForeground", defaultPopupApprovedForeground);
+			ppd.colorBack = g_plugin.getDword("PopupApprovedBackground", defaultPopupApprovedBackground);
+			ppd.iSeconds = g_plugin.getDword("PopupApprovedTimeout", defaultPopupApprovedTimeout);
+			ppd.lchIcon = Skin_LoadIcon(SKINICON_OTHER_ADDCONTACT);
 			break;
 		case POPUP_CHALLENGE:
-			ppdp.colorText = g_plugin.getDword("PopupChallengeForeground", defaultPopupChallengeForeground);
-			ppdp.colorBack = g_plugin.getDword("PopupChallengeBackground", defaultPopupChallengeBackground);
-			ppdp.iSeconds = g_plugin.getDword("PopupChallengeTimeout", defaultPopupChallengeTimeout);
-			ppdp.lchIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
+			ppd.colorText = g_plugin.getDword("PopupChallengeForeground", defaultPopupChallengeForeground);
+			ppd.colorBack = g_plugin.getDword("PopupChallengeBackground", defaultPopupChallengeBackground);
+			ppd.iSeconds = g_plugin.getDword("PopupChallengeTimeout", defaultPopupChallengeTimeout);
+			ppd.lchIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 			break;
 	}
 	if (g_plugin.getByte("PopupWindowsColors", defaultPopupWindowsColors)) {
-		ppdp.colorText = GetSysColor(COLOR_WINDOWTEXT);
-		ppdp.colorBack = GetSysColor(COLOR_WINDOW);
+		ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
+		ppd.colorBack = GetSysColor(COLOR_WINDOW);
 	}
 	if (g_plugin.getByte("PopupDefaultColors", defaultPopupDefaultColors)) {
-		ppdp.colorText = NULL;
-		ppdp.colorBack = NULL;
+		ppd.colorText = NULL;
+		ppd.colorBack = NULL;
 	}
-	if (ppdp.iSeconds < 1)
-		ppdp.iSeconds = -1;
+	if (ppd.iSeconds < 1)
+		ppd.iSeconds = -1;
 	if (g_plugin.getByte("PopupDefaultTimeout", defaultPopupDefaultTimeout) || popupType == POPUP_DEFAULT)
-		ppdp.iSeconds = 0;
+		ppd.iSeconds = 0;
 
-	ppdp.lchContact = hContact;
-	wcsncpy_s(ppdp.lpwzContactName, (line1 ? line1 : _A2W(MODULENAME)), _TRUNCATE);
+	ppd.lchContact = hContact;
+	wcsncpy_s(ppd.lpwzContactName, (line1 ? line1 : _A2W(MODULENAME)), _TRUNCATE);
 	if (line2)
-		wcsncpy_s(ppdp.lpwzText, line2, _TRUNCATE);
-	return (int)PUAddPopupW(&ppdp);
+		wcsncpy_s(ppd.lpwzText, line2, _TRUNCATE);
+	return (int)PUAddPopupW(&ppd);
 }

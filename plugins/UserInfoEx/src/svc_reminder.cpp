@@ -249,7 +249,7 @@ static int NotifyWithPopup(MCONTACT hContact, CEvent::EType eventType, int DaysT
 	if (!gRemindOpts.bPopups)
 		return 1;
 
-	POPUPDATAW ppd = { 0 };
+	POPUPDATAW ppd;
 	ppd.PluginWindowProc = PopupWindowProc;
 	ppd.iSeconds = (int)g_plugin.getByte(SET_POPUP_DELAY, 0);
 

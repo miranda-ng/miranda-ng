@@ -129,7 +129,7 @@ void ShowWumfPopup(PWumf w)
 
 void ShowThePopup(PWumf w, LPTSTR title, LPTSTR text)
 {
-	POPUPDATAW ppd = { 0 };
+	POPUPDATAW ppd;
 	ppd.lchContact = NULL;
 	ppd.lchIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_DRIVE));
 

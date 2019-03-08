@@ -47,7 +47,7 @@ int WeatherError(WPARAM wParam, LPARAM lParam)
 	else if ((DWORD)lParam == SM_NOTIFY)
 		PUShowMessageW(tszMsg, SM_NOTIFY);
 	else if ((DWORD)lParam == SM_WEATHERALERT) {
-		POPUPDATAW ppd = { 0 };
+		POPUPDATAW ppd;
 		wchar_t str1[512], str2[512];
 
 		// get the 2 strings
@@ -129,7 +129,7 @@ int WeatherPopup(WPARAM hContact, LPARAM lParam)
 		WEATHERINFO winfo = LoadWeatherInfo(hContact);
 
 		// setup the popup
-		POPUPDATAW ppd = { 0 };
+		POPUPDATAW ppd;
 		ppd.lchContact = hContact;
 		ppd.PluginData = ppd.lchIcon = Skin_LoadProtoIcon(MODULENAME, winfo.status);
 		GetDisplay(&winfo, opt.pTitle, ppd.lpwzContactName);

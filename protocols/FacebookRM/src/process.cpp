@@ -321,14 +321,14 @@ void FacebookProto::LoadHistory(void *pParam)
 	// Mark we're loading history, so we can behave differently (e.g., stickers won't be refreshed as it slows the whole process down drastically)
 	facy.loading_history = true;
 
-	POPUPDATAW pd = { sizeof(pd) };
-	pd.iSeconds = 5;
-	pd.lchContact = hContact;
-	pd.lchIcon = IcoLib_GetIconByHandle(GetIconHandle("conversation")); // TODO: Use better icon
-	wcsncpy(pd.lpwzContactName, m_tszUserName, MAX_CONTACTNAME);
-	wcsncpy(pd.lpwzText, TranslateT("Loading history started."), MAX_SECONDLINE);
+	POPUPDATAW ppd;
+	ppd.iSeconds = 5;
+	ppd.lchContact = hContact;
+	ppd.lchIcon = IcoLib_GetIconByHandle(GetIconHandle("conversation")); // TODO: Use better icon
+	wcsncpy(ppd.lpwzContactName, m_tszUserName, MAX_CONTACTNAME);
+	wcsncpy(ppd.lpwzText, TranslateT("Loading history started."), MAX_SECONDLINE);
 
-	HWND popupHwnd = (HWND)PUAddPopupW(&pd, (LPARAM)APF_RETURN_HWND);
+	HWND popupHwnd = (HWND)PUAddPopupW(&ppd, (LPARAM)APF_RETURN_HWND);
 
 	std::vector<facebook_message> messages;
 	std::string firstTimestamp;
@@ -409,9 +409,9 @@ void FacebookProto::LoadHistory(void *pParam)
 		if (popupHwnd)
 			PUChangeTextW(popupHwnd, text);
 		else {
-			wcsncpy(pd.lpwzText, text, MAX_SECONDLINE);
-			pd.iSeconds = 1;
-			popupHwnd = (HWND)PUAddPopupW(&pd);
+			wcsncpy(ppd.lpwzText, text, MAX_SECONDLINE);
+			ppd.iSeconds = 1;
+			popupHwnd = (HWND)PUAddPopupW(&ppd);
 		}
 
 		// There is no more messages
@@ -430,9 +430,9 @@ void FacebookProto::LoadHistory(void *pParam)
 	if (popupHwnd)
 		PUChangeTextW(popupHwnd, TranslateT("Loading history completed."));
 	else {
-		pd.iSeconds = 5;
-		wcsncpy(pd.lpwzText, TranslateT("Loading history completed."), MAX_SECONDLINE);
-		popupHwnd = (HWND)PUAddPopupW(&pd);
+		ppd.iSeconds = 5;
+		wcsncpy(ppd.lpwzText, TranslateT("Loading history completed."), MAX_SECONDLINE);
+		popupHwnd = (HWND)PUAddPopupW(&ppd);
 	}
 }
 

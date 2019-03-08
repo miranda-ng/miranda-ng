@@ -23,7 +23,7 @@
 
 __inline void ShowMsg(wchar_t *FirstLine, wchar_t *SecondLine = L"", bool IsErrorMsg = false, int Timeout = 0)
 {
-	POPUPDATAW ppd = { 0 };
+	POPUPDATAW ppd;
 	ppd.lchIcon = LoadIcon(NULL, IsErrorMsg ? IDI_EXCLAMATION : IDI_INFORMATION);
 	mir_wstrcpy(ppd.lpwzContactName, FirstLine);
 	mir_wstrcpy(ppd.lpwzText, SecondLine);

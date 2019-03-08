@@ -105,7 +105,7 @@ void CToxProto::ShowNotification(const wchar_t *caption, const wchar_t *message,
 	}
 
 	if (Popup_Enabled()) {
-		POPUPDATAW ppd = { 0 };
+		POPUPDATAW ppd;
 		ppd.lchContact = hContact;
 		wcsncpy(ppd.lpwzContactName, caption, MAX_CONTACTNAME);
 		wcsncpy(ppd.lpwzText, message, MAX_SECONDLINE);

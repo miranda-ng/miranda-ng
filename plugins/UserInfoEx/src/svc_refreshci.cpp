@@ -393,22 +393,22 @@ public:
 	 **/
 	virtual HWND Create(LPCTSTR szTitle, PUpdCallback pFnCallBack)
 	{
-		POPUPDATAW pd = { 0 };
-		pd.lchIcon = IcoLib_GetIcon(ICO_BTN_UPDATE);
-		pd.iSeconds = -1;
-		pd.PluginData = this;
-		pd.PluginWindowProc = CPopupUpdProgress::WndProc;
-		pd.actionCount = _countof(_popupButtons);
-		pd.lpActions = _popupButtons;
+		POPUPDATAW ppd;
+		ppd.lchIcon = IcoLib_GetIcon(ICO_BTN_UPDATE);
+		ppd.iSeconds = -1;
+		ppd.PluginData = this;
+		ppd.PluginWindowProc = CPopupUpdProgress::WndProc;
+		ppd.actionCount = _countof(_popupButtons);
+		ppd.lpActions = _popupButtons;
 
 		// dummy text
 		_szText = mir_wstrdup(szTitle);
-		mir_wstrcpy(pd.lpwzContactName, _szText);
+		mir_wstrcpy(ppd.lpwzContactName, _szText);
 
-		mir_wstrcpy(pd.lpwzText, L" ");
+		mir_wstrcpy(ppd.lpwzText, L" ");
 
 		_pFnCallBack = pFnCallBack;
-		_hWnd = PUAddPopupW(&pd, APF_RETURN_HWND);
+		_hWnd = PUAddPopupW(&ppd, APF_RETURN_HWND);
 		return _hWnd;
 	}
 

@@ -390,7 +390,7 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, MCONTACT hContact, MEVENT hEve
 	if (hEvent == 0 && hContact == 0)
 		dbe.szModule = Translate("Unknown module or contact");
 
-	POPUPDATAW pud = { 0 };
+	POPUPDATAW pud;
 	long iSeconds;
 	switch (eventType) {
 	case EVENTTYPE_MESSAGE:

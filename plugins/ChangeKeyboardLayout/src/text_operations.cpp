@@ -448,44 +448,44 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 			LPTSTR ptszPopupText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t));
 			mir_wstrcpy(ptszPopupText, ptszMBox);
 
-			POPUPDATAW pdtData = { 0 };
-			wcsncpy(pdtData.lpwzContactName, TranslateT(MODULENAME), MAX_CONTACTNAME);
-			wcsncpy(pdtData.lpwzText, ptszPopupText, MAX_SECONDLINE);
+			POPUPDATAW ppd;
+			wcsncpy(ppd.lpwzContactName, TranslateT(MODULENAME), MAX_CONTACTNAME);
+			wcsncpy(ppd.lpwzText, ptszPopupText, MAX_SECONDLINE);
 
 			switch (poOptions.bColourType) {
 			case PPC_POPUP:
-				pdtData.colorBack = pdtData.colorText = 0;
+				ppd.colorBack = ppd.colorText = 0;
 				break;
 			case PPC_WINDOWS:
-				pdtData.colorBack = GetSysColor(COLOR_BTNFACE);
-				pdtData.colorText = GetSysColor(COLOR_WINDOWTEXT);
+				ppd.colorBack = GetSysColor(COLOR_BTNFACE);
+				ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
 				break;
 			case PPC_CUSTOM:
-				pdtData.colorBack = poOptions.crBackColour;
-				pdtData.colorText = poOptions.crTextColour;
+				ppd.colorBack = poOptions.crBackColour;
+				ppd.colorText = poOptions.crTextColour;
 				break;
 			}
 
 			switch (poOptions.bTimeoutType) {
 			case PPT_POPUP:
-				pdtData.iSeconds = 0;
+				ppd.iSeconds = 0;
 				break;
 			case PPT_PERMANENT:
-				pdtData.iSeconds = -1;
+				ppd.iSeconds = -1;
 				break;
 			case PPC_CUSTOM:
-				pdtData.iSeconds = poOptions.bTimeout;
+				ppd.iSeconds = poOptions.bTimeout;
 				break;
 			}
-			pdtData.PluginData = ptszPopupText;
-			pdtData.PluginWindowProc = (WNDPROC)CKLPopupDlgProc;
+			ppd.PluginData = ptszPopupText;
+			ppd.PluginWindowProc = (WNDPROC)CKLPopupDlgProc;
 
-			pdtData.lchIcon = hPopupIcon;
+			ppd.lchIcon = hPopupIcon;
 			poOptions.paActions[0].lchIcon = hCopyIcon;
-			pdtData.lpActions = poOptions.paActions;
-			pdtData.actionCount = 1;
+			ppd.lpActions = poOptions.paActions;
+			ppd.actionCount = 1;
 
-			if (PUAddPopupW(&pdtData) < 0) {
+			if (PUAddPopupW(&ppd) < 0) {
 				mir_free(ptszPopupText);
 				MessageBox(nullptr, ptszMBox, TranslateT(MODULENAME), MB_ICONINFORMATION);
 			}

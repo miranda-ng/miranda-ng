@@ -446,39 +446,21 @@ BOOL checkNotesIniFile(BOOL bInfo)
 //popup plugin to show popup function
 void showMsg(wchar_t* sender,wchar_t* text, DWORD id, char *strUID)
 {
+	POPUPATT * mpd = (POPUPATT*)malloc(sizeof(POPUPATT));
+	mpd->id = id;
+	strncpy_s(mpd->strNote, _countof(mpd->strNote), strUID, mir_strlen(strUID));
 
 	POPUPDATAW ppd;
-	//hContact = A_VALID_HANDLE_YOU_GOT_FROM_SOMEWHERE;
-	//hIcon = A_VALID_HANDLE_YOU_GOT_SOMEWHERE;
-	//char * lpzContactName = (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)lhContact,0);
-	//99% of the times you'll just copy this line.
-	//1% of the times you may wish to change the contact's name. I don't know why you should, but you can.
-	//char * lpzText;
-	//The text for the second line. You could even make something like: char lpzText[128]; mir_wstrcpy(lpzText, "Hello world!"); It's your choice.
-
-	POPUPATT * mpd = (POPUPATT*)malloc(sizeof(POPUPATT));
-	memset(&ppd, 0, sizeof(ppd)); //This is always a good thing to do.
-	ppd.lchContact = NULL; //(HANDLE)hContact; //Be sure to use a GOOD handle, since this will not be checked.
 	ppd.lchIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_ICON1));
 	wcscpy_s(ppd.lpwzContactName, _countof(ppd.lpwzContactName), sender);
 	wcscpy_s(ppd.lpwzText, _countof(ppd.lpwzText), text);
-	if(settingSetColours)
-	{
+	if(settingSetColours) {
 		ppd.colorBack = settingBgColor;
 		ppd.colorText = settingFgColor;
 	}
 	ppd.PluginWindowProc = PopupDlgProc;
-
 	ppd.iSeconds=settingInterval1;
-	//Now the "additional" data.
-	mpd->id = id;
-	strncpy_s(mpd->strNote, _countof(mpd->strNote), strUID, mir_strlen(strUID));
-	//mpd->newStatus = ID_STATUS_ONLINE;
-
-	//Now that the plugin data has been filled, we add it to the PopUpData.
 	ppd.PluginData = mpd;
-
-	//Now that every field has been filled, we want to see the popup.
 	PUAddPopupW(&ppd);
 }
 

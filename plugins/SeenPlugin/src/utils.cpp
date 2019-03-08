@@ -473,7 +473,7 @@ void ShowPopup(MCONTACT hcontact, const char * lpzProto, int newStatus)
 	mir_snprintf(szSetting, "Col_%d", newStatus - ID_STATUS_OFFLINE);
 	DWORD sett = g_plugin.getDword(szSetting, StatusColors15bits[newStatus - ID_STATUS_OFFLINE]);
 
-	POPUPDATAW ppd = { 0 };
+	POPUPDATAW ppd;
 	GetColorsFromDWord(&ppd.colorBack, &ppd.colorText, sett);
 
 	ppd.lchContact = hcontact;

@@ -303,10 +303,7 @@ int ShowMessage(wchar_t *message, int cUnreadEmails)
 
 int ShowPopupMessage(wchar_t *title, wchar_t *message, int cUnreadEmails)
 {
-	POPUPDATAW popup = {0};
-	popup.lchContact = NULL;
-	popup.colorBack = NULL;
-	popup.colorText = NULL;
+	POPUPDATAW popup;
 	popup.lchIcon = hiMailIcon;
 	wcsncpy_s(popup.lpwzContactName, MAX_CONTACTNAME, title, _TRUNCATE);
 	wcsncpy_s(popup.lpwzText, MAX_SECONDLINE, message, _TRUNCATE);

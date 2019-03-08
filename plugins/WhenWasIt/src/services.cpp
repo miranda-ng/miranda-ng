@@ -156,13 +156,13 @@ INT_PTR AddBirthdayService(WPARAM hContact, LPARAM)
 
 void ShowPopupMessage(const wchar_t *title, const wchar_t *message, HANDLE icon)
 {
-	POPUPDATAW pd = { 0 };
-	pd.lchIcon = IcoLib_GetIconByHandle(icon);
-	wcsncpy_s(pd.lpwzContactName, title, _TRUNCATE);
-	wcsncpy_s(pd.lpwzText, message, _TRUNCATE);
-	pd.colorText = commonData.foreground;
-	pd.colorBack = commonData.background;
-	PUAddPopupW(&pd);
+	POPUPDATAW ppd;
+	ppd.lchIcon = IcoLib_GetIconByHandle(icon);
+	wcsncpy_s(ppd.lpwzContactName, title, _TRUNCATE);
+	wcsncpy_s(ppd.lpwzText, message, _TRUNCATE);
+	ppd.colorText = commonData.foreground;
+	ppd.colorBack = commonData.background;
+	PUAddPopupW(&ppd);
 }
 
 void __cdecl RefreshUserDetailsWorkerThread(void*)

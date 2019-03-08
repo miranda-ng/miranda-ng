@@ -169,8 +169,7 @@ void NotifyUser(Account *curAcc)
 		}
 
 		if (opt.notifierOnPop&&newMails > 0) {
-			POPUPDATA ppd = { 0 };
-
+			POPUPDATA ppd;
 			ppd.lchContact = curAcc->hContact;
 			ppd.lchIcon = Skin_LoadProtoIcon(MODULENAME, ID_STATUS_OCCUPIED);
 			mir_strcpy(ppd.lpzContactName, curAcc->results.content);

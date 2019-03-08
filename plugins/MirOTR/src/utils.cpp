@@ -119,7 +119,7 @@ void ShowPopup(const wchar_t* line1, const wchar_t* line2, int timeout, const MC
 	if (Miranda_IsTerminated())
 		return;
 
-	POPUPDATAW ppd = {};
+	POPUPDATAW ppd;
 	ppd.lchContact = hContact;
 	ppd.lchIcon = nullptr;
 

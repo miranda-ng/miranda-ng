@@ -84,7 +84,7 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg, UINT msg, WPARAM wParam, LP
 			char* TitleStrA;
 			char *Message1A = nullptr;
 			wchar_t *Message1W = nullptr;
-			POPUPDATAW BadConnectPopup;
+			POPUPDATAW BadConnectPopup = {};
 
 			ActualAccount = ((struct BadConnectionParam *)lParam)->account;
 			ErrorCode = ((struct BadConnectionParam *)lParam)->errcode;

@@ -260,11 +260,11 @@ static INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam)
 		return -1;
 
 	if (Popup_Enabled()) {
-		POPUPDATAW pd = {0};
-		mir_wstrcpy(pd.lpwzContactName, lParam == SM_WARNING ? L"Warning" : L"Notification");
-		pd.lchIcon = LoadIcon(nullptr, lParam == SM_WARNING ? IDI_WARNING : IDI_INFORMATION);
-		wcsncpy(pd.lpwzText, _A2T((char *)wParam), MAX_SECONDLINE); pd.lpwzText[MAX_SECONDLINE-1] = 0;
-		PUAddPopupW(&pd);
+		POPUPDATAW ppd;
+		mir_wstrcpy(ppd.lpwzContactName, lParam == SM_WARNING ? L"Warning" : L"Notification");
+		ppd.lchIcon = LoadIcon(nullptr, lParam == SM_WARNING ? IDI_WARNING : IDI_INFORMATION);
+		wcsncpy(ppd.lpwzText, _A2T((char *)wParam), MAX_SECONDLINE); ppd.lpwzText[MAX_SECONDLINE-1] = 0;
+		PUAddPopupW(&ppd);
 	}
 	return 0;
 }
@@ -275,11 +275,11 @@ static INT_PTR ShowMessageW(WPARAM wParam, LPARAM lParam)
 		return -1;
 
 	if (Popup_Enabled()) {
-		POPUPDATAW pd = {0};
-		mir_wstrcpy(pd.lpwzContactName, lParam == SM_WARNING ? L"Warning" : L"Notification");
-		pd.lchIcon = LoadIcon(nullptr, lParam == SM_WARNING ? IDI_WARNING : IDI_INFORMATION);
-		wcsncpy(pd.lpwzText, (wchar_t *)wParam, MAX_SECONDLINE);
-		PUAddPopupW(&pd);
+		POPUPDATAW ppd;
+		mir_wstrcpy(ppd.lpwzContactName, lParam == SM_WARNING ? L"Warning" : L"Notification");
+		ppd.lchIcon = LoadIcon(nullptr, lParam == SM_WARNING ? IDI_WARNING : IDI_INFORMATION);
+		wcsncpy(ppd.lpwzText, (wchar_t *)wParam, MAX_SECONDLINE);
+		PUAddPopupW(&ppd);
 	}
 	return 0;
 }
@@ -361,20 +361,20 @@ static INT_PTR CreateClassPopup(WPARAM wParam, LPARAM lParam)
 		if (NotifyEventHooks(hEventNotify, (WPARAM)pdc->hContact, (LPARAM)pc->PluginWindowProc))
 			return 0;
 
-		PopupData pd = { sizeof(PopupData) };
-		if (pc->flags & PCF_UNICODE) pd.flags |= PDF_UNICODE;
-		pd.colorBack = pc->colorBack;
-		pd.colorText = pc->colorText;
-		pd.SetIcon(pc->hIcon);
-		pd.timeout = pc->iSeconds;
-		pd.windowProc = pc->PluginWindowProc;
+		PopupData ppd = { sizeof(PopupData) };
+		if (pc->flags & PCF_UNICODE) ppd.flags |= PDF_UNICODE;
+		ppd.colorBack = pc->colorBack;
+		ppd.colorText = pc->colorText;
+		ppd.SetIcon(pc->hIcon);
+		ppd.timeout = pc->iSeconds;
+		ppd.windowProc = pc->PluginWindowProc;
 
-		pd.hContact = pdc->hContact;
-		pd.opaque = pdc->PluginData;
-		pd.pszTitle = (char *)pdc->szTitle.a;
-		pd.pszText = (char *)pdc->szText.a;
+		ppd.hContact = pdc->hContact;
+		ppd.opaque = pdc->PluginData;
+		ppd.pszTitle = (char *)pdc->szTitle.a;
+		ppd.pszText = (char *)pdc->szText.a;
 
-		ShowPopup(pd);
+		ShowPopup(ppd);
 	}
 	return 0;
 }

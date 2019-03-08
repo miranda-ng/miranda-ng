@@ -66,7 +66,7 @@ MSGBOXPROC prevMessageBox;
 
 void popupMessage(LPCTSTR lpText, LPCTSTR lpCaption, UINT uType)
 {
-	POPUPDATAW ppd = { 0 };
+	POPUPDATAW ppd;
 	int iIcon;
 	int indx;
 

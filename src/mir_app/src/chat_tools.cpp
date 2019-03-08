@@ -175,7 +175,7 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char *pszProtoNa
 	mir_vsnwprintf(szBuf, 4096, fmt, marker);
 	va_end(marker);
 
-	POPUPDATAW pd = { 0 };
+	POPUPDATAW pd;
 	pd.lchContact = hContact;
 
 	if (hIcon)

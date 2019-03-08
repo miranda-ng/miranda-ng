@@ -197,7 +197,7 @@ static void ShowPopup(const wchar_t *pwszText, MCONTACT hContact)
 {
 	if (!pwszText) return;
 
-	POPUPDATAW ppd = {};
+	POPUPDATAW ppd;
 	ppd.lchIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	ppd.lchContact = hContact;
 	wcsncpy(ppd.lpwzContactName, Clist_GetContactDisplayName(hContact), MAX_CONTACTNAME - 1);

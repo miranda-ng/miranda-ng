@@ -20,24 +20,24 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-void FillPopupData(POPUPDATAW &pd, int dtb)
+void FillPopupData(POPUPDATAW &ppd, int dtb)
 {
 	int popupTimeout = (dtb == 0) ? commonData.popupTimeoutToday : commonData.popupTimeout;
 
-	pd.colorBack = commonData.background;
-	pd.colorText = commonData.foreground;
-	pd.iSeconds = popupTimeout;
+	ppd.colorBack = commonData.background;
+	ppd.colorText = commonData.foreground;
+	ppd.iSeconds = popupTimeout;
 }
 
 void PopupNotifyNoBirthdays()
 {
-	POPUPDATAW pd = { 0 };
-	FillPopupData(pd, -1);
-	pd.lchIcon = GetDTBIcon(-1);
+	POPUPDATAW ppd;
+	FillPopupData(ppd, -1);
+	ppd.lchIcon = GetDTBIcon(-1);
 
-	wcsncpy(pd.lpwzContactName, TranslateT("WhenWasIt"), MAX_CONTACTNAME - 1);
-	wcsncpy(pd.lpwzText, TranslateT("No upcoming birthdays."), MAX_SECONDLINE - 1);
-	PUAddPopupW(&pd);
+	wcsncpy(ppd.lpwzContactName, TranslateT("WhenWasIt"), MAX_CONTACTNAME - 1);
+	wcsncpy(ppd.lpwzText, TranslateT("No upcoming birthdays."), MAX_SECONDLINE - 1);
+	PUAddPopupW(&ppd);
 }
 
 wchar_t *BuildDTBText(int dtb, wchar_t *name, wchar_t *text, int size)
@@ -75,13 +75,13 @@ int PopupNotifyBirthday(MCONTACT hContact, int dtb, int age)
 	BuildDTBText(dtb, name, text, _countof(text));
 	int gender = GetContactGender(hContact);
 
-	POPUPDATAW pd = { 0 };
-	FillPopupData(pd, dtb);
-	pd.lchContact = hContact;
-	pd.PluginWindowProc = DlgProcPopup;
-	pd.lchIcon = GetDTBIcon(dtb);
+	POPUPDATAW ppd;
+	FillPopupData(ppd, dtb);
+	ppd.lchContact = hContact;
+	ppd.PluginWindowProc = DlgProcPopup;
+	ppd.lchIcon = GetDTBIcon(dtb);
 
-	mir_snwprintf(pd.lpwzContactName, MAX_CONTACTNAME, TranslateT("Birthday - %s"), name);
+	mir_snwprintf(ppd.lpwzContactName, MAX_CONTACTNAME, TranslateT("Birthday - %s"), name);
 	wchar_t *sex;
 	switch (toupper(gender)) {
 	case 'M':
@@ -96,14 +96,14 @@ int PopupNotifyBirthday(MCONTACT hContact, int dtb, int age)
 	}
 	if (age > 0) {
 		if (dtb > 0)
-			mir_snwprintf(pd.lpwzText, MAX_SECONDLINE, TranslateT("%s\n%s will be %d years old."), text, sex, age);
+			mir_snwprintf(ppd.lpwzText, MAX_SECONDLINE, TranslateT("%s\n%s will be %d years old."), text, sex, age);
 		else
-			mir_snwprintf(pd.lpwzText, MAX_SECONDLINE, TranslateT("%s\n%s just turned %d."), text, sex, age);
+			mir_snwprintf(ppd.lpwzText, MAX_SECONDLINE, TranslateT("%s\n%s just turned %d."), text, sex, age);
 	}
 	else
-		mir_wstrncpy(pd.lpwzText, text, MAX_SECONDLINE - 1);
+		mir_wstrncpy(ppd.lpwzText, text, MAX_SECONDLINE - 1);
 
-	PUAddPopupW(&pd);
+	PUAddPopupW(&ppd);
 
 	return 0;
 }
@@ -119,13 +119,13 @@ int PopupNotifyMissedBirthday(MCONTACT hContact, int dab, int age)
 	BuildDABText(dab, name, text, _countof(text));
 	int gender = GetContactGender(hContact);
 
-	POPUPDATAW pd = { 0 };
-	FillPopupData(pd, dab);
-	pd.lchContact = hContact;
-	pd.PluginWindowProc = DlgProcPopup;
-	pd.lchIcon = GetDTBIcon(dab);
+	POPUPDATAW ppd;
+	FillPopupData(ppd, dab);
+	ppd.lchContact = hContact;
+	ppd.PluginWindowProc = DlgProcPopup;
+	ppd.lchIcon = GetDTBIcon(dab);
 
-	mir_snwprintf(pd.lpwzContactName, MAX_CONTACTNAME, TranslateT("Birthday - %s"), name);
+	mir_snwprintf(ppd.lpwzContactName, MAX_CONTACTNAME, TranslateT("Birthday - %s"), name);
 	wchar_t *sex;
 	switch (toupper(gender)) {
 	case 'M':
@@ -139,11 +139,11 @@ int PopupNotifyMissedBirthday(MCONTACT hContact, int dab, int age)
 		break;
 	}
 	if (age > 0)
-		mir_snwprintf(pd.lpwzText, MAX_SECONDLINE, TranslateT("%s\n%s just turned %d."), text, sex, age);
+		mir_snwprintf(ppd.lpwzText, MAX_SECONDLINE, TranslateT("%s\n%s just turned %d."), text, sex, age);
 	else
-		mir_wstrncpy(pd.lpwzText, text, MAX_SECONDLINE - 1);
+		mir_wstrncpy(ppd.lpwzText, text, MAX_SECONDLINE - 1);
 
-	PUAddPopupW(&pd);
+	PUAddPopupW(&ppd);
 	return 0;
 }
 

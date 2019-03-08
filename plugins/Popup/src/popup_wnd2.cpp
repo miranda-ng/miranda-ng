@@ -647,14 +647,14 @@ int PopupWnd2::fixActions(POPUPACTION *theActions, int count, int additional)
 
 	m_actionCount = additional;
 	for (i = 0; i < count; ++i)
-		if ((theActions[i].flags&PAF_ENABLED) && IsActionEnabled(&theActions[i]))
+		if ((theActions[i].flags & PAF_ENABLED) && IsActionEnabled(&theActions[i]))
 			++m_actionCount;
 
 	m_actions = new ActionInfo[m_actionCount];
 	int iAction = 0;
 
 	for (i = 0; i < count; ++i)
-		if ((theActions[i].flags&PAF_ENABLED) && IsActionEnabled(&theActions[i])) {
+		if ((theActions[i].flags & PAF_ENABLED) && IsActionEnabled(&theActions[i])) {
 			m_actions[iAction].actionA = theActions[i];
 			++iAction;
 		}

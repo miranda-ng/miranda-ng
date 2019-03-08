@@ -86,7 +86,7 @@ BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
 
 int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, wchar_t*, COLORREF crBkg, const wchar_t* fmt, ...)
 {
-	POPUPDATAW pd = { 0 };
+	POPUPDATAW pd;
 	va_list marker;
 	static wchar_t szBuf[4 * 1024];
 

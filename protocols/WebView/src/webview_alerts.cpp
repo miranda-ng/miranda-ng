@@ -111,7 +111,7 @@ int WAlertOSD(MCONTACT hContact, wchar_t *displaytext)
 /*****************************************************************************/
 int PopupAlert(WPARAM hContact, LPARAM lParam)
 {
-	POPUPDATAW ppd = { 0 };
+	POPUPDATAW ppd;
 
 	if (hContact != 0)
 		mir_wstrncpy(ppd.lpwzContactName, ptrW(g_plugin.getWStringA(hContact, PRESERVE_NAME_KEY)), _countof(ppd.lpwzContactName));

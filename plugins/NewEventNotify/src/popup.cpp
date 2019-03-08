@@ -325,7 +325,7 @@ int PopupShow(MCONTACT hContact, MEVENT hEvent, UINT eventType)
 	// check if we should report this kind of event
 	// get the prefered icon as well
 	// CHANGE: iSeconds is -1 because I use my timer to hide popup
-	POPUPDATAW pudw;
+	POPUPDATAW pudw = {};
 	pudw.iSeconds = -1;
 
 	switch (eventType) {
@@ -378,7 +378,7 @@ int PopupShow(MCONTACT hContact, MEVENT hEvent, UINT eventType)
 		hContact = DbGetAuthEventContact(&dbe);
 
 	// set plugin_data ... will be usable within PopupDlgProc
-	PLUGIN_DATA *pdata = (PLUGIN_DATA*)mir_alloc(sizeof(PLUGIN_DATA));
+	PLUGIN_DATA *pdata = (PLUGIN_DATA*)mir_calloc(sizeof(PLUGIN_DATA));
 	pdata->eventType = eventType;
 	pdata->hContact = hContact;
 	pdata->countEvent = 1;

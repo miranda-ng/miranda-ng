@@ -352,43 +352,43 @@ INT_PTR CALLBACK DlgPopupsProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, 
 			if ((HIWORD(wParam) == BN_CLICKED )) {
 				ptszPopupPreviewText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t));
 
-				POPUPDATAW pdtData = { 0 };
-				wcsncpy(pdtData.lpwzContactName, TranslateT(MODULENAME), MAX_CONTACTNAME);
-				wcsncpy(pdtData.lpwzText, L"Ghbdtn? rfr ltkf&", MAX_SECONDLINE);
+				POPUPDATAW ppd;
+				wcsncpy(ppd.lpwzContactName, TranslateT(MODULENAME), MAX_CONTACTNAME);
+				wcsncpy(ppd.lpwzText, L"Ghbdtn? rfr ltkf&", MAX_SECONDLINE);
 
 				switch(poOptionsTemp.bColourType) {
 				case PPC_POPUP:
-					pdtData.colorBack = pdtData.colorText = 0;
+					ppd.colorBack = ppd.colorText = 0;
 					break;
 				case PPC_WINDOWS:
-					pdtData.colorBack = GetSysColor(COLOR_BTNFACE);
-					pdtData.colorText = GetSysColor(COLOR_WINDOWTEXT);
+					ppd.colorBack = GetSysColor(COLOR_BTNFACE);
+					ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
 					break;
 				case PPC_CUSTOM:
-					pdtData.colorBack = poOptionsTemp.crBackColour;
-					pdtData.colorText = poOptionsTemp.crTextColour;
+					ppd.colorBack = poOptionsTemp.crBackColour;
+					ppd.colorText = poOptionsTemp.crTextColour;
 					break;
 				}						
 				
 				switch(poOptionsTemp.bTimeoutType) {
 				case PPT_POPUP:
-					pdtData.iSeconds = 0;
+					ppd.iSeconds = 0;
 					break;
 				case PPT_PERMANENT:
-					pdtData.iSeconds = -1;
+					ppd.iSeconds = -1;
 					break;
 				case PPC_CUSTOM:
-					pdtData.iSeconds = poOptionsTemp.bTimeout;
+					ppd.iSeconds = poOptionsTemp.bTimeout;
 					break;
 				}
-				mir_wstrcpy(ptszPopupPreviewText, pdtData.lpwzText);
-				pdtData.PluginData = ptszPopupPreviewText;
-				pdtData.lchIcon = hPopupIcon;
+				mir_wstrcpy(ptszPopupPreviewText, ppd.lpwzText);
+				ppd.PluginData = ptszPopupPreviewText;
+				ppd.lchIcon = hPopupIcon;
 				poOptions.paActions[0].lchIcon = hCopyIcon;
-				pdtData.lpActions = poOptions.paActions;
-				pdtData.actionCount = 1;
-				pdtData.PluginWindowProc = (WNDPROC)CKLPopupDlgProc;
-				if (PUAddPopupW(&pdtData) < 0)
+				ppd.lpActions = poOptions.paActions;
+				ppd.actionCount = 1;
+				ppd.PluginWindowProc = (WNDPROC)CKLPopupDlgProc;
+				if (PUAddPopupW(&ppd) < 0)
 					mir_free(ptszPopupPreviewText);
 			}
 			break;

@@ -615,7 +615,7 @@ void ShowPopup(ALARM *alarm)
 	memset(data, 0, sizeof(ALARM));
 	copy_alarm_data(data, alarm);
 
-	POPUPDATAW ppd = { 0 };
+	POPUPDATAW ppd;
 	ppd.lchIcon = hIconMenuSet;
 	mir_wstrncpy(ppd.lpwzContactName, data->szTitle, MAX_CONTACTNAME);
 	mir_wstrncpy(ppd.lpwzText, data->szDesc, MAX_SECONDLINE);

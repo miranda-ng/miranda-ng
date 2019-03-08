@@ -187,7 +187,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		case IDC_PREVIEW:
 			wchar_t str3[512];
-			POPUPDATAW ppd = { 0 };
+			POPUPDATAW ppd;
 
 			GetDlgItemText(hdlg, IDC_DELAY, str3, _countof(str3));
 

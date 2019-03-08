@@ -72,7 +72,7 @@ void PopupMyIPAddrs(const wchar_t *msg)
 {
 	OBJLIST<NETWORK_INTERFACE> list(10);
 	if (Create_NIF_List_Ex(&list) >= 0) {
-		POPUPDATAW ppd = {};
+		POPUPDATAW ppd;
 		wcsncpy_s(ppd.lpwzText, Print_NIF_List(list, msg), _TRUNCATE);
 
 		LoadSettings();

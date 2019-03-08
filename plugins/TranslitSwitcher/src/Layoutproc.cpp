@@ -429,11 +429,11 @@ void SwitchLayout(bool lastword)
 			if (smileyPrs != nullptr)
 				CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)smileyPrs);
 
-			POPUPDATAW pd = { 0 };
-			pd.lchIcon = IcoLib_GetIcon("Switch Layout and Send");
-			mir_wstrncpy(pd.lpwzText, buf, _countof(pd.lpwzText));
-			mir_wstrncpy(pd.lpwzContactName, TranslateW_LP(L"TranslitSwitcher"), _countof(pd.lpwzContactName));
-			PUAddPopupW(&pd);
+			POPUPDATAW ppd;
+			ppd.lchIcon = IcoLib_GetIcon("Switch Layout and Send");
+			mir_wstrncpy(ppd.lpwzText, buf, _countof(ppd.lpwzText));
+			mir_wstrncpy(ppd.lpwzContactName, TranslateW_LP(L"TranslitSwitcher"), _countof(ppd.lpwzContactName));
+			PUAddPopupW(&ppd);
 		}
 	}
 	else if (mir_wstrcmpi(szClassName, L"RichEdit50W") == 0) {

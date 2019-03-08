@@ -495,7 +495,7 @@ int AddNewMailsToListView(HWND hListView, HACCOUNT ActualAccount, DWORD nflags)
 		lfoundi = 0;
 	}
 
-	POPUPDATAW NewMailPopup = { 0 };
+	POPUPDATAW NewMailPopup = {};
 	NewMailPopup.lchContact = (ActualAccount->hContact != NULL) ? ActualAccount->hContact : (UINT_PTR)ActualAccount;
 	NewMailPopup.lchIcon = g_LoadIconEx(2);
 	if (nflags & YAMN_ACC_POPC) {
@@ -656,7 +656,7 @@ void DoMailActions(HWND hDlg, HACCOUNT ActualAccount, struct CMailNumbers *MN, D
 	if ((nflags & YAMN_ACC_POP) &&
 		!(ActualAccount->Flags & YAMN_ACC_POPN) &&
 		(MN->Real.PopupRun + MN->Virtual.PopupRun)) {
-		POPUPDATAW NewMailPopup = { 0 };
+		POPUPDATAW NewMailPopup;
 
 		NewMailPopup.lchContact = (ActualAccount->hContact != NULL) ? ActualAccount->hContact : (UINT_PTR)ActualAccount;
 		NewMailPopup.lchIcon = g_LoadIconEx(2);
@@ -744,7 +744,7 @@ void DoMailActions(HWND hDlg, HACCOUNT ActualAccount, struct CMailNumbers *MN, D
 			Skin_PlaySound(YAMN_NEWMAILSOUND);
 
 	if ((nnflags & YAMN_ACC_POP) && (MN->Real.PopupRun + MN->Virtual.PopupRun == 0)) {
-		POPUPDATAW NoNewMailPopup;
+		POPUPDATAW NoNewMailPopup = {};
 
 		NoNewMailPopup.lchContact = (ActualAccount->hContact != NULL) ? ActualAccount->hContact : (UINT_PTR)ActualAccount;
 		NoNewMailPopup.lchIcon = g_LoadIconEx(1);
