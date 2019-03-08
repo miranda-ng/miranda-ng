@@ -465,12 +465,7 @@ begin
         end;
       end
       else
-      begin
-        if ServiceExists(MS_MSG_CONVERS) then // Convers compat.
-          CallService(MS_MSG_CONVERS,hContact,0)
-        else
-          CallService(MS_MSG_SENDMESSAGE,hContact,0)
-      end;
+        CallService(MS_MSG_SENDMESSAGE,hContact,0);
   end;
 end;
 
