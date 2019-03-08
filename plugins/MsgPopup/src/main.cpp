@@ -101,8 +101,11 @@ void popupMessage(LPCTSTR lpText, LPCTSTR lpCaption, UINT uType)
 		MessageBeep(uType);
 }
 
-int WINAPI newMessageBox(HWND, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType)
+int WINAPI newMessageBox(HWND hWnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType)
 {
+	if (!Popup_Enabled() || (uType & 0x0F))
+		return prevMessageBox(hWnd, lpText, lpCaption, uType);
+	
 	popupMessage(lpText, lpCaption, uType);
 	return IDOK;
 }
