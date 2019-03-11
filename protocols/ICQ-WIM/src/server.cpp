@@ -387,9 +387,9 @@ bool CIcqProto::RefreshRobustToken()
 	bool bRet = false;
 	auto *tmp = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER "/genToken");
 
-	time_t ts = time(0);
+	time_t ts = TS();
 	tmp << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", ICQ_APP_ID)
-		<< CHAR_PARAM("nonce", CMStringA(FORMAT, "%d-%d", ts, rand() % 10)) << INT_PARAM("ts", ts);
+		<< CHAR_PARAM("nonce", CMStringA(FORMAT, "%d-%d", ts, rand() % 10)) << INT_PARAM("ts", TS());
 	CalcHash(tmp);
 	tmp->flags |= NLHRF_PERSISTENT;
 	tmp->nlc = m_ConnPool[CONN_RAPI].s;
@@ -547,7 +547,7 @@ void CIcqProto::StartSession()
 		RpcStringFreeA(&szId);
 	}
 
-	int ts = time(0);
+	int ts = TS();
 	CMStringA nonce(FORMAT, "%d-2", ts);
 	CMStringA caps(WIM_CAP_UNIQ_REQ_ID "," WIM_CAP_EMOJI "," WIM_CAP_MAIL_NOTIFICATIONS "," WIM_CAP_INTRO_DLG_STATE);
 	if (g_bSecureIM) {
@@ -635,6 +635,9 @@ void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 	if (szUin)
 		m_szOwnId = szUin;
 
+	int srvTS = data["hostTime"].as_int();
+	m_iTimeShift = (srvTS) ? time(0) - srvTS : 0;
+
 	StartSession();
 }
 
@@ -681,7 +684,7 @@ void CIcqProto::OnFileContinue(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld
 			}
 
 			pReq << AIMSID(this) << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", ICQ_APP_ID) << CHAR_PARAM("mentions", "") << WCHAR_PARAM("message", wszUrl) 
-				<< CHAR_PARAM("offlineIM", "true") <<	WCHAR_PARAM("parts", wszParts) << WCHAR_PARAM("t", GetUserId(pTransfer->pfts.hContact)) << INT_PARAM("ts", time(0));
+				<< CHAR_PARAM("offlineIM", "true") <<	WCHAR_PARAM("parts", wszParts) << WCHAR_PARAM("t", GetUserId(pTransfer->pfts.hContact)) << INT_PARAM("ts", TS());
 			Push(pReq);
 		}
 		else ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, pTransfer);
@@ -691,7 +694,7 @@ void CIcqProto::OnFileContinue(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld
 
 	// else send the next portion
 	auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_POST, pTransfer->m_szHost, &CIcqProto::OnFileContinue);
-	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("client", "icq") << CHAR_PARAM("k", ICQ_APP_ID) << INT_PARAM("ts", time(0));
+	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("client", "icq") << CHAR_PARAM("k", ICQ_APP_ID) << INT_PARAM("ts", TS());
 	CalcHash(pReq);
 	pReq->m_szUrl.AppendChar('?');
 	pReq->m_szUrl += pReq->m_szParam; pReq->m_szParam.Empty();
@@ -722,7 +725,7 @@ void CIcqProto::OnFileInit(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld)
 	pTransfer->m_szHost = L"https://" + wszHost + wszUrl;
 
 	auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_POST, pTransfer->m_szHost, &CIcqProto::OnFileContinue);
-	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("client", "icq") << CHAR_PARAM("k", ICQ_APP_ID) << INT_PARAM("ts", time(0));
+	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("client", "icq") << CHAR_PARAM("k", ICQ_APP_ID) << INT_PARAM("ts", TS());
 	CalcHash(pReq);
 	pReq->m_szUrl.AppendChar('?');
 	pReq->m_szUrl += pReq->m_szParam; pReq->m_szParam.Empty();
@@ -764,7 +767,7 @@ void CIcqProto::OnGetUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 	ProtoBroadcastAck(pReq->hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, nullptr);
 }
 
-void CIcqProto::OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+void CIcqProto::OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
 {
 	JsonReply root(pReply);
 	switch (root.error()) {
@@ -780,6 +783,16 @@ void CIcqProto::OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 		else ConnectionFailed(LOGINERR_WRONGPASSWORD, root.error());
 		return;
 
+	case 400:
+		if (root.detail() == 1015 && m_iTimeShift == 0) { // wrong timestamp
+			JSONNode &data = root.data();
+			int srvTS = data["ts"].as_int();
+			m_iTimeShift = (srvTS) ? time(0) - srvTS : 0;
+			StartSession();
+			return;
+		}
+		__fallthrough;
+
 	default:
 		ConnectionFailed(LOGINERR_WRONGPROTOCOL, root.error());
 		return;
@@ -788,6 +801,9 @@ void CIcqProto::OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 	JSONNode &data = root.data();
 	m_fetchBaseURL = data["fetchBaseURL"].as_mstring();
 	m_aimsid = data["aimsid"].as_mstring();
+
+	int srvTS = data["ts"].as_int();
+	m_iTimeShift = (srvTS) ? time(0) - srvTS : 0;
 
 	OnLoggedIn();
 

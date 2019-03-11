@@ -143,6 +143,9 @@ void CIcqProto::OnLoginViaPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pRe
 	mir_urlDecode(m_szAToken.GetBuffer());
 	setString(DB_KEY_ATOKEN, m_szAToken);
 
+	int srvTS = data["hostTime"].as_int();
+	m_iTimeShift = (srvTS) ? time(0) - srvTS : 0;
+
 	m_szSessionKey = data["sessionKey"].as_mstring();
 	setString(DB_KEY_SESSIONKEY, m_szSessionKey);
 

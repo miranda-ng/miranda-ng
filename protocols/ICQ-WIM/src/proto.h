@@ -160,6 +160,8 @@ class CIcqProto : public PROTO<CIcqProto>
 	friend AsyncHttpRequest* operator <<(AsyncHttpRequest*, const AIMSID&);
 
 	bool      m_bOnline, m_bTerminated, m_bFirstBos;
+	int       m_iTimeShift;
+
 	MCONTACT  CheckOwnMessage(const CMStringA &reqId, const CMStringA &msgId, bool bRemove);
 	void      CheckPassword(void);
 	void      ConnectionFailed(int iReason, int iErrorCode = 0);
@@ -356,6 +358,10 @@ public:
 
 	void CheckStatus(void);
 	CMStringW GetUserId(MCONTACT);
+
+	__forceinline int TS() const
+	{	return time(0) - m_iTimeShift;
+	}
 
 	int __cdecl OnContactMenu(WPARAM, LPARAM);
 	void SetPermitDeny(const CMStringW &userId, bool bAllow);
