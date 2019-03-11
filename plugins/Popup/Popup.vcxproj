@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>Popup</ProjectName>
+    <ProjectName>PopupPlus</ProjectName>
     <ProjectGuid>{726460C7-E1F1-4C37-B64F-DA8A8DD26D70}</ProjectGuid>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
