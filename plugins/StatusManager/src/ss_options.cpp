@@ -70,7 +70,7 @@ static char* GetCMDLArguments(TProtoSettings &protoSettings)
 		}
 	}
 
-	if (db_get_b(0, SSMODULENAME, SETTING_SHOWDIALOG, FALSE) == TRUE) {
+	if (SSPlugin.getByte(SETTING_SHOWDIALOG, FALSE) == TRUE) {
 		*pnt++ = ' ';
 		*pnt++ = '\0';
 		cmdl = (char*)mir_realloc(cmdl, mir_strlen(cmdl) + 12);
@@ -268,7 +268,7 @@ class CSSMainOptDlg : public CSSOptionsBaseDlg
 			chkSetDocked.SetState(false);
 		onChange_Docked(0);
 
-		int val = db_get_b(0, SSMODULENAME, SETTING_WINSTATE, SETTING_STATE_NORMAL);
+		int val = SSPlugin.getByte(SETTING_WINSTATE, SETTING_STATE_NORMAL);
 		SendDlgItemMessage(m_hwnd, IDC_WINSTATE, CB_RESETCONTENT, 0, 0);
 
 		int item = SendDlgItemMessage(m_hwnd, IDC_WINSTATE, CB_ADDSTRING, 0, (LPARAM)TranslateT("Hidden"));
@@ -323,24 +323,24 @@ public:
 
 	bool OnInitDialog() override
 	{
-		CheckDlgButton(m_hwnd, IDC_SETPROFILE, db_get_b(0, SSMODULENAME, SETTING_SETPROFILE, 1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_OVERRIDE, db_get_b(0, SSMODULENAME, SETTING_OVERRIDE, 1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_SHOWDIALOG, db_get_b(0, SSMODULENAME, SETTING_SHOWDIALOG, 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_SETWINSTATE, db_get_b(0, SSMODULENAME, SETTING_SETWINSTATE, 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_SETWINLOCATION, db_get_b(0, SSMODULENAME, SETTING_SETWINLOCATION, 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_SETDOCKED, db_get_b(0, SSMODULENAME, SETTING_SETDOCKED, 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_SETWINSIZE, db_get_b(0, SSMODULENAME, SETTING_SETWINSIZE, 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_OFFLINECLOSE, db_get_b(0, SSMODULENAME, SETTING_OFFLINECLOSE, 1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_AUTODIAL, db_get_b(0, SSMODULENAME, SETTING_AUTODIAL, 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_AUTOHANGUP, db_get_b(0, SSMODULENAME, SETTING_AUTOHANGUP, 0) ? BST_CHECKED : BST_UNCHECKED);
-		SetDlgItemInt(m_hwnd, IDC_SETPROFILEDELAY, db_get_dw(0, SSMODULENAME, SETTING_SETPROFILEDELAY, 500), FALSE);
-		SetDlgItemInt(m_hwnd, IDC_DLGTIMEOUT, db_get_dw(0, SSMODULENAME, SETTING_DLGTIMEOUT, 5), FALSE);
-		SetDlgItemInt(m_hwnd, IDC_XPOS, db_get_dw(0, SSMODULENAME, SETTING_XPOS, 0), TRUE);
-		SetDlgItemInt(m_hwnd, IDC_YPOS, db_get_dw(0, SSMODULENAME, SETTING_YPOS, 0), TRUE);
-		SetDlgItemInt(m_hwnd, IDC_WIDTH, db_get_dw(0, SSMODULENAME, SETTING_WIDTH, 0), FALSE);
-		SetDlgItemInt(m_hwnd, IDC_HEIGHT, db_get_dw(0, SSMODULENAME, SETTING_HEIGHT, 0), FALSE);
+		CheckDlgButton(m_hwnd, IDC_SETPROFILE, SSPlugin.getByte(SETTING_SETPROFILE, 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_OVERRIDE, SSPlugin.getByte(SETTING_OVERRIDE, 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_SHOWDIALOG, SSPlugin.getByte(SETTING_SHOWDIALOG, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_SETWINSTATE, SSPlugin.getByte(SETTING_SETWINSTATE, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_SETWINLOCATION, SSPlugin.getByte(SETTING_SETWINLOCATION, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_SETDOCKED, SSPlugin.getByte(SETTING_SETDOCKED, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_SETWINSIZE, SSPlugin.getByte(SETTING_SETWINSIZE, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_OFFLINECLOSE, SSPlugin.getByte(SETTING_OFFLINECLOSE, 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_AUTODIAL, SSPlugin.getByte(SETTING_AUTODIAL, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_AUTOHANGUP, SSPlugin.getByte(SETTING_AUTOHANGUP, 0) ? BST_CHECKED : BST_UNCHECKED);
+		SetDlgItemInt(m_hwnd, IDC_SETPROFILEDELAY, SSPlugin.getWord(SETTING_SETPROFILEDELAY, 500), FALSE);
+		SetDlgItemInt(m_hwnd, IDC_DLGTIMEOUT, SSPlugin.getWord(SETTING_DLGTIMEOUT, 5), FALSE);
+		SetDlgItemInt(m_hwnd, IDC_XPOS, SSPlugin.getWord(SETTING_XPOS, 0), TRUE);
+		SetDlgItemInt(m_hwnd, IDC_YPOS, SSPlugin.getWord(SETTING_YPOS, 0), TRUE);
+		SetDlgItemInt(m_hwnd, IDC_WIDTH, SSPlugin.getWord(SETTING_WIDTH, 0), FALSE);
+		SetDlgItemInt(m_hwnd, IDC_HEIGHT, SSPlugin.getWord(SETTING_HEIGHT, 0), FALSE);
 
-		int val = db_get_b(0, SSMODULENAME, SETTING_DOCKED, DOCKED_NONE);
+		int val = SSPlugin.getByte(SETTING_DOCKED, DOCKED_NONE);
 		int item = SendDlgItemMessage(m_hwnd, IDC_DOCKED, CB_ADDSTRING, 0, (LPARAM)TranslateT("Left"));
 		SendDlgItemMessage(m_hwnd, IDC_DOCKED, CB_SETITEMDATA, (WPARAM)item, (LPARAM)DOCKED_LEFT);
 		if (val == DOCKED_LEFT)
@@ -369,45 +369,45 @@ public:
 	bool OnApply() override
 	{
 		bool bChecked = chkSetProfile.GetState();
-		db_set_b(0, SSMODULENAME, SETTING_SETPROFILE, bChecked);
+		SSPlugin.setByte(SETTING_SETPROFILE, bChecked);
 		if (bChecked)
-			db_set_dw(0, SSMODULENAME, SETTING_SETPROFILEDELAY, GetDlgItemInt(m_hwnd, IDC_SETPROFILEDELAY, nullptr, FALSE));
+			SSPlugin.setDword(SETTING_SETPROFILEDELAY, GetDlgItemInt(m_hwnd, IDC_SETPROFILEDELAY, nullptr, FALSE));
 
 		if (bChecked || chkShowDialog.GetState())
-			db_set_w(0, SSMODULENAME, SETTING_DEFAULTPROFILE, (WORD)profiles.GetItemData(profiles.GetCurSel()));
+			SSPlugin.setWord(SETTING_DEFAULTPROFILE, (WORD)profiles.GetItemData(profiles.GetCurSel()));
 
-		db_set_b(0, SSMODULENAME, SETTING_OVERRIDE, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_OVERRIDE));
-		db_set_b(0, SSMODULENAME, SETTING_SHOWDIALOG, bChecked = chkShowDialog.GetState());
+		SSPlugin.setByte(SETTING_OVERRIDE, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_OVERRIDE));
+		SSPlugin.setByte(SETTING_SHOWDIALOG, bChecked = chkShowDialog.GetState());
 		if (bChecked)
-			db_set_dw(0, SSMODULENAME, SETTING_DLGTIMEOUT, GetDlgItemInt(m_hwnd, IDC_DLGTIMEOUT, nullptr, FALSE));
+			SSPlugin.setDword(SETTING_DLGTIMEOUT, GetDlgItemInt(m_hwnd, IDC_DLGTIMEOUT, nullptr, FALSE));
 
-		db_set_b(0, SSMODULENAME, SETTING_SETWINSTATE, bChecked = chkSetWinState.GetState());
+		SSPlugin.setByte(SETTING_SETWINSTATE, bChecked = chkSetWinState.GetState());
 		if (bChecked) {
 			int val = (int)SendDlgItemMessage(m_hwnd, IDC_WINSTATE, CB_GETITEMDATA, SendDlgItemMessage(m_hwnd, IDC_WINSTATE, CB_GETCURSEL, 0, 0), 0);
-			db_set_b(0, SSMODULENAME, SETTING_WINSTATE, (BYTE)val);
+			SSPlugin.setByte(SETTING_WINSTATE, (BYTE)val);
 		}
 		
-		db_set_b(0, SSMODULENAME, SETTING_SETDOCKED, bChecked = chkSetDocked.GetState());
+		SSPlugin.setByte(SETTING_SETDOCKED, bChecked = chkSetDocked.GetState());
 		if (bChecked) {
 			int val = (int)SendDlgItemMessage(m_hwnd, IDC_DOCKED, CB_GETITEMDATA, SendDlgItemMessage(m_hwnd, IDC_DOCKED, CB_GETCURSEL, 0, 0), 0);
-			db_set_b(0, SSMODULENAME, SETTING_DOCKED, (BYTE)val);
+			SSPlugin.setByte(SETTING_DOCKED, (BYTE)val);
 		}
 		
-		db_set_b(0, SSMODULENAME, SETTING_SETWINLOCATION, bChecked = chkSetWinLocation.GetState());
+		SSPlugin.setByte(SETTING_SETWINLOCATION, bChecked = chkSetWinLocation.GetState());
 		if (bChecked) {
-			db_set_dw(0, SSMODULENAME, SETTING_XPOS, GetDlgItemInt(m_hwnd, IDC_XPOS, nullptr, TRUE));
-			db_set_dw(0, SSMODULENAME, SETTING_YPOS, GetDlgItemInt(m_hwnd, IDC_YPOS, nullptr, TRUE));
+			SSPlugin.setDword(SETTING_XPOS, GetDlgItemInt(m_hwnd, IDC_XPOS, nullptr, TRUE));
+			SSPlugin.setDword(SETTING_YPOS, GetDlgItemInt(m_hwnd, IDC_YPOS, nullptr, TRUE));
 		}
 		
-		db_set_b(0, SSMODULENAME, SETTING_SETWINSIZE, bChecked = chkSetWinSize.GetState());
+		SSPlugin.setByte(SETTING_SETWINSIZE, bChecked = chkSetWinSize.GetState());
 		if (bChecked) {
-			db_set_dw(0, SSMODULENAME, SETTING_WIDTH, GetDlgItemInt(m_hwnd, IDC_WIDTH, nullptr, FALSE));
-			db_set_dw(0, SSMODULENAME, SETTING_HEIGHT, GetDlgItemInt(m_hwnd, IDC_HEIGHT, nullptr, FALSE));
+			SSPlugin.setDword(SETTING_WIDTH, GetDlgItemInt(m_hwnd, IDC_WIDTH, nullptr, FALSE));
+			SSPlugin.setDword(SETTING_HEIGHT, GetDlgItemInt(m_hwnd, IDC_HEIGHT, nullptr, FALSE));
 		}
 		
-		db_set_b(0, SSMODULENAME, SETTING_OFFLINECLOSE, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_OFFLINECLOSE));
-		db_set_b(0, SSMODULENAME, SETTING_AUTODIAL, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_AUTODIAL));
-		db_set_b(0, SSMODULENAME, SETTING_AUTOHANGUP, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_AUTOHANGUP));
+		SSPlugin.setByte(SETTING_OFFLINECLOSE, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_OFFLINECLOSE));
+		SSPlugin.setByte(SETTING_AUTODIAL, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_AUTODIAL));
+		SSPlugin.setByte(SETTING_AUTOHANGUP, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_AUTOHANGUP));
 		return true;
 	}
 
@@ -689,19 +689,19 @@ public:
 					ppo->tszName = mir_wstrdup(TranslateT("unknown"));
 			}
 			else {
-				ppo->tszName = db_get_wsa(0, SSMODULENAME, OptName(i, SETTING_PROFILENAME));
+				ppo->tszName = SSPlugin.getWStringA(OptName(i, SETTING_PROFILENAME));
 				if (ppo->tszName == nullptr) {
 					if (i == defProfile)
 						ppo->tszName = mir_wstrdup(TranslateT("default"));
 					else
 						ppo->tszName = mir_wstrdup(TranslateT("unknown"));
 				}
-				ppo->createTtb = db_get_b(0, SSMODULENAME, OptName(i, SETTING_CREATETTBBUTTON), 0);
-				ppo->showDialog = db_get_b(0, SSMODULENAME, OptName(i, SETTING_SHOWCONFIRMDIALOG), 0);
-				ppo->createMmi = db_get_b(0, SSMODULENAME, OptName(i, SETTING_CREATEMMITEM), 0);
-				ppo->inSubMenu = db_get_b(0, SSMODULENAME, OptName(i, SETTING_INSUBMENU), 1);
-				ppo->regHotkey = db_get_b(0, SSMODULENAME, OptName(i, SETTING_REGHOTKEY), 0);
-				ppo->hotKey = db_get_w(0, SSMODULENAME, OptName(i, SETTING_HOTKEY), MAKEWORD((char)('0' + i), HOTKEYF_CONTROL | HOTKEYF_SHIFT));
+				ppo->createTtb = SSPlugin.getByte(OptName(i, SETTING_CREATETTBBUTTON), 0);
+				ppo->showDialog = SSPlugin.getByte(OptName(i, SETTING_SHOWCONFIRMDIALOG), 0);
+				ppo->createMmi = SSPlugin.getByte(OptName(i, SETTING_CREATEMMITEM), 0);
+				ppo->inSubMenu = SSPlugin.getByte(OptName(i, SETTING_INSUBMENU), 1);
+				ppo->regHotkey = SSPlugin.getByte(OptName(i, SETTING_REGHOTKEY), 0);
+				ppo->hotKey = SSPlugin.getWord(OptName(i, SETTING_HOTKEY), MAKEWORD((char)('0' + i), HOTKEYF_CONTROL | HOTKEYF_SHIFT));
 			}
 			arProfiles.insert(ppo);
 		}
@@ -715,7 +715,7 @@ public:
 
 	bool OnApply() override
 	{
-		int oldCount = db_get_w(0, SSMODULENAME, SETTING_PROFILECOUNT, 0);
+		int oldCount = SSPlugin.getWord(SETTING_PROFILECOUNT, 0);
 		for (int i = 0; i < oldCount; i++) {
 			LIST<char> arSettings(10);
 			db_enum_settings(0, DeleteSetting, SSMODULENAME, &arSettings);
@@ -724,31 +724,31 @@ public:
 			int len = mir_snprintf(setting, "%d_", i);
 			for (auto &it : arSettings) {
 				if (!strncmp(setting, it, len))
-					db_unset(0, SSMODULENAME, it);
+					SSPlugin.delSetting(it);
 				mir_free(it);
 			}
 		}
 
 		for (auto &it : arProfiles) {
 			int i = arProfiles.indexOf(&it);
-			db_set_b(0, SSMODULENAME, OptName(i, SETTING_SHOWCONFIRMDIALOG), it->showDialog);
-			db_set_b(0, SSMODULENAME, OptName(i, SETTING_CREATETTBBUTTON), it->createTtb);
-			db_set_b(0, SSMODULENAME, OptName(i, SETTING_CREATEMMITEM), it->createMmi);
-			db_set_b(0, SSMODULENAME, OptName(i, SETTING_INSUBMENU), it->inSubMenu);
-			db_set_b(0, SSMODULENAME, OptName(i, SETTING_REGHOTKEY), it->regHotkey);
-			db_set_w(0, SSMODULENAME, OptName(i, SETTING_HOTKEY), it->hotKey);
-			db_set_ws(0, SSMODULENAME, OptName(i, SETTING_PROFILENAME), it->tszName);
+			SSPlugin.setByte(OptName(i, SETTING_SHOWCONFIRMDIALOG), it->showDialog);
+			SSPlugin.setByte(OptName(i, SETTING_CREATETTBBUTTON), it->createTtb);
+			SSPlugin.setByte(OptName(i, SETTING_CREATEMMITEM), it->createMmi);
+			SSPlugin.setByte(OptName(i, SETTING_INSUBMENU), it->inSubMenu);
+			SSPlugin.setByte(OptName(i, SETTING_REGHOTKEY), it->regHotkey);
+			SSPlugin.setWord(OptName(i, SETTING_HOTKEY), it->hotKey);
+			SSPlugin.setWString(OptName(i, SETTING_PROFILENAME), it->tszName);
 
 			for (auto jt : it->ps) {
 				if (jt->m_szMsg != nullptr) {
 					char setting[128];
 					mir_snprintf(setting, "%s_%s", jt->m_szName, SETTING_PROFILE_STSMSG);
-					db_set_ws(0, SSMODULENAME, OptName(i, setting), jt->m_szMsg);
+					SSPlugin.setWString(OptName(i, setting), jt->m_szMsg);
 				}
-				db_set_w(0, SSMODULENAME, OptName(i, jt->m_szName), jt->m_status);
+				SSPlugin.setWord(OptName(i, jt->m_szName), jt->m_status);
 			}
 		}
-		db_set_w(0, SSMODULENAME, SETTING_PROFILECOUNT, (WORD)arProfiles.getCount());
+		SSPlugin.setWord(SETTING_PROFILECOUNT, (WORD)arProfiles.getCount());
 
 		// Rebuild status menu
 		if (bNeedRebuildMenu)
@@ -780,7 +780,7 @@ public:
 		GetProfileCount((WPARAM)&defProfile, 0);
 		if (sel == defProfile) {
 			MessageBox(nullptr, TranslateT("Your default profile will be changed"), TranslateT("Status manager"), MB_OK);
-			db_set_w(0, SSMODULENAME, SETTING_DEFAULTPROFILE, 0);
+			SSPlugin.setWord(SETTING_DEFAULTPROFILE, 0);
 		}
 		ReinitProfiles();;
 	}

@@ -64,10 +64,10 @@ static int CreateMainMenuItems(WPARAM, LPARAM)
 	int count = GetProfileCount(0, 0);
 	for (int i = 0; i < count && mcount < MAX_MMITEMS; i++) {
 		wchar_t profilename[128];
-		if (!db_get_b(0, SSMODULENAME, OptName(i, SETTING_CREATEMMITEM), 0) || GetProfileName(i, (LPARAM)profilename))
+		if (!SSPlugin.getByte(OptName(i, SETTING_CREATEMMITEM), 0) || GetProfileName(i, (LPARAM)profilename))
 			continue;
 
-		if (db_get_b(0, SSMODULENAME, OptName(i, SETTING_INSUBMENU), 1) && !mi.root) {
+		if (SSPlugin.getByte(OptName(i, SETTING_INSUBMENU), 1) && !mi.root) {
 			mi.root = g_plugin.addRootMenu(MO_STATUS, LPGENW("Status profiles"), 2000100000);
 			Menu_ConfigureItem(mi.root, MCI_OPT_UID, "1AB30D51-BABA-4B27-9288-1A12278BAD8D");
 		}
@@ -92,9 +92,9 @@ INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam)
 {
 	int profile = (int)wParam;
 	if (profile < 0) // get default profile
-		profile = db_get_w(0, SSMODULENAME, SETTING_DEFAULTPROFILE, 0);
+		profile = SSPlugin.getWord(SETTING_DEFAULTPROFILE, 0);
 
-	int count = db_get_w(0, SSMODULENAME, SETTING_PROFILECOUNT, 0);
+	int count = SSPlugin.getWord(SETTING_PROFILECOUNT, 0);
 	if (profile >= count && count > 0)
 		return -1;
 
@@ -107,7 +107,7 @@ INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam)
 	DBVARIANT dbv;
 	char setting[80];
 	mir_snprintf(setting, "%d_%s", profile, SETTING_PROFILENAME);
-	if (db_get_ws(0, SSMODULENAME, setting, &dbv))
+	if (SSPlugin.getWString(setting, &dbv))
 		return -1;
 
 	wcsncpy(buf, dbv.pwszVal, 128 - 1); buf[127] = 0;
@@ -118,9 +118,9 @@ INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam)
 INT_PTR GetProfileCount(WPARAM wParam, LPARAM)
 {
 	int *def = (int*)wParam;
-	int count = db_get_w(0, SSMODULENAME, SETTING_PROFILECOUNT, 0);
+	int count = SSPlugin.getWord(SETTING_PROFILECOUNT, 0);
 	if (def != nullptr) {
-		*def = db_get_w(0, SSMODULENAME, SETTING_DEFAULTPROFILE, 0);
+		*def = SSPlugin.getWord(SETTING_DEFAULTPROFILE, 0);
 		if (*def >= count)
 			*def = 0;
 	}
@@ -135,7 +135,7 @@ wchar_t* GetStatusMessage(int profile, const char *szProto)
 
 	for (auto &p : arProfiles) {
 		if (p->profile == profile && !mir_strcmp(p->szProto, szProto)) {
-			p->msg = db_get_wsa(0, SSMODULENAME, dbSetting);
+			p->msg = SSPlugin.getWStringA(dbSetting);
 			return p->msg;
 		}
 	}
@@ -143,7 +143,7 @@ wchar_t* GetStatusMessage(int profile, const char *szProto)
 	PROFILECE *pce = new PROFILECE;
 	pce->profile = profile;
 	pce->szProto = mir_strdup(szProto);
-	pce->msg = db_get_wsa(0, SSMODULENAME, dbSetting);
+	pce->msg = SSPlugin.getWStringA(dbSetting);
 	arProfiles.insert(pce);
 
 	return pce->msg;
@@ -154,14 +154,14 @@ void FillStatus(SMProto &ps, int profile)
 	// load status
 	char setting[80];
 	mir_snprintf(setting, "%d_%s", profile, ps.m_szName);
-	int iStatus = db_get_w(0, SSMODULENAME, setting, 0);
+	int iStatus = SSPlugin.getWord(setting, 0);
 	if (iStatus < MIN_STATUS || iStatus > MAX_STATUS)
 		iStatus = DEFAULT_STATUS;
 	ps.m_status = iStatus;
 
 	// load last status
 	mir_snprintf(setting, "%s%s", PREFIX_LAST, ps.m_szName);
-	iStatus = db_get_w(0, SSMODULENAME, setting, 0);
+	iStatus = SSPlugin.getWord(setting, 0);
 	if (iStatus < MIN_STATUS || iStatus > MAX_STATUS)
 		iStatus = DEFAULT_STATUS;
 	ps.m_lastStatus = iStatus;
@@ -174,9 +174,9 @@ void FillStatus(SMProto &ps, int profile)
 int GetProfile(int profile, TProtoSettings &arSettings)
 {
 	if (profile < 0) // get default profile
-		profile = db_get_w(0, SSMODULENAME, SETTING_DEFAULTPROFILE, 0);
+		profile = SSPlugin.getWord(SETTING_DEFAULTPROFILE, 0);
 
-	int count = db_get_w(0, SSMODULENAME, SETTING_PROFILECOUNT, 0);
+	int count = SSPlugin.getWord(SETTING_PROFILECOUNT, 0);
 	if (profile >= count && count > 0)
 		return -1;
 
@@ -199,14 +199,14 @@ INT_PTR LoadAndSetProfile(WPARAM iProfileNo, LPARAM)
 	int profile = (int)iProfileNo;
 	TProtoSettings ps(protoList);
 	if (!GetProfile(profile, ps)) {
-		profile = (profile >= 0) ? profile : db_get_w(0, SSMODULENAME, SETTING_DEFAULTPROFILE, 0);
+		profile = (profile >= 0) ? profile : SSPlugin.getWord(SETTING_DEFAULTPROFILE, 0);
 
 		char setting[64];
 		mir_snprintf(setting, "%d_%s", profile, SETTING_SHOWCONFIRMDIALOG);
-		if (!db_get_b(0, SSMODULENAME, setting, 0))
+		if (!SSPlugin.getByte(setting, 0))
 			SetStatusEx(ps);
 		else
-			ShowConfirmDialogEx(&ps, db_get_dw(0, SSMODULENAME, SETTING_DLGTIMEOUT, 5));
+			ShowConfirmDialogEx(&ps, SSPlugin.getDword(SETTING_DLGTIMEOUT, 5));
 	}
 
 	// add timer here
@@ -266,10 +266,10 @@ int RegisterHotKeys()
 
 	int count = GetProfileCount(0, 0);
 	for (int i = 0; i < count; i++) {
-		if (!db_get_b(0, SSMODULENAME, OptName(i, SETTING_REGHOTKEY), 0))
+		if (!SSPlugin.getByte(OptName(i, SETTING_REGHOTKEY), 0))
 			continue;
 
-		WORD wHotKey = db_get_w(0, SSMODULENAME, OptName(i, SETTING_HOTKEY), 0);
+		WORD wHotKey = SSPlugin.getWord(OptName(i, SETTING_HOTKEY), 0);
 		hkInfo = (HKINFO*)mir_realloc(hkInfo, (hkiCount + 1)*sizeof(HKINFO));
 		if (hkInfo == nullptr)
 			return -1;

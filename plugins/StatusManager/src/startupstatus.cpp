@@ -123,7 +123,7 @@ static void SetLastStatusMessages(TProtoSettings &ps)
 
 		char dbSetting[128];
 		mir_snprintf(dbSetting, "%s%s", PREFIX_LASTMSG, it->m_szName);
-		it->m_szMsg = db_get_wsa(0, SSMODULENAME, dbSetting);
+		it->m_szMsg = SSPlugin.getWStringA(dbSetting);
 	}
 }
 
@@ -138,7 +138,7 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 	if (ack->type != ACKTYPE_STATUS && ack->result != ACKRESULT_FAILED)
 		return 0;
 
-	if (!db_get_b(0, SSMODULENAME, SETTING_OVERRIDE, 1) || protoList.getCount() == 0)
+	if (!SSPlugin.getByte(SETTING_OVERRIDE, 1) || protoList.getCount() == 0)
 		return 0;
 
 	for (auto &it : protoList) {
@@ -154,7 +154,7 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 static int StatusChange(WPARAM, LPARAM lParam)
 {
 	// change by menu
-	if (!db_get_b(0, SSMODULENAME, SETTING_OVERRIDE, 1) || protoList.getCount() == 0)
+	if (!SSPlugin.getByte(SETTING_OVERRIDE, 1) || protoList.getCount() == 0)
 		return 0;
 
 	char *szProto = (char *)lParam;
@@ -179,7 +179,7 @@ static int StatusChange(WPARAM, LPARAM lParam)
 static int CSStatusChangeEx(WPARAM wParam, LPARAM)
 {
 	// another status plugin made the change
-	if (!db_get_b(0, SSMODULENAME, SETTING_OVERRIDE, 1) || protoList.getCount() == 0)
+	if (!SSPlugin.getByte(SETTING_OVERRIDE, 1) || protoList.getCount() == 0)
 		return 0;
 
 	if (wParam != 0) {
@@ -230,9 +230,9 @@ static int OnOkToExit(WPARAM, LPARAM)
 
 		char lastName[128], lastMsg[128];
 		mir_snprintf(lastName, "%s%s", PREFIX_LAST, pa->szModuleName);
-		db_set_w(0, SSMODULENAME, lastName, pa->iRealStatus);
+		SSPlugin.setWord(lastName, pa->iRealStatus);
 		mir_snprintf(lastMsg, "%s%s", PREFIX_LASTMSG, pa->szModuleName);
-		db_unset(0, SSMODULENAME, lastMsg);
+		SSPlugin.delSetting(lastMsg);
 
 		if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND & ~PF1_INDIVMODEMSG))
 			continue;
@@ -251,13 +251,13 @@ static int OnOkToExit(WPARAM, LPARAM)
 				CallService(MS_NAS_GETSTATE, (WPARAM)&npi, 1);
 			}
 			if (npi.szMsg != nullptr) {
-				db_set_ws(0, SSMODULENAME, lastMsg, npi.tszMsg);
+				SSPlugin.setWString(lastMsg, npi.tszMsg);
 				mir_free(npi.tszMsg);
 			}
 		}
 	}
 
-	if (db_get_b(0, SSMODULENAME, SETTING_SETPROFILE, 1) || db_get_b(0, SSMODULENAME, SETTING_OFFLINECLOSE, 0))
+	if (SSPlugin.getByte(SETTING_SETPROFILE, 1) || SSPlugin.getByte(SETTING_OFFLINECLOSE, 0))
 		Clist_SetStatusMode(ID_STATUS_OFFLINE);
 
 	return 0;
@@ -266,8 +266,8 @@ static int OnOkToExit(WPARAM, LPARAM)
 static int OnShutdown(WPARAM, LPARAM)
 {
 	// set windowstate and docked for next startup
-	if (db_get_b(0, SSMODULENAME, SETTING_SETWINSTATE, 0)) {
-		int state = db_get_b(0, SSMODULENAME, SETTING_WINSTATE, SETTING_STATE_NORMAL);
+	if (SSPlugin.getByte(SETTING_SETWINSTATE, 0)) {
+		int state = SSPlugin.getByte(SETTING_WINSTATE, SETTING_STATE_NORMAL);
 		HWND hClist = g_clistApi.hwndContactList;
 		BOOL isHidden = !IsWindowVisible(hClist);
 		switch (state) {
@@ -291,12 +291,12 @@ static int OnShutdown(WPARAM, LPARAM)
 	}
 
 	// hangup
-	if (db_get_b(0, SSMODULENAME, SETTING_AUTOHANGUP, 0))
+	if (SSPlugin.getByte(SETTING_AUTOHANGUP, 0))
 		InternetAutodialHangup(0);
 
-	int state = db_get_b(0, SSMODULENAME, SETTING_WINSTATE, SETTING_STATE_NORMAL);
+	int state = SSPlugin.getByte(SETTING_WINSTATE, SETTING_STATE_NORMAL);
 	// set windowstate and docked for next startup
-	if (db_get_b(0, SSMODULENAME, SETTING_SETWINSTATE, 0))
+	if (SSPlugin.getByte(SETTING_SETWINSTATE, 0))
 		db_set_b(0, MODULE_CLIST, SETTING_WINSTATE, (BYTE)state);
 
 	if (hMessageWindow)
@@ -344,39 +344,39 @@ int SSModuleLoaded(WPARAM, LPARAM)
 		return 0;// no protocols are loaded
 
 	SetLastStatusMessages(protoList);
-	showDialogOnStartup = (showDialogOnStartup || db_get_b(0, SSMODULENAME, SETTING_SHOWDIALOG, 0));
+	showDialogOnStartup = (showDialogOnStartup || SSPlugin.getByte(SETTING_SHOWDIALOG, 0));
 
 	// dial
-	if (showDialogOnStartup || db_get_b(0, SSMODULENAME, SETTING_SETPROFILE, 1))
-		if (db_get_b(0, SSMODULENAME, SETTING_AUTODIAL, 0))
+	if (showDialogOnStartup || SSPlugin.getByte(SETTING_SETPROFILE, 1))
+		if (SSPlugin.getByte(SETTING_AUTODIAL, 0))
 			InternetAutodial(0, nullptr);
 
 	// set the status!
-	if (showDialogOnStartup || db_get_b(0, SSMODULENAME, SETTING_SHOWDIALOG, 0))
-		ShowConfirmDialogEx((TProtoSettings*)&protoList, db_get_dw(0, SSMODULENAME, SETTING_DLGTIMEOUT, 5));
-	else if (db_get_b(0, SSMODULENAME, SETTING_SETPROFILE, 1)) {
+	if (showDialogOnStartup || SSPlugin.getByte(SETTING_SHOWDIALOG, 0))
+		ShowConfirmDialogEx((TProtoSettings*)&protoList, SSPlugin.getDword(SETTING_DLGTIMEOUT, 5));
+	else if (SSPlugin.getByte(SETTING_SETPROFILE, 1)) {
 		// set hooks for override
-		if (db_get_b(0, SSMODULENAME, SETTING_OVERRIDE, 1)) {
+		if (SSPlugin.getByte(SETTING_OVERRIDE, 1)) {
 			hProtoAckHook = HookEvent(ME_PROTO_ACK, ProcessProtoAck);
 			hCSStatusChangeHook = HookEvent(ME_CS_STATUSCHANGEEX, CSStatusChangeEx);
 			hStatusChangeHook = HookEvent(ME_CLIST_STATUSMODECHANGE, StatusChange);
 		}
-		setStatusTimerId = SetTimer(nullptr, 0, db_get_dw(0, SSMODULENAME, SETTING_SETPROFILEDELAY, 500), SetStatusTimed);
+		setStatusTimerId = SetTimer(nullptr, 0, SSPlugin.getDword(SETTING_SETPROFILEDELAY, 500), SetStatusTimed);
 	}
 
 	// win size and location
-	if (db_get_b(0, SSMODULENAME, SETTING_SETWINLOCATION, 0) || db_get_b(0, SSMODULENAME, SETTING_SETWINSIZE, 0)) {
+	if (SSPlugin.getByte(SETTING_SETWINLOCATION, 0) || SSPlugin.getByte(SETTING_SETWINSIZE, 0)) {
 		HWND hClist = g_clistApi.hwndContactList;
 
 		// store in db
-		if (db_get_b(0, SSMODULENAME, SETTING_SETWINLOCATION, 0)) {
-			db_set_dw(0, MODULE_CLIST, SETTING_XPOS, db_get_dw(0, SSMODULENAME, SETTING_XPOS, 0));
-			db_set_dw(0, MODULE_CLIST, SETTING_YPOS, db_get_dw(0, SSMODULENAME, SETTING_YPOS, 0));
+		if (SSPlugin.getByte(SETTING_SETWINLOCATION, 0)) {
+			db_set_dw(0, MODULE_CLIST, SETTING_XPOS, SSPlugin.getDword(SETTING_XPOS, 0));
+			db_set_dw(0, MODULE_CLIST, SETTING_YPOS, SSPlugin.getDword(SETTING_YPOS, 0));
 		}
-		if (db_get_b(0, SSMODULENAME, SETTING_SETWINSIZE, 0)) {
-			db_set_dw(0, MODULE_CLIST, SETTING_WIDTH, db_get_dw(0, SSMODULENAME, SETTING_WIDTH, 0));
+		if (SSPlugin.getByte(SETTING_SETWINSIZE, 0)) {
+			db_set_dw(0, MODULE_CLIST, SETTING_WIDTH, SSPlugin.getDword(SETTING_WIDTH, 0));
 			if (!db_get_b(0, MODULE_CLUI, SETTING_AUTOSIZE, 0))
-				db_set_dw(0, MODULE_CLIST, SETTING_HEIGHT, db_get_dw(0, SSMODULENAME, SETTING_HEIGHT, 0));
+				db_set_dw(0, MODULE_CLIST, SETTING_HEIGHT, SSPlugin.getDword(SETTING_HEIGHT, 0));
 		}
 
 		WINDOWPLACEMENT wndpl = { sizeof(wndpl) };
@@ -388,14 +388,14 @@ int SSModuleLoaded(WPARAM, LPARAM)
 					int y = rc.top;
 					int width = rc.right - rc.left;
 					int height = rc.bottom - rc.top;
-					if (db_get_b(0, SSMODULENAME, SETTING_SETWINLOCATION, 0)) {
-						x = db_get_dw(0, SSMODULENAME, SETTING_XPOS, x);
-						y = db_get_dw(0, SSMODULENAME, SETTING_YPOS, y);
+					if (SSPlugin.getByte(SETTING_SETWINLOCATION, 0)) {
+						x = SSPlugin.getDword(SETTING_XPOS, x);
+						y = SSPlugin.getDword(SETTING_YPOS, y);
 					}
-					if (db_get_b(0, SSMODULENAME, SETTING_SETWINSIZE, 0)) {
-						width = db_get_dw(0, SSMODULENAME, SETTING_WIDTH, width);
+					if (SSPlugin.getByte(SETTING_SETWINSIZE, 0)) {
+						width = SSPlugin.getDword(SETTING_WIDTH, width);
 						if (!db_get_b(0, MODULE_CLUI, SETTING_AUTOSIZE, 0))
-							height = db_get_dw(0, SSMODULENAME, SETTING_HEIGHT, height);
+							height = SSPlugin.getDword(SETTING_HEIGHT, height);
 					}
 					MoveWindow(hClist, x, y, width, height, TRUE);
 				}
@@ -418,12 +418,12 @@ void StartupStatusLoad()
 	else
 		HookEvent(ME_SYSTEM_MODULESLOADED, SSModuleLoaded);
 
-	if (db_get_b(0, SSMODULENAME, SETTING_SETPROFILE, 1) || db_get_b(0, SSMODULENAME, SETTING_OFFLINECLOSE, 0))
+	if (SSPlugin.getByte(SETTING_SETPROFILE, 1) || SSPlugin.getByte(SETTING_OFFLINECLOSE, 0))
 		db_set_w(0, "CList", "Status", (WORD)ID_STATUS_OFFLINE);
 
 	// docking
-	if (db_get_b(0, SSMODULENAME, SETTING_SETDOCKED, 0)) {
-		int docked = db_get_b(0, SSMODULENAME, SETTING_DOCKED, DOCKED_NONE);
+	if (SSPlugin.getByte(SETTING_SETDOCKED, 0)) {
+		int docked = SSPlugin.getByte(SETTING_DOCKED, DOCKED_NONE);
 		if (docked == DOCKED_LEFT || docked == DOCKED_RIGHT)
 			docked = -docked;
 

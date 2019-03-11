@@ -110,8 +110,8 @@ static int changeState(SMProto &setting, int mode, STATES newState)
 			setting.m_szMsg = nullptr;
 		}
 
-		if (db_get_b(0, AAAMODULENAME, StatusModeToDbSetting(setting.aaaStatus, SETTING_MSGCUSTOM), FALSE))
-			setting.m_szMsg = db_get_wsa(0, AAAMODULENAME, StatusModeToDbSetting(setting.aaaStatus, SETTING_STATUSMSG));
+		if (AAAPlugin.getByte(StatusModeToDbSetting(setting.aaaStatus, SETTING_MSGCUSTOM), FALSE))
+			setting.m_szMsg = AAAPlugin.getWStringA(StatusModeToDbSetting(setting.aaaStatus, SETTING_STATUSMSG));
 	}
 	else if (setting.m_szMsg != nullptr) {
 		mir_free(setting.m_szMsg);
@@ -262,7 +262,7 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 			it->m_status = it->aaaStatus;
 
 		if (confirm)
-			confirmDialog = ShowConfirmDialogEx(&ps, db_get_w(0, AAAMODULENAME, SETTING_CONFIRMDELAY, 5));
+			confirmDialog = ShowConfirmDialogEx(&ps, AAAPlugin.getWord(SETTING_CONFIRMDELAY, 5));
 		else if (statusChanged)
 			SetStatusEx(ps);
 	}
@@ -433,13 +433,13 @@ int LoadAutoAwaySetting(SMProto &autoAwaySetting, char *protoName)
 {
 	char setting[128];
 	mir_snprintf(setting, "%s_OptionFlags", protoName);
-	autoAwaySetting.optionFlags = db_get_w(0, AAAMODULENAME, setting, FLAG_LV2ONINACTIVE | FLAG_RESET | FLAG_ENTERIDLE);
+	autoAwaySetting.optionFlags = AAAPlugin.getWord(setting, FLAG_LV2ONINACTIVE | FLAG_RESET | FLAG_ENTERIDLE);
 	mir_snprintf(setting, "%s_AwayTime", protoName);
-	autoAwaySetting.awayTime = db_get_w(0, AAAMODULENAME, setting, SETTING_AWAYTIME_DEFAULT);
+	autoAwaySetting.awayTime = AAAPlugin.getWord(setting, SETTING_AWAYTIME_DEFAULT);
 	mir_snprintf(setting, "%s_NATime", protoName);
-	autoAwaySetting.naTime = db_get_w(0, AAAMODULENAME, setting, SETTING_NATIME_DEFAULT);
+	autoAwaySetting.naTime = AAAPlugin.getWord(setting, SETTING_NATIME_DEFAULT);
 	mir_snprintf(setting, "%s_StatusFlags", protoName);
-	autoAwaySetting.statusFlags = db_get_w(0, AAAMODULENAME, setting, StatusModeToProtoFlag(ID_STATUS_ONLINE) | StatusModeToProtoFlag(ID_STATUS_FREECHAT));
+	autoAwaySetting.statusFlags = AAAPlugin.getWord(setting, StatusModeToProtoFlag(ID_STATUS_ONLINE) | StatusModeToProtoFlag(ID_STATUS_FREECHAT));
 
 	int flags;
 	if (g_bAAASettingSame)
@@ -447,9 +447,9 @@ int LoadAutoAwaySetting(SMProto &autoAwaySetting, char *protoName)
 	else
 		flags = CallProtoService(protoName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(protoName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0);
 	mir_snprintf(setting, "%s_Lv1Status", protoName);
-	autoAwaySetting.lv1Status = db_get_w(0, AAAMODULENAME, setting, (flags & StatusModeToProtoFlag(ID_STATUS_AWAY)) ? ID_STATUS_AWAY : ID_STATUS_OFFLINE);
+	autoAwaySetting.lv1Status = AAAPlugin.getWord(setting, (flags & StatusModeToProtoFlag(ID_STATUS_AWAY)) ? ID_STATUS_AWAY : ID_STATUS_OFFLINE);
 	mir_snprintf(setting, "%s_Lv2Status", protoName);
-	autoAwaySetting.lv2Status = db_get_w(0, AAAMODULENAME, setting, (flags & StatusModeToProtoFlag(ID_STATUS_NA)) ? ID_STATUS_NA : ID_STATUS_OFFLINE);
+	autoAwaySetting.lv2Status = AAAPlugin.getWord(setting, (flags & StatusModeToProtoFlag(ID_STATUS_NA)) ? ID_STATUS_NA : ID_STATUS_OFFLINE);
 
 	return 0;
 }
@@ -468,11 +468,11 @@ void AAALoadOptions()
 
 	bool monitorMiranda = false, monitorAll = false;
 
-	ignoreLockKeys = db_get_b(0, AAAMODULENAME, SETTING_IGNLOCK, FALSE);
-	ignoreSysKeys = db_get_b(0, AAAMODULENAME, SETTING_IGNSYSKEYS, FALSE);
-	ignoreAltCombo = db_get_b(0, AAAMODULENAME, SETTING_IGNALTCOMBO, FALSE);
-	monitorMouse = db_get_b(0, AAAMODULENAME, SETTING_MONITORMOUSE, TRUE) != 0;
-	monitorKeyboard = db_get_b(0, AAAMODULENAME, SETTING_MONITORKEYBOARD, TRUE) != 0;
+	ignoreLockKeys = AAAPlugin.getByte(SETTING_IGNLOCK, FALSE);
+	ignoreSysKeys = AAAPlugin.getByte(SETTING_IGNSYSKEYS, FALSE);
+	ignoreAltCombo = AAAPlugin.getByte(SETTING_IGNALTCOMBO, FALSE);
+	monitorMouse = AAAPlugin.getByte(SETTING_MONITORMOUSE, TRUE) != 0;
+	monitorKeyboard = AAAPlugin.getByte(SETTING_MONITORKEYBOARD, TRUE) != 0;
 	lastInput = lastMirandaInput = GetTickCount();
 
 	for (auto &it : protoList) {
@@ -490,7 +490,7 @@ void AAALoadOptions()
 	}
 
 	HookWindowsHooks(monitorMiranda, monitorAll);
-	hAutoAwayTimer = SetTimer(nullptr, 0, db_get_w(0, AAAMODULENAME, SETTING_AWAYCHECKTIMEINSECS, 5) * 1000, AutoAwayTimer);
+	hAutoAwayTimer = SetTimer(nullptr, 0, AAAPlugin.getWord(SETTING_AWAYCHECKTIMEINSECS, 5) * 1000, AutoAwayTimer);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

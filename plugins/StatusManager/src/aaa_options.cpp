@@ -83,14 +83,14 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				settings[count]->status = it.iStatus;
 
 				DBVARIANT dbv;
-				if (!db_get_s(0, AAAMODULENAME, StatusModeToDbSetting(it.iStatus, SETTING_STATUSMSG), &dbv)) {
+				if (!AAAPlugin.getString(StatusModeToDbSetting(it.iStatus, SETTING_STATUSMSG), &dbv)) {
 					settings[count]->msg = (char*)mir_alloc(mir_strlen(dbv.pszVal) + 1);
 					mir_strcpy(settings[count]->msg, dbv.pszVal);
 					db_free(&dbv);
 				}
 				else settings[count]->msg = nullptr;
 
-				settings[count]->useCustom = db_get_b(0, AAAMODULENAME, StatusModeToDbSetting(it.iStatus, SETTING_MSGCUSTOM), FALSE);
+				settings[count]->useCustom = AAAPlugin.getByte(StatusModeToDbSetting(it.iStatus, SETTING_MSGCUSTOM), FALSE);
 				count += 1;
 			}
 			SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_SETCURSEL, 0, 0);
@@ -169,9 +169,9 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		case PSN_APPLY:
 			SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_STATUS, CBN_SELCHANGE), 0);
 			for (int i = 0; i < count; i++) {
-				db_set_b(0, AAAMODULENAME, StatusModeToDbSetting(settings[i]->status, SETTING_MSGCUSTOM), (BYTE)settings[i]->useCustom);
+				AAAPlugin.setByte(StatusModeToDbSetting(settings[i]->status, SETTING_MSGCUSTOM), (BYTE)settings[i]->useCustom);
 				if ((settings[i]->useCustom) && (settings[i]->msg != nullptr) && (settings[i]->msg[0] != '\0'))
-					db_set_s(0, AAAMODULENAME, StatusModeToDbSetting(settings[i]->status, SETTING_STATUSMSG), settings[i]->msg);
+					AAAPlugin.setString(StatusModeToDbSetting(settings[i]->status, SETTING_STATUSMSG), settings[i]->msg);
 			}
 			break;
 		}
@@ -196,17 +196,17 @@ static int WriteAutoAwaySetting(SMProto &autoAwaySetting, char *protoName)
 {
 	char setting[128];
 	mir_snprintf(setting, "%s_OptionFlags", protoName);
-	db_set_w(0, AAAMODULENAME, setting, (WORD)autoAwaySetting.optionFlags);
+	AAAPlugin.setWord(setting, (WORD)autoAwaySetting.optionFlags);
 	mir_snprintf(setting, "%s_AwayTime", protoName);
-	db_set_w(0, AAAMODULENAME, setting, (WORD)autoAwaySetting.awayTime);
+	AAAPlugin.setWord(setting, (WORD)autoAwaySetting.awayTime);
 	mir_snprintf(setting, "%s_NATime", protoName);
-	db_set_w(0, AAAMODULENAME, setting, (WORD)autoAwaySetting.naTime);
+	AAAPlugin.setWord(setting, (WORD)autoAwaySetting.naTime);
 	mir_snprintf(setting, "%s_StatusFlags", protoName);
-	db_set_w(0, AAAMODULENAME, setting, (WORD)autoAwaySetting.statusFlags);
+	AAAPlugin.setWord(setting, (WORD)autoAwaySetting.statusFlags);
 	mir_snprintf(setting, "%s_Lv1Status", protoName);
-	db_set_w(0, AAAMODULENAME, setting, (WORD)autoAwaySetting.lv1Status);
+	AAAPlugin.setWord(setting, (WORD)autoAwaySetting.lv1Status);
 	mir_snprintf(setting, "%s_Lv2Status", protoName);
-	db_set_w(0, AAAMODULENAME, setting, (WORD)autoAwaySetting.lv2Status);
+	AAAPlugin.setWord(setting, (WORD)autoAwaySetting.lv2Status);
 
 	return 0;
 }
@@ -542,13 +542,13 @@ static INT_PTR CALLBACK DlgProcAutoAwayGeneralOpts(HWND hwndDlg, UINT msg, WPARA
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_IGNLOCK, db_get_b(0, AAAMODULENAME, SETTING_IGNLOCK, FALSE) != 0 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_IGNSYSKEYS, db_get_b(0, AAAMODULENAME, SETTING_IGNSYSKEYS, FALSE) != 0 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_IGNALTCOMBO, db_get_b(0, AAAMODULENAME, SETTING_IGNALTCOMBO, FALSE) != 0 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_MONITORMOUSE, db_get_b(0, AAAMODULENAME, SETTING_MONITORMOUSE, BST_CHECKED) != 0 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_MONITORKEYBOARD, db_get_b(0, AAAMODULENAME, SETTING_MONITORKEYBOARD, BST_CHECKED) != 0 ? BST_CHECKED : BST_UNCHECKED);
-		SetDlgItemInt(hwndDlg, IDC_AWAYCHECKTIMEINSECS, db_get_w(0, AAAMODULENAME, SETTING_AWAYCHECKTIMEINSECS, 5), FALSE);
-		SetDlgItemInt(hwndDlg, IDC_CONFIRMDELAY, db_get_w(0, AAAMODULENAME, SETTING_CONFIRMDELAY, 5), FALSE);
+		CheckDlgButton(hwndDlg, IDC_IGNLOCK, AAAPlugin.getByte(SETTING_IGNLOCK, FALSE) != 0 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_IGNSYSKEYS, AAAPlugin.getByte(SETTING_IGNSYSKEYS, FALSE) != 0 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_IGNALTCOMBO, AAAPlugin.getByte(SETTING_IGNALTCOMBO, FALSE) != 0 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_MONITORMOUSE, AAAPlugin.getByte(SETTING_MONITORMOUSE, BST_CHECKED) != 0 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_MONITORKEYBOARD, AAAPlugin.getByte(SETTING_MONITORKEYBOARD, BST_CHECKED) != 0 ? BST_CHECKED : BST_UNCHECKED);
+		SetDlgItemInt(hwndDlg, IDC_AWAYCHECKTIMEINSECS, AAAPlugin.getWord(SETTING_AWAYCHECKTIMEINSECS, 5), FALSE);
+		SetDlgItemInt(hwndDlg, IDC_CONFIRMDELAY, AAAPlugin.getWord(SETTING_CONFIRMDELAY, 5), FALSE);
 		CheckDlgButton(hwndDlg, g_bAAASettingSame ? IDC_SAMESETTINGS : IDC_PERPROTOCOLSETTINGS, BST_CHECKED);
 		break;
 
@@ -580,14 +580,14 @@ static INT_PTR CALLBACK DlgProcAutoAwayGeneralOpts(HWND hwndDlg, UINT msg, WPARA
 				break;
 
 			case PSN_APPLY:
-				db_set_b(0, AAAMODULENAME, SETTING_IGNLOCK, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IGNLOCK));
-				db_set_b(0, AAAMODULENAME, SETTING_IGNSYSKEYS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IGNSYSKEYS));
-				db_set_b(0, AAAMODULENAME, SETTING_IGNALTCOMBO, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IGNALTCOMBO));
-				db_set_b(0, AAAMODULENAME, SETTING_SAMESETTINGS, (BYTE)g_bAAASettingSame);
-				db_set_w(0, AAAMODULENAME, SETTING_AWAYCHECKTIMEINSECS, (WORD)GetDlgItemInt(hwndDlg, IDC_AWAYCHECKTIMEINSECS, nullptr, FALSE));
-				db_set_w(0, AAAMODULENAME, SETTING_CONFIRMDELAY, (WORD)GetDlgItemInt(hwndDlg, IDC_CONFIRMDELAY, nullptr, FALSE));
-				db_set_b(0, AAAMODULENAME, SETTING_MONITORMOUSE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MONITORMOUSE));
-				db_set_b(0, AAAMODULENAME, SETTING_MONITORKEYBOARD, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MONITORKEYBOARD));
+				AAAPlugin.setByte(SETTING_IGNLOCK, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IGNLOCK));
+				AAAPlugin.setByte(SETTING_IGNSYSKEYS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IGNSYSKEYS));
+				AAAPlugin.setByte(SETTING_IGNALTCOMBO, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IGNALTCOMBO));
+				AAAPlugin.setByte(SETTING_SAMESETTINGS, (BYTE)g_bAAASettingSame);
+				AAAPlugin.setWord(SETTING_AWAYCHECKTIMEINSECS, (WORD)GetDlgItemInt(hwndDlg, IDC_AWAYCHECKTIMEINSECS, nullptr, FALSE));
+				AAAPlugin.setWord(SETTING_CONFIRMDELAY, (WORD)GetDlgItemInt(hwndDlg, IDC_CONFIRMDELAY, nullptr, FALSE));
+				AAAPlugin.setByte(SETTING_MONITORMOUSE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MONITORMOUSE));
+				AAAPlugin.setByte(SETTING_MONITORKEYBOARD, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MONITORKEYBOARD));
 			}
 		}
 		break;

@@ -51,12 +51,12 @@ int CreateTopToolbarButtons(WPARAM, LPARAM)
 	for (int i = 0; i < profileCount; i++) {
 		char setting[80];
 		mir_snprintf(setting, "%d_%s", i, SETTING_CREATETTBBUTTON);
-		if (!db_get_b(0, SSMODULENAME, setting, FALSE))
+		if (!SSPlugin.getByte(setting, FALSE))
 			continue;
 
 		DBVARIANT dbv;
 		mir_snprintf(setting, "%d_%s", i, SETTING_PROFILENAME);
-		if (db_get_s(0, SSMODULENAME, setting, &dbv))
+		if (SSPlugin.getString(setting, &dbv))
 			continue;
 
 		ttb.hIconHandleDn = iconList[0].hIcolib;

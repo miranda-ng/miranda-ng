@@ -193,7 +193,7 @@ static int SetCurrentStatus()
 
 		// force offline before reconnecting?
 		if (realStatus != ID_STATUS_OFFLINE && KSPlugin.getByte(SETTING_FIRSTOFFLINE, FALSE)) {
-			log_info(0, "KeepStatus: Setting %S offline before making a new connection attempt", p->m_szName);
+			log_info(0, "KeepStatus: Setting %s offline before making a new connection attempt", p->m_szName);
 			CallProtoService(p->m_szName, PS_SETSTATUS, (WPARAM)ID_STATUS_OFFLINE, 0);
 		}
 	}

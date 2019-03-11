@@ -27,32 +27,29 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
+
+		SetDlgItemInt(hwndDlg, IDC_MAXRETRIES, KSPlugin.getByte(SETTING_MAXRETRIES, DEFAULT_MAXRETRIES), FALSE);
+		SetDlgItemInt(hwndDlg, IDC_INITDELAY, KSPlugin.getDword(SETTING_INITDELAY, DEFAULT_INITDELAY), FALSE);
+		SetDlgItemTextA(hwndDlg, IDC_PINGHOST, KSPlugin.getMStringA(SETTING_PINGHOST));
+		CheckDlgButton(hwndDlg, IDC_CHECKCONNECTION, KSPlugin.getByte(SETTING_CHECKCONNECTION, FALSE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOWCONNECTIONPOPUPS, KSPlugin.getByte(SETTING_SHOWCONNECTIONPOPUPS, FALSE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHKINET, KSPlugin.getByte(SETTING_CHKINET, FALSE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CONTCHECK, KSPlugin.getByte(SETTING_CONTCHECK, FALSE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_BYPING, KSPlugin.getByte(SETTING_BYPING, FALSE) ? BST_CHECKED : BST_UNCHECKED);
 		{
-			LVCOLUMN lvCol;
-			LVITEM lvItem;
-			DBVARIANT dbv;
-
-			SetDlgItemInt(hwndDlg, IDC_MAXRETRIES, db_get_b(0, KSMODULENAME, SETTING_MAXRETRIES, DEFAULT_MAXRETRIES), FALSE);
-			SetDlgItemInt(hwndDlg, IDC_INITDELAY, db_get_dw(0, KSMODULENAME, SETTING_INITDELAY, DEFAULT_INITDELAY), FALSE);
-			CheckDlgButton(hwndDlg, IDC_CHECKCONNECTION, db_get_b(0, KSMODULENAME, SETTING_CHECKCONNECTION, FALSE) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SHOWCONNECTIONPOPUPS, db_get_b(0, KSMODULENAME, SETTING_SHOWCONNECTIONPOPUPS, FALSE) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHKINET, db_get_b(0, KSMODULENAME, SETTING_CHKINET, FALSE) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CONTCHECK, db_get_b(0, KSMODULENAME, SETTING_CONTCHECK, FALSE) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_BYPING, db_get_b(0, KSMODULENAME, SETTING_BYPING, FALSE) ? BST_CHECKED : BST_UNCHECKED);
-			if (!db_get_s(0, KSMODULENAME, SETTING_PINGHOST, &dbv)) {
-				SetDlgItemTextA(hwndDlg, IDC_PINGHOST, dbv.pszVal);
-				db_free(&dbv);
-			}
-
 			// proto list
 			HWND hList = GetDlgItem(hwndDlg, IDC_PROTOCOLLIST);
 			ListView_SetExtendedListViewStyleEx(hList, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
+
+			LVCOLUMN lvCol;
 			memset(&lvCol, 0, sizeof(lvCol));
 			lvCol.mask = LVCF_WIDTH | LVCF_TEXT;
 			lvCol.pszText = TranslateT("Protocol");
 			lvCol.cx = 118;
 			ListView_InsertColumn(hList, 0, &lvCol);
+
 			// fill the list
+			LVITEM lvItem;
 			memset(&lvItem, 0, sizeof(lvItem));
 			lvItem.mask = LVIF_TEXT | LVIF_PARAM;
 			lvItem.iItem = 0;
@@ -68,7 +65,7 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 
 				char dbSetting[128];
 				mir_snprintf(dbSetting, "%s_enabled", pa->szModuleName);
-				ListView_SetCheckState(hList, lvItem.iItem, db_get_b(0, KSMODULENAME, dbSetting, TRUE));
+				ListView_SetCheckState(hList, lvItem.iItem, KSPlugin.getByte(dbSetting, TRUE));
 				lvItem.iItem++;
 			}
 			EnableWindow(GetDlgItem(hwndDlg, IDC_MAXRETRIES), IsDlgButtonChecked(hwndDlg, IDC_CHECKCONNECTION));
@@ -120,19 +117,19 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			break;
 
 		case PSN_APPLY:
-			db_set_b(0, KSMODULENAME, SETTING_MAXRETRIES, (BYTE)GetDlgItemInt(hwndDlg, IDC_MAXRETRIES, nullptr, FALSE));
-			db_set_b(0, KSMODULENAME, SETTING_CHECKCONNECTION, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CHECKCONNECTION));
-			db_set_b(0, KSMODULENAME, SETTING_SHOWCONNECTIONPOPUPS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWCONNECTIONPOPUPS));
-			db_set_dw(0, KSMODULENAME, SETTING_INITDELAY, (DWORD)GetDlgItemInt(hwndDlg, IDC_INITDELAY, nullptr, FALSE));
-			db_set_b(0, KSMODULENAME, SETTING_CHKINET, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CHKINET));
-			db_set_b(0, KSMODULENAME, SETTING_CONTCHECK, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CONTCHECK));
-			db_set_b(0, KSMODULENAME, SETTING_BYPING, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_BYPING));
+			KSPlugin.setByte(SETTING_MAXRETRIES, (BYTE)GetDlgItemInt(hwndDlg, IDC_MAXRETRIES, nullptr, FALSE));
+			KSPlugin.setByte(SETTING_CHECKCONNECTION, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CHECKCONNECTION));
+			KSPlugin.setByte(SETTING_SHOWCONNECTIONPOPUPS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWCONNECTIONPOPUPS));
+			KSPlugin.setDword(SETTING_INITDELAY, (DWORD)GetDlgItemInt(hwndDlg, IDC_INITDELAY, nullptr, FALSE));
+			KSPlugin.setByte(SETTING_CHKINET, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CHKINET));
+			KSPlugin.setByte(SETTING_CONTCHECK, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CONTCHECK));
+			KSPlugin.setByte(SETTING_BYPING, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_BYPING));
 			if (IsDlgButtonChecked(hwndDlg, IDC_BYPING)) {
 				int len = SendDlgItemMessage(hwndDlg, IDC_PINGHOST, WM_GETTEXTLENGTH, 0, 0);
 				if (len > 0) {
 					ptrA host((char*)mir_alloc(len + 1));
 					GetDlgItemTextA(hwndDlg, IDC_PINGHOST, host, len + 1);
-					db_set_s(0, KSMODULENAME, SETTING_PINGHOST, host);
+					KSPlugin.setString(SETTING_PINGHOST, host);
 				}
 			}
 
@@ -146,7 +143,7 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 
 				char dbSetting[128];
 				mir_snprintf(dbSetting, "%s_enabled", (char *)lvItem.lParam);
-				db_set_b(0, KSMODULENAME, dbSetting, (BYTE)ListView_GetCheckState(hList, lvItem.iItem));
+				KSPlugin.setByte(dbSetting, (BYTE)ListView_GetCheckState(hList, lvItem.iItem));
 			}
 		}
 		break;
@@ -163,19 +160,19 @@ static INT_PTR CALLBACK DlgProcKSAdvOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		SetDlgItemInt(hwndDlg, IDC_MAXDELAY, db_get_dw(0, KSMODULENAME, SETTING_MAXDELAY, DEFAULT_MAXDELAY), FALSE);
-		SetDlgItemInt(hwndDlg, IDC_MAXCONNECTINGTIME, db_get_dw(0, KSMODULENAME, SETTING_MAXCONNECTINGTIME, 0), FALSE);
-		CheckDlgButton(hwndDlg, IDC_INCREASEEXPONENTIAL, db_get_b(0, KSMODULENAME, SETTING_INCREASEEXPONENTIAL, FALSE) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_CNCOTHERLOC, (db_get_b(0, KSMODULENAME, SETTING_CNCOTHERLOC, FALSE)) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOGINERR, db_get_b(0, KSMODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING) == LOGINERR_NOTHING ? BST_UNCHECKED : BST_CHECKED);
-		CheckDlgButton(hwndDlg, IDC_CHECKAPMRESUME, (db_get_b(0, KSMODULENAME, SETTING_CHECKAPMRESUME, FALSE)) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_FIRSTOFFLINE, (db_get_b(0, KSMODULENAME, SETTING_FIRSTOFFLINE, FALSE)) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_NOLOCKED, (db_get_b(0, KSMODULENAME, SETTING_NOLOCKED, FALSE)) ? BST_CHECKED : BST_UNCHECKED);
-		SetDlgItemInt(hwndDlg, IDC_LOGINERR_DELAY, db_get_dw(0, KSMODULENAME, SETTING_LOGINERR_DELAY, DEFAULT_MAXDELAY), FALSE);
-		SetDlgItemInt(hwndDlg, IDC_PINGCOUNT, db_get_w(0, KSMODULENAME, SETTING_PINGCOUNT, DEFAULT_PINGCOUNT), FALSE);
-		SetDlgItemInt(hwndDlg, IDC_CNTDELAY, db_get_dw(0, KSMODULENAME, SETTING_CNTDELAY, CHECKCONTIN_DELAY), FALSE);
+		SetDlgItemInt(hwndDlg, IDC_MAXDELAY, KSPlugin.getDword(SETTING_MAXDELAY, DEFAULT_MAXDELAY), FALSE);
+		SetDlgItemInt(hwndDlg, IDC_MAXCONNECTINGTIME, KSPlugin.getDword(SETTING_MAXCONNECTINGTIME, 0), FALSE);
+		CheckDlgButton(hwndDlg, IDC_INCREASEEXPONENTIAL, KSPlugin.getByte(SETTING_INCREASEEXPONENTIAL, FALSE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CNCOTHERLOC, (KSPlugin.getByte(SETTING_CNCOTHERLOC, FALSE)) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_LOGINERR, KSPlugin.getByte(SETTING_LOGINERR, LOGINERR_NOTHING) == LOGINERR_NOTHING ? BST_UNCHECKED : BST_CHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHECKAPMRESUME, (KSPlugin.getByte(SETTING_CHECKAPMRESUME, FALSE)) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_FIRSTOFFLINE, (KSPlugin.getByte(SETTING_FIRSTOFFLINE, FALSE)) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_NOLOCKED, (KSPlugin.getByte(SETTING_NOLOCKED, FALSE)) ? BST_CHECKED : BST_UNCHECKED);
+		SetDlgItemInt(hwndDlg, IDC_LOGINERR_DELAY, KSPlugin.getDword(SETTING_LOGINERR_DELAY, DEFAULT_MAXDELAY), FALSE);
+		SetDlgItemInt(hwndDlg, IDC_PINGCOUNT, KSPlugin.getWord(SETTING_PINGCOUNT, DEFAULT_PINGCOUNT), FALSE);
+		SetDlgItemInt(hwndDlg, IDC_CNTDELAY, KSPlugin.getDword(SETTING_CNTDELAY, CHECKCONTIN_DELAY), FALSE);
 
-		switch (db_get_b(0, KSMODULENAME, SETTING_LOGINERR, LOGINERR_CANCEL)) {
+		switch (KSPlugin.getByte(SETTING_LOGINERR, LOGINERR_CANCEL)) {
 		case LOGINERR_SETDELAY:
 			CheckRadioButton(hwndDlg, IDC_LOGINERR_CANCEL, IDC_LOGINERR_SETDELAY, IDC_LOGINERR_SETDELAY);
 			break;
@@ -217,25 +214,25 @@ static INT_PTR CALLBACK DlgProcKSAdvOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			break;
 
 		case PSN_APPLY:
-			db_set_b(0, KSMODULENAME, SETTING_INCREASEEXPONENTIAL, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_INCREASEEXPONENTIAL));
-			db_set_dw(0, KSMODULENAME, SETTING_MAXDELAY, (DWORD)GetDlgItemInt(hwndDlg, IDC_MAXDELAY, nullptr, FALSE));
-			db_set_dw(0, KSMODULENAME, SETTING_MAXCONNECTINGTIME, (DWORD)GetDlgItemInt(hwndDlg, IDC_MAXCONNECTINGTIME, nullptr, FALSE));
-			db_set_b(0, KSMODULENAME, SETTING_FIRSTOFFLINE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_FIRSTOFFLINE));
-			db_set_b(0, KSMODULENAME, SETTING_NOLOCKED, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NOLOCKED));
-			db_set_b(0, KSMODULENAME, SETTING_CNCOTHERLOC, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CNCOTHERLOC));
-			db_set_b(0, KSMODULENAME, SETTING_LOGINERR, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_LOGINERR));
+			KSPlugin.setByte(SETTING_INCREASEEXPONENTIAL, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_INCREASEEXPONENTIAL));
+			KSPlugin.setDword(SETTING_MAXDELAY, (DWORD)GetDlgItemInt(hwndDlg, IDC_MAXDELAY, nullptr, FALSE));
+			KSPlugin.setDword(SETTING_MAXCONNECTINGTIME, (DWORD)GetDlgItemInt(hwndDlg, IDC_MAXCONNECTINGTIME, nullptr, FALSE));
+			KSPlugin.setByte(SETTING_FIRSTOFFLINE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_FIRSTOFFLINE));
+			KSPlugin.setByte(SETTING_NOLOCKED, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NOLOCKED));
+			KSPlugin.setByte(SETTING_CNCOTHERLOC, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CNCOTHERLOC));
+			KSPlugin.setByte(SETTING_LOGINERR, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_LOGINERR));
 			if (IsDlgButtonChecked(hwndDlg, IDC_LOGINERR)) {
 				if (IsDlgButtonChecked(hwndDlg, IDC_LOGINERR_SETDELAY)) {
-					db_set_b(0, KSMODULENAME, SETTING_LOGINERR, LOGINERR_SETDELAY);
-					db_set_dw(0, KSMODULENAME, SETTING_LOGINERR_DELAY, GetDlgItemInt(hwndDlg, IDC_LOGINERR_DELAY, nullptr, FALSE));
+					KSPlugin.setByte(SETTING_LOGINERR, LOGINERR_SETDELAY);
+					KSPlugin.setDword(SETTING_LOGINERR_DELAY, GetDlgItemInt(hwndDlg, IDC_LOGINERR_DELAY, nullptr, FALSE));
 				}
-				else db_set_b(0, KSMODULENAME, SETTING_LOGINERR, LOGINERR_CANCEL);
+				else KSPlugin.setByte(SETTING_LOGINERR, LOGINERR_CANCEL);
 			}
-			else db_set_b(0, KSMODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING);
+			else KSPlugin.setByte(SETTING_LOGINERR, LOGINERR_NOTHING);
 
-			db_set_b(0, KSMODULENAME, SETTING_CHECKAPMRESUME, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CHECKAPMRESUME));
-			db_set_w(0, KSMODULENAME, SETTING_PINGCOUNT, (WORD)GetDlgItemInt(hwndDlg, IDC_PINGCOUNT, nullptr, FALSE));
-			db_set_dw(0, KSMODULENAME, SETTING_CNTDELAY, (DWORD)GetDlgItemInt(hwndDlg, IDC_CNTDELAY, nullptr, FALSE) == 0 ? CHECKCONTIN_DELAY : GetDlgItemInt(hwndDlg, IDC_CNTDELAY, nullptr, FALSE));
+			KSPlugin.setByte(SETTING_CHECKAPMRESUME, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CHECKAPMRESUME));
+			KSPlugin.setWord(SETTING_PINGCOUNT, (WORD)GetDlgItemInt(hwndDlg, IDC_PINGCOUNT, nullptr, FALSE));
+			KSPlugin.setDword(SETTING_CNTDELAY, (DWORD)GetDlgItemInt(hwndDlg, IDC_CNTDELAY, nullptr, FALSE) == 0 ? CHECKCONTIN_DELAY : GetDlgItemInt(hwndDlg, IDC_CNTDELAY, nullptr, FALSE));
 		}
 		break;
 	}
@@ -257,7 +254,7 @@ static INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		bFreeze = true;
 
 		// left action
-		switch (db_get_b(0, KSMODULENAME, SETTING_POPUP_LEFTCLICK, POPUP_ACT_CANCEL)) {
+		switch (KSPlugin.getByte(SETTING_POPUP_LEFTCLICK, POPUP_ACT_CANCEL)) {
 		case POPUP_ACT_CLOSEPOPUP:
 			CheckDlgButton(hwndDlg, IDC_LCLOSE, BST_CHECKED);
 			break;
@@ -273,7 +270,7 @@ static INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		}
 
 		// right action
-		switch (db_get_b(0, KSMODULENAME, SETTING_POPUP_RIGHTCLICK, POPUP_ACT_CANCEL)) {
+		switch (KSPlugin.getByte(SETTING_POPUP_RIGHTCLICK, POPUP_ACT_CANCEL)) {
 		case POPUP_ACT_CLOSEPOPUP:
 			CheckDlgButton(hwndDlg, IDC_RCLOSE, BST_CHECKED);
 			break;
@@ -289,7 +286,7 @@ static INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		}
 
 		// delay
-		switch (db_get_b(0, KSMODULENAME, SETTING_POPUP_DELAYTYPE, POPUP_DELAYFROMPU)) {
+		switch (KSPlugin.getByte(SETTING_POPUP_DELAYTYPE, POPUP_DELAYFROMPU)) {
 		case POPUP_DELAYCUSTOM:
 			CheckDlgButton(hwndDlg, IDC_DELAYCUSTOM, BST_CHECKED);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_DELAY), TRUE);
@@ -307,25 +304,25 @@ static INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			break;
 		}
 		// delay
-		SetDlgItemInt(hwndDlg, IDC_DELAY, db_get_dw(0, KSMODULENAME, SETTING_POPUP_TIMEOUT, 0), FALSE);
+		SetDlgItemInt(hwndDlg, IDC_DELAY, KSPlugin.getDword(SETTING_POPUP_TIMEOUT, 0), FALSE);
 		// back color
-		SendDlgItemMessage(hwndDlg, IDC_BGCOLOR, CPM_SETCOLOUR, 0, db_get_dw(0, KSMODULENAME, SETTING_POPUP_BACKCOLOR, 0xAAAAAA));
+		SendDlgItemMessage(hwndDlg, IDC_BGCOLOR, CPM_SETCOLOUR, 0, KSPlugin.getDword(SETTING_POPUP_BACKCOLOR, 0xAAAAAA));
 		// text
-		SendDlgItemMessage(hwndDlg, IDC_TEXTCOLOR, CPM_SETCOLOUR, 0, db_get_dw(0, KSMODULENAME, SETTING_POPUP_TEXTCOLOR, 0x0000CC));
+		SendDlgItemMessage(hwndDlg, IDC_TEXTCOLOR, CPM_SETCOLOUR, 0, KSPlugin.getDword(SETTING_POPUP_TEXTCOLOR, 0x0000CC));
 		// wincolors
-		CheckDlgButton(hwndDlg, IDC_WINCOLORS, db_get_b(0, KSMODULENAME, SETTING_POPUP_USEWINCOLORS, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_WINCOLORS, KSPlugin.getByte(SETTING_POPUP_USEWINCOLORS, 0) ? BST_CHECKED : BST_UNCHECKED);
 		// defaultcolors
-		CheckDlgButton(hwndDlg, IDC_DEFAULTCOLORS, ((db_get_b(0, KSMODULENAME, SETTING_POPUP_USEDEFCOLORS, 0)) && (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS))) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DEFAULTCOLORS, ((KSPlugin.getByte(SETTING_POPUP_USEDEFCOLORS, 0)) && (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS))) ? BST_CHECKED : BST_UNCHECKED);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_BGCOLOR), ((BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS)) && (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_DEFAULTCOLORS))));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_TEXTCOLOR), ((BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS)) && (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_DEFAULTCOLORS))));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_DEFAULTCOLORS), (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS)));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_WINCOLORS), (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_DEFAULTCOLORS)));
 		// popup types
-		CheckDlgButton(hwndDlg, IDC_PUCONNLOST, db_get_b(0, KSMODULENAME, SETTING_PUCONNLOST, TRUE) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_PUOTHER, db_get_b(0, KSMODULENAME, SETTING_PUOTHER, TRUE) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_PUCONNRETRY, db_get_b(0, KSMODULENAME, SETTING_PUCONNRETRY, TRUE) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_PURESULT, db_get_b(0, KSMODULENAME, SETTING_PURESULT, TRUE) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_PUSHOWEXTRA, db_get_b(0, KSMODULENAME, SETTING_PUSHOWEXTRA, TRUE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_PUCONNLOST, KSPlugin.getByte(SETTING_PUCONNLOST, TRUE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_PUOTHER, KSPlugin.getByte(SETTING_PUOTHER, TRUE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_PUCONNRETRY, KSPlugin.getByte(SETTING_PUCONNRETRY, TRUE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_PURESULT, KSPlugin.getByte(SETTING_PURESULT, TRUE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_PUSHOWEXTRA, KSPlugin.getByte(SETTING_PUSHOWEXTRA, TRUE) ? BST_CHECKED : BST_UNCHECKED);
 		bFreeze = false;
 		break;
 
@@ -408,41 +405,41 @@ static INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			// left action
 			if (IsDlgButtonChecked(hwndDlg, IDC_LNOTHING))
-				db_set_b(0, KSMODULENAME, SETTING_POPUP_LEFTCLICK, POPUP_ACT_NOTHING);
+				KSPlugin.setByte(SETTING_POPUP_LEFTCLICK, POPUP_ACT_NOTHING);
 			else if (IsDlgButtonChecked(hwndDlg, IDC_LCLOSE))
-				db_set_b(0, KSMODULENAME, SETTING_POPUP_LEFTCLICK, POPUP_ACT_CLOSEPOPUP);
+				KSPlugin.setByte(SETTING_POPUP_LEFTCLICK, POPUP_ACT_CLOSEPOPUP);
 			else if (IsDlgButtonChecked(hwndDlg, IDC_LCANCEL))
-				db_set_b(0, KSMODULENAME, SETTING_POPUP_LEFTCLICK, POPUP_ACT_CANCEL);
+				KSPlugin.setByte(SETTING_POPUP_LEFTCLICK, POPUP_ACT_CANCEL);
 			// right action
 			if (IsDlgButtonChecked(hwndDlg, IDC_RNOTHING))
-				db_set_b(0, KSMODULENAME, SETTING_POPUP_RIGHTCLICK, POPUP_ACT_NOTHING);
+				KSPlugin.setByte(SETTING_POPUP_RIGHTCLICK, POPUP_ACT_NOTHING);
 			else if (IsDlgButtonChecked(hwndDlg, IDC_RCLOSE))
-				db_set_b(0, KSMODULENAME, SETTING_POPUP_RIGHTCLICK, POPUP_ACT_CLOSEPOPUP);
+				KSPlugin.setByte(SETTING_POPUP_RIGHTCLICK, POPUP_ACT_CLOSEPOPUP);
 			else if (IsDlgButtonChecked(hwndDlg, IDC_RCANCEL))
-				db_set_b(0, KSMODULENAME, SETTING_POPUP_RIGHTCLICK, POPUP_ACT_CANCEL);
+				KSPlugin.setByte(SETTING_POPUP_RIGHTCLICK, POPUP_ACT_CANCEL);
 			// delay
 			if (IsDlgButtonChecked(hwndDlg, IDC_DELAYFROMPU))
-				db_set_b(0, KSMODULENAME, SETTING_POPUP_DELAYTYPE, POPUP_DELAYFROMPU);
+				KSPlugin.setByte(SETTING_POPUP_DELAYTYPE, POPUP_DELAYFROMPU);
 			else if (IsDlgButtonChecked(hwndDlg, IDC_DELAYCUSTOM))
-				db_set_b(0, KSMODULENAME, SETTING_POPUP_DELAYTYPE, POPUP_DELAYCUSTOM);
+				KSPlugin.setByte(SETTING_POPUP_DELAYTYPE, POPUP_DELAYCUSTOM);
 			else if (IsDlgButtonChecked(hwndDlg, IDC_DELAYPERMANENT))
-				db_set_b(0, KSMODULENAME, SETTING_POPUP_DELAYTYPE, POPUP_DELAYPERMANENT);
+				KSPlugin.setByte(SETTING_POPUP_DELAYTYPE, POPUP_DELAYPERMANENT);
 			// delay
-			db_set_dw(0, KSMODULENAME, SETTING_POPUP_TIMEOUT, GetDlgItemInt(hwndDlg, IDC_DELAY, nullptr, FALSE));
+			KSPlugin.setDword(SETTING_POPUP_TIMEOUT, GetDlgItemInt(hwndDlg, IDC_DELAY, nullptr, FALSE));
 			// back color
-			db_set_dw(0, KSMODULENAME, SETTING_POPUP_BACKCOLOR, SendDlgItemMessage(hwndDlg, IDC_BGCOLOR, CPM_GETCOLOUR, 0, 0));
+			KSPlugin.setDword(SETTING_POPUP_BACKCOLOR, SendDlgItemMessage(hwndDlg, IDC_BGCOLOR, CPM_GETCOLOUR, 0, 0));
 			// text color
-			db_set_dw(0, KSMODULENAME, SETTING_POPUP_TEXTCOLOR, SendDlgItemMessage(hwndDlg, IDC_TEXTCOLOR, CPM_GETCOLOUR, 0, 0));
+			KSPlugin.setDword(SETTING_POPUP_TEXTCOLOR, SendDlgItemMessage(hwndDlg, IDC_TEXTCOLOR, CPM_GETCOLOUR, 0, 0));
 			// use win
-			db_set_b(0, KSMODULENAME, SETTING_POPUP_USEWINCOLORS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS));
+			KSPlugin.setByte(SETTING_POPUP_USEWINCOLORS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS));
 			// use def
-			db_set_b(0, KSMODULENAME, SETTING_POPUP_USEDEFCOLORS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DEFAULTCOLORS));
+			KSPlugin.setByte(SETTING_POPUP_USEDEFCOLORS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DEFAULTCOLORS));
 			// store types
-			db_set_b(0, KSMODULENAME, SETTING_PUCONNLOST, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_PUCONNLOST));
-			db_set_b(0, KSMODULENAME, SETTING_PUOTHER, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_PUOTHER));
-			db_set_b(0, KSMODULENAME, SETTING_PUCONNRETRY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_PUCONNRETRY));
-			db_set_b(0, KSMODULENAME, SETTING_PURESULT, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_PURESULT));
-			db_set_b(0, KSMODULENAME, SETTING_PUSHOWEXTRA, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_PUSHOWEXTRA));
+			KSPlugin.setByte(SETTING_PUCONNLOST, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_PUCONNLOST));
+			KSPlugin.setByte(SETTING_PUOTHER, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_PUOTHER));
+			KSPlugin.setByte(SETTING_PUCONNRETRY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_PUCONNRETRY));
+			KSPlugin.setByte(SETTING_PURESULT, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_PURESULT));
+			KSPlugin.setByte(SETTING_PUSHOWEXTRA, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_PUSHOWEXTRA));
 		}
 		break;
 	}
