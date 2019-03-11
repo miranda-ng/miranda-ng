@@ -108,7 +108,7 @@ Plugins\pasteit.dll
 Plugins\ping.dll
 Plugins\pluginupdater.dll
 Plugins\pmanagerex.dll
-Plugins\popup.dll
+Plugins\popupplus.dll
 Plugins\proxyswitch.dll
 Plugins\quickcontacts.dll
 Plugins\quickmessages.dll

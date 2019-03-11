@@ -529,6 +529,7 @@ static renameTable[] =
 	{ L"keepstatus.dll",                 L"Plugins\\statusmanager.dll" },
 	{ L"startupstatus.dll",              L"Plugins\\statusmanager.dll" },
 	{ L"dropbox.dll",                    L"Plugins\\cloudfile.dll" },
+	{ L"popup.dll",                      L"Plugins\\popupplus.dll" },
 
 	{ L"dbx_mmap_sa.dll",                L"Plugins\\dbx_mmap.dll" },
 	{ L"dbx_tree.dll",                   L"Plugins\\dbx_mmap.dll" },
