@@ -144,7 +144,7 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 	for (auto &it : protoList) {
 		if (!mir_strcmp(ack->szModule, it->m_szName)) {
 			it->ssDisabled = true;
-			log_debugA("StartupStatus: %s overridden by ME_PROTO_ACK, status will not be set", ack->szModule);
+			log_debug(0, "StartupStatus: %s overridden by ME_PROTO_ACK, status will not be set", ack->szModule);
 		}
 	}
 
@@ -161,14 +161,14 @@ static int StatusChange(WPARAM, LPARAM lParam)
 	if (szProto == nullptr) { // global status change
 		for (auto &it : protoList) {
 			it->ssDisabled = true;
-			log_debugA("StartupStatus: all protos overridden by ME_CLIST_STATUSMODECHANGE, status will not be set");
+			log_debug(0, "StartupStatus: all protos overridden by ME_CLIST_STATUSMODECHANGE, status will not be set");
 		}
 	}
 	else {
 		for (auto &it : protoList) {
 			if (!mir_strcmp(it->m_szName, szProto)) {
 				it->ssDisabled = true;
-				log_debugA("StartupStatus: %s overridden by ME_CLIST_STATUSMODECHANGE, status will not be set", szProto);
+				log_debug(0, "StartupStatus: %s overridden by ME_CLIST_STATUSMODECHANGE, status will not be set", szProto);
 			}
 		}
 	}
@@ -193,7 +193,7 @@ static int CSStatusChangeEx(WPARAM wParam, LPARAM)
 					continue;
 
 				if (!mir_strcmp(ps[i]->m_szName, it->m_szName)) {
-					log_debugA("StartupStatus: %s overridden by MS_CS_SETSTATUSEX, status will not be set", ps[i]->m_szName);
+					log_debug(0, "StartupStatus: %s overridden by MS_CS_SETSTATUSEX, status will not be set", ps[i]->m_szName);
 					it->ssDisabled = true;
 				}
 			}
@@ -311,11 +311,11 @@ static DWORD CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM)
 {
 	switch (msg) {
 	case WM_ENDSESSION:
-		log_debugA("WM_ENDSESSION");
+		log_debug(0, "WM_ENDSESSION");
 		if (wParam) {
-			log_debugA("WM_ENDSESSION: calling exit");
+			log_debug(0, "WM_ENDSESSION: calling exit");
 			OnShutdown(0, 0);
-			log_debugA("WM_ENDSESSION: exit called");
+			log_debug(0, "WM_ENDSESSION: exit called");
 		}
 		break;
 	}

@@ -63,11 +63,11 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 	if (ack->type != ACKTYPE_STATUS || ack->result != ACKRESULT_SUCCESS)
 		return 0;
 
-	log_debugA("ProcessProtoAck: ack->szModule: %s", ack->szModule);
+	log_debug(0, "ProcessProtoAck: ack->szModule: %s", ack->szModule);
 	for (auto &it : protoList) {
-		log_debugA("chk: %s", it->m_szName);
+		log_debug(0, "chk: %s", it->m_szName);
 		if (!mir_strcmp(it->m_szName, ack->szModule)) {
-			log_debugA("ack->szModule: %s p.statusChanged: %d", ack->szModule, it->bStatusChanged);
+			log_debug(0, "ack->szModule: %s p.statusChanged: %d", ack->szModule, it->bStatusChanged);
 			if (!it->bStatusChanged)
 				it->bManualStatus = true;
 
@@ -101,7 +101,7 @@ static int changeState(SMProto &setting, int mode, STATES newState)
 	setting.oldState = setting.curState;
 	setting.curState = newState;
 
-	log_debugA("%s state change: %s -> %s", setting.m_szName, status2descr(setting.oldState), status2descr(setting.curState));
+	log_debug(0, "%s state change: %s -> %s", setting.m_szName, status2descr(setting.oldState), status2descr(setting.curState));
 
 	if (setting.curState != SET_ORGSTATUS && setting.curState != ACTIVE && setting.bStatusChanged) {
 		/* change the awaymessage */

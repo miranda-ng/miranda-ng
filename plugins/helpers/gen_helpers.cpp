@@ -53,55 +53,7 @@ wchar_t* Hlp_GetWindowText(HWND hwndDlg)
 	return res;
 }
 
-/**
- * Modified from Miranda CList, clistsettings.c
- **/
-
- // Logging
-static int WriteToDebugLogA(const char *szMsg)
-{
-	return Netlib_Log(nullptr, szMsg);
-}
-
-int AddDebugLogMessageA(const char* fmt, ...)
-{
-	char szText[MAX_DEBUG], szFinal[MAX_DEBUG];
-
-	va_list va;
-	va_start(va, fmt);
-	mir_vsnprintf(szText, _countof(szText), fmt, va);
-	va_end(va);
-#ifdef MODULENAME
-	mir_snprintf(szFinal, "%s: %s", MODULENAME, szText);
-#else
-	strncpy(szFinal, szText, _countof(szFinal));
-#endif
-	return WriteToDebugLogA(szFinal);
-}
-
-int AddDebugLogMessage(const wchar_t* fmt, ...)
-{
-	wchar_t tszText[MAX_DEBUG], tszFinal[MAX_DEBUG];
-
-	va_list va;
-	va_start(va, fmt);
-	mir_vsnwprintf(tszText, _countof(tszText), fmt, va);
-	va_end(va);
-#ifdef MODULENAME
-	mir_snwprintf(tszFinal, L"%s: %s", MODULENAME, tszText);
-#else
-	wcsncpy(tszFinal, tszText, _countof(tszFinal));
-#endif
-
-	return WriteToDebugLogA(_T2A(tszFinal));
-}
-
-int ttoi(wchar_t *string)
-{
-	return (string == nullptr) ? 0 : _wtoi(string);
-}
-
-wchar_t *itot(int num)
+wchar_t* _itow(int num)
 {
 	wchar_t tRes[32];
 	// check this

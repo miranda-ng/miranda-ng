@@ -110,7 +110,7 @@ static wchar_t* parseIfequal(ARGUMENTSINFO *ai)
 	if (tszFirst == NULL || tszSecond == NULL)
 		return nullptr;
 
-	if (ttoi(tszFirst) == ttoi(tszSecond))
+	if (_wtoi(tszFirst) == _wtoi(tszSecond))
 		return mir_wstrdup(ai->argv.w[3]);
 
 	return mir_wstrdup(ai->argv.w[4]);
@@ -130,7 +130,7 @@ static wchar_t* parseIfgreater(ARGUMENTSINFO *ai)
 	if (tszFirst == NULL || tszSecond == NULL)
 		return nullptr;
 
-	if (ttoi(tszFirst) > ttoi(tszSecond))
+	if (_wtoi(tszFirst) > _wtoi(tszSecond))
 		return mir_wstrdup(ai->argv.w[3]);
 
 	return mir_wstrdup(ai->argv.w[4]);
@@ -206,7 +206,7 @@ static wchar_t* parseEqual(ARGUMENTSINFO *ai)
 	if (ai->argc != 3)
 		return nullptr;
 
-	if (ttoi(ai->argv.w[1]) != ttoi(ai->argv.w[2]))
+	if (_wtoi(ai->argv.w[1]) != _wtoi(ai->argv.w[2]))
 		ai->flags |= AIF_FALSE;
 
 	return mir_wstrdup(L"");
@@ -217,7 +217,7 @@ static wchar_t* parseGreater(ARGUMENTSINFO *ai)
 	if (ai->argc != 3)
 		return nullptr;
 
-	if (ttoi(ai->argv.w[1]) <= ttoi(ai->argv.w[2]))
+	if (_wtoi(ai->argv.w[1]) <= _wtoi(ai->argv.w[2]))
 		ai->flags |= AIF_FALSE;
 
 	return mir_wstrdup(L"");

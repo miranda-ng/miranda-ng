@@ -133,7 +133,7 @@ int GetActualStatus(PROTOCOLSETTINGEX *protoSetting)
 		return Proto_GetStatus(protoSetting->m_szName);
 
 	if ((protoSetting->m_status < ID_STATUS_OFFLINE) || (protoSetting->m_status > ID_STATUS_OUTTOLUNCH)) {
-		log_debugA("invalid status detected: %d", protoSetting->m_status);
+		log_debug(0, "invalid status detected: %d", protoSetting->m_status);
 		return 0;
 	}
 	return protoSetting->m_status;
@@ -142,12 +142,12 @@ int GetActualStatus(PROTOCOLSETTINGEX *protoSetting)
 wchar_t* GetDefaultStatusMessage(PROTOCOLSETTINGEX *ps, int newstatus)
 {
 	if (ps->m_szMsg != nullptr) {// custom message set
-		log_infoA("CommonStatus: Status message set by calling plugin");
+		log_info(0, "CommonStatus: Status message set by calling plugin");
 		return mir_wstrdup(ps->m_szMsg);
 	}
 
 	wchar_t *tMsg = (wchar_t*)CallService(MS_AWAYMSG_GETSTATUSMSGW, newstatus, (LPARAM)ps->m_szName);
-	log_debugA("CommonStatus: Status message retrieved from general awaysys: %S", tMsg);
+	log_debug(0, "CommonStatus: Status message retrieved from general awaysys: %S", tMsg);
 	return tMsg;
 }
 
@@ -217,7 +217,7 @@ static void SetStatusMsg(PROTOCOLSETTINGEX *ps, int newstatus)
 			tszMsg = szFormattedMsg;
 		}
 	}
-	log_debugA("CommonStatus sets status message for %s directly", ps->m_szName);
+	log_debug(0, "CommonStatus sets status message for %s directly", ps->m_szName);
 	CallProtoService(ps->m_szName, PS_SETAWAYMSG, newstatus, (LPARAM)tszMsg);
 	mir_free(tszMsg);
 }
@@ -237,13 +237,13 @@ int SetStatusEx(TProtoSettings &ps)
 			continue;
 
 		if (!Proto_GetAccount(p->m_szName)) {
-			log_debugA("CommonStatus: %s is not loaded", p->m_szName);
+			log_debug(0, "CommonStatus: %s is not loaded", p->m_szName);
 			continue;
 		}
 		// some checks
 		int newstatus = GetActualStatus(p);
 		if (newstatus == 0) {
-			log_debugA("CommonStatus: incorrect status for %s (%d)", p->m_szName, p->m_status);
+			log_debug(0, "CommonStatus: incorrect status for %s (%d)", p->m_szName, p->m_status);
 			continue;
 		}
 		int oldstatus = Proto_GetStatus(p->m_szName);
@@ -251,7 +251,7 @@ int SetStatusEx(TProtoSettings &ps)
 		p->m_lastStatus = oldstatus;
 		if (IsStatusConnecting(oldstatus)) {
 			// ignore if connecting, but it didn't came this far if it did
-			log_debugA("CommonStatus: %s is already connecting", p->m_szName);
+			log_debug(0, "CommonStatus: %s is already connecting", p->m_szName);
 			continue;
 		}
 
@@ -261,7 +261,7 @@ int SetStatusEx(TProtoSettings &ps)
 		int b_Caps5 = CallProtoService(p->m_szName, PS_GETCAPS, PFLAGNUM_5, 0) & protoFlag;
 		if (newstatus != ID_STATUS_OFFLINE && (!b_Caps2 || b_Caps5)) {
 			// status and status message for this status not supported
-			//log_debug("CommonStatus: status not supported %s", szProto);
+			log_debug(0, "CommonStatus: status not supported %s", p->m_szName);
 			continue;
 		}
 
@@ -269,7 +269,7 @@ int SetStatusEx(TProtoSettings &ps)
 		int b_Caps3 = CallProtoService(p->m_szName, PS_GETCAPS, PFLAGNUM_3, 0) & protoFlag;
 		if (newstatus == oldstatus && (!b_Caps1 || !b_Caps3)) {
 			// no status change and status messages are not supported
-			//log_debug("CommonStatus: no change, %s (%d %d)", szProto, oldstatus, newstatus);
+			log_debug(0, "CommonStatus: no change, %s (%d %d)", p->m_szName, oldstatus, newstatus);
 			continue;
 		}
 
@@ -279,13 +279,13 @@ int SetStatusEx(TProtoSettings &ps)
 
 		// set the status
 		if (newstatus != oldstatus /*&& !(b_Caps1 && b_Caps3 && ServiceExists(MS_NAS_SETSTATE))*/) {
-			log_debugA("CommonStatus sets status for %s to %d", p->m_szName, newstatus);
+			log_debug(0, "CommonStatus sets status for %s to %d", p->m_szName, newstatus);
 			CallProtoService(p->m_szName, PS_SETSTATUS, newstatus, 0);
 		}
 	}
 
 	if (globStatus != 0) {
-		log_debugA("CommonStatus: setting global status %u", globStatus);
+		log_debug(0, "CommonStatus: setting global status %u", globStatus);
 		Clist_SetStatusMode(globStatus);
 	}
 

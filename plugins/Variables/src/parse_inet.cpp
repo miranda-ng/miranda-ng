@@ -83,7 +83,7 @@ static wchar_t* parseNToA(ARGUMENTSINFO *ai)
 		return nullptr;
 
 	struct in_addr in;
-	in.s_addr = ttoi(ai->argv.w[1]);
+	in.s_addr = _wtoi(ai->argv.w[1]);
 	return mir_a2u(inet_ntoa(in));
 }
 
@@ -93,7 +93,7 @@ static wchar_t* parseHToA(ARGUMENTSINFO *ai)
 		return nullptr;
 
 	struct in_addr in;
-	in.s_addr = htonl(ttoi(ai->argv.w[1]));
+	in.s_addr = htonl(_wtoi(ai->argv.w[1]));
 	return mir_a2u(inet_ntoa(in));
 }
 

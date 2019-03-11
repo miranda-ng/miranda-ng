@@ -19,12 +19,9 @@
 #ifndef __GEN_HELPERS_H
 #define __GEN_HELPERS_H
 
-TCHAR *Hlp_GetProtocolName(const char *proto);
-TCHAR *Hlp_GetDlgItemText(HWND hwndDlg, int nIDDlgItem);
-TCHAR *Hlp_GetWindowText(HWND hwndDlg);
-
-int ttoi(TCHAR *string);
-TCHAR *itot(int num);
+TCHAR* Hlp_GetProtocolName(const char *proto);
+TCHAR* Hlp_GetDlgItemText(HWND hwndDlg, int nIDDlgItem);
+TCHAR* Hlp_GetWindowText(HWND hwndDlg);
 
 #define MAX_DEBUG	1024
 
@@ -39,23 +36,16 @@ TCHAR *itot(int num);
  #endif
 #endif
 
-int AddDebugLogMessageA(const char* fmt, ...);
-int AddDebugLogMessage(const TCHAR* fmt, ...);
-
 #if LOGLEVEL >= __LOGLEVEL_DEBUG
-#define log_debugA AddDebugLogMessageA
-#define log_debug AddDebugLogMessage
+#define log_debug Netlib_Logf
 #else
-static __inline int log_debugA(const char*, ...) { return 0; }
-static __inline int log_debug(const TCHAR*, ...) { return 0; }
+static __inline int log_debug(int, const char*, ...) { return 0; }
 #endif
 
 #if LOGLEVEL >= __LOGLEVEL_INFO
-#define log_infoA AddDebugLogMessageA
-#define log_info AddDebugLogMessage
+#define log_info Netlib_Logf
 #else
-static __inline int log_infoA(const char*, ...) { return 0; }
-static __inline int log_info(const TCHAR*, ...) { return 0; }
+static __inline int log_info(int, const char*, ...) { return 0; }
 #endif
 
 #endif

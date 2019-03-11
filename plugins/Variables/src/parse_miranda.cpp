@@ -24,7 +24,7 @@ static wchar_t* parseCodeToStatus(ARGUMENTSINFO *ai)
 	if (ai->argc != 2)
 		return nullptr;
 
-	unsigned int status = ttoi(ai->argv.w[1]);
+	unsigned int status = _wtoi(ai->argv.w[1]);
 	wchar_t *szStatus = Clist_GetStatusModeDescription(status, 0);
 	if (szStatus != nullptr)
 		return mir_wstrdup(szStatus);
@@ -84,14 +84,14 @@ static wchar_t* parseContact(ARGUMENTSINFO *ai)
 		if (*ai->argv.w[3] != 'r') // random contact
 			n = -1;
 		else
-			n = ttoi(ai->argv.w[3]) - 1;
+			n = _wtoi(ai->argv.w[3]) - 1;
 	}
 
 	MCONTACT hContact = getContactFromString(ai->argv.w[1], getContactInfoFlags(ai->argv.w[2]), n);
 	if (hContact == INVALID_CONTACT_ID)
 		return nullptr;
 
-	log_debugA("contact: %x", hContact);
+	log_debug(0, "contact: %x", hContact);
 	return encodeContactToString(hContact);
 }
 
@@ -101,7 +101,7 @@ static wchar_t* parseContactCount(ARGUMENTSINFO *ai)
 		return nullptr;
 
 	int count = getContactFromString(ai->argv.w[1], CI_NEEDCOUNT | getContactInfoFlags(ai->argv.w[2]));
-	return itot(count);
+	return _itow(count);
 }
 
 static wchar_t* parseContactInfo(ARGUMENTSINFO *ai)
@@ -151,13 +151,13 @@ static wchar_t* getDBSetting(MCONTACT hContact, char* module, char* setting, wch
 	wchar_t *var = nullptr;
 	switch (dbv.type) {
 	case DBVT_BYTE:
-		var = itot(dbv.bVal);
+		var = _itow(dbv.bVal);
 		break;
 	case DBVT_WORD:
-		var = itot(dbv.wVal);
+		var = _itow(dbv.wVal);
 		break;
 	case DBVT_DWORD:
-		var = itot(dbv.dVal);
+		var = _itow(dbv.dVal);
 		break;
 	case DBVT_ASCIIZ:
 		var = mir_a2u(dbv.pszVal);

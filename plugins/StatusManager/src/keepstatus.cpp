@@ -147,7 +147,7 @@ int SMProto::AssignStatus(int iStatus, int iLastStatus, wchar_t *pwszMsg)
 	else
 		m_status = iStatus;
 
-	log_infoA("KeepStatus: assigning status %d (%d, %d) to %s", m_status, m_lastStatus, iLastStatus, m_szName);
+	log_info(0, "KeepStatus: assigning status %d (%d, %d) to %s", m_status, m_lastStatus, iLastStatus, m_szName);
 
 	if (pwszMsg != nullptr && mir_wstrcmp(pwszMsg, m_szMsg)) {
 		if (m_szMsg != nullptr)
@@ -189,11 +189,11 @@ static int SetCurrentStatus()
 			continue;
 		}
 
-		log_infoA("KeepStatus: status for %s differs: stored = %d, real = %d", p->m_szName, curStatus, realStatus);
+		log_info(0, "KeepStatus: status for %s differs: stored = %d, real = %d", p->m_szName, curStatus, realStatus);
 
 		// force offline before reconnecting?
 		if (realStatus != ID_STATUS_OFFLINE && KSPlugin.getByte(SETTING_FIRSTOFFLINE, FALSE)) {
-			log_infoA("KeepStatus: Setting %s offline before making a new connection attempt", p->m_szName);
+			log_info(0, "KeepStatus: Setting %S offline before making a new connection attempt", p->m_szName);
 			CallProtoService(p->m_szName, PS_SETSTATUS, (WPARAM)ID_STATUS_OFFLINE, 0);
 		}
 	}
@@ -282,8 +282,8 @@ static INT_PTR CALLBACK StartTimerApcProc(void *param)
 	int res = 0;
 
 	mir_cslock lck(GenTimerCS);
-	log_debugA("StartTimer: %d, %d, %d", ti->timer, ti->timeout, ti->restart);
-	log_debugA("ack: %u, chk: %u, aft: %u, cnt: %u, con: %u", processAckTimerId, checkConnectionTimerId, afterCheckTimerId, checkContinTimerId, checkConnectingTimerId);
+	log_debug(0, "StartTimer: %d, %d, %d", ti->timer, ti->timeout, ti->restart);
+	log_debug(0, "ack: %u, chk: %u, aft: %u, cnt: %u, con: %u", processAckTimerId, checkConnectionTimerId, afterCheckTimerId, checkContinTimerId, checkConnectingTimerId);
 	if (ti->timer & IDT_PROCESSACK) {
 		res = (processAckTimerId == 0) ? 0 : 1;
 		if (((processAckTimerId == 0) && (checkConnectionTimerId == 0)) || (ti->restart)) {
@@ -352,8 +352,8 @@ static INT_PTR CALLBACK StartTimerApcProc(void *param)
 		}
 	}
 
-	log_debugA("ack: %u, chk: %u, aft: %u, cnt: %u, con: %u", processAckTimerId, checkConnectionTimerId, afterCheckTimerId, checkContinTimerId, checkConnectingTimerId);
-	log_debugA("StartTimer done %d", res);
+	log_debug(0, "ack: %u, chk: %u, aft: %u, cnt: %u, con: %u", processAckTimerId, checkConnectionTimerId, afterCheckTimerId, checkContinTimerId, checkConnectingTimerId);
+	log_debug(0, "StartTimer done %d", res);
 	return res;
 }
 
@@ -368,8 +368,8 @@ static int StopTimer(int timer)
 	int res = 0;
 
 	mir_cslock lck(GenTimerCS);
-	log_debugA("StopTimer %d", timer);
-	log_debugA("ack: %u, chk: %u, aft: %u, cnt: %u, con: %u", processAckTimerId, checkConnectionTimerId, afterCheckTimerId, checkContinTimerId, checkConnectingTimerId);
+	log_debug(0, "StopTimer %d", timer);
+	log_debug(0, "ack: %u, chk: %u, aft: %u, cnt: %u, con: %u", processAckTimerId, checkConnectionTimerId, afterCheckTimerId, checkContinTimerId, checkConnectingTimerId);
 
 	if (timer & IDT_PROCESSACK) {
 		if (processAckTimerId == 0)
@@ -421,8 +421,8 @@ static int StopTimer(int timer)
 		}
 	}
 
-	log_debugA("ack: %u, chk: %u, aft: %u, cnt: %u, con: %u", processAckTimerId, checkConnectionTimerId, afterCheckTimerId, checkContinTimerId, checkConnectingTimerId);
-	log_debugA("StopTimer done %d", res);
+	log_debug(0, "ack: %u, chk: %u, aft: %u, cnt: %u, con: %u", processAckTimerId, checkConnectionTimerId, afterCheckTimerId, checkContinTimerId, checkConnectingTimerId);
+	log_debug(0, "StopTimer done %d", res);
 	return res;
 }
 
@@ -468,7 +468,7 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 			
 			switch (KSPlugin.getByte(SETTING_LOGINERR, LOGINERR_NOTHING)) {
 			case LOGINERR_CANCEL:
-				log_infoA("KeepStatus: cancel on login error (%s)", ack->szModule);
+				log_info(0, "KeepStatus: cancel on login error (%s)", ack->szModule);
 				for (auto &it : protoList)
 					if (!mir_strcmp(ack->szModule, it->m_szName))
 						it->AssignStatus(ID_STATUS_OFFLINE);
@@ -480,7 +480,7 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 			case LOGINERR_SETDELAY:
 				{
 					int newDelay = 1000 * KSPlugin.getDword(SETTING_LOGINERR_DELAY, DEFAULT_MAXDELAY);
-					log_infoA("KeepStatus: set delay to %d ms on login error (%s)", newDelay, ack->szModule);
+					log_info(0, "KeepStatus: set delay to %d ms on login error (%s)", newDelay, ack->szModule);
 					StartTimer(IDT_CHECKCONN, newDelay, TRUE);
 				}
 				ProcessPopup(KS_CONN_STATE_LOGINERROR, (LPARAM)ack->szModule);
@@ -508,7 +508,7 @@ static VOID CALLBACK CheckConnectingTimer(HWND, UINT, UINT_PTR, DWORD)
 			if (maxConnectingTime > 0) {
 				if ((unsigned int)maxConnectingTime <= ((GetTickCount() - it->lastStatusAckTime) / 1000)) {
 					// set offline
-					log_infoA("KeepStatus: %s is too long connecting; setting offline", it->m_szName);
+					log_info(0, "KeepStatus: %s is too long connecting; setting offline", it->m_szName);
 					CallProtoService(it->m_szName, PS_SETSTATUS, (WPARAM)ID_STATUS_OFFLINE, 0);
 				}
 			}
@@ -541,7 +541,7 @@ static VOID CALLBACK CheckAckStatusTimer(HWND, UINT, UINT_PTR, DWORD)
 		else if (newStatus == ID_STATUS_OFFLINE) {// start checking connection
 			if (!StartTimer(IDT_CHECKCONN, -1, FALSE)) { /* check if not already checking */
 				needChecking = true;
-				log_infoA("KeepStatus: connection lost! (%s)", it->m_szName);
+				log_info(0, "KeepStatus: connection lost! (%s)", it->m_szName);
 				NotifyEventHooks(hConnectionEvent, (WPARAM)KS_CONN_STATE_LOST, (LPARAM)it->m_szName);
 				ProcessPopup(KS_CONN_STATE_LOST, (LPARAM)it->m_szName);
 			}
@@ -554,7 +554,7 @@ static VOID CALLBACK CheckAckStatusTimer(HWND, UINT, UINT_PTR, DWORD)
 
 static VOID CALLBACK CheckConnectionTimer(HWND, UINT, UINT_PTR, DWORD)
 {
-	log_debugA("CheckConnectionTimer");
+	log_debug(0, "CheckConnectionTimer");
 	bool setStatus = false;
 
 	for (auto &it : protoList) {
@@ -591,7 +591,7 @@ static VOID CALLBACK CheckConnectionTimer(HWND, UINT, UINT_PTR, DWORD)
 	else // all status set ok already, or stop checking
 		StopChecking();
 
-	log_debugA("CheckConnectionTimer done");
+	log_debug(0, "CheckConnectionTimer done");
 }
 
 static int StopChecking()
@@ -611,7 +611,7 @@ static int StopChecking()
 
 	NotifyEventHooks(hConnectionEvent, (WPARAM)KS_CONN_STATE_STOPPEDCHECKING, (LPARAM)isOk);
 	ProcessPopup(KS_CONN_STATE_STOPPEDCHECKING, (LPARAM)isOk);
-	log_infoA("KeepStatus: stop checking (%s)", isOk ? "success" : "failure");
+	log_info(0, "KeepStatus: stop checking (%s)", isOk ? "success" : "failure");
 	retryCount = 0;
 	currentDelay = initDelay;
 
@@ -660,13 +660,13 @@ static void CheckContinuouslyFunction(void *)
 			continue;
 
 		if (shouldBeStatus != ID_STATUS_OFFLINE) {
-			log_debugA("CheckContinuouslyFunction: %s should be %d", it->m_szName, shouldBeStatus);
+			log_debug(0, "CheckContinuouslyFunction: %s should be %d", it->m_szName, shouldBeStatus);
 			doPing = true;
 		}
 	}
 
 	if (!doPing) {
-		log_debugA("CheckContinuouslyFunction: All protocols should be offline, no need to check connection");
+		log_debug(0, "CheckContinuouslyFunction: All protocols should be offline, no need to check connection");
 		return;
 	}
 
@@ -686,7 +686,7 @@ static void CheckContinuouslyFunction(void *)
 			HANDLE hICMPFile = (HANDLE)IcmpCreateFile();
 			if (hICMPFile == INVALID_HANDLE_VALUE) {
 				bLastPingResult = TRUE;
-				log_infoA("KeepStatus: icmp.dll error (2)");
+				log_info(0, "KeepStatus: icmp.dll error (2)");
 			}
 			if (bLastPingResult == FALSE) {
 				start = dbv.pszVal;
@@ -706,9 +706,9 @@ static void CheckContinuouslyFunction(void *)
 						else
 							pingFailures++;
 
-						log_debugA("CheckContinuouslyFunction: pinging %s (result: %d/%d)", host, bLastPingResult, pingFailures);
+						log_debug(0, "CheckContinuouslyFunction: pinging %s (result: %d/%d)", host, bLastPingResult, pingFailures);
 					}
-					else log_debugA("CheckContinuouslyFunction: unable to resolve %s", host);
+					else log_debug(0, "CheckContinuouslyFunction: unable to resolve %s", host);
 
 					start = end;
 					while (*start == ' ')
@@ -731,21 +731,21 @@ static void CheckContinuouslyFunction(void *)
 				continue;
 
 			if (IsStatusConnecting(pa->iRealStatus)) {
-				log_debugA("CheckContinuouslyFunction: %s is connecting", pa->szModuleName);
+				log_debug(0, "CheckContinuouslyFunction: %s is connecting", pa->szModuleName);
 				continue; // connecting, leave alone
 			}
 			if (IsProtocolEnabledService(0, (LPARAM)pa->szModuleName)) {
-				log_debugA("CheckContinuouslyFunction: forcing %s offline", pa->szModuleName);
+				log_debug(0, "CheckContinuouslyFunction: forcing %s offline", pa->szModuleName);
 				CallProtoService(pa->szModuleName, PS_SETSTATUS, (WPARAM)ID_STATUS_OFFLINE, 0);
 			}
 		}
 
 		if (StartTimer(IDT_CHECKCONN | IDT_PROCESSACK, -1, FALSE)) {// are our 'set offlines' noticed?
-			log_debugA("CheckContinuouslyFunction: currently checking");
+			log_debug(0, "CheckContinuouslyFunction: currently checking");
 			return;
 		}
 
-		log_infoA("KeepStatus: connection lost! (continuesly check)");
+		log_info(0, "KeepStatus: connection lost! (continuesly check)");
 		NotifyEventHooks(hConnectionEvent, (WPARAM)KS_CONN_STATE_LOST, 0);
 		ProcessPopup(KS_CONN_STATE_LOST, 0);
 		maxRetries = KSPlugin.getByte(SETTING_MAXRETRIES, 0);
@@ -798,7 +798,7 @@ static INT_PTR ShowPopup(const wchar_t *msg, HICON hIcon)
 		ppd.iSeconds = 0;
 		break;
 	}
-	return (int)PUAddPopupW(&ppd);
+	return (INT_PTR)PUAddPopupW(&ppd);
 }
 
 static wchar_t* GetHumanName(LPARAM lParam)
@@ -899,7 +899,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 	if (hIcon == nullptr)
 		hIcon = Skin_LoadIcon(SKINICON_STATUS_OFFLINE);
 
-	log_info(L"KeepStatus: %s", wszText.c_str());
+	Netlib_Logf(0, "KeepStatus: %s", wszText.c_str());
 	return ShowPopup(wszText, hIcon);
 }
 
@@ -983,7 +983,7 @@ INT_PTR IsProtocolEnabledService(WPARAM, LPARAM lParam)
 INT_PTR AnnounceStatusChangeService(WPARAM, LPARAM lParam)
 {
 	PROTOCOLSETTINGEX *newSituation = (PROTOCOLSETTINGEX *)lParam;
-	log_infoA("Another plugin announced a status change to %d for %s", newSituation->m_status, newSituation->m_szName == nullptr ? "all" : newSituation->m_szName);
+	log_info(0, "Another plugin announced a status change to %d for %s", newSituation->m_status, newSituation->m_szName == nullptr ? "all" : newSituation->m_szName);
 
 	for (auto &it : protoList)
 		if (!mir_strcmp(it->m_szName, newSituation->m_szName))
@@ -1003,7 +1003,7 @@ static DWORD CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM lPara
 	case WM_POWERBROADCAST:
 		switch (wParam) {
 		case PBT_APMSUSPEND:
-			log_infoA("KeepStatus: suspend state detected: %08X %08X", wParam, lParam);
+			log_info(0, "KeepStatus: suspend state detected: %08X %08X", wParam, lParam);
 			if (ps == nullptr) {
 				ps = new TProtoSettings(protoList);
 				for (auto &it : *ps)
@@ -1017,7 +1017,7 @@ static DWORD CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM lPara
 		case PBT_APMRESUMESUSPEND:
 		case PBT_APMRESUMECRITICAL:
 		// case PBT_APMRESUMEAUTOMATIC: ?
-			log_infoA("KeepStatus: resume from suspend state");
+			log_info(0, "KeepStatus: resume from suspend state");
 			if (ps != nullptr) {
 				for (auto &it : *ps) {
 					SMProto *p = protoList.find(it);

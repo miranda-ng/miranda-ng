@@ -125,13 +125,13 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 		{
 			LPARAM res = 0;
 			MCONTACT hItem, hContact = wParam;
-			log_debugA("VARM_SETSUBJECT: %u", hContact);
+			log_debug(0, "VARM_SETSUBJECT: %u", hContact);
 			if (hContact == INVALID_CONTACT_ID) {
 				wchar_t *tszContact = g_plugin.getWStringA(SETTING_SUBJECT);
-				log_debugA("VARM_SETSUBJECT: %s", tszContact);
+				log_debug(0, "VARM_SETSUBJECT: %s", tszContact);
 				if (tszContact != nullptr) {
 					hContact = getContactFromString(tszContact, CI_PROTOID);
-					log_debugA("VARM_SETSUBJECT decoded: %u", hContact);
+					log_debug(0, "VARM_SETSUBJECT decoded: %u", hContact);
 					mir_free(tszContact);
 			}	}
 

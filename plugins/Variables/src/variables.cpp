@@ -355,7 +355,7 @@ wchar_t* formatString(FORMATINFO *fi)
 	if ((fi->eCount + fi->pCount) > 5000) {
 		fi->eCount++;
 		fi->pCount++;
-		log_debugA("Variables: Overflow protection; %d parses", (fi->eCount + fi->pCount));
+		log_debug(0, "Variables: Overflow protection; %d parses", (fi->eCount + fi->pCount));
 		return nullptr;
 	}
 
@@ -416,7 +416,7 @@ int LoadVarModule()
 	registerAliasTokens();
 	registerMetaContactsTokens();
 
-	log_debugA("Variables: Internal tokens registered");
+	log_debug(0, "Variables: Internal tokens registered");
 
 	if (g_plugin.getByte(SETTING_PARSEATSTARTUP, 0)) {
 		FORMATINFO fi = { 0 };
@@ -427,7 +427,7 @@ int LoadVarModule()
 			mir_free(fi.szFormat.w);
 		}
 	}
-	log_debugA("Variables: Init done");
+	log_debug(0, "Variables: Init done");
 
 	return 0;
 }

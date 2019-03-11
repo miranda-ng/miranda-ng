@@ -202,5 +202,4 @@ INT_PTR  showHelpExService(WPARAM wParam, LPARAM lParam);
 INT_PTR  getSkinItemService(WPARAM wParam, LPARAM lParam);
 int  iconsChanged(WPARAM wParam, LPARAM lParam);
 
-int ttoi(wchar_t *string);
-wchar_t *itot(int num);
+wchar_t* _itow(int);

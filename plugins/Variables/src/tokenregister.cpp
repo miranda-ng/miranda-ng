@@ -115,7 +115,7 @@ INT_PTR registerToken(WPARAM, LPARAM lParam)
 	memcpy(&tre->tr, newVr, newVr->cbSize);
 	tre->nameHash = hash;
 	if (!mir_wstrcmp(newVr->szTokenString.w, L"alias"))
-		log_debugA("alias");
+		log_debug(0, "alias");
 
 	if (!(newVr->flags & TRF_PARSEFUNC) && newVr->szService != nullptr)
 		tre->tr.szService = mir_strdup(newVr->szService);

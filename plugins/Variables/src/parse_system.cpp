@@ -156,7 +156,7 @@ static wchar_t* parseDirectory(ARGUMENTSINFO *ai)
 
 	int depth = 0;
 	if (ai->argc == 3)
-		depth = ttoi(ai->argv.w[2]);
+		depth = _wtoi(ai->argv.w[2]);
 
 	if (depth <= 0)
 		return mir_wstrdup(ai->argv.w[1]);
@@ -192,7 +192,7 @@ static wchar_t* parseDirectory2(ARGUMENTSINFO *ai)
 
 	int depth = 1;
 	if (ai->argc == 3)
-		depth = ttoi(ai->argv.w[2]);
+		depth = _wtoi(ai->argv.w[2]);
 
 	if (depth <= 0)
 		return nullptr;
@@ -520,7 +520,7 @@ static wchar_t* parseTimestamp2Date(ARGUMENTSINFO *ai)
 
 	SYSTEMTIME sysTime;
 	wchar_t *szFormat;
-	time_t timestamp = ttoi(ai->argv.w[1]);
+	time_t timestamp = _wtoi(ai->argv.w[1]);
 	if (timestamp == 0)
 		return nullptr;
 
@@ -551,7 +551,7 @@ static wchar_t* parseTimestamp2Time(ARGUMENTSINFO *ai)
 		return nullptr;
 
 	SYSTEMTIME sysTime;
-	time_t timestamp = ttoi(ai->argv.w[1]);
+	time_t timestamp = _wtoi(ai->argv.w[1]);
 	if (timestamp == 0)
 		return nullptr;
 
@@ -592,7 +592,7 @@ static wchar_t* parseTextFile(ARGUMENTSINFO *ai)
 		return nullptr;
 	}
 
-	int lineNo = ttoi(ai->argv.w[2]);
+	int lineNo = _wtoi(ai->argv.w[2]);
 	int lineCount, csz;
 	unsigned int icur, bufSz;
 	DWORD readSz, totalReadSz;
