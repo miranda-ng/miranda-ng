@@ -284,7 +284,7 @@ MCONTACT getContactFromString(const wchar_t *tszContact, DWORD dwFlags, int nMat
 
 	// return random contact
 	if (nMatch == -1)
-		return (MCONTACT)arResults[rand() % arResults.getCount()];
+		return (UINT_PTR)arResults[rand() % arResults.getCount()];
 
 	// cache the found result
 	if (count == 0) {
