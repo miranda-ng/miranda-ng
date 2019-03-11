@@ -744,8 +744,8 @@ EXTERN_C MIR_APP_DLL(int) Netlib_StartSsl(HNETLIBCONN hConnection, const char *h
 EXTERN_C MIR_APP_DLL(int) Netlib_Log(HNETLIBUSER hUser, const char *pszStr);
 EXTERN_C MIR_APP_DLL(int) Netlib_LogW(HNETLIBUSER hUser, const wchar_t *pwszStr);
 
-EXTERN_C MIR_APP_DLL(int) Netlib_Logf(HNETLIBUSER hUser, const char *fmt, ...);
-EXTERN_C MIR_APP_DLL(int) Netlib_LogfW(HNETLIBUSER hUser, const wchar_t *fmt, ...);
+EXTERN_C MIR_APP_DLL(int) Netlib_Logf(HNETLIBUSER hUser, _Printf_format_string_ const char *fmt, ...);
+EXTERN_C MIR_APP_DLL(int) Netlib_LogfW(HNETLIBUSER hUser, _Printf_format_string_ const wchar_t *fmt, ...);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Security providers (0.6+)
