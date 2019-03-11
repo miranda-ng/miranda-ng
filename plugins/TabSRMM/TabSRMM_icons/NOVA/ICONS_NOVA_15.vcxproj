@@ -21,6 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectName>TabSRMM_icons</ProjectName>
     <ProjectGuid>{F553F140-B7D3-4984-90B1-00D4831B8A6E}</ProjectGuid>
+    <XPDeprecationWarning>false</XPDeprecationWarning>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

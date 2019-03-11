@@ -22,6 +22,7 @@
     <ProjectName>UInfoEx_icons_default_Z2</ProjectName>
     <ProjectGuid>{D90DD62F-6A75-4469-ABB5-A3E88BCA6A3C}</ProjectGuid>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <XPDeprecationWarning>false</XPDeprecationWarning>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
