@@ -315,7 +315,11 @@ void __cdecl CIcqProto::PollThread(void*)
 		auto *pReq = new AsyncHttpRequest(CONN_FETCH, REQUEST_GET, szUrl, &CIcqProto::OnFetchEvents);
 		if (!m_bFirstBos)
 			pReq->timeout = 62000;
-		ExecuteRequest(pReq);
+		
+		if (!ExecuteRequest(pReq)) {
+			ShutdownSession();
+			break;
+		}
 
 		m_bFirstBos = false;
 	}

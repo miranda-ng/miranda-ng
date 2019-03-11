@@ -263,7 +263,8 @@ class CIcqProto : public PROTO<CIcqProto>
 	LIST<AsyncHttpRequest> m_arHttpQueue;
 
 	void      CalcHash(AsyncHttpRequest*);
-	void      ExecuteRequest(AsyncHttpRequest*);
+	bool      ExecuteRequest(AsyncHttpRequest*);
+	bool      IsQueueEmpty();
 	void      Push(MHttpRequest*);
 	bool      RefreshRobustToken();
 

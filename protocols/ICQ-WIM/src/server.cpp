@@ -516,6 +516,9 @@ void CIcqProto::ShutdownSession()
 	debugLogA("CIcqProto::ShutdownSession");
 
 	// shutdown all resources
+	while (!IsQueueEmpty())
+		Sleep(50);
+
 	if (m_hWorkerThread)
 		SetEvent(m_evRequestsQueue);
 

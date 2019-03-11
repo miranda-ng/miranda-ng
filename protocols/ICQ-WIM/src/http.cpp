@@ -22,6 +22,12 @@
 
 #pragma comment(lib, "Rpcrt4.lib")
 
+bool CIcqProto::IsQueueEmpty()
+{
+	mir_cslock lck(m_csHttpQueue);
+	return m_arHttpQueue.getCount() == 0;
+}
+
 void __cdecl CIcqProto::ServerThread(void*)
 {
 	memset(&m_ConnPool, 0, sizeof(m_ConnPool));
@@ -116,7 +122,7 @@ void AsyncHttpRequest::ReplaceJsonParam(const JSONNode &n)
 	dataLength = 0;
 }
 
-void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
+bool CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 {
 	CMStringA str;
 
@@ -139,7 +145,7 @@ void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		if (m_szRToken.IsEmpty()) {
 			if (!RefreshRobustToken()) {
 				delete pReq;
-				return;
+				return false;
 			}
 
 			pReq->ReplaceJsonParam(JSONNode("clientId", m_iRClientId));
@@ -157,6 +163,7 @@ void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		m_ConnPool[pReq->m_conn].lastTs = time(0);
 	}
 
+	bool bRet;
 	NETLIBHTTPREQUEST *reply = Netlib_HttpTransaction(m_hNetlibUser, pReq);
 	if (reply != nullptr) {
 		if (pReq->m_conn != CONN_NONE) {
@@ -179,12 +186,14 @@ void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 				m_szRToken.Empty();
 				
 				// if token refresh succeeded, replace it in the query and push request back
-				if (RefreshRobustToken()) { 
-					pReq->ReplaceJsonParam(JSONNode("authToken", m_szRToken));
-					Push(pReq);
+				if (!RefreshRobustToken()) {
+					delete pReq;
+					return false;
 				}
-				else delete pReq;
-				return;
+
+				pReq->ReplaceJsonParam(JSONNode("authToken", m_szRToken));
+				Push(pReq);
+				return true;
 			}
 		}
 
@@ -192,6 +201,7 @@ void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 			(this->*(pReq->m_pFunc))(reply, pReq);
 
 		Netlib_FreeHttpRequest(reply);
+		bRet = true;
 	}
 	else {
 		debugLogA("Request %s failed", pReq->m_reqId);
@@ -201,9 +211,11 @@ void CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 				ConnectionFailed(LOGINERR_NONETWORK);
 			m_ConnPool[pReq->m_conn].s = nullptr;
 		}
+		bRet = false;
 	}
 
 	delete pReq;
+	return bRet;
 }
 
 void CIcqProto::Push(MHttpRequest *p)
