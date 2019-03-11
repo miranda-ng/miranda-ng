@@ -102,7 +102,7 @@ using namespace std;
 
 typedef struct _MGLOBAL {
 	DWORD   mirandaVersion;          // mirandaVersion
-	BOOLEAN PopupActionsExist   : 1; // Popup++ or MS_POPUP_REGISTERACTIONS exist
+	BOOLEAN PopupActionsExist   : 1; // Popup+ or MS_POPUP_REGISTERACTIONS exist
 	BOOLEAN PluginHTTPExist     : 1;	// HTTPServer or MS_HTTP_ACCEPT_CONNECTIONS exist
 	BOOLEAN PluginFTPExist      : 1; // FTPFile or MS_FTPFILE_UPLOAD exist
 	BOOLEAN PluginCloudFileExist: 1;	// CloudFile or MS_CLOUDFILE_UPLOAD exists
