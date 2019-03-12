@@ -3,7 +3,7 @@
 
 struct SIRCMessage
 {
-	tm Time;
+	struct tm Time;
 	bool bIsMe;
 	tstring strMessage;
 };

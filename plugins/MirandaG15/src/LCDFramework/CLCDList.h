@@ -21,13 +21,11 @@ public:
 			m_eType = ROOT;
 			m_pRoot = this;
 		}
-		else
-			m_iLevel = m_pParent->GetLevel() + 1;
+		else m_iLevel = m_pParent->GetLevel() + 1;
 	}
 
 	virtual ~CListEntry()
 	{
-
 	}
 
 	int GetLevel()
@@ -66,7 +64,7 @@ public:
 		return m_eType;
 	}
 
-	int	GetEntryCount()
+	int GetEntryCount()
 	{
 		return m_iEntryCount;
 	}

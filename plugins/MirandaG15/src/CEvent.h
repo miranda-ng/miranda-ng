@@ -36,37 +36,22 @@ enum EventType
 #define MSG_READ 0
 #define MSG_UNREAD 1 
 
-class CEvent
+struct CEvent
 {
-public:
-	CEvent()
-	{
-		bTime = false;
-		dwFlags = NULL;
-		hContact = NULL;
-		bNotification = false;
-		bLog = true;
-		strDescription = L"";
-
-		iValue = NULL;
-		hValue = NULL;
-		strValue = L"";
-	}
-
 	enum EventType	eType;
-	DWORD dwFlags;
-	MCONTACT hContact;
-	tm	Time;
-	bool bTime;
+	DWORD dwFlags = 0;
+	MCONTACT hContact = 0;
+	struct tm Time = {};
+	bool bTime = false;
 
-	bool bNotification;
-	bool bLog;
+	bool bNotification = false;
+	bool bLog = true;
 
 	tstring strDescription;
 	tstring strSummary;
 
-	MEVENT hValue;
-	int iValue;
+	MEVENT hValue = 0;
+	int iValue = 0;
 	tstring strValue;
 };
 

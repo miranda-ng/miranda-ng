@@ -149,7 +149,7 @@ private:
 	list<SMessageJob*> m_MessageJobs;
 
 	// update timer handle
-	UINT m_uiTimer;
+	UINT m_uiTimer = 0;
 
 	// screens
 	CNotificationScreen m_NotificationScreen;
@@ -164,22 +164,22 @@ private:
 	CProtocolData* GetProtocolData(tstring strProtocol);
 
 	// hook handles
-	HANDLE m_hMIHookMessageWindowEvent;
-	HANDLE m_hMIHookContactIsTyping;
-	HANDLE m_hMIHookEventAdded;
-	HANDLE m_hMIHookStatusChanged;
-	HANDLE m_hMIHookProtoAck;
-	HANDLE m_hMIHookSettingChanged;
-	HANDLE m_hMIHookContactDeleted;
-	HANDLE m_hMIHookContactAdded;
-	HANDLE m_hMIHookChatEvent;
+	HANDLE m_hMIHookMessageWindowEvent = 0;
+	HANDLE m_hMIHookContactIsTyping = 0;
+	HANDLE m_hMIHookEventAdded = 0;
+	HANDLE m_hMIHookStatusChanged = 0;
+	HANDLE m_hMIHookProtoAck = 0;
+	HANDLE m_hMIHookSettingChanged = 0;
+	HANDLE m_hMIHookContactDeleted = 0;
+	HANDLE m_hMIHookContactAdded = 0;
+	HANDLE m_hMIHookChatEvent = 0;
 
 	vector<CIRCConnection*> m_vIRCConnections;
 
 	// last active screen
-	CScreen *m_pLastScreen;
+	CScreen *m_pLastScreen = nullptr;
 
-	bool m_bScreensaver;
+	bool m_bScreensaver = false;
 
 	HBITMAP m_ahStatusBitmaps[8];
 	HBITMAP m_ahEventBitmaps[4];

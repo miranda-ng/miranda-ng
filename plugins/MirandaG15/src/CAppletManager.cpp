@@ -23,10 +23,6 @@ CAppletManager *CAppletManager::GetInstance()
 //************************************************************************
 CAppletManager::CAppletManager()
 {
-	m_uiTimer = NULL;
-	m_pLastScreen = nullptr;
-
-
 }
 
 //************************************************************************
