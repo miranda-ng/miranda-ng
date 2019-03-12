@@ -316,7 +316,6 @@ class MIR_CORE_EXPORT CDbLink : public CDataLink
 {
 	char *m_szModule;
 	char *m_szSetting;
-	bool m_bSigned;
 
 	DWORD m_iDefault;
 	wchar_t *m_szDefault;
@@ -504,10 +503,8 @@ class MIR_CORE_EXPORT CCtrlBase
 {
 	friend class CDlgBase;
 
-	__forceinline CCtrlBase(const CCtrlBase&) {}
-	__forceinline CCtrlBase& operator=(const CCtrlBase&) { return *this; }
-
-	__forceinline CCtrlBase(HWND hwnd) : m_hwnd(hwnd) {}
+	__forceinline CCtrlBase(const CCtrlBase&) = delete;
+	__forceinline CCtrlBase& operator=(const CCtrlBase&) = delete;
 
 public:
 	CCtrlBase(CDlgBase *wnd, int idCtrl);

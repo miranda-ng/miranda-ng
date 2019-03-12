@@ -457,9 +457,7 @@ mir_wstrcmpi                  @280
 ?c_str@?$CMSimpleStringT@D@@QBEPBDXZ @539 NONAME
 ?c_str@?$CMSimpleStringT@_W@@QBEPB_WXZ @540 NONAME
 ?EndModal@CDlgBase@@QAEXH@Z @541 NONAME
-??0CCtrlBase@@AAE@ABV0@@Z @609 NONAME
 ??0CCtrlBase@@QAE@PAVCDlgBase@@H@Z @610 NONAME
-??4CCtrlBase@@AAEAAV0@ABV0@@Z @611 NONAME
 ??0CCtrlButton@@QAE@PAVCDlgBase@@H@Z @612 NONAME
 ??0CCtrlCheck@@QAE@PAVCDlgBase@@H@Z @614 NONAME
 ??0CCtrlClc@@QAE@PAVCDlgBase@@H@Z @616 NONAME
@@ -979,7 +977,6 @@ CallFunctionSync @1170
 ?Start@CTimer@@QAEXH@Z @1188 NONAME
 ?Stop@CTimer@@QAEXXZ @1189 NONAME
 ?AddTimer@CDlgBase@@IAEXPAVCTimer@@@Z @1190 NONAME
-??0CCtrlBase@@AAE@PAUHWND__@@@Z @1191 NONAME
 ?GetItemRect@CCtrlListBox@@QAEHHPAUtagRECT@@@Z @1193 NONAME
 ?SetItemHeight@CCtrlListBox@@QAEXHH@Z @1194 NONAME
 ?UseSystemColors@CCtrlBase@@QAEXXZ @1195 NONAME
