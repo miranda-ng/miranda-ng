@@ -31,7 +31,7 @@ CCtrlButton::CCtrlButton(CDlgBase* wnd, int idCtrl)
 
 BOOL CCtrlButton::OnCommand(HWND, WORD, WORD idCode)
 {
-	if (idCode == BN_CLICKED || idCode == STN_CLICKED)
+	if (idCode == BN_CLICKED)
 		OnClick(this);
 	return FALSE;
 }
