@@ -104,7 +104,7 @@ struct CMDBTraits<8>
 	}
 };
 
-class CMOptionBase
+class CMOptionBase : public MNonCopyable
 {
 public:
 	__forceinline const char* GetDBModuleName() const { return m_szModuleName; }
@@ -121,10 +121,6 @@ protected:
 
 	char *m_szModuleName;
 	char *m_szSetting;
-
-private:
-	CMOptionBase(const CMOptionBase &) {}
-	void operator= (const CMOptionBase &) {}
 };
 
 template<class T>
@@ -159,9 +155,6 @@ public:
 
 private:
 	Type m_default;
-
-	CMOption(const CMOption &) : CMOptionBase(NULL, NULL, DBVT_DELETED) {}
-	void operator= (const CMOption &) {}
 };
 
 #ifdef M_SYSTEM_CPP_H__
@@ -202,9 +195,6 @@ public:
 private:
 	const Type *m_default;
 	mir_ptr<Type> m_value;
-
-	CMOption(const CMOption &) : CMOptionBase((char*)nullptr, nullptr) {}
-	void operator= (const CMOption &) {}
 };
 
 template<>
@@ -243,9 +233,6 @@ public:
 private:
 	const Type *m_default;
 	mir_ptr<Type> m_value;
-
-	CMOption(const CMOption &) : CMOptionBase((char*)nullptr, nullptr) {}
-	void operator= (const CMOption &) {}
 };
 
 #endif
@@ -572,10 +559,10 @@ public:
 	virtual void OnReset();
 
 protected:
-	HWND m_hwnd;  // must be the first data item
+	HWND m_hwnd = nullptr;  // must be the first data item
 	int m_idCtrl;
 	CDlgBase* m_parentWnd;
-	bool m_bChanged, m_bSilent, m_bUseSystemColors;
+	bool m_bChanged = false, m_bSilent = false, m_bUseSystemColors = false;
 
 public:
 	CCallback<CCtrlBase> OnChange;

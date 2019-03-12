@@ -33,13 +33,9 @@ static LIST<CCtrlBase> arControls(10, CompareControls);
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlBase
 
-CCtrlBase::CCtrlBase(CDlgBase *wnd, int idCtrl)
-	: m_parentWnd(wnd),
-	m_idCtrl(idCtrl),
-	m_hwnd(nullptr),
-	m_bChanged(false),
-	m_bSilent(false),
-	m_bUseSystemColors(false)
+CCtrlBase::CCtrlBase(CDlgBase *wnd, int idCtrl) :
+	m_parentWnd(wnd),
+	m_idCtrl(idCtrl)
 {
 	if (wnd)
 		wnd->AddControl(this);
