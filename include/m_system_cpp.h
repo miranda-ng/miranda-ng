@@ -37,6 +37,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #if defined(__cplusplus)
 
 ///////////////////////////////////////////////////////////////////////////////
+// general lists' templates
+
+struct MNonCopyable
+{
+	MNonCopyable() {}
+
+	MNonCopyable(const MNonCopyable&) = delete;
+	MNonCopyable& operator=(const MNonCopyable&) = delete;
+};
+
+///////////////////////////////////////////////////////////////////////////////
 // mir_ptr - automatic pointer for buffers, allocated using mir_alloc/mir_calloc
 
 template<class T> class mir_ptr
@@ -70,20 +81,35 @@ public:
 	__inline mir_cs() { ::InitializeCriticalSection(&m_cs); }
 	__inline ~mir_cs() { ::DeleteCriticalSection(&m_cs); }
 
+	__inline void Lock() { ::EnterCriticalSection(&m_cs); }
+	__inline void Unlock() { ::LeaveCriticalSection(&m_cs); }
+
 	__inline operator CRITICAL_SECTION&() { return m_cs; }
 };
 
 ///////////////////////////////////////////////////////////////////////////////
 // mir_cslock - simple locker for the critical sections
 
-class mir_cslock
+class mir_cslock : public MNonCopyable
 {
-	CRITICAL_SECTION &cs;
-	__inline mir_cslock& operator=(const mir_cslock&) { return *this; }
+	mir_cs &cs;
 
 public:
-	__inline mir_cslock(CRITICAL_SECTION &_cs) : cs(_cs) { ::EnterCriticalSection(&cs); }
-	__inline ~mir_cslock() { ::LeaveCriticalSection(&cs); }
+	__inline mir_cslock(mir_cs &_cs) : cs(_cs) { cs.Lock(); }
+	__inline ~mir_cslock() { cs.Unlock(); }
+};
+
+class mir_cslockfull : public MNonCopyable
+{
+	mir_cs &cs;
+	bool bIsLocked = false;
+
+public:
+	__inline void lock() { bIsLocked = true; cs.Lock(); }
+	__inline void unlock() { bIsLocked = false; cs.Unlock(); }
+
+	__inline mir_cslockfull(mir_cs &_cs) : cs(_cs) { lock(); }
+	__inline ~mir_cslockfull() { if (bIsLocked) unlock(); }
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -114,23 +140,6 @@ public:
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// mir_cslockfull - controllable locker for the critical sections
-
-class mir_cslockfull
-{
-	CRITICAL_SECTION &cs;
-	bool bIsLocked;
-	__inline mir_cslockfull& operator= (const mir_cslockfull&) { return *this; }
-
-public:
-	__inline void lock() { bIsLocked = true; EnterCriticalSection(&cs); }
-	__inline void unlock() { bIsLocked = false; LeaveCriticalSection(&cs); }
-
-	__inline mir_cslockfull(CRITICAL_SECTION &_cs) : cs(_cs) { lock(); }
-	__inline ~mir_cslockfull() { if (bIsLocked) unlock(); }
-};
-
-///////////////////////////////////////////////////////////////////////////////
 // basic class for classes that should be cleared inside new()
 
 class MZeroedObject
@@ -143,17 +152,6 @@ public:
 	__inline void operator delete(void *p)
 	{	free(p);
 	}
-};
-
-///////////////////////////////////////////////////////////////////////////////
-// general lists' templates
-
-struct MNonCopyable
-{
-	MNonCopyable() {}
-
-	MNonCopyable(const MNonCopyable&) = delete;
-	MNonCopyable& operator=(const MNonCopyable&) = delete;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
