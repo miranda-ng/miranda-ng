@@ -163,14 +163,9 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 			RetrieveUserHistory(hContact, lastMsgId);
 	}
 	else {
-		// if the previous message is one that we already have, just parse the tail
-		__int64 srvOlderId = _wtoi64(ev["tail"]["olderMsgId"].as_mstring());
-		if (srvOlderId == lastMsgId) {
-			for (auto &it : ev["tail"]["messages"])
-				ParseMessage(hContact, lastMsgId, it, false);
-			setId(hContact, DB_KEY_LASTMSGID, lastMsgId);
-		}
-		else RetrieveUserHistory(hContact, lastMsgId);
+		for (auto &it : ev["tail"]["messages"])
+			ParseMessage(hContact, lastMsgId, it, false);
+		setId(hContact, DB_KEY_LASTMSGID, lastMsgId);
 	}
 
 	// check remote read
