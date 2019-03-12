@@ -21,7 +21,7 @@ LRESULT CALLBACK BadConnectPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 			STARTUPINFOW si;
 			memset(&si, 0, sizeof(si));
 			si.cb = sizeof(si);
-			HACCOUNT ActualAccount = (HACCOUNT)PUGetPluginData(hWnd);
+			CAccount *ActualAccount = (CAccount *)PUGetPluginData(hWnd);
 #ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile, "PopupProc:LEFTCLICK:ActualAccountSO-read wait\n");
 #endif
@@ -79,7 +79,7 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg, UINT msg, WPARAM wParam, LP
 	case WM_INITDIALOG:
 		{
 			BOOL ShowPopup, ShowMsg, ShowIco;
-			HACCOUNT ActualAccount;
+			CAccount *ActualAccount;
 			DWORD  ErrorCode;
 			char* TitleStrA;
 			char *Message1A = nullptr;
@@ -206,7 +206,7 @@ void __cdecl BadConnection(void *Param)
 {
 	MSG msg;
 	HWND hBadConnect;
-	HACCOUNT ActualAccount;
+	CAccount *ActualAccount;
 
 	struct BadConnectionParam MyParam = *(struct BadConnectionParam *)Param;
 	ActualAccount = MyParam.account;

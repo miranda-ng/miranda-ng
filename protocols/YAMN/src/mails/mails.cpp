@@ -50,12 +50,12 @@ void WINAPI AppendQueueFcn(HYAMNMAIL first,HYAMNMAIL second);
 //So function works like:
 //1. delete (or move to RemovedOld queue if RemovedOld is not NULL) all mails from OldQueue not found in NewQueue
 //2. delete (or move to RemovedNew queue if RemovedNew is not NULL) all mails from NewQueue found in OldQueue
-void WINAPI SynchroMessagesFcn(HACCOUNT Account,HYAMNMAIL *OldQueue,HYAMNMAIL *RemovedOld,HYAMNMAIL *NewQueue,HYAMNMAIL *RemovedNew);
+void WINAPI SynchroMessagesFcn(CAccount *Account,HYAMNMAIL *OldQueue,HYAMNMAIL *RemovedOld,HYAMNMAIL *NewQueue,HYAMNMAIL *RemovedNew);
 
 //Deletes messages from mail From to the end
 // Account- account who owns mails
 // From- first mail in queue, which is going to delete
-void WINAPI DeleteMessagesToEndFcn(HACCOUNT Account,HYAMNMAIL From);
+void WINAPI DeleteMessagesToEndFcn(CAccount *Account,HYAMNMAIL From);
 
 //Removes message from queue, does not delete from memory
 // From- queue pointer
@@ -118,7 +118,7 @@ struct CExportedServices MailExportedSvc[]=
 
 INT_PTR CreateAccountMailSvc(WPARAM wParam,LPARAM lParam)
 {
-	HACCOUNT Account=(HACCOUNT)wParam;
+	CAccount *Account=(CAccount *)wParam;
 	DWORD MailVersion=(DWORD)lParam;
 	HYAMNMAIL NewMail;
 
@@ -219,7 +219,7 @@ INT_PTR SaveMailDataSvc(WPARAM, LPARAM lParam)
 	return (INT_PTR)0;
 }
 
-void WINAPI SynchroMessagesFcn(HACCOUNT Account,HYAMNMAIL *OldQueue,HYAMNMAIL *RemovedOld,HYAMNMAIL *NewQueue,HYAMNMAIL *RemovedNew)
+void WINAPI SynchroMessagesFcn(CAccount *Account,HYAMNMAIL *OldQueue,HYAMNMAIL *RemovedOld,HYAMNMAIL *NewQueue,HYAMNMAIL *RemovedNew)
 //deletes messages from new queue, if they are old
 //it also deletes messages from old queue, if they are not in mailbox anymore
 //"YAMN_MSG_DELETED" messages in old queue remain in old queue (are never removed, although they are not in new queue)
@@ -311,7 +311,7 @@ void WINAPI SynchroMessagesFcn(HACCOUNT Account,HYAMNMAIL *OldQueue,HYAMNMAIL *R
 	}
 }
 
-void WINAPI DeleteMessagesToEndFcn(HACCOUNT Account,HYAMNMAIL From)
+void WINAPI DeleteMessagesToEndFcn(CAccount *Account,HYAMNMAIL From)
 {
 	HYAMNMAIL Temp;
 	while(From != nullptr)

@@ -158,7 +158,7 @@ int WINAPI SetFilterPluginFcnImportFcn(HYAMNFILTERPLUGIN Plugin,DWORD Importance
 
 INT_PTR FilterMailSvc(WPARAM wParam,LPARAM lParam)
 {
-	HACCOUNT Account=(HACCOUNT)wParam;
+	CAccount *Account=(CAccount *)wParam;
 	HYAMNMAIL Mail=(HYAMNMAIL)lParam;
 	PYAMN_FILTERPLUGINQUEUE ActualPlugin;
 

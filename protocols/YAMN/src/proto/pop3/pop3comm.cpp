@@ -20,13 +20,13 @@ HANDLE hNetLib = nullptr;
 PSCOUNTER CPOP3Account::AccountWriterSO = nullptr;
 
 //Creates new CPOP3Account structure
-HACCOUNT WINAPI CreatePOP3Account(HYAMNPROTOPLUGIN Plugin, DWORD CAccountVersion);
+CAccount *WINAPI CreatePOP3Account(HYAMNPROTOPLUGIN Plugin, DWORD CAccountVersion);
 
 //Deletes CPOP3Account structure
-void WINAPI DeletePOP3Account(HACCOUNT Which);
+void WINAPI DeletePOP3Account(CAccount *Which);
 
 //Sets stop flag to account
-void WINAPI StopPOP3Account(HACCOUNT Which);
+void WINAPI StopPOP3Account(CAccount *Which);
 
 //Function registers standard functions for YAMN
 int RegisterPOP3Plugin(WPARAM, LPARAM);
@@ -38,13 +38,13 @@ DWORD WINAPI UnLoadPOP3(void *);
 DWORD WINAPI WritePOP3Accounts();
 
 //Function stores plugin's data for account to file
-DWORD WINAPI WritePOP3Options(HANDLE, HACCOUNT);
+DWORD WINAPI WritePOP3Options(HANDLE, CAccount *);
 
 //Function reads plugin's data for account from file
-DWORD WINAPI ReadPOP3Options(HACCOUNT, char **, char *);
+DWORD WINAPI ReadPOP3Options(CAccount *, char **, char *);
 
 //Creates new mail for an account
-HYAMNMAIL WINAPI CreatePOP3Mail(HACCOUNT Account, DWORD CMimeMailVersion);
+HYAMNMAIL WINAPI CreatePOP3Mail(CAccount *Account, DWORD CMimeMailVersion);
 
 //Function does all needed work when connection failed or any error occured
 //Creates structure containing error code, closes internet session, runs "bad connect" function
@@ -145,7 +145,7 @@ CPOP3Account::CPOP3Account()
 	InternetQueries = new SCOUNTER;
 	AbilityFlags = YAMN_ACC_BROWSE | YAMN_ACC_POPUP;
 
-	SetAccountStatus((HACCOUNT)this, TranslateT("Disconnected"));
+	SetAccountStatus((CAccount *)this, TranslateT("Disconnected"));
 }
 
 CPOP3Account::~CPOP3Account()
@@ -155,7 +155,7 @@ CPOP3Account::~CPOP3Account()
 		delete InternetQueries;
 }
 
-HACCOUNT WINAPI CreatePOP3Account(HYAMNPROTOPLUGIN, DWORD)
+CAccount *WINAPI CreatePOP3Account(HYAMNPROTOPLUGIN, DWORD)
 {
 	//First, we should check whether CAccountVersion matches.
 	//But this is internal plugin, so YAMN's CAccount structure and our CAccount structure are
@@ -164,15 +164,15 @@ HACCOUNT WINAPI CreatePOP3Account(HYAMNPROTOPLUGIN, DWORD)
 	//	if (CAccountVersion != YAMN_ACCOUNTVERSION) return NULL;
 
 	//Now it is needed to construct our POP3 account and return its handle
-	return (HACCOUNT)new struct CPOP3Account();
+	return (CAccount *)new struct CPOP3Account();
 }
 
-void WINAPI DeletePOP3Account(HACCOUNT Which)
+void WINAPI DeletePOP3Account(CAccount *Which)
 {
 	delete (HPOP3ACCOUNT)Which;
 }
 
-void WINAPI StopPOP3Account(HACCOUNT Which)
+void WINAPI StopPOP3Account(CAccount *Which)
 {
 	((HPOP3ACCOUNT)Which)->Client.Stopped = TRUE;
 	if (((HPOP3ACCOUNT)Which)->Client.NetClient != nullptr)			//we should inform also network client. Usefull only when network client implements this feature
@@ -244,7 +244,7 @@ int RegisterPOP3Plugin(WPARAM, LPARAM)
 
 	//Then, we read all mails for accounts.
 	//You must first register account, before using this function as YAMN must use CreatePOP3Account function to add new accounts
-	//But if CreatePOP3Account is not implemented (equals to NULL), YAMN creates account as YAMN's standard HACCOUNT
+	//But if CreatePOP3Account is not implemented (equals to NULL), YAMN creates account as YAMN's standard CAccount *
 	if (FileName) CallService(MS_YAMN_DELETEFILENAME, (WPARAM)FileName, 0);	//shoud not happen (only for secure)
 	FileName = (wchar_t *)CallService(MS_YAMN_GETFILENAME, (WPARAM)L"pop3", 0);
 
@@ -277,7 +277,7 @@ int RegisterPOP3Plugin(WPARAM, LPARAM)
 		break;
 	}
 
-	HACCOUNT Finder;
+	CAccount *Finder;
 	DBVARIANT dbv;
 
 	for (Finder = POP3Plugin->FirstAccount; Finder != nullptr; Finder = Finder->Next) {
@@ -348,7 +348,7 @@ DWORD WINAPI WritePOP3Accounts()
 	return ReturnValue;
 }
 
-DWORD WINAPI WritePOP3Options(HANDLE File, HACCOUNT Which)
+DWORD WINAPI WritePOP3Options(HANDLE File, CAccount *Which)
 {
 	DWORD WrittenBytes;
 	DWORD Ver = POP3_FILEVERSION;
@@ -359,7 +359,7 @@ DWORD WINAPI WritePOP3Options(HANDLE File, HACCOUNT Which)
 	return 0;
 }
 
-DWORD WINAPI ReadPOP3Options(HACCOUNT Which, char **Parser, char *End)
+DWORD WINAPI ReadPOP3Options(CAccount *Which, char **Parser, char *End)
 {
 	DWORD Ver;
 #ifdef DEBUG_FILEREAD
@@ -383,7 +383,7 @@ DWORD WINAPI ReadPOP3Options(HACCOUNT Which, char **Parser, char *End)
 	return 0;
 }
 
-HYAMNMAIL WINAPI CreatePOP3Mail(HACCOUNT Account, DWORD)
+HYAMNMAIL WINAPI CreatePOP3Mail(CAccount *Account, DWORD)
 {
 	HYAMNMAIL NewMail;
 	//First, we should check whether MAILDATA matches.
@@ -396,7 +396,7 @@ HYAMNMAIL WINAPI CreatePOP3Mail(HACCOUNT Account, DWORD)
 	if (nullptr == (NewMail = new YAMNMAIL))
 		return nullptr;
 
-	if (nullptr == (NewMail->MailData = new MAILDATA))
+	if (nullptr == (NewMail->MailData = new CMailData()))
 	{
 		delete NewMail;
 		return nullptr;
@@ -405,7 +405,7 @@ HYAMNMAIL WINAPI CreatePOP3Mail(HACCOUNT Account, DWORD)
 	return (HYAMNMAIL)NewMail;
 }
 
-static void SetContactStatus(HACCOUNT account, int status)
+static void SetContactStatus(CAccount *account, int status)
 {
 	if ((account->hContact) && (account->NewMailN.Flags & YAMN_ACC_CONT))
 		g_plugin.setWord(account->hContact, "Status", status);

@@ -71,7 +71,7 @@ static INT_PTR ContactApplication(WPARAM wParam, LPARAM)
 	if (g_plugin.getString(wParam, "Id", &dbv))
 		return 0;
 
-	HACCOUNT ActualAccount = (HACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
+	CAccount *ActualAccount = (CAccount *)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
 	if (ActualAccount != nullptr) {
 		STARTUPINFOW si = { 0 };
 		si.cb = sizeof(si);
@@ -121,7 +121,7 @@ DWORD WINAPI SWMRGWaitToRead(PSWMRG pSWMRG, DWORD dwTimeout);
 static INT_PTR AccountMailCheck(WPARAM wParam, LPARAM lParam)
 {
 	//This service will check/sincronize the account pointed by wParam
-	HACCOUNT ActualAccount = (HACCOUNT)wParam;
+	CAccount *ActualAccount = (CAccount *)wParam;
 	// copy/paste make mistakes
 	if (ActualAccount != nullptr) {
 		//we use event to signal, that running thread has all needed stack parameters copied
@@ -173,7 +173,7 @@ static INT_PTR ContactMailCheck(WPARAM hContact, LPARAM)
 	if (g_plugin.getString(hContact, "Id", &dbv))
 		return 0;
 
-	HACCOUNT ActualAccount = (HACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
+	CAccount *ActualAccount = (CAccount *)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
 	if (ActualAccount != nullptr) {
 		//we use event to signal, that running thread has all needed stack parameters copied
 		HANDLE ThreadRunningEV;
@@ -225,7 +225,7 @@ static INT_PTR ContactMailCheck(WPARAM hContact, LPARAM)
 	if (g_plugin.getString(wParam, "Id", &dbv))
 		return;
 
-	HACCOUNT ActualAccount = (HACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
+	CAccount *ActualAccount = (CAccount *)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
 	if (ActualAccount != nullptr) {
 #ifdef DEBUG_SYNCHRO
 		DebugLog(SynchroFile, "Service_ContactDoubleclicked:ActualAccountSO-read wait\n");
@@ -430,7 +430,7 @@ void CreateServiceFunctions(void)
 //Function to put all enabled contact to the Online status
 void RefreshContact(void)
 {
-	HACCOUNT Finder;
+	CAccount *Finder;
 	for (Finder = POP3Plugin->FirstAccount; Finder != nullptr; Finder = Finder->Next) {
 		if (Finder->hContact != NULL) {
 			if ((Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT))

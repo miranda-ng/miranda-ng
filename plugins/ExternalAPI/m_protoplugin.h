@@ -21,7 +21,7 @@ struct CheckParam
 	//in any way. YAMN is waiting for this event. If you do not signal it, YAMN is blocked.
 	HANDLE ThreadRunningEV;
 	//ActualAccount- the only parameter used in Check function and should contain all needed information I think :)
-	HACCOUNT AccountParam;
+	CAccount *AccountParam;
 
 	//I thought it, but this is needed, too
 #define YAMN_NORMALCHECK	0
@@ -46,7 +46,7 @@ struct DeleteParam
 	//in any way. YAMN is waiting for this event. If you do not signal it, YAMN is blocked.
 	HANDLE ThreadRunningEV;
 	//ActualAccount- which account to delete
-	HACCOUNT AccountParam;
+	CAccount *AccountParam;
 	//YAMN writes here some informations that are needed to pass to mail browser function (or bad connection or no new mail)
 	void *BrowserParam;
 	//Calling thread can write here its own parameter. Usefull when protocol calls its own delete function. YAMN always sets this parameter to NULL
@@ -61,11 +61,11 @@ struct DeleteParam
 typedef DWORD(WINAPI *YAMN_STANDARDFCN)(LPVOID);
 #endif
 typedef struct CYAMNVariables *(WINAPI *YAMN_GETVARIABLESFCN)(DWORD);
-typedef HACCOUNT(WINAPI *YAMN_NEWACCOUNTFCN)(struct CYAMNProtoPlugin *, DWORD);
-typedef void (WINAPI *YAMN_STOPACCOUNTFCN)(HACCOUNT);
-typedef void (WINAPI *YAMN_DELETEACCOUNTFCN)(HACCOUNT);
-typedef DWORD(WINAPI *YAMN_WRITEPLUGINOPTS)(HANDLE File, HACCOUNT);
-typedef DWORD(WINAPI *YAMN_READPLUGINOPTS)(HACCOUNT, char **, char *);
+typedef CAccount *(WINAPI *YAMN_NEWACCOUNTFCN)(struct CYAMNProtoPlugin *, DWORD);
+typedef void (WINAPI *YAMN_STOPACCOUNTFCN)(CAccount *);
+typedef void (WINAPI *YAMN_DELETEACCOUNTFCN)(CAccount *);
+typedef DWORD(WINAPI *YAMN_WRITEPLUGINOPTS)(HANDLE File, CAccount *);
+typedef DWORD(WINAPI *YAMN_READPLUGINOPTS)(CAccount *, char **, char *);
 typedef DWORD(WINAPI *YAMN_CHECKFCN)(struct CheckParam *);
 typedef void(__cdecl *YAMN_DELETEFCN)(void *);
 typedef TCHAR* (WINAPI *YAMN_GETERRORSTRINGWFCN)(DWORD);
@@ -145,7 +145,7 @@ typedef struct CAccountImportFcn
 	YAMN_STANDARDFCN		UnLoadFcn;
 } YAMN_PROTOIMPORTFCN, *PYAMN_PROTOIMPORTFCN;
 
-typedef HYAMNMAIL(WINAPI *YAMN_NEWMAILFCN)(HACCOUNT, DWORD);
+typedef HYAMNMAIL(WINAPI *YAMN_NEWMAILFCN)(CAccount *, DWORD);
 typedef void (WINAPI *YAMN_DELETEMAILFCN)(HYAMNMAIL);
 typedef DWORD(WINAPI *YAMN_WRITEMAILOPTS)(HANDLE File, HYAMNMAIL);
 typedef DWORD(WINAPI *YAMN_READMAILOPTS)(HYAMNMAIL, char **, char *);
@@ -210,7 +210,7 @@ typedef struct CProtoPluginRegistration
 typedef struct CYAMNProtoPlugin
 {
 	//Pointer to first protocol plugin account
-	HACCOUNT FirstAccount;
+	CAccount * FirstAccount;
 
 	//We prevent browsing through accounts (chained list) from deleting or adding any account
 	//If we want to delete or add, we must have "write" access to AccountBrowserSO
@@ -256,13 +256,13 @@ typedef struct CProtoPluginQueue
 //Your plugin should call this to create new account for your plugin.
 //WPARAM- (HYAMNPLUGIN) Plugin handle
 //LPARAM- CAccount version (use YAMN_ACCOUNTVERSION definition)
-//returns pointer to (HACCOUNT) or pointer to your structure returned from imported NewAccountFcnPtr, if implemented
+//returns pointer to (CAccount *) or pointer to your structure returned from imported NewAccountFcnPtr, if implemented
 #define	MS_YAMN_CREATEPLUGINACCOUNT	"YAMN/Service/CreateAccount"
 
 //DeletePluginAccount Service
 //Deletes plugin's account from memory. You probably won't use this service, because it deletes only account
 //without any synchronization. Use MS_YAMN_DELETEACCOUNT instead.
-//WPARAM- (HACCOUNT) to delete
+//WPARAM- (CAccount *) to delete
 //LPARAM- any value
 //returns zero if failed, otherwise returns nonzero
 #define	MS_YAMN_DELETEPLUGINACCOUNT	"YAMN/Service/DeletePluginAccount"
@@ -271,7 +271,7 @@ typedef struct CProtoPluginQueue
 //Searches accounts queue for first account that belongs to plugin
 //WPARAM- (HYAMNPLUGIN) Plugin handle
 //LPARAM- (TCHAR *)string, name of account to find
-//returns found HACCOUNT handle or NULL if not found
+//returns found CAccount * handle or NULL if not found
 #define	MS_YAMN_FINDACCOUNTBYNAME	"YAMN/Service/FindAccountByName"
 
 //GetNextFreeAccount Service
@@ -284,14 +284,14 @@ typedef struct CProtoPluginQueue
 //
 //WPARAM- (HYAMNPLUGIN) Plugin handle
 //LPARAM- CAccount version (use YAMN_ACCOUNTVERSION definition)
-//returns new HACCOUNT handle or NULL if not found
+//returns new CAccount * handle or NULL if not found
 #define	MS_YAMN_GETNEXTFREEACCOUNT	"YAMN/Service/GetNextFreeAccount"
 
 //DeleteAccount Service
 //Deletes account from plugin account queue. It also deletes it, but in background (when needed).
 //This deleting is full synchronized and safe. It is recommended for plugins to use this service.
 //WPARAM- (HYAMNPLUGIN) Plugin handle
-//LPARAM- (HACCOUNT) Account to delete
+//LPARAM- (CAccount *) Account to delete
 #define MS_YAMN_DELETEACCOUNT	   	"YAMN/Service/DeleteAccount"
 
 //ReadAccounts Service

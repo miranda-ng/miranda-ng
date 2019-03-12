@@ -250,12 +250,11 @@ int CMPlugin::Load()
 	// Enumerate all the code pages available for the System Locale
 	EnumSystemCodePages(EnumSystemCodePagesProc, CP_INSTALLED);
 	CodePageNamesSupp = new _tcptable[CPLENSUPP];
-	for (int i = 0, k = 0; i < CPLENALL; i++) {
+	for (int i = 0, k = 0; i < CPLENALL; i++)
 		if (CodePageNamesAll[i].isValid) {
 			CodePageNamesSupp[k] = CodePageNamesAll[i];
 			k++;
 		}
-	}
 
 	if (nullptr == (NoWriterEV = CreateEvent(nullptr, TRUE, TRUE, nullptr)))
 		return 1;

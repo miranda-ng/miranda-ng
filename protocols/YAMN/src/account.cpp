@@ -48,7 +48,7 @@ INT_PTR CreatePluginAccountSvc(WPARAM wParam, LPARAM lParam)
 
 	if (Plugin != nullptr)
 	{
-		HACCOUNT NewAccount;
+		CAccount *NewAccount;
 		if (Plugin->Fcn->NewAccountFcnPtr != nullptr)
 			//Let plugin create its own structure, which can be derived from CAccount structure
 			NewAccount = Plugin->Fcn->NewAccountFcnPtr(Plugin, YAMN_ACCOUNTVERSION);
@@ -71,7 +71,7 @@ INT_PTR CreatePluginAccountSvc(WPARAM wParam, LPARAM lParam)
 
 INT_PTR DeletePluginAccountSvc(WPARAM wParam, LPARAM)
 {
-	HACCOUNT OldAccount = (HACCOUNT)wParam;
+	CAccount *OldAccount = (CAccount *)wParam;
 
 	if (OldAccount->Plugin->Fcn != nullptr)
 	{
@@ -87,15 +87,15 @@ INT_PTR DeletePluginAccountSvc(WPARAM wParam, LPARAM)
 #ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile,"DeletePluginAccountSvc:delete OldAccount\n");
 #endif
-			delete OldAccount;	//consider account as standard YAMN HACCOUNT and use its own destructor
+			delete OldAccount;	//consider account as standard YAMN CAccount *and use its own destructor
 		}
 		return 1;
 	}
-	delete OldAccount;			//consider account as standard YAMN HACCOUNT, not initialized before and use its own destructor
+	delete OldAccount;			//consider account as standard YAMN CAccount *, not initialized before and use its own destructor
 	return 1;
 }
 
-int InitAccount(HACCOUNT Which)
+int InitAccount(CAccount *Which)
 {
 	//initialize synchronizing objects
 	Which->AccountAccessSO = new SWMRG;
@@ -124,7 +124,7 @@ int InitAccount(HACCOUNT Which)
 	return 1;
 }
 
-void DeInitAccount(HACCOUNT Which)
+void DeInitAccount(CAccount *Which)
 {
 	//delete YAMN allocated fields
 	if (Which->Name != nullptr)
@@ -147,7 +147,7 @@ void DeInitAccount(HACCOUNT Which)
 	DeleteMessagesToEndFcn(Which, (HYAMNMAIL)Which->Mails);
 }
 
-void StopSignalFcn(HACCOUNT Which)
+void StopSignalFcn(CAccount *Which)
 //set event that we are going to delete account
 {
 #ifdef DEBUG_SYNCHRO
@@ -379,7 +379,7 @@ static DWORD ReadNotificationFromMemory(char **Parser, char *End, YAMN_NOTIFICAT
 	return 0;
 }
 
-DWORD ReadMessagesFromMemory(HACCOUNT Which, char **Parser, char *End)
+DWORD ReadMessagesFromMemory(CAccount *Which, char **Parser, char *End)
 {
 	char *Finder;
 	DWORD Size, Stat;
@@ -481,7 +481,7 @@ DWORD ReadMessagesFromMemory(HACCOUNT Which, char **Parser, char *End)
 	return 0;
 }
 
-DWORD ReadAccountFromMemory(HACCOUNT Which, char **Parser, char *End)
+DWORD ReadAccountFromMemory(CAccount *Which, char **Parser, char *End)
 {
 	DWORD Stat;
 #ifdef DEBUG_FILEREAD
@@ -638,7 +638,7 @@ static INT_PTR PerformAccountReading(HYAMNPROTOPLUGIN Plugin, char *MemFile, cha
 	char *Parser;
 	DWORD Ver, Stat;
 
-	HACCOUNT ActualAccount, FirstAllocatedAccount;
+	CAccount *ActualAccount, *FirstAllocatedAccount;
 
 	Ver = *(DWORD *)MemFile;
 	if (Ver > YAMN_ACCOUNTFILEVERSION)
@@ -655,7 +655,7 @@ static INT_PTR PerformAccountReading(HYAMNPROTOPLUGIN Plugin, char *MemFile, cha
 #ifdef DEBUG_SYNCHRO
 	DebugLog(SynchroFile,"AddAccountsFromFile:AccountBrowserSO-write enter\n");
 #endif
-	if (nullptr == (ActualAccount = (HACCOUNT)CallService(MS_YAMN_GETNEXTFREEACCOUNT, (WPARAM)Plugin, (LPARAM)YAMN_ACCOUNTVERSION)))
+	if (nullptr == (ActualAccount = (CAccount *)CallService(MS_YAMN_GETNEXTFREEACCOUNT, (WPARAM)Plugin, (LPARAM)YAMN_ACCOUNTVERSION)))
 	{
 #ifdef DEBUG_SYNCHRO
 		DebugLog(SynchroFile,"AddAccountsFromFile:AccountBrowserSO-write done\n");
@@ -668,7 +668,7 @@ static INT_PTR PerformAccountReading(HYAMNPROTOPLUGIN Plugin, char *MemFile, cha
 
 	do
 	{
-		HACCOUNT Temp;
+		CAccount *Temp;
 
 #ifdef DEBUG_SYNCHRO
 		DebugLog(SynchroFile,"AddAccountsFromFile:ActualAccountSO-write wait\n");
@@ -704,7 +704,7 @@ static INT_PTR PerformAccountReading(HYAMNPROTOPLUGIN Plugin, char *MemFile, cha
 #endif
 		WriteDoneFcn(ActualAccount->AccountAccessSO);
 
-		if ((Stat != EACC_ENDOFFILE) && (nullptr == (ActualAccount = (HACCOUNT)CallService(MS_YAMN_GETNEXTFREEACCOUNT, (WPARAM)Plugin, (LPARAM)YAMN_ACCOUNTVERSION))))
+		if ((Stat != EACC_ENDOFFILE) && (nullptr == (ActualAccount = (CAccount *)CallService(MS_YAMN_GETNEXTFREEACCOUNT, (WPARAM)Plugin, (LPARAM)YAMN_ACCOUNTVERSION))))
 		{
 			for (ActualAccount = FirstAllocatedAccount; ActualAccount != nullptr; ActualAccount = Temp)
 			{
@@ -778,7 +778,7 @@ DWORD WriteStringToFileW(HANDLE File, WCHAR *Source)
 	return 0;
 }
 
-DWORD WriteMessagesToFile(HANDLE File, HACCOUNT Which)
+DWORD WriteMessagesToFile(HANDLE File, CAccount *Which)
 {
 	DWORD WrittenBytes, Stat;
 	HYAMNMAIL ActualMail = (HYAMNMAIL)Which->Mails;
@@ -813,7 +813,7 @@ DWORD WriteMessagesToFile(HANDLE File, HACCOUNT Which)
 static INT_PTR PerformAccountWriting(HYAMNPROTOPLUGIN Plugin, HANDLE File)
 {
 	DWORD WrittenBytes, Stat;
-	HACCOUNT ActualAccount;
+	CAccount *ActualAccount;
 	DWORD Ver = YAMN_ACCOUNTFILEVERSION;
 	BOOL Writed = FALSE;
 	DWORD ReturnValue = 0, EnterCode;
@@ -987,7 +987,7 @@ INT_PTR FindAccountByNameSvc(WPARAM wParam, LPARAM lParam)
 {
 	HYAMNPROTOPLUGIN Plugin = (HYAMNPROTOPLUGIN)wParam;
 	char *SearchedAccount = (char *)lParam;
-	HACCOUNT Finder;
+	CAccount *Finder;
 
 #ifdef DEBUG_SYNCHRO
 	DebugLog(SynchroFile,"FindAccountByName:AccountBrowserSO-read wait\n");
@@ -1009,15 +1009,15 @@ INT_PTR FindAccountByNameSvc(WPARAM wParam, LPARAM lParam)
 INT_PTR GetNextFreeAccountSvc(WPARAM wParam, LPARAM lParam)
 {
 	HYAMNPROTOPLUGIN Plugin = (HYAMNPROTOPLUGIN)wParam;
-	HACCOUNT Finder;
+	CAccount *Finder;
 
 	if (Plugin->FirstAccount == nullptr)
 	{
-		Plugin->FirstAccount = (HACCOUNT)CallService(MS_YAMN_CREATEPLUGINACCOUNT, wParam, lParam);
+		Plugin->FirstAccount = (CAccount *)CallService(MS_YAMN_CREATEPLUGINACCOUNT, wParam, lParam);
 		return (INT_PTR)Plugin->FirstAccount;
 	}
 	for (Finder = Plugin->FirstAccount; Finder->Next != nullptr; Finder = Finder->Next);
-	Finder->Next = (HACCOUNT)CallService(MS_YAMN_CREATEPLUGINACCOUNT, wParam, lParam);
+	Finder->Next = (CAccount *)CallService(MS_YAMN_CREATEPLUGINACCOUNT, wParam, lParam);
 	return (INT_PTR)Finder->Next;
 }
 
@@ -1025,11 +1025,11 @@ INT_PTR GetNextFreeAccountSvc(WPARAM wParam, LPARAM lParam)
 int FindPluginAccount(WPARAM wParam,LPARAM lParam)
 {
 HYAMNPROTOPLUGIN Plugin=(HYAMNPROTOPLUGIN)wParam;
-HACCOUNT Finder=(HACCOUNT)lParam;
+CAccount *Finder=(CAccount *)lParam;
 
 if (Finder=NULL)	Finder=Plugin->FirstAccount;
 
-//	for (;Finder != NULL && Finder->PluginID != Plugin->PluginInfo->PluginID;Finder=(HACCOUNT)Finder->Next);
+//	for (;Finder != NULL && Finder->PluginID != Plugin->PluginInfo->PluginID;Finder=(CAccount *)Finder->Next);
 return (int)Finder;
 }
 */
@@ -1061,8 +1061,8 @@ INT_PTR DeleteAccountSvc(WPARAM wParam, LPARAM lParam)
 	//5. delete account from memory
 
 	HYAMNPROTOPLUGIN Plugin = (HYAMNPROTOPLUGIN)wParam;
-	HACCOUNT Which = (HACCOUNT)lParam;
-	HACCOUNT Finder;
+	CAccount *Which = (CAccount *)lParam;
+	CAccount *Finder;
 
 	//1. set stop signal 
 	StopSignalFcn(Which);
@@ -1121,14 +1121,14 @@ INT_PTR DeleteAccountSvc(WPARAM wParam, LPARAM lParam)
 
 void __cdecl DeleteAccountInBackground(void *Value)
 {
-	HACCOUNT Which = (HACCOUNT)Value;
+	CAccount *Which = (CAccount *)Value;
 	WaitForSingleObject(Which->UsingThreads->Event, INFINITE);
 	CallService(MS_YAMN_DELETEPLUGINACCOUNT, (WPARAM)Which, 0);
 }
 
 int StopAccounts(HYAMNPROTOPLUGIN Plugin)
 {
-	HACCOUNT Finder;
+	CAccount *Finder;
 
 	//1. wait to get write access
 #ifdef DEBUG_SYNCHRO
@@ -1159,7 +1159,7 @@ int StopAccounts(HYAMNPROTOPLUGIN Plugin)
 
 int WaitForAllAccounts(HYAMNPROTOPLUGIN Plugin, BOOL GetAccountBrowserAccess)
 {
-	HACCOUNT Finder;
+	CAccount *Finder;
 
 	if (GetAccountBrowserAccess)
 	{
@@ -1198,7 +1198,7 @@ int WaitForAllAccounts(HYAMNPROTOPLUGIN Plugin, BOOL GetAccountBrowserAccess)
 
 int DeleteAccounts(HYAMNPROTOPLUGIN Plugin)
 {
-	HACCOUNT Finder;
+	CAccount *Finder;
 
 	//1. wait to get write access
 #ifdef DEBUG_SYNCHRO
@@ -1213,7 +1213,7 @@ int DeleteAccounts(HYAMNPROTOPLUGIN Plugin)
 
 	for (Finder = Plugin->FirstAccount; Finder != nullptr;)
 	{
-		HACCOUNT Next = Finder->Next;
+		CAccount *Next = Finder->Next;
 		DeletePluginAccountSvc((WPARAM)Finder, 0);
 		Finder = Next;
 	}
@@ -1226,7 +1226,7 @@ int DeleteAccounts(HYAMNPROTOPLUGIN Plugin)
 	return 1;
 }
 
-void WINAPI GetStatusFcn(HACCOUNT Which, wchar_t *Value)
+void WINAPI GetStatusFcn(CAccount *Which, wchar_t *Value)
 {
 	if (Which == nullptr)
 		return;
@@ -1235,7 +1235,7 @@ void WINAPI GetStatusFcn(HACCOUNT Which, wchar_t *Value)
 	mir_wstrcpy(Value, Which->Status);
 }
 
-void WINAPI SetStatusFcn(HACCOUNT Which, wchar_t *Value)
+void WINAPI SetStatusFcn(CAccount *Which, wchar_t *Value)
 {
 	if (Which != nullptr) {
 		mir_cslock lck(csAccountStatusCS);

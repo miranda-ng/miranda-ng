@@ -79,9 +79,9 @@ extern struct YAMNExportedFcns *pYAMNFcn;
 // From account.cpp
 INT_PTR CreatePluginAccountSvc(WPARAM wParam, LPARAM lParam);
 INT_PTR DeletePluginAccountSvc(WPARAM wParam, LPARAM);
-int InitAccount(HACCOUNT Which);
-void DeInitAccount(HACCOUNT Which);
-void StopSignalFcn(HACCOUNT Which);
+int InitAccount(CAccount *Which);
+void DeInitAccount(CAccount *Which);
+void StopSignalFcn(CAccount *Which);
 void CodeDecodeString(char *Dest, BOOL Encrypt);
 DWORD FileToMemory(wchar_t *FileName, char **MemFile, char **End);
 
@@ -89,15 +89,15 @@ DWORD FileToMemory(wchar_t *FileName, char **MemFile, char **End);
 DWORD ReadStringFromMemory(char **Parser,char *End,char **StoreTo,char *DebugString);
 #endif
 DWORD ReadStringFromMemory(char **Parser, char *End, char **StoreTo);
-DWORD ReadMessagesFromMemory(HACCOUNT Which, char **Parser, char *End);
-DWORD ReadAccountFromMemory(HACCOUNT Which, char **Parser, wchar_t *End);
+DWORD ReadMessagesFromMemory(CAccount *Which, char **Parser, char *End);
+DWORD ReadAccountFromMemory(CAccount *Which, char **Parser, wchar_t *End);
 INT_PTR AddAccountsFromFileSvc(WPARAM wParam, LPARAM lParam);
 
 DWORD WriteStringToFile(HANDLE File, char *Source);
 DWORD WriteStringToFileW(HANDLE File, WCHAR *Source);
 
 
-DWORD WriteMessagesToFile(HANDLE File, HACCOUNT Which);
+DWORD WriteMessagesToFile(HANDLE File, CAccount *Which);
 DWORD WINAPI WritePOP3Accounts();
 INT_PTR WriteAccountsToFileSvc(WPARAM wParam, LPARAM lParam);
 INT_PTR FindAccountByNameSvc(WPARAM wParam, LPARAM lParam);
@@ -109,8 +109,8 @@ int StopAccounts(HYAMNPROTOPLUGIN Plugin);
 int WaitForAllAccounts(HYAMNPROTOPLUGIN Plugin, BOOL GetAccountBrowserAccess = FALSE);
 int DeleteAccounts(HYAMNPROTOPLUGIN Plugin);
 
-void WINAPI GetStatusFcn(HACCOUNT Which, wchar_t *Value);
-void WINAPI SetStatusFcn(HACCOUNT Which, wchar_t *Value);
+void WINAPI GetStatusFcn(CAccount *Which, wchar_t *Value);
+void WINAPI SetStatusFcn(CAccount *Which, wchar_t *Value);
 
 INT_PTR UnregisterProtoPlugins();
 INT_PTR RegisterProtocolPluginSvc(WPARAM, LPARAM);
@@ -182,7 +182,7 @@ HANDLE WINAPI g_GetIconHandle(int idx);
 HICON  WINAPI g_LoadIconEx(int idx, bool big = false);
 
 //From synchro.cpp
-void  WINAPI DeleteMessagesToEndFcn(HACCOUNT Account, HYAMNMAIL From);
+void  WINAPI DeleteMessagesToEndFcn(CAccount *Account, HYAMNMAIL From);
 DWORD WINAPI WaitToWriteFcn(PSWMRG SObject, PSCOUNTER SCounter = nullptr);
 void  WINAPI WriteDoneFcn(PSWMRG SObject, PSCOUNTER SCounter = nullptr);
 DWORD WINAPI WaitToReadFcn(PSWMRG SObject);
@@ -209,7 +209,7 @@ char *ExtractFromContentType(char *ContentType, char *value);
 WCHAR *ParseMultipartBody(char *src, char *bond);
 
 //From account.cpp
-void WINAPI GetStatusFcn(HACCOUNT Which, wchar_t *Value);
+void WINAPI GetStatusFcn(CAccount *Which, wchar_t *Value);
 
 extern HYAMNPROTOPLUGIN POP3Plugin;
 

@@ -62,7 +62,7 @@ struct CMailNumbers
 
 struct CMailWinUserInfo
 {
-	HACCOUNT Account;
+	CAccount *Account;
 	int TrayIconState;
 	BOOL UpdateMailsMessagesAccess;
 	BOOL Seen;
@@ -88,10 +88,10 @@ struct CSortList
 	int	iSubItem;
 };
 
-// Retrieves HACCOUNT, whose mails are displayed in ListMails
+// Retrieves CAccount *, whose mails are displayed in ListMails
 // hLM- handle of dialog window
 // returns handle of account
-inline HACCOUNT GetWindowAccount(HWND hDialog);
+inline CAccount *GetWindowAccount(HWND hDialog);
 
 // Looks to mail flags and increment mail counter (e.g. if mail is new, increments the new mail counter
 // msgq- mail, which increments the counters
@@ -111,7 +111,7 @@ enum
 // nflags- flags what to do when new mail arrives
 // nnflags- flags what to do when no new mail arrives
 // returns one of UPDATE_XXX value(not implemented yet)
-int UpdateMails(HWND hDlg, HACCOUNT ActualAccount, DWORD nflags, DWORD nnflags);
+int UpdateMails(HWND hDlg, CAccount *ActualAccount, DWORD nflags, DWORD nnflags);
 
 // When new mail occurs, shows window, plays sound, runs application...
 // hDlg- dialog handle. Dialog of mailbrowser is already created and actions are performed over this window
@@ -120,14 +120,14 @@ int UpdateMails(HWND hDlg, HACCOUNT ActualAccount, DWORD nflags, DWORD nnflags);
 // nflags- what to do or not to do (e.g. to show mailbrowser window or prohibit to show)
 // nflags- flags what to do when new mail arrives
 // nnflags- flags what to do when no new mail arrives
-void DoMailActions(HWND hDlg, HACCOUNT ActualAccount, struct CMailNumbers *MN, DWORD nflags, DWORD nnflags);
+void DoMailActions(HWND hDlg, CAccount *ActualAccount, struct CMailNumbers *MN, DWORD nflags, DWORD nnflags);
 
 // Looks for items in mailbrowser and if they were deleted, delete them from browser window
 // hListView- handle of listview window
 // ActualAccount- handle of account, whose mails are show
 // MailNumbers- pointer to structure, in which function stores numbers of mails with some property
 // returns one of UPDATE_XXX value (not implemented yet)
-int ChangeExistingMailStatus(HWND hListView, HACCOUNT ActualAccount);
+int ChangeExistingMailStatus(HWND hListView, CAccount *ActualAccount);
 
 // Adds new mails to ListView and if any new, shows multi popup (every new message is new popup window created by popup plugin)
 // hListView- handle of listview window
@@ -136,7 +136,7 @@ int ChangeExistingMailStatus(HWND hListView, HACCOUNT ActualAccount);
 // MailNumbers- pointer to structure, in which function stores numbers of mails with some property
 // nflags- flags what to do when new mail arrives
 // returns one of UPDATE_XXX value (not implemented yet)
-int AddNewMailsToListView(HWND hListView, HACCOUNT ActualAccount, DWORD nflags);
+int AddNewMailsToListView(HWND hListView, CAccount *ActualAccount, DWORD nflags);
 
 // Window callback procedure for popup window (created by popup plugin)
 LRESULT CALLBACK NewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -200,7 +200,7 @@ LPARAM readItemLParam(HWND hwnd, DWORD iItem)
 	return item.lParam;
 }
 
-inline HACCOUNT GetWindowAccount(HWND hDlg)
+inline CAccount *GetWindowAccount(HWND hDlg)
 {
 	struct CMailWinUserInfo *mwui = (struct CMailWinUserInfo *)GetWindowLongPtr(hDlg, DWLP_USER);
 
@@ -311,7 +311,7 @@ void IncrementMailCounters(HYAMNMAIL msgq, struct CMailNumbers *MN)
 			MN->Real.EventNC++;
 }
 
-int UpdateMails(HWND hDlg, HACCOUNT ActualAccount, DWORD nflags, DWORD nnflags)
+int UpdateMails(HWND hDlg, CAccount *ActualAccount, DWORD nflags, DWORD nnflags)
 {
 	struct CMailNumbers MN;
 
@@ -444,7 +444,7 @@ int UpdateMails(HWND hDlg, HACCOUNT ActualAccount, DWORD nflags, DWORD nnflags)
 	return 1;
 }
 
-int ChangeExistingMailStatus(HWND hListView, HACCOUNT ActualAccount)
+int ChangeExistingMailStatus(HWND hListView, CAccount *ActualAccount)
 {
 	LVITEM item;
 	HYAMNMAIL mail, msgq;
@@ -471,7 +471,7 @@ int ChangeExistingMailStatus(HWND hListView, HACCOUNT ActualAccount)
 }
 
 void MimeDateToLocalizedDateTime(char *datein, WCHAR *dateout, int lendateout);
-int AddNewMailsToListView(HWND hListView, HACCOUNT ActualAccount, DWORD nflags)
+int AddNewMailsToListView(HWND hListView, CAccount *ActualAccount, DWORD nflags)
 {
 	WCHAR *FromStr;
 	WCHAR SizeStr[20];
@@ -620,7 +620,7 @@ int AddNewMailsToListView(HWND hListView, HACCOUNT ActualAccount, DWORD nflags)
 	return TRUE;
 }
 
-void DoMailActions(HWND hDlg, HACCOUNT ActualAccount, struct CMailNumbers *MN, DWORD nflags, DWORD nnflags)
+void DoMailActions(HWND hDlg, CAccount *ActualAccount, struct CMailNumbers *MN, DWORD nflags, DWORD nnflags)
 {
 	NOTIFYICONDATA nid = {};
 	nid.cbSize = sizeof(nid);
@@ -793,7 +793,7 @@ LRESULT CALLBACK NewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 		// if clicked and it's new mail popup window
 		if ((HIWORD(wParam) == STN_CLICKED) && (-1 != (PluginParam = (INT_PTR)PUGetPluginData(hWnd)))) {
 			MCONTACT hContact = 0;
-			HACCOUNT Account;
+			CAccount *Account;
 			if (PluginParam) {
 				PYAMN_MAILSHOWPARAM MailParam = new YAMN_MAILSHOWPARAM;
 				memcpy(MailParam, (PINT_PTR)PluginParam, sizeof(YAMN_MAILSHOWPARAM));
@@ -807,11 +807,11 @@ LRESULT CALLBACK NewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 				hContact = PUGetContact(hWnd);
 
 				if (!g_plugin.getString(hContact, "Id", &dbv)) {
-					Account = (HACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
+					Account = (CAccount *)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
 					db_free(&dbv);
 				}
 				else
-					Account = (HACCOUNT)hContact; //????
+					Account = (CAccount *)hContact; //????
 
 
 #ifdef DEBUG_SYNCHRO
@@ -865,19 +865,19 @@ LRESULT CALLBACK NewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 		break;
 	case WM_YAMN_STOPACCOUNT:
 		{
-			HACCOUNT ActualAccount;
+			CAccount *ActualAccount;
 			DBVARIANT dbv;
 
 			MCONTACT hContact = PUGetContact(hWnd);
 
 			if (!g_plugin.getString(hContact, "Id", &dbv)) {
-				ActualAccount = (HACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
+				ActualAccount = (CAccount *)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
 				db_free(&dbv);
 			}
 			else
-				ActualAccount = (HACCOUNT)hContact;
+				ActualAccount = (CAccount *)hContact;
 
-			if ((HACCOUNT)wParam != ActualAccount)
+			if ((CAccount *)wParam != ActualAccount)
 				break;
 			DestroyWindow(hWnd);
 			return 0;
@@ -894,17 +894,17 @@ LRESULT CALLBACK NoNewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 	switch (msg) {
 	case WM_COMMAND:
 		if ((HIWORD(wParam) == STN_CLICKED) && (msg == WM_COMMAND)) {
-			HACCOUNT ActualAccount;
+			CAccount *ActualAccount;
 			DBVARIANT dbv;
 
 			MCONTACT hContact = PUGetContact(hWnd);
 
 			if (!g_plugin.getString(hContact, "Id", &dbv)) {
-				ActualAccount = (HACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
+				ActualAccount = (CAccount *)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
 				db_free(&dbv);
 			}
 			else
-				ActualAccount = (HACCOUNT)hContact;
+				ActualAccount = (CAccount *)hContact;
 
 #ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile, "PopupProc:LEFTCLICK:ActualAccountSO-read wait\n");
@@ -957,19 +957,19 @@ LRESULT CALLBACK NoNewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 		break;
 	case WM_YAMN_STOPACCOUNT:
 		{
-			HACCOUNT ActualAccount;
+			CAccount *ActualAccount;
 			DBVARIANT dbv;
 
 			MCONTACT hContact = PUGetContact(hWnd);
 
 			if (!g_plugin.getString(hContact, "Id", &dbv)) {
-				ActualAccount = (HACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
+				ActualAccount = (CAccount *)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
 				db_free(&dbv);
 			}
 			else
-				ActualAccount = (HACCOUNT)hContact;
+				ActualAccount = (CAccount *)hContact;
 
-			if ((HACCOUNT)wParam != ActualAccount)
+			if ((CAccount *)wParam != ActualAccount)
 				break;
 
 			DestroyWindow(hWnd);
@@ -1449,7 +1449,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 
 			if (nullptr == MailParam)
 				break;
-			if ((HACCOUNT)wParam != MailParam->account)
+			if ((CAccount *)wParam != MailParam->account)
 				break;
 #ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile, "ShowMessage:STOPACCOUNT:sending destroy msg\n");
@@ -1626,7 +1626,7 @@ CREADTEVIEWMESSAGEWINDOW:
 
 INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	HACCOUNT ActualAccount;
+	CAccount *ActualAccount;
 	int Items;
 
 	switch (msg) {
@@ -1788,7 +1788,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 		if (nullptr == (ActualAccount = GetWindowAccount(hDlg)))
 			break;
 
-		if ((HACCOUNT)wParam != ActualAccount)
+		if ((CAccount *)wParam != ActualAccount)
 			break;
 
 		wchar_t accstatus[512];
@@ -1812,7 +1812,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			DebugLog(SynchroFile, "MailBrowser:CHANGECONTENT:posting UPDATEMAILS\n");
 #endif
 			if (ThisThreadWindow) {
-				if (!UpdateMails(hDlg, (HACCOUNT)wParam, UpdateParams.Flags->nflags, UpdateParams.Flags->nnflags))
+				if (!UpdateMails(hDlg, (CAccount *)wParam, UpdateParams.Flags->nflags, UpdateParams.Flags->nnflags))
 					DestroyWindow(hDlg);
 			}
 			else if (PostMessage(hDlg, WM_YAMN_UPDATEMAILS, wParam, (LPARAM)&UpdateParams))	//this ensures UpdateMails will execute the thread who created the browser window
@@ -1842,7 +1842,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 
 			if (nullptr == (ActualAccount = GetWindowAccount(hDlg)))
 				return 0;
-			if ((HACCOUNT)wParam != ActualAccount)
+			if ((CAccount *)wParam != ActualAccount)
 				return 0;
 
 			nflags = um->Flags->nflags;
@@ -1858,7 +1858,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 	case WM_YAMN_STOPACCOUNT:
 		if (nullptr == (ActualAccount = GetWindowAccount(hDlg)))
 			break;
-		if ((HACCOUNT)wParam != ActualAccount)
+		if ((CAccount *)wParam != ActualAccount)
 			break;
 		PostQuitMessage(0);
 		return 1;
@@ -2295,7 +2295,7 @@ void __cdecl MailBrowser(void *Param)
 	BOOL WndFound = FALSE;
 
 	struct MailBrowserWinParam MyParam = *(struct MailBrowserWinParam *)Param;
-	HACCOUNT ActualAccount = MyParam.account;
+	CAccount *ActualAccount = MyParam.account;
 	SCIncFcn(ActualAccount->UsingThreads);
 
 	//	we will not use params in stack anymore

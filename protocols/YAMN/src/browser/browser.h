@@ -5,7 +5,7 @@ typedef struct MailBrowserWinParam
 {
 #define YAMN_MAILBROWSERVERSION	1
 	HANDLE ThreadRunningEV;
-	HACCOUNT account;
+	CAccount *account;
 	DWORD nflags;			//flags YAMN_ACC_??? when new mails
 	DWORD nnflags;			//flags YAMN_ACC_??? when no new mails
 	void *Param;
@@ -14,7 +14,7 @@ typedef struct MailBrowserWinParam
 typedef struct MailShowMsgWinParam
 {
 	HANDLE ThreadRunningEV;
-	HACCOUNT account;
+	CAccount *account;
 	HYAMNMAIL mail;
 } YAMN_MAILSHOWPARAM, *PYAMN_MAILSHOWPARAM;
 
@@ -22,7 +22,7 @@ typedef struct NoNewMailParam
 {
 #define YAMN_NONEWMAILVERSION	1
 	HANDLE ThreadRunningEV;
-	HACCOUNT account;
+	CAccount *account;
 	DWORD flags;
 	void *Param;
 } YAMN_NONEWMAILPARAM,*PYAMN_NONEWMAILPARAM;
@@ -31,7 +31,7 @@ typedef struct BadConnectionParam
 {
 #define YAMN_BADCONNECTIONVERSION	1
 	HANDLE ThreadRunningEV;
-	HACCOUNT account;
+	CAccount *account;
 	UINT_PTR errcode;
 	void *Param;
 } YAMN_BADCONNECTIONPARAM,*PYAMN_BADCONNECTIONPARAM;

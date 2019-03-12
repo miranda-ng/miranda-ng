@@ -9,81 +9,72 @@
 //================================== OTHER DEFINITIONS ========================================
 //
 
-typedef struct CShortNames
+struct CShortNames
 {
 	char *Value;
 	char *ValueNick;
-	struct CShortNames *Next;	
-} YAMN_MIMESHORTNAMES,*PYAMN_MIMESHORTNAMES;
+	CShortNames *Next;	
+};
 
-typedef struct CNames
+struct CMimeNames
 {
 	WCHAR *Value;
 	WCHAR *ValueNick;
-	struct CNames *Next;	
-} YAMN_MIMENAMES,*PYAMN_MIMENAMES;
+	CMimeNames *Next;
+};
 
-struct CShortHeader
 //this header is used in to get non-unicode data from mime header
+struct CShortHeader
 {
 	char *From;
 	char *FromNick;
 	char *ReturnPath;
 	char *ReturnPathNick;
 	char *Subject;
-	PYAMN_MIMESHORTNAMES To;
-	PYAMN_MIMESHORTNAMES Cc;
-	PYAMN_MIMESHORTNAMES Bcc;
+	CShortNames *To;
+	CShortNames *Cc;
+	CShortNames *Bcc;
 	char *Date;
 	char Priority;
 	char *Body;
 
 	int CP;
-
-	CShortHeader() {}
-	~CShortHeader() {}
 };
 
-struct CHeader
 //this header is used in miranda to store final results of mime reading in Unicode
+struct CHeader
 {
 	WCHAR *From;
 	WCHAR *FromNick;
 	WCHAR *ReturnPath;
 	WCHAR *ReturnPathNick;
 	WCHAR *Subject;
-	PYAMN_MIMENAMES To;
-	PYAMN_MIMENAMES Cc;
-	PYAMN_MIMENAMES Bcc;
+	CMimeNames *To;
+	CMimeNames *Cc;
+	CMimeNames *Bcc;
 	WCHAR *Date;
 	TCHAR Priority;
 	WCHAR *Body;
-
-	CHeader() {}
-	~CHeader() {}
 };
 
 struct CMimeItem
 {
-	char *name;
-	char *value;
-	struct CMimeItem *Next;
-	CMimeItem(): name(nullptr), value(nullptr), Next(nullptr){}
+	char *name = nullptr;
+	char *value = nullptr;
+	CMimeItem *Next = nullptr;
 };
 
-typedef struct CMailData	//this is plugin-independent
+// this is plugin-independent
+typedef struct CMailData
 {
-#define	YAMN_MAILDATAVERSION	3
+	#define YAMN_MAILDATAVERSION 3
+	DWORD Size = 0;
+	int CP = -1;
 
-	DWORD Size;
-	int CP;
-
-	struct CMimeItem *TranslatedHeader;		//MIME items
-	struct CMimeItem *Additional;			//MIME items not read from server (custom, for filter plugins etc.)
-	char *Body;					//Message body
-
-	CMailData(): CP(-1), Size(0), TranslatedHeader(nullptr), Body(nullptr) {}
-} MAILDATA,*PMAILDATA;
+	CMimeItem *TranslatedHeader = nullptr; // MIME items
+	CMimeItem *Additional = nullptr;       // MIME items not read from server (custom, for filter plugins etc.)
+	char *Body = nullptr;                  // Message body
+};
 
 typedef struct CMimeMsgQueue
 {
@@ -139,7 +130,7 @@ typedef struct CMimeMsgQueue
 #define YAMN_MSG_SPAML(maildata,level)	((maildata & YAMN_MSG_SPAMMASK)==level)
 	DWORD Flags;
 //Plugins can read mail data, but it can be NULL!!! So plugin should use Load and Save services to load or save data and Unload to release data from memory
-	PMAILDATA MailData;
+	CMailData *MailData;
 //Here YAMN stores its own informations about this mail. Not usefull for plugins...
 //	void *YAMNData;
 	HWND MsgWindow;
@@ -159,7 +150,7 @@ typedef struct CMimeMsgQueue
 
 //CreateAccountMail Service
 //Your plugin should call this to create new mail for your plugin.
-//WPARAM- (HACCOUNT) Account handle
+//WPARAM- (CAccount *) Account handle
 //LPARAM- CMailData version (use YAMN_MAILVERSION definition)
 //returns pointer to (HYAMNMAIL) or pointer to your structure returned from imported NewMailFcnPtr, if implemented
 #define	MS_YAMN_CREATEACCOUNTMAIL	"YAMN/Service/CreateMail"
@@ -184,7 +175,7 @@ typedef struct CMimeMsgQueue
 //LPARAM- (DWORD) version of MAILDATA structure (use YAMN_MAILDATAVERSION definition)
 //returns pointer to new allocated MailData structure (the same value as MailData member)
 #define MS_YAMN_LOADMAILDATA		"YAMN/Service/LoadMailData"
-#define LoadMailData(x)		(PMAILDATA)CallService(MS_YAMN_LOADMAILDATA,(WPARAM)x,(LPARAM)YAMN_MAILDATAVERSION)
+#define LoadMailData(x)		(CMailData*)CallService(MS_YAMN_LOADMAILDATA,(WPARAM)x,(LPARAM)YAMN_MAILDATAVERSION)
 
 //UnloadMailData Service
 //This service frees mail data from memory. It does not care if data were saved or not. So you should save mail before you
@@ -209,10 +200,10 @@ typedef struct CMimeMsgQueue
 //
 
 //typedef void (WINAPI *YAMN_SENDMESSAGEFCN)(UINT,WPARAM,LPARAM);
-typedef void (WINAPI *YAMN_SYNCHROMIMEMSGSFCN)(HACCOUNT,HYAMNMAIL *,HYAMNMAIL *,HYAMNMAIL *,HYAMNMAIL *);
+typedef void (WINAPI *YAMN_SYNCHROMIMEMSGSFCN)(CAccount *,HYAMNMAIL *,HYAMNMAIL *,HYAMNMAIL *,HYAMNMAIL *);
 typedef void (WINAPI *YAMN_TRANSLATEHEADERFCN)(char *,int,struct CMimeItem **);
 typedef void (WINAPI *YAMN_APPENDQUEUEFCN)(HYAMNMAIL,HYAMNMAIL);
-typedef void (WINAPI *YAMN_DELETEMIMEQUEUEFCN)(HACCOUNT,HYAMNMAIL);
+typedef void (WINAPI *YAMN_DELETEMIMEQUEUEFCN)(CAccount *,HYAMNMAIL);
 typedef void (WINAPI *YAMN_DELETEMIMEMESSAGEFCN)(HYAMNMAIL *,HYAMNMAIL,int);
 typedef HYAMNMAIL (WINAPI *YAMN_FINDMIMEMESSAGEFCN)(HYAMNMAIL,char *);
 typedef HYAMNMAIL (WINAPI *YAMN_CREATENEWDELETEQUEUEFCN)(HYAMNMAIL);

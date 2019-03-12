@@ -96,7 +96,7 @@ INT_PTR GetVariablesSvc(WPARAM wParam, LPARAM)
 
 void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
-	HACCOUNT ActualAccount;
+	CAccount *ActualAccount;
 	DWORD Status, tid;
 
 //	we use event to signal, that running thread has all needed stack parameters copied
@@ -252,7 +252,7 @@ ChangeIsCountingStatusLabel:
 
 INT_PTR ForceCheckSvc(WPARAM, LPARAM)
 {
-	HACCOUNT ActualAccount;
+	CAccount *ActualAccount;
 	DWORD tid;
 
 	//we use event to signal, that running thread has all needed stack parameters copied
