@@ -141,7 +141,7 @@ static void __cdecl NetlibBindAcceptThread(NetlibBoundPort *nlbp)
 		if (nlbp->s6 != INVALID_SOCKET)
 			FD_SET(nlbp->s6, &r);
 		if (select(0, &r, nullptr, nullptr, nullptr) == SOCKET_ERROR) {
-			Netlib_Logf(nlbp->nlu, "NetlibBindAcceptThread (%p): select failed (%d)", nlbp->s, GetLastError());
+			Netlib_Logf(nlbp->nlu, "NetlibBindAcceptThread (%p): select failed (%d)", (void*)nlbp->s, GetLastError());
 			break;
 		}
 
@@ -153,20 +153,20 @@ static void __cdecl NetlibBindAcceptThread(NetlibBoundPort *nlbp)
 		if (FD_ISSET(nlbp->s, &r)) {
 			s = accept(nlbp->s, (sockaddr*)&sin, &sinLen);
 			if (s == INVALID_SOCKET) {
-				Netlib_Logf(nlbp->nlu, "NetlibBindAcceptThread (%p): accept V4 failed (%d)", nlbp->s, GetLastError());
+				Netlib_Logf(nlbp->nlu, "NetlibBindAcceptThread (%p): accept V4 failed (%d)", (void*)nlbp->s, GetLastError());
 				break;
 			}
 		}
 		else if (FD_ISSET(nlbp->s6, &r)) {
 			s = accept(nlbp->s6, (sockaddr*)&sin, &sinLen);
 			if (s == INVALID_SOCKET) {
-				Netlib_Logf(nlbp->nlu, "NetlibBindAcceptThread (%p): accept V6 failed (%d)", nlbp->s, GetLastError());
+				Netlib_Logf(nlbp->nlu, "NetlibBindAcceptThread (%p): accept V6 failed (%d)", (void*)nlbp->s, GetLastError());
 				break;
 			}
 		}
 		else s = 0;
 
-		Netlib_Logf(nlbp->nlu, "New incoming connection on port %u from %s (%p)", nlbp->wPort, ptrA(Netlib_AddressToString(&sin)), s);
+		Netlib_Logf(nlbp->nlu, "New incoming connection on port %u from %s (%p)", nlbp->wPort, ptrA(Netlib_AddressToString(&sin)), (void*)s);
 		
 		NetlibConnection *nlc = new NetlibConnection();
 		nlc->nlu = nlbp->nlu;
@@ -179,7 +179,7 @@ static void __cdecl NetlibBindAcceptThread(NetlibBoundPort *nlbp)
 	NetlibUPnPDeletePortMapping(nlbp->wExPort, "TCP");
 	nlbp->hThread = nullptr;
 
-	Netlib_Logf(nlbp->nlu, "NetlibBindAcceptThread: (%p) thread for port %u closed", nlbp->s, nlbp->wPort);
+	Netlib_Logf(nlbp->nlu, "NetlibBindAcceptThread: (%p) thread for port %u closed", (void*)nlbp->s, nlbp->wPort);
 }
 
 MIR_APP_DLL(HNETLIBBIND) Netlib_BindPort(HNETLIBUSER nlu, NETLIBBIND *nlb)

@@ -387,7 +387,7 @@ static wchar_t* parseSpecialContact(ARGUMENTSINFO *ai)
 		szUniqueID = (wchar_t*)mir_alloc(40);
 		if (szUniqueID == NULL)
 			return nullptr;
-		mir_snwprintf(szUniqueID, 20, L"%p", ai->fi->hContact);
+		_itow_s(ai->fi->hContact, szUniqueID, 20, 10);
 	}
 
 	if (szUniqueID == NULL)

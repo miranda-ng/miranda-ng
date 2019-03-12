@@ -300,7 +300,7 @@ static wchar_t* getTokenDescription(TOKENREGISTEREX *tr)
 	}
 
 	if (tr->flags&TRF_FIELD)
-		mir_snwprintf(desc,  len, L"%c%s%c", FIELD_CHAR, tr->szTokenString, FIELD_CHAR);
+		mir_snwprintf(desc,  len, L"%c%s%c", FIELD_CHAR, tr->szTokenString.w, FIELD_CHAR);
 	else {
 		if (args != nullptr)
 			tArgs = mir_a2u(args);

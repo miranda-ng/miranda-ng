@@ -235,7 +235,7 @@ static void __cdecl KillObjectThreadsWorker(void* owner)
 		if (it->pObject == owner) {
 			char szModuleName[MAX_PATH];
 			GetModuleFileNameA(it->hOwner, szModuleName, sizeof(szModuleName));
-			Netlib_Logf(nullptr, "Killing object thread %s:%p", szModuleName, it->dwThreadId);
+			Netlib_Logf(nullptr, "Killing object thread %s:%08x", szModuleName, it->dwThreadId);
 			TerminateThread(it->hThread, 9999);
 			CloseHandle(it->hThread);
 			mir_free(it);
@@ -272,7 +272,7 @@ static void CALLBACK KillAllThreads(HWND, UINT, UINT_PTR, DWORD)
 	for (auto &p : threads) {
 		char szModuleName[MAX_PATH];
 		GetModuleFileNameA(p->hOwner, szModuleName, sizeof(szModuleName));
-		Netlib_Logf(nullptr, "Killing thread %s:%p (%p)", szModuleName, p->dwThreadId, p->pEntryPoint);
+		Netlib_Logf(nullptr, "Killing thread %s:%08x (%p)", szModuleName, p->dwThreadId, p->pEntryPoint);
 		TerminateThread(p->hThread, 9999);
 		CloseHandle(p->hThread);
 		mir_free(p);

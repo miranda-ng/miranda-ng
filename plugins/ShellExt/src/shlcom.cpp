@@ -205,7 +205,7 @@ void ipcGetSkinIcons(THeaderIPC *ipch)
 				if (pct != nullptr) {
 					// capture all the icons!
 					spi.hProto = murmur_hash(pa->szModuleName);
-					for (int j = 0; j <= 10; j++)
+					for (int j = 0; j < _countof(spi.hIcons); j++)
 						spi.hIcons[j] = Skin_LoadProtoIcon(pa->szModuleName, ID_STATUS_OFFLINE + j);
 
 					pct->fType = REQUEST_NEWICONS;

@@ -39,12 +39,10 @@ bool SpeechApi40a::isAvailable()
 	bool      ret = true;
 
 	// create the enumerator
-	if (FAILED(CoCreateInstance(CLSID_TTSEnumerator, nullptr, CLSCTX_ALL, IID_ITTSEnum, (void**)&pITTSEnum)))
-	{
+	if (FAILED(CoCreateInstance(CLSID_TTSEnumerator, nullptr, CLSCTX_ALL, IID_ITTSEnum, (void**)&pITTSEnum))) {
 		ret = false;
 	}
-	else
-	{
+	else {
 		pITTSEnum->Release();
 	}
 	return ret;
@@ -53,8 +51,7 @@ bool SpeechApi40a::isAvailable()
 //------------------------------------------------------------------------------
 bool SpeechApi40a::load()
 {
-	if (isLoaded())
-	{
+	if (isLoaded()) {
 		return true;
 	}
 	return loadWithVoice(std::wstring(m_voice));
@@ -63,14 +60,12 @@ bool SpeechApi40a::load()
 //------------------------------------------------------------------------------
 bool SpeechApi40a::unload()
 {
-	if (m_tts_attribs) 
-	{
+	if (m_tts_attribs) {
 		m_tts_attribs->Release();
 		m_tts_attribs = nullptr;
 	}
 
-	if (m_tts_central) 
-	{
+	if (m_tts_central) {
 		m_tts_central->Release();
 		m_tts_central = nullptr;
 	}
@@ -92,12 +87,10 @@ bool SpeechApi40a::say(const std::wstring &sentence)
 	//MessageBoxA(NULL, text.c_str(), "TTS4", MB_OK);
 	bool ret = true;
 
-	if (!isLoaded())
-	{
+	if (!isLoaded()) {
 		ret = false;
 	}
-	else
-	{
+	else {
 		SDATA data;
 		data.dwSize = (DWORD)(sentence.size() * sizeof(WCHAR));
 		data.pData = (WCHAR *)sentence.c_str();
@@ -112,16 +105,14 @@ bool SpeechApi40a::setVolume(int volume)
 {
 	m_volume = volume;
 
-	if (!isLoaded())
-	{
+	if (!isLoaded()) {
 		return true;
 	}
 
 	DWORD new_vol = volume / 100.0 * 0xffff;
 	new_vol |= new_vol << 16;
 
-	if (FAILED(m_tts_attribs->VolumeSet(new_vol)))
-	{
+	if (FAILED(m_tts_attribs->VolumeSet(new_vol))) {
 		return false;
 	}
 
@@ -134,13 +125,12 @@ bool SpeechApi40a::setPitch(int pitch)
 	m_pitch = pitch;
 
 	// valid range is 50 to 350
-	if (isLoaded() && FAILED(m_tts_attribs->PitchSet(pitch * 3.0 + 50)))
-	{
+	if (isLoaded() && FAILED(m_tts_attribs->PitchSet(pitch * 3.0 + 50))) {
 		return false;
 	}
 
 	return true;
-}	
+}
 
 //------------------------------------------------------------------------------
 bool SpeechApi40a::setRate(int rate)
@@ -148,8 +138,7 @@ bool SpeechApi40a::setRate(int rate)
 	m_rate = rate;
 
 	// valid range is 50 to 350
-	if (isLoaded() && FAILED(m_tts_attribs->SpeedSet(rate * 3.0 + 50)))
-	{
+	if (isLoaded() && FAILED(m_tts_attribs->SpeedSet(rate * 3.0 + 50))) {
 		return false;
 	}
 
@@ -161,8 +150,7 @@ bool  SpeechApi40a::setVoice(const std::wstring &voice)
 {
 	m_voice = voice;
 
-	if (!isLoaded())
-	{
+	if (!isLoaded()) {
 		return true;
 	}
 
@@ -174,21 +162,17 @@ bool  SpeechApi40a::setVoice(const std::wstring &voice)
 std::vector<std::wstring> SpeechApi40a::getVoices() const
 {
 	std::vector<std::wstring> ret;
-	
+
 	PITTSENUM pITTSEnum = nullptr;
 	TTSMODEINFO inf;
 
 	CoInitialize(nullptr);
 
 	if (FAILED(CoCreateInstance(CLSID_TTSEnumerator, nullptr, CLSCTX_ALL, IID_ITTSEnum, (void**)&pITTSEnum)))
-	{
 		return ret;
-	}
 
-	while (!pITTSEnum->Next(1, &inf, nullptr))
-	{
+	while (SUCCEEDED(pITTSEnum->Next(1, &inf, nullptr)))
 		ret.push_back(inf.szModeName);
-	}
 
 	pITTSEnum->Release();
 
@@ -200,15 +184,12 @@ bool SpeechApi40a::lexiconDialog(HWND window)
 {
 	// open the dialog
 	SpeechApi40aLexicon dialog(window, m_tts_central);
-
 	if (!dialog.display())
-	{
 		return false;
-	}
 
 	return true;
 }
-		
+
 //------------------------------------------------------------------------------
 std::wstring SpeechApi40a::getDescription()
 {
@@ -221,7 +202,7 @@ std::wstring SpeechApi40a::getDescription()
 bool SpeechApi40a::loadWithVoice(const std::wstring &voice)
 {
 	CoInitialize(nullptr);
-	
+
 	PITTSENUM    pITTSEnum;
 	TTSMODEINFO  inf;
 	LPUNKNOWN    pAudioDest;
@@ -231,19 +212,17 @@ bool SpeechApi40a::loadWithVoice(const std::wstring &voice)
 		return false;
 
 	// iterate through the voices until we find the right one
-	while (!pITTSEnum->Next(1, &inf, nullptr))
+	while (SUCCEEDED(pITTSEnum->Next(1, &inf, nullptr)))
 		if (inf.szModeName == voice)
 			break;
 
-	if (FAILED(CoCreateInstance(CLSID_MMAudioDest, nullptr, CLSCTX_ALL, IID_IAudioMultiMediaDevice, (void**)&pAudioDest)))
-	{
+	if (FAILED(CoCreateInstance(CLSID_MMAudioDest, nullptr, CLSCTX_ALL, IID_IAudioMultiMediaDevice, (void**)&pAudioDest))) {
 		pITTSEnum->Release();
 		return false;
 	}
 
 	// select that voice
-	if (FAILED(pITTSEnum->Select(inf.gModeID, &m_tts_central, pAudioDest)))
-	{
+	if (FAILED(pITTSEnum->Select(inf.gModeID, &m_tts_central, pAudioDest))) {
 		pITTSEnum->Release();
 		return NULL;
 	}
@@ -259,6 +238,5 @@ bool SpeechApi40a::loadWithVoice(const std::wstring &voice)
 	setVolume(m_volume);
 	setRate(m_rate);
 	setPitch(m_pitch);
-
 	return true;
 }

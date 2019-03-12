@@ -40,7 +40,7 @@ static wchar_t* parseGetParent(ARGUMENTSINFO *ai)
 	if (szUniqueID == NULL) {
 		szProto = PROTOID_HANDLE;
 		wchar_t tszID[40];
-		mir_snwprintf(tszID, L"%p", hContact);
+		_itow_s(hContact, tszID, 10);
 		szUniqueID = mir_wstrdup(tszID);
 	}
 
@@ -68,7 +68,7 @@ static wchar_t* parseGetDefault(ARGUMENTSINFO *ai)
 	if (szUniqueID == NULL) {
 		szProto = PROTOID_HANDLE;
 		wchar_t tszID[40];
-		mir_snwprintf(tszID, L"%p", hContact);
+		_itow_s(hContact, tszID, 10);
 		szUniqueID = mir_wstrdup(tszID);
 	}
 
@@ -96,7 +96,7 @@ static wchar_t* parseGetMostOnline(ARGUMENTSINFO *ai)
 	if (szUniqueID == NULL) {
 		szProto = PROTOID_HANDLE;
 		wchar_t tszID[40];
-		mir_snwprintf(tszID, L"%p", hContact);
+		_itow_s(hContact, tszID, 10);
 		szUniqueID = mir_wstrdup(tszID);
 	}
 

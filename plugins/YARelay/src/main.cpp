@@ -150,7 +150,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDBEvent)
 				if (id != NULL)
 					wcsncpy_s(buf, id, _TRUNCATE);
 				else
-					mir_snwprintf(buf, L"%p", hContact);
+					_itow_s(hContact, buf, 10);
 			}
 			szUtfMsg.Append(T2Utf(buf));
 			break;
