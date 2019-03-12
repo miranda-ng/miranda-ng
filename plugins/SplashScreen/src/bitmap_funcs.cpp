@@ -21,30 +21,15 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 MyBitmap::MyBitmap()
 {
-	dcBmp = nullptr;
-	hBmp = nullptr;
-	bits = nullptr;
-	width = height = 0;
-	bitsSave = nullptr;
 }
 
 MyBitmap::MyBitmap(int w, int h)
 {
-	dcBmp = nullptr;
-	hBmp = nullptr;
-	bits = nullptr;
-	width = height = 0;
-	bitsSave = nullptr;
 	allocate(w, h);
 }
 
 MyBitmap::MyBitmap(wchar_t *fn)
 {
-	dcBmp = nullptr;
-	hBmp = nullptr;
-	bits = nullptr;
-	width = height = 0;
-	bitsSave = nullptr;
 	loadFromFile(fn);
 }
 
