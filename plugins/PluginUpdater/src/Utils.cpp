@@ -222,9 +222,13 @@ bool DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 {
 	char szMirVer[100];
 	Miranda_GetVersionText(szMirVer, _countof(szMirVer));
+	if (auto *p = strchr(szMirVer, '('))
+		*p = 0;
 
 	wchar_t wszOsVer[100];
 	GetOSDisplayString(wszOsVer, _countof(wszOsVer));
+	if (auto *p = wcschr(wszOsVer, '('))
+		*p = 0;
 
 	CMStringA szUserAgent("Miranda ");
 	szUserAgent.Append(szMirVer);
