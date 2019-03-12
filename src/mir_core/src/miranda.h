@@ -64,15 +64,15 @@ struct THookSubscriber
 
 #define HOOK_SECRET_SIGNATURE 0xDEADBABA
 
-struct THook
+struct THook : public MZeroedObject
 {
 	char name[ MAXMODULELABELLENGTH ];
 	int  id;
 	int  subscriberCount;
 	THookSubscriber* subscriber;
 	MIRANDAHOOK pfnHook;
-	DWORD secretSignature;
-	CRITICAL_SECTION csHook;
+	DWORD secretSignature = HOOK_SECRET_SIGNATURE;
+	mir_cs csHook;
 };
 
 extern LIST<CMPluginBase> pluginListAddr;

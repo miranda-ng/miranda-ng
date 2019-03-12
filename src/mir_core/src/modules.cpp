@@ -114,14 +114,9 @@ MIR_CORE_DLL(HANDLE) CreateHookableEvent(const char *name)
 	if ((idx = hooks.getIndex((THook*)name)) != -1)
 		return hooks[idx];
 
-	THook *newItem = (THook*)mir_alloc(sizeof(THook));
+	THook *newItem = new THook();
 	strncpy(newItem->name, name, sizeof(newItem->name)); newItem->name[MAXMODULELABELLENGTH - 1] = 0;
 	newItem->id = sttHookId++;
-	newItem->subscriberCount = 0;
-	newItem->subscriber = nullptr;
-	newItem->pfnHook = nullptr;
-	newItem->secretSignature = HOOK_SECRET_SIGNATURE;
-	InitializeCriticalSection(&newItem->csHook);
 	hooks.insert(newItem);
 	return (HANDLE)newItem;
 }
@@ -145,8 +140,7 @@ MIR_CORE_DLL(int) DestroyHookableEvent(HANDLE hEvent)
 		p->subscriberCount = 0;
 	}
 	hooks.remove(idx);
-	DeleteCriticalSection(&p->csHook);
-	mir_free(p);
+	delete p;
 	return 0;
 }
 
@@ -483,8 +477,7 @@ static void DestroyHooks()
 	for (auto &it : hooks) {
 		if (it->subscriberCount)
 			mir_free(it->subscriber);
-		DeleteCriticalSection(&it->csHook);
-		mir_free(it);
+		delete it;
 	}
 }
 
