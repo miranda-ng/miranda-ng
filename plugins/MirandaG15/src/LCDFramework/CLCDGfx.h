@@ -31,25 +31,25 @@ public:
 	void DrawFilledRect(int nX, int nY, int nWidth, int nHeight);
 	void DrawRect(int iX, int iY, int iWidth, int iHeight);
 	void DrawText(int nX, int nY, LPCTSTR sText);
-	void DrawText(int nX,int nY,int iWidth,tstring strText);
-	void DrawBitmap(int nX,int nY,int nWidth, int nHeight,HBITMAP hBitmap);
+	void DrawText(int nX, int nY, int iWidth, tstring strText);
+	void DrawBitmap(int nX, int nY, int nWidth, int nHeight, HBITMAP hBitmap);
 	void EndDraw(void);
 
-	void SetClipRegion(int iX,int iY,int iWidth,int iHeight);
+	void SetClipRegion(int iX, int iY, int iWidth, int iHeight);
 	RECT GetClipRegion();
 
-	inline int GetClipWidth() { return m_rClipRegion.right-m_rClipRegion.left; };
-	inline int GetClipHeight() { return m_rClipRegion.bottom-m_rClipRegion.top; };
+	inline int GetClipWidth() { return m_rClipRegion.right - m_rClipRegion.left; };
+	inline int GetClipHeight() { return m_rClipRegion.bottom - m_rClipRegion.top; };
 
 	HDC GetHDC(void);
 	BITMAPINFO *GetBitmapInfo(void);
 	HBITMAP GetHBITMAP(void);
 
-	void StartTransition(ETransitionType eType = TRANSITION_RANDOM,LPRECT rect = nullptr);
+	void StartTransition(ETransitionType eType = TRANSITION_RANDOM, LPRECT rect = nullptr);
 
 protected:
 	void Cache();
-	int findNearestMatch(PBYTE targetArray,int iSourceIndex);
+	int findNearestMatch(PBYTE targetArray, int iSourceIndex);
 
 	void EndTransition();
 
@@ -63,7 +63,7 @@ protected:
 	HDC m_hDC;
 	HBITMAP m_hBitmap;
 	HBITMAP m_hPrevBitmap;
-	PBYTE m_pBitmapBits,m_pLcdBitmapBits,m_pSavedBitmapBits;
+	PBYTE m_pBitmapBits, m_pLcdBitmapBits, m_pSavedBitmapBits;
 
 	bool m_bInitialized;
 

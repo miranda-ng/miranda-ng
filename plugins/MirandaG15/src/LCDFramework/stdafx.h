@@ -13,9 +13,9 @@
 using namespace std;
 
 #ifdef _UNICODE
-	#define tstring wstring
+#define tstring wstring
 #else
-	#define tstring string
+#define tstring string
 #endif
 
 #include <m_core.h>

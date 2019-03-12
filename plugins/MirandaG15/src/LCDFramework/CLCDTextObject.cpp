@@ -6,13 +6,14 @@
 //************************************************************************
 // constructor
 //************************************************************************
-CLCDTextObject::CLCDTextObject() : m_bWordWrap(false), m_hFont(nullptr), m_iFontHeight(0)
+CLCDTextObject::CLCDTextObject()
 {
 	// Initialize DRAWTEXTPARAMS
 	memset(&m_dtp, 0, sizeof(DRAWTEXTPARAMS));
-    m_dtp.cbSize = sizeof(DRAWTEXTPARAMS);
+	m_dtp.cbSize = sizeof(DRAWTEXTPARAMS);
+	
 	// Initialize alignment
-	m_iTextFormat = m_iTextAlignment =  (DT_LEFT | DT_NOPREFIX);
+	m_iTextFormat = m_iTextAlignment = (DT_LEFT | DT_NOPREFIX);
 }
 
 //************************************************************************
@@ -20,10 +21,8 @@ CLCDTextObject::CLCDTextObject() : m_bWordWrap(false), m_hFont(nullptr), m_iFont
 //************************************************************************
 CLCDTextObject::~CLCDTextObject()
 {
-	if(m_hFont)
-	{
+	if (m_hFont)
 		DeleteObject(m_hFont);
-	}
 }
 
 //************************************************************************
@@ -31,9 +30,8 @@ CLCDTextObject::~CLCDTextObject()
 //************************************************************************
 bool CLCDTextObject::Initialize()
 {
-	m_hFont = (HFONT) GetStockObject(DEFAULT_GUI_FONT);
-    if(nullptr != m_hFont)
-	{   
+	m_hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
+	if (nullptr != m_hFont) {
 		SetFontFaceName(L"Small Fonts");
 		SetFontPointSize(6);
 	}
@@ -69,29 +67,28 @@ bool CLCDTextObject::Update()
 //************************************************************************
 bool CLCDTextObject::SetFont(LOGFONT& lf)
 {
-	if (m_hFont)
-    {
-        DeleteObject(m_hFont);
-        m_hFont = nullptr;
-    }
+	if (m_hFont) {
+		DeleteObject(m_hFont);
+		m_hFont = nullptr;
+	}
 
-    m_hFont = CreateFontIndirect(&lf);
-	
-	if(!m_hFont)
+	m_hFont = CreateFontIndirect(&lf);
+
+	if (!m_hFont)
 		return false;
 
 	// Calculate the font's height 
 	HDC hDC = CreateCompatibleDC(nullptr);
-	SelectObject(hDC, m_hFont);   
+	SelectObject(hDC, m_hFont);
 	TEXTMETRIC tmFontInfo;
 
-	GetTextMetrics(hDC,&tmFontInfo);
+	GetTextMetrics(hDC, &tmFontInfo);
 	m_iFontHeight = tmFontInfo.tmHeight;
 
 	DeleteObject(hDC);
-	
+
 	OnFontChanged();
-	
+
 	return true;
 }
 
@@ -101,16 +98,16 @@ bool CLCDTextObject::SetFont(LOGFONT& lf)
 void CLCDTextObject::SetFontFaceName(tstring strFontName)
 {
 	// if NULL, uses the default gui font
-    if (strFontName.empty())
-        return;
+	if (strFontName.empty())
+		return;
 
-    LOGFONT lf;
-    memset(&lf, 0, sizeof(lf));
-    GetObject(m_hFont, sizeof(LOGFONT), &lf);
+	LOGFONT lf;
+	memset(&lf, 0, sizeof(lf));
+	GetObject(m_hFont, sizeof(LOGFONT), &lf);
 
-    wcsncpy(lf.lfFaceName, strFontName.c_str(), LF_FACESIZE);
+	wcsncpy(lf.lfFaceName, strFontName.c_str(), LF_FACESIZE);
 
-    SetFont(lf);
+	SetFont(lf);
 }
 
 //************************************************************************
@@ -119,25 +116,26 @@ void CLCDTextObject::SetFontFaceName(tstring strFontName)
 void CLCDTextObject::SetFontPointSize(int nPointSize)
 {
 	LOGFONT lf;
-    memset(&lf, 0, sizeof(lf));
-    GetObject(m_hFont, sizeof(LOGFONT), &lf);
+	memset(&lf, 0, sizeof(lf));
+	GetObject(m_hFont, sizeof(LOGFONT), &lf);
 
-    lf.lfHeight = -MulDiv(nPointSize, 96, 72);
+	lf.lfHeight = -MulDiv(nPointSize, 96, 72);
 
-    SetFont(lf);
+	SetFont(lf);
 }
 
 //************************************************************************
 // sets the textobject's font to italic
 //************************************************************************
-void CLCDTextObject::SetFontItalic(bool flag) {
+void CLCDTextObject::SetFontItalic(bool flag)
+{
 	LOGFONT lf;
-    memset(&lf, 0, sizeof(lf));
-    GetObject(m_hFont, sizeof(LOGFONT), &lf);
+	memset(&lf, 0, sizeof(lf));
+	GetObject(m_hFont, sizeof(LOGFONT), &lf);
 
-    lf.lfItalic = flag;
+	lf.lfItalic = flag;
 
-    SetFont(lf);
+	SetFont(lf);
 }
 
 //************************************************************************
@@ -146,12 +144,12 @@ void CLCDTextObject::SetFontItalic(bool flag) {
 void CLCDTextObject::SetFontWeight(int nWeight)
 {
 	LOGFONT lf;
-    memset(&lf, 0, sizeof(lf));
-    GetObject(m_hFont, sizeof(LOGFONT), &lf);
+	memset(&lf, 0, sizeof(lf));
+	GetObject(m_hFont, sizeof(LOGFONT), &lf);
 
-    lf.lfWeight = nWeight;
+	lf.lfWeight = nWeight;
 
-    SetFont(lf);
+	SetFont(lf);
 }
 
 //************************************************************************
@@ -171,9 +169,9 @@ void CLCDTextObject::SetWordWrap(bool bWrap)
 {
 	m_bWordWrap = bWrap;
 	if (bWrap)
-        m_iTextFormat |= DT_WORDBREAK;
-    else
-        m_iTextFormat &= ~DT_WORDBREAK;
+		m_iTextFormat |= DT_WORDBREAK;
+	else
+		m_iTextFormat &= ~DT_WORDBREAK;
 }
 
 //************************************************************************
@@ -181,5 +179,4 @@ void CLCDTextObject::SetWordWrap(bool bWrap)
 //************************************************************************
 void CLCDTextObject::OnFontChanged()
 {
-
 }

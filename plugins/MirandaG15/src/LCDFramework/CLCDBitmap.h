@@ -6,6 +6,8 @@
 
 class CLCDBitmap : public CLCDObject
 {
+	HBITMAP m_hBitmap = nullptr;
+
 public:
 	// constructor
 	CLCDBitmap();
@@ -24,8 +26,6 @@ public:
 
 	// Sets the bitmap
 	void SetBitmap(HBITMAP hBitmap);
-private:
-	HBITMAP m_hBitmap;
 };
 
 #endif

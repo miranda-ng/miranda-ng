@@ -45,9 +45,9 @@ private:
 	CLCDLabel m_Label;
 	CLCDLabel m_Label2;
 
-	DWORD m_dwActivation;
-	DWORD m_dwDuration;
-	int m_iPosition;
+	DWORD m_dwActivation = 0;
+	DWORD m_dwDuration = 0;
+	int m_iPosition = 0;
 };
 
 #endif

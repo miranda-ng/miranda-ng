@@ -576,7 +576,7 @@ void CAppletManager::HandleEvent(CEvent *pEvent)
 	// if the applet is in foreground, skip notifications for the chatsession contact
 	if (pEvent->hContact && GetLCDConnection()->IsForeground() && pEvent->hContact == m_ChatScreen.GetContact() &&
 		(!m_ChatScreen.IsInputActive() || !CConfig::GetBoolSetting(NOTIFY_NO_SKIP_REPLY))) {
-		if (pEvent->eType == EVENT_STATUS  && CConfig::GetBoolSetting(NOTIFY_SKIP_STATUS))
+		if (pEvent->eType == EVENT_STATUS && CConfig::GetBoolSetting(NOTIFY_SKIP_STATUS))
 			pEvent->bNotification = false;
 		if (pEvent->eType == EVENT_SIGNED_ON && CConfig::GetBoolSetting(NOTIFY_SKIP_SIGNON))
 			pEvent->bNotification = false;
@@ -1627,7 +1627,7 @@ int CAppletManager::HookSettingChanged(WPARAM hContact, LPARAM lParam)
 	Event.hContact = hContact;
 
 	if (!strcmp(dbcws->szSetting, "Nick") || !strcmp(dbcws->szSetting, "MyHandle")) {
-		DBVARIANT dbv = { 0 };
+		DBVARIANT dbv = {0};
 		// if the protocol nick has changed, check if a custom handle is set
 		if (!strcmp(dbcws->szSetting, "Nick")) {
 			if (!db_get_ws(Event.hContact, "CList", "MyHandle", &dbv)) {

@@ -3,32 +3,33 @@
 #include "CConfig.h"
 #include "CAppletManager.h"
 
-const int aiStatusPriority[] = { 0,	// ID_STATUS_OFFLINE               40071
-							9,	// ID_STATUS_ONLINE                40072
-							8,	// ID_STATUS_AWAY                  40073
-							1,	// ID_STATUS_DND                   40074
-							7,	// ID_STATUS_NA                    40075
-							6,	// ID_STATUS_OCCUPIED              40076
-							10,	// ID_STATUS_FREECHAT              40077
-							9,	// ID_STATUS_INVISIBLE             40078
-							8,	// ID_STATUS_ONTHEPHONE            40079
-							8 	// ID_STATUS_OUTTOLUNCH            40080
+const int aiStatusPriority[] = 
+{
+	0,	// ID_STATUS_OFFLINE               40071
+	9,	// ID_STATUS_ONLINE                40072
+	8,	// ID_STATUS_AWAY                  40073
+	1,	// ID_STATUS_DND                   40074
+	7,	// ID_STATUS_NA                    40075
+	6,	// ID_STATUS_OCCUPIED              40076
+	10,	// ID_STATUS_FREECHAT              40077
+	9,	// ID_STATUS_INVISIBLE             40078
+	8,	// ID_STATUS_ONTHEPHONE            40079
+	8 	// ID_STATUS_OUTTOLUNCH            40080
 };
 
 //************************************************************************
 // constructor
 //************************************************************************
-CContactList::CContactList() 
-	: m_bUseGroups(false),
-	m_bUseMetaContacts(false),
-	m_dwLastScroll(0)
-{}
+CContactList::CContactList()
+{
+}
 
 //************************************************************************
 // destructor
 //************************************************************************
 CContactList::~CContactList()
-{}
+{
+}
 
 //************************************************************************
 // initializes the list
@@ -39,9 +40,7 @@ bool CContactList::Initialize()
 		return false;
 
 	InitializeGroupObjects();
-
 	RefreshList();
-
 	return true;
 }
 
@@ -54,11 +53,8 @@ bool CContactList::Shutdown()
 		return false;
 
 	UninitializeGroupObjects();
-
 	return false;
 }
-
-
 
 //************************************************************************
 // returns the contacts ccontactlistentry class
@@ -70,8 +66,6 @@ CContactListEntry *CContactList::GetContactData(CListEntry<CContactListEntry*, C
 	else
 		return ((CListContainer<CContactListEntry*, CContactListGroup*>*)pEntry)->GetGroupData()->pContactListEntry;
 }
-
-
 
 //************************************************************************
 // returns the contacts group path
@@ -87,8 +81,8 @@ tstring CContactList::GetContactGroupPath(MCONTACT hContact)
 		tstring strMetaName = CAppletManager::GetContactDisplayname(hMetaContact);
 		strGroup += (strGroup.empty() ? L"" : L"\\") + strMetaName;
 	}
-	else
-		strGroup = CAppletManager::GetContactGroup(hContact);
+	else strGroup = CAppletManager::GetContactGroup(hContact);
+
 	return strGroup;
 }
 
@@ -115,7 +109,6 @@ void CContactList::AddContact(MCONTACT hContact)
 	psContact->strName = strName;
 	psContact->iMessages = 0;
 	psContact->hHandle = hContact;
-
 	psContact->iStatus = iStatus;
 
 	if (szStatus != nullptr)
@@ -188,14 +181,12 @@ void CContactList::AddContact(MCONTACT hContact)
 //************************************************************************
 bool CContactList::IsVisible(CContactListEntry *pEntry)
 {
-	if (!pEntry) {
+	if (!pEntry)
 		return false;
-	}
 
 	if (pEntry->strProto != L"MetaContacts") {
-		if (pEntry->iStatus == ID_STATUS_OFFLINE && CConfig::GetBoolSetting(CLIST_HIDEOFFLINE)) {
+		if (pEntry->iStatus == ID_STATUS_OFFLINE && CConfig::GetBoolSetting(CLIST_HIDEOFFLINE))
 			return false;
-		}
 	}
 	else {
 		if (pEntry->iStatus == ID_STATUS_OFFLINE) {
@@ -239,8 +230,6 @@ bool CContactList::IsVisible(CContactListEntry *pEntry)
 void CContactList::RemoveContact(MCONTACT hContact)
 {
 	CListContainer<CContactListEntry*, CContactListGroup*> *pGroup = nullptr;
-
-	///tstring strGroup = GetContactGroupPath(hContact);
 
 	CListEntry<CContactListEntry*, CContactListGroup*> *pContactEntry = FindContact(hContact);
 	if (!pContactEntry)
@@ -409,7 +398,7 @@ void CContactList::DrawEntry(CLCDGfx *pGfx, CContactListEntry *pEntry, bool bSel
 	pGfx->DrawBitmap(1, ceil((pGfx->GetClipHeight() - 5) / 2.0f), 5, 5, CAppletManager::GetInstance()->GetStatusBitmap(pEntry->iStatus));
 
 	if (bSelected && (GetTickCount() - m_dwLastScroll < 1000 || !CConfig::GetBoolSetting(CLIST_SELECTION))) {
-		RECT invert = { 0,0,GetWidth(),m_iFontHeight };
+		RECT invert = {0,0,GetWidth(),m_iFontHeight};
 		InvertRect(pGfx->GetHDC(), &invert);
 	}
 }
@@ -452,7 +441,7 @@ void CContactList::DrawGroup(CLCDGfx *pGfx, CContactListGroup *pGroup, bool bOpe
 		pGfx->DrawText(1, 0, L"+");
 
 	if (bSelected && (GetTickCount() - m_dwLastScroll < 1000 || !CConfig::GetBoolSetting(CLIST_SELECTION))) {
-		RECT invert2 = { 0,0,GetWidth(),m_iFontHeight };
+		RECT invert2 = {0,0,GetWidth(),m_iFontHeight};
 		InvertRect(pGfx->GetHDC(), &invert2);
 	}
 }

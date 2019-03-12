@@ -33,15 +33,15 @@
 // an ofstream object. This sets up ConStream so that it will direct
 // its output to the given file.
 //
-ConStream::ConStream() : m_Nul( m_fNul = fopen( "nul", "w" ) ), m_fConsole(nullptr),
+ConStream::ConStream() : m_Nul(m_fNul = fopen("nul", "w")), m_fConsole(nullptr),
 #ifdef _UNICODE
-                         basic_ostream<wchar_t>( &m_Nul ) 
+basic_ostream<wchar_t>(&m_Nul)
 #else
-                         basic_ostream<char>( &m_Nul ) 
+basic_ostream<char>(&m_Nul)
 #endif
 {
-    m_FileBuf = nullptr;
-    m_hConsole = INVALID_HANDLE_VALUE;
+	m_FileBuf = nullptr;
+	m_hConsole = INVALID_HANDLE_VALUE;
 }
 
 //
@@ -57,12 +57,12 @@ ConStream::ConStream() : m_Nul( m_fNul = fopen( "nul", "w" ) ), m_fConsole(nullp
 //
 ConStream::~ConStream()
 {
-    delete m_FileBuf;
-    if ( m_hConsole != INVALID_HANDLE_VALUE ) {
-        FreeConsole();
-        fclose( m_fConsole );
-    }
-    fclose( m_fNul );
+	delete m_FileBuf;
+	if (m_hConsole != INVALID_HANDLE_VALUE) {
+		FreeConsole();
+		fclose(m_fConsole);
+	}
+	fclose(m_fNul);
 }
 
 //
@@ -77,17 +77,17 @@ ConStream::~ConStream()
 //
 void ConStream::Open()
 {
-    if ( m_hConsole == INVALID_HANDLE_VALUE ) {
+	if (m_hConsole == INVALID_HANDLE_VALUE) {
 		AllocConsole();
-		m_hConsole = GetStdHandle( STD_OUTPUT_HANDLE );
-		int handle = _open_osfhandle((INT_PTR)m_hConsole, _O_TEXT );
-		m_fConsole = _fdopen( handle, "w" );
-#ifdef _UNICODE
-		m_FileBuf = new basic_filebuf<wchar_t>( m_fConsole );
-#else
-		m_FileBuf = new basic_filebuf<char>( m_fConsole );
-#endif
-		init( m_FileBuf );
+		m_hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+		int handle = _open_osfhandle((INT_PTR)m_hConsole, _O_TEXT);
+		m_fConsole = _fdopen(handle, "w");
+	#ifdef _UNICODE
+		m_FileBuf = new basic_filebuf<wchar_t>(m_fConsole);
+	#else
+		m_FileBuf = new basic_filebuf<char>(m_fConsole);
+	#endif
+		init(m_FileBuf);
 		setf(ios::unitbuf);
 	}
 };
@@ -99,11 +99,10 @@ void ConStream::Open()
 //
 void ConStream::Close()
 {
-    if ( m_hConsole != INVALID_HANDLE_VALUE ) {
-        init( &m_Nul );
-        FreeConsole();
-        fclose( m_fConsole );
-        m_hConsole = INVALID_HANDLE_VALUE;
-    }
+	if (m_hConsole != INVALID_HANDLE_VALUE) {
+		init(&m_Nul);
+		FreeConsole();
+		fclose(m_fConsole);
+		m_hConsole = INVALID_HANDLE_VALUE;
+	}
 };
-    

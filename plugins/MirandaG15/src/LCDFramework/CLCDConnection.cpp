@@ -6,7 +6,6 @@
 //************************************************************************
 CLCDConnection::CLCDConnection()
 {
-	m_bReconnect = true;
 }
 
 //************************************************************************
@@ -59,7 +58,8 @@ bool CLCDConnection::GetButtonState(int)
 //************************************************************************
 // returns the id of the specified button
 //************************************************************************
-int CLCDConnection::GetButtonId(int) {
+int CLCDConnection::GetButtonId(int)
+{
 	return 0;
 }
 
@@ -147,7 +147,7 @@ CLCDDevice* CLCDConnection::GetAttachedDevice(int)
 //************************************************************************
 // Connects to the specified LCD
 //************************************************************************
-bool CLCDConnection::Connect(int )
+bool CLCDConnection::Connect(int)
 {
 	return false;
 }

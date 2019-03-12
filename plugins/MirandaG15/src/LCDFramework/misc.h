@@ -93,5 +93,3 @@ inline std::string toNarrowString( const std::string& str )
 
 extern int GetRandomInt(int iMin, int iMax);
 extern double GetRandomDouble();
-
-extern tstring tstringprintf(tstring strFormat,...);

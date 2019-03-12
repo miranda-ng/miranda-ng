@@ -40,7 +40,7 @@ bool CLCDObject::Shutdown()
 //************************************************************************
 // Set the origin of the object
 //************************************************************************
-void CLCDObject::SetOrigin(int iX,int iY)
+void CLCDObject::SetOrigin(int iX, int iY)
 {
 	m_Origin.x = iX;
 	m_Origin.y = iY;
@@ -62,7 +62,7 @@ POINT CLCDObject::GetOrigin()
 //************************************************************************
 // Set the size of the object
 //************************************************************************
-void CLCDObject::SetSize(int iWidth,int iHeight)
+void CLCDObject::SetSize(int iWidth, int iHeight)
 {
 	SIZE OldSize = m_Size;
 	m_Size.cx = iWidth;

@@ -58,10 +58,10 @@ public:
 	virtual void OnExpiration();
 
 private:
-	SIZE					m_Size;
-	vector<CLCDObject*>		m_Objects;
-	bool					m_bAlert;
-	DWORD					m_dwExpiration;
+	SIZE m_Size;
+	bool m_bAlert = false;
+	DWORD m_dwExpiration = INFINITE;
+	vector<CLCDObject*> m_Objects;
 };
 
 #endif

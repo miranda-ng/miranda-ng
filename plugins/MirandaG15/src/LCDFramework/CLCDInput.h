@@ -75,18 +75,19 @@ protected:
 
 	void UpdateMarker();
 	void MoveMarker(int iDir,int iMove,bool bShift=false);
+
 protected:
-	bool m_bShowSymbols;
-	bool m_iBreakKeys;
+	bool m_bShowSymbols = true;
+	bool m_iBreakKeys = KEYS_RETURN;
 
-	int m_iLineCount;
-	long m_lInputTime;
-	bool m_bInsert;
+	int m_iLineCount = 0;
+	long m_lInputTime = 0;
+	bool m_bInsert = false;
 	
-	long m_lBlinkTimer;
-	bool m_bShowMarker;
+	long m_lBlinkTimer = 0;
+	bool m_bShowMarker = false;
 
-	int m_iLinePosition;
+	int m_iLinePosition = 0;
 	SMarker m_Marker[2];
 
 	// Text variables
@@ -95,11 +96,11 @@ protected:
 
 	// Input variables
 	static CLCDInput* m_pInput;
-	HHOOK m_hKBHook;
+	HHOOK m_hKBHook = nullptr;
 	BYTE m_acKeyboardState[256];
 
 	// Scrollbar
-	CLCDBar *m_pScrollbar;
+	CLCDBar *m_pScrollbar = nullptr;
 };
 
 

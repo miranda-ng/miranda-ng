@@ -21,7 +21,7 @@ public:
 	bool Update();
 	// Draws the screen
 	bool Draw(CLCDGfx *pGfx);
-	
+
 	// resets the position of the contactlist
 	void ResetPosition();
 

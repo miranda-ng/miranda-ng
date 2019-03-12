@@ -5,7 +5,7 @@
 //************************************************************************
 // Constructor
 //************************************************************************
-CCreditsScreen::CCreditsScreen() : m_dwActivation(0), m_dwDuration(0), m_iPosition(0)
+CCreditsScreen::CCreditsScreen()
 {
 }
 
@@ -21,7 +21,7 @@ CCreditsScreen::~CCreditsScreen()
 //************************************************************************
 bool CCreditsScreen::Initialize()
 {
-	if(!CScreen::Initialize())
+	if (!CScreen::Initialize())
 		return false;
 
 	m_Label.Initialize();
@@ -45,7 +45,7 @@ bool CCreditsScreen::Initialize()
 //************************************************************************
 bool CCreditsScreen::Shutdown()
 {
-	if(!CScreen::Shutdown())
+	if (!CScreen::Shutdown())
 		return false;
 
 	return true;
@@ -56,50 +56,48 @@ bool CCreditsScreen::Shutdown()
 //************************************************************************
 bool CCreditsScreen::Update()
 {
-	if(!CScreen::Update())
+	if (!CScreen::Update())
 		return false;
 
 	DWORD dwTimeElapsed = GetTickCount() - m_dwActivation;
 	int iOldPosition = m_iPosition;
 
-	if(dwTimeElapsed > m_dwDuration)
-	{
+	if (dwTimeElapsed > m_dwDuration) {
 		m_dwDuration = 4000;
 		m_Label.SetText(L"");
 		m_Label2.SetText(L"");
-		switch(m_iPosition)
-		{
+		switch (m_iPosition) {
 		case 0:
 			m_Label.SetText(L"MirandaG15");
 			m_Label2.SetText(L"2008 by Martin Kleinhans");
 			m_dwDuration = 2500;
 			break;
 		case 1:
-			m_Label.SetSize(GetWidth(),GetHeight());
+			m_Label.SetSize(GetWidth(), GetHeight());
 			m_Label.SetText(L"Special thanks to:");
 			m_dwDuration = 2000;
 			break;
-		case 2:	
-			m_Label.SetSize(GetWidth(),25);
+		case 2:
+			m_Label.SetSize(GetWidth(), 25);
 			m_Label.SetText(L"Shere Khan\n");
 			m_Label2.SetText(L"Concept, Ideas, Testing");
 			m_dwDuration = 2500;
 			break;
 		case 3:
-			m_Label.SetSize(GetWidth(),25);
+			m_Label.SetSize(GetWidth(), 25);
 			m_Label.SetText(L"Tauu and Cloonix\n");
 			m_Label2.SetText(L"Ideas, Testing");
 			m_dwDuration = 2500;
 			break;
-		case 4:	
-			m_Label.SetSize(GetWidth(),GetHeight());
+		case 4:
+			m_Label.SetSize(GetWidth(), GetHeight());
 			m_Label.SetFontPointSize(10);
 			m_Label.SetFontWeight(FW_BOLD);
 			m_Label.SetText(L"Betatesters:");
 			m_dwDuration = 2000;
 			break;
 		case 5:
-			m_Label.SetSize(GetWidth(),25);
+			m_Label.SetSize(GetWidth(), 25);
 			m_Label2.SetFontPointSize(10);
 			m_Label2.SetFontWeight(FW_BOLD);
 			m_Label.SetText(L"Cyberz");
@@ -121,12 +119,12 @@ bool CCreditsScreen::Update()
 			m_dwDuration = 2000;
 			break;
 		case 9:
-			m_Label.SetSize(GetWidth(),GetHeight());
+			m_Label.SetSize(GetWidth(), GetHeight());
 			m_Label.SetText(L"Additional thanks to:");
 			m_dwDuration = 2000;
 			break;
 		case 10:
-			m_Label.SetSize(GetWidth(),25);
+			m_Label.SetSize(GetWidth(), 25);
 			m_Label2.SetFontPointSize(8);
 			m_Label2.SetFontWeight(FW_NORMAL);
 			m_Label.SetText(L"Everyone");
@@ -141,16 +139,16 @@ bool CCreditsScreen::Update()
 		case 12:
 			m_Label.SetFontPointSize(10);
 			m_Label.SetFontWeight(FW_BOLD);
-			m_Label.SetSize(GetWidth(),25);
+			m_Label.SetSize(GetWidth(), 25);
 			m_Label.SetText(L"Logitech");
 			m_Label2.SetText(L"for obvious reasons");
 			m_dwDuration = 2000;
 			break;
 		case 13:
-			m_Label.SetSize(GetWidth(),10);
+			m_Label.SetSize(GetWidth(), 10);
 			m_Label.SetText(L"You can contact me at:");
-			m_Label2.SetSize(GetWidth(),33);
-			m_Label2.SetOrigin(0,10);
+			m_Label2.SetSize(GetWidth(), 33);
+			m_Label2.SetOrigin(0, 10);
 			m_Label2.SetFontPointSize(8);
 			m_Label2.SetText(L"mail@mkleinhans.de\nwww.mkleinhans.de");
 			m_dwDuration = 2500;
@@ -162,8 +160,8 @@ bool CCreditsScreen::Update()
 		m_iPosition++;
 		CAppletManager::GetInstance()->StartTransition(TRANSITION_MORPH);
 	}
-	
-	if(m_iPosition != iOldPosition)
+
+	if (m_iPosition != iOldPosition)
 		m_dwActivation = GetTickCount();
 	return true;
 }
@@ -175,9 +173,9 @@ void CCreditsScreen::Reset()
 {
 	m_dwActivation = GetTickCount();
 	m_dwDuration = 0;
-	
+
 	m_iPosition = 0;
-	
+
 	CAppletManager::GetInstance()->GetLCDConnection()->SetAsForeground(true);
 
 	m_Label2.SetAlignment(DT_CENTER);
@@ -186,11 +184,11 @@ void CCreditsScreen::Reset()
 	m_Label2.SetFontFaceName(L"Microsoft Sans Serif");
 	m_Label2.SetFontPointSize(8);
 
-	m_Label.SetOrigin(0,0);
-	m_Label.SetSize(GetWidth(),20);
+	m_Label.SetOrigin(0, 0);
+	m_Label.SetSize(GetWidth(), 20);
 
-	m_Label2.SetOrigin(0,23);
-	m_Label2.SetSize(GetWidth(),20);
+	m_Label2.SetOrigin(0, 23);
+	m_Label2.SetSize(GetWidth(), 20);
 }
 
 
@@ -199,7 +197,7 @@ void CCreditsScreen::Reset()
 //************************************************************************
 bool CCreditsScreen::Draw(CLCDGfx *pGfx)
 {
-	if(!CScreen::Draw(pGfx))
+	if (!CScreen::Draw(pGfx))
 		return false;
 
 	return true;

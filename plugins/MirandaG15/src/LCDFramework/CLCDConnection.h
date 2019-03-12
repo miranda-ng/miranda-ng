@@ -11,19 +11,19 @@
 class CLCDConnection
 {
 protected:
-	bool m_bReconnect;
-	
+	bool m_bReconnect = true;
+
 public:
 	// returns the connection type
-	virtual int GetConnectionType()=0;
-	
+	virtual int GetConnectionType() = 0;
+
 	// returns a pointer to a vector of LCDDevices
 	virtual CLCDDevice* GetAttachedDevice(int iIndex);
 	// returns a pointer to the current device
 	virtual CLCDDevice* GetConnectedDevice();
 
 	// Initializes the connection to the LCD
-	virtual bool Initialize(tstring strAppletName,bool bAutostart = false, bool bConfigDialog = false);
+	virtual bool Initialize(tstring strAppletName, bool bAutostart = false, bool bConfigDialog = false);
 
 	// Connects to the specified LCD
 	virtual bool Connect(int iIndex = 0);
@@ -41,7 +41,7 @@ public:
 	virtual bool Draw();
 	// Hides the applet
 	virtual bool HideApplet();
-	
+
 	// returns the connections state
 	virtual int GetConnectionState();
 

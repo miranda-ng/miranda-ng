@@ -42,10 +42,10 @@ public:
 	void Reset();
 private:
 
-	CLCDLabel m_Label,m_Label2;
-	DWORD m_dwActivation;
-	DWORD m_dwDuration;
-	int m_iPosition;
+	CLCDLabel m_Label, m_Label2;
+	DWORD m_dwActivation = 0;
+	DWORD m_dwDuration = 0;
+	int m_iPosition = 0;
 };
 
 #endif

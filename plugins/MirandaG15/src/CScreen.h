@@ -3,7 +3,6 @@
 
 #include "LCDFramework/CLCDScreen.h"
 #include "LCDFramework/CLCDBitmap.h"
-//#include "CLCDLabel.h"
 
 class CScreen : public CLCDScreen
 {

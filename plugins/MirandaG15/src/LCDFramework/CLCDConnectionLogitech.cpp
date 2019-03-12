@@ -2,9 +2,8 @@
 #include "CLCDConnectionLogitech.h"
 #include "CLCDOutputManager.h"
 
-DWORD WINAPI softButtonCallback(IN int,
-	IN DWORD dwButtons,
-	IN const PVOID pContext) {
+DWORD WINAPI softButtonCallback(IN int, IN DWORD dwButtons, IN const PVOID pContext)
+{
 	((CLCDConnectionLogitech*)pContext)->OnSoftButtonCB(dwButtons);
 	return 0;
 }
@@ -15,7 +14,8 @@ DWORD WINAPI notificationCallback(IN int,
 	IN DWORD notifyParm1,
 	IN DWORD notifyParm2,
 	IN DWORD notifyParm3,
-	IN DWORD notifyParm4) {
+	IN DWORD notifyParm4)
+{
 	((CLCDConnectionLogitech*)pContext)->OnNotificationCB(notificationCode, notifyParm1, notifyParm2, notifyParm3, notifyParm4);
 	return 0;
 }
@@ -26,14 +26,15 @@ void __cdecl initializeDrawingThread(CLCDConnectionLogitech *pParam)
 	pParam->runDrawingThread();
 }
 
-void CLCDConnectionLogitech::runDrawingThread() {
+void CLCDConnectionLogitech::runDrawingThread()
+{
 	m_hStopEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 	m_hDrawEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 
 	DWORD dwRes = 0;
 
 	while (1) {
-		HANDLE hArray[2] = { m_hStopEvent, m_hDrawEvent };
+		HANDLE hArray[2] = {m_hStopEvent, m_hDrawEvent};
 		dwRes = WaitForMultipleObjects(2, hArray, FALSE, INFINITE);
 		if (dwRes == WAIT_OBJECT_0) {
 			break;
@@ -45,12 +46,10 @@ void CLCDConnectionLogitech::runDrawingThread() {
 			}
 			// do a sync update if the applet is in the foreground, or every 500 ms
 			// the delay is there because sync updates can take up to 33ms to fail
-			if (m_dwForegroundCheck < GetTickCount())
-			{
+			if (m_dwForegroundCheck < GetTickCount()) {
 				m_dwForegroundCheck = GetTickCount() + 500;
 				rc = lgLcdUpdateBitmap(m_hDevice, &m_lcdBitmap.hdr, LGLCD_SYNC_COMPLETE_WITHIN_FRAME(m_iPriority));
-				if (rc == ERROR_ACCESS_DENIED)
-				{
+				if (rc == ERROR_ACCESS_DENIED) {
 					rc = ERROR_SUCCESS;
 					m_bIsForeground = false;
 				}
@@ -119,7 +118,8 @@ CLCDConnectionLogitech::~CLCDConnectionLogitech()
 {
 	do {
 		SetEvent(m_hStopEvent);
-	} while (WaitForSingleObject(m_hDrawingThread, 500) == WAIT_TIMEOUT);
+	}
+	while (WaitForSingleObject(m_hDrawingThread, 500) == WAIT_TIMEOUT);
 
 	if (m_pDrawingBuffer != nullptr) {
 		free(m_pDrawingBuffer);
@@ -164,7 +164,8 @@ bool CLCDConnectionLogitech::Initialize(tstring strAppletName, bool bAutostart, 
 //************************************************************************
 // returns the name of the attached device
 //************************************************************************
-tstring CLCDConnectionLogitech::GetDeviceName() {
+tstring CLCDConnectionLogitech::GetDeviceName()
+{
 	if (m_pConnectedDevice->GetIndex() == LGLCD_DEVICE_BW) {
 		return L"G15/Z10";
 	}
@@ -176,7 +177,8 @@ tstring CLCDConnectionLogitech::GetDeviceName() {
 //************************************************************************
 // enumerates all attached devices
 //************************************************************************
-CLgLCDDevice* CLCDConnectionLogitech::GetAttachedDevice(int iIndex) {
+CLgLCDDevice* CLCDConnectionLogitech::GetAttachedDevice(int iIndex)
+{
 	std::vector<CLgLCDDevice*>::iterator i = m_lcdDevices.begin();
 	for (; i != m_lcdDevices.end(); i++) {
 		if ((*i)->GetIndex() == iIndex) {
@@ -190,7 +192,8 @@ CLgLCDDevice* CLCDConnectionLogitech::GetAttachedDevice(int iIndex) {
 //************************************************************************
 // disconnects the device
 //************************************************************************
-bool CLCDConnectionLogitech::Disconnect() {
+bool CLCDConnectionLogitech::Disconnect()
+{
 	if (!m_bConnected)
 		return false;
 
@@ -214,7 +217,8 @@ bool CLCDConnectionLogitech::Disconnect() {
 //************************************************************************
 // returns a pointer to the current device
 //************************************************************************
-CLgLCDDevice* CLCDConnectionLogitech::GetConnectedDevice() {
+CLgLCDDevice* CLCDConnectionLogitech::GetConnectedDevice()
+{
 	return m_pConnectedDevice;
 }
 
@@ -228,12 +232,10 @@ bool CLCDConnectionLogitech::Connect(int iIndex)
 	if (m_bConnected && (iIndex == 0 || iIndex == GetConnectedDevice()->GetIndex()))
 		return true;
 
-	if (m_hConnection == LGLCD_INVALID_CONNECTION)
-	{
+	if (m_hConnection == LGLCD_INVALID_CONNECTION) {
 		rc = lgLcdConnectEx(&m_connectContext);
 		// establish the connection
-		if (ERROR_SUCCESS == rc)
-		{
+		if (ERROR_SUCCESS == rc) {
 			m_hConnection = m_connectContext.connection;
 			m_hDevice = LGLCD_INVALID_CONNECTION;
 
@@ -321,7 +323,8 @@ bool CLCDConnectionLogitech::Shutdown()
 //************************************************************************
 // Reads data from the keyboard HID device
 //************************************************************************
-bool CLCDConnectionLogitech::HIDReadData(BYTE* data) {
+bool CLCDConnectionLogitech::HIDReadData(BYTE* data)
+{
 	static OVERLAPPED olRead;
 	static HANDLE hReadEvent = CreateEvent(nullptr, false, true, L"ReadEvent");
 	static BYTE privateBuffer[9];
@@ -355,56 +358,60 @@ bool CLCDConnectionLogitech::HIDReadData(BYTE* data) {
 	return false;
 }
 
-void CLCDConnectionLogitech::OnSoftButtonCB(DWORD state) {
+void CLCDConnectionLogitech::OnSoftButtonCB(DWORD state)
+{
 	m_dwButtonState = state;
 }
 
-void CLCDConnectionLogitech::OnNotificationCB(DWORD notificationCode, DWORD notifyParm1, DWORD, DWORD, DWORD) {
+void CLCDConnectionLogitech::OnNotificationCB(DWORD notificationCode, DWORD notifyParm1, DWORD, DWORD, DWORD)
+{
 	CLgLCDDevice *device;
 
 	switch (notificationCode) {
-	case LGLCD_NOTIFICATION_DEVICE_ARRIVAL: {
-		int *counter = notifyParm1 == LGLCD_DEVICE_QVGA ? &m_iNumQVGADevices : &m_iNumBWDevices;
-		if (*counter == 0) {
-			SIZE size;
-			if (notifyParm1 == LGLCD_DEVICE_QVGA) {
-				size.cx = 320;
-				size.cy = 240;
-				device = new CLgLCDDevice(notifyParm1, size, 7, 4);
+	case LGLCD_NOTIFICATION_DEVICE_ARRIVAL:
+		{
+			int *counter = notifyParm1 == LGLCD_DEVICE_QVGA ? &m_iNumQVGADevices : &m_iNumBWDevices;
+			if (*counter == 0) {
+				SIZE size;
+				if (notifyParm1 == LGLCD_DEVICE_QVGA) {
+					size.cx = 320;
+					size.cy = 240;
+					device = new CLgLCDDevice(notifyParm1, size, 7, 4);
+				}
+				else {
+					size.cx = 160;
+					size.cy = 43;
+					device = new CLgLCDDevice(notifyParm1, size, 4, 1);
+				}
+				m_lcdDevices.push_back(device);
 			}
-			else {
-				size.cx = 160;
-				size.cy = 43;
-				device = new CLgLCDDevice(notifyParm1, size, 4, 1);
-			}
-			m_lcdDevices.push_back(device);
+
+			(*counter)++;
+			break;
 		}
+	case LGLCD_NOTIFICATION_DEVICE_REMOVAL:
+		{
+			int *counter = notifyParm1 == LGLCD_DEVICE_QVGA ? &m_iNumQVGADevices : &m_iNumBWDevices;
+			(*counter)--;
+			if (*counter == 0) {
+				std::vector<CLgLCDDevice*>::iterator i = m_lcdDevices.begin();
+				for (; i != m_lcdDevices.end(); i++) {
+					if ((*i)->GetIndex() == notifyParm1) {
+						device = *i;
 
-		(*counter)++;
-		break;
-	}
-	case LGLCD_NOTIFICATION_DEVICE_REMOVAL: {
-		int *counter = notifyParm1 == LGLCD_DEVICE_QVGA ? &m_iNumQVGADevices : &m_iNumBWDevices;
-		(*counter)--;
-		if (*counter == 0) {
-			std::vector<CLgLCDDevice*>::iterator i = m_lcdDevices.begin();
-			for (; i != m_lcdDevices.end(); i++) {
-				if ((*i)->GetIndex() == notifyParm1) {
-					device = *i;
+						if (device == m_pConnectedDevice) {
+							HandleErrorFromAPI(ERROR_DEVICE_NOT_CONNECTED);
+						}
 
-					if (device == m_pConnectedDevice) {
-						HandleErrorFromAPI(ERROR_DEVICE_NOT_CONNECTED);
+						m_lcdDevices.erase(i);
+						delete device;
+
+						break;
 					}
-
-					m_lcdDevices.erase(i);
-					delete device;
-
-					break;
 				}
 			}
+			break;
 		}
-		break;
-	}
 	}
 }
 
@@ -414,8 +421,7 @@ void CLCDConnectionLogitech::OnNotificationCB(DWORD notificationCode, DWORD noti
 bool CLCDConnectionLogitech::Update()
 {
 	// check for lcd devices
-	if (LGLCD_INVALID_DEVICE == m_hDevice)
-	{
+	if (LGLCD_INVALID_DEVICE == m_hDevice) {
 		if (m_bReconnect) {
 			Connect();
 		}
@@ -470,10 +476,10 @@ bool CLCDConnectionLogitech::Update()
 //************************************************************************
 // returns the id of the specified button
 //************************************************************************
-int CLCDConnectionLogitech::GetButtonId(int iButton) {
+int CLCDConnectionLogitech::GetButtonId(int iButton)
+{
 	if (m_pConnectedDevice->GetIndex() == LGLCD_DEVICE_BW) {
-		switch (iButton)
-		{
+		switch (iButton) {
 		case 0: return LGLCDBUTTON_BUTTON0; break;
 		case 1: return LGLCDBUTTON_BUTTON1; break;
 		case 2: return LGLCDBUTTON_BUTTON2; break;
@@ -485,8 +491,7 @@ int CLCDConnectionLogitech::GetButtonId(int iButton) {
 		}
 	}
 	else {
-		switch (iButton)
-		{
+		switch (iButton) {
 		case 0: return LGLCDBUTTON_LEFT;	break;
 		case 1: return LGLCDBUTTON_RIGHT;	break;
 		case 2: return LGLCDBUTTON_OK;		break;
@@ -577,7 +582,7 @@ bool CLCDConnectionLogitech::IsForeground()
 //************************************************************************
 SIZE CLCDConnectionLogitech::GetDisplaySize()
 {
-	SIZE size = { 0, 0 };
+	SIZE size = {0, 0};
 
 	if (!GetConnectionState() == CONNECTED)
 		return size;
@@ -623,8 +628,7 @@ PBYTE CLCDConnectionLogitech::GetPixelBuffer()
 //************************************************************************
 void CLCDConnectionLogitech::HandleErrorFromAPI(DWORD dwRes)
 {
-	switch (dwRes)
-	{
+	switch (dwRes) {
 		// all is well
 	case ERROR_SUCCESS:
 		break;
@@ -698,7 +702,7 @@ bool CLCDConnectionLogitech::HIDInit()
 	*/
 
 	hDevInfo = SetupDiGetClassDevs
-		(&HidGuid,
+	(&HidGuid,
 		nullptr,
 		nullptr,
 		DIGCF_PRESENT | DIGCF_INTERFACEDEVICE);
@@ -711,8 +715,7 @@ bool CLCDConnectionLogitech::HIDInit()
 	MemberIndex = 0;
 	LastDevice = FALSE;
 
-	do
-	{
+	do {
 		/*
 		API function: SetupDiEnumDeviceInterfaces
 		On return, MyDeviceInterfaceData contains the handle to a
@@ -724,14 +727,13 @@ bool CLCDConnectionLogitech::HIDInit()
 		*/
 
 		Result = SetupDiEnumDeviceInterfaces
-			(hDevInfo,
+		(hDevInfo,
 			nullptr,
 			&HidGuid,
 			MemberIndex,
 			&devInfoData);
 
-		if (Result != 0)
-		{
+		if (Result != 0) {
 			//A device has been detected, so get more information about it.
 
 			/*
@@ -756,7 +758,7 @@ bool CLCDConnectionLogitech::HIDInit()
 			//The call will return with a "buffer too small" error which can be ignored.
 
 			Result = SetupDiGetDeviceInterfaceDetail
-				(hDevInfo,
+			(hDevInfo,
 				&devInfoData,
 				nullptr,
 				0,
@@ -774,7 +776,7 @@ bool CLCDConnectionLogitech::HIDInit()
 			//Call the function again, this time passing it the returned buffer size.
 
 			Result = SetupDiGetDeviceInterfaceDetail
-				(hDevInfo,
+			(hDevInfo,
 				&devInfoData,
 				detailData,
 				Length,
@@ -794,7 +796,7 @@ bool CLCDConnectionLogitech::HIDInit()
 			*/
 
 			m_hHIDDeviceHandle = CreateFile
-				(detailData->DevicePath,
+			(detailData->DevicePath,
 				FILE_GENERIC_READ | FILE_GENERIC_WRITE,
 				FILE_SHARE_READ | FILE_SHARE_WRITE,
 				nullptr,
@@ -817,16 +819,14 @@ bool CLCDConnectionLogitech::HIDInit()
 			Attributes.Size = sizeof(Attributes);
 
 			Result = HidD_GetAttributes
-				(m_hHIDDeviceHandle,
+			(m_hHIDDeviceHandle,
 				&Attributes);
 
 			//Is it the desired device?
 			MyDeviceDetected = FALSE;
 
-			if (Attributes.VendorID == VendorID)
-			{
-				if (Attributes.ProductID == ProductID)
-				{
+			if (Attributes.VendorID == VendorID) {
+				if (Attributes.ProductID == ProductID) {
 					//Both the Vendor ID and Product ID match.
 					MyDeviceDetected = TRUE;
 				}
@@ -848,16 +848,15 @@ bool CLCDConnectionLogitech::HIDInit()
 	} //do
 	while ((LastDevice == FALSE) && (MyDeviceDetected == FALSE));
 
-	if (MyDeviceDetected)
-	{
+	if (MyDeviceDetected) {
 		PHIDP_PREPARSED_DATA	PreparsedData;
 
 		HidD_GetPreparsedData
-			(m_hHIDDeviceHandle,
+		(m_hHIDDeviceHandle,
 			&PreparsedData);
 
 		HidP_GetCaps
-			(PreparsedData,
+		(PreparsedData,
 			&m_HIDCapabilities);
 
 		HidD_FreePreparsedData(PreparsedData);
@@ -907,8 +906,7 @@ SG15LightStatus CLCDConnectionLogitech::GetLightStatus()
 	status.eKBDBrightness = (EKBDBrightness)data[1];
 
 	// data[2] = LCD
-	switch (data[2])
-	{
+	switch (data[2]) {
 	case 0x02:
 		status.eLCDBrightness = LCD_ON;
 		break;
@@ -1008,13 +1006,10 @@ void CLCDConnectionLogitech::SetVolumeWheelHook(bool bEnable)
 
 LRESULT CALLBACK CLCDConnectionLogitech::KeyboardHook(int Code, WPARAM wParam, LPARAM lParam)
 {
-	if (Code == HC_ACTION && wParam == WM_KEYDOWN)
-	{
+	if (Code == HC_ACTION && wParam == WM_KEYDOWN) {
 		KBDLLHOOKSTRUCT *key = reinterpret_cast<KBDLLHOOKSTRUCT *>(lParam);
-		if (key->vkCode == VK_VOLUME_UP || key->vkCode == VK_VOLUME_DOWN)
-		{
-			if (m_pInstance->IsForeground())
-			{
+		if (key->vkCode == VK_VOLUME_UP || key->vkCode == VK_VOLUME_DOWN) {
+			if (m_pInstance->IsForeground()) {
 				if (key->vkCode == VK_VOLUME_UP)
 					CLCDOutputManager::GetInstance()->OnLCDButtonDown(LGLCDBUTTON_UP);
 				else if (key->vkCode == VK_VOLUME_DOWN)

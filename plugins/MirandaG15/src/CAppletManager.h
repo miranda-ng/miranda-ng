@@ -45,11 +45,11 @@ public:
 	bool Update();
 
 	// the update timer's callback function
-	static VOID CALLBACK UpdateTimer(HWND hwnd,UINT uMsg,UINT_PTR idEvent,DWORD dwTime);
+	static VOID CALLBACK UpdateTimer(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
 
 	// called when the plugin's configuration has changed
 	void OnConfigChanged();
-	
+
 	// called to process the specified event
 	void HandleEvent(CEvent *pEvent);
 
@@ -64,24 +64,24 @@ public:
 	// hook functions
 	static int HookMessageWindowEvent(WPARAM wParam, LPARAM lParam);
 	static int HookContactIsTyping(WPARAM wParam, LPARAM lParam);
-	static int HookEventAdded(WPARAM wParam, LPARAM lParam); 
+	static int HookEventAdded(WPARAM wParam, LPARAM lParam);
 	static int HookStatusChanged(WPARAM wParam, LPARAM lParam);
 	static int HookProtoAck(WPARAM wParam, LPARAM lParam);
 	static int HookContactAdded(WPARAM wParam, LPARAM lParam);
 	static int HookContactDeleted(WPARAM wParam, LPARAM lParam);
-	static int HookSettingChanged(WPARAM wParam,LPARAM lParam);
-	static int HookChatInbound(WPARAM wParam,LPARAM lParam);
+	static int HookSettingChanged(WPARAM wParam, LPARAM lParam);
+	static int HookChatInbound(WPARAM wParam, LPARAM lParam);
 
 	// check if a contacts message window is opened
 	static bool IsMessageWindowOpen(MCONTACT hContact);
 	// marks the given event as read
 	static void MarkMessageAsRead(MCONTACT hContact, MEVENT hEvent);
 	// translates the given database event
-	static bool TranslateDBEvent(CEvent *pEvent,WPARAM wParam, LPARAM lParam);
+	static bool TranslateDBEvent(CEvent *pEvent, WPARAM wParam, LPARAM lParam);
 	// sends a message to the specified contact
-	static MEVENT SendMessageToContact(MCONTACT hContact,tstring strMessage);
+	static MEVENT SendMessageToContact(MCONTACT hContact, tstring strMessage);
 	// sends typing notifications to the specified contact
-	static void SendTypingNotification(MCONTACT hContact,bool bEnable);
+	static void SendTypingNotification(MCONTACT hContact, bool bEnable);
 
 	// returns a formatted timestamp string
 	static tstring GetFormattedTimestamp(tm *time);
@@ -89,11 +89,11 @@ public:
 	// returns the contacts group
 	static tstring GetContactGroup(MCONTACT hContact);
 	// returns the contacts displayname
-	static tstring GetContactDisplayname(MCONTACT hContact,bool bShortened=false);
+	static tstring GetContactDisplayname(MCONTACT hContact, bool bShortened = false);
 
 	// returns the history class for the specified IRC channel
 	CIRCHistory *GetIRCHistory(MCONTACT hContact);
-	CIRCHistory *GetIRCHistoryByName(tstring strProtocol,tstring strChannel);
+	CIRCHistory *GetIRCHistoryByName(tstring strProtocol, tstring strChannel);
 
 	// returns the IRC connection class for the specified protocol
 	CIRCConnection *GetIRCConnection(tstring strProtocol);
@@ -108,15 +108,15 @@ public:
 	// checks if the patched IRC protocol is in place
 	bool IsIRCHookEnabled();
 
-	static tstring TranslateString(wchar_t *szString,...);
+	static tstring TranslateString(wchar_t *szString, ...);
 
 private:
 	list<CIRCHistory*> m_LIRCHistorys;
 	// deletes the history class for the specified IRC channel
 	void DeleteIRCHistory(MCONTACT hContact);
 	// creates a history class for the specified IRC channel
-	CIRCHistory *CreateIRCHistory(MCONTACT hContact,tstring strChannel);
-	CIRCHistory *CreateIRCHistoryByName(tstring strProtocol,tstring strChannel);
+	CIRCHistory *CreateIRCHistory(MCONTACT hContact, tstring strChannel);
+	CIRCHistory *CreateIRCHistoryByName(tstring strProtocol, tstring strChannel);
 
 	// activate a screen
 	void ActivateScreen(CScreen *pScreen);
@@ -128,7 +128,7 @@ private:
 	void OnConnectionChanged(int iConnectionState);
 	// Called when the active screen has expired
 	void OnScreenExpired(CLCDScreen *pScreen);
-	
+
 	// updates all pending message jobs
 	void UpdateMessageJobs();
 	// adds a message job to the list
@@ -149,15 +149,15 @@ private:
 	list<SMessageJob*> m_MessageJobs;
 
 	// update timer handle
-	UINT					m_uiTimer;
+	UINT m_uiTimer;
 
 	// screens
-	CNotificationScreen		m_NotificationScreen;
-	CEventScreen			m_EventScreen;
-	CContactlistScreen		m_ContactlistScreen;
-	CChatScreen				m_ChatScreen;
-	CCreditsScreen			m_CreditsScreen;
-	CScreensaverScreen		m_ScreensaverScreen;
+	CNotificationScreen m_NotificationScreen;
+	CEventScreen        m_EventScreen;
+	CContactlistScreen  m_ContactlistScreen;
+	CChatScreen         m_ChatScreen;
+	CCreditsScreen      m_CreditsScreen;
+	CScreensaverScreen  m_ScreensaverScreen;
 
 	// protocol data
 	vector<CProtocolData*> m_vProtocolData;
@@ -166,8 +166,8 @@ private:
 	// hook handles
 	HANDLE m_hMIHookMessageWindowEvent;
 	HANDLE m_hMIHookContactIsTyping;
-	HANDLE m_hMIHookEventAdded;	
-	HANDLE m_hMIHookStatusChanged;	
+	HANDLE m_hMIHookEventAdded;
+	HANDLE m_hMIHookStatusChanged;
 	HANDLE m_hMIHookProtoAck;
 	HANDLE m_hMIHookSettingChanged;
 	HANDLE m_hMIHookContactDeleted;
@@ -178,7 +178,7 @@ private:
 
 	// last active screen
 	CScreen *m_pLastScreen;
-	
+
 	bool m_bScreensaver;
 
 	HBITMAP m_ahStatusBitmaps[8];

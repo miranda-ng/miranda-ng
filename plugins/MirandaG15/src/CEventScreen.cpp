@@ -22,28 +22,27 @@ CEventScreen::~CEventScreen()
 //************************************************************************
 bool CEventScreen::Initialize()
 {
-	if(!CScreen::Initialize())
+	if (!CScreen::Initialize())
 		return false;
 
 	m_EventLog.Initialize();
-	m_EventLog.SetOrigin(0,0);
-	m_EventLog.SetSize(GetWidth()-5,GetHeight()-(CConfig::GetBoolSetting(SHOW_LABELS)?6:0));
+	m_EventLog.SetOrigin(0, 0);
+	m_EventLog.SetSize(GetWidth() - 5, GetHeight() - (CConfig::GetBoolSetting(SHOW_LABELS) ? 6 : 0));
 	m_EventLog.SetFont(CConfig::GetFont(FONT_LOG));
 
 	AddObject(&m_EventLog);
 
 	m_Scrollbar.Initialize();
-	m_Scrollbar.SetOrigin(GetWidth()-4,0);
-	m_Scrollbar.SetSize(4,GetHeight()-(CConfig::GetBoolSetting(SHOW_LABELS)?5:0));
+	m_Scrollbar.SetOrigin(GetWidth() - 4, 0);
+	m_Scrollbar.SetSize(4, GetHeight() - (CConfig::GetBoolSetting(SHOW_LABELS) ? 5 : 0));
 	m_EventLog.SetScrollbar(&m_Scrollbar);
 
 	AddObject(&m_Scrollbar);
 
-	SetButtonBitmap(0,IDB_UP);
-	SetButtonBitmap(1,IDB_DOWN);
-	SetButtonBitmap(2,IDB_CLIST);
-	SetButtonBitmap(3,NULL);
-
+	SetButtonBitmap(0, IDB_UP);
+	SetButtonBitmap(1, IDB_DOWN);
+	SetButtonBitmap(2, IDB_CLIST);
+	SetButtonBitmap(3, NULL);
 	return true;
 }
 
@@ -52,7 +51,7 @@ bool CEventScreen::Initialize()
 //************************************************************************
 bool CEventScreen::Shutdown()
 {
-	if(!CScreen::Shutdown())
+	if (!CScreen::Shutdown())
 		return false;
 
 	return true;
@@ -63,7 +62,7 @@ bool CEventScreen::Shutdown()
 //************************************************************************
 bool CEventScreen::Update()
 {
-	if(!CScreen::Update())
+	if (!CScreen::Update())
 		return false;
 
 	return true;
@@ -74,7 +73,7 @@ bool CEventScreen::Update()
 //************************************************************************
 bool CEventScreen::Draw(CLCDGfx *pGfx)
 {
-	if(!CScreen::Draw(pGfx))
+	if (!CScreen::Draw(pGfx))
 		return false;
 
 	return true;
@@ -88,11 +87,10 @@ void CEventScreen::OnSizeChanged()
 	CScreen::OnSizeChanged();
 
 	m_EventLog.SetFont(CConfig::GetFont(FONT_LOG));
-	m_EventLog.SetSize(GetWidth()-5,GetHeight()-(CConfig::GetBoolSetting(SHOW_LABELS)?6:0));
+	m_EventLog.SetSize(GetWidth() - 5, GetHeight() - (CConfig::GetBoolSetting(SHOW_LABELS) ? 6 : 0));
 
-	m_Scrollbar.SetOrigin(GetWidth()-4,0);
-	
-	m_Scrollbar.SetSize(4,GetHeight()-(CConfig::GetBoolSetting(SHOW_LABELS)?5:0));
+	m_Scrollbar.SetOrigin(GetWidth() - 4, 0);
+	m_Scrollbar.SetSize(4, GetHeight() - (CConfig::GetBoolSetting(SHOW_LABELS) ? 5 : 0));
 }
 
 //************************************************************************
@@ -103,19 +101,18 @@ void CEventScreen::OnConfigChanged()
 	CScreen::OnConfigChanged();
 
 	m_EventLog.SetFont(CConfig::GetFont(FONT_LOG));
-	m_EventLog.SetSize(GetWidth()-5,GetHeight()-(CConfig::GetBoolSetting(SHOW_LABELS)?6:0));
+	m_EventLog.SetSize(GetWidth() - 5, GetHeight() - (CConfig::GetBoolSetting(SHOW_LABELS) ? 6 : 0));
 
 	// Update all timestamps
-	list<CListEntry<CEventLogEntry*>*>::iterator iter =  m_EventLog.begin();
+	list<CListEntry<CEventLogEntry*>*>::iterator iter = m_EventLog.begin();
 	CListItem<CEventLogEntry*> *pItem = nullptr;
-	while(iter != m_EventLog.end())
-	{
+	while (iter != m_EventLog.end()) {
 		pItem = static_cast<CListItem<CEventLogEntry*>*>(*iter);
 		pItem->GetItemData()->strTimestamp = CAppletManager::GetFormattedTimestamp(&pItem->GetItemData()->Time) + L" ";
 		iter++;
 	}
 
-	m_Scrollbar.SetSize(4,GetHeight()-(CConfig::GetBoolSetting(SHOW_LABELS)?5:0));
+	m_Scrollbar.SetSize(4, GetHeight() - (CConfig::GetBoolSetting(SHOW_LABELS) ? 5 : 0));
 }
 
 //************************************************************************
@@ -124,7 +121,7 @@ void CEventScreen::OnConfigChanged()
 void CEventScreen::OnEventReceived(CEvent *pEvent)
 {
 	// check if the event needs to be listed
-	if(!pEvent->bLog)
+	if (!pEvent->bLog)
 		return;
 
 	// create a list entry structure
@@ -148,13 +145,13 @@ void CEventScreen::OnEventReceived(CEvent *pEvent)
 void CEventScreen::UpdateChatButton()
 {
 	CListEntry<CEventLogEntry*> *pItem = m_EventLog.GetSelectedEntry();
-	if(!pItem || pItem->GetType() != ITEM)
-			return;
+	if (!pItem || pItem->GetType() != ITEM)
+		return;
 	CEventLogEntry *pEntry = ((CListItem<CEventLogEntry*>*)pItem)->GetItemData();
-	if(pEntry->hContact)
-		SetButtonBitmap(3,IDB_CHAT);
+	if (pEntry->hContact)
+		SetButtonBitmap(3, IDB_CHAT);
 	else
-		SetButtonBitmap(3,NULL);
+		SetButtonBitmap(3, NULL);
 }
 
 //************************************************************************
@@ -162,32 +159,35 @@ void CEventScreen::UpdateChatButton()
 //************************************************************************
 void CEventScreen::OnLCDButtonDown(int iButton)
 {
-	if(iButton == LGLCDBUTTON_CANCEL) {
+	if (iButton == LGLCDBUTTON_CANCEL) {
 		CAppletManager::GetInstance()->ActivatePreviousScreen();
-	} else if(iButton == LGLCDBUTTON_BUTTON1 || iButton == LGLCDBUTTON_DOWN) {
+	}
+	else if (iButton == LGLCDBUTTON_BUTTON1 || iButton == LGLCDBUTTON_DOWN) {
 		m_EventLog.ScrollDown();
 		UpdateChatButton();
-	} else if(iButton == LGLCDBUTTON_BUTTON0 || iButton == LGLCDBUTTON_UP) {
+	}
+	else if (iButton == LGLCDBUTTON_BUTTON0 || iButton == LGLCDBUTTON_UP) {
 		m_EventLog.ScrollUp();
 		UpdateChatButton();
-	} else if(iButton == LGLCDBUTTON_BUTTON2 || iButton == LGLCDBUTTON_MENU) {
+	}
+	else if (iButton == LGLCDBUTTON_BUTTON2 || iButton == LGLCDBUTTON_MENU) {
 		CAppletManager::GetInstance()->ActivateCListScreen();
-	} else if(iButton == LGLCDBUTTON_BUTTON3 || iButton == LGLCDBUTTON_OK)
-	{
+	}
+	else if (iButton == LGLCDBUTTON_BUTTON3 || iButton == LGLCDBUTTON_OK) {
 		CListEntry<CEventLogEntry*> *pItem = m_EventLog.GetSelectedEntry();
-		if(!pItem || pItem->GetType() != ITEM)
-				return;
+		if (!pItem || pItem->GetType() != ITEM)
+			return;
 		CEventLogEntry *pEntry = ((CListItem<CEventLogEntry*>*)pItem)->GetItemData();
 
-		if(!pEntry->hContact)
+		if (!pEntry->hContact)
 			return;
-		
+
 		// if the contact is an irc chatroom, check if it is hidden (user left the channel)
 		char *szProto = GetContactProto(pEntry->hContact);
 		CIRCConnection *pIRCCon = CAppletManager::GetInstance()->GetIRCConnection(toTstring(szProto));
 
-		if(pIRCCon && db_get_b(pEntry->hContact, szProto, "ChatRoom", 0) != 0 &&
-			db_get_b(pEntry->hContact,"CList","Hidden",0))
+		if (pIRCCon && db_get_b(pEntry->hContact, szProto, "ChatRoom", 0) != 0 &&
+			db_get_b(pEntry->hContact, "CList", "Hidden", 0))
 			return;
 
 		CAppletManager::GetInstance()->ActivateChatScreen(pEntry->hContact);
@@ -199,10 +199,11 @@ void CEventScreen::OnLCDButtonDown(int iButton)
 //************************************************************************
 void CEventScreen::OnLCDButtonRepeated(int iButton)
 {
-	if(iButton == LGLCDBUTTON_BUTTON1 || iButton == LGLCDBUTTON_DOWN) {
+	if (iButton == LGLCDBUTTON_BUTTON1 || iButton == LGLCDBUTTON_DOWN) {
 		m_EventLog.ScrollDown();
 		UpdateChatButton();
-	} else if(iButton == LGLCDBUTTON_BUTTON0 || iButton == LGLCDBUTTON_UP) {
+	}
+	else if (iButton == LGLCDBUTTON_BUTTON0 || iButton == LGLCDBUTTON_UP) {
 		m_EventLog.ScrollUp();
 		UpdateChatButton();
 	}
@@ -213,7 +214,6 @@ void CEventScreen::OnLCDButtonRepeated(int iButton)
 //************************************************************************
 void CEventScreen::OnLCDButtonUp(int)
 {
-	
 }
 
 //************************************************************************
@@ -221,7 +221,6 @@ void CEventScreen::OnLCDButtonUp(int)
 //************************************************************************
 void CEventScreen::OnActivation()
 {
-
 }
 
 //************************************************************************

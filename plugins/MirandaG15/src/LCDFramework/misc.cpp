@@ -1,22 +1,6 @@
 /* -------------------------------------------------------------------- */
 #include "StdAfx.h"
 
-tstring tstringprintf(tstring strFormat,...) {
-	va_list vlist;
-
-	va_start(vlist, strFormat);
-	
-	int mlen = (int)strFormat.length()+128;
-	wchar_t *text = (wchar_t*)malloc(mlen*sizeof(wchar_t));
-	_vsnwprintf(text,mlen,strFormat.c_str(),vlist);
-	va_end(vlist);
-
-	strFormat = text;
-	free(text);
-
-	return strFormat;
-}
-
 // Returns true if the unicode buffer only contains 7-bit characters.
 BOOL IsUnicodeAscii(const wchar_t* pBuffer, int nSize)
 {
@@ -32,69 +16,66 @@ BOOL IsUnicodeAscii(const wchar_t* pBuffer, int nSize)
 	return bResult;
 }
 
-
-wstring 
-toWideString( const char* pStr , int len )
+wstring toWideString(const char* pStr, int len)
 {
-	if ( pStr == nullptr )
-        return L"" ;
+	if (pStr == nullptr)
+		return L"";
 
-    //ASSERT_PTR( pStr ) ; 
-    ASSERT( len >= 0 || len == -1); 
+	//ASSERT_PTR( pStr ) ; 
+	ASSERT(len >= 0 || len == -1);
 
-    // figure out how many wide characters we are going to get 
-    int nChars = MultiByteToWideChar( CP_ACP , 0 , pStr , len , nullptr , 0 ) ; 
-    if ( len == -1 )
-        -- nChars ; 
-    if ( nChars == 0 )
-        return L"" ;
+	// figure out how many wide characters we are going to get 
+	int nChars = MultiByteToWideChar(CP_ACP, 0, pStr, len, nullptr, 0);
+	if (len == -1)
+		--nChars;
+	if (nChars == 0)
+		return L"";
 
-    // convert the narrow string to a wide string 
-    // nb: slightly naughty to write directly into the string like this
-    wstring buf ;
-    buf.resize( nChars ) ; 
-    MultiByteToWideChar( CP_ACP , 0 , pStr , len , 
-        const_cast<wchar_t*>(buf.c_str()) , nChars ) ; 
+	// convert the narrow string to a wide string 
+	// nb: slightly naughty to write directly into the string like this
+	wstring buf;
+	buf.resize(nChars);
+	MultiByteToWideChar(CP_ACP, 0, pStr, len,
+		const_cast<wchar_t*>(buf.c_str()), nChars);
 
-    return buf ;
+	return buf;
 }
 
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+/* ----------------------------------  */
 
-string 
-toNarrowString( const wchar_t* pStr , int len )
+string
+toNarrowString(const wchar_t* pStr, int len)
 {
-    //ASSERT_PTR( pStr ) ; 
-    ASSERT( len >= 0 || len == -1) ; 
+	//ASSERT_PTR( pStr ) ; 
+	ASSERT(len >= 0 || len == -1);
 
-    // figure out how many narrow characters we are going to get 
-    int nChars = WideCharToMultiByte( CP_ACP , 0 , 
-             pStr , len , nullptr , 0 , nullptr , nullptr ) ; 
-    if ( len == -1 )
-        -- nChars ; 
-    if ( nChars == 0 )
-        return "" ;
+	// figure out how many narrow characters we are going to get 
+	int nChars = WideCharToMultiByte(CP_ACP, 0,
+		pStr, len, nullptr, 0, nullptr, nullptr);
+	if (len == -1)
+		--nChars;
+	if (nChars == 0)
+		return "";
 
-    // convert the wide string to a narrow string
-    // nb: slightly naughty to write directly into the string like this
-    string buf ;
-    buf.resize( nChars  ) ;
+	// convert the wide string to a narrow string
+	// nb: slightly naughty to write directly into the string like this
+	string buf;
+	buf.resize(nChars);
 	//char *test = (char*)malloc((nChars+1)*sizeof(char));
-	WideCharToMultiByte( CP_ACP , 0 , pStr , len , 
-          const_cast<char*>(buf.c_str()), nChars , nullptr , nullptr ) ; 
+	WideCharToMultiByte(CP_ACP, 0, pStr, len,
+		const_cast<char*>(buf.c_str()), nChars, nullptr, nullptr);
 
-    return buf ; 
+	return buf;
 }
 
 /// get lower string
 tstring toLower(const tstring &i_str)
 {
-  tstring str(i_str);
-  for (size_t i = 0; i < str.size(); ++ i)
-  {
-    str[i] = tolower(str[i]);
-  }
-  return str;
+	tstring str(i_str);
+	for (size_t i = 0; i < str.size(); ++i) {
+		str[i] = tolower(str[i]);
+	}
+	return str;
 }
 
 /*
@@ -119,10 +100,10 @@ tstring Utf8_Decode(const char *str)
 
 	size_t len = mir_strlen(str);
 
-    if ((wszTemp = (WCHAR *) malloc(sizeof(wchar_t) * (len + 2))) == nullptr)
+	if ((wszTemp = (WCHAR *)malloc(sizeof(wchar_t) * (len + 2))) == nullptr)
 		return strRes;
-	
-	p = (char *) str;
+
+	p = (char *)str;
 	i = 0;
 	while (*p) {
 		if ((*p & 0x80) == 0)
@@ -157,27 +138,27 @@ string Utf8_Encode(const WCHAR *str)
 	unsigned char *szOut = nullptr;
 	int len, i;
 	const WCHAR *wszTemp, *w;
-    
-	if (str == nullptr) 
-        return strRes;
 
-    wszTemp = str;
+	if (str == nullptr)
+		return strRes;
+
+	wszTemp = str;
 
 	// Convert unicode to utf8
 	len = 0;
-	for (w=wszTemp; *w; w++) {
+	for (w = wszTemp; *w; w++) {
 		if (*w < 0x0080) len++;
 		else if (*w < 0x0800) len += 2;
 		else len += 3;
 	}
 
-	if ((szOut = (unsigned char *) malloc(len + 2)) == nullptr)
+	if ((szOut = (unsigned char *)malloc(len + 2)) == nullptr)
 		return strRes;
 
 	i = 0;
-	for (w=wszTemp; *w; w++) {
+	for (w = wszTemp; *w; w++) {
 		if (*w < 0x0080)
-			szOut[i++] = (unsigned char) *w;
+			szOut[i++] = (unsigned char)*w;
 		else if (*w < 0x0800) {
 			szOut[i++] = 0xc0 | ((*w) >> 6);
 			szOut[i++] = 0x80 | ((*w) & 0x3f);
@@ -189,26 +170,25 @@ string Utf8_Encode(const WCHAR *str)
 		}
 	}
 	szOut[i] = '\0';
-	strRes = (char *) szOut;
+	strRes = (char *)szOut;
 	free(szOut);
 	return strRes;
 }
 
 #endif
 
-
 // Zufallszahlen
 int GetRandomInt(int iMin, int iMax)
 {
-	double r = ((double)rand() / (RAND_MAX +1));
+	double r = ((double)rand() / (RAND_MAX + 1));
 
-	int iRes = r*(iMax + 1- iMin) + iMin;
-	if(iRes > iMax)
+	int iRes = r * (iMax + 1 - iMin) + iMin;
+	if (iRes > iMax)
 		Sleep(1);
 	return iRes;
 }
 
 double GetRandomDouble()
 {
-	return ((double)rand() / (RAND_MAX +1));
+	return ((double)rand() / (RAND_MAX + 1));
 }

@@ -47,7 +47,7 @@ public:
 	bool SetContact(MCONTACT hContact);
 	// returns the chat contact
 	MCONTACT GetContact();
-	
+
 	// returns wether the input mode is active
 	bool IsInputActive();
 protected:
@@ -55,12 +55,12 @@ protected:
 	void LoadHistory();
 
 	// Adds an outgoing message to the log
-	void AddOutgoingMessage(tstring strMessage,tm *time,bool bIRC = false);
+	void AddOutgoingMessage(tstring strMessage, tm *time, bool bIRC = false);
 	// Adds an incoming message to the log
-	void AddIncomingMessage(tstring strMessage,tm *time,bool bIRC = false);
+	void AddIncomingMessage(tstring strMessage, tm *time, bool bIRC = false);
 
 	// maximizes the content object
-	void Maximize(DWORD dwTimer=INFINITE);
+	void Maximize(DWORD dwTimer = INFINITE);
 	// minimizes the content object
 	void Minimize();
 	// returns wether the content is maximized
@@ -80,22 +80,22 @@ protected:
 	// update's the screens title labels
 	void UpdateLabels();
 
-	bool m_bHideLabels,m_bHideTitle;
-	bool m_bMaximizedTimer;
-	
-	bool m_bContactTyping;
-	bool m_bTyping;
+	bool m_bHideLabels = false, m_bHideTitle = false;
+	bool m_bMaximizedTimer = false;
 
-	enum { REPLY_STATE_NONE,REPLY_STATE_INPUT,REPLY_STATE_SENDING,REPLY_STATE_FAILED} m_eReplyState;
-	DWORD	m_dwCloseTimer;
-	bool	m_bCloseTimer;
-	DWORD	m_dwMaximizedTimer;
-	DWORD	m_dwMaximizedDuration;
+	bool m_bContactTyping = false;
+	bool m_bTyping = false;
 
-	MCONTACT m_hContact;
-	MEVENT m_hMessage;
+	enum { REPLY_STATE_NONE, REPLY_STATE_INPUT, REPLY_STATE_SENDING, REPLY_STATE_FAILED } m_eReplyState = REPLY_STATE_NONE;
+	DWORD	m_dwCloseTimer = 0;
+	bool	m_bCloseTimer = false;
+	DWORD	m_dwMaximizedTimer = 0;
+	DWORD	m_dwMaximizedDuration = 0;
 
-	int m_iStatus;
+	MCONTACT m_hContact = 0;
+	MEVENT m_hMessage = 0;
+
+	int m_iStatus = ID_STATUS_OFFLINE;
 
 	CLCDLabel m_UserProto;
 	CLCDLabel m_UserName;
@@ -107,7 +107,7 @@ protected:
 	CLCDBar	m_Scrollbar;
 
 	tstring m_strProto;
-	bool m_bIRCProtocol;
+	bool m_bIRCProtocol = false;
 };
 
 #endif

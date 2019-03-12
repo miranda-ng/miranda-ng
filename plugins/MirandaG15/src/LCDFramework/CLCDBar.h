@@ -18,7 +18,7 @@ public:
 	CLCDBar();
 	// destructor
 	~CLCDBar();
-	
+
 	// initializes the bar
 	bool Initialize();
 	// deintializes the bar
@@ -38,7 +38,7 @@ public:
 	void SetAlignment(int iAlignment);
 	// sets the size of the slider
 	void SetSliderSize(int iSize);
-	
+
 	// scrolls up/left
 	bool ScrollUp();
 	inline bool ScrollLeft() { return ScrollUp(); };
@@ -49,16 +49,16 @@ public:
 	// scrolls to the specified position
 	bool ScrollTo(int iPosition);
 	// specifies the bar's range
-	void SetRange(int iMin,int iMax);
+	void SetRange(int iMin, int iMax);
 
 private:
-	int		m_iOrientation;
-	int		m_iMode;
-	int		m_iSliderSize;
-	int		m_iMax;
-	int		m_iMin;
-	int		m_iPosition;
-	int		m_iAlignment;
+	int		m_iOrientation = DIRECTION_VERTICAL;
+	int		m_iMode = MODE_SCROLLBAR;
+	int		m_iSliderSize = 0;
+	int		m_iMax = 0;
+	int		m_iMin = 0;
+	int		m_iPosition = 0;
+	int		m_iAlignment = TOP;
 };
 
 #endif

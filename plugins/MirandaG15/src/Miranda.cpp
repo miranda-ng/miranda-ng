@@ -29,8 +29,8 @@
 #include "StdAfx.h"
 
 #ifdef _DEBUG
-	#include <crtdbg.h>
-	#define _CRTDBG_MAP_ALLOC
+#include <crtdbg.h>
+#define _CRTDBG_MAP_ALLOC
 #endif
 
 #include "CAppletManager.h"
@@ -38,15 +38,15 @@
 
 #include "m_system.h"
 
-// SETTINGS
+ // SETTINGS
 #define LCD_FPS 10
 
 #ifdef _WIN64
-	#pragma comment(lib, "src\\LCDFramework\\hid\\x64\\hid.lib")
-	#pragma comment(lib, "src\\LCDFramework\\g15sdk\\lib\\x64\\lgLcd.lib")
+#pragma comment(lib, "src\\LCDFramework\\hid\\x64\\hid.lib")
+#pragma comment(lib, "src\\LCDFramework\\g15sdk\\lib\\x64\\lgLcd.lib")
 #else
-	#pragma comment(lib, "src\\LCDFramework\\hid\\hid.lib")
-	#pragma comment(lib, "src\\LCDFramework\\g15sdk\\lib\\x86\\lgLcd.lib")
+#pragma comment(lib, "src\\LCDFramework\\hid\\hid.lib")
+#pragma comment(lib, "src\\LCDFramework\\g15sdk\\lib\\x86\\lgLcd.lib")
 #endif
 
 //************************************************************************
@@ -54,7 +54,7 @@
 //************************************************************************
 bool g_bInitialized;
 // AppletManager object
- CAppletManager* g_AppletManager;
+CAppletManager* g_AppletManager;
 
 // Plugin Information
 
@@ -82,7 +82,8 @@ PLUGININFOEX pluginInfoEx =
 
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(nullptr, pluginInfoEx)
-{}
+{
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Called by Miranda to load the plugin.
@@ -92,7 +93,7 @@ CMPlugin::CMPlugin() :
 int CMPlugin::Load()
 {
 	g_bInitialized = false;
-	
+
 	InitDebug();
 	TRACE(L"Plugin loaded\n");
 	// Schedule actual initialization for later
@@ -105,8 +106,8 @@ int CMPlugin::Load()
 
 int CMPlugin::Unload(void)
 {
-	if(!g_bInitialized) {
-		TRACE(L"ERROR: Unload requested, but plugin is not initialized?!\n");		
+	if (!g_bInitialized) {
+		TRACE(L"ERROR: Unload requested, but plugin is not initialized?!\n");
 		return 0;
 	}
 	TRACE(L"-------------------------------------------\nUnloading started\n");
@@ -129,18 +130,17 @@ int Init(WPARAM, LPARAM)
 {
 	g_AppletManager = new CAppletManager();
 	// Memoryleak Detection
-	#ifdef _DEBUG
-		_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-		
-	#endif
-	
-	 // set up the LCD context as non-autostart, non-persist, callbacked
+#ifdef _DEBUG
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
+#endif
+
+	// set up the LCD context as non-autostart, non-persist, callbacked
 	CConfig::Initialize();
 
 	// Initialize the output object
-	if(!g_AppletManager->Initialize(toTstring(APP_SHORTNAME)))
-	{
-		if(CConfig::GetBoolSetting(SKIP_DRIVER_ERROR)) {
+	if (!g_AppletManager->Initialize(toTstring(APP_SHORTNAME))) {
+		if (CConfig::GetBoolSetting(SKIP_DRIVER_ERROR)) {
 			tstring text = L"Failed to initialize the LCD connection\n Make sure you have the newest Logitech drivers installed (>=1.03).\n";
 			tstring title = _A2W(APP_SHORTNAME);
 			MessageBox(nullptr, text.c_str(), title.c_str(), MB_OK | MB_ICONEXCLAMATION);
@@ -149,11 +149,12 @@ int Init(WPARAM, LPARAM)
 		TRACE(L"Initialization failed!.\n");
 		return 0;
 	}
-	
+
 	g_bInitialized = true;
 	TRACE(L"Initialization completed successfully.\n-------------------------------------------\n");
 	return 0;
 }
+
 //************************************************************************
 // UnInit
 //
@@ -161,10 +162,6 @@ int Init(WPARAM, LPARAM)
 //************************************************************************
 void UnInit(void)
 {
-	g_AppletManager->Shutdown();	
+	g_AppletManager->Shutdown();
 	delete g_AppletManager;
-	
-//#ifdef _DEBUG
-//	_CrtDumpMemoryLeaks();
-//#endif
 }

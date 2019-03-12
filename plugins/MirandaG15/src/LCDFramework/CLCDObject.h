@@ -10,19 +10,19 @@ public:
 	CLCDObject();
 	// Destructor
 	~CLCDObject();
-	
+
 	// Initialize the object
 	virtual bool Initialize();
 	// Shutdown the object
 	virtual bool Shutdown();
 
 	// Set the origin of the object
-	void SetOrigin(int iX,int iY);
+	void SetOrigin(int iX, int iY);
 	void SetOrigin(POINT p);
 	// Get the origin of the object
 	POINT GetOrigin();
 	// Set the size of the object
-	void SetSize(int iWidth,int iHeight);
+	void SetSize(int iWidth, int iHeight);
 	void SetSize(SIZE s);
 	// Get the size of the object
 	SIZE GetSize();

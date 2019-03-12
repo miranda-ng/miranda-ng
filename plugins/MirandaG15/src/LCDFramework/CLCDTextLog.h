@@ -4,15 +4,12 @@
 #include "CLCDTextObject.h"
 #include "CLCDBar.h"
 
-
-enum EScrollMode {SCROLL_NONE, SCROLL_MESSAGE,SCROLL_LINE };
-enum EExpandMode { EXPAND_SCROLL, EXPAND_UP,EXPAND_DOWN };
+enum EScrollMode { SCROLL_NONE, SCROLL_MESSAGE, SCROLL_LINE };
+enum EExpandMode { EXPAND_SCROLL, EXPAND_UP, EXPAND_DOWN };
 
 class CLCDTextLog : public CLCDTextObject
 {
 public:
-	
-
 	// Constructor
 	CLCDTextLog();
 	// Destructor
@@ -31,7 +28,7 @@ public:
 	// sets the logs text
 	void SetText(tstring strText);
 	// adds some text to the log
-	void AddText(tstring strText,bool bForceAutoscroll=false);
+	void AddText(tstring strText, bool bForceAutoscroll = false);
 	// sets the maximum number of log entrys
 	void SetLogSize(int iSize);
 	// clears the log
@@ -60,6 +57,7 @@ protected:
 
 	// rewraps all textlines
 	void RefreshLines();
+
 private:
 	// the log entry class
 	class CLogEntry
@@ -73,15 +71,15 @@ private:
 	// wraps the specified log entry
 	void WrapMessage(CLogEntry *pEntry);
 
-	EScrollMode m_eAutoScroll;
-	EExpandMode m_eExpandMode;
+	EScrollMode m_eAutoScroll = SCROLL_MESSAGE;
+	EExpandMode m_eExpandMode = EXPAND_SCROLL;
 
-	int		m_iLogSize;
-	int		m_iPosition;
-	int		m_iTextLines;
-	int		m_iLastScrollDirection;
-	
-	DWORD	m_dwLastScroll;
+	int m_iLogSize = 10;
+	int m_iPosition = 0;
+	int m_iTextLines = 0;
+	int m_iLastScrollDirection = 0;
+
+	DWORD	m_dwLastScroll = 0;
 
 	list<CLogEntry*> m_Entrys;
 	CLCDBar			*m_pScrollbar;

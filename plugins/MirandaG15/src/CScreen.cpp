@@ -21,24 +21,24 @@ CScreen::~CScreen()
 //************************************************************************
 bool CScreen::Initialize()
 {
-	if(!CLCDScreen::Initialize())
+	if (!CLCDScreen::Initialize())
 		return false;
 
 	// initialize the four button labels
-	for (int i = 0; i < 4; i++)
-    {
-        m_aButtons[i].Initialize();
-        m_aButtons[i].SetSize(17, 3);
-        m_aButtons[i].Show(0);
+	for (int i = 0; i < 4; i++) {
+		m_aButtons[i].Initialize();
+		m_aButtons[i].SetSize(17, 3);
+		m_aButtons[i].Show(0);
 		m_abShowButtons[i] = false;
 		m_ahBitmaps[i] = nullptr;
-		if(GetWidth() == 160) {
-			m_aButtons[i].SetOrigin(10+i*29+(i/2)*36, GetHeight()-3);
-		} else {
-			m_aButtons[i].SetOrigin((280/4)*(i+0.5f) + (i/2)*40, GetHeight()-3);
+		if (GetWidth() == 160) {
+			m_aButtons[i].SetOrigin(10 + i * 29 + (i / 2) * 36, GetHeight() - 3);
+		}
+		else {
+			m_aButtons[i].SetOrigin((280 / 4)*(i + 0.5f) + (i / 2) * 40, GetHeight() - 3);
 		}
 		AddObject(&m_aButtons[i]);
-    }
+	}
 
 	/*
 	m_Clock.Initialize();
@@ -61,11 +61,11 @@ bool CScreen::Initialize()
 //************************************************************************
 bool CScreen::Shutdown()
 {
-	if(!CLCDScreen::Shutdown())
+	if (!CLCDScreen::Shutdown())
 		return false;
-	
-	for(int i=0; i < 4; i++)
-		if(m_ahBitmaps[i] != nullptr)
+
+	for (int i = 0; i < 4; i++)
+		if (m_ahBitmaps[i] != nullptr)
 			DeleteObject(m_ahBitmaps[i]);
 
 	return true;
@@ -76,7 +76,7 @@ bool CScreen::Shutdown()
 //************************************************************************
 bool CScreen::Update()
 {
-	if(!CLCDScreen::Update())
+	if (!CLCDScreen::Update())
 		return false;
 
 	return true;
@@ -87,13 +87,12 @@ bool CScreen::Update()
 //************************************************************************
 bool CScreen::Draw(CLCDGfx *pGfx)
 {
-	if(!CLCDScreen::Draw(pGfx))
+	if (!CLCDScreen::Draw(pGfx))
 		return false;
-	
-	for(int i=0;i<4;i++)
-		if(m_aButtons[i].IsVisible())
-		{
-			pGfx->DrawLine(0,GetHeight()-5,GetWidth(),GetHeight()-5);
+
+	for (int i = 0; i < 4; i++)
+		if (m_aButtons[i].IsVisible()) {
+			pGfx->DrawLine(0, GetHeight() - 5, GetWidth(), GetHeight() - 5);
 			break;
 		}
 
@@ -105,23 +104,21 @@ bool CScreen::Draw(CLCDGfx *pGfx)
 //************************************************************************
 void CScreen::SetButtonBitmap(int iButton, int iBitmap)
 {
-	if(iButton <0 || iButton > 3)
+	if (iButton < 0 || iButton > 3)
 		return;
-	if(iBitmap == 0)
-	{
+	if (iBitmap == 0) {
 		m_aButtons[iButton].Show(0);
 		m_abShowButtons[iButton] = false;
 	}
-	else
-	{
-		if(m_ahBitmaps[iButton] != nullptr)
+	else {
+		if (m_ahBitmaps[iButton] != nullptr)
 			DeleteObject(m_ahBitmaps[iButton]);
 
 		m_ahBitmaps[iButton] = (HBITMAP)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(iBitmap),
-												IMAGE_BITMAP,17, 3, LR_MONOCHROME);
+			IMAGE_BITMAP, 17, 3, LR_MONOCHROME);
 		m_aButtons[iButton].SetBitmap(m_ahBitmaps[iButton]);
 
-		if(CConfig::GetBoolSetting(SHOW_LABELS))
+		if (CConfig::GetBoolSetting(SHOW_LABELS))
 			m_aButtons[iButton].Show(1);
 		m_abShowButtons[iButton] = true;
 	}
@@ -141,15 +138,15 @@ void CScreen::ShowButtons(bool bShow)
 //************************************************************************
 void CScreen::UpdateButtons()
 {
-	for (int i = 0; i < 4; i++)
-	{
-		if(GetWidth() == 160) {
-			m_aButtons[i].SetOrigin(10+i*29+(i/2)*36, GetHeight()-3);
-		} else {
-			m_aButtons[i].SetOrigin((280/4)*(i+0.5f) + (i/2)*40, GetHeight()-3);
+	for (int i = 0; i < 4; i++) {
+		if (GetWidth() == 160) {
+			m_aButtons[i].SetOrigin(10 + i * 29 + (i / 2) * 36, GetHeight() - 3);
 		}
-		
-		if(m_abShowButtons[i])
+		else {
+			m_aButtons[i].SetOrigin((280 / 4)*(i + 0.5f) + (i / 2) * 40, GetHeight() - 3);
+		}
+
+		if (m_abShowButtons[i])
 			m_aButtons[i].Show(CConfig::GetBoolSetting(SHOW_LABELS) && !m_bHideButtons);
 	}
 }
@@ -172,7 +169,8 @@ void CScreen::OnConfigChanged()
 //************************************************************************
 // Called when the screens size has changed
 //************************************************************************
-void CScreen::OnSizeChanged() {
+void CScreen::OnSizeChanged()
+{
 	CLCDScreen::OnSizeChanged();
 
 	UpdateButtons();

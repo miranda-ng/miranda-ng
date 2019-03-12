@@ -20,14 +20,14 @@ public:
 	CEventLog();
 	// destructor
 	~CEventLog();
-	
+
 	// initializes the list
 	bool Initialize();
 	// deinitializes the list
 	bool Shutdown();
 	// adds an entry to the list
 	CListItem<CEventLogEntry*> *AddItem(CEventLogEntry *);
-	
+
 	void SetPosition(CListEntry<CEventLogEntry*> *pEntry);
 	bool ScrollUp();
 	bool ScrollDown();
@@ -38,9 +38,9 @@ protected:
 	// Called to delete the specified entry
 	void DeleteEntry(CEventLogEntry *pEntry);
 	// Called to draw the specified entry
-	void DrawEntry(CLCDGfx *pGfx,CEventLogEntry *pEntry,bool bSelected);
+	void DrawEntry(CLCDGfx *pGfx, CEventLogEntry *pEntry, bool bSelected);
 
-	DWORD m_dwLastScroll;
+	DWORD m_dwLastScroll = 0;
 };
 
 #endif

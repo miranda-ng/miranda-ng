@@ -3,17 +3,20 @@
 
 #include "g15sdk/lglcd.h"
 
-class CLCDDevice {
+class CLCDDevice
+{
 private:
 	int m_iIndex;
 
 protected:
-	CLCDDevice(int iIndex) {
+	CLCDDevice(int iIndex)
+	{
 		m_iIndex = iIndex;
 	}
 
 public:
-	int GetIndex() {
+	int GetIndex()
+	{
 		return m_iIndex;
 	}
 
@@ -27,35 +30,41 @@ public:
 	virtual int GetColorCount() = NULL;
 };
 
-class CLgLCDDevice : public CLCDDevice {
+class CLgLCDDevice : public CLCDDevice
+{
 private:
 	SIZE m_size;
 	int m_iButtons;
 	int m_iBPP;
 
 public:
-	CLgLCDDevice(DWORD type, SIZE size, int buttons, int BPP) : CLCDDevice(type) {
+	CLgLCDDevice(DWORD type, SIZE size, int buttons, int BPP) : CLCDDevice(type)
+	{
 		m_size = size;
 		m_iButtons = buttons;
 		m_iBPP = BPP;
 	}
-	
+
 	// Returns the display name
-	tstring GetDisplayName() {
-		return m_iBPP == 1? L"G15" : L"G19";
+	tstring GetDisplayName()
+	{
+		return m_iBPP == 1 ? L"G15" : L"G19";
 	}
 
 	// Returns the display size
-	SIZE GetDisplaySize() {
+	SIZE GetDisplaySize()
+	{
 		return m_size;
 	}
 	// Returns the number of buttons for the display
-	int GetButtonCount() {
+	int GetButtonCount()
+	{
 		return m_iButtons;
 	}
 
 	// Returns the number of available colors
-	int GetColorCount() {
+	int GetColorCount()
+	{
 		return m_iBPP;
 	}
 };

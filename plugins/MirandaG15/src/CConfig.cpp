@@ -281,7 +281,7 @@ void CConfig::SaveFontSettings(int iFont)
 	// Height
 	mir_snprintf(szSetting, "Font%dHeight", iFont);
 	db_set_b(0, "MirandaG15", szSetting, m_logfont[iFont].lfHeight);
-	
+
 	// Style
 	int style = 0;
 	if (m_logfont[iFont].lfWeight == FW_BOLD)
@@ -290,11 +290,11 @@ void CConfig::SaveFontSettings(int iFont)
 		style |= FONTF_ITALIC;
 	mir_snprintf(szSetting, "Font%dStyle", iFont);
 	db_set_b(0, "MirandaG15", szSetting, style);
-	
+
 	// Charset
 	mir_snprintf(szSetting, "Font%dCharset", iFont);
 	db_set_b(0, "MirandaG15", szSetting, m_logfont[iFont].lfCharSet);
-	
+
 	// Name
 	mir_snprintf(szSetting, "Font%dName", iFont);
 	db_set_ws(0, "MirandaG15", szSetting, m_logfont[iFont].lfFaceName);
@@ -434,7 +434,7 @@ INT_PTR CALLBACK CConfig::AppearanceDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 			};
 
 			if (iFont >= 0) {
-				CHOOSEFONT cf = { 0 };
+				CHOOSEFONT cf = {0};
 				cf.lStructSize = sizeof(cf);
 				cf.hwndOwner = hwndDlg;
 				cf.lpLogFont = &m_templogfont[iFont];

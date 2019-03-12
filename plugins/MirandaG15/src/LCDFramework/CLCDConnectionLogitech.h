@@ -10,8 +10,8 @@
 #define G15_M3_LIGHT 0x04
 #define G15_MR_LIGHT 0x08
 
-enum ELCDBrightness {LCD_ON=0x20,LCD_MEDIUM=0x10,LCD_OFF=0x00};
-enum EKBDBrightness {KBD_ON=0x02,KBD_MEDIUM=0x01,KBD_OFF=0x00};
+enum ELCDBrightness { LCD_ON = 0x20, LCD_MEDIUM = 0x10, LCD_OFF = 0x00 };
+enum EKBDBrightness { KBD_ON = 0x02, KBD_MEDIUM = 0x01, KBD_OFF = 0x00 };
 
 
 struct SG15LightStatus
@@ -31,10 +31,10 @@ public:
 	// Constructor / Destructor
 	CLCDConnectionLogitech();
 	~CLCDConnectionLogitech();
-	
+
 	// returns the name of the attached device
 	tstring GetDeviceName();
-	
+
 	// returns a pointer to the device with that index
 	CLgLCDDevice* GetAttachedDevice(int iIndex);
 	// returns a pointer to the connected device
@@ -44,7 +44,7 @@ public:
 	int GetConnectionState();
 
 	// Initializes the connection to the LCD
-	bool Initialize(tstring strAppletName,bool bAutostart = false, bool bConfigDialog = false);
+	bool Initialize(tstring strAppletName, bool bAutostart = false, bool bConfigDialog = false);
 	// connects to the device
 	bool Connect(int iIndex = 0);
 	// disconnects to the device
@@ -82,22 +82,22 @@ public:
 
 	//----------------------------------------------
 	// Special functions to control the lights
-		SG15LightStatus GetLightStatus();
+	SG15LightStatus GetLightStatus();
 
-		void SetMKeyLight(bool bM1,bool bM2,bool bM3,bool bMR);
-		void SetLCDBacklight(ELCDBrightness eBrightness);
-		void SetKBDBacklight(EKBDBrightness eBrightness);
+	void SetMKeyLight(bool bM1, bool bM2, bool bM3, bool bMR);
+	void SetLCDBacklight(ELCDBrightness eBrightness);
+	void SetKBDBacklight(EKBDBrightness eBrightness);
 	//----------------------------------------------
 	//----------------------------------------------
 	// Special functions for callbacks
-		void OnSoftButtonCB(DWORD state);
-		void OnNotificationCB( DWORD notificationCode, DWORD notifyParm1, DWORD notifyParm2, DWORD notifyParm3, DWORD notifyParm4);
+	void OnSoftButtonCB(DWORD state);
+	void OnNotificationCB(DWORD notificationCode, DWORD notifyParm1, DWORD notifyParm2, DWORD notifyParm3, DWORD notifyParm4);
 	//----------------------------------------------
 	// Special functions for the volume wheel hook
 		// Activates/Deactivates the volumewheel hook
-		void SetVolumeWheelHook(bool bEnable);
-		// the keyboard hook callback
-		static LRESULT CALLBACK KeyboardHook(int Code, WPARAM wParam, LPARAM lParam);
+	void SetVolumeWheelHook(bool bEnable);
+	// the keyboard hook callback
+	static LRESULT CALLBACK KeyboardHook(int Code, WPARAM wParam, LPARAM lParam);
 	//----------------------------------------------
 	void runDrawingThread();
 private:
@@ -106,23 +106,23 @@ private:
 	CLgLCDDevice *m_pConnectedDevice;
 	// the connection instance
 	static CLCDConnectionLogitech *m_pInstance;
-	
+
 	// HID variables
 	HANDLE m_hHIDDeviceHandle;
 	HIDP_CAPS m_HIDCapabilities;
-	
+
 	// HID functions
 	bool HIDInit();
 	bool HIDDeInit();
 	bool HIDReadData(BYTE* data);
-	
+
 	// Keyboard hook
 	HHOOK m_hKeyboardHook;
 	bool m_bVolumeWheelHook;
-	
+
 	// handles API Errors
 	void HandleErrorFromAPI(DWORD dwRes);
-	
+
 	int						m_iNumQVGADevices;
 	int						m_iNumBWDevices;
 
@@ -137,12 +137,13 @@ private:
 	int						m_hConnection;
 	DWORD					m_dwButtonState;
 	int						m_iPriority;
-	
+
 	DWORD					m_dwForegroundCheck;
 	bool					m_bSetAsForeground;
 	std::vector<CLgLCDDevice*> m_lcdDevices;
 
 	HANDLE					m_hDrawingThread;
-	HANDLE					m_hStopEvent,m_hDrawEvent;
+	HANDLE					m_hStopEvent, m_hDrawEvent;
 };
+
 #endif

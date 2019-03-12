@@ -3,7 +3,6 @@
 
 CLCDBitmap::CLCDBitmap()
 {
-	m_hBitmap = nullptr;
 }
 
 CLCDBitmap::~CLCDBitmap()
@@ -27,22 +26,21 @@ bool CLCDBitmap::Update()
 
 bool CLCDBitmap::Draw(CLCDGfx *pGfx)
 {
-	if(m_hBitmap)
-    {
-        HDC hCompatibleDC = CreateCompatibleDC(pGfx->GetHDC());
-        HBITMAP hOldBitmap = (HBITMAP)SelectObject(hCompatibleDC, m_hBitmap);
-        
-        BitBlt(pGfx->GetHDC(), 0, 0, GetWidth(), GetHeight(), hCompatibleDC, 0, 0, SRCCOPY);
-        
-        // restores
-        SelectObject(hCompatibleDC, hOldBitmap);
-        DeleteDC(hCompatibleDC);
-    }
+	if (m_hBitmap) {
+		HDC hCompatibleDC = CreateCompatibleDC(pGfx->GetHDC());
+		HBITMAP hOldBitmap = (HBITMAP)SelectObject(hCompatibleDC, m_hBitmap);
+
+		BitBlt(pGfx->GetHDC(), 0, 0, GetWidth(), GetHeight(), hCompatibleDC, 0, 0, SRCCOPY);
+
+		// restores
+		SelectObject(hCompatibleDC, hOldBitmap);
+		DeleteDC(hCompatibleDC);
+	}
 	return true;
 }
 
 void CLCDBitmap::SetBitmap(HBITMAP hBitmap)
 {
-    ASSERT(nullptr != hBitmap);
-    m_hBitmap = hBitmap;
+	ASSERT(nullptr != hBitmap);
+	m_hBitmap = hBitmap;
 }

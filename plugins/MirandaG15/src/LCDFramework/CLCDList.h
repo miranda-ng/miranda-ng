@@ -5,31 +5,29 @@
 #include "CLCDBar.h"
 #include <math.h>
 
-
-enum EListEntryType { ROOT = 0,CONTAINER = 1,ITEM = 2};
+enum EListEntryType { ROOT = 0, CONTAINER = 1, ITEM = 2 };
 
 template <class T, class G = tstring> class CListEntry
 {
 public:
-	CListEntry(CListEntry<T,G> *pParent)
+	CListEntry(CListEntry<T, G> *pParent)
 	{
 		m_iIndex = -1;
 		m_iEntryCount = 0;
 		m_Position = nullptr;
 		m_pParent = pParent;
-		if(pParent == nullptr)
-		{
+		if (pParent == nullptr) {
 			m_iLevel = 0;
 			m_eType = ROOT;
 			m_pRoot = this;
 		}
 		else
-			m_iLevel = m_pParent->GetLevel()+1;
+			m_iLevel = m_pParent->GetLevel() + 1;
 	}
-	
+
 	virtual ~CListEntry()
 	{
-	
+
 	}
 
 	int GetLevel()
@@ -37,37 +35,37 @@ public:
 		return m_iLevel;
 	}
 
-	virtual CListEntry<T,G> *GetNextEntry()
+	virtual CListEntry<T, G> *GetNextEntry()
 	{
-		if(m_pParent == nullptr)
+		if (m_pParent == nullptr)
 			return nullptr;
 
 		return m_pParent->GetNextEntry(this);
 	}
-	
-	virtual CListEntry<T,G> *GetPreviousEntry()
+
+	virtual CListEntry<T, G> *GetPreviousEntry()
 	{
-		if(m_pParent == nullptr)
+		if (m_pParent == nullptr)
 			return nullptr;
 
 		return m_pParent->GetPreviousEntry(this);
 	}
 
-	virtual CListEntry<T,G> *GetNextEntry(CListEntry<T,G>*)
+	virtual CListEntry<T, G> *GetNextEntry(CListEntry<T, G>*)
 	{
 		return nullptr;
 	}
 
-	virtual CListEntry<T,G> *GetPreviousEntry(CListEntry<T,G>*)
+	virtual CListEntry<T, G> *GetPreviousEntry(CListEntry<T, G>*)
 	{
 		return nullptr;
 	}
-	
+
 	EListEntryType GetType()
 	{
 		return m_eType;
 	}
-	
+
 	int	GetEntryCount()
 	{
 		return m_iEntryCount;
@@ -78,7 +76,7 @@ public:
 		m_iEntryCount = 0;
 	}
 
-	void SetRoot(CListEntry<T,G>* pRoot)
+	void SetRoot(CListEntry<T, G>* pRoot)
 	{
 		m_pRoot = pRoot;
 	}
@@ -91,21 +89,21 @@ public:
 	{
 	}
 
-	CListEntry<T,G> *GetPosition()
+	CListEntry<T, G> *GetPosition()
 	{
 		return m_Position;
 	}
-	
-	virtual void SetPosition(CListEntry<T,G> *pPosition)
+
+	virtual void SetPosition(CListEntry<T, G> *pPosition)
 	{
 		m_Position = pPosition;
 	}
 
-	CListEntry<T,G> *GetParent()
+	CListEntry<T, G> *GetParent()
 	{
 		return m_pParent;
 	}
-	
+
 	int	GetIndex()
 	{
 		return m_iIndex;
@@ -121,20 +119,20 @@ protected:
 	int			m_iEntryCount;
 	int			m_iLevel;
 	EListEntryType m_eType;
-	CListEntry<T,G> *m_pParent;
-	CListEntry<T,G> *m_pRoot;	
-	CListEntry<T,G> *m_Position;
+	CListEntry<T, G> *m_pParent;
+	CListEntry<T, G> *m_pRoot;
+	CListEntry<T, G> *m_Position;
 };
 
-template <class T, class G = tstring> class CListItem : public CListEntry<T,G>
+template <class T, class G = tstring> class CListItem : public CListEntry<T, G>
 {
 public:
-	CListItem(CListEntry<T,G> *pParent,T Entry) : CListEntry<T,G>(pParent)
+	CListItem(CListEntry<T, G> *pParent, T Entry) : CListEntry<T, G>(pParent)
 	{
 		m_Item = Entry;
 		m_eType = ITEM;
 	}
-	
+
 	~CListItem()
 	{
 		m_pRoot->DeleteItem(GetItemData());
@@ -148,22 +146,22 @@ private:
 	T	m_Item;
 };
 
-template <class T, class G = tstring> class CListContainer : public CListEntry<T,G>
+template <class T, class G = tstring> class CListContainer : public CListEntry<T, G>
 {
 public:
-	typedef typename list<CListEntry<T,G>* >::iterator iterator;
+	typedef typename list<CListEntry<T, G>* >::iterator iterator;
 
-	typename list<CListEntry<T,G>* >::iterator end()
+	typename list<CListEntry<T, G>* >::iterator end()
 	{
 		return m_Entrys.end();
 	}
-	
-	typename list<CListEntry<T,G>* >::iterator begin()
+
+	typename list<CListEntry<T, G>* >::iterator begin()
 	{
 		return m_Entrys.begin();
 	}
 
-	typename list<CListEntry<T,G>* >::size_type size()
+	typename list<CListEntry<T, G>* >::size_type size()
 	{
 		return m_Entrys.size();
 	}
@@ -173,10 +171,9 @@ public:
 		return m_Entrys.empty();
 	}
 
-	CListContainer(CListEntry<T,G> *pParent) : CListEntry<T,G>(pParent)
+	CListContainer(CListEntry<T, G> *pParent) : CListEntry<T, G>(pParent)
 	{
-		if(m_pParent != nullptr)
-		{
+		if (m_pParent != nullptr) {
 			m_eType = CONTAINER;
 			m_bOpen = false;
 		}
@@ -186,7 +183,7 @@ public:
 
 	~CListContainer()
 	{
-		if(m_pRoot != nullptr) {
+		if (m_pRoot != nullptr) {
 			m_pRoot->DeleteGroup(GetGroupData());
 		}
 		Clear();
@@ -194,19 +191,17 @@ public:
 
 	void Clear()
 	{
-		list< CListEntry<T,G>* >::iterator iter = m_Entrys.begin();
+		list< CListEntry<T, G>* >::iterator iter = m_Entrys.begin();
 
-		while(iter != m_Entrys.end())
-		{
+		while (iter != m_Entrys.end()) {
 			delete *iter;
-			if(m_pRoot && m_pRoot->GetPosition() == *iter)
-			{
-				if(GetType() == ROOT)
+			if (m_pRoot && m_pRoot->GetPosition() == *iter) {
+				if (GetType() == ROOT)
 					m_pRoot->SetPosition(nullptr);
 				else
 					m_pRoot->SetPosition(this);
 			}
-			
+
 			iter++;
 		}
 		m_Entrys.clear();
@@ -222,39 +217,37 @@ public:
 		return m_Entrys.empty();
 	}
 
-	CListEntry<T,G> *GetLastOwnEntry()
+	CListEntry<T, G> *GetLastOwnEntry()
 	{
-		if(m_Entrys.empty())
+		if (m_Entrys.empty())
 			return nullptr;
 
 		return *(--m_Entrys.end());
 	}
 
-	CListEntry<T,G> *GetLastEntry()
+	CListEntry<T, G> *GetLastEntry()
 	{
-		if(!m_Entrys.empty())
-		{
+		if (!m_Entrys.empty()) {
 
-			CListEntry<T,G> *pEntry = *(--m_Entrys.end());
-			if(pEntry->GetType() == ITEM || !((CListContainer<T,G>*)pEntry)->IsOpen() || ((CListContainer<T,G>*)pEntry)->IsEmpty())
+			CListEntry<T, G> *pEntry = *(--m_Entrys.end());
+			if (pEntry->GetType() == ITEM || !((CListContainer<T, G>*)pEntry)->IsOpen() || ((CListContainer<T, G>*)pEntry)->IsEmpty())
 				return pEntry;
-			return ((CListContainer<T,G>*)pEntry)->GetLastEntry();
+			return ((CListContainer<T, G>*)pEntry)->GetLastEntry();
 		}
 		return nullptr;
 	}
 
-	CListEntry<T,G> *GetFirstEntry()
+	CListEntry<T, G> *GetFirstEntry()
 	{
-		if(!m_Entrys.empty())
+		if (!m_Entrys.empty())
 			return *(m_Entrys.begin());
 		return nullptr;
 	}
 
-	CListEntry<T,G> *GetNextEntry()
+	CListEntry<T, G> *GetNextEntry()
 	{
-		if(!IsOpen() || m_Entrys.empty())
-		{
-			if(!m_pParent)
+		if (!IsOpen() || m_Entrys.empty()) {
+			if (!m_pParent)
 				return nullptr;
 			return m_pParent->GetNextEntry(this);
 		}
@@ -262,16 +255,13 @@ public:
 		return *m_Entrys.begin();
 	}
 
-	CListEntry<T,G> *GetNextEntry(CListEntry<T,G> *pEntry)
+	CListEntry<T, G> *GetNextEntry(CListEntry<T, G> *pEntry)
 	{
-		list< CListEntry<T,G>* >::iterator iter = m_Entrys.begin();
-		while(iter != m_Entrys.end())
-		{
-			if((CListEntry<T,G>*)(*iter) == pEntry)
-			{
-				if(++iter == m_Entrys.end())
-				{
-					if(m_pParent == nullptr)
+		list< CListEntry<T, G>* >::iterator iter = m_Entrys.begin();
+		while (iter != m_Entrys.end()) {
+			if ((CListEntry<T, G>*)(*iter) == pEntry) {
+				if (++iter == m_Entrys.end()) {
+					if (m_pParent == nullptr)
 						return nullptr;
 					return m_pParent->GetNextEntry(this);
 				}
@@ -283,27 +273,22 @@ public:
 		return nullptr;
 	}
 
-	CListEntry<T,G> *GetPreviousEntry(CListEntry<T,G> *pEntry)
+	CListEntry<T, G> *GetPreviousEntry(CListEntry<T, G> *pEntry)
 	{
-		list< CListEntry<T,G>* >::iterator iter = m_Entrys.begin();
+		list< CListEntry<T, G>* >::iterator iter = m_Entrys.begin();
 
-		while(iter != m_Entrys.end())
-		{
-			if((CListEntry<T,G>*)(*iter) == pEntry)
-			{
-				if(iter == m_Entrys.begin())
-				{
-					if(m_pParent == nullptr)
+		while (iter != m_Entrys.end()) {
+			if ((CListEntry<T, G>*)(*iter) == pEntry) {
+				if (iter == m_Entrys.begin()) {
+					if (m_pParent == nullptr)
 						return nullptr;
 					return this;
 				}
-				else
-				{
+				else {
 					iter--;
-					if((*iter)->GetType() == CONTAINER)
-					{
-						CListContainer<T,G>* pContainer = (CListContainer<T,G>*)*iter;
-						if(pContainer->IsOpen() && !pContainer->IsEmpty())
+					if ((*iter)->GetType() == CONTAINER) {
+						CListContainer<T, G>* pContainer = (CListContainer<T, G>*)*iter;
+						if (pContainer->IsOpen() && !pContainer->IsEmpty())
 							return pContainer->GetLastEntry();
 					}
 					return *iter;
@@ -314,57 +299,53 @@ public:
 		return nullptr;
 	}
 
-	virtual CListItem<T,G> *InsertItem(iterator _Where,T Entry)
+	virtual CListItem<T, G> *InsertItem(iterator _Where, T Entry)
 	{
-		CListItem<T,G> *pItem = new CListItem<T,G>(this,Entry);
+		CListItem<T, G> *pItem = new CListItem<T, G>(this, Entry);
 		pItem->SetRoot(m_pRoot);
-		m_Entrys.insert(_Where,pItem);
+		m_Entrys.insert(_Where, pItem);
 
 		m_pRoot->UpdateEntryCount();
 
 		return pItem;
 	}
 
-	virtual CListContainer<T,G> *InsertGroup(iterator _Where,G Group)
+	virtual CListContainer<T, G> *InsertGroup(iterator _Where, G Group)
 	{
-		CListContainer<T,G> *pGroup = new CListContainer<T,G>(this);
+		CListContainer<T, G> *pGroup = new CListContainer<T, G>(this);
 		pGroup->SetGroupData(Group);
 		pGroup->SetRoot(m_pRoot);
-		m_Entrys.insert(_Where,(CListEntry<T,G>*)pGroup);
-		
+		m_Entrys.insert(_Where, (CListEntry<T, G>*)pGroup);
+
 		m_pRoot->UpdateEntryCount();
 
 		return pGroup;
 	}
 
-	virtual CListItem<T,G> * AddItem(T Entry)
+	virtual CListItem<T, G> * AddItem(T Entry)
 	{
-		return InsertItem(end(),Entry);
+		return InsertItem(end(), Entry);
 	}
 
-	virtual CListContainer<T,G> * AddGroup(G Group)
+	virtual CListContainer<T, G> * AddGroup(G Group)
 	{
-		return InsertGroup(end(),Group);	
+		return InsertGroup(end(), Group);
 	}
-	
-	
+
+
 
 	virtual void RemoveGroup(G Group)
 	{
-		list< CListEntry<T,G>* >::iterator iter = m_Entrys.begin();
-		CListContainer<T,G> *pContainer = nullptr;
-		while(iter != m_Entrys.end())
-		{
-			if((*iter)->GetType() == CONTAINER)
-			{
-				pContainer = (CListContainer<T,G>*)(*iter);
-				if(pContainer->GetGroupData() == Group)
-				{
+		list< CListEntry<T, G>* >::iterator iter = m_Entrys.begin();
+		CListContainer<T, G> *pContainer = nullptr;
+		while (iter != m_Entrys.end()) {
+			if ((*iter)->GetType() == CONTAINER) {
+				pContainer = (CListContainer<T, G>*)(*iter);
+				if (pContainer->GetGroupData() == Group) {
 					pContainer->Clear();
-					if(m_pRoot && m_pRoot->GetPosition() == *iter)
-					{
-						CListEntry<T,G> *pPosition = (*iter)->GetPreviousEntry();
-						if(!pPosition)
+					if (m_pRoot && m_pRoot->GetPosition() == *iter) {
+						CListEntry<T, G> *pPosition = (*iter)->GetPreviousEntry();
+						if (!pPosition)
 							pPosition = (*iter)->GetNextEntry();
 						m_pRoot->SetPosition(pPosition);
 					}
@@ -381,24 +362,20 @@ public:
 
 	virtual void RemoveItem(T Entry)
 	{
-		list< CListEntry<T,G>* >::iterator iter = m_Entrys.begin();
-		CListItem<T,G> *pItem = nullptr;
-		while(iter != m_Entrys.end())
-		{
-			if((*iter)->GetType() == ITEM)
-			{
-				pItem = (CListItem<T,G>*)(*iter);
-				if(pItem->GetItemData() == Entry)
-				{
-					if(m_pRoot && m_pRoot->GetPosition() == *iter)
-					{
-						CListEntry<T,G> *pPosition = (*iter)->GetPreviousEntry();
-						if(!pPosition)
+		list< CListEntry<T, G>* >::iterator iter = m_Entrys.begin();
+		CListItem<T, G> *pItem = nullptr;
+		while (iter != m_Entrys.end()) {
+			if ((*iter)->GetType() == ITEM) {
+				pItem = (CListItem<T, G>*)(*iter);
+				if (pItem->GetItemData() == Entry) {
+					if (m_pRoot && m_pRoot->GetPosition() == *iter) {
+						CListEntry<T, G> *pPosition = (*iter)->GetPreviousEntry();
+						if (!pPosition)
 							pPosition = (*iter)->GetNextEntry();
 						m_pRoot->SetPosition(pPosition);
 					}
 					delete *iter;
-					
+
 					m_Entrys.erase(iter);
 					if (m_pRoot)
 						m_pRoot->UpdateEntryCount();
@@ -409,23 +386,21 @@ public:
 		}
 	}
 
-	CListContainer<T,G> *GetGroup(G Group)
+	CListContainer<T, G> *GetGroup(G Group)
 	{
-		list< CListEntry<T,G>* >::iterator iter = m_Entrys.begin();
-		CListContainer<T,G> *pContainer = nullptr;
-		while(iter != m_Entrys.end())
-		{
-			if((*iter)->GetType() == CONTAINER)
-			{
-				pContainer = (CListContainer<T,G>*)(*iter);
-				if(pContainer->GetGroupData() == Group)
+		list< CListEntry<T, G>* >::iterator iter = m_Entrys.begin();
+		CListContainer<T, G> *pContainer = nullptr;
+		while (iter != m_Entrys.end()) {
+			if ((*iter)->GetType() == CONTAINER) {
+				pContainer = (CListContainer<T, G>*)(*iter);
+				if (pContainer->GetGroupData() == Group)
 					return pContainer;
 			}
 			iter++;
 		}
 		return nullptr;
 	}
-	
+
 	G GetGroupData()
 	{
 		return m_GroupData;
@@ -435,20 +410,20 @@ public:
 	{
 		return m_bOpen;
 	}
-	
+
 	void ToggleOpen()
 	{
 		m_bOpen = !m_bOpen;
-		
+
 		if (m_pRoot) {
 			m_pRoot->UpdateEntryCount();
 			m_pRoot->SetPosition(this);
 		}
 	}
-	
+
 	void SetOpen(bool bOpen = true)
 	{
-		if(bOpen == m_bOpen)
+		if (bOpen == m_bOpen)
 			return;
 
 		m_bOpen = bOpen;
@@ -458,32 +433,28 @@ public:
 			m_pRoot->SetPosition(this);
 		}
 	}
-	
+
 	void CollapseAll()
 	{
-		list< CListEntry<T,G>* >::iterator iter = m_Entrys.begin();
-		CListContainer<T,G>* pContainer = nullptr;
-		while(iter != m_Entrys.end())
-		{
-			if((*iter)->GetType() == CONTAINER)
-			{
-				pContainer = (CListContainer<T,G>*)(*iter);
+		list< CListEntry<T, G>* >::iterator iter = m_Entrys.begin();
+		CListContainer<T, G>* pContainer = nullptr;
+		while (iter != m_Entrys.end()) {
+			if ((*iter)->GetType() == CONTAINER) {
+				pContainer = (CListContainer<T, G>*)(*iter);
 				pContainer->CollapseAll();
 				pContainer->SetOpen(false);
 			}
 			iter++;
 		}
 	}
-	
+
 	void ExpandAll()
 	{
-		list< CListEntry<T,G>* >::iterator iter = m_Entrys.begin();
-		CListContainer<T,G>* pContainer = nullptr;
-		while(iter != m_Entrys.end())
-		{
-			if((*iter)->GetType() == CONTAINER)
-			{
-				pContainer = (CListContainer<T,G>*)(*iter);
+		list< CListEntry<T, G>* >::iterator iter = m_Entrys.begin();
+		CListContainer<T, G>* pContainer = nullptr;
+		while (iter != m_Entrys.end()) {
+			if ((*iter)->GetType() == CONTAINER) {
+				pContainer = (CListContainer<T, G>*)(*iter);
 				pContainer->ExpandAll();
 				pContainer->SetOpen(true);
 			}
@@ -495,53 +466,53 @@ public:
 	{
 		m_iEntryCount = 0;
 
-		int iIndex = GetIndex()+1;
-		
-		if(!IsOpen())
+		int iIndex = GetIndex() + 1;
+
+		if (!IsOpen())
 			return;
 
-		list< CListEntry<T,G>* >::iterator iter = m_Entrys.begin();
-		while(iter != m_Entrys.end())
-		{
-			(*iter)->SetIndex(iIndex+m_iEntryCount);
+		list< CListEntry<T, G>* >::iterator iter = m_Entrys.begin();
+		while (iter != m_Entrys.end()) {
+			(*iter)->SetIndex(iIndex + m_iEntryCount);
 			(*iter)->UpdateEntryCount();
-			m_iEntryCount += 1+(*iter)->GetEntryCount();
+			m_iEntryCount += 1 + (*iter)->GetEntryCount();
 
 			iter++;
 		}
 
-		if(GetType() == ROOT)
-		{
-			if(GetPosition() == nullptr && !m_Entrys.empty())
+		if (GetType() == ROOT) {
+			if (GetPosition() == nullptr && !m_Entrys.empty())
 				SetPosition(*m_Entrys.begin());
 			else
 				SetPosition(GetPosition());
 		}
 	}
-	
+
 	template<class _Pr3>
-	void sort(_Pr3 _Pred) {
+	void sort(_Pr3 _Pred)
+	{
 		m_Entrys.sort(_Pred);
 		UpdateEntryCount();
 		m_pRoot->SetPosition(m_pRoot->GetPosition());
 	}
 
 private:
-	typename list< CListEntry<T,G>* > m_Entrys;
+	typename list< CListEntry<T, G>* > m_Entrys;
 	G m_GroupData;
 	bool m_bOpen;
 };
 
 
-template <class T, class G = tstring> class CLCDList :  public CLCDTextObject, public CListContainer<T,G>
+template <class T, class G = tstring> class CLCDList : public CLCDTextObject, public CListContainer<T, G>
 {
-friend CListContainer<T,G>;
-friend CListItem<T,G>;
+	friend CListContainer<T, G>;
+	friend CListItem<T, G>;
+
 public:
 	//************************************************************************
 	// Constructor
 	//************************************************************************
-	CLCDList() : CListContainer<T,G>(nullptr)
+	CLCDList() : CListContainer<T, G>(nullptr)
 	{
 		m_pScrollbar = nullptr;
 		m_iIndention = 10;
@@ -562,7 +533,7 @@ public:
 	//************************************************************************
 	bool Initialize()
 	{
-		if(!CLCDTextObject::Initialize())
+		if (!CLCDTextObject::Initialize())
 			return false;
 
 		return true;
@@ -573,11 +544,10 @@ public:
 	//************************************************************************
 	bool Shutdown()
 	{
-		if(!CLCDTextObject::Shutdown())
+		if (!CLCDTextObject::Shutdown())
 			return false;
-	
-		Clear();
 
+		Clear();
 		return true;
 	}
 
@@ -586,7 +556,7 @@ public:
 	//************************************************************************
 	bool Update()
 	{
-		if(!CLCDTextObject::Update())
+		if (!CLCDTextObject::Update())
 			return false;
 
 		return true;
@@ -597,174 +567,164 @@ public:
 	//************************************************************************
 	bool Draw(CLCDGfx *pGfx)
 	{
-		if(!CLCDTextObject::Draw(pGfx))
+		if (!CLCDTextObject::Draw(pGfx))
 			return false;
-		
-		SelectObject(pGfx->GetHDC(),m_hFont);
 
-		POINT ptPrevViewportOrg = { 0, 0 };
+		SelectObject(pGfx->GetHDC(), m_hFont);
+
+		POINT ptPrevViewportOrg = {0, 0};
 		int iHeight = 0;
-		int iYOffset = 0, iXOffset=0;
-		int iColWidth = (GetWidth()- (m_iColumns-1)*3)/m_iColumns;
-		int iSpace = GetHeight() - (GetHeight()/m_iEntryHeight)*m_iEntryHeight;
-		int iPerPage = (GetHeight()/m_iEntryHeight)*m_iColumns;
-		
+		int iYOffset = 0, iXOffset = 0;
+		int iColWidth = (GetWidth() - (m_iColumns - 1) * 3) / m_iColumns;
+		int iSpace = GetHeight() - (GetHeight() / m_iEntryHeight)*m_iEntryHeight;
+		int iPerPage = (GetHeight() / m_iEntryHeight)*m_iColumns;
+
 		int iEntriesDrawn = 0;
-		CListEntry<T,G> *pPosition = m_Position;
-		
+		CListEntry<T, G> *pPosition = m_Position;
+
 		// if nothing is selected, skip drawing
-		if(pPosition == nullptr)
+		if (pPosition == nullptr)
 			return true;
 
 		bool bDrawGroup = false;
 		bool bSelected = false;
 
 		// calculate the start offset
-		
-		if(m_iStartIndex < pPosition->GetIndex())
-		{
-			while(pPosition && pPosition->GetIndex() != m_iStartIndex)
+
+		if (m_iStartIndex < pPosition->GetIndex()) {
+			while (pPosition && pPosition->GetIndex() != m_iStartIndex)
 				pPosition = pPosition->GetPreviousEntry();
 		}
-		
-		if(m_iStartIndex > 0 && pPosition->GetIndex() > 0)
+
+		if (m_iStartIndex > 0 && pPosition->GetIndex() > 0)
 			pPosition = pPosition->GetPreviousEntry();
 
-		for(int iCol = 0;iCol<m_iColumns;iCol++)
-		{
+		for (int iCol = 0; iCol < m_iColumns; iCol++) {
 			iHeight = 0;
-			if(iCol == 0)
-			{
-				if(pPosition->GetIndex() < m_iStartIndex)
-					iHeight -= m_iEntryHeight-iSpace;
-				else if(GetEntryCount() >= (iPerPage/m_iColumns) +1)
+			if (iCol == 0) {
+				if (pPosition->GetIndex() < m_iStartIndex)
+					iHeight -= m_iEntryHeight - iSpace;
+				else if (GetEntryCount() >= (iPerPage / m_iColumns) + 1)
 					iHeight = iSpace;
 			}
 
 			// bottom selection
-			while(pPosition != nullptr)
-			{
+			while (pPosition != nullptr) {
 				iYOffset = iHeight;
 
 				bSelected = m_Position == pPosition;
 				bDrawGroup = pPosition->GetType() == CONTAINER;
-				
+
 				// ~~~~~~~~~~~~~~~~~~~~~~
 				// Draw tree lines
 				// ~~~~~~~~~~~~~~~~~~~~~~
 
 				// set the clip region for the entry
 				int iClipHeight = m_iEntryHeight;
-				if(GetOrigin().y+iYOffset+iClipHeight > GetOrigin().y + GetHeight())
+				if (GetOrigin().y + iYOffset + iClipHeight > GetOrigin().y + GetHeight())
 					iClipHeight = GetHeight() - iYOffset;
 
-				pGfx->SetClipRegion(GetOrigin().x+iXOffset,GetOrigin().y+iYOffset,
-								iColWidth, iClipHeight);
-				
+				pGfx->SetClipRegion(GetOrigin().x + iXOffset, GetOrigin().y + iYOffset,
+					iColWidth, iClipHeight);
+
 				// offset the control at its origin so entry use (0,0)
 				SetViewportOrgEx(pGfx->GetHDC(),
-							 GetOrigin().x+iXOffset,
-							 GetOrigin().y+iYOffset,
-							&ptPrevViewportOrg);
+					GetOrigin().x + iXOffset,
+					GetOrigin().y + iYOffset,
+					&ptPrevViewportOrg);
 
-				if(m_bDrawTreeLines)
-				{
-					for(int i=1;i<pPosition->GetLevel();i++)
-					{
-						if(i == pPosition->GetLevel()-1)
-						{
+				if (m_bDrawTreeLines) {
+					for (int i = 1; i < pPosition->GetLevel(); i++) {
+						if (i == pPosition->GetLevel() - 1) {
 							// -
-							pGfx->DrawLine((i-1)*m_iIndention+m_iIndention/2,m_iEntryHeight/2,i*m_iIndention,m_iEntryHeight/2);
+							pGfx->DrawLine((i - 1)*m_iIndention + m_iIndention / 2, m_iEntryHeight / 2, i*m_iIndention, m_iEntryHeight / 2);
 							// |
-							if(pPosition == ((CListContainer<T,G>*)pPosition->GetParent())->GetLastOwnEntry())
-								pGfx->DrawLine((i-1)*m_iIndention+m_iIndention/2,0,(i-1)*m_iIndention+m_iIndention/2,m_iEntryHeight/2);
+							if (pPosition == ((CListContainer<T, G>*)pPosition->GetParent())->GetLastOwnEntry())
+								pGfx->DrawLine((i - 1)*m_iIndention + m_iIndention / 2, 0, (i - 1)*m_iIndention + m_iIndention / 2, m_iEntryHeight / 2);
 							// |
 							// |
 							else
-								pGfx->DrawLine((i-1)*m_iIndention+m_iIndention/2,0,(i-1)*m_iIndention+m_iIndention/2,m_iEntryHeight);
+								pGfx->DrawLine((i - 1)*m_iIndention + m_iIndention / 2, 0, (i - 1)*m_iIndention + m_iIndention / 2, m_iEntryHeight);
 						}
-						else
-						{
-							CListEntry<T,G> *pPosition2 = pPosition;
-							for(int j = pPosition->GetLevel();j>i+1;j--)
+						else {
+							CListEntry<T, G> *pPosition2 = pPosition;
+							for (int j = pPosition->GetLevel(); j > i + 1; j--)
 								pPosition2 = pPosition2->GetParent();
 							// |
 							// |
-							if(pPosition2 != ((CListContainer<T,G>*)pPosition2->GetParent())->GetLastOwnEntry())
-								pGfx->DrawLine((i-1)*m_iIndention+m_iIndention/2,0,(i-1)*m_iIndention+m_iIndention/2,m_iEntryHeight);
-						}	
+							if (pPosition2 != ((CListContainer<T, G>*)pPosition2->GetParent())->GetLastOwnEntry())
+								pGfx->DrawLine((i - 1)*m_iIndention + m_iIndention / 2, 0, (i - 1)*m_iIndention + m_iIndention / 2, m_iEntryHeight);
+						}
 					}
 				}
 
 				// ~~~~~~~~~~~~~~~~~~~~~~
 				// Draw the entry
 				// ~~~~~~~~~~~~~~~~~~~~~~
-				pGfx->SetClipRegion(GetOrigin().x+(pPosition->GetLevel()-1)*m_iIndention+iXOffset,
-									GetOrigin().y+iYOffset,
-									iColWidth-(pPosition->GetLevel()-1)*m_iIndention,
-									iClipHeight);
+				pGfx->SetClipRegion(GetOrigin().x + (pPosition->GetLevel() - 1)*m_iIndention + iXOffset,
+					GetOrigin().y + iYOffset,
+					iColWidth - (pPosition->GetLevel() - 1)*m_iIndention,
+					iClipHeight);
 				// set the offset
 				SetViewportOrgEx(pGfx->GetHDC(),
-							 GetOrigin().x+(pPosition->GetLevel()-1)*m_iIndention+iXOffset,
-							 GetOrigin().y+iYOffset,
-							&ptPrevViewportOrg);
+					GetOrigin().x + (pPosition->GetLevel() - 1)*m_iIndention + iXOffset,
+					GetOrigin().y + iYOffset,
+					&ptPrevViewportOrg);
 
 				// draw the entry
-				if(!bDrawGroup)
-					DrawEntry(pGfx,((CListItem<T,G>*)pPosition)->GetItemData(),bSelected);
+				if (!bDrawGroup)
+					DrawEntry(pGfx, ((CListItem<T, G>*)pPosition)->GetItemData(), bSelected);
 				else
-				// draw the group
-					DrawGroup(pGfx,((CListContainer<T,G>*)pPosition)->GetGroupData(),((CListContainer<T,G>*)pPosition)->IsOpen(),bSelected);
-				
+					// draw the group
+					DrawGroup(pGfx, ((CListContainer<T, G>*)pPosition)->GetGroupData(), ((CListContainer<T, G>*)pPosition)->IsOpen(), bSelected);
+
 				// ~~~~~~~~~~~~~~~~~~~~~~
 
-				if(pPosition->GetIndex() >= m_iStartIndex && iHeight + m_iEntryHeight <= GetHeight())
+				if (pPosition->GetIndex() >= m_iStartIndex && iHeight + m_iEntryHeight <= GetHeight())
 					iEntriesDrawn++;
-				
+
 				iHeight += m_iEntryHeight;
 				pPosition = pPosition->GetNextEntry();
-				
-				if(iHeight >= GetHeight())
+
+				if (iHeight >= GetHeight())
 					break;
 			}
-			if(iCol != m_iColumns-1)
-			{
+			if (iCol != m_iColumns - 1) {
 				pGfx->SetClipRegion(GetOrigin().x,
-									GetOrigin().y,
-									GetWidth(),
-									GetHeight());
+					GetOrigin().y,
+					GetWidth(),
+					GetHeight());
 				// set the offset
 				SetViewportOrgEx(pGfx->GetHDC(),
-							 GetOrigin().x,
-							 GetOrigin().y,
-							&ptPrevViewportOrg);
+					GetOrigin().x,
+					GetOrigin().y,
+					&ptPrevViewportOrg);
 
-				pGfx->DrawLine(iCol*3 + iColWidth + 1,0,iCol*3 + iColWidth + 1,GetHeight());
+				pGfx->DrawLine(iCol * 3 + iColWidth + 1, 0, iCol * 3 + iColWidth + 1, GetHeight());
 			}
 			iXOffset += 3 + iColWidth;
 		}
 
-		if(m_pScrollbar)
-		{
-			m_pScrollbar->ScrollTo(m_iStartIndex);		
+		if (m_pScrollbar) {
+			m_pScrollbar->ScrollTo(m_iStartIndex);
 			m_pScrollbar->SetSliderSize(iEntriesDrawn);
-		}		
+		}
 		return true;
 	}
 
 
-	void SetPosition(CListEntry<T,G> *pEntry)
+	void SetPosition(CListEntry<T, G> *pEntry)
 	{
-		CListContainer<T,G>::SetPosition(pEntry);
+		CListContainer<T, G>::SetPosition(pEntry);
 
-		if(pEntry == nullptr)
+		if (pEntry == nullptr)
 			return;
 
-		int iPerPage = (GetHeight()/m_iEntryHeight)*m_iColumns;
+		int iPerPage = (GetHeight() / m_iEntryHeight)*m_iColumns;
 		m_iStartIndex = pEntry->GetIndex();
-		if(m_iStartIndex + (iPerPage-1) > GetEntryCount()-1)
-			m_iStartIndex = (GetEntryCount()-1)-(iPerPage-1);
-		if(m_iStartIndex < 0)
+		if (m_iStartIndex + (iPerPage - 1) > GetEntryCount() - 1)
+			m_iStartIndex = (GetEntryCount() - 1) - (iPerPage - 1);
+		if (m_iStartIndex < 0)
 			m_iStartIndex = 0;
 	}
 
@@ -773,14 +733,12 @@ public:
 	//************************************************************************
 	bool ScrollUp()
 	{
-		if(m_Position != nullptr)
-		{
-			CListEntry<T,G> *pEntry = m_Position->GetPreviousEntry();
-			if(pEntry != nullptr)
-			{
+		if (m_Position != nullptr) {
+			CListEntry<T, G> *pEntry = m_Position->GetPreviousEntry();
+			if (pEntry != nullptr) {
 				m_Position = pEntry;
-				
-				if(m_Position->GetIndex() < m_iStartIndex)
+
+				if (m_Position->GetIndex() < m_iStartIndex)
 					m_iStartIndex--;
 				return true;
 			}
@@ -792,19 +750,17 @@ public:
 	// scrolls down
 	//************************************************************************
 	bool ScrollDown()
-	{		
-		if(m_Position != nullptr)
-		{
-			CListEntry<T,G> *pEntry = m_Position->GetNextEntry();
-			if(pEntry != nullptr)
-			{
+	{
+		if (m_Position != nullptr) {
+			CListEntry<T, G> *pEntry = m_Position->GetNextEntry();
+			if (pEntry != nullptr) {
 				m_Position = pEntry;
 
-				int iPerPage = (GetHeight()/m_iEntryHeight)*m_iColumns;
-				if(m_Position->GetIndex() >= m_iStartIndex + iPerPage)
+				int iPerPage = (GetHeight() / m_iEntryHeight)*m_iColumns;
+				if (m_Position->GetIndex() >= m_iStartIndex + iPerPage)
 					m_iStartIndex++;
 				return true;
-			}			
+			}
 		}
 		return false;
 	}
@@ -812,7 +768,7 @@ public:
 	//************************************************************************
 	// returns the selected list entry
 	//************************************************************************
-	CListEntry<T,G> *GetSelectedEntry()
+	CListEntry<T, G> *GetSelectedEntry()
 	{
 		return m_Position;
 	}
@@ -823,11 +779,10 @@ public:
 	void SetScrollbar(CLCDBar *pScrollbar)
 	{
 		m_pScrollbar = pScrollbar;
-		if(m_pScrollbar)
-		{
+		if (m_pScrollbar) {
 			m_pScrollbar->SetRange(0, m_iEntryCount - 1);
 			m_pScrollbar->ScrollTo(m_Position != nullptr ? m_Position->GetIndex() : 0);
-		
+
 			m_pScrollbar->SetAlignment(TOP);
 		}
 	}
@@ -839,7 +794,7 @@ public:
 	{
 		m_iIndention = iIndention;
 	}
-	
+
 	//************************************************************************
 	// sets the lists entry height
 	//************************************************************************
@@ -869,11 +824,12 @@ public:
 	//************************************************************************
 	void SetColumns(int iColumns)
 	{
-		if(m_iColumns == iColumns)
+		if (m_iColumns == iColumns)
 			return;
 		m_iColumns = iColumns;
 		SetPosition(GetPosition());
 	}
+
 protected:
 	//************************************************************************
 	// called when the lists size has changed
@@ -888,11 +844,10 @@ protected:
 	//************************************************************************
 	void UpdateEntryCount()
 	{
-		CListContainer<T,G>::UpdateEntryCount();
-		if(m_pScrollbar)
-		{
-			m_pScrollbar->SetRange(0,m_iEntryCount-1);
-			if(GetPosition() != nullptr)
+		CListContainer<T, G>::UpdateEntryCount();
+		if (m_pScrollbar) {
+			m_pScrollbar->SetRange(0, m_iEntryCount - 1);
+			if (GetPosition() != nullptr)
 				m_pScrollbar->ScrollTo(GetPosition()->GetIndex());
 		}
 	}
@@ -902,7 +857,6 @@ protected:
 	//************************************************************************
 	virtual void DeleteEntry(T)
 	{
-
 	}
 
 	//************************************************************************
@@ -910,7 +864,6 @@ protected:
 	//************************************************************************
 	virtual void DeleteGroup(G)
 	{
-
 	}
 
 	//************************************************************************
@@ -919,15 +872,13 @@ protected:
 	virtual void DrawEntry(CLCDGfx*, T, bool)
 	{
 	}
-	
+
 	//************************************************************************
 	// Called to draw the specified entry
 	//************************************************************************
 	virtual void DrawGroup(CLCDGfx*, G, bool, bool)
 	{
 	}
-
-
 
 protected:
 	int		m_iStartIndex;

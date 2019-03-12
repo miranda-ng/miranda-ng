@@ -8,7 +8,6 @@
 //************************************************************************
 CEventLog::CEventLog()
 {
-	m_dwLastScroll = 0;
 }
 
 //************************************************************************
@@ -16,7 +15,6 @@ CEventLog::CEventLog()
 //************************************************************************
 CEventLog::~CEventLog()
 {
-	
 }
 
 //************************************************************************
@@ -24,7 +22,7 @@ CEventLog::~CEventLog()
 //************************************************************************
 bool CEventLog::Shutdown()
 {
-	if(!CLCDList<CEventLogEntry*>::Shutdown())
+	if (!CLCDList<CEventLogEntry*>::Shutdown())
 		return false;
 
 	return true;
@@ -35,7 +33,7 @@ bool CEventLog::Shutdown()
 //************************************************************************
 bool CEventLog::Initialize()
 {
-	if(!CLCDList<CEventLogEntry*>::Initialize())
+	if (!CLCDList<CEventLogEntry*>::Initialize())
 		return false;
 
 	return true;
@@ -46,11 +44,10 @@ bool CEventLog::Initialize()
 //************************************************************************
 bool CEventLog::SetFont(LOGFONT &lf)
 {
-	if(!CLCDList<CEventLogEntry*>::SetFont(lf))
+	if (!CLCDList<CEventLogEntry*>::SetFont(lf))
 		return false;
 
-	SetEntryHeight(m_iFontHeight<6?6:m_iFontHeight);
-	
+	SetEntryHeight(m_iFontHeight < 6 ? 6 : m_iFontHeight);
 	return true;
 }
 
@@ -60,10 +57,10 @@ bool CEventLog::SetFont(LOGFONT &lf)
 CListItem<CEventLogEntry*> *CEventLog::AddItem(CEventLogEntry *pEntry)
 {
 	CListItem<CEventLogEntry*> *pItem = CLCDList<CEventLogEntry*>::AddItem(pEntry);
-	if(GetEntryCount() > CConfig::GetIntSetting(NOTIFY_LOGSIZE))
+	if (GetEntryCount() > CConfig::GetIntSetting(NOTIFY_LOGSIZE))
 		RemoveItem(((CListItem<CEventLogEntry*>*)GetFirstEntry())->GetItemData());
-	
-	if(GetTickCount() - m_dwLastScroll > 10000)
+
+	if (GetTickCount() - m_dwLastScroll > 10000)
 		SetPosition(pItem);
 	return pItem;
 }
@@ -79,25 +76,24 @@ void CEventLog::DeleteEntry(CEventLogEntry *pEntry)
 //************************************************************************
 // Called to draw the specified entry
 //************************************************************************
-void CEventLog::DrawEntry(CLCDGfx *pGfx,CEventLogEntry *pEntry,bool bSelected)
+void CEventLog::DrawEntry(CLCDGfx *pGfx, CEventLogEntry *pEntry, bool bSelected)
 {
-	SelectObject(pGfx->GetHDC(),m_hFont);
+	SelectObject(pGfx->GetHDC(), m_hFont);
 
 	bool bLargeIcons = GetEntryHeight() > 8;
-	int iOffset = (m_iFontHeight-(bLargeIcons?8:6))/2;
-	HBITMAP hBitmap = CAppletManager::GetInstance()->GetEventBitmap(pEntry->eType,bLargeIcons);
-	pGfx->DrawBitmap(0,iOffset<0?0:iOffset,bLargeIcons?8:6,bLargeIcons?8:6,hBitmap);
+	int iOffset = (m_iFontHeight - (bLargeIcons ? 8 : 6)) / 2;
+	HBITMAP hBitmap = CAppletManager::GetInstance()->GetEventBitmap(pEntry->eType, bLargeIcons);
+	pGfx->DrawBitmap(0, iOffset < 0 ? 0 : iOffset, bLargeIcons ? 8 : 6, bLargeIcons ? 8 : 6, hBitmap);
 
-	iOffset = bLargeIcons?10:7;
-	if(CConfig::GetBoolSetting(NOTIFY_TIMESTAMPS))
-		pGfx->DrawText(iOffset,0,pGfx->GetClipWidth()-iOffset,pEntry->strTimestamp + pEntry->strValue);
+	iOffset = bLargeIcons ? 10 : 7;
+	if (CConfig::GetBoolSetting(NOTIFY_TIMESTAMPS))
+		pGfx->DrawText(iOffset, 0, pGfx->GetClipWidth() - iOffset, pEntry->strTimestamp + pEntry->strValue);
 	else
-		pGfx->DrawText(iOffset,0,pGfx->GetClipWidth()-iOffset,pEntry->strValue);
+		pGfx->DrawText(iOffset, 0, pGfx->GetClipWidth() - iOffset, pEntry->strValue);
 
-	if(bSelected && GetTickCount() - m_dwLastScroll < 1000)
-	{
-		RECT invert = { 0,0,GetWidth(),m_iFontHeight};
-		InvertRect(pGfx->GetHDC(),&invert);
+	if (bSelected && GetTickCount() - m_dwLastScroll < 1000) {
+		RECT invert = {0,0,GetWidth(),m_iFontHeight};
+		InvertRect(pGfx->GetHDC(), &invert);
 	}
 }
 

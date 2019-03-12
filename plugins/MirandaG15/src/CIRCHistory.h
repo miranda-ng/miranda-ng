@@ -8,7 +8,6 @@ struct SIRCMessage
 	tstring strMessage;
 };
 
-
 class CIRCHistory
 {
 public:
@@ -18,6 +17,5 @@ public:
 	list<SIRCMessage> LMessages;
 	list<tstring> LUsers;
 };
-
 
 #endif

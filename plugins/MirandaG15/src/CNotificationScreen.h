@@ -79,17 +79,9 @@ private:
 	CLCDLabel		m_TitleText;
 	CLCDLabel		m_Timestamp;
 	CLCDBar			m_Scrollbar;
-	//CLCDInput		m_Input;
 
 	// Contact off the current event
-	CNotificationEntry *m_pEntry;
-
-	// message mode variables
-	/*
-	bool m_bMessageMode;
-	enum { REPLY_STATE_NONE,REPLY_STATE_INPUT,REPLY_STATE_SENDING,REPLY_STATE_FAILED} m_eReplyState;
-	HANDLE m_hMessage;
-	*/
+	CNotificationEntry *m_pEntry = nullptr;
 };
 
 #endif

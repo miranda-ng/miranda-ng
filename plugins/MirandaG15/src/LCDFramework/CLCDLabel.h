@@ -38,13 +38,13 @@ private:
 	// called when the labels font has changed
 	void OnFontChanged();
 
-	bool m_bWordWrap;
+	bool m_bWordWrap = false;
 
-	bool m_bCutOff;
-	int m_iCutOffIndex;
+	bool m_bCutOff = true;
+	int m_iCutOffIndex = 0;
 	tstring m_strText;
 	tstring m_strCutOff;
-	int	m_iLineCount;
+	int	m_iLineCount = 0;
 
 	vector<tstring> m_vLines;
 };

@@ -10,7 +10,7 @@ public:
 	CLCDTextObject();
 	// destructor
 	~CLCDTextObject();
-	
+
 	// initializes the textobject
 	bool Initialize();
 	// deinitializes the textobject
@@ -21,9 +21,9 @@ public:
 	// sets the textobject's font's facename
 	void SetFontFaceName(tstring strFontName);
 	// sets the textobject's font's pointsize
-    void SetFontPointSize(int nPointSize);
+	void SetFontPointSize(int nPointSize);
 	// sets the textobject's font's weight
-    void SetFontWeight(int nWeight);
+	void SetFontWeight(int nWeight);
 	// sets the textobject's font's italic flag
 	void SetFontItalic(bool flag);
 
@@ -41,13 +41,14 @@ protected:
 	virtual void OnFontChanged();
 
 protected:
-	bool			m_bWordWrap;
+	bool m_bWordWrap = false;
 
-	HFONT			m_hFont;
-	int				m_iFontHeight;
+	HFONT m_hFont = nullptr;
+	int m_iFontHeight = 0;
+	UINT m_iTextFormat;
+	UINT m_iTextAlignment;
+
 	DRAWTEXTPARAMS	m_dtp;
-    UINT			m_iTextFormat;
-	UINT			m_iTextAlignment;
 };
 
 #endif
