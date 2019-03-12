@@ -18,18 +18,18 @@ int inline _DebugPopup(MCONTACT hContact, wchar_t *fmt, ...)
 
 	va_start(va, fmt);
 	mir_snwprintf(debug, fmt, va);
-    
-	if(CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0) == 1) {
+
+	if (Popup_Enabled()) {
 		POPUPDATAW ppd;
 		ppd.lchContact = hContact;
 		ppd.lchIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
-		if(hContact != 0)
+		if (hContact != 0)
 			mir_wstrncpy(ppd.lpwzContactName, Clist_GetContactDisplayName(hContact), MAX_CONTACTNAME);
 		else
 			mir_wstrncpy(ppd.lpwzContactName, _A2W(PlugName), MAX_CONTACTNAME);
 		mir_wstrncpy(ppd.lpwzText, debug, MAX_SECONDLINE - 20);
-		ppd.colorText = RGB(255,255,255);
-		ppd.colorBack = RGB(255,0,0);
+		ppd.colorText = RGB(255, 255, 255);
+		ppd.colorBack = RGB(255, 0, 0);
 		PUAddPopupW(&ppd);
 	}
 	return 0;
