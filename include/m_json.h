@@ -135,13 +135,11 @@ class JSONROOT
 	JSONNode *m_node;
 
 public:
-	__forceinline JSONROOT() { m_node = nullptr; }
-	__forceinline JSONROOT(LPCSTR text) { Parse(text); }
+	__forceinline JSONROOT() : m_node(nullptr) {}
+	__forceinline JSONROOT(LPCSTR text) : m_node(json_parse(text)) {}
 	__forceinline ~JSONROOT() { json_delete(m_node); }
 
 	__forceinline operator JSONNode*() const { return m_node; }
-
-	__forceinline JSONNode* Parse(LPCSTR text) { return (m_node = json_parse(text)); }
 };
 
 struct NULL_PARAM : public PARAM

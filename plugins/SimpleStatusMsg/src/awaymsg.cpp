@@ -36,8 +36,8 @@ class CReadAwayMsgDlg : public CDlgBase
 	CCtrlButton btnCopy;
 
 	MCONTACT m_hContact;
-	HANDLE m_hSeq;
-	HANDLE m_hAwayMsgEvent;
+	HANDLE m_hSeq = nullptr;
+	HANDLE m_hAwayMsgEvent = nullptr;
 
 public:
 	CReadAwayMsgDlg(MCONTACT hContact) :
