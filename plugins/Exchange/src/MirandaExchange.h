@@ -136,22 +136,22 @@ template< class TYPE>
 class CMAPIInterface
 {
 public:
-    CMAPIInterface( TYPE ptr = NULL)   { m_ptr = ptr;}
-    ~CMAPIInterface()                  { UlRelease( m_ptr);}
+	CMAPIInterface(TYPE ptr = NULL) { m_ptr = ptr; }
+	~CMAPIInterface() { UlRelease(m_ptr); }
 
-    // Returns a pointer to the TYPE by just specifying the object.
-    operator TYPE()         {return( m_ptr);}
+	// Returns a pointer to the TYPE by just specifying the object.
+	operator TYPE() { return(m_ptr); }
 
-    // Returns the address of the object correct for the base type.
-    TYPE* operator &() {return( &m_ptr);}
+	// Returns the address of the object correct for the base type.
+	TYPE* operator &() { return(&m_ptr); }
 
-    // Returns a pointer to the TYPE for -> operations.
-    TYPE operator ->()      {return( m_ptr);}
+	// Returns a pointer to the TYPE for -> operations.
+	TYPE operator ->() { return(m_ptr); }
 
-    void operator =(LPVOID lpv)  {m_ptr = (TYPE) lpv;}
+	void operator =(LPVOID lpv) { m_ptr = (TYPE)lpv; }
 
 protected:
-    TYPE m_ptr;
+	TYPE m_ptr;
 };
 
 // $--CMAPIIsInitialized--------------------------------------------------------
@@ -162,7 +162,7 @@ protected:
 class CMAPIIsInitialized
 {
 public:
-    ~CMAPIIsInitialized()     {MAPIUninitialize();}
+	~CMAPIIsInitialized() { MAPIUninitialize(); }
 };
 
 // $--CMAPISession--------------------------------------------------------------
@@ -172,12 +172,12 @@ public:
 class CMAPISession : public CMAPIInterface< LPMAPISESSION>
 {
 public:
-    // DESTRUCTOR logs off of the MAPI session and releases the session handle.
-    ~CMAPISession() 
-    {
-        if ( m_ptr)
-            m_ptr->Logoff( 0L, 0L, 0L);
-    }
+	// DESTRUCTOR logs off of the MAPI session and releases the session handle.
+	~CMAPISession()
+	{
+		if (m_ptr)
+			m_ptr->Logoff(0L, 0L, 0L);
+	}
 };
 
 // -----------------------------------------------------------------------------
@@ -187,52 +187,46 @@ public:
 class CKeeper
 {
 public:
-	CKeeper  ( LPTSTR szSender, LPTSTR szSubject, LPSTR szEntryID );
-	~CKeeper ();
+	CKeeper(LPTSTR szSender, LPTSTR szSubject, LPSTR szEntryID);
+	~CKeeper();
 
 public:
-	UINT m_nSizeSender ;
+	UINT m_nSizeSender;
 	UINT m_nSizeSubject;
 	UINT m_nSizeEntryID;
 
-	LPTSTR m_szSender  ;
-	LPTSTR m_szSubject ;
-	LPSTR m_szEntryID ;
+	LPTSTR m_szSender;
+	LPTSTR m_szSubject;
+	LPSTR m_szEntryID;
 };
 
-
-class CMirandaExchange  
+struct CMirandaExchange  
 {
-public:
+	virtual      ~CMirandaExchange();
 
-                  CMirandaExchange();
-	              //CMirandaExchange   ( LPCTSTR szUsername, LPCTSTR szPassword, LPCTSTR szExchangeServer );
-	virtual       ~CMirandaExchange  ();
-
-	HRESULT       CheckForNewMails   ( int &nNewMails );
-	HRESULT       CreateProfile      ( LPTSTR szProcessID );
-	HRESULT       InitializeAndLogin ( LPCTSTR szUsername, LPCTSTR szPassword, LPCTSTR szExchangeServer );
-	HRESULT       CheckInFolder      ( LPMAPIFOLDER lpFolder );
-	HRESULT       MarkAsRead         ( LPTSTR szEntryID );
-	HRESULT       LogOFF             ();
-	HRESULT       OpenTheMessage        ( LPTSTR szEntryID );	
-	HRESULT       isMapiSessionOK    ( LPMAPISESSION lpSession );
-	CKeeper*       m_HeadersKeeper[MAX_NUMBER_OF_HEADERS+1];
+	HRESULT       CheckForNewMails(int &nNewMails);
+	HRESULT       CreateProfile(LPTSTR szProcessID);
+	HRESULT       InitializeAndLogin(LPCTSTR szUsername, LPCTSTR szPassword, LPCTSTR szExchangeServer);
+	HRESULT       CheckInFolder(LPMAPIFOLDER lpFolder);
+	HRESULT       MarkAsRead(LPTSTR szEntryID);
+	HRESULT       LogOFF();
+	HRESULT       OpenTheMessage(LPTSTR szEntryID);
+	HRESULT       isMapiSessionOK(LPMAPISESSION lpSession);
+	
+	CKeeper*      m_HeadersKeeper[MAX_NUMBER_OF_HEADERS + 1];
 
 private:
-	LPTSTR        m_szUsername;
-	LPTSTR        m_szPassword;
-	LPTSTR        m_szExchangeServer;
-	LPMAPISESSION m_lpMAPISession;
-	LPMAPIFOLDER  m_lpInbox;
-	LPMDB         m_lpMDB;
-	bool          m_bLoginOK;
-	bool          m_bFolderInboxOK;
-
-	bool          m_bNoInitAgain;
-	UINT          m_nNumberOfHeaders;
-	mir_cs m_myCritical;
-
+	LPTSTR        m_szUsername = nullptr;
+	LPTSTR        m_szPassword = nullptr;
+	LPTSTR        m_szExchangeServer = nullptr;
+	LPMAPISESSION m_lpMAPISession = nullptr;
+	LPMAPIFOLDER  m_lpInbox = nullptr;
+	LPMDB         m_lpMDB = nullptr;
+	bool          m_bLoginOK = false;
+	bool          m_bFolderInboxOK = false;
+	bool          m_bNoInitAgain = false;
+	UINT          m_nNumberOfHeaders = 0;
+	mir_cs        m_myCritical;
 };
 
 #endif // !defined(MIRANDAEXCHANGE_H__INCLUDED_)
