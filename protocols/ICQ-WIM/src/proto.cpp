@@ -96,17 +96,17 @@ CIcqProto::~CIcqProto()
 
 void CIcqProto::OnModulesLoaded()
 {
-	DWORD dwUin = getDword("UIN", -1);
-	if (dwUin != -1) {
+	// this was previously an old ICQ account
+	ptrW wszUin(GetUIN(0));
+	if (wszUin != nullptr) {
 		delSetting("UIN");
 
-		wchar_t buf[100];
-		_itow(dwUin, buf, 10);
-		m_szOwnId = buf;
+		m_szOwnId = wszUin;
 
 		for (auto &it : AccContacts())
 			delSetting(it, "e-mail");
 	}
+	// this was previously an old MRA account
 	else {
 		CMStringW wszEmail(getMStringW("e-mail"));
 		if (!wszEmail.IsEmpty()) {

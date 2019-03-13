@@ -27,14 +27,13 @@ void CIcqProto::InitContactCache()
 		if (isChatRoom(it))
 			continue;
 
-		DWORD dwUin = getDword(it, "UIN", -1);
-		if (dwUin != -1) {
+		// that was previously an ICQ contact
+		ptrW wszUin(GetUIN(it));
+		if (wszUin != nullptr) {
 			delSetting(it, "UIN");
-
-			wchar_t buf[100];
-			_itow(dwUin, buf, 10);
-			setWString(it, DB_KEY_ID, buf);
+			setWString(it, DB_KEY_ID, wszUin);
 		}
+		// that was previously a MRA contact
 		else {
 			CMStringW wszEmail(getMStringW(it, "e-mail"));
 			if (!wszEmail.IsEmpty()) {
@@ -53,6 +52,31 @@ IcqCacheItem* CIcqProto::FindContactByUIN(const CMStringW &wszId)
 
 	mir_cslock l(m_csCache);
 	return m_arCache.find(&tmp);
+}
+
+wchar_t* CIcqProto::GetUIN(MCONTACT hContact)
+{
+	DBVARIANT dbv = {};
+	if (!db_get_s(hContact, m_szModuleName, "UIN", &dbv)) {
+		switch (dbv.type) {
+		case DBVT_DWORD:
+			wchar_t buf[40], *ret;
+			_itow_s(dbv.dVal, buf, 10);
+			return mir_wstrdup(buf);
+
+		case DBVT_ASCIIZ:
+			ret = mir_a2u(dbv.pszVal);
+			db_free(&dbv);
+			return ret;
+
+		case DBVT_UTF8:
+			ret = mir_utf8decodeW(dbv.pszVal);
+			db_free(&dbv);
+			return ret;
+		}
+		db_free(&dbv);
+	}
+	return nullptr;
 }
 
 MCONTACT CIcqProto::CreateContact(const CMStringW &wszId, bool bTemporary)
