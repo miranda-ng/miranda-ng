@@ -60,6 +60,7 @@ void TContainerData::InitRedraw()
 void TContainerData::SetIcon(CTabBaseDlg *pDlg, HICON hIcon)
 {
 	HICON hIconMsg = PluginConfig.g_IconMsgEvent;
+	HICON hIconBig = (pDlg && pDlg->m_cache) ? Skin_LoadProtoIcon(pDlg->m_cache->getProto(), pDlg->m_cache->getStatus(), true) : nullptr;
 
 	if (Win7Taskbar->haveLargeIcons()) {
 		if (hIcon == PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING] || hIcon == hIconMsg) {
@@ -80,7 +81,6 @@ void TContainerData::SetIcon(CTabBaseDlg *pDlg, HICON hIcon)
 			if (pDlg->m_pContainer->m_dwFlags & CNT_AVATARSONTASKBAR)
 				pDlg->m_hTaskbarIcon = pDlg->IconFromAvatar();
 
-			HICON hIconBig = (pDlg->m_cache) ? Skin_LoadProtoIcon(pDlg->m_cache->getProto(), pDlg->m_cache->getStatus(), true) : nullptr;
 			if (pDlg->m_hTaskbarIcon) {
 				SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)pDlg->m_hTaskbarIcon);
 				SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
@@ -108,7 +108,6 @@ void TContainerData::SetIcon(CTabBaseDlg *pDlg, HICON hIcon)
 		return;
 	}
 
-	HICON hIconBig = nullptr;
 	if (hIcon == hIconMsg)
 		hIconBig = Skin_LoadIcon(SKINICON_EVENT_MESSAGE, true);
 
