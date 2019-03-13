@@ -29,7 +29,7 @@ HttpRequest* facebook_client::loginRequest()
 {
 	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_LOGIN "/login.php");
 	p->flags |= NLHRF_NODUMP;
-	p << INT_PARAM("login_attempt", 1);
+	p << INT_PARAM("login_attempt", 1) << INT_PARAM("lwv", 110);
 	return p;
 }
 
@@ -39,7 +39,7 @@ HttpRequest* facebook_client::loginRequest(const char *username, const char *pas
 	p->flags |= NLHRF_NODUMP;
 	p->Persistent = p->NONE;
 
-	p << INT_PARAM("login_attempt", 1);
+	p << INT_PARAM("login_attempt", 1) << INT_PARAM("lwv", 110);
 	if (mir_strlen(urlData)) {
 		p->m_szParam.AppendChar('&');
 		p->m_szParam.Append(urlData); // additional data parsed from form
