@@ -14,12 +14,6 @@
 #define LANG_STATUS_PRIVATE					LPGENW("OTR Encryption: Private")
 #define LANG_STATUS_FINISHED				LPGENW("OTR Encryption: Finished")
 
-#define LANG_MENU_START						LPGENW("&Start OTR session")
-#define LANG_MENU_REFRESH					LPGENW("&Refresh OTR session")
-#define LANG_MENU_STOP						LPGENW("Sto&p OTR session")
-#define LANG_MENU_VERIFY					LPGENW("&Verify Fingerprint")
-#define LANG_MENU_TOGGLEHTML				LPGENW("&Convert HTML (for Pidgin)")
-
 #define LANG_SESSION_TERMINATED_OTR			LPGENW("OTR encrypted session with '%s' has been terminated")
 #define LANG_SESSION_REQUEST_OTR			LPGENW("Requesting OTR encrypted session with '%s'")
 #define LANG_SESSION_START_OTR				LPGENW("Beginning OTR encrypted session with '%s'")

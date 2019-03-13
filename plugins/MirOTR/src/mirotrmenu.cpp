@@ -167,37 +167,37 @@ void InitMirOTRMenu(void)
 
 	// menu items
 	CMenuItem mi(&g_plugin);
-	mi.flags = CMIF_DISABLED | CMIF_UNICODE;
-	mi.name.w = LPGENW("OTR Status");
+	mi.flags = CMIF_DISABLED;
+	mi.name.a = LPGEN("OTR Status");
 	mi.position = 0;
 	hStatusInfoItem = AddMirOTRMenuItem(&mi, nullptr);
 
-	mi.flags = CMIF_UNICODE | CMIF_NOTPRIVATE | CMIF_NOTUNVERIFIED;
-	mi.name.w = LANG_MENU_START;
+	mi.flags = CMIF_NOTPRIVATE | CMIF_NOTUNVERIFIED;
+	mi.name.a = LPGEN("&Start OTR session");
 	mi.position = 100001;
 	mi.hIcolibItem = iconList[ICON_UNVERIFIED].hIcolib;
 	AddMirOTRMenuItem(&mi, MS_OTR_MENUSTART);
 
-	mi.flags = CMIF_UNICODE | CMIF_NOTNOTPRIVATE | CMIF_NOTFINISHED;
-	mi.name.w = LANG_MENU_REFRESH;
+	mi.flags = CMIF_NOTNOTPRIVATE | CMIF_NOTFINISHED;
+	mi.name.a = LPGEN("&Refresh OTR session");
 	mi.position = 100002;
 	mi.hIcolibItem = iconList[ICON_REFRESH].hIcolib;
 	AddMirOTRMenuItem(&mi, MS_OTR_MENUREFRESH);
 
-	mi.flags = CMIF_UNICODE | CMIF_NOTNOTPRIVATE;
-	mi.name.w = LANG_MENU_STOP;
+	mi.flags = CMIF_NOTNOTPRIVATE;
+	mi.name.a = LPGEN("Sto&p OTR session");
 	mi.position = 100003;
 	mi.hIcolibItem = iconList[ICON_NOT_PRIVATE].hIcolib;
 	AddMirOTRMenuItem(&mi, MS_OTR_MENUSTOP);
 
-	mi.flags = CMIF_UNICODE | CMIF_NOTNOTPRIVATE | CMIF_NOTFINISHED;
-	mi.name.w = LANG_MENU_VERIFY;
+	mi.flags = CMIF_NOTNOTPRIVATE | CMIF_NOTFINISHED;
+	mi.name.a = LPGEN("&Verify Fingerprint");
 	mi.position = 200001;
-	mi.hIcolibItem = iconList[ICON_PRIVATE].hIcolib;
+	mi.hIcolibItem = iconList[ICON_OTR].hIcolib;
 	AddMirOTRMenuItem(&mi, MS_OTR_MENUVERIFY);
 
-	mi.flags = CMIF_UNICODE | CMIF_CHECKED;
-	mi.name.w = LANG_MENU_TOGGLEHTML;
+	mi.flags = CMIF_CHECKED;
+	mi.name.a = LPGEN("&Convert HTML (for Pidgin)");
 	mi.position = 300001;
 	mi.hIcolibItem = nullptr;
 	hHTMLConvMenuItem = AddMirOTRMenuItem(&mi, MS_OTR_MENUTOGGLEHTML);
