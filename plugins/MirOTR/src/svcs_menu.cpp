@@ -1,10 +1,8 @@
 #include "stdafx.h"
 
-static HGENMENU hStopItem, hStartItem;
+/////////////////////////////////////////////////////////////////////////////////////////
+// Menu Services 
 
-////////////////////////////////
-///////// Menu Services ////////
-///////////////////////////////
 int StartOTR(MCONTACT hContact)
 {
 	const char *proto = GetContactProto(hContact);
@@ -147,6 +145,11 @@ INT_PTR SVC_ToggleHTMLOTR(WPARAM hContact, LPARAM)
 
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// module entry point
+
+static HGENMENU hStopItem, hStartItem;
 
 void InitMenu()
 {
