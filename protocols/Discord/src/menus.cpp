@@ -80,10 +80,8 @@ INT_PTR CDiscordProto::OnMenuLoadHistory(WPARAM hContact, LPARAM)
 {
 	auto *pUser = FindUser(getId(hContact, DB_KEY_ID));
 	if (pUser) {
-		pUser->bSkipHistory = true;
 		RetrieveHistory(pUser, MSG_AFTER, 0, 100);
 		delSetting(hContact, DB_KEY_LASTMSGID);
-		pUser->bSkipHistory = false;
 	}
 	return 0;
 }
