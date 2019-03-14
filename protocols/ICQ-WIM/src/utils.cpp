@@ -73,6 +73,9 @@ wchar_t* CIcqProto::GetUIN(MCONTACT hContact)
 			ret = mir_utf8decodeW(dbv.pszVal);
 			db_free(&dbv);
 			return ret;
+
+		case DBVT_WCHAR:
+			return dbv.pwszVal;
 		}
 		db_free(&dbv);
 	}
