@@ -57,7 +57,7 @@ IcqCacheItem* CIcqProto::FindContactByUIN(const CMStringW &wszId)
 wchar_t* CIcqProto::GetUIN(MCONTACT hContact)
 {
 	DBVARIANT dbv = {};
-	if (!db_get_s(hContact, m_szModuleName, "UIN", &dbv)) {
+	if (!db_get(hContact, m_szModuleName, "UIN", &dbv)) {
 		switch (dbv.type) {
 		case DBVT_DWORD:
 			wchar_t buf[40], *ret;
