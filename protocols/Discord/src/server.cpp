@@ -106,14 +106,16 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 			dbei.pBlob = (PBYTE)szBody.get();
 			dbei.cbBlob = (DWORD)mir_strlen(szBody);
 
+			bool bSucceeded = false;
 			char szMsgId[100];
 			_i64toa_s(msgid, szMsgId, _countof(szMsgId), 10);
 			MEVENT hDbEvent = db_event_getById(m_szModuleName, szMsgId);
 			if (hDbEvent != 0) {
 				if (!pUser->bSkipHistory)
-					db_event_edit(pUser->hContact, hDbEvent, &dbei);
+					bSucceeded = 0 == db_event_edit(pUser->hContact, hDbEvent, &dbei);
 			}
-			else {
+			
+			if (!bSucceeded) {
 				MEVENT hNew = db_event_add(pUser->hContact, &dbei);
 				if (hNew != 0)
 					db_event_setId(m_szModuleName, hNew, szMsgId);
