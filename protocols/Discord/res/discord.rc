@@ -62,7 +62,7 @@ IDI_GROUPCHAT           ICON                    "groupchat.ico"
 // Dialog
 //
 
-IDD_OPTIONS_ACCOUNT DIALOGEX 0, 0, 305, 190
+IDD_OPTIONS_ACCOUNT DIALOGEX 0, 0, 305, 154
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -72,12 +72,14 @@ BEGIN
     EDITTEXT        IDC_USERNAME,84,18,123,13,ES_AUTOHSCROLL
     LTEXT           "Password:",IDC_STATIC,17,36,61,8,0,WS_EX_RIGHT
     EDITTEXT        IDC_PASSWORD,84,34,123,13,ES_PASSWORD | ES_AUTOHSCROLL
-    GROUPBOX        "Contacts",IDC_STATIC,7,77,291,88
-    LTEXT           "Default group:",IDC_STATIC,17,91,61,8,0,WS_EX_RIGHT
-    EDITTEXT        IDC_GROUP,84,89,123,13,ES_AUTOHSCROLL
-    CONTROL         "Do not open chat windows on creation",IDC_HIDECHATS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,107,248,10
-    CONTROL         "Use subgroups for guild's channels (requires restart)",IDC_USEGROUPS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,121,248,10
+    GROUPBOX        "Contacts",IDC_STATIC,7,71,291,79
+    LTEXT           "Default group:",IDC_STATIC,17,88,61,8,0,WS_EX_RIGHT
+    EDITTEXT        IDC_GROUP,84,86,123,13,ES_AUTOHSCROLL
+    CONTROL         "Enable group chats",IDC_USECHANNELS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,105,248,10
+    CONTROL         "Do not open chat windows on creation",IDC_HIDECHATS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,41,118,248,10
+    CONTROL         "Use subgroups for Server channels (requires restart)",IDC_USEGROUPS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,41,131,248,10
 END
 
 IDD_OPTIONS_ACCMGR DIALOGEX 0, 0, 200, 88

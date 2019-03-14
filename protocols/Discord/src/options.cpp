@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class CDiscardAccountOptions : public CProtoDlgBase<CDiscordProto>
 {
-	CCtrlCheck chkHideChats, chkUseGroups;
+	CCtrlCheck chkUseChats, chkHideChats, chkUseGroups;
 	CCtrlEdit m_edGroup, m_edUserName, m_edPassword;
 	ptrW m_wszOldGroup;
 
@@ -31,6 +31,7 @@ public:
 		m_edGroup(this, IDC_GROUP),
 		m_edUserName(this, IDC_USERNAME),
 		m_edPassword(this, IDC_PASSWORD),
+		chkUseChats(this, IDC_USECHANNELS),
 		chkHideChats(this, IDC_HIDECHATS),
 		chkUseGroups(this, IDC_USEGROUPS),
 		m_wszOldGroup(mir_wstrdup(ppro->m_wszDefaultGroup))
@@ -38,8 +39,11 @@ public:
 		CreateLink(m_edGroup, ppro->m_wszDefaultGroup);
 		CreateLink(m_edUserName, ppro->m_wszEmail);
 		if (bFullDlg) {
+			CreateLink(chkUseChats, ppro->m_bUseGroupchats);
 			CreateLink(chkHideChats, ppro->m_bHideGroupchats);
 			CreateLink(chkUseGroups, ppro->m_bUseGuildGroups);
+
+			chkUseChats.OnChange = Callback(this, &CDiscardAccountOptions::onChange_GroupChats);
 		}
 	}
 
@@ -48,6 +52,8 @@ public:
 		ptrW buf(m_proto->getWStringA(DB_KEY_PASSWORD));
 		if (buf)
 			m_edPassword.SetText(buf);
+
+		onChange_GroupChats(0);
 		return true;
 	}
 
@@ -59,6 +65,13 @@ public:
 		ptrW buf(m_edPassword.GetText());
 		m_proto->setWString(DB_KEY_PASSWORD, buf);
 		return true;
+	}
+
+	void onChange_GroupChats(CCtrlCheck*)
+	{
+		bool bEnabled = chkUseChats.GetState();
+		chkHideChats.Enable(bEnabled);
+		chkUseGroups.Enable(bEnabled);
 	}
 };
 

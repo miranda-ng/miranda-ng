@@ -157,7 +157,8 @@ void CDiscordProto::ProcessGuild(const JSONNode &p)
 	for (auto itc = channels.begin(); itc != channels.end(); ++itc)
 		ProcessGuildChannel(pGuild, *itc);
 
-	ForkThread(&CDiscordProto::BatchChatCreate, pGuild);
+	if (m_bUseGroupchats)
+		ForkThread(&CDiscordProto::BatchChatCreate, pGuild);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

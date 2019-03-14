@@ -48,6 +48,7 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 
 	m_wszEmail(this, "Email", L""),
 	m_wszDefaultGroup(this, "GroupName", DB_KEYVAL_GROUP),
+	m_bUseGroupchats(this, "UseGroupChats", false),
 	m_bHideGroupchats(this, "HideChats", true),
 	m_bUseGuildGroups(this, "UseGuildGroups", false)
 {
@@ -467,8 +468,10 @@ int CDiscordProto::OnAccountChanged(WPARAM iAction, LPARAM lParam)
 {
 	if (iAction == PRAC_ADDED) {
 		PROTOACCOUNT *pa = (PROTOACCOUNT*)lParam;
-		if (pa && pa->ppro == this)
+		if (pa && pa->ppro == this) {
+			m_bUseGroupchats = false;
 			m_bUseGuildGroups = true;
+		}
 	}
 
 	return 0;

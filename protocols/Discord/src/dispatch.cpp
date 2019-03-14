@@ -94,7 +94,7 @@ void CDiscordProto::OnCommandChannelCreated(const JSONNode &pRoot)
 	else {
 		// group channel for a guild
 		CDiscordGuild *pGuild = FindGuild(guildId);
-		if (pGuild) {
+		if (pGuild && m_bUseGroupchats) {
 			CDiscordUser *pUser = ProcessGuildChannel(pGuild, pRoot);
 			if (pUser)
 				CreateChat(pGuild, pUser);
