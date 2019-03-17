@@ -131,8 +131,9 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_FEAT_ARCHIVE_MANAGE              "urn:xmpp:archive:manage"
 #define JABBER_CAPS_ARCHIVE_MANAGE              ((JabberCapsBits)1<<35)
 
-#define JABBER_FEAT_CAPTCHA                     "urn:xmpp:captcha"
 #define JABBER_FEAT_BIND                        "urn:ietf:params:xml:ns:xmpp-bind"
+#define JABBER_FEAT_CAPTCHA                     "urn:xmpp:captcha"
+#define JABBER_FEAT_CSI                         "urn:xmpp:csi:0"
 
 #define JABBER_FEAT_ATTENTION                   "urn:xmpp:attention:0"
 #define JABBER_CAPS_ATTENTION                   ((JabberCapsBits)1<<36)

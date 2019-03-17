@@ -689,15 +689,16 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 	bool areMechanismsDefined = false;
 
 	for (auto *n : TiXmlEnum(node)) {
-		if (!mir_strcmp(n->Name(), "starttls")) {
+		auto *pszName = n->Name();
+		if (!mir_strcmp(pszName, "starttls")) {
 			if (!info->conn.useSSL && m_bUseTLS) {
 				debugLogA("Requesting TLS");
-				info->send(XmlNode(n->Name()) << XATTR("xmlns", "urn:ietf:params:xml:ns:xmpp-tls"));
+				info->send(XmlNode(pszName) << XATTR("xmlns", "urn:ietf:params:xml:ns:xmpp-tls"));
 				return;
 			}
 		}
 
-		if (!mir_strcmp(n->Name(), "compression") && m_bEnableZlib == TRUE) {
+		if (!mir_strcmp(pszName, "compression") && m_bEnableZlib == TRUE) {
 			debugLogA("Server compression available");
 			for (auto *c : TiXmlFilter(n, "method")) {
 				if (!mir_strcmp(c->GetText(), "zlib") && info->zlibInit() == TRUE) {
@@ -709,7 +710,7 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 			}
 		}
 
-		if (!mir_strcmp(n->Name(), "mechanisms")) {
+		if (!mir_strcmp(pszName, "mechanisms")) {
 			m_AuthMechs.isPlainAvailable = false;
 			m_AuthMechs.isPlainOldAvailable = false;
 			m_AuthMechs.isMd5Available = false;
@@ -738,11 +739,13 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 				}
 			}
 		}
-		else if (!mir_strcmp(n->Name(), "register")) isRegisterAvailable = true;
-		else if (!mir_strcmp(n->Name(), "auth")) m_AuthMechs.isAuthAvailable = true;
-		else if (!mir_strcmp(n->Name(), "session")) m_AuthMechs.isSessionAvailable = true;
-		else if (m_bEnableStreamMgmt && !mir_strcmp(n->Name(), "sm"))
+		else if (!mir_strcmp(pszName, "register")) isRegisterAvailable = true;
+		else if (!mir_strcmp(pszName, "auth")) m_AuthMechs.isAuthAvailable = true;
+		else if (!mir_strcmp(pszName, "session")) m_AuthMechs.isSessionAvailable = true;
+		else if (m_bEnableStreamMgmt && !mir_strcmp(pszName, "sm"))
 			m_StrmMgmt.CheckStreamFeatures(n);
+		else if (!mir_strcmp(pszName, "csi") && n->Attribute("xmlns", JABBER_FEAT_CSI))
+			m_bCisAvailable = true;
 	}
 
 	if (areMechanismsDefined) {

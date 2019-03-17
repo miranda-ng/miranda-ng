@@ -190,8 +190,16 @@ int CJabberProto::OnIdleChanged(WPARAM, LPARAM lParam)
 		MIRANDA_IDLE_INFO mii;
 		Idle_GetInfo(mii);
 		m_tmJabberIdleStartTime = time(0) - mii.idleTime * 60;
+
+		if (m_bCisAvailable)
+			m_ThreadInfo->send(XmlNode("inactive") << XATTR("xmlns", JABBER_FEAT_CSI));
 	}
-	else m_tmJabberIdleStartTime = 0;
+	else {
+		m_tmJabberIdleStartTime = 0;
+
+		if (m_bCisAvailable)
+			m_ThreadInfo->send(XmlNode("active") << XATTR("xmlns", JABBER_FEAT_CSI));
+	}
 
 	return 0;
 }

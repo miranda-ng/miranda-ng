@@ -208,6 +208,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	mir_cs   m_csModeMsgMutex;
 	JABBER_MODEMSGS m_modeMsgs;
 
+	bool   m_bCisAvailable;
 	bool   m_bJabberOnline; // XMPP connection initialized and we can send XMPP packets
 	bool   m_bShutdown;
 	bool   m_bSendKeepAlive;
