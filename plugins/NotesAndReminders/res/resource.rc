@@ -76,8 +76,8 @@ BEGIN
     CONTROL         "Use MCI to play alert sounds",IDC_CHECK_MSI,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,172,96,119,10
     GROUPBOX        "Note transparency",IDC_STATIC,6,161,290,35
     CONTROL         "Slider1",IDC_SLIDER_TRANSPARENCY,"msctls_trackbar32",TBS_ENABLESELRANGE | WS_TABSTOP,14,171,277,14
-    LTEXT           "0%",IDC_STATIC,12,185,9,8
-    LTEXT           "100%",IDC_STATIC,273,186,18,8
+    LTEXT           "0%",IDC_STATIC,12,185,12,8
+    LTEXT           "100%",IDC_STATIC,273,186,21,8
     LTEXT           "Send Reminders through E-mail/SMS:",IDC_STATIC,6,207,130,10
     EDITTEXT        IDC_EDIT_EMAILSMS,137,204,159,14,ES_AUTOHSCROLL
     LTEXT           "Open links with this program instead:",IDC_STATIC,5,228,125,8
