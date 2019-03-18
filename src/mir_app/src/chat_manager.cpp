@@ -26,6 +26,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define WINDOWS_COMMANDS_MAX 30
 
+static USERINFO* UM_FindUser(SESSION_INFO *si, const wchar_t *pszUID);
+
 static int CompareKeys(const USERINFO *u1, const USERINFO *u2)
 {
 	return mir_wstrcmp(u1->pszUID, u2->pszUID);
@@ -245,7 +247,7 @@ BOOL SM_RemoveUser(const wchar_t *pszID, const char *pszModule, const wchar_t *p
 		if ((pszID && mir_wstrcmpi(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
 			continue;
 
-		USERINFO *ui = g_chatApi.UM_FindUser(si, pszUID);
+		USERINFO *ui = UM_FindUser(si, pszUID);
 		if (ui) {
 			if (g_chatApi.OnRemoveUser)
 				g_chatApi.OnRemoveUser(si, ui);
@@ -366,7 +368,7 @@ BOOL SM_ChangeNick(const wchar_t *pszID, const char *pszModule, GCEVENT *gce)
 
 	for (auto &si : g_arSessions) {
 		if ((!pszID || !mir_wstrcmpi(si->ptszID, pszID)) && !mir_strcmpi(si->pszModule, pszModule)) {
-			USERINFO *ui = g_chatApi.UM_FindUser(si, gce->pszUID.w);
+			USERINFO *ui = UM_FindUser(si, gce->pszUID.w);
 			if (ui) {
 				replaceStrW(ui->pszNick, gce->pszText.w);
 				UM_SortUser(si, ui->pszUID);

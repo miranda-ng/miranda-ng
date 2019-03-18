@@ -47,11 +47,6 @@ static const fontOptionsList[] =
 	{ LPGENW("Other events"),      RGB(90, 90, 160),   L"Arial",    0, -12},
 };
 
-static BYTE MsgDlgGetFontDefaultCharset(const wchar_t*)
-{
-  return DEFAULT_CHARSET;
-}
-
 bool LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF * colour)
 {
 	if (i >= _countof(fontOptionsList))
@@ -88,7 +83,7 @@ bool LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF * colour)
 			mir_wstrncpy(lf->lfFaceName, wszFontFace, _countof(lf->lfFaceName));
 
 		mir_snprintf(str, "SRMFont%dSet", i);
-		lf->lfCharSet = g_plugin.getByte(str, MsgDlgGetFontDefaultCharset(lf->lfFaceName));
+		lf->lfCharSet = g_plugin.getByte(str, DEFAULT_CHARSET);
 	}
 	return true;
 }
@@ -114,7 +109,7 @@ void RegisterSRMMFonts(void)
 		fontid.deffontsettings.size = fontOptionsList[i].defSize;
 		fontid.deffontsettings.style = fontOptionsList[i].defStyle;
 		wcsncpy_s(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, _TRUNCATE);
-		fontid.deffontsettings.charset = MsgDlgGetFontDefaultCharset(fontOptionsList[i].szDefFace);
+		fontid.deffontsettings.charset = DEFAULT_CHARSET;
 		wcsncpy_s(fontid.backgroundGroup, LPGENW("Message sessions") L"/" LPGENW("Message log"), _TRUNCATE);
 		wcsncpy_s(fontid.backgroundName, LPGENW("Background"), _TRUNCATE);
 		g_plugin.addFont(&fontid);

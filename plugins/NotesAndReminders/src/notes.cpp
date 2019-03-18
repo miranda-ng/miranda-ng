@@ -1,9 +1,8 @@
-#include "globals.h"
+#include "stdafx.h"
 
 #ifndef MONITOR_DEFAULTTONULL
 #define MONITOR_DEFAULTTONULL       0x00000000
 #endif
-
 
 // NotesData DB data params
 #define DATATAG_TEXT       1	// %s
@@ -44,51 +43,80 @@
 
 #define PENLINK ENLINK *
 
-#define NOTE_WND_CLASS "MIM_StickyNote"
-
+#define NOTE_WND_CLASS L"MIM_StickyNote"
 
 #define IDM_COLORPRESET_BG 41000
 #define IDM_COLORPRESET_FG 41100
 
-
-static BOOL ListNotesVisible = FALSE;
+static bool ListNotesVisible = FALSE;
 static HWND LV;
-
 
 struct ColorPreset
 {
-	char *szName;
+	wchar_t *szName;
 	COLORREF color;
 };
 
 static struct ColorPreset clrPresets[] =
 {
-	{ LPGEN("Black"),   RGB(0,0,0)       },
-	{ LPGEN("Maroon"),  RGB(128,0,0)     },
-	{ LPGEN("Green"),   RGB(0,128,0)     },
-	{ LPGEN("Olive"),   RGB(128,128,0)   },
-	{ LPGEN("Navy"),    RGB(0,0,128)     },
-	{ LPGEN("Purple"),  RGB(128,0,128)   },
-	{ LPGEN("Teal"),    RGB(0,128,128)   },
-	{ LPGEN("Gray"),    RGB(128,128,128) },
-	{ LPGEN("Silver"),  RGB(192,192,192) },
-	{ LPGEN("Red"),     RGB(255,0,0)     },
-	{ LPGEN("Orange"),  RGB(255,155,0)   },
-	{ LPGEN("Lime"),    RGB(0,255,0)     },
-	{ LPGEN("Yellow"),  RGB(255,255,0)   },
-	{ LPGEN("Blue"),    RGB(0,0,255)     },
-	{ LPGEN("Fuchsia"), RGB(255,0,255)   },
-	{ LPGEN("Aqua"),    RGB(0,255,255)   },
-	{ LPGEN("White"),   RGB(255,255,255) }
+	{ LPGENW("Black"),   RGB(0,0,0)       },
+	{ LPGENW("Maroon"),  RGB(128,0,0)     },
+	{ LPGENW("Green"),   RGB(0,128,0)     },
+	{ LPGENW("Olive"),   RGB(128,128,0)   },
+	{ LPGENW("Navy"),    RGB(0,0,128)     },
+	{ LPGENW("Purple"),  RGB(128,0,128)   },
+	{ LPGENW("Teal"),    RGB(0,128,128)   },
+	{ LPGENW("Gray"),    RGB(128,128,128) },
+	{ LPGENW("Silver"),  RGB(192,192,192) },
+	{ LPGENW("Red"),     RGB(255,0,0)     },
+	{ LPGENW("Orange"),  RGB(255,155,0)   },
+	{ LPGENW("Lime"),    RGB(0,255,0)     },
+	{ LPGENW("Yellow"),  RGB(255,255,0)   },
+	{ LPGENW("Blue"),    RGB(0,0,255)     },
+	{ LPGENW("Fuchsia"), RGB(255,0,255)   },
+	{ LPGENW("Aqua"),    RGB(0,255,255)   },
+	{ LPGENW("White"),   RGB(255,255,255) }
 };
 
-TREEELEMENT *g_Stickies = nullptr;
+/////////////////////////////////////////////////////////////////////////////////////////
 
-LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
+struct STICKYNOTEFONT : public MZeroedObject
+{
+	HFONT hFont;
+	char  size;
+	BYTE  style;					// see the DBFONTF_* flags
+	BYTE  charset;
+	char  szFace[LF_FACESIZE];
+};
 
-INT_PTR PluginMenuCommandAddNew(WPARAM w, LPARAM l);
-INT_PTR PluginMenuCommandDeleteAll(WPARAM w, LPARAM l);
-void GetTriggerTimeString(const ULARGE_INTEGER *When, char *s, UINT strSize, BOOL bUtc);
+struct STICKYNOTE : public MZeroedObject
+{
+	HWND SNHwnd, REHwnd;
+	BOOL bVisible, bOnTop;
+	char *data;
+	ULARGE_INTEGER ID;		// FILETIME in UTC
+	wchar_t *title;
+	BOOL CustomTitle;
+	DWORD BgColor;			// custom bg color override (only valid if non-zero)
+	DWORD FgColor;			// custom fg/text color override (only valid if non-zero)
+	STICKYNOTEFONT *pCustomFont;// custom (body) font override (NULL if default font is used)
+
+	~STICKYNOTE()
+	{
+		if (SNHwnd)
+			DestroyWindow(SNHwnd);
+		SAFE_FREE((void**)&title);
+		SAFE_FREE((void**)&data);
+		if (pCustomFont) {
+			DeleteObject(pCustomFont->hFont);
+			free(pCustomFont);
+		}
+	}
+};
+
+static OBJLIST<STICKYNOTE> g_arStickies(1, PtrKeySortT);
+
+void GetTriggerTimeString(const ULARGE_INTEGER *When, wchar_t *s, size_t strSize, BOOL bUtc);
 void OnListResize(HWND Dialog);
 void UpdateGeomFromWnd(HWND Dialog, int *geom, int *colgeom, int nCols);
 void FileTimeToTzLocalST(const FILETIME *lpUtc, SYSTEMTIME *tmLocal);
@@ -102,17 +130,15 @@ COLORREF GetCaptionColor(COLORREF bodyClr)
 	return (COLORREF)(r | g | b);
 }
 
-
 static void EnsureUniqueID(STICKYNOTE *TSN)
 {
-	if (!g_Stickies)
+	if (!g_arStickies.getCount())
 		return;
 
 try_next:
-
 	// check existing notes if id is in use
-	for (TREEELEMENT *TTE = g_Stickies; TTE; TTE = (TREEELEMENT*)TTE->next) {
-		if (((STICKYNOTE*)TTE->ptrdata)->ID.QuadPart == TSN->ID.QuadPart) {
+	for (auto &it : g_arStickies) {
+		if (it->ID.QuadPart == TSN->ID.QuadPart) {
 			// id in use, try new (increases the ID/time stamp by 100 nanosecond steps until an unused time is found,
 			// allthough it's very unlikely that there will be duplicated id's it's better to make 100% sure)
 			TSN->ID.QuadPart++;
@@ -124,7 +150,7 @@ try_next:
 static void InitNoteTitle(STICKYNOTE *TSN)
 {
 	if (g_NoteTitleDate) {
-		char TempStr[MAX_PATH];
+		wchar_t TempStr[MAX_PATH];
 		SYSTEMTIME tm;
 		LCID lc = GetUserDefaultLCID();
 
@@ -133,24 +159,24 @@ static void InitNoteTitle(STICKYNOTE *TSN)
 		memset(&tm, 0, sizeof(tm));
 		FileTimeToTzLocalST((FILETIME*)&TSN->ID, &tm);
 
-		if (GetDateFormat(lc, 0, &tm, GetDateFormatStr(), TempStr, MAX_PATH)) {
+		if (GetDateFormatW(lc, 0, &tm, GetDateFormatStr(), TempStr, MAX_PATH)) {
 			// append time if requested
 			if (g_NoteTitleTime) {
-				int n = (int)mir_strlen(TempStr);
+				int n = (int)mir_wstrlen(TempStr);
 				TempStr[n++] = ' ';
 				TempStr[n] = 0;
 
 				GetTimeFormat(MAKELCID(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), 0), 0, &tm, GetTimeFormatStr(), TempStr + n, MAX_PATH - n);
 			}
 
-			TSN->title = _strdup(TempStr);
+			TSN->title = _wcsdup(TempStr);
 		}
 	}
 
 	TSN->CustomTitle = FALSE;
 }
 
-static void InitStickyNoteLogFont(STICKYNOTEFONT *pCustomFont, LOGFONT *lf)
+static void InitStickyNoteLogFont(STICKYNOTEFONT *pCustomFont, LOGFONTA *lf)
 {
 	if (!pCustomFont->size) {
 		SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(LOGFONT), &lf, FALSE);
@@ -177,9 +203,9 @@ static void InitStickyNoteLogFont(STICKYNOTEFONT *pCustomFont, LOGFONT *lf)
 	lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 }
 
-static BOOL CreateStickyNoteFont(STICKYNOTEFONT *pCustomFont, LOGFONT *plf)
+static BOOL CreateStickyNoteFont(STICKYNOTEFONT *pCustomFont, LOGFONTA *plf)
 {
-	LOGFONT lf = { 0 };
+	LOGFONTA lf = {0};
 
 	if (!plf) {
 		InitStickyNoteLogFont(pCustomFont, &lf);
@@ -189,411 +215,9 @@ static BOOL CreateStickyNoteFont(STICKYNOTEFONT *pCustomFont, LOGFONT *plf)
 	if (pCustomFont->hFont)
 		DeleteObject(pCustomFont->hFont);
 
-	pCustomFont->hFont = CreateFontIndirect(plf);
+	pCustomFont->hFont = CreateFontIndirectA(plf);
 
 	return pCustomFont->hFont != nullptr;
-}
-
-
-STICKYNOTE* NewNoteEx(int Ax, int Ay, int Aw, int Ah, char *Data, ULARGE_INTEGER *ID, BOOL bVisible, BOOL bOnTop, int scrollV, COLORREF bgClr, COLORREF fgClr, char *Title, STICKYNOTEFONT *pCustomFont, BOOL bLoading)
-{
-	WNDCLASSEX TWC = { 0 };
-	WINDOWPLACEMENT TWP;
-	DWORD L1, L2;
-	SYSTEMTIME tm;
-
-	const BOOL bIsStartup = bVisible & 0x10000;
-	bVisible &= ~0x10000;
-
-	char *TData = Data;
-
-	if (!GetClassInfoEx(hmiranda, NOTE_WND_CLASS, &TWC)) {
-		TWC.style = CS_HREDRAW | CS_VREDRAW | CS_NOCLOSE;
-		TWC.cbClsExtra = 0;
-		TWC.cbWndExtra = 0;
-		TWC.hInstance = hmiranda;
-		TWC.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
-		TWC.hCursor = LoadCursor(nullptr, IDC_ARROW);
-		TWC.hbrBackground = nullptr;
-		TWC.lpszMenuName = nullptr;
-		TWC.lpszClassName = NOTE_WND_CLASS;
-		TWC.cbSize = sizeof(WNDCLASSEX);
-		TWC.lpfnWndProc = StickyNoteWndProc;
-		if (!RegisterClassEx(&TWC)) return nullptr;
-	}
-
-	if (!TData || Aw < 0 || Ah < 0) {
-		TWP.length = sizeof(WINDOWPLACEMENT);
-		GetWindowPlacement(GetDesktopWindow(), &TWP);
-		Aw = g_NoteWidth; Ah = g_NoteHeight;
-		Ax = ((TWP.rcNormalPosition.right - TWP.rcNormalPosition.left) / 2) - (Aw / 2);
-		Ay = ((TWP.rcNormalPosition.bottom - TWP.rcNormalPosition.top) / 2) - (Ah / 2);
-	}
-
-	STICKYNOTE *TSN = (STICKYNOTE*)malloc(sizeof(STICKYNOTE));
-
-	if (ID) {
-		TSN->ID = *ID;
-	}
-	else {
-		GetSystemTime(&tm);
-		SYSTEMTIMEtoFILETIME(&tm, (FILETIME*)&TSN->ID);
-	}
-
-	EnsureUniqueID(TSN);
-
-	TreeAdd(&g_Stickies, TSN);
-
-	if (!TData) {
-		TData = _strdup("");
-		TSN->data = TData;
-	}
-	else
-		TSN->data = TData;
-
-	// init note title (time-stamp)
-	if (Title) {
-		TSN->title = Title;
-		TSN->CustomTitle = TRUE;
-	}
-	else {
-		TSN->title = nullptr;
-		InitNoteTitle(TSN);
-	}
-
-	TSN->bVisible = bVisible;
-	TSN->bOnTop = bOnTop;
-
-	TSN->BgColor = bgClr;
-	TSN->FgColor = fgClr;
-
-	TSN->pCustomFont = pCustomFont;
-
-	L1 = WS_EX_TOOLWINDOW;
-	if (g_Transparency < 255) L1 |= WS_EX_LAYERED;
-	if (bOnTop) L1 |= WS_EX_TOPMOST;
-
-	L2 = WS_POPUP | WS_THICKFRAME | WS_CAPTION;
-
-	// NOTE: loaded note positions stem from GetWindowPlacement, which normally have a different coord space than
-	//       CreateWindow/SetWindowPos, BUT since we now use WS_EX_TOOLWINDOW they use the same coord space so
-	//       we don't have to worry about notes "drifting" between sessions
-	TSN->SNHwnd = CreateWindowEx(L1, NOTE_WND_CLASS, "StickyNote", L2, Ax, Ay, Aw, Ah, nullptr, nullptr, hmiranda, TSN);
-
-	if (g_Transparency < 255)
-		SetLayeredWindowAttributes(TSN->SNHwnd, 0, (BYTE)g_Transparency, LWA_ALPHA);
-
-	// ensure that window is not placed off-screen (if previous session had different monitor count or resolution)
-	// NOTE: SetWindowPlacement should do this, but it's extremly flakey
-	if (Data) {
-		if (!MonitorFromWindow(TSN->SNHwnd, MONITOR_DEFAULTTONULL)) {
-			TWP.length = sizeof(WINDOWPLACEMENT);
-			GetWindowPlacement(GetDesktopWindow(), &TWP);
-
-			if (Aw > 500) Aw = 500;
-			if (Ay < TWP.rcNormalPosition.left + 10 || Ax > TWP.rcNormalPosition.right - 120)
-				Ax = ((TWP.rcNormalPosition.right - TWP.rcNormalPosition.left) / 2) - (Aw / 2) + (rand() & 0x3f);
-			if (Ay < TWP.rcNormalPosition.top + 50 || Ay > TWP.rcNormalPosition.bottom - 50)
-				Ay = ((TWP.rcNormalPosition.bottom - TWP.rcNormalPosition.top) / 4) + (rand() & 0x1f);
-
-			SetWindowPos(TSN->SNHwnd, nullptr, Ax, Ay, Aw, Ah, SWP_NOZORDER | SWP_NOACTIVATE);
-		}
-	}
-
-	if (bVisible) {
-		ShowWindow(TSN->SNHwnd, SW_SHOWNA);
-
-		// when loading notes (only at startup), place all non-top notes at the bottom so they don't cover other windows
-		if (Data && !bOnTop && bIsStartup)
-			SetWindowPos(TSN->SNHwnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS);
-	}
-
-	if (scrollV)
-		SendMessage(TSN->REHwnd, EM_LINESCROLL, 0, scrollV);
-
-	// make sure that any event triggered by init doesn't cause a meaningless save
-	KillTimer(TSN->SNHwnd, 1025);
-
-	if (!bLoading) {
-		NOTIFY_LIST();
-	}
-
-	return TSN;
-}
-
-STICKYNOTE* NewNote(int Ax, int Ay, int Aw, int Ah, char *Data, ULARGE_INTEGER *ID, BOOL bVisible, BOOL bOnTop, int scrollV)
-{
-	return NewNoteEx(Ax, Ay, Aw, Ah, Data, ID, bVisible, bOnTop, scrollV, 0, 0, nullptr, nullptr, FALSE);
-}
-
-void LoadNotes(BOOL bIsStartup)
-{
-	WORD Size = 0;
-	char *Value = nullptr, *TVal = nullptr;
-	char ValueName[32];
-
-	g_Stickies = nullptr;
-
-	int NotesCount = g_plugin.getDword("NotesData", 0);
-
-	for (int I = 0; I < NotesCount; I++) {
-		char *DelPos;
-
-		mir_snprintf(ValueName, "NotesData%d", I);
-
-		if (Value) {
-			FreeSettingBlob(Size, Value);
-			Value = nullptr;
-		}
-
-		Size = 65535; // does not get used
-
-		ReadSettingBlob(0, MODULENAME, ValueName, &Size, (void**)&Value);
-
-		if (!Size || !Value)
-			continue; // the setting could not be read from DB -> skip
-
-		if (Value[0] == 'X') {
-			// new eXtended/fleXible data format
-
-			STICKYNOTE note = {};
-			int i, rect[4];
-			int scrollV = 0;
-			STICKYNOTEFONT *pCustomFont = nullptr;
-			DWORD flags;
-
-			DelPos = strchr(Value + 1, 0x1B);
-			if (DelPos)
-				*DelPos = 0;
-
-			// id:x:y:w:h:flags
-
-			TVal = strchr(Value + 1, ':');
-			if (!TVal || (DelPos && TVal > DelPos))
-				continue;
-			*TVal++ = 0;
-
-			note.ID.QuadPart = _strtoui64(Value + 1, nullptr, 16);
-
-			for (i = 0; i<4; i++) {
-				char *sep = strchr(TVal, ':');
-				if (!sep || (DelPos && sep > DelPos))
-					goto skip;
-				*sep++ = 0;
-
-				rect[i] = strtol(TVal, nullptr, 10);
-
-				TVal = sep;
-			}
-
-			flags = strtoul(TVal, nullptr, 16);
-
-			if (flags & 1)
-				note.bVisible = TRUE;
-			if (flags & 2)
-				note.bOnTop = TRUE;
-
-			// optional \033 separated params
-			while (DelPos) {
-				char *sep;
-				UINT tag;
-
-				TVal = DelPos + 1;
-				// find param end and make sure it's null-terminated (if end of data then it's already null-terminated)
-				DelPos = strchr(TVal, 0x1B);
-				if (DelPos)
-					*DelPos = 0;
-
-				// tag:<data>
-
-				sep = strchr(TVal, ':');
-				if (!sep || (DelPos && sep > DelPos))
-					goto skip;
-
-				tag = strtoul(TVal, nullptr, 10);
-				TVal = sep + 1;
-
-				switch (tag) {
-				case DATATAG_TEXT:
-					note.data = _strdup(TVal);
-					break;
-
-				case DATATAG_SCROLLPOS:
-					scrollV = (int)strtoul(TVal, nullptr, 10);
-					break;
-
-				case DATATAG_BGCOL:
-					note.BgColor = strtoul(TVal, nullptr, 16) | 0xff000000;
-					break;
-
-				case DATATAG_FGCOL:
-					note.FgColor = strtoul(TVal, nullptr, 16) | 0xff000000;
-					break;
-
-				case DATATAG_TITLE:
-					if (mir_strlen(TVal) > MAX_TITLE_LEN)
-						TVal[MAX_TITLE_LEN] = 0;
-					note.title = _strdup(TVal);
-					note.CustomTitle = TRUE;
-					break;
-
-				case DATATAG_FONT:
-					{
-						int fsize;
-						UINT fstyle, fcharset;
-
-						char *TVal2 = TVal;
-						sep = strchr(TVal2, ':');
-						if (!sep || (DelPos && sep > DelPos))
-							goto skip;
-						*sep++ = 0;
-						fsize = strtol(TVal2, nullptr, 10);
-						TVal2 = sep;
-
-						sep = strchr(TVal2, ':');
-						if (!sep || (DelPos && sep > DelPos))
-							goto skip;
-						*sep++ = 0;
-						fstyle = strtoul(TVal2, nullptr, 10);
-						TVal2 = sep;
-
-						sep = strchr(TVal2, ':');
-						if (!sep || (DelPos && sep > DelPos))
-							goto skip;
-						*sep++ = 0;
-						fcharset = strtoul(TVal2, nullptr, 10);
-						TVal2 = sep;
-
-						if (TVal2 >= DelPos)
-							goto skip;
-
-						pCustomFont = (STICKYNOTEFONT*)malloc(sizeof(STICKYNOTEFONT));
-						pCustomFont->size = (char)fsize;
-						pCustomFont->style = (BYTE)fstyle;
-						pCustomFont->charset = (BYTE)fcharset;
-						mir_strcpy(pCustomFont->szFace, TVal2);
-						pCustomFont->hFont = nullptr;
-
-						if (!CreateStickyNoteFont(pCustomFont, nullptr)) {
-							free(pCustomFont);
-							pCustomFont = nullptr;
-						}
-					}
-					break;
-				}
-			}
-
-			if (!note.data)
-				note.data = _strdup("");
-
-			note.bVisible = note.bVisible && (!bIsStartup || g_ShowNotesAtStart);
-			if (bIsStartup)
-				note.bVisible |= 0x10000;
-
-			NewNoteEx(rect[0], rect[1], rect[2], rect[3], note.data, &note.ID, note.bVisible, note.bOnTop, scrollV, note.BgColor, note.FgColor, note.title, pCustomFont, TRUE);
-		}
-		else {
-			// old format (for DB backward compatibility)
-
-			int Tx, Ty, Tw, Th, TV, OT;
-			BOOL V;
-			char *Data, *ID;
-			ULARGE_INTEGER newid;
-
-			OT = 1; TV = 1;
-			Tx = 100; Ty = 100;
-			Tw = 179; Th = 35;
-			Data = nullptr; ID = nullptr;
-
-			if (DelPos = strchr(Value, 0x1B)) {	// get first delimiter
-				//				int	PartLen = DelPos - TVal;
-
-				Data = nullptr;
-				ID = nullptr;
-				TVal = Value;
-				DelPos[0] = 0x0;
-				Tx = strtol(TVal, nullptr, 10);
-
-				TVal = DelPos + 1;
-				DelPos = strchr(TVal, 0x1B);
-				if (!DelPos) continue; // setting is broken, do not crash
-				DelPos[0] = 0x0;
-				Ty = strtol(TVal, nullptr, 10);
-
-				TVal = DelPos + 1;
-				DelPos = strchr(TVal, 0x1B);
-				if (!DelPos) continue; // setting is broken, do not crash
-				DelPos[0] = 0x0;
-				Tw = strtol(TVal, nullptr, 10);
-
-				TVal = DelPos + 1;
-				DelPos = strchr(TVal, 0x1B);
-				if (!DelPos) continue; // setting is broken, do not crash
-				DelPos[0] = 0x0;
-				Th = strtol(TVal, nullptr, 10);
-
-				TVal = DelPos + 1;
-				DelPos = strchr(TVal, 0x1B);
-				if (!DelPos) continue; // setting is broken, do not crash
-				DelPos[0] = 0x0;
-				TV = strtol(TVal, nullptr, 10);
-
-				TVal = DelPos + 1;
-				DelPos = strchr(TVal, 0x1B);
-				if (!DelPos) continue; // setting is broken, do not crash
-				DelPos[0] = 0x0;
-				OT = strtol(TVal, nullptr, 10);
-
-				TVal = DelPos + 1;
-				DelPos = strchr(TVal, 0x1B);
-				if (!DelPos) continue; // setting is broken, do not crash
-				DelPos[0] = 0x0;
-				Data = _strdup(TVal);
-
-				TVal = DelPos + 1;
-				ID = TVal;
-
-				V = (BOOL)TV && (!bIsStartup || g_ShowNotesAtStart);
-
-				if (bIsStartup)
-					V |= 0x10000;
-
-				// convert old ID format to new
-				if (strchr(ID, '-')) {
-					// validate format (otherwise create new)
-					if (mir_strlen(ID) < 19 || ID[2] != '-' || ID[5] != '-' || ID[10] != ' ' || ID[13] != ':' || ID[16] != ':') {
-						ID = nullptr;
-					}
-					else {
-						SYSTEMTIME tm;
-
-						ID[2] = ID[5] = ID[10] = ID[13] = ID[16] = 0;
-
-						memset(&tm, 0, sizeof(tm));
-						tm.wDay = (WORD)strtoul(ID, nullptr, 10);
-						tm.wMonth = (WORD)strtoul(ID + 3, nullptr, 10);
-						tm.wYear = (WORD)strtoul(ID + 6, nullptr, 10);
-						tm.wHour = (WORD)strtoul(ID + 11, nullptr, 10);
-						tm.wMinute = (WORD)strtoul(ID + 14, nullptr, 10);
-						tm.wSecond = (WORD)strtoul(ID + 17, nullptr, 10);
-
-						SYSTEMTIMEtoFILETIME(&tm, (FILETIME*)&newid);
-					}
-				}
-				else {
-					ID = nullptr;
-				}
-
-				NewNoteEx(Tx, Ty, Tw, Th, Data, ID ? &newid : nullptr, V, (BOOL)OT, 0, 0, 0, nullptr, nullptr, TRUE);
-			}
-		}
-skip:;
-	}
-
-	if (Value)
-		FreeSettingBlob(Size, Value); // we do not leak on bad setting
-
-	NOTIFY_LIST();
 }
 
 void CloseNotesList()
@@ -604,30 +228,13 @@ void CloseNotesList()
 	}
 }
 
-static void PurgeNotesTree()
-{
-	while (g_Stickies) { // empty whole tree
-		STICKYNOTE *pt = (STICKYNOTE*)g_Stickies->ptrdata;
-		if (pt->SNHwnd) DestroyWindow(pt->SNHwnd);
-		SAFE_FREE((void**)&pt->title);
-		SAFE_FREE((void**)&pt->data);
-		if (pt->pCustomFont) {
-			DeleteObject(pt->pCustomFont->hFont);
-			free(pt->pCustomFont);
-		}
-		TreeDelete(&g_Stickies, pt);
-		SAFE_FREE((void**)&pt);
-	}
-	g_Stickies = nullptr;
-}
-
 void PurgeNotes(void)
 {
 	char ValueName[16];
 
 	int NotesCount = g_plugin.getDword("NotesData", 0);
-	for (int I = 0; I < NotesCount; I++) {
-		mir_snprintf(ValueName, "NotesData%d", I);
+	for (int i = 0; i < NotesCount; i++) {
+		mir_snprintf(ValueName, "NotesData%d", i);
 		g_plugin.delSetting(ValueName);
 	}
 }
@@ -636,22 +243,20 @@ void DeleteNotes(void)
 {
 	PurgeNotes();
 	g_plugin.setDword("NotesData", 0);
-	PurgeNotesTree();
+	g_arStickies.destroy();
 	NOTIFY_LIST();
 }
 
 void BringAllNotesToFront(STICKYNOTE *pActive)
 {
-	if (!g_Stickies)
+	if (!g_arStickies.getCount())
 		return;
 
 	// NOTE: for some reason there are issues when bringing to top through hotkey while another app (like Explorer)
 	//       is active, it refuses to move notes to top like it should with HWND_TOP. as a workaround still doesn't
 	//       work 100% of the time, but at least more often, we first move not to top-most then for non-always-on-top
 	//       notes we demote them back as a non top-most window
-	for (TREEELEMENT *TTE = g_Stickies; TTE; TTE = (TREEELEMENT*)TTE->next) {
-		STICKYNOTE *SN = (STICKYNOTE*)TTE->ptrdata;
-
+	for (auto &SN : g_arStickies) {
 		if (SN->bVisible && pActive != SN) {
 			SetWindowPos(SN->SNHwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 			if (!SN->bOnTop)
@@ -669,47 +274,40 @@ void BringAllNotesToFront(STICKYNOTE *pActive)
 // pModified optionally points to the modified note that invoked the JustSaveNotesEx call
 static void JustSaveNotesEx(STICKYNOTE *pModified = nullptr)
 {
-	int I = 0, NotesCount = TreeGetCount(g_Stickies);
-	int n, l;
+	int i = 0, NotesCount = g_arStickies.getCount();
 	char ValueName[32];
-	WINDOWPLACEMENT wp;
-	int TX, TY, TW, TH;
-	DWORD flags;
-	int SzT;
-	int scrollV;
-	char *tData;
 
 	const int OldNotesCount = g_plugin.getDword("NotesData", 0);
 
 	g_plugin.setDword("NotesData", NotesCount);
 
-	for (TREEELEMENT *TTE = g_Stickies; TTE; TTE = (TREEELEMENT*)TTE->next, I++) {
-		STICKYNOTE *pNote = (STICKYNOTE*)TTE->ptrdata;
+	for (auto &pNote : g_arStickies) {
 		BOOL bDeleteTData = TRUE;
-		scrollV = 0;
-		tData = nullptr;
+		int scrollV = 0;
+		char *tData = nullptr;
 
 		// window pos and size
+		WINDOWPLACEMENT wp;
 		wp.length = sizeof(WINDOWPLACEMENT);
 		GetWindowPlacement(pNote->SNHwnd, &wp);
-		TX = wp.rcNormalPosition.left;
-		TY = wp.rcNormalPosition.top;
-		TW = wp.rcNormalPosition.right - wp.rcNormalPosition.left;
-		TH = wp.rcNormalPosition.bottom - wp.rcNormalPosition.top;
+		int TX = wp.rcNormalPosition.left;
+		int TY = wp.rcNormalPosition.top;
+		int TW = wp.rcNormalPosition.right - wp.rcNormalPosition.left;
+		int TH = wp.rcNormalPosition.bottom - wp.rcNormalPosition.top;
 
 		// set flags
-		flags = 0;
+		DWORD flags = 0;
 		if (pNote->bVisible) flags |= 1;
 		if (pNote->bOnTop) flags |= 2;
 
 		// get note text
-		SzT = GetWindowTextLength(pNote->REHwnd);
+		int SzT = GetWindowTextLength(pNote->REHwnd);
 		if (SzT) { // TODO: change to support unicode and rtf, use EM_STREAMOUT
 			if (SzT > MAX_NOTE_LEN)
 				SzT = MAX_NOTE_LEN; // we want to be far below the 64k limit
 			tData = (char*)malloc(SzT + 1);
 			if (tData)
-				GetWindowText(pNote->REHwnd, tData, SzT + 1);
+				GetWindowTextA(pNote->REHwnd, tData, SzT + 1);
 		}
 
 		if (pNote == pModified) {
@@ -725,68 +323,39 @@ static void JustSaveNotesEx(STICKYNOTE *pModified = nullptr)
 		else // get current scroll position
 			scrollV = SendMessage(pNote->REHwnd, EM_GETFIRSTVISIBLELINE, 0, 0);
 
-		char *Value = (char*)malloc(SzT + 512);
-		if (!Value) {
-			if (bDeleteTData)
-				SAFE_FREE((void**)&tData);
-			continue;
-		}
-
-		n = 0;
-
 		// data header
-		l = sprintf(Value, "X%I64x:%d:%d:%d:%d:%x", pNote->ID.QuadPart, TX, TY, TW, TH, flags); //!!!!!!!!!!!!
-		if (l > 0) n += l;
+		CMStringA szValue;
+		szValue.AppendFormat("X%I64x:%d:%d:%d:%d:%x", pNote->ID.QuadPart, TX, TY, TW, TH, flags);
 
 		// scroll pos
-		if (scrollV > 0) {
-			l = sprintf(Value + n, "\033""%u:%u", DATATAG_SCROLLPOS, (UINT)scrollV); //!!!!!!!!!!
-			if (l > 0) n += l;
-		}
+		if (scrollV > 0)
+			szValue.AppendFormat("\033""%u:%u", DATATAG_SCROLLPOS, (UINT)scrollV);
 
 		// custom bg color
-		if (pNote->BgColor) {
-			l = sprintf(Value + n, "\033""%u:%x", DATATAG_BGCOL, (UINT)(pNote->BgColor & 0xffffff)); //!!!!!!!!!!!!!
-			if (l > 0) n += l;
-		}
+		if (pNote->BgColor)
+			szValue.AppendFormat("\033""%u:%x", DATATAG_BGCOL, (UINT)(pNote->BgColor & 0xffffff));
 
 		// custom fg color
-		if (pNote->FgColor) {
-			l = sprintf(Value + n, "\033""%u:%x", DATATAG_FGCOL, (UINT)(pNote->FgColor & 0xffffff)); //!!!!!!!!!!!!!
-			if (l > 0) n += l;
-		}
+		if (pNote->FgColor)
+			szValue.AppendFormat("\033""%u:%x", DATATAG_FGCOL, (UINT)(pNote->FgColor & 0xffffff));
 
 		if (pNote->pCustomFont) {
-			l = sprintf(Value + n, "\033""%u:%d:%u:%u:%s", DATATAG_FONT,
+			szValue.AppendFormat("\033""%u:%d:%u:%u:%s", DATATAG_FONT,
 				(int)pNote->pCustomFont->size, (UINT)pNote->pCustomFont->style, (UINT)pNote->pCustomFont->charset,
-				pNote->pCustomFont->szFace); //!!!!!!!!!!!!!!!
-			if (l > 0) n += l;
+				pNote->pCustomFont->szFace);
 		}
 
 		// custom title
-		if (pNote->CustomTitle && pNote->title) {
-			l = sprintf(Value + n, "\033""%u:%s", DATATAG_TITLE, pNote->title); //!!!!!!!!!!!!!
-			if (l > 0) n += l;
-		}
+		if (pNote->CustomTitle && pNote->title)
+			szValue.AppendFormat("\033""%u:%s", DATATAG_TITLE, pNote->title);
 
 		// note text (ALWAYS PUT THIS PARAM LAST)
-		if (tData) {
-			l = sprintf(Value + n, "\033""%u:%s", DATATAG_TEXT, tData); //!!!!!!!!!!!!
-			if (l > 0) n += l;
-		}
+		if (tData)
+			szValue.AppendFormat("\033""%u:%s", DATATAG_TEXT, tData);
 
-		// clamp data size to WORD (including null terminator)
-		if (n >= 0xffff) {
-			// huston, we have a problem, strip some reminder text
-			n = 0xfffe;
-			Value[0xffff] = 0;
-		}
+		mir_snprintf(ValueName, "NotesData%d", i++); // we do not reverse notes in DB
+		db_set_blob(0, MODULENAME, ValueName, szValue.GetBuffer(), szValue.GetLength() + 1);
 
-		mir_snprintf(ValueName, "NotesData%d", NotesCount - I - 1); // we do not reverse notes in DB
-
-		db_set_blob(0, MODULENAME, ValueName, Value, n + 1);
-
-		SAFE_FREE((void**)&Value);
 		if (bDeleteTData)
 			SAFE_FREE((void**)&tData);
 
@@ -796,8 +365,8 @@ static void JustSaveNotesEx(STICKYNOTE *pModified = nullptr)
 	}
 
 	// delete any left over DB note entries
-	for (; I < OldNotesCount; I++) {
-		mir_snprintf(ValueName, "NotesData%d", I);
+	for (; i < OldNotesCount; i++) {
+		mir_snprintf(ValueName, "NotesData%d", i);
 		g_plugin.delSetting(ValueName);
 	}
 
@@ -807,15 +376,7 @@ static void JustSaveNotesEx(STICKYNOTE *pModified = nullptr)
 void OnDeleteNote(HWND hdlg, STICKYNOTE *SN)
 {
 	if (MessageBoxW(hdlg, TranslateT("Are you sure you want to delete this note?"), TranslateT(SECTIONNAME), MB_OKCANCEL) == IDOK) {
-		if (SN->SNHwnd)
-			DestroyWindow(SN->SNHwnd);
-		TreeDelete(&g_Stickies, SN);
-		SAFE_FREE((void**)&SN->data);
-		if (SN->pCustomFont) {
-			DeleteObject(SN->pCustomFont->hFont);
-			free(SN->pCustomFont);
-		}
-		SAFE_FREE((void**)&SN);
+		g_arStickies.remove(SN);
 		JustSaveNotesEx();
 		NOTIFY_LIST();
 	}
@@ -823,7 +384,7 @@ void OnDeleteNote(HWND hdlg, STICKYNOTE *SN)
 
 void ShowHideNotes(void)
 {
-	if (!g_Stickies)
+	if (!g_arStickies.getCount())
 		return;
 
 	// if some notes are hidden but others visible then first make all visible
@@ -831,27 +392,23 @@ void ShowHideNotes(void)
 
 	UINT nHideCount = 0, nVisCount = 0;
 
-	for (TREEELEMENT *TTE = g_Stickies; TTE; TTE = (TREEELEMENT*)TTE->next) {
-		if (((STICKYNOTE*)TTE->ptrdata)->bVisible)
+	for (auto &SN : g_arStickies) {
+		if (SN->bVisible)
 			nVisCount++;
 		else
 			nHideCount++;
 	}
 
-	BOOL bVisible;
+	bool bVisible;
 	if (!nVisCount)
-		bVisible = TRUE;
+		bVisible = true;
 	else if (!nHideCount)
-		bVisible = FALSE;
+		bVisible = false;
 	else
-		bVisible = TRUE;
+		bVisible = true;
 
 	int bShow = bVisible ? SW_SHOWNA : SW_HIDE;
-
-
-	for (TREEELEMENT *TTE = g_Stickies; TTE; TTE = (TREEELEMENT*)TTE->next) {
-		STICKYNOTE *SN = (STICKYNOTE*)TTE->ptrdata;
-
+	for (auto &SN : g_arStickies) {
 		if ((!bVisible) != (!SN->bVisible)) {
 			ShowWindow(SN->SNHwnd, bShow);
 			SN->bVisible = bVisible;
@@ -864,30 +421,25 @@ void ShowHideNotes(void)
 void SaveNotes(void)
 {
 	JustSaveNotesEx();
-	PurgeNotesTree();
+	g_arStickies.destroy();
 }
 
-
-/////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Note Window
 
-static int FindMenuItem(HMENU h, LPTSTR lpszName)
+static int FindMenuItem(HMENU h, LPSTR lpszName)
 {
 	int n = GetMenuItemCount(h);
-
-	if (n <= 0) {
+	if (n <= 0)
 		return -1;
-	}
 
 	// searches for a menu item based on name (used to avoid hardcoding item indices for sub-menus)
-	for (UINT i = 0; i < (UINT)n; i++) {
+	for (int i = 0; i < n; i++) {
 		char s[128];
 
-		if (GetMenuString(h, i, s, 128, MF_BYPOSITION)) {
-			if (!mir_strcmp(s, lpszName)) {
+		if (GetMenuStringA(h, i, s, 128, MF_BYPOSITION))
+			if (!mir_strcmp(s, lpszName))
 				return (int)i;
-			}
-		}
 	}
 
 	return -1;
@@ -895,10 +447,10 @@ static int FindMenuItem(HMENU h, LPTSTR lpszName)
 
 static BOOL DoContextMenu(HWND AhWnd, WPARAM, LPARAM lParam)
 {
-	STICKYNOTE *SN = (STICKYNOTE*)GetProp(AhWnd, "ctrldata");
+	STICKYNOTE *SN = (STICKYNOTE*)GetPropA(AhWnd, "ctrldata");
 
 	HMENU hMenuLoad, FhMenu, hSub;
-	hMenuLoad = LoadMenu(g_plugin.getInst(), "MNU_NOTEPOPUP");
+	hMenuLoad = LoadMenuA(g_plugin.getInst(), "MNU_NOTEPOPUP");
 	FhMenu = GetSubMenu(hMenuLoad, 0);
 
 	if (SN->bOnTop)
@@ -917,10 +469,10 @@ static BOOL DoContextMenu(HWND AhWnd, WPARAM, LPARAM lParam)
 		HMENU hFg = GetSubMenu(hSub, FindMenuItem(hSub, "Text Color"));
 
 		for (int i = 0; i < _countof(clrPresets); i++)
-			InsertMenu(hBg, i, MF_BYPOSITION | MF_OWNERDRAW, IDM_COLORPRESET_BG + i, Translate(clrPresets[i].szName));
+			InsertMenu(hBg, i, MF_BYPOSITION | MF_OWNERDRAW, IDM_COLORPRESET_BG + i, TranslateW(clrPresets[i].szName));
 
 		for (int i = 0; i < _countof(clrPresets); i++)
-			InsertMenu(hFg, i, MF_BYPOSITION | MF_OWNERDRAW, IDM_COLORPRESET_FG + i, Translate(clrPresets[i].szName));
+			InsertMenu(hFg, i, MF_BYPOSITION | MF_OWNERDRAW, IDM_COLORPRESET_FG + i, TranslateW(clrPresets[i].szName));
 	}
 
 	TranslateMenu(FhMenu);
@@ -932,13 +484,13 @@ static BOOL DoContextMenu(HWND AhWnd, WPARAM, LPARAM lParam)
 static void MeasureColorPresetMenuItem(HWND hdlg, LPMEASUREITEMSTRUCT lpMeasureItem, struct ColorPreset *clrPresets2)
 {
 	HDC hdc = GetDC(hdlg);
-	LPSTR lpsz = Translate(clrPresets2->szName);
+	wchar_t *lpsz = TranslateW(clrPresets2->szName);
 	SIZE sz;
-	GetTextExtentPoint32(hdc, lpsz, (int)mir_strlen(lpsz), &sz);
+	GetTextExtentPoint32(hdc, lpsz, (int)mir_wstrlen(lpsz), &sz);
 	ReleaseDC(hdlg, hdc);
 
 	lpMeasureItem->itemWidth = 50 + sz.cx;
-	lpMeasureItem->itemHeight = (sz.cy + 2)>18 ? sz.cy + 2 : 18;
+	lpMeasureItem->itemHeight = (sz.cy + 2) > 18 ? sz.cy + 2 : 18;
 }
 
 static void PaintColorPresetMenuItem(LPDRAWITEMSTRUCT lpDrawItem, struct ColorPreset *clrPresets2)
@@ -979,31 +531,30 @@ static void PaintColorPresetMenuItem(LPDRAWITEMSTRUCT lpDrawItem, struct ColorPr
 	FillRect(lpDrawItem->hDC, &rect, (HBRUSH)GetStockObject(DC_BRUSH));
 }
 
-static BOOL GetClipboardText_Title(char *pOut, int size)
+static BOOL GetClipboardText_Title(wchar_t *pOut, int size)
 {
 	BOOL bResult = FALSE;
 
 	if (OpenClipboard(nullptr)) {
-		HANDLE hData = GetClipboardData(CF_TEXT);
-		LPCSTR buffer;
+		HANDLE hData = GetClipboardData(CF_UNICODETEXT);
+		wchar_t *buffer;
 
-		if (hData && (buffer = (LPCSTR)GlobalLock(hData))) {
+		if (hData && (buffer = (wchar_t*)GlobalLock(hData))) {
 			// trim initial white spaces
-			while (*buffer && isspace(*buffer))
+			while (*buffer && iswspace(*buffer))
 				buffer++;
 
-			size_t n = mir_strlen(buffer);
+			size_t n = mir_wstrlen(buffer);
 			if (n >= size)
 				n = size - 1;
-			memcpy(pOut, buffer, n);
-			pOut[n] = 0;
+			wcsncpy_s(pOut, size, buffer, _TRUNCATE);
 
 			// end string on line break and convert tabs to spaces
-			char *p = pOut;
+			wchar_t *p = pOut;
 			while (*p) {
 				if (*p == '\r' || *p == '\n') {
 					*p = 0;
-					n = mir_strlen(pOut);
+					n = mir_wstrlen(pOut);
 					break;
 				}
 				else if (*p == '\t') {
@@ -1013,7 +564,7 @@ static BOOL GetClipboardText_Title(char *pOut, int size)
 			}
 
 			// trim trailing white spaces
-			rtrim(pOut);
+			rtrimw(pOut);
 			if (pOut[0])
 				bResult = TRUE;
 
@@ -1028,14 +579,14 @@ static BOOL GetClipboardText_Title(char *pOut, int size)
 
 static void SetNoteTextControl(STICKYNOTE *SN)
 {
-	CHARFORMAT CF = { 0 };
+	CHARFORMAT CF = {0};
 	CF.cbSize = sizeof(CHARFORMAT);
 	CF.dwMask = CFM_COLOR;
 	CF.crTextColor = SN->FgColor ? (SN->FgColor & 0xffffff) : BodyFontColor;
 	SendMessage(SN->REHwnd, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&CF);
 
 	if (SN->data) // TODO: use EM_STREAMIN
-		SetWindowText(SN->REHwnd, SN->data);
+		SetWindowTextA(SN->REHwnd, SN->data);
 }
 
 
@@ -1051,31 +602,26 @@ static UINT_PTR CALLBACK CFHookProc(HWND hdlg, UINT msg, WPARAM, LPARAM)
 	return 0;
 }
 
-
 LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	STICKYNOTE *SN = (STICKYNOTE*)GetPropA(hdlg, "ctrldata");
+
 	switch (message) {
 	case WM_CLOSE:
 		return TRUE;
 
 	case WM_SIZE:
-		{
-			RECT SZ;
+		RECT SZ;
+		GetClientRect(hdlg, &SZ);
 
-			GetClientRect(hdlg, &SZ);
-			HWND H = GetDlgItem(hdlg, 1);
-			MoveWindow(H, 0, 0, SZ.right, SZ.bottom, TRUE);
+		MoveWindow(GetDlgItem(hdlg, 1), 0, 0, SZ.right, SZ.bottom, TRUE);
 
-			KillTimer(hdlg, 1025);
-			SetTimer(hdlg, 1025, NOTE_CHANGE_COMMIT_DELAY, nullptr);
-
-			return TRUE;
-		}
+		KillTimer(hdlg, 1025);
+		SetTimer(hdlg, 1025, NOTE_CHANGE_COMMIT_DELAY, nullptr);
+		return TRUE;
 
 	case WM_TIMER:
 		if (wParam == 1025) {
-			STICKYNOTE *SN = (STICKYNOTE*)GetProp(hdlg, "ctrldata");
-
 			KillTimer(hdlg, 1025);
 			JustSaveNotesEx(SN);
 		}
@@ -1088,16 +634,15 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 
 	case WM_CREATE:
 		{
-			STICKYNOTE *SN = (STICKYNOTE*)GetProp(hdlg, "ctrldata");
-
 			CREATESTRUCT *CS = (CREATESTRUCT *)lParam;
 			DWORD mystyle;
 
 			SN = (STICKYNOTE*)CS->lpCreateParams;
-			SetProp(hdlg, "ctrldata", (HANDLE)SN);
+			SetPropA(hdlg, "ctrldata", (HANDLE)SN);
 			BringWindowToTop(hdlg);
 			mystyle = WS_CHILD | WS_VISIBLE | ES_LEFT | ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN;
-			if (g_ShowScrollbar) mystyle |= WS_VSCROLL;
+			if (g_plugin.bShowScrollbar)
+				mystyle |= WS_VSCROLL;
 			HWND H = CreateWindowW(MSFTEDIT_CLASS, nullptr, mystyle, 0, 0, CS->cx - 3 - 3, CS->cy - 3 - (3 + 14), hdlg, (HMENU)1, hmiranda, nullptr);
 			SN->REHwnd = H;
 			SendMessage(H, EM_SETTEXTMODE, TM_PLAINTEXT, 0);
@@ -1127,10 +672,7 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 	case WM_NCPAINT:
 		// make window borders have the same color as caption
 		{
-			STICKYNOTE *SN = (STICKYNOTE*)GetProp(hdlg, "ctrldata");
-
 			RECT rect, wr, r;
-			//HDC hdc = GetDCEx(hdlg, (HRGN)wParam, DCX_WINDOW|DCX_INTERSECTRGN);
 			HDC hdc = GetWindowDC(hdlg);
 
 			GetWindowRect(hdlg, &wr);
@@ -1169,15 +711,15 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 				RECT R;
 				SelectObject(hdc, hCaptionFont);
 				R.top = 3 + 1; R.bottom = 3 + 11; R.left = 3 + 2; R.right = rect.right - 3 - 1;
-				if (g_ShowNoteButtons)
+				if (g_plugin.bShowNoteButtons)
 					R.right -= 48;
 
 				SetTextColor(hdc, SN->FgColor ? (SN->FgColor & 0xffffff) : CaptionFontColor);
 				SetBkMode(hdc, TRANSPARENT);
-				DrawText(hdc, SN->title, -1, &R, DT_LEFT | DT_SINGLELINE | DT_END_ELLIPSIS | DT_VCENTER);
+				DrawTextW(hdc, SN->title, -1, &R, DT_LEFT | DT_SINGLELINE | DT_END_ELLIPSIS | DT_VCENTER);
 			}
 
-			if (g_ShowNoteButtons) {
+			if (g_plugin.bShowNoteButtons) {
 				HICON hcIcon;
 				if (SN->bOnTop)
 					hcIcon = IcoLib_GetIconByHandle(iconList[4].hIcolib);
@@ -1227,11 +769,11 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 				Buff = (char*)malloc(PEnLnk->chrg.cpMax - PEnLnk->chrg.cpMin + 1);
 				SendDlgItemMessage(hdlg, 1, EM_GETSELTEXT, 0, (LPARAM)Buff);
 				if ((GetAsyncKeyState(VK_CONTROL) >> 15) != 0)
-					ShellExecute(hdlg, "open", "iexplore", Buff, "", SW_SHOWNORMAL);
+					ShellExecuteA(hdlg, "open", "iexplore", Buff, "", SW_SHOWNORMAL);
 				else if (g_lpszAltBrowser && *g_lpszAltBrowser)
-					ShellExecute(hdlg, "open", g_lpszAltBrowser, Buff, "", SW_SHOWNORMAL);
+					ShellExecuteA(hdlg, "open", g_lpszAltBrowser, Buff, "", SW_SHOWNORMAL);
 				else
-					ShellExecute(hdlg, "open", Buff, "", "", SW_SHOWNORMAL);
+					ShellExecuteA(hdlg, "open", Buff, "", "", SW_SHOWNORMAL);
 				SAFE_FREE((void**)&Buff);
 				return TRUE;
 			}
@@ -1254,7 +796,7 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 		}
 
 	case WM_NCLBUTTONDOWN:
-		if (wParam == HTCAPTION && g_ShowNoteButtons) {
+		if (wParam == HTCAPTION && g_plugin.bShowNoteButtons) {
 			long X, Y;
 			RECT rect;
 			int Tw;
@@ -1317,243 +859,237 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 		break;
 
 	case WM_COMMAND:
-		{
-			STICKYNOTE *SN = (STICKYNOTE*)GetProp(hdlg, "ctrldata");
+		UINT id;
+		switch (HIWORD(wParam)) {
+		case EN_CHANGE:
+		case EN_VSCROLL:
+		case EN_HSCROLL:
+			KillTimer(hdlg, 1025);
+			SetTimer(hdlg, 1025, NOTE_CHANGE_COMMIT_DELAY, nullptr);
+			break;
+		}
 
-			switch (HIWORD(wParam)) {
-			case EN_CHANGE:
-			case EN_VSCROLL:
-			case EN_HSCROLL:
-				KillTimer(hdlg, 1025);
-				SetTimer(hdlg, 1025, NOTE_CHANGE_COMMIT_DELAY, nullptr);
-				break;
-			}
+		id = (UINT)LOWORD(wParam);
+		if (id >= IDM_COLORPRESET_BG && id <= IDM_COLORPRESET_BG + _countof(clrPresets)) {
+			SN->BgColor = clrPresets[id - IDM_COLORPRESET_BG].color | 0xff000000;
+			SendMessage(SN->REHwnd, EM_SETBKGNDCOLOR, 0, SN->BgColor & 0xffffff);
+			RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
+			JustSaveNotesEx();
+			return FALSE;
+		}
+		else if (id >= IDM_COLORPRESET_FG && id <= IDM_COLORPRESET_FG + _countof(clrPresets)) {
+			CHARFORMAT CF = {0};
+			SN->FgColor = clrPresets[id - IDM_COLORPRESET_FG].color | 0xff000000;
+			CF.cbSize = sizeof(CHARFORMAT);
+			CF.dwMask = CFM_COLOR;
+			CF.crTextColor = SN->FgColor & 0xffffff;
+			SendMessage(SN->REHwnd, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&CF);
+			RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
+			JustSaveNotesEx();
+			return FALSE;
+		}
 
-			UINT id = (UINT)LOWORD(wParam);
+		switch (id) {
+		case ID_CONTEXTMENUNOTEPOPUP_NEWNOTE:
+			PluginMenuCommandAddNew(0, 0);
+			break;
 
-			HWND H = SN->REHwnd;
+		case ID_APPEARANCE_CUSTOMBG:
+			{
+				COLORREF custclr[16] = {0};
+				CHOOSECOLOR cc = {0};
+				COLORREF orgclr = SN->BgColor ? (COLORREF)(SN->BgColor & 0xffffff) : (COLORREF)(BodyColor & 0xffffff);
+				cc.lStructSize = sizeof(cc);
+				cc.hwndOwner = SN->SNHwnd;
+				cc.rgbResult = orgclr;
+				cc.Flags = CC_ANYCOLOR | CC_FULLOPEN | CC_RGBINIT | CC_SOLIDCOLOR;
+				cc.lpCustColors = custclr;
 
-			if (id >= IDM_COLORPRESET_BG && id <= IDM_COLORPRESET_BG + _countof(clrPresets)) {
-				SN->BgColor = clrPresets[id - IDM_COLORPRESET_BG].color | 0xff000000;
-				SendMessage(H, EM_SETBKGNDCOLOR, 0, SN->BgColor & 0xffffff);
-				RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
-				JustSaveNotesEx();
-				return FALSE;
-			}
-			else if (id >= IDM_COLORPRESET_FG && id <= IDM_COLORPRESET_FG + _countof(clrPresets)) {
-				CHARFORMAT CF = { 0 };
-				SN->FgColor = clrPresets[id - IDM_COLORPRESET_FG].color | 0xff000000;
-				CF.cbSize = sizeof(CHARFORMAT);
-				CF.dwMask = CFM_COLOR;
-				CF.crTextColor = SN->FgColor & 0xffffff;
-				SendMessage(H, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&CF);
-				RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
-				JustSaveNotesEx();
-				return FALSE;
-			}
-
-			switch (id) {
-			case ID_CONTEXTMENUNOTEPOPUP_NEWNOTE:
-				PluginMenuCommandAddNew(0, 0);
-				break;
-
-			case ID_APPEARANCE_CUSTOMBG:
-				{
-					COLORREF custclr[16] = { 0 };
-					CHOOSECOLOR cc = { 0 };
-					COLORREF orgclr = SN->BgColor ? (COLORREF)(SN->BgColor & 0xffffff) : (COLORREF)(BodyColor & 0xffffff);
-					cc.lStructSize = sizeof(cc);
-					cc.hwndOwner = SN->SNHwnd;
-					cc.rgbResult = orgclr;
-					cc.Flags = CC_ANYCOLOR | CC_FULLOPEN | CC_RGBINIT | CC_SOLIDCOLOR;
-					cc.lpCustColors = custclr;
-
-					if (ChooseColor(&cc) && cc.rgbResult != orgclr) {
-						SN->BgColor = cc.rgbResult | 0xff000000;
-						SendMessage(H, EM_SETBKGNDCOLOR, 0, SN->BgColor & 0xffffff);
-						RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
-						JustSaveNotesEx();
-					}
+				if (ChooseColor(&cc) && cc.rgbResult != orgclr) {
+					SN->BgColor = cc.rgbResult | 0xff000000;
+					SendMessage(SN->REHwnd, EM_SETBKGNDCOLOR, 0, SN->BgColor & 0xffffff);
+					RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
+					JustSaveNotesEx();
 				}
-				break;
-			case ID_APPEARANCE_CUSTOMTEXT:
-				{
-					COLORREF custclr[16] = { 0 };
-					CHOOSECOLOR cc = { 0 };
-					COLORREF orgclr = SN->FgColor ? (COLORREF)(SN->FgColor & 0xffffff) : (COLORREF)(BodyFontColor & 0xffffff);
-					cc.lStructSize = sizeof(cc);
-					cc.hwndOwner = SN->SNHwnd;
-					cc.rgbResult = orgclr;
-					cc.Flags = CC_ANYCOLOR | CC_FULLOPEN | CC_RGBINIT | CC_SOLIDCOLOR;
-					cc.lpCustColors = custclr;
+			}
+			break;
+		case ID_APPEARANCE_CUSTOMTEXT:
+			{
+				COLORREF custclr[16] = {0};
+				CHOOSECOLOR cc = {0};
+				COLORREF orgclr = SN->FgColor ? (COLORREF)(SN->FgColor & 0xffffff) : (COLORREF)(BodyFontColor & 0xffffff);
+				cc.lStructSize = sizeof(cc);
+				cc.hwndOwner = SN->SNHwnd;
+				cc.rgbResult = orgclr;
+				cc.Flags = CC_ANYCOLOR | CC_FULLOPEN | CC_RGBINIT | CC_SOLIDCOLOR;
+				cc.lpCustColors = custclr;
 
-					if (ChooseColor(&cc) && cc.rgbResult != orgclr) {
-						CHARFORMAT CF = { 0 };
-						SN->FgColor = cc.rgbResult | 0xff000000;
-						CF.cbSize = sizeof(CHARFORMAT);
-						CF.dwMask = CFM_COLOR;
-						CF.crTextColor = SN->FgColor & 0xffffff;
-						SendMessage(H, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&CF);
-						RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
-						JustSaveNotesEx();
-					}
-				}
-				break;
-
-			case ID_APPEARANCE_CUSTOMFONT:
-				{
-					CHOOSEFONT cf = { 0 };
-					LOGFONT lf = { 0 };
-
-					if (SN->pCustomFont)
-						InitStickyNoteLogFont(SN->pCustomFont, &lf);
-					else
-						LoadNRFont(NR_FONTID_BODY, &lf, nullptr);
-
-					cf.lStructSize = sizeof(cf);
-					cf.hwndOwner = SN->SNHwnd;
-					cf.lpLogFont = &lf;
-					cf.Flags = CF_EFFECTS | CF_FORCEFONTEXIST | CF_INITTOLOGFONTSTRUCT | CF_SCREENFONTS | CF_ENABLEHOOK;
-					cf.lpfnHook = CFHookProc;
-
-					if (ChooseFont(&cf)) {
-						if (!SN->pCustomFont) {
-							SN->pCustomFont = (STICKYNOTEFONT*)malloc(sizeof(STICKYNOTEFONT));
-							SN->pCustomFont->hFont = nullptr;
-						}
-
-						SN->pCustomFont->size = (char)lf.lfHeight;
-						SN->pCustomFont->style = (lf.lfWeight >= FW_BOLD ? DBFONTF_BOLD : 0) | (lf.lfItalic ? DBFONTF_ITALIC : 0) | (lf.lfUnderline ? DBFONTF_UNDERLINE : 0) | (lf.lfStrikeOut ? DBFONTF_STRIKEOUT : 0);
-						SN->pCustomFont->charset = lf.lfCharSet;
-						mir_strcpy(SN->pCustomFont->szFace, lf.lfFaceName);
-
-						if (!CreateStickyNoteFont(SN->pCustomFont, &lf)) {
-							// failed
-							free(SN->pCustomFont);
-							SN->pCustomFont = nullptr;
-						}
-
-						// clear text first to force a reformatting w.r.w scrollbar
-						SetWindowText(H, "");
-						SendMessage(H, WM_SETFONT, (WPARAM)(SN->pCustomFont ? SN->pCustomFont->hFont : hBodyFont), FALSE);
-						SetNoteTextControl(SN);
-						RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
-						JustSaveNotesEx();
-					}
-				}
-				break;
-
-			case ID_BACKGROUNDCOLOR_RESET:
-				SN->BgColor = 0;
-				SendMessage(H, EM_SETBKGNDCOLOR, 0, (LPARAM)BodyColor);
-				RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
-				JustSaveNotesEx();
-				break;
-
-			case ID_TEXTCOLOR_RESET:
-				{
-					CHARFORMAT CF = { 0 };
-					SN->FgColor = 0;
+				if (ChooseColor(&cc) && cc.rgbResult != orgclr) {
+					CHARFORMAT CF = {0};
+					SN->FgColor = cc.rgbResult | 0xff000000;
 					CF.cbSize = sizeof(CHARFORMAT);
 					CF.dwMask = CFM_COLOR;
-					CF.crTextColor = BodyFontColor;
-					SendMessage(H, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&CF);
+					CF.crTextColor = SN->FgColor & 0xffffff;
+					SendMessage(SN->REHwnd, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&CF);
 					RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
+					JustSaveNotesEx();
 				}
-				JustSaveNotesEx();
-				break;
+			}
+			break;
 
-			case ID_FONT_RESET:
-				if (SN->pCustomFont) {
-					DeleteObject(SN->pCustomFont->hFont);
-					free(SN->pCustomFont);
-					SN->pCustomFont = nullptr;
+		case ID_APPEARANCE_CUSTOMFONT:
+			{
+				CHOOSEFONTA cf = {0};
+				LOGFONTA lf = {0};
+
+				if (SN->pCustomFont)
+					InitStickyNoteLogFont(SN->pCustomFont, &lf);
+				else
+					LoadNRFont(NR_FONTID_BODY, &lf, nullptr);
+
+				cf.lStructSize = sizeof(cf);
+				cf.hwndOwner = SN->SNHwnd;
+				cf.lpLogFont = &lf;
+				cf.Flags = CF_EFFECTS | CF_FORCEFONTEXIST | CF_INITTOLOGFONTSTRUCT | CF_SCREENFONTS | CF_ENABLEHOOK;
+				cf.lpfnHook = CFHookProc;
+
+				if (ChooseFontA(&cf)) {
+					if (!SN->pCustomFont) {
+						SN->pCustomFont = (STICKYNOTEFONT*)malloc(sizeof(STICKYNOTEFONT));
+						SN->pCustomFont->hFont = nullptr;
+					}
+
+					SN->pCustomFont->size = (char)lf.lfHeight;
+					SN->pCustomFont->style = (lf.lfWeight >= FW_BOLD ? DBFONTF_BOLD : 0) | (lf.lfItalic ? DBFONTF_ITALIC : 0) | (lf.lfUnderline ? DBFONTF_UNDERLINE : 0) | (lf.lfStrikeOut ? DBFONTF_STRIKEOUT : 0);
+					SN->pCustomFont->charset = lf.lfCharSet;
+					mir_strcpy(SN->pCustomFont->szFace, lf.lfFaceName);
+
+					if (!CreateStickyNoteFont(SN->pCustomFont, &lf)) {
+						// failed
+						free(SN->pCustomFont);
+						SN->pCustomFont = nullptr;
+					}
 
 					// clear text first to force a reformatting w.r.w scrollbar
-					SetWindowText(H, "");
-					SendMessage(H, WM_SETFONT, (WPARAM)hBodyFont, FALSE);
+					SetWindowTextA(SN->REHwnd, "");
+					SendMessage(SN->REHwnd, WM_SETFONT, (WPARAM)(SN->pCustomFont ? SN->pCustomFont->hFont : hBodyFont), FALSE);
 					SetNoteTextControl(SN);
 					RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
 					JustSaveNotesEx();
 				}
-				break;
+			}
+			break;
 
-			case ID_CONTEXTMENUNOTEPOPUP_PASTETITLE:
-				{
-					char s[MAX_TITLE_LEN + 1];
-					if (GetClipboardText_Title(s, sizeof(s))) {
-						if (SN->title)
-							free(SN->title);
-						SN->title = _strdup(s);
-						SN->CustomTitle = TRUE;
-						RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
-						JustSaveNotesEx();
-					}
-				}
-				break;
+		case ID_BACKGROUNDCOLOR_RESET:
+			SN->BgColor = 0;
+			SendMessage(SN->REHwnd, EM_SETBKGNDCOLOR, 0, (LPARAM)BodyColor);
+			RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
+			JustSaveNotesEx();
+			break;
 
-			case ID_CONTEXTMENUNOTEPOPUP_RESETTITLE:
-				if (SN->CustomTitle) {
-					if (SN->title) {
+		case ID_TEXTCOLOR_RESET:
+			{
+				CHARFORMAT CF = {0};
+				SN->FgColor = 0;
+				CF.cbSize = sizeof(CHARFORMAT);
+				CF.dwMask = CFM_COLOR;
+				CF.crTextColor = BodyFontColor;
+				SendMessage(SN->REHwnd, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&CF);
+				RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
+			}
+			JustSaveNotesEx();
+			break;
+
+		case ID_FONT_RESET:
+			if (SN->pCustomFont) {
+				DeleteObject(SN->pCustomFont->hFont);
+				free(SN->pCustomFont);
+				SN->pCustomFont = nullptr;
+
+				// clear text first to force a reformatting w.r.w scrollbar
+				SetWindowTextA(SN->REHwnd, "");
+				SendMessage(SN->REHwnd, WM_SETFONT, (WPARAM)hBodyFont, FALSE);
+				SetNoteTextControl(SN);
+				RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
+				JustSaveNotesEx();
+			}
+			break;
+
+		case ID_CONTEXTMENUNOTEPOPUP_PASTETITLE:
+			{
+				wchar_t s[MAX_TITLE_LEN + 1];
+				if (GetClipboardText_Title(s, _countof(s))) {
+					if (SN->title)
 						free(SN->title);
-						SN->title = nullptr;
-					}
-					InitNoteTitle(SN);
+					SN->title = _wcsdup(s);
+					SN->CustomTitle = TRUE;
 					RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
 					JustSaveNotesEx();
 				}
-				break;
-
-			case IDM_REMOVENOTE:
-				OnDeleteNote(hdlg, SN);
-				break;
-
-			case IDM_HIDENOTE:
-				SN->bVisible = FALSE;
-				ShowWindow(hdlg, SW_HIDE);
-				JustSaveNotesEx();
-				break;
-
-			case IDM_COPY:
-				SendMessage(H, WM_COPY, 0, 0);
-				break;
-
-			case IDM_PASTE:
-				SendMessage(H, WM_PASTE, 0, 0);
-				break;
-
-			case IDM_CUT:
-				SendMessage(H, WM_CUT, 0, 0);
-				break;
-
-			case IDM_CLEAR:
-				SendMessage(H, WM_CLEAR, 0, 0);
-				break;
-
-			case IDM_UNDO:
-				SendMessage(H, WM_UNDO, 0, 0);
-				break;
-
-			case IDM_TOGGLEONTOP:
-				SN->bOnTop = !SN->bOnTop;
-				SetWindowPos(hdlg, SN->bOnTop ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_SHOWWINDOW | SWP_NOMOVE | SWP_NOSIZE);
-				RedrawWindow(hdlg, nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW);
-				JustSaveNotesEx();
-				break;
-
-			case ID_CONTEXTMENUNOTEPOPUP_VIEWNOTES:
-				ListNotes();
-				break;
-
-			case ID_CONTEXTMENUNOTEPOPUP_BRINGALLTOTOP:
-				BringAllNotesToFront(SN);
-				break;
 			}
-			return TRUE;
+			break;
+
+		case ID_CONTEXTMENUNOTEPOPUP_RESETTITLE:
+			if (SN->CustomTitle) {
+				if (SN->title) {
+					free(SN->title);
+					SN->title = nullptr;
+				}
+				InitNoteTitle(SN);
+				RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
+				JustSaveNotesEx();
+			}
+			break;
+
+		case IDM_REMOVENOTE:
+			OnDeleteNote(hdlg, SN);
+			break;
+
+		case IDM_HIDENOTE:
+			SN->bVisible = FALSE;
+			ShowWindow(hdlg, SW_HIDE);
+			JustSaveNotesEx();
+			break;
+
+		case IDM_COPY:
+			SendMessage(SN->REHwnd, WM_COPY, 0, 0);
+			break;
+
+		case IDM_PASTE:
+			SendMessage(SN->REHwnd, WM_PASTE, 0, 0);
+			break;
+
+		case IDM_CUT:
+			SendMessage(SN->REHwnd, WM_CUT, 0, 0);
+			break;
+
+		case IDM_CLEAR:
+			SendMessage(SN->REHwnd, WM_CLEAR, 0, 0);
+			break;
+
+		case IDM_UNDO:
+			SendMessage(SN->REHwnd, WM_UNDO, 0, 0);
+			break;
+
+		case IDM_TOGGLEONTOP:
+			SN->bOnTop = !SN->bOnTop;
+			SetWindowPos(hdlg, SN->bOnTop ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_SHOWWINDOW | SWP_NOMOVE | SWP_NOSIZE);
+			RedrawWindow(hdlg, nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW);
+			JustSaveNotesEx();
+			break;
+
+		case ID_CONTEXTMENUNOTEPOPUP_VIEWNOTES:
+			PluginMenuCommandViewNotes(0, 0);
+			break;
+
+		case ID_CONTEXTMENUNOTEPOPUP_BRINGALLTOTOP:
+			BringAllNotesToFront(SN);
+			break;
 		}
+		return TRUE;
 
 	case WM_NCDESTROY:
-		RemoveProp(hdlg, "ctrldata");
+		RemovePropA(hdlg, "ctrldata");
 		break;
 
 	case WM_CONTEXTMENU:
@@ -1565,6 +1101,395 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 	}
 	return FALSE;
 }
+
+STICKYNOTE* NewNoteEx(int Ax, int Ay, int Aw, int Ah, char *Data, ULARGE_INTEGER *ID, BOOL bVisible, BOOL bOnTop, int scrollV, COLORREF bgClr, COLORREF fgClr, wchar_t *Title, STICKYNOTEFONT *pCustomFont, BOOL bLoading)
+{
+	WNDCLASSEX TWC = {0};
+	WINDOWPLACEMENT TWP;
+	DWORD L1, L2;
+	SYSTEMTIME tm;
+
+	const BOOL bIsStartup = bVisible & 0x10000;
+	bVisible &= ~0x10000;
+
+	char *TData = Data;
+
+	if (!GetClassInfoEx(hmiranda, NOTE_WND_CLASS, &TWC)) {
+		TWC.style = CS_HREDRAW | CS_VREDRAW | CS_NOCLOSE;
+		TWC.cbClsExtra = 0;
+		TWC.cbWndExtra = 0;
+		TWC.hInstance = hmiranda;
+		TWC.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
+		TWC.hCursor = LoadCursor(nullptr, IDC_ARROW);
+		TWC.hbrBackground = nullptr;
+		TWC.lpszMenuName = nullptr;
+		TWC.lpszClassName = NOTE_WND_CLASS;
+		TWC.cbSize = sizeof(WNDCLASSEX);
+		TWC.lpfnWndProc = StickyNoteWndProc;
+		if (!RegisterClassEx(&TWC)) return nullptr;
+	}
+
+	if (!TData || Aw < 0 || Ah < 0) {
+		TWP.length = sizeof(WINDOWPLACEMENT);
+		GetWindowPlacement(GetDesktopWindow(), &TWP);
+		Aw = g_NoteWidth; Ah = g_NoteHeight;
+		Ax = ((TWP.rcNormalPosition.right - TWP.rcNormalPosition.left) / 2) - (Aw / 2);
+		Ay = ((TWP.rcNormalPosition.bottom - TWP.rcNormalPosition.top) / 2) - (Ah / 2);
+	}
+
+	STICKYNOTE *TSN = new STICKYNOTE();
+
+	if (ID)
+		TSN->ID = *ID;
+	else {
+		GetSystemTime(&tm);
+		SystemTimeToFileTime(&tm, (FILETIME*)&TSN->ID);
+	}
+
+	EnsureUniqueID(TSN);
+
+	g_arStickies.insert(TSN);
+
+	if (!TData)
+		TSN->data = _strdup("");
+	else
+		TSN->data = TData;
+
+	// init note title (time-stamp)
+	if (Title) {
+		TSN->title = Title;
+		TSN->CustomTitle = TRUE;
+	}
+	else {
+		TSN->title = nullptr;
+		InitNoteTitle(TSN);
+	}
+
+	TSN->bVisible = bVisible;
+	TSN->bOnTop = bOnTop;
+	TSN->BgColor = bgClr;
+	TSN->FgColor = fgClr;
+	TSN->pCustomFont = pCustomFont;
+
+	L1 = WS_EX_TOOLWINDOW;
+	if (g_Transparency < 255) L1 |= WS_EX_LAYERED;
+	if (bOnTop) L1 |= WS_EX_TOPMOST;
+
+	L2 = WS_POPUP | WS_THICKFRAME | WS_CAPTION;
+
+	// NOTE: loaded note positions stem from GetWindowPlacement, which normally have a different coord space than
+	//       CreateWindow/SetWindowPos, BUT since we now use WS_EX_TOOLWINDOW they use the same coord space so
+	//       we don't have to worry about notes "drifting" between sessions
+	TSN->SNHwnd = CreateWindowEx(L1, NOTE_WND_CLASS, L"StickyNote", L2, Ax, Ay, Aw, Ah, nullptr, nullptr, hmiranda, TSN);
+
+	if (g_Transparency < 255)
+		SetLayeredWindowAttributes(TSN->SNHwnd, 0, (BYTE)g_Transparency, LWA_ALPHA);
+
+	// ensure that window is not placed off-screen (if previous session had different monitor count or resolution)
+	// NOTE: SetWindowPlacement should do this, but it's extremly flakey
+	if (Data) {
+		if (!MonitorFromWindow(TSN->SNHwnd, MONITOR_DEFAULTTONULL)) {
+			TWP.length = sizeof(WINDOWPLACEMENT);
+			GetWindowPlacement(GetDesktopWindow(), &TWP);
+
+			if (Aw > 500) Aw = 500;
+			if (Ay < TWP.rcNormalPosition.left + 10 || Ax > TWP.rcNormalPosition.right - 120)
+				Ax = ((TWP.rcNormalPosition.right - TWP.rcNormalPosition.left) / 2) - (Aw / 2) + (rand() & 0x3f);
+			if (Ay < TWP.rcNormalPosition.top + 50 || Ay > TWP.rcNormalPosition.bottom - 50)
+				Ay = ((TWP.rcNormalPosition.bottom - TWP.rcNormalPosition.top) / 4) + (rand() & 0x1f);
+
+			SetWindowPos(TSN->SNHwnd, nullptr, Ax, Ay, Aw, Ah, SWP_NOZORDER | SWP_NOACTIVATE);
+		}
+	}
+
+	if (bVisible) {
+		ShowWindow(TSN->SNHwnd, SW_SHOWNA);
+
+		// when loading notes (only at startup), place all non-top notes at the bottom so they don't cover other windows
+		if (Data && !bOnTop && bIsStartup)
+			SetWindowPos(TSN->SNHwnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS);
+	}
+
+	if (scrollV)
+		SendMessage(TSN->REHwnd, EM_LINESCROLL, 0, scrollV);
+
+	// make sure that any event triggered by init doesn't cause a meaningless save
+	KillTimer(TSN->SNHwnd, 1025);
+
+	if (!bLoading) {
+		NOTIFY_LIST();
+	}
+
+	return TSN;
+}
+
+void NewNote(int Ax, int Ay, int Aw, int Ah, char *Data, ULARGE_INTEGER *ID, BOOL bVisible, BOOL bOnTop, int scrollV)
+{
+	auto *PSN = NewNoteEx(Ax, Ay, Aw, Ah, Data, ID, bVisible, bOnTop, scrollV, 0, 0, nullptr, nullptr, FALSE);
+	if (PSN)
+		SetFocus(PSN->REHwnd);
+}
+
+void LoadNotes(BOOL bIsStartup)
+{
+	WORD Size = 0;
+	char *Value = nullptr, *TVal = nullptr;
+	char ValueName[32];
+
+	g_arStickies.destroy();
+
+	int NotesCount = g_plugin.getDword("NotesData", 0);
+
+	for (int i = 0; i < NotesCount; i++) {
+		mir_snprintf(ValueName, "NotesData%d", i);
+
+		if (Value) {
+			FreeSettingBlob(Size, Value);
+			Value = nullptr;
+		}
+
+		Size = 65535; // does not get used
+
+		ReadSettingBlob(0, MODULENAME, ValueName, &Size, (void**)&Value);
+
+		if (!Size || !Value)
+			continue; // the setting could not be read from DB -> skip
+
+		if (Value[0] == 'X') {
+			// new eXtended/fleXible data format
+
+			int scrollV = 0;
+			STICKYNOTEFONT *pCustomFont = nullptr;
+
+			char *DelPos = strchr(Value + 1, 0x1B);
+			if (DelPos)
+				*DelPos = 0;
+
+			// id:x:y:w:h:flags
+
+			TVal = strchr(Value + 1, ':');
+			if (!TVal || (DelPos && TVal > DelPos))
+				continue;
+
+			*TVal++ = 0;
+			ULARGE_INTEGER id;
+			id.QuadPart = _strtoui64(Value + 1, nullptr, 16);
+
+			int rect[4];
+			for (auto &it : rect) {
+				char *sep = strchr(TVal, ':');
+				if (!sep || (DelPos && sep > DelPos))
+					goto skip;
+				*sep++ = 0;
+
+				it = strtol(TVal, nullptr, 10);
+				TVal = sep;
+			}
+
+			BOOL bVisible = 0, bOnTop = 0;
+			DWORD flags = strtoul(TVal, nullptr, 16);
+			if (flags & 1)
+				bVisible = TRUE;
+			if (flags & 2)
+				bOnTop = TRUE;
+
+			// optional \033 separated params
+			char *data = 0;
+			wchar_t *title = 0;
+			COLORREF BgColor = 0, FgColor = 0;
+
+			while (DelPos) {
+				TVal = DelPos + 1;
+				// find param end and make sure it's null-terminated (if end of data then it's already null-terminated)
+				DelPos = strchr(TVal, 0x1B);
+				if (DelPos)
+					*DelPos = 0;
+
+				// tag:<data>
+				char *sep = strchr(TVal, ':');
+				if (!sep || (DelPos && sep > DelPos))
+					goto skip;
+
+				UINT tag = strtoul(TVal, nullptr, 10);
+				TVal = sep + 1;
+
+				switch (tag) {
+				case DATATAG_TEXT:
+					data = _strdup(TVal);
+					break;
+
+				case DATATAG_SCROLLPOS:
+					scrollV = (int)strtoul(TVal, nullptr, 10);
+					break;
+
+				case DATATAG_BGCOL:
+					BgColor = strtoul(TVal, nullptr, 16) | 0xff000000;
+					break;
+
+				case DATATAG_FGCOL:
+					FgColor = strtoul(TVal, nullptr, 16) | 0xff000000;
+					break;
+
+				case DATATAG_TITLE:
+					if (mir_strlen(TVal) > MAX_TITLE_LEN)
+						TVal[MAX_TITLE_LEN] = 0;
+					title = _wcsdup(_A2T(TVal));
+					break;
+
+				case DATATAG_FONT:
+					int fsize;
+					UINT fstyle, fcharset;
+
+					char *TVal2 = TVal;
+					sep = strchr(TVal2, ':');
+					if (!sep || (DelPos && sep > DelPos))
+						goto skip;
+					*sep++ = 0;
+					fsize = strtol(TVal2, nullptr, 10);
+					TVal2 = sep;
+
+					sep = strchr(TVal2, ':');
+					if (!sep || (DelPos && sep > DelPos))
+						goto skip;
+					*sep++ = 0;
+					fstyle = strtoul(TVal2, nullptr, 10);
+					TVal2 = sep;
+
+					sep = strchr(TVal2, ':');
+					if (!sep || (DelPos && sep > DelPos))
+						goto skip;
+					*sep++ = 0;
+					fcharset = strtoul(TVal2, nullptr, 10);
+					TVal2 = sep;
+
+					if (TVal2 >= DelPos)
+						goto skip;
+
+					pCustomFont = (STICKYNOTEFONT*)malloc(sizeof(STICKYNOTEFONT));
+					pCustomFont->size = (char)fsize;
+					pCustomFont->style = (BYTE)fstyle;
+					pCustomFont->charset = (BYTE)fcharset;
+					mir_strcpy(pCustomFont->szFace, TVal2);
+					pCustomFont->hFont = nullptr;
+
+					if (!CreateStickyNoteFont(pCustomFont, nullptr)) {
+						free(pCustomFont);
+						pCustomFont = nullptr;
+					}
+					break;
+				}
+			}
+
+			if (!data)
+				data = _strdup("");
+
+			bVisible = bVisible && (!bIsStartup || g_plugin.bShowNotesAtStart);
+			if (bIsStartup)
+				bVisible |= 0x10000;
+
+			NewNoteEx(rect[0], rect[1], rect[2], rect[3], data, &id, bVisible, bOnTop, scrollV, BgColor, FgColor, title, pCustomFont, TRUE);
+		}
+		else {
+			// old format (for DB backward compatibility)
+
+			int Tx, Ty, Tw, Th, TV, OT;
+			BOOL V;
+			char *Data, *ID;
+			ULARGE_INTEGER newid;
+
+			OT = 1; TV = 1;
+			Tx = 100; Ty = 100;
+			Tw = 179; Th = 35;
+			Data = nullptr; ID = nullptr;
+
+			if (char *DelPos = strchr(Value, 0x1B)) {	// get first delimiter
+				Data = nullptr;
+				ID = nullptr;
+				TVal = Value;
+				DelPos[0] = 0x0;
+				Tx = strtol(TVal, nullptr, 10);
+
+				TVal = DelPos + 1;
+				DelPos = strchr(TVal, 0x1B);
+				if (!DelPos) continue; // setting is broken, do not crash
+				DelPos[0] = 0x0;
+				Ty = strtol(TVal, nullptr, 10);
+
+				TVal = DelPos + 1;
+				DelPos = strchr(TVal, 0x1B);
+				if (!DelPos) continue; // setting is broken, do not crash
+				DelPos[0] = 0x0;
+				Tw = strtol(TVal, nullptr, 10);
+
+				TVal = DelPos + 1;
+				DelPos = strchr(TVal, 0x1B);
+				if (!DelPos) continue; // setting is broken, do not crash
+				DelPos[0] = 0x0;
+				Th = strtol(TVal, nullptr, 10);
+
+				TVal = DelPos + 1;
+				DelPos = strchr(TVal, 0x1B);
+				if (!DelPos) continue; // setting is broken, do not crash
+				DelPos[0] = 0x0;
+				TV = strtol(TVal, nullptr, 10);
+
+				TVal = DelPos + 1;
+				DelPos = strchr(TVal, 0x1B);
+				if (!DelPos) continue; // setting is broken, do not crash
+				DelPos[0] = 0x0;
+				OT = strtol(TVal, nullptr, 10);
+
+				TVal = DelPos + 1;
+				DelPos = strchr(TVal, 0x1B);
+				if (!DelPos) continue; // setting is broken, do not crash
+				DelPos[0] = 0x0;
+				Data = _strdup(TVal);
+
+				TVal = DelPos + 1;
+				ID = TVal;
+
+				V = (BOOL)TV && (!bIsStartup || g_plugin.bShowNotesAtStart);
+
+				if (bIsStartup)
+					V |= 0x10000;
+
+				// convert old ID format to new
+				if (strchr(ID, '-')) {
+					// validate format (otherwise create new)
+					if (mir_strlen(ID) < 19 || ID[2] != '-' || ID[5] != '-' || ID[10] != ' ' || ID[13] != ':' || ID[16] != ':') {
+						ID = nullptr;
+					}
+					else {
+						SYSTEMTIME tm;
+
+						ID[2] = ID[5] = ID[10] = ID[13] = ID[16] = 0;
+
+						memset(&tm, 0, sizeof(tm));
+						tm.wDay = (WORD)strtoul(ID, nullptr, 10);
+						tm.wMonth = (WORD)strtoul(ID + 3, nullptr, 10);
+						tm.wYear = (WORD)strtoul(ID + 6, nullptr, 10);
+						tm.wHour = (WORD)strtoul(ID + 11, nullptr, 10);
+						tm.wMinute = (WORD)strtoul(ID + 14, nullptr, 10);
+						tm.wSecond = (WORD)strtoul(ID + 17, nullptr, 10);
+
+						SystemTimeToFileTime(&tm, (FILETIME*)&newid);
+					}
+				}
+				else ID = nullptr;
+
+				NewNoteEx(Tx, Ty, Tw, Th, Data, ID ? &newid : nullptr, V, (BOOL)OT, 0, 0, 0, nullptr, nullptr, TRUE);
+			}
+		}
+skip:;
+	}
+
+	if (Value)
+		FreeSettingBlob(Size, Value); // we do not leak on bad setting
+
+	NOTIFY_LIST();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static void EditNote(STICKYNOTE *SN)
 {
@@ -1583,43 +1508,35 @@ static void EditNote(STICKYNOTE *SN)
 	SetFocus(SN->REHwnd);
 }
 
-char* GetPreviewString(const char *lpsz)
+wchar_t* GetPreviewString(const char *lpsz)
 {
-	int l;
-	char *p;
 	const int MaxLen = 80;
-	static char s[80 + 8];
+	static wchar_t s[MaxLen + 8];
 
 	if (!lpsz)
-		return "";
+		return L"";
 
 	// trim leading spaces
-	while (iswspace(*lpsz))
+	while (isspace(*lpsz))
 		lpsz++;
 
-	l = (int)mir_strlen(lpsz);
-
+	size_t l = mir_strlen(lpsz);
 	if (!l)
-		return "";
+		return L"";
 
 	if (l <= MaxLen) {
-		mir_strcpy(s, lpsz);
+		mir_wstrcpy(s, _A2T(lpsz));
 	}
 	else {
-		memcpy(s, lpsz, MaxLen);
+		mir_wstrncpy(s, _A2T(lpsz), MaxLen);
 		s[MaxLen] = '.';
 		s[MaxLen + 1] = '.';
 		s[MaxLen + 2] = '.';
 		s[MaxLen + 3] = 0;
 	}
 
-	if (!s)
-		return nullptr;
-
 	// convert line breaks and tabs to spaces
-
-	p = s;
-
+	wchar_t *p = s;
 	while (*p) {
 		if (iswspace(*p))
 			*p = ' ';
@@ -1631,52 +1548,48 @@ char* GetPreviewString(const char *lpsz)
 
 static void InitListView(HWND AHLV)
 {
-	int I = 0;
-	char *S;
-	char S1[128];
+	int i = 0;
 
-	char *V = Translate("Visible");
-	char *T = Translate("Top");
+	wchar_t S1[128];
+	wchar_t *V = TranslateT("Visible");
+	wchar_t *T = TranslateT("Top");
 
 	ListView_SetHoverTime(AHLV, 700);
 	ListView_SetExtendedListViewStyle(AHLV, LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_TRACKSELECT);
 	ListView_DeleteAllItems(AHLV);
 
-	for (TREEELEMENT *TTE = g_Stickies; TTE; TTE = (TREEELEMENT*)TTE->next) {
-		STICKYNOTE *pNote = (STICKYNOTE*)TTE->ptrdata;
-
+	for (auto &pNote : g_arStickies) {
 		LV_ITEM lvTIt;
 		lvTIt.mask = LVIF_TEXT;
 
 		if (!pNote->CustomTitle || !pNote->title)
-			GetTriggerTimeString(&pNote->ID, S1, sizeof(S1), TRUE);
+			GetTriggerTimeString(&pNote->ID, S1, _countof(S1), TRUE);
 
-		lvTIt.iItem = I;
+		lvTIt.iItem = i;
 		lvTIt.iSubItem = 0;
 		lvTIt.pszText = (pNote->CustomTitle && pNote->title) ? pNote->title : S1;
 		ListView_InsertItem(AHLV, &lvTIt);
 
 		if (pNote->bVisible) {
-			lvTIt.iItem = I;
+			lvTIt.iItem = i;
 			lvTIt.iSubItem = 1;
 			lvTIt.pszText = V;
 			ListView_SetItem(AHLV, &lvTIt);
 		}
 
 		if (pNote->bOnTop) {
-			lvTIt.iItem = I;
+			lvTIt.iItem = i;
 			lvTIt.iSubItem = 2;
 			lvTIt.pszText = T;
 			ListView_SetItem(AHLV, &lvTIt);
 		}
 
-		S = GetPreviewString(pNote->data);
-		lvTIt.iItem = I;
+		lvTIt.iItem = i;
 		lvTIt.iSubItem = 3;
-		lvTIt.pszText = S;
+		lvTIt.pszText = GetPreviewString(pNote->data);
 		ListView_SetItem(AHLV, &lvTIt);
 
-		I++;
+		i++;
 	}
 
 	ListView_SetItemState(AHLV, 0, LVIS_SELECTED, LVIS_SELECTED);
@@ -1688,10 +1601,10 @@ static BOOL DoListContextMenu(HWND AhWnd, WPARAM wParam, LPARAM lParam, STICKYNO
 	if (hwndListView != GetDlgItem(AhWnd, IDC_LISTREMINDERS))
 		return FALSE;
 
-	HMENU hMenuLoad = LoadMenu(g_plugin.getInst(), "MNU_NOTELISTPOPUP");
+	HMENU hMenuLoad = LoadMenuA(g_plugin.getInst(), "MNU_NOTELISTPOPUP");
 	HMENU FhMenu = GetSubMenu(hMenuLoad, 0);
 
-	MENUITEMINFO mii = { 0 };
+	MENUITEMINFO mii = {0};
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_STATE;
 	mii.fState = MFS_DEFAULT;
@@ -1739,7 +1652,7 @@ static INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog, UINT Message, WPARAM wPara
 		return 0;
 
 	case WM_RELOAD:
-		SetDlgItemText(Dialog, IDC_REMINDERDATA, "");
+		SetDlgItemTextA(Dialog, IDC_REMINDERDATA, "");
 		InitListView(GetDlgItem(Dialog, IDC_LISTREMINDERS));
 		return TRUE;
 
@@ -1749,10 +1662,9 @@ static INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog, UINT Message, WPARAM wPara
 
 			HWND H = GetDlgItem(Dialog, IDC_LISTREMINDERS);
 			if (ListView_GetSelectedCount(H)) {
-				int I = ListView_GetSelectionMark(H);
-				if (I != -1) {
-					pNote = (STICKYNOTE*)TreeGetAt(g_Stickies, I);
-				}
+				int i = ListView_GetSelectionMark(H);
+				if (i != -1)
+					pNote = &g_arStickies[i];
 			}
 
 			if (DoListContextMenu(Dialog, wParam, lParam, pNote))
@@ -1763,37 +1675,33 @@ static INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog, UINT Message, WPARAM wPara
 	case WM_INITDIALOG:
 		Window_SetIcon_IcoLib(Dialog, iconList[13].hIcolib);
 
-		SetWindowText(Dialog, LPGEN("Notes"));
+		SetWindowText(Dialog, LPGENW("Notes"));
 
 		TranslateDialogDefault(Dialog);
 
-		SetDlgItemText(Dialog, IDC_REMINDERDATA, "");
+		SetDlgItemText(Dialog, IDC_REMINDERDATA, L"");
 		{
 			HWND H = GetDlgItem(Dialog, IDC_LISTREMINDERS);
 
 			LV_COLUMN lvCol;
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 
-			char *S = Translate("Note text");
-			lvCol.pszText = S;
+			lvCol.pszText = TranslateT("Note text");
 			lvCol.cx = g_notesListColGeom[3];
 			ListView_InsertColumn(H, 0, &lvCol);
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 
-			S = Translate("Top");
-			lvCol.pszText = S;
+			lvCol.pszText = TranslateT("Top");
 			lvCol.cx = g_notesListColGeom[2];
 			ListView_InsertColumn(H, 0, &lvCol);
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 
-			S = Translate("Visible");
-			lvCol.pszText = S;
+			lvCol.pszText = TranslateT("Visible");
 			lvCol.cx = g_notesListColGeom[1];
 			ListView_InsertColumn(H, 0, &lvCol);
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 
-			S = Translate("Date/Title");
-			lvCol.pszText = S;
+			lvCol.pszText = TranslateT("Date/Title");
 			lvCol.cx = g_notesListColGeom[0];
 			ListView_InsertColumn(H, 0, &lvCol);
 
@@ -1829,20 +1737,14 @@ static INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog, UINT Message, WPARAM wPara
 			LPNMLISTVIEW NM = (LPNMLISTVIEW)lParam;
 			switch (NM->hdr.code) {
 			case LVN_ITEMCHANGED:
-				{
-					char *S = ((STICKYNOTE*)TreeGetAt(g_Stickies, NM->iItem))->data;
-					SetDlgItemText(Dialog, IDC_REMINDERDATA, S);
-				}
+				SetDlgItemTextA(Dialog, IDC_REMINDERDATA, g_arStickies[NM->iItem].data);
 				break;
+
 			case NM_DBLCLK:
-				{
-					HWND H = GetDlgItem(Dialog, IDC_LISTREMINDERS);
-					if (ListView_GetSelectedCount(H)) {
-						int I = ListView_GetSelectionMark(H);
-						if (I != -1) {
-							EditNote((STICKYNOTE *)TreeGetAt(g_Stickies, I));
-						}
-					}
+				if (ListView_GetSelectedCount(NM->hdr.hwndFrom)) {
+					int i = ListView_GetSelectionMark(NM->hdr.hwndFrom);
+					if (i != -1)
+						EditNote(&g_arStickies[i]);
 				}
 				break;
 			}
@@ -1863,9 +1765,9 @@ static INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog, UINT Message, WPARAM wPara
 			{
 				HWND H = GetDlgItem(Dialog, IDC_LISTREMINDERS);
 				if (ListView_GetSelectedCount(H)) {
-					int I = ListView_GetSelectionMark(H);
-					if (I != -1) {
-						EditNote((STICKYNOTE*)TreeGetAt(g_Stickies, I));
+					int i = ListView_GetSelectionMark(H);
+					if (i != -1) {
+						EditNote(&g_arStickies[i]);
 					}
 				}
 			}
@@ -1875,11 +1777,11 @@ static INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog, UINT Message, WPARAM wPara
 			{
 				HWND H = GetDlgItem(Dialog, IDC_LISTREMINDERS);
 				if (ListView_GetSelectedCount(H)) {
-					int I = ListView_GetSelectionMark(H);
-					if (I != -1) {
-						STICKYNOTE *SN = (STICKYNOTE*)TreeGetAt(g_Stickies, I);
-						SN->bVisible = !SN->bVisible;
-						ShowWindow(SN->SNHwnd, SN->bVisible ? SW_SHOWNA : SW_HIDE);
+					int i = ListView_GetSelectionMark(H);
+					if (i != -1) {
+						auto &SN = g_arStickies[i];
+						SN.bVisible = !SN.bVisible;
+						ShowWindow(SN.SNHwnd, SN.bVisible ? SW_SHOWNA : SW_HIDE);
 						JustSaveNotesEx();
 					}
 				}
@@ -1890,12 +1792,12 @@ static INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog, UINT Message, WPARAM wPara
 			{
 				HWND H = GetDlgItem(Dialog, IDC_LISTREMINDERS);
 				if (ListView_GetSelectedCount(H)) {
-					int I = ListView_GetSelectionMark(H);
-					if (I != -1) {
-						STICKYNOTE *SN = (STICKYNOTE*)TreeGetAt(g_Stickies, I);
-						SN->bOnTop = !SN->bOnTop;
-						SetWindowPos(SN->SNHwnd, SN->bOnTop ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_SHOWWINDOW | SWP_NOMOVE | SWP_NOSIZE);
-						RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW);
+					int i = ListView_GetSelectionMark(H);
+					if (i != -1) {
+						auto &SN = g_arStickies[i];
+						SN.bOnTop = !SN.bOnTop;
+						SetWindowPos(SN.SNHwnd, SN.bOnTop ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_SHOWWINDOW | SWP_NOMOVE | SWP_NOSIZE);
+						RedrawWindow(SN.SNHwnd, nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW);
 						JustSaveNotesEx();
 					}
 				}
@@ -1913,17 +1815,16 @@ static INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog, UINT Message, WPARAM wPara
 			return TRUE;
 
 		case ID_CONTEXTMENUNOTELISTVIEW_DELETEALLNOTES:
-			PluginMenuCommandDeleteAll(0, 0);
+			PluginMenuCommandDeleteNotes(0, 0);
 			return TRUE;
 
 		case IDM_REMOVENOTE:
 			{
 				HWND H = GetDlgItem(Dialog, IDC_LISTREMINDERS);
 				if (ListView_GetSelectedCount(H)) {
-					int I = ListView_GetSelectionMark(H);
-					if (I != -1) {
-						OnDeleteNote(Dialog, (STICKYNOTE*)TreeGetAt(g_Stickies, I));
-					}
+					int i = ListView_GetSelectionMark(H);
+					if (i != -1)
+						OnDeleteNote(Dialog, &g_arStickies[i]);
 				}
 			}
 			return TRUE;
@@ -1944,11 +1845,38 @@ static INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog, UINT Message, WPARAM wPara
 /////////////////////////////////////////////////////////////////////
 // Notes List Dialog (uses same dialog template as reminder list)
 
-void ListNotes(void)
+INT_PTR PluginMenuCommandAddNew(WPARAM, LPARAM)
+{
+	NewNote(0, 0, 0, 0, nullptr, nullptr, TRUE, TRUE, 0);
+	return 0;
+}
+
+INT_PTR PluginMenuCommandShowHide(WPARAM, LPARAM)
+{
+	ShowHideNotes();
+	return 0;
+}
+
+INT_PTR PluginMenuCommandViewNotes(WPARAM, LPARAM)
 {
 	if (!ListNotesVisible) {
 		CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_LISTREMINDERS), nullptr, DlgProcViewNotes);
 		ListNotesVisible = TRUE;
 	}
 	else BringWindowToTop(LV);
+	return 0;
+}
+
+INT_PTR PluginMenuCommandAllBringFront(WPARAM, LPARAM)
+{
+	BringAllNotesToFront(nullptr);
+	return 0;
+}
+
+INT_PTR PluginMenuCommandDeleteNotes(WPARAM, LPARAM)
+{
+	if (g_arStickies.getCount())
+		if (IDOK == MessageBox(nullptr, TranslateT("Are you sure you want to delete all notes?"), TranslateT(SECTIONNAME), MB_OKCANCEL))
+			DeleteNotes();
+	return 0;
 }

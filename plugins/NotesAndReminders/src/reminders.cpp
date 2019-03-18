@@ -1,15 +1,13 @@
-#include "globals.h"
+#include "stdafx.h"
 
 #define FILETIME_TICKS_PER_SEC ((ULONGLONG)10000000)
 
 #define MAX_REMINDER_LEN	16384
 
-
 // RemindersData DB data params
 #define DATATAG_TEXT		1	// %s
 #define DATATAG_SNDREPEAT	2	// %u (specifies seconds to wait between sound repeats, 0 if repeat is disabled)
 #define DATATAG_SNDSEL		3	// %d (which sound to use, default, alt1, alt2, -1 means no sound at all)
-
 
 #define IDC_DATE 1000
 #define IDC_TIME IDC_COMBOREMINDERTIME
@@ -40,50 +38,59 @@
 
 #define NOTIFY_LIST() if (ListReminderVisible) PostMessage(LV,WM_RELOAD,0,0)
 
+/////////////////////////////////////////////////////////////////////////////////////////
 
-TREEELEMENT *RemindersList = nullptr;
+static void RemoveReminderSystemEvent(struct REMINDERDATA *p);
+
+struct REMINDERDATA
+{
+	HWND handle;
+	DWORD uid;
+	char* Reminder;
+	ULARGE_INTEGER When;	// FILETIME in UTC
+	UINT RepeatSound;
+	UINT RepeatSoundTTL;
+	int  SoundSel;			// -1 if sound disabled
+	bool RemVisible;
+	bool SystemEventQueued;
+
+	~REMINDERDATA()
+	{
+		// remove pending system event
+		if (SystemEventQueued)
+			RemoveReminderSystemEvent(this);
+	}
+};
+
+static int ReminderSortCb(const REMINDERDATA *v1, const REMINDERDATA *v2)
+{
+	if (v1->When.QuadPart == v2->When.QuadPart)
+		return 0;
+
+	return (v1->When.QuadPart < v2->When.QuadPart) ? -1 : 1;
+}
+
+static LIST<REMINDERDATA> arReminders(1, ReminderSortCb);
+
 static UINT QueuedReminderCount = 0;
-static BOOL ListReminderVisible = FALSE;
-static BOOL NewReminderVisible = FALSE;
+static bool ListReminderVisible = false;
+static int NewReminderVisible = 0;
 static REMINDERDATA *pEditReminder = nullptr;
 static HWND LV;
-static SOCKET S;
 
 int WS_Send(SOCKET s, char *data, int datalen);
 unsigned long WS_ResolveName(char *name, WORD *port, int defaultPort);
 
 void Send(char *user, char *host, char *Msg, char* server);
-char* GetPreviewString(const char *lpsz);
-
-
-static int ReminderSortCb(TREEELEMENT *v1, TREEELEMENT *v2)
-{
-	return (((REMINDERDATA*)v1->ptrdata)->When.QuadPart < ((REMINDERDATA*)v2->ptrdata)->When.QuadPart) ? -1 : 1;
-}
+wchar_t* GetPreviewString(const char *lpsz);
 
 // time convertsion routines that take local time-zone specific daylight saving configuration into account
 // (unlike the standard FileTimeToLocalFileTime functions)
 
-void UtcToTzLocalFT(const FILETIME *lpUtc, FILETIME *lpLocal)
-{
-	SYSTEMTIME tm, tmLocal;
-	FILETIMEtoSYSTEMTIME(lpUtc, &tm);
-	SystemTimeToTzSpecificLocalTime(nullptr, &tm, &tmLocal);
-	SYSTEMTIMEtoFILETIME(&tmLocal, lpLocal);
-}
-
-void TzLocalToUtcFT(const FILETIME *lpLocal, FILETIME *lpUtc)
-{
-	SYSTEMTIME tm, tmUtc;
-	FILETIMEtoSYSTEMTIME(lpLocal, &tm);
-	TzSpecificLocalTimeToSystemTime(nullptr, &tm, &tmUtc);
-	SYSTEMTIMEtoFILETIME(&tmUtc, lpUtc);
-}
-
 void FileTimeToTzLocalST(const FILETIME *lpUtc, SYSTEMTIME *tmLocal)
 {
 	SYSTEMTIME tm;
-	FILETIMEtoSYSTEMTIME(lpUtc, &tm);
+	FileTimeToSystemTime(lpUtc, &tm);
 	SystemTimeToTzSpecificLocalTime(nullptr, &tm, tmLocal);
 }
 
@@ -91,50 +98,38 @@ void TzLocalSTToFileTime(const SYSTEMTIME *tmLocal, FILETIME *lpUtc)
 {
 	SYSTEMTIME tm;
 	TzSpecificLocalTimeToSystemTime(nullptr, (SYSTEMTIME*)tmLocal, &tm);
-	SYSTEMTIMEtoFILETIME(&tm, lpUtc);
-}
-
-static DWORD CreateUid()
-{
-	DWORD uid;
-	TREEELEMENT *TTE;
-
-	if (!RemindersList)
-		return 1;
-
-	for (uid = 1;; uid++) {
-		// check existing reminders if uid is in use
-		TTE = RemindersList;
-		while (TTE) {
-			if (((REMINDERDATA*)TTE->ptrdata)->uid == uid)
-				// uid in use
-				goto try_next;
-
-			TTE = (TREEELEMENT*)TTE->next;
-		}
-
-		return uid;
-
-try_next:;
-	}
+	SystemTimeToFileTime(&tm, lpUtc);
 }
 
 static REMINDERDATA* FindReminder(DWORD uid)
 {
-	if (!RemindersList)
-		return nullptr;
-
-	for (TREEELEMENT *TTE = RemindersList; TTE; TTE = (TREEELEMENT *)TTE->next) {
-		REMINDERDATA *pReminder = (REMINDERDATA*)TTE->ptrdata;
-
-		if (pReminder->uid == uid) {
+	for (auto &pReminder : arReminders)
+		if (pReminder->uid == uid)
 			return pReminder;
-		}
-	}
 
 	return nullptr;
 }
 
+static REMINDERDATA* FindReminder(HWND hwndDlg)
+{
+	for (auto pReminder : arReminders)
+		if (pReminder->handle == hwndDlg)
+			return pReminder;
+
+	return nullptr;
+}
+
+static DWORD CreateUid()
+{
+	if (!arReminders.getCount())
+		return 1;
+
+	// check existing reminders if uid is in use
+	for (DWORD uid = 1;; uid++) {
+		if (!FindReminder(uid)) // uid in use
+			return uid;
+	}
+}
 
 static void RemoveReminderSystemEvent(REMINDERDATA *p)
 {
@@ -161,82 +156,52 @@ void PurgeReminders(void)
 	char ValueName[32];
 
 	int ReminderCount = g_plugin.getDword("RemindersData", 0);
-	for (int I = 0; I < ReminderCount; I++) {
-		mir_snprintf(ValueName, "RemindersData%d", I);
+	for (int i = 0; i < ReminderCount; i++) {
+		mir_snprintf(ValueName, "RemindersData%d", i);
 		g_plugin.delSetting(ValueName);
 	}
 }
 
 void JustSaveReminders(void)
 {
-	int I = 0, n, l;
-	char *tmpReminder = nullptr, *Value;
-	char ValueName[32];
-	int ReminderCount;
+	int OldReminderCount = g_plugin.getDword("RemindersData", 0);
+	g_plugin.setDword("RemindersData", arReminders.getCount());
 
-	const int OldReminderCount = g_plugin.getDword("RemindersData", 0);
-
-	ReminderCount = TreeGetCount(RemindersList);
-
-	g_plugin.setDword("RemindersData", ReminderCount);
-
-	for (TREEELEMENT *TTE = RemindersList; TTE; TTE = (TREEELEMENT *)TTE->next, I++) {
-		REMINDERDATA *pReminder = (REMINDERDATA *)TTE->ptrdata;
-		if (pReminder->Reminder && mir_strlen(pReminder->Reminder))
+	int i = 0;
+	for (auto &pReminder : arReminders) {
+		char *tmpReminder;
+		if (mir_strlen(pReminder->Reminder))
 			tmpReminder = pReminder->Reminder;
 		else
-			tmpReminder = nullptr;
-
-		if (!tmpReminder)
 			tmpReminder = "";
 
-		Value = (char*)malloc(mir_strlen(tmpReminder) + 512);
-
-		if (!Value)
-			continue;
-
-		n = 0;
+		CMStringA szValue;
 
 		// data header (save 'When' with 1-second resolution, it's just a waste to have 100-nanosecond resolution
 		// which results in larger DB strings with no use)
-		l = sprintf(Value, "X%u:%I64x", pReminder->uid, pReminder->When.QuadPart / FILETIME_TICKS_PER_SEC); //!!!!!!!!!
-		if (l > 0) n += l;
+		szValue.AppendFormat("X%u:%I64x", pReminder->uid, pReminder->When.QuadPart / FILETIME_TICKS_PER_SEC);
 
 		// sound repeat
-		if (pReminder->RepeatSound) {
-			l = sprintf(Value + n, "\033""%u:%u", DATATAG_SNDREPEAT, pReminder->RepeatSound); //!!!!!!!!!!
-			if (l > 0) n += l;
-		}
+		if (pReminder->RepeatSound)
+			szValue.AppendFormat("\033""%u:%u", DATATAG_SNDREPEAT, pReminder->RepeatSound);
 
 		// sound
-		if (pReminder->SoundSel) {
-			l = sprintf(Value + n, "\033""%u:%d", DATATAG_SNDSEL, pReminder->SoundSel); //!!!!!!!!!
-			if (l > 0) n += l;
-		}
+		if (pReminder->SoundSel)
+			szValue.AppendFormat("\033""%u:%d", DATATAG_SNDSEL, pReminder->SoundSel);
 
 		// reminder text/note (ALWAYS PUT THIS PARAM LAST)
-		if (tmpReminder && *tmpReminder) {
-			l = sprintf(Value + n, "\033""%u:%s", DATATAG_TEXT, tmpReminder); //!!!!!!!!!!!
-			if (l > 0) n += l;
-		}
+		if (tmpReminder && *tmpReminder)
+			szValue.AppendFormat("\033""%u:%s", DATATAG_TEXT, tmpReminder);
 
-		// clamp data size to WORD (including null terminator)
-		if (n >= 0xffff) {
-			// huston, we have a problem, strip some reminder text
-			n = 0xfffe;
-			Value[0xffff] = 0;
-		}
-
-		mir_snprintf(ValueName, "RemindersData%d", ReminderCount - I - 1); // do not want to reverse in DB
-
-		db_set_blob(0, MODULENAME, ValueName, Value, n + 1);
-
-		SAFE_FREE((void**)&Value);
+		char ValueName[32];
+		mir_snprintf(ValueName, "RemindersData%d", i++);
+		db_set_blob(0, MODULENAME, ValueName, szValue.GetBuffer(), szValue.GetLength() + 1);
 	}
 
 	// delete any left over DB reminder entries
-	for (; I < OldReminderCount; I++) {
-		mir_snprintf(ValueName, "RemindersData%d", I);
+	while (i < OldReminderCount) {
+		char ValueName[32];
+		mir_snprintf(ValueName, "RemindersData%d", i++);
 		g_plugin.delSetting(ValueName);
 	}
 }
@@ -248,13 +213,13 @@ void LoadReminders(void)
 	char ValueName[32];
 	BOOL GenerateUids = FALSE;
 
-	RemindersList = nullptr;
+	arReminders.destroy();
 	int RemindersCount = g_plugin.getDword("RemindersData", 0);
 
-	for (int I = 0; I < RemindersCount; I++) {
+	for (int i = 0; i < RemindersCount; i++) {
 		Size = 65535;
 		Value = nullptr;
-		mir_snprintf(ValueName, "RemindersData%d", I);
+		mir_snprintf(ValueName, "RemindersData%d", i);
 
 		ReadSettingBlob(0, MODULENAME, ValueName, &Size, (void**)&Value);
 
@@ -349,7 +314,7 @@ void LoadReminders(void)
 					tm.wYear = stm->tm_year + 1900;
 					tm.wMonth = stm->tm_mon + 1;
 					tm.wDay = stm->tm_mday;
-					SYSTEMTIMEtoFILETIME(&tm, (FILETIME*)&rem.When);
+					SystemTimeToFileTime(&tm, (FILETIME*)&rem.When);
 				}
 				TVal = DelPos + 1;
 				rem.Reminder = _strdup(TVal);
@@ -357,16 +322,15 @@ void LoadReminders(void)
 
 			// queue uid generation if invalid uid is present
 			if (!rem.uid)
-				GenerateUids = TRUE;
+				GenerateUids = true;
 
 			TempRem = (REMINDERDATA*)malloc(sizeof(REMINDERDATA));
 			if (TempRem) {
 				*TempRem = rem;
-				TreeAddSorted(&RemindersList, TempRem, ReminderSortCb);
+				arReminders.insert(TempRem);
 			}
-			else if (rem.Reminder) {
+			else if (rem.Reminder)
 				free(rem.Reminder);
-			}
 skip:;
 		}
 
@@ -374,13 +338,10 @@ skip:;
 	}
 
 	// generate UIDs if there are any items with an invalid UID
-	if (GenerateUids && RemindersList) {
-		for (TREEELEMENT *TTE = RemindersList; TTE; TTE = (TREEELEMENT*)TTE->next) {
-			REMINDERDATA *pReminder = (REMINDERDATA*)TTE->ptrdata;
-
+	if (GenerateUids && arReminders.getCount()) {
+		for (auto &pReminder : arReminders)
 			if (!pReminder->uid)
 				pReminder->uid = CreateUid();
-		}
 
 		JustSaveReminders();
 	}
@@ -388,36 +349,26 @@ skip:;
 
 static void DeleteReminder(REMINDERDATA *p)
 {
-	if (!p)
-		return;
-
-	if (p->SystemEventQueued) {
-		// remove pending system event
-		RemoveReminderSystemEvent(p);
+	if (p) {
+		arReminders.remove(p);
+		delete p;
 	}
-
-	TreeDelete(&RemindersList, p);
-	SAFE_FREE((void**)&p->Reminder);
-	SAFE_FREE((void**)&p);
 }
 
 void CloseReminderList()
 {
 	if (ListReminderVisible) {
 		DestroyWindow(LV);
-		ListReminderVisible = FALSE;
+		ListReminderVisible = false;
 	}
 }
 
 static void PurgeReminderTree()
 {
-	while (RemindersList) // empty whole tree
-	{
-		REMINDERDATA *pt = (REMINDERDATA*)RemindersList->ptrdata;
-		if (pt->handle) DestroyWindow(pt->handle);
-		DeleteReminder(pt);
-	}
-	RemindersList = nullptr;
+	for (auto &pt : arReminders)  // empty whole tree
+		delete pt;
+
+	arReminders.destroy();
 }
 
 void SaveReminders(void)
@@ -433,10 +384,9 @@ void DeleteReminders(void)
 	PurgeReminderTree();
 }
 
-
-void GetTriggerTimeString(const ULARGE_INTEGER *When, char *s, UINT strSize, BOOL bUtc)
+void GetTriggerTimeString(const ULARGE_INTEGER *When, wchar_t *s, size_t strSize, BOOL bUtc)
 {
-	SYSTEMTIME tm = { 0 };
+	SYSTEMTIME tm = {0};
 	LCID lc = GetUserDefaultLCID();
 
 	*s = 0;
@@ -444,52 +394,48 @@ void GetTriggerTimeString(const ULARGE_INTEGER *When, char *s, UINT strSize, BOO
 	if (bUtc)
 		FileTimeToTzLocalST((const FILETIME*)When, &tm);
 	else
-		FILETIMEtoSYSTEMTIME((FILETIME*)When, &tm);
+		FileTimeToSystemTime((FILETIME*)When, &tm);
 
-	if (GetDateFormat(lc, DATE_LONGDATE, &tm, nullptr, s, strSize)) {
+	if (GetDateFormat(lc, DATE_LONGDATE, &tm, nullptr, s, (int)strSize)) {
 		// append time
-		int n = (int)mir_strlen(s);
+		size_t n = mir_wstrlen(s);
 		s[n++] = ' ';
 		s[n] = 0;
 
-		if (!GetTimeFormat(lc, LOCALE_NOUSEROVERRIDE | TIME_NOSECONDS, &tm, nullptr, s + n, strSize - n))
-			mir_snprintf(s + n, strSize - n, "%02d:%02d", tm.wHour, tm.wMinute);
+		if (!GetTimeFormat(lc, LOCALE_NOUSEROVERRIDE | TIME_NOSECONDS, &tm, nullptr, s + n, int(strSize - n)))
+			mir_snwprintf(s + n, strSize - n, L"%02d:%02d", tm.wHour, tm.wMinute);
 	}
-	else mir_snprintf(s, strSize, "%d-%02d-%02d %02d:%02d", tm.wYear, tm.wMonth, tm.wDay, tm.wHour, tm.wMinute);
+	else mir_snwprintf(s, strSize, L"%d-%02d-%02d %02d:%02d", tm.wYear, tm.wMonth, tm.wDay, tm.wHour, tm.wMinute);
 }
 
 static void Skin_PlaySoundPoly(LPCSTR pszSoundName)
 {
-	if (g_UseDefaultPlaySound) {
+	if (!g_plugin.bUseMSI) {
 		Skin_PlaySound(pszSoundName);
 		return;
 	}
 
 	if (db_get_b(0, "SkinSoundsOff", pszSoundName, 0) == 0) {
 		DBVARIANT dbv;
-
 		if (db_get_s(0, "SkinSounds", pszSoundName, &dbv) == 0) {
 			char szFull[MAX_PATH];
 
 			PathToAbsolute(dbv.pszVal, szFull);
 
-			//NotifyEventHooks(hPlayEvent, 0, (LPARAM)szFull);
-			{
-				// use MCI device which allows multiple sounds playing at once
-				// NOTE: mciSendString does not like long paths names, must convert to short
-				char szShort[MAX_PATH];
-				char s[512];
-				GetShortPathNameA(szFull, szShort, sizeof(szShort));
-				mir_snprintf(s, "play \"%s\"", szShort);
-				mciSendStringA(s, nullptr, 0, nullptr);
-			}
+			// use MCI device which allows multiple sounds playing at once
+			// NOTE: mciSendString does not like long paths names, must convert to short
+			char szShort[MAX_PATH];
+			char s[512];
+			GetShortPathNameA(szFull, szShort, sizeof(szShort));
+			mir_snprintf(s, "play \"%s\"", szShort);
+			mciSendStringA(s, nullptr, 0, nullptr);
 
 			db_free(&dbv);
 		}
 	}
 }
 
-static void UpdateReminderEvent(REMINDERDATA *pReminder, UINT nElapsedSeconds, BOOL *pHasPlayedSound)
+static void UpdateReminderEvent(REMINDERDATA *pReminder, UINT nElapsedSeconds, DWORD *pHasPlayedSound)
 {
 	DWORD dwSoundMask;
 
@@ -510,35 +456,29 @@ static void UpdateReminderEvent(REMINDERDATA *pReminder, UINT nElapsedSeconds, B
 				*pHasPlayedSound |= dwSoundMask;
 			}
 		}
-		else {
-			pReminder->RepeatSoundTTL -= nElapsedSeconds;
-		}
+		else pReminder->RepeatSoundTTL -= nElapsedSeconds;
 	}
 }
 
-static void FireReminder(REMINDERDATA *pReminder, BOOL *pHasPlayedSound)
+static void FireReminder(REMINDERDATA *pReminder, DWORD *pHasPlayedSound)
 {
 	if (pReminder->SystemEventQueued)
 		return;
 
 	// add a system event
-	{
-		CLISTEVENT ev = {};
-		ev.hIcon = g_hReminderIcon;
-		ev.flags = CLEF_URGENT;
-		ev.lParam = (LPARAM)pReminder->uid;
-		ev.pszService = MODULENAME"/OpenTriggeredReminder";
-		ev.szTooltip.a = Translate("Reminder");
-		g_clistApi.pfnAddEvent(&ev);
-	}
+	CLISTEVENT ev = {};
+	ev.hIcon = g_hReminderIcon;
+	ev.flags = CLEF_URGENT;
+	ev.lParam = (LPARAM)pReminder->uid;
+	ev.pszService = MODULENAME"/OpenTriggeredReminder";
+	ev.szTooltip.a = Translate("Reminder");
+	g_clistApi.pfnAddEvent(&ev);
 
 	pReminder->SystemEventQueued = TRUE;
 	QueuedReminderCount++;
 
-	if (pReminder->SoundSel < 0) {
-		// sound disabled
+	if (pReminder->SoundSel < 0) // sound disabled
 		return;
-	}
 
 	DWORD dwSoundMask = 1 << pReminder->SoundSel;
 
@@ -557,64 +497,58 @@ static void FireReminder(REMINDERDATA *pReminder, BOOL *pHasPlayedSound)
 }
 
 
-BOOL CheckRemindersAndStart(void)
+bool CheckRemindersAndStart(void)
 {
 	// returns TRUE if there are any triggered reminder with SystemEventQueued, this will shorten the update interval
 	// allowing sound repeats with shorter intervals
 
+	if (!arReminders.getCount())
+		return false;
+
 	ULARGE_INTEGER curT;
-	BOOL bResult;
-
-	if (!RemindersList)
-		return FALSE;
-
-	{
-		SYSTEMTIME tm;
-		GetSystemTime(&tm);
-		SYSTEMTIMEtoFILETIME(&tm, (FILETIME*)&curT);
-	}
+	SYSTEMTIME tm;
+	GetSystemTime(&tm);
+	SystemTimeToFileTime(&tm, (FILETIME*)&curT);
 
 	// NOTE: reminder list is sorted by trigger time, so we can early out on the first reminder > cur time
-
 	// quick check for normal case with no reminder ready to be triggered and no queued triggered reminders
 	// (happens 99.99999999999% of the time)
-	if (curT.QuadPart < ((REMINDERDATA*)RemindersList->ptrdata)->When.QuadPart && !QueuedReminderCount) {
-		return FALSE;
-	}
+	if (curT.QuadPart < arReminders[0]->When.QuadPart && !QueuedReminderCount)
+		return false;
 
-	bResult = FALSE;
+	bool bResult = false;
 
 	// var used to avoid playing multiple alarm sounds during a single update
-	BOOL bHasPlayedSound = FALSE;
+	DWORD bHasPlayedSound = 0;
 
 	// if there are queued (triggered) reminders then iterate through entire list, becaue of WM_TIMECHANGE events
 	// and for example daylight saving changes it's possible for an already triggered event to end up with When>curT
-	BOOL bHasQueuedReminders = (QueuedReminderCount != 0);
+	bool bHasQueuedReminders = (QueuedReminderCount != 0);
 
 	// allthough count should always be correct, it's fool proof to just count them again in the loop below
 	QueuedReminderCount = 0;
 
-
-	for (TREEELEMENT *TTE = RemindersList; TTE && (bHasQueuedReminders || ((REMINDERDATA*)TTE->ptrdata)->When.QuadPart <= curT.QuadPart); TTE = (TREEELEMENT *)TTE->next) {
-		REMINDERDATA *pReminder = (REMINDERDATA*)TTE->ptrdata;
+	for (auto &pReminder : arReminders) {
+		if (!bHasQueuedReminders && pReminder->When.QuadPart > curT.QuadPart)
+			break;
 
 		if (!pReminder->RemVisible) {
 			if (pReminder->SystemEventQueued) {
 				UpdateReminderEvent(pReminder, REMINDER_UPDATE_INTERVAL_SHORT / 1000, &bHasPlayedSound);
 
 				QueuedReminderCount++;
-				bResult = TRUE;
+				bResult = true;
 			}
-			else if (((REMINDERDATA*)TTE->ptrdata)->When.QuadPart <= curT.QuadPart) {
+			else if (pReminder->When.QuadPart <= curT.QuadPart) {
 				if (!g_RemindSMS) {
 					FireReminder(pReminder, &bHasPlayedSound);
 
 					if (pReminder->SystemEventQueued)
-						bResult = TRUE;
+						bResult = true;
 				}
 				else {
-					char* S2 = strchr(g_RemindSMS, '@');
-					char* S1 = (char*)malloc(S2 - g_RemindSMS);
+					char *S2 = strchr(g_RemindSMS, '@');
+					char *S1 = (char*)malloc(S2 - g_RemindSMS);
 
 					strncpy(S1, g_RemindSMS, S2 - g_RemindSMS);
 					S1[S2 - g_RemindSMS] = 0x0;
@@ -631,7 +565,6 @@ BOOL CheckRemindersAndStart(void)
 
 	return bResult;
 }
-
 
 static LRESULT CALLBACK DatePickerWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -654,22 +587,22 @@ static LRESULT CALLBACK DatePickerWndProc(HWND hWnd, UINT message, WPARAM wParam
 	return mir_callNextSubclass(hWnd, DatePickerWndProc, message, wParam, lParam);
 }
 
-static void InitDatePicker(HWND Dialog, UINT nIDDate)
+static void InitDatePicker(HWND hwndDlg, UINT nIDDate)
 {
 	// subclass date picker to prevent user editing (should only use the dropdown calender to ensure valid dates)
-	HWND hCtrl = GetDlgItem(Dialog, nIDDate);
+	HWND hCtrl = GetDlgItem(hwndDlg, nIDDate);
 
 	// tweak style of picker
 	if (IsWinVerVistaPlus()) {
-		DWORD dw = SendDlgItemMessage(Dialog, nIDDate, DTM_GETMCSTYLE, 0, 0);
+		DWORD dw = SendDlgItemMessage(hwndDlg, nIDDate, DTM_GETMCSTYLE, 0, 0);
 		dw |= MCS_WEEKNUMBERS | MCS_NOSELCHANGEONNAV;
-		SendDlgItemMessage(Dialog, nIDDate, DTM_SETMCSTYLE, 0, dw);
+		SendDlgItemMessage(hwndDlg, nIDDate, DTM_SETMCSTYLE, 0, dw);
 	}
 
 	mir_subclassWindow(hCtrl, DatePickerWndProc);
 }
 
-static BOOL ParseTime(LPCSTR s, int *hout, int *mout, BOOL bTimeOffset, BOOL bAllowOffsetOverride)
+static BOOL ParseTime(const wchar_t *s, int *hout, int *mout, BOOL bTimeOffset, BOOL bAllowOffsetOverride)
 {
 	// validate format: <WS><digit>[<digit>]<WS>[':'<WS><digit>[<digit>]]<WS>[p | P].*
 
@@ -698,31 +631,31 @@ static BOOL ParseTime(LPCSTR s, int *hout, int *mout, BOOL bTimeOffset, BOOL bAl
 		while (iswspace(*s)) s++;
 	}
 
-	if (!isdigit(*s))
+	if (!iswdigit(*s))
 		return FALSE;
 	h = (int)(*s - '0');
 	s++;
 
 	if (!bOffset) {
-		if (isdigit(*s)) {
+		if (iswdigit(*s)) {
 			h = h * 10 + (int)(*s - '0');
 			s++;
 		}
 
-		if (isdigit(*s))
+		if (iswdigit(*s))
 			return FALSE;
 	}
 	else {
 		// allow more than 2-digit numbers for offset
-		while (isdigit(*s)) {
+		while (iswdigit(*s)) {
 			h = h * 10 + (int)(*s - '0');
 			s++;
 		}
 	}
 
 	// find : separator
-
-	while (iswspace(*s)) s++;
+	while (iswspace(*s))
+		s++;
 
 	if (*s == ':') {
 		s++;
@@ -736,7 +669,7 @@ static BOOL ParseTime(LPCSTR s, int *hout, int *mout, BOOL bTimeOffset, BOOL bAl
 		m = (int)(*s - '0');
 		s++;
 
-		if (isdigit(*s)) {
+		if (iswdigit(*s)) {
 			m = m * 10 + (int)(*s - '0');
 			s++;
 		}
@@ -808,28 +741,23 @@ static BOOL ParseTime(LPCSTR s, int *hout, int *mout, BOOL bTimeOffset, BOOL bAl
 }
 
 // returns TRUE if combo box list displays time offsets ("23:34 (5 Minutes)" etc.)
-__inline static BOOL IsRelativeCombo(HWND Dialog, UINT nIDTime)
+__inline static BOOL IsRelativeCombo(HWND hwndDlg, UINT nIDTime)
 {
-	return (((int)SendDlgItemMessage(Dialog, nIDTime, CB_GETITEMDATA, 0, 0)) >= 0);
+	return (((int)SendDlgItemMessage(hwndDlg, nIDTime, CB_GETITEMDATA, 0, 0)) >= 0);
 }
 
-static void PopulateTimeCombo(HWND Dialog, UINT nIDTime, BOOL bRelative, const SYSTEMTIME *tmUtc)
+static void PopulateTimeCombo(HWND hwndDlg, UINT nIDTime, BOOL bRelative, const SYSTEMTIME *tmUtc)
 {
 	// NOTE: may seem like a bit excessive time converstion and handling, but this is done in order
 	//       to gracefully handle crossing daylight saving boundaries
 
 	SYSTEMTIME tm2;
 	ULARGE_INTEGER li;
-	ULONGLONG ref;
-	int i, n;
-	char s[64];
+	wchar_t s[64];
 	const ULONGLONG MinutesToFileTime = (ULONGLONG)60 * FILETIME_TICKS_PER_SEC;
-	LPCSTR lpszMinutes;
-	LPCSTR lpszHours;
-	WORD wCurHour, wCurMinute;
 
 	if (!bRelative) {
-		SendDlgItemMessage(Dialog, nIDTime, CB_RESETCONTENT, 0, 0);
+		SendDlgItemMessage(hwndDlg, nIDTime, CB_RESETCONTENT, 0, 0);
 
 		// ensure that we start on midnight local time
 		SystemTimeToTzSpecificLocalTime(nullptr, (SYSTEMTIME*)tmUtc, &tm2);
@@ -838,19 +766,19 @@ static void PopulateTimeCombo(HWND Dialog, UINT nIDTime, BOOL bRelative, const S
 		tm2.wSecond = 0;
 		tm2.wMilliseconds = 0;
 		TzSpecificLocalTimeToSystemTime(nullptr, &tm2, &tm2);
-		SYSTEMTIMEtoFILETIME(&tm2, (FILETIME*)&li);
+		SystemTimeToFileTime(&tm2, (FILETIME*)&li);
 
 		// from 00:00 to 23:30 in 30 minute steps
-		for (i = 0; i < 50; i++) {
+		for (int i = 0; i < 50; i++) {
 			const int h = i >> 1;
 			const int m = (i & 1) ? 30 : 0;
 
 			FileTimeToTzLocalST((FILETIME*)&li, &tm2);
-			mir_snprintf(s, "%02d:%02d", (UINT)tm2.wHour, (UINT)tm2.wMinute);
-			n = SendDlgItemMessage(Dialog, nIDTime, CB_ADDSTRING, 0, (LPARAM)s);
+			mir_snwprintf(s, L"%02d:%02d", (UINT)tm2.wHour, (UINT)tm2.wMinute);
+			int n = SendDlgItemMessage(hwndDlg, nIDTime, CB_ADDSTRING, 0, (LPARAM)s);
 			// item data contains time offset from midnight in seconds (bit 31 is set to flag that
 			// combo box items are absolute times and not relative times like below
-			SendDlgItemMessage(Dialog, nIDTime, CB_SETITEMDATA, n, (LPARAM)((ULONG)((h * 60 + m) * 60) | 0x80000000));
+			SendDlgItemMessage(hwndDlg, nIDTime, CB_SETITEMDATA, n, (LPARAM)((ULONG)((h * 60 + m) * 60) | 0x80000000));
 
 			li.QuadPart += (ULONGLONG)30 * MinutesToFileTime;
 
@@ -861,60 +789,57 @@ static void PopulateTimeCombo(HWND Dialog, UINT nIDTime, BOOL bRelative, const S
 		return;
 	}
 
-	//
+	////////////////////////////////////////////////////////////////////////////////////////
 
-	SendDlgItemMessage(Dialog, nIDTime, CB_RESETCONTENT, 0, 0);
+	SendDlgItemMessage(hwndDlg, nIDTime, CB_RESETCONTENT, 0, 0);
 
-	lpszMinutes = Translate("Minutes");
-	lpszHours = Translate("Hours");
-
-	SYSTEMTIMEtoFILETIME(tmUtc, (FILETIME*)&li);
-	ref = li.QuadPart;
+	SystemTimeToFileTime(tmUtc, (FILETIME*)&li);
+	ULONGLONG ref = li.QuadPart;
 
 	// NOTE: item data contains offset from reference time (tmUtc) in seconds
 
 	// cur time
 	FileTimeToTzLocalST((FILETIME*)&li, &tm2);
-	wCurHour = tm2.wHour;
-	wCurMinute = tm2.wMinute;
-	mir_snprintf(s, "%02d:%02d", (UINT)tm2.wHour, (UINT)tm2.wMinute);
-	n = SendDlgItemMessage(Dialog, nIDTime, CB_ADDSTRING, 0, (LPARAM)s);
-	SendDlgItemMessage(Dialog, nIDTime, CB_SETITEMDATA, n, (LPARAM)((li.QuadPart - ref) / FILETIME_TICKS_PER_SEC));
+	WORD wCurHour = tm2.wHour;
+	WORD wCurMinute = tm2.wMinute;
+	mir_snwprintf(s, L"%02d:%02d", (UINT)tm2.wHour, (UINT)tm2.wMinute);
+	int n = SendDlgItemMessage(hwndDlg, nIDTime, CB_ADDSTRING, 0, (LPARAM)s);
+	SendDlgItemMessage(hwndDlg, nIDTime, CB_SETITEMDATA, n, (LPARAM)((li.QuadPart - ref) / FILETIME_TICKS_PER_SEC));
 
 	// 5 minutes
 	li.QuadPart += (ULONGLONG)5 * MinutesToFileTime;
 	FileTimeToTzLocalST((FILETIME*)&li, &tm2);
-	mir_snprintf(s, "%02d:%02d (5 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, lpszMinutes);
-	n = SendDlgItemMessage(Dialog, nIDTime, CB_ADDSTRING, 0, (LPARAM)s);
-	SendDlgItemMessage(Dialog, nIDTime, CB_SETITEMDATA, n, (LPARAM)((li.QuadPart - ref) / FILETIME_TICKS_PER_SEC));
+	mir_snwprintf(s, L"%02d:%02d (5 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, TranslateT("Minutes"));
+	n = SendDlgItemMessage(hwndDlg, nIDTime, CB_ADDSTRING, 0, (LPARAM)s);
+	SendDlgItemMessage(hwndDlg, nIDTime, CB_SETITEMDATA, n, (LPARAM)((li.QuadPart - ref) / FILETIME_TICKS_PER_SEC));
 
 	// 10 minutes
 	li.QuadPart += (ULONGLONG)5 * MinutesToFileTime;
 	FileTimeToTzLocalST((FILETIME*)&li, &tm2);
-	mir_snprintf(s, "%02d:%02d (10 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, lpszMinutes);
-	n = SendDlgItemMessage(Dialog, nIDTime, CB_ADDSTRING, 0, (LPARAM)s);
-	SendDlgItemMessage(Dialog, nIDTime, CB_SETITEMDATA, n, (LPARAM)((li.QuadPart - ref) / FILETIME_TICKS_PER_SEC));
+	mir_snwprintf(s, L"%02d:%02d (10 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, TranslateT("Minutes"));
+	n = SendDlgItemMessage(hwndDlg, nIDTime, CB_ADDSTRING, 0, (LPARAM)s);
+	SendDlgItemMessage(hwndDlg, nIDTime, CB_SETITEMDATA, n, (LPARAM)((li.QuadPart - ref) / FILETIME_TICKS_PER_SEC));
 
 	// 15 minutes
 	li.QuadPart += (ULONGLONG)5 * MinutesToFileTime;
 	FileTimeToTzLocalST((FILETIME*)&li, &tm2);
-	mir_snprintf(s, "%02d:%02d (15 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, lpszMinutes);
-	n = SendDlgItemMessage(Dialog, nIDTime, CB_ADDSTRING, 0, (LPARAM)s);
-	SendDlgItemMessage(Dialog, nIDTime, CB_SETITEMDATA, n, (LPARAM)((li.QuadPart - ref) / FILETIME_TICKS_PER_SEC));
+	mir_snwprintf(s, L"%02d:%02d (15 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, TranslateT("Minutes"));
+	n = SendDlgItemMessage(hwndDlg, nIDTime, CB_ADDSTRING, 0, (LPARAM)s);
+	SendDlgItemMessage(hwndDlg, nIDTime, CB_SETITEMDATA, n, (LPARAM)((li.QuadPart - ref) / FILETIME_TICKS_PER_SEC));
 
 	// 30 minutes
 	li.QuadPart += (ULONGLONG)15 * MinutesToFileTime;
 	FileTimeToTzLocalST((FILETIME*)&li, &tm2);
-	mir_snprintf(s, "%02d:%02d (30 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, lpszMinutes);
-	n = SendDlgItemMessage(Dialog, nIDTime, CB_ADDSTRING, 0, (LPARAM)s);
-	SendDlgItemMessage(Dialog, nIDTime, CB_SETITEMDATA, n, (LPARAM)((li.QuadPart - ref) / FILETIME_TICKS_PER_SEC));
+	mir_snwprintf(s, L"%02d:%02d (30 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, TranslateT("Minutes"));
+	n = SendDlgItemMessage(hwndDlg, nIDTime, CB_ADDSTRING, 0, (LPARAM)s);
+	SendDlgItemMessage(hwndDlg, nIDTime, CB_SETITEMDATA, n, (LPARAM)((li.QuadPart - ref) / FILETIME_TICKS_PER_SEC));
 
 	// round +1h time to nearest even or half hour
 	li.QuadPart += (ULONGLONG)30 * MinutesToFileTime;
 	li.QuadPart = (li.QuadPart / (30 * MinutesToFileTime)) * (30 * MinutesToFileTime);
 
 	// add from +1 to +23.5 (in half hour steps) if crossing daylight saving boundary it may be 22.5 or 24.5 hours
-	for (i = 0; i < 50; i++) {
+	for (int i = 0; i < 50; i++) {
 		UINT dt;
 
 		FileTimeToTzLocalST((FILETIME*)&li, &tm2);
@@ -931,93 +856,81 @@ static void PopulateTimeCombo(HWND Dialog, UINT nIDTime, BOOL bRelative, const S
 		}
 
 		// icq-style display 1.0, 1.5 etc. hours even though that isn't accurate due to rounding
-		//mir_snprintf(s, "%02d:%02d (%d.%d %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, 1+(i>>1), (i&1) ? 5 : 0, lpszHours);
+		//mir_snwprintf(s, L"%02d:%02d (%d.%d %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, 1+(i>>1), (i&1) ? 5 : 0, lpszHours);
 		// display delta time more accurately to match reformatting (that icq doesn't do)
 		dt = (UINT)((li.QuadPart / MinutesToFileTime) - (ref / MinutesToFileTime));
 		if (dt < 60)
-			mir_snprintf(s, "%02d:%02d (%d %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, dt, lpszMinutes);
+			mir_snwprintf(s, L"%02d:%02d (%d %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, dt, TranslateT("Minutes"));
 		else
-			mir_snprintf(s, "%02d:%02d (%d.%d %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, dt / 60, ((dt % 60) * 10) / 60, lpszHours);
-		n = SendDlgItemMessage(Dialog, nIDTime, CB_ADDSTRING, 0, (LPARAM)s);
-		SendDlgItemMessage(Dialog, nIDTime, CB_SETITEMDATA, n, dt * 60);
+			mir_snwprintf(s, L"%02d:%02d (%d.%d %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, dt / 60, ((dt % 60) * 10) / 60, TranslateT("Hours"));
+		n = SendDlgItemMessage(hwndDlg, nIDTime, CB_ADDSTRING, 0, (LPARAM)s);
+		SendDlgItemMessage(hwndDlg, nIDTime, CB_SETITEMDATA, n, dt * 60);
 
 		li.QuadPart += (ULONGLONG)30 * MinutesToFileTime;
 	}
 }
 
-static void PopulateTimeOffsetCombo(HWND Dialog, UINT nIDCombo)
+static void PopulateTimeOffsetCombo(HWND hwndDlg, UINT nIDCombo)
 {
-	int n;
-	char s[MAX_PATH];
-
-	SendDlgItemMessage(Dialog, nIDCombo, CB_RESETCONTENT, 0, 0);
-
-	LPCSTR lpszMinutes = Translate("Minutes");
-	LPCSTR lpszHour = Translate("Hour");
-	LPCSTR lpszHours = Translate("Hours");
-	LPCSTR lpszDay = Translate("Day");
-	LPCSTR lpszDays = Translate("Days");
-	LPCSTR lpszWeek = Translate("Week");
+	SendDlgItemMessage(hwndDlg, nIDCombo, CB_RESETCONTENT, 0, 0);
 
 	// 5 - 55 minutes (in 5 minute steps)
+	wchar_t s[MAX_PATH];
 	for (int i = 1; i < 12; i++) {
-		mir_snprintf(s, "%d %s", i * 5, lpszMinutes);
-		n = SendDlgItemMessage(Dialog, nIDCombo, CB_ADDSTRING, 0, (LPARAM)s);
-		SendDlgItemMessage(Dialog, nIDCombo, CB_SETITEMDATA, n, i * 5);
+		mir_snwprintf(s, L"%d %s", i * 5, TranslateT("Minutes"));
+		int n = SendDlgItemMessage(hwndDlg, nIDCombo, CB_ADDSTRING, 0, (LPARAM)s);
+		SendDlgItemMessage(hwndDlg, nIDCombo, CB_SETITEMDATA, n, i * 5);
 	}
 
 	// 1 hour
-	mir_snprintf(s, "1 %s", lpszHour);
-	n = SendDlgItemMessage(Dialog, nIDCombo, CB_ADDSTRING, 0, (LPARAM)s);
-	SendDlgItemMessage(Dialog, nIDCombo, CB_SETITEMDATA, n, 60);
+	mir_snwprintf(s, L"1 %s", TranslateT("Hour"));
+	int n = SendDlgItemMessage(hwndDlg, nIDCombo, CB_ADDSTRING, 0, (LPARAM)s);
+	SendDlgItemMessage(hwndDlg, nIDCombo, CB_SETITEMDATA, n, 60);
 
 	// 2, 4, 8 hours
 	for (int i = 2; i <= 8; i += 2) {
-		mir_snprintf(s, "%d %s", i, lpszHours);
-		n = SendDlgItemMessage(Dialog, nIDCombo, CB_ADDSTRING, 0, (LPARAM)s);
-		SendDlgItemMessage(Dialog, nIDCombo, CB_SETITEMDATA, n, i * 60);
+		mir_snwprintf(s, L"%d %s", i, TranslateT("Hours"));
+		n = SendDlgItemMessage(hwndDlg, nIDCombo, CB_ADDSTRING, 0, (LPARAM)s);
+		SendDlgItemMessage(hwndDlg, nIDCombo, CB_SETITEMDATA, n, i * 60);
 	}
 
 	// 1 day
-	mir_snprintf(s, "1 %s", lpszDay);
-	n = SendDlgItemMessage(Dialog, nIDCombo, CB_ADDSTRING, 0, (LPARAM)s);
-	SendDlgItemMessage(Dialog, nIDCombo, CB_SETITEMDATA, n, 24 * 60);
+	mir_snwprintf(s, L"1 %s", TranslateT("Day"));
+	n = SendDlgItemMessage(hwndDlg, nIDCombo, CB_ADDSTRING, 0, (LPARAM)s);
+	SendDlgItemMessage(hwndDlg, nIDCombo, CB_SETITEMDATA, n, 24 * 60);
 
 	// 2-4 days
 	for (int i = 2; i <= 4; i++) {
-		mir_snprintf(s, "%d %s", i, lpszDays);
-		n = SendDlgItemMessage(Dialog, nIDCombo, CB_ADDSTRING, 0, (LPARAM)s);
-		SendDlgItemMessage(Dialog, nIDCombo, CB_SETITEMDATA, n, i * 24 * 60);
+		mir_snwprintf(s, L"%d %s", i, TranslateT("Days"));
+		n = SendDlgItemMessage(hwndDlg, nIDCombo, CB_ADDSTRING, 0, (LPARAM)s);
+		SendDlgItemMessage(hwndDlg, nIDCombo, CB_SETITEMDATA, n, i * 24 * 60);
 	}
 
 	// 1 week
-	mir_snprintf(s, "1 %s", lpszWeek);
-	n = SendDlgItemMessage(Dialog, nIDCombo, CB_ADDSTRING, 0, (LPARAM)s);
-	SendDlgItemMessage(Dialog, nIDCombo, CB_SETITEMDATA, n, 7 * 24 * 60);
+	mir_snwprintf(s, L"1 %s", TranslateT("Week"));
+	n = SendDlgItemMessage(hwndDlg, nIDCombo, CB_ADDSTRING, 0, (LPARAM)s);
+	SendDlgItemMessage(hwndDlg, nIDCombo, CB_SETITEMDATA, n, 7 * 24 * 60);
 }
 
 // returns non-zero if specified time was inside "missing" hour of daylight saving
 // IMPORTANT: triggerRelUtcOut is only initialized if IsRelativeCombo() is TRUE and return value is 0
-static int ReformatTimeInputEx(HWND Dialog, UINT nIDTime, UINT nIDRefTime, int h, int m, const SYSTEMTIME *pDateLocal, ULARGE_INTEGER *triggerRelUtcOut)
+static int ReformatTimeInputEx(HWND hwndDlg, UINT nIDTime, UINT nIDRefTime, int h, int m, const SYSTEMTIME *pDateLocal, ULARGE_INTEGER *triggerRelUtcOut)
 {
 	int n;
 	UINT dt;
-	char buf[64];
 	const ULONGLONG MinutesToFileTime = (ULONGLONG)60 * FILETIME_TICKS_PER_SEC;
 
 	if (h < 0) {
 		// time value is an offset ('m' holds the offset in minutes)
 
-		if (IsRelativeCombo(Dialog, nIDTime)) {
+		if (IsRelativeCombo(hwndDlg, nIDTime)) {
+			// get reference time (UTC) from hidden control
+			wchar_t buf[64];
+			GetDlgItemText(hwndDlg, nIDRefTime, buf, 30);
+
 			ULONGLONG ref;
 			ULARGE_INTEGER li;
-			SYSTEMTIME tm;
-
-			// get reference time (UTC) from hidden control
-			{
-				GetDlgItemText(Dialog, nIDRefTime, buf, 30);
-				li.QuadPart = ref = _strtoui64(buf, nullptr, 16);
-			}
+			li.QuadPart = ref = _wcstoui64(buf, nullptr, 16);
 
 			// clamp delta time to 23.5 hours (coule be issues otherwise as relative combo only handles <24)
 			if (m > (23 * 60 + 30))
@@ -1025,6 +938,7 @@ static int ReformatTimeInputEx(HWND Dialog, UINT nIDTime, UINT nIDRefTime, int h
 
 			li.QuadPart += (ULONGLONG)(m * 60) * FILETIME_TICKS_PER_SEC;
 
+			SYSTEMTIME tm;
 			FileTimeToTzLocalST((FILETIME*)&li, &tm);
 			h = (int)tm.wHour;
 			m = (int)tm.wMinute;
@@ -1035,179 +949,168 @@ static int ReformatTimeInputEx(HWND Dialog, UINT nIDTime, UINT nIDRefTime, int h
 			dt = (UINT)((li.QuadPart / MinutesToFileTime) - (ref / MinutesToFileTime));
 
 			if (dt < 60)
-				mir_snprintf(buf, "%02d:%02d (%d %s)", h, m, dt, Translate("Minutes"));
+				mir_snwprintf(buf, L"%02d:%02d (%d %s)", h, m, dt, TranslateT("Minutes"));
 			else
-				mir_snprintf(buf, "%02d:%02d (%d.%d %s)", h, m, dt / 60, ((dt % 60) * 10) / 60, Translate("Hours"));
+				mir_snwprintf(buf, L"%02d:%02d (%d.%d %s)", h, m, dt / 60, ((dt % 60) * 10) / 60, TranslateT("Hours"));
 
 			// search for preset
-			n = SendDlgItemMessage(Dialog, nIDTime, CB_FINDSTRING, (WPARAM)-1, (LPARAM)buf);
+			n = SendDlgItemMessage(hwndDlg, nIDTime, CB_FINDSTRING, (WPARAM)-1, (LPARAM)buf);
 			if (n != CB_ERR) {
-				SendDlgItemMessage(Dialog, nIDTime, CB_SETCURSEL, n, 0);
+				SendDlgItemMessage(hwndDlg, nIDTime, CB_SETCURSEL, n, 0);
 				return 0;
 			}
 
-			SetDlgItemText(Dialog, nIDTime, buf);
+			SetDlgItemText(hwndDlg, nIDTime, buf);
 		}
 		else {
 			// should never happen
-			SendDlgItemMessage(Dialog, nIDTime, CB_SETCURSEL, 0, 0);
+			SendDlgItemMessage(hwndDlg, nIDTime, CB_SETCURSEL, 0, 0);
 		}
 
 		return 0;
 	}
 
-	//
-
-	mir_snprintf(buf, "%02d:%02d", h, m);
+	wchar_t buf[64];
+	mir_snwprintf(buf, L"%02d:%02d", h, m);
 
 	// search for preset first
-	n = SendDlgItemMessage(Dialog, nIDTime, CB_FINDSTRING, (WPARAM)-1, (LPARAM)buf);
+	n = SendDlgItemMessage(hwndDlg, nIDTime, CB_FINDSTRING, (WPARAM)-1, (LPARAM)buf);
 	if (n != CB_ERR) {
-		SendDlgItemMessage(Dialog, nIDTime, CB_SETCURSEL, n, 0);
+		SendDlgItemMessage(hwndDlg, nIDTime, CB_SETCURSEL, n, 0);
 		return 0;
 	}
 
-	if (IsRelativeCombo(Dialog, nIDTime)) {
+	if (IsRelativeCombo(hwndDlg, nIDTime)) {
 		// date format is a time offset ("24:43 (5 Minutes)" etc.)
 
-		ULONGLONG ref;
-		SYSTEMTIME tmRefLocal;
 		SYSTEMTIME tmTriggerLocal, tmTriggerLocal2;
 
 		// get reference time (UTC) from hidden control
-		{
-			GetDlgItemText(Dialog, nIDRefTime, buf, 30);
-			ref = _strtoui64(buf, nullptr, 16);
-		}
+		GetDlgItemText(hwndDlg, nIDRefTime, buf, 30);
+		ULONGLONG ref = _wcstoui64(buf, nullptr, 16);
 
+		SYSTEMTIME tmRefLocal;
 		FileTimeToTzLocalST((FILETIME*)&ref, &tmRefLocal);
 
-		{
-			ULARGE_INTEGER li;
-			const UINT nRefT = (UINT)tmRefLocal.wHour * 60 + (UINT)tmRefLocal.wMinute;
-			const UINT nT = h * 60 + m;
+		ULARGE_INTEGER li;
+		const UINT nRefT = (UINT)tmRefLocal.wHour * 60 + (UINT)tmRefLocal.wMinute;
+		const UINT nT = h * 60 + m;
 
-			tmTriggerLocal = tmRefLocal;
-			tmTriggerLocal.wHour = (WORD)h;
-			tmTriggerLocal.wMinute = (WORD)m;
-			tmTriggerLocal.wSecond = 0;
-			tmTriggerLocal.wMilliseconds = 0;
+		tmTriggerLocal = tmRefLocal;
+		tmTriggerLocal.wHour = (WORD)h;
+		tmTriggerLocal.wMinute = (WORD)m;
+		tmTriggerLocal.wSecond = 0;
+		tmTriggerLocal.wMilliseconds = 0;
 
-			if (nT < nRefT) {
-				// (this special case only works correctly if time can be returned in triggerRelUtcOut)
-				if (tmRefLocal.wHour == tmTriggerLocal.wHour && triggerRelUtcOut) {
-					// check for special case if daylight saving ends in this hour, then interpret as within the next hour
-					TzLocalSTToFileTime(&tmTriggerLocal, (FILETIME*)&li);
-					li.QuadPart += (ULONGLONG)3600 * FILETIME_TICKS_PER_SEC;
-					FileTimeToTzLocalST((FILETIME*)&li, &tmTriggerLocal2);
-					if ((tmTriggerLocal2.wHour * 60 + tmTriggerLocal2.wMinute) == (tmTriggerLocal.wHour * 60 + tmTriggerLocal.wMinute))
-						// special case detected
-						goto output_result;
-				}
-
-				// tomorrow (add 24h to local time)
-				SYSTEMTIMEtoFILETIME(&tmTriggerLocal, (FILETIME*)&li);
-				li.QuadPart += (ULONGLONG)(24 * 3600)*FILETIME_TICKS_PER_SEC;
-				FILETIMEtoSYSTEMTIME((FILETIME*)&li, &tmTriggerLocal);
+		if (nT < nRefT) {
+			// (this special case only works correctly if time can be returned in triggerRelUtcOut)
+			if (tmRefLocal.wHour == tmTriggerLocal.wHour && triggerRelUtcOut) {
+				// check for special case if daylight saving ends in this hour, then interpret as within the next hour
+				TzLocalSTToFileTime(&tmTriggerLocal, (FILETIME*)&li);
+				li.QuadPart += (ULONGLONG)3600 * FILETIME_TICKS_PER_SEC;
+				FileTimeToTzLocalST((FILETIME*)&li, &tmTriggerLocal2);
+				if ((tmTriggerLocal2.wHour * 60 + tmTriggerLocal2.wMinute) == (tmTriggerLocal.wHour * 60 + tmTriggerLocal.wMinute))
+					// special case detected
+					goto output_result;
 			}
 
-			// clean up value for potential daylight saving boundary
-			TzLocalSTToFileTime(&tmTriggerLocal, (FILETIME*)&li);
-			FileTimeToTzLocalST((FILETIME*)&li, &tmTriggerLocal2);
+			// tomorrow (add 24h to local time)
+			SystemTimeToFileTime(&tmTriggerLocal, (FILETIME*)&li);
+			li.QuadPart += (ULONGLONG)(24 * 3600)*FILETIME_TICKS_PER_SEC;
+			FileTimeToSystemTime((FILETIME*)&li, &tmTriggerLocal);
+		}
 
-			// NOTE: win32 time functions will round hour downward if supplied hour does not exist due to daylight saving
-			//       for example if supplied time is 02:30 on the night the clock is turned forward at 02:00 to 03:00, thus
-			//       there never is a 02:30, the time functions will convert it to 01:30 (and not 03:30 as one might think)
-			//       (02:00 would return 01:00)
+		// clean up value for potential daylight saving boundary
+		TzLocalSTToFileTime(&tmTriggerLocal, (FILETIME*)&li);
+		FileTimeToTzLocalST((FILETIME*)&li, &tmTriggerLocal2);
 
-			// check for special case when the current time and requested time is inside the "missing" hour
-			// standard->daylight switch, so that the cleaned up time ends up being earlier than the current
-			// time even though it originally wasn't (see note above)
-			if ((tmTriggerLocal2.wHour * 60 + tmTriggerLocal2.wMinute) < (tmTriggerLocal.wHour * 60 + tmTriggerLocal.wMinute)) {
-				// special case detected, fall back to current time so at least the reminder won't be missed
-				// due to ending up at an undesired time (this way the user immediately notices something was wrong)
-				SendDlgItemMessage(Dialog, nIDTime, CB_SETCURSEL, 0, 0);
+		// NOTE: win32 time functions will round hour downward if supplied hour does not exist due to daylight saving
+		//       for example if supplied time is 02:30 on the night the clock is turned forward at 02:00 to 03:00, thus
+		//       there never is a 02:30, the time functions will convert it to 01:30 (and not 03:30 as one might think)
+		//       (02:00 would return 01:00)
+
+		// check for special case when the current time and requested time is inside the "missing" hour
+		// standard->daylight switch, so that the cleaned up time ends up being earlier than the current
+		// time even though it originally wasn't (see note above)
+		if ((tmTriggerLocal2.wHour * 60 + tmTriggerLocal2.wMinute) < (tmTriggerLocal.wHour * 60 + tmTriggerLocal.wMinute)) {
+			// special case detected, fall back to current time so at least the reminder won't be missed
+			// due to ending up at an undesired time (this way the user immediately notices something was wrong)
+			SendDlgItemMessage(hwndDlg, nIDTime, CB_SETCURSEL, 0, 0);
 invalid_dst:
-				MessageBox(Dialog, Translate("The specified time is invalid due to begin of daylight saving (summer time)."), SECTIONNAME, MB_OK | MB_ICONWARNING);
-				return 1;
-			}
+			MessageBox(hwndDlg, TranslateT("The specified time is invalid due to begin of daylight saving (summer time)."), _A2W(SECTIONNAME), MB_OK | MB_ICONWARNING);
+			return 1;
+		}
 
 output_result:
-			if (triggerRelUtcOut)
-				*triggerRelUtcOut = li;
+		if (triggerRelUtcOut)
+			*triggerRelUtcOut = li;
 
-			dt = (UINT)((li.QuadPart / MinutesToFileTime) - (ref / MinutesToFileTime));
+		dt = (UINT)((li.QuadPart / MinutesToFileTime) - (ref / MinutesToFileTime));
 
-			if (dt < 60)
-				mir_snprintf(buf, "%02d:%02d (%d %s)", h, m, dt, Translate("Minutes"));
-			else
-				mir_snprintf(buf, "%02d:%02d (%d.%d %s)", h, m, dt / 60, ((dt % 60) * 10) / 60, Translate("Hours"));
-		}
+		if (dt < 60)
+			mir_snwprintf(buf, L"%02d:%02d (%d %s)", h, m, dt, TranslateT("Minutes"));
+		else
+			mir_snwprintf(buf, L"%02d:%02d (%d.%d %s)", h, m, dt / 60, ((dt % 60) * 10) / 60, TranslateT("Hours"));
 	}
 	else {
 		// absolute time (00:00 to 23:59), clean up time to make sure it's not inside "missing" hour (will be rounded downard)
-
-		FILETIME ft;
 		SYSTEMTIME Date = *pDateLocal;
 		Date.wHour = h;
 		Date.wMinute = m;
 		Date.wSecond = 0;
 		Date.wMilliseconds = 0;
 
+		FILETIME ft;
 		TzLocalSTToFileTime(&Date, &ft);
 		FileTimeToTzLocalST(&ft, &Date);
 
 		if ((int)Date.wHour != h || (int)Date.wMinute != m) {
-			mir_snprintf(buf, "%02d:%02d", (UINT)Date.wHour, (UINT)Date.wMinute);
+			mir_snwprintf(buf, L"%02d:%02d", Date.wHour, Date.wMinute);
 
 			// search for preset again
-			n = SendDlgItemMessage(Dialog, nIDTime, CB_FINDSTRING, (WPARAM)-1, (LPARAM)buf);
+			n = SendDlgItemMessage(hwndDlg, nIDTime, CB_FINDSTRING, -1, (LPARAM)buf);
 			if (n != CB_ERR) {
-				SendDlgItemMessage(Dialog, nIDTime, CB_SETCURSEL, n, 0);
+				SendDlgItemMessage(hwndDlg, nIDTime, CB_SETCURSEL, n, 0);
 				goto invalid_dst;
 			}
 
-			SetDlgItemText(Dialog, nIDTime, buf);
-
+			SetDlgItemText(hwndDlg, nIDTime, buf);
 			goto invalid_dst;
 		}
 	}
 
-	SetDlgItemText(Dialog, nIDTime, buf);
-
+	SetDlgItemText(hwndDlg, nIDTime, buf);
 	return 0;
 }
 
-static __inline int ReformatTimeInput(HWND Dialog, UINT nIDTime, UINT nIDRefTime, int h, int m, const SYSTEMTIME *pDateLocal)
+static __inline int ReformatTimeInput(HWND hwndDlg, UINT nIDTime, UINT nIDRefTime, int h, int m, const SYSTEMTIME *pDateLocal)
 {
-	return ReformatTimeInputEx(Dialog, nIDTime, nIDRefTime, h, m, pDateLocal, nullptr);
+	return ReformatTimeInputEx(hwndDlg, nIDTime, nIDRefTime, h, m, pDateLocal, nullptr);
 }
 
 // in:  pDate contains the desired trigger date in LOCAL time
 // out: pDate contains the resulting trigger time and date in UTC
-static BOOL GetTriggerTime(HWND Dialog, UINT nIDTime, UINT nIDRefTime, SYSTEMTIME *pDate)
+static BOOL GetTriggerTime(HWND hwndDlg, UINT nIDTime, UINT nIDRefTime, SYSTEMTIME *pDate)
 {
-	ULARGE_INTEGER li;
-	char buf[32];
 	int h, m;
 
 	// get reference (UTC) time from hidden control
-	{
-		GetDlgItemText(Dialog, nIDRefTime, buf, 30);
-		li.QuadPart = _strtoui64(buf, nullptr, 16);
-	}
+	wchar_t buf[32];
+	GetDlgItemText(hwndDlg, nIDRefTime, buf, 30);
+	ULARGE_INTEGER li;
+	li.QuadPart = _wcstoui64(buf, nullptr, 16);
 
-	int n = SendDlgItemMessage(Dialog, nIDTime, CB_GETCURSEL, 0, 0);
+	int n = SendDlgItemMessage(hwndDlg, nIDTime, CB_GETCURSEL, 0, 0);
 	if (n != CB_ERR) {
 		// use preset value
 preset_value:;
-		if (IsRelativeCombo(Dialog, nIDTime)) {
+		if (IsRelativeCombo(hwndDlg, nIDTime)) {
 			// time offset from ref time ("24:43 (5 Minutes)" etc.)
 
-			UINT nDeltaSeconds = (UINT)SendDlgItemMessage(Dialog, nIDTime, CB_GETITEMDATA, n, 0);
+			UINT nDeltaSeconds = (UINT)SendDlgItemMessage(hwndDlg, nIDTime, CB_GETITEMDATA, n, 0);
 			li.QuadPart += (ULONGLONG)nDeltaSeconds * FILETIME_TICKS_PER_SEC;
 
-			FILETIMEtoSYSTEMTIME((FILETIME*)&li, pDate);
+			FileTimeToSystemTime((FILETIME*)&li, pDate);
 
 			// if specified time is a small offset (< 10 Minutes) then retain current second count for better accuracy
 			// otherwise try to match specified time (which never contains seconds only even minutes) as close as possible
@@ -1219,7 +1122,7 @@ preset_value:;
 		else {
 			// absolute time (offset from midnight on pDate)
 
-			UINT nDeltaSeconds = (UINT)((ULONG)SendDlgItemMessage(Dialog, nIDTime, CB_GETITEMDATA, n, 0) & ~0x80000000);
+			UINT nDeltaSeconds = (UINT)((ULONG)SendDlgItemMessage(hwndDlg, nIDTime, CB_GETITEMDATA, n, 0) & ~0x80000000);
 			pDate->wHour = 0;
 			pDate->wMinute = 0;
 			pDate->wSecond = 0;
@@ -1227,43 +1130,41 @@ preset_value:;
 			TzLocalSTToFileTime(pDate, (FILETIME*)&li);
 			li.QuadPart += (ULONGLONG)nDeltaSeconds * FILETIME_TICKS_PER_SEC;
 
-			FILETIMEtoSYSTEMTIME((FILETIME*)&li, pDate);
+			FileTimeToSystemTime((FILETIME*)&li, pDate);
 		}
 
 		return TRUE;
 	}
 
 	// user entered a custom value
-
-	GetDlgItemText(Dialog, nIDTime, buf, 30);
-
-	if (!ParseTime(buf, &h, &m, FALSE, IsRelativeCombo(Dialog, nIDTime))) {
-		MessageBox(Dialog, Translate("The specified time is invalid."), SECTIONNAME, MB_OK | MB_ICONWARNING);
+	GetDlgItemText(hwndDlg, nIDTime, buf, 30);
+	if (!ParseTime(buf, &h, &m, FALSE, IsRelativeCombo(hwndDlg, nIDTime))) {
+		MessageBox(hwndDlg, TranslateT("The specified time is invalid."), _A2W(SECTIONNAME), MB_OK | MB_ICONWARNING);
 		return FALSE;
 	}
 
-	if (IsRelativeCombo(Dialog, nIDTime)) {
+	if (IsRelativeCombo(hwndDlg, nIDTime)) {
 		// date has not been changed, the specified time is a time between reftime and reftime+24h
 
 		ULARGE_INTEGER li2;
 
-		if (ReformatTimeInputEx(Dialog, nIDTime, nIDRefTime, h, m, pDate, &li2))
+		if (ReformatTimeInputEx(hwndDlg, nIDTime, nIDRefTime, h, m, pDate, &li2))
 			return FALSE;
 
 		// check if reformatted value is a preset
-		if ((n = SendDlgItemMessage(Dialog, nIDTime, CB_GETCURSEL, 0, 0)) != CB_ERR)
+		if ((n = SendDlgItemMessage(hwndDlg, nIDTime, CB_GETCURSEL, 0, 0)) != CB_ERR)
 			goto preset_value;
 
-		FILETIMEtoSYSTEMTIME((FILETIME*)&li2, pDate);
+		FileTimeToSystemTime((FILETIME*)&li2, pDate);
 
 		return TRUE;
 	}
 	else {
-		if (ReformatTimeInputEx(Dialog, nIDTime, nIDRefTime, h, m, pDate, nullptr))
+		if (ReformatTimeInputEx(hwndDlg, nIDTime, nIDRefTime, h, m, pDate, nullptr))
 			return FALSE;
 
 		// check if reformatted value is a preset
-		if ((n = SendDlgItemMessage(Dialog, nIDTime, CB_GETCURSEL, 0, 0)) != CB_ERR)
+		if ((n = SendDlgItemMessage(hwndDlg, nIDTime, CB_GETCURSEL, 0, 0)) != CB_ERR)
 			goto preset_value;
 	}
 
@@ -1275,27 +1176,25 @@ preset_value:;
 	pDate->wMilliseconds = 0;
 
 	TzLocalSTToFileTime(pDate, (FILETIME*)&li);
-	FILETIMEtoSYSTEMTIME((FILETIME*)&li, pDate);
+	FileTimeToSystemTime((FILETIME*)&li, pDate);
 
 	return TRUE;
 }
 
-static void OnDateChanged(HWND Dialog, UINT nDateID, UINT nTimeID, UINT nRefTimeID)
+static void OnDateChanged(HWND hwndDlg, UINT nDateID, UINT nTimeID, UINT nRefTimeID)
 {
 	// repopulate time combo list with regular times (not offsets like "23:32 (5 minutes)" etc.)
+	wchar_t s[32];
+	GetDlgItemText(hwndDlg, nTimeID, s, _countof(s));
 
-	SYSTEMTIME Date, DateUtc;
 	int h = -1, m;
-	char s[32];
-
-	GetDlgItemText(Dialog, nTimeID, s, 30);
-
 	ParseTime(s, &h, &m, FALSE, FALSE);
 
-	SendDlgItemMessage(Dialog, nDateID, DTM_GETSYSTEMTIME, 0, (LPARAM)&Date);
+	SYSTEMTIME Date, DateUtc;
+	SendDlgItemMessage(hwndDlg, nDateID, DTM_GETSYSTEMTIME, 0, (LPARAM)&Date);
 
 	TzSpecificLocalTimeToSystemTime(nullptr, &Date, &DateUtc);
-	PopulateTimeCombo(Dialog, nTimeID, FALSE, &DateUtc);
+	PopulateTimeCombo(hwndDlg, nTimeID, FALSE, &DateUtc);
 
 	if (h < 0) {
 		// parsing failed, default to current time
@@ -1305,61 +1204,58 @@ static void OnDateChanged(HWND Dialog, UINT nDateID, UINT nTimeID, UINT nRefTime
 		m = (UINT)tm.wMinute;
 	}
 
-	ReformatTimeInput(Dialog, nTimeID, nRefTimeID, h, m, &Date);
+	ReformatTimeInput(hwndDlg, nTimeID, nRefTimeID, h, m, &Date);
 }
 
 
-static INT_PTR CALLBACK DlgProcNotifyReminder(HWND Dialog, UINT Message, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcNotifyReminder(HWND hwndDlg, UINT Message, WPARAM wParam, LPARAM lParam)
 {
 	switch (Message) {
 	case WM_INITDIALOG:
 		{
 			SYSTEMTIME tm;
 			ULARGE_INTEGER li;
-
 			GetSystemTime(&tm);
-			SYSTEMTIMEtoFILETIME(&tm, (FILETIME*)&li);
+			SystemTimeToFileTime(&tm, (FILETIME*)&li);
 
-			TranslateDialogDefault(Dialog);
+			TranslateDialogDefault(hwndDlg);
 
 			// save reference time in hidden control, is needed when adding reminder to properly detect if speicifed
 			// time wrapped around to tomorrow or not (dialog could in theory be open for a longer period of time
 			// which could potentially mess up things otherwise)
-			{
-				char s[32];
-				mir_snprintf(s, "%I64x", li.QuadPart);
-				SetDlgItemText(Dialog, IDC_REFTIME, s);
-			}
+			wchar_t s[32];
+			mir_snwprintf(s, L"%I64x", li.QuadPart);
+			SetDlgItemText(hwndDlg, IDC_REFTIME, s);
 
-			BringWindowToTop(Dialog);
+			BringWindowToTop(hwndDlg);
 
-			PopulateTimeOffsetCombo(Dialog, IDC_REMINDAGAININ);
+			PopulateTimeOffsetCombo(hwndDlg, IDC_REMINDAGAININ);
 
-			ShowWindow(GetDlgItem(Dialog, IDC_REMINDAGAININ), SW_SHOW);
-			ShowWindow(GetDlgItem(Dialog, IDC_DATEAGAIN), SW_HIDE);
-			ShowWindow(GetDlgItem(Dialog, IDC_TIMEAGAIN), SW_HIDE);
-			ShowWindow(GetDlgItem(Dialog, IDC_STATIC_DATE), SW_HIDE);
-			ShowWindow(GetDlgItem(Dialog, IDC_STATIC_TIME), SW_HIDE);
-			CheckDlgButton(Dialog, IDC_AFTER, BST_CHECKED);
-			CheckDlgButton(Dialog, IDC_ONDATE, BST_UNCHECKED);
-			SendDlgItemMessage(Dialog, IDC_REMINDAGAININ, CB_SETCURSEL, 0, 0);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_REMINDAGAININ), SW_SHOW);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_DATEAGAIN), SW_HIDE);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_TIMEAGAIN), SW_HIDE);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_STATIC_DATE), SW_HIDE);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_STATIC_TIME), SW_HIDE);
+			CheckDlgButton(hwndDlg, IDC_AFTER, BST_CHECKED);
+			CheckDlgButton(hwndDlg, IDC_ONDATE, BST_UNCHECKED);
+			SendDlgItemMessage(hwndDlg, IDC_REMINDAGAININ, CB_SETCURSEL, 0, 0);
 
-			SendDlgItemMessage(Dialog, IDC_REMDATA, EM_LIMITTEXT, MAX_REMINDER_LEN, 0);
+			SendDlgItemMessage(hwndDlg, IDC_REMDATA, EM_LIMITTEXT, MAX_REMINDER_LEN, 0);
 
-			PopulateTimeCombo(Dialog, IDC_TIMEAGAIN, TRUE, &tm);
+			PopulateTimeCombo(hwndDlg, IDC_TIMEAGAIN, TRUE, &tm);
 
 			FileTimeToTzLocalST((FILETIME*)&li, &tm);
 
 			// make sure date picker uses reference time
-			SendDlgItemMessage(Dialog, IDC_DATEAGAIN, DTM_SETSYSTEMTIME, 0, (LPARAM)&tm);
-			InitDatePicker(Dialog, IDC_DATEAGAIN);
+			SendDlgItemMessage(hwndDlg, IDC_DATEAGAIN, DTM_SETSYSTEMTIME, 0, (LPARAM)&tm);
+			InitDatePicker(hwndDlg, IDC_DATEAGAIN);
 
-			SendDlgItemMessage(Dialog, IDC_TIMEAGAIN, CB_SETCURSEL, 0, 0);
+			SendDlgItemMessage(hwndDlg, IDC_TIMEAGAIN, CB_SETCURSEL, 0, 0);
 
 			return TRUE;
 		}
 	case WM_NCDESTROY:
-		RemoveProp(GetDlgItem(Dialog, IDC_DATEAGAIN), TEXT("OldWndProc"));
+		RemoveProp(GetDlgItem(hwndDlg, IDC_DATEAGAIN), TEXT("OldWndProc"));
 		return TRUE;
 
 	case WM_NOTIFY:
@@ -1368,248 +1264,210 @@ static INT_PTR CALLBACK DlgProcNotifyReminder(HWND Dialog, UINT Message, WPARAM 
 
 			switch (NM->hdr.code) {
 			case DTN_DATETIMECHANGE:
-				OnDateChanged(Dialog, IDC_DATEAGAIN, IDC_TIMEAGAIN, IDC_REFTIME);
+				OnDateChanged(hwndDlg, IDC_DATEAGAIN, IDC_TIMEAGAIN, IDC_REFTIME);
 				break;
 			}
 		}
 		break;
 
 	case WM_CLOSE:
-		{
-			int ReminderCount = TreeGetCount(RemindersList);
-			for (int I = 0; I < ReminderCount; I++) {
-				REMINDERDATA *pReminder = (REMINDERDATA*)TreeGetAt(RemindersList, I);
-
-				if (pReminder->handle == Dialog) {
-					DeleteReminder(pReminder);
-					JustSaveReminders();
-					break;
-				}
-			}
-			NOTIFY_LIST();
+		if (auto *pReminder = FindReminder(hwndDlg)) {
+			DeleteReminder(pReminder);
+			JustSaveReminders();
 		}
-		DestroyWindow(Dialog);
+
+		NOTIFY_LIST();
+		DestroyWindow(hwndDlg);
 		return TRUE;
 
 	case WM_COMMAND:
-		{
-			switch (LOWORD(wParam)) {
-			case IDC_TIMEAGAIN:
-				switch (HIWORD(wParam)) {
-				case CBN_KILLFOCUS:
-					// reformat displayed value
-					if (SendDlgItemMessage(Dialog, IDC_TIMEAGAIN, CB_GETCURSEL, 0, 0) == CB_ERR) {
-						char buf[64];
-						int h, m;
-						GetDlgItemText(Dialog, IDC_TIMEAGAIN, buf, 30);
+		switch (LOWORD(wParam)) {
+		case IDC_TIMEAGAIN:
+			switch (HIWORD(wParam)) {
+			case CBN_KILLFOCUS:
+				// reformat displayed value
+				if (SendDlgItemMessage(hwndDlg, IDC_TIMEAGAIN, CB_GETCURSEL, 0, 0) == CB_ERR) {
+					wchar_t buf[64];
+					GetDlgItemText(hwndDlg, IDC_TIMEAGAIN, buf, _countof(buf));
 
-						if (ParseTime(buf, &h, &m, FALSE, IsRelativeCombo(Dialog, IDC_TIMEAGAIN))) {
-							SYSTEMTIME Date;
-							SendDlgItemMessage(Dialog, IDC_DATEAGAIN, DTM_GETSYSTEMTIME, 0, (LPARAM)&Date);
+					int h, m;
+					if (ParseTime(buf, &h, &m, FALSE, IsRelativeCombo(hwndDlg, IDC_TIMEAGAIN))) {
+						SYSTEMTIME Date;
+						SendDlgItemMessage(hwndDlg, IDC_DATEAGAIN, DTM_GETSYSTEMTIME, 0, (LPARAM)&Date);
 
-							ReformatTimeInput(Dialog, IDC_TIMEAGAIN, IDC_REFTIME, h, m, &Date);
-						}
-						else {
-							SendDlgItemMessage(Dialog, IDC_TIMEAGAIN, CB_SETCURSEL, 0, 0);
-						}
+						ReformatTimeInput(hwndDlg, IDC_TIMEAGAIN, IDC_REFTIME, h, m, &Date);
 					}
-					break;
+					else {
+						SendDlgItemMessage(hwndDlg, IDC_TIMEAGAIN, CB_SETCURSEL, 0, 0);
+					}
 				}
 				break;
-
-			case IDC_REMINDAGAININ:
-				switch (HIWORD(wParam)) {
-				case CBN_KILLFOCUS:
-					// reformat displayed value if it has been edited
-					if (SendDlgItemMessage(Dialog, IDC_REMINDAGAININ, CB_GETCURSEL, 0, 0) == CB_ERR) {
-						char buf[64];
-						int h, m;
-						GetDlgItemText(Dialog, IDC_REMINDAGAININ, buf, 30);
-
-						if (ParseTime(buf, &h, &m, TRUE, TRUE) && h + m) {
-							if (h) {
-								LPCSTR lpszHours = Translate("Hours");
-								mir_snprintf(buf, "%d:%02d %s", h, m, lpszHours);
-							}
-							else {
-								LPCSTR lpszMinutes = Translate("Minutes");
-								mir_snprintf(buf, "%d %s", m, lpszMinutes);
-							}
-							SetDlgItemText(Dialog, IDC_REMINDAGAININ, buf);
-						}
-						else {
-							SendDlgItemMessage(Dialog, IDC_REMINDAGAININ, CB_SETCURSEL, 0, 0);
-						}
-					}
-					break;
-				}
-				break;
-
-			case IDC_AFTER:
-				ShowWindow(GetDlgItem(Dialog, IDC_REMINDAGAININ), SW_SHOW);
-				ShowWindow(GetDlgItem(Dialog, IDC_DATEAGAIN), SW_HIDE);
-				ShowWindow(GetDlgItem(Dialog, IDC_TIMEAGAIN), SW_HIDE);
-				ShowWindow(GetDlgItem(Dialog, IDC_STATIC_DATE), SW_HIDE);
-				ShowWindow(GetDlgItem(Dialog, IDC_STATIC_TIME), SW_HIDE);
-				return TRUE;
-
-			case IDC_ONDATE:
-				ShowWindow(GetDlgItem(Dialog, IDC_DATEAGAIN), SW_SHOW);
-				ShowWindow(GetDlgItem(Dialog, IDC_TIMEAGAIN), SW_SHOW);
-				ShowWindow(GetDlgItem(Dialog, IDC_STATIC_DATE), SW_SHOW);
-				ShowWindow(GetDlgItem(Dialog, IDC_STATIC_TIME), SW_SHOW);
-				ShowWindow(GetDlgItem(Dialog, IDC_REMINDAGAININ), SW_HIDE);
-				return TRUE;
-
-			case IDC_DISMISS:
-				{
-					int ReminderCount = TreeGetCount(RemindersList);
-					for (int I = 0; I < ReminderCount; I++) {
-						REMINDERDATA *pReminder = (REMINDERDATA*)TreeGetAt(RemindersList, I);
-
-						if (pReminder->handle == Dialog) {
-							DeleteReminder(pReminder);
-							JustSaveReminders();
-							break;
-						}
-					}
-					NOTIFY_LIST();
-					DestroyWindow(Dialog);
-					return TRUE;
-				}
-
-			case IDC_REMINDAGAIN:
-				{
-					int ReminderCount = TreeGetCount(RemindersList);
-					for (int I = 0; I < ReminderCount; I++) {
-						REMINDERDATA *pReminder = (REMINDERDATA*)TreeGetAt(RemindersList, I);
-
-						if (pReminder->handle == Dialog) {
-							if (IsDlgButtonChecked(Dialog, IDC_AFTER) == BST_CHECKED) {
-								// delta time
-
-								ULONGLONG TT;
-								SYSTEMTIME tm;
-								ULARGE_INTEGER li;
-
-								GetSystemTime(&tm);
-								SYSTEMTIMEtoFILETIME(&tm, (FILETIME*)&li);
-
-								int n = SendDlgItemMessage(Dialog, IDC_REMINDAGAININ, CB_GETCURSEL, 0, 0);
-								if (n != CB_ERR) {
-									TT = SendDlgItemMessage(Dialog, IDC_REMINDAGAININ, CB_GETITEMDATA, n, 0) * 60;
-
-									if (TT >= 24 * 3600) {
-										// selection is 1 day or more, take daylight saving boundaries into consideration
-										// (ie. 24 hour might actually be 23 or 25, in order for reminder to pop up at the
-										// same time tomorrow)
-										SYSTEMTIME tm2, tm3;
-										ULARGE_INTEGER li2 = li;
-										FileTimeToTzLocalST((FILETIME*)&li2, &tm2);
-										li2.QuadPart += (TT * FILETIME_TICKS_PER_SEC);
-										FileTimeToTzLocalST((FILETIME*)&li2, &tm3);
-										if (tm2.wHour != tm3.wHour || tm2.wMinute != tm3.wMinute) {
-											// boundary crossed
-
-											// do a quick and dirty sanity check that times not more than 2 hours apart
-											if (abs((int)(tm3.wHour * 60 + tm3.wMinute) - (int)(tm2.wHour * 60 + tm2.wMinute)) <= 120) {
-												// adjust TT so that same HH:MM is set
-												tm3.wHour = tm2.wHour;
-												tm3.wMinute = tm2.wMinute;
-												TzLocalSTToFileTime(&tm3, (FILETIME*)&li2);
-												TT = (li2.QuadPart - li.QuadPart) / FILETIME_TICKS_PER_SEC;
-											}
-										}
-									}
-								}
-								else {
-									// parse user input
-									char s[32];
-									int h = 0, m = 0;
-									GetDlgItemText(Dialog, IDC_REMINDAGAININ, s, 30);
-									ParseTime(s, &h, &m, TRUE, TRUE);
-									m += h * 60;
-									if (!m) {
-										MessageBox(Dialog, Translate("The specified time offset is invalid."), SECTIONNAME, MB_OK | MB_ICONWARNING);
-										return TRUE;
-									}
-
-									TT = m * 60;
-								}
-
-								pReminder->When = li;
-								pReminder->When.QuadPart += (TT * FILETIME_TICKS_PER_SEC);
-							}
-							else if (IsDlgButtonChecked(Dialog, IDC_ONDATE) == BST_CHECKED) {
-								SYSTEMTIME Date;
-
-								SendDlgItemMessage(Dialog, IDC_DATEAGAIN, DTM_GETSYSTEMTIME, 0, (LPARAM)&Date);
-
-								if (!GetTriggerTime(Dialog, IDC_TIMEAGAIN, IDC_REFTIME, &Date))
-									break;
-
-								SYSTEMTIMEtoFILETIME(&Date, (FILETIME*)&pReminder->When);
-							}
-
-							// update reminder text
-							{
-								char *ReminderText = nullptr;
-								int SzT = SendDlgItemMessage(Dialog, IDC_REMDATA, WM_GETTEXTLENGTH, 0, 0);
-								if (SzT) {
-									if (SzT > MAX_REMINDER_LEN) SzT = MAX_REMINDER_LEN;
-									ReminderText = (char*)malloc(SzT + 1);
-									GetDlgItemText(Dialog, IDC_REMDATA, ReminderText, SzT + 1);
-								}
-								if (pReminder->Reminder)
-									free(pReminder->Reminder);
-								pReminder->Reminder = ReminderText;
-							}
-
-							pReminder->RemVisible = FALSE;
-							pReminder->handle = nullptr;
-
-							// re-insert tree item sorted
-							TreeDelete(&RemindersList, pReminder);
-							TreeAddSorted(&RemindersList, pReminder, ReminderSortCb);
-							JustSaveReminders();
-							break;
-						}
-					}
-					NOTIFY_LIST();
-					DestroyWindow(Dialog);
-					return TRUE;
-				}
-
-			case IDC_NONE:
-				{
-					// create note from remainder
-					int ReminderCount = TreeGetCount(RemindersList);
-					for (int I = 0; I < ReminderCount; I++) {
-						REMINDERDATA *pReminder = (REMINDERDATA*)TreeGetAt(RemindersList, I);
-
-						if (pReminder->handle == Dialog) {
-							// get up-to-date reminder text
-							char *ReminderText = nullptr;
-							int SzT = SendDlgItemMessage(Dialog, IDC_REMDATA, WM_GETTEXTLENGTH, 0, 0);
-							if (SzT) {
-								if (SzT > MAX_REMINDER_LEN) SzT = MAX_REMINDER_LEN;
-								ReminderText = (char*)malloc(SzT + 1);
-								GetDlgItemText(Dialog, IDC_REMDATA, ReminderText, SzT + 1);
-							}
-
-							SetFocus(NewNote(0, 0, -1, -1, ReminderText, nullptr, TRUE, TRUE, 0)->REHwnd);
-							break;
-						}
-					}
-					return TRUE;
-				}
 			}
+			break;
+
+		case IDC_REMINDAGAININ:
+			switch (HIWORD(wParam)) {
+			case CBN_KILLFOCUS:
+				// reformat displayed value if it has been edited
+				if (SendDlgItemMessage(hwndDlg, IDC_REMINDAGAININ, CB_GETCURSEL, 0, 0) == CB_ERR) {
+					wchar_t buf[64];
+					GetDlgItemText(hwndDlg, IDC_REMINDAGAININ, buf, 30);
+
+					int h, m;
+					if (ParseTime(buf, &h, &m, TRUE, TRUE) && h + m) {
+						if (h)
+							mir_snwprintf(buf, L"%d:%02d %s", h, m, TranslateT("Hours"));
+						else
+							mir_snwprintf(buf, L"%d %s", m, TranslateT("Minutes"));
+
+						SetDlgItemText(hwndDlg, IDC_REMINDAGAININ, buf);
+					}
+					else SendDlgItemMessage(hwndDlg, IDC_REMINDAGAININ, CB_SETCURSEL, 0, 0);
+				}
+				break;
+			}
+			break;
+
+		case IDC_AFTER:
+			ShowWindow(GetDlgItem(hwndDlg, IDC_REMINDAGAININ), SW_SHOW);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_DATEAGAIN), SW_HIDE);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_TIMEAGAIN), SW_HIDE);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_STATIC_DATE), SW_HIDE);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_STATIC_TIME), SW_HIDE);
+			return TRUE;
+
+		case IDC_ONDATE:
+			ShowWindow(GetDlgItem(hwndDlg, IDC_DATEAGAIN), SW_SHOW);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_TIMEAGAIN), SW_SHOW);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_STATIC_DATE), SW_SHOW);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_STATIC_TIME), SW_SHOW);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_REMINDAGAININ), SW_HIDE);
+			return TRUE;
+
+		case IDC_DISMISS:
+			if (auto *pReminder = FindReminder(hwndDlg)) {
+				DeleteReminder(pReminder);
+				JustSaveReminders();
+			}
+
+			NOTIFY_LIST();
+			DestroyWindow(hwndDlg);
+			return TRUE;
+
+		case IDC_REMINDAGAIN:
+			if (auto *pReminder = FindReminder(hwndDlg)) {
+				if (IsDlgButtonChecked(hwndDlg, IDC_AFTER) == BST_CHECKED) {
+					// delta time
+					ULONGLONG TT;
+					SYSTEMTIME tm;
+					ULARGE_INTEGER li;
+
+					GetSystemTime(&tm);
+					SystemTimeToFileTime(&tm, (FILETIME*)&li);
+
+					int n = SendDlgItemMessage(hwndDlg, IDC_REMINDAGAININ, CB_GETCURSEL, 0, 0);
+					if (n != CB_ERR) {
+						TT = SendDlgItemMessage(hwndDlg, IDC_REMINDAGAININ, CB_GETITEMDATA, n, 0) * 60;
+						if (TT >= 24 * 3600) {
+							// selection is 1 day or more, take daylight saving boundaries into consideration
+							// (ie. 24 hour might actually be 23 or 25, in order for reminder to pop up at the
+							// same time tomorrow)
+							SYSTEMTIME tm2, tm3;
+							ULARGE_INTEGER li2 = li;
+							FileTimeToTzLocalST((FILETIME*)&li2, &tm2);
+							li2.QuadPart += (TT * FILETIME_TICKS_PER_SEC);
+							FileTimeToTzLocalST((FILETIME*)&li2, &tm3);
+							if (tm2.wHour != tm3.wHour || tm2.wMinute != tm3.wMinute) {
+								// boundary crossed
+
+								// do a quick and dirty sanity check that times not more than 2 hours apart
+								if (abs((int)(tm3.wHour * 60 + tm3.wMinute) - (int)(tm2.wHour * 60 + tm2.wMinute)) <= 120) {
+									// adjust TT so that same HH:MM is set
+									tm3.wHour = tm2.wHour;
+									tm3.wMinute = tm2.wMinute;
+									TzLocalSTToFileTime(&tm3, (FILETIME*)&li2);
+									TT = (li2.QuadPart - li.QuadPart) / FILETIME_TICKS_PER_SEC;
+								}
+							}
+						}
+					}
+					else {
+						// parse user input
+						wchar_t s[32];
+						GetDlgItemText(hwndDlg, IDC_REMINDAGAININ, s, _countof(s));
+
+						int h = 0, m = 0;
+						ParseTime(s, &h, &m, TRUE, TRUE);
+						m += h * 60;
+						if (!m) {
+							MessageBox(hwndDlg, TranslateT("The specified time offset is invalid."), _A2W(SECTIONNAME), MB_OK | MB_ICONWARNING);
+							return TRUE;
+						}
+
+						TT = m * 60;
+					}
+
+					pReminder->When = li;
+					pReminder->When.QuadPart += (TT * FILETIME_TICKS_PER_SEC);
+				}
+				else if (IsDlgButtonChecked(hwndDlg, IDC_ONDATE) == BST_CHECKED) {
+					SYSTEMTIME Date;
+
+					SendDlgItemMessage(hwndDlg, IDC_DATEAGAIN, DTM_GETSYSTEMTIME, 0, (LPARAM)&Date);
+
+					if (!GetTriggerTime(hwndDlg, IDC_TIMEAGAIN, IDC_REFTIME, &Date))
+						break;
+
+					SystemTimeToFileTime(&Date, (FILETIME*)&pReminder->When);
+				}
+
+				// update reminder text
+				char *ReminderText = nullptr;
+				int SzT = SendDlgItemMessage(hwndDlg, IDC_REMDATA, WM_GETTEXTLENGTH, 0, 0);
+				if (SzT) {
+					if (SzT > MAX_REMINDER_LEN) SzT = MAX_REMINDER_LEN;
+					ReminderText = (char*)malloc(SzT + 1);
+					GetDlgItemTextA(hwndDlg, IDC_REMDATA, ReminderText, SzT + 1);
+				}
+
+				if (pReminder->Reminder)
+					free(pReminder->Reminder);
+				pReminder->Reminder = ReminderText;
+
+				pReminder->RemVisible = FALSE;
+				pReminder->handle = nullptr;
+
+				// re-insert tree item sorted
+				arReminders.remove(pReminder);
+				arReminders.insert(pReminder);
+				JustSaveReminders();
+			}
+
+			NOTIFY_LIST();
+			DestroyWindow(hwndDlg);
+			return TRUE;
+
+		case IDC_NONE:
+			// create note from remainder
+			if (auto *pReminder = FindReminder(hwndDlg)) {
+				// get up-to-date reminder text
+				char *ReminderText = nullptr;
+				int SzT = SendDlgItemMessage(hwndDlg, IDC_REMDATA, WM_GETTEXTLENGTH, 0, 0);
+				if (SzT) {
+					if (SzT > MAX_REMINDER_LEN) SzT = MAX_REMINDER_LEN;
+					ReminderText = (char*)malloc(SzT + 1);
+					GetDlgItemTextA(hwndDlg, IDC_REMDATA, ReminderText, SzT + 1);
+				}
+
+				NewNote(0, 0, -1, -1, ReminderText, nullptr, TRUE, TRUE, 0);
+			}
+			return TRUE;
 		}
 	}
 	return FALSE;
 }
 
-static INT_PTR CALLBACK DlgProcNewReminder(HWND Dialog, UINT Message, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcNewReminder(HWND hwndDlg, UINT Message, WPARAM wParam, LPARAM lParam)
 {
 	HICON hIcon = nullptr;
 	switch (Message) {
@@ -1620,151 +1478,130 @@ static INT_PTR CALLBACK DlgProcNewReminder(HWND Dialog, UINT Message, WPARAM wPa
 
 			if (NewReminderVisible == 2) {
 				// opening the edit reminder dialog (uses same dialog resource as add reminder)
-				SetWindowText(Dialog, Translate("Reminder"));
-				SetDlgItemText(Dialog, IDC_ADDREMINDER, Translate("&Update Reminder"));
-				ShowWindow(GetDlgItem(Dialog, IDC_VIEWREMINDERS), SW_HIDE);
+				SetWindowText(hwndDlg, TranslateT("Reminder"));
+				SetDlgItemText(hwndDlg, IDC_ADDREMINDER, TranslateT("&Update Reminder"));
+				ShowWindow(GetDlgItem(hwndDlg, IDC_VIEWREMINDERS), SW_HIDE);
 
 				li = pEditReminder->When;
-				FILETIMEtoSYSTEMTIME((FILETIME*)&li, &tm);
+				FileTimeToSystemTime((FILETIME*)&li, &tm);
 			}
 			else {
 				GetSystemTime(&tm);
-				SYSTEMTIMEtoFILETIME(&tm, (FILETIME*)&li);
+				SystemTimeToFileTime(&tm, (FILETIME*)&li);
 			}
 
-			TranslateDialogDefault(Dialog);
+			TranslateDialogDefault(hwndDlg);
 
 			// save reference time in hidden control, is needed when adding reminder to properly detect if speicifed
 			// time wrapped around to tomorrow or not (dialog could in theory be open for a longer period of time
 			// which could potentially mess up things otherwise)
-			{
-				char s[32];
-				mir_snprintf(s, "%I64x", li.QuadPart);
-				SetDlgItemText(Dialog, IDC_REFTIME, s);
-			}
+			wchar_t s[64];
+			mir_snwprintf(s, L"%I64x", li.QuadPart);
+			SetDlgItemText(hwndDlg, IDC_REFTIME, s);
 
-			/*CheckDlgButton(Dialog, IDC_NONE, BST_CHECKED);
-			CheckDlgButton(Dialog, IDC_DAILY, BST_UNCHECKED);
-			CheckDlgButton(Dialog, IDC_WEEKLY, BST_UNCHECKED);
-			CheckDlgButton(Dialog, IDC_MONTHLY, BST_UNCHECKED);*/
-
-			PopulateTimeCombo(Dialog, IDC_TIME, NewReminderVisible != 2, &tm);
+			PopulateTimeCombo(hwndDlg, IDC_TIME, NewReminderVisible != 2, &tm);
 
 			FileTimeToTzLocalST((FILETIME*)&li, &tm);
 
 			// make sure date picker uses reference time
-			SendDlgItemMessage(Dialog, IDC_DATE, DTM_SETSYSTEMTIME, 0, (LPARAM)&tm);
-			InitDatePicker(Dialog, IDC_DATE);
+			SendDlgItemMessage(hwndDlg, IDC_DATE, DTM_SETSYSTEMTIME, 0, (LPARAM)&tm);
+			InitDatePicker(hwndDlg, IDC_DATE);
 
-			SendDlgItemMessage(Dialog, IDC_REMINDER, EM_LIMITTEXT, MAX_REMINDER_LEN, 0);
+			SendDlgItemMessage(hwndDlg, IDC_REMINDER, EM_LIMITTEXT, MAX_REMINDER_LEN, 0);
 
 			if (NewReminderVisible == 2) {
-				char s[32];
-				mir_snprintf(s, "%02d:%02d", (UINT)tm.wHour, (UINT)tm.wMinute);
+				mir_snwprintf(s, L"%02d:%02d", tm.wHour, tm.wMinute);
 
 				// search for preset first
-				int n = SendDlgItemMessage(Dialog, IDC_TIME, CB_FINDSTRING, (WPARAM)-1, (LPARAM)s);
+				int n = SendDlgItemMessageA(hwndDlg, IDC_TIME, CB_FINDSTRING, (WPARAM)-1, (LPARAM)s);
 				if (n != CB_ERR)
-					SendDlgItemMessage(Dialog, IDC_TIME, CB_SETCURSEL, n, 0);
+					SendDlgItemMessage(hwndDlg, IDC_TIME, CB_SETCURSEL, n, 0);
 				else
-					SetDlgItemText(Dialog, IDC_TIME, s);
+					SetDlgItemText(hwndDlg, IDC_TIME, s);
 
-				SetDlgItemText(Dialog, IDC_REMINDER, pEditReminder->Reminder);
+				SetDlgItemTextA(hwndDlg, IDC_REMINDER, pEditReminder->Reminder);
 			}
-			else {
-				SendDlgItemMessage(Dialog, IDC_TIME, CB_SETCURSEL, 0, 0);
-			}
+			else SendDlgItemMessage(hwndDlg, IDC_TIME, CB_SETCURSEL, 0, 0);
 
 			// populate sound repeat combo
-			{
-				char s[64];
-				LPCSTR lpszEvery = Translate("Every");
-				LPCSTR lpszSeconds = Translate("Seconds");
+			wchar_t *lpszEvery = TranslateT("Every");
+			wchar_t *lpszSeconds = TranslateT("Seconds");
 
-				// NOTE: use multiples of REMINDER_UPDATE_INTERVAL_SHORT (currently 5 seconds)
+			// NOTE: use multiples of REMINDER_UPDATE_INTERVAL_SHORT (currently 5 seconds)
+			int n = SendDlgItemMessage(hwndDlg, IDC_COMBO_REPEATSND, CB_ADDSTRING, 0, (LPARAM)TranslateT("Never"));
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_REPEATSND, CB_SETITEMDATA, n, 0);
 
-				int n = SendDlgItemMessage(Dialog, IDC_COMBO_REPEATSND, CB_ADDSTRING, 0, (LPARAM)Translate("Never"));
-				SendDlgItemMessage(Dialog, IDC_COMBO_REPEATSND, CB_SETITEMDATA, n, 0);
+			mir_snwprintf(s, L"%s 5 %s", lpszEvery, lpszSeconds);
+			n = SendDlgItemMessage(hwndDlg, IDC_COMBO_REPEATSND, CB_ADDSTRING, 0, (LPARAM)s);
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_REPEATSND, CB_SETITEMDATA, n, (LPARAM)5);
 
-				mir_snprintf(s, "%s 5 %s", lpszEvery, lpszSeconds);
-				n = SendDlgItemMessage(Dialog, IDC_COMBO_REPEATSND, CB_ADDSTRING, 0, (LPARAM)s);
-				SendDlgItemMessage(Dialog, IDC_COMBO_REPEATSND, CB_SETITEMDATA, n, (LPARAM)5);
+			mir_snwprintf(s, L"%s 10 %s", lpszEvery, lpszSeconds);
+			n = SendDlgItemMessage(hwndDlg, IDC_COMBO_REPEATSND, CB_ADDSTRING, 0, (LPARAM)s);
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_REPEATSND, CB_SETITEMDATA, n, (LPARAM)10);
 
-				mir_snprintf(s, "%s 10 %s", lpszEvery, lpszSeconds);
-				n = SendDlgItemMessage(Dialog, IDC_COMBO_REPEATSND, CB_ADDSTRING, 0, (LPARAM)s);
-				SendDlgItemMessage(Dialog, IDC_COMBO_REPEATSND, CB_SETITEMDATA, n, (LPARAM)10);
+			mir_snwprintf(s, L"%s 15 %s", lpszEvery, lpszSeconds);
+			n = SendDlgItemMessage(hwndDlg, IDC_COMBO_REPEATSND, CB_ADDSTRING, 0, (LPARAM)s);
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_REPEATSND, CB_SETITEMDATA, n, (LPARAM)15);
 
-				mir_snprintf(s, "%s 15 %s", lpszEvery, lpszSeconds);
-				n = SendDlgItemMessage(Dialog, IDC_COMBO_REPEATSND, CB_ADDSTRING, 0, (LPARAM)s);
-				SendDlgItemMessage(Dialog, IDC_COMBO_REPEATSND, CB_SETITEMDATA, n, (LPARAM)15);
+			mir_snwprintf(s, L"%s 20 %s", lpszEvery, lpszSeconds);
+			n = SendDlgItemMessage(hwndDlg, IDC_COMBO_REPEATSND, CB_ADDSTRING, 0, (LPARAM)s);
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_REPEATSND, CB_SETITEMDATA, n, (LPARAM)20);
 
-				mir_snprintf(s, "%s 20 %s", lpszEvery, lpszSeconds);
-				n = SendDlgItemMessage(Dialog, IDC_COMBO_REPEATSND, CB_ADDSTRING, 0, (LPARAM)s);
-				SendDlgItemMessage(Dialog, IDC_COMBO_REPEATSND, CB_SETITEMDATA, n, (LPARAM)20);
+			mir_snwprintf(s, L"%s 30 %s", lpszEvery, lpszSeconds);
+			n = SendDlgItemMessage(hwndDlg, IDC_COMBO_REPEATSND, CB_ADDSTRING, 0, (LPARAM)s);
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_REPEATSND, CB_SETITEMDATA, n, (LPARAM)30);
 
-				mir_snprintf(s, "%s 30 %s", lpszEvery, lpszSeconds);
-				n = SendDlgItemMessage(Dialog, IDC_COMBO_REPEATSND, CB_ADDSTRING, 0, (LPARAM)s);
-				SendDlgItemMessage(Dialog, IDC_COMBO_REPEATSND, CB_SETITEMDATA, n, (LPARAM)30);
+			mir_snwprintf(s, L"%s 60 %s", lpszEvery, lpszSeconds);
+			n = SendDlgItemMessage(hwndDlg, IDC_COMBO_REPEATSND, CB_ADDSTRING, 0, (LPARAM)s);
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_REPEATSND, CB_SETITEMDATA, n, (LPARAM)60);
 
-				mir_snprintf(s, "%s 60 %s", lpszEvery, lpszSeconds);
-				n = SendDlgItemMessage(Dialog, IDC_COMBO_REPEATSND, CB_ADDSTRING, 0, (LPARAM)s);
-				SendDlgItemMessage(Dialog, IDC_COMBO_REPEATSND, CB_SETITEMDATA, n, (LPARAM)60);
-
-				if (NewReminderVisible == 2 && pEditReminder->RepeatSound) {
-					mir_snprintf(s, "%s %d %s", lpszEvery, pEditReminder->RepeatSound, lpszSeconds);
-					SetDlgItemText(Dialog, IDC_COMBO_REPEATSND, s);
-					SendDlgItemMessage(Dialog, IDC_COMBO_REPEATSND, CB_SETCURSEL, SendDlgItemMessage(Dialog, IDC_COMBO_REPEATSND, CB_FINDSTRINGEXACT, (WPARAM)-1, (LPARAM)s), 0);
-				}
-				else {
-					SendDlgItemMessage(Dialog, IDC_COMBO_REPEATSND, CB_SETCURSEL, 0, 0);
-				}
+			if (NewReminderVisible == 2 && pEditReminder->RepeatSound) {
+				mir_snwprintf(s, L"%s %d %s", lpszEvery, pEditReminder->RepeatSound, lpszSeconds);
+				SetDlgItemText(hwndDlg, IDC_COMBO_REPEATSND, s);
+				SendDlgItemMessage(hwndDlg, IDC_COMBO_REPEATSND, CB_SETCURSEL, SendDlgItemMessage(hwndDlg, IDC_COMBO_REPEATSND, CB_FINDSTRINGEXACT, (WPARAM)-1, (LPARAM)s), 0);
 			}
+			else SendDlgItemMessage(hwndDlg, IDC_COMBO_REPEATSND, CB_SETCURSEL, 0, 0);
 
 			// populate sound selection combo
-			{
-				int n = SendDlgItemMessage(Dialog, IDC_COMBO_SOUND, CB_ADDSTRING, 0, (LPARAM)Translate("Default"));
-				SendDlgItemMessage(Dialog, IDC_COMBO_SOUND, CB_SETITEMDATA, n, 0);
-				n = SendDlgItemMessage(Dialog, IDC_COMBO_SOUND, CB_ADDSTRING, 0, (LPARAM)Translate("Alternative 1"));
-				SendDlgItemMessage(Dialog, IDC_COMBO_SOUND, CB_SETITEMDATA, n, 1);
-				n = SendDlgItemMessage(Dialog, IDC_COMBO_SOUND, CB_ADDSTRING, 0, (LPARAM)Translate("Alternative 2"));
-				SendDlgItemMessage(Dialog, IDC_COMBO_SOUND, CB_SETITEMDATA, n, (LPARAM)2);
-				n = SendDlgItemMessage(Dialog, IDC_COMBO_SOUND, CB_ADDSTRING, 0, (LPARAM)Translate("None"));
-				SendDlgItemMessage(Dialog, IDC_COMBO_SOUND, CB_SETITEMDATA, n, (LPARAM)-1);
-
-				if (NewReminderVisible == 2 && pEditReminder->SoundSel) {
-					const UINT n2 = pEditReminder->SoundSel < 0 ? 3 : pEditReminder->SoundSel;
-					SendDlgItemMessage(Dialog, IDC_COMBO_SOUND, CB_SETCURSEL, n2, 0);
-				}
-				else {
-					SendDlgItemMessage(Dialog, IDC_COMBO_SOUND, CB_SETCURSEL, 0, 0);
-				}
-			}
-
-			hIcon = IcoLib_GetIconByHandle(iconList[12].hIcolib);
-			SendDlgItemMessage(Dialog, IDC_BTN_PLAYSOUND, BM_SETIMAGE, (WPARAM)IMAGE_ICON, (LPARAM)hIcon);
+			n = SendDlgItemMessage(hwndDlg, IDC_COMBO_SOUND, CB_ADDSTRING, 0, (LPARAM)TranslateT("Default"));
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_SOUND, CB_SETITEMDATA, n, 0);
+			n = SendDlgItemMessage(hwndDlg, IDC_COMBO_SOUND, CB_ADDSTRING, 0, (LPARAM)TranslateT("Alternative 1"));
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_SOUND, CB_SETITEMDATA, n, 1);
+			n = SendDlgItemMessage(hwndDlg, IDC_COMBO_SOUND, CB_ADDSTRING, 0, (LPARAM)TranslateT("Alternative 2"));
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_SOUND, CB_SETITEMDATA, n, (LPARAM)2);
+			n = SendDlgItemMessage(hwndDlg, IDC_COMBO_SOUND, CB_ADDSTRING, 0, (LPARAM)TranslateT("None"));
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_SOUND, CB_SETITEMDATA, n, (LPARAM)-1);
 
 			if (NewReminderVisible == 2 && pEditReminder->SoundSel) {
-				EnableWindow(GetDlgItem(Dialog, IDC_BTN_PLAYSOUND), pEditReminder->SoundSel >= 0);
-				EnableWindow(GetDlgItem(Dialog, IDC_COMBO_REPEATSND), pEditReminder->SoundSel >= 0);
+				const UINT n2 = pEditReminder->SoundSel < 0 ? 3 : pEditReminder->SoundSel;
+				SendDlgItemMessage(hwndDlg, IDC_COMBO_SOUND, CB_SETCURSEL, n2, 0);
+			}
+			else SendDlgItemMessage(hwndDlg, IDC_COMBO_SOUND, CB_SETCURSEL, 0, 0);
+
+			hIcon = IcoLib_GetIconByHandle(iconList[12].hIcolib);
+			SendDlgItemMessage(hwndDlg, IDC_BTN_PLAYSOUND, BM_SETIMAGE, (WPARAM)IMAGE_ICON, (LPARAM)hIcon);
+
+			if (NewReminderVisible == 2 && pEditReminder->SoundSel) {
+				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_PLAYSOUND), pEditReminder->SoundSel >= 0);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_COMBO_REPEATSND), pEditReminder->SoundSel >= 0);
 			}
 
 			if (NewReminderVisible == 2)
-				SetFocus(GetDlgItem(Dialog, IDC_ADDREMINDER));
+				SetFocus(GetDlgItem(hwndDlg, IDC_ADDREMINDER));
 			else
-				SetFocus(GetDlgItem(Dialog, IDC_REMINDER));
-
-			return FALSE;
+				SetFocus(GetDlgItem(hwndDlg, IDC_REMINDER));
 		}
+		return FALSE;
 
 	case WM_NCDESTROY:
-		RemoveProp(GetDlgItem(Dialog, IDC_DATE), TEXT("OldWndProc"));
+		RemoveProp(GetDlgItem(hwndDlg, IDC_DATE), TEXT("OldWndProc"));
 		return TRUE;
 
 	case WM_CLOSE:
-		if (NewReminderVisible == 2) {
+		if (NewReminderVisible == 2)
 			pEditReminder->RemVisible = FALSE;
-		}
-		DestroyWindow(Dialog);
+
+		DestroyWindow(hwndDlg);
 		NewReminderVisible = FALSE;
 		pEditReminder = nullptr;
 		return TRUE;
@@ -1772,150 +1609,140 @@ static INT_PTR CALLBACK DlgProcNewReminder(HWND Dialog, UINT Message, WPARAM wPa
 	case WM_NOTIFY:
 		if (wParam == IDC_DATE) {
 			LPNMLISTVIEW NM = (LPNMLISTVIEW)lParam;
-
 			switch (NM->hdr.code) {
 			case DTN_DATETIMECHANGE:
-				OnDateChanged(Dialog, IDC_DATE, IDC_TIME, IDC_REFTIME);
+				OnDateChanged(hwndDlg, IDC_DATE, IDC_TIME, IDC_REFTIME);
 				break;
 			}
 		}
 		break;
 
 	case WM_COMMAND:
-		{
-			switch (LOWORD(wParam)) {
-			case IDC_TIME:
-				switch (HIWORD(wParam)) {
-				case CBN_KILLFOCUS:
-					// reformat displayed value
-					if (SendDlgItemMessage(Dialog, IDC_TIME, CB_GETCURSEL, 0, 0) == CB_ERR) {
-						char buf[64];
-						int h, m;
-						GetDlgItemText(Dialog, IDC_TIME, buf, 30);
+		switch (LOWORD(wParam)) {
+		case IDC_TIME:
+			switch (HIWORD(wParam)) {
+			case CBN_KILLFOCUS:
+				// reformat displayed value
+				if (SendDlgItemMessage(hwndDlg, IDC_TIME, CB_GETCURSEL, 0, 0) == CB_ERR) {
+					wchar_t buf[64];
+					GetDlgItemText(hwndDlg, IDC_TIME, buf, 30);
 
-						if (ParseTime(buf, &h, &m, FALSE, IsRelativeCombo(Dialog, IDC_TIME))) {
-							SYSTEMTIME Date;
-							SendDlgItemMessage(Dialog, IDC_DATE, DTM_GETSYSTEMTIME, 0, (LPARAM)&Date);
-							ReformatTimeInput(Dialog, IDC_TIME, IDC_REFTIME, h, m, &Date);
-						}
-						else {
-							SendDlgItemMessage(Dialog, IDC_TIME, CB_SETCURSEL, 0, 0);
-						}
+					int h, m;
+					if (ParseTime(buf, &h, &m, FALSE, IsRelativeCombo(hwndDlg, IDC_TIME))) {
+						SYSTEMTIME Date;
+						SendDlgItemMessage(hwndDlg, IDC_DATE, DTM_GETSYSTEMTIME, 0, (LPARAM)&Date);
+						ReformatTimeInput(hwndDlg, IDC_TIME, IDC_REFTIME, h, m, &Date);
 					}
-					break;
+					else SendDlgItemMessage(hwndDlg, IDC_TIME, CB_SETCURSEL, 0, 0);
 				}
 				break;
+			}
+			break;
 
-			case IDC_COMBO_SOUND:
-				switch (HIWORD(wParam)) {
-				case CBN_SELENDOK:
-					{
-						int n = SendDlgItemMessage(Dialog, IDC_COMBO_SOUND, CB_GETCURSEL, 0, 0);
-						n = (int)SendDlgItemMessage(Dialog, IDC_COMBO_SOUND, CB_GETITEMDATA, n, 0);
+		case IDC_COMBO_SOUND:
+			switch (HIWORD(wParam)) {
+			case CBN_SELENDOK:
+				{
+					int n = SendDlgItemMessage(hwndDlg, IDC_COMBO_SOUND, CB_GETCURSEL, 0, 0);
+					n = (int)SendDlgItemMessage(hwndDlg, IDC_COMBO_SOUND, CB_GETITEMDATA, n, 0);
 
-						EnableWindow(GetDlgItem(Dialog, IDC_BTN_PLAYSOUND), n >= 0);
-						EnableWindow(GetDlgItem(Dialog, IDC_COMBO_REPEATSND), n >= 0);
-					}
-					break;
+					EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_PLAYSOUND), n >= 0);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_COMBO_REPEATSND), n >= 0);
 				}
 				break;
+			}
+			break;
 
-			case IDC_BTN_PLAYSOUND:
-				{
-					int n = SendDlgItemMessage(Dialog, IDC_COMBO_SOUND, CB_GETCURSEL, 0, 0);
-					n = (int)SendDlgItemMessage(Dialog, IDC_COMBO_SOUND, CB_GETITEMDATA, n, 0);
-					switch (n) {
-					case 0: Skin_PlaySound("AlertReminder"); break;
-					case 1: Skin_PlaySound("AlertReminder2"); break;
-					case 2: Skin_PlaySound("AlertReminder3"); break;
-					}
+		case IDC_BTN_PLAYSOUND:
+			{
+				int n = SendDlgItemMessage(hwndDlg, IDC_COMBO_SOUND, CB_GETCURSEL, 0, 0);
+				n = (int)SendDlgItemMessage(hwndDlg, IDC_COMBO_SOUND, CB_GETITEMDATA, n, 0);
+				switch (n) {
+				case 0: Skin_PlaySound("AlertReminder"); break;
+				case 1: Skin_PlaySound("AlertReminder2"); break;
+				case 2: Skin_PlaySound("AlertReminder3"); break;
 				}
-				return TRUE;
+			}
+			return TRUE;
 
-			case IDC_CLOSE:
-				if (NewReminderVisible == 2) {
-					pEditReminder->RemVisible = FALSE;
+		case IDC_CLOSE:
+			if (NewReminderVisible == 2)
+				pEditReminder->RemVisible = FALSE;
+
+			DestroyWindow(hwndDlg);
+			NewReminderVisible = FALSE;
+			pEditReminder = nullptr;
+			return TRUE;
+
+		case IDC_VIEWREMINDERS:
+			PluginMenuCommandViewReminders(0, 0);
+			return TRUE;
+
+		case IDC_ADDREMINDER:
+			SYSTEMTIME Date;
+			SendDlgItemMessage(hwndDlg, IDC_DATE, DTM_GETSYSTEMTIME, 0, (LPARAM)&Date);
+			if (GetTriggerTime(hwndDlg, IDC_TIME, IDC_REFTIME, &Date)) {
+				int RepeatSound = SendDlgItemMessage(hwndDlg, IDC_COMBO_REPEATSND, CB_GETCURSEL, 0, 0);
+				if (RepeatSound != CB_ERR)
+					RepeatSound = SendDlgItemMessage(hwndDlg, IDC_COMBO_REPEATSND, CB_GETITEMDATA, (WPARAM)RepeatSound, 0);
+				else
+					RepeatSound = 0;
+
+				int SzT = SendDlgItemMessage(hwndDlg, IDC_REMINDER, WM_GETTEXTLENGTH, 0, 0);
+				char *ReminderText = nullptr;
+				if (SzT) {
+					if (SzT > MAX_REMINDER_LEN) SzT = MAX_REMINDER_LEN;
+					ReminderText = (char*)malloc(SzT + 1);
+					GetDlgItemTextA(hwndDlg, IDC_REMINDER, ReminderText, SzT + 1);
 				}
-				DestroyWindow(Dialog);
-				NewReminderVisible = FALSE;
-				pEditReminder = nullptr;
-				return TRUE;
 
-			case IDC_VIEWREMINDERS:
-				ListReminders();
-				return TRUE;
+				if (NewReminderVisible != 2) {
+					// new reminder
+					REMINDERDATA *TempRem = (REMINDERDATA*)malloc(sizeof(REMINDERDATA));
+					TempRem->uid = CreateUid();
+					SystemTimeToFileTime(&Date, (FILETIME*)&TempRem->When);
+					TempRem->Reminder = ReminderText;
+					TempRem->RemVisible = false;
+					TempRem->SystemEventQueued = 0;
+					TempRem->RepeatSoundTTL = 0;
+					TempRem->SoundSel = (int)SendDlgItemMessage(hwndDlg, IDC_COMBO_SOUND, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_COMBO_SOUND, CB_GETCURSEL, 0, 0), 0);
+					TempRem->RepeatSound = TempRem->SoundSel < 0 ? 0 : (UINT)RepeatSound;
+					arReminders.insert(TempRem);
+				}
+				else {
+					// update existing reminder
+					SystemTimeToFileTime(&Date, (FILETIME*)&pEditReminder->When);
+					if (pEditReminder->Reminder)
+						free(pEditReminder->Reminder);
+					pEditReminder->Reminder = ReminderText;
+					pEditReminder->SoundSel = (int)SendDlgItemMessage(hwndDlg, IDC_COMBO_SOUND, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_COMBO_SOUND, CB_GETCURSEL, 0, 0), 0);
+					pEditReminder->RepeatSound = pEditReminder->SoundSel < 0 ? 0 : (UINT)RepeatSound;
 
-			case IDC_ADDREMINDER:
-				{
-					SYSTEMTIME Date;
+					// re-insert tree item sorted
+					arReminders.remove(pEditReminder);
+					arReminders.insert(pEditReminder);
 
-					SendDlgItemMessage(Dialog, IDC_DATE, DTM_GETSYSTEMTIME, 0, (LPARAM)&Date);
+					pEditReminder->RemVisible = false;
+				}
+				SetDlgItemTextA(hwndDlg, IDC_REMINDER, "");
+				JustSaveReminders();
+				NOTIFY_LIST();
 
-					if (!GetTriggerTime(Dialog, IDC_TIME, IDC_REFTIME, &Date))
-						break;
-
-					int RepeatSound = SendDlgItemMessage(Dialog, IDC_COMBO_REPEATSND, CB_GETCURSEL, 0, 0);
-					if (RepeatSound != CB_ERR)
-						RepeatSound = SendDlgItemMessage(Dialog, IDC_COMBO_REPEATSND, CB_GETITEMDATA, (WPARAM)RepeatSound, 0);
-					else
-						RepeatSound = 0;
-
-					int SzT = SendDlgItemMessage(Dialog, IDC_REMINDER, WM_GETTEXTLENGTH, 0, 0);
-					char *ReminderText = nullptr;
-					if (SzT) {
-						if (SzT > MAX_REMINDER_LEN) SzT = MAX_REMINDER_LEN;
-						ReminderText = (char*)malloc(SzT + 1);
-						GetDlgItemText(Dialog, IDC_REMINDER, ReminderText, SzT + 1);
-					}
-
-					if (NewReminderVisible != 2) {
-						// new reminder
-						REMINDERDATA *TempRem = (REMINDERDATA*)malloc(sizeof(REMINDERDATA));
-						TempRem->uid = CreateUid();
-						SYSTEMTIMEtoFILETIME(&Date, (FILETIME*)&TempRem->When);
-						TempRem->Reminder = ReminderText;
-						TempRem->RemVisible = FALSE;
-						TempRem->SystemEventQueued = 0;
-						TempRem->RepeatSoundTTL = 0;
-						TempRem->SoundSel = (int)SendDlgItemMessage(Dialog, IDC_COMBO_SOUND, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(Dialog, IDC_COMBO_SOUND, CB_GETCURSEL, 0, 0), 0);
-						TempRem->RepeatSound = TempRem->SoundSel < 0 ? 0 : (UINT)RepeatSound;
-						TreeAddSorted(&RemindersList, TempRem, ReminderSortCb);
-					}
-					else {
-						// update existing reminder
-
-						SYSTEMTIMEtoFILETIME(&Date, (FILETIME*)&pEditReminder->When);
-						if (pEditReminder->Reminder)
-							free(pEditReminder->Reminder);
-						pEditReminder->Reminder = ReminderText;
-						pEditReminder->SoundSel = (int)SendDlgItemMessage(Dialog, IDC_COMBO_SOUND, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(Dialog, IDC_COMBO_SOUND, CB_GETCURSEL, 0, 0), 0);
-						pEditReminder->RepeatSound = pEditReminder->SoundSel < 0 ? 0 : (UINT)RepeatSound;
-
-						// re-insert tree item sorted
-						TreeDelete(&RemindersList, pEditReminder);
-						TreeAddSorted(&RemindersList, pEditReminder, ReminderSortCb);
-
-						pEditReminder->RemVisible = FALSE;
-					}
-					SetDlgItemText(Dialog, IDC_REMINDER, "");
-					JustSaveReminders();
-					NOTIFY_LIST();
-
-					if (g_CloseAfterAddReminder || NewReminderVisible == 2) {
-						DestroyWindow(Dialog);
-						NewReminderVisible = FALSE;
-						pEditReminder = nullptr;
-					}
+				if (g_plugin.bCloseAfterAddReminder || NewReminderVisible == 2) {
+					DestroyWindow(hwndDlg);
+					NewReminderVisible = false;
+					pEditReminder = nullptr;
 				}
 			}
 		}
+		break;
+
 	case WM_DESTROY:
 		IcoLib_ReleaseIcon(hIcon);
 		break;
 	}
 	return FALSE;
 }
-
 
 INT_PTR OpenTriggeredReminder(WPARAM, LPARAM l)
 {
@@ -1932,33 +1759,22 @@ INT_PTR OpenTriggeredReminder(WPARAM, LPARAM l)
 	if (QueuedReminderCount)
 		QueuedReminderCount--;
 
-	{
-		char S1[128], S2[MAX_PATH];
-		GetTriggerTimeString(&pReminder->When, S1, sizeof(S1), TRUE);
+	wchar_t S1[128], S2[MAX_PATH];
+	GetTriggerTimeString(&pReminder->When, S1, sizeof(S1), TRUE);
 
-		pReminder->RemVisible = TRUE;
+	pReminder->RemVisible = TRUE;
 
-		HWND H = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_NOTIFYREMINDER), nullptr, DlgProcNotifyReminder);
-		pReminder->handle = H;
+	HWND H = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_NOTIFYREMINDER), nullptr, DlgProcNotifyReminder);
+	pReminder->handle = H;
 
-		mir_snprintf(S2, "%s! - %s", Translate("Reminder"), S1);
-		SetWindowText(H, S2);
+	mir_snwprintf(S2, L"%s! - %s", TranslateT("Reminder"), S1);
+	SetWindowText(H, S2);
 
-		if (pReminder->Reminder)
-			SetDlgItemText(H, IDC_REMDATA, pReminder->Reminder);
+	if (pReminder->Reminder)
+		SetDlgItemTextA(H, IDC_REMDATA, pReminder->Reminder);
 
-		BringWindowToTop(H);
-	}
-
+	BringWindowToTop(H);
 	return 0;
-}
-
-void NewReminder(void)
-{
-	if (!NewReminderVisible) {
-		NewReminderVisible = TRUE;
-		CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ADDREMINDER), nullptr, DlgProcNewReminder);
-	}
 }
 
 void EditReminder(REMINDERDATA *p)
@@ -1981,52 +1797,50 @@ void EditReminder(REMINDERDATA *p)
 
 static void InitListView(HWND AHLV)
 {
-	int I = 0;
-	char S1[128];
-
 	ListView_SetHoverTime(AHLV, 700);
 	ListView_SetExtendedListViewStyle(AHLV, LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_TRACKSELECT);
 	ListView_DeleteAllItems(AHLV);
 
-	for (TREEELEMENT *TTE = RemindersList; TTE; TTE = (TREEELEMENT*)TTE->next) {
-		REMINDERDATA *pReminder = (REMINDERDATA*)TTE->ptrdata;
-
+	int i = 0;
+	for (auto &pReminder : arReminders) {
 		LV_ITEM lvTIt;
 		lvTIt.mask = LVIF_TEXT;
 
-		GetTriggerTimeString(&pReminder->When, S1, sizeof(S1), TRUE);
+		wchar_t S1[128];
+		GetTriggerTimeString(&pReminder->When, S1, _countof(S1), TRUE);
 
-		lvTIt.iItem = I;
+		lvTIt.iItem = i;
 		lvTIt.iSubItem = 0;
 		lvTIt.pszText = S1;
 		ListView_InsertItem(AHLV, &lvTIt);
 		lvTIt.mask = LVIF_TEXT;
-		char *S2 = GetPreviewString(pReminder->Reminder);
-		lvTIt.iItem = I;
+
+		wchar_t *S2 = GetPreviewString(pReminder->Reminder);
+		lvTIt.iItem = i;
 		lvTIt.iSubItem = 1;
 		lvTIt.pszText = S2;
 		ListView_SetItem(AHLV, &lvTIt);
 
-		I++;
+		i++;
 	}
 
 	ListView_SetItemState(AHLV, 0, LVIS_SELECTED, LVIS_SELECTED);
 }
 
-void OnListResize(HWND Dialog)
+void OnListResize(HWND hwndDlg)
 {
 	HWND hList, hText, hBtnNew, hBtnClose;
 	RECT lr, cr, tr, clsr;
 	int th, btnh, btnw, MARGIN;
-	POINT org = { 0 };
+	POINT org = {0};
 
-	hList = GetDlgItem(Dialog, IDC_LISTREMINDERS);
-	hText = GetDlgItem(Dialog, IDC_REMINDERDATA);
-	hBtnNew = GetDlgItem(Dialog, IDC_ADDNEWREMINDER);
-	hBtnClose = GetDlgItem(Dialog, IDC_CLOSE);
+	hList = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
+	hText = GetDlgItem(hwndDlg, IDC_REMINDERDATA);
+	hBtnNew = GetDlgItem(hwndDlg, IDC_ADDNEWREMINDER);
+	hBtnClose = GetDlgItem(hwndDlg, IDC_CLOSE);
 
-	ClientToScreen(Dialog, &org);
-	GetClientRect(Dialog, &cr);
+	ClientToScreen(hwndDlg, &org);
+	GetClientRect(hwndDlg, &cr);
 
 	GetWindowRect(hList, &lr); OffsetRect(&lr, -org.x, -org.y);
 	GetWindowRect(hText, &tr); OffsetRect(&tr, -org.x, -org.y);
@@ -2056,17 +1870,17 @@ void OnListResize(HWND Dialog)
 	clsr.left -= btnw + 2;
 	MoveWindow(hBtnNew, clsr.left, clsr.top, btnw, btnh, FALSE);
 
-	RedrawWindow(Dialog, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ERASE);
-	//UpdateWindow(Dialog);
+	RedrawWindow(hwndDlg, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ERASE);
+	//UpdateWindow(hwndDlg);
 }
 
-void UpdateGeomFromWnd(HWND Dialog, int *geom, int *colgeom, int nCols)
+void UpdateGeomFromWnd(HWND hwndDlg, int *geom, int *colgeom, int nCols)
 {
 	if (geom) {
 		WINDOWPLACEMENT wp;
 		wp.length = sizeof(WINDOWPLACEMENT);
 
-		GetWindowPlacement(Dialog, &wp);
+		GetWindowPlacement(hwndDlg, &wp);
 
 		geom[0] = wp.rcNormalPosition.left;
 		geom[1] = wp.rcNormalPosition.top;
@@ -2075,7 +1889,7 @@ void UpdateGeomFromWnd(HWND Dialog, int *geom, int *colgeom, int nCols)
 	}
 
 	if (colgeom) {
-		HWND H = GetDlgItem(Dialog, IDC_LISTREMINDERS);
+		HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
 
 		for (int i = 0; i < nCols; i++) {
 			colgeom[i] = ListView_GetColumnWidth(H, i);
@@ -2087,10 +1901,10 @@ static BOOL DoListContextMenu(HWND AhWnd, WPARAM wParam, LPARAM lParam, REMINDER
 {
 	HWND hwndListView = (HWND)wParam;
 	if (hwndListView != GetDlgItem(AhWnd, IDC_LISTREMINDERS)) return FALSE;
-	HMENU hMenuLoad = LoadMenu(g_plugin.getInst(), "MNU_REMINDERPOPUP");
+	HMENU hMenuLoad = LoadMenuA(g_plugin.getInst(), "MNU_REMINDERPOPUP");
 	HMENU FhMenu = GetSubMenu(hMenuLoad, 0);
 
-	MENUITEMINFO mii = { 0 };
+	MENUITEMINFO mii = {0};
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_STATE;
 	mii.fState = MFS_DEFAULT;
@@ -2107,18 +1921,18 @@ static BOOL DoListContextMenu(HWND AhWnd, WPARAM wParam, LPARAM lParam, REMINDER
 	return TRUE;
 }
 
-static INT_PTR CALLBACK DlgProcViewReminders(HWND Dialog, UINT Message, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcViewReminders(HWND hwndDlg, UINT Message, WPARAM wParam, LPARAM lParam)
 {
 	LV_COLUMN lvCol;
 
 	switch (Message) {
 	case WM_SIZE:
-		OnListResize(Dialog);
-		UpdateGeomFromWnd(Dialog, g_reminderListGeom, nullptr, 0);
+		OnListResize(hwndDlg);
+		UpdateGeomFromWnd(hwndDlg, g_reminderListGeom, nullptr, 0);
 		break;
 
 	case WM_MOVE:
-		UpdateGeomFromWnd(Dialog, g_reminderListGeom, nullptr, 0);
+		UpdateGeomFromWnd(hwndDlg, g_reminderListGeom, nullptr, 0);
 		break;
 
 	case WM_GETMINMAXINFO:
@@ -2130,63 +1944,63 @@ static INT_PTR CALLBACK DlgProcViewReminders(HWND Dialog, UINT Message, WPARAM w
 		return 0;
 
 	case WM_RELOAD:
-		SetDlgItemText(Dialog, IDC_REMINDERDATA, "");
-		InitListView(GetDlgItem(Dialog, IDC_LISTREMINDERS));
+		SetDlgItemTextA(hwndDlg, IDC_REMINDERDATA, "");
+		InitListView(GetDlgItem(hwndDlg, IDC_LISTREMINDERS));
 		return TRUE;
 
 	case WM_CONTEXTMENU:
 		{
 			REMINDERDATA *pReminder = nullptr;
 
-			HWND H = GetDlgItem(Dialog, IDC_LISTREMINDERS);
+			HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
 			if (ListView_GetSelectedCount(H)) {
-				int I = ListView_GetSelectionMark(H);
-				if (I != -1) {
-					pReminder = (REMINDERDATA*)TreeGetAt(RemindersList, I);
-				}
+				int i = ListView_GetSelectionMark(H);
+				if (i != -1)
+					pReminder = arReminders[i];
 			}
 
-			if (DoListContextMenu(Dialog, wParam, lParam, pReminder))
+			if (DoListContextMenu(hwndDlg, wParam, lParam, pReminder))
 				return TRUE;
 		}
 		break;
 
 	case WM_INITDIALOG:
-		Window_SetIcon_IcoLib(Dialog, iconList[6].hIcolib);
+		Window_SetIcon_IcoLib(hwndDlg, iconList[6].hIcolib);
 
-		TranslateDialogDefault(Dialog);
-		SetDlgItemText(Dialog, IDC_REMINDERDATA, "");
+		TranslateDialogDefault(hwndDlg);
+		SetDlgItemTextA(hwndDlg, IDC_REMINDERDATA, "");
 		{
-			HWND H = GetDlgItem(Dialog, IDC_LISTREMINDERS);
+			HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
-			char *S2 = Translate("Reminder text");
-			lvCol.pszText = S2;
+			lvCol.pszText = TranslateT("Reminder text");
 			lvCol.cx = g_reminderListColGeom[1];
 			ListView_InsertColumn(H, 0, &lvCol);
+
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
-			S2 = Translate("Date of activation");
-			lvCol.pszText = S2;
+			lvCol.pszText = TranslateT("Date of activation");
 			lvCol.cx = g_reminderListColGeom[0];
 			ListView_InsertColumn(H, 0, &lvCol);
+
 			InitListView(H);
+
 			SetWindowLongPtr(GetDlgItem(H, 0), GWL_ID, IDC_LISTREMINDERS_HEADER);
-			LV = Dialog;
+			LV = hwndDlg;
 
 			if (g_reminderListGeom[1] && g_reminderListGeom[2]) {
 				WINDOWPLACEMENT wp;
 				wp.length = sizeof(WINDOWPLACEMENT);
-				GetWindowPlacement(Dialog, &wp);
+				GetWindowPlacement(hwndDlg, &wp);
 				wp.rcNormalPosition.left = g_reminderListGeom[0];
 				wp.rcNormalPosition.top = g_reminderListGeom[1];
 				wp.rcNormalPosition.right = g_reminderListGeom[2] + g_reminderListGeom[0];
 				wp.rcNormalPosition.bottom = g_reminderListGeom[3] + g_reminderListGeom[1];
-				SetWindowPlacement(Dialog, &wp);
+				SetWindowPlacement(hwndDlg, &wp);
 			}
 		}
 		return TRUE;
 
 	case WM_CLOSE:
-		DestroyWindow(Dialog);
+		DestroyWindow(hwndDlg);
 		ListReminderVisible = FALSE;
 		return TRUE;
 
@@ -2197,18 +2011,17 @@ static INT_PTR CALLBACK DlgProcViewReminders(HWND Dialog, UINT Message, WPARAM w
 				switch (NM->hdr.code) {
 				case LVN_ITEMCHANGED:
 					{
-						char *S2 = ((REMINDERDATA*)TreeGetAt(RemindersList, NM->iItem))->Reminder;
-						SetDlgItemText(Dialog, IDC_REMINDERDATA, S2);
+						char *S2 = arReminders[NM->iItem]->Reminder;
+						SetDlgItemTextA(hwndDlg, IDC_REMINDERDATA, S2);
 					}
 					break;
 				case NM_DBLCLK:
 					{
-						HWND H = GetDlgItem(Dialog, IDC_LISTREMINDERS);
+						HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
 						if (ListView_GetSelectedCount(H)) {
-							int I = ListView_GetSelectionMark(H);
-							if (I != -1) {
-								EditReminder((REMINDERDATA*)TreeGetAt(RemindersList, I));
-							}
+							int i = ListView_GetSelectionMark(H);
+							if (i != -1)
+								EditReminder(arReminders[i]);
 						}
 					}
 					break;
@@ -2218,147 +2031,93 @@ static INT_PTR CALLBACK DlgProcViewReminders(HWND Dialog, UINT Message, WPARAM w
 				LPNMHEADER NM = (LPNMHEADER)lParam;
 				switch (NM->hdr.code) {
 				case HDN_ENDTRACK:
-					UpdateGeomFromWnd(Dialog, nullptr, g_reminderListColGeom, _countof(g_reminderListColGeom));
+					UpdateGeomFromWnd(hwndDlg, nullptr, g_reminderListColGeom, _countof(g_reminderListColGeom));
 					break;
 				}
 			}
 		}
 		break;
+
 	case WM_COMMAND:
-		{
-			switch (LOWORD(wParam)) {
-			case ID_CONTEXTMENUREMINDERLISTVIEW_EDIT:
-				{
-					HWND H = GetDlgItem(Dialog, IDC_LISTREMINDERS);
-					if (ListView_GetSelectedCount(H)) {
-						int I = ListView_GetSelectionMark(H);
-						if (I != -1) {
-							EditReminder((REMINDERDATA*)TreeGetAt(RemindersList, I));
-						}
-					}
-				}
-				return TRUE;
-
-			case IDC_CLOSE:
-				DestroyWindow(Dialog);
-				ListReminderVisible = FALSE;
-				return TRUE;
-
-			case IDM_NEWREMINDER:
-			case IDC_ADDNEWREMINDER:
-				NewReminder();
-				return TRUE;
-
-			case IDM_DELETEALLREMINDERS:
-				if (RemindersList && MessageBox(Dialog, Translate("Are you sure you want to delete all reminders?"), Translate(SECTIONNAME), MB_OKCANCEL) == IDOK) {
-					SetDlgItemText(Dialog, IDC_REMINDERDATA, "");
-					DeleteReminders();
-					InitListView(GetDlgItem(Dialog, IDC_LISTREMINDERS));
-				}
-				return TRUE;
-
-			case IDM_DELETEREMINDER:
-				{
-					HWND H = GetDlgItem(Dialog, IDC_LISTREMINDERS);
-					if (ListView_GetSelectedCount(H)) {
-						int I = ListView_GetSelectionMark(H);
-						if (I != -1
-							&& MessageBox(Dialog, Translate("Are you sure you want to delete this reminder?"), Translate(SECTIONNAME), MB_OKCANCEL) == IDOK) {
-							SetDlgItemText(Dialog, IDC_REMINDERDATA, "");
-							DeleteReminder((REMINDERDATA*)TreeGetAt(RemindersList, I));
-							JustSaveReminders();
-							InitListView(H);
-						}
-					}
-					return TRUE;
+		switch (LOWORD(wParam)) {
+		case ID_CONTEXTMENUREMINDERLISTVIEW_EDIT:
+			{
+				HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
+				if (ListView_GetSelectedCount(H)) {
+					int i = ListView_GetSelectionMark(H);
+					if (i != -1)
+						EditReminder(arReminders[i]);
 				}
 			}
+			return TRUE;
+
+		case IDC_CLOSE:
+			DestroyWindow(hwndDlg);
+			ListReminderVisible = false;
+			return TRUE;
+
+		case IDM_NEWREMINDER:
+		case IDC_ADDNEWREMINDER:
+			PluginMenuCommandNewReminder(0, 0);
+			return TRUE;
+
+		case IDM_DELETEALLREMINDERS:
+			if (arReminders.getCount() && IDOK == MessageBox(hwndDlg, TranslateT("Are you sure you want to delete all reminders?"), _A2W(SECTIONNAME), MB_OKCANCEL)) {
+				SetDlgItemTextA(hwndDlg, IDC_REMINDERDATA, "");
+				DeleteReminders();
+				InitListView(GetDlgItem(hwndDlg, IDC_LISTREMINDERS));
+			}
+			return TRUE;
+
+		case IDM_DELETEREMINDER:
+			{
+				HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
+				if (ListView_GetSelectedCount(H)) {
+					int i = ListView_GetSelectionMark(H);
+					if (i != -1 && IDOK == MessageBox(hwndDlg, TranslateT("Are you sure you want to delete this reminder?"), _A2W(SECTIONNAME), MB_OKCANCEL)) {
+						SetDlgItemTextA(hwndDlg, IDC_REMINDERDATA, "");
+						DeleteReminder(arReminders[i]);
+						JustSaveReminders();
+						InitListView(H);
+					}
+				}
+				return TRUE;
+			}
 		}
+		break;
+
 	case WM_DESTROY:
-		Window_FreeIcon_IcoLib(Dialog);
+		Window_FreeIcon_IcoLib(hwndDlg);
 		break;
 	}
 	return FALSE;
 }
 
-void ListReminders(void)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+INT_PTR PluginMenuCommandNewReminder(WPARAM, LPARAM)
+{
+	if (!NewReminderVisible) {
+		NewReminderVisible = TRUE;
+		CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ADDREMINDER), nullptr, DlgProcNewReminder);
+	}
+	return 0;
+}
+
+INT_PTR PluginMenuCommandViewReminders(WPARAM, LPARAM)
 {
 	if (!ListReminderVisible) {
 		CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_LISTREMINDERS), nullptr, DlgProcViewReminders);
-		ListReminderVisible = TRUE;
+		ListReminderVisible = true;
 	}
-	else {
-		BringWindowToTop(LV);
-	}
+	else BringWindowToTop(LV);
+	return 0;
 }
 
-
-/////////////////////////////////////////////////////////////////////
-// Email/SMS and WinSock functions
-
-BOOL WS_Init()
+INT_PTR PluginMenuCommandDeleteReminders(WPARAM, LPARAM)
 {
-	WSADATA wsd;
-	if (WSAStartup(MAKEWORD(2, 2), &wsd) != 0) return FALSE;
-	return TRUE;
-}
-
-void WS_CleanUp()
-{
-	WSACleanup();
-}
-
-int WS_Send(SOCKET s, char *data, int datalen)
-{
-	int rlen;
-	if ((rlen = send(s, data, datalen, 0)) == SOCKET_ERROR) return FALSE;
-	return TRUE;
-}
-
-unsigned long WS_ResolveName(char *name, WORD *port, int defaultPort)
-{
-	char *nameCopy = _strdup(name);
-	if (port != nullptr)
-		*port = defaultPort;
-	char *pcolon = strchr(nameCopy, ':');
-	if (pcolon != nullptr) {
-		if (port != nullptr) *port = atoi(pcolon + 1);
-		*pcolon = 0;
-	}
-	if (inet_addr(nameCopy) == INADDR_NONE) {
-		HOSTENT *lk = gethostbyname(nameCopy);
-		if (lk == nullptr)
-			return SOCKET_ERROR;
-		
-		free(nameCopy);
-		return *(u_long*)lk->h_addr_list[0];
-	}
-	DWORD ret = inet_addr(nameCopy);
-	free(nameCopy);
-	return ret;
-}
-
-void Send(char *user, char *host, char *Msg, char *server)
-{
-	SOCKADDR_IN sockaddr;
-	WORD port;
-	char *ch = nullptr;
-	S = socket(AF_INET, SOCK_STREAM, 0);
-	if (!server) server = host;
-	if ((sockaddr.sin_addr.S_un.S_addr = WS_ResolveName(server,
-		&port, 25)) == SOCKET_ERROR) return;
-	sockaddr.sin_port = htons(port);
-	sockaddr.sin_family = AF_INET;
-	if (connect(S, (SOCKADDR*)&sockaddr, sizeof(sockaddr)) == SOCKET_ERROR) return;
-	ch = (char*)malloc(mir_strlen(user) + mir_strlen(host) + 16);
-	ch = (char*)realloc(ch, sprintf(ch, "rcpt to:%s@%s\r\n", user, host)); //!!!!!!!!!!
-	WS_Send(S, "mail from: \r\n", 13);
-	WS_Send(S, ch, (int)mir_strlen(ch));
-	WS_Send(S, "data\r\n", 6);
-	WS_Send(S, "From:<REM>\r\n\r\n", 14);
-	WS_Send(S, Msg, (int)mir_strlen(Msg));
-	WS_Send(S, "\r\n.\r\n", 5);
-	WS_Send(S, "quit\r\n", 6);
-	SAFE_FREE((void**)&ch);
-	closesocket(S);
+	if (arReminders.getCount())
+		if (IDOK == MessageBox(nullptr, TranslateT("Are you sure you want to delete all reminders?"), TranslateT(SECTIONNAME), MB_OKCANCEL))
+			DeleteReminders();
+	return 0;
 }

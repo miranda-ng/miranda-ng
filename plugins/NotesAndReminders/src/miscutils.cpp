@@ -1,22 +1,4 @@
-#include "globals.h"
-
-WORD ConvertHotKeyToControl(WORD HK)
-{
-	WORD R = 0;
-	if ((HK & MOD_CONTROL) == MOD_CONTROL) R = R | HOTKEYF_CONTROL;
-	if ((HK & MOD_ALT) == MOD_ALT) R = R | HOTKEYF_ALT;
-	if ((HK & MOD_SHIFT) == MOD_SHIFT) R = R | HOTKEYF_SHIFT;
-	return R;
-}
-
-WORD ConvertControlToHotKey(WORD HK)
-{
-	WORD R = 0;
-	if ((HK & HOTKEYF_CONTROL) == HOTKEYF_CONTROL) R = R | MOD_CONTROL;
-	if ((HK & HOTKEYF_ALT) == HOTKEYF_ALT) R = R | MOD_ALT;
-	if ((HK & HOTKEYF_SHIFT) == HOTKEYF_SHIFT) R = R | MOD_SHIFT;
-	return R;
-}
+#include "stdafx.h"
 
 void FreeSettingBlob(WORD pSize, void *pbBlob)
 {
@@ -65,101 +47,72 @@ bool ReadSettingIntArray(MCONTACT hContact, char *ModuleName, char *SettingName,
 	return bResult;
 }
 
-void TreeAdd(TREEELEMENT **root, void *Data)
+/////////////////////////////////////////////////////////////////////
+// Email/SMS and WinSock functions
+
+BOOL WS_Init()
 {
-	TREEELEMENT *NTE = (TREEELEMENT*)malloc(sizeof(TREEELEMENT));
-	if (NTE) {
-		NTE->ptrdata = Data;
-		NTE->next = *root;
-		*root = NTE;
-	}
+	WSADATA wsd;
+	if (WSAStartup(MAKEWORD(2, 2), &wsd) != 0) return FALSE;
+	return TRUE;
 }
 
-void TreeAddSorted(TREEELEMENT **root, void *Data, int(*CompareCb)(TREEELEMENT*, TREEELEMENT*))
+void WS_CleanUp()
 {
-	if (!*root) {
-		// list empty, just add normally
-		TreeAdd(root, Data);
-		return;
-	}
-
-	TREEELEMENT *NTE = (TREEELEMENT*)malloc(sizeof(TREEELEMENT));
-	if (!NTE)
-		return;
-
-	NTE->ptrdata = Data;
-	NTE->next = nullptr;
-
-	// insert sorted
-
-	TREEELEMENT *Prev = nullptr;
-	TREEELEMENT *TTE = *root;
-
-	while (TTE) {
-		if (CompareCb(NTE, TTE) < 0) {
-			if (Prev) {
-				Prev->next = NTE;
-				NTE->next = TTE;
-			}
-			else {
-				// first in list
-				NTE->next = TTE;
-				*root = NTE;
-			}
-			return;
-		}
-
-		Prev = TTE;
-		TTE = (TREEELEMENT*)TTE->next;
-	}
-
-	// add last
-	Prev->next = NTE;
+	WSACleanup();
 }
 
-void TreeDelete(TREEELEMENT **root, void *iItem)
+int WS_Send(SOCKET s, char *data, int datalen)
 {
-	TREEELEMENT *TTE = *root, *Prev = nullptr;
-	if (!TTE)
-		return;
-
-	while ((TTE) && (TTE->ptrdata != iItem)) {
-		Prev = TTE;
-		TTE = (TREEELEMENT*)TTE->next;
-	}
-	if (TTE) {
-		if (Prev)
-			Prev->next = TTE->next;
-		else
-			*root = (TREEELEMENT*)TTE->next;
-		SAFE_FREE((void**)&TTE);
-	}
+	int rlen;
+	if ((rlen = send(s, data, datalen, 0)) == SOCKET_ERROR) return FALSE;
+	return TRUE;
 }
 
-void *TreeGetAt(TREEELEMENT *root, int iItem)
+unsigned long WS_ResolveName(char *name, WORD *port, int defaultPort)
 {
-	if (!root)
-		return nullptr;
-
-	TREEELEMENT *TTE = root;
-	int i = 0;
-	while ((TTE) && (i != iItem)) {
-		TTE = (TREEELEMENT*)TTE->next;
-		i++;
+	char *nameCopy = _strdup(name);
+	if (port != nullptr)
+		*port = defaultPort;
+	char *pcolon = strchr(nameCopy, ':');
+	if (pcolon != nullptr) {
+		if (port != nullptr) *port = atoi(pcolon + 1);
+		*pcolon = 0;
 	}
-	return (!TTE) ? nullptr : TTE->ptrdata;
+	if (inet_addr(nameCopy) == INADDR_NONE) {
+		HOSTENT *lk = gethostbyname(nameCopy);
+		if (lk == nullptr)
+			return SOCKET_ERROR;
+
+		free(nameCopy);
+		return *(u_long*)lk->h_addr_list[0];
+	}
+	DWORD ret = inet_addr(nameCopy);
+	free(nameCopy);
+	return ret;
 }
 
-int TreeGetCount(TREEELEMENT *root)
+void Send(char *user, char *host, char *Msg, char *server)
 {
-	if (!root)
-		return 0;
-
-	int i = 0;
-	TREEELEMENT *TTE = root;
-	while (TTE) {
-		TTE = (TREEELEMENT*)TTE->next;
-		i++;
-	}
-	return i;
+	SOCKADDR_IN sockaddr;
+	WORD port;
+	char *ch = nullptr;
+	SOCKET S = socket(AF_INET, SOCK_STREAM, 0);
+	if (!server) server = host;
+	if ((sockaddr.sin_addr.S_un.S_addr = WS_ResolveName(server,
+		&port, 25)) == SOCKET_ERROR) return;
+	sockaddr.sin_port = htons(port);
+	sockaddr.sin_family = AF_INET;
+	if (connect(S, (SOCKADDR*)&sockaddr, sizeof(sockaddr)) == SOCKET_ERROR) return;
+	ch = (char*)malloc(mir_strlen(user) + mir_strlen(host) + 16);
+	ch = (char*)realloc(ch, sprintf(ch, "rcpt to:%s@%s\r\n", user, host)); //!!!!!!!!!!
+	WS_Send(S, "mail from: \r\n", 13);
+	WS_Send(S, ch, (int)mir_strlen(ch));
+	WS_Send(S, "data\r\n", 6);
+	WS_Send(S, "From:<REM>\r\n\r\n", 14);
+	WS_Send(S, Msg, (int)mir_strlen(Msg));
+	WS_Send(S, "\r\n.\r\n", 5);
+	WS_Send(S, "quit\r\n", 6);
+	SAFE_FREE((void**)&ch);
+	closesocket(S);
 }
