@@ -5,10 +5,10 @@
 
 HICON g_hReminderIcon = nullptr;
 
-LOGFONTA lfBody, lfCaption;
+LOGFONT lfBody, lfCaption;
 HFONT hBodyFont = nullptr, hCaptionFont = nullptr;
 long BodyColor;
-long CaptionFontColor, BodyFontColor;
+COLORREF CaptionFontColor, BodyFontColor;
 int g_NoteTitleDate, g_NoteTitleTime;
 int g_NoteWidth, g_NoteHeight;
 int g_Transparency;
@@ -64,17 +64,17 @@ static timeFormats[] =
 
 struct FontOptionsList
 {
-	char *szDescr;
+	wchar_t *szDescr;
 	COLORREF defColour;
-	char *szDefFace;
+	wchar_t *szDefFace;
 	BYTE defStyle;
 	int  defSize;
-	char *szBkgName;
+	wchar_t *szBkgName;
 }
 static fontOptionsList[] =
 {
-	{ LPGEN("Sticky Note Caption"), RGB(0, 0, 0), "Small Fonts", 0, 7, LPGEN("Sticky Note Background Color") },
-	{ LPGEN("Sticky Note Body"), RGB(0, 0, 0), "System", DBFONTF_BOLD, 10, LPGEN("Sticky Note Background Color") },
+	{ LPGENW("Sticky Note Caption"), RGB(0, 0, 0), L"Small Fonts", 0, 7, LPGENW("Sticky Note Background Color") },
+	{ LPGENW("Sticky Note Body"), RGB(0, 0, 0), L"System", DBFONTF_BOLD, 10, LPGENW("Sticky Note Background Color") },
 };
 
 
@@ -105,16 +105,16 @@ static void InitFonts()
 	memset(&lfBody, 0, sizeof(lfBody));
 	memset(&lfCaption, 0, sizeof(lfCaption));
 
-	LoadNRFont(NR_FONTID_CAPTION, &lfCaption, (COLORREF*)&CaptionFontColor);
-	LoadNRFont(NR_FONTID_BODY, &lfBody, (COLORREF*)&BodyFontColor);
+	LoadNRFont(NR_FONTID_CAPTION, &lfCaption, &CaptionFontColor);
+	LoadNRFont(NR_FONTID_BODY, &lfBody, &BodyFontColor);
 
 	if (hBodyFont)
 		DeleteObject(hBodyFont);
 	if (hCaptionFont)
 		DeleteObject(hCaptionFont);
 
-	hBodyFont = CreateFontIndirectA(&lfBody);
-	hCaptionFont = CreateFontIndirectA(&lfCaption);
+	hBodyFont = CreateFontIndirectW(&lfBody);
+	hCaptionFont = CreateFontIndirectW(&lfCaption);
 }
 
 
@@ -145,10 +145,10 @@ void RegisterFontServiceFonts()
 {
 	char szTemp[100];
 
-	FontID fontid = {};
-	strncpy(fontid.group, SECTIONNAME, _countof(fontid.group));
-	strncpy(fontid.backgroundGroup, SECTIONNAME, _countof(fontid.backgroundGroup));
-	strncpy(fontid.dbSettingsGroup, MODULENAME, _countof(fontid.dbSettingsGroup));
+	FontIDW fontid = {};
+	wcsncpy_s(fontid.group, _A2W(SECTIONNAME), _TRUNCATE);
+	wcsncpy_s(fontid.backgroundGroup, _A2W(SECTIONNAME), _TRUNCATE);
+	strncpy_s(fontid.dbSettingsGroup, MODULENAME, _TRUNCATE);
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID | FIDF_SAVEPOINTSIZE;
 
 	HDC hDC = GetDC(nullptr);
@@ -158,8 +158,8 @@ void RegisterFontServiceFonts()
 	for (int i = 0; i < _countof(fontOptionsList); i++) {
 		fontid.order = i;
 		mir_snprintf(szTemp, "Font%d", i);
-		strncpy(fontid.setting, szTemp, _countof(fontid.setting));
-		strncpy(fontid.name, fontOptionsList[i].szDescr, _countof(fontid.name));
+		strncpy_s(fontid.setting, szTemp, _countof(fontid.setting));
+		wcsncpy_s(fontid.name, fontOptionsList[i].szDescr, _TRUNCATE);
 		fontid.deffontsettings.colour = fontOptionsList[i].defColour;
 
 		fontid.deffontsettings.size = (char)-MulDiv(fontOptionsList[i].defSize, nFontScale, 72);
@@ -167,23 +167,22 @@ void RegisterFontServiceFonts()
 
 		fontid.deffontsettings.style = fontOptionsList[i].defStyle;
 		fontid.deffontsettings.charset = DEFAULT_CHARSET;
-		strncpy(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, _countof(fontid.deffontsettings.szFace));
-		strncpy(fontid.backgroundName, fontOptionsList[i].szBkgName, _countof(fontid.backgroundName));
+		wcsncpy_s(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, _TRUNCATE);
+		wcsncpy_s(fontid.backgroundName, fontOptionsList[i].szBkgName, _TRUNCATE);
 
 		g_plugin.addFont(&fontid);
 	}
 
 	ColourID colorid = {};
-	strncpy(colorid.group, SECTIONNAME, _countof(colorid.group));
-	strncpy(colorid.dbSettingsGroup, MODULENAME, _countof(fontid.dbSettingsGroup));
+	strncpy_s(colorid.group, SECTIONNAME, _TRUNCATE);
+	strncpy_s(colorid.dbSettingsGroup, MODULENAME, _TRUNCATE);
 	colorid.flags = 0;
 
 	for (int i = 0; i < _countof(colourOptionsList); i++) {
 		colorid.order = i;
-		strncpy(colorid.name, colourOptionsList[i].szName, _countof(colorid.name));
+		strncpy_s(colorid.name, colourOptionsList[i].szName, _TRUNCATE);
 		colorid.defcolour = colourOptionsList[i].defColour;
-		strncpy(colorid.setting, colourOptionsList[i].szSettingName, _countof(colorid.setting));
-
+		strncpy_s(colorid.setting, colourOptionsList[i].szSettingName, _TRUNCATE);
 		g_plugin.addColor(&colorid);
 	}
 
@@ -191,46 +190,11 @@ void RegisterFontServiceFonts()
 	HookEvent(ME_COLOUR_RELOAD, FS_ColorChanged);
 }
 
-void LoadNRFont(int i, LOGFONTA *lf, COLORREF *colour)
+void LoadNRFont(int i, LOGFONT *lf, COLORREF *colour)
 {
-	COLORREF col = Font_Get(SECTIONNAME, fontOptionsList[i].szDescr, lf);
+	COLORREF col = Font_GetW(_A2W(SECTIONNAME), fontOptionsList[i].szDescr, lf);
 	if (colour)
 		*colour = col;
-}
-
-
-static void TrimString(char *s)
-{
-	if (!s || !*s)
-		return;
-
-	char *start = s;
-	UINT n = UINT(mir_strlen(s) - 1);
-
-	char *end = s + n;
-
-	if (!iswspace(*start) && !iswspace(*end)) {
-		// nothing to trim
-		return;
-	}
-
-	// scan past leading spaces
-	while (*start && iswspace(*start)) start++;
-
-	if (!*start) {
-		// empty string
-		*s = 0;
-		return;
-	}
-
-	// trim trailing spaces
-	while (iswspace(*end)) end--;
-	end[1] = 0;
-
-	if (start > s) {
-		// remove leading spaces
-		memmove(s, start, ((UINT)(end - start) + 2) * sizeof(wchar_t));
-	}
 }
 
 static void FillValues(HWND hdlg)
@@ -258,8 +222,6 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hdlg, UINT message, WPARAM wParam, L
 		TranslateDialogDefault(hdlg);
 		SendDlgItemMessage(hdlg, IDC_SLIDER_TRANSPARENCY, TBM_SETRANGE, TRUE, MAKELONG(0, 255 - MIN_ALPHA));
 
-		FillValues(hdlg);
-
 		SendDlgItemMessage(hdlg, IDC_COMBODATE, CB_RESETCONTENT, 0, 0);
 		SendDlgItemMessage(hdlg, IDC_COMBOTIME, CB_RESETCONTENT, 0, 0);
 		for (auto &it : dateFormats)
@@ -268,6 +230,8 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hdlg, UINT message, WPARAM wParam, L
 			SendDlgItemMessage(hdlg, IDC_COMBOTIME, CB_ADDSTRING, 0, (LPARAM)it.lpszUI);
 		SendDlgItemMessage(hdlg, IDC_COMBODATE, CB_ADDSTRING, 0, (LPARAM)TranslateT("None"));
 		SendDlgItemMessage(hdlg, IDC_COMBOTIME, CB_ADDSTRING, 0, (LPARAM)TranslateT("None"));
+
+		FillValues(hdlg);
 
 		if (g_RemindSMS)
 			SetDlgItemTextA(hdlg, IDC_EDIT_EMAILSMS, g_RemindSMS);
@@ -318,7 +282,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hdlg, UINT message, WPARAM wParam, L
 			if (SzT != 0) {
 				g_lpszAltBrowser = (char*)mir_realloc(g_lpszAltBrowser, SzT + 1);
 				GetDlgItemTextA(hdlg, IDC_EDIT_ALTBROWSER, g_lpszAltBrowser, SzT + 1);
-				TrimString(g_lpszAltBrowser);
+				rtrim(g_lpszAltBrowser);
 				if (!*g_lpszAltBrowser) {
 					mir_free(g_lpszAltBrowser);
 					g_lpszAltBrowser = nullptr;

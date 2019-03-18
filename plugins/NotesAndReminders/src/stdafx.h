@@ -65,7 +65,7 @@ bool CheckRemindersAndStart(void);
 
 void InitSettings(void);
 void TermSettings(void);
-void LoadNRFont(int i, LOGFONTA *lf, COLORREF *colour);
+void LoadNRFont(int i, LOGFONT *lf, COLORREF *colour);
 
 BOOL WS_Init();
 void WS_CleanUp();
@@ -77,11 +77,11 @@ extern HINSTANCE hmiranda;
 
 extern HICON g_hReminderIcon;
 
-extern LOGFONTA lfBody, lfCaption;
+extern LOGFONT lfBody, lfCaption;
 extern HFONT hBodyFont, hCaptionFont;
 
 extern long BodyColor;
-extern long CaptionFontColor, BodyFontColor;
+extern COLORREF CaptionFontColor, BodyFontColor;
 
 extern int g_NoteTitleDate, g_NoteTitleTime;
 

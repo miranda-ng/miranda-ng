@@ -324,13 +324,8 @@ void LoadReminders(void)
 			if (!rem.uid)
 				GenerateUids = true;
 
-			TempRem = (REMINDERDATA*)malloc(sizeof(REMINDERDATA));
-			if (TempRem) {
-				*TempRem = rem;
-				arReminders.insert(TempRem);
-			}
-			else if (rem.Reminder)
-				free(rem.Reminder);
+			TempRem = new REMINDERDATA(rem);
+			arReminders.insert(TempRem);
 skip:;
 		}
 
@@ -1472,58 +1467,58 @@ static INT_PTR CALLBACK DlgProcNewReminder(HWND hwndDlg, UINT Message, WPARAM wP
 	HICON hIcon = nullptr;
 	switch (Message) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+
+		ULARGE_INTEGER li;
+		SYSTEMTIME tm;
+
+		if (NewReminderVisible == 2) {
+			// opening the edit reminder dialog (uses same dialog resource as add reminder)
+			SetWindowText(hwndDlg, TranslateT("Reminder"));
+			SetDlgItemText(hwndDlg, IDC_ADDREMINDER, TranslateT("&Update Reminder"));
+			ShowWindow(GetDlgItem(hwndDlg, IDC_VIEWREMINDERS), SW_HIDE);
+
+			li = pEditReminder->When;
+			FileTimeToSystemTime((FILETIME*)&li, &tm);
+		}
+		else {
+			GetSystemTime(&tm);
+			SystemTimeToFileTime(&tm, (FILETIME*)&li);
+		}
+
+		// save reference time in hidden control, is needed when adding reminder to properly detect if speicifed
+		// time wrapped around to tomorrow or not (dialog could in theory be open for a longer period of time
+		// which could potentially mess up things otherwise)
+		wchar_t s[64];
+		mir_snwprintf(s, L"%I64x", li.QuadPart);
+		SetDlgItemText(hwndDlg, IDC_REFTIME, s);
+
+		PopulateTimeCombo(hwndDlg, IDC_TIME, NewReminderVisible != 2, &tm);
+
+		FileTimeToTzLocalST((FILETIME*)&li, &tm);
+
+		// make sure date picker uses reference time
+		SendDlgItemMessage(hwndDlg, IDC_DATE, DTM_SETSYSTEMTIME, 0, (LPARAM)&tm);
+		InitDatePicker(hwndDlg, IDC_DATE);
+
+		SendDlgItemMessage(hwndDlg, IDC_REMINDER, EM_LIMITTEXT, MAX_REMINDER_LEN, 0);
+
+		if (NewReminderVisible == 2) {
+			mir_snwprintf(s, L"%02d:%02d", tm.wHour, tm.wMinute);
+
+			// search for preset first
+			int n = SendDlgItemMessageA(hwndDlg, IDC_TIME, CB_FINDSTRING, (WPARAM)-1, (LPARAM)s);
+			if (n != CB_ERR)
+				SendDlgItemMessage(hwndDlg, IDC_TIME, CB_SETCURSEL, n, 0);
+			else
+				SetDlgItemText(hwndDlg, IDC_TIME, s);
+
+			SetDlgItemTextA(hwndDlg, IDC_REMINDER, pEditReminder->Reminder);
+		}
+		else SendDlgItemMessage(hwndDlg, IDC_TIME, CB_SETCURSEL, 0, 0);
+
+		// populate sound repeat combo
 		{
-			ULARGE_INTEGER li;
-			SYSTEMTIME tm;
-
-			if (NewReminderVisible == 2) {
-				// opening the edit reminder dialog (uses same dialog resource as add reminder)
-				SetWindowText(hwndDlg, TranslateT("Reminder"));
-				SetDlgItemText(hwndDlg, IDC_ADDREMINDER, TranslateT("&Update Reminder"));
-				ShowWindow(GetDlgItem(hwndDlg, IDC_VIEWREMINDERS), SW_HIDE);
-
-				li = pEditReminder->When;
-				FileTimeToSystemTime((FILETIME*)&li, &tm);
-			}
-			else {
-				GetSystemTime(&tm);
-				SystemTimeToFileTime(&tm, (FILETIME*)&li);
-			}
-
-			TranslateDialogDefault(hwndDlg);
-
-			// save reference time in hidden control, is needed when adding reminder to properly detect if speicifed
-			// time wrapped around to tomorrow or not (dialog could in theory be open for a longer period of time
-			// which could potentially mess up things otherwise)
-			wchar_t s[64];
-			mir_snwprintf(s, L"%I64x", li.QuadPart);
-			SetDlgItemText(hwndDlg, IDC_REFTIME, s);
-
-			PopulateTimeCombo(hwndDlg, IDC_TIME, NewReminderVisible != 2, &tm);
-
-			FileTimeToTzLocalST((FILETIME*)&li, &tm);
-
-			// make sure date picker uses reference time
-			SendDlgItemMessage(hwndDlg, IDC_DATE, DTM_SETSYSTEMTIME, 0, (LPARAM)&tm);
-			InitDatePicker(hwndDlg, IDC_DATE);
-
-			SendDlgItemMessage(hwndDlg, IDC_REMINDER, EM_LIMITTEXT, MAX_REMINDER_LEN, 0);
-
-			if (NewReminderVisible == 2) {
-				mir_snwprintf(s, L"%02d:%02d", tm.wHour, tm.wMinute);
-
-				// search for preset first
-				int n = SendDlgItemMessageA(hwndDlg, IDC_TIME, CB_FINDSTRING, (WPARAM)-1, (LPARAM)s);
-				if (n != CB_ERR)
-					SendDlgItemMessage(hwndDlg, IDC_TIME, CB_SETCURSEL, n, 0);
-				else
-					SetDlgItemText(hwndDlg, IDC_TIME, s);
-
-				SetDlgItemTextA(hwndDlg, IDC_REMINDER, pEditReminder->Reminder);
-			}
-			else SendDlgItemMessage(hwndDlg, IDC_TIME, CB_SETCURSEL, 0, 0);
-
-			// populate sound repeat combo
 			wchar_t *lpszEvery = TranslateT("Every");
 			wchar_t *lpszSeconds = TranslateT("Seconds");
 
@@ -1871,7 +1866,6 @@ void OnListResize(HWND hwndDlg)
 	MoveWindow(hBtnNew, clsr.left, clsr.top, btnw, btnh, FALSE);
 
 	RedrawWindow(hwndDlg, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ERASE);
-	//UpdateWindow(hwndDlg);
 }
 
 void UpdateGeomFromWnd(HWND hwndDlg, int *geom, int *colgeom, int nCols)
@@ -1879,7 +1873,6 @@ void UpdateGeomFromWnd(HWND hwndDlg, int *geom, int *colgeom, int nCols)
 	if (geom) {
 		WINDOWPLACEMENT wp;
 		wp.length = sizeof(WINDOWPLACEMENT);
-
 		GetWindowPlacement(hwndDlg, &wp);
 
 		geom[0] = wp.rcNormalPosition.left;
@@ -1891,20 +1884,21 @@ void UpdateGeomFromWnd(HWND hwndDlg, int *geom, int *colgeom, int nCols)
 	if (colgeom) {
 		HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
 
-		for (int i = 0; i < nCols; i++) {
+		for (int i = 0; i < nCols; i++)
 			colgeom[i] = ListView_GetColumnWidth(H, i);
-		}
 	}
 }
 
 static BOOL DoListContextMenu(HWND AhWnd, WPARAM wParam, LPARAM lParam, REMINDERDATA *pReminder)
 {
 	HWND hwndListView = (HWND)wParam;
-	if (hwndListView != GetDlgItem(AhWnd, IDC_LISTREMINDERS)) return FALSE;
+	if (hwndListView != GetDlgItem(AhWnd, IDC_LISTREMINDERS))
+		return FALSE;
+	
 	HMENU hMenuLoad = LoadMenuA(g_plugin.getInst(), "MNU_REMINDERPOPUP");
 	HMENU FhMenu = GetSubMenu(hMenuLoad, 0);
 
-	MENUITEMINFO mii = {0};
+	MENUITEMINFO mii = {};
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_STATE;
 	mii.fState = MFS_DEFAULT;
@@ -1923,7 +1917,7 @@ static BOOL DoListContextMenu(HWND AhWnd, WPARAM wParam, LPARAM lParam, REMINDER
 
 static INT_PTR CALLBACK DlgProcViewReminders(HWND hwndDlg, UINT Message, WPARAM wParam, LPARAM lParam)
 {
-	LV_COLUMN lvCol;
+	HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
 
 	switch (Message) {
 	case WM_SIZE:
@@ -1952,7 +1946,6 @@ static INT_PTR CALLBACK DlgProcViewReminders(HWND hwndDlg, UINT Message, WPARAM 
 		{
 			REMINDERDATA *pReminder = nullptr;
 
-			HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
 			if (ListView_GetSelectedCount(H)) {
 				int i = ListView_GetSelectionMark(H);
 				if (i != -1)
@@ -1969,33 +1962,32 @@ static INT_PTR CALLBACK DlgProcViewReminders(HWND hwndDlg, UINT Message, WPARAM 
 
 		TranslateDialogDefault(hwndDlg);
 		SetDlgItemTextA(hwndDlg, IDC_REMINDERDATA, "");
-		{
-			HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
-			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
-			lvCol.pszText = TranslateT("Reminder text");
-			lvCol.cx = g_reminderListColGeom[1];
-			ListView_InsertColumn(H, 0, &lvCol);
 
-			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
-			lvCol.pszText = TranslateT("Date of activation");
-			lvCol.cx = g_reminderListColGeom[0];
-			ListView_InsertColumn(H, 0, &lvCol);
+		LV_COLUMN lvCol;
+		lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
+		lvCol.pszText = TranslateT("Reminder text");
+		lvCol.cx = g_reminderListColGeom[1];
+		ListView_InsertColumn(H, 0, &lvCol);
 
-			InitListView(H);
+		lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
+		lvCol.pszText = TranslateT("Date of activation");
+		lvCol.cx = g_reminderListColGeom[0];
+		ListView_InsertColumn(H, 0, &lvCol);
 
-			SetWindowLongPtr(GetDlgItem(H, 0), GWL_ID, IDC_LISTREMINDERS_HEADER);
-			LV = hwndDlg;
+		InitListView(H);
 
-			if (g_reminderListGeom[1] && g_reminderListGeom[2]) {
-				WINDOWPLACEMENT wp;
-				wp.length = sizeof(WINDOWPLACEMENT);
-				GetWindowPlacement(hwndDlg, &wp);
-				wp.rcNormalPosition.left = g_reminderListGeom[0];
-				wp.rcNormalPosition.top = g_reminderListGeom[1];
-				wp.rcNormalPosition.right = g_reminderListGeom[2] + g_reminderListGeom[0];
-				wp.rcNormalPosition.bottom = g_reminderListGeom[3] + g_reminderListGeom[1];
-				SetWindowPlacement(hwndDlg, &wp);
-			}
+		SetWindowLongPtr(GetDlgItem(H, 0), GWL_ID, IDC_LISTREMINDERS_HEADER);
+		LV = hwndDlg;
+
+		if (g_reminderListGeom[1] && g_reminderListGeom[2]) {
+			WINDOWPLACEMENT wp;
+			wp.length = sizeof(WINDOWPLACEMENT);
+			GetWindowPlacement(hwndDlg, &wp);
+			wp.rcNormalPosition.left = g_reminderListGeom[0];
+			wp.rcNormalPosition.top = g_reminderListGeom[1];
+			wp.rcNormalPosition.right = g_reminderListGeom[2] + g_reminderListGeom[0];
+			wp.rcNormalPosition.bottom = g_reminderListGeom[3] + g_reminderListGeom[1];
+			SetWindowPlacement(hwndDlg, &wp);
 		}
 		return TRUE;
 
@@ -2005,35 +1997,28 @@ static INT_PTR CALLBACK DlgProcViewReminders(HWND hwndDlg, UINT Message, WPARAM 
 		return TRUE;
 
 	case WM_NOTIFY:
-		{
-			if (wParam == IDC_LISTREMINDERS) {
-				LPNMLISTVIEW NM = (LPNMLISTVIEW)lParam;
-				switch (NM->hdr.code) {
-				case LVN_ITEMCHANGED:
-					{
-						char *S2 = arReminders[NM->iItem]->Reminder;
-						SetDlgItemTextA(hwndDlg, IDC_REMINDERDATA, S2);
-					}
-					break;
-				case NM_DBLCLK:
-					{
-						HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
-						if (ListView_GetSelectedCount(H)) {
-							int i = ListView_GetSelectionMark(H);
-							if (i != -1)
-								EditReminder(arReminders[i]);
-						}
-					}
-					break;
+		if (wParam == IDC_LISTREMINDERS) {
+			LPNMLISTVIEW NM = (LPNMLISTVIEW)lParam;
+			switch (NM->hdr.code) {
+			case LVN_ITEMCHANGED:
+				SetDlgItemTextA(hwndDlg, IDC_REMINDERDATA, arReminders[NM->iItem]->Reminder);
+				break;
+
+			case NM_DBLCLK:
+				if (ListView_GetSelectedCount(H)) {
+					int i = ListView_GetSelectionMark(H);
+					if (i != -1)
+						EditReminder(arReminders[i]);
 				}
+				break;
 			}
-			else if (wParam == IDC_LISTREMINDERS_HEADER) {
-				LPNMHEADER NM = (LPNMHEADER)lParam;
-				switch (NM->hdr.code) {
-				case HDN_ENDTRACK:
-					UpdateGeomFromWnd(hwndDlg, nullptr, g_reminderListColGeom, _countof(g_reminderListColGeom));
-					break;
-				}
+		}
+		else if (wParam == IDC_LISTREMINDERS_HEADER) {
+			LPNMHEADER NM = (LPNMHEADER)lParam;
+			switch (NM->hdr.code) {
+			case HDN_ENDTRACK:
+				UpdateGeomFromWnd(hwndDlg, nullptr, g_reminderListColGeom, _countof(g_reminderListColGeom));
+				break;
 			}
 		}
 		break;
@@ -2041,13 +2026,10 @@ static INT_PTR CALLBACK DlgProcViewReminders(HWND hwndDlg, UINT Message, WPARAM 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case ID_CONTEXTMENUREMINDERLISTVIEW_EDIT:
-			{
-				HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
-				if (ListView_GetSelectedCount(H)) {
-					int i = ListView_GetSelectionMark(H);
-					if (i != -1)
-						EditReminder(arReminders[i]);
-				}
+			if (ListView_GetSelectedCount(H)) {
+				int i = ListView_GetSelectionMark(H);
+				if (i != -1)
+					EditReminder(arReminders[i]);
 			}
 			return TRUE;
 
@@ -2070,19 +2052,16 @@ static INT_PTR CALLBACK DlgProcViewReminders(HWND hwndDlg, UINT Message, WPARAM 
 			return TRUE;
 
 		case IDM_DELETEREMINDER:
-			{
-				HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
-				if (ListView_GetSelectedCount(H)) {
-					int i = ListView_GetSelectionMark(H);
-					if (i != -1 && IDOK == MessageBox(hwndDlg, TranslateT("Are you sure you want to delete this reminder?"), _A2W(SECTIONNAME), MB_OKCANCEL)) {
-						SetDlgItemTextA(hwndDlg, IDC_REMINDERDATA, "");
-						DeleteReminder(arReminders[i]);
-						JustSaveReminders();
-						InitListView(H);
-					}
+			if (ListView_GetSelectedCount(H)) {
+				int i = ListView_GetSelectionMark(H);
+				if (i != -1 && IDOK == MessageBox(hwndDlg, TranslateT("Are you sure you want to delete this reminder?"), _A2W(SECTIONNAME), MB_OKCANCEL)) {
+					SetDlgItemTextA(hwndDlg, IDC_REMINDERDATA, "");
+					DeleteReminder(arReminders[i]);
+					JustSaveReminders();
+					InitListView(H);
 				}
-				return TRUE;
 			}
+			return TRUE;
 		}
 		break;
 
@@ -2098,7 +2077,7 @@ static INT_PTR CALLBACK DlgProcViewReminders(HWND hwndDlg, UINT Message, WPARAM 
 INT_PTR PluginMenuCommandNewReminder(WPARAM, LPARAM)
 {
 	if (!NewReminderVisible) {
-		NewReminderVisible = TRUE;
+		NewReminderVisible = true;
 		CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ADDREMINDER), nullptr, DlgProcNewReminder);
 	}
 	return 0;

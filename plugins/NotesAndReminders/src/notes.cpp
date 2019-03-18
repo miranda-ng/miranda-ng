@@ -86,7 +86,7 @@ struct STICKYNOTEFONT : public MZeroedObject
 	char  size;
 	BYTE  style;					// see the DBFONTF_* flags
 	BYTE  charset;
-	char  szFace[LF_FACESIZE];
+	wchar_t szFace[LF_FACESIZE];
 };
 
 struct STICKYNOTE : public MZeroedObject
@@ -176,10 +176,10 @@ static void InitNoteTitle(STICKYNOTE *TSN)
 	TSN->CustomTitle = FALSE;
 }
 
-static void InitStickyNoteLogFont(STICKYNOTEFONT *pCustomFont, LOGFONTA *lf)
+static void InitStickyNoteLogFont(STICKYNOTEFONT *pCustomFont, LOGFONT *lf)
 {
 	if (!pCustomFont->size) {
-		SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(LOGFONT), &lf, FALSE);
+		SystemParametersInfoW(SPI_GETICONTITLELOGFONT, sizeof(*lf), &lf, FALSE);
 		lf->lfHeight = 10;
 		HDC hdc = GetDC(nullptr);
 		lf->lfHeight = -MulDiv(lf->lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
@@ -189,8 +189,7 @@ static void InitStickyNoteLogFont(STICKYNOTEFONT *pCustomFont, LOGFONTA *lf)
 		lf->lfHeight = pCustomFont->size;
 	}
 
-	mir_strcpy(lf->lfFaceName, pCustomFont->szFace);
-
+	wcsncpy_s(lf->lfFaceName, pCustomFont->szFace, _TRUNCATE);
 	lf->lfWidth = lf->lfEscapement = lf->lfOrientation = 0;
 	lf->lfWeight = pCustomFont->style & DBFONTF_BOLD ? FW_BOLD : FW_NORMAL;
 	lf->lfItalic = (pCustomFont->style & DBFONTF_ITALIC) != 0;
@@ -203,9 +202,9 @@ static void InitStickyNoteLogFont(STICKYNOTEFONT *pCustomFont, LOGFONTA *lf)
 	lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 }
 
-static BOOL CreateStickyNoteFont(STICKYNOTEFONT *pCustomFont, LOGFONTA *plf)
+static bool CreateStickyNoteFont(STICKYNOTEFONT *pCustomFont, LOGFONT *plf)
 {
-	LOGFONTA lf = {0};
+	LOGFONT lf = {};
 
 	if (!plf) {
 		InitStickyNoteLogFont(pCustomFont, &lf);
@@ -215,8 +214,7 @@ static BOOL CreateStickyNoteFont(STICKYNOTEFONT *pCustomFont, LOGFONTA *plf)
 	if (pCustomFont->hFont)
 		DeleteObject(pCustomFont->hFont);
 
-	pCustomFont->hFont = CreateFontIndirectA(plf);
-
+	pCustomFont->hFont = CreateFontIndirectW(plf);
 	return pCustomFont->hFont != nullptr;
 }
 
@@ -579,7 +577,7 @@ static BOOL GetClipboardText_Title(wchar_t *pOut, int size)
 
 static void SetNoteTextControl(STICKYNOTE *SN)
 {
-	CHARFORMAT CF = {0};
+	CHARFORMAT CF = {};
 	CF.cbSize = sizeof(CHARFORMAT);
 	CF.dwMask = CFM_COLOR;
 	CF.crTextColor = SN->FgColor ? (SN->FgColor & 0xffffff) : BodyFontColor;
@@ -877,13 +875,16 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 			JustSaveNotesEx();
 			return FALSE;
 		}
-		else if (id >= IDM_COLORPRESET_FG && id <= IDM_COLORPRESET_FG + _countof(clrPresets)) {
-			CHARFORMAT CF = {0};
+		
+		if (id >= IDM_COLORPRESET_FG && id <= IDM_COLORPRESET_FG + _countof(clrPresets)) {
 			SN->FgColor = clrPresets[id - IDM_COLORPRESET_FG].color | 0xff000000;
+
+			CHARFORMAT CF = {};
 			CF.cbSize = sizeof(CHARFORMAT);
 			CF.dwMask = CFM_COLOR;
 			CF.crTextColor = SN->FgColor & 0xffffff;
 			SendMessage(SN->REHwnd, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&CF);
+
 			RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
 			JustSaveNotesEx();
 			return FALSE;
@@ -916,8 +917,9 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 		case ID_APPEARANCE_CUSTOMTEXT:
 			{
 				COLORREF custclr[16] = {0};
-				CHOOSECOLOR cc = {0};
 				COLORREF orgclr = SN->FgColor ? (COLORREF)(SN->FgColor & 0xffffff) : (COLORREF)(BodyFontColor & 0xffffff);
+
+				CHOOSECOLOR cc = {0};
 				cc.lStructSize = sizeof(cc);
 				cc.hwndOwner = SN->SNHwnd;
 				cc.rgbResult = orgclr;
@@ -925,12 +927,14 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 				cc.lpCustColors = custclr;
 
 				if (ChooseColor(&cc) && cc.rgbResult != orgclr) {
-					CHARFORMAT CF = {0};
 					SN->FgColor = cc.rgbResult | 0xff000000;
+
+					CHARFORMAT CF = {0};
 					CF.cbSize = sizeof(CHARFORMAT);
 					CF.dwMask = CFM_COLOR;
 					CF.crTextColor = SN->FgColor & 0xffffff;
 					SendMessage(SN->REHwnd, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&CF);
+
 					RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
 					JustSaveNotesEx();
 				}
@@ -939,44 +943,43 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 
 		case ID_APPEARANCE_CUSTOMFONT:
 			{
-				CHOOSEFONTA cf = {0};
-				LOGFONTA lf = {0};
-
+				LOGFONT lf = {};
 				if (SN->pCustomFont)
 					InitStickyNoteLogFont(SN->pCustomFont, &lf);
 				else
 					LoadNRFont(NR_FONTID_BODY, &lf, nullptr);
 
+				CHOOSEFONT cf = {};
 				cf.lStructSize = sizeof(cf);
 				cf.hwndOwner = SN->SNHwnd;
 				cf.lpLogFont = &lf;
 				cf.Flags = CF_EFFECTS | CF_FORCEFONTEXIST | CF_INITTOLOGFONTSTRUCT | CF_SCREENFONTS | CF_ENABLEHOOK;
 				cf.lpfnHook = CFHookProc;
+				if (!ChooseFontW(&cf))
+					break;
 
-				if (ChooseFontA(&cf)) {
-					if (!SN->pCustomFont) {
-						SN->pCustomFont = (STICKYNOTEFONT*)malloc(sizeof(STICKYNOTEFONT));
-						SN->pCustomFont->hFont = nullptr;
-					}
-
-					SN->pCustomFont->size = (char)lf.lfHeight;
-					SN->pCustomFont->style = (lf.lfWeight >= FW_BOLD ? DBFONTF_BOLD : 0) | (lf.lfItalic ? DBFONTF_ITALIC : 0) | (lf.lfUnderline ? DBFONTF_UNDERLINE : 0) | (lf.lfStrikeOut ? DBFONTF_STRIKEOUT : 0);
-					SN->pCustomFont->charset = lf.lfCharSet;
-					mir_strcpy(SN->pCustomFont->szFace, lf.lfFaceName);
-
-					if (!CreateStickyNoteFont(SN->pCustomFont, &lf)) {
-						// failed
-						free(SN->pCustomFont);
-						SN->pCustomFont = nullptr;
-					}
-
-					// clear text first to force a reformatting w.r.w scrollbar
-					SetWindowTextA(SN->REHwnd, "");
-					SendMessage(SN->REHwnd, WM_SETFONT, (WPARAM)(SN->pCustomFont ? SN->pCustomFont->hFont : hBodyFont), FALSE);
-					SetNoteTextControl(SN);
-					RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
-					JustSaveNotesEx();
+				if (!SN->pCustomFont) {
+					SN->pCustomFont = (STICKYNOTEFONT*)malloc(sizeof(STICKYNOTEFONT));
+					SN->pCustomFont->hFont = nullptr;
 				}
+
+				SN->pCustomFont->size = (char)lf.lfHeight;
+				SN->pCustomFont->style = (lf.lfWeight >= FW_BOLD ? DBFONTF_BOLD : 0) | (lf.lfItalic ? DBFONTF_ITALIC : 0) | (lf.lfUnderline ? DBFONTF_UNDERLINE : 0) | (lf.lfStrikeOut ? DBFONTF_STRIKEOUT : 0);
+				SN->pCustomFont->charset = lf.lfCharSet;
+				wcsncpy_s(SN->pCustomFont->szFace, lf.lfFaceName, _TRUNCATE);
+
+				if (!CreateStickyNoteFont(SN->pCustomFont, &lf)) {
+					// failed
+					free(SN->pCustomFont);
+					SN->pCustomFont = nullptr;
+				}
+
+				// clear text first to force a reformatting w.r.w scrollbar
+				SetWindowTextA(SN->REHwnd, "");
+				SendMessage(SN->REHwnd, WM_SETFONT, (WPARAM)(SN->pCustomFont ? SN->pCustomFont->hFont : hBodyFont), FALSE);
+				SetNoteTextControl(SN);
+				RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
+				JustSaveNotesEx();
 			}
 			break;
 
@@ -988,15 +991,15 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 			break;
 
 		case ID_TEXTCOLOR_RESET:
+			SN->FgColor = 0;
 			{
-				CHARFORMAT CF = {0};
-				SN->FgColor = 0;
+				CHARFORMAT CF = {};
 				CF.cbSize = sizeof(CHARFORMAT);
 				CF.dwMask = CFM_COLOR;
 				CF.crTextColor = BodyFontColor;
 				SendMessage(SN->REHwnd, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&CF);
-				RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
 			}
+			RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
 			JustSaveNotesEx();
 			break;
 
@@ -1369,7 +1372,7 @@ void LoadNotes(BOOL bIsStartup)
 					pCustomFont->size = (char)fsize;
 					pCustomFont->style = (BYTE)fstyle;
 					pCustomFont->charset = (BYTE)fcharset;
-					mir_strcpy(pCustomFont->szFace, TVal2);
+					wcsncpy_s(pCustomFont->szFace, _A2T(TVal2), _TRUNCATE);
 					pCustomFont->hFont = nullptr;
 
 					if (!CreateStickyNoteFont(pCustomFont, nullptr)) {
