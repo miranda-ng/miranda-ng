@@ -84,13 +84,10 @@ extern long BodyColor;
 extern COLORREF CaptionFontColor, BodyFontColor;
 
 extern int g_NoteTitleDate, g_NoteTitleTime;
-
 extern int g_NoteWidth, g_NoteHeight;
-
 extern int g_Transparency;
 
 extern char *g_RemindSMS;
-
 extern char *g_lpszAltBrowser;
 
 extern int g_reminderListGeom[4];

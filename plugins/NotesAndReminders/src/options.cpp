@@ -117,14 +117,12 @@ static void InitFonts()
 	hCaptionFont = CreateFontIndirectW(&lfCaption);
 }
 
-
 static int FS_FontsChanged(WPARAM, LPARAM)
 {
 	InitFonts();
 
 	SaveNotes();
-	LoadNotes(FALSE);
-
+	LoadNotes(false);
 	return 0;
 }
 
@@ -136,8 +134,7 @@ static int FS_ColorChanged(WPARAM, LPARAM)
 	BodyColor = g_plugin.getDword(colourOptionsList[0].szSettingName, colourOptionsList[0].defColour);
 
 	SaveNotes();
-	LoadNotes(FALSE);
-
+	LoadNotes(false);
 	return 0;
 }
 
@@ -160,16 +157,14 @@ void RegisterFontServiceFonts()
 		mir_snprintf(szTemp, "Font%d", i);
 		strncpy_s(fontid.setting, szTemp, _countof(fontid.setting));
 		wcsncpy_s(fontid.name, fontOptionsList[i].szDescr, _TRUNCATE);
+
 		fontid.deffontsettings.colour = fontOptionsList[i].defColour;
-
 		fontid.deffontsettings.size = (char)-MulDiv(fontOptionsList[i].defSize, nFontScale, 72);
-		//fontid.deffontsettings.size = fontOptionsList[i].defSize;
-
 		fontid.deffontsettings.style = fontOptionsList[i].defStyle;
 		fontid.deffontsettings.charset = DEFAULT_CHARSET;
+
 		wcsncpy_s(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, _TRUNCATE);
 		wcsncpy_s(fontid.backgroundName, fontOptionsList[i].szBkgName, _TRUNCATE);
-
 		g_plugin.addFont(&fontid);
 	}
 
@@ -197,198 +192,168 @@ void LoadNRFont(int i, LOGFONT *lf, COLORREF *colour)
 		*colour = col;
 }
 
-static void FillValues(HWND hdlg)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+class CNROptionsDlg : public CDlgBase
 {
-	CheckDlgButton(hdlg, IDC_CHECK_HIDENOTES, g_plugin.bShowNotesAtStart ? BST_UNCHECKED : BST_CHECKED); // reversed
-	CheckDlgButton(hdlg, IDC_CHECK_MENUS, g_plugin.bAddContListMI ? BST_CHECKED : BST_UNCHECKED);
-	CheckDlgButton(hdlg, IDC_CHECK_BUTTONS, g_plugin.bShowNoteButtons ? BST_CHECKED : BST_UNCHECKED);
-	CheckDlgButton(hdlg, IDC_CHECK_SCROLLBARS, g_plugin.bShowScrollbar ? BST_CHECKED : BST_UNCHECKED);
-	CheckDlgButton(hdlg, IDC_CHECK_CLOSE, g_plugin.bCloseAfterAddReminder ? BST_CHECKED : BST_UNCHECKED);
-	CheckDlgButton(hdlg, IDC_CHECK_MSI, g_plugin.bUseMSI ? BST_CHECKED : BST_UNCHECKED);
+	void FillValues()
+	{
+		chkHide.SetState(!g_plugin.bShowNotesAtStart); // reversed
 
-	SetDlgItemInt(hdlg, IDC_EDIT_WIDTH, g_NoteWidth, FALSE);
-	SetDlgItemInt(hdlg, IDC_EDIT_HEIGHT, g_NoteHeight, FALSE);
+		SetDlgItemInt(m_hwnd, IDC_EDIT_WIDTH, g_NoteWidth, FALSE);
+		SetDlgItemInt(m_hwnd, IDC_EDIT_HEIGHT, g_NoteHeight, FALSE);
 
-	SendDlgItemMessage(hdlg, IDC_COMBODATE, CB_SETCURSEL, (WPARAM)(g_NoteTitleDate ? g_NoteTitleDate - 1 : SendDlgItemMessage(hdlg, IDC_COMBODATE, CB_GETCOUNT, 0, 0) - 1), 0);
-	SendDlgItemMessage(hdlg, IDC_COMBOTIME, CB_SETCURSEL, (WPARAM)(g_NoteTitleTime ? g_NoteTitleTime - 1 : SendDlgItemMessage(hdlg, IDC_COMBOTIME, CB_GETCOUNT, 0, 0) - 1), 0);
+		cmbDate.SetCurSel(g_NoteTitleDate ? g_NoteTitleDate - 1 : cmbDate.GetCount()-1);
+		cmbTime.SetCurSel(g_NoteTitleTime ? g_NoteTitleTime - 1 : cmbTime.GetCount()-1);
 
-	SendDlgItemMessage(hdlg, IDC_SLIDER_TRANSPARENCY, TBM_SETPOS, TRUE, 255 - g_Transparency);
-}
+		SendDlgItemMessage(m_hwnd, IDC_SLIDER_TRANSPARENCY, TBM_SETPOS, TRUE, 255 - g_Transparency);
+	}
 
-static INT_PTR CALLBACK DlgProcOptions(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	switch (message) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hdlg);
-		SendDlgItemMessage(hdlg, IDC_SLIDER_TRANSPARENCY, TBM_SETRANGE, TRUE, MAKELONG(0, 255 - MIN_ALPHA));
+	CCtrlEdit edtBrowser, edtEmail;
+	CCtrlCombo cmbDate, cmbTime;
+	CCtrlCheck chkHide, chkMenus, chkButtons, chkScroll, chkClose, chkMSI;
+	CCtrlButton btnBrowse, btnReset;
 
-		SendDlgItemMessage(hdlg, IDC_COMBODATE, CB_RESETCONTENT, 0, 0);
-		SendDlgItemMessage(hdlg, IDC_COMBOTIME, CB_RESETCONTENT, 0, 0);
+public:
+	CNROptionsDlg() :
+		CDlgBase(g_plugin, IDD_STNOTEOPTIONS),
+		edtEmail(this, IDC_EDIT_EMAILSMS),
+		edtBrowser(this, IDC_EDIT_ALTBROWSER),
+		cmbDate(this, IDC_COMBODATE),
+		cmbTime(this, IDC_COMBOTIME),
+		chkMSI(this, IDC_CHECK_MSI),
+		chkHide(this, IDC_CHECK_HIDENOTES),
+		chkClose(this, IDC_CHECK_CLOSE),
+		chkMenus(this, IDC_CHECK_MENUS),
+		chkScroll(this, IDC_CHECK_SCROLLBARS),
+		chkButtons(this, IDC_CHECK_BUTTONS),
+		btnReset(this, IDC_BUTTON_RESET),
+		btnBrowse(this, IDC_BTN_BROWSEBROWSER)
+	{
+		btnReset.OnClick = Callback(this, &CNROptionsDlg::onClick_Reset);
+		btnBrowse.OnClick = Callback(this, &CNROptionsDlg::onClick_Browse);
+
+		CreateLink(chkMSI, g_plugin.bUseMSI);
+		CreateLink(chkClose, g_plugin.bCloseAfterAddReminder);
+		CreateLink(chkMenus, g_plugin.bAddContListMI);
+		CreateLink(chkScroll, g_plugin.bShowScrollbar);
+		CreateLink(chkButtons, g_plugin.bShowNoteButtons);
+	}
+
+	bool OnInitDialog() override
+	{
+		SendDlgItemMessage(m_hwnd, IDC_SLIDER_TRANSPARENCY, TBM_SETRANGE, TRUE, MAKELONG(0, 255 - MIN_ALPHA));
+
+		cmbDate.ResetContent();
 		for (auto &it : dateFormats)
-			SendDlgItemMessage(hdlg, IDC_COMBODATE, CB_ADDSTRING, 0, (LPARAM)it.lpszUI);
-		for (auto &it : timeFormats)
-			SendDlgItemMessage(hdlg, IDC_COMBOTIME, CB_ADDSTRING, 0, (LPARAM)it.lpszUI);
-		SendDlgItemMessage(hdlg, IDC_COMBODATE, CB_ADDSTRING, 0, (LPARAM)TranslateT("None"));
-		SendDlgItemMessage(hdlg, IDC_COMBOTIME, CB_ADDSTRING, 0, (LPARAM)TranslateT("None"));
+			cmbDate.AddString(it.lpszUI);
+		cmbDate.AddString(TranslateT("None"));
 
-		FillValues(hdlg);
+		cmbTime.ResetContent();
+		for (auto &it : timeFormats)
+			cmbTime.AddString(it.lpszUI);
+		cmbTime.AddString(TranslateT("None"));
+
+		FillValues();
 
 		if (g_RemindSMS)
-			SetDlgItemTextA(hdlg, IDC_EDIT_EMAILSMS, g_RemindSMS);
+			edtEmail.SetTextA(g_RemindSMS);
 		else
-			SetDlgItemTextA(hdlg, IDC_EDIT_EMAILSMS, "");
+			edtEmail.SetTextA("");
 
-		SetDlgItemTextA(hdlg, IDC_EDIT_ALTBROWSER, g_lpszAltBrowser ? g_lpszAltBrowser : "");
-		return TRUE;
+		edtBrowser.SetTextA(g_lpszAltBrowser ? g_lpszAltBrowser : "");
+		return true;
+	}
 
-	case WM_HSCROLL:
-		SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
-		return TRUE;
+	bool OnApply() override
+	{
+		g_plugin.bShowNotesAtStart = !chkHide.GetState(); // reversed
 
-	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-			g_plugin.bShowNotesAtStart = IsDlgButtonChecked(hdlg, IDC_CHECK_HIDENOTES) == 0; // reversed
-			g_plugin.bShowNoteButtons = IsDlgButtonChecked(hdlg, IDC_CHECK_BUTTONS) != 0;
-			g_plugin.bShowScrollbar = IsDlgButtonChecked(hdlg, IDC_CHECK_SCROLLBARS) != 0;
-			g_plugin.bAddContListMI = IsDlgButtonChecked(hdlg, IDC_CHECK_MENUS) != 0;
-
-			BOOL LB;
-			g_NoteWidth = GetDlgItemInt(hdlg, IDC_EDIT_WIDTH, &LB, FALSE);
-			g_NoteHeight = GetDlgItemInt(hdlg, IDC_EDIT_HEIGHT, &LB, FALSE);
-			g_Transparency = 255 - SendDlgItemMessage(hdlg, IDC_SLIDER_TRANSPARENCY, TBM_GETPOS, 0, 0);
-			
-			g_plugin.bCloseAfterAddReminder = IsDlgButtonChecked(hdlg, IDC_CHECK_CLOSE) != 0;
-			g_plugin.bUseMSI = IsDlgButtonChecked(hdlg, IDC_CHECK_MSI) != 0;
-			
-			g_NoteTitleDate = (SendDlgItemMessage(hdlg, IDC_COMBODATE, CB_GETCURSEL, 0, 0) + 1) % SendDlgItemMessage(hdlg, IDC_COMBODATE, CB_GETCOUNT, 0, 0);
-			g_NoteTitleTime = (SendDlgItemMessage(hdlg, IDC_COMBOTIME, CB_GETCURSEL, 0, 0) + 1) % SendDlgItemMessage(hdlg, IDC_COMBOTIME, CB_GETCOUNT, 0, 0);
-			if (g_NoteWidth < 179) {
-				g_NoteWidth = 179;
-				SetDlgItemInt(hdlg, IDC_EDIT_WIDTH, g_NoteWidth, FALSE);
-			}
-			if (g_NoteHeight < 35) {
-				g_NoteHeight = 35;
-				SetDlgItemInt(hdlg, IDC_EDIT_HEIGHT, g_NoteHeight, FALSE);
-			}
-			WORD SzT = (WORD)SendDlgItemMessage(hdlg, IDC_EDIT_EMAILSMS, WM_GETTEXTLENGTH, 0, 0);
-			if (SzT != 0) {
-				g_RemindSMS = (char*)realloc(g_RemindSMS, SzT + 1);
-				GetDlgItemTextA(hdlg, IDC_EDIT_EMAILSMS, g_RemindSMS, SzT + 1);
-			}
-			char *P = g_RemindSMS;
-			db_set_blob(0, MODULENAME, "RemindEmail", P, SzT);
-
-			SzT = (WORD)SendDlgItemMessage(hdlg, IDC_EDIT_ALTBROWSER, WM_GETTEXTLENGTH, 0, 0);
-			if (SzT != 0) {
-				g_lpszAltBrowser = (char*)mir_realloc(g_lpszAltBrowser, SzT + 1);
-				GetDlgItemTextA(hdlg, IDC_EDIT_ALTBROWSER, g_lpszAltBrowser, SzT + 1);
-				rtrim(g_lpszAltBrowser);
-				if (!*g_lpszAltBrowser) {
-					mir_free(g_lpszAltBrowser);
-					g_lpszAltBrowser = nullptr;
-				}
-			}
-			else if (g_lpszAltBrowser) {
-				mir_free(g_lpszAltBrowser);
-				g_lpszAltBrowser = nullptr;
-			}
-			SetDlgItemTextA(hdlg, IDC_EDIT_ALTBROWSER, g_lpszAltBrowser ? g_lpszAltBrowser : "");
-			if (g_lpszAltBrowser)
-				g_plugin.setString("AltBrowser", g_lpszAltBrowser);
-			else
-				g_plugin.delSetting("AltBrowser");
-
-			g_plugin.setDword("NoteWidth", g_NoteWidth);
-			g_plugin.setDword("NoteHeight", g_NoteHeight);
-			g_plugin.setDword("Transparency", g_Transparency);
-			g_plugin.setDword("NoteTitleDate", g_NoteTitleDate);
-			g_plugin.setDword("NoteTitleTime", g_NoteTitleTime);
-
-			SaveNotes();
-			LoadNotes(FALSE);
-			return TRUE;
-		}
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_BTN_BROWSEBROWSER:
-			{
-				wchar_t s[MAX_PATH];
-				GetDlgItemText(hdlg, IDC_EDIT_ALTBROWSER, s, _countof(s));
-
-				OPENFILENAME ofn = {0};
-				ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
-				ofn.hwndOwner = hdlg;
-				ofn.lpstrFilter = TranslateT("Executable Files\0*.exe\0All Files\0*.*\0\0");
-				ofn.lpstrFile = s;
-				ofn.nMaxFile = _countof(s);
-				ofn.lpstrTitle = TranslateT("Select Executable");
-				ofn.lpstrInitialDir = L".";
-				ofn.Flags = OFN_FILEMUSTEXIST | OFN_LONGNAMES | OFN_ENABLESIZING | OFN_DONTADDTORECENT;
-
-				if (GetOpenFileName(&ofn)) {
-					SetDlgItemText(hdlg, IDC_EDIT_ALTBROWSER, s);
-					SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
-				}
-			}
-			break;
-
-		case IDC_BUTTON_RESET:
-			SAFE_FREE((void**)&g_RemindSMS);
-			SetDlgItemTextA(hdlg, IDC_EDIT_EMAILSMS, "");
-			SetDlgItemTextA(hdlg, IDC_EDIT_ALTBROWSER, "");
-
-			replaceStr(g_lpszAltBrowser, nullptr);
-
-			g_plugin.bShowNotesAtStart = g_plugin.bAddContListMI = g_plugin.bShowScrollbar = g_plugin.bShowNoteButtons = true;
-			g_plugin.bCloseAfterAddReminder = g_plugin.bUseMSI = true;
-
-			g_NoteTitleDate = 1;
-			g_NoteTitleTime = 1;
+		BOOL LB;
+		g_NoteWidth = GetDlgItemInt(m_hwnd, IDC_EDIT_WIDTH, &LB, FALSE);
+		g_NoteHeight = GetDlgItemInt(m_hwnd, IDC_EDIT_HEIGHT, &LB, FALSE);
+		g_Transparency = 255 - SendDlgItemMessage(m_hwnd, IDC_SLIDER_TRANSPARENCY, TBM_GETPOS, 0, 0);
+		
+		g_NoteTitleDate = (cmbDate.GetCurSel()+1) % cmbDate.GetCount();
+		g_NoteTitleTime = (cmbTime.GetCurSel()+1) % cmbTime.GetCount();
+		if (g_NoteWidth < 179) {
 			g_NoteWidth = 179;
+			SetDlgItemInt(m_hwnd, IDC_EDIT_WIDTH, g_NoteWidth, FALSE);
+		}
+		
+		if (g_NoteHeight < 35) {
 			g_NoteHeight = 35;
-			g_Transparency = 255;
-			FillValues(hdlg);
-			SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0); // JK optim
-			return TRUE;
+			SetDlgItemInt(m_hwnd, IDC_EDIT_HEIGHT, g_NoteHeight, FALSE);
+		}
 
-		case IDC_EDIT_ALTBROWSER:
-		case IDC_EDIT_EMAILSMS:
-		case IDC_EDIT_WIDTH:
-		case IDC_EDIT_HEIGHT:
-			if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus())
-				SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
-			break;
+		mir_free(g_RemindSMS);
+		g_RemindSMS = edtEmail.GetTextA();
+		g_plugin.setString("RemindEmail", g_RemindSMS);
 
-		case IDC_COMBODATE:
-		case IDC_COMBOTIME:
-			if (HIWORD(wParam) == CBN_SELCHANGE)
-				SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
-			break;
+		mir_free(g_lpszAltBrowser);
+		g_lpszAltBrowser = edtBrowser.GetTextA();
+		g_plugin.setString("AltBrowser", g_lpszAltBrowser);
 
-		case IDC_CHECK_SCROLLBARS:
-		case IDC_CHECK_BUTTONS:
-		case IDC_CHECK_HIDENOTES:
-		case IDC_CHECK_MENUS:
-		case IDC_CHECK_CLOSE:
-		case IDC_CHECK_MSI:
-			if (HIWORD(wParam) == BN_CLICKED)
-				SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
-			break;
+		g_plugin.setDword("NoteWidth", g_NoteWidth);
+		g_plugin.setDword("NoteHeight", g_NoteHeight);
+		g_plugin.setDword("Transparency", g_Transparency);
+		g_plugin.setDword("NoteTitleDate", g_NoteTitleDate);
+		g_plugin.setDword("NoteTitleTime", g_NoteTitleTime);
+
+		SaveNotes();
+		LoadNotes(false);
+		return true;
+	}
+
+	void onClick_Browse(CCtrlButton*)
+	{
+		wchar_t s[MAX_PATH];
+		GetDlgItemText(m_hwnd, IDC_EDIT_ALTBROWSER, s, _countof(s));
+
+		OPENFILENAME ofn = {0};
+		ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
+		ofn.hwndOwner = m_hwnd;
+		ofn.lpstrFilter = TranslateT("Executable Files\0*.exe\0All Files\0*.*\0\0");
+		ofn.lpstrFile = s;
+		ofn.nMaxFile = _countof(s);
+		ofn.lpstrTitle = TranslateT("Select Executable");
+		ofn.lpstrInitialDir = L".";
+		ofn.Flags = OFN_FILEMUSTEXIST | OFN_LONGNAMES | OFN_ENABLESIZING | OFN_DONTADDTORECENT;
+
+		if (GetOpenFileNameW(&ofn)) {
+			SetDlgItemText(m_hwnd, IDC_EDIT_ALTBROWSER, s);
+			NotifyChange();
 		}
 	}
-	return FALSE;
-}
+
+	void onClick_Reset(CCtrlButton*)
+	{
+		edtEmail.SetTextA("");
+		edtBrowser.SetTextA("");
+
+		replaceStr(g_RemindSMS, nullptr);
+		replaceStr(g_lpszAltBrowser, nullptr);
+
+		g_plugin.bShowNotesAtStart = g_plugin.bAddContListMI = g_plugin.bShowScrollbar = g_plugin.bShowNoteButtons = true;
+		g_plugin.bCloseAfterAddReminder = g_plugin.bUseMSI = true;
+
+		g_NoteTitleDate = 1;
+		g_NoteTitleTime = 1;
+		g_NoteWidth = 179;
+		g_NoteHeight = 35;
+		g_Transparency = 255;
+		FillValues();
+		NotifyChange();
+	}
+};
 
 int OnOptInitialise(WPARAM w, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 900002000;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_STNOTEOPTIONS);
 	odp.szTitle.a = SECTIONNAME;
 	odp.szGroup.a = LPGEN("Plugins");
-	odp.pfnDlgProc = DlgProcOptions;
+	odp.pDialog = new CNROptionsDlg();
 	g_plugin.addOptions(w, &odp);
 	return 0;
 }
@@ -397,19 +362,7 @@ int OnOptInitialise(WPARAM w, LPARAM)
 
 void InitSettings(void)
 {
-	void *P = nullptr;
-	short Sz1 = MAX_PATH;
-
-	ReadSettingBlob(0, MODULENAME, "RemindEmail", (WORD*)&Sz1, &P);
-	if (!(Sz1 && P))
-		g_RemindSMS = nullptr;
-	else {
-		g_RemindSMS = (char*)malloc(Sz1 + 1);
-		memcpy(g_RemindSMS, P, Sz1);
-		g_RemindSMS[Sz1] = 0;
-		FreeSettingBlob(Sz1, P);
-	}
-
+	g_RemindSMS = g_plugin.getStringA("RemindEmail");
 	g_lpszAltBrowser = g_plugin.getStringA("AltBrowser");
 
 	g_NoteWidth = g_plugin.getDword("NoteWidth", 179);
