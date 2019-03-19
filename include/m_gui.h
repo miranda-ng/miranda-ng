@@ -825,7 +825,8 @@ class MIR_CORE_EXPORT CCtrlDate : public CCtrlData
 public:
 	CCtrlDate(CDlgBase *dlg, int ctrlId);
 
-	void GetSystemDate(SYSTEMTIME*);
+	void GetTime(SYSTEMTIME*);
+	void SetTime(SYSTEMTIME*);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

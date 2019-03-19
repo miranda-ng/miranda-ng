@@ -38,7 +38,12 @@ BOOL CCtrlDate::OnNotify(int, NMHDR *pnmh)
 	return FALSE;
 }
 
-void CCtrlDate::GetSystemDate(SYSTEMTIME *pDate)
+void CCtrlDate::GetTime(SYSTEMTIME *pDate)
+{
+   ::SendMessage(m_hwnd, DTM_GETSYSTEMTIME, 0, (LPARAM)pDate);
+}
+
+void CCtrlDate::SetTime(SYSTEMTIME *pDate)
 {
    ::SendMessage(m_hwnd, DTM_SETSYSTEMTIME, 0, (LPARAM)pDate);
 }
