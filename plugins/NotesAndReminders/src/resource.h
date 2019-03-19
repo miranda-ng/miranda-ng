@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by C:\Users\xx\Documents\Visual Studio 2010\Projects\myranda\plugins\NotesAndReminders\res\resource.rc
+// Used by w:\miranda-ng\plugins\NotesAndReminders\res\resource.rc
 //
 #define IDD_STNOTEOPTIONS               101
 #define IDD_ADDREMINDER                 102
@@ -20,9 +20,27 @@
 #define IDI_BRINGFRONT                  121
 #define IDI_PLAYSOUND                   122
 #define IDI_VIEWNOTES                   123
+#define IDC_REMDATA                     1000
+#define IDC_DISMISS                     1001
+#define IDC_REMINDERDATA                1001
+#define IDC_REMINDAGAIN                 1002
+#define IDC_ADDREMINDER                 1002
+#define IDC_ADDNEWREMINDER              1002
+#define IDC_REMINDAGAININ               1003
+#define IDC_CLOSE                       1003
+#define IDC_AFTER                       1004
+#define IDC_REMINDER                    1004
+#define IDC_ONDATE                      1005
+#define IDC_DATEAGAIN                   1006
 #define IDC_BUTTON_RESET                1007
+#define IDC_TIMEAGAIN                   1007
+#define IDC_VIEWREMINDERS               1007
+#define IDC_NONE                        1008
+#define IDC_DAILY                       1009
 #define IDC_CHECK_HIDENOTES             1010
+#define IDC_WEEKLY                      1010
 #define IDC_CHECK_MENUS                 1011
+#define IDC_MONTHLY                     1011
 #define IDC_EDIT_WIDTH                  1012
 #define IDC_EDIT_HEIGHT                 1013
 #define IDC_SLIDER_TRANSPARENCY         1014
@@ -42,6 +60,11 @@
 #define IDC_BTN_PLAYSOUND               1030
 #define IDC_EDIT_ALTBROWSER             1031
 #define IDC_BTN_BROWSEBROWSER           1032
+#define IDC_CHECK_REPEAT                1033
+#define IDC_LISTREMINDERS_HEADER        1034
+#define IDC_DATE                        1035
+#define IDC_LISTREMINDERS               1036
+
 #define ID_CONTEXTMENUNOTEPOPUP_NEWNOTE 40009
 #define ID_CONTEXTMENUNOTEPOPUP_BRINGALLTOTOP 40010
 #define ID_CONTEXTMENUNOTEPOPUP_APPEARANCE 40011
@@ -67,9 +90,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        106
+#define _APS_NEXT_RESOURCE_VALUE        109
 #define _APS_NEXT_COMMAND_VALUE         40030
-#define _APS_NEXT_CONTROL_VALUE         1033
+#define _APS_NEXT_CONTROL_VALUE         1034
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

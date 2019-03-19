@@ -32,11 +32,6 @@
 #define WS_EX_LAYERED 0x00080000
 #define LWA_ALPHA 0x00000002
 
-#define IDC_LISTREMINDERS 1000
-#define IDC_LISTREMINDERS_HEADER 2000
-#define IDC_REMINDERDATA 1001
-#define IDC_ADDNEWREMINDER 1002
-#define IDC_CLOSE 1003
 #define WM_RELOAD (WM_USER + 100)
 
 #define NOTIFY_LIST() if (ListNotesVisible) PostMessage(LV,WM_RELOAD,0,0)
@@ -1049,7 +1044,7 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 			break;
 
 		case IDM_HIDENOTE:
-			SN->bVisible = FALSE;
+			SN->bVisible = false;
 			ShowWindow(hdlg, SW_HIDE);
 			JustSaveNotesEx();
 			break;
