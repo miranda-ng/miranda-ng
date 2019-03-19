@@ -968,6 +968,7 @@ public:
 	// Events
 	CCallback<CCtrlCombo>	OnCloseup;
 	CCallback<CCtrlCombo>	OnDropdown;
+	CCallback<CCtrlCombo>	OnKillFocus;
 	CCallback<CCtrlCombo>	OnSelChanged;
 };
 

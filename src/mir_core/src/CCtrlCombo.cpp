@@ -35,6 +35,7 @@ BOOL CCtrlCombo::OnCommand(HWND, WORD, WORD idCode)
 	case CBN_CLOSEUP:  OnCloseup(this); break;
 	case CBN_DROPDOWN: OnDropdown(this); break;
 	case CBN_SELCHANGE: OnSelChanged(this); break;
+	case CBN_KILLFOCUS: OnKillFocus(this); break;
 
 	case CBN_EDITCHANGE:
 	case CBN_EDITUPDATE:
