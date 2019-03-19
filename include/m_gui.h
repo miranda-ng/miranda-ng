@@ -814,6 +814,21 @@ public:
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// CCtrlDate - date & time picker
+
+class MIR_CORE_EXPORT CCtrlDate : public CCtrlData
+{
+	typedef CCtrlData CSuper;
+
+	BOOL OnNotify(int, NMHDR*) override;
+
+public:
+	CCtrlDate(CDlgBase *dlg, int ctrlId);
+
+	void GetSystemDate(SYSTEMTIME*);
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlEdit
 
 class MIR_CORE_EXPORT CCtrlEdit : public CCtrlData

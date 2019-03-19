@@ -1427,3 +1427,8 @@ XmlGetChildByTag @1642
 XmlGetChildCount @1643
 XmlGetChildInt @1644
 XmlGetChildText @1645
+??0CCtrlDate@@QAE@PAVCDlgBase@@H@Z @1646 NONAME
+??1CCtrlDate@@UAE@XZ @1647 NONAME
+??_7CCtrlDate@@6B@ @1648 NONAME
+?GetSystemDate@CCtrlDate@@QAEXPAU_SYSTEMTIME@@@Z @1649 NONAME
+?OnNotify@CCtrlDate@@EAEHHPAUtagNMHDR@@@Z @1650 NONAME
