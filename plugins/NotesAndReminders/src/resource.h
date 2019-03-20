@@ -27,7 +27,6 @@
 #define IDC_ADDREMINDER                 1002
 #define IDC_ADDNEWREMINDER              1002
 #define IDC_REMINDAGAININ               1003
-#define IDC_CLOSE                       1003
 #define IDC_AFTER                       1004
 #define IDC_REMINDER                    1004
 #define IDC_ONDATE                      1005

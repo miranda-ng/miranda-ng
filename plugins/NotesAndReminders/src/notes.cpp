@@ -43,7 +43,7 @@
 #define IDM_COLORPRESET_BG 41000
 #define IDM_COLORPRESET_FG 41100
 
-static bool ListNotesVisible = FALSE;
+static bool ListNotesVisible = false;
 static HWND LV;
 
 struct ColorPreset
@@ -112,8 +112,7 @@ struct STICKYNOTE : public MZeroedObject
 static OBJLIST<STICKYNOTE> g_arStickies(1, PtrKeySortT);
 
 void GetTriggerTimeString(const ULARGE_INTEGER *When, wchar_t *s, size_t strSize, BOOL bUtc);
-void OnListResize(HWND Dialog);
-void UpdateGeomFromWnd(HWND Dialog, int *geom, int *colgeom, int nCols);
+void OnListResize(HWND hwndDlg);
 void FileTimeToTzLocalST(const FILETIME *lpUtc, SYSTEMTIME *tmLocal);
 
 COLORREF GetCaptionColor(COLORREF bodyClr)
@@ -217,7 +216,7 @@ void CloseNotesList()
 {
 	if (ListNotesVisible) {
 		DestroyWindow(LV);
-		ListNotesVisible = FALSE;
+		ListNotesVisible = false;
 	}
 }
 
@@ -1629,16 +1628,11 @@ static BOOL DoListContextMenu(HWND AhWnd, WPARAM wParam, LPARAM lParam, STICKYNO
 }
 
 
-static INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog, UINT Message, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcViewNotes(HWND hwndDlg, UINT Message, WPARAM wParam, LPARAM lParam)
 {
 	switch (Message) {
 	case WM_SIZE:
-		OnListResize(Dialog);
-		UpdateGeomFromWnd(Dialog, g_notesListGeom, nullptr, 0);
-		break;
-
-	case WM_MOVE:
-		UpdateGeomFromWnd(Dialog, g_notesListGeom, nullptr, 0);
+		OnListResize(hwndDlg);
 		break;
 
 	case WM_GETMINMAXINFO:
@@ -1650,84 +1644,73 @@ static INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog, UINT Message, WPARAM wPara
 		return 0;
 
 	case WM_RELOAD:
-		SetDlgItemTextA(Dialog, IDC_REMINDERDATA, "");
-		InitListView(GetDlgItem(Dialog, IDC_LISTREMINDERS));
+		SetDlgItemTextA(hwndDlg, IDC_REMINDERDATA, "");
+		InitListView(GetDlgItem(hwndDlg, IDC_LISTREMINDERS));
 		return TRUE;
 
 	case WM_CONTEXTMENU:
 		{
 			STICKYNOTE *pNote = nullptr;
 
-			HWND H = GetDlgItem(Dialog, IDC_LISTREMINDERS);
+			HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
 			if (ListView_GetSelectedCount(H)) {
 				int i = ListView_GetSelectionMark(H);
 				if (i != -1)
 					pNote = &g_arStickies[i];
 			}
 
-			if (DoListContextMenu(Dialog, wParam, lParam, pNote))
+			if (DoListContextMenu(hwndDlg, wParam, lParam, pNote))
 				return TRUE;
 		}
 		break;
 
 	case WM_INITDIALOG:
-		Window_SetIcon_IcoLib(Dialog, iconList[13].hIcolib);
+		Window_SetIcon_IcoLib(hwndDlg, iconList[13].hIcolib);
 
-		SetWindowText(Dialog, LPGENW("Notes"));
+		SetWindowText(hwndDlg, LPGENW("Notes"));
 
-		TranslateDialogDefault(Dialog);
+		TranslateDialogDefault(hwndDlg);
 
-		SetDlgItemText(Dialog, IDC_REMINDERDATA, L"");
+		SetDlgItemText(hwndDlg, IDC_REMINDERDATA, L"");
 		{
-			HWND H = GetDlgItem(Dialog, IDC_LISTREMINDERS);
+			HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
 
 			LV_COLUMN lvCol;
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 
 			lvCol.pszText = TranslateT("Note text");
-			lvCol.cx = g_notesListColGeom[3];
+			lvCol.cx = 150;
 			ListView_InsertColumn(H, 0, &lvCol);
-			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 
 			lvCol.pszText = TranslateT("Top");
-			lvCol.cx = g_notesListColGeom[2];
+			lvCol.cx = 20;
 			ListView_InsertColumn(H, 0, &lvCol);
-			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 
 			lvCol.pszText = TranslateT("Visible");
-			lvCol.cx = g_notesListColGeom[1];
+			lvCol.cx = 20;
 			ListView_InsertColumn(H, 0, &lvCol);
-			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 
 			lvCol.pszText = TranslateT("Date/Title");
-			lvCol.cx = g_notesListColGeom[0];
+			lvCol.cx = 165;
 			ListView_InsertColumn(H, 0, &lvCol);
 
 			InitListView(H);
 			SetWindowLongPtr(GetDlgItem(H, 0), GWL_ID, IDC_LISTREMINDERS_HEADER);
-			LV = Dialog;
+			LV = hwndDlg;
 
-			if (g_notesListGeom[1] && g_notesListGeom[2]) {
-				WINDOWPLACEMENT wp;
-				wp.length = sizeof(WINDOWPLACEMENT);
-				GetWindowPlacement(Dialog, &wp);
-				wp.rcNormalPosition.left = g_notesListGeom[0];
-				wp.rcNormalPosition.top = g_notesListGeom[1];
-				wp.rcNormalPosition.right = g_notesListGeom[2] + g_notesListGeom[0];
-				wp.rcNormalPosition.bottom = g_notesListGeom[3] + g_notesListGeom[1];
-				SetWindowPlacement(Dialog, &wp);
-			}
+			Utils_RestoreWindowPosition(hwndDlg, 0, MODULENAME, "ListNotes");
 		}
 		return TRUE;
 
 	case WM_CLOSE:
-		DestroyWindow(Dialog);
-		ListNotesVisible = FALSE;
+		DestroyWindow(hwndDlg);
+		ListNotesVisible = false;
 		return TRUE;
 
 	case WM_DESTROY:
-		ListNotesVisible = FALSE;
-		Window_FreeIcon_IcoLib(Dialog);
+		ListNotesVisible = false;
+		Utils_SaveWindowPosition(hwndDlg, 0, MODULENAME, "ListNotes");
+		Window_FreeIcon_IcoLib(hwndDlg);
 		return TRUE;
 
 	case WM_NOTIFY:
@@ -1735,7 +1718,7 @@ static INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog, UINT Message, WPARAM wPara
 			LPNMLISTVIEW NM = (LPNMLISTVIEW)lParam;
 			switch (NM->hdr.code) {
 			case LVN_ITEMCHANGED:
-				SetDlgItemTextA(Dialog, IDC_REMINDERDATA, g_arStickies[NM->iItem].data);
+				SetDlgItemTextA(hwndDlg, IDC_REMINDERDATA, g_arStickies[NM->iItem].data);
 				break;
 
 			case NM_DBLCLK:
@@ -1747,21 +1730,13 @@ static INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog, UINT Message, WPARAM wPara
 				break;
 			}
 		}
-		else if (wParam == IDC_LISTREMINDERS_HEADER) {
-			LPNMHEADER NM = (LPNMHEADER)lParam;
-			switch (NM->hdr.code) {
-			case HDN_ENDTRACK:
-				UpdateGeomFromWnd(Dialog, nullptr, g_notesListColGeom, _countof(g_notesListColGeom));
-				break;
-			}
-		}
 		break;
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case ID_CONTEXTMENUNOTELISTVIEW_EDITNOTE:
 			{
-				HWND H = GetDlgItem(Dialog, IDC_LISTREMINDERS);
+				HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
 				if (ListView_GetSelectedCount(H)) {
 					int i = ListView_GetSelectionMark(H);
 					if (i != -1) {
@@ -1773,7 +1748,7 @@ static INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog, UINT Message, WPARAM wPara
 
 		case ID_CONTEXTMENUNOTELISTVIEW_TOGGLEVISIBILITY:
 			{
-				HWND H = GetDlgItem(Dialog, IDC_LISTREMINDERS);
+				HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
 				if (ListView_GetSelectedCount(H)) {
 					int i = ListView_GetSelectionMark(H);
 					if (i != -1) {
@@ -1788,7 +1763,7 @@ static INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog, UINT Message, WPARAM wPara
 
 		case IDM_TOGGLEONTOP:
 			{
-				HWND H = GetDlgItem(Dialog, IDC_LISTREMINDERS);
+				HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
 				if (ListView_GetSelectedCount(H)) {
 					int i = ListView_GetSelectionMark(H);
 					if (i != -1) {
@@ -1802,9 +1777,9 @@ static INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog, UINT Message, WPARAM wPara
 			}
 			return TRUE;
 
-		case IDC_CLOSE:
-			DestroyWindow(Dialog);
-			ListNotesVisible = FALSE;
+		case IDCANCEL:
+			DestroyWindow(hwndDlg);
+			ListNotesVisible = false;
 			return TRUE;
 
 		case ID_CONTEXTMENUNOTEPOPUP_NEWNOTE:
@@ -1818,11 +1793,11 @@ static INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog, UINT Message, WPARAM wPara
 
 		case IDM_REMOVENOTE:
 			{
-				HWND H = GetDlgItem(Dialog, IDC_LISTREMINDERS);
+				HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
 				if (ListView_GetSelectedCount(H)) {
 					int i = ListView_GetSelectionMark(H);
 					if (i != -1)
-						OnDeleteNote(Dialog, &g_arStickies[i]);
+						OnDeleteNote(hwndDlg, &g_arStickies[i]);
 				}
 			}
 			return TRUE;
@@ -1841,7 +1816,7 @@ static INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog, UINT Message, WPARAM wPara
 
 
 /////////////////////////////////////////////////////////////////////
-// Notes List Dialog (uses same dialog template as reminder list)
+// Notes List hwndDlg (uses same dialog template as reminder list)
 
 INT_PTR PluginMenuCommandAddNew(WPARAM, LPARAM)
 {
@@ -1859,7 +1834,7 @@ INT_PTR PluginMenuCommandViewNotes(WPARAM, LPARAM)
 {
 	if (!ListNotesVisible) {
 		CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_LISTREMINDERS), nullptr, DlgProcViewNotes);
-		ListNotesVisible = TRUE;
+		ListNotesVisible = true;
 	}
 	else BringWindowToTop(LV);
 	return 0;

@@ -2,7 +2,7 @@
 
 void FreeSettingBlob(WORD pSize, void *pbBlob)
 {
-	DBVARIANT dbv = { 0 };
+	DBVARIANT dbv = {};
 	dbv.type = DBVT_BLOB;
 	dbv.cpbVal = pSize;
 	dbv.pbVal = (BYTE*)pbBlob;
@@ -21,30 +21,6 @@ void ReadSettingBlob(MCONTACT hContact, char *ModuleName, char *SettingName, WOR
 		*pSize = LOWORD(dbv.cpbVal);
 		*pbBlob = (int*)dbv.pbVal;
 	}
-}
-
-void WriteSettingIntArray(MCONTACT hContact, char *ModuleName, char *SettingName, const int *Value, int Size)
-{
-	db_set_blob(hContact, ModuleName, SettingName, (void*)Value, sizeof(int)*Size);
-}
-
-bool ReadSettingIntArray(MCONTACT hContact, char *ModuleName, char *SettingName, int *Value, int Size)
-{
-	WORD sz = 4096;
-	int *pData;
-	ReadSettingBlob(hContact, ModuleName, SettingName, &sz, (void**)&pData);
-	if (!pData)
-		return false;
-
-	bool bResult = false;
-
-	if (sz == sizeof(int)*Size) {
-		memcpy(Value, pData, sizeof(int)*Size);
-		bResult = true;
-	}
-
-	FreeSettingBlob(sz, pData);
-	return bResult;
 }
 
 /////////////////////////////////////////////////////////////////////

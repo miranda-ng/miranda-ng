@@ -90,11 +90,6 @@ extern int g_Transparency;
 extern char *g_RemindSMS;
 extern char *g_lpszAltBrowser;
 
-extern int g_reminderListGeom[4];
-extern int g_reminderListColGeom[2];
-extern int g_notesListGeom[4];
-extern int g_notesListColGeom[4];
-
 extern IconItem iconList[];
 
 INT_PTR PluginMenuCommandAddNew(WPARAM, LPARAM);

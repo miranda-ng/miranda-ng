@@ -16,11 +16,6 @@ char *g_RemindSMS = nullptr;
 
 char *g_lpszAltBrowser = nullptr;
 
-int g_reminderListGeom[4] = {0};
-int g_reminderListColGeom[2] = {150, 205};
-int g_notesListGeom[4] = {0};
-int g_notesListColGeom[4] = {150, 20, 20, 165};
-
 #define NRCDEFAULT_BODYCLR		RGB(255,255,0)
 
 struct DateFormat
@@ -371,11 +366,6 @@ void InitSettings(void)
 	g_NoteTitleDate = g_plugin.getDword("NoteTitleDate", 1);
 	g_NoteTitleTime = g_plugin.getDword("NoteTitleTime", 1);
 
-	ReadSettingIntArray(0, MODULENAME, "ReminderListGeom", g_reminderListGeom, _countof(g_reminderListGeom));
-	ReadSettingIntArray(0, MODULENAME, "ReminderListColGeom", g_reminderListColGeom, _countof(g_reminderListColGeom));
-	ReadSettingIntArray(0, MODULENAME, "NotesListGeom", g_notesListGeom, _countof(g_notesListGeom));
-	ReadSettingIntArray(0, MODULENAME, "NotesListColGeom", g_notesListColGeom, _countof(g_notesListColGeom));
-
 	BodyColor = g_plugin.getDword(colourOptionsList[0].szSettingName, colourOptionsList[0].defColour);
 
 	InitFonts();
@@ -390,15 +380,6 @@ void InitSettings(void)
 
 void TermSettings(void)
 {
-	if (g_reminderListGeom[2] > 0 && g_reminderListGeom[3] > 0) {
-		WriteSettingIntArray(0, MODULENAME, "ReminderListGeom", g_reminderListGeom, _countof(g_reminderListGeom));
-		WriteSettingIntArray(0, MODULENAME, "ReminderListColGeom", g_reminderListColGeom, _countof(g_reminderListColGeom));
-	}
-	if (g_notesListGeom[2] > 0 && g_notesListGeom[3] > 0) {
-		WriteSettingIntArray(0, MODULENAME, "NotesListGeom", g_notesListGeom, _countof(g_notesListGeom));
-		WriteSettingIntArray(0, MODULENAME, "NotesListColGeom", g_notesListColGeom, _countof(g_notesListColGeom));
-	}
-
 	if (g_lpszAltBrowser) {
 		mir_free(g_lpszAltBrowser);
 		g_lpszAltBrowser = nullptr;
