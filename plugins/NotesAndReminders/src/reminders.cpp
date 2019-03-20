@@ -9,7 +9,6 @@
 #define DATATAG_SNDREPEAT  2 // %u (specifies seconds to wait between sound repeats, 0 if repeat is disabled)
 #define DATATAG_SNDSEL     3 // %d (which sound to use, default, alt1, alt2, -1 means no sound at all)
 #define DATATAG_REPEAT     4 // %d (repeateable reminder)
-#define DATATAG_ORIG       5 // %lld (start time)
 
 #define IDM_NEWREMINDER 40001
 #define IDM_DELETEREMINDER 40002
@@ -28,7 +27,7 @@ struct REMINDERDATA : public MZeroedObject
 	HWND handle;
 	DWORD uid;
 	char* Reminder;
-	ULARGE_INTEGER Orig, When;	// FILETIME in UTC
+	ULARGE_INTEGER When;	// FILETIME in UTC
 	UINT RepeatSound;
 	UINT RepeatSoundTTL;
 	int  SoundSel;			// -1 if sound disabled
@@ -38,9 +37,6 @@ struct REMINDERDATA : public MZeroedObject
 
 	REMINDERDATA()
 	{
-		SYSTEMTIME tm;
-		GetSystemTime(&tm);
-		SystemTimeToFileTime(&tm, (FILETIME*)&Orig);
 	}
 
 	~REMINDERDATA()
@@ -160,10 +156,6 @@ void JustSaveReminders(void)
 		// which results in larger DB strings with no use)
 		szValue.AppendFormat("X%u:%I64x", pReminder->uid, pReminder->When.QuadPart / FILETIME_TICKS_PER_SEC);
 
-		// orig
-		if (pReminder->Orig.QuadPart)
-			szValue.AppendFormat("\033""%u:%I64x", DATATAG_ORIG, pReminder->Orig.QuadPart / FILETIME_TICKS_PER_SEC);
-
 		// repeat
 		if (pReminder->bRepeat)
 			szValue.AppendFormat("\033""%u:%u", DATATAG_REPEAT, (int)pReminder->bRepeat);
@@ -270,10 +262,6 @@ void LoadReminders(void)
 
 					case DATATAG_REPEAT:
 						rem.bRepeat = strtol(TVal, nullptr, 10) != 0;
-						break;
-
-					case DATATAG_ORIG:
-						rem.Orig.QuadPart = _strtoui64(TVal, nullptr, 16) * FILETIME_TICKS_PER_SEC;
 						break;
 					}
 				}
@@ -844,48 +832,6 @@ static void PopulateTimeCombo(HWND hwndDlg, UINT nIDTime, BOOL bRelative, const 
 	}
 }
 
-static void PopulateTimeOffsetCombo(HWND hwndDlg, UINT nIDCombo)
-{
-	SendDlgItemMessage(hwndDlg, nIDCombo, CB_RESETCONTENT, 0, 0);
-
-	// 5 - 55 minutes (in 5 minute steps)
-	wchar_t s[MAX_PATH];
-	for (int i = 1; i < 12; i++) {
-		mir_snwprintf(s, L"%d %s", i * 5, TranslateT("Minutes"));
-		int n = SendDlgItemMessage(hwndDlg, nIDCombo, CB_ADDSTRING, 0, (LPARAM)s);
-		SendDlgItemMessage(hwndDlg, nIDCombo, CB_SETITEMDATA, n, i * 5);
-	}
-
-	// 1 hour
-	mir_snwprintf(s, L"1 %s", TranslateT("Hour"));
-	int n = SendDlgItemMessage(hwndDlg, nIDCombo, CB_ADDSTRING, 0, (LPARAM)s);
-	SendDlgItemMessage(hwndDlg, nIDCombo, CB_SETITEMDATA, n, 60);
-
-	// 2, 4, 8 hours
-	for (int i = 2; i <= 8; i += 2) {
-		mir_snwprintf(s, L"%d %s", i, TranslateT("Hours"));
-		n = SendDlgItemMessage(hwndDlg, nIDCombo, CB_ADDSTRING, 0, (LPARAM)s);
-		SendDlgItemMessage(hwndDlg, nIDCombo, CB_SETITEMDATA, n, i * 60);
-	}
-
-	// 1 day
-	mir_snwprintf(s, L"1 %s", TranslateT("Day"));
-	n = SendDlgItemMessage(hwndDlg, nIDCombo, CB_ADDSTRING, 0, (LPARAM)s);
-	SendDlgItemMessage(hwndDlg, nIDCombo, CB_SETITEMDATA, n, 24 * 60);
-
-	// 2-4 days
-	for (int i = 2; i <= 4; i++) {
-		mir_snwprintf(s, L"%d %s", i, TranslateT("Days"));
-		n = SendDlgItemMessage(hwndDlg, nIDCombo, CB_ADDSTRING, 0, (LPARAM)s);
-		SendDlgItemMessage(hwndDlg, nIDCombo, CB_SETITEMDATA, n, i * 24 * 60);
-	}
-
-	// 1 week
-	mir_snwprintf(s, L"1 %s", TranslateT("Week"));
-	n = SendDlgItemMessage(hwndDlg, nIDCombo, CB_ADDSTRING, 0, (LPARAM)s);
-	SendDlgItemMessage(hwndDlg, nIDCombo, CB_SETITEMDATA, n, 7 * 24 * 60);
-}
-
 // returns non-zero if specified time was inside "missing" hour of daylight saving
 // IMPORTANT: triggerRelUtcOut is only initialized if IsRelativeCombo() is TRUE and return value is 0
 static int ReformatTimeInput(HWND hwndDlg, UINT nIDTime, UINT nIDRefTime, int h, int m, const SYSTEMTIME *pDateLocal, ULARGE_INTEGER *triggerRelUtcOut = nullptr)
@@ -1176,6 +1122,42 @@ class CReminderNotifyDlg : public CDlgBase
 {
 	REMINDERDATA *m_pReminder;
 
+	void PopulateTimeOffsetCombo()
+	{
+		cmbRemindAgainIn.ResetContent();
+
+		// 5 - 55 minutes (in 5 minute steps)
+		wchar_t s[MAX_PATH];
+		for (int i = 1; i < 12; i++) {
+			mir_snwprintf(s, L"%d %s", i * 5, TranslateT("Minutes"));
+			cmbRemindAgainIn.AddString(s, i * 5);
+		}
+
+		// 1 hour
+		mir_snwprintf(s, L"1 %s", TranslateT("Hour"));
+		cmbRemindAgainIn.AddString(s, 60);
+
+		// 2, 4, 8 hours
+		for (int i = 2; i <= 8; i += 2) {
+			mir_snwprintf(s, L"%d %s", i, TranslateT("Hours"));
+			cmbRemindAgainIn.AddString(s, i * 60);
+		}
+
+		// 1 day
+		mir_snwprintf(s, L"1 %s", TranslateT("Day"));
+		cmbRemindAgainIn.AddString(s, 24 * 60);
+
+		// 2-4 days
+		for (int i = 2; i <= 4; i++) {
+			mir_snwprintf(s, L"%d %s", i, TranslateT("Days"));
+			cmbRemindAgainIn.AddString(s, i * 24 * 60);
+		}
+
+		// 1 week
+		mir_snwprintf(s, L"1 %s", TranslateT("Week"));
+		cmbRemindAgainIn.AddString(s, 7 * 24 * 60);
+	}
+
 	CCtrlDate dateAgain;
 	CCtrlCheck chkAfter, chkOnDate;
 	CCtrlCombo cmbTimeAgain, cmbRemindAgainIn;
@@ -1211,7 +1193,7 @@ public:
 		m_pReminder->bVisible = true;
 
 		SYSTEMTIME tm;
-		ULARGE_INTEGER li = m_pReminder->Orig;
+		ULARGE_INTEGER li = m_pReminder->When;
 		FileTimeToSystemTime((FILETIME*)&li, &tm);
 
 		// save reference time in hidden control, is needed when adding reminder to properly detect if speicifed
@@ -1223,7 +1205,7 @@ public:
 
 		BringWindowToTop(m_hwnd);
 
-		PopulateTimeOffsetCombo(m_hwnd, IDC_REMINDAGAININ);
+		PopulateTimeOffsetCombo();
 
 		cmbRemindAgainIn.Show();
 		dateAgain.Hide();
