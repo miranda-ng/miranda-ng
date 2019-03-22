@@ -92,7 +92,6 @@
     </ResourceCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <BaseAddress>0x46000000</BaseAddress>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\libs\win$(PlatformArchitecture);.\src\PGPw\sdk8\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>ws2_32.lib;$(SolutionDir)$(Configuration)\Obj\cryptlib\cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -118,7 +117,6 @@
     </ResourceCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <BaseAddress>0x46000000</BaseAddress>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\libs\win$(PlatformArchitecture);.\src\PGPw\sdk8\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>ws2_32.lib;$(SolutionDir)$(Configuration)64\Obj\cryptlib\cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -145,7 +143,6 @@
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <BaseAddress>0x46000000</BaseAddress>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\libs\win$(PlatformArchitecture);.\src\PGPw\sdk8\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>ws2_32.lib;$(SolutionDir)$(Configuration)\Obj\cryptlib\cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -174,7 +171,6 @@
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <BaseAddress>0x46000000</BaseAddress>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\libs\win$(PlatformArchitecture);.\src\PGPw\sdk8\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>ws2_32.lib;$(SolutionDir)$(Configuration)64\Obj\cryptlib\cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>

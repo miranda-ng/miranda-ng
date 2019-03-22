@@ -26,4 +26,9 @@
     <OutDir Condition="'$(Platform)'=='x64'">$(SolutionDir)$(Configuration)64\</OutDir>
   </PropertyGroup>
   <Import Project="common.props"/>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
+    <Link>
+      <FixedBaseAddress>false</FixedBaseAddress>
+    </Link>
+  </ItemDefinitionGroup>
 </Project>
