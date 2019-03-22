@@ -21,14 +21,7 @@
 #ifndef WS_EX_NOACTIVATE
 #define WS_EX_NOACTIVATE 0x08000000
 #endif
-#define IDM_REMOVENOTE 40001
-#define IDM_HIDENOTE 40002
-#define IDM_TOGGLEONTOP 40003
-#define IDM_UNDO 40004
-#define IDM_COPY 40005
-#define IDM_PASTE 40006
-#define IDM_CUT 40007
-#define IDM_CLEAR 40008
+
 #define WS_EX_LAYERED 0x00080000
 #define LWA_ALPHA 0x00000002
 
@@ -439,12 +432,12 @@ static BOOL DoContextMenu(HWND AhWnd, WPARAM, LPARAM lParam)
 	FhMenu = GetSubMenu(hMenuLoad, 0);
 
 	if (SN->bOnTop)
-		CheckMenuItem(FhMenu, IDM_TOGGLEONTOP, MF_CHECKED | MF_BYCOMMAND);
+		CheckMenuItem(FhMenu, ID_CONTEXTMENUNOTE_TOGGLEONTOP, MF_CHECKED | MF_BYCOMMAND);
 
-	EnableMenuItem(FhMenu, ID_CONTEXTMENUNOTEPOPUP_PASTETITLE, MF_BYCOMMAND | (IsClipboardFormatAvailable(CF_TEXT) ? MF_ENABLED : MF_GRAYED));
+	EnableMenuItem(FhMenu, ID_CONTEXTMENUNOTE_PASTETITLE, MF_BYCOMMAND | (IsClipboardFormatAvailable(CF_TEXT) ? MF_ENABLED : MF_GRAYED));
 
 	if (!SN->CustomTitle)
-		EnableMenuItem(FhMenu, ID_CONTEXTMENUNOTEPOPUP_RESETTITLE, MF_BYCOMMAND | MF_GRAYED);
+		EnableMenuItem(FhMenu, ID_CONTEXTMENUNOTE_RESETTITLE, MF_BYCOMMAND | MF_GRAYED);
 
 	// NOTE: names used for FindMenuItem would need to include & chars if such shortcuts are added to the menus
 
@@ -792,15 +785,15 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 			Y = HIWORD(lParam) - rect.top;
 
 			if (X > Tw - 16) {
-				SendMessage(hdlg, WM_COMMAND, IDM_TOGGLEONTOP, 0);
+				SendMessage(hdlg, WM_COMMAND, ID_CONTEXTMENUNOTE_TOGGLEONTOP, 0);
 				return TRUE;
 			}
 			else if (X > Tw - 31 && X < Tw - 16) {
-				SendMessage(hdlg, WM_COMMAND, IDM_REMOVENOTE, 0);
+				SendMessage(hdlg, WM_COMMAND, ID_CONTEXTMENUNOTE_REMOVENOTE, 0);
 				return TRUE;
 			}
 			else if (X > Tw - 48 && X < Tw - 32) {
-				SendMessage(hdlg, WM_COMMAND, IDM_HIDENOTE, 0);
+				SendMessage(hdlg, WM_COMMAND, ID_CONTEXTMENUNOTE_HIDENOTE, 0);
 				return TRUE;
 			}
 		}
@@ -877,11 +870,11 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 		}
 
 		switch (id) {
-		case ID_CONTEXTMENUNOTEPOPUP_NEWNOTE:
+		case ID_CONTEXTMENUNOTE_NEWNOTE:
 			PluginMenuCommandAddNew(0, 0);
 			break;
 
-		case ID_APPEARANCE_CUSTOMBG:
+		case ID_BACKGROUNDCOLOR_CUSTOM:
 			{
 				COLORREF custclr[16] = {0};
 				CHOOSECOLOR cc = {0};
@@ -900,7 +893,7 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 				}
 			}
 			break;
-		case ID_APPEARANCE_CUSTOMTEXT:
+		case ID_TEXTCOLOR_CUSTOM:
 			{
 				COLORREF custclr[16] = {0};
 				COLORREF orgclr = SN->FgColor ? (COLORREF)(SN->FgColor & 0xffffff) : (COLORREF)(BodyFontColor & 0xffffff);
@@ -927,7 +920,7 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 			}
 			break;
 
-		case ID_APPEARANCE_CUSTOMFONT:
+		case ID_FONT_CUSTOM:
 			{
 				LOGFONT lf = {};
 				if (SN->pCustomFont)
@@ -1004,7 +997,7 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 			}
 			break;
 
-		case ID_CONTEXTMENUNOTEPOPUP_PASTETITLE:
+		case ID_CONTEXTMENUNOTE_PASTETITLE:
 			{
 				wchar_t s[MAX_TITLE_LEN + 1];
 				if (GetClipboardText_Title(s, _countof(s))) {
@@ -1018,7 +1011,7 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 			}
 			break;
 
-		case ID_CONTEXTMENUNOTEPOPUP_RESETTITLE:
+		case ID_CONTEXTMENUNOTE_RESETTITLE:
 			if (SN->CustomTitle) {
 				if (SN->title) {
 					free(SN->title);
@@ -1030,48 +1023,48 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 			}
 			break;
 
-		case IDM_REMOVENOTE:
+		case ID_CONTEXTMENUNOTE_REMOVENOTE:
 			OnDeleteNote(hdlg, SN);
 			break;
 
-		case IDM_HIDENOTE:
+		case ID_CONTEXTMENUNOTE_HIDENOTE:
 			SN->bVisible = false;
 			ShowWindow(hdlg, SW_HIDE);
 			JustSaveNotes();
 			break;
 
-		case IDM_COPY:
+		case ID_CONTEXTMENUNOTE_COPY:
 			SendMessage(SN->REHwnd, WM_COPY, 0, 0);
 			break;
 
-		case IDM_PASTE:
+		case ID_CONTEXTMENUNOTE_PASTE:
 			SendMessage(SN->REHwnd, WM_PASTE, 0, 0);
 			break;
 
-		case IDM_CUT:
+		case ID_CONTEXTMENUNOTE_CUT:
 			SendMessage(SN->REHwnd, WM_CUT, 0, 0);
 			break;
 
-		case IDM_CLEAR:
+		case ID_CONTEXTMENUNOTE_CLEAR:
 			SendMessage(SN->REHwnd, WM_CLEAR, 0, 0);
 			break;
 
-		case IDM_UNDO:
+		case ID_CONTEXTMENUNOTE_UNDO:
 			SendMessage(SN->REHwnd, WM_UNDO, 0, 0);
 			break;
 
-		case IDM_TOGGLEONTOP:
+		case ID_CONTEXTMENUNOTE_TOGGLEONTOP:
 			SN->bOnTop = !SN->bOnTop;
 			SetWindowPos(hdlg, SN->bOnTop ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_SHOWWINDOW | SWP_NOMOVE | SWP_NOSIZE);
 			RedrawWindow(hdlg, nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW);
 			JustSaveNotes();
 			break;
 
-		case ID_CONTEXTMENUNOTEPOPUP_VIEWNOTES:
+		case ID_CONTEXTMENUNOTE_VIEWNOTES:
 			PluginMenuCommandViewNotes(0, 0);
 			break;
 
-		case ID_CONTEXTMENUNOTEPOPUP_BRINGALLTOTOP:
+		case ID_CONTEXTMENUNOTE_BRINGALLTOTOP:
 			BringAllNotesToFront(SN);
 			break;
 		}
@@ -1595,18 +1588,18 @@ static BOOL DoListContextMenu(HWND AhWnd, WPARAM wParam, LPARAM lParam, STICKYNO
 	mii.fState = MFS_DEFAULT;
 	if (!pNote)
 		mii.fState |= MFS_GRAYED;
-	SetMenuItemInfo(FhMenu, ID_CONTEXTMENUNOTELISTVIEW_EDITNOTE, FALSE, &mii);
+	SetMenuItemInfo(FhMenu, ID_CONTEXTMENUNOTE_EDITNOTE, FALSE, &mii);
 
 	if (!pNote) {
-		EnableMenuItem(FhMenu, IDM_REMOVENOTE, MF_GRAYED | MF_BYCOMMAND);
-		EnableMenuItem(FhMenu, ID_CONTEXTMENUNOTELISTVIEW_TOGGLEVISIBILITY, MF_GRAYED | MF_BYCOMMAND);
-		EnableMenuItem(FhMenu, IDM_TOGGLEONTOP, MF_GRAYED | MF_BYCOMMAND);
+		EnableMenuItem(FhMenu, ID_CONTEXTMENUNOTE_REMOVENOTE, MF_GRAYED | MF_BYCOMMAND);
+		EnableMenuItem(FhMenu, ID_CONTEXTMENUNOTE_TOGGLEVISIBILITY, MF_GRAYED | MF_BYCOMMAND);
+		EnableMenuItem(FhMenu, ID_CONTEXTMENUNOTE_TOGGLEONTOP, MF_GRAYED | MF_BYCOMMAND);
 	}
 	else {
 		if (pNote->bVisible)
-			CheckMenuItem(FhMenu, ID_CONTEXTMENUNOTELISTVIEW_TOGGLEVISIBILITY, MF_CHECKED | MF_BYCOMMAND);
+			CheckMenuItem(FhMenu, ID_CONTEXTMENUNOTE_TOGGLEVISIBILITY, MF_CHECKED | MF_BYCOMMAND);
 		if (pNote->bOnTop)
-			CheckMenuItem(FhMenu, IDM_TOGGLEONTOP, MF_CHECKED | MF_BYCOMMAND);
+			CheckMenuItem(FhMenu, ID_CONTEXTMENUNOTE_TOGGLEONTOP, MF_CHECKED | MF_BYCOMMAND);
 	}
 
 	TranslateMenu(FhMenu);
@@ -1722,7 +1715,7 @@ static INT_PTR CALLBACK DlgProcViewNotes(HWND hwndDlg, UINT Message, WPARAM wPar
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-		case ID_CONTEXTMENUNOTELISTVIEW_EDITNOTE:
+		case ID_CONTEXTMENUNOTE_EDITNOTE:
 			{
 				HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
 				if (ListView_GetSelectedCount(H)) {
@@ -1734,7 +1727,7 @@ static INT_PTR CALLBACK DlgProcViewNotes(HWND hwndDlg, UINT Message, WPARAM wPar
 			}
 			return TRUE;
 
-		case ID_CONTEXTMENUNOTELISTVIEW_TOGGLEVISIBILITY:
+		case ID_CONTEXTMENUNOTE_TOGGLEVISIBILITY:
 			{
 				HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
 				if (ListView_GetSelectedCount(H)) {
@@ -1749,7 +1742,7 @@ static INT_PTR CALLBACK DlgProcViewNotes(HWND hwndDlg, UINT Message, WPARAM wPar
 			}
 			return TRUE;
 
-		case IDM_TOGGLEONTOP:
+		case ID_CONTEXTMENUNOTE_TOGGLEONTOP:
 			{
 				HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
 				if (ListView_GetSelectedCount(H)) {
@@ -1770,16 +1763,16 @@ static INT_PTR CALLBACK DlgProcViewNotes(HWND hwndDlg, UINT Message, WPARAM wPar
 			ListNotesVisible = false;
 			return TRUE;
 
-		case ID_CONTEXTMENUNOTEPOPUP_NEWNOTE:
+		case ID_CONTEXTMENUNOTE_NEWNOTE:
 		case IDC_ADDNEWREMINDER:
 			PluginMenuCommandAddNew(0, 0);
 			return TRUE;
 
-		case ID_CONTEXTMENUNOTELISTVIEW_DELETEALLNOTES:
+		case ID_CONTEXTMENUNOTE_DELETEALLNOTES:
 			PluginMenuCommandDeleteNotes(0, 0);
 			return TRUE;
 
-		case IDM_REMOVENOTE:
+		case ID_CONTEXTMENUNOTE_REMOVENOTE:
 			{
 				HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
 				if (ListView_GetSelectedCount(H)) {
@@ -1790,11 +1783,11 @@ static INT_PTR CALLBACK DlgProcViewNotes(HWND hwndDlg, UINT Message, WPARAM wPar
 			}
 			return TRUE;
 
-		case ID_CONTEXTMENUNOTELISTVIEW_SHOW:
+		case ID_CONTEXTMENUNOTE_SHOW:
 			ShowHideNotes();
 			return TRUE;
 
-		case ID_CONTEXTMENUNOTEPOPUP_BRINGALLTOTOP:
+		case ID_CONTEXTMENUNOTE_BRINGALLTOTOP:
 			BringAllNotesToFront(nullptr);
 			return TRUE;
 		}

@@ -179,77 +179,77 @@ IDI_VIEWNOTES           ICON                    "viewnotes.ico"
 
 MNU_REMINDERPOPUP MENU
 BEGIN
-    POPUP "Context Menu Reminder ListView"
+    POPUP ""
     BEGIN
-        MENUITEM "Edi&t Reminder",              ID_CONTEXTMENUREMINDERLISTVIEW_EDIT
+        MENUITEM "Edi&t Reminder",              ID_CONTEXTMENUREMINDER_EDIT
         MENUITEM SEPARATOR
-        MENUITEM "New &Reminder",               40001
-        MENUITEM "&Delete Reminder",            40002
+        MENUITEM "New &Reminder",               ID_CONTEXTMENUREMINDER_NEW
+        MENUITEM "&Delete Reminder",            ID_CONTEXTMENUREMINDER_DELETE
         MENUITEM SEPARATOR
-        MENUITEM "D&elete All Reminders",       40003
+        MENUITEM "D&elete All Reminders",       ID_CONTEXTMENUREMINDER_DELETEALL
     END
 END
 
 MNU_NOTEPOPUP MENU
 BEGIN
-    POPUP "Context Menu Note Popup"
+    POPUP ""
     BEGIN
-        MENUITEM "&Hide Note",                  40002
-        MENUITEM "&Always On Top",              40003
-        MENUITEM "&New Note",                   ID_CONTEXTMENUNOTEPOPUP_NEWNOTE
-        MENUITEM "&Delete Note",                40001
+        MENUITEM "&Hide Note",                  ID_CONTEXTMENUNOTE_HIDENOTE
+        MENUITEM "&Always On Top",              ID_CONTEXTMENUNOTE_TOGGLEONTOP
+        MENUITEM "&New Note",                   ID_CONTEXTMENUNOTE_NEWNOTE
+        MENUITEM "&Delete Note",                ID_CONTEXTMENUNOTE_REMOVENOTE
         MENUITEM SEPARATOR
         POPUP "Appearance"
         BEGIN
             POPUP "Background Color"
             BEGIN
-                MENUITEM "Custom...",                   ID_APPEARANCE_CUSTOMBG
+                MENUITEM "Custom...",           ID_BACKGROUNDCOLOR_CUSTOM
                 MENUITEM SEPARATOR
-                MENUITEM "Reset",                       ID_BACKGROUNDCOLOR_RESET
+                MENUITEM "Reset",               ID_BACKGROUNDCOLOR_RESET
             END
             POPUP "Text Color"
             BEGIN
-                MENUITEM "Custom...",                   ID_APPEARANCE_CUSTOMTEXT
+                MENUITEM "Custom...",           ID_TEXTCOLOR_CUSTOM
                 MENUITEM SEPARATOR
-                MENUITEM "Reset",                       ID_TEXTCOLOR_RESET
+                MENUITEM "Reset",               ID_TEXTCOLOR_RESET
             END
             POPUP "Font"
             BEGIN
-                MENUITEM "Custom...",                   ID_APPEARANCE_CUSTOMFONT
+                MENUITEM "Custom...",           ID_FONT_CUSTOM
                 MENUITEM SEPARATOR
-                MENUITEM "Reset",                       ID_FONT_RESET
+                MENUITEM "Reset",               ID_FONT_RESET
             END
         END
-        MENUITEM "Paste Title",                 ID_CONTEXTMENUNOTEPOPUP_PASTETITLE
-        MENUITEM "Reset Title",                 ID_CONTEXTMENUNOTEPOPUP_RESETTITLE
+        MENUITEM "Paste Title",                 ID_CONTEXTMENUNOTE_PASTETITLE
+        MENUITEM "Reset Title",                 ID_CONTEXTMENUNOTE_RESETTITLE
         MENUITEM SEPARATOR
-        MENUITEM "Undo",                        40004
+        MENUITEM "Undo",                        ID_CONTEXTMENUNOTE_UNDO
         MENUITEM SEPARATOR
-        MENUITEM "&Copy",                       40005
-        MENUITEM "&Paste",                      40006
-        MENUITEM "C&ut",                        40007
-        MENUITEM "C&lear",                      40008
+        MENUITEM "&Copy",                       ID_CONTEXTMENUNOTE_COPY
+        MENUITEM "&Paste",                      ID_CONTEXTMENUNOTE_PASTE
+        MENUITEM "C&ut",                        ID_CONTEXTMENUNOTE_CUT
+        MENUITEM "C&lear",                      ID_CONTEXTMENUNOTE_CLEAR
         MENUITEM SEPARATOR
-        MENUITEM "&View Notes",                 ID_CONTEXTMENUNOTEPOPUP_VIEWNOTES
-        MENUITEM "&Bring All To Front",         ID_CONTEXTMENUNOTEPOPUP_BRINGALLTOTOP
+        MENUITEM "&View Notes",                 ID_CONTEXTMENUNOTE_VIEWNOTES
+        MENUITEM "&Bring All To Front",         ID_CONTEXTMENUNOTE_BRINGALLTOTOP
     END
 END
 
 MNU_NOTELISTPOPUP MENU
 BEGIN
-    POPUP "Context Menu Note ListView"
+    POPUP ""
     BEGIN
-        MENUITEM "Edi&t Note",                  ID_CONTEXTMENUNOTELISTVIEW_EDITNOTE
+        MENUITEM "Edi&t Note",                  ID_CONTEXTMENUNOTE_EDITNOTE
         MENUITEM SEPARATOR
-        MENUITEM "&Visible",                    ID_CONTEXTMENUNOTELISTVIEW_TOGGLEVISIBILITY
-        MENUITEM "Always &On Top",              40003
-        MENUITEM "&New Note",                   ID_CONTEXTMENUNOTEPOPUP_NEWNOTE
-        MENUITEM "&Delete Note",                40001
+        MENUITEM "&Visible",                    ID_CONTEXTMENUNOTE_TOGGLEVISIBILITY
+        MENUITEM "Always &On Top",              ID_CONTEXTMENUNOTE_TOGGLEONTOP
+        MENUITEM "&New Note",                   ID_CONTEXTMENUNOTE_NEWNOTE
+        MENUITEM "&Delete Note",                ID_CONTEXTMENUNOTE_REMOVENOTE
         MENUITEM SEPARATOR
-        MENUITEM "Delete &All Notes",           ID_CONTEXTMENUNOTELISTVIEW_DELETEALLNOTES
+        MENUITEM "Delete &All Notes",           ID_CONTEXTMENUNOTE_DELETEALLNOTES
         MENUITEM SEPARATOR
-        MENUITEM "&Show / Hide Notes",          ID_CONTEXTMENUNOTELISTVIEW_SHOW
-        MENUITEM "&Bring All To Front",         ID_CONTEXTMENUNOTEPOPUP_BRINGALLTOTOP
+        MENUITEM "&Show / Hide Notes",          ID_CONTEXTMENUNOTE_SHOW
+        MENUITEM "&Bring All To Front",         ID_CONTEXTMENUNOTE_BRINGALLTOTOP
     END
 END
 

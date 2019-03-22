@@ -10,10 +10,6 @@
 #define DATATAG_SNDSEL     3 // %d (which sound to use, default, alt1, alt2, -1 means no sound at all)
 #define DATATAG_REPEAT     4 // %d (repeateable reminder)
 
-#define IDM_NEWREMINDER 40001
-#define IDM_DELETEREMINDER 40002
-#define IDM_DELETEALLREMINDERS 40003
-
 #define WM_RELOAD (WM_USER + 100)
 
 #define NOTIFY_LIST() if (bListReminderVisible) PostMessage(LV,WM_RELOAD,0,0)
@@ -180,123 +176,113 @@ void JustSaveReminders(void)
 
 void LoadReminders(void)
 {
-	char *Value;
-	WORD Size;
-	char ValueName[32];
 	BOOL GenerateUids = FALSE;
 
 	arReminders.destroy();
 	int RemindersCount = g_plugin.getDword("RemindersData", 0);
 
 	for (int i = 0; i < RemindersCount; i++) {
-		Size = 65535;
-		Value = nullptr;
-		mir_snprintf(ValueName, "RemindersData%d", i);
+		WORD Size = 65535;
+		char *Value = nullptr;
 
+		char ValueName[32];
+		mir_snprintf(ValueName, "RemindersData%d", i);
 		ReadSettingBlob(0, MODULENAME, ValueName, &Size, (void**)&Value);
 
 		// was the blob found
-		if (Size && Value) {
-			REMINDERDATA rem = {};
-			char *TVal;
-			REMINDERDATA *TempRem;
-			char *DelPos = strchr(Value, 0x1B);
+		if (!Size || !Value)
+			continue;
 
-			// ensure that read data is null-terminated
-			Value[(UINT)Size - 1] = 0;
+		REMINDERDATA *TempRem = new REMINDERDATA();
+		char *DelPos = strchr(Value, 0x1B);
 
-			if (Value[0] == 'X') {
-				// new eXtended/fleXible data format
+		// ensure that read data is null-terminated
+		Value[(UINT)Size - 1] = 0;
 
+		if (Value[0] == 'X') {
+			// new eXtended/fleXible data format
+			if (DelPos)
+				*DelPos = 0;
+
+			// uid:when
+			char *TVal = strchr(Value + 1, ':');
+			if (!TVal || (DelPos && TVal > DelPos))
+				continue;
+
+			*TVal++ = 0;
+			TempRem->uid = strtoul(Value + 1, nullptr, 10);
+			TempRem->When.QuadPart = _strtoui64(TVal, nullptr, 16) * FILETIME_TICKS_PER_SEC;
+
+			// optional \033 separated params
+			while (DelPos) {
+				TVal = DelPos + 1;
+				// find param end and make sure it's null-terminated (if end of data then it's already null-terminated)
+				DelPos = strchr(TVal, 0x1B);
 				if (DelPos)
 					*DelPos = 0;
 
-				// uid:when
-				TVal = strchr(Value + 1, ':');
-				if (!TVal || (DelPos && TVal > DelPos))
-					continue;
+				// tag:<data>
+				char *sep = strchr(TVal, ':');
+				if (!sep || (DelPos && sep > DelPos))
+					break;
 
-				*TVal++ = 0;
-				rem.uid = strtoul(Value + 1, nullptr, 10);
-				rem.When.QuadPart = _strtoui64(TVal, nullptr, 16) * FILETIME_TICKS_PER_SEC;
+				UINT tag = strtoul(TVal, nullptr, 10);
+				TVal = sep + 1;
 
-				// optional \033 separated params
-				while (DelPos) {
-					char *sep;
-					UINT tag;
+				switch (tag) {
+				case DATATAG_TEXT:
+					TempRem->szText = TVal;
+					break;
 
-					TVal = DelPos + 1;
-					// find param end and make sure it's null-terminated (if end of data then it's already null-terminated)
-					DelPos = strchr(TVal, 0x1B);
-					if (DelPos)
-						*DelPos = 0;
+				case DATATAG_SNDREPEAT:
+					TempRem->RepeatSound = strtoul(TVal, nullptr, 10);
+					break;
 
-					// tag:<data>
-					sep = strchr(TVal, ':');
-					if (!sep || (DelPos && sep > DelPos))
-						goto skip;
+				case DATATAG_SNDSEL:
+					TempRem->SoundSel = strtol(TVal, nullptr, 10);
+					if (TempRem->SoundSel > 2) TempRem->SoundSel = 2;
+					break;
 
-					tag = strtoul(TVal, nullptr, 10);
-					TVal = sep + 1;
-
-					switch (tag) {
-					case DATATAG_TEXT:
-						rem.szText = TVal;
-						break;
-
-					case DATATAG_SNDREPEAT:
-						rem.RepeatSound = strtoul(TVal, nullptr, 10);
-						break;
-
-					case DATATAG_SNDSEL:
-						rem.SoundSel = strtol(TVal, nullptr, 10);
-						if (rem.SoundSel > 2) rem.SoundSel = 2;
-						break;
-
-					case DATATAG_REPEAT:
-						rem.bRepeat = strtol(TVal, nullptr, 10) != 0;
-						break;
-					}
+				case DATATAG_REPEAT:
+					TempRem->bRepeat = strtol(TVal, nullptr, 10) != 0;
+					break;
 				}
-
-				if (rem.SoundSel < 0)
-					rem.RepeatSound = 0;
-			}
-			else {
-				// old format (for DB backward compatibility)
-				if (!DelPos)
-					continue;
-
-				DelPos[0] = 0;
-				// convert time_t to (local) FILETIME
-
-				time_t tt = (time_t)strtoul(Value, nullptr, 10);
-				struct tm *stm = localtime(&tt);
-
-				SYSTEMTIME tm;
-				tm.wDayOfWeek = 0;
-				tm.wSecond = 0;
-				tm.wMilliseconds = 0;
-				tm.wHour = stm->tm_hour;
-				tm.wMinute = stm->tm_min;
-				tm.wSecond = stm->tm_sec;
-				tm.wYear = stm->tm_year + 1900;
-				tm.wMonth = stm->tm_mon + 1;
-				tm.wDay = stm->tm_mday;
-				SystemTimeToFileTime(&tm, (FILETIME*)&rem.When);
-
-				TVal = DelPos + 1;
-				rem.szText = TVal;
 			}
 
-			// queue uid generation if invalid uid is present
-			if (!rem.uid)
-				GenerateUids = true;
-
-			TempRem = new REMINDERDATA(rem);
-			arReminders.insert(TempRem);
-skip:;
+			if (TempRem->SoundSel < 0)
+				TempRem->RepeatSound = 0;
 		}
+		else {
+			// old format (for DB backward compatibility)
+			if (!DelPos)
+				continue;
+
+			DelPos[0] = 0;
+			// convert time_t to (local) FILETIME
+
+			time_t tt = (time_t)strtoul(Value, nullptr, 10);
+			struct tm *stm = localtime(&tt);
+
+			SYSTEMTIME tm;
+			tm.wDayOfWeek = 0;
+			tm.wSecond = 0;
+			tm.wMilliseconds = 0;
+			tm.wHour = stm->tm_hour;
+			tm.wMinute = stm->tm_min;
+			tm.wSecond = stm->tm_sec;
+			tm.wYear = stm->tm_year + 1900;
+			tm.wMonth = stm->tm_mon + 1;
+			tm.wDay = stm->tm_mday;
+			SystemTimeToFileTime(&tm, (FILETIME*)&TempRem->When);
+
+			TempRem->szText = DelPos + 1;
+		}
+
+		// queue uid generation if invalid uid is present
+		if (!TempRem->uid)
+			GenerateUids = true;
+
+		arReminders.insert(TempRem);
 
 		FreeSettingBlob(Size, Value);
 	}
@@ -451,7 +437,6 @@ static void FireReminder(REMINDERDATA *pReminder, DWORD *pHasPlayedSound)
 		*pHasPlayedSound |= dwSoundMask;
 	}
 }
-
 
 bool CheckRemindersAndStart(void)
 {
@@ -1744,7 +1729,7 @@ void OnListResize(HWND hwndDlg)
 	RedrawWindow(hwndDlg, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ERASE);
 }
 
-static BOOL DoListContextMenu(HWND AhWnd, WPARAM wParam, LPARAM lParam, REMINDERDATA *pReminder)
+static BOOL DoListContextMenu(HWND AhWnd, WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndListView = (HWND)wParam;
 	if (hwndListView != GetDlgItem(AhWnd, IDC_LISTREMINDERS))
@@ -1753,19 +1738,31 @@ static BOOL DoListContextMenu(HWND AhWnd, WPARAM wParam, LPARAM lParam, REMINDER
 	HMENU hMenuLoad = LoadMenuA(g_plugin.getInst(), "MNU_REMINDERPOPUP");
 	HMENU FhMenu = GetSubMenu(hMenuLoad, 0);
 
+	int idx = ListView_GetSelectionMark(hwndListView);
+	REMINDERDATA *pReminder = (idx == -1) ? nullptr : arReminders[idx];
+
 	MENUITEMINFO mii = {};
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_STATE;
 	mii.fState = MFS_DEFAULT;
 	if (!pReminder || pReminder->bSystemEventQueued)
 		mii.fState |= MFS_GRAYED;
-	SetMenuItemInfo(FhMenu, ID_CONTEXTMENUREMINDERLISTVIEW_EDIT, FALSE, &mii);
+	SetMenuItemInfo(FhMenu, ID_CONTEXTMENUREMINDER_EDIT, FALSE, &mii);
 
 	if (!pReminder)
-		EnableMenuItem(FhMenu, IDM_DELETEREMINDER, MF_GRAYED | MF_BYCOMMAND);
+		EnableMenuItem(FhMenu, ID_CONTEXTMENUREMINDER_DELETE, MF_GRAYED | MF_BYCOMMAND);
+
+	POINT pt = { GET_X_LPARAM(lParam),  GET_Y_LPARAM(lParam) };
+	if (pt.x == -1 && pt.y == -1) {
+		RECT rc;
+		ListView_GetItemRect(hwndListView, idx, &rc, LVIR_LABEL);
+		pt.x = rc.left;
+		pt.y = rc.bottom;
+		ClientToScreen(hwndListView, &pt);
+	}
 
 	TranslateMenu(FhMenu);
-	TrackPopupMenu(FhMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON, LOWORD(lParam), HIWORD(lParam), 0, AhWnd, nullptr);
+	TrackPopupMenu(FhMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, AhWnd, nullptr);
 	DestroyMenu(hMenuLoad);
 	return TRUE;
 }
@@ -1773,6 +1770,7 @@ static BOOL DoListContextMenu(HWND AhWnd, WPARAM wParam, LPARAM lParam, REMINDER
 static INT_PTR CALLBACK DlgProcViewReminders(HWND hwndDlg, UINT Message, WPARAM wParam, LPARAM lParam)
 {
 	HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
+	int idx;
 
 	switch (Message) {
 	case WM_SIZE:
@@ -1793,18 +1791,8 @@ static INT_PTR CALLBACK DlgProcViewReminders(HWND hwndDlg, UINT Message, WPARAM 
 		return TRUE;
 
 	case WM_CONTEXTMENU:
-		{
-			REMINDERDATA *pReminder = nullptr;
-
-			if (ListView_GetSelectedCount(H)) {
-				int i = ListView_GetSelectionMark(H);
-				if (i != -1)
-					pReminder = arReminders[i];
-			}
-
-			if (DoListContextMenu(hwndDlg, wParam, lParam, pReminder))
-				return TRUE;
-		}
+		if (DoListContextMenu(hwndDlg, wParam, lParam))
+			return TRUE;
 		break;
 
 	case WM_INITDIALOG:
@@ -1846,11 +1834,9 @@ static INT_PTR CALLBACK DlgProcViewReminders(HWND hwndDlg, UINT Message, WPARAM 
 				break;
 
 			case NM_DBLCLK:
-				if (ListView_GetSelectedCount(H)) {
-					int i = ListView_GetSelectionMark(H);
-					if (i != -1)
-						EditReminder(arReminders[i]);
-				}
+				int i = ListView_GetSelectionMark(H);
+				if (i != -1)
+					EditReminder(arReminders[i]);
 				break;
 			}
 		}
@@ -1858,12 +1844,10 @@ static INT_PTR CALLBACK DlgProcViewReminders(HWND hwndDlg, UINT Message, WPARAM 
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-		case ID_CONTEXTMENUREMINDERLISTVIEW_EDIT:
-			if (ListView_GetSelectedCount(H)) {
-				int i = ListView_GetSelectionMark(H);
-				if (i != -1)
-					EditReminder(arReminders[i]);
-			}
+		case ID_CONTEXTMENUREMINDER_EDIT:
+			idx = ListView_GetSelectionMark(H);
+			if (idx != -1)
+				EditReminder(arReminders[idx]);
 			return TRUE;
 
 		case IDCANCEL:
@@ -1871,12 +1855,12 @@ static INT_PTR CALLBACK DlgProcViewReminders(HWND hwndDlg, UINT Message, WPARAM 
 			bListReminderVisible = false;
 			return TRUE;
 
-		case IDM_NEWREMINDER:
+		case ID_CONTEXTMENUREMINDER_NEW:
 		case IDC_ADDNEWREMINDER:
 			PluginMenuCommandNewReminder(0, 0);
 			return TRUE;
 
-		case IDM_DELETEALLREMINDERS:
+		case ID_CONTEXTMENUREMINDER_DELETEALL:
 			if (arReminders.getCount() && IDOK == MessageBox(hwndDlg, TranslateT("Are you sure you want to delete all reminders?"), _A2W(SECTIONNAME), MB_OKCANCEL)) {
 				SetDlgItemTextA(hwndDlg, IDC_REMINDERDATA, "");
 				DeleteReminders();
@@ -1884,15 +1868,13 @@ static INT_PTR CALLBACK DlgProcViewReminders(HWND hwndDlg, UINT Message, WPARAM 
 			}
 			return TRUE;
 
-		case IDM_DELETEREMINDER:
-			if (ListView_GetSelectedCount(H)) {
-				int i = ListView_GetSelectionMark(H);
-				if (i != -1 && IDOK == MessageBox(hwndDlg, TranslateT("Are you sure you want to delete this reminder?"), _A2W(SECTIONNAME), MB_OKCANCEL)) {
-					SetDlgItemTextA(hwndDlg, IDC_REMINDERDATA, "");
-					DeleteReminder(arReminders[i]);
-					JustSaveReminders();
-					InitListView(H);
-				}
+		case ID_CONTEXTMENUREMINDER_DELETE:
+			idx = ListView_GetSelectionMark(H);
+			if (idx != -1 && IDOK == MessageBox(hwndDlg, TranslateT("Are you sure you want to delete this reminder?"), _A2W(SECTIONNAME), MB_OKCANCEL)) {
+				SetDlgItemTextA(hwndDlg, IDC_REMINDERDATA, "");
+				DeleteReminder(arReminders[idx]);
+				JustSaveReminders();
+				InitListView(H);
 			}
 			return TRUE;
 		}

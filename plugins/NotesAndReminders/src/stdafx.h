@@ -1,6 +1,7 @@
 #pragma once
 
 #include <windows.h>
+#include <windowsx.h>
 #include <commctrl.h>
 #include <limits.h>
 #include <time.h>
