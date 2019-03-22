@@ -55,7 +55,7 @@ extern void CreateMsgWindow(void);
 extern void DestroyMsgWindow(void);
 
 void NewNote(int Ax, int Ay, int Aw, int Ah, const char *pszText, ULARGE_INTEGER *ID, BOOL Visible, BOOL bOnTop, int scrollV);
-void LoadNotes(BOOL bIsStartup);
+void LoadNotes(bool bIsStartup);
 void SaveNotes(void);
 void DeleteNotes(void);
 void ShowHideNotes(void);

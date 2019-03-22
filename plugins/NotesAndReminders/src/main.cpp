@@ -156,7 +156,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	// init vars and load all data
 	InitSettings();
 	CreateMsgWindow();
-	LoadNotes(TRUE);
+	LoadNotes(true);
 	LoadReminders();
 	return 0;
 }

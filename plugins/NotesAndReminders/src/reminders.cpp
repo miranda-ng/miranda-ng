@@ -174,117 +174,88 @@ void JustSaveReminders(void)
 	}
 }
 
+static bool LoadReminder(char *Value)
+{
+	char *DelPos = strchr(Value, 0x1B);
+	if (DelPos)
+		*DelPos = 0;
+
+	// uid:when
+	char *TVal = strchr(Value + 1, ':');
+	if (!TVal || (DelPos && TVal > DelPos))
+		return false;
+	*TVal++ = 0;
+
+	REMINDERDATA *TempRem = new REMINDERDATA();
+	TempRem->uid = strtoul(Value + 1, nullptr, 10);
+	TempRem->When.QuadPart = _strtoui64(TVal, nullptr, 16) * FILETIME_TICKS_PER_SEC;
+
+	// optional \033 separated params
+	while (DelPos) {
+		TVal = DelPos + 1;
+		// find param end and make sure it's null-terminated (if end of data then it's already null-terminated)
+		DelPos = strchr(TVal, 0x1B);
+		if (DelPos)
+			*DelPos = 0;
+
+		// tag:<data>
+		char *sep = strchr(TVal, ':');
+		if (!sep || (DelPos && sep > DelPos))
+			break;
+
+		UINT tag = strtoul(TVal, nullptr, 10);
+		TVal = sep + 1;
+
+		switch (tag) {
+		case DATATAG_TEXT:
+			TempRem->szText = TVal;
+			break;
+
+		case DATATAG_SNDREPEAT:
+			TempRem->RepeatSound = strtoul(TVal, nullptr, 10);
+			break;
+
+		case DATATAG_SNDSEL:
+			TempRem->SoundSel = strtol(TVal, nullptr, 10);
+			if (TempRem->SoundSel > 2) TempRem->SoundSel = 2;
+			break;
+
+		case DATATAG_REPEAT:
+			TempRem->bRepeat = strtol(TVal, nullptr, 10) != 0;
+			break;
+		}
+	}
+
+	if (TempRem->SoundSel < 0)
+		TempRem->RepeatSound = 0;
+
+	// queue uid generation if invalid uid is present
+	arReminders.insert(TempRem);
+	return TempRem->uid == 0;
+}
+
 void LoadReminders(void)
 {
-	BOOL GenerateUids = FALSE;
+	bool GenerateUids = false;
 
 	arReminders.destroy();
 	int RemindersCount = g_plugin.getDword("RemindersData", 0);
 
 	for (int i = 0; i < RemindersCount; i++) {
-		WORD Size = 65535;
-		char *Value = nullptr;
-
 		char ValueName[32];
 		mir_snprintf(ValueName, "RemindersData%d", i);
-		ReadSettingBlob(0, MODULENAME, ValueName, &Size, (void**)&Value);
 
-		// was the blob found
-		if (!Size || !Value)
+		DBVARIANT dbv = { DBVT_BLOB };
+		if (db_get(0, MODULENAME, ValueName, &dbv))
 			continue;
 
-		REMINDERDATA *TempRem = new REMINDERDATA();
-		char *DelPos = strchr(Value, 0x1B);
+		// was the blob found
+		if (!dbv.cpbVal || !dbv.pbVal)
+			continue;
 
-		// ensure that read data is null-terminated
-		Value[(UINT)Size - 1] = 0;
-
-		if (Value[0] == 'X') {
-			// new eXtended/fleXible data format
-			if (DelPos)
-				*DelPos = 0;
-
-			// uid:when
-			char *TVal = strchr(Value + 1, ':');
-			if (!TVal || (DelPos && TVal > DelPos))
-				continue;
-
-			*TVal++ = 0;
-			TempRem->uid = strtoul(Value + 1, nullptr, 10);
-			TempRem->When.QuadPart = _strtoui64(TVal, nullptr, 16) * FILETIME_TICKS_PER_SEC;
-
-			// optional \033 separated params
-			while (DelPos) {
-				TVal = DelPos + 1;
-				// find param end and make sure it's null-terminated (if end of data then it's already null-terminated)
-				DelPos = strchr(TVal, 0x1B);
-				if (DelPos)
-					*DelPos = 0;
-
-				// tag:<data>
-				char *sep = strchr(TVal, ':');
-				if (!sep || (DelPos && sep > DelPos))
-					break;
-
-				UINT tag = strtoul(TVal, nullptr, 10);
-				TVal = sep + 1;
-
-				switch (tag) {
-				case DATATAG_TEXT:
-					TempRem->szText = TVal;
-					break;
-
-				case DATATAG_SNDREPEAT:
-					TempRem->RepeatSound = strtoul(TVal, nullptr, 10);
-					break;
-
-				case DATATAG_SNDSEL:
-					TempRem->SoundSel = strtol(TVal, nullptr, 10);
-					if (TempRem->SoundSel > 2) TempRem->SoundSel = 2;
-					break;
-
-				case DATATAG_REPEAT:
-					TempRem->bRepeat = strtol(TVal, nullptr, 10) != 0;
-					break;
-				}
-			}
-
-			if (TempRem->SoundSel < 0)
-				TempRem->RepeatSound = 0;
-		}
-		else {
-			// old format (for DB backward compatibility)
-			if (!DelPos)
-				continue;
-
-			DelPos[0] = 0;
-			// convert time_t to (local) FILETIME
-
-			time_t tt = (time_t)strtoul(Value, nullptr, 10);
-			struct tm *stm = localtime(&tt);
-
-			SYSTEMTIME tm;
-			tm.wDayOfWeek = 0;
-			tm.wSecond = 0;
-			tm.wMilliseconds = 0;
-			tm.wHour = stm->tm_hour;
-			tm.wMinute = stm->tm_min;
-			tm.wSecond = stm->tm_sec;
-			tm.wYear = stm->tm_year + 1900;
-			tm.wMonth = stm->tm_mon + 1;
-			tm.wDay = stm->tm_mday;
-			SystemTimeToFileTime(&tm, (FILETIME*)&TempRem->When);
-
-			TempRem->szText = DelPos + 1;
-		}
-
-		// queue uid generation if invalid uid is present
-		if (!TempRem->uid)
-			GenerateUids = true;
-
-		arReminders.insert(TempRem);
-
-		FreeSettingBlob(Size, Value);
+		if (dbv.pbVal[0] == 'X')
+			GenerateUids |= LoadReminder((char*)dbv.pbVal);
+		db_free(&dbv);
 	}
 
 	// generate UIDs if there are any items with an invalid UID
@@ -488,17 +459,15 @@ bool CheckRemindersAndStart(void)
 						bResult = true;
 				}
 				else {
-					char *S2 = strchr(g_RemindSMS, '@');
-					char *S1 = (char*)malloc(S2 - g_RemindSMS);
+					char *p = strchr(g_RemindSMS, '@');
+					if (p) {
+						Send(g_RemindSMS, p+1, pReminder->szText, NULL);
+						*p = '@';
 
-					strncpy(S1, g_RemindSMS, S2 - g_RemindSMS);
-					S1[S2 - g_RemindSMS] = 0x0;
-					S2++;
-					Send(S1, S2, pReminder->szText, NULL);
-					SAFE_FREE((void**)&S1);
-					DeleteReminder(pReminder);
-					JustSaveReminders();
-					NOTIFY_LIST();
+						DeleteReminder(pReminder);
+						JustSaveReminders();
+						NOTIFY_LIST();
+					}
 				}
 			}
 		}
