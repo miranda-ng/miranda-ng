@@ -88,7 +88,7 @@ struct STICKYNOTE : public MZeroedObject
 {
 	HWND SNHwnd, REHwnd;
 	BOOL bVisible, bOnTop;
-	char *data;
+	CMStringA szText;
 	ULARGE_INTEGER ID;		// FILETIME in UTC
 	wchar_t *title;
 	BOOL CustomTitle;
@@ -101,7 +101,6 @@ struct STICKYNOTE : public MZeroedObject
 		if (SNHwnd)
 			DestroyWindow(SNHwnd);
 		SAFE_FREE((void**)&title);
-		SAFE_FREE((void**)&data);
 		if (pCustomFont) {
 			DeleteObject(pCustomFont->hFont);
 			free(pCustomFont);
@@ -263,8 +262,8 @@ void BringAllNotesToFront(STICKYNOTE *pActive)
 	}
 }
 
-// pModified optionally points to the modified note that invoked the JustSaveNotesEx call
-static void JustSaveNotesEx(STICKYNOTE *pModified = nullptr)
+// pModified optionally points to the modified note that invoked the JustSaveNotes call
+static void JustSaveNotes(STICKYNOTE *pModified = nullptr)
 {
 	int i = 0, NotesCount = g_arStickies.getCount();
 	char ValueName[32];
@@ -274,7 +273,6 @@ static void JustSaveNotesEx(STICKYNOTE *pModified = nullptr)
 	g_plugin.setDword("NotesData", NotesCount);
 
 	for (auto &pNote : g_arStickies) {
-		BOOL bDeleteTData = TRUE;
 		int scrollV = 0;
 		char *tData = nullptr;
 
@@ -302,13 +300,9 @@ static void JustSaveNotesEx(STICKYNOTE *pModified = nullptr)
 				GetWindowTextA(pNote->REHwnd, tData, SzT + 1);
 		}
 
-		if (pNote == pModified) {
-			// update the data of the modified note
-			if (pNote->data)
-				free(pNote->data);
-			pNote->data = tData ? tData : _strdup("");
-			bDeleteTData = FALSE;
-		}
+		// update the data of the modified note
+		if (pNote == pModified)
+			pNote->szText = tData ? tData : "";
 
 		if (!tData) // empty note
 			SzT = 0;
@@ -348,8 +342,7 @@ static void JustSaveNotesEx(STICKYNOTE *pModified = nullptr)
 		mir_snprintf(ValueName, "NotesData%d", i++); // we do not reverse notes in DB
 		db_set_blob(0, MODULENAME, ValueName, szValue.GetBuffer(), szValue.GetLength() + 1);
 
-		if (bDeleteTData)
-			SAFE_FREE((void**)&tData);
+		SAFE_FREE((void**)&tData);
 
 		// make no save is queued for the note
 		if (pNote->SNHwnd)
@@ -369,7 +362,7 @@ void OnDeleteNote(HWND hdlg, STICKYNOTE *SN)
 {
 	if (MessageBoxW(hdlg, TranslateT("Are you sure you want to delete this note?"), TranslateT(SECTIONNAME), MB_OKCANCEL) == IDOK) {
 		g_arStickies.remove(SN);
-		JustSaveNotesEx();
+		JustSaveNotes();
 		NOTIFY_LIST();
 	}
 }
@@ -407,12 +400,12 @@ void ShowHideNotes(void)
 		}
 	}
 
-	JustSaveNotesEx();
+	JustSaveNotes();
 }
 
 void SaveNotes(void)
 {
-	JustSaveNotesEx();
+	JustSaveNotes();
 	g_arStickies.destroy();
 }
 
@@ -577,8 +570,7 @@ static void SetNoteTextControl(STICKYNOTE *SN)
 	CF.crTextColor = SN->FgColor ? (SN->FgColor & 0xffffff) : BodyFontColor;
 	SendMessage(SN->REHwnd, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&CF);
 
-	if (SN->data) // TODO: use EM_STREAMIN
-		SetWindowTextA(SN->REHwnd, SN->data);
+	SetWindowTextA(SN->REHwnd, SN->szText);
 }
 
 
@@ -615,7 +607,7 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 	case WM_TIMER:
 		if (wParam == 1025) {
 			KillTimer(hdlg, 1025);
-			JustSaveNotesEx(SN);
+			JustSaveNotes(SN);
 		}
 		break;
 
@@ -866,7 +858,7 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 			SN->BgColor = clrPresets[id - IDM_COLORPRESET_BG].color | 0xff000000;
 			SendMessage(SN->REHwnd, EM_SETBKGNDCOLOR, 0, SN->BgColor & 0xffffff);
 			RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
-			JustSaveNotesEx();
+			JustSaveNotes();
 			return FALSE;
 		}
 		
@@ -880,7 +872,7 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 			SendMessage(SN->REHwnd, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&CF);
 
 			RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
-			JustSaveNotesEx();
+			JustSaveNotes();
 			return FALSE;
 		}
 
@@ -904,7 +896,7 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 					SN->BgColor = cc.rgbResult | 0xff000000;
 					SendMessage(SN->REHwnd, EM_SETBKGNDCOLOR, 0, SN->BgColor & 0xffffff);
 					RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
-					JustSaveNotesEx();
+					JustSaveNotes();
 				}
 			}
 			break;
@@ -930,7 +922,7 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 					SendMessage(SN->REHwnd, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&CF);
 
 					RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
-					JustSaveNotesEx();
+					JustSaveNotes();
 				}
 			}
 			break;
@@ -973,7 +965,7 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 				SendMessage(SN->REHwnd, WM_SETFONT, (WPARAM)(SN->pCustomFont ? SN->pCustomFont->hFont : hBodyFont), FALSE);
 				SetNoteTextControl(SN);
 				RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
-				JustSaveNotesEx();
+				JustSaveNotes();
 			}
 			break;
 
@@ -981,7 +973,7 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 			SN->BgColor = 0;
 			SendMessage(SN->REHwnd, EM_SETBKGNDCOLOR, 0, (LPARAM)BodyColor);
 			RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
-			JustSaveNotesEx();
+			JustSaveNotes();
 			break;
 
 		case ID_TEXTCOLOR_RESET:
@@ -994,7 +986,7 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 				SendMessage(SN->REHwnd, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&CF);
 			}
 			RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
-			JustSaveNotesEx();
+			JustSaveNotes();
 			break;
 
 		case ID_FONT_RESET:
@@ -1008,7 +1000,7 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 				SendMessage(SN->REHwnd, WM_SETFONT, (WPARAM)hBodyFont, FALSE);
 				SetNoteTextControl(SN);
 				RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
-				JustSaveNotesEx();
+				JustSaveNotes();
 			}
 			break;
 
@@ -1021,7 +1013,7 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 					SN->title = _wcsdup(s);
 					SN->CustomTitle = TRUE;
 					RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
-					JustSaveNotesEx();
+					JustSaveNotes();
 				}
 			}
 			break;
@@ -1034,7 +1026,7 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 				}
 				InitNoteTitle(SN);
 				RedrawWindow(SN->SNHwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
-				JustSaveNotesEx();
+				JustSaveNotes();
 			}
 			break;
 
@@ -1045,7 +1037,7 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 		case IDM_HIDENOTE:
 			SN->bVisible = false;
 			ShowWindow(hdlg, SW_HIDE);
-			JustSaveNotesEx();
+			JustSaveNotes();
 			break;
 
 		case IDM_COPY:
@@ -1072,7 +1064,7 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 			SN->bOnTop = !SN->bOnTop;
 			SetWindowPos(hdlg, SN->bOnTop ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_SHOWWINDOW | SWP_NOMOVE | SWP_NOSIZE);
 			RedrawWindow(hdlg, nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW);
-			JustSaveNotesEx();
+			JustSaveNotes();
 			break;
 
 		case ID_CONTEXTMENUNOTEPOPUP_VIEWNOTES:
@@ -1099,7 +1091,7 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 	return FALSE;
 }
 
-STICKYNOTE* NewNoteEx(int Ax, int Ay, int Aw, int Ah, char *Data, ULARGE_INTEGER *ID, BOOL bVisible, BOOL bOnTop, int scrollV, COLORREF bgClr, COLORREF fgClr, wchar_t *Title, STICKYNOTEFONT *pCustomFont, BOOL bLoading)
+static STICKYNOTE* NewNoteEx(int Ax, int Ay, int Aw, int Ah, const char *pszText, ULARGE_INTEGER *ID, BOOL bVisible, BOOL bOnTop, int scrollV, COLORREF bgClr, COLORREF fgClr, wchar_t *Title, STICKYNOTEFONT *pCustomFont, BOOL bLoading)
 {
 	WNDCLASSEX TWC = {0};
 	WINDOWPLACEMENT TWP;
@@ -1108,8 +1100,6 @@ STICKYNOTE* NewNoteEx(int Ax, int Ay, int Aw, int Ah, char *Data, ULARGE_INTEGER
 
 	const BOOL bIsStartup = bVisible & 0x10000;
 	bVisible &= ~0x10000;
-
-	char *TData = Data;
 
 	if (!GetClassInfoEx(hmiranda, NOTE_WND_CLASS, &TWC)) {
 		TWC.style = CS_HREDRAW | CS_VREDRAW | CS_NOCLOSE;
@@ -1126,7 +1116,7 @@ STICKYNOTE* NewNoteEx(int Ax, int Ay, int Aw, int Ah, char *Data, ULARGE_INTEGER
 		if (!RegisterClassEx(&TWC)) return nullptr;
 	}
 
-	if (!TData || Aw < 0 || Ah < 0) {
+	if (!pszText || Aw < 0 || Ah < 0) {
 		TWP.length = sizeof(WINDOWPLACEMENT);
 		GetWindowPlacement(GetDesktopWindow(), &TWP);
 		Aw = g_NoteWidth; Ah = g_NoteHeight;
@@ -1147,10 +1137,8 @@ STICKYNOTE* NewNoteEx(int Ax, int Ay, int Aw, int Ah, char *Data, ULARGE_INTEGER
 
 	g_arStickies.insert(TSN);
 
-	if (!TData)
-		TSN->data = _strdup("");
-	else
-		TSN->data = TData;
+	if (pszText)
+		TSN->szText = pszText;
 
 	// init note title (time-stamp)
 	if (Title) {
@@ -1184,7 +1172,7 @@ STICKYNOTE* NewNoteEx(int Ax, int Ay, int Aw, int Ah, char *Data, ULARGE_INTEGER
 
 	// ensure that window is not placed off-screen (if previous session had different monitor count or resolution)
 	// NOTE: SetWindowPlacement should do this, but it's extremly flakey
-	if (Data) {
+	if (pszText) {
 		if (!MonitorFromWindow(TSN->SNHwnd, MONITOR_DEFAULTTONULL)) {
 			TWP.length = sizeof(WINDOWPLACEMENT);
 			GetWindowPlacement(GetDesktopWindow(), &TWP);
@@ -1203,7 +1191,7 @@ STICKYNOTE* NewNoteEx(int Ax, int Ay, int Aw, int Ah, char *Data, ULARGE_INTEGER
 		ShowWindow(TSN->SNHwnd, SW_SHOWNA);
 
 		// when loading notes (only at startup), place all non-top notes at the bottom so they don't cover other windows
-		if (Data && !bOnTop && bIsStartup)
+		if (pszText && !bOnTop && bIsStartup)
 			SetWindowPos(TSN->SNHwnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS);
 	}
 
@@ -1220,9 +1208,9 @@ STICKYNOTE* NewNoteEx(int Ax, int Ay, int Aw, int Ah, char *Data, ULARGE_INTEGER
 	return TSN;
 }
 
-void NewNote(int Ax, int Ay, int Aw, int Ah, char *Data, ULARGE_INTEGER *ID, BOOL bVisible, BOOL bOnTop, int scrollV)
+void NewNote(int Ax, int Ay, int Aw, int Ah, const char *pszText, ULARGE_INTEGER *ID, BOOL bVisible, BOOL bOnTop, int scrollV)
 {
-	auto *PSN = NewNoteEx(Ax, Ay, Aw, Ah, Data, ID, bVisible, bOnTop, scrollV, 0, 0, nullptr, nullptr, FALSE);
+	auto *PSN = NewNoteEx(Ax, Ay, Aw, Ah, pszText, ID, bVisible, bOnTop, scrollV, 0, 0, nullptr, nullptr, FALSE);
 	if (PSN)
 		SetFocus(PSN->REHwnd);
 }
@@ -1495,7 +1483,7 @@ static void EditNote(STICKYNOTE *SN)
 
 	if (!SN->bVisible) {
 		SN->bVisible = TRUE;
-		JustSaveNotesEx();
+		JustSaveNotes();
 	}
 
 	SetWindowPos(SN->SNHwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
@@ -1583,7 +1571,7 @@ static void InitListView(HWND AHLV)
 
 		lvTIt.iItem = i;
 		lvTIt.iSubItem = 3;
-		lvTIt.pszText = GetPreviewString(pNote->data);
+		lvTIt.pszText = GetPreviewString(pNote->szText);
 		ListView_SetItem(AHLV, &lvTIt);
 
 		i++;
@@ -1718,7 +1706,7 @@ static INT_PTR CALLBACK DlgProcViewNotes(HWND hwndDlg, UINT Message, WPARAM wPar
 			LPNMLISTVIEW NM = (LPNMLISTVIEW)lParam;
 			switch (NM->hdr.code) {
 			case LVN_ITEMCHANGED:
-				SetDlgItemTextA(hwndDlg, IDC_REMINDERDATA, g_arStickies[NM->iItem].data);
+				SetDlgItemTextA(hwndDlg, IDC_REMINDERDATA, g_arStickies[NM->iItem].szText);
 				break;
 
 			case NM_DBLCLK:
@@ -1755,7 +1743,7 @@ static INT_PTR CALLBACK DlgProcViewNotes(HWND hwndDlg, UINT Message, WPARAM wPar
 						auto &SN = g_arStickies[i];
 						SN.bVisible = !SN.bVisible;
 						ShowWindow(SN.SNHwnd, SN.bVisible ? SW_SHOWNA : SW_HIDE);
-						JustSaveNotesEx();
+						JustSaveNotes();
 					}
 				}
 			}
@@ -1771,7 +1759,7 @@ static INT_PTR CALLBACK DlgProcViewNotes(HWND hwndDlg, UINT Message, WPARAM wPar
 						SN.bOnTop = !SN.bOnTop;
 						SetWindowPos(SN.SNHwnd, SN.bOnTop ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_SHOWWINDOW | SWP_NOMOVE | SWP_NOSIZE);
 						RedrawWindow(SN.SNHwnd, nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW);
-						JustSaveNotesEx();
+						JustSaveNotes();
 					}
 				}
 			}

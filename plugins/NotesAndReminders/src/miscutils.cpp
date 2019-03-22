@@ -38,7 +38,7 @@ void WS_CleanUp()
 	WSACleanup();
 }
 
-int WS_Send(SOCKET s, char *data, int datalen)
+int WS_Send(SOCKET s, const char *data, int datalen)
 {
 	int rlen;
 	if ((rlen = send(s, data, datalen, 0)) == SOCKET_ERROR) return FALSE;
@@ -68,7 +68,7 @@ unsigned long WS_ResolveName(char *name, WORD *port, int defaultPort)
 	return ret;
 }
 
-void Send(char *user, char *host, char *Msg, char *server)
+void Send(char *user, char *host, const char *Msg, char *server)
 {
 	SOCKADDR_IN sockaddr;
 	WORD port;

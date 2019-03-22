@@ -2,6 +2,7 @@
 
 #include <windows.h>
 #include <commctrl.h>
+#include <limits.h>
 #include <time.h>
 #include <richedit.h>
 
@@ -52,7 +53,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 extern void CreateMsgWindow(void);
 extern void DestroyMsgWindow(void);
 
-void NewNote(int Ax, int Ay, int Aw, int Ah, char *Data, ULARGE_INTEGER *ID, BOOL Visible, BOOL bOnTop, int scrollV);
+void NewNote(int Ax, int Ay, int Aw, int Ah, const char *pszText, ULARGE_INTEGER *ID, BOOL Visible, BOOL bOnTop, int scrollV);
 void LoadNotes(BOOL bIsStartup);
 void SaveNotes(void);
 void DeleteNotes(void);
