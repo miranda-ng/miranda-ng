@@ -1,8 +1,12 @@
 ---
 name: Bug report
 about: Create a report to help us improve Miranda NG.
+title: ''
+labels: bug
+assignees: ''
 
 ---
+
 ### Expected behavior
 What did you expect?
 
