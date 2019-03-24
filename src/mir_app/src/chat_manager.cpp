@@ -281,7 +281,7 @@ BOOL SM_GiveStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *p
 	
 	USERINFO *ui = g_chatApi.UM_GiveStatus(si, pszUID, TM_StringToWord(si->pStatuses, pszStatus));
 	if (ui) {
-		UM_SortUser(si, ui->pszUID);
+		UM_SortUser(si);
 		if (si->pDlg)
 			si->pDlg->UpdateNickList();
 	}
@@ -296,7 +296,7 @@ BOOL SM_SetContactStatus(const wchar_t *pszID, const char *pszModule, const wcha
 
 	USERINFO *ui = g_chatApi.UM_SetContactStatus(si, pszUID, wStatus);
 	if (ui) {
-		UM_SortUser(si, ui->pszUID);
+		UM_SortUser(si);
 		if (si->pDlg)
 			si->pDlg->UpdateNickList();
 	}
@@ -311,7 +311,7 @@ BOOL SM_TakeStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *p
 
 	USERINFO *ui = g_chatApi.UM_TakeStatus(si, pszUID, TM_StringToWord(si->pStatuses, pszStatus));
 	if (ui) {
-		UM_SortUser(si, ui->pszUID);
+		UM_SortUser(si);
 		if (si->pDlg)
 			si->pDlg->UpdateNickList();
 	}
@@ -371,7 +371,7 @@ BOOL SM_ChangeNick(const wchar_t *pszID, const char *pszModule, GCEVENT *gce)
 			USERINFO *ui = UM_FindUser(si, gce->pszUID.w);
 			if (ui) {
 				replaceStrW(ui->pszNick, gce->pszText.w);
-				UM_SortUser(si, ui->pszUID);
+				UM_SortUser(si);
 				if (si->pDlg)
 					si->pDlg->UpdateNickList();
 				if (g_chatApi.OnChangeNick)
@@ -684,19 +684,31 @@ static USERINFO* UM_FindUser(SESSION_INFO *si, const wchar_t *pszUID)
 	return si->getKeyList().find(&tmp);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int compareKeysStub(const void *p1, const void *p2)
+{
+	return CompareKeys(*(USERINFO**)p1, *(USERINFO**)p2);
+}
+
+void UM_SortKeys(SESSION_INFO *si)
+{
+	qsort(si->arKeys.getArray(), si->arKeys.getCount(), sizeof(void*), compareKeysStub);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static int compareStub(const void *p1, const void *p2)
 {
 	return CompareUser(*(USERINFO**)p1, *(USERINFO**)p2);
 }
 
-bool UM_SortUser(SESSION_INFO *si, const wchar_t *pszUID)
+void UM_SortUser(SESSION_INFO *si)
 {
-	if (!UM_FindUser(si, pszUID))
-		return false;
-
 	qsort(si->arUsers.getArray(), si->arUsers.getCount(), sizeof(void*), compareStub);
-	return true;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 USERINFO* UM_AddUser(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszNick, WORD wStatus)
 {

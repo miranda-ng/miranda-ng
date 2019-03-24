@@ -81,7 +81,8 @@ WORD          TM_StringToWord(STATUSINFO *pStatusList, const wchar_t *pszStatus)
 
 BOOL          UM_RemoveAll(SESSION_INFO *si);
 BOOL          UM_SetStatusEx(SESSION_INFO *si, const wchar_t* pszText, int flags);
-bool          UM_SortUser(SESSION_INFO *si, const wchar_t *pszUID);
+void          UM_SortKeys(SESSION_INFO *si);
+void          UM_SortUser(SESSION_INFO *si);
 
 // clist.c
 BOOL          AddEvent(MCONTACT hContact, HICON hIcon, MEVENT hEvent, int type, wchar_t* fmt, ...);

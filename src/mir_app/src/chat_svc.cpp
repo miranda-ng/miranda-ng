@@ -632,8 +632,10 @@ MIR_APP_DLL(int) Chat_ChangeUserId(const char *szModule, const wchar_t *wszId, c
 			continue;
 
 		USERINFO *ui = g_chatApi.UM_FindUser(si, wszOldId);
-		if (ui)
+		if (ui) {
 			replaceStrW(ui->pszUID, wszNewId);
+			UM_SortKeys(si);
+		}
 		if (wszId)
 			break;
 	}
