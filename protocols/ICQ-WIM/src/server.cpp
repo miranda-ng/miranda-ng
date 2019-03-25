@@ -161,7 +161,7 @@ void CIcqProto::MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, 
 static void CALLBACK CheckStatusTimerProc(HWND, UINT, UINT_PTR id, DWORD)
 {
 	CIcqProto *ppro = (CIcqProto*)(id - 1);
-	ppro->CheckStatus();	
+	ppro->CheckStatus();
 }
 
 void CIcqProto::OnLoggedIn()
@@ -215,7 +215,7 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 		Chat_Control(m_szModuleName, wszChatId, SESSION_ONLINE);
 		return si->hContact;
 	}
-	
+
 	if (hContact == -1) {
 		hContact = CreateContact(wszId, false);
 		FindContactByUIN(wszId)->m_bInList = true;
@@ -284,8 +284,11 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 		Json2string(hContact, profile, "aboutMe", DB_KEY_ABOUT);
 
 		ptrW wszNick(getWStringA(hContact, "Nick"));
-		if (wszNick)
-			setWString(hContact, "Nick", profile["friendlyName"].as_mstring());
+		if (!wszNick) {
+			CMStringW srvNick = profile["friendlyName"].as_mstring();
+			if (!srvNick.IsEmpty())
+				setWString(hContact, "Nick", srvNick);
+		}
 
 		time_t birthDate = profile["birthDate"].as_int();
 		if (birthDate != 0) {
@@ -435,7 +438,7 @@ void CIcqProto::RetrieveUserInfo(MCONTACT hContact)
 	auto *pReq = UserInfoRequest(hContact);
 
 	if (hContact == INVALID_CONTACT_ID) {
-		int i = 0; 
+		int i = 0;
 		for (auto &it : m_arCache) {
 			if (i == 0)
 				pReq = UserInfoRequest(hContact);
@@ -494,12 +497,12 @@ void CIcqProto::SetServerStatus(int iStatus)
 	int invisible = 0;
 
 	switch (iStatus) {
-	case ID_STATUS_OFFLINE: szStatus = "offline"; break;	
+	case ID_STATUS_OFFLINE: szStatus = "offline"; break;
 	case ID_STATUS_NA: szStatus = "occupied"; break;
 	case ID_STATUS_AWAY:
 	case ID_STATUS_DND: szStatus = "away"; break;
 	case ID_STATUS_INVISIBLE:
-		invisible = 1;	
+		invisible = 1;
 	}
 
 	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/presence/setState")
@@ -561,15 +564,15 @@ void CIcqProto::StartSession()
 
 	MFileVersion v;
 	Miranda_GetFileVersion(&v);
-	caps.AppendFormat(",%02x%02x%02x%02x%02x%02x%02x%02x%04x%04x%04x%04x", 'M', 'i', 'N', 'G', 
-		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM, v[0], v[1], v[2], v[3]);
+	caps.AppendFormat(",%02x%02x%02x%02x%02x%02x%02x%02x%04x%04x%04x%04x", 'M', 'i', 'N', 'G',
+		__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM, v[0], v[1], v[2], v[3]);
 
 	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, ICQ_API_SERVER "/aim/startSession", &CIcqProto::OnStartSession);
 	pReq << CHAR_PARAM("a", m_szAToken) << INT_PARAM("activeTimeout", 180) << CHAR_PARAM("assertCaps", caps)
-		<< INT_PARAM("buildNumber", __BUILD_NUM) << CHAR_PARAM("deviceId", szDeviceId) << CHAR_PARAM("events", EVENTS) 
-		<< CHAR_PARAM("f", "json") << CHAR_PARAM("imf", "plain") << CHAR_PARAM("inactiveView", "offline") 
+		<< INT_PARAM("buildNumber", __BUILD_NUM) << CHAR_PARAM("deviceId", szDeviceId) << CHAR_PARAM("events", EVENTS)
+		<< CHAR_PARAM("f", "json") << CHAR_PARAM("imf", "plain") << CHAR_PARAM("inactiveView", "offline")
 		<< CHAR_PARAM("includePresenceFields", FIELDS) << CHAR_PARAM("invisible", "false")
-		<< CHAR_PARAM("k", ICQ_APP_ID) << INT_PARAM("mobile", 0) << CHAR_PARAM("nonce", nonce) << CHAR_PARAM("r", pReq->m_reqId) 
+		<< CHAR_PARAM("k", ICQ_APP_ID) << INT_PARAM("mobile", 0) << CHAR_PARAM("nonce", nonce) << CHAR_PARAM("r", pReq->m_reqId)
 		<< INT_PARAM("rawMsg", 0) << INT_PARAM("sessionTimeout", 7776000) << INT_PARAM("ts", ts) << CHAR_PARAM("view", "online");
 
 	CalcHash(pReq);
@@ -687,8 +690,8 @@ void CIcqProto::OnFileContinue(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld
 				m_arOwnIds.insert(pOwn);
 			}
 
-			pReq << AIMSID(this) << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", ICQ_APP_ID) << CHAR_PARAM("mentions", "") << WCHAR_PARAM("message", wszUrl) 
-				<< CHAR_PARAM("offlineIM", "true") <<	WCHAR_PARAM("parts", wszParts) << WCHAR_PARAM("t", GetUserId(pTransfer->pfts.hContact)) << INT_PARAM("ts", TS());
+			pReq << AIMSID(this) << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", ICQ_APP_ID) << CHAR_PARAM("mentions", "") << WCHAR_PARAM("message", wszUrl)
+				<< CHAR_PARAM("offlineIM", "true") << WCHAR_PARAM("parts", wszParts) << WCHAR_PARAM("t", GetUserId(pTransfer->pfts.hContact)) << INT_PARAM("ts", TS());
 			Push(pReq);
 		}
 		else ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, pTransfer);
@@ -713,7 +716,7 @@ void CIcqProto::OnFileContinue(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld
 void CIcqProto::OnFileInit(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld)
 {
 	IcqFileTransfer *pTransfer = (IcqFileTransfer*)pOld->pUserInfo;
-	
+
 	FileReply root(pReply);
 	if (root.error() != 200) {
 		ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, pTransfer);
@@ -837,7 +840,7 @@ LBL_Error:
 	FILE *out = _wfopen(ai.filename, L"wb");
 	if (out == nullptr)
 		goto LBL_Error;
-		
+
 	fwrite(pReply->pData, pReply->dataLength, 1, out);
 	fclose(out);
 
@@ -895,5 +898,5 @@ void CIcqProto::OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 	CMStringA reqId(root.requestId());
 	CMStringA msgId(data["histMsgId"].as_mstring());
 	CheckOwnMessage(reqId, msgId, false);
- 	CheckLastId(ownMsg->m_hContact, data);
+	CheckLastId(ownMsg->m_hContact, data);
 }
