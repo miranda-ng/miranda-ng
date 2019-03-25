@@ -283,6 +283,10 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 		Json2string(hContact, profile, "lastName", "LastName");
 		Json2string(hContact, profile, "aboutMe", DB_KEY_ABOUT);
 
+		ptrW wszNick(getWStringA(hContact, "Nick"));
+		if (wszNick)
+			setWString(hContact, "Nick", profile["friendlyName"].as_mstring());
+
 		time_t birthDate = profile["birthDate"].as_int();
 		if (birthDate != 0) {
 			struct tm *timeinfo = localtime(&birthDate);
