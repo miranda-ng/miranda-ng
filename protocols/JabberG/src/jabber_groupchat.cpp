@@ -1001,7 +1001,7 @@ void CJabberProto::GroupchatProcessPresence(const TiXmlElement *node)
 			return;
 		}
 
-		MsgPopup(0, str, TranslateT("Jabber Error"));
+		MsgPopup(0, str, TranslateT("Error"));
 
 		if (item != nullptr && !item->bChatActive)
 			ListRemove(LIST_CHATROOM, from);

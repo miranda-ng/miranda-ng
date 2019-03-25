@@ -428,8 +428,14 @@ void CJabberProto::MsgPopup(MCONTACT hContact, const wchar_t *szMsg, const wchar
 	char name[256];
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
 
+	CMStringW wszTitle(szTitle);
+	if (hContact == 0) {
+		wszTitle.Insert(0, L": ");
+		wszTitle.Insert(0, m_tszUserName);
+	}
+
 	POPUPDATACLASS ppd = { sizeof(ppd) };
-	ppd.szTitle.w = szTitle;
+	ppd.szTitle.w = wszTitle;
 	ppd.szText.w = szMsg;
 	ppd.pszClassName = name;
 	ppd.hContact = hContact;

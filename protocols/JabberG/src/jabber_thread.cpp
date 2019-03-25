@@ -665,7 +665,7 @@ void CJabberProto::PerformAuthentication(ThreadData *info)
 
 		char text[1024];
 		mir_snprintf(text, TranslateU("Authentication failed for %s@%s."), info->conn.username, info->conn.server);
-		MsgPopup(0, Utf2T(text), TranslateT("Jabber Authentication"));
+		MsgPopup(0, Utf2T(text), TranslateT("Authentication"));
 	
 		JLoginFailed(LOGINERR_WRONGPASSWORD);
 		info->send("</stream:stream>");
@@ -821,7 +821,7 @@ void CJabberProto::OnProcessError(const TiXmlElement *node, ThreadData *info)
 		}
 	}
 	if (!skipMsg)
-		MsgPopup(0, Utf2T(buff), TranslateT("Jabber Error"));
+		MsgPopup(0, Utf2T(buff), TranslateT("Error"));
 
 	if (m_bEnableStreamMgmt) //TODO: check if needed/work here
 		m_StrmMgmt.SendAck();

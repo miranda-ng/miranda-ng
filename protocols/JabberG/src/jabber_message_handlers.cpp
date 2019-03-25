@@ -45,7 +45,7 @@ BOOL CJabberProto::OnMessageError(const TiXmlElement *node, ThreadData*, CJabber
 			else
 				mir_snwprintf(buf, L"%s:\n%s", pInfo->GetFrom(), szErrText.c_str());
 
-			MsgPopup(0, buf, TranslateT("Jabber Error"));
+			MsgPopup(0, buf, TranslateT("Error"));
 		}
 	}
 	return TRUE;

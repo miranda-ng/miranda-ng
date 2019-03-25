@@ -253,7 +253,7 @@ void CJabberProto::OnIqResultGetAuth(const TiXmlElement *iqNode, CJabberIqInfo*)
 
 		wchar_t text[128];
 		mir_snwprintf(text, TranslateT("Authentication failed for %s."), m_ThreadInfo->conn.username);
-		MsgPopup(0, text, TranslateT("Jabber Authentication"));
+		MsgPopup(0, text, TranslateT("Authentication"));
 		JLoginFailed(LOGINERR_WRONGPASSWORD);
 		m_ThreadInfo = nullptr;	// To disallow auto reconnect
 	}
@@ -281,7 +281,7 @@ void CJabberProto::OnIqResultSetAuth(const TiXmlElement *iqNode, CJabberIqInfo*)
 
 		wchar_t text[128];
 		mir_snwprintf(text, TranslateT("Authentication failed for %s."), Utf2T(m_ThreadInfo->conn.username).get());
-		MsgPopup(0, text, TranslateT("Jabber Authentication"));
+		MsgPopup(0, text, TranslateT("Authentication"));
 		
 		JLoginFailed(LOGINERR_WRONGPASSWORD);
 		m_ThreadInfo = nullptr;	// To disallow auto reconnect
