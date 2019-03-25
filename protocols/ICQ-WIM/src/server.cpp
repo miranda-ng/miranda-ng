@@ -261,7 +261,10 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 	CMStringW str(buddy["state"].as_mstring());
 	setDword(hContact, "Status", StatusFromString(str));
 
-	Json2string(hContact, buddy, "friendly", "Nick");
+	const JSONNode &var = buddy["friendly"];
+	if (var)
+		setWString(hContact, "Nick", var.as_mstring());
+
 	Json2string(hContact, buddy, "emailId", "Email");
 	Json2string(hContact, buddy, "cellNumber", "Cellular");
 	Json2string(hContact, buddy, "phoneNumber", "Phone");

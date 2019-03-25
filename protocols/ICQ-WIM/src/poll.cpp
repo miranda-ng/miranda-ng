@@ -197,7 +197,10 @@ void CIcqProto::ProcessImState(const JSONNode &ev)
 
 void CIcqProto::ProcessMyInfo(const JSONNode &ev)
 {
-	Json2string(0, ev, "friendly", "Nick");
+	const JSONNode &var = ev["friendly"];
+	if (var)
+		setWString("Nick", var.as_mstring());
+
 	CheckAvatarChange(0, ev);
 }
 
