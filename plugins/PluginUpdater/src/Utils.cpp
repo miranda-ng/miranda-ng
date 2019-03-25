@@ -224,16 +224,15 @@ bool DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 	Miranda_GetVersionText(szMirVer, _countof(szMirVer));
 	if (auto *p = strchr(szMirVer, '('))
 		*p = 0;
+	rtrim(szMirVer);
 
-	wchar_t wszOsVer[100];
-	GetOSDisplayString(wszOsVer, _countof(wszOsVer));
-	if (auto *p = wcschr(wszOsVer, '('))
-		*p = 0;
-
-	CMStringA szUserAgent("Miranda ");
+	int osVer = LOWORD(GetVersion());
+	CMStringA szUserAgent("Miranda NG/");
 	szUserAgent.Append(szMirVer);
-	szUserAgent.Append(" (");
-	szUserAgent.Append(_T2A(wszOsVer));
+	szUserAgent.AppendFormat(" (Windows NT %d.%d", LOBYTE(osVer), HIBYTE(osVer));
+	#ifdef _WIN64
+		szUserAgent.Append("; Win64; x64");
+	#endif
 	szUserAgent.Append(")");
 
 	NETLIBHTTPREQUEST nlhr = {};
