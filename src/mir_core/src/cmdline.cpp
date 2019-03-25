@@ -43,42 +43,30 @@ static OBJLIST<CmdLineParam> arParams(5, CompareParams);
 
 MIR_CORE_DLL(void) CmdLine_Parse(const wchar_t *ptszCmdLine)
 {
-	bool bPrevSpace = true;
-	for (wchar_t *p = NEWWSTR_ALLOCA(ptszCmdLine); *p; p++) {
-		if (*p == ' ' || *p == '\t') {
-			*p = 0;
-			bPrevSpace = true;
+	int nArgs = 0;
+	wchar_t **pArgs = CommandLineToArgvW(ptszCmdLine, &nArgs);
+	if (pArgs == nullptr)
+		return;
+
+	for (int i=0; i < nArgs; i++) {
+		wchar_t *pOptionName = pArgs[i], *p;
+
+		// not an option? skip it
+		if (*pOptionName != '/' && *pOptionName != '-')
 			continue;
-		}
 
-		// new word beginning
-		if (bPrevSpace) {
-			bPrevSpace = false;
-			if (*p != '/' && *p != '-')  // not an option - skip it
-				continue;
-		}
-		else continue;  // skip a text that isn't an option
-
-		wchar_t *pOptionName = p + 1;
-		if ((p = wcspbrk(pOptionName, L" \t=:")) == nullptr) { // no more text in string
+		pOptionName++;
+		if ((p = wcspbrk(pOptionName, L"=:")) == nullptr) { // no more text in string
 			arParams.insert(new CmdLineParam(pOptionName, L""));
 			break;
-		}
-
-		if (*p == ' ' || *p == '\t') {
-			arParams.insert(new CmdLineParam(pOptionName, L""));
-			p--; // the cycle will wipe this space automatically
-			continue;
 		}
 
 		// parameter with value
 		*p = 0;
-		arParams.insert(new CmdLineParam(pOptionName, ++p));
-		if ((p = wcspbrk(p, L" \t")) == nullptr) // no more text in string
-			break;
-
-		p--; // the cycle will wipe this space automatically
+		arParams.insert(new CmdLineParam(pOptionName, p+1));
 	}
+
+	LocalFree(pArgs);
 }
 
 MIR_CORE_DLL(const wchar_t*) CmdLine_GetOption(const wchar_t* ptszParameter)
