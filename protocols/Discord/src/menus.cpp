@@ -169,7 +169,7 @@ void CDiscordProto::InitMenus()
 	mi2.pszService = "/ToggleSync";
 	CreateProtoService(mi2.pszService, &CDiscordProto::OnMenuToggleSync);
 	SET_UID(mi2, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x8F);
-	mi2.name.a = LPGEN("Enable guild");
+	mi2.name.a = LPGEN("Enable guild sync");
 	mi2.position = -200001003;
 	mi2.hIcolibItem = Skin_GetIconHandle(SKINICON_CHAT_JOIN);
 	m_hMenuToggleSync = Menu_AddContactMenuItem(&mi2, m_szModuleName);
