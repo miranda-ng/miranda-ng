@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MirOTR.dll
 ;  Plugin: Miranda OTR
-;  Version: 0.14.1.17
+;  Version: 0.14.2.1
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
 [OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
@@ -80,6 +80,17 @@ OTR Создание личного ключа
 Остановить& OTR-сессию
 [&Verify Fingerprint]
 &Проверка отпечатков
+;file \plugins\MirOTR\src\icons.cpp
+[OTR private]
+Частный OTR
+[OTR unverified]
+OTR непроверен
+[OTR finished]
+OTR завершён
+[OTR not secure]
+OTR не является безопасным
+[Refresh]
+Обновить
 ;file \plugins\MirOTR\src\language.h
 [Start OTR]
 Запустить OTR
@@ -99,8 +110,6 @@ OTR-шифрование: непроверено
 OTR-шифрование: частное
 [OTR Encryption: Finished]
 OTR-шифрование: завершено
-[&Convert HTML (for Pidgin)]
-&Конвертировать HTML (для Pidgin)
 [OTR encrypted session with '%s' has been terminated]
 Шифрованная сессия с '%s' была прекращена.
 [Requesting OTR encrypted session with '%s']
@@ -131,16 +140,6 @@ OTR не может шифровать во время отправки сооб
 Шифрованная сессия с '%s' теперь использует ПРОВЕРЕННЫЙ отпечаток.
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
 Шифрованная сессия с '%s' теперь использует НЕПРОВЕРЕННЫЙ отпечаток.
-[OTR unverified]
-OTR непроверен
-[OTR finished]
-OTR завершён
-[OTR private]
-Частный OTR
-[OTR not secure]
-OTR не является безопасным
-[Refresh]
-Обновить
 [Generating new private key for protocol '%s'.\nPlease Wait...]
 Создание нового частного ключа для протокола '%s'.\nПодождите...
 [General]
@@ -236,6 +235,8 @@ OTR: установлен SecureIM
 Меню MirOTR
 [OTR Status]
 Статус OTR
+[&Convert HTML (for Pidgin)]
+&Конвертировать HTML (для Pidgin)
 ;file \plugins\MirOTR\src\options.cpp
 [Private Data]
 Личные данные

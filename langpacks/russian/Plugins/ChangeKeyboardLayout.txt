@@ -82,8 +82,6 @@
 [Popups]
 Всплывающие окна
 ;file \plugins\ChangeKeyboardLayout\src\main.cpp
-[Popup]
-Всплывающее окно
 ;file \plugins\ChangeKeyboardLayout\src\stdafx.h
 [ChangeKeyboardLayout]
 Смена раскладки

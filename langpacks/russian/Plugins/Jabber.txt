@@ -326,6 +326,8 @@ JID / URL:
 JID:
 [Node:]
 Узел:
+[Filter:]
+Фильтр:
 [Member Information]
 Права доступа
 [Role:]
@@ -392,24 +394,10 @@ XML Консоль
 [Jabber Mood]
 Настроение Jabber
 ;file \protocols\JabberG\src\jabber_adhoc.cpp
-[Error %s %s]
-Ошибка %s %s
-[Select Command]
-Выберите команду
-[Not supported]
-Не поддерживается
 [Done]
 Готово
-[In progress. Please Wait...]
-Обработка. Подождите...
 [Execute]
 Выполнить
-[Requesting command list. Please wait...]
-Запрос списка команд. Подождите...
-[Jabber Ad-Hoc commands at %s]
-Jabber Ad-Hoc команды на %s
-[Sending Ad-Hoc command to %s]
-Отправить Ad-Hoc команду %s
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [Jabber Agent Registration]
 Регистрация агента Jabber
@@ -544,32 +532,16 @@ xHTML формат чат сообщений
 Участник
 [Moderator]
 Модератор
-[Visitors]
-Посетители
-[Participants]
-Участники
-[Moderators]
-Модераторы
 [Owners]
 Владельцы
-[User %s is now banned.]
-Пользователь %s был забанен.
-[User %s changed status to %s with message: %s]
-%s изменил статус на %s: %s
-[User %s changed status to %s]
-%s изменил статус на %s.
-[Room configuration was changed.]
-Настройки комнаты были изменены.
-[Outcast]
-Изгнанные
-[Affiliation of %s was changed to '%s'.]
-Принадлежность %s изменилась на %s.
+[Moderators]
+Модераторы
+[Participants]
+Участники
+[Visitors]
+Посетители
 [Role of %s was changed to '%s'.]
 Роль %s сменилась на '%s'.
-[because room is now members-only]
-потому что комната только для постоянных участников
-[user banned]
-забаненный
 [Change &nickname]
 Изменить &ник
 [&Invite a user]
@@ -668,10 +640,6 @@ xHTML формат чат сообщений
 Пригласить пользователей в\n%s
 [%s (not on roster)]
 %s (не в ростере)
-[%s from\n%s]
-%s из\n%s
-[Real JID not available]
-Реальный JID недоступен
 [Reason to kick %s]
 Причина пинка %s
 [Reason to ban %s]
@@ -742,26 +710,6 @@ Jabber ошибка
 Скопировать имя
 [Copy node information]
 Скопировать информацию
-;file \protocols\JabberG\src\jabber_disco.h
-[Identities]
-Идентификаторы
-[category]
-категория
-[type]
-тип
-[Category]
-Категория
-[Type]
-Тип
-[Supported features]
-Поддерживаемые возможности
-[Info request error]
-Ошибка запроса информации
-[Items request error]
-Ошибка запроса значений
-;file \protocols\JabberG\src\jabber_filterlist.cpp
-[Set filter...]
-Фильтр...
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
 [Failed to retrieve room list from server.]
 Ошибка запроса списка комнат с сервера.
@@ -769,8 +717,6 @@ Jabber ошибка
 На сервере нет доступных комнат
 [Room list request timed out.]
 Таймаут запроса списка комнат.
-[<no nick>]
-<без ника>
 [Loading...]
 Загрузка...
 [Please wait for room list to download.]
@@ -781,8 +727,8 @@ Jabber ошибка
 Закладки...
 [Change nickname in <%s>]
 Изменить ник в <%s>
-[has set the subject to:]
-установил(а) тему:
+[Error]
+Ошибка
 [Group chat invitation to\n%s]
 Приглашение в конференцию\n%s
 ;file \protocols\JabberG\src\jabber_icolib.cpp
@@ -877,8 +823,8 @@ Jabber ошибка
 ;file \protocols\JabberG\src\jabber_iqid.cpp
 [Authentication failed for %s.]
 Аутентификация не прошла для %s.
-[Jabber Authentication]
-Аутентификация Jabber
+[Authentication]
+Аутентификация
 [Registration successful]
 Регистрация успешно пройдена
 [Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
@@ -1469,18 +1415,6 @@ OMEMO: Новая сессия
 Смены статуса
 [Don't notify history messages]
 Не показывать уведомлений из истории
-[Group]
-Группа
-[Subscription]
-Подписка
-[Uploading...]
-Загрузка...
-[Downloading...]
-Получение...
-[XML for MS Excel (UTF-8 encoded)]
-XML для MS Excel (кодировка UTF-8)
-[Connecting...]
-Подключение...
 [Network]
 Сеть
 [Account]
@@ -1514,8 +1448,6 @@ S.ms
 [Some changes will take effect the next time you connect to the Jabber network.]
 Некоторые изменения вступят в силу при следующем подключении к сети Jabber.
 ;file \protocols\JabberG\src\jabber_password.cpp
-[Set New Password for %s@%S]
-Установка нового пароля для %s@%S
 [New password does not match.]
 Новые пароли не совпадают
 [Current password is incorrect.]
@@ -1543,6 +1475,46 @@ S.ms
 Ошибка при установке списка по умолчанию
 [Allow]
 Разрешить
+[List has no rules, empty lists will be deleted then changes applied]
+В списке нет правил, пустые списки будут удалены, когда изменения вступят в силу
+[allow ]
+разрешить\s
+[deny ]
+запретить\s
+[all.]
+всё.
+[messages]
+сообщений
+[ and ]
+ и\s
+[incoming presences]
+входящее присутствие
+[outgoing presences]
+исходящее присутствие
+[queries]
+запросы
+[Else ]
+Иначе\s
+[If Jabber ID is ']
+Если JID '
+[ (nickname: ]
+ (ник:\s
+[If group is ']
+Если группа '
+[If subscription is ']
+Если подписка '
+[then ]
+то\s
+[ (act., def.)]
+ (активн., основн.)
+[ (active)]
+ (активный)
+[ (default)]
+ (основной)
+[Ready.]
+Готов.
+[Privacy lists are not saved, discard any changes and exit?]
+Списки приватности не сохранены, отменить изменения и выйти?
 [Simple mode]
 Простой режим
 [Advanced mode]
@@ -1587,46 +1559,6 @@ S.ms
 Присутствие (исх.)
 [Query]
 Запрос
-[List has no rules, empty lists will be deleted then changes applied]
-В списке нет правил, пустые списки будут удалены, когда изменения вступят в силу
-[allow ]
-разрешить\s
-[deny ]
-запретить\s
-[all.]
-всё.
-[messages]
-сообщений
-[ and ]
- и\s
-[incoming presences]
-входящее присутствие
-[outgoing presences]
-исходящее присутствие
-[queries]
-запросы
-[Else ]
-Иначе\s
-[If Jabber ID is ']
-Если JID '
-[ (nickname: ]
- (ник:\s
-[If group is ']
-Если группа '
-[If subscription is ']
-Если подписка '
-[then ]
-то\s
-[ (act., def.)]
- (активн., основн.)
-[ (active)]
- (активный)
-[ (default)]
- (основной)
-[Ready.]
-Готов.
-[Privacy lists are not saved, discard any changes and exit?]
-Списки приватности не сохранены, отменить изменения и выйти?
 [Please save list before activating]
 Сохраните список перед активацией
 [First, save the list]
@@ -1650,80 +1582,22 @@ S.ms
 Протокол не в сети или нет JID
 [No valid OMEMO session exists]
 Не существует действительной сессии OMEMO
-;file \protocols\JabberG\src\jabber_rc.cpp
-[Command completed successfully]
-Команда выполнена успешно
-[Error occurred during processing command]
-Возникла ошибка в процессе выполнения команды
-[Set status]
-Установить статус
-[Set options]
-Установить настройки
-[Forward unread messages]
-Пересылать непрочитанные сообщения
-[Leave group chats]
-Покинуть чаты
-[Lock workstation]
-Заблокировать компьютер
-[Quit Miranda NG]
-Закрыть Miranda NG
-[Change Status]
-Менять статус
-[Choose the status and status message]
-Установить статус и статусное сообщение
-[Status]
-Статус
-[Extended away (Not available)]
-Недоступен
-[Invisible]
-Невидимый
-[Offline]
-Не в сети
-[Priority]
-Приоритет
-[Status message]
-Сообщение статуса
-[Change global status]
-Изменить глобальный статус
-[Set Options]
-Установить настройки
-[Set the desired options]
-Установите желаемые настройки
-[Automatically Accept File Transfers]
-Автоматически одобрять передачи файлов
-[Play sounds]
-Проигрывать звуки
-[Disable remote controlling (check twice what you are doing)]
-Выключить удалённое управление (проверяйте дважды, что вы делаете)
-[There is no messages to forward]
-Нет сообщений для пересылки
-[Forward options]
-Настройки пересылки
-[%d message(s) to be forwarded]
-%d сообщений(я) для пересылки
-[Mark messages as read]
-Пометить сообщения прочитанными
-[%d message(s) forwarded]
-сообщений отправлено: %d
-[Workstation successfully locked]
-Компьютер успешно заблокирован
-[Error %d occurred during workstation lock]
-Ошибка %d возникла во время процесса блокировки
-[Confirmation needed]
-Необходимо подтверждение
-[Please confirm Miranda NG shutdown]
-Подтвердите выключение программы
-[There is no group chats to leave]
-Нет чатов для отключения
-[Choose the group chats you want to leave]
-Выберите чаты, которые желаете покинуть
+;file \protocols\JabberG\src\jabber_roster.cpp
+[Group]
+Группа
+[Subscription]
+Подписка
+[Uploading...]
+Загрузка...
+[Downloading...]
+Получение...
+[Connecting...]
+Подключение...
+[XML for MS Excel (UTF-8 encoded)]
+XML для MS Excel (кодировка UTF-8)
 ;file \protocols\JabberG\src\jabber_search.cpp
-[Error %s %s\r\nPlease select other server]
-Ошибка %s %s\r\nПожалуйста, выберите другой сервер
 [Error: unknown reply received\r\nPlease select other server]
 Ошибка: принят неизвестный ответ\r\nПожалуйста, выберите другой сервер
-[Error %s %s\r\nTry to specify more detailed]
-Ошибка %s %s\r\nПопытайтесь указать больше деталей
 [Search error]
 Ошибка поиска
 [Select/type search service URL above and press <Go>]
@@ -1745,6 +1619,8 @@ S.ms
 отправил присутствие с ошибкой
 [sent unknown presence type]
 отправил неизвестный тип присутствия
+[Outcast]
+Изгнанные
 [Nick:]
 Ник:
 [Status:]
@@ -1762,31 +1638,23 @@ S.ms
 Ошибка: Соединение потеряно
 [Requesting registration instruction...]
 Запрос регистрационной инструкции...
-[Authentication failed for %s@%S.]
-Аутентификация не прошла для %s@%S.
-[Message redirected from: %s\r\n%s]
-Сообщение переслано от %s\r\n%s
+[Registration canceled]
+Регистрация отменена
 [Sending registration information...]
 Отправка регистрационной информации...
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
-[Resource]
-Ресурс
 [<not specified>]
 <не указано>
+[Resource]
+Ресурс
 [Software]
 Клиент
 [Version]
 Версия
 [System]
 Система
-[unknown]
-неизвестно
-[Idle since]
-Простаивает с
-[Client capabilities]
-Возможности клиента
-[Software information]
-Информация о ПО
+[Last activity]
+Последняя активность
 [Operating system]
 Операционная система
 [Operating system version]
@@ -1801,26 +1669,14 @@ S.ms
 Занятие
 [Tune]
 Мелодия
-[both]
-в обе стороны
-[to]
-в
-[from]
-из
-[none]
-нет
 [Last logoff time]
 Время выхода
 [Uptime]
 Время работы
 [Logoff message]
 Сообщение выхода
-[<no information available>]
-<нет информации>
 [Last active resource]
 Последний активный ресурс
-[Please switch online to see more details.]
-Подключитесь для получения детальной информации.
 [Copy]
 Копировать
 [Copy only this value]
@@ -1870,10 +1726,10 @@ S.ms
 Таймаут удалённого сервера
 [Unknown error]
 Неизвестная ошибка
-[Error]
-Ошибка
 [Unknown error message]
 Неизвестная ошибка
+[Offline]
+Не в сети
 [Advanced Status]
 Дополнительный статус
 [Set mood...]

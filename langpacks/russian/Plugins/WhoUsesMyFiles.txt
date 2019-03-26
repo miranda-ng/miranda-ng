@@ -55,12 +55,10 @@ WUMF: Текущие соединения
 [Show current connections]
 Показать соединения
 ;file \plugins\WhoUsesMyFiles\src\options.cpp
-[Popup plugin not found!]
-Не установлен плагин Popup!
-[Error]
-Ошибка
 [Common Dialog Error 0x%lx]
 Ошибка диалога 0x%lx
+[Error]
+Ошибка
 [Not implemented yet...]
 Ещё не реализовано...
 [Who uses my files]

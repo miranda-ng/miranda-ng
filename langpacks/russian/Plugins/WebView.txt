@@ -7,7 +7,7 @@
 ;============================================================
 [Adds web pages as contacts to your contact list and can display text and/or issue change alerts from those pages in a window.]
 Позволяет добавить веб-страницы в качестве контактов в список контактов, показывает текст и/или изменения этих страниц.
-;file \plugins\WebView\res\webview.rc
+;file \protocols\WebView\res\webview.rc
 [Webview]
 
 [Update data every]
@@ -180,7 +180,7 @@ URL:
 Выбрать всё
 [C&lear all]
 О&чистить всё
-;file \plugins\WebView\src\main.cpp
+;file \protocols\WebView\src\main.cpp
 [Alert event]
 
 [Auto update disabled]
@@ -207,14 +207,14 @@ URL:
 
 [Stop data processing]
 Остановить обработку данных
-;file \plugins\WebView\src\webview.cpp
+;file \protocols\WebView\src\webview.cpp
 [All Webview sites have been updated.]
 
 [Network]
 Сеть
 [Popups]
 Всплывающие окна
-;file \plugins\WebView\src\webview_alerts.cpp
+;file \protocols\WebView\src\webview_alerts.cpp
 [Cannot write to file]
 Невозможно записать в файл
 [Last updated on]
@@ -245,7 +245,7 @@ URL:
 
 [Loaded from cache]
 Загружено из кэша
-;file \plugins\WebView\src\webview_datawnd.cpp
+;file \protocols\WebView\src\webview_datawnd.cpp
 [ERROR: You have two or more Webview contacts with the same URL and contact name.]
 ОШИБКА: У вас два или более контакта Webview с одним и тем же URL и именем контакта.
 [Alert options]
@@ -258,7 +258,7 @@ URL:
 Поверх окон
 [Disable stick to the front]
 Выключить поверх окон
-;file \plugins\WebView\src\webview_getdata.cpp
+;file \protocols\WebView\src\webview_getdata.cpp
 [URL not supplied]
 
 [Download in progress, please wait...]
@@ -305,7 +305,7 @@ URL:
 
 [Alert test conditions not met; press the refresh button to view content.]
 
-;file \plugins\WebView\src\webview_opts.cpp
+;file \protocols\WebView\src\webview_opts.cpp
 [No whitespace removal]
 Не удалять пробелы
 [Minimal level of whitespace removal]
@@ -342,7 +342,7 @@ URL:
 необходимо указать имя контакта.
 [Invalid symbol present in contact name.]
 Недопустимый символ в имени контакта.
-;file \plugins\WebView\src\webview_services.cpp
+;file \protocols\WebView\src\webview_services.cpp
 [Cache folder does not exist.]
 Папка кэша не существует.
 [Missing "psite.bat" file.]

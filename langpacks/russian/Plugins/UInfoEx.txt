@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.8.5.1
+;  Version: 0.8.5.2
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -1110,12 +1110,10 @@ Web Дизайн
 \[b]%s (%S)...[/b]\n%d контактов осталось
 [Abort Refreshing Contact Details]
 Отменить обновление данных контактов
-[Do you want to cancel the current refresh procedure?]
-Вы точно хотите отменить обновление данных?
 [Miranda must be online for refreshing contact information!]
 Протоколы должны быть в сети для обновления данных!
-[The function caused an exception!]
-Функция вызвала исключение!
+[Do you want to cancel the current refresh procedure?]
+Вы точно хотите отменить обновление данных?
 ;file \plugins\UserInfoEx\src\svc_reminder.cpp
 [%s has %s today.]
 %s отмечает сегодня %s.
@@ -1216,16 +1214,8 @@ INI файл "%s"\nдля чтения контакта не может быть
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
 [Can't create xml file!\n%S]
 Невозможно создать XML файл!\n%S
-[Export took %f ms]
-Экспорт занял %f мс
 [Contact: %s (%S)]
 Контакт: %s (%S)
-[Importing %s caused error %d]
-Импорт %s вызвал ошибку %d
-[Loading contact %s from xml failed with error %d]
-Ошибка %d при загрузке контакта %s из xml
-[Importing Owner caused error %d]
-Импорт Владельца вызвал ошибку %d
 [Parser is unable to load XMLCard "%s"\nError: %d\nDescription: %s]
 Невозможно загрузить XML карточку "%s"\nОшибка: %d\nОписание: %s
 [The selected file is no valid XMLCard]
@@ -1238,12 +1228,8 @@ INI файл "%s"\nдля чтения контакта не может быть
 Информация Владельца импортирована удачно.
 [Selected XMLCard does not contain an owner contact!]
 Выбранная XML карточка не содержит информации владельца!
-[Import took %f ms]
-Импорт занял %f мс
 [added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
 Добавлено контактов: %u / %u\nДобавлено настроек: %u / %u\nДобавлено событий: %u / %u\nДублирующих событий: %u
-[FATAL: An exception was thrown while importing contacts from xmlCard!]
-ФАТАЛЬНО: Ошибка при импортировании контактов из xml карточки!
 ;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
 [Flags (UInfoEx)]
 Флаги (uinfoex)

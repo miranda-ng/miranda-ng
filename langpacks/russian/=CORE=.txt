@@ -570,6 +570,55 @@
 Вставить и отправить
 [Delete]
 Удалить
+;file \src\core\stdpopup\res\resource.rc
+[Popup history]
+История вспл. окон
+[Case sensitive]
+Учёт регистра
+[Default timeout]
+Длительность по умолчанию
+[Never timeout]
+Постоянно
+[Set timeout:]
+Длительность:
+[Width:]
+Ширина:
+[Maximum height:]
+Макс. высота:
+[Opacity (%):]
+Непрозрачность (%):
+[Border]
+Рамка
+[Round corners (window)]
+Округлять углы окна
+[Preview]
+Тест
+[Transparent background]
+Прозрачный фон
+[Layout]
+Размещение
+[Avatar size:]
+Аватар:
+[Disable when]
+Выключить когда
+[Global hover]
+Общее наведение
+[Sidebar width:]
+Ширина врезки:
+[Text indent:]
+Отступ текста:
+[Padding:]
+Промежуток:
+[Round corners (avatar)]
+Округлять углы аватара
+[Text color:]
+Цвет текста:
+[Background color:]
+Цвет фона:
+[Set timeout]
+Установить длительность
+[Timeout value (0 = default):]
+Длительность (0 = по умолчанию):
 ;file \src\core\stduihist\res\resource.rc
 [Find]
 Найти
@@ -1749,6 +1798,88 @@ Miranda не смогла загрузить встроенную систему
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Неизвестная ошибка.
+;file \src\core\stdpopup\src\icons.cpp
+[Popups are enabled]
+Всплывающие окна включены
+[Popups are disabled]
+Всплывающие окна выключены
+;file \src\core\stdpopup\src\notify_imp.cpp
+;file \src\core\stdpopup\src\options.cpp
+[Example]
+Пример
+[The quick brown fox jumped over the lazy dog.]
+Съешь же ещё этих мягких французских булок да выпей йаду!
+[Example With a Long Title]
+Пример с длинным заголовком
+[Thequickbrownfoxjumpedoverthelazydog.]
+Съешьжеещёэтихмягкихфранцузскихбулокдавыпеййаду!
+[An avatar.]
+С аватаром
+[Bottom right]
+Внизу справа
+[Bottom left]
+Внизу слева
+[Top right]
+Вверху справа
+[Top left]
+Вверху слева
+[Icon on left]
+Значок слева
+[Icon on right]
+Значок справа
+[No time]
+Без времени
+[Time on left]
+Время слева
+[Time on right]
+Время справа
+[Time above avatar]
+Время над аватаром
+[No avatar]
+Без аватара
+[Left avatar]
+Аватар слева
+[Right avatar]
+Аватар справа
+[Full-screen app running]
+Полноэкранное приложение
+[No animate]
+Без анимации
+[Horizontal animate]
+Горизонтальная анимация
+[Vertical animate]
+Вертикальная анимация
+[You cannot set a default timeout of 0.\nValue has been reset.]
+Невозможно установить длительность, равную 0. Значение было сброшено.
+[Settings]
+Настройки
+[Classes]
+Классы
+;file \src\core\stdpopup\src\services.cpp
+[Disable popups]
+Отключить всплывающие окна
+[Enable popups]
+Включить всплывающие окна
+;file \src\core\stdpopup\src\yapp.cpp
+[Toggle popups]
+Вкл/Выкл вспл. окна
+[First line]
+Первая строка
+[Second line]
+Вторая строка
+[Time]
+Время
+[Sidebar]
+Врезка
+[Title underline]
+Подчёркивание заголовка
+;file \src\core\stdpopup\src\yapp_history_dlg.cpp
+[Copy title to clipboard]
+Копировать заголовок в буфер обмена
+[Copy message to clipboard]
+Копировать сообщение в буфер обмена
+[Copy timestamp to clipboard]
+Копировать время в буфер обмена
 ;file \src\core\stdssl\src\netlibssl.cpp
 [Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
 Клиент не может расшифровать сообщение сервера. Возможные причины: сервер не поддерживает SSL, либо требует не существующий пакет безопасности
@@ -2631,8 +2762,6 @@ ID учётной записи
 Юникод плагин
 [ANSI plugin]
 ANSI плагин
-[Unused]
-Не используется
 [Show/Hide]
 Скрыть/показать
 [Exit]
@@ -2647,6 +2776,8 @@ ANSI плагин
 Вкл.
 [Off]
 Откл.
+[Unused]
+Не используется
 [Frames]
 Фреймы
 [Add group]

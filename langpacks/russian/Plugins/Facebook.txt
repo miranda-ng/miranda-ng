@@ -142,14 +142,14 @@ URL:
 Удалить беседу
 [This will permanently delete the conversation history]
 История беседы будет необратимо удалена
-[Former]
-Бывший
 [Myself]
 Я
 [Friend]
 Друг
 [User]
 Пользователь
+[Former]
+Бывший
 [Notifications]
 Уведомления
 [%s and more (%d)]

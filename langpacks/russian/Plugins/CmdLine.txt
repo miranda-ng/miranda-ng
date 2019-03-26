@@ -195,8 +195,3 @@ utf8:'%s'
 Невозможно создать сервер CommandLine!
 [You can only run one instance of CmdLine plugin.]
 Вы можете запускать только одну копию плагина CmdLine.
-;file \plugins\CmdLine\src\utils.cpp
-[Notify]
-Уведомление
-[Warning]
-Предупреждение

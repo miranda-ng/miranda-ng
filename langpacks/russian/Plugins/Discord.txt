@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.1.1
+;  Version: 0.6.2.1
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -18,9 +18,11 @@
 Контакты
 [Default group:]
 Группа:
+[Enable group chats]
+Включить поддержку групповых чатов
 [Do not open chat windows on creation]
 Не открывать окна комнат чата при создании
-[Use subgroups for guild's channels (requires restart)]
+[Use subgroups for server channels (requires restart)]
 Создавать подгруппы для каждого сервера (требуется перезапуск)
 [Nick:]
 Ник:
@@ -58,6 +60,10 @@
 Введите полученный код приглашения
 [Do you really want to leave the guild?]
 Вы действительно хотите покинуть гильдию?
+[Disable sync]
+Выключить синхронизацию
+[Enable sync]
+Включить синхронизацию
 [Join guild]
 Присоединиться к гильдии
 [Copy my Discord ID]
@@ -68,6 +74,10 @@
 Создать новую комнату чата
 [Copy Discord ID]
 Копировать Discord ID
+[Enable guild sync]
+Вкл. синхронизацию для этого сервера
+[Load server history]
+Загрузить историю с сервера
 ;file \protocols\Discord\src\options.cpp
 [Network]
 Сеть

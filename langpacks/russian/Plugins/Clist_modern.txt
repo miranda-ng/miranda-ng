@@ -747,6 +747,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Имя учётной записи
 [Rate]
 Рейтинг
+[Last online]
+Время последнего появления
 [-Nothing-]
 -Ничего-
 [Hide to tray]
@@ -808,8 +810,6 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Имена групп справа
 [Row]
 Строка
-[Row design]
-Дизайн
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown contact)]
 (Неизвестный контакт)
@@ -835,21 +835,6 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Восстановить последнее состояние статуса
 [Show/Hide offline users]
 Показать/Скрыть отключённых
-;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
-[Empty %s cell]
-Очистить %s ячейку
-[column]
-столбец
-[line]
-Линия
-[columns]
-Колонки
-[lines]
-линий
-[%s, contain %s]
-%s, содержит %s
-[ layered]
- слои
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [( unknown )]
 ( неизвестно )

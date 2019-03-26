@@ -677,19 +677,19 @@ wParam содержит имя станции в кодировке Unicode
 без подтверждения
 [Empty updater download folder]
 Очищает папку загрузки обновлений
-[Popup Plus (popup.dll) latest YAPP (yapp.dll)]
-Popup Plus (Popup.dll) или YAPP (YAPP.dll)
-[Enables or disables Popup windows]
+[Popup plus (PopupPlus.dll) latest StdPopup (StdPopup.dll)]
+Popup plus (PopupPlus.dll) или StdPopup (StdPopup.dll)
+[Enables or disables popup windows]
 Включает или отключает всплывающие окна
 [Notify]
 Уведомление
-[YAPP or Popup]
-YAPP или Popup
+[StdPopup or Popup plus]
+StdPopup или Popup plus
 [Popup window]
 Всплывающее окно
 [Unicode Text]
 Текст Unicode
-[Enables or disables Popup windows (maybe deprecated)]
+[Enables or disables popup windows (maybe deprecated)]
 Включает или отключает всплывающие окна (возможно, не поддерживается)
 [result of protocol service call]
 

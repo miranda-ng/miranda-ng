@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.95.11.1
+;  Version: 0.95.11.4
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -16,8 +16,12 @@ UIN/почта:
 Вход/регистрация по номеру телефона
 [Do not open chat windows on creation]
 Не открывать окна комнат чата при создании
-[Advanced]
-Дополнительно
+[Use tray icon notifications]
+Уведомления в трее
+[E-mail]
+Почта
+[Launch mailbox in a browser on click]
+Открыть почту в браузере при нажатии
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
 Когда контакт выходит из сети, установить ему этот статус и сохранять в течение указанного числа секунд (0 - отключено)
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
@@ -59,6 +63,8 @@ UIN/почта:
 [Do you really want to remove it from ignore list?]
 Действительно удалить из списка игнорируемых?
 ;file \protocols\ICQ-WIM\src\main.cpp
+[E-mail notification]
+Уведомление об эл. почте
 [Ignore]
 Игнорировать
 [Remove Ignore]
@@ -66,6 +72,15 @@ UIN/почта:
 ;file \protocols\ICQ-WIM\src\options.cpp
 [Network]
 Сеть
+[General]
+Общее
+[Advanced]
+Дополнительно
+;file \protocols\ICQ-WIM\src\poll.cpp
+[You received e-mail from %s: %s]
+Пришло письмо от %s: %s
+[You have %d unread emails]
+Непрочитанных писем: %d
 ;file \protocols\ICQ-WIM\src\proto.cpp
 [%s server connection]
 %s подключение к серверу
