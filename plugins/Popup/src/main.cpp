@@ -126,11 +126,11 @@ static int TTBLoaded(WPARAM, LPARAM)
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ASPUSHBUTTON;
 	if (Popup_Enabled())
 		ttb.dwFlags |= TTBBF_PUSHED;
-	ttb.name = LPGEN("Toggle Popups");
+	ttb.name = LPGEN("Toggle popups");
 	ttb.hIconHandleUp = Skin_GetIconHandle(SKINICON_OTHER_NOPOPUP);
 	ttb.hIconHandleDn = Skin_GetIconHandle(SKINICON_OTHER_POPUP);
-	ttb.pszTooltipUp = LPGEN("Enable Popups");
-	ttb.pszTooltipDn = LPGEN("Disable Popups");
+	ttb.pszTooltipUp = LPGEN("Enable popups");
+	ttb.pszTooltipDn = LPGEN("Disable popups");
 	hTTButton = g_plugin.addTTB(&ttb);
 	return 0;
 }
@@ -143,13 +143,13 @@ INT_PTR svcEnableDisableMenuCommand(WPARAM, LPARAM)
 		// The module is enabled.
 		// The action to do is "disable popups" (show disabled) and we must write "enable popup" in the new item.
 		Popup_Enable(false);
-		Menu_ModifyItem(hMenuItem, LPGENW("Enable Popups"), hIcon = Skin_GetIconHandle(SKINICON_OTHER_NOPOPUP));
+		Menu_ModifyItem(hMenuItem, LPGENW("Enable popups"), hIcon = Skin_GetIconHandle(SKINICON_OTHER_NOPOPUP));
 	}
 	else {
 		// The module is disabled.
 		// The action to do is enable popups (show enabled), then write "disable popup" in the new item.
 		Popup_Enable(true);
-		Menu_ModifyItem(hMenuItem, LPGENW("Disable Popups"), hIcon = Skin_GetIconHandle(SKINICON_OTHER_POPUP));
+		Menu_ModifyItem(hMenuItem, LPGENW("Disable popups"), hIcon = Skin_GetIconHandle(SKINICON_OTHER_POPUP));
 	}
 
 	Menu_ModifyItem(hMenuRoot, nullptr, hIcon);
@@ -181,16 +181,16 @@ void InitMenuItems(void)
 	SET_UID(mi, 0x4353d44e, 0x177, 0x4843, 0x88, 0x30, 0x25, 0x5d, 0x91, 0xad, 0xdf, 0x3f);
 	mi.pszService = MENUCOMMAND_SVC;
 	CreateServiceFunction(mi.pszService, svcEnableDisableMenuCommand);
-	mi.name.w = Popup_Enabled() ? LPGENW("Disable Popups") : LPGENW("Enable Popups");
+	mi.name.w = Popup_Enabled() ? LPGENW("Disable popups") : LPGENW("Enable popups");
 	mi.hIcolibItem = hIcon;
 	hMenuItem = Menu_AddMainMenuItem(&mi);
 
-	// Popup History
+	// Popup history
 	SET_UID(mi, 0x92c386ae, 0x6e81, 0x452d, 0xb5, 0x71, 0x87, 0x46, 0xe9, 0x2, 0x66, 0xe9);
 	mi.pszService = MENUCOMMAND_HISTORY;
 	CreateServiceFunction(mi.pszService, svcShowHistory);
 	mi.position = 1000000000;
-	mi.name.w = LPGENW("Popup History");
+	mi.name.w = LPGENW("Popup history");
 	mi.hIcolibItem = GetIconHandle(IDI_HISTORY);
 	hMenuItemHistory = Menu_AddMainMenuItem(&mi);
 }
@@ -201,14 +201,14 @@ void LoadHotkey()
 	HOTKEYDESC hk = {};
 	hk.dwFlags = HKD_UNICODE;
 	hk.pszName = "Toggle Popups";
-	hk.szDescription.w = LPGENW("Toggle Popups");
+	hk.szDescription.w = LPGENW("Toggle popups");
 	hk.szSection.w = MODULNAME_PLUW;
 	hk.pszService = MENUCOMMAND_SVC;
 	g_plugin.addHotkey(&hk);
 
-	// 'Popup History' Hotkey
+	// 'Popup history' Hotkey
 	hk.pszName = "Popup History";
-	hk.szDescription.w = LPGENW("Popup History");
+	hk.szDescription.w = LPGENW("Popup history");
 	hk.pszService = MENUCOMMAND_HISTORY;
 	g_plugin.addHotkey(&hk);
 }
@@ -247,7 +247,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	// hook TopToolBar
 	HookEvent(ME_TTB_MODULELOADED, TTBLoaded);
 	// Folder plugin support
-	folderId = FoldersRegisterCustomPathT(LPGEN("Skins"), LPGEN("Popup Plus"), MIRANDA_PATHT L"\\Skins\\Popup");
+	folderId = FoldersRegisterCustomPathT(LPGEN("Skins"), LPGEN("Popup plus"), MIRANDA_PATHT L"\\Skins\\Popup");
 	// load skin
 	skins.load();
 	const PopupSkin *skin;

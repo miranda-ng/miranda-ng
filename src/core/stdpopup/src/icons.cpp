@@ -12,7 +12,7 @@ static IconItem iconList2[] =
 	// common
 	{ LPGEN("Popups are enabled"),          ICO_POPUP_ON,       IDI_POPUP          },
 	{ LPGEN("Popups are disabled"),         ICO_POPUP_OFF,      IDI_NOPOPUP        },
-	{ LPGEN("Popup History"),               ICO_HISTORY,        IDI_HISTORY        },
+	{ LPGEN("Popup history"),               ICO_HISTORY,        IDI_HISTORY        },
 };
 
 void InitIcons()

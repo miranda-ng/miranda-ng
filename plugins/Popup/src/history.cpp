@@ -98,7 +98,7 @@ void PopupHistoryAdd(POPUPDATA2 *ppdNew)
 void PopupHistoryShow()
 {
 	if (!PopupOptions.EnableHistory) {
-		MessageBox(nullptr, TranslateT("Popup History is disabled"), TranslateT("Popup History message"), MB_OK);
+		MessageBox(nullptr, TranslateT("Popup history is disabled"), TranslateT("Popup history message"), MB_OK);
 		return;
 	}
 
@@ -110,7 +110,7 @@ void PopupHistoryShow()
 	}
 	else {
 		hwndHistory = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_HISTORY), nullptr, HistoryDlgProc);
-		SetWindowText(hwndHistory, TranslateT("Popup History"));
+		SetWindowText(hwndHistory, TranslateT("Popup history"));
 	}
 }
 

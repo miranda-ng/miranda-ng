@@ -28,7 +28,7 @@ static IconItem iconList1[] =
 	// common popup
 	{ LPGEN("With \"favorite\" overlay"), "favourite", IDI_PU_FAVOURITE },
 	{ LPGEN("With \"fullscreen\" overlay"), "fullscreen", IDI_PU_FULLSCREEN },
-	{ LPGEN("Popup History"), "history", IDI_HISTORY },
+	{ LPGEN("Popup history"), "history", IDI_HISTORY },
 
 	// notifications
 	{ LPGEN("Information"), "info", IDI_MB_INFO },
