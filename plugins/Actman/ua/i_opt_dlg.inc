@@ -548,7 +548,7 @@ begin
       ShowAction(Dialog,-1);
 
       settings:=Dialog;
-      hIC:=HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
+      hIC:=HookEvent(ME_SKIN_ICONSCHANGED,@IconChanged);
     end;
 
     WM_COMMAND: begin

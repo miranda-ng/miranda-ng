@@ -584,7 +584,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			pPs->hContact = pPsh->_hContact;
 			pPs->hProtoAckEvent = HookEventMessage(ME_PROTO_ACK, hDlg, HM_PROTOACK);
 			pPs->hSettingChanged = HookEventMessage(ME_DB_CONTACT_SETTINGCHANGED, hDlg, HM_SETTING_CHANGED);
-			pPs->hIconsChanged = HookEventMessage(ME_SKIN2_ICONSCHANGED, hDlg, HM_RELOADICONS);
+			pPs->hIconsChanged = HookEventMessage(ME_SKIN_ICONSCHANGED, hDlg, HM_RELOADICONS);
 
 			ShowWindow(GetDlgItem(hDlg, IDC_PAGETITLEBG), IsAeroMode());
 			ShowWindow(GetDlgItem(hDlg, IDC_PAGETITLEBG2), !IsAeroMode());

@@ -100,7 +100,7 @@ static IconItem iconList3[] =
 
 void RegisterIcons(void)
 {
-	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
+	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
 
 	g_plugin.registerIcon(LPGEN("Single Messaging"), iconList1);
 	g_plugin.registerIcon(LPGEN("Group chats"),      iconList2);

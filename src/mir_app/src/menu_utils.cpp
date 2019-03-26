@@ -1278,7 +1278,6 @@ static VOID CALLBACK PostRegisterIcons(HWND, UINT, UINT_PTR, DWORD)
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	posttimerid = SetTimer(nullptr, 0, 5, (TIMERPROC)PostRegisterIcons);
-	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconLibChanges);
 	return 0;
 }
 
@@ -1289,6 +1288,7 @@ int InitGenMenu()
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_OPT_INITIALISE, GenMenuOptInit);
+	HookEvent(ME_SKIN_ICONSCHANGED, OnIconLibChanges);
 	return 0;
 }
 

@@ -321,7 +321,7 @@ int CMPlugin::Load()
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 	HookEvent(ME_OPT_INITIALISE, OptInit);
-	HookEvent(ME_SKIN2_ICONSCHANGED, IcoLibIconsChanged);
+	HookEvent(ME_SKIN_ICONSCHANGED, IcoLibIconsChanged);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PreBuildContactMenu);
 
 	CreateServiceFunction(MS_AVATARHISTORY_ENABLED, IsEnabled);

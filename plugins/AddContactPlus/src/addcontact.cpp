@@ -158,7 +158,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 		TranslateDialogDefault(hdlg);
 		Window_SetIcon_IcoLib(hdlg, IcoLib_GetIconHandle(ICON_ADD));
 
-		HookEventMessage(ME_SKIN2_ICONSCHANGED, hdlg, DM_ADDCONTACT_CHANGEICONS);
+		HookEventMessage(ME_SKIN_ICONSCHANGED, hdlg, DM_ADDCONTACT_CHANGEICONS);
 		HookEventMessage(ME_PROTO_ACCLISTCHANGED, hdlg, DM_ADDCONTACT_CHANGEACCLIST);
 		{
 			wchar_t *szGroup;

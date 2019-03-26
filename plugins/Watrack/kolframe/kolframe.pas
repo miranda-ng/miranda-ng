@@ -276,7 +276,7 @@ begin
 
   result:=ord(CreateFrame(0));
   if result<>0 then
-    sic:=HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
+    sic:=HookEvent(ME_SKIN_ICONSCHANGED,@IconChanged);
 end;
 
 procedure DeInitProc(aSetDisable:boolean);

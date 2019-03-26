@@ -1598,7 +1598,7 @@ static int clcHookModulesLoaded(WPARAM, LPARAM)
 
 	clcHookIconsChanged(0, 0);
 
-	HookEvent(ME_SKIN2_ICONSCHANGED, clcHookIconsChanged);
+	HookEvent(ME_SKIN_ICONSCHANGED, clcHookIconsChanged);
 
 	// Register smiley category
 	if (ServiceExists(MS_SMILEYADD_REGISTERCATEGORY)) {

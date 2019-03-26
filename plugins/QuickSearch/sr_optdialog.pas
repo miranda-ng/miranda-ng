@@ -760,7 +760,7 @@ begin
 
       update_list(listhwnd);
 
-      hook:=HookEventParam(ME_SKIN2_ICONSCHANGED,@IconChanged,Dialog);
+      hook:=HookEventParam(ME_SKIN_ICONSCHANGED,@IconChanged,Dialog);
 
       result:=1;
 

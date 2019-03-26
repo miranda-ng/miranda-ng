@@ -398,7 +398,7 @@ int LoadVarModule()
 
 	g_plugin.registerIcon(LPGEN("Variables"), iconList);
 
-	hIconsChangedHook = HookEvent(ME_SKIN2_ICONSCHANGED, iconsChanged);
+	hIconsChangedHook = HookEvent(ME_SKIN_ICONSCHANGED, iconsChanged);
 
 	CreateServiceFunction(MS_VARS_GETSKINITEM, getSkinItemService);
 	hOptionsHook = HookEvent(ME_OPT_INITIALISE, OptionsInit);

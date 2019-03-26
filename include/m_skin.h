@@ -137,13 +137,6 @@ EXTERN_C MIR_APP_DLL(int) Skin_PlaySoundFile(const wchar_t *pwszFileName);
 EXTERN_C MIR_APP_DLL(void) KillModuleSounds(HPLUGIN);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// sent when the icons DLL has been changed in the options dialog, and everyone
-// should re-make their image lists
-// wParam = lParam = 0
-
-#define ME_SKIN_ICONSCHANGED "Skin/IconsChanged"
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // wParam: 0 when playing sound (1 when sound is being previewed)
 // lParam: (wchar_t*) pszSoundFile
 // Affect: This hook is fired when the sound module needs to play a sound

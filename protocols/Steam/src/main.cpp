@@ -38,7 +38,7 @@ int CMPlugin::Load()
 	mir_snprintf(iconName, "%s_%s", MODULE, "gaming");
 
 	// extra statuses
-	HookEvent(ME_SKIN2_ICONSCHANGED, OnReloadIcons);
+	HookEvent(ME_SKIN_ICONSCHANGED, OnReloadIcons);
 	hExtraXStatus = ExtraIcon_RegisterIcolib("steam_game", LPGEN("Steam game"), iconName);
 
 	CSteamProto::InitMenus();

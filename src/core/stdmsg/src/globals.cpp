@@ -160,7 +160,7 @@ void InitGlobals()
 	HookEvent(ME_DB_EVENT_ADDED, dbaddedevent);
 	HookEvent(ME_DB_EVENT_EDITED, dbaddedevent);
 	HookEvent(ME_PROTO_ACK, ackevent);
-	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
+	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
 	HookEvent(ME_AV_AVATARCHANGED, AvatarChanged);
 	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
 	HookEvent(ME_MC_DEFAULTTCHANGED, OnMetaChanged);

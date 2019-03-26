@@ -111,6 +111,9 @@ IconSourceItem* GetIconSourceItem(const wchar_t* file, int indx, int cxIcon, int
 IcolibItem* IcoLib_FindHIcon(HICON hIcon, bool &big);
 IcolibItem* IcoLib_FindIcon(const char* pszIconName);
 
+void CreateImageLists();
+void DestroyImageLists();
+
 int SkinOptionsInit(WPARAM, LPARAM);
 
 extern mir_cs csIconList;
@@ -120,4 +123,4 @@ extern LIST<SectionItem> sectionList;
 extern BOOL bNeedRebuild;
 extern int iconEventActive;
 extern HICON hIconBlank;
-extern HANDLE hIcons2ChangedEvent, hIconsChangedEvent;
+extern HANDLE hIconsChangedEvent;

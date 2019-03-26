@@ -495,7 +495,7 @@ int Buttons_OnSkinModeSettingsChanged(WPARAM, LPARAM)
 HRESULT ToolbarButtonLoadModule()
 {
 	hButtonWindowList = WindowList_Create();
-	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconLibIconChanged);
+	HookEvent(ME_SKIN_ICONSCHANGED, OnIconLibIconChanged);
 	HookEvent(ME_BACKGROUNDCONFIG_CHANGED, Buttons_OnSkinModeSettingsChanged);
 	return S_OK;
 }

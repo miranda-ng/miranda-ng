@@ -249,7 +249,7 @@ HRESULT CLUI::CreateCluiFrames()
 	CreateUIFrames();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, CLUI::OnEvent_ModulesLoaded);
-	HookEvent(ME_SKIN2_ICONSCHANGED, CLUI_IconsChanged);
+	HookEvent(ME_SKIN_ICONSCHANGED, CLUI_IconsChanged);
 	HookEvent(ME_FONT_RELOAD, CLUI::OnEvent_FontReload);
 	return S_OK;
 }

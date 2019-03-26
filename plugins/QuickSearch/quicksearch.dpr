@@ -107,7 +107,7 @@ begin
   Skin_AddIcon(@sid);
   DestroyIcon(sid.hDefaultIcon);
 
-  HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
+  HookEvent(ME_SKIN_ICONSCHANGED,@IconChanged);
 end;
 
 function OnOptInitialise(wParam:WPARAM;lParam:LPARAM):int;cdecl;

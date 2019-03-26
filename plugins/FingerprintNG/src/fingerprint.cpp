@@ -878,7 +878,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	g_LPCodePage = Langpack_GetDefaultCodePage();
 
 	//Hook necessary events
-	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconsChanged);
+	HookEvent(ME_SKIN_ICONSCHANGED, OnIconsChanged);
 	HookEvent(ME_MSG_WINDOWEVENT, OnSrmmWindowEvent);
 
 	HookEvent(ME_MC_DEFAULTTCHANGED, OnExtraImageApply);

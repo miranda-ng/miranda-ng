@@ -665,8 +665,7 @@ int CMPlugin::Load()
 
 	g_plugin.registerIcon("BuddyExpectator", iconList);
 
-	HookEvent(ME_SKIN2_ICONSCHANGED, onIconsChanged);
-
+	HookEvent(ME_SKIN_ICONSCHANGED, onIconsChanged);
 	onIconsChanged(0, 0);
 
 	hExtraIcon = ExtraIcon_RegisterIcolib("buddy_exp", LPGEN("Buddy Expectator"), "enabled_icon");

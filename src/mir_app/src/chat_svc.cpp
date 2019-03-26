@@ -764,6 +764,7 @@ int LoadChatModule(void)
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
+	HookEvent(ME_FONT_RELOAD, FontsChanged);
 
 	g_hWindowList = WindowList_Create();
 	hHookEvent = CreateHookableEvent(ME_GC_HOOK_EVENT);
@@ -772,9 +773,6 @@ int LoadChatModule(void)
 	
 	g_chatApi.hevPreCreate = CreateHookableEvent(ME_MSG_PRECREATEEVENT);
 	g_chatApi.hevWinPopup = CreateHookableEvent(ME_MSG_WINDOWPOPUP);
-
-	HookEvent(ME_FONT_RELOAD, FontsChanged);
-	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
 
 	g_hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_SRMM));
 	TranslateMenu(g_hMenu);

@@ -134,7 +134,7 @@ int CMPlugin::Load()
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_OPT_INITIALISE, PingOptInit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
-	HookEvent(ME_SKIN2_ICONSCHANGED, ReloadIcons);
+	HookEvent(ME_SKIN_ICONSCHANGED, ReloadIcons);
 
 	g_plugin.registerIcon(LPGEN("Ping"), iconList);
 	return 0;

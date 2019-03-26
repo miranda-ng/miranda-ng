@@ -169,7 +169,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	for (int indx = 0; indx < _countof(hIcons); indx++)
 		hIcons[indx] = IcoLib_GetIconByHandle(iconList[indx].hIcolib);
 
-	hHookSkinIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, OnSkinIconsChanged);
+	hHookSkinIconsChanged = HookEvent(ME_SKIN_ICONSCHANGED, OnSkinIconsChanged);
 
 	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0xe4a98d2a, 0xa54a, 0x4db1, 0x8d, 0x29, 0xd, 0x5c, 0xf1, 0x10, 0x69, 0x35);

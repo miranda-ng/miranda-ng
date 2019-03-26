@@ -645,7 +645,7 @@ int LoadToolbarModule()
 	HookEvent(ME_SYSTEM_MODULEUNLOAD, OnPluginUnload);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoad);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
-	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconChange);
+	HookEvent(ME_SKIN_ICONSCHANGED, OnIconChange);
 	HookEvent(ME_OPT_INITIALISE, TTBOptInit);
 
 	hTTBModuleLoaded = CreateHookableEvent(ME_TTB_MODULELOADED);

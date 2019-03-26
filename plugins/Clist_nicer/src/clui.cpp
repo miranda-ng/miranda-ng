@@ -297,7 +297,7 @@ void CLN_LoadAllIcons(BOOL mode)
 {
 	if (mode) {
 		InitIcoLib();
-		HookEvent(ME_SKIN2_ICONSCHANGED, IcoLibChanged);
+		HookEvent(ME_SKIN_ICONSCHANGED, IcoLibChanged);
 	}
 	CacheClientIcons();
 }

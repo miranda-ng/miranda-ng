@@ -930,7 +930,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			SendDlgItemMessage(hwndDlg, IDC_EDIT1, EM_LIMITTEXT, 1024, 0);
 
 			HookEventMessage(ME_SYSTEM_PRESHUTDOWN, hwndDlg, DM_SIMPAWAY_SHUTDOWN);
-			HookEventMessage(ME_SKIN2_ICONSCHANGED, hwndDlg, DM_SIMPAWAY_CHANGEICONS);
+			HookEventMessage(ME_SKIN_ICONSCHANGED, hwndDlg, DM_SIMPAWAY_CHANGEICONS);
 
 			copy_init_data->num_def_msgs = g_plugin.getWord("DefMsgCount", 0);
 			copy_init_data->max_hist_msgs = g_plugin.getByte("MaxHist", 10);

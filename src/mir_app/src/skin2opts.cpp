@@ -485,9 +485,11 @@ class CIcoLibOptsDlg : public CDlgBase
 	{
 		UpdateIconsPreview();
 
+		DestroyImageLists();
+		CreateImageLists();
+
 		iconEventActive = 1; // Disable icon destroying - performance boost
 		NotifyEventHooks(hIconsChangedEvent, 0, 0);
-		NotifyEventHooks(hIcons2ChangedEvent, 0, 0);
 		iconEventActive = 0;
 
 		mir_cslock lck(csIconList); // Destroy unused icons

@@ -101,6 +101,6 @@ function IcoLib_IsManaged(icon:HICON) : THandle; stdcall;
   Icons change notification
 }
 const
-  ME_SKIN2_ICONSCHANGED:PAnsiChar = 'Skin2/IconsChanged';
+  ME_SKIN_ICONSCHANGED:PAnsiChar = 'Skin/IconsChanged';
 
 {$ENDIF}

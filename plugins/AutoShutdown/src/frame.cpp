@@ -166,7 +166,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame, UINT msg, WPARAM wParam, LP
 			/* init layout */
 			dat->hHookColorsChanged = HookEventMessage(ME_COLOUR_RELOAD, hwndFrame, M_REFRESH_COLORS);
 			dat->hHookFontsChanged = HookEventMessage(ME_FONT_RELOAD, hwndFrame, M_REFRESH_FONTS);
-			dat->hHookIconsChanged = HookEventMessage(ME_SKIN2_ICONSCHANGED, hwndFrame, M_REFRESH_ICONS);
+			dat->hHookIconsChanged = HookEventMessage(ME_SKIN_ICONSCHANGED, hwndFrame, M_REFRESH_ICONS);
 			SendMessage(hwndFrame, M_REFRESH_COLORS, 0, 0);
 			SendMessage(hwndFrame, M_REFRESH_FONTS, 0, 0);
 			SendMessage(hwndFrame, M_REFRESH_ICONS, 0, 0);

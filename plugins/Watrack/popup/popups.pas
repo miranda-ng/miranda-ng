@@ -405,7 +405,7 @@ begin
   sid.szDescription.a:='Music Info';
   Skin_AddIcon(@sid);
   DestroyIcon(sid.hDefaultIcon);
-  HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
+  HookEvent(ME_SKIN_ICONSCHANGED,@IconChanged);
 
   FillChar(mi,SizeOf(mi),0);
   SET_UID(@mi, '225458FC-C423-4B20-A798-2DB423506F80');

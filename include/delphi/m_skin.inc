@@ -123,12 +123,4 @@ const
   }
   MS_SKIN_LOADICON:PAnsiChar = 'Skin/Icons/Load';
 
-  {
-    wParam : 0
-    lParam : 0
-    Affect : Sent when the icons DLL has been changed in the options dialog
-             and everyone should remake their image lists.
-  }
-  ME_SKIN_ICONSCHANGED:PAnsiChar = 'Skin/IconsChanged';
-
 {$ENDIF}

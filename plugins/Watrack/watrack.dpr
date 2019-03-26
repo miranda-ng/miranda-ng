@@ -497,7 +497,7 @@ begin
 //!!  OleInitialize(nil);
 
   if RegisterIcons then
-    HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
+    HookEvent(ME_SKIN_ICONSCHANGED,@IconChanged);
 
   CreateMenus;
 

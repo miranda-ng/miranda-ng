@@ -143,7 +143,7 @@ static int OnMsgWndEvent(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-// hookProc ME_SKIN2_ICONSCHANGED
+// hookProc ME_SKIN_ICONSCHANGED
 static int OnStatusIconsChanged(WPARAM, LPARAM)
 {
 	UpdateStatusIcons();
@@ -202,7 +202,7 @@ void SvcFlagsLoadModule()
 	g_bUseUnknownFlag = db_get_b(0, MODNAMEFLAGS, "UseUnknownFlag", SETTING_USEUNKNOWNFLAG_DEFAULT) != 0;
 	g_bShowStatusIconFlag = db_get_b(0, MODNAMEFLAGS, "ShowStatusIconFlag", SETTING_SHOWSTATUSICONFLAG_DEFAULT) != 0;
 
-	HookEvent(ME_SKIN2_ICONSCHANGED, OnStatusIconsChanged);
+	HookEvent(ME_SKIN_ICONSCHANGED, OnStatusIconsChanged);
 
 	// get local langID for descIcon (try to use user local Flag as icon)
 	DWORD langid = 0;

@@ -280,7 +280,7 @@ begin
   HookPreshutdown  := HookEvent(ME_SYSTEM_PRESHUTDOWN,OnPreshutdown);
 
   if SmileyAddEnabled    then HookSmAddChanged := HookEvent(ME_SMILEYADD_OPTIONSCHANGED,OnSmAddSettingsChanged);
-  HookIcon2Changed := HookEvent(ME_SKIN2_ICONSCHANGED,OnIcon2Changed);
+  HookIcon2Changed := HookEvent(ME_SKIN_ICONSCHANGED,OnIcon2Changed);
   HookFSChanged := HookEvent(ME_FONT_RELOAD,OnFSChanged);
   HookMetaDefaultChanged := HookEvent(ME_MC_DEFAULTTCHANGED,OnMetaDefaultChanged);
 

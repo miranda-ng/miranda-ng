@@ -383,7 +383,7 @@ int CMPlugin::Load()
 
 	// load icons / create hook
 	InitIcons();
-	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
+	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
 	// add menu items
 	InitMenuItems();
 

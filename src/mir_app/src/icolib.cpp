@@ -28,7 +28,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static BOOL bModuleInitialized = FALSE;
 static volatile LONG iStaticCount = 1;
-HANDLE hIcons2ChangedEvent, hIconsChangedEvent;
+static HIMAGELIST himlSmall, hImlBig;
+HANDLE hIconsChangedEvent;
 
 HICON hIconBlank = nullptr;
 
@@ -63,6 +64,18 @@ LIST<IcolibItem> iconList(20, sttCompareIcons);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Utility functions
+
+void CreateImageLists()
+{
+	himlSmall = ImageList_Create(g_iIconSX, g_iIconSY, ILC_COLOR32 | ILC_MASK, 50, 50);
+	hImlBig = ImageList_Create(g_iIconX, g_iIconY, ILC_COLOR32 | ILC_MASK, 50, 50);
+}
+
+void DestroyImageLists()
+{
+	ImageList_Destroy(himlSmall); himlSmall = 0;
+	ImageList_Destroy(hImlBig); hImlBig = 0;
+}
 
 void __fastcall SafeDestroyIcon(HICON &hIcon)
 {
@@ -781,8 +794,9 @@ int LoadIcoLibModule(void)
 
 	hIconBlank = LoadIconEx(g_plugin.getInst(), MAKEINTRESOURCE(IDI_BLANK), 0);
 
-	hIcons2ChangedEvent = CreateHookableEvent(ME_SKIN2_ICONSCHANGED);
 	hIconsChangedEvent = CreateHookableEvent(ME_SKIN_ICONSCHANGED);
+
+	CreateImageLists();
 
 	HookEvent(ME_OPT_INITIALISE, SkinOptionsInit);
 	return 0;
@@ -794,7 +808,8 @@ void UnloadIcoLibModule(void)
 		return;
 
 	DestroyHookableEvent(hIconsChangedEvent);
-	DestroyHookableEvent(hIcons2ChangedEvent);
+
+	DestroyImageLists();
 
 	for (auto &p : iconList)
 		delete p;		

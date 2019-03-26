@@ -29,7 +29,7 @@ void InitIconLib()
 
 HANDLE IconLibHookIconsChanged(MIRANDAHOOK hook)
 {
-	return HookEvent(ME_SKIN2_ICONSCHANGED, hook);
+	return HookEvent(ME_SKIN_ICONSCHANGED, hook);
 }
 
 void setClistIcon(MCONTACT hContact)

@@ -172,7 +172,7 @@ void InitExtraImg(void)
 	CreateServiceFunction(MS_FLAGS_DETECTCONTACTORIGINCOUNTRY, ServiceDetectContactOriginCountry);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ExtraImgModulesLoaded);
-	HookEvent(ME_SKIN2_ICONSCHANGED, StatusIconsChanged);
+	HookEvent(ME_SKIN_ICONSCHANGED, StatusIconsChanged);
 	HookEvent(ME_OPT_INITIALISE, OnOptionsInit);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ExtraImgSettingChanged);
 

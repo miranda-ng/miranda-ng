@@ -91,7 +91,7 @@ void IconLib::init()
 			}
 		}
 
-		m_hHookSkin2IconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, handleCallbacks);
+		m_hHookSkin2IconsChanged = HookEvent(ME_SKIN_ICONSCHANGED, handleCallbacks);
 	}
 
 	if (!m_bIcoLibAvailable) {

@@ -56,7 +56,7 @@ int CMPlugin::Load()
 	// IcoLib support
 	g_plugin.registerIcon(MODULENAME, iconList);
 
-	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconsChanged);
+	HookEvent(ME_SKIN_ICONSCHANGED, OnIconsChanged);
 
 	OnIconsChanged(0, 0);
 

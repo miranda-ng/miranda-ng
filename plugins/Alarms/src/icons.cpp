@@ -31,5 +31,5 @@ void InitIcons()
 		hIconMenuShowHide = IcoLib_GetIcon("alarms_menu_showhide");
 
 	ReloadIcons(0, 0);
-	HookEvent(ME_SKIN2_ICONSCHANGED, ReloadIcons);
+	HookEvent(ME_SKIN_ICONSCHANGED, ReloadIcons);
 }

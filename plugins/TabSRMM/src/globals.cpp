@@ -227,7 +227,7 @@ void CGlobals::hookSystemEvents()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_SKIN_ICONSCHANGED, ::IconsChanged);
-	HookEvent(ME_SKIN2_ICONSCHANGED, ::IcoLibIconsChanged);
+	HookEvent(ME_SKIN_ICONSCHANGED, ::IcoLibIconsChanged);
 	HookEvent(ME_PROTO_CONTACTISTYPING, CMimAPI::TypingMessage);
 	HookEvent(ME_PROTO_ACK, CMimAPI::ProtoAck);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreshutdownSendRecv);
