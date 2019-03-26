@@ -29,12 +29,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "jabber_omemo.h"
 
-#include <signal_protocol.h>
-#include <signal_protocol_types.h>
-#include <key_helper.h>
-#include <session_builder.h>
-#include <session_cipher.h>
-#include <protocol.h>
+#include "..\..\libs\libsignal\src\signal_protocol.h"
+#include "..\..\libs\libsignal\src\signal_protocol_types.h"
+#include "..\..\libs\libsignal\src\key_helper.h"
+#include "..\..\libs\libsignal\src\session_builder.h"
+#include "..\..\libs\libsignal\src\session_cipher.h"
+#include "..\..\libs\libsignal\src\protocol.h"
 
 namespace utils {
 	// code from http://stackoverflow.com/questions/3368883/how-does-this-size-of-array-template-function-work

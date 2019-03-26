@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include "protobuf-c/protobuf-c.h"
+#include <protobuf-c/protobuf-c.h>
 
 #include "hkdf.h"
 #include "curve.h"
