@@ -78,7 +78,7 @@ BEGIN
     CONTROL         "Enable group chats",IDC_USECHANNELS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,105,248,10
     CONTROL         "Do not open chat windows on creation",IDC_HIDECHATS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,41,118,248,10
-    CONTROL         "Use subgroups for Server channels (requires restart)",IDC_USEGROUPS,
+    CONTROL         "Use subgroups for server channels (requires restart)",IDC_USEGROUPS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,41,131,248,10
 END
 
