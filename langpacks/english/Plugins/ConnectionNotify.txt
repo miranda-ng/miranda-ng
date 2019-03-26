@@ -6,7 +6,7 @@
 ;  Authors: MaKaR
 ;============================================================
 [Notify with popup if some connection established]
-;file \plugins\ConnectionNotify\res\ConnectionNotify.rc
+;file \protocols\ConnectionNotify\res\ConnectionNotify.rc
 [Set popup colors]
 [Popup options]
 [Background]
@@ -31,7 +31,7 @@
 [Cancel]
 [* and ? wildcard characters also available (for port enter number or *)]
 [Remote IP:Port]
-;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
+;file \protocols\ConnectionNotify\src\ConnectionNotify.cpp
 [Show]
 [Hide]
 [Always show popup]
@@ -43,5 +43,5 @@
 [Action]
 [Plugins]
 [New Connection Notification]
-;file \plugins\ConnectionNotify\src\filter.cpp
+;file \protocols\ConnectionNotify\src\filter.cpp
 [First close options window]

@@ -6,7 +6,7 @@
 ;  Authors: Mixwind
 ;============================================================
 [Check your Gmail inboxes locally.]
-;file \plugins\GmailNotifier\res\options.rc
+;file \protocols\GmailNotifier\res\options.rc
 [Gmail account]
 [Name:]
 [Password:]
@@ -30,17 +30,17 @@
 [Enable icon selection and icon in status bar (restart)]
 [This is a shared computer so disable auto login]
 [Log unread threads into database (enable history)]
-;file \plugins\GmailNotifier\src\check.cpp
+;file \protocols\GmailNotifier\src\check.cpp
 [Checking...]
 [Can't send account data!]
 [Wrong name or password!]
 [Can't get RSS feed!]
-;file \plugins\GmailNotifier\src\main.cpp
+;file \protocols\GmailNotifier\src\main.cpp
 [Other]
 [Gmail: New thread(s)]
 [Gmail Notifier connection]
 [&Check all Gmail inboxes]
 [&Check Gmail inbox]
-;file \plugins\GmailNotifier\src\options.cpp
+;file \protocols\GmailNotifier\src\options.cpp
 [GmailNotifier]
 [Network]

@@ -6,7 +6,7 @@
 ;  Authors: Miranda NG team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
-;file \plugins\Weather\res\resource.rc
+;file \protocols\Weather\res\resource.rc
 [Update]
 [Brief Info]
 [Webpage]
@@ -130,7 +130,7 @@
 [Show user detail]
 [To old setting]
 [To default]
-;file \plugins\Weather\src\stdafx.h
+;file \protocols\Weather\src\stdafx.h
 [N/A]
 [Invalid ID format, missing "/" (10)]
 [Invalid service (11)]
@@ -172,20 +172,20 @@
 [Here is a list of custom variables that are currently available]
 [The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
 [The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
-;file \plugins\Weather\src\weather.cpp
+;file \protocols\Weather\src\weather.cpp
 [Enable/disable auto update]
 [Auto Update Enabled]
 [Auto Update Disabled]
 [Condition Changed]
 [Alert Issued]
-;file \plugins\Weather\src\weather_addstn.cpp
+;file \protocols\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 [%s is now the default weather station]
 [Weather Protocol]
 [Please try again after weather update is completed.]
 [<Enter station name here>]
 [<Enter station ID here>]
-;file \plugins\Weather\src\weather_contacts.cpp
+;file \protocols\Weather\src\weather_contacts.cpp
 [Weather condition was not logged.]
 [Get city name from ID]
 [Weather INI information]
@@ -194,19 +194,19 @@
 [Reset to default]
 [Text Files]
 [All Files]
-;file \plugins\Weather\src\weather_conv.cpp
+;file \protocols\Weather\src\weather_conv.cpp
 [mb]
 [in]
 [mm]
 [<unknown time>]
 [<Error>]
 [HTTP Error %i]
-;file \plugins\Weather\src\weather_data.cpp
+;file \protocols\Weather\src\weather_data.cpp
 [<Enter city name here>]
 [Error when obtaining data: %s]
-;file \plugins\Weather\src\weather_http.cpp
+;file \protocols\Weather\src\weather_http.cpp
 [Weather HTTP connections]
-;file \plugins\Weather\src\weather_icons.cpp
+;file \protocols\Weather\src\weather_icons.cpp
 [Protocol icon]
 [Update Disabled]
 [View Log]
@@ -217,7 +217,7 @@
 [Popup]
 [No Popup]
 [Edit Settings]
-;file \plugins\Weather\src\weather_info.cpp
+;file \protocols\Weather\src\weather_info.cpp
 [Name]
 [Author]
 [File Version]
@@ -237,22 +237,22 @@
 [Memory Used:]
 [bytes]
 [Description:]
-;file \plugins\Weather\src\weather_ini.cpp
+;file \protocols\Weather\src\weather_ini.cpp
 [All update data has been reloaded.]
 [Invalid ini format for: %s]
 [No update data file is found. Please check your Plugins\\Weather directory.]
-;file \plugins\Weather\src\weather_mwin.cpp
+;file \protocols\Weather\src\weather_mwin.cpp
 [Frame Font]
 [Frame Title Font]
 [Frame Background]
-;file \plugins\Weather\src\weather_opt.cpp
+;file \protocols\Weather\src\weather_opt.cpp
 [Weather Protocol Text Preview]
 [Network]
 [General]
 [Display]
 [Popups]
-;file \plugins\Weather\src\weather_popup.cpp
-;file \plugins\Weather\src\weather_svcs.cpp
+;file \protocols\Weather\src\weather_popup.cpp
+;file \protocols\Weather\src\weather_svcs.cpp
 [Station ID]
 [Disable &weather notification]
 [Enable &weather notification]
@@ -266,9 +266,9 @@
 [Remove Old Data then Update All]
 [Weather Notification]
 [Display in a frame]
-;file \plugins\Weather\src\weather_update.cpp
+;file \protocols\Weather\src\weather_update.cpp
 [Unable to retrieve weather information for %s]
-;file \plugins\Weather\src\weather_userinfo.cpp
+;file \protocols\Weather\src\weather_userinfo.cpp
 [Variable]
 [Information]
 [Retrieving new data, please wait...]

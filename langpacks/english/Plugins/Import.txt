@@ -59,7 +59,6 @@
 [Skipping contact, account %S cannot be mapped.]
 [Skipping contact, %S not installed.]
 [Skipping non-IM contact (%S)]
-[Skipping %S contact, ID not found]
 [Skipping duplicate %S contact %s]
 [Failed to add %S contact %s]
 [Added %S contact %s, '%s']

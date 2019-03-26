@@ -6,7 +6,7 @@
 ;  Authors: Vincent Joyce
 ;============================================================
 [Adds web pages as contacts to your contact list and can display text and/or issue change alerts from those pages in a window.]
-;file \plugins\WebView\res\webview.rc
+;file \protocols\WebView\res\webview.rc
 [Webview]
 [Update data every]
 [minutes]
@@ -93,7 +93,7 @@
 [Co&py all]
 [&Select all]
 [C&lear all]
-;file \plugins\WebView\src\main.cpp
+;file \protocols\WebView\src\main.cpp
 [Alert event]
 [Auto update disabled]
 [Auto update enabled]
@@ -107,11 +107,11 @@
 [Contact alert options]
 [Ping web site]
 [Stop data processing]
-;file \plugins\WebView\src\webview.cpp
+;file \protocols\WebView\src\webview.cpp
 [All Webview sites have been updated.]
 [Network]
 [Popups]
-;file \plugins\WebView\src\webview_alerts.cpp
+;file \protocols\WebView\src\webview_alerts.cpp
 [Cannot write to file]
 [Last updated on]
 [Start/end strings not found or strings not set.]
@@ -127,14 +127,14 @@
 [Specific part of the web page has changed.]
 [Cannot read from cache file]
 [Loaded from cache]
-;file \plugins\WebView\src\webview_datawnd.cpp
+;file \protocols\WebView\src\webview_datawnd.cpp
 [ERROR: You have two or more Webview contacts with the same URL and contact name.]
 [Alert options]
 [Stop processing]
 [Click here to open this URL in a browser window.]
 [Stick to the front]
 [Disable stick to the front]
-;file \plugins\WebView\src\webview_getdata.cpp
+;file \protocols\WebView\src\webview_getdata.cpp
 [URL not supplied]
 [Download in progress, please wait...]
 [Updating...]
@@ -158,7 +158,7 @@
 [Bytes in display]
 [Bytes downloaded]
 [Alert test conditions not met; press the refresh button to view content.]
-;file \plugins\WebView\src\webview_opts.cpp
+;file \protocols\WebView\src\webview_opts.cpp
 [No whitespace removal]
 [Minimal level of whitespace removal]
 [Medium level of whitespace removal]
@@ -177,7 +177,7 @@
 [You need to supply a URL.]
 [You need to supply a name for the contact.]
 [Invalid symbol present in contact name.]
-;file \plugins\WebView\src\webview_services.cpp
+;file \protocols\WebView\src\webview_services.cpp
 [Cache folder does not exist.]
 [Missing "psite.bat" file.]
 [Site URL]

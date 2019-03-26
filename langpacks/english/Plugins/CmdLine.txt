@@ -102,6 +102,3 @@
 ;file \plugins\CmdLine\src\services.cpp
 [Could not create CommandLine listening server!]
 [You can only run one instance of CmdLine plugin.]
-;file \plugins\CmdLine\src\utils.cpp
-[Notify]
-[Warning]

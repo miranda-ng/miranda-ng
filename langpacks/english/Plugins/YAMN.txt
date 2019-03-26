@@ -6,7 +6,7 @@
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
-;file \plugins\YAMN\res\YAMN.rc
+;file \protocols\YAMN\res\YAMN.rc
 [Installed plugins]
 [Version:]
 [Description:]
@@ -81,7 +81,7 @@
 [Preview]
 [Background color]
 [Text color]
-;file \plugins\YAMN\src\main.cpp
+;file \protocols\YAMN\src\main.cpp
 [Check &mail (All Account)]
 [Check &mail (This Account)]
 [Launch application]
@@ -89,18 +89,18 @@
 [YAMN Account Folder]
 [Check mail]
 [Connect Fail]
-;file \plugins\YAMN\src\main.h
+;file \protocols\YAMN\src\main.h
 [New mail message]
 [Connect failed]
-;file \plugins\YAMN\src\services.cpp
+;file \protocols\YAMN\src\services.cpp
 [Nick]
 [No new mail message]
-;file \plugins\YAMN\src\browser\badconnect.cpp
+;file \protocols\YAMN\src\browser\badconnect.cpp
 [%s - connection error]
 [An error occurred. Error code: %d]
 [Unknown error]
 [ - connection error]
-;file \plugins\YAMN\src\browser\mailbrowser.cpp
+;file \protocols\YAMN\src\browser\mailbrowser.cpp
 [%s - %d new mail messages, %d total]
 [%s : %d new mail message(s), %d total]
 [%d new mail message(s), %d total]
@@ -120,12 +120,12 @@
 [Date]
 [Do you really want to delete %d selected mails?]
 [Delete confirmation]
-;file \plugins\YAMN\src\mails\mime.cpp
+;file \protocols\YAMN\src\mails\mime.cpp
 [Translate header error]
 [Part]
-;file \plugins\YAMN\src\proto\netlib.cpp
+;file \protocols\YAMN\src\proto\netlib.cpp
 [%s connection]
-;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
+;file \protocols\YAMN\src\proto\pop3\pop3comm.cpp
 [Disconnected]
 [POP3 protocol (internal)]
 [Found new version of account book, not compatible with this version of YAMN.]
@@ -164,7 +164,7 @@
 [Cannot write SSL data.]
 [Cannot read SSL data.]
 [Error %d-%d-%d-%d:]
-;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
+;file \protocols\YAMN\src\proto\pop3\pop3opt.cpp
 [Network]
 [Accounts]
 [General]

@@ -31,9 +31,8 @@
 [Disabled options will be available in the next version]
 [Show current connections]
 ;file \plugins\WhoUsesMyFiles\src\options.cpp
-[Popup plugin not found!]
-[Error]
 [Common Dialog Error 0x%lx]
+[Error]
 [Not implemented yet...]
 [Who uses my files]
 [Services]

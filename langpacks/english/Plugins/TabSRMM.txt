@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.12
+;  Version: 3.5.0.13
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -93,7 +93,6 @@
 [Group chats]
 [Errors]
 [Use the message log color theme for group chat popups]
-[No compatible popup plugin was found. The event notification\nsystem is not available.]
 [Dialog]
 [Cancel]
 [All modes]
@@ -863,8 +862,6 @@
 [Clock symbol (for the info panel clock)]
 [Feature disabled (used as overlay)]
 [Feature enabled (used as overlay)]
-[Enable typing notification]
-[Disable typing notification]
 ;file \plugins\TabSRMM\src\msgs.h
 [Message windows - IM]
 [Message windows - all]
@@ -1013,8 +1010,8 @@
 ;file \plugins\TabSRMM\src\typingnotify.cpp
 [Disable &typing notification]
 [Enable &typing notification]
-[...is typing a message.]
 [...has stopped typing.]
+[...is typing a message.]
 [Contact started typing]
 [Contact stopped typing]
 ;file \plugins\TabSRMM\src\userprefs.cpp

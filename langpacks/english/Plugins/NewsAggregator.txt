@@ -2,11 +2,11 @@
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News aggregator
-;  Version: 0.1.0.4
+;  Version: 0.1.0.5
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [RSS/Atom news aggregator.]
-;file \plugins\NewsAggregator\Res\Resource.rc
+;file \protocols\NewsAggregator\Res\Resource.rc
 [Add]
 [Change]
 [Remove]
@@ -39,16 +39,16 @@
 [Import from:]
 [Feeds to be imported:]
 [&Import]
-;file \plugins\NewsAggregator\Src\Authentication.cpp
+;file \protocols\NewsAggregator\Src\Authentication.cpp
 [Enter your username]
 [Error]
 [Enter your password]
-;file \plugins\NewsAggregator\Src\CheckFeed.cpp
+;file \protocols\NewsAggregator\Src\CheckFeed.cpp
 [%s\nis a valid feed's address.]
 [News Aggregator]
 [%s\nis not a valid feed's address.]
 [empty]
-;file \plugins\NewsAggregator\Src\Icons.cpp
+;file \protocols\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
 [Check All Feeds]
 [Add Feed]
@@ -56,11 +56,11 @@
 [Export Feeds]
 [Auto Update Enabled]
 [Auto Update Disabled]
-;file \plugins\NewsAggregator\Src\Menus.cpp
+;file \protocols\NewsAggregator\Src\Menus.cpp
 [Check feed]
 [Change feed]
-;file \plugins\NewsAggregator\Src\NewsAggregator.cpp
-;file \plugins\NewsAggregator\Src\Options.cpp
+;file \protocols\NewsAggregator\Src\NewsAggregator.cpp
+;file \protocols\NewsAggregator\Src\Options.cpp
 [OPML files]
 [Not valid import file.]
 [Imported %d feed(s)\r\nNot imported %d duplicate(s).]
@@ -83,8 +83,8 @@
 [Feed]
 [Contact deleting]
 [Network]
-;file \plugins\NewsAggregator\Src\Services.cpp
+;file \protocols\NewsAggregator\Src\Services.cpp
 [Avatars]
 [Enable/disable auto update]
-;file \plugins\NewsAggregator\Src\Utils.cpp
+;file \protocols\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connections]
