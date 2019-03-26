@@ -43,7 +43,7 @@ int evtIconsChanged(WPARAM, LPARAM)
 void InitIcons()
 {
 	g_plugin.registerIcon(MODULETITLE, icons);
-	HookEvent(ME_SKIN2_ICONSCHANGED, evtIconsChanged);
+	HookEvent(ME_SKIN_ICONSCHANGED, evtIconsChanged);
 }
 
 /*void RefreshIcons(IconItem *icons, int count)
