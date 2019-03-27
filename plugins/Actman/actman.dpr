@@ -102,7 +102,6 @@ var
   sid:TSKINICONDESC;
   buf:array [0..63] of AnsiChar;
   pc:pAnsiChar;
-//  ii:tIconItem;
 begin
   FillChar(sid,SizeOf(sid),0);
   sid.cx:=16;
@@ -111,11 +110,7 @@ begin
   sid.pszName    :=@buf;
   pc:=StrCopyE(buf,IcoLibPrefix);
   p:=ModuleLink;
-{
-  ii.size   :=0;
-  ii.hIcolib:=0;
-  ii.szName :=@buf;
-}
+
   while p<>nil do
   begin
     if p^.Hash=0 then

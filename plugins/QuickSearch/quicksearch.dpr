@@ -44,69 +44,24 @@ begin
 
 end;
 
+const
+  IconAmount = 9;
+const
+  Icons:array [0..IconAmount-1] of tIconItem = (
+    (szDescr: 'Quick Search' ; szName: 'QS'     ; defIconID: IDI_QS     ; size: 0; hIcolib: 0;),
+    (szDescr: 'New Column'   ; szName: 'New'    ; defIconID: IDI_NEW    ; size: 0; hIcolib: 0;),
+    (szDescr: 'Column Up'    ; szName: 'Up'     ; defIconID: IDI_UP     ; size: 0; hIcolib: 0;),
+    (szDescr: 'Column Down'  ; szName: 'Down'   ; defIconID: IDI_DOWN   ; size: 0; hIcolib: 0;),
+    (szDescr: 'Delete Column'; szName: 'Delete' ; defIconID: IDI_DELETE ; size: 0; hIcolib: 0;),
+    (szDescr: 'Default'      ; szName: 'Default'; defIconID: IDI_DEFAULT; size: 0; hIcolib: 0;),
+    (szDescr: 'Reload'       ; szName: 'Reload' ; defIconID: IDI_RELOAD ; size: 0; hIcolib: 0;),
+    (szDescr: 'Male'         ; szName: 'Male'   ; defIconID: IDI_MALE   ; size: 0; hIcolib: 0;),
+    (szDescr: 'Female'       ; szName: 'Female' ; defIconID: IDI_FEMALE ; size: 0; hIcolib: 0;)
+  );
+
 procedure RegisterIcons;
-var
-  sid:TSKINICONDESC;
 begin
-  FillChar(sid,SizeOf(TSKINICONDESC),0);
-  sid.cx         :=16;
-  sid.cy         :=16;
-  sid.szSection.a:=qs_module;
-
-  sid.hDefaultIcon   :=LoadImage(hInstance,MAKEINTRESOURCE(IDI_QS),IMAGE_ICON,16,16,0);
-  sid.pszName        :=QS_QS;
-  sid.szDescription.a:=qs_name;
-  Skin_AddIcon(@sid);
-  DestroyIcon(sid.hDefaultIcon);
-
-  sid.hDefaultIcon   :=LoadImage(hInstance,MAKEINTRESOURCE(IDI_NEW),IMAGE_ICON,16,16,0);
-  sid.pszName        :=QS_NEW;
-  sid.szDescription.a:='New Column';
-  Skin_AddIcon(@sid);
-  DestroyIcon(sid.hDefaultIcon);
-
-  sid.hDefaultIcon   :=LoadImage(hInstance,MAKEINTRESOURCE(IDI_UP),IMAGE_ICON,16,16,0);
-  sid.pszName        :=QS_UP;
-  sid.szDescription.a:='Column Up';
-  Skin_AddIcon(@sid);
-  DestroyIcon(sid.hDefaultIcon);
-
-  sid.hDefaultIcon   :=LoadImage(hInstance,MAKEINTRESOURCE(IDI_DOWN),IMAGE_ICON,16,16,0);
-  sid.pszName        :=QS_DOWN;
-  sid.szDescription.a:='Column Down';
-  Skin_AddIcon(@sid);
-  DestroyIcon(sid.hDefaultIcon);
-
-  sid.hDefaultIcon   :=LoadImage(hInstance,MAKEINTRESOURCE(IDI_DELETE),IMAGE_ICON,16,16,0);
-  sid.pszName        :=QS_DELETE;
-  sid.szDescription.a:='Delete Column';
-  Skin_AddIcon(@sid);
-  DestroyIcon(sid.hDefaultIcon);
-
-  sid.hDefaultIcon   :=LoadImage(hInstance,MAKEINTRESOURCE(IDI_DEFAULT),IMAGE_ICON,16,16,0);
-  sid.pszName        :=QS_DEFAULT;
-  sid.szDescription.a:='Default';
-  Skin_AddIcon(@sid);
-  DestroyIcon(sid.hDefaultIcon);
-
-  sid.hDefaultIcon   :=LoadImage(hInstance,MAKEINTRESOURCE(IDI_RELOAD),IMAGE_ICON,16,16,0);
-  sid.pszName        :=QS_RELOAD;
-  sid.szDescription.a:='Reload';
-  Skin_AddIcon(@sid);
-  DestroyIcon(sid.hDefaultIcon);
-
-  sid.hDefaultIcon   :=LoadImage(hInstance,MAKEINTRESOURCE(IDI_MALE),IMAGE_ICON,16,16,0);
-  sid.pszName        :=QS_MALE;
-  sid.szDescription.a:='Male';
-  Skin_AddIcon(@sid);
-  DestroyIcon(sid.hDefaultIcon);
-
-  sid.hDefaultIcon   :=LoadImage(hInstance,MAKEINTRESOURCE(IDI_FEMALE),IMAGE_ICON,16,16,0);
-  sid.pszName        :=QS_FEMALE;
-  sid.szDescription.a:='Female';
-  Skin_AddIcon(@sid);
-  DestroyIcon(sid.hDefaultIcon);
-
+  Icon_Register(hInstance, qs_module, @Icons, IconAmount, 'QS');
   HookEvent(ME_SKIN_ICONSCHANGED,@IconChanged);
 end;
 
@@ -122,7 +77,6 @@ begin
   odp.pfnDlgProc :=@sr_optdialog.DlgProcOptions;
   odp.flags      :=ODPF_BOLDGROUPS;
   Options_AddPage(wParam,@odp);
-//  CallService(MS_OPT_ADDPAGE,wParam,tlparam(@odp));
   Result:=0;
 end;
 
