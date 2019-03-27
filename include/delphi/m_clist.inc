@@ -36,31 +36,7 @@ procedure Menu_ShowItem(hMenu:HGENMENU; bShow:BYTE); stdcall; external AppDll;
 const
   ME_CLIST_PREBUILDCONTACTMENU:PAnsiChar = 'CList/PreBuildContactMenu';
 
-type
-  PCLISTDOUBLECLICKACTION = ^TCLISTDOUBLECLICKACTION;
-  TCLISTDOUBLECLICKACTION = record
-    cbSize         : int;
-    pszContactOwner: PAnsiChar; // name of the protocol owning the contact or NULL(0) for all
-    flags          : dword;     // CMIF_NOT flags above
-    pszService     : PAnsiChar; // service to call on double click, is called with wParam=hContact, lParam=0
-  end;
-
 const
-  {
-    wParam : 0
-    lParam : Pointer to a initalised TCLISTDOUBLECLICKACTION structure
-    Affect : Sets the service to call when a contact is double-clicked, see notes
-    Returns: 0 on success, [non zero] on failure
-    Notes  : in case of conflicts, the first module to have registered
-             will get the double click, no others will, this service
-             will return success even for duplicates
-             -
-             This service was dropped from development during 0.3.0.0, it is no
-             longer supported, see ME_CLIST_DOUBLECLICKED
-    Version: 0.1.2.2+, 0.2.0+ ONLY (not 3.0a)
-  }
-  MS_CLIST_SETDOUBLECLICKACTION:PAnsiChar = 'CList/SetDoubleClickAction';
-
   {
     wParam : TMCONTACT
     lParam : <none>
@@ -70,31 +46,6 @@ const
     Version: 0.3.0.0
   }
   ME_CLIST_DOUBLECLICKED:PAnsiChar = 'CList/DoubleClicked';
-
-type
-  PCLISTEVENT = ^TCLISTEVENT;
-  TCLISTEVENT = record
-    hContact  : TMCONTACT; // handle to the contact to put the icon by
-    flags     : dword;
-    hIcon     : HICON;     // icon to flash!
-    hDBEvent  : TMEVENT;   // caller defined, but should be unique for hContact
-                           // or pszProtocol:PAnsiChar
-    lParam    : LPARAM;
-    pszService: PAnsiChar; // name of service to call on activation
-    szTooltip : TChar;     // short description of the event to display as a tooltip on the systray
-  end;
-
-const
-  CLEF_URGENT         = 1; // flashes the icon even if the user is occupied, and puts
-                           // the event at the top of the queue
-  CLEF_ONLYAFEW       = 2; // icon will not flash forever, only a few times,
-                           // e.g. online alert
-  CLEF_UNICODE        = 4; // set pszTooltip as unicode
-  CLEF_PROTOCOLGLOBAL = 8; // set event globally for protocol, hContact has to
-                           // be NULL, lpszProtocol the protocol ID name to be set
-
-  IMAGE_GROUPOPEN = 11;
-  IMAGE_GROUPSHUT = 12;
 
   function Clist_GetImageList : HIMAGELIST; stdcall; external AppDll;
 

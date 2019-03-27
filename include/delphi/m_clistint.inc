@@ -78,15 +78,6 @@ type
     sortFunc  : pointer;
   end;
 
-  PEventList = ^TEventList;
-  TEventList = record
-    items     : ^PCListEvent;
-    count     : int;
-    limit     : int;
-    increment : int;
-    sortFunc  : pointer;
-  end;
-
   pClcGroup = ^tClcGroup;
   tClcGroup = record
     cl           : tContactList;
@@ -357,7 +348,7 @@ type
   * version 2 - events processing
   *************************************************************************************)
 
-    events : PEventList;
+    bzzz : pointer;
 
     pfnAddEvent                        : procedure; cdecl;
     pfnGetEvent                        : procedure; cdecl;
