@@ -369,9 +369,10 @@ void CIcqProto::EmailNotification(const wchar_t *pwszText)
 				return;
 
 		CLISTEVENT cle = {};
-		cle.hDbEvent = 1;
+		cle.hDbEvent = ICQ_FAKE_EVENT_ID;
+		cle.moduleName = m_szModuleName;
 		cle.hIcon = IcoLib_GetIconByHandle(iconList[0].hIcolib);
-		cle.flags = CLEF_UNICODE;
+		cle.flags = CLEF_UNICODE | CLEF_PROTOCOLGLOBAL;
 		cle.pszService = szServiceFunction;
 		cle.szTooltip.w = pwszText;
 		g_clistApi.pfnAddEvent(&cle);

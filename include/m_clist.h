@@ -247,10 +247,8 @@ struct CLISTEVENT
 	MCONTACT hContact;      // handle to the contact to put the icon by
 	DWORD flags;            // ...of course
 	HICON hIcon;            // icon to flash
-	union {
-		MEVENT hDbEvent;     // caller defined but should be unique for hContact
-		const char *lpszProtocol;
-	};
+	MEVENT hDbEvent;        // caller defined but should be unique for hContact
+	const char *moduleName; // for events with CLEF_PROTOCOLGLOBAL in flags
 	LPARAM lParam;	         // caller defined
 	const char *pszService; // name of the service to call on activation
 	MAllCStrings szTooltip; // short description of the event to display as a tooltip on the system tray
@@ -263,7 +261,7 @@ struct CLISTEVENT
 #define CLEF_UNICODE   4   // set pszTooltip as unicode
 
 #define CLEF_PROTOCOLGLOBAL   8 // set event globally for protocol, hContact has to be NULL,
-									     // lpszProtocol the protocol ID name to be set
+									     // moduleName the protocol ID name to be set
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // gets the image list with all the useful icons in it

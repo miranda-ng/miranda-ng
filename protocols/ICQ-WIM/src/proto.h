@@ -35,6 +35,7 @@
 
 #define ICQ_APP_ID "ic1nmMjqg7Yu-0hL"
 #define ICQ_API_SERVER "https://api.icq.net"
+#define ICQ_FAKE_EVENT_ID 0xBABAEB
 #define ICQ_ROBUST_SERVER "https://rapi.icq.net"
 
 #define PS_DUMMY "/DoNothing"

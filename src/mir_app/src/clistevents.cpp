@@ -71,7 +71,7 @@ static const char* GetEventProtocol(const CListEvent &ev)
 	if (ev.hContact != 0)
 		return GetContactProto(ev.hContact);
 
-	return (ev.flags & CLEF_PROTOCOLGLOBAL) ? ev.lpszProtocol : nullptr;
+	return (ev.flags & CLEF_PROTOCOLGLOBAL) ? ev.moduleName : nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -154,10 +154,9 @@ static VOID CALLBACK IconFlashTimer(HWND, UINT, UINT_PTR idEvent, DWORD)
 	iconsOn = !iconsOn;
 }
 
-CListEvent* fnAddEvent(CLISTEVENT *cle)
+static INT_PTR CALLBACK DoAddEvent(void *param)
 {
-	if (cle == nullptr)
-		return nullptr;
+	CLISTEVENT *cle = (CLISTEVENT*)param;
 
 	CListEvent *p = new CListEvent();
 	memcpy(p, cle, sizeof(*cle));
@@ -177,7 +176,15 @@ CListEvent* fnAddEvent(CLISTEVENT *cle)
 		TrayIconUpdateWithImageList(p->imlIconIndex, p->szTooltip.w, GetEventProtocol(*p));
 	}
 	Clist_ChangeContactIcon(cle->hContact, p->imlIconIndex);
-	return p;
+	return (INT_PTR)p;
+}
+
+CListEvent* fnAddEvent(CLISTEVENT *cle)
+{
+	if (cle == nullptr)
+		return nullptr;
+
+	return (CListEvent*)CallFunctionSync(DoAddEvent, cle);
 }
 
 // Removes an event from the contact list's queue
