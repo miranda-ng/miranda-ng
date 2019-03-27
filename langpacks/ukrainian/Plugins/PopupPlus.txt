@@ -1,0 +1,423 @@
+#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
+;============================================================
+;  File: Popup.dll
+;  Plugin: Popup plus
+;  Version: 2.1.1.15
+;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
+;============================================================
+[Provides popup notification services for different plugins.]
+Надає службу спливаючих вікон для інших плагінів.
+;file \plugins\Popup\res\resource.rc
+[Content and Style]
+Стиль вікон
+[Go to Customize -> Fonts and Colors for fonts and colors options]
+Налаштування шрифтів і кольорів: Тонке налаштування -> Шрифти і кольори
+[Miscellaneous]
+Інше
+[Effects]
+Ефекти
+[Live Preview]
+Перегляд
+[Size && Position]
+Місце і розмір
+[History]
+Історія
+[Enable popup history]
+Історія спливаючих вікон
+[Store last]
+Зберігати
+[events]
+подій
+[Use History++ to render log]
+History++ для історії вікон
+[Avatars]
+Аватари
+[Draw avatar borders]
+Малювати рамки аватарів
+[Draw borders for semitransparent avatars too]
+Також для напівпрозорих аватарів
+[Round corners by]
+Заокруглити кути
+[pixels]
+пікс.
+[Avatar size:]
+Аватар:
+[Enable avatar updates]
+Оновлення аватарів
+[Multimonitor]
+Декілька моніторів
+[Start the popups in the monitor with]
+Сплив. вікна на моніторі, де
+[Miranda's window]
+Вікно Miranda NG
+[the active window]
+Активне вікно
+[Transparency]
+Прозорість
+[Use transparency]
+Використовувати прозорість
+[opacity:]
+непрозорість:
+[Opaque popups under cursor]
+Непрозоро під курсором
+[Slide popup]
+Ковзання
+[Effect:]
+Ефект:
+[Time (in):]
+Час (поява):
+[ms]
+мс
+[Time (out):]
+Час (згасання):
+[Limit window amount to:]
+Обмежити кількість до:
+[Skins]
+Скіни
+[* - built-in skins]
+* - вбудовані
+[Skin options]
+Налаштування скіна
+[Preview]
+Тест
+[Download more skins]
+Завантажити скіни
+[Popup History]
+Історія сплив. вікон
+[Desktop]
+Робочий стіл
+[Popup area]
+Зона
+[pixel(s)]
+пікс.
+[Distance between popups]
+Відстань між сплив. вікнами
+[Configure popup area]
+Зона спливаючих вікон
+[Close]
+Закрити
+[General]
+Загальне
+[Enable popup actions]
+Увімкнути дії
+[Popup actions are those tiny buttons below notification text.]
+Дії - це маленькі кнопки під текстом вікна.
+[Common actions]
+Спільні дії
+[Please choose in what cases default actions should be added:]
+Виберіть, у яких випадках додавати загальні дії:
+[Add info && menu for IM contacts only]
+Меню та інфо тільки в контактів
+[Add default actions for contacts only]
+Заг. дії тільки в контактів
+[Don't close popups on default actions]
+Не закривати вікна загальних дій
+[Size and position]
+Розмір і позиція
+[Use large icons]
+Великі значки
+[Popup actions will be displayed as:]
+Відображення дій:
+[Icons and labels below text]
+Значки й підписи знизу
+[Icons on the left]
+Значки ліворуч
+[Icons aligned to the right]
+Значки праворуч
+[Show actions: (requires apply)]
+Дії (вимагає "Застосувати"):
+[Mouse actions overwrite]
+Дії за натисканням мишки
+[Left button]
+Ліва кнопка
+[Middle button]
+Середня кнопка
+[Right button]
+Права кнопка
+[Notifications]
+Сповіщення
+[General options]
+Загальні параметри
+[Enable this notification]
+Увімкнути це сповіщення
+[Popup timeout:]
+Тривалість:
+[Left click action:]
+Ліва кнопка:
+[Right click action:]
+Права кнопка:
+[Disable when global status is...]
+Вимкнути, коли глобальний статус...
+[Disable when relevant protocol's status is...]
+Вимкнути, коли статус відп. протоколу...
+[Colors can be configured in\r\nCustomize -> Fonts and colors]
+Кольори налаштовуються в\r\nТонке налаштування -> Шрифти і кольори
+[More...]
+Ще...
+[Disable if message window is open]
+Вимкнути, якщо вікно повідомлень відкрите
+[Sec]
+с
+[0 = Default]
+0=Замовчання
+[-1 = Infinite]
+-1=Нескінченно
+[Per-contact settings]
+Налаштування для кожного контакту
+[Show always]
+Завжди
+[Ignore fullscreen]
+Ігнор. повноекр.
+[Never show]
+Ніколи
+[Show default]
+За замовчанням
+[Default timeout]
+Тривалість за замовчанням
+[Infinite popup delay]
+Не закривати вікна
+[Popup delay:]
+Затримка:
+[seconds]
+секунд
+[Do not close hovered popups]
+Не закривати вікно під курсором
+[Dynamically resize the popups]
+Динамічна ширина
+[Minimum width]
+Мінімум
+[Maximum width]
+Максимум
+[Position:]
+Позиція:
+[Layout:]
+Порядок:
+[Reorder popups]
+Упорядковувати (зсувати) вікна
+[Disable when:]
+Вимкнути, коли
+[Always (has priority)]
+Завжди (має пріоритет)
+[Fullscreen mode]
+Повний екран
+[Debug]
+Налагодження
+;file \plugins\Popup\src\actions.cpp
+[Quick reply]
+Швидка відповідь
+[Send message]
+Надіслати
+[User details]
+Про користувача
+[Contact menu]
+Меню контакту
+[Add permanently]
+Додати до списку
+[Pin popup]
+Закріпити
+[Dismiss popup]
+Закрити вікно
+[Copy to clipboard]
+Копіювати в буфер обміну
+[No overwrite]
+Немає дії
+[Action]
+Дія
+;file \plugins\Popup\src\config.cpp
+[The Jabberwocky]
+Бурмоковт
+[`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]]
+Варчилось... Хлив'язкі тхурки\r\nВикрули, свербчись навкрузі,\r\nЖасумновілі худоки\r\nГривіли зехряки в чузі.\r\n\t[b][i]Льюїс Керрол, 1855[/i][/b]
+[Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
+Тестовий перегляд для налаштувань плагіна спливаючих вікон. Заголовок досить довгий...
+[This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)]
+Це спеціальний попередній перегляд для налаштувань плагіна спливаючих вікон. Текст і заголовок досить довгі для того, щоб ви змогли налаштувати скін і плагін так, як вам подобається ;)
+[This is a notification message]
+Це сповіщення
+[This is a warning message]
+Це попередження
+[This is an error message]
+Це повідомлення про помилку
+;file \plugins\Popup\src\effects.cpp
+[Square fading]
+Шахматика
+;file \plugins\Popup\src\font.h
+[Popups]
+Спливаючі вікна
+[Title]
+Заголовок
+[Clock]
+Час
+[Text]
+Текст
+[Hovered action]
+Наведена дія
+[Background]
+Фон
+[Border]
+Рамка
+[Sidebar]
+Врізка
+[Title underline]
+Підкреслення заголовка
+[Avatar border]
+Рамка аватару
+;file \plugins\Popup\src\history.cpp
+[Popup History is disabled]
+Історія спливаючих вікон вимкнена
+[Popup History message]
+Історія спливаючих вікон
+;file \plugins\Popup\src\icons.cpp
+[Popups are enabled]
+Вікна ввімкнені
+[Popups are disabled]
+Вікна вимкнені
+[With "favorite" overlay]
+З накладенням "Обраний"
+[With "fullscreen" overlay]
+З накладенням "Повний екран"
+[Information]
+Інформація
+[Warning]
+Попередження
+[Error]
+Помилка
+[Refresh skin list]
+Оновити список
+[Popup placement]
+Положення
+[Cancel]
+Скасувати
+[Popup group]
+Група вікон
+[Favorite contact]
+Обраний контакт
+[Show in fullscreen]
+Показати на повний екран
+[Blocked contact]
+Заблокований контакт
+[Pinned popup]
+Закріплене
+[Add contact permanently]
+Додати контакт постійно
+;file \plugins\Popup\src\main.cpp
+[Classes]
+Класи
+[Actions]
+Дії
+[Contacts]
+Контакти
+[Advanced]
+Додатково
+[Toggle Popups]
+Увімк./вимк. сплив. вікна
+[Enable Popups]
+Увімкнути спливаючі вікна
+[Disable Popups]
+Вимкнути спливаючі вікна
+[Popup Plus]
+Спливаючі вікна
+[Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
+Помилка: не вдалося зареєструвати клас Popup Window.\r\nПлагін не працюватиме.
+;file \plugins\Popup\src\opt_adv.cpp
+[No effect]
+Без ефекту
+[Fade in/out]
+Плавний показ
+;file \plugins\Popup\src\opt_class.cpp
+[CLASS Plugins]
+Групи плагінів
+[Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
+У своїй оселі в Р'льєху мертвий Ктулху спить і чекає.
+;file \plugins\Popup\src\opt_gen.cpp
+[Offline]
+Не в мережі
+[Online]
+В мережі
+[Invisible]
+Невидимий
+[Away]
+Відсутній
+[Not available]
+Недоступний
+[Occupied]
+Зайнятий
+[Do not disturb]
+Не турбувати
+[Free for chat]
+Готовий до чату
+[Out to lunch]
+Обідаю
+[On the phone]
+Телефоную
+[Width]
+Ширина
+[Upper left corner]
+Вгорі ліворуч
+[Lower left corner]
+Внизу ліворуч
+[Lower right corner]
+Внизу праворуч
+[Upper right corner]
+Вгорі праворуч
+[Horizontal]
+Горизонталь
+[Vertical]
+Вертикаль
+[Global Status]
+Загальний статус
+[Protocol Status]
+Статус протоколу
+[You cannot specify a value lower than %d and higher than %d.]
+Значення менше %d або більше %d не допускається.
+['Reorder popups' option is currently disabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
+Налаштування "Впорядковувати (зсувати) вікна" вимкнено.\r\nЦе може призвести до перекосу при використанні з\r\nаватарами і заміною тексту (з плагіном NewXstatusNotify).\r\n\r\nУвімкнути впорядкування (зсув) вікон?\r\n
+[Popup plus warning]
+Попередження Popup plus
+;file \plugins\Popup\src\opt_skins.cpp
+[Failed to register %s class.]
+Не вдалося зареєструвати клас %s.
+[Skin preview]
+Перегляд скіна
+[Just take a look at this skin... ;)]
+Погляньте на цей скін... ;)
+[Show clock]
+Показувати годинник
+[Drop shadow effect]
+Ефект тіні
+[non rectangular]
+не прямокутні
+[Enable Aero Glass (Vista+)]
+Ефект Aero Glass (Vista+)
+[Use Windows colors]
+Кольори Windows
+[Use advanced text render]
+Розширена обробка тексту
+[Global settings]
+Глобальні налаштування
+[Refresh List]
+Оновити список
+;file \plugins\Popup\src\popup_thread.cpp
+;file \plugins\Popup\src\popup_wnd2.cpp
+[Failed to GetClassInfoExW from EDIT class.]
+Не вдалося виконати GetClassInfoExW з класу EDIT.
+[Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n]
+Не вдалося зареєструвати клас custom edit box window.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n
+;file \plugins\Popup\src\services.cpp
+[Notify]
+Сповіщення
+;file \plugins\Popup\src\srmm_menu.cpp
+[Auto]
+Авто
+[Favorite]
+Обране
+[Block]
+Заблокувати
+[Popup Mode: Auto]
+Режим спливаючих вікон: за замовчанням
+[Popup Mode: Favorite]
+Режим спливаючих вікон: обране
+[Popup Mode: Ignore fullscreen]
+Режим спливаючих вікон: ігнорувати повноекранні програми
+[Popup Mode: Block contact]
+Режим спливаючих вікон: блокувати

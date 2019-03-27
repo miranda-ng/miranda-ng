@@ -1,0 +1,21 @@
+#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
+;============================================================
+;  File: Popup.dll
+;  Plugin: Popup plus
+;  Version: 2.1.1.15
+;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
+;============================================================
+[Go to Customize -> Fonts and Colors for fonts and colors options]
+Go to Customise -> Fonts and Colours for fonts and colours options
+[Colors can be configured in\r\nCustomize -> Fonts and colors]
+Colours can be configured in\r\nCustomise -> Fonts and colours
+[With "favorite" overlay]
+With "favourite" overlay
+[Favorite contact]
+Favourite contact
+[Use Windows colors]
+Use Windows colours
+[Favorite]
+Favourite
+[Popup Mode: Favorite]
+Popup Mode: Favourite
