@@ -220,9 +220,17 @@ void CIcqProto::ProcessNotification(const JSONNode &ev)
 
 		const JSONNode &status = fld["mailbox.status"];
 		if (status) {
+			int iOldCount = m_unreadEmails;
+
 			JSONROOT root(status.as_string().c_str());
 			m_szMailBox = (*root)["email"].as_mstring();			
 			m_unreadEmails = (*root)["unreadCount"].as_int();
+			
+			// we've read/removed some messages from server
+			if (iOldCount > m_unreadEmails) {
+				g_clistApi.pfnRemoveEvent(0, 1);
+				return;
+			}
 
 			// we notify about initial mail count only during login
 			if (m_bFirstBos && m_unreadEmails > 0) {
