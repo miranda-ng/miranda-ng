@@ -2,12 +2,12 @@
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News aggregator
-;  Version: 0.1.0.4
+;  Version: 0.1.0.5
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [RSS/Atom news aggregator.]
 Čtečka novinek RSS/Atom.
-;file \plugins\NewsAggregator\Res\Resource.rc
+;file \protocols\NewsAggregator\Res\Resource.rc
 [Add]
 Přidat
 [Change]
@@ -72,14 +72,14 @@ Importovat z:
 Zdroje k importu:
 [&Import]
 &Importovat
-;file \plugins\NewsAggregator\Src\Authentication.cpp
+;file \protocols\NewsAggregator\Src\Authentication.cpp
 [Enter your username]
 Zadejte vaše uživ. jméno
 [Error]
 Chyba
 [Enter your password]
 Zadejte vaše heslo
-;file \plugins\NewsAggregator\Src\CheckFeed.cpp
+;file \protocols\NewsAggregator\Src\CheckFeed.cpp
 [%s\nis a valid feed's address.]
 %s\nje platná adresa zdroje.
 [News Aggregator]
@@ -88,7 +88,7 @@ Zadejte vaše heslo
 %s\nnení platná adresa zdroje.
 [empty]
 prázdné
-;file \plugins\NewsAggregator\Src\Icons.cpp
+;file \protocols\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
 Ikona protokolu
 [Check All Feeds]
@@ -103,13 +103,13 @@ Exportovat zdroje
 Deaktivovat automatickou aktualizaci
 [Auto Update Disabled]
 Aktivovat automatickou aktualizaci
-;file \plugins\NewsAggregator\Src\Menus.cpp
+;file \protocols\NewsAggregator\Src\Menus.cpp
 [Check feed]
 Zkont. zdroj
 [Change feed]
 Změnit zdroj
-;file \plugins\NewsAggregator\Src\NewsAggregator.cpp
-;file \plugins\NewsAggregator\Src\Options.cpp
+;file \protocols\NewsAggregator\Src\NewsAggregator.cpp
+;file \protocols\NewsAggregator\Src\Options.cpp
 [OPML files]
 
 [Not valid import file.]
@@ -154,11 +154,11 @@ Zdroj
 
 [Network]
 Sítě
-;file \plugins\NewsAggregator\Src\Services.cpp
+;file \protocols\NewsAggregator\Src\Services.cpp
 [Avatars]
 Avatary
 [Enable/disable auto update]
 Povolit/zakázat automatickou aktualizaci
-;file \plugins\NewsAggregator\Src\Utils.cpp
+;file \protocols\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connections]
 NewsAggregator - spojení pomocí protokolu HTTP

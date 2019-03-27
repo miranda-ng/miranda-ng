@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MirOTR.dll
 ;  Plugin: Miranda OTR
-;  Version: 0.14.1.17
+;  Version: 0.14.2.1
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
 [OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
@@ -80,6 +80,17 @@ OTR-статус
 Спыніць& OTR-сесію
 [&Verify Fingerprint]
 &Праверка адбіткаў
+;file \plugins\MirOTR\src\icons.cpp
+[OTR private]
+Прыватны OTR
+[OTR unverified]
+OTR неправераны
+[OTR finished]
+OTR завершаны
+[OTR not secure]
+OTR не з'яўляецца бяспечным
+[Refresh]
+Абнавіць
 ;file \plugins\MirOTR\src\language.h
 [Start OTR]
 Запусціць OTR
@@ -99,8 +110,6 @@ OTR-шыфраванне: неправерана
 OTR-шыфраванне: дзель
 [OTR Encryption: Finished]
 OTR-шыфраванне: завершана
-[&Convert HTML (for Pidgin)]
-Канверсаваць HTML (для Pidgin)
 [OTR encrypted session with '%s' has been terminated]
 Шыфраваная сесія з '%s' была спынена.
 [Requesting OTR encrypted session with '%s']
@@ -131,16 +140,6 @@ OTR Інфармацыя
 Шыфраваная сесія з '%s' зараз выкарыстоўвае ПРАВЕРАНЫ адбітак.
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
 Шыфраваная сесія з '%s' зараз выкарыстоўвае НЕПРАВЕРАНЫ адбітак.
-[OTR unverified]
-OTR неправераны
-[OTR finished]
-OTR завершаны
-[OTR private]
-Прыватны OTR
-[OTR not secure]
-OTR не з'яўляецца бяспечным
-[Refresh]
-Абнавіць
 [Generating new private key for protocol '%s'.\nPlease Wait...]
 Стварэнне новага прыватнага ключа для пратаколу '%s'.\n Пачакайце...
 [General]
@@ -236,6 +235,8 @@ OTR: усталяваны SecureIM
 Меню MirOTR
 [OTR Status]
 OTR Статус
+[&Convert HTML (for Pidgin)]
+Канверсаваць HTML (для Pidgin)
 ;file \plugins\MirOTR\src\options.cpp
 [Private Data]
 Асабістыя дадзеныя

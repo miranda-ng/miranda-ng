@@ -2,12 +2,12 @@
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.1.0.101
+;  Version: 0.2.0.3
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates.]
 Дадатак адлюстроўвае курсы валют.
-;file \plugins\CurrencyRates\res\Forex.rc
+;file \protocols\CurrencyRates\res\Forex.rc
 [Variable List]
 Спіс зменных
 [Edit Settings]
@@ -104,14 +104,16 @@
 &Паведамленне статусу:
 [&Tendency:]
 &Тэндэнцыя:
+[&Personal key:]
+
 [&Advanced Settings...]
 Дадатковыя налады...
 [Rate Info]
 Курс валюты
-;file \plugins\CurrencyRates\src\Chart.h
+;file \protocols\CurrencyRates\src\Chart.h
 [There is nothing to show]
 
-;file \plugins\CurrencyRates\src\CommonOptionDlg.cpp
+;file \protocols\CurrencyRates\src\CommonOptionDlg.cpp
 [Seconds]
 Секунд
 [Minutes]
@@ -124,24 +126,15 @@
 
 [Enter text to display in contact list.]
 
-;file \plugins\CurrencyRates\src\CurrencyConverter.cpp
+;file \protocols\CurrencyRates\src\CurrencyConverter.cpp
 [Info provided by]
 Інфармацыя прадстаўлена
 [Enter positive number.]
 Увядзіце станоўчую лічбу.
-;file \plugins\CurrencyRates\src\CurrencyRateInfoDlg.cpp
+;file \protocols\CurrencyRates\src\CurrencyRateInfoDlg.cpp
 [Currency Rate]
 Курс валюты
-;file \plugins\CurrencyRates\src\CurrencyRatesProviderCurrencyConverter.cpp
-[Error occurred during HTML parsing.]
-Памылка падчас парсінгу HTML.
-[Error occurred during site access.]
-Памылка пры доступе да сайта.
-;file \plugins\CurrencyRates\src\CurrencyRatesProviderVisitorFormatSpecificator.cpp
-[Currency Symbol]
-Знак валюты
-[Currency Name]
-Назва валюты
+;file \protocols\CurrencyRates\src\CurrencyRatesProviderBase.cpp
 [Source of Information]
 Крыніца інфармацыі
 [Rate Value]
@@ -160,20 +153,11 @@
 Табуляцыя
 [Left slash (\\)]
 Знак \\
-[Open Price]
-Кошт на адкрыццё
-[Percent Change to After Hours]
-Адсотак змен за апошнюю гадзіну
-[Percent Change to Yesterday Close]
-Адсотак змен з учорашняга зачынення
-[Day's High]
-Максімальнае значэнне за дзень
-[Day's Low]
-Мінімальнае значэнне за дзень
-[Previous Close]
-Значэнне на папярэдняе зачыненне
-[Change]
-Змена
+;file \protocols\CurrencyRates\src\CurrencyRatesProviderCurrencyConverter.cpp
+[Error occurred during HTML parsing.]
+Памылка падчас парсінгу HTML.
+[Error occurred during site access.]
+Памылка пры доступе да сайта.
 [From Currency Full Name]
 Поўная назва зыходнай валюты
 [From Currency Short Name]
@@ -184,7 +168,7 @@
 Кароткая назва мэтавай валюты
 [Short notation for "%f/%i"]
 Кароткае пазначэнне "%f/%i"
-;file \plugins\CurrencyRates\src\Forex.cpp
+;file \protocols\CurrencyRates\src\Forex.cpp
 [Auto Update Enabled]
 Аўтаабнаўленне ўключана
 [Auto Update Disabled]
@@ -215,12 +199,16 @@
 
 [Currency Rates Auto Update Disabled]
 
+[Currency Symbol]
+Знак валюты
 [Network]
 Сеціва
-;file \plugins\CurrencyRates\src\HTTPSession.cpp
+;file \protocols\CurrencyRates\src\HTTPSession.cpp
+[This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.]
+
 [CurrencyRates HTTP connections]
 HTTP далучэнне CurrencyRates
-;file \plugins\CurrencyRates\src\IconLib.cpp
+;file \protocols\CurrencyRates\src\IconLib.cpp
 [Protocol icon]
 Абразок конту
 [Currency Rate up]
@@ -237,17 +225,15 @@ HTTP далучэнне CurrencyRates
 Памяняць месцамі
 [Import]
 Імпарт
-;file \plugins\CurrencyRates\src\ImportExport.cpp
+;file \protocols\CurrencyRates\src\ImportExport.cpp
 [XML File (*.xml)]
 Файл XML(*.xml)
 [All files (*.*)]
 Усе файлы (*.*)
-;file \plugins\CurrencyRates\src\ModuleInfo.cpp
-[Miranda could not load CurrencyRates plugin. XML parser is missing.]
-
+;file \protocols\CurrencyRates\src\ModuleInfo.cpp
 [Miranda could not load CurrencyRates plugin. Microsoft HTML parser is missing.]
 
-;file \plugins\CurrencyRates\src\SettingsDlg.cpp
+;file \protocols\CurrencyRates\src\SettingsDlg.cpp
 [Log Files (*.txt,*.log)]
 Лог (*.txt,*.log)
 [Enter integer value]

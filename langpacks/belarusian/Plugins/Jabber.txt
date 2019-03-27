@@ -326,6 +326,8 @@ JID / URL:
 JID:
 [Node:]
 Вузел:
+[Filter:]
+
 [Member Information]
 Правы ўдзельніка
 [Role:]
@@ -392,24 +394,10 @@ XML Кансоль
 [Jabber Mood]
 Настрой Jabber
 ;file \protocols\JabberG\src\jabber_adhoc.cpp
-[Error %s %s]
-Памылка %s %s
-[Select Command]
-Выберыце каманду
-[Not supported]
-Не падтрымліваецца
 [Done]
 Выканана
-[In progress. Please Wait...]
-У прагэсе. Пачакайце...
 [Execute]
 Выканаць
-[Requesting command list. Please wait...]
-Запыт спісу каманд. Пачакайце...
-[Jabber Ad-Hoc commands at %s]
-Jabber Ad-Hoc каманды на %s
-[Sending Ad-Hoc command to %s]
-Адправіць Ad-Hoc каманду %s
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [Jabber Agent Registration]
 Рэгістрацыя агента Jabber
@@ -544,32 +532,16 @@ xHTML фармат чат-паведамленняў
 Удзельнік
 [Moderator]
 Мадэратар
-[Visitors]
-Наведвальнікі
-[Participants]
-Удзельнікі
-[Moderators]
-адэратары
 [Owners]
 Уладальнікі
-[User %s is now banned.]
-Кантакт %s быў забанены.
-[User %s changed status to %s with message: %s]
-%s змяніў статус на %s: %s
-[User %s changed status to %s]
-%s змяніў статус на %s.
-[Room configuration was changed.]
-Налады чата зменены.
-[Outcast]
-Выгнаныя
-[Affiliation of %s was changed to '%s'.]
-Прыналежнасць %s змянілася на %s.
+[Moderators]
+адэратары
+[Participants]
+Удзельнікі
+[Visitors]
+Наведвальнікі
 [Role of %s was changed to '%s'.]
 Роля %s змянілася на '%s'.
-[because room is now members-only]
-таму што чат толькі для пастаянных удзельнікаў
-[user banned]
-забанены
 [Change &nickname]
 Змяніць мянушку
 [&Invite a user]
@@ -668,10 +640,6 @@ xHTML фармат чат-паведамленняў
 
 [%s (not on roster)]
 %s (не ў росцеры)
-[%s from\n%s]
-%s з\n%s
-[Real JID not available]
-Сапраўдны JID недасяжны
 [Reason to kick %s]
 Чыннік выспятку %s
 [Reason to ban %s]
@@ -742,26 +710,6 @@ Jabber памылка
 Скапіраваць імя
 [Copy node information]
 Скапіраваць інфармацыю
-;file \protocols\JabberG\src\jabber_disco.h
-[Identities]
-Ідэнтыфікатары
-[category]
-катэгорыя
-[type]
-тып
-[Category]
-Катэгорыя
-[Type]
-Тып
-[Supported features]
-Падтрымоўваныя магчымасці
-[Info request error]
-Памылка запыту інфармацыі
-[Items request error]
-Памылка запыту
-;file \protocols\JabberG\src\jabber_filterlist.cpp
-[Set filter...]
-Фільтр...
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
 [Failed to retrieve room list from server.]
 Памылка запыту спісу чатаў.
@@ -769,8 +717,6 @@ Jabber памылка
 На серверы няма дасяжных чатаў
 [Room list request timed out.]
 Час запроса спісу чатаў
-[<no nick>]
-<без мянушкі>
 [Loading...]
 Загрузка...
 [Please wait for room list to download.]
@@ -781,8 +727,8 @@ Jabber памылка
 Закладкі...
 [Change nickname in <%s>]
 Змяніць мянушку ў <%s>
-[has set the subject to:]
-усталяваў(ла) тэму:
+[Error]
+Памылка
 [Group chat invitation to\n%s]
 Запрашэнне ў канферэнцыю\n%s
 ;file \protocols\JabberG\src\jabber_icolib.cpp
@@ -877,8 +823,8 @@ Jabber памылка
 ;file \protocols\JabberG\src\jabber_iqid.cpp
 [Authentication failed for %s.]
 Аутэнтыфікацыя не прайшла для %s.
-[Jabber Authentication]
-Аутэнтыфікацыя Jabber
+[Authentication]
+
 [Registration successful]
 Рэгістрацыя паспяхова пройдзена
 [Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
@@ -1469,18 +1415,6 @@ Jabber Рэсурс
 Змены статусу
 [Don't notify history messages]
 Не паказваць абвестак з гісторыі
-[Group]
-Гурт
-[Subscription]
-Падпіска
-[Uploading...]
-Выгрузка...
-[Downloading...]
-Загрузка...
-[XML for MS Excel (UTF-8 encoded)]
-XML для MS Excel (кадзіроўка UTF-8)
-[Connecting...]
-Далучэнне...
 [Network]
 Сеціва
 [Account]
@@ -1514,8 +1448,6 @@ S.ms
 [Some changes will take effect the next time you connect to the Jabber network.]
 Некаторыя змены будуць ужытыя пры наступным уваходзе ў Jabber.
 ;file \protocols\JabberG\src\jabber_password.cpp
-[Set New Password for %s@%S]
-Устаноўка новага пароля для %s@%S
 [New password does not match.]
 Новыя паролі не супадаюць
 [Current password is incorrect.]
@@ -1543,6 +1475,46 @@ S.ms
 Памылка пры ўсталёўцы па змаўчанні
 [Allow]
 Дазволіць
+[List has no rules, empty lists will be deleted then changes applied]
+У спісе няма правіл, пустыя спісы будуць выдаленыя
+[allow ]
+дазволіць\s
+[deny ]
+забараніць\s
+[all.]
+усё.
+[messages]
+паведамленняў
+[ and ]
+ і\s
+[incoming presences]
+уваходная прысутнасць
+[outgoing presences]
+выходная прысутнаст
+[queries]
+запыты
+[Else ]
+Інакш\s
+[If Jabber ID is ']
+Калі JID '
+[ (nickname: ]
+ (мянушка:\s
+[If group is ']
+Калі гурт '
+[If subscription is ']
+Калі падпіска '
+[then ]
+то\s
+[ (act., def.)]
+(актыўна, змаўч.)
+[ (active)]
+ (актыўны)
+[ (default)]
+ (асноўны)
+[Ready.]
+Гатовы.
+[Privacy lists are not saved, discard any changes and exit?]
+Спісы прыватнасці не захаваны, адмяніць змены і выйсці?
 [Simple mode]
 Просты рэжым
 [Advanced mode]
@@ -1587,46 +1559,6 @@ S.ms
 Прысутнасць (ув)
 [Query]
 Запыт
-[List has no rules, empty lists will be deleted then changes applied]
-У спісе няма правіл, пустыя спісы будуць выдаленыя
-[allow ]
-дазволіць\s
-[deny ]
-забараніць\s
-[all.]
-усё.
-[messages]
-паведамленняў
-[ and ]
- і\s
-[incoming presences]
-уваходная прысутнасць
-[outgoing presences]
-выходная прысутнаст
-[queries]
-запыты
-[Else ]
-Інакш\s
-[If Jabber ID is ']
-Калі JID '
-[ (nickname: ]
- (мянушка:\s
-[If group is ']
-Калі гурт '
-[If subscription is ']
-Калі падпіска '
-[then ]
-то\s
-[ (act., def.)]
-(актыўна, змаўч.)
-[ (active)]
- (актыўны)
-[ (default)]
- (асноўны)
-[Ready.]
-Гатовы.
-[Privacy lists are not saved, discard any changes and exit?]
-Спісы прыватнасці не захаваны, адмяніць змены і выйсці?
 [Please save list before activating]
 Перад акцівацыяй захавайце спіс
 [First, save the list]
@@ -1650,80 +1582,22 @@ S.ms
 Конт не далучаны ці няма JID.
 [No valid OMEMO session exists]
 
-;file \protocols\JabberG\src\jabber_rc.cpp
-[Command completed successfully]
-Каманда выканана паспяхова
-[Error occurred during processing command]
-Паўстала памылка падчас выкананні каманды
-[Set status]
-Усталяваць статус
-[Set options]
-Усталяваць налады
-[Forward unread messages]
-Перасылаць непрачытаныя паведамленні
-[Leave group chats]
-Пакінуць чаты
-[Lock workstation]
-Заблакаваць кампутар
-[Quit Miranda NG]
-Зачыніць Miranda
-[Change Status]
-Змяняць статус
-[Choose the status and status message]
-Усталяваць статус і статуснае паведамленне
-[Status]
-Статус
-[Extended away (Not available)]
-Недаступны
-[Invisible]
-Нябачны
-[Offline]
-Адключаны
-[Priority]
-Прыярытэт
-[Status message]
-Паведамленне статусу
-[Change global status]
-Змяніць глабальны статус
-[Set Options]
-Усталяваць налады
-[Set the desired options]
-Усталюйце жаданыя налады
-[Automatically Accept File Transfers]
-Аўтаматычна ўхваляць перадачы файлаў
-[Play sounds]
-Прайграваць гукі
-[Disable remote controlling (check twice what you are doing)]
-Выключыць выдаленае кіраванне (правярайце двойчы, што вы робіце)
-[There is no messages to forward]
-Няма паведамленняў для адпраўкі
-[Forward options]
-Параметры перасылкі
-[%d message(s) to be forwarded]
-%d паведамленні для адпраўкі
-[Mark messages as read]
-пазначыць павеламленні прачытанымі
-[%d message(s) forwarded]
-паведамленняў адпраўлена: %d
-[Workstation successfully locked]
-Кампутар паспяхова заблакаваны
-[Error %d occurred during workstation lock]
-Памылка %d паўстала падчас працэсу блакавання
-[Confirmation needed]
-Неабходна пацвярджэнне
-[Please confirm Miranda NG shutdown]
-Пацвердзіце выключэнне праграмы
-[There is no group chats to leave]
-Няма чатаў для адключэння
-[Choose the group chats you want to leave]
-Абярыце чаты, якія вы хочаце пакінуць
+;file \protocols\JabberG\src\jabber_roster.cpp
+[Group]
+Гурт
+[Subscription]
+Падпіска
+[Uploading...]
+Выгрузка...
+[Downloading...]
+Загрузка...
+[Connecting...]
+Далучэнне...
+[XML for MS Excel (UTF-8 encoded)]
+XML для MS Excel (кадзіроўка UTF-8)
 ;file \protocols\JabberG\src\jabber_search.cpp
-[Error %s %s\r\nPlease select other server]
-Памылка %s %s\r\n Калі ласка абярыце іншы сервер
 [Error: unknown reply received\r\nPlease select other server]
 Памылка, прыняты невядомы адказ\r\n Калі ласка, абярыце іншы сервер
-[Error %s %s\r\nTry to specify more detailed]
-Памылка %s %s\r\n Паспрабуйце паказаць больш дэталяў
 [Search error]
 Памылка пошуку
 [Select/type search service URL above and press <Go>]
@@ -1745,6 +1619,8 @@ S.ms
 адправіў прысутнасць з памылкай
 [sent unknown presence type]
 адправіў невядомы тып прысутнасці
+[Outcast]
+Выгнаныя
 [Nick:]
 Мянушка:
 [Status:]
@@ -1762,31 +1638,23 @@ S.ms
 Памылка: Злучэнне страчана
 [Requesting registration instruction...]
 Запыт рэгістрацыйнай інструкцыі...
-[Authentication failed for %s@%S.]
-Аутэнтыфікацыя не прайшла для %s@%S.
-[Message redirected from: %s\r\n%s]
-Паведамленне пераслана ад %s\r\n%s
+[Registration canceled]
+
 [Sending registration information...]
 Дасылка рэгістрацыйнай інфармацыі...
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
-[Resource]
-Рэсурс
 [<not specified>]
 <не паказана>
+[Resource]
+Рэсурс
 [Software]
 Кліент
 [Version]
 Версія
 [System]
 Сістэма
-[unknown]
-невядома
-[Idle since]
-Прастойвае з
-[Client capabilities]
-Магчымасці кліента
-[Software information]
-Інфармацыя пра ПЗ
+[Last activity]
+
 [Operating system]
 Аперацыйная сістэма
 [Operating system version]
@@ -1801,26 +1669,14 @@ S.ms
 Занятак
 [Tune]
 Мелодыя
-[both]
-у абодва бакі
-[to]
-у
-[from]
-з
-[none]
-няма
 [Last logoff time]
 Адключаны:
 [Uptime]
 Час працы
 [Logoff message]
 Паведамленне адключэння
-[<no information available>]
-<няма інфармацыі>
 [Last active resource]
 Апошні актыўны рэсурс
-[Please switch online to see more details.]
-Далучыцеся для дэтальнай інфармацыі.
 [Copy]
 Капіяваць
 [Copy only this value]
@@ -1870,10 +1726,10 @@ S.ms
 Затрымка выдаленага сервера
 [Unknown error]
 Невядомая памылка
-[Error]
-Памылка
 [Unknown error message]
 Невядомая памылка паведамлення
+[Offline]
+Адключаны
 [Advanced Status]
 Пашыраны статус
 [Set mood...]

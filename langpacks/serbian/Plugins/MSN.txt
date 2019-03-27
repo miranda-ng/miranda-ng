@@ -132,8 +132,6 @@ Detalji &korisnika
 [&Deop user]
 
 ;file \protocols\MSN\src\msn_commands.cpp
-[%I64u bytes]
-
 [MSN Alert]
 
 ;file \protocols\MSN\src\msn_errors.cpp

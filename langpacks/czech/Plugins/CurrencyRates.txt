@@ -2,12 +2,12 @@
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.1.0.101
+;  Version: 0.2.0.3
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates.]
 Zobrazuje kurzy měn.
-;file \plugins\CurrencyRates\res\Forex.rc
+;file \protocols\CurrencyRates\res\Forex.rc
 [Variable List]
 Seznam proměnných
 [Edit Settings]
@@ -104,14 +104,16 @@ Odst&ranit
 Zpráva &stavu
 [&Tendency:]
 
+[&Personal key:]
+
 [&Advanced Settings...]
 Pokročilé nastavení...
 [Rate Info]
 
-;file \plugins\CurrencyRates\src\Chart.h
+;file \protocols\CurrencyRates\src\Chart.h
 [There is nothing to show]
 
-;file \plugins\CurrencyRates\src\CommonOptionDlg.cpp
+;file \protocols\CurrencyRates\src\CommonOptionDlg.cpp
 [Seconds]
 sekund
 [Minutes]
@@ -124,24 +126,15 @@ Zadejte číselnou hodnotu mezi 1 a 60.
 Zadejte číselnou hodnotu mezi 1 a 24.
 [Enter text to display in contact list.]
 Zadejte text pro zobrazení v seznamu kontaktů.
-;file \plugins\CurrencyRates\src\CurrencyConverter.cpp
+;file \protocols\CurrencyRates\src\CurrencyConverter.cpp
 [Info provided by]
 Informace poskytuje
 [Enter positive number.]
 
-;file \plugins\CurrencyRates\src\CurrencyRateInfoDlg.cpp
+;file \protocols\CurrencyRates\src\CurrencyRateInfoDlg.cpp
 [Currency Rate]
 
-;file \plugins\CurrencyRates\src\CurrencyRatesProviderCurrencyConverter.cpp
-[Error occurred during HTML parsing.]
-
-[Error occurred during site access.]
-
-;file \plugins\CurrencyRates\src\CurrencyRatesProviderVisitorFormatSpecificator.cpp
-[Currency Symbol]
-
-[Currency Name]
-
+;file \protocols\CurrencyRates\src\CurrencyRatesProviderBase.cpp
 [Source of Information]
 
 [Rate Value]
@@ -160,20 +153,11 @@ Informace poskytuje
 
 [Left slash (\\)]
 
-[Open Price]
+;file \protocols\CurrencyRates\src\CurrencyRatesProviderCurrencyConverter.cpp
+[Error occurred during HTML parsing.]
 
-[Percent Change to After Hours]
+[Error occurred during site access.]
 
-[Percent Change to Yesterday Close]
-
-[Day's High]
-
-[Day's Low]
-
-[Previous Close]
-
-[Change]
-Změnit
 [From Currency Full Name]
 
 [From Currency Short Name]
@@ -184,7 +168,7 @@ Změnit
 
 [Short notation for "%f/%i"]
 
-;file \plugins\CurrencyRates\src\Forex.cpp
+;file \protocols\CurrencyRates\src\Forex.cpp
 [Auto Update Enabled]
 Deaktivovat automatickou aktualizaci
 [Auto Update Disabled]
@@ -215,12 +199,16 @@ Upravit nastavení...
 
 [Currency Rates Auto Update Disabled]
 
+[Currency Symbol]
+
 [Network]
 Sítě
-;file \plugins\CurrencyRates\src\HTTPSession.cpp
+;file \protocols\CurrencyRates\src\HTTPSession.cpp
+[This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.]
+
 [CurrencyRates HTTP connections]
 CurrencyRates - spojení pomocí protokolu HTTP
-;file \plugins\CurrencyRates\src\IconLib.cpp
+;file \protocols\CurrencyRates\src\IconLib.cpp
 [Protocol icon]
 Ikona protokolu
 [Currency Rate up]
@@ -237,17 +225,15 @@ Exportovat
 
 [Import]
 Importovat
-;file \plugins\CurrencyRates\src\ImportExport.cpp
+;file \protocols\CurrencyRates\src\ImportExport.cpp
 [XML File (*.xml)]
 XML soubory (*.xml)
 [All files (*.*)]
 Všechny soubory (*.*)
-;file \plugins\CurrencyRates\src\ModuleInfo.cpp
-[Miranda could not load CurrencyRates plugin. XML parser is missing.]
-Miranda nemůže načíst doplněk CurrencyRates. XML parser nebyl nalezen.
+;file \protocols\CurrencyRates\src\ModuleInfo.cpp
 [Miranda could not load CurrencyRates plugin. Microsoft HTML parser is missing.]
 Miranda nemůže načíst doplněk CurrencyRates. Microsoft HTML parser nebyl nalezen.
-;file \plugins\CurrencyRates\src\SettingsDlg.cpp
+;file \protocols\CurrencyRates\src\SettingsDlg.cpp
 [Log Files (*.txt,*.log)]
 Záznamové soubory (*.txt,*.log)
 [Enter integer value]

@@ -7,7 +7,7 @@
 ;============================================================
 [Notify with popup if some connection established]
 Powiadamia popupem, gdy zostanie nawiązane połączenie.
-;file \plugins\ConnectionNotify\res\ConnectionNotify.rc
+;file \protocols\ConnectionNotify\res\ConnectionNotify.rc
 [Set popup colors]
 Ustaw kolory komunikatów
 [Popup options]
@@ -56,7 +56,7 @@ Anuluj
 Znaki * i ? są także dostępne (jako port podaj liczbę lub *)
 [Remote IP:Port]
 Zdalne IP:Port
-;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
+;file \protocols\ConnectionNotify\src\ConnectionNotify.cpp
 [Show]
 Pokaż
 [Hide]
@@ -79,6 +79,6 @@ Akcja
 Wtyczki
 [New Connection Notification]
 Powiadomienie o nowym połączeniu
-;file \plugins\ConnectionNotify\src\filter.cpp
+;file \protocols\ConnectionNotify\src\filter.cpp
 [First close options window]
 Najpierw zamknij okno opcji

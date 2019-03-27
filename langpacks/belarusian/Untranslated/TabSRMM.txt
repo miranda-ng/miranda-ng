@@ -7,8 +7,6 @@
 [will return parsed string %miranda_userdata%\\Logs]
 [Show send menu]
 [Show protocol menu]
-[Enable typing notification]
-[Disable typing notification]
 [Sent OK]
 [Suspended]
 [Message In]

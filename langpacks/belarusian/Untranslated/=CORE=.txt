@@ -5,6 +5,8 @@
 [Google Maps]
 [Google Translate]
 [This file transfer has been canceled by the other side]
+[The quick brown fox jumped over the lazy dog.]
+[Thequickbrownfoxjumpedoverthelazydog.]
 [Actively searching]
 [It's complicated]
 [In a civil union]

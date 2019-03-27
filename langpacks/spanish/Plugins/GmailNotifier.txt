@@ -7,7 +7,7 @@
 ;============================================================
 [Check your Gmail inboxes locally.]
 
-;file \plugins\GmailNotifier\res\options.rc
+;file \protocols\GmailNotifier\res\options.rc
 [Gmail account]
 
 [Name:]
@@ -54,7 +54,7 @@ segundos
 
 [Log unread threads into database (enable history)]
 
-;file \plugins\GmailNotifier\src\check.cpp
+;file \protocols\GmailNotifier\src\check.cpp
 [Checking...]
 
 [Can't send account data!]
@@ -63,7 +63,7 @@ segundos
 
 [Can't get RSS feed!]
 
-;file \plugins\GmailNotifier\src\main.cpp
+;file \protocols\GmailNotifier\src\main.cpp
 [Other]
 Otro
 [Gmail: New thread(s)]
@@ -74,7 +74,7 @@ Otro
 
 [&Check Gmail inbox]
 
-;file \plugins\GmailNotifier\src\options.cpp
+;file \protocols\GmailNotifier\src\options.cpp
 [GmailNotifier]
 
 [Network]

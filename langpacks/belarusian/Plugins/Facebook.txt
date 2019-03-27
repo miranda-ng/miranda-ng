@@ -142,14 +142,14 @@ URL:
 
 [This will permanently delete the conversation history]
 
-[Former]
-
 [Myself]
 
 [Friend]
 
 [User]
 Карыстач
+[Former]
+
 [Notifications]
 Абвесткі
 [%s and more (%d)]

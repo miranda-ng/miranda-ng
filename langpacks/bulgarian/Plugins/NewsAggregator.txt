@@ -2,12 +2,12 @@
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News aggregator
-;  Version: 0.1.0.4
+;  Version: 0.1.0.5
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [RSS/Atom news aggregator.]
 Четец за RSS/Atom новини.
-;file \plugins\NewsAggregator\Res\Resource.rc
+;file \protocols\NewsAggregator\Res\Resource.rc
 [Add]
 Добавяне
 [Change]
@@ -72,14 +72,14 @@ URL
 Емисии за внасяне:
 [&Import]
 Внос
-;file \plugins\NewsAggregator\Src\Authentication.cpp
+;file \protocols\NewsAggregator\Src\Authentication.cpp
 [Enter your username]
 Въведете потребител
 [Error]
 Грешка
 [Enter your password]
 Въведете парола
-;file \plugins\NewsAggregator\Src\CheckFeed.cpp
+;file \protocols\NewsAggregator\Src\CheckFeed.cpp
 [%s\nis a valid feed's address.]
 %s\nе валиден адрес на емисия.
 [News Aggregator]
@@ -88,7 +88,7 @@ URL
 %s\nне е валиден адрес на емисия.
 [empty]
 празно
-;file \plugins\NewsAggregator\Src\Icons.cpp
+;file \protocols\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
 Икона на протокола
 [Check All Feeds]
@@ -103,13 +103,13 @@ URL
 Автообновяването е включено
 [Auto Update Disabled]
 Автообновяването е изключено
-;file \plugins\NewsAggregator\Src\Menus.cpp
+;file \protocols\NewsAggregator\Src\Menus.cpp
 [Check feed]
 Проверка за новини
 [Change feed]
 Редактиране на емисията
-;file \plugins\NewsAggregator\Src\NewsAggregator.cpp
-;file \plugins\NewsAggregator\Src\Options.cpp
+;file \protocols\NewsAggregator\Src\NewsAggregator.cpp
+;file \protocols\NewsAggregator\Src\Options.cpp
 [OPML files]
 OPML файлове
 [Not valid import file.]
@@ -154,11 +154,11 @@ URL адрес на страницата за коментари към нови
 Изтриване на контакт
 [Network]
 Мрежа
-;file \plugins\NewsAggregator\Src\Services.cpp
+;file \protocols\NewsAggregator\Src\Services.cpp
 [Avatars]
 Аватари
 [Enable/disable auto update]
 Вкл / Изкл на автоматично обновяване
-;file \plugins\NewsAggregator\Src\Utils.cpp
+;file \protocols\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connections]
 HTTP връзки на NewsAggregator

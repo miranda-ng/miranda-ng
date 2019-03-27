@@ -55,12 +55,10 @@ Utiliser les couleurs de Windows
 [Show current connections]
 
 ;file \plugins\WhoUsesMyFiles\src\options.cpp
-[Popup plugin not found!]
+[Common Dialog Error 0x%lx]
 
 [Error]
 Erreur
-[Common Dialog Error 0x%lx]
-
 [Not implemented yet...]
 
 [Who uses my files]

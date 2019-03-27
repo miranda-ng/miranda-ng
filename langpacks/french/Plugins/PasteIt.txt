@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PasteIt.dll
 ;  Plugin: Paste it
-;  Version: 1.0.0.3
+;  Version: 1.0.0.4
 ;  Authors: Krzysztof Kral
 ;============================================================
 [Uploads the text to web page and sends the URL to your friends.]
@@ -142,12 +142,12 @@ Ne peut pas ouvrir le fichier '%s'
 [File '%s' is empty]
 Le fichier '%s' est vide
 ;file \plugins\PasteIt\src\PasteToWeb1.cpp
-[Error during sending text to web page: %s]
-Erreur lors de l'envoi du texte à la page Web : %s
+[Error during sending text to web page: %S]
+Erreur lors de l'envoi du texte à la page Web : %S
 [Error during sending text to web page]
 Erreur lors de l'envoi de texte à la page Web
-[Error during getting user key from web page: %s]
-Erreur lors de l'obtention de la clé d'utilisateur : %s
+[Error during getting user key from web page: %S]
+Erreur lors de l'obtention de la clé d'utilisateur : %S
 [Paste expire date]
 Date d'expiration
 [Never]

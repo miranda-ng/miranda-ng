@@ -7,7 +7,7 @@
 ;============================================================
 [Check your Gmail inboxes locally.]
 Lokalnie sprawdź swoje skrzynki Gmail
-;file \plugins\GmailNotifier\res\options.rc
+;file \protocols\GmailNotifier\res\options.rc
 [Gmail account]
 Konto Gmail
 [Name:]
@@ -54,7 +54,7 @@ Używaj wyboru ikon oraz ikon w pasku stanu (restart)
 To jest komputer współdzielony, więc wyłącz automatyczne logowanie
 [Log unread threads into database (enable history)]
 Zapisuj nieczytane wątki w bazie danych (włącz historię)
-;file \plugins\GmailNotifier\src\check.cpp
+;file \protocols\GmailNotifier\src\check.cpp
 [Checking...]
 Sprawdzanie...
 [Can't send account data!]
@@ -63,7 +63,7 @@ Nie udało się wysłać danych konta!
 Błędna nazwa użytkownika lub hasło!
 [Can't get RSS feed!]
 Nie można pobrać kanału RSS!
-;file \plugins\GmailNotifier\src\main.cpp
+;file \protocols\GmailNotifier\src\main.cpp
 [Other]
 Inne
 [Gmail: New thread(s)]
@@ -74,7 +74,7 @@ Połączenia Gmail Notifier
 Sprawdź wszystkie skrzynki Gmail
 [&Check Gmail inbox]
 Sprawdź skrzynkę Gmail
-;file \plugins\GmailNotifier\src\options.cpp
+;file \protocols\GmailNotifier\src\options.cpp
 [GmailNotifier]
 GmailNotifier
 [Network]

@@ -82,8 +82,6 @@
 [Popups]
 Усплывальныя вокны
 ;file \plugins\ChangeKeyboardLayout\src\main.cpp
-[Popup]
-Вакно
 ;file \plugins\ChangeKeyboardLayout\src\stdafx.h
 [ChangeKeyboardLayout]
 Змена раскладкі

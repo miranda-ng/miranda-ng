@@ -45,7 +45,6 @@
 [&Kick user]
 [&Op user]
 [&Deop user]
-[%I64u bytes]
 [MSN Alert]
 [User not online]
 [IID_IOleObject failed.]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MirOTR.dll
 ;  Plugin: Miranda OTR
-;  Version: 0.14.1.17
+;  Version: 0.14.2.1
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
 [OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
@@ -80,6 +80,17 @@ Obnovit šifrovanou relaci (OTR)
 Zrušit šifrovanou relaci (OTR)
 [&Verify Fingerprint]
 Ověřit otisk
+;file \plugins\MirOTR\src\icons.cpp
+[OTR private]
+Privátní (OTR)
+[OTR unverified]
+Neověřeno (OTR)
+[OTR finished]
+Ukončeno (OTR)
+[OTR not secure]
+Nezabezpečeno (OTR)
+[Refresh]
+Aktualizovat
 ;file \plugins\MirOTR\src\language.h
 [Start OTR]
 Šifrovat spojení (OTR)
@@ -99,8 +110,6 @@ Stav šifrování (OTR) (klikněte pro více možností)
 Šifrování (OTR): Privátní
 [OTR Encryption: Finished]
 Šifrování (OTR): Ukončeno
-[&Convert HTML (for Pidgin)]
-&Konvertovat HTML (pro Pidgin)
 [OTR encrypted session with '%s' has been terminated]
 Šifrovaná relace (OTR) s '%s' byla ukončena
 [Requesting OTR encrypted session with '%s']
@@ -131,16 +140,6 @@ Ukončena šifrovaná relace (OTR) kontaktem '%s'. Měli byste udělat to samé!
 Šifrovaná relace (OTR) s '%s' nyní používá OVĚŘENÝ otisk
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
 Šifrovaná relace (OTR) s '%s' nyní používá NEOVĚŘENÝ otisk
-[OTR unverified]
-Neověřeno (OTR)
-[OTR finished]
-Ukončeno (OTR)
-[OTR private]
-Privátní (OTR)
-[OTR not secure]
-Nezabezpečeno (OTR)
-[Refresh]
-Aktualizovat
 [Generating new private key for protocol '%s'.\nPlease Wait...]
 Generování nového privátního klíče pro protokol '%s'.\nProsím čekejte...
 [General]
@@ -236,6 +235,8 @@ Používáte SecureIM. MirOTR funguje pouze pro kontakty s vypnutým SecureIM
 Nabídka MirOTR
 [OTR Status]
 Stav šifrování (OTR)
+[&Convert HTML (for Pidgin)]
+&Konvertovat HTML (pro Pidgin)
 ;file \plugins\MirOTR\src\options.cpp
 [Private Data]
 Privátní data

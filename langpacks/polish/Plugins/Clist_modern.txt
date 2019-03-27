@@ -747,6 +747,8 @@ Czas ostatniej wiadomości
 Nazwa konta
 [Rate]
 Ocena
+[Last online]
+
 [-Nothing-]
 -Nic-
 [Hide to tray]
@@ -808,8 +810,6 @@ Wyśrodkuj nazwy grup
 Wyrównaj nazwy grup do prawej
 [Row]
 Wiersz
-[Row design]
-Ułożenie wiersza
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown contact)]
 (Nieznany kontakt)
@@ -835,21 +835,6 @@ Wyłącz Mirandę NG
 Przywróć ostatni status
 [Show/Hide offline users]
 Pokaż/Ukryj rozłączonych
-;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
-[Empty %s cell]
-Pusta komórka %s
-[column]
-kolumna
-[line]
-linia
-[columns]
-kolumny
-[lines]
-linie
-[%s, contain %s]
-%s, zawiera %s
-[ layered]
- skórkowane
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [( unknown )]
 ( nieznany )

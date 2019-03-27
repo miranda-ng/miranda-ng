@@ -677,19 +677,19 @@ Buscar actualizaciones de plugin
 
 [Empty updater download folder]
 
-[Popup Plus (popup.dll) latest YAPP (yapp.dll)]
+[Popup plus (PopupPlus.dll) latest StdPopup (StdPopup.dll)]
 
-[Enables or disables Popup windows]
+[Enables or disables popup windows]
 
 [Notify]
 Notificar
-[YAPP or Popup]
+[StdPopup or Popup plus]
 
 [Popup window]
 
 [Unicode Text]
 
-[Enables or disables Popup windows (maybe deprecated)]
+[Enables or disables popup windows (maybe deprecated)]
 
 [result of protocol service call]
 

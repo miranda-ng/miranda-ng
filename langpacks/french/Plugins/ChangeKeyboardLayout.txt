@@ -82,8 +82,6 @@ Sessions de message
 [Popups]
 Popups
 ;file \plugins\ChangeKeyboardLayout\src\main.cpp
-[Popup]
-
 ;file \plugins\ChangeKeyboardLayout\src\stdafx.h
 [ChangeKeyboardLayout]
 

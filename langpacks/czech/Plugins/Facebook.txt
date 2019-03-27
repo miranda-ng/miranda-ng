@@ -142,14 +142,14 @@ Zobrazit &historii
 
 [This will permanently delete the conversation history]
 
-[Former]
-Bývalý účastník
 [Myself]
 Já
 [Friend]
 Přítel
 [User]
 Uživatel
+[Former]
+Bývalý účastník
 [Notifications]
 Upozornění
 [%s and more (%d)]

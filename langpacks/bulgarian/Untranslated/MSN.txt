@@ -4,7 +4,6 @@
 [&Kick user]
 [&Op user]
 [&Deop user]
-[%I64u bytes]
 [IID_IOleObject failed.]
 [IID_IOleInPlaceObject failed.]
 [Failed to Advise]

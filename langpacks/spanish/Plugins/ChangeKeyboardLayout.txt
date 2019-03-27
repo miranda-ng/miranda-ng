@@ -82,8 +82,6 @@ Sesiones de mensaje
 [Popups]
 Ventanas emergentes
 ;file \plugins\ChangeKeyboardLayout\src\main.cpp
-[Popup]
-Ventana emergente
 ;file \plugins\ChangeKeyboardLayout\src\stdafx.h
 [ChangeKeyboardLayout]
 

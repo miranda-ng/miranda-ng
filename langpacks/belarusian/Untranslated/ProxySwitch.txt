@@ -8,7 +8,6 @@
 [Reconnect if IP address changes]
 [Hide interfaces]
 [Popup options]
-[Enable popups]
 [Use default popup colors]
 [Show proxy status on change]
 [Restart of Miranda NG is required.]

@@ -747,6 +747,8 @@ Nombre
 
 [Rate]
 
+[Last online]
+
 [-Nothing-]
 
 [Hide to tray]
@@ -808,8 +810,6 @@ Iconos adicionales
 
 [Row]
 
-[Row design]
-
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown contact)]
 (Contacto desconocido)
@@ -834,21 +834,6 @@ Principal
 [Restore last status]
 
 [Show/Hide offline users]
-
-;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
-[Empty %s cell]
-
-[column]
-
-[line]
-
-[columns]
-
-[lines]
-
-[%s, contain %s]
-
-[ layered]
 
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [( unknown )]

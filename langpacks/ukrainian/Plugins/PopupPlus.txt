@@ -1,6 +1,6 @@
 #muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
 ;============================================================
-;  File: Popup.dll
+;  File: PopupPlus.dll
 ;  Plugin: Popup plus
 ;  Version: 2.1.1.15
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
@@ -82,7 +82,7 @@ History++ для історії вікон
 Тест
 [Download more skins]
 Завантажити скіни
-[Popup History]
+[Popup history]
 Історія сплив. вікон
 [Desktop]
 Робочий стіл
@@ -263,15 +263,11 @@ History++ для історії вікон
 [Avatar border]
 Рамка аватару
 ;file \plugins\Popup\src\history.cpp
-[Popup History is disabled]
+[Popup history is disabled]
 Історія спливаючих вікон вимкнена
-[Popup History message]
+[Popup history message]
 Історія спливаючих вікон
 ;file \plugins\Popup\src\icons.cpp
-[Popups are enabled]
-Вікна ввімкнені
-[Popups are disabled]
-Вікна вимкнені
 [With "favorite" overlay]
 З накладенням "Обраний"
 [With "fullscreen" overlay]
@@ -309,13 +305,13 @@ History++ для історії вікон
 Контакти
 [Advanced]
 Додатково
-[Toggle Popups]
+[Toggle popups]
 Увімк./вимк. сплив. вікна
-[Enable Popups]
+[Enable popups]
 Увімкнути спливаючі вікна
-[Disable Popups]
+[Disable popups]
 Вимкнути спливаючі вікна
-[Popup Plus]
+[Popup plus]
 Спливаючі вікна
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 Помилка: не вдалося зареєструвати клас Popup Window.\r\nПлагін не працюватиме.

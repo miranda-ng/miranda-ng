@@ -7,7 +7,7 @@
 ;============================================================
 [Adds web pages as contacts to your contact list and can display text and/or issue change alerts from those pages in a window.]
 Додає веб-сторінки як контакти до списку контактів і відображає текст і/або видає сповіщення про зміни цих сторінок у вікно.
-;file \plugins\WebView\res\webview.rc
+;file \protocols\WebView\res\webview.rc
 [Webview]
 Webview
 [Update data every]
@@ -180,7 +180,7 @@ Webview
 &Вибрати все
 [C&lear all]
 &Очистити все
-;file \plugins\WebView\src\main.cpp
+;file \protocols\WebView\src\main.cpp
 [Alert event]
 Сповіщення
 [Auto update disabled]
@@ -207,14 +207,14 @@ Webview
 Пінгувати веб-сторінку
 [Stop data processing]
 Припинити обробку даних
-;file \plugins\WebView\src\webview.cpp
+;file \protocols\WebView\src\webview.cpp
 [All Webview sites have been updated.]
 Усі сторінки оновлено.
 [Network]
 Мережа
 [Popups]
 Спливаючі вікна
-;file \plugins\WebView\src\webview_alerts.cpp
+;file \protocols\WebView\src\webview_alerts.cpp
 [Cannot write to file]
 Неможливо записати у файл
 [Last updated on]
@@ -245,7 +245,7 @@ Webview
 Неможливо прочитати з файлу кешу
 [Loaded from cache]
 Завантажено з кешу
-;file \plugins\WebView\src\webview_datawnd.cpp
+;file \protocols\WebView\src\webview_datawnd.cpp
 [ERROR: You have two or more Webview contacts with the same URL and contact name.]
 ПОМИЛКА: У вас є два або більше контактів WebView з однаковою URL-адресою та ім'ям контакту.
 [Alert options]
@@ -258,7 +258,7 @@ Webview
 Поверх усіх вікон
 [Disable stick to the front]
 Вимкнути "Поверх усіх вікон"
-;file \plugins\WebView\src\webview_getdata.cpp
+;file \protocols\WebView\src\webview_getdata.cpp
 [URL not supplied]
 URL-адреса не поставляється
 [Download in progress, please wait...]
@@ -305,7 +305,7 @@ URL-адреса не поставляється
 Скачано байтів
 [Alert test conditions not met; press the refresh button to view content.]
 Тест умов сповіщення не виконано, натисніть кнопку "Оновити", щоб переглянути вміст.
-;file \plugins\WebView\src\webview_opts.cpp
+;file \protocols\WebView\src\webview_opts.cpp
 [No whitespace removal]
 Не видаляти вільне місце
 [Minimal level of whitespace removal]
@@ -342,7 +342,7 @@ URL-адреса не поставляється
 Необхідно вказати ім'я контакту.
 [Invalid symbol present in contact name.]
 В імені контакту присутній неприпустимий символ.
-;file \plugins\WebView\src\webview_services.cpp
+;file \protocols\WebView\src\webview_services.cpp
 [Cache folder does not exist.]
 Папки кешу не існує.
 [Missing "psite.bat" file.]

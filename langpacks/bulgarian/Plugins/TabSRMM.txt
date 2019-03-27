@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.12
+;  Version: 3.5.0.13
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -178,8 +178,6 @@ Popup настройки
 Грешки
 [Use the message log color theme for group chat popups]
 Ползване цветовете на дневника и за popups относно групови чатове
-[No compatible popup plugin was found. The event notification\nsystem is not available.]
-Системата за уведомяване е неактивна, защото не е открита съвместима Popup приставка.
 [Dialog]
 Прозорец
 [Cancel]
@@ -1697,10 +1695,6 @@ Latin I
 Изключена функция (насложена икона)
 [Feature enabled (used as overlay)]
 Включена функция (насложена икона)
-[Enable typing notification]
-
-[Disable typing notification]
-
 ;file \plugins\TabSRMM\src\msgs.h
 [Message windows - IM]
 Прозорци за съобщения - IM
@@ -1984,10 +1978,10 @@ TabSRMM изисква Windows версия 2000 или по-нова.
 Изключване на уведомяванията при писане
 [Enable &typing notification]
 Включване на уведомяванията при писане
-[...is typing a message.]
-...пише съобщение.
 [...has stopped typing.]
 ...спря да пише.
+[...is typing a message.]
+...пише съобщение.
 [Contact started typing]
 Контакт започна да пише
 [Contact stopped typing]

@@ -19,7 +19,6 @@
 [Alert computer name with username]
 [Disabled options will be available in the next version]
 [Show current connections]
-[Popup plugin not found!]
 [Common Dialog Error 0x%lx]
 [Not implemented yet...]
 [Who uses my files]

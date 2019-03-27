@@ -82,8 +82,6 @@
 [Popups]
 Спливаючі вікна
 ;file \plugins\ChangeKeyboardLayout\src\main.cpp
-[Popup]
-Спливаюче вікно
 ;file \plugins\ChangeKeyboardLayout\src\stdafx.h
 [ChangeKeyboardLayout]
 Зміна розкладки

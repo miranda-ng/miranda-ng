@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.2.0.4
+;  Version: 1.2.0.5
 ;  Authors: P Boon
 ;============================================================
 [Background color]

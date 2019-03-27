@@ -7,7 +7,7 @@
 ;============================================================
 [Check your Gmail inboxes locally.]
 Lokálně kontroluje vaše schránky na Gmailu.
-;file \plugins\GmailNotifier\res\options.rc
+;file \protocols\GmailNotifier\res\options.rc
 [Gmail account]
 Účet na Gmailu
 [Name:]
@@ -54,7 +54,7 @@ Zobrazit ikonu ve stavové liště (restart)
 Nepřihlašovat automaticky (veřejný počítač)
 [Log unread threads into database (enable history)]
 Zapsat nepřečtené zprávy do databáze (historie)
-;file \plugins\GmailNotifier\src\check.cpp
+;file \protocols\GmailNotifier\src\check.cpp
 [Checking...]
 Kontrolování...
 [Can't send account data!]
@@ -63,7 +63,7 @@ Nelze zaslat data o účtu!
 Neplatné jméno nebo heslo!
 [Can't get RSS feed!]
 Nelze přečíst kanál RSS!
-;file \plugins\GmailNotifier\src\main.cpp
+;file \protocols\GmailNotifier\src\main.cpp
 [Other]
 Ostatní
 [Gmail: New thread(s)]
@@ -74,7 +74,7 @@ Gmail: Nové vlákno/a
 &Zkontrolovat všechny účty (Gmail)
 [&Check Gmail inbox]
 &Zkontrolovat účet (Gmail)
-;file \plugins\GmailNotifier\src\options.cpp
+;file \protocols\GmailNotifier\src\options.cpp
 [GmailNotifier]
 GmailNotifier
 [Network]

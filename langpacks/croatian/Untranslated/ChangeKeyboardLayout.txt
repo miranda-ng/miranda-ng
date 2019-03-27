@@ -32,5 +32,4 @@
 [Changing Case]
 [Message sessions]
 [Popups]
-[Popup]
 [ChangeKeyboardLayout]

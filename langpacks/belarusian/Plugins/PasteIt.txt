@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PasteIt.dll
 ;  Plugin: Paste it
-;  Version: 1.0.0.3
+;  Version: 1.0.0.4
 ;  Authors: Krzysztof Kral
 ;============================================================
 [Uploads the text to web page and sends the URL to your friends.]
@@ -142,12 +142,12 @@ HTTP далучэнне Paste It
 [File '%s' is empty]
 Файл '%s' пусты
 ;file \plugins\PasteIt\src\PasteToWeb1.cpp
-[Error during sending text to web page: %s]
-Памылка пры адпраўцы тэксту на web-старонку: %s
+[Error during sending text to web page: %S]
+Памылка пры адпраўцы тэксту на web-старонку: %S
 [Error during sending text to web page]
 Памылка пры адпраўцы тэксту на web-старонку
-[Error during getting user key from web page: %s]
-Памылка пры атрыманні ключа кантакта ад web-старонкі: %s
+[Error during getting user key from web page: %S]
+Памылка пры атрыманні ключа кантакта ад web-старонкі: %S
 [Paste expire date]
 Уставіць на тэрмін
 [Never]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Database autobackuper plugin.]
@@ -34,8 +34,6 @@ Kompresuj kopię do archiwum zip
 Kopia zapasowa folderu z profilem
 [Disable progress bar]
 Wyłącz okienko ze wskaźnikiem postępu kopiowania
-[Disable popups]
-Wyłącz popupy
 [Use CloudFile]
 Używaj CloudFile
 [Backup NOW]
@@ -58,6 +56,10 @@ Kopia zapasowa utworzona
 [Database back up in process...]
 Tworzenie kopii zapasowej bazy danych w toku...
 ;file \plugins\Db_autobackups\src\main.cpp
+[Enable &AutoBackups notification]
+
+[Disable &AutoBackups notification]
+
 [Miranda NG databases]
 Bazy danych Mirandy NG
 [Compressed Miranda NG databases]
@@ -70,6 +72,8 @@ Profil
 Kopia zapasowa profilu
 [Save profile as...]
 Zapisz profil w...
+[Popups]
+Popupy
 [Database backups]
 Kopia zapasowa
 [Backup folder]

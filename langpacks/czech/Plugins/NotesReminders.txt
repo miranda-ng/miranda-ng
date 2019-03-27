@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.1.0.1
+;  Version: 0.2.0.2
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Sticky Notes & Reminders Implementation for Miranda NG.]
@@ -50,12 +50,12 @@ Obnovit výchozí
 
 [Add Reminder]
 Přidat připomínku
-[Trigger On Time && Date:]
-Da&tum a čas vyvolání
 [Date]
 Datum
 [Time]
 Čas
+[Repeat each day]
+
 [Reminder Note:]
 Obsah připomínky
 [None]
@@ -101,8 +101,6 @@ Přidat novou
 [&Delete Reminder]
 
 [D&elete All Reminders]
-
-[Context Menu Note Popup]
 
 [&Hide Note]
 
@@ -152,9 +150,6 @@ Vyjmou&t
 
 [&Show / Hide Notes]
 Zobrazit/skrýt poznám&ky
-;file \plugins\NotesAndReminders\src\globals.h
-[Notes & Reminders]
-Poznámky a připomínky
 ;file \plugins\NotesAndReminders\src\hotkeys.cpp
 [New Note]
 
@@ -165,10 +160,6 @@ Poznámky a připomínky
 [New Reminder]
 
 ;file \plugins\NotesAndReminders\src\main.cpp
-[Are you sure you want to delete all notes?]
-
-[Are you sure you want to delete all reminders?]
-
 [Delete All Notes]
 
 [Show/Hide Notes]
@@ -195,20 +186,10 @@ Smazat všechny
 
 [Sticky Notes]
 Poznámky na ploše
-[Plugins]
-Doplňky
 [Add New Note]
 Přidat novou poznámku
 [Add New Reminder]
 Přidat novou připomínku
-[Alerts]
-Upozornění
-[Reminder triggered]
-
-[Reminder triggered (Alternative 1)]
-
-[Reminder triggered (Alternative 2)]
-
 [Notes && Reminders]
 Poznámky &a připomínky
 [New &Note]
@@ -220,6 +201,14 @@ S&mazat všechny poznámky
 [&Bring All to Front]
 
 [Miranda could not load the Notes & Reminders plugin, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
+
+[Alerts]
+Upozornění
+[Reminder triggered]
+
+[Reminder triggered (Alternative 1)]
+
+[Reminder triggered (Alternative 2)]
 
 ;file \plugins\NotesAndReminders\src\notes.cpp
 [Black]
@@ -268,6 +257,8 @@ Poznámky
 Pozn. text
 [Date/Title]
 
+[Are you sure you want to delete all notes?]
+
 ;file \plugins\NotesAndReminders\src\options.cpp
 [Sticky Note Caption]
 
@@ -279,11 +270,17 @@ Pozn. text
 
 [Select Executable]
 
+[Plugins]
+Doplňky
 ;file \plugins\NotesAndReminders\src\reminders.cpp
 [Minutes]
 minut
 [Hours]
 hodin
+[The specified time is invalid due to begin of daylight saving (summer time).]
+
+[The specified time is invalid.]
+
 [Hour]
 hodina
 [Day]
@@ -292,10 +289,6 @@ den
 dnů
 [Week]
 týden
-[The specified time is invalid due to begin of daylight saving (summer time).]
-
-[The specified time is invalid.]
-
 [The specified time offset is invalid.]
 
 [&Update Reminder]
@@ -316,5 +309,10 @@ Výchozí
 Obsah připomínky
 [Date of activation]
 Datum vyvolání
+[Are you sure you want to delete all reminders?]
+
 [Are you sure you want to delete this reminder?]
 
+;file \plugins\NotesAndReminders\src\stdafx.h
+[Notes & Reminders]
+Poznámky a připomínky

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MirOTR.dll
 ;  Plugin: Miranda OTR
-;  Version: 0.14.1.17
+;  Version: 0.14.2.1
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
 [OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
@@ -80,6 +80,17 @@
 
 [&Verify Fingerprint]
 
+;file \plugins\MirOTR\src\icons.cpp
+[OTR private]
+
+[OTR unverified]
+
+[OTR finished]
+
+[OTR not secure]
+
+[Refresh]
+
 ;file \plugins\MirOTR\src\language.h
 [Start OTR]
 
@@ -98,8 +109,6 @@ Ne
 [OTR Encryption: Private]
 
 [OTR Encryption: Finished]
-
-[&Convert HTML (for Pidgin)]
 
 [OTR encrypted session with '%s' has been terminated]
 
@@ -130,16 +139,6 @@ Ne
 [OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
 
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
-
-[OTR unverified]
-
-[OTR finished]
-
-[OTR private]
-
-[OTR not secure]
-
-[Refresh]
 
 [Generating new private key for protocol '%s'.\nPlease Wait...]
 
@@ -235,6 +234,8 @@ Standardno
 [MirOTR menu]
 
 [OTR Status]
+
+[&Convert HTML (for Pidgin)]
 
 ;file \plugins\MirOTR\src\options.cpp
 [Private Data]

@@ -27,5 +27,4 @@
 [Preview]
 [Changing Layout]
 [Changing Case]
-[Popup]
 [ChangeKeyboardLayout]

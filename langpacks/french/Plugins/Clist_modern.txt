@@ -747,6 +747,8 @@ Heure du dernier message
 Nom de compte
 [Rate]
 Note
+[Last online]
+
 [-Nothing-]
 -Aucun-
 [Hide to tray]
@@ -808,8 +810,6 @@ Centre les groupes
 Aligner les groupes sur la droite
 [Row]
 Ligne
-[Row design]
-
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown contact)]
 (Contact inconnu)
@@ -834,21 +834,6 @@ Fermer Miranda
 [Restore last status]
 
 [Show/Hide offline users]
-
-;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
-[Empty %s cell]
-Cellule %s vide
-[column]
-colonne
-[line]
-ligne
-[columns]
-colonnes
-[lines]
-lignes
-[%s, contain %s]
-/s, contient /s
-[ layered]
 
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [( unknown )]

@@ -326,6 +326,8 @@ JID / URL:
 
 [Node:]
 Вузол:
+[Filter:]
+
 [Member Information]
 Права доступу
 [Role:]
@@ -392,24 +394,10 @@ XML-консоль
 [Jabber Mood]
 Настрій Jabber
 ;file \protocols\JabberG\src\jabber_adhoc.cpp
-[Error %s %s]
-Помилка %s %s
-[Select Command]
-Виберіть команду
-[Not supported]
-Не підтримується
 [Done]
 Готово
-[In progress. Please Wait...]
-Обробка. Зачекайте...
 [Execute]
 Виконати
-[Requesting command list. Please wait...]
-Запит списку команд. Зачекайте...
-[Jabber Ad-Hoc commands at %s]
-Команди Ad-Hoc на %s
-[Sending Ad-Hoc command to %s]
-Надіслати команду Ad-Hoc %s
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [Jabber Agent Registration]
 Реєстрація агента Jabber
@@ -544,32 +532,16 @@ xHTML-формат повідомлень чату
 Учасник
 [Moderator]
 Модератор
-[Visitors]
-Відвідувачі
-[Participants]
-Учасники
-[Moderators]
-Модератори
 [Owners]
 Власники
-[User %s is now banned.]
-Користувач %s забанений.
-[User %s changed status to %s with message: %s]
-%s змінив статус на %s: %s
-[User %s changed status to %s]
-%s змінив статус на %s.
-[Room configuration was changed.]
-Налаштування кімнати змінилися.
-[Outcast]
-Вигнані
-[Affiliation of %s was changed to '%s'.]
-Належність %s змінилася на %s.
+[Moderators]
+Модератори
+[Participants]
+Учасники
+[Visitors]
+Відвідувачі
 [Role of %s was changed to '%s'.]
 Роль %s змінилася на '%s'.
-[because room is now members-only]
-тому що кімната тільки для постійних учасників
-[user banned]
-забанений
 [Change &nickname]
 Змінити &нік
 [&Invite a user]
@@ -668,10 +640,6 @@ xHTML-формат повідомлень чату
 Запросити користувачів у\n%s
 [%s (not on roster)]
 %s (не в ростері)
-[%s from\n%s]
-%s з\n%s
-[Real JID not available]
-Реальний JID недоступний
 [Reason to kick %s]
 Причина стусана %s
 [Reason to ban %s]
@@ -742,26 +710,6 @@ xHTML-формат повідомлень чату
 Копіювати ім'я
 [Copy node information]
 Копіювати інформацію
-;file \protocols\JabberG\src\jabber_disco.h
-[Identities]
-Ідентифікатори
-[category]
-категорія
-[type]
-тип
-[Category]
-Категорія
-[Type]
-Тип
-[Supported features]
-Підтримувані функції
-[Info request error]
-Помилка запиту інформації
-[Items request error]
-Помилка запиту значень
-;file \protocols\JabberG\src\jabber_filterlist.cpp
-[Set filter...]
-Фільтр...
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
 [Failed to retrieve room list from server.]
 Помилка запиту списку кімнат на сервері.
@@ -769,8 +717,6 @@ xHTML-формат повідомлень чату
 На сервері немає доступних кімнат.
 [Room list request timed out.]
 Таймаут запиту списку кімнат.
-[<no nick>]
-<без ніку>
 [Loading...]
 Завантаження...
 [Please wait for room list to download.]
@@ -781,8 +727,8 @@ xHTML-формат повідомлень чату
 Закладки...
 [Change nickname in <%s>]
 Змінити нік на <%s>
-[has set the subject to:]
-встановив(ла) тему:
+[Error]
+Помилка
 [Group chat invitation to\n%s]
 Запрошення в конференцію\n%s
 ;file \protocols\JabberG\src\jabber_icolib.cpp
@@ -877,8 +823,8 @@ xHTML-формат повідомлень чату
 ;file \protocols\JabberG\src\jabber_iqid.cpp
 [Authentication failed for %s.]
 Аутентифікація не пройшла для %s.
-[Jabber Authentication]
-Аутентифікация Jabber
+[Authentication]
+
 [Registration successful]
 Реєстрація пройшла успішно
 [Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
@@ -1469,18 +1415,6 @@ xHTML-формат повідомлень чату
 Зміни статусу
 [Don't notify history messages]
 Не показувати сповіщень з історії
-[Group]
-Група
-[Subscription]
-Підписка
-[Uploading...]
-Завантаження...
-[Downloading...]
-Отримання...
-[XML for MS Excel (UTF-8 encoded)]
-XML для MS Excel (кодування UTF-8)
-[Connecting...]
-З'єднання...
 [Network]
 Мережа
 [Account]
@@ -1514,8 +1448,6 @@ Hipchat
 [Some changes will take effect the next time you connect to the Jabber network.]
 Деякі зміни наберуть чинності при наступному вході в мережу Jabber.
 ;file \protocols\JabberG\src\jabber_password.cpp
-[Set New Password for %s@%S]
-Установка нового пароля для %s@%S
 [New password does not match.]
 Новий пароль не збігається
 [Current password is incorrect.]
@@ -1543,6 +1475,46 @@ Hipchat
 Помилка при встановленні списку за замовчанням
 [Allow]
 Дозволити
+[List has no rules, empty lists will be deleted then changes applied]
+У списку немає правил, порожні списки будуть видалені, коли зміни наберуть чинності
+[allow ]
+дозволити\s
+[deny ]
+заборонити\s
+[all.]
+всі.
+[messages]
+повідомлення
+[ and ]
+ і\s
+[incoming presences]
+вхідна присутність
+[outgoing presences]
+вихідна присутність
+[queries]
+запити
+[Else ]
+Інакше\s
+[If Jabber ID is ']
+Якщо JID '
+[ (nickname: ]
+ (нік:\s
+[If group is ']
+Якщо група '
+[If subscription is ']
+Якщо підписка '
+[then ]
+то\s
+[ (act., def.)]
+ (активн., основн.)
+[ (active)]
+ (активний)
+[ (default)]
+ (основний)
+[Ready.]
+Готовий.
+[Privacy lists are not saved, discard any changes and exit?]
+Списки приватності не збережені, скасувати зміни і вийти?
 [Simple mode]
 Простий режим
 [Advanced mode]
@@ -1587,46 +1559,6 @@ Hipchat
 Присутність (вих.)
 [Query]
 Запит
-[List has no rules, empty lists will be deleted then changes applied]
-У списку немає правил, порожні списки будуть видалені, коли зміни наберуть чинності
-[allow ]
-дозволити\s
-[deny ]
-заборонити\s
-[all.]
-всі.
-[messages]
-повідомлення
-[ and ]
- і\s
-[incoming presences]
-вхідна присутність
-[outgoing presences]
-вихідна присутність
-[queries]
-запити
-[Else ]
-Інакше\s
-[If Jabber ID is ']
-Якщо JID '
-[ (nickname: ]
- (нік:\s
-[If group is ']
-Якщо група '
-[If subscription is ']
-Якщо підписка '
-[then ]
-то\s
-[ (act., def.)]
- (активн., основн.)
-[ (active)]
- (активний)
-[ (default)]
- (основний)
-[Ready.]
-Готовий.
-[Privacy lists are not saved, discard any changes and exit?]
-Списки приватності не збережені, скасувати зміни і вийти?
 [Please save list before activating]
 Збережіть список перед активацією
 [First, save the list]
@@ -1650,80 +1582,22 @@ Hipchat
 Протокол не в мережі або JID немає
 [No valid OMEMO session exists]
 
-;file \protocols\JabberG\src\jabber_rc.cpp
-[Command completed successfully]
-Команда виконана успішно
-[Error occurred during processing command]
-У процесі виконання команди виникла помилка
-[Set status]
-Встановити статус
-[Set options]
-Встановити налаштування
-[Forward unread messages]
-Пересилати непрочитані повідомлення
-[Leave group chats]
-Вийти з чатів
-[Lock workstation]
-Заблокувати комп'ютер
-[Quit Miranda NG]
-Закрити Miranda NG
-[Change Status]
-Змінити статус
-[Choose the status and status message]
-Встановити статус і статусне повідомлення
-[Status]
-Статус
-[Extended away (Not available)]
-Недоступний
-[Invisible]
-Невидимий
-[Offline]
-Не в мережі
-[Priority]
-Пріоритет
-[Status message]
-Статусне повідомлення
-[Change global status]
-Змінити глобальний статус
-[Set Options]
-Встановити налаштування
-[Set the desired options]
-Виберіть бажані параметри
-[Automatically Accept File Transfers]
-Автоматично схвалювати передачі файлів
-[Play sounds]
-Програвати звуки
-[Disable remote controlling (check twice what you are doing)]
-Вимкнути віддалене керування (перевіряйте двічі, що ви робите)
-[There is no messages to forward]
-Немає повідомлень для відправки
-[Forward options]
-Опції пересилки
-[%d message(s) to be forwarded]
-%d повідомлень для відправки
-[Mark messages as read]
-Позначити повідомлення як прочитані
-[%d message(s) forwarded]
-повідомлень відправлено: %d
-[Workstation successfully locked]
-Комп'ютер успішно заблокований
-[Error %d occurred during workstation lock]
-Помилка %d під час процесу блокування
-[Confirmation needed]
-Необхідне підтвердження
-[Please confirm Miranda NG shutdown]
-Підтвердіть вимкнення програми
-[There is no group chats to leave]
-Немає чатів для відключення
-[Choose the group chats you want to leave]
-Виберіть чати, з яких потрібно вийти
+;file \protocols\JabberG\src\jabber_roster.cpp
+[Group]
+Група
+[Subscription]
+Підписка
+[Uploading...]
+Завантаження...
+[Downloading...]
+Отримання...
+[Connecting...]
+З'єднання...
+[XML for MS Excel (UTF-8 encoded)]
+XML для MS Excel (кодування UTF-8)
 ;file \protocols\JabberG\src\jabber_search.cpp
-[Error %s %s\r\nPlease select other server]
-Помилка %s %s\r\nБудь ласка, виберіть інший сервер
 [Error: unknown reply received\r\nPlease select other server]
 Помилка: отримано невідому відповідь\r\nБудь ласка, виберіть інший сервер
-[Error %s %s\r\nTry to specify more detailed]
-Помилка %s %s\r\nСпробуйте вказати більше деталей
 [Search error]
 Помилка пошуку
 [Select/type search service URL above and press <Go>]
@@ -1745,6 +1619,8 @@ Hipchat
 відправив присутність з помилкою
 [sent unknown presence type]
 відправив невідомий тип присутності
+[Outcast]
+Вигнані
 [Nick:]
 Нік:
 [Status:]
@@ -1762,31 +1638,23 @@ Hipchat
 Помилка: З'єднання втрачено
 [Requesting registration instruction...]
 Запит реєстраційної інструкції...
-[Authentication failed for %s@%S.]
-Аутентифікація не пройшла для %s@%S.
-[Message redirected from: %s\r\n%s]
-Повідомлення переадресовано від %s\r\n%s
+[Registration canceled]
+
 [Sending registration information...]
 Надсилання реєстраційної інформації...
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
-[Resource]
-Ресурс
 [<not specified>]
 <не вказано>
+[Resource]
+Ресурс
 [Software]
 Клієнт
 [Version]
 Версія
 [System]
 Система
-[unknown]
-невідомо
-[Idle since]
-Простоює з
-[Client capabilities]
-Можливості клієнта
-[Software information]
-Інформація про ПЗ
+[Last activity]
+
 [Operating system]
 Операційна система
 [Operating system version]
@@ -1801,26 +1669,14 @@ Hipchat
 Заняття
 [Tune]
 Мелодія
-[both]
-обидві
-[to]
-до
-[from]
-від
-[none]
-немає
 [Last logoff time]
 Час виходу
 [Uptime]
 Час роботи
 [Logoff message]
 Повідомлення виходу
-[<no information available>]
-<немає інформації>
 [Last active resource]
 Останній активний ресурс
-[Please switch online to see more details.]
-Підключіться, щоб отримати докладну інформацію
 [Copy]
 Копіювати
 [Copy only this value]
@@ -1870,10 +1726,10 @@ Hipchat
 Таймаут віддаленого сервера
 [Unknown error]
 Невідома помилка
-[Error]
-Помилка
 [Unknown error message]
 Невідома помилка
+[Offline]
+Не в мережі
 [Advanced Status]
 Додатковий статус
 [Set mood...]

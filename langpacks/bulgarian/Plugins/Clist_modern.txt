@@ -747,6 +747,8 @@ Modern contact list
 Име на акаунта
 [Rate]
 Оценка
+[Last online]
+
 [-Nothing-]
 -Нищо-
 [Hide to tray]
@@ -808,8 +810,6 @@ Modern contact list
 Имената на групите вдясно
 [Row]
 Ред
-[Row design]
-
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown contact)]
 (Непознат контакт)
@@ -835,21 +835,6 @@ Modern contact list
 Възстановя предишното състояние
 [Show/Hide offline users]
 Показване/Скриване на потребителите "Извън линия"
-;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
-[Empty %s cell]
-
-[column]
-колона
-[line]
-линия
-[columns]
-колони
-[lines]
-линии
-[%s, contain %s]
-
-[ layered]
-
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [( unknown )]
 (неизвестно)

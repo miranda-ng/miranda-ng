@@ -570,6 +570,55 @@ Tout &sélectionner
 Coller et envoyer
 [Delete]
 Effacer
+;file \src\core\stdpopup\res\resource.rc
+[Popup history]
+Historique des popups
+[Case sensitive]
+Respecter la casse
+[Default timeout]
+
+[Never timeout]
+Sans durée
+[Set timeout:]
+Délai :
+[Width:]
+Largeur :
+[Maximum height:]
+Hauteur maximum :
+[Opacity (%):]
+
+[Border]
+Bordures
+[Round corners (window)]
+
+[Preview]
+Aperçu
+[Transparent background]
+Arrière-plan transparent
+[Layout]
+Disposition
+[Avatar size:]
+
+[Disable when]
+Désactivé si
+[Global hover]
+
+[Sidebar width:]
+
+[Text indent:]
+
+[Padding:]
+
+[Round corners (avatar)]
+
+[Text color:]
+
+[Background color:]
+Couleur d'arrière-plan :
+[Set timeout]
+
+[Timeout value (0 = default):]
+Délai (0 = par défaut) :
 ;file \src\core\stduihist\res\resource.rc
 [Find]
 Chercher
@@ -1749,6 +1798,88 @@ Entrant (nouvelle session)
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Une erreur inconnue s'est produite.
+;file \src\core\stdpopup\src\icons.cpp
+[Popups are enabled]
+
+[Popups are disabled]
+
+;file \src\core\stdpopup\src\notify_imp.cpp
+;file \src\core\stdpopup\src\options.cpp
+[Example]
+Exemple
+[The quick brown fox jumped over the lazy dog.]
+Le rapide renard brun a sauté par-dessus le chien paresseux.
+[Example With a Long Title]
+Exemple avec un long titre
+[Thequickbrownfoxjumpedoverthelazydog.]
+Lerapiderenardbrunasautépau-dessuslechienparesseux.
+[An avatar.]
+Un avatar.
+[Bottom right]
+
+[Bottom left]
+
+[Top right]
+
+[Top left]
+
+[Icon on left]
+
+[Icon on right]
+
+[No time]
+Pas d'heure
+[Time on left]
+Heure sur la gauche
+[Time on right]
+Heure sur la droite
+[Time above avatar]
+Heure sur l'avatar
+[No avatar]
+
+[Left avatar]
+
+[Right avatar]
+
+[Full-screen app running]
+Programme en plein écran
+[No animate]
+
+[Horizontal animate]
+
+[Vertical animate]
+
+[You cannot set a default timeout of 0.\nValue has been reset.]
+Vous ne pouvez pas régler le délai par défaut à 0.\nLa valeur a été resetée.
+[Settings]
+Paramètres
+[Classes]
+
+;file \src\core\stdpopup\src\services.cpp
+[Disable popups]
+
+[Enable popups]
+
+;file \src\core\stdpopup\src\yapp.cpp
+[Toggle popups]
+
+[First line]
+Première ligne
+[Second line]
+Seconde ligne
+[Time]
+Heure
+[Sidebar]
+
+[Title underline]
+
+;file \src\core\stdpopup\src\yapp_history_dlg.cpp
+[Copy title to clipboard]
+Copier le titre
+[Copy message to clipboard]
+Copier le message
+[Copy timestamp to clipboard]
+Copier date et heure
 ;file \src\core\stdssl\src\netlibssl.cpp
 [Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
 
@@ -2631,8 +2762,6 @@ Blog vidé
 Plugin Unicode
 [ANSI plugin]
 Plugin ANSI
-[Unused]
-
 [Show/Hide]
 Afficher/Masquer
 [Exit]
@@ -2646,6 +2775,8 @@ Déplacer vers le groupe
 [On]
 
 [Off]
+
+[Unused]
 
 [Frames]
 Cadres

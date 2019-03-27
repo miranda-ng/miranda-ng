@@ -7,7 +7,7 @@
 ;============================================================
 [Notify with popup if some connection established]
 Zobrazí oznámení při navázání spojení.
-;file \plugins\ConnectionNotify\res\ConnectionNotify.rc
+;file \protocols\ConnectionNotify\res\ConnectionNotify.rc
 [Set popup colors]
 Nastavit barvy oznámení
 [Popup options]
@@ -56,7 +56,7 @@ Zrušit
 Můžete používat zástupné znaky * a ? (pro port zadejte číslo nebo *)
 [Remote IP:Port]
 Vzdálená IP:port
-;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
+;file \protocols\ConnectionNotify\src\ConnectionNotify.cpp
 [Show]
 Zobrazit
 [Hide]
@@ -79,6 +79,6 @@ Akce
 Doplňky
 [New Connection Notification]
 Upozornění na nové připojení
-;file \plugins\ConnectionNotify\src\filter.cpp
+;file \protocols\ConnectionNotify\src\filter.cpp
 [First close options window]
 Nejprve zavřete okno s nastavením

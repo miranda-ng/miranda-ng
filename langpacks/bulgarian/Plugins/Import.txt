@@ -111,8 +111,6 @@
 
 [Skipping non-IM contact (%S)]
 
-[Skipping %S contact, ID not found]
-
 [Skipping duplicate %S contact %s]
 
 [Failed to add %S contact %s]

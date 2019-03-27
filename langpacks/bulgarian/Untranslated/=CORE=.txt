@@ -2,6 +2,8 @@
 [Tool style main window]
 [Show formatting]
 [(Setting timeout to 0 means default setting and -1 means indefinite time)]
+[Case sensitive]
+[Global hover]
 [Open contact's chat window]
 [The import has completed from]
 [&Recycle]

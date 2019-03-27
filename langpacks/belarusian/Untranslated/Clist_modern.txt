@@ -8,5 +8,6 @@
 [For different statuses]
 [Cycle period, seconds]
 [Max size (pixels):]
+[Last online]
 [Show avatar]
 [Hide avatar]

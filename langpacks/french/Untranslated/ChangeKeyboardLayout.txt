@@ -18,5 +18,4 @@
 [Dismiss]
 [Changing Layout]
 [Changing Case]
-[Popup]
 [ChangeKeyboardLayout]

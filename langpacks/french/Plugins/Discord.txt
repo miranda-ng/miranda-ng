@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.1.1
+;  Version: 0.6.2.1
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -18,9 +18,11 @@ Passe :
 Contacts
 [Default group:]
 Groupes :
+[Enable group chats]
+
 [Do not open chat windows on creation]
 
-[Use subgroups for guild's channels (requires restart)]
+[Use subgroups for server channels (requires restart)]
 
 [Nick:]
 Pseudo :
@@ -58,6 +60,10 @@ Groupe chats
 
 [Do you really want to leave the guild?]
 
+[Disable sync]
+
+[Enable sync]
+
 [Join guild]
 
 [Copy my Discord ID]
@@ -67,6 +73,10 @@ Groupe chats
 [Create new channel]
 
 [Copy Discord ID]
+
+[Enable guild sync]
+
+[Load server history]
 
 ;file \protocols\Discord\src\options.cpp
 [Network]

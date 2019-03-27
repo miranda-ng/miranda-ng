@@ -677,20 +677,20 @@ Ansi текст
 без потвърждение
 [Empty updater download folder]
 Изпразване папката за сваляния на Updater
-[Popup Plus (popup.dll) latest YAPP (yapp.dll)]
-Popup Plus (popup.dll) посл. YAPP (yapp.dll)
-[Enables or disables Popup windows]
-Включва или изключва Popup прозорците
+[Popup plus (PopupPlus.dll) latest StdPopup (StdPopup.dll)]
+Popup plus (PopupPlus.dll) посл. StdPopup (StdPopup.dll)
+[Enables or disables popup windows]
+Включва или изключва popup прозорците
 [Notify]
 Уведомяване
-[YAPP or Popup]
-YAPP или Popup
+[StdPopup or Popup plus]
+StdPopup или Popup plus
 [Popup window]
 Рopup прозорец
 [Unicode Text]
 Unicode текст
-[Enables or disables Popup windows (maybe deprecated)]
-Включва или изключва Popup прозорците (стар метод)
+[Enables or disables popup windows (maybe deprecated)]
+Включва или изключва popup прозорците (стар метод)
 [result of protocol service call]
 
 [Send a general request through the protocol chain for a contact]

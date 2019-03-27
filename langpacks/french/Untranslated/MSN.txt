@@ -28,7 +28,6 @@
 [&Kick user]
 [&Op user]
 [&Deop user]
-[%I64u bytes]
 [IID_IOleObject failed.]
 [RESULT]
 [IID_IOleInPlaceObject failed.]

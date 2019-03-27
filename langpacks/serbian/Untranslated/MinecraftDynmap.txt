@@ -1,7 +1,6 @@
 [Minecraft Dynmap support for Miranda NG.]
 [Server:]
 [Visible name:]
-[Server]
 [Admin]
 [Normal]
 [You]

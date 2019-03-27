@@ -7,7 +7,7 @@
 ;============================================================
 [Adds web pages as contacts to your contact list and can display text and/or issue change alerts from those pages in a window.]
 Dodaje strony internetowe jako kontakty do listy i może wyświetlać ich tekst lub generować powiadomienia o zmianach na nich w oknie.
-;file \plugins\WebView\res\webview.rc
+;file \protocols\WebView\res\webview.rc
 [Webview]
 Webview
 [Update data every]
@@ -180,7 +180,7 @@ Ko&piuj wszystko
 &Wszystkie
 [C&lear all]
 W&yczyść wszystko
-;file \plugins\WebView\src\main.cpp
+;file \protocols\WebView\src\main.cpp
 [Alert event]
 Zdarzenie do powiadomienia
 [Auto update disabled]
@@ -207,14 +207,14 @@ Opcje powiadomień kontaktu
 Pinguj stronę
 [Stop data processing]
 Zakończ przetwarzanie danych
-;file \plugins\WebView\src\webview.cpp
+;file \protocols\WebView\src\webview.cpp
 [All Webview sites have been updated.]
 Wszystkie strony w Webview zostały zaktualizowane.
 [Network]
 Protokoły
 [Popups]
 Popupy
-;file \plugins\WebView\src\webview_alerts.cpp
+;file \protocols\WebView\src\webview_alerts.cpp
 [Cannot write to file]
 Nie można zapisać w pliku
 [Last updated on]
@@ -245,7 +245,7 @@ Określona część strony zmieniła się.
 Nie można odczytać z pliku Cache
 [Loaded from cache]
 Załadowano z Cache
-;file \plugins\WebView\src\webview_datawnd.cpp
+;file \protocols\WebView\src\webview_datawnd.cpp
 [ERROR: You have two or more Webview contacts with the same URL and contact name.]
 Błąd: masz dwa lub więcej kontaktów w Webview o tym samym adresie i nazwie.
 [Alert options]
@@ -258,7 +258,7 @@ Kliknij tu, aby otworzyć ten adres w oknie przeglądarki.
 Trzymaj się wierzchu
 [Disable stick to the front]
 Wyłącz utrzymywanie na wierzchu
-;file \plugins\WebView\src\webview_getdata.cpp
+;file \protocols\WebView\src\webview_getdata.cpp
 [URL not supplied]
 Nie podano adresu
 [Download in progress, please wait...]
@@ -305,7 +305,7 @@ bajtów wyświetlanych
 bajtów pobranych
 [Alert test conditions not met; press the refresh button to view content.]
 Nie spełniono warunków testowych powiadomienia; naciśnij przycisk odśwież, by przejrzeć zawartość.
-;file \plugins\WebView\src\webview_opts.cpp
+;file \protocols\WebView\src\webview_opts.cpp
 [No whitespace removal]
 Brak usuwania białych spacji
 [Minimal level of whitespace removal]
@@ -342,7 +342,7 @@ Musisz podać adres.
 Musisz podać nazwę kontaktu.
 [Invalid symbol present in contact name.]
 Nieprawidłowy symbol znajduje się w nazwie kontaktu.
-;file \plugins\WebView\src\webview_services.cpp
+;file \protocols\WebView\src\webview_services.cpp
 [Cache folder does not exist.]
 Folder Cache nie istnieje.
 [Missing "psite.bat" file.]

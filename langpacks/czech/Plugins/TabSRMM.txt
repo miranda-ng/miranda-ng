@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.12
+;  Version: 3.5.0.13
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -178,8 +178,6 @@ Skupinové rozhovory
 Chyby
 [Use the message log color theme for group chat popups]
 Použít barevné schéma záznamu komunikace pro skupinový chat
-[No compatible popup plugin was found. The event notification\nsystem is not available.]
-Nebyl nalezen žádný podporovaný popup plugin. Oznámení událostí\nnení dostupné.
 [Dialog]
 Dialog
 [Cancel]
@@ -1697,10 +1695,6 @@ Symbol hodin (pro hodiny informačního panelu)
 Funkce zakázána (použito jako překrytí)
 [Feature enabled (used as overlay)]
 Funkce povolena (použito jako překrytí)
-[Enable typing notification]
-
-[Disable typing notification]
-
 ;file \plugins\TabSRMM\src\msgs.h
 [Message windows - IM]
 Komunikační okna - klasické rozhovory
@@ -1984,10 +1978,10 @@ Přidávat offline kontakty do seznamu více příjemců
 Vypnout &upozornění na psaní
 [Enable &typing notification]
 Zapnout &upozornění na psaní
-[...is typing a message.]
-... píše zprávu.
 [...has stopped typing.]
 ... dopsal zprávu.
+[...is typing a message.]
+... píše zprávu.
 [Contact started typing]
 Kontakt začal psát
 [Contact stopped typing]

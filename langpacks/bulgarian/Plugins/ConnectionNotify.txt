@@ -7,7 +7,7 @@
 ;============================================================
 [Notify with popup if some connection established]
 Уведомяване с Popup при установяване на връзка
-;file \plugins\ConnectionNotify\res\ConnectionNotify.rc
+;file \protocols\ConnectionNotify\res\ConnectionNotify.rc
 [Set popup colors]
 Избор на цветове
 [Popup options]
@@ -56,7 +56,7 @@ Popup настройки
 
 [Remote IP:Port]
 Отдалечен IP:Порт
-;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
+;file \protocols\ConnectionNotify\src\ConnectionNotify.cpp
 [Show]
 Показване
 [Hide]
@@ -79,6 +79,6 @@ Popup настройки
 Приставки
 [New Connection Notification]
 Известие за нова връзка
-;file \plugins\ConnectionNotify\src\filter.cpp
+;file \protocols\ConnectionNotify\src\filter.cpp
 [First close options window]
 Първо затворете прозореца с настройки

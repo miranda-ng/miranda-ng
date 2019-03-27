@@ -142,14 +142,14 @@ Opuść grupę
 Usuń konwersację
 [This will permanently delete the conversation history]
 To nieodwracalnie usunie historię konwersacji
-[Former]
-
 [Myself]
 Ja
 [Friend]
 Znajomy
 [User]
 Użytkownik
+[Former]
+
 [Notifications]
 Powiadomienia
 [%s and more (%d)]

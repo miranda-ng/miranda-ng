@@ -132,8 +132,6 @@
 [&Deop user]
 
 ;file \protocols\MSN\src\msn_commands.cpp
-[%I64u bytes]
-%I64u байт
 [MSN Alert]
 Абвестка MSN
 ;file \protocols\MSN\src\msn_errors.cpp

@@ -747,6 +747,8 @@ xСтатус: xПовідомлення
 Ім'я облікового запису
 [Rate]
 Рейтинг
+[Last online]
+
 [-Nothing-]
 -Нічого-
 [Hide to tray]
@@ -808,8 +810,6 @@ xСтатус: xПовідомлення
 Імена груп праворуч
 [Row]
 Рядок
-[Row design]
-
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown contact)]
 (Невідомий контакт)
@@ -835,21 +835,6 @@ xСтатус: xПовідомлення
 Відновити останній статус
 [Show/Hide offline users]
 Показати/сховати відключених
-;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
-[Empty %s cell]
-
-[column]
-
-[line]
-
-[columns]
-
-[lines]
-
-[%s, contain %s]
-%s, містить %s
-[ layered]
-
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [( unknown )]
 (невідомо)

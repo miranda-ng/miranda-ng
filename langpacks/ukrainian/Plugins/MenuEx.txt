@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MenuEx.dll
 ;  Plugin: Menu item ext
-;  Version: 1.3.1.0
+;  Version: 1.3.2.0
 ;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
 [Adds some useful options to a contacts menu.]
@@ -20,8 +20,6 @@
 Ігнорувати
 [Copy to Account (Ctrl+click for move to Account)]
 Копіювати в обл. запис (Ctrl+клік - переміщення)
-[Request Authorization]
-Запитати авторизацію
 [Browse Received Files]
 Прийняті файли
 [Copy IP]
@@ -79,14 +77,8 @@
 Авторизація
 [Typing Notify]
 Набирає текст
-[Please authorize me to add you to my contact list.]
-Будь ласка, дозвольте додати вас до списку контактів.
-[Do you want to send authorization request\nto new contact?]
-Надіслати запит авторизації\nновому контакту?
 [Open ignore settings]
 Відкрити налаштування ігнорування
-[Request authorization]
-Запитати авторизацію
 [MenuItemEx]
 Дод. пункти меню
 ;file \plugins\MenuItemEx\src\options.cpp

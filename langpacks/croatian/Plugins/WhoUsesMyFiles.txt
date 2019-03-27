@@ -55,11 +55,9 @@
 [Show current connections]
 
 ;file \plugins\WhoUsesMyFiles\src\options.cpp
-[Popup plugin not found!]
+[Common Dialog Error 0x%lx]
 
 [Error]
-
-[Common Dialog Error 0x%lx]
 
 [Not implemented yet...]
 

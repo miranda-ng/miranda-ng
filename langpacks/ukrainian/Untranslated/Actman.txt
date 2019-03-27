@@ -24,7 +24,7 @@
 [Shows the previous protocol in the frame]
 [Opens the options dialog, optionally at the specified page]
 [Empty updater download folder]
-[Popup Plus (popup.dll) latest YAPP (yapp.dll)]
+[Popup plus (PopupPlus.dll) latest StdPopup (StdPopup.dll)]
 [result of protocol service call]
 [Send a general request through the protocol chain for a contact]
 [str, account name]

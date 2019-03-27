@@ -1,3 +1,4 @@
+[&Personal key:]
 [There is nothing to show]
 [Enter integer value between 1 and 60.]
 [Enter integer value between 1 and 24.]
@@ -7,6 +8,6 @@
 [Enable/Disable Currency Rates Auto Update]
 [Currency Rates Auto Update Enabled]
 [Currency Rates Auto Update Disabled]
+[This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.]
 [Currency Rate Section]
-[Miranda could not load CurrencyRates plugin. XML parser is missing.]
 [Miranda could not load CurrencyRates plugin. Microsoft HTML parser is missing.]

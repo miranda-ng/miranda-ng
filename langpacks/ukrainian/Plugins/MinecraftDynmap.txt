@@ -13,8 +13,6 @@
 [Visible name:]
 Видиме ім'я:
 ;file \protocols\MinecraftDynmap\src\chat.cpp
-[Server]
-Сервер
 [Admin]
 Адмін
 [Normal]

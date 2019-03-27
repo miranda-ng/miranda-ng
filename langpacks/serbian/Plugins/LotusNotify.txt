@@ -7,7 +7,7 @@
 ;============================================================
 [Notify about new mail in Lotus Database]
 
-;file \plugins\LotusNotify\res\LotusNotify.rc
+;file \protocols\LotusNotify\res\LotusNotify.rc
 [Lotus connection settings]
 
 [Primary server:]
@@ -66,7 +66,7 @@ Pošiljalac
 
 [Offline status mean:]
 
-;file \plugins\LotusNotify\src\LotusNotify.cpp
+;file \protocols\LotusNotify\src\LotusNotify.cpp
 [Unable to load all required Lotus API functions]
 
 [Lotus Notes Client not detected. Check plugin configuration description at https://miranda-ng.org/p/LotusNotify]

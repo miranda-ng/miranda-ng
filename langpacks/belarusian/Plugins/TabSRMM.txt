@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.12
+;  Version: 3.5.0.13
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -178,8 +178,6 @@
 Памылкі
 [Use the message log color theme for group chat popups]
 Выкарыстоўваць колеры лога паведамленняў для успл. вокнаў чатаў
-[No compatible popup plugin was found. The event notification\nsystem is not available.]
-Плагін усплывальных вокнаў не знойдзены. Абвесткі недасяжныя.
 [Dialog]
 Гутарка
 [Cancel]
@@ -1697,10 +1695,6 @@ UID: %s (Shift+клік -> капіяваць у буфер)\nКлік - Інф�
 Выключана (выкарыстоўваецца як адбітак)
 [Feature enabled (used as overlay)]
 Уключана (выкарыстоўваецца як адбітак)
-[Enable typing notification]
-
-[Disable typing notification]
-
 ;file \plugins\TabSRMM\src\msgs.h
 [Message windows - IM]
 Вокны паведамленняў - IM
@@ -1984,10 +1978,10 @@ UID: %s (Shift+клік -> капіяваць у буфер)\nКлік - Інф�
 Выключыць абвесткі пра набор тэксту
 [Enable &typing notification]
 Уключыць абвесткі пра набор тэксту
-[...is typing a message.]
-... набірае тэкст.
 [...has stopped typing.]
 ... скончыў(ла) набіраць тэкст.
+[...is typing a message.]
+... набірае тэкст.
 [Contact started typing]
 Кантакт пачаў набор паведамлення
 [Contact stopped typing]

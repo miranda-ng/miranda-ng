@@ -1,2 +1,4 @@
 [Backup file mask:]
 [Uploading to cloud failed]
+[Enable &AutoBackups notification]
+[Disable &AutoBackups notification]

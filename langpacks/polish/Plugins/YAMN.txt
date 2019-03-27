@@ -7,7 +7,7 @@
 ;============================================================
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
 Powiadomienia o poczcie i przeglądarka dla Mirandy NG. Dołączona obsługa POP3.
-;file \plugins\YAMN\res\YAMN.rc
+;file \protocols\YAMN\res\YAMN.rc
 [Installed plugins]
 Zainstalowane wtyczki
 [Version:]
@@ -156,7 +156,7 @@ Podgląd
 Kolor tła
 [Text color]
 Kolor tekstu
-;file \plugins\YAMN\src\main.cpp
+;file \protocols\YAMN\src\main.cpp
 [Check &mail (All Account)]
 Sprawdź wiadomości e-&mail
 [Check &mail (This Account)]
@@ -171,17 +171,17 @@ Folder kont YAMN
 Sprawdź wiadomości e-mail
 [Connect Fail]
 Błąd połączenia
-;file \plugins\YAMN\src\main.h
+;file \protocols\YAMN\src\main.h
 [New mail message]
 Nowa wiadomość e-mail
 [Connect failed]
 Połączenie nieudane
-;file \plugins\YAMN\src\services.cpp
+;file \protocols\YAMN\src\services.cpp
 [Nick]
 Nick
 [No new mail message]
 Brak nowych wiadomości e-mail
-;file \plugins\YAMN\src\browser\badconnect.cpp
+;file \protocols\YAMN\src\browser\badconnect.cpp
 [%s - connection error]
 %s - błąd połączenia
 [An error occurred. Error code: %d]
@@ -190,7 +190,7 @@ Błąd. Kod błędu: %d
 Nieznany błąd
 [ - connection error]
  - błąd połączenia
-;file \plugins\YAMN\src\browser\mailbrowser.cpp
+;file \protocols\YAMN\src\browser\mailbrowser.cpp
 [%s - %d new mail messages, %d total]
 Konto: %s, Nowych wiadomości: %d, Łącznie: %d
 [%s : %d new mail message(s), %d total]
@@ -229,15 +229,15 @@ Data
 Naprawdę chcesz usunąć %d zaznaczonych e-maili?
 [Delete confirmation]
 Potwierdzenie usunięcia
-;file \plugins\YAMN\src\mails\mime.cpp
+;file \protocols\YAMN\src\mails\mime.cpp
 [Translate header error]
 Błąd tłumaczenia nagłówka
 [Part]
 Część
-;file \plugins\YAMN\src\proto\netlib.cpp
+;file \protocols\YAMN\src\proto\netlib.cpp
 [%s connection]
 Połączenie %s
-;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
+;file \protocols\YAMN\src\proto\pop3\pop3comm.cpp
 [Disconnected]
 Rozłączony
 [POP3 protocol (internal)]
@@ -314,7 +314,7 @@ Nie można zapisać danych SSL.
 Nie można odczytać danych SSL.
 [Error %d-%d-%d-%d:]
 Błąd %d-%d-%d-%d:
-;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
+;file \protocols\YAMN\src\proto\pop3\pop3opt.cpp
 [Network]
 Protokoły
 [Accounts]

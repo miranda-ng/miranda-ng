@@ -1,6 +1,6 @@
 #muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
 ;============================================================
-;  File: Popup.dll
+;  File: PopupPlus.dll
 ;  Plugin: Popup plus
 ;  Version: 2.1.1.15
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
@@ -82,7 +82,7 @@ ms
 Образец
 [Download more skins]
 Сваляне на още облици
-[Popup History]
+[Popup history]
 Popup история
 [Desktop]
 Работен плот
@@ -263,15 +263,11 @@ Popup действията са малките бутони под текста.
 [Avatar border]
 Рамка на аватара
 ;file \plugins\Popup\src\history.cpp
-[Popup History is disabled]
+[Popup history is disabled]
 Popup историята е изклюена
-[Popup History message]
+[Popup history message]
 Popup история на съобщенията
 ;file \plugins\Popup\src\icons.cpp
-[Popups are enabled]
-Popups са включени
-[Popups are disabled]
-Popups са изключени
 [With "favorite" overlay]
 
 [With "fullscreen" overlay]
@@ -309,14 +305,14 @@ Popup група
 Контакти
 [Advanced]
 Разширени
-[Toggle Popups]
-Вкл./Изкл. на Popups
-[Enable Popups]
-Включване на Popups
-[Disable Popups]
-Изключване на Popups
-[Popup Plus]
-Popup Plus
+[Toggle popups]
+Вкл./Изкл. на popups
+[Enable popups]
+Включване на popups
+[Disable popups]
+Изключване на popups
+[Popup plus]
+Popup plus
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 Грешка: Неуспешно регистриране на Popup Window class.\r\nПриставката няма да може да работи.
 ;file \plugins\Popup\src\opt_adv.cpp

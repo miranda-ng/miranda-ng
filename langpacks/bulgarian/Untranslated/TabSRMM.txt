@@ -37,8 +37,6 @@
 [Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect Cancel to not load anything at all.]
 [Window layout tweaks]
 [Image tag]
-[Enable typing notification]
-[Disable typing notification]
 [Deferred]
 [Message window warning]
 [Message In]

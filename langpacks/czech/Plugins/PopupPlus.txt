@@ -1,6 +1,6 @@
 #muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
 ;============================================================
-;  File: Popup.dll
+;  File: PopupPlus.dll
 ;  Plugin: Popup plus
 ;  Version: 2.1.1.15
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
@@ -82,7 +82,7 @@ Možnosti skinu
 Náhled
 [Download more skins]
 Stáhnout další skiny
-[Popup History]
+[Popup history]
 Historie oznámení
 [Desktop]
 Plocha
@@ -263,15 +263,11 @@ Podtržení záhlaví
 [Avatar border]
 Orámovat avatary
 ;file \plugins\Popup\src\history.cpp
-[Popup History is disabled]
+[Popup history is disabled]
 Historie oznámení je vypnuta
-[Popup History message]
+[Popup history message]
 Zpráva historie oznámení
 ;file \plugins\Popup\src\icons.cpp
-[Popups are enabled]
-Oznámení jsou zapnuta
-[Popups are disabled]
-Oznámení jsou vypnuta
 [With "favorite" overlay]
 Překrytí pro oblíbené
 [With "fullscreen" overlay]
@@ -309,13 +305,13 @@ Akce
 Kontakty
 [Advanced]
 Extra
-[Toggle Popups]
+[Toggle popups]
 Zapnout/vypnout oznámení
-[Enable Popups]
+[Enable popups]
 Povolit oznámení
-[Disable Popups]
+[Disable popups]
 Vypnout oznámení
-[Popup Plus]
+[Popup plus]
 Oznámení plus
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 Chyba: Nelze zaregistrovat třídu Popup Window.\r\nDoplněk nebude fungovat.

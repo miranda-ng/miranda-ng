@@ -55,12 +55,10 @@ WUMF: Бягучыя злучэнні
 [Show current connections]
 Паказаць злучэнні
 ;file \plugins\WhoUsesMyFiles\src\options.cpp
-[Popup plugin not found!]
-Popup плагін не знойдзены!
-[Error]
-Памылка
 [Common Dialog Error 0x%lx]
 Памылкаr 0x%lx
+[Error]
+Памылка
 [Not implemented yet...]
 Пакуль не рэалізавана...
 [Who uses my files]

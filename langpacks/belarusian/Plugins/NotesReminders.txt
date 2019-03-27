@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.1.0.1
+;  Version: 0.2.0.2
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Sticky Notes & Reminders Implementation for Miranda NG.]
@@ -50,12 +50,12 @@
 Дазваляе розным гукам прайгравацца адначасова (магчымыя нежаданыя наступствы, калі ўсталяваны плагін карыстацкіх гукаў)
 [Add Reminder]
 Дадаць напамінак
-[Trigger On Time && Date:]
-Дата &і час запуску:
 [Date]
 Дата
 [Time]
 Час
+[Repeat each day]
+
 [Reminder Note:]
 Напамінак:
 [None]
@@ -102,8 +102,6 @@
 &Выдаліць напамінак
 [D&elete All Reminders]
 Выдаліць усе напамінкі
-[Context Menu Note Popup]
-Кантэкстнае меню абвестак
 [&Hide Note]
 &Схаваць нататкі
 [&Always On Top]
@@ -152,9 +150,6 @@
 Выдаліць &усе нататкі
 [&Show / Hide Notes]
 &Паказаць / Схаваць нататкі
-;file \plugins\NotesAndReminders\src\globals.h
-[Notes & Reminders]
-Нататкі і напамінкі
 ;file \plugins\NotesAndReminders\src\hotkeys.cpp
 [New Note]
 Новая нататка
@@ -165,10 +160,6 @@
 [New Reminder]
 Новы напамінак
 ;file \plugins\NotesAndReminders\src\main.cpp
-[Are you sure you want to delete all notes?]
-Упэўнены, што жадаеце выдаліць усе нататкі?!
-[Are you sure you want to delete all reminders?]
-Упэўнены, што жадаеце выдаліць усе напамінкі?!
 [Delete All Notes]
 Выдаліць усе нататкі
 [Show/Hide Notes]
@@ -195,20 +186,10 @@
 Прагледзець нататкі
 [Sticky Notes]
 Нататкі
-[Plugins]
-Плагіны
 [Add New Note]
 Дадаць нататку…
 [Add New Reminder]
 Дадаць напамінак…
-[Alerts]
-Абвесткі
-[Reminder triggered]
-Спрацоўванне напамінку
-[Reminder triggered (Alternative 1)]
-Спрацоўванне напамінку (Альтэрнатыва 1)
-[Reminder triggered (Alternative 2)]
-Спрацоўванне напамінку (Альтэрнатыва 2)
 [Notes && Reminders]
 Нататкі &і напамінкі
 [New &Note]
@@ -221,6 +202,14 @@
 &Перамясціць на пярэдні план
 [Miranda could not load the Notes & Reminders plugin, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
 Міранда не можа загрузіць плагін NotesReminders, няма Msftedit.dll. Калі вы выкарыстоўваеце WINE, пераканайцеся, што вы ўсталявалі бібліятэкі Msftedit.dll. Націсніце кнопку "Так" для працягу загрузкі Міранды.
+[Alerts]
+Абвесткі
+[Reminder triggered]
+Спрацоўванне напамінку
+[Reminder triggered (Alternative 1)]
+Спрацоўванне напамінку (Альтэрнатыва 1)
+[Reminder triggered (Alternative 2)]
+Спрацоўванне напамінку (Альтэрнатыва 2)
 ;file \plugins\NotesAndReminders\src\notes.cpp
 [Black]
 Чорны
@@ -268,6 +257,8 @@
 Нататка
 [Date/Title]
 Дата/загаловак
+[Are you sure you want to delete all notes?]
+Упэўнены, што жадаеце выдаліць усе нататкі?!
 ;file \plugins\NotesAndReminders\src\options.cpp
 [Sticky Note Caption]
 Загаловак
@@ -279,11 +270,17 @@
 Файлы выканання\0*.exe\0Усе файлы\0*.*\0\0
 [Select Executable]
 Абраць праграму…
+[Plugins]
+Плагіны
 ;file \plugins\NotesAndReminders\src\reminders.cpp
 [Minutes]
 Хвілін
 [Hours]
 Гадзін
+[The specified time is invalid due to begin of daylight saving (summer time).]
+Паказаны час несапраўдна з-за пераходу на «летні час»
+[The specified time is invalid.]
+Паказаны час несапраўдна
 [Hour]
 Гадзіна
 [Day]
@@ -292,10 +289,6 @@
 Дзён
 [Week]
 Тыдзень
-[The specified time is invalid due to begin of daylight saving (summer time).]
-Паказаны час несапраўдна з-за пераходу на «летні час»
-[The specified time is invalid.]
-Паказаны час несапраўдна
 [The specified time offset is invalid.]
 Указанае змяшчэнне часу з'яўляецца несапраўдным.
 [&Update Reminder]
@@ -316,5 +309,10 @@
 Напамінак
 [Date of activation]
 Дата актывацыі
+[Are you sure you want to delete all reminders?]
+Упэўнены, што жадаеце выдаліць усе напамінкі?!
 [Are you sure you want to delete this reminder?]
 Упэўнены, што жадаеце выдаліць гэты напамінак?
+;file \plugins\NotesAndReminders\src\stdafx.h
+[Notes & Reminders]
+Нататкі і напамінкі

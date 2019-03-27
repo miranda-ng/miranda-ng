@@ -570,6 +570,55 @@ Elegir &todo
 Pegar y Enviar
 [Delete]
 Eliminar
+;file \src\core\stdpopup\res\resource.rc
+[Popup history]
+
+[Case sensitive]
+
+[Default timeout]
+
+[Never timeout]
+
+[Set timeout:]
+
+[Width:]
+
+[Maximum height:]
+
+[Opacity (%):]
+
+[Border]
+Borde
+[Round corners (window)]
+
+[Preview]
+Previsualizar
+[Transparent background]
+
+[Layout]
+
+[Avatar size:]
+
+[Disable when]
+
+[Global hover]
+
+[Sidebar width:]
+
+[Text indent:]
+
+[Padding:]
+
+[Round corners (avatar)]
+
+[Text color:]
+
+[Background color:]
+Color del fondo:
+[Set timeout]
+
+[Timeout value (0 = default):]
+
 ;file \src\core\stduihist\res\resource.rc
 [Find]
 Buscar
@@ -1749,6 +1798,88 @@ El contacto dejó de escribir
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Se ha producido un error desconocido.
+;file \src\core\stdpopup\src\icons.cpp
+[Popups are enabled]
+
+[Popups are disabled]
+
+;file \src\core\stdpopup\src\notify_imp.cpp
+;file \src\core\stdpopup\src\options.cpp
+[Example]
+
+[The quick brown fox jumped over the lazy dog.]
+
+[Example With a Long Title]
+
+[Thequickbrownfoxjumpedoverthelazydog.]
+
+[An avatar.]
+
+[Bottom right]
+
+[Bottom left]
+
+[Top right]
+
+[Top left]
+
+[Icon on left]
+
+[Icon on right]
+
+[No time]
+
+[Time on left]
+
+[Time on right]
+
+[Time above avatar]
+
+[No avatar]
+
+[Left avatar]
+
+[Right avatar]
+
+[Full-screen app running]
+
+[No animate]
+
+[Horizontal animate]
+
+[Vertical animate]
+
+[You cannot set a default timeout of 0.\nValue has been reset.]
+
+[Settings]
+Ajustes
+[Classes]
+
+;file \src\core\stdpopup\src\services.cpp
+[Disable popups]
+
+[Enable popups]
+
+;file \src\core\stdpopup\src\yapp.cpp
+[Toggle popups]
+
+[First line]
+
+[Second line]
+
+[Time]
+
+[Sidebar]
+
+[Title underline]
+
+;file \src\core\stdpopup\src\yapp_history_dlg.cpp
+[Copy title to clipboard]
+
+[Copy message to clipboard]
+
+[Copy timestamp to clipboard]
+
 ;file \src\core\stdssl\src\netlibssl.cpp
 [Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
 El cliente no puede decodificar mensajes de servidor. Posibles causas: El servidor no es compatible con SSL o no requiere paquete de seguridad existente
@@ -2631,8 +2762,6 @@ Mancha vacía
 Plugin unicode
 [ANSI plugin]
 Plugin ANSI
-[Unused]
-
 [Show/Hide]
 Mostrar/Ocultar
 [Exit]
@@ -2647,6 +2776,8 @@ Mover a grupo
 Encendido
 [Off]
 Apagado
+[Unused]
+
 [Frames]
 Marcos
 [Add group]

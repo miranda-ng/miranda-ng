@@ -111,8 +111,6 @@
 Пропуск контакту, %S не встановлено.
 [Skipping non-IM contact (%S)]
 Пропуск не-IM контакту (%S)
-[Skipping %S contact, ID not found]
-Пропуск контакту %S, ID не знайдений
 [Skipping duplicate %S contact %s]
 Пропуск дубліката %S контакт %s
 [Failed to add %S contact %s]

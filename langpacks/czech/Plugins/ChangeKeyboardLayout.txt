@@ -82,8 +82,6 @@ Komunikace
 [Popups]
 Oznámení
 ;file \plugins\ChangeKeyboardLayout\src\main.cpp
-[Popup]
-Oznámení
 ;file \plugins\ChangeKeyboardLayout\src\stdafx.h
 [ChangeKeyboardLayout]
 Změna rozvržení klávesnice

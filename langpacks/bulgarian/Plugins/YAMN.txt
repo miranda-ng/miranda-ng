@@ -7,7 +7,7 @@
 ;============================================================
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
 
-;file \plugins\YAMN\res\YAMN.rc
+;file \protocols\YAMN\res\YAMN.rc
 [Installed plugins]
 
 [Version:]
@@ -156,7 +156,7 @@ Copyright:
 Цвят на фона
 [Text color]
 Цвят на текста
-;file \plugins\YAMN\src\main.cpp
+;file \protocols\YAMN\src\main.cpp
 [Check &mail (All Account)]
 
 [Check &mail (This Account)]
@@ -171,17 +171,17 @@ Copyright:
 
 [Connect Fail]
 
-;file \plugins\YAMN\src\main.h
+;file \protocols\YAMN\src\main.h
 [New mail message]
 
 [Connect failed]
 
-;file \plugins\YAMN\src\services.cpp
+;file \protocols\YAMN\src\services.cpp
 [Nick]
 Прякор
 [No new mail message]
 
-;file \plugins\YAMN\src\browser\badconnect.cpp
+;file \protocols\YAMN\src\browser\badconnect.cpp
 [%s - connection error]
 
 [An error occurred. Error code: %d]
@@ -190,7 +190,7 @@ Copyright:
 Непозната грешка
 [ - connection error]
 
-;file \plugins\YAMN\src\browser\mailbrowser.cpp
+;file \protocols\YAMN\src\browser\mailbrowser.cpp
 [%s - %d new mail messages, %d total]
 
 [%s : %d new mail message(s), %d total]
@@ -229,15 +229,15 @@ Copyright:
 
 [Delete confirmation]
 
-;file \plugins\YAMN\src\mails\mime.cpp
+;file \protocols\YAMN\src\mails\mime.cpp
 [Translate header error]
 
 [Part]
 
-;file \plugins\YAMN\src\proto\netlib.cpp
+;file \protocols\YAMN\src\proto\netlib.cpp
 [%s connection]
 %s връзка
-;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
+;file \protocols\YAMN\src\proto\pop3\pop3comm.cpp
 [Disconnected]
 
 [POP3 protocol (internal)]
@@ -314,7 +314,7 @@ Copyright:
 
 [Error %d-%d-%d-%d:]
 
-;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
+;file \protocols\YAMN\src\proto\pop3\pop3opt.cpp
 [Network]
 Мрежа
 [Accounts]

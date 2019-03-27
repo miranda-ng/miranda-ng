@@ -29,7 +29,7 @@
 [Popup options]
 
 [Enable popups]
-
+Уключыць усплывальныя вокны
 [Text color]
 Колер тэксту
 [Background color]

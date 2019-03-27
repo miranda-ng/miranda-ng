@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MenuEx.dll
 ;  Plugin: Menu item ext
-;  Version: 1.3.1.0
+;  Version: 1.3.2.0
 ;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
 [Adds some useful options to a contacts menu.]
@@ -20,8 +20,6 @@
 Игнориране
 [Copy to Account (Ctrl+click for move to Account)]
 Копиране на акаунта (Ctrl+ляв бутон за преместване в Акаунт)
-[Request Authorization]
-Молба за упълномощаване
 [Browse Received Files]
 Разглеждане на получените файлове
 [Copy IP]
@@ -79,14 +77,8 @@ xСъстояние
 Упълномощаване
 [Typing Notify]
 Уведомяване при писане
-[Please authorize me to add you to my contact list.]
-Моля, упълномощете ме да ви добавя в списъка си с контакти.
-[Do you want to send authorization request\nto new contact?]
-Желаете ли да бъде изпратена молба за упълномощаване до\nновия контакт?
 [Open ignore settings]
 Отваряне настройките за игнориране
-[Request authorization]
-Молба за упълномощаване
 [MenuItemEx]
 
 ;file \plugins\MenuItemEx\src\options.cpp

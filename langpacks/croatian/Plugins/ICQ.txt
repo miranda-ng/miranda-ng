@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.95.11.1
+;  Version: 0.95.11.4
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -16,7 +16,11 @@
 
 [Do not open chat windows on creation]
 
-[Advanced]
+[Use tray icon notifications]
+
+[E-mail]
+
+[Launch mailbox in a browser on click]
 
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
 
@@ -59,12 +63,23 @@
 [Do you really want to remove it from ignore list?]
 
 ;file \protocols\ICQ-WIM\src\main.cpp
+[E-mail notification]
+
 [Ignore]
 
 [Remove Ignore]
 
 ;file \protocols\ICQ-WIM\src\options.cpp
 [Network]
+
+[General]
+
+[Advanced]
+
+;file \protocols\ICQ-WIM\src\poll.cpp
+[You received e-mail from %s: %s]
+
+[You have %d unread emails]
 
 ;file \protocols\ICQ-WIM\src\proto.cpp
 [%s server connection]

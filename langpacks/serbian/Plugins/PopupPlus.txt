@@ -1,6 +1,6 @@
 #muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
 ;============================================================
-;  File: Popup.dll
+;  File: PopupPlus.dll
 ;  Plugin: Popup plus
 ;  Version: 2.1.1.15
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
@@ -82,7 +82,7 @@ Tip dekoracije:
 
 [Download more skins]
 
-[Popup History]
+[Popup history]
 
 [Desktop]
 
@@ -263,15 +263,11 @@ Pozadina
 [Avatar border]
 
 ;file \plugins\Popup\src\history.cpp
-[Popup History is disabled]
+[Popup history is disabled]
 
-[Popup History message]
+[Popup history message]
 
 ;file \plugins\Popup\src\icons.cpp
-[Popups are enabled]
-
-[Popups are disabled]
-
 [With "favorite" overlay]
 
 [With "fullscreen" overlay]
@@ -309,13 +305,13 @@ Akcije
 Kontakti
 [Advanced]
 Napredno
-[Toggle Popups]
+[Toggle popups]
 
-[Enable Popups]
+[Enable popups]
 
-[Disable Popups]
+[Disable popups]
 
-[Popup Plus]
+[Popup plus]
 
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 

@@ -2,12 +2,12 @@
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.1.0.101
+;  Version: 0.2.0.3
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates.]
 
-;file \plugins\CurrencyRates\res\Forex.rc
+;file \protocols\CurrencyRates\res\Forex.rc
 [Variable List]
 Списък с променливи
 [Edit Settings]
@@ -104,14 +104,16 @@ Popup настройки...
 Текст за състояние:
 [&Tendency:]
 Тенденция:
+[&Personal key:]
+
 [&Advanced Settings...]
 Допълнителни настройки...
 [Rate Info]
 Инф. за курса
-;file \plugins\CurrencyRates\src\Chart.h
+;file \protocols\CurrencyRates\src\Chart.h
 [There is nothing to show]
 Няма за изобразяване
-;file \plugins\CurrencyRates\src\CommonOptionDlg.cpp
+;file \protocols\CurrencyRates\src\CommonOptionDlg.cpp
 [Seconds]
 Секунди
 [Minutes]
@@ -124,24 +126,15 @@ Popup настройки...
 Въведете цяла стойност между 1 и 24.
 [Enter text to display in contact list.]
 Въведете текст за изобразяване в списъка с контакти.
-;file \plugins\CurrencyRates\src\CurrencyConverter.cpp
+;file \protocols\CurrencyRates\src\CurrencyConverter.cpp
 [Info provided by]
 Източник
 [Enter positive number.]
 Въведете положително число.
-;file \plugins\CurrencyRates\src\CurrencyRateInfoDlg.cpp
+;file \protocols\CurrencyRates\src\CurrencyRateInfoDlg.cpp
 [Currency Rate]
 
-;file \plugins\CurrencyRates\src\CurrencyRatesProviderCurrencyConverter.cpp
-[Error occurred during HTML parsing.]
-
-[Error occurred during site access.]
-
-;file \plugins\CurrencyRates\src\CurrencyRatesProviderVisitorFormatSpecificator.cpp
-[Currency Symbol]
-
-[Currency Name]
-
+;file \protocols\CurrencyRates\src\CurrencyRatesProviderBase.cpp
 [Source of Information]
 Източник на информация
 [Rate Value]
@@ -160,20 +153,11 @@ Popup настройки...
 
 [Left slash (\\)]
 Черта наклонена наляво
-[Open Price]
-Цена при отваряне
-[Percent Change to After Hours]
+;file \protocols\CurrencyRates\src\CurrencyRatesProviderCurrencyConverter.cpp
+[Error occurred during HTML parsing.]
 
-[Percent Change to Yesterday Close]
-Промяна в % от затварянето вчера
-[Day's High]
-Макс. за деня
-[Day's Low]
-Мин. за деня
-[Previous Close]
-Цена при предходното затваряне
-[Change]
-Промяна
+[Error occurred during site access.]
+
 [From Currency Full Name]
 От валута (цялото име)
 [From Currency Short Name]
@@ -184,7 +168,7 @@ Popup настройки...
 Във валута (кратко име)
 [Short notation for "%f/%i"]
 Кратко означаване на "%f/%i"
-;file \plugins\CurrencyRates\src\Forex.cpp
+;file \protocols\CurrencyRates\src\Forex.cpp
 [Auto Update Enabled]
 Автообновяването е включено
 [Auto Update Disabled]
@@ -215,12 +199,16 @@ Popup настройки...
 
 [Currency Rates Auto Update Disabled]
 
+[Currency Symbol]
+
 [Network]
 Мрежа
-;file \plugins\CurrencyRates\src\HTTPSession.cpp
+;file \protocols\CurrencyRates\src\HTTPSession.cpp
+[This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.]
+
 [CurrencyRates HTTP connections]
 HTTP връзки на CurrencyRates
-;file \plugins\CurrencyRates\src\IconLib.cpp
+;file \protocols\CurrencyRates\src\IconLib.cpp
 [Protocol icon]
 Икона на протокола
 [Currency Rate up]
@@ -237,17 +225,15 @@ HTTP връзки на CurrencyRates
 Бутон за размяна
 [Import]
 Внос
-;file \plugins\CurrencyRates\src\ImportExport.cpp
+;file \protocols\CurrencyRates\src\ImportExport.cpp
 [XML File (*.xml)]
 XML файлове (*.xml)
 [All files (*.*)]
 Всички файлове (*.*)
-;file \plugins\CurrencyRates\src\ModuleInfo.cpp
-[Miranda could not load CurrencyRates plugin. XML parser is missing.]
-Зареждането на приставката CurrencyRates е невъзможно. Липсва Microsoft XML parser.
+;file \protocols\CurrencyRates\src\ModuleInfo.cpp
 [Miranda could not load CurrencyRates plugin. Microsoft HTML parser is missing.]
 Зареждането на приставката CurrencyRates е невъзможно. Липсва Microsoft HTML parser.
-;file \plugins\CurrencyRates\src\SettingsDlg.cpp
+;file \protocols\CurrencyRates\src\SettingsDlg.cpp
 [Log Files (*.txt,*.log)]
 
 [Enter integer value]

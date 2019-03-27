@@ -195,8 +195,3 @@
 
 [You can only run one instance of CmdLine plugin.]
 
-;file \plugins\CmdLine\src\utils.cpp
-[Notify]
-
-[Warning]
-Upozorenje

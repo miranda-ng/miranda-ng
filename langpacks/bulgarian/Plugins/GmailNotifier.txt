@@ -7,7 +7,7 @@
 ;============================================================
 [Check your Gmail inboxes locally.]
 Проверявайте вашата входящата кутия в Gmail.
-;file \plugins\GmailNotifier\res\options.rc
+;file \protocols\GmailNotifier\res\options.rc
 [Gmail account]
 Gmail акаунт
 [Name:]
@@ -54,7 +54,7 @@ Popup приставка
 
 [Log unread threads into database (enable history)]
 
-;file \plugins\GmailNotifier\src\check.cpp
+;file \protocols\GmailNotifier\src\check.cpp
 [Checking...]
 Проверяване...
 [Can't send account data!]
@@ -63,7 +63,7 @@ Popup приставка
 Грешно име или парола!
 [Can't get RSS feed!]
 
-;file \plugins\GmailNotifier\src\main.cpp
+;file \protocols\GmailNotifier\src\main.cpp
 [Other]
 Друго
 [Gmail: New thread(s)]
@@ -74,7 +74,7 @@ Gmail: Нови писма
 Проверка на всички кутии
 [&Check Gmail inbox]
 Проверка на Gmail кутията
-;file \plugins\GmailNotifier\src\options.cpp
+;file \protocols\GmailNotifier\src\options.cpp
 [GmailNotifier]
 
 [Network]

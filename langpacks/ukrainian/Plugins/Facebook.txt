@@ -142,14 +142,14 @@
 
 [This will permanently delete the conversation history]
 
-[Former]
-
 [Myself]
 Я
 [Friend]
 Друг
 [User]
 Користувач
+[Former]
+
 [Notifications]
 Сповіщення
 [%s and more (%d)]

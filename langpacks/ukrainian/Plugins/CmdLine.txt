@@ -195,8 +195,3 @@
 Неможливо створити сервер CommandLine!
 [You can only run one instance of CmdLine plugin.]
 Ви можете запускати тільки одну копію плагіна CmdLine.
-;file \plugins\CmdLine\src\utils.cpp
-[Notify]
-Сповіщення
-[Warning]
-Попередження

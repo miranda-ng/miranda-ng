@@ -142,13 +142,13 @@ Detalji o &Korisniku
 
 [This will permanently delete the conversation history]
 
-[Former]
-
 [Myself]
 
 [Friend]
 
 [User]
+
+[Former]
 
 [Notifications]
 

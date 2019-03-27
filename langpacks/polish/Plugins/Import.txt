@@ -111,8 +111,6 @@ Pomijanie kontaktu, konto %s nie może zostać przypisane.
 Pomijanie kontaktu, %S jest niezainstalowane.
 [Skipping non-IM contact (%S)]
 Pomijanie kontaktów nie-IM (%S)
-[Skipping %S contact, ID not found]
-Pomijanie kontaktu %S, nie znaleziono ID
 [Skipping duplicate %S contact %s]
 Pomijanie zduplikowanego %S kontaktu %s
 [Failed to add %S contact %s]

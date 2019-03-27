@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.1.0.1
+;  Version: 0.2.0.2
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Sticky Notes & Reminders Implementation for Miranda NG.]
@@ -50,12 +50,12 @@ Przywróć domyślne
 (Używanie MCI pozwala na odtwarzanie jednocześnie wielu dźwięków, może być zastąpiona przez inną wtyczkę.)
 [Add Reminder]
 Dodaj przypomnienie
-[Trigger On Time && Date:]
-Wywołaj...
 [Date]
 Data
 [Time]
 Czas
+[Repeat each day]
+
 [Reminder Note:]
 Treść notatki:
 [None]
@@ -102,8 +102,6 @@ Nowe &przypomnienie
 &Usuń przypomnienie
 [D&elete All Reminders]
 U&suń wszystkie przypomnienia
-[Context Menu Note Popup]
-Popup menu kontekstowego notatki
 [&Hide Note]
 &Ukryj notatkę
 [&Always On Top]
@@ -152,9 +150,6 @@ Zawsze &na wierzchu
 Usuń &wszystkie notatki
 [&Show / Hide Notes]
 &Pokaż/Ukryj notatkę
-;file \plugins\NotesAndReminders\src\globals.h
-[Notes & Reminders]
-Notatki i przypomnienia
 ;file \plugins\NotesAndReminders\src\hotkeys.cpp
 [New Note]
 Nowa notatka
@@ -165,10 +160,6 @@ Pokaż wszystkie notatki na wierzchu
 [New Reminder]
 Nowe przypomnienie
 ;file \plugins\NotesAndReminders\src\main.cpp
-[Are you sure you want to delete all notes?]
-Czy na pewno chcesz usunąć wszystkie notatki?
-[Are you sure you want to delete all reminders?]
-Czy na pewno chcesz usunąć wszystkie przypomnienia?
 [Delete All Notes]
 Usuń wszystkie notatki
 [Show/Hide Notes]
@@ -195,20 +186,10 @@ Ikona odtwarzania dźwięku
 Pokaż notatki
 [Sticky Notes]
 Notatki
-[Plugins]
-Wtyczki
 [Add New Note]
 Dodaj nową notatkę
 [Add New Reminder]
 Dodaj nowe przypomnienie
-[Alerts]
-Alarmy
-[Reminder triggered]
-Przypomnienie uruchomione
-[Reminder triggered (Alternative 1)]
-Przypomnienie uruchomione (Alternatywa 1)
-[Reminder triggered (Alternative 2)]
-Przypomnienie uruchomione (Alternatywa 2)
 [Notes && Reminders]
 Notatki i przypomnienia
 [New &Note]
@@ -221,6 +202,14 @@ Po&każ notatki
 &Pokaż wszystkie na wierzchu
 [Miranda could not load the Notes & Reminders plugin, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
 Miranda nie mogła załadować wtyczki Notes & Reminders, brak pliku Msftedit.dll. Jeśli używasz WINE, upewnij się, że posiadasz zainstalowaną bibliotekę Msftedit.dll. Naciśnij "Tak", aby kontynuować ładowanie Mirandy.
+[Alerts]
+Alarmy
+[Reminder triggered]
+Przypomnienie uruchomione
+[Reminder triggered (Alternative 1)]
+Przypomnienie uruchomione (Alternatywa 1)
+[Reminder triggered (Alternative 2)]
+Przypomnienie uruchomione (Alternatywa 2)
 ;file \plugins\NotesAndReminders\src\notes.cpp
 [Black]
 Czarny
@@ -268,6 +257,8 @@ Notatki
 Tekst notatki
 [Date/Title]
 Data/Tytuł
+[Are you sure you want to delete all notes?]
+Czy na pewno chcesz usunąć wszystkie notatki?
 ;file \plugins\NotesAndReminders\src\options.cpp
 [Sticky Note Caption]
 Opis notatki
@@ -279,11 +270,17 @@ Treść notatki
 Pliki wykonywalne\0*.exe\0Wszystkie pliki \0*.*\0\0
 [Select Executable]
 Wybierz plik wykonywalny
+[Plugins]
+Wtyczki
 ;file \plugins\NotesAndReminders\src\reminders.cpp
 [Minutes]
 Minut
 [Hours]
 Godzin
+[The specified time is invalid due to begin of daylight saving (summer time).]
+Podany czas jest niepoprawny z powodu rozpoczęcia czasu letniego.
+[The specified time is invalid.]
+Podany czas jest niepoprawny.
 [Hour]
 Godzina
 [Day]
@@ -292,10 +289,6 @@ Dzień
 Dni
 [Week]
 Tydzień
-[The specified time is invalid due to begin of daylight saving (summer time).]
-Podany czas jest niepoprawny z powodu rozpoczęcia czasu letniego.
-[The specified time is invalid.]
-Podany czas jest niepoprawny.
 [The specified time offset is invalid.]
 Podana różnica czasu jest niepoprawna.
 [&Update Reminder]
@@ -316,5 +309,10 @@ Alternatywny 2
 Tekst przypomnienia
 [Date of activation]
 Data aktywacji
+[Are you sure you want to delete all reminders?]
+Czy na pewno chcesz usunąć wszystkie przypomnienia?
 [Are you sure you want to delete this reminder?]
 Czy na pewno chcesz usunąć to przypomnienie?
+;file \plugins\NotesAndReminders\src\stdafx.h
+[Notes & Reminders]
+Notatki i przypomnienia

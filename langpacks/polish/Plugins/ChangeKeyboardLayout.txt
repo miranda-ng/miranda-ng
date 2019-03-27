@@ -82,8 +82,6 @@ Okno rozmowy
 [Popups]
 Popupy
 ;file \plugins\ChangeKeyboardLayout\src\main.cpp
-[Popup]
-Popup
 ;file \plugins\ChangeKeyboardLayout\src\stdafx.h
 [ChangeKeyboardLayout]
 Układ klawiatury

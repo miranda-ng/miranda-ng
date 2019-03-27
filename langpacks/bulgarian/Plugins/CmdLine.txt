@@ -195,8 +195,3 @@ wide string
 
 [You can only run one instance of CmdLine plugin.]
 Може да стартирате приставката CmdLine само веднъж.
-;file \plugins\CmdLine\src\utils.cpp
-[Notify]
-Уведомяване
-[Warning]
-Предупреждение

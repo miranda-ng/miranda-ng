@@ -2,12 +2,12 @@
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News aggregator
-;  Version: 0.1.0.4
+;  Version: 0.1.0.5
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [RSS/Atom news aggregator.]
 Канали новин RSS/Atom.
-;file \plugins\NewsAggregator\Res\Resource.rc
+;file \protocols\NewsAggregator\Res\Resource.rc
 [Add]
 Додати
 [Change]
@@ -72,14 +72,14 @@
 Канали для імпорту:
 [&Import]
 &Імпорт
-;file \plugins\NewsAggregator\Src\Authentication.cpp
+;file \protocols\NewsAggregator\Src\Authentication.cpp
 [Enter your username]
 Введіть ім'я користувача
 [Error]
 Помилка
 [Enter your password]
 Введіть пароль
-;file \plugins\NewsAggregator\Src\CheckFeed.cpp
+;file \protocols\NewsAggregator\Src\CheckFeed.cpp
 [%s\nis a valid feed's address.]
 %s\nдійсно існує.
 [News Aggregator]
@@ -88,7 +88,7 @@
 %s\nнеправильна адреса каналу
 [empty]
 Порожній
-;file \plugins\NewsAggregator\Src\Icons.cpp
+;file \protocols\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
 Значок протоколу
 [Check All Feeds]
@@ -103,13 +103,13 @@
 Автооновлення ввімкнено
 [Auto Update Disabled]
 Автооновлення вимкнено
-;file \plugins\NewsAggregator\Src\Menus.cpp
+;file \protocols\NewsAggregator\Src\Menus.cpp
 [Check feed]
 Перевірити канал
 [Change feed]
 Змінити канал
-;file \plugins\NewsAggregator\Src\NewsAggregator.cpp
-;file \plugins\NewsAggregator\Src\Options.cpp
+;file \protocols\NewsAggregator\Src\NewsAggregator.cpp
+;file \protocols\NewsAggregator\Src\Options.cpp
 [OPML files]
 Файли OPML
 [Not valid import file.]
@@ -154,11 +154,11 @@ URL сторінки з коментарями до новини.
 Видалення контакту
 [Network]
 Мережа
-;file \plugins\NewsAggregator\Src\Services.cpp
+;file \protocols\NewsAggregator\Src\Services.cpp
 [Avatars]
 Аватари
 [Enable/disable auto update]
 Увімк./вимк. автооновлення
-;file \plugins\NewsAggregator\Src\Utils.cpp
+;file \protocols\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connections]
 HTTP-з'єднання NewsAggregator

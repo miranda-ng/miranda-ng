@@ -747,6 +747,8 @@ Jméno (použít místní nastavení)
 Název účtu
 [Rate]
 Priorita
+[Last online]
+Naposledy online
 [-Nothing-]
 ---
 [Hide to tray]
@@ -808,8 +810,6 @@ Názvy skupin uprostřed
 Názvy skupin vpravo
 [Row]
 Řádek
-[Row design]
-Vzhled řádku
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown contact)]
 (neznámý kontakt)
@@ -835,21 +835,6 @@ Ukončit program Miranda
 Obnovit předchozí stav
 [Show/Hide offline users]
 Zobrazit/skrýt uživatele offline
-;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
-[Empty %s cell]
-Prázdná buňka %s
-[column]
-sloupec
-[line]
-řádek
-[columns]
-sloupce
-[lines]
-řádky
-[%s, contain %s]
-%s, obsahuje %s
-[ layered]
- moderní
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [( unknown )]
 (neznámý)

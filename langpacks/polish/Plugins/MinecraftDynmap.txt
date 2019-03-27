@@ -13,8 +13,6 @@ Serwer:
 [Visible name:]
 Widoczna nazwa:
 ;file \protocols\MinecraftDynmap\src\chat.cpp
-[Server]
-Serwer
 [Admin]
 Admin
 [Normal]

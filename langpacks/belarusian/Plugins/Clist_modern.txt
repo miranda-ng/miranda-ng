@@ -747,6 +747,8 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Імя ўліковага запісу
 [Rate]
 Рэйтынг
+[Last online]
+
 [-Nothing-]
 -Нічога-
 [Hide to tray]
@@ -808,8 +810,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Імёны гуртоў справа
 [Row]
 Радок
-[Row design]
-Дызайн радка
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown contact)]
 (Невядомы кантакт)
@@ -835,21 +835,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Аднавіць апошні стан статусу
 [Show/Hide offline users]
 Паказаць/Скрыць адключаных
-;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
-[Empty %s cell]
-Пуста %s клетак
-[column]
-слупок
-[line]
-радок
-[columns]
-слупкоў
-[lines]
-ліній
-[%s, contain %s]
-%s, утрымлівае %s
-[ layered]
-слаіста
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [( unknown )]
 ( невядома )

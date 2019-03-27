@@ -570,6 +570,55 @@
 Вставити й надіслати
 [Delete]
 Видалити
+;file \src\core\stdpopup\res\resource.rc
+[Popup history]
+Історія спливаючих вікон
+[Case sensitive]
+Враховувати регістр
+[Default timeout]
+Тривалість за замовчанням
+[Never timeout]
+Постійно
+[Set timeout:]
+Тривалість:
+[Width:]
+Ширина:
+[Maximum height:]
+Макс. висота:
+[Opacity (%):]
+Непрозорість (%):
+[Border]
+Рамка
+[Round corners (window)]
+Заокруглені кути вікна
+[Preview]
+Тест
+[Transparent background]
+Прозорий фон
+[Layout]
+Розміщення
+[Avatar size:]
+Аватар:
+[Disable when]
+Вимкнути, коли
+[Global hover]
+Загальне наведення
+[Sidebar width:]
+Ширина врізки:
+[Text indent:]
+Відступ тексту:
+[Padding:]
+Проміжок:
+[Round corners (avatar)]
+Заокруглені кути аватару
+[Text color:]
+Колір тексту:
+[Background color:]
+Колір фону:
+[Set timeout]
+Встановити таймаут
+[Timeout value (0 = default):]
+Таймаут (0 = за замовчанням):
 ;file \src\core\stduihist\res\resource.rc
 [Find]
 Пошук
@@ -1749,6 +1798,88 @@ UIN, E-mail тощо
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Невідома помилка.
+;file \src\core\stdpopup\src\icons.cpp
+[Popups are enabled]
+Спливаючі вікна ввімкнені
+[Popups are disabled]
+Спливаючі вікна вимкнені
+;file \src\core\stdpopup\src\notify_imp.cpp
+;file \src\core\stdpopup\src\options.cpp
+[Example]
+Приклад
+[The quick brown fox jumped over the lazy dog.]
+З'їж-но ще цих м'яких французьких булок та випий йаду!
+[Example With a Long Title]
+Приклад з довгим заголовком
+[Thequickbrownfoxjumpedoverthelazydog.]
+З'їжнощецихм'якихфранцузькихбулоктавипиййаду!
+[An avatar.]
+З аватаром
+[Bottom right]
+Внизу праворуч
+[Bottom left]
+Внизу ліворуч
+[Top right]
+Вгорі праворуч
+[Top left]
+Вгорі ліворуч
+[Icon on left]
+Значок ліворуч
+[Icon on right]
+Значок праворуч
+[No time]
+Без часу
+[Time on left]
+Час ліворуч
+[Time on right]
+Час праворуч
+[Time above avatar]
+Час над аватаром
+[No avatar]
+Без аватару
+[Left avatar]
+Аватар ліворуч
+[Right avatar]
+Аватар праворуч
+[Full-screen app running]
+Повноекранна програма
+[No animate]
+Без анімації
+[Horizontal animate]
+Горизонтальна анімація
+[Vertical animate]
+Вертикальна анімація
+[You cannot set a default timeout of 0.\nValue has been reset.]
+Ви не можете встановити час очікування за замовчанням на 0.\nЗначення скинуто.
+[Settings]
+Налаштування
+[Classes]
+Класи
+;file \src\core\stdpopup\src\services.cpp
+[Disable popups]
+Вимкнути спливаючі вікна
+[Enable popups]
+Увімкнути спливаючі вікна
+;file \src\core\stdpopup\src\yapp.cpp
+[Toggle popups]
+Увімк./вимк. сплив. вікна
+[First line]
+Перший рядок
+[Second line]
+Другий рядок
+[Time]
+Час
+[Sidebar]
+Врізка
+[Title underline]
+Підкреслення заголовка
+;file \src\core\stdpopup\src\yapp_history_dlg.cpp
+[Copy title to clipboard]
+Копіювати заголовок в буфер обміну
+[Copy message to clipboard]
+Копіювати повідомлення в буфер обміну
+[Copy timestamp to clipboard]
+Копіювати час в буфер обміну
 ;file \src\core\stdssl\src\netlibssl.cpp
 [Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
 Клієнт не може декодувати повідомлення хоста. Можлива причина: хост не підтримує SSL або потрібна бібліотека відсутня.
@@ -2631,8 +2762,6 @@ ID облікового запису
 Unicode-плагін
 [ANSI plugin]
 ANSI-плагін
-[Unused]
-
 [Show/Hide]
 Показати/сховати
 [Exit]
@@ -2647,6 +2776,8 @@ ANSI-плагін
 Увімк.
 [Off]
 Вимк.
+[Unused]
+
 [Frames]
 Фрейми
 [Add group]

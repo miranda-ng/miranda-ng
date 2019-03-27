@@ -1,2 +1,0 @@
-[Enable typing notification]
-[Disable typing notification]

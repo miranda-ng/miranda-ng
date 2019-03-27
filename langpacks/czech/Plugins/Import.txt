@@ -111,8 +111,6 @@ Přeskakování kontaktu, účet %S nemůže být přiřazen.
 Přeskakování kontaktu, %S není nainstalován
 [Skipping non-IM contact (%S)]
 Přeskakování ne-IM kontaktu (%S)
-[Skipping %S contact, ID not found]
-Přeskakování %S kontaktu, nenalezeno ID
 [Skipping duplicate %S contact %s]
 Přeskakování duplicitního %S kontaktu %s
 [Failed to add %S contact %s]

@@ -2,12 +2,12 @@
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News aggregator
-;  Version: 0.1.0.4
+;  Version: 0.1.0.5
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [RSS/Atom news aggregator.]
 Каналы навін RSS/Atom.
-;file \plugins\NewsAggregator\Res\Resource.rc
+;file \protocols\NewsAggregator\Res\Resource.rc
 [Add]
 Дадаць
 [Change]
@@ -72,14 +72,14 @@
 Каналы для імпарту:
 [&Import]
 Імпарт
-;file \plugins\NewsAggregator\Src\Authentication.cpp
+;file \protocols\NewsAggregator\Src\Authentication.cpp
 [Enter your username]
 Увядзіце імя карыстача
 [Error]
 Памылка
 [Enter your password]
 Увядзіце пароль
-;file \plugins\NewsAggregator\Src\CheckFeed.cpp
+;file \protocols\NewsAggregator\Src\CheckFeed.cpp
 [%s\nis a valid feed's address.]
 %s\n сапраўды існуе.
 [News Aggregator]
@@ -88,7 +88,7 @@
 %s\nняслушны адрас канала
 [empty]
 пуста
-;file \plugins\NewsAggregator\Src\Icons.cpp
+;file \protocols\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
 Абразок конту
 [Check All Feeds]
@@ -103,13 +103,13 @@
 Аўтаабнаўленне ўключана
 [Auto Update Disabled]
 Аўтаабнаўленне выключана
-;file \plugins\NewsAggregator\Src\Menus.cpp
+;file \protocols\NewsAggregator\Src\Menus.cpp
 [Check feed]
 Праверыць канал
 [Change feed]
 Змяніць канал
-;file \plugins\NewsAggregator\Src\NewsAggregator.cpp
-;file \plugins\NewsAggregator\Src\Options.cpp
+;file \protocols\NewsAggregator\Src\NewsAggregator.cpp
+;file \protocols\NewsAggregator\Src\Options.cpp
 [OPML files]
 Файлы OPML
 [Not valid import file.]
@@ -154,11 +154,11 @@ ID навіны.
 Выдаленне кантакта
 [Network]
 Сеціва
-;file \plugins\NewsAggregator\Src\Services.cpp
+;file \protocols\NewsAggregator\Src\Services.cpp
 [Avatars]
 Аватары
 [Enable/disable auto update]
 
-;file \plugins\NewsAggregator\Src\Utils.cpp
+;file \protocols\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connections]
 HTTP далучэнне NewsAggregator

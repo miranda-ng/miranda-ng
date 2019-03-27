@@ -570,6 +570,55 @@ Vybr&at vše
 Vložit a odeslat
 [Delete]
 Smazat
+;file \src\core\stdpopup\res\resource.rc
+[Popup history]
+Historie oznámení
+[Case sensitive]
+Rozlišovat malá a VELKÁ
+[Default timeout]
+Výchozí doba zobrazení
+[Never timeout]
+Zobrazovat trvale
+[Set timeout:]
+Autom. skrýt po:
+[Width:]
+Šířka:
+[Maximum height:]
+Maximální výška:
+[Opacity (%):]
+Průhlednost (%):
+[Border]
+Okraj
+[Round corners (window)]
+Zaoblit rohy oken
+[Preview]
+Náhled
+[Transparent background]
+Průhledné pozadí
+[Layout]
+Rozvržení
+[Avatar size:]
+Velikost avataru:
+[Disable when]
+Neaktivní při
+[Global hover]
+Nezavírat po umístění myši
+[Sidebar width:]
+Šířka bočn. pruhu:
+[Text indent:]
+Odsazení textu:
+[Padding:]
+Vyplnění:
+[Round corners (avatar)]
+Zaoblit rohy avatarů
+[Text color:]
+Barva textu:
+[Background color:]
+Barva pozadí:
+[Set timeout]
+Nastavit dobu zobrazení
+[Timeout value (0 = default):]
+Prodleva (0 = výchozí):
 ;file \src\core\stduihist\res\resource.rc
 [Find]
 Najít
@@ -1749,6 +1798,88 @@ Kontakt přestal psát
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Neznámá chyba.
+;file \src\core\stdpopup\src\icons.cpp
+[Popups are enabled]
+Oznámení jsou zapnuta
+[Popups are disabled]
+Oznámení jsou vypnuta
+;file \src\core\stdpopup\src\notify_imp.cpp
+;file \src\core\stdpopup\src\options.cpp
+[Example]
+Příklad
+[The quick brown fox jumped over the lazy dog.]
+Žluťoučký kůň úpěl ďábelské ódy.
+[Example With a Long Title]
+Příklad dlouhého záhlaví
+[Thequickbrownfoxjumpedoverthelazydog.]
+Žluťoučkýkůňúpělďábelskéódy.
+[An avatar.]
+avatar
+[Bottom right]
+Vpravo dole
+[Bottom left]
+Vlevo dole
+[Top right]
+Vpravo nahoře
+[Top left]
+Vlevo nahoře
+[Icon on left]
+Ikona vlevo
+[Icon on right]
+Ikona vpravo
+[No time]
+Bez času
+[Time on left]
+Čas vlevo
+[Time on right]
+Čas vpravo
+[Time above avatar]
+Čas nad avatarem
+[No avatar]
+Bez avataru
+[Left avatar]
+Avatar vlevo
+[Right avatar]
+Avatar vpravo
+[Full-screen app running]
+Celoobrazovkový režim
+[No animate]
+Bez animace
+[Horizontal animate]
+Horizontální animace
+[Vertical animate]
+Vertikální animace
+[You cannot set a default timeout of 0.\nValue has been reset.]
+Nemůžete nastavit výchozí dobu zobrazení na 0.\nHodnota byla obnovena.
+[Settings]
+Nastavení
+[Classes]
+Třídy
+;file \src\core\stdpopup\src\services.cpp
+[Disable popups]
+Vypnout oznámení
+[Enable popups]
+Povolit oznámení
+;file \src\core\stdpopup\src\yapp.cpp
+[Toggle popups]
+Zapnout/vypnout oznámení
+[First line]
+První řádek
+[Second line]
+Druhý řádek
+[Time]
+Čas
+[Sidebar]
+Boční pruh
+[Title underline]
+Podtržení záhlaví
+;file \src\core\stdpopup\src\yapp_history_dlg.cpp
+[Copy title to clipboard]
+Zkopírovat záhlaví
+[Copy message to clipboard]
+Zkopírovat zprávu
+[Copy timestamp to clipboard]
+Zkopírovat časový údaj
 ;file \src\core\stdssl\src\netlibssl.cpp
 [Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
 Klient nemůže dekódovat zprávu hostitele. Možné příčiny: Hostitel nepodporuje SSL nebo vyžaduje neexistující soubor zabezpečení
@@ -2631,8 +2762,6 @@ Prázdný slot
 Doplněk Unicode
 [ANSI plugin]
 Doplněk ANSI
-[Unused]
-
 [Show/Hide]
 Zobrazit nebo skrýt
 [Exit]
@@ -2647,6 +2776,8 @@ Přesunout do skupiny
 Zap
 [Off]
 Vyp
+[Unused]
+
 [Frames]
 Rámečky
 [Add group]

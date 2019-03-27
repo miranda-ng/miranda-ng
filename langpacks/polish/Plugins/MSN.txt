@@ -132,8 +132,6 @@ Czat #
 [&Deop user]
 &zdejmij opa
 ;file \protocols\MSN\src\msn_commands.cpp
-[%I64u bytes]
-%I64u bajtów
 [MSN Alert]
 Alert MSN
 ;file \protocols\MSN\src\msn_errors.cpp

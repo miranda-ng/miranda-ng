@@ -195,8 +195,3 @@ CallService выклік паспяховы: служба '%S' вярнула %�
 Немагчыма стварыць сервер CommandLine!
 [You can only run one instance of CmdLine plugin.]
 Вы можаце запускаць толькі адну копію плагіна CmdLine.
-;file \plugins\CmdLine\src\utils.cpp
-[Notify]
-Абвестка
-[Warning]
-Увага

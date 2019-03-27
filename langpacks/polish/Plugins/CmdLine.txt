@@ -195,8 +195,3 @@ Komenda "%s" nie jest obecnie obsługiwana.
 Nie udało się utworzyć serwera nasłuchu wiersza poleceń!
 [You can only run one instance of CmdLine plugin.]
 Możesz uruchomić tylko jedną instancję wtyczki CmdLine.
-;file \plugins\CmdLine\src\utils.cpp
-[Notify]
-Powiadomienia
-[Warning]
-Ostrzeżenie

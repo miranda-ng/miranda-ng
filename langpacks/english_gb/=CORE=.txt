@@ -21,6 +21,10 @@ Minimise the message window on send
 Use default colours
 [Use custom colors]
 Use custom colours
+[Text color:]
+Text colour:
+[Background color:]
+Background colour:
 [Send authorization request]
 Send authorisation request
 [Authorization request]

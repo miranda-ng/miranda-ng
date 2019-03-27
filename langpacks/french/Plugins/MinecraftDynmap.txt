@@ -13,8 +13,6 @@ Serveur :
 [Visible name:]
 
 ;file \protocols\MinecraftDynmap\src\chat.cpp
-[Server]
-Serveur
 [Admin]
 
 [Normal]

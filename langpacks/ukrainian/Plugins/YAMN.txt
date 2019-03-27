@@ -7,7 +7,7 @@
 ;============================================================
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
 Сповіщення про нову пошту та її перегляд у Miranda NG. Підтримується протокол POP3.
-;file \plugins\YAMN\res\YAMN.rc
+;file \protocols\YAMN\res\YAMN.rc
 [Installed plugins]
 Встановлені додаткові плагіни
 [Version:]
@@ -156,7 +156,7 @@
 Колір фону
 [Text color]
 Колір тексту
-;file \plugins\YAMN\src\main.cpp
+;file \protocols\YAMN\src\main.cpp
 [Check &mail (All Account)]
 Перевірити пошту (Всі)
 [Check &mail (This Account)]
@@ -171,17 +171,17 @@
 Перевірити пошту
 [Connect Fail]
 Втрата з'єднання
-;file \plugins\YAMN\src\main.h
+;file \protocols\YAMN\src\main.h
 [New mail message]
 Новий лист
 [Connect failed]
 Помилка підключення
-;file \plugins\YAMN\src\services.cpp
+;file \protocols\YAMN\src\services.cpp
 [Nick]
 Нік
 [No new mail message]
 Немає нових листів
-;file \plugins\YAMN\src\browser\badconnect.cpp
+;file \protocols\YAMN\src\browser\badconnect.cpp
 [%s - connection error]
 %s - помилка підключення
 [An error occurred. Error code: %d]
@@ -190,7 +190,7 @@
 Невідома помилка
 [ - connection error]
 - помилка підключення
-;file \plugins\YAMN\src\browser\mailbrowser.cpp
+;file \protocols\YAMN\src\browser\mailbrowser.cpp
 [%s - %d new mail messages, %d total]
 %s - %d нових листів (%d всього)
 [%s : %d new mail message(s), %d total]
@@ -229,15 +229,15 @@
 Видалити %d листів?
 [Delete confirmation]
 Підтвердження видалення
-;file \plugins\YAMN\src\mails\mime.cpp
+;file \protocols\YAMN\src\mails\mime.cpp
 [Translate header error]
 Помилка перекладу заголовка
 [Part]
 Частина
-;file \plugins\YAMN\src\proto\netlib.cpp
+;file \protocols\YAMN\src\proto\netlib.cpp
 [%s connection]
 З'єднання %s
-;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
+;file \protocols\YAMN\src\proto\pop3\pop3comm.cpp
 [Disconnected]
 Вимкнено
 [POP3 protocol (internal)]
@@ -314,7 +314,7 @@ OpenSSL не завантажений.
 Неможливо прочитати дані SSL.
 [Error %d-%d-%d-%d:]
 Помилка %d-%d-%d-%d:
-;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
+;file \protocols\YAMN\src\proto\pop3\pop3opt.cpp
 [Network]
 Мережа
 [Accounts]

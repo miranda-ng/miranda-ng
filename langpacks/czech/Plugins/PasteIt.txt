@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PasteIt.dll
 ;  Plugin: Paste it
-;  Version: 1.0.0.3
+;  Version: 1.0.0.4
 ;  Authors: Krzysztof Kral
 ;============================================================
 [Uploads the text to web page and sends the URL to your friends.]
@@ -142,11 +142,11 @@ Opravdu chcete pokračovat?
 [File '%s' is empty]
 
 ;file \plugins\PasteIt\src\PasteToWeb1.cpp
-[Error during sending text to web page: %s]
+[Error during sending text to web page: %S]
 
 [Error during sending text to web page]
 
-[Error during getting user key from web page: %s]
+[Error during getting user key from web page: %S]
 
 [Paste expire date]
 

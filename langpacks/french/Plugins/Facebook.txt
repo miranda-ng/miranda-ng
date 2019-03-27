@@ -142,14 +142,14 @@ Envoyer SMS
 
 [This will permanently delete the conversation history]
 
-[Former]
-
 [Myself]
 
 [Friend]
 
 [User]
 Utilisateur
+[Former]
+
 [Notifications]
 Notifications
 [%s and more (%d)]
