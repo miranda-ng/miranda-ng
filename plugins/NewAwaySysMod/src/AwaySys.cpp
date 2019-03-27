@@ -235,7 +235,7 @@ int PreBuildContactMenu(WPARAM hContact, LPARAM)
 	int iContactMode = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 	wchar_t szSetStr[256], szReadStr[256];
 	szSetStr[0] = szReadStr[0] = 0;
-	HICON hReadMsgIcon = nullptr;
+	HANDLE hReadMsgIcon = nullptr;
 
 	if (szProto) {
 		int i;
@@ -251,7 +251,7 @@ int PreBuildContactMenu(WPARAM hContact, LPARAM)
 		// the protocol supports status message reading for contact's status
 		if (Flag1 & PF1_MODEMSGRECV && CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iContactMode)) {
 			mir_snwprintf(szReadStr, TranslateT("Re&ad %s message"), Clist_GetStatusModeDescription(iContactMode, 0));
-			hReadMsgIcon = Skin_LoadProtoIcon(szProto, iContactMode);
+			hReadMsgIcon = Skin_GetProtoIcon(szProto, iContactMode);
 		}
 	}
 	if (g_hContactMenuItem) {
@@ -265,7 +265,7 @@ int PreBuildContactMenu(WPARAM hContact, LPARAM)
 			int iAutoreply = CContactSettings(g_ProtoStates[szProto].m_status, hContact).Autoreply;
 			HANDLE hIcon;
 			switch (iAutoreply) {
-				case VAL_USEDEFAULT: hIcon = Skin_LoadIcon(IDI_DOT); break;
+				case VAL_USEDEFAULT: hIcon = Skin_GetIconHandle(IDI_DOT); break;
 				case 0: hIcon = iconList[0].hIcolib; break;
 				default: iAutoreply = 1; hIcon = iconList[1].hIcolib; break;
 			}

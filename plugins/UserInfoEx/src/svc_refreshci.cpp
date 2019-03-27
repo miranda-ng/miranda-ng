@@ -565,7 +565,7 @@ class CContactUpdater : public CContactQueue
 
 		// reset menu
 		if (hMenuItemRefresh)
-			Menu_ModifyItem(hMenuItemRefresh, LPGENW("Refresh contact details"), IcoLib_GetIcon(ICO_BTN_UPDATE));
+			Menu_ModifyItem(hMenuItemRefresh, LPGENW("Refresh contact details"), IcoLib_GetIconHandle(ICO_BTN_UPDATE));
 	}
 
 	/**
@@ -645,7 +645,7 @@ public:
 
 		// if there are contacts in the queue, change the main menu item to indicate it is meant for canceling.
 		if (hMenuItemRefresh && Size() > 0)
-			Menu_ModifyItem(hMenuItemRefresh, LPGENW("Abort Refreshing Contact Details"), IcoLib_GetIcon(ICO_BTN_CANCEL));
+			Menu_ModifyItem(hMenuItemRefresh, LPGENW("Abort Refreshing Contact Details"), IcoLib_GetIconHandle(ICO_BTN_CANCEL));
 	}
 
 	void Cancel()

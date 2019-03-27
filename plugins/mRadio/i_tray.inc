@@ -219,9 +219,9 @@ begin
     Menu_ModifyItem(trayprotoh, 'mRadio on');
 
   if gVolume<0 then
-    Menu_ModifyItem(traymute, nil, IcoLib_GetIcon(IcoBtnOff,0))
+    Menu_ModifyItem(traymute, nil, IcoLib_GetIconHandle(IcoBtnOff))
   else
-    Menu_ModifyItem(traymute, nil, IcoLib_GetIcon(IcoBtnOn,0));
+    Menu_ModifyItem(traymute, nil, IcoLib_GetIconHandle(IcoBtnOn));
 
   if CallService(MS_RADIO_COMMAND,MRC_STATUS,RD_STATUS_GET)<>RD_STATUS_PLAYING then
     Menu_ModifyItem(trayplay, 'Play')

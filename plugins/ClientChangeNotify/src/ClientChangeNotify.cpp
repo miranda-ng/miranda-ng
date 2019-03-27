@@ -269,9 +269,9 @@ static int PrebuildMainMenu(WPARAM, LPARAM)
 {
 	// we have to use ME_CLIST_PREBUILDMAINMENU instead of updating menu items only on settings change, because "popup_enabled" and "popup_disabled" icons are not always available yet in ModulesLoaded
 	if (g_PopupOptPage.GetDBValueCopy(IDC_POPUPOPTDLG_POPUPNOTIFY))
-		Menu_ModifyItem(g_hTogglePopupsMenuItem, LPGENW("Disable c&lient change notification"), IcoLib_GetIcon("popup_enabled"));
+		Menu_ModifyItem(g_hTogglePopupsMenuItem, LPGENW("Disable c&lient change notification"), IcoLib_GetIconHandle("popup_enabled"));
 	else
-		Menu_ModifyItem(g_hTogglePopupsMenuItem, LPGENW("Enable c&lient change notification"), IcoLib_GetIcon("popup_disabled"));
+		Menu_ModifyItem(g_hTogglePopupsMenuItem, LPGENW("Enable c&lient change notification"), IcoLib_GetIconHandle("popup_disabled"));
 	return 0;
 }
 

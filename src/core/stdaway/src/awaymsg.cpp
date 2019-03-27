@@ -141,7 +141,7 @@ static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM)
 				if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(status)) {
 					wchar_t str[128];
 					mir_snwprintf(str, TranslateT("Re&ad %s message"), Clist_GetStatusModeDescription(status, 0));
-					Menu_ModifyItem(hAwayMsgMenuItem, str, Skin_LoadProtoIcon(szProto, status), CMIF_NOTOFFLINE);
+					Menu_ModifyItem(hAwayMsgMenuItem, str, Skin_GetProtoIcon(szProto, status), CMIF_NOTOFFLINE);
 					return 0;
 				}
 			}

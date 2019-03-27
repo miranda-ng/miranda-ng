@@ -69,7 +69,7 @@ bool LoadIndexHTMLTemplate()
 	HANDLE hFile = CreateFile(pszBuf, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE,
 		nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if (hFile == INVALID_HANDLE_VALUE) {
-		MessageBox(nullptr, "HTTPServerIndex.html not found in Plugin Path", MSG_BOX_TITEL, MB_OK);
+		MessageBoxW(nullptr, L"HTTPServerIndex.html not found in Plugin Path", TranslateW(_A2W(MSG_BOX_TITLE)), MB_OK);
 		return false;
 	}
 

@@ -318,7 +318,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 
 	Menu_ShowItem(g_hMenuDirectPresence[0], TRUE);
 	for (int i = 0; i < _countof(PresenceModeArray); i++)
-		Menu_ModifyItem(g_hMenuDirectPresence[i + 1], nullptr, Skin_LoadProtoIcon(m_szModuleName, PresenceModeArray[i].mode));
+		Menu_ModifyItem(g_hMenuDirectPresence[i + 1], nullptr, Skin_GetProtoIcon(m_szModuleName, PresenceModeArray[i].mode));
 
 	if (bIsChatRoom) {
 		ptrA roomid(getUStringA(hContact, "ChatRoomID"));
@@ -1068,7 +1068,7 @@ CJabberProto* JabberChooseInstance(bool bIsLink)
 		if (ppro->m_iStatus != ID_STATUS_OFFLINE && ppro->m_iStatus != ID_STATUS_CONNECTING) {
 			++nItems;
 			lastItemId = CMPlugin::g_arInstances.indexOf(&ppro) + 1;
-			Menu_ModifyItem(ppro->m_hChooseMenuItem, nullptr, Skin_LoadProtoIcon(ppro->m_szModuleName, ppro->m_iStatus));
+			Menu_ModifyItem(ppro->m_hChooseMenuItem, nullptr, Skin_GetProtoIcon(ppro->m_szModuleName, ppro->m_iStatus));
 		}
 		else Menu_ShowItem(ppro->m_hChooseMenuItem, false);
 	}

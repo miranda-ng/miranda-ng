@@ -156,30 +156,18 @@ void UpdateInterfacesMenu(void)
 
 void UpdatePopupMenu(BOOL State)
 {
-	CMenuItem mi(&g_plugin);
-
 	if (!hEnableDisablePopupMenu)
 		return;
 
-	//ZeroMemory(&mi, sizeof(mi));
-	//mi.cbSize = sizeof(mi);
-
 	// popup is now disabled
 	if (State == FALSE) {
-		mi.name.w = LPGENW("Enable &IP change notification");
-		mi.hIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_NOTIF_0));
-
-		// popup is now enabled
+		Menu_ModifyItem(hEnableDisablePopupMenu, LPGENW("Enable &IP change notification"));
+		// mi.hIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_NOTIF_0));
 	}
 	else {
-		mi.name.w = LPGENW("Disable &IP change notification");
-		mi.hIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_NOTIF_1));
+		Menu_ModifyItem(hEnableDisablePopupMenu, LPGENW("Disable &IP change notification"));
+		// mi.hIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_NOTIF_1));
 	}
-	//mi.flags = CMIM_ICON | CMIM_NAME;
-
-	// update menu item
-	Menu_ModifyItem(hEnableDisablePopupMenu, mi.name.w);
-	//CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hEnableDisablePopupMenu, (LPARAM)&mi);
 }
 
 static INT_PTR PopupSwitch(WPARAM, LPARAM)

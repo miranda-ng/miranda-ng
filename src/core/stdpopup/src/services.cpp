@@ -195,12 +195,12 @@ void UpdateMenu()
 {
 	bool isEnabled = Popup_Enabled() == 1;
 	if (isEnabled) {
-		Menu_ModifyItem(hMenuItem, LPGENW("Disable popups"), IcoLib_GetIcon(ICO_POPUP_ON));
-		Menu_ModifyItem(hMenuRoot, nullptr, IcoLib_GetIcon(ICO_POPUP_ON));
+		Menu_ModifyItem(hMenuItem, LPGENW("Disable popups"), IcoLib_GetIconHandle(ICO_POPUP_ON));
+		Menu_ModifyItem(hMenuRoot, nullptr, IcoLib_GetIconHandle(ICO_POPUP_ON));
 	}
 	else {
-		Menu_ModifyItem(hMenuItem, LPGENW("Enable popups"), IcoLib_GetIcon(ICO_POPUP_OFF));
-		Menu_ModifyItem(hMenuRoot, nullptr, IcoLib_GetIcon(ICO_POPUP_OFF));
+		Menu_ModifyItem(hMenuItem, LPGENW("Enable popups"), IcoLib_GetIconHandle(ICO_POPUP_OFF));
+		Menu_ModifyItem(hMenuRoot, nullptr, IcoLib_GetIconHandle(ICO_POPUP_OFF));
 	}
 
 	if (hTTButton)

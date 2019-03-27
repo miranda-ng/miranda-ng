@@ -14,15 +14,15 @@ begin
   begin
     // play/Stop
     if THANDLE(hContact)<>ActiveContact then
-      Menu_ModifyItem(hCMenuItemPlay, 'Start broadcasting', IcoLib_GetIcon(IcoBtnOn,0))
+      Menu_ModifyItem(hCMenuItemPlay, 'Start broadcasting', IcoLib_GetIconHandle(IcoBtnOn))
     else
-      Menu_ModifyItem(hCMenuItemPlay, 'Stop broadcasting', IcoLib_GetIcon(IcoBtnOff,0));
+      Menu_ModifyItem(hCMenuItemPlay, 'Stop broadcasting', IcoLib_GetIconHandle(IcoBtnOff));
 
     // record
     if Service_RadioRecord(0,1)<>0 then
-      Menu_ModifyItem(hCMenuItemRec, 'Stop record', IcoLib_GetIcon(IcoBtnRecDn,0))
+      Menu_ModifyItem(hCMenuItemRec, 'Stop record', IcoLib_GetIconHandle(IcoBtnRecDn))
     else
-      Menu_ModifyItem(hCMenuItemRec, 'Start record', IcoLib_GetIcon(IcoBtnRecUp,0));
+      Menu_ModifyItem(hCMenuItemRec, 'Start record', IcoLib_GetIconHandle(IcoBtnRecUp));
   end;
 
   result:=0;

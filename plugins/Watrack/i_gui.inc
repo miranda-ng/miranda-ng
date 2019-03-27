@@ -46,9 +46,9 @@ var
   p:PAnsiChar;
 begin
   if f1<>0 then
-    Menu_ModifyItem(hMenuDisable, 'Enable WATrack', IcoLib_GetIcon(IcoBtnDisable,0), f1)
+    Menu_ModifyItem(hMenuDisable, 'Enable WATrack', IcoLib_GetIconHandle(IcoBtnDisable), f1)
   else
-    Menu_ModifyItem(hMenuDisable, 'Disable WATrack', IcoLib_GetIcon(IcoBtnEnable,0));
+    Menu_ModifyItem(hMenuDisable, 'Disable WATrack', IcoLib_GetIconHandle(IcoBtnEnable));
 
   if ServiceExists(MS_TTB_SETBUTTONSTATE) then
   begin
@@ -72,7 +72,7 @@ var
   ttb:m_api.TTBButton;
 begin
   result:=0;
-  Menu_ModifyItem(hMenuDisable, nil, IcoLib_GetIcon(IcoBtnEnable,0));
+  Menu_ModifyItem(hMenuDisable, nil, IcoLib_GetIconHandle(IcoBtnEnable));
 
   // toptoolbar
   if ServiceExists(MS_TTB_GETBUTTONOPTIONS) then

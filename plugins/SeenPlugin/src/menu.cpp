@@ -50,7 +50,7 @@ int BuildContactMenu(WPARAM hContact, LPARAM)
 		ptszName = ParseString(DEFAULT_MENUSTAMP, hContact);
 
 	int flags = 0;
-	HICON hIcon = nullptr;
+	HANDLE hIcon = nullptr;
 	if (!mir_wstrcmp(ptszName, TranslateT("<unknown>"))) {
 		if (IsWatchedProtocol(szProto))
 			flags |= CMIF_GRAYED;
@@ -59,7 +59,7 @@ int BuildContactMenu(WPARAM hContact, LPARAM)
 	}
 	else if (g_plugin.getByte("ShowIcon", 1)) {
 		int isetting = g_plugin.getWord(hContact, "StatusTriger", -1);
-		hIcon = Skin_LoadProtoIcon(szProto, isetting | 0x8000);
+		hIcon = Skin_GetProtoIcon(szProto, isetting | 0x8000);
 	}
 	Menu_ModifyItem(hmenuitem, ptszName, hIcon, flags);
 	return 0;

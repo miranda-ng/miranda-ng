@@ -187,11 +187,11 @@ static INT_PTR WumfMenuCommand(WPARAM, LPARAM)
 {
 	if (WumfOptions.PopupsEnabled == TRUE) {
 		WumfOptions.PopupsEnabled = FALSE;
-		Menu_ModifyItem(hMenuItem, LPGENW("Enable WUMF popups"), Skin_LoadIcon(SKINICON_OTHER_NOPOPUP));
+		Menu_ModifyItem(hMenuItem, LPGENW("Enable WUMF popups"), Skin_GetIconHandle(SKINICON_OTHER_NOPOPUP));
 	}
 	else {
 		WumfOptions.PopupsEnabled = TRUE;
-		Menu_ModifyItem(hMenuItem, LPGENW("Disable WUMF popups"), Skin_LoadIcon(SKINICON_OTHER_POPUP));
+		Menu_ModifyItem(hMenuItem, LPGENW("Disable WUMF popups"), Skin_GetIconHandle(SKINICON_OTHER_POPUP));
 	}
 
 	g_plugin.setByte(POPUPS_ENABLED, (BYTE)WumfOptions.PopupsEnabled);

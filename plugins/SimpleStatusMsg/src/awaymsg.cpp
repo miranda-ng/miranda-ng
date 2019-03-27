@@ -301,10 +301,10 @@ static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM)
 	if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGRECV) {
 		if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iStatus == ID_STATUS_OFFLINE ? ID_STATUS_INVISIBLE : iStatus)) {
 			wchar_t str[128];
-			HICON hIcon = Skin_LoadProtoIcon(szProto, iStatus);
+			HANDLE hIcon = Skin_GetProtoIcon(szProto, iStatus);
 			mir_snwprintf(str, TranslateT("Re&ad %s message"), Clist_GetStatusModeDescription(iStatus, 0));
 			Menu_ModifyItem(hAwayMsgMenuItem, str, hIcon, 0);
-			IcoLib_ReleaseIcon(hIcon);
+			IcoLib_ReleaseIcon((HICON)hIcon);
 
 			ptrA szMsg(db_get_sa(hContact, "CList", "StatusMsg"));
 			if (szMsg != nullptr) {

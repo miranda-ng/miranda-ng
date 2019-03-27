@@ -42,6 +42,12 @@ const char* pszDefaultShares[] = {
 	nullptr, nullptr
 };
 
+static IconItem iconList[] =
+{
+	{ "Disable server", "disable", IDI_DISABLE_SERVER },
+	{ "Enable server", "enable", IDI_SHARE_NEW_FILE },
+};
+
 int OptionsInitialize(WPARAM, LPARAM);
 int PreShutdown(WPARAM, LPARAM);
 
@@ -628,18 +634,18 @@ INT_PTR nToggelAcceptConnections(WPARAM wparam, LPARAM /*lparam*/)
 			char szTemp[200];
 			mir_snprintf(szTemp, Translate("Failed to bind to port %s\r\nThis is most likely because another program or service is using this port"),
 				nlb.wPort == 80 ? "80" : nus.szIncomingPorts);
-			MessageBox(nullptr, szTemp, MSG_BOX_TITEL, MB_OK);
+			MessageBox(nullptr, szTemp, MSG_BOX_TITLE, MB_OK);
 			return 1001;
 		}
 		dwLocalPortUsed = nlb.wPort;
 		dwLocalIpAddress = nlb.dwInternalIP;
 
-		Menu_ModifyItem(hAcceptConnectionsMenuItem, LPGENW("Disable HTTP server"), LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_DISABLE_SERVER)));
+		Menu_ModifyItem(hAcceptConnectionsMenuItem, LPGENW("Disable HTTP server"), iconList[0].hIcolib);
 	}
 	else if (hDirectBoundPort && wparam == 0) {
 		Netlib_CloseHandle(hDirectBoundPort);
 		hDirectBoundPort = nullptr;
-		Menu_ModifyItem(hAcceptConnectionsMenuItem, LPGENW("Enable HTTP server"), LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_SHARE_NEW_FILE)));
+		Menu_ModifyItem(hAcceptConnectionsMenuItem, LPGENW("Enable HTTP server"), iconList[1].hIcolib);
 	}
 	else return 0; // no changes;
 
@@ -785,6 +791,8 @@ int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/)
 
 int CMPlugin::Load()
 {
+	g_plugin.registerIcon(MSG_BOX_TITLE, iconList, MODULENAME);
+
 	hHttpAcceptConnectionsService = CreateServiceFunction(MS_HTTP_ACCEPT_CONNECTIONS, nToggelAcceptConnections);
 	hHttpAddChangeRemoveService = CreateServiceFunction(MS_HTTP_ADD_CHANGE_REMOVE, nAddChangeRemoveShare);
 	hHttpGetShareService = CreateServiceFunction(MS_HTTP_GET_SHARE, nGetShare);
@@ -797,7 +805,7 @@ int CMPlugin::Load()
 	mir_strncat(szPluginPath, "\\HTTPServer\\", _countof(szPluginPath) - mir_strlen(szPluginPath));
 	int err = CreateDirectoryTree(szPluginPath);
 	if ((err != 0) && (err != ERROR_ALREADY_EXISTS)) {
-		MessageBox(nullptr, "Failed to create HTTPServer directory.", MSG_BOX_TITEL, MB_OK);
+		MessageBoxW(nullptr, L"Failed to create HTTPServer directory.", TranslateW(_A2W(MSG_BOX_TITLE)), MB_OK);
 		return 1;
 	}
 
@@ -807,7 +815,7 @@ int CMPlugin::Load()
 	sLogFilePath += "HTTPServer.log";
 
 	if (!bInitMimeHandling())
-		MessageBox(nullptr, "Failed to read configuration file : " szMimeTypeConfigFile, MSG_BOX_TITEL, MB_OK);
+		MessageBoxW(nullptr, L"Failed to read configuration file : " szMimeTypeConfigFile, TranslateW(_A2W(MSG_BOX_TITLE)), MB_OK);
 
 	nMaxUploadSpeed = g_plugin.getDword("MaxUploadSpeed", nMaxUploadSpeed);
 	nMaxConnectionsTotal = g_plugin.getDword("MaxConnectionsTotal", nMaxConnectionsTotal);

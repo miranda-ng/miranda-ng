@@ -42,9 +42,9 @@ CMPlugin::CMPlugin() :
 static void UpdateMenuIcons()
 {
 	if (g_plugin.disable_popups)
-		Menu_ModifyItem(g_hPopupMenu, LPGENW("Enable &AutoBackups notification"), Skin_LoadIcon(SKINICON_OTHER_NOPOPUP));
+		Menu_ModifyItem(g_hPopupMenu, LPGENW("Enable &AutoBackups notification"), Skin_GetIconHandle(SKINICON_OTHER_NOPOPUP));
 	else
-		Menu_ModifyItem(g_hPopupMenu, LPGENW("Disable &AutoBackups notification"), Skin_LoadIcon(SKINICON_OTHER_POPUP));
+		Menu_ModifyItem(g_hPopupMenu, LPGENW("Disable &AutoBackups notification"), Skin_GetIconHandle(SKINICON_OTHER_POPUP));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

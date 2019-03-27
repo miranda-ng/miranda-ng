@@ -386,12 +386,12 @@ static INT_PTR onHide(WPARAM wparam, LPARAM)
 // following 4 functions should be self-explanatory
 static void ModifyVisibleSet(int mode, BOOL alpha)
 {
-	Menu_ModifyItem(hmenuVis, nullptr, (mode) ? hIcons[1] : (alpha ? hIcons[3] : Skin_LoadIcon(SKINICON_OTHER_SMALLDOT)));
+	Menu_ModifyItem(hmenuVis, nullptr, (mode) ? hIcons[1] : (alpha ? hIcons[3] : Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT)));
 }
 
 static void ModifyInvisSet(int mode, BOOL alpha)
 {
-	Menu_ModifyItem(hmenuOff, nullptr, (mode) ? hIcons[2] : (alpha ? hIcons[4] : Skin_LoadIcon(SKINICON_OTHER_SMALLDOT)));
+	Menu_ModifyItem(hmenuOff, nullptr, (mode) ? hIcons[2] : (alpha ? hIcons[4] : Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT)));
 }
 
 static void ModifyCopyID(MCONTACT hContact, BOOL bShowID, BOOL bTrimID)
@@ -697,9 +697,9 @@ static int BuildMenu(WPARAM wparam, LPARAM)
 	if (bEnabled) {
 		BYTE bHidden = db_get_b(hContact, "CList", "Hidden", 0);
 		if (bHidden)
-			Menu_ModifyItem(hmenuHide, LPGENW("Show in list"), IcoLib_GetIcon("miex_showil"));
+			Menu_ModifyItem(hmenuHide, LPGENW("Show in list"), IcoLib_GetIconHandle("miex_showil"));
 		else
-			Menu_ModifyItem(hmenuHide, LPGENW("Hide from list"), IcoLib_GetIcon("miex_hidefl"));
+			Menu_ModifyItem(hmenuHide, LPGENW("Hide from list"), IcoLib_GetIconHandle("miex_hidefl"));
 	}
 
 	bEnabled = bShowAll || (flags & VF_IGN);

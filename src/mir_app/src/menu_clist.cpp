@@ -469,7 +469,6 @@ static INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 			pimi->mi.flags &= ~CMIF_CHECKED;
 	}
 	else if ((!smep || smep->szProto) && pimi->mi.name.a) {
-		BOOL IconNeedDestroy = FALSE;
 		char* prot;
 		if (smep)
 			prot = smep->szProto;
@@ -484,21 +483,12 @@ static INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 
 		if (pa->iRealStatus >= ID_STATUS_OFFLINE && pa->iRealStatus < ID_STATUS_IDLE)
 			pimi->mi.hIcolibItem = Skin_LoadProtoIcon(prot, pa->iRealStatus);
-		else {
-			pimi->mi.hIcolibItem = (HICON)CallProtoServiceInt(0, prot, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
-			if (pimi->mi.hIcolibItem == (HICON)CALLSERVICE_NOTFOUND)
-				pimi->mi.hIcolibItem = nullptr;
-			else
-				IconNeedDestroy = TRUE;
-		}
+		else
+			pimi->mi.hIcolibItem = Skin_LoadProtoIcon(prot, ID_STATUS_ONLINE);
 
 		if (pimi->mi.hIcolibItem) {
 			Menu_ModifyItem(pimi, nullptr, pimi->mi.hIcolibItem);
-			if (IconNeedDestroy) {
-				DestroyIcon((HICON)pimi->mi.hIcolibItem);
-				pimi->mi.hIcolibItem = nullptr;
-			}
-			else IcoLib_ReleaseIcon((HICON)pimi->mi.hIcolibItem);
+			IcoLib_ReleaseIcon((HICON)pimi->mi.hIcolibItem);
 		}
 	}
 

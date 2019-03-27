@@ -40,9 +40,9 @@ static INT_PTR MenuitemNotifyCmd(WPARAM, LPARAM)
 int MenuitemUpdate(BOOL bStatus)
 {
 	if (bStatus)
-		Menu_ModifyItem(hMenuitemNotify, MENUITEM_DISABLE, Skin_LoadIcon(SKINICON_OTHER_POPUP));
+		Menu_ModifyItem(hMenuitemNotify, MENUITEM_DISABLE, Skin_GetIconHandle(SKINICON_OTHER_POPUP));
 	else
-		Menu_ModifyItem(hMenuitemNotify, MENUITEM_ENABLE, Skin_LoadIcon(SKINICON_OTHER_NOPOPUP));
+		Menu_ModifyItem(hMenuitemNotify, MENUITEM_ENABLE, Skin_GetIconHandle(SKINICON_OTHER_NOPOPUP));
 	return 0;
 }
 

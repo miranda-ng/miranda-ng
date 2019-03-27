@@ -500,14 +500,14 @@ static int OnContactMenuPrebuild(WPARAM hContact, LPARAM)
 
 	if (bEnable) {
 		if (g_plugin.getByte(hContact, DB_CONTACT_BOLTUN_AUTO_CHAT, FALSE))
-			Menu_ModifyItem(hMenuItemAutoChat, nullptr, Skin_LoadIcon(SKINICON_OTHER_TICK), CMIF_CHECKED);
+			Menu_ModifyItem(hMenuItemAutoChat, nullptr, Skin_GetIconHandle(SKINICON_OTHER_TICK), CMIF_CHECKED);
 		else
-			Menu_ModifyItem(hMenuItemAutoChat, nullptr, Skin_LoadIcon(SKINICON_OTHER_NOTICK), 0);
+			Menu_ModifyItem(hMenuItemAutoChat, nullptr, Skin_GetIconHandle(SKINICON_OTHER_NOTICK), 0);
 
 		if (g_plugin.getByte(hContact, DB_CONTACT_BOLTUN_NOT_TO_CHAT, FALSE))
-			Menu_ModifyItem(hMenuItemNotToChat, nullptr, Skin_LoadIcon(SKINICON_OTHER_TICK), CMIF_CHECKED);
+			Menu_ModifyItem(hMenuItemNotToChat, nullptr, Skin_GetIconHandle(SKINICON_OTHER_TICK), CMIF_CHECKED);
 		else
-			Menu_ModifyItem(hMenuItemNotToChat, nullptr, Skin_LoadIcon(SKINICON_OTHER_NOTICK), 0);
+			Menu_ModifyItem(hMenuItemNotToChat, nullptr, Skin_GetIconHandle(SKINICON_OTHER_NOTICK), 0);
 	}
 	return 0;
 }

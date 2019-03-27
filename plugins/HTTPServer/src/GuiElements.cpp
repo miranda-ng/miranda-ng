@@ -416,7 +416,6 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
 	return false;
 }
 
-
 /////////////////////////////////////////////////////////////////////
 // Member Function : bShowShareNewFileDlg
 // Type            : Global
@@ -432,13 +431,12 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
 
 bool bShowShareNewFileDlg(HWND hwndOwner, STFileShareInfo * pstNewShare)
 {
-	OPENFILENAME ofn = { 0 };
-	ofn.lStructSize = sizeof(OPENFILENAME);
-
 	char temp[MAX_PATH];
 	mir_snprintf(temp, "%s (*.*)%c*.*%c%c", Translate("All files"), 0, 0, 0);
-	ofn.lpstrFilter = temp;
 
+	OPENFILENAME ofn = { 0 };
+	ofn.lStructSize = sizeof(OPENFILENAME);
+	ofn.lpstrFilter = temp;
 	ofn.lpstrFile = pstNewShare->pszRealPath;
 	ofn.nMaxFile = pstNewShare->dwMaxRealPath;
 
@@ -448,7 +446,6 @@ bool bShowShareNewFileDlg(HWND hwndOwner, STFileShareInfo * pstNewShare)
 		mir_strcpy(szInitialDir, ofn.lpstrFile);
 		*ofn.lpstrFile = '\0';
 	}
-
 
 	ofn.Flags = /*OFN_DONTADDTORECENT |*/ OFN_NOREADONLYRETURN
 		| OFN_ENABLEHOOK | OFN_ENABLETEMPLATE | OFN_EXPLORER | OFN_ENABLESIZING
@@ -477,10 +474,10 @@ bool bShowShareNewFileDlg(HWND hwndOwner, STFileShareInfo * pstNewShare)
 			pszFileNamePos = strchr(pszFileNamePos, '"');
 			if (pszFileNamePos) {
 				pszFileNamePos++;
-				char* start = pszFileNamePos;
+				char *start = pszFileNamePos;
 				pszFileNamePos = strchr(pszFileNamePos, '"');
 				if (pszFileNamePos) {
-					char* end = pszFileNamePos;
+					char *end = pszFileNamePos;
 					memmove(pstNewShare->pszSrvPath + 1, start, end - start);
 					*(end - (start - (pstNewShare->pszSrvPath + 1))) = '\0';
 
@@ -490,7 +487,7 @@ bool bShowShareNewFileDlg(HWND hwndOwner, STFileShareInfo * pstNewShare)
 					pstNewShare->pszRealPath[pstNewShare->dwMaxRealPath] = '\0';
 
 					if (CallService(MS_HTTP_ADD_CHANGE_REMOVE, 0, (LPARAM)pstNewShare)) {
-						MessageBox(nullptr, Translate("Failed to share new file"), MSG_BOX_TITEL, MB_OK);
+						MessageBoxW(nullptr, TranslateT("Failed to share new file"), TranslateW(_A2W(MSG_BOX_TITLE)), MB_OK);
 						return false;
 					}
 					pszFileNamePos++;
@@ -501,7 +498,7 @@ bool bShowShareNewFileDlg(HWND hwndOwner, STFileShareInfo * pstNewShare)
 	}
 	else {
 		if (CallService(MS_HTTP_ADD_CHANGE_REMOVE, 0, (LPARAM)pstNewShare)) {
-			MessageBox(nullptr, Translate("Failed to share new file"), MSG_BOX_TITEL, MB_OK);
+			MessageBoxW(nullptr, TranslateT("Failed to share new file"), TranslateW(_A2W(MSG_BOX_TITLE)), MB_OK);
 			return false;
 		}
 	}
@@ -790,7 +787,7 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 				strncpy(&szServPath[1], fileName + 1, MAX_PATH - 2);
 
 			if (CallService(MS_HTTP_ADD_CHANGE_REMOVE, 0, (LPARAM)&stNewShare)) {
-				MessageBox(nullptr, Translate("Failed to share new file"), MSG_BOX_TITEL, MB_OK);
+				MessageBoxW(nullptr, TranslateT("Failed to share new file"), TranslateW(_A2W(MSG_BOX_TITLE)), MB_OK);
 				return false;
 			}
 		}
@@ -1192,7 +1189,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			mir_snprintf(szKeyWord, Translate("Your external IP was detected as %d.%d.%d.%d\r\nby: %s"),
 				SplitIpAddress(dwExternalIP),
 				szUrl);
-			MessageBox(hwndDlg, szKeyWord, MSG_BOX_TITEL, MB_OK);
+			MessageBox(hwndDlg, szKeyWord, Translate(MSG_BOX_TITLE), MB_OK);
 		}
 		break;
 
@@ -1209,14 +1206,14 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			bool bNew = IsDlgButtonChecked(hwndDlg, IDC_ADD_STATISTICS_MENU_ITEM) == BST_CHECKED;
 			if (b != bNew) {
 				g_plugin.setByte("AddStatisticsMenuItem", bNew);
-				MessageBox(hwndDlg, Translate("You need to restart Miranda to change the main menu"), MSG_BOX_TITEL, MB_OK);
+				MessageBoxW(hwndDlg, TranslateT("You need to restart Miranda to change the main menu"), TranslateW(_A2W(MSG_BOX_TITLE)), MB_OK);
 			}
 
 			b = g_plugin.getByte("AddAcceptConMenuItem", 1) != 0;
 			bNew = IsDlgButtonChecked(hwndDlg, IDC_ACCEPT_COM_MENU_ITEM) == BST_CHECKED;
 			if (b != bNew) {
 				g_plugin.setByte("AddAcceptConMenuItem", bNew);
-				MessageBox(hwndDlg, Translate("You need to restart Miranda to change the main menu"), MSG_BOX_TITEL, MB_OK);
+				MessageBoxW(hwndDlg, TranslateT("You need to restart Miranda to change the main menu"), TranslateW(_A2W(MSG_BOX_TITLE)), MB_OK);
 			}
 
 			bNew = IsDlgButtonChecked(hwndDlg, IDC_WRITE_LOG_FILE) == BST_CHECKED;

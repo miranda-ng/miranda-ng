@@ -204,7 +204,7 @@ INT_PTR CIcqProto::GotoInbox(WPARAM, LPARAM)
 int CIcqProto::OnContactMenu(WPARAM hContact, LPARAM)
 {
 	Menu_ShowItem(g_plugin.m_hmiRoot, true);
-	Menu_ModifyItem(g_plugin.m_hmiRoot, nullptr, Skin_LoadProtoIcon(GetContactProto(hContact), ID_STATUS_ONLINE));
+	Menu_ModifyItem(g_plugin.m_hmiRoot, nullptr, Skin_GetProtoIcon(GetContactProto(hContact), ID_STATUS_ONLINE));
 
 	bool bIgnorable = getDword(hContact, "ApparentMode") != ID_STATUS_OFFLINE;
 	Menu_ShowItem(g_plugin.m_hmiAllow, !bIgnorable);
