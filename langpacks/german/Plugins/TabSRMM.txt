@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.12
+;  Version: 3.5.0.13
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -178,8 +178,6 @@ Gruppenchats
 Fehler
 [Use the message log color theme for group chat popups]
 Benutze das Farbschema des Nachrichtenverlaufs für Gruppenchat-Popups
-[No compatible popup plugin was found. The event notification\nsystem is not available.]
-Kein kompatibles Popup-Plugin wurde gefunden. Das Ereignis-Benachrichtigungssystem ist dadurch nicht verfügbar.
 [Dialog]
 Dialog
 [Cancel]
@@ -1697,10 +1695,6 @@ Uhrsymbol (für die Uhr im Infopanel)
 Funktion deaktiviert (als Overlay)
 [Feature enabled (used as overlay)]
 Funktion aktiviert (als Overlay)
-[Enable typing notification]
-Tippbenachrichtigungen aktivieren
-[Disable typing notification]
-Tippbenachrichtigungen deaktivieren
 ;file \plugins\TabSRMM\src\msgs.h
 [Message windows - IM]
 Nachrichtenfenster - Instant Messaging
@@ -1984,10 +1978,10 @@ Offline-Kontakte zur Mehrfach-Senden-Liste hinzufügen
 &Tipphinweis deaktivieren
 [Enable &typing notification]
 &Tipphinweis aktivieren
-[...is typing a message.]
-...tippt gerade eine Nachricht.
 [...has stopped typing.]
 ...tippt nicht mehr.
+[...is typing a message.]
+...tippt gerade eine Nachricht.
 [Contact started typing]
 Kontakt beginnt zu tippen
 [Contact stopped typing]

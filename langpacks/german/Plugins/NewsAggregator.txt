@@ -2,12 +2,12 @@
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News aggregator
-;  Version: 0.1.0.4
+;  Version: 0.1.0.5
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [RSS/Atom news aggregator.]
 RSS/Atom-Neuigkeiten abrufen.
-;file \plugins\NewsAggregator\Res\Resource.rc
+;file \protocols\NewsAggregator\Res\Resource.rc
 [Add]
 Hinzufügen
 [Change]
@@ -72,14 +72,14 @@ Importieren aus:
 Folgende Feeds importieren:
 [&Import]
 &Importieren
-;file \plugins\NewsAggregator\Src\Authentication.cpp
+;file \protocols\NewsAggregator\Src\Authentication.cpp
 [Enter your username]
 Geben Sie Ihren Benutzernamen ein
 [Error]
 Fehler
 [Enter your password]
 Geben Sie Ihr Passwort ein
-;file \plugins\NewsAggregator\Src\CheckFeed.cpp
+;file \protocols\NewsAggregator\Src\CheckFeed.cpp
 [%s\nis a valid feed's address.]
 %s\nist eine gültige Feed-Adresse
 [News Aggregator]
@@ -88,7 +88,7 @@ News-Aggregator
 %s\nist keine gültige Feed-Adresse
 [empty]
 leer
-;file \plugins\NewsAggregator\Src\Icons.cpp
+;file \protocols\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
 Protokollicon
 [Check All Feeds]
@@ -103,13 +103,13 @@ Exportiere Feeds
 Autom. Aktualisierung aktiviert
 [Auto Update Disabled]
 Autom. Aktualisierung deaktiviert
-;file \plugins\NewsAggregator\Src\Menus.cpp
+;file \protocols\NewsAggregator\Src\Menus.cpp
 [Check feed]
 Feed prüfen
 [Change feed]
 Feed ändern
-;file \plugins\NewsAggregator\Src\NewsAggregator.cpp
-;file \plugins\NewsAggregator\Src\Options.cpp
+;file \protocols\NewsAggregator\Src\NewsAggregator.cpp
+;file \protocols\NewsAggregator\Src\Options.cpp
 [OPML files]
 OPML-Dateien
 [Not valid import file.]
@@ -154,11 +154,11 @@ Feed
 Kontakt löschen
 [Network]
 Netzwerk
-;file \plugins\NewsAggregator\Src\Services.cpp
+;file \protocols\NewsAggregator\Src\Services.cpp
 [Avatars]
 Avatare
 [Enable/disable auto update]
 Auto-Update de-/aktivieren
-;file \plugins\NewsAggregator\Src\Utils.cpp
+;file \protocols\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connections]
 News-Aggregator-HTTP-Verbindung

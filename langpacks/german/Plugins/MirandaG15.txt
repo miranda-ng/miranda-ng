@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MirandaG15.dll
 ;  Plugin: MirandaG15
-;  Version: 0.1.2.0
+;  Version: 0.1.2.1
 ;  Authors: Martin Kleinhans
 ;============================================================
 [Provides an interface to use Miranda from the LCD of various Logitech devices.]

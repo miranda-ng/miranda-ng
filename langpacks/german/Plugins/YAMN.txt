@@ -7,7 +7,7 @@
 ;============================================================
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
 Mail-Benachrichtigung und -Browser für Miranda NG. Beinhaltet das POP3-Protokoll.
-;file \plugins\YAMN\res\YAMN.rc
+;file \protocols\YAMN\res\YAMN.rc
 [Installed plugins]
 Installierte Plugins
 [Version:]
@@ -156,7 +156,7 @@ Vorschau
 Hintergrundfarbe
 [Text color]
 Textfarbe
-;file \plugins\YAMN\src\main.cpp
+;file \protocols\YAMN\src\main.cpp
 [Check &mail (All Account)]
 E-&Mails von allen Konten abrufen
 [Check &mail (This Account)]
@@ -171,17 +171,17 @@ Kontoordner
 E-Mails abrufen
 [Connect Fail]
 Verbindungsfehlschlag
-;file \plugins\YAMN\src\main.h
+;file \protocols\YAMN\src\main.h
 [New mail message]
 Neue E-Mail-Nachricht
 [Connect failed]
 Verbindung fehlgeschlagen
-;file \plugins\YAMN\src\services.cpp
+;file \protocols\YAMN\src\services.cpp
 [Nick]
 Nick
 [No new mail message]
 Keine neue E-Mail-Nachricht
-;file \plugins\YAMN\src\browser\badconnect.cpp
+;file \protocols\YAMN\src\browser\badconnect.cpp
 [%s - connection error]
 %s - Verbindungsfehler
 [An error occurred. Error code: %d]
@@ -190,7 +190,7 @@ Ein Fehler ist aufgetreten. Fehlercode: %d
 Unbekannter Fehler
 [ - connection error]
  - Verbindungsfehler
-;file \plugins\YAMN\src\browser\mailbrowser.cpp
+;file \protocols\YAMN\src\browser\mailbrowser.cpp
 [%s - %d new mail messages, %d total]
 %s - %d neue E-Mails, %d gesamt
 [%s : %d new mail message(s), %d total]
@@ -229,15 +229,15 @@ Datum
 Möchten Sie %d markierte E-Mail(s) wirklich löschen?
 [Delete confirmation]
 Löschen bestätigen
-;file \plugins\YAMN\src\mails\mime.cpp
+;file \protocols\YAMN\src\mails\mime.cpp
 [Translate header error]
 Fehler beim Übersetzen der Kopfzeile
 [Part]
 Teil
-;file \plugins\YAMN\src\proto\netlib.cpp
+;file \protocols\YAMN\src\proto\netlib.cpp
 [%s connection]
 %s-Verbindung
-;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
+;file \protocols\YAMN\src\proto\pop3\pop3comm.cpp
 [Disconnected]
 Verbindung getrennt
 [POP3 protocol (internal)]
@@ -314,7 +314,7 @@ Kann SSL-Daten nicht schreiben.
 Kann SSL-Daten nicht lesen.
 [Error %d-%d-%d-%d:]
 Fehler %d-$d-%d-%d:
-;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
+;file \protocols\YAMN\src\proto\pop3\pop3opt.cpp
 [Network]
 Netzwerk
 [Accounts]

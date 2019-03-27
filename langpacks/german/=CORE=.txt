@@ -570,6 +570,55 @@ Alles ko&pieren
 Einfügen und senden
 [Delete]
 Löschen
+;file \src\core\stdpopup\res\resource.rc
+[Popup history]
+Popupverlauf
+[Case sensitive]
+Groß-/Kleinschreibung beachten
+[Default timeout]
+Standard-Timeout
+[Never timeout]
+Kein Timeout
+[Set timeout:]
+Timeout setzen:
+[Width:]
+Breite:
+[Maximum height:]
+Maximale Höhe:
+[Opacity (%):]
+Deckkraft (%):
+[Border]
+Rand
+[Round corners (window)]
+Runde Ecken (Fenster)
+[Preview]
+Vorschau
+[Transparent background]
+Transparenter Hintergrund
+[Layout]
+Layout
+[Avatar size:]
+Avatargröße:
+[Disable when]
+Deaktivieren bei
+[Global hover]
+Alle Popups bei Mausb. nicht ausbl.
+[Sidebar width:]
+Seitenleiste Breite:
+[Text indent:]
+Texteinzug:
+[Padding:]
+Randabstand:
+[Round corners (avatar)]
+Runde Ecken (Avatar)
+[Text color:]
+Textfarbe:
+[Background color:]
+Hintergrundfarbe:
+[Set timeout]
+Anzeigedauer setzen
+[Timeout value (0 = default):]
+Anzeigedauer (0 = Standard):
 ;file \src\core\stduihist\res\resource.rc
 [Find]
 Suchen
@@ -1749,6 +1798,88 @@ Kontakt tippt nicht mehr
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Ein unbekannter Fehler ist aufgetreten.
+;file \src\core\stdpopup\src\icons.cpp
+[Popups are enabled]
+Popups sind aktiviert
+[Popups are disabled]
+Popups sind deaktiviert
+;file \src\core\stdpopup\src\notify_imp.cpp
+;file \src\core\stdpopup\src\options.cpp
+[Example]
+Beispiel
+[The quick brown fox jumped over the lazy dog.]
+Franz jagt im komplett verwahrlosten Taxi quer durch Bayern.
+[Example With a Long Title]
+Beispiel mit langem Titel
+[Thequickbrownfoxjumpedoverthelazydog.]
+FranzjagtimkomplettverwahrlostenTaxiquerdurchBayern.
+[An avatar.]
+Ein Avatar.
+[Bottom right]
+Unten rechts
+[Bottom left]
+Unten links
+[Top right]
+Oben rechts
+[Top left]
+Oben links
+[Icon on left]
+Icon links
+[Icon on right]
+Icon rechts
+[No time]
+Keine Zeit
+[Time on left]
+Zeit links
+[Time on right]
+Zeit rechts
+[Time above avatar]
+Zeit über Avatar
+[No avatar]
+Kein Avatar
+[Left avatar]
+Avatar links
+[Right avatar]
+Avatar rechts
+[Full-screen app running]
+Vollbildanwendung aktiv
+[No animate]
+Keine Animation
+[Horizontal animate]
+Horizontale Animation
+[Vertical animate]
+Vertikale Animation
+[You cannot set a default timeout of 0.\nValue has been reset.]
+Ein Timeout von 0 ist ungültig.\nWert wurde zurückgesetzt.
+[Settings]
+Einstellungen
+[Classes]
+Kategorien
+;file \src\core\stdpopup\src\services.cpp
+[Disable popups]
+Popups deaktivieren
+[Enable popups]
+Popups aktivieren
+;file \src\core\stdpopup\src\yapp.cpp
+[Toggle popups]
+Popups ein-/ausschalten
+[First line]
+Erste Zeile
+[Second line]
+Zweite Zeile
+[Time]
+Zeit
+[Sidebar]
+Seitenleiste
+[Title underline]
+Trennlinie unter Titel
+;file \src\core\stdpopup\src\yapp_history_dlg.cpp
+[Copy title to clipboard]
+Titel in Zwischenablage kopieren
+[Copy message to clipboard]
+Nachricht in Zwischenablage kopieren
+[Copy timestamp to clipboard]
+Zeitstempel in Zwischenablage kopieren
 ;file \src\core\stdssl\src\netlibssl.cpp
 [Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
 Konnte die Hostnachricht nicht entschlüsseln. Mögliche Ursachen: Der Host unterstützt SSL nicht oder erfordert ein nicht existierendes Sicherheitspaket.
@@ -2631,8 +2762,6 @@ Leerer Klecks
 Unicode-Plugin
 [ANSI plugin]
 ANSI-Plugin
-[Unused]
-Ungenutzt
 [Show/Hide]
 Anzeigen/Verstecken
 [Exit]
@@ -2647,6 +2776,8 @@ In Gruppe verschieben
 Ein
 [Off]
 Aus
+[Unused]
+Ungenutzt
 [Frames]
 Frames
 [Add group]

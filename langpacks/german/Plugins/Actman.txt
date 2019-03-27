@@ -677,19 +677,19 @@ mit Bestätigung
 ohne Bestätigung
 [Empty updater download folder]
 Updater-Downloadverzeichnis leeren
-[Popup Plus (popup.dll) latest YAPP (yapp.dll)]
-Popup Plus (popup.dll), neustes YAPP (yapp.dll)
-[Enables or disables Popup windows]
+[Popup plus (PopupPlus.dll) latest StdPopup (StdPopup.dll)]
+Popup plus (PopupPlus.dll), neustes StdPopup (StdPopup.dll)
+[Enables or disables popup windows]
 Aktiviert oder deaktiviert Popupfenster
 [Notify]
 Benachrichtigung
-[YAPP or Popup]
-YAPP oder Popup
+[StdPopup or Popup plus]
+StdPopup oder Popup plus
 [Popup window]
 Popupfenster
 [Unicode Text]
 Unicode-Text
-[Enables or disables Popup windows (maybe deprecated)]
+[Enables or disables popup windows (maybe deprecated)]
 Aktiviert oder deaktiviert Popups (vielleicht veraltet)
 [result of protocol service call]
 Ergebnis des Protokollserviceaufrufes

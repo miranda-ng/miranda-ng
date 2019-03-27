@@ -1,2 +1,2 @@
+[Repeat each day]
 [reftime]
-[Context Menu Note Popup]

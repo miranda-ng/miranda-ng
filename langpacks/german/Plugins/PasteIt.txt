@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PasteIt.dll
 ;  Plugin: Paste it
-;  Version: 1.0.0.3
+;  Version: 1.0.0.4
 ;  Authors: Krzysztof Kral
 ;============================================================
 [Uploads the text to web page and sends the URL to your friends.]
@@ -142,12 +142,12 @@ Die Datei '%s' konnte nicht geöffnet werden.
 [File '%s' is empty]
 Die Datei '%s' ist leer.
 ;file \plugins\PasteIt\src\PasteToWeb1.cpp
-[Error during sending text to web page: %s]
-Fehler beim übermitteln des Textes zur Webseite: %s schlug fehl.
+[Error during sending text to web page: %S]
+Fehler beim übermitteln des Textes zur Webseite: %S schlug fehl.
 [Error during sending text to web page]
 Fehler beim übermitteln des Textes auf die Webseite.
-[Error during getting user key from web page: %s]
-Fehler beim Benutzer-Schlüssel holen auf der Webseite: %s.
+[Error during getting user key from web page: %S]
+Fehler beim Benutzer-Schlüssel holen auf der Webseite: %S.
 [Paste expire date]
 Ablaufdatum einfügen
 [Never]

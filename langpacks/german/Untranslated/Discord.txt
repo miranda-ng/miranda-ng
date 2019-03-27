@@ -1,0 +1,6 @@
+[Enable group chats]
+[Use subgroups for server channels (requires restart)]
+[Disable sync]
+[Enable sync]
+[Enable guild sync]
+[Load server history]

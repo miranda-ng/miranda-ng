@@ -7,7 +7,7 @@
 ;============================================================
 [Check your Gmail inboxes locally.]
 Prüft Ihren GMail-Posteingang.
-;file \plugins\GmailNotifier\res\options.rc
+;file \protocols\GmailNotifier\res\options.rc
 [Gmail account]
 GMail-Account
 [Name:]
@@ -54,7 +54,7 @@ Iconauswahl und Icon in Statusleiste aktivieren (Neustart)
 Automatische Anmeldung deaktivieren (für geteilte Computer)
 [Log unread threads into database (enable history)]
 Ungelesene Nachrichten protokollieren
-;file \plugins\GmailNotifier\src\check.cpp
+;file \protocols\GmailNotifier\src\check.cpp
 [Checking...]
 Prüfen...
 [Can't send account data!]
@@ -63,7 +63,7 @@ Kann Kontodaten nicht senden!
 Falscher Nutzername oder Passwort!
 [Can't get RSS feed!]
 Kann RSS Feed nicht empfangen!
-;file \plugins\GmailNotifier\src\main.cpp
+;file \protocols\GmailNotifier\src\main.cpp
 [Other]
 Sonstige
 [Gmail: New thread(s)]
@@ -74,7 +74,7 @@ Gmail-Notifier-Verbindung
 Alle &GMail-Posteingänge prüfen
 [&Check Gmail inbox]
 &GMail-Posteingang prüfen
-;file \plugins\GmailNotifier\src\options.cpp
+;file \protocols\GmailNotifier\src\options.cpp
 [GmailNotifier]
 GmailNotifier
 [Network]

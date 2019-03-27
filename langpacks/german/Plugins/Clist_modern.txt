@@ -747,6 +747,8 @@ Zeitpunkt der letzten Nachricht
 Kontoname
 [Rate]
 Priorität
+[Last online]
+
 [-Nothing-]
 -Nichts-
 [Hide to tray]
@@ -808,8 +810,6 @@ Gruppennamen zentrieren
 Gruppennamen rechts anordnen
 [Row]
 Zeile
-[Row design]
-Zeilengestaltung
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown contact)]
 (Unbekannter Kontakt)
@@ -835,21 +835,6 @@ Miranda schließen
 Letzten Status wiederherstellen
 [Show/Hide offline users]
 Offline-Kontakte anzeigen/verbergen
-;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
-[Empty %s cell]
-Leere %s Zelle
-[column]
-Spalte
-[line]
-Zeile
-[columns]
-Spalten
-[lines]
-Linien
-[%s, contain %s]
-%s, enthält %s
-[ layered]
- layered
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [( unknown )]
 ( unbekannt )

@@ -2,12 +2,12 @@
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.1.0.101
+;  Version: 0.2.0.3
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates.]
 Zeigt Wechselraten.
-;file \plugins\CurrencyRates\res\Forex.rc
+;file \protocols\CurrencyRates\res\Forex.rc
 [Variable List]
 Variablenliste
 [Edit Settings]
@@ -104,14 +104,16 @@ In &Kontaktliste anzeigen als:
 &Statusnachricht:
 [&Tendency:]
 &Tendenz:
+[&Personal key:]
+
 [&Advanced Settings...]
 Erweiterte &Einstellungen...
 [Rate Info]
 Kursinfo
-;file \plugins\CurrencyRates\src\Chart.h
+;file \protocols\CurrencyRates\src\Chart.h
 [There is nothing to show]
 Es ist nichts anzuzeigen
-;file \plugins\CurrencyRates\src\CommonOptionDlg.cpp
+;file \protocols\CurrencyRates\src\CommonOptionDlg.cpp
 [Seconds]
 Sekunden
 [Minutes]
@@ -124,24 +126,15 @@ Geben Sie einen ganzzahligen Wert zwischen 1 und 60 ein.
 Geben Sie einen ganzzahligen Wert zwischen 1 und 24 ein.
 [Enter text to display in contact list.]
 Geben sie einen Text für die Kontaktliste ein.
-;file \plugins\CurrencyRates\src\CurrencyConverter.cpp
+;file \protocols\CurrencyRates\src\CurrencyConverter.cpp
 [Info provided by]
 Informationen bereitgestellt von
 [Enter positive number.]
 Geben Sie eine positive Zahl ein.
-;file \plugins\CurrencyRates\src\CurrencyRateInfoDlg.cpp
+;file \protocols\CurrencyRates\src\CurrencyRateInfoDlg.cpp
 [Currency Rate]
 Währungskurs
-;file \plugins\CurrencyRates\src\CurrencyRatesProviderCurrencyConverter.cpp
-[Error occurred during HTML parsing.]
-Fehler während des HTML-Parsens.
-[Error occurred during site access.]
-Fehler während des Seitenzugriffs.
-;file \plugins\CurrencyRates\src\CurrencyRatesProviderVisitorFormatSpecificator.cpp
-[Currency Symbol]
-Währungssymbol
-[Currency Name]
-Währungsname
+;file \protocols\CurrencyRates\src\CurrencyRatesProviderBase.cpp
 [Source of Information]
 Quelle der Information
 [Rate Value]
@@ -160,20 +153,11 @@ Prozentzeichen (%)
 Tabulator
 [Left slash (\\)]
 Linker Schrägstrich (\\)
-[Open Price]
-Offener Preis
-[Percent Change to After Hours]
-Prozentuale Änderung nach Stunden
-[Percent Change to Yesterday Close]
-Prozentuale Änderung nach gestrigem Schluss
-[Day's High]
-Tageshoch
-[Day's Low]
-Tagestief
-[Previous Close]
-Vorheriger Schluss
-[Change]
-Änderung
+;file \protocols\CurrencyRates\src\CurrencyRatesProviderCurrencyConverter.cpp
+[Error occurred during HTML parsing.]
+Fehler während des HTML-Parsens.
+[Error occurred during site access.]
+Fehler während des Seitenzugriffs.
 [From Currency Full Name]
 Voller Name der Ausgangswährung
 [From Currency Short Name]
@@ -184,7 +168,7 @@ Voller Name der Zielwährung
 Kurzer Name der Zielwährung
 [Short notation for "%f/%i"]
 Kurze Notation für "%f/%i"
-;file \plugins\CurrencyRates\src\Forex.cpp
+;file \protocols\CurrencyRates\src\Forex.cpp
 [Auto Update Enabled]
 Autom. Aktualisierung aktiviert
 [Auto Update Disabled]
@@ -215,12 +199,16 @@ Autom. Aktualisierung Währungskurs (de)aktivieren
 Autom. Aktualisierung Währungskurs aktiviert
 [Currency Rates Auto Update Disabled]
 Autom. Aktualisierung Währungskurs deaktiviert
+[Currency Symbol]
+Währungssymbol
 [Network]
 Netzwerk
-;file \plugins\CurrencyRates\src\HTTPSession.cpp
+;file \protocols\CurrencyRates\src\HTTPSession.cpp
+[This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.]
+
 [CurrencyRates HTTP connections]
 Currency-Rates-HTTP-Verbindungen
-;file \plugins\CurrencyRates\src\IconLib.cpp
+;file \protocols\CurrencyRates\src\IconLib.cpp
 [Protocol icon]
 Protokollicon
 [Currency Rate up]
@@ -237,17 +225,15 @@ Exportieren
 Buttons vertauschen
 [Import]
 Importieren
-;file \plugins\CurrencyRates\src\ImportExport.cpp
+;file \protocols\CurrencyRates\src\ImportExport.cpp
 [XML File (*.xml)]
 XML-Datei (*.xml)
 [All files (*.*)]
 Alle Dateien (*.*)
-;file \plugins\CurrencyRates\src\ModuleInfo.cpp
-[Miranda could not load CurrencyRates plugin. XML parser is missing.]
-Miranda NG konnte das CurrencyRates-Plugin nicht laden. Der XML-Parser fehlt.
+;file \protocols\CurrencyRates\src\ModuleInfo.cpp
 [Miranda could not load CurrencyRates plugin. Microsoft HTML parser is missing.]
 Miranda NG konnte das CurrencyRates-Plugin nicht laden. Der Microsoft-HTML-Parser fehlt.
-;file \plugins\CurrencyRates\src\SettingsDlg.cpp
+;file \protocols\CurrencyRates\src\SettingsDlg.cpp
 [Log Files (*.txt,*.log)]
 Logdateien (*.txt,*.log)
 [Enter integer value]

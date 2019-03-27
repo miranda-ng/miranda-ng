@@ -55,12 +55,10 @@ Deaktivierte Optionen in nächster Version verfügbar
 [Show current connections]
 Aktuelle Verbindungen zeigen
 ;file \plugins\WhoUsesMyFiles\src\options.cpp
-[Popup plugin not found!]
-Popup-Plugin nicht gefunden!
-[Error]
-Fehler
 [Common Dialog Error 0x%lx]
 Common Dialog Error 0x%lx
+[Error]
+Fehler
 [Not implemented yet...]
 Noch nicht implementiert...
 [Who uses my files]

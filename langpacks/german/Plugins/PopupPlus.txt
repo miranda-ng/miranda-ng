@@ -1,6 +1,6 @@
 #muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
 ;============================================================
-;  File: Popup.dll
+;  File: PopupPlus.dll
 ;  Plugin: Popup plus
 ;  Version: 2.1.1.15
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
@@ -82,7 +82,7 @@ Skin-Einstellungen
 Vorschau
 [Download more skins]
 Weitere Skins herunterladen
-[Popup History]
+[Popup history]
 Popupverlauf
 [Desktop]
 Desktop
@@ -263,15 +263,11 @@ Trennlinie unter Titel
 [Avatar border]
 Avatar-Rahmen
 ;file \plugins\Popup\src\history.cpp
-[Popup History is disabled]
+[Popup history is disabled]
 Popupverlauf ist deaktiviert
-[Popup History message]
+[Popup history message]
 Popupverlaufsnachricht
 ;file \plugins\Popup\src\icons.cpp
-[Popups are enabled]
-Popups aktiviert
-[Popups are disabled]
-Popups deaktiviert
 [With "favorite" overlay]
 Mit "bevorzugter" Überlagerung
 [With "fullscreen" overlay]
@@ -309,13 +305,13 @@ Aktionen
 Kontakte
 [Advanced]
 Erweitert
-[Toggle Popups]
+[Toggle popups]
 Popups ein-/ausschalten
-[Enable Popups]
+[Enable popups]
 Popups aktivieren
-[Disable Popups]
+[Disable popups]
 Popups deaktivieren
-[Popup Plus]
+[Popup plus]
 Popup Plus
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 Fehler: Das Popup-Fensterklassenelement konnte nicht registriert werden.\r\nDas Plugin wird nicht funktionieren.

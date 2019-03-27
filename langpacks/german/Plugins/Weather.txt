@@ -7,7 +7,7 @@
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
 Ruft Wetter-Informationen ab und zeigt diese in Ihrer Kontaktliste an.
-;file \plugins\Weather\res\resource.rc
+;file \protocols\Weather\res\resource.rc
 [Update]
 Aktualisieren
 [Brief Info]
@@ -254,7 +254,7 @@ Kontaktdetails anzeigen
 Auf alte Einstellungen
 [To default]
 Auf Standard
-;file \plugins\Weather\src\stdafx.h
+;file \protocols\Weather\src\stdafx.h
 [N/A]
 N/A
 [Invalid ID format, missing "/" (10)]
@@ -337,7 +337,7 @@ Hier ist eine Liste von Variablen, die momentan verfügbar sind
 Für die komplette Vorhersage ist keine URL angegeben. Sie können unter "Einstellungen bearbeiten" eine URL setzen.
 [The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
 Für die Wetterkarte ist keine URL angegeben. Sie können unter "Einstellungen bearbeiten" eine URL setzen.
-;file \plugins\Weather\src\weather.cpp
+;file \protocols\Weather\src\weather.cpp
 [Enable/disable auto update]
 Automatische Aktualisierung (de-)aktivieren
 [Auto Update Enabled]
@@ -348,7 +348,7 @@ Autom. Aktualisierung deaktiviert
 Wetterlage hat sich geändert
 [Alert Issued]
 Wetteralarm ausgelöst
-;file \plugins\Weather\src\weather_addstn.cpp
+;file \protocols\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 Momentane Wetter-Informationen für %s.
 [%s is now the default weather station]
@@ -361,7 +361,7 @@ Bitte versuchen Sie es erneut nachdem die Aktualisierung beendet ist.
 <Stations-Name hier eintragen>
 [<Enter station ID here>]
 <Stations-ID hier eintragen>
-;file \plugins\Weather\src\weather_contacts.cpp
+;file \protocols\Weather\src\weather_contacts.cpp
 [Weather condition was not logged.]
 Wetterlage wurde nicht aufgezeichnet.
 [Get city name from ID]
@@ -378,7 +378,7 @@ Zurücksetzen auf Standard
 Textdateien
 [All Files]
 Alle Dateien
-;file \plugins\Weather\src\weather_conv.cpp
+;file \protocols\Weather\src\weather_conv.cpp
 [mb]
 mb
 [in]
@@ -391,15 +391,15 @@ mm
 <Fehler>
 [HTTP Error %i]
 HTTP-Fehler %i
-;file \plugins\Weather\src\weather_data.cpp
+;file \protocols\Weather\src\weather_data.cpp
 [<Enter city name here>]
 <Stadt-Name hier eingeben>
 [Error when obtaining data: %s]
 Fehler beim Datenerhalt: %s
-;file \plugins\Weather\src\weather_http.cpp
+;file \protocols\Weather\src\weather_http.cpp
 [Weather HTTP connections]
 Weather-HTTP-Verbindungen
-;file \plugins\Weather\src\weather_icons.cpp
+;file \protocols\Weather\src\weather_icons.cpp
 [Protocol icon]
 Protokollicon
 [Update Disabled]
@@ -420,7 +420,7 @@ Popup
 Kein Popup
 [Edit Settings]
 Einstellungen bearbeiten
-;file \plugins\Weather\src\weather_info.cpp
+;file \protocols\Weather\src\weather_info.cpp
 [Name]
 Name
 [Author]
@@ -459,21 +459,21 @@ Genutzter Speicher:
 Bytes
 [Description:]
 Beschreibung:
-;file \plugins\Weather\src\weather_ini.cpp
+;file \protocols\Weather\src\weather_ini.cpp
 [All update data has been reloaded.]
 Alle aktualisierten Daten wurden geladen.
 [Invalid ini format for: %s]
 Falsches INI-Format für: %s
 [No update data file is found. Please check your Plugins\\Weather directory.]
 Keine Aktualisierungs-Datei gefunden. Prüfen Sie bitte Ihr "plugins\\weather" Verzeichnis.
-;file \plugins\Weather\src\weather_mwin.cpp
+;file \protocols\Weather\src\weather_mwin.cpp
 [Frame Font]
 Frame-Schrift
 [Frame Title Font]
 Frame-Titel-Schrift
 [Frame Background]
 Frame-Hintergrund
-;file \plugins\Weather\src\weather_opt.cpp
+;file \protocols\Weather\src\weather_opt.cpp
 [Weather Protocol Text Preview]
 Wetter-Protokoll Textvorschau
 [Network]
@@ -484,8 +484,8 @@ Allgemein
 Anzeige
 [Popups]
 Popups
-;file \plugins\Weather\src\weather_popup.cpp
-;file \plugins\Weather\src\weather_svcs.cpp
+;file \protocols\Weather\src\weather_popup.cpp
+;file \protocols\Weather\src\weather_svcs.cpp
 [Station ID]
 Stations-ID
 [Disable &weather notification]
@@ -512,10 +512,10 @@ Alte Daten entfernen und alle aktualisieren
 Wetter-Hinweis
 [Display in a frame]
 Als Frame anzeigen
-;file \plugins\Weather\src\weather_update.cpp
+;file \protocols\Weather\src\weather_update.cpp
 [Unable to retrieve weather information for %s]
 Wetter-Informationen können für %s nicht empfangen werden.
-;file \plugins\Weather\src\weather_userinfo.cpp
+;file \protocols\Weather\src\weather_userinfo.cpp
 [Variable]
 Variable
 [Information]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.1.0.1
+;  Version: 0.2.0.2
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Sticky Notes & Reminders Implementation for Miranda NG.]
@@ -50,12 +50,12 @@ Zurücksetzen auf Standards
 (MCI ermöglicht es, mehrere Sounds gleichzeitig abzuspielen, evtl unerwünscht wenn ein eigenes Sound-Plugin installiert ist)
 [Add Reminder]
 Erinnerung hinzufügen
-[Trigger On Time && Date:]
-Einstellen von Zeit && Datum:
 [Date]
 Datum
 [Time]
 Zeit
+[Repeat each day]
+
 [Reminder Note:]
 Erinnerungsnotiz:
 [None]
@@ -102,8 +102,6 @@ Neue E&rinnerung
 Erinnerung &löschen
 [D&elete All Reminders]
 All&e Erinnerungen löschen
-[Context Menu Note Popup]
-
 [&Hide Note]
 Notiz &verbergen
 [&Always On Top]
@@ -152,9 +150,6 @@ Immer im V&ordergrund
 &Alle Notizen löschen
 [&Show / Hide Notes]
 Notizen an&zeigen/verbergen
-;file \plugins\NotesAndReminders\src\globals.h
-[Notes & Reminders]
-Notizen & Erinnerungen
 ;file \plugins\NotesAndReminders\src\hotkeys.cpp
 [New Note]
 Neue Notiz
@@ -165,10 +160,6 @@ Alle Notizen in Vordergrund bringen
 [New Reminder]
 Neue Erinnerung
 ;file \plugins\NotesAndReminders\src\main.cpp
-[Are you sure you want to delete all notes?]
-Sind Sie sich sicher, dass Sie alle Notizen löschen wollen?
-[Are you sure you want to delete all reminders?]
-Sind Sie sich sicher, dass Sie alle Erinnerungen löschen wollen?
 [Delete All Notes]
 Alle Notizen löschen
 [Show/Hide Notes]
@@ -195,20 +186,10 @@ Klang spielen Icon
 Notizen anzeigen
 [Sticky Notes]
 Wichtige Notiz
-[Plugins]
-Plugins
 [Add New Note]
 Neue Notiz hinzufügen
 [Add New Reminder]
 Neue Erinnerung hinzufügen
-[Alerts]
-Hinweis
-[Reminder triggered]
-Erinnerung ausgelöst
-[Reminder triggered (Alternative 1)]
-Erinnerung ausgelöst (Alternative 1)
-[Reminder triggered (Alternative 2)]
-Erinnerung ausgelöst (Alternative 2)
 [Notes && Reminders]
 Notizen && Erinnerungen
 [New &Note]
@@ -221,6 +202,14 @@ Alle Notizen &löschen
 Alle in Vordergrund &bringen
 [Miranda could not load the Notes & Reminders plugin, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
 Miranda konnte das 'Note & Reminders'-Plugin nicht laden, Msftedit.dll fehlt. Falls Sie Wine benutzen, stellen Sie sicher, dass sie die Msftedit.dll installiert haben. Klicken Sie auf 'Ja', um das Laden von Miranda fortzusetzen.
+[Alerts]
+Hinweis
+[Reminder triggered]
+Erinnerung ausgelöst
+[Reminder triggered (Alternative 1)]
+Erinnerung ausgelöst (Alternative 1)
+[Reminder triggered (Alternative 2)]
+Erinnerung ausgelöst (Alternative 2)
 ;file \plugins\NotesAndReminders\src\notes.cpp
 [Black]
 Schwarz
@@ -268,6 +257,8 @@ Notizen
 Notiztext
 [Date/Title]
 Datum/Titel
+[Are you sure you want to delete all notes?]
+Sind Sie sich sicher, dass Sie alle Notizen löschen wollen?
 ;file \plugins\NotesAndReminders\src\options.cpp
 [Sticky Note Caption]
 Sticky Notiz Überschrift
@@ -279,11 +270,17 @@ Sticky Notiz Body
 Ausführbare Dateien\0*.exe\0Alle Dateien\0*.*\0\0
 [Select Executable]
 Ausführbare Datei auswählen
+[Plugins]
+Plugins
 ;file \plugins\NotesAndReminders\src\reminders.cpp
 [Minutes]
 Minuten
 [Hours]
 Stunden
+[The specified time is invalid due to begin of daylight saving (summer time).]
+Die angegebene Zeit ist ungültig wegen dem Anfang der Sommerzeit.
+[The specified time is invalid.]
+Die angegebene Zeit ist ungültig.
 [Hour]
 Stunde
 [Day]
@@ -292,10 +289,6 @@ Tag
 Tage
 [Week]
 Woche
-[The specified time is invalid due to begin of daylight saving (summer time).]
-Die angegebene Zeit ist ungültig wegen dem Anfang der Sommerzeit.
-[The specified time is invalid.]
-Die angegebene Zeit ist ungültig.
 [The specified time offset is invalid.]
 Die angegebene Zeitverschiebung ist ungültig.
 [&Update Reminder]
@@ -316,5 +309,10 @@ Alternative 2
 Erinnerungstext
 [Date of activation]
 Aktivierungsdatum
+[Are you sure you want to delete all reminders?]
+Sind Sie sich sicher, dass Sie alle Erinnerungen löschen wollen?
 [Are you sure you want to delete this reminder?]
 Sind Sie sich sicher, dass Sie diese Erinnerung löschen wollen?
+;file \plugins\NotesAndReminders\src\stdafx.h
+[Notes & Reminders]
+Notizen & Erinnerungen

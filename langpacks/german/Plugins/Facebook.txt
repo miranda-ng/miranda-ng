@@ -142,14 +142,14 @@ Kontakt&verlauf
 Unterhaltung löschen
 [This will permanently delete the conversation history]
 Dies wird den Gesprächsverlauf dauerhaft löschen
-[Former]
-Ehemaliger
 [Myself]
 Ich
 [Friend]
 Freund
 [User]
 Benutzer
+[Former]
+Ehemaliger
 [Notifications]
 Benachrichtigungen
 [%s and more (%d)]

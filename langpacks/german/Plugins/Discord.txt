@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.1.1
+;  Version: 0.6.2.1
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -18,10 +18,12 @@ Passwort:
 Kontakte
 [Default group:]
 Standardgruppe:
+[Enable group chats]
+
 [Do not open chat windows on creation]
 Chatfenster bei der Erzeugung nicht öffnen
-[Use subgroups for guild's channels (requires restart)]
-Untergruppen für Gilden-Chats verwenden (erfordert Neustart)
+[Use subgroups for server channels (requires restart)]
+
 [Nick:]
 Nick:
 ;file \protocols\Discord\src\dispatch.cpp
@@ -58,6 +60,10 @@ Channelname eingeben
 Geben Sie den empfangenen Einladungscode ein
 [Do you really want to leave the guild?]
 Möchten Sie diese Gilde wirklich verlassen?
+[Disable sync]
+
+[Enable sync]
+
 [Join guild]
 Gilde beitreten
 [Copy my Discord ID]
@@ -68,6 +74,10 @@ Gilde verlassen
 Neuen Channel erstellen
 [Copy Discord ID]
 Discord-ID kopieren
+[Enable guild sync]
+
+[Load server history]
+
 ;file \protocols\Discord\src\options.cpp
 [Network]
 Netzwerk

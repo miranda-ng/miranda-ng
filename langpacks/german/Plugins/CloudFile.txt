@@ -7,7 +7,7 @@
 ;============================================================
 [Allows you to transfer files via cloud services.]
 Erlaubt es Ihnen, Dateien über Cloud-Dienste zu übertragen.
-;file \plugins\CloudFile\res\resource.rc
+;file \protocols\CloudFile\res\resource.rc
 [Default service]
 Standard-Dienst
 [General]
@@ -42,7 +42,7 @@ Gehen Sie auf diesen Link
 Zugriff anfordern
 [Revoke access]
 Zugriff entziehen
-;file \plugins\CloudFile\src\icons.cpp
+;file \protocols\CloudFile\src\icons.cpp
 [Upload file(s)]
 Datei(en) hochladen
 [Dropbox]
@@ -53,22 +53,22 @@ Google Drive
 OneDrive
 [Yandex.Disk]
 Yandex.Disk
-;file \plugins\CloudFile\src\menus.cpp
+;file \protocols\CloudFile\src\menus.cpp
 [Upload to...]
 Hochladen auf...
 [Upload]
 Hochladen
-;file \plugins\CloudFile\src\options.cpp
+;file \protocols\CloudFile\src\options.cpp
 [None]
 Keine
 [Services]
 Dienste
-;file \plugins\CloudFile\src\srmm.cpp
+;file \protocols\CloudFile\src\srmm.cpp
 [Upload files to...]
 Dateien hochladen auf...
-;file \plugins\CloudFile\src\Services\dropbox_service.cpp
+;file \protocols\CloudFile\src\Services\dropbox_service.cpp
 [Server does not respond]
 Server antwortet nicht
-;file \plugins\CloudFile\src\Services\google_service.cpp
-;file \plugins\CloudFile\src\Services\microsoft_service.cpp
-;file \plugins\CloudFile\src\Services\yandex_service.cpp
+;file \protocols\CloudFile\src\Services\google_service.cpp
+;file \protocols\CloudFile\src\Services\microsoft_service.cpp
+;file \protocols\CloudFile\src\Services\yandex_service.cpp

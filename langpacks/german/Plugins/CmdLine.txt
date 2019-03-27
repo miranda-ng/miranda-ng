@@ -195,8 +195,3 @@ Befehl '%s' wird momentan nicht unterstützt.
 Kann CommandLine Listening Server nicht erstellen!
 [You can only run one instance of CmdLine plugin.]
 Sie können nur eine Instanz des CmdLine-Plugins laufen lassen.
-;file \plugins\CmdLine\src\utils.cpp
-[Notify]
-Benachrichtigung
-[Warning]
-Warnung

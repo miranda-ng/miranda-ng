@@ -326,6 +326,8 @@ Aktualisieren
 JID:
 [Node:]
 Knoten:
+[Filter:]
+Filter:
 [Member Information]
 Information über Mitglied
 [Role:]
@@ -392,24 +394,10 @@ Jabber-Aktivität
 [Jabber Mood]
 Jabber-Stimmung
 ;file \protocols\JabberG\src\jabber_adhoc.cpp
-[Error %s %s]
-Fehler %s %s
-[Select Command]
-Befehl wählen
-[Not supported]
-Wird nicht unterstützt
 [Done]
 Fertig
-[In progress. Please Wait...]
-Vorgang läuft. Bitte warten...
 [Execute]
 Ausführen
-[Requesting command list. Please wait...]
-Liste der verfügbaren Befehle wird abgefragt. Bitte warten...
-[Jabber Ad-Hoc commands at %s]
-Jabber-Ad-Hoc-Befehl an %s
-[Sending Ad-Hoc command to %s]
-Jabber-Ad-Hoc-Befehl an %s senden
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [Jabber Agent Registration]
 Registrierung an Jabberagenten
@@ -544,32 +532,16 @@ Besucher
 Teilnehmer
 [Moderator]
 Moderator
-[Visitors]
-Besucher
-[Participants]
-Teilnehmer
-[Moderators]
-Moderatoren
 [Owners]
 Besitzer
-[User %s is now banned.]
-Nutzer %s wurde verbannt.
-[User %s changed status to %s with message: %s]
-Benutzer %s änderte den Status zu '%s' mit der Nachricht: %s
-[User %s changed status to %s]
-Benutzer %s änderte den Status zu '%s'
-[Room configuration was changed.]
-Raumeinstellungen wurden geändert.]
-[Outcast]
-Ausgestoßener
-[Affiliation of %s was changed to '%s'.]
-Mitgliedschaft von %s wurde in '%s' geändert.
+[Moderators]
+Moderatoren
+[Participants]
+Teilnehmer
+[Visitors]
+Besucher
 [Role of %s was changed to '%s'.]
 Rolle von %s wurde in '%s' geändert.
-[because room is now members-only]
-weil der Raum nun nur für Mitglieder offen ist
-[user banned]
-Benutzer verbannt
 [Change &nickname]
 &Nickname ändern
 [&Invite a user]
@@ -668,10 +640,6 @@ Echte &JID: %s
 Benutzer einladen in\n%s
 [%s (not on roster)]
 %s (nicht in der Kontaktliste)
-[%s from\n%s]
-%s aus\n%s
-[Real JID not available]
-Echte JID nicht verfügbar
 [Reason to kick %s]
 Begründung für Kick von %s
 [Reason to ban %s]
@@ -742,26 +710,6 @@ JID kopieren
 Nodenamen kopieren
 [Copy node information]
 Nodeinformationen kopieren
-;file \protocols\JabberG\src\jabber_disco.h
-[Identities]
-Identitäten
-[category]
-Kategorie
-[type]
-Typ
-[Category]
-Kategorie
-[Type]
-Typ
-[Supported features]
-Unterstützte Funktionen
-[Info request error]
-Infoanfragefehler
-[Items request error]
-Elementanfragefehler
-;file \protocols\JabberG\src\jabber_filterlist.cpp
-[Set filter...]
-Filter setzen...
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
 [Failed to retrieve room list from server.]
 Fehler beim Abrufen der Raumliste vom Server.
@@ -769,8 +717,6 @@ Fehler beim Abrufen der Raumliste vom Server.
 Auf dem Server sind keine Räume verfügbar.
 [Room list request timed out.]
 Raumlistenanforderung überschritt das Timeout.
-[<no nick>]
-<Kein Nick>
 [Loading...]
 Wird geladen...
 [Please wait for room list to download.]
@@ -781,8 +727,8 @@ Geben Sie zuerst einen Konferenzserver an.
 Lesezeichen...
 [Change nickname in <%s>]
 Nicknamen in <%s> ändern
-[has set the subject to:]
-hat den Betreff geändert auf:
+[Error]
+Fehler
 [Group chat invitation to\n%s]
 Gruppenchateinladung in\n%s
 ;file \protocols\JabberG\src\jabber_icolib.cpp
@@ -877,8 +823,8 @@ Privatsphäre
 ;file \protocols\JabberG\src\jabber_iqid.cpp
 [Authentication failed for %s.]
 Authentifizierung für %s fehlgeschlagen.
-[Jabber Authentication]
-Jabber-Authentifizierung
+[Authentication]
+Authentifizierung
 [Registration successful]
 Registrierung erfolgreich
 [Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
@@ -1469,18 +1415,6 @@ Bannbenachrichtigungen
 Statusänderungen
 [Don't notify history messages]
 Nicht über alte Nachrichten benachrichtigen
-[Group]
-Gruppe
-[Subscription]
-Autorisierung
-[Uploading...]
-Hochladen...
-[Downloading...]
-Herunterladen...
-[XML for MS Excel (UTF-8 encoded)]
-XML für MS Excel (UTF-8-Kodierung)
-[Connecting...]
-Verbinden...
 [Network]
 Netzwerk
 [Account]
@@ -1514,8 +1448,6 @@ S.ms
 [Some changes will take effect the next time you connect to the Jabber network.]
 Einige Änderungen werden sich erst bei Ihrer nächsten Verbindung mit Jabber auswirken.
 ;file \protocols\JabberG\src\jabber_password.cpp
-[Set New Password for %s@%S]
-Neues Passwort für %s@%S eingeben
 [New password does not match.]
 Neues Passwort und Bestätigung stimmen nicht überein.
 [Current password is incorrect.]
@@ -1543,6 +1475,46 @@ Standardprivatsphäreliste erfolgreich entfernt
 Fehler beim Setzen der Standardprivatsphäreliste
 [Allow]
 Erlauben
+[List has no rules, empty lists will be deleted then changes applied]
+Liste ist leer und wird bei "Übernehmen" gelöscht.
+[allow ]
+erlaube\s
+[deny ]
+verweigere\s
+[all.]
+alle.
+[messages]
+Nachrichten
+[ and ]
+ und\s
+[incoming presences]
+eingehenden Status
+[outgoing presences]
+ausgehenden Status
+[queries]
+Querys
+[Else ]
+sonst\s
+[If Jabber ID is ']
+Falls Jabber-ID ist '
+[ (nickname: ]
+ (Nickname:\s
+[If group is ']
+Falls Gruppe ist '
+[If subscription is ']
+Falls Autorisierung ist '
+[then ]
+dann\s
+[ (act., def.)]
+ (aktiv, std.)
+[ (active)]
+ (aktiv)
+[ (default)]
+ (standard)
+[Ready.]
+Bereit.
+[Privacy lists are not saved, discard any changes and exit?]
+Privatsphärenlisten nicht gespeichert, Änderungen ignorieren und schließen?
 [Simple mode]
 Einfache Ansicht
 [Advanced mode]
@@ -1587,46 +1559,6 @@ Presence (ein)
 Presence (aus)
 [Query]
 Query
-[List has no rules, empty lists will be deleted then changes applied]
-Liste ist leer und wird bei "Übernehmen" gelöscht.
-[allow ]
-erlaube\s
-[deny ]
-verweigere\s
-[all.]
-alle.
-[messages]
-Nachrichten
-[ and ]
- und\s
-[incoming presences]
-eingehenden Status
-[outgoing presences]
-ausgehenden Status
-[queries]
-Querys
-[Else ]
-sonst\s
-[If Jabber ID is ']
-Falls Jabber-ID ist '
-[ (nickname: ]
- (Nickname:\s
-[If group is ']
-Falls Gruppe ist '
-[If subscription is ']
-Falls Autorisierung ist '
-[then ]
-dann\s
-[ (act., def.)]
- (aktiv, std.)
-[ (active)]
- (aktiv)
-[ (default)]
- (standard)
-[Ready.]
-Bereit.
-[Privacy lists are not saved, discard any changes and exit?]
-Privatsphärenlisten nicht gespeichert, Änderungen ignorieren und schließen?
 [Please save list before activating]
 Bitte speichern Sie die Liste vor der Aktivierung
 [First, save the list]
@@ -1650,80 +1582,22 @@ Kein kompatibler Dateiübertragungsmechanismus vorhanden
 Protokoll ist offline oder keine JID
 [No valid OMEMO session exists]
 Es existiert noch keine gültige OMEMO-Sitzung
-;file \protocols\JabberG\src\jabber_rc.cpp
-[Command completed successfully]
-Befehl erfolgreich ausgeführt
-[Error occurred during processing command]
-Ein Fehler ist bei der Verarbeitung des Befehls aufgetreten
-[Set status]
-Status setzen
-[Set options]
-Einstellungen vornehmen
-[Forward unread messages]
-Ungelesene Nachrichten weiterleiten
-[Leave group chats]
-Konferenzräume verlassen
-[Lock workstation]
-Arbeitsstation sperren
-[Quit Miranda NG]
-Miranda NG beenden
-[Change Status]
-Status wechseln
-[Choose the status and status message]
-Bitte wählen Sie den Status und die Statusnachricht aus
-[Status]
-Status
-[Extended away (Not available)]
-Erweiterte Abwesenheit (Außer Haus)
-[Invisible]
-Unsichtbar
-[Offline]
-Offline
-[Priority]
-Priorität
-[Status message]
-Statusnachricht
-[Change global status]
-Globalen Status ändern
-[Set Options]
-Einstellungen setzen
-[Set the desired options]
-Die gewünschten Einstellungen vornehmen
-[Automatically Accept File Transfers]
-Dateitransfer automatisch annehmen
-[Play sounds]
-Klänge abspielen
-[Disable remote controlling (check twice what you are doing)]
-Fernbedienung deaktivieren (prüfen Sie zweimal was Sie machen)
-[There is no messages to forward]
-Es gibt keine weiterzuleitenden Nachrichten
-[Forward options]
-Weiterleitungseinstellungen
-[%d message(s) to be forwarded]
-%d Nachricht(en) weiterzuleiten
-[Mark messages as read]
-Nachrichten als gelesen markieren
-[%d message(s) forwarded]
-%d Nachricht(en) weitergeleitet
-[Workstation successfully locked]
-Arbeitsstation erfolgreich gesperrt!
-[Error %d occurred during workstation lock]
-Fehler %d ist beim Sperren der Arbeitsstation aufgetreten.
-[Confirmation needed]
-Bestätigung benötigt
-[Please confirm Miranda NG shutdown]
-Bitte bestätigen Sie das Beenden von Miranda NG
-[There is no group chats to leave]
-Es gibt keine zu verlassenden Gruppenchats
-[Choose the group chats you want to leave]
-Wählen Sie aus, welche Gruppenchats Sie verlassen wollen.
+;file \protocols\JabberG\src\jabber_roster.cpp
+[Group]
+Gruppe
+[Subscription]
+Autorisierung
+[Uploading...]
+Hochladen...
+[Downloading...]
+Herunterladen...
+[Connecting...]
+Verbinden...
+[XML for MS Excel (UTF-8 encoded)]
+XML für MS Excel (UTF-8-Kodierung)
 ;file \protocols\JabberG\src\jabber_search.cpp
-[Error %s %s\r\nPlease select other server]
-Fehler %s %s\r\nBitte den Server wechseln!
 [Error: unknown reply received\r\nPlease select other server]
 Fehler: Unbekannte Antwort erhalten.\r\nBitte den Server wechseln!
-[Error %s %s\r\nTry to specify more detailed]
-Fehler %s %s\r\nBitte gehen Sie ins Detail
 [Search error]
 Suchfehler
 [Select/type search service URL above and press <Go>]
@@ -1745,6 +1619,8 @@ Autorisierungsanfrage zurückgezogen
 sende Anwesenheitsfehler
 [sent unknown presence type]
 sende unbekannten Anwesenheitstyp
+[Outcast]
+Ausgestoßener
 [Nick:]
 Nick:
 [Status:]
@@ -1762,31 +1638,23 @@ Fehler: Verbindung zum Server fehlgeschlagen
 Fehler: Verbindung unterbrochen
 [Requesting registration instruction...]
 Registrierungsanweisung wird empfangen...
-[Authentication failed for %s@%S.]
-Authentifizierung für %s@%S fehlgeschlagen.
-[Message redirected from: %s\r\n%s]
-Nachricht umgeleitet von: %s\r\n%s
+[Registration canceled]
+
 [Sending registration information...]
 Registrierungsdaten werden gesendet...
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
-[Resource]
-Standort
 [<not specified>]
 <nicht angegeben>
+[Resource]
+Standort
 [Software]
 Software
 [Version]
 Version
 [System]
 System
-[unknown]
-Unbekannt
-[Idle since]
-Untätig seit
-[Client capabilities]
-Fähigkeiten dieses Clients
-[Software information]
-Software-Information
+[Last activity]
+
 [Operating system]
 Betriebssystem
 [Operating system version]
@@ -1801,26 +1669,14 @@ Stimmung
 Aktivität
 [Tune]
 Lied
-[both]
-beide
-[to]
-an
-[from]
-von
-[none]
-Keine
 [Last logoff time]
 Zuletzt abgemeldet
 [Uptime]
 Laufzeit
 [Logoff message]
 Abmeldenachricht
-[<no information available>]
-<keine Informationen verfügbar>
 [Last active resource]
 Letzter aktiver Standort
-[Please switch online to see more details.]
-Bitte wechseln Sie auf online, um weitere Details zu sehen.
 [Copy]
 Kopieren
 [Copy only this value]
@@ -1870,10 +1726,10 @@ Service nicht unterstützt
 Zeitüberschreitung beim Remoteserver
 [Unknown error]
 Unbekannter Fehler
-[Error]
-Fehler
 [Unknown error message]
 Unbekannte Fehlernachricht
+[Offline]
+Offline
 [Advanced Status]
 Erweiterter Status
 [Set mood...]

@@ -7,7 +7,7 @@
 ;============================================================
 [Adds web pages as contacts to your contact list and can display text and/or issue change alerts from those pages in a window.]
 Fügt Webseiten Ihrer Kontaktliste hinzu und kann Text anzeigen und/oder bei Änderungen auf diesen Seiten einen Alarm auslösen.
-;file \plugins\WebView\res\webview.rc
+;file \protocols\WebView\res\webview.rc
 [Webview]
 Webview
 [Update data every]
@@ -180,7 +180,7 @@ Alles ko&pieren
 Alles au&swählen
 [C&lear all]
 Alles löschen
-;file \plugins\WebView\src\main.cpp
+;file \protocols\WebView\src\main.cpp
 [Alert event]
 Alarm bei Ereignis
 [Auto update disabled]
@@ -207,14 +207,14 @@ Kontakt-Alarmeinstellungen
 Webseite anpingen
 [Stop data processing]
 Datenverarbeitung stoppen
-;file \plugins\WebView\src\webview.cpp
+;file \protocols\WebView\src\webview.cpp
 [All Webview sites have been updated.]
 Alle Webview-Seiten wurden aktualisiert.
 [Network]
 Netzwerk
 [Popups]
 Popups
-;file \plugins\WebView\src\webview_alerts.cpp
+;file \protocols\WebView\src\webview_alerts.cpp
 [Cannot write to file]
 Kann nicht in Datei schreiben.
 [Last updated on]
@@ -245,7 +245,7 @@ Bestimmter Teil der Webseite wurde geändert.
 Kann nicht aus Zwischenspeicher lesen
 [Loaded from cache]
 Aus Zwischenspeicher
-;file \plugins\WebView\src\webview_datawnd.cpp
+;file \protocols\WebView\src\webview_datawnd.cpp
 [ERROR: You have two or more Webview contacts with the same URL and contact name.]
 FEHLER: Sie haben zwei oder mehr Webview-Kontakte mit demselben URL und Kontaktnamen.
 [Alert options]
@@ -258,7 +258,7 @@ Klicken Sie hier, um die URL im Browserfenster zu öffnen.
 Zum Vordergrund anheften
 [Disable stick to the front]
 'Zum Vordergrund anheften' deaktivieren
-;file \plugins\WebView\src\webview_getdata.cpp
+;file \protocols\WebView\src\webview_getdata.cpp
 [URL not supplied]
 URL nicht angegeben
 [Download in progress, please wait...]
@@ -305,7 +305,7 @@ Byte im Bildschirm
 Byte heruntergeladen
 [Alert test conditions not met; press the refresh button to view content.]
 Benachrichtigungs-Test-Bedingung wurden nicht erfüllt, drücken Sie die Aktualisierungsschaltfläche, um den Inhalt sehen zu können.
-;file \plugins\WebView\src\webview_opts.cpp
+;file \protocols\WebView\src\webview_opts.cpp
 [No whitespace removal]
 Keine Leerzeichen entfernen
 [Minimal level of whitespace removal]
@@ -342,7 +342,7 @@ Sie müssen einen URL festlegen.
 Sie müssen einen Namen für den Kontakt festlegen.
 [Invalid symbol present in contact name.]
 Ungültige Zeichen im Namen des Kontakts.
-;file \plugins\WebView\src\webview_services.cpp
+;file \protocols\WebView\src\webview_services.cpp
 [Cache folder does not exist.]
 Zwischenspeicherordner existiert nicht.
 [Missing "psite.bat" file.]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MirOTR.dll
 ;  Plugin: Miranda OTR
-;  Version: 0.14.1.17
+;  Version: 0.14.2.1
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
 [OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
@@ -80,6 +80,17 @@ OTR-Sitzung e&rneuern
 OTR-Sitzung stop&pen
 [&Verify Fingerprint]
 Fingerabdruck &verifizieren
+;file \plugins\MirOTR\src\icons.cpp
+[OTR private]
+OTR privat
+[OTR unverified]
+OTR ungeprüft
+[OTR finished]
+OTR beendet
+[OTR not secure]
+OTR nicht sicher
+[Refresh]
+Aktualisieren
 ;file \plugins\MirOTR\src\language.h
 [Start OTR]
 OTR starten
@@ -99,8 +110,6 @@ OTR-Verschlüsselung: UNGEPRÜFT
 OTR-Verschlüsselung: Privat
 [OTR Encryption: Finished]
 OTR-Verschlüsselung: Beendet
-[&Convert HTML (for Pidgin)]
-HTML &konvertieren (für Pidgin)
 [OTR encrypted session with '%s' has been terminated]
 OTR-verschlüsselte Sitzung mit '%s' wurde beendet.
 [Requesting OTR encrypted session with '%s']
@@ -131,16 +140,6 @@ OTR-Informationen
 OTR-verschlüsselte Sitzung mit '%s' verwendet nun einen ÜBERPRÜFTEN Fingerabdruck
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
 OTR-verschlüsselte Sitzung mit '%s' verwendet nun einen NICHT ÜBERPRÜFTEN Fingerabdruck
-[OTR unverified]
-OTR ungeprüft
-[OTR finished]
-OTR beendet
-[OTR private]
-OTR privat
-[OTR not secure]
-OTR nicht sicher
-[Refresh]
-Aktualisieren
 [Generating new private key for protocol '%s'.\nPlease Wait...]
 Generiere neuen privaten Schlüssel für das Protokoll '%s'.\nBitte warten Sie...
 [General]
@@ -236,6 +235,8 @@ Sie benutzen SecureIM. MirOTR funktioniert nur mit deaktiviertem SecureIM.
 MirOTR-Menü
 [OTR Status]
 OTR-Status
+[&Convert HTML (for Pidgin)]
+HTML &konvertieren (für Pidgin)
 ;file \plugins\MirOTR\src\options.cpp
 [Private Data]
 Private Daten
