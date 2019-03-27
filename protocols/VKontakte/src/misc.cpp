@@ -1304,9 +1304,8 @@ CMStringW CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &j
 	for (auto &jnUser : jnFUsers) {
 		int iUserId = jnUser["id"].as_int();
 		CMStringW wszNick(FORMAT, L"%s %s", jnUser["first_name"].as_mstring().c_str(), jnUser["last_name"].as_mstring().c_str());
-		CMStringW wszLink(FORMAT, L"https://vk.com/id%d", iUserId);
 
-		CVkUserInfo *vkUser = new CVkUserInfo(jnUser["id"].as_int(), false, wszNick, wszLink, FindUser(iUserId));
+		CVkUserInfo *vkUser = new CVkUserInfo(jnUser["id"].as_int(), false, wszNick, UserProfileUrl(iUserId), FindUser(iUserId));
 		vkUsers.insert(vkUser);
 	}
 
@@ -1326,7 +1325,7 @@ CMStringW CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &j
 				wszNick = ptrW(db_get_wsa(hContact, m_szModuleName, "Nick"));
 			else
 				wszNick = TranslateT("(Unknown contact)");
-			wszUrl.AppendFormat(L"https://vk.com/id%d", uid);
+			wszUrl = UserProfileUrl(uid);
 		}
 
 		time_t datetime = (time_t)jnMsg["date"].as_int();
@@ -1592,4 +1591,9 @@ bool CVkProto::IsMessageExist(UINT iMsgId, VKMesType vkType)
 		return false;
 
 	return ((vkType == vkOUT) == (bool)(dbei.flags & DBEF_SENT));
+}
+
+CMStringW CVkProto::UserProfileUrl(LONG iUserId)
+{
+	return CMStringW(FORMAT, L"https://vk.com/%s%d", iUserId > 0 ? L"id" : L"club", iUserId > 0 ? iUserId : -1 * iUserId);
 }

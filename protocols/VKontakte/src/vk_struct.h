@@ -142,7 +142,7 @@ struct CVkUserInfo : public MZeroedObject {
 		m_bIsGroup(false)
 	{}
 
-	CVkUserInfo(LONG _UserId, bool _bIsGroup, CMStringW& _wszUserNick, CMStringW& _wszLink, MCONTACT _hContact = 0) :
+	CVkUserInfo(LONG _UserId, bool _bIsGroup, const CMStringW& _wszUserNick, const CMStringW& _wszLink, MCONTACT _hContact = 0) :
 		m_UserId(_UserId),
 		m_bIsGroup(_bIsGroup),
 		m_wszUserNick(_wszUserNick),

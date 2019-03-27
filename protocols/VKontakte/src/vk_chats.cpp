@@ -143,6 +143,10 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 				break;
 
 			int uid = jnUser["id"].as_int();
+			bool bIsGroup = jnUser["type"].as_mstring() == L"group";
+			if (bIsGroup)
+				uid *= -1;
+
 			wchar_t wszId[20];
 			_itow(uid, wszId, 10);
 
@@ -157,11 +161,12 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			cu->m_bDel = false;
 
 			CMStringW wszNick(ptrW(db_get_wsa(cc->m_hContact, m_szModuleName, CMStringA(FORMAT, "nick%d", cu->m_uid))));
-			if (wszNick.IsEmpty()) {
-				CMStringW fName(jnUser["first_name"].as_mstring());
-				CMStringW lName(jnUser["last_name"].as_mstring());
-				wszNick = fName.Trim() + L" " + lName.Trim();
-			}
+			if (wszNick.IsEmpty())
+				wszNick = bIsGroup ?
+					jnUser["name"].as_mstring() :
+					jnUser["first_name"].as_mstring().Trim() + L" " + jnUser["last_name"].as_mstring().Trim();
+
+
 			cu->m_wszNick = mir_wstrdup(wszNick);
 			cu->m_bUnknown = false;
 
@@ -190,7 +195,10 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			gce.pszUID.w = wszId;
 			gce.dwFlags = GCEF_NOTNOTIFY;
 			gce.time = time(0);
-			gce.pszNick.w = mir_wstrdup(CMStringW(FORMAT, L"%s (https://vk.com/id%s)", cu->m_wszNick, wszId));
+			gce.pszNick.w = mir_wstrdup(CMStringW(FORMAT, L"%s (%s)",
+				cu->m_wszNick,
+				UserProfileUrl(cu->m_uid).c_str()
+			));
 			Chat_Event(&gce);
 
 			cc->m_users.remove(T.indexOf(&cu));
@@ -305,7 +313,7 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &
 				if (wszUid == wszActionMid) {
 					if (cc->m_bHistoryRead)
 						return;
-					wszBody.AppendFormat(L" (https://vk.com/id%s) %s", wszUid.c_str(), TranslateT("left chat"));
+					wszBody.AppendFormat(L" (%s) %s", UserProfileUrl(uid).c_str(), TranslateT("left chat"));
 				}
 				else {
 					int a_uid = 0;
@@ -313,9 +321,9 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &
 					if (iReadCount == 1) {
 						CVkChatUser *cu = cc->m_users.find((CVkChatUser*)&a_uid);
 						if (cu == nullptr)
-							wszBody.AppendFormat(L"%s (https://vk.com/id%d)", TranslateT("kick user"), a_uid);
+							wszBody.AppendFormat(L"%s (%s)", TranslateT("kick user"), UserProfileUrl(a_uid).c_str());
 						else
-							wszBody.AppendFormat(L"%s %s (https://vk.com/id%d)", TranslateT("kick user"), cu->m_wszNick, a_uid);
+							wszBody.AppendFormat(L"%s %s (%s)", TranslateT("kick user"), cu->m_wszNick, UserProfileUrl(a_uid).c_str());
 					}
 					else
 						wszBody = TranslateT("kick user");
@@ -329,16 +337,16 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &
 			else {
 				CMStringW wszUid(FORMAT, L"%d", uid);
 				if (wszUid == wszActionMid)
-					wszBody.AppendFormat(L" (https://vk.com/id%s) %s", wszUid.c_str(), TranslateT("returned to chat"));
+					wszBody.AppendFormat(L" (%s) %s", UserProfileUrl(uid).c_str(), TranslateT("returned to chat"));
 				else {
 					int a_uid = 0;
 					int iReadCount = swscanf(wszActionMid, L"%d", &a_uid);
 					if (iReadCount == 1) {
 						CVkChatUser *cu = cc->m_users.find((CVkChatUser*)&a_uid);
 						if (cu == nullptr)
-							wszBody.AppendFormat(L"%s (https://vk.com/id%d)", TranslateT("invite user"), a_uid);
+							wszBody.AppendFormat(L"%s (%s)", TranslateT("invite user"), UserProfileUrl(a_uid).c_str());
 						else
-							wszBody.AppendFormat(L"%s %s (https://vk.com/id%d)", TranslateT("invite user"), cu->m_wszNick, a_uid);
+							wszBody.AppendFormat(L"%s %s (%s)", TranslateT("invite user"), cu->m_wszNick, UserProfileUrl(a_uid).c_str());
 					}
 					else
 						wszBody = TranslateT("invite user");
@@ -720,7 +728,7 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 	case IDM_VISIT_PROFILE:
 		hContact = FindUser(cu->m_uid);
 		if (hContact == 0)
-			Utils_OpenUrlW(CMStringW(FORMAT, L"https://vk.com/id%d", cu->m_uid));
+			Utils_OpenUrlW(UserProfileUrl(cu->m_uid));
 		else
 			SvcVisitProfile(hContact, 0);
 		break;

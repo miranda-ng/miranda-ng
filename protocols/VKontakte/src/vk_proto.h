@@ -365,6 +365,7 @@ private:
 	MEVENT GetMessageFromDb(const char * messageId, UINT &timestamp, CMStringW &msg);
 	int DeleteContact(MCONTACT hContact);
 	bool IsMessageExist(UINT iMsgId, VKMesType vkType = vkALL);
+	CMStringW UserProfileUrl(LONG iUserId);
 	void InitQueue();
 	void UninitQueue();
 	bool ExecuteRequest(AsyncHttpRequest*);
