@@ -40,6 +40,7 @@
 #ifndef LIBSSH2_PRIV_H
 #define LIBSSH2_PRIV_H 1
 
+#define LIBSSH2_LIBRARY
 #include "libssh2_config.h"
 
 #ifdef HAVE_WINDOWS_H
@@ -143,6 +144,18 @@ static inline int writev(int sock, struct iovec *iov, int nvecs)
 #include <winsock2.h>
 #include <ws2tcpip.h>
 
+#endif
+
+#ifndef SIZE_MAX
+#if _WIN64
+#define SIZE_MAX 0xFFFFFFFFFFFFFFFF
+#else
+#define SIZE_MAX 0xFFFFFFFF
+#endif
+#endif
+
+#ifndef UINT_MAX
+#define UINT_MAX 0xFFFFFFFF
 #endif
 
 /* RFC4253 section 6.1 Maximum Packet Length says:
