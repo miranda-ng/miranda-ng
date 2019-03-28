@@ -548,7 +548,7 @@ void CVkProto::LogMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 				LONG uid = getDword(dlg.m_hContact, "ID", VK_INVALID_USER);
 				if (uid != VK_INVALID_USER)
 					Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.addChatUser.json", true, &CVkProto::OnReceiveSmth)
-						<< INT_PARAM("user_id", uid)
+						<< INT_PARAM("user_id", uid < 0 ? 1000000000 - uid : uid)
 						<< INT_PARAM("chat_id", cc->m_iChatId));
 			}
 		}
@@ -763,7 +763,7 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 
 		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.removeChatUser.json", true, &CVkProto::OnReceiveSmth)
 			<< INT_PARAM("chat_id", cc->m_iChatId)
-			<< INT_PARAM("user_id", cu->m_uid));
+			<< INT_PARAM("user_id", cu->m_uid < 0 ? 1000000000 - cu->m_uid : cu->m_uid));
 		cu->m_bUnknown = true;
 
 		break;

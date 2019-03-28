@@ -530,6 +530,10 @@ int CVkProto::AuthRequest(MCONTACT hContact, const wchar_t *message)
 	if (userID == VK_INVALID_USER || !hContact || userID == VK_FEED_USER)
 		return 1;
 
+	if (userID < 0)
+		userID = 1000000000 - userID;
+
+
 	wchar_t msg[501] = { 0 };
 	if (message)
 		wcsncpy_s(msg, _countof(msg), message, _TRUNCATE);
