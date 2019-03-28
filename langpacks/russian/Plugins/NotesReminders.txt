@@ -76,8 +76,6 @@
 &Закрыть
 [&View Reminders]
 &Список напоминаний
-[reftime]
-
 [Reminder]
 Напоминание
 [After:]

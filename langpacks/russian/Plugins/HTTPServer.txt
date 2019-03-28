@@ -84,9 +84,6 @@ IP-адрес 2
 &Открыть в браузере
 [&Copy link]
 &Копировать ссылку
-;file \plugins\HTTPServer\src\Glob.h
-[Miranda NG HTTP-Server]
-HTTP-сервер Miranda NG
 ;file \plugins\HTTPServer\src\GuiElements.cpp
 [Share Current Directory]
 Сделать текущую папку общей

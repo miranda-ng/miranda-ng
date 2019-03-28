@@ -500,6 +500,10 @@ E-Mail
 [Check anniversaries]
 Праверыць святы
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[Main]
+Галоўны
+[Default]
+Змаўчанні
 [IM naming]
 Імя ў IM
 [Password]
@@ -514,8 +518,6 @@ E-Mail
 Экспарт: плагіны
 [Export: folder]
 Экспарт: тэчка
-[Default]
-Змаўчанні
 [Details info bar]
 Дэталі
 [Phone info bar]
@@ -600,8 +602,6 @@ E-Mail
 Увага: Версія Вашага цяперашняга набора абразкоў адрозніваецца ад версіі UserInfoEx.\nНекаторыя абразкі могуць адлюстроўвацца няслушна
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
 Увага: Набор абразкоў не знойдзены ў тэчках: 'customize\\icons', 'icons' і 'plugins'!
-[Main]
-Галоўны
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 [Extended user info]
 Асабістыя дадзеныя
@@ -1052,9 +1052,9 @@ Web Дызайн
 ВНУ
 [University]
 Універсітэт
-[TmplPast Work Place]
+[Past Work Place]
 
-[TmplPast Organization]
+[Past Organization]
 
 [Single]
 Самотны

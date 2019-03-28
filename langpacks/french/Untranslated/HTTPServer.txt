@@ -16,7 +16,6 @@
 [Default download limit]
 [&Edit share]
 [&Remove share]
-[Miranda NG HTTP-Server]
 [Share Current Directory]
 [Specify a file to share]
 [Failed to share new file]

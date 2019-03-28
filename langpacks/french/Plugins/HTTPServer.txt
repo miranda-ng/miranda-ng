@@ -84,9 +84,6 @@ Notifications
 &Ouvrir dans le navigateur
 [&Copy link]
 &Copier le lien
-;file \plugins\HTTPServer\src\Glob.h
-[Miranda NG HTTP-Server]
-
 ;file \plugins\HTTPServer\src\GuiElements.cpp
 [Share Current Directory]
 

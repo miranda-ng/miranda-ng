@@ -137,17 +137,6 @@
 ;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
 Кантакт не далучаны
-;file \protocols\MSN\src\msn_ieembed.cpp
-[IID_IOleObject failed.]
-
-[RESULT]
-ВЫНІК
-[IID_IOleInPlaceObject failed.]
-
-[Failed to Advise]
-
-[C++ Event Sink]
-
 ;file \protocols\MSN\src\msn_lists.cpp
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
 Кантакт %s быў выдалены з сервера.\nЦі хочаце вы пакінуць яго ў лакальным спісе, каб захаваць гісторыю?

@@ -16,7 +16,6 @@
 [Use MMI]
 [NOP]
 [BREAK]
-[JUMP]
 [RTL]
 [Contact type]
 [Mark as Volatile]

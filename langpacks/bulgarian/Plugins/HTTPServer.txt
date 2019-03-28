@@ -84,9 +84,6 @@ XML индекс
 Отваряне в броузър
 [&Copy link]
 Копиране на връзката
-;file \plugins\HTTPServer\src\Glob.h
-[Miranda NG HTTP-Server]
-HTTP сървър на Miranda NG
 ;file \plugins\HTTPServer\src\GuiElements.cpp
 [Share Current Directory]
 Споделяне на текущата директория

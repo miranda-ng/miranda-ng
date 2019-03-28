@@ -29,5 +29,3 @@ No pages have been added. Cancelling dialog creation!
 Non-Government Organisation
 [Mail order catalog]
 Mail order catalogue
-[TmplPast Organization]
-TmplPast Organisation

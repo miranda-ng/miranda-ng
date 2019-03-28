@@ -500,6 +500,10 @@ actualizando
 [Check anniversaries]
 
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[Main]
+Principal
+[Default]
+Por defecto
 [IM naming]
 
 [Password]
@@ -514,8 +518,6 @@ Contraseña
 
 [Export: folder]
 
-[Default]
-Por defecto
 [Details info bar]
 
 [Phone info bar]
@@ -600,8 +602,6 @@ Buscar
 
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
 
-[Main]
-Principal
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 [Extended user info]
 
@@ -1052,9 +1052,9 @@ Internet
 
 [University]
 
-[TmplPast Work Place]
+[Past Work Place]
 
-[TmplPast Organization]
+[Past Organization]
 
 [Single]
 

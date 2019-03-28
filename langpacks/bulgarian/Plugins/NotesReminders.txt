@@ -76,8 +76,6 @@
 Затваряне
 [&View Reminders]
 
-[reftime]
-
 [Reminder]
 Напомняне
 [After:]

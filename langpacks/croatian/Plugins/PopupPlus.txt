@@ -1,4 +1,4 @@
-#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
+#muuid {67716225-21f1-4a03-a69b-5fe12f128a2b}
 ;============================================================
 ;  File: PopupPlus.dll
 ;  Plugin: Popup plus
@@ -311,7 +311,7 @@ akcije
 
 [Disable popups]
 
-[Popup plus]
+[Popup Plus]
 
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 
@@ -371,8 +371,6 @@ akcije
 [Popup plus warning]
 
 ;file \plugins\Popup\src\opt_skins.cpp
-[Failed to register %s class.]
-
 [Skin preview]
 
 [Just take a look at this skin... ;)]
@@ -392,12 +390,6 @@ akcije
 [Global settings]
 
 [Refresh List]
-
-;file \plugins\Popup\src\popup_thread.cpp
-;file \plugins\Popup\src\popup_wnd2.cpp
-[Failed to GetClassInfoExW from EDIT class.]
-
-[Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n]
 
 ;file \plugins\Popup\src\services.cpp
 [Notify]

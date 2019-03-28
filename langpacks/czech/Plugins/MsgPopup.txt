@@ -29,12 +29,6 @@ Speciální hodnoty pro dobu zobrazení:\n -1 - nekonečno, 0 - výchozí doba z
 [Emit a sound]
 Přehrát zvuk
 ;file \plugins\MsgPopup\src\main.cpp
-[VirtualProtect failed. Code %d\nTry to call the author]
-VirtualProtect selhal. Kód %d\nZkuste kontaktovat autora
-[Error]
-Chyba
-[Hmm. Something goes wrong. I can't write into the memory.\nAnd as you can see, there are no any exception raised...\nTry to call the author]
-Hmm. Nastala chyba. Nelze zapisovat do paměti.\nA jak vidíte, nebyla vyvolána žádná výjimka...\nZkuste kontaktovat autora
 [MessagePopup]
 Informační okna jako oznámení
 [Popups]

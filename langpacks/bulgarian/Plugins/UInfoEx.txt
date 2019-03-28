@@ -500,6 +500,10 @@ popup за годишнина
 [Check anniversaries]
 Проверяване за годишнини
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[Main]
+Основна
+[Default]
+Стандарт
 [IM naming]
 
 [Password]
@@ -514,8 +518,6 @@ popup за годишнина
 Износ: модули
 [Export: folder]
 Износ: папка
-[Default]
-Стандарт
 [Details info bar]
 Подробности в информационната лента
 [Phone info bar]
@@ -600,8 +602,6 @@ popup за годишнина
 Внимание: Вашият пакет икони се различава от необходимия за инсталираната версия на UserInfoEx.\nНякои икони нямат да бъдат изобразявани правилно
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
 Внимание: Не е открит пакет икони в нито една от следните директории:\n- customize\\icons\n- icons\n- plugins
-[Main]
-Основна
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 [Extended user info]
 UserInfoEx
@@ -1052,9 +1052,9 @@ Web дизайн
 Колеж
 [University]
 Университет
-[TmplPast Work Place]
+[Past Work Place]
 
-[TmplPast Organization]
+[Past Organization]
 
 [Single]
 Необвързан(а)

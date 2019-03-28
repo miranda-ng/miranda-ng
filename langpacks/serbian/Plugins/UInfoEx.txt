@@ -500,6 +500,10 @@ Detalji &korisnika
 [Check anniversaries]
 
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[Main]
+
+[Default]
+Standardno
 [IM naming]
 
 [Password]
@@ -514,8 +518,6 @@ Detalji &korisnika
 
 [Export: folder]
 
-[Default]
-Standardno
 [Details info bar]
 
 [Phone info bar]
@@ -599,8 +601,6 @@ Pretraga
 [Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
 
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
-
-[Main]
 
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 [Extended user info]
@@ -1052,9 +1052,9 @@ Balončići
 
 [University]
 
-[TmplPast Work Place]
+[Past Work Place]
 
-[TmplPast Organization]
+[Past Organization]
 
 [Single]
 

@@ -137,17 +137,6 @@ MSN уведовяване
 ;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
 Потребителя не е на линия
-;file \protocols\MSN\src\msn_ieembed.cpp
-[IID_IOleObject failed.]
-
-[RESULT]
-РЕЗУЛТАТ
-[IID_IOleInPlaceObject failed.]
-
-[Failed to Advise]
-
-[C++ Event Sink]
-
 ;file \protocols\MSN\src\msn_lists.cpp
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
 Контактът %s е премахнат от сървъра.\nЖелаете ли да бъде запазен като "Локален контакт" за да се съхрани историята на разговорите?

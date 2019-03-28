@@ -19,7 +19,6 @@
 [Monthly]
 [Repeat Alert Sound]
 [Use Sound]
-[reftime]
 [Reminder]
 [After:]
 [On Time && Date:]

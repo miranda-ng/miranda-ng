@@ -282,7 +282,7 @@ Contact connu
 [Unicode setting]
 
 [Handle]
-
+Pseudo
 ;file \plugins\DbEditorPP\src\main.cpp
 [Open Database Editor]
 

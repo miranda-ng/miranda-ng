@@ -76,8 +76,6 @@ Přid&at připomínku
 &Zavřít
 [&View Reminders]
 Zobrazit připomínk&y...
-[reftime]
-
 [Reminder]
 Připomínka
 [After:]

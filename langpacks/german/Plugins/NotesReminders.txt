@@ -76,8 +76,6 @@ Erinnerungen &hinzufügen
 S&chließen
 [&View Reminders]
 Erinnerungen &anzeigen
-[reftime]
-
 [Reminder]
 Erinnerung
 [After:]

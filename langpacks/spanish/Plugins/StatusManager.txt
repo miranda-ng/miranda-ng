@@ -278,22 +278,6 @@ Considerar posibilidad de pérdida de conexión después de
 pings que han fallado
 [Continuously check interval (secs)]
 Intervalo de comprobación continuamente (segundos)
-[Entering first auto-away status]
-Introduciendo primero el estado de auto-fuera
-[Entering second auto-away status]
-Introduciendo segundo estado de auto-fuera
-[Leaving first auto-away status]
-Dejando primer estado auto-fuera
-[Pre-conditions]
-Condiciones previas
-[Status: The status the account will change to\r\nAccount: The account changing state]
-Estado: El estado de la cuenta cambiará a\r\nCuenta: Cambiando el estado de la cuenta
-[TriggerData]
-Datos de activación
-[Becoming active without status change]
-Ser activo sin cambio de estado
-[Leaving second auto-away status]
-Dejando segundo estado auto-fuera
 ;file \plugins\StatusManager\src\aaa_options.cpp
 [minutes of %s mode]
 minutos de modo %s

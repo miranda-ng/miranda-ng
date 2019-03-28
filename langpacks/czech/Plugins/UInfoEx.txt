@@ -500,6 +500,10 @@ Aktualizace
 [Check anniversaries]
 Zkontrolovat výročí
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[Main]
+Hlavní
+[Default]
+Výchozí
 [IM naming]
 Ikona klienta
 [Password]
@@ -514,8 +518,6 @@ Adresa
 Export: moduly
 [Export: folder]
 Export: složka
-[Default]
-Výchozí
 [Details info bar]
 Lišta detailu
 [Phone info bar]
@@ -600,8 +602,6 @@ Výročí později
 Upozornění: Váše současná verze knihovny ikon pro Detaily uživatele se liší od verze, pro kterou byl tento doplněk vytvořen.\n Některé ikony se nemusí zobrazit správně.
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
 Upozornění: Nebyla nalezena žádná knihovna ikon v žádné z těchto složek: 'customize\\icons', 'icons' or 'plugins'!
-[Main]
-Hlavní
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 [Extended user info]
 Detaily uživatele
@@ -1052,9 +1052,9 @@ Střední škola
 Vysoká škola
 [University]
 Univerzita
-[TmplPast Work Place]
+[Past Work Place]
 
-[TmplPast Organization]
+[Past Organization]
 
 [Single]
 svobodný/á

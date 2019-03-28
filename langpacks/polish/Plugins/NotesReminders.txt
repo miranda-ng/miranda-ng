@@ -76,8 +76,6 @@ Użyj dźwięków
 &Zamknij
 [&View Reminders]
 &Zobacz przypomnienia
-[reftime]
-Czas w sekundach
 [Reminder]
 Przypomnienie
 [After:]

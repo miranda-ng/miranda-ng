@@ -84,9 +84,6 @@ IP адрас 2
 Адкрыць у браўзары
 [&Copy link]
 &Капіяваць спасылку
-;file \plugins\HTTPServer\src\Glob.h
-[Miranda NG HTTP-Server]
-Miranda NG HTTP-сервер
 ;file \plugins\HTTPServer\src\GuiElements.cpp
 [Share Current Directory]
 Даць доступ да гэтай тэчкі

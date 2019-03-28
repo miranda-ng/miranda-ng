@@ -29,12 +29,6 @@ Valores especiales del "Tiempo de espera":\n -1 - infinito, 0 - usar valor de ti
 [Emit a sound]
 Emite un sonido
 ;file \plugins\MsgPopup\src\main.cpp
-[VirtualProtect failed. Code %d\nTry to call the author]
-VirtualProtect a fallado. Código %d\nTrate de llamar al autor
-[Error]
-Error
-[Hmm. Something goes wrong. I can't write into the memory.\nAnd as you can see, there are no any exception raised...\nTry to call the author]
-Hmm. Algo va mal. No puedo escribir en la memoria.\nY como se puede ver, allí no hay ninguna excepción planteada...\nTrate de llamar al autor
 [MessagePopup]
 Mensaje emergente
 [Popups]

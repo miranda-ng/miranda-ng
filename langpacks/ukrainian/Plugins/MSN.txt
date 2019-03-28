@@ -137,17 +137,6 @@
 ;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
 Користувач не в мережі
-;file \protocols\MSN\src\msn_ieembed.cpp
-[IID_IOleObject failed.]
-
-[RESULT]
-Результат
-[IID_IOleInPlaceObject failed.]
-
-[Failed to Advise]
-
-[C++ Event Sink]
-
 ;file \protocols\MSN\src\msn_lists.cpp
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
 Контакт %s був видалений з сервера.\nХочете залишити його в локальному списку, щоб зберегти історію?

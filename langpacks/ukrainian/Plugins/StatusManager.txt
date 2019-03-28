@@ -278,22 +278,6 @@
 невдалих пінгів
 [Continuously check interval (secs)]
 Інтервал перевірки (с)
-[Entering first auto-away status]
-
-[Entering second auto-away status]
-
-[Leaving first auto-away status]
-
-[Pre-conditions]
-Попередні умови
-[Status: The status the account will change to\r\nAccount: The account changing state]
-
-[TriggerData]
-
-[Becoming active without status change]
-
-[Leaving second auto-away status]
-
 ;file \plugins\StatusManager\src\aaa_options.cpp
 [minutes of %s mode]
 хвилин режиму "%s"

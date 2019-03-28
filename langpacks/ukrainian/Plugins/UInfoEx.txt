@@ -500,6 +500,10 @@
 [Check anniversaries]
 Перевірити свята
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[Main]
+Головний
+[Default]
+За замовчанням
 [IM naming]
 Ім'я в IM
 [Password]
@@ -514,8 +518,6 @@
 Експорт: модулі
 [Export: folder]
 Експорт: папка
-[Default]
-За замовчанням
 [Details info bar]
 Деталі
 [Phone info bar]
@@ -600,8 +602,6 @@
 Увага: версія вашого набору значків відрізняється від версії UserInfoEx.\nДеякі значки можуть виводитися неправильно.
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
 Увага: набір значків не знайдено в жодній з папок: Customize\Icons, Icons чи Plugins.
-[Main]
-Головний
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 [Extended user info]
 Особисті дані
@@ -1052,9 +1052,9 @@ Web-дизайн
 Коледж
 [University]
 Університет
-[TmplPast Work Place]
+[Past Work Place]
 
-[TmplPast Organization]
+[Past Organization]
 
 [Single]
 Неодружений/Незаміжня

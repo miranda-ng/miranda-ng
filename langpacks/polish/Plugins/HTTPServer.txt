@@ -84,9 +84,6 @@ Domyślny limit pobierania
 &Otwórz w przeglądarce
 [&Copy link]
 &Kopiuj link
-;file \plugins\HTTPServer\src\Glob.h
-[Miranda NG HTTP-Server]
-Serwer HTTP Miranda NG
 ;file \plugins\HTTPServer\src\GuiElements.cpp
 [Share Current Directory]
 Udostępnij obecny folder

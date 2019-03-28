@@ -322,7 +322,7 @@ UTF16+сігнатура
 [BREAK]
 
 [JUMP]
-
+Пераход
 [^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
 ^s - вылучаная (і замененая) частка\r\n^e - заменена пустым радком\r\n^v - уставіць тэкст з буфера абмену\r\n^t - заменена табуляцыяй\r\n^l - заменена апошнім вынікам, як юнікод\r\n^h - заменена апошнім вынікам, як шаснаццатковае\r\n^f(імя[,str])\r\n     уставіць радок з тэкставага файла.\r\n     змесціва пасярод дужак абавязана быць без прабелаў
 [Process script after]

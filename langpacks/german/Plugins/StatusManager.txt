@@ -278,22 +278,6 @@ Verbindung ist verloren nach
 fehlgeschlagenen Pings
 [Continuously check interval (secs)]
 Kontinuierliches Prüfintervall (Sek.)
-[Entering first auto-away status]
-Aktiviere ersten Auto-abwesend-Status
-[Entering second auto-away status]
-Aktiviere zweiten Auto-abwesend-Status
-[Leaving first auto-away status]
-Verlasse ersten Auto-abwesend-Status
-[Pre-conditions]
-Vorbedingungen
-[Status: The status the account will change to\r\nAccount: The account changing state]
-Status: Der Status, in den das Konto wechselt\r\nKonto: Das Konto, dessen Status wechselt
-[TriggerData]
-Auslöser Daten
-[Becoming active without status change]
-Reaktiviert ohne Statuswechsel
-[Leaving second auto-away status]
-Verlasse zweiten Auto-abwesend-Status
 ;file \plugins\StatusManager\src\aaa_options.cpp
 [minutes of %s mode]
 Min. im Status "%s"

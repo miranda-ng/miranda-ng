@@ -500,6 +500,10 @@ mise à jour
 [Check anniversaries]
 Vérifier les anniversaires
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[Main]
+Principales
+[Default]
+Défaut
 [IM naming]
 Pseudo - nom
 [Password]
@@ -514,8 +518,6 @@ Adresse
 
 [Export: folder]
 
-[Default]
-Défaut
 [Details info bar]
 
 [Phone info bar]
@@ -600,8 +602,6 @@ Recherche
 Attention : La version de votre pack d'icônes n'est pas prévue pour votre UserInfoEx actuel.\nCertaines images peuvent ne pas s'afficher correctement.
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
 
-[Main]
-Principales
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 [Extended user info]
 
@@ -1052,9 +1052,9 @@ Maison automatisée
 
 [University]
 
-[TmplPast Work Place]
+[Past Work Place]
 
-[TmplPast Organization]
+[Past Organization]
 
 [Single]
 

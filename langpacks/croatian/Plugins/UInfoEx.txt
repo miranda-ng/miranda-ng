@@ -500,6 +500,10 @@ Detalji o &Korisniku
 [Check anniversaries]
 
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[Main]
+
+[Default]
+
 [IM naming]
 
 [Password]
@@ -513,8 +517,6 @@ Detalji o &Korisniku
 [Export: modules]
 
 [Export: folder]
-
-[Default]
 
 [Details info bar]
 
@@ -599,8 +601,6 @@ Strelica dolje
 [Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
 
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
-
-[Main]
 
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 [Extended user info]
@@ -1052,9 +1052,9 @@ Strelica dolje
 
 [University]
 
-[TmplPast Work Place]
+[Past Work Place]
 
-[TmplPast Organization]
+[Past Organization]
 
 [Single]
 

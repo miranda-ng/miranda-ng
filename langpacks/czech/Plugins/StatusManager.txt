@@ -278,22 +278,6 @@ Považovat za odpojeno po
 ztrac. pak.
 [Continuously check interval (secs)]
 Interval ověřování připojení (sek.)
-[Entering first auto-away status]
-Přechod do prvního automatického stavu
-[Entering second auto-away status]
-Přechod do druhého automatického stavu
-[Leaving first auto-away status]
-Návrat z prvního automatického stavu
-[Pre-conditions]
-Předpoklady
-[Status: The status the account will change to\r\nAccount: The account changing state]
-Stav: Stav účtu bude změněn na\r\nÚčet: Účet mění svůj stav
-[TriggerData]
-Data spouštěče
-[Becoming active without status change]
-Návrat z nečinnosti bez změny stavu
-[Leaving second auto-away status]
-Návrat z druhého automatického stavu
 ;file \plugins\StatusManager\src\aaa_options.cpp
 [minutes of %s mode]
 min. ve stavu '%s'

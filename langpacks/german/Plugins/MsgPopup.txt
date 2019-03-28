@@ -29,12 +29,6 @@ Spezielle Werte des "Timeout":\n -1 = unendlich, 0 = Standardtimeoutwert
 [Emit a sound]
 Sound abspielen
 ;file \plugins\MsgPopup\src\main.cpp
-[VirtualProtect failed. Code %d\nTry to call the author]
-
-[Error]
-Fehler
-[Hmm. Something goes wrong. I can't write into the memory.\nAnd as you can see, there are no any exception raised...\nTry to call the author]
-
 [MessagePopup]
 
 [Popups]

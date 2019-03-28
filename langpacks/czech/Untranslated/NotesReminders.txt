@@ -13,7 +13,6 @@
 [Repeat each day]
 [Repeat Alert Sound]
 [Use Sound]
-[reftime]
 [After:]
 [On Time && Date:]
 [&Remind Again]

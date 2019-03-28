@@ -137,17 +137,6 @@ Alert MSN
 ;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
 Użytkownik jest rozłączony
-;file \protocols\MSN\src\msn_ieembed.cpp
-[IID_IOleObject failed.]
-IID_IOleObject nie powiódł się.
-[RESULT]
-WYNIK
-[IID_IOleInPlaceObject failed.]
-IID_IOleInPlaceObject nie powiódł się.
-[Failed to Advise]
-Nie udało się doradzić
-[C++ Event Sink]
-Zamarcie zdarzenia C++
 ;file \protocols\MSN\src\msn_lists.cpp
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
 Kontakt %s został usunięty z serwera.\nCzy chciałbyś pozostawić go na liście jako kontakt lokalny w celu zachowania historii?

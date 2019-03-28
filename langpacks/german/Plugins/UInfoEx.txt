@@ -500,6 +500,10 @@ Kontaktprofil
 [Check anniversaries]
 Suche nach Jahrestagen
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[Main]
+Allgemein
+[Default]
+Standard
 [IM naming]
 IM-Benennung
 [Password]
@@ -514,8 +518,6 @@ Adresse
 Exportieren: Module
 [Export: folder]
 Exportieren: Ordner
-[Default]
-Standard
 [Details info bar]
 Details-Infoleiste
 [Phone info bar]
@@ -600,8 +602,6 @@ Jahrestag später
 Achtung: Ihre aktuelle Icon-Paket-Version ist unterschiedlich zu der des UserInfoEx-Pakets, das hierfür erstellt wurde.\nEinige Icons werden eventuell nicht korrekt dargestellt.]
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
 Achtung: Kein Iconpack wurde in folgendem Ordner gefunden: 'customize\\Icons', 'Icons' oder 'Plugins'!
-[Main]
-Allgemein
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 [Extended user info]
 Erweiterte Benutzerinfos
@@ -1052,9 +1052,9 @@ Mittelschule
 Gymnasium
 [University]
 Universität
-[TmplPast Work Place]
+[Past Work Place]
 
-[TmplPast Organization]
+[Past Organization]
 
 [Single]
 Single

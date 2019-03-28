@@ -278,22 +278,6 @@ Reaguj na utratę połączenia po
 stracone pingi
 [Continuously check interval (secs)]
 Ciągłe odstępy sprawdzania (s)
-[Entering first auto-away status]
-Wprowadzanie pierwszego statusu auto-away
-[Entering second auto-away status]
-Wprowadzanie drugiego statusu auto-away
-[Leaving first auto-away status]
-Zostawianie pierwszego statusu auto-away
-[Pre-conditions]
-Wstępne warunki
-[Status: The status the account will change to\r\nAccount: The account changing state]
-Status: Status konta został zmieniony do\r\Konto: Konto zmieniło status
-[TriggerData]
-Wywoływanie danych
-[Becoming active without status change]
-Przywracanie aktywności bez zmiany statusu
-[Leaving second auto-away status]
-Zostawianie drugiego statusu auto-away
 ;file \plugins\StatusManager\src\aaa_options.cpp
 [minutes of %s mode]
 minutach "%s"

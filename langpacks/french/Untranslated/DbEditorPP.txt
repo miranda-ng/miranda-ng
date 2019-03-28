@@ -40,7 +40,6 @@
 [Dword setting]
 [String setting]
 [Unicode setting]
-[Handle]
 [Open Database Editor]
 [Database]
 [[UNLOADED]]

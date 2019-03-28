@@ -29,12 +29,6 @@
 [Emit a sound]
 Играть звук
 ;file \plugins\MsgPopup\src\main.cpp
-[VirtualProtect failed. Code %d\nTry to call the author]
-Ошибка виртуальной защиты. Код %d\nОтправьте сообщение об ошибке
-[Error]
-Ошибка
-[Hmm. Something goes wrong. I can't write into the memory.\nAnd as you can see, there are no any exception raised...\nTry to call the author]
-Гм. Что-то пошло не так. Не удаётся произвести запись в память.\И, как вы уже видите, не сгенерировано никакого исключения...\nПопробуйте отправить сообщение об ошибке
 [MessagePopup]
 Диалоговые окна
 [Popups]

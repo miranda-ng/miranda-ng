@@ -32,7 +32,6 @@
 [Use Sound]
 [&Add Reminder]
 [&View Reminders]
-[reftime]
 [Reminder]
 [After:]
 [On Time && Date:]

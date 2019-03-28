@@ -76,8 +76,6 @@ Nema
 &Zatvori
 [&View Reminders]
 
-[reftime]
-
 [Reminder]
 
 [After:]

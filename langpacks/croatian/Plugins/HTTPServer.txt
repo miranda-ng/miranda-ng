@@ -84,9 +84,6 @@
 
 [&Copy link]
 &Kopiraj link
-;file \plugins\HTTPServer\src\Glob.h
-[Miranda NG HTTP-Server]
-
 ;file \plugins\HTTPServer\src\GuiElements.cpp
 [Share Current Directory]
 
