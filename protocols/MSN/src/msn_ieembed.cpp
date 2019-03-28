@@ -87,10 +87,10 @@ void IEEmbedSink::DownloadBegin() {}
 void IEEmbedSink::DownloadComplete() {}
 void IEEmbedSink::TitleChange(BSTR) {}
 void IEEmbedSink::PropertyChange(BSTR) {}
-void IEEmbedSink::BeforeNavigate2(IDispatch*, VARIANT* , VARIANT*, VARIANT*, VARIANT*, VARIANT*, VARIANT_BOOL*) { }
+void IEEmbedSink::BeforeNavigate2(IDispatch*, VARIANT*, VARIANT*, VARIANT*, VARIANT*, VARIANT*, VARIANT_BOOL*) {}
 void IEEmbedSink::NewWindow2(IDispatch**, VARIANT_BOOL*) {}
 void IEEmbedSink::NavigateComplete(IDispatch*, VARIANT*) {}
-void IEEmbedSink::DocumentComplete(IDispatch* , VARIANT* url) 
+void IEEmbedSink::DocumentComplete(IDispatch*, VARIANT* url)
 {
 	HWND hWnd;
 	ieWindow->GetWindow(&hWnd);
@@ -113,38 +113,17 @@ void IEEmbedSink::ClientToHostWindow(long *, long *) {}
 void IEEmbedSink::SetSecureLockIcon(long) {}
 void IEEmbedSink::FileDownload(VARIANT_BOOL*) {}
 
-
 static LRESULT CALLBACK IEEmbedServerWindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	IEEmbed **view = (IEEmbed **)GetWindowLongPtr(GetParent(GetParent(GetParent(hwnd))), GWLP_USERDATA);
 	if (view && *view) {
 		switch (message) {
-		/*
-		case WM_KEYUP:
-			if (LOWORD(wParam) == VK_ESCAPE && !(GetKeyState(VK_SHIFT) & 0x8000) && !(GetKeyState(VK_CONTROL) & 0x8000) && !(GetKeyState(VK_MENU) & 0x8000))
-				SendMessage(GetParent(GetParent(GetParent(hwnd))), WM_COMMAND, IDCANCEL, 0);
-			break; */
-		
 		case WM_KEYDOWN:
 			if (LOWORD(wParam) != VK_BACK)
 				(*view)->translateAccelerator(message, wParam, lParam);
 			break;
-		
-			/*
-		case WM_SETFOCUS:
-			RECT rcWindow;
-			POINT cursor;
-			GetWindowRect(hwnd, &rcWindow);
-			GetCursorPos(&cursor);
-			if (cursor.y <= rcWindow.bottom && cursor.y >= rcWindow.top && cursor.x <= rcWindow.right && cursor.x >= rcWindow.left)
-				view->mouseActivate();
-
-			if (view->setFocus((HWND)wParam))
-				return TRUE;
-			break;
-			*/
-		
 		}
+
 		return CallWindowProc((*view)->getServerWndProc(), hwnd, message, wParam, lParam);
 	}
 	return DefWindowProc(hwnd, message, wParam, lParam);
@@ -220,22 +199,19 @@ IEEmbed::~IEEmbed()
 	CComPtr<IOleObject> pOleObject;
 	if (SUCCEEDED(pWebBrowser.QueryInterface(&pOleObject)))
 		pOleObject->SetClientSite(nullptr);
-	else
-		MessageBox(nullptr, TranslateT("IID_IOleObject failed."), TranslateT("RESULT"), MB_OK);
 
 	if (m_pConnectionPoint != nullptr)
 		m_pConnectionPoint->Unadvise(m_dwCookie);
 
-	if (sink != nullptr)
-		delete sink;
+	delete sink;
 	DestroyWindow(hwnd);
 }
 
 void IEEmbed::ResizeBrowser()
 {
-	CComPtr<IOleInPlaceObject> pOleInPlace;
-
 	GetClientRect(parent, &rcClient);
+
+	CComPtr<IOleInPlaceObject> pOleInPlace;
 	if (SUCCEEDED(pWebBrowser.QueryInterface(&pOleInPlace)))
 		pOleInPlace->SetObjectRects(&rcClient, &rcClient);
 }
@@ -286,7 +262,7 @@ STDMETHODIMP IEEmbed::GetWindow(HWND *phwnd)
 
 STDMETHODIMP IEEmbed::ContextSensitiveHelp(BOOL) { return E_NOTIMPL; }
 STDMETHODIMP IEEmbed::CanInPlaceActivate(void) { return S_OK; }
-STDMETHODIMP IEEmbed::OnInPlaceActivate(void) {	return S_OK; }
+STDMETHODIMP IEEmbed::OnInPlaceActivate(void) { return S_OK; }
 STDMETHODIMP IEEmbed::OnUIActivate(void) { return E_NOTIMPL; }
 
 STDMETHODIMP IEEmbed::GetWindowContext(IOleInPlaceFrame **, IOleInPlaceUIWindow **, LPRECT lprcPosRect, LPRECT lprcClipRect, LPOLEINPLACEFRAMEINFO)
@@ -412,42 +388,40 @@ void IEEmbed::navigate(char *url)
 
 void IEEmbed::navigate(NETLIBHTTPREQUEST *nlhr)
 {
-	WCHAR *szUrl = mir_a2u(nlhr->szUrl);
-	BSTR bstrHeaders;
-    LPSAFEARRAY psa;
-	LPSTR pPostData;
-    VARIANT vPostData = {0}, vHeaders = {0};
+	BSTR bstrHeaders = SysAllocString(L"Content-Type: application/x-www-form-urlencoded\r\n");
 
-	bstrHeaders = SysAllocString(L"Content-Type: application/x-www-form-urlencoded\r\n");
-    V_VT(&vHeaders) = VT_BSTR;
-    V_BSTR(&vHeaders) = bstrHeaders;
-    VariantInit(&vPostData);
-    psa = SafeArrayCreateVector(VT_UI1, 0, nlhr->dataLength);
-    SafeArrayAccessData(psa, (LPVOID*)&pPostData);
+	VARIANT vHeaders = {};
+	V_VT(&vHeaders) = VT_BSTR;
+	V_BSTR(&vHeaders) = bstrHeaders;
+	
+	VARIANT vPostData = {};
+	VariantInit(&vPostData);
+	
+	LPSAFEARRAY psa = SafeArrayCreateVector(VT_UI1, 0, nlhr->dataLength);
+	LPSTR pPostData;
+	SafeArrayAccessData(psa, (LPVOID*)&pPostData);
 	memcpy(pPostData, nlhr->pData, nlhr->dataLength);
-    SafeArrayUnaccessData(psa);
-    V_VT(&vPostData) = VT_ARRAY | VT_UI1;
-    V_ARRAY(&vPostData) = psa;
-	pWebBrowser->Navigate(szUrl, nullptr, nullptr, &vPostData, &vHeaders);
+	SafeArrayUnaccessData(psa);
+
+	V_VT(&vPostData) = VT_ARRAY | VT_UI1;
+	V_ARRAY(&vPostData) = psa;
+	pWebBrowser->Navigate(_A2T(nlhr->szUrl), nullptr, nullptr, &vPostData, &vHeaders);
 	SysFreeString(bstrHeaders);
 	VariantClear(&vPostData);
-	mir_free(szUrl);
 }
 
-char *IEEmbed::GetHTMLDoc() {
+char* IEEmbed::GetHTMLDoc()
+{
 	CComPtr<IDispatch> spDispDoc;
 	char *pszRet = nullptr;
 
 	if (SUCCEEDED(pWebBrowser->get_Document(&spDispDoc))) {
 		CComPtr<IHTMLDocument3> spDoc;
-
-        if (SUCCEEDED(spDispDoc->QueryInterface(IID_IHTMLDocument3, (void**)&spDoc))) {
+		if (SUCCEEDED(spDispDoc->QueryInterface(IID_IHTMLDocument3, (void**)&spDoc))) {
 			CComPtr<IHTMLElement> spRootElement;
-			if (SUCCEEDED(spDoc->get_documentElement(&spRootElement)))
-			{
+			if (SUCCEEDED(spDoc->get_documentElement(&spRootElement))) {
 				BSTR bstrDoc;
-				if (SUCCEEDED(spRootElement->get_outerHTML(&bstrDoc)))
-				{
+				if (SUCCEEDED(spRootElement->get_outerHTML(&bstrDoc))) {
 					pszRet = mir_u2a(bstrDoc);
 					SysFreeString(bstrDoc);
 				}
