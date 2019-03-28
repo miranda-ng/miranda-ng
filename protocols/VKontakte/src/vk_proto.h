@@ -384,12 +384,12 @@ private:
 	void ReloadAvatarInfo(MCONTACT hContact);
 	void __cdecl SendMsgAck(void *param);
 	void __cdecl ChatContactTypingThread(void *p);
-	void StopChatContactTyping(int iChatId, int iUserId);
+	void StopChatContactTyping(int iChatId, LONG iUserId);
 	void OnCreateNewChat(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	CVkChatInfo* AppendChat(int id, const JSONNode &jnNode);
 	void SetChatTitle(CVkChatInfo *cc, LPCWSTR wszTopic);
 	void AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &jnFUsers, bool bIsHistory);
-	void AppendChatMessage(CVkChatInfo *cc, int uid, int msgTime, LPCWSTR pwszBody, bool bIsHistory, bool bIsAction = false);
+	void AppendChatMessage(CVkChatInfo *cc, LONG uid, int msgTime, LPCWSTR pwszBody, bool bIsHistory, bool bIsAction = false);
 	void RetrieveChatInfo(CVkChatInfo*);
 	void OnReceiveChatInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnSendChatMsg(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
@@ -397,7 +397,7 @@ private:
 	void OnChatDestroy(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	int __cdecl OnChatEvent(WPARAM, LPARAM);
 	int __cdecl OnGcMenuHook(WPARAM, LPARAM);
-	void KickFromChat(int chat_id, int user_id, const JSONNode &jnMsg, const JSONNode &jnFUsers);
+	void KickFromChat(int chat_id, LONG user_id, const JSONNode &jnMsg, const JSONNode &jnFUsers);
 	void LeaveChat(int chat_id, bool close_window = true, bool delete_chat = false);
 	INT_PTR __cdecl OnLeaveChat(WPARAM, LPARAM);
 	INT_PTR __cdecl OnJoinChat(WPARAM, LPARAM);

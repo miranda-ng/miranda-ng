@@ -142,7 +142,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			if (!jnUser)
 				break;
 
-			int uid = jnUser["id"].as_int();
+			LONG uid = jnUser["id"].as_int();
 			bool bIsGroup = jnUser["type"].as_mstring() == L"group";
 			if (bIsGroup)
 				uid *= -1;
@@ -392,7 +392,7 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &
 	}
 }
 
-void CVkProto::AppendChatMessage(CVkChatInfo *cc, int uid, int msgTime, LPCWSTR pwszBody, bool bIsHistory, bool bIsAction)
+void CVkProto::AppendChatMessage(CVkChatInfo *cc, LONG uid, int msgTime, LPCWSTR pwszBody, bool bIsHistory, bool bIsAction)
 {
 	debugLogA("CVkProto::AppendChatMessage2");
 	MCONTACT hContact = FindUser(uid);
@@ -545,7 +545,7 @@ void CVkProto::LogMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 		{
 			CVkInviteChatForm dlg(this);
 			if (dlg.DoModal() && dlg.m_hContact != 0) {
-				int uid = getDword(dlg.m_hContact, "ID", VK_INVALID_USER);
+				LONG uid = getDword(dlg.m_hContact, "ID", VK_INVALID_USER);
 				if (uid != VK_INVALID_USER)
 					Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.addChatUser.json", true, &CVkProto::OnReceiveSmth)
 						<< INT_PARAM("user_id", uid)
@@ -626,7 +626,7 @@ void CVkProto::LeaveChat(int chat_id, bool close_window, bool delete_chat)
 	m_chats.remove(cc);
 }
 
-void CVkProto::KickFromChat(int chat_id, int user_id, const JSONNode &jnMsg, const JSONNode &jnFUsers)
+void CVkProto::KickFromChat(int chat_id, LONG user_id, const JSONNode &jnMsg, const JSONNode &jnFUsers)
 {
 	debugLogA("CVkProto::KickFromChat (%d)", user_id);
 
@@ -811,7 +811,7 @@ void CVkProto::ChatContactTypingThread(void *p)
 		return;
 
 	int iChatId = param->m_ChatId;
-	int iUserId = param->m_UserId;
+	LONG iUserId = param->m_UserId;
 
 	debugLogA("CVkProto::ChatContactTypingThread %d %d", iChatId, iUserId);
 
@@ -847,7 +847,7 @@ void CVkProto::ChatContactTypingThread(void *p)
 	StopChatContactTyping(iChatId, iUserId);
 }
 
-void CVkProto::StopChatContactTyping(int iChatId, int iUserId)
+void CVkProto::StopChatContactTyping(int iChatId, LONG iUserId)
 {
 	debugLogA("CVkProto::StopChatContactTyping %d %d", iChatId, iUserId);
 	MCONTACT hChatContact = FindChat(iChatId);

@@ -103,13 +103,13 @@ struct CVkChatMessage : public MZeroedObject
 
 struct CVkChatUser : public MZeroedObject
 {
-	CVkChatUser(int _id) :
+	CVkChatUser(LONG _id) :
 		m_uid(_id),
 		m_bDel(false),
 		m_bUnknown(false)
 	{}
 
-	int m_uid;
+	LONG m_uid;
 	bool m_bDel, m_bUnknown;
 	ptrW m_wszNick;
 };
@@ -204,7 +204,7 @@ struct CVKChatContactTypingParam {
 	{}
 
 	int m_ChatId;
-	int m_UserId;
+	LONG m_UserId;
 };
 
 struct CVKInteres {
