@@ -82,7 +82,7 @@ struct STICKYNOTE : public MZeroedObject
 	HWND SNHwnd, REHwnd;
 	BOOL bVisible, bOnTop;
 	CMStringA szText;
-	ULARGE_INTEGER ID;		// FILETIME in UTC
+	ULONGLONG ID;		// FILETIME in UTC
 	wchar_t *pwszTitle;
 	BOOL CustomTitle;
 	DWORD BgColor;			// custom bg color override (only valid if non-zero)
@@ -103,7 +103,7 @@ struct STICKYNOTE : public MZeroedObject
 
 static OBJLIST<STICKYNOTE> g_arStickies(1, PtrKeySortT);
 
-void GetTriggerTimeString(const ULARGE_INTEGER *When, wchar_t *s, size_t strSize, BOOL bUtc);
+void GetTriggerTimeString(const ULONGLONG *When, wchar_t *s, size_t strSize, BOOL bUtc);
 void OnListResize(HWND hwndDlg);
 void FileTimeToTzLocalST(const FILETIME *lpUtc, SYSTEMTIME *tmLocal);
 
@@ -124,10 +124,10 @@ static void EnsureUniqueID(STICKYNOTE *TSN)
 try_next:
 	// check existing notes if id is in use
 	for (auto &it : g_arStickies) {
-		if (it->ID.QuadPart == TSN->ID.QuadPart) {
+		if (it->ID == TSN->ID) {
 			// id in use, try new (increases the ID/time stamp by 100 nanosecond steps until an unused time is found,
 			// allthough it's very unlikely that there will be duplicated id's it's better to make 100% sure)
-			TSN->ID.QuadPart++;
+			TSN->ID++;
 			goto try_next;
 		}
 	}
@@ -304,7 +304,7 @@ static void JustSaveNotes(STICKYNOTE *pModified = nullptr)
 
 		// data header
 		CMStringA szValue;
-		szValue.AppendFormat("X%I64x:%d:%d:%d:%d:%x", pNote->ID.QuadPart, TX, TY, TW, TH, flags);
+		szValue.AppendFormat("X%I64x:%d:%d:%d:%d:%x", pNote->ID, TX, TY, TW, TH, flags);
 
 		// scroll pos
 		if (scrollV > 0)
@@ -1079,7 +1079,7 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 	return FALSE;
 }
 
-static STICKYNOTE* NewNoteEx(int Ax, int Ay, int Aw, int Ah, const char *pszText, ULARGE_INTEGER *ID, BOOL bVisible, BOOL bOnTop, int scrollV, COLORREF bgClr, COLORREF fgClr, wchar_t *Title, STICKYNOTEFONT *pCustomFont, BOOL bLoading)
+static STICKYNOTE* NewNoteEx(int Ax, int Ay, int Aw, int Ah, const char *pszText, ULONGLONG *ID, BOOL bVisible, BOOL bOnTop, int scrollV, COLORREF bgClr, COLORREF fgClr, wchar_t *Title, STICKYNOTEFONT *pCustomFont, BOOL bLoading)
 {
 	WNDCLASSEX TWC = {0};
 	WINDOWPLACEMENT TWP;
@@ -1196,7 +1196,7 @@ static STICKYNOTE* NewNoteEx(int Ax, int Ay, int Aw, int Ah, const char *pszText
 	return TSN;
 }
 
-void NewNote(int Ax, int Ay, int Aw, int Ah, const char *pszText, ULARGE_INTEGER *ID, BOOL bVisible, BOOL bOnTop, int scrollV)
+void NewNote(int Ax, int Ay, int Aw, int Ah, const char *pszText, ULONGLONG *ID, BOOL bVisible, BOOL bOnTop, int scrollV)
 {
 	auto *PSN = NewNoteEx(Ax, Ay, Aw, Ah, pszText, ID, bVisible, bOnTop, scrollV, 0, 0, nullptr, nullptr, FALSE);
 	if (PSN)
@@ -1220,8 +1220,8 @@ static void LoadNote(char *Value, bool bIsStartup)
 		return;
 
 	*TVal++ = 0;
-	ULARGE_INTEGER id;
-	id.QuadPart = _strtoui64(Value + 1, nullptr, 16);
+	ULONGLONG id;
+	id = _strtoui64(Value + 1, nullptr, 16);
 
 	int rect[4];
 	for (auto &it : rect) {
