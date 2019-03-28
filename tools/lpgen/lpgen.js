@@ -121,7 +121,7 @@ while (!sln_stream.AtEndOfStream) {
     // if exist sln_project_regexp, add to array, adding leading path to "trunk"
     if (sln_project_regexp) {
         //RegExp for unneeded modules, such as crypting library, zlib.dll etc.
-        var unneeded_modules = /(libjson|Zlib|EkHtml|Libgcrypt|libotr|Cryptlib|pu_stub|libcurl|glib|Pcre16|liblua|winapi|json|libaxolotl|hunspell|ffi|m_popup|m_variables|libsodium|libtox|pthreads|sqlite3)/i;
+        var unneeded_modules = /(libjson|Zlib|EkHtml|Libgcrypt|libotr|Cryptlib|pu_stub|libcurl|glib|Pcre16|liblua|winapi|json|libsignal|hunspell|ffi|m_popup|m_variables|libsodium|libtox|pthreads|sqlite3)/i;
         // Now check for unneeded modules NOT passed (module name are in sln_project_regexp[1]
         if (!unneeded_modules.test(sln_project_regexp[1])) {
             //no, this is not unneeded module, put path to array. Trunk path + path to file in sln_project_regexp[2]
