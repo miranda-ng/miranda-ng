@@ -215,8 +215,8 @@ static IDSTRLIST TmplPast[] = {
 	{302, LPGEN("College"), nullptr},
 	{303, LPGEN("University"), nullptr},
 	{304, LPGEN("Military"), nullptr},
-	{305, LPGEN("TmplPast Work Place"), nullptr},
-	{306, LPGEN("TmplPast Organization"), nullptr},
+	{305, LPGEN("Past Work Place"), nullptr},
+	{306, LPGEN("Past Organization"), nullptr},
 	{399, LPGEN("Other"), nullptr}
 };
 

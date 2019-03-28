@@ -30,7 +30,6 @@ INT_PTR CALLBACK BoxPreviewWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 void RegisterOptPrevBox()
 {
-	DWORD err;
 	WNDCLASSEX wcl;
 	wcl.cbSize = sizeof(wcl);
 	wcl.lpfnWndProc = (WNDPROC)BoxPreviewWndProc;
@@ -45,12 +44,6 @@ void RegisterOptPrevBox()
 	wcl.lpszClassName = BOXPREVIEW_WNDCLASS;
 	wcl.hIconSm = Skin_LoadIcon(SKINICON_OTHER_POPUP);
 	g_wndClass.cPopupPreviewBoxWndclass = RegisterClassEx(&wcl);
-	err = GetLastError();
-	if (!g_wndClass.cPopupPreviewBoxWndclass) {
-		wchar_t msg[1024];
-		mir_snwprintf(msg, TranslateT("Failed to register %s class."), wcl.lpszClassName);
-		MSGERROR(msg);
-	}
 
 	//  register custom class for dialog box with drop-shadow attribute
 	//  "#32770" stays for class name of default system dialog box
@@ -59,12 +52,6 @@ void RegisterOptPrevBox()
 	wcl.lpszClassName = L"PopupPlusDlgBox";
 	wcl.style |= CS_DROPSHADOW;
 	g_wndClass.cPopupPlusDlgBox = RegisterClassEx(&wcl);
-	err = GetLastError();
-	if (!g_wndClass.cPopupPlusDlgBox) {
-		wchar_t msg[1024];
-		mir_snwprintf(msg, TranslateT("Failed to register %s class."), wcl.lpszClassName);
-		MSGERROR(msg);
-	}
 }
 
 static void updatePreviewImage(HWND hwndBox)

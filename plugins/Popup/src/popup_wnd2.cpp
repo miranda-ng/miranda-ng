@@ -48,7 +48,7 @@ bool	LoadPopupWnd2()
 {
 	bool res = true;
 
-	WNDCLASSEX wcl = { 0 };
+	WNDCLASSEX wcl = {};
 	wcl.cbSize = sizeof(wcl);
 	wcl.lpfnWndProc = PopupWnd2::WindowProc;
 	wcl.hInstance = g_plugin.getInst();
@@ -57,31 +57,19 @@ bool	LoadPopupWnd2()
 	wcl.lpszClassName = POPUP_WNDCLASS;
 	wcl.hIconSm = Skin_LoadIcon(SKINICON_OTHER_POPUP);
 	g_wndClass.cPopupWnd2 = RegisterClassEx(&wcl);
-	DWORD err = GetLastError();
-	if (!g_wndClass.cPopupWnd2) {
+	if (!g_wndClass.cPopupWnd2)
 		res = false;
-		wchar_t msg[1024];
-		mir_snwprintf(msg, TranslateT("Failed to register %s class."), wcl.lpszClassName);
-		MessageBox(nullptr, msg, MODULNAME_LONG, MB_ICONSTOP | MB_OK);
-	}
 
-	WNDCLASSEX wclw = { 0 };
+	WNDCLASSEX wclw = {};
 	wclw.cbSize = sizeof(wclw);
-	if (!GetClassInfoEx(nullptr, L"EDIT", &wclw))
-		MSGERROR(TranslateT("Failed to GetClassInfoExW from EDIT class."));
+	GetClassInfoEx(nullptr, L"EDIT", &wclw);
+
 	wclw.hInstance = g_plugin.getInst();
 	wclw.lpszClassName = L"PopupEditBox";
 	wclw.style |= CS_DROPSHADOW;
 	g_wndClass.cPopupEditBox = RegisterClassEx(&wclw);
-	err = GetLastError();
-	if (!g_wndClass.cPopupEditBox) {
-		wchar_t msg[2048];
-		mir_snwprintf(msg, TranslateT("Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n"),
-			wclw.cbSize, wclw.style, wclw.lpfnWndProc, wclw.cbClsExtra, wclw.cbWndExtra, wclw.hInstance, wclw.hIcon, wclw.hCursor,
-			wclw.hbrBackground, wclw.lpszMenuName, wclw.lpszClassName, wclw.hIconSm);
-
-		MSGERROR(msg);
-	}
+	if (!g_wndClass.cPopupEditBox)
+		res = false;
 
 	memset(&wcl, 0, sizeof(wcl));
 	wcl.cbSize = sizeof(wcl);
@@ -97,13 +85,8 @@ bool	LoadPopupWnd2()
 	wcl.lpszClassName = L"PopupMenuHostWnd";
 	wcl.hIconSm = Skin_LoadIcon(SKINICON_OTHER_POPUP);
 	g_wndClass.cPopupMenuHostWnd = RegisterClassEx(&wcl);
-	err = GetLastError();
-	if (!g_wndClass.cPopupMenuHostWnd) {
+	if (!g_wndClass.cPopupMenuHostWnd)
 		res = false;
-		wchar_t msg[1024];
-		mir_snwprintf(msg, TranslateT("Failed to register %s class."), wcl.lpszClassName);
-		MSGERROR(msg);
-	}
 
 	ghwndMenuHost = CreateWindow(L"PopupMenuHostWnd", nullptr, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_plugin.getInst(), nullptr);
 	SetWindowPos(ghwndMenuHost, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_HIDEWINDOW);
@@ -113,9 +96,7 @@ bool	LoadPopupWnd2()
 	iccex.dwSize = sizeof(INITCOMMONCONTROLSEX);
 	InitCommonControlsEx(&iccex);
 
-	res = res && ghwndMenuHost;
-
-	return res;
+	return res && ghwndMenuHost;
 }
 
 void	UnloadPopupWnd2()

@@ -138,20 +138,13 @@ void HookOnImport(HMODULE hModule, char *lpszImpModName, PVOID lpOrigFunc, PVOID
 			g_mod++;
 
 			if (!VirtualProtect((LPVOID)ppfn, sizeof(void*), PAGE_EXECUTE_READWRITE, &oldProtect)) {
-				if (!g_HookError) {
-					wchar_t buf[200];
-
+				if (!g_HookError)
 					g_HookError = TRUE;
-					mir_snwprintf(buf, TranslateT("VirtualProtect failed. Code %d\nTry to call the author"), GetLastError());
-					prevMessageBox(nullptr, buf, TranslateT("Error"), MB_OK);
-				}
 			}
 			*(PVOID*)ppfn = lpNewFunc;
 			if (*(PVOID*)ppfn != lpNewFunc) {
-				if (!g_HookError2) {
+				if (!g_HookError2)
 					g_HookError2 = TRUE;
-					prevMessageBox(nullptr, TranslateT("Hmm. Something goes wrong. I can't write into the memory.\nAnd as you can see, there are no any exception raised...\nTry to call the author"), TranslateT("Error"), MB_OK);
-				}
 			}
 		}
 	}
