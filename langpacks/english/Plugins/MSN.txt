@@ -73,9 +73,6 @@
 [MSN Alert]
 ;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
-;file \protocols\MSN\src\msn_ieembed.cpp
-[IID_IOleObject failed.]
-[RESULT]
 ;file \protocols\MSN\src\msn_lists.cpp
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
 [%s protocol]
