@@ -19,11 +19,11 @@ Kontakte
 [Default group:]
 Standardgruppe:
 [Enable group chats]
-
+Gruppenchats aktivieren
 [Do not open chat windows on creation]
 Chatfenster bei der Erzeugung nicht öffnen
 [Use subgroups for server channels (requires restart)]
-
+Untergruppen für Server-Kanäle benutzen (Neustart erforderlich)
 [Nick:]
 Nick:
 ;file \protocols\Discord\src\dispatch.cpp
@@ -61,9 +61,9 @@ Geben Sie den empfangenen Einladungscode ein
 [Do you really want to leave the guild?]
 Möchten Sie diese Gilde wirklich verlassen?
 [Disable sync]
-
+Synchronisierung deaktivieren
 [Enable sync]
-
+Synchronisierung aktivieren
 [Join guild]
 Gilde beitreten
 [Copy my Discord ID]
@@ -75,9 +75,9 @@ Neuen Channel erstellen
 [Copy Discord ID]
 Discord-ID kopieren
 [Enable guild sync]
-
+Gilden-Synchronisierung aktivieren
 [Load server history]
-
+Verlauf vom Server laden
 ;file \protocols\Discord\src\options.cpp
 [Network]
 Netzwerk

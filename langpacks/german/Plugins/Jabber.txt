@@ -1,4 +1,4 @@
-#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
+﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber protocol
@@ -1639,7 +1639,7 @@ Fehler: Verbindung unterbrochen
 [Requesting registration instruction...]
 Registrierungsanweisung wird empfangen...
 [Registration canceled]
-
+Registrierung abgebrochen
 [Sending registration information...]
 Registrierungsdaten werden gesendet...
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
@@ -1654,7 +1654,7 @@ Version
 [System]
 System
 [Last activity]
-
+Letzte Aktivität
 [Operating system]
 Betriebssystem
 [Operating system version]

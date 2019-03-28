@@ -1,5 +1,0 @@
-[Use tray icon notifications]
-[Launch mailbox in a browser on click]
-[E-mail notification]
-[You received e-mail from %s: %s]
-[You have %d unread emails]
