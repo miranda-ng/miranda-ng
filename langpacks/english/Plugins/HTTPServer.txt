@@ -45,8 +45,6 @@
 [&Remove share]
 [&Open in Browser]
 [&Copy link]
-;file \plugins\HTTPServer\src\Glob.h
-[Miranda NG HTTP-Server]
 ;file \plugins\HTTPServer\src\GuiElements.cpp
 [Share Current Directory]
 [All files]

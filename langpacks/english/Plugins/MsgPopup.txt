@@ -18,9 +18,6 @@
 [Special values of the "Timeout":\n -1 - infinity, 0 - use default timeout value]
 [Emit a sound]
 ;file \plugins\MsgPopup\src\main.cpp
-[VirtualProtect failed. Code %d\nTry to call the author]
-[Error]
-[Hmm. Something goes wrong. I can't write into the memory.\nAnd as you can see, there are no any exception raised...\nTry to call the author]
 [MessagePopup]
 [Popups]
 ;file \plugins\MsgPopup\src\options.cpp

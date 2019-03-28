@@ -41,7 +41,6 @@
 [&Add Reminder]
 [&Close]
 [&View Reminders]
-[reftime]
 [Reminder]
 [After:]
 [On Time && Date:]
