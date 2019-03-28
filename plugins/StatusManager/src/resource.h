@@ -15,9 +15,8 @@
 #define IDD_SETSTSMSGDIALOG             121
 #define IDD_OPT_STATUSPROFILES          123
 #define IDD_OPT_KS_ADV                  127
-#define IDD_TRG_AAASTATECHANGE          128
+#define IDD_OPT_SUBPLUGINS              128
 #define IDI_TTBDOWN                     129
-#define IDD_OPT_SUBPLUGINS              129
 #define IDI_TTBUP                       130
 #define IDC_PROTOCOL                    1000
 #define IDC_STATUS                      1001
@@ -140,14 +139,9 @@
 #define IDC_NOLOCKED                    1131
 #define IDC_PINGCOUNT                   1132
 #define IDC_CNTDELAY                    1133
-#define IDC_ENTERFIRST                  1134
-#define IDC_ENTERSECOND                 1135
-#define IDC_LEAVEFIRST                  1136
-#define IDC_LEAVESECOND                 1137
-#define IDC_BECOMEACTIVE                1138
-#define IDC_ENABLE_KEEPSTATUS           1141
-#define IDC_ENABLE_STARTUPSTATUS        1142
-#define IDC_ENABLE_ADVANCEDAUTOAWAY     1143
+#define IDC_ENABLE_KEEPSTATUS           1134
+#define IDC_ENABLE_STARTUPSTATUS        1135
+#define IDC_ENABLE_ADVANCEDAUTOAWAY     1136
 
 // Next default values for new objects
 // 
@@ -155,7 +149,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        131
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1145
+#define _APS_NEXT_CONTROL_VALUE         1137
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

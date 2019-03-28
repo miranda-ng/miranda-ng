@@ -378,24 +378,6 @@ BEGIN
     EDITTEXT        IDC_CNTDELAY,11,193,22,14,ES_AUTOHSCROLL | ES_NUMBER
 END
 
-IDD_TRG_AAASTATECHANGE DIALOGEX 0, 0, 212, 144
-STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
-EXSTYLE WS_EX_CONTROLPARENT
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    CONTROL         "Entering first auto-away status",IDC_ENTERFIRST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,24,110,10
-    CONTROL         "Entering second auto-away status",IDC_ENTERSECOND,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,37,123,10
-    CONTROL         "Leaving first auto-away status",IDC_LEAVEFIRST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,50,109,10
-    GROUPBOX        "Pre-conditions",IDC_STATIC,7,7,198,89
-    LTEXT           "Status: The status the account will change to\r\nAccount: The account changing state",IDC_STATIC,19,111,177,18
-    GROUPBOX        "TriggerData",IDC_STATIC,7,97,198,40
-    CONTROL         "Becoming active without status change",IDC_BECOMEACTIVE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,76,140,10
-    CONTROL         "Leaving second auto-away status",IDC_LEAVESECOND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,63,122,10
-END
-
-
 /////////////////////////////////////////////////////////////////////////////
 //
 // DESIGNINFO
@@ -456,10 +438,6 @@ BEGIN
         VERTGUIDE, 11
         VERTGUIDE, 283
     END
-
-    IDD_TRG_AAASTATECHANGE, DIALOG
-    BEGIN
-    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -490,11 +468,6 @@ BEGIN
 END
 
 IDD_PUOPT_KEEPSTATUS AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-IDD_TRG_AAASTATECHANGE AFX_DIALOG_LAYOUT
 BEGIN
     0
 END
