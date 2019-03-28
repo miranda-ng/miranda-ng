@@ -1043,7 +1043,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 	case IDM_KICK:
 		if ((GetTickCount() - dwLastBanKickTime) > BAN_KICK_INTERVAL) {
 			dwLastBanKickTime = GetTickCount();
-			szBuffer.Format(L"%s: ", me->m_szResourceName);
+			szBuffer.Format(L"%s: ", Utf2T(me->m_szResourceName).get());
 			szTitle.Format(TranslateT("Reason to kick %s"), Utf2T(him->m_szResourceName).get());
 			char *resourceName_copy = mir_strdup(him->m_szResourceName); // copy resource name to prevent possible crash if user list rebuilds
 			if (ppro->EnterString(szBuffer, szTitle, ESF_MULTILINE, "gcReason_"))
@@ -1122,14 +1122,14 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 				char szVictimBareJid[JABBER_MAX_JID_LEN];
 				JabberStripJid(him->m_szRealJid, szVictimBareJid, _countof(szVictimBareJid));
 
-				szBuffer.Format(L"%s: ", me->m_szResourceName);
-				szTitle.Format(TranslateT("Reason to ban %s"), him->m_szResourceName);
+				szBuffer.Format(L"%s: ", Utf2T(me->m_szResourceName).get());
+				szTitle.Format(TranslateT("Reason to ban %s"), Utf2T(him->m_szResourceName).get());
 
 				if (ppro->EnterString(szBuffer, szTitle, ESF_MULTILINE, "gcReason_"))
 					ppro->m_ThreadInfo->send(
-					XmlNodeIq("set", ppro->SerialNext(), item->jid) << XQUERY(JABBER_FEAT_MUC_ADMIN)
-					<< XCHILD("item") << XATTR("jid", szVictimBareJid) << XATTR("affiliation", "outcast")
-					<< XCHILD("reason", T2Utf(szBuffer)));
+						XmlNodeIq("set", ppro->SerialNext(), item->jid) << XQUERY(JABBER_FEAT_MUC_ADMIN)
+						<< XCHILD("item") << XATTR("jid", szVictimBareJid) << XATTR("affiliation", "outcast")
+						<< XCHILD("reason", T2Utf(szBuffer)));
 			}
 		}
 		dwLastBanKickTime = GetTickCount();
@@ -1243,7 +1243,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 
 	case IDM_TOPIC:
 		szTitle.Format(TranslateT("Set topic for %s"), gch->ptszID);
-		szBuffer = item->getTemp()->m_szStatusMessage;
+		szBuffer = Utf2T(item->getTemp()->m_szStatusMessage);
 		szBuffer.Replace(L"\n", L"\r\n");
 		if (ppro->EnterString(szBuffer, szTitle, ESF_RICHEDIT, "gcTopic_"))
 			ppro->m_ThreadInfo->send(
@@ -1253,7 +1253,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 	case IDM_NICK:
 		szTitle.Format(TranslateT("Change nickname in %s"), gch->ptszID);
 		if (item->nick)
-			szBuffer = item->nick;
+			szBuffer = Utf2T(item->nick);
 		if (ppro->EnterString(szBuffer, szTitle, ESF_COMBO, "gcNick_")) {
 			if (ppro->ListGetItemPtr(LIST_CHATROOM, roomJid) != nullptr) {
 				char text[1024];
