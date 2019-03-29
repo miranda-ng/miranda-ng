@@ -132,7 +132,6 @@ int CJabberProto::AdHoc_ExecuteCommand(HWND hwndDlg, char*, JabberAdHocData *dat
 // Messages handlers
 int CJabberProto::AdHoc_OnJAHMCommandListResult(HWND hwndDlg, TiXmlElement *iqNode, JabberAdHocData *dat)
 {
-	int nodeIdx = 0;
 	const char *type = XmlGetAttr(iqNode, "type");
 	if (!type || !mir_strcmp(type, "error")) {
 		// error occurred here
@@ -148,18 +147,17 @@ int CJabberProto::AdHoc_OnJAHMCommandListResult(HWND hwndDlg, TiXmlElement *iqNo
 		JabberFormSetInstruction(hwndDlg, CMStringA(FORMAT, TranslateU("Error %s %s"), code, description));
 	}
 	else if (!mir_strcmp(type, "result")) {
-		BOOL validResponse = FALSE;
 		EnumChildWindows(GetDlgItem(hwndDlg, IDC_FRAME), sttDeleteChildWindowsProc, 0);
 		dat->CurrentHeight = 0;
 		dat->curPos = 0;
 		SetScrollPos(GetDlgItem(hwndDlg, IDC_VSCROLL), SB_CTL, 0, FALSE);
-		auto *queryNode = XmlFirstChild(iqNode, "query");
-		if (queryNode) {
-			const char *xmlns = XmlGetAttr(queryNode, "xmlns");
-			const char *node = XmlGetAttr(queryNode, "node");
-			if (xmlns && node && !mir_strcmp(xmlns, JABBER_FEAT_DISCO_ITEMS) && !mir_strcmp(node, JABBER_FEAT_COMMANDS))
-				validResponse = TRUE;
-		}
+
+		bool validResponse = false;
+		auto *queryNode = XmlGetChildByTag(iqNode, "query", "xmlns", JABBER_FEAT_DISCO_ITEMS);
+		if (queryNode) 
+			validResponse = queryNode->Attribute("node", JABBER_FEAT_COMMANDS) != 0;
+
+		int nodeIdx = 1;
 		if (queryNode && XmlFirstChild(queryNode, 0) && validResponse) {
 			dat->CommandsNode = queryNode->DeepClone(&dat->doc)->ToElement();
 
@@ -170,6 +168,7 @@ int CJabberProto::AdHoc_OnJAHMCommandListResult(HWND hwndDlg, TiXmlElement *iqNo
 					name = XmlGetAttr(itemNode, "node");
 				ypos = AdHoc_AddCommandRadio(GetDlgItem(hwndDlg, IDC_FRAME), name, nodeIdx, ypos, (nodeIdx == 1) ? 1 : 0);
 				dat->CurrentHeight = ypos;
+				nodeIdx++;
 			}
 		}
 
