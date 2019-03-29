@@ -372,7 +372,7 @@ void CJabberProto::SendPresenceTo(int status, const char *to, const TiXmlElement
 		p << XATTR("to", to);
 
 	if (extra)
-		p.InsertEndChild(extra->DeepClone(&p)->ToElement());
+		p += extra;
 
 	// XEP-0115:Entity Capabilities
 	if (m_bAllowVersionRequests) {

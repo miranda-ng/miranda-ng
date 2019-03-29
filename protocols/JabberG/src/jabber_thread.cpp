@@ -1885,7 +1885,7 @@ void CJabberProto::OnProcessIq(const TiXmlElement *node)
 
 		auto *pFirstChild = XmlFirstChild(node);
 		if (pFirstChild)
-			iq.InsertEndChild(pFirstChild->DeepClone(&iq)->ToElement());
+			iq += pFirstChild;
 
 		iq << XCHILD("error") << XATTR("type", "cancel")
 			<< XCHILDNS("service-unavailable", "urn:ietf:params:xml:ns:xmpp-stanzas");

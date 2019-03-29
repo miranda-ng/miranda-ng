@@ -36,6 +36,11 @@ public:
 	XmlNode(const char *name);
 	XmlNode(const char *pszName, const char *ptszText);
 
+	__forceinline void operator +=(const TiXmlElement *pNode)
+	{
+		m_hXml->InsertEndChild(pNode->DeepClone(this)->ToElement());
+	}
+
 	__forceinline TiXmlElement* node() const
 	{	return m_hXml;
 	}
