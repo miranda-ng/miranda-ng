@@ -546,9 +546,12 @@ void CVkProto::LogMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 			CVkInviteChatForm dlg(this);
 			if (dlg.DoModal() && dlg.m_hContact != 0) {
 				LONG uid = getDword(dlg.m_hContact, "ID", VK_INVALID_USER);
-				if (uid != VK_INVALID_USER)
+
+				if (uid < 0)
+					MsgPopup(TranslateT("Adding bots to MUC is not supported"), TranslateT("Not supported"));
+				else if (uid != VK_INVALID_USER)
 					Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.addChatUser.json", true, &CVkProto::OnReceiveSmth)
-						<< INT_PARAM("user_id", uid < 0 ? 1000000000 - uid : uid)
+						<< INT_PARAM("user_id", uid)
 						<< INT_PARAM("chat_id", cc->m_iChatId));
 			}
 		}
@@ -761,9 +764,14 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 		if (!IsOnline())
 			return;
 
+		if (cu->m_uid < 0) {
+			MsgPopup(TranslateT("Kick bots is not supported"), TranslateT("Not supported"));
+			return;
+		}
+
 		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.removeChatUser.json", true, &CVkProto::OnReceiveSmth)
 			<< INT_PARAM("chat_id", cc->m_iChatId)
-			<< INT_PARAM("user_id", cu->m_uid < 0 ? 1000000000 - cu->m_uid : cu->m_uid));
+			<< INT_PARAM("user_id", cu->m_uid));
 		cu->m_bUnknown = true;
 
 		break;

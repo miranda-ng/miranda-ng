@@ -531,7 +531,7 @@ int CVkProto::AuthRequest(MCONTACT hContact, const wchar_t *message)
 		return 1;
 
 	if (userID < 0)
-		userID = 1000000000 - userID;
+		return 1;
 
 
 	wchar_t msg[501] = { 0 };
