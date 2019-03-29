@@ -82,7 +82,7 @@ private:
 	DWORD	m_dwLastScroll = 0;
 
 	list<CLogEntry*> m_Entrys;
-	CLCDBar			*m_pScrollbar;
+	CLCDBar *m_pScrollbar = nullptr;
 };
 
 #endif
