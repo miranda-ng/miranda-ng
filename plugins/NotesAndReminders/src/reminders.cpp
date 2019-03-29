@@ -1111,6 +1111,7 @@ public:
 	{
 		chkAfter.OnChange = Callback(this, &CReminderNotifyDlg::onChange_After);
 		chkOnDate.OnChange = Callback(this, &CReminderNotifyDlg::onChange_OnDate);
+		dateAgain.OnChange = Callback(this, &CReminderNotifyDlg::onChange_Date);
 
 		cmbTimeAgain.OnKillFocus = Callback(this, &CReminderNotifyDlg::onKillFocus_TimeAgain);
 		cmbRemindAgainIn.OnKillFocus = Callback(this, &CReminderNotifyDlg::onKillFocus_RemindAgain);
