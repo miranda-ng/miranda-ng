@@ -93,12 +93,12 @@ static void JabberAdHoc_RefreshFrameScroll(HWND hwndDlg, JabberAdHocData * dat)
 
 void CJabberProto::OnIqResult_ListOfCommands(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
-	SendMessage(GetWindowFromIq(pInfo), JAHM_COMMANDLISTRESULT, 0, (LPARAM)iqNode->DeepClone(0));
+	SendMessage(GetWindowFromIq(pInfo), JAHM_COMMANDLISTRESULT, 0, (LPARAM)iqNode);
 }
 
 void CJabberProto::OnIqResult_CommandExecution(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
-	SendMessage(GetWindowFromIq(pInfo), JAHM_PROCESSRESULT, (WPARAM)iqNode->DeepClone(0), 0);
+	SendMessage(GetWindowFromIq(pInfo), JAHM_PROCESSRESULT, 0, (WPARAM)iqNode);
 }
 
 void CJabberProto::AdHoc_RequestListOfCommands(char *szResponder, HWND hwndDlg)
@@ -417,7 +417,7 @@ static INT_PTR CALLBACK JabberAdHoc_CommandDlgProc(HWND hwndDlg, UINT msg, WPARA
 		return dat->proto->AdHoc_OnJAHMCommandListResult(hwndDlg, (TiXmlElement*)lParam, dat);
 
 	case JAHM_PROCESSRESULT:
-		return dat->proto->AdHoc_OnJAHMProcessResult(hwndDlg, (TiXmlElement*)wParam, dat);
+		return dat->proto->AdHoc_OnJAHMProcessResult(hwndDlg, (TiXmlElement*)lParam, dat);
 
 	case WM_MOUSEWHEEL:
 		{
