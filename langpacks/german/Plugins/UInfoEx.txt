@@ -1053,9 +1053,9 @@ Gymnasium
 [University]
 Universität
 [Past Work Place]
-
+Ehemaliger Arbeitsplatz
 [Past Organization]
-
+Ehemalige Organisation
 [Single]
 Single
 [Close relationships]

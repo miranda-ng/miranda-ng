@@ -30,7 +30,7 @@ Spezielle Werte des "Timeout":\n -1 = unendlich, 0 = Standardtimeoutwert
 Sound abspielen
 ;file \plugins\MsgPopup\src\main.cpp
 [MessagePopup]
-
+MessagePopup
 [Popups]
 Popups
 ;file \plugins\MsgPopup\src\options.cpp

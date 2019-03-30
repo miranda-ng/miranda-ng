@@ -55,7 +55,7 @@ Datum
 [Time]
 Zeit
 [Repeat each day]
-
+Täglich wiederholen
 [Reminder Note:]
 Erinnerungsnotiz:
 [None]

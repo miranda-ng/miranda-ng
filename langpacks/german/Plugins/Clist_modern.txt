@@ -748,7 +748,7 @@ Kontoname
 [Rate]
 Priorität
 [Last online]
-
+Zuletzt online
 [-Nothing-]
 -Nichts-
 [Hide to tray]

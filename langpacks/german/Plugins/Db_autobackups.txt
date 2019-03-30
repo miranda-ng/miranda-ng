@@ -57,9 +57,9 @@ Datenbank gesichert
 Datenbank wird gerade gesichert...
 ;file \plugins\Db_autobackups\src\main.cpp
 [Enable &AutoBackups notification]
-
+&AutoBackups-Benachrichtigung aktivieren
 [Disable &AutoBackups notification]
-
+&AutoBackups-Benachrichtigung deaktivieren
 [Miranda NG databases]
 Miranda-NG-Datenbanken
 [Compressed Miranda NG databases]
