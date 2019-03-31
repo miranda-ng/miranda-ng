@@ -259,7 +259,7 @@ int ClistExtraClick(WPARAM hContact, LPARAM lParam)
 HANDLE hEventExtraImageListRebuilding, hEventExtraImageApplying, hEventExtraClick;
 
 static bool bImageCreated = false;
-static HIMAGELIST hExtraImageList;
+static HIMAGELIST hExtraImageList = nullptr;
 
 MIR_APP_DLL(HANDLE) ExtraIcon_AddIcon(HICON hIcon)
 {
@@ -493,4 +493,9 @@ void UnloadExtraIconsModule(void)
 
 	for (auto &it : registeredExtraIcons)
 		delete it;
+
+	if (hExtraImageList) {
+		ImageList_Destroy(hExtraImageList);
+		hExtraImageList = nullptr;
+	}
 }

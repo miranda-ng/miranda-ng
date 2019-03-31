@@ -39,6 +39,7 @@ using namespace std;
 #include <m_langpack.h>
 #include <m_netlib.h>
 #include <m_options.h>
+#include <m_icolib.h>
 #include <m_history.h>
 #include <m_userinfo.h>
 #include <m_protosvc.h>
@@ -70,5 +71,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 extern MWindowList hInternalWindowList;
 extern wstring g_sDBPath, g_sMirandaPath;
+extern IconItem iconList[];
 
 #endif

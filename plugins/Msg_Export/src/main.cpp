@@ -22,6 +22,11 @@ CMPlugin g_plugin;
 
 MWindowList hInternalWindowList = nullptr;
 
+IconItem iconList[] =
+{
+	{ "Main icon", "main", IDI_EXPORT_MESSAGE },
+};
+
 /////////////////////////////////////////////////////
 // Remember to update the Version in the resource !!!
 /////////////////////////////////////////////////////
@@ -108,7 +113,7 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 	if (!g_bReplaceHistory) {
 		CMenuItem mi(&g_plugin);
 		SET_UID(mi, 0x701c543, 0xd078, 0x41dd, 0x95, 0xe3, 0x96, 0x49, 0x8a, 0x72, 0xc7, 0x50);
-		mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_EXPORT_MESSAGE));
+		mi.hIcolibItem = iconList[0].hIcolib;
 		mi.position = 1000090100;
 		mi.name.a = LPGEN("Open E&xported History");
 		mi.pszService = MS_SHOW_EXPORT_HISTORY;
@@ -134,6 +139,8 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 
 int CMPlugin::Load()
 {
+	registerIcon(MODULENAME, iconList, MODULENAME);
+
 	HookEvent(ME_DB_EVENT_ADDED, nExportEvent);
 	HookEvent(ME_DB_EVENT_EDITED, nExportEvent);
 	HookEvent(ME_DB_CONTACT_DELETED, nContactDeleted);

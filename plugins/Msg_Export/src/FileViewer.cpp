@@ -749,6 +749,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		pclDlg = (CLHistoryDlg *)lParam;
 
+		Window_SetIcon_IcoLib(hwndDlg, iconList[0].hIcolib);
 		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_EXPORT_MESSAGE)));
 		{
 			HWND hRichEdit = GetDlgItem(hwndDlg, IDC_RICHEDIT);
@@ -824,6 +825,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 	case WM_DESTROY:
 		Utils_SaveWindowPosition(hwndDlg, pclDlg->hContact, MODULENAME, szFileViewDB);
 		WindowList_Remove(hInternalWindowList, hwndDlg);
+		Window_FreeIcon_IcoLib(hwndDlg);
 		return 0;
 
 	case WM_SYSCOMMAND:
