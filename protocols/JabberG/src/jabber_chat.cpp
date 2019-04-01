@@ -222,7 +222,7 @@ void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus 
 			}
 
 			if (name)
-				buf.Format(Translate("Role of %s was changed to '%s'."), user->m_szResourceName, name);
+				buf.Format(TranslateU("Role of %s was changed to '%s'."), user->m_szResourceName, name);
 		}
 		break;
 	}
