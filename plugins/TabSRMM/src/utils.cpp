@@ -1326,6 +1326,10 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			}
 		}
 		break;
+
+	case WM_DESTROY:
+		Window_FreeIcon_IcoLib(hwnd);
+		break;
 	}
 
 	return FALSE;
