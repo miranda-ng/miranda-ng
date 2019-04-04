@@ -30,8 +30,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct JabberSearchFieldsInfo
 {
-	wchar_t * szFieldName;
-	wchar_t * szFieldCaption;
+	wchar_t *szFieldName;
+	wchar_t *szFieldCaption;
 	HWND hwndCaptionItem;
 	HWND hwndValueItem;
 };
@@ -54,40 +54,29 @@ struct JabberSearchData : public MZeroedObject
 struct Data
 {
 	wchar_t *Label;
-	wchar_t * Var;
-	wchar_t * defValue;
-	BOOL  bHidden;
-	BOOL  bReadOnly;
+	wchar_t *Var;
+	wchar_t *defValue;
+	BOOL bHidden;
+	BOOL bReadOnly;
 	int Order;
-
 };
 
 static HWND searchHandleDlg = nullptr;
 
 // Implementation of MAP class (the list
-template <typename _KEYTYPE, int(*COMPARATOR)(_KEYTYPE*, _KEYTYPE*) >
 class UNIQUE_MAP
 {
-
-public:
-	typedef _KEYTYPE* (*COPYKEYPROC)(_KEYTYPE*);
-	typedef void(*DESTROYKEYPROC)(_KEYTYPE*);
-
-private:
 	typedef struct _tagRECORD
 	{
-		_tagRECORD(_KEYTYPE * key, wchar_t * value = nullptr) { _key = key; _value = value; _order = 0; _destroyKeyProc = nullptr; }
+		_tagRECORD(wchar_t *key, wchar_t *value = nullptr) { _key = key; _value = value; _order = 0; }
 		~_tagRECORD()
 		{
-			if (_key && _destroyKeyProc)
-				_destroyKeyProc(_key);
+			mir_free(_key);
 			_key = nullptr;
-			_destroyKeyProc = nullptr;
 		}
-		_KEYTYPE *_key;
-		wchar_t * _value;
+		wchar_t *_key;
+		wchar_t *_value;
 		int _order;
-		DESTROYKEYPROC _destroyKeyProc;
 	} _RECORD;
 
 	int _nextOrder;
@@ -95,13 +84,10 @@ private:
 
 	static int _KeysEqual(const _RECORD *p1, const _RECORD *p2)
 	{
-		if (COMPARATOR)
-			return (int)(COMPARATOR((p1->_key), (p2->_key)));
-		else
-			return (int)(p1->_key < p2->_key);
+		return mir_wstrcmpi(p1->_key, p2->_key);
 	}
 
-	inline int _remove(_RECORD* p)
+	inline int _remove(_RECORD *p)
 	{
 		int _itemOrder = p->_order;
 		if (_Records.remove(p)) {
@@ -114,7 +100,7 @@ private:
 		}
 		return 0;
 	}
-	inline _RECORD * _getUnorderedRec(int index)
+	inline _RECORD* _getUnorderedRec(int index)
 	{
 		for (auto &rec : _Records)
 			if (rec->_order == index)
@@ -130,14 +116,14 @@ public:
 	};
 	~UNIQUE_MAP()
 	{
-		_RECORD * record;
+		_RECORD *record;
 		int i = 0;
 		while (record = _Records[i++]) delete record;
 	}
 
-	int insert(_KEYTYPE* Key, wchar_t *Value)
+	int insert(wchar_t *Key, wchar_t *Value)
 	{
-		_RECORD * rec = new _RECORD(Key, Value);
+		_RECORD *rec = new _RECORD(Key, Value);
 		int index = _Records.getIndex(rec);
 		if (index < 0) {
 			if (!_Records.insert(rec)) delete rec;
@@ -152,37 +138,41 @@ public:
 		}
 		return index;
 	}
-	int insertCopyKey(_KEYTYPE* Key, wchar_t *Value, _KEYTYPE** _KeyReturn, COPYKEYPROC CopyProc, DESTROYKEYPROC DestroyProc)
+	
+	int insertCopyKey(wchar_t *Key, wchar_t *Value, wchar_t **_KeyReturn)
 	{
-		_RECORD * rec = new _RECORD(Key, Value);
+		_RECORD *rec = new _RECORD(Key, Value);
 		int index = _Records.getIndex(rec);
 		if (index < 0) {
-			_KEYTYPE* newKey = CopyProc(Key);
+			wchar_t *newKey = mir_wstrdup(Key);
 			if (!_Records.insert(rec)) {
 				delete rec;
-				DestroyProc(newKey);
-				if (_KeyReturn) *_KeyReturn = nullptr;
+				mir_free(newKey);
+				if (_KeyReturn)
+					*_KeyReturn = nullptr;
 			}
 			else {
 				rec->_key = newKey;
-				rec->_destroyKeyProc = DestroyProc;
 				index = _Records.getIndex(rec);
 				rec->_order = _nextOrder++;
-				if (_KeyReturn) *_KeyReturn = newKey;
+				if (_KeyReturn)
+					*_KeyReturn = newKey;
 			}
 		}
 		else {
 			_Records[index]->_value = Value;
-			if (_KeyReturn) *_KeyReturn = _Records[index]->_key;
+			if (_KeyReturn)
+				*_KeyReturn = _Records[index]->_key;
 			delete rec;
 		}
 		return index;
 	}
-	inline wchar_t* operator[](_KEYTYPE* _KEY) const
+
+	inline wchar_t* operator[](wchar_t* _KEY) const
 	{
 		_RECORD rec(_KEY);
 		int index = _Records.getIndex(&rec);
-		_RECORD * rv = _Records[index];
+		_RECORD *rv = _Records[index];
 		if (rv) {
 			if (rv->_value)
 				return rv->_value;
@@ -194,25 +184,25 @@ public:
 	}
 	inline wchar_t* operator[](int index) const
 	{
-		_RECORD * rv = _Records[index];
+		_RECORD *rv = _Records[index];
 		if (rv) return rv->_value;
 		else return nullptr;
 	}
-	inline _KEYTYPE* getKeyName(int index)
+	inline wchar_t* getKeyName(int index)
 	{
-		_RECORD * rv = _Records[index];
+		_RECORD *rv = _Records[index];
 		if (rv) return rv->_key;
 		else return nullptr;
 	}
-	inline wchar_t * getUnOrdered(int index)
+	inline wchar_t* getUnOrdered(int index)
 	{
-		_RECORD * rec = _getUnorderedRec(index);
+		_RECORD *rec = _getUnorderedRec(index);
 		if (rec) return rec->_value;
 		else return nullptr;
 	}
-	inline _KEYTYPE * getUnOrderedKeyName(int index)
+	inline wchar_t* getUnOrderedKeyName(int index)
 	{
-		_RECORD * rec = _getUnorderedRec(index);
+		_RECORD *rec = _getUnorderedRec(index);
 		if (rec) return rec->_key;
 		else return nullptr;
 	}
@@ -222,29 +212,19 @@ public:
 	}
 	inline int removeUnOrdered(int index)
 	{
-		_RECORD * p = _getUnorderedRec(index);
+		_RECORD *p = _getUnorderedRec(index);
 		if (p) return _remove(p);
 		else return 0;
 	}
 	inline int remove(int index)
 	{
-		_RECORD * p = _Records[index];
+		_RECORD *p = _Records[index];
 		if (p) return _remove(p);
 		else return 0;
 	}
-	inline int getIndex(_KEYTYPE * key)
+	inline int getIndex(wchar_t * key)
 	{
 		_RECORD temp(key);
 		return _Records.getIndex(&temp);
 	}
 };
-
-inline int TCharKeyCmp(wchar_t* a, wchar_t* b)
-{
-	return (int)(mir_wstrcmpi(a, b));
-}
-
-inline int CharKeyCmp(char *a, char *b)
-{
-	return mir_strcmpi(a, b);
-}

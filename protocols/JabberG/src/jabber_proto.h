@@ -49,8 +49,6 @@ typedef void (CJabberProto::*JABBER_FORM_SUBMIT_FUNC)(CJabberFormDlg *pDlg, void
 
 enum TJabberGcLogInfoType { INFO_BAN, INFO_STATUS, INFO_CONFIG, INFO_AFFILIATION, INFO_ROLE };
 
-typedef UNIQUE_MAP<wchar_t, TCharKeyCmp> U_TCHAR_MAP;
-
 #define JABBER_DEFAULT_RECENT_COUNT 10
 
 struct TFilterInfo
@@ -702,7 +700,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	//---- jabber_search.cpp -------------------------------------------------------------
 
-	void   SearchReturnResults(HANDLE id, void* pvUsersInfo, U_TCHAR_MAP *pmAllFields);
+	void   SearchReturnResults(HANDLE id, void* pvUsersInfo, UNIQUE_MAP *pmAllFields);
 	void   OnIqResultAdvancedSearch(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultGetSearchFields(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	int    SearchRenewFields(HWND hwndDlg, JabberSearchData * dat);
