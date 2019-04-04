@@ -220,7 +220,7 @@ complete:
 			return SG_ERR_UNKNOWN;
 		}
 
-		if (plaintext_len > INT_MAX - EVP_CIPHER_block_size(evp_cipher)) {
+		if ((int)plaintext_len > INT_MAX - EVP_CIPHER_block_size(evp_cipher)) {
 			//fprintf(stderr, "invalid plaintext length: %zu\n", plaintext_len);
 			return SG_ERR_UNKNOWN;
 		}
@@ -300,7 +300,7 @@ complete:
 			return SG_ERR_INVAL;
 		}
 
-		if (ciphertext_len > INT_MAX - EVP_CIPHER_block_size(evp_cipher)) {
+		if ((int)ciphertext_len > INT_MAX - EVP_CIPHER_block_size(evp_cipher)) {
 			//fprintf(stderr, "invalid ciphertext length: %zu\n", ciphertext_len);
 			return SG_ERR_UNKNOWN;
 		}
