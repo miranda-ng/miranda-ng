@@ -1021,9 +1021,9 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleDirectPresence(WPARAM hContact, LPARAM
 	if (!m_bJabberOnline || !hContact)
 		return 0;
 
-	char *jid, text[1024];
-	ptrA tszJid(getUStringA(hContact, "jid"));
-	if (tszJid == nullptr) {
+	CMStringA jid;
+	ptrA szJid(getUStringA(hContact, "jid"));
+	if (szJid == nullptr) {
 		ptrA roomid(getUStringA(hContact, "ChatRoomID"));
 		if (roomid == nullptr)
 			return 0;
@@ -1032,10 +1032,9 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleDirectPresence(WPARAM hContact, LPARAM
 		if (item == nullptr)
 			return 0;
 
-		mir_snprintf(text, "%s/%s", item->jid, item->nick);
-		jid = text;
+		jid = MakeJid(item->jid, item->nick);
 	}
-	else jid = tszJid;
+	else jid = szJid;
 
 	CMStringW szValue;
 	if (EnterString(szValue, TranslateT("Status Message"), ESF_MULTILINE))

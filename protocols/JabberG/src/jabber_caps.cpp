@@ -229,10 +229,8 @@ JabberCapsBits CJabberProto::GetTotalJidCapabilities(const char *jid)
 
 	if (item) {
 		for (auto &it : item->arResources) {
-			char szFullJid[JABBER_MAX_JID_LEN];
-			mir_snprintf(szFullJid, "%s/%s", szBareJid, it->m_szResourceName);
 			pResourceStatus r(it);
-			JabberCapsBits jcb = GetResourceCapabilities(szFullJid, r);
+			JabberCapsBits jcb = GetResourceCapabilities(MakeJid(szBareJid, it->m_szResourceName), r);
 			if (!(jcb & JABBER_RESOURCE_CAPS_ERROR))
 				jcbToReturn |= jcb;
 		}

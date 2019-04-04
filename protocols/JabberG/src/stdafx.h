@@ -742,6 +742,8 @@ struct TStringPairs
 
 typedef char JabberShaStrBuf[2*MIR_SHA1_HASH_SIZE + 1];
 
+CMStringA MakeJid(const char *jid, const char *resource);
+
 char*  JabberNickFromJID(const char *jid);
 char*  JabberPrepareJid(const char *jid);
 char*  JabberSha1(const char *str, JabberShaStrBuf buf);

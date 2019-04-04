@@ -295,7 +295,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 				char szAddr[256];
 				mir_snprintf(szAddr, "http://%s:%d/%s", myAddr, nlb.wPort, pFileName.c_str());
 
-				XmlNodeIq iq("set", ft->szId, CMStringA(FORMAT, "%s/%s", ft->jid, ptszResource));
+				XmlNodeIq iq("set", ft->szId, MakeJid(ft->jid, ptszResource));
 				TiXmlElement *query = iq << XQUERY(JABBER_FEAT_OOB);
 				query << XCHILD("url", szAddr);
 				query << XCHILD("desc", T2Utf(ft->szDescription));

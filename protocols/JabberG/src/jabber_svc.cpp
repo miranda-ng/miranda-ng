@@ -146,15 +146,15 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 			if (item != nullptr) {
 				BOOL isXVcard = getByte(pai->hContact, "AvatarXVcard", 0);
 
-				char szJid[JABBER_MAX_JID_LEN]; szJid[0] = 0;
+				CMStringA szJid;
 				if (item->arResources.getCount() != 0 && !isXVcard)
 					if (char *bestResName = ListGetBestClientResourceNamePtr(tszJid))
-						mir_snprintf(szJid, "%s/%s", tszJid, bestResName);
+						szJid = MakeJid(tszJid, bestResName);
 
-				if (szJid[0] == 0)
-					strncpy_s(szJid, tszJid, _TRUNCATE);
+				if (szJid.IsEmpty())
+					szJid = tszJid;
 
-				debugLogA("Rereading %s for %s", isXVcard ? JABBER_FEAT_VCARD_TEMP : JABBER_FEAT_AVATAR, szJid);
+				debugLogA("Rereading %s for %s", isXVcard ? JABBER_FEAT_VCARD_TEMP : JABBER_FEAT_AVATAR, szJid.c_str());
 
 				m_ThreadInfo->send((isXVcard) ?
 					XmlNodeIq(AddIQ(&CJabberProto::OnIqResultGetVCardAvatar, JABBER_IQ_TYPE_GET, szJid)) << XCHILDNS("vCard", JABBER_FEAT_VCARD_TEMP) :
@@ -511,15 +511,15 @@ INT_PTR __cdecl CJabberProto::JabberSendNudge(WPARAM hContact, LPARAM)
 	if (jid == nullptr)
 		return 0;
 
-	char tszJid[JABBER_MAX_JID_LEN];
+	CMStringA szJid;
 	char *szResource = ListGetBestClientResourceNamePtr(jid);
 	if (szResource)
-		mir_snprintf(tszJid, "%s/%s", jid, szResource);
+		szJid = MakeJid(jid, szResource);
 	else
-		strncpy_s(tszJid, jid, _TRUNCATE);
+		szJid = jid;
 
 	m_ThreadInfo->send(
-		XmlNode("message") << XATTR("type", "headline") << XATTR("to", tszJid)
+		XmlNode("message") << XATTR("type", "headline") << XATTR("to", szJid)
 		<< XCHILDNS("attention", JABBER_FEAT_ATTENTION));
 	return 0;
 }

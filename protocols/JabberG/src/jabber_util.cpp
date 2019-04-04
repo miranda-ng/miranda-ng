@@ -66,6 +66,17 @@ MCONTACT CJabberProto::HContactFromJID(const char *jid, bool bStripResource)
 	return 0;
 }
 
+CMStringA MakeJid(const char *jid, const char *resource)
+{
+	CMStringA ret(jid);
+	if (resource != nullptr) {
+		ret.AppendChar('/');
+		ret.Append(resource);
+	}
+	return ret;
+}
+
+
 char* JabberNickFromJID(const char *jid)
 {
 	if (jid == nullptr)
@@ -494,11 +505,8 @@ void CJabberProto::SendPresence(int status, bool bSendToAll)
 		LISTFOREACH(i, this, LIST_CHATROOM)
 		{
 			JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
-			if (item != nullptr && item->nick != nullptr) {
-				char text[1024];
-				mir_snprintf(text, "%s/%s", item->jid, item->nick);
-				SendPresenceTo(status == ID_STATUS_INVISIBLE ? ID_STATUS_ONLINE : status, text);
-			}
+			if (item != nullptr && item->nick != nullptr)
+				SendPresenceTo(status == ID_STATUS_INVISIBLE ? ID_STATUS_ONLINE : status, MakeJid(item->jid, item->nick));
 		}
 	}
 }
@@ -549,7 +557,7 @@ char* CJabberProto::GetClientJID(const char *jid, char *dest, size_t destLen)
 		if (p == nullptr) {
 			pResourceStatus r(LI->getBestResource());
 			if (r != nullptr)
-				mir_snprintf(dest, destLen, "%s/%s", jid, r->m_szResourceName);
+				strncpy_s(dest, destLen, MakeJid(jid, r->m_szResourceName), _TRUNCATE);
 		}
 	}
 

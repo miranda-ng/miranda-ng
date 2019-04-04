@@ -334,11 +334,8 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, const TiXmlElement *
 	item->bChatActive = false;
 
 	if (m_bJabberOnline) {
-		char szPresenceTo[JABBER_MAX_JID_LEN];
-		mir_snprintf(szPresenceTo, "%s/%s", item->jid, item->nick);
-
 		m_ThreadInfo->send(
-			XmlNode("presence") << XATTR("to", szPresenceTo) << XATTR("type", "unavailable")
+			XmlNode("presence") << XATTR("to", MakeJid(item->jid, item->nick)) << XATTR("type", "unavailable")
 			<< XCHILD("status", szMessage));
 
 		ListRemove(LIST_CHATROOM, item->jid);
@@ -1014,7 +1011,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 
 	case IDM_VCARD:
 		{
-			CMStringA jid(FORMAT, "%s/%s", item->jid, him->m_szResourceName);
+			CMStringA jid(MakeJid(item->jid, him->m_szResourceName));
 
 			MCONTACT hContact = ppro->AddToListByJID(jid, PALF_TEMPORARY);
 			ppro->setUString(hContact, "Nick", him->m_szResourceName);
@@ -1138,7 +1135,8 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 	case IDM_LINK0: case IDM_LINK1: case IDM_LINK2: case IDM_LINK3: case IDM_LINK4:
 	case IDM_LINK5: case IDM_LINK6: case IDM_LINK7: case IDM_LINK8: case IDM_LINK9:
 		if ((GetTickCount() - dwLastBanKickTime) > BAN_KICK_INTERVAL) {
-			Utf2T resourceName_copy(him->m_szResourceName); // copy resource name to prevent possible crash if user list rebuilds
+			// copy resource name to prevent possible crash if user list rebuilds
+			char *resourceName_copy(NEWSTR_ALLOCA(him->m_szResourceName));
 
 			char *szInviteTo = nullptr;
 			int idx = gch->dwData - IDM_LINK0;
@@ -1159,10 +1157,8 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 			if (!ppro->EnterString(szBuffer, szTitle, ESF_MULTILINE))
 				break;
 
-			szTitle.Format(L"%s/%s", item->jid, resourceName_copy);
-
 			XmlNode msg("message");
-			msg << XATTR("to", T2Utf(szTitle)) << XATTRID(ppro->SerialNext())
+			msg << XATTR("to", MakeJid(item->jid, resourceName_copy)) << XATTRID(ppro->SerialNext())
 				<< XCHILD("x", T2Utf(szBuffer)) << XATTR("xmlns", JABBER_FEAT_DIRECT_MUC_INVITE) << XATTR("jid", szInviteTo)
 				<< XCHILD("invite") << XATTR("from", item->nick);
 			ppro->m_ThreadInfo->send(msg);
@@ -1180,7 +1176,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 		break;
 
 	case IDM_CPY_INROOMJID:
-		JabberCopyText(g_clistApi.hwndContactList, CMStringA(FORMAT, "%s/%s", item->jid, him->m_szResourceName));
+		JabberCopyText(g_clistApi.hwndContactList, MakeJid(item->jid, him->m_szResourceName));
 		break;
 
 	case IDM_RJID_VCARD:
@@ -1254,13 +1250,9 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 		szTitle.Format(TranslateT("Change nickname in %s"), gch->ptszID);
 		if (item->nick)
 			szBuffer = Utf2T(item->nick);
-		if (ppro->EnterString(szBuffer, szTitle, ESF_COMBO, "gcNick_")) {
-			if (ppro->ListGetItemPtr(LIST_CHATROOM, roomJid) != nullptr) {
-				char text[1024];
-				mir_snprintf(text, "%s/%s", roomJid.get(), T2Utf(szBuffer).get());
-				ppro->SendPresenceTo(ppro->m_iStatus == ID_STATUS_INVISIBLE ? ID_STATUS_ONLINE : ppro->m_iStatus, text);
-			}
-		}
+		if (ppro->EnterString(szBuffer, szTitle, ESF_COMBO, "gcNick_"))
+			if (ppro->ListGetItemPtr(LIST_CHATROOM, roomJid) != nullptr)
+				ppro->SendPresenceTo(ppro->m_iStatus == ID_STATUS_INVISIBLE ? ID_STATUS_ONLINE : ppro->m_iStatus, MakeJid(roomJid, T2Utf(szBuffer)));
 		break;
 
 	case IDM_INVITE:
@@ -1341,9 +1333,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 
 static void sttSendPrivateMessage(CJabberProto *ppro, JABBER_LIST_ITEM *item, const char *nick)
 {
-	char szFullJid[JABBER_MAX_JID_LEN];
-	mir_snprintf(szFullJid, "%s/%s", item->jid, nick);
-	MCONTACT hContact = ppro->DBCreateContact(szFullJid, nullptr, true, false);
+	MCONTACT hContact = ppro->DBCreateContact(MakeJid(item->jid, nick), nullptr, true, false);
 	if (hContact != 0) {
 		pResourceStatus r(item->findResource(nick));
 		if (r)

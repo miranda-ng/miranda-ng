@@ -539,8 +539,8 @@ int CJabberProto::AdhocForwardHandler(const TiXmlElement*, CJabberIqInfo *pInfo,
 
 		int nEventsSent = 0;
 		for (auto &hContact : AccContacts()) {
-			ptrA tszJid(getUStringA(hContact, "jid"));
-			if (tszJid == nullptr)
+			ptrA szJid(getUStringA(hContact, "jid"));
+			if (szJid == nullptr)
 				continue;
 
 			for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
@@ -567,13 +567,12 @@ int CJabberProto::AdhocForwardHandler(const TiXmlElement*, CJabberIqInfo *pInfo,
 
 				TiXmlElement *addressesNode = msg << XCHILDNS("addresses", JABBER_FEAT_EXT_ADDRESSING);
 				
-				char szOFrom[JABBER_MAX_JID_LEN];
+				CMStringA szOFrom;
 				size_t cbBlob = mir_strlen((LPSTR)dbei.pBlob) + 1;
-				if (cbBlob < dbei.cbBlob) { // rest of message contains a sender's resource
-					ptrW szOResource(mir_utf8decodeW((LPSTR)dbei.pBlob + cbBlob + 1));
-					mir_snprintf(szOFrom, "%s/%s", tszJid, szOResource);
-				}
-				else strncpy_s(szOFrom, tszJid, _TRUNCATE);
+				if (cbBlob < dbei.cbBlob) // rest of message contains a sender's resource
+					szOFrom = MakeJid(szJid, (LPSTR)dbei.pBlob + cbBlob + 1);
+				else
+					szOFrom = szJid;
 
 				addressesNode << XCHILD("address") << XATTR("type", "ofrom") << XATTR("jid", szOFrom);
 				addressesNode << XCHILD("address") << XATTR("type", "oto") << XATTR("jid", m_ThreadInfo->fullJID);

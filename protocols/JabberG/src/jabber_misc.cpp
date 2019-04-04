@@ -350,12 +350,10 @@ void CJabberProto::UpdateMirVer(MCONTACT hContact, const pResourceStatus &r)
 	if (jid == nullptr)
 		return;
 
-	char szFullJid[JABBER_MAX_JID_LEN];
 	if (r->m_szResourceName && !strchr(jid, '/'))
-		mir_snprintf(szFullJid, "%s/%s", jid, r->m_szResourceName);
+		setUString(hContact, DBSETTING_DISPLAY_UID, MakeJid(jid, r->m_szResourceName));
 	else
-		mir_strncpy(szFullJid, jid, _countof(szFullJid));
-	setUString(hContact, DBSETTING_DISPLAY_UID, szFullJid);
+		setUString(hContact, DBSETTING_DISPLAY_UID, jid);
 }
 
 void CJabberProto::UpdateSubscriptionInfo(MCONTACT hContact, JABBER_LIST_ITEM *item)

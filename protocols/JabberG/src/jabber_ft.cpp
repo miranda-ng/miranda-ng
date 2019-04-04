@@ -97,10 +97,7 @@ void CJabberProto::FtInitiate(char* jid, filetransfer *ft)
 	if (wchar_t *p = wcsrchr(filename, '\\'))
 		filename = p + 1;
 
-	char tszJid[512];
-	mir_snprintf(tszJid, "%s/%s", jid, rs);
-
-	XmlNodeIq iq(AddIQ(&CJabberProto::OnFtSiResult, JABBER_IQ_TYPE_SET, tszJid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_TO, -1, ft));
+	XmlNodeIq iq(AddIQ(&CJabberProto::OnFtSiResult, JABBER_IQ_TYPE_SET, MakeJid(jid, rs), JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_TO, -1, ft));
 	TiXmlElement *si = iq << XCHILDNS("si", JABBER_FEAT_SI) << XATTR("id", sid)
 		<< XATTR("mime-type", "binary/octet-stream") << XATTR("profile", JABBER_FEAT_SI_FT);
 	si << XCHILDNS("file", JABBER_FEAT_SI_FT) << XATTR("name", T2Utf(filename))

@@ -641,8 +641,7 @@ int CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 			if (item->arResources.getCount()) {
 				for (auto &it : item->arResources) {
 					pResourceStatus r(it);
-					char tmp[JABBER_MAX_JID_LEN];
-					mir_snprintf(tmp, "%s/%s", szBareJid, r->m_szResourceName);
+					CMStringA tmp(MakeJid(szBareJid, r->m_szResourceName));
 
 					if (r->m_jcbCachedCaps & JABBER_CAPS_DISCO_INFO)
 						m_ThreadInfo->send(

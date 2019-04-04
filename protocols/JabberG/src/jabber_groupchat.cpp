@@ -744,7 +744,7 @@ static VOID CALLBACK JabberGroupchatChangeNickname(void* arg)
 		if (param->ppro->EnterString(szBuffer, szTitle, ESF_COMBO, "gcNick_")) {
 			T2Utf newNick(szBuffer);
 			replaceStr(item->nick, newNick);
-			param->ppro->SendPresenceTo(param->ppro->m_iStatus, CMStringA(FORMAT, "%s/%s", item->jid, newNick.get()));
+			param->ppro->SendPresenceTo(param->ppro->m_iStatus, MakeJid(item->jid, newNick));
 		}
 	}
 
@@ -990,9 +990,7 @@ void CJabberProto::GroupchatProcessPresence(const TiXmlElement *node)
 			ptrA newNick(getUStringA("GcAltNick"));
 			if (++item->iChatState == 1 && newNick != nullptr && newNick[0] != 0) {
 				replaceStr(item->nick, newNick);
-				char text[1024];
-				mir_snprintf(text, "%s/%s", item->jid, newNick);
-				SendPresenceTo(m_iStatus, text);
+				SendPresenceTo(m_iStatus, MakeJid(item->jid, newNick));
 			}
 			else {
 				CallFunctionAsync(JabberGroupchatChangeNickname, new JabberGroupchatChangeNicknameParam(this, from));
