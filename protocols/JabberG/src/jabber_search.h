@@ -66,25 +66,24 @@ static HWND searchHandleDlg = nullptr;
 // Implementation of MAP class (the list
 class UNIQUE_MAP
 {
-	typedef struct _tagRECORD
+	struct _RECORD
 	{
-		_tagRECORD(wchar_t *key, wchar_t *value = nullptr) { _key = key; _value = value; _order = 0; }
-		~_tagRECORD()
-		{
-			mir_free(_key);
-			_key = nullptr;
-		}
-		wchar_t *_key;
-		wchar_t *_value;
-		int _order;
-	} _RECORD;
+		_RECORD(char *key, char *value = nullptr) :
+			_key(key),
+			_value(value)
+		{ }
+
+		char *_key;
+		char *_value;
+		int _order = 0;
+	};
 
 	int _nextOrder;
 	LIST<_RECORD> _Records;
 
 	static int _KeysEqual(const _RECORD *p1, const _RECORD *p2)
 	{
-		return mir_wstrcmpi(p1->_key, p2->_key);
+		return mir_strcmpi(p1->_key, p2->_key);
 	}
 
 	inline int _remove(_RECORD *p)
@@ -100,6 +99,7 @@ class UNIQUE_MAP
 		}
 		return 0;
 	}
+	
 	inline _RECORD* _getUnorderedRec(int index)
 	{
 		for (auto &rec : _Records)
@@ -121,9 +121,9 @@ public:
 		while (record = _Records[i++]) delete record;
 	}
 
-	int insert(wchar_t *Key, wchar_t *Value)
+	int insert(const char *Key, const char *Value)
 	{
-		_RECORD *rec = new _RECORD(Key, Value);
+		_RECORD *rec = new _RECORD((char*)Key, (char*)Value);
 		int index = _Records.getIndex(rec);
 		if (index < 0) {
 			if (!_Records.insert(rec)) delete rec;
@@ -133,18 +133,18 @@ public:
 			}
 		}
 		else {
-			_Records[index]->_value = Value;
+			_Records[index]->_value = (char*)Value;
 			delete rec;
 		}
 		return index;
 	}
 	
-	int insertCopyKey(wchar_t *Key, wchar_t *Value, wchar_t **_KeyReturn)
+	int insertCopyKey(const char *Key, const char *Value, char **_KeyReturn)
 	{
-		_RECORD *rec = new _RECORD(Key, Value);
+		_RECORD *rec = new _RECORD((char*)Key, (char*)Value);
 		int index = _Records.getIndex(rec);
 		if (index < 0) {
-			wchar_t *newKey = mir_wstrdup(Key);
+			char *newKey = mir_strdup(Key);
 			if (!_Records.insert(rec)) {
 				delete rec;
 				mir_free(newKey);
@@ -160,7 +160,7 @@ public:
 			}
 		}
 		else {
-			_Records[index]->_value = Value;
+			_Records[index]->_value = (char*)Value;
 			if (_KeyReturn)
 				*_KeyReturn = _Records[index]->_key;
 			delete rec;
@@ -168,39 +168,39 @@ public:
 		return index;
 	}
 
-	inline wchar_t* operator[](wchar_t* _KEY) const
+	inline char* operator[](const char* _KEY) const
 	{
-		_RECORD rec(_KEY);
+		_RECORD rec((char*)_KEY);
 		int index = _Records.getIndex(&rec);
 		_RECORD *rv = _Records[index];
 		if (rv) {
 			if (rv->_value)
 				return rv->_value;
 			else
-				return L"";
+				return "";
 		}
 		else
 			return nullptr;
 	}
-	inline wchar_t* operator[](int index) const
+	inline char* operator[](int index) const
 	{
 		_RECORD *rv = _Records[index];
 		if (rv) return rv->_value;
 		else return nullptr;
 	}
-	inline wchar_t* getKeyName(int index)
+	inline char* getKeyName(int index)
 	{
 		_RECORD *rv = _Records[index];
 		if (rv) return rv->_key;
 		else return nullptr;
 	}
-	inline wchar_t* getUnOrdered(int index)
+	inline char* getUnOrdered(int index)
 	{
 		_RECORD *rec = _getUnorderedRec(index);
 		if (rec) return rec->_value;
 		else return nullptr;
 	}
-	inline wchar_t* getUnOrderedKeyName(int index)
+	inline char* getUnOrderedKeyName(int index)
 	{
 		_RECORD *rec = _getUnorderedRec(index);
 		if (rec) return rec->_key;
@@ -222,7 +222,7 @@ public:
 		if (p) return _remove(p);
 		else return 0;
 	}
-	inline int getIndex(wchar_t * key)
+	inline int getIndex(char *key)
 	{
 		_RECORD temp(key);
 		return _Records.getIndex(&temp);

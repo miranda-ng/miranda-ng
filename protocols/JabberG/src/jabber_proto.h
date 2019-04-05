@@ -700,7 +700,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	//---- jabber_search.cpp -------------------------------------------------------------
 
-	void   SearchReturnResults(HANDLE id, void* pvUsersInfo, UNIQUE_MAP *pmAllFields);
 	void   OnIqResultAdvancedSearch(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultGetSearchFields(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	int    SearchRenewFields(HWND hwndDlg, JabberSearchData * dat);
