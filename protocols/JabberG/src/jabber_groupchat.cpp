@@ -743,6 +743,7 @@ static VOID CALLBACK JabberGroupchatChangeNickname(void* arg)
 
 		if (param->ppro->EnterString(szBuffer, szTitle, ESF_COMBO, "gcNick_")) {
 			T2Utf newNick(szBuffer);
+			replaceStr(item->nick, newNick);
 			param->ppro->SendPresenceTo(param->ppro->m_iStatus, MakeJid(item->jid, newNick));
 		}
 	}
@@ -836,7 +837,6 @@ void CJabberProto::GroupchatProcessPresence(const TiXmlElement *node)
 
 		GcInit(item);
 		item->iChatState = 0;
-		replaceStr(item->nick, nick);
 
 		// Update status of room participant
 		int status = ID_STATUS_ONLINE;
