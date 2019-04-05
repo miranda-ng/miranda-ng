@@ -739,11 +739,10 @@ static VOID CALLBACK JabberGroupchatChangeNickname(void* arg)
 		CMStringW szBuffer, szTitle;
 		szTitle.Format(TranslateT("Change nickname in <%s>"), item->name ? item->name : Utf2T(item->jid));
 		if (item->nick)
-			szBuffer = item->nick;
+			szBuffer = Utf2T(item->nick);
 
 		if (param->ppro->EnterString(szBuffer, szTitle, ESF_COMBO, "gcNick_")) {
 			T2Utf newNick(szBuffer);
-			replaceStr(item->nick, newNick);
 			param->ppro->SendPresenceTo(param->ppro->m_iStatus, MakeJid(item->jid, newNick));
 		}
 	}
@@ -824,10 +823,6 @@ void CJabberProto::GroupchatProcessPresence(const TiXmlElement *node)
 
 	const char *nick = cnick ? cnick : (r && r->m_szNick ? r->m_szNick : resource);
 
-	// process custom nick change
-	if (cnick && r && r->m_szNick && mir_strcmp(cnick, r->m_szNick))
-		r->m_szNick = mir_strdup(cnick);
-
 	const TiXmlElement *itemNode = nullptr;
 	auto *xNode = XmlGetChildByTag(node, "x", "xmlns", JABBER_FEAT_MUC_USER);
 	if (xNode)
@@ -841,6 +836,7 @@ void CJabberProto::GroupchatProcessPresence(const TiXmlElement *node)
 
 		GcInit(item);
 		item->iChatState = 0;
+		replaceStr(item->nick, nick);
 
 		// Update status of room participant
 		int status = ID_STATUS_ONLINE;
@@ -850,6 +846,10 @@ void CJabberProto::GroupchatProcessPresence(const TiXmlElement *node)
 			else if (!mir_strcmp(pszStatus, "dnd")) status = ID_STATUS_DND;
 			else if (!mir_strcmp(pszStatus, "chat")) status = ID_STATUS_FREECHAT;
 		}
+
+		// process custom nick change
+		if (cnick && r && r->m_szNick && mir_strcmp(cnick, r->m_szNick))
+			r->m_szNick = mir_strdup(cnick);
 
 		const char *str = XmlGetChildText(node, "status");
 		int priority = XmlGetChildInt(node, "priority");
