@@ -263,7 +263,7 @@ void TJabberFormLayoutInfo::PositionControl(TJabberFormControlInfo *item, const 
 
 void JabberFormSetInstruction(HWND hwndForm, const char *text)
 {
-	CMStringW buf(text == nullptr ? "" : text);
+	CMStringW buf(text == nullptr ? "" : Utf2T(text));
 	buf.Replace(L"\n\r", L"\r\n");
 	SetDlgItemText(hwndForm, IDC_INSTRUCTION, buf);
 
