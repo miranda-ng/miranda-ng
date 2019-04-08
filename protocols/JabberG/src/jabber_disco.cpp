@@ -187,7 +187,7 @@ void CJabberProto::OnIqResultServiceDiscoveryRootInfo(const TiXmlElement *iqNode
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
 		for (auto *feature : TiXmlFilter(XmlFirstChild(iqNode, "query"), "feature")) {
 			if (!mir_strcmp(XmlGetAttr(feature, "var"), (char*)pInfo->m_pUserData)) {
-				CJabberSDNode *pNode = m_SDManager.AddPrimaryNode(pInfo->GetReceiver(), XmlGetAttr(iqNode, "node"), nullptr);
+				CJabberSDNode *pNode = m_SDManager.AddPrimaryNode(pInfo->GetReceiver(), XmlGetAttr(iqNode, "node"));
 				SendBothRequests(pNode);
 				break;
 			}
@@ -334,7 +334,7 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 					if (m_lstTransports.getIndex(item->jid) == -1)
 						m_lstTransports.insert(mir_strdup(item->jid));
 
-					CJabberSDNode *pNode = m_SDManager.AddPrimaryNode(item->jid, nullptr, nullptr);
+					CJabberSDNode *pNode = m_SDManager.AddPrimaryNode(item->jid);
 					SendBothRequests(pNode);
 				}
 			}
@@ -374,7 +374,7 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 		}
 	}
 	else {
-		CJabberSDNode *pNode = m_SDManager.AddPrimaryNode(T2Utf(szJid), T2Utf(szNode), nullptr);
+		CJabberSDNode *pNode = m_SDManager.AddPrimaryNode(T2Utf(szJid), szNode[0] == 0 ? nullptr : T2Utf(szNode));
 		SendBothRequests(pNode);
 	}
 	lck.unlock();

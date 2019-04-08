@@ -424,7 +424,7 @@ public:
 		return m_pPrimaryNodes;
 	}
 
-	CJabberSDNode* AddPrimaryNode(const char *szJid, const char *szNode, const char *szName)
+	CJabberSDNode* AddPrimaryNode(const char *szJid, const char *szNode = nullptr, const char *szName = nullptr)
 	{
 		if (!szJid)
 			return nullptr;
