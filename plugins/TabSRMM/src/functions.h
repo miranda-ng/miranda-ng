@@ -129,9 +129,6 @@ int   TSAPI UnloadTSButtonModule();
 /*
  * debugging support
  */
-#if defined(__LOGDEBUG_)
-int _DebugTraceW(const wchar_t *fmt, ...);
-#endif
 int   _DebugPopup(MCONTACT hContact, const wchar_t *fmt, ...);
 
 // themes

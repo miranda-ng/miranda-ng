@@ -121,15 +121,15 @@ public:
 private:
 	CTabBaseDlg *m_dat;
 
-	HWND m_hwndProxy;
+	HWND m_hwndProxy = nullptr;
 	LONG m_width, m_height;
-	HICON m_hBigIcon, m_hOverlayIcon;
+	HICON m_hBigIcon = nullptr, m_hOverlayIcon = nullptr;
 
 	LRESULT CALLBACK wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	void sendThumb(LONG width, LONG height);
 	void sendPreview();
-	CThumbBase *m_thumb;
+	CThumbBase *m_thumb = nullptr;
 };
 
 class CTaskbarInteract

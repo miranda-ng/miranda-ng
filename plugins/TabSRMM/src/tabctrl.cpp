@@ -1285,9 +1285,6 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		break;
 	}
 
-#if defined(__LOGDEBUG_)
-	_DebugTraceW(L"msg: %hu", msg);
-#endif
 	return CallWindowProc(OldTabControlClassProc, hwnd, msg, wParam, lParam);
 }
 

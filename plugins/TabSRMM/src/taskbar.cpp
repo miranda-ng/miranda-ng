@@ -207,18 +207,12 @@ void CTabBaseDlg::VerifyProxy()
  * and previews for a message session.
  * each tab has one invisible proxy window
  */
-CProxyWindow::CProxyWindow(CTabBaseDlg *dat)
+CProxyWindow::CProxyWindow(CTabBaseDlg *dat) :
+	m_dat(dat)
 {
-	m_dat = dat;
-	m_hBigIcon = nullptr;
-	m_thumb = nullptr;
-
 	m_hwndProxy = ::CreateWindowEx(/*WS_EX_TOOLWINDOW | */WS_EX_NOACTIVATE, PROXYCLASSNAME, L"",
 		WS_POPUP | WS_BORDER | WS_SYSMENU | WS_CAPTION, -32000, -32000, 10, 10, nullptr, nullptr, g_plugin.getInst(), (LPVOID)this);
 
-#if defined(__LOGDEBUG_)
-	_DebugTraceW(L"create proxy object for: %s", m_dat->cache->getNick());
-#endif
 	Win7Taskbar->registerTab(m_hwndProxy, m_dat->m_pContainer->m_hwnd);
 	if (CMimAPI::m_pfnDwmSetWindowAttribute) {
 		BOOL	fIconic = TRUE;
@@ -234,13 +228,7 @@ CProxyWindow::~CProxyWindow()
 	Win7Taskbar->unRegisterTab(m_hwndProxy);
 	::DestroyWindow(m_hwndProxy);
 
-#if defined(__LOGDEBUG_)
-	_DebugTraceW(L"destroy proxy object for: %s", m_dat->cache->getNick());
-#endif
-	if (m_thumb) {
-		delete m_thumb;
-		m_thumb = nullptr;
-	}
+	delete m_thumb;
 }
 
 /**
@@ -601,10 +589,6 @@ void CThumbBase::renderBase()
 	m_dtFlags = 0;
 	m_hOldFont = nullptr;
 
-#if defined(__LOGDEBUG_)
-	_DebugTraceW(L"refresh base (background) with %d, %d", m_width, m_height);
-#endif
-
 	m_rc.right = m_width;
 	m_rc.bottom = m_height;
 	m_rc.left = m_rc.top = 0;
@@ -713,9 +697,6 @@ CThumbBase::~CThumbBase()
 		m_hbmThumb = nullptr;
 		m_isValid = false;
 	}
-#if defined(__LOGDEBUG_)
-	_DebugTraceW(L"destroy CThumbBase");
-#endif
 }
 
 /**
