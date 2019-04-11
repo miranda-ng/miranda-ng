@@ -1195,12 +1195,14 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 
 	case IDM_RJID_ADD:
 		if (him->m_szRealJid && *him->m_szRealJid) {
-			PROTOSEARCHRESULT psr = { 0 };
+			Utf2T jid(him->m_szRealJid);
+			PROTOSEARCHRESULT psr = {};
+			psr.flags = PSR_UNICODE;
 			psr.cbSize = sizeof(psr);
-			psr.id.a = NEWSTR_ALLOCA(him->m_szRealJid);
-			if (char *tmp = strchr(psr.id.a, '/'))
+			psr.id.w = jid;
+			if (auto *tmp = wcschr(psr.id.w, '/'))
 				*tmp = 0;
-			psr.nick.a = psr.id.a;
+			psr.nick.w = psr.id.w;
 			Contact_AddBySearch(ppro->m_szModuleName, &psr, g_clistApi.hwndContactList);
 		}
 		break;
