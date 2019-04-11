@@ -215,7 +215,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 				localAddr = Netlib_AddressToString(&sin);
 			}
 
-			itoa(nlb.wPort, szPort, 8);
+			itoa(nlb.wPort, szPort, 10);
 			JABBER_LIST_ITEM *item = ListAdd(LIST_BYTE, szPort);
 			item->jbt = jbt;
 			hEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
@@ -366,16 +366,10 @@ int CJabberProto::ByteSendParse(HNETLIBCONN hConn, JABBER_BYTE_TRANSFER *jbt, ch
 		// 04-07 bnd.addr server bound address
 		// 08-09 bnd.port server bound port
 		if (datalen == 47 && *((DWORD*)buffer) == 0x03000105 && buffer[4] == 40 && *((WORD*)(buffer + 45)) == 0) {
-			wchar_t text[256];
-
-			char *szInitiatorJid = JabberPrepareJid(jbt->srcJID);
-			char *szTargetJid = JabberPrepareJid(jbt->dstJID);
-			mir_snwprintf(text, L"%s%s%s", jbt->sid, szInitiatorJid, szTargetJid);
-			mir_free(szInitiatorJid);
-			mir_free(szTargetJid);
-
-			T2Utf szAuthString(text);
-			debugLogA("Auth: '%s'", szAuthString);
+			ptrA szInitiatorJid(JabberPrepareJid(jbt->srcJID));
+			ptrA szTargetJid(JabberPrepareJid(jbt->dstJID));
+			CMStringA szAuthString(FORMAT, "%s%s%s", jbt->sid, szInitiatorJid.get(), szTargetJid.get());
+			debugLogA("Auth: '%s'", szAuthString.c_str());
 
 			JabberShaStrBuf buf;
 			JabberSha1(szAuthString, buf);
