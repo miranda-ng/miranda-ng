@@ -142,9 +142,9 @@ int PrebuildContactMenu(WPARAM hContact, LPARAM)
 		Menu_ShowItem(hMenuToggle, false);
 	else {
 		if (remove)
-			Menu_ModifyItem(hMenuToggle, LPGENW("Enable History"), hIconKeep);
+			Menu_ModifyItem(hMenuToggle, LPGENW("Enable History"), g_plugin.getIconHandle(IDI_HKEEP));
 		else
-			Menu_ModifyItem(hMenuToggle, LPGENW("Disable History"), hIconRemove);
+			Menu_ModifyItem(hMenuToggle, LPGENW("Disable History"), g_plugin.getIconHandle(IDI_HREMOVE));
 	}
 
 	Menu_ShowItem(hMenuClear, !chat_room && db_event_count(hContact) > 0);
@@ -210,12 +210,12 @@ void SrmmMenu_Load()
 
 	sid.dwId = 0;
 	sid.szTooltip.a = LPGEN("History Enabled");
-	sid.hIcon = sid.hIconDisabled = hIconKeep;
+	sid.hIcon = sid.hIconDisabled = g_plugin.getIcon(IDI_HKEEP);
 	Srmm_AddIcon(&sid, &g_plugin);
 
 	sid.dwId = 1;
 	sid.szTooltip.a = LPGEN("History Disabled");
-	sid.hIcon = sid.hIconDisabled = hIconRemove;
+	sid.hIcon = sid.hIconDisabled = g_plugin.getIcon(IDI_HREMOVE);
 	Srmm_AddIcon(&sid, &g_plugin);
 		
 	// hook the window events so that we can can change the status of the icon
@@ -235,14 +235,14 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mi.position = -300010;
 	mi.name.w = LPGENW("Disable History");
 	mi.pszService = MS_NOHISTORY_TOGGLE;
-	mi.hIcolibItem = hIconRemove;
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_HREMOVE);
 	hMenuToggle = Menu_AddContactMenuItem(&mi);
 
 	SET_UID(mi, 0x1c4b1c21, 0xc0d1, 0x44d1, 0xb5, 0x3c, 0xc7, 0x8d, 0xcf, 0x96, 0x51, 0xd7);
 	mi.position = -300005;
 	mi.name.w = LPGENW("Clear History");
 	mi.pszService = MS_NOHISTORY_CLEAR;
-	mi.hIcolibItem = hIconClear;
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_HCLEAR);
 	hMenuClear = Menu_AddContactMenuItem(&mi);
 
 	// add icon to srmm status icons

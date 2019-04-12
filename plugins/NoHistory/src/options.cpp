@@ -102,11 +102,11 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		hwndList = GetDlgItem(hwndDlg, IDC_LIST);
 		{
 			HIMAGELIST hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 2, 2);
-			ImageList_AddIcon(hIml, hIconKeep);
-			ImageList_AddIcon(hIml, hIconRemove);
+			ImageList_AddIcon(hIml, g_plugin.getIcon(IDI_HKEEP));
+			ImageList_AddIcon(hIml, g_plugin.getIcon(IDI_HREMOVE));
 			SendMessage(hwndList, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hIml);
-			SendDlgItemMessage(hwndDlg, IDC_PIC_KEEP, STM_SETICON, (WPARAM)hIconKeep, 0);
-			SendDlgItemMessage(hwndDlg, IDC_PIC_REMOVE, STM_SETICON, (WPARAM)hIconRemove, 0);
+			SendDlgItemMessage(hwndDlg, IDC_PIC_KEEP, STM_SETICON, (WPARAM)g_plugin.getIcon(IDI_HKEEP), 0);
+			SendDlgItemMessage(hwndDlg, IDC_PIC_REMOVE, STM_SETICON, (WPARAM)g_plugin.getIcon(IDI_HREMOVE), 0);
 		}
 		ResetListOptions(hwndList);
 		SendMessage(hwndList, CLM_SETEXTRACOLUMNS, 1, 0);
