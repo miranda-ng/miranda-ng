@@ -42,8 +42,8 @@ void CSametimeProto::RegisterPopups()
 
 	mir_snprintf(szName, "%s_%s", m_szModuleName, "Notify");
 	mir_snwprintf(szDescr, L"%s/%s", m_tszUserName, TranslateT("Notifications"));
-	puc.hIcon = CopyIcon(LoadIconEx("notify", FALSE));
-	ReleaseIconEx("notify", FALSE);
+	puc.hIcon = CopyIcon(g_plugin.getIcon(IDI_ICON_NOTIFY));
+	g_plugin.releaseIcon(IDI_ICON_NOTIFY);
 	puc.iSeconds = 8;
 	puc.colorBack = GetSysColor(COLOR_BTNFACE);
 	puc.colorText = GetSysColor(COLOR_WINDOWTEXT);
@@ -51,8 +51,8 @@ void CSametimeProto::RegisterPopups()
 
 	mir_snprintf(szName, "%s_%s", m_szModuleName, "Error");
 	mir_snwprintf(szDescr, L"%s/%s", m_tszUserName, TranslateT("Errors"));
-	puc.hIcon = CopyIcon(LoadIconEx("error", FALSE));
-	ReleaseIconEx("error", FALSE);
+	puc.hIcon = CopyIcon(g_plugin.getIcon(IDI_ICON_ERROR, FALSE));
+	g_plugin.releaseIcon(IDI_ICON_ERROR);
 	puc.iSeconds = 10;
 	puc.colorBack = GetSysColor(COLOR_BTNFACE);
 	puc.colorText = GetSysColor(COLOR_WINDOWTEXT);

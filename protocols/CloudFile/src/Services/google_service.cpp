@@ -19,7 +19,7 @@ g_pluginGoogle;
 CGDriveService::CGDriveService(const char *protoName, const wchar_t *userName) :
 	CCloudService(protoName, userName, &g_pluginGoogle)
 {
-	m_hProtoIcon = GetIconHandle(IDI_GDRIVE);
+	m_hProtoIcon = g_plugin.getIconHandle(IDI_GDRIVE);
 }
 
 CGDriveService* CGDriveService::Init(const char *moduleName, const wchar_t *userName)

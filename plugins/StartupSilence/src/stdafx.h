@@ -67,11 +67,12 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 #define NEEDTTBMOD TranslateT("You have to install TopToolBar plugin to use this option.")
 #define NEEDPOPUP TranslateT("You have to install popup plugin to use this option.")
 
-static IconItem iconList[] = {
-	{ MENU_NAME, MENU_NAME, IDI_SSICON},
-	{ ALL_ENABLED_FLT, ALL_ENABLED_FLT, IDI_SSFILTEREDON},
-	{ DISABLE_SILENCE, DISABLE_SILENCE, IDI_SSDISABLE},
-	{ ENABLE_SILENCE, ENABLE_SILENCE, IDI_SSENABLE}
+static IconItem iconList[] =
+{
+	{ MENU_NAME, MENU_NAME, IDI_SSICON },
+	{ ALL_ENABLED_FLT, ALL_ENABLED_FLT, IDI_SSFILTEREDON },
+	{ DISABLE_SILENCE, DISABLE_SILENCE, IDI_SSDISABLE },
+	{ ENABLE_SILENCE, ENABLE_SILENCE, IDI_SSENABLE }
 };
 
 static IconItem iconttbList[] = {

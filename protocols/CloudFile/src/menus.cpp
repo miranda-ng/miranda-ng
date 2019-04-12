@@ -26,7 +26,7 @@ void InitializeMenus()
 	}
 
 	mi.position = -2000019999;
-	mi.hIcon = LoadIconEx(IDI_UPLOAD);
+	mi.hIcon = g_plugin.getIcon(IDI_UPLOAD);
 	hContactMenu = Menu_AddContactMenuItem(&mi);
 }
 
@@ -39,7 +39,7 @@ void CCloudService::OnModulesLoaded()
 	mi.flags = CMIF_SYSTEM | CMIF_UNICODE;
 	mi.name.w = (wchar_t*)GetUserName();
 	mi.position = Services.getCount();
-	mi.hIcolibItem = GetIconHandle(GetIconId());
+	mi.hIcolibItem = g_plugin.getIconHandle(GetIconId());
 	Menu_AddContactMenuItem(&mi);
 
 	CreateServiceFunctionObj(mi.pszService, UploadMenuCommand, this);

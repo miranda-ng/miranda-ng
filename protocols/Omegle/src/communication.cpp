@@ -558,18 +558,14 @@ bool Omegle_client::events()
 				Skin_PlaySound("StrangerTyp");
 
 				ptrW who(name == "spyTyping" ? json_as_string(json_at(item, 1)) : mir_wstrdup(L"Stranger"));
-				Srmm_SetStatusText(parent->GetChatHandle(), 
-					CMStringW(FORMAT, TranslateT("%s is typing."), TranslateW(who)), 
-					IcoLib_GetIconByHandle(GetIconHandle("typing_on")));
+				Srmm_SetStatusText(parent->GetChatHandle(), CMStringW(FORMAT, TranslateT("%s is typing."), TranslateW(who)), g_plugin.getIcon(IDI_TYPING_ON));
 			}
 			else if (name == "stoppedTyping" || name == "spyStoppedTyping") {
 				// Stranger stopped typing, not supported by chat module yet
 				Skin_PlaySound("StrangerTypStop");
 
 				ptrW who(name == "spyTyping" ? json_as_string(json_at(item, 1)) : mir_wstrdup(L"Stranger"));
-				Srmm_SetStatusText(parent->GetChatHandle(), 
-					CMStringW(FORMAT, TranslateT("%s stopped typing."), TranslateW(who)), 
-					IcoLib_GetIconByHandle(GetIconHandle("typing_off")));
+				Srmm_SetStatusText(parent->GetChatHandle(), CMStringW(FORMAT, TranslateT("%s stopped typing."), TranslateW(who)), g_plugin.getIcon(IDI_TYPING_OFF));
 			}
 			else if (name == "gotMessage") {
 				Srmm_SetStatusText(parent->GetChatHandle(), nullptr);

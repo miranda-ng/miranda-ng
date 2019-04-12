@@ -81,9 +81,6 @@ int OnModulesLoaded(WPARAM, LPARAM);
 
 // icons
 void InitializeIcons();
-HANDLE GetIconHandle(int iconId);
-HANDLE GetIconHandle(const char *name);
-HICON LoadIconEx(int iconId, bool big = false);
 
 // menus
 extern HGENMENU hContactMenu;

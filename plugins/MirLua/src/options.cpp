@@ -50,11 +50,11 @@ bool CMLuaOptionsMain::OnInitDialog()
 	m_scriptsList.SetExtendedListViewStyle(LVS_EX_SUBITEMIMAGES | LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES | LVS_EX_INFOTIP);
 
 	HIMAGELIST hImageList = m_scriptsList.CreateImageList(LVSIL_SMALL);
-	ImageList_AddIcon(hImageList, GetIcon(IDI_LOADED));
-	ImageList_AddIcon(hImageList, GetIcon(IDI_FAILED));
-	ImageList_AddIcon(hImageList, GetIcon(IDI_OPEN));
-	ImageList_AddIcon(hImageList, GetIcon(IDI_RELOAD));
-	ImageList_AddIcon(hImageList, GetIcon(IDI_COMPILE));
+	ImageList_AddIcon(hImageList, g_plugin.getIcon(IDI_LOADED));
+	ImageList_AddIcon(hImageList, g_plugin.getIcon(IDI_FAILED));
+	ImageList_AddIcon(hImageList, g_plugin.getIcon(IDI_OPEN));
+	ImageList_AddIcon(hImageList, g_plugin.getIcon(IDI_RELOAD));
+	ImageList_AddIcon(hImageList, g_plugin.getIcon(IDI_COMPILE));
 
 	wchar_t scriptDir[MAX_PATH];
 	FoldersGetCustomPathT(g_hScriptsFolder, scriptDir, _countof(scriptDir), VARSW(MIRLUA_PATHT));

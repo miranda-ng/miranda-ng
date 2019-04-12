@@ -567,6 +567,6 @@ void CSametimeProto::InitSessionMenu()
 	mi.position = 2000060000;
 	mi.name.w = LPGENW("Send announcement...");
 	mi.pszService = MS_SAMETIME_MENUANNOUNCESESSION;
-	mi.hIcolibItem = GetIconHandle(IDI_ICON_ANNOUNCE);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_ICON_ANNOUNCE);
 	Menu_AddContactMenuItem(&mi, m_szModuleName);
 }

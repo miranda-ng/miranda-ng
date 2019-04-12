@@ -455,13 +455,13 @@ void CSametimeProto::InitConferenceMenu()
 	SET_UID(mi, 0x98cf8a8c, 0x75ba, 0x46f2, 0xa3, 0x35, 0x65, 0x46, 0x4a, 0x38, 0x20, 0x7d);
 	mi.name.w = LPGENW("Leave conference");
 	mi.pszService = MS_SAMETIME_MENULEAVECHAT;
-	mi.hIcolibItem = GetIconHandle(IDI_ICON_LEAVE);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_ICON_LEAVE);
 	hLeaveChatMenuItem = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
 	SET_UID(mi, 0x45501e10, 0x2914, 0x4daa, 0xb4, 0xcf, 0x83, 0x8a, 0x6a, 0x14, 0xd, 0x7);
 	mi.name.w = LPGENW("Start conference");
 	mi.pszService = MS_SAMETIME_MENUCREATECHAT;
-	mi.hIcolibItem = GetIconHandle(IDI_ICON_INVITE);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_ICON_INVITE);
 	hCreateChatMenuItem = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
 	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CSametimeProto::PrebuildContactMenu);

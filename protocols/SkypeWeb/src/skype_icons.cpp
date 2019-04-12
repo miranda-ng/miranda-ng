@@ -34,19 +34,3 @@ void CSkypeProto::InitIcons()
 {
 	g_plugin.registerIcon(LPGEN("Protocols") "/" MODULE, iconList, MODULE);
 }
-
-HICON CSkypeProto::GetIcon(int iconId)
-{
-	for (auto &it : iconList)
-		if (it.defIconID == iconId)
-			return IcoLib_GetIconByHandle(it.hIcolib);
-	return nullptr;
-}
-
-HANDLE CSkypeProto::GetIconHandle(int iconId)
-{
-	for (auto &it : iconList)
-		if (it.defIconID == iconId)
-			return it.hIcolib;
-	return nullptr;
-}

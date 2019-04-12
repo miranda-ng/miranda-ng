@@ -130,11 +130,11 @@ INT_PTR CSkypeProto::EventGetIcon(WPARAM flags, LPARAM pEvent)
 	switch (dbei->eventType) {
 	case SKYPE_DB_EVENT_TYPE_CALL_INFO:
 	case SKYPE_DB_EVENT_TYPE_INCOMING_CALL:
-		icon = GetIcon(IDI_CALL);
+		icon = g_plugin.getIcon(IDI_CALL);
 		break;
 
 	case SKYPE_DB_EVENT_TYPE_ACTION:
-		icon = GetIcon(IDI_ACTION_ME);
+		icon = g_plugin.getIcon(IDI_ACTION_ME);
 		break;
 
 	case SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO:

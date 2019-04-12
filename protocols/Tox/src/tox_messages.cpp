@@ -18,7 +18,7 @@ INT_PTR CToxProto::EventGetIcon(WPARAM wParam, LPARAM lParam)
 
 	switch (dbei->eventType) {
 	case DB_EVENT_ACTION:
-		icon = GetIcon(IDI_ME);
+		icon = g_plugin.getIcon(IDI_ME);
 		break;
 
 	default:

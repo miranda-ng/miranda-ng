@@ -18,7 +18,7 @@ g_pluginDropbox;
 CDropboxService::CDropboxService(const char *protoName, const wchar_t *userName) :
 	CCloudService(protoName, userName, &g_pluginDropbox)
 {
-	m_hProtoIcon = GetIconHandle(IDI_DROPBOX);
+	m_hProtoIcon = g_plugin.getIconHandle(IDI_DROPBOX);
 }
 
 CDropboxService* CDropboxService::Init(const char *moduleName, const wchar_t *userName)

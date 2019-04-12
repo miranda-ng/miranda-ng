@@ -195,10 +195,6 @@ private:
 		requestQueue->Send(request, SkypeHttpResponse, delegate);
 	}
 
-	// icons
-	static HICON GetIcon(int iconId);
-	static HANDLE GetIconHandle(int iconId);
-
 	// menus
 	static HGENMENU ContactMenuItems[CMI_MAX];
 	int OnPrebuildContactMenu(WPARAM hContact, LPARAM);

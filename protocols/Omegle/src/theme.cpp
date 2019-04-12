@@ -33,12 +33,3 @@ void InitIcons(void)
 {
 	g_plugin.registerIcon("Protocols/Omegle", iconList, "Omegle");
 }
-
-HANDLE GetIconHandle(const char* name)
-{
-	for (auto &it : iconList)
-		if (mir_strcmp(it.szName, name) == 0)
-			return it.hIcolib;
-
-	return nullptr;
-}

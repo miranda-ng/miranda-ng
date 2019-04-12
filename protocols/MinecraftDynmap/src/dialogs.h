@@ -23,7 +23,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 void InitIcons(void);
-HANDLE GetIconHandle(const char *name);
 
 INT_PTR CALLBACK MinecraftDynmapAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
-INT_PTR CALLBACK MinecraftDynmapOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);

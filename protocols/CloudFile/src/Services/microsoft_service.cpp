@@ -18,7 +18,7 @@ g_pluginOnedrive;
 COneDriveService::COneDriveService(const char *protoName, const wchar_t *userName) :
 	CCloudService(protoName, userName, &g_pluginOnedrive)
 {
-	m_hProtoIcon = GetIconHandle(IDI_ONEDRIVE);
+	m_hProtoIcon = g_plugin.getIconHandle(IDI_ONEDRIVE);
 }
 
 COneDriveService* COneDriveService::Init(const char *moduleName, const wchar_t *userName)

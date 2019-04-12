@@ -27,7 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 CMPlugin g_plugin;
 
 HGENMENU hSSMenuToggleOnOff;
-HANDLE GetIconHandle(char *szIcon);
 HANDLE hOptionsInitialize;
 HANDLE hTTBarloaded = nullptr;
 HANDLE Buttons = nullptr;
@@ -93,7 +92,7 @@ static void __cdecl AdvSt(void*)
 
 		if (PopUp == 1) {
 			lpwzText = NonStatusAllow == 1 ? ALL_DISABLED_FLT : ALL_DISABLED;
-			ppd.lchIcon = IcoLib_GetIconByHandle((NonStatusAllow == 1) ? GetIconHandle(ALL_ENABLED_FLT) : GetIconHandle(MENU_NAME));
+			ppd.lchIcon = IcoLib_GetIconByHandle((NonStatusAllow == 1) ? g_plugin.getIconHandle(IDI_SSFILTEREDON) : g_plugin.getIconHandle(IDI_SSICON));
 			ppd.lchContact = NULL;
 			ppd.iSeconds = PopUpTime;
 			wcsncpy_s(ppd.lpwzText, lpwzText, _TRUNCATE);
@@ -108,7 +107,7 @@ static void __cdecl AdvSt(void*)
 
 		if (PopUp == 1) {
 			lpwzText = (DefEnabled == 1 && DefPopup == 1) ? TranslateT(ALL_ENABLED_FLT) : ALL_ENABLED;
-			ppd.lchIcon = IcoLib_GetIconByHandle((DefEnabled == 1 && DefPopup == 1) ? GetIconHandle(ALL_ENABLED_FLT) : GetIconHandle(MENU_NAME));
+			ppd.lchIcon = IcoLib_GetIconByHandle((DefEnabled == 1 && DefPopup == 1) ? g_plugin.getIconHandle(IDI_SSFILTEREDON) : g_plugin.getIconHandle(IDI_SSICON));
 			wcsncpy_s(ppd.lpwzText, lpwzText, _TRUNCATE);
 			PUAddPopupW(&ppd);
 		}
@@ -213,7 +212,7 @@ static INT_PTR StartupSilenceEnabled(WPARAM, LPARAM)
 	if (PopUp == 1) {
 		wchar_t * lpwzText = Enabled == 1 ? S_MODE_CHANGEDON : S_MODE_CHANGEDOFF;
 		POPUPDATAW ppd;
-		ppd.lchIcon = IcoLib_GetIconByHandle((Enabled == 1) ? GetIconHandle(ENABLE_SILENCE) : GetIconHandle(DISABLE_SILENCE));
+		ppd.lchIcon = IcoLib_GetIconByHandle((Enabled == 1) ? g_plugin.getIconHandle(IDI_SSENABLE) : g_plugin.getIconHandle(IDI_SSDISABLE));
 		ppd.lchContact = NULL;
 		ppd.iSeconds = PopUpTime;
 		wcsncpy_s(ppd.lpwzText, lpwzText, _TRUNCATE);
@@ -237,7 +236,7 @@ static INT_PTR InitMenu()
 	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x9100c881, 0x6f76, 0x4cb5, 0x97, 0x66, 0xeb, 0xf5, 0xc5, 0x22, 0x46, 0x1f);
 	mi.position = 100000000;
-	mi.hIcolibItem = GetIconHandle(MENU_NAME);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_SSICON);
 	mi.name.a = MENU_NAME;
 	mi.pszService = SS_SERVICE_NAME;
 	hSSMenuToggleOnOff = Menu_AddMainMenuItem(&mi);
@@ -248,9 +247,9 @@ static INT_PTR InitMenu()
 void UpdateMenu()
 {
 	if (Enabled == 1)
-		Menu_ModifyItem(hSSMenuToggleOnOff, _A2W(DISABLE_SILENCE), GetIconHandle(DISABLE_SILENCE));
+		Menu_ModifyItem(hSSMenuToggleOnOff, _A2W(DISABLE_SILENCE), g_plugin.getIconHandle(IDI_SSDISABLE));
 	else
-		Menu_ModifyItem(hSSMenuToggleOnOff, _A2W(ENABLE_SILENCE), GetIconHandle(ENABLE_SILENCE));
+		Menu_ModifyItem(hSSMenuToggleOnOff, _A2W(ENABLE_SILENCE), g_plugin.getIconHandle(IDI_SSENABLE));
 
 	UpdateTTB();
 }
@@ -266,8 +265,8 @@ static int CreateTTButtons(WPARAM, LPARAM)
 	TTBButton ttb = {};
 	ttb.dwFlags = (Enabled == 1 ? 0 : TTBBF_PUSHED) | TTBBF_VISIBLE | TTBBF_ASPUSHBUTTON;
 	ttb.pszService = SS_SERVICE_NAME;
-	ttb.hIconHandleDn = GetIconHandle(DISABLE_SILENCETTB);
-	ttb.hIconHandleUp = GetIconHandle(ENABLE_SILENCETTB);
+	ttb.hIconHandleDn = g_plugin.getIconHandle(IDI_SSDISABLETTB);
+	ttb.hIconHandleUp = g_plugin.getIconHandle(IDI_SSENABLETTB);
 	ttb.name = TTBNAME;
 	ttb.pszTooltipUp = SS_IS_ON;
 	ttb.pszTooltipDn = SS_IS_OFF;
@@ -282,13 +281,6 @@ void RemoveTTButtons()
 	for (auto &it : ttbButtons.rev_iter())
 		CallService(MS_TTB_REMOVEBUTTON, (WPARAM)it, 0);
 	ttbButtons.destroy();
-}
-
-HANDLE GetIconHandle(char *szIcon)
-{
-	char szSettingName[64];
-	mir_snprintf(szSettingName, "%s_%s", MENU_NAME, szIcon);
-	return IcoLib_GetIconHandle(szSettingName);
 }
 
 static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)

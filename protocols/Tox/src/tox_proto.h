@@ -122,10 +122,6 @@ private:
 	// netlib
 	void InitNetlib();
 
-	// icons
-	static HANDLE GetIconHandle(int iconId);
-	static HICON GetIcon(int iconId);
-
 	// menus
 	static HGENMENU ContactMenuItems[CMI_MAX];
 	int __cdecl OnPrebuildContactMenu(WPARAM hContact, LPARAM);

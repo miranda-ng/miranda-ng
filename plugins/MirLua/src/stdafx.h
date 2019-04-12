@@ -72,8 +72,6 @@ void LoadNetlib();
 void UnloadNetlib();
 
 void LoadIcons();
-HICON GetIcon(int iconId);
-HANDLE GetIconHandle(int iconId);
 
 /* utils */
 

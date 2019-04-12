@@ -18,7 +18,7 @@ g_pluginYandex;
 CYandexService::CYandexService(const char *protoName, const wchar_t *userName) :
 	CCloudService(protoName, userName, &g_pluginYandex)
 {
-	m_hProtoIcon = GetIconHandle(IDI_YADISK);
+	m_hProtoIcon = g_plugin.getIconHandle(IDI_YADISK);
 }
 
 CYandexService* CYandexService::Init(const char *moduleName, const wchar_t *userName)

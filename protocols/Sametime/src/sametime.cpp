@@ -86,28 +86,6 @@ void SametimeInitIcons(void)
 	g_plugin.registerIcon("Protocols/Sametime", iconList, "SAMETIME");
 }
 
-HANDLE GetIconHandle(int iconId)
-{
-	for (int i = 0; i < _countof(iconList); i++)
-		if (iconList[i].defIconID == iconId)
-			return iconList[i].hIcolib;
-	return nullptr;
-}
-
-HICON LoadIconEx(const char* name, bool big)
-{
-	char szSettingName[100];
-	mir_snprintf(szSettingName, "%s_%s", "SAMETIME", name);
-	return IcoLib_GetIcon(szSettingName, big);
-}
-
-void ReleaseIconEx(const char* name, bool big)
-{
-	char szSettingName[100];
-	mir_snprintf(szSettingName, "%s_%s", "SAMETIME", name);
-	IcoLib_Release(szSettingName, big);
-}
-
 // Copied from MSN plugin - sent acks need to be from different thread
 void __cdecl sttFakeAckInfoSuccessThread(TFakeAckParams* tParam)
 {

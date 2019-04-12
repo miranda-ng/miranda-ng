@@ -57,7 +57,7 @@ static int lua_AddIcon(lua_State *L)
 		sid.description.w = mir_utf8decodeW(luaL_checkstring(L, 2));
 		sid.section.w = mir_utf8decodeW(luaL_optstring(L, 3, MODULENAME));
 		sid.defaultFile.w = mir_utf8decodeW(lua_tostring(L, 4));
-		sid.hDefaultIcon = GetIcon(IDI_SCRIPT);
+		sid.hDefaultIcon = g_plugin.getIcon(IDI_SCRIPT);
 
 		if (sid.defaultFile.w == nullptr) {
 			sid.defaultFile.w = (wchar_t*)mir_calloc(MAX_PATH + 1);
@@ -133,7 +133,7 @@ static int lua_RemoveIcon(lua_State *L)
 static luaL_Reg icolibApi[] =
 {
 	{ "AddIcon", lua_AddIcon },
-	{ "GetIcon", lua_GetIcon },
+	{ "g_plugin.getIcon", lua_GetIcon },
 	{ "GetHandle", lua_GetIconHandle },
 	{ "GetIconHandle", lua_GetIconHandle },
 	{ "RemoveIcon", lua_RemoveIcon },

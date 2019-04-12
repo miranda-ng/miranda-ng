@@ -14,21 +14,3 @@ void LoadIcons()
 {
 	g_plugin.registerIcon(MODULENAME, Icons, MODULENAME);
 }
-
-HICON GetIcon(int iconId)
-{
-	for (auto &it : Icons)
-		if (it.defIconID == iconId)
-			return IcoLib_GetIconByHandle(it.hIcolib);
-
-	return nullptr;
-}
-
-HANDLE GetIconHandle(int iconId)
-{
-	for (auto &it : Icons)
-		if (it.defIconID == iconId)
-			return it.hIcolib;
-
-	return nullptr;
-}

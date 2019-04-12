@@ -41,10 +41,6 @@ INT_PTR CALLBACK CALLBACK SearchDialogFunc(HWND hwndDlg, UINT msg, WPARAM wParam
 void mwResolve_handler_callback(mwServiceResolve* srvc, guint32 id, guint32 code, GList* results, gpointer data);
 
 void SametimeInitIcons(void);
-HANDLE GetIconHandle(int iconId);
-HICON LoadIconEx(const char* name, bool big);
-void ReleaseIconEx(const char* name, bool big);
-
 
 // services (async thread functions)
 struct TFakeAckParams
