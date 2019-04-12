@@ -42,7 +42,7 @@ static icons[] =
 	{ IDI_OV_RSA, TBL_ICO, ICO_OV_RSA, MODULENAME "/" LPGEN("Overlays"), "sim_ov_rsa", LPGEN("RSA/AES mode") },
 };
 
-HINSTANCE LoadIconsPack(const char* szIconsPack)
+HINSTANCE LoadIconsPack(const char *szIconsPack)
 {
 	HINSTANCE hNewIconInst = LoadLibrary(szIconsPack);
 	if (hNewIconInst != nullptr) {

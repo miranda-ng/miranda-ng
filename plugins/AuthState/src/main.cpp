@@ -152,7 +152,7 @@ int onPrebuildContactMenu(WPARAM hContact, LPARAM)
 int onModulesLoaded(WPARAM, LPARAM)
 {
 	// extra icons
-	hExtraIcon = ExtraIcon_RegisterIcolib("authstate", LPGEN("Auth state"), iconList[ICON_BOTH].szName);
+	hExtraIcon = ExtraIcon_RegisterIcolib("authstate", LPGEN("Auth state"), iconList[ICON_BOTH].hIcolib);
 
 	// Set initial value for all contacts
 	for (auto &hContact : Contacts())

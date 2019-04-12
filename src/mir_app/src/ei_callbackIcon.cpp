@@ -23,7 +23,7 @@ Boston, MA 02111-1307, USA.
 
 #include "extraicons.h"
 
-CallbackExtraIcon::CallbackExtraIcon(const char *_name, const wchar_t *_description, const char *_descIcon,
+CallbackExtraIcon::CallbackExtraIcon(const char *_name, const wchar_t *_description, HANDLE _descIcon,
 		MIRANDAHOOK _RebuildIcons, MIRANDAHOOK _ApplyIcon, MIRANDAHOOKPARAM _OnClick, LPARAM _param) :
 	BaseExtraIcon(_name, _description, _descIcon, _OnClick, _param),
 	m_pfnRebuildIcons(_RebuildIcons), m_pfnApplyIcon(_ApplyIcon), m_needToRebuild(true)

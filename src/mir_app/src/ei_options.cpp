@@ -117,7 +117,7 @@ class CExtraIconOptsDlg : public CDlgBase
 			BaseExtraIcon *extra = registeredExtraIcons[group.data[i] - 1];
 			ids->add(extra->getID());
 
-			if (img == 0 && !IsEmpty(extra->getDescIcon()))
+			if (img == 0 && extra->getDescIcon() != nullptr)
 				img = extra->getID();
 
 			if (i > 0)
@@ -421,7 +421,7 @@ public:
 		for (auto &extra : registeredExtraIcons) {
 			extra->setID(registeredExtraIcons.indexOf(&extra)+1);
 
-			HICON hIcon = IcoLib_GetIcon(extra->getDescIcon());
+			HICON hIcon = IcoLib_GetIconByHandle(extra->getDescIcon());
 			if (hIcon == nullptr)
 				ImageList_AddIcon(hImageList, hBlankIcon);
 			else {

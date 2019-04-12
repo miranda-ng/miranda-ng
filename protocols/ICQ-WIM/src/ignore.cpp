@@ -38,7 +38,7 @@ public:
 	bool OnInitDialog() override
 	{
 		HIMAGELIST hImageList = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 2, 0);
-		ImageList_AddIcon(hImageList, IcoLib_GetIcon(Skin_GetIconName(SKINICON_OTHER_DELETE)));
+		ImageList_AddIcon(hImageList, Skin_LoadIcon(SKINICON_OTHER_DELETE));
 		m_list.SetImageList(hImageList, LVSIL_SMALL);
 
 		m_list.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_SUBITEMIMAGES | LVS_EX_GRIDLINES);

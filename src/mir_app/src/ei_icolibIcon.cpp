@@ -26,7 +26,7 @@ Boston, MA 02111-1307, USA.
 
 #include "IcoLib.h"
 
-IcolibExtraIcon::IcolibExtraIcon(const char *_name, const wchar_t *_description, const char *_descIcon, MIRANDAHOOKPARAM _OnClick, LPARAM _param) :
+IcolibExtraIcon::IcolibExtraIcon(const char *_name, const wchar_t *_description, HANDLE _descIcon, MIRANDAHOOKPARAM _OnClick, LPARAM _param) :
 	BaseExtraIcon(_name, _description, _descIcon, _OnClick, _param)
 {
 	db_set_resident(EI_MODULE_NAME, _name);

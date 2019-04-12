@@ -23,13 +23,16 @@ Boston, MA 02111-1307, USA.
 
 #include "extraicons.h"
 
-BaseExtraIcon::BaseExtraIcon(const char *name, const wchar_t *description, const char *descIcon, MIRANDAHOOKPARAM OnClick, LPARAM param) :
+BaseExtraIcon::BaseExtraIcon(const char *name, const wchar_t *description, HANDLE descIcon, MIRANDAHOOKPARAM OnClick, LPARAM param) :
 	ExtraIcon(name),
 	m_OnClick(OnClick),
 	m_onClickParam(param),
 	m_tszDescription(mir_wstrdup(description)),
-	m_szDescIcon(mir_strdup(descIcon))
+	m_hDescIcon(descIcon)
 {
+	if (!IcoLib_IsManaged((HICON)descIcon))
+		m_hDescIcon = IcoLib_GetIconHandle((const char *)descIcon);
+
 	m_id = registeredExtraIcons.getCount() + 1;
 }
 
@@ -48,19 +51,9 @@ const wchar_t* BaseExtraIcon::getDescription() const
 	return TranslateW_LP(m_tszDescription, m_pPlugin);
 }
 
-void BaseExtraIcon::setDescription(const wchar_t *desc)
+HANDLE BaseExtraIcon::getDescIcon() const
 {
-	m_tszDescription = mir_wstrdup(desc);
-}
-
-const char* BaseExtraIcon::getDescIcon() const
-{
-	return m_szDescIcon;
-}
-
-void BaseExtraIcon::setDescIcon(const char *icon)
-{
-	m_szDescIcon = mir_strdup(icon);
+	return m_hDescIcon;
 }
 
 void BaseExtraIcon::onClick(MCONTACT hContact)

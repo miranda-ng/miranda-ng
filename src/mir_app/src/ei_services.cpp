@@ -350,9 +350,8 @@ static void EI_PostCreate(BaseExtraIcon *extra, const char *name, int flags)
 	}
 }
 
-EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterCallback(const char *name, const char *description, const char *descIcon,
-	MIRANDAHOOK RebuildIcons, MIRANDAHOOK ApplyIcon,
-	MIRANDAHOOKPARAM OnClick, LPARAM onClickParam, int flags)
+EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterCallback(const char *name, const char *description, HANDLE descIcon,
+	MIRANDAHOOK RebuildIcons, MIRANDAHOOK ApplyIcon, MIRANDAHOOKPARAM OnClick, LPARAM onClickParam, int flags)
 {
 	// EXTRAICON_TYPE_CALLBACK 
 	if (IsEmpty(name) || IsEmpty(description))
@@ -367,14 +366,13 @@ EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterCallback(const char *name, const 
 
 	ptrW tszDesc(mir_a2u(description));
 
-	BaseExtraIcon *extra = new CallbackExtraIcon(name, tszDesc, descIcon == nullptr ? "" : descIcon, RebuildIcons, ApplyIcon, OnClick, onClickParam);
+	BaseExtraIcon *extra = new CallbackExtraIcon(name, tszDesc, descIcon, RebuildIcons, ApplyIcon, OnClick, onClickParam);
 	extra->m_pPlugin = &GetPluginByInstance(GetInstByAddress(RebuildIcons));
 	EI_PostCreate(extra, name, flags);
 	return extra;
 }
 
-EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterIcolib(const char *name, const char *description, const char *descIcon,
-	MIRANDAHOOKPARAM OnClick, LPARAM onClickParam, int flags)
+EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterIcolib(const char *name, const char *description, HANDLE descIcon, MIRANDAHOOKPARAM OnClick, LPARAM onClickParam, int flags)
 {
 	if (IsEmpty(name) || IsEmpty(description))
 		return nullptr;
@@ -387,7 +385,7 @@ EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterIcolib(const char *name, const ch
 			return nullptr;
 
 		// Found one, now merge it
-		if (!IsEmpty(descIcon))
+		if (descIcon)
 			extra->setDescIcon(descIcon);
 
 		if (OnClick != nullptr)
@@ -401,7 +399,7 @@ EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterIcolib(const char *name, const ch
 		}
 	}
 	else {
-		extra = new IcolibExtraIcon(name, tszDesc, descIcon == nullptr ? "" : descIcon, OnClick, onClickParam);
+		extra = new IcolibExtraIcon(name, tszDesc, descIcon, OnClick, onClickParam);
 		extra->m_pPlugin = &GetPluginByInstance(GetInstByAddress((void*)name));
 		EI_PostCreate(extra, name, flags);
 	}

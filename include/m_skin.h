@@ -96,7 +96,6 @@
 
 EXTERN_C MIR_APP_DLL(HICON)  Skin_LoadIcon(int idx, bool big = false);
 EXTERN_C MIR_APP_DLL(HANDLE) Skin_GetIconHandle(int idx);
-EXTERN_C MIR_APP_DLL(char*)  Skin_GetIconName(int idx);
 
 // status mode icons. NOTE: These are deprecated in favour of LoadSkinProtoIcon()
 #define SKINICON_STATUS_OFFLINE     0

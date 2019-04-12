@@ -357,19 +357,6 @@ MIR_APP_DLL(HANDLE) Skin_GetIconHandle(int idx)
 	return nullptr;
 }
 
-MIR_APP_DLL(char*) Skin_GetIconName(int idx)
-{
-	static char szIconName[100];
-
-	for (int i = 0; i < _countof(mainIcons); i++) {
-		if (idx == mainIcons[i].id) {
-			mir_snprintf(szIconName, "%s%d", mainIconsFmt, i);
-			return szIconName;
-		}
-	}
-	return nullptr;
-}
-
 MIR_APP_DLL(HICON) Skin_LoadIcon(int idx, bool big)
 {
 	// Query for global status icons

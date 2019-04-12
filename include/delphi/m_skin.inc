@@ -95,9 +95,6 @@ function Skin_LoadIcon(iconId:int; big:byte) : HICON; stdcall;
 function Skin_GetIconHandle(iconId:int) : THANDLE; stdcall;
                  external AppDLL name 'Skin_GetIconHandle';
 
-function Skin_GetIconName(iconId:int) : PAnsiChar; stdcall;
-                 external AppDLL name 'Skin_GetIconName';
-
 // status mode icons. NOTE: These are deprecated in favour of LoadSkinnedProtoIcon()
 const
   SKINICON_STATUS_OFFLINE    = 0;

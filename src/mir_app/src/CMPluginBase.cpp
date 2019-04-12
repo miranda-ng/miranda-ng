@@ -287,7 +287,7 @@ HICON CMPluginBase::getIcon(int iconId, bool big)
 HANDLE CMPluginBase::getIconHandle(int iconId)
 {
 	IcolibItem *p = (IcolibItem*)alloca(sizeof(IcolibItem));
-	p->default_indx = iconId;
+	p->default_indx = -iconId;
 	return m_arIcons.find(p);
 }
 

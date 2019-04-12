@@ -60,7 +60,7 @@ public:
 
 	virtual const char *getName() const;
 	virtual const wchar_t *getDescription() const = 0;
-	virtual const char *getDescIcon() const = 0;
+	virtual HANDLE getDescIcon() const = 0;
 	virtual int getType() const = 0;
 
 	virtual int getSlot() const;
@@ -91,13 +91,19 @@ protected:
 class BaseExtraIcon : public ExtraIcon
 {
 public:
-	BaseExtraIcon(const char *name, const wchar_t *description, const char *descIcon, MIRANDAHOOKPARAM OnClick, LPARAM param);
+	BaseExtraIcon(const char *name, const wchar_t *description, HANDLE descIcon, MIRANDAHOOKPARAM OnClick, LPARAM param);
 	virtual ~BaseExtraIcon();
 
 	virtual const wchar_t* getDescription() const;
-	virtual void setDescription(const wchar_t *desc);
-	virtual const char* getDescIcon() const;
-	virtual void setDescIcon(const char *icon);
+	virtual void setDescription(const wchar_t *desc) {
+		m_tszDescription = mir_wstrdup(desc);
+	}
+
+	virtual HANDLE getDescIcon() const;
+	void setDescIcon(HANDLE icon) {
+		m_hDescIcon = icon;
+	}
+
 	virtual int getType() const = 0;
 
 	virtual void onClick(MCONTACT hContact);
@@ -107,7 +113,7 @@ public:
 
 protected:
 	ptrW m_tszDescription;
-	ptrA m_szDescIcon;
+	HANDLE m_hDescIcon;
 	MIRANDAHOOKPARAM m_OnClick;
 	LPARAM m_onClickParam;
 };
@@ -118,7 +124,7 @@ protected:
 class CallbackExtraIcon : public BaseExtraIcon
 {
 public:
-	CallbackExtraIcon(const char *name, const wchar_t *description, const char *descIcon,
+	CallbackExtraIcon(const char *name, const wchar_t *description, HANDLE descIcon,
 			MIRANDAHOOK RebuildIcons, MIRANDAHOOK ApplyIcon, MIRANDAHOOKPARAM OnClick, LPARAM param);
 	virtual ~CallbackExtraIcon();
 
@@ -143,7 +149,7 @@ private:
 class IcolibExtraIcon : public BaseExtraIcon
 {
 public:
-	IcolibExtraIcon(const char *name, const wchar_t *description, const char *descIcon, MIRANDAHOOKPARAM OnClick, LPARAM param);
+	IcolibExtraIcon(const char *name, const wchar_t *description, HANDLE descIcon, MIRANDAHOOKPARAM OnClick, LPARAM param);
 	virtual ~IcolibExtraIcon();
 
 	virtual int getType() const;
@@ -175,7 +181,7 @@ public:
 	virtual int  setIconByName(MCONTACT hContact, const char *icon);
 
 	virtual const wchar_t* getDescription() const;
-	virtual const char* getDescIcon() const;
+	virtual HANDLE getDescIcon() const;
 	virtual int getType() const;
 
 	virtual int getPosition() const;

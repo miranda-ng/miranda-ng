@@ -177,13 +177,13 @@ const wchar_t* ExtraIconGroup::getDescription() const
 	return m_tszDescription;
 }
 
-const char *ExtraIconGroup::getDescIcon() const
+HANDLE ExtraIconGroup::getDescIcon() const
 {
 	for (auto &p : m_items)
-		if (!IsEmpty(p->getDescIcon()))
-			return p->getDescIcon();
+		if (HANDLE ret = p->getDescIcon())
+			return ret;
 
-	return "";
+	return nullptr;
 }
 
 int ExtraIconGroup::getType() const
