@@ -673,8 +673,6 @@ void   g_IconsInit();
 void   g_XstatusIconsInit();
 void   g_XstatusIconsUninit();
 
-void   ImageList_AddIcon_Icolib(HIMAGELIST hIml, HICON hIcon);
-
 //---- jabber_libstr.c ----------------------------------------------
 
 int lstrcmp_null(const wchar_t *s1, const wchar_t *s2);

@@ -88,8 +88,7 @@ static MODULEINFO* MM_CreateModule()
 static void OnCreateModule(MODULEINFO *mi)
 {
 	HIMAGELIST hList = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 0, 0);
-
-	int overlayIcon = ImageList_AddIcon(hList, g_plugin.getIcon(IDI_OVERLAY));
+	int overlayIcon = g_plugin.addImgListIcon(hList, IDI_OVERLAY);
 	ImageList_SetOverlayImage(hList, overlayIcon, 1);
 
 	int index = ImageList_AddIcon(hList, Skin_LoadProtoIcon(mi->pszModule, ID_STATUS_ONLINE));

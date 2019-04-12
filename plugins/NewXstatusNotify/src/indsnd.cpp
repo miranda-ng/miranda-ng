@@ -95,7 +95,7 @@ HIMAGELIST GetStatusIconsImgList(char *szProto)
 		if (hList != nullptr) {
 			for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++)
 				ImageList_AddIcon(hList, Skin_LoadProtoIcon(szProto, i));
-			ImageList_AddIcon(hList, Skin_LoadIcon(SKINICON_OTHER_USERONLINE));
+			ImageList_AddSkinIcon(hList, SKINICON_OTHER_USERONLINE);
 		}
 	}
 
@@ -439,7 +439,7 @@ INT_PTR CALLBACK DlgProcFiltering(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 		ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[ICO_ENABLEALL].hIcolib));
 		SendDlgItemMessage(hwndDlg, IDC_ENABLEALLICON, STM_SETICON, (WPARAM)ImageList_GetIcon(hImageList, EXTRA_IMAGE_ENABLEALL, ILD_NORMAL), 0);
 
-		ImageList_AddIcon(hImageList, Skin_LoadIcon(SKINICON_OTHER_SMALLDOT));
+		ImageList_AddSkinIcon(hImageList, SKINICON_OTHER_SMALLDOT);
 
 		SendDlgItemMessage(hwndDlg, IDC_INDSNDLIST, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hImageList);
 		SendDlgItemMessage(hwndDlg, IDC_INDSNDLIST, CLM_SETEXTRACOLUMNS, 8, 0);

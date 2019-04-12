@@ -180,8 +180,8 @@ public:
 	bool OnInitDialog() override
 	{
 		HIMAGELIST hImageList = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 2, 0);
-		ImageList_AddIcon(hImageList, g_plugin.getIcon(IDI_DELETE));
-		ImageList_AddIcon(hImageList, g_plugin.getIcon(IDI_ADDCONTACT));
+		g_plugin.addImgListIcon(hImageList, IDI_DELETE);
+		g_plugin.addImgListIcon(hImageList, IDI_ADDCONTACT);
 		m_list.SetImageList(hImageList, LVSIL_SMALL);
 
 		m_list.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_SUBITEMIMAGES | LVS_EX_GRIDLINES);

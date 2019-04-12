@@ -230,15 +230,17 @@ void LoadGlobalIcons()
 		if (it == 0)
 			ImageList_AddIcon_ProtoEx(g_dat.hButtonIconList, nullptr, ID_STATUS_OFFLINE);
 		else
-			ImageList_AddIcon(g_dat.hButtonIconList, g_plugin.getIcon(it));
+			g_plugin.addImgListIcon(g_dat.hButtonIconList, it);
 	}
 	
 	for (auto &it : chatButtonIcons)
-		ImageList_AddIcon(g_dat.hChatButtonIconList, g_plugin.getIcon(it));
+		g_plugin.addImgListIcon(g_dat.hChatButtonIconList, it);
 
-	ImageList_AddIcon(g_dat.hHelperIconList, g_plugin.getIcon(IDI_OVERLAY));
-	int overlayIcon = ImageList_AddIcon(g_dat.hHelperIconList, g_plugin.getIcon(IDI_OVERLAY));
+	g_plugin.addImgListIcon(g_dat.hHelperIconList, IDI_OVERLAY);
+
+	int overlayIcon = g_plugin.addImgListIcon(g_dat.hHelperIconList, IDI_OVERLAY);
 	ImageList_SetOverlayImage(g_dat.hHelperIconList, overlayIcon, 1);
+
 	for (int i = IDI_GOOGLE; i < IDI_LASTICON; i++) {
 		HICON hIcon = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(i), IMAGE_ICON, 0, 0, 0);
 		ImageList_AddIcon(g_dat.hSearchEngineIconList, hIcon);

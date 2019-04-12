@@ -111,6 +111,12 @@ MIR_APP_DLL(void)   Window_SetProtoIcon_IcoLib(HWND hWnd, const char *szProto, i
 MIR_APP_DLL(void)   Window_FreeIcon_IcoLib(HWND hWnd);
 
 ///////////////////////////////////////////////////////////////////////////////
+// Helper to add an icolib's icon to a HIMAGELIST
+
+MIR_APP_DLL(int) ImageList_AddSkinIcon(HIMAGELIST hIml, int iconId);
+MIR_APP_DLL(int) ImageList_AddProtoIcon(HIMAGELIST hIml, const char *szProto, int iconId);
+
+///////////////////////////////////////////////////////////////////////////////
 //  Icons' change notification event
 
 #define ME_SKIN_ICONSCHANGED "Skin/IconsChanged"

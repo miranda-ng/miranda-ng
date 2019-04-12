@@ -471,12 +471,9 @@ INT_PTR CALLBACK DlgProcMsnServLists(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
 			HIMAGELIST hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_MASK | ILC_COLOR32, 5, 5);
+			ImageList_AddSkinIcon(hIml, SKINICON_OTHER_SMALLDOT);
 
-			HICON hIcon = Skin_LoadIcon(SKINICON_OTHER_SMALLDOT);
-			ImageList_AddIcon(hIml, hIcon);
-			IcoLib_ReleaseIcon(hIcon);
-
-			hIcon = g_plugin.getIcon(IDI_LIST_LC);
+			HICON hIcon = g_plugin.getIcon(IDI_LIST_LC);
 			ImageList_AddIcon(hIml, hIcon);
 			SendDlgItemMessage(hwndDlg, IDC_ICON_LC, STM_SETICON, (WPARAM)hIcon, 0);
 

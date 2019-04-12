@@ -279,6 +279,14 @@ void CMPluginBase::debugLogW(LPCWSTR wszFormat, ...)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+int CMPluginBase::addImgListIcon(HIMAGELIST himl, int iconId)
+{
+	HICON hIcon = getIcon(iconId);
+	int ret = ::ImageList_AddIcon(himl, hIcon);
+	IcoLib_ReleaseIcon(hIcon);
+	return ret;
+}
+
 HICON CMPluginBase::getIcon(int iconId, bool big)
 {
 	return IcoLib_GetIconByHandle(getIconHandle(iconId), big);

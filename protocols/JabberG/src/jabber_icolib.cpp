@@ -508,9 +508,3 @@ void g_IconsInit()
 	g_plugin.registerIcon(LPGEN("Protocols") "/" LPGEN("Jabber") "/" LPGEN("Dialogs") "/" LPGEN("Discovery"), sharedIconList3, GLOBAL_SETTING_PREFIX);
 	g_plugin.registerIcon(LPGEN("Protocols") "/" LPGEN("Jabber") "/" LPGEN("Dialogs") "/" LPGEN("Privacy"), sharedIconList4, GLOBAL_SETTING_PREFIX);
 }
-
-void ImageList_AddIcon_Icolib(HIMAGELIST hIml, HICON hIcon)
-{
-	ImageList_AddIcon(hIml, hIcon);
-	IcoLib_ReleaseIcon(hIcon);
-}

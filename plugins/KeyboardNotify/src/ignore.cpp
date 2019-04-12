@@ -195,13 +195,13 @@ INT_PTR CALLBACK DlgProcIgnoreOptions(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPa
 			TranslateDialogDefault(hwndDlg);
 			{
 				HIMAGELIST hIml=ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 3+IGNOREEVENT_MAX, 3+IGNOREEVENT_MAX);
-				ImageList_AddIcon(hIml, Skin_LoadIcon(SKINICON_OTHER_SMALLDOT));
-				ImageList_AddIcon(hIml, Skin_LoadIcon(SKINICON_OTHER_FILLEDBLOB));
-				ImageList_AddIcon(hIml, Skin_LoadIcon(SKINICON_OTHER_EMPTYBLOB));
-				ImageList_AddIcon(hIml, Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
-				ImageList_AddIcon(hIml, Skin_LoadIcon(SKINICON_EVENT_URL));
-				ImageList_AddIcon(hIml, Skin_LoadIcon(SKINICON_EVENT_FILE));
-				ImageList_AddIcon(hIml, Skin_LoadIcon(SKINICON_OTHER_MIRANDA));
+				ImageList_AddSkinIcon(hIml, SKINICON_OTHER_SMALLDOT);
+				ImageList_AddSkinIcon(hIml, SKINICON_OTHER_FILLEDBLOB);
+				ImageList_AddSkinIcon(hIml, SKINICON_OTHER_EMPTYBLOB);
+				ImageList_AddSkinIcon(hIml, SKINICON_EVENT_MESSAGE);
+				ImageList_AddSkinIcon(hIml, SKINICON_EVENT_URL);
+				ImageList_AddSkinIcon(hIml, SKINICON_EVENT_FILE);
+				ImageList_AddSkinIcon(hIml, SKINICON_OTHER_MIRANDA);
 				SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hIml);
 				for (int i=0; i < _countof(hIcons); i++)
 					hIcons[i] = ImageList_GetIcon(hIml, 1+i, ILD_NORMAL);

@@ -1340,15 +1340,15 @@ public:
 		m_clcClist.SetExStyle(CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT);
 
 		HIMAGELIST hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 9, 9);
-		ImageList_AddIcon_Icolib(hIml, Skin_LoadIcon(SKINICON_OTHER_SMALLDOT));
-		ImageList_AddIcon_Icolib(hIml, g_plugin.getIcon(IDI_PL_MSG_ALLOW));
-		ImageList_AddIcon_Icolib(hIml, g_plugin.getIcon(IDI_PL_MSG_DENY));
-		ImageList_AddIcon_Icolib(hIml, g_plugin.getIcon(IDI_PL_PRIN_ALLOW));
-		ImageList_AddIcon_Icolib(hIml, g_plugin.getIcon(IDI_PL_PRIN_DENY));
-		ImageList_AddIcon_Icolib(hIml, g_plugin.getIcon(IDI_PL_PROUT_ALLOW));
-		ImageList_AddIcon_Icolib(hIml, g_plugin.getIcon(IDI_PL_PROUT_DENY));
-		ImageList_AddIcon_Icolib(hIml, g_plugin.getIcon(IDI_PL_QUERY_ALLOW));
-		ImageList_AddIcon_Icolib(hIml, g_plugin.getIcon(IDI_PL_QUERY_DENY));
+		ImageList_AddSkinIcon(hIml, SKINICON_OTHER_SMALLDOT);
+		g_plugin.addImgListIcon(hIml, IDI_PL_MSG_ALLOW);
+		g_plugin.addImgListIcon(hIml, IDI_PL_MSG_DENY);
+		g_plugin.addImgListIcon(hIml, IDI_PL_PRIN_ALLOW);
+		g_plugin.addImgListIcon(hIml, IDI_PL_PRIN_DENY);
+		g_plugin.addImgListIcon(hIml, IDI_PL_PROUT_ALLOW);
+		g_plugin.addImgListIcon(hIml, IDI_PL_PROUT_DENY);
+		g_plugin.addImgListIcon(hIml, IDI_PL_QUERY_ALLOW);
+		g_plugin.addImgListIcon(hIml, IDI_PL_QUERY_DENY);
 		m_clcClist.SetExtraImageList(hIml);
 		m_clcClist.SetExtraColumns(4);
 

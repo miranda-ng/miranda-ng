@@ -139,9 +139,9 @@ static INT_PTR CALLBACK DlgProcVisibilityOpts(HWND hwndDlg, UINT msg, WPARAM, LP
 		TranslateDialogDefault(hwndDlg);
 
 		hIml = ImageList_Create(g_iIconSX, g_iIconSY, ILC_COLOR32 | ILC_MASK, 3, 3);
-		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_SMALLDOT);
-		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_VISIBLE_ALL);
-		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_INVISIBLE_ALL);
+		ImageList_AddSkinIcon(hIml, SKINICON_OTHER_SMALLDOT);
+		ImageList_AddSkinIcon(hIml, SKINICON_OTHER_VISIBLE_ALL);
+		ImageList_AddSkinIcon(hIml, SKINICON_OTHER_INVISIBLE_ALL);
 		SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hIml);
 		hVisibleIcon = ImageList_GetIcon(hIml, 1, ILD_NORMAL);
 		SendDlgItemMessage(hwndDlg, IDC_VISIBLEICON, STM_SETICON, (WPARAM)hVisibleIcon, 0);

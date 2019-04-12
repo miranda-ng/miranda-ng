@@ -135,7 +135,7 @@ MIR_APP_DLL(int) Clist_GetContactIcon(MCONTACT hContact)
 static void AddProtoIconIndex(PROTOACCOUNT *pa)
 {
 	for (auto &it : g_statuses) {
-		int iImg = ImageList_AddIcon_ProtoIconLibLoaded(hCListImages, pa->szModuleName, it.iStatus);
+		int iImg = ImageList_AddProtoIcon(hCListImages, pa->szModuleName, it.iStatus);
 		if (it.iStatus == ID_STATUS_OFFLINE)
 			pa->iIconBase = iImg;
 	}

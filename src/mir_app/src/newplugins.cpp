@@ -528,11 +528,11 @@ static bool loadClistModule(wchar_t *exe, pluginEntry *p)
 
 		// now all core skin icons are loaded via icon lib. so lets release them
 		for (auto &it : g_statuses)
-			ImageList_AddIcon_IconLibLoaded(hCListImages, it.iSkinIcon);
+			ImageList_AddSkinIcon(hCListImages, it.iSkinIcon);
 
 		// see IMAGE_GROUP... in clist.h if you add more images above here
-		ImageList_AddIcon_IconLibLoaded(hCListImages, SKINICON_OTHER_GROUPOPEN);
-		ImageList_AddIcon_IconLibLoaded(hCListImages, SKINICON_OTHER_GROUPSHUT);
+		ImageList_AddSkinIcon(hCListImages, SKINICON_OTHER_GROUPOPEN);
+		ImageList_AddSkinIcon(hCListImages, SKINICON_OTHER_GROUPSHUT);
 
 		if (p->load() == 0) {
 			p->bLoaded = true;

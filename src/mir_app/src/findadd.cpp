@@ -390,7 +390,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				GetTextExtentPoint32(hdc, cbei.pszText, (int)mir_wstrlen(cbei.pszText), &textSize);
 				if (textSize.cx > cbwidth)
 					cbwidth = textSize.cx;
-				cbei.iImage = cbei.iSelectedImage = ImageList_AddIcon_IconLibLoaded(dat->himlComboIcons, SKINICON_OTHER_SEARCHALL);
+				cbei.iImage = cbei.iSelectedImage = ImageList_AddSkinIcon(dat->himlComboIcons, SKINICON_OTHER_SEARCHALL);
 				cbei.lParam = 0;
 				SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CBEM_INSERTITEM, 0, (LPARAM)&cbei);
 				cbei.iItem++;

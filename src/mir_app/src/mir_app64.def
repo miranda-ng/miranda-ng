@@ -14,7 +14,7 @@ IcoLib_GetIconHandle       @12
 IcoLib_IsManaged           @13
 IcoLib_ReleaseIcon         @14
 Window_FreeIcon_IcoLib     @15
-Window_SetSkinIcon_IcoLib      @16
+Window_SetSkinIcon_IcoLib  @16
 Window_SetProtoIcon_IcoLib @17
 ProtoServiceExists         @18
 mir_main                   @19
@@ -678,3 +678,6 @@ Srmm_SetIconFlags @767
 ?getIcon@CMPluginBase@@QEAAPEAUHICON__@@H_N@Z @769 NONAME
 ?getIconHandle@CMPluginBase@@QEAAPEAXH@Z @770 NONAME
 ?releaseIcon@CMPluginBase@@QEAAXH_N@Z @771 NONAME
+?addImgListIcon@CMPluginBase@@QEAAHPEAU_IMAGELIST@@H@Z @772 NONAME
+ImageList_AddProtoIcon @773
+ImageList_AddSkinIcon @774

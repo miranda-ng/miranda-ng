@@ -290,8 +290,8 @@ public:
 	bool OnInitDialog() override
 	{
 		HIMAGELIST hIml = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 4, 0);
-		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_UNICODE);
-		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_ANSI);
+		ImageList_AddSkinIcon(hIml, SKINICON_OTHER_UNICODE);
+		ImageList_AddSkinIcon(hIml, SKINICON_OTHER_ANSI);
 		m_plugList.SetImageList(hIml, LVSIL_SMALL);
 
 		LVCOLUMN col;

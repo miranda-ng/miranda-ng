@@ -287,11 +287,7 @@ static void RefreshProtoIcons()
 			ImageList_AddIcon(hProtocolImageList, hIcon);
 			DestroyIcon(hIcon);
 		}
-		else {
-			hIcon = (HICON)Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
-			ImageList_AddIcon(hProtocolImageList, hIcon);
-			IcoLib_ReleaseIcon(hIcon);
-		}
+		else ImageList_AddSkinIcon(hProtocolImageList, SKINICON_OTHER_MIRANDA);
 	}
 }
 

@@ -195,8 +195,8 @@ public:
 		m_lvBookmarks.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_HEADERDRAGDROP | LVS_EX_DOUBLEBUFFER);
 
 		HIMAGELIST hIml = m_lvBookmarks.CreateImageList(LVSIL_SMALL);
-		ImageList_AddIcon_Icolib(hIml, g_plugin.getIcon(IDI_GROUP));
-		ImageList_AddIcon_Icolib(hIml, Skin_LoadIcon(SKINICON_EVENT_URL));
+		g_plugin.addImgListIcon(hIml, IDI_GROUP);
+		ImageList_AddSkinIcon(hIml, SKINICON_EVENT_URL);
 
 		m_lvBookmarks.AddColumn(0, TranslateT("Bookmark Name"), m_proto->getWord("bookmarksWnd_cx0", 120));
 		m_lvBookmarks.AddColumn(1, TranslateT("Address (JID or URL)"), m_proto->getWord("bookmarksWnd_cx1", 210));

@@ -163,12 +163,9 @@ INT_PTR CALLBACK DlgProcHSOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 		TranslateDialogDefault(hwndDlg);
 		{
 			HIMAGELIST hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_MASK | ILC_COLOR32, 2, 2);
+			ImageList_AddSkinIcon(hIml, SKINICON_OTHER_SMALLDOT);
 
-			HICON hIcon = Skin_LoadIcon(SKINICON_OTHER_SMALLDOT);
-			ImageList_AddIcon(hIml, hIcon);
-			IcoLib_ReleaseIcon(hIcon);
-
-			hIcon = g_plugin.getIcon(IDI_ACT1);
+			HICON hIcon = g_plugin.getIcon(IDI_ACT1);
 			ImageList_AddIcon(hIml, hIcon);
 			SendDlgItemMessage(hwndDlg, IDC_ACT1, STM_SETICON, (WPARAM)hIcon, 0);
 

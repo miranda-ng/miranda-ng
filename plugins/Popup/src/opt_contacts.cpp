@@ -52,11 +52,11 @@ INT_PTR CALLBACK DlgProcContactOpts(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 		SendDlgItemMessage(hwnd, IDC_ICO_BLOCK, STM_SETICON, (WPARAM)g_plugin.getIcon(IDI_OPT_BLOCK), 0);
 		{
 			HIMAGELIST hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 5, 5);
-			ImageList_AddIcon(hIml, Skin_LoadIcon(SKINICON_OTHER_SMALLDOT));
-			ImageList_AddIcon(hIml, g_plugin.getIcon(IDI_ACT_OK));
-			ImageList_AddIcon(hIml, g_plugin.getIcon(IDI_OPT_FAVORITE));
-			ImageList_AddIcon(hIml, g_plugin.getIcon(IDI_OPT_FULLSCREEN));
-			ImageList_AddIcon(hIml, g_plugin.getIcon(IDI_OPT_BLOCK));
+			ImageList_AddSkinIcon(hIml, SKINICON_OTHER_SMALLDOT);
+			g_plugin.addImgListIcon(hIml, IDI_ACT_OK);
+			g_plugin.addImgListIcon(hIml, IDI_OPT_FAVORITE);
+			g_plugin.addImgListIcon(hIml, IDI_OPT_FULLSCREEN);
+			g_plugin.addImgListIcon(hIml, IDI_OPT_BLOCK);
 			SendDlgItemMessage(hwnd, IDC_LIST, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hIml);
 			SendDlgItemMessage(hwnd, IDC_LIST, CLM_SETEXTRACOLUMNS, 4 /*_countof(sttIcons)*/, 0);
 			sttResetListOptions(GetDlgItem(hwnd, IDC_LIST));

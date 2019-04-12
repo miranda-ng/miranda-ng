@@ -25,7 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  * typedefs
  ***********************************************************************************************************/
 
-typedef struct {
+typedef struct
+{
 	lpExImParam		ExImContact;
 	DB::CEnumList*	pModules;
 } EXPORTDATA, *LPEXPORTDATA;
@@ -34,14 +35,14 @@ typedef struct {
  * modules stuff
  ***********************************************************************************************************/
 
-/**
- * name:	ExportTree_AppendModuleList
- * desc:	according to the checked list items create the module list for exporting
- * param:	hTree		- handle to the window of the treeview
- *			hParent		- parent tree item for the item to add
- *			pModules	- module list to fill
- * return:	nothing
- **/
+ /**
+  * name:	ExportTree_AppendModuleList
+  * desc:	according to the checked list items create the module list for exporting
+  * param:	hTree		- handle to the window of the treeview
+  *			hParent		- parent tree item for the item to add
+  *			pModules	- module list to fill
+  * return:	nothing
+  **/
 void ExportTree_AppendModuleList(HWND hTree, HTREEITEM hParent, DB::CEnumList* pModules)
 {
 	TVITEMA tvi;
@@ -51,7 +52,7 @@ void ExportTree_AppendModuleList(HWND hTree, HTREEITEM hParent, DB::CEnumList* p
 		CHAR szModule[MAXSETTING];
 
 		// add optional items
-		tvi.mask = TVIF_STATE|TVIF_TEXT;
+		tvi.mask = TVIF_STATE | TVIF_TEXT;
 		tvi.stateMask = TVIS_STATEIMAGEMASK;
 		tvi.pszText = szModule;
 		tvi.cchTextMax = _countof(szModule);
@@ -62,9 +63,8 @@ void ExportTree_AppendModuleList(HWND hTree, HTREEITEM hParent, DB::CEnumList* p
 				(
 					tvi.state == INDEXTOSTATEIMAGEMASK(0) ||
 					tvi.state == INDEXTOSTATEIMAGEMASK(2)
-				) 
-			 )
-			{
+					)
+				) {
 				pModules->Insert(tvi.pszText);
 			}
 		}
@@ -93,8 +93,7 @@ HTREEITEM ExportTree_FindItem(HWND hTree, HTREEITEM hParent, LPSTR pszText)
 
 	for (tvi.hItem = TreeView_GetChild(hTree, hParent);
 		tvi.hItem != nullptr;
-		tvi.hItem = TreeView_GetNextSibling(hTree, tvi.hItem))
-	{
+		tvi.hItem = TreeView_GetNextSibling(hTree, tvi.hItem)) {
 		if (SendMessageA(hTree, TVM_GETITEMA, NULL, (LPARAM)&tvi) && !mir_strcmpi(tvi.pszText, pszText))
 			return tvi.hItem;
 	}
@@ -109,7 +108,7 @@ HTREEITEM ExportTree_FindItem(HWND hTree, HTREEITEM hParent, LPSTR pszText)
  *			pszDesc		- item label
  *			bUseImages	- icons are loaded
  *			bState		- 0-hide checkbox/1-unchecked/2-checked
- * return:	return handle to added treeitem 
+ * return:	return handle to added treeitem
  **/
 HTREEITEM ExportTree_AddItem(HWND hTree, HTREEITEM hParent, LPSTR pszDesc, BYTE bUseImages, BYTE bState)
 {
@@ -120,7 +119,7 @@ HTREEITEM ExportTree_AddItem(HWND hTree, HTREEITEM hParent, LPSTR pszDesc, BYTE 
 	tvii.hInsertAfter = TVI_SORT;
 	tvii.itemex.mask = TVIF_TEXT;
 	if (bUseImages) {
-		tvii.itemex.mask |= TVIF_IMAGE|TVIF_SELECTEDIMAGE;
+		tvii.itemex.mask |= TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 		tvii.itemex.iImage = tvii.itemex.iSelectedImage = 1;
 	}
 	tvii.itemex.pszText = pszDesc;
@@ -143,7 +142,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 	LPEXPORTDATA pDat = (LPEXPORTDATA)GetUserData(hDlg);
 
 	switch (uMsg) {
-		case WM_INITDIALOG:
+	case WM_INITDIALOG:
 		{
 			BYTE bImagesLoaded = 0;
 
@@ -155,8 +154,8 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 			// init the datastructure
 			if (!(pDat = (LPEXPORTDATA)mir_alloc(sizeof(EXPORTDATA))))
 				return FALSE;
-			pDat->ExImContact	= ((LPEXPORTDATA)lParam)->ExImContact;
-			pDat->pModules		= ((LPEXPORTDATA)lParam)->pModules;
+			pDat->ExImContact = ((LPEXPORTDATA)lParam)->ExImContact;
+			pDat->pModules = ((LPEXPORTDATA)lParam)->pModules;
 			SetUserData(hDlg, pDat);
 
 			// set icons
@@ -174,15 +173,13 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 				OSVERSIONINFO osvi;
 				osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
 				if (GetVersionEx(&osvi)) {
-					HIMAGELIST hImages = ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),
-							((osvi.dwPlatformId == VER_PLATFORM_WIN32_NT && osvi.dwMajorVersion >= 5 && osvi.dwMinorVersion >= 1) ? ILC_COLOR32 : ILC_COLOR16)|ILC_MASK,0, 1);
-					if (hImages != nullptr)
-					{
+					HIMAGELIST hImages = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON),
+						((osvi.dwPlatformId == VER_PLATFORM_WIN32_NT && osvi.dwMajorVersion >= 5 && osvi.dwMinorVersion >= 1) ? ILC_COLOR32 : ILC_COLOR16) | ILC_MASK, 0, 1);
+					if (hImages != nullptr) {
 						SendMessage(hTree, TVM_SETIMAGELIST, TVSIL_NORMAL, (LPARAM)hImages);
-
-						HICON hIcon;
-						bImagesLoaded = ((((hIcon = g_plugin.getIcon(IDI_LST_MODULES)) != nullptr) && 0 == ImageList_AddIcon(hImages, hIcon))
-							&& (((hIcon = g_plugin.getIcon(IDI_LST_FOLDER)) != nullptr) && 1 == ImageList_AddIcon(hImages, hIcon)));
+						g_plugin.addImgListIcon(hImages, IDI_LST_MODULES);
+						g_plugin.addImgListIcon(hImages, IDI_LST_FOLDER);
+						bImagesLoaded = true;
 					}
 				}
 			}
@@ -195,29 +192,29 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 			}
 			// Set the Window Title and description
 			{
-				LPCTSTR name = nullptr; 
-				wchar_t	oldTitle[MAXDATASIZE], 
-						newTitle[MAXDATASIZE];
+				LPCTSTR name = nullptr;
+				wchar_t	oldTitle[MAXDATASIZE],
+					newTitle[MAXDATASIZE];
 				switch (pDat->ExImContact->Typ) {
-					case EXIM_ALL:
-					case EXIM_GROUP:
-						name = TranslateT("All Contacts");
-						break;
-					case EXIM_CONTACT:
-						if (pDat->ExImContact->hContact == NULL) {
-							name = TranslateT("Owner");
-						}
-						else {
-							name = Clist_GetContactDisplayName(pDat->ExImContact->hContact);
-						}
-						break;
-					case EXIM_SUBGROUP:
-						name = (LPCTSTR) pDat->ExImContact->ptszName;
-						break;
-					case EXIM_ACCOUNT:
-						PROTOACCOUNT* acc = Proto_GetAccount(pDat->ExImContact->pszName);
-						name = (LPCTSTR) acc->tszAccountName;
-						break;
+				case EXIM_ALL:
+				case EXIM_GROUP:
+					name = TranslateT("All Contacts");
+					break;
+				case EXIM_CONTACT:
+					if (pDat->ExImContact->hContact == NULL) {
+						name = TranslateT("Owner");
+					}
+					else {
+						name = Clist_GetContactDisplayName(pDat->ExImContact->hContact);
+					}
+					break;
+				case EXIM_SUBGROUP:
+					name = (LPCTSTR)pDat->ExImContact->ptszName;
+					break;
+				case EXIM_ACCOUNT:
+					PROTOACCOUNT* acc = Proto_GetAccount(pDat->ExImContact->pszName);
+					name = (LPCTSTR)acc->tszAccountName;
+					break;
 				}
 				TranslateDialogDefault(hDlg);			//to translate oldTitle
 				GetWindowText(hDlg, oldTitle, _countof(oldTitle));
@@ -241,11 +238,11 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 				// add items that are always exported
 				tviiT.hParent = TVI_ROOT;
 				tviiT.hInsertAfter = TVI_FIRST;
-				tviiT.itemex.mask = TVIF_TEXT|TVIF_STATE;
+				tviiT.itemex.mask = TVIF_TEXT | TVIF_STATE;
 				tviiT.itemex.pszText = TranslateT("Required modules");
 				tviiT.itemex.state = tviiT.itemex.stateMask = TVIS_EXPANDED;
 				if (bImagesLoaded) {
-					tviiT.itemex.mask |= TVIF_IMAGE|TVIF_SELECTEDIMAGE;
+					tviiT.itemex.mask |= TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 					tviiT.itemex.iImage = tviiT.itemex.iSelectedImage = 0;
 				}
 				if (hItemEssential = TreeView_InsertItem(hTree, &tviiT)) {
@@ -275,8 +272,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 
 					if (!Modules.EnumModules())	// init Modul list
 					{
-						for (auto &p : Modules)
-						{
+						for (auto &p : Modules) {
 							/*Filter/
 							if (!DB::Module::IsMeta(p))/end Filter*/
 							{
@@ -284,44 +280,38 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 								if (pDat->ExImContact->Typ != EXIM_CONTACT) // TRUE = All Contacts
 								{
 									MCONTACT hContact;
-									
-									for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
-									{
+
+									for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
 										// ignore empty modules
 										if (!DB::Module::IsEmpty(hContact, p)) {
 											pszProto = Proto_GetBaseAccountName(hContact);
 											// Filter by mode
-											switch (pDat->ExImContact->Typ)
-											{
-												case EXIM_ALL:
-												case EXIM_GROUP:
-													break;
-												case EXIM_SUBGROUP:
-													if (mir_wstrncmp(pDat->ExImContact->ptszName, DB::Setting::GetTString(hContact, "CList", "Group"), mir_wstrlen(pDat->ExImContact->ptszName))) {
-														continue;
-													}
-													break;
-												case EXIM_ACCOUNT:
-													if (mir_strcmp(pDat->ExImContact->pszName, pszProto)) {
-														continue;
-													}
-													break;
+											switch (pDat->ExImContact->Typ) {
+											case EXIM_ALL:
+											case EXIM_GROUP:
+												break;
+											case EXIM_SUBGROUP:
+												if (mir_wstrncmp(pDat->ExImContact->ptszName, DB::Setting::GetTString(hContact, "CList", "Group"), mir_wstrlen(pDat->ExImContact->ptszName))) {
+													continue;
+												}
+												break;
+											case EXIM_ACCOUNT:
+												if (mir_strcmp(pDat->ExImContact->pszName, pszProto)) {
+													continue;
+												}
+												break;
 											}
 
 											// contact's base protocol is to be added to the treeview uniquely
-											if (!mir_strcmpi(p, pszProto))
-											{
+											if (!mir_strcmpi(p, pszProto)) {
 												if (!ExportTree_FindItem(hTree, hItemEssential, p))
-												{
 													ExportTree_AddItem(hTree, hItemEssential, p, bImagesLoaded, 0);
-												}
 												break;
 											}
 
 											// add optional module, which is valid for at least one contact
 											/*/Filter/*/
-											if (mir_strcmpi(p, USERINFO) && mir_strcmpi(p, MOD_MBIRTHDAY) && mir_strcmpi(p, META_PROTO)) 
-											{
+											if (mir_strcmpi(p, USERINFO) && mir_strcmpi(p, MOD_MBIRTHDAY) && mir_strcmpi(p, META_PROTO)) {
 												ExportTree_AddItem(hTree, hItemOptional, p, bImagesLoaded, 1);
 												break;
 											}
@@ -336,8 +326,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 									(!pDat->ExImContact->hContact || mir_strcmpi(p, pszProto)) &&
 									//mir_strcmpi(p, "Protocol") &&
 									mir_strcmpi(p, USERINFO) &&
-									mir_strcmpi(p, MOD_MBIRTHDAY))
-								{
+									mir_strcmpi(p, MOD_MBIRTHDAY)) {
 									ExportTree_AddItem(hTree, hItemOptional, (LPSTR)p, bImagesLoaded, 1);
 								}
 							} // end 
@@ -346,74 +335,72 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 				}
 			}
 			TranslateDialogDefault(hDlg);
-			return TRUE;
 		}
-		case WM_CTLCOLORSTATIC:
-			if (GetDlgItem(hDlg, STATIC_WHITERECT) == (HWND)lParam || GetDlgItem(hDlg, ICO_DLGLOGO) == (HWND)lParam) {
-				SetBkColor((HDC)wParam, RGB(255, 255, 255));
-				return (INT_PTR)GetStockObject(WHITE_BRUSH);
-			}
-			SetBkMode((HDC)wParam, TRANSPARENT);
-			return (INT_PTR)GetStockObject(NULL_BRUSH);
+		return TRUE;
 
-		case WM_COMMAND:
-			switch (LOWORD(wParam)) {
-				case IDOK:
-				{
-					HWND hTree = GetDlgItem(hDlg, IDC_TREE);
-					HTREEITEM hParent;
+	case WM_CTLCOLORSTATIC:
+		if (GetDlgItem(hDlg, STATIC_WHITERECT) == (HWND)lParam || GetDlgItem(hDlg, ICO_DLGLOGO) == (HWND)lParam) {
+			SetBkColor((HDC)wParam, RGB(255, 255, 255));
+			return (INT_PTR)GetStockObject(WHITE_BRUSH);
+		}
+		SetBkMode((HDC)wParam, TRANSPARENT);
+		return (INT_PTR)GetStockObject(NULL_BRUSH);
 
-					// search the tree item of optional items
-					for (hParent = TreeView_GetRoot(hTree);
-						hParent != nullptr;
-						hParent = TreeView_GetNextSibling(hTree, hParent))
-					{
-						ExportTree_AppendModuleList(hTree, hParent, pDat->pModules);
-					}
-					return EndDialog(hDlg, IDOK);
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDOK:
+			{
+				HWND hTree = GetDlgItem(hDlg, IDC_TREE);
+				HTREEITEM hParent;
+
+				// search the tree item of optional items
+				for (hParent = TreeView_GetRoot(hTree);
+					hParent != nullptr;
+					hParent = TreeView_GetNextSibling(hTree, hParent)) {
+					ExportTree_AppendModuleList(hTree, hParent, pDat->pModules);
 				}
-				case IDCANCEL:
-					return EndDialog(hDlg, IDCANCEL);
+				return EndDialog(hDlg, IDOK);
+			}
+		case IDCANCEL:
+			return EndDialog(hDlg, IDCANCEL);
 
-				case BTN_CHECK:
-				case BTN_UNCHECK:
-				{
-					HWND hTree = GetDlgItem(hDlg, IDC_TREE);
-					LPCSTR pszRoot = Translate("Optional modules");
-					TVITEMA tvi;
-					CHAR szText[128];
+		case BTN_CHECK:
+		case BTN_UNCHECK:
+			{
+				HWND hTree = GetDlgItem(hDlg, IDC_TREE);
+				LPCSTR pszRoot = Translate("Optional modules");
+				TVITEMA tvi;
+				CHAR szText[128];
 
-					tvi.mask = TVIF_TEXT;
-					tvi.pszText = szText;
-					tvi.cchTextMax = _countof(szText);
+				tvi.mask = TVIF_TEXT;
+				tvi.pszText = szText;
+				tvi.cchTextMax = _countof(szText);
 
-					// search the tree item of optional items
-					for (tvi.hItem = (HTREEITEM)SendMessageA(hTree, TVM_GETNEXTITEM, TVGN_ROOT, NULL);
-						tvi.hItem != nullptr && SendMessageA(hTree, TVM_GETITEMA, 0, (LPARAM)&tvi);
-						tvi.hItem = (HTREEITEM)SendMessageA(hTree, TVM_GETNEXTITEM, TVGN_NEXT, (LPARAM)tvi.hItem))
-					{
-						if (!mir_strcmpi(tvi.pszText, pszRoot)) {
-							tvi.mask = TVIF_STATE;
-							tvi.state = INDEXTOSTATEIMAGEMASK(LOWORD(wParam) == BTN_UNCHECK ? 1 : 2);
-							tvi.stateMask = TVIS_STATEIMAGEMASK;
+				// search the tree item of optional items
+				for (tvi.hItem = (HTREEITEM)SendMessageA(hTree, TVM_GETNEXTITEM, TVGN_ROOT, NULL);
+					tvi.hItem != nullptr && SendMessageA(hTree, TVM_GETITEMA, 0, (LPARAM)&tvi);
+					tvi.hItem = (HTREEITEM)SendMessageA(hTree, TVM_GETNEXTITEM, TVGN_NEXT, (LPARAM)tvi.hItem)) {
+					if (!mir_strcmpi(tvi.pszText, pszRoot)) {
+						tvi.mask = TVIF_STATE;
+						tvi.state = INDEXTOSTATEIMAGEMASK(LOWORD(wParam) == BTN_UNCHECK ? 1 : 2);
+						tvi.stateMask = TVIS_STATEIMAGEMASK;
 
-							for (tvi.hItem = (HTREEITEM)SendMessageA(hTree, TVM_GETNEXTITEM, TVGN_CHILD, (LPARAM)tvi.hItem);
-								tvi.hItem != nullptr;
-								tvi.hItem = (HTREEITEM)SendMessageA(hTree, TVM_GETNEXTITEM, TVGN_NEXT, (LPARAM)tvi.hItem))
-							{
-								SendMessageA(hTree, TVM_SETITEMA, NULL, (LPARAM)&tvi);
-							}
-							break;
+						for (tvi.hItem = (HTREEITEM)SendMessageA(hTree, TVM_GETNEXTITEM, TVGN_CHILD, (LPARAM)tvi.hItem);
+							tvi.hItem != nullptr;
+							tvi.hItem = (HTREEITEM)SendMessageA(hTree, TVM_GETNEXTITEM, TVGN_NEXT, (LPARAM)tvi.hItem)) {
+							SendMessageA(hTree, TVM_SETITEMA, NULL, (LPARAM)&tvi);
 						}
+						break;
 					}
-					break;
 				}
+				break;
 			}
-			break;
+		}
+		break;
 
-		case WM_DESTROY:
-			mir_free(pDat);
-			break;
+	case WM_DESTROY:
+		mir_free(pDat);
+		break;
 	}
 	return 0;
 }
@@ -434,4 +421,3 @@ int DlgExImModules_SelectModulesToExport(lpExImParam ExImContact, DB::CEnumList*
 	dat.pModules = pModules;
 	return (IDOK != DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EXPORT), hParent, SelectModulesToExport_DlgProc, (LPARAM)&dat));
 }
-

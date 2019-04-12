@@ -472,14 +472,14 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 		Hotkey_Subclass(GetDlgItem(hwndDlg, IDC_HOTKEY));
 		{
 			HIMAGELIST hIml = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 3, 1);
-			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_WINDOWS);
-			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_MIRANDA);
-			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_WINDOW);
-			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_ADDCONTACT);
-			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_DELETE);
-			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_UNDO);
-			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_GROUPOPEN);
-			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_GROUPSHUT);
+			ImageList_AddSkinIcon(hIml, SKINICON_OTHER_WINDOWS);
+			ImageList_AddSkinIcon(hIml, SKINICON_OTHER_MIRANDA);
+			ImageList_AddSkinIcon(hIml, SKINICON_OTHER_WINDOW);
+			ImageList_AddSkinIcon(hIml, SKINICON_OTHER_ADDCONTACT);
+			ImageList_AddSkinIcon(hIml, SKINICON_OTHER_DELETE);
+			ImageList_AddSkinIcon(hIml, SKINICON_OTHER_UNDO);
+			ImageList_AddSkinIcon(hIml, SKINICON_OTHER_GROUPOPEN);
+			ImageList_AddSkinIcon(hIml, SKINICON_OTHER_GROUPSHUT);
 			ListView_SetImageList(hwndHotkey, hIml, LVSIL_SMALL);
 		}
 		ListView_SetExtendedListViewStyle(hwndHotkey, LVS_EX_CHECKBOXES | LVS_EX_SUBITEMIMAGES | LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER | LVS_EX_INFOTIP);

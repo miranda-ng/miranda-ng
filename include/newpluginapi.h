@@ -25,6 +25,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_NEWPLUGINAPI_H__
 #define M_NEWPLUGINAPI_H__
 
+#if !defined(HIMAGELIST)
+typedef struct _IMAGELIST* HIMAGELIST;
+#endif
+
 #include <m_core.h>
 #include <m_database.h>
 
@@ -176,6 +180,7 @@ public:
 	void debugLogW(LPCWSTR wszFormat, ...);
 
 	__forceinline void addIcolib(HANDLE hIcolib) { m_arIcons.insert((IcolibItem*)hIcolib); }
+	int    addImgListIcon(HIMAGELIST himl, int iconId);
 	HICON  getIcon(int iconId, bool big = false);
 	HANDLE getIconHandle(int iconId);
 	void   releaseIcon(int iconId, bool big = false);

@@ -66,10 +66,10 @@ void Manager::initImageList()
 	char buff[256];
 
 	m_himlStates = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, ServerList::FTP_COUNT + 4, 0);
-	ImageList_AddIcon(m_himlStates, Skin_LoadIcon(SKINICON_OTHER_DELETE)); // image index 0 is useless for INDEXTOSTATEIMAGEMASK
-	ImageList_AddIcon(m_himlStates, Skin_LoadIcon(SKINICON_OTHER_DELETE));
-	ImageList_AddIcon(m_himlStates, Skin_LoadIcon(SKINICON_OTHER_NOTICK));
-	ImageList_AddIcon(m_himlStates, Skin_LoadIcon(SKINICON_OTHER_TICK));
+	ImageList_AddSkinIcon(m_himlStates, SKINICON_OTHER_DELETE); // image index 0 is useless for INDEXTOSTATEIMAGEMASK
+	ImageList_AddSkinIcon(m_himlStates, SKINICON_OTHER_DELETE);
+	ImageList_AddSkinIcon(m_himlStates, SKINICON_OTHER_NOTICK);
+	ImageList_AddSkinIcon(m_himlStates, SKINICON_OTHER_TICK);
 
 	for (int i = 0; i < ServerList::FTP_COUNT; i++) {
 		mir_snprintf(buff, "ftp%d", i);

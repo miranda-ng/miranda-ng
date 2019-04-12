@@ -403,12 +403,12 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		memset(dat, 0, sizeof(JabberUserInfoDlgData));
 		dat->resourcesCount = -1;
 		dat->hContact = lParam;
-		{
-			GetClientRect(hwndDlg, &rc);
-			MoveWindow(GetDlgItem(hwndDlg, IDC_TV_INFO), 5, 5, rc.right - 10, rc.bottom - 10, TRUE);
 
+		GetClientRect(hwndDlg, &rc);
+		MoveWindow(GetDlgItem(hwndDlg, IDC_TV_INFO), 5, 5, rc.right - 10, rc.bottom - 10, TRUE);
+		{
 			HIMAGELIST himl = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR | ILC_COLOR32 | ILC_MASK, 5, 1);
-			ImageList_AddIcon_Icolib(himl, Skin_LoadIcon(SKINICON_OTHER_SMALLDOT));
+			ImageList_AddSkinIcon(himl, SKINICON_OTHER_SMALLDOT);
 			TreeView_SetImageList(GetDlgItem(hwndDlg, IDC_TV_INFO), himl, TVSIL_NORMAL);
 
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
