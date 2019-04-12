@@ -26,18 +26,18 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ICON0               ICON                    "hide_from_list.ico"
-IDI_ICON1               ICON                    "Always Visible.ico"
-IDI_ICON2               ICON                    "Never Visible.ico"
-IDI_ICON3               ICON                    "copyid_overlay.ico"
-IDI_ICON6               ICON                    "change_proto.ico"
-IDI_ICON7               ICON                    "ignore_list.ico"
-IDI_ICON8               ICON                    "show_in_list.ico"
-IDI_ICON9               ICON                    "msg_status.ico"
-IDI_ICON10              ICON                    "msg_xstatus.ico"
-IDI_ICON11              ICON                    "copyip_overlay.ico"
-IDI_ICON12              ICON                    "recv_files.ico"
-IDI_ICON13              ICON                    "CopyMirVer.ico"
+IDI_HIDE                ICON                    "hide_from_list.ico"
+IDI_VISIBLE             ICON                    "Always Visible.ico"
+IDI_INVISIBLE           ICON                    "Never Visible.ico"
+IDI_COPYID              ICON                    "copyid_overlay.ico"
+IDI_PROTOCOL            ICON                    "change_proto.ico"
+IDI_IGNORE              ICON                    "ignore_list.ico"
+IDI_SHOWINLIST          ICON                    "show_in_list.ico"
+IDI_COPYSTATUS          ICON                    "msg_status.ico"
+IDI_COPYXSTATUS         ICON                    "msg_xstatus.ico"
+IDI_COPYIP              ICON                    "copyip_overlay.ico"
+IDI_BROWSE              ICON                    "recv_files.ico"
+IDI_MIRVER              ICON                    "CopyMirVer.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

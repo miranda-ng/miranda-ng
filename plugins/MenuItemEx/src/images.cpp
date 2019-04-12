@@ -304,33 +304,30 @@ HICON MakeHalfAlphaIcon(HICON SourceIcon)
 //}
 
 
-HICON BindOverlayIcon(HICON SourceIcon, LPCSTR OverlayIconName)
+HICON BindOverlayIcon(HICON SourceIcon, int iIcon)
 {
+	HICON TempIcon = CopyIcon(SourceIcon);
 	ICONINFO OverlayIconInfo, TargetIconInfo;
-	BITMAP OverlayBitmapInfo, TargetBitmapInfo;
-	HBITMAP OldOverlayBitmap, OldTargetBitmap;
-	HICON OverlayIcon, TargetIcon, TempIcon;
-	HDC OverlayDC, TargetDC;
-	BLENDFUNCTION bf = { 0, 0, 255, 1 };
-
-	TempIcon = CopyIcon(SourceIcon);
 	if (!GetIconInfo(TempIcon, &TargetIconInfo))
 		return nullptr;
 
 	MakeBitmap32(&TargetIconInfo.hbmColor);
 	CorrectBitmap32Alpha(TargetIconInfo.hbmColor, FALSE);
+
+	BITMAP OverlayBitmapInfo, TargetBitmapInfo;
 	GetObject(TargetIconInfo.hbmColor, sizeof(BITMAP), &TargetBitmapInfo);
 
-	OverlayIcon = IcoLib_GetIcon(OverlayIconName);
+	HICON OverlayIcon = g_plugin.getIcon(iIcon);
 	if (!GetIconInfo(OverlayIcon, &OverlayIconInfo) || !GetObject(OverlayIconInfo.hbmColor, sizeof(BITMAP), &OverlayBitmapInfo))
 		return nullptr;
 
-	TargetDC = CreateCompatibleDC(nullptr);
-	OldTargetBitmap = (HBITMAP)SelectObject(TargetDC, TargetIconInfo.hbmColor);
+	HDC TargetDC = CreateCompatibleDC(nullptr);
+	HBITMAP OldTargetBitmap = (HBITMAP)SelectObject(TargetDC, TargetIconInfo.hbmColor);
 
-	OverlayDC = CreateCompatibleDC(nullptr);
-	OldOverlayBitmap = (HBITMAP)SelectObject(OverlayDC, OverlayIconInfo.hbmColor);
+	HDC OverlayDC = CreateCompatibleDC(nullptr);
+	HBITMAP OldOverlayBitmap = (HBITMAP)SelectObject(OverlayDC, OverlayIconInfo.hbmColor);
 
+	BLENDFUNCTION bf = { 0, 0, 255, 1 };
 	AlphaBlend(TargetDC, 0, 0, TargetBitmapInfo.bmWidth, TargetBitmapInfo.bmHeight,
 		OverlayDC, 0, 0, OverlayBitmapInfo.bmWidth, OverlayBitmapInfo.bmHeight, bf);
 
@@ -340,9 +337,8 @@ HICON BindOverlayIcon(HICON SourceIcon, LPCSTR OverlayIconName)
 	BitBlt(TargetDC, 0, 0, TargetBitmapInfo.bmWidth, TargetBitmapInfo.bmHeight,
 		OverlayDC, 0, 0, SRCCOPY);
 
-	TargetIcon = CreateIconIndirect(&TargetIconInfo);
+	HICON TargetIcon = CreateIconIndirect(&TargetIconInfo);
 	DestroyIcon(TempIcon);
-	//DestroyIcon(OverlayIcon);
 
 	SelectObject(TargetDC, OldTargetBitmap);
 	DeleteObject(TargetIconInfo.hbmColor);

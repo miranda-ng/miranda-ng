@@ -22,13 +22,31 @@ PROTOACCOUNT **accs;
 int protoCount;
 CMPlugin g_plugin;
 
-struct {
+static IconItem iconList[] =
+{
+	{ LPGEN("Hide from list"),        "hidefl",   IDI_HIDE },
+	{ LPGEN("Always visible"),        "vis",      IDI_VISIBLE },
+	{ LPGEN("Never visible"),         "invis",    IDI_INVISIBLE },
+	{ LPGEN("Copy ID"),               "copyid",   IDI_COPYID },
+	{ LPGEN("Copy to Account"),       "protocol", IDI_PROTOCOL },
+	{ LPGEN("Ignore"),                "ignore",   IDI_IGNORE },
+	{ LPGEN("Show in list"),          "showil",   IDI_SHOWINLIST },
+	{ LPGEN("Copy Status Message"),   "copysm1",  IDI_COPYSTATUS },
+	{ LPGEN("Copy xStatus Message"),  "copysm2",  IDI_COPYXSTATUS },
+	{ LPGEN("Copy IP"),               "copyip",   IDI_COPYIP },
+	{ LPGEN("Browse Received Files"), "recfiles", IDI_BROWSE },
+	{ LPGEN("Copy MirVer"),           "copymver", IDI_MIRVER },
+};
+
+struct
+{
 	char *module;
 	char *name;
 	wchar_t *fullName;
 	char flag;
 }
-static const statusMsg[] = {
+static const statusMsg[] =
+{
 	{ "CList", "StatusMsg", LPGENW("Status message"), 1 },
 	{ nullptr, "XStatusName", LPGENW("xStatus title"), 4 },
 	{ nullptr, "XStatusMsg", LPGENW("xStatus message"), 2 },
@@ -37,25 +55,8 @@ static const statusMsg[] = {
 	{ "AdvStatus", "activity/text", LPGENW("Activity text"), 8 }
 };
 
-static IconItem iconList[] = {
-	{ LPGEN("Hide from list"), "miex_hidefl", IDI_ICON0 },
-	{ LPGEN("Show in list"), "miex_showil", IDI_ICON8 },
-	{ LPGEN("Always visible"), "miex_vis", IDI_ICON1 },
-	{ LPGEN("Never visible"), "miex_invis", IDI_ICON2 },
-	{ LPGEN("Copy to Account"), "miex_protocol", IDI_ICON6 },
-	{ LPGEN("Ignore"), "miex_ignore", IDI_ICON7 },
-	{ LPGEN("Browse Received Files"), "miex_recfiles", IDI_ICON12 },
-	{ LPGEN("Copy MirVer"), "miex_copymver", IDI_ICON13 }
-};
-
-static IconItem overlayIconList[] = {
-	{ LPGEN("Copy ID"), "miex_copyid", IDI_ICON3 },
-	{ LPGEN("Copy Status Message"), "miex_copysm1", IDI_ICON9 },
-	{ LPGEN("Copy xStatus Message"), "miex_copysm2", IDI_ICON10 },
-	{ LPGEN("Copy IP"), "miex_copyip", IDI_ICON11 }
-};
-
-struct {
+struct
+{
 	wchar_t* name;
 	int type;
 	int icon;
@@ -86,16 +87,19 @@ PLUGININFOEX pluginInfoEx = {
 
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
-{}
+{
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct ModSetLinkLinkItem { // code from dbe++ plugin by Bio
+struct ModSetLinkLinkItem
+{ // code from dbe++ plugin by Bio
 	char *name;
 	BYTE *next; //struct ModSetLinkLinkItem
 };
 
-struct ModuleSettingLL {
+struct ModuleSettingLL
+{
 	struct ModSetLinkLinkItem *first;
 	struct ModSetLinkLinkItem *last;
 };
@@ -108,16 +112,14 @@ static int GetSetting(MCONTACT hContact, const char *szModule, const char *szSet
 static int enumModulesSettingsProc(const char *szName, void *lParam)
 {
 	ModuleSettingLL *msll = (ModuleSettingLL *)lParam;
-	if (!msll->first)
-	{
+	if (!msll->first) {
 		msll->first = (struct ModSetLinkLinkItem *)malloc(sizeof(struct ModSetLinkLinkItem));
 		if (!msll->first) return 1;
 		msll->first->name = _strdup(szName);
 		msll->first->next = nullptr;
 		msll->last = msll->first;
 	}
-	else
-	{
+	else {
 		struct ModSetLinkLinkItem *item = (struct ModSetLinkLinkItem *)malloc(sizeof(struct ModSetLinkLinkItem));
 		if (!item) return 1;
 		msll->last->next = (BYTE*)item;
@@ -130,22 +132,18 @@ static int enumModulesSettingsProc(const char *szName, void *lParam)
 
 static void FreeModuleSettingLL(ModuleSettingLL* msll)
 {
-	if (msll)
-	{
+	if (msll) {
 		struct ModSetLinkLinkItem *item = msll->first;
 		struct ModSetLinkLinkItem *temp;
 
-		while (item)
-		{
-			if (item->name)
-			{
+		while (item) {
+			if (item->name) {
 				free(item->name);
 				item->name = nullptr;
 			}
 			temp = item;
 			item = (struct ModSetLinkLinkItem *)item->next;
-			if (temp)
-			{
+			if (temp) {
 				free(temp);
 				temp = nullptr;
 			}
@@ -410,7 +408,7 @@ static void ModifyCopyID(MCONTACT hContact, BOOL bShowID, BOOL bTrimID)
 
 	HICON hIconCID = (HICON)CallProtoService(szProto, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
 	{
-		HICON hIcon = BindOverlayIcon(hIconCID, "miex_copyid");
+		HICON hIcon = BindOverlayIcon(hIconCID, IDI_COPYID);
 		DestroyIcon(hIconCID);
 		hIconCID = hIcon;
 	}
@@ -444,7 +442,7 @@ static void ModifyStatusMsg(MCONTACT hContact)
 
 	HICON hIconSMsg = (HICON)CallProtoService(szProto, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
 	{
-		HICON hIcon = BindOverlayIcon(hIconSMsg, (StatusMsgExists(hContact) & 2) ? "miex_copysm2" : "miex_copysm1");
+		HICON hIcon = BindOverlayIcon(hIconSMsg, (StatusMsgExists(hContact) & 2) ? IDI_COPYXSTATUS : IDI_COPYSTATUS);
 		DestroyIcon(hIconSMsg);
 		hIconSMsg = hIcon;
 	}
@@ -463,7 +461,7 @@ static void ModifyCopyIP(MCONTACT hContact)
 
 	HICON hIconCIP = (HICON)CallProtoService(szProto, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
 	{
-		HICON hIcon = BindOverlayIcon(hIconCIP, "miex_copyip");
+		HICON hIcon = BindOverlayIcon(hIconCIP, IDI_COPYIP);
 		DestroyIcon(hIconCIP);
 		hIconCIP = hIcon;
 	}
@@ -778,10 +776,8 @@ static int EnumProtoSubmenu(WPARAM, LPARAM)
 	int pos = 1000;
 	if (protoCount) // remove old items
 	{
-		for (int i = 0; i < protoCount; i++)
-		{
-			if (hProtoItem[i])
-			{
+		for (int i = 0; i < protoCount; i++) {
+			if (hProtoItem[i]) {
 				Menu_RemoveItem(hProtoItem[i]);
 				hProtoItem[i] = nullptr;
 			}
@@ -790,8 +786,7 @@ static int EnumProtoSubmenu(WPARAM, LPARAM)
 	Proto_EnumAccounts(&protoCount, &accs);
 	if (protoCount > MAX_PROTOS)
 		protoCount = MAX_PROTOS;
-	for (int i = 0; i < protoCount; i++)
-	{
+	for (int i = 0; i < protoCount; i++) {
 		hProtoItem[i] = AddSubmenuItem(hmenuProto, accs[i]->tszAccountName,
 			Skin_LoadProtoIcon(accs[i]->szModuleName, ID_STATUS_ONLINE), CMIF_SYSTEM | CMIF_KEEPUNTRANSLATED,
 			MS_PROTO, pos++, (INT_PTR)accs[i]->szModuleName);
@@ -824,8 +819,7 @@ static int TabsrmmButtonsInit(WPARAM, LPARAM)
 
 static void TabsrmmButtonsModify(MCONTACT hContact)
 {
-	if (!DirectoryExists(hContact))
-	{
+	if (!DirectoryExists(hContact)) {
 		BBButton bbd = {};
 		bbd.pszModuleName = MODULENAME;
 		bbd.bbbFlags = BBSF_DISABLED | BBSF_HIDDEN;
@@ -873,7 +867,7 @@ static int PluginInit(WPARAM, LPARAM)
 	mi.position++;
 	mi.name.w = LPGENW("Ignore");
 	mi.pszService = nullptr;
-	mi.hIcolibItem = IcoLib_GetIcon("miex_ignore");
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_IGNORE);
 	hmenuIgnore = Menu_AddContactMenuItem(&mi);
 
 	hIgnoreItem[0] = AddSubmenuItem(hmenuIgnore, ii[0].name, Skin_LoadIcon(ii[0].icon), 0, MS_IGNORE, pos, ii[0].type);
@@ -881,7 +875,7 @@ static int PluginInit(WPARAM, LPARAM)
 	for (int i = 1; i < _countof(ii); i++)
 		hIgnoreItem[i] = AddSubmenuItem(hmenuIgnore, ii[i].name, Skin_LoadIcon(ii[i].icon), 0, MS_IGNORE, pos++, ii[i].type);
 
-	AddSubmenuItem(hmenuIgnore, LPGENW("Open ignore settings"), IcoLib_GetIcon("miex_ignore"), 0, MS_OPENIGNORE, pos, 0);
+	AddSubmenuItem(hmenuIgnore, LPGENW("Open ignore settings"), g_plugin.getIcon(IDI_IGNORE), 0, MS_OPENIGNORE, pos, 0);
 
 	pos += 100000; // insert separator
 
@@ -889,7 +883,7 @@ static int PluginInit(WPARAM, LPARAM)
 	mi.position++;
 	mi.name.w = LPGENW("Copy to Account");
 	mi.pszService = MS_PROTO;
-	mi.hIcolibItem = IcoLib_GetIcon("miex_protocol");
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_PROTOCOL);
 	hmenuProto = Menu_AddContactMenuItem(&mi);
 
 	EnumProtoSubmenu(0, 0);
@@ -906,7 +900,7 @@ static int PluginInit(WPARAM, LPARAM)
 	mi.position++;
 	mi.name.w = LPGENW("Browse Received Files");
 	mi.pszService = MS_RECVFILES;
-	mi.hIcolibItem = IcoLib_GetIcon("miex_recfiles");
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_BROWSE);
 	hmenuRecvFiles = Menu_AddContactMenuItem(&mi);
 
 	SET_UID(mi, 0xf750f36b, 0x284f, 0x4841, 0x83, 0x18, 0xc7, 0x10, 0x4, 0x73, 0xea, 0x22);
@@ -928,9 +922,9 @@ static int PluginInit(WPARAM, LPARAM)
 	mi.pszService = MS_COPYMIRVER;
 	hmenuCopyMirVer = Menu_AddContactMenuItem(&mi);
 
-	hIcons[0] = IcoLib_GetIcon("miex_copymver");
-	hIcons[1] = IcoLib_GetIcon("miex_vis");
-	hIcons[2] = IcoLib_GetIcon("miex_invis");
+	hIcons[0] = g_plugin.getIcon(IDI_MIRVER);
+	hIcons[1] = g_plugin.getIcon(IDI_VISIBLE);
+	hIcons[2] = g_plugin.getIcon(IDI_INVISIBLE);
 	hIcons[3] = MakeHalfAlphaIcon(hIcons[1]);
 	hIcons[4] = MakeHalfAlphaIcon(hIcons[2]);
 
@@ -940,10 +934,11 @@ static int PluginInit(WPARAM, LPARAM)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int CMPlugin::Load()
 {
-	g_plugin.registerIcon(LPGEN("MenuItemEx"), iconList);
-	g_plugin.registerIcon(LPGEN("MenuItemEx"), overlayIconList);
+	g_plugin.registerIcon(LPGEN("MenuItemEx"), iconList, "miex");
 
 	CreateServiceFunction(MS_SETINVIS, onSetInvis);
 	CreateServiceFunction(MS_SETVIS, onSetVis);
