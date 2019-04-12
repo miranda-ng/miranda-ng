@@ -120,7 +120,7 @@ public:
 	{
 		Utils_RestoreWindowPosition(m_hwnd, 0, IMPORT_MODULE, "wiz");
 
-		Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_IMPORT));
+		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_IMPORT));
 		g_hwndWizard = m_hwnd;
 
 		if (m_pFirstPage)

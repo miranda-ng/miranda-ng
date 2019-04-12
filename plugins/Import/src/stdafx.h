@@ -201,7 +201,6 @@ extern bool g_bServiceMode, g_bSendQuit;
 extern int g_iImportOptions;
 extern MCONTACT g_hImportContact;
 
-HANDLE GetIconHandle(int iIconId);
 void   RegisterIcons(void);
 
 void RegisterMContacts();

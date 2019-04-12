@@ -187,15 +187,6 @@ static IconItem iconList[] =
 	{ LPGEN("Import..."), "import_main", IDI_IMPORT }
 };
 
-HANDLE GetIconHandle(int iIconId)
-{
-	for (auto &it : iconList)
-		if (it.defIconID == iIconId)
-			return it.hIcolib;
-
-	return nullptr;
-}
-
 void RegisterIcons()
 {
 	g_plugin.registerIcon("Import", iconList);
