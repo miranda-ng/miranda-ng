@@ -482,8 +482,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	int*   m_transportProtoTableStartIndex;
 
 	void   IconsInit(void);
-	HANDLE GetIconHandle(int iconId);
-	HICON  LoadIconEx(const char* name, bool big = false);
 	int    LoadAdvancedIcons(int iID);
 	int    GetTransportProtoID(char* TransportDomain);
 	int    GetTransportStatusIconIndex(int iID, int Status);

@@ -693,7 +693,7 @@ static VOID CALLBACK sttRebuildInfoFrameApcProc(void* param)
 		else {
 			ppro->m_pInfoFrame->RemoveInfoItem("$/PEP/");
 			ppro->m_pInfoFrame->CreateInfoItem("$/PEP", false);
-			ppro->m_pInfoFrame->UpdateInfoItem("$/PEP", ppro->GetIconHandle(IDI_PL_LIST_ANY), TranslateT("Advanced Status"));
+			ppro->m_pInfoFrame->UpdateInfoItem("$/PEP", g_plugin.getIconHandle(IDI_PL_LIST_ANY), TranslateT("Advanced Status"));
 
 			ppro->m_pInfoFrame->CreateInfoItem("$/PEP/mood", true);
 			ppro->m_pInfoFrame->SetInfoItemCallback("$/PEP/mood", &CJabberProto::InfoFrame_OnUserMood);
@@ -706,7 +706,7 @@ static VOID CALLBACK sttRebuildInfoFrameApcProc(void* param)
 
 		ppro->m_pInfoFrame->RemoveInfoItem("$/Transports/");
 		ppro->m_pInfoFrame->CreateInfoItem("$/Transports", false);
-		ppro->m_pInfoFrame->UpdateInfoItem("$/Transports", ppro->GetIconHandle(IDI_TRANSPORT), TranslateT("Transports"));
+		ppro->m_pInfoFrame->UpdateInfoItem("$/Transports", g_plugin.getIconHandle(IDI_TRANSPORT), TranslateT("Transports"));
 
 		JABBER_LIST_ITEM *item = nullptr;
 		LISTFOREACH(i, ppro, LIST_ROSTER)
@@ -720,7 +720,7 @@ static VOID CALLBACK sttRebuildInfoFrameApcProc(void* param)
 					char name[128];
 					mir_snprintf(name, "$/Transports/%s", item->jid);
 					ppro->m_pInfoFrame->CreateInfoItem(name, true, hContact);
-					ppro->m_pInfoFrame->UpdateInfoItem(name, ppro->GetIconHandle(IDI_TRANSPORTL), (wchar_t *)item->jid);
+					ppro->m_pInfoFrame->UpdateInfoItem(name, g_plugin.getIconHandle(IDI_TRANSPORTL), (wchar_t *)item->jid);
 					ppro->m_pInfoFrame->SetInfoItemCallback(name, &CJabberProto::InfoFrame_OnTransport);
 				}
 			}

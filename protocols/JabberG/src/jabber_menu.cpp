@@ -170,7 +170,7 @@ void g_MenuInit(void)
 	mi.pszService = "Jabber/ConvertChatContact";
 	mi.name.a = LPGEN("Convert");
 	mi.position = -1999901004;
-	mi.hIcolibItem = g_GetIconHandle(IDI_USER2ROOM);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_USER2ROOM);
 	g_hMenuConvert = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, JabberMenuConvertChatContact);
 
@@ -188,7 +188,7 @@ void g_MenuInit(void)
 	mi.pszService = "Jabber/AddToBookmarks";
 	mi.name.a = LPGEN("Add to Bookmarks");
 	mi.position = -1999901006;
-	mi.hIcolibItem = g_GetIconHandle(IDI_BOOKMARKS);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_BOOKMARKS);
 	g_hMenuAddBookmark = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, JabberMenuBookmarkAdd);
 
@@ -197,7 +197,7 @@ void g_MenuInit(void)
 	mi.pszService = "Jabber/TransportLogin";
 	mi.name.a = LPGEN("Login/logout");
 	mi.position = -1999901007;
-	mi.hIcolibItem = g_GetIconHandle(IDI_LOGIN);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_LOGIN);
 	g_hMenuLogin = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, JabberMenuTransportLogin);
 
@@ -206,7 +206,7 @@ void g_MenuInit(void)
 	mi.pszService = "Jabber/TransportGetNicks";
 	mi.name.a = LPGEN("Resolve nicks");
 	mi.position = -1999901008;
-	mi.hIcolibItem = g_GetIconHandle(IDI_REFRESH);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_REFRESH);
 	g_hMenuRefresh = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, JabberMenuTransportResolve);
 
@@ -215,7 +215,7 @@ void g_MenuInit(void)
 	mi.pszService = "Jabber/RunCommands";
 	mi.name.a = LPGEN("Commands");
 	mi.position = -1999901009;
-	mi.hIcolibItem = g_GetIconHandle(IDI_COMMAND);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_COMMAND);
 	g_hMenuCommands = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, JabberContactMenuRunCommands);
 
@@ -224,7 +224,7 @@ void g_MenuInit(void)
 	mi.pszService = "Jabber/SendNote";
 	mi.name.a = LPGEN("Send Note");
 	mi.position = -1999901010;
-	mi.hIcolibItem = g_GetIconHandle(IDI_SEND_NOTE);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_SEND_NOTE);
 	g_hMenuSendNote = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, JabberMenuSendNote);
 
@@ -235,7 +235,7 @@ void g_MenuInit(void)
 	mi.pszService = "Jabber/DirectPresenceDummySvc";
 	mi.name.a = LPGEN("Send Presence");
 	mi.position = -1999901011;
-	mi.hIcolibItem = g_GetIconHandle(IDI_NOTES);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_NOTES);
 	g_hMenuDirectPresence[0] = Menu_AddContactMenuItem(&mi);
 	UNSET_UID(mi);
 
@@ -261,7 +261,7 @@ void g_MenuInit(void)
 	mi.pszService = "Jabber/ResourceSelectorDummySvc";
 	mi.name.a = LPGEN("Jabber Resource");
 	mi.position = -1999901011;
-	mi.hIcolibItem = g_GetIconHandle(IDI_JABBER);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_JABBER);
 	g_hMenuResourcesRoot = Menu_AddContactMenuItem(&mi);
 	UNSET_UID(mi);
 
@@ -270,14 +270,14 @@ void g_MenuInit(void)
 	mi.pszService = "Jabber/UseResource_last";
 	mi.name.a = LPGEN("Last Active");
 	mi.position = -1999901000;
-	mi.hIcolibItem = g_GetIconHandle(IDI_JABBER);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_JABBER);
 	g_hMenuResourcesActive = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunctionParam(mi.pszService, JabberMenuHandleResource, MENUITEM_LASTSEEN);
 
 	mi.pszService = "Jabber/UseResource_server";
 	mi.name.a = LPGEN("Server's Choice");
 	mi.position = -1999901000;
-	mi.hIcolibItem = g_GetIconHandle(IDI_NODE_SERVER);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_NODE_SERVER);
 	g_hMenuResourcesServer = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunctionParam(mi.pszService, JabberMenuHandleResource, MENUITEM_SERVER);
 }
@@ -541,14 +541,14 @@ void CJabberProto::OnBuildProtoMenu()
 	CreateProtoService(mi.pszService, &CJabberProto::OnMenuHandleBookmarks);
 	mi.name.a = LPGEN("Bookmarks");
 	mi.position = 200001;
-	mi.hIcolibItem = GetIconHandle(IDI_BOOKMARKS);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_BOOKMARKS);
 	m_hMenuBookmarks = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	// "Services..."
 	mi.pszService = nullptr;
 	mi.name.a = LPGEN("Services...");
 	mi.position = 200003;
-	mi.hIcolibItem = GetIconHandle(IDI_SERVICE_DISCOVERY);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_SERVICE_DISCOVERY);
 	HGENMENU hMenuServicesRoot = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	// "Service Discovery..."
@@ -557,35 +557,35 @@ void CJabberProto::OnBuildProtoMenu()
 	CreateProtoService(mi.pszService, &CJabberProto::OnMenuHandleServiceDiscovery);
 	mi.name.a = LPGEN("Service Discovery");
 	mi.position = 2000050001;
-	mi.hIcolibItem = GetIconHandle(IDI_SERVICE_DISCOVERY);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_SERVICE_DISCOVERY);
 	m_hMenuServiceDiscovery = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = "/SD/MyTransports";
 	CreateProtoService(mi.pszService, &CJabberProto::OnMenuHandleServiceDiscoveryMyTransports);
 	mi.name.a = LPGEN("Registered Transports");
 	mi.position = 2000050003;
-	mi.hIcolibItem = GetIconHandle(IDI_TRANSPORTL);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_TRANSPORTL);
 	m_hMenuSDMyTransports = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = "/SD/Transports";
 	CreateProtoService(mi.pszService, &CJabberProto::OnMenuHandleServiceDiscoveryTransports);
 	mi.name.a = LPGEN("Local Server Transports");
 	mi.position = 2000050004;
-	mi.hIcolibItem = GetIconHandle(IDI_TRANSPORT);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_TRANSPORT);
 	m_hMenuSDTransports = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = "/SD/Conferences";
 	CreateProtoService(mi.pszService, &CJabberProto::OnMenuHandleServiceDiscoveryConferences);
 	mi.name.a = LPGEN("Browse chatrooms");
 	mi.position = 2000050005;
-	mi.hIcolibItem = GetIconHandle(IDI_GROUP);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_GROUP);
 	m_hMenuSDConferences = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = "/Groupchat";
 	CreateProtoService(mi.pszService, &CJabberProto::OnMenuHandleJoinGroupchat);
 	mi.name.a = LPGEN("Create/Join group chat");
 	mi.position = 2000050006;
-	mi.hIcolibItem = GetIconHandle(IDI_GROUP);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_GROUP);
 	m_hMenuGroupchat = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	// "Change Password..."
@@ -593,7 +593,7 @@ void CJabberProto::OnBuildProtoMenu()
 	CreateProtoService(mi.pszService, &CJabberProto::OnMenuHandleChangePassword);
 	mi.name.a = LPGEN("Change Password");
 	mi.position = 2000050007;
-	mi.hIcolibItem = GetIconHandle(IDI_KEYS);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_KEYS);
 	m_hMenuChangePassword = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	// "Roster editor"
@@ -601,7 +601,7 @@ void CJabberProto::OnBuildProtoMenu()
 	CreateProtoService(mi.pszService, &CJabberProto::OnMenuHandleRosterControl);
 	mi.name.a = LPGEN("Roster editor");
 	mi.position = 2000050009;
-	mi.hIcolibItem = GetIconHandle(IDI_AGENTS);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_AGENTS);
 	m_hMenuRosterControl = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	// "XML Console"
@@ -609,14 +609,14 @@ void CJabberProto::OnBuildProtoMenu()
 	CreateProtoService(mi.pszService, &CJabberProto::OnMenuHandleConsole);
 	mi.name.a = LPGEN("XML Console");
 	mi.position = 2000050010;
-	mi.hIcolibItem = GetIconHandle(IDI_CONSOLE);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_CONSOLE);
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = "/Notes";
 	CreateProtoService(mi.pszService, &CJabberProto::OnMenuHandleNotes);
 	mi.name.a = LPGEN("Notes");
 	mi.position = 2000050011;
-	mi.hIcolibItem = GetIconHandle(IDI_NOTES);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_NOTES);
 	m_hMenuNotes = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	BuildPrivacyMenu();
@@ -694,11 +694,11 @@ void CJabberProto::BuildPriorityMenu()
 		mir_snprintf(srvFce, "/menuSetPriority/%d", steps[i]);
 		if (steps[i] > 0) {
 			mir_snwprintf(szName, TranslateT("Increase priority by %d"), steps[i]);
-			mi.hIcolibItem = GetIconHandle(IDI_ARROW_UP);
+			mi.hIcolibItem = g_plugin.getIconHandle(IDI_ARROW_UP);
 		}
 		else {
 			mir_snwprintf(szName, TranslateT("Decrease priority by %d"), -steps[i]);
-			mi.hIcolibItem = GetIconHandle(IDI_ARROW_DOWN);
+			mi.hIcolibItem = g_plugin.getIconHandle(IDI_ARROW_DOWN);
 		}
 
 		if (needServices)
@@ -799,19 +799,19 @@ int g_OnToolbarInit(WPARAM, LPARAM)
 	CreateServiceFunction("JABBER/*/Groupchat", g_ToolbarHandleJoinGroupchat);
 	ttb.pszService = "JABBER/*/Groupchat";
 	ttb.pszTooltipUp = ttb.name = LPGEN("Join conference");
-	ttb.hIconHandleUp = g_GetIconHandle(IDI_GROUP);
+	ttb.hIconHandleUp = g_plugin.getIconHandle(IDI_GROUP);
 	g_plugin.addTTB(&ttb);
 
 	CreateServiceFunction("JABBER/*/Bookmarks", g_ToolbarHandleBookmarks);
 	ttb.pszService = "JABBER/*/Bookmarks";
 	ttb.pszTooltipUp = ttb.name = LPGEN("Open bookmarks");
-	ttb.hIconHandleUp = g_GetIconHandle(IDI_BOOKMARKS);
+	ttb.hIconHandleUp = g_plugin.getIconHandle(IDI_BOOKMARKS);
 	g_plugin.addTTB(&ttb);
 
 	CreateServiceFunction("JABBER/*/ServiceDiscovery", g_ToolbarHandleServiceDiscovery);
 	ttb.pszService = "JABBER/*/ServiceDiscovery";
 	ttb.pszTooltipUp = ttb.name = LPGEN("Service discovery");
-	ttb.hIconHandleUp = g_GetIconHandle(IDI_SERVICE_DISCOVERY);
+	ttb.hIconHandleUp = g_plugin.getIconHandle(IDI_SERVICE_DISCOVERY);
 	g_plugin.addTTB(&ttb);
 	return 0;
 }

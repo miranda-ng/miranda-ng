@@ -689,7 +689,7 @@ public:
 		m_newJids(1),
 		m_btnInvite(this, IDC_INVITE),
 		m_txtNewJid(this, IDC_NEWJID),
-		m_btnAddJid(this, IDC_ADDJID, ppro->LoadIconEx("addroster"), "Add"),
+		m_btnAddJid(this, IDC_ADDJID, g_plugin.getIcon(IDI_ADDCONTACT), "Add"),
 		m_txtReason(this, IDC_REASON),
 		m_clc(this, IDC_CLIST)
 	{
@@ -713,7 +713,7 @@ public:
 		CSuper::OnInitDialog();
 
 		SetDlgItemText(m_hwnd, IDC_HEADERBAR, CMStringW(FORMAT, TranslateT("Invite Users to\n%s"), m_room));
-		Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_GROUP));
+		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_GROUP));
 
 		SetWindowLongPtr(m_clc.GetHwnd(), GWL_STYLE,
 			GetWindowLongPtr(m_clc.GetHwnd(), GWL_STYLE) | CLS_SHOWHIDDEN | CLS_HIDEOFFLINE | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES);
@@ -819,7 +819,7 @@ static INT_PTR CALLBACK sttUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		dat = (TUserInfoData *)lParam;
 
-		Window_SetIcon_IcoLib(hwndDlg, g_GetIconHandle(IDI_GROUP));
+		Window_SetIcon_IcoLib(hwndDlg, g_plugin.getIconHandle(IDI_GROUP));
 		{
 			LOGFONT lf;
 			GetObject((HFONT)SendDlgItemMessage(hwndDlg, IDC_TXT_NICK, WM_GETFONT, 0, 0), sizeof(lf), &lf);

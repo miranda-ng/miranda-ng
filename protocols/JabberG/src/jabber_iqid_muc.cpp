@@ -59,13 +59,13 @@ struct
 {
 	int idc;
 	char *title;
-	char *icon;
+	int icon;
 	bool push;
 }
 static buttons[] =
 {
-	{ IDC_BTN_FILTERAPPLY, "Apply filter", "sd_filter_apply", false },
-	{ IDC_BTN_FILTERRESET, "Reset filter", "sd_filter_reset", false },
+	{ IDC_BTN_FILTERAPPLY, "Apply filter", IDI_FILTER_APPLY, false },
+	{ IDC_BTN_FILTERRESET, "Reset filter", IDI_FILTER_RESET, false },
 };
 
 class CJabberMucJidListDlg : public CJabberDlgBase
@@ -180,8 +180,8 @@ public:
 	bool OnInitDialog() override
 	{
 		HIMAGELIST hImageList = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 2, 0);
-		ImageList_AddIcon(hImageList, g_LoadIconEx("delete"));
-		ImageList_AddIcon(hImageList, g_LoadIconEx("addcontact"));
+		ImageList_AddIcon(hImageList, g_plugin.getIcon(IDI_DELETE));
+		ImageList_AddIcon(hImageList, g_plugin.getIcon(IDI_ADDCONTACT));
 		m_list.SetImageList(hImageList, LVSIL_SMALL);
 
 		m_list.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_SUBITEMIMAGES | LVS_EX_GRIDLINES);
@@ -197,7 +197,7 @@ public:
 		Refresh(m_info);
 
 		for (auto &it : buttons) {
-			SendDlgItemMessage(m_hwnd, it.idc, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(it.icon));
+			SendDlgItemMessage(m_hwnd, it.idc, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(it.icon));
 			SendDlgItemMessage(m_hwnd, it.idc, BUTTONSETASFLATBTN, TRUE, 0);
 			SendDlgItemMessage(m_hwnd, it.idc, BUTTONADDTOOLTIP, (WPARAM)it.title, 0);
 			if (it.push)

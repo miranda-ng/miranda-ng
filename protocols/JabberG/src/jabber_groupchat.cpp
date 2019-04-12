@@ -403,7 +403,7 @@ public:
 	{
 		CSuper::OnInitDialog();
 
-		Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_GROUP));
+		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_GROUP));
 
 		JabberGcRecentInfo *pInfo = nullptr;
 		if (m_jid)
@@ -443,7 +443,7 @@ public:
 		lf.lfWeight = FW_BOLD;
 		SendDlgItemMessage(m_hwnd, IDC_TXT_RECENT, WM_SETFONT, (WPARAM)CreateFontIndirect(&lf), TRUE);
 
-		SendDlgItemMessage(m_hwnd, IDC_BOOKMARKS, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx("bookmarks"));
+		SendDlgItemMessage(m_hwnd, IDC_BOOKMARKS, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_BOOKMARKS));
 		SendDlgItemMessage(m_hwnd, IDC_BOOKMARKS, BUTTONSETASFLATBTN, TRUE, 0);
 		SendDlgItemMessage(m_hwnd, IDC_BOOKMARKS, BUTTONADDTOOLTIP, (WPARAM)"Bookmarks", 0);
 		SendDlgItemMessage(m_hwnd, IDC_BOOKMARKS, BUTTONSETASPUSHBTN, TRUE, 0);
@@ -561,16 +561,16 @@ public:
 				SetTextColor(lpdis->hDC, clLine2);
 				DrawText(lpdis->hDC, info->line2, -1, &rc, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_WORD_ELLIPSIS);
 
-				DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 1, lpdis->rcItem.top + 1, m_proto->LoadIconEx("group"), 16, 16, 0, nullptr, DI_NORMAL);
+				DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 1, lpdis->rcItem.top + 1, g_plugin.getIcon(IDI_GROUP), 16, 16, 0, nullptr, DI_NORMAL);
 				switch (info->overlay) {
 				case RoomInfo::ROOM_WAIT:
-					DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 1, lpdis->rcItem.top + 1, m_proto->LoadIconEx("disco_progress"), 16, 16, 0, nullptr, DI_NORMAL);
+					DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 1, lpdis->rcItem.top + 1, g_plugin.getIcon(IDI_DISCO_PROGRESS), 16, 16, 0, nullptr, DI_NORMAL);
 					break;
 				case RoomInfo::ROOM_FAIL:
-					DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 1, lpdis->rcItem.top + 1, m_proto->LoadIconEx("disco_fail"), 16, 16, 0, nullptr, DI_NORMAL);
+					DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 1, lpdis->rcItem.top + 1, g_plugin.getIcon(IDI_DISCO_FAIL), 16, 16, 0, nullptr, DI_NORMAL);
 					break;
 				case RoomInfo::ROOM_BOOKMARK:
-					DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 1, lpdis->rcItem.top + 1, m_proto->LoadIconEx("disco_ok"), 16, 16, 0, nullptr, DI_NORMAL);
+					DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 1, lpdis->rcItem.top + 1, g_plugin.getIcon(IDI_DISCO_OK), 16, 16, 0, nullptr, DI_NORMAL);
 					break;
 				}
 			}
@@ -1145,7 +1145,7 @@ public:
 		SetDlgItemTextUtf(m_hwnd, IDC_REASON, m_reason);
 		SetDlgItemTextUtf(m_hwnd, IDC_NICK, JabberNickFromJID(m_proto->m_szJabberJID));
 
-		Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_GROUP));
+		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_GROUP));
 
 		SetFocus(GetDlgItem(m_hwnd, IDC_NICK));
 		return true;

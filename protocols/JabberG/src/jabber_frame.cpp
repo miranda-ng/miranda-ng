@@ -102,7 +102,7 @@ CJabberInfoFrame::CJabberInfoFrame(CJabberProto *proto) :
 	SetWindowPos(m_hwndToolTip, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 
 	CreateInfoItem("$", true);
-	UpdateInfoItem("$", proto->GetIconHandle(IDI_JABBER), proto->m_tszUserName);
+	UpdateInfoItem("$", proto->m_hProtoIcon, proto->m_tszUserName);
 
 	CreateInfoItem("$/JID", true);
 	UpdateInfoItem("$/JID", Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS), L"Offline");

@@ -178,7 +178,7 @@ public:
 	bool OnInitDialog() override
 	{
 		CSuper::OnInitDialog();
-		Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_NOTES));
+		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_NOTES));
 
 		if (m_fnProcess) {
 			CMStringW buf;
@@ -507,7 +507,7 @@ public:
 	bool OnInitDialog() override
 	{
 		CSuper::OnInitDialog();
-		Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_NOTES));
+		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_NOTES));
 
 		LOGFONT lf, lfTmp;
 		m_hfntNormal = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
@@ -723,7 +723,7 @@ bool CJabberProto::OnIncomingNote(const char *szFrom, const TiXmlElement *hXml)
 	mir_snprintf(szService, "%s%s", m_szModuleName, JS_INCOMING_NOTE_EVENT);
 
 	CLISTEVENT cle = {};
-	cle.hIcon = (HICON)LoadIconEx("notes");
+	cle.hIcon = g_plugin.getIcon(IDI_NOTES);
 	cle.flags = CLEF_PROTOCOLGLOBAL | CLEF_UNICODE;
 	cle.hDbEvent = -99;
 	cle.lParam = (LPARAM)pItem;

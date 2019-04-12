@@ -412,7 +412,7 @@ void CJabberProto::InitPopups(void)
 
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
 	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Errors"));
-	ppc.hIcon = LoadIconEx("main");
+	ppc.hIcon = IcoLib_GetIconByHandle(m_hProtoIcon);
 	ppc.colorBack = RGB(191, 0, 0); //Red
 	ppc.colorText = RGB(255, 245, 225); //Yellow
 	ppc.iSeconds = 60;

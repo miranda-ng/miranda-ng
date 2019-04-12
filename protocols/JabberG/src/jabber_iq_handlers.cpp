@@ -431,7 +431,7 @@ BOOL CJabberProto::AddClistHttpAuthEvent(CJabberHttpAuthParams *pParams)
 	mir_snprintf(szService, "%s%s", m_szModuleName, JS_HTTP_AUTH);
 
 	CLISTEVENT cle = {};
-	cle.hIcon = (HICON)LoadIconEx("openid");
+	cle.hIcon = g_plugin.getIcon(IDI_HTTP_AUTH);
 	cle.flags = CLEF_PROTOCOLGLOBAL | CLEF_UNICODE;
 	cle.hDbEvent = -99;
 	cle.lParam = (LPARAM)pParams;

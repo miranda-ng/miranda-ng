@@ -760,7 +760,7 @@ void CPepMood::UpdateMenuView()
 ///////////////////////////////////////////////////////////////////////////////
 // CPepActivity
 
-#define ACTIVITY_ICON(section, item)	-(300 + (section) * 20 + (item))
+#define ACTIVITY_ICON(section, item)	-(1300 + (section) * 20 + (item))
 
 struct
 {
@@ -1499,7 +1499,7 @@ void g_XstatusIconsInit()
 	mir_wstrcpy(szSection, L"Protocols/Jabber/" LPGENW("Moods"));
 
 	for (int i = 1; i < _countof(g_arrMoods); i++)
-		g_MoodIcons.RegisterIcon(g_arrMoods[i].szTag, szFile, -(200 + i), szSection, TranslateW(g_arrMoods[i].szName));
+		g_MoodIcons.RegisterIcon(g_arrMoods[i].szTag, szFile, -(1200 + i), szSection, TranslateW(g_arrMoods[i].szName));
 
 	mir_wstrcpy(szSection, L"Protocols/Jabber/" LPGENW("Activities"));
 	for (int k = 0; k < _countof(g_arrActivities); k++) {

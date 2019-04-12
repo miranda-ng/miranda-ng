@@ -341,7 +341,7 @@ static INT_PTR CALLBACK JabberAdHoc_CommandDlgProc(HWND hwndDlg, UINT msg, WPARA
 			dat->proto = pStartupParams->m_pProto;
 
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
-			Window_SetIcon_IcoLib(hwndDlg, g_GetIconHandle(IDI_COMMAND));
+			Window_SetIcon_IcoLib(hwndDlg, g_plugin.getIconHandle(IDI_GROUP));
 			dat->proto->m_hwndCommandWindow = hwndDlg;
 			TranslateDialogDefault(hwndDlg);
 

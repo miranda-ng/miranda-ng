@@ -583,7 +583,7 @@ public:
 	{
 		CSuper::OnInitDialog();
 
-		Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_OPEN));
+		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_OPEN));
 
 		SetDlgItemTextUtf(m_hwnd, IDC_TXT_URL, m_pParams->m_szUrl);
 		SetDlgItemTextUtf(m_hwnd, IDC_TXT_FROM, m_pParams->m_szFrom);

@@ -236,7 +236,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_AGENTS));
+		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_AGENTS));
 
 		Utils_RestoreWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "rosterCtrlWnd_");
 

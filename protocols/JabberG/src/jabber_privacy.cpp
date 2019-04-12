@@ -357,10 +357,10 @@ public:
 
 		m_proto->m_hwndPrivacyRule = m_hwnd;
 
-		SendDlgItemMessage(m_hwnd, IDC_ICO_MESSAGE, STM_SETICON, (WPARAM)m_proto->LoadIconEx("pl_msg_allow"), 0);
-		SendDlgItemMessage(m_hwnd, IDC_ICO_QUERY, STM_SETICON, (WPARAM)m_proto->LoadIconEx("pl_iq_allow"), 0);
-		SendDlgItemMessage(m_hwnd, IDC_ICO_PRESENCEIN, STM_SETICON, (WPARAM)m_proto->LoadIconEx("pl_prin_allow"), 0);
-		SendDlgItemMessage(m_hwnd, IDC_ICO_PRESENCEOUT, STM_SETICON, (WPARAM)m_proto->LoadIconEx("pl_prout_allow"), 0);
+		SendDlgItemMessage(m_hwnd, IDC_ICO_MESSAGE, STM_SETICON, (WPARAM)g_plugin.getIcon(IDI_PL_MSG_ALLOW), 0);
+		SendDlgItemMessage(m_hwnd, IDC_ICO_QUERY, STM_SETICON, (WPARAM)g_plugin.getIcon(IDI_PL_QUERY_ALLOW), 0);
+		SendDlgItemMessage(m_hwnd, IDC_ICO_PRESENCEIN, STM_SETICON, (WPARAM)g_plugin.getIcon(IDI_PL_PRIN_ALLOW), 0);
+		SendDlgItemMessage(m_hwnd, IDC_ICO_PRESENCEOUT, STM_SETICON, (WPARAM)g_plugin.getIcon(IDI_PL_PROUT_ALLOW), 0);
 
 		wchar_t *szTypes[] = { L"JID", L"Group", L"Subscription", L"Any" };
 		int i, nTypes[] = { Jid, Group, Subscription, Else };
@@ -832,11 +832,11 @@ class CJabberDlgPrivacyLists : public CJabberDlgBase
 		}
 
 		DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 4, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2,
-			m_proto->LoadIconEx("main"), 16, 16, 0, nullptr, DI_NORMAL);
+			IcoLib_GetIconByHandle(m_proto->m_hProtoIcon), 16, 16, 0, nullptr, DI_NORMAL);
 
 		if (pRule)
 			DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 4, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2,
-				m_proto->LoadIconEx(pRule->GetAction() ? "disco_ok" : "disco_fail"),
+				g_plugin.getIcon(pRule->GetAction() ? IDI_DISCO_OK : IDI_DISCO_FAIL),
 				16, 16, 0, nullptr, DI_NORMAL);
 
 		if (lpdis->itemState & ODS_FOCUS) {
@@ -915,12 +915,12 @@ class CJabberDlgPrivacyLists : public CJabberDlgBase
 			DrawNextRulePart(lpdis->hDC, clLine2, TranslateT(" (default)"), &rc);
 
 		DrawIconEx(lpdis->hDC, lpdis->rcItem.right - 16 - 4, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2,
-			m_proto->LoadIconEx(bActive ? "pl_list_active" : "pl_list_any"),
+			g_plugin.getIcon(bActive ? IDI_PL_LIST_ACTIVE : IDI_PL_LIST_ANY),
 			16, 16, 0, nullptr, DI_NORMAL);
 
 		if (bDefault)
 			DrawIconEx(lpdis->hDC, lpdis->rcItem.right - 16 - 4, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2,
-				m_proto->LoadIconEx("disco_ok"),
+				g_plugin.getIcon(IDI_DISCO_OK),
 				16, 16, 0, nullptr, DI_NORMAL);
 
 		if (hfnt)
@@ -1271,16 +1271,16 @@ lbl_return:
 public:
 	CJabberDlgPrivacyLists(CJabberProto *proto) :
 		CSuper(proto, IDD_PRIVACY_LISTS),
-		m_btnSimple(this, IDC_BTN_SIMPLE, proto->LoadIconEx("group"), LPGEN("Simple mode")),
-		m_btnAdvanced(this, IDC_BTN_ADVANCED, proto->LoadIconEx("sd_view_list"), LPGEN("Advanced mode")),
-		m_btnAddJid(this, IDC_ADDJID, proto->LoadIconEx("addroster"), LPGEN("Add JID")),
-		m_btnActivate(this, IDC_ACTIVATE, proto->LoadIconEx("pl_list_active"), LPGEN("Activate")),
-		m_btnSetDefault(this, IDC_SET_DEFAULT, proto->LoadIconEx("pl_list_default"), LPGEN("Set default")),
+		m_btnSimple(this, IDC_BTN_SIMPLE, g_plugin.getIcon(IDI_GROUP), LPGEN("Simple mode")),
+		m_btnAdvanced(this, IDC_BTN_ADVANCED, g_plugin.getIcon(IDI_VIEW_LIST), LPGEN("Advanced mode")),
+		m_btnAddJid(this, IDC_ADDJID, g_plugin.getIcon(IDI_ADDCONTACT), LPGEN("Add JID")),
+		m_btnActivate(this, IDC_ACTIVATE, g_plugin.getIcon(IDI_PL_LIST_ACTIVE), LPGEN("Activate")),
+		m_btnSetDefault(this, IDC_SET_DEFAULT, g_plugin.getIcon(IDI_PL_LIST_DEFAULT), LPGEN("Set default")),
 		m_btnEditRule(this, IDC_EDIT_RULE, SKINICON_OTHER_RENAME, LPGEN("Edit rule")),
 		m_btnAddRule(this, IDC_ADD_RULE, SKINICON_OTHER_ADDCONTACT, LPGEN("Add rule")),
 		m_btnRemoveRule(this, IDC_REMOVE_RULE, SKINICON_OTHER_DELETE, LPGEN("Delete rule")),
-		m_btnUpRule(this, IDC_UP_RULE, proto->LoadIconEx("arrow_up"), LPGEN("Move rule up")),
-		m_btnDownRule(this, IDC_DOWN_RULE, proto->LoadIconEx("arrow_down"), LPGEN("Move rule down")),
+		m_btnUpRule(this, IDC_UP_RULE, g_plugin.getIcon(IDI_ARROW_UP), LPGEN("Move rule up")),
+		m_btnDownRule(this, IDC_DOWN_RULE, g_plugin.getIcon(IDI_ARROW_DOWN), LPGEN("Move rule down")),
 		m_btnAddList(this, IDC_ADD_LIST, SKINICON_OTHER_ADDCONTACT, LPGEN("Add list...")),
 		m_btnRemoveList(this, IDC_REMOVE_LIST, SKINICON_OTHER_DELETE, LPGEN("Remove list")),
 		m_btnApply(this, IDC_APPLY),
@@ -1318,7 +1318,7 @@ public:
 	{
 		CSuper::OnInitDialog();
 
-		Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_PRIVACY_LISTS));
+		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_PRIVACY_LISTS));
 
 		EnableWindow(GetDlgItem(m_hwnd, IDC_ADD_RULE), FALSE);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_EDIT_RULE), FALSE);
@@ -1341,14 +1341,14 @@ public:
 
 		HIMAGELIST hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 9, 9);
 		ImageList_AddIcon_Icolib(hIml, Skin_LoadIcon(SKINICON_OTHER_SMALLDOT));
-		ImageList_AddIcon_Icolib(hIml, m_proto->LoadIconEx("pl_msg_allow"));
-		ImageList_AddIcon_Icolib(hIml, m_proto->LoadIconEx("pl_msg_deny"));
-		ImageList_AddIcon_Icolib(hIml, m_proto->LoadIconEx("pl_prin_allow"));
-		ImageList_AddIcon_Icolib(hIml, m_proto->LoadIconEx("pl_prin_deny"));
-		ImageList_AddIcon_Icolib(hIml, m_proto->LoadIconEx("pl_prout_allow"));
-		ImageList_AddIcon_Icolib(hIml, m_proto->LoadIconEx("pl_prout_deny"));
-		ImageList_AddIcon_Icolib(hIml, m_proto->LoadIconEx("pl_iq_allow"));
-		ImageList_AddIcon_Icolib(hIml, m_proto->LoadIconEx("pl_iq_deny"));
+		ImageList_AddIcon_Icolib(hIml, g_plugin.getIcon(IDI_PL_MSG_ALLOW));
+		ImageList_AddIcon_Icolib(hIml, g_plugin.getIcon(IDI_PL_MSG_DENY));
+		ImageList_AddIcon_Icolib(hIml, g_plugin.getIcon(IDI_PL_PRIN_ALLOW));
+		ImageList_AddIcon_Icolib(hIml, g_plugin.getIcon(IDI_PL_PRIN_DENY));
+		ImageList_AddIcon_Icolib(hIml, g_plugin.getIcon(IDI_PL_PROUT_ALLOW));
+		ImageList_AddIcon_Icolib(hIml, g_plugin.getIcon(IDI_PL_PROUT_DENY));
+		ImageList_AddIcon_Icolib(hIml, g_plugin.getIcon(IDI_PL_QUERY_ALLOW));
+		ImageList_AddIcon_Icolib(hIml, g_plugin.getIcon(IDI_PL_QUERY_DENY));
 		m_clcClist.SetExtraImageList(hIml);
 		m_clcClist.SetExtraColumns(4);
 
@@ -1530,15 +1530,15 @@ public:
 		struct
 		{
 			wchar_t *textEng;
-			char *icon;
+			int icon;
 			wchar_t *text;
 		}
 		static drawItems[] =
 		{
-			{ LPGENW("Message"),        "pl_msg_allow"   },
-			{ LPGENW("Presence (in)"),  "pl_prin_allow"  },
-			{ LPGENW("Presence (out)"), "pl_prout_allow" },
-			{ LPGENW("Query"),          "pl_iq_allow"    }
+			{ LPGENW("Message"),        IDI_PL_MSG_ALLOW   },
+			{ LPGENW("Presence (in)"),  IDI_PL_PRIN_ALLOW  },
+			{ LPGENW("Presence (out)"), IDI_PL_PROUT_ALLOW },
+			{ LPGENW("Query"),          IDI_PL_QUERY_ALLOW }
 		};
 
 		LPDRAWITEMSTRUCT lpdis = (LPDRAWITEMSTRUCT)lParam;
@@ -1561,7 +1561,7 @@ public:
 			rc.left = (rc.left + rc.right - totalWidth) / 2;
 
 			for (auto &it : drawItems) {
-				DrawIconEx(lpdis->hDC, rc.left, (rc.top + rc.bottom - 16) / 2, m_proto->LoadIconEx(it.icon),
+				DrawIconEx(lpdis->hDC, rc.left, (rc.top + rc.bottom - 16) / 2, g_plugin.getIcon(it.icon),
 					16, 16, 0, nullptr, DI_NORMAL);
 				rc.left += 18;
 				DrawNextRulePart(lpdis->hDC, clText, it.text, &rc);
@@ -2024,7 +2024,7 @@ void CJabberProto::BuildPrivacyMenu()
 {
 	CMenuItem mi(&g_plugin);
 	mi.position = 200005;
-	mi.hIcolibItem = GetIconHandle(IDI_AGENTS);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_AGENTS);
 	mi.flags = CMIF_UNMOVABLE | CMIF_HIDDEN;
 	mi.name.a = LPGEN("Privacy Lists");
 	mi.root = m_hMenuRoot;
@@ -2034,7 +2034,7 @@ void CJabberProto::BuildPrivacyMenu()
 	CreateProtoService(mi.pszService, &CJabberProto::OnMenuHandlePrivacyLists);
 	mi.position = 3000040000;
 	mi.flags = CMIF_UNMOVABLE | CMIF_UNICODE;
-	mi.hIcolibItem = GetIconHandle(IDI_PRIVACY_LISTS);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_PRIVACY_LISTS);
 	mi.name.w = LPGENW("List Editor...");
 	mi.root = m_hPrivacyMenuRoot;
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);

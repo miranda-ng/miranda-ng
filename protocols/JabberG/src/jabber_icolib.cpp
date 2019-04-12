@@ -172,25 +172,6 @@ void CJabberProto::IconsInit(void)
 		m_transportProtoTableStartIndex[i] = -1;
 }
 
-HANDLE CJabberProto::GetIconHandle(int iconId)
-{
-	if (iconId == IDI_JABBER)
-		return m_hProtoIcon;
-
-	return g_GetIconHandle(iconId);
-}
-
-HICON CJabberProto::LoadIconEx(const char* name, bool big)
-{
-	if (HICON result = g_LoadIconEx(name, big))
-		return result;
-
-	if (!mir_strcmp(name, "main"))
-		return IcoLib_GetIconByHandle(m_hProtoIcon, big);
-
-	return nullptr;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // internal functions
 
@@ -456,7 +437,7 @@ void CJabberProto::CheckAllContactsAreTransported()
 
 static IconItem sharedIconList1[] =
 {
-	{ LPGEN("Jabber"),			      "jabber",			  IDI_JABBER			 },
+	{ LPGEN("Jabber"),                "jabber",           IDI_JABBER             },
 	{ LPGEN("Privacy Lists"),         "privacylists",     IDI_PRIVACY_LISTS      },
 	{ LPGEN("Bookmarks"),             "bookmarks",        IDI_BOOKMARKS          },
 	{ LPGEN("Notes"),                 "notes",            IDI_NOTES              },
@@ -526,34 +507,6 @@ void g_IconsInit()
 	g_plugin.registerIcon(LPGEN("Protocols") "/" LPGEN("Jabber") "/" LPGEN("Dialogs"), sharedIconList2, GLOBAL_SETTING_PREFIX);
 	g_plugin.registerIcon(LPGEN("Protocols") "/" LPGEN("Jabber") "/" LPGEN("Dialogs") "/" LPGEN("Discovery"), sharedIconList3, GLOBAL_SETTING_PREFIX);
 	g_plugin.registerIcon(LPGEN("Protocols") "/" LPGEN("Jabber") "/" LPGEN("Dialogs") "/" LPGEN("Privacy"), sharedIconList4, GLOBAL_SETTING_PREFIX);
-}
-
-HANDLE g_GetIconHandle(int iconId)
-{
-	for (auto &it : sharedIconList1)
-		if (it.defIconID == iconId)
-			return it.hIcolib;
-
-	for (auto &it : sharedIconList2)
-		if (it.defIconID == iconId)
-			return it.hIcolib;
-
-	for (auto &it : sharedIconList3)
-		if (it.defIconID == iconId)
-			return it.hIcolib;
-
-	for (auto &it : sharedIconList4)
-		if (it.defIconID == iconId)
-			return it.hIcolib;
-
-	return nullptr;
-}
-
-HICON g_LoadIconEx(const char* name, bool big)
-{
-	char szSettingName[100];
-	mir_snprintf(szSettingName, "%s_%s", GLOBAL_SETTING_PREFIX, name);
-	return IcoLib_GetIcon(szSettingName, big);
 }
 
 void ImageList_AddIcon_Icolib(HIMAGELIST hIml, HICON hIcon)

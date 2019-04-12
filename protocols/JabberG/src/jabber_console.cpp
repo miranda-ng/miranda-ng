@@ -298,14 +298,14 @@ struct
 {
 	int type;
 	wchar_t *title;
-	char *icon;
+	int icon;
 }
 static filter_modes[] =
 {
-	{ TFilterInfo::T_JID,   L"JID",            "main" },
-	{ TFilterInfo::T_XMLNS, L"xmlns",          "xmlconsole" },
-	{ TFilterInfo::T_ANY,   L"all attributes", "sd_filter_apply" },
-	{ TFilterInfo::T_OFF,   L"disabled",       "sd_filter_reset" },
+	{ TFilterInfo::T_JID,   L"JID",            IDI_JABBER },
+	{ TFilterInfo::T_XMLNS, L"xmlns",          IDI_CONSOLE },
+	{ TFilterInfo::T_ANY,   L"all attributes", IDI_FILTER_APPLY },
+	{ TFilterInfo::T_OFF,   L"disabled",       IDI_FILTER_RESET },
 };
 
 class CJabberDlgConsole : public CJabberDlgBase
@@ -321,7 +321,7 @@ public:
 	{
 		CSuper::OnInitDialog();
 
-		Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_CONSOLE));
+		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_CONSOLE));
 		SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_SETEDITSTYLE, SES_EXTENDBACKCOLOR, SES_EXTENDBACKCOLOR);
 		SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_EXLIMITTEXT, 0, 0x80000000);
 
@@ -342,21 +342,21 @@ public:
 		{
 			int idc;
 			char *title;
-			char *icon;
+			int icon;
 			bool push;
 			BOOL pushed;
 		}
 		static buttons[] =
 		{
-			{ IDC_BTN_MSG,            "Messages",     "pl_msg_allow",    true,  m_proto->m_filterInfo.msg},
-			{ IDC_BTN_PRESENCE,       "Presences",    "pl_prin_allow",   true,  m_proto->m_filterInfo.presence},
-			{ IDC_BTN_IQ,             "Queries",      "pl_iq_allow",     true,  m_proto->m_filterInfo.iq},
-			{ IDC_BTN_FILTER,         "Filter mode",  "sd_filter_apply", true,  FALSE},
-			{ IDC_BTN_FILTER_REFRESH, "Refresh list", "sd_nav_refresh",  false, FALSE},
+			{ IDC_BTN_MSG,            "Messages",     IDI_PL_MSG_ALLOW,   true,  m_proto->m_filterInfo.msg },
+			{ IDC_BTN_PRESENCE,       "Presences",    IDI_PL_PRIN_ALLOW,  true,  m_proto->m_filterInfo.presence },
+			{ IDC_BTN_IQ,             "Queries",      IDI_PL_QUERY_ALLOW, true,  m_proto->m_filterInfo.iq },
+			{ IDC_BTN_FILTER,         "Filter mode",  IDI_FILTER_APPLY,   true,  false },
+			{ IDC_BTN_FILTER_REFRESH, "Refresh list", IDI_NAV_REFRESH,    false, false },
 		};
 
 		for (auto &it : buttons) {
-			SendDlgItemMessage(m_hwnd, it.idc, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(it.icon));
+			SendDlgItemMessage(m_hwnd, it.idc, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(it.icon));
 			SendDlgItemMessage(m_hwnd, it.idc, BUTTONSETASFLATBTN, TRUE, 0);
 			SendDlgItemMessage(m_hwnd, it.idc, BUTTONADDTOOLTIP, (WPARAM)it.title, 0);
 			if (it.push)
@@ -367,8 +367,8 @@ public:
 
 		for (auto &it : filter_modes)
 			if (it.type == m_proto->m_filterInfo.type) {
-				IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(it.icon)));
-				SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(it.icon));
+				IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(it.icon)));
+				SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(it.icon));
 				break;
 			}
 
@@ -527,7 +527,7 @@ public:
 					m_proto->m_filterInfo.type = (TFilterInfo::Type)(res - 1);
 					for (auto &it : filter_modes) {
 						if (it.type == m_proto->m_filterInfo.type) {
-							IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(it.icon)));
+							IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(it.icon)));
 							break;
 						}
 					}

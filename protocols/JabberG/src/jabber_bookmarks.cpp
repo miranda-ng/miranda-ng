@@ -186,7 +186,7 @@ public:
 	{
 		CSuper::OnInitDialog();
 
-		Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_BOOKMARKS));
+		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_BOOKMARKS));
 
 		m_btnAdd.Disable();
 		m_btnEdit.Disable();
@@ -195,7 +195,7 @@ public:
 		m_lvBookmarks.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_HEADERDRAGDROP | LVS_EX_DOUBLEBUFFER);
 
 		HIMAGELIST hIml = m_lvBookmarks.CreateImageList(LVSIL_SMALL);
-		ImageList_AddIcon_Icolib(hIml, m_proto->LoadIconEx("group"));
+		ImageList_AddIcon_Icolib(hIml, g_plugin.getIcon(IDI_GROUP));
 		ImageList_AddIcon_Icolib(hIml, Skin_LoadIcon(SKINICON_EVENT_URL));
 
 		m_lvBookmarks.AddColumn(0, TranslateT("Bookmark Name"), m_proto->getWord("bookmarksWnd_cx0", 120));
