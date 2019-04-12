@@ -150,8 +150,6 @@ void OpenAuthUrl(const char* url);
 void __cdecl VersionInfoUploadThread(void* arg);
 
 void InitIcons(void);
-HICON LoadIconEx(int iconId, bool big = false);
-HANDLE GetIconHandle(int iconId);
 
 int OptionsInit(WPARAM wParam, LPARAM);
 INT_PTR ViewVersionInfo(WPARAM wParam, LPARAM);

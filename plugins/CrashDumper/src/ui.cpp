@@ -44,7 +44,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_VI));
+		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_VI));
 		{
 			CHARFORMAT2 chf;
 			chf.cbSize = sizeof(chf);
@@ -317,7 +317,7 @@ void ShowMessage(int type, const wchar_t *format, ...)
 	va_end(va);
 
 	mir_wstrcpy(ppd.lpwzContactName, _A2W(MODULENAME));
-	ppd.lchIcon = LoadIconEx(IDI_VI);
+	ppd.lchIcon = g_plugin.getIcon(IDI_VI);
 	ppd.PluginWindowProc = DlgProcPopup;
 	ppd.PluginData = (void*)type;
 	PUAddPopupW(&ppd);

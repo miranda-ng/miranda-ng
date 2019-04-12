@@ -184,24 +184,24 @@ static int ToolbarModulesLoaded(WPARAM, LPARAM)
 	TTBButton ttb = {};
 	ttb.pszService = MS_CRASHDUMPER_STORETOCLIP;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Version Information To Clipboard");
-	ttb.hIconHandleUp = GetIconHandle(IDI_VITOCLIP);
+	ttb.hIconHandleUp = g_plugin.getIconHandle(IDI_VITOCLIP);
 	ttb.dwFlags = TTBBF_VISIBLE;
 	g_plugin.addTTB(&ttb);
 
 	ttb.pszService = MS_CRASHDUMPER_STORETOFILE;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Version Information To File");
-	ttb.hIconHandleUp = GetIconHandle(IDI_VITOFILE);
+	ttb.hIconHandleUp = g_plugin.getIconHandle(IDI_VITOFILE);
 	ttb.dwFlags = 0;
 	g_plugin.addTTB(&ttb);
 
 	ttb.pszService = MS_CRASHDUMPER_VIEWINFO;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Show Version Information");
-	ttb.hIconHandleUp = GetIconHandle(IDI_VISHOW);
+	ttb.hIconHandleUp = g_plugin.getIconHandle(IDI_VISHOW);
 	g_plugin.addTTB(&ttb);
 
 	ttb.pszService = MS_CRASHDUMPER_UPLOAD;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Upload Version Information");
-	ttb.hIconHandleUp = GetIconHandle(IDI_VIUPLOAD);
+	ttb.hIconHandleUp = g_plugin.getIconHandle(IDI_VIUPLOAD);
 	g_plugin.addTTB(&ttb);
 	return 0;
 }
@@ -224,48 +224,48 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	}
 
 	CMenuItem mi(&g_plugin);
-	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Version Information"), 2000089999, GetIconHandle(IDI_VI));
+	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Version Information"), 2000089999, g_plugin.getIconHandle(IDI_VI));
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "9A7A9C76-7FD8-4C05-B402-6C46060C2D78");
 
 	SET_UID(mi, 0x52930e40, 0xb2ee, 0x4433, 0xad, 0x77, 0xf5, 0x42, 0xe, 0xf6, 0x57, 0xc1);
 	mi.position = 2000089995;
 	mi.name.a = LPGEN("Copy to clipboard");
-	mi.hIcolibItem = GetIconHandle(IDI_VITOCLIP);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_VITOCLIP);
 	mi.pszService = MS_CRASHDUMPER_STORETOCLIP;
 	Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0x54109094, 0x494e, 0x4535, 0x9c, 0x3a, 0xf6, 0x9e, 0x9a, 0xf7, 0xcd, 0xbe);
 	mi.position = 2000089996;
 	mi.name.a = LPGEN("Store to file");
-	mi.hIcolibItem = GetIconHandle(IDI_VITOFILE);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_VITOFILE);
 	mi.pszService = MS_CRASHDUMPER_STORETOFILE;
 	Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0x4004f9ee, 0x2c5a, 0x420a, 0xb1, 0x54, 0x3e, 0x47, 0xc1, 0xde, 0x46, 0xec);
 	mi.position = 2000089997;
 	mi.name.a = LPGEN("Show");
-	mi.hIcolibItem = GetIconHandle(IDI_VISHOW);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_VISHOW);
 	mi.pszService = MS_CRASHDUMPER_VIEWINFO;
 	Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0x8526469a, 0x8ab4, 0x4dd4, 0xad, 0xbf, 0x51, 0xfd, 0x71, 0x10, 0xd3, 0x3c);
 	mi.position = 2000089998;
 	mi.name.a = LPGEN("Show with DLLs");
-	mi.hIcolibItem = GetIconHandle(IDI_VIUPLOAD);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_VIUPLOAD);
 	mi.pszService = MS_CRASHDUMPER_VIEWINFO;
 	Menu_ConfigureItem(Menu_AddMainMenuItem(&mi), MCI_OPT_EXECPARAM, 1);
 
 	SET_UID(mi, 0xc6e3b558, 0xe1e8, 0x4cce, 0x96, 0x8, 0xc6, 0x89, 0x1b, 0x79, 0xf3, 0x7e);
 	mi.position = 2000089999;
 	mi.name.a = LPGEN("Upload");
-	mi.hIcolibItem = GetIconHandle(IDI_VIUPLOAD);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_VIUPLOAD);
 	mi.pszService = MS_CRASHDUMPER_UPLOAD;
 	Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0xa23da95a, 0x7624, 0x4343, 0x8c, 0xc0, 0xa6, 0x16, 0xbc, 0x30, 0x13, 0x8c);
 	mi.position = 2000089999;
 	mi.name.a = LPGEN("Copy link to clipboard");
-	mi.hIcolibItem = GetIconHandle(IDI_LINKTOCLIP);//need icon
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_LINKTOCLIP);//need icon
 	mi.pszService = MS_CRASHDUMPER_URLTOCLIP;
 	Menu_AddMainMenuItem(&mi);
 

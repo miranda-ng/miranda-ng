@@ -32,21 +32,3 @@ void InitIcons(void)
 {
 	g_plugin.registerIcon(LPGEN("Crash Dumper"), iconList, MODULENAME);
 }
-
-HICON LoadIconEx(int iconId, bool big)
-{
-	for (int i = 0; i < _countof(iconList); i++)
-		if (iconList[i].defIconID == iconId)
-			return IcoLib_GetIconByHandle(iconList[i].hIcolib, big);
-
-	return nullptr;
-}
-
-HANDLE GetIconHandle(int iconId)
-{
-	for (int i = 0; i < _countof(iconList); i++)
-		if (iconList[i].defIconID == iconId)
-			return iconList[i].hIcolib;
-
-	return nullptr;
-}
