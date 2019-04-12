@@ -112,9 +112,9 @@ EXTERN_C MIR_APP_DLL(void) UnregisterPlugin(CMPluginBase *pPlugin)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int CompareIcons(const void *p1, const void *p2)
+static int CompareIcons(const IcolibItem *p1, const IcolibItem *p2)
 {
-	return ((IcolibItem*)p1)->default_indx - ((IcolibItem*)p2)->default_indx;
+	return p1->default_indx - p2->default_indx;
 }
 
 CMPluginBase::CMPluginBase(const char *moduleName, const PLUGININFOEX &pInfo) :

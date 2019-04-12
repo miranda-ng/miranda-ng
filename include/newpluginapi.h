@@ -151,6 +151,8 @@ typedef int(*pfnUninitProto)(PROTO_INTERFACE*);
 #pragma warning(push)
 #pragma warning(disable:4275)
 
+struct IcolibItem;
+
 class MIR_APP_EXPORT CMPluginBase : public MNonCopyable
 {
 	void tryOpenLog();
@@ -160,7 +162,7 @@ protected:
 	const char *m_szModuleName;
 	const PLUGININFOEX &m_pInfo;
 	HANDLE m_hLogger = nullptr;
-	LIST<void> m_arIcons;
+	LIST<IcolibItem> m_arIcons;
 
 	CMPluginBase(const char *moduleName, const PLUGININFOEX &pInfo);
 	~CMPluginBase();
