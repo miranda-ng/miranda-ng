@@ -113,7 +113,7 @@ void CChatRoomDlg::onClick_Filter(CCtrlButton *pButton)
 		return;
 
 	m_bFilterEnabled = !m_bFilterEnabled;
-	m_btnFilter.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx(m_bFilterEnabled ? "filter" : "filter2", FALSE));
+	m_btnFilter.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bFilterEnabled ? IDI_FILTER : IDI_FILTER2, FALSE));
 	if (m_bFilterEnabled && db_get_b(0, CHAT_MODULE, "RightClickFilter", 0) == 0)
 		ShowFilterMenu();
 	else
@@ -126,7 +126,7 @@ void CChatRoomDlg::onClick_NickList(CCtrlButton *pButton)
 		return;
 
 	m_bNicklistEnabled = !m_bNicklistEnabled;
-	pButton->SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx(m_bNicklistEnabled ? "nicklist" : "nicklist2", FALSE));
+	pButton->SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bNicklistEnabled ? IDI_NICKLIST : IDI_NICKLIST2, FALSE));
 
 	ScrollToBottom();
 	Resize();
@@ -271,8 +271,8 @@ void CChatRoomDlg::UpdateNickList()
 
 void CChatRoomDlg::UpdateOptions()
 {
-	m_btnNickList.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx(m_bNicklistEnabled ? "nicklist" : "nicklist2", FALSE));
-	m_btnFilter.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx(m_bFilterEnabled ? "filter" : "filter2", FALSE));
+	m_btnNickList.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bNicklistEnabled ? IDI_NICKLIST : IDI_NICKLIST2, FALSE));
+	m_btnFilter.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bFilterEnabled ? IDI_FILTER : IDI_FILTER2, FALSE));
 
 	MODULEINFO *mi = m_si->pMI;
 	EnableWindow(m_btnBold.GetHwnd(), mi->bBold);
@@ -291,7 +291,7 @@ void CChatRoomDlg::UpdateOptions()
 
 	SendMessage(m_pOwner->m_hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
 
-	Window_SetIcon_IcoLib(m_pOwner->GetHwnd(), GetIconHandle("window"));
+	Window_SetIcon_IcoLib(m_pOwner->GetHwnd(), g_plugin.getIconHandle(IDI_CHANMGR));
 
 	m_log.SendMsg(EM_SETBKGNDCOLOR, 0, g_Settings.crLogBackground);
 
@@ -1141,7 +1141,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case DM_UPDATETITLE:
-		if (lParam == 0 || lParam == m_hContact)
+		if (lParam == 0 || lParam == (LPARAM)m_hContact)
 			UpdateTitle();
 		break;
 	

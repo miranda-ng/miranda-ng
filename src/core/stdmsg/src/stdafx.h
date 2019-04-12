@@ -134,8 +134,6 @@ SESSION_INFO* SM_GetNextWindow(SESSION_INFO *si);
 
 // options.cpp
 void AddIcons(void);
-HICON LoadIconEx(const char *pszIcoLibName, bool big);
-HANDLE GetIconHandle(const char *pszIcolibName);
 
 // tools.cpp
 void SetButtonsPos(HWND hwndDlg, bool bIsChat);
