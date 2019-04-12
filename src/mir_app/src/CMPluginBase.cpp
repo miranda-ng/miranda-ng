@@ -279,9 +279,9 @@ void CMPluginBase::debugLogW(LPCWSTR wszFormat, ...)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-HICON CMPluginBase::getIcon(int iconId)
+HICON CMPluginBase::getIcon(int iconId, bool big)
 {
-	return IcoLib_GetIconByHandle(getIconHandle(iconId));
+	return IcoLib_GetIconByHandle(getIconHandle(iconId), big);
 }
 
 HANDLE CMPluginBase::getIconHandle(int iconId)
@@ -291,9 +291,9 @@ HANDLE CMPluginBase::getIconHandle(int iconId)
 	return m_arIcons.find(p);
 }
 
-void CMPluginBase::releaseIcon(int iconId)
+void CMPluginBase::releaseIcon(int iconId, bool big)
 {
-	IcoLib_ReleaseIcon(getIcon(iconId));
+	IcoLib_ReleaseIcon(getIcon(iconId), big);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

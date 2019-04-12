@@ -174,9 +174,9 @@ public:
 	void debugLogW(LPCWSTR wszFormat, ...);
 
 	__forceinline void addIcolib(HANDLE hIcolib) { m_arIcons.insert(hIcolib); }
-	HICON  getIcon(int iconId);
+	HICON  getIcon(int iconId, bool big = false);
 	HANDLE getIconHandle(int iconId);
-	void   releaseIcon(int iconId);
+	void   releaseIcon(int iconId, bool big = false);
 
 	__forceinline const PLUGININFOEX& getInfo() const { return m_pInfo; }
 	__forceinline const char* getModule() const { return m_szModuleName; }
