@@ -114,7 +114,7 @@ static int IconsChanged(WPARAM, LPARAM)
 	Menu_ModifyItem(hMenuItem, nullptr, hIcon);
 	Menu_ModifyItem(hMenuRoot, nullptr, hIcon);
 
-	Menu_ModifyItem(hMenuItemHistory, nullptr, GetIconHandle(IDI_HISTORY));
+	Menu_ModifyItem(hMenuItemHistory, nullptr, g_plugin.getIconHandle(IDI_HISTORY));
 	return 0;
 }
 
@@ -191,7 +191,7 @@ void InitMenuItems(void)
 	CreateServiceFunction(mi.pszService, svcShowHistory);
 	mi.position = 1000000000;
 	mi.name.w = LPGENW("Popup history");
-	mi.hIcolibItem = GetIconHandle(IDI_HISTORY);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_HISTORY);
 	hMenuItemHistory = Menu_AddMainMenuItem(&mi);
 }
 

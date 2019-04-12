@@ -46,7 +46,7 @@ void LoadNotifications()
 
 	mir_strncpy(notification.lpzGroup, "Misc", sizeof(notification.lpzName));
 	mir_strncpy(notification.lpzName, "Warning", sizeof(notification.lpzName));
-	notification.lchIcoLib = GetIconHandle(IDI_MB_WARN);
+	notification.lchIcoLib = g_plugin.getIconHandle(IDI_MB_WARN);
 	notification.colorBack = RGB(210, 210, 150);
 	notification.colorText = RGB(0, 0, 0);
 	notification.iSeconds = 10;
@@ -54,7 +54,7 @@ void LoadNotifications()
 
 	mir_strncpy(notification.lpzGroup, "Misc", sizeof(notification.lpzName));
 	mir_strncpy(notification.lpzName, "Notification", sizeof(notification.lpzName));
-	notification.lchIcoLib = GetIconHandle(IDI_MB_INFO);
+	notification.lchIcoLib = g_plugin.getIconHandle(IDI_MB_INFO);
 	notification.colorBack = RGB(230, 230, 230);
 	notification.colorText = RGB(0, 0, 0);
 	notification.iSeconds = 7;
@@ -62,7 +62,7 @@ void LoadNotifications()
 
 	mir_strncpy(notification.lpzGroup, "Misc", sizeof(notification.lpzName));
 	mir_strncpy(notification.lpzName, "Error", sizeof(notification.lpzName));
-	notification.lchIcoLib = GetIconHandle(IDI_MB_STOP);
+	notification.lchIcoLib = g_plugin.getIconHandle(IDI_MB_STOP);
 	notification.colorBack = RGB(191, 0, 0);
 	notification.colorText = RGB(255, 245, 225);
 	notification.iSeconds = -1;

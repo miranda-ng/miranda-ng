@@ -66,41 +66,7 @@ static IconItem iconList3[] =
 
 void InitIcons()
 {
-	g_plugin.registerIcon(SECT_POPUP, iconList1, MODULENAME);
-	g_plugin.registerIcon(SECT_POPUP SECT_POPUP_OPT, iconList2, MODULENAME);
-	g_plugin.registerIcon(SECT_POPUP SECT_POPUP_ACT, iconList3, MODULENAME);
-}
-
-HICON LoadIconEx(int iconId, bool big)
-{
-	for (auto &it : iconList1)
-		if (it.defIconID == iconId)
-			return IcoLib_GetIconByHandle(it.hIcolib, big);
-
-	for (auto &it : iconList2)
-		if (it.defIconID == iconId)
-			return IcoLib_GetIconByHandle(it.hIcolib, big);
-
-	for (auto &it : iconList3)
-		if (it.defIconID == iconId)
-			return IcoLib_GetIconByHandle(it.hIcolib, big);
-
-	return nullptr;
-}
-
-HANDLE GetIconHandle(int iconId)
-{
-	for (auto &it : iconList1)
-		if (it.defIconID == iconId)
-			return it.hIcolib;
-
-	for (auto &it : iconList2)
-		if (it.defIconID == iconId)
-			return it.hIcolib;
-
-	for (auto &it : iconList3)
-		if (it.defIconID == iconId)
-			return it.hIcolib;
-
-	return nullptr;
+	g_plugin.registerIcon(MODULNAME_PLU, iconList1, MODULENAME);
+	g_plugin.registerIcon(MODULNAME_PLU "/Options", iconList2, MODULENAME);
+	g_plugin.registerIcon(MODULNAME_PLU "/Actions", iconList3, MODULENAME);
 }

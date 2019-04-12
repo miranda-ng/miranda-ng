@@ -123,7 +123,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 #include "services.h"
 #include "srmm_menu.h"
 #include "bitmap_funcs.h"
-#include "icons.h"
 #include "font.h"
 #include "formula.h"
 #include "skin.h"
@@ -140,5 +139,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 #include "popup_gdiplus.h"
 
 INT_PTR svcEnableDisableMenuCommand(WPARAM, LPARAM);
+
+void InitIcons();
 
 #endif //HEADERS_H

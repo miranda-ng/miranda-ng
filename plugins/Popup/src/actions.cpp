@@ -35,14 +35,14 @@ void LoadActions()
 {
 	POPUPACTION actions[] =
 	{
-		{ sizeof(POPUPACTION), LoadIconEx(IDI_ACT_REPLY), LPGEN("General") "/" LPGEN("Quick reply"), 0 },
-		{ sizeof(POPUPACTION), LoadIconEx(IDI_ACT_MESSAGE), LPGEN("General") "/" LPGEN("Send message"), 0 },
-		{ sizeof(POPUPACTION), LoadIconEx(IDI_ACT_INFO), LPGEN("General") "/" LPGEN("User details"), 0 },
-		{ sizeof(POPUPACTION), LoadIconEx(IDI_ACT_MENU), LPGEN("General") "/" LPGEN("Contact menu"), 0 },
-		{ sizeof(POPUPACTION), LoadIconEx(IDI_ACT_ADD), LPGEN("General") "/" LPGEN("Add permanently"), 0 },
-		{ sizeof(POPUPACTION), LoadIconEx(IDI_ACT_PIN), LPGEN("General") "/" LPGEN("Pin popup"), 0 },
-		{ sizeof(POPUPACTION), LoadIconEx(IDI_ACT_CLOSE), LPGEN("General") "/" LPGEN("Dismiss popup"), 0 },
-		{ sizeof(POPUPACTION), LoadIconEx(IDI_ACT_COPY), LPGEN("General") "/" LPGEN("Copy to clipboard"), 0 },
+		{ sizeof(POPUPACTION), g_plugin.getIcon(IDI_ACT_REPLY), LPGEN("General") "/" LPGEN("Quick reply"), 0 },
+		{ sizeof(POPUPACTION), g_plugin.getIcon(IDI_ACT_MESSAGE), LPGEN("General") "/" LPGEN("Send message"), 0 },
+		{ sizeof(POPUPACTION), g_plugin.getIcon(IDI_ACT_INFO), LPGEN("General") "/" LPGEN("User details"), 0 },
+		{ sizeof(POPUPACTION), g_plugin.getIcon(IDI_ACT_MENU), LPGEN("General") "/" LPGEN("Contact menu"), 0 },
+		{ sizeof(POPUPACTION), g_plugin.getIcon(IDI_ACT_ADD), LPGEN("General") "/" LPGEN("Add permanently"), 0 },
+		{ sizeof(POPUPACTION), g_plugin.getIcon(IDI_ACT_PIN), LPGEN("General") "/" LPGEN("Pin popup"), 0 },
+		{ sizeof(POPUPACTION), g_plugin.getIcon(IDI_ACT_CLOSE), LPGEN("General") "/" LPGEN("Dismiss popup"), 0 },
+		{ sizeof(POPUPACTION), g_plugin.getIcon(IDI_ACT_COPY), LPGEN("General") "/" LPGEN("Copy to clipboard"), 0 },
 	};
 
 	for (auto &it : actions)
@@ -181,7 +181,7 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 		TranslateDialogDefault(hwnd);
 
-		SendDlgItemMessage(hwnd, IDC_ICO_INFO, STM_SETICON, (WPARAM)LoadIconEx(IDI_MB_INFO), 0);
+		SendDlgItemMessage(hwnd, IDC_ICO_INFO, STM_SETICON, (WPARAM)g_plugin.getIcon(IDI_MB_INFO), 0);
 
 		CheckDlgButton(hwnd, IDC_CHK_ENABLEACTIONS, PopupOptions.actions & ACT_ENABLE ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwnd, IDC_CHK_IMCONTACTSONLY, PopupOptions.actions & ACT_DEF_IMONLY ? BST_CHECKED : BST_UNCHECKED);

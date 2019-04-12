@@ -178,7 +178,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			TreeView_DeleteAllItems(hwndTree);
 			// Treeview create image list
 			HIMAGELIST hImgLst = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR | ILC_COLOR32 | ILC_MASK, 5, num_classes + 1);
-			ImageList_ReplaceIcon(hImgLst, -1, LoadIconEx(IDI_OPT_GROUP));
+			ImageList_ReplaceIcon(hImgLst, -1, g_plugin.getIcon(IDI_OPT_GROUP));
 			TreeView_SetImageList(hwndTree, hImgLst, TVSIL_NORMAL);
 
 			for (auto &p : gTreeData) {
@@ -218,7 +218,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					(WPARAM)Translate(it.title), 0);
 			}
 			// info icon
-			SendDlgItemMessage(hwnd, IDC_ICO_INFO, STM_SETICON, (WPARAM)LoadIconEx(IDI_MB_INFO), 0);
+			SendDlgItemMessage(hwnd, IDC_ICO_INFO, STM_SETICON, (WPARAM)g_plugin.getIcon(IDI_MB_INFO), 0);
 			// more button
 			EnableWindow(GetDlgItem(hwnd, IDC_MORE), FALSE);
 			// preview button

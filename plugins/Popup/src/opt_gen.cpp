@@ -181,7 +181,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			HWND hCtrl = GetDlgItem(hwnd, IDC_CUSTOMPOS);
 			SendMessage(hCtrl, BUTTONSETASFLATBTN, TRUE, 0);
 			SendMessage(hCtrl, BUTTONADDTOOLTIP, (WPARAM)L"Popup area", BATF_UNICODE);
-			SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx(IDI_RESIZE));
+			SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_RESIZE));
 		}
 		// Spreading combobox
 		{
@@ -623,11 +623,11 @@ INT_PTR CALLBACK PositionBoxDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 		SendDlgItemMessage(hwndDlg, IDOK, BUTTONSETASFLATBTN, TRUE, 0);
 		SendDlgItemMessage(hwndDlg, IDOK, BUTTONADDTOOLTIP, (WPARAM)L"OK", BATF_UNICODE);
-		SendDlgItemMessage(hwndDlg, IDOK, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx(IDI_ACT_OK));
+		SendDlgItemMessage(hwndDlg, IDOK, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_ACT_OK));
 
 		SendDlgItemMessage(hwndDlg, IDCANCEL, BUTTONSETASFLATBTN, TRUE, 0);
 		SendDlgItemMessage(hwndDlg, IDCANCEL, BUTTONADDTOOLTIP, (WPARAM)L"Cancel", BATF_UNICODE);
-		SendDlgItemMessage(hwndDlg, IDCANCEL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx(IDI_ACT_CLOSE));
+		SendDlgItemMessage(hwndDlg, IDCANCEL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_ACT_CLOSE));
 
 		SetDlgItemInt(hwndDlg, IDC_TXT_TOP, PopupOptions.gapTop, FALSE);
 		SetDlgItemInt(hwndDlg, IDC_TXT_BOTTOM, PopupOptions.gapBottom, FALSE);

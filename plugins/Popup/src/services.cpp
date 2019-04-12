@@ -237,21 +237,21 @@ INT_PTR Popup_ShowMessageW(WPARAM wParam, LPARAM lParam)
 	ppd2.szText.w = (wchar_t*)wParam;
 	switch (lParam & 0x7fffffff) {
 	case SM_ERROR:
-		ppd2.lchIcon = LoadIconEx(IDI_MB_STOP, 0);
+		ppd2.lchIcon = g_plugin.getIcon(IDI_MB_STOP, 0);
 		ppd2.colorBack = RGB(191, 0, 0);
 		ppd2.colorText = RGB(255, 245, 225);
 		ppd2.lchNotification = g_hntfError;
 		ppd2.szTitle.w = TranslateT("Error");
 		break;
 	case SM_WARNING:
-		ppd2.lchIcon = LoadIconEx(IDI_MB_WARN, 0);
+		ppd2.lchIcon = g_plugin.getIcon(IDI_MB_WARN, 0);
 		ppd2.colorBack = RGB(210, 210, 150);
 		ppd2.colorText = RGB(0, 0, 0);
 		ppd2.lchNotification = g_hntfWarning;
 		ppd2.szTitle.w = TranslateT("Warning");
 		break;
 	case SM_NOTIFY:
-		ppd2.lchIcon = LoadIconEx(IDI_MB_INFO, 0);
+		ppd2.lchIcon = g_plugin.getIcon(IDI_MB_INFO, 0);
 		ppd2.colorBack = RGB(230, 230, 230);
 		ppd2.colorText = RGB(0, 0, 0);
 		ppd2.lchNotification = g_hntfNotification;

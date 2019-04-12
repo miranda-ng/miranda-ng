@@ -132,7 +132,7 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 				ListBox_SetItemData(hwndList, ListBox_AddString(hwndList, L""), 0);
 			}
 
-			Window_SetIcon_IcoLib(hwnd, GetIconHandle(IDI_HISTORY));
+			Window_SetIcon_IcoLib(hwnd, g_plugin.getIconHandle(IDI_HISTORY));
 
 			if (gbHppInstalled && PopupOptions.UseHppHistoryLog) {
 				logType = LOG_HPP;
