@@ -414,9 +414,7 @@ public:
 	void BuildIconList()
 	{
 		HIMAGELIST hImageList = ImageList_Create(g_iIconSX, g_iIconSX, ILC_COLOR32 | ILC_MASK, 2, 2);
-
-		HICON hBlankIcon = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, g_iIconSX, g_iIconSX, 0);
-		ImageList_AddIcon(hImageList, hBlankIcon);
+		ImageList_AddIcon_NotShared(hImageList, MAKEINTRESOURCE(IDI_BLANK));
 
 		for (auto &extra : registeredExtraIcons) {
 			extra->setID(registeredExtraIcons.indexOf(&extra)+1);
@@ -430,7 +428,6 @@ public:
 			}
 		}
 		m_tree.SetImageList(hImageList, TVSIL_NORMAL);
-		DestroyIcon(hBlankIcon);
 
 		for (auto &extra : extraIconsBySlot) {
 			if (extra->getType() == EXTRAICON_TYPE_GROUP) {
