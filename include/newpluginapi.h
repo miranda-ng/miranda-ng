@@ -175,7 +175,7 @@ public:
 	void debugLogA(LPCSTR szFormat, ...);
 	void debugLogW(LPCWSTR wszFormat, ...);
 
-	__forceinline void addIcolib(HANDLE hIcolib) { m_arIcons.insert(hIcolib); }
+	__forceinline void addIcolib(HANDLE hIcolib) { m_arIcons.insert((IcolibItem*)hIcolib); }
 	HICON  getIcon(int iconId, bool big = false);
 	HANDLE getIconHandle(int iconId);
 	void   releaseIcon(int iconId, bool big = false);
