@@ -531,9 +531,6 @@ int BriefInfo(WPARAM wParam, LPARAM lParam);
 INT_PTR BriefInfoSvc(WPARAM wParam, LPARAM lParam);
 
 void InitIcons(void);
-HICON  LoadIconEx(const char* name, bool big);
-HANDLE GetIconHandle(const char* name);
-void   ReleaseIconEx(HICON hIcon);
 
 //============  Plugin Class ============
 

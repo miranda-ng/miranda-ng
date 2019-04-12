@@ -241,7 +241,7 @@ static void addWindow(MCONTACT hContact)
 
 	CLISTFrame Frame = { 0 };
 	Frame.szName.w = winname;
-	Frame.hIcon = LoadIconEx("main", FALSE);
+	Frame.hIcon = g_plugin.getIcon(IDI_ICON);
 	Frame.cbSize = sizeof(Frame);
 	Frame.hWnd = hWnd;
 	Frame.align = alBottom;

@@ -99,7 +99,7 @@ INT_PTR WeatherGetStatus(WPARAM, LPARAM)
 // protocol service function to get the icon of the protocol
 INT_PTR WeatherLoadIcon(WPARAM wParam, LPARAM)
 {
-	return (LOWORD(wParam) == PLI_PROTOCOL) ? (INT_PTR)CopyIcon(LoadIconEx("main", FALSE)) : 0;
+	return (LOWORD(wParam) == PLI_PROTOCOL) ? (INT_PTR)CopyIcon(g_plugin.getIcon(IDI_ICON)) : 0;
 }
 
 static void __cdecl AckThreadProc(HANDLE param)
@@ -220,11 +220,11 @@ void UpdateMenu(BOOL State)
 	g_plugin.setByte("AutoUpdate", (BYTE)State);
 
 	if (State) { // to enable auto-update
-		Menu_ModifyItem(hEnableDisableMenu, LPGENW("Auto Update Enabled"), GetIconHandle("main"));
+		Menu_ModifyItem(hEnableDisableMenu, LPGENW("Auto Update Enabled"), g_plugin.getIconHandle(IDI_ICON));
 		opt.AutoUpdate = 1;
 	}
 	else { // to disable auto-update
-		Menu_ModifyItem(hEnableDisableMenu, LPGENW("Auto Update Disabled"), GetIconHandle("disabled"));
+		Menu_ModifyItem(hEnableDisableMenu, LPGENW("Auto Update Disabled"), g_plugin.getIconHandle(IDI_DISABLED));
 		opt.AutoUpdate = 0;
 	}
 
@@ -238,9 +238,9 @@ void UpdatePopupMenu(BOOL State)
 	g_plugin.setByte("UsePopup", (BYTE)opt.UsePopup);
 
 	if (State) // to enable popup
-		Menu_ModifyItem(hEnableDisablePopupMenu, LPGENW("Disable &weather notification"), GetIconHandle("popup"));
+		Menu_ModifyItem(hEnableDisablePopupMenu, LPGENW("Disable &weather notification"), g_plugin.getIconHandle(IDI_POPUP));
 	else // to disable popup
-		Menu_ModifyItem(hEnableDisablePopupMenu, LPGENW("Enable &weather notification"), GetIconHandle("nopopup"));
+		Menu_ModifyItem(hEnableDisablePopupMenu, LPGENW("Enable &weather notification"), g_plugin.getIconHandle(IDI_NOPOPUP));
 }
 
 // update the weather auto-update menu item when click on it
@@ -267,7 +267,7 @@ void AddMenuItems(void)
 	SET_UID(mi, 0x266ef52b, 0x869a, 0x4cac, 0xa9, 0xf8, 0xea, 0x5b, 0xb8, 0xab, 0xe0, 0x24);
 	CreateServiceFunction(MS_WEATHER_UPDATE, UpdateSingleStation);
 	mi.position = -0x7FFFFFFA;
-	mi.hIcolibItem = GetIconHandle("update");
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_UPDATE);
 	mi.name.a = LPGEN("Update Weather");
 	mi.pszService = MS_WEATHER_UPDATE;
 	Menu_AddContactMenuItem(&mi, MODULENAME);
@@ -275,7 +275,7 @@ void AddMenuItems(void)
 	SET_UID(mi, 0x45361b4, 0x8de, 0x44b4, 0x8f, 0x11, 0x9b, 0xe9, 0x6e, 0xa8, 0x83, 0x54);
 	CreateServiceFunction(MS_WEATHER_REFRESH, UpdateSingleRemove);
 	mi.position = -0x7FFFFFF9;
-	mi.hIcolibItem = GetIconHandle("update2");
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_UPDATE2);
 	mi.name.a = LPGEN("Remove Old Data then Update");
 	mi.pszService = MS_WEATHER_REFRESH;
 	Menu_AddContactMenuItem(&mi, MODULENAME);
@@ -283,7 +283,7 @@ void AddMenuItems(void)
 	SET_UID(mi, 0x4232975e, 0xb181, 0x46a5, 0xb7, 0x6e, 0xd2, 0x5f, 0xef, 0xb8, 0xc4, 0x4d);
 	CreateServiceFunction(MS_WEATHER_BRIEF, BriefInfoSvc);
 	mi.position = -0x7FFFFFF8;
-	mi.hIcolibItem = GetIconHandle("brief");
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_S);
 	mi.name.a = LPGEN("Brief Information");
 	mi.pszService = MS_WEATHER_BRIEF;
 	Menu_AddContactMenuItem(&mi, MODULENAME);
@@ -291,7 +291,7 @@ void AddMenuItems(void)
 	SET_UID(mi, 0x3d6ed729, 0xd49a, 0x4ae9, 0x8e, 0x2, 0x9f, 0xe0, 0xf0, 0x2c, 0xcc, 0xb1);
 	CreateServiceFunction(MS_WEATHER_COMPLETE, LoadForecast);
 	mi.position = -0x7FFFFFF7;
-	mi.hIcolibItem = GetIconHandle("read");
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_READ);
 	mi.name.a = LPGEN("Read Complete Forecast");
 	mi.pszService = MS_WEATHER_COMPLETE;
 	Menu_AddContactMenuItem(&mi, MODULENAME);
@@ -299,7 +299,7 @@ void AddMenuItems(void)
 	SET_UID(mi, 0xc4b6c5e0, 0x13c3, 0x4e02, 0x8a, 0xeb, 0xeb, 0x8a, 0xe2, 0x66, 0x40, 0xd4);
 	CreateServiceFunction(MS_WEATHER_MAP, WeatherMap);
 	mi.position = -0x7FFFFFF6;
-	mi.hIcolibItem = GetIconHandle("map");
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_MAP);
 	mi.name.a = LPGEN("Weather Map");
 	mi.pszService = MS_WEATHER_MAP;
 	Menu_AddContactMenuItem(&mi, MODULENAME);
@@ -307,7 +307,7 @@ void AddMenuItems(void)
 	SET_UID(mi, 0xee3ad7f4, 0x3377, 0x4e4c, 0x8f, 0x3c, 0x3b, 0xf5, 0xd4, 0x86, 0x28, 0x25);
 	CreateServiceFunction(MS_WEATHER_LOG, ViewLog);
 	mi.position = -0x7FFFFFF5;
-	mi.hIcolibItem = GetIconHandle("log");
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_LOG);
 	mi.name.a = LPGEN("View Log");
 	mi.pszService = MS_WEATHER_LOG;
 	Menu_AddContactMenuItem(&mi, MODULENAME);
@@ -315,7 +315,7 @@ void AddMenuItems(void)
 	SET_UID(mi, 0x1b01cd6a, 0xe5ee, 0x42b4, 0xa1, 0x6d, 0x43, 0xb9, 0x4, 0x58, 0x43, 0x2e);
 	CreateServiceFunction(MS_WEATHER_EDIT, EditSettings);
 	mi.position = -0x7FFFFFF4;
-	mi.hIcolibItem = GetIconHandle("edit");
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_EDIT);
 	mi.name.a = LPGEN("Edit Settings");
 	mi.pszService = MS_WEATHER_EDIT;
 	Menu_AddContactMenuItem(&mi, MODULENAME);
@@ -327,7 +327,7 @@ void AddMenuItems(void)
 	SET_UID(mi, 0x5ad16188, 0xe0a0, 0x4c31, 0x85, 0xc3, 0xe4, 0x85, 0x79, 0x7e, 0x4b, 0x9c);
 	CreateServiceFunction(MS_WEATHER_ENABLED, EnableDisableCmd);
 	mi.name.a = LPGEN("Enable/Disable Weather Update");
-	mi.hIcolibItem = GetIconHandle("main");
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_ICON);
 	mi.position = 10100001;
 	mi.pszService = MS_WEATHER_ENABLED;
 	hEnableDisableMenu = Menu_AddMainMenuItem(&mi);
@@ -336,7 +336,7 @@ void AddMenuItems(void)
 	SET_UID(mi, 0x2b1c2054, 0x2991, 0x4025, 0x87, 0x73, 0xb6, 0xf7, 0x85, 0xac, 0xc7, 0x37);
 	CreateServiceFunction(MS_WEATHER_UPDATEALL, UpdateAllInfo);
 	mi.position = 20100001;
-	mi.hIcolibItem = GetIconHandle("update");
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_UPDATE);
 	mi.name.a = LPGEN("Update All Weather");
 	mi.pszService = MS_WEATHER_UPDATEALL;
 	Menu_AddMainMenuItem(&mi);
@@ -344,7 +344,7 @@ void AddMenuItems(void)
 	SET_UID(mi, 0x8234c00e, 0x788e, 0x424f, 0xbc, 0xc4, 0x2, 0xfd, 0x67, 0x58, 0x2d, 0x19);
 	CreateServiceFunction(MS_WEATHER_REFRESHALL, UpdateAllRemove);
 	mi.position = 20100002;
-	mi.hIcolibItem = GetIconHandle("update2");
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_UPDATE2);
 	mi.name.a = LPGEN("Remove Old Data then Update All");
 	mi.pszService = MS_WEATHER_REFRESHALL;
 	Menu_AddMainMenuItem(&mi);
@@ -352,7 +352,7 @@ void AddMenuItems(void)
 	SET_UID(mi, 0xdc5411cb, 0xb7c7, 0x443b, 0x88, 0x5a, 0x90, 0x24, 0x43, 0xde, 0x54, 0x3e);
 	CreateServiceFunction(MODULENAME "/PopupMenu", MenuitemNotifyCmd);
 	mi.name.a = LPGEN("Weather Notification");
-	mi.hIcolibItem = GetIconHandle("popup");
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_POPUP);
 	mi.position = 0;
 	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Popups"), 0);
 	mi.pszService = MODULENAME "/PopupMenu";

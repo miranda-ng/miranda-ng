@@ -163,7 +163,7 @@ static INT_PTR CALLBACK DlgProcSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		SendDlgItemMessage(hwndDlg, IDC_STEP4, BUTTONSETASFLATBTN, TRUE, 0);
 
 		// set icons
-		Window_SetIcon_IcoLib(hwndDlg, GetIconHandle("main"));
+		Window_SetIcon_IcoLib(hwndDlg, g_plugin.getIconHandle(IDI_ICON));
 
 		WindowList_Add(hWindowList, hwndDlg);
 		ShowWindow(hwndDlg, SW_SHOW);

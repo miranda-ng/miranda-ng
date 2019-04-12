@@ -20,8 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-HANDLE hIcoLibIconsChanged = nullptr;
-
 static IconItem iconList[] =
 {
 	{	LPGEN("Protocol icon"),      "main",      IDI_ICON       },
@@ -40,25 +38,4 @@ static IconItem iconList[] =
 void InitIcons(void)
 {
 	g_plugin.registerIcon(MODULENAME, iconList, MODULENAME);
-}
-
-HICON LoadIconEx(const char* name, bool big)
-{
-	char szSettingName[100];
-	mir_snprintf(szSettingName, "%s_%s", MODULENAME, name);
-	return IcoLib_GetIcon(szSettingName, big);
-}
-
-HANDLE  GetIconHandle(const char* name)
-{
-	for (auto &it : iconList)
-		if (mir_strcmp(it.szName, name) == 0)
-			return it.hIcolib;
-
-	return nullptr;
-}
-
-void  ReleaseIconEx(HICON hIcon)
-{
-	IcoLib_ReleaseIcon(hIcon);
 }

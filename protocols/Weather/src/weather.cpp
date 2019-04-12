@@ -109,8 +109,8 @@ int OnToolbarLoaded(WPARAM, LPARAM)
 	ttb.pszService = MS_WEATHER_ENABLED;
 	ttb.pszTooltipUp = LPGEN("Auto Update Enabled");
 	ttb.pszTooltipDn = LPGEN("Auto Update Disabled");
-	ttb.hIconHandleUp = GetIconHandle("main");
-	ttb.hIconHandleDn = GetIconHandle("disabled");
+	ttb.hIconHandleUp = g_plugin.getIconHandle(IDI_ICON);
+	ttb.hIconHandleDn = g_plugin.getIconHandle(IDI_DISABLED);
 	ttb.dwFlags = (g_plugin.getByte("AutoUpdate", 1) ? 0 : TTBBF_PUSHED) | TTBBF_ASPUSHBUTTON | TTBBF_VISIBLE;
 	hTBButton = g_plugin.addTTB(&ttb);
 	return 0;
