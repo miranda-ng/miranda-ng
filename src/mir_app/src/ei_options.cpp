@@ -421,7 +421,7 @@ public:
 
 			HICON hIcon = IcoLib_GetIconByHandle(extra->getDescIcon());
 			if (hIcon == nullptr)
-				ImageList_AddIcon(hImageList, hBlankIcon);
+				ImageList_AddIcon_NotShared(hImageList, MAKEINTRESOURCE(IDI_BLANK));
 			else {
 				ImageList_AddIcon(hImageList, hIcon);
 				IcoLib_ReleaseIcon(hIcon);
