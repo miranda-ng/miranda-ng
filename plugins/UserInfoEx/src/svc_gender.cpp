@@ -72,13 +72,13 @@ BYTE GenderOf(MCONTACT hContact)
 static int OnCListApplyIcons(MCONTACT hContact, LPARAM)
 {
 	if (ghExtraIconSvc != INVALID_HANDLE_VALUE) {
-		char *icoName;
+		HANDLE hIcon;
 		switch (GenderOf(hContact)) {
-			case 'M':  icoName = ICO_COMMON_MALE;   break;
-			case 'F':  icoName = ICO_COMMON_FEMALE; break;
-			default:   icoName = nullptr;
+			case 'M':  hIcon = g_plugin.getIconHandle(IDI_MALE); break;
+			case 'F':  hIcon = g_plugin.getIconHandle(IDI_FEMALE); break;
+			default:   hIcon = nullptr;
 		}
-		ExtraIcon_SetIconByName(ghExtraIconSvc, hContact, icoName);
+		ExtraIcon_SetIcon(ghExtraIconSvc, hContact, hIcon);
 	}
 	return 0;
 }
@@ -117,7 +117,7 @@ bool SvcGenderEnableExtraIcons(bool bEnable, bool bUpdateDB)
 
 	if (g_eiGender) { // Gender checked or dropdown select
 		if (ghExtraIconSvc == INVALID_HANDLE_VALUE)
-			ghExtraIconSvc = ExtraIcon_RegisterIcolib("gender", LPGEN("Gender (UInfoEx)"), ICO_COMMON_MALE);
+			ghExtraIconSvc = ExtraIcon_RegisterIcolib("gender", LPGEN("Gender (UInfoEx)"), g_plugin.getIconHandle(IDI_MALE));
 
 		// hook events
 		if (hChangedHook == nullptr) 

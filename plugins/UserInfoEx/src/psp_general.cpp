@@ -127,9 +127,9 @@ INT_PTR CALLBACK PSPProcGeneral(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					case PSN_ICONCHANGED:
 						{
 							const ICONCTRL idIcon[] = {
-								{ ICO_COMMON_FEMALE,  STM_SETIMAGE, ICO_FEMALE },
-								{ ICO_COMMON_MALE,    STM_SETIMAGE, ICO_MALE },
-								{ ICO_COMMON_MARITAL, STM_SETIMAGE, ICO_MARITAL },
+								{ IDI_FEMALE,  STM_SETIMAGE, ICO_FEMALE  },
+								{ IDI_MALE,    STM_SETIMAGE, ICO_MALE    },
+								{ IDI_MARITAL, STM_SETIMAGE, ICO_MARITAL },
 							};
 							IcoLib_SetCtrlIcons(hDlg, idIcon, _countof(idIcon));
 						}

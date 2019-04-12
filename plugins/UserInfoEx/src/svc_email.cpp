@@ -127,7 +127,7 @@ static INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
 static int OnCListApplyIcons(WPARAM wParam, LPARAM)
 {
 	LPSTR val = Get(wParam);
-	ExtraIcon_SetIconByName(ghExtraIconSvc, wParam, (val) ? ICO_BTN_EMAIL : nullptr);
+	ExtraIcon_SetIcon(ghExtraIconSvc, wParam, (val) ? g_plugin.getIconHandle(IDI_DLG_EMAIL) : nullptr);
 	mir_free(val);
 	return 0;
 }
@@ -186,7 +186,7 @@ void SvcEMailRebuildMenu()
 			CMenuItem mi(&g_plugin);
 			SET_UID(mi, 0x61d8e25a, 0x92e, 0x4470, 0x84, 0x57, 0x5e, 0x52, 0x17, 0x7f, 0xfa, 0x3);
 			mi.position = -2000010000;
-			mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_EMAIL);
+			mi.hIcolibItem = g_plugin.getIconHandle(IDI_DLG_EMAIL);
 			mi.name.a = "&E-mail";
 			mi.pszService = MS_EMAIL_SENDEMAIL;
 			ghMenuItem = Menu_AddContactMenuItem(&mi);
@@ -229,7 +229,7 @@ bool SvcEMailEnableExtraIcons(bool bEnable, bool bUpdateDB)
 			hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, OnCListApplyIcons);
 
 		if (ghExtraIconSvc == INVALID_HANDLE_VALUE)
-			ghExtraIconSvc = ExtraIcon_RegisterIcolib("email", LPGEN("E-mail (UInfoEx)"), ICO_BTN_EMAIL);
+			ghExtraIconSvc = ExtraIcon_RegisterIcolib("email", LPGEN("E-mail (UInfoEx)"), g_plugin.getIconHandle(IDI_BTN_EMAIL));
 	}
 	else { // E-mail uncheckt
 		if (hChangedHook) {

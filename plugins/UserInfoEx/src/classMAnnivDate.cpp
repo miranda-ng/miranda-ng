@@ -215,23 +215,23 @@ struct
 	WORD startDays;
 	WORD endDays;
 	LPCTSTR szZodiac;
-	LPCSTR szZodiacIcon;
+	int szZodiacIcon;
 }
 static zodiac[] = {
-	{ 80,  110,	LPGENW("Aries"),       ICO_ZOD_ARIES       }, // Widder
-	{ 111, 140,	LPGENW("Taurus"),      ICO_ZOD_TAURUS      }, // Stier
-	{ 141, 172,	LPGENW("Gemini"),      ICO_ZOD_GEMINI      }, // Zwillinge
-	{ 173, 203,	LPGENW("Cancer"),      ICO_ZOD_CANCER      }, // Krebs
-	{ 204, 235,	LPGENW("Leo"),         ICO_ZOD_LEO         }, // Löwe
-	{ 236, 266,	LPGENW("Virgo"),       ICO_ZOD_VIRGO       }, // Jungfrau
-	{ 267, 296,	LPGENW("Libra"),       ICO_ZOD_LIBRA       }, // Waage
-	{ 297, 326,	LPGENW("Scorpio"),     ICO_ZOD_SCORPIO     }, // Scorpion
-	{ 327, 355,	LPGENW("Sagittarius"), ICO_ZOD_SAGITTARIUS }, // Schütze
-	{ 356, 364,	LPGENW("Capricorn"),   ICO_ZOD_CAPRICORN   }, // Steinbock
-	{   1,  19, LPGENW("Capricorn"),   ICO_ZOD_CAPRICORN   }, // Steinbock
-	{  20,  49, LPGENW("Aquarius"),    ICO_ZOD_AQUARIUS    }, // Wassermann
-	{  50,  79, LPGENW("Pisces"),      ICO_ZOD_PISCES      }, // Fische
-	{   0,	0,	nullptr,                  ""                  }  // end of array
+	{ 80,  110,	LPGENW("Aries"),       IDI_ZOD_ARIES       }, // Widder
+	{ 111, 140,	LPGENW("Taurus"),      IDI_ZOD_TAURUS      }, // Stier
+	{ 141, 172,	LPGENW("Gemini"),      IDI_ZOD_GEMINI      }, // Zwillinge
+	{ 173, 203,	LPGENW("Cancer"),      IDI_ZOD_CANCER      }, // Krebs
+	{ 204, 235,	LPGENW("Leo"),         IDI_ZOD_LEO         }, // Löwe
+	{ 236, 266,	LPGENW("Virgo"),       IDI_ZOD_VIRGO       }, // Jungfrau
+	{ 267, 296,	LPGENW("Libra"),       IDI_ZOD_LIBRA       }, // Waage
+	{ 297, 326,	LPGENW("Scorpio"),     IDI_ZOD_SCORPIO     }, // Scorpion
+	{ 327, 355,	LPGENW("Sagittarius"), IDI_ZOD_SAGITTARIUS }, // Schütze
+	{ 356, 364,	LPGENW("Capricorn"),   IDI_ZOD_CAPRICORN   }, // Steinbock
+	{   1,  19, LPGENW("Capricorn"),   IDI_ZOD_CAPRICORN   }, // Steinbock
+	{  20,  49, LPGENW("Aquarius"),    IDI_ZOD_AQUARIUS    }, // Wassermann
+	{  50,  79, LPGENW("Pisces"),      IDI_ZOD_PISCES      }, // Fische
+	{   0,	0,	nullptr,               0                   }  // end of array
 };
 
 MZodiac MAnnivDate::Zodiac()
@@ -242,7 +242,7 @@ MZodiac MAnnivDate::Zodiac()
 	for (i = 0; i < 13 && (wDays < zodiac[i].startDays || wDays > zodiac[i].endDays); i++);
 
 	MZodiac mZodiac;
-	mZodiac.hIcon = IcoLib_GetIcon(zodiac[i].szZodiacIcon);
+	mZodiac.hIcon = g_plugin.getIcon(zodiac[i].szZodiacIcon);
 	mZodiac.pszName = zodiac[i].szZodiac;
 	return mZodiac;
 }
@@ -692,7 +692,7 @@ static WORD AskUser(MCONTACT hContact, MAnnivDate *pOldCustomDate, MAnnivDate *p
 
 	MB.cbSize = sizeof(MSGBOX);
 	MB.hParent = nullptr;
-	MB.hiLogo = IcoLib_GetIcon(ICO_DLG_ANNIVERSARY);
+	MB.hiLogo = g_plugin.getIcon(IDI_ANNIVERSARY);
 	MB.hiMsg = nullptr;
 	MB.uType = MB_YESALLNO|MB_ICON_QUESTION|MB_INFOBAR|MB_NOPOPUP;
 	MB.ptszTitle = LPGENW("Update custom birthday");

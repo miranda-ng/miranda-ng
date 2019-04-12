@@ -84,18 +84,18 @@ INT_PTR CALLBACK PSPProcContactHome(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 							// phone numbers
 							hCtrl = GetDlgItem(hDlg, EDIT_PHONE);
-							bChanged |= CtrlContactAddItemFromDB(hCtrl, ICO_BTN_PHONE, TranslateT(SET_CONTACT_PHONE), hContact, USERINFO, pszProto, SET_CONTACT_PHONE);
-							bChanged |= CtrlContactAddItemFromDB(hCtrl, ICO_BTN_FAX, TranslateT(SET_CONTACT_FAX), hContact, USERINFO, pszProto, SET_CONTACT_FAX);
-							bChanged |= CtrlContactAddItemFromDB(hCtrl, ICO_BTN_CELLULAR, TranslateT(SET_CONTACT_CELLULAR), hContact, USERINFO, pszProto, SET_CONTACT_CELLULAR);
-							bChanged |= CtrlContactAddMyItemsFromDB(hCtrl, ICO_BTN_CUSTOMPHONE, 0, hContact, USERINFO, pszProto, SET_CONTACT_MYPHONE_CAT, SET_CONTACT_MYPHONE_VAL);
+							bChanged |= CtrlContactAddItemFromDB(hCtrl, IDI_BTN_PHONE, TranslateT(SET_CONTACT_PHONE), hContact, USERINFO, pszProto, SET_CONTACT_PHONE);
+							bChanged |= CtrlContactAddItemFromDB(hCtrl, IDI_BTN_FAX, TranslateT(SET_CONTACT_FAX), hContact, USERINFO, pszProto, SET_CONTACT_FAX);
+							bChanged |= CtrlContactAddItemFromDB(hCtrl, IDI_BTN_CELLULAR, TranslateT(SET_CONTACT_CELLULAR), hContact, USERINFO, pszProto, SET_CONTACT_CELLULAR);
+							bChanged |= CtrlContactAddMyItemsFromDB(hCtrl, IDI_BTN_CUSTOMPHONE, 0, hContact, USERINFO, pszProto, SET_CONTACT_MYPHONE_CAT, SET_CONTACT_MYPHONE_VAL);
 							SendMessage(hCtrl, CBEXM_SETCURSEL, (WPARAM)-1, TRUE);
 								
 							// emails
 							hCtrl = GetDlgItem(hDlg, EDIT_EMAIL);
-							bChanged |= CtrlContactAddItemFromDB(hCtrl, ICO_BTN_EMAIL, TranslateT("Primary e-mail"), hContact, USERINFO, pszProto, SET_CONTACT_EMAIL);
-							bChanged |= CtrlContactAddItemFromDB(hCtrl, ICO_BTN_EMAIL, TranslateT("Secondary e-mail"), hContact, USERINFO, pszProto, SET_CONTACT_EMAIL0);
-							bChanged |= CtrlContactAddItemFromDB(hCtrl, ICO_BTN_EMAIL, TranslateT("Tertiary e-mail"), hContact, USERINFO, pszProto, SET_CONTACT_EMAIL1);
-							bChanged |= CtrlContactAddMyItemsFromDB(hCtrl, ICO_BTN_EMAIL, 0, hContact, USERINFO, pszProto, SET_CONTACT_MYEMAIL_CAT, SET_CONTACT_MYEMAIL_VAL);
+							bChanged |= CtrlContactAddItemFromDB(hCtrl, IDI_BTN_EMAIL, TranslateT("Primary e-mail"), hContact, USERINFO, pszProto, SET_CONTACT_EMAIL);
+							bChanged |= CtrlContactAddItemFromDB(hCtrl, IDI_BTN_EMAIL, TranslateT("Secondary e-mail"), hContact, USERINFO, pszProto, SET_CONTACT_EMAIL0);
+							bChanged |= CtrlContactAddItemFromDB(hCtrl, IDI_BTN_EMAIL, TranslateT("Tertiary e-mail"), hContact, USERINFO, pszProto, SET_CONTACT_EMAIL1);
+							bChanged |= CtrlContactAddMyItemsFromDB(hCtrl, IDI_BTN_EMAIL, 0, hContact, USERINFO, pszProto, SET_CONTACT_MYEMAIL_CAT, SET_CONTACT_MYEMAIL_VAL);
 							SendMessage(hCtrl, CBEXM_SETCURSEL, (WPARAM)-1, TRUE);
 							SetWindowLongPtr(hDlg, DWLP_MSGRESULT, bChanged ? PSP_CHANGED : 0);
 						}
@@ -124,11 +124,11 @@ INT_PTR CALLBACK PSPProcContactHome(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 					case PSN_ICONCHANGED:
 						{
-							HICON hIcon = IcoLib_GetIcon(ICO_BTN_GOTO);
+							HICON hIcon = g_plugin.getIcon(IDI_BTN_GOTO);
 							SendDlgItemMessage(hDlg, BTN_GOTO, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 							SetDlgItemText(hDlg, BTN_GOTO, hIcon ? L"" : L"->");
 
-							hIcon = IcoLib_GetIcon(ICO_COMMON_ADDRESS);
+							hIcon = g_plugin.getIcon(IDI_TREE_ADDRESS);
 							SendDlgItemMessage(hDlg, ICO_ADDRESS, STM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 							ShowWindow(GetDlgItem(hDlg, ICO_ADDRESS), hIcon ? SW_SHOW : SW_HIDE);
 
@@ -228,18 +228,18 @@ INT_PTR CALLBACK PSPProcContactWork(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 							// phone numbers
 							hCtrl = GetDlgItem(hDlg, EDIT_PHONE);
-							bChanged |= CtrlContactAddItemFromDB(hCtrl, ICO_BTN_PHONE, TranslateT(SET_CONTACT_PHONE), hContact, USERINFO, pszProto, SET_CONTACT_COMPANY_PHONE);
-							bChanged |= CtrlContactAddItemFromDB(hCtrl, ICO_BTN_FAX, TranslateT(SET_CONTACT_FAX), hContact, USERINFO, pszProto, SET_CONTACT_COMPANY_FAX);
-							bChanged |= CtrlContactAddItemFromDB(hCtrl, ICO_BTN_CELLULAR, TranslateT(SET_CONTACT_CELLULAR), hContact, USERINFO, pszProto, SET_CONTACT_COMPANY_CELLULAR);
-							bChanged |= CtrlContactAddMyItemsFromDB(hCtrl, ICO_BTN_CUSTOMPHONE, 0, hContact, USERINFO, pszProto, SET_CONTACT_COMPANY_MYPHONE_CAT, SET_CONTACT_COMPANY_MYPHONE_VAL);
+							bChanged |= CtrlContactAddItemFromDB(hCtrl, IDI_BTN_PHONE, TranslateT(SET_CONTACT_PHONE), hContact, USERINFO, pszProto, SET_CONTACT_COMPANY_PHONE);
+							bChanged |= CtrlContactAddItemFromDB(hCtrl, IDI_BTN_FAX, TranslateT(SET_CONTACT_FAX), hContact, USERINFO, pszProto, SET_CONTACT_COMPANY_FAX);
+							bChanged |= CtrlContactAddItemFromDB(hCtrl, IDI_BTN_CELLULAR, TranslateT(SET_CONTACT_CELLULAR), hContact, USERINFO, pszProto, SET_CONTACT_COMPANY_CELLULAR);
+							bChanged |= CtrlContactAddMyItemsFromDB(hCtrl, IDI_BTN_CUSTOMPHONE, 0, hContact, USERINFO, pszProto, SET_CONTACT_COMPANY_MYPHONE_CAT, SET_CONTACT_COMPANY_MYPHONE_VAL);
 							SendMessage(hCtrl, CBEXM_SETCURSEL, (WPARAM)-1, TRUE);
 								
 							// emails
 							hCtrl = GetDlgItem(hDlg, EDIT_EMAIL);
-							bChanged |= CtrlContactAddItemFromDB(hCtrl, ICO_BTN_EMAIL, TranslateT("Primary e-mail"), hContact, USERINFO, pszProto, SET_CONTACT_COMPANY_EMAIL);
-							bChanged |= CtrlContactAddItemFromDB(hCtrl, ICO_BTN_EMAIL, TranslateT("Secondary e-mail"), hContact, USERINFO, pszProto, SET_CONTACT_COMPANY_EMAIL0);
-							bChanged |= CtrlContactAddItemFromDB(hCtrl, ICO_BTN_EMAIL, TranslateT("Tertiary e-mail"), hContact, USERINFO, pszProto, SET_CONTACT_COMPANY_EMAIL1);
-							bChanged |= CtrlContactAddMyItemsFromDB(hCtrl, ICO_BTN_EMAIL, 0, hContact, USERINFO, pszProto, SET_CONTACT_COMPANY_MYEMAIL_CAT, SET_CONTACT_COMPANY_MYEMAIL_VAL);
+							bChanged |= CtrlContactAddItemFromDB(hCtrl, IDI_BTN_EMAIL, TranslateT("Primary e-mail"), hContact, USERINFO, pszProto, SET_CONTACT_COMPANY_EMAIL);
+							bChanged |= CtrlContactAddItemFromDB(hCtrl, IDI_BTN_EMAIL, TranslateT("Secondary e-mail"), hContact, USERINFO, pszProto, SET_CONTACT_COMPANY_EMAIL0);
+							bChanged |= CtrlContactAddItemFromDB(hCtrl, IDI_BTN_EMAIL, TranslateT("Tertiary e-mail"), hContact, USERINFO, pszProto, SET_CONTACT_COMPANY_EMAIL1);
+							bChanged |= CtrlContactAddMyItemsFromDB(hCtrl, IDI_BTN_EMAIL, 0, hContact, USERINFO, pszProto, SET_CONTACT_COMPANY_MYEMAIL_CAT, SET_CONTACT_COMPANY_MYEMAIL_VAL);
 							SendMessage(hCtrl, CBEXM_SETCURSEL, (WPARAM)-1, TRUE);
 							SetWindowLongPtr(hDlg, DWLP_MSGRESULT, bChanged ? PSP_CHANGED : 0);
 						}
@@ -268,11 +268,11 @@ INT_PTR CALLBACK PSPProcContactWork(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 					case PSN_ICONCHANGED:
 						{
-							HICON hIcon = IcoLib_GetIcon(ICO_BTN_GOTO);
+							HICON hIcon = g_plugin.getIcon(IDI_BTN_GOTO);
 							SendDlgItemMessage(hDlg, BTN_GOTO, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 							SetDlgItemText(hDlg, BTN_GOTO, hIcon ? L"" : L"->");
 
-							hIcon = IcoLib_GetIcon(ICO_COMMON_ADDRESS);
+							hIcon = g_plugin.getIcon(IDI_TREE_ADDRESS);
 							SendDlgItemMessage(hDlg, ICO_ADDRESS, STM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 							ShowWindow(GetDlgItem(hDlg, ICO_ADDRESS), hIcon ? SW_SHOW : SW_HIDE);
 

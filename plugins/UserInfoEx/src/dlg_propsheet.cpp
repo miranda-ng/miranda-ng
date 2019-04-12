@@ -240,9 +240,9 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM)
 		return 1;
 	}
 
-	HICON hDefIcon = IcoLib_GetIcon(ICO_TREE_DEFAULT);
+	HICON hDefIcon = g_plugin.getIcon(IDI_LST_FOLDER);
 	if (!hDefIcon)
-		hDefIcon = (HICON)IcoLib_GetIcon(ICO_COMMON_DEFAULT, false);
+		hDefIcon = (HICON)g_plugin.getIcon(IDI_DEFAULT, false);
 
 	// add the default icon to imagelist
 	ImageList_AddIcon(psh._hImages, hDefIcon);
@@ -486,9 +486,9 @@ void DlgContactInfoInitTreeIcons()
 		metrics.x = GetSystemMetrics(SM_CXSMICON);
 		metrics.y = GetSystemMetrics(SM_CYSMICON);
 		if (psh._hImages = ImageList_Create(metrics.x, metrics.y, ILC_COLOR32 | ILC_MASK, 0, 1)) {
-			HICON hDefIcon = IcoLib_GetIcon(ICO_TREE_DEFAULT);
+			HICON hDefIcon = g_plugin.getIcon(IDI_LST_FOLDER);
 			if (!hDefIcon)
-				hDefIcon = (HICON)IcoLib_GetIcon(ICO_COMMON_DEFAULT, false);
+				hDefIcon = (HICON)g_plugin.getIcon(IDI_DEFAULT, false);
 
 			// add the default icon to imagelist
 			ImageList_AddIcon(psh._hImages, hDefIcon);
@@ -590,7 +590,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			ShowWindow(GetDlgItem(hDlg, IDC_PAGETITLEBG2), !IsAeroMode());
 
 			// set icons
-			Window_SetIcon_IcoLib(hDlg, IcoLib_GetIconHandle(ICO_COMMON_MAIN));
+			Window_SetIcon_IcoLib(hDlg, g_plugin.getIconHandle(IDI_MAIN));
 			DlgProc(hDlg, HM_RELOADICONS, NULL, NULL);
 
 			// load basic protocol for current contact (for faster load later on and better handling for owner protocol)
@@ -908,11 +908,11 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			HWND hCtrl;
 			HICON hIcon;
 			static const ICONCTRL idIcon[] = {
-				{ ICO_DLG_DETAILS,	STM_SETIMAGE,	ICO_DLGLOGO	},
-				{ ICO_BTN_UPDATE,	BM_SETIMAGE,	BTN_UPDATE	},
-				{ ICO_BTN_OK,		BM_SETIMAGE,	IDOK		},
-				{ ICO_BTN_CANCEL,	BM_SETIMAGE,	IDCANCEL	},
-				{ ICO_BTN_APPLY,	BM_SETIMAGE,	IDAPPLY		}
+				{ IDI_DLG_DETAILS,	STM_SETIMAGE,	ICO_DLGLOGO	},
+				{ IDI_BTN_UPDATE,	BM_SETIMAGE,	BTN_UPDATE	},
+				{ IDI_BTN_OK,		BM_SETIMAGE,	IDOK		},
+				{ IDI_BTN_CLOSE,	BM_SETIMAGE,	IDCANCEL	},
+				{ IDI_BTN_APPLY,	BM_SETIMAGE,	IDAPPLY		}
 			};
 
 			const int numIconsToSet = g_plugin.getByte(SET_ICONS_BUTTONS, 1) ? _countof(idIcon) : 1;
@@ -920,12 +920,12 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			IcoLib_SetCtrlIcons(hDlg, idIcon, numIconsToSet);
 
 			if (hCtrl = GetDlgItem(hDlg, BTN_IMPORT)) {
-				hIcon = IcoLib_GetIcon(ICO_BTN_IMPORT);
+				hIcon = g_plugin.getIcon(IDI_IMPORT);
 				SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 				SetWindowText(hCtrl, hIcon ? L"" : L"I");
 			}
 			if (hCtrl = GetDlgItem(hDlg, BTN_EXPORT)) {
-				hIcon = IcoLib_GetIcon(ICO_BTN_EXPORT);
+				hIcon = g_plugin.getIcon(IDI_EXPORT);
 				SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 				SetWindowText(hCtrl, hIcon ? L"" : L"E");
 			}

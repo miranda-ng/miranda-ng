@@ -88,13 +88,13 @@ static INT_PTR Get(MCONTACT hContact)
 
 static int OnCListApplyIcons(MCONTACT hContact, LPARAM)
 {
-	char *icoName;
+	HANDLE hIcon;
 	switch (Get(hContact)) {
-		case PHONE_NORMAL:  icoName = ICO_BTN_PHONE;     break;
-		case PHONE_SMS:     icoName = ICO_BTN_CELLULAR;  break;
-		default:            icoName = nullptr;
+		case PHONE_NORMAL:  hIcon = g_plugin.getIconHandle(IDI_BTN_PHONE); break;
+		case PHONE_SMS:     hIcon = g_plugin.getIconHandle(IDI_BTN_CELLULAR);  break;
+		default:            hIcon = nullptr;
 	}
-	ExtraIcon_SetIconByName(ghExtraIconSvc, hContact, icoName);
+	ExtraIcon_SetIcon(ghExtraIconSvc, hContact, hIcon);
 	return 0;
 }
 
@@ -146,7 +146,7 @@ bool SvcPhoneEnableExtraIcons(bool bEnable, bool bUpdateDB)
 			hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, (MIRANDAHOOK)OnCListApplyIcons);
 
 		if (ghExtraIconSvc == INVALID_HANDLE_VALUE)
-			ghExtraIconSvc = ExtraIcon_RegisterIcolib("sms", LPGEN("Phone (UInfoEx)"), ICO_BTN_CELLULAR);
+			ghExtraIconSvc = ExtraIcon_RegisterIcolib("sms", LPGEN("Phone (UInfoEx)"), g_plugin.getIconHandle(IDI_BTN_CELLULAR));
 	}
 	else {
 		if (hChangedHook) {

@@ -106,8 +106,8 @@ INT_PTR CALLBACK PSPProcOrigin(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 					case PSN_ICONCHANGED:
 						{
 							const ICONCTRL idIcon[] = {
-								{ ICO_COMMON_ADDRESS, STM_SETIMAGE, ICO_ADDRESS },
-								{ ICO_COMMON_CLOCK,   STM_SETIMAGE, ICO_CLOCK },
+								{ IDI_TREE_ADDRESS, STM_SETIMAGE, ICO_ADDRESS },
+								{ IDI_CLOCK,        STM_SETIMAGE, ICO_CLOCK },
 							};
 
 							IcoLib_SetCtrlIcons(hDlg, idIcon, _countof(idIcon));

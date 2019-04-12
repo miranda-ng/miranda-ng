@@ -30,10 +30,10 @@ INT_PTR CALLBACK DlgProc_DataHistory(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 		TranslateDialogDefault(hDlg);
 		{
 			const ICONCTRL idIcon[] = {
-				{ ICO_DLG_EXPORT,	WM_SETICON,		NULL		},
-				{ ICO_DLG_EXPORT,	STM_SETIMAGE,	ICO_DLGLOGO	},
-				{ ICO_BTN_EXPORT,	BM_SETIMAGE,	IDOK		},
-				{ ICO_BTN_CANCEL,	BM_SETIMAGE,	IDCANCEL	}
+				{ IDI_EXPORT,     WM_SETICON,   NULL        },
+				{ IDI_EXPORT,     STM_SETIMAGE, ICO_DLGLOGO },
+				{ IDI_EXPORT,     BM_SETIMAGE,  IDOK        },
+				{ IDI_BTN_CLOSE,	BM_SETIMAGE,  IDCANCEL    }
 			};
 			const int numIconsToSet = g_plugin.getByte(SET_ICONS_BUTTONS, 1) ? _countof(idIcon) : 2;
 			IcoLib_SetCtrlIcons(hDlg, idIcon, numIconsToSet);

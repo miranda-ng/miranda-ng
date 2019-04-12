@@ -221,9 +221,9 @@ class CDlgUpdProgress : public CUpdProgress
 		case WM_INITDIALOG:
 			{
 				const ICONCTRL idIcon[] = {
-					{ ICO_BTN_UPDATE,		WM_SETICON,		NULL		},
-					{ ICO_BTN_DOWNARROW,	BM_SETIMAGE,	IDSKIP		},
-					{ ICO_BTN_CANCEL,		BM_SETIMAGE,	IDCANCEL	}
+					{ IDI_BTN_UPDATE,		WM_SETICON,		NULL     },
+					{ IDI_BTN_DOWNARROW,	BM_SETIMAGE,	IDSKIP   },
+					{ IDI_BTN_CLOSE,		BM_SETIMAGE,	IDCANCEL }
 				};
 				IcoLib_SetCtrlIcons(hWnd, idIcon, g_plugin.getByte(SET_ICONS_BUTTONS, 1) ? 2 : 1);
 
@@ -373,7 +373,7 @@ public:
 
 		_popupButtons[0].cbSize = sizeof(POPUPACTION);
 		_popupButtons[0].flags = PAF_ENABLED;
-		_popupButtons[0].lchIcon = IcoLib_GetIcon(ICO_BTN_DOWNARROW);
+		_popupButtons[0].lchIcon = g_plugin.getIcon(IDI_BTN_DOWNARROW);
 		_popupButtons[0].wParam = MAKEWORD(IDSKIP, BN_CLICKED);
 		_popupButtons[0].lParam = NULL;
 		mir_strcpy(_popupButtons[0].lpzTitle, MODULENAME"/Hide");
@@ -381,7 +381,7 @@ public:
 		// cancel button
 		_popupButtons[1].cbSize = sizeof(POPUPACTION);
 		_popupButtons[1].flags = PAF_ENABLED;
-		_popupButtons[1].lchIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
+		_popupButtons[1].lchIcon = g_plugin.getIcon(IDI_BTN_CLOSE);
 		_popupButtons[1].wParam = MAKEWORD(IDCANCEL, BN_CLICKED);
 		_popupButtons[1].lParam = NULL;
 		mir_strcpy(_popupButtons[1].lpzTitle, MODULENAME"/Cancel");
@@ -394,7 +394,7 @@ public:
 	virtual HWND Create(LPCTSTR szTitle, PUpdCallback pFnCallBack)
 	{
 		POPUPDATAW ppd;
-		ppd.lchIcon = IcoLib_GetIcon(ICO_BTN_UPDATE);
+		ppd.lchIcon = g_plugin.getIcon(IDI_BTN_UPDATE);
 		ppd.iSeconds = -1;
 		ppd.PluginData = this;
 		ppd.PluginWindowProc = CPopupUpdProgress::WndProc;
@@ -565,7 +565,7 @@ class CContactUpdater : public CContactQueue
 
 		// reset menu
 		if (hMenuItemRefresh)
-			Menu_ModifyItem(hMenuItemRefresh, LPGENW("Refresh contact details"), IcoLib_GetIconHandle(ICO_BTN_UPDATE));
+			Menu_ModifyItem(hMenuItemRefresh, LPGENW("Refresh contact details"), g_plugin.getIconHandle(IDI_BTN_UPDATE));
 	}
 
 	/**
@@ -645,7 +645,7 @@ public:
 
 		// if there are contacts in the queue, change the main menu item to indicate it is meant for canceling.
 		if (hMenuItemRefresh && Size() > 0)
-			Menu_ModifyItem(hMenuItemRefresh, LPGENW("Abort Refreshing Contact Details"), IcoLib_GetIconHandle(ICO_BTN_CANCEL));
+			Menu_ModifyItem(hMenuItemRefresh, LPGENW("Abort Refreshing Contact Details"), g_plugin.getIconHandle(IDI_BTN_CLOSE));
 	}
 
 	void Cancel()

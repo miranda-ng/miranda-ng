@@ -107,53 +107,53 @@ static void MakePopupAction(POPUPACTION &pa, int id)
 
 	switch (id) {
 	case IDOK:
-		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_OK);
+		pa.lchIcon = g_plugin.getIcon(IDI_BTN_OK);
 		mir_strcpy(pa.lpzTitle, MODULENAME"/Ok");
 		break;
 
 	case IDCLOSE:
 	case IDCANCEL:
-		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
+		pa.lchIcon = g_plugin.getIcon(IDI_BTN_CLOSE);
 		mir_strcpy(pa.lpzTitle, MODULENAME"/Cancel");
 		break;
 
 	case IDABORT:
-		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
+		pa.lchIcon = g_plugin.getIcon(IDI_BTN_CLOSE);
 		mir_strcpy(pa.lpzTitle, MODULENAME"/Abort");
 		break;
 
 	case IDRETRY:
-		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_UPDATE);
+		pa.lchIcon = g_plugin.getIcon(IDI_BTN_UPDATE);
 		mir_strcpy(pa.lpzTitle, MODULENAME"/Retry");
 		break;
 
 	case IDIGNORE:
-		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_OK);
+		pa.lchIcon = g_plugin.getIcon(IDI_BTN_OK);
 		mir_strcpy(pa.lpzTitle, MODULENAME"/Ignore");
 		break;
 
 	case IDYES:
-		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_OK);
+		pa.lchIcon = g_plugin.getIcon(IDI_BTN_OK);
 		mir_strcpy(pa.lpzTitle, MODULENAME"/Yes");
 		break;
 
 	case IDNO:
-		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
+		pa.lchIcon = g_plugin.getIcon(IDI_BTN_CLOSE);
 		mir_strcpy(pa.lpzTitle, MODULENAME"/No");
 		break;
 
 	case IDHELP:
-		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
+		pa.lchIcon = g_plugin.getIcon(IDI_BTN_CLOSE);
 		mir_strcpy(pa.lpzTitle, MODULENAME"/Help");
 		break;
 
 	case IDALL:
-		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_OK);
+		pa.lchIcon = g_plugin.getIcon(IDI_BTN_OK);
 		mir_strcpy(pa.lpzTitle, MODULENAME"/All");
 		break;
 
 	case IDNONE:
-		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
+		pa.lchIcon = g_plugin.getIcon(IDI_BTN_CLOSE);
 		mir_strcpy(pa.lpzTitle, MODULENAME"/None");
 	}
 }
@@ -198,7 +198,7 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 					// set infobar's logo icon
 					SendDlgItemMessage(hDlg, ICO_DLGLOGO, STM_SETIMAGE, IMAGE_ICON,
-						(pMsgBox->hiLogo ? (LPARAM)pMsgBox->hiLogo : (LPARAM)IcoLib_GetIcon(ICO_DLG_DETAILS,TRUE)));
+						(pMsgBox->hiLogo ? (LPARAM)pMsgBox->hiLogo : (LPARAM)g_plugin.getIcon(IDI_DLG_DETAILS, true)));
 
 					// enable headerbar
 					ShowWindow(GetDlgItem(hDlg, TXT_NAME), SW_SHOW);
@@ -667,7 +667,7 @@ INT_PTR CALLBACK MsgBox(HWND hParent, UINT uType, LPCTSTR pszTitle, LPCTSTR pszI
 	MSGBOX mb = { 0 };
 	mb.cbSize = sizeof(MSGBOX);
 	mb.hParent = hParent;
-	mb.hiLogo = IcoLib_GetIcon(ICO_COMMON_MAIN);
+	mb.hiLogo = g_plugin.getIcon(IDI_MAIN);
 	mb.hiMsg = nullptr;
 	mb.ptszTitle = TranslateW(pszTitle);
 	mb.ptszInfoText = TranslateW(pszInfo);
@@ -694,7 +694,7 @@ INT_PTR CALLBACK MsgErr(HWND hParent, LPCTSTR pszFormat, ...)
 	MSGBOX mb = {0};
 	mb.cbSize = sizeof(MSGBOX);
 	mb.hParent = hParent;
-	mb.hiLogo = IcoLib_GetIcon(ICO_COMMON_MAIN);
+	mb.hiLogo = g_plugin.getIcon(IDI_MAIN);
 	mb.hiMsg = nullptr;
 	mb.ptszTitle = tszTitle;
 	mb.ptszMsg = tszMsg;

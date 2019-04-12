@@ -162,10 +162,10 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 			// set icons
 			{
 				const ICONCTRL idIcon[] = {
-					{ ICO_DLG_EXPORT,	WM_SETICON,		NULL		},
-					{ ICO_DLG_EXPORT,	STM_SETIMAGE,	ICO_DLGLOGO	},
-					{ ICO_BTN_EXPORT,	BM_SETIMAGE,	IDOK		},
-					{ ICO_BTN_CANCEL,	BM_SETIMAGE,	IDCANCEL	}
+					{ IDI_EXPORT,    WM_SETICON,   NULL        },
+					{ IDI_EXPORT,    STM_SETIMAGE, ICO_DLGLOGO },
+					{ IDI_EXPORT,    BM_SETIMAGE,  IDOK        },
+					{ IDI_BTN_CLOSE, BM_SETIMAGE,  IDCANCEL    }
 				};
 				const int numIconsToSet = g_plugin.getByte(SET_ICONS_BUTTONS, 1) ? _countof(idIcon) : 2;
 				IcoLib_SetCtrlIcons(hDlg, idIcon, numIconsToSet);
@@ -181,8 +181,8 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 						SendMessage(hTree, TVM_SETIMAGELIST, TVSIL_NORMAL, (LPARAM)hImages);
 
 						HICON hIcon;
-						bImagesLoaded = ((((hIcon = IcoLib_GetIcon(ICO_LST_MODULES)) != nullptr) && 0 == ImageList_AddIcon(hImages, hIcon))
-							&& (((hIcon = IcoLib_GetIcon(ICO_LST_FOLDER)) != nullptr) && 1 == ImageList_AddIcon(hImages, hIcon)));
+						bImagesLoaded = ((((hIcon = g_plugin.getIcon(IDI_LST_MODULES)) != nullptr) && 0 == ImageList_AddIcon(hImages, hIcon))
+							&& (((hIcon = g_plugin.getIcon(IDI_LST_FOLDER)) != nullptr) && 1 == ImageList_AddIcon(hImages, hIcon)));
 					}
 				}
 			}

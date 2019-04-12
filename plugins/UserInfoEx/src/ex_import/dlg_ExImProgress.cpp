@@ -38,9 +38,9 @@ INT_PTR CALLBACK DlgProcProgress(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		case WM_INITDIALOG:
 		{
 			const ICONCTRL idIcon[] = {
-				{ ICO_DLG_IMPORT,	WM_SETICON,		NULL		},
-				{ ICO_DLG_IMPORT,	STM_SETIMAGE,	ICO_DLGLOGO	},
-				{ ICO_BTN_CANCEL,	BM_SETIMAGE,	IDCANCEL	}
+				{ IDI_IMPORT,    WM_SETICON,   NULL        },
+				{ IDI_IMPORT,    STM_SETIMAGE, ICO_DLGLOGO },
+				{ IDI_BTN_CLOSE, BM_SETIMAGE,  IDCANCEL    }
 			};
 			const int numIconsToSet = g_plugin.getByte(SET_ICONS_BUTTONS, 1) ? _countof(idIcon) : 2;
 			IcoLib_SetCtrlIcons(hDlg, idIcon, numIconsToSet);

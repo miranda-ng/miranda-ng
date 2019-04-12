@@ -37,11 +37,11 @@ typedef struct TCbExItem
 	DWORD	dwID;
 	wchar_t	szCat[MAX_CAT];
 	LPTSTR	pszVal;
-	LPCSTR	pszIcon;
+	int   iIcon;
 	HICON	hIcon;
 } CBEXITEMINTERN, *LPCBEXITEMINTERN;
 
-typedef struct TComboEx 
+typedef struct TComboEx
 {
 	LPCBEXITEMINTERN	pItems;
 	int			numItems;
@@ -72,12 +72,12 @@ static int CheckPhoneSyntax(LPTSTR pszSrc, LPTSTR szNumber, WORD cchNumber, int&
 {
 	int lenNum = 0;
 	BYTE	hasLeftBreaket = FALSE,
-			hasRightBreaket = FALSE;
+		hasRightBreaket = FALSE;
 
 	if (!szNumber || !pszSrc || !*pszSrc || !cchNumber) return 0;
 	*szNumber = 0;
 	errorPos = -1;
-	
+
 	if (*pszSrc != '+') {
 		errorPos = 2; // set cursor after first digit
 		*(szNumber + lenNum++) = '+';
@@ -87,47 +87,47 @@ static int CheckPhoneSyntax(LPTSTR pszSrc, LPTSTR szNumber, WORD cchNumber, int&
 
 	for (; lenNum < cchNumber - 1 && *pszSrc != 0; pszSrc++) {
 		switch (*pszSrc) {
-			case '(':
-				if (hasLeftBreaket) {
-					if (errorPos == -1) errorPos = lenNum;
-					break;
-				}
-				if (*(szNumber + lenNum - 1) != ' ') {
-					*(szNumber + lenNum++) = ' ';
-					if (errorPos == -1) errorPos = lenNum + 1;
-				}
+		case '(':
+			if (hasLeftBreaket) {
+				if (errorPos == -1) errorPos = lenNum;
+				break;
+			}
+			if (*(szNumber + lenNum - 1) != ' ') {
+				*(szNumber + lenNum++) = ' ';
+				if (errorPos == -1) errorPos = lenNum + 1;
+			}
+			*(szNumber + lenNum++) = *pszSrc;
+			hasLeftBreaket = TRUE;
+			break;
+
+		case ')':
+			if (hasRightBreaket) {
+				if (errorPos == -1) errorPos = lenNum;
+				break;
+			}
+			*(szNumber + lenNum++) = *pszSrc;
+			if (*(pszSrc + 1) != ' ') {
+				*(szNumber + lenNum++) = ' ';
+				if (errorPos == -1) errorPos = lenNum;
+			}
+			hasRightBreaket = TRUE;
+			break;
+
+		case ' ':
+			if (*(szNumber + lenNum - 1) != ' ') {
 				*(szNumber + lenNum++) = *pszSrc;
-				hasLeftBreaket = TRUE;
-				break;
+			}
+			else
+				if (errorPos == -1) errorPos = lenNum;
+			break;
 
-			case ')':
-				if (hasRightBreaket) {
-					if (errorPos == -1) errorPos = lenNum;
-					break;
-				}
+		default:
+			if (*pszSrc >= '0' && *pszSrc <= '9' || *pszSrc == '-') {
 				*(szNumber + lenNum++) = *pszSrc;
-				if (*(pszSrc + 1) != ' ') {
-					*(szNumber + lenNum++) = ' ';
-					if (errorPos == -1) errorPos = lenNum;
-				}
-				hasRightBreaket = TRUE;
-				break;
-
-			case ' ':
-				if (*(szNumber + lenNum - 1) != ' ') {
-					*(szNumber + lenNum++) = *pszSrc;
-				}
-				else
-					if (errorPos == -1) errorPos = lenNum;
-				break;
-
-			default:
-				if (*pszSrc >= '0' && *pszSrc <= '9' || *pszSrc == '-') {
-					*(szNumber + lenNum++) = *pszSrc;
-				}
-				// remember first error position
-				else if (errorPos == -1) errorPos = lenNum;
-				break;
+			}
+			// remember first error position
+			else if (errorPos == -1) errorPos = lenNum;
+			break;
 		}
 	}
 	*(szNumber + lenNum) = 0;
@@ -142,19 +142,19 @@ static int CheckPhoneSyntax(LPTSTR pszSrc, LPTSTR szNumber, WORD cchNumber, int&
  **/
 static INT_PTR CALLBACK DlgProc_EMail(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	LPCBEXITEM cbi = (LPCBEXITEM)GetUserData(hDlg);
+	CBEXITEM *cbi = (CBEXITEM*)GetUserData(hDlg);
 
 	switch (msg) {
 	case WM_INITDIALOG:
-		cbi = (LPCBEXITEM)lParam;
+		cbi = (CBEXITEM*)lParam;
 		if (!cbi)
 			return FALSE;
 		SetUserData(hDlg, lParam);
 
-		SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_SETICON, 0, (LPARAM)IcoLib_GetIcon(ICO_DLG_EMAIL, TRUE));
+		SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_SETICON, 0, (LPARAM)g_plugin.getIcon(IDI_DLG_EMAIL, true));
 		if (g_plugin.getByte(SET_ICONS_BUTTONS, 1)) {
-			SendDlgItemMessage(hDlg, IDOK, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_BTN_OK));
-			SendDlgItemMessage(hDlg, IDCANCEL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_BTN_CANCEL));
+			SendDlgItemMessage(hDlg, IDOK, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_BTN_OK));
+			SendDlgItemMessage(hDlg, IDCANCEL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_BTN_CLOSE));
 		}
 
 		if (*cbi->pszVal)
@@ -186,7 +186,8 @@ static INT_PTR CALLBACK DlgProc_EMail(HWND hDlg, UINT msg, WPARAM wParam, LPARAM
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-			case IDOK: {
+		case IDOK:
+			{
 				if (HIWORD(wParam) == BN_CLICKED) {
 					if (cbi->pszVal && cbi->ccVal > 0)
 						GetDlgItemText(hDlg, EDIT_EMAIL, cbi->pszVal, cbi->ccVal);
@@ -195,26 +196,27 @@ static INT_PTR CALLBACK DlgProc_EMail(HWND hDlg, UINT msg, WPARAM wParam, LPARAM
 				}
 				break;
 			}
-			case IDCANCEL: {
-				if (HIWORD(wParam) == BN_CLICKED) 
+		case IDCANCEL:
+			{
+				if (HIWORD(wParam) == BN_CLICKED)
 					EndDialog(hDlg, LOWORD(wParam));
 				break;
 			}
-			case EDIT_EMAIL:
-				if (HIWORD(wParam) == EN_UPDATE) {
-					wchar_t szText[MAXDATASIZE];
-					LPTSTR pszAdd, pszDot;
-					if (PtrIsValid(cbi)) {
-						GetWindowText((HWND)lParam, szText, _countof(szText));
-						EnableWindow(GetDlgItem(hDlg, IDOK), 
-							((pszAdd = wcschr(szText, '@')) && 
+		case EDIT_EMAIL:
+			if (HIWORD(wParam) == EN_UPDATE) {
+				wchar_t szText[MAXDATASIZE];
+				LPTSTR pszAdd, pszDot;
+				if (PtrIsValid(cbi)) {
+					GetWindowText((HWND)lParam, szText, _countof(szText));
+					EnableWindow(GetDlgItem(hDlg, IDOK),
+						((pszAdd = wcschr(szText, '@')) &&
 							*(pszAdd + 1) != '.' &&
 							(pszDot = wcschr(pszAdd, '.')) &&
 							*(pszDot + 1) &&
 							mir_wstrcmp(szText, cbi->pszVal)));
-					}
 				}
-				break;
+			}
+			break;
 		}
 		break;
 	}
@@ -229,7 +231,7 @@ static INT_PTR CALLBACK DlgProc_EMail(HWND hDlg, UINT msg, WPARAM wParam, LPARAM
  **/
 INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	LPCBEXITEM cbi = (LPCBEXITEM)GetUserData(hDlg);
+	CBEXITEM *cbi = (CBEXITEM*)GetUserData(hDlg);
 	static int noRecursion = 0;
 
 	switch (msg) {
@@ -239,14 +241,14 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			LPIDSTRLIST	pCountries;
 			HWND hCombo = GetDlgItem(hDlg, EDIT_COUNTRY);
 
-			cbi = (LPCBEXITEM)lParam;
+			cbi = (CBEXITEM*)lParam;
 			if (!cbi) return FALSE;
 			SetUserData(hDlg, lParam);
 
-			SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_SETICON, 0, (LPARAM)IcoLib_GetIcon(ICO_DLG_PHONE, TRUE));
+			SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_SETICON, 0, (LPARAM)g_plugin.getIcon(IDI_DLG_PHONE, TRUE));
 			if (g_plugin.getByte(SET_ICONS_BUTTONS, 1)) {
-				SendDlgItemMessage(hDlg, IDOK, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_BTN_OK));
-				SendDlgItemMessage(hDlg, IDCANCEL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_BTN_CANCEL));
+				SendDlgItemMessage(hDlg, IDOK, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_BTN_OK));
+				SendDlgItemMessage(hDlg, IDCANCEL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_BTN_CLOSE));
 			}
 
 			// translate Userinfo buttons
@@ -290,28 +292,28 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-			case IDOK:
-				if (HIWORD(wParam) == BN_CLICKED) {
-					wchar_t szText[MAXDATASIZE];
-					int errorPos;
+		case IDOK:
+			if (HIWORD(wParam) == BN_CLICKED) {
+				wchar_t szText[MAXDATASIZE];
+				int errorPos;
 
-					if (!GetDlgItemText(hDlg, EDIT_PHONE, szText, _countof(szText)) || !CheckPhoneSyntax(szText, cbi->pszVal, cbi->ccVal, errorPos) || errorPos > -1) {
-						MsgErr(hDlg, TranslateT("The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only."));
-						break;
-					}
-					// save category string
-					GetDlgItemText(hDlg, EDIT_CATEGORY, cbi->pszCat, cbi->ccCat);
-
-					// save SMS flag
-					if ((int)IsDlgButtonChecked(hDlg, CHECK_SMS) != ((cbi->wFlags & CBEXIF_SMS) == CBEXIF_SMS))
-						cbi->wFlags ^= CBEXIF_SMS;
+				if (!GetDlgItemText(hDlg, EDIT_PHONE, szText, _countof(szText)) || !CheckPhoneSyntax(szText, cbi->pszVal, cbi->ccVal, errorPos) || errorPos > -1) {
+					MsgErr(hDlg, TranslateT("The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only."));
+					break;
 				}
-				__fallthrough;
+				// save category string
+				GetDlgItemText(hDlg, EDIT_CATEGORY, cbi->pszCat, cbi->ccCat);
 
-			case IDCANCEL:
-				if (HIWORD(wParam) == BN_CLICKED) 
-					EndDialog(hDlg, wParam);
-				break;
+				// save SMS flag
+				if ((int)IsDlgButtonChecked(hDlg, CHECK_SMS) != ((cbi->wFlags & CBEXIF_SMS) == CBEXIF_SMS))
+					cbi->wFlags ^= CBEXIF_SMS;
+			}
+			__fallthrough;
+
+		case IDCANCEL:
+			if (HIWORD(wParam) == BN_CLICKED)
+				EndDialog(hDlg, wParam);
+			break;
 
 		case EDIT_COUNTRY:
 			if (HIWORD(wParam) != CBN_SELCHANGE)
@@ -396,156 +398,156 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
  *			lParam	- message specific
  * return:	message specific
  **/
-static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, LPARAM lParam) 
+static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	LPCBEX	cbex = (LPCBEX)GetWindowLongPtr(hwnd, 0);
 
 	switch (msg) {
 
-	/**
-	* name:	WM_NCCREATE
-	* desc:	is called to initiate the window creation
-	* param:	wParam - not used
-	*			lParam - pointer to a CREATESTRUCT
-	*
-	* return:	FALSE on error, TRUE if initialisation was ok
-	**/
-	case WM_NCCREATE:
-	{
-		LPCREATESTRUCT cs = (LPCREATESTRUCT)lParam;
-
-		if (!(cbex = (LPCBEX)mir_calloc(1*sizeof(CBEX))))
-			return FALSE;
-		SetWindowLongPtr(hwnd, 0, (LONG_PTR)cbex);
-		cbex->bLocked = 1;
-		cbex->hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
-		cbex->hInstance = cs->hInstance;
-		cbex->iSelectedItem = -1;
-		cbex->rect.left = cs->x;
-		cbex->rect.top = cs->y;
-		cbex->rect.right = cs->x + cs->cx;
-		cbex->rect.bottom = cs->y + cs->cy;
-		return TRUE;
-	}
-
-	/**
+		/**
 		* name:	WM_NCCREATE
-		* desc:	is called to create all subitems
+		* desc:	is called to initiate the window creation
 		* param:	wParam - not used
-		*			lParam - not used
+		*			lParam - pointer to a CREATESTRUCT
 		*
 		* return:	FALSE on error, TRUE if initialisation was ok
 		**/
+	case WM_NCCREATE:
+		{
+			LPCREATESTRUCT cs = (LPCREATESTRUCT)lParam;
+
+			if (!(cbex = (LPCBEX)mir_calloc(1 * sizeof(CBEX))))
+				return FALSE;
+			SetWindowLongPtr(hwnd, 0, (LONG_PTR)cbex);
+			cbex->bLocked = 1;
+			cbex->hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
+			cbex->hInstance = cs->hInstance;
+			cbex->iSelectedItem = -1;
+			cbex->rect.left = cs->x;
+			cbex->rect.top = cs->y;
+			cbex->rect.right = cs->x + cs->cx;
+			cbex->rect.bottom = cs->y + cs->cy;
+			return TRUE;
+		}
+
+		/**
+			* name:	WM_NCCREATE
+			* desc:	is called to create all subitems
+			* param:	wParam - not used
+			*			lParam - not used
+			*
+			* return:	FALSE on error, TRUE if initialisation was ok
+			**/
 	case WM_CREATE:
-	{
-		WORD wHeight = (WORD)(cbex->rect.bottom - cbex->rect.top);
-		WORD wWidth = 130;
-		WORD x = 0;
+		{
+			WORD wHeight = (WORD)(cbex->rect.bottom - cbex->rect.top);
+			WORD wWidth = 130;
+			WORD x = 0;
 
-		if (!(cbex->hBtnEdit = CreateWindowEx(WS_EX_NOPARENTNOTIFY,
-				UINFOBUTTONCLASS, 
+			if (!(cbex->hBtnEdit = CreateWindowEx(WS_EX_NOPARENTNOTIFY,
+				UINFOBUTTONCLASS,
 				L"none",
-				WS_VISIBLE|WS_CHILD|WS_TABSTOP, 0, 0,
+				WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0,
 				wWidth, wHeight,
 				hwnd,
 				nullptr,
 				cbex->hInstance, nullptr))) {
-			cbex->bLocked = 0;
-			return FALSE;
-		}
-		x += wWidth + 2;
-		wWidth = wHeight;
-		if (!(cbex->hBtnMenu = CreateWindowEx(WS_EX_NOPARENTNOTIFY,
+				cbex->bLocked = 0;
+				return FALSE;
+			}
+			x += wWidth + 2;
+			wWidth = wHeight;
+			if (!(cbex->hBtnMenu = CreateWindowEx(WS_EX_NOPARENTNOTIFY,
 				UINFOBUTTONCLASS,
 				nullptr,
-				WS_VISIBLE|WS_CHILD|WS_TABSTOP|MBS_PUSHBUTTON|MBS_DOWNARROW,
+				WS_VISIBLE | WS_CHILD | WS_TABSTOP | MBS_PUSHBUTTON | MBS_DOWNARROW,
 				x, 0,
 				wWidth, wHeight,
 				hwnd,
 				nullptr,
 				cbex->hInstance, nullptr))) {
-			DestroyWindow(cbex->hBtnEdit);
-			cbex->bLocked = 0;
-			return FALSE;
-		}
-		x += wWidth + 2;
-		wWidth = (WORD)(cbex->rect.right - cbex->rect.left - x - (2 * (wHeight + 2)));
-		if (!(cbex->hEdit = CreateWindowEx(WS_EX_CLIENTEDGE,
-				L"Edit", 
+				DestroyWindow(cbex->hBtnEdit);
+				cbex->bLocked = 0;
+				return FALSE;
+			}
+			x += wWidth + 2;
+			wWidth = (WORD)(cbex->rect.right - cbex->rect.left - x - (2 * (wHeight + 2)));
+			if (!(cbex->hEdit = CreateWindowEx(WS_EX_CLIENTEDGE,
+				L"Edit",
 				nullptr,
-				WS_VISIBLE|WS_CHILD|WS_TABSTOP|ES_AUTOHSCROLL,
+				WS_VISIBLE | WS_CHILD | WS_TABSTOP | ES_AUTOHSCROLL,
 				x, 1,
-				wWidth,	wHeight - 2,
+				wWidth, wHeight - 2,
 				hwnd,
 				nullptr,
 				cbex->hInstance, nullptr))) {
-			DestroyWindow(cbex->hBtnEdit);
-			DestroyWindow(cbex->hBtnMenu);
-			cbex->bLocked = 0;
-			return FALSE;
-		}
-		x += wWidth + 2;
-		wWidth = wHeight;
-		if (!(cbex->hBtnAdd = CreateWindowEx(WS_EX_NOPARENTNOTIFY,
+				DestroyWindow(cbex->hBtnEdit);
+				DestroyWindow(cbex->hBtnMenu);
+				cbex->bLocked = 0;
+				return FALSE;
+			}
+			x += wWidth + 2;
+			wWidth = wHeight;
+			if (!(cbex->hBtnAdd = CreateWindowEx(WS_EX_NOPARENTNOTIFY,
 				UINFOBUTTONCLASS,
 				nullptr,
-				WS_VISIBLE|WS_CHILD|WS_TABSTOP|MBS_FLAT,
+				WS_VISIBLE | WS_CHILD | WS_TABSTOP | MBS_FLAT,
 				x, 0,
 				wWidth, wHeight,
 				hwnd,
 				nullptr,
 				cbex->hInstance, nullptr))) {
-			DestroyWindow(cbex->hBtnEdit);
-			DestroyWindow(cbex->hBtnMenu);
-			DestroyWindow(cbex->hEdit);
-			cbex->bLocked = 0;
-			return FALSE;
-		}
-		x += wWidth + 2;
-		if (!(cbex->hBtnDel = CreateWindowEx(WS_EX_NOPARENTNOTIFY,
+				DestroyWindow(cbex->hBtnEdit);
+				DestroyWindow(cbex->hBtnMenu);
+				DestroyWindow(cbex->hEdit);
+				cbex->bLocked = 0;
+				return FALSE;
+			}
+			x += wWidth + 2;
+			if (!(cbex->hBtnDel = CreateWindowEx(WS_EX_NOPARENTNOTIFY,
 				UINFOBUTTONCLASS,
 				nullptr,
-				WS_VISIBLE|WS_CHILD|WS_TABSTOP|MBS_FLAT,
+				WS_VISIBLE | WS_CHILD | WS_TABSTOP | MBS_FLAT,
 				x, 0,
 				wWidth, wHeight,
 				hwnd,
 				nullptr,
 				cbex->hInstance, nullptr))) {
-			DestroyWindow(cbex->hBtnEdit);
-			DestroyWindow(cbex->hBtnMenu);
-			DestroyWindow(cbex->hEdit);
-			DestroyWindow(cbex->hBtnAdd);
+				DestroyWindow(cbex->hBtnEdit);
+				DestroyWindow(cbex->hBtnMenu);
+				DestroyWindow(cbex->hEdit);
+				DestroyWindow(cbex->hBtnAdd);
+				cbex->bLocked = 0;
+				return FALSE;
+			}
+
+			// set ids
+			SetWindowLongPtr(cbex->hBtnEdit, GWLP_ID, BTN_EDIT);
+			SetWindowLongPtr(cbex->hBtnMenu, GWLP_ID, BTN_MENU);
+			SetWindowLongPtr(cbex->hEdit, GWLP_ID, EDIT_VALUE);
+			SetWindowLongPtr(cbex->hBtnAdd, GWLP_ID, BTN_ADD);
+			SetWindowLongPtr(cbex->hBtnDel, GWLP_ID, BTN_DEL);
+			// set fonts & maximum edit control charachters
+			SendMessage(cbex->hEdit, WM_SETFONT, (WPARAM)cbex->hFont, NULL);
+			SendMessage(cbex->hEdit, EM_LIMITTEXT, (WPARAM)MAXDATASIZE, NULL);
+			// add tooltips
+			SendMessage(cbex->hBtnMenu, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Choose the item to display"), MBBF_TCHAR);
+			SendMessage(cbex->hBtnEdit, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Edit the currently displayed item"), MBBF_TCHAR);
+			SendMessage(cbex->hBtnAdd, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Add a new custom item"), MBBF_TCHAR);
+			SendMessage(cbex->hBtnDel, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Delete the selected item"), MBBF_TCHAR);
+			// reload icons
+			CtrlContactWndProc(hwnd, WM_SETICON, NULL, NULL);
 			cbex->bLocked = 0;
-			return FALSE;
+			return TRUE;
 		}
 
-		// set ids
-		SetWindowLongPtr(cbex->hBtnEdit, GWLP_ID, BTN_EDIT);
-		SetWindowLongPtr(cbex->hBtnMenu, GWLP_ID, BTN_MENU);
-		SetWindowLongPtr(cbex->hEdit, GWLP_ID, EDIT_VALUE);
-		SetWindowLongPtr(cbex->hBtnAdd, GWLP_ID, BTN_ADD);
-		SetWindowLongPtr(cbex->hBtnDel, GWLP_ID, BTN_DEL);
-		// set fonts & maximum edit control charachters
-		SendMessage(cbex->hEdit, WM_SETFONT, (WPARAM)cbex->hFont, NULL);
-		SendMessage(cbex->hEdit, EM_LIMITTEXT, (WPARAM)MAXDATASIZE, NULL);
-		// add tooltips
-		SendMessage(cbex->hBtnMenu, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Choose the item to display"), MBBF_TCHAR);
-		SendMessage(cbex->hBtnEdit, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Edit the currently displayed item"), MBBF_TCHAR);
-		SendMessage(cbex->hBtnAdd, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Add a new custom item"), MBBF_TCHAR);
-		SendMessage(cbex->hBtnDel, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Delete the selected item"), MBBF_TCHAR);
-		// reload icons
-		CtrlContactWndProc(hwnd, WM_SETICON, NULL, NULL);
-		cbex->bLocked = 0;
-		return TRUE;
-	}
-
-	/**
-		* name:	WM_DESTROY
-		* desc:	default destroy message, so clear up memory
-		* param:	wParam - not used
-		*			lParam - not used
-		* return:	return value of DefWindowProc
-		**/
+		/**
+			* name:	WM_DESTROY
+			* desc:	default destroy message, so clear up memory
+			* param:	wParam - not used
+			*			lParam - not used
+			* return:	return value of DefWindowProc
+			**/
 	case WM_DESTROY:
 		CtrlContactWndProc(hwnd, CBEXM_DELALLITEMS, NULL, NULL);
 		DestroyWindow(cbex->hBtnEdit);
@@ -556,15 +558,15 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 		MIR_FREE(cbex);
 		break;
 
-	/**
-		* name:	WM_CTLCOLOREDIT
-		* desc:	is called on a paint message for a dialog item to determine its colour scheme
-		* param:	wParam - pointer to a HDC
-		*			lParam - pointer to a HWND
-		* return:	a brush
-		**/
+		/**
+			* name:	WM_CTLCOLOREDIT
+			* desc:	is called on a paint message for a dialog item to determine its colour scheme
+			* param:	wParam - pointer to a HDC
+			*			lParam - pointer to a HWND
+			* return:	a brush
+			**/
 	case WM_CTLCOLOREDIT:
-		if (!g_plugin.getByte(SET_PROPSHEET_SHOWCOLOURS, 1) || (HWND)lParam != cbex->hEdit || !cbex->pItems || cbex->iSelectedItem < 0) 
+		if (!g_plugin.getByte(SET_PROPSHEET_SHOWCOLOURS, 1) || (HWND)lParam != cbex->hEdit || !cbex->pItems || cbex->iSelectedItem < 0)
 			break;
 		return Ctrl_SetTextColour((HDC)wParam, cbex->pItems[cbex->iSelectedItem].wFlags);
 
@@ -572,39 +574,39 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 		if ((HWND)lParam == cbex->hEdit)
 			return (INT_PTR)GetSysColor(COLOR_WINDOW);
 		return FALSE;
-	/**
-		* name:	WM_SETICON
-		* desc:	updates the icons of this control
-		* param:	wParam - not used
-		*			lParam - not used
-		* return:	always 0
-		**/
+		/**
+			* name:	WM_SETICON
+			* desc:	updates the icons of this control
+			* param:	wParam - not used
+			*			lParam - not used
+			* return:	always 0
+			**/
 	case WM_SETICON:
-	{
-		HICON hIcon = IcoLib_GetIcon(ICO_BTN_ADD);
-		SendMessage(cbex->hBtnAdd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
-		SetWindowText(cbex->hBtnAdd, (hIcon ? L"" : L"+"));
+		{
+			HICON hIcon = g_plugin.getIcon(IDI_BTN_ADD);
+			SendMessage(cbex->hBtnAdd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
+			SetWindowText(cbex->hBtnAdd, (hIcon ? L"" : L"+"));
 
-		hIcon = IcoLib_GetIcon(ICO_BTN_DELETE);
-		SendMessage(cbex->hBtnDel, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
-		SetWindowText(cbex->hBtnDel, (hIcon ? L"" : L"-"));
+			hIcon = g_plugin.getIcon(IDI_BTN_DELETE);
+			SendMessage(cbex->hBtnDel, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
+			SetWindowText(cbex->hBtnDel, (hIcon ? L"" : L"-"));
 
-		if (cbex->pItems && cbex->numItems > 0) {
-			for (int i = 0; i < cbex->numItems; i++)
-				cbex->pItems[i].hIcon = IcoLib_GetIcon(cbex->pItems[i].pszIcon);
+			if (cbex->pItems && cbex->numItems > 0) {
+				for (int i = 0; i < cbex->numItems; i++)
+					cbex->pItems[i].hIcon = g_plugin.getIcon(cbex->pItems[i].iIcon);
 
-			if (cbex->iSelectedItem >= 0 && cbex->iSelectedItem < cbex->numItems)
-				SendMessage(cbex->hBtnEdit, BM_SETIMAGE, IMAGE_ICON, (LPARAM)cbex->pItems[cbex->iSelectedItem].hIcon);
+				if (cbex->iSelectedItem >= 0 && cbex->iSelectedItem < cbex->numItems)
+					SendMessage(cbex->hBtnEdit, BM_SETIMAGE, IMAGE_ICON, (LPARAM)cbex->pItems[cbex->iSelectedItem].hIcon);
+			}
+			return 0;
 		}
-		return 0;
-	}
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-		/**
-		* name:	BTN_MENU
-		* desc:	the button to dropdown the list to show all items is pressed
-		**/
+			/**
+			* name:	BTN_MENU
+			* desc:	the button to dropdown the list to show all items is pressed
+			**/
 		case BTN_MENU:
 			if (HIWORD(wParam) == BN_CLICKED) {
 				POINT pt = { 0, 0 };
@@ -617,7 +619,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 
 				MENUITEMINFO mii = { 0 };
 				mii.cbSize = sizeof(mii);
-				mii.fMask = MIIM_ID|MIIM_STRING|MIIM_FTYPE|MIIM_STATE;
+				mii.fMask = MIIM_ID | MIIM_STRING | MIIM_FTYPE | MIIM_STATE;
 				mii.fType = MFT_STRING;
 
 				// insert the items
@@ -642,7 +644,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 				}
 				ClientToScreen((HWND)lParam, &pt);
 				GetClientRect((HWND)lParam, &rc);
-				i = TrackPopupMenuEx(hMenu, TPM_RIGHTALIGN|TPM_RETURNCMD, pt.x + rc.right, pt.y + rc.bottom, hwnd, nullptr);
+				i = TrackPopupMenuEx(hMenu, TPM_RIGHTALIGN | TPM_RETURNCMD, pt.x + rc.right, pt.y + rc.bottom, hwnd, nullptr);
 				SendMessage(cbex->hBtnMenu, BM_SETCHECK, NULL, NULL);
 				if (i >= CBEXM_MENIITEMFIRST && i < CBEXM_MENIITEMFIRST + cbex->numItems) {
 					CtrlContactWndProc(hwnd, CBEXM_SETCURSEL, (WPARAM)i - CBEXM_MENIITEMFIRST, NULL);
@@ -652,10 +654,10 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 			}
 			break;
 
-		/**
-			* name:	BTN_ADD
-			* desc:	the button to add a new entry is pressed
-			**/
+			/**
+				* name:	BTN_ADD
+				* desc:	the button to add a new entry is pressed
+				**/
 		case BTN_ADD:
 			if (HIWORD(wParam) == BN_CLICKED) {
 				DLGPROC dlgProc;
@@ -668,24 +670,24 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 				SetFocus((HWND)lParam);
 				if (!(hDlgDetails = GetParent(GetParent(hwnd)))) return 1;
 				if (SendMessage(hDlgDetails, PSM_ISLOCKED, NULL, NULL)) return 0;
-						
+
 				switch (GetWindowLongPtr(hwnd, GWLP_ID)) {
-					case EDIT_PHONE:
-						dlgID = IDD_ADDPHONE;
-						dlgProc = DlgProc_Phone;
-						cbi.pszIcon = ICO_BTN_CUSTOMPHONE;
-						break;
-					case EDIT_EMAIL:
-						dlgID = IDD_ADDEMAIL;
-						dlgProc = DlgProc_EMail;
-						cbi.pszIcon = ICO_BTN_EMAIL;
-						break;
-					default:
-						return 1;
+				case EDIT_PHONE:
+					dlgID = IDD_ADDPHONE;
+					dlgProc = DlgProc_Phone;
+					cbi.iIcon = IDI_BTN_CUSTOMPHONE;
+					break;
+				case EDIT_EMAIL:
+					dlgID = IDD_ADDEMAIL;
+					dlgProc = DlgProc_EMail;
+					cbi.iIcon = IDI_BTN_EMAIL;
+					break;
+				default:
+					return 1;
 				}
-							
+
 				cbi.iItem = -1;
-				cbi.wMask = CBEXIM_CAT|CBEXIM_VAL|CBEXIM_FLAGS|CBEXIM_ICONTEXT;
+				cbi.wMask = CBEXIM_CAT | CBEXIM_VAL | CBEXIM_FLAGS | CBEXIM_ICONTEXT;
 				cbi.pszCat = szCat;
 				cbi.pszVal = szVal;
 				cbi.ccCat = MAX_CAT;
@@ -695,7 +697,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 
 				if (DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(dlgID), GetParent(hwnd), dlgProc, (LPARAM)&cbi) == IDOK) {
 					MCONTACT hContact = NULL;
-							
+
 					SendMessage(hDlgDetails, PSM_GETCONTACT, NULL, (LPARAM)&hContact);
 					if (hContact) cbi.wFlags |= CTRLF_HASCUSTOM;
 					cbi.wFlags |= CTRLF_CHANGED;
@@ -709,10 +711,10 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 			}
 			break;
 
-		/**
-			* name:	BTN_EDIT
-			* desc:	the button to edit an existing entry is pressed
-			**/
+			/**
+				* name:	BTN_EDIT
+				* desc:	the button to edit an existing entry is pressed
+				**/
 		case BTN_EDIT:
 			if (HIWORD(wParam) == BN_CLICKED) {
 				DLGPROC dlgProc;
@@ -728,20 +730,20 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 				if (!cbex->pItems || cbex->iSelectedItem == -1) return 0;
 
 				switch (GetWindowLongPtr(hwnd, GWLP_ID)) {
-					case EDIT_PHONE:
-						dlgID = IDD_ADDPHONE;
-						dlgProc = DlgProc_Phone;
-						break;
-					case EDIT_EMAIL:
-						dlgID = IDD_ADDEMAIL;
-						dlgProc = DlgProc_EMail;
-						break;
-					default:
-						return 1;
+				case EDIT_PHONE:
+					dlgID = IDD_ADDPHONE;
+					dlgProc = DlgProc_Phone;
+					break;
+				case EDIT_EMAIL:
+					dlgID = IDD_ADDEMAIL;
+					dlgProc = DlgProc_EMail;
+					break;
+				default:
+					return 1;
 				}
 				cbi.iItem = cbex->iSelectedItem;
 				cbi.dwID = 0;
-				cbi.wMask = CBEXIM_CAT|CBEXIM_VAL|CBEXIM_FLAGS;
+				cbi.wMask = CBEXIM_CAT | CBEXIM_VAL | CBEXIM_FLAGS;
 				cbi.pszCat = szCat;
 				cbi.pszVal = szVal;
 				cbi.ccCat = MAX_CAT;
@@ -765,32 +767,31 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 			}
 			break;
 
-		/**
-			* name:	BTN_DEL
-			* desc:	the button to delete an existing entry is pressed
-			**/
+			/**
+				* name:	BTN_DEL
+				* desc:	the button to delete an existing entry is pressed
+				**/
 		case BTN_DEL:
 			if (HIWORD(wParam) == BN_CLICKED) {
 				HWND hDlgDetails;
 				MSGBOX mBox;
 				wchar_t szMsg[MAXDATASIZE];
-					
+
 				SetFocus((HWND)lParam);
 				if (!(hDlgDetails = GetParent(GetParent(hwnd))) ||
-						SendMessage(hDlgDetails, PSM_ISLOCKED, NULL, NULL) ||
-						!cbex->pItems ||
-						cbex->iSelectedItem < 0 ||
-						cbex->iSelectedItem >= cbex->numItems ||
-						FAILED(mir_snwprintf(szMsg, TranslateT("Do you really want to delete the current selected item?\n\t%s\n\t%s"),
+					SendMessage(hDlgDetails, PSM_ISLOCKED, NULL, NULL) ||
+					!cbex->pItems ||
+					cbex->iSelectedItem < 0 ||
+					cbex->iSelectedItem >= cbex->numItems ||
+					FAILED(mir_snwprintf(szMsg, TranslateT("Do you really want to delete the current selected item?\n\t%s\n\t%s"),
 						cbex->pItems[cbex->iSelectedItem].szCat, cbex->pItems[cbex->iSelectedItem].pszVal))
-			)
-				{
-						return 1;
+					) {
+					return 1;
 				}
 				mBox.cbSize = sizeof(MSGBOX);
 				mBox.hParent = hDlgDetails;
-				mBox.hiLogo = IcoLib_GetIcon(ICO_DLG_PHONE);
-				mBox.uType = MB_YESNO|MB_ICON_QUESTION|MB_NOPOPUP;
+				mBox.hiLogo = g_plugin.getIcon(IDI_DLG_PHONE);
+				mBox.uType = MB_YESNO | MB_ICON_QUESTION | MB_NOPOPUP;
 				mBox.ptszTitle = TranslateT("Delete");
 				mBox.ptszMsg = szMsg;
 				if (IDYES == MsgBoxService(NULL, (LPARAM)&mBox)) {
@@ -802,16 +803,16 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 						cbex->pItems[cbex->iSelectedItem].wFlags |= CTRLF_CHANGED;
 					}
 					// clear values for customized database entry
-					else 
-					if (cbex->pItems[cbex->iSelectedItem].dwID != 0) {
-						MIR_FREE(cbex->pItems[cbex->iSelectedItem].pszVal);
-						*cbex->pItems[cbex->iSelectedItem].szCat = 0;
-						cbex->pItems[cbex->iSelectedItem].wFlags |= CTRLF_CHANGED|CBEXIF_DELETED;
-						CtrlContactWndProc(hwnd, CBEXM_SETCURSEL, cbex->iSelectedItem - 1, FALSE);
-					}
-					// delete default entry
 					else
-						CtrlContactWndProc(hwnd, CBEXM_DELITEM, NULL, cbex->iSelectedItem);
+						if (cbex->pItems[cbex->iSelectedItem].dwID != 0) {
+							MIR_FREE(cbex->pItems[cbex->iSelectedItem].pszVal);
+							*cbex->pItems[cbex->iSelectedItem].szCat = 0;
+							cbex->pItems[cbex->iSelectedItem].wFlags |= CTRLF_CHANGED | CBEXIF_DELETED;
+							CtrlContactWndProc(hwnd, CBEXM_SETCURSEL, cbex->iSelectedItem - 1, FALSE);
+						}
+					// delete default entry
+						else
+							CtrlContactWndProc(hwnd, CBEXM_DELITEM, NULL, cbex->iSelectedItem);
 
 					SendMessage(hDlgDetails, PSM_CHANGED, NULL, NULL);
 					cbex->bIsChanged = TRUE;
@@ -820,30 +821,30 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 			}
 			break;
 
-		/**
-			* name:	EDIT_VALUE
-			* desc:	the edit control wants us to act
-			**/
+			/**
+				* name:	EDIT_VALUE
+				* desc:	the edit control wants us to act
+				**/
 		case EDIT_VALUE:
 			switch (HIWORD(wParam)) {
-				case EN_UPDATE:
+			case EN_UPDATE:
 				{
 					wchar_t szVal[MAXDATASIZE] = { 0 };
 					int ccVal;
 					MCONTACT hContact;
 					HWND hDlgDetails = GetParent(GetParent(hwnd));
-							
+
 					EnableWindow(cbex->hBtnDel, GetWindowTextLength(cbex->hEdit) > 0);
 
 					if (SendMessage(hDlgDetails, PSM_ISLOCKED, NULL, NULL) ||
-						cbex->bLocked || 
-						!cbex->pItems || 
-						cbex->iSelectedItem < 0 || 
+						cbex->bLocked ||
+						!cbex->pItems ||
+						cbex->iSelectedItem < 0 ||
 						cbex->iSelectedItem >= cbex->numItems) return 1;
 
 					// get the edit control's text value and check it for syntax
 					switch (GetWindowLongPtr(hwnd, GWLP_ID)) {
-						case EDIT_PHONE:
+					case EDIT_PHONE:
 						{
 							int errorPos;
 							wchar_t szEdit[MAXDATASIZE];
@@ -856,17 +857,17 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 							}
 							break;
 						}
-						case EDIT_EMAIL:
-							ccVal = GetWindowText(cbex->hEdit, szVal, _countof(szVal));
-							break;
-						default:
-							ccVal = GetWindowText(cbex->hEdit, szVal, _countof(szVal));
-							break;
+					case EDIT_EMAIL:
+						ccVal = GetWindowText(cbex->hEdit, szVal, _countof(szVal));
+						break;
+					default:
+						ccVal = GetWindowText(cbex->hEdit, szVal, _countof(szVal));
+						break;
 					}
-							
+
 					SendMessage(hDlgDetails, PSM_GETCONTACT, NULL, (LPARAM)&hContact);
 					if ((cbex->pItems[cbex->iSelectedItem].wFlags & CTRLF_CHANGED) && !(hContact && (cbex->pItems[cbex->iSelectedItem].wFlags & CTRLF_HASCUSTOM))) return 0;
-							
+
 					if (*szVal == 0 || !cbex->pItems[cbex->iSelectedItem].pszVal || mir_wstrcmp(szVal, cbex->pItems[cbex->iSelectedItem].pszVal)) {
 						cbex->pItems[cbex->iSelectedItem].wFlags |= CTRLF_CHANGED;
 						cbex->pItems[cbex->iSelectedItem].wFlags |= (hContact ? CTRLF_HASCUSTOM : CTRLF_HASPROTO);
@@ -876,10 +877,10 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 					}
 					return 0;
 				}
-				case EN_KILLFOCUS:
+			case EN_KILLFOCUS:
 				{
 					int ccText;
-							
+
 					if (!cbex->pItems || cbex->iSelectedItem < 0 || cbex->iSelectedItem >= cbex->numItems) return 1;
 					if (!(cbex->pItems[cbex->iSelectedItem].wFlags & CTRLF_CHANGED)) return 0;
 
@@ -895,10 +896,10 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 						cbex->bIsChanged = TRUE;
 					}
 					else
-					if (cbex->pItems[cbex->iSelectedItem].pszVal = (LPTSTR)mir_realloc(cbex->pItems[cbex->iSelectedItem].pszVal, (ccText + 2) * sizeof(wchar_t))) {
-						cbex->pItems[cbex->iSelectedItem].pszVal[ccText + 1] = 0;
-						GetWindowText(cbex->hEdit, cbex->pItems[cbex->iSelectedItem].pszVal, ccText + 1);
-					}
+						if (cbex->pItems[cbex->iSelectedItem].pszVal = (LPTSTR)mir_realloc(cbex->pItems[cbex->iSelectedItem].pszVal, (ccText + 2) * sizeof(wchar_t))) {
+							cbex->pItems[cbex->iSelectedItem].pszVal[ccText + 1] = 0;
+							GetWindowText(cbex->hEdit, cbex->pItems[cbex->iSelectedItem].pszVal, ccText + 1);
+						}
 					return 0;
 				}
 			}
@@ -906,237 +907,237 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 		}
 		break;
 
-	/**
-		* name:	CBEXM_ADDITEM
-		* desc:	add a item to the control
-		* param:	wParam - not used
-		*			lParam - (LPCBEXITEM)&item
-		* return:	CB_ERR on failure, new item index if successful
-		**/
+		/**
+			* name:	CBEXM_ADDITEM
+			* desc:	add a item to the control
+			* param:	wParam - not used
+			*			lParam - (LPCBEXITEM)&item
+			* return:	CB_ERR on failure, new item index if successful
+			**/
 	case CBEXM_ADDITEM:
-	{
-		LPCBEXITEM	pItem = (LPCBEXITEM)lParam;
+		{
+			CBEXITEM	*pItem = (CBEXITEM*)lParam;
 
-		if (!pItem) return FALSE;
+			if (!pItem) return FALSE;
 
-		// if an item with the id of pItem exists, change it instead of adding a new one
-		// but only if it has not been changed by the user yet.
-		if ((pItem->wMask & CBEXIM_ID) && cbex->pItems && pItem->dwID != 0) {
-			int iIndex;
-				
-			for (iIndex = 0; iIndex < cbex->numItems; iIndex++) {
-				if (cbex->pItems[iIndex].dwID == pItem->dwID) {
-					pItem->iItem = iIndex;
-					if (cbex->pItems[iIndex].wFlags & CTRLF_CHANGED)
-						pItem->wFlags |= CTRLF_CHANGED;
-					else
-						CtrlContactWndProc(hwnd, CBEXM_SETITEM, 0, lParam);
-					return iIndex;
+			// if an item with the id of pItem exists, change it instead of adding a new one
+			// but only if it has not been changed by the user yet.
+			if ((pItem->wMask & CBEXIM_ID) && cbex->pItems && pItem->dwID != 0) {
+				int iIndex;
+
+				for (iIndex = 0; iIndex < cbex->numItems; iIndex++) {
+					if (cbex->pItems[iIndex].dwID == pItem->dwID) {
+						pItem->iItem = iIndex;
+						if (cbex->pItems[iIndex].wFlags & CTRLF_CHANGED)
+							pItem->wFlags |= CTRLF_CHANGED;
+						else
+							CtrlContactWndProc(hwnd, CBEXM_SETITEM, 0, lParam);
+						return iIndex;
+					}
 				}
 			}
-		}
 
-		// add a new item to the combobox
-		if (!(cbex->pItems = (LPCBEXITEMINTERN)mir_realloc(cbex->pItems, (cbex->numItems + 1) * sizeof(CBEXITEMINTERN)))) {
-			cbex->numItems = 0;
-			return CB_ERR;
-		}
-		
-		// set the ID
-		cbex->pItems[cbex->numItems].dwID = (pItem->wMask & CBEXIM_ID) ? pItem->dwID : 0;
+			// add a new item to the combobox
+			if (!(cbex->pItems = (LPCBEXITEMINTERN)mir_realloc(cbex->pItems, (cbex->numItems + 1) * sizeof(CBEXITEMINTERN)))) {
+				cbex->numItems = 0;
+				return CB_ERR;
+			}
 
-		// set category string
-		if (!pItem->pszCat || !pItem->pszCat[0] || !mir_wstrncpy(cbex->pItems[cbex->numItems].szCat, pItem->pszCat, MAX_CAT)) {
-			mir_snwprintf(cbex->pItems[cbex->numItems].szCat, L"%s %d", TranslateT("Other"), ++cbex->numOther);
-		}
+			// set the ID
+			cbex->pItems[cbex->numItems].dwID = (pItem->wMask & CBEXIM_ID) ? pItem->dwID : 0;
 
-		// set value string
-		if ((pItem->wMask & CBEXIM_VAL) && pItem->pszVal && pItem->pszVal[0])
-			cbex->pItems[cbex->numItems].pszVal = mir_wstrdup(pItem->pszVal);
-		else
-			cbex->pItems[cbex->numItems].pszVal = nullptr;
-		// set icon
-		if ((pItem->wMask & CBEXIM_ICONTEXT) && pItem->pszIcon) {
-			cbex->pItems[cbex->numItems].pszIcon = pItem->pszIcon;
-			cbex->pItems[cbex->numItems].hIcon = IcoLib_GetIcon(pItem->pszIcon);
-		}
-		// set flags
-		cbex->pItems[cbex->numItems].wFlags = (pItem->wMask & CBEXIM_CAT) ? pItem->wFlags : 0;
-
-		cbex->numItems++;
-		return cbex->numItems;
-	}
-
-	/**
-		* name:	CBEXM_SETITEM
-		* desc:	Set an item's information of the control.
-		*			If iItem member of CBEXITEM is -1, the currently selected item is changed.
-		* param:	wParam - not used
-		*			lParam - (LPCBEXITEM)&item
-		* return:	CB_ERR on failure, new item index if successful
-		**/
-	case CBEXM_SETITEM:
-	{
-		LPCBEXITEM	pItem = (LPCBEXITEM)lParam;
-
-		if (!PtrIsValid(pItem) || !pItem->wMask || !PtrIsValid(cbex->pItems)) return FALSE;
-		if (pItem->iItem == -1) pItem->iItem = cbex->iSelectedItem;
-		if (pItem->iItem < 0 || pItem->iItem >= cbex->numItems) return FALSE;
-
-		// set new category string
-		if (pItem->wMask & CBEXIM_CAT) {
 			// set category string
-			if (!pItem->pszCat || !pItem->pszCat[0] || !mir_wstrncpy(cbex->pItems[pItem->iItem].szCat, pItem->pszCat, _countof(cbex->pItems[pItem->iItem].szCat))) 
-				mir_snwprintf(cbex->pItems[pItem->iItem].szCat, L"%s %d", TranslateT("Other"), ++cbex->numOther);
-			if (pItem->iItem == cbex->iSelectedItem)
-				SetWindowText(cbex->hBtnEdit, cbex->pItems[pItem->iItem].szCat);
-		}
-		// set new value
-		if (pItem->wMask & CBEXIM_VAL) {
-			MIR_FREE(cbex->pItems[pItem->iItem].pszVal);
-			if (pItem->pszVal && pItem->pszVal[0])
-				cbex->pItems[pItem->iItem].pszVal = mir_wstrdup(pItem->pszVal);
-			if (pItem->iItem == cbex->iSelectedItem)
-				SetWindowText(cbex->hEdit, cbex->pItems[pItem->iItem].pszVal ? cbex->pItems[pItem->iItem].pszVal : L"");
+			if (!pItem->pszCat || !pItem->pszCat[0] || !mir_wstrncpy(cbex->pItems[cbex->numItems].szCat, pItem->pszCat, MAX_CAT)) {
+				mir_snwprintf(cbex->pItems[cbex->numItems].szCat, L"%s %d", TranslateT("Other"), ++cbex->numOther);
+			}
+
+			// set value string
+			if ((pItem->wMask & CBEXIM_VAL) && pItem->pszVal && pItem->pszVal[0])
+				cbex->pItems[cbex->numItems].pszVal = mir_wstrdup(pItem->pszVal);
+			else
+				cbex->pItems[cbex->numItems].pszVal = nullptr;
+			// set icon
+			if ((pItem->wMask & CBEXIM_ICONTEXT) && pItem->iIcon) {
+				cbex->pItems[cbex->numItems].iIcon = pItem->iIcon;
+				cbex->pItems[cbex->numItems].hIcon = g_plugin.getIcon(pItem->iIcon);
+			}
+			// set flags
+			cbex->pItems[cbex->numItems].wFlags = (pItem->wMask & CBEXIM_CAT) ? pItem->wFlags : 0;
+
+			cbex->numItems++;
+			return cbex->numItems;
 		}
 
-		// set icon
-		if ((pItem->wMask & CBEXIM_ICONTEXT) && pItem->pszIcon) {
-			cbex->pItems[pItem->iItem].pszIcon = pItem->pszIcon;
-			cbex->pItems[pItem->iItem].hIcon = IcoLib_GetIcon(pItem->pszIcon);
-			if (pItem->iItem == cbex->iSelectedItem)
-				SendMessage(cbex->hBtnEdit, BM_SETIMAGE, IMAGE_ICON, (LPARAM)cbex->pItems[pItem->iItem].hIcon);
-		}
-		if (pItem->wMask & CBEXIM_FLAGS) {
-			cbex->pItems[pItem->iItem].wFlags = pItem->wFlags;
-			CtrlContactWndProc(hwnd, CBEXM_ENABLEITEM, NULL, NULL);
-		}
-		return TRUE;
-	}
+		/**
+			* name:	CBEXM_SETITEM
+			* desc:	Set an item's information of the control.
+			*			If iItem member of CBEXITEM is -1, the currently selected item is changed.
+			* param:	wParam - not used
+			*			lParam - (LPCBEXITEM)&item
+			* return:	CB_ERR on failure, new item index if successful
+			**/
+	case CBEXM_SETITEM:
+		{
+			CBEXITEM *pItem = (CBEXITEM *)lParam;
 
-	/**
-		* name:	CBEXM_GETITEM
-		* desc:	Get an item from the control.
-		*			If iItem member of CBEXITEM is -1, the currently selected item is returned.
-		* param:	wParam - not used
-		*			lParam - (LPCBEXITEM)&item
-		* return:	CB_ERR on failure, new item index if successful
-		**/
+			if (!PtrIsValid(pItem) || !pItem->wMask || !PtrIsValid(cbex->pItems)) return FALSE;
+			if (pItem->iItem == -1) pItem->iItem = cbex->iSelectedItem;
+			if (pItem->iItem < 0 || pItem->iItem >= cbex->numItems) return FALSE;
+
+			// set new category string
+			if (pItem->wMask & CBEXIM_CAT) {
+				// set category string
+				if (!pItem->pszCat || !pItem->pszCat[0] || !mir_wstrncpy(cbex->pItems[pItem->iItem].szCat, pItem->pszCat, _countof(cbex->pItems[pItem->iItem].szCat)))
+					mir_snwprintf(cbex->pItems[pItem->iItem].szCat, L"%s %d", TranslateT("Other"), ++cbex->numOther);
+				if (pItem->iItem == cbex->iSelectedItem)
+					SetWindowText(cbex->hBtnEdit, cbex->pItems[pItem->iItem].szCat);
+			}
+			// set new value
+			if (pItem->wMask & CBEXIM_VAL) {
+				MIR_FREE(cbex->pItems[pItem->iItem].pszVal);
+				if (pItem->pszVal && pItem->pszVal[0])
+					cbex->pItems[pItem->iItem].pszVal = mir_wstrdup(pItem->pszVal);
+				if (pItem->iItem == cbex->iSelectedItem)
+					SetWindowText(cbex->hEdit, cbex->pItems[pItem->iItem].pszVal ? cbex->pItems[pItem->iItem].pszVal : L"");
+			}
+
+			// set icon
+			if ((pItem->wMask & CBEXIM_ICONTEXT) && pItem->iIcon) {
+				cbex->pItems[pItem->iItem].iIcon = pItem->iIcon;
+				cbex->pItems[pItem->iItem].hIcon = g_plugin.getIcon(pItem->iIcon);
+				if (pItem->iItem == cbex->iSelectedItem)
+					SendMessage(cbex->hBtnEdit, BM_SETIMAGE, IMAGE_ICON, (LPARAM)cbex->pItems[pItem->iItem].hIcon);
+			}
+			if (pItem->wMask & CBEXIM_FLAGS) {
+				cbex->pItems[pItem->iItem].wFlags = pItem->wFlags;
+				CtrlContactWndProc(hwnd, CBEXM_ENABLEITEM, NULL, NULL);
+			}
+			return TRUE;
+		}
+
+		/**
+			* name:	CBEXM_GETITEM
+			* desc:	Get an item from the control.
+			*			If iItem member of CBEXITEM is -1, the currently selected item is returned.
+			* param:	wParam - not used
+			*			lParam - (LPCBEXITEM)&item
+			* return:	CB_ERR on failure, new item index if successful
+			**/
 	case CBEXM_GETITEM:
-	{
-		LPCBEXITEM	pItem = (LPCBEXITEM)lParam;
+		{
+			CBEXITEM *pItem = (CBEXITEM *)lParam;
 
-		if (!pItem || !cbex->pItems) return FALSE;
-			
-		// try to find item by id
-		if ((pItem->wMask & CBEXIM_ID) && pItem->dwID != 0) {
+			if (!pItem || !cbex->pItems) return FALSE;
+
+			// try to find item by id
+			if ((pItem->wMask & CBEXIM_ID) && pItem->dwID != 0) {
+				int i;
+
+				for (i = 0; i < cbex->numItems; i++) {
+					if (cbex->pItems[i].dwID == pItem->dwID)
+						break;
+				}
+				pItem->iItem = i;
+			}
+			else
+				if (pItem->iItem == -1) pItem->iItem = cbex->iSelectedItem;
+			if (pItem->iItem < 0 || pItem->iItem >= cbex->numItems) return FALSE;
+
+			// return only currently selected itemindex
+			if (!pItem->wMask) return TRUE;
+			// return the unique id
+			if (pItem->wMask & CBEXIM_ID)
+				pItem->dwID = cbex->pItems[pItem->iItem].dwID;
+			// return category string
+			if ((pItem->wMask & CBEXIM_CAT) && pItem->pszCat) {
+				if (*cbex->pItems[pItem->iItem].szCat != 0)
+					mir_wstrncpy(pItem->pszCat, cbex->pItems[pItem->iItem].szCat, pItem->ccCat - 1);
+				else
+					*pItem->pszCat = 0;
+			}
+			// return value string
+			if ((pItem->wMask & CBEXIM_VAL) && pItem->pszVal) {
+				if (cbex->pItems[pItem->iItem].pszVal)
+					mir_wstrncpy(pItem->pszVal, cbex->pItems[pItem->iItem].pszVal, pItem->ccVal - 1);
+				else
+					*pItem->pszVal = 0;
+			}
+			// return the icon
+			if (pItem->wMask & CBEXIM_ICONTEXT)
+				pItem->iIcon = cbex->pItems[pItem->iItem].iIcon;
+			// return the flags
+			if (pItem->wMask & CBEXIM_FLAGS)
+				pItem->wFlags = cbex->pItems[pItem->iItem].wFlags;
+			return TRUE;
+		}
+
+		/**
+			* name:	CBEXM_DELITEM
+			* desc:	delete an item from the control
+			* param:	wParam - not used
+			*			lParam - item index
+			* return:	CB_ERR on failure, new item index if successful
+			**/
+	case CBEXM_DELITEM:
+		{
+			if (!cbex->pItems || (int)lParam < 0 || (int)lParam >= cbex->numItems || (cbex->pItems[lParam].wFlags & CBEXIF_CATREADONLY))
+				return FALSE;
+			MIR_FREE(cbex->pItems[(int)lParam].pszVal);
+			memmove(cbex->pItems + (int)lParam,
+				cbex->pItems + (int)lParam + 1,
+				(cbex->numItems - (int)lParam - 1) * sizeof(CBEXITEMINTERN));
+			cbex->numItems--;
+			memset((cbex->pItems + cbex->numItems), 0, sizeof(CBEXITEMINTERN));
+			CtrlContactWndProc(hwnd, CBEXM_SETCURSEL, lParam - 1, FALSE);
+			return TRUE;
+		}
+
+		/**
+			* name:	CBEXM_DELITEM
+			* desc:	delete an item from the control
+			* param:	wParam - not used
+			*			lParam - item index
+			* return:	CB_ERR on failure, new item index if successful
+			**/
+	case CBEXM_DELALLITEMS:
+		{
 			int i;
 
-			for (i = 0; i < cbex->numItems; i++) {
-				if (cbex->pItems[i].dwID == pItem->dwID)
-					break;
-			}
-			pItem->iItem = i;
-		}
-		else
-		if (pItem->iItem == -1) pItem->iItem = cbex->iSelectedItem;
-		if (pItem->iItem < 0 || pItem->iItem >= cbex->numItems) return FALSE;
-			
-		// return only currently selected itemindex
-		if (!pItem->wMask) return TRUE;
-		// return the unique id
-		if (pItem->wMask & CBEXIM_ID) 
-			pItem->dwID = cbex->pItems[pItem->iItem].dwID;
-		// return category string
-		if ((pItem->wMask & CBEXIM_CAT) && pItem->pszCat) {
-			if (*cbex->pItems[pItem->iItem].szCat != 0)
-				mir_wstrncpy(pItem->pszCat, cbex->pItems[pItem->iItem].szCat, pItem->ccCat - 1);
-			else
-				*pItem->pszCat = 0;
-		}
-		// return value string
-		if ((pItem->wMask & CBEXIM_VAL) && pItem->pszVal) {
-			if (cbex->pItems[pItem->iItem].pszVal)
-				mir_wstrncpy(pItem->pszVal, cbex->pItems[pItem->iItem].pszVal, pItem->ccVal - 1);
-			else
-				*pItem->pszVal = 0;
-		}
-		// return the icon
-		if (pItem->wMask & CBEXIM_ICONTEXT)
-			pItem->pszIcon = cbex->pItems[pItem->iItem].pszIcon;
-		// return the flags
-		if (pItem->wMask & CBEXIM_FLAGS)
-			pItem->wFlags = cbex->pItems[pItem->iItem].wFlags;
-		return TRUE;
-	}
-
-	/**
-		* name:	CBEXM_DELITEM
-		* desc:	delete an item from the control
-		* param:	wParam - not used
-		*			lParam - item index
-		* return:	CB_ERR on failure, new item index if successful
-		**/
-	case CBEXM_DELITEM:
-	{
-		if (!cbex->pItems || (int)lParam < 0 || (int)lParam >= cbex->numItems || (cbex->pItems[lParam].wFlags & CBEXIF_CATREADONLY))
-			return FALSE;	
-		MIR_FREE(cbex->pItems[(int)lParam].pszVal);
-		memmove(cbex->pItems + (int)lParam, 
-			cbex->pItems + (int)lParam + 1,
-			(cbex->numItems - (int)lParam - 1) * sizeof(CBEXITEMINTERN));
-		cbex->numItems--;
-		memset((cbex->pItems + cbex->numItems), 0, sizeof(CBEXITEMINTERN));
-		CtrlContactWndProc(hwnd, CBEXM_SETCURSEL, lParam - 1, FALSE);
-		return TRUE;
-	}
-
-	/**
-		* name:	CBEXM_DELITEM
-		* desc:	delete an item from the control
-		* param:	wParam - not used
-		*			lParam - item index
-		* return:	CB_ERR on failure, new item index if successful
-		**/
-	case CBEXM_DELALLITEMS:
-	{
-		int i;
-
-		if (PtrIsValid(cbex)) {
-			if (PtrIsValid(cbex->pItems)) {
-				for (i = 0; i < cbex->numItems; i++) {
-					MIR_FREE(cbex->pItems[i].pszVal);
+			if (PtrIsValid(cbex)) {
+				if (PtrIsValid(cbex->pItems)) {
+					for (i = 0; i < cbex->numItems; i++) {
+						MIR_FREE(cbex->pItems[i].pszVal);
+					}
+					MIR_FREE(cbex->pItems);
+					cbex->pItems = nullptr;
 				}
-				MIR_FREE(cbex->pItems);
-				cbex->pItems = nullptr;
+				cbex->numItems = 0;
+				cbex->iSelectedItem = -1;
+				SetWindowText(cbex->hEdit, L"");
+				SetWindowText(cbex->hBtnEdit, L"");
+				SendMessage(cbex->hBtnEdit, WM_SETICON, NULL, NULL);
 			}
-			cbex->numItems = 0;
-			cbex->iSelectedItem = -1;
-			SetWindowText(cbex->hEdit, L"");
-			SetWindowText(cbex->hBtnEdit, L"");
-			SendMessage(cbex->hBtnEdit, WM_SETICON, NULL, NULL);
+			return TRUE;
 		}
-		return TRUE;
-	}
 
-	/**
-		* name:	CBEXM_ENABLEITEM
-		* desc:	enables or disables the current item
-		* param:	wParam - not used
-		*			lParam - not used
-		* return:	always 0
-		**/
+		/**
+			* name:	CBEXM_ENABLEITEM
+			* desc:	enables or disables the current item
+			* param:	wParam - not used
+			*			lParam - not used
+			* return:	always 0
+			**/
 	case CBEXM_ENABLEITEM:
 		if (cbex->iSelectedItem >= 0 && cbex->iSelectedItem < cbex->numItems) {
 			MCONTACT hContact;
 			BYTE bEnabled;
-				
+
 			PSGetContact(GetParent(hwnd), hContact);
 
-			bEnabled	= !hContact ||
-						(cbex->pItems[cbex->iSelectedItem].wFlags & CTRLF_HASCUSTOM) || 
-						!(cbex->pItems[cbex->iSelectedItem].wFlags & (CTRLF_HASPROTO|CTRLF_HASMETA)) ||
-						!g_plugin.getByte(SET_PROPSHEET_PCBIREADONLY, 0);
+			bEnabled = !hContact ||
+				(cbex->pItems[cbex->iSelectedItem].wFlags & CTRLF_HASCUSTOM) ||
+				!(cbex->pItems[cbex->iSelectedItem].wFlags & (CTRLF_HASPROTO | CTRLF_HASMETA)) ||
+				!g_plugin.getByte(SET_PROPSHEET_PCBIREADONLY, 0);
 
 			EnableWindow(cbex->hBtnEdit, bEnabled);
 			EnableWindow(cbex->hBtnDel, bEnabled && GetWindowTextLength(cbex->hEdit) > 0);
@@ -1144,72 +1145,72 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 		}
 		break;
 
-	/**
-		* name:	CBEXM_ISCHANGED
-		* desc:	returns whether the control contains changed values or not
-		* param:	wParam - not used
-		*			lParam - not used
-		* return:	TRUE if control was changed, FALSE if nothing was edited
-		**/
+		/**
+			* name:	CBEXM_ISCHANGED
+			* desc:	returns whether the control contains changed values or not
+			* param:	wParam - not used
+			*			lParam - not used
+			* return:	TRUE if control was changed, FALSE if nothing was edited
+			**/
 	case CBEXM_ISCHANGED:
 		return cbex->bIsChanged;
 
-	/**
-		* name:	CBEXM_RESETCHANGED
-		* desc:	resets changed flag to FALSE
-		* param:	wParam - not used
-		*			lParam - not used
-		* return:	always FALSE
-		**/
+		/**
+			* name:	CBEXM_RESETCHANGED
+			* desc:	resets changed flag to FALSE
+			* param:	wParam - not used
+			*			lParam - not used
+			* return:	always FALSE
+			**/
 	case CBEXM_RESETCHANGED:
 		cbex->bIsChanged = 0;
 		return 0;
 
-	/**
-		* name:	CBEXM_SETCURSEL
-		* desc:	selects a certain item
-		* param:	wParam - index of the item to select
-		*			lParam - (BYTE)bValid - if TRUE, the next item with a value is selected
-		* return:	always FALSE
-		**/
+		/**
+			* name:	CBEXM_SETCURSEL
+			* desc:	selects a certain item
+			* param:	wParam - index of the item to select
+			*			lParam - (BYTE)bValid - if TRUE, the next item with a value is selected
+			* return:	always FALSE
+			**/
 	case CBEXM_SETCURSEL:
-	{
-		int i;
+		{
+			int i;
 
-		if (!cbex->pItems) return 1;
-		if ((int)wParam < 0 || (int)wParam >= cbex->numItems) wParam = max(cbex->iSelectedItem, 0);
-		cbex->bLocked = 1;
-			
-		if ((BYTE)lParam == TRUE) {
-			i = (int)wParam;
+			if (!cbex->pItems) return 1;
+			if ((int)wParam < 0 || (int)wParam >= cbex->numItems) wParam = max(cbex->iSelectedItem, 0);
+			cbex->bLocked = 1;
 
-			cbex->iSelectedItem = (int)wParam;
-			while (i < cbex->numItems) {
-				if (cbex->pItems[i].pszVal && *cbex->pItems[i].pszVal) {
-					cbex->iSelectedItem = i;
-					break;
+			if ((BYTE)lParam == TRUE) {
+				i = (int)wParam;
+
+				cbex->iSelectedItem = (int)wParam;
+				while (i < cbex->numItems) {
+					if (cbex->pItems[i].pszVal && *cbex->pItems[i].pszVal) {
+						cbex->iSelectedItem = i;
+						break;
+					}
+					i++;
 				}
-				i++;
 			}
-		}
-		else {
-			// search for the next none deleted item
-			for (i = (int)wParam; i < cbex->numItems && *cbex->pItems[i].szCat == 0; i++);
-			if (i == cbex->numItems && (int)wParam > 0) {
-				for (i = 0; i < (int)wParam && *cbex->pItems[i].szCat == 0; i++);
-				cbex->iSelectedItem = i == (int)wParam ? 0 : i;
-			}
-			else
-				cbex->iSelectedItem = i;
+			else {
+				// search for the next none deleted item
+				for (i = (int)wParam; i < cbex->numItems && *cbex->pItems[i].szCat == 0; i++);
+				if (i == cbex->numItems && (int)wParam > 0) {
+					for (i = 0; i < (int)wParam && *cbex->pItems[i].szCat == 0; i++);
+					cbex->iSelectedItem = i == (int)wParam ? 0 : i;
+				}
+				else
+					cbex->iSelectedItem = i;
 
+			}
+			SetWindowText(cbex->hBtnEdit, cbex->pItems[cbex->iSelectedItem].szCat);
+			SetWindowText(cbex->hEdit, cbex->pItems[cbex->iSelectedItem].pszVal ? cbex->pItems[cbex->iSelectedItem].pszVal : L"");
+			SendMessage(cbex->hBtnEdit, BM_SETIMAGE, IMAGE_ICON, (LPARAM)cbex->pItems[cbex->iSelectedItem].hIcon);
+			CtrlContactWndProc(hwnd, CBEXM_ENABLEITEM, NULL, NULL);
+			cbex->bLocked = 0;
+			return 0;
 		}
-		SetWindowText(cbex->hBtnEdit, cbex->pItems[cbex->iSelectedItem].szCat);
-		SetWindowText(cbex->hEdit, cbex->pItems[cbex->iSelectedItem].pszVal ? cbex->pItems[cbex->iSelectedItem].pszVal : L"");
-		SendMessage(cbex->hBtnEdit, BM_SETIMAGE, IMAGE_ICON, (LPARAM)cbex->pItems[cbex->iSelectedItem].hIcon);
-		CtrlContactWndProc(hwnd, CBEXM_ENABLEITEM, NULL, NULL);
-		cbex->bLocked = 0;
-		return 0;
-	}
 	case CBEXM_SORT:
 		if (cbex->numItems > 4) {
 			qsort(cbex->pItems + 3, cbex->numItems - 3, sizeof(CBEXITEMINTERN), compareProc);
@@ -1249,20 +1250,20 @@ int CtrlContactUnLoadModule()
 int CtrlContactLoadModule()
 {
 	WNDCLASSEX wc;
-	
+
 	memset(&wc, 0, sizeof(wc));
-	wc.cbSize				 = sizeof(wc);
-	wc.lpszClassName	= UINFOCOMBOEXCLASS;
-	wc.lpfnWndProc		= CtrlContactWndProc;
-	wc.hCursor				= LoadCursor(nullptr, IDC_ARROW);
-	wc.cbWndExtra		 = sizeof(LPCBEX);
-	wc.hbrBackground	= (HBRUSH)GetStockObject(COLOR_WINDOW);
-	wc.style					= CS_GLOBALCLASS;
+	wc.cbSize = sizeof(wc);
+	wc.lpszClassName = UINFOCOMBOEXCLASS;
+	wc.lpfnWndProc = CtrlContactWndProc;
+	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
+	wc.cbWndExtra = sizeof(LPCBEX);
+	wc.hbrBackground = (HBRUSH)GetStockObject(COLOR_WINDOW);
+	wc.style = CS_GLOBALCLASS;
 	RegisterClassEx(&wc);
 	return 0;
 }
 
- 
+
 /**
  * name:	CtrlContactAddItemFromDB
  * desc:	add a item read from db to the combobox
@@ -1278,20 +1279,20 @@ int CtrlContactLoadModule()
  *			FALSE	- if item is added or updated successfully
  **/
 int CtrlContactAddItemFromDB(
-				HWND hCtrl,
-				LPCSTR szIcon,
-				LPTSTR szItem,
-				MCONTACT hContact,
-				LPCSTR pszModule,
-				LPCSTR pszProto,
-				LPCSTR szSettingVal)
+	HWND hCtrl,
+	int iIcon,
+	LPTSTR szItem,
+	MCONTACT hContact,
+	LPCSTR pszModule,
+	LPCSTR pszProto,
+	LPCSTR szSettingVal)
 {
 	DBVARIANT dbv;
 	CBEXITEM cbi;
 
 	cbi.pszVal = nullptr;
 	cbi.dwID = mir_hashstr(szSettingVal);
-	cbi.wFlags = CBEXIF_CATREADONLY|DB::Setting::GetTStringCtrl(hContact, pszModule, pszModule, pszProto, szSettingVal, &dbv);
+	cbi.wFlags = CBEXIF_CATREADONLY | DB::Setting::GetTStringCtrl(hContact, pszModule, pszModule, pszProto, szSettingVal, &dbv);
 	if (dbv.type >= DBVT_WCHAR) {
 		// no value read from database
 		if (cbi.wFlags == CBEXIF_CATREADONLY)
@@ -1307,7 +1308,7 @@ int CtrlContactAddItemFromDB(
 	cbi.pszCat = szItem;
 	cbi.iItem = -1;
 	cbi.wMask = CBEXIM_ALL;
-	cbi.pszIcon = szIcon;
+	cbi.iIcon = iIcon;
 	SendMessage(hCtrl, CBEXM_ADDITEM, NULL, (LPARAM)&cbi);
 	db_free(&dbv);
 	return (cbi.wFlags & CTRLF_CHANGED) == CTRLF_CHANGED;
@@ -1328,14 +1329,14 @@ int CtrlContactAddItemFromDB(
  *			FALSE	- if all items were added or updated successfully
  **/
 int CtrlContactAddMyItemsFromDB(
-				HWND hCtrl,
-				LPCSTR szIcon,
-				WORD wForcedFlags,
-				MCONTACT hContact,
-				LPCSTR pszModule,
-				LPCSTR pszProto,
-				LPCSTR szFormatCat,
-				LPCSTR szFormatVal)
+	HWND hCtrl,
+	int iIcon,
+	WORD wForcedFlags,
+	MCONTACT hContact,
+	LPCSTR pszModule,
+	LPCSTR pszProto,
+	LPCSTR szFormatCat,
+	LPCSTR szFormatVal)
 {
 	CBEXITEM cbi;
 	DBVARIANT dbv;
@@ -1347,13 +1348,12 @@ int CtrlContactAddMyItemsFromDB(
 	memset(&cbi, 0, sizeof(cbi));
 	cbi.iItem = -1;
 	cbi.wMask = CBEXIM_ALL;
-	cbi.pszIcon = szIcon;
+	cbi.iIcon = iIcon;
 
 	for (i = 0;
 		SUCCEEDED(mir_snprintf(pszSetting, szFormatVal, i)) &&
 		(cbi.wFlags = DB::Setting::GetTStringCtrl(hContact, pszModule, pszModule, pszProto, pszSetting, &dbv));
-		i++)
-	{
+		i++) {
 		// read value
 		cbi.dwID = mir_hashstr(pszSetting);
 		cbi.pszVal = dbv.pwszVal;
@@ -1367,10 +1367,10 @@ int CtrlContactAddMyItemsFromDB(
 					dbv.type = DBVT_DELETED;
 			}
 			else
-			if (cbi.wFlags & CTRLF_HASPROTO) {
-				if (DB::Setting::GetTString(hContact, pszProto, pszSetting, &dbv))
-					dbv.type = DBVT_DELETED;
-			}
+				if (cbi.wFlags & CTRLF_HASPROTO) {
+					if (DB::Setting::GetTString(hContact, pszProto, pszSetting, &dbv))
+						dbv.type = DBVT_DELETED;
+				}
 
 			if (dbv.type > DBVT_DELETED && dbv.pwszVal && *dbv.pwszVal) {
 				cbi.pszCat = dbv.pwszVal;
@@ -1383,12 +1383,12 @@ int CtrlContactAddMyItemsFromDB(
 			*sms = 0;
 		}
 		cbi.wFlags |= wForcedFlags;
-		if (CB_ERR == SendMessage(hCtrl, CBEXM_ADDITEM, NULL, (LPARAM)&cbi)) 
+		if (CB_ERR == SendMessage(hCtrl, CBEXM_ADDITEM, NULL, (LPARAM)&cbi))
 			break;
 		bAnyItemIsChanged |= (cbi.wFlags & CTRLF_CHANGED) == CTRLF_CHANGED;
-		if (cbi.pszCat) { 
+		if (cbi.pszCat) {
 			mir_free(cbi.pszCat);
-			cbi.pszCat = nullptr; 
+			cbi.pszCat = nullptr;
 		}
 		if (cbi.pszVal) {
 			mir_free(cbi.pszVal);
@@ -1406,18 +1406,18 @@ int CtrlContactAddMyItemsFromDB(
  * return:	always 0
  **/
 int CtrlContactWriteItemToDB(
-				HWND hCtrl,
-				MCONTACT hContact,
-				LPCSTR pszModule,
-				LPCSTR pszProto,
-				LPCSTR pszSetting)
+	HWND hCtrl,
+	MCONTACT hContact,
+	LPCSTR pszModule,
+	LPCSTR pszProto,
+	LPCSTR pszSetting)
 {
 	wchar_t szVal[MAXDATASIZE];
 	CBEXITEM cbi;
 
 	if (!CtrlContactWndProc(hCtrl, CBEXM_ISCHANGED, NULL, NULL)) return 1;
 
-	cbi.wMask = CBEXIM_ID|CBEXIM_VAL|CBEXIM_FLAGS;
+	cbi.wMask = CBEXIM_ID | CBEXIM_VAL | CBEXIM_FLAGS;
 	cbi.pszVal = szVal;
 	cbi.ccVal = MAXDATASIZE - 4;
 	cbi.iItem = 0;
@@ -1447,13 +1447,13 @@ int CtrlContactWriteItemToDB(
  * return:	always 0
  **/
 int CtrlContactWriteMyItemsToDB(
-				HWND hCtrl,
-				int iFirstItem,
-				MCONTACT hContact,
-				LPCSTR pszModule,
-				LPCSTR pszProto,
-				LPCSTR szFormatCat,
-				LPCSTR szFormatVal)
+	HWND hCtrl,
+	int iFirstItem,
+	MCONTACT hContact,
+	LPCSTR pszModule,
+	LPCSTR pszProto,
+	LPCSTR szFormatCat,
+	LPCSTR szFormatVal)
 {
 	CHAR pszSetting[MAXSETTING];
 	wchar_t szCat[MAX_CAT];
@@ -1465,17 +1465,17 @@ int CtrlContactWriteMyItemsToDB(
 
 	if (!CtrlContactWndProc(hCtrl, CBEXM_ISCHANGED, NULL, NULL)) return 1;
 	if (!hContact && !(pszModule = pszProto)) return 1;
-	
+
 	pszOther = TranslateT("Other");
 	ccOther = mir_wstrlen(pszOther);
-	cbi.wMask = CBEXIM_CAT|CBEXIM_VAL|CBEXIM_FLAGS;
+	cbi.wMask = CBEXIM_CAT | CBEXIM_VAL | CBEXIM_FLAGS;
 	cbi.pszCat = szCat;
 	cbi.ccCat = MAX_CAT;
 	cbi.pszVal = szVal;
 	cbi.ccVal = MAXDATASIZE - 4;
 	cbi.iItem = iFirstItem;
 	cbi.dwID = 0;
-	
+
 	while (CtrlContactWndProc(hCtrl, CBEXM_GETITEM, NULL, (LPARAM)&cbi) && cbi.iItem < 50) {
 		if (!(cbi.wFlags & CBEXIF_DELETED) && *szVal) {
 			if (cbi.wFlags & CBEXIF_SMS) {
@@ -1492,10 +1492,10 @@ int CtrlContactWriteMyItemsToDB(
 			cbi.wFlags &= ~CTRLF_CHANGED;
 			cbi.wMask = CBEXIM_FLAGS;
 			CtrlContactWndProc(hCtrl, CBEXM_SETITEM, NULL, (LPARAM)&cbi);
-			cbi.wMask = CBEXIM_CAT|CBEXIM_VAL|CBEXIM_FLAGS;
+			cbi.wMask = CBEXIM_CAT | CBEXIM_VAL | CBEXIM_FLAGS;
 			i++;
 		}
-		
+
 		cbi.iItem++;
 	}
 	DB::Setting::DeleteArray(hContact, pszModule, szFormatCat, i);

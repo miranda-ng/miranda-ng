@@ -93,7 +93,7 @@ static int OnCListApplyIcons(MCONTACT hContact, LPARAM)
 {
 	LPSTR val = Get(hContact);
 	if (ghExtraIconSvc != INVALID_HANDLE_VALUE)
-		ExtraIcon_SetIconByName(ghExtraIconSvc, hContact, (val) ? ICO_BTN_GOTO : nullptr);
+		ExtraIcon_SetIcon(ghExtraIconSvc, hContact, (val) ? g_plugin.getIconHandle(IDI_BTN_GOTO) : nullptr);
 	MIR_FREE(val);
 	return 0;
 }
@@ -156,7 +156,7 @@ void SvcHomepageRebuildMenu()
 		CMenuItem mi(&g_plugin);
 		SET_UID(mi, 0xdb78c16e, 0x50db, 0x4a40, 0x80, 0x0, 0xd1, 0xa4, 0x1c, 0x1b, 0xa3, 0x2d);
 		mi.position = -2000010000;
-		mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_GOTO);
+		mi.hIcolibItem = g_plugin.getIconHandle(IDI_BTN_GOTO);
 		mi.name.a = LPGEN("&Homepage");
 		mi.pszService = MS_USERINFO_HOMEPAGE_OPENURL;
 		ghMenuItem = Menu_AddContactMenuItem(&mi);
@@ -189,7 +189,7 @@ bool SvcHomepageEnableExtraIcons(bool bEnable, bool bUpdateDB)
 			hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, (MIRANDAHOOK)OnCListApplyIcons);
 
 		if (ghExtraIconSvc == INVALID_HANDLE_VALUE)
-			ghExtraIconSvc = ExtraIcon_RegisterIcolib("homepage", LPGEN("Homepage (UInfoEx)"), ICO_BTN_GOTO);
+			ghExtraIconSvc = ExtraIcon_RegisterIcolib("homepage", LPGEN("Homepage (UInfoEx)"), g_plugin.getIconHandle(IDI_BTN_GOTO));
 	}
 	else {
 		if (hChangedHook) {

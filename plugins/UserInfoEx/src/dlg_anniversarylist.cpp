@@ -283,7 +283,7 @@ class CAnnivList
 					break;
 
 				// set icons
-				hIcon = IcoLib_GetIcon(ICO_DLG_ANNIVERSARY);
+				hIcon = g_plugin.getIcon(IDI_ANNIVERSARY);
 				SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_SETICON, 0, (LPARAM)hIcon);
 				SendMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
 

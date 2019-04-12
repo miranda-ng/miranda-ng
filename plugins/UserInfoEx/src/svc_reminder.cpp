@@ -141,25 +141,19 @@ static HICON GetAnnivIcon(const CEvent &evt)
 {
 	HICON hIcon = nullptr;
 
-	CHAR szIcon[MAXSETTING];
-
 	switch (evt._eType) {
 	case CEvent::BIRTHDAY:
 		if (evt._wDaysLeft > 9)
-			hIcon = IcoLib_GetIcon(ICO_RMD_DTBX);
-		else {
-			mir_snprintf(szIcon, MODULENAME"_rmd_dtb%u", evt._wDaysLeft);
-			hIcon = IcoLib_GetIcon(szIcon);
-		}
+			hIcon = g_plugin.getIcon(IDI_RMD_DTBX);
+		else
+			hIcon = g_plugin.getIcon(IDI_RMD_DTB0 + evt._wDaysLeft);
 		break;
 
 	case CEvent::ANNIVERSARY:
 		if (evt._wDaysLeft > 9)
-			hIcon = IcoLib_GetIcon(ICO_RMD_DTAX);
-		else {
-			mir_snprintf(szIcon, MODULENAME"_rmd_dta%u", evt._wDaysLeft);
-			hIcon = IcoLib_GetIcon(szIcon);
-		}
+			hIcon = g_plugin.getIcon(IDI_RMD_DTAX);
+		else
+			hIcon = g_plugin.getIcon(IDI_RMD_DTA0 + evt._wDaysLeft);
 	}
 	return hIcon;
 }
@@ -176,31 +170,27 @@ static HICON GetAnnivIcon(const CEvent &evt)
 static void NotifyWithExtraIcon(MCONTACT hContact, const CEvent &evt)
 {
 	if (gRemindOpts.bCListExtraIcon) {
-		char szIcon[MAXSETTING], *icoName;
-		
+		int iIcon;
+	
 		switch (evt._eType) {
 		case CEvent::BIRTHDAY:
 			if (evt._wDaysLeft > 9)
-				icoName = ICO_RMD_DTAX;
-			else {
-				mir_snprintf(szIcon, MODULENAME"_rmd_dtb%u", evt._wDaysLeft);
-				icoName = szIcon;
-			}
+				iIcon = IDI_RMD_DTBX;
+			else
+				iIcon = IDI_RMD_DTB0 + evt._wDaysLeft;
 			break;
 
 		case CEvent::ANNIVERSARY:
 			if (evt._wDaysLeft > 9)
-				icoName = ICO_RMD_DTAX;
-			else {
-				mir_snprintf(szIcon, MODULENAME"_rmd_dta%u", evt._wDaysLeft);
-				icoName = szIcon;
-			}
+				iIcon = IDI_RMD_DTAX;
+			else
+				iIcon = IDI_RMD_DTA0 + evt._wDaysLeft;
 			break;
 
 		default:	
 			return;
 		}
-		ExtraIcon_SetIconByName(ExtraIcon, hContact, icoName);
+		ExtraIcon_SetIcon(ExtraIcon, hContact, g_plugin.getIconHandle(iIcon));
 	}
 }
 
@@ -318,12 +308,12 @@ static void NotifyFlashCListIcon(MCONTACT hContact, const CEvent &evt)
 	switch (evt._eType) {
 	case CEvent::BIRTHDAY:
 		mir_snwprintf(szMsg, TranslateT("%s has %s today."), Clist_GetContactDisplayName(hContact), TranslateT("Birthday"));
-		cle.hIcon = IcoLib_GetIcon(ICO_COMMON_BIRTHDAY);
+		cle.hIcon = g_plugin.getIcon(IDI_BIRTHDAY);
 		break;
 
 	case CEvent::ANNIVERSARY:
 		mir_snwprintf(szMsg, TranslateT("%s has %s today."), Clist_GetContactDisplayName(hContact), TranslateT("an anniversary"));
-		cle.hIcon = IcoLib_GetIcon(ICO_COMMON_ANNIVERSARY);
+		cle.hIcon = g_plugin.getIcon(IDI_ANNIVERSARY);
 		break;
 
 	default:
@@ -714,7 +704,7 @@ static INT_PTR BackupBirthdayService(WPARAM hContact, LPARAM lParam)
 		MSGBOX mBox;
 		mBox.cbSize = sizeof(MSGBOX);
 		mBox.hParent = nullptr;
-		mBox.hiLogo = IcoLib_GetIcon(ICO_COMMON_BIRTHDAY);
+		mBox.hiLogo = g_plugin.getIcon(IDI_BIRTHDAY);
 		mBox.uType = MB_ICON_INFO;
 		mBox.ptszTitle = TranslateT("Update custom birthday");
 		mBox.ptszMsg = TranslateT("Backing up and syncing all birthdays complete!");
@@ -884,7 +874,7 @@ void SvcReminderLoadModule(void)
 	g_plugin.addHotkey(&hk);
 
 	if (g_plugin.getByte(SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED) != REMIND_OFF && ExtraIcon == INVALID_HANDLE_VALUE)
-		ExtraIcon = ExtraIcon_RegisterIcolib("Reminder", LPGEN("Reminder (UInfoEx)"), ICO_COMMON_ANNIVERSARY);
+		ExtraIcon = ExtraIcon_RegisterIcolib("Reminder", LPGEN("Reminder (UInfoEx)"), g_plugin.getIconHandle(IDI_ANNIVERSARY));
 }
 
 /**
