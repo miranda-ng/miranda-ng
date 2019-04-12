@@ -219,7 +219,6 @@ var
   {$include m_history.inc}
   {$include m_hotkeys.inc}
   {$include m_icolib.inc}
-  {$include m_iconheader.inc}
   {$include m_ignore.inc}
   {$include m_imgsrvc.inc}
   {$include m_json.inc}

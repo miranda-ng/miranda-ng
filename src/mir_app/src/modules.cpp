@@ -76,7 +76,6 @@ void UnloadSkinHotkeys(void);
 void UnloadSrmmModule(void);
 void UnloadUtilsModule(void);
 
-int LoadIcoTabsModule();
 int LoadHeaderbarModule();
 int LoadDescButtonModule();
 
@@ -87,7 +86,6 @@ int LoadDefaultModules(void)
 	if (LoadLangPackModule()) return 1; // langpack will be a system module in the new order so this is moved here
 	if (CheckRestart()) return 1;
 	if (LoadUtilsModule()) return 1;
-	if (LoadIcoTabsModule()) return 1;
 	if (LoadHeaderbarModule()) return 1;
 	if (LoadDbintfModule()) return 1;
 

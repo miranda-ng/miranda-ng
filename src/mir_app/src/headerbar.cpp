@@ -24,9 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
-#include "m_iconheader.h"
-
-extern HINSTANCE hInst;
 
 static BOOL IsAeroMode()
 {
@@ -41,8 +38,6 @@ static BOOL IsVSMode()
 
 ////////////////////////////////////////////////////////////////////////////////////
 // Internals
-
-static LRESULT CALLBACK MHeaderbarWndProc(HWND hwnd, UINT  msg, WPARAM wParam, LPARAM lParam);
 
 // structure is used for storing list of tab info
 struct MHeaderbarCtrl : public MZeroedObject
@@ -67,19 +62,6 @@ struct MHeaderbarCtrl : public MZeroedObject
 	// fonts
 	HFONT hFont;
 };
-
-int LoadHeaderbarModule()
-{
-	WNDCLASSEX wc = { 0 };
-	wc.cbSize = sizeof(wc);
-	wc.lpszClassName = L"MHeaderbarCtrl";
-	wc.lpfnWndProc = MHeaderbarWndProc;
-	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
-	wc.cbWndExtra = sizeof(MHeaderbarCtrl*);
-	wc.style = CS_GLOBALCLASS|CS_SAVEBITS;
-	RegisterClassEx(&wc);
-	return 0;
-}
 
 static void MHeaderbar_SetupColors(MHeaderbarCtrl *dat)
 {
@@ -341,4 +323,17 @@ static LRESULT CALLBACK MHeaderbarWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		break;
 	}
 	return DefWindowProc(hwndDlg, msg, wParam, lParam);
+}
+
+int LoadHeaderbarModule()
+{
+	WNDCLASSEX wc = { 0 };
+	wc.cbSize = sizeof(wc);
+	wc.lpszClassName = L"MHeaderbarCtrl";
+	wc.lpfnWndProc = MHeaderbarWndProc;
+	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
+	wc.cbWndExtra = sizeof(MHeaderbarCtrl*);
+	wc.style = CS_GLOBALCLASS | CS_SAVEBITS;
+	RegisterClassEx(&wc);
+	return 0;
 }

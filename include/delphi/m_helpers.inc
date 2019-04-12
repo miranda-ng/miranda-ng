@@ -57,9 +57,6 @@ function TopToolbar_AddButton(pButton:PTTBButton):THANDLE;
 
 function Options_Open(group,page,tab:PWideChar):int_ptr;
 
-procedure MIcoTab_AddItem (hwnd:HWND; lptzName:PAnsiChar; hIcon:HICON; data:LPARAM; bSharedIcon:bool);
-procedure MIcoTab_AddItemW(hwnd:HWND; lptzName:PWideChar; hIcon:HICON; data:LPARAM; bSharedIcon:bool);
-
 {$ELSE}
 
 function _Srmm_AddButton(bbdi:pBBButton; pPlugin:Pointer) : integer; stdcall; 
@@ -333,34 +330,6 @@ end;
 function Options_Open(group,page,tab:PWideChar):int_ptr;
 begin
 	result:=_Options_Open(group,page,tab,@g_plugin);
-end;
-
-procedure MIcoTab_AddItem(hwnd:HWND; lptzName:PAnsiChar; hIcon:HICON; data:LPARAM; bSharedIcon:bool);
-var
-  mit:tMIcoTab;
-begin
-  if bSharedIcon then
-    mit.flag := MITCF_SHAREDICON
-	else
-    mit.flag := 0;
-  mit.hIcon    := hIcon;
-  mit.szName.a := lptzName;
-  mit.data     := data;
-  SendMessage(hwnd, ITCM_ADDITEM, WPARAM(@mit), 0);
-end;
-
-procedure MIcoTab_AddItemW(hwnd:HWND; lptzName:PWideChar; hIcon:HICON; data:LPARAM; bSharedIcon:bool);
-var
-  mit:tMIcoTab;
-begin
-  if bSharedIcon then
-    mit.flag := MITCF_SHAREDICON or MITCF_UNICODE
-	else
-    mit.flag := MITCF_UNICODE;
-  mit.hIcon    := hIcon;
-  mit.szName.w := lptzName;
-  mit.data     := data;
-  SendMessage(hwnd, ITCM_ADDITEM, WPARAM(@mit), 0);
 end;
 
 procedure Srmm_AddButton(bbdi:pBBButton);
