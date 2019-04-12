@@ -415,7 +415,7 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 		{
 			SetWindowLongPtr(hwndDlg, DWLP_USER, (LONG_PTR)lParam);
 			TranslateDialogDefault(hwndDlg);
-			Window_SetIcon_IcoLib(hwndDlg, GetIconHandle(IDI_CONFERENCE));
+			Window_SetIcon_IcoLib(hwndDlg, g_plugin.getIconHandle(IDI_CONFERENCE));
 			gg_gc_resetclistopts(GetDlgItem(hwndDlg, IDC_CLIST));
 
 			// Hook MetaContacts event (if available)

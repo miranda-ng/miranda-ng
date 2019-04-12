@@ -86,8 +86,7 @@ void GaduProto::initpopups()
 	mir_snwprintf(szDescr, L"%s/%s", m_tszUserName, TranslateT("Notifications"));
 	puc.colorBack = RGB(173, 206, 247);
 	puc.colorText = GetSysColor(COLOR_WINDOWTEXT);
-	puc.hIcon = CopyIcon(LoadIconEx("main", FALSE));
-	ReleaseIconEx("main", FALSE);
+	puc.hIcon = g_plugin.getIcon(IDI_GG);
 	puc.iSeconds = 4;
 	hPopupNotify = Popup_RegisterClass(&puc);
 

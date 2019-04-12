@@ -45,27 +45,3 @@ void gg_icolib_init()
 {
 	g_plugin.registerIcon("Protocols/" GGDEF_PROTO, iconList, GGDEF_PROTO);
 }
-
-HICON LoadIconEx(const char* name, bool big)
-{
-	char szSettingName[100];
-	mir_snprintf(szSettingName, "%s_%s", GGDEF_PROTO, name);
-
-	return IcoLib_GetIcon(szSettingName, big);
-}
-
-HANDLE GetIconHandle(int iconId)
-{
-	for (const auto &icon : iconList)
-		if (icon.defIconID == iconId)
-			return icon.hIcolib;
-
-	return nullptr;
-}
-
-void ReleaseIconEx(const char* name, bool big)
-{
-	char szSettingName[100];
-	mir_snprintf(szSettingName, "%s_%s", GGDEF_PROTO, name);
-	IcoLib_Release(szSettingName, big);
-}

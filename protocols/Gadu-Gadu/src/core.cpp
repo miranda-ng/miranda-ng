@@ -993,14 +993,14 @@ retry:
 
 					CLISTEVENT cle = { 0 };
 					cle.hContact = hContact;
-					cle.hIcon = LoadIconEx("image", FALSE);
+					cle.hIcon = g_plugin.getIcon(IDI_IMAGE);
 					cle.flags = CLEF_URGENT;
 					cle.hDbEvent = -98;
 					cle.lParam = (LPARAM)img;
 					cle.pszService = service;
 					cle.szTooltip.a = Translate("Incoming image");
 					g_clistApi.pfnAddEvent(&cle);
-					ReleaseIconEx("image", FALSE);
+					g_plugin.releaseIcon(IDI_IMAGE);
 				}
 			}
 			break;

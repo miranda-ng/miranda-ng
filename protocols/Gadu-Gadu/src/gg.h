@@ -283,9 +283,6 @@ char *gg_avatarhash(char *param);
 
 /* IcoLib functions */
 void gg_icolib_init();
-HICON LoadIconEx(const char* name, bool big);
-HANDLE GetIconHandle(int iconId);
-void ReleaseIconEx(const char* name, bool big);
 
 /* URI parser functions */
 void gg_links_instancemenu_init();

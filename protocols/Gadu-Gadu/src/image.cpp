@@ -405,23 +405,23 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		// Making buttons flat
 		SendDlgItemMessage(hwndDlg, IDC_IMG_PREV, BUTTONSETASFLATBTN, TRUE, 0);
-		SendDlgItemMessage(hwndDlg, IDC_IMG_PREV, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx("previous", FALSE));
+		SendDlgItemMessage(hwndDlg, IDC_IMG_PREV, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_PREV));
 		SendDlgItemMessage(hwndDlg, IDC_IMG_PREV, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Previous image"), BATF_UNICODE);
 
 		SendDlgItemMessage(hwndDlg, IDC_IMG_NEXT, BUTTONSETASFLATBTN, TRUE, 0);
-		SendDlgItemMessage(hwndDlg, IDC_IMG_NEXT, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx("next", FALSE));
+		SendDlgItemMessage(hwndDlg, IDC_IMG_NEXT, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_NEXT));
 		SendDlgItemMessage(hwndDlg, IDC_IMG_NEXT, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Next image"), BATF_UNICODE);
 
 		SendDlgItemMessage(hwndDlg, IDC_IMG_SAVE, BUTTONSETASFLATBTN, TRUE, 0);
-		SendDlgItemMessage(hwndDlg, IDC_IMG_SAVE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx("save", FALSE));
+		SendDlgItemMessage(hwndDlg, IDC_IMG_SAVE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_SAVE));
 		SendDlgItemMessage(hwndDlg, IDC_IMG_SAVE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Save image to disk"), BATF_UNICODE);
 
 		SendDlgItemMessage(hwndDlg, IDC_IMG_DELETE, BUTTONSETASFLATBTN, TRUE, 0);
-		SendDlgItemMessage(hwndDlg, IDC_IMG_DELETE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx("delete", FALSE));
+		SendDlgItemMessage(hwndDlg, IDC_IMG_DELETE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_DELETE));
 		SendDlgItemMessage(hwndDlg, IDC_IMG_DELETE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Delete image from the list"), BATF_UNICODE);
 
 		// Set main window image
-		Window_SetIcon_IcoLib(hwndDlg, GetIconHandle(IDI_IMAGE));
+		Window_SetIcon_IcoLib(hwndDlg, g_plugin.getIconHandle(IDI_IMAGE));
 
 		wchar_t *szName = Clist_GetContactDisplayName(dat->hContact), szTitle[128];
 		if (dat->bReceiving)
@@ -522,10 +522,10 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				img = img->lpNext;
 				gg_img_releasepicture(temp);
 			}
-			ReleaseIconEx("previous", FALSE);
-			ReleaseIconEx("next", FALSE);
-			ReleaseIconEx("delete", FALSE);
-			ReleaseIconEx("save", FALSE);
+			g_plugin.releaseIcon(IDI_PREV);
+			g_plugin.releaseIcon(IDI_NEXT);
+			g_plugin.releaseIcon(IDI_DELETE);
+			g_plugin.releaseIcon(IDI_SAVE);
 			Window_FreeIcon_IcoLib(hwndDlg);
 			gg->gg_EnterCriticalSection(&gg->img_mutex, "gg_img_dlgproc", 58, "img_mutex", 1);
 			list_remove(&gg->imagedlgs, dat, 1);

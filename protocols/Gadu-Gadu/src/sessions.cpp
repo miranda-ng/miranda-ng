@@ -169,7 +169,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 			GetWindowText(hwndDlg, oldTitle, _countof(oldTitle));
 			mir_snwprintf(newTitle, oldTitle, gg->m_tszUserName);
 			SetWindowText(hwndDlg, newTitle);
-			Window_SetIcon_IcoLib(hwndDlg, GetIconHandle(IDI_SESSIONS));
+			Window_SetIcon_IcoLib(hwndDlg, g_plugin.getIconHandle(IDI_SESSIONS));
 
 			if (hHandCursor == nullptr)
 				hHandCursor = LoadCursor(nullptr, IDC_HAND);

@@ -213,7 +213,7 @@ INT_PTR CALLBACK gg_userutildlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	{
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		Window_SetIcon_IcoLib(hwndDlg, GetIconHandle(IDI_SETTINGS));
+		Window_SetIcon_IcoLib(hwndDlg, g_plugin.getIconHandle(IDI_SETTINGS));
 		dat = (GGUSERUTILDLGDATA *)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 		if (dat) SetDlgItemTextA(hwndDlg, IDC_EMAIL, dat->email); // Readup email
