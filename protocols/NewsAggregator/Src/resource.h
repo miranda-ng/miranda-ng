@@ -4,6 +4,7 @@
 //
 #define IDD_OPTIONS                     101
 #define IDD_AUTHENTICATION              102
+#define IDI_CHECKFEED                   108
 #define IDI_ICON                        109
 #define IDD_ADDFEED                     110
 #define IDI_CHECKALL                    111

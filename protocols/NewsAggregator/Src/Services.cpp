@@ -113,7 +113,7 @@ INT_PTR NewsAggrGetStatus(WPARAM, LPARAM)
 
 INT_PTR NewsAggrLoadIcon(WPARAM wParam, LPARAM)
 {
-	return (LOWORD(wParam) == PLI_PROTOCOL) ? (INT_PTR)CopyIcon(LoadIconEx("main", FALSE)) : 0;
+	return (LOWORD(wParam) == PLI_PROTOCOL) ? (INT_PTR)CopyIcon(g_plugin.getIcon(IDI_ICON)) : 0;
 }
 
 static void __cdecl AckThreadProc(void *param)
@@ -230,9 +230,9 @@ INT_PTR NewsAggrRecvMessage(WPARAM, LPARAM lParam)
 void UpdateMenu(bool State)
 {
 	if (!State) // to enable auto-update
-		Menu_ModifyItem(hService2[0], LPGENW("Auto Update Enabled"), GetIconHandle("enabled"));
+		Menu_ModifyItem(hService2[0], LPGENW("Auto Update Enabled"), g_plugin.getIconHandle(IDI_ENABLED));
 	else  // to disable auto-update
-		Menu_ModifyItem(hService2[0], LPGENW("Auto Update Disabled"), GetIconHandle("disabled"));
+		Menu_ModifyItem(hService2[0], LPGENW("Auto Update Disabled"), g_plugin.getIconHandle(IDI_DISABLED));
 
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTBButton, State ? TTBST_PUSHED : 0);
 	g_plugin.setByte("AutoUpdate", !State);
@@ -253,8 +253,8 @@ int OnToolbarLoaded(WPARAM, LPARAM)
 	ttb.pszService = MS_NEWSAGGREGATOR_ENABLED;
 	ttb.pszTooltipUp = LPGEN("Auto Update Enabled");
 	ttb.pszTooltipDn = LPGEN("Auto Update Disabled");
-	ttb.hIconHandleUp = GetIconHandle("enabled");
-	ttb.hIconHandleDn = GetIconHandle("disabled");
+	ttb.hIconHandleUp = g_plugin.getIconHandle(IDI_ENABLED);
+	ttb.hIconHandleDn = g_plugin.getIconHandle(IDI_DISABLED);
 	ttb.dwFlags = (g_plugin.getByte("AutoUpdate", 1) ? 0 : TTBBF_PUSHED) | TTBBF_ASPUSHBUTTON | TTBBF_VISIBLE;
 	hTBButton = g_plugin.addTTB(&ttb);
 	return 0;

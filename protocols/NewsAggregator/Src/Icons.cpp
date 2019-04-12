@@ -26,7 +26,7 @@ static IconItem iconList[] =
 	{ LPGEN("Add Feed"),             "addfeed",     IDI_ADDFEED},
 	{ LPGEN("Import Feeds"),         "importfeeds", IDI_IMPORTFEEDS},
 	{ LPGEN("Export Feeds"),         "exportfeeds", IDI_EXPORTFEEDS},
-	{ LPGEN("Check Feed"),           "checkfeed",   IDI_CHECKALL},
+	{ LPGEN("Check Feed"),           "checkfeed",   IDI_CHECKFEED},
 	{ LPGEN("Auto Update Enabled"),  "enabled",     IDI_ENABLED},
 	{ LPGEN("Auto Update Disabled"), "disabled",    IDI_DISABLED}
 };
@@ -34,20 +34,4 @@ static IconItem iconList[] =
 void InitIcons()
 {
 	g_plugin.registerIcon(LPGEN("News Aggregator"), iconList, MODULENAME);
-}
-
-HICON LoadIconEx(const char *name, bool big)
-{
-	char szSettingName[100];
-	mir_snprintf(szSettingName, "%s_%s", MODULENAME, name);
-	return IcoLib_GetIcon(szSettingName, big);
-}
-
-HANDLE GetIconHandle(const char *name)
-{
-	for (int i=0; i < _countof(iconList); i++)
-		if ( !mir_strcmp(iconList[i].szName, name))
-			return iconList[i].hIcolib;
-
-	return nullptr;
 }

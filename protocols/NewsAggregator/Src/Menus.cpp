@@ -34,7 +34,7 @@ void InitMenu()
 		mi.name.w = LPGENW("Auto Update Enabled");
 	else
 		mi.name.w = LPGENW("Auto Update Disabled");
-	mi.hIcolibItem = GetIconHandle("main");
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_ICON);
 	mi.pszService = MS_NEWSAGGREGATOR_ENABLED;
 	hService2[0] = Menu_AddMainMenuItem(&mi);
 
@@ -46,21 +46,21 @@ void InitMenu()
 
 	SET_UID(mi, 0xb876484d, 0x28aa, 0x4e03, 0x9e, 0x98, 0xed, 0xbc, 0xd1, 0xcf, 0x31, 0x80);
 	mi.position = 20100002;
-	mi.hIcolibItem = GetIconHandle("addfeed");
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_ADDFEED);
 	mi.name.w = LPGENW("Add Feed");
 	mi.pszService = MS_NEWSAGGREGATOR_ADDFEED;
 	hService2[2] = Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0x600bf2c2, 0xa974, 0x44d3, 0x98, 0xf9, 0xe6, 0x65, 0x7c, 0x1f, 0x63, 0x37);
 	mi.position = 20100003;
-	mi.hIcolibItem = GetIconHandle("importfeeds");
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_IMPORTFEEDS);
 	mi.name.w = LPGENW("Import Feeds");
 	mi.pszService = MS_NEWSAGGREGATOR_IMPORTFEEDS;
 	hService2[3] = Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0xc09c8119, 0x64c2, 0x49bd, 0x81, 0xf, 0x54, 0x20, 0x69, 0xd7, 0x30, 0xcf);
 	mi.position = 20100004;
-	mi.hIcolibItem = GetIconHandle("exportfeeds");
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_EXPORTFEEDS);
 	mi.name.w = LPGENW("Export Feeds");
 	mi.pszService = MS_NEWSAGGREGATOR_EXPORTFEEDS;
 	hService2[4] = Menu_AddMainMenuItem(&mi);
@@ -69,7 +69,7 @@ void InitMenu()
 	SET_UID(mi, 0x92be499c, 0x928c, 0x4789, 0x8f, 0x36, 0x28, 0xa2, 0x9f, 0xb7, 0x1a, 0x97);
 	mi.root = nullptr;
 	mi.position = -0x7FFFFFFA;
-	mi.hIcolibItem = GetIconHandle("checkfeed");
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_CHECKFEED);
 	mi.name.w = LPGENW("Check feed");
 	mi.pszService = MS_NEWSAGGREGATOR_CHECKFEED;
 	hService2[5] = Menu_AddContactMenuItem(&mi, MODULENAME);
@@ -79,5 +79,5 @@ void InitMenu()
 	mi.pszService = MS_NEWSAGGREGATOR_CHANGEFEED;
 	hService2[6] = Menu_AddContactMenuItem(&mi, MODULENAME);
 
-	Menu_ModifyItem(hService2[0], nullptr, GetIconHandle(g_plugin.getByte("AutoUpdate", 1) ? "enabled" : "disabled"));
+	Menu_ModifyItem(hService2[0], nullptr, g_plugin.getIconHandle(g_plugin.getByte("AutoUpdate", 1) ? IDI_ENABLED : IDI_DISABLED));
 }

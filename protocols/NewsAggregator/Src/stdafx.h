@@ -101,8 +101,6 @@ void     NetlibInit();
 void     NetlibUnInit();
 void     InitMenu();
 void     InitIcons();
-HICON    LoadIconEx(const char* name, bool big);
-HANDLE   GetIconHandle(const char* name);
 
 INT_PTR  NewsAggrGetName(WPARAM wParam, LPARAM lParam);
 INT_PTR  NewsAggrGetCaps(WPARAM wp, LPARAM lp);
