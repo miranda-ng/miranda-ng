@@ -25,86 +25,86 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 GlobalMessageData g_dat;
 
-static const char *buttonIcons[] =
+static int buttonIcons[] =
 {
-	"scriver_CLOSEX", "scriver_QUOTE", "scriver_ADD", nullptr, 
-	"scriver_USERDETAILS", "scriver_HISTORY", "scriver_SEND"
+	IDI_CLOSEX, IDI_QUOTE, IDI_ADDCONTACT, 0,
+	IDI_USERDETAILS, IDI_HISTORY, IDI_SEND
 };
 
-static const char *chatButtonIcons[] =
+static int chatButtonIcons[] =
 {
-	"scriver_CLOSEX", "chat_bold", "chat_italics", "chat_underline", 
-	"chat_fgcol", "chat_bkgcol", "chat_history", "chat_filter", 
-	"chat_settings", "chat_nicklist", "scriver_SEND"
+	IDI_CLOSEX, IDI_BBOLD, IDI_BITALICS, IDI_BUNDERLINE,
+	IDI_COLOR, IDI_BKGCOLOR, IDI_HISTORY, IDI_FILTER,
+	IDI_TOPICBUT, IDI_NICKLIST, IDI_SEND
 };
 
 static IconItem iconList1[] =
 {
-	{ LPGEN("Add contact"),            "scriver_ADD",          IDI_ADDCONTACT  }, //  1
-	{ LPGEN("User's details"),         "scriver_USERDETAILS",  IDI_USERDETAILS }, //  2
-	{ LPGEN("User's history"),         "scriver_HISTORY",      IDI_HISTORY     }, //  3
-	{ LPGEN("Send message"),           "scriver_SEND",         IDI_SEND        }, //  4
-	{ LPGEN("Smiley button"),          "scriver_SMILEY",       IDI_SMILEY      }, //  5
-	{ LPGEN("User is typing"),         "scriver_TYPING",       IDI_TYPING      }, //  6
-	{ LPGEN("Typing notification off"), "scriver_TYPINGOFF",   IDI_TYPINGOFF   }, //  7
-	{ LPGEN("Sending"),                "scriver_DELIVERING",   IDI_TIMESTAMP   }, //  8
-	{ LPGEN("Quote button"),           "scriver_QUOTE",        IDI_QUOTE       }, //  9
-	{ LPGEN("Close button"),           "scriver_CLOSEX",       IDI_CLOSEX      }, // 10
-	{ LPGEN("Icon overlay"),           "scriver_OVERLAY",      IDI_OVERLAY     }, // 11
-	{ LPGEN("Incoming message (10x10)"),"scriver_INCOMING",    IDI_INCOMING, 10}, // 12
-	{ LPGEN("Outgoing message (10x10)"),"scriver_OUTGOING",    IDI_OUTGOING, 10}, // 13  
-	{ LPGEN("Notice (10x10)"),         "scriver_NOTICE",       IDI_NOTICE,   10}, // 14  
+	{ LPGEN("Add contact"),             "ADD",         IDI_ADDCONTACT  }, //  1
+	{ LPGEN("User's details"),          "USERDETAILS", IDI_USERDETAILS }, //  2
+	{ LPGEN("User's history"),          "HISTORY",     IDI_HISTORY     }, //  3
+	{ LPGEN("Send message"),            "SEND",        IDI_SEND        }, //  4
+	{ LPGEN("Smiley button"),           "SMILEY",      IDI_SMILEY      }, //  5
+	{ LPGEN("User is typing"),          "TYPING",      IDI_TYPING      }, //  6
+	{ LPGEN("Typing notification off"), "TYPINGOFF",   IDI_TYPINGOFF   }, //  7
+	{ LPGEN("Sending"),                 "DELIVERING",  IDI_TIMESTAMP   }, //  8
+	{ LPGEN("Quote button"),            "QUOTE",       IDI_QUOTE       }, //  9
+	{ LPGEN("Close button"),            "CLOSEX",      IDI_CLOSEX      }, // 10
+	{ LPGEN("Icon overlay"),            "OVERLAY",     IDI_OVERLAY     }, // 11
+	{ LPGEN("Incoming message (10x10)"),"INCOMING",    IDI_INCOMING, 10}, // 12
+	{ LPGEN("Outgoing message (10x10)"),"OUTGOING",    IDI_OUTGOING, 10}, // 13  
+	{ LPGEN("Notice (10x10)"),          "NOTICE",      IDI_NOTICE,   10}, // 14  
 };
 
 static IconItem iconList2[] =
 {
-	{ LPGEN("Window Icon"),            "chat_window",          IDI_CHANMGR     }, //  1 
-	{ LPGEN("Text color"),             "chat_fgcol",           IDI_COLOR       }, //  2
-	{ LPGEN("Background color") ,      "chat_bkgcol",          IDI_BKGCOLOR    }, //  3
-	{ LPGEN("Bold"),                   "chat_bold",            IDI_BBOLD       }, //  4
-	{ LPGEN("Italics"),                "chat_italics",         IDI_BITALICS    }, //  5
-	{ LPGEN("Underlined"),             "chat_underline",       IDI_BUNDERLINE  }, //  6
-	{ LPGEN("Smiley button"),          "chat_smiley",          IDI_SMILEY      }, //  7
-	{ LPGEN("Room history"),           "chat_history",         IDI_HISTORY     }, //  8
-	{ LPGEN("Room settings"),          "chat_settings",        IDI_TOPICBUT    }, //  9
-	{ LPGEN("Event filter disabled"),  "chat_filter",          IDI_FILTER      }, // 10
-	{ LPGEN("Event filter enabled"),   "chat_filter2",         IDI_FILTER2     }, // 11
-	{ LPGEN("Hide nick list"),         "chat_nicklist",        IDI_NICKLIST    }, // 12
-	{ LPGEN("Show nick list"),         "chat_nicklist2",       IDI_NICKLIST2   }, // 13
-	{ LPGEN("Icon overlay"),           "chat_overlay",         IDI_OVERLAY     }, // 14
-	{ LPGEN("Status 1 (10x10)"),       "chat_status0",         IDI_STATUS0,  10}, // 15
-	{ LPGEN("Status 2 (10x10)"),       "chat_status1",         IDI_STATUS1,  10}, // 16
-	{ LPGEN("Status 3 (10x10)"),       "chat_status2",         IDI_STATUS2,  10}, // 17
-	{ LPGEN("Status 4 (10x10)"),       "chat_status3",         IDI_STATUS3,  10}, // 18
-	{ LPGEN("Status 5 (10x10)"),       "chat_status4",         IDI_STATUS4,  10}, // 19
-	{ LPGEN("Status 6 (10x10)"),       "chat_status5",         IDI_STATUS5,  10}, // 20
+	{ LPGEN("Window Icon"),            "window",          IDI_CHANMGR     }, //  1 
+	{ LPGEN("Text color"),             "fgcol",           IDI_COLOR       }, //  2
+	{ LPGEN("Background color") ,      "bkgcol",          IDI_BKGCOLOR    }, //  3
+	{ LPGEN("Bold"),                   "bold",            IDI_BBOLD       }, //  4
+	{ LPGEN("Italics"),                "italics",         IDI_BITALICS    }, //  5
+	{ LPGEN("Underlined"),             "underline",       IDI_BUNDERLINE  }, //  6
+	{ LPGEN("Smiley button"),          "smiley",          IDI_SMILEY      }, //  7
+	{ LPGEN("Room history"),           "history",         IDI_HISTORY     }, //  8
+	{ LPGEN("Room settings"),          "settings",        IDI_TOPICBUT    }, //  9
+	{ LPGEN("Event filter disabled"),  "filter",          IDI_FILTER      }, // 10
+	{ LPGEN("Event filter enabled"),   "filter2",         IDI_FILTER2     }, // 11
+	{ LPGEN("Hide nick list"),         "nicklist",        IDI_NICKLIST    }, // 12
+	{ LPGEN("Show nick list"),         "nicklist2",       IDI_NICKLIST2   }, // 13
+	{ LPGEN("Icon overlay"),           "overlay",         IDI_OVERLAY     }, // 14
+	{ LPGEN("Status 1 (10x10)"),       "status0",         IDI_STATUS0,  10}, // 15
+	{ LPGEN("Status 2 (10x10)"),       "status1",         IDI_STATUS1,  10}, // 16
+	{ LPGEN("Status 3 (10x10)"),       "status2",         IDI_STATUS2,  10}, // 17
+	{ LPGEN("Status 4 (10x10)"),       "status3",         IDI_STATUS3,  10}, // 18
+	{ LPGEN("Status 5 (10x10)"),       "status4",         IDI_STATUS4,  10}, // 19
+	{ LPGEN("Status 6 (10x10)"),       "status5",         IDI_STATUS5,  10}, // 20
 };
 
 static IconItem iconList3[] =
 {
-	{ LPGEN("Message in (10x10)"),     "chat_log_message_in",  IDI_INCOMING, 10}, //  1
-	{ LPGEN("Message out (10x10)"),    "chat_log_message_out", IDI_OUTGOING, 10}, //  2
-	{ LPGEN("Action (10x10)"),         "chat_log_action",      IDI_ACTION,   10}, //  3
-	{ LPGEN("Add Status (10x10)"),     "chat_log_addstatus",   IDI_ADDSTATUS,10}, //  4
-	{ LPGEN("Remove status (10x10)"),  "chat_log_removestatus", IDI_REMSTATUS,10}, //  5
-	{ LPGEN("Join (10x10)"),           "chat_log_join",        IDI_JOIN,     10}, //  6
-	{ LPGEN("Leave (10x10)"),          "chat_log_part",        IDI_PART,     10}, //  7
-	{ LPGEN("Quit (10x10)"),           "chat_log_quit",        IDI_QUIT,     10}, //  8
-	{ LPGEN("Kick (10x10)"),           "chat_log_kick",        IDI_KICK,     10}, //  9
-	{ LPGEN("Nickchange (10x10)"),     "chat_log_nick",        IDI_NICK,     10}, // 10
-	{ LPGEN("Notice (10x10)"),         "chat_log_notice",   IDI_CHAT_NOTICE, 10}, // 11
-	{ LPGEN("Topic (10x10)"),          "chat_log_topic",       IDI_TOPIC,    10}, // 12
-	{ LPGEN("Highlight (10x10)"),      "chat_log_highlight",   IDI_NOTICE,   10}, // 13
-	{ LPGEN("Information (10x10)"),    "chat_log_info",        IDI_INFO,     10}, // 14
+	{ LPGEN("Message in (10x10)"),     "log_message_in",  IDI_INCOMING, 10}, //  1
+	{ LPGEN("Message out (10x10)"),    "log_message_out", IDI_OUTGOING, 10}, //  2
+	{ LPGEN("Action (10x10)"),         "log_action",      IDI_ACTION,   10}, //  3
+	{ LPGEN("Add Status (10x10)"),     "log_addstatus",   IDI_ADDSTATUS,10}, //  4
+	{ LPGEN("Remove status (10x10)"),  "log_removestatus", IDI_REMSTATUS,10}, //  5
+	{ LPGEN("Join (10x10)"),           "log_join",        IDI_JOIN,     10}, //  6
+	{ LPGEN("Leave (10x10)"),          "log_part",        IDI_PART,     10}, //  7
+	{ LPGEN("Quit (10x10)"),           "log_quit",        IDI_QUIT,     10}, //  8
+	{ LPGEN("Kick (10x10)"),           "log_kick",        IDI_KICK,     10}, //  9
+	{ LPGEN("Nickchange (10x10)"),     "log_nick",        IDI_NICK,     10}, // 10
+	{ LPGEN("Notice (10x10)"),         "log_notice",   IDI_CHAT_NOTICE, 10}, // 11
+	{ LPGEN("Topic (10x10)"),          "log_topic",       IDI_TOPIC,    10}, // 12
+	{ LPGEN("Highlight (10x10)"),      "log_highlight",   IDI_NOTICE,   10}, // 13
+	{ LPGEN("Information (10x10)"),    "log_info",        IDI_INFO,     10}, // 14
 };
 
 void RegisterIcons(void)
 {
 	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
 
-	g_plugin.registerIcon(LPGEN("Single Messaging"), iconList1);
-	g_plugin.registerIcon(LPGEN("Group chats"),      iconList2);
-	g_plugin.registerIcon(LPGEN("Single Messaging"), iconList3);
+	g_plugin.registerIcon(LPGEN("Single Messaging"), iconList1, "scriver");
+	g_plugin.registerIcon(LPGEN("Group chats"),      iconList2, "chat");
+	g_plugin.registerIcon(LPGEN("Single Messaging"), iconList3, "chat");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -215,23 +215,6 @@ void ReleaseIcons()
 	IcoLib_ReleaseIcon(g_dat.hIconChatBig);
 }
 
-HICON GetCachedIcon(const char *name)
-{
-	for (auto &it : iconList1)
-		if (!mir_strcmp(it.szName, name))
-			return IcoLib_GetIconByHandle(it.hIcolib);
-
-	for (auto &it : iconList2)
-		if (!mir_strcmp(it.szName, name))
-			return IcoLib_GetIconByHandle(it.hIcolib);
-
-	for (auto &it : iconList3)
-		if (!mir_strcmp(it.szName, name))
-			return IcoLib_GetIconByHandle(it.hIcolib);
-
-	return nullptr;
-}
-
 void LoadGlobalIcons()
 {
 	g_dat.hMsgIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
@@ -244,17 +227,17 @@ void LoadGlobalIcons()
 	ImageList_RemoveAll(g_dat.hSearchEngineIconList);
 	
 	for (auto &it : buttonIcons) {
-		if (it == nullptr)
+		if (it == 0)
 			ImageList_AddIcon_ProtoEx(g_dat.hButtonIconList, nullptr, ID_STATUS_OFFLINE);
 		else
-			ImageList_AddIcon(g_dat.hButtonIconList, GetCachedIcon(it));
+			ImageList_AddIcon(g_dat.hButtonIconList, g_plugin.getIcon(it));
 	}
 	
 	for (auto &it : chatButtonIcons)
-		ImageList_AddIcon(g_dat.hChatButtonIconList, GetCachedIcon(it));
+		ImageList_AddIcon(g_dat.hChatButtonIconList, g_plugin.getIcon(it));
 
-	ImageList_AddIcon(g_dat.hHelperIconList, GetCachedIcon("scriver_OVERLAY"));
-	int overlayIcon = ImageList_AddIcon(g_dat.hHelperIconList, GetCachedIcon("scriver_OVERLAY"));
+	ImageList_AddIcon(g_dat.hHelperIconList, g_plugin.getIcon(IDI_OVERLAY));
+	int overlayIcon = ImageList_AddIcon(g_dat.hHelperIconList, g_plugin.getIcon(IDI_OVERLAY));
 	ImageList_SetOverlayImage(g_dat.hHelperIconList, overlayIcon, 1);
 	for (int i = IDI_GOOGLE; i < IDI_LASTICON; i++) {
 		HICON hIcon = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(i), IMAGE_ICON, 0, 0, 0);

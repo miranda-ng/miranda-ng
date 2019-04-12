@@ -128,7 +128,6 @@ void ReloadGlobals();
 void RegisterIcons();
 void ReleaseIcons();
 void LoadGlobalIcons();
-HICON GetCachedIcon(const char *name);
 void RegisterFontServiceFonts();
 
 int ImageList_AddIcon_Ex(HIMAGELIST hIml, int id);

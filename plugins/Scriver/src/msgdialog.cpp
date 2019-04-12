@@ -584,7 +584,7 @@ void CSrmmWindow::onChanged_Splitter(CSplitter *pSplitter)
 HICON CSrmmWindow::GetTabIcon()
 {
 	if (m_bShowTyping)
-		return GetCachedIcon("scriver_TYPING");
+		return g_plugin.getIcon(IDI_TYPING);
 
 	if (m_iShowUnread != 0)
 		return m_hStatusIconOverlay;
@@ -595,7 +595,7 @@ HICON CSrmmWindow::GetTabIcon()
 void CSrmmWindow::GetTitlebarIcon(TitleBarData *tbd)
 {
 	if (m_bShowTyping && (g_dat.flags2 & SMF2_SHOWTYPINGWIN))
-		tbd->hIconNot = tbd->hIcon = GetCachedIcon("scriver_TYPING");
+		tbd->hIconNot = tbd->hIcon = g_plugin.getIcon(IDI_TYPING);
 	else if (m_iShowUnread && (GetActiveWindow() != m_hwndParent || GetForegroundWindow() != m_hwndParent)) {
 		tbd->hIcon = m_hStatusIcon;
 		tbd->hIconNot = g_dat.hMsgIcon;
@@ -747,12 +747,12 @@ void CSrmmWindow::UpdateStatusBar()
 		StatusBarData sbd = { 0 };
 		sbd.iFlags = SBDF_TEXT | SBDF_ICON;
 		if (m_iMessagesInProgress && (g_dat.flags & SMF_SHOWPROGRESS)) {
-			sbd.hIcon = GetCachedIcon("scriver_DELIVERING");
+			sbd.hIcon = g_plugin.getIcon(IDI_TIMESTAMP);
 			sbd.pszText = szText;
 			mir_snwprintf(szText, TranslateT("Sending in progress: %d message(s) left..."), m_iMessagesInProgress);
 		}
 		else if (m_nTypeSecs) {
-			sbd.hIcon = GetCachedIcon("scriver_TYPING");
+			sbd.hIcon = g_plugin.getIcon(IDI_TYPING);
 			sbd.pszText = szText;
 			mir_snwprintf(szText, TranslateT("%s is typing a message..."), Clist_GetContactDisplayName(m_hContact));
 			m_nTypeSecs--;

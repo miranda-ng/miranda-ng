@@ -793,17 +793,17 @@ void LoadMsgLogIcons(void)
 	for (int i = 0; i < _countof(pLogIconBmpBits); i++) {
 		switch (i) {
 		case LOGICON_MSG_IN:
-			ImageList_AddIcon(g_hImageList, GetCachedIcon("scriver_INCOMING"));
+			ImageList_AddIcon(g_hImageList, g_plugin.getIcon(IDI_INCOMING));
 			hIcon = ImageList_GetIcon(g_hImageList, LOGICON_MSG_IN, ILD_NORMAL);
 			hBrush = hInBkgBrush;
 			break;
 		case LOGICON_MSG_OUT:
-			ImageList_AddIcon(g_hImageList, GetCachedIcon("scriver_OUTGOING"));
+			ImageList_AddIcon(g_hImageList, g_plugin.getIcon(IDI_OUTGOING));
 			hIcon = ImageList_GetIcon(g_hImageList, LOGICON_MSG_OUT, ILD_NORMAL);
 			hBrush = hOutBkgBrush;
 			break;
 		case LOGICON_MSG_NOTICE:
-			ImageList_AddIcon(g_hImageList, GetCachedIcon("scriver_NOTICE"));
+			ImageList_AddIcon(g_hImageList, g_plugin.getIcon(IDI_NOTICE));
 			hIcon = ImageList_GetIcon(g_hImageList, LOGICON_MSG_NOTICE, ILD_NORMAL);
 			hBrush = hBkgBrush;
 			break;

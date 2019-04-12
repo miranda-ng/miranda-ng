@@ -205,7 +205,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 			cle.hContact = hContact;
 			cle.hDbEvent = 1;
 			cle.flags = CLEF_ONLYAFEW | CLEF_UNICODE;
-			cle.hIcon = GetCachedIcon("scriver_TYPING");
+			cle.hIcon = g_plugin.getIcon(IDI_TYPING);
 			cle.pszService = MS_MSG_TYPINGMESSAGE;
 			cle.szTooltip.w = szTip;
 			g_clistApi.pfnAddEvent(&cle);
@@ -402,8 +402,8 @@ static void RegisterStatusIcons()
 	StatusIconData sid = {};
 	sid.szModule = SRMM_MODULE;
 	sid.dwId = 1;
-	sid.hIcon = GetCachedIcon("scriver_TYPING");
-	sid.hIconDisabled = GetCachedIcon("scriver_TYPINGOFF");
+	sid.hIcon = g_plugin.getIcon(IDI_TYPING);
+	sid.hIconDisabled = g_plugin.getIcon(IDI_TYPINGOFF);
 	sid.flags = MBF_HIDDEN;
 	Srmm_AddIcon(&sid, &g_plugin);
 }
