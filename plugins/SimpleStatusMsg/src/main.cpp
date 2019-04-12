@@ -1221,13 +1221,13 @@ VOID CALLBACK UpdateMsgTimerProc(HWND, UINT, UINT_PTR, DWORD)
 static int AddTopToolbarButton(WPARAM, LPARAM)
 {
 	TTBButton tbb = {};
-	tbb.hIconHandleUp = tbb.hIconHandleDn = GetIconHandle(IDI_CSMSG);
+	tbb.hIconHandleUp = tbb.hIconHandleDn = g_plugin.getIconHandle(IDI_CSMSG);
 	tbb.pszService = MS_SIMPLESTATUSMSG_SHOWDIALOGINT;
 	tbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	tbb.name = tbb.pszTooltipUp = LPGEN("Change status message");
 	hTTBButton = g_plugin.addTTB(&tbb);
 
-	ReleaseIconEx("csmsg");
+	g_plugin.releaseIcon(IDI_CSMSG);
 	return 0;
 }
 
@@ -1270,7 +1270,7 @@ static int ChangeStatusMsgPrebuild(WPARAM, LPARAM)
 	mi.flags = CMIF_UNICODE;
 	if (!g_plugin.getByte("ShowStatusMenuItem", 1))
 		mi.flags |= CMIF_HIDDEN;
-	mi.hIcolibItem = GetIconHandle(IDI_CSMSG);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_CSMSG);
 	mi.pszService = MS_SIMPLESTATUSMSG_SHOWDIALOGINT;
 	mi.name.w = LPGENW("Status message...");
 	mi.position = 2000200000;

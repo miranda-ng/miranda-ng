@@ -89,11 +89,10 @@ int InitOptions(WPARAM wParam, LPARAM lParam);
 
 /* utils.cpp */
 void IconsInit(void);
-HICON LoadIconEx(const char* name);
-HANDLE GetIconHandle(int iconId);
-void ReleaseIconEx(const char* name);
+
 HANDLE HookProtoEvent(const char *szModule, const char *szEvent, MIRANDAHOOKPARAM hookProc);
 void UnhookProtoEvents(void);
+
 int GetRandom(int from, int to);
 const wchar_t *GetDefaultMessage(int status);
 const char *StatusModeToDbSetting(int status, const char *suffix);

@@ -20,8 +20,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "stdafx.h"
 
-static LIST<void> arProtoHooks(5);
-
 static IconItem iconList[] =
 {
 	{ LPGEN("Delete selected"),           "cross",   IDI_CROSS   },
@@ -30,7 +28,7 @@ static IconItem iconList[] =
 	{ LPGEN("Add to predefined"),         "add",     IDI_PLUS    },
 	{ LPGEN("Clear history"),             "clear",   IDI_CHIST   },
 	{ LPGEN("Copy Away message"),         "copy",    IDI_COPY    },
-	{ LPGEN("Change status message"),     "csmsg",   IDI_CSMSG,  },
+	{ LPGEN("Change status message"),     "csmsg",   IDI_CSMSG   },
 	{ LPGEN("Go to URL in Away message"), "gotourl", IDI_GOTOURL }
 };
 
@@ -39,28 +37,9 @@ void IconsInit(void)
 	g_plugin.registerIcon(LPGEN("Simple Status Message"), iconList, MODULENAME);
 }
 
-HICON LoadIconEx(const char *name)
-{
-	char szSettingName[100];
-	mir_snprintf(szSettingName, "SimpleStatusMsg_%s", name);
-	return IcoLib_GetIcon(szSettingName);
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
-HANDLE GetIconHandle(int iconId)
-{
-	for (int i = 0; i < _countof(iconList); i++)
-		if (iconList[i].defIconID == iconId)
-			return iconList[i].hIcolib;
-
-	return nullptr;
-}
-
-void ReleaseIconEx(const char *name)
-{
-	char szSettingName[100];
-	mir_snprintf(szSettingName, "SimpleStatusMsg_%s", name);
-	IcoLib_Release(szSettingName);
-}
+static LIST<void> arProtoHooks(5);
 
 HANDLE HookProtoEvent(const char *szModule, const char *szEvent, MIRANDAHOOKPARAM hookProc)
 {
@@ -78,7 +57,9 @@ void UnhookProtoEvents(void)
 	arProtoHooks.destroy();
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // Generate random number in a specified range
+
 int GetRandom(int from, int to)
 {
 	if ((to - from) < 1)
@@ -88,7 +69,9 @@ int GetRandom(int from, int to)
 	return ((randnum % (to - from + 1)) + from);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // From SRAway module
+
 const wchar_t *GetDefaultMessage(int status)
 {
 	switch (status) {

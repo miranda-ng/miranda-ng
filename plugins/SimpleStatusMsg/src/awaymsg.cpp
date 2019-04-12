@@ -353,7 +353,7 @@ int LoadAwayMsgModule(void)
 	SET_UID(mi, 0x311124e9, 0xb477, 0x42ef, 0x84, 0xd2, 0xc, 0x6c, 0x50, 0x3f, 0x4a, 0x84);
 	CreateServiceFunction(MS_SIMPLESTATUSMSG_COPYMSG, CopyAwayMsgCommand);
 	mi.position = -2000006000;
-	mi.hIcolibItem = GetIconHandle(IDI_COPY);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_COPY);
 	mi.name.w = LPGENW("Copy Away message");
 	mi.pszService = MS_SIMPLESTATUSMSG_COPYMSG;
 	hCopyMsgMenuItem = Menu_AddContactMenuItem(&mi);
@@ -361,7 +361,7 @@ int LoadAwayMsgModule(void)
 	SET_UID(mi, 0xe2c75070, 0x455d, 0x455f, 0xbf, 0x53, 0x86, 0x64, 0xbc, 0x14, 0xa1, 0xbe);
 	CreateServiceFunction(MS_SIMPLESTATUSMSG_GOTOURLMSG, GoToURLMsgCommand);
 	mi.position = -2000007000;
-	mi.hIcolibItem = GetIconHandle(IDI_GOTOURL);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_GOTOURL);
 	mi.name.w = LPGENW("&Go to URL in Away message");
 	mi.pszService = MS_SIMPLESTATUSMSG_GOTOURLMSG;
 	hGoToURLMenuItem = Menu_AddContactMenuItem(&mi);

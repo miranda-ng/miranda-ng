@@ -943,11 +943,11 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			copy_init_data->m_bOnStartup = init_data->m_bOnStartup;
 
 			//Load Icons
-			copy_init_data->icon[I_ICON_DEL] = LoadIconEx("cross");
-			copy_init_data->icon[I_ICON_HIST] = LoadIconEx("recent");
-			copy_init_data->icon[I_ICON_MSG] = LoadIconEx("predef");
-			copy_init_data->icon[I_ICON_ADD] = LoadIconEx("add");
-			copy_init_data->icon[I_ICON_CLEAR] = LoadIconEx("clear");
+			copy_init_data->icon[I_ICON_DEL] = g_plugin.getIcon(IDI_CROSS);
+			copy_init_data->icon[I_ICON_HIST] = g_plugin.getIcon(IDI_HISTORY);
+			copy_init_data->icon[I_ICON_MSG] = g_plugin.getIcon(IDI_MESSAGE);
+			copy_init_data->icon[I_ICON_ADD] = g_plugin.getIcon(IDI_PLUS);
+			copy_init_data->icon[I_ICON_CLEAR] = g_plugin.getIcon(IDI_CHIST);
 			if (copy_init_data->m_iDlgFlags & DLG_SHOW_STATUS_ICONS)
 				copy_init_data->status_icons = AddStatusIconsToImageList(init_data->m_szProto, copy_init_data->m_iStatusModes);
 			if (copy_init_data->m_iDlgFlags & DLG_SHOW_LIST_ICONS)
@@ -1542,16 +1542,18 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 		break;
 
 	case DM_SIMPAWAY_CHANGEICONS:
-		ReleaseIconEx("cross");
-		ReleaseIconEx("recent");
-		ReleaseIconEx("predef");
-		ReleaseIconEx("add");
-		ReleaseIconEx("clear");
-		msgbox_data->icon[I_ICON_DEL] = LoadIconEx("cross");
-		msgbox_data->icon[I_ICON_HIST] = LoadIconEx("recent");
-		msgbox_data->icon[I_ICON_MSG] = LoadIconEx("predef");
-		msgbox_data->icon[I_ICON_ADD] = LoadIconEx("add");
-		msgbox_data->icon[I_ICON_CLEAR] = LoadIconEx("clear");
+		g_plugin.releaseIcon(IDI_CROSS);
+		g_plugin.releaseIcon(IDI_HISTORY);
+		g_plugin.releaseIcon(IDI_MESSAGE);
+		g_plugin.releaseIcon(IDI_PLUS);
+		g_plugin.releaseIcon(IDI_CHIST);
+		
+		msgbox_data->icon[I_ICON_DEL] = g_plugin.getIcon(IDI_CROSS);
+		msgbox_data->icon[I_ICON_HIST] = g_plugin.getIcon(IDI_HISTORY);
+		msgbox_data->icon[I_ICON_MSG] = g_plugin.getIcon(IDI_MESSAGE);
+		msgbox_data->icon[I_ICON_ADD] = g_plugin.getIcon(IDI_PLUS);
+		msgbox_data->icon[I_ICON_CLEAR] = g_plugin.getIcon(IDI_CHIST);
+
 		if (msgbox_data->m_iDlgFlags & DLG_SHOW_LIST_ICONS)
 			for (int i = 0; i < 5; ++i)
 				ImageList_ReplaceIcon(msgbox_data->other_icons, i, msgbox_data->icon[i]);
@@ -1602,11 +1604,11 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 			ImageList_Destroy(msgbox_data->status_icons);
 			ImageList_Destroy(msgbox_data->other_icons);
-			ReleaseIconEx("cross");
-			ReleaseIconEx("recent");
-			ReleaseIconEx("predef");
-			ReleaseIconEx("add");
-			ReleaseIconEx("clear");
+			g_plugin.releaseIcon(IDI_CROSS);
+			g_plugin.releaseIcon(IDI_HISTORY);
+			g_plugin.releaseIcon(IDI_MESSAGE);
+			g_plugin.releaseIcon(IDI_PLUS);
+			g_plugin.releaseIcon(IDI_CHIST);
 			Window_FreeIcon_IcoLib(hwndDlg);
 
 			hwndSAMsgDialog = nullptr;
