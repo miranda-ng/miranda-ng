@@ -497,7 +497,7 @@ int AddNewMailsToListView(HWND hListView, CAccount *ActualAccount, DWORD nflags)
 
 	POPUPDATAW NewMailPopup = {};
 	NewMailPopup.lchContact = (ActualAccount->hContact != NULL) ? ActualAccount->hContact : (UINT_PTR)ActualAccount;
-	NewMailPopup.lchIcon = g_LoadIconEx(2);
+	NewMailPopup.lchIcon = g_plugin.getIcon(IDI_NEWMAIL);
 	if (nflags & YAMN_ACC_POPC) {
 		NewMailPopup.colorBack = ActualAccount->NewMailN.PopupB;
 		NewMailPopup.colorText = ActualAccount->NewMailN.PopupT;
@@ -640,7 +640,7 @@ void DoMailActions(HWND hDlg, CAccount *ActualAccount, struct CMailNumbers *MN, 
 			CLISTEVENT evt = {};
 			evt.flags = CLEF_UNICODE;
 			evt.hContact = ActualAccount->hContact;
-			evt.hIcon = g_LoadIconEx(2);
+			evt.hIcon = g_plugin.getIcon(IDI_NEWMAIL);
 			evt.hDbEvent = ActualAccount->hContact;
 			evt.lParam = ActualAccount->hContact;
 			evt.pszService = MS_YAMN_CLISTDBLCLICK;
@@ -659,7 +659,7 @@ void DoMailActions(HWND hDlg, CAccount *ActualAccount, struct CMailNumbers *MN, 
 		POPUPDATAW NewMailPopup;
 
 		NewMailPopup.lchContact = (ActualAccount->hContact != NULL) ? ActualAccount->hContact : (UINT_PTR)ActualAccount;
-		NewMailPopup.lchIcon = g_LoadIconEx(2);
+		NewMailPopup.lchIcon = g_plugin.getIcon(IDI_NEWMAIL);
 		if (nflags & YAMN_ACC_POPC) {
 			NewMailPopup.colorBack = ActualAccount->NewMailN.PopupB;
 			NewMailPopup.colorText = ActualAccount->NewMailN.PopupT;
@@ -701,7 +701,7 @@ void DoMailActions(HWND hDlg, CAccount *ActualAccount, struct CMailNumbers *MN, 
 			SendDlgItemMessageW(hDlg, IDC_LISTMAILS, LVM_SCROLL, 0, (LPARAM)0x7ffffff);
 
 			if ((nflags & YAMN_ACC_ICO) && (MN->Real.SysTrayUC + MN->Virtual.SysTrayUC)) {
-				nid.hIcon = g_LoadIconEx(2);
+				nid.hIcon = g_plugin.getIcon(IDI_NEWMAIL);
 				nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
 				nid.uCallbackMessage = WM_YAMN_NOTIFYICON;
 				mir_snwprintf(nid.szTip, L"%S %s", ActualAccount->Name, TranslateT("- new mail message(s)"));
@@ -747,7 +747,7 @@ void DoMailActions(HWND hDlg, CAccount *ActualAccount, struct CMailNumbers *MN, 
 		POPUPDATAW NoNewMailPopup = {};
 
 		NoNewMailPopup.lchContact = (ActualAccount->hContact != NULL) ? ActualAccount->hContact : (UINT_PTR)ActualAccount;
-		NoNewMailPopup.lchIcon = g_LoadIconEx(1);
+		NoNewMailPopup.lchIcon = g_plugin.getIcon(IDI_LAUNCHAPP);
 		if (nflags & YAMN_ACC_POPC) {
 			NoNewMailPopup.colorBack = ActualAccount->NoNewMailN.PopupB;
 			NoNewMailPopup.colorText = ActualAccount->NoNewMailN.PopupT;
@@ -1261,7 +1261,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			HWND hListView = GetDlgItem(hDlg, IDC_LISTHEADERS);
 			mir_subclassWindow(GetDlgItem(hDlg, IDC_SPLITTER), SplitterSubclassProc);
 			SetWindowLongPtr(hDlg, DWLP_USER, (LONG_PTR)MailParam);
-			Window_SetIcon_IcoLib(hDlg, g_GetIconHandle(2));
+			Window_SetIcon_IcoLib(hDlg, g_plugin.getIconHandle(IDI_NEWMAIL));
 
 			ListView_SetUnicodeFormat(hListView, TRUE);
 			ListView_SetExtendedListViewStyle(hListView, LVS_EX_FULLROWSELECT);
@@ -2083,9 +2083,9 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			nid.uID = 0;
 			nid.uFlags = NIF_ICON;
 			if (mwui->TrayIconState == 0)
-				nid.hIcon = g_LoadIconEx(0);
+				nid.hIcon = g_plugin.getIcon(IDI_CHECKMAIL);
 			else
-				nid.hIcon = g_LoadIconEx(2);
+				nid.hIcon = g_plugin.getIcon(IDI_NEWMAIL);
 			Shell_NotifyIcon(NIM_MODIFY, &nid);
 			mwui->TrayIconState = !mwui->TrayIconState;
 			//			UpdateWindow(hDlg);
@@ -2320,7 +2320,7 @@ void __cdecl MailBrowser(void *Param)
 
 		if ((hMailBrowser == nullptr) && ((MyParam.nflags & YAMN_ACC_MSG) || (MyParam.nflags & YAMN_ACC_ICO) || (MyParam.nnflags & YAMN_ACC_MSG))) {
 			hMailBrowser = CreateDialogParamW(g_plugin.getInst(), MAKEINTRESOURCEW(IDD_DLGVIEWMESSAGES), nullptr, DlgProcYAMNMailBrowser, (LPARAM)&MyParam);
-			Window_SetIcon_IcoLib(hMailBrowser, g_GetIconHandle(2));
+			Window_SetIcon_IcoLib(hMailBrowser, g_plugin.getIconHandle(IDI_NEWMAIL));
 			MoveWindow(hMailBrowser, PosX, PosY, SizeX, SizeY, TRUE);
 		}
 

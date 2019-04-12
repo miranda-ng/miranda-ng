@@ -1248,6 +1248,7 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 			case IDC_RADIOPOP1:
 				Changed = TRUE;
 				break;
+
 			case IDC_CPB:
 			case IDC_CPT:
 			case IDC_CPFB:
@@ -1256,6 +1257,7 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 			case IDC_CPNT:
 				if (HIWORD(wParam) != CPN_COLOURCHANGED)
 					break;
+
 			case IDC_CHECKCOL:
 			case IDC_CHECKFCOL:
 			case IDC_CHECKNCOL:
@@ -1269,25 +1271,12 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 				break;
 
 			case IDC_PREVIEW:
-				{
+				if (IsDlgButtonChecked(hDlg, IDC_CHECKPOP) == BST_CHECKED) {
 					POPUPDATAW Tester = {};
-					POPUPDATAW TesterF = {};
-					POPUPDATAW TesterN = {};
-					BOOL TesterC = (IsDlgButtonChecked(hDlg, IDC_CHECKCOL) == BST_CHECKED);
-					BOOL TesterFC = (IsDlgButtonChecked(hDlg, IDC_CHECKFCOL) == BST_CHECKED);
-					BOOL TesterNC = (IsDlgButtonChecked(hDlg, IDC_CHECKNCOL) == BST_CHECKED);
-
-					Tester.lchIcon = g_LoadIconEx(2);
-					TesterF.lchIcon = g_LoadIconEx(3);
-					TesterN.lchIcon = g_LoadIconEx(1);
-
+					Tester.lchIcon = g_plugin.getIcon(IDI_NEWMAIL);
 					mir_wstrncpy(Tester.lpwzContactName, TranslateT("Account Test"), MAX_CONTACTNAME);
-					mir_wstrncpy(TesterF.lpwzContactName, TranslateT("Account Test (failed)"), MAX_CONTACTNAME);
-					mir_wstrncpy(TesterN.lpwzContactName, TranslateT("Account Test"), MAX_CONTACTNAME);
 					mir_wstrncpy(Tester.lpwzText, TranslateT("You have N new mail messages"), MAX_SECONDLINE);
-					mir_wstrncpy(TesterF.lpwzText, TranslateT("Connection failed message"), MAX_SECONDLINE);
-					mir_wstrncpy(TesterN.lpwzText, TranslateT("No new mail message"), MAX_SECONDLINE);
-					if (TesterC) {
+					if (IsDlgButtonChecked(hDlg, IDC_CHECKCOL) == BST_CHECKED) {
 						Tester.colorBack = SendDlgItemMessage(hDlg, IDC_CPB, CPM_GETCOLOUR, 0, 0);
 						Tester.colorText = SendDlgItemMessage(hDlg, IDC_CPT, CPM_GETCOLOUR, 0, 0);
 					}
@@ -1295,7 +1284,14 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 						Tester.colorBack = GetSysColor(COLOR_BTNFACE);
 						Tester.colorText = GetSysColor(COLOR_WINDOWTEXT);
 					}
-					if (TesterFC) {
+					PUAddPopupW(&Tester);
+				}
+				if (IsDlgButtonChecked(hDlg, IDC_CHECKFPOP) == BST_CHECKED) {
+					POPUPDATAW TesterF = {};
+					TesterF.lchIcon = g_plugin.getIcon(IDI_BADCONNECT);
+					mir_wstrncpy(TesterF.lpwzContactName, TranslateT("Account Test (failed)"), MAX_CONTACTNAME);
+					mir_wstrncpy(TesterF.lpwzText, TranslateT("Connection failed message"), MAX_SECONDLINE);
+					if (IsDlgButtonChecked(hDlg, IDC_CHECKFCOL) == BST_CHECKED) {
 						TesterF.colorBack = SendDlgItemMessage(hDlg, IDC_CPFB, CPM_GETCOLOUR, 0, 0);
 						TesterF.colorText = SendDlgItemMessage(hDlg, IDC_CPFT, CPM_GETCOLOUR, 0, 0);
 					}
@@ -1303,7 +1299,14 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 						TesterF.colorBack = GetSysColor(COLOR_BTNFACE);
 						TesterF.colorText = GetSysColor(COLOR_WINDOWTEXT);
 					}
-					if (TesterNC) {
+					PUAddPopupW(&TesterF);
+				}
+				if (IsDlgButtonChecked(hDlg, IDC_CHECKNPOP) == BST_CHECKED) {
+					POPUPDATAW TesterN = {};
+					TesterN.lchIcon = g_plugin.getIcon(IDI_LAUNCHAPP);
+					mir_wstrncpy(TesterN.lpwzContactName, TranslateT("Account Test"), MAX_CONTACTNAME);
+					mir_wstrncpy(TesterN.lpwzText, TranslateT("No new mail message"), MAX_SECONDLINE);
+					if (IsDlgButtonChecked(hDlg, IDC_CHECKNCOL) == BST_CHECKED) {
 						TesterN.colorBack = SendDlgItemMessage(hDlg, IDC_CPNB, CPM_GETCOLOUR, 0, 0);
 						TesterN.colorText = SendDlgItemMessage(hDlg, IDC_CPNT, CPM_GETCOLOUR, 0, 0);
 					}
@@ -1311,25 +1314,15 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 						TesterN.colorBack = GetSysColor(COLOR_BTNFACE);
 						TesterN.colorText = GetSysColor(COLOR_WINDOWTEXT);
 					}
-					Tester.PluginWindowProc = nullptr;
-					TesterF.PluginWindowProc = nullptr;
-					TesterN.PluginWindowProc = nullptr;
-					Tester.PluginData = nullptr;
-					TesterF.PluginData = nullptr;
-					TesterN.PluginData = nullptr;
-
-					if (IsDlgButtonChecked(hDlg, IDC_CHECKPOP) == BST_CHECKED)
-						PUAddPopupW(&Tester);
-					if (IsDlgButtonChecked(hDlg, IDC_CHECKFPOP) == BST_CHECKED)
-						PUAddPopupW(&TesterF);
-					if (IsDlgButtonChecked(hDlg, IDC_CHECKNPOP) == BST_CHECKED)
-						PUAddPopupW(&TesterN);
-					Changed = TRUE;
+					PUAddPopupW(&TesterN);
 				}
+				Changed = TRUE;
 				break;
+
 			case IDC_CHECKKBN:
 				Changed = TRUE;
 				break;
+
 			case IDC_CHECKPOP:
 				Changed = TRUE;
 				EnableWindow(GetDlgItem(hDlg, IDC_CHECKCOL), IsDlgButtonChecked(hDlg, IDC_CHECKPOP) == BST_CHECKED);

@@ -178,9 +178,6 @@ extern HANDLE hTTButton;
 extern HCURSOR hCurSplitNS, hCurSplitWE;
 extern UINT SecTimer;
 
-HANDLE WINAPI g_GetIconHandle(int idx);
-HICON  WINAPI g_LoadIconEx(int idx, bool big = false);
-
 //From synchro.cpp
 void  WINAPI DeleteMessagesToEndFcn(CAccount *Account, HYAMNMAIL From);
 DWORD WINAPI WaitToWriteFcn(PSWMRG SObject, PSCOUNTER SCounter = nullptr);

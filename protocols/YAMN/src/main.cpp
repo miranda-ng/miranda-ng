@@ -126,7 +126,7 @@ int SystemModulesLoaded(WPARAM, LPARAM)
 
 	SET_UID(mi, 0xa01ff3d9, 0x53cb, 0x4406, 0x85, 0xd9, 0xf1, 0x90, 0x3a, 0x94, 0xed, 0xf4);
 	mi.position = 0xb0000000;
-	mi.hIcolibItem = g_GetIconHandle(0);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_CHECKMAIL);
 	mi.name.a = LPGEN("Check &mail (All Account)");
 	mi.pszService = MS_YAMN_FORCECHECK;
 	hMenuItemMain = Menu_AddMainMenuItem(&mi);
@@ -137,7 +137,7 @@ int SystemModulesLoaded(WPARAM, LPARAM)
 	hMenuItemCont = Menu_AddContactMenuItem(&mi, YAMN_DBMODULE);
 
 	SET_UID(mi, 0x147c7800, 0x12d0, 0x4209, 0xab, 0xcc, 0xfa, 0x64, 0xc6, 0xb0, 0xa6, 0xeb);
-	mi.hIcolibItem = g_GetIconHandle(1);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_LAUNCHAPP);
 	mi.name.a = LPGEN("Launch application");
 	mi.pszService = MS_YAMN_CLISTCONTEXTAPP;
 	hMenuItemContApp = Menu_AddContactMenuItem(&mi, YAMN_DBMODULE);
@@ -164,20 +164,6 @@ static IconItem iconList[] =
 void LoadIcons()
 {
 	g_plugin.registerIcon("YAMN", iconList);
-}
-
-HANDLE WINAPI g_GetIconHandle(int idx)
-{
-	if (idx >= _countof(iconList))
-		return nullptr;
-	return iconList[idx].hIcolib;
-}
-
-HICON WINAPI g_LoadIconEx(int idx, bool big)
-{
-	if (idx >= _countof(iconList))
-		return nullptr;
-	return IcoLib_GetIcon(iconList[idx].szName, big);
 }
 
 static void LoadPlugins()

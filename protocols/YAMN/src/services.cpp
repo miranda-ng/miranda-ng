@@ -44,7 +44,7 @@ static INT_PTR Service_GetName(WPARAM wParam, LPARAM lParam)
 static INT_PTR Service_LoadIcon(WPARAM wParam, LPARAM)
 {
 	if (LOWORD(wParam) == PLI_PROTOCOL)
-		return (INT_PTR)CopyIcon(g_LoadIconEx(0)); // noone cares about other than PLI_PROTOCOL
+		return (INT_PTR)CopyIcon(g_plugin.getIcon(IDI_CHECKMAIL)); // noone cares about other than PLI_PROTOCOL
 
 	return (INT_PTR)(HICON)NULL;
 }
@@ -297,7 +297,7 @@ int AddTopToolbarIcon(WPARAM, LPARAM)
 			TTBButton btn = {};
 			btn.pszService = MS_YAMN_FORCECHECK;
 			btn.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
-			btn.hIconHandleUp = btn.hIconHandleDn = g_GetIconHandle(0);
+			btn.hIconHandleUp = btn.hIconHandleDn = g_plugin.getIconHandle(IDI_CHECKMAIL);
 			btn.name = btn.pszTooltipUp = LPGEN("Check mail");
 			hTTButton = g_plugin.addTTB(&btn);
 		}

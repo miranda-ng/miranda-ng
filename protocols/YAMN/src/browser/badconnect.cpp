@@ -109,7 +109,7 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg, UINT msg, WPARAM wParam, LP
 			ShowIco = ActualAccount->BadConnectN.Flags & YAMN_ACC_ICO;
 
 			if (ShowPopup) {
-				BadConnectPopup.lchIcon = g_LoadIconEx(3);
+				BadConnectPopup.lchIcon = g_plugin.getIcon(IDI_BADCONNECT);
 				BadConnectPopup.colorBack = ActualAccount->BadConnectN.Flags & YAMN_ACC_POPC ? ActualAccount->BadConnectN.PopupB : GetSysColor(COLOR_BTNFACE);
 				BadConnectPopup.colorText = ActualAccount->BadConnectN.Flags & YAMN_ACC_POPC ? ActualAccount->BadConnectN.PopupT : GetSysColor(COLOR_WINDOWTEXT);
 				BadConnectPopup.iSeconds = ActualAccount->BadConnectN.PopupTime;
@@ -220,7 +220,7 @@ void __cdecl BadConnection(void *Param)
 
 	__try {
 		hBadConnect = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DLGBADCONNECT), nullptr, DlgProcYAMNBadConnection, (LPARAM)&MyParam);
-		Window_SetIcon_IcoLib(hBadConnect, g_GetIconHandle(3));
+		Window_SetIcon_IcoLib(hBadConnect, g_plugin.getIconHandle(IDI_BADCONNECT));
 
 #ifdef DEBUG_SYNCHRO
 		DebugLog(SynchroFile, "BadConnect:ActualAccountSO-read wait\n");
@@ -244,7 +244,7 @@ void __cdecl BadConnection(void *Param)
 			NOTIFYICONDATA nid = {};
 			nid.cbSize = sizeof(nid);
 			nid.hWnd = hBadConnect;
-			nid.hIcon = g_LoadIconEx(3);
+			nid.hIcon = g_plugin.getIcon(IDI_BADCONNECT);
 			nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
 			nid.uCallbackMessage = WM_YAMN_NOTIFYICON;
 			mir_snwprintf(nid.szTip, L"%S%s", ActualAccount->Name, TranslateT(" - connection error"));
