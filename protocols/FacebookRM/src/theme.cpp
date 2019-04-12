@@ -57,15 +57,6 @@ void InitIcons(void)
 	g_plugin.registerIcon("Protocols/Facebook", icons, "Facebook");
 }
 
-HANDLE GetIconHandle(const char* name)
-{
-	for (auto &it : icons)
-		if (mir_strcmp(it.szName, name) == 0)
-			return it.hIcolib;
-
-	return nullptr;
-}
-
 // Helper functions
 template<INT_PTR(__cdecl FacebookProto::*Fcn)(WPARAM, LPARAM)>
 INT_PTR GlobalService(WPARAM wParam, LPARAM lParam)
@@ -107,7 +98,7 @@ void InitContactMenus()
 
 	SET_UID(mi, 0x1e9d0534, 0xc319, 0x42a2, 0xbe, 0xd5, 0x1e, 0xae, 0xe1, 0x54, 0xd, 0x89);
 	mi.position = -2000006001;
-	mi.hIcolibItem = GetIconHandle("friendship");
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_FRIENDS);
 	mi.name.a = LPGEN("Visit friendship details");
 	mi.pszService = "FacebookProto/VisitFriendship";
 	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::VisitFriendship>);
@@ -115,7 +106,7 @@ void InitContactMenus()
 
 	SET_UID(mi, 0xd3bfd7d6, 0x43c3, 0x4b05, 0x81, 0x40, 0xc8, 0xbe, 0x81, 0xd9, 0x95, 0xff);
 	mi.position = -2000006002;
-	mi.hIcolibItem = GetIconHandle("conversation");
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_CONVERSATION);
 	mi.name.a = LPGEN("Visit conversation");
 	mi.pszService = "FacebookProto/VisitConversation";
 	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::VisitConversation>);
@@ -123,7 +114,7 @@ void InitContactMenus()
 
 	SET_UID(mi, 0xc631b2ea, 0xa133, 0x4cc9, 0x81, 0x1e, 0xad, 0x8f, 0x36, 0x5c, 0x74, 0xbf);
 	mi.position = -2000006003;
-	mi.hIcolibItem = GetIconHandle("mind");
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_MIND);
 	mi.name.a = LPGEN("Share status...");
 	mi.pszService = "FacebookProto/Mind";
 	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::OnMind>);
@@ -131,7 +122,7 @@ void InitContactMenus()
 
 	SET_UID(mi, 0x10ce2dbf, 0x8acf, 0x4f51, 0x89, 0x76, 0xd9, 0x67, 0xef, 0x69, 0x1d, 0x9d);
 	mi.position = -2000006004;
-	mi.hIcolibItem = GetIconHandle("poke");
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_POKE);
 	mi.name.a = LPGEN("Poke");
 	mi.pszService = "FacebookProto/Poke";
 	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::Poke>);
@@ -139,7 +130,7 @@ void InitContactMenus()
 
 	SET_UID(mi, 0x58e75db0, 0xb9e0, 0x4aa8, 0xbb, 0x42, 0x8d, 0x7d, 0xd1, 0xf6, 0x8e, 0x99);
 	mi.position = -2000006005;
-	mi.hIcolibItem = GetIconHandle("conversation"); // TODO: Use better icon
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_CONVERSATION); // TODO: Use better icon
 	mi.name.a = LPGEN("Load history");
 	mi.pszService = "FacebookProto/LoadHistory";
 	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::LoadHistory>);
@@ -200,7 +191,7 @@ void FacebookProto::OnBuildProtoMenu()
 	mi.pszService = "/Mind";
 	CreateProtoService(mi.pszService, &FacebookProto::OnMind);
 	mi.name.a = LPGEN("Share status...");
-	mi.hIcolibItem = GetIconHandle("mind");
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_MIND);
 	m_hStatusMind = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = "/VisitProfile";
@@ -229,19 +220,19 @@ void FacebookProto::OnBuildProtoMenu()
 	mi.pszService = "/CheckNewsfeeds";
 	CreateProtoService(mi.pszService, &FacebookProto::CheckNewsfeeds);
 	mi.name.a = LPGEN("Check newsfeeds");
-	mi.hIcolibItem = GetIconHandle("newsfeed");
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_NEWSFEED);
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = "/CheckMemories";
 	CreateProtoService(mi.pszService, &FacebookProto::CheckMemories);
 	mi.name.a = LPGEN("Check memories");
-	mi.hIcolibItem = GetIconHandle("memories");
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_MEMORIES);
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = "/CheckNotifications";
 	CreateProtoService(mi.pszService, &FacebookProto::CheckNotifications);
 	mi.name.a = LPGEN("Check notifications");
-	mi.hIcolibItem = GetIconHandle("notification");
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_NOTIFICATION);
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 }
 

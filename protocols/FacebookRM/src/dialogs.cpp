@@ -212,7 +212,7 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 		{
 			TranslateDialogDefault(hwnd);
 
-			Window_SetIcon_IcoLib(hwnd, GetIconHandle("mind"));
+			Window_SetIcon_IcoLib(hwnd, g_plugin.getIconHandle(IDI_MIND));
 
 			data = reinterpret_cast<post_status_data*>(lparam);
 
@@ -634,7 +634,7 @@ CFacebookGuardDialog::CFacebookGuardDialog(FacebookProto *proto, const char *fb_
 
 bool CFacebookGuardDialog::OnInitDialog()
 {
-	Window_SetIcon_IcoLib(m_hwnd, GetIconHandle("facebook"));
+	Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_FACEBOOK));
 
 	SendMessage(m_text.GetHwnd(), EM_LIMITTEXT, 6, 0);
 

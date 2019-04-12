@@ -104,7 +104,7 @@ FacebookProto::FacebookProto(const char* proto_name, const wchar_t* username) :
 	evtype.module = m_szModuleName;
 	evtype.eventType = FACEBOOK_EVENTTYPE_CALL;
 	evtype.descr = LPGEN("Video call");
-	evtype.eventIcon = GetIconHandle("facebook");
+	evtype.eventIcon = g_plugin.getIconHandle(IDI_FACEBOOK);
 	evtype.flags = DETF_HISTORY | DETF_MSGWINDOW;
 	DbEvent_RegisterType(&evtype);
 }
@@ -454,7 +454,7 @@ int FacebookProto::OnToolbarInit(WPARAM, LPARAM)
 
 	ttb.pszService = service;
 	ttb.pszTooltipUp = ttb.name = LPGEN("Share status...");
-	ttb.hIconHandleUp = IcoLib_GetIconByHandle(GetIconHandle("mind"));
+	ttb.hIconHandleUp = g_plugin.getIconHandle(IDI_MIND);
 	g_plugin.addTTB(&ttb);
 
 	return 0;
@@ -926,7 +926,7 @@ void FacebookProto::InitPopups()
 	// Client
 	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Client errors"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Client");
-	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("facebook"));
+	ppc.hIcon = g_plugin.getIcon(IDI_FACEBOOK);
 	ppc.colorBack = RGB(191, 0, 0); // red
 	ppc.colorText = RGB(255, 255, 255); // white
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
@@ -934,7 +934,7 @@ void FacebookProto::InitPopups()
 	// Newsfeeds
 	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Wall posts"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Newsfeed");
-	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("newsfeed"));
+	ppc.hIcon = g_plugin.getIcon(IDI_NEWSFEED);
 	ppc.colorBack = RGB(255, 255, 255); // white
 	ppc.colorText = RGB(0, 0, 0); // black
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
@@ -942,7 +942,7 @@ void FacebookProto::InitPopups()
 	// Notifications
 	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Notifications"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Notification");
-	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("notification"));
+	ppc.hIcon = g_plugin.getIcon(IDI_NOTIFICATION);
 	ppc.colorBack = RGB(59, 89, 152); // Facebook's blue
 	ppc.colorText = RGB(255, 255, 255); // white
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
@@ -950,7 +950,7 @@ void FacebookProto::InitPopups()
 	// Others
 	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Other events"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Other");
-	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("facebook"));
+	ppc.hIcon = g_plugin.getIcon(IDI_FACEBOOK);
 	ppc.colorBack = RGB(255, 255, 255); // white
 	ppc.colorText = RGB(0, 0, 0); // black
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
@@ -958,7 +958,7 @@ void FacebookProto::InitPopups()
 	// Friendship changes
 	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Friendship events"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Friendship");
-	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("friendship"));
+	ppc.hIcon = g_plugin.getIcon(IDI_FRIENDS);
 	ppc.colorBack = RGB(47, 71, 122); // Facebook's darker blue
 	ppc.colorText = RGB(255, 255, 255); // white
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
@@ -966,7 +966,7 @@ void FacebookProto::InitPopups()
 	// Ticker
 	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Real-time friends activity"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Ticker");
-	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("newsfeed"));
+	ppc.hIcon = g_plugin.getIcon(IDI_NEWSFEED);
 	ppc.colorBack = RGB(255, 255, 255); // white
 	ppc.colorText = RGB(0, 0, 0); // black
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
@@ -974,7 +974,7 @@ void FacebookProto::InitPopups()
 	// On this day (memories)
 	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Memories"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Memories");
-	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("memories"));
+	ppc.hIcon = g_plugin.getIcon(IDI_MEMORIES);
 	ppc.colorBack = RGB(255, 255, 255); // white
 	ppc.colorText = RGB(0, 0, 0); // black
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
@@ -1039,7 +1039,7 @@ void FacebookProto::MessageRead(MCONTACT hContact)
 	wchar_t ttime[64];
 	wcsftime(ttime, _countof(ttime), L"%X", localtime(&time));
 
-	HICON hIcon = IcoLib_GetIconByHandle(GetIconHandle("read"));
+	HICON hIcon = g_plugin.getIcon(IDI_READ);
 
 	if (isChatRoom(hContact)) {
 		// Load readers names

@@ -324,7 +324,7 @@ void FacebookProto::LoadHistory(void *pParam)
 	POPUPDATAW ppd;
 	ppd.iSeconds = 5;
 	ppd.lchContact = hContact;
-	ppd.lchIcon = IcoLib_GetIconByHandle(GetIconHandle("conversation")); // TODO: Use better icon
+	ppd.lchIcon = IcoLib_GetIconByHandle(g_plugin.getIconHandle(IDI_CONVERSATION)); // TODO: Use better icon
 	wcsncpy(ppd.lpwzContactName, m_tszUserName, MAX_CONTACTNAME);
 	wcsncpy(ppd.lpwzText, TranslateT("Loading history started."), MAX_SECONDLINE);
 
