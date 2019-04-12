@@ -60,9 +60,6 @@ extern wchar_t* time_stamp_strings[];
 extern wchar_t* keep_strings[];
 int HSOptInitialise(WPARAM wParam, LPARAM lParam);
 void InitIcons(void);
-void  ReleaseIconEx(const char* name);
-HICON LoadIconEx(const char* name);
-HANDLE GetIconHandle(const char* name);
 
 // historysweeper.c
 void ShutdownAction(void);

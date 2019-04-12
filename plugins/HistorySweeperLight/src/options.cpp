@@ -21,6 +21,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static IconItem iconList[] =
+{
+	{ LPGEN("Default Action"), "actG", IDI_ACTG },
+	{ LPGEN("Action 1"), "act1", IDI_ACT1 },
+	{ LPGEN("Action 2"), "act2", IDI_ACT2 },
+	{ LPGEN("Delete All"), "actDel", IDI_ACTDEL }
+};
+
+static HANDLE hIconLibItem[_countof(iconList)];
+
+void InitIcons(void)
+{
+	g_plugin.registerIcon(MODULENAME, iconList, MODULENAME);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 // Time Stamps strings
 wchar_t* time_stamp_strings[] =
 {
@@ -43,44 +62,6 @@ wchar_t* keep_strings[] =
 	LPGENW("Keep 20 last events"),
 	LPGENW("Keep 50 last events")
 };
-
-static IconItem iconList[] =
-{
-	{ LPGEN("Default Action"), "actG", IDI_ACTG },
-	{ LPGEN("Action 1"), "act1", IDI_ACT1 },
-	{ LPGEN("Action 2"), "act2", IDI_ACT2 },
-	{ LPGEN("Delete All"), "actDel", IDI_ACTDEL }
-};
-
-static HANDLE hIconLibItem[_countof(iconList)];
-
-void InitIcons(void)
-{
-	g_plugin.registerIcon(MODULENAME, iconList, MODULENAME);
-}
-
-HICON LoadIconEx(const char* name)
-{
-	char szSettingName[100];
-	mir_snprintf(szSettingName, "%s_%s", MODULENAME, name);
-	return IcoLib_GetIcon(szSettingName);
-}
-
-HANDLE GetIconHandle(const char* name)
-{
-	for (auto &it : iconList)
-		if (mir_strcmp(it.szName, name) == 0)
-			return &it;
-
-	return nullptr;
-}
-
-void ReleaseIconEx(const char* name)
-{
-	char szSettingName[100];
-	mir_snprintf(szSettingName, "%s_%s", MODULENAME, name);
-	IcoLib_Release(szSettingName);
-}
 
 HANDLE hAllContacts, hSystemHistory;
 
@@ -187,15 +168,15 @@ INT_PTR CALLBACK DlgProcHSOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 			ImageList_AddIcon(hIml, hIcon);
 			IcoLib_ReleaseIcon(hIcon);
 
-			hIcon = LoadIconEx("act1");
+			hIcon = g_plugin.getIcon(IDI_ACT1);
 			ImageList_AddIcon(hIml, hIcon);
 			SendDlgItemMessage(hwndDlg, IDC_ACT1, STM_SETICON, (WPARAM)hIcon, 0);
 
-			hIcon = LoadIconEx("act2");
+			hIcon = g_plugin.getIcon(IDI_ACT2);
 			ImageList_AddIcon(hIml, hIcon);
 			SendDlgItemMessage(hwndDlg, IDC_ACT2, STM_SETICON, (WPARAM)hIcon, 0);
 
-			hIcon = LoadIconEx("actDel");
+			hIcon = g_plugin.getIcon(IDI_ACTDEL);
 			ImageList_AddIcon(hIml, hIcon);
 
 			SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hIml);
@@ -206,9 +187,9 @@ INT_PTR CALLBACK DlgProcHSOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 
 	case WM_DESTROY:
 		ImageList_Destroy((HIMAGELIST)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGELIST, 0, 0));
-		ReleaseIconEx("act1");
-		ReleaseIconEx("act2");
-		ReleaseIconEx("actDel");
+		g_plugin.releaseIcon(IDI_ACT1);
+		g_plugin.releaseIcon(IDI_ACT2);
+		g_plugin.releaseIcon(IDI_ACTDEL);
 		break;
 
 	case WM_COMMAND:

@@ -70,7 +70,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	StatusIconData sid = {};
 	sid.szModule = MODULENAME;
 
-	sid.hIcon = LoadIconEx("actG");
+	sid.hIcon = g_plugin.getIcon(IDI_ACTG);
 	if (sweep == 0)
 		sid.szTooltip.w = LPGENW("Keep all events");
 	else if (sweep == 1)
@@ -84,17 +84,17 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	Srmm_AddIcon(&sid, &g_plugin);
 
 	sid.dwId = 1;
-	sid.hIcon = LoadIconEx("act1");
+	sid.hIcon = g_plugin.getIcon(IDI_ACT1);
 	sid.szTooltip.w = time_stamp_strings[g_plugin.getByte("StartupShutdownOlder", 0)];
 	Srmm_AddIcon(&sid, &g_plugin);
 
 	sid.dwId = 2;
-	sid.hIcon = LoadIconEx("act2");
+	sid.hIcon = g_plugin.getIcon(IDI_ACT2);
 	sid.szTooltip.w = keep_strings[g_plugin.getByte("StartupShutdownKeep", 0)];
 	Srmm_AddIcon(&sid, &g_plugin);
 
 	sid.dwId = 3;
-	sid.hIcon = LoadIconEx("actDel");
+	sid.hIcon = g_plugin.getIcon(IDI_ACTDEL);
 	sid.szTooltip.w = LPGENW("Delete all events");
 	Srmm_AddIcon(&sid, &g_plugin);
 
