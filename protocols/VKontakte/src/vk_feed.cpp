@@ -76,7 +76,7 @@ void CVkProto::AddCListEvent(bool bNews)
 	MCONTACT hContact = FindUser(VK_FEED_USER, true);
 
 	CLISTEVENT cle = {};
-	cle.hIcon = IcoLib_GetIconByHandle(GetIconHandle(IDI_NOTIFICATION));
+	cle.hIcon = g_plugin.getIcon(IDI_NOTIFICATION);
 	cle.pszService = MS_MSG_READMESSAGE;
 	cle.flags = CLEF_URGENT | CLEF_UNICODE;
 	cle.hContact = hContact;

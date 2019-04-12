@@ -108,7 +108,6 @@ LPCSTR findHeader(NETLIBHTTPREQUEST *hdr, LPCSTR szField);
 bool wlstrstr(wchar_t *_s1, wchar_t *_s2);
 
 void InitIcons(void);
-HANDLE GetIconHandle(int iCommand);
 
 char* ExpUrlEncode(const char *szUrl, bool strict = false);
 

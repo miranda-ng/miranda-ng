@@ -34,7 +34,7 @@ CVkCaptchaForm::CVkCaptchaForm(CVkProto *proto, CAPTCHA_FORM_PARAMS *param) :
 
 bool CVkCaptchaForm::OnInitDialog()
 {
-	Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_KEYS));
+	Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_KEYS));
 
 	m_btnOk.Disable();
 	m_btnOpenInBrowser.Enable((m_param->bmp != nullptr));
@@ -118,7 +118,7 @@ CVkWallPostForm::CVkWallPostForm(CVkProto *proto, WALLPOST_FORM_PARAMS *param) :
 
 bool CVkWallPostForm::OnInitDialog()
 {
-	Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_WALL));
+	Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_WALL));
 
 	CMStringW wszTitle(FORMAT, TranslateT("Wall message for %s"), m_param->pwszNick);
 	SetCaption(wszTitle);

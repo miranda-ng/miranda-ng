@@ -82,15 +82,6 @@ void InitIcons()
 	g_plugin.registerIcon(LPGEN("Protocols") "/" LPGEN("VKontakte"), iconList, "VKontakte");
 }
 
-HANDLE GetIconHandle(int iCommand)
-{
-	for (auto &it : iconList)
-		if (it.defIconID == iCommand)
-			return it.hIcolib;
-
-	return nullptr;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 char* ExpUrlEncode(const char *szUrl, bool strict)
@@ -765,7 +756,7 @@ void CVkProto::SetSrmmReadStatus(MCONTACT hContact)
 	_wcsftime_l(ttime, _countof(ttime), L"%X - %x", localtime(&time), locale);
 	_free_locale(locale);
 
-	Srmm_SetStatusText(hContact, CMStringW(FORMAT, TranslateT("Message read: %s"), ttime), IcoLib_GetIconByHandle(GetIconHandle(IDI_READMSG)));
+	Srmm_SetStatusText(hContact, CMStringW(FORMAT, TranslateT("Message read: %s"), ttime), g_plugin.getIcon(IDI_READMSG));
 }
 
 void CVkProto::MarkDialogAsRead(MCONTACT hContact)
