@@ -147,28 +147,28 @@ void CMsnProto::OnBuildProtoMenu(void)
 	mi.pszService = MSN_INVITE;
 	CreateProtoService(mi.pszService, &CMsnProto::MsnInviteCommand);
 	mi.position = 201002;
-	mi.hIcolibItem = GetIconHandle(IDI_INVITE);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_INVITE);
 	mi.name.a = LPGEN("Create &Chat");
 	menuItemsMain[0] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = MS_GOTO_INBOX;
 	CreateProtoService(mi.pszService, &CMsnProto::MsnGotoInbox);
 	mi.position = 201003;
-	mi.hIcolibItem = GetIconHandle(IDI_INBOX);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_INBOX);
 	mi.name.a = LPGEN("Display &Hotmail Inbox");
 	menuItemsMain[1] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = MS_EDIT_PROFILE;
 	CreateProtoService(mi.pszService, &CMsnProto::MsnEditProfile);
 	mi.position = 201004;
-	mi.hIcolibItem = GetIconHandle(IDI_PROFILE);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_PROFILE);
 	mi.name.a = LPGEN("View &Profile");
 	menuItemsMain[2] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = MS_EDIT_ALERTS;
 	CreateProtoService(mi.pszService, &CMsnProto::MsnSetupAlerts);
 	mi.position = 201004;
-	mi.hIcolibItem = GetIconHandle(IDI_PROFILE);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_PROFILE);
 	mi.name.a = LPGEN("Setup Live &Alerts");
 	menuItemsMain[3] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
@@ -232,7 +232,7 @@ void MSN_InitContactMenu(void)
 	mir_strcpy(tDest, MSN_BLOCK);
 	CreateServiceFunction(servicefunction, MsnMenuBlockCommand);
 	mi.position = -500050000;
-	mi.hIcolibItem = GetIconHandle(IDI_MSNBLOCK);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_MSNBLOCK);
 	mi.name.a = LPGEN("&Block");
 	hBlockMenuItem = Menu_AddContactMenuItem(&mi);
 
@@ -240,7 +240,7 @@ void MSN_InitContactMenu(void)
 	mir_strcpy(tDest, MSN_VIEW_PROFILE);
 	CreateServiceFunction(servicefunction, MsnMenuViewProfile);
 	mi.position = -500050003;
-	mi.hIcolibItem = GetIconHandle(IDI_PROFILE);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_PROFILE);
 	mi.name.a = LPGEN("View &Profile");
 	hLiveSpaceMenuItem = Menu_AddContactMenuItem(&mi);
 

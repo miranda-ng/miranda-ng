@@ -795,7 +795,7 @@ void CMsnProto::InitPopups(void)
 	POPUPCLASS ppc = { sizeof(ppc) };
 	ppc.flags = PCF_UNICODE;
 	ppc.PluginWindowProc = NullWindowProc;
-	ppc.hIcon = LoadIconEx("main");
+	ppc.hIcon = g_plugin.getIcon(IDI_MSN);
 	ppc.pszName = name;
 	ppc.pszDescription.w = desc;
 

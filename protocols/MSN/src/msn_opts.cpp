@@ -50,31 +50,6 @@ void MsnInitIcons(void)
 	g_plugin.registerIcon("Protocols/MSN", iconList, "MSN");
 }
 
-HICON LoadIconEx(const char* name, bool big)
-{
-	char szSettingName[100];
-	mir_snprintf(szSettingName, "MSN_%s", name);
-	return IcoLib_GetIcon(szSettingName, big);
-}
-
-HANDLE GetIconHandle(int iconId)
-{
-	for (auto &it : iconList)
-		if (it.defIconID == iconId)
-			return it.hIcolib;
-
-	return nullptr;
-}
-
-void  ReleaseIconEx(const char* name, bool big)
-{
-	char szSettingName[100];
-	mir_snprintf(szSettingName, "MSN_%s", name);
-	IcoLib_Release(szSettingName, big);
-}
-
-INT_PTR CALLBACK DlgProcMsnServLists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // MSN Options dialog procedure
 
@@ -588,6 +563,8 @@ INT_PTR CALLBACK DlgDeleteContactUI(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Initialize options pages
+
+INT_PTR CALLBACK DlgProcMsnServLists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 int CMsnProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {

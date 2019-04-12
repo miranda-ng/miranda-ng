@@ -225,10 +225,6 @@ unsigned MSN_GenRandom(void);
 void     MSN_InitContactMenu(void);
 void     MSN_RemoveContactMenus(void);
 
-HANDLE   GetIconHandle(int iconId);
-HICON    LoadIconEx(const char* name, bool big = false);
-void     ReleaseIconEx(const char* name, bool big = false);
-
 void     MsnInitIcons(void);
 
 int      sttDivideWords(char* parBuffer, int parMinItems, char** parDest);
