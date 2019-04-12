@@ -219,8 +219,6 @@ void    InitContactMenus(void);
 void    UninitContactMenus(void);
 
 void    InitIcons(void);
-HICON   LoadIconEx(int iIndex, bool big = false);
-HANDLE  GetIconHandle(int iconId);
 
 // tools.cpp
 int            __stdcall WCCmp(const wchar_t* wild, const wchar_t* string);

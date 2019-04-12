@@ -27,7 +27,7 @@ void CIrcProto::OnBuildProtoMenu()
 	mi.root = Menu_GetProtocolRoot(this);
 
 	mi.name.a = LPGEN("&Quick connect");
-	mi.hIcolibItem = GetIconHandle(IDI_QUICK);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_QUICK);
 	mi.pszService = IRC_QUICKCONNECT;
 	mi.position = 201001;
 	hMenuQuick = Menu_AddProtoMenuItem(&mi, m_szModuleName);
@@ -41,20 +41,20 @@ void CIrcProto::OnBuildProtoMenu()
 	hMenuJoin = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.name.a = LPGEN("&Change your nickname");
-	mi.hIcolibItem = GetIconHandle(IDI_RENAME);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_RENAME);
 	mi.pszService = IRC_CHANGENICK;
 	mi.position = 201003;
 	hMenuNick = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.name.a = LPGEN("Show the &list of available channels");
-	mi.hIcolibItem = GetIconHandle(IDI_LIST);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_LIST);
 	mi.pszService = IRC_SHOWLIST;
 	mi.position = 201004;
 	hMenuList = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	if (m_useServer) mi.flags &= ~CMIF_GRAYED;
 	mi.name.a = LPGEN("&Show the server window");
-	mi.hIcolibItem = GetIconHandle(IDI_SERVER);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_SERVER);
 	mi.pszService = IRC_SHOWSERVER;
 	mi.position = 201005;
 	hMenuServer = Menu_AddProtoMenuItem(&mi, m_szModuleName);
@@ -109,7 +109,7 @@ void InitContactMenus(void)
 
 	SET_UID(mi, 0x5f01196f, 0xfbcd, 0x4034, 0xbd, 0x90, 0x12, 0xa0, 0x20, 0x68, 0x15, 0xc0);
 	mi.name.a = LPGEN("Channel &settings");
-	mi.hIcolibItem = GetIconHandle(IDI_MANAGER);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_MANAGER);
 	mir_strcpy(d, IRC_UM_CHANSETTINGS);
 	mi.position = 500090002;
 	hUMenuChanSettings = Menu_AddContactMenuItem(&mi);
@@ -117,7 +117,7 @@ void InitContactMenus(void)
 
 	SET_UID(mi, 0x778eb1f6, 0x73c4, 0x4951, 0xb2, 0xca, 0xa1, 0x69, 0x94, 0x7b, 0xb7, 0x87);
 	mi.name.a = LPGEN("&WhoIs info");
-	mi.hIcolibItem = GetIconHandle(IDI_WHOIS);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_WHOIS);
 	mir_strcpy(d, IRC_UM_WHOIS);
 	mi.position = 500090001;
 	hUMenuWhois = Menu_AddContactMenuItem(&mi);
@@ -125,7 +125,7 @@ void InitContactMenus(void)
 
 	SET_UID(mi, 0x1c51ae05, 0x9eee, 0x4887, 0x88, 0x96, 0x55, 0xd2, 0xdd, 0xf9, 0x25, 0x6f);
 	mi.name.a = LPGEN("Di&sconnect");
-	mi.hIcolibItem = GetIconHandle(IDI_DELETE);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_DELETE);
 	mir_strcpy(d, IRC_UM_DISCONNECT);
 	mi.position = 500090001;
 	hUMenuDisconnect = Menu_AddContactMenuItem(&mi);
@@ -133,7 +133,7 @@ void InitContactMenus(void)
 
 	SET_UID(mi, 0xc6169b8f, 0x53ab, 0x4242, 0xbe, 0x90, 0xe2, 0x4a, 0xa5, 0x73, 0x88, 0x32);
 	mi.name.a = LPGEN("&Add to ignore list");
-	mi.hIcolibItem = GetIconHandle(IDI_BLOCK);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_BLOCK);
 	mir_strcpy(d, IRC_UM_IGNORE);
 	mi.position = 500090002;
 	hUMenuIgnore = Menu_AddContactMenuItem(&mi);
@@ -324,7 +324,7 @@ INT_PTR __cdecl CIrcProto::OnQuickConnectMenuCommand(WPARAM, LPARAM)
 		SetWindowText(m_quickDlg->GetHwnd(), TranslateT("Quick connect"));
 		SetDlgItemText(m_quickDlg->GetHwnd(), IDC_TEXT, TranslateT("Please select IRC network and enter the password if needed"));
 		SetDlgItemText(m_quickDlg->GetHwnd(), IDC_CAPTION, TranslateT("Quick connect"));
-		Window_SetIcon_IcoLib(m_quickDlg->GetHwnd(), GetIconHandle(IDI_QUICK));
+		Window_SetIcon_IcoLib(m_quickDlg->GetHwnd(), g_plugin.getIconHandle(IDI_QUICK));
 	}
 
 	ShowWindow(m_quickDlg->GetHwnd(), SW_SHOW);

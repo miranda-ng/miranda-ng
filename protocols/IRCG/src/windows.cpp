@@ -87,7 +87,7 @@ bool CWhoisDlg::OnInitDialog()
 
 	CCoolIrcDlg::OnInitDialog();
 
-	Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_WHOIS));
+	Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_WHOIS));
 	return true;
 }
 
@@ -210,7 +210,7 @@ CNickDlg::CNickDlg(CIrcProto *_pro)
 bool CNickDlg::OnInitDialog()
 {
 	CCoolIrcDlg::OnInitDialog();
-	Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_RENAME));
+	Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_RENAME));
 
 	DBVARIANT dbv;
 	if (!m_proto->getWString("RecentNicks", &dbv)) {
@@ -296,7 +296,7 @@ bool CListDlg::OnInitDialog()
 
 	m_list.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT);
 	m_list2.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT);
-	Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_LIST));
+	Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_LIST));
 	m_status.SetText(TranslateT("Please wait..."));
 	return true;
 }
@@ -724,7 +724,7 @@ bool CQuestionDlg::OnInitDialog()
 {
 	CCoolIrcDlg::OnInitDialog();
 
-	Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_IRCQUESTION));
+	Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_IRCQUESTION));
 	return true;
 }
 
@@ -808,11 +808,11 @@ CManagerDlg::CManagerDlg(CIrcProto *_pro)
 	m_limit(this, IDC_LIMIT),
 	m_topic(this, IDC_TOPIC),
 
-	m_add(this, IDC_ADD, LoadIconEx(IDI_ADD), LPGEN("Add ban/invite/exception")),
-	m_edit(this, IDC_EDIT, LoadIconEx(IDI_EDIT), LPGEN("Edit selected ban/invite/exception")),
-	m_remove(this, IDC_REMOVE, LoadIconEx(IDI_DELETE), LPGEN("Delete selected ban/invite/exception")),
-	m_applyModes(this, IDC_APPLYMODES, LoadIconEx(IDI_APPLY), LPGEN("Set these modes for the channel")),
-	m_applyTopic(this, IDC_APPLYTOPIC, LoadIconEx(IDI_APPLY), LPGEN("Set this topic for the channel")),
+	m_add(this, IDC_ADD, g_plugin.getIcon(IDI_ADD), LPGEN("Add ban/invite/exception")),
+	m_edit(this, IDC_EDIT, g_plugin.getIcon(IDI_EDIT), LPGEN("Edit selected ban/invite/exception")),
+	m_remove(this, IDC_REMOVE, g_plugin.getIcon(IDI_DELETE), LPGEN("Delete selected ban/invite/exception")),
+	m_applyModes(this, IDC_APPLYMODES, g_plugin.getIcon(IDI_APPLY), LPGEN("Set these modes for the channel")),
+	m_applyTopic(this, IDC_APPLYTOPIC, g_plugin.getIcon(IDI_APPLY), LPGEN("Set this topic for the channel")),
 
 	m_radio1(this, IDC_RADIO1),
 	m_radio2(this, IDC_RADIO2),
@@ -885,7 +885,7 @@ bool CManagerDlg::OnInitDialog()
 	HWND hwndEdit = ChildWindowFromPoint(m_topic.GetHwnd(), pt);
 	mir_subclassWindow(hwndEdit, MgrEditSubclassProc);
 
-	Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_MANAGER));
+	Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_MANAGER));
 
 	m_list.SendMsg(LB_SETHORIZONTALEXTENT, 750, NULL);
 	m_radio1.SetState(true);
@@ -1398,7 +1398,7 @@ bool CCoolIrcDlg::OnInitDialog()
 	hFont = CreateFontIndirect(&lf);
 	SendDlgItemMessage(m_hwnd, IDC_CAPTION, WM_SETFONT, (WPARAM)hFont, 0);
 
-	SendDlgItemMessage(m_hwnd, IDC_LOGO, STM_SETICON, (LPARAM)(HICON)LoadIconEx(IDI_LOGO), 0);
+	SendDlgItemMessage(m_hwnd, IDC_LOGO, STM_SETICON, (LPARAM)(HICON)g_plugin.getIcon(IDI_LOGO), 0);
 	return true;
 }
 

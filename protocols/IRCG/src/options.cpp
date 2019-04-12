@@ -212,24 +212,6 @@ void InitIcons(void)
 	g_plugin.registerIcon("Protocols/IRC", iconList, "IRC");
 }
 
-HICON LoadIconEx(int iconId, bool big)
-{
-	for (auto &it : iconList)
-		if (it.defIconID == iconId)
-			return IcoLib_GetIconByHandle(it.hIcolib, big);
-
-	return nullptr;
-}
-
-HANDLE GetIconHandle(int iconId)
-{
-	for (auto &it : iconList)
-		if (it.defIconID == iconId)
-			return it.hIcolib;
-
-	return nullptr;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // code page handler
 
@@ -437,16 +419,16 @@ static TDbSetting ConnectSettings[] =
 	{ FIELD_OFFSET(CIrcProto, m_autoOnlineNotification), "AutoOnlineNotification", DBVT_BYTE },
 };
 
-CConnectPrefsDlg::CConnectPrefsDlg(CIrcProto* _pro)
+CConnectPrefsDlg::CConnectPrefsDlg(CIrcProto *_pro)
 	: CProtoDlgBase<CIrcProto>(_pro, IDD_PREFS_CONNECT),
 	m_serverCombo(this, IDC_SERVERCOMBO),
 	m_server(this, IDC_SERVER),
 	m_port(this, IDC_PORT),
 	m_port2(this, IDC_PORT2),
 	m_pass(this, IDC_PASS),
-	m_add(this, IDC_ADDSERVER, LoadIconEx(IDI_ADD), LPGEN("Add a new network")),
-	m_edit(this, IDC_EDITSERVER, LoadIconEx(IDI_EDIT), LPGEN("Edit this network")),
-	m_del(this, IDC_DELETESERVER, LoadIconEx(IDI_DELETE), LPGEN("Delete this network")),
+	m_add(this, IDC_ADDSERVER, g_plugin.getIcon(IDI_ADD), LPGEN("Add a new network")),
+	m_edit(this, IDC_EDITSERVER, g_plugin.getIcon(IDI_EDIT), LPGEN("Edit this network")),
+	m_del(this, IDC_DELETESERVER, g_plugin.getIcon(IDI_DELETE), LPGEN("Delete this network")),
 	m_nick(this, IDC_NICK),
 	m_nick2(this, IDC_NICK2),
 	m_name(this, IDC_NAME),
@@ -989,8 +971,8 @@ COtherPrefsDlg::COtherPrefsDlg(CIrcProto *_pro) :
 	m_autodetect(this, IDC_UTF_AUTODETECT),
 	m_quitMessage(this, IDC_QUITMESSAGE),
 	m_alias(this, IDC_ALIASEDIT),
-	m_add(this, IDC_ADD, LoadIconEx(IDI_ADD), LPGEN("Click to set commands that will be performed for this event")),
-	m_delete(this, IDC_DELETE, LoadIconEx(IDI_DELETE), LPGEN("Click to delete the commands for this event")),
+	m_add(this, IDC_ADD, g_plugin.getIcon(IDI_ADD), LPGEN("Click to set commands that will be performed for this event")),
+	m_delete(this, IDC_DELETE, g_plugin.getIcon(IDI_DELETE), LPGEN("Click to delete the commands for this event")),
 	m_performlistModified(false)
 {
 	m_performCombo.OnChange = Callback(this, &COtherPrefsDlg::OnPerformCombo);
@@ -1395,9 +1377,9 @@ void CIrcProto::RewriteIgnoreSettings(void)
 CIgnorePrefsDlg::CIgnorePrefsDlg(CIrcProto* _pro)
 	: CProtoDlgBase<CIrcProto>(_pro, IDD_PREFS_IGNORE),
 	m_list(this, IDC_LIST),
-	m_add(this, IDC_ADD, LoadIconEx(IDI_ADD), LPGEN("Add new ignore")),
-	m_edit(this, IDC_EDIT, LoadIconEx(IDI_EDIT), LPGEN("Edit this ignore")),
-	m_del(this, IDC_DELETE, LoadIconEx(IDI_DELETE), LPGEN("Delete this ignore")),
+	m_add(this, IDC_ADD, g_plugin.getIcon(IDI_ADD), LPGEN("Add new ignore")),
+	m_edit(this, IDC_EDIT, g_plugin.getIcon(IDI_EDIT), LPGEN("Edit this ignore")),
+	m_del(this, IDC_DELETE, g_plugin.getIcon(IDI_DELETE), LPGEN("Delete this ignore")),
 	m_enable(this, IDC_ENABLEIGNORE),
 	m_ignoreChat(this, IDC_IGNORECHAT),
 	m_ignoreFile(this, IDC_IGNOREFILE),
