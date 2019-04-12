@@ -1240,7 +1240,7 @@ static int MO_RegisterIcon(TMO_IntMenuItem *pmi, void*)
 	sid.pszName = iconame;
 	sid.description.w = descr;
 	sid.hDefaultIcon = hIcon;
-	pmi->hIcolibItem = IcoLib_AddIcon(&sid, 0);
+	pmi->hIcolibItem = IcoLib_AddIcon(&sid, pmi->mi.pPlugin);
 
 	Safe_DestroyIcon(hIcon);
 	if (hIcon = IcoLib_GetIcon(iconame)) {

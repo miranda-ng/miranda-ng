@@ -675,3 +675,7 @@ Popup_Add @764
 Popup_Change @765
 Skin_GetProtoIcon @766
 Srmm_SetIconFlags @767
+?addIcolib@CMPluginBase@@QEAAXPEAX@Z @768 NONAME
+?getIcon@CMPluginBase@@QEAAPEAUHICON__@@H@Z @769 NONAME
+?getIconHandle@CMPluginBase@@QEAAPEAXH@Z @770 NONAME
+?releaseIcon@CMPluginBase@@QEAAXH@Z @771 NONAME

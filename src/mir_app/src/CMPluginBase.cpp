@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 #include "plugins.h"
+#include "IcoLib.h"
 
 static int sttFakeID = -100;
 
@@ -111,9 +112,15 @@ EXTERN_C MIR_APP_DLL(void) UnregisterPlugin(CMPluginBase *pPlugin)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static int CompareIcons(const void *p1, const void *p2)
+{
+	return ((IcolibItem*)p1)->default_indx - ((IcolibItem*)p2)->default_indx;
+}
+
 CMPluginBase::CMPluginBase(const char *moduleName, const PLUGININFOEX &pInfo) :
 	m_szModuleName(moduleName),
-	m_pInfo(pInfo)
+	m_pInfo(pInfo),
+	m_arIcons(10, CompareIcons)
 {
 	if (m_hInst != nullptr)
 		g_arPlugins.insert(this);
@@ -268,6 +275,25 @@ void CMPluginBase::debugLogW(LPCWSTR wszFormat, ...)
 	va_start(args, wszFormat);
 	mir_writeLogVW(m_hLogger, wszFormat, args);
 	va_end(args);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+HICON CMPluginBase::getIcon(int iconId)
+{
+	return IcoLib_GetIconByHandle(getIconHandle(iconId));
+}
+
+HANDLE CMPluginBase::getIconHandle(int iconId)
+{
+	IcolibItem *p = (IcolibItem*)alloca(sizeof(IcolibItem));
+	p->default_indx = iconId;
+	return m_arIcons.find(p);
+}
+
+void CMPluginBase::releaseIcon(int iconId)
+{
+	IcoLib_ReleaseIcon(getIcon(iconId));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

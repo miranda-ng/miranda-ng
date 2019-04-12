@@ -522,6 +522,9 @@ MIR_APP_DLL(HANDLE) IcoLib_AddIcon(const SKINICONDESC *sid, HPLUGIN pPlugin)
 	if (item->section)
 		item->section->flags = sid->flags & SIDF_SORTED;
 
+	if (pPlugin && item->default_indx)
+		((CMPluginBase*)pPlugin)->addIcolib(item);
+
 	return item;
 }
 

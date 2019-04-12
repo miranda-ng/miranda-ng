@@ -160,6 +160,7 @@ protected:
 	const char *m_szModuleName;
 	const PLUGININFOEX &m_pInfo;
 	HANDLE m_hLogger = nullptr;
+	LIST<void> m_arIcons;
 
 	CMPluginBase(const char *moduleName, const PLUGININFOEX &pInfo);
 	~CMPluginBase();
@@ -171,6 +172,11 @@ protected:
 public:
 	void debugLogA(LPCSTR szFormat, ...);
 	void debugLogW(LPCWSTR wszFormat, ...);
+
+	__forceinline void addIcolib(HANDLE hIcolib) { m_arIcons.insert(hIcolib); }
+	HICON  getIcon(int iconId);
+	HANDLE getIconHandle(int iconId);
+	void   releaseIcon(int iconId);
 
 	__forceinline const PLUGININFOEX& getInfo() const { return m_pInfo; }
 	__forceinline const char* getModule() const { return m_szModuleName; }
