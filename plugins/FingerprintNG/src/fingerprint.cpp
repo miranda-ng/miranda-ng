@@ -887,6 +887,9 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 	RegisterIcons();
 
+	hExtraIcon = ExtraIcon_RegisterCallback("Client", LPGEN("Fingerprint"), "client_Miranda_unknown",
+		OnExtraIconListRebuild, OnExtraImageApply, OnExtraIconClick);
+
 	if (g_plugin.getByte("StatusBarIcon", 1)) {
 		StatusIconData sid = {};
 		sid.szModule = MODULENAME;
@@ -907,7 +910,4 @@ void InitFingerModule()
 	CreateServiceFunction(MS_FP_SAMECLIENTSW, ServiceSameClientsW);
 	CreateServiceFunction(MS_FP_GETCLIENTDESCRW, ServiceGetClientDescrW);
 	CreateServiceFunction(MS_FP_GETCLIENTICONW, ServiceGetClientIconW);
-
-	hExtraIcon = ExtraIcon_RegisterCallback("Client", LPGEN("Fingerprint"), "client_Miranda_unknown",
-		OnExtraIconListRebuild, OnExtraImageApply, OnExtraIconClick);
 }
