@@ -103,7 +103,7 @@ void CJabberProto::OnIqResult_CommandExecution(const TiXmlElement *iqNode, CJabb
 
 void CJabberProto::AdHoc_RequestListOfCommands(char *szResponder, HWND hwndDlg)
 {
-	m_ThreadInfo->send(XmlNodeIq(AddIQ(&CJabberProto::OnIqResult_ListOfCommands, JABBER_IQ_TYPE_GET, szResponder, 0, -1, hwndDlg))
+	m_ThreadInfo->send(XmlNodeIq(AddIQ(&CJabberProto::OnIqResult_ListOfCommands, JABBER_IQ_TYPE_GET, szResponder, hwndDlg))
 		<< XQUERY(JABBER_FEAT_DISCO_ITEMS) << XATTR("node", JABBER_FEAT_COMMANDS));
 }
 
@@ -118,7 +118,7 @@ int CJabberProto::AdHoc_ExecuteCommand(HWND hwndDlg, char*, JabberAdHocData *dat
 		if (node) {
 			const char *jid2 = XmlGetAttr(itemNode, "jid");
 			m_ThreadInfo->send(
-				XmlNodeIq(AddIQ(&CJabberProto::OnIqResult_CommandExecution, JABBER_IQ_TYPE_SET, jid2, 0, -1, hwndDlg))
+				XmlNodeIq(AddIQ(&CJabberProto::OnIqResult_CommandExecution, JABBER_IQ_TYPE_SET, jid2, hwndDlg))
 				<< XCHILDNS("command", JABBER_FEAT_COMMANDS) << XATTR("node", node) << XATTR("action", "execute"));
 
 			EnableDlgItem(hwndDlg, IDC_SUBMIT, FALSE);
@@ -279,7 +279,7 @@ int CJabberProto::AdHoc_SubmitCommandForm(HWND hwndDlg, JabberAdHocData *dat, ch
 	auto *xNode = XmlFirstChild(commandNode, "x");
 
 	const char *jid2 = XmlGetAttr(dat->AdHocNode, "from");
-	XmlNodeIq iq(AddIQ(&CJabberProto::OnIqResult_CommandExecution, JABBER_IQ_TYPE_SET, jid2, 0, -1, hwndDlg));
+	XmlNodeIq iq(AddIQ(&CJabberProto::OnIqResult_CommandExecution, JABBER_IQ_TYPE_SET, jid2, hwndDlg));
 	TiXmlElement *command = iq << XCHILDNS("command", JABBER_FEAT_COMMANDS);
 
 	const char *sessionId = XmlGetAttr(commandNode, "sessionid");
@@ -371,7 +371,7 @@ static INT_PTR CALLBACK JabberAdHoc_CommandDlgProc(HWND hwndDlg, UINT msg, WPARA
 			}
 			else {
 				dat->proto->m_ThreadInfo->send(
-					XmlNodeIq(dat->proto->AddIQ(&CJabberProto::OnIqResult_CommandExecution, JABBER_IQ_TYPE_SET, pStartupParams->m_szJid, 0, -1, hwndDlg))
+					XmlNodeIq(dat->proto->AddIQ(&CJabberProto::OnIqResult_CommandExecution, JABBER_IQ_TYPE_SET, pStartupParams->m_szJid, hwndDlg))
 					<< XCHILDNS("command", JABBER_FEAT_COMMANDS)
 					<< XATTR("node", pStartupParams->m_szNode) << XATTR("action", "execute"));
 

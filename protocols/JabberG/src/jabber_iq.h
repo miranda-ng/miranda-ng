@@ -61,8 +61,6 @@ protected:
 	DWORD         m_dwTimeout;
 	char*         m_szReceiver;
 	int           m_iPriority;
-
-public:
 	void*         m_pUserData;
 	int           m_nIqType;
 	const char*   m_szFrom;
@@ -166,7 +164,7 @@ public:
 	void Shutdown();
 
 	// fucking params, maybe just return CJabberIqRequestInfo pointer ?
-	CJabberIqInfo* AddHandler(JABBER_IQ_HANDLER pHandler, int nIqType, const char *szReceiver, DWORD dwParamsToParse, int nIqId, void *pUserData, int iPriority);
+	CJabberIqInfo* AddHandler(JABBER_IQ_HANDLER pHandler, int nIqType, const char *szReceiver, void *pUserData, int iPriority);
 	CJabberIqPermanentInfo* AddPermanentHandler(JABBER_PERMANENT_IQ_HANDLER pHandler, int nIqTypes, DWORD dwParamsToParse, const char *szXmlns, BOOL bAllowPartialNs, const char *szTag, void *pUserData = nullptr, IQ_USER_DATA_FREE_FUNC pUserDataFree = nullptr, int iPriority = JH_PRIORITY_DEFAULT);
 
 	// returns TRUE when pInfo found, or FALSE otherwise

@@ -105,7 +105,7 @@ void CJabberProto::OnIqResultNestedRosterGroups(const TiXmlElement *iqNode, CJab
 	// roster request
 	char *szUserData = mir_strdup(szGroupDelimiter ? szGroupDelimiter : "\\");
 	m_ThreadInfo->send(
-		XmlNodeIq(AddIQ(&CJabberProto::OnIqResultGetRoster, JABBER_IQ_TYPE_GET, nullptr, 0, -1, (void*)szUserData))
+		XmlNodeIq(AddIQ(&CJabberProto::OnIqResultGetRoster, JABBER_IQ_TYPE_GET, nullptr, szUserData))
 			<< XCHILDNS("query", JABBER_FEAT_IQ_ROSTER));
 }
 
@@ -1505,12 +1505,12 @@ void CJabberProto::OnIqResultSetBookmarks(const TiXmlElement *iqNode, CJabberIqI
 // last activity (XEP-0012) support
 void CJabberProto::OnIqResultLastActivity(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
-	pResourceStatus r(ResourceInfoFromJID(pInfo->m_szFrom));
+	pResourceStatus r(ResourceInfoFromJID(pInfo->GetFrom()));
 	if (r == nullptr)
 		return;
 
 	time_t lastActivity = -1;
-	if (pInfo->m_nIqType == JABBER_IQ_TYPE_RESULT) {
+	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
 		if (auto *xmlLast = XmlGetChildByTag(iqNode, "query", "xmlns", JABBER_FEAT_LAST_ACTIVITY)) {
 			int nSeconds = xmlLast->IntAttribute("seconds");
 			lastActivity = (nSeconds == 0) ? 0 : time(0) - nSeconds;
@@ -1528,10 +1528,10 @@ void CJabberProto::OnIqResultLastActivity(const TiXmlElement *iqNode, CJabberIqI
 // entity time (XEP-0202) support
 void CJabberProto::OnIqResultEntityTime(const TiXmlElement *pIqNode, CJabberIqInfo *pInfo)
 {
-	if (!pInfo->m_hContact)
+	if (!pInfo->GetHContact())
 		return;
 
-	if (pInfo->m_nIqType == JABBER_IQ_TYPE_RESULT) {
+	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
 		auto *xmlTime = XmlGetChildByTag(pIqNode, "time", "xmlns", JABBER_FEAT_ENTITY_TIME);
 		if (xmlTime) {
 			const char *szTzo = XmlGetChildText(xmlTime, "tzo");
@@ -1544,22 +1544,22 @@ void CJabberProto::OnIqResultEntityTime(const TiXmlElement *pIqNode, CJabberIqIn
 				if (GetTimeZoneInformation(&tzinfo) == TIME_ZONE_ID_DAYLIGHT)
 					nTz -= tzinfo.DaylightBias / 30;
 
-				setByte(pInfo->m_hContact, "Timezone", (signed char)nTz);
+				setByte(pInfo->GetHContact(), "Timezone", (signed char)nTz);
 
 				const char *szTz = XmlGetChildText(xmlTime, "tz");
 				if (szTz)
-					setUString(pInfo->m_hContact, "TzName", szTz);
+					setUString(pInfo->GetHContact(), "TzName", szTz);
 				else
-					delSetting(pInfo->m_hContact, "TzName");
+					delSetting(pInfo->GetHContact(), "TzName");
 				return;
 			}
 		}
 	}
-	else if (pInfo->m_nIqType == JABBER_IQ_TYPE_ERROR) {
-		if (getWord(pInfo->m_hContact, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
+	else if (pInfo->GetIqType() == JABBER_IQ_TYPE_ERROR) {
+		if (getWord(pInfo->GetHContact(), "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 			return;
 	}
 
-	delSetting(pInfo->m_hContact, "Timezone");
-	delSetting(pInfo->m_hContact, "TzName");
+	delSetting(pInfo->GetHContact(), "Timezone");
+	delSetting(pInfo->GetHContact(), "TzName");
 }

@@ -116,6 +116,8 @@ struct CJabberProto;
 
 struct CMPlugin : public ACCPROTOPLUGIN<CJabberProto>
 {
+	char szRandom[17];
+
 	CMPlugin();
 
 	int Load() override;
@@ -147,11 +149,9 @@ protected:
  * Global constants
  *******************************************************************/
 
-#define GLOBAL_SETTING_PREFIX	"JABBER"
 #define GLOBAL_SETTING_MODULE	"JABBER"
 
 #define JABBER_DEFAULT_PORT 5222
-#define JABBER_IQID "mir_"
 #define JABBER_MAX_JID_LEN  1024
 
 #define JABBER_GC_MSG_QUIT				LPGEN("I'm happy Miranda NG user. Get it at https://miranda-ng.org/.")
@@ -747,8 +747,12 @@ void   JabberHttpUrlDecode(wchar_t *str);
 int    JabberCombineStatus(int status1, int status2);
 time_t JabberIsoToUnixTime(const char *stamp);
 char*  JabberStripJid(const char *jid, char *dest, size_t destLen);
-int    JabberGetPacketID(const TiXmlElement *n);
+int    JabberGetPacketID(const char*);
 char*  JabberId2string(int id);
+
+__inline int JabberGetPacketID(const TiXmlElement *n)
+{	return JabberGetPacketID(XmlGetAttr(n, "id"));
+}
 
 char*  time2str(time_t _time, char *buf, size_t bufLen);
 time_t str2time(const char*);

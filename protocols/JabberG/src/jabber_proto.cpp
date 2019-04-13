@@ -613,12 +613,14 @@ int CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 	JabberStripJid(jid, szBareJid, _countof(szBareJid));
 
 	if (m_ThreadInfo) {
-		m_ThreadInfo->send(
-			XmlNodeIq(AddIQ(&CJabberProto::OnIqResultEntityTime, JABBER_IQ_TYPE_GET, jid, JABBER_IQ_PARSE_HCONTACT))
-			<< XCHILDNS("time", JABBER_FEAT_ENTITY_TIME));
+		auto *pInfo = AddIQ(&CJabberProto::OnIqResultEntityTime, JABBER_IQ_TYPE_GET, jid);
+		pInfo->SetParamsToParse(JABBER_IQ_PARSE_HCONTACT);
+		m_ThreadInfo->send(XmlNodeIq(pInfo) << XCHILDNS("time", JABBER_FEAT_ENTITY_TIME));
 
 		// XEP-0012, last logoff time
-		m_ThreadInfo->send(XmlNodeIq(AddIQ(&CJabberProto::OnIqResultLastActivity, JABBER_IQ_TYPE_GET, jid, JABBER_IQ_PARSE_FROM)) << XQUERY(JABBER_FEAT_LAST_ACTIVITY));
+		pInfo = AddIQ(&CJabberProto::OnIqResultLastActivity, JABBER_IQ_TYPE_GET, jid);
+		pInfo->SetParamsToParse(JABBER_IQ_PARSE_FROM);
+		m_ThreadInfo->send(XmlNodeIq(pInfo) << XQUERY(JABBER_FEAT_LAST_ACTIVITY));
 
 		JABBER_LIST_ITEM *item = nullptr;
 		if ((item = ListGetItemPtr(LIST_VCARD_TEMP, jid)) == nullptr)
@@ -643,14 +645,17 @@ int CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 					pResourceStatus r(it);
 					CMStringA tmp(MakeJid(szBareJid, r->m_szResourceName));
 
-					if (r->m_jcbCachedCaps & JABBER_CAPS_DISCO_INFO)
-						m_ThreadInfo->send(
-							XmlNodeIq(AddIQ(&CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE | JABBER_IQ_PARSE_HCONTACT)) 
-							<< XQUERY(JABBER_FEAT_DISCO_INFO));
+					if (r->m_jcbCachedCaps & JABBER_CAPS_DISCO_INFO) {
+						pInfo = AddIQ(&CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, tmp);
+						pInfo->SetParamsToParse(JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE | JABBER_IQ_PARSE_HCONTACT);
+						m_ThreadInfo->send(XmlNodeIq(pInfo) << XQUERY(JABBER_FEAT_DISCO_INFO));
+					}
 
-					if (mir_strcmp(tmp, jid)) // skip current resource, we've already sent this iq to it
-						m_ThreadInfo->send(
-							XmlNodeIq(AddIQ(&CJabberProto::OnIqResultLastActivity, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM)) << XQUERY(JABBER_FEAT_LAST_ACTIVITY));
+					if (mir_strcmp(tmp, jid)) { // skip current resource, we've already sent this iq to it
+						pInfo = AddIQ(&CJabberProto::OnIqResultLastActivity, JABBER_IQ_TYPE_GET, tmp);
+						pInfo->SetParamsToParse(JABBER_IQ_PARSE_FROM);
+						m_ThreadInfo->send(XmlNodeIq(pInfo) << XQUERY(JABBER_FEAT_LAST_ACTIVITY));
+					}
 				}
 			}
 		}

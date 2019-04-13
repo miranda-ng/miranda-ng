@@ -264,7 +264,8 @@ JabberCapsBits CJabberProto::GetResourceCapabilities(const char *jid, pResourceS
 
 		if (jcbMainCaps == JABBER_RESOURCE_CAPS_UNINIT) {
 			// send disco#info query
-			CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, jid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE);
+			CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, jid);
+			pInfo->SetParamsToParse(JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE);
 			pInfo->SetTimeout(JABBER_RESOURCE_CAPS_QUERY_TIMEOUT);
 			pCaps->SetCaps(JABBER_RESOURCE_CAPS_IN_PROGRESS, pInfo->GetIqId());
 			r->m_dwDiscoInfoRequestTime = pInfo->GetRequestTime();
@@ -318,7 +319,8 @@ JabberCapsBits CJabberProto::GetResourceCapabilities(const char *jid, pResourceS
 
 void CJabberProto::RequestOldCapsInfo(pResourceStatus &r, const char *fullJid)
 {
-	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, fullJid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE);
+	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, fullJid);
+	pInfo->SetParamsToParse(JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE);
 	pInfo->SetTimeout(JABBER_RESOURCE_CAPS_QUERY_TIMEOUT);
 	r->m_dwDiscoInfoRequestTime = pInfo->GetRequestTime();
 

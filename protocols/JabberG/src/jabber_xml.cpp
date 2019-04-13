@@ -129,8 +129,5 @@ TiXmlElement* __fastcall operator<<(TiXmlElement *node, const XQUERY &child)
 
 void XmlAddAttrID(TiXmlElement *hXml, int id)
 {
-	char text[100];
-	mir_snprintf(text, JABBER_IQID "%d", id);
-	hXml->SetAttribute("id", text);
+	hXml->SetAttribute("id", ptrA(JabberId2string(id)).get());
 }
-

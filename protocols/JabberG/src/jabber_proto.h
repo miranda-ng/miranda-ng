@@ -491,9 +491,9 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	//---- jabber_iq.c -------------------------------------------------------------------
 
-	__forceinline CJabberIqInfo* AddIQ(JABBER_IQ_HANDLER pHandler, int nIqType = JABBER_IQ_TYPE_GET, const char *szReceiver = nullptr, DWORD dwParamsToParse = 0, int nIqId = -1, void *pUserData = nullptr, int iPriority = JH_PRIORITY_DEFAULT)
+	__forceinline CJabberIqInfo* AddIQ(JABBER_IQ_HANDLER pHandler, int nIqType = JABBER_IQ_TYPE_GET, const char *szReceiver = nullptr, void *pUserData = nullptr, int iPriority = JH_PRIORITY_DEFAULT)
 	{
-		return m_iqManager.AddHandler(pHandler, nIqType, szReceiver, dwParamsToParse, nIqId, pUserData, iPriority);
+		return m_iqManager.AddHandler(pHandler, nIqType, szReceiver, pUserData, iPriority);
 	}
 
 	void   __cdecl ExpirerThread(void*);
@@ -835,7 +835,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	//---- jabber_xml.c ------------------------------------------------------------------
 
-	int    OnXmlParse(char* buffer);
 	void   OnConsoleProcessXml(const TiXmlElement *node, DWORD flags);
 
 	//---- jabber_xmlns.c ----------------------------------------------------------------
@@ -903,7 +902,6 @@ public:
 	HJHANDLER STDMETHODCALLTYPE AddPresenceHandler(JABBER_HANDLER_FUNC Func, void *pUserData, int iPriority) override;
 	HJHANDLER STDMETHODCALLTYPE AddMessageHandler(JABBER_HANDLER_FUNC Func, int iMsgTypes, const char *szXmlns, const char *szTag, void *pUserData, int iPriority) override;
 	HJHANDLER STDMETHODCALLTYPE AddIqHandler(JABBER_HANDLER_FUNC Func, int iIqTypes, const char *szXmlns, const char *szTag, void *pUserData, int iPriority) override;
-	HJHANDLER STDMETHODCALLTYPE AddTemporaryIqHandler(JABBER_HANDLER_FUNC Func, int iIqTypes, int iIqId, void *pUserData, DWORD dwTimeout, int iPriority) override;
 	HJHANDLER STDMETHODCALLTYPE AddSendHandler(JABBER_HANDLER_FUNC Func, void *pUserData, int iPriority) override;
 	int       STDMETHODCALLTYPE RemoveHandler(HJHANDLER hHandler) override;
 

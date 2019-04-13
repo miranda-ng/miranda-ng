@@ -1934,7 +1934,7 @@ bool CJabberProto::OmemoCheckSession(MCONTACT hContact)
 	while (id) {
 		if (!checked) {
 			pending_check = true;
-			XmlNodeIq iq(AddIQ(&CJabberProto::OmemoOnIqResultGetBundle, JABBER_IQ_TYPE_GET, nullptr, 0UL, -1, &id));
+			XmlNodeIq iq(AddIQ(&CJabberProto::OmemoOnIqResultGetBundle, JABBER_IQ_TYPE_GET, nullptr, &id));
 
 			char szBareJid[JABBER_MAX_JID_LEN];
 			iq << XATTR("from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof_portable(szBareJid)));
