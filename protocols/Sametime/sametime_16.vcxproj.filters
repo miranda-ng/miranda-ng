@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{b2fb3090-cd03-4404-a154-94e31360b079}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{97a29dbd-67df-4a06-a2d0-a82721b109c2}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{34e64f6c-b825-450f-bf46-f974acd71f72}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Meanwhile">
+      <UniqueIdentifier>{addc907a-8009-4c31-b03d-37759cb8c021}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Meanwhile\mpi">
+      <UniqueIdentifier>{c23f9d40-96f3-4bce-a8eb-670346163e26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Icons">
+      <UniqueIdentifier>{aeaa8461-68b4-4335-b383-90541c6a9927}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\conference.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\files.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\messaging.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\options.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\places.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sametime.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\session_announce_win.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\userlist.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StdAfx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sametime_proto.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\st_list.c">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\channel.c">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\cipher.c">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\common.c">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\error.c">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\message.c">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\mw_debug.c">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\mw_util.c">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\service.c">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\session.c">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\srvc_aware.c">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\srvc_conf.c">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\srvc_dir.c">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\srvc_ft.c">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\srvc_im.c">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\srvc_place.c">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\srvc_resolve.c">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\srvc_store.c">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\mpi\mpi.c">
+      <Filter>Source Files\Meanwhile\mpi</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sametime_session.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sametime.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\StdAfx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sametime_proto.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\meanwhile\src\mw_channel.h">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClInclude>
+    <ClInclude Include="src\meanwhile\src\mw_cipher.h">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClInclude>
+    <ClInclude Include="src\meanwhile\src\mw_common.h">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClInclude>
+    <ClInclude Include="src\meanwhile\src\mw_debug.h">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClInclude>
+    <ClInclude Include="src\meanwhile\src\mw_error.h">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClInclude>
+    <ClInclude Include="src\meanwhile\src\mw_message.h">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClInclude>
+    <ClInclude Include="src\meanwhile\src\mw_service.h">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClInclude>
+    <ClInclude Include="src\meanwhile\src\mw_session.h">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClInclude>
+    <ClInclude Include="src\meanwhile\src\mw_srvc_aware.h">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClInclude>
+    <ClInclude Include="src\meanwhile\src\mw_srvc_conf.h">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClInclude>
+    <ClInclude Include="src\meanwhile\src\mw_srvc_dir.h">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClInclude>
+    <ClInclude Include="src\meanwhile\src\mw_srvc_ft.h">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClInclude>
+    <ClInclude Include="src\meanwhile\src\mw_srvc_im.h">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClInclude>
+    <ClInclude Include="src\meanwhile\src\mw_srvc_place.h">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClInclude>
+    <ClInclude Include="src\meanwhile\src\mw_srvc_resolve.h">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClInclude>
+    <ClInclude Include="src\meanwhile\src\mw_srvc_store.h">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClInclude>
+    <ClInclude Include="src\meanwhile\src\mw_st_list.h">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClInclude>
+    <ClInclude Include="src\meanwhile\src\mw_util.h">
+      <Filter>Source Files\Meanwhile</Filter>
+    </ClInclude>
+    <ClInclude Include="src\meanwhile\src\mpi\mpi-types.h">
+      <Filter>Source Files\Meanwhile\mpi</Filter>
+    </ClInclude>
+    <ClInclude Include="src\meanwhile\src\mpi\mpi.h">
+      <Filter>Source Files\Meanwhile\mpi</Filter>
+    </ClInclude>
+    <ClInclude Include="src\meanwhile\src\mpi\mpi-config.h">
+      <Filter>Source Files\Meanwhile\mpi</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\part.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </None>
+    <None Include="res\online.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </None>
+    <None Include="res\invite.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </None>
+    <None Include="res\announce.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="res\version.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
