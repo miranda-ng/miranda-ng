@@ -211,7 +211,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 			if (localAddr == nullptr) {
 				sockaddr_in sin = {};
 				sin.sin_family = AF_INET;
-				sin.sin_addr.S_un.S_addr = nlb.dwExternalIP;
+				sin.sin_addr.S_un.S_addr = htonl(nlb.dwExternalIP);
 				localAddr = Netlib_AddressToString(&sin);
 			}
 

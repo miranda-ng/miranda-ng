@@ -288,7 +288,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 				if (myAddr == nullptr) {
 					sockaddr_in sin = {};
 					sin.sin_family = AF_INET;
-					sin.sin_addr.S_un.S_addr = nlb.dwExternalIP;
+					sin.sin_addr.S_un.S_addr = htonl(nlb.dwExternalIP);
 					myAddr = Netlib_AddressToString(&sin);
 				}
 
