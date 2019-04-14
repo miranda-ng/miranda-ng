@@ -613,7 +613,7 @@ int CVkProto::UserIsTyping(MCONTACT hContact, int type)
 	debugLogA("CVkProto::UserIsTyping");
 	if (PROTOTYPE_SELFTYPING_ON == type) {
 		LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
-		if (userID == VK_INVALID_USER || !IsOnline() || userID == VK_FEED_USER || m_iStatus == ID_STATUS_INVISIBLE)
+		if (userID == VK_INVALID_USER || !IsOnline() || userID == VK_FEED_USER)
 			return 1;
 
 		if (!IsEmpty(ptrW(db_get_wsa(hContact, m_szModuleName, "Deactivated"))))
@@ -621,6 +621,9 @@ int CVkProto::UserIsTyping(MCONTACT hContact, int type)
 
 		if (m_vkOptions.iMarkMessageReadOn == MarkMsgReadOn::markOnTyping)
 			MarkMessagesRead(hContact);
+
+		if (m_iStatus == ID_STATUS_INVISIBLE)
+			return 1;
 
 		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.setActivity.json", true, &CVkProto::OnReceiveSmth, AsyncHttpRequest::rpLow)
 			<< INT_PARAM("user_id", userID)

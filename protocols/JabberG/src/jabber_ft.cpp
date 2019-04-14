@@ -97,7 +97,9 @@ void CJabberProto::FtInitiate(char* jid, filetransfer *ft)
 	if (wchar_t *p = wcsrchr(filename, '\\'))
 		filename = p + 1;
 
-	XmlNodeIq iq(AddIQ(&CJabberProto::OnFtSiResult, JABBER_IQ_TYPE_SET, MakeJid(jid, rs), JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_TO, -1, ft));
+	auto *pIq = AddIQ(&CJabberProto::OnFtSiResult, JABBER_IQ_TYPE_SET, MakeJid(jid, rs), ft);
+	pIq->SetParamsToParse(JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_TO);
+	XmlNodeIq iq(pIq);
 	TiXmlElement *si = iq << XCHILDNS("si", JABBER_FEAT_SI) << XATTR("id", sid)
 		<< XATTR("mime-type", "binary/octet-stream") << XATTR("profile", JABBER_FEAT_SI_FT);
 	si << XCHILDNS("file", JABBER_FEAT_SI_FT) << XATTR("name", T2Utf(filename))
@@ -124,7 +126,7 @@ void CJabberProto::OnFtSiResult(const TiXmlElement *iqNode, CJabberIqInfo *pInfo
 	if (!ft)
 		return;
 
-	if ((pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) && pInfo->m_szFrom && pInfo->m_szTo) {
+	if ((pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) && pInfo->GetFrom() && pInfo->GetTo()) {
 		if (auto *siNode = XmlFirstChild(iqNode, "si")) {
 			// fix for very smart clients, like gajim
 			BOOL bDirect = m_bBsDirect;
@@ -138,8 +140,8 @@ void CJabberProto::OnFtSiResult(const TiXmlElement *iqNode, CJabberIqInfo *pInfo
 								// Start Bytestream session
 								JABBER_BYTE_TRANSFER *jbt = new JABBER_BYTE_TRANSFER;
 								memset(jbt, 0, sizeof(JABBER_BYTE_TRANSFER));
-								jbt->srcJID = mir_strdup(pInfo->m_szTo);
-								jbt->dstJID = mir_strdup(pInfo->m_szFrom);
+								jbt->srcJID = mir_strdup(pInfo->GetTo());
+								jbt->dstJID = mir_strdup(pInfo->GetFrom());
 								jbt->sid = mir_strdup(ft->sid);
 								jbt->pfnSend = &CJabberProto::FtSend;
 								jbt->pfnFinal = &CJabberProto::FtSendFinal;
@@ -151,8 +153,8 @@ void CJabberProto::OnFtSiResult(const TiXmlElement *iqNode, CJabberIqInfo *pInfo
 							else if (!mir_strcmp(valueNode->GetText(), JABBER_FEAT_IBB)) {
 								JABBER_IBB_TRANSFER *jibb = (JABBER_IBB_TRANSFER *)mir_alloc(sizeof(JABBER_IBB_TRANSFER));
 								memset(jibb, 0, sizeof(JABBER_IBB_TRANSFER));
-								jibb->srcJID = mir_strdup(pInfo->m_szTo);
-								jibb->dstJID = mir_strdup(pInfo->m_szFrom);
+								jibb->srcJID = mir_strdup(pInfo->GetTo());
+								jibb->dstJID = mir_strdup(pInfo->GetFrom());
 								jibb->sid = mir_strdup(ft->sid);
 								jibb->pfnSend = &CJabberProto::FtIbbSend;
 								jibb->pfnFinal = &CJabberProto::FtSendFinal;

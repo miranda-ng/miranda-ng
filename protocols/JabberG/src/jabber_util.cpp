@@ -514,12 +514,11 @@ void CJabberProto::SendPresence(int status, bool bSendToAll)
 ///////////////////////////////////////////////////////////////////////////////
 // JabberGetPacketID - converts the xml id attribute into an integer
 
-int JabberGetPacketID(const TiXmlElement *n)
+int JabberGetPacketID(const char *str)
 {
-	const char *str = XmlGetAttr(n, "id");
-	if (str)
-		if (!strncmp(str, JABBER_IQID, _countof(JABBER_IQID) - 1))
-			return atoi(str + _countof(JABBER_IQID) - 1);
+	if (mir_strlen(str) >= 20)
+		if (!memcmp(str, "mir", 3) && !memcmp(g_plugin.szRandom, str+3, 16) && str[19] == '_')
+			return atoi(str + 20);
 
 	return -1;
 }
@@ -527,7 +526,7 @@ int JabberGetPacketID(const TiXmlElement *n)
 char* JabberId2string(int id)
 {
 	char text[100];
-	mir_snprintf(text, JABBER_IQID "%d", id);
+	mir_snprintf(text, "mir%s_%d", g_plugin.szRandom, id);
 	return mir_strdup(text);
 }
 

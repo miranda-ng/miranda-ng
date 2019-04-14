@@ -46,12 +46,11 @@ BOOL CJabberProto::OnIqRequestPrivacyLists(const TiXmlElement*, CJabberIqInfo *p
 
 void CJabberProto::OnIqResultPrivacyListModify(const TiXmlElement*, CJabberIqInfo *pInfo)
 {
-	if (!pInfo->m_pUserData)
+	CPrivacyListModifyUserParam *pParam = (CPrivacyListModifyUserParam *)pInfo->GetUserData();
+	if (pParam == nullptr)
 		return;
 
-	CPrivacyListModifyUserParam *pParam = (CPrivacyListModifyUserParam *)pInfo->m_pUserData;
-
-	if (pInfo->m_nIqType != JABBER_IQ_TYPE_RESULT)
+	if (pInfo->GetIqType() != JABBER_IQ_TYPE_RESULT)
 		pParam->m_bAllOk = FALSE;
 
 	InterlockedDecrement(&pParam->m_dwCount);
@@ -243,7 +242,7 @@ void CJabberProto::OnIqResultPrivacyListDefault(const TiXmlElement *iqNode, CJab
 
 void CJabberProto::OnIqResultPrivacyLists(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
-	if (pInfo->m_nIqType != JABBER_IQ_TYPE_RESULT)
+	if (pInfo->GetIqType() != JABBER_IQ_TYPE_RESULT)
 		return;
 
 	auto *query = XmlFirstChild(iqNode, "query");
@@ -1621,7 +1620,7 @@ public:
 		}
 		EnableWindow(GetDlgItem(m_hwnd, IDC_ACTIVATE), FALSE);
 		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_ACTIVATE), GWLP_USERDATA, (LONG_PTR)pList);
-		XmlNodeIq iq(m_proto->AddIQ(&CJabberProto::OnIqResultPrivacyListActive, JABBER_IQ_TYPE_SET, nullptr, 0, -1, pList));
+		XmlNodeIq iq(m_proto->AddIQ(&CJabberProto::OnIqResultPrivacyListActive, JABBER_IQ_TYPE_SET, nullptr, pList));
 		TiXmlElement *query = iq << XQUERY(JABBER_FEAT_PRIVACY_LISTS);
 		TiXmlElement *active = query << XCHILD("active");
 		if (pList)
@@ -1648,7 +1647,7 @@ public:
 		EnableWindow(GetDlgItem(m_hwnd, IDC_SET_DEFAULT), FALSE);
 		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_SET_DEFAULT), GWLP_USERDATA, (LONG_PTR)pList);
 
-		XmlNodeIq iq(m_proto->AddIQ(&CJabberProto::OnIqResultPrivacyListDefault, JABBER_IQ_TYPE_SET, nullptr, 0, -1, pList));
+		XmlNodeIq iq(m_proto->AddIQ(&CJabberProto::OnIqResultPrivacyListDefault, JABBER_IQ_TYPE_SET, nullptr, pList));
 		TiXmlElement *query = iq << XQUERY(JABBER_FEAT_PRIVACY_LISTS);
 		TiXmlElement *defaultTag = query << XCHILD("default");
 		if (pList)
@@ -1878,7 +1877,7 @@ public:
 
 					pUserData->m_dwCount++;
 
-					XmlNodeIq iq(m_proto->AddIQ(&CJabberProto::OnIqResultPrivacyListModify, JABBER_IQ_TYPE_SET, nullptr, 0, -1, pUserData));
+					XmlNodeIq iq(m_proto->AddIQ(&CJabberProto::OnIqResultPrivacyListModify, JABBER_IQ_TYPE_SET, nullptr, pUserData));
 					TiXmlElement *query = iq << XQUERY(JABBER_FEAT_PRIVACY_LISTS);
 					TiXmlElement *listTag = query << XCHILD("list") << XATTR("name", pList->GetListName());
 
@@ -2006,7 +2005,7 @@ INT_PTR __cdecl CJabberProto::menuSetPrivacyList(WPARAM, LPARAM, LPARAM iList)
 			pList = pList->GetNext();
 	}
 
-	XmlNodeIq iq(AddIQ(&CJabberProto::OnIqResultPrivacyListActive, JABBER_IQ_TYPE_SET, nullptr, 0, -1, pList));
+	XmlNodeIq iq(AddIQ(&CJabberProto::OnIqResultPrivacyListActive, JABBER_IQ_TYPE_SET, nullptr, pList));
 	TiXmlElement *query = iq << XQUERY(JABBER_FEAT_PRIVACY_LISTS);
 	TiXmlElement *active = query << XCHILD("active");
 	if (pList)

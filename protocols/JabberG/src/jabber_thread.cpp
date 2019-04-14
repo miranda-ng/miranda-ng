@@ -424,13 +424,13 @@ LBL_FatalError:
 				else if (nSelRes == 0) {
 					if (m_bSendKeepAlive) {
 						if (info.jabberServerCaps & JABBER_CAPS_PING) {
-							CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnPingReply, JABBER_IQ_TYPE_GET, nullptr, 0, -1, this);
+							CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnPingReply, JABBER_IQ_TYPE_GET, nullptr, this);
 							pInfo->SetTimeout(m_iConnectionKeepAliveTimeout);
 							info.send(XmlNodeIq(pInfo) << XATTR("from", info.fullJID) << XCHILDNS("ping", JABBER_FEAT_PING));
 						}
 					}
-					else
-						info.send(" \t "); //TODO: why do we need this ?
+					else info.send(" \t ");
+					
 					if (m_bEnableStreamMgmt)
 						m_StrmMgmt.RequestAck();
 				}
@@ -1298,9 +1298,8 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 				auto *idNode = XmlFirstChild(xNode, "id");
 				if (XmlFirstChild(xNode, "delivered") != nullptr || XmlFirstChild(xNode, "offline") != nullptr) {
 					int id = -1;
-					if (idNode != nullptr && idNode->GetText() != nullptr)
-						if (!strncmp(idNode->GetText(), JABBER_IQID, mir_strlen(JABBER_IQID)))
-							id = atoi((idNode->GetText()) + mir_strlen(JABBER_IQID));
+					if (idNode != nullptr)
+						id = JabberGetPacketID(idNode->GetText());
 
 					if (id != -1)
 						ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)id, 0);

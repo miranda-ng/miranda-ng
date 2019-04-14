@@ -613,7 +613,7 @@ public:
 						if (*server) {
 							sttRoomListAppend(GetDlgItem(m_hwnd, IDC_ROOM), RoomInfo::ROOM_WAIT, TranslateT("Loading..."), TranslateT("Please wait for room list to download."), L"");
 
-							CJabberIqInfo *pInfo = m_proto->AddIQ(&CJabberProto::OnIqResultDiscovery, JABBER_IQ_TYPE_GET, T2Utf(server), 0, -1, (void*)GetDlgItem(m_hwnd, IDC_ROOM));
+							CJabberIqInfo *pInfo = m_proto->AddIQ(&CJabberProto::OnIqResultDiscovery, JABBER_IQ_TYPE_GET, T2Utf(server), (void*)GetDlgItem(m_hwnd, IDC_ROOM));
 							pInfo->SetTimeout(30000);
 							XmlNodeIq iq(pInfo);
 							iq << XQUERY(JABBER_FEAT_DISCO_ITEMS);

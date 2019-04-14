@@ -156,6 +156,10 @@ int CMPlugin::Load()
 	bPlatform = 0;
 	#endif
 
+	char tmp[8];
+	Utils_GetRandom(tmp, sizeof(tmp));
+	bin2hex(tmp, sizeof(tmp), szRandom);
+
 	Miranda_GetVersionText(szCoreVersion, _countof(szCoreVersion));
 
 	CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&g_cbCountries, (LPARAM)&g_countries);

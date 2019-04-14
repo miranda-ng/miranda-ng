@@ -175,12 +175,12 @@ void CJabberProto::OnIqResultServiceDiscoveryItems(const TiXmlElement *iqNode, C
 
 void CJabberProto::OnIqResultServiceDiscoveryRootInfo(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
-	if (!pInfo->m_pUserData) return;
+	if (!pInfo->GetUserData()) return;
 
 	mir_cslockfull lck(m_SDManager.cs());
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
 		for (auto *feature : TiXmlFilter(XmlFirstChild(iqNode, "query"), "feature")) {
-			if (!mir_strcmp(XmlGetAttr(feature, "var"), (char*)pInfo->m_pUserData)) {
+			if (!mir_strcmp(XmlGetAttr(feature, "var"), (char*)pInfo->GetUserData())) {
 				CJabberSDNode *pNode = m_SDManager.AddPrimaryNode(pInfo->GetReceiver(), XmlGetAttr(iqNode, "node"));
 				SendBothRequests(pNode);
 				break;
@@ -194,7 +194,7 @@ void CJabberProto::OnIqResultServiceDiscoveryRootInfo(const TiXmlElement *iqNode
 
 void CJabberProto::OnIqResultServiceDiscoveryRootItems(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
-	if (!pInfo->m_pUserData)
+	if (!pInfo->GetUserData())
 		return;
 
 	TiXmlDocument packet;
@@ -203,8 +203,7 @@ void CJabberProto::OnIqResultServiceDiscoveryRootItems(const TiXmlElement *iqNod
 		for (auto *item : TiXmlFilter(XmlFirstChild(iqNode, "query"), "item")) {
 			const char *szJid = XmlGetAttr(item, "jid");
 			const char *szNode = XmlGetAttr(item, "node");
-			CJabberIqInfo *pNewInfo = AddIQ(&CJabberProto::OnIqResultServiceDiscoveryRootInfo, JABBER_IQ_TYPE_GET, szJid);
-			pNewInfo->m_pUserData = pInfo->m_pUserData;
+			CJabberIqInfo *pNewInfo = AddIQ(&CJabberProto::OnIqResultServiceDiscoveryRootInfo, JABBER_IQ_TYPE_GET, szJid, pInfo->GetUserData());
 			pNewInfo->SetTimeout(30000);
 
 			XmlNodeIq iq(pNewInfo);
@@ -335,16 +334,14 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 		}
 	}
 	else if (!mir_wstrcmp(szJid, _T(SD_FAKEJID_CONFERENCES))) {
-		CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultServiceDiscoveryRootItems, JABBER_IQ_TYPE_GET, m_ThreadInfo->conn.server);
-		pInfo->m_pUserData = (void*)JABBER_FEAT_MUC;
+		CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultServiceDiscoveryRootItems, JABBER_IQ_TYPE_GET, m_ThreadInfo->conn.server, (void*)JABBER_FEAT_MUC);
 		pInfo->SetTimeout(30000);
 		XmlNodeIq iq(pInfo);
 		iq << XQUERY(JABBER_FEAT_DISCO_ITEMS);
 		m_ThreadInfo->send(iq);
 	}
 	else if (!mir_wstrcmp(szJid, _T(SD_FAKEJID_AGENTS))) {
-		CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultServiceDiscoveryRootItems, JABBER_IQ_TYPE_GET, m_ThreadInfo->conn.server);
-		pInfo->m_pUserData = (void*)L"jabber:iq:gateway";
+		CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultServiceDiscoveryRootItems, JABBER_IQ_TYPE_GET, m_ThreadInfo->conn.server, L"jabber:iq:gateway");
 		pInfo->SetTimeout(30000);
 		XmlNodeIq iq(pInfo);
 		iq << XQUERY(JABBER_FEAT_DISCO_ITEMS);

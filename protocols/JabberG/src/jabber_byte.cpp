@@ -161,7 +161,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 			jbt->szProxyJid = nullptr;
 			jbt->hProxyEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 
-			CJabberIqInfo *pInfo = AddIQ(&CJabberProto::IqResultProxyDiscovery, JABBER_IQ_TYPE_GET, proxyJid, 0, -1, jbt);
+			CJabberIqInfo *pInfo = AddIQ(&CJabberProto::IqResultProxyDiscovery, JABBER_IQ_TYPE_GET, proxyJid, jbt);
 			nIqId = pInfo->GetIqId();
 			XmlNodeIq iq(pInfo);
 			iq << XQUERY(JABBER_FEAT_BYTESTREAMS);
@@ -184,7 +184,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 		}
 	}
 
-	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::ByteInitiateResult, JABBER_IQ_TYPE_SET, jbt->dstJID, 0, -1, jbt);
+	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::ByteInitiateResult, JABBER_IQ_TYPE_SET, jbt->dstJID, jbt);
 	nIqId = pInfo->GetIqId();
 	char szPort[8];
 	{
@@ -538,18 +538,15 @@ int CJabberProto::ByteSendProxyParse(HNETLIBCONN hConn, JABBER_BYTE_TRANSFER *jb
 			jbt->hProxyEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 			jbt->bStreamActivated = FALSE;
 
-			int iqId = SerialNext();
+			auto *pIq = AddIQ(&CJabberProto::IqResultStreamActivate, JABBER_IQ_TYPE_SET, jbt->streamhostJID);
 
 			char listJid[256];
-			mir_snprintf(listJid, "ftproxy_%d", iqId);
+			mir_snprintf(listJid, "ftproxy_%d", pIq->GetIqId());
 
 			JABBER_LIST_ITEM *item = ListAdd(LIST_FTIQID, listJid);
 			item->jbt = jbt;
 
-			m_ThreadInfo->send(
-				XmlNodeIq(AddIQ(&CJabberProto::IqResultStreamActivate, JABBER_IQ_TYPE_SET, jbt->streamhostJID, 0, iqId))
-				<< XQUERY(JABBER_FEAT_BYTESTREAMS) << XATTR("sid", jbt->sid) << XCHILD("activate", jbt->dstJID));
-
+			m_ThreadInfo->send(XmlNodeIq(pIq) << XQUERY(JABBER_FEAT_BYTESTREAMS) << XATTR("sid", jbt->sid) << XCHILD("activate", jbt->dstJID));
 			WaitForSingleObject(jbt->hProxyEvent, INFINITE);
 
 			CloseHandle(jbt->hProxyEvent);

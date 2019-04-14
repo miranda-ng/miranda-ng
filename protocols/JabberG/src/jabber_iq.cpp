@@ -201,15 +201,12 @@ void CJabberIqManager::ExpireAll()
 		ExpireInfo(pInfo);
 }
 
-CJabberIqInfo* CJabberIqManager::AddHandler(JABBER_IQ_HANDLER pHandler, int nIqType, const char *szReceiver, DWORD dwParamsToParse, int nIqId, void *pUserData, int iPriority)
+CJabberIqInfo* CJabberIqManager::AddHandler(JABBER_IQ_HANDLER pHandler, int nIqType, const char *szReceiver, void *pUserData, int iPriority)
 {
 	CJabberIqInfo *pInfo = new CJabberIqInfo();
 	pInfo->m_pHandler = pHandler;
-	if (nIqId == -1)
-		nIqId = ppro->SerialNext();
-	pInfo->m_nIqId = nIqId;
+	pInfo->m_nIqId = ppro->SerialNext();
 	pInfo->m_nIqType = nIqType;
-	pInfo->m_dwParamsToParse = dwParamsToParse;
 	pInfo->m_pUserData = pUserData;
 	pInfo->m_dwRequestTime = GetTickCount();
 	pInfo->m_dwTimeout = JABBER_DEFAULT_IQ_REQUEST_TIMEOUT;

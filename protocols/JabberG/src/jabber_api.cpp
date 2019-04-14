@@ -163,17 +163,6 @@ HJHANDLER CJabberProto::AddIqHandler(JABBER_HANDLER_FUNC Func, int iIqTypes, con
 	return (HJHANDLER)m_iqManager.AddPermanentHandler(&CJabberProto::ExternalIqHandler, iIqTypes, 0, szXmlns, FALSE, szTag, d, free, iPriority);
 }
 
-HJHANDLER CJabberProto::AddTemporaryIqHandler(JABBER_HANDLER_FUNC Func, int iIqTypes, int iIqId, void *pUserData, DWORD dwTimeout, int iPriority)
-{
-	sHandlerData *d = (sHandlerData*)malloc(sizeof(sHandlerData));
-	d->Func = Func;
-	d->pUserData = pUserData;
-	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::ExternalTempIqHandler, iIqTypes, nullptr, 0, iIqId, d, iPriority);
-	if (pInfo && dwTimeout > 0)
-		pInfo->SetTimeout(dwTimeout);
-	return (HJHANDLER)pInfo;
-}
-
 HJHANDLER CJabberProto::AddSendHandler(JABBER_HANDLER_FUNC Func, void *pUserData, int iPriority)
 {
 	sHandlerData *d = (sHandlerData*)malloc(sizeof(sHandlerData));
