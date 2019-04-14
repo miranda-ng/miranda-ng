@@ -23,8 +23,10 @@ Boston, MA 02111-1307, USA.
 #include <windows.h>
 #include <Windowsx.h>
 #include <time.h>
-#include <vector>
 #include <Shlobj.h>
+
+#include <string>
+#include <vector>
 
 // Miranda header files
 #include <win2k.h>

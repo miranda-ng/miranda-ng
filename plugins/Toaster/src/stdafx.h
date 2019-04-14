@@ -10,6 +10,7 @@
 #include <propvarutil.h>
 #include <memory>
 #include <map>
+#include <string>
 
 #include <newpluginapi.h>
 #include <m_system_cpp.h>

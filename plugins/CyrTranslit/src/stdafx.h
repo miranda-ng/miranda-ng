@@ -20,7 +20,9 @@
 #pragma once
 
 #include <windows.h>
+
 #include <map>
+#include <string>
 
 #include <newpluginapi.h>
 #include <m_database.h>

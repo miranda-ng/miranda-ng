@@ -24,10 +24,6 @@
 #include "nsfdata.h"
 #endif
 
-#ifndef EVENT_DEFS
-#include "event.h"
-#endif
-
 #ifdef __cplusplus
 extern "C" {
 #endif
