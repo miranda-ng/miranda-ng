@@ -13,6 +13,7 @@
 #include <commctrl.h>
 #include <process.h>
 #include <stack>
+#include <string>
 #include <gcrypt.h>
 extern "C" {
 	#include <privkey.h>
