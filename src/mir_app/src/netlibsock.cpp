@@ -200,7 +200,7 @@ MIR_APP_DLL(char*) Netlib_AddressToString(sockaddr_in *addr)
 	if (addr->sin_family == AF_INET) {
 		char *szIp = inet_ntoa(addr->sin_addr);
 		if (addr->sin_port != 0) {
-			mir_snprintf(saddr, "%s:%d", szIp, htons(addr->sin_port));
+			mir_snprintf(saddr, "%s:%d", szIp, addr->sin_port);
 			return mir_strdup(saddr);
 		}
 		return mir_strdup(szIp);
