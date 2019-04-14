@@ -21,7 +21,6 @@
   <PropertyGroup Label="Globals">
     <ProjectName>UInfoEx_icons_ice_Z2</ProjectName>
     <ProjectGuid>{E787B42A-6489-4078-90CD-B78B751A1284}</ProjectGuid>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
     <XPDeprecationWarning>false</XPDeprecationWarning>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

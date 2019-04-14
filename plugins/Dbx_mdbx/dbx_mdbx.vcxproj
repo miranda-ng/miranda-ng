@@ -26,7 +26,6 @@
   <PropertyGroup Label="Globals">
     <ProjectName>Dbx_mdbx</ProjectName>
     <ProjectGuid>{E0ACDEA0-0AC9-4431-8CA3-6B0CCACB2E18}</ProjectGuid>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />

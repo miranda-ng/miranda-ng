@@ -27,7 +27,6 @@
     <ProjectGuid>{30E29CE6-E6FC-4D32-AA07-46A55FAF3A31}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>mdbxtest</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

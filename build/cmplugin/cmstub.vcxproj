@@ -23,7 +23,6 @@
     <ProjectGuid>{3E03C383-1234-4055-B1C8-D43EB6BFAE58}</ProjectGuid>
     <RootNamespace>Project1</RootNamespace>
     <XPDeprecationWarning>false</XPDeprecationWarning>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
     <ProjectName>cmstub</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
