@@ -29,8 +29,6 @@
 
 #define NOTIFY_LIST() if (ListNotesVisible) PostMessage(LV,WM_RELOAD,0,0)
 
-#define PENLINK ENLINK *
-
 #define NOTE_WND_CLASS L"MIM_StickyNote"
 
 #define IDM_COLORPRESET_BG 41000
@@ -738,12 +736,10 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 
 	case WM_NOTIFY:
 		if (LOWORD(wParam) == 1) {
-			char *Buff;
-			PENLINK PEnLnk = (PENLINK)lParam;
-
+			ENLINK *PEnLnk = (ENLINK*)lParam;
 			if (PEnLnk->msg == WM_LBUTTONDOWN) {
 				SendDlgItemMessage(hdlg, 1, EM_EXSETSEL, 0, (LPARAM)&(PEnLnk->chrg));
-				Buff = (char*)malloc(PEnLnk->chrg.cpMax - PEnLnk->chrg.cpMin + 1);
+				char* Buff = (char*)malloc(PEnLnk->chrg.cpMax - PEnLnk->chrg.cpMin + 1);
 				SendDlgItemMessage(hdlg, 1, EM_GETSELTEXT, 0, (LPARAM)Buff);
 				if ((GetAsyncKeyState(VK_CONTROL) >> 15) != 0)
 					ShellExecuteA(hdlg, "open", "iexplore", Buff, "", SW_SHOWNORMAL);

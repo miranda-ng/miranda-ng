@@ -1253,6 +1253,7 @@ public:
 
 	void onClick_RemindAgain(CCtrlButton*)
 	{
+		arReminders.remove(m_pReminder);
 		if (chkAfter.GetState()) {
 			// delta time
 			SYSTEMTIME tm;
@@ -1320,7 +1321,6 @@ public:
 		m_pReminder->handle = nullptr;
 
 		// re-insert tree item sorted
-		arReminders.remove(m_pReminder);
 		arReminders.insert(m_pReminder);
 		m_pReminder = nullptr; // prevent reminder from being deleted;
 		Close();
@@ -1533,6 +1533,7 @@ public:
 		}
 		else {
 			// update existing reminder
+			arReminders.remove(m_pReminder);
 			SystemTimeToFileTime(&Date, (FILETIME*)&m_pReminder->When);
 
 			m_pReminder->szText = ptrA(edtText.GetTextA());
@@ -1541,7 +1542,6 @@ public:
 			m_pReminder->RepeatSound = m_pReminder->SoundSel < 0 ? 0 : (UINT)RepeatSound;
 
 			// re-insert tree item sorted
-			arReminders.remove(m_pReminder);
 			arReminders.insert(m_pReminder);
 
 			m_pReminder->bVisible = false;
