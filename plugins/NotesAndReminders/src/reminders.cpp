@@ -1741,7 +1741,7 @@ static BOOL DoListContextMenu(HWND AhWnd, WPARAM wParam, LPARAM lParam)
 static INT_PTR CALLBACK DlgProcViewReminders(HWND hwndDlg, UINT Message, WPARAM wParam, LPARAM lParam)
 {
 	HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
-	int idx;
+	int idx, cx1, cx2;
 
 	switch (Message) {
 	case WM_SIZE:
@@ -1771,16 +1771,25 @@ static INT_PTR CALLBACK DlgProcViewReminders(HWND hwndDlg, UINT Message, WPARAM 
 
 		TranslateDialogDefault(hwndDlg);
 		SetDlgItemTextA(hwndDlg, IDC_REMINDERDATA, "");
+		{
+			cx1 = 150, cx2 = 205;
+			ptrA colWidth(g_plugin.getStringA("ColWidth"));
+			if (colWidth != 0) {
+				int tmp1 = 0, tmp2 = 0;
+				if (2 == sscanf(colWidth, "%d,%d", &tmp1, &tmp2))
+					cx1 = tmp1, cx2 = tmp2;
+			}
+		}
 
 		LV_COLUMN lvCol;
-		lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
+		lvCol.mask = LVCF_TEXT | LVCF_WIDTH | LVCF_DEFAULTWIDTH;
 		lvCol.pszText = TranslateT("Reminder text");
-		lvCol.cx = 150;
+		lvCol.cx = lvCol.cxDefault = cx1;
 		ListView_InsertColumn(H, 0, &lvCol);
 
-		lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
+		lvCol.mask = LVCF_TEXT | LVCF_WIDTH | LVCF_DEFAULTWIDTH;
 		lvCol.pszText = TranslateT("Date of activation");
-		lvCol.cx = 205;
+		lvCol.cx = lvCol.cxDefault = cx2;
 		ListView_InsertColumn(H, 0, &lvCol);
 
 		InitListView(H);
@@ -1852,6 +1861,10 @@ static INT_PTR CALLBACK DlgProcViewReminders(HWND hwndDlg, UINT Message, WPARAM 
 		break;
 
 	case WM_DESTROY:
+		cx1 = ListView_GetColumnWidth(H, 0);
+		cx2 = ListView_GetColumnWidth(H, 1);
+		g_plugin.setString("ColWidth", CMStringA(FORMAT, "%d,%d", cx1, cx2));
+
 		Utils_SaveWindowPosition(hwndDlg, 0, MODULENAME, "ListReminders");
 		Window_FreeIcon_IcoLib(hwndDlg);
 		break;
