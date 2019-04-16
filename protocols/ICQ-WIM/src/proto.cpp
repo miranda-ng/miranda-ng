@@ -159,13 +159,6 @@ void CIcqProto::OnBuildProtoMenu()
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_GROUP);
 	m_hUploadGroups = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
-	mi.pszService = "/EditIgnore";
-	CreateProtoService(mi.pszService, &CIcqProto::EditIgnoreList);
-	mi.name.a = LPGEN("Edit ignore list");
-	mi.position++;
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS);
-	Menu_AddProtoMenuItem(&mi, m_szModuleName);
-
 	Menu_ShowItem(m_hUploadGroups, false);
 }
 
@@ -196,19 +189,6 @@ INT_PTR CIcqProto::GetEmailCount(WPARAM, LPARAM)
 INT_PTR CIcqProto::GotoInbox(WPARAM, LPARAM)
 {
 	Utils_OpenUrl("https://e.mail.ru/messages/inbox");
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-int CIcqProto::OnContactMenu(WPARAM hContact, LPARAM)
-{
-	Menu_ShowItem(g_plugin.m_hmiRoot, true);
-	Menu_ModifyItem(g_plugin.m_hmiRoot, nullptr, Skin_GetProtoIcon(GetContactProto(hContact), ID_STATUS_ONLINE));
-
-	bool bIgnorable = getDword(hContact, "ApparentMode") != ID_STATUS_OFFLINE;
-	Menu_ShowItem(g_plugin.m_hmiAllow, !bIgnorable);
-	Menu_ShowItem(g_plugin.m_hmiIgnore, bIgnorable);
 	return 0;
 }
 
@@ -327,7 +307,7 @@ INT_PTR CIcqProto::GetCaps(int type, MCONTACT)
 	switch (type) {
 	case PFLAGNUM_1:
 		nReturn = PF1_IM | PF1_AUTHREQ | PF1_BASICSEARCH | PF1_ADDSEARCHRES | /*PF1_SEARCHBYNAME | TODO */
-			PF1_VISLIST | PF1_INVISLIST | PF1_MODEMSG | PF1_FILE | PF1_CONTACT | PF1_SERVERCLIST;
+			PF1_VISLIST | PF1_MODEMSG | PF1_FILE | PF1_CONTACT | PF1_SERVERCLIST;
 		break;
 
 	case PFLAGNUM_2:
@@ -523,7 +503,12 @@ int CIcqProto::UserIsTyping(MCONTACT hContact, int type)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_SetApparentMode - sets the visibility status
 
-int CIcqProto::SetApparentMode(MCONTACT, int)
+int CIcqProto::SetApparentMode(MCONTACT hContact, int iMode)
 {
-	return 1; // Failure
+	int oldMode = getWord(hContact, "ApparentMode");
+	if (oldMode != iMode) {
+		setWord(hContact, "ApparentMode", iMode);
+		SetPermitDeny(GetUserId(hContact), iMode != ID_STATUS_OFFLINE);
+	}
+	return 0;
 }
