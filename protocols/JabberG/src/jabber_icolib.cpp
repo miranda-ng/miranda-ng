@@ -175,45 +175,13 @@ void CJabberProto::IconsInit(void)
 /////////////////////////////////////////////////////////////////////////////////////////
 // internal functions
 
-static inline wchar_t qtoupper(wchar_t c)
-{
-	return (c >= 'a' && c <= 'z') ? c - 'a' + 'A' : c;
-}
-
-static BOOL WildComparei(const char *name, const char *mask)
-{
-	const char *last = nullptr;
-	for (;; mask++, name++) {
-		if (*mask != '?' && qtoupper(*mask) != qtoupper(*name))
-			break;
-		if (*name == '\0')
-			return ((BOOL)!*mask);
-	}
-
-	if (*mask != '*')
-		return FALSE;
-
-	for (;; mask++, name++) {
-		while (*mask == '*') {
-			last = mask++;
-			if (*mask == '\0')
-				return ((BOOL)!*mask);   /* true */
-		}
-
-		if (*name == '\0')
-			return ((BOOL)!*mask);      /* *mask == EOS */
-		if (*mask != '?' && qtoupper(*mask) != qtoupper(*name))
-			name -= (size_t)(mask - last) - 1, mask = last;
-	}
-}
-
-static BOOL MatchMask(const char *name, const char *mask)
+static bool MatchMask(const char *name, const char *mask)
 {
 	if (!mask || !name)
 		return mask == name;
 
 	if (*mask != '|')
-		return WildComparei(name, mask);
+		return wildcmpi(name, mask);
 
 	char *temp = NEWSTR_ALLOCA(mask);
 	for (int e = 1; mask[e] != '\0'; e++) {
@@ -222,28 +190,27 @@ static BOOL MatchMask(const char *name, const char *mask)
 			e++;
 
 		temp[e] = 0;
-		if (WildComparei(name, temp + s))
-			return TRUE;
+		if (wildcmpi(name, temp + s))
+			return true;
 
 		if (mask[e] == 0)
-			return FALSE;
+			return false;
 	}
 
-	return FALSE;
+	return false;
 }
 
 static HICON ExtractIconFromPath(const char *path, BOOL * needFree)
 {
-	char *comma;
 	char file[MAX_PATH], fileFull[MAX_PATH];
-	int n;
-	HICON hIcon;
 	mir_strncpy(file, path, sizeof(file));
-	comma = strrchr(file, ',');
+
+	int n;
+	char* comma = strrchr(file, ',');
 	if (comma == nullptr) n = 0;
 	else { n = atoi(comma + 1); *comma = 0; }
 	PathToAbsolute(file, fileFull);
-	hIcon = nullptr;
+	HICON hIcon = nullptr;
 	ExtractIconExA(fileFull, n, nullptr, &hIcon, 1);
 	if (needFree)
 		*needFree = (hIcon != nullptr);
@@ -254,8 +221,9 @@ static HICON ExtractIconFromPath(const char *path, BOOL * needFree)
 static HICON LoadTransportIcon(char *filename, int i, char *IconName, wchar_t *SectName, wchar_t *Description, int internalidx, BOOL *needFree)
 {
 	char szPath[MAX_PATH], szMyPath[MAX_PATH], szFullPath[MAX_PATH], *str;
-	BOOL has_proto_icon = FALSE;
-	if (needFree) *needFree = FALSE;
+	bool has_proto_icon = false;
+	if (needFree)
+		*needFree = false;
 	GetModuleFileNameA(nullptr, szPath, MAX_PATH);
 	str = strrchr(szPath, '\\');
 	if (str != nullptr) *str = 0;
@@ -263,7 +231,7 @@ static HICON LoadTransportIcon(char *filename, int i, char *IconName, wchar_t *S
 	mir_snprintf(szFullPath, "%s\\Icons\\%s,%d", szPath, filename, i);
 	BOOL nf;
 	HICON hi = ExtractIconFromPath(szFullPath, &nf);
-	if (hi) has_proto_icon = TRUE;
+	if (hi) has_proto_icon = true;
 	if (hi && nf) DestroyIcon(hi);
 	if (IconName != nullptr && SectName != nullptr) {
 		SKINICONDESC sid = {};
