@@ -133,7 +133,7 @@ struct IcqFileTransfer : public MZeroedObject
 	void FillHeaders(AsyncHttpRequest *pReq)
 	{
 		pReq->AddHeader("Content-Type", "application/octet-stream");
-		pReq->AddHeader("Content-Disposition", CMStringA(FORMAT, "attachment; filename=\"%s\"", T2Utf(m_wszShortName)));
+		pReq->AddHeader("Content-Disposition", CMStringA(FORMAT, "attachment; filename=\"%s\"", T2Utf(m_wszShortName).get()));
 
 		DWORD dwPortion = pfts.currentFileSize - pfts.currentFileProgress;
 		if (dwPortion > 1000000)
@@ -244,6 +244,8 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	int       m_unreadEmails = -1;
 	CMStringA m_szMailBox;
+
+	bool      m_bIgnoreListEmpty = true;
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// group chats

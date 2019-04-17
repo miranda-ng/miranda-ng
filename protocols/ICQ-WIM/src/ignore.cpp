@@ -44,10 +44,13 @@ void CIcqProto::ProcessPermissions(const JSONNode &ev)
 			p->m_iApparentMode = ID_STATUS_ONLINE;
 	}
 
+	m_bIgnoreListEmpty = true;
 	for (auto &it : ev["ignores"]) {
 		auto *p = FindContactByUIN(it.as_mstring());
-		if (p)
+		if (p) {
 			p->m_iApparentMode = ID_STATUS_OFFLINE;
+			m_bIgnoreListEmpty = false;
+		}
 	}
 
 	for (auto &it: m_arCache) {
@@ -63,6 +66,9 @@ void CIcqProto::ProcessPermissions(const JSONNode &ev)
 
 void CIcqProto::SetPermitDeny(const CMStringW &userId, bool bAllow)
 {
-	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/preference/setPermitDeny")
-		<< AIMSID(this) << WCHAR_PARAM((bAllow) ? "pdIgnoreRemove" : "pdIgnore", userId));
+	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/preference/setPermitDeny")
+		<< AIMSID(this) << WCHAR_PARAM((bAllow) ? "pdIgnoreRemove" : "pdIgnore", userId);
+	if (!m_bIgnoreListEmpty)
+		pReq << CHAR_PARAM("pdMode", "denySome");
+	Push(pReq);
 }
