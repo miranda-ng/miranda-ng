@@ -127,7 +127,7 @@ static INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
 static int OnCListApplyIcons(WPARAM wParam, LPARAM)
 {
 	LPSTR val = Get(wParam);
-	ExtraIcon_SetIcon(ghExtraIconSvc, wParam, (val) ? g_plugin.getIconHandle(IDI_DLG_EMAIL) : nullptr);
+	ExtraIcon_SetIcon(ghExtraIconSvc, wParam, (val) ? g_plugin.getIconHandle(IDI_BTN_EMAIL) : nullptr);
 	mir_free(val);
 	return 0;
 }
