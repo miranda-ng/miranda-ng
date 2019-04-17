@@ -10,10 +10,10 @@
 #define IDI_DLG_EMAIL                   103
 
 // dialog infobar & buttons
-#define IDI_ANNIVERSARY					104
-#define IDI_EXPORT						105
-#define IDI_IMPORT						106
-#define IDI_SEARCH						107
+#define IDI_ANNIVERSARY                 104
+#define IDI_EXPORT                      105
+#define IDI_IMPORT                      106
+#define IDI_SEARCH                      107
 
 // common icons of details dialog pages
 #define IDI_MIRANDA                     108
