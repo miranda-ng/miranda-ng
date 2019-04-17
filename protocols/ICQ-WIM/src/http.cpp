@@ -114,8 +114,14 @@ AsyncHttpRequest::AsyncHttpRequest(IcqConnection conn, int iType, const char *sz
 
 void AsyncHttpRequest::ReplaceJsonParam(const JSONNode &n)
 {
+	auto *szNodeName = n.name();
+
 	JSONNode root = JSONNode::parse(m_szParam);
-	root[n.name()] = n;
+	JSONNode& old = root.at(szNodeName);
+	if (old)
+		old = n;
+	else
+		root.push_back(n);
 	m_szParam = root.write().c_str();
 
 	replaceStr(pData, nullptr);
@@ -147,12 +153,12 @@ bool CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 				delete pReq;
 				return false;
 			}
-
-			pReq->ReplaceJsonParam(JSONNode("clientId", m_iRClientId));
-			pReq->ReplaceJsonParam(JSONNode("authToken", m_szRToken));
-			pReq->dataLength = pReq->m_szParam.GetLength();
-			pReq->pData = mir_strdup(pReq->m_szParam);
 		}
+
+		pReq->ReplaceJsonParam(JSONNode("clientId", m_iRClientId));
+		pReq->ReplaceJsonParam(JSONNode("authToken", m_szRToken));
+		pReq->dataLength = pReq->m_szParam.GetLength();
+		pReq->pData = mir_strdup(pReq->m_szParam);
 	}
 
 	debugLogA("Executing request %s:\n%s", pReq->m_reqId, pReq->szUrl);
@@ -191,7 +197,6 @@ bool CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 					return false;
 				}
 
-				pReq->ReplaceJsonParam(JSONNode("authToken", m_szRToken));
 				Push(pReq);
 				return true;
 			}

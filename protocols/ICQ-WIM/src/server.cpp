@@ -397,9 +397,8 @@ bool CIcqProto::RefreshRobustToken()
 	bool bRet = false;
 	auto *tmp = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER "/genToken");
 
-	time_t ts = TS();
-	tmp << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", ICQ_APP_ID)
-		<< CHAR_PARAM("nonce", CMStringA(FORMAT, "%d-%d", ts, rand() % 10)) << INT_PARAM("ts", TS());
+	int ts = TS();
+	tmp << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", ICQ_APP_ID) << CHAR_PARAM("nonce", CMStringA(FORMAT, "%d-%d", ts, rand() % 10)) << INT_PARAM("ts", TS());
 	CalcHash(tmp);
 	tmp->flags |= NLHRF_PERSISTENT;
 	tmp->nlc = m_ConnPool[CONN_RAPI].s;
@@ -488,8 +487,7 @@ void CIcqProto::RetrieveUserHistory(MCONTACT hContact, __int64 startMsgId, __int
 	if (endMsgId != -1)
 		params << INT64_PARAM("tillMsgId", endMsgId);
 	params << INT_PARAM("count", 1000) << CHAR_PARAM("aimSid", m_aimsid) << CHAR_PARAM("patchVersion", "1") << CHAR_PARAM("language", "ru-ru");
-	request << CHAR_PARAM("method", "getHistory") << CHAR_PARAM("reqId", pReq->m_reqId) << CHAR_PARAM("authToken", m_szRToken)
-		<< INT_PARAM("clientId", m_iRClientId) << params;
+	request << CHAR_PARAM("method", "getHistory") << CHAR_PARAM("reqId", pReq->m_reqId) << params;
 	pReq->m_szParam = ptrW(json_write(&request));
 	Push(pReq);
 }

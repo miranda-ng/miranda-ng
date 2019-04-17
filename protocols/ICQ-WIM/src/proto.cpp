@@ -205,8 +205,7 @@ void CIcqProto::MarkReadTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD)
 		auto *pReq = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER);
 		JSONNode request, params; params.set_name("params");
 		params << WCHAR_PARAM("sn", ppro->GetUserId(pUser->m_hContact)) << INT64_PARAM("lastRead", ppro->getId(pUser->m_hContact, DB_KEY_LASTMSGID));
-		request << CHAR_PARAM("method", "setDlgStateWim") << CHAR_PARAM("reqId", pReq->m_reqId) 
-			<< CHAR_PARAM("authToken", ppro->m_szRToken) << INT_PARAM("clientId", ppro->m_iRClientId) << params;
+		request << CHAR_PARAM("method", "setDlgStateWim") << CHAR_PARAM("reqId", pReq->m_reqId) << params;
 		pReq->m_szParam = ptrW(json_write(&request));
 		ppro->Push(pReq);
 
@@ -348,8 +347,7 @@ HANDLE CIcqProto::SearchBasic(const wchar_t *pszSearch)
 
 	JSONNode request, params; params.set_name("params");
 	params << WCHAR_PARAM("keyword", pszSearch);
-	request << CHAR_PARAM("method", "search") << CHAR_PARAM("reqId", pReq->m_reqId) << CHAR_PARAM("authToken", m_szRToken)
-		<< INT_PARAM("clientId", m_iRClientId) << params;
+	request << CHAR_PARAM("method", "search") << CHAR_PARAM("reqId", pReq->m_reqId) << params;
 	pReq->m_szParam = ptrW(json_write(&request));
 	Push(pReq);
 	return pReq;

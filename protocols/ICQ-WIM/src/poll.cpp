@@ -139,7 +139,7 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 				auto *pReq = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER, &CIcqProto::OnGetChatInfo);
 				JSONNode request, params; params.set_name("params");
 				params << WCHAR_PARAM("sn", wszId) << INT_PARAM("memberLimit", 100) << CHAR_PARAM("aimSid", m_aimsid);
-				request << CHAR_PARAM("method", "getChatInfo") << CHAR_PARAM("reqId", pReq->m_reqId) << CHAR_PARAM("authToken", m_szRToken) << INT_PARAM("clientId", m_iRClientId) << params;
+				request << CHAR_PARAM("method", "getChatInfo") << CHAR_PARAM("reqId", pReq->m_reqId) << params;
 				pReq->m_szParam = ptrW(json_write(&request));
 				pReq->pUserInfo = si;
 				Push(pReq);
