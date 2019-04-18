@@ -19,8 +19,6 @@
 globals_s globals;
 
 
-map<int, MCONTACT> user_data;
-
 int item_num = 0;
 HWND hwndList_p = nullptr;
 HWND hwndCurKey_p = nullptr;
@@ -97,7 +95,7 @@ public:
 				
 				if (g_plugin.getByte(hContact, "GPGEncryption", 0))
 					list_USERLIST.SetCheckState(row, 1);
-				user_data[i] = hContact;
+				globals.user_data[(int)i] = hContact;
 				list_USERLIST.SetColumnWidth(0, LVSCW_AUTOSIZE);
 				list_USERLIST.SetColumnWidth(1, LVSCW_AUTOSIZE);
 				list_USERLIST.SetColumnWidth(2, LVSCW_AUTOSIZE);
@@ -244,14 +242,14 @@ public:
 				}
 			}
 			else {
-				db_unset(user_data[item_num + 1], MODULENAME, "KeyID");
-				db_unset(user_data[item_num + 1], MODULENAME, "GPGPubKey");
-				db_unset(user_data[item_num + 1], MODULENAME, "KeyMainName");
-				db_unset(user_data[item_num + 1], MODULENAME, "KeyType");
-				db_unset(user_data[item_num + 1], MODULENAME, "KeyMainEmail");
-				db_unset(user_data[item_num + 1], MODULENAME, "KeyComment");
-				setClistIcon(user_data[item_num + 1]);
-				setSrmmIcon(user_data[item_num + 1]);
+				db_unset(globals.user_data[item_num + 1], MODULENAME, "KeyID");
+				db_unset(globals.user_data[item_num + 1], MODULENAME, "GPGPubKey");
+				db_unset(globals.user_data[item_num + 1], MODULENAME, "KeyMainName");
+				db_unset(globals.user_data[item_num + 1], MODULENAME, "KeyType");
+				db_unset(globals.user_data[item_num + 1], MODULENAME, "KeyMainEmail");
+				db_unset(globals.user_data[item_num + 1], MODULENAME, "KeyComment");
+				setClistIcon(globals.user_data[item_num + 1]);
+				setSrmmIcon(globals.user_data[item_num + 1]);
 			}
 		}
 		list_USERLIST.SetItemText(item_num, 3, TranslateT("not set"));
@@ -269,7 +267,7 @@ public:
 	{
 		wchar_t *tmp = GetFilePath(TranslateT("Export public key"), L"*", TranslateT(".asc pubkey file"), true);
 		if (tmp) {
-			wstring str(ptrW(db_get_wsa(user_data[item_num + 1], MODULENAME, "GPGPubKey", L"")));
+			wstring str(ptrW(db_get_wsa(globals.user_data[item_num + 1], MODULENAME, "GPGPubKey", L"")));
 			wstring::size_type s = 0;
 			while ((s = str.find(L"\r", s)) != wstring::npos)
 				str.erase(s, 1);
@@ -345,11 +343,11 @@ public:
 			void setSrmmIcon(MCONTACT hContact);
 			item_num = hdr->iItem;
 			if (list_USERLIST.GetCheckState(hdr->iItem))
-				db_set_b(user_data[item_num + 1], MODULENAME, "GPGEncryption", 1);
+				db_set_b(globals.user_data[item_num + 1], MODULENAME, "GPGEncryption", 1);
 			else
-				db_set_b(user_data[item_num + 1], MODULENAME, "GPGEncryption", 0);
-			setClistIcon(user_data[item_num + 1]);
-			setSrmmIcon(user_data[item_num + 1]);
+				db_set_b(globals.user_data[item_num + 1], MODULENAME, "GPGEncryption", 0);
+			setClistIcon(globals.user_data[item_num + 1]);
+			setSrmmIcon(globals.user_data[item_num + 1]);
 		}
 	}
 
@@ -591,7 +589,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		hContact = user_data[1];
+		hContact = globals.user_data[1];
 		SetWindowPos(m_hwnd, nullptr, globals.load_key_rect.left, globals.load_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 		mir_subclassWindow(GetDlgItem(m_hwnd, IDC_PUBLIC_KEY_EDIT), editctrl_ctrl_a);
 		MCONTACT hcnt = db_mc_tryMeta(hContact);

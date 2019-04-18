@@ -104,7 +104,7 @@ void GetFolderPath(wchar_t *WindowTittle)
 
 INT_PTR LoadKey(WPARAM w, LPARAM)
 {
-	globals.user_data[1] = (MCONTACT)w;
+	globals.user_data[(int)1] = (MCONTACT)w;
 	ShowLoadPublicKeyDialog();
 	return 0;
 }
