@@ -105,6 +105,7 @@ CVkFileUploadParam::VKFileType CVkFileUploadParam::GetType()
 
 	wchar_t img[] = L".jpg .jpeg .png .bmp";
 	wchar_t audio[] = L".mp3";
+	wchar_t audiomsg[] = L".ogg";
 
 	wchar_t DRIVE[3], DIR[256], FNAME[256], EXT[256];
 	_wsplitpath(FileName, DRIVE, DIR, FNAME, EXT);
@@ -119,6 +120,10 @@ CVkFileUploadParam::VKFileType CVkFileUploadParam::GetType()
 	}
 	else if (wlstrstr(audio, EXT)) {
 		filetype = CVkFileUploadParam::typeAudio;
+		atr = mir_strdup("file");
+	}
+	else if (wlstrstr(audiomsg, EXT)) {
+		filetype = CVkFileUploadParam::typeAudioMsg;
 		atr = mir_strdup("file");
 	}
 	else {

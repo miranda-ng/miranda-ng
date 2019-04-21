@@ -37,7 +37,7 @@ struct AsyncHttpRequest : public MTHttpRequest<CVkProto>
 };
 
 struct CVkFileUploadParam : public MZeroedObject {
-	enum VKFileType { typeInvalid, typeImg, typeAudio, typeDoc, typeNotSupported };
+	enum VKFileType { typeInvalid, typeImg, typeAudio, typeAudioMsg, typeDoc, typeNotSupported };
 	wchar_t *FileName;
 	wchar_t *Desc;
 	char *atr;

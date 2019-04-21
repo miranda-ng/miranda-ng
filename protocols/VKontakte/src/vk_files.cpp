@@ -42,6 +42,10 @@ HANDLE CVkProto::SendFile(MCONTACT hContact, const wchar_t *desc, wchar_t **file
 	case CVkFileUploadParam::typeAudio:
 		pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/audio.getUploadServer.json", true, &CVkProto::OnReciveUploadServer);
 		break;
+	case CVkFileUploadParam::typeAudioMsg:
+		pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/docs.getUploadServer.json", true, &CVkProto::OnReciveUploadServer);
+		pReq << CHAR_PARAM("type", "audio_message");
+		break;
 	case CVkFileUploadParam::typeDoc:
 		pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/docs.getUploadServer.json", true, &CVkProto::OnReciveUploadServer);
 		break;
@@ -276,6 +280,7 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		pUploadReq << WCHAR_PARAM("server", server) << WCHAR_PARAM("audio", upload) << WCHAR_PARAM("hash", hash);
 		break;
 	case CVkFileUploadParam::typeDoc:
+	case CVkFileUploadParam::typeAudioMsg:
 		upload = jnRoot["file"].as_mstring();
 		if (upload.IsEmpty()) {
 			SendFileFiled(fup, VKERR_INVALID_PARAMETERS);
@@ -331,6 +336,7 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		Attachment.AppendFormat(L"audio%d_%d", owner_id, id);
 		break;
 	case CVkFileUploadParam::typeDoc:
+	case CVkFileUploadParam::typeAudioMsg:
 		Attachment.AppendFormat(L"doc%d_%d", owner_id, id);
 		break;
 	default:
