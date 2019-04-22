@@ -1122,7 +1122,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			CMStringW wszTitle(jnDoc["title"].as_mstring());
 			CMStringW wszUrl(jnDoc["url"].as_mstring());
 			res.AppendFormat(L"%s: %s",
-				SetBBCString(TranslateT("Document"), iBBC, vkbbcB).c_str(),
+				jnDoc["type"].as_int() == 5 ? SetBBCString(TranslateT("Audio message"), iBBC, vkbbcB).c_str() : SetBBCString(TranslateT("Document"), iBBC, vkbbcB).c_str(),
 				SetBBCString(wszTitle.IsEmpty() ? TranslateT("Link") : wszTitle, iBBC, vkbbcUrl, wszUrl).c_str());
 		}
 		else if (wszType == L"wall") {
