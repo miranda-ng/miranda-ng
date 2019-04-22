@@ -273,7 +273,7 @@ ID ключа:
 [Set home directory]
 Выбор домашней папки
 [Load Public GPG Key for ]
-Загрузить публичный ключ GPG для 
+Загрузить публичный ключ GPG для\s
 [Turn off encryption]
 Выключить шифрование
 [ found in presence, and exists in keyring.)]
