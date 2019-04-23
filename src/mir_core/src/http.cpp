@@ -138,7 +138,7 @@ MIR_CORE_DLL(char*) mir_base64_encodebuf(const void *input, size_t inputLen, cha
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static BYTE Base64DecodeTable[] =
+static int Base64DecodeTable[] =
 {
 	-1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1,
 	-1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1,
