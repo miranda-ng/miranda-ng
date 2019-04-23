@@ -106,16 +106,18 @@ void CDiscordProto::OnModulesLoaded()
 	for (auto &hContact : AccContacts()) {
 		CDiscordUser *pNew = new CDiscordUser(getId(hContact, DB_KEY_ID));
 		pNew->hContact = hContact;
-		pNew->channelId = getId(hContact, DB_KEY_CHANNELID);
 		pNew->lastMsgId = getId(hContact, DB_KEY_LASTMSGID);
 		pNew->wszUsername = ptrW(getWStringA(hContact, DB_KEY_NICK));
 		pNew->iDiscriminator = getDword(hContact, DB_KEY_DISCR);
 		arUsers.insert(pNew);
 
 		// set EnableSync = 1 by default for all existing guilds
-		if (getByte(hContact, "ChatRoom") == 2)
+		if (getByte(hContact, "ChatRoom") == 2) {
+			delSetting(hContact, DB_KEY_CHANNELID);
 			if (getDword(hContact, "EnableSync", -1) == -1)
 				setDword(hContact, "EnableSync", 1);
+		}
+		else pNew->channelId = getId(hContact, DB_KEY_CHANNELID);
 	}
 
 	GCREGISTER gcr = {};
