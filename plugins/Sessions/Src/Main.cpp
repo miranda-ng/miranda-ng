@@ -28,7 +28,7 @@ bool g_hghostw;
 HWND hClistControl;
 
 int g_ses_limit;
-int g_ses_count;
+size_t g_ses_count;
 bool g_bExclHidden;
 bool g_bWarnOnHidden;
 bool g_bOtherWarnings;
