@@ -198,7 +198,6 @@ static int Backup(wchar_t *backup_filename)
 {
 	bool bZip = false;
 	wchar_t dbname[MAX_PATH], dest_file[MAX_PATH];
-	HWND progress_dialog = nullptr;
 
 	Profile_GetNameW(_countof(dbname), dbname);
 
@@ -243,10 +242,11 @@ static int Backup(wchar_t *backup_filename)
 	if (!g_plugin.disable_popups)
 		ShowPopup(dbname, TranslateT("Backup in progress"), nullptr);
 
-	if (!g_plugin.disable_progress)
+	HWND progress_dialog = nullptr;
+	if (!g_plugin.disable_progress) {
 		progress_dialog = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_COPYPROGRESS), nullptr, DlgProcProgress);
-
-	SetDlgItemText(progress_dialog, IDC_PROGRESSMESSAGE, TranslateT("Copying database file..."));
+		SetDlgItemText(progress_dialog, IDC_PROGRESSMESSAGE, TranslateT("Copying database file..."));
+	}
 
 	BOOL res;
 	if (bZip) {
@@ -268,8 +268,10 @@ static int Backup(wchar_t *backup_filename)
 			CloseHandle(hFile);
 		}
 		
-		SendDlgItemMessage(progress_dialog, IDC_PROGRESS, PBM_SETPOS, (WPARAM)(100), 0);
-		UpdateWindow(progress_dialog);
+		if (progress_dialog) {
+			SendDlgItemMessage(progress_dialog, IDC_PROGRESS, PBM_SETPOS, (WPARAM)(100), 0);
+			UpdateWindow(progress_dialog);
+		}
 		g_plugin.setDword("LastBackupTimestamp", (DWORD)time(0));
 
 		if (g_plugin.use_cloudfile) {
@@ -297,7 +299,8 @@ static int Backup(wchar_t *backup_filename)
 	}
 	else DeleteFileW(dest_file);
 
-	DestroyWindow(progress_dialog);
+	if (progress_dialog)
+		DestroyWindow(progress_dialog);
 	return 0;
 }
 
@@ -327,7 +330,7 @@ VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	time_t t = time(0);
 	time_t diff = t - (time_t)g_plugin.getDword("LastBackupTimestamp");
-	if (diff > (time_t)(g_plugin.period * (g_plugin.period_type == PT_MINUTES ? 60 : (g_plugin.period_type == PT_HOURS ? (60 * 60) : (60 * 60 * 24)))))
+	if (diff > time_t(g_plugin.period) * (g_plugin.period_type == PT_MINUTES ? 60 : (g_plugin.period_type == PT_HOURS ? (60 * 60) : (60 * 60 * 24))))
 		BackupStart(nullptr);
 }
 
