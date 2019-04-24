@@ -45,6 +45,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_import.h>
 #include <m_gui.h>
 
+#include "../../../libs/Pcre16/src/pcre.h"
+
 #include "version.h"
 #include "resource.h"
 
@@ -59,8 +61,36 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MS_IMPORT_SERVICE "MIMImport/Import"        // Service for main menu item
 #define MS_IMPORT_CONTACT "MIMImport/ImportContact" // Service for contact menu item
 
+struct CImportPattern : public MZeroedObject
+{
+	struct CRegexp
+	{
+		pcre16 *pattern;
+		pcre16_extra *extra;
+	};
+
+	CMStringW wszName;
+	int iType = 1;
+	int iCodePage = CP_UTF8;
+	int iUseHeader, iUsePreMsg, iUseFilename;
+
+	CRegexp regMessage;
+	CMStringW wszIncoming, wszOutgoing;
+	int iDirection, iDay, iMonth, iYear, iHours, iMinutes, iSeconds;
+
+	CRegexp regFilename;
+	int iInNick, iInUID, iOutNick, iOutUID;
+};
+
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
+private:
+	void LoadPattern(const wchar_t *pwszFileName);
+	void LoadPatterns();
+
+	OBJLIST<CImportPattern> m_patterns;
+
+public:
 	CMPlugin();
 
 	int Load() override;

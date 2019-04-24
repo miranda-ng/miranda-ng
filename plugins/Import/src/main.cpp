@@ -46,8 +46,10 @@ static PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(IMPORT_MODULE, pluginInfoEx)
-{}
+	PLUGIN<CMPlugin>(IMPORT_MODULE, pluginInfoEx),
+	m_patterns(1)
+{
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // MirandaInterfaces - returns the protocol interface to the core
@@ -158,6 +160,7 @@ int CMPlugin::Load()
 	icex.dwICC = ICC_DATE_CLASSES;
 	InitCommonControlsEx(&icex);
 
+	LoadPatterns();
 	RegisterDbrw();
 	RegisterMContacts();
 	RegisterJson();
