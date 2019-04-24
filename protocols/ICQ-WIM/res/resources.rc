@@ -47,7 +47,7 @@ BEGIN
     PUSHBUTTON      "Sign in/sign up using phone",IDC_REGISTER,42,34,142,14
 END
 
-IDD_OPTIONS_FULL DIALOGEX 0, 0, 310, 125
+IDD_OPTIONS_FULL DIALOGEX 0, 0, 310, 136
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -59,11 +59,12 @@ BEGIN
     EDITTEXT        IDC_PASSWORD,98,29,106,12,ES_PASSWORD | ES_AUTOHSCROLL
     CONTROL         "Do not open chat windows on creation",IDC_HIDECHATS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,47,285,10
-    CONTROL         "Use tray icon notifications",IDC_USETRAYICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,73,285,10
-    PUSHBUTTON      "Sign in/sign up using phone",IDC_REGISTER,165,106,142,14
-    GROUPBOX        "E-mail",IDC_STATIC,1,62,306,40
+    CONTROL         "Use tray icon notifications",IDC_USETRAYICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,73,291,10
     CONTROL         "Launch mailbox in a browser on click",IDC_LAUNCH_MAILBOX,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,86,281,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,85,281,10
+    CONTROL         "Show error popups",IDC_SHOWERRORPOPUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,97,291,10
+    PUSHBUTTON      "Sign in/sign up using phone",IDC_REGISTER,165,117,142,14
+    GROUPBOX        "Notifications",IDC_STATIC,1,62,306,51
 END
 
 IDD_OPTIONS_ADV DIALOGEX 0, 0, 310, 86
@@ -125,6 +126,7 @@ BEGIN
     EDITTEXT        IDC_LASTSEEN,74,32,139,10,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP
 END
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // DESIGNINFO
@@ -140,7 +142,7 @@ BEGIN
 
     IDD_OPTIONS_FULL, DIALOG
     BEGIN
-        BOTTOMMARGIN, 120
+        BOTTOMMARGIN, 131
     END
 
     IDD_OPTIONS_ADV, DIALOG

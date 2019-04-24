@@ -352,6 +352,7 @@ public:
 	CMOption<wchar_t*> m_szPassword;   // password, if present
 	CMOption<BYTE>  m_bHideGroupchats; // don't pop up group chat windows on startup
 	CMOption<BYTE>  m_bUseTrayIcon;    // use tray icon notifications
+	CMOption<BYTE>  m_bErrorPopups;    // display popups with errors
 	CMOption<BYTE>  m_bLaunchMailbox;  // launch browser to view email
 	CMOption<DWORD> m_iTimeDiff1;		  // set this status to m_iStatus1 after this interval of secs
 	CMOption<DWORD> m_iStatus1;

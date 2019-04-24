@@ -31,6 +31,7 @@
 #define IDC_STATUS1                     1019
 #define IDC_USETRAYICON                 1020
 #define IDC_LAUNCH_MAILBOX              1021
+#define IDC_SHOWERRORPOPUPS             1022
 #define IDC_DIFF2                       1023
 #define IDC_SPIN2                       1024
 #define IDC_STATUS2                     1025
@@ -41,7 +42,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        110
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1021
+#define _APS_NEXT_CONTROL_VALUE         1023
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

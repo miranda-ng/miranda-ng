@@ -23,7 +23,7 @@
 struct CIcqRegistrationDlg : public CProtoDlgBase<CIcqProto>
 {
 	CMStringA szTrans, szMsisdn;
-	int iErrorCode;
+	int iErrorCode = 0;
 
 	CCtrlEdit edtPhone, edtCode;
 	CCtrlButton btnSendSms;
@@ -158,7 +158,7 @@ void CIcqProto::OnLoginViaPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pRe
 class CIcqOptionsDlg : public CProtoDlgBase<CIcqProto>
 {
 	CCtrlEdit edtUin, edtPassword;
-	CCtrlCheck chkHideChats, chkTrayIcon, chkLaunchMailbox;
+	CCtrlCheck chkHideChats, chkTrayIcon, chkLaunchMailbox, chkShowErrorPopups;
 	CCtrlButton btnCreate;
 	CMStringW wszOldPass;
 
@@ -170,7 +170,8 @@ public:
 		edtPassword(this, IDC_PASSWORD),
 		chkTrayIcon(this, IDC_USETRAYICON),
 		chkHideChats(this, IDC_HIDECHATS),
-		chkLaunchMailbox(this, IDC_LAUNCH_MAILBOX)
+		chkLaunchMailbox(this, IDC_LAUNCH_MAILBOX),
+		chkShowErrorPopups(this, IDC_SHOWERRORPOPUPS)
 	{
 		btnCreate.OnClick = Callback(this, &CIcqOptionsDlg::onClick_Register);
 
@@ -180,6 +181,7 @@ public:
 			CreateLink(chkHideChats, ppro->m_bHideGroupchats);
 			CreateLink(chkTrayIcon, ppro->m_bUseTrayIcon);
 			CreateLink(chkLaunchMailbox, ppro->m_bLaunchMailbox);
+			CreateLink(chkShowErrorPopups, ppro->m_bErrorPopups);
 
 			chkTrayIcon.OnChange = Callback(this, &CIcqOptionsDlg::onChange_Tray);
 		}
