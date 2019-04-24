@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.2.0.2
+;  Version: 0.2.0.4
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Sticky Notes & Reminders Implementation for Miranda NG.]
@@ -303,10 +303,10 @@ cекунд
 Альтернативный 1
 [Alternative 2]
 Альтернативный 2
-[Reminder text]
-Напоминание
 [Date of activation]
 Дата активации
+[Reminder text]
+Напоминание
 [Are you sure you want to delete all reminders?]
 Уверены, что хотите удалить все напоминания?!
 [Are you sure you want to delete this reminder?]

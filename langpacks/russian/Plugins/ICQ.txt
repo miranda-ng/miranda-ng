@@ -18,10 +18,12 @@ UIN/почта:
 Не открывать окна комнат чата при создании
 [Use tray icon notifications]
 Уведомления в трее
-[E-mail]
-Почта
 [Launch mailbox in a browser on click]
 Открыть почту в браузере при нажатии
+[Show error popups]
+Показывать всплывающие окна с сообщениями об ошибках
+[Notifications]
+Уведомления
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
 Когда контакт выходит из сети, установить ему этот статус и сохранять в течение указанного числа секунд (0 - отключено)
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
@@ -52,23 +54,16 @@ UIN/почта:
 Участник с:
 [Last seen:]
 Последнее появление:
-[Ignore list editor]
-Редактор списка игнорируемых
 ;file \protocols\ICQ-WIM\src\groupchats.cpp
 [&Invite a user]
 &Пригласить пользователя
 [&Leave/destroy chat]
 &Покинуть/уничтожить чат
-;file \protocols\ICQ-WIM\src\ignore.cpp
-[Do you really want to remove it from ignore list?]
-Действительно удалить из списка игнорируемых?
 ;file \protocols\ICQ-WIM\src\main.cpp
+[E-mail]
+Почта
 [E-mail notification]
 Уведомление об эл. почте
-[Ignore]
-Игнорировать
-[Remove Ignore]
-Убрать игнорирование
 ;file \protocols\ICQ-WIM\src\options.cpp
 [Network]
 Сеть
@@ -86,8 +81,6 @@ UIN/почта:
 %s подключение к серверу
 [Synchronize server groups]
 Синхронизировать группы с сервером
-[Edit ignore list]
-Изменить список игнорируемых
 [UIN/e-mail/phone]
 UIN/почта/телефон
 ;file \protocols\ICQ-WIM\src\server.cpp

@@ -43,6 +43,16 @@
 [Hide contact on 'Ignore all']
 Скрывать при 'Игнорировать все'
 ;file \plugins\MenuItemEx\src\main.cpp
+[Always visible]
+Всегда видимый
+[Never visible]
+Всегда невидимый
+[Copy to Account]
+Копировать в учётную запись
+[Show in list]
+Показывать в списке
+[Copy xStatus Message]
+Копировать сообщение xСтатуса
 [Status message]
 Сообщение статуса
 [xStatus title]
@@ -55,16 +65,6 @@
 Заголовок занятия
 [Activity text]
 Текст занятия
-[Show in list]
-Показывать в списке
-[Always visible]
-Всегда видимый
-[Never visible]
-Всегда невидимый
-[Copy to Account]
-Копировать в учётную запись
-[Copy xStatus Message]
-Копировать сообщение xСтатуса
 [All]
 Все
 [Messages]

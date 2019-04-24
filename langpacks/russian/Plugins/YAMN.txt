@@ -359,9 +359,9 @@ OpenSSL не загружен.
 Ошибка памяти
 [Account Test]
 Проверка
-[Account Test (failed)]
-Проверка (ошибка)
 [You have N new mail messages]
 У вас Х новых сообщений
+[Account Test (failed)]
+Проверка (ошибка)
 [Connection failed message]
 Сообщение о неудачном подключении

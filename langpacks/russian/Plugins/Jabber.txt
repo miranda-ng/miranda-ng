@@ -540,8 +540,6 @@ xHTML формат чат сообщений
 Участники
 [Visitors]
 Посетители
-[Role of %s was changed to '%s'.]
-Роль %s сменилась на '%s'.
 [Change &nickname]
 Изменить &ник
 [&Invite a user]

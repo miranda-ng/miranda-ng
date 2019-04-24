@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TrafficCounter.dll
 ;  Plugin: Traffic counter
-;  Version: 0.1.1.8
+;  Version: 0.1.1.9
 ;  Authors: Ghost, Mironych
 ;============================================================
 [Adding traffic and time counters.]
@@ -133,14 +133,6 @@
 [Traffic Counter]
 Счётчик трафика
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp
-[Font]
-Шрифт
-[Show/Hide frame]
-Показать/Скрыть фрейм
-[Hide traffic window]
-Скрыть окно трафика
-[Clear the current (Now:) value]
-Сбросить текущее (Now:) значение
 [Toggle traffic counter]
 Переключить счётчик трафика
 [Traffic counter notification]
@@ -149,3 +141,11 @@
 %d Кб отправлено
 [%d kilobytes received]
 %d Кб получено
+[Font]
+Шрифт
+[Show/Hide frame]
+Показать/Скрыть фрейм
+[Hide traffic window]
+Скрыть окно трафика
+[Clear the current (Now:) value]
+Сбросить текущее (Now:) значение

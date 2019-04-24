@@ -28,6 +28,10 @@
 [Delete all events]
 Все события удаляются из истории
 ;file \plugins\HistorySweeperLight\src\options.cpp
+[Default Action]
+Действие по умолчанию
+[Delete All]
+Удалить всё
 [Delete older than 1 day]
 Удалить историю старше 1 дня
 [Delete older than 3 days]
@@ -56,10 +60,6 @@
 Сохранить 20 последних событий
 [Keep 50 last events]
 Сохранить 50 последних событий
-[Default Action]
-Действие по умолчанию
-[Delete All]
-Удалить всё
 [*** Default Action ***]
 *** Общее действие ***
 [*** System History ***]
