@@ -33,8 +33,9 @@ BEGIN
         BLOCK "000004b0"
         BEGIN
             VALUE "Author", __AUTHOR
+            VALUE "Company", "Miranda NG"
             VALUE "FileDescription", __DESCRIPTION
-            VALUE "FileVersion", __VERSION_STRING
+            VALUE "FileVersion", __VERSION_STRING_DOTS
             VALUE "InternalName", __FILENAME
             VALUE "LegalCopyright", __COPYRIGHT
             VALUE "OriginalFilename", __FILENAME
