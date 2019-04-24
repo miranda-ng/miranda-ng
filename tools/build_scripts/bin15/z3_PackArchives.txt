@@ -66,6 +66,7 @@ Libs\libmdbx.mir
 Libs\libsignal.mir
 Libs\mir_app.mir
 Libs\mir_core.mir
+Libs\Pcre16.mir
 Libs\sqlite3.mir
 Libs\ssleay32.mir
 Libs\Zlib.mir
