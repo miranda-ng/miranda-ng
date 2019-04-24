@@ -3,19 +3,19 @@
 
 static void AutoSize(HWND hwnd)
 {
-  HDC hDC = GetDC(hwnd);
-  HFONT hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
-  HFONT hOldFont = (HFONT)SelectObject(hDC, hFont);
+	HDC hDC = GetDC(hwnd);
+	HFONT hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
+	HFONT hOldFont = (HFONT)SelectObject(hDC, hFont);
 
-  wchar_t szBuf[MAX_PATH];
-  int i = GetWindowText(hwnd, szBuf, _countof(szBuf));
+	wchar_t szBuf[MAX_PATH];
+	int i = GetWindowText(hwnd, szBuf, _countof(szBuf));
 
-  SIZE tS;
-  GetTextExtentPoint32(hDC, szBuf, i, &tS);
-  SelectObject(hDC, hOldFont);
-  DeleteObject(hFont);
-  ReleaseDC(hwnd, hDC);
-  SetWindowPos(hwnd, HWND_BOTTOM, 0, 0, tS.cx + 10, tS.cy, SWP_NOMOVE | SWP_FRAMECHANGED);
+	SIZE tS;
+	GetTextExtentPoint32(hDC, szBuf, i, &tS);
+	SelectObject(hDC, hOldFont);
+	DeleteObject(hFont);
+	ReleaseDC(hwnd, hDC);
+	SetWindowPos(hwnd, HWND_BOTTOM, 0, 0, tS.cx + 10, tS.cy, SWP_NOMOVE | SWP_FRAMECHANGED);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,13 +34,13 @@ static void InitControls(HWND hwndDlg)
 		TranslateW(COM_OKSTR[(comReg & COMREG_OK) != 0]),
 		TranslateW(COM_APPROVEDSTR[(comReg & COMREG_APPROVED) != 0]));
 	SetDlgItemText(hwndDlg, IDC_STATUS, szBuf);
-	
+
 	// auto size the static windows to fit their text
 	// they're rendering in a font not selected into the DC.
 	AutoSize(GetDlgItem(hwndDlg, IDC_CAPMENUS));
 	AutoSize(GetDlgItem(hwndDlg, IDC_CAPSTATUS));
 	AutoSize(GetDlgItem(hwndDlg, IDC_CAPSHLSTATUS));
-	
+
 	// show all the options
 	int iCheck = g_plugin.getByte(SHLExt_UseGroups, BST_UNCHECKED);
 	CheckDlgButton(hwndDlg, IDC_USEGROUPS, iCheck ? BST_CHECKED : BST_UNCHECKED);
@@ -51,7 +51,7 @@ static void InitControls(HWND hwndDlg)
 	CheckDlgButton(hwndDlg, IDC_SHOWINVISIBLES, g_plugin.getByte(SHLExt_UseHIT2Contacts, BST_UNCHECKED));
 	CheckDlgButton(hwndDlg, IDC_USEOWNERDRAW, g_plugin.getByte(SHLExt_ShowNoIcons, BST_UNCHECKED));
 	CheckDlgButton(hwndDlg, IDC_HIDEOFFLINE, g_plugin.getByte(SHLExt_ShowNoOffline, BST_UNCHECKED));
-	
+
 	// give the Remove button a Vista icon
 	SendDlgItemMessage(hwndDlg, IDC_REMOVE, BCM_SETSHIELD, 0, 1);
 }

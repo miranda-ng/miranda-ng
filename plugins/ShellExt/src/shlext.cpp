@@ -2,7 +2,7 @@
 #include "shlcom.h"
 #include "shlicons.h"
 
-static char* CreateUID(char *buf, size_t bufLen)
+static char* CreateUID(char* buf, size_t bufLen)
 {
 	sprintf_s(buf, bufLen, "'mim.shlext.caller%d$%d", GetCurrentProcessId(), GetCurrentThreadId());
 	return buf;
@@ -30,7 +30,7 @@ TShellExt::~TShellExt()
 		ULONG c = ProtoIconsCount;
 		while (c > 0) {
 			c--;
-			TSlotProtoIcons *p = &ProtoIcons[c];
+			TSlotProtoIcons* p = &ProtoIcons[c];
 			for (int j = 0; j < 10; j++) {
 				if (p->hIcons[j] != nullptr)
 					DestroyIcon(p->hIcons[j]);
@@ -53,7 +53,7 @@ TShellExt::~TShellExt()
 		DeleteDC(hMemDC);
 }
 
-HRESULT TShellExt::QueryInterface(REFIID riid, void **ppvObject)
+HRESULT TShellExt::QueryInterface(REFIID riid, void** ppvObject)
 {
 	if (ppvObject == nullptr)
 		return E_POINTER;
@@ -76,12 +76,12 @@ HRESULT TShellExt::QueryInterface(REFIID riid, void **ppvObject)
 	}
 	else {
 		*ppvObject = nullptr;
-		#ifdef LOG_ENABLED
-			RPC_CSTR szGuid;
-			UuidToStringA(&riid, &szGuid);
-			logA("TShellExt[%p] failed as {%s}\n", this, szGuid);
-			RpcStringFreeA(&szGuid);
-		#endif
+	#ifdef LOG_ENABLED
+		RPC_CSTR szGuid;
+		UuidToStringA(&riid, &szGuid);
+		logA("TShellExt[%p] failed as {%s}\n", this, szGuid);
+		RpcStringFreeA(&szGuid);
+	#endif
 		return E_NOINTERFACE;
 	}
 
@@ -104,13 +104,13 @@ ULONG TShellExt::Release()
 		logA("TShellExt[%p] final release\n", this);
 		delete this;
 		DllObjectCount--;
-	} 
+	}
 	else logA("TShellExt[%p] release ref: %d\n", this, RefCount);
 
 	return ret;
 }
 
-HRESULT TShellExt::Initialize(PCIDLIST_ABSOLUTE, IDataObject *pdtobj, HKEY)
+HRESULT TShellExt::Initialize(PCIDLIST_ABSOLUTE, IDataObject * pdtobj, HKEY)
 {
 	// DObj is a pointer to an instance of IDataObject which is a pointer itself
 	// it contains a pointer to a function table containing the function pointer
@@ -136,10 +136,10 @@ HRESULT TShellExt::GetCommandString(UINT_PTR, UINT, UINT*, LPSTR, UINT)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void FreeGroupTreeAndEmptyGroups(HMENU hParentMenu, TGroupNode *pp, TGroupNode *p)
+void FreeGroupTreeAndEmptyGroups(HMENU hParentMenu, TGroupNode * pp, TGroupNode * p)
 {
 	while (p != nullptr) {
-		TGroupNode *q = p->Right;
+		TGroupNode* q = p->Right;
 		if (p->Left != nullptr)
 			FreeGroupTreeAndEmptyGroups(p->Left->hMenu, p, p->Left);
 
@@ -159,13 +159,13 @@ void FreeGroupTreeAndEmptyGroups(HMENU hParentMenu, TGroupNode *pp, TGroupNode *
 	}
 }
 
-void DecideMenuItemInfo(TSlotIPC *pct, TGroupNode *pg, MENUITEMINFOA &mii, TEnumData *lParam)
+void DecideMenuItemInfo(TSlotIPC * pct, TGroupNode * pg, MENUITEMINFOA & mii, TEnumData * lParam)
 {
 	mii.wID = lParam->idCmdFirst;
 	lParam->idCmdFirst++;
 	// get the heap object
 	HANDLE hDllHeap = lParam->Self->hDllHeap;
-	TMenuDrawInfo *psd = (TMenuDrawInfo*)HeapAlloc(hDllHeap, 0, sizeof(TMenuDrawInfo));
+	TMenuDrawInfo* psd = (TMenuDrawInfo*)HeapAlloc(hDllHeap, 0, sizeof(TMenuDrawInfo));
 	if (pct != nullptr) {
 		psd->cch = pct->cbStrSection - 1; // no null;
 		psd->szText = (char*)HeapAlloc(hDllHeap, 0, pct->cbStrSection);
@@ -174,7 +174,7 @@ void DecideMenuItemInfo(TSlotIPC *pct, TGroupNode *pg, MENUITEMINFOA &mii, TEnum
 		psd->fTypes = dtContact;
 		// find the protocol icon array to use && which status
 		UINT c = lParam->Self->ProtoIconsCount;
-		TSlotProtoIcons *pp = lParam->Self->ProtoIcons;
+		TSlotProtoIcons * pp = lParam->Self->ProtoIcons;
 		psd->hStatusIcon = nullptr;
 		while (c > 0) {
 			c--;
@@ -224,7 +224,7 @@ void DecideMenuItemInfo(TSlotIPC *pct, TGroupNode *pg, MENUITEMINFOA &mii, TEnum
 // this callback is triggered by the menu code and IPC is already taking place,
 // just the transfer type+data needs to be setup
 int __stdcall ClearMRUIPC(
-	THeaderIPC *pipch,       // IPC header info, already mapped
+	THeaderIPC * pipch,       // IPC header info, already mapped
 	HANDLE hWorkThreadEvent, // event object being waited on on miranda thread
 	HANDLE hAckEvent)        // ack event object that has been created
 {
@@ -246,7 +246,7 @@ void RemoveCheckmarkSpace(HMENU HMENU)
 }
 
 // must be called after DecideMenuItemInfo()
-void BuildMRU(TSlotIPC *pct, MENUITEMINFOA &mii, TEnumData *lParam)
+void BuildMRU(TSlotIPC * pct, MENUITEMINFOA & mii, TEnumData * lParam)
 {
 	if (pct->MRU > 0) {
 		lParam->Self->RecentCount++;
@@ -255,14 +255,14 @@ void BuildMRU(TSlotIPC *pct, MENUITEMINFOA &mii, TEnumData *lParam)
 	}
 }
 
-void BuildContactTree(TGroupNode *group, TEnumData *lParam)
+void BuildContactTree(TGroupNode * group, TEnumData * lParam)
 {
 	// set up the menu item
 	MENUITEMINFOA mii = { sizeof(mii) };
 	mii.fMask = MIIM_ID | MIIM_TYPE | MIIM_DATA;
 
 	// go thru all the contacts
-	TSlotIPC *pct = lParam->ipch->ContactsBegin;
+	TSlotIPC* pct = lParam->ipch->ContactsBegin;
 	while (pct != nullptr && pct->cbSize == sizeof(TSlotIPC) && pct->fType == REQUEST_CONTACTS) {
 		if (pct->hGroup != 0) {
 			// at the } of the slot header is the contact's display name
@@ -272,21 +272,21 @@ void BuildContactTree(TGroupNode *group, TEnumData *lParam)
 			// per tokenised section, and it doesn't matter if two levels use the same group name (which is valid)
 			// as the tokens processed is equatable to depth of the tree
 
-			char *sz = strtok(LPSTR(UINT_PTR(pct) + sizeof(TSlotIPC) + UINT_PTR(pct->cbStrSection) + 1), "\\");
+			char* sz = strtok(LPSTR(UINT_PTR(pct) + sizeof(TSlotIPC) + UINT_PTR(pct->cbStrSection) + 1), "\\");
 			// restore the root
-			TGroupNode *pg = group;
+			TGroupNode * pg = group;
 			int Depth = 0;
 			while (sz != nullptr) {
 				UINT Hash = murmur_hash(sz);
 				// find this node within
 				while (pg != nullptr) {
 					// does this node have the right hash and the right depth?
-					if (Hash == pg->Hash && Depth == pg->Depth) 
+					if (Hash == pg->Hash && Depth == pg->Depth)
 						break;
 					// each node may have a left pointer going to a sub tree
 					// the path syntax doesn't know if a group is a group at the same level
 					// or a nested one, which means the search node can be anywhere
-					TGroupNode *px = pg->Left;
+					TGroupNode * px = pg->Left;
 					if (px != nullptr) {
 						// keep searching this level
 						while (px != nullptr) {
@@ -312,12 +312,12 @@ grouploop:
 				InsertMenuItemA(pg->hMenu, 0xFFFFFFFF, true, &mii);
 				pg->dwItems++;
 			}
-		} 
+		}
 		pct = pct->Next;
 	}
 }
 
-static void BuildMenuGroupTree(TGroupNode *p, TEnumData *lParam, HMENU hLastMenu)
+static void BuildMenuGroupTree(TGroupNode * p, TEnumData * lParam, HMENU hLastMenu)
 {
 	MENUITEMINFOA mii = { 0 };
 	mii.cbSize = sizeof(mii);
@@ -335,29 +335,29 @@ static void BuildMenuGroupTree(TGroupNode *p, TEnumData *lParam, HMENU hLastMenu
 	}
 }
 
-static void BuildMenus(TEnumData *lParam)
+static void BuildMenus(TEnumData * lParam)
 {
 	LPSTR Token;
-	TMenuDrawInfo *psd;
+	TMenuDrawInfo* psd;
 
 	HANDLE hDllHeap = lParam->Self->hDllHeap;
 	HMENU hBaseMenu = lParam->Self->hRootMenu;
 
 	// build an in memory tree of the groups
 	TGroupNodeList j = { nullptr, nullptr };
-	TSlotIPC *pg = lParam->ipch->GroupsBegin;
+	TSlotIPC* pg = lParam->ipch->GroupsBegin;
 	while (pg != nullptr) {
-		if (pg->cbSize != sizeof(TSlotIPC) || pg->fType != REQUEST_GROUPS) 
+		if (pg->cbSize != sizeof(TSlotIPC) || pg->fType != REQUEST_GROUPS)
 			break;
 
 		UINT Depth = 0;
-		TGroupNode *p = j.First; // start at root again
+		TGroupNode * p = j.First; // start at root again
 		// get the group
 		Token = strtok(LPSTR(pg) + sizeof(TSlotIPC), "\\");
 		while (Token != nullptr) {
 			UINT Hash = murmur_hash(Token);
 			// if the (sub)group doesn't exist, create it.
-			TGroupNode *q = FindGroupNode(p, Hash, Depth);
+			TGroupNode* q = FindGroupNode(p, Hash, Depth);
 			if (q == nullptr) {
 				q = AllocGroupNode(&j, p, Depth);
 				q->Depth = Depth;
@@ -396,20 +396,20 @@ static void BuildMenus(TEnumData *lParam)
 		// add contacts that have a group somewhere
 		BuildContactTree(j.First, lParam);
 	}
-	
+
 	MENUITEMINFOA mii = { 0 };
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_ID | MIIM_TYPE | MIIM_DATA;
 	// add all the contacts that have no group (which maybe all of them)
 	pg = lParam->ipch->ContactsBegin;
 	while (pg != nullptr) {
-		if (pg->cbSize != sizeof(TSlotIPC) || pg->fType != REQUEST_CONTACTS) 
+		if (pg->cbSize != sizeof(TSlotIPC) || pg->fType != REQUEST_CONTACTS)
 			break;
 		if (pg->hGroup == 0) {
 			DecideMenuItemInfo(pg, nullptr, mii, lParam);
 			BuildMRU(pg, mii, lParam);
 			InsertMenuItemA(hGroupMenu, 0xFFFFFFFF, true, &mii);
-		} 
+		}
 		pg = pg->Next;
 	}
 
@@ -499,7 +499,7 @@ static void BuildMenus(TEnumData *lParam)
 
 	// get Miranda's icon or bitmap
 	UINT c = lParam->Self->ProtoIconsCount;
-	TSlotProtoIcons *pp = lParam->Self->ProtoIcons;
+	TSlotProtoIcons* pp = lParam->Self->ProtoIcons;
 	while (c > 0) {
 		c--;
 		if (pp[c].pid == lParam->pid && pp[c].hProto == 0) {
@@ -525,19 +525,19 @@ static void BuildMenus(TEnumData *lParam)
 	FreeGroupTreeAndEmptyGroups(hGroupMenu, nullptr, j.First);
 }
 
-static void BuildSkinIcons(TEnumData *lParam)
+static void BuildSkinIcons(TEnumData * lParam)
 {
-	IWICImagingFactory *factory = (bIsVistaPlus) ? ARGB_GetWorker() : nullptr;
+	IWICImagingFactory* factory = (bIsVistaPlus) ? ARGB_GetWorker() : nullptr;
 
-	TSlotIPC *pct = lParam->ipch->NewIconsBegin;
-	TShellExt *Self = lParam->Self;
+	TSlotIPC* pct = lParam->ipch->NewIconsBegin;
+	TShellExt* Self = lParam->Self;
 	while (pct != nullptr) {
-		if (pct->cbSize != sizeof(TSlotIPC) || pct->fType != REQUEST_NEWICONS) 
+		if (pct->cbSize != sizeof(TSlotIPC) || pct->fType != REQUEST_NEWICONS)
 			break;
 
-		TSlotProtoIcons *p = (TSlotProtoIcons*)(PBYTE(pct) + sizeof(TSlotIPC));
+		TSlotProtoIcons * p = (TSlotProtoIcons*)(PBYTE(pct) + sizeof(TSlotIPC));
 		Self->ProtoIcons = (TSlotProtoIcons*)realloc(Self->ProtoIcons, (Self->ProtoIconsCount + 1) * sizeof(TSlotProtoIcons));
-		TSlotProtoIcons *d = &Self->ProtoIcons[Self->ProtoIconsCount];
+		TSlotProtoIcons * d = &Self->ProtoIcons[Self->ProtoIconsCount];
 		memmove(d, p, sizeof(TSlotProtoIcons));
 
 		// if using Vista (or later), clone all the icons into bitmaps and keep these around,
@@ -547,7 +547,7 @@ static void BuildSkinIcons(TEnumData *lParam)
 		for (int j = 0; j < 10; j++) {
 			if (bIsVistaPlus) {
 				d->hBitmaps[j] = ARGB_BitmapFromIcon(factory, Self->hMemDC, p->hIcons[j]);
-				d->hIcons[j] = nullptr;				
+				d->hIcons[j] = nullptr;
 			}
 			else {
 				d->hBitmaps[j] = nullptr;
@@ -567,7 +567,7 @@ BOOL __stdcall ProcessRequest(HWND hwnd, LPARAM param)
 {
 	char szBuf[MAX_PATH];
 
-	TEnumData *lParam = (TEnumData*)param;
+	TEnumData* lParam = (TEnumData*)param;
 	DWORD pid = 0;
 	GetWindowThreadProcessId(hwnd, &pid);
 	if (pid != 0) {
@@ -578,7 +578,7 @@ BOOL __stdcall ProcessRequest(HWND hwnd, LPARAM param)
 		HANDLE hMirandaWorkEvent = OpenEventA(EVENT_ALL_ACCESS, false, CreateProcessUID(pid, szBuf, sizeof(szBuf)));
 		if (hMirandaWorkEvent != nullptr) {
 			GetClassNameA(hwnd, szBuf, sizeof(szBuf));
-			if ( lstrcmpA(szBuf, MIRANDACLASS) != 0) {
+			if (lstrcmpA(szBuf, MIRANDACLASS) != 0) {
 				// opened but not valid.
 				logA("ProcessRequest(%d, %p): class %s differs from %s\n", pid, hwnd, szBuf, MIRANDACLASS);
 				CloseHandle(hMirandaWorkEvent);
@@ -629,7 +629,7 @@ struct DllVersionInfo
 	DWORD dwMajorVersion, dwMinorVersion, dwBuildNumber, dwPlatformID;
 };
 
-typedef HRESULT (__stdcall *pfnDllGetVersion)(DllVersionInfo*);
+typedef HRESULT(__stdcall * pfnDllGetVersion)(DllVersionInfo*);
 
 HRESULT TShellExt::QueryContextMenu(HMENU hmenu, UINT, UINT _idCmdFirst, UINT, UINT uFlags)
 {
@@ -638,7 +638,7 @@ HRESULT TShellExt::QueryContextMenu(HMENU hmenu, UINT, UINT _idCmdFirst, UINT, U
 	if (((LOWORD(uFlags) & CMF_VERBSONLY) != CMF_VERBSONLY) && ((LOWORD(uFlags) & CMF_DEFAULTONLY) != CMF_DEFAULTONLY)) {
 		bool bMF_OWNERDRAW = false;
 		// get the shell version
-		pfnDllGetVersion DllGetVersionProc = (pfnDllGetVersion)GetProcAddress( GetModuleHandleA("shell32.dll"), "DllGetVersion");
+		pfnDllGetVersion DllGetVersionProc = (pfnDllGetVersion)GetProcAddress(GetModuleHandleA("shell32.dll"), "DllGetVersion");
 		if (DllGetVersionProc != nullptr) {
 			DllVersionInfo dvi;
 			dvi.cbSize = sizeof(dvi);
@@ -654,7 +654,7 @@ HRESULT TShellExt::QueryContextMenu(HMENU hmenu, UINT, UINT _idCmdFirst, UINT, U
 		if (hMap != nullptr && GetLastError() != ERROR_ALREADY_EXISTS) {
 			TEnumData ed = {};
 			// map the memory to this address space
-			THeaderIPC *pipch = (THeaderIPC*)MapViewOfFile(hMap, FILE_MAP_ALL_ACCESS, 0, 0, 0);
+			THeaderIPC* pipch = (THeaderIPC*)MapViewOfFile(hMap, FILE_MAP_ALL_ACCESS, 0, 0, 0);
 			if (pipch != nullptr) {
 				// let the callback have instance vars
 				ed.Self = this;
@@ -695,7 +695,7 @@ HRESULT TShellExt::QueryContextMenu(HMENU hmenu, UINT, UINT _idCmdFirst, UINT, U
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-HRESULT ipcGetFiles(THeaderIPC *pipch, IDataObject* pDataObject, MCONTACT hContact)
+HRESULT ipcGetFiles(THeaderIPC * pipch, IDataObject * pDataObject, MCONTACT hContact)
 {
 	FORMATETC fet;
 	fet.cfFormat = CF_HDROP;
@@ -716,7 +716,7 @@ HRESULT ipcGetFiles(THeaderIPC *pipch, IDataObject* pDataObject, MCONTACT hConta
 				// get the size of the file path
 				int cbSize = DragQueryFileA((HDROP)stgm.hGlobal, iFile, nullptr, 0);
 				// get the buffer
-				TSlotIPC *pct = ipcAlloc(pipch, cbSize + 1); // including null term
+				TSlotIPC* pct = ipcAlloc(pipch, cbSize + 1); // including null term
 				// allocated?
 				if (pct == nullptr)
 					break;
@@ -735,17 +735,17 @@ HRESULT ipcGetFiles(THeaderIPC *pipch, IDataObject* pDataObject, MCONTACT hConta
 	return hr;
 }
 
-HRESULT RequestTransfer(TShellExt *Self, int idxCmd)
+HRESULT RequestTransfer(TShellExt * Self, int idxCmd)
 {
 	// get the contact information
 	MENUITEMINFOA mii = { 0 };
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_ID | MIIM_DATA;
-	if ( !GetMenuItemInfoA(Self->hRootMenu, Self->idCmdFirst + idxCmd, false, &mii))
+	if (!GetMenuItemInfoA(Self->hRootMenu, Self->idCmdFirst + idxCmd, false, &mii))
 		return E_INVALIDARG;
 
 	// get the pointer
-	TMenuDrawInfo *psd = (TMenuDrawInfo*)mii.dwItemData;
+	TMenuDrawInfo* psd = (TMenuDrawInfo*)mii.dwItemData;
 	// the ID stored in the item pointer and the ID for the menu must match
 	if (psd == nullptr || psd->wID != mii.wID)
 		return E_INVALIDARG;
@@ -761,7 +761,7 @@ HRESULT RequestTransfer(TShellExt *Self, int idxCmd)
 			HANDLE hMap = CreateFileMappingA(INVALID_HANDLE_VALUE, nullptr, PAGE_READWRITE, 0, IPC_PACKET_SIZE, IPC_PACKET_NAME);
 			if (hMap != nullptr && GetLastError() != ERROR_ALREADY_EXISTS) {
 				// map it to process
-				THeaderIPC *pipch = (THeaderIPC*)MapViewOfFile(hMap, FILE_MAP_ALL_ACCESS, 0, 0, 0);
+				THeaderIPC* pipch = (THeaderIPC*)MapViewOfFile(hMap, FILE_MAP_ALL_ACCESS, 0, 0, 0);
 				if (pipch != nullptr) {
 					// create the name of the object to be signalled by the ST
 					lstrcpyA(pipch->SignalEventName, CreateUID(szBuf, sizeof(szBuf)));
@@ -769,7 +769,7 @@ HRESULT RequestTransfer(TShellExt *Self, int idxCmd)
 					HANDLE hReply = CreateEventA(nullptr, false, false, pipch->SignalEventName);
 					if (hReply != nullptr) {
 						if (psd->fTypes & dtCommand) {
-							if (psd->MenuCommandCallback) 
+							if (psd->MenuCommandCallback)
 								hr = psd->MenuCommandCallback(pipch, hTransfer, hReply);
 						}
 						else {
@@ -801,14 +801,14 @@ HRESULT RequestTransfer(TShellExt *Self, int idxCmd)
 	return hr;
 }
 
-HRESULT TShellExt::InvokeCommand(CMINVOKECOMMANDINFO *pici)
+HRESULT TShellExt::InvokeCommand(CMINVOKECOMMANDINFO * pici)
 {
 	return RequestTransfer(this, LOWORD(UINT_PTR(pici->lpVerb)));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-HRESULT TShellExt::HandleMenuMsg2(UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT *plResult)
+HRESULT TShellExt::HandleMenuMsg2(UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT * plResult)
 {
 	LRESULT Dummy;
 	if (plResult == nullptr)
@@ -913,7 +913,7 @@ HRESULT TShellExt::HandleMenuMsg2(UINT uMsg, WPARAM wParam, LPARAM lParam, LRESU
 		// store it
 		msi->itemWidth = dx + ncm.iMenuWidth;
 		msi->itemHeight = ncm.iMenuHeight + 2;
-		if (tS.cy > (int)msi->itemHeight) 
+		if (tS.cy > (int)msi->itemHeight)
 			msi->itemHeight += tS.cy - msi->itemHeight;
 		// clean up
 		SelectObject(hMemDC, hOldFont);

@@ -1,14 +1,14 @@
 #include "stdafx.h"
 #include "shlcom.h"
 
-TGroupNode* FindGroupNode(TGroupNode *p, const DWORD Hash, int Depth)
+TGroupNode* FindGroupNode(TGroupNode* p, const DWORD Hash, int Depth)
 {
 	while (p != nullptr) {
 		if (p->Hash == Hash && p->Depth == Depth)
 			return p;
 
 		if (p->Left != nullptr) {
-			TGroupNode *q = FindGroupNode(p->Left, Hash, Depth);
+			TGroupNode* q = FindGroupNode(p->Left, Hash, Depth);
 			if (q != nullptr)
 				return q;
 		}
@@ -41,7 +41,7 @@ TGroupNode* AllocGroupNode(TGroupNodeList *list, TGroupNode *Root, int Depth)
 	return p;
 }
 
-void ipcPrepareRequests(int ipcPacketSize, THeaderIPC *pipch, DWORD fRequests)
+void ipcPrepareRequests(int ipcPacketSize, THeaderIPC * pipch, DWORD fRequests)
 {
 	// some fields may already have values like the event object name to open
 	pipch->cbSize = sizeof(THeaderIPC);
@@ -65,16 +65,16 @@ void ipcPrepareRequests(int ipcPacketSize, THeaderIPC *pipch, DWORD fRequests)
 	pipch->DataPtrEnd = (TSlotIPC*)(LPSTR(pipch->DataPtr) + pipch->DataSize);
 	pipch->DataFramePtr = pipch->DataPtr;
 	// fill the data area
-	memset(pipch->DataPtr,0 , pipch->DataSize);
+	memset(pipch->DataPtr, 0, pipch->DataSize);
 }
 
-DWORD ipcSendRequest(HANDLE hSignal, HANDLE hWaitFor, THeaderIPC *pipch, DWORD dwTimeoutMsecs)
+DWORD ipcSendRequest(HANDLE hSignal, HANDLE hWaitFor, THeaderIPC * pipch, DWORD dwTimeoutMsecs)
 {
 	// signal ST to work
 	SetEvent(hSignal);
 	// wait for reply, it should open a handle to hWaitFor... 
 	while (true) {
-		switch ( WaitForSingleObjectEx(hWaitFor, dwTimeoutMsecs, true)) {
+		switch (WaitForSingleObjectEx(hWaitFor, dwTimeoutMsecs, true)) {
 		case WAIT_OBJECT_0:
 			return pipch->fRequests;
 
@@ -88,7 +88,7 @@ DWORD ipcSendRequest(HANDLE hSignal, HANDLE hWaitFor, THeaderIPC *pipch, DWORD d
 	}
 }
 
-TSlotIPC* ipcAlloc(THeaderIPC *pipch, int nSize)
+TSlotIPC* ipcAlloc(THeaderIPC * pipch, int nSize)
 {
 	// nSize maybe zero, in that case there is no string section ---
 	UINT_PTR PSP = UINT_PTR(pipch->DataFramePtr) + sizeof(TSlotIPC) + nSize;

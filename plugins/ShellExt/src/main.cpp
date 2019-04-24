@@ -8,12 +8,76 @@ bool bIsVistaPlus;
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID)
 {
 	if (fdwReason == DLL_PROCESS_ATTACH) {
-		bIsVistaPlus = GetProcAddress( GetModuleHandleA("kernel32.dll"), "GetProductInfo") != nullptr;
+		bIsVistaPlus = GetProcAddress(GetModuleHandleA("kernel32.dll"), "GetProductInfo") != 0;
 		DisableThreadLibraryCalls(hinstDLL);
 	}
 
 	return TRUE;
 }
+
+#ifdef _WIN64
+#define MIRANDA_PROCESS L"miranda64.exe"
+#else
+#define MIRANDA_PROCESS L"miranda32.exe"
+#endif
+
+#include <delayimp.h>
+#pragma comment(lib, "delayimp.lib")
+
+static bool bModuleInited = false;
+
+static wchar_t* FindSlash(wchar_t *str)
+{
+	for (wchar_t *p = str + lstrlenW(str); p >= str; p--)
+		if (*p == '\\')
+			return p;
+
+	return nullptr;
+}
+
+static bool GetMirandaPath(wchar_t * wszPath)
+{
+	DWORD dwSize = MAX_PATH;
+	return (0 == RegGetValueW(HKEY_CLASSES_ROOT, L"CLSID\\{72013A26-A94C-11d6-8540-A5E62932711D}\\InprocServer32", 0, RRF_RT_REG_SZ, 0, wszPath, &dwSize));
+}
+
+EXTERN_C HANDLE WINAPI hook(unsigned mode, PDelayLoadInfo)
+{
+	if (mode == dliNotePreLoadLibrary && !bModuleInited) {
+		wchar_t wszPath[MAX_PATH];
+		GetModuleFileNameW(nullptr, wszPath, _countof(wszPath));
+
+		wchar_t* p = FindSlash(wszPath);
+		if (p != nullptr) {
+			// if we're launched from miranda, do nothing
+			if (!lstrcmpiW(p+1, MIRANDA_PROCESS))
+				return 0;
+
+			*p = 0;
+		}
+
+		if (!GetMirandaPath(wszPath))  return 0;
+		if (!(p = FindSlash(wszPath))) return 0; // fall back to Plugins
+		*p = 0;
+		if (!(p = FindSlash(wszPath)))   return 0; // fall back to miranda's root directory
+		*p = 0;
+
+		lstrcatW(wszPath, L"\\libs");
+		SetDllDirectoryW(wszPath);
+
+	#ifdef _DEBUG
+		lstrcatW(wszPath, L"\\ucrtbased.dll");
+	#else
+		lstrcatW(wszPath, L"\\ucrtbase.dll");
+	#endif
+		LoadLibraryW(wszPath);
+		bModuleInited = true;
+	}
+
+	return 0;
+}
+
+EXTERN_C const PfnDliHook  __pfnDliNotifyHook2 = (PfnDliHook)&hook;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -32,19 +96,20 @@ PLUGININFOEX pluginInfoEx = {
 
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>("shlext15", pluginInfoEx)
-{}
+{
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // exported functions
 
-const IID CLSID_ISHLCOM = { 0x72013A26, 0xA94C, 0x11d6, {0x85, 0x40, 0xA5, 0xE6, 0x29, 0x32, 0x71, 0x1D }};
+const IID CLSID_ISHLCOM = { 0x72013A26, 0xA94C, 0x11d6, {0x85, 0x40, 0xA5, 0xE6, 0x29, 0x32, 0x71, 0x1D } };
 
 STDAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID* ppv)
 {
 	if (rclsid == CLSID_ISHLCOM) {
-		TClassFactoryRec *p = new TClassFactoryRec();
+		TClassFactoryRec* p = new TClassFactoryRec();
 		HRESULT hr = p->QueryInterface(riid, ppv);
-		if ( FAILED(hr)) {
+		if (FAILED(hr)) {
 			delete p;
 			return hr;
 		}
@@ -52,14 +117,14 @@ STDAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID* ppv)
 		return S_OK;
 	}
 
-	#ifdef LOG_ENABLED
-		RPC_CSTR szGuid;
-		UuidToStringA(&riid, &szGuid);
-		logA("DllGetClassObject {%08x-%04x-%04x-%08x%08x} failed\n", szGuid);
-		RpcStringFreeA(&szGuid);
-	#endif
+#ifdef LOG_ENABLED
+	RPC_CSTR szGuid;
+	UuidToStringA(&riid, &szGuid);
+	logA("DllGetClassObject {%08x-%04x-%04x-%08x%08x} failed\n", szGuid);
+	RpcStringFreeA(&szGuid);
+#endif
 
-	*ppv = nullptr;
+	* ppv = nullptr;
 	return CLASS_E_CLASSNOTAVAILABLE;
 }
 
@@ -75,12 +140,13 @@ STDAPI DllCanUnloadNow()
 
 struct HRegKey
 {
-	HRegKey(HKEY hRoot, const wchar_t *ptszKey) : m_key(nullptr)
-	{	RegCreateKeyEx(hRoot, ptszKey, 0, nullptr, 0, KEY_SET_VALUE | KEY_CREATE_SUB_KEY, nullptr, &m_key, nullptr);
+	HRegKey(HKEY hRoot, const wchar_t* ptszKey) : m_key(nullptr)
+	{
+		RegCreateKeyEx(hRoot, ptszKey, 0, nullptr, 0, KEY_SET_VALUE | KEY_CREATE_SUB_KEY, nullptr, &m_key, nullptr);
 	}
-	
+
 	~HRegKey() { if (m_key) RegCloseKey(m_key); }
-	
+
 	operator HKEY() const { return m_key; }
 
 private:
@@ -91,7 +157,7 @@ char str1[100];
 char str2[] = "{72013A26-A94C-11d6-8540-A5E62932711D}";
 char str3[] = "miranda.shlext";
 char str4[] = "Apartment";
- 
+
 STDAPI DllRegisterServer()
 {
 	HRegKey k1(HKEY_CLASSES_ROOT, L"miranda.shlext");
@@ -99,9 +165,9 @@ STDAPI DllRegisterServer()
 		return E_FAIL;
 
 	int str1len = sprintf_s(str1, sizeof(str1), "shlext %d.%d.%d.%d - shell context menu support for Miranda NG", __FILEVERSION_STRING);
-	if ( RegSetValueA(k1, nullptr, REG_SZ, str1, str1len))
+	if (RegSetValueA(k1, nullptr, REG_SZ, str1, str1len))
 		return E_FAIL;
-	if ( RegSetValueA(k1, "CLSID", REG_SZ, str2, sizeof(str2)))
+	if (RegSetValueA(k1, "CLSID", REG_SZ, str2, sizeof(str2)))
 		return E_FAIL;
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -110,9 +176,9 @@ STDAPI DllRegisterServer()
 	if (kClsid == nullptr)
 		return E_FAIL;
 
-	if ( RegSetValueA(kClsid, nullptr, REG_SZ, str3, sizeof(str3)))
+	if (RegSetValueA(kClsid, nullptr, REG_SZ, str3, sizeof(str3)))
 		return E_FAIL;
-	if ( RegSetValueA(kClsid, "ProgID", REG_SZ, str3, sizeof(str3)))
+	if (RegSetValueA(kClsid, "ProgID", REG_SZ, str3, sizeof(str3)))
 		return E_FAIL;
 
 	HRegKey kInprocServer(kClsid, L"InprocServer32");
@@ -121,16 +187,16 @@ STDAPI DllRegisterServer()
 
 	wchar_t tszFileName[MAX_PATH];
 	GetModuleFileName(g_plugin.getInst(), tszFileName, _countof(tszFileName));
-	if ( RegSetValueEx(kInprocServer, nullptr, 0, REG_SZ, (LPBYTE)tszFileName, sizeof(wchar_t)*(lstrlen(tszFileName)+1)))
+	if (RegSetValueEx(kInprocServer, nullptr, 0, REG_SZ, (LPBYTE)tszFileName, sizeof(wchar_t) * (lstrlen(tszFileName) + 1)))
 		return E_FAIL;
-	if ( RegSetValueExA(kInprocServer, "ThreadingModel", 0, REG_SZ, (PBYTE)str4, sizeof(str4)))
+	if (RegSetValueExA(kInprocServer, "ThreadingModel", 0, REG_SZ, (PBYTE)str4, sizeof(str4)))
 		return E_FAIL;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	if ( RegSetValueA(HKEY_CLASSES_ROOT, "*\\shellex\\ContextMenuHandlers\\miranda.shlext", REG_SZ, str2, sizeof(str2)))
+	if (RegSetValueA(HKEY_CLASSES_ROOT, "*\\shellex\\ContextMenuHandlers\\miranda.shlext", REG_SZ, str2, sizeof(str2)))
 		return E_FAIL;
-	if ( RegSetValueA(HKEY_CLASSES_ROOT, "Directory\\shellex\\ContextMenuHandlers\\miranda.shlext", REG_SZ, str2, sizeof(str2)))
+	if (RegSetValueA(HKEY_CLASSES_ROOT, "Directory\\shellex\\ContextMenuHandlers\\miranda.shlext", REG_SZ, str2, sizeof(str2)))
 		return E_FAIL;
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -138,7 +204,7 @@ STDAPI DllRegisterServer()
 	HRegKey k2(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Approved");
 	if (k2 == nullptr)
 		return E_FAIL;
-	if ( RegSetValueExA(k2, str2, 0, REG_SZ, (PBYTE)str1, str1len))
+	if (RegSetValueExA(k2, str2, 0, REG_SZ, (PBYTE)str1, str1len))
 		return E_FAIL;
 
 	return S_OK;

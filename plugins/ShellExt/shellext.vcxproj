@@ -29,6 +29,8 @@
     <Link>
       <AdditionalDependencies>delayimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <DelayLoadDLLs>mir_core.mir;mir_app.mir</DelayLoadDLLs>
+      <DelayLoadDLLs Condition="'$(Configuration)'=='Debug'">ucrtbased.dll;VCRUNTIME140D.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs Condition="'$(Configuration)'=='Release'">ucrtbase.dll;VCRUNTIME140.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <ModuleDefinitionFile>src/ShellExt.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>

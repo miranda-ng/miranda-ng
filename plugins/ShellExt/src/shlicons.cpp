@@ -27,7 +27,7 @@ IWICImagingFactory* ARGB_GetWorker()
 	return res;
 }
 
-HBITMAP ARGB_BitmapFromIcon(IWICImagingFactory *Factory, HDC hDC, HICON hIcon)
+HBITMAP ARGB_BitmapFromIcon(IWICImagingFactory* Factory, HDC hDC, HICON hIcon)
 {
 	HBITMAP hBmp = nullptr;
 
@@ -40,11 +40,11 @@ HBITMAP ARGB_BitmapFromIcon(IWICImagingFactory *Factory, HDC hDC, HICON hIcon)
 	bmi.bmiHeader.biCompression = BI_RGB;
 	bmi.bmiHeader.biBitCount = 32;
 
-	IWICBitmap *bitmap = nullptr;
+	IWICBitmap* bitmap = nullptr;
 	HRESULT hr = Factory->CreateBitmapFromHICON(hIcon, &bitmap);
 	if (hr == S_OK) {
 		int cx, cy;
-		hr = bitmap->GetSize((PUINT)&cx, (PUINT)&cy);
+		hr = bitmap->GetSize((PUINT)& cx, (PUINT)& cy);
 		if (hr == S_OK) {
 			bmi.bmiHeader.biWidth = cx;
 			bmi.bmiHeader.biHeight = -cy;

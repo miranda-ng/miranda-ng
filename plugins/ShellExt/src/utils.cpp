@@ -2,7 +2,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 
-UINT murmur_hash(const char *str)
+UINT murmur_hash(const char* str)
 {
 	size_t len = lstrlenA(str);
 
@@ -15,7 +15,7 @@ UINT murmur_hash(const char *str)
 	unsigned int h = (unsigned)len;
 
 	// Mix 4 bytes at a time into the hash
-	const unsigned char *data = (const unsigned char*)str;
+	const unsigned char* data = (const unsigned char*)str;
 
 	while (len >= 4) {
 		unsigned int k = *(unsigned int*)data;
@@ -32,11 +32,11 @@ UINT murmur_hash(const char *str)
 	}
 
 	// Handle the last few bytes of the input array
-	switch(len) {
+	switch (len) {
 	case 3: h ^= data[2] << 16;
 	case 2: h ^= data[1] << 8;
 	case 1: h ^= data[0];
-			h *= m;
+		h *= m;
 	}
 
 	// Do a few final mixes of the hash to ensure the last few

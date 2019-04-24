@@ -64,4 +64,4 @@ int OnOptionsInit(WPARAM wParam, LPARAM lParam);
 #define logA(A, ...) 
 #endif
 
-UINT murmur_hash(const char *str);
+UINT murmur_hash(const char* str);

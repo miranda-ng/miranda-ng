@@ -9,19 +9,19 @@ TClassFactoryRec::TClassFactoryRec() :
 	DllFactoryCount++;
 }
 
-HRESULT TClassFactoryRec::QueryInterface(REFIID riid, void **ppvObject)
+HRESULT TClassFactoryRec::QueryInterface(REFIID riid, void** ppvObject)
 {
 	if (riid == IID_IUnknown)
 		logA("TClassFactoryRec retrieved as IUnknown: %d\n", RefCount);
 	else if (riid == IID_IClassFactory)
 		logA("TClassFactoryRec retrieved as IClassFactory: %d\n", RefCount);
 	else {
-		#ifdef LOG_ENABLED
-			RPC_CSTR szGuid;
-			UuidToStringA(&riid, &szGuid);
-			logA("TClassFactoryRec::QueryInterface {%s} failed\n", szGuid);
-			RpcStringFreeA(&szGuid);
-		#endif
+	#ifdef LOG_ENABLED
+		RPC_CSTR szGuid;
+		UuidToStringA(&riid, &szGuid);
+		logA("TClassFactoryRec::QueryInterface {%s} failed\n", szGuid);
+		RpcStringFreeA(&szGuid);
+	#endif
 		*ppvObject = nullptr;
 		return E_NOINTERFACE;
 	}
@@ -47,7 +47,7 @@ ULONG TClassFactoryRec::Release()
 	return result;
 }
 
-HRESULT TClassFactoryRec::CreateInstance(IUnknown *pUnkOuter, REFIID riid, void **ppvObject)
+HRESULT TClassFactoryRec::CreateInstance(IUnknown* pUnkOuter, REFIID riid, void** ppvObject)
 {
 	if (ppvObject == nullptr)
 		return E_POINTER;
@@ -61,7 +61,7 @@ HRESULT TClassFactoryRec::CreateInstance(IUnknown *pUnkOuter, REFIID riid, void 
 		return E_OUTOFMEMORY;
 
 	HRESULT hr = p->QueryInterface(riid, ppvObject);
-	if ( FAILED(hr))
+	if (FAILED(hr))
 		delete p;
 	return hr;
 }
