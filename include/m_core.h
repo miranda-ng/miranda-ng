@@ -304,10 +304,10 @@ MIR_CORE_DLL(wchar_t*) mir_wstrndup(const wchar_t *str, size_t len);
 ///////////////////////////////////////////////////////////////////////////////
 // print functions
 
-MIR_CORE_DLL(int)    mir_snprintf(char *buffer, size_t count, _Printf_format_string_ const char* fmt, ...);
-MIR_CORE_DLL(int)    mir_snwprintf(wchar_t *buffer, size_t count, _Printf_format_string_ const wchar_t* fmt, ...);
-MIR_CORE_DLL(int)    mir_vsnprintf(char *buffer, size_t count, _Printf_format_string_ const char* fmt, va_list va);
-MIR_CORE_DLL(int)    mir_vsnwprintf(wchar_t *buffer, size_t count, _Printf_format_string_ const wchar_t* fmt, va_list va);
+MIR_CORE_DLL(int)    mir_snprintf(_Pre_notnull_ _Always_(_Post_z_) char *buffer, size_t count, _Printf_format_string_ const char* fmt, ...);
+MIR_CORE_DLL(int)    mir_snwprintf(_Pre_notnull_ _Always_(_Post_z_) wchar_t *buffer, size_t count, _Printf_format_string_ const wchar_t* fmt, ...);
+MIR_CORE_DLL(int)    mir_vsnprintf(_Pre_notnull_ _Always_(_Post_z_) char *buffer, size_t count, _Printf_format_string_ const char* fmt, va_list va);
+MIR_CORE_DLL(int)    mir_vsnwprintf(_Pre_notnull_ _Always_(_Post_z_) wchar_t *buffer, size_t count, _Printf_format_string_ const wchar_t* fmt, va_list va);
 
 ///////////////////////////////////////////////////////////////////////////////
 // protocol functions
@@ -549,7 +549,7 @@ HANDLE mir_forkThread(void(__cdecl *pFunc)(T* param), T *arg)
 }
 
 template <size_t _Size>
-inline int mir_snprintf(char(&buffer)[_Size], _Printf_format_string_ const char* fmt, ...)
+inline int mir_snprintf(_Pre_notnull_ _Always_(_Post_z_) char(&buffer)[_Size], _In_z_ _Printf_format_string_ const char* fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
@@ -559,7 +559,7 @@ inline int mir_snprintf(char(&buffer)[_Size], _Printf_format_string_ const char*
 }
 
 template <size_t _Size>
-inline int mir_snwprintf(wchar_t(&buffer)[_Size], _Printf_format_string_ const wchar_t* fmt, ...)
+inline int mir_snwprintf(_Pre_notnull_ _Always_(_Post_z_) wchar_t(&buffer)[_Size], _In_z_ _Printf_format_string_ const wchar_t* fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
@@ -569,13 +569,13 @@ inline int mir_snwprintf(wchar_t(&buffer)[_Size], _Printf_format_string_ const w
 }
 
 template <size_t _Size>
-inline int mir_vsnprintf(char(&buffer)[_Size], _Printf_format_string_ const char* fmt, va_list va)
+inline int mir_vsnprintf(_Pre_notnull_ _Always_(_Post_z_) char(&buffer)[_Size], _In_z_ _Printf_format_string_ const char* fmt, va_list va)
 {
 	return mir_vsnprintf(buffer, _Size, fmt, va);
 }
 
 template <size_t _Size>
-inline int mir_vsnwprintf(wchar_t(&buffer)[_Size], _Printf_format_string_ const wchar_t* fmt, va_list va)
+inline int mir_vsnwprintf(_Pre_notnull_ _Always_(_Post_z_) wchar_t(&buffer)[_Size], _In_z_ _Printf_format_string_ const wchar_t* fmt, va_list va)
 {
 	return mir_vsnwprintf(buffer, _Size, fmt, va);
 }
