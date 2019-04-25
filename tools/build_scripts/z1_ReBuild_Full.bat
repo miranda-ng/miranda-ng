@@ -70,12 +70,12 @@ popd
 
 md "Release%tp%\Docs"
 md "Release%tp%\Gadgets"
-md "Release%tp%\Import"
 md "Release%tp%\Sounds"
 md "Release%tp%\Scripts"
 md "Release%tp%\Plugins\Listeningto"
 md "Release%tp%\Plugins\BASS"
 md "Release%tp%\Plugins\CurrencyRates"
+md "Release%tp%\Plugins\Import"
 md "Release%tp%\Plugins\Weather"
 
 copy /V /Y ..\tools\build_scripts\fixme.cmd "Release%tp%\"
