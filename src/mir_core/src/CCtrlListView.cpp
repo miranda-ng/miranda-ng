@@ -50,15 +50,11 @@ BOOL CCtrlListView::OnNotify(int, NMHDR *pnmh)
 	case LVN_HOTTRACK:          OnHotTrack(&evt);          return TRUE;
 	case LVN_INSERTITEM:        OnInsertItem(&evt);        return TRUE;
 	case LVN_ITEMACTIVATE:      OnItemActivate(&evt);      return TRUE;
+	case LVN_ITEMCHANGED:       OnItemChanged(&evt);       return TRUE;
 	case LVN_ITEMCHANGING:      OnItemChanging(&evt);      return TRUE;
 	case LVN_KEYDOWN:           OnKeyDown(&evt);           return TRUE;
 	case LVN_MARQUEEBEGIN:      OnMarqueeBegin(&evt);      return TRUE;
 	case LVN_SETDISPINFO:       OnSetDispInfo(&evt);       return TRUE;
-
-	case LVN_ITEMCHANGED:
-		NotifyChange();
-		OnItemChanged(&evt);
-		return TRUE;
 	}
 
 	return FALSE;
