@@ -70,6 +70,7 @@ popd
 
 md "Release%tp%\Docs"
 md "Release%tp%\Gadgets"
+md "Release%tp%\Import"
 md "Release%tp%\Sounds"
 md "Release%tp%\Scripts"
 md "Release%tp%\Plugins\Listeningto"
