@@ -655,14 +655,6 @@ static BOOL FindMenuHanleByGlobalID(HMENU hMenu, TMO_IntMenuItem *id, MenuItemDa
 	return FALSE;
 }
 
-static int MenuIconsChanged(WPARAM, LPARAM)
-{
-	// just rebuild menu
-	RebuildMenuOrder();
-	g_clistApi.pfnCluiProtocolStatusChanged(0, nullptr);
-	return 0;
-}
-
 MIR_APP_DLL(void) Clist_SetStatusMode(int iStatus)
 {
 	prochotkey = true;
@@ -1086,8 +1078,6 @@ void InitCustomMenus(void)
 
 	currentStatusMenuItem = ID_STATUS_OFFLINE;
 	g_clistApi.currentDesiredStatusMode = ID_STATUS_OFFLINE;
-
-	HookEvent(ME_SKIN_ICONSCHANGED, MenuIconsChanged);
 }
 
 void UninitCustomMenus(void)
