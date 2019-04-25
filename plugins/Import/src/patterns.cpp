@@ -22,12 +22,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+#include <memory>
+#include <vector>
+
 void CMPlugin::LoadPatterns()
 {
 	wchar_t wszPath[MAX_PATH], wszFullPath[MAX_PATH];
 	GetModuleFileNameW(m_hInst, wszPath, _countof(wszPath));
 	if (auto *p = wcsrchr(wszPath, '\\'))
-		p[1] = 0;
+		*p = 0;
 	
 	mir_snwprintf(wszFullPath, L"%s\\Import\\*.ini", wszPath);
 
@@ -53,6 +56,9 @@ void CMPlugin::LoadPattern(const wchar_t *pwszFileName)
 	std::auto_ptr<CImportPattern> pNew(new CImportPattern());
 	pNew->wszName = buf;
 	pNew->iType = GetPrivateProfileIntW(L"General", L"Type", 1, pwszFileName);
+
+	if (GetPrivateProfileStringW(L"General", L"DefaultExtension", L"", buf, _countof(buf), pwszFileName))
+		pNew->wszExt = buf;
 
 	if (GetPrivateProfileStringW(L"General", L"Charset", L"", buf, _countof(buf), pwszFileName)) {
 		if (!wcsicmp(buf, L"ANSI"))
@@ -104,3 +110,124 @@ void CMPlugin::LoadPattern(const wchar_t *pwszFileName)
 
 	m_patterns.insert(pNew.release());
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// pattern-based database driver
+
+class CDbxPattern : public MDatabaseReadonly, public MZeroedObject
+{
+	FILE *m_hFile;
+
+	std::vector<DWORD> m_events;
+	std::vector<DWORD>::iterator m_curr;
+
+public:
+	CDbxPattern()
+	{}
+
+	~CDbxPattern()
+	{
+		if (m_hFile != INVALID_HANDLE_VALUE)
+			::CloseHandle(m_hFile);
+	}
+
+	void Load()
+	{
+		wchar_t wszLine[2048];
+		do {
+			m_events.push_back(ftell(m_hFile));
+		}
+		while (fgetws(wszLine, _countof(wszLine), m_hFile));
+
+		fseek(m_hFile, 0, SEEK_SET);
+	}
+
+	int Open(const wchar_t *profile)
+	{
+		m_hFile = _wfopen(profile, L"rb");
+		return (m_hFile == nullptr) ? EGROKPRF_CANTREAD : EGROKPRF_NOERROR;
+	}
+	
+	// mcontacts format always store history for one contact only
+	STDMETHODIMP_(LONG) GetContactCount(void) override
+	{
+		return 1;
+	}
+
+	STDMETHODIMP_(LONG) GetEventCount(MCONTACT) override
+	{
+		return (LONG)m_events.size();
+	}
+
+	STDMETHODIMP_(BOOL) GetEvent(MEVENT dwOffset, DBEVENTINFO *dbei) override
+	{
+		fseek(m_hFile, dwOffset, SEEK_SET);
+
+		wchar_t wszLine[2048];
+		fgetws(wszLine, _countof(wszLine), m_hFile);
+		return 1;
+	}
+
+	STDMETHODIMP_(MEVENT) FindFirstEvent(MCONTACT) override
+	{
+		m_curr = m_events.begin();
+		return *m_curr;
+	}
+
+	STDMETHODIMP_(MEVENT) FindNextEvent(MCONTACT, MEVENT) override
+	{
+		if (m_curr == m_events.end())
+			return 0;
+
+		++m_curr;
+		return *m_curr;
+	}
+
+	STDMETHODIMP_(MEVENT) FindLastEvent(MCONTACT) override
+	{
+		m_curr = m_events.end();
+		return *m_curr;
+	}
+
+	STDMETHODIMP_(MEVENT) FindPrevEvent(MCONTACT, MEVENT) override
+	{
+		if (m_curr == m_events.begin())
+			return 0;
+
+		--m_curr;
+		return *m_curr;
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// database link functions
+
+static int pattern_makeDatabase(const wchar_t*)
+{
+	return 1;
+}
+
+static int pattern_grokHeader(const wchar_t *profile)
+{
+	return CDbxPattern().Open(profile);
+}
+
+static MDatabaseCommon* pattern_load(const wchar_t *profile, BOOL)
+{
+	std::auto_ptr<CDbxPattern> db(new CDbxPattern());
+	if (db->Open(profile))
+		return nullptr;
+
+	db->Load();
+	return db.release();
+}
+
+DATABASELINK g_patternDbLink =
+{
+	0,
+	"pattern",
+	L"Pattern-based file driver",
+	pattern_makeDatabase,
+	pattern_grokHeader,
+	pattern_load
+};

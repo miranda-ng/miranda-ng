@@ -51,6 +51,8 @@
 #define IDC_FT                          1040
 #define IDC_OPEN_FILE                   1042
 #define IDC_CHECK_DUPS                  1043
+#define IDC_COMBO1                      1045
+#define IDC_FILETYPE                    1045
 #define IDM_COPY                        40001
 #define IDC_STATIC                      -1
 
@@ -58,9 +60,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        116
+#define _APS_NEXT_RESOURCE_VALUE        117
 #define _APS_NEXT_COMMAND_VALUE         40002
-#define _APS_NEXT_CONTROL_VALUE         1045
+#define _APS_NEXT_CONTROL_VALUE         1046
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

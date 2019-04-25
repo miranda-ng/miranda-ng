@@ -1020,13 +1020,17 @@ void MirandaImport()
 		return;
 	}
 
-	DATABASELINK *dblink = FindDatabasePlugin(importFile);
-	if (dblink == nullptr) {
-		AddMessage(LPGENW("There's no database driver to open the input file, exiting."));
-		return;
+	DATABASELINK *dblink;
+	if (g_pActivePattern == nullptr) {
+		dblink = FindDatabasePlugin(g_wszImportFile);
+		if (dblink == nullptr) {
+			AddMessage(LPGENW("There's no database driver to open the input file, exiting."));
+			return;
+		}
 	}
+	else dblink = &g_patternDbLink;
 
-	if ((srcDb = dblink->Load(importFile, TRUE)) == nullptr) {
+	if ((srcDb = dblink->Load(g_wszImportFile, TRUE)) == nullptr) {
 		AddMessage(LPGENW("Error loading source file, exiting."));
 		return;
 	}

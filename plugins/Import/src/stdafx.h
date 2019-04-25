@@ -69,7 +69,7 @@ struct CImportPattern : public MZeroedObject
 		pcre16_extra *extra;
 	};
 
-	CMStringW wszName;
+	CMStringW wszName, wszExt;
 	int iType = 1;
 	int iCodePage = CP_UTF8;
 	int iUseHeader, iUsePreMsg, iUseFilename;
@@ -85,6 +85,8 @@ struct CImportPattern : public MZeroedObject
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 private:
+	friend class CContactImportDlg;
+
 	void LoadPattern(const wchar_t *pwszFileName);
 	void LoadPatterns();
 
@@ -225,35 +227,17 @@ bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei);
 int CreateGroup(const wchar_t *name, MCONTACT hContact);
 
 extern HWND g_hwndWizard, g_hwndAccMerge;
-extern wchar_t importFile[MAX_PATH];
+extern wchar_t g_wszImportFile[MAX_PATH];
 extern time_t dwSinceDate;
 extern bool g_bServiceMode, g_bSendQuit;
 extern int g_iImportOptions;
 extern MCONTACT g_hImportContact;
 
-void   RegisterIcons(void);
+extern CImportPattern *g_pActivePattern;
+extern DATABASELINK g_patternDbLink;
 
+void RegisterIcons(void);
 void RegisterMContacts();
 void RegisterJson();
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-class CContactImportDlg : public CDlgBase
-{
-	MCONTACT m_hContact;
-	int m_flags = 0;
-
-	CCtrlButton m_btnOpenFile, m_btnOk;
-	CCtrlEdit edtFileName;
-
-public:
-	CContactImportDlg(MCONTACT hContact);
-
-	int getFlags() const { return m_flags; }
-
-	bool OnInitDialog() override;
-	bool OnApply() override;
-
-	void onClick_Ok(CCtrlButton*);
-	void onClick_OpenFile(CCtrlButton*);
-};
+INT_PTR ImportContact(WPARAM hContact, LPARAM);

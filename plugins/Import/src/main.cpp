@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int g_iImportOptions;
 MCONTACT g_hImportContact;
+CImportPattern *g_pActivePattern;
 
 bool g_bServiceMode = false, g_bSendQuit = false;
 HWND g_hwndWizard, g_hwndAccMerge;
@@ -101,7 +102,7 @@ static INT_PTR ServiceMode(WPARAM wParam, LPARAM)
 		ptrW wszFullName(Utils_ReplaceVarsW(L"%miranda_userdata%\\%miranda_profilename%.dat.bak"));
 		if (!_waccess(wszFullName, 0)) {
 			g_iImportOptions = IOPT_ADDUNKNOWN + IOPT_COMPLETE;
-			wcsncpy_s(importFile, MAX_PATH, wszFullName, _TRUNCATE);
+			wcsncpy_s(g_wszImportFile, MAX_PATH, wszFullName, _TRUNCATE);
 			RunWizard(new CProgressPageDlg(), true);
 		}
 		return SERVICE_CONTINUE;
@@ -116,20 +117,10 @@ static INT_PTR ServiceMode(WPARAM wParam, LPARAM)
 static INT_PTR CustomImport(WPARAM wParam, LPARAM)
 {
 	MImportOptions *opts = (MImportOptions*)wParam;
-	wcsncpy_s(importFile, MAX_PATH, opts->pwszFileName, _TRUNCATE);
+	wcsncpy_s(g_wszImportFile, MAX_PATH, opts->pwszFileName, _TRUNCATE);
 	g_iImportOptions = opts->dwFlags;
 	g_hImportContact = 0;
-	return RunWizard(new CProgressPageDlg(), true);
-}
-
-static INT_PTR ImportContact(WPARAM hContact, LPARAM)
-{
-	CContactImportDlg dlg(hContact);
-	if (!dlg.DoModal())
-		return 0;
-
-	g_hImportContact = hContact;
-	g_iImportOptions = IOPT_HISTORY + dlg.getFlags();
+	g_pActivePattern = nullptr;
 	return RunWizard(new CProgressPageDlg(), true);
 }
 

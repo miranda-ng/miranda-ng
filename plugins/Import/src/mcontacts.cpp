@@ -27,11 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define HEADER_STR "HB"
 
-static int mc_makeDatabase(const wchar_t*)
-{
-	return 1;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // CDbxMcontacts database driver, read-only
 
@@ -126,11 +121,15 @@ public:
 			if (dwSize == sizeof(MC_MsgHeader32)) {
 				MC_MsgHeader32 hdr;
 				r = ReadFile(m_hFile, &hdr, sizeof(hdr), &dwRead, 0);
+				if (!r || dwRead < sizeof(hdr))
+					return;
 				SetFilePointer(m_hFile, hdr.cbBlob, 0, FILE_CURRENT);
 			}
 			else {
 				MC_MsgHeader64 hdr;
 				r = ReadFile(m_hFile, &hdr, sizeof(hdr), &dwRead, 0);
+				if (!r || dwRead < sizeof(hdr))
+					return;
 				SetFilePointer(m_hFile, hdr.cbBlob, 0, FILE_CURRENT);
 			}
 			pos += dwSize;
@@ -242,6 +241,14 @@ public:
 		return *m_curr;
 	}
 };
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// database link functions
+
+static int mc_makeDatabase(const wchar_t*)
+{
+	return 1;
+}
 
 static int mc_grokHeader(const wchar_t *profile)
 {

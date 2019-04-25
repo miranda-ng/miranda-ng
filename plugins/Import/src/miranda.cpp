@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 time_t dwSinceDate = 0;
 
-wchar_t importFile[MAX_PATH];
+wchar_t g_wszImportFile[MAX_PATH];
 
 //=======================================================================================
 // Profile selection dialog
@@ -95,7 +95,7 @@ void CMirandaPageDlg::OnNext()
 		MessageBox(m_hwnd, TranslateT("The given file does not exist. Please check that you have entered the name correctly."), TranslateT("Miranda Import"), MB_OK);
 		return;
 	}
-	mir_wstrcpy(importFile, filename);
+	mir_wstrcpy(g_wszImportFile, filename);
 	PostMessage(m_hwndParent, WIZM_GOTOPAGE, 0, (LPARAM)new CMirandaOptionsPageDlg());
 }
 
