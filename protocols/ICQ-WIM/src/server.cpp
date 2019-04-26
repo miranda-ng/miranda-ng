@@ -535,9 +535,12 @@ void CIcqProto::ShutdownSession()
 
 	OnLoggedOut();
 
-	for (auto &it : m_ConnPool)
-		if (it.s)
+	for (auto &it : m_ConnPool) {
+		if (it.s) {
 			Netlib_Shutdown(it.s);
+			it.s = nullptr;
+		}
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
