@@ -160,7 +160,7 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			ListView_SetImageList(hwndList, hIml, LVSIL_SMALL);
 
 			OSVERSIONINFO osver = { sizeof(osver) };
-			if (IsWindows7OrGreater()) {
+			if (IsWinVer7Plus()) {
 				wchar_t szPath[MAX_PATH];
 				GetModuleFileNameW(nullptr, szPath, _countof(szPath));
 				wchar_t *ext = wcsrchr(szPath, '.');
