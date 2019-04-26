@@ -159,7 +159,6 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			ImageList_AddIconFromIconLib(hIml, 1);
 			ListView_SetImageList(hwndList, hIml, LVSIL_SMALL);
 
-			OSVERSIONINFO osver = { sizeof(osver) };
 			if (IsWinVer7Plus()) {
 				wchar_t szPath[MAX_PATH];
 				GetModuleFileNameW(nullptr, szPath, _countof(szPath));
@@ -169,7 +168,6 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 				wcscat(szPath, L".test");
 				HANDLE hFile = CreateFileW(szPath, GENERIC_WRITE, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 				if (hFile == INVALID_HANDLE_VALUE)
-					// Running Windows Vista or later (major version >= 6).
 					Button_SetElevationRequiredState(GetDlgItem(hDlg, IDOK), !IsProcessElevated());
 				else {
 					CloseHandle(hFile);
