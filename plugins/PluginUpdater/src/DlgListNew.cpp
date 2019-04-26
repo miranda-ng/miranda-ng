@@ -37,7 +37,7 @@ static void ApplyDownloads(void *param)
 
 	HWND hDlg = (HWND)param;
 
-	//////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////
 	// if we need to escalate priviledges, launch a atub
 
 	if (!PrepareEscalation()) {
@@ -45,7 +45,7 @@ static void ApplyDownloads(void *param)
 		return;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////
 	// ok, let's unpack all zips
 
 	AutoHandle pipe(hPipe);
@@ -174,10 +174,8 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 					DeleteFile(szPath);
 				}
 			}
-			RECT r;
-			GetClientRect(hwndList, &r);
 
-			///
+			//////////////////////////////////////////////////////////////////////////////////////
 			LVCOLUMN lvc = { 0 };
 			lvc.mask = LVCF_WIDTH | LVCF_TEXT;
 
@@ -189,7 +187,7 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			lvc.cx = 100; // width of column in pixels
 			ListView_InsertColumn(hwndList, 1, &lvc);
 
-			///
+			//////////////////////////////////////////////////////////////////////////////////////
 			LVGROUP lvg;
 			lvg.cbSize = sizeof(LVGROUP);
 			lvg.mask = LVGF_HEADER | LVGF_GROUPID;
@@ -212,11 +210,11 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
 			ListView_EnableGroupView(hwndList, TRUE);
 
-			///
+			//////////////////////////////////////////////////////////////////////////////////////
 			SendMessage(hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_SUBITEMIMAGES | LVS_EX_CHECKBOXES | LVS_EX_LABELTIP);
 			ListView_DeleteAllItems(hwndList);
 
-			///
+			//////////////////////////////////////////////////////////////////////////////////////
 			bool enableOk = false;
 			OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)lParam;
 			for (auto &p : todo) {
@@ -372,7 +370,7 @@ static FILEINFO* ServerEntryToFileInfo(const ServListEntry &hash, const wchar_t*
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // building file list in the separate thread
-//
+
 static void GetList(void *)
 {
 	Thread_SetName("PluginUpdater: GetList");
