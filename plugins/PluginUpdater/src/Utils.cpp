@@ -23,22 +23,24 @@ HNETLIBUSER hNetlibUser = nullptr;
 HANDLE hPipe = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////
+
 void LoadOptions()
 {
-	PopupOptions.DefColors = g_plugin.getByte("DefColors", DEFAULT_COLORS);
-	PopupOptions.LeftClickAction= g_plugin.getByte("LeftClickAction", DEFAULT_POPUP_LCLICK);
-	PopupOptions.RightClickAction = g_plugin.getByte("RightClickAction", DEFAULT_POPUP_RCLICK);
-	PopupOptions.Timeout = g_plugin.getDword("Timeout", DEFAULT_TIMEOUT_VALUE);
+	g_plugin.PopupDefColors = g_plugin.getByte("DefColors", DEFAULT_COLORS);
+	g_plugin.PopupLeftClickAction= g_plugin.getByte("LeftClickAction", DEFAULT_POPUP_LCLICK);
+	g_plugin.PopupRightClickAction = g_plugin.getByte("RightClickAction", DEFAULT_POPUP_RCLICK);
+	g_plugin.PopupTimeout = g_plugin.getDword("Timeout", DEFAULT_TIMEOUT_VALUE);
 
-	opts.bUpdateOnStartup = g_plugin.getByte("UpdateOnStartup", DEFAULT_UPDATEONSTARTUP);
-	opts.bOnlyOnceADay = g_plugin.getByte("OnlyOnceADay", DEFAULT_ONLYONCEADAY);
-	opts.bUpdateOnPeriod = g_plugin.getByte("UpdateOnPeriod", DEFAULT_UPDATEONPERIOD);
-	opts.Period = g_plugin.getDword("Period", DEFAULT_PERIOD);
-	opts.bPeriodMeasure = g_plugin.getByte("PeriodMeasure", DEFAULT_PERIODMEASURE);
-	opts.bForceRedownload = g_plugin.getByte(DB_SETTING_REDOWNLOAD, 0);
-	opts.bSilentMode = g_plugin.getByte("SilentMode", 0);
-	opts.bBackup = g_plugin.getByte("Backup", 0);
-	opts.bChangePlatform = g_plugin.getByte(DB_SETTING_CHANGEPLATFORM, 0);
+	g_plugin.bUpdateOnStartup = g_plugin.getBool("UpdateOnStartup", true);
+	g_plugin.bOnlyOnceADay = g_plugin.getBool("OnlyOnceADay", true);
+	g_plugin.bUpdateOnPeriod = g_plugin.getBool("UpdateOnPeriod", false);
+	g_plugin.bForceRedownload = g_plugin.getBool(DB_SETTING_REDOWNLOAD, false);
+	g_plugin.bSilentMode = g_plugin.getBool("SilentMode", false);
+	g_plugin.bBackup = g_plugin.getBool("Backup", false);
+	g_plugin.bChangePlatform = g_plugin.getBool(DB_SETTING_CHANGEPLATFORM, false);
+
+	g_plugin.iPeriod = g_plugin.getDword("Period", 1);
+	g_plugin.iPeriodMeasure = g_plugin.getByte("PeriodMeasure", 1);
 }
 
 IconItem iconList[] =

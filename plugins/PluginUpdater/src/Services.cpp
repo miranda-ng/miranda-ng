@@ -28,7 +28,7 @@ static INT_PTR srvParseHashes(WPARAM wParam, LPARAM lParam)
 
 	SERVLIST *pList = new SERVLIST(50, CompareHashes);
 	ptrW baseUrl;
-	if ( ParseHashes(ptszUrl, baseUrl, *pList)) {
+	if (ParseHashes(ptszUrl, baseUrl, *pList)) {
 		wcsncpy(ptszBaseUrl, baseUrl, MAX_PATH);
 		return (INT_PTR)pList;
 	}
@@ -59,8 +59,8 @@ static INT_PTR srvGetNthHash(WPARAM wParam, LPARAM lParam)
 
 void InitServices()
 {
-	CreateServiceFunction(MS_PU_PARSEHASHES,  srvParseHashes);
-	CreateServiceFunction(MS_PU_FREEHASHES,   srvFreeHashes);
+	CreateServiceFunction(MS_PU_PARSEHASHES, srvParseHashes);
+	CreateServiceFunction(MS_PU_FREEHASHES, srvFreeHashes);
 	CreateServiceFunction(MS_PU_GETHASHCOUNT, srvGetHashCount);
-	CreateServiceFunction(MS_PU_GETNTHHASH,   srvGetNthHash);
+	CreateServiceFunction(MS_PU_GETNTHHASH, srvGetNthHash);
 }

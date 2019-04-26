@@ -54,11 +54,11 @@ static LRESULT CALLBACK PopupDlgProc(HWND hPopup, UINT uMsg, WPARAM wParam, LPAR
 {
 	switch (uMsg) {
 	case WM_COMMAND:
-		PopupAction(hPopup, PopupOptions.LeftClickAction);
+		PopupAction(hPopup, g_plugin.PopupLeftClickAction);
 		break;
 
 	case WM_CONTEXTMENU:
-		PopupAction(hPopup, PopupOptions.RightClickAction);
+		PopupAction(hPopup, g_plugin.PopupRightClickAction);
 		break;
 
 	case UM_FREEPLUGINDATA:
@@ -110,13 +110,13 @@ void ShowPopup(LPCTSTR ptszTitle, LPCTSTR ptszText, int Number)
 			}
 			else {
 				ppd.PluginWindowProc = PopupDlgProc;
-				ppd.iSeconds = PopupOptions.Timeout;
+				ppd.iSeconds = g_plugin.PopupTimeout;
 			}
 
 			lstrcpyn(ppd.lpwzText, ptszText, MAX_SECONDLINE);
 			lstrcpyn(ppd.lpwzContactName, ptszTitle, MAX_CONTACTNAME);
 
-			switch (PopupOptions.DefColors) {
+			switch (g_plugin.PopupDefColors) {
 			case byCOLOR_WINDOWS:
 				ppd.colorBack = GetSysColor(COLOR_BTNFACE);
 				ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);

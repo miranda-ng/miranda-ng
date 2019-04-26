@@ -76,11 +76,9 @@ static void ApplyDownloads(void *param)
 					SafeDeleteFile(p.File.tszDiskPath);  // remove .zip after successful update
 				db_unset(0, DB_MODULE_NEW_FILES, _T2A(p.tszOldName));
 			}
-			else
-				ListView_SetItemText(hwndList, i, 1, TranslateT("Failed!"));
+			else ListView_SetItemText(hwndList, i, 1, TranslateT("Failed!"));
 		}
-		else
-			ListView_SetItemText(hwndList, i, 1, TranslateT("Skipped."));
+		else ListView_SetItemText(hwndList, i, 1, TranslateT("Skipped."));
 	}
 	Netlib_CloseHandle(nlc);
 
@@ -162,14 +160,14 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			ListView_SetImageList(hwndList, hIml, LVSIL_SMALL);
 
 			OSVERSIONINFO osver = { sizeof(osver) };
-			if (GetVersionEx(&osver) && osver.dwMajorVersion >= 6) {
+			if (IsWindows7OrGreater()) {
 				wchar_t szPath[MAX_PATH];
-				GetModuleFileName(nullptr, szPath, _countof(szPath));
+				GetModuleFileNameW(nullptr, szPath, _countof(szPath));
 				wchar_t *ext = wcsrchr(szPath, '.');
 				if (ext != nullptr)
 					*ext = '\0';
 				wcscat(szPath, L".test");
-				HANDLE hFile = CreateFile(szPath, GENERIC_WRITE, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+				HANDLE hFile = CreateFileW(szPath, GENERIC_WRITE, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 				if (hFile == INVALID_HANDLE_VALUE)
 					// Running Windows Vista or later (major version >= 6).
 					Button_SetElevationRequiredState(GetDlgItem(hDlg, IDOK), !IsProcessElevated());
@@ -184,7 +182,6 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			///
 			LVCOLUMN lvc = { 0 };
 			lvc.mask = LVCF_WIDTH | LVCF_TEXT;
-			//lvc.fmt = LVCFMT_LEFT;
 
 			lvc.pszText = TranslateT("Component Name");
 			lvc.cx = 220; // width of column in pixels
@@ -348,24 +345,27 @@ static FILEINFO* ServerEntryToFileInfo(const ServListEntry &hash, const wchar_t*
 	FILEINFO *FileInfo = new FILEINFO;
 	FileInfo->bDeleteOnly = FALSE;
 	// copy the relative old name
-	wcsncpy(FileInfo->tszOldName, hash.m_name, _countof(FileInfo->tszOldName));
-	wcsncpy(FileInfo->tszNewName, hash.m_name, _countof(FileInfo->tszNewName));
+	wcsncpy_s(FileInfo->tszOldName, hash.m_name, _TRUNCATE);
+	wcsncpy_s(FileInfo->tszNewName, hash.m_name, _TRUNCATE);
 
 	wchar_t tszFileName[MAX_PATH];
-	wcsncpy(tszFileName, wcsrchr(tszPath, L'\\') + 1, _countof(tszFileName));
-	wchar_t *tp = wcschr(tszFileName, L'.'); if (tp) *tp = 0;
+	wcsncpy_s(tszFileName, wcsrchr(tszPath, L'\\') + 1, _TRUNCATE);
+	if (auto *tp = wcschr(tszFileName, L'.'))
+		*tp = 0;
 
 	wchar_t tszRelFileName[MAX_PATH];
-	wcsncpy(tszRelFileName, hash.m_name, MAX_PATH);
-	tp = wcsrchr(tszRelFileName, L'.'); if (tp) *tp = 0;
-	tp = wcschr(tszRelFileName, L'\\'); if (tp) tp++; else tp = tszRelFileName;
-	wcslwr(tp);
+	wcsncpy_s(tszRelFileName, hash.m_name, _TRUNCATE);
+	if (auto *tp = wcsrchr(tszRelFileName, L'.'))
+		*tp = 0;
+	if (auto *tp = wcschr(tszRelFileName, L'\\'))
+		wcslwr((tp) ? tp+1 : tszRelFileName);
 
 	mir_snwprintf(FileInfo->File.tszDiskPath, L"%s\\Temp\\%s.zip", g_tszRoot, tszFileName);
 	mir_snwprintf(FileInfo->File.tszDownloadURL, L"%s/%s.zip", tszBaseUrl, tszRelFileName);
-	for (tp = wcschr(FileInfo->File.tszDownloadURL, '\\'); tp != nullptr; tp = wcschr(tp, '\\'))
+	for (auto *tp = wcschr(FileInfo->File.tszDownloadURL, '\\'); tp != nullptr; tp = wcschr(tp, '\\'))
 		*tp++ = '/';
 	FileInfo->File.CRCsum = hash.m_crc;
+	
 	// Load list of checked Plugins from database
 	Netlib_LogfW(hNetlibUser, L"File %s found", FileInfo->tszOldName);
 	FileInfo->bEnabled = db_get_b(0, DB_MODULE_NEW_FILES, _T2A(FileInfo->tszOldName)) != 0;

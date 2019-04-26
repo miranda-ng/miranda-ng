@@ -26,6 +26,7 @@ Boston, MA 02111-1307, USA.
 #include <Windowsx.h>
 #include <Shlobj.h>
 #include <string.h>
+#include <VersionHelpers.h>
 
 // Miranda header files
 #include <newpluginapi.h>
@@ -83,38 +84,22 @@ struct FILEINFO
 
 typedef OBJLIST<FILEINFO> FILELIST;
 
-extern struct PlugOptions
-{
-	BYTE bUpdateOnStartup, bUpdateOnPeriod, bOnlyOnceADay, bForceRedownload, bSilentMode, bBackup, bChangePlatform;
-	BOOL bSilent;
-
-	BYTE bPeriodMeasure;
-	int  Period;
-} opts;
-
-#define DEFAULT_UPDATEONSTARTUP   1
-#define DEFAULT_UPDATEONPERIOD    0
-#define DEFAULT_PERIOD            1
-#define DEFAULT_PERIODMEASURE     1
-#define DEFAULT_ONLYONCEADAY      1
-
 #define DEFAULT_UPDATE_URL                L"https://miranda-ng.org/distr/stable/x%d"
 #define DEFAULT_UPDATE_URL_TRUNK          L"https://miranda-ng.org/distr/x%d"
 #define DEFAULT_UPDATE_URL_TRUNK_SYMBOLS  L"https://miranda-ng.org/distr/pdb_x%d"
 #define DEFAULT_UPDATE_URL_STABLE_SYMBOLS L"https://miranda-ng.org/distr/stable/pdb_x%d"
 
-
 #define FILENAME_X64 L"miranda64.exe"
 #define FILENAME_X32 L"miranda32.exe"
 
 #ifdef _WIN64
-    #define DEFAULT_BITS 64
-    #define DEFAULT_OPP_BITS 32
+	#define DEFAULT_BITS 64
+	#define DEFAULT_OPP_BITS 32
 	#define OLD_FILENAME FILENAME_X64
 	#define NEW_FILENAME FILENAME_X32
 #else
-    #define DEFAULT_BITS 32
-    #define DEFAULT_OPP_BITS 64
+	#define DEFAULT_BITS 32
+	#define DEFAULT_OPP_BITS 64
 	#define OLD_FILENAME FILENAME_X32
 	#define NEW_FILENAME FILENAME_X64
 #endif
@@ -125,23 +110,27 @@ extern struct PlugOptions
 #define DEFAULT_UPDATE_URL_TRUNK_OLD          "https://miranda-ng.org/distr/x%platform%"
 #define DEFAULT_UPDATE_URL_TRUNK_SYMBOLS_OLD  "https://miranda-ng.org/distr/pdb_x%platform%"
 
-#define UPDATE_MODE_CUSTOM			0
-#define UPDATE_MODE_STABLE			1
-#define UPDATE_MODE_TRUNK			2
-#define UPDATE_MODE_TRUNK_SYMBOLS	3
-#define UPDATE_MODE_STABLE_SYMBOLS	4
-#define UPDATE_MODE_MAX_VALUE		4 // when adding new mode, increment this number
+enum
+{
+	UPDATE_MODE_CUSTOM,
+	UPDATE_MODE_STABLE,
+	UPDATE_MODE_TRUNK,
+	UPDATE_MODE_TRUNK_SYMBOLS,
+	UPDATE_MODE_STABLE_SYMBOLS,
+	UPDATE_MODE_MAX_VALUE // leave this variable last in the list
+};
 
-#define DB_SETTING_UPDATE_MODE		"UpdateMode"
-#define DB_SETTING_UPDATE_URL		"UpdateURL"
-#define DB_SETTING_REDOWNLOAD		"ForceRedownload"
-#define DB_SETTING_NEED_RESTART		"NeedRestart"
-#define DB_SETTING_RESTART_COUNT	"RestartCount"
-#define DB_SETTING_LAST_UPDATE		"LastUpdate"
-#define DB_SETTING_DONT_SWITCH_TO_STABLE		"DontSwitchToStable"
-#define DB_SETTING_CHANGEPLATFORM	"ChangePlatform"
-#define DB_MODULE_FILES				MODULENAME "Files"
-#define DB_MODULE_NEW_FILES         MODULENAME "NewFiles"
+#define DB_SETTING_UPDATE_MODE           "UpdateMode"
+#define DB_SETTING_UPDATE_URL            "UpdateURL"
+#define DB_SETTING_REDOWNLOAD            "ForceRedownload"
+#define DB_SETTING_NEED_RESTART          "NeedRestart"
+#define DB_SETTING_RESTART_COUNT         "RestartCount"
+#define DB_SETTING_LAST_UPDATE           "LastUpdate"
+#define DB_SETTING_DONT_SWITCH_TO_STABLE "DontSwitchToStable"
+#define DB_SETTING_CHANGEPLATFORM        "ChangePlatform"
+
+#define DB_MODULE_FILES     MODULENAME "Files"
+#define DB_MODULE_NEW_FILES MODULENAME "NewFiles"
 
 #define MAX_RETRIES   3
 
@@ -153,7 +142,6 @@ using namespace std;
 
 extern DWORD g_mirandaVersion;
 extern wchar_t g_tszRoot[MAX_PATH], g_tszTempPath[MAX_PATH];
-extern aPopups PopupsList[POPUPS];
 extern HANDLE hPipe;
 extern HNETLIBUSER hNetlibUser;
 
@@ -165,6 +153,14 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 	int Load() override;
 	int Unload() override;
+
+	// common options
+	bool bUpdateOnStartup, bUpdateOnPeriod, bOnlyOnceADay, bForceRedownload, bSilentMode, bBackup, bChangePlatform, bSilent;
+	int  iPeriod, iPeriodMeasure;
+
+	// popup options
+	BYTE PopupDefColors, PopupLeftClickAction, PopupRightClickAction;
+	int  PopupTimeout;
 };
 
 void UninitCheck(void);

@@ -124,10 +124,10 @@ static void ApplyUpdates(void *param)
 
 	g_plugin.setByte(DB_SETTING_RESTART_COUNT, 5);
 
-	if (opts.bBackup)
+	if (g_plugin.bBackup)
 		CallService(MS_AB_BACKUP, 0, 0);
 
-	if (opts.bChangePlatform) {
+	if (g_plugin.bChangePlatform) {
 		wchar_t mirandaPath[MAX_PATH];
 		GetModuleFileName(nullptr, mirandaPath, _countof(mirandaPath));
 		g_plugin.setWString("OldBin2", mirandaPath);
@@ -142,8 +142,8 @@ static void ApplyUpdates(void *param)
 		}
 	}
 
-	if (opts.bForceRedownload) {
-		opts.bForceRedownload = 0;
+	if (g_plugin.bForceRedownload) {
+		g_plugin.bForceRedownload = 0;
 		g_plugin.delSetting(DB_SETTING_REDOWNLOAD);
 	}
 
@@ -152,7 +152,7 @@ static void ApplyUpdates(void *param)
 	PostMessage(hDlg, WM_CLOSE, 0, 0);
 	if (rc == IDYES) {
 		BOOL bRestartCurrentProfile = g_plugin.getByte("RestartCurrentProfile", 1) ? 1 : 0;
-		if (opts.bChangePlatform) {
+		if (g_plugin.bChangePlatform) {
 			wchar_t mirstartpath[MAX_PATH];
 
 			#ifdef _WIN64
@@ -456,10 +456,10 @@ static void DlgUpdateSilent(void *param)
 	delete &UpdateFiles;
 	Skin_PlaySound("updatecompleted");
 
-	opts.bForceRedownload = false;
+	g_plugin.bForceRedownload = false;
 	g_plugin.delSetting(DB_SETTING_REDOWNLOAD);
 
-	opts.bChangePlatform = false;
+	g_plugin.bChangePlatform = false;
 	g_plugin.delSetting(DB_SETTING_CHANGEPLATFORM);
 
 	g_plugin.setByte(DB_SETTING_RESTART_COUNT, 5);
@@ -485,7 +485,7 @@ static void DlgUpdateSilent(void *param)
 
 static void __stdcall LaunchDialog(void *param)
 {
-	if (opts.bSilentMode && opts.bSilent)
+	if (g_plugin.bSilentMode && g_plugin.bSilent)
 		mir_forkthread(DlgUpdateSilent, param);
 	else
 		hwndDialog = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_UPDATE), GetDesktopWindow(), DlgUpdate, (LPARAM)param);
@@ -657,7 +657,7 @@ static int ScanFolder(const wchar_t *tszFolder, size_t cbBaseLen, const wchar_t 
 			else {
 				if (level == 0) {
 					// Rename Miranda*.exe
-					wcsncpy_s(tszNewName, opts.bChangePlatform && !mir_wstrcmpi(ffd.cFileName, OLD_FILENAME) ? NEW_FILENAME : ffd.cFileName, _TRUNCATE);
+					wcsncpy_s(tszNewName, g_plugin.bChangePlatform && !mir_wstrcmpi(ffd.cFileName, OLD_FILENAME) ? NEW_FILENAME : ffd.cFileName, _TRUNCATE);
 					mir_snwprintf(tszBuf, L"%s\\%s", tszFolder, tszNewName);
 				}
 				else {
@@ -694,7 +694,7 @@ static int ScanFolder(const wchar_t *tszFolder, size_t cbBaseLen, const wchar_t 
 				}
 
 				// No need to hash a file if we are forcing a redownload anyway
-				if (!opts.bForceRedownload) {
+				if (!g_plugin.bForceRedownload) {
 					// try to hash the file
 					char szMyHash[33];
 					__try {
@@ -704,8 +704,7 @@ static int ScanFolder(const wchar_t *tszFolder, size_t cbBaseLen, const wchar_t 
 							Netlib_LogfW(hNetlibUser, L"File %s: Already up-to-date, skipping", ffd.cFileName);
 							continue;
 						}
-						else
-							Netlib_LogfW(hNetlibUser, L"File %s: Update available", ffd.cFileName);
+						else Netlib_LogfW(hNetlibUser, L"File %s: Update available", ffd.cFileName);
 					}
 					__except (EXCEPTION_EXECUTE_HANDLER)
 					{
@@ -724,20 +723,21 @@ static int ScanFolder(const wchar_t *tszFolder, size_t cbBaseLen, const wchar_t 
 				MyCRC = 0;
 			}
 
+			int bEnabled = db_get_b(0, DB_MODULE_FILES, StrToLower(_T2A(tszBuf + cbBaseLen)), 1);
+			if (bEnabled == 2)  // hidden database setting to exclude a plugin from list
+				continue;
+
 			// Yeah, we've got new version.
 			FILEINFO *FileInfo = new FILEINFO;
 			// copy the relative old name
-			wcsncpy(FileInfo->tszOldName, tszBuf + cbBaseLen, _countof(FileInfo->tszOldName));
+			wcsncpy_s(FileInfo->tszOldName, tszBuf + cbBaseLen, _TRUNCATE);
 			FileInfo->bDeleteOnly = bDeleteOnly;
-			if (FileInfo->bDeleteOnly) {
-				// save the full old name for deletion
-				wcsncpy(FileInfo->tszNewName, tszBuf, _countof(FileInfo->tszNewName));
-			}
-			else {
-				wcsncpy(FileInfo->tszNewName, ptszUrl, _countof(FileInfo->tszNewName));
-			}
+			if (FileInfo->bDeleteOnly) // save the full old name for deletion
+				wcsncpy_s(FileInfo->tszNewName, tszBuf, _TRUNCATE);
+			else
+				wcsncpy_s(FileInfo->tszNewName, ptszUrl, _TRUNCATE);
 
-			wcsncpy(tszBuf, ptszUrl, _countof(tszBuf));
+			wcsncpy_s(tszBuf, ptszUrl, _TRUNCATE);
 			wchar_t *p = wcsrchr(tszBuf, '.');
 			if (p) *p = 0;
 			p = wcsrchr(tszBuf, '\\');
@@ -750,13 +750,13 @@ static int ScanFolder(const wchar_t *tszFolder, size_t cbBaseLen, const wchar_t 
 				*p++ = '/';
 
 			// remember whether the user has decided not to update this component with this particular new version
-			FileInfo->bEnabled = db_get_b(0, DB_MODULE_FILES, StrToLower(_T2A(FileInfo->tszOldName)), 1);
+			FileInfo->bEnabled = bEnabled;
 
 			FileInfo->File.CRCsum = MyCRC;
 			UpdateFiles->insert(FileInfo);
 
 			// If we are in the silent mode, only count enabled plugins, otherwise count all
-			if (!opts.bSilent || FileInfo->bEnabled)
+			if (!g_plugin.bSilent || FileInfo->bEnabled)
 				count++;
 		}
 	}
@@ -777,7 +777,7 @@ static void CheckUpdates(void *)
 	if (tszTempPath[dwLen - 1] == '\\')
 		tszTempPath[dwLen - 1] = 0;
 
-	if (!opts.bSilent)
+	if (!g_plugin.bSilent)
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("Checking for new updates..."), POPUP_TYPE_INFO);
 
 	ptrW updateUrl(GetDefaultUrl()), baseUrl;
@@ -790,7 +790,7 @@ static void CheckUpdates(void *)
 
 		// Show dialog
 		if (count == 0) {
-			if (!opts.bSilent)
+			if (!g_plugin.bSilent)
 				ShowPopup(TranslateT("Plugin Updater"), TranslateT("No updates found."), POPUP_TYPE_INFO);
 			delete UpdateFiles;
 		}
@@ -813,7 +813,7 @@ static void DoCheck(bool bSilent = true)
 		SetFocus(hwndDialog);
 	}
 	else {
-		opts.bSilent = bSilent;
+		g_plugin.bSilent = bSilent;
 
 		g_plugin.setDword(DB_SETTING_LAST_UPDATE, time(0));
 	
@@ -850,8 +850,8 @@ void UnloadCheck()
 
 void CheckUpdateOnStartup()
 {
-	if (opts.bUpdateOnStartup) {
-		if (opts.bOnlyOnceADay) {
+	if (g_plugin.bUpdateOnStartup) {
+		if (g_plugin.bOnlyOnceADay) {
 			time_t now = time(0),
 				was = g_plugin.getDword(DB_SETTING_LAST_UPDATE, 0);
 
@@ -870,7 +870,7 @@ static void CALLBACK TimerAPCProc(void *, DWORD, DWORD)
 	DoCheck();
 }
 
-static LONGLONG PeriodToMilliseconds(const int period, BYTE &periodMeasure)
+static LONGLONG PeriodToMilliseconds(const int period, int &periodMeasure)
 {
 	LONGLONG result = period * 1000LL;
 	switch(periodMeasure) {
@@ -890,7 +890,7 @@ static LONGLONG PeriodToMilliseconds(const int period, BYTE &periodMeasure)
 
 void __stdcall InitTimer(void *type)
 {
-	if (!opts.bUpdateOnPeriod)
+	if (!g_plugin.bUpdateOnPeriod)
 		return;
 
 	LONGLONG interval;
@@ -901,7 +901,7 @@ void __stdcall InitTimer(void *type)
 			time_t now = time(0);
 			time_t was = g_plugin.getDword(DB_SETTING_LAST_UPDATE, 0);
 
-			interval = PeriodToMilliseconds(opts.Period, opts.bPeriodMeasure);
+			interval = PeriodToMilliseconds(g_plugin.iPeriod, g_plugin.iPeriodMeasure);
 			interval -= (now - was) * 1000;
 			if (interval <= 0)
 				interval = 1000; // no last update or too far in the past -> do it now
@@ -913,7 +913,7 @@ void __stdcall InitTimer(void *type)
 		break;
 
 	default: // options changed, use set interval from now
-		interval = PeriodToMilliseconds(opts.Period, opts.bPeriodMeasure);
+		interval = PeriodToMilliseconds(g_plugin.iPeriod, g_plugin.iPeriodMeasure);
 	}
 
 	FILETIME ft;

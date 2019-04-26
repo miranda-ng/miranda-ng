@@ -19,9 +19,6 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-PlugOptions opts;
-POPUP_OPTIONS PopupOptions = { 0 };
-
 static int GetBits(HWND hwndDlg)
 {
 	return IsDlgButtonChecked(hwndDlg, IDC_CHANGE_PLATFORM) ? DEFAULT_OPP_BITS : DEFAULT_BITS;
@@ -41,7 +38,7 @@ static int GetUpdateMode()
 		}
 	}
 
-	if (UpdateMode < 0 || UpdateMode > UPDATE_MODE_MAX_VALUE) {
+	if (UpdateMode < 0 || UpdateMode >= UPDATE_MODE_MAX_VALUE) {
 		// Missing or unknown mode, determine correct from version of running core
 		char coreVersion[512];
 		Miranda_GetVersionText(coreVersion, _countof(coreVersion));
@@ -56,16 +53,16 @@ wchar_t* GetDefaultUrl()
 	wchar_t url[MAX_PATH];
 	switch (GetUpdateMode()) {
 	case UPDATE_MODE_STABLE:
-		mir_snwprintf(url, DEFAULT_UPDATE_URL, opts.bChangePlatform ? DEFAULT_OPP_BITS : DEFAULT_BITS);
+		mir_snwprintf(url, DEFAULT_UPDATE_URL, g_plugin.bChangePlatform ? DEFAULT_OPP_BITS : DEFAULT_BITS);
 		return mir_wstrdup(url);
 	case UPDATE_MODE_STABLE_SYMBOLS:
-		mir_snwprintf(url, DEFAULT_UPDATE_URL_STABLE_SYMBOLS, opts.bChangePlatform ? DEFAULT_OPP_BITS : DEFAULT_BITS);
+		mir_snwprintf(url, DEFAULT_UPDATE_URL_STABLE_SYMBOLS, g_plugin.bChangePlatform ? DEFAULT_OPP_BITS : DEFAULT_BITS);
 		return mir_wstrdup(url);
 	case UPDATE_MODE_TRUNK:
-		mir_snwprintf(url, DEFAULT_UPDATE_URL_TRUNK, opts.bChangePlatform ? DEFAULT_OPP_BITS : DEFAULT_BITS);
+		mir_snwprintf(url, DEFAULT_UPDATE_URL_TRUNK, g_plugin.bChangePlatform ? DEFAULT_OPP_BITS : DEFAULT_BITS);
 		return mir_wstrdup(url);
 	case UPDATE_MODE_TRUNK_SYMBOLS:
-		mir_snwprintf(url, DEFAULT_UPDATE_URL_TRUNK_SYMBOLS, opts.bChangePlatform ? DEFAULT_OPP_BITS : DEFAULT_BITS);
+		mir_snwprintf(url, DEFAULT_UPDATE_URL_TRUNK_SYMBOLS, g_plugin.bChangePlatform ? DEFAULT_OPP_BITS : DEFAULT_BITS);
 		return mir_wstrdup(url);
 	default:
 		return g_plugin.getWStringA(DB_SETTING_UPDATE_URL);
@@ -80,31 +77,31 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 
 	switch (msg) {
 	case WM_INITDIALOG:
-		if (opts.bUpdateOnStartup) {
+		if (g_plugin.bUpdateOnStartup) {
 			CheckDlgButton(hwndDlg, IDC_UPDATEONSTARTUP, BST_CHECKED);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ONLYONCEADAY), TRUE);
 		}
 
-		CheckDlgButton(hwndDlg, IDC_ONLYONCEADAY, opts.bOnlyOnceADay ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_CHANGE_PLATFORM, opts.bChangePlatform ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ONLYONCEADAY, g_plugin.bOnlyOnceADay ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHANGE_PLATFORM, g_plugin.bChangePlatform ? BST_CHECKED : BST_UNCHECKED);
 
-		if (opts.bUpdateOnPeriod) {
+		if (g_plugin.bUpdateOnPeriod) {
 			CheckDlgButton(hwndDlg, IDC_UPDATEONPERIOD, BST_CHECKED);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_PERIOD), TRUE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_PERIODSPIN), TRUE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), TRUE);
 		}
-		CheckDlgButton(hwndDlg, IDC_SILENTMODE, opts.bSilentMode ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SILENTMODE, g_plugin.bSilentMode ? BST_CHECKED : BST_UNCHECKED);
 		if (g_plugin.getByte(DB_SETTING_NEED_RESTART, 0))
 			ShowWindow(GetDlgItem(hwndDlg, IDC_NEEDRESTARTLABEL), SW_SHOW);
 
 		SendDlgItemMessage(hwndDlg, IDC_PERIODSPIN, UDM_SETRANGE, 0, MAKELONG(99, 1));
-		SendDlgItemMessage(hwndDlg, IDC_PERIODSPIN, UDM_SETPOS, 0, (LPARAM)opts.Period);
+		SendDlgItemMessage(hwndDlg, IDC_PERIODSPIN, UDM_SETPOS, 0, (LPARAM)g_plugin.iPeriod);
 
 		if (ServiceExists(MS_AB_BACKUP)) {
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BACKUP), TRUE);
 			SetDlgItemText(hwndDlg, IDC_BACKUP, LPGENW("Backup database before update"));
-			if (opts.bBackup)
+			if (g_plugin.bBackup)
 				CheckDlgButton(hwndDlg, IDC_BACKUP, BST_CHECKED);
 		}
 
@@ -122,7 +119,7 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 
 		ComboBox_InsertString(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), 0, TranslateT("hours"));
 		ComboBox_InsertString(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), 1, TranslateT("days"));
-		ComboBox_SetCurSel(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), opts.bPeriodMeasure);
+		ComboBox_SetCurSel(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), g_plugin.iPeriodMeasure);
 
 		switch (GetUpdateMode()) {
 		case UPDATE_MODE_STABLE:
@@ -277,23 +274,23 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 
 			if (hdr && hdr->code == PSN_APPLY) {
-				g_plugin.setByte("UpdateOnStartup", opts.bUpdateOnStartup = IsDlgButtonChecked(hwndDlg, IDC_UPDATEONSTARTUP));
-				g_plugin.setByte("OnlyOnceADay", opts.bOnlyOnceADay = IsDlgButtonChecked(hwndDlg, IDC_ONLYONCEADAY));
-				g_plugin.setByte("UpdateOnPeriod", opts.bUpdateOnPeriod = IsDlgButtonChecked(hwndDlg, IDC_UPDATEONPERIOD));
-				g_plugin.setByte("PeriodMeasure", opts.bPeriodMeasure = ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_PERIODMEASURE)));
-				g_plugin.setByte("SilentMode", opts.bSilentMode = IsDlgButtonChecked(hwndDlg, IDC_SILENTMODE));
-				g_plugin.setByte("Backup", opts.bBackup = IsDlgButtonChecked(hwndDlg, IDC_BACKUP));
+				g_plugin.setByte("UpdateOnStartup", g_plugin.bUpdateOnStartup = IsDlgButtonChecked(hwndDlg, IDC_UPDATEONSTARTUP));
+				g_plugin.setByte("OnlyOnceADay", g_plugin.bOnlyOnceADay = IsDlgButtonChecked(hwndDlg, IDC_ONLYONCEADAY));
+				g_plugin.setByte("UpdateOnPeriod", g_plugin.bUpdateOnPeriod = IsDlgButtonChecked(hwndDlg, IDC_UPDATEONPERIOD));
+				g_plugin.setByte("PeriodMeasure", g_plugin.iPeriodMeasure = ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_PERIODMEASURE)));
+				g_plugin.setByte("SilentMode", g_plugin.bSilentMode = IsDlgButtonChecked(hwndDlg, IDC_SILENTMODE));
+				g_plugin.setByte("Backup", g_plugin.bBackup = IsDlgButtonChecked(hwndDlg, IDC_BACKUP));
 				wchar_t buffer[3] = { 0 };
 				Edit_GetText(GetDlgItem(hwndDlg, IDC_PERIOD), buffer, _countof(buffer));
-				g_plugin.setDword("Period", opts.Period = _wtoi(buffer));
+				g_plugin.setDword("Period", g_plugin.iPeriod = _wtoi(buffer));
 
 				InitTimer((void*)1);
 
 				bool bNoSymbols = false;
 				if (IsDlgButtonChecked(hwndDlg, IDC_STABLE)) {
 					g_plugin.setByte(DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE);
-					if (!opts.bChangePlatform)
-						opts.bForceRedownload = 0;
+					if (!g_plugin.bChangePlatform)
+						g_plugin.bForceRedownload = 0;
 					g_plugin.delSetting(DB_SETTING_REDOWNLOAD);
 					bNoSymbols = true;
 				}
@@ -301,14 +298,14 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 					// Only set ForceRedownload if the previous UpdateMode was different
 					// to redownload all plugin with pdb files
 					if (g_plugin.getByte(DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE) != UPDATE_MODE_STABLE_SYMBOLS) {
-						g_plugin.setByte(DB_SETTING_REDOWNLOAD, opts.bForceRedownload = 1);
+						g_plugin.setByte(DB_SETTING_REDOWNLOAD, g_plugin.bForceRedownload = 1);
 						g_plugin.setByte(DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE_SYMBOLS);
 					}
 				}
 				else if (IsDlgButtonChecked(hwndDlg, IDC_TRUNK)) {
 					g_plugin.setByte(DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK);
-					if (!opts.bChangePlatform)
-						opts.bForceRedownload = 0;
+					if (!g_plugin.bChangePlatform)
+						g_plugin.bForceRedownload = 0;
 					g_plugin.delSetting(DB_SETTING_REDOWNLOAD);
 					bNoSymbols = true;
 				}
@@ -316,7 +313,7 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 					// Only set ForceRedownload if the previous UpdateMode was different
 					// to redownload all plugin with pdb files
 					if (g_plugin.getByte(DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE) != UPDATE_MODE_TRUNK_SYMBOLS) {
-						g_plugin.setByte(DB_SETTING_REDOWNLOAD, opts.bForceRedownload = 1);
+						g_plugin.setByte(DB_SETTING_REDOWNLOAD, g_plugin.bForceRedownload = 1);
 						g_plugin.setByte(DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK_SYMBOLS);
 					}
 				}
@@ -325,15 +322,15 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 					GetDlgItemText(hwndDlg, IDC_CUSTOMURL, tszUrl, _countof(tszUrl));
 					g_plugin.setWString(DB_SETTING_UPDATE_URL, tszUrl);
 					g_plugin.setByte(DB_SETTING_UPDATE_MODE, UPDATE_MODE_CUSTOM);
-					opts.bForceRedownload = 0;
+					g_plugin.bForceRedownload = 0;
 					g_plugin.delSetting(DB_SETTING_REDOWNLOAD);
 				}
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_CHANGE_PLATFORM)) {
-					g_plugin.setByte(DB_SETTING_REDOWNLOAD, opts.bForceRedownload = 1);
-					g_plugin.setByte(DB_SETTING_CHANGEPLATFORM, opts.bChangePlatform = 1);
+					g_plugin.setByte(DB_SETTING_REDOWNLOAD, g_plugin.bForceRedownload = 1);
+					g_plugin.setByte(DB_SETTING_CHANGEPLATFORM, g_plugin.bChangePlatform = 1);
 				}
-				else g_plugin.setByte(DB_SETTING_CHANGEPLATFORM, opts.bChangePlatform = 0);
+				else g_plugin.setByte(DB_SETTING_CHANGEPLATFORM, g_plugin.bChangePlatform = 0);
 
 				// if user selected update channel without symbols, remove PDBs
 				if (bNoSymbols) {
@@ -360,6 +357,17 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 	return FALSE;
 }
 
+struct
+{
+	wchar_t *Text;
+	int Action;
+}
+static PopupActions[] =
+{
+	LPGENW("Close popup"), PCA_CLOSEPOPUP,
+	LPGENW("Do nothing"), PCA_DONOTHING
+};
+
 static INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
@@ -367,33 +375,33 @@ static INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM 
 		TranslateDialogDefault(hdlg);
 
 		//Colors
-		if (PopupOptions.DefColors == byCOLOR_OWN) {
+		if (g_plugin.PopupDefColors == byCOLOR_OWN) {
 			CheckDlgButton(hdlg, IDC_USEOWNCOLORS, BST_CHECKED);
 		}
-		else if (PopupOptions.DefColors == byCOLOR_WINDOWS) {
+		else if (g_plugin.PopupDefColors == byCOLOR_WINDOWS) {
 			CheckDlgButton(hdlg, IDC_USEWINCOLORS, BST_CHECKED);
 		}
-		else if (PopupOptions.DefColors == byCOLOR_POPUP) {
+		else if (g_plugin.PopupDefColors == byCOLOR_POPUP) {
 			CheckDlgButton(hdlg, IDC_USEPOPUPCOLORS, BST_CHECKED);
 		}
 		for (int i = 0; i < POPUPS; i++) {
 			SendDlgItemMessage(hdlg, (i + 42071), CPM_SETCOLOUR, 0, PopupsList[i].colorBack);
 			SendDlgItemMessage(hdlg, (i + 41071), CPM_SETCOLOUR, 0, PopupsList[i].colorText);
-			EnableWindow(GetDlgItem(hdlg, (i + 42071)), (PopupOptions.DefColors == byCOLOR_OWN));
-			EnableWindow(GetDlgItem(hdlg, (i + 41071)), (PopupOptions.DefColors == byCOLOR_OWN));
+			EnableWindow(GetDlgItem(hdlg, (i + 42071)), (g_plugin.PopupDefColors == byCOLOR_OWN));
+			EnableWindow(GetDlgItem(hdlg, (i + 41071)), (g_plugin.PopupDefColors == byCOLOR_OWN));
 		}
 		// Timeout
 		SendDlgItemMessage(hdlg, IDC_TIMEOUT_VALUE, EM_LIMITTEXT, 4, 0);
 		SendDlgItemMessage(hdlg, IDC_TIMEOUT_VALUE_SPIN, UDM_SETRANGE32, -1, 9999);
-		SetDlgItemInt(hdlg, IDC_TIMEOUT_VALUE, PopupOptions.Timeout, TRUE);
+		SetDlgItemInt(hdlg, IDC_TIMEOUT_VALUE, g_plugin.PopupTimeout, TRUE);
 
 		// Mouse actions
 		for (auto &it : PopupActions) {
 			SendDlgItemMessage(hdlg, IDC_LC, CB_SETITEMDATA, SendDlgItemMessage(hdlg, IDC_LC, CB_ADDSTRING, 0, (LPARAM)TranslateW(it.Text)), it.Action);
 			SendDlgItemMessage(hdlg, IDC_RC, CB_SETITEMDATA, SendDlgItemMessage(hdlg, IDC_RC, CB_ADDSTRING, 0, (LPARAM)TranslateW(it.Text)), it.Action);
 		}
-		SendDlgItemMessage(hdlg, IDC_LC, CB_SETCURSEL, PopupOptions.LeftClickAction, 0);
-		SendDlgItemMessage(hdlg, IDC_RC, CB_SETCURSEL, PopupOptions.RightClickAction, 0);
+		SendDlgItemMessage(hdlg, IDC_LC, CB_SETCURSEL, g_plugin.PopupLeftClickAction, 0);
+		SendDlgItemMessage(hdlg, IDC_RC, CB_SETCURSEL, g_plugin.PopupRightClickAction, 0);
 
 		//Popups notified
 		for (int i = 0; i < POPUPS; i++) {
@@ -419,9 +427,9 @@ static INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM 
 					return TRUE;
 				}
 				if (idCtrl == IDC_LC)
-					PopupOptions.LeftClickAction = (BYTE)SendDlgItemMessage(hdlg, IDC_LC, CB_GETCURSEL, 0, 0);
+					g_plugin.PopupLeftClickAction = (BYTE)SendDlgItemMessage(hdlg, IDC_LC, CB_GETCURSEL, 0, 0);
 				else if (idCtrl == IDC_RC)
-					PopupOptions.RightClickAction = (BYTE)SendDlgItemMessage(hdlg, IDC_RC, CB_GETCURSEL, 0, 0);
+					g_plugin.PopupRightClickAction = (BYTE)SendDlgItemMessage(hdlg, IDC_RC, CB_GETCURSEL, 0, 0);
 
 				SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
 				return TRUE;
@@ -431,7 +439,7 @@ static INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM 
 				if (wNotifyCode != BN_CLICKED)
 					break;
 
-				PopupOptions.DefColors = byCOLOR_OWN;
+				g_plugin.PopupDefColors = byCOLOR_OWN;
 
 				for (int i = 0; i < POPUPS; i++) {
 					EnableWindow(GetDlgItem(hdlg, (i + 42071)), TRUE); //Background
@@ -445,7 +453,7 @@ static INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM 
 					break;
 
 				//Use Windows colors
-				PopupOptions.DefColors = byCOLOR_WINDOWS;
+				g_plugin.PopupDefColors = byCOLOR_WINDOWS;
 				for (int i = 0; i < POPUPS; i++) {
 					EnableWindow(GetDlgItem(hdlg, (i + 42071)), FALSE); //Background
 					EnableWindow(GetDlgItem(hdlg, (i + 41071)), FALSE); //Text
@@ -458,7 +466,7 @@ static INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM 
 					break;
 
 				//Use Popup colors
-				PopupOptions.DefColors = byCOLOR_POPUP;
+				g_plugin.PopupDefColors = byCOLOR_POPUP;
 				for (int i = 0; i < POPUPS; i++) {
 					EnableWindow(GetDlgItem(hdlg, (i + 42071)), FALSE); //Background
 					EnableWindow(GetDlgItem(hdlg, (i + 41071)), FALSE); //Text
@@ -532,14 +540,14 @@ static INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM 
 					g_plugin.setDword(szSetting, ctlColor);
 				}
 				//Colors
-				g_plugin.setByte("DefColors", PopupOptions.DefColors);
+				g_plugin.setByte("DefColors", g_plugin.PopupDefColors);
 				//Timeout
-				PopupOptions.Timeout = GetDlgItemInt(hdlg, IDC_TIMEOUT_VALUE, nullptr, TRUE);
-				g_plugin.setDword("Timeout", PopupOptions.Timeout);
+				g_plugin.PopupTimeout = GetDlgItemInt(hdlg, IDC_TIMEOUT_VALUE, nullptr, TRUE);
+				g_plugin.setDword("Timeout", g_plugin.PopupTimeout);
 				//Left mouse click
-				g_plugin.setByte("LeftClickAction", PopupOptions.LeftClickAction);
+				g_plugin.setByte("LeftClickAction", g_plugin.PopupLeftClickAction);
 				//Right mouse click
-				g_plugin.setByte("RightClickAction", PopupOptions.RightClickAction);
+				g_plugin.setByte("RightClickAction", g_plugin.PopupRightClickAction);
 				//Notified popups
 				for (int i = 0; i < POPUPS; i++) {
 					char str[20] = { 0 };
