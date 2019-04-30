@@ -147,6 +147,7 @@ bool CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 	if (pReq->m_conn == CONN_RAPI) {
 		CMStringA szAgent(FORMAT, "%S Mail.ru Windows ICQ (version 10.0.1999)", (wchar_t*)m_szOwnId);
 		pReq->AddHeader("User-Agent", szAgent);
+		pReq->AddHeader("Content-Type", "application/json");
 
 		if (m_szRToken.IsEmpty()) {
 			if (!RefreshRobustToken()) {
@@ -155,7 +156,8 @@ bool CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 			}
 		}
 
-		pReq->ReplaceJsonParam(JSONNode("clientId", m_iRClientId));
+		if (m_iRClientId)
+			pReq->ReplaceJsonParam(JSONNode("clientId", m_iRClientId));
 		pReq->ReplaceJsonParam(JSONNode("authToken", m_szRToken));
 		pReq->dataLength = pReq->m_szParam.GetLength();
 		pReq->pData = mir_strdup(pReq->m_szParam);
