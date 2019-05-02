@@ -841,7 +841,6 @@ int AniAva_RedrawAllAvatars(BOOL updateZOrder)
 {
 	aacheck 0;
 	mir_cslock lck(s_CS);
-	updateZOrder = 1;
 	for (auto &it : s_Objects) {
 		if (updateZOrder)
 			SendMessage(it->hWindow, AAM_REDRAW, (WPARAM)updateZOrder, 0);

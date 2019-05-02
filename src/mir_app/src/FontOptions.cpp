@@ -236,8 +236,8 @@ static BOOL ExportSettings(HWND hwndDlg, const wchar_t *filename, OBJLIST<FontIn
 
 				SIZE size;
 				GetTextExtentPoint32(hdc, L"_W", 2, &size);
-				ReleaseDC(hwndDlg, hdc);
 				SelectObject(hdc, hOldFont);
+				ReleaseDC(hwndDlg, hdc);
 				DeleteObject(hFont);
 
 				iFontSize = size.cy;
@@ -577,8 +577,8 @@ static void sttSaveFontData(HWND hwndDlg, FontInternal &F)
 		HDC hdc = GetDC(hwndDlg);
 		HFONT hOldFont = (HFONT)SelectObject(hdc, hFont);
 		GetTextExtentPoint32(hdc, L"_W", 2, &size);
-		ReleaseDC(hwndDlg, hdc);
 		SelectObject(hdc, hOldFont);
+		ReleaseDC(hwndDlg, hdc);
 		DeleteObject(hFont);
 
 		db_set_b(0, F.dbSettingsGroup, str, (char)size.cy);

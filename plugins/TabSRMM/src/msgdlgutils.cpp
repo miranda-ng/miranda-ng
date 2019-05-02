@@ -1208,7 +1208,7 @@ void CTabBaseDlg::LoadSplitter()
 	}
 	else m_iSplitterY = (int)M.GetDword(m_hContact, "splitsplity", M.GetDword("splitsplity", 60));
 
-	if (m_iSplitterY < MINSPLITTERY || m_iSplitterY < 0)
+	if (m_iSplitterY < MINSPLITTERY)
 		m_iSplitterY = 150;
 }
 

@@ -592,15 +592,21 @@ void DeleteTooltipWindows(MyDetailsFrameData *data)
 void CalcRectangles(HWND hwnd)
 {
 	HDC hdc = GetDC(hwnd);
+	if (hdc == nullptr)
+		return;
+
 	HFONT hOldFont = (HFONT)GetCurrentObject(hdc, OBJ_FONT);
 	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-
-	if (hdc == nullptr || data == nullptr)
+	if (data == nullptr) {
+		ReleaseDC(hwnd, hdc);
 		return;
+	}
 
 	Protocol *proto = protocols->Get(data->protocol_number);
-	if (proto == nullptr)
+	if (proto == nullptr) {
+		ReleaseDC(hwnd, hdc);
 		return;
+	}
 
 	data->recalc_rectangles = false;
 	proto->data_changed = false;
