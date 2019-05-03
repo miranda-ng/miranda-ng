@@ -76,7 +76,7 @@ void CMPlugin::LoadPattern(const wchar_t *pwszFileName)
 	int erroffset;
 	const char *err;
 	if (GetPrivateProfileStringW(L"Message", L"Pattern", L"", buf, _countof(buf), pwszFileName)) {
-		if ((pNew->regMessage.pattern = pcre16_compile(buf, 0, &err, &erroffset, nullptr)) == nullptr)
+		if ((pNew->regMessage.pattern = pcre16_compile(buf, PCRE_NO_UTF16_CHECK | PCRE_MULTILINE, &err, &erroffset, nullptr)) == nullptr)
 			return;
 		pNew->regMessage.extra = pcre16_study(pNew->regMessage.pattern, 0, &err);
 	}
@@ -116,7 +116,10 @@ void CMPlugin::LoadPattern(const wchar_t *pwszFileName)
 
 class CDbxPattern : public MDatabaseReadonly, public MZeroedObject
 {
-	FILE *m_hFile;
+	HANDLE m_hFile = INVALID_HANDLE_VALUE, m_hMap = nullptr;
+	uint32_t m_iFileLen;
+	char* m_pFile;
+	wchar_t* m_pwszText;
 
 	std::vector<DWORD> m_events;
 	std::vector<DWORD>::iterator m_curr;
@@ -127,25 +130,64 @@ public:
 
 	~CDbxPattern()
 	{
+		if (m_hMap != nullptr)
+			::CloseHandle(m_hMap);
+
 		if (m_hFile != INVALID_HANDLE_VALUE)
 			::CloseHandle(m_hFile);
 	}
 
 	void Load()
 	{
-		wchar_t wszLine[2048];
-		do {
-			m_events.push_back(ftell(m_hFile));
+		switch (g_pActivePattern->iCodePage) {
+		case CP_UTF8:
+			m_pwszText = mir_utf8decodeW(m_pFile);
+			break;
+		case 1200:
+			m_pwszText = mir_wstrdup((wchar_t*)m_pFile);
+			break;
+		default:
+			m_pwszText = mir_a2u_cp(m_pFile, g_pActivePattern->iCodePage);
+			break;
 		}
-		while (fgetws(wszLine, _countof(wszLine), m_hFile));
 
-		fseek(m_hFile, 0, SEEK_SET);
+		if (!mir_wstrlen(m_pwszText))
+			return;
+
+		int iLen = (int)mir_wstrlen(m_pwszText);
+		for (int iOffset = 0;  iOffset < iLen; ) {
+			int offsets[99];
+			int nMatch = pcre16_exec(g_pActivePattern->regMessage.pattern, g_pActivePattern->regMessage.extra, m_pwszText, iLen, iOffset, 0, offsets, _countof(offsets));
+			if (nMatch <= 0)
+				break;
+
+			m_events.push_back(iOffset);
+			iOffset += nMatch;
+		}
 	}
 
 	int Open(const wchar_t *profile)
 	{
-		m_hFile = _wfopen(profile, L"rb");
-		return (m_hFile == nullptr) ? EGROKPRF_CANTREAD : EGROKPRF_NOERROR;
+		m_hFile = ::CreateFileW(profile, GENERIC_READ, 0, nullptr, OPEN_EXISTING, 0, 0);
+		if (m_hFile == INVALID_HANDLE_VALUE) {
+			Netlib_Logf(0, "failed to open file <%S> for import: %d", profile, GetLastError());
+			return EGROKPRF_CANTREAD;
+		}
+
+		m_iFileLen = ::GetFileSize(m_hFile, 0);
+		m_hMap = ::CreateFileMappingW(m_hFile, nullptr, PAGE_READONLY, 0, 0, L"ImportMapfile");
+		if (m_hMap == nullptr) {
+			Netlib_Logf(0, "failed to mmap file <%S> for import: %d", profile, GetLastError());
+			return EGROKPRF_CANTREAD;
+		}
+
+		m_pFile = (char*)::MapViewOfFile(m_hMap, FILE_MAP_READ, 0, 0, 0);
+		if (m_pFile == nullptr) {
+			Netlib_Logf(0, "failed to map view of file <%S> for import: %d", profile, GetLastError());
+			return EGROKPRF_CANTREAD;
+		}
+
+		return EGROKPRF_NOERROR;
 	}
 	
 	// mcontacts format always store history for one contact only
@@ -161,10 +203,21 @@ public:
 
 	STDMETHODIMP_(BOOL) GetEvent(MEVENT dwOffset, DBEVENTINFO *dbei) override
 	{
-		fseek(m_hFile, dwOffset, SEEK_SET);
+		/*
+		const wchar_t** substrings;
+		if (pcre16_get_substring_list(p, offsets, nMatch, &substrings) >= 0) {
+			struct tm st = {};
+			st.tm_year = _wtoi(substrings[g_pActivePattern->iYear]);
+			st.tm_mon = _wtoi(substrings[g_pActivePattern->iMonth]);
+			st.tm_mday = _wtoi(substrings[g_pActivePattern->iDay]);
+			st.tm_hour = _wtoi(substrings[g_pActivePattern->iHours]);
+			st.tm_min = _wtoi(substrings[g_pActivePattern->iMinutes]);
+			st.tm_sec = (g_pActivePattern->iSeconds) ? _wtoi(substrings[g_pActivePattern->iSeconds]) : 0;
 
-		wchar_t wszLine[2048];
-		fgetws(wszLine, _countof(wszLine), m_hFile);
+
+			pcre16_free_substring_list(substrings);
+		}
+		*/
 		return 1;
 	}
 

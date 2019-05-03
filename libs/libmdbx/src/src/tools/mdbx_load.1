@@ -1,4 +1,4 @@
-.\" Copyright 2015-2018 Leonid Yuriev <leo@yuriev.ru>.
+.\" Copyright 2015-2019 Leonid Yuriev <leo@yuriev.ru>.
 .\" Copyright 2014-2015 Howard Chu, Symas Corp. All Rights Reserved.
 .\" Copyright 2015,2016 Peter-Service R&D LLC <http://billing.ru/>.
 .\" Copying restrictions apply.  See COPYRIGHT/LICENSE.
@@ -38,6 +38,13 @@ option below.
 .TP
 .BR \-V
 Write the library version number to the standard output, and exit.
+.TP
+.BR \-a
+Append all records in the order they appear in the input. The input is assumed to already be
+in correctly sorted order and no sorting or checking for redundant values will be performed.
+This option must be used to reload data that was produced by running
+.B mdbx_dump
+on a database that uses custom compare functions.
 .TP
 .BR \-f \ file
 Read from the specified file instead of from the standard input.

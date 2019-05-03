@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2018 Leonid Yuriev <leo@yuriev.ru>
+ * Copyright 2017-2019 Leonid Yuriev <leo@yuriev.ru>
  * and other libmdbx authors: please see AUTHORS file.
  * All rights reserved.
  *
@@ -121,6 +121,8 @@ public:
             serial_t value_age);
   void setup(const config::actor_params_pod &actor, unsigned actor_id,
              unsigned thread_number);
+  void make_ordered();
+  bool is_unordered() const;
 
   bool increment(serial_t &serial, int delta);
 };

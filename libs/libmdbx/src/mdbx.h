@@ -1,6 +1,6 @@
 ﻿/* LICENSE AND COPYRUSTING *****************************************************
  *
- * Copyright 2015-2018 Leonid Yuriev <leo@yuriev.ru>
+ * Copyright 2015-2019 Leonid Yuriev <leo@yuriev.ru>
  * and other libmdbx authors: please see AUTHORS file.
  * All rights reserved.
  *
@@ -60,8 +60,8 @@
 
 /* IMPENDING CHANGES WARNING ***************************************************
  *
- * MDBX is under active development, database format and API aren't stable
- * at least until 2018Q2. New version won't be backwards compatible. Main focus
+ * MDBX is under active non-public development, database format and API
+ * will be refined. New version won't be backwards compatible. Main focus
  * of the rework is to provide clear and robust API and new features.
  *
  ******************************************************************************/
@@ -615,7 +615,7 @@ LIBMDBX_API int mdbx_env_create(MDBX_env **penv);
  *  - MDBX_NOTLS
  *      Don't use Thread-Local Storage. Tie reader locktable slots to
  *      MDBX_txn objects instead of to threads. I.e. mdbx_txn_reset() keeps
- *      the slot reseved for the MDBX_txn object. A thread may use parallel
+ *      the slot reserved for the MDBX_txn object. A thread may use parallel
  *      read-only transactions. A read-only transaction may span threads if
  *      the user synchronizes its use. Applications that multiplex many
  *      user threads over individual OS threads need this option. Such an
@@ -1699,6 +1699,53 @@ LIBMDBX_API int mdbx_cursor_on_first(MDBX_cursor *mc);
 
 /* Returns: MDBX_RESULT_TRUE, MDBX_RESULT_FALSE or Error code. */
 LIBMDBX_API int mdbx_cursor_on_last(MDBX_cursor *mc);
+
+/* Estimates the distance between cursors as the number of elements.
+ * Both cursors must be initialized for the same DBI.
+ *
+ * [in] cursor_a          The first cursor for estimation.
+ * [in] cursor_b          The second cursor for estimation.
+ * [out] distance_items   A pointer to store estimated distance value,
+ *                        i.e. *distance_items = distance(a - b).
+ *
+ * Returns A non-zero error value on failure and 0 on success. */
+LIBMDBX_API int mdbx_estimate_distance(const MDBX_cursor *first,
+                                       const MDBX_cursor *last,
+                                       ptrdiff_t *distance_items);
+
+/* Estimates the move distance, i.e. between the current cursor position and
+ * next position after the specified move-operation with given key and data.
+ * Current cursor position and state are preserved.
+ *
+ * [in] cursor            Cursor for estimation.
+ * [in,out] key           The key for a retrieved item.
+ * [in,out] data          The data of a retrieved item.
+ * [in] op                A cursor operation MDBX_cursor_op.
+ * [out] distance_items   A pointer to store estimated move distance
+ *                        as the number of elements.
+ *
+ * Returns A non-zero error value on failure and 0 on success. */
+LIBMDBX_API int mdbx_estimate_move(const MDBX_cursor *cursor, MDBX_val *key,
+                                   MDBX_val *data, MDBX_cursor_op move_op,
+                                   ptrdiff_t *distance_items);
+
+/* Estimates the size of a range in the number of elements.
+ *
+ * [in] txn               A transaction handle returned by mdbx_txn_begin().
+ * [in] dbi               A database handle returned by mdbx_dbi_open().
+ * [in] begin_key         The key of range beginning or NULL for explicit FIRST.
+ * [in] begin_data        Optional additional data to seeking among sorted
+ *                        duplicates. Only for MDBX_DUPSORT, NULL otherwise.
+ * [in] end_key           The key of range ending or NULL for explicit LAST.
+ * [in] end_data          Optional additional data to seeking among sorted
+ *                        duplicates. Only for MDBX_DUPSORT, NULL otherwise.
+ * [out] distance_items   A pointer to store range estimation result.
+ *
+ * Returns A non-zero error value on failure and 0 on success. */
+LIBMDBX_API int mdbx_estimate_range(MDBX_txn *txn, MDBX_dbi dbi,
+                                    MDBX_val *begin_key, MDBX_val *begin_data,
+                                    MDBX_val *end_key, MDBX_val *end_data,
+                                    ptrdiff_t *size_items);
 
 LIBMDBX_API int mdbx_replace(MDBX_txn *txn, MDBX_dbi dbi, MDBX_val *key,
                              MDBX_val *new_data, MDBX_val *old_data,

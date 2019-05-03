@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2017-2018 Leonid Yuriev <leo@yuriev.ru>
+ * Copyright 2017-2019 Leonid Yuriev <leo@yuriev.ru>
  * and other libmdbx authors: please see AUTHORS file.
  * All rights reserved.
  *
@@ -69,6 +69,7 @@ void testcase_setup(const char *casename, actor_params &params,
     configure_actor(last_space_id, ac_hill, nullptr, params);
     configure_actor(last_space_id, ac_try, nullptr, params);
     configure_actor(last_space_id, ac_copy, nullptr, params);
+    configure_actor(last_space_id, ac_append, nullptr, params);
     log_notice("<<< testcase_setup(%s): done", casename);
   } else {
     failure("unknown testcase `%s`", casename);

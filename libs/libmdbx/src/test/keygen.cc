@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2018 Leonid Yuriev <leo@yuriev.ru>
+ * Copyright 2017-2019 Leonid Yuriev <leo@yuriev.ru>
  * and other libmdbx authors: please see AUTHORS file.
  * All rights reserved.
  *
@@ -165,6 +165,15 @@ void maker::setup(const config::actor_params_pod &actor, unsigned actor_id,
 
   // FIXME: TODO
   base = 0;
+}
+
+void maker::make_ordered() {
+  mapping.mesh = 0;
+  mapping.rotate = 0;
+}
+
+bool maker::is_unordered() const {
+  return (mapping.mesh >= serial_minwith || mapping.rotate) != 0;
 }
 
 bool maker::increment(serial_t &serial, int delta) {

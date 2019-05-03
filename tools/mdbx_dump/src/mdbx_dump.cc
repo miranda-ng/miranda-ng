@@ -1,7 +1,7 @@
 /* mdbx_dump.c - memory-mapped database dump tool */
 
 /*
- * Copyright 2015-2018 Leonid Yuriev <leo@yuriev.ru>
+ * Copyright 2015-2019 Leonid Yuriev <leo@yuriev.ru>
  * and other libmdbx authors: please see AUTHORS file.
  * All rights reserved.
  *
@@ -292,7 +292,7 @@ int main(int argc, char *argv[]) {
       if (memchr(key.iov_base, '\0', key.iov_len))
         continue;
       count++;
-      str = (char*)malloc(key.iov_len + 1);
+      str = (char*)mdbx_malloc(key.iov_len + 1);
       memcpy(str, key.iov_base, key.iov_len);
       str[key.iov_len] = '\0';
       rc = mdbx_dbi_open(txn, str, 0, &db2);
@@ -307,7 +307,7 @@ int main(int argc, char *argv[]) {
         }
         mdbx_dbi_close(env, db2);
       }
-      free(str);
+      mdbx_free(str);
       if (rc)
         continue;
     }
@@ -323,12 +323,8 @@ int main(int argc, char *argv[]) {
   } else {
     rc = dumpit(txn, dbi, subname);
   }
-  if (rc) {
-	 if (rc != MDBX_NOTFOUND)
-		fprintf(stderr, "%s: %s: %s\n", prog, envname, mdbx_strerror(rc));
-	 else
-	   rc = 0;
-  }
+  if (rc && rc != MDBX_NOTFOUND)
+    fprintf(stderr, "%s: %s: %s\n", prog, envname, mdbx_strerror(rc));
 
   mdbx_dbi_close(env, dbi);
 txn_abort:

@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2017-2018 Leonid Yuriev <leo@yuriev.ru>
+ * Copyright 2017-2019 Leonid Yuriev <leo@yuriev.ru>
  * and other libmdbx authors: please see AUTHORS file.
  * All rights reserved.
  *
@@ -339,6 +339,10 @@ int main(int argc, char *const argv[]) {
     }
     if (config::parse_option(argc, argv, narg, "copy", nullptr)) {
       configure_actor(last_space_id, ac_copy, value, params);
+      continue;
+    }
+    if (config::parse_option(argc, argv, narg, "append", nullptr)) {
+      configure_actor(last_space_id, ac_append, value, params);
       continue;
     }
     if (config::parse_option(argc, argv, narg, "failfast",

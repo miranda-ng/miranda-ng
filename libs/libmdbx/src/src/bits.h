@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2018 Leonid Yuriev <leo@yuriev.ru>
+ * Copyright 2015-2019 Leonid Yuriev <leo@yuriev.ru>
  * and other libmdbx authors: please see AUTHORS file.
  * All rights reserved.
  *
@@ -28,6 +28,12 @@
 /* Should be defined before any includes */
 #ifndef _GNU_SOURCE
 #   define _GNU_SOURCE 1
+#endif
+#ifndef _POSIX_C_SOURCE
+#   define _POSIX_C_SOURCE 200112L
+#endif
+#ifndef _XOPEN_SOURCE
+#   define _XOPEN_SOURCE 500
 #endif
 #ifndef _FILE_OFFSET_BITS
 #   define _FILE_OFFSET_BITS 64
