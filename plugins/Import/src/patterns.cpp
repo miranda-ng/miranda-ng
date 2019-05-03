@@ -119,7 +119,7 @@ class CDbxPattern : public MDatabaseReadonly, public MZeroedObject
 	HANDLE m_hFile = INVALID_HANDLE_VALUE, m_hMap = nullptr;
 	uint32_t m_iFileLen;
 	char* m_pFile;
-	wchar_t* m_pwszText;
+	CMStringW m_buf;
 
 	std::vector<DWORD> m_events;
 	std::vector<DWORD>::iterator m_curr;
@@ -130,8 +130,6 @@ public:
 
 	~CDbxPattern()
 	{
-		mir_free(m_pwszText);
-
 		if (m_hMap != nullptr)
 			::CloseHandle(m_hMap);
 
@@ -143,23 +141,23 @@ public:
 	{
 		switch (g_pActivePattern->iCodePage) {
 		case CP_UTF8:
-			m_pwszText = mir_utf8decodeW(m_pFile);
+			m_buf = mir_utf8decodeW(m_pFile);
 			break;
 		case 1200:
-			m_pwszText = mir_wstrdup((wchar_t*)m_pFile);
+			m_buf = mir_wstrdup((wchar_t*)m_pFile);
 			break;
 		default:
-			m_pwszText = mir_a2u_cp(m_pFile, g_pActivePattern->iCodePage);
+			m_buf = mir_a2u_cp(m_pFile, g_pActivePattern->iCodePage);
 			break;
 		}
 
-		if (!mir_wstrlen(m_pwszText))
+		if (m_buf.IsEmpty())
 			return;
 
-		int iLen = (int)mir_wstrlen(m_pwszText);
-		for (int iOffset = 0;  iOffset < iLen; ) {
+		int iOffset = 0;
+		while (true) {
 			int offsets[99];
-			int nMatch = pcre16_exec(g_pActivePattern->regMessage.pattern, g_pActivePattern->regMessage.extra, m_pwszText, iLen, iOffset, PCRE_NEWLINE_ANYCRLF, offsets, _countof(offsets));
+			int nMatch = pcre16_exec(g_pActivePattern->regMessage.pattern, g_pActivePattern->regMessage.extra, m_buf, m_buf.GetLength(), iOffset, PCRE_NEWLINE_ANYCRLF, offsets, _countof(offsets));
 			if (nMatch <= 0)
 				break;
 
@@ -205,9 +203,13 @@ public:
 
 	STDMETHODIMP_(BOOL) GetEvent(MEVENT dwOffset, DBEVENTINFO *dbei) override
 	{
-		/*
+		int offsets[99];
+		int nMatch = pcre16_exec(g_pActivePattern->regMessage.pattern, g_pActivePattern->regMessage.extra, m_buf, m_buf.GetLength(), dwOffset, PCRE_NEWLINE_ANYCRLF, offsets, _countof(offsets));
+		if (nMatch <= 0)
+			return 1;
+
 		const wchar_t** substrings;
-		if (pcre16_get_substring_list(p, offsets, nMatch, &substrings) >= 0) {
+		if (pcre16_get_substring_list(m_buf, offsets, nMatch, &substrings) >= 0) {
 			struct tm st = {};
 			st.tm_year = _wtoi(substrings[g_pActivePattern->iYear]);
 			st.tm_mon = _wtoi(substrings[g_pActivePattern->iMonth]);
@@ -215,11 +217,11 @@ public:
 			st.tm_hour = _wtoi(substrings[g_pActivePattern->iHours]);
 			st.tm_min = _wtoi(substrings[g_pActivePattern->iMinutes]);
 			st.tm_sec = (g_pActivePattern->iSeconds) ? _wtoi(substrings[g_pActivePattern->iSeconds]) : 0;
-
+			dbei->timestamp = mktime(&st);
 
 			pcre16_free_substring_list(substrings);
 		}
-		*/
+
 		return 1;
 	}
 
