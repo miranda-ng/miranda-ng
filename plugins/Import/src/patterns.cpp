@@ -76,7 +76,7 @@ void CMPlugin::LoadPattern(const wchar_t *pwszFileName)
 	int erroffset;
 	const char *err;
 	if (GetPrivateProfileStringW(L"Message", L"Pattern", L"", buf, _countof(buf), pwszFileName)) {
-		if ((pNew->regMessage.pattern = pcre16_compile(buf, PCRE_NO_UTF16_CHECK | PCRE_MULTILINE, &err, &erroffset, nullptr)) == nullptr)
+		if ((pNew->regMessage.pattern = pcre16_compile(buf, PCRE_MULTILINE, &err, &erroffset, nullptr)) == nullptr)
 			return;
 		pNew->regMessage.extra = pcre16_study(pNew->regMessage.pattern, 0, &err);
 	}
@@ -130,6 +130,8 @@ public:
 
 	~CDbxPattern()
 	{
+		mir_free(m_pwszText);
+
 		if (m_hMap != nullptr)
 			::CloseHandle(m_hMap);
 
@@ -157,12 +159,12 @@ public:
 		int iLen = (int)mir_wstrlen(m_pwszText);
 		for (int iOffset = 0;  iOffset < iLen; ) {
 			int offsets[99];
-			int nMatch = pcre16_exec(g_pActivePattern->regMessage.pattern, g_pActivePattern->regMessage.extra, m_pwszText, iLen, iOffset, 0, offsets, _countof(offsets));
+			int nMatch = pcre16_exec(g_pActivePattern->regMessage.pattern, g_pActivePattern->regMessage.extra, m_pwszText, iLen, iOffset, PCRE_NEWLINE_ANYCRLF, offsets, _countof(offsets));
 			if (nMatch <= 0)
 				break;
 
-			m_events.push_back(iOffset);
-			iOffset += nMatch;
+			m_events.push_back(offsets[0]);
+			iOffset = offsets[1];
 		}
 	}
 
