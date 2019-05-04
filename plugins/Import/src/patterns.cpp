@@ -169,6 +169,9 @@ public:
 			iOffset = offsets[1];
 		}
 
+		if (m_pFile != nullptr)
+			::UnmapViewOfFile(m_pFile);
+
 		if (m_hMap != nullptr)
 			::CloseHandle(m_hMap);
 
