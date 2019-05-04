@@ -1812,7 +1812,7 @@ void CJabberProto::OmemoAnnounceDevice()
 	XmlNodeIq iq("set", SerialNext());
 	iq << XATTR("from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof_portable(szBareJid)));
 	TiXmlElement *publish_node = iq << XCHILDNS("pubsub", "http://jabber.org/protocol/pubsub") << XCHILD("publish") << XATTR("node", JABBER_FEAT_OMEMO ".devicelist");
-	TiXmlElement *list_node = publish_node << XCHILDNS("item") << XCHILDNS("list", JABBER_FEAT_OMEMO);
+	TiXmlElement *list_node = publish_node << XCHILD("item") << XCHILDNS("list", JABBER_FEAT_OMEMO);
 
 	for (int i = 0; ; ++i) {
 		mir_snprintf(setting_name, "OmemoDeviceId%d", i);

@@ -162,7 +162,7 @@ struct XCHILDNS
 {
 	const char *name, *ns;
 
-	__forceinline XCHILDNS(const char *_name, const char *_ns = nullptr) :
+	__forceinline XCHILDNS(const char *_name, const char *_ns) :
 		name(_name),
 		ns(_ns)
 		{}
