@@ -151,17 +151,7 @@ public:
 	}
 
 	// mcontacts format always store history for one contact only
-	STDMETHODIMP_(LONG) GetContactCount(void) override
-	{
-		return 1;
-	}
-
-	STDMETHODIMP_(LONG) GetEventCount(MCONTACT) override
-	{
-		return (LONG)m_events.size();
-	}
-
-	STDMETHODIMP_(BOOL) GetEvent(MEVENT dwOffset, DBEVENTINFO *dbei) override
+	STDMETHODIMP_(LONG) GetBlobSize(MEVENT dwOffset) override
 	{
 		if (INVALID_SET_FILE_POINTER == SetFilePointer(m_hFile, dwOffset, 0, FILE_BEGIN))
 			return 0;
@@ -178,9 +168,49 @@ public:
 			r = ReadFile(m_hFile, &hdr, sizeof(hdr), &dwRead, 0);
 			if (!r || dwRead != sizeof(hdr))
 				return 0;
+			return hdr.cbBlob+1;
+		}
+		if (dwSize == sizeof(MC_MsgHeader64)) {
+			MC_MsgHeader64 hdr;
+			r = ReadFile(m_hFile, &hdr, sizeof(hdr), &dwRead, 0);
+			if (!r || dwRead != sizeof(hdr))
+				return 0;
+			return hdr.cbBlob+1;
+		}
+		return 0;
+	}
+
+	STDMETHODIMP_(LONG) GetContactCount(void) override
+	{
+		return 1;
+	}
+
+	STDMETHODIMP_(LONG) GetEventCount(MCONTACT) override
+	{
+		return (LONG)m_events.size();
+	}
+
+	STDMETHODIMP_(BOOL) GetEvent(MEVENT dwOffset, DBEVENTINFO *dbei) override
+	{
+		if (INVALID_SET_FILE_POINTER == SetFilePointer(m_hFile, dwOffset, 0, FILE_BEGIN))
+			return 1;
+
+		DWORD dwRead, dwSize;
+		BOOL r = ReadFile(m_hFile, &dwSize, sizeof(dwSize), &dwRead, nullptr);
+		if (!r || dwRead != sizeof(dwSize))
+			return 1;
+
+		SetFilePointer(m_hFile, -4, 0, FILE_CURRENT);
+
+		int cbLen;
+		if (dwSize == sizeof(MC_MsgHeader32)) {
+			MC_MsgHeader32 hdr;
+			r = ReadFile(m_hFile, &hdr, sizeof(hdr), &dwRead, 0);
+			if (!r || dwRead != sizeof(hdr))
+				return 1;
 
 			dbei->eventType = hdr.eventType;
-			dbei->cbBlob = hdr.cbBlob;
+			cbLen = hdr.cbBlob;
 			dbei->flags = hdr.flags;
 			dbei->timestamp = hdr.timestamp;
 		}
@@ -188,24 +218,22 @@ public:
 			MC_MsgHeader64 hdr;
 			r = ReadFile(m_hFile, &hdr, sizeof(hdr), &dwRead, 0);
 			if (!r || dwRead != sizeof(hdr))
-				return 0;
+				return 1;
 
 			dbei->eventType = hdr.eventType;
-			dbei->cbBlob = hdr.cbBlob;
+			cbLen = hdr.cbBlob;
 			dbei->flags = hdr.flags;
 			dbei->timestamp = hdr.timestamp;
 		}
-		else return 0;
+		else return 1;
 
-		if (dbei->cbBlob) {
-			dbei->pBlob = (PBYTE)mir_alloc(dbei->cbBlob + 1);
-			if (!ReadFile(m_hFile, dbei->pBlob, dbei->cbBlob, &dwRead, 0) || dwRead != dbei->cbBlob) {
-				mir_free(dbei->pBlob);
-				dbei->pBlob = 0;
+		if (dbei->cbBlob && cbLen) {
+			int copySize = min(cbLen, dbei->cbBlob-1);
+			if (!ReadFile(m_hFile, dbei->pBlob, copySize, &dwRead, 0) || dwRead != copySize)
 				return 0;
-			}
 
-			dbei->pBlob[dbei->cbBlob] = 0;
+			dbei->cbBlob = copySize;
+			dbei->pBlob[copySize] = 0;
 		}
 
 		return 0;
