@@ -87,13 +87,20 @@ void CMPlugin::LoadPattern(const wchar_t *pwszFileName)
 	if (GetPrivateProfileStringW(L"Message", L"Out", L"", buf, _countof(buf), pwszFileName))
 		pNew->wszOutgoing = buf;
 
-	pNew->iDirection = GetPrivateProfileIntW(L"General", L"Direction", 0, pwszFileName);
-	pNew->iDay = GetPrivateProfileIntW(L"General", L"Day", 0, pwszFileName);
-	pNew->iMonth = GetPrivateProfileIntW(L"General", L"Month", 0, pwszFileName);
-	pNew->iYear = GetPrivateProfileIntW(L"General", L"Year", 0, pwszFileName);
-	pNew->iHours = GetPrivateProfileIntW(L"General", L"Hours", 0, pwszFileName);
-	pNew->iMinutes = GetPrivateProfileIntW(L"General", L"Minutes", 0, pwszFileName);
-	pNew->iSeconds = GetPrivateProfileIntW(L"General", L"Seconds", 0, pwszFileName);
+	pNew->iDirection = GetPrivateProfileIntW(L"Message", L"Direction", 0, pwszFileName);
+	pNew->iDay = GetPrivateProfileIntW(L"Message", L"Day", 0, pwszFileName);
+	pNew->iMonth = GetPrivateProfileIntW(L"Message", L"Month", 0, pwszFileName);
+	pNew->iYear = GetPrivateProfileIntW(L"Message", L"Year", 0, pwszFileName);
+	pNew->iHours = GetPrivateProfileIntW(L"Message", L"Hours", 0, pwszFileName);
+	pNew->iMinutes = GetPrivateProfileIntW(L"Message", L"Minutes", 0, pwszFileName);
+	pNew->iSeconds = GetPrivateProfileIntW(L"Message", L"Seconds", 0, pwszFileName);
+
+	if (pNew->iUsePreMsg) {
+		pNew->preRN = GetPrivateProfileIntW(L"PreMessage", L"PreRN", -1, pwszFileName);
+		pNew->preSP = GetPrivateProfileIntW(L"PreMessage", L"PreSP", 0, pwszFileName);
+		pNew->afterRN = GetPrivateProfileIntW(L"PreMessage", L"AfterRN", -1, pwszFileName);
+		pNew->afterSP = GetPrivateProfileIntW(L"PreMessage", L"AfterSP", 0, pwszFileName);
+	}
 
 	if (pNew->iUseFilename) {
 		if (!GetPrivateProfileStringW(L"FileName", L"Pattern", L"", buf, _countof(buf), pwszFileName))
@@ -122,7 +129,6 @@ class CDbxPattern : public MDatabaseReadonly, public MZeroedObject
 	CMStringW m_buf;
 
 	std::vector<DWORD> m_events;
-	std::vector<DWORD>::iterator m_curr;
 
 public:
 	CDbxPattern()
@@ -130,15 +136,13 @@ public:
 
 	~CDbxPattern()
 	{
-		if (m_hMap != nullptr)
-			::CloseHandle(m_hMap);
-
-		if (m_hFile != INVALID_HANDLE_VALUE)
-			::CloseHandle(m_hFile);
 	}
 
 	void Load()
 	{
+		// mcontacts operates with the only contact with pseudo id=1
+		m_cache->AddContactToCache(1);
+
 		switch (g_pActivePattern->iCodePage) {
 		case CP_UTF8:
 			m_buf = mir_utf8decodeW(m_pFile);
@@ -164,6 +168,12 @@ public:
 			m_events.push_back(offsets[0]);
 			iOffset = offsets[1];
 		}
+
+		if (m_hMap != nullptr)
+			::CloseHandle(m_hMap);
+
+		if (m_hFile != INVALID_HANDLE_VALUE)
+			::CloseHandle(m_hFile);
 	}
 
 	int Open(const wchar_t *profile)
@@ -190,7 +200,17 @@ public:
 		return EGROKPRF_NOERROR;
 	}
 	
-	// mcontacts format always store history for one contact only
+	// patterns file always stores history for the single contact only
+	STDMETHODIMP_(LONG) GetBlobSize(MEVENT idx) override
+	{
+		if (m_events.size() == 0 || idx < 1 || idx > m_events.size())
+			return 0;
+
+		int iStart = m_events[idx-1], iEnd = (idx == m_events.size()) ? m_buf.GetLength() : m_events[idx];
+		CMStringW msg = m_buf.Mid(iStart, iEnd - iStart);
+		return (LONG)mir_strlen(ptrA(mir_utf8encodeW(msg))) + 1;
+	}
+	
 	STDMETHODIMP_(LONG) GetContactCount(void) override
 	{
 		return 1;
@@ -201,58 +221,103 @@ public:
 		return (LONG)m_events.size();
 	}
 
-	STDMETHODIMP_(BOOL) GetEvent(MEVENT dwOffset, DBEVENTINFO *dbei) override
+	////////////////////////////////////////////////////////////////////////////////////////
+
+	static int str2int(const wchar_t* str)
 	{
+		if (str == nullptr || *str == 0)
+			return 0;
+
+		return _wtoi(str);
+	}
+
+	STDMETHODIMP_(BOOL) GetEvent(MEVENT idx, DBEVENTINFO *dbei) override
+	{
+		if (m_events.size() == 0 || idx < 1 || idx > m_events.size())
+			return 1;
+
 		int offsets[99];
-		int nMatch = pcre16_exec(g_pActivePattern->regMessage.pattern, g_pActivePattern->regMessage.extra, m_buf, m_buf.GetLength(), dwOffset, PCRE_NEWLINE_ANYCRLF, offsets, _countof(offsets));
+		int nMatch = pcre16_exec(g_pActivePattern->regMessage.pattern, g_pActivePattern->regMessage.extra, m_buf, m_buf.GetLength(), m_events[idx - 1], PCRE_NEWLINE_ANYCRLF, offsets, _countof(offsets));
 		if (nMatch <= 0)
 			return 1;
 
-		const wchar_t** substrings;
+		dbei->eventType = EVENTTYPE_MESSAGE;
+		dbei->flags = DBEF_READ | DBEF_UTF;
+
+		int h1 = offsets[1], h2 = (idx == m_events.size()) ? m_buf.GetLength() : m_events[idx];
+		int prn = -1, arn = -1;
+		if (g_pActivePattern->iUsePreMsg)
+			prn = g_pActivePattern->preRN, arn = g_pActivePattern->afterRN;
+
+		if (prn != 0) {
+			int i = 0;
+			while (m_buf[h1] == '\r' && m_buf[h1 + 1] == '\n' && i < prn)
+				h1 += 2, i++;
+		}
+
+		if (arn != 0) {
+			int i = 0;
+			while (m_buf[h2-2] == '\r' && m_buf[h2 - 1] == '\n' && i < arn)
+				h2 -= 2, i++;
+		}
+
+		if (dbei->cbBlob) {
+			CMStringW wszBody = m_buf.Mid(h1, h2-h1).Trim();
+			if (!wszBody.IsEmpty()) {
+				ptrA tmp(mir_utf8encodeW(wszBody));
+				int copySize = min(dbei->cbBlob - 1, (int)mir_strlen(tmp));
+				memcpy(dbei->pBlob, tmp, copySize);
+				dbei->pBlob[copySize] = 0;
+				dbei->cbBlob = copySize;
+			}
+			else dbei->cbBlob = 0;
+		}
+
+		const wchar_t **substrings;
 		if (pcre16_get_substring_list(m_buf, offsets, nMatch, &substrings) >= 0) {
 			struct tm st = {};
-			st.tm_year = _wtoi(substrings[g_pActivePattern->iYear]);
-			st.tm_mon = _wtoi(substrings[g_pActivePattern->iMonth]);
-			st.tm_mday = _wtoi(substrings[g_pActivePattern->iDay]);
-			st.tm_hour = _wtoi(substrings[g_pActivePattern->iHours]);
-			st.tm_min = _wtoi(substrings[g_pActivePattern->iMinutes]);
-			st.tm_sec = (g_pActivePattern->iSeconds) ? _wtoi(substrings[g_pActivePattern->iSeconds]) : 0;
+			st.tm_year = str2int(substrings[g_pActivePattern->iYear]);
+			if (st.tm_year > 1900)
+				st.tm_year -= 1900;
+			st.tm_mon = str2int(substrings[g_pActivePattern->iMonth]) - 1;
+			st.tm_mday = str2int(substrings[g_pActivePattern->iDay]);
+			st.tm_hour = str2int(substrings[g_pActivePattern->iHours]);
+			st.tm_min = str2int(substrings[g_pActivePattern->iMinutes]);
+			st.tm_sec = (g_pActivePattern->iSeconds) ? str2int(substrings[g_pActivePattern->iSeconds]) : 0;
 			dbei->timestamp = mktime(&st);
+
+			if (g_pActivePattern->iDirection)
+				if (g_pActivePattern->wszOutgoing == substrings[g_pActivePattern->iDirection])
+					dbei->flags |= DBEF_SENT;
+
 
 			pcre16_free_substring_list(substrings);
 		}
 
-		return 1;
+		return 0;
 	}
 
 	STDMETHODIMP_(MEVENT) FindFirstEvent(MCONTACT) override
 	{
-		m_curr = m_events.begin();
-		return *m_curr;
+		return m_events.size() > 0 ? 1 : 0;
 	}
 
-	STDMETHODIMP_(MEVENT) FindNextEvent(MCONTACT, MEVENT) override
+	STDMETHODIMP_(MEVENT) FindNextEvent(MCONTACT, MEVENT idx) override
 	{
-		if (m_curr == m_events.end())
+		if (idx >= m_events.size())
 			return 0;
 
-		++m_curr;
-		return *m_curr;
+		return idx + 1;
 	}
 
 	STDMETHODIMP_(MEVENT) FindLastEvent(MCONTACT) override
 	{
-		m_curr = m_events.end();
-		return *m_curr;
+		return m_events.size() > 0 ? (MEVENT)m_events.size() : 0;
 	}
 
-	STDMETHODIMP_(MEVENT) FindPrevEvent(MCONTACT, MEVENT) override
+	STDMETHODIMP_(MEVENT) FindPrevEvent(MCONTACT, MEVENT idx) override
 	{
-		if (m_curr == m_events.begin())
-			return 0;
-
-		--m_curr;
-		return *m_curr;
+		return (idx >= 1) ? idx - 1 : 0;
 	}
 };
 

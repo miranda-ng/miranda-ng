@@ -80,6 +80,9 @@ struct CImportPattern : public MZeroedObject
 
 	CRegexp regFilename;
 	int iInNick, iInUID, iOutNick, iOutUID;
+
+	// symbols pre & after a messages
+	int preRN, afterRN, preSP, afterSP;
 };
 
 struct CMPlugin : public PLUGIN<CMPlugin>
