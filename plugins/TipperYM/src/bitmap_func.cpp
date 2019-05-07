@@ -374,7 +374,7 @@ void CreateSkinBitmap(int iWidth, int iHeight, bool bServiceTip)
 	bi.bmiHeader.biPlanes = 1;
 	bi.bmiHeader.biBitCount = 32;
 	bi.bmiHeader.biCompression = BI_RGB;
-	skin.hBitmap = (HBITMAP)CreateDIBSection(nullptr, &bi, DIB_RGB_COLORS, (void **)&skin.colBits, nullptr, 0);
+	skin.hBitmap = CreateDIBSection(nullptr, &bi, DIB_RGB_COLORS, (void **)&skin.colBits, nullptr, 0);
 	if (!skin.hBitmap)
 		return;
 
@@ -413,28 +413,19 @@ COLOR32* SaveAlpha(LPRECT lpRect)
 {
 	GdiFlush();
 
-	if (lpRect->left < 0) lpRect->left = 0;
-	if (lpRect->top < 0) lpRect->top = 0;
-	if (lpRect->right - lpRect->left > skin.iWidth) lpRect->right = lpRect->left + skin.iWidth;
-	if (lpRect->bottom - lpRect->top > skin.iHeight) lpRect->bottom = lpRect->top + skin.iHeight;
+	RECT rc, rcSkin = { 0, 0, skin.iWidth, skin.iHeight };
+	IntersectRect(&rc, lpRect, &rcSkin);
 
-	int x = lpRect->left;
-	int y = lpRect->top;
-	int w = lpRect->right - lpRect->left;
-	int h = lpRect->bottom - lpRect->top;
+	int w = rc.right - rc.left;
+	int h = rc.bottom - rc.top;
 
 	COLOR32 *res = (COLOR32 *)mir_alloc(sizeof(COLOR32) * w * h);
 	COLOR32 *p1 = res;
 
 	for (int i = 0; i < h; i++) {
-		if (i + y < 0) continue;
-		if (i + y >= skin.iHeight) break;
-		COLOR32 *p2 = skin.colBits + (y + i)*skin.iWidth + x;
-		for (int j = 0; j < w; j++) {
-			if (j + x < 0) continue;
-			if (j + x >= skin.iWidth) break;
+		COLOR32 *p2 = skin.colBits + (rc.top + i)*skin.iWidth + rc.left;
+		for (int j = 0; j < w; j++)
 			*p1++ = *p2++;
-		}
 	}
 	return res;
 }
@@ -443,26 +434,16 @@ void RestoreAlpha(LPRECT lpRect, COLOR32 *pBits, BYTE alpha)
 {
 	GdiFlush();
 
-	if (lpRect->left < 0) lpRect->left = 0;
-	if (lpRect->top < 0) lpRect->top = 0;
-	if (lpRect->right > skin.iWidth) lpRect->right = skin.iWidth;
-	if (lpRect->bottom > skin.iHeight) lpRect->bottom = skin.iHeight;
+	RECT rc, rcSkin = { 0, 0, skin.iWidth, skin.iHeight };
+	IntersectRect(&rc, lpRect, &rcSkin);
 
-	int x = lpRect->left;
-	int y = lpRect->top;
-	int w = lpRect->right - lpRect->left;
-	int h = lpRect->bottom - lpRect->top;
+	int w = rc.right - rc.left;
+	int h = rc.bottom - rc.top;
 
 	COLOR32 *p1 = pBits;
-
 	for (int i = 0; i < h; i++) {
-		if (i + y < 0) continue;
-		if (i + y >= skin.iHeight) break;
-		COLOR32 *p2 = skin.colBits + (y + i)*skin.iWidth + x;
+		COLOR32 *p2 = skin.colBits + (rc.top + i)*skin.iWidth + rc.left;
 		for (int j = 0; j < w; j++) {
-			if (j + x < 0) continue;
-			if (j + x >= skin.iWidth) break;
-
 			if ((*p1 & 0x00ffffff) != (*p2 & 0x00ffffff))
 				*p2 |= (alpha << 24);
 			else

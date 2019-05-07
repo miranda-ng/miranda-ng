@@ -555,7 +555,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				// title text
 				if (opt.bShowTitle) {
-					if (hFontTitle) SelectObject(hdc, (HGDIOBJ)hFontTitle);
+					if (hFontTitle)
+						SelectObject(hdc, (HGDIOBJ)hFontTitle);
 					SetTextColor(hdc, opt.colTitle);
 					tr.top = opt.iPadding;
 					tr.bottom = tr.top + pwd->iTitleHeight - opt.iPadding;
@@ -619,11 +620,13 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					tr.bottom = tr.top + iRowHeight;
 
 					if (pwd->bIsTrayTip && pwd->rows[i].bIsTitle) {
-						if (hFontTrayTitle) SelectObject(hdc, (HGDIOBJ)hFontTrayTitle);
+						if (hFontTrayTitle)
+							SelectObject(hdc, (HGDIOBJ)hFontTrayTitle);
 						SetTextColor(hdc, opt.colTrayTitle);
 					}
 					else {
-						if (hFontLabels) SelectObject(hdc, (HGDIOBJ)hFontLabels);
+						if (hFontLabels)
+							SelectObject(hdc, (HGDIOBJ)hFontLabels);
 						SetTextColor(hdc, opt.colLabel);
 					}
 
