@@ -123,102 +123,79 @@ extern "C"{
 
 */
 
-BOOL	WINAPI InitializeCoolSB(HWND hwnd);
-HRESULT WINAPI UninitializeCoolSB	(HWND hwnd);
-
+BOOL WINAPI InitializeCoolSB(HWND hwnd);
+void WINAPI UninitializeCoolSB(HWND hwnd);
+	
 BOOL WINAPI CoolSB_SetMinThumbSize(HWND hwnd, UINT wBar, UINT size);
 BOOL WINAPI CoolSB_IsThumbTracking(HWND hwnd);
 BOOL WINAPI CoolSB_IsCoolScrollEnabled(HWND hwnd);
-
-//
-BOOL WINAPI CoolSB_EnableScrollBar	(HWND hwnd, int wSBflags, UINT wArrows);
-BOOL WINAPI CoolSB_GetScrollInfo	(HWND hwnd, int fnBar, LPSCROLLINFO lpsi);
-int	 WINAPI CoolSB_GetScrollPos	(HWND hwnd, int nBar);
-BOOL WINAPI CoolSB_GetScrollRange	(HWND hwnd, int nBar, LPINT lpMinPos, LPINT lpMaxPos);
-
-//
-int	 WINAPI CoolSB_SetScrollInfo	(HWND hwnd, int fnBar, LPSCROLLINFO lpsi, BOOL fRedraw);
-int  WINAPI CoolSB_SetScrollPos	(HWND hwnd, int nBar, int nPos, BOOL fRedraw);
-int  WINAPI CoolSB_SetScrollRange	(HWND hwnd, int nBar, int nMinPos, int nMaxPos, BOOL fRedraw);
-BOOL WINAPI CoolSB_ShowScrollBar	(HWND hwnd, int wBar, BOOL fShow);
+	
+//	
+BOOL WINAPI CoolSB_EnableScrollBar(HWND hwnd, int wSBflags, UINT wArrows);
+BOOL WINAPI CoolSB_GetScrollInfo(HWND hwnd, int fnBar, LPSCROLLINFO lpsi);
+int  WINAPI CoolSB_GetScrollPos(HWND hwnd, int nBar);
+BOOL WINAPI CoolSB_GetScrollRange(HWND hwnd, int nBar, LPINT lpMinPos, LPINT lpMaxPos);
+	
+//	
+int  WINAPI CoolSB_SetScrollInfo(HWND hwnd, int fnBar, LPSCROLLINFO lpsi, BOOL fRedraw);
+int  WINAPI CoolSB_SetScrollPos(HWND hwnd, int nBar, int nPos, BOOL fRedraw);
+int  WINAPI CoolSB_SetScrollRange(HWND hwnd, int nBar, int nMinPos, int nMaxPos, BOOL fRedraw);
+BOOL WINAPI CoolSB_ShowScrollBar(HWND hwnd, int wBar, BOOL fShow);
 
 //
 // Scrollbar dimension functions
 //
-BOOL WINAPI CoolSB_SetSize			(HWND hwnd, int wBar, int nLength, int nWidth);
+BOOL WINAPI CoolSB_SetSize(HWND hwnd, int wBar, int nLength, int nWidth);
 
 //
 // Set the visual nature of a scrollbar (flat, normal etc)
 //
-BOOL WINAPI CoolSB_SetStyle		(HWND hwnd, int wBar, UINT nStyle);
-BOOL WINAPI CoolSB_SetThumbAlways	(HWND hwnd, int wBar, BOOL fThumbAlways);
+BOOL WINAPI CoolSB_SetStyle(HWND hwnd, int wBar, UINT nStyle);
+BOOL WINAPI CoolSB_SetThumbAlways(HWND hwnd, int wBar, BOOL fThumbAlways);
 
 //
 //	Scrollbar button structure, for inserted buttons only
 //
-typedef struct 
+struct SCROLLBUT
 {
-	UINT			fMask;			//which members are in use
-	UINT			uPlacement;		//is this button to the left/right (above/below) of the scrollbar??
-	UINT			uCmdId;			//command identifier (WM_COMMAND value to send)
-	UINT			uButType;		//
-	UINT			uState;			//toggled etc
-	int				nSize;			//size in pixels. -1 for autosize
+	UINT fMask;         // which members are in use
+	UINT uPlacement;    // is this button to the left/right (above/below) of the scrollbar??
+	UINT uCmdId;        // command identifier (WM_COMMAND value to send)
+	UINT uButType;
+	UINT uState;        // toggled etc
+	int  nSize;	        // size in pixels. -1 for autosize
 	
-	HBITMAP			hBmp;			//handle to a bitmap to use as the button face
-	HENHMETAFILE	hEmf;			//handle to an enhanced metafile
+	HBITMAP hBmp; // handle to a bitmap to use as the button face
+	HENHMETAFILE hEmf; // handle to an enhanced metafile
 	
-	HCURSOR			hCurs;			//handle to a user-supplied mouse cursor to apply
-									//to this button
+	HCURSOR hCurs; // handle to a user-supplied mouse cursor to apply
+	               // to this button
 
-	int				nSizeReserved;	//internal variable used for resizing
-	int				nMinSize;		//min size
-	int				nMaxSize;		//max size
+	int nSizeReserved; // internal variable used for resizing
+	int nMinSize; // min size
+	int nMaxSize; // max size
+};
 
-} SCROLLBUT;
-
-BOOL WINAPI CoolSB_InsertButton(HWND hwnd, int wSBflags, UINT nPos,  SCROLLBUT *psb);
-BOOL WINAPI CoolSB_ModifyButton(HWND hwnd, int wSBflags, UINT uItem, BOOL fByCmd, SCROLLBUT *psb);
-BOOL WINAPI CoolSB_RemoveButton(HWND hwnd, int wSBflags, UINT uItem, BOOL fByCmd);
-BOOL WINAPI CoolSB_GetButton   (HWND hwnd, int wSBflags, UINT uItem, BOOL fByCmd, SCROLLBUT *psb);
-
-void WINAPI CoolSB_SetESBProc(void *proc);
-
-typedef struct
+struct NMCSBCUSTOMDRAW
 {
 	NMHDR	hdr;
-	DWORD   dwDrawStage;
-	HDC		hdc;
-	RECT	rect;
-	UINT	uItem;
-	UINT	uState;
-	UINT	nBar;
-	
-} NMCSBCUSTOMDRAW;
+	DWORD dwDrawStage;
+	HDC   hdc;
+	RECT  rect;
+	UINT  uItem;
+	UINT  uState;
+	UINT  nBar;
+};
 
-typedef struct
+struct NMCOOLBUTMSG
 {
-	NMHDR	hdr;
-	RECT	rect;
-	POINT	pt;
-	UINT	uCmdId;
-	UINT	uState;
-	int		nBar;
-} NMCOOLBUTMSG;
-
-/*
-typedef struct
-{
-	NMHDR	hdr;
-	DWORD   dwDrawStage;
-	HDC		hdc;
-	RECT	rect;
-	UINT	uCmdId;
-	UINT	uState;
-
-} NMCOOLBUTTON_CUSTOMDRAW;
-*/
-
+	NMHDR hdr;
+	RECT  rect;
+	POINT pt;
+	UINT  uCmdId;
+	UINT  uState;
+	int   nBar;
+};
 
 //
 //	Define the WM_NOTIFY code value for cool-scrollbar custom drawing

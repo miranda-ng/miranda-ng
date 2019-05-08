@@ -478,54 +478,6 @@ BOOL GetScrollRect(SCROLLWND *sw, UINT nBar, HWND hwnd, RECT *rect)
 }
 
 //
-//	This code is a prime candidate for splitting out into a separate
-//  file at some stage
-//
-#ifdef INCLUDE_BUTTONS
-
-//
-//	Calculate the size in pixels of the specified button
-//
-static int GetSingleButSize(SCROLLBAR *sbar, SCROLLBUT *sbut)
-{
-	//multiple of the system button size
-	//or a specific button size
-	if (sbut->nSize < 0)
-	{
-		if (sbar->nBarType == SB_HORZ)
-			return -sbut->nSize * GetSystemMetrics(SM_CXHSCROLL);
-		else 
-			return -sbut->nSize * GetSystemMetrics(SM_CYVSCROLL);
-	}
-	else
-		return  sbut->nSize;
-}
-
-//
-//	Find the size in pixels of all the inserted buttons,
-//	either before or after the specified scrollbar
-//
-static int GetButtonSize(SCROLLBAR *sbar, HWND hwnd, UINT uBeforeAfter)
-{
-	int i;
-	int nPixels = 0;
-
-	SCROLLBUT *sbut = sbar->sbButtons;
-	
-	for (i = 0; i < sbar->nButtons; i++)
-	{
-		//only consider those buttons on the same side as nTopBottom says
-		if (sbut[i].uPlacement == uBeforeAfter)
-		{
-			nPixels += GetSingleButSize(sbar, &sbut[i]);
-		}
-	}
-
-	return nPixels;
-}
-#endif //INCLUDE_BUTTONS
-
-//
 //	Work out the scrollbar width/height for either type of scrollbar (SB_HORZ/SB_VERT)
 //	rect - coords of the scrollbar.
 //	store results into *thumbsize and *thumbpos
@@ -1076,287 +1028,6 @@ static LRESULT NCDrawScrollbar(SCROLLBAR *sb, HWND hwnd, HDC hdc, const RECT *re
 		return NCDrawVScrollbar(sb, hwnd, hdc, rect, uDrawFlags);
 }
 
-#ifdef INCLUDE_BUTTONS
-
-//
-//	Draw the specified bitmap centered in the rectangle
-//
-static void DrawImage(HDC hdc, HBITMAP hBitmap, RECT *rc)
-{
-	BITMAP bm;
-	int cx;
-	int cy;   
-	HDC memdc;
-	HBITMAP hOldBM;
-	RECT  rcDest = *rc;   
-	POINT p;
-	SIZE  delta;
-	COLORREF colorOld;
-
-	if (hBitmap == NULL) 
-		return;
-
-	// center bitmap in caller's rectangle   
-	GetObject(hBitmap, sizeof bm, &bm);   
-	
-	cx = bm.bmWidth;
-	cy = bm.bmHeight;
-
-	delta.cx = (rc->right-rc->left - cx) / 2;
-	delta.cy = (rc->bottom-rc->top - cy) / 2;
-	
-	if (rc->right-rc->left > cx)
-	{
-		SetRect(&rcDest, rc->left+delta.cx, rc->top + delta.cy, 0, 0);   
-		rcDest.right = rcDest.left + cx;
-		rcDest.bottom = rcDest.top + cy;
-		p.x = 0;
-		p.y = 0;
-	}
-	else
-	{
-		p.x = -delta.cx;   
-		p.y = -delta.cy;
-	}
-   
-	// select checkmark into memory DC
-	memdc = CreateCompatibleDC(hdc);
-	hOldBM = (HBITMAP)SelectObject(memdc, hBitmap);
-   
-	// set BG color based on selected state   
-	colorOld = SetBkColor(hdc, GetSysColor(COLOR_3DFACE));
-
-	BitBlt(hdc, rcDest.left, rcDest.top, rcDest.right-rcDest.left, rcDest.bottom-rcDest.top, memdc, p.x, p.y, SRCCOPY);
-
-	// restore
-	SetBkColor(hdc, colorOld);
-	SelectObject(memdc, hOldBM);
-	DeleteDC(memdc);
-}
-
-//
-// Draw the specified metafile
-//
-static void DrawMetaFile(HDC hdc, HENHMETAFILE hemf, RECT *rect)
-{
-	RECT rc;
-	POINT pt;
-
-	SetRect(&rc, 0, 0, rect->right-rect->left, rect->bottom-rect->top);
-	SetWindowOrgEx(hdc, -rect->left, -rect->top, &pt);
-	PlayEnhMetaFile(hdc, hemf, &rc);
-	SetWindowOrgEx(hdc, pt.x, pt.y, 0);
-}
-
-//
-//	Draw a single scrollbar inserted button, in whatever style
-//	it has been defined to use.	
-//
-static UINT DrawScrollButton(SCROLLBUT *sbut, HDC hdc, const RECT *pctrl, UINT flags)
-{
-	NMCSBCUSTOMDRAW	nmcd;
-	HWND hwnd;
-	RECT rect = *pctrl;
-	UINT f;
-
-	switch(sbut->uButType & SBBT_MASK)
-	{
-	case SBBT_OWNERDRAW:
-
-		hwnd = WindowFromDC(hdc);
-
-		//fill in the standard header
-		nmcd.hdr.hwndFrom = hwnd;
-		nmcd.hdr.idFrom   = GetWindowLongPtr(hwnd, GWLP_ID);
-		nmcd.hdr.code     = NM_COOLSB_CUSTOMDRAW;
-
-		nmcd.dwDrawStage  = CDDS_ITEMPREPAINT;
-		nmcd.nBar		  = SB_INSBUT;
-		nmcd.rect		  = *pctrl;
-		nmcd.uItem		  = sbut->uCmdId;
-		nmcd.hdc		  = hdc;
-		nmcd.uState		  = flags;
-
-		IntersectClipRect(hdc, rect.left, rect.top, rect.right, rect.bottom);
-		SendMessage(GetParent(hwnd), WM_NOTIFY, nmcd.hdr.idFrom, (LPARAM)&nmcd);
-		SelectClipRgn(hdc, NULL);
-
-		break;
-
-	case SBBT_FIXED:
-		flags &= ~SBBS_PUSHED;
-
-	case SBBT_TOGGLEBUTTON:
-		if (sbut->uState != SBBS_NORMAL)
-			flags |= SBBS_PUSHED;
-
-		__fallthrough;
-
-	case SBBT_PUSHBUTTON: 
-		
-		f = flags & SBBS_PUSHED ? DFCS_PUSHED | DFCS_FLAT : 0;
-		if (sbut->uButType & SBBM_LEFTARROW)
-		{
-			DrawFrameControl(hdc, &rect, DFC_SCROLL, DFCS_SCROLLLEFT | f);
-		}
-		else if (sbut->uButType & SBBM_RIGHTARROW)
-		{
-			DrawFrameControl(hdc, &rect, DFC_SCROLL, DFCS_SCROLLRIGHT | f);
-		}
-		else if (sbut->uButType & SBBM_UPARROW)
-		{
-			DrawFrameControl(hdc, &rect, DFC_SCROLL, DFCS_SCROLLUP | f);
-		}
-		else if (sbut->uButType & SBBM_DOWNARROW)
-		{
-			DrawFrameControl(hdc, &rect, DFC_SCROLL, DFCS_SCROLLDOWN | f);
-		}
-		else
-		{
-			//
-			if (flags & SBBS_PUSHED)
-			{
-				if (sbut->uButType & SBBM_RECESSED)
-				{
-					InflateRect(&rect, -1, -1);
-					DrawEdge(hdc, &rect, EDGE_SUNKEN, BF_RECT|BF_FLAT);
-					InflateRect(&rect, 1, 1);
-
-					FrameRect(hdc, &rect, GetSysColorBrush(COLOR_3DDKSHADOW));
-					InflateRect(&rect, -2, -2);
-				}
-				else
-				{
-					DrawEdge(hdc, &rect, EDGE_SUNKEN, BF_RECT | BF_FLAT | BF_ADJUST);
-					InflateRect(&rect, 1, 1);
-				}
-			}
-			else
-			{
-				// draw the button borders
-				if (sbut->uButType & SBBM_TYPE2)
-				{
-					DrawFrameControl(hdc, &rect, DFC_BUTTON, DFCS_BUTTONPUSH);
-					InflateRect(&rect, -2, -2);
-				}
-
-				else if (sbut->uButType & SBBM_TYPE3)
-				{
-					DrawFrameControl(hdc, &rect, DFC_BUTTON, DFCS_BUTTONPUSH);
-					InflateRect(&rect, -1, -1);
-				}
-				else
-				{
-					DrawEdge(hdc, &rect, EDGE_RAISED, BF_RECT | BF_ADJUST);
-					rect.bottom++;
-					rect.right++;
-				}
-			
-				OffsetRect(&rect, -1, -1);
-				rect.top++;	rect.left++;
-			}
-
-			if (sbut->hBmp)
-			{
-				PaintRect(hdc, &rect, GetSysColor(COLOR_3DFACE));
-
-				if (flags & SBBS_PUSHED)	
-				{
-					rect.top++; rect.left++;
-				}
-
-				IntersectClipRect(hdc, rect.left, rect.top, rect.right,rect.bottom);
-				DrawImage(hdc, sbut->hBmp, &rect);
-				SelectClipRgn(hdc, 0);
-			}
-			else if (sbut->hEmf)
-			{
-				PaintRect(hdc, &rect, GetSysColor(COLOR_3DFACE));
-				InflateRect(&rect, -1, -1);		
-
-				if (flags & SBBS_PUSHED)	
-				{
-					rect.top++; rect.left++;
-				}
-
-				IntersectClipRect(hdc, rect.left, rect.top, rect.right,rect.bottom);
-				DrawMetaFile(hdc, sbut->hEmf, &rect);
-				SelectClipRgn(hdc, 0);
-			}
-			else
-			{
-				PaintRect(hdc, &rect, GetSysColor(COLOR_3DFACE));
-			}
-		}
-			
-
-		break;
-
-	case SBBT_BLANK:
-		PaintRect(hdc, &rect, GetSysColor(COLOR_3DFACE));
-		break;
-
-	case SBBT_FLAT:
-		DrawBlankButton(hdc, &rect, BF_FLAT);
-		break;
-
-	case SBBT_DARK:
-		PaintRect(hdc, &rect, GetSysColor(COLOR_3DDKSHADOW));
-		break;
-	}
-	
-	return 0;
-}
-
-//
-//	Draw any buttons inserted into the horizontal scrollbar
-//	assume that the button widths have already been calculated
-//	Note: RECT *rect is the rectangle of the scrollbar
-//	      leftright: 1 = left, 2 = right, 3 = both
-//
-static LRESULT DrawHorzButtons(SCROLLBAR *sbar, HDC hdc, const RECT *rect, int leftright)
-{
-	int i;
-	int xposl, xposr;
-	RECT ctrl;
-	SCROLLBUT *sbut = sbar->sbButtons;
-	
-	xposl = rect->left - sbar->nButSizeBefore;
-	xposr = rect->right;
-	
-	for (i = 0; i < sbar->nButtons; i++)
-	{
-		if ((leftright & SBBP_LEFT) && sbut[i].uPlacement == SBBP_LEFT)
-		{
-			int butwidth = GetSingleButSize(sbar, &sbut[i]);
-			SetRect(&ctrl, xposl, rect->top, xposl + butwidth, rect->bottom);
-			RotateRect0(sbar, &ctrl);
-			DrawScrollButton(&sbut[i], hdc, &ctrl, SBBS_NORMAL);
-			
-			xposl += butwidth;
-		}
-
-		if ((leftright & SBBP_RIGHT) && sbut[i].uPlacement == SBBP_RIGHT)
-		{
-			int butwidth = GetSingleButSize(sbar, &sbut[i]);
-			SetRect(&ctrl, xposr, rect->top, xposr + butwidth, rect->bottom);
-			RotateRect0(sbar, &ctrl);
-			DrawScrollButton(&sbut[i], hdc, &ctrl, SBBS_NORMAL);
-			xposr += butwidth;
-		}
-	}
-	return 0;
-}
-
-static LRESULT DrawVertButtons(SCROLLBAR *sbar, HDC hdc, const RECT *rect, int leftright)
-{
-	RECT rc = *rect;
-	RotateRect(&rc);
-	DrawHorzButtons(sbar, hdc, &rc, leftright);
-	return 0;
-}
-#endif	// INCLUDE_BUTTONS
-
 //
 //	Define these two for proper processing of NCPAINT
 //	NOT needed if we don't bother to mask the scrollbars we draw
@@ -1535,36 +1206,11 @@ static UINT GetHorzPortion(SCROLLBAR *sb, RECT *rect, int x, int y)
 {
 	RECT rc = *rect;
 
-	if (y < rc.top || y >= rc.bottom) return HTSCROLL_NONE;
+	if (y < rc.top || y >= rc.bottom)
+		return HTSCROLL_NONE;
 
-#ifdef INCLUDE_BUTTONS
-
-	if (sb->fButVisibleBefore) 
-	{
-		//clicked on the buttons to the left of the scrollbar
-		if (x >= rc.left && x < rc.left + sb->nButSizeBefore)
-			return HTSCROLL_INSERTED;
-
-		//adjust the rectangle to exclude the left-side buttons, now that we
-		//know we havn't clicked on them
-		rc.left  += sb->nButSizeBefore;
-	}
-
-	if (sb->fButVisibleAfter)
-	{
-		//clicked on the buttons to the right of the scrollbar
-		if (x >= rc.right - sb->nButSizeAfter && x < rc.right)
-			return HTSCROLL_INSERTED;
-
-		//adjust the rectangle to exclude the right-side buttons, now that we
-		//know we havn't clicked on them
-		rc.right -= sb->nButSizeAfter;
-	}
-
-#endif INCLUDE_BUTTONS
-
-	//Now we have the rectangle for the scrollbar itself, so work out
-	//what part we clicked on.
+	// Now we have the rectangle for the scrollbar itself, so work out
+	// what part we clicked on.
 	return GetHorzScrollPortion(sb, &rc, x, y);
 }
 
@@ -1630,172 +1276,6 @@ static void GetRealScrollRect(SCROLLBAR *sb, RECT *rect)
 }
 
 //
-//	All button code shoule be collected together
-//	
-//
-#ifdef INCLUDE_BUTTONS
-
-//
-//	Return the index of the button covering the specified point
-//	rect		- rectangle of the whole scrollbar area
-//	pt			- screen coords of the mouse
-//	fReturnRect - do/don't modify the rect to return the button's area
-//
-static UINT GetHorzButtonFromPt(SCROLLBAR *sb, RECT *rect, POINT pt, BOOL fReturnRect)
-{
-	int leftpos = rect->left, rightpos = rect->right;
-	int i;
-	int butwidth;
-	SCROLLBUT *sbut = sb->sbButtons;
-
-	if ( !PtInRect(rect, pt))
-		return -1;
-
-	if (sb->fButVisibleAfter)
-		rightpos -= sb->nButSizeAfter;
-
-	for (i = 0; i < sb->nButtons; i++)
-	{
-		if (sb->fButVisibleBefore && sbut[i].uPlacement == SBBP_LEFT)
-		{
-			butwidth = GetSingleButSize(sb, &sbut[i]);
-			
-			//if the current button is under the specified point
-			if (pt.x >= leftpos && pt.x < leftpos + butwidth)
-			{
-				//if the caller wants us to return the rectangle of the button
-				if (fReturnRect)
-				{
-					rect->left  = leftpos;
-					rect->right = leftpos + butwidth;
-				}
-
-				return i;
-			}
-
-			leftpos += butwidth;
-		}
-		else if (sb->fButVisibleAfter && sbut[i].uPlacement == SBBP_RIGHT)
-		{
-			butwidth = GetSingleButSize(sb, &sbut[i]);
-
-			//if the current button is under the specified point
-			if (pt.x >= rightpos && pt.x < rightpos + butwidth)
-			{
-				//if the caller wants us to return the rectangle of the button
-				if (fReturnRect)
-				{
-					rect->left  = rightpos;
-					rect->right = rightpos + butwidth;
-				}
-				return i;
-			}
-
-			rightpos += butwidth;
-		}
-	}
-
-	return -1;
-}
-
-
-static UINT GetVertButtonFromPt(SCROLLBAR *sb, RECT *rect, POINT pt, BOOL fReturnRect)
-{
-	UINT ret;
-	int temp;
-	
-	//swap the X/Y coords
-	temp = pt.x;
-	pt.x = pt.y;
-	pt.y = temp;
-
-	//swap the rectangle
-	RotateRect(rect);
-	
-	ret = GetHorzButtonFromPt(sb, rect, pt, fReturnRect);
-
-	RotateRect(rect);
-	return ret;
-}
-
-//
-//
-//
-static UINT GetButtonFromPt(SCROLLBAR *sb, RECT *rect, POINT pt, BOOL fReturnRect)
-{
-	if (sb->nBarType == SB_HORZ)
-	{
-		return GetHorzButtonFromPt(sb, rect, pt, fReturnRect);
-	}
-	else
-	{
-		return GetVertButtonFromPt(sb, rect, pt, fReturnRect);
-	}
-}
-
-//
-//	Find the coordinates (in RECT format) of the specified button index
-//
-static UINT GetHorzButtonRectFromId(SCROLLBAR *sb, RECT *rect, UINT index)
-{
-	UINT i;
-	SCROLLBUT *sbut = sb->sbButtons;
-	int leftpos = rect->left, rightpos = rect->right;
-
-	if (sb->fButVisibleAfter)
-		rightpos -= sb->nButSizeAfter;
-
-	//find the particular button in question
-	for (i = 0; i < index; i++)
-	{
-		if (sb->fButVisibleBefore && sbut[i].uPlacement == SBBP_LEFT)
-		{
-			leftpos += GetSingleButSize(sb, &sbut[i]);
-		}
-		else if (sb->fButVisibleAfter && sbut[i].uPlacement == SBBP_RIGHT)
-		{
-			rightpos += GetSingleButSize(sb, &sbut[i]);
-		}
-	}
-
-	//now return the rectangle
-	if (sbut[i].uPlacement == SBBP_LEFT)
-	{
-		rect->left  = leftpos;
-		rect->right = leftpos + GetSingleButSize(sb, &sbut[i]);
-	}
-	else
-	{
-		rect->left  = rightpos;
-		rect->right = rightpos + GetSingleButSize(sb, &sbut[i]);
-	}
-
-	return 0;
-}
-
-static UINT GetVertButtonRectFromId(SCROLLBAR *sb, RECT *rect, UINT index)
-{
-	UINT ret;
-	RotateRect(rect);
-	ret = GetHorzButtonRectFromId(sb, rect, index);
-	RotateRect(rect);
-	return ret;
-}
-
-static UINT GetButtonRectFromId(SCROLLBAR *sb, RECT *rect, UINT index)
-{
-	if (sb->nBarType == SB_HORZ)
-	{
-		return GetHorzButtonRectFromId(sb, rect, index);
-	}
-	else
-	{
-		return GetVertButtonRectFromId(sb, rect, index);
-	}
-}
-#endif //INCLUDE_BUTTONS	
-
-//
 //	Left button click in the non-client area
 //
 static LRESULT NCLButtonDown(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam)
@@ -1849,38 +1329,7 @@ static LRESULT NCLButtonDown(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lPa
 	// we can now share the same code for vertical
 	// and horizontal scrollbars
 	//
-	switch(uCurrentScrollPortion)
-	{
-	//inserted buttons to the left/right
-#ifdef INCLUDE_BUTTONS
-	case HTSCROLL_INSERTED:  
-
-#ifdef HOT_TRACKING
-		KillTimer(hwnd, uMouseOverId);
-		uMouseOverId = 0;
-		uMouseOverScrollbar = COOLSB_NONE;
-#endif
-
-		//find the index of the button that has been clicked
-		//adjust the rectangle to give the button's rectangle
-		uCurrentButton = GetButtonFromPt(sb, &rect, pt, TRUE);
-
-		sbut = &sb->sbButtons[uCurrentButton];
-		
-		//post a notification message
-		PostMouseNotify(hwnd, NM_CLICK, sb->nBarType, &rect, sbut->uCmdId, pt);
-
-		GetWindowRect(hwnd, &winrect);
-		OffsetRect(&rect, -winrect.left, -winrect.top);
-		hdc = GetWindowDC(hwnd);
-			
-		DrawScrollButton(sbut, hdc, &rect, SBBS_PUSHED);
-
-		ReleaseDC(hwnd, hdc);
-	
-		break;
-#endif	//INCLUDE_BUTTONS
-
+	switch(uCurrentScrollPortion) {
 	case HTSCROLL_THUMB: 
 
 		//if the scrollbar is disabled, then do no further processing
@@ -2019,47 +1468,7 @@ static LRESULT LButtonUp(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam)
 		//we need to do different things depending on if the
 		//user is activating the scrollbar itself, or one of
 		//the inserted buttons
-		switch(uCurrentScrollPortion)
-		{
-#ifdef INCLUDE_BUTTONS
-		//inserted buttons are being clicked
-		case HTSCROLL_INSERTED:
-			
-			//get the rectangle of the ACTIVE button 
-			buttonIdx = GetButtonFromPt(sb, &rect, pt, FALSE);
-			GetButtonRectFromId(sb, &rect, uCurrentButton);
-	
-			OffsetRect(&rect, -winrect.left, -winrect.top);
-
-			//Send the notification BEFORE we redraw, so the
-			//bitmap can be changed smoothly by the user if they require
-			if (uCurrentButton == buttonIdx)
-			{
-				SCROLLBUT *sbut = &sb->sbButtons[buttonIdx];
-				UINT cmdid = sbut->uCmdId;
-				
-				if ((sbut->uButType & SBBT_MASK) == SBBT_TOGGLEBUTTON)
-					sbut->uState ^= 1;
-
-				//send a notify??				
-				//only post a message if the command id is valid
-				if (cmdid != -1 && cmdid > 0)
-					SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(cmdid, CSBN_CLICKED), 0);
-			
-				//user might have deleted this button, so redraw whole area
-				NCPaint(sw, hwnd, 1, 0);
-			}
-			else
-			{
-				//otherwise, just redraw the button in its new state
-				hdc = GetWindowDC(hwnd);
-				DrawScrollButton(&sb->sbButtons[uCurrentButton], hdc, &rect, SBBS_NORMAL);
-				ReleaseDC(hwnd, hdc);
-			}
-	
-			break;
-#endif	// INCLUDE_BUTTONS
-
+		switch(uCurrentScrollPortion) {
 		//The scrollbar is active
 		case HTSCROLL_LEFT:  case HTSCROLL_RIGHT: 
 		case HTSCROLL_PAGELEFT:  case HTSCROLL_PAGERIGHT: 
@@ -2323,101 +1732,6 @@ static LRESULT MouseMove(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam)
 	//user is activating the scrollbar itself, or one of
 	//the inserted buttons
 	switch(uCurrentScrollPortion) {
-#ifdef INCLUDE_BUTTONS
-	//inserted buttons are being clicked
-	case HTSCROLL_INSERTED:
-			
-		//find the index of the button that has been clicked
-		//Don't adjust the rectangle though
-		buttonIdx = GetButtonFromPt(sb, &rect, pt, FALSE);
-						
-		//Get the rectangle of the active button
-		GetButtonRectFromId(sb, &rect, uCurrentButton);
-
-		//if the button to the LEFT of the current 
-		//button is resizable, then resize it
-#ifdef RESIZABLE_BUTTONS
-		if (uCurrentButton > 0)
-		{
-			sbut = &sb->sbButtons[uCurrentButton - 1];
-			
-			//only resize if BOTH buttons are on same side of scrollbar
-			if (sbut->uPlacement == (sbut+1)->uPlacement && (sbut->uButType & SBBM_RESIZABLE))
-			{
-				int oldsize = sbut->nSize;
-				int butsize1, butsize2;
-				RECT rect2;
-				int scrollsize;
-
-				if (uCurrentScrollbar == SB_HORZ)
-				{
-					rect.left -= GetSingleButSize(sb, sbut);
-					sbut->nSize = pt.x - rect.left;
-				}
-				else
-				{
-					rect.top -= GetSingleButSize(sb, sbut);
-					sbut->nSize = pt.y - rect.top;
-				}
-
-				//if (sbut->nSize < 0)	sbut->nSize = 0;
-				if (sbut->nSize < (int)sbut->nMinSize)
-					sbut->nSize = sbut->nMinSize;
-
-				if ((UINT)sbut->nSize > (UINT)sbut->nMaxSize)
-					sbut->nSize = sbut->nMaxSize;
-					
-				GetScrollRect(sw, uCurrentScrollbar, hwnd, &rect2);
-					
-				if (uCurrentScrollbar == SB_HORZ)
-					scrollsize = rect2.right-rect2.left;
-				else
-					scrollsize = rect2.bottom-rect2.top;
-
-				butsize1 = GetButtonSize(sb, hwnd, SBBP_LEFT);
-				butsize2 = GetButtonSize(sb, hwnd, SBBP_RIGHT);
-
-				//adjust the button size if it gets too big
-				if (butsize1 + butsize2 > scrollsize  - MINSCROLLSIZE)
-				{
-					sbut->nSize -= (butsize1+butsize2) - (scrollsize - MINSCROLLSIZE);
-				}
-					
-				//remember what size the USER set the button to
-				sbut->nSizeReserved = sbut->nSize;
-				NCPaint(sw, hwnd, 1, 0);
-				return 0;
-			}
-		}
-#endif	//RESIZABLE_BUTTONS			
-			
-		OffsetRect(&rect, -winrect.left, -winrect.top);
-
-		hdc = GetWindowDC(hwnd);
-			
-		//if the button under the mouse is not the active button,
-		//then display the active button in its normal state
-		if (buttonIdx != uCurrentButton 
-			//include this if toggle buttons always stay depressed
-			//if they are being activated
-			&& (sb->sbButtons[uCurrentButton].uButType & SBBT_MASK) != SBBT_TOGGLEBUTTON)
-		{
-			if (lastbutton != buttonIdx)
-				DrawScrollButton(&sb->sbButtons[uCurrentButton], hdc, &rect, SBBS_NORMAL);
-		}
-		//otherwise, depress the active button if the mouse is over
-		//it (just like a normal scroll button works)
-		else
-		{
-			if (lastbutton != buttonIdx)
-				DrawScrollButton(&sb->sbButtons[uCurrentButton], hdc, &rect, SBBS_PUSHED);
-		}
-
-		ReleaseDC(hwnd, hdc);
-		return mir_callNextSubclass(hwnd, CoolSBWndProc, WM_MOUSEMOVE, wParam, lParam);
-		//break;
-
-#endif	//INCLUDE_BUTTONS
 
 	//The scrollbar is active
 	case HTSCROLL_LEFT:		 case HTSCROLL_RIGHT:case HTSCROLL_THUMB: 
@@ -2454,71 +1768,6 @@ static LRESULT MouseMove(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam)
 	lastbutton  = buttonIdx;
 	return 0;
 }
-
-#ifdef INCLUDE_BUTTONS
-#ifdef RESIZABLE_BUTTONS
-//
-//	Any resizable buttons must be shrunk to fit if the window is made too small
-//
-static void ResizeButtonsToFit(SCROLLWND *sw, SCROLLBAR *sbar, HWND hwnd)
-{
-	int butsize1, butsize2;
-	RECT rc;
-	int scrollsize;
-	int i;
-	SCROLLBUT *sbut;
-
-	//make sure that the scrollbar can fit into space, by
-	//shrinking any resizable buttons
-	GetScrollRect(sw, sbar->nBarType, hwnd, &rc);
-
-	if (sbar->nBarType == SB_HORZ)
-		scrollsize = rc.right-rc.left;
-	else
-		scrollsize = rc.bottom-rc.top;
-
-	//restore any resizable buttons to their user-defined sizes,
-	//before shrinking them to fit. This means when we make the window
-	//bigger, the buttons will restore to their initial sizes
-	for (i = 0; i < sbar->nButtons; i++)
-	{
-		sbut = &sbar->sbButtons[i];
-		if (sbut->uButType & SBBM_RESIZABLE)
-		{
-			sbut->nSize = sbut->nSizeReserved;
-		}
-	}
-	
-	butsize1 = GetButtonSize(sbar, hwnd, SBBP_LEFT);
-	butsize2 = GetButtonSize(sbar, hwnd, SBBP_RIGHT);
-
-	if (butsize1 + butsize2 > scrollsize - MINSCROLLSIZE)
-	{
-		i = 0;
-		while(i < sbar->nButtons && 
-			butsize1 + butsize2 > scrollsize - MINSCROLLSIZE)
-		{
-			sbut = &sbar->sbButtons[i++];
-			if (sbut->uButType & SBBM_RESIZABLE)
-			{
-				int oldsize = sbut->nSize;
-				sbut->nSize -= (butsize1+butsize2) - (scrollsize-MINSCROLLSIZE);
-
-				if (sbut->nSize < (int)sbut->nMinSize)
-					sbut->nSize = sbut->nMinSize;
-
-				if ((UINT)sbut->nSize > (UINT)sbut->nMaxSize)
-					sbut->nSize = sbut->nMaxSize;
-
-				
-				butsize1 -= (oldsize - sbut->nSize);
-			}
-		}
-	}
-
-}
-#endif
-#endif
 
 //
 //	We must allocate from in the non-client area for our scrollbars
@@ -2574,18 +1823,12 @@ static LRESULT NCCalcSize(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam
 	//if there is room, allocate some space for the horizontal scrollbar
 	//NOTE: Change the ">" to a ">=" to make the horz bar totally fill the
 	//window before disappearing
-	if ((sb->fScrollFlags & CSBS_VISIBLE) && 
-#ifdef COOLSB_FILLWINDOW
-		rect->bottom - rect->top >= GetScrollMetric(sb, SM_CYHORZSB))
-#else
-		rect->bottom - rect->top > GetScrollMetric(sb, SM_CYHORZSB))
-#endif
+	if ((sb->fScrollFlags & CSBS_VISIBLE) && rect->bottom - rect->top > GetScrollMetric(sb, SM_CYHORZSB))
 	{
 		rect->bottom -= GetScrollMetric(sb, SM_CYHORZSB);
 		sb->fScrollVisible = TRUE;
 	}
-	else
-		sb->fScrollVisible = FALSE;
+	else sb->fScrollVisible = FALSE;
 
 	sb = &sw->sbarVert;
 
@@ -2600,15 +1843,7 @@ static LRESULT NCCalcSize(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam
 
 		sb->fScrollVisible = TRUE;
 	}
-	else
-		sb->fScrollVisible = FALSE;
-
-#ifdef INCLUDE_BUTTONS
-#ifdef RESIZABLE_BUTTONS
-	ResizeButtonsToFit(sw, &sw->sbarHorz, hwnd);
-	ResizeButtonsToFit(sw, &sw->sbarVert, hwnd);
-#endif
-#endif
+	else sb->fScrollVisible = FALSE;
 
 	//don't return a value unless we actually modify the other rectangles
 	//in the NCCALCSIZE_PARAMS structure. In this case, we return 0
@@ -2811,108 +2046,6 @@ static LRESULT SendToolTipMessage0(HWND hwndTT, UINT message, WPARAM wParam, LPA
 #define SendToolTipMessage		1 ? (void)0 : SendToolTipMessage0
 #endif
 
-
-//
-//	We must intercept any calls to SetWindowLongPtr, to make sure that
-//	the user does not set the WS_VSCROLL or WS_HSCROLL styles
-//
-static LRESULT CoolSB_SetCursor(SCROLLWND* /*swnd*/, HWND hwnd, WPARAM wParam, LPARAM lParam)
-{
-#ifdef INCLUDE_BUTTONS
-	UINT lo = LOWORD(lParam);
-	UINT hi = HIWORD(lParam);
-	UINT xy;
-	RECT rect;
-	SCROLLBAR *sbar;
-	SCROLLBUT *sbut;
-	POINT pt;
-	UINT id;
-	static UINT lastid;
-
-#ifdef HIDE_CURSOR_AFTER_MOUSEUP
-	static UINT lastmsg;
-	if (lastmsg == WM_LBUTTONDOWN)
-	{
-		lastmsg =  hi;
-		return mir_callNextSubclass(hwnd, CoolSBWndProc, WM_SETCURSOR, wParam, lParam);	
-	}
-	else
-		lastmsg =  hi;
-#endif
-	
-	//if we are over either or our scrollbars
-	if (lo == HTHSCROLL || lo == HTVSCROLL)
-	{
-		xy = GetMessagePos();
-		pt.x = LOWORD(xy);
-		pt.y = HIWORD(xy);
-
-		if (lo == HTHSCROLL)
-		{
-			sbar = &swnd->sbarHorz;
-			GetScrollRect(swnd, SB_HORZ, hwnd, &rect);
-			id = GetHorzPortion(sbar, hwnd, &rect, pt.x, pt.y);
-		}
-		else
-		{
-			sbar = &swnd->sbarVert;
-			GetScrollRect(swnd, SB_VERT, hwnd, &rect);
-			id = GetVertPortion(sbar, hwnd, &rect, pt.x, pt.y);
-		}
-
-		if (id != HTSCROLL_INSERTED)
-		{
-			if (swnd->hwndToolTip != 0)
-			{
-				SendToolTipMessage(swnd->hwndToolTip, TTM_ACTIVATE, FALSE, 0);
-				SendToolTipMessage(swnd->hwndToolTip, TTM_POP, 0, 0);
-			}
-
-			return mir_callNextSubclass(hwnd, CoolSBWndProc, WM_SETCURSOR, wParam, lParam);
-		}
-		
-		if (swnd->hwndToolTip != 0)
-		{
-			SendToolTipMessage(swnd->hwndToolTip, TTM_ACTIVATE, TRUE, 0);
-		}
-
-		//set the cursor if one has been specified
-		if ((id = GetButtonFromPt(sbar, &rect, pt, TRUE)) != -1)
-		{
-			sbut = &sbar->sbButtons[id];
-			curTool = sbut->uCmdId;
-
-			if (lastid != id && swnd->hwndToolTip != 0)
-			{
-				if (IsWindowVisible(swnd->hwndToolTip))
-					SendToolTipMessage(swnd->hwndToolTip, TTM_UPDATE, TRUE, 0);
-			}
-
-			lastid = id;
-
-			if (sbut->hCurs != 0)
-			{
-				SetCursor(sbut->hCurs);
-				return 0;
-			}
-		}
-		else
-		{
-			curTool = -1;
-			lastid = -1;
-		}
-	}
-	else if (swnd->hwndToolTip != 0)
-	{
-		SendToolTipMessage(swnd->hwndToolTip, TTM_ACTIVATE, FALSE, 0);
-		SendToolTipMessage(swnd->hwndToolTip, TTM_POP, 0, 0);
-	}
-
-#endif	//INCLUDE_BUTTONS
-	return mir_callNextSubclass(hwnd, CoolSBWndProc, WM_SETCURSOR, wParam, lParam);
-}
-
-
 //
 //	Send the specified message to the tooltip control
 //
@@ -3036,10 +2169,6 @@ LRESULT CALLBACK CoolSBWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
 		}
 
 		return NCMouseMove(swnd, hwnd, wParam, lParam);
-
-
-	case WM_SETCURSOR:
-		return CoolSB_SetCursor(swnd, hwnd, wParam, lParam);
 
 	case WM_CAPTURECHANGED:
 		break;

@@ -10,11 +10,6 @@
 
 */
 
-/* allow inserted buttons. Without this, all button code will
-   be excluded, resulting in a smaller build (about 4kb less). This
-   may not seem much, but it is a 25% reduction! */
-//#define INCLUDE_BUTTONS		
-
 /* Allow user-resizable buttons. Makes no difference if INCLUDE_BUTTONS
    is not defined for the project */
 #define RESIZABLE_BUTTONS	
@@ -29,13 +24,6 @@
 /* Define to enable WM_NOTIFY messages to be sent for mouse event */
 #define NOTIFY_MOUSE
 
-/* Define this value to make the horizontal scrollbar stay visible even
-   if the window is sized to small vertically. Normal scrollbars always leave
-   a 1-pixel line of "client" area before hiding the horizontal scrollbar. This
-   value allows the window to be sized so the client area totally disappears if
-   sized too small */
-//#define COOLSB_FILLWINDOW
-
 /* minimum size of scrollbar before inserted buttons are 
    hidden to make room when the window is sized too small */
 #define MIN_COOLSB_SIZE 24
@@ -43,11 +31,6 @@
 /* min size of scrollbar when resizing a button, before the 
    resize is stopped because the scrollbar has gotten too small */
 #define MINSCROLLSIZE   50		
-
-/* define this to display the default mouse arrow whenever the
-   the mouse is released over a button which has a user-defined cursor.
-   not really very useful, just provides a different type of feedback */
-#undef  HIDE_CURSOR_AFTER_MOUSEUP
 
 /* enable HOT_TRACKING to provide visual feedback when the mouse
    moves over a scrollbar area (like Flat Scrollbars) */
