@@ -407,43 +407,51 @@ static PROTOACCOUNT* FindMyAccount(const char *szProto, const char *szBaseProto,
 
 bool ImportAccounts(OBJLIST<char> &arSkippedModules)
 {
-	int protoCount = myGetD(NULL, "Protocols", "ProtoCount", 0);
 	bool bNeedManualMerge = false;
+	if (g_pActivePattern == nullptr) {
+		int protoCount = myGetD(NULL, "Protocols", "ProtoCount", 0);
 
-	for (int i = 0; i < protoCount; i++) {
-		char szSetting[100], szProto[100];
-		itoa(i, szSetting, 10);
-		if (myGetS(NULL, "Protocols", szSetting, szProto))
-			continue;
+		for (int i = 0; i < protoCount; i++) {
+			char szSetting[100], szProto[100];
+			itoa(i, szSetting, 10);
+			if (myGetS(NULL, "Protocols", szSetting, szProto))
+				continue;
 
-		itoa(800 + i, szSetting, 10);
-		ptrW tszName(myGetWs(NULL, "Protocols", szSetting));
-		AccountMap *pNew = new AccountMap(szProto, i, tszName);
+			itoa(800 + i, szSetting, 10);
+			ptrW tszName(myGetWs(NULL, "Protocols", szSetting));
+			AccountMap* pNew = new AccountMap(szProto, i, tszName);
+			arAccountMap.insert(pNew);
+
+			itoa(200 + i, szSetting, 10);
+			pNew->iOrder = myGetD(NULL, "Protocols", szSetting, 0);
+
+			// check if it's an account-based proto or an old style proto
+			char szBaseProto[100];
+			if (myGetS(NULL, szProto, "AM_BaseProto", szBaseProto))
+				continue;
+
+			// save base proto for the future use
+			pNew->szBaseProto = mir_strdup(szBaseProto);
+
+			// try the precise match first
+			PROTOACCOUNT* pa = FindMyAccount(szProto, szBaseProto, tszName, true);
+			if (pa) {
+				pNew->pa = pa;
+				continue;
+			}
+
+			// if fail, try to found an account by its name
+			if (pa = FindMyAccount(szProto, szBaseProto, tszName, false)) {
+				pNew->pa = pa;
+				bNeedManualMerge = true;
+			}
+		}
+	}
+	else {
+		AccountMap* pNew = new AccountMap("Pattern", 0, g_pActivePattern->wszName);
 		arAccountMap.insert(pNew);
 
-		itoa(200 + i, szSetting, 10);
-		pNew->iOrder = myGetD(NULL, "Protocols", szSetting, 0);
-
-		// check if it's an account-based proto or an old style proto
-		char szBaseProto[100];
-		if (myGetS(NULL, szProto, "AM_BaseProto", szBaseProto))
-			continue;
-
-		// save base proto for the future use
-		pNew->szBaseProto = mir_strdup(szBaseProto);
-
-		// try the precise match first
-		PROTOACCOUNT *pa = FindMyAccount(szProto, szBaseProto, tszName, true);
-		if (pa) {
-			pNew->pa = pa;
-			continue;
-		}
-
-		// if fail, try to found an account by its name
-		if (pa = FindMyAccount(szProto, szBaseProto, tszName, false)) {
-			pNew->pa = pa;
-			bNeedManualMerge = true;
-		}
+		bNeedManualMerge = true;
 	}
 
 	// all accounts to be converted automatically, no need to raise a dialog
@@ -744,7 +752,7 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 				return 0;
 			}
 
-			// virtual protocols have no accounts and cannot change modul
+			// virtual protocols have no accounts and cannot change module
 			szSrcModuleName = szDstModuleName = pa->szModuleName;
 		}
 		else {
@@ -773,7 +781,7 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 	}
 
 	wchar_t *pszUniqueID = L"<Unknown>";
-	DBVARIANT dbv;
+	DBVARIANT dbv = {};
 	if (!myGet(hSrc, cc->szProto, pszUniqueSetting, &dbv)) {
 		// Does the contact already exist?
 		MCONTACT hDst;
@@ -825,7 +833,11 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 		return INVALID_CONTACT_ID;
 	}
 
-	db_set(hDst, szDstModuleName, pszUniqueSetting, &dbv);
+	if (dbv.type == 0)
+		srcDb->GetContactSetting(hSrc, cc->szProto, "ID", &dbv);
+
+	if (dbv.type != 0)
+		db_set(hDst, szDstModuleName, pszUniqueSetting, &dbv);
 
 	CreateGroup(tszGroup, hDst);
 

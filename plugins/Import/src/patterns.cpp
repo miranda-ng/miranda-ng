@@ -123,82 +123,155 @@ void CMPlugin::LoadPattern(const wchar_t *pwszFileName)
 
 class CDbxPattern : public MDatabaseReadonly, public MZeroedObject
 {
-	HANDLE m_hFile = INVALID_HANDLE_VALUE, m_hMap = nullptr;
-	uint32_t m_iFileLen;
-	char* m_pFile;
-	CMStringW m_buf;
+	CMStringW m_buf, m_folder;
+	MCONTACT m_hCurrContact;
 
 	std::vector<DWORD> m_events;
+	std::vector<CMStringW> m_files;
 
 public:
-	CDbxPattern()
+	CDbxPattern() :
+		m_hCurrContact(0)
 	{}
 
 	~CDbxPattern()
 	{
 	}
 
-	void Load()
+	bool Load(const wchar_t *pwszFileName)
 	{
-		// mcontacts operates with the only contact with pseudo id=1
-		m_cache->AddContactToCache(1);
+		m_buf.Empty();
+		m_events.clear();
+
+		HANDLE hFile = ::CreateFileW(pwszFileName, GENERIC_READ, 0, nullptr, OPEN_EXISTING, 0, 0);
+		if (hFile == INVALID_HANDLE_VALUE) {
+			Netlib_Logf(0, "failed to open file <%S> for import: %d", pwszFileName, GetLastError());
+			return false;
+		}
+
+		HANDLE hMap = ::CreateFileMappingW(hFile, nullptr, PAGE_READONLY, 0, 0, L"ImportMapfile");
+		if (hMap == nullptr) {
+			Netlib_Logf(0, "failed to mmap file <%S> for import: %d", pwszFileName, GetLastError());
+			return false;
+		}
+
+		char *pFile = (char*)::MapViewOfFile(hMap, FILE_MAP_READ, 0, 0, 0);
+		if (pFile == nullptr) {
+			Netlib_Logf(0, "failed to map view of file <%S> for import: %d", pwszFileName, GetLastError());
+			return false;
+		}
 
 		switch (g_pActivePattern->iCodePage) {
 		case CP_UTF8:
-			m_buf = mir_utf8decodeW(m_pFile);
+			m_buf = mir_utf8decodeW(pFile);
 			break;
 		case 1200:
-			m_buf = mir_wstrdup((wchar_t*)m_pFile);
+			m_buf = mir_wstrdup((wchar_t*)pFile);
 			break;
 		default:
-			m_buf = mir_a2u_cp(m_pFile, g_pActivePattern->iCodePage);
+			m_buf = mir_a2u_cp(pFile, g_pActivePattern->iCodePage);
 			break;
 		}
 
-		if (m_buf.IsEmpty())
-			return;
+		bool bRes = false;
+		if (!m_buf.IsEmpty()) {
+			int iOffset = 0;
+			while (true) {
+				int offsets[99];
+				int nMatch = pcre16_exec(g_pActivePattern->regMessage.pattern, g_pActivePattern->regMessage.extra, m_buf, m_buf.GetLength(), iOffset, PCRE_NEWLINE_ANYCRLF, offsets, _countof(offsets));
+				if (nMatch <= 0)
+					break;
 
-		int iOffset = 0;
-		while (true) {
-			int offsets[99];
-			int nMatch = pcre16_exec(g_pActivePattern->regMessage.pattern, g_pActivePattern->regMessage.extra, m_buf, m_buf.GetLength(), iOffset, PCRE_NEWLINE_ANYCRLF, offsets, _countof(offsets));
-			if (nMatch <= 0)
-				break;
-
-			m_events.push_back(offsets[0]);
-			iOffset = offsets[1];
+				m_events.push_back(offsets[0]);
+				iOffset = offsets[1];
+			}
+			bRes = true;
 		}
 
-		if (m_pFile != nullptr)
-			::UnmapViewOfFile(m_pFile);
+		if (pFile != nullptr)
+			::UnmapViewOfFile(pFile);
 
-		if (m_hMap != nullptr)
-			::CloseHandle(m_hMap);
+		if (hMap != nullptr)
+			::CloseHandle(hMap);
 
-		if (m_hFile != INVALID_HANDLE_VALUE)
-			::CloseHandle(m_hFile);
+		if (hFile != INVALID_HANDLE_VALUE)
+			::CloseHandle(hFile);
+
+		return bRes;
 	}
 
 	int Open(const wchar_t *profile)
 	{
-		m_hFile = ::CreateFileW(profile, GENERIC_READ, 0, nullptr, OPEN_EXISTING, 0, 0);
-		if (m_hFile == INVALID_HANDLE_VALUE) {
-			Netlib_Logf(0, "failed to open file <%S> for import: %d", profile, GetLastError());
-			return EGROKPRF_CANTREAD;
+		CMStringW wszBaseFolder(profile);
+
+		// create a mask for loading multiple data files for a folder
+		DWORD dwAttr = GetFileAttributesW(profile);
+		if (dwAttr & FILE_ATTRIBUTE_DIRECTORY) {
+			wszBaseFolder = profile;
+			m_folder.AppendFormat(L"%s\\*.%s", profile, g_pActivePattern->wszExt.c_str());
+		}
+		else {
+			int i = wszBaseFolder.ReverseFind('\\');
+			if (i != -1)
+				wszBaseFolder = wszBaseFolder.Left(i - 1);
+			m_folder = profile;
 		}
 
-		m_iFileLen = ::GetFileSize(m_hFile, 0);
-		m_hMap = ::CreateFileMappingW(m_hFile, nullptr, PAGE_READONLY, 0, 0, L"ImportMapfile");
-		if (m_hMap == nullptr) {
-			Netlib_Logf(0, "failed to mmap file <%S> for import: %d", profile, GetLastError());
-			return EGROKPRF_CANTREAD;
+		int hContact = 1;
+		WIN32_FIND_DATA fd;
+		HANDLE hFind = FindFirstFile(m_folder, &fd);
+		if (hFind != INVALID_HANDLE_VALUE) {
+			do {
+				// find all subfolders except "." and ".."
+				if (!mir_wstrcmp(fd.cFileName, L".") || !mir_wstrcmp(fd.cFileName, L".."))
+					continue;
+
+				CMStringW wszFullName(wszBaseFolder + L"\\" + fd.cFileName);
+				m_files.push_back(wszFullName);
+
+				auto *cc = m_cache->AddContactToCache(hContact);
+				cc->szProto = "Pattern";
+
+				// we try to restore user id from the file name
+				if (g_pActivePattern->iUseFilename) {
+					int offsets[100];
+					int nMatch = pcre16_exec(g_pActivePattern->regFilename.pattern, g_pActivePattern->regFilename.extra, wszFullName, wszFullName.GetLength(), 0, 0, offsets, _countof(offsets));
+					if (nMatch > 0) {
+						const wchar_t **substrings;
+						if (pcre16_get_substring_list(wszFullName, offsets, nMatch, &substrings) >= 0) {
+							DBCONTACTWRITESETTING dbcws = {};
+							dbcws.szModule = cc->szProto;
+							dbcws.value.type = DBVT_WCHAR;
+
+							if (g_pActivePattern->iInUID && substrings[g_pActivePattern->iInUID]) {
+								dbcws.szSetting = "ID";
+								dbcws.value.pwszVal = (wchar_t*)substrings[g_pActivePattern->iInUID];
+								WriteContactSetting(hContact, &dbcws);
+							}
+
+							if (g_pActivePattern->iInNick && substrings[g_pActivePattern->iInNick]) {
+								dbcws.szSetting = "Nick";
+								dbcws.value.pwszVal = (wchar_t*)substrings[g_pActivePattern->iInNick];
+								WriteContactSetting(hContact, &dbcws);
+							}
+
+							pcre16_free_substring_list(substrings);
+						}
+					}
+				}			
+				hContact++;
+			}
+				while (FindNextFile(hFind, &fd));
+
+			FindClose(hFind);
 		}
 
-		m_pFile = (char*)::MapViewOfFile(m_hMap, FILE_MAP_READ, 0, 0, 0);
-		if (m_pFile == nullptr) {
-			Netlib_Logf(0, "failed to map view of file <%S> for import: %d", profile, GetLastError());
+		if (m_files.empty())
 			return EGROKPRF_CANTREAD;
-		}
+
+		m_hCurrContact = 1;
+		if (!Load(m_files[0]))
+			return EGROKPRF_CANTREAD;
 
 		return EGROKPRF_NOERROR;
 	}
@@ -216,12 +289,87 @@ public:
 	
 	STDMETHODIMP_(LONG) GetContactCount(void) override
 	{
-		return 1;
+		return (LONG)m_files.size();
 	}
 
 	STDMETHODIMP_(LONG) GetEventCount(MCONTACT) override
 	{
 		return (LONG)m_events.size();
+	}
+
+	STDMETHODIMP_(BOOL) GetContactSettingWorker(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT* dbv, int isStatic)
+	{
+		if (szSetting == nullptr || szModule == nullptr)
+			return 1;
+
+		DBCachedContact *cc = nullptr;
+		if (hContact) {
+			cc = m_cache->GetCachedContact(hContact);
+			if (cc == nullptr)
+				return 1;
+		}
+
+		size_t settingNameLen = strlen(szSetting);
+		size_t moduleNameLen = strlen(szModule);
+		char* szCachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, moduleNameLen, settingNameLen);
+
+		DBVARIANT *pCachedValue = m_cache->GetCachedValuePtr(hContact, szCachedSettingName, 0);
+		if (pCachedValue != nullptr) {
+			if (pCachedValue->type == DBVT_ASCIIZ || pCachedValue->type == DBVT_UTF8) {
+				int cbOrigLen = dbv->cchVal;
+				char *cbOrigPtr = dbv->pszVal;
+				memcpy(dbv, pCachedValue, sizeof(DBVARIANT));
+				if (isStatic) {
+					int cbLen = 0;
+					if (pCachedValue->pszVal != nullptr)
+						cbLen = (int)strlen(pCachedValue->pszVal);
+
+					cbOrigLen--;
+					dbv->pszVal = cbOrigPtr;
+					if (cbLen < cbOrigLen)
+						cbOrigLen = cbLen;
+					memcpy(dbv->pszVal, pCachedValue->pszVal, cbOrigLen);
+					dbv->pszVal[cbOrigLen] = 0;
+					dbv->cchVal = cbLen;
+				}
+				else {
+					dbv->pszVal = (char*)mir_alloc(strlen(pCachedValue->pszVal) + 1);
+					strcpy(dbv->pszVal, pCachedValue->pszVal);
+				}
+			}
+			else memcpy(dbv, pCachedValue, sizeof(DBVARIANT));
+
+			return (pCachedValue->type == DBVT_DELETED) ? 1 : 0;
+		}
+
+		return 1;
+	}
+
+	STDMETHODIMP_(BOOL) WriteContactSetting(MCONTACT hContact, DBCONTACTWRITESETTING *dbcws)
+	{
+		if (dbcws == nullptr || dbcws->szSetting == nullptr || dbcws->szModule == nullptr)
+			return 1;
+
+		if (hContact) {
+			DBCachedContact* cc = m_cache->GetCachedContact(hContact);
+			if (cc == nullptr)
+				return 1;
+		}
+
+		DBCONTACTWRITESETTING dbcwWork = *dbcws;
+		if (dbcwWork.value.type == DBVT_WCHAR) {
+			T2Utf value(dbcwWork.value.pwszVal);
+			dbcwWork.value.pszVal = NEWSTR_ALLOCA(value);
+			dbcwWork.value.type = DBVT_UTF8;
+			dbcwWork.value.cchVal = (WORD)strlen(dbcwWork.value.pszVal);
+		}
+
+		char* cachedSettingName = m_cache->GetCachedSetting(dbcwWork.szModule, dbcwWork.szSetting, mir_strlen(dbcwWork.szModule), mir_strlen(dbcwWork.szSetting));
+		DBVARIANT* cachedValue = m_cache->GetCachedValuePtr(hContact, cachedSettingName, 1);
+		if (cachedValue != nullptr)
+			m_cache->SetCachedVariant(&dbcwWork.value, cachedValue);
+
+		return 0;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////
@@ -300,8 +448,16 @@ public:
 		return 0;
 	}
 
-	STDMETHODIMP_(MEVENT) FindFirstEvent(MCONTACT) override
+	STDMETHODIMP_(MEVENT) FindFirstEvent(MCONTACT hContact) override
 	{
+		// no system history
+		if (hContact == 0)
+			return 0;
+
+		if (hContact != m_hCurrContact)
+			if (!Load(m_files[hContact-1]))
+				return 0;
+
 		return m_events.size() > 0 ? 1 : 0;
 	}
 
@@ -313,8 +469,16 @@ public:
 		return idx + 1;
 	}
 
-	STDMETHODIMP_(MEVENT) FindLastEvent(MCONTACT) override
+	STDMETHODIMP_(MEVENT) FindLastEvent(MCONTACT hContact) override
 	{
+		// no system history
+		if (hContact == 0)
+			return 0;
+
+		if (hContact != m_hCurrContact)
+			if (!Load(m_files[hContact - 1]))
+				return 0;
+
 		return m_events.size() > 0 ? (MEVENT)m_events.size() : 0;
 	}
 
@@ -343,7 +507,6 @@ static MDatabaseCommon* pattern_load(const wchar_t *profile, BOOL)
 	if (db->Open(profile))
 		return nullptr;
 
-	db->Load();
 	return db.release();
 }
 

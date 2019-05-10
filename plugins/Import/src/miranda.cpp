@@ -33,33 +33,30 @@ CMirandaPageDlg::CMirandaPageDlg() :
 	CWizardPageDlg(IDD_MIRANDADB),
 	m_list(this, IDC_LIST),
 	btnBack(this, IDC_BACK),
-	btnOther(this, IDC_OTHER)
+	btnPath(this, IDC_DIRECTORY),
+	btnOther(this, IDC_OTHER),
+	m_cmbFileType(this, IDC_FILETYPE)
 {
-	m_list.OnSelChange = Callback(this, &CMirandaPageDlg::onSelChanged_list);
-
 	btnBack.OnClick = Callback(this, &CMirandaPageDlg::onClick_Back);
+	btnPath.OnClick = Callback(this, &CMirandaPageDlg::onClick_Path);
 	btnOther.OnClick = Callback(this, &CMirandaPageDlg::onClick_Other);
+
+	m_cmbFileType.OnChange = Callback(this, &CMirandaPageDlg::onChange_Pattern);
 }
 
 bool CMirandaPageDlg::OnInitDialog()
 {
-	VARSW pfd(L"%miranda_path%\\Profiles");
-	VARSW pfd1(L"%miranda_path%");
-	VARSW pfd2(L"%miranda_profilesdir%");
-	VARSW pfn(L"%miranda_profilename%");
+	m_cmbFileType.AddString(TranslateT("Miranda NG database"), -1);
 
-	SearchForLists(pfd2, pfn);
-	SearchForLists(pfd1, nullptr);
-	if (mir_wstrcmpi(pfd, pfd2))
-		SearchForLists(pfd, nullptr);
+	int iType = 1;
+	for (auto& it : g_plugin.m_patterns)
+		m_cmbFileType.AddString(it->wszName, iType++);
 
-	SendDlgItemMessage(m_hwnd, IDC_LIST, LB_SETCURSEL, 0, 0);
-	SendMessage(m_hwnd, WM_COMMAND, MAKELONG(IDC_LIST, LBN_SELCHANGE), 0);
-	
-	wchar_t filename[MAX_PATH];
-	GetDlgItemText(m_hwnd, IDC_FILENAME, filename, _countof(filename));
-	if (_waccess(filename, 4))
-		SendMessage(m_hwndParent, WIZM_DISABLEBUTTON, 1, 0);
+	btnPath.Hide();
+	m_list.Disable();
+	SendMessage(m_hwndParent, WIZM_DISABLEBUTTON, 1, 0);
+
+	m_cmbFileType.SetCurSel(0);
 	return true;
 }
 
@@ -72,8 +69,14 @@ int CMirandaPageDlg::Resizer(UTILRESIZECONTROL *urc)
 	case IDC_STATICTEXT2:
 		return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
 
+	case IDC_STATICTEXT3:
+		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
+
 	case IDC_FILENAME:
 		return RD_ANCHORX_WIDTH | RD_ANCHORY_BOTTOM;
+
+	case IDC_FILETYPE:
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
 
 	case IDC_LIST:
 		return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
@@ -133,44 +136,60 @@ void CMirandaPageDlg::onClick_Other(CCtrlButton*)
 	}
 }
 
-void CMirandaPageDlg::onSelChanged_list(CCtrlListBox*)
+void CMirandaPageDlg::onClick_Path(CCtrlButton*)
 {
-	int sel = m_list.GetCurSel();
-	if (sel != -1) {
-		SetDlgItemText(m_hwnd, IDC_FILENAME, (wchar_t*)m_list.GetItemData(sel));
+	wchar_t str[MAX_PATH];
+
+	BROWSEINFOW br = {};
+	br.hwndOwner = m_hwnd;
+	br.pszDisplayName = str;
+	br.lpszTitle = TranslateT("Importing whole directory");
+	br.ulFlags = BIF_RETURNONLYFSDIRS | BIF_NEWDIALOGSTYLE;
+
+	PIDLIST_ABSOLUTE pList = SHBrowseForFolderW(&br);
+	if (pList == nullptr)
+		return;
+
+	SHGetPathFromIDListW(pList, str);
+	CoTaskMemFree(pList);
+
+	SetDlgItemText(m_hwnd, IDC_FILENAME, str);
+
+	// find appropriate files and list them
+	wchar_t searchspec[MAX_PATH];
+	mir_snwprintf(searchspec, L"%s\\*.%s", str, g_pActivePattern->wszExt.c_str());
+	WIN32_FIND_DATA fd;
+	HANDLE hFind = FindFirstFile(searchspec, &fd);
+	if (hFind != INVALID_HANDLE_VALUE) {
+		do {
+			// find all subfolders except "." and ".."
+			if (!mir_wstrcmp(fd.cFileName, L".") || !mir_wstrcmp(fd.cFileName, L".."))
+				continue;
+
+			m_list.AddString(fd.cFileName);
+		} while (FindNextFile(hFind, &fd));
+		FindClose(hFind);
 		SendMessage(m_hwndParent, WIZM_ENABLEBUTTON, 1, 0);
 	}
 }
 
-void CMirandaPageDlg::SearchForLists(const wchar_t *mirandaPath, const wchar_t *mirandaProf)
+void CMirandaPageDlg::onChange_Pattern(CCtrlCombo*)
 {
-	// find in Miranda profile subfolders
-	wchar_t searchspec[MAX_PATH];
-	mir_snwprintf(searchspec, L"%s\\*.*", mirandaPath);
-
-	WIN32_FIND_DATA fd;
-	HANDLE hFind = FindFirstFile(searchspec, &fd);
-	if (hFind == INVALID_HANDLE_VALUE)
+	int iCur = m_cmbFileType.GetCurSel();
+	if (iCur == -1)
 		return;
 
-	do {
-		// find all subfolders except "." and ".."
-		if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) || !mir_wstrcmp(fd.cFileName, L".") || !mir_wstrcmp(fd.cFileName, L".."))
-			continue;
-
-		// skip the current profile too
-		if (mirandaProf != nullptr && !mir_wstrcmpi(mirandaProf, fd.cFileName))
-			continue;
-
-		wchar_t buf[MAX_PATH], profile[MAX_PATH];
-		mir_snwprintf(buf, L"%s\\%s\\%s.dat", mirandaPath, fd.cFileName, fd.cFileName);
-		if (_waccess(buf, 0) == 0) {
-			mir_snwprintf(profile, L"%s.dat", fd.cFileName);
-			m_list.AddString(profile, (LPARAM)mir_wstrdup(buf));
-		}
-	} while (FindNextFile(hFind, &fd));
-
-	FindClose(hFind);
+	// standard import for Miranda
+	int iData = m_cmbFileType.GetItemData(iCur);
+	if (iData == -1) {
+		g_pActivePattern = nullptr;
+		btnPath.Hide();
+	}
+	// custom pattern import
+	else {
+		g_pActivePattern = &g_plugin.m_patterns[iData-1];
+		btnPath.Show();
+	}
 }
 
 //=======================================================================================

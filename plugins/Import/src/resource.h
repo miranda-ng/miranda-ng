@@ -6,7 +6,6 @@
 #define IDD_WIZARD                      101
 #define IDD_OPTIONS                     102
 #define IDD_ACCMERGE                    105
-#define IDD_IMPORTTYPE                  106
 #define IDD_WIZARDINTRO                 107
 #define IDD_FINISHED                    108
 #define IDD_MIRABILISDB                 109
@@ -17,11 +16,12 @@
 #define IDR_LIST                        113
 #define IDI_IMPORT                      114
 #define IDC_DONTLOADPLUGIN              1001
-#define IDC_MIRANDA                     1002
 #define IDC_OTHER                       1005
 #define IDC_LIST                        1006
 #define IDC_FILENAME                    1007
 #define IDC_PROGRESS                    1008
+#define IDC_OTHER2                      1008
+#define IDC_DIRECTORY                   1008
 #define IDC_STATUS                      1009
 #define IDC_SPLITTER                    1010
 #define IDC_STATICTEXT1                 1011
@@ -51,7 +51,6 @@
 #define IDC_FT                          1040
 #define IDC_OPEN_FILE                   1042
 #define IDC_CHECK_DUPS                  1043
-#define IDC_COMBO1                      1045
 #define IDC_FILETYPE                    1045
 #define IDM_COPY                        40001
 #define IDC_STATIC                      -1
@@ -60,9 +59,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        117
+#define _APS_NEXT_RESOURCE_VALUE        118
 #define _APS_NEXT_COMMAND_VALUE         40002
-#define _APS_NEXT_CONTROL_VALUE         1046
+#define _APS_NEXT_CONTROL_VALUE         1047
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

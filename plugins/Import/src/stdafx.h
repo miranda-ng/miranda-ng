@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <windows.h>
 #include <commctrl.h> // datetimepicker
+#include <ShlObj.h>
 
 #include <malloc.h>
 #include <time.h>
@@ -88,6 +89,7 @@ struct CImportPattern : public MZeroedObject
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 private:
+	friend class CMirandaPageDlg;
 	friend class CContactImportDlg;
 
 	void LoadPattern(const wchar_t *pwszFileName);
@@ -160,10 +162,9 @@ public:
 
 class CMirandaPageDlg : public CWizardPageDlg
 {
-	void SearchForLists(const wchar_t *mirandaPath, const wchar_t *mirandaProf);
-
-	CCtrlButton btnBack, btnOther;
+	CCtrlButton btnBack, btnOther, btnPath;
 	CCtrlListBox m_list;
+	CCtrlCombo m_cmbFileType;
 
 public:
 	CMirandaPageDlg();
@@ -174,9 +175,10 @@ public:
 	void OnNext() override;
 	
 	void onClick_Back(CCtrlButton*);
+	void onClick_Path(CCtrlButton*);
 	void onClick_Other(CCtrlButton*);
 
-	void onSelChanged_list(CCtrlListBox*);
+	void onChange_Pattern(CCtrlCombo*);
 };
 
 class CMirandaOptionsPageDlg : public CWizardPageDlg

@@ -228,7 +228,7 @@ public:
 		else return 1;
 
 		if (dbei->cbBlob && cbLen) {
-			int copySize = min(cbLen, dbei->cbBlob-1);
+			DWORD copySize = min(DWORD(cbLen), dbei->cbBlob-1);
 			if (!ReadFile(m_hFile, dbei->pBlob, copySize, &dwRead, 0) || dwRead != copySize)
 				return 0;
 
