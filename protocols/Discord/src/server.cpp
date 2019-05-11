@@ -280,8 +280,10 @@ void CDiscordProto::OnReceiveToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 		JSONNode root = JSONNode::parse(pReply->pData);
 		if (root) {
 			const JSONNode &captcha = root["captcha_key"].as_array();
-			if (captcha && captcha.begin()[0].as_mstring() == "captcha-required") {
-				debugLogA("captcha required");
+			if (captcha) {
+				for (auto& it : captcha)
+					if (it.as_mstring() == "captcha-required")
+						debugLogA("captcha required");
 			}
 		}
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);

@@ -36,8 +36,4 @@
       <Project>{f6a9340e-b8d9-4c75-be30-47dc66d0abc7}</Project>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="res\discord.ico" />
-    <Image Include="res\groupchat.ico" />
-  </ItemGroup>
 </Project>
