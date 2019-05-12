@@ -113,13 +113,18 @@ void CMirandaPageDlg::onClick_Other(CCtrlButton*)
 	wchar_t str[MAX_PATH], ext[100], text[256];
 	GetDlgItemText(m_hwnd, IDC_FILENAME, str, _countof(str));
 
+	const wchar_t *pwszName;
 	if (m_iFileType == -1) {
 		wcsncpy_s(ext, L"*.dat;*.bak", _TRUNCATE);
 		pfd = Utils_ReplaceVarsW(L"%miranda_profilesdir%");
+		pwszName = TranslateT("Miranda NG database");
 	}
-	else mir_snwprintf(ext, L"*.%s", g_plugin.m_patterns[m_iFileType - 1].wszExt.c_str());
+	else {
+		mir_snwprintf(ext, L"*.%s", g_plugin.m_patterns[m_iFileType - 1].wszExt.c_str());
+		pwszName = g_pActivePattern->wszName;
+	}
 
-	mir_snwprintf(text, L"%s (%s)%c%s%c%s (*.*)%c*.*%c%c", TranslateT("Miranda NG database"), ext, 0, ext, 0, TranslateT("All Files"), 0, 0, 0);
+	mir_snwprintf(text, L"%s (%s)%c%s%c%s (*.*)%c*.*%c%c", pwszName, ext, 0, ext, 0, TranslateT("All Files"), 0, 0, 0);
 
 	OPENFILENAME ofn = {};
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
