@@ -460,7 +460,7 @@ void CSrmmWindow::onClick_Ok(CCtrlButton *pButton)
 		cmdListNew = tcmdlist_last(cmdList);
 	}
 	if (msi.sendBuffer != nullptr)
-		cmdList = tcmdlist_append(cmdList, rtrim(msi.sendBuffer), 20, FALSE);
+		cmdList = tcmdlist_append(cmdList, mir_strdup(rtrim(msi.sendBuffer)), 20, FALSE);
 
 	cmdListCurrent = nullptr;
 

@@ -24,8 +24,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef SRMM_SENDQUEUE_H
 #define SRMM_SENDQUEUE_H
 
-struct MessageSendQueueItem
+struct MessageSendQueueItem : public MZeroedObject
 {
+	~MessageSendQueueItem()
+	{
+		mir_free(proto);
+		mir_free(sendBuffer);
+	}
+
 	HWND	hwndSender;
 	MCONTACT hContact;
 	char  *proto;
@@ -36,18 +42,16 @@ struct MessageSendQueueItem
 	int    codepage;
 	int    flags;
 	HWND   hwndErrorDlg;
-	
-	MessageSendQueueItem *prev, *next;
 };
 
 MessageSendQueueItem* CreateSendQueueItem(HWND hwndSender);
-wchar_t * GetSendBufferMsg(MessageSendQueueItem *item);
 MessageSendQueueItem* FindOldestPendingSendQueueItem(HWND hwndSender, MCONTACT hContact);
 MessageSendQueueItem* FindSendQueueItem(MCONTACT hContact, HANDLE hSendId);
-BOOL RemoveSendQueueItem(MessageSendQueueItem* item);
+
+bool RemoveSendQueueItem(MessageSendQueueItem* item);
 void ReportSendQueueTimeouts(HWND hwndSender);
 void ReleaseSendQueueItems(HWND hwndSender);
-int ReattachSendQueueItems(HWND hwndSender, MCONTACT hContact);
+int  ReattachSendQueueItems(HWND hwndSender, MCONTACT hContact);
 void RemoveAllSendQueueItems();
 void SendSendQueueItem(MessageSendQueueItem* item);
 

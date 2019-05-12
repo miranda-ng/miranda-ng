@@ -57,7 +57,7 @@ TCmdList* tcmdlist_remove_first(TCmdList *list)
 	return list;
 }
 
-TCmdList *tcmdlist_remove(TCmdList *list, TCmdList *n)
+TCmdList* tcmdlist_remove(TCmdList *list, TCmdList *n)
 {
 	if (n->next) n->next->prev = n->prev;
 	if (n->prev) n->prev->next = n->next;
@@ -87,10 +87,9 @@ TCmdList* tcmdlist_last(TCmdList *list)
 
 void tcmdlist_free(TCmdList *&list)
 {
-	TCmdList *n = list, *next;
-
+	TCmdList *n = list;
 	while (n != nullptr) {
-		next = n->next;
+		auto *next = n->next;
 		mir_free(n->szCmd);
 		mir_free(n);
 		n = next;

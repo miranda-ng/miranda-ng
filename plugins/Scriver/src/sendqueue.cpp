@@ -23,29 +23,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-static MessageSendQueueItem *global_sendQueue = nullptr;
+static OBJLIST<MessageSendQueueItem> arQueue(1, PtrKeySortT);
 static mir_cs queueMutex;
 
 MessageSendQueueItem* CreateSendQueueItem(HWND hwndSender)
 {
-	MessageSendQueueItem *item = (MessageSendQueueItem*)mir_calloc(sizeof(MessageSendQueueItem));
+	MessageSendQueueItem *item = new MessageSendQueueItem();
+	item->hwndSender = hwndSender;
 
 	mir_cslock lck(queueMutex);
-	item->hwndSender = hwndSender;
-	item->next = global_sendQueue;
-	if (global_sendQueue != nullptr)
-		global_sendQueue->prev = item;
-
-	global_sendQueue = item;
+	arQueue.insert(item);
 	return item;
 }
 
 MessageSendQueueItem* FindOldestPendingSendQueueItem(HWND hwndSender, MCONTACT hContact)
 {
 	mir_cslock lck(queueMutex);
-	for (MessageSendQueueItem *item = global_sendQueue; item != nullptr; item = item->next)
-		if (item->hwndSender == hwndSender && item->hContact == hContact && item->hwndErrorDlg == nullptr)
-			return item;
+	for (auto &it : arQueue)
+		if (it->hwndSender == hwndSender && it->hContact == hContact && it->hwndErrorDlg == nullptr)
+			return it;
 
 	return nullptr;
 }
@@ -53,61 +49,47 @@ MessageSendQueueItem* FindOldestPendingSendQueueItem(HWND hwndSender, MCONTACT h
 MessageSendQueueItem* FindSendQueueItem(MCONTACT hContact, HANDLE hSendId)
 {
 	mir_cslock lock(queueMutex);
-	for (MessageSendQueueItem *item = global_sendQueue; item != nullptr; item = item->next)
-		if (item->hContact == hContact && HANDLE(item->hSendId) == hSendId)
-			return item;
+	for (auto &it : arQueue)
+		if (it->hContact == hContact && HANDLE(it->hSendId) == hSendId)
+			return it;
 
 	return nullptr;
 }
 
-BOOL RemoveSendQueueItem(MessageSendQueueItem* item)
+bool RemoveSendQueueItem(MessageSendQueueItem *item)
 {
 	HWND hwndSender = item->hwndSender;
+	{
+		mir_cslock lock(queueMutex);
+		arQueue.remove(item);
+	}
 
-	mir_cslock lock(queueMutex);
-	if (item->prev != nullptr)
-		item->prev->next = item->next;
-	else
-		global_sendQueue = item->next;
+	for (auto &it : arQueue)
+		if (it->hwndSender == hwndSender)
+			return false;
 
-	if (item->next != nullptr)
-		item->next->prev = item->prev;
-
-	mir_free(item->sendBuffer);
-	mir_free(item->proto);
-	mir_free(item);
-
-	for (item = global_sendQueue; item != nullptr; item = item->next)
-		if (item->hwndSender == hwndSender)
-			return FALSE;
-
-	return TRUE;
+	return true;
 }
 
 void ReportSendQueueTimeouts(HWND hwndSender)
 {
-	MessageSendQueueItem *item, *item2;
 	int timeout = g_plugin.getDword(SRMSGSET_MSGTIMEOUT, SRMSGDEFSET_MSGTIMEOUT);
 
 	mir_cslock lock(queueMutex);
 
-	for (item = global_sendQueue; item != nullptr; item = item2) {
-		item2 = item->next;
-		if (item->timeout < timeout) {
-			item->timeout += 1000;
-			if (item->timeout >= timeout) {
-				if (item->hwndSender == hwndSender && item->hwndErrorDlg == nullptr) {
-					if (hwndSender != nullptr) {
-						CErrorDlg *pDlg = new CErrorDlg(TranslateT("The message send timed out."), hwndSender, item);
-						PostMessage(hwndSender, DM_SHOWERRORMESSAGE, 0, (LPARAM)pDlg);
-					}
-					else {
-						/* TODO: Handle errors outside messaging window in a better way */
-						RemoveSendQueueItem(item);
-					}
-				}
-			}
+	for (auto &it : arQueue.rev_iter()) {
+		if (it->timeout >= timeout)
+			continue;
+			
+		it->timeout += 1000;
+		if (it->timeout < timeout || it->hwndSender != hwndSender || it->hwndErrorDlg != nullptr)
+			continue;
+
+		if (hwndSender != nullptr) {
+			CErrorDlg *pDlg = new CErrorDlg(TranslateT("The message send timed out."), hwndSender, it);
+			PostMessage(hwndSender, DM_SHOWERRORMESSAGE, 0, (LPARAM)pDlg);
 		}
+		else arQueue.remove(arQueue.indexOf(&it));
 	}
 }
 
@@ -115,13 +97,13 @@ void ReleaseSendQueueItems(HWND hwndSender)
 {
 	mir_cslock lock(queueMutex);
 
-	for (MessageSendQueueItem *item = global_sendQueue; item != nullptr; item = item->next) {
-		if (item->hwndSender == hwndSender) {
-			item->hwndSender = nullptr;
-			if (item->hwndErrorDlg != nullptr)
-				DestroyWindow(item->hwndErrorDlg);
+	for (auto &it : arQueue) {
+		if (it->hwndSender == hwndSender) {
+			it->hwndSender = nullptr;
 
-			item->hwndErrorDlg = nullptr;
+			if (it->hwndErrorDlg != nullptr)
+				DestroyWindow(it->hwndErrorDlg);
+			it->hwndErrorDlg = nullptr;
 		}
 	}
 }
@@ -132,10 +114,10 @@ int ReattachSendQueueItems(HWND hwndSender, MCONTACT hContact)
 
 	mir_cslock lock(queueMutex);
 
-	for (MessageSendQueueItem *item = global_sendQueue; item != nullptr; item = item->next) {
-		if (item->hContact == hContact && item->hwndSender == nullptr) {
-			item->hwndSender = hwndSender;
-			item->timeout = 0;
+	for (auto &it : arQueue) {
+		if (it->hContact == hContact && it->hwndSender == nullptr) {
+			it->hwndSender = hwndSender;
+			it->timeout = 0;
 			count++;
 		}
 	}
@@ -144,32 +126,12 @@ int ReattachSendQueueItems(HWND hwndSender, MCONTACT hContact)
 
 void RemoveAllSendQueueItems()
 {
-	MessageSendQueueItem *item, *item2;
 	mir_cslock lock(queueMutex);
-	for (item = global_sendQueue; item != nullptr; item = item2) {
-		item2 = item->next;
-		RemoveSendQueueItem(item);
-	}
+	arQueue.destroy();
 }
 
 void SendSendQueueItem(MessageSendQueueItem* item)
 {
-	mir_cslockfull lock(queueMutex);
 	item->timeout = 0;
-
-	if (item->prev != nullptr) {
-		item->prev->next = item->next;
-		if (item->next != nullptr)
-			item->next->prev = item->prev;
-
-		item->next = global_sendQueue;
-		item->prev = nullptr;
-		if (global_sendQueue != nullptr)
-			global_sendQueue->prev = item;
-
-		global_sendQueue = item;
-	}
-	lock.unlock();
-
 	item->hSendId = ProtoChainSend(item->hContact, PSS_MESSAGE, item->flags, (LPARAM)item->sendBuffer);
 }
