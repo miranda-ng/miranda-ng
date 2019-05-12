@@ -165,6 +165,7 @@ class CMirandaPageDlg : public CWizardPageDlg
 	CCtrlButton btnBack, btnOther, btnPath;
 	CCtrlListBox m_list;
 	CCtrlCombo m_cmbFileType;
+	int m_iFileType = -1;
 
 public:
 	CMirandaPageDlg();

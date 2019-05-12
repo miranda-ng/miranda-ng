@@ -109,11 +109,17 @@ void CMirandaPageDlg::onClick_Back(CCtrlButton*)
 
 void CMirandaPageDlg::onClick_Other(CCtrlButton*)
 {
-	ptrW pfd(Utils_ReplaceVarsW(L"%miranda_profilesdir%"));
-
-	wchar_t str[MAX_PATH], text[256];
+	ptrW pfd;
+	wchar_t str[MAX_PATH], ext[100], text[256];
 	GetDlgItemText(m_hwnd, IDC_FILENAME, str, _countof(str));
-	mir_snwprintf(text, L"%s (*.dat, *.bak)%c*.dat;*.bak%c%s (*.*)%c*.*%c%c", TranslateT("Miranda NG database"), 0, 0, TranslateT("All Files"), 0, 0, 0);
+
+	if (m_iFileType == -1) {
+		wcsncpy_s(ext, L"*.dat;*.bak", _TRUNCATE);
+		pfd = Utils_ReplaceVarsW(L"%miranda_profilesdir%");
+	}
+	else mir_snwprintf(ext, L"*.%s", g_plugin.m_patterns[m_iFileType - 1].wszExt.c_str());
+
+	mir_snwprintf(text, L"%s (%s)%c%s%c%s (*.*)%c*.*%c%c", TranslateT("Miranda NG database"), ext, 0, ext, 0, TranslateT("All Files"), 0, 0, 0);
 
 	OPENFILENAME ofn = {};
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
@@ -175,19 +181,20 @@ void CMirandaPageDlg::onClick_Path(CCtrlButton*)
 
 void CMirandaPageDlg::onChange_Pattern(CCtrlCombo*)
 {
+	m_iFileType = -1;
 	int iCur = m_cmbFileType.GetCurSel();
 	if (iCur == -1)
 		return;
 
 	// standard import for Miranda
-	int iData = m_cmbFileType.GetItemData(iCur);
-	if (iData == -1) {
+	m_iFileType = m_cmbFileType.GetItemData(iCur);
+	if (m_iFileType == -1) {
 		g_pActivePattern = nullptr;
 		btnPath.Hide();
 	}
 	// custom pattern import
 	else {
-		g_pActivePattern = &g_plugin.m_patterns[iData-1];
+		g_pActivePattern = &g_plugin.m_patterns[m_iFileType-1];
 		btnPath.Show();
 	}
 }
@@ -288,7 +295,7 @@ bool CMirandaAdvOptionsPageDlg::OnInitDialog()
 	dwSinceDate = g_plugin.getDword("ImportSinceTS", time(0));
 	struct tm *TM = localtime(&dwSinceDate);
 
-	struct _SYSTEMTIME ST = { 0 };
+	SYSTEMTIME ST = { 0 };
 	ST.wYear = TM->tm_year + 1900;
 	ST.wMonth = TM->tm_mon + 1;
 	ST.wDay = TM->tm_mday;
@@ -331,7 +338,7 @@ void CMirandaAdvOptionsPageDlg::OnNext()
 	dwSinceDate = 0;
 
 	if (chkSince.IsChecked()) {
-		struct _SYSTEMTIME ST = { 0 };
+		SYSTEMTIME ST = { 0 };
 
 		if (DateTime_GetSystemtime(GetDlgItem(m_hwnd, IDC_DATETIMEPICKER), &ST) == GDT_VALID) {
 			struct tm TM = { 0 };
