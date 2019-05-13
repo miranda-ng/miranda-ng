@@ -176,6 +176,8 @@ public:
 		m_btnRemove(this, IDC_REMOVE, SKINICON_OTHER_DELETE, LPGEN("Remove")),
 		m_lvBookmarks(this, IDC_BM_LIST)
 	{
+		SetMinSize(451, 320);
+
 		m_lvBookmarks.OnItemActivate = Callback(this, &CJabberDlgBookmarks::lvBookmarks_OnDoubleClick);
 		m_btnAdd.OnClick = Callback(this, &CJabberDlgBookmarks::btnAdd_OnClick);
 		m_btnEdit.OnClick = Callback(this, &CJabberDlgBookmarks::btnEdit_OnClick);
@@ -235,14 +237,6 @@ public:
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		switch (msg) {
-		case WM_GETMINMAXINFO:
-			{
-				LPMINMAXINFO lpmmi = (LPMINMAXINFO)lParam;
-				lpmmi->ptMinTrackSize.x = 451;
-				lpmmi->ptMinTrackSize.y = 320;
-				return 0;
-			}
-
 		case WM_COMMAND:
 			switch (LOWORD(wParam)) {
 			case IDOK:

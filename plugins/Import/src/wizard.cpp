@@ -115,6 +115,7 @@ public:
 		CDlgBase(g_plugin, IDD_WIZARD),
 		m_pFirstPage(pPage)
 	{
+		SetMinSize(330, 286);
 		m_autoClose = CLOSE_ON_CANCEL;
 	}
 
@@ -220,14 +221,6 @@ public:
 		case WIZM_SETCANCELTEXT:
 			SetDlgItemText(m_hwnd, IDCANCEL, (wchar_t*)lParam);
 			break;
-
-		case WM_GETMINMAXINFO:
-			{
-				LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;
-				lpMMI->ptMinTrackSize.x = 330;
-				lpMMI->ptMinTrackSize.y = 286;
-			}
-			return 1;
 
 		case WM_COMMAND:
 			SendMessage(hwndPage, WM_COMMAND, wParam, lParam);

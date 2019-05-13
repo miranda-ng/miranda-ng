@@ -229,9 +229,6 @@ bool CSrmmWindow::OnInitDialog()
 	DWORD dwExStyle = GetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE);
 	SetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE, (m_bUseRtl) ? dwExStyle | WS_EX_LEFTSCROLLBAR :dwExStyle & ~WS_EX_LEFTSCROLLBAR);
 
-	m_toolbarSize.cy = TOOLBAR_HEIGHT;
-	m_toolbarSize.cx = 0;
-
 	RECT rc;
 	GetWindowRect(m_message.GetHwnd(), &rc);
 	m_minLogBoxHeight = m_minEditBoxHeight = rc.bottom - rc.top;
@@ -239,6 +236,8 @@ bool CSrmmWindow::OnInitDialog()
 		m_minEditBoxHeight = g_dat.minInputAreaHeight;
 	if (m_pParent->iSplitterY == -1)
 		m_pParent->iSplitterY = m_minEditBoxHeight;
+
+	SetMinSize(BOTTOM_RIGHT_AVATAR_HEIGHT, m_minLogBoxHeight + TOOLBAR_HEIGHT + m_minEditBoxHeight + max(INFO_BAR_HEIGHT, BOTTOM_RIGHT_AVATAR_HEIGHT - TOOLBAR_HEIGHT) + 5);
 
 	if (m_wszInitialText) {
 		m_message.SetText(m_wszInitialText);
@@ -839,7 +838,7 @@ void CSrmmWindow::MessageDialogResize(int w, int h)
 {
 	ParentWindowData *pdat = m_pParent;
 	bool bToolbar = (pdat->flags2 & SMF2_SHOWTOOLBAR) != 0;
-	int hSplitterPos = pdat->iSplitterY, toolbarHeight = (bToolbar) ? m_toolbarSize.cy : 0;
+	int hSplitterPos = pdat->iSplitterY, toolbarHeight = (bToolbar) ? TOOLBAR_HEIGHT : 0;
 	int hSplitterMinTop = toolbarHeight + m_minLogBoxHeight, hSplitterMinBottom = m_minEditBoxHeight;
 	int infobarInnerHeight = INFO_BAR_INNER_HEIGHT;
 	int infobarHeight = INFO_BAR_HEIGHT;
@@ -881,8 +880,8 @@ void CSrmmWindow::MessageDialogResize(int w, int h)
 			if (avatarWidth > BOTTOM_RIGHT_AVATAR_HEIGHT && avatarWidth > w / 4)
 				avatarWidth = w / 4;
 
-			if ((toolbarWidth - avatarWidth - 2) < m_toolbarSize.cx)
-				avatarWidth = toolbarWidth - m_toolbarSize.cx - 2;
+			if ((toolbarWidth - avatarWidth - 2) < 0)
+				avatarWidth = toolbarWidth - 2;
 
 			toolbarWidth -= avatarWidth + 2;
 			messageEditWidth -= avatarWidth + 1;
@@ -1352,14 +1351,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		SetParent((HWND)lParam);
 		m_pParent = (ParentWindowData *)GetWindowLongPtr(m_hwndParent, GWLP_USERDATA);
 		return TRUE;
-
-	case WM_GETMINMAXINFO:
-		{
-			MINMAXINFO *mmi = (MINMAXINFO *)lParam;
-			mmi->ptMinTrackSize.x = m_toolbarSize.cx + BOTTOM_RIGHT_AVATAR_HEIGHT;
-			mmi->ptMinTrackSize.y = m_minLogBoxHeight + m_toolbarSize.cy + m_minEditBoxHeight + max(INFO_BAR_HEIGHT, BOTTOM_RIGHT_AVATAR_HEIGHT - m_toolbarSize.cy) + 5;
-		}
-		return 0;
 
 	case WM_SIZE:
 		if (wParam == SIZE_RESTORED || wParam == SIZE_MAXIMIZED) {

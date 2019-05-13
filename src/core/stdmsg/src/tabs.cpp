@@ -142,6 +142,7 @@ CTabbedWindow::CTabbedWindow() :
 	CDlgBase(g_plugin, IDD_CONTAINER),
 	m_tab(this, IDC_TAB)
 {
+	SetMinSize(450, 350);
 }
 
 bool CTabbedWindow::OnInitDialog()
@@ -522,14 +523,6 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 		}
 		break;
-
-	case WM_GETMINMAXINFO:
-		{
-			MINMAXINFO *mmi = (MINMAXINFO*)lParam;
-			mmi->ptMinTrackSize.x = 450;
-			mmi->ptMinTrackSize.y = 350;
-		}
-		return 0;
 
 	case WM_DRAWITEM:
 		{

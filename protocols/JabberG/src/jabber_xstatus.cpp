@@ -139,12 +139,10 @@ protected:
 	UI_MESSAGE_MAP(CJabberDlgPepSimple, CSuper);
 		UI_MESSAGE(WM_MEASUREITEM, OnWmMeasureItem);
 		UI_MESSAGE(WM_DRAWITEM, OnWmDrawItem);
-		UI_MESSAGE(WM_GETMINMAXINFO, OnWmGetMinMaxInfo);
 	UI_MESSAGE_MAP_END();
 
 	BOOL OnWmMeasureItem(UINT msg, WPARAM wParam, LPARAM lParam);
 	BOOL OnWmDrawItem(UINT msg, WPARAM wParam, LPARAM lParam);
-	BOOL OnWmGetMinMaxInfo(UINT msg, WPARAM wParam, LPARAM lParam);
 
 private:
 	struct CStatusMode
@@ -187,6 +185,8 @@ CJabberDlgPepSimple::CJabberDlgPepSimple(CJabberProto *proto, wchar_t *title) :
 	m_bOkClicked(false),
 	m_title(title)
 {
+	SetMinSize(200, 200);
+
 	m_btnOk.OnClick = Callback(this, &CJabberDlgPepSimple::btnOk_OnClick);
 	m_cbModes.OnChange = Callback(this, &CJabberDlgPepSimple::cbModes_OnChange);
 	m_cbModes.OnDropdown =
@@ -363,14 +363,6 @@ BOOL CJabberDlgPepSimple::OnWmDrawItem(UINT, WPARAM, LPARAM lParam)
 	}
 
 	return TRUE;
-}
-
-BOOL CJabberDlgPepSimple::OnWmGetMinMaxInfo(UINT, WPARAM, LPARAM lParam)
-{
-	LPMINMAXINFO lpmmi = (LPMINMAXINFO)lParam;
-	lpmmi->ptMinTrackSize.x = 200;
-	lpmmi->ptMinTrackSize.y = 200;
-	return 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

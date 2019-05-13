@@ -35,7 +35,8 @@ static int lastColumn = -1;
 #define F_DELETED	0x400
 
 
-typedef struct {
+typedef struct
+{
 	HWND hwnd; // hwnd to item list
 	wchar_t* search; // text to find
 	wchar_t* replace; // text to replace
@@ -43,18 +44,17 @@ typedef struct {
 } FindInfo;
 
 
-ColumnsSettings csResultList[] = {
+ColumnsSettings csResultList[] =
+{
 	{ LPGENW("Result"),  0, "Search0width", 100 },
 	{ LPGENW("Contact"), 1, "Search1width", 100 },
 	{ LPGENW("Module"),  2, "Search2width", 100 },
 	{ LPGENW("Setting"), 3, "Search3width", 100 },
 	{ LPGENW("Value"),   4, "Search4width", 150 },
-	{nullptr}
+	{ nullptr }
 };
 
-
 void __cdecl FindSettings(LPVOID di);
-
 
 int FindDialogResize(HWND, LPARAM, UTILRESIZECONTROL *urc)
 {
@@ -68,9 +68,10 @@ int FindDialogResize(HWND, LPARAM, UTILRESIZECONTROL *urc)
 	}
 }
 
-
 INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	HWND hwndResults = GetDlgItem(hwnd, IDC_LIST);
+
 	switch (msg) {
 	case WM_INITDIALOG:
 		SendDlgItemMessage(hwnd, IDC_SBAR, SB_SETTEXT, 0, (LPARAM)TranslateT("Enter a string to search the database for"));
@@ -83,8 +84,8 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		SetWindowLongPtr(GetDlgItem(hwnd, IDC_SEARCH), GWLP_USERDATA, 0);
 		SetWindowLong(hwnd, GWL_EXSTYLE, GetWindowLong(hwnd, GWL_EXSTYLE) | WS_EX_APPWINDOW); // taskbar icon
 		TranslateDialogDefault(hwnd);
-		ListView_SetExtendedListViewStyle(GetDlgItem(hwnd, IDC_LIST), 32 | LVS_EX_LABELTIP); // LVS_EX_GRIDLINES
-		loadListSettings(GetDlgItem(hwnd, IDC_LIST), csResultList);
+		ListView_SetExtendedListViewStyle(hwndResults, 32 | LVS_EX_LABELTIP); // LVS_EX_GRIDLINES
+		loadListSettings(hwndResults, csResultList);
 		Utils_RestoreWindowPositionNoMove(hwnd, NULL, MODULENAME, "Search_");
 		return TRUE;
 
@@ -115,7 +116,7 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				if (!fi)
 					break;
 
-				fi->hwnd = GetDlgItem(hwnd, IDC_LIST);
+				fi->hwnd = hwndResults;
 				fi->options = (IsDlgButtonChecked(hwnd, IDC_CASESENSITIVE) ? F_CASE : 0) |
 					(IsDlgButtonChecked(hwnd, IDC_EXACT) ? F_EXACT : 0) |
 					(IsDlgButtonChecked(hwnd, IDC_MODNAME) ? F_MODNAME : 0) |
@@ -153,13 +154,14 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			break;
 		}
 		break;
+
 	case WM_GETMINMAXINFO:
-	{
-		MINMAXINFO *mmi = (MINMAXINFO*)lParam;
-		mmi->ptMinTrackSize.x = 610;
-		mmi->ptMinTrackSize.y = 300;
-	}
-	return 0;
+		{
+			MINMAXINFO *mmi = (MINMAXINFO*)lParam;
+			mmi->ptMinTrackSize.x = 610;
+			mmi->ptMinTrackSize.y = 300;
+		}
+		return 0;
 
 	case WM_SIZE:
 		Utils_ResizeDialog(hwnd, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_FIND), FindDialogResize);
@@ -169,19 +171,15 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		if (LOWORD(wParam) != IDC_LIST) break;
 		switch (((NMHDR*)lParam)->code) {
 		case NM_DBLCLK:
-		{
 			LVHITTESTINFO hti;
 			LVITEM lvi;
-			HWND hwndResults = GetDlgItem(hwnd, IDC_LIST);
 			hti.pt = ((NMLISTVIEW*)lParam)->ptAction;
 			if (ListView_SubItemHitTest(hwndResults, &hti) > -1) {
-				if (hti.flags&LVHT_ONITEM)
-				{
+				if (hti.flags & LVHT_ONITEM) {
 					lvi.mask = LVIF_PARAM;
 					lvi.iItem = hti.iItem;
 					lvi.iSubItem = 0;
-					if (ListView_GetItem(hwndResults, &lvi))
-					{
+					if (ListView_GetItem(hwndResults, &lvi)) {
 						ItemInfo ii = { 0 };
 						ii.hContact = (MCONTACT)lvi.lParam;
 						ListView_GetItemTextA(hwndResults, hti.iItem, 2, ii.module, _countof(ii.module));
@@ -196,24 +194,22 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				}
 			}
 			break;
-		}
 
 		case LVN_COLUMNCLICK:
-		{
 			LPNMLISTVIEW lv = (LPNMLISTVIEW)lParam;
 			ColumnsSortParams params;
-			params.hList = GetDlgItem(hwnd, IDC_LIST);
+			params.hList = hwndResults;
 			params.column = lv->iSubItem;
 			params.last = lastColumn;
 			ListView_SortItemsEx(params.hList, ColumnsCompare, (LPARAM)&params);
 			lastColumn = (params.column == lastColumn) ? -1 : params.column;
 			break;
-		}
 		} // switch
 		break;
+
 	case WM_DESTROY:
-		ListView_DeleteAllItems(GetDlgItem(hwnd, IDC_LIST));
-		saveListSettings(GetDlgItem(hwnd, IDC_LIST), csResultList);
+		ListView_DeleteAllItems(hwndResults);
+		saveListSettings(hwndResults, csResultList);
 		Utils_SaveWindowPosition(hwnd, NULL, MODULENAME, "Search_");
 		break;
 	}
@@ -221,7 +217,8 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 }
 
 
-void newFindWindow() {
+void newFindWindow()
+{
 	CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FIND), hwnd2mainWindow, FindWindowDlgProc);
 }
 
@@ -564,7 +561,6 @@ void __cdecl FindSettings(LPVOID param)
 
 				ItemFound(fi->hwnd, hContact, newModule, nullptr, nullptr, flag);
 			}
-
 		} // for(module)
 	}
 

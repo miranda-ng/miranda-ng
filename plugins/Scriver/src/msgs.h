@@ -117,7 +117,6 @@ class CSrmmWindow : public CScriverWindow
 	bool   m_bIncoming, m_bShowTyping;
 	
 	MEVENT m_hDbEventFirst, m_hDbEventLast, m_hDbUnreadEventFirst;
-	SIZE   m_toolbarSize;
 	int    m_iWindowWasCascaded;
 	int    m_nTypeSecs, m_nTypeMode, m_nLastTyping;
 	int    m_iShowUnread;

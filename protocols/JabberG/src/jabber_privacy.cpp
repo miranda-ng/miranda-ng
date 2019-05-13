@@ -1288,6 +1288,8 @@ public:
 		m_clcClist(this, IDC_CLIST),
 		m_edtNewJid(this, IDC_NEWJID)
 	{
+		SetMinSize(550, 390);
+
 		m_btnSimple.OnClick = Callback(this, &CJabberDlgPrivacyLists::btnSimple_OnClick);
 		m_btnAdvanced.OnClick = Callback(this, &CJabberDlgPrivacyLists::btnAdvanced_OnClick);
 		m_btnAddJid.OnClick = Callback(this, &CJabberDlgPrivacyLists::btnAddJid_OnClick);
@@ -1499,7 +1501,6 @@ public:
 	UI_MESSAGE_MAP(CJabberDlgPrivacyLists, CSuper);
 		UI_MESSAGE(WM_MEASUREITEM, OnWmMeasureItem);
 		UI_MESSAGE(WM_DRAWITEM, OnWmDrawItem);
-		UI_MESSAGE(WM_GETMINMAXINFO, OnWmGetMinMaxInfo);
 	UI_MESSAGE_MAP_END();
 
 	BOOL OnWmMeasureItem(UINT, WPARAM, LPARAM lParam)
@@ -1570,14 +1571,6 @@ public:
 		else return FALSE;
 
 		return TRUE;
-	}
-
-	BOOL OnWmGetMinMaxInfo(UINT, WPARAM, LPARAM lParam)
-	{
-		LPMINMAXINFO lpmmi = (LPMINMAXINFO)lParam;
-		lpmmi->ptMinTrackSize.x = 550;
-		lpmmi->ptMinTrackSize.y = 390;
-		return 0;
 	}
 
 	void btnSimple_OnClick(CCtrlButton*)

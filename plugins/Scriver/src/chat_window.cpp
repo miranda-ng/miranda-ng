@@ -227,6 +227,8 @@ bool CChatRoomDlg::OnInitDialog()
 		m_pParent->iSplitterX = rc.right - rc.left;
 	}
 
+	SetMinSize(350, m_minLogBoxHeight + TOOLBAR_HEIGHT + m_minEditBoxHeight + 5);
+
 	m_message.SendMsg(EM_SUBCLASSED, 0, 0);
 	m_message.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_KEYEVENTS | ENM_CHANGE | ENM_REQUESTRESIZE);
 
@@ -1030,17 +1032,6 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_KEYDOWN:
 		SetFocus(m_message.GetHwnd());
-		break;
-
-	case WM_GETMINMAXINFO:
-		{
-			MINMAXINFO *mmi = (MINMAXINFO*)lParam;
-			mmi->ptMinTrackSize.x = m_pParent->iSplitterX + 43;
-			if (mmi->ptMinTrackSize.x < 350)
-				mmi->ptMinTrackSize.x = 350;
-
-			mmi->ptMinTrackSize.y = m_minLogBoxHeight + TOOLBAR_HEIGHT + m_minEditBoxHeight + 5;
-		}
 		break;
 
 	case WM_LBUTTONDBLCLK:

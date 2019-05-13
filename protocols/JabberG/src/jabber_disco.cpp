@@ -506,6 +506,8 @@ public:
 		m_lstDiscoTree(this, IDC_TREE_DISCO), 
 		m_filter(this, IDC_FILTER)
 	{
+		SetMinSize(538, 374);
+
 		m_btnViewAsTree.OnClick = Callback(this, &CJabberDlgDiscovery::btnViewAsTree_OnClick);
 		m_btnViewAsList.OnClick = Callback(this, &CJabberDlgDiscovery::btnViewAsList_OnClick);
 		m_btnGoHome.OnClick = Callback(this, &CJabberDlgDiscovery::btnGoHome_OnClick);
@@ -819,14 +821,6 @@ public:
 			return result;
 
 		switch (msg) {
-		case WM_GETMINMAXINFO:
-			{
-				LPMINMAXINFO lpmmi = (LPMINMAXINFO)lParam;
-				lpmmi->ptMinTrackSize.x = 538;
-				lpmmi->ptMinTrackSize.y = 374;
-				return 0;
-			}
-
 		case WM_JABBER_TRANSPORT_REFRESH:
 			if (m_proto->m_nSDBrowseMode == SD_BROWSE_MYAGENTS) {
 				SetDlgItemText(m_hwnd, IDC_COMBO_JID, _T(SD_FAKEJID_MYAGENTS));

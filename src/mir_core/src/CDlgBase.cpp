@@ -224,6 +224,15 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
+	case WM_GETMINMAXINFO:
+		if (m_iMinHeight != -1 && m_iMinWidth != -1) {
+			MINMAXINFO *lpmmi = (MINMAXINFO*)lParam;
+			lpmmi->ptMinTrackSize.y = m_iMinHeight;
+			lpmmi->ptMinTrackSize.x = m_iMinWidth;
+			return 0;
+		}
+		break;
+
 	case WM_MEASUREITEM:
 		{
 			MEASUREITEMSTRUCT *param = (MEASUREITEMSTRUCT *)lParam;

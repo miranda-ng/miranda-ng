@@ -33,6 +33,8 @@ public:
 		m_btnCopyFile(this, IDC_FILEVER),
 		m_redtViewVersionInfo(this, IDC_VIEWVERSIONINFO)
 	{
+		SetMinSize(400, 300);
+
 		m_flags = flags;
 		m_forceResizable = true;
 
@@ -74,18 +76,6 @@ public:
 		if (servicemode)
 			PostQuitMessage(0);
 		return true;
-	}
-
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
-	{
-		if (msg == WM_GETMINMAXINFO) {
-			LPMINMAXINFO mmi = (LPMINMAXINFO)lParam;
-			mmi->ptMinTrackSize.x = 400; // The minimum width in points
-			mmi->ptMinTrackSize.y = 300; // The minimum height in points
-			return 0;
-		}
-
-		return CDlgBase::DlgProc(msg, wParam, lParam);
 	}
 
 	int Resizer(UTILRESIZECONTROL * urc) override

@@ -228,6 +228,8 @@ public:
 		btnUpload(this, IDC_UPLOAD),
 		btnDownload(this, IDC_DOWNLOAD)
 	{
+		SetMinSize(550, 390);
+
 		btnExport.OnClick = Callback(this, &CRosterEditorDlg::onClick_Export);
 		btnImport.OnClick = Callback(this, &CRosterEditorDlg::onClick_Import);
 		btnUpload.OnClick = Callback(this, &CRosterEditorDlg::onClick_Upload);
@@ -540,18 +542,6 @@ public:
 		}
 
 		OnChangeStatus();
-	}
-
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
-	{
-		if (msg == WM_GETMINMAXINFO) {
-			LPMINMAXINFO lpmmi = (LPMINMAXINFO)lParam;
-			lpmmi->ptMinTrackSize.x = 550;
-			lpmmi->ptMinTrackSize.y = 390;
-			return 0;
-		}
-
-		return CSuper::DlgProc(msg, wParam, lParam);
 	}
 };
 

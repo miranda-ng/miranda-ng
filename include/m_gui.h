@@ -402,6 +402,7 @@ public:
 	__forceinline HWND GetHwnd() const { return m_hwnd; }
 	__forceinline void Hide() { Show(SW_HIDE); }
 	__forceinline bool IsInitialized() const { return m_initialized; }
+	__forceinline void SetMinSize(int x, int y) { m_iMinWidth = x, m_iMinHeight = y; }
 	__forceinline void SetParent(HWND hwnd) { m_hwndParent = hwnd; }
 
 	__forceinline CCtrlBase* operator[](int iControlId) { return FindControl(iControlId); }
@@ -466,6 +467,7 @@ private:
 	bool VerifyControls(bool (CCtrlBase::*fn)());
 
 	CTimer* FindTimer(int idEvent);
+	int m_iMinWidth = -1, m_iMinHeight = -1;
 
 	static BOOL CALLBACK GlobalFieldEnum(HWND hwnd, LPARAM lParam);
 	static INT_PTR CALLBACK GlobalDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);

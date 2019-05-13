@@ -17,7 +17,8 @@ ColumnsSettings csWatchList[] = {
 
 
 
-int WatchedArrayIndex(MCONTACT hContact, const char *module, const char *setting, int strict) {
+int WatchedArrayIndex(MCONTACT hContact, const char *module, const char *setting, int strict)
+{
 	for (int i = 0; i < WatchListArray.count; i++) {
 		if (hContact == WatchListArray.item[i].hContact)
 			if (!mir_strcmp(module, WatchListArray.item[i].module))
@@ -31,8 +32,7 @@ int WatchedArrayIndex(MCONTACT hContact, const char *module, const char *setting
 
 int addSettingToWatchList(MCONTACT hContact, const char *module, const char *setting)
 {
-	if (WatchListArray.count == WatchListArray.size)
-	{
+	if (WatchListArray.count == WatchListArray.size) {
 		WatchListArray.size += 32;
 		WatchListArray.item = (struct DBsetting*)mir_realloc(WatchListArray.item, sizeof(struct DBsetting)*WatchListArray.size);
 	}
@@ -94,8 +94,7 @@ void addwatchtolist(HWND hwnd, struct DBsetting *lParam)
 		dummy.hContact = lParam->hContact;
 		dummy.module = lParam->module;
 
-		for (ModSetLinkLinkItem *setting = settinglist.first; setting; setting = setting->next)
-		{
+		for (ModSetLinkLinkItem *setting = settinglist.first; setting; setting = setting->next) {
 			dummy.setting = setting->name;
 			addwatchtolist(hwnd, &dummy);
 
@@ -125,11 +124,11 @@ void addwatchtolist(HWND hwnd, struct DBsetting *lParam)
 
 	switch (dbv->type) {
 	case DBVT_BLOB:
-	{
-		ptrA str(StringFromBlob(dbv->pbVal, dbv->cpbVal));
-		ListView_SetItemTextA(hwnd, index, 3, str);
-		break;
-	}
+		{
+			ptrA str(StringFromBlob(dbv->pbVal, dbv->cpbVal));
+			ListView_SetItemTextA(hwnd, index, 3, str);
+			break;
+		}
 	case DBVT_BYTE:
 		mir_snwprintf(data, L"0x%02X (%s)", dbv->bVal, _ultow(dbv->bVal, tmp, 10));
 		ListView_SetItemText(hwnd, index, 3, data);
@@ -149,18 +148,18 @@ void addwatchtolist(HWND hwnd, struct DBsetting *lParam)
 		break;
 
 	case DBVT_WCHAR:
-	{
-		ptrW str(mir_wstrdup(dbv->pwszVal));
-		ListView_SetItemText(hwnd, index, 3, str);
-		break;
-	}
+		{
+			ptrW str(mir_wstrdup(dbv->pwszVal));
+			ListView_SetItemText(hwnd, index, 3, str);
+			break;
+		}
 
 	case DBVT_UTF8:
-	{
-		ptrW str(mir_utf8decodeW(dbv->pszVal));
-		ListView_SetItemText(hwnd, index, 3, str);
-		break;
-	}
+		{
+			ptrW str(mir_utf8decodeW(dbv->pszVal));
+			ListView_SetItemText(hwnd, index, 3, str);
+			break;
+		}
 	case DBVT_DELETED:
 		if (IsResidentSetting(lParam->module, lParam->setting))
 			ListView_SetItemText(hwnd, index, 3, TranslateT("*** resident ***"));
@@ -192,8 +191,7 @@ void PopulateWatchedWindow()
 void freeAllWatches()
 {
 	ListView_DeleteAllItems(GetDlgItem(hwnd2watchedVarsWindow, IDC_VARS));
-	for (int i = 0; i < WatchListArray.count; i++)
-	{
+	for (int i = 0; i < WatchListArray.count; i++) {
 		freeWatchListItem(i);
 	}
 	mir_free(WatchListArray.item);
@@ -204,8 +202,7 @@ void freeAllWatches()
 
 int WatchDialogResize(HWND, LPARAM, UTILRESIZECONTROL *urc)
 {
-	switch (urc->wId)
-	{
+	switch (urc->wId) {
 	case IDC_VARS:
 		urc->rcItem.top = 0;
 		urc->rcItem.bottom = urc->dlgNewSize.cy;
@@ -256,12 +253,12 @@ INT_PTR CALLBACK WatchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		// for the resize
 	case WM_GETMINMAXINFO:
-	{
-		MINMAXINFO *mmi = (MINMAXINFO*)lParam;
-		mmi->ptMinTrackSize.x = 500;
-		mmi->ptMinTrackSize.y = 300;
-	}
-	return 0;
+		{
+			MINMAXINFO *mmi = (MINMAXINFO*)lParam;
+			mmi->ptMinTrackSize.x = 500;
+			mmi->ptMinTrackSize.y = 300;
+		}
+		return 0;
 
 	case WM_SIZE:
 		Utils_ResizeDialog(hwnd, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_WATCH_DIAG), WatchDialogResize);
@@ -292,15 +289,12 @@ INT_PTR CALLBACK WatchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				{
 					HWND hwndVars = GetDlgItem(hwnd, IDC_VARS);
 					hti.pt = ((NMLISTVIEW*)lParam)->ptAction;
-					if (ListView_SubItemHitTest(hwndVars, &hti) > -1)
-					{
-						if (hti.flags&LVHT_ONITEM)
-						{
+					if (ListView_SubItemHitTest(hwndVars, &hti) > -1) {
+						if (hti.flags&LVHT_ONITEM) {
 							lvi.mask = LVIF_PARAM;
 							lvi.iItem = hti.iItem;
 							lvi.iSubItem = 0;
-							if (ListView_GetItem(hwndVars, &lvi))
-							{
+							if (ListView_GetItem(hwndVars, &lvi)) {
 								ItemInfo ii;
 								ii.hContact = (MCONTACT)lvi.lParam;
 								ListView_GetItemTextA(hwndVars, hti.iItem, 1, ii.module, _countof(ii.module));

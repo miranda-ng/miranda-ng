@@ -315,7 +315,9 @@ class CJabberDlgConsole : public CJabberDlgBase
 public:
 	CJabberDlgConsole(CJabberProto *proto):
 		CJabberDlgBase(proto, IDD_CONSOLE)
-	{}
+	{
+		SetMinSize(300, 400);
+	}
 
 	bool OnInitDialog() override
 	{
@@ -437,14 +439,6 @@ public:
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		switch (msg) {
-		case WM_GETMINMAXINFO:
-			{
-				LPMINMAXINFO lpmmi = (LPMINMAXINFO)lParam;
-				lpmmi->ptMinTrackSize.x = 300;
-				lpmmi->ptMinTrackSize.y = 400;
-				return 0;
-			}
-
 		case WM_COMMAND:
 			switch (LOWORD(wParam)) {
 			case IDOK:
