@@ -17,6 +17,7 @@ enum {
 	SQL_EVT_STMT_FINDPREV,
 	SQL_EVT_STMT_GETIDBYSRVID,
 	SQL_EVT_STMT_SETSRVID,
+	SQL_EVT_STMT_ADDEVENT_SRT,
 	SQL_EVT_STMT_NUM
 };
 
@@ -37,6 +38,7 @@ static char *evt_stmts[SQL_EVT_STMT_NUM] = {
 	"select id, timestamp from events where contact_id = ?1 and id <> ?2 and timestamp < (select timestamp from events where contact_id = ?1 and id = ?2 limit 1) order by timestamp desc, id desc limit 1;",
 	"select id, timestamp from events where module = ? and server_id = ? limit 1;",
 	"update events set server_id = ? where id = ?;",
+	"insert into events_srt(id, contact_id, timestamp) values (?, ?, ?);",
 };
 
 static sqlite3_stmt *evt_stmts_prep[SQL_EVT_STMT_NUM] = { 0 };

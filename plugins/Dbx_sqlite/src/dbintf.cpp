@@ -27,12 +27,44 @@ int CDbxSQLite::Create(const wchar_t *profile)
 	if (rc != SQLITE_OK)
 		return 1;
 
-	sqlite3_exec(database, "create table contacts (id integer not null primary key autoincrement);", nullptr, nullptr, nullptr);
-	sqlite3_exec(database, "create table events (id integer not null primary key autoincrement, contact_id integer not null, module text not null, timestamp integer not null, type integer not null, flags integer not null, size integer not null, data blob, server_id text);", nullptr, nullptr, nullptr);
-	sqlite3_exec(database, "create index idx_events_contactid_timestamp on events(contact_id, timestamp);", nullptr, nullptr, nullptr);
-	sqlite3_exec(database, "create index idx_events_module_serverid on events(module, server_id);", nullptr, nullptr, nullptr);
-	sqlite3_exec(database, "create table settings (contact_id integer not null, module text not null, setting text not null, type integer not null, value any, primary key(contact_id, module, setting)) without rowid;", nullptr, nullptr, nullptr);
-	sqlite3_exec(database, "create index idx_settings_module on settings(module);", nullptr, nullptr, nullptr);
+	rc = sqlite3_exec(database, "create table contacts (id integer not null primary key autoincrement);", nullptr, nullptr, nullptr);
+	if (rc != SQLITE_OK)
+	{
+		//TODO: handle error
+	}
+	rc = sqlite3_exec(database, "create table events (id integer not null primary key autoincrement, contact_id integer not null, module text not null,"
+		"timestamp integer not null, type integer not null, flags integer not null, size integer not null, data blob, server_id text);", nullptr, nullptr, nullptr);
+	if (rc != SQLITE_OK)
+	{
+		//TODO: handle error
+	}
+	rc = sqlite3_exec(database, "create index idx_events_contactid_timestamp on events(contact_id, timestamp);", nullptr, nullptr, nullptr);
+	if (rc != SQLITE_OK)
+	{
+		//TODO: handle error
+	}
+	rc = sqlite3_exec(database, "create index idx_events_module_serverid on events(module, server_id);", nullptr, nullptr, nullptr);
+	if (rc != SQLITE_OK)
+	{
+		//TODO: handle error
+	}
+    rc = sqlite3_exec(database, "create table events_srt (id integer not null, contact_id integer not null, timestamp integer, primary key (contact_id, timestamp, id));",
+		nullptr, nullptr, nullptr);
+	if (rc != SQLITE_OK)
+	{
+		//TODO: handle error
+	}
+	rc = sqlite3_exec(database, "create table settings (contact_id integer not null, module text not null, setting text not null, type integer not null, value any,"
+		"primary key(contact_id, module, setting)) without rowid;", nullptr, nullptr, nullptr);
+	if (rc != SQLITE_OK)
+	{
+		//TODO: handle error
+	}
+	rc = sqlite3_exec(database, "create index idx_settings_module on settings(module);", nullptr, nullptr, nullptr);
+	if (rc != SQLITE_OK)
+	{
+		//TODO: handle error
+	}
 
 	sqlite3_close(database);
 
@@ -81,12 +113,29 @@ MDatabaseCommon* CDbxSQLite::Load(const wchar_t *profile, int readonly)
 	if (rc != SQLITE_OK)
 		return nullptr;
 
-	sqlite3_exec(database, "begin transaction;", nullptr, nullptr, nullptr);
-	sqlite3_exec(database, "pragma locking_mode = EXCLUSIVE;", nullptr, nullptr, nullptr);
-	sqlite3_exec(database, "pragma synchronous = NORMAL;", nullptr, nullptr, nullptr);
-	sqlite3_exec(database, "pragma foreign_keys = OFF;", nullptr, nullptr, nullptr);
-	sqlite3_exec(database, "pragma journal_mode = OFF;", nullptr, nullptr, nullptr);
-	sqlite3_exec(database, "commit;", nullptr, nullptr, nullptr);
+	rc = sqlite3_exec(database, "begin transaction;", nullptr, nullptr, nullptr);
+    if (rc != SQLITE_OK)
+	{
+		//TODO: handle error
+	}
+	rc = sqlite3_exec(database, "pragma locking_mode = EXCLUSIVE;", nullptr, nullptr, nullptr);
+    if (rc != SQLITE_OK) {
+      // TODO: handle error
+    }
+    rc = sqlite3_exec(database, "pragma synchronous = NORMAL;", nullptr, nullptr, nullptr);
+    if (rc != SQLITE_OK) {
+      // TODO: handle error
+    }
+    sqlite3_exec(database, "pragma foreign_keys = OFF;", nullptr, nullptr, nullptr);
+	rc = sqlite3_exec(database, "pragma journal_mode = OFF;", nullptr, nullptr, nullptr);
+    if (rc != SQLITE_OK) {
+      // TODO: handle error
+    }
+    rc = sqlite3_exec(database, "commit;", nullptr, nullptr, nullptr);
+    if (rc != SQLITE_OK) {
+      // TODO: handle error
+    }
+
 
 	CDbxSQLite *db = new CDbxSQLite(database);
 	db->InitSettings();
