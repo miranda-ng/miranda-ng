@@ -60,13 +60,15 @@ void CMPlugin::LoadPattern(const wchar_t *pwszFileName)
 	if (GetPrivateProfileStringW(L"General", L"DefaultExtension", L"", buf, _countof(buf), pwszFileName))
 		pNew->wszExt = buf;
 
-	if (GetPrivateProfileStringW(L"General", L"Charset", L"", buf, _countof(buf), pwszFileName)) {
-		if (!wcsicmp(buf, L"ANSI"))
-			pNew->iCodePage = GetPrivateProfileIntW(L"General", L"Codepage", CP_ACP, pwszFileName);
-		else if (!wcsicmp(buf, L"UCS2"))
-			pNew->iCodePage = 1200;
+	if (pNew->iType == 1) {
+		if (GetPrivateProfileStringW(L"General", L"Charset", L"", buf, _countof(buf), pwszFileName)) {
+			if (!wcsicmp(buf, L"ANSI"))
+				pNew->iCodePage = GetPrivateProfileIntW(L"General", L"Codepage", CP_ACP, pwszFileName);
+			else if (!wcsicmp(buf, L"UCS2"))
+				pNew->iCodePage = 1200;
+		}
+		else return;
 	}
-	else return;
 
 	pNew->iUseHeader = GetPrivateProfileIntW(L"General", L"UseHeader", 0, pwszFileName);
 	pNew->iUsePreMsg = GetPrivateProfileIntW(L"General", L"UsePreMsg", 0, pwszFileName);
@@ -75,25 +77,27 @@ void CMPlugin::LoadPattern(const wchar_t *pwszFileName)
 	// [Message] section
 	int erroffset;
 	const char *err;
-	if (GetPrivateProfileStringW(L"Message", L"Pattern", L"", buf, _countof(buf), pwszFileName)) {
-		if ((pNew->regMessage.pattern = pcre16_compile(buf, PCRE_MULTILINE, &err, &erroffset, nullptr)) == nullptr)
-			return;
-		pNew->regMessage.extra = pcre16_study(pNew->regMessage.pattern, 0, &err);
+	if (pNew->iType == 1) {
+		if (GetPrivateProfileStringW(L"Message", L"Pattern", L"", buf, _countof(buf), pwszFileName)) {
+			if ((pNew->regMessage.pattern = pcre16_compile(buf, PCRE_MULTILINE, &err, &erroffset, nullptr)) == nullptr)
+				return;
+			pNew->regMessage.extra = pcre16_study(pNew->regMessage.pattern, 0, &err);
+		}
+		else return;
+
+		if (GetPrivateProfileStringW(L"Message", L"In", L"", buf, _countof(buf), pwszFileName))
+			pNew->wszIncoming = buf;
+		if (GetPrivateProfileStringW(L"Message", L"Out", L"", buf, _countof(buf), pwszFileName))
+			pNew->wszOutgoing = buf;
+
+		pNew->iDirection = GetPrivateProfileIntW(L"Message", L"Direction", 0, pwszFileName);
+		pNew->iDay = GetPrivateProfileIntW(L"Message", L"Day", 0, pwszFileName);
+		pNew->iMonth = GetPrivateProfileIntW(L"Message", L"Month", 0, pwszFileName);
+		pNew->iYear = GetPrivateProfileIntW(L"Message", L"Year", 0, pwszFileName);
+		pNew->iHours = GetPrivateProfileIntW(L"Message", L"Hours", 0, pwszFileName);
+		pNew->iMinutes = GetPrivateProfileIntW(L"Message", L"Minutes", 0, pwszFileName);
+		pNew->iSeconds = GetPrivateProfileIntW(L"Message", L"Seconds", 0, pwszFileName);
 	}
-	else return;
-
-	if (GetPrivateProfileStringW(L"Message", L"In", L"", buf, _countof(buf), pwszFileName))
-		pNew->wszIncoming = buf;
-	if (GetPrivateProfileStringW(L"Message", L"Out", L"", buf, _countof(buf), pwszFileName))
-		pNew->wszOutgoing = buf;
-
-	pNew->iDirection = GetPrivateProfileIntW(L"Message", L"Direction", 0, pwszFileName);
-	pNew->iDay = GetPrivateProfileIntW(L"Message", L"Day", 0, pwszFileName);
-	pNew->iMonth = GetPrivateProfileIntW(L"Message", L"Month", 0, pwszFileName);
-	pNew->iYear = GetPrivateProfileIntW(L"Message", L"Year", 0, pwszFileName);
-	pNew->iHours = GetPrivateProfileIntW(L"Message", L"Hours", 0, pwszFileName);
-	pNew->iMinutes = GetPrivateProfileIntW(L"Message", L"Minutes", 0, pwszFileName);
-	pNew->iSeconds = GetPrivateProfileIntW(L"Message", L"Seconds", 0, pwszFileName);
 
 	if (pNew->iUsePreMsg) {
 		pNew->preRN = GetPrivateProfileIntW(L"PreMessage", L"PreRN", -1, pwszFileName);
@@ -124,80 +128,137 @@ void CMPlugin::LoadPattern(const wchar_t *pwszFileName)
 class CDbxPattern : public MDatabaseReadonly, public MZeroedObject
 {
 	CMStringW m_buf, m_folder;
-	MCONTACT m_hCurrContact;
+	MCONTACT m_hCurrContact = 0;
+	HANDLE m_hFile = INVALID_HANDLE_VALUE, m_hMap = 0;
+	const uint8_t *m_pFile = 0;
+	int m_iFileVersion = 0, m_iMsgHeaderSize = 0;
 
 	std::vector<DWORD> m_events;
 	std::vector<CMStringW> m_files;
 
+	////////////////////////////////////////////////////////////////////////////////////////
+	// QHF file format
+
+	bool LoadBinaryFile(const uint8_t *pFile, uint32_t iSize)
+	{
+		if (memicmp(pFile, "QHF", 3))
+			return false;
+
+		m_iFileVersion = pFile[3];
+							
+		uint32_t fsz = RLInteger(&pFile[4]); pFile += 0x2C;
+		uint32_t UIDLen = RLWord(pFile); pFile += 2;
+		char *UIDStr = (char*)_alloca(UIDLen + 2);
+		if (m_iFileVersion <= 2)
+			strncpy_s(UIDStr, UIDLen+2, (char*)pFile, UIDLen);
+		else
+			strncpy_s(UIDStr, UIDLen+2, (char*)pFile, UIDLen+1);
+		pFile += UIDLen;
+
+		uint32_t NickLen = RLWord(pFile); pFile += 2;
+		char *NickStr = (char*)_alloca(NickLen + 2);
+		if (m_iFileVersion <= 2)
+			strncpy_s(NickStr, NickLen + 2, (char*)pFile, NickLen);
+		else
+			strncpy_s(NickStr, NickLen + 2, (char*)pFile, NickLen + 1);
+		pFile += NickLen;
+
+		uint32_t iHeaderSize = 0x30 + NickLen + UIDLen;
+		if (fsz != iSize - iHeaderSize)
+			fsz = iSize - iHeaderSize;
+
+		m_iMsgHeaderSize = (m_iFileVersion >= 3) ? 0x23 : 0x21;
+		for (uint32_t i = 0; i < fsz; i += m_iMsgHeaderSize) {
+			m_events.push_back(i + iHeaderSize);
+			i += RLWord(&pFile[i + m_iMsgHeaderSize - 2]);
+		}
+
+		return true;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	// Text file format, parsed by regexps
+
+	bool LoadTextFile(const uint8_t *pFile)
+	{
+		switch (g_pActivePattern->iCodePage) {
+		case CP_UTF8:
+			m_buf = mir_utf8decodeW((char*)pFile);
+			break;
+		case 1200:
+			m_buf = mir_wstrdup((wchar_t*)pFile);
+			break;
+		default:
+			m_buf = mir_a2u_cp((char*)pFile, g_pActivePattern->iCodePage);
+			break;
+		}
+
+		// smth went wrong or empty file
+		if (m_buf.IsEmpty())
+			return false;
+
+		int iOffset = 0;
+		while (true) {
+			int offsets[99];
+			int nMatch = pcre16_exec(g_pActivePattern->regMessage.pattern, g_pActivePattern->regMessage.extra, m_buf, m_buf.GetLength(), iOffset, PCRE_NEWLINE_ANYCRLF, offsets, _countof(offsets));
+			if (nMatch <= 0)
+				break;
+
+			m_events.push_back(offsets[0]);
+			iOffset = offsets[1];
+		}
+		return true;
+	}
+
 public:
-	CDbxPattern() :
-		m_hCurrContact(0)
+	CDbxPattern()
 	{}
 
 	~CDbxPattern()
 	{
+		Close();
+	}
+
+	void Close()
+	{
+		if (m_pFile != nullptr)
+			::UnmapViewOfFile(m_pFile);
+
+		if (m_hMap != nullptr)
+			::CloseHandle(m_hMap);
+
+		if (m_hFile != INVALID_HANDLE_VALUE)
+			::CloseHandle(m_hFile);
 	}
 
 	bool Load(const wchar_t *pwszFileName)
 	{
 		m_buf.Empty();
 		m_events.clear();
+		Close();
 
-		HANDLE hFile = ::CreateFileW(pwszFileName, GENERIC_READ, 0, nullptr, OPEN_EXISTING, 0, 0);
-		if (hFile == INVALID_HANDLE_VALUE) {
+		m_hFile = ::CreateFileW(pwszFileName, GENERIC_READ, 0, nullptr, OPEN_EXISTING, 0, 0);
+		if (m_hFile == INVALID_HANDLE_VALUE) {
 			Netlib_Logf(0, "failed to open file <%S> for import: %d", pwszFileName, GetLastError());
 			return false;
 		}
 
-		HANDLE hMap = ::CreateFileMappingW(hFile, nullptr, PAGE_READONLY, 0, 0, L"ImportMapfile");
-		if (hMap == nullptr) {
+		uint32_t cbLen = ::GetFileSize(m_hFile, 0);
+		m_hMap = ::CreateFileMappingW(m_hFile, nullptr, PAGE_READONLY, 0, 0, L"ImportMapfile");
+		if (m_hMap == nullptr) {
 			Netlib_Logf(0, "failed to mmap file <%S> for import: %d", pwszFileName, GetLastError());
 			return false;
 		}
 
-		char *pFile = (char*)::MapViewOfFile(hMap, FILE_MAP_READ, 0, 0, 0);
-		if (pFile == nullptr) {
+		m_pFile = (const uint8_t*)::MapViewOfFile(m_hMap, FILE_MAP_READ, 0, 0, 0);
+		if (m_pFile == nullptr) {
 			Netlib_Logf(0, "failed to map view of file <%S> for import: %d", pwszFileName, GetLastError());
 			return false;
 		}
 
-		switch (g_pActivePattern->iCodePage) {
-		case CP_UTF8:
-			m_buf = mir_utf8decodeW(pFile);
-			break;
-		case 1200:
-			m_buf = mir_wstrdup((wchar_t*)pFile);
-			break;
-		default:
-			m_buf = mir_a2u_cp(pFile, g_pActivePattern->iCodePage);
-			break;
-		}
-
-		bool bRes = false;
-		if (!m_buf.IsEmpty()) {
-			int iOffset = 0;
-			while (true) {
-				int offsets[99];
-				int nMatch = pcre16_exec(g_pActivePattern->regMessage.pattern, g_pActivePattern->regMessage.extra, m_buf, m_buf.GetLength(), iOffset, PCRE_NEWLINE_ANYCRLF, offsets, _countof(offsets));
-				if (nMatch <= 0)
-					break;
-
-				m_events.push_back(offsets[0]);
-				iOffset = offsets[1];
-			}
-			bRes = true;
-		}
-
-		if (pFile != nullptr)
-			::UnmapViewOfFile(pFile);
-
-		if (hMap != nullptr)
-			::CloseHandle(hMap);
-
-		if (hFile != INVALID_HANDLE_VALUE)
-			::CloseHandle(hFile);
-
-		return bRes;
+		if (g_pActivePattern->iType == 1) // text file
+			return LoadTextFile(m_pFile);
+		return LoadBinaryFile(m_pFile, cbLen);
 	}
 
 	int Open(const wchar_t *profile)
@@ -213,7 +274,7 @@ public:
 		else {
 			int i = wszBaseFolder.ReverseFind('\\');
 			if (i != -1)
-				wszBaseFolder = wszBaseFolder.Left(i - 1);
+				wszBaseFolder = wszBaseFolder.Left(i);
 			m_folder = profile;
 		}
 
@@ -282,9 +343,17 @@ public:
 		if (m_events.size() == 0 || idx < 1 || idx > m_events.size())
 			return 0;
 
-		int iStart = m_events[idx-1], iEnd = (idx == m_events.size()) ? m_buf.GetLength() : m_events[idx];
-		CMStringW msg = m_buf.Mid(iStart, iEnd - iStart);
-		return (LONG)mir_strlen(ptrA(mir_utf8encodeW(msg))) + 1;
+		if (g_pActivePattern->iType == 1) {
+			int iStart = m_events[idx-1], iEnd = (idx == m_events.size()) ? m_buf.GetLength() : m_events[idx];
+			CMStringW msg = m_buf.Mid(iStart, iEnd - iStart);
+			return (LONG)mir_strlen(ptrA(mir_utf8encodeW(msg))) + 1;
+		}
+
+		if (m_pFile == nullptr)
+			return 0;
+
+		const uint8_t *pMsg = m_pFile + m_events[idx-1];
+		return RLWord(&pMsg[m_iMsgHeaderSize - 2]) + 1;
 	}
 	
 	STDMETHODIMP_(LONG) GetContactCount(void) override
@@ -382,13 +451,35 @@ public:
 		return _wtoi(str);
 	}
 
-	STDMETHODIMP_(BOOL) GetEvent(MEVENT idx, DBEVENTINFO *dbei) override
+	int getBinaryEvent(MEVENT idx, DBEVENTINFO *dbei)
 	{
-		if (m_events.size() == 0 || idx < 1 || idx > m_events.size())
+		if (m_pFile == nullptr)
 			return 1;
 
+		const uint8_t *pMsg = m_pFile + m_events[idx-1];
+
+		dbei->eventType = EVENTTYPE_MESSAGE;
+		dbei->flags = DBEF_READ | DBEF_UTF;
+		if (pMsg[0x1A] != 0)
+			dbei->flags |= DBEF_SENT;
+		dbei->timestamp = RLInteger(&pMsg[0x12]);
+		dbei->cbBlob = RLWord(&pMsg[m_iMsgHeaderSize - 2]);
+		dbei->pBlob = (PBYTE)mir_alloc(dbei->cbBlob + 1);
+		memcpy(dbei->pBlob, pMsg + m_iMsgHeaderSize, dbei->cbBlob);
+		if (m_iFileVersion != 1)
+			for (unsigned i = 0; i < dbei->cbBlob; i++) {
+				dbei->pBlob[i] += i+1;
+				dbei->pBlob[i] = 255 - dbei->pBlob[i];
+			}
+
+		dbei->pBlob[dbei->cbBlob] = 0;
+		return 0;
+	}
+
+	int getTextEvent(MEVENT idx, DBEVENTINFO *dbei)
+	{
 		int offsets[99];
-		int nMatch = pcre16_exec(g_pActivePattern->regMessage.pattern, g_pActivePattern->regMessage.extra, m_buf, m_buf.GetLength(), m_events[idx - 1], PCRE_NEWLINE_ANYCRLF, offsets, _countof(offsets));
+		int nMatch = pcre16_exec(g_pActivePattern->regMessage.pattern, g_pActivePattern->regMessage.extra, m_buf, m_buf.GetLength(), m_events[idx-1], PCRE_NEWLINE_ANYCRLF, offsets, _countof(offsets));
 		if (nMatch <= 0)
 			return 1;
 
@@ -408,12 +499,12 @@ public:
 
 		if (arn != 0) {
 			int i = 0;
-			while (m_buf[h2-2] == '\r' && m_buf[h2 - 1] == '\n' && i < arn)
+			while (m_buf[h2 - 2] == '\r' && m_buf[h2 - 1] == '\n' && i < arn)
 				h2 -= 2, i++;
 		}
 
 		if (dbei->cbBlob) {
-			CMStringW wszBody = m_buf.Mid(h1, h2-h1).Trim();
+			CMStringW wszBody = m_buf.Mid(h1, h2 - h1).Trim();
 			if (!wszBody.IsEmpty()) {
 				ptrA tmp(mir_utf8encodeW(wszBody));
 				int copySize = min(dbei->cbBlob - 1, (int)mir_strlen(tmp));
@@ -444,8 +535,18 @@ public:
 
 			pcre16_free_substring_list(substrings);
 		}
-
 		return 0;
+	}
+
+	STDMETHODIMP_(BOOL) GetEvent(MEVENT idx, DBEVENTINFO *dbei) override
+	{
+		if (dbei == nullptr || m_events.size() == 0 || idx < 1 || idx > m_events.size())
+			return 1;
+
+		if (g_pActivePattern->iType == 1)
+			return getTextEvent(idx, dbei);
+
+		return getBinaryEvent(idx, dbei);
 	}
 
 	STDMETHODIMP_(MEVENT) FindFirstEvent(MCONTACT hContact) override
@@ -484,7 +585,7 @@ public:
 
 	STDMETHODIMP_(MEVENT) FindPrevEvent(MCONTACT, MEVENT idx) override
 	{
-		return (idx >= 1) ? idx - 1 : 0;
+		return (idx >= 1) ? idx-1 : 0;
 	}
 };
 

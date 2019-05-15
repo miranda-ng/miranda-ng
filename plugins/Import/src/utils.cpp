@@ -180,6 +180,24 @@ bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// rtl integers
+
+uint32_t RLInteger(const uint8_t *p)
+{
+	uint32_t ret = 0;
+	for (int i = 0; i < 4; i++) {
+		ret <<= 8;
+		ret += p[i];
+	}
+	return ret;
+}
+
+uint32_t RLWord(const uint8_t *p)
+{
+	return (p[0] << 8) + p[1];
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // icons
 
 static IconItem iconList[] =

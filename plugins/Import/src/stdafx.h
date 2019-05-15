@@ -232,6 +232,9 @@ bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei);
 
 int CreateGroup(const wchar_t *name, MCONTACT hContact);
 
+uint32_t RLInteger(const uint8_t *p);
+uint32_t RLWord(const uint8_t *p);
+
 extern HWND g_hwndWizard, g_hwndAccMerge;
 extern wchar_t g_wszImportFile[MAX_PATH];
 extern time_t dwSinceDate;
