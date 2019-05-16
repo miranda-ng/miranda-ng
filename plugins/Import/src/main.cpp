@@ -22,14 +22,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-int g_iImportOptions;
-MCONTACT g_hImportContact;
-CImportPattern *g_pActivePattern;
-
-bool g_bServiceMode = false, g_bSendQuit = false;
 HWND g_hwndWizard, g_hwndAccMerge;
-
+bool g_bServiceMode = false, g_bSendQuit = false;
 CMPlugin g_plugin;
+CImportBatch *g_pBatch;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -101,8 +97,9 @@ static INT_PTR ServiceMode(WPARAM wParam, LPARAM)
 	if (wParam == 1) {
 		ptrW wszFullName(Utils_ReplaceVarsW(L"%miranda_userdata%\\%miranda_profilename%.dat.bak"));
 		if (!_waccess(wszFullName, 0)) {
-			g_iImportOptions = IOPT_ADDUNKNOWN + IOPT_COMPLETE;
-			wcsncpy_s(g_wszImportFile, MAX_PATH, wszFullName, _TRUNCATE);
+			g_pBatch = new CImportBatch();
+			g_pBatch->m_iOptions = IOPT_ADDUNKNOWN + IOPT_COMPLETE;
+			wcsncpy_s(g_pBatch->m_wszFileName, MAX_PATH, wszFullName, _TRUNCATE);
 			RunWizard(new CProgressPageDlg(), true);
 		}
 		return SERVICE_CONTINUE;
@@ -117,10 +114,9 @@ static INT_PTR ServiceMode(WPARAM wParam, LPARAM)
 static INT_PTR CustomImport(WPARAM wParam, LPARAM)
 {
 	MImportOptions *opts = (MImportOptions*)wParam;
-	wcsncpy_s(g_wszImportFile, MAX_PATH, opts->pwszFileName, _TRUNCATE);
-	g_iImportOptions = opts->dwFlags;
-	g_hImportContact = 0;
-	g_pActivePattern = nullptr;
+	g_pBatch = new CImportBatch();
+	wcsncpy_s(g_pBatch->m_wszFileName, MAX_PATH, opts->pwszFileName, _TRUNCATE);
+	g_pBatch->m_iOptions = opts->dwFlags;
 	return RunWizard(new CProgressPageDlg(), true);
 }
 
@@ -130,7 +126,11 @@ static INT_PTR ImportCommand(WPARAM, LPARAM)
 		SetForegroundWindow(g_hwndWizard);
 		SetFocus(g_hwndWizard);
 	}
-	else RunWizard(new CIntroPageDlg(), false);
+	else {
+		// no default options, lauch the dialog
+		g_pBatch = new CImportBatch();
+		RunWizard(new CIntroPageDlg(), false);
+	}
 
 	return 0;
 }
@@ -144,7 +144,7 @@ int CMPlugin::Load()
 	RegisterIcons();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	HookEvent(ME_SYSTEM_OKTOEXIT, OnExit);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnExit);
 
 	INITCOMMONCONTROLSEX icex;
 	icex.dwSize = sizeof(icex);

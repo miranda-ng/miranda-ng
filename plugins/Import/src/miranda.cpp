@@ -22,10 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-time_t dwSinceDate = 0;
-
-wchar_t g_wszImportFile[MAX_PATH];
-
 //=======================================================================================
 // Profile selection dialog
 
@@ -98,7 +94,7 @@ void CMirandaPageDlg::OnNext()
 		MessageBox(m_hwnd, TranslateT("The given file does not exist. Please check that you have entered the name correctly."), TranslateT("Miranda Import"), MB_OK);
 		return;
 	}
-	mir_wstrcpy(g_wszImportFile, filename);
+	mir_wstrcpy(g_pBatch->m_wszFileName, filename);
 	PostMessage(m_hwndParent, WIZM_GOTOPAGE, 0, (LPARAM)new CMirandaOptionsPageDlg());
 }
 
@@ -121,7 +117,7 @@ void CMirandaPageDlg::onClick_Other(CCtrlButton*)
 	}
 	else {
 		mir_snwprintf(ext, L"*.%s", g_plugin.m_patterns[m_iFileType - 1].wszExt.c_str());
-		pwszName = g_pActivePattern->wszName;
+		pwszName = g_pBatch->m_pPattern->wszName;
 	}
 
 	mir_snwprintf(text, L"%s (%s)%c%s%c%s (*.*)%c*.*%c%c", pwszName, ext, 0, ext, 0, TranslateT("All Files"), 0, 0, 0);
@@ -168,7 +164,7 @@ void CMirandaPageDlg::onClick_Path(CCtrlButton*)
 
 	// find appropriate files and list them
 	wchar_t searchspec[MAX_PATH];
-	mir_snwprintf(searchspec, L"%s\\*.%s", str, g_pActivePattern->wszExt.c_str());
+	mir_snwprintf(searchspec, L"%s\\*.%s", str, g_pBatch->m_pPattern->wszExt.c_str());
 	WIN32_FIND_DATA fd;
 	HANDLE hFind = FindFirstFile(searchspec, &fd);
 	if (hFind != INVALID_HANDLE_VALUE) {
@@ -194,12 +190,12 @@ void CMirandaPageDlg::onChange_Pattern(CCtrlCombo*)
 	// standard import for Miranda
 	m_iFileType = m_cmbFileType.GetItemData(iCur);
 	if (m_iFileType == -1) {
-		g_pActivePattern = nullptr;
+		g_pBatch->m_pPattern = nullptr;
 		btnPath.Hide();
 	}
 	// custom pattern import
 	else {
-		g_pActivePattern = &g_plugin.m_patterns[m_iFileType-1];
+		g_pBatch->m_pPattern = &g_plugin.m_patterns[m_iFileType-1];
 		btnPath.Show();
 	}
 }
@@ -251,19 +247,19 @@ void CMirandaOptionsPageDlg::OnNext()
 	int iFlags = chkDups.IsChecked() ? IOPT_CHECKDUPS : 0;
 
 	if (IsDlgButtonChecked(m_hwnd, IDC_RADIO_COMPLETE)) {
-		g_iImportOptions = IOPT_ADDUNKNOWN | IOPT_COMPLETE | iFlags;
+		g_pBatch->m_iOptions = IOPT_ADDUNKNOWN | IOPT_COMPLETE | iFlags;
 		PostMessage(m_hwndParent, WIZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)new CProgressPageDlg());
 	}
 	else if (IsDlgButtonChecked(m_hwnd, IDC_RADIO_ALL)) {
-		g_iImportOptions = IOPT_HISTORY | IOPT_SYSTEM | IOPT_GROUPS | IOPT_CONTACTS | iFlags;
+		g_pBatch->m_iOptions = IOPT_HISTORY | IOPT_SYSTEM | IOPT_GROUPS | IOPT_CONTACTS | iFlags;
 		PostMessage(m_hwndParent, WIZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)new CProgressPageDlg());
 	}
 	else if (IsDlgButtonChecked(m_hwnd, IDC_RADIO_CONTACTS)) {
-		g_iImportOptions = IOPT_CONTACTS;
+		g_pBatch->m_iOptions = IOPT_CONTACTS;
 		PostMessage(m_hwndParent, WIZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)new CProgressPageDlg());
 	}
 	else if (IsDlgButtonChecked(m_hwnd, IDC_RADIO_CUSTOM)) {
-		g_iImportOptions = iFlags;
+		g_pBatch->m_iOptions = iFlags;
 		PostMessage(m_hwndParent, WIZM_GOTOPAGE, IDD_ADVOPTIONS, (LPARAM)new CMirandaAdvOptionsPageDlg());
 	}
 }
@@ -297,8 +293,8 @@ CMirandaAdvOptionsPageDlg::CMirandaAdvOptionsPageDlg() :
 
 bool CMirandaAdvOptionsPageDlg::OnInitDialog()
 {
-	dwSinceDate = g_plugin.getDword("ImportSinceTS", time(0));
-	struct tm *TM = localtime(&dwSinceDate);
+	g_pBatch->m_dwSinceDate = g_plugin.getDword("ImportSinceTS", time(0));
+	struct tm *TM = localtime(&g_pBatch->m_dwSinceDate);
 
 	SYSTEMTIME ST = { 0 };
 	ST.wYear = TM->tm_year + 1900;
@@ -316,31 +312,31 @@ void CMirandaAdvOptionsPageDlg::onClick_Back(CCtrlButton*)
 void CMirandaAdvOptionsPageDlg::OnNext()
 {
 	// clear all another flags but duplicates
-	g_iImportOptions &= IOPT_CHECKDUPS;
+	g_pBatch->m_iOptions &= IOPT_CHECKDUPS;
 
 	if (IsDlgButtonChecked(m_hwnd, IDC_CONTACTS))
-		g_iImportOptions |= IOPT_CONTACTS | IOPT_GROUPS;
+		g_pBatch->m_iOptions |= IOPT_CONTACTS | IOPT_GROUPS;
 	if (IsDlgButtonChecked(m_hwnd, IDC_SYSTEM))
-		g_iImportOptions |= IOPT_SYSTEM;
+		g_pBatch->m_iOptions |= IOPT_SYSTEM;
 
 	// incoming
 	if (IsDlgButtonChecked(m_hwnd, IDC_IN_MSG))
-		g_iImportOptions |= IOPT_MSGRECV;
+		g_pBatch->m_iOptions |= IOPT_MSGRECV;
 	if (IsDlgButtonChecked(m_hwnd, IDC_IN_FT))
-		g_iImportOptions |= IOPT_FILERECV;
+		g_pBatch->m_iOptions |= IOPT_FILERECV;
 	if (IsDlgButtonChecked(m_hwnd, IDC_IN_OTHER))
-		g_iImportOptions |= IOPT_OTHERRECV;
+		g_pBatch->m_iOptions |= IOPT_OTHERRECV;
 
 	// outgoing
 	if (IsDlgButtonChecked(m_hwnd, IDC_OUT_MSG))
-		g_iImportOptions |= IOPT_MSGSENT;
+		g_pBatch->m_iOptions |= IOPT_MSGSENT;
 	if (IsDlgButtonChecked(m_hwnd, IDC_OUT_FT))
-		g_iImportOptions |= IOPT_FILESENT;
+		g_pBatch->m_iOptions |= IOPT_FILESENT;
 	if (IsDlgButtonChecked(m_hwnd, IDC_OUT_OTHER))
-		g_iImportOptions |= IOPT_OTHERSENT;
+		g_pBatch->m_iOptions |= IOPT_OTHERSENT;
 
 	// since date
-	dwSinceDate = 0;
+	g_pBatch->m_dwSinceDate = 0;
 
 	if (chkSince.IsChecked()) {
 		SYSTEMTIME ST = { 0 };
@@ -352,13 +348,13 @@ void CMirandaAdvOptionsPageDlg::OnNext()
 			TM.tm_mon = ST.wMonth - 1;
 			TM.tm_year = ST.wYear - 1900;
 
-			dwSinceDate = mktime(&TM);
+			g_pBatch->m_dwSinceDate = mktime(&TM);
 
-			g_plugin.setDword("ImportSinceTS", dwSinceDate);
+			g_plugin.setDword("ImportSinceTS", g_pBatch->m_dwSinceDate);
 		}
 	}
 
-	if (g_iImportOptions)
+	if (g_pBatch->m_iOptions)
 		PostMessage(m_hwndParent, WIZM_GOTOPAGE, 0, (LPARAM)new CProgressPageDlg());
 }
 

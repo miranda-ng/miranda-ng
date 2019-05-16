@@ -26,8 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static CProgressPageDlg *pDlg;
 
-void MirandaImport(void);
-
 CProgressPageDlg::CProgressPageDlg() :
 	CWizardPageDlg(IDD_PROGRESS),
 	m_list(this, IDC_STATUS),
@@ -113,7 +111,7 @@ void CProgressPageDlg::OnTimer(CTimer*)
 {
 	m_timer.Stop();
 
-	MirandaImport();
+	g_pBatch->DoImport();
 	if (g_bServiceMode && !g_bSendQuit)
 		DestroyWindow(g_hwndWizard);
 	else {

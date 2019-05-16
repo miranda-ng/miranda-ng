@@ -24,8 +24,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 class CContactImportDlg : public CDlgBase
 {
+	friend INT_PTR ImportContact(WPARAM hContact, LPARAM);
+
 	MCONTACT m_hContact;
 	int m_flags = 0;
+	CImportPattern *m_pPattern = 0;
+	wchar_t m_wszFileName[MAX_PATH];
 
 	CCtrlButton m_btnOpenFile, m_btnOk;
 	CCtrlCombo m_cmbFileType;
@@ -40,11 +44,11 @@ public:
 		m_btnOk(this, IDOK),
 		m_btnOpenFile(this, IDC_OPEN_FILE)
 	{
+		m_wszFileName[0] = 0;
+
 		m_btnOk.OnClick = Callback(this, &CContactImportDlg::onClick_Ok);
 		m_btnOpenFile.OnClick = Callback(this, &CContactImportDlg::onClick_OpenFile);
 	}
-
-	int getFlags() const { return m_flags; }
 
 	bool OnInitDialog() override
 	{
@@ -63,8 +67,8 @@ public:
 
 	bool OnApply() override
 	{
-		edtFileName.GetText(g_wszImportFile, _countof(g_wszImportFile));
-		if (g_wszImportFile[0] == 0)
+		edtFileName.GetText(m_wszFileName, _countof(m_wszFileName));
+		if (m_wszFileName[0] == 0)
 			return false;
 
 		if (IsDlgButtonChecked(m_hwnd, IDC_CHECK_DUPS))
@@ -87,18 +91,18 @@ public:
 		switch(int idx = m_cmbFileType.GetItemData(iCur)) {
 		case -1:
 			text.AppendFormat(L"%s (*.dat,*.bak)%c*.dat;*.bak%c", cmbText.c_str(), 0, 0);
-			g_pActivePattern = nullptr;
+			m_pPattern = nullptr;
 			break;
 
 		case -2:
 			text.AppendFormat(L"%s (*.json)%c*.json%c", cmbText.c_str(), 0, 0);
-			g_pActivePattern = nullptr;
+			m_pPattern = nullptr;
 			break;
 
 		default:
 			auto &p = g_plugin.m_patterns[idx-1];
 			text.AppendFormat(L"%s (*.%s)%c*.%s%c", cmbText.c_str(), p.wszExt.c_str(), 0, p.wszExt.c_str(), 0);
-			g_pActivePattern = &p;
+			m_pPattern = &p;
 			break;
 		}
 		text.AppendFormat(L"%s (*.*)%c*.*%c%c", TranslateT("All Files"), 0, 0, 0);
@@ -108,13 +112,13 @@ public:
 		ofn.lpstrFilter = text;
 		ofn.lpstrDefExt = L"dat";
 		ofn.Flags = OFN_FILEMUSTEXIST | OFN_EXPLORER | OFN_NOCHANGEDIR | OFN_DONTADDTORECENT;
-		ofn.lpstrFile = g_wszImportFile;
-		ofn.nMaxFile = _countof(g_wszImportFile);
+		ofn.lpstrFile = m_wszFileName;
+		ofn.nMaxFile = _countof(m_wszFileName);
 		if (!GetOpenFileNameW(&ofn)) {
-			g_wszImportFile[0] = 0;
-			g_pActivePattern = nullptr;
+			m_wszFileName[0] = 0;
+			m_pPattern = nullptr;
 		}
-		else edtFileName.SetText(g_wszImportFile);
+		else edtFileName.SetText(m_wszFileName);
 	}
 };
 
@@ -124,7 +128,10 @@ INT_PTR ImportContact(WPARAM hContact, LPARAM)
 	if (!dlg.DoModal())
 		return 0;
 
-	g_hImportContact = hContact;
-	g_iImportOptions = IOPT_HISTORY + dlg.getFlags();
+	g_pBatch = new CImportBatch();
+	wcsncpy_s(g_pBatch->m_wszFileName, dlg.m_wszFileName, _TRUNCATE);
+	g_pBatch->m_pPattern = dlg.m_pPattern;
+	g_pBatch->m_hContact = hContact;
+	g_pBatch->m_iOptions = IOPT_HISTORY + dlg.m_flags;
 	return RunWizard(new CProgressPageDlg(), true);
 }

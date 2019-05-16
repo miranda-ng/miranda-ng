@@ -28,7 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 CIntroPageDlg::CIntroPageDlg() :
 	CWizardPageDlg(IDD_WIZARDINTRO)
 {
-	g_pActivePattern = nullptr;
 }
 
 bool CIntroPageDlg::OnInitDialog()
@@ -159,6 +158,8 @@ public:
 	void OnDestroy() override
 	{
 		g_hwndWizard = nullptr;
+		delete g_pBatch; g_pBatch = nullptr;
+
 		if (g_bSendQuit)
 			PostQuitMessage(0);
 	}

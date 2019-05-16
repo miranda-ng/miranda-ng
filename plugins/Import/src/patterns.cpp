@@ -181,7 +181,9 @@ class CDbxPattern : public MDatabaseReadonly, public MZeroedObject
 
 	bool LoadTextFile(const uint8_t *pFile)
 	{
-		switch (g_pActivePattern->iCodePage) {
+		auto *pPattern = g_pBatch->m_pPattern;
+
+		switch (pPattern->iCodePage) {
 		case CP_UTF8:
 			m_buf = mir_utf8decodeW((char*)pFile);
 			break;
@@ -189,7 +191,7 @@ class CDbxPattern : public MDatabaseReadonly, public MZeroedObject
 			m_buf = mir_wstrdup((wchar_t*)pFile);
 			break;
 		default:
-			m_buf = mir_a2u_cp((char*)pFile, g_pActivePattern->iCodePage);
+			m_buf = mir_a2u_cp((char*)pFile, pPattern->iCodePage);
 			break;
 		}
 
@@ -200,7 +202,7 @@ class CDbxPattern : public MDatabaseReadonly, public MZeroedObject
 		int iOffset = 0;
 		while (true) {
 			int offsets[99];
-			int nMatch = pcre16_exec(g_pActivePattern->regMessage.pattern, g_pActivePattern->regMessage.extra, m_buf, m_buf.GetLength(), iOffset, PCRE_NEWLINE_ANYCRLF, offsets, _countof(offsets));
+			int nMatch = pcre16_exec(pPattern->regMessage.pattern, pPattern->regMessage.extra, m_buf, m_buf.GetLength(), iOffset, PCRE_NEWLINE_ANYCRLF, offsets, _countof(offsets));
 			if (nMatch <= 0)
 				break;
 
@@ -256,7 +258,7 @@ public:
 			return false;
 		}
 
-		if (g_pActivePattern->iType == 1) // text file
+		if (g_pBatch->m_pPattern->iType == 1) // text file
 			return LoadTextFile(m_pFile);
 		return LoadBinaryFile(m_pFile, cbLen);
 	}
@@ -264,12 +266,13 @@ public:
 	int Open(const wchar_t *profile)
 	{
 		CMStringW wszBaseFolder(profile);
+		auto *pPattern = g_pBatch->m_pPattern;
 
 		// create a mask for loading multiple data files for a folder
 		DWORD dwAttr = GetFileAttributesW(profile);
 		if (dwAttr & FILE_ATTRIBUTE_DIRECTORY) {
 			wszBaseFolder = profile;
-			m_folder.AppendFormat(L"%s\\*.%s", profile, g_pActivePattern->wszExt.c_str());
+			m_folder.AppendFormat(L"%s\\*.%s", profile, pPattern->wszExt.c_str());
 		}
 		else {
 			int i = wszBaseFolder.ReverseFind('\\');
@@ -294,9 +297,9 @@ public:
 				cc->szProto = "Pattern";
 
 				// we try to restore user id from the file name
-				if (g_pActivePattern->iUseFilename) {
+				if (pPattern->iUseFilename) {
 					int offsets[100];
-					int nMatch = pcre16_exec(g_pActivePattern->regFilename.pattern, g_pActivePattern->regFilename.extra, wszFullName, wszFullName.GetLength(), 0, 0, offsets, _countof(offsets));
+					int nMatch = pcre16_exec(pPattern->regFilename.pattern, pPattern->regFilename.extra, wszFullName, wszFullName.GetLength(), 0, 0, offsets, _countof(offsets));
 					if (nMatch > 0) {
 						const wchar_t **substrings;
 						if (pcre16_get_substring_list(wszFullName, offsets, nMatch, &substrings) >= 0) {
@@ -304,15 +307,15 @@ public:
 							dbcws.szModule = cc->szProto;
 							dbcws.value.type = DBVT_WCHAR;
 
-							if (g_pActivePattern->iInUID && substrings[g_pActivePattern->iInUID]) {
+							if (pPattern->iInUID && substrings[pPattern->iInUID]) {
 								dbcws.szSetting = "ID";
-								dbcws.value.pwszVal = (wchar_t*)substrings[g_pActivePattern->iInUID];
+								dbcws.value.pwszVal = (wchar_t*)substrings[pPattern->iInUID];
 								WriteContactSetting(hContact, &dbcws);
 							}
 
-							if (g_pActivePattern->iInNick && substrings[g_pActivePattern->iInNick]) {
+							if (pPattern->iInNick && substrings[pPattern->iInNick]) {
 								dbcws.szSetting = "Nick";
-								dbcws.value.pwszVal = (wchar_t*)substrings[g_pActivePattern->iInNick];
+								dbcws.value.pwszVal = (wchar_t*)substrings[pPattern->iInNick];
 								WriteContactSetting(hContact, &dbcws);
 							}
 
@@ -343,7 +346,7 @@ public:
 		if (m_events.size() == 0 || idx < 1 || idx > m_events.size())
 			return 0;
 
-		if (g_pActivePattern->iType == 1) {
+		if (g_pBatch->m_pPattern->iType == 1) {
 			int iStart = m_events[idx-1], iEnd = (idx == m_events.size()) ? m_buf.GetLength() : m_events[idx];
 			CMStringW msg = m_buf.Mid(iStart, iEnd - iStart);
 			return (LONG)mir_strlen(ptrA(mir_utf8encodeW(msg))) + 1;
@@ -478,8 +481,10 @@ public:
 
 	int getTextEvent(MEVENT idx, DBEVENTINFO *dbei)
 	{
+		auto *pPattern = g_pBatch->m_pPattern;
+
 		int offsets[99];
-		int nMatch = pcre16_exec(g_pActivePattern->regMessage.pattern, g_pActivePattern->regMessage.extra, m_buf, m_buf.GetLength(), m_events[idx-1], PCRE_NEWLINE_ANYCRLF, offsets, _countof(offsets));
+		int nMatch = pcre16_exec(pPattern->regMessage.pattern, pPattern->regMessage.extra, m_buf, m_buf.GetLength(), m_events[idx-1], PCRE_NEWLINE_ANYCRLF, offsets, _countof(offsets));
 		if (nMatch <= 0)
 			return 1;
 
@@ -488,8 +493,8 @@ public:
 
 		int h1 = offsets[1], h2 = (idx == m_events.size()) ? m_buf.GetLength() : m_events[idx];
 		int prn = -1, arn = -1;
-		if (g_pActivePattern->iUsePreMsg)
-			prn = g_pActivePattern->preRN, arn = g_pActivePattern->afterRN;
+		if (pPattern->iUsePreMsg)
+			prn = pPattern->preRN, arn = pPattern->afterRN;
 
 		if (prn != 0) {
 			int i = 0;
@@ -518,18 +523,18 @@ public:
 		const wchar_t **substrings;
 		if (pcre16_get_substring_list(m_buf, offsets, nMatch, &substrings) >= 0) {
 			struct tm st = {};
-			st.tm_year = str2int(substrings[g_pActivePattern->iYear]);
+			st.tm_year = str2int(substrings[pPattern->iYear]);
 			if (st.tm_year > 1900)
 				st.tm_year -= 1900;
-			st.tm_mon = str2int(substrings[g_pActivePattern->iMonth]) - 1;
-			st.tm_mday = str2int(substrings[g_pActivePattern->iDay]);
-			st.tm_hour = str2int(substrings[g_pActivePattern->iHours]);
-			st.tm_min = str2int(substrings[g_pActivePattern->iMinutes]);
-			st.tm_sec = (g_pActivePattern->iSeconds) ? str2int(substrings[g_pActivePattern->iSeconds]) : 0;
+			st.tm_mon = str2int(substrings[pPattern->iMonth]) - 1;
+			st.tm_mday = str2int(substrings[pPattern->iDay]);
+			st.tm_hour = str2int(substrings[pPattern->iHours]);
+			st.tm_min = str2int(substrings[pPattern->iMinutes]);
+			st.tm_sec = (pPattern->iSeconds) ? str2int(substrings[pPattern->iSeconds]) : 0;
 			dbei->timestamp = mktime(&st);
 
-			if (g_pActivePattern->iDirection)
-				if (g_pActivePattern->wszOutgoing == substrings[g_pActivePattern->iDirection])
+			if (pPattern->iDirection)
+				if (pPattern->wszOutgoing == substrings[pPattern->iDirection])
 					dbei->flags |= DBEF_SENT;
 
 
@@ -543,7 +548,7 @@ public:
 		if (dbei == nullptr || m_events.size() == 0 || idx < 1 || idx > m_events.size())
 			return 1;
 
-		if (g_pActivePattern->iType == 1)
+		if (g_pBatch->m_pPattern->iType == 1)
 			return getTextEvent(idx, dbei);
 
 		return getBinaryEvent(idx, dbei);

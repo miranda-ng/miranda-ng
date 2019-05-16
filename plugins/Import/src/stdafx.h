@@ -228,6 +228,82 @@ public:
 	void OnCancel() override;
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct AccountMap
+{
+	AccountMap(const char *_src, int _origIdx, const wchar_t *_srcName) :
+		szSrcAcc(mir_strdup(_src)),
+		iSrcIndex(_origIdx),
+		tszSrcName(mir_wstrdup(_srcName))
+	{
+	}
+
+	ptrA szSrcAcc, szBaseProto;
+	ptrW tszSrcName;
+	int iSrcIndex;
+	int iOrder = 0;
+	PROTOACCOUNT *pa = nullptr;
+};
+
+struct ContactMap
+{
+	ContactMap(MCONTACT _src, MCONTACT _dst) :
+		srcID(_src),
+		dstID(_dst)
+	{
+	}
+
+	MCONTACT srcID, dstID;
+};
+
+class CImportBatch : public MZeroedObject
+{
+	OBJLIST<AccountMap> m_accounts;
+	OBJLIST<ContactMap> m_contacts;
+	LIST<DBCachedContact> m_metas;
+
+	DWORD nDupes, nContactsCount, nMessagesCount, nGroupsCount, nSkippedEvents, nSkippedContacts;
+	MDatabaseCommon *srcDb, *dstDb;
+
+	bool     ImportAccounts(OBJLIST<char> &arSkippedModules);
+	MCONTACT ImportContact(MCONTACT hSrc);
+	void     ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoCount);
+	int      ImportGroups();
+	void     ImportMeta(DBCachedContact *ccSrc);
+
+	MCONTACT MapContact(MCONTACT hSrc);
+
+	bool     FindDestAccount(const char *szProto);
+	DBCachedContact* FindDestMeta(DBCachedContact *ccSrc);
+	MCONTACT FindExistingMeta(DBCachedContact *ccSrc);
+	PROTOACCOUNT* FindMyAccount(const char *szProto, const char *szBaseProto, const wchar_t *ptszName, bool bStrict);
+
+	MCONTACT HContactFromID(const char *pszProtoName, const char *pszSetting, wchar_t *pwszID);
+	MCONTACT HContactFromChatID(const char *pszProtoName, const wchar_t *pszChatID);
+	MCONTACT HContactFromNumericID(const char *pszProtoName, const char *pszSetting, DWORD dwID);
+
+public:
+	CImportBatch();
+
+	__forceinline const OBJLIST<AccountMap> &AccountsMap() const { return m_accounts; }
+
+	void CopySettings(MCONTACT srcID, const char *szSrcModule, MCONTACT dstID, const char *szDstModule);
+	void DoImport();
+
+	int myGet(MCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);
+	int myGetD(MCONTACT hContact, const char *szModule, const char *szSetting, int iDefault);
+	BOOL myGetS(MCONTACT hContact, const char *szModule, const char *szSetting, char *dest);
+	wchar_t* myGetWs(MCONTACT hContact, const char *szModule, const char *szSetting);
+
+	wchar_t m_wszFileName[MAX_PATH];
+	time_t m_dwSinceDate;
+	int m_iOptions; // set of IOPT_* flags
+	bool m_bSendQuit;
+	MCONTACT m_hContact;
+	CImportPattern *m_pPattern;
+};
+
 bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei);
 
 int CreateGroup(const wchar_t *name, MCONTACT hContact);
@@ -235,15 +311,10 @@ int CreateGroup(const wchar_t *name, MCONTACT hContact);
 uint32_t RLInteger(const uint8_t *p);
 uint32_t RLWord(const uint8_t *p);
 
-extern HWND g_hwndWizard, g_hwndAccMerge;
-extern wchar_t g_wszImportFile[MAX_PATH];
-extern time_t dwSinceDate;
 extern bool g_bServiceMode, g_bSendQuit;
-extern int g_iImportOptions;
-extern MCONTACT g_hImportContact;
-
-extern CImportPattern *g_pActivePattern;
 extern DATABASELINK g_patternDbLink;
+extern CImportBatch *g_pBatch;
+extern HWND g_hwndWizard, g_hwndAccMerge;
 
 void RegisterIcons(void);
 void RegisterMContacts();
