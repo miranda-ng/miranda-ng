@@ -742,7 +742,7 @@ MCONTACT CImportBatch::ImportContact(MCONTACT hSrc)
 
 	wchar_t *pszUniqueID = L"<Unknown>";
 	DBVARIANT dbv = {};
-	if (!myGet(hSrc, cc->szProto, pszUniqueSetting, &dbv)) {
+	if (!myGet(hSrc, cc->szProto, (m_pPattern != nullptr) ? "ID" : pszUniqueSetting, &dbv)) {
 		// Does the contact already exist?
 		MCONTACT hDst;
 		wchar_t id[40];

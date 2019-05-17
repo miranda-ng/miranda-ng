@@ -127,14 +127,26 @@ void CMPlugin::LoadPattern(const wchar_t *pwszFileName)
 
 class CDbxPattern : public MDatabaseReadonly, public MZeroedObject
 {
+	typedef MDatabaseReadonly CSuper;
+
 	CMStringW m_buf, m_folder;
-	MCONTACT m_hCurrContact = 0;
+	MCONTACT m_hCurrContact = INVALID_CONTACT_ID;
 	HANDLE m_hFile = INVALID_HANDLE_VALUE, m_hMap = 0;
 	const uint8_t *m_pFile = 0;
 	int m_iFileVersion = 0, m_iMsgHeaderSize = 0;
 
 	std::vector<DWORD> m_events;
 	std::vector<CMStringW> m_files;
+
+	bool CheckContact(MCONTACT hContact)
+	{
+		if (hContact != m_hCurrContact) {
+			m_hCurrContact = hContact;
+			if (!Load(m_files[hContact - 1]))
+				return false;
+		}
+		return true;
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// QHF file format
@@ -150,9 +162,9 @@ class CDbxPattern : public MDatabaseReadonly, public MZeroedObject
 		uint32_t UIDLen = RLWord(pFile); pFile += 2;
 		char *UIDStr = (char*)_alloca(UIDLen + 2);
 		if (m_iFileVersion <= 2)
-			strncpy_s(UIDStr, UIDLen+2, (char*)pFile, UIDLen);
+			strncpy_s(UIDStr, UIDLen + 2, (char *)pFile, UIDLen);
 		else
-			strncpy_s(UIDStr, UIDLen+2, (char*)pFile, UIDLen+1);
+			strncpy_s(UIDStr, UIDLen + 2, (char *)pFile, UIDLen + 1);
 		pFile += UIDLen;
 
 		uint32_t NickLen = RLWord(pFile); pFile += 2;
@@ -162,6 +174,18 @@ class CDbxPattern : public MDatabaseReadonly, public MZeroedObject
 		else
 			strncpy_s(NickStr, NickLen + 2, (char*)pFile, NickLen + 1);
 		pFile += NickLen;
+
+		DBCONTACTWRITESETTING dbcws = {};
+		dbcws.szModule = "Pattern";
+		dbcws.value.type = DBVT_UTF8;
+
+		dbcws.szSetting = "ID";
+		dbcws.value.pszVal = UIDStr;
+		WriteContactSetting(m_hCurrContact, &dbcws);
+
+		dbcws.szSetting = "Nick";
+		dbcws.value.pszVal = NickStr;
+		WriteContactSetting(m_hCurrContact, &dbcws);
 
 		uint32_t iHeaderSize = 0x30 + NickLen + UIDLen;
 		if (fsz != iSize - iHeaderSize)
@@ -333,10 +357,6 @@ public:
 		if (m_files.empty())
 			return EGROKPRF_CANTREAD;
 
-		m_hCurrContact = 1;
-		if (!Load(m_files[0]))
-			return EGROKPRF_CANTREAD;
-
 		return EGROKPRF_NOERROR;
 	}
 	
@@ -362,6 +382,24 @@ public:
 	STDMETHODIMP_(LONG) GetContactCount(void) override
 	{
 		return (LONG)m_files.size();
+	}
+
+	STDMETHODIMP_(MCONTACT) FindFirstContact(const char *szProto) override
+	{
+		MCONTACT ret = CSuper::FindFirstContact(szProto);
+		if (ret != 0)
+			if (!CheckContact(ret))
+				return 0;
+		return ret;
+	}
+	
+	STDMETHODIMP_(MCONTACT) FindNextContact(MCONTACT contactID, const char *szProto) override
+	{
+		MCONTACT ret = CSuper::FindNextContact(contactID, szProto);
+		if (ret != 0)
+			if (!CheckContact(ret))
+				return 0;
+		return ret;
 	}
 
 	STDMETHODIMP_(LONG) GetEventCount(MCONTACT) override
@@ -560,9 +598,8 @@ public:
 		if (hContact == 0)
 			return 0;
 
-		if (hContact != m_hCurrContact)
-			if (!Load(m_files[hContact-1]))
-				return 0;
+		if (!CheckContact(hContact))
+			return 0;
 
 		return m_events.size() > 0 ? 1 : 0;
 	}
@@ -581,9 +618,8 @@ public:
 		if (hContact == 0)
 			return 0;
 
-		if (hContact != m_hCurrContact)
-			if (!Load(m_files[hContact - 1]))
-				return 0;
+		if (!CheckContact(hContact))
+			return 0;
 
 		return m_events.size() > 0 ? (MEVENT)m_events.size() : 0;
 	}
