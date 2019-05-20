@@ -4780,8 +4780,11 @@ var
   end;
 
   procedure SaveUnicode;
+  var
+    Start: AnsiString;
   begin
-    WriteString(Stream, #255#254);
+    Start := #255#254;
+    Stream.Write(Start[1], 2);
     WriteWideString(Stream, '###'#13#10);
     if Caption = '' then
       Caption := TxtHistExport;
