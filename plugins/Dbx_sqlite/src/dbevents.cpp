@@ -179,11 +179,21 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, DBEVENTINFO *dbei)
 		sqlite3_bind_int64(stmt, 3, dbei->timestamp);
 		rc = sqlite3_step(stmt);
 		assert(rc == SQLITE_DONE);
-		sqlite3_reset(stmt);
+		sqlite3_reset(stmt); //is this necessary ?
 
 		cc->AddEvent(hDbEvent, dbei->timestamp, !dbei->markedRead());
 		if (ccSub != nullptr)
+		{
+			stmt = evt_stmts_prep[SQL_EVT_STMT_ADDEVENT_SRT];
+			sqlite3_bind_int64(stmt, 1, hDbEvent);
+			sqlite3_bind_int64(stmt, 2, ccSub->contactID);
+			sqlite3_bind_int64(stmt, 3, dbei->timestamp);
+			rc = sqlite3_step(stmt);
+			assert(rc == SQLITE_DONE);
+			sqlite3_reset(stmt); //is this necessary ?
+
 			ccSub->AddEvent(hDbEvent, dbei->timestamp, !dbei->markedRead());
+		}
 
 		char *module = m_modules.find(dbei->szModule);
 		if (module == nullptr)
