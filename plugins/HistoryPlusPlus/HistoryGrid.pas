@@ -101,16 +101,16 @@ type
   TGridState = (gsIdle, gsDelete, gsSearch, gsSearchItem, gsLoad, gsSave, gsInline);
 
   TXMLItem = record
-    Protocol: AnsiString;
-    Time: AnsiString;
-    Date: AnsiString;
-    Mes: AnsiString;
-    Url: AnsiString;
-    FileName: AnsiString;
-    Contact: AnsiString;
-    From: AnsiString;
-    EventType: AnsiString;
-    ID: AnsiString;
+    Protocol: Utf8String;
+    Time: Utf8String;
+    Date: Utf8String;
+    Mes: Utf8String;
+    Url: Utf8String;
+    FileName: Utf8String;
+    Contact: Utf8String;
+    From: Utf8String;
+    EventType: Utf8String;
+    ID: Utf8String;
   end;
 
   TMCItem = record
@@ -548,7 +548,7 @@ type
     function GetItems(Index: Integer): THistoryItem;
     function IsMatched(Index: Integer): Boolean;
     function IsUnknown(Index: Integer): Boolean;
-    procedure WriteString(fs: TFileStream; Text: AnsiString);
+    procedure WriteString(fs: TFileStream; Text: Utf8String);
     procedure WriteWideString(fs: TFileStream; Text: String);
     procedure CheckBusy;
     function GetSelItems(Index: Integer): Integer;
@@ -854,7 +854,7 @@ begin
   end;
 end;
 
-function MakeTextHtmled(T: AnsiString): AnsiString;
+function MakeTextHtmled(T: Utf8String): Utf8String;
 begin
   Result := T;
   // change & to &amp;
@@ -4711,7 +4711,7 @@ var
 
   procedure SaveHTML;
   var
-    title, head1, head2: AnsiString;
+    title, head1, head2: Utf8String;
     i: Integer;
   begin
     title := UTF8Encode(WideFormat('%s [%s] - [%s]', [Caption, ProfileName, ContactName]));
@@ -4774,10 +4774,9 @@ var
     begin
       if not(mt in EventsDirection + EventsExclude) then
         Messages := Messages + Format('<!ENTITY %s "%s">' + #13#10,
-          [EventRecords[mt].xml, UTF8Encode(TranslateUnicodeString(EventRecords[mt].Name))
-          ] { TRANSLATE-IGNORE } );
+          [EventRecords[mt].xml, TranslateUnicodeString(EventRecords[mt].Name)]);
     end;
-    WriteString(Stream, AnsiString(Format(xml, [enc, UTF8Encode(ProfileName), Messages])));
+    WriteString(Stream, Format(xml, [enc, ProfileName, Messages]));
   end;
 
   procedure SaveUnicode;
@@ -4890,7 +4889,7 @@ end;
 
 procedure THistoryGrid.SaveItem(Stream: TFileStream; Item: Integer; SaveFormat: TSaveFormat);
 
-  procedure MesTypeToStyle(mt: TMessageTypes; out mes_id, type_id: AnsiString);
+  procedure MesTypeToStyle(mt: TMessageTypes; out mes_id, type_id: Utf8String);
   var
     i: Integer;
     Found: Boolean;
@@ -4913,9 +4912,9 @@ procedure THistoryGrid.SaveItem(Stream: TFileStream; Item: Integer; SaveFormat: 
 
   procedure SaveHTML;
   var
-    mes_id, type_id: AnsiString;
+    mes_id, type_id: Utf8String;
     nick, Mes, Time: String;
-    txt: AnsiString;
+    txt: Utf8String;
     FullHeader: Boolean;
   begin
     MesTypeToStyle(FItems[Item].MessageType, mes_id, type_id);
@@ -4945,7 +4944,7 @@ procedure THistoryGrid.SaveItem(Stream: TFileStream; Item: Integer; SaveFormat: 
     if Options.BBCodesEnabled then
     begin
       try
-        txt := DoSupportBBCodesHTML(txt);
+        txt := Utf8String(DoSupportBBCodesHTML(txt));
       except
       end;
     end;
@@ -5024,14 +5023,14 @@ procedure THistoryGrid.SaveItem(Stream: TFileStream; Item: Integer; SaveFormat: 
 
   procedure SaveText;
   var
-    Time: AnsiString;
+    Time: Utf8String;
     nick, Mes: String;
     FullHeader: Boolean;
   begin
     FullHeader := not(FGroupLinked and FItems[Item].LinkedToPrev);
     if FullHeader then
     begin
-      Time := WideToAnsiString(GetTime(FItems[Item].Time), Codepage);
+      Time := GetTime(FItems[Item].Time);
       if mtIncoming in FItems[Item].MessageType then
         nick := ContactName
       else
@@ -5048,8 +5047,8 @@ procedure THistoryGrid.SaveItem(Stream: TFileStream; Item: Integer; SaveFormat: 
     if Options.BBCodesEnabled then
       Mes := DoStripBBCodes(Mes);
     if FullHeader then
-      WriteString(Stream, AnsiString(Format('[%s] %s:'#13#10, [Time, nick])));
-    WriteString(Stream, WideToAnsiString(Mes, Codepage) + #13#10 + #13#10);
+      WriteString(Stream, Utf8String(Format('[%s] %s:'#13#10, [Time, nick])));
+    WriteString(Stream, Mes + #13#10 + #13#10);
   end;
 
   procedure SaveRTF;
@@ -5106,7 +5105,7 @@ begin
   end;
 end;
 
-procedure THistoryGrid.WriteString(fs: TFileStream; Text: AnsiString);
+procedure THistoryGrid.WriteString(fs: TFileStream; Text: Utf8String);
 begin
   fs.Write(Text[1], Length(Text));
 end;

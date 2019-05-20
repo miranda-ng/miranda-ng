@@ -57,7 +57,7 @@ uses
 var
   rtf_ctable_text: AnsiString;
 
-function DoSupportBBCodesHTML(const S: AnsiString): AnsiString;
+function DoSupportBBCodesHTML(const S: Utf8String): Utf8String;
 function DoSupportBBCodesRTF(const S: AnsiString; StartColor: integer; doColorBBCodes: boolean): AnsiString;
 function DoStripBBCodes(const S: String): String;
 
@@ -344,7 +344,7 @@ begin
   TextBuffer.Unlock;
 end;
 
-function DoSupportBBCodesHTML(const S: AnsiString): AnsiString;
+function DoSupportBBCodesHTML(const S: Utf8String): Utf8String;
 var
   bufPos,bufEnd: PAnsiChar;
   strStart,strTrail,strCode: PAnsiChar;

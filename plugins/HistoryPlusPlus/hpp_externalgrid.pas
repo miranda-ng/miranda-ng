@@ -1163,15 +1163,15 @@ end;
 
 procedure TExternalGrid.GridXMLData(Sender: TObject; Index: Integer; var Item: TXMLItem);
 var
-  tmp: AnsiString;
+  tmp: Utf8String;
   dt: TDateTime;
   mes: String;
 begin
   dt := TimestampToDateTime(Grid.Items[Index].Time);
-  Item.Time := MakeTextXMLedA(AnsiString(FormatDateTime('hh:mm:ss', dt)));
-  Item.Date := MakeTextXMLedA(AnsiString(FormatDateTime('yyyy-mm-dd', dt)));
+  Item.Time := MakeTextXMLedA(FormatDateTime('hh:mm:ss', dt));
+  Item.Date := MakeTextXMLedA(FormatDateTime('yyyy-mm-dd', dt));
 
-  Item.Contact := UTF8Encode(MakeTextXMLedW(Grid.ContactName));
+  Item.Contact := MakeTextXMLedW(Grid.ContactName);
   if mtIncoming in Grid.Items[Index].MessageType then
     Item.From := Item.Contact
   else
@@ -1187,7 +1187,7 @@ begin
   end;
   if GridOptions.BBCodesEnabled then
     mes := DoStripBBCodes(mes);
-  Item.mes := UTF8Encode(MakeTextXMLedW(mes));
+  Item.mes := MakeTextXMLedW(mes);
 
   if mtFile in Grid.Items[Index].MessageType then
   begin
@@ -1195,7 +1195,7 @@ begin
     if tmp = '' then
       Item.FileName := '&UNK;'
     else
-      Item.FileName := UTF8Encode(MakeTextXMLedA(tmp));
+      Item.FileName := MakeTextXMLedA(tmp);
   end
   else if mtAvatarChange in Grid.Items[Index].MessageType then
   begin
@@ -1203,7 +1203,7 @@ begin
     if tmp = '' then
       Item.FileName := '&UNK;'
     else
-      Item.FileName := UTF8Encode(MakeTextXMLedA(tmp));
+      Item.FileName := MakeTextXMLedA(tmp);
   end;
 
   { 2.8.2004 OXY: Change protocol guessing order. Now
@@ -1231,7 +1231,7 @@ var
   dbei : TDBEventInfo;
   hDBEvent: THandle;
   DataOffset: PAnsiChar;
-  TextUTF: AnsiString;
+  TextUTF: Utf8String;
 begin
   if Stage = ssInit then
   begin
@@ -1245,9 +1245,9 @@ begin
       if Items[Index].CustomEvent.Sent then
         DBEventInfo.d.flags := DBEventInfo.d.flags or DBEF_SENT;
       DBEventInfo.d.EventType := EVENTTYPE_MESSAGE;
-      TextUTF := UTF8Encode(Items[Index].CustomEvent.Text) + #0;
+      TextUTF := Items[Index].CustomEvent.Text + #0;
       DBEventInfo.d.cbBlob := Length(TextUTF) + 1;
-      DBEventInfo.d.pBlob := Pointer(PAnsiChar(TextUTF));
+      DBEventInfo.d.pBlob := Pointer(TextUTF);
       Item.Size := Cardinal(DBEventInfo.cbSize) + Cardinal(DBEventInfo.d.cbBlob);
     end
     else
