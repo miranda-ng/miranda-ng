@@ -894,7 +894,7 @@ static HICON CLUI_LoadIconFromExternalFile(wchar_t *filename, int i)
 	wchar_t szPath[MAX_PATH], szFullPath[MAX_PATH];
 	mir_snwprintf(szPath, L"Icons\\%s", filename);
 	PathToAbsoluteW(szPath, szFullPath);
-	if (_waccess(szPath, 0))
+	if (_waccess(szFullPath, 0))
 		return nullptr;
 
 	HICON hIcon = nullptr;
