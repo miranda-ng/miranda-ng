@@ -152,7 +152,7 @@ static wchar_t* OpenFileDlg(HWND hParent, const wchar_t *szFile, BOOL bAll)
 
 class CIconImportDlg : public CDlgBase
 {
-	HWND m_hwndDragOver;
+	HWND m_hwndDragOver = nullptr;
 	int  m_iDragItem = 0, m_iDropHiLite = 0;
 	bool m_bDragging = false;
 
@@ -484,22 +484,7 @@ class CIcoLibOptsDlg : public CDlgBase
 	void DoIconsChanged()
 	{
 		UpdateIconsPreview();
-
-		iconEventActive = 1; // Disable icon destroying - performance boost
 		NotifyEventHooks(hIconsChangedEvent, 0, 0);
-		iconEventActive = 0;
-
-		mir_cslock lck(csIconList); // Destroy unused icons
-		for (auto &it : iconList) {
-			if (it->source_small && !it->source_small->icon_ref_count) {
-				it->source_small->icon_ref_count++;
-				it->source_small->releaseIcon();
-			}
-			if (it->source_big && !it->source_big->icon_ref_count) {
-				it->source_big->icon_ref_count++;
-				it->source_big->releaseIcon();
-			}
-		}
 	}
 
 	void LoadSubIcons(wchar_t *filename, HTREEITEM hItem)

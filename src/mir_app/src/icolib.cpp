@@ -32,8 +32,6 @@ HANDLE hIconsChangedEvent;
 
 HICON hIconBlank = nullptr;
 
-int iconEventActive = 0;
-
 BOOL bNeedRebuild = FALSE;
 
 mir_cs csIconList;
@@ -538,10 +536,7 @@ static int ReleaseIconInternal(IcolibItem *item, bool big)
 
 	IconSourceItem *source = big && !item->cx ? item->source_big : item->source_small;
 	if (source && source->icon_ref_count) {
-		if (iconEventActive)
-			source->icon_ref_count--;
-		else
-			source->releaseIcon();
+		source->releaseIcon();
 		return 0;
 	}
 

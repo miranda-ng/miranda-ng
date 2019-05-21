@@ -118,6 +118,5 @@ extern LIST<IcolibItem> iconList;
 extern LIST<SectionItem> sectionList;
 
 extern BOOL bNeedRebuild;
-extern int iconEventActive;
 extern HICON hIconBlank;
 extern HANDLE hIconsChangedEvent;
