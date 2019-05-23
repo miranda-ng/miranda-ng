@@ -99,6 +99,22 @@ void CMPlugin::LoadPattern(const wchar_t *pwszFileName)
 		pNew->iSeconds = GetPrivateProfileIntW(L"Message", L"Seconds", 0, pwszFileName);
 	}
 
+	if (pNew->iUseHeader) {
+		if (GetPrivateProfileStringW(L"Header", L"Pattern", L"", buf, _countof(buf), pwszFileName)) {
+			if ((pNew->regHeader.pattern = pcre16_compile(buf, PCRE_MULTILINE, &err, &erroffset, nullptr)) == nullptr)
+				return;
+			pNew->regHeader.extra = pcre16_study(pNew->regMessage.pattern, 0, &err);
+		}
+		else return;
+
+		pNew->iHdrIncoming = GetPrivateProfileIntW(L"Header", L"In", 0, pwszFileName);
+		pNew->iHdrOutgoing = GetPrivateProfileIntW(L"Header", L"Out", 0, pwszFileName);
+		pNew->iHdrInNick = GetPrivateProfileIntW(L"Header", L"InNick", 0, pwszFileName);
+		pNew->iHdrOutNick = GetPrivateProfileIntW(L"Header", L"OutNick", 0, pwszFileName);
+		pNew->iHdrInUID = GetPrivateProfileIntW(L"Header", L"InUID", 0, pwszFileName);
+		pNew->iHdrOutUID = GetPrivateProfileIntW(L"Header", L"OutUID", 0, pwszFileName);
+	}
+
 	if (pNew->iUsePreMsg) {
 		pNew->preRN = GetPrivateProfileIntW(L"PreMessage", L"PreRN", -1, pwszFileName);
 		pNew->preSP = GetPrivateProfileIntW(L"PreMessage", L"PreSP", 0, pwszFileName);
@@ -153,8 +169,10 @@ class CDbxPattern : public MDatabaseReadonly, public MZeroedObject
 
 	bool LoadBinaryFile(const uint8_t *pFile, uint32_t iSize)
 	{
-		if (memicmp(pFile, "QHF", 3))
+		if (memicmp(pFile, "QHF", 3)) {
+			AddMessage(LPGENW("Invalid file header"));
 			return false;
+		}
 
 		m_iFileVersion = pFile[3];
 							
@@ -219,11 +237,52 @@ class CDbxPattern : public MDatabaseReadonly, public MZeroedObject
 			break;
 		}
 
+
 		// smth went wrong or empty file
 		if (m_buf.IsEmpty())
 			return false;
 
 		int iOffset = 0;
+		if (m_buf[0] == 0xFEFF)
+			m_buf.Delete(0);
+
+		if (pPattern->iUseHeader) {
+			int offsets[99];
+			int nMatch = pcre16_exec(pPattern->regHeader.pattern, pPattern->regHeader.extra, m_buf, m_buf.GetLength(), iOffset, PCRE_NEWLINE_ANYCRLF, offsets, _countof(offsets));
+			if (nMatch <= 0) {
+				AddMessage(LPGENW("Cannot parse file header, skipping file"));
+				return false;
+			}
+
+			const wchar_t **substrings;
+			if (pcre16_get_substring_list(m_buf, offsets, nMatch, &substrings) >= 0) {
+				if (pPattern->iUseHeader & 1) {
+					pPattern->wszIncoming = substrings[pPattern->iHdrIncoming];
+					pPattern->wszOutgoing = substrings[pPattern->iHdrOutgoing];
+				}
+
+				if (pPattern->iUseHeader & 2) {
+					DBCONTACTWRITESETTING dbcws = {};
+					dbcws.szModule = "Pattern";
+					dbcws.value.type = DBVT_WCHAR;
+
+					if (pPattern->iInUID && substrings[pPattern->iHdrInUID]) {
+						dbcws.szSetting = "ID";
+						dbcws.value.pwszVal = (wchar_t *)substrings[pPattern->iHdrInUID];
+						WriteContactSetting(m_hCurrContact, &dbcws);
+					}
+
+					if (pPattern->iInNick && substrings[pPattern->iHdrInNick]) {
+						dbcws.szSetting = "Nick";
+						dbcws.value.pwszVal = (wchar_t *)substrings[pPattern->iHdrInNick];
+						WriteContactSetting(m_hCurrContact, &dbcws);
+					}
+				}
+			}
+
+			iOffset = offsets[1];
+		}
+
 		while (true) {
 			int offsets[99];
 			int nMatch = pcre16_exec(pPattern->regMessage.pattern, pPattern->regMessage.extra, m_buf, m_buf.GetLength(), iOffset, PCRE_NEWLINE_ANYCRLF, offsets, _countof(offsets));
@@ -263,22 +322,24 @@ public:
 		m_events.clear();
 		Close();
 
+		AddMessage(LPGENW("Loading file '%s'..."), pwszFileName);
+
 		m_hFile = ::CreateFileW(pwszFileName, GENERIC_READ, 0, nullptr, OPEN_EXISTING, 0, 0);
 		if (m_hFile == INVALID_HANDLE_VALUE) {
-			Netlib_Logf(0, "failed to open file <%S> for import: %d", pwszFileName, GetLastError());
+			AddMessage(LPGENW("Failed to open file <%s> for import: %d"), pwszFileName, GetLastError());
 			return false;
 		}
 
 		uint32_t cbLen = ::GetFileSize(m_hFile, 0);
 		m_hMap = ::CreateFileMappingW(m_hFile, nullptr, PAGE_READONLY, 0, 0, L"ImportMapfile");
 		if (m_hMap == nullptr) {
-			Netlib_Logf(0, "failed to mmap file <%S> for import: %d", pwszFileName, GetLastError());
+			AddMessage(LPGENW("Failed to mmap file <%s> for import: %d"), pwszFileName, GetLastError());
 			return false;
 		}
 
 		m_pFile = (const uint8_t*)::MapViewOfFile(m_hMap, FILE_MAP_READ, 0, 0, 0);
 		if (m_pFile == nullptr) {
-			Netlib_Logf(0, "failed to map view of file <%S> for import: %d", pwszFileName, GetLastError());
+			AddMessage(LPGENW("Failed to map view of file <%s> for import: %d"), pwszFileName, GetLastError());
 			return false;
 		}
 

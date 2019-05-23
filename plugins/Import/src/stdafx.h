@@ -82,6 +82,9 @@ struct CImportPattern : public MZeroedObject
 	CRegexp regFilename;
 	int iInNick, iInUID, iOutNick, iOutUID;
 
+	CRegexp regHeader;
+	int iHdrIncoming, iHdrOutgoing, iHdrInNick, iHdrOutNick, iHdrInUID, iHdrOutUID;
+
 	// symbols pre & after a messages
 	int preRN, afterRN, preSP, afterSP;
 };
