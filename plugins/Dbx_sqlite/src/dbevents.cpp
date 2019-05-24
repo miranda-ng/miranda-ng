@@ -18,6 +18,7 @@ enum {
 	SQL_EVT_STMT_GETIDBYSRVID,
 	SQL_EVT_STMT_SETSRVID,
 	SQL_EVT_STMT_ADDEVENT_SRT,
+	SQL_EVT_STMT_DELETE_SRT,
 	SQL_EVT_STMT_NUM
 };
 
@@ -39,6 +40,7 @@ static char *evt_stmts[SQL_EVT_STMT_NUM] = {
 	"select id, timestamp from events where module = ? and server_id = ? limit 1;",
 	"update events set server_id = ? where id = ?;",
 	"insert into events_srt(id, contact_id, timestamp) values (?, ?, ?);",
+	"delete from events_srt where id = ?;",
 };
 
 static sqlite3_stmt *evt_stmts_prep[SQL_EVT_STMT_NUM] = { 0 };
@@ -220,13 +222,21 @@ BOOL CDbxSQLite::DeleteEvent(MCONTACT hContact, MEVENT hDbEvent)
 	{
 		mir_cslock lock(m_csDbAccess);
 		sqlite3_stmt *stmt = evt_stmts_prep[SQL_EVT_STMT_DELETE];
-		sqlite3_bind_int64(stmt, 1, hContact);
-		sqlite3_bind_int64(stmt, 2, hDbEvent);
+		sqlite3_bind_int64(stmt, 1, hDbEvent);
 		int rc = sqlite3_step(stmt);
 		assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
 		sqlite3_reset(stmt);
 		if (rc != SQLITE_DONE)
 			return 1;
+
+		stmt = evt_stmts_prep[SQL_EVT_STMT_DELETE_SRT];
+		sqlite3_bind_int64(stmt, 1, hDbEvent);
+		rc = sqlite3_step(stmt);
+		assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
+		sqlite3_reset(stmt);
+		if (rc != SQLITE_DONE)
+			return 1;
+
 
 		cc->DeleteEvent(hDbEvent);
 		if (cc->IsSub() && (cc = m_cache->GetCachedContact(cc->parentID)))
