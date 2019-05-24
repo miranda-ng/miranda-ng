@@ -45,7 +45,7 @@ bool CSkypeOptionsMain::OnInitDialog()
 	m_skypename.SetTextA(ptrA(m_proto->getStringA(SKYPE_SETTINGS_ID)));
 	m_password.SetTextA(pass_ptrA(m_proto->getStringA("Password")));
 	m_place.Enable(!m_proto->m_opts.bUseHostnameAsPlace);
-	m_skypename.SendMsg(EM_LIMITTEXT, 32, 0);
+	m_skypename.SendMsg(EM_LIMITTEXT, 128, 0);
 	m_password.SendMsg(EM_LIMITTEXT, 128, 0);
 	m_group.SendMsg(EM_LIMITTEXT, 64, 0);
 	return true;
