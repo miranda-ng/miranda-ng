@@ -17,22 +17,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-/* MESSAGE RECEIVING */
-
-// incoming message flow
-int CSkypeProto::OnReceiveMessage(MCONTACT hContact, const char *szContent, const char *szMessageId, time_t timestamp, int emoteOffset, bool isRead)
-{
-	PROTORECVEVENT recv = {};
-	recv.timestamp = timestamp;
-	recv.szMessage = mir_strdup(szContent);
-	recv.lParam = emoteOffset;
-	recv.szMsgId = szMessageId;
-	if (isRead)
-		recv.flags |= PREF_CREATEREAD;
-
-	return ProtoChainRecvMsg(hContact, &recv);
-}
-
 /* MESSAGE SENDING */
 
 struct SendMessageParam
@@ -121,7 +105,7 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 	ptrA szClearedContent(strMessageType == "RichText" ? RemoveHtml(strContent.c_str()) : mir_strdup(strContent.c_str()));
 
 	bool bEdited = node["skypeeditedid"];
-	time_t timestamp = IsoToUnixTime(node["composetime"].as_string().c_str());
+	time_t timestamp = time(0); // fuck the server time, we need to place events in the order of our local time
 
 	int nEmoteOffset = atoi(node["skypeemoteoffset"].as_string().c_str());
 
@@ -157,8 +141,14 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 			MEVENT hDbEvent = GetMessageFromDb(szMessageId);
 			if (bEdited && hDbEvent != NULL)
 				EditEvent(hContact, hDbEvent, szClearedContent, timestamp);
-			else
-				OnReceiveMessage(hContact, szClearedContent, szMessageId, timestamp, nEmoteOffset);
+			else {
+				PROTORECVEVENT recv = {};
+				recv.timestamp = timestamp;
+				recv.szMessage = mir_strdup(szClearedContent);
+				recv.lParam = nEmoteOffset;
+				recv.szMsgId = szMessageId;
+				ProtoChainRecvMsg(hContact, &recv);
+			}
 		}
 	}
 	else if (strMessageType == "Event/Call") {

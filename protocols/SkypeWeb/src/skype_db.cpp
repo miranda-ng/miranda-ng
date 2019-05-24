@@ -97,7 +97,7 @@ void CSkypeProto::EditEvent(MCONTACT hContact, MEVENT hEvent, const char *szCont
 	}
 	
 	std::string newMsg = jMsg.write().c_str();
-	dbei.cbBlob = newMsg.size() + 1;
+	dbei.cbBlob = int(newMsg.size() + 1);
 	dbei.pBlob = (PBYTE)newMsg.c_str();
 	db_event_edit(hContact, hEvent, &dbei);
 }
