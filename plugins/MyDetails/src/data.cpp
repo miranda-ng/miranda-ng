@@ -532,12 +532,9 @@ static char *StatusModeToDbSetting(int status, const char *suffix)
 	case ID_STATUS_NA: prefix = "Na"; break;
 	case ID_STATUS_DND: prefix = "Dnd"; break;
 	case ID_STATUS_OCCUPIED: prefix = "Occupied"; break;
-	case ID_STATUS_FREECHAT: prefix = "FreeChat"; break;
 	case ID_STATUS_ONLINE: prefix = "On"; break;
 	case ID_STATUS_OFFLINE: prefix = "Off"; break;
 	case ID_STATUS_INVISIBLE: prefix = "Inv"; break;
-	case ID_STATUS_ONTHEPHONE: prefix = "Otp"; break;
-	case ID_STATUS_OUTTOLUNCH: prefix = "Otl"; break;
 	case ID_STATUS_IDLE: prefix = "Idl"; break;
 	default: return nullptr;
 	}

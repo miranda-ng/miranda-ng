@@ -101,7 +101,7 @@ INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 			EnableWindow(GetDlgItem(hdlg, IDC_POPUPSTAMP), hasPopups);
 			EnableWindow(GetDlgItem(hdlg, IDC_POPUPSTAMPTEXT), hasPopups);
 
-			for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+			for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_MAX; i++) {
 				char szSetting[100];
 				mir_snprintf(szSetting, "Col_%d", i - ID_STATUS_OFFLINE);
 				DWORD sett = g_plugin.getDword(szSetting, StatusColors15bits[i - ID_STATUS_OFFLINE]);
@@ -133,7 +133,7 @@ INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 			SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
 		else if (HIWORD(wparam) == CPN_COLOURCHANGED) {
 			WORD idText, idBack;
-			if (LOWORD(wparam) > ID_STATUS_OUTTOLUNCH) // we have clicked a text color
+			if (LOWORD(wparam) > ID_STATUS_MAX) // we have clicked a text color
 				idText = wparam, idBack = wparam - 20;
 			else
 				idText = wparam + 20, idBack = wparam;
@@ -164,7 +164,7 @@ INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 					int hasPopups = IsDlgButtonChecked(hdlg, IDC_POPUPS);
 					EnableWindow(GetDlgItem(hdlg, IDC_POPUPSTAMP), hasPopups);
 					EnableWindow(GetDlgItem(hdlg, IDC_POPUPSTAMPTEXT), hasPopups);
-					for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+					for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_MAX; i++) {
 						EnableWindow(GetDlgItem(hdlg, i), hasPopups);
 						EnableWindow(GetDlgItem(hdlg, i + 20), hasPopups);
 					}
@@ -172,7 +172,7 @@ INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 				break;
 
 			case IDC_DEFAULTCOL:
-				for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+				for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_MAX; i++) {
 					DWORD sett = StatusColors15bits[i - ID_STATUS_OFFLINE];
 					COLORREF back, text;
 					GetColorsFromDWord(&back, &text, sett);
@@ -199,7 +199,7 @@ INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 				if (g_plugin.getByte("UsePopups", 0) != bchecked)
 					g_plugin.setByte("UsePopups", bchecked);
 
-				for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+				for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_MAX; i++) {
 					COLORREF back = SendDlgItemMessage(hdlg, i, CPM_GETCOLOUR, 0, 0);
 					COLORREF text = SendDlgItemMessage(hdlg, i + 20, CPM_GETCOLOUR, 0, 0);
 					DWORD sett = GetDWordFromColors(back, text);

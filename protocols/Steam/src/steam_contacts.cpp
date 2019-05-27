@@ -18,18 +18,7 @@ void CSteamProto::SetContactStatus(MCONTACT hContact, WORD status)
 	setWord(hContact, "Status", status);
 
 	// Special handling of some statuses
-	switch (status)
-	{
-	case ID_STATUS_FREECHAT:
-		// Contact is looking to play, save it to as status message
-		db_set_ws(hContact, "CList", "StatusMsg", TranslateT("Looking to play"));
-		break;
-
-	case ID_STATUS_OUTTOLUNCH:
-		// Contact is looking to trade, save it to as status message
-		db_set_ws(hContact, "CList", "StatusMsg", TranslateT("Looking to trade"));
-		break;
-
+	switch (status) {
 	case ID_STATUS_OFFLINE:
 		// if contact is offline, remove played game info
 		delSetting(hContact, "GameID");
@@ -180,7 +169,7 @@ void CSteamProto::UpdateContactDetails(MCONTACT hContact, const JSONNode &data)
 	if (stateflags == PersonaStateFlag::None) {
 		// nothing special, either standard client or in different status (only online, I want to play, I want to trade statuses support this flags)
 		WORD status = getWord(hContact, "Status", ID_STATUS_OFFLINE);
-		if (status == ID_STATUS_ONLINE || status == ID_STATUS_OUTTOLUNCH || status == ID_STATUS_FREECHAT)
+		if (status == ID_STATUS_ONLINE)
 			setWString(hContact, "MirVer", L"Steam");
 	}
 	else if (contains_flag(stateflags, PersonaStateFlag::InJoinableGame)) {

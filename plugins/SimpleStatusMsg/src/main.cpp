@@ -492,8 +492,7 @@ int CheckProtoSettings(const char *szProto, int iInitialStatus)
 		case 2: return ID_STATUS_AWAY;
 		case 3: return ID_STATUS_NA;
 		case 4: return ID_STATUS_DND;
-		case 5: return ID_STATUS_FREECHAT;
-		case 6: return ID_STATUS_INVISIBLE;
+		case 5: return ID_STATUS_INVISIBLE;
 		default: return iInitialStatus;
 		}
 	}
@@ -561,7 +560,7 @@ int HasProtoStaticStatusMsg(const char *szProto, int iInitialStatus, int iStatus
 
 INT_PTR SetStatusModeFromExtern(WPARAM wParam, LPARAM lParam)
 {
-	if ((wParam < ID_STATUS_OFFLINE && wParam != 0) || (wParam > ID_STATUS_OUTTOLUNCH && wParam != ID_STATUS_CURRENT))
+	if ((wParam < ID_STATUS_OFFLINE && wParam != 0) || (wParam > ID_STATUS_MAX && wParam != ID_STATUS_CURRENT))
 		return 0;
 
 	int newStatus = (int)wParam;
@@ -1353,7 +1352,7 @@ static int OnIdleChanged(WPARAM, LPARAM lParam)
 
 		// we're entering idle
 		if (lParam & IDF_ISIDLE) {
-			if (!db_get_b(0, "AutoAway", pa->szModuleName, 0) && iCurrentStatus != ID_STATUS_ONLINE && iCurrentStatus != ID_STATUS_FREECHAT)
+			if (!db_get_b(0, "AutoAway", pa->szModuleName, 0) && iCurrentStatus != ID_STATUS_ONLINE)
 				return 0;
 		}
 		else {

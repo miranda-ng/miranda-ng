@@ -105,7 +105,6 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDBEvent)
 		case ID_STATUS_NA:       statMask = STATUS_NA       ;break;
 		case ID_STATUS_OCCUPIED: statMask = STATUS_OCCUPIED ;break;   
 		case ID_STATUS_DND:      statMask = STATUS_DND      ;break;
-		case ID_STATUS_FREECHAT: statMask = STATUS_FREECHAT ;break;
 		case ID_STATUS_INVISIBLE:statMask = STATUS_INVISIBLE;break;
 		default: return 0;
 	}

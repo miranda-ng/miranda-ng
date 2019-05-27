@@ -137,7 +137,7 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				for (int i = ID_STATUS_MAX; i >= ID_STATUS_MIN; i--) {
 					int flags = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_2, 0);
 					if (flags == 0)
-						flags = PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_FREECHAT | PF2_OUTTOLUNCH | PF2_ONTHEPHONE;
+						flags = PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND;
 
 					if ((flags & Proto_Status2Flag(i)) || i == ID_STATUS_OFFLINE) {
 						LV_ITEM lvi = { 0 };

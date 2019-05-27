@@ -127,10 +127,8 @@ typedef struct CAccount
 	#define YAMN_ACC_ST3	0x00000008		//Check (countdown) when Not available
 	#define YAMN_ACC_ST4	0x00000010		//Check (countdown) when Occupied
 	#define YAMN_ACC_ST5	0x00000020		//Check (countdown) when DND
-	#define YAMN_ACC_ST6	0x00000040		//Check (countdown) when Free for chat
-	#define YAMN_ACC_ST7    0x00000080		//Check (countdown) when Invisible
-	#define YAMN_ACC_ST8    0x00000100		//Check (countdown) when On the phone
-	#define YAMN_ACC_ST9    0x00000200		//Check (countdown) when Out to lunch
+	#define YAMN_ACC_ST6	0x00000040		//Check (countdown) when Invisible
+
 	#define YAMN_ACC_STARTA	0x00010000		//Check on start anyway
 	#define YAMN_ACC_STARTS	0x00020000		//Check on start regarding to status setting 
 	#define YAMN_ACC_FORCE	0x00040000		//Check when "check new mail" item pressed (it is called forced checking)

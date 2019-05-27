@@ -41,7 +41,6 @@ CMLan::CMLan()
 	m_amesNa = nullptr;
 	m_amesOccupied = nullptr;
 	m_amesDnd = nullptr;
-	m_amesFfc = nullptr;
 
 	m_pFileConnectionList = nullptr;
 
@@ -62,7 +61,6 @@ CMLan::~CMLan()
 	delete[] m_amesNa;
 	delete[] m_amesOccupied;
 	delete[] m_amesDnd;
-	delete[] m_amesFfc;
 }
 
 void CMLan::DeleteCache()
@@ -323,7 +321,6 @@ void CMLan::OnRecvPacket(u_char *mes, int len, in_addr from)
 				case ID_STATUS_NA: mesAway = m_amesNa; break;
 				case ID_STATUS_OCCUPIED: mesAway = m_amesOccupied; break;
 				case ID_STATUS_DND: mesAway = m_amesDnd; break;
-				case ID_STATUS_FREECHAT: mesAway = m_amesFfc; break;
 				}
 
 				if (mesAway) {
@@ -510,9 +507,6 @@ int CMLan::SetAwayMsg(u_int status, char* msg)
 		break;
 	case ID_STATUS_DND:
 		ppMsg = &m_amesDnd;
-		break;
-	case ID_STATUS_FREECHAT:
-		ppMsg = &m_amesFfc;
 		break;
 	default:
 		return 1;

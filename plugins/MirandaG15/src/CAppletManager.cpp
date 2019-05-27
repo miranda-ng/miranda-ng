@@ -506,8 +506,6 @@ HBITMAP CAppletManager::GetStatusBitmap(int iStatus)
 		return m_ahStatusBitmaps[5];
 	case ID_STATUS_INVISIBLE:
 		return m_ahStatusBitmaps[6];
-	case ID_STATUS_FREECHAT:
-		return m_ahStatusBitmaps[7];
 	case ID_STATUS_AWAY:
 	default:
 		return m_ahStatusBitmaps[2];

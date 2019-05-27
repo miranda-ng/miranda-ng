@@ -316,8 +316,8 @@ void GetElev(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 // cond = the string for weather condition
 // return value = status for the icon (ONLINE, OFFLINE, etc)
 
-static const wchar_t *statusStr[10] = { L"Lightning", L"Fog", L"Snow Shower", L"Snow", L"Rain Shower", L"Rain", L"Partly Cloudy", L"Cloudy", L"Sunny", L"N/A" };
-static const WORD statusValue[10] = { LIGHT, FOG, SSHOWER, SNOW, RSHOWER, RAIN, PCLOUDY, CLOUDY, SUNNY, NA };
+static const wchar_t *statusStr[10] = { L"Fog", L"Snow", L"Rain", L"Partly Cloudy", L"Cloudy", L"Sunny", L"N/A" };
+static const WORD statusValue[10] = { FOG, SNOW, RAIN, PCLOUDY, CLOUDY, SUNNY, NA };
 
 WORD GetIcon(const wchar_t* cond, WIDATA *Data)
 {
@@ -327,61 +327,23 @@ WORD GetIcon(const wchar_t* cond, WIDATA *Data)
 			return statusValue[i];
 
 	// internal detection
-	if (
-		wcsstr(cond, L"mainy sunny") != nullptr ||
-		wcsstr(cond, L"mainy clear") != nullptr ||
-		wcsstr(cond, L"partly cloudy") != nullptr ||
-		wcsstr(cond, L"mostly") != nullptr ||
-		wcsstr(cond, L"clouds") != nullptr) {
+	if (wcsstr(cond, L"mainy sunny") || wcsstr(cond, L"mainy clear") || wcsstr(cond, L"partly cloudy") || wcsstr(cond, L"mostly") || wcsstr(cond, L"clouds"))
 		return PCLOUDY;
-	}
-	else if (
-		wcsstr(cond, L"sunny") != nullptr ||
-		wcsstr(cond, L"clear") != nullptr ||
-		wcsstr(cond, L"fair") != nullptr) {
+
+	if (wcsstr(cond, L"sunny") || wcsstr(cond, L"clear") || wcsstr(cond, L"fair"))
 		return SUNNY;
-	}
-	else if (
-		wcsstr(cond, L"thunder") != nullptr ||
-		wcsstr(cond, L"t-storm") != nullptr) {
-		return LIGHT;
-	}
-	else if (
-		wcsstr(cond, L"cloud") != nullptr ||
-		wcsstr(cond, L"overcast") != nullptr) {
+
+	if (wcsstr(cond, L"cloud") || wcsstr(cond, L"overcast"))
 		return CLOUDY;
-	}
-	else if (
-		wcsstr(cond, L"fog") != nullptr ||
-		wcsstr(cond, L"mist") != nullptr ||
-		wcsstr(cond, L"smoke") != nullptr ||
-		wcsstr(cond, L"sand") != nullptr ||
-		wcsstr(cond, L"dust") != nullptr ||
-		wcsstr(cond, L"haze") != nullptr) {
+
+	if (wcsstr(cond, L"fog") || wcsstr(cond, L"mist") || wcsstr(cond, L"smoke") || wcsstr(cond, L"sand") || wcsstr(cond, L"dust") || wcsstr(cond, L"haze"))
 		return FOG;
-	}
-	else if (
-		(wcsstr(cond, L"shower") != nullptr && wcsstr(cond, L"snow") != nullptr) ||
-		wcsstr(cond, L"flurries") != nullptr) {
-		return SSHOWER;
-	}
-	else if (
-		wcsstr(cond, L"rain shower") != nullptr ||
-		wcsstr(cond, L"shower") != nullptr) {
-		return RSHOWER;
-	}
-	else if (
-		wcsstr(cond, L"snow") != nullptr ||
-		wcsstr(cond, L"ice") != nullptr ||
-		wcsstr(cond, L"freezing") != nullptr ||
-		wcsstr(cond, L"wintry") != nullptr) {
+
+	if (wcsstr(cond, L"snow") || wcsstr(cond, L"ice") || wcsstr(cond, L"freezing") || wcsstr(cond, L"wintry"))
 		return SNOW;
-	}
-	else if (
-		wcsstr(cond, L"drizzle") != nullptr ||
-		wcsstr(cond, L"rain") != nullptr) {
+
+	if (wcsstr(cond, L"thunder") || wcsstr(cond, L"t-storm") || wcsstr(cond, L"drizzle") || wcsstr(cond, L"rain"))
 		return RAIN;
-	}
 
 	// set the icon using langpack
 	for (int i = 0; i < 9; i++) {

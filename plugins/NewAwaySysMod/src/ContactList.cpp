@@ -51,7 +51,7 @@ void LoadCListModule()
 	HookEvent(ME_SKIN_ICONSCHANGED, CLIconsChanged);
 }
 
-LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
 	CCList *dat = CWndUserData(hWnd).GetCList();
 	switch (Msg) {

@@ -14,10 +14,9 @@ WORD CSteamProto::SteamToMirandaStatus(PersonaState state)
 		return ID_STATUS_AWAY;
 	case PersonaState::Snooze:
 		return ID_STATUS_NA;
+
 	case PersonaState::LookingToTrade:
-		return ID_STATUS_OUTTOLUNCH;
 	case PersonaState::LookingToPlay:
-		return ID_STATUS_FREECHAT;
 	default:
 		return ID_STATUS_ONLINE;
 	}
@@ -37,10 +36,6 @@ PersonaState CSteamProto::MirandaToSteamState(int status)
 		return PersonaState::Away;
 	case ID_STATUS_NA:
 		return PersonaState::Snooze;
-	case ID_STATUS_OUTTOLUNCH:
-		return PersonaState::LookingToTrade;
-	case ID_STATUS_FREECHAT:
-		return PersonaState::LookingToPlay;
 	default:
 		return PersonaState::Online;
 	}

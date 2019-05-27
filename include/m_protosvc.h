@@ -94,9 +94,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define PF2_LONGAWAY      0x00000008 // NA on ICQ, Away on MSN
 #define PF2_LIGHTDND      0x00000010 // Occupied on ICQ, Busy on MSN
 #define PF2_HEAVYDND      0x00000020 // DND on ICQ
-#define PF2_FREECHAT      0x00000040
-#define PF2_OUTTOLUNCH    0x00000080
-#define PF2_ONTHEPHONE    0x00000100
 #define PF2_IDLE          0x00000200
 #define PF2_NONE          0x10000000 // protocol has no statuses at all
 
@@ -115,13 +112,10 @@ static __inline unsigned long Proto_Status2Flag(int status)
 	switch (status) {
 		case ID_STATUS_ONLINE:     return PF2_ONLINE;
 		case ID_STATUS_INVISIBLE:  return PF2_INVISIBLE;
-		case ID_STATUS_OUTTOLUNCH: return PF2_OUTTOLUNCH;
-		case ID_STATUS_ONTHEPHONE: return PF2_ONTHEPHONE;
 		case ID_STATUS_AWAY:       return PF2_SHORTAWAY;
 		case ID_STATUS_NA:         return PF2_LONGAWAY;
 		case ID_STATUS_OCCUPIED:   return PF2_LIGHTDND;
 		case ID_STATUS_DND:        return PF2_HEAVYDND;
-		case ID_STATUS_FREECHAT:   return PF2_FREECHAT;
 		case ID_STATUS_IDLE:       return PF2_IDLE;
 	}
 	return 0;
@@ -726,19 +720,19 @@ struct PROTOFILERESUME
 // DB event: EVENTTYPE_MESSAGE, blob contains szMessage without 0 terminator
 // Return 0 - success, other failure
 
-struct PROTORECVEVENT
-{
-	DWORD       flags;
-	DWORD       timestamp;  // unix time
-	char       *szMessage;  // message body in utf8
-	LPARAM      lParam;     // extra space for the network level protocol module
-	const char *szMsgId;    // server message id, optional, should be NULL otherwise
-	                        // ignored for protocols without PF4_SERVERMSGID in GetCaps()
-};
-
 #define PREF_CREATEREAD   1     // create the database event with the 'read' flag set
 #define PREF_RTL          4     // 0.5+ addition: support for right-to-left messages
 #define PREF_SENT        16     // message will be created with the DBEF_SENT flag
+
+struct PROTORECVEVENT
+{
+	DWORD flags;         // combination of PREF_*
+	DWORD timestamp;     // unix time
+	char* szMessage;     // message body in utf8
+	LPARAM lParam;       // extra space for the network level protocol module
+	const char* szMsgId; // server message id, optional, should be NULL otherwise
+	                     // ignored for protocols without PF4_SERVERMSGID in GetCaps()
+};
 
 ///////////////////////////////////////////////////////////////////////////////
 // Proto/RecvMessage

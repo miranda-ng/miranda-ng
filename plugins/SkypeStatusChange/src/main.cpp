@@ -52,18 +52,15 @@ enum
 
 LPCTSTR g_pszSkypeWndClassName = L"SkypeHelperWindow{155198f0-8749-47b7-ac53-58f2ac70844c}";
 
-const CMirandaStatus2SkypeStatus g_aStatusCode[10] =
+const CMirandaStatus2SkypeStatus g_aStatusCode[MAX_STATUS_COUNT] =
 {
 	{ID_STATUS_AWAY, "AWAY",L"Away"},
 	{ID_STATUS_NA, "AWAY",L"Not available"}, // removed in Skype 5
 	{ID_STATUS_DND, "DND",L"Do not disturb"},
 	{ID_STATUS_ONLINE, "ONLINE",L"Online"},
-	{ID_STATUS_FREECHAT, "ONLINE",L"Free for chat"},	// SKYPEME status doesn't work in Skype 4!
 	{ID_STATUS_OFFLINE, "OFFLINE",L"Offline"},
 	{ID_STATUS_INVISIBLE, "INVISIBLE",L"Invisible"},
 	{ID_STATUS_OCCUPIED,"DND",L"Occupied"},
-	{ID_STATUS_ONTHEPHONE,"DND",L"On the phone"},
-	{ID_STATUS_OUTTOLUNCH,"DND",L"Out to lunch"}
 };
 
 enum { INVALID_INDEX = 0xFFFFFFFF };

@@ -63,10 +63,7 @@ MStatus g_statuses[MAX_STATUS_COUNT] =
 	{ ID_STATUS_NA, SKINICON_STATUS_NA, PF2_LONGAWAY },
 	{ ID_STATUS_OCCUPIED, SKINICON_STATUS_OCCUPIED, PF2_LIGHTDND },
 	{ ID_STATUS_DND, SKINICON_STATUS_DND, PF2_HEAVYDND },
-	{ ID_STATUS_FREECHAT, SKINICON_STATUS_FREE4CHAT, PF2_FREECHAT },
 	{ ID_STATUS_INVISIBLE, SKINICON_STATUS_INVISIBLE, PF2_INVISIBLE },
-	{ ID_STATUS_ONTHEPHONE, SKINICON_STATUS_ONTHEPHONE, PF2_ONTHEPHONE },
-	{ ID_STATUS_OUTTOLUNCH, SKINICON_STATUS_OUTTOLUNCH, PF2_OUTTOLUNCH },
 };
 
 static int statustopos(int status)
@@ -588,7 +585,7 @@ static INT_PTR FreeOwnerDataStatusMenu(WPARAM, LPARAM lParam)
 MIR_APP_DLL(BOOL) Clist_MenuProcessCommand(int menu_id, int flags, MCONTACT hContact)
 {
 	if (flags & MPCF_MAINMENU) {
-		if (menu_id >= ID_STATUS_OFFLINE && menu_id <= ID_STATUS_OUTTOLUNCH) {
+		if (menu_id >= ID_STATUS_OFFLINE && menu_id <= ID_STATUS_MAX) {
 			int pos = statustopos(menu_id);
 			if (pos != -1)
 				return Menu_ProcessCommand(g_statuses[pos].hStatusMenu, hContact);
@@ -783,7 +780,6 @@ void RebuildMenuOrder(void)
 			smep->szProto = mir_strdup(pa->szModuleName);
 
 			pa->protoindex = i;
-			pa->protostatus[j] = g_statuses[j].iStatus;
 			pa->menuhandle[j] = Menu_AddItem(hStatusMenuObject, &mi, smep);
 
 			mir_snprintf(buf, "ProtocolIcon_%s_%s", pa->szModuleName, mi.name.a);

@@ -997,7 +997,7 @@ static int ProtocolAckHook(WPARAM, LPARAM lParam)
 			}
 		}
 		else {
-			if ((pAck->lParam >= ID_STATUS_ONLINE) && (pAck->lParam <= ID_STATUS_OUTTOLUNCH)) {
+			if ((pAck->lParam >= ID_STATUS_ONLINE) && (pAck->lParam <= ID_STATUS_MAX)) {
 				for (int i = 0; i < NumberOfAccounts; i++)
 					if (!mir_strcmp(ProtoList[i].name, pAck->szModule)) {
 						ProtocolIsOnLine(i);

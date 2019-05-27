@@ -163,7 +163,7 @@ INT_PTR CALLBACK DlgProcDestEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM) 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_MAX; i++) {
 			wchar_t *ret = Clist_GetStatusModeDescription(i, 0);
 			SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTSTAT, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)ret);
 			SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTSTAT2, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)ret);

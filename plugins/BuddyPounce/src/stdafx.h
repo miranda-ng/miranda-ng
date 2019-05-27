@@ -43,10 +43,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 #define NA 8
 #define OCCUPIED 16
 #define DND 32
-#define FFC 64
-#define INVISIBLE 128
-#define PHONE 256
-#define LUNCH 512
+#define INVISIBLE 64
 
 //=======================================================
 //  Variables

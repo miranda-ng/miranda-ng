@@ -636,19 +636,16 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 		SendDlgItemMessage(hwndDlg, IDC_MIRORWIN, CB_SETCURSEL, (WPARAM)bMirandaOrWindows, 0);
 		if (!(bFlashUntil & UNTIL_REATTENDED))
 			EnableWindow(GetDlgItem(hwndDlg, IDC_MIRORWIN), FALSE);
-		CheckDlgButton(hwndDlg, IDC_UNTILOPEN, bFlashUntil&UNTIL_EVENTSOPEN ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_UNTILCOND, bFlashUntil&UNTIL_CONDITIONS ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_UNTILOPEN, bFlashUntil & UNTIL_EVENTSOPEN ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_UNTILCOND, bFlashUntil & UNTIL_CONDITIONS ? BST_CHECKED : BST_UNCHECKED);
 
-		CheckDlgButton(hwndDlg, IDC_ONLINE, wStatusMap&MAP_ONLINE ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_AWAY, wStatusMap&MAP_AWAY ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_NA, wStatusMap&MAP_NA ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_OCCUPIED, wStatusMap&MAP_OCCUPIED ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_DND, wStatusMap&MAP_DND ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_FREECHAT, wStatusMap&MAP_FREECHAT ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_INVISIBLE, wStatusMap&MAP_INVISIBLE ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_ONTHEPHONE, wStatusMap&MAP_ONTHEPHONE ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_OUTTOLUNCH, wStatusMap&MAP_OUTTOLUNCH ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_OFFLINE, wStatusMap&MAP_OFFLINE ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ONLINE, wStatusMap & MAP_ONLINE ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_AWAY, wStatusMap & MAP_AWAY ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_NA, wStatusMap & MAP_NA ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_OCCUPIED, wStatusMap & MAP_OCCUPIED ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DND, wStatusMap & MAP_DND ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_INVISIBLE, wStatusMap & MAP_INVISIBLE ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_OFFLINE, wStatusMap & MAP_OFFLINE ? BST_CHECKED : BST_UNCHECKED);
 
 		SendDlgItemMessage(hwndDlg, IDC_REMCHECK, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_SREMCHECK), 0);
 		SendDlgItemMessage(hwndDlg, IDC_REMCHECK, UDM_SETRANGE32, 0, MAKELONG(UD_MAXVAL, 0));
@@ -689,10 +686,7 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 		case IDC_NA:
 		case IDC_OCCUPIED:
 		case IDC_DND:
-		case IDC_FREECHAT:
 		case IDC_INVISIBLE:
-		case IDC_ONTHEPHONE:
-		case IDC_OUTTOLUNCH:
 		case IDC_OFFLINE:
 			EnableWindow(GetDlgItem(hwndDlg, IDC_IFNOTTOP), IsDlgButtonChecked(hwndDlg, IDC_IFOPEN) == BST_CHECKED);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SOLDER), IsDlgButtonChecked(hwndDlg, IDC_IFOLDER) == BST_CHECKED);
@@ -785,14 +779,8 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 					statusMap |= MAP_OCCUPIED;
 				if (IsDlgButtonChecked(hwndDlg, IDC_DND) == BST_CHECKED)
 					statusMap |= MAP_DND;
-				if (IsDlgButtonChecked(hwndDlg, IDC_FREECHAT) == BST_CHECKED)
-					statusMap |= MAP_FREECHAT;
 				if (IsDlgButtonChecked(hwndDlg, IDC_INVISIBLE) == BST_CHECKED)
 					statusMap |= MAP_INVISIBLE;
-				if (IsDlgButtonChecked(hwndDlg, IDC_ONTHEPHONE) == BST_CHECKED)
-					statusMap |= MAP_ONTHEPHONE;
-				if (IsDlgButtonChecked(hwndDlg, IDC_OUTTOLUNCH) == BST_CHECKED)
-					statusMap |= MAP_OUTTOLUNCH;
 				if (IsDlgButtonChecked(hwndDlg, IDC_OFFLINE) == BST_CHECKED)
 					statusMap |= MAP_OFFLINE;
 				g_plugin.setWord("status", statusMap);

@@ -123,7 +123,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (swzText)
 					AddRow(pwd, TranslateT("Status:"), swzText, nullptr, false, false, false);
 
-				if (wStatus >= ID_STATUS_ONLINE && wStatus <= ID_STATUS_OUTTOLUNCH) {
+				if (wStatus >= ID_STATUS_ONLINE && wStatus <= ID_STATUS_MAX) {
 					// status message
 					ptrW ptszStatus(GetProtoStatusMessage(pwd->clcit.szProto, wStatus));
 					if (ptszStatus) {
@@ -1500,7 +1500,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					AddRow(pwd, TranslateT("Status:"), swzText, nullptr, false, false, false);
 			}
 
-			if (pa->iRealStatus >= ID_STATUS_ONLINE && pa->iRealStatus <= ID_STATUS_OUTTOLUNCH) {
+			if (pa->iRealStatus >= ID_STATUS_ONLINE && pa->iRealStatus <= ID_STATUS_MAX) {
 				if (dwItems & TRAYTIP_STATUS_MSG) {
 					wchar_t *swzText = GetProtoStatusMessage(pa->szModuleName, pa->iRealStatus);
 					if (swzText) {

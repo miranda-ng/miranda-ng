@@ -29,10 +29,7 @@ StatusModeMap statusModes[MAX_STATUS_COUNT] =
 	{ ID_STATUS_NA,         PF2_LONGAWAY },
 	{ ID_STATUS_OCCUPIED,   PF2_LIGHTDND },
 	{ ID_STATUS_DND,        PF2_HEAVYDND },
-	{ ID_STATUS_FREECHAT,   PF2_FREECHAT },
 	{ ID_STATUS_INVISIBLE,  PF2_INVISIBLE },
-	{ ID_STATUS_ONTHEPHONE, PF2_ONTHEPHONE },
-	{ ID_STATUS_OUTTOLUNCH, PF2_OUTTOLUNCH }
 };
 
 // handles for hooks and other Miranda thingies
@@ -90,12 +87,9 @@ char* StatusModeToDbSetting(int status, const char *suffix)
 	case ID_STATUS_NA: prefix = "Na";	break;
 	case ID_STATUS_DND: prefix = "Dnd"; break;
 	case ID_STATUS_OCCUPIED: prefix = "Occupied"; break;
-	case ID_STATUS_FREECHAT: prefix = "FreeChat"; break;
 	case ID_STATUS_ONLINE: prefix = "On"; break;
 	case ID_STATUS_OFFLINE: prefix = "Off"; break;
 	case ID_STATUS_INVISIBLE: prefix = "Inv"; break;
-	case ID_STATUS_ONTHEPHONE: prefix = "Otp"; break;
-	case ID_STATUS_OUTTOLUNCH: prefix = "Otl"; break;
 	default: return nullptr;
 	}
 	mir_strcpy(str, prefix); mir_strcat(str, suffix);
@@ -109,13 +103,10 @@ DWORD StatusModeToProtoFlag(int status)
 	case ID_STATUS_ONLINE: return PF2_ONLINE;
 	case ID_STATUS_OFFLINE: return PF2_OFFLINE;
 	case ID_STATUS_INVISIBLE: return PF2_INVISIBLE;
-	case ID_STATUS_OUTTOLUNCH: return PF2_OUTTOLUNCH;
-	case ID_STATUS_ONTHEPHONE: return PF2_ONTHEPHONE;
 	case ID_STATUS_AWAY: return PF2_SHORTAWAY;
 	case ID_STATUS_NA: return PF2_LONGAWAY;
 	case ID_STATUS_OCCUPIED: return PF2_LIGHTDND;
 	case ID_STATUS_DND: return PF2_HEAVYDND;
-	case ID_STATUS_FREECHAT: return PF2_FREECHAT;
 	}
 	return 0;
 }
@@ -132,7 +123,7 @@ int GetActualStatus(PROTOCOLSETTINGEX *protoSetting)
 	if (protoSetting->m_status == ID_STATUS_CURRENT)
 		return Proto_GetStatus(protoSetting->m_szName);
 
-	if ((protoSetting->m_status < ID_STATUS_OFFLINE) || (protoSetting->m_status > ID_STATUS_OUTTOLUNCH)) {
+	if ((protoSetting->m_status < ID_STATUS_OFFLINE) || (protoSetting->m_status > ID_STATUS_MAX)) {
 		log_debug(0, "invalid status detected: %d", protoSetting->m_status);
 		return 0;
 	}

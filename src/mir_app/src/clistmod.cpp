@@ -74,17 +74,8 @@ MIR_APP_DLL(wchar_t*) Clist_GetStatusModeDescription(int mode, int flags)
 	case ID_STATUS_OCCUPIED:
 		descr = LPGENW("Occupied");
 		break;
-	case ID_STATUS_FREECHAT:
-		descr = LPGENW("Free for chat");
-		break;
 	case ID_STATUS_INVISIBLE:
 		descr = LPGENW("Invisible");
-		break;
-	case ID_STATUS_OUTTOLUNCH:
-		descr = LPGENW("Out to lunch");
-		break;
-	case ID_STATUS_ONTHEPHONE:
-		descr = LPGENW("On the phone");
 		break;
 	case ID_STATUS_IDLE:
 		descr = LPGENW("Idle");

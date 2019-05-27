@@ -51,10 +51,7 @@ static selfSounds[] =
 	{ ID_STATUS_DND, "SelfDND" },
 	{ ID_STATUS_NA, "SelfNA" },
 	{ ID_STATUS_OCCUPIED, "SelfOccupied" },
-	{ ID_STATUS_FREECHAT, "SelfFreeForChat" },
 	{ ID_STATUS_INVISIBLE, "SelfInvisible" },
-	{ ID_STATUS_ONTHEPHONE, "SelfOnThePhone" },
-	{ ID_STATUS_OUTTOLUNCH, "SelfOutToLunch" }
 };
 
 void InitSelfSounds()

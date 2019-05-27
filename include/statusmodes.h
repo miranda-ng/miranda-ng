@@ -49,12 +49,11 @@ __forceinline bool IsStatusConnecting(int iStatus)
 #define ID_STATUS_DND             40074
 #define ID_STATUS_NA              40075
 #define ID_STATUS_OCCUPIED        40076
-#define ID_STATUS_FREECHAT        40077
-#define ID_STATUS_INVISIBLE       40078
-#define ID_STATUS_ONTHEPHONE      40079
-#define ID_STATUS_OUTTOLUNCH      40080
+#define ID_STATUS_INVISIBLE       40077
 #define ID_STATUS_IDLE            40081 /* do not use as a status */
 
-#define MAX_STATUS_COUNT          (ID_STATUS_OUTTOLUNCH-ID_STATUS_OFFLINE+1)
+#define ID_STATUS_MIN	          ID_STATUS_OFFLINE
+#define ID_STATUS_MAX             ID_STATUS_INVISIBLE
+#define MAX_STATUS_COUNT         (ID_STATUS_MAX-ID_STATUS_MIN+1)
 
 #endif // STATUSMODES_H__

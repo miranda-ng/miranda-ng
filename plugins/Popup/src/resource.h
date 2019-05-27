@@ -76,10 +76,7 @@
 #define IDC_SNA                         1102
 #define IDC_SOCCUPIED                   1103
 #define IDC_SDND                        1104
-#define IDC_SFREE4CHAT                  1105
 #define IDC_SINVISIBLE                  1106
-#define IDC_SPHONE                      1107
-#define IDC_SLUNCH                      1108
 #define IDC_TIMEOUT                     1110
 #define IDC_SOFFLINE2                   1111
 #define IDC_SONLINE2                    1112
@@ -90,12 +87,9 @@
 #define IDC_TREE1                       1117
 #define IDC_SKINLIST                    1118
 #define IDC_SINVISIBLE2                 1119
-#define IDC_SPHONE2                     1120
-#define IDC_SLUNCH2                     1121
 #define IDC_TXT_TIMEOUT_SEC             1122
 #define IDC_PREVIEWBOX                  1123
 #define IDC_TXT_TIMEOUT_INFINITE        1124
-#define IDC_SFREE4CHAT2                 1125
 #define IDC_TXT_TIMEOUT_DEFAULT         1126
 #define IDC_POPUP_LIST                  1134
 #define IDC_SHOWHISTORY                 1135

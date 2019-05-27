@@ -7,19 +7,6 @@
 #define TVS_NOTOOLTIPS 0x0080
 #endif
 
-#define ID_STATUS_OFFLINE               40071
-#define ID_STATUS_ONLINE                40072
-#define ID_STATUS_AWAY                  40073
-#define ID_STATUS_DND                   40074
-#define ID_STATUS_NA                    40075
-#define ID_STATUS_OCCUPIED              40076
-#define ID_STATUS_FREECHAT              40077
-#define ID_STATUS_INVISIBLE             40078
-#define ID_STATUS_ONTHEPHONE            40079
-#define ID_STATUS_OUTTOLUNCH            40080
-#define ID_STATUS_IDLE                  40081 /* do not use as a status */
-
-
 #define IDD_SETTINGS                    101
 #define IDD_USERINFO                    102
 #define IDD_MISSED                      103

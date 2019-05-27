@@ -166,14 +166,8 @@ int ParseStatusParam(const wchar_t *status)
 		return ID_STATUS_NA;
 	if (!mir_wstrcmp(lower, L"occupied"))
 		return ID_STATUS_OCCUPIED;
-	if (!mir_wstrcmp(lower, L"freechat"))
-		return ID_STATUS_FREECHAT;
 	if (!mir_wstrcmp(lower, L"invisible"))
 		return ID_STATUS_INVISIBLE;
-	if (!mir_wstrcmp(lower, L"onthephone"))
-		return ID_STATUS_ONTHEPHONE;
-	if (!mir_wstrcmp(lower, L"outtolunch"))
-		return ID_STATUS_OUTTOLUNCH;
 	return 0;
 }
 

@@ -288,9 +288,6 @@ BOOL DlgShowAccountStatus(HWND hDlg, WPARAM wParam, LPARAM lParam)
 		CheckDlgButton(hDlg, IDC_CHECKST4, ActualAccount->StatusFlags & YAMN_ACC_ST4 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hDlg, IDC_CHECKST5, ActualAccount->StatusFlags & YAMN_ACC_ST5 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hDlg, IDC_CHECKST6, ActualAccount->StatusFlags & YAMN_ACC_ST6 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hDlg, IDC_CHECKST7, ActualAccount->StatusFlags & YAMN_ACC_ST7 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hDlg, IDC_CHECKST8, ActualAccount->StatusFlags & YAMN_ACC_ST8 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hDlg, IDC_CHECKST9, ActualAccount->StatusFlags & YAMN_ACC_ST9 ? BST_CHECKED : BST_UNCHECKED);
 		ReadDone(ActualAccount);
 	}
 	else {
@@ -426,9 +423,6 @@ BOOL DlgShowAccount(HWND hDlg, WPARAM wParam, LPARAM lParam)
 		Check4 = ActualAccount->StatusFlags & YAMN_ACC_ST4;
 		Check5 = ActualAccount->StatusFlags & YAMN_ACC_ST5;
 		Check6 = ActualAccount->StatusFlags & YAMN_ACC_ST6;
-		Check7 = ActualAccount->StatusFlags & YAMN_ACC_ST7;
-		Check8 = ActualAccount->StatusFlags & YAMN_ACC_ST8;
-		Check9 = ActualAccount->StatusFlags & YAMN_ACC_ST9;
 		CheckDlgButton(hDlg, IDC_CHECKSTART, ActualAccount->StatusFlags & YAMN_ACC_STARTS ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hDlg, IDC_CHECKFORCE, ActualAccount->StatusFlags & YAMN_ACC_FORCE ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hDlg, IDC_CHECKCONTACT, ActualAccount->NewMailN.Flags & YAMN_ACC_CONT ? BST_CHECKED : BST_UNCHECKED);
@@ -1062,9 +1056,6 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
 					(Check4 ? YAMN_ACC_ST4 : 0) |
 					(Check5 ? YAMN_ACC_ST5 : 0) |
 					(Check6 ? YAMN_ACC_ST6 : 0) |
-					(Check7 ? YAMN_ACC_ST7 : 0) |
-					(Check8 ? YAMN_ACC_ST8 : 0) |
-					(Check9 ? YAMN_ACC_ST9 : 0) |
 					(CheckStart ? YAMN_ACC_STARTS : 0) |
 					(CheckForce ? YAMN_ACC_FORCE : 0);
 

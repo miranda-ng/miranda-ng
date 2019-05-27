@@ -795,7 +795,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		ConfigureCLUIGeometry(0);
 		CluiProtocolStatusChanged(0, nullptr);
 
-		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
+		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_MAX; i++)
 			statusNames[i - ID_STATUS_OFFLINE] = Clist_GetStatusModeDescription(i, 0);
 
 		//delay creation of CLC so that it can get the status icons right the first time (needs protocol modules loaded)

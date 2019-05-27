@@ -98,17 +98,6 @@ void GaduProto::disconnect()
 				}
 				break;
 
-			case ID_STATUS_FREECHAT:
-				gg_EnterCriticalSection(&modemsg_mutex, "disconnect", 9, "modemsg_mutex", 1);
-				szMsg = mir_utf8encodeW(modemsg.freechat);
-				gg_LeaveCriticalSection(&modemsg_mutex, "disconnect", 9, 1, "modemsg_mutex", 1);
-				if (!szMsg && !db_get_s(0, "SRAway", gg_status2db(ID_STATUS_FREECHAT, "Default"), &dbv, DBVT_WCHAR)) {
-					if (dbv.pwszVal && *(dbv.pwszVal))
-						szMsg = mir_utf8encodeW(dbv.pwszVal);
-					db_free(&dbv);
-				}
-				break;
-
 			case ID_STATUS_INVISIBLE:
 				gg_EnterCriticalSection(&modemsg_mutex, "disconnect", 10, "modemsg_mutex", 1);
 				szMsg = mir_utf8encodeW(modemsg.invisible);
@@ -1547,7 +1536,6 @@ int GaduProto::status_m2gg(int status, int descr)
 		case ID_STATUS_ONLINE:    return GG_STATUS_AVAIL_DESCR | mask;
 		case ID_STATUS_AWAY:      return GG_STATUS_BUSY_DESCR | mask;
 		case ID_STATUS_DND:       return GG_STATUS_DND_DESCR | mask;
-		case ID_STATUS_FREECHAT:  return GG_STATUS_FFC_DESCR | mask;
 		case ID_STATUS_INVISIBLE: return GG_STATUS_INVISIBLE_DESCR | mask;
 		default:                  return GG_STATUS_BUSY_DESCR | mask;
 		}
@@ -1558,7 +1546,6 @@ int GaduProto::status_m2gg(int status, int descr)
 		case ID_STATUS_ONLINE:    return GG_STATUS_AVAIL | mask;
 		case ID_STATUS_AWAY:      return GG_STATUS_BUSY | mask;
 		case ID_STATUS_DND:       return GG_STATUS_DND | mask;
-		case ID_STATUS_FREECHAT:  return GG_STATUS_FFC | mask;
 		case ID_STATUS_INVISIBLE: return GG_STATUS_INVISIBLE | mask;
 		default:                  return GG_STATUS_BUSY | mask;
 		}
@@ -1582,6 +1569,8 @@ int GaduProto::status_gg2m(int status)
 
 	case GG_STATUS_AVAIL:
 	case GG_STATUS_AVAIL_DESCR:
+	case GG_STATUS_FFC:
+	case GG_STATUS_FFC_DESCR:
 		return ID_STATUS_ONLINE;
 
 	case GG_STATUS_BUSY:
@@ -1591,10 +1580,6 @@ int GaduProto::status_gg2m(int status)
 	case GG_STATUS_DND:
 	case GG_STATUS_DND_DESCR:
 		return ID_STATUS_DND;
-
-	case GG_STATUS_FFC:
-	case GG_STATUS_FFC_DESCR:
-		return ID_STATUS_FREECHAT;
 
 	case GG_STATUS_INVISIBLE:
 	case GG_STATUS_INVISIBLE_DESCR:

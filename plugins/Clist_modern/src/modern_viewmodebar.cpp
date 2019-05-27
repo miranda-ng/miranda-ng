@@ -158,7 +158,7 @@ static void ShowPage(HWND hwnd, int page)
 
 static int UpdateClistItem(MCONTACT hContact, DWORD mask)
 {
-	for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
+	for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_MAX; i++)
 		SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_SETEXTRAIMAGE, hContact, MAKELONG(i - ID_STATUS_OFFLINE,
 		(1 << (i - ID_STATUS_OFFLINE)) & mask ? i - ID_STATUS_OFFLINE : nullImage));
 
@@ -169,7 +169,7 @@ static DWORD GetMaskForItem(HANDLE hItem)
 {
 	DWORD dwMask = 0;
 
-	for (int i = 0; i <= ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE; i++)
+	for (int i = 0; i <= ID_STATUS_MAX - ID_STATUS_OFFLINE; i++)
 		dwMask |= (SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_GETEXTRAIMAGE, (WPARAM)hItem, i) == nullImage ? 0 : 1 << i);
 
 	return dwMask;
@@ -186,13 +186,13 @@ static void UpdateStickies()
 		UpdateClistItem(hItem, (localMask == 0 || localMask == stickyStatusMask) ? stickyStatusMask : localMask);
 	}
 
-	for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
-		SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_SETEXTRAIMAGE, (WPARAM)hInfoItem, MAKELONG(i - ID_STATUS_OFFLINE, (1 << (i - ID_STATUS_OFFLINE)) & stickyStatusMask ? i - ID_STATUS_OFFLINE : ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE + 1));
+	for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_MAX; i++)
+		SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_SETEXTRAIMAGE, (WPARAM)hInfoItem, MAKELONG(i - ID_STATUS_OFFLINE, (1 << (i - ID_STATUS_OFFLINE)) & stickyStatusMask ? i - ID_STATUS_OFFLINE : MAX_STATUS_COUNT));
 
 	HANDLE hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_GETNEXTITEM, CLGN_ROOT, 0);
 	hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hItem);
 	while (hItem) {
-		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
+		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_MAX; i++)
 			SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELONG(i - ID_STATUS_OFFLINE, nullImage));
 		hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hItem);
 	}
@@ -253,7 +253,7 @@ static int FillDialog(HWND hwnd)
 	lvc.mask = LVCF_FMT;
 	lvc.fmt = LVCFMT_IMAGE | LVCFMT_LEFT;
 	ListView_InsertColumn(hwndList, 0, &lvc);
-	for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+	for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_MAX; i++) {
 		LVITEM item = { 0 };
 		item.mask = LVIF_TEXT;
 		item.pszText = Clist_GetStatusModeDescription(i, 0);
@@ -416,7 +416,7 @@ void SaveState()
 	}
 	{
 		HWND hwndList = GetDlgItem(clvmHwnd, IDC_STATUSMODES);
-		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
+		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_MAX; i++)
 			if (ListView_GetCheckState(hwndList, i - ID_STATUS_OFFLINE))
 				statusMask |= (1 << (i - ID_STATUS_OFFLINE));
 	}
@@ -566,7 +566,7 @@ static void UpdateFilters()
 	{
 		HWND hwndList = GetDlgItem(clvmHwnd, IDC_STATUSMODES);
 
-		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_MAX; i++) {
 			if ((1 << (i - ID_STATUS_OFFLINE)) & statusMask)
 				ListView_SetCheckState(hwndList, i - ID_STATUS_OFFLINE, TRUE)
 			else
@@ -639,7 +639,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		himlViewModes = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 12, 0);
 		{
 			int i;
-			for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+			for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_MAX; i++) {
 				HICON hIcon = Skin_LoadProtoIcon(nullptr, i);
 				ImageList_AddIcon(himlViewModes, hIcon);
 				IcoLib_ReleaseIcon(hIcon);
@@ -673,7 +673,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 
 			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)himlViewModes);
-			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETEXTRACOLUMNS, ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE, 0);
+			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETEXTRACOLUMNS, ID_STATUS_MAX - ID_STATUS_OFFLINE, 0);
 
 			CLCINFOITEM cii = { sizeof(cii) };
 			cii.hParentGroup = nullptr;

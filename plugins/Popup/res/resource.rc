@@ -231,10 +231,7 @@ BEGIN
     CONTROL         "",IDC_SNA,"MButtonClass",WS_TABSTOP,180,120,15,14
     CONTROL         "",IDC_SOCCUPIED,"MButtonClass",WS_TABSTOP,196,120,15,14
     CONTROL         "",IDC_SDND,"MButtonClass",WS_TABSTOP,212,120,15,14
-    CONTROL         "",IDC_SFREE4CHAT,"MButtonClass",WS_TABSTOP,228,120,15,14
     CONTROL         "",IDC_SINVISIBLE,"MButtonClass",WS_TABSTOP,244,120,15,14
-    CONTROL         "",IDC_SPHONE,"MButtonClass",WS_TABSTOP,260,120,15,14
-    CONTROL         "",IDC_SLUNCH,"MButtonClass",WS_TABSTOP,276,120,16,14
     LTEXT           "Disable when relevant protocol's status is...",IDC_TXT_TITLE4,112,138,180,8
     CONTROL         "",IDC_SOFFLINE2,"MButtonClass",WS_TABSTOP,132,151,15,14
     CONTROL         "",IDC_SONLINE2,"MButtonClass",WS_TABSTOP,148,151,15,14
@@ -242,10 +239,7 @@ BEGIN
     CONTROL         "",IDC_SNA2,"MButtonClass",WS_TABSTOP,180,151,15,14
     CONTROL         "",IDC_SOCCUPIED2,"MButtonClass",WS_TABSTOP,196,151,15,14
     CONTROL         "",IDC_SDND2,"MButtonClass",WS_TABSTOP,212,151,15,14
-    CONTROL         "",IDC_SFREE4CHAT2,"MButtonClass",WS_TABSTOP,228,151,15,14
     CONTROL         "",IDC_SINVISIBLE2,"MButtonClass",WS_TABSTOP,244,151,15,14
-    CONTROL         "",IDC_SPHONE2,"MButtonClass",WS_TABSTOP,260,151,15,14
-    CONTROL         "",IDC_SLUNCH2,"MButtonClass",WS_TABSTOP,276,151,16,14
     ICON            IDI_MB_INFO,IDC_ICO_INFO,112,170,20,20,SS_CENTERIMAGE | SS_REALSIZEIMAGE
     LTEXT           "Colors can be configured in\r\nCustomize -> Fonts and colors",IDC_TXT_COLORS,132,171,108,24
     PUSHBUTTON      "More...",IDC_MORE,242,176,50,14

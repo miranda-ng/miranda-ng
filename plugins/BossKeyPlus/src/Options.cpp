@@ -111,7 +111,7 @@ public:
 		m_chkUsrDefMsg.SetState(g_wMask & OPT_USEDEFMSG);
 		m_chkTrayIcon.SetState(g_wMask & OPT_TRAYICON);
 
-		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
+		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_MAX; i++)
 			m_cbStatusList.InsertString(Clist_GetStatusModeDescription(i, 0), -1);
 
 		m_cbStatusList.SetCurSel(g_plugin.getByte("stattype", 2));

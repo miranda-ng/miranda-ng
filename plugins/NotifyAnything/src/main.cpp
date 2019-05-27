@@ -167,10 +167,7 @@ HICON getIcon(const std::wstring &name)
 		icons[L"na"] = Skin_LoadIcon(SKINICON_STATUS_NA);
 		icons[L"occupied"] = Skin_LoadIcon(SKINICON_STATUS_OCCUPIED);
 		icons[L"dnd"] = Skin_LoadIcon(SKINICON_STATUS_DND);
-		icons[L"free4chat"] = Skin_LoadIcon(SKINICON_STATUS_FREE4CHAT);
 		icons[L"invisible"] = Skin_LoadIcon(SKINICON_STATUS_INVISIBLE);
-		icons[L"onthephone"] = Skin_LoadIcon(SKINICON_STATUS_ONTHEPHONE);
-		icons[L"outtolunch"] = Skin_LoadIcon(SKINICON_STATUS_OUTTOLUNCH);
 
 		icons[L"message"] = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 		icons[L"url"] = Skin_LoadIcon(SKINICON_EVENT_URL);

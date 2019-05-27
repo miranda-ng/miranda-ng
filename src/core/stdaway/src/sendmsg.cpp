@@ -34,12 +34,9 @@ static const wchar_t* GetDefaultMessage(int status)
 		case ID_STATUS_NA:         return TranslateT("Give it up, I'm not in!");
 		case ID_STATUS_OCCUPIED:   return TranslateT("Not right now.");
 		case ID_STATUS_DND:        return TranslateT("Give a guy some peace, would ya?");
-		case ID_STATUS_FREECHAT:   return TranslateT("I'm a chatbot!");
 		case ID_STATUS_ONLINE:     return TranslateT("Yep, I'm here.");
 		case ID_STATUS_OFFLINE:    return TranslateT("Nope, not here.");
 		case ID_STATUS_INVISIBLE:  return TranslateT("I'm hiding from the mafia.");
-		case ID_STATUS_ONTHEPHONE: return TranslateT("That'll be the phone.");
-		case ID_STATUS_OUTTOLUNCH: return TranslateT("Mmm... food.");
 		case ID_STATUS_IDLE:       return TranslateT("idleeeeeeee");
 	}
 	return nullptr;
@@ -55,12 +52,9 @@ static const char* StatusModeToDbSetting(int status, const char *suffix)
 		case ID_STATUS_NA:         prefix = "Na";       break;
 		case ID_STATUS_DND:        prefix = "Dnd";      break;
 		case ID_STATUS_OCCUPIED:   prefix = "Occupied"; break;
-		case ID_STATUS_FREECHAT:   prefix = "FreeChat"; break;
 		case ID_STATUS_ONLINE:     prefix = "On";       break;
 		case ID_STATUS_OFFLINE:    prefix = "Off";      break;
 		case ID_STATUS_INVISIBLE:  prefix = "Inv";      break;
-		case ID_STATUS_ONTHEPHONE: prefix = "Otp";      break;
-		case ID_STATUS_OUTTOLUNCH: prefix = "Otl";      break;
 		case ID_STATUS_IDLE:       prefix = "Idl";      break;
 		default: return nullptr;
 	}
@@ -340,7 +334,7 @@ static int StatusModeChange(WPARAM wParam, LPARAM lParam)
 static const int statusModes[] =
 {
 	ID_STATUS_OFFLINE, ID_STATUS_ONLINE, ID_STATUS_AWAY, ID_STATUS_NA, ID_STATUS_OCCUPIED, ID_STATUS_DND,
-	ID_STATUS_FREECHAT, ID_STATUS_INVISIBLE, ID_STATUS_OUTTOLUNCH, ID_STATUS_ONTHEPHONE, ID_STATUS_IDLE
+	ID_STATUS_INVISIBLE, ID_STATUS_IDLE
 };
 
 struct AwayMsgInfo

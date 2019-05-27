@@ -144,7 +144,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			CheckRadioButton(hwnd, 40072, 40080, g_plugin.getWord(hContact, "Icon", ID_STATUS_ONLINE));
 			SetWindowLongPtr(GetDlgItem(hwnd, CHK_ONLINE), GWLP_USERDATA, (LONG_PTR)Skin_LoadProtoIcon(MODNAME, ID_STATUS_ONLINE));
 			g_PrevBtnWndProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hwnd, CHK_ONLINE), GWLP_WNDPROC, (LONG_PTR)ButtWndProc);
-			for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+			for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_MAX; i++) {
 				SetWindowLongPtr(GetDlgItem(hwnd, i), GWLP_USERDATA, (LONG_PTR)Skin_LoadProtoIcon(MODNAME, i));
 				SetWindowLongPtr(GetDlgItem(hwnd, i), GWLP_WNDPROC, (LONG_PTR)ButtWndProc);
 			}
@@ -241,7 +241,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				}
 				else db_unset(hContact, "CList", "Group");
 
-				for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
+				for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_MAX; i++)
 					if (IsDlgButtonChecked(hwnd, i))
 						g_plugin.setWord(hContact, "Icon", (WORD)i);
 
@@ -600,14 +600,8 @@ INT_PTR ImportContacts(WPARAM, LPARAM)
 					mir_snprintf(tmp, "Icon: DND\r\n");
 				else if (icon == ID_STATUS_OCCUPIED)
 					mir_snprintf(tmp, "Icon: Occupied\r\n");
-				else if (icon == ID_STATUS_FREECHAT)
-					mir_snprintf(tmp, "Icon: Free for chat\r\n");
 				else if (icon == ID_STATUS_INVISIBLE)
 					mir_snprintf(tmp, "Icon: Invisible\r\n");
-				else if (icon == ID_STATUS_ONTHEPHONE)
-					mir_snprintf(tmp, "Icon: On the phone\r\n");
-				else if (icon == ID_STATUS_OUTTOLUNCH)
-					mir_snprintf(tmp, "Icon: Out to lunch\r\n");
 				else {
 					free(msg);
 					continue;

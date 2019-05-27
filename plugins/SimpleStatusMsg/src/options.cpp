@@ -122,7 +122,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 			data->status_msg = (struct SingleStatusMsg *)mir_alloc(sizeof(struct SingleStatusMsg)*(accounts->count + 1));
 
-			for (i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+			for (i = ID_STATUS_ONLINE; i <= ID_STATUS_MAX; i++) {
 				if (accounts->statusMsgFlags & Proto_Status2Flag(i)) {
 					index = SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_INSERTSTRING, -1, (LPARAM)Clist_GetStatusModeDescription(i, 0));
 					if (index != CB_ERR && index != CB_ERRSPACE) {
@@ -365,7 +365,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					int j = SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_GETCURSEL, 0, 0), 0);
 					SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_RESETCONTENT, 0, 0);
 
-					for (l = ID_STATUS_ONLINE; l <= ID_STATUS_OUTTOLUNCH; l++) {
+					for (l = ID_STATUS_ONLINE; l <= ID_STATUS_MAX; l++) {
 						int	 index;
 						if (status_modes & Proto_Status2Flag(l)) {
 							index = SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_INSERTSTRING, -1, (LPARAM)Clist_GetStatusModeDescription(l, 0));
@@ -797,7 +797,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				int j = SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_GETCURSEL, 0, 0), 0);
 
 				if (j) {
-					for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+					for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_MAX; i++) {
 						if (accounts->statusMsgFlags & Proto_Status2Flag(i)) {
 							data->status_msg[0].flags[i - ID_STATUS_ONLINE] = data->status_msg[j].flags[i - ID_STATUS_ONLINE];
 							if (data->status_msg[j].flags[i - ID_STATUS_ONLINE] & STATUS_THIS_MSG)
@@ -834,7 +834,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 							}
 						}
 						else if (data->proto_msg[j].flags & PROTO_POPUPDLG) {
-							for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+							for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_MAX; i++) {
 								if (CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(i)) {
 									data->status_msg[k + 1].flags[i - ID_STATUS_ONLINE] = data->status_msg[j].flags[i - ID_STATUS_ONLINE];
 									if (data->status_msg[j].flags[i - ID_STATUS_ONLINE] & STATUS_THIS_MSG)
@@ -858,7 +858,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				else
 					status_modes = accounts->statusMsgFlags;
 
-				for (int k = ID_STATUS_ONLINE; k <= ID_STATUS_OUTTOLUNCH; k++) {
+				for (int k = ID_STATUS_ONLINE; k <= ID_STATUS_MAX; k++) {
 					if (k - ID_STATUS_ONLINE != i && status_modes & Proto_Status2Flag(k)) {
 						data->status_msg[j].flags[k - ID_STATUS_ONLINE] = data->status_msg[j].flags[i];
 						if (data->status_msg[j].flags[i] & STATUS_THIS_MSG)
@@ -873,7 +873,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->idFrom == 0 && ((LPNMHDR)lParam)->code == PSN_APPLY) {
 			char szSetting[80];
-			for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+			for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_MAX; i++) {
 				if (accounts->statusMsgFlags & Proto_Status2Flag(i)) {
 					db_set_ws(0, "SRAway", StatusModeToDbSetting(i, "Default"), data->status_msg[0].msg[i - ID_STATUS_ONLINE]);
 					g_plugin.setByte(StatusModeToDbSetting(i, "Flags"), (BYTE)data->status_msg[0].flags[i - ID_STATUS_ONLINE]);
@@ -1419,7 +1419,7 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 					int status_modes = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0);
 
 					SendDlgItemMessage(hwndDlg, IDC_LISTSTATUS, LB_RESETCONTENT, 0, 0);
-					for (int l = ID_STATUS_OFFLINE; l <= ID_STATUS_OUTTOLUNCH; l++) {
+					for (int l = ID_STATUS_OFFLINE; l <= ID_STATUS_MAX; l++) {
 						if (status_modes & Proto_Status2Flag(l) || l == ID_STATUS_OFFLINE) {
 							int index = SendDlgItemMessage(hwndDlg, IDC_LISTSTATUS, LB_INSERTSTRING, -1, (LPARAM)Clist_GetStatusModeDescription(l, 0));
 							if (index != LB_ERR && index != LB_ERRSPACE) {

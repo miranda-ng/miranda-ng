@@ -62,8 +62,7 @@ INT_PTR WeatherGetCaps(WPARAM wParam, LPARAM)
 		break;
 
 	case PFLAGNUM_2:
-		ret = PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND |
-			PF2_HEAVYDND | PF2_FREECHAT | PF2_OUTTOLUNCH | PF2_ONTHEPHONE;
+		ret = PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND;
 		break;
 
 	case PFLAGNUM_4:
@@ -71,8 +70,7 @@ INT_PTR WeatherGetCaps(WPARAM wParam, LPARAM)
 		break;
 
 	case PFLAGNUM_5: /* this is PFLAGNUM_5 change when alpha SDK is released */
-		ret = PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND |
-			PF2_FREECHAT | PF2_OUTTOLUNCH | PF2_ONTHEPHONE;
+		ret = PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND;
 		break;
 
 	case PFLAG_UNIQUEIDTEXT:
@@ -118,8 +116,8 @@ INT_PTR WeatherGetInfo(WPARAM, LPARAM lParam)
 }
 
 // avatars
-static const wchar_t *statusStr[] = { L"Light", L"Fog", L"SShower", L"Snow", L"RShower", L"Rain", L"PCloudy", L"Cloudy", L"Sunny", L"NA" };
-static const WORD statusValue[] = { LIGHT, FOG, SSHOWER, SNOW, RSHOWER, RAIN, PCLOUDY, CLOUDY, SUNNY, NA };
+static const wchar_t *statusStr[] = { L"Fog", L"Snow", L"Rain", L"PCloudy", L"Cloudy", L"Sunny", L"NA" };
+static const WORD statusValue[] = { FOG, SNOW, RAIN, PCLOUDY, CLOUDY, SUNNY, NA };
 
 INT_PTR WeatherGetAvatarInfo(WPARAM, LPARAM lParam)
 {

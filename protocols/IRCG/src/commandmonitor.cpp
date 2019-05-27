@@ -339,12 +339,6 @@ bool CIrcProto::OnIrc_SETAWAY(const CIrcMessage *pmsg)
 			case ID_STATUS_OCCUPIED:
 				DoPerform("Event: Occupied");
 				break;
-			case ID_STATUS_OUTTOLUNCH:
-				DoPerform("Event: Out for lunch");
-				break;
-			case ID_STATUS_ONTHEPHONE:
-				DoPerform("Event: On the phone");
-				break;
 			default:
 				m_iStatus = ID_STATUS_AWAY;
 				DoPerform("Event: Away");
@@ -2355,7 +2349,6 @@ bool CIrcProto::DoOnConnect(const CIrcMessage*)
 		if (IsConnected()) {
 			DoPerform(_T2A(m_info.sNetwork));
 			switch (Temp) {
-				case ID_STATUS_FREECHAT:   DoPerform("Event: Free for chat");   break;
 				case ID_STATUS_ONLINE:     DoPerform("Event: Available");       break;
 			}
 		}

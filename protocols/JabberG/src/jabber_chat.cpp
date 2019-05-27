@@ -49,8 +49,7 @@ enum {
 	IDM_PRESENCE_ONLINE = ID_STATUS_ONLINE,
 	IDM_PRESENCE_AWAY = ID_STATUS_AWAY,
 	IDM_PRESENCE_NA = ID_STATUS_NA,
-	IDM_PRESENCE_DND = ID_STATUS_DND,
-	IDM_PRESENCE_FREE4CHAT = ID_STATUS_FREECHAT,
+	IDM_PRESENCE_DND = ID_STATUS_DND
 };
 
 struct TRoleOrAffiliationInfo
@@ -426,7 +425,6 @@ static gc_item sttLogListItems[] =
 	{ LPGENW("Away"), IDM_PRESENCE_AWAY, MENU_POPUPITEM },
 	{ LPGENW("Not available"), IDM_PRESENCE_NA, MENU_POPUPITEM },
 	{ LPGENW("Do not disturb"), IDM_PRESENCE_DND, MENU_POPUPITEM },
-	{ LPGENW("Free for chat"), IDM_PRESENCE_FREE4CHAT, MENU_POPUPITEM },
 
 	{ LPGENW("&Leave chat session"), IDM_LEAVE, MENU_ITEM }
 };
@@ -1296,7 +1294,6 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 	case IDM_PRESENCE_AWAY:
 	case IDM_PRESENCE_NA:
 	case IDM_PRESENCE_DND:
-	case IDM_PRESENCE_FREE4CHAT:
 		if (MCONTACT h = ppro->HContactFromJID(item->jid))
 			ppro->OnMenuHandleDirectPresence((WPARAM)h, 0, gch->dwData);
 		break;

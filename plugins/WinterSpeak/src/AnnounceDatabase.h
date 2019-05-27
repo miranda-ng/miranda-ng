@@ -14,7 +14,6 @@ class AnnounceDatabase
 		StatusFlag_Dnd,
 		StatusFlag_Na,
 		StatusFlag_Occupied,
-		StatusFlag_FreeForChat,
 		StatusFlag_Invisible,
 		StatusFlag_SpeakStatusMsg,
 		StatusFlag_SuppressConnect,

@@ -1,6 +1,7 @@
 // Microsoft Visual C++ generated resource script.
 //
 #include "..\src\resource.h"
+#include "statusmodes.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -102,15 +103,6 @@ BEGIN
     RTEXT           "Do not disturb",IDC_STATIC,10,163,60,10
     CONTROL         "",ID_STATUS_DND,"ColourPicker",WS_TABSTOP,80,160,20,14
     CONTROL         "",40094,"ColourPicker",WS_TABSTOP,105,160,20,14
-    RTEXT           "On the phone",IDC_STATIC,140,83,60,10
-    CONTROL         "",ID_STATUS_ONTHEPHONE,"ColourPicker",WS_TABSTOP,210,80,20,14
-    CONTROL         "",40099,"ColourPicker",WS_TABSTOP,235,80,20,14
-    RTEXT           "Out to lunch",IDC_STATIC,140,103,60,10
-    CONTROL         "",ID_STATUS_OUTTOLUNCH,"ColourPicker",WS_TABSTOP,210,100,20,14
-    CONTROL         "",40100,"ColourPicker",WS_TABSTOP,235,100,20,14
-    RTEXT           "Free for chat",IDC_STATIC,140,123,60,10
-    CONTROL         "",ID_STATUS_FREECHAT,"ColourPicker",WS_TABSTOP,210,120,20,14
-    CONTROL         "",40097,"ColourPicker",WS_TABSTOP,235,120,20,14
     RTEXT           "Invisible",IDC_STATIC,140,143,60,10
     CONTROL         "",ID_STATUS_INVISIBLE,"ColourPicker",WS_TABSTOP,210,140,20,14
     CONTROL         "",40098,"ColourPicker",WS_TABSTOP,235,140,20,14

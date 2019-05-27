@@ -55,8 +55,6 @@ BEGIN
                     78,75,67,10
     CONTROL         "Free for chat",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,78,86,67,10
-    CONTROL         "Invisible",IDC_CHECK8,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,78,97,67,10
     GROUPBOX        "Forward messages to...",IDC_STATIC,158,3,147,45
     GROUPBOX        "Template",IDC_STATIC,158,51,147,61
     EDITTEXT        IDC_EDIT_TEMPLATE,163,62,138,27,ES_MULTILINE | 

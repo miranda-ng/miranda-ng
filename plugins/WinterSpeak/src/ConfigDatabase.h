@@ -17,7 +17,6 @@ public:
         ActiveFlag_Dnd,
         ActiveFlag_Na,
         ActiveFlag_Occupied,
-        ActiveFlag_FreeForChat,
         ActiveFlag_Invisible
     };
 

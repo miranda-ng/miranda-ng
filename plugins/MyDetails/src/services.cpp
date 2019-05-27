@@ -386,7 +386,7 @@ INT_PTR PluginCommand_SetMyStatusMessageUI(WPARAM wParam, LPARAM lParam)
 	int proto_num = -1;
 	Protocol *proto = nullptr;
 
-	if (status != 0 && (status < ID_STATUS_OFFLINE || status > ID_STATUS_OUTTOLUNCH))
+	if (status != 0 && (status < ID_STATUS_OFFLINE || status > ID_STATUS_MAX))
 		return -10;
 
 	if (proto_name != nullptr) {

@@ -86,7 +86,7 @@ int GetState(WPARAM wParam, LPARAM lParam, int Widechar)
 
 		int Flags = (pi->cbSize > sizeof(NAS_PROTOINFOv1)) ? pi->Flags : 0;
 		LogMessage("%d (received): cbSize=%d, status=%d, szProto=%s, Flags=0x%x", i + 1, pi->cbSize, pi->status, pi->szProto ? pi->szProto : "NULL", Flags);
-		if ((pi->status >= ID_STATUS_ONLINE && pi->status <= ID_STATUS_OUTTOLUNCH) || !pi->status) {
+		if ((pi->status >= ID_STATUS_ONLINE && pi->status <= ID_STATUS_MAX) || !pi->status) {
 			TCString Msg(pi->status ? CProtoSettings(pi->szProto, pi->status).GetMsgFormat(GMF_LASTORDEFAULT) : CProtoSettings(pi->szProto).GetMsgFormat(((Flags & PIF_NOTTEMPORARY) ? 0 : GMF_TEMPORARY) | GMF_PERSONAL));
 			if (Msg != nullptr) {
 				if (Widechar)

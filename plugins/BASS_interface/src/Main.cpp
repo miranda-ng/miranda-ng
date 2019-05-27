@@ -81,10 +81,7 @@ static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
 
 	WORD currstat = 1;
 	switch (CallService(MS_CLIST_GETSTATUSMODE, 0, 0)) {
-	case ID_STATUS_OUTTOLUNCH:   currstat <<= 1;
-	case ID_STATUS_ONTHEPHONE:   currstat <<= 1;
 	case ID_STATUS_INVISIBLE:    currstat <<= 1;
-	case ID_STATUS_FREECHAT:     currstat <<= 1;
 	case ID_STATUS_DND:          currstat <<= 1;
 	case ID_STATUS_OCCUPIED:     currstat <<= 1;
 	case ID_STATUS_NA:           currstat <<= 1;

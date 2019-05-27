@@ -499,7 +499,7 @@ void myPlaySound(MCONTACT hcontact, WORD newStatus, WORD oldStatus)
 	if (CallService(MS_IGNORE_ISIGNORED, (WPARAM)hcontact, IGNOREEVENT_USERONLINE)) return;
 	//oldStatus and hcontact are not used yet
 	char *soundname = nullptr;
-	if ((newStatus == ID_STATUS_ONLINE) || (newStatus == ID_STATUS_FREECHAT)) soundname = "LastSeenTrackedStatusOnline";
+	if (newStatus == ID_STATUS_ONLINE) soundname = "LastSeenTrackedStatusOnline";
 	else if (newStatus == ID_STATUS_OFFLINE) soundname = "LastSeenTrackedStatusOffline";
 	else if (oldStatus == ID_STATUS_OFFLINE) soundname = "LastSeenTrackedStatusFromOffline";
 	else soundname = "LastSeenTrackedStatusChange";

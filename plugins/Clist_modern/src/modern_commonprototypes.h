@@ -262,7 +262,7 @@ extern HRESULT(WINAPI *g_proc_DWMEnableBlurBehindWindow)(HWND hWnd, DWM_BLURBEHI
 
 BYTE SkinDBGetContactSettingByte(MCONTACT hContact, const char* szSection, const char*szKey, BYTE bDefault);
 
-extern OVERLAYICONINFO g_pAvatarOverlayIcons[ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE + 1];
-extern OVERLAYICONINFO g_pStatusOverlayIcons[ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE + 1];
+extern OVERLAYICONINFO g_pAvatarOverlayIcons[MAX_STATUS_COUNT];
+extern OVERLAYICONINFO g_pStatusOverlayIcons[MAX_STATUS_COUNT];
 
 #endif

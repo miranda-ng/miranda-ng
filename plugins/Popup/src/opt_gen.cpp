@@ -35,9 +35,6 @@ static int CountStatusModes(DWORD flags)
 	if (flags & PF2_LONGAWAY) ++res;
 	if (flags & PF2_LIGHTDND) ++res;
 	if (flags & PF2_HEAVYDND) ++res;
-	if (flags & PF2_FREECHAT) ++res;
-	if (flags & PF2_OUTTOLUNCH) ++res;
-	if (flags & PF2_ONTHEPHONE) ++res;
 	if (res) ++res; //  Offline
 	return res;
 }
@@ -62,9 +59,6 @@ int AddStatusMode(OPTTREE_OPTION *options, int pos, LPTSTR prefix, DWORD flag)
 	case PF2_LONGAWAY: mir_wstrcat(options[pos].pszOptionName, LPGENW("Not available")); break;
 	case PF2_LIGHTDND: mir_wstrcat(options[pos].pszOptionName, LPGENW("Occupied")); break;
 	case PF2_HEAVYDND: mir_wstrcat(options[pos].pszOptionName, LPGENW("Do not disturb")); break;
-	case PF2_FREECHAT: mir_wstrcat(options[pos].pszOptionName, LPGENW("Free for chat")); break;
-	case PF2_OUTTOLUNCH: mir_wstrcat(options[pos].pszOptionName, LPGENW("Out to lunch")); break;
-	case PF2_ONTHEPHONE: mir_wstrcat(options[pos].pszOptionName, LPGENW("On the phone")); break;
 	}
 	return pos + 1;
 }
@@ -78,9 +72,6 @@ int AddStatusModes(OPTTREE_OPTION *options, int pos, LPTSTR prefix, DWORD flags)
 	pos = AddStatusMode(options, pos, prefix, flags & PF2_LONGAWAY);
 	pos = AddStatusMode(options, pos, prefix, flags & PF2_LIGHTDND);
 	pos = AddStatusMode(options, pos, prefix, flags & PF2_HEAVYDND);
-	pos = AddStatusMode(options, pos, prefix, flags & PF2_FREECHAT);
-	pos = AddStatusMode(options, pos, prefix, flags & PF2_OUTTOLUNCH);
-	pos = AddStatusMode(options, pos, prefix, flags & PF2_ONTHEPHONE);
 	return pos;
 }
 

@@ -133,17 +133,19 @@ INT_PTR FacebookProto::GetCaps(int type, MCONTACT)
 			else
 				return flags |= PF1_MODEMSGRECV;
 		}
+
 	case PFLAGNUM_2:
-		return PF2_ONLINE | PF2_SHORTAWAY | PF2_INVISIBLE | PF2_ONTHEPHONE | PF2_IDLE;
+		return PF2_ONLINE | PF2_SHORTAWAY | PF2_INVISIBLE | PF2_IDLE;
+
 	case PFLAGNUM_3:
 		if (getByte(FACEBOOK_KEY_SET_MIRANDA_STATUS))
 			return PF2_ONLINE; // | PF2_SHORTAWAY;
 		else
 			return 0;
+
 	case PFLAGNUM_4:
 		return PF4_NOCUSTOMAUTH | PF4_AVATARS | PF4_SUPPORTTYPING | PF4_NOAUTHDENYREASON | PF4_IMSENDOFFLINE | PF4_READNOTIFY;
-	case PFLAGNUM_5:
-		return PF2_ONTHEPHONE;
+
 	case PFLAG_MAXLENOFMESSAGE:
 		return FACEBOOK_MESSAGE_LIMIT;
 	case PFLAG_UNIQUEIDTEXT:
@@ -173,9 +175,6 @@ int FacebookProto::SetStatus(int new_status)
 		break;
 	case ID_STATUS_NA:
 		m_iDesiredStatus = ID_STATUS_AWAY;
-		break;
-	case ID_STATUS_FREECHAT:
-		m_iDesiredStatus = ID_STATUS_ONLINE;
 		break;
 	default:
 		m_iDesiredStatus = getByte(FACEBOOK_KEY_MAP_STATUSES, DEFAULT_MAP_STATUSES) ? ID_STATUS_INVISIBLE : ID_STATUS_AWAY;

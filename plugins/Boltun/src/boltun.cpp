@@ -87,7 +87,7 @@ wchar_t* GetFullName(const wchar_t *filename)
 static bool LoadMind(const wchar_t* filename, int &line)
 {
 	wchar_t* fullname = GetFullName(filename);
-	HCURSOR newCur = LoadCursor(nullptr, MAKEINTRESOURCE(IDC_WAIT));
+	HCURSOR newCur = LoadCursorA(nullptr, MAKEINTRESOURCEA(IDC_WAIT));
 	HCURSOR oldCur = SetCursor(newCur);
 	#ifdef DEBUG_LOAD_TIME
 	unsigned __int64 t = __rdtsc();
@@ -177,9 +177,7 @@ static bool BoltunAutoChat(MCONTACT hContact)
 		if (status == ID_STATUS_AWAY ||
 			status == ID_STATUS_DND ||
 			status == ID_STATUS_NA ||
-			status == ID_STATUS_OCCUPIED ||
-			status == ID_STATUS_ONTHEPHONE ||
-			status == ID_STATUS_OUTTOLUNCH)
+			status == ID_STATUS_OCCUPIED)
 			return true;
 	}
 

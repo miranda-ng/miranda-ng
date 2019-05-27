@@ -186,10 +186,7 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 				((ActualAccount->StatusFlags & YAMN_ACC_ST3) && (Status==ID_STATUS_DND)) ||
 				((ActualAccount->StatusFlags & YAMN_ACC_ST4) && (Status==ID_STATUS_NA)) ||
 				((ActualAccount->StatusFlags & YAMN_ACC_ST5) && (Status==ID_STATUS_OCCUPIED)) ||
-				((ActualAccount->StatusFlags & YAMN_ACC_ST6) && (Status==ID_STATUS_FREECHAT)) ||
-				((ActualAccount->StatusFlags & YAMN_ACC_ST7) && (Status==ID_STATUS_INVISIBLE)) ||
-				((ActualAccount->StatusFlags & YAMN_ACC_ST8) && (Status==ID_STATUS_ONTHEPHONE)) ||
-				((ActualAccount->StatusFlags & YAMN_ACC_ST9) && (Status==ID_STATUS_OUTTOLUNCH))))
+				((ActualAccount->StatusFlags & YAMN_ACC_ST6) && (Status==ID_STATUS_INVISIBLE))))
 			{
 
 				if ((!ActualAccount->Interval && !ActualAccount->TimeLeft) || ActualAccount->Plugin->Fcn->TimeoutFcnPtr==nullptr)

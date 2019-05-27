@@ -61,7 +61,6 @@ static PresenceModeArray[] =
 	{ SKINICON_STATUS_AWAY, ID_STATUS_AWAY },
 	{ SKINICON_STATUS_NA, ID_STATUS_NA },
 	{ SKINICON_STATUS_DND, ID_STATUS_DND },
-	{ SKINICON_STATUS_FREE4CHAT, ID_STATUS_FREECHAT },
 };
 static HGENMENU g_hMenuDirectPresence[_countof(PresenceModeArray) + 1];
 

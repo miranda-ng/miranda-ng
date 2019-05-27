@@ -91,7 +91,7 @@ void CMsnProto::MSN_SetContactDb(MCONTACT hContact, const char *szEmail)
 		}
 
 		if (cont->netId == NETID_MOB) {
-			setWord(hContact, "Status", ID_STATUS_ONTHEPHONE);
+			setWord(hContact, "Status", ID_STATUS_ONLINE);
 			setString(hContact, "MirVer", "SMS");
 		}
 	}

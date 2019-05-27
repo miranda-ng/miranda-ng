@@ -33,9 +33,6 @@ class COptions
 		cssLongAway = 0x00000010,
 		cssLightDND = 0x00000020,
 		cssHeavyDND = 0x00000040,
-		cssFreeChart = 0x00000080,
-		cssOutToLunch = 0x00000100,
-		cssOnThePhone = 0x00000200,
 		cssIdle = 0x00000400,
 		cssAll = 0x80000000
 	};
@@ -46,13 +43,10 @@ class COptions
 		case ID_STATUS_ONLINE: return cssOnline;
 		case ID_STATUS_OFFLINE: return cssOffline;
 		case ID_STATUS_INVISIBLE: return cssInvisible;
-		case ID_STATUS_OUTTOLUNCH: return cssOutToLunch;
-		case ID_STATUS_ONTHEPHONE: return cssOnThePhone;
 		case ID_STATUS_AWAY: return cssShortAway;
 		case ID_STATUS_NA: return cssLongAway;
 		case ID_STATUS_OCCUPIED: return cssLightDND;
 		case ID_STATUS_DND: return cssHeavyDND;
-		case ID_STATUS_FREECHAT: return cssFreeChart;
 		case ID_STATUS_IDLE: return cssIdle;
 		}
 		return 0;
@@ -168,4 +162,4 @@ struct CMirandaStatus2SkypeStatus
 	LPCTSTR m_ptszStatusName;
 };
 
-extern const CMirandaStatus2SkypeStatus g_aStatusCode[10];
+extern const CMirandaStatus2SkypeStatus g_aStatusCode[MAX_STATUS_COUNT];

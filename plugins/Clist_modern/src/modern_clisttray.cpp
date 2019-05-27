@@ -63,14 +63,11 @@ int GetStatusVal(int status)
 	switch (status) {
 	case ID_STATUS_OFFLINE:    return 50;
 	case ID_STATUS_ONLINE:     return 100;
-	case ID_STATUS_FREECHAT:   return 110;
 	case ID_STATUS_INVISIBLE:  return 120;
 	case ID_STATUS_AWAY:       return 200;
 	case ID_STATUS_DND:        return 210;
 	case ID_STATUS_NA:         return 220;
 	case ID_STATUS_OCCUPIED:   return 230;
-	case ID_STATUS_ONTHEPHONE: return 400;
-	case ID_STATUS_OUTTOLUNCH: return 410;
 	}
 
 	return 0;

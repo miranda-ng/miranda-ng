@@ -240,13 +240,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 		return 0;
 
 	switch (iNewStatus) {
-	case ID_STATUS_FREECHAT:
-	case ID_STATUS_ONTHEPHONE:
-		iNewStatus = ID_STATUS_ONLINE;
-		break;
-
 	case ID_STATUS_NA:
-	case ID_STATUS_OUTTOLUNCH:
 		iNewStatus = ID_STATUS_AWAY;
 		break;
 

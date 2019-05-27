@@ -104,10 +104,7 @@ EXTERN_C MIR_APP_DLL(HANDLE) Skin_GetIconHandle(int idx);
 #define SKINICON_STATUS_NA          3
 #define SKINICON_STATUS_OCCUPIED    4
 #define SKINICON_STATUS_DND         5
-#define SKINICON_STATUS_FREE4CHAT   6
-#define SKINICON_STATUS_INVISIBLE   7
-#define SKINICON_STATUS_ONTHEPHONE  8
-#define SKINICON_STATUS_OUTTOLUNCH  9
+#define SKINICON_STATUS_INVISIBLE   6
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Loads an icon representing the status mode for a particular protocol.

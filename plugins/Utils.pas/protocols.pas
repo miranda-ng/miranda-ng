@@ -41,9 +41,6 @@ const
   psf_longaway   = $0008;
   psf_lightdnd   = $0010;
   psf_heavydnd   = $0020;
-  psf_freechat   = $0040;
-  psf_outtolunch = $0080;
-  psf_onthephone = $0100;
   psf_enabled    = $0800;
   psf_all        = $08FF;
   // protocol properties
@@ -60,22 +57,18 @@ const
   defproto = '- default -';
 
 const
-  NumStatus = 10;
-  StatCodes:array [0..NumStatus-1] of integer=(
+  StatCodes:array [0..MAX_STATUS_COUNT-1] of integer=(
     ID_STATUS_OFFLINE,
     ID_STATUS_ONLINE,
     ID_STATUS_INVISIBLE,
     ID_STATUS_AWAY,
     ID_STATUS_NA,
     ID_STATUS_OCCUPIED,
-    ID_STATUS_DND,
-    ID_STATUS_FREECHAT,
-    ID_STATUS_OUTTOLUNCH,
-    ID_STATUS_ONTHEPHONE);
+    ID_STATUS_DND);
 const
-  StatNames:array [0..NumStatus-1] of PWideChar=(
-  'Default'{'Offline'},'Online','Invisible','Away','Not available','Occupied','Do not disturb',
-  'Free for chat','Out to lunch','On the phone');
+  StatNames:array [0..MAX_STATUS_COUNT-1] of PWideChar=(
+    'Default'{'Offline'},'Online','Invisible','Away','Not available','Occupied','Do not disturb'
+  );
 
 type
   pMyProto = ^tMyProto;
@@ -172,7 +165,7 @@ function GetStatusNum(status:integer):integer;
 var
   i:integer;
 begin
-  for i:=0 to NumStatus-1 do
+  for i:=0 to MAX_STATUS_COUNT-1 do
     if StatCodes[i]=status then
     begin
       result:=i;
@@ -332,9 +325,6 @@ begin
     if (status and psf_longaway  )<>0 then AddString(4,(enabled and psf_longaway  )<>0);
     if (status and psf_lightdnd  )<>0 then AddString(5,(enabled and psf_lightdnd  )<>0);
     if (status and psf_heavydnd  )<>0 then AddString(6,(enabled and psf_heavydnd  )<>0);
-    if (status and psf_freechat  )<>0 then AddString(7,(enabled and psf_freechat  )<>0);
-    if (status and psf_outtolunch)<>0 then AddString(8,(enabled and psf_outtolunch)<>0);
-    if (status and psf_onthephone)<>0 then AddString(9,(enabled and psf_onthephone)<>0);
   end;
   ListView_SetColumnWidth(list,0,LVSCW_AUTOSIZE);
 end;
@@ -352,9 +342,6 @@ procedure CheckStatusList(list:HWND;ProtoNum:uint_ptr);
       ID_STATUS_NA:         i:=psf_longaway;
       ID_STATUS_OCCUPIED:   i:=psf_lightdnd;
       ID_STATUS_DND:        i:=psf_heavydnd;
-      ID_STATUS_FREECHAT:   i:=psf_freechat;
-      ID_STATUS_OUTTOLUNCH: i:=psf_outtolunch;
-      ID_STATUS_ONTHEPHONE: i:=psf_onthephone;
     else
       exit;
     end;
@@ -434,9 +421,6 @@ begin
       if (flag and PF2_LONGAWAY)  <>0 then status:=status or psf_longaway;
       if (flag and PF2_LIGHTDND)  <>0 then status:=status or psf_lightdnd;
       if (flag and PF2_HEAVYDND)  <>0 then status:=status or psf_heavydnd;
-      if (flag and PF2_FREECHAT)  <>0 then status:=status or psf_freechat;
-      if (flag and PF2_OUTTOLUNCH)<>0 then status:=status or psf_outtolunch;
-      if (flag and PF2_ONTHEPHONE)<>0 then status:=status or psf_onthephone;
 
       flag:=CallProtoService(name,PS_GETCAPS,PFLAGNUM_1,0);
       if ((flag and PF1_CHAT)<>0) or

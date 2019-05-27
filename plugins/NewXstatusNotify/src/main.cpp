@@ -881,18 +881,6 @@ void InitStatusList()
 	StatusList[index].colorBack = g_plugin.getDword("40078bg", COLOR_BG_AVAILDEFAULT);
 	StatusList[index].colorText = g_plugin.getDword("40078tx", COLOR_TX_DEFAULT);
 
-	//Free for chat
-	index = Index(ID_STATUS_FREECHAT);
-	mir_wstrncpy(StatusList[index].lpzMStatusText, TranslateT("(M) feels talkative!"), MAX_STATUSTEXT);
-	mir_wstrncpy(StatusList[index].lpzFStatusText, TranslateT("(F) feels talkative!"), MAX_STATUSTEXT);
-	mir_wstrncpy(StatusList[index].lpzUStatusText, TranslateT("(U) feels talkative!"), MAX_STATUSTEXT);
-	mir_wstrncpy(StatusList[index].lpzStandardText, TranslateT("Free for chat"), MAX_STANDARDTEXT);
-	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserFreeForChat", MAX_SKINSOUNDNAME);
-	mir_wstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Free for chat"), MAX_SKINSOUNDDESC);
-	mir_wstrncpy(StatusList[index].lpzSkinSoundFile, L"free4chat.wav", MAX_PATH);
-	StatusList[index].colorBack = g_plugin.getDword("40077bg", COLOR_BG_AVAILDEFAULT);
-	StatusList[index].colorText = g_plugin.getDword("40077tx", COLOR_TX_DEFAULT);
-
 	//Away
 	index = Index(ID_STATUS_AWAY);
 	mir_wstrncpy(StatusList[index].lpzMStatusText, TranslateT("(M) went away"), MAX_STATUSTEXT);
@@ -940,30 +928,6 @@ void InitStatusList()
 	mir_wstrncpy(StatusList[index].lpzSkinSoundFile, L"dnd.wav", MAX_PATH);
 	StatusList[index].colorBack = g_plugin.getDword("40074bg", COLOR_BG_NAVAILDEFAULT);
 	StatusList[index].colorText = g_plugin.getDword("40074tx", COLOR_TX_DEFAULT);
-
-	//Out to lunch
-	index = Index(ID_STATUS_OUTTOLUNCH);
-	mir_wstrncpy(StatusList[index].lpzMStatusText, TranslateT("(M) is eating something"), MAX_STATUSTEXT);
-	mir_wstrncpy(StatusList[index].lpzFStatusText, TranslateT("(F) is eating something"), MAX_STATUSTEXT);
-	mir_wstrncpy(StatusList[index].lpzUStatusText, TranslateT("(U) is eating something"), MAX_STATUSTEXT);
-	mir_wstrncpy(StatusList[index].lpzStandardText, TranslateT("Out to lunch"), MAX_STANDARDTEXT);
-	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserOutToLunch", MAX_SKINSOUNDNAME);
-	mir_wstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Out to lunch"), MAX_SKINSOUNDDESC);
-	mir_wstrncpy(StatusList[index].lpzSkinSoundFile, L"lunch.wav", MAX_PATH);
-	StatusList[index].colorBack = g_plugin.getDword("40080bg", COLOR_BG_NAVAILDEFAULT);
-	StatusList[index].colorText = g_plugin.getDword("40080tx", COLOR_TX_DEFAULT);
-
-	//On the phone
-	index = Index(ID_STATUS_ONTHEPHONE);
-	mir_wstrncpy(StatusList[index].lpzMStatusText, TranslateT("(M) had to answer the phone"), MAX_STATUSTEXT);
-	mir_wstrncpy(StatusList[index].lpzFStatusText, TranslateT("(F) had to answer the phone"), MAX_STATUSTEXT);
-	mir_wstrncpy(StatusList[index].lpzUStatusText, TranslateT("(U) had to answer the phone"), MAX_STATUSTEXT);
-	mir_wstrncpy(StatusList[index].lpzStandardText, TranslateT("On the phone"), MAX_STANDARDTEXT);
-	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserOnThePhone", MAX_SKINSOUNDNAME);
-	mir_wstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: On the phone"), MAX_SKINSOUNDDESC);
-	mir_wstrncpy(StatusList[index].lpzSkinSoundFile, L"phone.wav", MAX_PATH);
-	StatusList[index].colorBack = g_plugin.getDword("40079bg", COLOR_BG_NAVAILDEFAULT);
-	StatusList[index].colorText = g_plugin.getDword("40079tx", COLOR_TX_DEFAULT);
 
 	//Extra status
 	index = Index(ID_STATUS_EXTRASTATUS);

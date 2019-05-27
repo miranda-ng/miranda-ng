@@ -23,7 +23,7 @@ unsigned __stdcall MessagePumpThread(void* param)
 			{
 				bool enabled = true;
 				int status = CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
-				if (status >= ID_STATUS_OFFLINE && status <= ID_STATUS_OUTTOLUNCH && options.disable_status[status - ID_STATUS_OFFLINE])
+				if (status >= ID_STATUS_OFFLINE && status <= ID_STATUS_MAX && options.disable_status[status - ID_STATUS_OFFLINE])
 					enabled = false;
 				if ((options.disable_full_screen && IsFullScreen()) || IsWorkstationLocked())
 					enabled = false;

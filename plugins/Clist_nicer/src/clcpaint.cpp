@@ -490,7 +490,7 @@ set_bg_l:
 		StatusItems_t *sitem, *sfirstitem, *ssingleitem, *slastitem, *slastitem_NG,
 			*sfirstitem_NG, *ssingleitem_NG, *sevencontact_pos, *soddcontact_pos, *pp_item;
 
-		if (cstatus >= ID_STATUS_OFFLINE && cstatus <= ID_STATUS_OUTTOLUNCH) {
+		if (cstatus >= ID_STATUS_OFFLINE && cstatus <= ID_STATUS_MAX) {
 			BYTE perstatus_ignored;
 
 			if ((flags & CONTACTF_IDLE) && !arStatusItems[ID_EXTBKIDLE - ID_STATUS_OFFLINE]->IGNORED)
@@ -1105,7 +1105,7 @@ bgskipped:
 			//	SetTextColor(hdcMem, dat->selTextColour);
 			rcContent.bottom = y + rowHeight;
 
-			if (cstatus >= ID_STATUS_OFFLINE && cstatus <= ID_STATUS_OUTTOLUNCH) {
+			if (cstatus >= ID_STATUS_OFFLINE && cstatus <= ID_STATUS_MAX) {
 				BYTE smsgValid = cEntry->bStatusMsgValid;
 
 				if ((dwFlags & CLUI_FRAME_SHOWSTATUSMSG && smsgValid > STATUSMSG_XSTATUSID) || smsgValid == STATUSMSG_XSTATUSNAME)

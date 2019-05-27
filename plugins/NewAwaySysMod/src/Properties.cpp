@@ -48,7 +48,7 @@ void ResetSettingsOnStatusChange(const char *szProto = nullptr, int bResetPerson
 CProtoState::CStatus& CProtoState::CStatus::operator=(int Status)
 {
 	_ASSERT(Status >= ID_STATUS_OFFLINE && Status <= ID_STATUS_OUTTOLUNCH);
-	if (Status < ID_STATUS_OFFLINE || Status > ID_STATUS_OUTTOLUNCH)
+	if (Status < ID_STATUS_OFFLINE || Status > ID_STATUS_MAX)
 		return *this; // ignore status change if the new status is unknown
 
 	bool bModified = false;
@@ -305,10 +305,7 @@ TCString CProtoSettings::GetMsgFormat(int Flags, int *pOrder)
 				IDS_MESSAGEDLG_DEF_NA, ID_STATUS_NA,
 				IDS_MESSAGEDLG_DEF_OCC, ID_STATUS_OCCUPIED,
 				IDS_MESSAGEDLG_DEF_DND, ID_STATUS_DND,
-				IDS_MESSAGEDLG_DEF_FFC, ID_STATUS_FREECHAT,
 				IDS_MESSAGEDLG_DEF_INV, ID_STATUS_INVISIBLE,
-				IDS_MESSAGEDLG_DEF_OTP, ID_STATUS_ONTHEPHONE,
-				IDS_MESSAGEDLG_DEF_OTL, ID_STATUS_OUTTOLUNCH
 			};
 
 			for (int i = 0; i < _countof(DefMsgDlgItems); i++) {

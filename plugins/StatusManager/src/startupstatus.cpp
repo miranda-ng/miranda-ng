@@ -54,18 +54,12 @@ static int IsValidStatusDesc(char* statusDesc)
 		return ID_STATUS_DND;
 	if (!strncmp("occupied", statusDesc, 8))
 		return ID_STATUS_OCCUPIED;
-	if (!strncmp("freechat", statusDesc, 8))
-		return ID_STATUS_FREECHAT;
 	if (!strncmp("online", statusDesc, 6))
 		return ID_STATUS_ONLINE;
 	if (!strncmp("offline", statusDesc, 7))
 		return ID_STATUS_OFFLINE;
 	if (!strncmp("invisible", statusDesc, 9))
 		return ID_STATUS_INVISIBLE;
-	if (!strncmp("onthephone", statusDesc, 10))
-		return ID_STATUS_ONTHEPHONE;
-	if (!strncmp("outtolunch", statusDesc, 10))
-		return ID_STATUS_OUTTOLUNCH;
 	if (!strncmp("last", statusDesc, 4))
 		return ID_STATUS_LAST;
 

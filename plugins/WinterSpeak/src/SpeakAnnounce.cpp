@@ -48,9 +48,6 @@ void SpeakAnnounce::statusChange(DBCONTACTWRITESETTING *write_setting, MCONTACT 
 	  case ID_STATUS_OCCUPIED:
 		speak = m_db.getStatusFlag(AnnounceDatabase::StatusFlag_Occupied);
 		break;
-	  case ID_STATUS_FREECHAT:
-		speak = m_db.getStatusFlag(AnnounceDatabase::StatusFlag_FreeForChat);
-		break;
 	  case ID_STATUS_INVISIBLE:
 		speak = m_db.getStatusFlag(AnnounceDatabase::StatusFlag_Invisible);
 		break;

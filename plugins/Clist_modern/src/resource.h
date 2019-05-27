@@ -68,12 +68,9 @@
 #define IDI_AVATAR_OVERLAY_OCCUPIED     358
 #define IDI_AVATAR_OVERLAY_OFFLINE      359
 #define IDI_AVATAR_OVERLAY_ONLINE       360
-#define IDI_AVATAR_OVERLAY_PHONE        361
 #define IDI_AVATAR_OVERLAY_AWAY         362
 #define IDI_AVATAR_OVERLAY_DND          363
 #define IDI_AVATAR_OVERLAY_INVISIBLE    364
-#define IDI_AVATAR_OVERLAY_LUNCH        365
-#define IDI_AVATAR_OVERLAY_CHAT         366
 #define IDI_ICQC1                       367
 #define IDI_ICQC2                       368
 #define IDI_ICQC3                       369
@@ -93,12 +90,9 @@
 #define IDI_STATUS_OVERLAY_OCCUPIED     401
 #define IDI_STATUS_OVERLAY_OFFLINE      402
 #define IDI_STATUS_OVERLAY_ONLINE       403
-#define IDI_STATUS_OVERLAY_PHONE        404
 #define IDI_STATUS_OVERLAY_AWAY         405
 #define IDI_STATUS_OVERLAY_DND          406
 #define IDI_STATUS_OVERLAY_INVISIBLE    407
-#define IDI_STATUS_OVERLAY_LUNCH        408
-#define IDI_STATUS_OVERLAY_CHAT         409
 #define IDR_TGA_DEFAULT_SKIN            413
 #define IDR_MSF_DEFAULT_SKIN            413
 #define IDD_OPT_CLUI_2                  451

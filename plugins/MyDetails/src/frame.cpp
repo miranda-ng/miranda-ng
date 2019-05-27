@@ -1456,8 +1456,7 @@ void ShowProtocolStatusMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto
 	}
 	else {
 		// Well, lets do it by hand
-		static unsigned statusModePf2List[] = { 0xFFFFFFFF, PF2_ONLINE, PF2_SHORTAWAY, PF2_LONGAWAY, PF2_LIGHTDND, PF2_HEAVYDND, PF2_FREECHAT,
-			PF2_INVISIBLE, PF2_ONTHEPHONE, PF2_OUTTOLUNCH };
+		static unsigned statusModePf2List[] = { 0xFFFFFFFF, PF2_ONLINE, PF2_SHORTAWAY, PF2_LONGAWAY, PF2_LIGHTDND, PF2_HEAVYDND, PF2_INVISIBLE };
 
 		menu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_MENU1));
 		submenu = GetSubMenu(menu, 0);

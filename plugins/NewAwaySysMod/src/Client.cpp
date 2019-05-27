@@ -37,7 +37,7 @@ void __cdecl UpdateMsgsThreadProc(void *)
 		for (auto &p : Accounts()) {
 			if (CallProtoService(p->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
 				int Status = Proto_GetStatus(p->szModuleName);
-				if (Status < ID_STATUS_OFFLINE || Status > ID_STATUS_OUTTOLUNCH) {
+				if (Status < ID_STATUS_OFFLINE || Status > ID_STATUS_MAX) {
 					Status = g_ProtoStates[p->szModuleName].m_status;
 				}
 				if (CallProtoService(p->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(Status) && g_ProtoStates[p->szModuleName].CurStatusMsg.GetUpdateTimeDifference() >= MinUpdateTimeDifference) {
@@ -110,10 +110,7 @@ void ChangeProtoMessages(char* szProto, int iMode, const TCString &Msg)
 		ID_STATUS_NA, "Na",
 		ID_STATUS_DND, "Dnd",
 		ID_STATUS_OCCUPIED, "Occupied",
-		ID_STATUS_FREECHAT, "FreeChat",
 		ID_STATUS_INVISIBLE, "Inv",
-		ID_STATUS_ONTHEPHONE, "Otp",
-		ID_STATUS_OUTTOLUNCH, "Otl",
 		ID_STATUS_IDLE, "Idl"
 	};
 

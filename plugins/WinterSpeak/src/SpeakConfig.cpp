@@ -68,9 +68,6 @@ bool SpeakConfig::say(const std::wstring &sentence, MCONTACT user, bool message)
 		case ID_STATUS_OCCUPIED:
 			active = m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Occupied);
 			break;
-		case ID_STATUS_FREECHAT:
-			active = m_db.getActiveFlag(ConfigDatabase::ActiveFlag_FreeForChat);
-			break;
 		case ID_STATUS_INVISIBLE:
 			active = m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Invisible);
 			break;

@@ -196,10 +196,7 @@ BEGIN
         MENUITEM "&Not available",              ID_STATUS_NA
         MENUITEM "Occ&upied",                   ID_STATUS_OCCUPIED
         MENUITEM "&Do not disturb",             ID_STATUS_DND
-        MENUITEM "&Free for chat",              ID_STATUS_FREECHAT
         MENUITEM "&Invisible",                  ID_STATUS_INVISIBLE
-        MENUITEM "On the &phone",               ID_STATUS_ONTHEPHONE
-        MENUITEM "Out to &lunch",               ID_STATUS_OUTTOLUNCH
     END
     POPUP "Context popup"
     BEGIN

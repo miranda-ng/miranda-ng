@@ -49,9 +49,6 @@ static void UpdateControls(HWND hwnd)
 		CheckDlgButton(hwnd, IDC_CHECKST4, ActualNudge->statusFlags & NUDGE_ACC_ST4 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwnd, IDC_CHECKST5, ActualNudge->statusFlags & NUDGE_ACC_ST5 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwnd, IDC_CHECKST6, ActualNudge->statusFlags & NUDGE_ACC_ST6 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwnd, IDC_CHECKST7, ActualNudge->statusFlags & NUDGE_ACC_ST7 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwnd, IDC_CHECKST8, ActualNudge->statusFlags & NUDGE_ACC_ST8 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwnd, IDC_CHECKST9, ActualNudge->statusFlags & NUDGE_ACC_ST9 ? BST_CHECKED : BST_UNCHECKED);
 		SetDlgItemText(hwnd, IDC_SENDTEXT, ActualNudge->senText);
 		SetDlgItemText(hwnd, IDC_RECVTEXT, ActualNudge->recText);
 	}
@@ -321,10 +318,7 @@ static INT_PTR CALLBACK DlgProcNudgeOpt(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 						((IsDlgButtonChecked(hwnd, IDC_CHECKST3) == BST_CHECKED) ? NUDGE_ACC_ST3 : 0) |
 						((IsDlgButtonChecked(hwnd, IDC_CHECKST4) == BST_CHECKED) ? NUDGE_ACC_ST4 : 0) |
 						((IsDlgButtonChecked(hwnd, IDC_CHECKST5) == BST_CHECKED) ? NUDGE_ACC_ST5 : 0) |
-						((IsDlgButtonChecked(hwnd, IDC_CHECKST6) == BST_CHECKED) ? NUDGE_ACC_ST6 : 0) |
-						((IsDlgButtonChecked(hwnd, IDC_CHECKST7) == BST_CHECKED) ? NUDGE_ACC_ST7 : 0) |
-						((IsDlgButtonChecked(hwnd, IDC_CHECKST8) == BST_CHECKED) ? NUDGE_ACC_ST8 : 0) |
-						((IsDlgButtonChecked(hwnd, IDC_CHECKST9) == BST_CHECKED) ? NUDGE_ACC_ST9 : 0);
+						((IsDlgButtonChecked(hwnd, IDC_CHECKST6) == BST_CHECKED) ? NUDGE_ACC_ST6 : 0);
 
 					GetDlgItemText(hwnd, IDC_SENDTEXT, ActualNudge->senText, TEXT_LEN);
 					GetDlgItemText(hwnd, IDC_RECVTEXT, ActualNudge->recText, TEXT_LEN);

@@ -244,13 +244,10 @@ MIR_APP_DLL(int) Clist_GetGeneralizedStatus(char **szProto)
 
 		int iStatusWeight;
 		switch (pa->iRealStatus) {
-		case ID_STATUS_FREECHAT:    iStatusWeight = 110; break;
 		case ID_STATUS_ONLINE:      iStatusWeight = 100; break;
 		case ID_STATUS_OCCUPIED:    iStatusWeight = 60;  break;
-		case ID_STATUS_ONTHEPHONE:  iStatusWeight = 50;  break;
 		case ID_STATUS_DND:         iStatusWeight = 40;  break;
 		case ID_STATUS_AWAY:        iStatusWeight = 30;  break;
-		case ID_STATUS_OUTTOLUNCH:  iStatusWeight = 20;  break;
 		case ID_STATUS_NA:          iStatusWeight = 10;  break;
 		case ID_STATUS_INVISIBLE:   iStatusWeight = 5;   break;
 		default:                    

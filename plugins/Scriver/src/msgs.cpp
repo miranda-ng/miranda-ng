@@ -44,14 +44,8 @@ static int SRMMStatusToPf2(int status)
 		return PF2_LONGAWAY;
 	case ID_STATUS_OCCUPIED:
 		return PF2_LIGHTDND;
-	case ID_STATUS_FREECHAT:
-		return PF2_FREECHAT;
 	case ID_STATUS_INVISIBLE:
 		return PF2_INVISIBLE;
-	case ID_STATUS_ONTHEPHONE:
-		return PF2_ONTHEPHONE;
-	case ID_STATUS_OUTTOLUNCH:
-		return PF2_OUTTOLUNCH;
 	case ID_STATUS_OFFLINE:
 		return MODEF_OFFLINE;
 	}

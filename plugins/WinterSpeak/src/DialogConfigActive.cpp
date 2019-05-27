@@ -58,7 +58,6 @@ INT_PTR CALLBACK DialogConfigActive::process(HWND window, UINT message, WPARAM w
 		case IDC_ACTIVE_DND:
 		case IDC_ACTIVE_NA:
 		case IDC_ACTIVE_OCCUPIED:
-		case IDC_ACTIVE_FREEFORCHAT:
 		case IDC_ACTIVE_INVISIBLE:
 			m_instance->changed(window);
 			break;
@@ -150,7 +149,6 @@ void DialogConfigActive::load(HWND window)
 	CheckDlgButton(window, IDC_ACTIVE_DND, m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Dnd) ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(window, IDC_ACTIVE_NA, m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Na) ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(window, IDC_ACTIVE_OCCUPIED, m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Occupied) ? BST_CHECKED : BST_UNCHECKED);
-	CheckDlgButton(window, IDC_ACTIVE_FREEFORCHAT, m_db.getActiveFlag(ConfigDatabase::ActiveFlag_FreeForChat) ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(window, IDC_ACTIVE_INVISIBLE, m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Invisible) ? BST_CHECKED : BST_UNCHECKED);
 
 	HWND listview = GetDlgItem(window, IDC_ACTIVE_USERS);
@@ -322,7 +320,6 @@ void DialogConfigActive::save(HWND window)
 	m_db.setActiveFlag(ConfigDatabase::ActiveFlag_Dnd, (IsDlgButtonChecked(window, IDC_ACTIVE_DND) != 0));
 	m_db.setActiveFlag(ConfigDatabase::ActiveFlag_Na, (IsDlgButtonChecked(window, IDC_ACTIVE_NA) != 0));
 	m_db.setActiveFlag(ConfigDatabase::ActiveFlag_Occupied, (IsDlgButtonChecked(window, IDC_ACTIVE_OCCUPIED) != 0));
-	m_db.setActiveFlag(ConfigDatabase::ActiveFlag_FreeForChat, (IsDlgButtonChecked(window, IDC_ACTIVE_FREEFORCHAT) != 0));
 	m_db.setActiveFlag(ConfigDatabase::ActiveFlag_Invisible, (IsDlgButtonChecked(window, IDC_ACTIVE_INVISIBLE) != 0));
 
 	for (auto &hContact : Contacts()) {

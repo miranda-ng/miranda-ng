@@ -30,8 +30,6 @@ const char* CMsnProto::MirandaStatusToMSN(int status)
 {
 	switch (status) {
 		case ID_STATUS_OFFLINE:		return "FLN";
-		case ID_STATUS_ONTHEPHONE:	return "PHN";
-		case ID_STATUS_OUTTOLUNCH:	return "LUN";
 		case ID_STATUS_NA:
 		case ID_STATUS_AWAY:		return "AWY";
 		case ID_STATUS_DND:
@@ -47,8 +45,6 @@ WORD CMsnProto::MSNStatusToMiranda(const char *status)
 	switch ((*(PDWORD)status & 0x00FFFFFF) | 0x20000000) {
 		case ' LDI': return ID_STATUS_IDLE;
 		case ' NLN': return ID_STATUS_ONLINE;
-		case ' NHP': return ID_STATUS_ONTHEPHONE;
-		case ' NUL': return ID_STATUS_OUTTOLUNCH;
 		case ' BRB':
 		case ' YWA': return ID_STATUS_AWAY;
 		case ' YSB': return ID_STATUS_OCCUPIED;
@@ -66,10 +62,7 @@ char** CMsnProto::GetStatusMsgLoc(int status)
 		ID_STATUS_DND,
 		ID_STATUS_NA,
 		ID_STATUS_OCCUPIED,
-		ID_STATUS_FREECHAT,
 		ID_STATUS_INVISIBLE,
-		ID_STATUS_ONTHEPHONE,
-		ID_STATUS_OUTTOLUNCH,
 	};
 
 	for (int i = 0; i < MSN_NUM_MODES; i++)

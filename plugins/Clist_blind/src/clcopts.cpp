@@ -62,10 +62,7 @@ static const struct CheckBoxValues_t greyoutValues[] = {
 	{ PF2_LONGAWAY,   LPGENW("Not available") },
 	{ PF2_LIGHTDND,   LPGENW("Occupied")      },
 	{ PF2_HEAVYDND,   LPGENW("Do not disturb")},
-	{ PF2_FREECHAT,   LPGENW("Free for chat") },
 	{ PF2_INVISIBLE,  LPGENW("Invisible")     },
-	{ PF2_OUTTOLUNCH, LPGENW("Out to lunch")  },
-	{ PF2_ONTHEPHONE, LPGENW("On the phone")  }
 };
 
 static const struct CheckBoxValues_t offlineValues[] = {
@@ -75,10 +72,7 @@ static const struct CheckBoxValues_t offlineValues[] = {
 	{ PF2_LONGAWAY,   LPGENW("Not available") },
 	{ PF2_LIGHTDND,   LPGENW("Occupied")      },
 	{ PF2_HEAVYDND,   LPGENW("Do not disturb")},
-	{ PF2_FREECHAT,   LPGENW("Free for chat") },
 	{ PF2_INVISIBLE,  LPGENW("Invisible")     },
-	{ PF2_OUTTOLUNCH, LPGENW("Out to lunch")  },
-	{ PF2_ONTHEPHONE, LPGENW("On the phone")  }
 };
 
 static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *values, int nValues, DWORD style)

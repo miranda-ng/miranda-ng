@@ -100,7 +100,7 @@ INT CheckDefaults(WPARAM, LPARAM)
 		mir_free(ptszVal);
 
 	for (int c = ID_STATUS_ONLINE; c < ID_STATUS_IDLE; c++) {
-		if (c == ID_STATUS_ONLINE || c == ID_STATUS_FREECHAT || c == ID_STATUS_INVISIBLE)
+		if (c == ID_STATUS_ONLINE || c == ID_STATUS_INVISIBLE)
 			continue;
 		else {
 			char szStatus[6] = { 0 };
@@ -108,7 +108,7 @@ INT CheckDefaults(WPARAM, LPARAM)
 			ptszVal = g_plugin.getWStringA(szStatus);
 			if (ptszVal == nullptr) {
 				wchar_t *ptszDefault;
-				if (c < ID_STATUS_FREECHAT)
+				if (c < ID_STATUS_OCCUPIED)
 					// This mode does not have a preset message
 					ptszDefault = ptszDefaultMsg[c - ID_STATUS_ONLINE - 1];
 				else if (c > ID_STATUS_INVISIBLE)
@@ -142,7 +142,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 
 	char* pszProto = GetContactProto(hContact);
 	int status = Proto_GetStatus(pszProto);
-	if (status == ID_STATUS_ONLINE || status == ID_STATUS_FREECHAT || status == ID_STATUS_INVISIBLE)
+	if (status == ID_STATUS_ONLINE || status == ID_STATUS_INVISIBLE)
 		return FALSE;
 
 	// detect size of msg

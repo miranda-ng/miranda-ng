@@ -173,10 +173,7 @@ int CLCPaint::GetBasicFontID(ClcContact *contact)
 		case ID_STATUS_DND: return FONTID_DND;
 		case ID_STATUS_NA: return FONTID_NA;
 		case ID_STATUS_OCCUPIED: return FONTID_OCCUPIED;
-		case ID_STATUS_FREECHAT: return FONTID_CHAT;
 		case ID_STATUS_INVISIBLE: return FONTID_INVISIBLE;
-		case ID_STATUS_ONTHEPHONE: return FONTID_PHONE;
-		case ID_STATUS_OUTTOLUNCH: return FONTID_LUNCH;
 		}
 
 	default:
@@ -527,10 +524,7 @@ MODERNMASK* CLCPaint::_GetCLCContactRowBackModernMask(ClcGroup *group, ClcContac
 			case ID_STATUS_DND:         _AddParamShort(mpModernMask, hi_Status, hi_DND);       break;
 			case ID_STATUS_NA:          _AddParamShort(mpModernMask, hi_Status, hi_NA);        break;
 			case ID_STATUS_OCCUPIED:    _AddParamShort(mpModernMask, hi_Status, hi_OCCUPIED);  break;
-			case ID_STATUS_FREECHAT:    _AddParamShort(mpModernMask, hi_Status, hi_FREECHAT);  break;
 			case ID_STATUS_INVISIBLE:   _AddParamShort(mpModernMask, hi_Status, hi_INVISIBLE); break;
-			case ID_STATUS_OUTTOLUNCH:  _AddParamShort(mpModernMask, hi_Status, hi_OUTTOLUNCH); break;
-			case ID_STATUS_ONTHEPHONE:  _AddParamShort(mpModernMask, hi_Status, hi_ONTHEPHONE); break;
 			case ID_STATUS_IDLE:        _AddParamShort(mpModernMask, hi_Status, hi_IDLE);      break;
 			default:                    _AddParamShort(mpModernMask, hi_Status, hi_OFFLINE);
 			}
@@ -907,8 +901,10 @@ void CLCPaint::_DrawStatusIcon(ClcContact *Drawing, ClcData *dat, int iImage, HD
 
 	else if (iImage != -1 && HIWORD(iImage) && dat->drawOverlayedStatus) {
 		int status = GetContactCachedStatus(Drawing->hContact);
-		if (status < ID_STATUS_OFFLINE) status = ID_STATUS_OFFLINE;
-		else if (status > ID_STATUS_OUTTOLUNCH) status = ID_STATUS_ONLINE;
+		if (status < ID_STATUS_OFFLINE)
+			status = ID_STATUS_OFFLINE;
+		else if (status > ID_STATUS_MAX)
+			status = ID_STATUS_ONLINE;
 		ske_ImageList_DrawEx(g_himlCListClc, HIWORD(iImage), hdcMem, x, y, cx, cy, colorbg, colorfg, mode);
 		if (dat->drawOverlayedStatus & 2) //draw overlay
 			ske_ImageList_DrawEx(hAvatarOverlays, g_pStatusOverlayIcons[status - ID_STATUS_OFFLINE].listID, hdcMem, x, y, cx, cy, colorbg, colorfg, mode);

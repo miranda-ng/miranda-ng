@@ -85,9 +85,6 @@ int HookedNewEvent(WPARAM wParam, LPARAM lParam);
 // Announcing messages from outside
 INT_PTR OSDAnnounce(WPARAM wParam, LPARAM lParam);
 
-#define ID_STATUS_MIN	ID_STATUS_OFFLINE
-#define ID_STATUS_MAX	ID_STATUS_OUTTOLUNCH
-
 typedef struct _plgsettings {
 	int align, salign, altShadow, showShadow, a_user, distance, onlyfromlist, showmystatus;
 	int showMsgWindow;

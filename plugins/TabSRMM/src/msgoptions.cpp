@@ -1392,7 +1392,7 @@ INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 		SetWindowText(hwndDlg, TranslateT("Choose status modes"));
 		{
-			for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+			for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_MAX; i++) {
 				SetDlgItemText(hwndDlg, i, Clist_GetStatusModeDescription(i, 0));
 				if (dwStatusMask != -1 && (dwStatusMask & (1 << (i - ID_STATUS_ONLINE))))
 					CheckDlgButton(hwndDlg, i, BST_CHECKED);
@@ -1409,7 +1409,7 @@ INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			dwNewStatusMask = -1;
 		else {
 			dwNewStatusMask = 0;
-			for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
+			for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_MAX; i++)
 				dwNewStatusMask |= (IsDlgButtonChecked(hwndDlg, i) ? (1 << (i - ID_STATUS_ONLINE)) : 0);
 		}
 		break;
@@ -1426,7 +1426,7 @@ INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			break;
 
 		case IDC_ALWAYS:
-			for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
+			for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_MAX; i++)
 				Utils::enableDlgControl(hwndDlg, i, !IsDlgButtonChecked(hwndDlg, IDC_ALWAYS));
 			break;
 		}

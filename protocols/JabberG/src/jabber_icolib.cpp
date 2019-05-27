@@ -262,7 +262,7 @@ int CJabberProto::LoadAdvancedIcons(int iID)
 		hAdvancedStatusIcon = Clist_GetImageList();
 
 	mir_cslock lck(m_csModeMsgMutex);
-	for (int i = 0; i < ID_STATUS_ONTHEPHONE - ID_STATUS_OFFLINE; i++) {
+	for (int i = 0; i < ID_STATUS_MAX - ID_STATUS_OFFLINE; i++) {
 		BOOL needFree;
 		int n = skinStatusToJabberStatus[i];
 		wchar_t *descr = Clist_GetStatusModeDescription(n + ID_STATUS_OFFLINE, 0);

@@ -88,10 +88,10 @@ struct ACKDATA
 {
 	const char *szModule;  // the name of the protocol module which initiated this ack
 	MCONTACT hContact;
-	int type;     // an ACKTYPE_ constant
-	int result; 	// an ACKRESULT_ constant
-	HANDLE hProcess;   // a caller-defined process code
-	LPARAM lParam;	   // caller-defined extra info
+	int type;              // an ACKTYPE_ constant
+	int result;            // an ACKRESULT_ constant
+	HANDLE hProcess;       // a caller-defined process code
+	LPARAM lParam;	        // caller-defined extra info
 };
 
 #define ME_PROTO_ACK "Proto/Ack"
@@ -268,7 +268,6 @@ struct MIR_APP_EXPORT PROTOACCOUNT : public MZeroedObject
 	int      iRealStatus;     // last status reported by protocol
 
 	int      protoindex;
-	int      protostatus[MAX_STATUS_COUNT];
 	HGENMENU menuhandle[MAX_STATUS_COUNT];
 
 	//---- methods ------------

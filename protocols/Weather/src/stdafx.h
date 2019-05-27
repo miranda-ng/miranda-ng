@@ -75,12 +75,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define PCLOUDY   ID_STATUS_AWAY
 #define CLOUDY    ID_STATUS_NA
 #define RAIN      ID_STATUS_OCCUPIED
-#define RSHOWER   ID_STATUS_DND
-#define SNOW      ID_STATUS_FREECHAT
-#define LIGHT     ID_STATUS_INVISIBLE
-#define THUNDER   ID_STATUS_INVISIBLE
-#define SSHOWER   ID_STATUS_ONTHEPHONE
-#define FOG       ID_STATUS_OUTTOLUNCH
+#define FOG       ID_STATUS_DND
+#define SNOW      ID_STATUS_INVISIBLE
 #define UNAVAIL   40081
 
 // status

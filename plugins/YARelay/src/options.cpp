@@ -95,8 +95,7 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 		if (iForwardOnStatus & STATUS_NA       ) CheckDlgButton(hwndDlg, IDC_CHECK4, BST_CHECKED);
 		if (iForwardOnStatus & STATUS_OCCUPIED ) CheckDlgButton(hwndDlg, IDC_CHECK5, BST_CHECKED);
 		if (iForwardOnStatus & STATUS_DND      ) CheckDlgButton(hwndDlg, IDC_CHECK6, BST_CHECKED);
-		if (iForwardOnStatus & STATUS_FREECHAT ) CheckDlgButton(hwndDlg, IDC_CHECK7, BST_CHECKED);
-		if (iForwardOnStatus & STATUS_INVISIBLE) CheckDlgButton(hwndDlg, IDC_CHECK8, BST_CHECKED);
+		if (iForwardOnStatus & STATUS_INVISIBLE) CheckDlgButton(hwndDlg, IDC_CHECK7, BST_CHECKED);
 
 		// template
 		SetDlgItemText(hwndDlg, IDC_EDIT_TEMPLATE, tszForwardTemplate);
@@ -156,8 +155,7 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 				if (IsDlgButtonChecked(hwndDlg, IDC_CHECK4) == BST_CHECKED) iForwardOnStatus |= STATUS_NA;
 				if (IsDlgButtonChecked(hwndDlg, IDC_CHECK5) == BST_CHECKED) iForwardOnStatus |= STATUS_OCCUPIED;
 				if (IsDlgButtonChecked(hwndDlg, IDC_CHECK6) == BST_CHECKED) iForwardOnStatus |= STATUS_DND;
-				if (IsDlgButtonChecked(hwndDlg, IDC_CHECK7) == BST_CHECKED) iForwardOnStatus |= STATUS_FREECHAT;
-				if (IsDlgButtonChecked(hwndDlg, IDC_CHECK8) == BST_CHECKED) iForwardOnStatus |= STATUS_INVISIBLE;
+				if (IsDlgButtonChecked(hwndDlg, IDC_CHECK7) == BST_CHECKED) iForwardOnStatus |= STATUS_INVISIBLE;
 				GetDlgItemText(hwndDlg, IDC_EDIT_TEMPLATE, tszForwardTemplate, _countof(tszForwardTemplate));
 				if (IsDlgButtonChecked(hwndDlg, IDC_CHECK_SPLIT) == BST_CHECKED) iSplit = 1; else iSplit = 0;
 				iSplitMaxSize = GetDlgItemInt(hwndDlg, IDC_EDIT_MAXSIZE, nullptr, FALSE);

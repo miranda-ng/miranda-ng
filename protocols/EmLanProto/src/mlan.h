@@ -141,8 +141,6 @@ private:
 	char* m_amesNa;
 	char* m_amesOccupied;
 	char* m_amesDnd;
-	char* m_amesFfc;
-
 
 	struct TFileConnection
 	{

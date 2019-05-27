@@ -248,7 +248,7 @@ public:
 	bool OnInitDialog() override
 	{
 		if (cmbStatus1.GetHwnd()) {
-			for (DWORD iStatus = ID_STATUS_OFFLINE; iStatus <= ID_STATUS_OUTTOLUNCH; iStatus++) {
+			for (DWORD iStatus = ID_STATUS_OFFLINE; iStatus <= ID_STATUS_MAX; iStatus++) {
 				int idx = cmbStatus1.AddString(Clist_GetStatusModeDescription(iStatus, 0));
 				cmbStatus1.SetItemData(idx, iStatus);
 				if (iStatus == m_proto->m_iStatus1)
