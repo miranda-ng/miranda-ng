@@ -112,8 +112,6 @@ class OS
 	: private pattern::NotCopyable<OS>
 {
 private:
-	bool m_bIsXPPlus;
-	UINT m_ImageListColor;
 	SIZE m_SmIcon;
 
 private:
@@ -123,8 +121,6 @@ private:
 	static OS m_Data;
 
 public:
-	static bool isXPPlus() { return m_Data.m_bIsXPPlus; }
-	static UINT imageListColor() { return m_Data.m_ImageListColor; }
 	static int smIconCX() { return m_Data.m_SmIcon.cx; }
 	static int smIconCY() { return m_Data.m_SmIcon.cy; }
 };

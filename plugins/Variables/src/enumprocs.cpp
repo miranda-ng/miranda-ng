@@ -41,35 +41,26 @@ struct EnumInfoStruct
 
 BOOL WINAPI EnumProcs(PROCENUMPROC lpProc, LPARAM lParam)
 {
-	// Retrieve the OS version
-	OSVERSIONINFO  osver;
-	osver.dwOSVersionInfoSize = sizeof(osver);
-	if (!GetVersionEx(&osver))
+	// Get a handle to a Toolhelp snapshot of all processes.
+	HANDLE hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+	if (hSnapShot == INVALID_HANDLE_VALUE)
 		return FALSE;
 
-	if (osver.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS || (osver.dwPlatformId == VER_PLATFORM_WIN32_NT && osver.dwMajorVersion > 4)) {
-		// Get a handle to a Toolhelp snapshot of all processes.
-		HANDLE hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-		if (hSnapShot == INVALID_HANDLE_VALUE)
-			return FALSE;
+	// Get the first process' information.
+	PROCESSENTRY32 procentry;
+	procentry.dwSize = sizeof(PROCESSENTRY32);
+	BOOL bFlag = Process32First(hSnapShot, &procentry);
 
-		// Get the first process' information.
-		PROCESSENTRY32 procentry;
-		procentry.dwSize = sizeof(PROCESSENTRY32);
-		BOOL bFlag = Process32First(hSnapShot, &procentry);
+	// While there are processes, keep looping.
+	while (bFlag) {
+		// Call the enum func with the filename and ProcID.
+		if (lpProc(procentry.th32ProcessID, 0, (char *)procentry.szExeFile, lParam)) {
+			procentry.dwSize = sizeof(PROCESSENTRY32);
+			bFlag = Process32Next(hSnapShot, &procentry);
 
-		// While there are processes, keep looping.
-		while (bFlag) {
-			// Call the enum func with the filename and ProcID.
-			if (lpProc(procentry.th32ProcessID, 0, (char *)procentry.szExeFile, lParam)) {
-				procentry.dwSize = sizeof(PROCESSENTRY32);
-				bFlag = Process32Next(hSnapShot, &procentry);
-
-			}
-			else bFlag = FALSE;
 		}
+		else bFlag = FALSE;
 	}
-	else return FALSE;
 
 	return TRUE;
 }

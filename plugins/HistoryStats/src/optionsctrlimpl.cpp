@@ -333,7 +333,7 @@ LRESULT CALLBACK OptionsCtrlImpl::staticTreeProc(HWND hTree, UINT msg, WPARAM wP
 void OptionsCtrlImpl::staticInitStateImages()
 {
 	if (m_nStateIconsRef++ == 0 && !m_hStateIcons) {
-		m_hStateIcons = ImageList_Create(OS::smIconCX(), OS::smIconCY(), OS::imageListColor() | ILC_MASK, 16, 0);
+		m_hStateIcons = ImageList_Create(OS::smIconCX(), OS::smIconCY(), ILC_COLOR32 | ILC_MASK, 16, 0);
 
 		staticUpdateStateImages(0);
 		IconLib::registerCallback(staticUpdateStateImages, 0);

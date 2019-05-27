@@ -68,7 +68,7 @@ static void ApplyUpdates(void *param)
 
 	// 2) Download all plugins
 	HNETLIBCONN nlc = nullptr;
-	for (int i=0; i < todo.getCount(); i++) {
+	for (int i = 0; i < todo.getCount(); i++) {
 		ListView_EnsureVisible(hwndList, i, FALSE);
 		if (!todo[i].bEnabled) {
 			SetStringText(hwndList, i, TranslateT("Skipped."));
@@ -115,7 +115,7 @@ static void ApplyUpdates(void *param)
 					BackupFile(tszSrcPath, tszBackFile);
 				}
 
-				if ( unzip(it->File.tszDiskPath, tszMirandaPath, tszFileBack,true))
+				if (unzip(it->File.tszDiskPath, tszMirandaPath, tszFileBack, true))
 					SafeDeleteFile(it->File.tszDiskPath);  // remove .zip after successful update
 			}
 		}
@@ -155,11 +155,11 @@ static void ApplyUpdates(void *param)
 		if (g_plugin.bChangePlatform) {
 			wchar_t mirstartpath[MAX_PATH];
 
-			#ifdef _WIN64
-				mir_snwprintf(mirstartpath, L"%s\\miranda32.exe", tszMirandaPath);
-			#else
-				mir_snwprintf(mirstartpath, L"%s\\miranda64.exe", tszMirandaPath);
-			#endif
+#ifdef _WIN64
+			mir_snwprintf(mirstartpath, L"%s\\miranda32.exe", tszMirandaPath);
+#else
+			mir_snwprintf(mirstartpath, L"%s\\miranda64.exe", tszMirandaPath);
+#endif
 			CallServiceSync(MS_SYSTEM_RESTART, bRestartCurrentProfile, (LPARAM)mirstartpath);
 		}
 		else CallServiceSync(MS_SYSTEM_RESTART, bRestartCurrentProfile);
@@ -185,9 +185,7 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 
 		Window_SetIcon_IcoLib(hDlg, iconList[0].hIcolib);
 		{
-			OSVERSIONINFO osver = { sizeof(osver) };
-			if (GetVersionEx(&osver) && osver.dwMajorVersion >= 6)
-			{
+			if (IsWinVerVistaPlus()) {
 				wchar_t szPath[MAX_PATH];
 				GetModuleFileName(nullptr, szPath, _countof(szPath));
 				wchar_t *ext = wcsrchr(szPath, '.');
@@ -198,16 +196,16 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 				if (hFile == INVALID_HANDLE_VALUE)
 					// Running Windows Vista or later (major version >= 6).
 					Button_SetElevationRequiredState(GetDlgItem(hDlg, IDOK), !IsProcessElevated());
-				else
-				{
+				else {
 					CloseHandle(hFile);
 					DeleteFile(szPath);
 				}
 			}
-			LVCOLUMN lvc = {0};
+
 			// Initialize the LVCOLUMN structure.
 			// The mask specifies that the format, width, text, and
 			// subitem members of the structure are valid.
+			LVCOLUMN lvc = {};
 			lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT;
 			lvc.fmt = LVCFMT_LEFT;
 
@@ -249,11 +247,11 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 			bool enableOk = false;
 			OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)lParam;
 			for (auto &it : todo) {
-				LVITEM lvI = {0};
+				LVITEM lvI = { 0 };
 				lvI.mask = LVIF_TEXT | LVIF_PARAM | LVIF_GROUPID | LVIF_NORECOMPUTE;
 				lvI.iGroupId = (wcsstr(it->tszOldName, L"Plugins") != nullptr) ? 1 :
 					((wcsstr(it->tszOldName, L"Languages") != nullptr) ? 3 :
-						((wcsstr(it->tszOldName, L"Icons") != nullptr) ? 4 : 2));
+					((wcsstr(it->tszOldName, L"Icons") != nullptr) ? 4 : 2));
 				lvI.iSubItem = 0;
 				lvI.lParam = (LPARAM)it;
 				lvI.pszText = it->tszOldName;
@@ -266,7 +264,7 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 
 				SetStringText(hwndList, lvI.iItem, it->bDeleteOnly ? TranslateT("Deprecated!") : TranslateT("Update found!"));
 			}
-			if(enableOk)
+			if (enableOk)
 				EnableWindow(GetDlgItem(hDlg, IDOK), TRUE);
 		}
 
@@ -279,13 +277,13 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 		return TRUE;
 
 	case WM_NOTIFY:
-		if (((LPNMHDR) lParam)->hwndFrom == hwndList) {
-			switch (((LPNMHDR) lParam)->code) {
+		if (((LPNMHDR)lParam)->hwndFrom == hwndList) {
+			switch (((LPNMHDR)lParam)->code) {
 			case LVN_ITEMCHANGED:
 				if (GetWindowLongPtr(hDlg, GWLP_USERDATA)) {
 					NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
 					if ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK) {
-						LVITEM lvI = {0};
+						LVITEM lvI = { 0 };
 						lvI.iItem = nmlv->iItem;
 						lvI.iSubItem = 0;
 						lvI.mask = LVIF_PARAM;
@@ -312,12 +310,12 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 		break;
 
 	case WM_COMMAND:
-		if (HIWORD( wParam ) == BN_CLICKED) {
-			switch(LOWORD(wParam)) {
+		if (HIWORD(wParam) == BN_CLICKED) {
+			switch (LOWORD(wParam)) {
 			case IDOK:
-				EnableWindow( GetDlgItem(hDlg, IDOK), FALSE);
-				EnableWindow( GetDlgItem(hDlg, IDC_SELALL), FALSE);
-				EnableWindow( GetDlgItem(hDlg, IDC_SELNONE), FALSE);
+				EnableWindow(GetDlgItem(hDlg, IDOK), FALSE);
+				EnableWindow(GetDlgItem(hDlg, IDC_SELALL), FALSE);
+				EnableWindow(GetDlgItem(hDlg, IDC_SELNONE), FALSE);
 
 				mir_forkthread(ApplyUpdates, hDlg);
 				return TRUE;
@@ -470,7 +468,7 @@ static void DlgUpdateSilent(void *param)
 	mir_snwprintf(tszTitle, TranslateT("%d component(s) was updated"), count);
 
 	if (Popup_Enabled())
-		ShowPopup(tszTitle,TranslateT("You need to restart your Miranda to apply installed updates."),POPUP_TYPE_MSG);
+		ShowPopup(tszTitle, TranslateT("You need to restart your Miranda to apply installed updates."), POPUP_TYPE_MSG);
 	else {
 		if (Clist_TrayNotifyW(MODULEA, tszTitle, TranslateT("You need to restart your Miranda to apply installed updates."), NIIF_INFO, 30000)) {
 			// Error, let's try to show MessageBox as last way to inform user about successful update
@@ -635,7 +633,7 @@ static int ScanFolder(const wchar_t *tszFolder, size_t cbBaseLen, const wchar_t 
 	if (hFind == INVALID_HANDLE_VALUE)
 		return 0;
 
-	Netlib_LogfW(hNetlibUser,L"Scanning folder %s", tszFolder);
+	Netlib_LogfW(hNetlibUser, L"Scanning folder %s", tszFolder);
 
 	int count = 0;
 	do {
@@ -759,8 +757,7 @@ static int ScanFolder(const wchar_t *tszFolder, size_t cbBaseLen, const wchar_t 
 			if (!g_plugin.bSilent || FileInfo->bEnabled)
 				count++;
 		}
-	}
-		while (FindNextFile(hFind, &ffd) != 0);
+	} while (FindNextFile(hFind, &ffd) != 0);
 
 	FindClose(hFind);
 	return count;
@@ -816,7 +813,7 @@ static void DoCheck(bool bSilent = true)
 		g_plugin.bSilent = bSilent;
 
 		g_plugin.setDword(DB_SETTING_LAST_UPDATE, time(0));
-	
+
 		hCheckThread = mir_forkthread(CheckUpdates);
 	}
 }
@@ -873,7 +870,7 @@ static void CALLBACK TimerAPCProc(void *, DWORD, DWORD)
 static LONGLONG PeriodToMilliseconds(const int period, int &periodMeasure)
 {
 	LONGLONG result = period * 1000LL;
-	switch(periodMeasure) {
+	switch (periodMeasure) {
 	case 1:
 		// day
 		result *= 60 * 60 * 24;

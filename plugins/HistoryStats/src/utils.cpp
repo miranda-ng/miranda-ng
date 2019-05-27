@@ -936,22 +936,10 @@ const ext::string& utils::getProfileName()
 /*
  * OS
  */
-OS::OS() : m_bIsXPPlus(false), m_ImageListColor(ILC_COLORDDB) // MEMO: maybe change this to ILC_COLOR{8,16,24}
+OS::OS()
 {
 	m_SmIcon.cx = 16; // GetSystemMetrics(SM_CXSMICON);
 	m_SmIcon.cy = 16; // GetSystemMetrics(SM_CYSMICON);
-
-	OSVERSIONINFO osvi = { 0 };
-
-	osvi.dwOSVersionInfoSize = sizeof(osvi);
-
-	if (GetVersionEx(&osvi)) {
-		m_bIsXPPlus = ((osvi.dwMajorVersion == 5 && osvi.dwMinorVersion >= 1) || osvi.dwMajorVersion >= 6);
-
-		if (m_bIsXPPlus) {
-			m_ImageListColor = ILC_COLOR32;
-		}
-	}
 }
 
 OS OS::m_Data;

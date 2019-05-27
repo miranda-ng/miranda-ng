@@ -111,7 +111,7 @@ void DlgOption::SubExclude::onWMInitDialog()
 
 	// init clist
 	HWND hCList = GetDlgItem(getHWnd(), IDC_CONTACTS);
-	HIMAGELIST hIml = ImageList_Create(OS::smIconCX(), OS::smIconCY(), OS::imageListColor() | ILC_MASK, 2, 0);
+	HIMAGELIST hIml = ImageList_Create(OS::smIconCX(), OS::smIconCY(), ILC_COLOR32 | ILC_MASK, 2, 0);
 	SendMessage(hCList, CLM_SETEXTRAIMAGELIST, 0, reinterpret_cast<LPARAM>(hIml));
 
 	staticRecreateIcons(reinterpret_cast<LPARAM>(this));

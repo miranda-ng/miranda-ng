@@ -723,19 +723,6 @@ void LoadSettings(void)
 }
 
 
-void GetWindowsVersion(void)
-{
-	OSVERSIONINFOEX osvi = { sizeof(OSVERSIONINFOEX) };
-	BOOL bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO *)&osvi);
-
-	if (!bOsVersionInfoEx) {
-		osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-		if (!GetVersionEx((OSVERSIONINFO *)&osvi))
-			osvi.dwPlatformId = VER_PLATFORM_WIN32_WINDOWS;
-	}
-}
-
-
 void updateXstatusProto(PROTOCOL_INFO *protoInfo)
 {
 	if (!ProtoServiceExists(protoInfo->szProto, PS_GETCUSTOMSTATUSEX))
@@ -913,7 +900,6 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
-	GetWindowsVersion();
 	OpenKeyboardDevice();
 
 	HookEvent(ME_MC_ENABLED, OnMetaChanged);

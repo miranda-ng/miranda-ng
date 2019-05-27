@@ -491,7 +491,7 @@ int BandCtrlImpl::onBCMAddButton(BCBUTTON *pButton)
 				DeleteObject(ii.hbmMask);
 			}
 
-			m_hImageList = ImageList_Create(m_IconSize.cx, m_IconSize.cy, OS::imageListColor() | ILC_MASK, 5, 5);
+			m_hImageList = ImageList_Create(m_IconSize.cx, m_IconSize.cy, ILC_COLOR32 | ILC_MASK, 5, 5);
 		}
 
 		// insert icon into image list
@@ -501,9 +501,8 @@ int BandCtrlImpl::onBCMAddButton(BCBUTTON *pButton)
 		HICON hIconDisabled = convertToGray(pButton->hIcon);
 
 		if (hIconDisabled) {
-			if (!m_hImageListD) {
-				m_hImageListD = ImageList_Create(m_IconSize.cx, m_IconSize.cy, OS::imageListColor() | ILC_MASK, 5, 5);
-			}
+			if (!m_hImageListD)
+				m_hImageListD = ImageList_Create(m_IconSize.cx, m_IconSize.cy, ILC_COLOR32 | ILC_MASK, 5, 5);
 
 			id.nIconD = ImageList_AddIcon(m_hImageListD, hIconDisabled);
 

@@ -170,17 +170,12 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 				IcoLib_SetCtrlIcons(hDlg, idIcon, numIconsToSet);
 
 				// create imagelist for treeview
-				OSVERSIONINFO osvi;
-				osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-				if (GetVersionEx(&osvi)) {
-					HIMAGELIST hImages = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON),
-						((osvi.dwPlatformId == VER_PLATFORM_WIN32_NT && osvi.dwMajorVersion >= 5 && osvi.dwMinorVersion >= 1) ? ILC_COLOR32 : ILC_COLOR16) | ILC_MASK, 0, 1);
-					if (hImages != nullptr) {
-						SendMessage(hTree, TVM_SETIMAGELIST, TVSIL_NORMAL, (LPARAM)hImages);
-						g_plugin.addImgListIcon(hImages, IDI_LST_MODULES);
-						g_plugin.addImgListIcon(hImages, IDI_LST_FOLDER);
-						bImagesLoaded = true;
-					}
+				HIMAGELIST hImages = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), (IsWinVerVistaPlus() ? ILC_COLOR32 : ILC_COLOR16) | ILC_MASK, 0, 1);
+				if (hImages != nullptr) {
+					SendMessage(hTree, TVM_SETIMAGELIST, TVSIL_NORMAL, (LPARAM)hImages);
+					g_plugin.addImgListIcon(hImages, IDI_LST_MODULES);
+					g_plugin.addImgListIcon(hImages, IDI_LST_FOLDER);
+					bImagesLoaded = true;
 				}
 			}
 			// do the translation stuff
