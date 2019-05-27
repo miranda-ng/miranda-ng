@@ -267,8 +267,8 @@ struct CLISTEVENT
 // gets the image list with all the useful icons in it
 // the members of this image list are opaque, and you should trust what you are given
 
-#define IMAGE_GROUPOPEN     11
-#define IMAGE_GROUPSHUT     12
+#define IMAGE_GROUPOPEN     (MAX_STATUS_COUNT+1)
+#define IMAGE_GROUPSHUT     (MAX_STATUS_COUNT+2)
 
 #ifdef _INC_COMMCTRL
 EXTERN_C MIR_APP_DLL(HIMAGELIST) Clist_GetImageList(void);
