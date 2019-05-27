@@ -564,7 +564,7 @@ public:
 		dbei->flags = DBEF_READ | DBEF_UTF;
 		if (pMsg[0x1A] != 0)
 			dbei->flags |= DBEF_SENT;
-		dbei->timestamp = RLInteger(&pMsg[0x12]);
+		dbei->timestamp = TimeZone_ToLocal(RLInteger(&pMsg[0x12]));
 		dbei->cbBlob = RLWord(&pMsg[m_iMsgHeaderSize - 2]);
 		dbei->pBlob = (PBYTE)mir_alloc(dbei->cbBlob + 1);
 		memcpy(dbei->pBlob, pMsg + m_iMsgHeaderSize, dbei->cbBlob);
