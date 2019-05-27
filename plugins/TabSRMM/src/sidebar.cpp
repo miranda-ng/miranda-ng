@@ -998,7 +998,7 @@ void __fastcall CSideBar::m_DefaultBackgroundRenderer(const HDC hdc, const RECT 
 			if (IsThemeBackgroundPartiallyTransparent(item->m_buttonControl->hThemeToolbar, TP_BUTTON, stateId))
 				DrawThemeParentBackground(item->getHwnd(), hdc, rcDraw);
 
-			if (M.isAero() || PluginConfig.m_WinVerMajor >= 6) {
+			if (M.isAero() || IsWinVerVistaPlus()) {
 				stateId = (fIsActiveItem ? PBS_PRESSED : PBS_HOT);
 				DrawThemeBackground(item->m_buttonControl->hThemeToolbar, hdc, 8, RBStateConvert2Flat(stateId), rcDraw, rcDraw);
 			}

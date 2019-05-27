@@ -52,8 +52,7 @@ const char *CTooltipNotify::s_szModuleNameOld = "ttntfmod";
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CTooltipNotify::CTooltipNotify() :
-	m_bNt50(IsNt50())
+CTooltipNotify::CTooltipNotify()
 {
 	if (s_pInstance != nullptr)
 		throw EAlreadyExists();
@@ -281,9 +280,9 @@ CTooltip *CTooltipNotify::BeginNotify(STooltipData *pTooltipData)
 	pTooltip->set_Font(lf);
 	pTooltip->set_BgColor(bgColor);
 	pTooltip->set_TextColor(textColor);
-	if (m_bNt50 && m_sOptions.bTransp)
+	if (m_sOptions.bTransp)
 		pTooltip->set_Translucency(m_sOptions.bAlpha);
-	pTooltip->set_TransparentInput(m_bNt50 && m_sOptions.bTransp && m_sOptions.bTranspInput);
+	pTooltip->set_TransparentInput(m_sOptions.bTransp && m_sOptions.bTranspInput);
 	pTooltip->Validate();
 
 	RECT TooltipRect, WorkAreaRect;
@@ -491,11 +490,9 @@ void CTooltipNotify::WriteSettingsToDlg(HWND hDlg)
 	default:		CheckDlgButton(hDlg, IDC_RB_CLIST, BST_CHECKED);	break;
 	}
 
-	EnableWindow(GetDlgItem(hDlg, IDC_GB_TRANSP), m_bNt50);
-	EnableWindow(GetDlgItem(hDlg, IDC_TRANSPARENCY), m_bNt50);
-	EnableWindow(GetDlgItem(hDlg, IDC_TRANSPARENCY_SLIDER), m_sOptions.bTransp && m_bNt50);
-	EnableWindow(GetDlgItem(hDlg, IDC_TRANSPERC), m_sOptions.bTransp && m_bNt50);
-	EnableWindow(GetDlgItem(hDlg, IDC_TRANSP_INPUT), m_sOptions.bTransp && m_bNt50);
+	EnableWindow(GetDlgItem(hDlg, IDC_TRANSPARENCY_SLIDER), m_sOptions.bTransp);
+	EnableWindow(GetDlgItem(hDlg, IDC_TRANSPERC), m_sOptions.bTransp);
+	EnableWindow(GetDlgItem(hDlg, IDC_TRANSP_INPUT), m_sOptions.bTransp);
 	EnableWindow(GetDlgItem(hDlg, IDC_RB_CLIST), !m_sOptions.bTranspInput);
 	EnableWindow(GetDlgItem(hDlg, IDC_RB_MSGDLG), !m_sOptions.bTranspInput);
 

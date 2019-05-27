@@ -334,7 +334,7 @@ INT_PTR CALLBACK DlgProcOpts_Tab2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		HIMAGELIST hIml;
 		int smCx = GetSystemMetrics(SM_CXSMICON);
 		int smCy = GetSystemMetrics(SM_CYSMICON);
-		hIml = ImageList_Create(smCx,smCy,((LOBYTE(LOWORD(GetVersion()))>=5 && LOWORD(GetVersion())!=5) ? ILC_COLOR32 : ILC_COLOR16) | ILC_MASK, 4, 4);
+		hIml = ImageList_Create(smCx, smCy, (IsWinVerVistaPlus() ? ILC_COLOR32 : ILC_COLOR16) | ILC_MASK, 4, 4);
 
 		//load icons (direct)
 		icoHandle_ICON_OFF = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_ICON_OFF));

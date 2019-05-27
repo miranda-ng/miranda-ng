@@ -2493,6 +2493,6 @@ void ShowRoom(TContainerData *pContainer, SESSION_INFO *si)
 			SetForegroundWindow(pContainer->m_hwnd);
 	}
 
-	if (PluginConfig.m_bIsWin7 && PluginConfig.m_useAeroPeek && CSkin::m_skinEnabled && !M.GetByte("forceAeroPeek", 0))
+	if (IsWinVer7Plus() && PluginConfig.m_useAeroPeek && CSkin::m_skinEnabled && !M.GetByte("forceAeroPeek", 0))
 		CWarning::show(CWarning::WARN_AEROPEEK_SKIN, MB_ICONWARNING | MB_OK);
 }

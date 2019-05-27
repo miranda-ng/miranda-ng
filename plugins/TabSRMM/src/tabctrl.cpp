@@ -458,7 +458,7 @@ static void DrawThemesXpTabItem(HDC pDC, RECT *rcItem, UINT uiFlag, TabControlDa
 	// for top row tabs, it's easy. Just draw to the provided dc (it's a mem dc already)
 	if (!bBottom) {
 		if (bBody) {
-			if (PluginConfig.m_bIsVista) {
+			if (IsWinVerVistaPlus()) {
 				rcItem->right += 2; // hide right tab sheet shadow (only draw the actual border line)
 				rcItem->bottom += 1;
 			}
@@ -551,7 +551,7 @@ static void DrawThemesXpTabItem(HDC pDC, RECT *rcItem, UINT uiFlag, TabControlDa
 		CImageItem tempItem(10, 10, 10, 10, hdcTemp, nullptr, IMAGE_FLAG_DIVIDED | IMAGE_FILLSOLID,
 			GetSysColorBrush(COLOR_3DFACE), 255, 30, 80, 50, 100);
 
-		if (PluginConfig.m_bIsVista) // hide right tab sheet shadow (only draw the actual border line)
+		if (IsWinVerVistaPlus()) // hide right tab sheet shadow (only draw the actual border line)
 			rcItem->right += 2;
 
 		tempItem.Render(pDC, rcItem, true);

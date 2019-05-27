@@ -1372,7 +1372,7 @@ panel_found:
 			BroadCastContainer(pContainer, DM_CHECKINFOTIP, wParam, lParam);
 
 		if (LOWORD(wParam == WA_INACTIVE) && (HWND)lParam != PluginConfig.g_hwndHotkeyHandler && GetParent((HWND)lParam) != hwndDlg) {
-			BOOL fTransAllowed = !bSkinned || PluginConfig.m_bIsVista;
+			BOOL fTransAllowed = !bSkinned || IsWinVerVistaPlus();
 
 			if (pContainer->m_dwFlags & CNT_TRANSPARENCY && fTransAllowed) {
 				SetLayeredWindowAttributes(hwndDlg, Skin->getColorKey(), (BYTE)HIWORD(pContainer->m_pSettings->dwTransparency), (pContainer->m_dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
@@ -1390,7 +1390,7 @@ panel_found:
 
 	case WM_MOUSEACTIVATE:
 		if (pContainer != nullptr) {
-			BOOL fTransAllowed = !bSkinned || PluginConfig.m_WinVerMajor >= 6;
+			BOOL fTransAllowed = !bSkinned || IsWinVerVistaPlus();
 
 			FlashContainer(pContainer, 0, 0);
 			pContainer->m_dwFlashingStarted = 0;
@@ -1572,17 +1572,15 @@ panel_found:
 			pContainer->m_tBorder_outer_bottom = g_ButtonSet.bottom + M.GetByte((bSkinned ? "S_tborder_outer_bottom" : "tborder_outer_bottom"), 2);
 			sBarHeight = (UINT)M.GetByte((bSkinned ? "S_sbarheight" : "sbarheight"), 0);
 
-			if (LOBYTE(LOWORD(GetVersion())) >= 5) {
-				BOOL fTransAllowed = !bSkinned || PluginConfig.m_WinVerMajor >= 6;
+			BOOL fTransAllowed = !bSkinned || IsWinVerVistaPlus();
 
-				DWORD exold, ex = exold = GetWindowLongPtr(hwndDlg, GWL_EXSTYLE);
-				ex = (pContainer->m_dwFlags & CNT_TRANSPARENCY && (!CSkin::m_skinEnabled || fTransAllowed)) ? ex | WS_EX_LAYERED : ex & ~(WS_EX_LAYERED);
+			DWORD exold, ex = exold = GetWindowLongPtr(hwndDlg, GWL_EXSTYLE);
+			ex = (pContainer->m_dwFlags & CNT_TRANSPARENCY && (!CSkin::m_skinEnabled || fTransAllowed)) ? ex | WS_EX_LAYERED : ex & ~(WS_EX_LAYERED);
 
-				SetWindowLongPtr(hwndDlg, GWL_EXSTYLE, ex);
-				if (pContainer->m_dwFlags & CNT_TRANSPARENCY && fTransAllowed) {
-					DWORD trans = LOWORD(pContainer->m_pSettings->dwTransparency);
-					SetLayeredWindowAttributes(hwndDlg, Skin->getColorKey(), (BYTE)trans, (/* pContainer->m_bSkinned ? LWA_COLORKEY : */ 0) | (pContainer->m_dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
-				}
+			SetWindowLongPtr(hwndDlg, GWL_EXSTYLE, ex);
+			if (pContainer->m_dwFlags & CNT_TRANSPARENCY && fTransAllowed) {
+				DWORD trans = LOWORD(pContainer->m_pSettings->dwTransparency);
+				SetLayeredWindowAttributes(hwndDlg, Skin->getColorKey(), (BYTE)trans, (/* pContainer->m_bSkinned ? LWA_COLORKEY : */ 0) | (pContainer->m_dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
 			}
 
 			if (!CSkin::m_frameSkins)

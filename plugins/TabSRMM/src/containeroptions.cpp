@@ -380,10 +380,10 @@ do_apply: Utils::enableDlgControl(hwndDlg, IDC_APPLY, true);
 			DWORD dwFlagsEx = cs->dwFlagsEx;
 			BOOL fAllowTrans = FALSE;
 
-			if (PluginConfig.m_WinVerMajor >= 6)
+			if (IsWinVerVistaPlus())
 				fAllowTrans = TRUE;
 			else
-				fAllowTrans = (!CSkin::m_skinEnabled);
+				fAllowTrans = !CSkin::m_skinEnabled;
 
 			MY_CheckDlgButton(hwndDlg, IDC_O_HIDETITLE, dwFlags & CNT_NOTITLE);
 			MY_CheckDlgButton(hwndDlg, IDC_O_DONTREPORT, dwFlags & CNT_DONTREPORT);
@@ -427,12 +427,12 @@ do_apply: Utils::enableDlgControl(hwndDlg, IDC_APPLY, true);
 			else
 				SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_SETCURSEL, dwFlagsEx & TCF_SBARLEFT ? 2 : 3, 0);
 
-			if (LOBYTE(LOWORD(GetVersion())) >= 5 && fAllowTrans)
-				CheckDlgButton(hwndDlg, IDC_TRANSPARENCY, dwFlags & CNT_TRANSPARENCY ? BST_CHECKED : BST_UNCHECKED);
+			if (fAllowTrans)
+				CheckDlgButton(hwndDlg, IDC_TRANSPARENCY, (dwFlags & CNT_TRANSPARENCY) ? BST_CHECKED : BST_UNCHECKED);
 			else
 				CheckDlgButton(hwndDlg, IDC_TRANSPARENCY, BST_UNCHECKED);
 
-			Utils::enableDlgControl(hwndDlg, IDC_TRANSPARENCY, PluginConfig.m_WinVerMajor >= 5 && fAllowTrans);
+			Utils::enableDlgControl(hwndDlg, IDC_TRANSPARENCY, fAllowTrans);
 
 			bool isTrans = IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENCY) != 0;
 			Utils::enableDlgControl(hwndDlg, IDC_TRANSPARENCY_ACTIVE, isTrans);

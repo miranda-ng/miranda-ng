@@ -1368,8 +1368,7 @@ int CTabBaseDlg::MsgWindowDrawHandler(DRAWITEMSTRUCT *dis)
 			if (CSkin::m_bAvatarBorderType == 1)
 				Rectangle(hdcDraw, rcEdge.left, rcEdge.top, rcEdge.right, rcEdge.bottom);
 			else if (CSkin::m_bAvatarBorderType == 2) {
-				int iRad = PluginConfig.m_WinVerMajor >= 5 ? 4 : 6;
-				clipRgn = CreateRoundRectRgn(rcEdge.left, rcEdge.top, rcEdge.right + 1, rcEdge.bottom + 1, iRad, iRad);
+				clipRgn = CreateRoundRectRgn(rcEdge.left, rcEdge.top, rcEdge.right + 1, rcEdge.bottom + 1, 6, 6);
 				SelectClipRgn(hdcDraw, clipRgn);
 
 				HBRUSH hbr = CreateSolidBrush(CSkin::m_avatarBorderClr);

@@ -54,11 +54,6 @@ bool             CGlobals::m_exAllowContinue = false;
 
 void CGlobals::reloadSystemStartup()
 {
-	m_WinVerMajor = WinVerMajor();
-	m_WinVerMinor = WinVerMinor();
-	m_bIsVista = IsWinVerVistaPlus() != 0;
-	m_bIsWin7 = IsWinVer7Plus() != 0;
-
 	::RegisterTabCtrlClass();
 	CTip::registerClass();
 

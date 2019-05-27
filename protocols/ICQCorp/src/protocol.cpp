@@ -164,7 +164,7 @@ bool ICQ::load()
 	if (!RegisterClassA(&wc))
 		return false;
 
-	hWnd = CreateWindowExA(0, protoName, nullptr, 0, 0, 0, 0, 0, (unsigned short)GetVersion() >= 5 ? HWND_MESSAGE : nullptr, nullptr, g_plugin.getInst(), nullptr);
+	hWnd = CreateWindowExA(0, protoName, nullptr, 0, 0, 0, 0, 0, HWND_MESSAGE, nullptr, g_plugin.getInst(), nullptr);
 	if (hWnd == nullptr)
 		return false;
 

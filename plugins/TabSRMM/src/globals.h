@@ -108,9 +108,6 @@ public:
 	double      m_DPIscaleX;
 	double      m_DPIscaleY;
 	HBITMAP     m_hbmMsgArea;
-	BYTE        m_WinVerMajor;
-	BYTE        m_WinVerMinor;
-	bool        m_bIsVista, m_bIsWin7;
 	HWND        m_hwndClist;
 	int         m_TabAppearance;
 	myTabCtrl   tabConfig;

@@ -159,7 +159,7 @@ static void PaintWorker(TSButtonCtrl *ctl, HDC hdcPaint)
 					dat->m_pContainer->m_cachedToolbarDC, pt.x, 1, SRCCOPY);
 			}
 			if (ctl->hThemeToolbar && ctl->bIsThemed && 1 == dat->m_pContainer->m_bTBRenderingMode) {
-				if (bAero || PluginConfig.m_WinVerMajor >= 6)
+				if (bAero || IsWinVerVistaPlus())
 					DrawThemeBackground(ctl->hThemeToolbar, hdcMem, 8, RBStateConvert2Flat(state), &rcClient, &rcClient);
 				else
 					DrawThemeBackground(ctl->hThemeToolbar, hdcMem, TP_BUTTON, TBStateConvert2Flat(state), &rcClient, &rcClient);

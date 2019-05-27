@@ -181,7 +181,7 @@ void CTaskbarInteract::SetTabActive(const HWND hwndTab, const HWND hwndGroup) co
  */
 void CTabBaseDlg::VerifyProxy()
 {
-	if (PluginConfig.m_bIsWin7 && PluginConfig.m_useAeroPeek) {
+	if (IsWinVer7Plus() && PluginConfig.m_useAeroPeek) {
 		if (nullptr == m_pWnd) {
 			m_pWnd = new CProxyWindow(this);
 			if (m_pWnd) {

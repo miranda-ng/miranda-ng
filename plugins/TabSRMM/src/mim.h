@@ -161,7 +161,6 @@ public:
 	__forceinline bool isAero() const { return m_isAero; }
 
 	__forceinline bool isDwmActive() const { return m_DwmActive; }
-	__forceinline DWORD getWinVer() const { return m_winVer; }
 
 	// refresh Aero status.
 	bool getAeroState();
@@ -207,7 +206,6 @@ private:
 	double  m_dFreq;
 	char    m_timerMsg[256];
 	bool    m_hasFolders;
-	DWORD   m_winVer;
 	HANDLE  m_hChatLogLock;
 
 	void	InitAPI();

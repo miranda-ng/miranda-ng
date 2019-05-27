@@ -2042,7 +2042,7 @@ DWORD CSkin::HexStringToLong(const wchar_t *szSource)
 
 int CSkin::RenderText(HDC hdc, HANDLE hTheme, const wchar_t *szText, RECT *rc, DWORD dtFlags, const int iGlowSize, COLORREF clr, bool fForceAero)
 {
-	if ((PluginConfig.m_bIsVista && !CSkin::m_skinEnabled && hTheme) || fForceAero) {
+	if ((IsWinVerVistaPlus() && !CSkin::m_skinEnabled && hTheme) || fForceAero) {
 		DTTOPTS dto = { 0 };
 		dto.dwSize = sizeof(dto);
 		if (iGlowSize && (M.isAero() || fForceAero)) {
@@ -2327,7 +2327,7 @@ void CSkin::initAeroEffect()
 		::DeleteObject(m_BrushBack);
 		m_BrushBack = nullptr;
 	}
-	if (PluginConfig.m_bIsVista && m_aeroEffect > AERO_EFFECT_NONE && m_aeroEffect < AERO_EFFECT_LAST) {
+	if (IsWinVerVistaPlus() && m_aeroEffect > AERO_EFFECT_NONE && m_aeroEffect < AERO_EFFECT_LAST) {
 		m_currentAeroEffect = m_aeroEffects[m_aeroEffect];
 		m_pCurrentAeroEffect = &m_currentAeroEffect;
 		m_glowSize = m_pCurrentAeroEffect->m_glowSize;

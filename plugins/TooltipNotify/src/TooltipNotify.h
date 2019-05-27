@@ -36,8 +36,6 @@ private:
 	static CTooltipNotify *s_pInstance;
 	static const char *s_szModuleNameOld;
 	
-	const BOOL m_bNt50;
-
 	struct SOptions {
 		BYTE  bFirstRun;
 		BYTE  bOffline;

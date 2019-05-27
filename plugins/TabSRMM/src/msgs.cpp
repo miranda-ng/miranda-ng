@@ -106,7 +106,7 @@ bool CTabBaseDlg::OnInitDialog()
 	m_pContainer->UpdateTabs();
 	
 	// add this window to window list & proxy
-	if (PluginConfig.m_bIsWin7 && PluginConfig.m_useAeroPeek)
+	if (IsWinVer7Plus() && PluginConfig.m_useAeroPeek)
 		m_pWnd = new CProxyWindow(this);
 	else
 		m_pWnd = nullptr;
@@ -696,7 +696,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 		SendMessage(pContainer->m_hwndActive, WM_SIZE, 0, 0);
 	}
 
-	if (PluginConfig.m_bIsWin7 && PluginConfig.m_useAeroPeek && CSkin::m_skinEnabled)
+	if (IsWinVer7Plus() && PluginConfig.m_useAeroPeek && CSkin::m_skinEnabled)
 		CWarning::show(CWarning::WARN_AEROPEEK_SKIN, MB_ICONWARNING | MB_OK);
 
 	if (ServiceExists(MS_HPP_EG_EVENT) && ServiceExists(MS_IEVIEW_EVENT) && db_get_b(0, "HistoryPlusPlus", "IEViewAPI", 0))

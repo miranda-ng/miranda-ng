@@ -158,13 +158,10 @@ bool CMimAPI::getAeroState()
 
 void CMimAPI::InitAPI()
 {
-	DWORD dwVer = LOWORD(GetVersion());
-	m_winVer = MAKEWORD(HIBYTE(dwVer), LOBYTE(dwVer));
-
 	m_hUxTheme = nullptr;
+	m_hDwmApi = nullptr;
 
 	// vista+ DWM API
-	m_hDwmApi = nullptr;
 	if (IsWinVerVistaPlus()) {
 		m_hDwmApi = Utils::loadSystemLibrary(L"\\dwmapi.dll");
 		if (m_hDwmApi) {

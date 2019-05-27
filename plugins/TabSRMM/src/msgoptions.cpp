@@ -1142,11 +1142,11 @@ public:
 		for (int i = 0; i < CSkin::AERO_EFFECT_LAST; i++)
 			cmbAeroEffect.InsertString(TranslateW(CSkin::m_aeroEffects[i].tszName), -1);
 		cmbAeroEffect.SetCurSel(CSkin::m_aeroEffect);
-		cmbAeroEffect.Enable(PluginConfig.m_bIsVista);
+		cmbAeroEffect.Enable(IsWinVerVistaPlus());
 
-		chkUseAero.Enable(PluginConfig.m_bIsVista);
-		chkUseAeroPeek.Enable(PluginConfig.m_bIsWin7);
-		if (PluginConfig.m_bIsVista)
+		chkUseAero.Enable(IsWinVerVistaPlus());
+		chkUseAeroPeek.Enable(IsWinVer7Plus());
+		if (IsWinVerVistaPlus())
 			Utils::enableDlgControl(m_hwnd, IDC_AEROEFFECT, chkUseAero.GetState() != 0);
 		return true;
 	}
