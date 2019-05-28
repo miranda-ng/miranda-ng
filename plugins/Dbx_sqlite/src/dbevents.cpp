@@ -727,10 +727,12 @@ BOOL CDbxSQLite::SetEventId(LPCSTR, MEVENT hDbEvent, LPCSTR szId)
 
 BOOL CDbxSQLite::MetaMergeHistory(DBCachedContact*, DBCachedContact*)
 {
+	mir_cslock lock(m_csDbAccess);
 	return TRUE;
 }
 
 BOOL CDbxSQLite::MetaSplitHistory(DBCachedContact*, DBCachedContact*)
 {
+	mir_cslock lock(m_csDbAccess);
 	return TRUE;
 }
