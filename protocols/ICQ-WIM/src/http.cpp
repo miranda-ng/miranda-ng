@@ -249,6 +249,19 @@ AsyncHttpRequest* operator<<(AsyncHttpRequest *pReq, const AIMSID &param)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+MHttpRequest* operator<<(MHttpRequest *pReq, const GROUP_PARAM &param)
+{
+	if (param.wszValue) {
+		CMStringW tmp(param.wszValue);
+		tmp.Replace(L"\\", L">");
+		tmp.Replace(L"/", L">");
+		pReq << WCHAR_PARAM(param.szName, tmp);
+	}
+	return pReq;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 JsonReply::JsonReply(NETLIBHTTPREQUEST *pReply)
 {
 	if (pReply == nullptr) {

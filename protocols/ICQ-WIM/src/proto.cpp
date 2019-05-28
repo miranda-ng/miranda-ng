@@ -249,15 +249,15 @@ int CIcqProto::OnGroupChange(WPARAM hContact, LPARAM lParam)
 		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/") << AIMSID(this);
 		if (pParam->pszOldName == nullptr) {
 			pReq->m_szUrl += "addGroup";
-			pReq << WCHAR_PARAM("group", pParam->pszNewName);
+			pReq << GROUP_PARAM("group", pParam->pszNewName);
 		}
 		else if (pParam->pszNewName == nullptr) {
 			pReq->m_szUrl += "removeGroup";
-			pReq << WCHAR_PARAM("group", pParam->pszOldName);
+			pReq << GROUP_PARAM("group", pParam->pszOldName);
 		}
 		else {
 			pReq->m_szUrl += "renameGroup";
-			pReq << WCHAR_PARAM("oldGroup", pParam->pszOldName) << WCHAR_PARAM("newGroup", pParam->pszNewName);
+			pReq << GROUP_PARAM("oldGroup", pParam->pszOldName) << GROUP_PARAM("newGroup", pParam->pszNewName);
 		}
 		Push(pReq);
 	}

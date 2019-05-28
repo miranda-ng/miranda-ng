@@ -19,6 +19,17 @@ struct AsyncHttpRequest : public MTHttpRequest<CIcqProto>
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+struct GROUP_PARAM : public WCHAR_PARAM
+{
+	__forceinline GROUP_PARAM(const char *p1, const wchar_t *p2) :
+		WCHAR_PARAM(p1, p2)
+	{}
+};
+
+MHttpRequest* operator<<(MHttpRequest *pReq, const GROUP_PARAM &param);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 class JsonReply
 {
 	JSONNode *m_root = nullptr;
