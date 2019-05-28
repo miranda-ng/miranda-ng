@@ -1139,7 +1139,7 @@ begin
   end;
 end;
 
-function RichEditStreamLoad(dwCookie: Longint; pbBuff: PByte; cb: Longint; var pcb: Longint): Longint; stdcall;
+function RichEditStreamLoad(dwCookie: LPARAM; pbBuff: PByte; cb: Longint; var pcb: Longint): Longint; stdcall;
 var
   pBuff: PAnsiChar;
 begin
@@ -1156,7 +1156,7 @@ begin
   Result := 0;
 end;
 
-function RichEditStreamSave(dwCookie: Longint; pbBuff: PByte; cb: Longint; var pcb: Longint): Longint; stdcall;
+function RichEditStreamSave(dwCookie: LPARAM; pbBuff: PByte; cb: Longint; var pcb: Longint): Longint; stdcall;
 var
   prevSize: Integer;
 begin
