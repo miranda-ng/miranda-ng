@@ -124,30 +124,6 @@ HICON ImageList_GetIconFixed(HIMAGELIST himl, INT i, UINT fStyle)
 	return hIcon;
 }
 
-void pathToRelative(const CMStringW &pSrc, CMStringW &pOut)
-{
-	wchar_t szOutPath[MAX_PATH];
-	PathToRelativeW(pSrc.c_str(), szOutPath);
-	pOut = szOutPath;
-}
-
-void pathToAbsolute(const CMStringW &pSrc, CMStringW &pOut)
-{
-	wchar_t szOutPath[MAX_PATH];
-
-	wchar_t *szVarPath = Utils_ReplaceVarsW(pSrc.c_str());
-	if (szVarPath == (wchar_t*)CALLSERVICE_NOTFOUND || szVarPath == nullptr) {
-		wchar_t szExpPath[MAX_PATH];
-		ExpandEnvironmentStrings(pSrc.c_str(), szExpPath, _countof(szExpPath));
-		PathToAbsoluteW(szExpPath, szOutPath);
-	}
-	else {
-		PathToAbsoluteW(szVarPath, szOutPath);
-		mir_free(szVarPath);
-	}
-	pOut = szOutPath;
-}
-
 bool InitGdiPlus(void)
 {
 	Gdiplus::GdiplusStartupInput gdiplusStartupInput;

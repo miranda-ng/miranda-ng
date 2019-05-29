@@ -23,6 +23,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define MS_SMILEYADD_CUSTOMCATMENU  "SmileyAdd/CustomCatMenu"
 
+#define DEFAULT_FILE_NAME L"Smileys\\nova\\default.msl"
+
 const unsigned HiddenSmiley = 1;
 const unsigned RegExSmiley = 2;
 const unsigned ServiceSmiley = 4;
@@ -274,8 +276,8 @@ public:
 
 	SmileyPackType* GetSmileyPack(void);
 
-	void SetFilename(CMStringW& name) { m_Filename = name; }
-	void SetDisplayName(CMStringW& name) { m_DisplayName = name; }
+	void SetFilename(const CMStringW& name) { m_Filename = name; }
+	void SetDisplayName(const CMStringW& name) { m_DisplayName = name; }
 	void SetVisible(bool vis) { visible = vis; }
 
 	void ClearFilename(void) { m_Filename.Empty(); }
@@ -297,20 +299,19 @@ private:
 public:
 	void SetSmileyPackStore(SmileyPackListType *pSPS) { m_pSmileyPackStore = pSPS; }
 
-	SmileyCategoryType* GetSmileyCategory(const CMStringW& name);
+	SmileyCategoryType* GetSmileyCategory(const CMStringW &name);
 	SmileyCategoryType* GetSmileyCategory(unsigned index);
-	SmileyPackType* GetSmileyPack(CMStringW& name);
+	SmileyPackType* GetSmileyPack(const CMStringW &name);
 	SmileyCategoryVectorType* GetSmileyCategoryList(void) { return &m_SmileyCategories; };
 
 	int NumberOfSmileyCategories(void) { return m_SmileyCategories.getCount(); }
 
-	void AddCategory(const CMStringW& name, const CMStringW& displayName, SmcType typ,
-		const CMStringW& defaultFilename = CMStringW(L"Smileys\\nova\\default.msl"));
-	void AddAndLoad(const CMStringW& name, const CMStringW& displayName);
+	void AddCategory(const CMStringW &name, const CMStringW &displayName, SmcType typ, const CMStringW &defaultFilename);
+	void AddAndLoad(const CMStringW &name, const CMStringW &displayName);
 	void AddAllProtocolsAsCategory(void);
-	void AddAccountAsCategory(PROTOACCOUNT *acc, const CMStringW& defaultFile);
-	void AddProtoAsCategory(char *acc, const CMStringW& defaultFile);
-	void AddContactTransportAsCategory(MCONTACT hContact, const CMStringW& defaultFile);
+	void AddAccountAsCategory(PROTOACCOUNT *acc, const CMStringW &defaultFile);
+	void AddProtoAsCategory(char *acc, const CMStringW &defaultFile);
+	void AddContactTransportAsCategory(MCONTACT hContact, const CMStringW &defaultFile);
 
 	void ClearAndLoadAll(void);
 	void ClearAll(void)

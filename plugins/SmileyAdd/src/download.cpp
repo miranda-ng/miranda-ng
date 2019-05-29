@@ -36,7 +36,7 @@ struct QueueElem
 static HANDLE g_hDlMutex;
 static OBJLIST<QueueElem> dlQueue(10);
 
-static wchar_t cachepath[MAX_PATH];
+static wchar_t g_wszCachePath[MAX_PATH];
 static bool threadRunning;
 
 bool InternetDownloadFile(const char *szUrl, char *szDest, HNETLIBCONN &hHttpDwnl)
@@ -167,7 +167,7 @@ bool GetSmileyFile(CMStringW &url, const CMStringW &packstr)
 	bin2hexW(hash, sizeof(hash), wszHash);
 
 	CMStringW filename;
-	filename.AppendFormat(L"%s\\%s\\", cachepath, packstr.c_str());
+	filename.AppendFormat(L"%s\\%s\\", g_wszCachePath, packstr.c_str());
 	int pathpos = filename.GetLength();
 
 	MRegexp16 urlsplit(L".*/(.*)");
@@ -219,18 +219,8 @@ bool GetSmileyFile(CMStringW &url, const CMStringW &packstr)
 
 int FolderChanged(WPARAM, LPARAM)
 {
-	FoldersGetCustomPathT(hFolder, cachepath, MAX_PATH, L"");
+	FoldersGetCustomPathT(hFolder, g_wszCachePath, MAX_PATH, L"");
 	return 0;
-}
-
-void GetSmileyCacheFolder(void)
-{
-	hFolder = FoldersRegisterCustomPathT(LPGEN("SmileyAdd"), LPGEN("Smiley cache"), MIRANDA_USERDATAT L"\\SmileyCache");
-	if (hFolder) {
-		FoldersGetCustomPathT(hFolder, cachepath, MAX_PATH, L"");
-		HookEvent(ME_FOLDERS_PATH_CHANGED, FolderChanged);
-	}
-	else mir_wstrncpy(cachepath, VARSW(L"%miranda_userdata%\\SmileyCache"), MAX_PATH);
 }
 
 void DownloadInit(void)
@@ -241,7 +231,13 @@ void DownloadInit(void)
 	nlu.szDescriptiveName.w = TranslateT("SmileyAdd HTTP connections");
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 
-	GetSmileyCacheFolder();
+	hFolder = FoldersRegisterCustomPathT(LPGEN("SmileyAdd"), LPGEN("Smiley cache"), MIRANDA_USERDATAT L"\\SmileyCache");
+	if (hFolder) {
+		FolderChanged(0, 0);		
+		HookEvent(ME_FOLDERS_PATH_CHANGED, FolderChanged);
+	}
+	else mir_wstrncpy(g_wszCachePath, VARSW(L"%miranda_userdata%\\SmileyCache"), MAX_PATH);
+
 	g_hDlMutex = CreateMutex(nullptr, FALSE, nullptr);
 }
 

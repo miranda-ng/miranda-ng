@@ -52,26 +52,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <win2k.h>
 #include <newpluginapi.h>
-#include <m_clist.h>
-#include <m_langpack.h>
-#include <m_options.h>
-#include <m_protosvc.h>
-#include <m_database.h>
 #include <m_button.h>
-#include <m_message.h>
-#include <m_netlib.h>
-#include <m_hotkeys.h>
-#include <m_popup.h>
-#include <m_icolib.h>
-#include <m_genmenu.h>
-#include <m_imgsrvc.h>
-#include <m_regexp.h>
-#include <m_fontservice.h>
-#include <m_xml.h>
-
-#include <m_metacontacts.h>
-#include <m_smileyadd.h>
+#include <m_clist.h>
+#include <m_database.h>
 #include <m_folders.h>
+#include <m_fontservice.h>
+#include <m_hotkeys.h>
+#include <m_genmenu.h>
+#include <m_gui.h>
+#include <m_icolib.h>
+#include <m_imgsrvc.h>
+#include <m_langpack.h>
+#include <m_message.h>
+#include <m_metacontacts.h>
+#include <m_netlib.h>
+#include <m_options.h>
+#include <m_popup.h>
+#include <m_protosvc.h>
+#include <m_regexp.h>
+#include <m_smileyadd.h>
+#include <m_xml.h>
 
 #include "resource.h"
 #include "version.h"
@@ -128,9 +128,6 @@ MCONTACT DecodeMetaContact(MCONTACT hContact);
 bool IsSmileyProto(char *proto);
 
 HICON ImageList_GetIconFixed (HIMAGELIST himl, INT i, UINT fStyle);
-
-void pathToRelative(const CMStringW &pSrc, CMStringW &pOut);
-void pathToAbsolute(const CMStringW &pSrc, CMStringW &pOut);
 
 bool InitGdiPlus(void);
 void DestroyGdiPlus(void);

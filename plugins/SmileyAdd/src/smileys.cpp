@@ -350,9 +350,8 @@ bool SmileyPackType::LoadSmileyFile(const CMStringW &filename, const CMStringW &
 		return false;
 	}
 
-	CMStringW modpath;
-	pathToAbsolute(filename, modpath);
-	if (_waccess(filename, 4) != 0) {
+	CMStringW modpath = VARSW(filename);
+	if (_waccess(modpath, 4) != 0) {
 		if (!noerr) {
 			static const wchar_t errmsg[] = LPGENW("Smiley pack %s for category \"%s\" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.");
 			wchar_t msgtxt[1024];
@@ -668,12 +667,10 @@ bool SmileyPackListType::AddSmileyPack(CMStringW &filename, CMStringW &packname)
 
 SmileyPackType* SmileyPackListType::GetSmileyPack(CMStringW &filename)
 {
-	CMStringW modpath;
-	pathToAbsolute(filename, modpath);
+	CMStringW modpath = VARSW(filename);
 
 	for (auto &it : m_SmileyPacks) {
-		CMStringW modpath1;
-		pathToAbsolute(it->GetFilename(), modpath1);
+		CMStringW modpath1(VARSW(it->GetFilename()));
 		if (mir_wstrcmpi(modpath.c_str(), modpath1.c_str()) == 0)
 			return it;
 	}
@@ -749,7 +746,7 @@ SmileyCategoryType* SmileyCategoryListType::GetSmileyCategory(unsigned index)
 	return index < (unsigned)m_SmileyCategories.getCount() ? &m_SmileyCategories[index] : nullptr;
 }
 
-SmileyPackType* SmileyCategoryListType::GetSmileyPack(CMStringW &categoryname)
+SmileyPackType* SmileyCategoryListType::GetSmileyPack(const CMStringW &categoryname)
 {
 	SmileyCategoryType *smc = GetSmileyCategory(categoryname);
 	return smc != nullptr ? smc->GetSmileyPack() : nullptr;
@@ -774,7 +771,8 @@ void SmileyCategoryListType::AddAndLoad(const CMStringW &name, const CMStringW &
 	if (GetSmileyCategory(name) != nullptr)
 		return;
 
-	AddCategory(name, displayName, smcExt);
+	AddCategory(name, displayName, smcExt, DEFAULT_FILE_NAME);
+	
 	// Load only if other smileys have been loaded already
 	if (m_SmileyCategories.getCount() > 1)
 		m_SmileyCategories[m_SmileyCategories.getCount() - 1].Load();
@@ -823,10 +821,7 @@ void SmileyCategoryListType::AddAccountAsCategory(PROTOACCOUNT *acc, const CMStr
 			char path[MAX_PATH];
 			mir_snprintf(path, "Smileys\\nova\\%s.msl", packnam);
 
-			paths = _A2T(path);
-			CMStringW patha;
-			pathToAbsolute(paths, patha);
-
+			CMStringW patha = VARSW(_A2T(path));
 			if (_waccess(patha.c_str(), 0) != 0)
 				paths = defaultFile;
 		}
@@ -850,11 +845,10 @@ void SmileyCategoryListType::AddProtoAsCategory(char *acc, const CMStringW &defa
 	char path[MAX_PATH];
 	mir_snprintf(path, "Smileys\\nova\\%s.msl", packnam);
 
-	CMStringW paths = _A2T(path), patha;
-	pathToAbsolute(paths, patha);
-
+	CMStringW paths = _A2T(path), patha = VARSW(paths);
 	if (_waccess(patha.c_str(), 0) != 0)
 		paths = defaultFile;
+
 	CMStringW dName(acc), displayName;
 	displayName.AppendFormat(TranslateT("%s global smiley pack"), dName.GetBuffer());
 	CMStringW tname("AllProto");
@@ -922,9 +916,7 @@ void SmileyCategoryListType::AddContactTransportAsCategory(MCONTACT hContact, co
 			char path[MAX_PATH];
 			mir_snprintf(path, "Smileys\\nova\\%s.msl", packname);
 
-			CMStringW paths = _A2T(path), patha;
-			pathToAbsolute(paths, patha);
-
+			CMStringW paths = _A2T(path), patha = VARSW(paths);
 			if (_waccess(patha.c_str(), 0) != 0)
 				paths = defaultFile;
 
@@ -940,7 +932,7 @@ void SmileyCategoryListType::AddAllProtocolsAsCategory(void)
 {
 	CMStringW displayName = TranslateT("Standard");
 	CMStringW tname = L"Standard";
-	AddCategory(tname, displayName, smcStd);
+	AddCategory(tname, displayName, smcStd, DEFAULT_FILE_NAME);
 
 	const CMStringW &defaultFile = GetSmileyCategory(tname)->GetFilename();
 
