@@ -97,7 +97,7 @@ struct LogStreamData {
 	DBEVENTINFO *dbei;
 };
 
-__forceinline char *GetRTFFont(DWORD dwIndex)
+__forceinline char* GetRTFFont(DWORD dwIndex)
 {
 	return rtfFonts + (dwIndex * RTFCACHELINESIZE);
 }
@@ -862,7 +862,7 @@ static char* Template_CreateRTFFromDbEvent(CTabBaseDlg *dat, MCONTACT hContact, 
 							ptrW tszDescr(DbEvent_GetString(&dbei, szDescr));
 
 							wchar_t buf[1000];
-							mir_snwprintf(buf, L"%s (%s)", tszFileName, tszDescr);
+							mir_snwprintf(buf, L"%s (%s)", tszFileName.get(), tszDescr.get());
 							AppendUnicodeToBuffer(str, buf, 0);
 						}
 						else AppendUnicodeToBuffer(str, tszFileName, 0);
@@ -1160,7 +1160,7 @@ void CTabBaseDlg::ReplaceIcons(LONG startAt, int fAppend, BOOL isSent)
 
 	if (m_hHistoryEvents && m_curHistory == m_maxHistory) {
 		wchar_t szPattern[50];
-		mir_snwprintf(szPattern, L"~-+%d+-~", (INT_PTR)m_hHistoryEvents[0]);
+		mir_snwprintf(szPattern, L"~-+%d+-~", m_hHistoryEvents[0]);
 
 		FINDTEXTEX ft;
 		ft.lpstrText = szPattern;
@@ -1336,8 +1336,8 @@ void CTabBaseDlg::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, D
 	m_bClrAdded = false;
 
 	if (m_hwndIEView == nullptr && m_hwndHPP == nullptr) {
-		int len = GetWindowTextLength(hwndrtf);
-		m_log.SendMsg(EM_SETSEL, len - 1, len - 1);
+		int len = GetWindowTextLength(hwndrtf)-1;
+		m_log.SendMsg(EM_SETSEL, len, len);
 	}
 
 	DM_ScrollToBottom(0, 0);
