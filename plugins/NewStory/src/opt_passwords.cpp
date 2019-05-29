@@ -29,8 +29,8 @@ INT_PTR CALLBACK OptPasswordsDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 	case WM_INITDIALOG:
 		HIMAGELIST himg;
 		himg = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 3, 3);
-		icoidNoPassword = ImageList_AddIcon(himg, GetIcon(ICO_NOPASSWORD));
-		icoidPassword = ImageList_AddIcon(himg, GetIcon(ICO_PASSWORD));
+		icoidNoPassword = ImageList_AddIcon(himg, g_plugin.getIcon(ICO_NOPASSWORD));
+		icoidPassword = ImageList_AddIcon(himg, g_plugin.getIcon(ICO_PASSWORD));
 		SendDlgItemMessage(hwnd, IDC_LIST, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)himg);
 
 		SendDlgItemMessage(hwnd, IDC_LIST, CLM_SETEXTRACOLUMNS, 1, 0);
@@ -50,12 +50,12 @@ INT_PTR CALLBACK OptPasswordsDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 		SetAllContactIcons(GetDlgItem(hwnd, IDC_LIST));
 		ResetListOptions(GetDlgItem(hwnd, IDC_LIST));
 
-		SendMessage(GetDlgItem(hwnd, IDC_ICO_NOPASSWORD), STM_SETICON, (WPARAM)GetIcon(ICO_NOPASSWORD), 0);
-		SendMessage(GetDlgItem(hwnd, IDC_ICO_PASSWORD), STM_SETICON, (WPARAM)GetIcon(ICO_PASSWORD), 0);
+		SendMessage(GetDlgItem(hwnd, IDC_ICO_NOPASSWORD), STM_SETICON, (WPARAM)g_plugin.getIcon(ICO_NOPASSWORD), 0);
+		SendMessage(GetDlgItem(hwnd, IDC_ICO_PASSWORD), STM_SETICON, (WPARAM)g_plugin.getIcon(ICO_PASSWORD), 0);
 
 		SendMessage(GetDlgItem(hwnd, IDC_SAVEPASSWORD), BUTTONSETASFLATBTN, 0, 0);
 		SendMessage(GetDlgItem(hwnd, IDC_SAVEPASSWORD), BUTTONADDTOOLTIP, (WPARAM)Translate("Save Password"), 0);
-		SendMessage(GetDlgItem(hwnd, IDC_SAVEPASSWORD), BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_SAVEPASS));
+		SendMessage(GetDlgItem(hwnd, IDC_SAVEPASSWORD), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_SAVEPASS));
 		return TRUE;
 
 	case WM_NOTIFY:

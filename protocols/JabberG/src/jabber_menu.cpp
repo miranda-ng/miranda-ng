@@ -592,7 +592,7 @@ void CJabberProto::OnBuildProtoMenu()
 	CreateProtoService(mi.pszService, &CJabberProto::OnMenuHandleChangePassword);
 	mi.name.a = LPGEN("Change Password");
 	mi.position = 2000050007;
-	mi.hIcolibItem = g_plugin.getIconHandle(IDI_KEYS);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_KEYS);
 	m_hMenuChangePassword = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	// "Roster editor"

@@ -18,6 +18,7 @@
 #define IDD_OPT_PROTOCOLORDER           109
 #define IDD_OPT_ICOLIB                  110
 #define IDD_ICOLIB_IMPORT               111
+#define IDI_PASSWORD                    112
 #define IDI_LOADED_GRAY                 113
 #define IDI_NOTLOADED_GRAY              114
 #define IDD_ADDED                       115

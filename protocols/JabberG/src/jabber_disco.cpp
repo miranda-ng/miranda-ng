@@ -63,39 +63,39 @@ struct
 static sttNodeIcons[] =
 {
 	//	standard identities: http://www.xmpp.org/registrar/disco-categories.html#directory
-	{nullptr,   "account",        nullptr,         0,                SKINICON_STATUS_ONLINE},
-	{nullptr,   "auth",           nullptr,         IDI_KEYS,         0},
-	{nullptr,   "automation",     nullptr,         IDI_COMMAND,      0},
-	{nullptr,   "client",         nullptr,         0,                SKINICON_STATUS_ONLINE},
-	{nullptr,   "collaboration",  nullptr,         IDI_GROUP,        0},
-	{nullptr,   "conference",     nullptr,         IDI_GROUP,        0},
-                                                            
-	{nullptr,   "directory",      "chatroom",      IDI_GROUP,        0},
-	{nullptr,   "directory",      "group",         IDI_GROUP,        0},
-	{nullptr,   "directory",      "user",          0,                SKINICON_OTHER_FINDUSER},
-	{nullptr,   "directory",      nullptr,         0,                SKINICON_OTHER_SEARCHALL},
+	{ nullptr,   "account",        nullptr,         0,                SKINICON_STATUS_ONLINE   },
+	{ nullptr,   "auth",           nullptr,         0,                SKINICON_OTHER_KEYS      },
+	{ nullptr,   "automation",     nullptr,         IDI_COMMAND,      0                        },
+	{ nullptr,   "client",         nullptr,         0,                SKINICON_STATUS_ONLINE   },
+	{ nullptr,   "collaboration",  nullptr,         IDI_GROUP,        0                        },
+	{ nullptr,   "conference",     nullptr,         IDI_GROUP,        0                        },
 
-	{nullptr,   "gateway",        nullptr,         IDI_AGENTS,       0},
+	{ nullptr,   "directory",      "chatroom",      IDI_GROUP,        0                        },
+	{ nullptr,   "directory",      "group",         IDI_GROUP,        0                        },
+	{ nullptr,   "directory",      "user",          0,                SKINICON_OTHER_FINDUSER  },
+	{ nullptr,   "directory",      nullptr,         0,                SKINICON_OTHER_SEARCHALL },
 
-	{nullptr,   "headline",       "rss",           IDI_NODE_RSS,     0},
-	{nullptr,   "headline",       "weather",       IDI_NODE_WEATHER, 0},
+	{ nullptr,   "gateway",        nullptr,         IDI_AGENTS,       0                        },
 
-	{nullptr,   "proxy",          nullptr,         0,                SKINICON_EVENT_FILE},
+	{ nullptr,   "headline",       "rss",           IDI_NODE_RSS,     0                        },
+	{ nullptr,   "headline",       "weather",       IDI_NODE_WEATHER, 0                        },
 
-	{nullptr,   "server",         nullptr,         IDI_NODE_SERVER,  0},
+	{ nullptr,   "proxy",          nullptr,         0,                SKINICON_EVENT_FILE      },
 
-	{nullptr,   "store",          nullptr,         IDI_NODE_STORE,   0},
+	{ nullptr,   "server",         nullptr,         IDI_NODE_SERVER,  0                        },
+
+	{ nullptr,   "store",          nullptr,         IDI_NODE_STORE,   0                        },
 
 	//   icons for non-standard identities
-	{nullptr,   "x-service",      "x-rss",         IDI_NODE_RSS,     0},
-	{nullptr,   "application",    "x-weather",     IDI_NODE_WEATHER, 0},
-	{nullptr,   "user",           nullptr,         0,                SKINICON_STATUS_ONLINE},
+	{ nullptr,   "x-service",      "x-rss",         IDI_NODE_RSS,     0                        },
+	{ nullptr,   "application",    "x-weather",     IDI_NODE_WEATHER, 0                        },
+	{ nullptr,   "user",           nullptr,         0,                SKINICON_STATUS_ONLINE   },
 
 	//   icon suggestions based on supported features
-	{"jabber:iq:gateway",     nullptr,      nullptr,      IDI_AGENTS,   0},
-	{"jabber:iq:search",      nullptr,      nullptr,      0,            SKINICON_OTHER_FINDUSER},
-	{JABBER_FEAT_COMMANDS,    nullptr,      nullptr,      IDI_COMMAND,  0},
-	{JABBER_FEAT_REGISTER,    nullptr,      nullptr,      IDI_KEYS,     0},
+	{ "jabber:iq:gateway",  nullptr, nullptr,      IDI_AGENTS,        0                        },
+	{ "jabber:iq:search",   nullptr, nullptr,      0,                 SKINICON_OTHER_FINDUSER  },
+	{ JABBER_FEAT_COMMANDS, nullptr, nullptr,      IDI_COMMAND,       0                        },
+	{ JABBER_FEAT_REGISTER, nullptr, nullptr,      0,                 SKINICON_OTHER_KEYS      },
 };
 
 void CJabberProto::OnIqResultServiceDiscoveryInfo(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)

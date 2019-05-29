@@ -42,9 +42,41 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_UIHIST
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static IconItem icons[] =
+{
+	{ LPGEN("Main Icon"),         "main",      ICO_NEWSTORY   },
+	{ LPGEN("User Info"),         "userinfo",  ICO_USERINFO   },
+	{ LPGEN("User Menu"),         "usermenu",  ICO_USERMENU   },
+	{ LPGEN("Search"),            "search",    ICO_SEARCH     },
+	{ LPGEN("Options"),           "options",   ICO_OPTIONS    },
+	{ LPGEN("Filter"),            "filter",    ICO_FILTER     },
+	{ LPGEN("Export"),            "export",    ICO_EXPORT     },
+	{ LPGEN("Copy"),              "copy",      ICO_COPY       },
+	{ LPGEN("Send Message"),      "message",   ICO_SENDMSG    },
+	{ LPGEN("Close"),             "close",     ICO_CLOSE      },
+
+	{ LPGEN("Incoming Message"),  "msgin",     ICO_MSGIN      },
+	{ LPGEN("Outgoing Message"),  "msgout",    ICO_MSGOUT     },
+	{ LPGEN("User Signed In"),    "signin",    ICO_SIGNIN     },
+	{ LPGEN("File"),              "file",      ICO_FILE       },
+	{ LPGEN("URL"),               "url",       ICO_URL        },
+	{ LPGEN("Unknown Event"),     "unknown",   ICO_UNKNOWN    },
+
+	{ LPGEN("Find Previous"),     "findprev",  ICO_FINDPREV   },
+	{ LPGEN("Find Next"),         "findnext",  ICO_FINDNEXT   },
+	{ LPGEN("Password disabled"), "nopassword",ICO_NOPASSWORD },
+	{ LPGEN("Password enabled"),  "password",  ICO_PASSWORD   },
+	{ LPGEN("Jump to Date"),      "calendar",  ICO_CALENDAR   },
+
+	{ LPGEN("Template Group"),    "tplgroup",  ICO_TPLGROUP   },
+	{ LPGEN("Reset"),             "reset",     ICO_RESET      },
+	{ LPGEN("Update Preview"),    "preview",   ICO_PREVIEW    },
+	{ LPGEN("Help"),              "varhelp",   ICO_VARHELP    },
+	{ LPGEN("Save Password"),     "savepass",  ICO_SAVEPASS   }
+};
+
 int evtModulesLoaded(WPARAM, LPARAM)
 {
-	InitIcons();
 	InitFonts();
 	InitNewstoryControl();
 	InitHistory();
@@ -57,46 +89,31 @@ int evtModulesLoaded(WPARAM, LPARAM)
 	mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
 	mi.name.w = L"User Newstory";
 	mi.position = 1999990000;
-	mi.hIcon = GetIcon(ICO_NEWSTORY);
+	mi.hIcon = g_plugin.getIcon(ICO_NEWSTORY);
 	Menu_AddContactMenuItem(&mi);
 
 	mi.pszService = "Newstory/System";
 	mi.name.w = L"System Newstory";
 	mi.position = 1999990000;
-	mi.hIcon = GetIcon(ICO_NEWSTORY);
+	mi.hIcon = g_plugin.getIcon(ICO_NEWSTORY);
 	Menu_AddMainMenuItem(&mi);
-
 	return 0;
 }
 
 int CMPlugin::Load()
 {
+	g_plugin.registerIcon(MODULETITLE, icons);
+
 	CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY, svcShowNewstory);
 	CreateServiceFunction("Newstory/System", svcShowSystemNewstory);
 
 	hhkModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, evtModulesLoaded);
-	/*
-		hhkOptInitialise = HookEvent(ME_OPT_INITIALISE, OptInitialise);
-
-		options.fnup = options.fndown = 0;
-		options.flags = 0;
-		LoadOptions();
-	*/
 	return 0;
 }
-
-//void DoCleanup();
 
 int CMPlugin::Unload()
 {
 	UnhookEvent(hhkModulesLoaded);
-	/*
-		UnhookEvent(hhkOptInitialise);
-		if (hhkTTBLoaded)
-			UnhookEvent(hhkTTBLoaded);
-
-		DoCleanup();
-	*/
 	FreeHistory();
 	return 0;
 }

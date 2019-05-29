@@ -82,7 +82,7 @@ static struct StandardIconDescription mainIcons[] =
 	{ SKINICON_OTHER_GROUP,           LPGEN("Move to group"),         -IDI_MOVETOGROUP,    0, nullptr }, // 41
 	{ SKINICON_OTHER_ON,              LPGEN("On"),                    -IDI_ON,             0, nullptr }, // 42
 	{ SKINICON_OTHER_OFF,             LPGEN("Off"),                   -IDI_OFF,            0, nullptr }, // 43
-	{ -1,                             LPGEN("Unused"),                0,                   0, nullptr }, // 44
+	{ SKINICON_OTHER_KEYS,            LPGEN("Password"),              -IDI_PASSWORD,       0, nullptr }, // 44
 	{ -1,                             LPGEN("Unused"),                0,                   0, nullptr }, // 45
 	{ SKINICON_OTHER_FRAME,           LPGEN("Frames"),                -IDI_FRAME,          0, nullptr }, // 46
 	{ SKINICON_OTHER_GROUPADD,        LPGEN("Add group"),             -IDI_ADDGROUP,       0, nullptr }, // 47

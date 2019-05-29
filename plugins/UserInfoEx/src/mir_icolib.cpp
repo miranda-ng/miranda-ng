@@ -31,7 +31,6 @@ static IconItem icons1[] =
 {
 	// common
 	{ "common_im",           LPGEN("IM naming"),             IDI_MIRANDA                },
-	{ "common_password",     LPGEN("Password"),              IDI_PASSWORD               },
 	{ "common_female",       LPGEN("Female"),                IDI_FEMALE                 },
 	{ "common_male",         LPGEN("Male"),                  IDI_MALE                   },
 	{ "common_birthday",     LPGEN("Birthday"),              IDI_BIRTHDAY               },

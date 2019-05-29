@@ -44,7 +44,7 @@ INT_PTR CALLBACK JabberCaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 	switch (msg) {
 	case WM_INITDIALOG: {
 		TranslateDialogDefault(hwndDlg);
-		Window_SetSkinIcon_IcoLib(hwndDlg, IDI_KEYS);
+		Window_SetIcon_IcoLib(hwndDlg, Skin_GetIconHandle(SKINICON_OTHER_KEYS));
 		params = (CAPTCHA_FORM_PARAMS*)lParam;
 
 		const char *hint = params->hint;

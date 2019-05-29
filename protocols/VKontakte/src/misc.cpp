@@ -62,7 +62,6 @@ bool wlstrstr(wchar_t *_s1, wchar_t *_s2)
 
 static IconItem iconList[] =
 {
-	{ LPGEN("Captcha form icon"), "key", IDI_KEYS },
 	{ LPGEN("Notification icon"), "notification", IDI_NOTIFICATION },
 	{ LPGEN("Read message icon"), "read", IDI_READMSG },
 	{ LPGEN("Visit profile icon"), "profile", IDI_VISITPROFILE },

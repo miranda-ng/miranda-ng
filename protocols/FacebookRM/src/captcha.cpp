@@ -39,7 +39,7 @@ static INT_PTR CALLBACK CaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		Window_SetIcon_IcoLib(hwndDlg, g_plugin.getIconHandle(IDI_KEYS));
+		Window_SetIcon_IcoLib(hwndDlg, Skin_GetIconHandle(SKINICON_OTHER_KEYS));
 		params = (CAPTCHA_FORM_PARAMS*)lParam;
 
 		SetDlgItemText(hwndDlg, IDC_INSTRUCTION, TranslateT("Enter the text you see"));

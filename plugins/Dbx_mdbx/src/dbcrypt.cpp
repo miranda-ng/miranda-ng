@@ -23,7 +23,59 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-/////////////////////////////////////////////////////////////////////////////////////////
+class CSelectCryptoDialog : public CDlgBase
+{
+	CCtrlCombo m_combo;
+	CCtrlData m_descr;
+	CCtrlCheck m_chkTotalCrypt;
+	CRYPTO_PROVIDER **m_provs;
+	size_t m_provscount;
+	CRYPTO_PROVIDER *m_selected;
+	bool m_bTotalEncryption;
+
+	bool OnInitDialog() override
+	{
+		for (size_t i = 0; i < m_provscount; i++) {
+			CRYPTO_PROVIDER *prov = m_provs[i];
+			m_combo.AddStringA(prov->pszName, i);
+		}
+		m_combo.SetCurSel(0);
+		m_descr.SetText(m_provs[0]->szDescr.w);
+		return true;
+	}
+
+	bool OnClose() override
+	{
+		m_selected = m_provs[m_combo.GetItemData(m_combo.GetCurSel())];
+		m_bTotalEncryption = m_chkTotalCrypt.GetState() != 0;
+		return true;
+	}
+
+	void OnComboChanged(CCtrlCombo*)
+	{
+		m_descr.SetText(m_provs[m_combo.GetItemData(m_combo.GetCurSel())]->szDescr.w);
+	}
+
+public:
+	CSelectCryptoDialog(CRYPTO_PROVIDER **provs, size_t count) :
+		CDlgBase(g_plugin, IDD_SELECT_CRYPTOPROVIDER),
+		m_combo(this, IDC_SELECTCRYPT_COMBO),
+		m_descr(this, IDC_CRYPTOPROVIDER_DESCR),
+		m_chkTotalCrypt(this, IDC_CHECK_TOTALCRYPT),
+		m_provs(provs),
+		m_provscount(count),
+		m_selected(nullptr)
+	{
+		m_combo.OnChange = Callback(this, &CSelectCryptoDialog::OnComboChanged);
+	}
+
+	inline CRYPTO_PROVIDER* GetSelected() 
+	{	return m_selected;
+	}
+	inline bool TotalSelected()
+	{	return m_bTotalEncryption;
+	}
+};
 
 char DBKey_Crypto_Provider[] = "Provider";
 char DBKey_Crypto_Key[] = "Key";
@@ -66,6 +118,85 @@ CRYPTO_PROVIDER* CDbxMDBX::SelectProvider()
 	return pProv;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+class CEnterPasswordDialog : public CDlgBase
+{
+	CCtrlData m_header;
+	CCtrlData m_language;
+	CCtrlEdit m_passwordEdit;
+	CCtrlButton m_buttonOK;
+
+	friend class CDbxMDBX;
+	CDbxMDBX *m_db;
+	TCHAR m_newPass[100];
+	unsigned short m_wrongPass = 0;
+
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	{
+		if (msg == WM_TIMER) {
+			UINT_PTR LangID = (UINT_PTR)GetKeyboardLayout(0);
+			char Lang[3] = { 0 };
+			GetLocaleInfoA(MAKELCID((LangID & 0xffffffff), SORT_DEFAULT), LOCALE_SABBREVLANGNAME, Lang, 2);
+			Lang[0] = toupper(Lang[0]);
+			Lang[1] = tolower(Lang[1]);
+			m_language.SetTextA(Lang);
+			return FALSE;
+		}
+		else if (msg == WM_CTLCOLORSTATIC) {
+			if ((HWND)lParam == m_language.GetHwnd()) {
+				SetTextColor((HDC)wParam, GetSysColor(COLOR_HIGHLIGHTTEXT));
+				SetBkMode((HDC)wParam, TRANSPARENT);
+				return (INT_PTR)GetSysColorBrush(COLOR_HIGHLIGHT);
+			}
+		}
+		return CDlgBase::DlgProc(msg, wParam, lParam);
+	}
+
+	bool OnInitDialog() override
+	{
+		m_header.SendMsg(WM_SETICON, ICON_SMALL, (LPARAM)g_plugin.getIcon(IDI_LOGO, true));
+
+		if (m_wrongPass) {
+			if (m_wrongPass > 2) {
+				m_passwordEdit.Disable();
+				m_buttonOK.Disable();
+				m_header.SetText(TranslateT("Too many errors!"));
+			}
+			else m_header.SetText(TranslateT("Password is not correct!"));
+		}
+		else m_header.SetText(TranslateT("Please type in your password"));
+
+		SetTimer(m_hwnd, 1, 200, nullptr);
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		KillTimer(m_hwnd, 1);
+		Window_FreeIcon_IcoLib(m_header.GetHwnd());
+	}
+
+	void OnOK(CCtrlButton*)
+	{
+		m_passwordEdit.GetText(m_newPass, _countof(m_newPass));
+		EndDialog(m_hwnd, -128);
+	}
+
+public:
+	CEnterPasswordDialog(CDbxMDBX *db) :
+		CDlgBase(g_plugin, IDD_LOGIN),
+		m_header(this, IDC_HEADERBAR),
+		m_language(this, IDC_LANG),
+		m_passwordEdit(this, IDC_USERPASS),
+		m_buttonOK(this, IDOK),
+		m_db(db)
+	{
+		m_newPass[0] = 0;
+		m_buttonOK.OnClick = Callback(this, &CEnterPasswordDialog::OnOK);
+	}
+};
+
 int CDbxMDBX::InitCrypt()
 {
 	if (m_crypto != nullptr)
@@ -91,18 +222,17 @@ int CDbxMDBX::InitCrypt()
 	key.iov_len = sizeof(DBKey_Crypto_Key); key.iov_base = DBKey_Crypto_Key;
 	if (mdbx_get(txn, m_dbCrypto, &key, &value) == MDBX_SUCCESS && (value.iov_len == m_crypto->getKeyLength())) {
 		if (!m_crypto->setKey((const BYTE*)value.iov_base, value.iov_len)) {
-			DlgChangePassParam param = { this };
-			CEnterPasswordDialog dlg(&param);
+			CEnterPasswordDialog dlg(this);
 			while (true) {
 				if (-128 != dlg.DoModal())
 					return 4;
-				m_crypto->setPassword(pass_ptrA(mir_utf8encodeW(param.newPass)));
+				m_crypto->setPassword(pass_ptrA(mir_utf8encodeW(dlg.m_newPass)));
 				if (m_crypto->setKey((const BYTE*)value.iov_base, value.iov_len)) {
 					m_bUsesPassword = true;
-					SecureZeroMemory(&param, sizeof(param));
+					SecureZeroMemory(&dlg.m_newPass, sizeof(dlg.m_newPass));
 					break;
 				}
-				param.wrongPass++;
+				dlg.m_wrongPass++;
 			}
 		}
 	}

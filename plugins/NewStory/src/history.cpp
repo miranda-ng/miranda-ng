@@ -569,21 +569,15 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				SetWindowText(hwnd, title);
 				free(title);
 			}
-			else
-				if (data->hContact == INVALID_CONTACT_ID) {
+			else {
+				if (data->hContact == INVALID_CONTACT_ID)
 					SetWindowText(hwnd, TranslateT("Newstory Search Results"));
-				}
-				else {
+				else
 					SetWindowText(hwnd, TranslateT("System Newstory"));
-				}
-
-			if (data->hContact != INVALID_CONTACT_ID) {
-				//				ShowWindow(GetDlgItem(hwnd, IDC_TIMETREE), SW_HIDE);
-				//				ShowWindow(GetDlgItem(hwnd, IDC_ITEMS), SW_HIDE);
-				//				ShowWindow(GetDlgItem(hwnd, IDC_ITEMS2), SW_HIDE);
-				//				ShowWindow(GetDlgItem(hwnd, IDC_SEARCHICON), SW_HIDE);
-				PostMessage(GetDlgItem(hwnd, IDC_ITEMS2), WM_USER, (WPARAM)data->hContact, 0);
 			}
+
+			if (data->hContact != INVALID_CONTACT_ID)
+				PostMessage(GetDlgItem(hwnd, IDC_ITEMS2), WM_USER, (WPARAM)data->hContact, 0);
 
 			SendMessage(hwnd, UM_UPDATEICONS, 0, 0);
 			SetFocus(GetDlgItem(hwnd, IDC_ITEMS2));
@@ -601,49 +595,41 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			return TRUE;
 		}
 
-		/*case WM_MOUSEWHEEL:
-			SendMessage(GetDlgItem(hwnd, IDC_CUSTOM1), msg, wParam, lParam);
-			return TRUE;*/
-
-			/*case WM_SETFOCUS:
-				SetFocus(GetDlgItem(hwnd, IDC_CUSTOM1));
-				return TRUE;*/
-
 	case UM_UPDATEICONS:
-		SendMessage(hwnd, WM_SETICON, (WPARAM)ICON_SMALL, (LPARAM)GetIcon(ICO_NEWSTORY));
+		SendMessage(hwnd, WM_SETICON, (WPARAM)ICON_SMALL, (LPARAM)g_plugin.getIcon(ICO_NEWSTORY));
 
-		SendMessage(GetDlgItem(hwnd, IDC_SEARCHICON), STM_SETICON, (WPARAM)GetIcon(ICO_SEARCH), 0);
+		SendMessage(GetDlgItem(hwnd, IDC_SEARCHICON), STM_SETICON, (WPARAM)g_plugin.getIcon(ICO_SEARCH), 0);
 
-		SendMessage(GetDlgItem(hwnd, IDC_USERINFO), BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_USERINFO));
-		SendMessage(GetDlgItem(hwnd, IDC_MESSAGE), BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_SENDMSG));
-		SendMessage(GetDlgItem(hwnd, IDC_USERMENU), BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_USERMENU));
-		SendMessage(GetDlgItem(hwnd, IDC_COPY), BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_COPY));
-		SendMessage(GetDlgItem(hwnd, IDC_LOGOPTIONS), BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_OPTIONS));
-		SendMessage(GetDlgItem(hwnd, IDC_FILTER), BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_FILTER));
-		SendMessage(GetDlgItem(hwnd, IDC_DATEPOPUP), BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_CALENDAR));
-		SendMessage(GetDlgItem(hwnd, IDC_SEARCH), BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_SEARCH));
-		SendMessage(GetDlgItem(hwnd, IDC_EXPORT), BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_EXPORT));
-		SendMessage(GetDlgItem(hwnd, IDC_CLOSE), BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_CLOSE));
-		SendMessage(GetDlgItem(hwnd, IDC_FINDPREV), BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_FINDPREV));
-		SendMessage(GetDlgItem(hwnd, IDC_FINDNEXT), BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_FINDNEXT));
+		SendMessage(GetDlgItem(hwnd, IDC_USERINFO), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_USERINFO));
+		SendMessage(GetDlgItem(hwnd, IDC_MESSAGE), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_SENDMSG));
+		SendMessage(GetDlgItem(hwnd, IDC_USERMENU), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_USERMENU));
+		SendMessage(GetDlgItem(hwnd, IDC_COPY), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_COPY));
+		SendMessage(GetDlgItem(hwnd, IDC_LOGOPTIONS), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_OPTIONS));
+		SendMessage(GetDlgItem(hwnd, IDC_FILTER), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_FILTER));
+		SendMessage(GetDlgItem(hwnd, IDC_DATEPOPUP), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_CALENDAR));
+		SendMessage(GetDlgItem(hwnd, IDC_SEARCH), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_SEARCH));
+		SendMessage(GetDlgItem(hwnd, IDC_EXPORT), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_EXPORT));
+		SendMessage(GetDlgItem(hwnd, IDC_CLOSE), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_CLOSE));
+		SendMessage(GetDlgItem(hwnd, IDC_FINDPREV), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_FINDPREV));
+		SendMessage(GetDlgItem(hwnd, IDC_FINDNEXT), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_FINDNEXT));
 
-		SendMessage(data->ibMessages.hwndIco, STM_SETICON, (LPARAM)GetIcon(ICO_SENDMSG), 0);
-		SendMessage(data->ibMessages.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_MSGIN));
-		SendMessage(data->ibMessages.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_MSGOUT));
-		SendMessage(data->ibFiles.hwndIco, STM_SETICON, (LPARAM)GetIcon(ICO_FILE), 0);
-		SendMessage(data->ibFiles.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_MSGIN));
-		SendMessage(data->ibFiles.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_MSGOUT));
-		SendMessage(data->ibUrls.hwndIco, STM_SETICON, (LPARAM)GetIcon(ICO_URL), 0);
-		SendMessage(data->ibUrls.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_MSGIN));
-		SendMessage(data->ibUrls.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_MSGOUT));
-		SendMessage(data->ibTotal.hwndIco, STM_SETICON, (LPARAM)GetIcon(ICO_UNKNOWN), 0);
-		SendMessage(data->ibTotal.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_MSGIN));
-		SendMessage(data->ibTotal.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_MSGOUT));
+		SendMessage(data->ibMessages.hwndIco, STM_SETICON, (LPARAM)g_plugin.getIcon(ICO_SENDMSG), 0);
+		SendMessage(data->ibMessages.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_MSGIN));
+		SendMessage(data->ibMessages.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_MSGOUT));
+		SendMessage(data->ibFiles.hwndIco, STM_SETICON, (LPARAM)g_plugin.getIcon(ICO_FILE), 0);
+		SendMessage(data->ibFiles.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_MSGIN));
+		SendMessage(data->ibFiles.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_MSGOUT));
+		SendMessage(data->ibUrls.hwndIco, STM_SETICON, (LPARAM)g_plugin.getIcon(ICO_URL), 0);
+		SendMessage(data->ibUrls.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_MSGIN));
+		SendMessage(data->ibUrls.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_MSGOUT));
+		SendMessage(data->ibTotal.hwndIco, STM_SETICON, (LPARAM)g_plugin.getIcon(ICO_UNKNOWN), 0);
+		SendMessage(data->ibTotal.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_MSGIN));
+		SendMessage(data->ibTotal.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_MSGOUT));
 
 		if (CheckPassword(data->hContact, ""))
-			SendMessage(GetDlgItem(hwnd, IDC_SECURITY), BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_NOPASSWORD));
+			SendMessage(GetDlgItem(hwnd, IDC_SECURITY), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_NOPASSWORD));
 		else
-			SendMessage(GetDlgItem(hwnd, IDC_SECURITY), BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_PASSWORD));
+			SendMessage(GetDlgItem(hwnd, IDC_SECURITY), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_PASSWORD));
 
 		break;
 

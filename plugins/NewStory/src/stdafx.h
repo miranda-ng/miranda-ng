@@ -68,7 +68,6 @@ Boston, MA 02111-1307, USA.
 #include "utils.h"
 #include "opt_passwords.h"
 #include "options.h"
-#include "icons.h"
 #include "fonts.h"
 #include "password.h"
 #include "calendartool.h"

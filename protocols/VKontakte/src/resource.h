@@ -26,7 +26,6 @@
 #define IDI_MARKMESSAGESASREAD          122
 #define IDD_OPT_MENU                    122
 #define IDD_CONTACTDELETE               123
-#define IDI_KEYS                        203
 #define IDC_LOGIN                       1001
 #define IDC_PASSWORD                    1002
 #define IDC_URL                         1003

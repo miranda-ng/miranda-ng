@@ -413,7 +413,6 @@ static IconItem sharedIconList1[] =
 	{ LPGEN("Agents list"),           "Agents",           IDI_AGENTS             },
 	{ LPGEN("Transports"),            "transport",        IDI_TRANSPORT          },
 	{ LPGEN("Registered transports"), "transport_loc",    IDI_TRANSPORTL         },
-	{ LPGEN("Change password"),       "key",              IDI_KEYS               },
 	{ LPGEN("Personal vCard"),        "vcard",            IDI_VCARD              },
 	{ LPGEN("Convert to room"),       "convert",          IDI_USER2ROOM          },
 	{ LPGEN("Login/logout"),          "trlogonoff",       IDI_LOGIN              },

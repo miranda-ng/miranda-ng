@@ -18,7 +18,6 @@
 #define IDI_FRIENDS                     130
 #define IDI_CONVERSATION                131
 #define IDI_READ                        132
-#define IDI_KEYS                        133
 #define IDD_GUARD                       134
 #define IDI_ANGRY                       135
 #define IDI_HAHA                        136

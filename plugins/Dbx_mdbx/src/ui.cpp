@@ -39,7 +39,6 @@ void LanguageChanged(HWND hwndDlg)
 	}
 }
 
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static bool CheckOldPassword(HWND hwndDlg, CDbxMDBX *db)
@@ -58,6 +57,13 @@ static bool CheckOldPassword(HWND hwndDlg, CDbxMDBX *db)
 	return true;
 }
 
+struct DlgChangePassParam
+{
+	CDbxMDBX *db;
+	TCHAR newPass[100];
+	unsigned short wrongPass;
+};
+
 static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	DlgChangePassParam *param = (DlgChangePassParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -66,7 +72,7 @@ static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		SendDlgItemMessage(hwndDlg, IDC_HEADERBAR, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIconByHandle(iconList[0].hIcolib, true));
+		SendDlgItemMessage(hwndDlg, IDC_HEADERBAR, WM_SETICON, ICON_SMALL, (LPARAM)g_plugin.getIcon(IDI_LOGO, true));
 
 		param = (DlgChangePassParam*)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
@@ -136,7 +142,7 @@ static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam
 
 	case WM_DESTROY:
 		KillTimer(hwndDlg, 1);
-		IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0));
+		Window_FreeIcon_IcoLib(GetDlgItem(hwndDlg, IDC_HEADERBAR));
 	}
 
 	return FALSE;
@@ -160,6 +166,48 @@ static INT_PTR CompactMe(void* obj, WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+class COptionsDialog : public CDlgBase
+{
+	CCtrlCheck m_chkStandart;
+	CCtrlCheck m_chkTotal;
+	CCtrlButton m_btnChangePass;
+	CDbxMDBX *m_db;
+
+	bool OnInitDialog() override
+	{
+		m_chkStandart.SetState(!m_db->isEncrypted());
+		m_chkTotal.SetState(m_db->isEncrypted());
+		m_btnChangePass.SetTextA(Translate(m_db->GetMenuTitle()));
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		SetCursor(LoadCursor(nullptr, IDC_WAIT));
+		m_db->EnableEncryption(m_chkTotal.GetState() != 0);
+		SetCursor(LoadCursor(nullptr, IDC_ARROW));
+		m_chkStandart.SetState(!m_db->isEncrypted());
+		m_chkTotal.SetState(m_db->isEncrypted());
+		return true;
+	}
+
+	void ChangePass(CCtrlButton*)
+	{
+		CallService(MS_DB_CHANGEPASSWORD, 0, 0);
+	}
+
+public:
+	COptionsDialog(CDbxMDBX *db) :
+		CDlgBase(g_plugin, IDD_OPTIONS),
+		m_chkStandart(this, IDC_STANDARD),
+		m_chkTotal(this, IDC_TOTAL),
+		m_btnChangePass(this, IDC_USERPASS),
+		m_db(db)
+	{
+		m_btnChangePass.OnClick = Callback(this, &COptionsDialog::ChangePass);
+	}
+};
+
 static int OnOptionsInit(PVOID obj, WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
@@ -173,9 +221,15 @@ static int OnOptionsInit(PVOID obj, WPARAM wParam, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static IconItem iconList[] =
+{
+	{ LPGEN("Logo"), "logo", IDI_LOGO },
+	{ LPGEN("Compact"), "compact", IDI_COMPACT }
+};
+
 void CDbxMDBX::UpdateMenuItem()
 {
-	Menu_ModifyItem(hSetPwdMenu, _A2T(GetMenuTitle()), iconList[1].hIcolib);
+	Menu_ModifyItem(hSetPwdMenu, _A2T(GetMenuTitle()), Skin_GetIconHandle(SKINICON_OTHER_KEYS));
 }
 
 static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
@@ -194,14 +248,14 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 
 	SET_UID(mi, 0x50321866, 0xba1, 0x46dd, 0xb3, 0xa6, 0xc3, 0xcc, 0x55, 0xf2, 0x42, 0x9e);
 	mi.position = 1000000001;
-	mi.hIcolibItem = iconList[1].hIcolib;
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_KEYS);
 	mi.name.a = db->GetMenuTitle();
 	mi.pszService = MS_DB_CHANGEPASSWORD;
 	hSetPwdMenu = Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0x98c0caf3, 0xBfe5, 0x4e31, 0xac, 0xf0, 0xab, 0x95, 0xb2, 0x9b, 0x9f, 0x73);
 	mi.position++;
-	mi.hIcolibItem = iconList[2].hIcolib;
+	mi.hIcolibItem = iconList[1].hIcolib;
 	mi.name.a = LPGEN("Compact");
 	mi.pszService = MS_DB_COMPACT;
 	hSetPwdMenu = Menu_AddMainMenuItem(&mi);

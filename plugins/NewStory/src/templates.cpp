@@ -268,16 +268,16 @@ void vfEvent(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 	//  %I: Icon
 	switch (item->dbe.eventType) {
 	case EVENTTYPE_MESSAGE:
-		hIcon = GetIcon(ICO_SENDMSG);
+		hIcon = g_plugin.getIcon(ICO_SENDMSG);
 		break;
 	case EVENTTYPE_FILE:
-		hIcon = GetIcon(ICO_FILE);
+		hIcon = g_plugin.getIcon(ICO_FILE);
 		break;
 	case EVENTTYPE_STATUSCHANGE:
-		hIcon = GetIcon(ICO_SIGNIN);
+		hIcon = g_plugin.getIcon(ICO_SIGNIN);
 		break;
 	default:
-		hIcon = GetIcon(ICO_UNKNOWN);
+		hIcon = g_plugin.getIcon(ICO_UNKNOWN);
 		break;
 	}
 	s = (TCHAR *)calloc(64, sizeof(TCHAR));
@@ -286,9 +286,9 @@ void vfEvent(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 
 	//  %i: Direction icon
 	if (item->dbe.flags & DBEF_SENT)
-		hIcon = GetIcon(ICO_MSGOUT);
+		hIcon = g_plugin.getIcon(ICO_MSGOUT);
 	else
-		hIcon = GetIcon(ICO_MSGIN);
+		hIcon = g_plugin.getIcon(ICO_MSGIN);
 
 	s = (TCHAR *)calloc(64, sizeof(TCHAR));
 	wsprintf(s, _T("[$hicon=%d$]"), hIcon);
@@ -431,7 +431,7 @@ INT_PTR CALLBACK OptTemplatesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			HIMAGELIST himgTree = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 1, 1);
 			TreeView_SetImageList(GetDlgItem(hwnd, IDC_TEMPLATES), himgTree, TVSIL_NORMAL);
 
-			ImageList_AddIcon(himgTree, GetIcon(ICO_TPLGROUP));
+			ImageList_AddIcon(himgTree, g_plugin.getIcon(ICO_TPLGROUP));
 
 			for (int i = 0; i < TPL_COUNT; i++) {
 				if (!i || lstrcmp(templates[i].group, templates[i - 1].group)) {
@@ -457,7 +457,7 @@ INT_PTR CALLBACK OptTemplatesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				tvis.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 				tvis.item.pszText = templates[i].title;
 				tvis.item.iSelectedImage = tvis.item.iImage =
-					ImageList_AddIcon(himgTree, GetIcon(templates[i].icon));
+					ImageList_AddIcon(himgTree, g_plugin.getIcon(templates[i].icon));
 				tvis.item.lParam = i;
 				TreeView_InsertItem(GetDlgItem(hwnd, IDC_TEMPLATES), &tvis);
 			}
@@ -476,9 +476,9 @@ INT_PTR CALLBACK OptTemplatesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		SendMessage(GetDlgItem(hwnd, IDC_UPDATEPREVIEW), BUTTONADDTOOLTIP, (WPARAM)Translate("Update Preview"), 0);
 		SendMessage(GetDlgItem(hwnd, IDC_VARHELP), BUTTONADDTOOLTIP, (WPARAM)Translate("Help on Variables"), 0);
 
-		SendMessage(GetDlgItem(hwnd, IDC_DISCARD), BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_RESET));
-		SendMessage(GetDlgItem(hwnd, IDC_UPDATEPREVIEW), BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_PREVIEW));
-		SendMessage(GetDlgItem(hwnd, IDC_VARHELP), BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(ICO_VARHELP));
+		SendMessage(GetDlgItem(hwnd, IDC_DISCARD), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_RESET));
+		SendMessage(GetDlgItem(hwnd, IDC_UPDATEPREVIEW), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_PREVIEW));
+		SendMessage(GetDlgItem(hwnd, IDC_VARHELP), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_VARHELP));
 
 		return TRUE;
 

@@ -37,7 +37,6 @@
 #define IDD_CHANGEPASSWORD              136
 #define IDD_SEARCHUSER                  138
 #define IDD_OPT_JABBER2                 140
-#define IDI_KEYS                        144
 #define IDI_GROUP                       147
 #define IDD_GROUPCHAT_JOIN              148
 #define IDI_AGENTS                      154

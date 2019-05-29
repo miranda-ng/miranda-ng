@@ -34,8 +34,7 @@ struct DlgChangePassParam
 
 static IconItem iconList[] =
 {
-	{ LPGEN("Logo"), "logo", IDI_LOGO },
-	{ LPGEN("Password"), "password", IDI_ICONPASS }
+	{ LPGEN("Logo"), "logo", IDI_LOGO }
 };
 
 static HGENMENU hSetPwdMenu;
@@ -315,7 +314,7 @@ static int OnOptionsInit(PVOID obj, WPARAM wParam, LPARAM)
 
 void CDb3Mmap::UpdateMenuItem()
 {
-	Menu_ModifyItem(hSetPwdMenu, GetMenuTitle(), iconList[1].hIcolib);
+	Menu_ModifyItem(hSetPwdMenu, GetMenuTitle(), Skin_GetIconHandle(SKINICON_OTHER_KEYS));
 }
 
 static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)

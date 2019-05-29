@@ -1178,6 +1178,7 @@ IDI_MCSETDEFAULT        ICON                    "meta_set_as_default.ico"
 IDI_ADDGROUP            ICON                    "addgroup.ico"
 IDI_POPUP               ICON                    "icon_popup.ico"
 IDI_NOPOPUP             ICON                    "icon_popup_no.ico"
+IDI_PASSWORD            ICON                    "icon_password.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

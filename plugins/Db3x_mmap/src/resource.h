@@ -3,7 +3,6 @@
 // Используется D:\Others\SVN\MirandaNG\trunk\plugins\Db3x_mmap\res\db3x_mmap.rc
 //
 #define IDREMOVE                        3
-#define IDI_ICONPASS                    100
 #define IDI_LOGO                        101
 #define IDD_LOGIN                       102
 #define IDD_NEWPASS                     103

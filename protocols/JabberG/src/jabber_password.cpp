@@ -41,7 +41,7 @@ public:
 	bool OnInitDialog() override
 	{
 		m_proto->m_hwndJabberChangePassword = m_hwnd;
-		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_KEYS));
+		Window_SetIcon_IcoLib(m_hwnd, Skin_GetIconHandle(SKINICON_OTHER_KEYS));
 
 		if (m_proto->m_bJabberOnline && m_proto->m_ThreadInfo != nullptr) {
 			char text[1024];

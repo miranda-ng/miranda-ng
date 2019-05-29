@@ -17,7 +17,6 @@
 
 // common icons of details dialog pages
 #define IDI_MIRANDA                     108
-#define IDI_PASSWORD                    109
 #define IDI_FEMALE                      110
 #define IDI_MALE                        111
 #define IDI_CLOCK                       112
