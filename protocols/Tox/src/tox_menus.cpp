@@ -35,7 +35,6 @@ int CToxProto::UpdateStatusMenu(WPARAM, LPARAM)
 	Menu_ShowItem(StatusMenuItems[SMI_PASSWORD_CREATE], !passwordExists);
 	Menu_ShowItem(StatusMenuItems[SMI_PASSWORD_CHANGE], passwordExists);
 	Menu_ShowItem(StatusMenuItems[SMI_PASSWORD_REMOVE], passwordExists);
-
 	return 0;
 }
 
@@ -49,16 +48,18 @@ void CToxProto::OnBuildProtoMenu()
 	mi.pszService = "/CopyToxID";
 	CreateProtoService(mi.pszService, &CToxProto::OnCopyToxID);
 	mi.name.w = LPGENW("Copy Tox ID");
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_COPY);
 	mi.position = SMI_POSITION + SMI_TOXID_COPY;
 	StatusMenuItems[SMI_TOXID_COPY] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	// Password
 	mi.pszService = nullptr;
 	mi.name.w = LPGENW("Password");
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_KEYS);
 	StatusMenuItems[SMI_PASSWORD] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
-	mi.root = StatusMenuItems[SMI_PASSWORD];
 
 	// Create password command
+	mi.root = StatusMenuItems[SMI_PASSWORD];
 	mi.pszService = "/CreatePassword";
 	CreateProtoService(mi.pszService, &CToxProto::OnCreatePassword);
 	mi.name.w = LPGENW("Create password");

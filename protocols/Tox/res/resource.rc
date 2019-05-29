@@ -66,6 +66,8 @@ IDI_TOX                 ICON                    "tox.ico"
 
 IDI_ME                  ICON                    "me.ico"
 
+IDI_COPY                ICON                    "copy.ico"
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog

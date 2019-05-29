@@ -5,6 +5,7 @@
 #define IDI_TOX                         100
 #define IDI_ME                          101
 #define IDI_EDIT                        102
+#define IDI_COPY                        103
 #define IDD_USER_INFO                   150
 #define IDD_PASSWORD_ENTER              151
 #define IDD_PASSWORD_CHANGE             152

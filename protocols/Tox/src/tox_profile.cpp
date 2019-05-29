@@ -89,7 +89,7 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 		}
 		mir_free(data);
 		data = decryptedData;
-		size = decryptedSize;
+		size = (long)decryptedSize;
 	}
 
 	if (data) {
