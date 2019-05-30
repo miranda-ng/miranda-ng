@@ -33,7 +33,7 @@ int CDbxSQLite::Create(const wchar_t *profile)
 		//TODO: handle error
 	}
 	rc = sqlite3_exec(database, "create table events (id integer not null primary key autoincrement, contact_id integer not null, module text not null,"
-		"timestamp integer not null, type integer not null, flags integer not null, size integer not null, data blob, server_id text);", nullptr, nullptr, nullptr);
+		"timestamp integer not null, type integer not null, flags integer not null, data blob, server_id text);", nullptr, nullptr, nullptr);
 	if (rc != SQLITE_OK)
 	{
 		//TODO: handle error

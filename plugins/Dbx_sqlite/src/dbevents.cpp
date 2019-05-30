@@ -24,11 +24,11 @@ enum {
 
 static char *evt_stmts[SQL_EVT_STMT_NUM] = {
 	"select count(1) from events where contact_id = ? limit 1;",
-	"insert into events(contact_id, module, timestamp, type, flags, size, data) values (?, ?, ?, ?, ?, ?, ?);",
+	"insert into events(contact_id, module, timestamp, type, flags, data) values (?, ?, ?, ?, ?, ?);",
 	"delete from events where id = ?;",
-	"update events set module = ?, timestamp = ?, type = ?, flags = ?, size = ?, blob = ? where id = ?;",
-	"select size from events where id = ? limit 1;",
-	"select module, timestamp, type, flags, size, data from events where id = ? limit 1;",
+	"update events set module = ?, timestamp = ?, type = ?, flags = ?, blob = ? where id = ?;",
+	"select length(data) from events where id = ? limit 1;",
+	"select module, timestamp, type, flags, length(data), data from events where id = ? limit 1;",
 	"select flags from events where id = ? limit 1;",
 	"update events set flags = ? where id = ?;",
 	"select contact_id from events where id = ? limit 1;",
@@ -167,8 +167,7 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, DBEVENTINFO *dbei)
 		sqlite3_bind_int64(stmt, 3, dbei->timestamp);
 		sqlite3_bind_int(stmt, 4, dbei->eventType);
 		sqlite3_bind_int64(stmt, 5, dbei->flags);
-		sqlite3_bind_int64(stmt, 6, dbei->cbBlob);
-		sqlite3_bind_blob(stmt, 7, dbei->pBlob, dbei->cbBlob, nullptr);
+		sqlite3_bind_blob(stmt, 6, dbei->pBlob, dbei->cbBlob, nullptr);
 		int rc = sqlite3_step(stmt);
 		assert(rc == SQLITE_DONE);
 		sqlite3_reset(stmt);
@@ -269,9 +268,8 @@ BOOL CDbxSQLite::EditEvent(MCONTACT hContact, MEVENT hDbEvent, DBEVENTINFO *dbei
 		sqlite3_bind_int64(stmt, 2, dbei->timestamp);
 		sqlite3_bind_int(stmt, 3, dbei->eventType);
 		sqlite3_bind_int64(stmt, 4, dbei->flags);
-		sqlite3_bind_int64(stmt, 5, dbei->cbBlob);
-		sqlite3_bind_blob(stmt, 6, dbei->pBlob, dbei->cbBlob, nullptr);
-		sqlite3_bind_int64(stmt, 7, hDbEvent);
+		sqlite3_bind_blob(stmt, 5, dbei->pBlob, dbei->cbBlob, nullptr);
+		sqlite3_bind_int64(stmt, 6, hDbEvent);
 		int rc = sqlite3_step(stmt);
 		assert(rc == SQLITE_DONE);
 		sqlite3_reset(stmt);
