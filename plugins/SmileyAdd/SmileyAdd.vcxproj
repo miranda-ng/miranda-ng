@@ -35,9 +35,6 @@
       <Project>{5D14CFF3-0D17-4528-99EA-DE9DCA47CC2E}</Project>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="res\smiley.ICO" />
-  </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <DisableSpecificWarnings>4458;%(DisableSpecificWarnings)</DisableSpecificWarnings>
