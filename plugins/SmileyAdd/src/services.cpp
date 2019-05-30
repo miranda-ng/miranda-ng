@@ -34,7 +34,7 @@ SmileyPackType* GetSmileyPack(const char *proto, MCONTACT hContact, SmileyPackCT
 		return nullptr;
 
 	CMStringW categoryName;
-	if (hContact != NULL) {
+	if (hContact != 0) {
 		opt.ReadContactCategory(hContact, categoryName);
 		if (categoryName == L"<None>") return nullptr;
 		if (!categoryName.IsEmpty() && g_SmileyCategories.GetSmileyCategory(categoryName) == nullptr) {
@@ -99,7 +99,7 @@ INT_PTR ReplaceSmileysCommand(WPARAM, LPARAM lParam)
 		(smrec.flags & (SAFLRE_OUTGOING | SAFLRE_NOCUSTOM)) ? nullptr : &smcp);
 
 	ReplaceSmileys(smre->hwndRichEditControl, SmileyPack, smcp, *smrec.rangeToReplace,
-		smrec.hContact == NULL, false, false, (smre->flags & SAFLRE_FIREVIEW) ? true : false);
+		smrec.hContact == 0, false, false, (smre->flags & SAFLRE_FIREVIEW) ? true : false);
 
 	return TRUE;
 }
@@ -419,7 +419,7 @@ int AccountListChanged(WPARAM wParam, LPARAM lParam)
 
 int DbSettingChanged(WPARAM hContact, LPARAM lParam)
 {
-	if (hContact == NULL)
+	if (hContact == 0)
 		return 0;
 
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;

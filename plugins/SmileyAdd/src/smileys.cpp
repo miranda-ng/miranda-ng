@@ -771,7 +771,7 @@ void SmileyCategoryListType::AddAndLoad(const CMStringW &name, const CMStringW &
 	if (GetSmileyCategory(name) != nullptr)
 		return;
 
-	AddCategory(name, displayName, smcExt, DEFAULT_FILE_NAME);
+	AddCategory(name, displayName, smcExt);
 	
 	// Load only if other smileys have been loaded already
 	if (m_SmileyCategories.getCount() > 1)
@@ -811,6 +811,7 @@ void SmileyCategoryListType::AddAccountAsCategory(PROTOACCOUNT *acc, const CMStr
 		if (!PhysProtoName.IsEmpty())
 			paths = g_SmileyCategories.GetSmileyCategory(PhysProtoName) ? g_SmileyCategories.GetSmileyCategory(PhysProtoName)->GetFilename() : L"";
 
+		// assemble default path
 		if (paths.IsEmpty()) {
 			const char *packnam = acc->szProtoName;
 			if (mir_strcmp(packnam, "JABBER") == 0)
@@ -818,11 +819,9 @@ void SmileyCategoryListType::AddAccountAsCategory(PROTOACCOUNT *acc, const CMStr
 			else if (strstr(packnam, "SIP") != nullptr)
 				packnam = "MSN";
 
-			char path[MAX_PATH];
-			mir_snprintf(path, "Smileys\\nova\\%s.msl", packnam);
-
-			CMStringW patha = VARSW(_A2T(path));
-			if (_waccess(patha.c_str(), 0) != 0)
+			wchar_t path[MAX_PATH];
+			mir_snwprintf(path, L"%s\\nova\\%S.msl", g_plugin.wszDefaultPath, packnam);
+			if (_waccess(path, 0) != 0)
 				paths = defaultFile;
 		}
 
@@ -842,11 +841,10 @@ void SmileyCategoryListType::AddProtoAsCategory(char *acc, const CMStringW &defa
 	else if (strstr(packnam, "SIP") != nullptr)
 		packnam = "MSN";
 
-	char path[MAX_PATH];
-	mir_snprintf(path, "Smileys\\nova\\%s.msl", packnam);
-
-	CMStringW paths = _A2T(path), patha = VARSW(paths);
-	if (_waccess(patha.c_str(), 0) != 0)
+	// assemble default path
+	CMStringW paths(FORMAT, L"%s\\nova\\%S.msl", g_plugin.wszDefaultPath, packnam);
+	paths = VARSW(paths);
+	if (_waccess(paths.c_str(), 0) != 0)
 		paths = defaultFile;
 
 	CMStringW dName(acc), displayName;
@@ -911,18 +909,16 @@ void SmileyCategoryListType::AddContactTransportAsCategory(MCONTACT hContact, co
 
 		mir_free(trsp);
 
-		CMStringW displayName = dbv.pwszVal;
+		CMStringW paths, displayName(dbv.pwszVal);
 		if (packname != nullptr) {
-			char path[MAX_PATH];
-			mir_snprintf(path, "Smileys\\nova\\%s.msl", packname);
-
-			CMStringW paths = _A2T(path), patha = VARSW(paths);
-			if (_waccess(patha.c_str(), 0) != 0)
+			paths.Format(L"%s\\nova\\%S.msl", g_plugin.wszDefaultPath, packname);
+			paths = VARSW(paths);
+			if (_waccess(paths.c_str(), 0) != 0)
 				paths = defaultFile;
-
-			AddCategory(displayName, displayName, smcTransportProto, paths);
 		}
-		else AddCategory(displayName, displayName, smcTransportProto, defaultFile);
+		else paths = defaultFile;
+
+		AddCategory(displayName, displayName, smcTransportProto, defaultFile);
 
 		db_free(&dbv);
 	}
@@ -932,7 +928,7 @@ void SmileyCategoryListType::AddAllProtocolsAsCategory(void)
 {
 	CMStringW displayName = TranslateT("Standard");
 	CMStringW tname = L"Standard";
-	AddCategory(tname, displayName, smcStd, DEFAULT_FILE_NAME);
+	AddCategory(tname, displayName, smcStd);
 
 	const CMStringW &defaultFile = GetSmileyCategory(tname)->GetFilename();
 

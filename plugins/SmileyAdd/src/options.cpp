@@ -71,7 +71,14 @@ void OptionsType::ReadPackFileName(CMStringW &filename, const CMStringW &name, c
 	CMStringW settingKey = name + L"-filename";
 
 	ptrW tszValue(g_plugin.getWStringA(_T2A(settingKey.c_str())));
-	filename = (tszValue != NULL) ? (wchar_t*)tszValue : defaultFilename;
+	if (tszValue != nullptr)
+		filename = tszValue;
+	else {
+		if (defaultFilename.IsEmpty())
+			filename.Format(L"%s\\nova\\default.msl", g_plugin.wszDefaultPath);
+		else
+			filename = defaultFilename;
+	}
 }
 
 void OptionsType::WritePackFileName(const CMStringW &filename, const CMStringW &name)
@@ -83,7 +90,7 @@ void OptionsType::WritePackFileName(const CMStringW &filename, const CMStringW &
 void OptionsType::ReadCustomCategories(CMStringW &cats)
 {
 	ptrW tszValue(g_plugin.getWStringA("CustomCategories"));
-	if (tszValue != NULL)
+	if (tszValue != nullptr)
 		cats = tszValue;
 }
 
@@ -98,7 +105,7 @@ void OptionsType::WriteCustomCategories(const CMStringW &cats)
 void OptionsType::ReadContactCategory(MCONTACT hContact, CMStringW &cats)
 {
 	ptrW tszValue(g_plugin.getWStringA(hContact, "CustomCategory"));
-	if (tszValue != NULL)
+	if (tszValue != nullptr)
 		cats = tszValue;
 }
 
@@ -126,7 +133,7 @@ class COptionsDialog : public CDlgBase
 		CMStringW inidir;
 		SmileyCategoryType *smc = tmpsmcat.GetSmileyCategory(item);
 		if (smc->GetFilename().IsEmpty())
-			inidir = VARSW(L"Smileys");
+			inidir = g_plugin.wszDefaultPath;
 		else {
 			inidir = VARSW(smc->GetFilename());
 			inidir.Truncate(inidir.ReverseFind('\\'));
@@ -161,7 +168,7 @@ class COptionsDialog : public CDlgBase
 
 	void PopulateSmPackList(void)
 	{
-		categories.SelectItem(NULL);
+		categories.SelectItem(nullptr);
 		categories.DeleteAllItems();
 
 		UpdateVisibleSmPackList();
@@ -407,7 +414,7 @@ public:
 		CMStringW catd = cat;
 
 		if (!catd.IsEmpty()) {
-			tmpsmcat.AddCategory(cat, catd, smcCustom, DEFAULT_FILE_NAME);
+			tmpsmcat.AddCategory(cat, catd, smcCustom);
 
 			PopulateSmPackList();
 			NotifyChange();
@@ -444,7 +451,7 @@ public:
 		stwp->xPosition = rect.left;
 		stwp->yPosition = rect.bottom + 4;
 		stwp->direction = 1;
-		stwp->hContact = NULL;
+		stwp->hContact = 0;
 
 		mir_forkThread<SmileyToolWindowParam>(SmileyToolThread, stwp);
 	}

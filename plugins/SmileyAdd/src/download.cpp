@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 HNETLIBUSER hNetlibUser;
-static HANDLE hFolder;
+static HANDLE hFolderCache = 0, hFolderPacks = 0;
 
 struct QueueElem
 {
@@ -219,7 +219,8 @@ bool GetSmileyFile(CMStringW &url, const CMStringW &packstr)
 
 int FolderChanged(WPARAM, LPARAM)
 {
-	FoldersGetCustomPathT(hFolder, g_wszCachePath, MAX_PATH, L"");
+	FoldersGetCustomPathT(hFolderCache, g_wszCachePath, MAX_PATH, L"");
+	FoldersGetCustomPathT(hFolderPacks, g_plugin.wszDefaultPath, MAX_PATH, L"Smileys");
 	return 0;
 }
 
@@ -231,12 +232,16 @@ void DownloadInit(void)
 	nlu.szDescriptiveName.w = TranslateT("SmileyAdd HTTP connections");
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 
-	hFolder = FoldersRegisterCustomPathT(LPGEN("SmileyAdd"), LPGEN("Smiley cache"), MIRANDA_USERDATAT L"\\SmileyCache");
-	if (hFolder) {
-		FolderChanged(0, 0);		
+	hFolderPacks = FoldersRegisterCustomPathT(LPGEN("SmileyAdd"), LPGEN("Smiley packs' folder"), L"Smileys");
+	if (hFolderPacks) {
+		hFolderCache = FoldersRegisterCustomPathT(LPGEN("SmileyAdd"), LPGEN("Smiley cache"), MIRANDA_USERDATAT L"\\SmileyCache");
+		FolderChanged(0, 0);
 		HookEvent(ME_FOLDERS_PATH_CHANGED, FolderChanged);
 	}
-	else mir_wstrncpy(g_wszCachePath, VARSW(L"%miranda_userdata%\\SmileyCache"), MAX_PATH);
+	else {
+		wcsncpy_s(g_wszCachePath, VARSW(L"%miranda_userdata%\\SmileyCache"), _TRUNCATE);
+		wcsncpy_s(g_plugin.wszDefaultPath, L"Smileys", _TRUNCATE);
+	}
 
 	g_hDlMutex = CreateMutex(nullptr, FALSE, nullptr);
 }

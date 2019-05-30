@@ -231,7 +231,7 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType *smp, SmileyPackCType *smcp, const
 		GetClassName(hwnd, classname, _countof(classname));
 		bool ishpp = (wcsncmp(classname, L"THppRichEdit", 12) == 0) || fireView;
 
-		SetRichCallback(hwnd, NULL, false, true);
+		SetRichCallback(hwnd, 0, false, true);
 
 		bool rdo = (GetWindowLongPtr(hwnd, GWL_STYLE) & ES_READONLY) != 0;
 		if (rdo)

@@ -154,11 +154,11 @@ void DestroyGdiPlus(void)
 
 MCONTACT DecodeMetaContact(MCONTACT hContact)
 {
-	if (hContact == NULL)
-		return NULL;
+	if (hContact == 0)
+		return 0;
 
 	MCONTACT hReal = db_mc_getMostOnline(hContact);
-	if (hReal == NULL || (INT_PTR)hReal == CALLSERVICE_NOTFOUND)
+	if (hReal == 0 || (INT_PTR)hReal == CALLSERVICE_NOTFOUND)
 		hReal = hContact;
 
 	return hReal;

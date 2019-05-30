@@ -101,6 +101,8 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 	int Load() override;
 	int Unload() override;
+
+	wchar_t wszDefaultPath[MAX_PATH];
 };
 
 #define DM_REMAKELOG         (WM_USER + 11)

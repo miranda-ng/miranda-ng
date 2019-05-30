@@ -239,7 +239,7 @@ static LRESULT CALLBACK RichEditSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, LP
 
 		else if (wParam == VK_TAB && ((GetKeyState(VK_CONTROL) | GetKeyState(VK_SHIFT)) & 0x8000) == 0) {
 			sel.cpMax = LONG_MAX;
-			bool hascont = rdt->hContact != NULL;
+			bool hascont = rdt->hContact != 0;
 			ReplaceContactSmileys(rdt, sel, false, hascont);
 		}
 		break;

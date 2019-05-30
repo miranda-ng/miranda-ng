@@ -23,8 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define MS_SMILEYADD_CUSTOMCATMENU  "SmileyAdd/CustomCatMenu"
 
-#define DEFAULT_FILE_NAME L"Smileys\\nova\\default.msl"
-
 const unsigned HiddenSmiley = 1;
 const unsigned RegExSmiley = 2;
 const unsigned ServiceSmiley = 4;
@@ -306,7 +304,7 @@ public:
 
 	int NumberOfSmileyCategories(void) { return m_SmileyCategories.getCount(); }
 
-	void AddCategory(const CMStringW &name, const CMStringW &displayName, SmcType typ, const CMStringW &defaultFilename);
+	void AddCategory(const CMStringW &name, const CMStringW &displayName, SmcType typ, const CMStringW &defaultFilename = L"");
 	void AddAndLoad(const CMStringW &name, const CMStringW &displayName);
 	void AddAllProtocolsAsCategory(void);
 	void AddAccountAsCategory(PROTOACCOUNT *acc, const CMStringW &defaultFile);
