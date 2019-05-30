@@ -75,7 +75,7 @@ void OptionsType::ReadPackFileName(CMStringW &filename, const CMStringW &name, c
 		filename = tszValue;
 	else {
 		if (defaultFilename.IsEmpty())
-			filename.Format(L"%s\\nova\\default.msl", g_plugin.wszDefaultPath);
+			filename.Format(L"%s\\Smileys\\nova\\default.msl", g_plugin.wszDefaultPath);
 		else
 			filename = defaultFilename;
 	}

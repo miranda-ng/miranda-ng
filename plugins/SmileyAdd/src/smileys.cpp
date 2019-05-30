@@ -353,7 +353,7 @@ bool SmileyPackType::LoadSmileyFile(const CMStringW &filename, const CMStringW &
 	CMStringW modpath = VARSW(filename);
 	if (_waccess(modpath, 4) != 0) {
 		wchar_t wszTmp[MAX_PATH];
-		PathToAbsoluteW(filename, wszTmp, g_plugin.wszDefaultPath);
+		PathToAbsoluteW(filename, wszTmp, g_plugin.wszDefaultPath[0] ? g_plugin.wszDefaultPath : nullptr);
 		if (_waccess(wszTmp, 4) != 0) {
 			if (!noerr) {
 				static const wchar_t errmsg[] = LPGENW("Smiley pack %s for category \"%s\" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.");
@@ -825,7 +825,7 @@ void SmileyCategoryListType::AddAccountAsCategory(PROTOACCOUNT *acc, const CMStr
 				packnam = "MSN";
 
 			wchar_t path[MAX_PATH];
-			mir_snwprintf(path, L"%s\\nova\\%S.msl", g_plugin.wszDefaultPath, packnam);
+			mir_snwprintf(path, L"%s\\Smileys\\nova\\%S.msl", g_plugin.wszDefaultPath, packnam);
 			if (_waccess(path, 0) != 0)
 				paths = defaultFile;
 		}
@@ -847,7 +847,7 @@ void SmileyCategoryListType::AddProtoAsCategory(char *acc, const CMStringW &defa
 		packnam = "MSN";
 
 	// assemble default path
-	CMStringW paths(FORMAT, L"%s\\nova\\%S.msl", g_plugin.wszDefaultPath, packnam);
+	CMStringW paths(FORMAT, L"%s\\Smileys\\nova\\%S.msl", g_plugin.wszDefaultPath, packnam);
 	paths = VARSW(paths);
 	if (_waccess(paths.c_str(), 0) != 0)
 		paths = defaultFile;
@@ -916,7 +916,7 @@ void SmileyCategoryListType::AddContactTransportAsCategory(MCONTACT hContact, co
 
 		CMStringW paths, displayName(dbv.pwszVal);
 		if (packname != nullptr) {
-			paths.Format(L"%s\\nova\\%S.msl", g_plugin.wszDefaultPath, packname);
+			paths.Format(L"%s\\Smileys\\nova\\%S.msl", g_plugin.wszDefaultPath, packname);
 			paths = VARSW(paths);
 			if (_waccess(paths.c_str(), 0) != 0)
 				paths = defaultFile;

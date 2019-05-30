@@ -220,7 +220,7 @@ bool GetSmileyFile(CMStringW &url, const CMStringW &packstr)
 int FolderChanged(WPARAM, LPARAM)
 {
 	FoldersGetCustomPathT(hFolderCache, g_wszCachePath, MAX_PATH, L"");
-	FoldersGetCustomPathT(hFolderPacks, g_plugin.wszDefaultPath, MAX_PATH, L"Smileys");
+	FoldersGetCustomPathT(hFolderPacks, g_plugin.wszDefaultPath, MAX_PATH, L"%miranda_path%");
 	size_t len = mir_wstrlen(g_plugin.wszDefaultPath);
 	if (len && g_plugin.wszDefaultPath[len - 1] != '\\')
 		mir_wstrcpy(g_plugin.wszDefaultPath + len, L"\\");
@@ -235,7 +235,7 @@ void DownloadInit(void)
 	nlu.szDescriptiveName.w = TranslateT("SmileyAdd HTTP connections");
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 
-	hFolderPacks = FoldersRegisterCustomPathT(LPGEN("SmileyAdd"), LPGEN("Smiley packs' folder"), L"Smileys");
+	hFolderPacks = FoldersRegisterCustomPathT(LPGEN("SmileyAdd"), LPGEN("Smiley packs' folder"), L"%miranda_path%");
 	if (hFolderPacks) {
 		hFolderCache = FoldersRegisterCustomPathT(LPGEN("SmileyAdd"), LPGEN("Smiley cache"), MIRANDA_USERDATAT L"\\SmileyCache");
 		FolderChanged(0, 0);
@@ -243,7 +243,7 @@ void DownloadInit(void)
 	}
 	else {
 		wcsncpy_s(g_wszCachePath, VARSW(L"%miranda_userdata%\\SmileyCache"), _TRUNCATE);
-		wcsncpy_s(g_plugin.wszDefaultPath, L"Smileys", _TRUNCATE);
+		g_plugin.wszDefaultPath[0] = 0;
 	}
 
 	g_hDlMutex = CreateMutex(nullptr, FALSE, nullptr);
