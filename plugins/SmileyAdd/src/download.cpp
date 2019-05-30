@@ -221,6 +221,9 @@ int FolderChanged(WPARAM, LPARAM)
 {
 	FoldersGetCustomPathT(hFolderCache, g_wszCachePath, MAX_PATH, L"");
 	FoldersGetCustomPathT(hFolderPacks, g_plugin.wszDefaultPath, MAX_PATH, L"Smileys");
+	size_t len = mir_wstrlen(g_plugin.wszDefaultPath);
+	if (len && g_plugin.wszDefaultPath[len - 1] != '\\')
+		mir_wstrcpy(g_plugin.wszDefaultPath + len, L"\\");
 	return 0;
 }
 

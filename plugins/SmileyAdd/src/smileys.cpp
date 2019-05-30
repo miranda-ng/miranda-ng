@@ -352,15 +352,20 @@ bool SmileyPackType::LoadSmileyFile(const CMStringW &filename, const CMStringW &
 
 	CMStringW modpath = VARSW(filename);
 	if (_waccess(modpath, 4) != 0) {
-		if (!noerr) {
-			static const wchar_t errmsg[] = LPGENW("Smiley pack %s for category \"%s\" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.");
-			wchar_t msgtxt[1024];
-			mir_snwprintf(msgtxt, TranslateW(errmsg), modpath.c_str(), packname.c_str());
-			ReportError(msgtxt);
-		}
+		wchar_t wszTmp[MAX_PATH];
+		PathToAbsoluteW(filename, wszTmp, g_plugin.wszDefaultPath);
+		if (_waccess(wszTmp, 4) != 0) {
+			if (!noerr) {
+				static const wchar_t errmsg[] = LPGENW("Smiley pack %s for category \"%s\" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.");
+				wchar_t msgtxt[1024];
+				mir_snwprintf(msgtxt, TranslateW(errmsg), modpath.c_str(), packname.c_str());
+				ReportError(msgtxt);
+			}
 
-		m_Name = L"Nothing loaded";
-		return false;
+			m_Name = L"Nothing loaded";
+			return false;
+		}
+		modpath = wszTmp;
 	}
 
 	m_Filename = filename;

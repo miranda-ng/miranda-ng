@@ -297,7 +297,6 @@ public:
 
 		chkStdPack.OnChange = Callback(this, &COptionsDialog::onChange_StdPack);
 		chkUsePhys.OnChange = Callback(this, &COptionsDialog::onChange_UsePhys);
-		edtFilename.OnChange = Callback(this, &COptionsDialog::onChange_Filename);
 
 		categories.OnSelChanged = Callback(this, &COptionsDialog::onSelectChange_Tree);
 		categories.OnItemChanged = Callback(this, &COptionsDialog::onChange_Filename);
@@ -355,6 +354,14 @@ public:
 
 		PopulateSmPackList();
 		return true;
+	}
+
+	INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override
+	{
+		if (uMsg == WM_COMMAND && LOWORD(wParam) == IDC_FILENAME && HIWORD(wParam) == EN_KILLFOCUS)
+			onChange_Filename(0);
+
+		return CDlgBase::DlgProc(uMsg, wParam, lParam);
 	}
 
 	bool OnApply() override
