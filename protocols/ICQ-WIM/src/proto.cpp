@@ -84,19 +84,6 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	nlu.szDescriptiveName.w = descr.GetBuffer();
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
-	m_hWorkerThread = ForkThreadEx(&CIcqProto::ServerThread, nullptr, nullptr);
-}
-
-CIcqProto::~CIcqProto()
-{
-	::CloseHandle(m_evRequestsQueue);
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// OnModulesLoadedEx - performs hook registration
-
-void CIcqProto::OnModulesLoaded()
-{
 	// this was previously an old ICQ account
 	ptrW wszUin(GetUIN(0));
 	if (wszUin != nullptr) {
@@ -118,6 +105,19 @@ void CIcqProto::OnModulesLoaded()
 
 	InitContactCache();
 
+	m_hWorkerThread = ForkThreadEx(&CIcqProto::ServerThread, nullptr, nullptr);
+}
+
+CIcqProto::~CIcqProto()
+{
+	::CloseHandle(m_evRequestsQueue);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+// OnModulesLoadedEx - performs hook registration
+
+void CIcqProto::OnModulesLoaded()
+{
 	GCREGISTER gcr = {};
 	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
 	gcr.ptszDispName = m_tszUserName;
