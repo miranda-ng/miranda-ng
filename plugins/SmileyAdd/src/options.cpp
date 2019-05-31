@@ -304,7 +304,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		chkStdPack.SetState(opt.UseOneForAll);
+		chkStdPack.SetState(!opt.UseOneForAll);
 		chkUsePhys.SetState(opt.UsePhysProto);
 		chkUsePhys.Enable(!opt.UseOneForAll);
 
@@ -369,7 +369,7 @@ public:
 		ProcessAllInputAreas(true);
 		CloseSmileys();
 
-		opt.UseOneForAll = chkStdPack.GetState();
+		opt.UseOneForAll = !chkStdPack.GetState();
 		opt.UsePhysProto = chkUsePhys.GetState();
 
 		opt.EnforceSpaces = IsDlgButtonChecked(m_hwnd, IDC_SPACES) == BST_CHECKED;
