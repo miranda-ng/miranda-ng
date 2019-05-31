@@ -152,8 +152,9 @@ class COptionsDialog : public CDlgBase
 			return false;
 
 		wchar_t szOutPath[MAX_PATH];
-		PathToRelativeW(filename, szOutPath);
+		PathToRelativeW(filename, szOutPath, g_plugin.wszDefaultPath);
 		smc->SetFilename(szOutPath);
+		UpdateControls();
 		return true;
 	}
 
