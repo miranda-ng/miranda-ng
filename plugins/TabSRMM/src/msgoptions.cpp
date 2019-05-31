@@ -31,18 +31,6 @@
 
 #define DM_GETSTATUSMASK (WM_USER + 10)
 
-struct FontOptionsList
-{
-	COLORREF defColour;
-	char *szDefFace;
-	BYTE defStyle;
-	char defSize;
-}
-
-static fontOptionsList[] = {
-	{ RGB(0, 0, 0), "Tahoma", 0, -10 }
-};
-
 HIMAGELIST CreateStateImageList()
 {
 	HIMAGELIST himlStates = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 4, 0);
@@ -73,312 +61,6 @@ void LoadLogfont(int section, int i, LOGFONTA * lf, COLORREF * colour, char *szM
 		lf->lfPitchAndFamily = lfResult.lfPitchAndFamily;
 		mir_snprintf(lf->lfFaceName, "%S", lfResult.lfFaceName);
 	}
-}
-
-HIMAGELIST g_himlOptions;
-
-static HWND hwndTabConfig = nullptr;
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// scan a single skin directory and find the.TSK file.Fill the combobox and set the
-// relative path name as item extra data.
-//
-// If available, read the Name property from the [Global] section and use it in the
-// combo box. If such property is not found, the base filename (without .tsk extension)
-// will be used as the name of the skin.
-//
-// [Global]/Name property is new in TabSRMM version 3.
-
-static int TSAPI ScanSkinDir(const wchar_t* tszFolder, HWND hwndCombobox)
-{
-	bool fValid = false;
-	wchar_t tszMask[MAX_PATH];
-	mir_snwprintf(tszMask, L"%s*.*", tszFolder);
-
-	WIN32_FIND_DATA fd = { 0 };
-	HANDLE h = FindFirstFile(tszMask, &fd);
-	while (h != INVALID_HANDLE_VALUE) {
-		if (mir_wstrlen(fd.cFileName) >= 5 && !wcsnicmp(fd.cFileName + mir_wstrlen(fd.cFileName) - 4, L".tsk", 4)) {
-			fValid = true;
-			break;
-		}
-		if (FindNextFile(h, &fd) == 0)
-			break;
-	}
-	if (h != INVALID_HANDLE_VALUE)
-		FindClose(h);
-
-	if (fValid) {
-		wchar_t	tszFinalName[MAX_PATH], tszRel[MAX_PATH];
-		LRESULT lr;
-		wchar_t	szBuf[255];
-
-		mir_snwprintf(tszFinalName, L"%s%s", tszFolder, fd.cFileName);
-
-		GetPrivateProfileString(L"Global", L"Name", L"None", szBuf, _countof(szBuf), tszFinalName);
-		if (!mir_wstrcmp(szBuf, L"None")) {
-			fd.cFileName[mir_wstrlen(fd.cFileName) - 4] = 0;
-			wcsncpy_s(szBuf, fd.cFileName, _TRUNCATE);
-		}
-
-		PathToRelativeW(tszFinalName, tszRel, M.getSkinPath());
-		if ((lr = SendMessage(hwndCombobox, CB_INSERTSTRING, -1, (LPARAM)szBuf)) != CB_ERR) {
-			wchar_t *idata = (wchar_t*)mir_alloc((mir_wstrlen(tszRel) + 1) * sizeof(wchar_t));
-
-			mir_wstrcpy(idata, tszRel);
-			SendMessage(hwndCombobox, CB_SETITEMDATA, lr, (LPARAM)idata);
-		}
-	}
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// scan the skin root folder for subfolder(s).Each folder is supposed to contain a single
-// skin. This function won't dive deeper into the folder structure, so the folder
-// structure for any VALID skin should be:
-// $SKINS_ROOT/skin_folder/skin_name.tsk
-//
-// By default, $SKINS_ROOT is set to %miranda_userdata% or custom folder
-// selected by the folders plugin.
-
-static int TSAPI RescanSkins(HWND hwndCombobox)
-{
-	DBVARIANT dbv = { 0 };
-
-	wchar_t tszSkinRoot[MAX_PATH], tszFindMask[MAX_PATH];
-	wcsncpy_s(tszSkinRoot, M.getSkinPath(), _TRUNCATE);
-
-	SetDlgItemText(GetParent(hwndCombobox), IDC_SKINROOTFOLDER, tszSkinRoot);
-	mir_snwprintf(tszFindMask, L"%s*.*", tszSkinRoot);
-
-	SendMessage(hwndCombobox, CB_RESETCONTENT, 0, 0);
-	SendMessage(hwndCombobox, CB_INSERTSTRING, -1, (LPARAM)TranslateT("<no skin>"));
-
-	WIN32_FIND_DATA fd = { 0 };
-	HANDLE h = FindFirstFile(tszFindMask, &fd);
-	while (h != INVALID_HANDLE_VALUE) {
-		if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY && fd.cFileName[0] != '.') {
-			wchar_t	tszSubDir[MAX_PATH];
-			mir_snwprintf(tszSubDir, L"%s%s\\", tszSkinRoot, fd.cFileName);
-			ScanSkinDir(tszSubDir, hwndCombobox);
-		}
-		if (FindNextFile(h, &fd) == 0)
-			break;
-	}
-	if (h != INVALID_HANDLE_VALUE)
-		FindClose(h);
-
-	SendMessage(hwndCombobox, CB_SETCURSEL, 0, 0);
-	if (0 == db_get_ws(0, SRMSGMOD_T, "ContainerSkin", &dbv)) {
-		LRESULT lr = SendMessage(hwndCombobox, CB_GETCOUNT, 0, 0);
-		for (int i = 1; i < lr; i++) {
-			wchar_t *idata = (wchar_t*)SendMessage(hwndCombobox, CB_GETITEMDATA, i, 0);
-			if (idata && idata != (wchar_t*)CB_ERR) {
-				if (!mir_wstrcmpi(dbv.pwszVal, idata)) {
-					SendMessage(hwndCombobox, CB_SETCURSEL, i, 0);
-					break;
-				}
-			}
-		}
-		db_free(&dbv);
-	}
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// mir_free the item extra data (used to store the skin filenames for each entry).
-
-static void TSAPI FreeComboData(HWND hwndCombobox)
-{
-	LRESULT lr = SendMessage(hwndCombobox, CB_GETCOUNT, 0, 0);
-
-	for (int i = 1; i < lr; i++) {
-		void *idata = (void*)SendMessage(hwndCombobox, CB_GETITEMDATA, i, 0);
-
-		if (idata && idata != (void*)CB_ERR)
-			mir_free(idata);
-	}
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// controls to disable when loading or unloading a skin is not possible (because
-// of at least one message window being open).
-
-static UINT _ctrls[] = { IDC_SKINNAME, IDC_RESCANSKIN, IDC_RESCANSKIN, IDC_RELOADSKIN, 0 };
-
-static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	BYTE loadMode;
-
-	switch (msg) {
-	case WM_INITDIALOG:
-		RescanSkins(GetDlgItem(hwndDlg, IDC_SKINNAME));
-		TranslateDialogDefault(hwndDlg);
-
-		CheckDlgButton(hwndDlg, IDC_USESKIN, M.GetByte("useskin", 0) ? BST_CHECKED : BST_UNCHECKED);
-
-		loadMode = M.GetByte("skin_loadmode", 0);
-		CheckDlgButton(hwndDlg, IDC_SKIN_LOADFONTS, loadMode & THEME_READ_FONTS ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SKIN_LOADTEMPLATES, loadMode & THEME_READ_TEMPLATES ? BST_CHECKED : BST_UNCHECKED);
-
-		SendMessage(hwndDlg, WM_USER + 100, 0, 0);
-		SetTimer(hwndDlg, 1000, 100, nullptr);
-		return TRUE;
-
-	case WM_CTLCOLORSTATIC:
-		if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_SKIN_WARN)) {
-			SetTextColor((HDC)wParam, RGB(255, 50, 50));
-			return 0;
-		}
-		break;
-
-		// self - configure the dialog, don't let the user load or unload
-		// a skin while a message window is open. Show the warning that all
-		// windows must be closed.
-	case WM_USER + 100:
-		{
-			bool fWindowsOpen = (pFirstContainer != nullptr ? true : false);
-			for (int i = 0; _ctrls[i]; i++)
-				Utils::enableDlgControl(hwndDlg, _ctrls[i], !fWindowsOpen);
-
-			Utils::showDlgControl(hwndDlg, IDC_SKIN_WARN, fWindowsOpen ? SW_SHOW : SW_HIDE);
-			Utils::showDlgControl(hwndDlg, IDC_SKIN_CLOSENOW, fWindowsOpen ? SW_SHOW : SW_HIDE);
-		}
-		return 0;
-
-	case WM_TIMER:
-		if (wParam == 1000)
-			SendMessage(hwndDlg, WM_USER + 100, 0, 0);
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_USESKIN:
-			db_set_b(0, SRMSGMOD_T, "useskin", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_USESKIN) ? 1 : 0));
-			break;
-
-		case IDC_SKIN_LOADFONTS:
-			loadMode = M.GetByte("skin_loadmode", 0);
-			loadMode = IsDlgButtonChecked(hwndDlg, IDC_SKIN_LOADFONTS) ? loadMode | THEME_READ_FONTS : loadMode & ~THEME_READ_FONTS;
-			db_set_b(0, SRMSGMOD_T, "skin_loadmode", loadMode);
-			break;
-
-		case IDC_SKIN_LOADTEMPLATES:
-			loadMode = M.GetByte("skin_loadmode", 0);
-			loadMode = IsDlgButtonChecked(hwndDlg, IDC_SKIN_LOADTEMPLATES) ? loadMode | THEME_READ_TEMPLATES : loadMode & ~THEME_READ_TEMPLATES;
-			db_set_b(0, SRMSGMOD_T, "skin_loadmode", loadMode);
-			break;
-
-		case IDC_UNLOAD:
-			Skin->Unload();
-			SendMessage(hwndTabConfig, WM_USER + 100, 0, 0);
-			break;
-
-		case IDC_RELOADSKIN:
-			Skin->setFileName();
-			Skin->Load();
-			SendMessage(hwndTabConfig, WM_USER + 100, 0, 0);
-			break;
-
-		case IDC_RESCANSKIN:
-			FreeComboData(GetDlgItem(hwndDlg, IDC_SKINNAME));
-			RescanSkins(GetDlgItem(hwndDlg, IDC_SKINNAME));
-			break;
-
-		case IDC_THEMEEXPORT:
-			{
-				const wchar_t *szFilename = GetThemeFileName(1);
-				if (szFilename != nullptr)
-					WriteThemeToINI(szFilename, nullptr);
-			}
-			break;
-
-		case IDC_THEMEIMPORT:
-			if (CSkin::m_skinEnabled) {
-				LRESULT r = CWarning::show(CWarning::WARN_THEME_OVERWRITE, MB_YESNOCANCEL | MB_ICONQUESTION);
-				if (r == IDNO || r == IDCANCEL)
-					return 0;
-			}
-			{
-				LRESULT r = CWarning::show(CWarning::WARN_OPTION_CLOSE, MB_YESNOCANCEL | MB_ICONQUESTION);
-				if (r == IDNO || r == IDCANCEL)
-					return 0;
-
-				const wchar_t*	szFilename = GetThemeFileName(0);
-				DWORD dwFlags = THEME_READ_FONTS;
-
-				if (szFilename != nullptr) {
-					int result = MessageBox(nullptr, TranslateT("Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect Cancel to not load anything at all."),
-						TranslateT("Load theme"), MB_YESNOCANCEL);
-					if (result == IDCANCEL)
-						return 1;
-					if (result == IDYES)
-						dwFlags |= THEME_READ_TEMPLATES;
-					ReadThemeFromINI(szFilename, nullptr, 0, dwFlags);
-					CacheLogFonts();
-					CacheMsgLogIcons();
-					PluginConfig.reloadSettings();
-					CSkin::setAeroEffect(-1);
-					Srmm_Broadcast(DM_OPTIONSAPPLIED, 1, 0);
-					Srmm_Broadcast(DM_FORCEDREMAKELOG, 0, 0);
-					SendMessage(GetParent(hwndDlg), WM_COMMAND, IDCANCEL, 0);
-				}
-			}
-			break;
-
-		case IDC_HELP_GENERAL:
-			Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Using_skins");
-			break;
-
-		case IDC_GETSKINS:
-			Utils_OpenUrl("https://miranda-ng.org/addons/category/19");
-			break;
-
-		case IDC_SKIN_CLOSENOW:
-			CloseAllContainers();
-			break;
-
-		case IDC_SKINNAME:
-			if (HIWORD(wParam) == CBN_SELCHANGE) {
-				LRESULT lr = SendDlgItemMessage(hwndDlg, IDC_SKINNAME, CB_GETCURSEL, 0, 0);
-				if (lr != CB_ERR && lr > 0) {
-					wchar_t	*tszRelPath = (wchar_t*)SendDlgItemMessage(hwndDlg, IDC_SKINNAME, CB_GETITEMDATA, lr, 0);
-					if (tszRelPath && tszRelPath != (wchar_t*)CB_ERR)
-						db_set_ws(0, SRMSGMOD_T, "ContainerSkin", tszRelPath);
-					SendMessage(hwndDlg, WM_COMMAND, IDC_RELOADSKIN, 0);
-				}
-				else if (lr == 0) {		// selected the <no skin> entry
-					db_unset(0, SRMSGMOD_T, "ContainerSkin");
-					Skin->Unload();
-					SendMessage(hwndTabConfig, WM_USER + 100, 0, 0);
-				}
-				return 0;
-			}
-			break;
-		}
-
-		if ((LOWORD(wParam) == IDC_SKINNAME) && (HIWORD(wParam) != CBN_SELCHANGE || (HWND)lParam != GetFocus()))
-			return 0;
-		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		break;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY:
-				return TRUE;
-			}
-			break;
-		}
-		break;
-
-	case WM_DESTROY:
-		KillTimer(hwndDlg, 1000);
-		FreeComboData(GetDlgItem(hwndDlg, IDC_SKINNAME));
-		break;
-	}
-	return FALSE;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -557,12 +239,353 @@ BOOL TreeViewHandleClick(HWND hwndDlg, HWND hwndTree, WPARAM, LPARAM lParam)
 		RedrawWindow(hwndTree, nullptr, nullptr, RDW_INVALIDATE | RDW_NOFRAME | RDW_ERASENOW | RDW_ALLCHILDREN);
 		InvalidateRect(hwndTree, nullptr, TRUE);
 	}
-	else {
-		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-	}
+	else SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 
 	return TRUE;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// options dialog for setting up tab options
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// controls to disable when loading or unloading a skin is not possible (because
+// of at least one message window being open).
+
+static UINT _ctrls[] = { IDC_SKINNAME, IDC_RESCANSKIN, IDC_RESCANSKIN, IDC_RELOADSKIN, 0 };
+
+class CSkinOptsDlg : public CDlgBase
+{
+	// mir_free the item extra data (used to store the skin filenames for each entry).
+	void FreeComboData()
+	{
+		LRESULT lr = cmbSkins.GetCount();
+		for (int i = 1; i < lr; i++) {
+			void *idata = (void *)cmbSkins.GetItemData(i);
+			if (idata && idata != (void *)CB_ERR)
+				mir_free(idata);
+		}
+	}
+
+	// scan the skin root folder for subfolder(s).Each folder is supposed to contain a single
+	// skin. This function won't dive deeper into the folder structure, so the folder
+	// structure for any VALID skin should be:
+	// $SKINS_ROOT/skin_folder/skin_name.tsk
+	//
+	// By default, $SKINS_ROOT is set to %miranda_userdata% or custom folder
+	// selected by the folders plugin.
+
+	void RescanSkins()
+	{
+		wchar_t tszSkinRoot[MAX_PATH], tszFindMask[MAX_PATH];
+		wcsncpy_s(tszSkinRoot, M.getSkinPath(), _TRUNCATE);
+
+		SetDlgItemText(m_hwnd, IDC_SKINROOTFOLDER, tszSkinRoot);
+		mir_snwprintf(tszFindMask, L"%s*.*", tszSkinRoot);
+
+		cmbSkins.ResetContent();
+		cmbSkins.AddString(TranslateT("<no skin>"));
+
+		WIN32_FIND_DATA fd = {};
+		HANDLE h = FindFirstFile(tszFindMask, &fd);
+		while (h != INVALID_HANDLE_VALUE) {
+			if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY && fd.cFileName[0] != '.') {
+				wchar_t	tszSubDir[MAX_PATH];
+				mir_snwprintf(tszSubDir, L"%s%s\\", tszSkinRoot, fd.cFileName);
+				ScanSkinDir(tszSubDir);
+			}
+			if (FindNextFile(h, &fd) == 0)
+				break;
+		}
+		if (h != INVALID_HANDLE_VALUE)
+			FindClose(h);
+
+		ptrW wszCurrSkin(db_get_wsa(0, SRMSGMOD_T, "ContainerSkin"));
+		LRESULT lr = cmbSkins.GetCount();
+		for (int i = 1; i < lr; i++) {
+			wchar_t *idata = (wchar_t *)cmbSkins.GetItemData(i);
+			if (idata && idata != (wchar_t *)CB_ERR) {
+				if (!mir_wstrcmpi(wszCurrSkin, idata)) {
+					cmbSkins.SetCurSel(i);
+					return;
+				}
+			}
+		}
+
+		// if no active skin present, set the focus to the first one
+		cmbSkins.SetCurSel(0);
+	}
+
+	// scan a single skin directory and find the.TSK file.Fill the combobox and set the
+	// relative path name as item extra data.
+	//
+	// If available, read the Name property from the [Global] section and use it in the
+	// combo box. If such property is not found, the base filename (without .tsk extension)
+	// will be used as the name of the skin.
+
+	void ScanSkinDir(const wchar_t *tszFolder)
+	{
+		bool fValid = false;
+		wchar_t tszMask[MAX_PATH];
+		mir_snwprintf(tszMask, L"%s*.*", tszFolder);
+
+		WIN32_FIND_DATA fd = { 0 };
+		HANDLE h = FindFirstFile(tszMask, &fd);
+		while (h != INVALID_HANDLE_VALUE) {
+			if (mir_wstrlen(fd.cFileName) >= 5 && !wcsnicmp(fd.cFileName + mir_wstrlen(fd.cFileName) - 4, L".tsk", 4)) {
+				fValid = true;
+				break;
+			}
+			if (FindNextFile(h, &fd) == 0)
+				break;
+		}
+		if (h != INVALID_HANDLE_VALUE)
+			FindClose(h);
+
+		if (!fValid)
+			return;
+
+		wchar_t tszFinalName[MAX_PATH], tszRel[MAX_PATH], szBuf[255];
+		mir_snwprintf(tszFinalName, L"%s%s", tszFolder, fd.cFileName);
+		GetPrivateProfileString(L"Global", L"Name", L"None", szBuf, _countof(szBuf), tszFinalName);
+
+		if (!mir_wstrcmp(szBuf, L"None")) {
+			fd.cFileName[mir_wstrlen(fd.cFileName) - 4] = 0;
+			wcsncpy_s(szBuf, fd.cFileName, _TRUNCATE);
+		}
+
+		PathToRelativeW(tszFinalName, tszRel, M.getSkinPath());
+		cmbSkins.AddString(szBuf, (LPARAM)mir_wstrdup(tszRel));
+	}
+
+	// self - configure the dialog, don't let the user load or unload
+	// a skin while a message window is open. Show the warning that all
+	// windows must be closed.
+	void UpdateControls(CTimer* = nullptr)
+	{
+		bool fWindowsOpen = (pFirstContainer != nullptr ? true : false);
+		for (auto &it : _ctrls)
+			Utils::enableDlgControl(m_hwnd, it, !fWindowsOpen);
+
+		Utils::showDlgControl(m_hwnd, IDC_SKIN_WARN, fWindowsOpen ? SW_SHOW : SW_HIDE);
+		Utils::showDlgControl(m_hwnd, IDC_SKIN_CLOSENOW, fWindowsOpen ? SW_SHOW : SW_HIDE);
+	}
+
+	CTimer m_timer;
+	CCtrlCheck chkUseSkin, chkLoadFonts, chkLoadTempl;
+	CCtrlCombo cmbSkins;
+	CCtrlButton btnClose, btnReload, btnRescan, btnExport, btnImport;
+	CCtrlHyperlink m_link1, m_link2;
+
+public:
+	CSkinOptsDlg() :
+		CDlgBase(g_plugin, IDD_OPT_SKIN),
+		m_timer(this, 1000),
+		m_link1(this, IDC_GETSKINS, "https://miranda-ng.org/addons/category/19"),
+		m_link2(this, IDC_HELP_GENERAL, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Using_skins"),
+		cmbSkins(this, IDC_SKINNAME),
+		btnClose(this, IDC_SKIN_CLOSENOW),
+		btnReload(this, IDC_RELOADSKIN),
+		btnRescan(this, IDC_RESCANSKIN),
+		btnExport(this, IDC_THEMEEXPORT),
+		btnImport(this, IDC_THEMEIMPORT),
+		chkUseSkin(this, IDC_USESKIN),
+		chkLoadFonts(this, IDC_SKIN_LOADFONTS),
+		chkLoadTempl(this, IDC_SKIN_LOADTEMPLATES)
+	{
+		m_timer.OnEvent = Callback(this, &CSkinOptsDlg::UpdateControls);
+
+		btnClose.OnClick = Callback(this, &CSkinOptsDlg::onClick_Close);
+		btnReload.OnClick = Callback(this, &CSkinOptsDlg::onClick_Reload);
+		btnRescan.OnClick = Callback(this, &CSkinOptsDlg::onClick_Rescan);
+		btnExport.OnClick = Callback(this, &CSkinOptsDlg::onClick_Export);
+		btnImport.OnClick = Callback(this, &CSkinOptsDlg::onClick_Import);
+
+		chkUseSkin.OnChange = Callback(this, &CSkinOptsDlg::onChange_UseSkin);
+		chkLoadFonts.OnChange = Callback(this, &CSkinOptsDlg::onChange_LoadFonts);
+		chkLoadTempl.OnChange = Callback(this, &CSkinOptsDlg::onChange_LoadTemplates);
+
+		cmbSkins.OnSelChanged = Callback(this, &CSkinOptsDlg::onSelChange_Skins);
+	}
+
+	bool OnInitDialog() override
+	{
+		RescanSkins();
+
+		chkUseSkin.SetState(M.GetByte("useskin", 0));
+
+		int loadMode = M.GetByte("skin_loadmode", 0);
+		CheckDlgButton(m_hwnd, IDC_SKIN_LOADFONTS, loadMode & THEME_READ_FONTS ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_SKIN_LOADTEMPLATES, loadMode & THEME_READ_TEMPLATES ? BST_CHECKED : BST_UNCHECKED);
+
+		UpdateControls();
+		m_timer.Start(1000);
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		m_timer.Stop();
+		FreeComboData();
+	}
+
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	{
+		if (msg == WM_CTLCOLORSTATIC && (HWND)lParam == GetDlgItem(m_hwnd, IDC_SKIN_WARN)) {
+			SetTextColor((HDC)wParam, RGB(255, 50, 50));
+			return 0;
+		}
+
+		return CDlgBase::DlgProc(msg, wParam, lParam);
+	}
+
+	void onClick_Close(CCtrlButton *)
+	{
+		CloseAllContainers();
+	}
+
+	void onChange_UseSkin(CCtrlCheck *)
+	{
+		db_set_b(0, SRMSGMOD_T, "useskin", chkUseSkin.GetState());
+	}
+
+	void onChange_LoadFonts(CCtrlCheck *)
+	{
+		int loadMode = M.GetByte("skin_loadmode", 0);
+		loadMode = IsDlgButtonChecked(m_hwnd, IDC_SKIN_LOADFONTS) ? loadMode | THEME_READ_FONTS : loadMode & ~THEME_READ_FONTS;
+		db_set_b(0, SRMSGMOD_T, "skin_loadmode", loadMode);
+	}
+
+	void onChange_LoadTemplates(CCtrlCheck *)
+	{
+		int loadMode = M.GetByte("skin_loadmode", 0);
+		loadMode = IsDlgButtonChecked(m_hwnd, IDC_SKIN_LOADTEMPLATES) ? loadMode | THEME_READ_TEMPLATES : loadMode & ~THEME_READ_TEMPLATES;
+		db_set_b(0, SRMSGMOD_T, "skin_loadmode", loadMode);
+	}
+
+	void onClick_Reload(CCtrlButton *)
+	{
+		Skin->setFileName();
+		Skin->Load();
+		UpdateControls();
+	}
+
+	void onClick_Rescan(CCtrlButton *)
+	{
+		FreeComboData();
+		RescanSkins();
+	}
+
+	void onClick_Export(CCtrlButton *)
+	{
+		const wchar_t *szFilename = GetThemeFileName(1);
+		if (szFilename != nullptr)
+			WriteThemeToINI(szFilename, nullptr);
+	}
+
+	void onClick_Import(CCtrlButton *)
+	{
+		LRESULT r = CWarning::show(CSkin::m_skinEnabled ? CWarning::WARN_THEME_OVERWRITE : CWarning::WARN_OPTION_CLOSE, MB_YESNOCANCEL | MB_ICONQUESTION);
+		if (r == IDNO || r == IDCANCEL)
+			return;
+
+		const wchar_t *szFilename = GetThemeFileName(0);
+		DWORD dwFlags = THEME_READ_FONTS;
+
+		if (szFilename != nullptr) {
+			int result = MessageBox(nullptr, TranslateT("Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect Cancel to not load anything at all."),
+				TranslateT("Load theme"), MB_YESNOCANCEL);
+			if (result == IDCANCEL)
+				return;
+			if (result == IDYES)
+				dwFlags |= THEME_READ_TEMPLATES;
+			ReadThemeFromINI(szFilename, nullptr, 0, dwFlags);
+			CacheLogFonts();
+			CacheMsgLogIcons();
+			PluginConfig.reloadSettings();
+			CSkin::setAeroEffect(-1);
+			Srmm_Broadcast(DM_OPTIONSAPPLIED, 1, 0);
+			Srmm_Broadcast(DM_FORCEDREMAKELOG, 0, 0);
+			SendMessage(GetParent(m_hwnd), WM_COMMAND, IDCANCEL, 0);
+		}
+	}
+
+	void onSelChange_Skins(CCtrlCombo *)
+	{
+		LRESULT lr = cmbSkins.GetCurSel();
+		if (lr != CB_ERR && lr > 0) {
+			wchar_t *tszRelPath = (wchar_t *)cmbSkins.GetItemData(lr);
+			if (tszRelPath && tszRelPath != (wchar_t *)CB_ERR)
+				db_set_ws(0, SRMSGMOD_T, "ContainerSkin", tszRelPath);
+			onClick_Reload(0);
+		}
+		else if (lr == 0) {		// selected the <no skin> entry
+			db_unset(0, SRMSGMOD_T, "ContainerSkin");
+			Skin->Unload();
+			UpdateControls();
+		}
+	}
+};
+
+class CTabConfigDlg : public CDlgBase
+{
+	CCtrlSpin adjust, border, outerL, outerR, outerT, outerB, width, xpad, ypad;
+
+public:
+	CTabConfigDlg() :
+		CDlgBase(g_plugin, IDD_TABCONFIG),
+		ypad(this, IDC_SPIN1, 10, 1),
+		xpad(this, IDC_SPIN3, 10, 1),
+		width(this, IDC_TABWIDTHSPIN, 400, 50),
+		adjust(this, IDC_BOTTOMTABADJUSTSPIN, 3, -3),
+		border(this, IDC_TABBORDERSPIN, 10),
+		outerL(this, IDC_TABBORDERSPINOUTER, 50),
+		outerR(this, IDC_TABBORDERSPINOUTERRIGHT, 50),
+		outerT(this, IDC_TABBORDERSPINOUTERTOP, 40),
+		outerB(this, IDC_TABBORDERSPINOUTERBOTTOM, 40)
+	{
+	}
+
+	bool OnInitDialog() override
+	{
+		width.SetPosition(PluginConfig.tabConfig.m_fixedwidth);
+		adjust.SetPosition(PluginConfig.tabConfig.m_bottomAdjust);
+
+		border.SetPosition(M.GetByte(CSkin::m_skinEnabled ? "S_tborder" : "tborder", 2));
+		outerL.SetPosition(M.GetByte(CSkin::m_skinEnabled ? "S_tborder_outer_left" : "tborder_outer_left", 2));
+		outerR.SetPosition(M.GetByte(CSkin::m_skinEnabled ? "S_tborder_outer_right" : "tborder_outer_right", 2));
+		outerT.SetPosition(M.GetByte(CSkin::m_skinEnabled ? "S_tborder_outer_top" : "tborder_outer_top", 2));
+		outerB.SetPosition(M.GetByte(CSkin::m_skinEnabled ? "S_tborder_outer_bottom" : "tborder_outer_bottom", 2));
+
+		xpad.SetPosition(M.GetByte("x-pad", 4));
+		ypad.SetPosition(M.GetByte("y-pad", 3));
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		db_set_b(0, SRMSGMOD_T, "y-pad", ypad.GetPosition());
+		db_set_b(0, SRMSGMOD_T, "x-pad", xpad.GetPosition());
+		db_set_b(0, SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder" : "tborder", border.GetPosition());
+		db_set_b(0, SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_left" : "tborder_outer_left", outerL.GetPosition());
+		db_set_b(0, SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_right" : "tborder_outer_right", outerR.GetPosition());
+		db_set_b(0, SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_top" : "tborder_outer_top", outerT.GetPosition());
+		db_set_b(0, SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_bottom" : "tborder_outer_bottom", outerB.GetPosition());
+		db_set_dw(0, SRMSGMOD_T, "bottomadjust", adjust.GetPosition());
+
+		int fixedWidth = width.GetPosition();
+		fixedWidth = (fixedWidth < 60 ? 60 : fixedWidth);
+		db_set_dw(0, SRMSGMOD_T, "fixedwidth", fixedWidth);
+		FreeTabConfig();
+		ReloadTabConfig();
+
+		for (TContainerData* p = pFirstContainer; p; p = p->pNext) {
+			HWND hwndTab = GetDlgItem(p->m_hwnd, IDC_MSGTABS);
+			TabCtrl_SetPadding(hwndTab, xpad.GetPosition(), ypad.GetPosition());
+			RedrawWindow(hwndTab, nullptr, nullptr, RDW_INVALIDATE | RDW_ERASE);
+		}
+		return true;
+	}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Main options dialog
@@ -656,8 +679,8 @@ class COptLogDlg : public CDlgBase
 	}
 
 public:
-	COptLogDlg()
-		: CDlgBase(g_plugin, IDD_OPT_MSGLOG),
+	COptLogDlg() :
+		CDlgBase(g_plugin, IDD_OPT_MSGLOG),
 		btnModify(this, IDC_MODIFY),
 		btnRtlModify(this, IDC_RTLMODIFY),
 		spnTrim(this, IDC_TRIMSPIN, 1000, 5),
@@ -1037,6 +1060,7 @@ public:
 		cmbEscMode.AddString(TranslateT("Normal - close tab, if last tab is closed also close the window"));
 		cmbEscMode.AddString(TranslateT("Minimize the window to the task bar"));
 		cmbEscMode.AddString(TranslateT("Close or hide window, depends on the close button setting above"));
+		cmbEscMode.AddString(TranslateT("Do nothing (ignore Esc key)"));
 		cmbEscMode.SetCurSel(PluginConfig.m_EscapeCloses);
 		return true;
 	}
@@ -1445,51 +1469,47 @@ int OptInitialise(WPARAM wParam, LPARAM lParam)
 	TN_OptionsInitialize(wParam, lParam);
 
 	// message sessions' options
-	OPTIONSDIALOGPAGE odpnew = {};
-	odpnew.position = 910000000;
-	odpnew.flags = ODPF_BOLDGROUPS;
-	odpnew.szTitle.a = LPGEN("Message sessions");
+	OPTIONSDIALOGPAGE odp = {};
+	odp.position = 910000000;
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.szTitle.a = LPGEN("Message sessions");
 
-	odpnew.szTab.a = LPGEN("General");
-	odpnew.pDialog = new COptMainDlg();
-	g_plugin.addOptions(wParam, &odpnew);
+	odp.szTab.a = LPGEN("General");
+	odp.pDialog = new COptMainDlg();
+	g_plugin.addOptions(wParam, &odp);
 
-	odpnew.szTab.a = LPGEN("Tabs and layout");
-	odpnew.pDialog = new COptTabbedDlg();
-	g_plugin.addOptions(wParam, &odpnew);
+	odp.szTab.a = LPGEN("Tabs and layout");
+	odp.pDialog = new COptTabbedDlg();
+	g_plugin.addOptions(wParam, &odp);
 
-	odpnew.szTab.a = LPGEN("Containers");
-	odpnew.pDialog = new COptContainersDlg();
-	g_plugin.addOptions(wParam, &odpnew);
+	odp.szTab.a = LPGEN("Containers");
+	odp.pDialog = new COptContainersDlg();
+	g_plugin.addOptions(wParam, &odp);
 
-	odpnew.szTab.a = LPGEN("Message log");
-	odpnew.pDialog = new COptLogDlg();
-	g_plugin.addOptions(wParam, &odpnew);
+	odp.szTab.a = LPGEN("Message log");
+	odp.pDialog = new COptLogDlg();
+	g_plugin.addOptions(wParam, &odp);
 
-	odpnew.szTab.a = LPGEN("Advanced tweaks");
-	odpnew.pDialog = new COptAdvancedDlg();
-	g_plugin.addOptions(wParam, &odpnew);
+	odp.szTab.a = LPGEN("Advanced tweaks");
+	odp.pDialog = new COptAdvancedDlg();
+	g_plugin.addOptions(wParam, &odp);
 
-	odpnew.szGroup.a = LPGEN("Message sessions");
-	odpnew.szTitle.a = LPGEN("Typing notify");
-	odpnew.pDialog = new COptTypingDlg();
-	g_plugin.addOptions(wParam, &odpnew);
+	odp.szGroup.a = LPGEN("Message sessions");
+	odp.szTitle.a = LPGEN("Typing notify");
+	odp.pDialog = new COptTypingDlg();
+	g_plugin.addOptions(wParam, &odp);
 
 	// skin options
-	OPTIONSDIALOGPAGE odp = {};
-	odp.flags = ODPF_BOLDGROUPS;
 	odp.position = 910000000;
 	odp.szGroup.a = LPGEN("Skins");
 	odp.szTitle.a = LPGEN("Message window");
 
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SKIN);
 	odp.szTab.a = LPGEN("Load and apply");
-	odp.pfnDlgProc = DlgProcSkinOpts;
+	odp.pDialog = new CSkinOptsDlg();
 	g_plugin.addOptions(wParam, &odp);
 
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_TABCONFIG);
 	odp.szTab.a = LPGEN("Window layout tweaks");
-	odp.pfnDlgProc = DlgProcTabConfig;
+	odp.pDialog = new CTabConfigDlg();
 	g_plugin.addOptions(wParam, &odp);
 
 	// popup options

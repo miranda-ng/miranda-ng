@@ -2288,15 +2288,20 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_CLOSE:
 		if (wParam == 0 && lParam == 0) {
-			if (GetCapture() != nullptr)
-				return TRUE;
-
-			if (PluginConfig.m_EscapeCloses == 1) {
+			switch (PluginConfig.m_EscapeCloses) {
+			case 1: // minimize container
 				SendMessage(m_pContainer->m_hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
 				return TRUE;
-			}
-			if (PluginConfig.m_bHideOnClose && PluginConfig.m_EscapeCloses == 2) {
-				ShowWindow(m_pContainer->m_hwnd, SW_HIDE);
+
+			case 2: // close or hide, optionally
+				if (PluginConfig.m_bHideOnClose) {
+					ShowWindow(m_pContainer->m_hwnd, SW_HIDE);
+					return TRUE;
+				}
+				break;
+
+			case 3: // does nothing
+				_dlgReturn(m_hwnd, FALSE);
 				return TRUE;
 			}
 			_dlgReturn(m_hwnd, TRUE);

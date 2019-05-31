@@ -289,20 +289,6 @@ void CTabBaseDlg::SetStatusText(const wchar_t *wszText, HICON hIcon)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// service function. Invoke the user preferences dialog for the contact given (by handle) in wParam
-
-static INT_PTR SetUserPrefs(WPARAM wParam, LPARAM)
-{
-	HWND hWnd = WindowList_Find(PluginConfig.hUserPrefsWindowList, wParam);
-	if (hWnd) {
-		SetForegroundWindow(hWnd);			// already open, bring it to front
-		return 0;
-	}
-	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_USERPREFS_FRAME), nullptr, DlgProcUserPrefsFrame, (LPARAM)wParam);
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // service function - open the tray menu from the TTB button
 
 static INT_PTR Service_OpenTrayMenu(WPARAM, LPARAM lParam)

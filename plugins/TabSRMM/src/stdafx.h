@@ -238,8 +238,9 @@ void Chat_Options(WPARAM);
 void Popup_Options(WPARAM);
 void FreeLogFonts();
 
-INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam);
-INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam);
+INT_PTR SendMessageCommand(WPARAM, LPARAM);
+INT_PTR SendMessageCommand_W(WPARAM, LPARAM);
+INT_PTR SetUserPrefs(WPARAM, LPARAM);
 
 #define IMG_NOCHECK	0
 #define IMG_CHECK	1
@@ -253,8 +254,6 @@ void TreeViewToDB(HWND hwndTree, UINT id, char *DBPath, DWORD *dwFlags);
 BOOL TreeViewHandleClick(HWND hwndDlg, HWND hwndTree, WPARAM wParam, LPARAM lParam);
 
 INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK DlgProcTabConfig(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 int TSAPI TBStateConvert2Flat(int state);
 int TSAPI RBStateConvert2Flat(int state);

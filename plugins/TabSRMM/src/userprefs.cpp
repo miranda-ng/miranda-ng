@@ -397,7 +397,7 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
 //
 // @return LRESULT (ignored for dialog procs, use DWLP_MSGRESULT)
 
-INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	HWND hwndTab = GetDlgItem(hwndDlg, IDC_OPTIONSTAB);
@@ -497,4 +497,18 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 	}
 	return FALSE;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// service function. Invokes the user preferences dialog for the contact given (by handle) in wParam
+
+INT_PTR SetUserPrefs(WPARAM wParam, LPARAM)
+{
+	HWND hWnd = WindowList_Find(PluginConfig.hUserPrefsWindowList, wParam);
+	if (hWnd) {
+		SetForegroundWindow(hWnd);			// already open, bring it to front
+		return 0;
+	}
+	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_USERPREFS_FRAME), nullptr, DlgProcUserPrefsFrame, (LPARAM)wParam);
+	return 0;
 }
