@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 16
+# Visual Studio Version 16
 VisualStudioVersion = 16.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Toolbar_icons", "..\plugins\Clist_modern\icons_pack\Toolbar_icons.vcxproj", "{796B43EF-DACE-4145-8571-31886F45A2C0}"
@@ -8,13 +8,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SecureIM_icons", "..\plugin
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SpellChecker_Flags", "..\plugins\SpellChecker\Flags\spellchecker_flags.vcxproj", "{3B8B2642-716E-437C-B341-279B08FDC2C0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UInfoEx_icons_default_Z1", "..\plugins\UserInfoEx\IconPacks\default\icons_default_16.vcxproj", "{AA542F66-FF66-498A-ADBE-0BB9103ECD0A}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UInfoEx_icons_default_Z2", "..\plugins\UserInfoEx\IconPacks\default\icons_default_15_z2.vcxproj", "{D90DD62F-6A75-4469-ABB5-A3E88BCA6A3C}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UInfoEx_icons_ice_Z1", "..\plugins\UserInfoEx\IconPacks\ice\icons_ice_16.vcxproj", "{E04B8ECA-A066-41BA-AE8C-DB172424DD82}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UInfoEx_icons_ice_Z2", "..\plugins\UserInfoEx\IconPacks\ice\icons_ice_15_z2.vcxproj", "{E787B42A-6489-4078-90CD-B78B751A1284}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UInfoEx_icons", "..\plugins\UserInfoEx\IconPacks\default\icons_default_16.vcxproj", "{AA542F66-FF66-498A-ADBE-0BB9103ECD0A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Facebook", "..\protocols\FacebookRM\proto_facebook\Proto_Facebook.vcxproj", "{44298314-7DD4-4EF7-B576-30E503257223}"
 EndProject
@@ -110,30 +104,6 @@ Global
 		{AA542F66-FF66-498A-ADBE-0BB9103ECD0A}.Release|Win32.Build.0 = Release|Win32
 		{AA542F66-FF66-498A-ADBE-0BB9103ECD0A}.Release|x64.ActiveCfg = Release|x64
 		{AA542F66-FF66-498A-ADBE-0BB9103ECD0A}.Release|x64.Build.0 = Release|x64
-		{D90DD62F-6A75-4469-ABB5-A3E88BCA6A3C}.Debug|Win32.ActiveCfg = Debug|Win32
-		{D90DD62F-6A75-4469-ABB5-A3E88BCA6A3C}.Debug|Win32.Build.0 = Debug|Win32
-		{D90DD62F-6A75-4469-ABB5-A3E88BCA6A3C}.Debug|x64.ActiveCfg = Debug|x64
-		{D90DD62F-6A75-4469-ABB5-A3E88BCA6A3C}.Debug|x64.Build.0 = Debug|x64
-		{D90DD62F-6A75-4469-ABB5-A3E88BCA6A3C}.Release|Win32.ActiveCfg = Release|Win32
-		{D90DD62F-6A75-4469-ABB5-A3E88BCA6A3C}.Release|Win32.Build.0 = Release|Win32
-		{D90DD62F-6A75-4469-ABB5-A3E88BCA6A3C}.Release|x64.ActiveCfg = Release|x64
-		{D90DD62F-6A75-4469-ABB5-A3E88BCA6A3C}.Release|x64.Build.0 = Release|x64
-		{E04B8ECA-A066-41BA-AE8C-DB172424DD82}.Debug|Win32.ActiveCfg = Debug|Win32
-		{E04B8ECA-A066-41BA-AE8C-DB172424DD82}.Debug|Win32.Build.0 = Debug|Win32
-		{E04B8ECA-A066-41BA-AE8C-DB172424DD82}.Debug|x64.ActiveCfg = Debug|x64
-		{E04B8ECA-A066-41BA-AE8C-DB172424DD82}.Debug|x64.Build.0 = Debug|x64
-		{E04B8ECA-A066-41BA-AE8C-DB172424DD82}.Release|Win32.ActiveCfg = Release|Win32
-		{E04B8ECA-A066-41BA-AE8C-DB172424DD82}.Release|Win32.Build.0 = Release|Win32
-		{E04B8ECA-A066-41BA-AE8C-DB172424DD82}.Release|x64.ActiveCfg = Release|x64
-		{E04B8ECA-A066-41BA-AE8C-DB172424DD82}.Release|x64.Build.0 = Release|x64
-		{E787B42A-6489-4078-90CD-B78B751A1284}.Debug|Win32.ActiveCfg = Debug|Win32
-		{E787B42A-6489-4078-90CD-B78B751A1284}.Debug|Win32.Build.0 = Debug|Win32
-		{E787B42A-6489-4078-90CD-B78B751A1284}.Debug|x64.ActiveCfg = Debug|x64
-		{E787B42A-6489-4078-90CD-B78B751A1284}.Debug|x64.Build.0 = Debug|x64
-		{E787B42A-6489-4078-90CD-B78B751A1284}.Release|Win32.ActiveCfg = Release|Win32
-		{E787B42A-6489-4078-90CD-B78B751A1284}.Release|Win32.Build.0 = Release|Win32
-		{E787B42A-6489-4078-90CD-B78B751A1284}.Release|x64.ActiveCfg = Release|x64
-		{E787B42A-6489-4078-90CD-B78B751A1284}.Release|x64.Build.0 = Release|x64
 		{44298314-7DD4-4EF7-B576-30E503257223}.Debug|Win32.ActiveCfg = Debug|Win32
 		{44298314-7DD4-4EF7-B576-30E503257223}.Debug|Win32.Build.0 = Debug|Win32
 		{44298314-7DD4-4EF7-B576-30E503257223}.Debug|x64.ActiveCfg = Debug|x64

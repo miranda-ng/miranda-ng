@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>UInfoEx_icons_default_Z1</ProjectName>
+    <ProjectName>UInfoEx_icons</ProjectName>
     <ProjectGuid>{AA542F66-FF66-498A-ADBE-0BB9103ECD0A}</ProjectGuid>
     <XPDeprecationWarning>false</XPDeprecationWarning>
   </PropertyGroup>

@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>UInfoEx_icons_ice_Z1</ProjectName>
+    <ProjectName>UInfoEx_icons_ice</ProjectName>
     <ProjectGuid>{E04B8ECA-A066-41BA-AE8C-DB172424DD82}</ProjectGuid>
     <XPDeprecationWarning>false</XPDeprecationWarning>
   </PropertyGroup>
