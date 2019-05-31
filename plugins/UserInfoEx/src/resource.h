@@ -5,7 +5,7 @@
 #define IDSKIP                          20
 #define IDALL                           21
 #define IDAPPLY                         22
-#define IDI_MAIN                        110
+#define IDI_MAIN                        109
 #define IDD_EXPORT                      601
 #define IDB_FLAGSPNG                    602
 #define IDD_ANNIVERSARY_EDITOR          603
