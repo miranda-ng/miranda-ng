@@ -5,12 +5,12 @@
 #define IDSKIP                          20
 #define IDALL                           21
 #define IDAPPLY                         22
-#define IDI_MAIN                        110
 #define IDD_EXPORT                      601
 #define IDB_FLAGSPNG                    602
 #define IDD_ANNIVERSARY_EDITOR          603
 #define IDD_ANNIVERSARY_LIST            604
 #define CURSOR_ADDGROUP                 605
+#define IDI_MAIN                        606
 #define IDR_VERSION2                    608
 #define IDD_CHOSE_PROTOCOL              614
 #define IDI_DEFAULT                     618
