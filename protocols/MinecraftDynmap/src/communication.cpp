@@ -126,31 +126,18 @@ http::response MinecraftDynmapProto::sendRequest(const int request_type, std::st
 std::string MinecraftDynmapProto::chooseAction(int request_type, std::string *get_data)
 {
 	switch (request_type) {
-		case MINECRAFTDYNMAP_REQUEST_MESSAGE: {
+		case MINECRAFTDYNMAP_REQUEST_MESSAGE:
 			return "/up/sendmessage";
-		}
 
-		case MINECRAFTDYNMAP_REQUEST_CONFIGURATION: {
+		case MINECRAFTDYNMAP_REQUEST_CONFIGURATION:
 			return "/up/configuration";
-		}
 
-		case MINECRAFTDYNMAP_REQUEST_EVENTS: {
-			std::string request = "/up/world/%s/%s";
-
-			// Set world
-			std::string world = "world"; // TODO: configurable world?
-			utils::text::replace_first(&request, "%s", world);
-
-			// Set timestamp
-			utils::text::replace_first(&request, "%s", !m_timestamp.empty() ? m_timestamp : "0");
-
-			return request;
-		}
+		case MINECRAFTDYNMAP_REQUEST_EVENTS:
+			return std::string("/up/world/world/") + (!m_timestamp.empty() ? m_timestamp : "0");
 
 		//case MINECRAFTDYNMAP_REQUEST_HOME:
-		default: {
+		default:
 			return "/" + *get_data;
-		}
 	}
 }
 
@@ -285,7 +272,7 @@ bool MinecraftDynmapProto::doEvents()
 				continue;
 			}
 
-			time_t timestamp = utils::time::from_string(time_.as_string());
+			time_t timestamp = atoi(time_.as_string().c_str());
 			std::string name = playerName_.as_string();
 			std::string message = message_.as_string();
 
@@ -448,12 +435,11 @@ void MinecraftDynmapProto::SendMsgWorker(void *p)
 
 	ScopedLock s(send_message_lock_);
 
-	std::string data = *(std::string*)p;
+	CMStringA data = ((std::string*)p)->c_str();
 	delete (std::string*)p;
 
-	data = utils::text::trim(data);
+	data.TrimRight();
 
-	if (isOnline() && data.length()) {
-		doSendMessage(data);
-	}
+	if (isOnline() && data.GetLength())
+		doSendMessage(data.c_str());
 }

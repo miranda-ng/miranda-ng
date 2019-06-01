@@ -24,13 +24,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 void MinecraftDynmapProto::UpdateChat(const char *name, const char *message, const time_t timestamp, bool addtolog)
 {
 	// replace % to %% to not interfere with chat color codes
-	std::string smessage = message;
-	utils::text::replace_all(&smessage, "%", "%%");
+	CMStringA szMessage(message);
+	szMessage.Replace("%", "%%");
 
 	GCEVENT gce = { m_szModuleName, szRoomName, GC_EVENT_MESSAGE };
 	gce.dwFlags = GCEF_UTF8;
 	gce.time = timestamp;
-	gce.pszText.a = smessage.c_str();
+	gce.pszText.a = szMessage.c_str();
 
 	if (name == NULL) {
 		gce.iType = GC_EVENT_INFORMATION;
@@ -56,17 +56,14 @@ int MinecraftDynmapProto::OnChatEvent(WPARAM, LPARAM lParam)
 	switch(hook->iType) {
 	case GC_USER_MESSAGE:
 		{
-			std::string text = mir_u2a_cp(hook->ptszText, CP_UTF8);
-
-			// replace %% back to %, because chat automatically does this to sent messages
-			utils::text::replace_all(&text, "%%", "%");
-
-			if (text.empty())
+			CMStringA szText(ptrA(mir_utf8encodeW(hook->ptszText)));
+			szText.Replace("%%", "%");
+			if (szText.IsEmpty())
 				break;
 
 			// Outgoing message
-			debugLogA("**Chat - Outgoing message: %s", text.c_str());
-			ForkThread(&MinecraftDynmapProto::SendMsgWorker, new std::string(text));
+			debugLogA("**Chat - Outgoing message: %s", szText.c_str());
+			ForkThread(&MinecraftDynmapProto::SendMsgWorker, new std::string(szText));
 		}
 		break;
 
