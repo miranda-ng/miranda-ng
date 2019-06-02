@@ -99,7 +99,8 @@ MIR_APP_DLL(HANDLE) IcoLib_IsManaged(HICON hIcon);
 ///////////////////////////////////////////////////////////////////////////////
 // Helper to apply an icolib's icon to a button
 
-MIR_APP_DLL(void)   Button_SetIcon_IcoLib(HWND hDlg, int itemId, int iconId, const char* tooltip);
+MIR_APP_DLL(void)   Button_SetIcon_IcoLib(HWND hDlg, int itemId, HANDLE hIcolib, const char *tooltip = nullptr);
+MIR_APP_DLL(void)   Button_SetSkin_IcoLib(HWND hDlg, int itemId, int skinIconId, const char *tooltip = nullptr);
 MIR_APP_DLL(void)   Button_FreeIcon_IcoLib(HWND hDlg, int itemId);
 
 ///////////////////////////////////////////////////////////////////////////////

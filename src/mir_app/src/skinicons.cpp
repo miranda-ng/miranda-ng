@@ -203,10 +203,18 @@ MIR_APP_DLL(void) Window_FreeIcon_IcoLib(HWND hWnd)
 	IcoLib_ReleaseIcon((HICON)SendMessage(hWnd, WM_SETICON, ICON_SMALL, 0), false);
 }
 
-MIR_APP_DLL(void) Button_SetIcon_IcoLib(HWND hwndDlg, int itemId, int iconId, const char *tooltip)
+MIR_APP_DLL(void) Button_SetSkin_IcoLib(HWND hwndDlg, int itemId, int iconId, const char *tooltip)
 {
 	HWND hWnd = GetDlgItem(hwndDlg, itemId);
 	SendMessage(hWnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(iconId, false));
+	SendMessage(hWnd, BUTTONSETASFLATBTN, TRUE, 0);
+	SendMessage(hWnd, BUTTONADDTOOLTIP, (WPARAM)tooltip, 0);
+}
+
+MIR_APP_DLL(void) Button_SetIcon_IcoLib(HWND hwndDlg, int itemId, HANDLE hIcolib, const char *tooltip)
+{
+	HWND hWnd = GetDlgItem(hwndDlg, itemId);
+	SendMessage(hWnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(hIcolib, false));
 	SendMessage(hWnd, BUTTONSETASFLATBTN, TRUE, 0);
 	SendMessage(hWnd, BUTTONADDTOOLTIP, (WPARAM)tooltip, 0);
 }

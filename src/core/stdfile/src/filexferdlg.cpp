@@ -277,14 +277,14 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		SendDlgItemMessage(hwndDlg, IDC_CONTACT, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Contact menu"), 0);
 		SendDlgItemMessage(hwndDlg, IDC_CONTACT, BUTTONSETASFLATBTN, TRUE, 0);
 
-		Button_SetIcon_IcoLib(hwndDlg, IDC_OPENFILE, SKINICON_OTHER_DOWNARROW, LPGEN("Open..."));
+		Button_SetSkin_IcoLib(hwndDlg, IDC_OPENFILE, SKINICON_OTHER_DOWNARROW, LPGEN("Open..."));
 		SendDlgItemMessage(hwndDlg, IDC_OPENFILE, BUTTONSETASPUSHBTN, TRUE, 0);
 
 		SendDlgItemMessage(hwndDlg, IDC_OPENFOLDER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)dat->hIconFolder);
 		SendDlgItemMessage(hwndDlg, IDC_OPENFOLDER, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Open folder"), 0);
 		SendDlgItemMessage(hwndDlg, IDC_OPENFOLDER, BUTTONSETASFLATBTN, TRUE, 0);
 
-		Button_SetIcon_IcoLib(hwndDlg, IDCANCEL, SKINICON_OTHER_DELETE, LPGEN("Cancel"));
+		Button_SetSkin_IcoLib(hwndDlg, IDCANCEL, SKINICON_OTHER_DELETE, LPGEN("Cancel"));
 
 		SetDlgItemText(hwndDlg, IDC_CONTACTNAME, Clist_GetContactDisplayName(dat->hContact));
 

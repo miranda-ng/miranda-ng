@@ -22,6 +22,7 @@ IcoLib_RemoveIcon          @20
 IcoLib_RemoveIconByHandle  @21
 IcoLib_Release             @22
 IcoLib_AddRef              @23
+Button_SetSkin_IcoLib      @24
 ??0CProtoIntDlgBase@@QEAA@AEBV0@@Z @25 NONAME
 ??0CProtoIntDlgBase@@QEAA@PEAUPROTO_INTERFACE@@H@Z @26 NONAME
 ??0PROTO_INTERFACE@@QEAA@AEBU0@@Z @27 NONAME
