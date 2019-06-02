@@ -570,8 +570,7 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 		photoInfo->ppro = nullptr;
 		photoInfo->hBitmap = nullptr;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)photoInfo);
-		SendDlgItemMessage(hwndDlg, IDC_SAVE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_SAVE));
-		SendDlgItemMessage(hwndDlg, IDC_SAVE, BUTTONSETASFLATBTN, TRUE, 0);
+		Button_SetIcon_IcoLib(hwndDlg, IDC_SAVE, g_plugin.getIconHandle(IDI_SAVE));
 		ShowWindow(GetDlgItem(hwndDlg, IDC_LOAD), SW_HIDE);
 		ShowWindow(GetDlgItem(hwndDlg, IDC_DELETE), SW_HIDE);
 		break;
@@ -737,7 +736,7 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 		break;
 
 	case WM_DESTROY:
-		DestroyIcon((HICON)SendDlgItemMessage(hwndDlg, IDC_SAVE, BM_SETIMAGE, IMAGE_ICON, 0));
+		Button_FreeIcon_IcoLib(hwndDlg, IDC_SAVE);
 		if (!photoInfo)
 			break;
 		if (photoInfo->hBitmap) {

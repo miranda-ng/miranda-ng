@@ -264,10 +264,8 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	case WM_INITDIALOG:
 		if (!lParam) break; // Launched from userinfo
 		TranslateDialogDefault(hwndDlg);
-		SendDlgItemMessage(hwndDlg, IDC_LOAD, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_OPEN));
-		SendDlgItemMessage(hwndDlg, IDC_LOAD, BUTTONSETASFLATBTN, TRUE, 0);
-		SendDlgItemMessage(hwndDlg, IDC_DELETE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_DELETE));
-		SendDlgItemMessage(hwndDlg, IDC_DELETE, BUTTONSETASFLATBTN, TRUE, 0);
+		Button_SetIcon_IcoLib(hwndDlg, IDC_LOAD, g_plugin.getIconHandle(IDI_OPEN));
+		Button_SetIcon_IcoLib(hwndDlg, IDC_DELETE, g_plugin.getIconHandle(IDI_DELETE));
 		ShowWindow(GetDlgItem(hwndDlg, IDC_SAVE), SW_HIDE);
 		{
 			dat = new PhotoDlgProcData;
@@ -465,8 +463,8 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_DESTROY:
-		DestroyIcon((HICON)SendDlgItemMessage(hwndDlg, IDC_LOAD, BM_SETIMAGE, IMAGE_ICON, 0));
-		DestroyIcon((HICON)SendDlgItemMessage(hwndDlg, IDC_DELETE, BM_SETIMAGE, IMAGE_ICON, 0));
+		Button_FreeIcon_IcoLib(hwndDlg, IDC_LOAD);
+		Button_FreeIcon_IcoLib(hwndDlg, IDC_DELETE);
 		dat->ppro->WindowUnsubscribe(hwndDlg);
 		if (dat->hBitmap) {
 			dat->ppro->debugLogA("Delete bitmap");
