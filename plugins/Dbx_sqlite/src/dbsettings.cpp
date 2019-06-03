@@ -117,8 +117,8 @@ LBL_Seek:
 
 	sqlite3_stmt *stmt = settings_stmts_prep[SQL_SET_STMT_GET];
 	sqlite3_bind_int64(stmt, 1, hContact);
-	sqlite3_bind_text(stmt, 2, szModule, mir_strlen(szModule), nullptr);
-	sqlite3_bind_text(stmt, 3, szSetting, mir_strlen(szSetting), nullptr);
+	sqlite3_bind_text(stmt, 2, szModule, (int)mir_strlen(szModule), nullptr);
+	sqlite3_bind_text(stmt, 3, szSetting, (int)mir_strlen(szSetting), nullptr);
 	int rc = sqlite3_step(stmt);
 	assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
 	if (rc != SQLITE_ROW) {
@@ -254,8 +254,8 @@ BOOL CDbxSQLite::WriteContactSetting(MCONTACT hContact, DBCONTACTWRITESETTING *d
 
 	sqlite3_stmt *stmt = settings_stmts_prep[SQL_SET_STMT_REPLACE];
 	sqlite3_bind_int64(stmt, 1, hContact);
-	sqlite3_bind_text(stmt, 2, dbcwWork.szModule, mir_strlen(dbcwWork.szModule), nullptr);
-	sqlite3_bind_text(stmt, 3, dbcwWork.szSetting, mir_strlen(dbcwWork.szSetting), nullptr);
+	sqlite3_bind_text(stmt, 2, dbcwWork.szModule, (int)mir_strlen(dbcwWork.szModule), nullptr);
+	sqlite3_bind_text(stmt, 3, dbcwWork.szSetting, (int)mir_strlen(dbcwWork.szSetting), nullptr);
 	sqlite3_bind_int(stmt, 4, dbcwWork.value.type);
 	switch (dbcwWork.value.type) {
 	case DBVT_BYTE:
@@ -304,8 +304,8 @@ BOOL CDbxSQLite::DeleteContactSetting(MCONTACT hContact, LPCSTR szModule, LPCSTR
 		mir_cslock lock(m_csDbAccess);
 		sqlite3_stmt *stmt = settings_stmts_prep[SQL_SET_STMT_DELETE];
 		sqlite3_bind_int64(stmt, 1, hContact);
-		sqlite3_bind_text(stmt, 2, szModule, mir_strlen(szModule), nullptr);
-		sqlite3_bind_text(stmt, 3, szSetting, mir_strlen(szSetting), nullptr);
+		sqlite3_bind_text(stmt, 2, szModule, (int)mir_strlen(szModule), nullptr);
+		sqlite3_bind_text(stmt, 3, szSetting, (int)mir_strlen(szSetting), nullptr);
 		int rc = sqlite3_step(stmt);
 		assert(rc == SQLITE_DONE);
 		sqlite3_reset(stmt);
@@ -345,7 +345,7 @@ BOOL CDbxSQLite::EnumContactSettings(MCONTACT hContact, DBSETTINGENUMPROC pfnEnu
 		mir_cslock lock(m_csDbAccess);
 		sqlite3_stmt *stmt = settings_stmts_prep[SQL_SET_STMT_ENUMMODULE];
 		sqlite3_bind_int64(stmt, 1, hContact);
-		sqlite3_bind_text(stmt, 2, szModule, mir_strlen(szModule), nullptr);
+		sqlite3_bind_text(stmt, 2, szModule, (int)mir_strlen(szModule), nullptr);
 		int rc = 0;
 		while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
 			const char *value = (const char*)sqlite3_column_text(stmt, 0);

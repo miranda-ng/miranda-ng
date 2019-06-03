@@ -167,7 +167,7 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, DBEVENTINFO *dbei)
 		mir_cslock lock(m_csDbAccess);
 		sqlite3_stmt *stmt = evt_stmts_prep[SQL_EVT_STMT_ADDEVENT];
 		sqlite3_bind_int64(stmt, 1, hContact);
-		sqlite3_bind_text(stmt, 2, dbei->szModule, mir_strlen(dbei->szModule), nullptr);
+		sqlite3_bind_text(stmt, 2, dbei->szModule, (int)mir_strlen(dbei->szModule), nullptr);
 		sqlite3_bind_int64(stmt, 3, dbei->timestamp);
 		sqlite3_bind_int(stmt, 4, dbei->eventType);
 		sqlite3_bind_int64(stmt, 5, dbei->flags);
@@ -268,7 +268,7 @@ BOOL CDbxSQLite::EditEvent(MCONTACT hContact, MEVENT hDbEvent, DBEVENTINFO *dbei
 	{
 		mir_cslock lock(m_csDbAccess);
 		sqlite3_stmt *stmt = evt_stmts_prep[SQL_EVT_STMT_EDIT];
-		sqlite3_bind_text(stmt, 1, dbei->szModule, mir_strlen(dbei->szModule), nullptr);
+		sqlite3_bind_text(stmt, 1, dbei->szModule, (int)mir_strlen(dbei->szModule), nullptr);
 		sqlite3_bind_int64(stmt, 2, dbei->timestamp);
 		sqlite3_bind_int(stmt, 3, dbei->eventType);
 		sqlite3_bind_int64(stmt, 4, dbei->flags);
@@ -699,8 +699,8 @@ MEVENT CDbxSQLite::GetEventById(LPCSTR szModule, LPCSTR szId)
 
 	mir_cslock lock(m_csDbAccess);
 	sqlite3_stmt *stmt = evt_stmts_prep[SQL_EVT_STMT_GETIDBYSRVID];
-	sqlite3_bind_text(stmt, 1, szModule, mir_strlen(szModule), nullptr);
-	sqlite3_bind_text(stmt, 2, szId, mir_strlen(szId), nullptr);
+	sqlite3_bind_text(stmt, 1, szModule, (int)mir_strlen(szModule), nullptr);
+	sqlite3_bind_text(stmt, 2, szId, (int)mir_strlen(szId), nullptr);
 	int rc = sqlite3_step(stmt);
 	assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
 	if (rc != SQLITE_ROW) {
@@ -719,7 +719,7 @@ BOOL CDbxSQLite::SetEventId(LPCSTR, MEVENT hDbEvent, LPCSTR szId)
 
 	mir_cslock lock(m_csDbAccess);
 	sqlite3_stmt *stmt = evt_stmts_prep[SQL_EVT_STMT_SETSRVID];
-	sqlite3_bind_text(stmt, 1, szId, mir_strlen(szId), nullptr);
+	sqlite3_bind_text(stmt, 1, szId, (int)mir_strlen(szId), nullptr);
 	sqlite3_bind_int64(stmt, 2, hDbEvent);
 	int rc = sqlite3_step(stmt);
 	assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
