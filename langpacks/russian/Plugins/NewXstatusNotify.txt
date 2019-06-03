@@ -16,8 +16,6 @@
 Не в сети
 [Invisible]
 Невидимый
-[Free for chat]
-Готов болтать
 [Away]
 Отсутствую
 [Not available]
@@ -26,10 +24,6 @@
 Занят
 [Do not disturb]
 Не беспокоить
-[Out to lunch]
-Обедаю
-[On the phone]
-На телефоне
 [Always when changing from offline]
 Из статуса "Не в сети"
 [Notify when contact changes]
@@ -94,6 +88,12 @@ xСтатус
 Фон
 [Text]
 Текст
+[Free for chat]
+Готов болтать
+[Out to lunch]
+Обедаю
+[On the phone]
+На телефоне
 [Colors]
 Цвета
 [Use custom colors]
@@ -279,14 +279,6 @@ xСтатус
 прячется в тени...
 [User: Invisible]
 Пользователь: Невидимый
-[(M) feels talkative!]
-готов болтать!
-[(F) feels talkative!]
-готова болтать!
-[(U) feels talkative!]
-готов(а) болтать!
-[User: Free for chat]
-Пользователь: Готов болтать
 [(M) went away]
 отошёл
 [(F) went away]
@@ -319,22 +311,6 @@ xСтатус
 не хотел бы, чтобы его беспокоили!
 [User: Do not disturb]
 Пользователь: Не беспокоить
-[(M) is eating something]
-что-то ест
-[(F) is eating something]
-что-то ест
-[(U) is eating something]
-что-то ест
-[User: Out to lunch]
-Пользователь: Обедает
-[(M) had to answer the phone]
-говорит по телефону
-[(F) had to answer the phone]
-говорит по телефону
-[(U) had to answer the phone]
-говорит по телефону
-[User: On the phone]
-Пользователь: На телефоне
 [User: from offline (has priority!)]
 Пользователь: из оффлайна (имеет приоритет!)
 [Status message removed]

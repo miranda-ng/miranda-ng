@@ -586,8 +586,6 @@ xHTML формат чат сообщений
 Недоступен
 [Do not disturb]
 Не беспокоить
-[Free for chat]
-Готов болтать
 [&Leave chat session]
 &Покинуть чат
 [&Slap]

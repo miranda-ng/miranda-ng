@@ -700,14 +700,8 @@ consectetur adipisicing elit
 Занят
 [Do not disturb]
 Не беспокоить
-[Free for chat]
-Готов болтать
 [Invisible]
 Невидимый
-[Out to lunch]
-Обедаю
-[On the phone]
-На телефоне
 [Enter]
 Enter
 [Double 'Enter']

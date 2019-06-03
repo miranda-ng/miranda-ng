@@ -73,8 +73,6 @@ Miranda нашла повреждения в вашей базе. Miranda буд
 ;file \plugins\Db3x_mmap\src\ui.cpp
 [Logo]
 Логотип
-[Password]
-Пароль
 [Too many errors!]
 Слишком много ошибок!
 [Password is not correct!]

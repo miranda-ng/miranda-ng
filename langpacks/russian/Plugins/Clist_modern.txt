@@ -729,14 +729,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Занят
 [Do not disturb]
 Не беспокоить
-[Free for chat]
-Готов болтать
 [Invisible]
 Невидимый
-[Out to lunch]
-Обедаю
-[On the phone]
-На телефоне
 [Name]
 Имя
 [Name (use locale settings)]

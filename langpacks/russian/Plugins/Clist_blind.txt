@@ -181,14 +181,8 @@ URL:
 Занят
 [Do not disturb]
 Не беспокоить
-[Free for chat]
-Готов болтать
 [Invisible]
 Невидимый
-[Out to lunch]
-Обедаю
-[On the phone]
-На телефоне
 [Group: %name% %count% [%mode%]]
 Группа: %name% %count% [%mode%]
 [Divider: %s]

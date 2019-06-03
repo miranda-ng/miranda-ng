@@ -422,14 +422,8 @@
 Занят
 [Do not disturb]
 Не беспокоить
-[Free for chat]
-Готов болтать
 [Invisible]
 Невидимый
-[Out to lunch]
-Обедаю
-[On the phone]
-На телефоне
 [Always left]
 Всегда слева
 [Always right]

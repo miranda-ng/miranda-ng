@@ -340,12 +340,6 @@ History++ для истории окон
 Занят
 [Do not disturb]
 Не беспокоить
-[Free for chat]
-Готов болтать
-[Out to lunch]
-Обедаю
-[On the phone]
-На телефоне
 [Width]
 Ширина
 [Upper left corner]

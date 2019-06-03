@@ -84,8 +84,8 @@ UIN/почта:
 [UIN/e-mail/phone]
 UIN/почта/телефон
 ;file \protocols\ICQ-WIM\src\server.cpp
-[You have not entered an ICQ number.\nConfigure this in Options -> Network -> ICQ and try again.]
-Вы не ввели номер ICQ.\nУкажите его в разделе "Настройки -> Сеть -> ICQ" и попробуйте снова.
+[You have not entered an ICQ number or password.\nConfigure this in Options -> Network -> ICQ and try again.]
+Вы не ввели номер ICQ либо пароль.\nУкажите его в разделе "Настройки -> Сеть -> ICQ" и попробуйте снова.
 [Connection failed.\nYour ICQ number or password was rejected (%d).]
 Ошибка подключения.\nВаш номер или пароль не приняты сервером (%d).
 [Connection failed.\nThe server is temporarily unavailable (%d).]

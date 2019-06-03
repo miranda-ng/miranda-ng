@@ -203,8 +203,6 @@ URL:
 [Only for friends]
 Только друзьям
 ;file \protocols\VKontakte\src\misc.cpp
-[Captcha form icon]
-Форма с капчей
 [Notification icon]
 Уведомление
 [Read message icon]

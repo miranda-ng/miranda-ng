@@ -259,17 +259,11 @@
 Не сейчас.
 [Give a guy some peace, would ya?]
 Прошу не тревожить...
-[I'm a chatbot!]
-Свободен.
 [Yep, I'm here.]
 Да, я здесь.
 [Nope, not here.]
 Нет, меня здесь нет.
 [I'm hiding from the mafia.]
 Я прячусь от мафии.
-[That'll be the phone.]
-Дайте же человеку поговорить по телефону.
-[Mmm... food.]
-Ммм... поесть бы.
 [idleeeeeeee]
 ожидание...

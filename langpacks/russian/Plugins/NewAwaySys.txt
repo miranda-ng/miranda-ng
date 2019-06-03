@@ -40,14 +40,8 @@
 &Занят
 [&Do not disturb]
 Не &беспокоить
-[&Free for chat]
-&Готов болтать
 [&Invisible]
 &Невидимый
-[On the &phone]
-На &телефоне
-[Out to &lunch]
-Обед&аю
 [Autoreply format:]
 Формат автоответа:
 [V]
@@ -219,22 +213,10 @@
 Не &беспокоить
 [Give a guy some peace, would ya?]
 Прошу не тревожить...
-[Free for chat]
-Готов болтать
-[I'm a chatbot!]
-Свободен.
 [Invisible]
 Невидимый
 [I'm hiding from the mafia.]
 Я прячусь от мафии.
-[On the phone]
-На телефоне
-[I've been on the phone since %nas_awaysince_time%, give me a sec!]
-Разговариваю по телефону с %nas_awaysince_time%, подождите немного!
-[Out to lunch]
-Обедаю
-[Been having ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]
-Сейчас ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,ужинаю,обедаю),завтракаю),ужинаю) с %nas_awaysince_time%.
 ;file \plugins\NewAwaySysMod\src\AwaySys.cpp
 [Toggle Off]
 Выключить

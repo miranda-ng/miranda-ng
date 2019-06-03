@@ -506,8 +506,6 @@
 По умолчанию
 [IM naming]
 Имя в IM
-[Password]
-Пароль
 [Timezone]
 Часовой пояс
 [Marital status]
@@ -604,7 +602,7 @@
 Внимание: Набор значков не найден ни в одной из папок: 'customize\\icons', 'icons' или 'plugins'!
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 [Extended user info]
-Личные данные
+Подробные личные данные
 [Dialogs]
 Диалоги
 [Buttons]

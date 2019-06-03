@@ -20,14 +20,8 @@
 Занят
 [Do not disturb]
 Не беспокоить
-[Free for chat]
-Готов болтать
 [Invisible]
 Невидимый
-[On the phone]
-На телефоне
-[Out to lunch]
-Обедаю
 [On events...]
 При событиях...
 [Send]

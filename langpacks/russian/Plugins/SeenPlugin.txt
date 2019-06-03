@@ -52,12 +52,6 @@
 Занят
 [Do not disturb]
 Не беспокоить
-[On the phone]
-На телефоне
-[Out to lunch]
-Обедаю
-[Free for chat]
-Готов болтать
 [Invisible]
 Невидимый
 [Offline]

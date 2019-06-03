@@ -42,6 +42,13 @@
 Все настройки и все события истории зашифрованы. Замедляет работу программы, а также создаёт риск потери всего сохранённого в базе в случае утери пароля. Рекомендуется только параноидальным пользователям
 [Set password]
 Установить пароль
+;file \plugins\Dbx_mdbx\src\dbcrypt.cpp
+[Too many errors!]
+Слишком много ошибок!
+[Password is not correct!]
+Неверный пароль!
+[Please type in your password]
+Пожалуйста, введите свой пароль
 ;file \plugins\Dbx_mdbx\src\dbintf.h
 [Change/remove password]
 Изменить/удалить пароль
@@ -54,16 +61,7 @@
 Пароли не совпадают!
 [Database]
 База данных
-[Compact]
-Сжать
-;file \plugins\Dbx_mdbx\src\ui.h
 [Logo]
 Логотип
-[Password]
-Пароль
-[Too many errors!]
-Слишком много ошибок!
-[Password is not correct!]
-Неверный пароль!
-[Please type in your password]
-Пожалуйста, введите свой пароль
+[Compact]
+Сжать

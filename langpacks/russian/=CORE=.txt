@@ -1226,14 +1226,8 @@ Google Карты
 &Занят\tCtrl+4
 [&Do not disturb\tCtrl+5]
 Не &беспокоить\tCtrl+5
-[&Free for chat\tCtrl+6]
-&Готов болтать\tCtrl+6
-[&Invisible\tCtrl+7]
-&Невидимый\tCtrl+7
-[On the &phone\tCtrl+8]
-На &телефоне\tCtrl+8
-[Out to &lunch\tCtrl+9]
-Обед&аю\tCtrl+9
+[&Invisible\tCtrl+6]
+&Невидимый\tCtrl+6
 ;file \src\core\stdautoaway\src\options.cpp
 [Status]
 Статус
@@ -1253,18 +1247,12 @@ Google Карты
 Не сейчас.
 [Give a guy some peace, would ya?]
 Прошу не тревожить...
-[I'm a chatbot!]
-Свободен.
 [Yep, I'm here.]
 Да, я здесь.
 [Nope, not here.]
 Нет, меня здесь нет.
 [I'm hiding from the mafia.]
 Я прячусь от мафии.
-[That'll be the phone.]
-Дайте же человеку поговорить по телефону.
-[Mmm... food.]
-Ммм... поесть бы.
 [idleeeeeeee]
 ожидание...
 ;file \src\core\stdclist\src\clcfonts.cpp
@@ -1303,14 +1291,8 @@ Google Карты
 Занят
 [Do not disturb]
 Не беспокоить
-[Free for chat]
-Готов болтать
 [Invisible]
 Невидимый
-[Out to lunch]
-Обедаю
-[On the phone]
-На телефоне
 [List background]
 Фон списка
 ;file \src\core\stdclist\src\clistopts.cpp
@@ -2776,6 +2758,8 @@ ANSI плагин
 Вкл.
 [Off]
 Откл.
+[Password]
+Пароль
 [Unused]
 Не используется
 [Frames]
