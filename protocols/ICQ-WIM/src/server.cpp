@@ -132,7 +132,7 @@ void CIcqProto::ConnectionFailed(int iReason, int iErrorCode)
 		wcscpy_s(Popup.lpwzContactName, m_tszUserName);
 		switch (iReason) {
 		case LOGINERR_BADUSERID:
-			mir_snwprintf(Popup.lpwzText, TranslateT("You have not entered an ICQ number.\nConfigure this in Options -> Network -> ICQ and try again."));
+			mir_snwprintf(Popup.lpwzText, TranslateT("You have not entered an ICQ number or password.\nConfigure this in Options -> Network -> ICQ and try again."));
 			break;
 		case LOGINERR_WRONGPASSWORD:
 			mir_snwprintf(Popup.lpwzText, TranslateT("Connection failed.\nYour ICQ number or password was rejected (%d)."), iErrorCode);
