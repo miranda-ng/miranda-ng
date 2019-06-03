@@ -350,9 +350,9 @@ bool SmileyPackType::LoadSmileyFile(const CMStringW &filename, const CMStringW &
 		return false;
 	}
 
+	wchar_t wszTmp[MAX_PATH];
 	CMStringW modpath = VARSW(filename);
 	if (_waccess(modpath, 4) != 0) {
-		wchar_t wszTmp[MAX_PATH];
 		PathToAbsoluteW(filename, wszTmp, g_plugin.wszDefaultPath[0] ? g_plugin.wszDefaultPath : nullptr);
 		if (_waccess(wszTmp, 4) != 0) {
 			if (!noerr) {
@@ -365,9 +365,10 @@ bool SmileyPackType::LoadSmileyFile(const CMStringW &filename, const CMStringW &
 			m_Name = L"Nothing loaded";
 			return false;
 		}
-		modpath = wszTmp;
 	}
+	else PathToAbsoluteW(modpath, wszTmp, g_plugin.wszDefaultPath[0] ? g_plugin.wszDefaultPath : nullptr);
 
+	modpath = wszTmp;
 	m_Filename = filename;
 
 	// Load file
