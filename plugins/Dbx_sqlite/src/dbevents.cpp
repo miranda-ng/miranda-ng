@@ -19,6 +19,8 @@ enum {
 	SQL_EVT_STMT_SETSRVID,
 	SQL_EVT_STMT_ADDEVENT_SRT,
 	SQL_EVT_STMT_DELETE_SRT,
+	SQL_EVT_STMT_META_SPLIT,
+	SQL_EVT_STMT_META_MERGE_SELECT,
 	SQL_EVT_STMT_NUM
 };
 
@@ -41,6 +43,8 @@ static char *evt_stmts[SQL_EVT_STMT_NUM] = {
 	"update events set server_id = ? where id = ?;",
 	"insert into events_srt(id, contact_id, timestamp) values (?, ?, ?);",
 	"delete from events_srt where id = ?;",
+	"delete from events_srt where contact_id = ?;",
+	"select id, timestamp from events where contact_id = ?;",
 };
 
 static sqlite3_stmt *evt_stmts_prep[SQL_EVT_STMT_NUM] = { 0 };
@@ -723,14 +727,42 @@ BOOL CDbxSQLite::SetEventId(LPCSTR, MEVENT hDbEvent, LPCSTR szId)
 	return (rc != SQLITE_DONE);
 }
 
-BOOL CDbxSQLite::MetaMergeHistory(DBCachedContact*, DBCachedContact*)
+BOOL CDbxSQLite::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 {
+	//TODO: test this
 	mir_cslock lock(m_csDbAccess);
+	sqlite3_stmt *stmt = evt_stmts_prep[SQL_EVT_STMT_META_MERGE_SELECT];
+	sqlite3_bind_int64(stmt, 1, ccSub->contactID);
+	int rc = sqlite3_step(stmt);
+	assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
+	while (rc == SQLITE_ROW)
+	{
+		sqlite3_stmt *stmt2 = evt_stmts_prep[SQL_EVT_STMT_ADDEVENT_SRT];
+		sqlite3_bind_int64(stmt2, 1, sqlite3_column_int64(stmt, 0));
+		sqlite3_bind_int64(stmt2, 2, ccMeta->contactID);
+		sqlite3_bind_int64(stmt2, 3, sqlite3_column_int64(stmt, 1));
+		int rc2 = sqlite3_step(stmt2);
+		assert(rc2 == SQLITE_ROW || rc == SQLITE_DONE);
+		sqlite3_reset(stmt2);
+		rc = sqlite3_step(stmt);
+		assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
+	}
+	sqlite3_reset(stmt);
+
+
 	return TRUE;
 }
 
-BOOL CDbxSQLite::MetaSplitHistory(DBCachedContact*, DBCachedContact*)
+BOOL CDbxSQLite::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact*)
 {
 	mir_cslock lock(m_csDbAccess);
+	sqlite3_stmt *stmt = evt_stmts_prep[SQL_EVT_STMT_META_SPLIT];
+	sqlite3_bind_int64(stmt, 1, ccMeta->contactID);
+	int rc = sqlite3_step(stmt);
+	assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
+	sqlite3_reset(stmt);
+	if (rc != SQLITE_DONE)
+		return 1;
+
 	return TRUE;
 }
