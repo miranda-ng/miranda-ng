@@ -126,6 +126,9 @@ Source: "Files\Plugins\Scriver.dll"; DestDir: "{app}\Plugins"; Components: messa
 
 ; DB drivers
 Source: "Files\Plugins\Dbx_mdbx.dll"; DestDir: "{app}\Plugins"; Components: dbx_mdbx; Flags: ignoreversion; AfterInstall: ShowPercent() 
+Source: "Files\fixme.cmd"; DestDir: "{app}"; Components: dbx_mdbx; Flags: ignoreversion; AfterInstall: ShowPercent() 
+Source: "Files\mdbx_dump.exe"; DestDir: "{app}"; Components: dbx_mdbx; Flags: ignoreversion; AfterInstall: ShowPercent() 
+Source: "Files\mdbx_load.exe"; DestDir: "{app}"; Components: dbx_mdbx; Flags: ignoreversion; AfterInstall: ShowPercent() 
 
 ; Config files
 Source: "Files\Settings\mirandaboot_default.ini"; DestDir: "{app}"; Components: program; DestName: "mirandaboot.ini"; Check: IsDefault(); Flags: ignoreversion onlyifdoesntexist; AfterInstall: ShowPercent() 
