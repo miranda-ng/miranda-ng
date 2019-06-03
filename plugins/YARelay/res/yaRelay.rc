@@ -53,7 +53,7 @@ BEGIN
                     WS_TABSTOP,78,64,67,10
     CONTROL         "Do not disturb",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
                     78,75,67,10
-    CONTROL         "Free for chat",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | 
+    CONTROL         "Invisible",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,78,86,67,10
     GROUPBOX        "Forward messages to...",IDC_STATIC,158,3,147,45
     GROUPBOX        "Template",IDC_STATIC,158,51,147,61
