@@ -81,7 +81,7 @@ static INT_PTR DBSaveAs(WPARAM, LPARAM)
 
 static int FoldersGetBackupPath(WPARAM, LPARAM)
 {
-	FoldersGetCustomPathT(hFolder, g_plugin.folder, _countof(g_plugin.folder), DIR SUB_DIR);
+	FoldersGetCustomPathW(hFolder, g_plugin.folder, _countof(g_plugin.folder), DIR SUB_DIR);
 	return 0;
 }
 
@@ -121,7 +121,7 @@ static int ModulesLoad(WPARAM, LPARAM)
 	UpdateMenuIcons();
 	CreateServiceFunction(mi.pszService, &OnTogglePopups);
 
-	if (hFolder = FoldersRegisterCustomPathT(LPGEN("Database backups"), LPGEN("Backup folder"), DIR SUB_DIR)) {
+	if (hFolder = FoldersRegisterCustomPathW(LPGEN("Database backups"), LPGEN("Backup folder"), DIR SUB_DIR)) {
 		HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersGetBackupPath);
 		FoldersGetBackupPath(0, 0);
 	}

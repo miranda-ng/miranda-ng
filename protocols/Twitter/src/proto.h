@@ -135,13 +135,3 @@ struct CMPlugin : public ACCPROTOPLUGIN<TwitterProto>
 
 	int Load() override;
 };
-
-// TODO: remove this
-inline std::string profile_base_url(const std::string &url)
-{
-	size_t x = url.find("://");
-	if(x == std::string::npos)
-		return url.substr(0,url.find('/')+1);
-	else
-		return url.substr(0,url.find('/',x+3)+1);
-}

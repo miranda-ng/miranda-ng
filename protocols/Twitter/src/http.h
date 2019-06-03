@@ -35,6 +35,4 @@ namespace http
 		int code;
 		std::string data;
 	};
-
-	std::string url_encode(const std::string &);
 }

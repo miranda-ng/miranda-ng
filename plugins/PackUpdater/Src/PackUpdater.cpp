@@ -51,9 +51,9 @@ int CMPlugin::Load()
 	wchar_t *tszFolder = Utils_ReplaceVarsW(L"%miranda_userdata%\\" DEFAULT_UPDATES_FOLDER);
 	mir_wstrncpy(tszRoot, tszFolder, _countof(tszRoot));
 
-	hPackUpdaterFolder = FoldersRegisterCustomPathT(MODULEA, LPGEN("Pack Updater"), MIRANDA_USERDATAT L"\\" DEFAULT_UPDATES_FOLDER);
+	hPackUpdaterFolder = FoldersRegisterCustomPathW(MODULEA, LPGEN("Pack Updater"), MIRANDA_USERDATAW L"\\" DEFAULT_UPDATES_FOLDER);
 	if (hPackUpdaterFolder)
-		FoldersGetCustomPathT(hPackUpdaterFolder, tszRoot, MAX_PATH, L"");
+		FoldersGetCustomPathW(hPackUpdaterFolder, tszRoot, MAX_PATH, L"");
 
 	mir_free(tszFolder);
 	LoadOptions();

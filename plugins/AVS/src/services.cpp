@@ -526,7 +526,7 @@ static int InternalSetMyAvatar(char *protocol, wchar_t *szFinalName, SetMyAvatar
 			// Copy avatar file to store as global one
 			wchar_t globalFile[1024];
 			BOOL saved = TRUE;
-			if (FoldersGetCustomPathT(hGlobalAvatarFolder, globalFile, _countof(globalFile), L"")) {
+			if (FoldersGetCustomPathW(hGlobalAvatarFolder, globalFile, _countof(globalFile), L"")) {
 				mir_snwprintf(globalFile, L"%s%s", g_szDataPath, L"GlobalAvatar");
 				CreateDirectory(globalFile, nullptr);
 			}
@@ -632,7 +632,7 @@ INT_PTR SetMyAvatar(WPARAM wParam, LPARAM lParam)
 		FilterGetStrings(filter, allAcceptXML, allAcceptSWF);
 
 		wchar_t inipath[1024];
-		FoldersGetCustomPathT(hMyAvatarsFolder, inipath, _countof(inipath), L".");
+		FoldersGetCustomPathW(hMyAvatarsFolder, inipath, _countof(inipath), L".");
 
 		OPENFILENAME ofn = { 0 };
 		ofn.lStructSize = sizeof(ofn);

@@ -8,7 +8,7 @@ wchar_t g_fingerprint_store_filename[MAX_PATH];
 wchar_t g_instag_filename[MAX_PATH];
 HANDLE hPATH_MIROTR;
 Options options;
-#define DATA_DIRECTORY MIRANDA_USERDATAT L"\\" _A2W(MODULENAME)
+#define DATA_DIRECTORY MIRANDA_USERDATAW L"\\" _A2W(MODULENAME)
 
 struct PROTOREGENKEYOPTIONS {
 	HWND refresh;
@@ -29,7 +29,7 @@ void SetFilenames(const wchar_t *path)
 int FoldersChanged(WPARAM, LPARAM)
 {
 	wchar_t path[MAX_PATH];
-	if ( FoldersGetCustomPathT(hPATH_MIROTR, path, _countof(path), L""))
+	if ( FoldersGetCustomPathW(hPATH_MIROTR, path, _countof(path), L""))
 		SetFilenames(VARSW(DATA_DIRECTORY));
 	else
 		SetFilenames(path);
@@ -40,7 +40,7 @@ int FoldersChanged(WPARAM, LPARAM)
 
 void LoadFilenames()
 {
-	if (hPATH_MIROTR = FoldersRegisterCustomPathT("OTR", LPGEN("Private Data"), DATA_DIRECTORY)) {
+	if (hPATH_MIROTR = FoldersRegisterCustomPathW("OTR", LPGEN("Private Data"), DATA_DIRECTORY)) {
 		HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersChanged);
 
 		// get the path - above are only defaults - there may be a different value in the db

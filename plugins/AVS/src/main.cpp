@@ -323,8 +323,8 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	SetThreadPriority(mir_forkthread(PicLoader), THREAD_PRIORITY_IDLE);
 
 	// Folders plugin support
-	hMyAvatarsFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), LPGEN("My Avatars"), MIRANDA_USERDATAT L"\\Avatars");
-	hGlobalAvatarFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), LPGEN("My Global Avatar Cache"), MIRANDA_USERDATAT L"\\Avatars");
+	hMyAvatarsFolder = FoldersRegisterCustomPathW(LPGEN("Avatars"), LPGEN("My Avatars"), MIRANDA_USERDATAW L"\\Avatars");
+	hGlobalAvatarFolder = FoldersRegisterCustomPathW(LPGEN("Avatars"), LPGEN("My Global Avatar Cache"), MIRANDA_USERDATAW L"\\Avatars");
 
 	g_AvatarHistoryAvail = ServiceExists(MS_AVATARHISTORY_ENABLED);
 

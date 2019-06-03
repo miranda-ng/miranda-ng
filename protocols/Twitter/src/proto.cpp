@@ -228,18 +228,11 @@ INT_PTR TwitterProto::ReplyToTweet(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-INT_PTR TwitterProto::VisitHomepage(WPARAM wParam, LPARAM)
+INT_PTR TwitterProto::VisitHomepage(WPARAM hContact, LPARAM)
 {
-	MCONTACT hContact = (MCONTACT) wParam;
-	DBVARIANT dbv;
-	// TODO: remove this
-	if (!getString(hContact, TWITTER_KEY_UN, &dbv)) {
-		std::string url = profile_base_url("https://twitter.com/") + http::url_encode(dbv.pszVal);
-		setString(hContact, "Homepage", url.c_str());
-
-		Utils_OpenUrl(url.c_str());
-		db_free(&dbv);
-	}
+	ptrA szUsername(getStringA(hContact, TWITTER_KEY_UN));
+	if (szUsername)
+		Utils_OpenUrl("https://twitter.com/" + mir_urlEncode(szUsername));
 
 	return 0;
 }

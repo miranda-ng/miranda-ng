@@ -122,7 +122,7 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 		mir_forkthread(&CleanThread);
 	
 	// Folders plugin support
-	hStopSpamLogDirH = FoldersRegisterCustomPathT(LPGEN("StopSpam"), LPGEN("StopSpam Logs"), FOLDER_LOGS);
+	hStopSpamLogDirH = FoldersRegisterCustomPathW(LPGEN("StopSpam"), LPGEN("StopSpam Logs"), FOLDER_LOGS);
 	return 0;
 }
 

@@ -105,7 +105,7 @@ bool twitter::get_info(const std::string &name, twitter_user *info)
 	if (!info)
 		return false;
 
-	std::string url = base_url_ + "1.1/users/show/" + http::url_encode(name) + ".json";
+	std::string url = base_url_ + "1.1/users/show/" + mir_urlEncode(name.c_str()).c_str() + ".json";
 
 	http::response resp = slurp(url, http::get);
 	if (resp.code != 200)
@@ -129,7 +129,7 @@ bool twitter::get_info_by_email(const std::string &email, twitter_user *info)
 	if (!info)
 		return false;
 
-	std::string url = base_url_ + "1.1/users/show.json?email=" + http::url_encode(email);
+	std::string url = base_url_ + "1.1/users/show.json?email=" + mir_urlEncode(email.c_str()).c_str();
 
 	http::response resp = slurp(url, http::get);
 	if (resp.code != 200)
@@ -150,7 +150,7 @@ bool twitter::get_info_by_email(const std::string &email, twitter_user *info)
 
 twitter_user twitter::add_friend(const std::string &name)
 {
-	std::string url = base_url_ + "1.1/friendships/create/" + http::url_encode(name) + ".json";
+	std::string url = base_url_ + "1.1/friendships/create/" + mir_urlEncode(name.c_str()).c_str() + ".json";
 
 	http::response resp = slurp(url, http::post);
 	if (resp.code != 200)
@@ -176,7 +176,7 @@ twitter_user twitter::add_friend(const std::string &name)
 
 void twitter::remove_friend(const std::string &name)
 {
-	std::string url = base_url_ + "1.1/friendships/destroy/" + http::url_encode(name) + ".json";
+	std::string url = base_url_ + "1.1/friendships/destroy/" + mir_urlEncode(name.c_str()).c_str() + ".json";
 
 	slurp(url, http::post);
 }
@@ -300,10 +300,9 @@ std::vector<twitter_user> twitter::get_direct(twitter_id id)
 
 string twitter::urlencode(const string &c)
 {
-
 	string escaped;
 	size_t max = c.length();
-	for (int i = 0; i < max; i++) {
+	for (size_t i = 0; i < max; i++) {
 		if ((48 <= c[i] && c[i] <= 57) ||//0-9
 			(65 <= c[i] && c[i] <= 90) ||//ABC...XYZ
 			(97 <= c[i] && c[i] <= 122) || //abc...xyz

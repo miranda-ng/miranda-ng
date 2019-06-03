@@ -60,10 +60,10 @@ int CMimAPI::FoldersPathChanged(WPARAM, LPARAM)
 
 void CMimAPI::configureCustomFolders()
 {
-	m_hDataPath = FoldersRegisterCustomPathT(LPGEN("TabSRMM"), LPGEN("Data path"), const_cast<wchar_t *>(getDataPath()));
-	m_hSkinsPath = FoldersRegisterCustomPathT(LPGEN("Skins"), LPGEN("TabSRMM"), const_cast<wchar_t *>(getSkinPath()));
-	m_hAvatarsPath = FoldersRegisterCustomPathT(LPGEN("Avatars"), LPGEN("Saved TabSRMM avatars"), const_cast<wchar_t *>(getSavedAvatarPath()));
-	m_hChatLogsPath = FoldersRegisterCustomPathT(LPGEN("TabSRMM"), LPGEN("Group chat logs root"), const_cast<wchar_t *>(getChatLogPath()));
+	m_hDataPath = FoldersRegisterCustomPathW(LPGEN("TabSRMM"), LPGEN("Data path"), const_cast<wchar_t *>(getDataPath()));
+	m_hSkinsPath = FoldersRegisterCustomPathW(LPGEN("Skins"), LPGEN("TabSRMM"), const_cast<wchar_t *>(getSkinPath()));
+	m_hAvatarsPath = FoldersRegisterCustomPathW(LPGEN("Avatars"), LPGEN("Saved TabSRMM avatars"), const_cast<wchar_t *>(getSavedAvatarPath()));
+	m_hChatLogsPath = FoldersRegisterCustomPathW(LPGEN("TabSRMM"), LPGEN("Group chat logs root"), const_cast<wchar_t *>(getChatLogPath()));
 
 	if (m_hDataPath)
 		HookEvent(ME_FOLDERS_PATH_CHANGED, CMimAPI::FoldersPathChanged);
@@ -77,20 +77,20 @@ INT_PTR CMimAPI::foldersPathChanged()
 
 	if (m_hDataPath) {
 		szTemp[0] = 0;
-		FoldersGetCustomPathT(m_hDataPath, szTemp, MAX_PATH, const_cast<wchar_t *>(getDataPath()));
+		FoldersGetCustomPathW(m_hDataPath, szTemp, MAX_PATH, const_cast<wchar_t *>(getDataPath()));
 		wcsncpy_s(m_szProfilePath, szTemp, _TRUNCATE);
 
 		szTemp[0] = 0;
-		FoldersGetCustomPathT(m_hSkinsPath, szTemp, MAX_PATH, const_cast<wchar_t *>(getSkinPath()));
+		FoldersGetCustomPathW(m_hSkinsPath, szTemp, MAX_PATH, const_cast<wchar_t *>(getSkinPath()));
 		wcsncpy_s(m_szSkinsPath, (MAX_PATH - 1), szTemp, _TRUNCATE);
 		Utils::ensureTralingBackslash(m_szSkinsPath);
 
 		szTemp[0] = 0;
-		FoldersGetCustomPathT(m_hAvatarsPath, szTemp, MAX_PATH, const_cast<wchar_t *>(getSavedAvatarPath()));
+		FoldersGetCustomPathW(m_hAvatarsPath, szTemp, MAX_PATH, const_cast<wchar_t *>(getSavedAvatarPath()));
 		wcsncpy_s(m_szSavedAvatarsPath, szTemp, _TRUNCATE);
 
 		szTemp[0] = 0;
-		FoldersGetCustomPathT(m_hChatLogsPath, szTemp, MAX_PATH, const_cast<wchar_t *>(getChatLogPath()));
+		FoldersGetCustomPathW(m_hChatLogsPath, szTemp, MAX_PATH, const_cast<wchar_t *>(getChatLogPath()));
 		wcsncpy_s(m_szChatLogsPath, (MAX_PATH - 1), szTemp, _TRUNCATE);
 		Utils::ensureTralingBackslash(m_szChatLogsPath);
 	}

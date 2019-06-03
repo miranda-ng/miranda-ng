@@ -11,7 +11,7 @@ wchar_t* CToxProto::GetToxProfilePath(const wchar_t *accountName)
 {
 	wchar_t *profilePath = (wchar_t*)mir_calloc(MAX_PATH * sizeof(wchar_t) + 1);
 	wchar_t profileRootPath[MAX_PATH];
-	FoldersGetCustomPathT(hProfileFolderPath, profileRootPath, _countof(profileRootPath), VARSW(L"%miranda_userdata%"));
+	FoldersGetCustomPathW(hProfileFolderPath, profileRootPath, _countof(profileRootPath), VARSW(L"%miranda_userdata%"));
 	mir_snwprintf(profilePath, MAX_PATH, L"%s\\%s.tox", profileRootPath, accountName);
 	return profilePath;
 }

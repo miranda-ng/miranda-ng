@@ -243,14 +243,10 @@ MCONTACT TwitterProto::AddToClientList(const char *name, const char *status)
 			setWord(hContact, "Status", ID_STATUS_ONLINE);
 			db_set_utf(hContact, "CList", "StatusMsg", status);
 
-			std::string url = profile_base_url("https://twitter.com/") + http::url_encode(name);
-			setString(hContact, "Homepage", url.c_str());
 			Skin_PlaySound("TwitterNewContact");
-			DBVARIANT dbv;
-			if (!getWString(TWITTER_KEY_GROUP, &dbv)) {
-				db_set_ws(hContact, "CList", "Group", dbv.pwszVal);
-				db_free(&dbv);
-			}
+			ptrW wszGroup(getWStringA(TWITTER_KEY_GROUP));
+			if (wszGroup)
+				db_set_ws(hContact, "CList", "Group", wszGroup);
 
 			return hContact;
 		}

@@ -15,12 +15,12 @@ void CMLuaScriptLoader::SetPaths()
 
 	lua_getglobal(L, LUA_LOADLIBNAME);
 
-	FoldersGetCustomPathT(g_hCLibsFolder, path, _countof(path), VARSW(MIRLUA_PATHT));
+	FoldersGetCustomPathW(g_hCLibsFolder, path, _countof(path), VARSW(MIRLUA_PATHT));
 	pathA = mir_utf8encodeW(path);
 	lua_pushfstring(L, "%s\\?.%s", pathA, _T2A(LUACLIBSCRIPTEXT));
 	lua_setfield(L, -2, "cpath");
 
-	FoldersGetCustomPathT(g_hScriptsFolder, path, _countof(path), VARSW(MIRLUA_PATHT));
+	FoldersGetCustomPathW(g_hScriptsFolder, path, _countof(path), VARSW(MIRLUA_PATHT));
 	pathA = mir_utf8encodeW(path);
 	lua_pushfstring(L, "%s\\?.%s;%s\\?.%s", pathA, _T2A(LUATEXTSCRIPTEXT), pathA, _T2A(LUAPRECSCRIPTEXT));
 	lua_setfield(L, -2, "path");
@@ -60,7 +60,7 @@ void CMLuaScriptLoader::LoadScripts()
 	SetPaths();
 
 	wchar_t scriptDir[MAX_PATH];
-	FoldersGetCustomPathT(g_hScriptsFolder, scriptDir, _countof(scriptDir), VARSW(MIRLUA_PATHT));
+	FoldersGetCustomPathW(g_hScriptsFolder, scriptDir, _countof(scriptDir), VARSW(MIRLUA_PATHT));
 
 	Log(L"Loading scripts from %s", scriptDir);
 

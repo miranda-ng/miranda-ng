@@ -46,7 +46,7 @@ void LoadFavoriteContactMenu();
 
 int ReloadSkinFolder(WPARAM, LPARAM)
 {
-	FoldersGetCustomPathT(hSkinFolder, SkinsFolder, _countof(SkinsFolder), _A2W(DEFAULT_SKIN_FOLDER));
+	FoldersGetCustomPathW(hSkinFolder, SkinsFolder, _countof(SkinsFolder), _A2W(DEFAULT_SKIN_FOLDER));
 	return 0;
 }
 
@@ -1559,8 +1559,8 @@ static int clcHookModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_AV_AVATARCHANGED, clcHookAvatarChanged);
 
 	HookEvent(ME_FOLDERS_PATH_CHANGED, ReloadSkinFolder);
-	hSkinFolder = FoldersRegisterCustomPathT(LPGEN("Skins"), LPGEN("Modern contact list"), MIRANDA_PATHT L"\\" _A2W(DEFAULT_SKIN_FOLDER));
-	FoldersGetCustomPathT(hSkinFolder, SkinsFolder, _countof(SkinsFolder), _A2W(DEFAULT_SKIN_FOLDER));
+	hSkinFolder = FoldersRegisterCustomPathW(LPGEN("Skins"), LPGEN("Modern contact list"), MIRANDA_PATHW L"\\" _A2W(DEFAULT_SKIN_FOLDER));
+	FoldersGetCustomPathW(hSkinFolder, SkinsFolder, _countof(SkinsFolder), _A2W(DEFAULT_SKIN_FOLDER));
 
 	// Get icons
 	wchar_t szMyPath[MAX_PATH];

@@ -72,7 +72,7 @@ wchar_t* GetCustomPath()
 	wchar_t* pszPath = Utils_ReplaceVarsW(L"%miranda_userdata%\\Screenshots");
 	if (m_hFolderScreenshot) {
 		wchar_t szPath[1024] = { 0 };
-		FoldersGetCustomPathT(m_hFolderScreenshot, szPath, 1024, pszPath);
+		FoldersGetCustomPathW(m_hFolderScreenshot, szPath, 1024, pszPath);
 		mir_free(pszPath);
 		pszPath = mir_wstrdup(szPath);
 	}
@@ -242,7 +242,7 @@ int hook_ModulesLoaded(WPARAM, LPARAM)
 	CtrlButtonLoadModule();
 	
 	// Folders plugin support
-	m_hFolderScreenshot = FoldersRegisterCustomPathT(LPGEN("SendSS"), LPGEN("Screenshots"),
+	m_hFolderScreenshot = FoldersRegisterCustomPathW(LPGEN("SendSS"), LPGEN("Screenshots"),
 		PROFILE_PATHW L"\\" CURRENT_PROFILEW L"\\Screenshots");
 	return 0;
 }

@@ -109,7 +109,7 @@ static int EventDeleted(WPARAM wParam, LPARAM lParam)
 
 static int ReloadSkinFolder(WPARAM, LPARAM)
 {
-	FoldersGetCustomPathT(hSkinFolder, SKIN_FOLDER, _countof(SKIN_FOLDER), DEFAULT_SKIN_FOLDER);
+	FoldersGetCustomPathW(hSkinFolder, SKIN_FOLDER, _countof(SKIN_FOLDER), DEFAULT_SKIN_FOLDER);
 	return 0;
 }
 
@@ -237,8 +237,8 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	hFolderChanged = HookEvent(ME_FOLDERS_PATH_CHANGED, ReloadSkinFolder);
 
-	hSkinFolder = FoldersRegisterCustomPathT(LPGEN("Skins"), LPGEN("Tipper"), MIRANDA_PATHT L"\\" DEFAULT_SKIN_FOLDER);
-	FoldersGetCustomPathT(hSkinFolder, SKIN_FOLDER, _countof(SKIN_FOLDER), DEFAULT_SKIN_FOLDER);
+	hSkinFolder = FoldersRegisterCustomPathW(LPGEN("Skins"), LPGEN("Tipper"), MIRANDA_PATHW L"\\" DEFAULT_SKIN_FOLDER);
+	FoldersGetCustomPathW(hSkinFolder, SKIN_FOLDER, _countof(SKIN_FOLDER), DEFAULT_SKIN_FOLDER);
 
 	InitTipperSmileys();
 	LoadOptions();

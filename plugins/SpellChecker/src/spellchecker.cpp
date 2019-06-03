@@ -76,21 +76,21 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	variables_enabled = ServiceExists(MS_VARS_FORMATSTRING);
 
 	// Folders plugin support
-	if (hDictionariesFolder = FoldersRegisterCustomPathT(LPGEN("Spell Checker"), LPGEN("Dictionaries"), DICTIONARIES_FOLDER)) {
+	if (hDictionariesFolder = FoldersRegisterCustomPathW(LPGEN("Spell Checker"), LPGEN("Dictionaries"), DICTIONARIES_FOLDER)) {
 		dictionariesFolder = (wchar_t *)mir_alloc(sizeof(wchar_t) * MAX_PATH);
-		FoldersGetCustomPathT(hDictionariesFolder, dictionariesFolder, MAX_PATH, L".");
+		FoldersGetCustomPathW(hDictionariesFolder, dictionariesFolder, MAX_PATH, L".");
 	}
 	else dictionariesFolder = Utils_ReplaceVarsW(DICTIONARIES_FOLDER);
 
-	if (hCustomDictionariesFolder = FoldersRegisterCustomPathT(LPGEN("Spell Checker"), LPGEN("Custom Dictionaries"), CUSTOM_DICTIONARIES_FOLDER)) {
+	if (hCustomDictionariesFolder = FoldersRegisterCustomPathW(LPGEN("Spell Checker"), LPGEN("Custom Dictionaries"), CUSTOM_DICTIONARIES_FOLDER)) {
 		customDictionariesFolder = (wchar_t *)mir_alloc(sizeof(wchar_t) * MAX_PATH);
-		FoldersGetCustomPathT(hCustomDictionariesFolder, customDictionariesFolder, MAX_PATH, L".");
+		FoldersGetCustomPathW(hCustomDictionariesFolder, customDictionariesFolder, MAX_PATH, L".");
 	}
 	else customDictionariesFolder = Utils_ReplaceVarsW(CUSTOM_DICTIONARIES_FOLDER);
 
-	if (hFlagsDllFolder = FoldersRegisterCustomPathT(LPGEN("Spell Checker"), LPGEN("Flags DLL"), FLAGS_DLL_FOLDER)) {
+	if (hFlagsDllFolder = FoldersRegisterCustomPathW(LPGEN("Spell Checker"), LPGEN("Flags DLL"), FLAGS_DLL_FOLDER)) {
 		flagsDllFolder = (wchar_t *)mir_alloc(sizeof(wchar_t) * MAX_PATH);
-		FoldersGetCustomPathT(hFlagsDllFolder, flagsDllFolder, MAX_PATH, L".");
+		FoldersGetCustomPathW(hFlagsDllFolder, flagsDllFolder, MAX_PATH, L".");
 	}
 	else flagsDllFolder = Utils_ReplaceVarsW(FLAGS_DLL_FOLDER);
 

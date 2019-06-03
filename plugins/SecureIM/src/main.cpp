@@ -54,7 +54,7 @@ static int onModulesLoaded(WPARAM, LPARAM)
 {
 	InitNetlib();
 
-	g_hFolders = FoldersRegisterCustomPathT(LPGEN("SecureIM"), LPGEN("Icons"), MIRANDA_PATH "\\icons");
+	g_hFolders = FoldersRegisterCustomPath(LPGEN("SecureIM"), LPGEN("Icons"), MIRANDA_PATH "\\icons");
 
 	InitIcons();
 	GetFlags();

@@ -144,8 +144,8 @@ int SystemModulesLoaded(WPARAM, LPARAM)
 
 	CheckMenuItems();
 
-	if (hAccountFolder = FoldersRegisterCustomPathT(LPGEN("YAMN"), LPGEN("YAMN Account Folder"), UserDirectory))
-		FoldersGetCustomPathT(hAccountFolder, UserDirectory, MAX_PATH, UserDirectory);
+	if (hAccountFolder = FoldersRegisterCustomPathW(LPGEN("YAMN"), LPGEN("YAMN Account Folder"), UserDirectory))
+		FoldersGetCustomPathW(hAccountFolder, UserDirectory, MAX_PATH, UserDirectory);
 
 	RegisterPOP3Plugin(0, 0);
 	return 0;

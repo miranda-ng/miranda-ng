@@ -227,8 +227,8 @@ static int ModulesLoaded(WPARAM, LPARAM)
 {
 	mir_snwprintf(basedir, L"%s\\Avatars History", profilePath);
 
-	hFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), LPGEN("Avatar History"),
-		PROFILE_PATHT L"\\" CURRENT_PROFILET L"\\Avatars History");
+	hFolder = FoldersRegisterCustomPathW(LPGEN("Avatars"), LPGEN("Avatar History"),
+		PROFILE_PATHW L"\\" CURRENT_PROFILEW L"\\Avatars History");
 
 	InitPopups();
 

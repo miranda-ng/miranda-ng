@@ -57,7 +57,7 @@ bool CMLuaOptionsMain::OnInitDialog()
 	ImageList_AddIcon(hImageList, g_plugin.getIcon(IDI_COMPILE));
 
 	wchar_t scriptDir[MAX_PATH];
-	FoldersGetCustomPathT(g_hScriptsFolder, scriptDir, _countof(scriptDir), VARSW(MIRLUA_PATHT));
+	FoldersGetCustomPathW(g_hScriptsFolder, scriptDir, _countof(scriptDir), VARSW(MIRLUA_PATHT));
 
 	wchar_t relativeScriptDir[MAX_PATH];
 	PathToRelativeW(scriptDir, relativeScriptDir, nullptr);

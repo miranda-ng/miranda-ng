@@ -87,7 +87,7 @@ wchar_t* GetExtension(wchar_t *file)
 wchar_t* GetHistoryFolder(wchar_t *fn)
 {
 	if (fn == nullptr) return nullptr;
-	FoldersGetCustomPathT(hFolder, fn, MAX_PATH, basedir);
+	FoldersGetCustomPathW(hFolder, fn, MAX_PATH, basedir);
 	CreateDirectoryTreeW(fn);
 	return fn;
 }

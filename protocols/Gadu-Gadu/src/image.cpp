@@ -802,7 +802,7 @@ int GaduProto::img_displayasmsg(MCONTACT hContact, void *img)
 	wchar_t szPath[MAX_PATH], path[MAX_PATH];
 	size_t tPathLen;
 
-	if (hImagesFolder == nullptr || FoldersGetCustomPathT(hImagesFolder, path, MAX_PATH, L"")) {
+	if (hImagesFolder == nullptr || FoldersGetCustomPathW(hImagesFolder, path, MAX_PATH, L"")) {
 		wchar_t *tmpPath = Utils_ReplaceVarsW(L"%miranda_userdata%");
 		tPathLen = mir_snwprintf(szPath, L"%s\\%s\\ImageCache", tmpPath, m_tszUserName);
 		mir_free(tmpPath);

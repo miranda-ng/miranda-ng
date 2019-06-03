@@ -36,7 +36,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 {
 	CToxProto::InitIcons();
 
-	hProfileFolderPath = FoldersRegisterCustomPathT("Tox", "ProfilesFolder", MIRANDA_USERDATAT, TranslateT("Profiles folder"));
+	hProfileFolderPath = FoldersRegisterCustomPathW("Tox", "ProfilesFolder", MIRANDA_USERDATAW, TranslateT("Profiles folder"));
 
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE)) {
 		CreateServiceFunction(MODULE "/ParseUri", CToxProto::ParseToxUri);

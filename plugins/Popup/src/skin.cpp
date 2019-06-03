@@ -1098,7 +1098,7 @@ bool Skins::load()
 	wchar_t dir[1024] = { '\0' };
 
 	if (ServiceExists(MS_FOLDERS_GET_PATH)) {
-		if (FoldersGetCustomPathT(folderId, dir, _countof(dir), nullptr) != 0)
+		if (FoldersGetCustomPathW(folderId, dir, _countof(dir), nullptr) != 0)
 			return false;
 	}
 	else {

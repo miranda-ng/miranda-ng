@@ -25,14 +25,14 @@ HANDLE hTBButton = nullptr, hNewsAggregatorFolder = nullptr;
 
 int OnFoldersChanged(WPARAM, LPARAM)
 {
-	FoldersGetCustomPathT(hNewsAggregatorFolder, tszRoot, MAX_PATH, L"");
+	FoldersGetCustomPathW(hNewsAggregatorFolder, tszRoot, MAX_PATH, L"");
 	return 0;
 }
 
 int NewsAggrInit(WPARAM, LPARAM)
 {
-	if (hNewsAggregatorFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), LPGEN("News Aggregator"), MIRANDA_USERDATAT L"\\Avatars\\" _A2W(DEFAULT_AVATARS_FOLDER)))
-		FoldersGetCustomPathT(hNewsAggregatorFolder, tszRoot, MAX_PATH, L"");
+	if (hNewsAggregatorFolder = FoldersRegisterCustomPathW(LPGEN("Avatars"), LPGEN("News Aggregator"), MIRANDA_USERDATAW L"\\Avatars\\" _A2W(DEFAULT_AVATARS_FOLDER)))
+		FoldersGetCustomPathW(hNewsAggregatorFolder, tszRoot, MAX_PATH, L"");
 	else
 		mir_wstrncpy(tszRoot, VARSW(L"%miranda_userdata%\\Avatars\\" _A2W(DEFAULT_AVATARS_FOLDER)), _countof(tszRoot));
 

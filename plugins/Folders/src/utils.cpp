@@ -29,10 +29,10 @@ CMStringW ExpandPath(const wchar_t *format)
 	else
 		res = VARSW(format);
 
-	res.Replace(PROFILE_PATHT, szCurrentProfilePath);
-	res.Replace(CURRENT_PROFILET, szCurrentProfile);
-	res.Replace(MIRANDA_PATHT, szMirandaPath);
-	res.Replace(MIRANDA_USERDATAT, szUserDataPath);
+	res.Replace(PROFILE_PATHW, szCurrentProfilePath);
+	res.Replace(CURRENT_PROFILEW, szCurrentProfile);
+	res.Replace(MIRANDA_PATHW, szMirandaPath);
+	res.Replace(MIRANDA_USERDATAW, szUserDataPath);
 	res.Trim();
 
 	// also remove the trailing slash

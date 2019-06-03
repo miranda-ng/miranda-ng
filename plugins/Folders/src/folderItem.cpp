@@ -47,7 +47,7 @@ void CFolderItem::SetFormat(const wchar_t *newFormat)
 {
 	mir_free(m_tszOldFormat);
 	m_tszOldFormat = m_tszFormat;
-	m_tszFormat = mir_wstrdup(*newFormat ? newFormat : MIRANDA_PATHT);
+	m_tszFormat = mir_wstrdup(*newFormat ? newFormat : MIRANDA_PATHW);
 }
 
 int CFolderItem::IsEqual(const CFolderItem *other)

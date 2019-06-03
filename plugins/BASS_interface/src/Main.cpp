@@ -511,7 +511,7 @@ void LoadBassLibrary(const wchar_t *ptszPath)
 
 int OnFoldersChanged(WPARAM, LPARAM)
 {
-	FoldersGetCustomPathT(hBASSFolder, CurrBassPath, MAX_PATH, L"");
+	FoldersGetCustomPathW(hBASSFolder, CurrBassPath, MAX_PATH, L"");
 	mir_wstrcat(CurrBassPath, L"\\bass.dll");
 
 	if (hBass != nullptr) {
@@ -528,8 +528,8 @@ int OnFoldersChanged(WPARAM, LPARAM)
 
 int OnModulesLoaded(WPARAM, LPARAM)
 {
-	if (hBASSFolder = FoldersRegisterCustomPathT(LPGEN("Bass Interface"), LPGEN("Bass library"), PLUGINS_PATHT L"\\BASS")) {
-		FoldersGetCustomPathT(hBASSFolder, CurrBassPath, MAX_PATH, L"");
+	if (hBASSFolder = FoldersRegisterCustomPathW(LPGEN("Bass Interface"), LPGEN("Bass library"), PLUGINS_PATHW L"\\BASS")) {
+		FoldersGetCustomPathW(hBASSFolder, CurrBassPath, MAX_PATH, L"");
 		mir_wstrcat(CurrBassPath, L"\\bass.dll");
 	}
 	else {

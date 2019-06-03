@@ -199,7 +199,7 @@ void LogSpamToFile(MCONTACT hContact, wstring message)
 	wchar_t pszName[MAX_PATH];
 
 	if (hStopSpamLogDirH)
-		FoldersGetCustomPathT(hStopSpamLogDirH, pszName, MAX_PATH, L"");
+		FoldersGetCustomPathW(hStopSpamLogDirH, pszName, MAX_PATH, L"");
 	else
 		mir_wstrncpy(pszName, VARSW(L"%miranda_logpath%"), _countof(pszName));
 

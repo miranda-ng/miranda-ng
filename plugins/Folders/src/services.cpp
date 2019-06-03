@@ -38,9 +38,9 @@ INT_PTR RegisterPathService(WPARAM, LPARAM lParam)
 
 	CFolderItem *pNew;
 	if (data->flags & FF_UNICODE)
-		pNew = new CFolderItem(data->szSection, data->szName, data->szFormatW, data->szUserNameW);
+		pNew = new CFolderItem(data->szSection, data->szName, data->szFormat.w, data->szUserName.w);
 	else
-		pNew = new CFolderItem(data->szSection, data->szName, _A2T(data->szFormat), _A2T(data->szUserName));
+		pNew = new CFolderItem(data->szSection, data->szName, _A2T(data->szFormat.a), _A2T(data->szUserName.a));
 
 	lstRegisteredFolders.insert(pNew);
 	return (INT_PTR)pNew;
@@ -69,9 +69,9 @@ INT_PTR GetPathService(WPARAM wParam, LPARAM lParam)
 
 	CMStringW buf(p->Expand());
 	if (data->flags & FF_UNICODE)
-		wcsncpy_s(data->szPathT, data->nMaxPathSize, buf, _TRUNCATE);
+		wcsncpy_s(data->szPath.w, data->nMaxPathSize, buf, _TRUNCATE);
 	else
-		strncpy_s(data->szPath, data->nMaxPathSize, _T2A(buf), _TRUNCATE);
+		strncpy_s(data->szPath.a, data->nMaxPathSize, _T2A(buf), _TRUNCATE);
 	return 0;
 }
 

@@ -167,15 +167,7 @@ INT_PTR ServiceModeLaunch(WPARAM, LPARAM)
 
 static int FoldersPathChanged(WPARAM, LPARAM)
 {
-	FOLDERSGETDATA fgd = {};
-	fgd.cbSize = sizeof(FOLDERSGETDATA);
-	fgd.nMaxPathSize = MAX_PATH;
-	fgd.flags = FF_TCHAR;
-	//	fgd.szPathT = CrashLogFolder;
-	//	CallService(MS_FOLDERS_GET_PATH, (WPARAM)hCrashLogFolder, (LPARAM)&fgd);
-
-	fgd.szPathT = VersionInfoFolder;
-	CallService(MS_FOLDERS_GET_PATH, (WPARAM)hVerInfoFolder, (LPARAM)&fgd);
+	FoldersGetCustomPathW(hVerInfoFolder, VersionInfoFolder, MAX_PATH, L"");
 	return 0;
 }
 
@@ -216,8 +208,8 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		replaceStrW(profpath, L"%miranda_userdata%");
 
 		// Removed because it isn't available on Load()
-		//		hCrashLogFolder = FoldersRegisterCustomPathT(MODULENAME, LPGEN("Crash Reports"), CrashLogFolder);
-		hVerInfoFolder = FoldersRegisterCustomPathT(MODULENAME, LPGEN("Version Information"), VersionInfoFolder);
+		//		hCrashLogFolder = FoldersRegisterCustomPathW(MODULENAME, LPGEN("Crash Reports"), CrashLogFolder);
+		hVerInfoFolder = FoldersRegisterCustomPathW(MODULENAME, LPGEN("Version Information"), VersionInfoFolder);
 
 		HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersPathChanged);
 		FoldersPathChanged(0, 0);

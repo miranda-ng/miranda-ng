@@ -35,66 +35,38 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define PLUGINS_PATHW L"%miranda_path%" L"\\plugins"
 #define MIRANDA_USERDATAW L"%miranda_userdata%"
 
-#ifdef _UNICODE
-#define PROFILE_PATHT		PROFILE_PATHW
-#define CURRENT_PROFILET	CURRENT_PROFILEW
-#define MIRANDA_PATHT		MIRANDA_PATHW
-#define PLUGINS_PATHT		PLUGINS_PATHW
-#define MIRANDA_USERDATAT	MIRANDA_USERDATAW
-#else
-#define PROFILE_PATHT		PROFILE_PATH
-#define CURRENT_PROFILET	CURRENT_PROFILE
-#define MIRANDA_PATHT		MIRANDA_PATH
-#define PLUGINS_PATHT		PLUGINS_PATH
-#define MIRANDA_USERDATAT	MIRANDA_USERDATA
-#endif
+#define FOLDER_AVATARS                 PROFILE_PATHW L"\\" CURRENT_PROFILEW L"\\avatars"
+#define FOLDER_VCARDS                  PROFILE_PATHW L"\\" CURRENT_PROFILEW L"\\vcards"
+#define FOLDER_LOGS                    PROFILE_PATHW L"\\" CURRENT_PROFILEW L"\\logs"
+#define FOLDER_RECEIVED_FILES          PROFILE_PATHW L"\\" CURRENT_PROFILEW L"\\received files"
+#define FOLDER_DOCS                    MIRANDA_PATHW L"\\" L"docs"
+#define FOLDER_CONFIG                  PLUGINS_PATHW L"\\" L"config"
+#define FOLDER_SCRIPTS                 MIRANDA_PATHW L"\\" L"scripts"
+#define FOLDER_UPDATES                 MIRANDA_PATHW L"\\" L"updates"
 
-#define FOLDER_AVATARS                 PROFILE_PATHT L"\\" CURRENT_PROFILET L"\\avatars"
-#define FOLDER_VCARDS                  PROFILE_PATHT L"\\" CURRENT_PROFILET L"\\vcards"
-#define FOLDER_LOGS                    PROFILE_PATHT L"\\" CURRENT_PROFILET L"\\logs"
-#define FOLDER_RECEIVED_FILES          PROFILE_PATHT L"\\" CURRENT_PROFILET L"\\received files"
-#define FOLDER_DOCS                    MIRANDA_PATHT L"\\" L"docs"
-#define FOLDER_CONFIG                  PLUGINS_PATHT L"\\" L"config"
-#define FOLDER_SCRIPTS                 MIRANDA_PATHT L"\\" L"scripts"
-#define FOLDER_UPDATES                 MIRANDA_PATHT L"\\" L"updates"
-
-#define FOLDER_CUSTOMIZE               MIRANDA_PATHT L"\\" L"customize"
+#define FOLDER_CUSTOMIZE               MIRANDA_PATHW L"\\" L"customize"
 #define FOLDER_CUSTOMIZE_SOUNDS        FOLDER_CUSTOMIZE L"\\sounds"
 #define FOLDER_CUSTOMIZE_ICONS         FOLDER_CUSTOMIZE L"\\icons"
 #define FOLDER_CUSTOMIZE_SMILEYS       FOLDER_CUSTOMIZE L"\\smileys"
 #define FOLDER_CUSTOMIZE_SKINS         FOLDER_CUSTOMIZE L"\\skins"
 #define FOLDER_CUSTOMIZE_THEMES        FOLDER_CUSTOMIZE L"\\themes"
 
-#define TO_WIDE(x)     L ## x
-
-#define FOLDERS_NAME_MAX_SIZE 64  //maximum name and section size
+#define FOLDERS_NAME_MAX_SIZE 64  // maximum name and section size
 
 #define FF_UNICODE 0x00000001
 
-#if defined (UNICODE)
-#define FF_TCHAR	FF_UNICODE
-#else
-#define FF_TCHAR	0
-#endif
-
-typedef struct
+struct FOLDERSDATA
 {
-	int    cbSize;                 //size of struct
-	LPCSTR szSection;              //section name, if it doesn't exist it will be created otherwise it will just add this entry to it
-	LPCSTR szName;                 //entry name - will be shown in options
-	union {
-		const char *szFormat;       //default string format. Fallback string in case there's no entry in the database for this folder. This should be the initial value for the path, users will be able to change it later.
-		const wchar_t *szFormatW;   //String is dup()'d so you can free it later. If you set the unicode string don't forget to set the flag accordingly.
-		const TCHAR *szFormatT;
-	};
-	DWORD flags;                   //FF_* flags
-	union {
-		const char *szUserName;     //for display purposes. if NULL, plugins gets it as the translated szName
-		const wchar_t *szUserNameW; //String is dup()'d so you can free it later. If you set the unicode string don't forget to set the flag accordingly.
-		const TCHAR *szUserNameT;
-	};
-}
-FOLDERSDATA;
+	int cbSize;                    // size of struct
+	DWORD flags;                   // FF_* flags
+	LPCSTR szSection;              // section name, if it doesn't exist it will be created otherwise it will just add this entry to it
+	LPCSTR szName;                 // entry name - will be shown in options
+	MAllCStrings szFormat;         // default string format. Fallback string in case there's no entry in the database for this folder. 
+	                               // This should be the initial value for the path, users will be able to change it later.
+											 // String is dup()'d so you can free it later. If you set the unicode string don't forget to set the flag accordingly.
+	MAllCStrings szUserName;       // for display purposes. if NULL, plugins gets it as the translated szName
+		                            // String is dup()'d so you can free it later. If you set the unicode string don't forget to set the flag accordingly.
+};
 
 /*Folders/Register/Path service
   wParam - not used, must be 0
@@ -105,25 +77,22 @@ FOLDERSDATA;
   */
 #define MS_FOLDERS_REGISTER_PATH "Folders/Register/Path"
 
-/*Folders/Get/PathSize service
-  wParam - (WPARAM) (int) - handle to registered path
-  lParam - (LPARAM) (int *) - pointer to the variable that receives the size of the path
-  string (not including the null character). Depending on the flags set when creating the path
-  it will either call mir_strlen() or mir_wstrlen() to get the length of the string.
-  Returns the size of the buffer.
-  */
+  /*Folders/Get/PathSize service
+	 wParam - (WPARAM) (int) - handle to registered path
+	 lParam - (LPARAM) (int *) - pointer to the variable that receives the size of the path
+	 string (not including the null character). Depending on the flags set when creating the path
+	 it will either call mir_strlen() or mir_wstrlen() to get the length of the string.
+	 Returns the size of the buffer.
+	 */
 #define MS_FOLDERS_GET_SIZE "Folders/Get/PathSize"
 
-typedef struct{
+struct FOLDERSGETDATA
+{
 	int cbSize;
-	int nMaxPathSize;                     //maximum size of buffer. This represents the number of characters that can be copied to it (so for unicode strings you don't send the number of bytes but the length of the string).
-	union{
-		char *szPath;                     //pointer to the buffer that receives the path without the last "\\"
-		wchar_t *szPathW;                 //unicode version of the buffer.
-		TCHAR *szPathT;
-	};
-	DWORD flags;                       //FF_* flags
-} FOLDERSGETDATA;
+	int nMaxPathSize;      // maximum size of buffer. This represents the number of characters that can be copied to it (so for unicode strings you don't send the number of bytes but the length of the string).
+	MAllStrings szPath;    // pointer to the buffer that receives the path without the last "\\"
+	DWORD flags;           // FF_* flags
+};
 
 /*Folders/Get/Path service
   wParam - (WPARAM) (int) - handle to registered path
@@ -132,11 +101,11 @@ typedef struct{
   */
 #define MS_FOLDERS_GET_PATH "Folders/Get/Path"
 
-/*Folders/On/Path/Changed
-	wParam - (WPARAM) 0
-	lParam - (LPARAM) 0
-	Triggered when the folders change, you should reget the paths you registered.
-	*/
+  /*Folders/On/Path/Changed
+	  wParam - (WPARAM) 0
+	  lParam - (LPARAM) 0
+	  Triggered when the folders change, you should reget the paths you registered.
+	  */
 #define ME_FOLDERS_PATH_CHANGED "Folders/On/Path/Changed"
 
 __inline static HANDLE FoldersRegisterCustomPath(const char *section, const char *name, const char *defaultPath)
@@ -147,7 +116,7 @@ __inline static HANDLE FoldersRegisterCustomPath(const char *section, const char
 	FOLDERSDATA fd = { sizeof(fd) };
 	fd.szSection = section;
 	fd.szName = name;
-	fd.szFormat = defaultPath;
+	fd.szFormat.a = defaultPath;
 	return (HANDLE)CallService(MS_FOLDERS_REGISTER_PATH, 0, (LPARAM)&fd);
 }
 
@@ -160,8 +129,8 @@ __inline static HANDLE FoldersRegisterCustomPathW(const char *section, const cha
 	FOLDERSDATA fd = { sizeof(fd) };
 	fd.szSection = section;
 	fd.szName = name;
-	fd.szFormatW = defaultPathW;
-	fd.szUserNameW = userNameW;
+	fd.szFormat.w = defaultPathW;
+	fd.szUserName.w = userNameW;
 	fd.flags = FF_UNICODE;
 	return (HANDLE)CallService(MS_FOLDERS_REGISTER_PATH, 0, (LPARAM)&fd);
 }
@@ -171,7 +140,7 @@ __inline static INT_PTR FoldersGetCustomPath(HANDLE hFolderEntry, char *path, co
 {
 	FOLDERSGETDATA fgd = { sizeof(fgd) };
 	fgd.nMaxPathSize = size;
-	fgd.szPath = path;
+	fgd.szPath.a = path;
 	INT_PTR res = CallService(MS_FOLDERS_GET_PATH, (WPARAM)hFolderEntry, (LPARAM)&fgd);
 	if (res) {
 		char buffer[MAX_PATH];
@@ -187,7 +156,7 @@ __inline static INT_PTR FoldersGetCustomPathW(HANDLE hFolderEntry, wchar_t *path
 {
 	FOLDERSGETDATA fgd = { sizeof(fgd) };
 	fgd.nMaxPathSize = size;
-	fgd.szPathW = pathW;
+	fgd.szPath.w = pathW;
 	fgd.flags = FF_UNICODE;
 	INT_PTR res = CallService(MS_FOLDERS_GET_PATH, (WPARAM)hFolderEntry, (LPARAM)&fgd);
 	if (res) {
@@ -204,7 +173,7 @@ __inline static INT_PTR FoldersGetCustomPathEx(HANDLE hFolderEntry, char *path, 
 {
 	FOLDERSGETDATA fgd = { sizeof(fgd) };
 	fgd.nMaxPathSize = size;
-	fgd.szPath = path;
+	fgd.szPath.a = path;
 	INT_PTR res = CallService(MS_FOLDERS_GET_PATH, (WPARAM)hFolderEntry, (LPARAM)&fgd);
 	if (res) {
 		char buffer[MAX_PATH];
@@ -226,7 +195,7 @@ __inline static INT_PTR FoldersGetCustomPathExW(HANDLE hFolderEntry, wchar_t *pa
 {
 	FOLDERSGETDATA fgd = { sizeof(fgd) };
 	fgd.nMaxPathSize = size;
-	fgd.szPathW = pathW;
+	fgd.szPath.w = pathW;
 	fgd.flags = FF_UNICODE;
 	INT_PTR res = CallService(MS_FOLDERS_GET_PATH, (WPARAM)hFolderEntry, (LPARAM)&fgd);
 	if (res) {
@@ -244,16 +213,5 @@ __inline static INT_PTR FoldersGetCustomPathExW(HANDLE hFolderEntry, wchar_t *pa
 	return res;
 }
 #endif //_UNICODE
-
-# ifdef _UNICODE
-#  define FoldersGetCustomPathT FoldersGetCustomPathW
-#  define FoldersGetCustomPathExT FoldersGetCustomPathExW
-#  define FoldersRegisterCustomPathT FoldersRegisterCustomPathW
-#else
-#  define FoldersGetCustomPathT FoldersGetCustomPath
-#  define FoldersGetCustomPathExT FoldersGetCustomPath
-#  define FoldersRegisterCustomPathT FoldersRegisterCustomPath
-#endif
-
 
 #endif //M_CUSTOM_FOLDERS_H

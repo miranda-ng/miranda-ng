@@ -367,7 +367,7 @@ static int OnFoldersChanged(WPARAM, LPARAM)
 	mir_snwprintf(tszAvatarRoot, L"%s\\%s\\AvatarCache", g_profileDir, g_shortProfileName);
 
 	wchar_t tmpVar[MAX_PATH];
-	if (!FoldersGetCustomPathT(hAvatarFolder, tmpVar, _countof(tmpVar), tszAvatarRoot))
+	if (!FoldersGetCustomPathW(hAvatarFolder, tmpVar, _countof(tmpVar), tszAvatarRoot))
 		wcsncpy_s(tszAvatarRoot, tmpVar, _TRUNCATE);
 	return 0;
 }
@@ -375,9 +375,9 @@ static int OnFoldersChanged(WPARAM, LPARAM)
 void InitPathVar()
 {
 	mir_snwprintf(tszAvatarRoot, L"%s\\%s\\AvatarCache", g_profileDir, g_shortProfileName);
-	if (hAvatarFolder = FoldersRegisterCustomPathT( LPGEN("Avatars"), LPGEN("Avatars root folder"), tszAvatarRoot)) {
+	if (hAvatarFolder = FoldersRegisterCustomPathW(LPGEN("Avatars"), LPGEN("Avatars root folder"), tszAvatarRoot)) {
 		wchar_t tmpVar[MAX_PATH];
-		if (!FoldersGetCustomPathT(hAvatarFolder, tmpVar, _countof(tmpVar), tszAvatarRoot))
+		if (!FoldersGetCustomPathW(hAvatarFolder, tmpVar, _countof(tmpVar), tszAvatarRoot))
 			wcsncpy_s(tszAvatarRoot, tmpVar, _TRUNCATE);
 		HookEvent(ME_FOLDERS_PATH_CHANGED, OnFoldersChanged);
 	}

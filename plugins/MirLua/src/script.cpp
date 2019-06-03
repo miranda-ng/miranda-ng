@@ -165,7 +165,7 @@ bool CMLuaScript::Compile()
 	Log(L"Compiling script %s", filePath);
 
 	wchar_t scriptDir[MAX_PATH];
-	FoldersGetCustomPathT(g_hScriptsFolder, scriptDir, _countof(scriptDir), VARSW(MIRLUA_PATHT));
+	FoldersGetCustomPathW(g_hScriptsFolder, scriptDir, _countof(scriptDir), VARSW(MIRLUA_PATHT));
 	wchar_t fullPath[MAX_PATH];
 	mir_snwprintf(fullPath, L"%s\\%s.%s", scriptDir, scriptName, LUAPRECSCRIPTEXT);
 	wchar_t path[MAX_PATH];

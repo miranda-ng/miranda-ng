@@ -1,7 +1,7 @@
 #include "commonheaders.h"
 
 // разбивает сообщение szMsg на части длиной iLen, возвращает строку вида PARTzPARTzz
-LPSTR splitMsg(LPSTR szMsg, int iLen)
+LPSTR splitMsg(LPSTR szMsg, size_t iLen)
 {
 	Sent_NetLog("split: msg: -----\n%s\n-----\n", szMsg);
 
@@ -14,7 +14,7 @@ LPSTR splitMsg(LPSTR szMsg, int iLen)
 
 	size_t part_all = (len + iLen - 1) / iLen;
 	for (size_t part_num = 0; part_num<part_all; part_num++) {
-		size_t sz = (len>iLen) ? iLen : len;
+		size_t sz = (len > iLen) ? iLen : len;
 		mir_snprintf(buf, 32, "%s%04X%02X%02X", SIG_SECP, msg_id, part_num, part_all);
 		memcpy(buf + LEN_SECP + 8, szMsg, sz);
 		*(buf + LEN_SECP + 8 + sz) = '\0';

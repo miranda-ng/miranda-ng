@@ -23,7 +23,7 @@ HANDLE hPluginUpdaterFolder;
 
 int OnFoldersChanged(WPARAM, LPARAM)
 {
-	FoldersGetCustomPathT(hPluginUpdaterFolder, g_tszRoot, MAX_PATH, L"");
+	FoldersGetCustomPathW(hPluginUpdaterFolder, g_tszRoot, MAX_PATH, L"");
 	size_t len = wcslen(g_tszRoot);
 	if (g_tszRoot[len-1] == '\\' || g_tszRoot[len-1] == '/')
 		g_tszRoot[len-1] = 0;
@@ -46,7 +46,7 @@ void EmptyFolder()
 
 int ModulesLoaded(WPARAM, LPARAM)
 {
-	if (hPluginUpdaterFolder = FoldersRegisterCustomPathT(MODULEA, LPGEN("Plugin Updater"), MIRANDA_PATHW L"\\" DEFAULT_UPDATES_FOLDER)) {
+	if (hPluginUpdaterFolder = FoldersRegisterCustomPathW(MODULEA, LPGEN("Plugin Updater"), MIRANDA_PATHW L"\\" DEFAULT_UPDATES_FOLDER)) {
 		HookEvent(ME_FOLDERS_PATH_CHANGED, OnFoldersChanged);
 		OnFoldersChanged(0, 0);
 	}
