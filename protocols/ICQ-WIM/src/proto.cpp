@@ -347,7 +347,7 @@ HANDLE CIcqProto::SearchBasic(const wchar_t *pszSearch)
 	auto *pReq = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER, &CIcqProto::OnSearchResults);
 
 	JSONNode request, params; params.set_name("params");
-	params << WCHAR_PARAM("keyword", pszSearch);
+	params << WCHAR_PARAM(*pszSearch == '+' ? "phonenum" : "keyword", pszSearch);
 	request << CHAR_PARAM("method", "search") << CHAR_PARAM("reqId", pReq->m_reqId) << params;
 	pReq->m_szParam = ptrW(json_write(&request));
 	Push(pReq);
