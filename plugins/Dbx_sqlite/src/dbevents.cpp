@@ -13,7 +13,6 @@ enum {
 	SQL_EVT_STMT_FINDFIRST,
 	SQL_EVT_STMT_FINDFIRSTUNREAD,
 	SQL_EVT_STMT_FINDLAST,
-	SQL_EVT_STMT_FINDNEXT,
 	SQL_EVT_STMT_FINDPREV,
 	SQL_EVT_STMT_GETIDBYSRVID,
 	SQL_EVT_STMT_SETSRVID,
@@ -34,10 +33,9 @@ static char *evt_stmts[SQL_EVT_STMT_NUM] = {
 	"select flags from events where id = ? limit 1;",
 	"update events set flags = ? where id = ?;",
 	"select contact_id from events where id = ? limit 1;",
-	"select id, timestamp from events where contact_id = ? order by timestamp, id limit 1;",
+	"select id, timestamp from events_srt where contact_id = ? order by timestamp;",
 	"select id, timestamp from events where contact_id = ? and (flags & ?) = 0 order by timestamp, id limit 1;",
 	"select id, timestamp from events where contact_id = ? order by timestamp desc, id desc limit 1;",
-	"select id, timestamp from events where contact_id = ?1 and id <> ?2 and timestamp > (select timestamp from events where contact_id = ?1 and id = ?2 limit 1) order by timestamp, id limit 1;",
 	"select id, timestamp from events where contact_id = ?1 and id <> ?2 and timestamp < (select timestamp from events where contact_id = ?1 and id = ?2 limit 1) order by timestamp desc, id desc limit 1;",
 	"select id, timestamp from events where module = ? and server_id = ? limit 1;",
 	"update events set server_id = ? where id = ?;",
@@ -184,7 +182,7 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, DBEVENTINFO *dbei)
 		sqlite3_bind_int64(stmt, 3, dbei->timestamp);
 		rc = sqlite3_step(stmt);
 		assert(rc == SQLITE_DONE);
-		sqlite3_reset(stmt); //is this necessary ?
+		sqlite3_reset(stmt);
 
 		cc->AddEvent(hDbEvent, dbei->timestamp, !dbei->markedRead());
 		if (ccSub != nullptr)
@@ -436,44 +434,22 @@ MEVENT CDbxSQLite::FindFirstEvent(MCONTACT hContact)
 
 	mir_cslock lock(m_csDbAccess);
 
-	if (cc->IsMeta()) {
-		if (cc->nSubs == 0) {
-			cc->m_first = 0;
-			cc->m_firstTimestamp = 0;
-			return 0;
-		}
-
-		CMStringA query = "select id, timestamp from events where contact_id in (";
-		for (int k = 0; k < cc->nSubs; k++)
-			query.AppendFormat("%lu, ", cc->pSubs[k]);
-		query.Delete(query.GetLength() - 2, 2);
-		query.Append(") order by timestamp, id limit 1;");
-
-		sqlite3_stmt *stmt;
-		sqlite3_prepare_v2(m_db, query, -1, &stmt, nullptr);
-		int rc = sqlite3_step(stmt);
-		assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
-		if (rc != SQLITE_ROW) {
-			sqlite3_finalize(stmt);
-			return 0;
-		}
-		cc->m_first = sqlite3_column_int64(stmt, 0);
-		cc->m_firstTimestamp = sqlite3_column_int64(stmt, 1);
-		sqlite3_finalize(stmt);
-		return cc->m_first;
+	if (evt_cur_fwd)
+	{
+		sqlite3_reset(evt_cur_fwd);
 	}
 
-	sqlite3_stmt *stmt = evt_stmts_prep[SQL_EVT_STMT_FINDFIRST];
-	sqlite3_bind_int64(stmt, 1, hContact);
-	int rc = sqlite3_step(stmt);
+	evt_cur_fwd = evt_stmts_prep[SQL_EVT_STMT_FINDFIRST];
+	sqlite3_bind_int64(evt_cur_fwd, 1, hContact);
+	int rc = sqlite3_step(evt_cur_fwd);
 	assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
-	if (rc != SQLITE_ROW) {
-		sqlite3_reset(stmt);
+	evt_cnt_fwd = hContact;
+/*	if (rc != SQLITE_ROW) {
+		sqlite3_reset(evt_cur_fwd);
 		return 0;
-	}
-	cc->m_first = sqlite3_column_int64(stmt, 0);
-	cc->m_firstTimestamp = sqlite3_column_int64(stmt, 1);
-	sqlite3_reset(stmt);
+	} */
+	cc->m_first = sqlite3_column_int64(evt_cur_fwd, 0);
+	cc->m_firstTimestamp = sqlite3_column_int64(evt_cur_fwd, 1);
 	return cc->m_first;
 }
 
@@ -595,46 +571,39 @@ MEVENT CDbxSQLite::FindNextEvent(MCONTACT hContact, MEVENT hDbEvent)
 	if (cc == nullptr)
 		return 0;
 
-	if (cc->IsMeta()) {
-		if (cc->nSubs == 0)
-			return 0;
-
-		CMStringA in = "(";
-		for (int k = 0; k < cc->nSubs; k++)
-			in.AppendFormat("%lu, ", cc->pSubs[k]);
-		in.Delete(in.GetLength() - 2, 2);
-		in.Append(")");
-
-		CMStringA query(FORMAT, "select id from events where contact_id in %s and id <> %lu and timestamp > (select timestamp from events where contact_id in %s and id = %lu limit 1) order by timestamp, id limit 1;",
-			in.c_str(),
-			hDbEvent,
-			in.c_str(),
-			hDbEvent);
-
-		sqlite3_stmt *stmt;
-		sqlite3_prepare_v2(m_db, query, -1, &stmt, nullptr);
-		int rc = sqlite3_step(stmt);
-		assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
-		if (rc != SQLITE_ROW) {
-			sqlite3_finalize(stmt);
-			return 0;
-		}
-		hDbEvent = sqlite3_column_int64(stmt, 0);
-		sqlite3_finalize(stmt);
-		return hDbEvent;
-	}
-
-	sqlite3_stmt *stmt = evt_stmts_prep[SQL_EVT_STMT_FINDNEXT];
-	sqlite3_bind_int64(stmt, 1, hContact);
-	sqlite3_bind_int64(stmt, 2, hDbEvent);
-	int rc = sqlite3_step(stmt);
-	assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
-	if (rc != SQLITE_ROW) {
-		sqlite3_reset(stmt);
+	if (!evt_cur_fwd)
+	{
 		return 0;
 	}
-	hDbEvent = sqlite3_column_int64(stmt, 0);
-	sqlite3_reset(stmt);
+	if (hContact != evt_cnt_fwd)
+	{
+		return 0;
+	}
+
+	while (hDbEvent !=  sqlite3_column_int64(evt_cur_fwd, 0))
+	{
+		int rc = sqlite3_step(evt_cur_fwd);
+		assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
+		if (rc == SQLITE_DONE)
+		{
+			sqlite3_reset(evt_cur_fwd);
+			return 0;
+		}
+	}
+
+	int rc = sqlite3_step(evt_cur_fwd);
+	assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
+/*	if (rc != SQLITE_ROW) {
+		sqlite3_reset(evt_cur_fwd);
+		return 0;
+	} */
+	hDbEvent = sqlite3_column_int64(evt_cur_fwd, 0);
+	if (rc == SQLITE_DONE)
+	{
+		sqlite3_reset(evt_cur_fwd);
+		evt_cur_fwd = 0;
+	}
+
 	return hDbEvent;
 }
 
