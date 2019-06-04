@@ -170,8 +170,6 @@
 #define IDC_CHK_ONLINE                  40072
 #define IDC_CHK_NA                      40075
 #define IDC_CHK_OCCUPIED                40076
-#define IDC_CHK_ONTHEPHONE              40079
-#define IDC_CHK_OUTTOLUNCH              40080
 
 // Next default values for new objects
 // 

@@ -59,10 +59,7 @@
 #define CHK_DND                         40074
 #define CHK_NA                          40075
 #define CHK_OCC                         40076
-#define CHK_FFC                         40077
-#define CHK_INVISIBLE                   40078
-#define CHK_PHONE                       40079
-#define CHK_LUNCH                       40080
+#define CHK_INVISIBLE                   40077
 
 // Next default values for new objects
 // 

@@ -141,7 +141,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			}
 
 			/* icons */
-			CheckRadioButton(hwnd, 40072, 40080, g_plugin.getWord(hContact, "Icon", ID_STATUS_ONLINE));
+			CheckRadioButton(hwnd, 40072, 40077, g_plugin.getWord(hContact, "Icon", ID_STATUS_ONLINE));
 			SetWindowLongPtr(GetDlgItem(hwnd, CHK_ONLINE), GWLP_USERDATA, (LONG_PTR)Skin_LoadProtoIcon(MODNAME, ID_STATUS_ONLINE));
 			g_PrevBtnWndProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hwnd, CHK_ONLINE), GWLP_WNDPROC, (LONG_PTR)ButtWndProc);
 			for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_MAX; i++) {
