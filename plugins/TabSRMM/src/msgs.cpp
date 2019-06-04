@@ -119,6 +119,7 @@ void CTabBaseDlg::CloseTab()
 	}
 
 	SendMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 0);
+	DestroyWindow(m_hwnd);
 }
 
 void CTabBaseDlg::LoadSettings()
@@ -425,7 +426,7 @@ INT_PTR SendMessageCommand_Worker(MCONTACT hContact, LPCSTR pszMsg, bool isWchar
 	char *szProto = GetContactProto(hContact);
 	if (szProto == nullptr)
 		return 0; // unknown contact
-	if (!CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND)
+	if (0 == (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND))
 		return 0;
 
 	HWND hwnd = Srmm_FindWindow(hContact);
