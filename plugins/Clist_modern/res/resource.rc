@@ -47,17 +47,11 @@ IDI_AVATAR_OVERLAY_OCCUPIED ICON                    "occupied.ico"
 
 IDI_AVATAR_OVERLAY_OFFLINE ICON                    "offline.ico"
 
-IDI_AVATAR_OVERLAY_PHONE ICON                    "phone.ico"
-
 IDI_AVATAR_OVERLAY_AWAY ICON                    "Away.ico"
 
 IDI_AVATAR_OVERLAY_DND  ICON                    "DND.ico"
 
 IDI_AVATAR_OVERLAY_INVISIBLE ICON                    "invisible.ico"
-
-IDI_AVATAR_OVERLAY_LUNCH ICON                    "lunch.ico"
-
-IDI_AVATAR_OVERLAY_CHAT ICON                    "chat.ico"
 
 IDI_STATUS_OVERLAY_NA   ICON                    "MicroNA.ico"
 
@@ -65,17 +59,11 @@ IDI_STATUS_OVERLAY_OCCUPIED ICON                    "Microoccupied.ico"
 
 IDI_STATUS_OVERLAY_OFFLINE ICON                    "Microoffline.ico"
 
-IDI_STATUS_OVERLAY_PHONE ICON                    "Microphone.ico"
-
 IDI_STATUS_OVERLAY_AWAY ICON                    "MicroAway.ico"
 
 IDI_STATUS_OVERLAY_DND  ICON                    "MicroDND.ico"
 
 IDI_STATUS_OVERLAY_INVISIBLE ICON                    "Microinvisible.ico"
-
-IDI_STATUS_OVERLAY_LUNCH ICON                    "Microlunch.ico"
-
-IDI_STATUS_OVERLAY_CHAT ICON                    "Microchat.ico"
 
 IDI_ICQC1               ICON                    "1.ico"
 

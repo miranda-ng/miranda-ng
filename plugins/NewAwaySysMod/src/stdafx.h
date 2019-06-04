@@ -91,10 +91,7 @@
 #define SF_NA 0x8
 #define SF_OCC 0x10
 #define SF_DND 0x20
-#define SF_FFC 0x40
 #define SF_INV 0x80
-#define SF_OTP 0x100
-#define SF_OTL 0x200
 #define SF_OTHER 0x80000000
 
 #define MOREOPTDLG_DEF_DONTPOPDLG (SF_ONL | SF_INV)

@@ -19,16 +19,14 @@ Copyright (C) 2000-2  Richard Hughes, Roland Rabien & Tristan Van de Vreede
 CMPlugin g_plugin;
 
 HGENMENU hToggle, hEnableMenu;
-BOOL gbVarsServiceExist = FALSE;
-INT interval;
+int interval;
 
-wchar_t* ptszDefaultMsg[] = {
+wchar_t *ptszDefaultMsg[] =
+{
 	LPGENW("I am currently away. I will reply to you when I am back."),
 	LPGENW("I am currently very busy and can't spare any time to talk with you. Sorry..."),
 	LPGENW("I am not available right now."),
-	LPGENW("I am now doing something, I will talk to you later."),
-	LPGENW("I am on the phone right now. I will get back to you very soon."),
-	LPGENW("I am having meal right now. I will get back to you very soon.")
+	LPGENW("I am now doing something, I will talk to you later.")
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -49,7 +47,8 @@ PLUGININFOEX pluginInfoEx =
 
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
-{}
+{
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -93,8 +92,7 @@ INT CheckDefaults(WPARAM, LPARAM)
 	interval = g_plugin.getWord(KEY_REPEATINTERVAL, 300);
 
 	wchar_t *ptszVal = g_plugin.getWStringA(KEY_HEADING);
-	if (ptszVal == nullptr)
-		// Heading not set
+	if (ptszVal == nullptr) // Heading not set
 		g_plugin.setWString(KEY_HEADING, TranslateT("Dear %user%, the owner left the following message:"));
 	else
 		mir_free(ptszVal);
@@ -111,20 +109,15 @@ INT CheckDefaults(WPARAM, LPARAM)
 				if (c < ID_STATUS_OCCUPIED)
 					// This mode does not have a preset message
 					ptszDefault = ptszDefaultMsg[c - ID_STATUS_ONLINE - 1];
-				else if (c > ID_STATUS_INVISIBLE)
-					ptszDefault = ptszDefaultMsg[c - ID_STATUS_ONLINE - 3];
 				else
 					ptszDefault = nullptr;
 				if (ptszDefault)
 					g_plugin.setWString(szStatus, TranslateW(ptszDefault));
 			}
-			else
-				mir_free(ptszVal);
+			else mir_free(ptszVal);
 		}
 	}
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPreBuildContactMenu);
-	if (ServiceExists(MS_VARS_FORMATSTRING))
-		gbVarsServiceExist = TRUE;
 
 	BOOL fEnabled = g_plugin.getByte(KEY_ENABLED, 1);
 	if (fEnabled)
@@ -140,7 +133,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 	if (!fEnabled || !hContact || !hDBEvent)
 		return FALSE;	/// unspecifyed error
 
-	char* pszProto = GetContactProto(hContact);
+	char *pszProto = GetContactProto(hContact);
 	int status = Proto_GetStatus(pszProto);
 	if (status == ID_STATUS_ONLINE || status == ID_STATUS_INVISIBLE)
 		return FALSE;
@@ -201,7 +194,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 							mir_free(ptszHead);
 						}
 
-						wchar_t *ptszTemp2 = (wchar_t*)mir_alloc(sizeof(wchar_t) * (msgLen + 5));
+						wchar_t *ptszTemp2 = (wchar_t *)mir_alloc(sizeof(wchar_t) * (msgLen + 5));
 						mir_snwprintf(ptszTemp2, msgLen + 5, L"%s\r\n\r\n%s", ptszTemp.c_str(), ptszVal);
 						if (ServiceExists(MS_VARS_FORMATSTRING)) {
 							ptszTemp = variables_parse(ptszTemp2, nullptr, hContact);

@@ -56,7 +56,7 @@ IDI_ICON2               ICON                    "Online.ico"
 IDI_ICON3               ICON                    "Away.ico"
 IDI_ICON4               ICON                    "Invisible.ico"
 IDI_ICON6               ICON                    "Occupied.ico"
-IDI_ICON8               ICON                    "Phone.ico"
+
 #endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////
 
