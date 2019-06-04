@@ -103,10 +103,7 @@ const
   SKINICON_STATUS_NA         = 3;
   SKINICON_STATUS_OCCUPIED   = 4;
   SKINICON_STATUS_DND        = 5;
-  SKINICON_STATUS_FREE4CHAT  = 6;
-  SKINICON_STATUS_INVISIBLE  = 7;
-  SKINICON_STATUS_ONTHEPHONE = 8;
-  SKINICON_STATUS_OUTTOLUNCH = 9;
+  SKINICON_STATUS_INVISIBLE  = 6;
 
 function Skin_LoadProtoIcon(protoName:PAnsiChar; iconId:int; big:byte) : HICON; stdcall;
                  external AppDLL name 'Skin_LoadProtoIcon';
@@ -119,5 +116,6 @@ const
              returns NULL(0) if ICON_ID is invalid, but always success for a valid ID.
   }
   MS_SKIN_LOADICON:PAnsiChar = 'Skin/Icons/Load';
+
 
 {$ENDIF}

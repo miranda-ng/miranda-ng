@@ -501,10 +501,6 @@ IDI_OVL_OCCUPIED        ICON                    "overlay/occupied.ico"
 
 IDI_OVL_INVISIBLE       ICON                    "overlay/invisible.ico"
 
-IDI_OVL_ONTHEPHONE      ICON                    "overlay/phone.ico"
-
-IDI_OVL_OUTTOLUNCH      ICON                    "overlay/lunch.ico"
-
 IDI_HIDEOFFLINE         ICON                    "online.ico"
 
 IDI_HIDEGROUPS          ICON                    "groups.ico"

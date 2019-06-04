@@ -227,7 +227,7 @@ static HICON hIconSaved = nullptr;
 
 void ClearIcons(int mode)
 {
-	for (int i = IDI_OVL_OFFLINE; i <= IDI_OVL_OUTTOLUNCH; i++) {
+	for (int i = IDI_OVL_OFFLINE; i <= IDI_OVL_INVISIBLE; i++) {
 		if (overlayicons[i - IDI_OVL_OFFLINE] != nullptr) {
 			if (mode)
 				DestroyIcon(overlayicons[i - IDI_OVL_OFFLINE]);
@@ -240,7 +240,7 @@ static void CacheClientIcons()
 {
 	ClearIcons(0);
 
-	for (int i = IDI_OVL_OFFLINE; i <= IDI_OVL_OUTTOLUNCH; i++) {
+	for (int i = IDI_OVL_OFFLINE; i <= IDI_OVL_INVISIBLE; i++) {
 		char szBuffer[128];
 		mir_snprintf(szBuffer, "cln_ovl_%d", ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE));
 		overlayicons[i - IDI_OVL_OFFLINE] = IcoLib_GetIcon(szBuffer);
@@ -251,7 +251,7 @@ static void InitIcoLib()
 {
 	g_plugin.registerIcon(LPGEN("Contact list") "/" LPGEN("Default"), myIcons);
 
-	for (int i = IDI_OVL_OFFLINE; i <= IDI_OVL_OUTTOLUNCH; i++) {
+	for (int i = IDI_OVL_OFFLINE; i <= IDI_OVL_INVISIBLE; i++) {
 		char szBuffer[128];
 		mir_snprintf(szBuffer, "cln_ovl_%d", ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE));
 		IconItemT icon[] = { { Clist_GetStatusModeDescription(ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE), 0), szBuffer, i } };

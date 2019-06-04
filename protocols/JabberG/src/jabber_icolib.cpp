@@ -29,13 +29,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define IDI_ONLINE                      104
 #define IDI_OFFLINE                     105
 #define IDI_AWAY                        128
-#define IDI_FREE4CHAT                   129
 #define IDI_INVISIBLE                   130
 #define IDI_NA                          131
 #define IDI_DND                         158
 #define IDI_OCCUPIED                    159
-#define IDI_ONTHEPHONE                  1002
-#define IDI_OUTTOLUNCH                  1003
 
 HIMAGELIST hAdvancedStatusIcon = nullptr;
 
@@ -75,8 +72,7 @@ static CTransportProtoTableItem TransportProtoTable[] =
 	{ "meinvz*",         "MeinVZ" },
 };
 
-static int skinIconStatusToResourceId[] = {IDI_OFFLINE,IDI_ONLINE,IDI_AWAY,IDI_DND,IDI_NA,IDI_NA,/*IDI_OCCUPIED,*/IDI_FREE4CHAT,IDI_INVISIBLE,IDI_ONTHEPHONE,IDI_OUTTOLUNCH};
-static int skinStatusToJabberStatus[] = {0,1,2,3,4,4,6,7,2,2};
+static int skinIconStatusToResourceId[] = { IDI_OFFLINE, IDI_ONLINE, IDI_AWAY, IDI_DND, IDI_NA, IDI_NA, IDI_OCCUPIED, IDI_INVISIBLE };
 
 ///////////////////////////////////////////////////////////////////////////////
 // CIconPool class
@@ -264,11 +260,10 @@ int CJabberProto::LoadAdvancedIcons(int iID)
 	mir_cslock lck(m_csModeMsgMutex);
 	for (int i = 0; i < ID_STATUS_MAX - ID_STATUS_OFFLINE; i++) {
 		BOOL needFree;
-		int n = skinStatusToJabberStatus[i];
-		wchar_t *descr = Clist_GetStatusModeDescription(n + ID_STATUS_OFFLINE, 0);
-		mir_snprintf(Uname, "%s_Transport_%s_%d", m_szModuleName, proto, n);
-		HICON hicon = LoadTransportIcon(defFile, -skinIconStatusToResourceId[i], Uname, Group, descr, -(n + ID_STATUS_OFFLINE), &needFree);
-		int index = (m_transportProtoTableStartIndex[iID] == -1) ? -1 : m_transportProtoTableStartIndex[iID] + n;
+		wchar_t *descr = Clist_GetStatusModeDescription(i + ID_STATUS_OFFLINE, 0);
+		mir_snprintf(Uname, "%s_Transport_%s_%d", m_szModuleName, proto, i);
+		HICON hicon = LoadTransportIcon(defFile, -skinIconStatusToResourceId[i], Uname, Group, descr, -(i + ID_STATUS_OFFLINE), &needFree);
+		int index = (m_transportProtoTableStartIndex[iID] == -1) ? -1 : m_transportProtoTableStartIndex[iID] + i;
 		int added = ImageList_ReplaceIcon(hAdvancedStatusIcon, index, hicon ? hicon : empty);
 		if (first == -1)
 			first = added;
@@ -306,7 +301,7 @@ int CJabberProto::GetTransportStatusIconIndex(int iID, int Status)
 	if (Status < ID_STATUS_OFFLINE)
 		Status = ID_STATUS_OFFLINE;
 
-	return m_transportProtoTableStartIndex[iID] + skinStatusToJabberStatus[Status - ID_STATUS_OFFLINE];
+	return m_transportProtoTableStartIndex[iID] + Status - ID_STATUS_OFFLINE;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

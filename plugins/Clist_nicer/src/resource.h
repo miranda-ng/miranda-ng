@@ -260,8 +260,6 @@
 #define IDI_OVL_NA                      2054
 #define IDI_OVL_OCCUPIED                2055
 #define IDI_OVL_INVISIBLE               2057
-#define IDI_OVL_ONTHEPHONE              2058
-#define IDI_OVL_OUTTOLUNCH              2059
 #define IDI_HIDEOFFLINE                 2100
 #define IDI_HIDEGROUPS                  2101
 #define IDI_SOUNDSON                    2102
