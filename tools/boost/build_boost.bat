@@ -4,6 +4,8 @@ set p2=%2
 if  "%p1%" == "" (echo "please specify target platform by adding '86' or '64' parameter to command line!'"&&pause&&goto :EOF)
 if  "%p2%" == "" (echo "please specify target msvc compiler by adding '14.1' for MSVC2017 to command line!'"&&pause&&goto :EOF)
 
+rd /Q /S bin.v2
+
 call bootstrap.bat
 
 if "%p2%" == "14.1" (
