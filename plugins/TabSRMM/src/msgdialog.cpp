@@ -2972,7 +2972,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 		}
 		CloseTab();
-		break;
+		return 0;
 
 	case WM_DWMCOMPOSITIONCHANGED:
 		BB_RefreshTheme();
