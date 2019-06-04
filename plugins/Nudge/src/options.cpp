@@ -266,9 +266,6 @@ static INT_PTR CALLBACK DlgProcNudgeOpt(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		case IDC_CHECKST4:
 		case IDC_CHECKST5:
 		case IDC_CHECKST6:
-		case IDC_CHECKST7:
-		case IDC_CHECKST8:
-		case IDC_CHECKST9:
 		case IDC_CHECKPOP:
 		case IDC_OPENMESSAGE:
 		case IDC_CHECKCLIST:

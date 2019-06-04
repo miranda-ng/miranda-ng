@@ -68,31 +68,28 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void clcSetDelayTimer(UINT_PTR uIDEvent, HWND hwnd, int nDelay = -1);
 
-#define FONTID_CONTACTS    0
-#define FONTID_INVIS       1
-#define FONTID_OFFLINE     2
-#define FONTID_NOTONLIST   3
-#define FONTID_OPENGROUPS      4
-#define FONTID_OPENGROUPCOUNTS 5
-#define FONTID_DIVIDERS    6
-#define FONTID_OFFINVIS    7
-#define FONTID_SECONDLINE  8
-#define FONTID_THIRDLINE   9
-#define FONTID_AWAY			10
-#define FONTID_DND			11
-#define FONTID_NA			12
-#define FONTID_OCCUPIED		13
-#define FONTID_CHAT			14
-#define FONTID_INVISIBLE	15
-#define FONTID_PHONE		16
-#define FONTID_LUNCH		17
-#define FONTID_CONTACT_TIME	18
-#define FONTID_CLOSEDGROUPS 19
-#define FONTID_CLOSEDGROUPCOUNTS 20
+#define FONTID_CONTACTS             0
+#define FONTID_INVIS                1
+#define FONTID_OFFLINE              2
+#define FONTID_NOTONLIST            3
+#define FONTID_OPENGROUPS           4
+#define FONTID_OPENGROUPCOUNTS      5
+#define FONTID_DIVIDERS             6
+#define FONTID_OFFINVIS             7
+#define FONTID_SECONDLINE           8
+#define FONTID_THIRDLINE            9
+#define FONTID_AWAY                10
+#define FONTID_DND                 11
+#define FONTID_NA                  12
+#define FONTID_OCCUPIED            13
+#define FONTID_INVISIBLE           15
+#define FONTID_CONTACT_TIME        18
+#define FONTID_CLOSEDGROUPS        19
+#define FONTID_CLOSEDGROUPCOUNTS   20
 #define FONTID_STATUSBAR_PROTONAME 21
-#define FONTID_EVENTAREA	22
-#define FONTID_VIEMODES		23
-#define FONTID_MODERN_MAX 23
+#define FONTID_EVENTAREA           22
+#define FONTID_VIEMODES            23
+#define FONTID_MODERN_MAX          23
 
 #define DROPTARGET_ONMETACONTACT  6
 #define DROPTARGET_ONSUBCONTACT  7

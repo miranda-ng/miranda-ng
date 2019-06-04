@@ -62,9 +62,6 @@
 #define IDC_CHECK5                      1085
 #define IDC_CHECK6                      1086
 #define IDC_CHECK7                      1087
-#define IDC_CHECK8                      1088
-#define IDC_CHECK9                      1089
-#define IDC_CHECK10                     1090
 #define IDC_SETTINGMSG2                 1095
 #define IDC_USEADVANCED                 1096
 #define IDC_SHOWDELIVERYMSGS            1097

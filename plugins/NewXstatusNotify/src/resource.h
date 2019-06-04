@@ -146,10 +146,7 @@
 #define IDC_CHK_DND                     40074
 #define IDC_CHK_NA                      40075
 #define IDC_CHK_OCCUPIED                40076
-#define IDC_CHK_FREECHAT                40077
-#define IDC_CHK_INVISIBLE               40078
-#define IDC_CHK_ONTHEPHONE              40079
-#define IDC_CHK_OUTTOLUNCH              40080
+#define IDC_CHK_INVISIBLE               40077
 #define IDC_CHK_XSTATUS                 40081
 #define IDC_CHK_STATUS_MESSAGE          40082
 #define IDC_CHK_FROMOFFLINE             40083
@@ -176,16 +173,10 @@
 #define IDC_CHK_NA2                     42075
 #define IDC_OCCUPIED_BG                 42076
 #define IDC_CHK_OCCUPIED2               42076
-#define IDC_FREEFORCHAT_BG              42077
-#define IDC_CHK_FREECHAT2               42077
-#define IDC_INVISIBLE_BG                42078
-#define IDC_CHK_INVISIBLE2              42078
-#define IDC_ONTHEPHONE_BG               42079
-#define IDC_CHK_ONTHEPHONE2             42079
-#define IDC_OUTTOLUNCH_BG               42080
-#define IDC_CHK_OUTTOLUNCH2             42080
-#define IDC_XSTATUS_BG                  42081
-#define IDC_STATUSMSG_BG                42082
+#define IDC_INVISIBLE_BG                42077
+#define IDC_CHK_INVISIBLE2              42077
+#define IDC_XSTATUS_BG                  42078
+#define IDC_STATUSMSG_BG                42079
 
 // Next default values for new objects
 // 

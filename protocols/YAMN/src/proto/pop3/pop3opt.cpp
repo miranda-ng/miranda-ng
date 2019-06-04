@@ -8,7 +8,7 @@
 
 //--------------------------------------------------------------------------------------------------
 
-static BOOL Check0, Check1, Check2, Check3, Check4, Check5, Check6, Check7, Check8, Check9;
+static BOOL Check0, Check1, Check2, Check3, Check4, Check5, Check6;
 static char DlgInput[MAX_PATH];
 
 void CheckMenuItems();
@@ -192,10 +192,6 @@ BOOL DlgEnableAccountStatus(HWND hDlg, WPARAM wParam, LPARAM)
 	EnableWindow(GetDlgItem(hDlg, IDC_CHECKST4), (BOOL)wParam);
 	EnableWindow(GetDlgItem(hDlg, IDC_CHECKST5), (BOOL)wParam);
 	EnableWindow(GetDlgItem(hDlg, IDC_CHECKST6), (BOOL)wParam);
-	EnableWindow(GetDlgItem(hDlg, IDC_CHECKST7), (BOOL)wParam);
-	EnableWindow(GetDlgItem(hDlg, IDC_CHECKST8), (BOOL)wParam);
-	EnableWindow(GetDlgItem(hDlg, IDC_CHECKST9), (BOOL)wParam);
-	EnableWindow(GetDlgItem(hDlg, IDC_CHECKST9), (BOOL)wParam);
 	return TRUE;
 }
 
@@ -243,17 +239,7 @@ BOOL DlgEnableAccount(HWND hDlg, WPARAM wParam, LPARAM)
 	EnableWindow(GetDlgItem(hDlg, IDC_CHECKFSND), (BOOL)wParam);
 	EnableWindow(GetDlgItem(hDlg, IDC_CHECKFMSG), (BOOL)wParam);
 	EnableWindow(GetDlgItem(hDlg, IDC_CHECKFICO), (BOOL)wParam);
-	/*EnableWindow(GetDlgItem(hDlg,IDC_CHECKST0),(BOOL)wParam);
-	EnableWindow(GetDlgItem(hDlg,IDC_CHECKST1),(BOOL)wParam);
-	EnableWindow(GetDlgItem(hDlg,IDC_CHECKST2),(BOOL)wParam);
-	EnableWindow(GetDlgItem(hDlg,IDC_CHECKST3),(BOOL)wParam);
-	EnableWindow(GetDlgItem(hDlg,IDC_CHECKST4),(BOOL)wParam);
-	EnableWindow(GetDlgItem(hDlg,IDC_CHECKST5),(BOOL)wParam);
-	EnableWindow(GetDlgItem(hDlg,IDC_CHECKST6),(BOOL)wParam);
-	EnableWindow(GetDlgItem(hDlg,IDC_CHECKST7),(BOOL)wParam);
-	EnableWindow(GetDlgItem(hDlg,IDC_CHECKST8),(BOOL)wParam);
-	EnableWindow(GetDlgItem(hDlg,IDC_CHECKST9),(BOOL)wParam);
-	EnableWindow(GetDlgItem(hDlg,IDC_CHECKST9),(BOOL)wParam);*/
+
 	EnableWindow(GetDlgItem(hDlg, IDC_CHECKSTART), (BOOL)wParam);
 	EnableWindow(GetDlgItem(hDlg, IDC_CHECKFORCE), (BOOL)wParam);
 	EnableWindow(GetDlgItem(hDlg, IDC_COMBOCP), (BOOL)wParam);
@@ -298,9 +284,6 @@ BOOL DlgShowAccountStatus(HWND hDlg, WPARAM wParam, LPARAM lParam)
 		CheckDlgButton(hDlg, IDC_CHECKST4, BST_UNCHECKED);
 		CheckDlgButton(hDlg, IDC_CHECKST5, BST_UNCHECKED);
 		CheckDlgButton(hDlg, IDC_CHECKST6, BST_UNCHECKED);
-		CheckDlgButton(hDlg, IDC_CHECKST7, BST_CHECKED);
-		CheckDlgButton(hDlg, IDC_CHECKST8, BST_CHECKED);
-		CheckDlgButton(hDlg, IDC_CHECKST9, BST_CHECKED);
 	}
 	return TRUE;
 }
@@ -406,16 +389,7 @@ BOOL DlgShowAccount(HWND hDlg, WPARAM wParam, LPARAM lParam)
 		CheckDlgButton(hDlg, IDC_CHECKNOTLS, ActualAccount->Flags & YAMN_ACC_NOTLS ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hDlg, IDC_CHECKAPOP, ActualAccount->Flags & YAMN_ACC_APOP ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hDlg, IDC_AUTOBODY, ActualAccount->Flags & YAMN_ACC_BODY ? BST_CHECKED : BST_UNCHECKED);
-		/*CheckDlgButton(hDlg,IDC_CHECKST0,ActualAccount->StatusFlags & YAMN_ACC_ST0 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hDlg,IDC_CHECKST1,ActualAccount->StatusFlags & YAMN_ACC_ST1 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hDlg,IDC_CHECKST2,ActualAccount->StatusFlags & YAMN_ACC_ST2 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hDlg,IDC_CHECKST3,ActualAccount->StatusFlags & YAMN_ACC_ST3 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hDlg,IDC_CHECKST4,ActualAccount->StatusFlags & YAMN_ACC_ST4 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hDlg,IDC_CHECKST5,ActualAccount->StatusFlags & YAMN_ACC_ST5 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hDlg,IDC_CHECKST6,ActualAccount->StatusFlags & YAMN_ACC_ST6 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hDlg,IDC_CHECKST7,ActualAccount->StatusFlags & YAMN_ACC_ST7 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hDlg,IDC_CHECKST8,ActualAccount->StatusFlags & YAMN_ACC_ST8 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hDlg,IDC_CHECKST9,ActualAccount->StatusFlags & YAMN_ACC_ST9 ? BST_CHECKED : BST_UNCHECKED);*/
+
 		Check0 = ActualAccount->StatusFlags & YAMN_ACC_ST0;
 		Check1 = ActualAccount->StatusFlags & YAMN_ACC_ST1;
 		Check2 = ActualAccount->StatusFlags & YAMN_ACC_ST2;
@@ -423,6 +397,7 @@ BOOL DlgShowAccount(HWND hDlg, WPARAM wParam, LPARAM lParam)
 		Check4 = ActualAccount->StatusFlags & YAMN_ACC_ST4;
 		Check5 = ActualAccount->StatusFlags & YAMN_ACC_ST5;
 		Check6 = ActualAccount->StatusFlags & YAMN_ACC_ST6;
+
 		CheckDlgButton(hDlg, IDC_CHECKSTART, ActualAccount->StatusFlags & YAMN_ACC_STARTS ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hDlg, IDC_CHECKFORCE, ActualAccount->StatusFlags & YAMN_ACC_FORCE ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hDlg, IDC_CHECKCONTACT, ActualAccount->NewMailN.Flags & YAMN_ACC_CONT ? BST_CHECKED : BST_UNCHECKED);
@@ -464,16 +439,6 @@ BOOL DlgShowAccount(HWND hDlg, WPARAM wParam, LPARAM lParam)
 		CheckDlgButton(hDlg, IDC_CHECKFICO, BST_UNCHECKED);
 		CheckDlgButton(hDlg, IDC_CHECKFPOP, BST_CHECKED);
 		CheckDlgButton(hDlg, IDC_CHECKFCOL, BST_CHECKED);
-		/*CheckDlgButton(hDlg,IDC_CHECKST0,BST_UNCHECKED);
-		CheckDlgButton(hDlg,IDC_CHECKST1,BST_CHECKED);
-		CheckDlgButton(hDlg,IDC_CHECKST2,BST_UNCHECKED);
-		CheckDlgButton(hDlg,IDC_CHECKST3,BST_UNCHECKED);
-		CheckDlgButton(hDlg,IDC_CHECKST4,BST_UNCHECKED);
-		CheckDlgButton(hDlg,IDC_CHECKST5,BST_UNCHECKED);
-		CheckDlgButton(hDlg,IDC_CHECKST6,BST_UNCHECKED);
-		CheckDlgButton(hDlg,IDC_CHECKST7,BST_CHECKED);
-		CheckDlgButton(hDlg,IDC_CHECKST8,BST_CHECKED);
-		CheckDlgButton(hDlg,IDC_CHECKST9,BST_CHECKED);*/
 		CheckDlgButton(hDlg, IDC_CHECKSTART, BST_CHECKED);
 		CheckDlgButton(hDlg, IDC_CHECKFORCE, BST_CHECKED);
 		CheckDlgButton(hDlg, IDC_RADIOPOPN, BST_UNCHECKED);
@@ -566,9 +531,6 @@ INT_PTR CALLBACK DlgProcPOP3AccStatusOpt(HWND hDlg, UINT msg, WPARAM wParam, LPA
 			CheckDlgButton(hDlg, IDC_CHECKST4, BST_CHECKED);
 			CheckDlgButton(hDlg, IDC_CHECKST5, BST_CHECKED);
 			CheckDlgButton(hDlg, IDC_CHECKST6, BST_CHECKED);
-			CheckDlgButton(hDlg, IDC_CHECKST7, BST_CHECKED);
-			CheckDlgButton(hDlg, IDC_CHECKST8, BST_CHECKED);
-			CheckDlgButton(hDlg, IDC_CHECKST9, BST_CHECKED);
 		}
 		TranslateDialogDefault(hDlg);
 		SendMessage(GetParent(hDlg), PSM_UNCHANGED, (WPARAM)hDlg, 0);
@@ -584,9 +546,6 @@ INT_PTR CALLBACK DlgProcPOP3AccStatusOpt(HWND hDlg, UINT msg, WPARAM wParam, LPA
 			Check4 = (IsDlgButtonChecked(hDlg, IDC_CHECKST4) == BST_CHECKED);
 			Check5 = (IsDlgButtonChecked(hDlg, IDC_CHECKST5) == BST_CHECKED);
 			Check6 = (IsDlgButtonChecked(hDlg, IDC_CHECKST6) == BST_CHECKED);
-			Check7 = (IsDlgButtonChecked(hDlg, IDC_CHECKST7) == BST_CHECKED);
-			Check8 = (IsDlgButtonChecked(hDlg, IDC_CHECKST8) == BST_CHECKED);
-			Check9 = (IsDlgButtonChecked(hDlg, IDC_CHECKST9) == BST_CHECKED);
 			WindowList_BroadcastAsync(YAMNVar.MessageWnds, WM_YAMN_CHANGESTATUSOPTION, 0, 0);
 			EndDialog(hDlg, 0);
 			DestroyWindow(hDlg);
@@ -749,9 +708,6 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
 		case IDC_CHECKST4:
 		case IDC_CHECKST5:
 		case IDC_CHECKST6:
-		case IDC_CHECKST7:
-		case IDC_CHECKST8:
-		case IDC_CHECKST9:
 		case IDC_CHECKSTART:
 		case IDC_CHECKFORCE:
 		case IDC_EDITAPPPARAM:

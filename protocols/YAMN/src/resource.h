@@ -43,10 +43,7 @@
 #define IDC_CHECKST4                    1023
 #define IDC_CHECKST5                    1024
 #define IDC_CHECKST6                    1025
-#define IDC_CHECKST7                    1026
 #define IDC_EDITAPP                     1027
-#define IDC_CHECKST8                    1028
-#define IDC_CHECKST9                    1029
 #define IDC_CHECKCONTACT                1030
 #define IDC_CHECKCONTACTNICK            1031
 #define IDC_CHECKCONTACTNOEVENT         1032
