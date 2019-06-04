@@ -1798,7 +1798,6 @@ void ICQ::processTcpPacket(Packet &packet, unsigned int hSocket)
 		case ICQ_CMDxTCP_READxOCCUPIEDxMSG:
 		case ICQ_CMDxTCP_READxNAxMSG:
 		case ICQ_CMDxTCP_READxDNDxMSG:
-		case ICQ_CMDxTCP_READxFREECHATxMSG:
 			Netlib_Logf(hNetlibUser, "[tcp] %d requested read of away message.\n", checkUin);
 
 			packet >> theTCPSequence;
@@ -1872,7 +1871,6 @@ void ICQ::processTcpPacket(Packet &packet, unsigned int hSocket)
 		case ICQ_CMDxTCP_READxOCCUPIEDxMSG:
 		case ICQ_CMDxTCP_READxNAxMSG:
 		case ICQ_CMDxTCP_READxDNDxMSG:
-		case ICQ_CMDxTCP_READxFREECHATxMSG:
 			packet >> theTCPSequence;
 			addAwayMsg(u, message, theTCPSequence, time(0));
 			break;

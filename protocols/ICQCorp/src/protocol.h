@@ -98,7 +98,6 @@ const unsigned short ICQ_CMDxTCP_READxAWAYxMSG      = 0x03E8;
 const unsigned short ICQ_CMDxTCP_READxOCCUPIEDxMSG  = 0x03E9;
 const unsigned short ICQ_CMDxTCP_READxNAxMSG        = 0x03EA;
 const unsigned short ICQ_CMDxTCP_READxDNDxMSG       = 0x03EB;
-const unsigned short ICQ_CMDxTCP_READxFREECHATxMSG  = 0x03EC;
 const unsigned short ICQ_CMDxTCP_HANDSHAKE          = 0x03FF;
 const unsigned short ICQ_CMDxTCP_HANDSHAKE2         = 0x04FF;
 const unsigned short ICQ_CMDxTCP_HANDSHAKE3         = 0x02FF;

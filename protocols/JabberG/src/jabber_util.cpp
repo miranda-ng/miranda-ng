@@ -197,7 +197,6 @@ void JabberHttpUrlDecode(wchar_t *str)
 int JabberCombineStatus(int status1, int status2)
 {
 	// Combine according to the following priority (high to low)
-	// ID_STATUS_FREECHAT
 	// ID_STATUS_ONLINE
 	// ID_STATUS_DND
 	// ID_STATUS_AWAY

@@ -112,7 +112,6 @@ GaduProto::~GaduProto()
 	if (modemsg.online)    mir_free(modemsg.online);
 	if (modemsg.away)      mir_free(modemsg.away);
 	if (modemsg.dnd)       mir_free(modemsg.dnd);
-	if (modemsg.freechat)  mir_free(modemsg.freechat);
 	if (modemsg.invisible) mir_free(modemsg.invisible);
 	if (modemsg.offline)   mir_free(modemsg.offline);
 }
