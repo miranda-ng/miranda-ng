@@ -160,17 +160,8 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 			case ID_STATUS_OCCUPIED:
 				DebugLog(SynchroFile, "TimerProc:ActualAccountSO-read enter status occupied\n");
 				break;
-			case ID_STATUS_FREECHAT:
-				DebugLog(SynchroFile, "TimerProc:ActualAccountSO-read enter status freechat\n");
-				break;
 			case ID_STATUS_INVISIBLE:
 				DebugLog(SynchroFile, "TimerProc:ActualAccountSO-read enter status invisible\n");
-				break;
-			case ID_STATUS_ONTHEPHONE:
-				DebugLog(SynchroFile, "TimerProc:ActualAccountSO-read enter status onthephone\n");
-				break;
-			case ID_STATUS_OUTTOLUNCH:
-				DebugLog(SynchroFile, "TimerProc:ActualAccountSO-read enter status outtolunch\n");
 				break;
 			default:
 				DebugLog(SynchroFile, "TimerProc:ActualAccountSO-read enter status unknown\n");
