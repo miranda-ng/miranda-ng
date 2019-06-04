@@ -22,6 +22,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+static void CALLBACK timerApcFunc(HWND, UINT, UINT_PTR param, DWORD)
+{
+	FacebookProto *ppro = (FacebookProto *)param;
+	if (!ppro->isOffline())
+		ppro->ForkThread(&FacebookProto::ProcessNotifications);
+}
+
 void FacebookProto::ChangeStatus(void*)
 {
 	mir_cslock s(signon_lock_);
@@ -131,6 +138,8 @@ void FacebookProto::ChangeStatus(void*)
 
 			if (getByte(FACEBOOK_KEY_SET_MIRANDA_STATUS, DEFAULT_SET_MIRANDA_STATUS))
 				ForkThread(&FacebookProto::SetAwayMsgWorker, nullptr);
+
+			SetTimer(g_hwndHeartbeat, LPARAM(this), 60000, timerApcFunc);
 		}
 		else {
 			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)old_status, m_iStatus);

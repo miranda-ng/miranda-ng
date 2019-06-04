@@ -291,4 +291,5 @@ struct CMPlugin : public ACCPROTOPLUGIN<FacebookProto>
 	CMPlugin();
 
 	int Load() override;
+	int Unload() override;
 };

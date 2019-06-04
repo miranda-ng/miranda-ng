@@ -28,7 +28,7 @@ FacebookProto::FacebookProto(const char* proto_name, const wchar_t* username) :
 {
 	facy.parent = this;
 
-	update_loop_event = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+	update_loop_event = CreateEventW(nullptr, FALSE, FALSE, nullptr);
 
 	// Initialize random seed for this client
 	facy.random_ = ::time(0) + PtrToUint(&facy);

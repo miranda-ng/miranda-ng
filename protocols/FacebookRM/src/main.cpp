@@ -27,6 +27,7 @@ CMPlugin g_plugin;
 std::string g_strUserAgent;
 DWORD g_mirandaVersion;
 bool g_bMessageState;
+HWND g_hwndHeartbeat;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -65,6 +66,8 @@ static int OnModuleLoaded(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
+	g_hwndHeartbeat = CreateWindowEx(0, L"STATIC", nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, nullptr, nullptr);
+
 	HookEvent(ME_SYSTEM_MODULELOAD, OnModuleLoaded);
 	HookEvent(ME_SYSTEM_MODULEUNLOAD, OnModuleLoaded);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModuleLoaded);
@@ -88,5 +91,11 @@ int CMPlugin::Load()
 	// Initialize random generator (used only as fallback in utils)
 	srand(::time(0));
 
+	return 0;
+}
+
+int CMPlugin::Unload()
+{
+	DestroyWindow(g_hwndHeartbeat);
 	return 0;
 }
