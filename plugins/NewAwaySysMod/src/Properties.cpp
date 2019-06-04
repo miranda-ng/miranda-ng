@@ -47,8 +47,8 @@ void ResetSettingsOnStatusChange(const char *szProto = nullptr, int bResetPerson
 
 CProtoState::CStatus& CProtoState::CStatus::operator=(int Status)
 {
-	_ASSERT(Status >= ID_STATUS_OFFLINE && Status <= ID_STATUS_OUTTOLUNCH);
-	if (Status < ID_STATUS_OFFLINE || Status > ID_STATUS_MAX)
+	_ASSERT(Status >= ID_STATUS_MIN && Status <= ID_STATUS_MAX);
+	if (Status < ID_STATUS_MIN || Status > ID_STATUS_MAX)
 		return *this; // ignore status change if the new status is unknown
 
 	bool bModified = false;
