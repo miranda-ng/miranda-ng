@@ -109,7 +109,6 @@ const unsigned short int ICQ_STATUS_AWAY            = 0x0001;
 const unsigned short int ICQ_STATUS_NA              = 0x0005;
 const unsigned short int ICQ_STATUS_OCCUPIED        = 0x0011;
 const unsigned short int ICQ_STATUS_DND             = 0x0013;
-const unsigned short int ICQ_STATUS_FREECHAT        = 0x0020;
 const unsigned short int ICQ_STATUS_PRIVATE         = 0x0100;
 
 // miscellaneous constants

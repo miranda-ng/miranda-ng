@@ -156,10 +156,7 @@
 #define IDC_DND_TX                      41074
 #define IDC_NA_TX                       41075
 #define IDC_OCCUPIED_TX                 41076
-#define IDC_FREEFORCHAT_TX              41077
 #define IDC_INVISIBLE_TX                41078
-#define IDC_ONTHEPHONE_TX               41079
-#define IDC_OUTTOLUNCH_TX               41080
 #define IDC_XSTATUS_TX                  41081
 #define IDC_STATUSMSG_TX                41082
 #define IDC_OFFLINE_BG                  42071

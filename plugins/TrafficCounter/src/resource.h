@@ -22,7 +22,6 @@
 #define IDD_DETAILS                     125
 #define IDD_HISTORY                     127
 #define IDI_AWAY                        128
-#define IDI_FREE4CHAT                   129
 #define IDI_INVISIBLE                   130
 #define IDI_NA                          131
 #define IDI_LOAD                        132
@@ -107,9 +106,7 @@
 #define IDI_GROUP_ICON                  286
 #define IDI_UNINSTALL_ICON              287
 #define IDD_OPT_STATS                   295
-#define IDI_ONTHEPHONE                  1002
 #define IDC_MESSAGE                     1002
-#define IDI_OUTTOLUNCH                  1003
 #define IDC_AUTOCLOSE                   1004
 #define IDC_FROM                        1005
 #define IDC_AUTOMIN                     1005
