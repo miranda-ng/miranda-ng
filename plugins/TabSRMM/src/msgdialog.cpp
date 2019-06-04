@@ -2971,39 +2971,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					return TRUE;
 			}
 		}
-		{
-			int iTabs = TabCtrl_GetItemCount(m_hwndParent);
-			if (iTabs == 1) {
-				PostMessage(m_pContainer->m_hwnd, WM_CLOSE, 0, 1);
-				return 1;
-			}
-
-			m_pContainer->m_iChilds--;
-
-			// after closing a tab, we need to activate the tab to the left side of
-			// the previously open tab.
-			// normally, this tab has the same index after the deletion of the formerly active tab
-			// unless, of course, we closed the last (rightmost) tab.
-			if (!m_pContainer->m_bDontSmartClose && iTabs > 1 && lParam != 3) {
-				int i = GetTabIndexFromHWND(m_hwndParent, m_hwnd);
-				if (i == iTabs - 1)
-					i--;
-				else
-					i++;
-				TabCtrl_SetCurSel(m_hwndParent, i);
-
-				// retrieve dialog hwnd for the now active tab...
-				m_pContainer->m_hwndActive = GetTabWindow(m_hwndParent, i);
-
-				SendMessage(m_pContainer->m_hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
-				SetWindowPos(m_pContainer->m_hwndActive, HWND_TOP, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), SWP_SHOWWINDOW);
-				ShowWindow(m_pContainer->m_hwndActive, SW_SHOW);
-				SetForegroundWindow(m_pContainer->m_hwndActive);
-				SetFocus(m_pContainer->m_hwndActive);
-			}
-		}
-
-		SendMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 0);
+		CloseTab();
 		break;
 
 	case WM_DWMCOMPOSITIONCHANGED:

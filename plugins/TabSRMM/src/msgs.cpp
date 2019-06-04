@@ -33,12 +33,12 @@
 
 NEN_OPTIONS nen_options;
 static HANDLE hUserPrefsWindowLis = nullptr;
-HMODULE g_hIconDLL = nullptr, g_hMsftedit;
+HMODULE g_hMsftedit;
 
 static void UnloadIcons();
 
 int OptInitialise(WPARAM wParam, LPARAM lParam);
-void Chat_AddIcons();
+void Chat_AddIcons(HINSTANCE);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // fired event when user changes IEView plugin options. Apply them to all open tabs
@@ -84,6 +84,41 @@ CTabBaseDlg::~CTabBaseDlg()
 	if (m_hSmileyIcon) DestroyIcon(m_hSmileyIcon);
 	if (m_hXStatusIcon) DestroyIcon(m_hXStatusIcon);
 	if (m_hTaskbarIcon) DestroyIcon(m_hTaskbarIcon);
+}
+
+void CTabBaseDlg::CloseTab()
+{
+	int iTabs = TabCtrl_GetItemCount(m_hwndParent);
+	if (iTabs == 1) {
+		SendMessage(m_pContainer->m_hwnd, WM_CLOSE, 0, 1);
+		return;
+	}
+
+	m_pContainer->m_iChilds--;
+	int i = GetTabIndexFromHWND(m_hwndParent, m_hwnd);
+
+	// after closing a tab, we need to activate the tab to the left side of
+	// the previously open tab.
+	// normally, this tab has the same index after the deletion of the formerly active tab
+	// unless, of course, we closed the last (rightmost) tab.
+	if (!m_pContainer->m_bDontSmartClose && iTabs > 1) {
+		if (i == iTabs - 1)
+			i--;
+		else
+			i++;
+		TabCtrl_SetCurSel(m_hwndParent, i);
+
+		m_pContainer->m_hwndActive = GetTabWindow(m_hwndParent, i);
+
+		RECT rc;
+		SendMessage(m_pContainer->m_hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)& rc);
+		SetWindowPos(m_pContainer->m_hwndActive, HWND_TOP, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), SWP_SHOWWINDOW);
+		ShowWindow(m_pContainer->m_hwndActive, SW_SHOW);
+		SetForegroundWindow(m_pContainer->m_hwndActive);
+		SetFocus(m_pContainer->m_hwndActive);
+	}
+
+	SendMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 0);
 }
 
 void CTabBaseDlg::LoadSettings()
@@ -449,11 +484,6 @@ int SplitmsgShutdown(void)
 
 	FreeLibrary(g_hMsftedit);
 
-	if (g_hIconDLL) {
-		FreeLibrary(g_hIconDLL);
-		g_hIconDLL = nullptr;
-	}
-
 	ImageList_RemoveAll(PluginConfig.g_hImageList);
 	ImageList_Destroy(PluginConfig.g_hImageList);
 
@@ -665,7 +695,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 		RedrawWindow(pContainer->m_hwndActive, nullptr, nullptr, RDW_ERASENOW | RDW_UPDATENOW);
 	}
 
-	if (PluginConfig.m_bHideOnClose&&!IsWindowVisible(pContainer->m_hwnd)) {
+	if (PluginConfig.m_bHideOnClose && !IsWindowVisible(pContainer->m_hwnd)) {
 		WINDOWPLACEMENT wp = { 0 };
 		wp.length = sizeof(wp);
 		GetWindowPlacement(pContainer->m_hwnd, &wp);
@@ -729,11 +759,7 @@ void TSAPI CreateImageList(BOOL bInitial)
 	PluginConfig.g_IconFileEvent = Skin_LoadIcon(SKINICON_EVENT_FILE);
 	PluginConfig.g_IconMsgEvent = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	PluginConfig.g_IconMsgEventBig = Skin_LoadIcon(SKINICON_EVENT_MESSAGE, true);
-	if ((HICON)CALLSERVICE_NOTFOUND == PluginConfig.g_IconMsgEventBig)
-		PluginConfig.g_IconMsgEventBig = nullptr;
 	PluginConfig.g_IconTypingEventBig = Skin_LoadIcon(SKINICON_OTHER_TYPING, true);
-	if ((HICON)CALLSERVICE_NOTFOUND == PluginConfig.g_IconTypingEventBig)
-		PluginConfig.g_IconTypingEventBig = nullptr;
 	PluginConfig.g_IconSend = PluginConfig.g_buttonBarIcons[9];
 	PluginConfig.g_IconTypingEvent = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
 }
@@ -812,48 +838,24 @@ static ICONBLOCKS[] = {
 	{ LPGEN("Message Sessions") "/" LPGEN("Animated Tray"), _trayIcon, _countof(_trayIcon) }
 };
 
-static int GetIconPackVersion(HMODULE hDLL)
-{
-	char szIDString[256];
-	int version = 0;
-
-	if (LoadStringA(hDLL, IDS_IDENTIFY, szIDString, sizeof(szIDString)) == 0)
-		version = 0;
-	else if (!mir_strcmp(szIDString, "__tabSRMM_ICONPACK 1.0__"))
-		version = 1;
-	else if (!mir_strcmp(szIDString, "__tabSRMM_ICONPACK 2.0__"))
-		version = 2;
-	else if (!mir_strcmp(szIDString, "__tabSRMM_ICONPACK 3.0__"))
-		version = 3;
-	else if (!mir_strcmp(szIDString, "__tabSRMM_ICONPACK 3.5__"))
-		version = 4;
-	else if (!mir_strcmp(szIDString, "__tabSRMM_ICONPACK 5.0__"))
-		version = 5;
-
-	return version;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // setup default icons for the IcoLib service. This needs to be done every time the
 // plugin is loaded default icons are taken from the icon pack in either \icons or \plugins
 
 static int TSAPI SetupIconLibConfig()
 {
-	int j = 2, version = 0;
+	int j = 2;
 
-	wchar_t szFilename[MAX_PATH];
-	wcsncpy(szFilename, L"icons\\tabsrmm_icons.dll", MAX_PATH);
-	g_hIconDLL = LoadLibrary(szFilename);
-	if (g_hIconDLL == nullptr) {
+	HINSTANCE hIconDll = LoadLibraryA("icons\\tabsrmm_icons.dll");
+	if (hIconDll == nullptr) {
 		CWarning::show(CWarning::WARN_ICONPACKMISSING, CWarning::CWF_NOALLOWHIDE | MB_ICONERROR | MB_OK);
 		return 0;
 	}
 
-	GetModuleFileName(g_hIconDLL, szFilename, MAX_PATH);
-	Chat_AddIcons();
-	version = GetIconPackVersion(g_hIconDLL);
-	FreeLibrary(g_hIconDLL);
-	g_hIconDLL = nullptr;
+	wchar_t szFilename[MAX_PATH];
+	GetModuleFileName(hIconDll, szFilename, MAX_PATH);
+	Chat_AddIcons(hIconDll);
+	FreeLibrary(hIconDll);
 
 	SKINICONDESC sid = {};
 	sid.defaultFile.w = szFilename;

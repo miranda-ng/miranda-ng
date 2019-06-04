@@ -737,47 +737,6 @@ void CChatRoomDlg::AddLog()
 	CSrmmBaseDialog::AddLog();
 }
 
-void CChatRoomDlg::CloseTab()
-{
-	int iTabs = TabCtrl_GetItemCount(m_hwndParent);
-	if (iTabs == 1 && CMimAPI::m_shutDown == 0) {
-		SendMessage(m_pContainer->m_hwnd, WM_CLOSE, 0, 1);
-		return;
-	}
-
-	m_pContainer->m_iChilds--;
-	int i = GetTabIndexFromHWND(m_hwndParent, m_hwnd);
-
-	// after closing a tab, we need to activate the tab to the left side of
-	// the previously open tab.
-	// normally, this tab has the same index after the deletion of the formerly active tab
-	// unless, of course, we closed the last (rightmost) tab.
-	if (!m_pContainer->m_bDontSmartClose && iTabs > 1) {
-		if (i == iTabs - 1)
-			i--;
-		else
-			i++;
-		TabCtrl_SetCurSel(m_hwndParent, i);
-
-		m_pContainer->m_hwndActive = GetTabWindow(m_hwndParent, i);
-
-		RECT rc;
-		SendMessage(m_pContainer->m_hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
-		SetWindowPos(m_pContainer->m_hwndActive, HWND_TOP, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), SWP_SHOWWINDOW);
-		ShowWindow(m_pContainer->m_hwndActive, SW_SHOW);
-		SetForegroundWindow(m_pContainer->m_hwndActive);
-		SetFocus(m_pContainer->m_hwndActive);
-		SendMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 0);
-	}
-
-	if (iTabs == 1)
-		SendMessage(m_pContainer->m_hwnd, WM_CLOSE, 0, 1);
-	else {
-		PostMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 0);
-		DestroyWindow(m_hwnd);
-	}
-}
-
 void CChatRoomDlg::RedrawLog()
 {
 	m_si->LastTime = 0;

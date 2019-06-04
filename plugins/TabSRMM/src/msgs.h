@@ -244,8 +244,9 @@ class CTabBaseDlg : public CSrmmBaseDialog
 	friend class CInfoPanel;
 
 protected:
-	virtual void LoadSettings() override;
-	virtual void SetStatusText(const wchar_t*, HICON) override;
+	void    CloseTab() override;
+	void    LoadSettings() override;
+	void    SetStatusText(const wchar_t*, HICON) override;
 
 	void    DM_AddDivider();
 	void    DM_DismissTip(const POINT& pt);
@@ -539,7 +540,6 @@ public:
 	int Resizer(UTILRESIZECONTROL *urc) override;
 	
 	void AddLog() override;
-	void CloseTab() override;
 	void RedrawLog() override;
 	void ScrollToBottom() override;
 	void ShowFilterMenu() override;

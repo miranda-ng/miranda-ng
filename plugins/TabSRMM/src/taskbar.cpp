@@ -518,13 +518,9 @@ LRESULT CALLBACK CProxyWindow::wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 {
 	switch (msg) {
 	case WM_CLOSE:
+		SendMessage(m_dat->GetHwnd(), WM_CLOSE, 1, 2);
 		{
-			TContainerData* pC = m_dat->m_pContainer;
-
-			if (m_dat->GetHwnd() != pC->m_hwndActive)
-				SendMessage(m_dat->GetHwnd(), WM_CLOSE, 1, 3);
-			else
-				SendMessage(m_dat->GetHwnd(), WM_CLOSE, 1, 2);
+			TContainerData *pC = m_dat->m_pContainer;
 			if (!IsIconic(pC->m_hwnd))
 				SetForegroundWindow(pC->m_hwnd);
 		}

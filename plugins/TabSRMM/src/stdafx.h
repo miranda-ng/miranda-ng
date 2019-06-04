@@ -226,7 +226,6 @@ extern BOOL g_bIMGtagButton;
 extern char *TemplateNames[];
 extern HANDLE hUserPrefsWindowList;
 extern TCpTable cpTable[];
-extern HMODULE g_hIconDLL;
 
 extern pfnDoPopup oldDoPopup, oldLogToFile;
 extern pfnDoTrayIcon oldDoTrayIcon;
