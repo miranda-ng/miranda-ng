@@ -6,9 +6,7 @@
 #define IDD_OPT_TRAFFIC_POPUPS          103
 #define IDD_OPT_TRAFFIC                 248
 #define IDD_OPT_STATS                   295
-#define IDI_ONTHEPHONE                  1002
 #define IDC_MESSAGE                     1002
-#define IDI_OUTTOLUNCH                  1003
 #define IDC_AUTOCLOSE                   1004
 #define IDC_FROM                        1005
 #define IDC_AUTOMIN                     1005
