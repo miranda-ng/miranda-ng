@@ -581,22 +581,16 @@ void DisplayErrorDialog(const wchar_t *pszError, wstring &sFilePath, DBEVENTINFO
 	sError += TranslateT("\nMessage has not been saved!\n");
 	sError += TranslateT("Do you wish to save debug information?");
 	if (MessageBox(nullptr, sError.c_str(), MSG_BOX_TITEL, MB_YESNO) == IDYES) {
-		OPENFILENAME ofn;       // common dialog box structure
 		wchar_t szFile[260];       // buffer for file name
 		wcsncpy_s(szFile, L"DebugInfo.txt", _TRUNCATE);
 
 		// Initialize OPENFILENAME
-		memset(&ofn, 0, sizeof(OPENFILENAME));
+		OPENFILENAME ofn = {};
 		ofn.lStructSize = sizeof(OPENFILENAME);
-		//ofn.hwndOwner = NULL;
 		ofn.lpstrFile = szFile;
 		ofn.nMaxFile = _countof(szFile);
 		ofn.lpstrFilter = TranslateT("All\0*.*\0Text\0*.TXT\0\0");
 		ofn.nFilterIndex = 1;
-		ofn.lpstrFileTitle = nullptr;
-		ofn.nMaxFileTitle = 0;
-		ofn.lpstrInitialDir = nullptr;
-		ofn.Flags = 0 /*OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST*/;
 		ofn.lpstrDefExt = L"TXT";
 
 		// Display the Open dialog box. 
@@ -750,11 +744,11 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 				// This is written this way because I expect this will become a string the user may set 
 				// in the options dialog.
 				output.AppendFormat(L"%-10s: %s\r\n", TranslateT("User"), sRemoteUser.c_str());
-				output.AppendFormat(L"%-10s: %s\r\n", TranslateT("Protocol"), _A2T(szProto));
+				output.AppendFormat(L"%-10s: %S\r\n", TranslateT("Protocol"), szProto);
 
 				ptrW id(Contact_GetInfo(CNF_UNIQUEID, hContact, szProto));
 				if (id != NULL)
-					output.AppendFormat(L"%-10s: %s\r\n", TranslateT("UIN"), id);
+					output.AppendFormat(L"%-10s: %s\r\n", TranslateT("UIN"), id.get());
 
 				szTemp[0] = (wchar_t)db_get_b(hContact, szProto, "Gender", 0);
 				if (szTemp[0]) {
