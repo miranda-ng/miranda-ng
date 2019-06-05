@@ -426,7 +426,7 @@ int lastChecked(CMStringA &szNewStr, const char *str)
 }
 
 
-// do icon(x) 0=offline, 1=online, 10=lunch
+// do icon(x) 0=offline, 1=online
 void checkIcon(MCONTACT hContact, char* string)
 {
 	char* str = strstr(string, "icon(");
