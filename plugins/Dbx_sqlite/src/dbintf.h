@@ -31,7 +31,7 @@ struct CDbxSQLite : public MDatabaseCommon, public MZeroedObject
 private:
 	sqlite3 *m_db;
 
-	sqlite3_stmt *evt_cur_fwd = nullptr, *evt_curr_backwd = nullptr;
+	sqlite3_stmt *evt_cur_fwd = nullptr, *evt_cur_backwd = nullptr;
 	MCONTACT evt_cnt_fwd = 0, evt_cnt_backwd = 0;
 
 	DBCachedContact m_system;
