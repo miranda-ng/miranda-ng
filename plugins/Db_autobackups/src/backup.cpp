@@ -139,15 +139,12 @@ struct backupFile
 	FILETIME CreationTime;
 };
 
-static int Comp(const void *i, const void *j)
+static int Comp(const backupFile *p1, const backupFile *p2)
 {
-	backupFile *pi = (backupFile*)i;
-	backupFile *pj = (backupFile*)j;
+	if (p1->CreationTime.dwHighDateTime == p2->CreationTime.dwHighDateTime) // sort backwards
+		return (p1->CreationTime.dwLowDateTime > p2->CreationTime.dwLowDateTime) ? -1 : 1;
 
-	if (pi->CreationTime.dwHighDateTime > pj->CreationTime.dwHighDateTime ||
-		(pi->CreationTime.dwHighDateTime == pj->CreationTime.dwHighDateTime && pi->CreationTime.dwLowDateTime > pj->CreationTime.dwLowDateTime))
-		return -1;
-	return 1;
+	return (p1->CreationTime.dwHighDateTime > p2->CreationTime.dwHighDateTime) ? -1 : 1;
 }
 
 static int RotateBackups(wchar_t *backupfolder, wchar_t *dbname)
@@ -155,42 +152,38 @@ static int RotateBackups(wchar_t *backupfolder, wchar_t *dbname)
 	if (g_plugin.num_backups == 0) // Rotation disabled?
 		return 0; 
 
-	backupFile *bf = nullptr, *bftmp;
+	CMStringW wszProfile(dbname);
+	wszProfile.MakeLower();
+	int idx = wszProfile.Find(L".dat");
+	if (idx != -1)
+		wszProfile.Truncate(idx);
 
 	wchar_t backupfolderTmp[MAX_PATH];
-	mir_snwprintf(backupfolderTmp, L"%s\\%s*.%s", backupfolder, dbname, g_plugin.use_zip ? L"zip" : L"dat");
+	mir_snwprintf(backupfolderTmp, L"%s\\%s*.%s", backupfolder, wszProfile.c_str(), g_plugin.use_zip ? L"zip" : L"dat");
 
 	WIN32_FIND_DATA FindFileData;
 	HANDLE hFind = FindFirstFile(backupfolderTmp, &FindFileData);
 	if (hFind == INVALID_HANDLE_VALUE)
 		return 0;
 
-	int i = 0;
+	OBJLIST<backupFile> arFiles(10, Comp);
 	do {
 		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 			continue;
-		bftmp = (backupFile*)mir_realloc(bf, ((i + 1) * sizeof(backupFile)));
-		if (bftmp == nullptr)
-			goto err_out;
-		bf = bftmp;
-		wcsncpy_s(bf[i].Name, FindFileData.cFileName, _TRUNCATE);
-		bf[i].CreationTime = FindFileData.ftCreationTime;
-		i++;
+
+		backupFile *bf = new backupFile();
+		wcsncpy_s(bf->Name, FindFileData.cFileName, _TRUNCATE);
+		bf->CreationTime = FindFileData.ftCreationTime;
+		arFiles.insert(bf);
 	}
 		while (FindNextFile(hFind, &FindFileData));
 
-	// Sort the list of found files by date in descending order.
-	if (i > 0)
-		qsort(bf, i, sizeof(backupFile), Comp);
-	
-	for (; i >= g_plugin.num_backups; i--) {
-		mir_snwprintf(backupfolderTmp, L"%s\\%s", backupfolder, bf[(i - 1)].Name);
+	for (int i = g_plugin.num_backups-1; i < arFiles.getCount(); i++) {
+		mir_snwprintf(backupfolderTmp, L"%s\\%s", backupfolder, arFiles[i].Name);
 		DeleteFile(backupfolderTmp);
 	}
 
-err_out:
 	FindClose(hFind);
-	mir_free(bf);
 	return 0;
 }
 
