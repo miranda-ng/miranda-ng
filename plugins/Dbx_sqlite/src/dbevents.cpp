@@ -176,7 +176,7 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, DBEVENTINFO *dbei)
 
 		stmt = evt_stmts_prep[SQL_EVT_STMT_ADDEVENT_SRT];
 		sqlite3_bind_int64(stmt, 1, hDbEvent);
-		sqlite3_bind_int64(stmt, 2, hContact);
+		sqlite3_bind_int64(stmt, 2, cc->contactID);
 		sqlite3_bind_int64(stmt, 3, dbei->timestamp);
 		rc = sqlite3_step(stmt);
 		assert(rc == SQLITE_DONE);
