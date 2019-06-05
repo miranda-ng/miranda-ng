@@ -304,18 +304,21 @@ static void BackupThread(void *backup_filename)
 	mir_free(backup_filename);
 }
 
-void BackupStart(wchar_t *backup_filename)
+void BackupStart(wchar_t *backup_filename, bool bInThread)
 {
 	LONG cur_state = InterlockedCompareExchange(&g_iState, 1, 0);
 	if (cur_state != 0) { // Backup allready in process.
 		ShowPopup(TranslateT("Database back up in process..."), TranslateT("Error"), nullptr);
 		return;
 	}
-	
-	wchar_t *tm = mir_wstrdup(backup_filename);
-	if (mir_forkthread(BackupThread, tm) == INVALID_HANDLE_VALUE) {
+
+	if (bInThread) {
+		if (mir_forkthread(BackupThread, mir_wstrdup(backup_filename)) == INVALID_HANDLE_VALUE)
+			InterlockedExchange(&g_iState, 0); // Backup done.
+	}
+	else {
+		Backup(backup_filename);
 		InterlockedExchange(&g_iState, 0); // Backup done.
-		mir_free(tm);
 	}
 }
 

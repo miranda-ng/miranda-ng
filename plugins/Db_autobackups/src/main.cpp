@@ -145,7 +145,7 @@ static int PreShutdown(WPARAM, LPARAM)
 	g_plugin.bTerminated = true;
 
 	if (g_plugin.backup_types & BT_EXIT)
-		BackupStart(nullptr);
+		BackupStart(nullptr, false);
 	return 0;
 }
 
