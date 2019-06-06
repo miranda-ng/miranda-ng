@@ -22,89 +22,50 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 void AddSessionMark(MCONTACT hContact, int mode, char bit)
 {
 	if (mode == 0) {
-		ptrA szValue(g_plugin.getStringA(hContact, "LastSessionsMarks"));
-		if (szValue) {
-			char temp_1 = szValue[0];
-			for (int i = 0; i < g_ses_limit; i++) {
-				char temp_2 = szValue[i + 1];
-				szValue[i + 1] = temp_1;
-				temp_1 = temp_2;
-			}
-			for (int i = g_ses_limit; i < 10; i++)
-				szValue[i] = '0';
-			szValue[0] = bit;
-			g_plugin.setString(hContact, "LastSessionsMarks", szValue);
-		}
-		else if (bit == '1')
-			g_plugin.setString(hContact, "LastSessionsMarks", "10000000000");
+		CMStringA szValue(g_plugin.getMStringA(hContact, "LastSessionsMarks"));
+		szValue.Insert(0, bit);
+		szValue.Truncate(g_ses_limit);
+		g_plugin.setString(hContact, "LastSessionsMarks", szValue);
 	}
 	else if (mode == 1) {
-		ptrA szValue(g_plugin.getStringA(hContact, "UserSessionsMarks"));
-		if (szValue) {
-			char *pszBuffer;
-			if (mir_strlen(szValue) < g_ses_count) {
-				pszBuffer = (char*)mir_alloc(g_ses_count + 1);
-				memset(pszBuffer, 0, (g_ses_count + 1));
-				mir_strcpy(pszBuffer, szValue);
-			}
-			else pszBuffer = szValue.detach();
-
-			char temp_1 = pszBuffer[0];
-			for (size_t i = 0; i < g_ses_count; i++) {
-				char temp_2 = pszBuffer[i + 1];
-				pszBuffer[i + 1] = temp_1;
-				temp_1 = temp_2;
-			}
-			pszBuffer[0] = bit;
-			g_plugin.setString(hContact, "UserSessionsMarks", pszBuffer);
-
-			mir_free(pszBuffer);
-		}
-		else if (bit == '1')
-			g_plugin.setString(hContact, "UserSessionsMarks", "10000000000");
-		else
-			g_plugin.setString(hContact, "UserSessionsMarks", "00000000000");
+		CMStringA szValue(g_plugin.getMStringA(hContact, "UserSessionsMarks"));
+		szValue.Insert(0, bit);
+		szValue.Truncate((int)g_ses_count);
+		g_plugin.setString(hContact, "UserSessionsMarks", szValue);
 	}
 }
 
 void RemoveSessionMark(MCONTACT hContact, int mode, int marknum)
 {
 	if (mode == 0) {
-		ptrA szValue(g_plugin.getStringA(hContact, "LastSessionsMarks"));
-		if (szValue) {
-			for (int i = marknum; i < g_ses_limit; i++)
-				szValue[i] = szValue[i + 1];
-
-			for (int i = g_ses_limit; i < 10; i++)
-				szValue[i] = '0';
-
+		CMStringA szValue(g_plugin.getMStringA(hContact, "LastSessionsMarks"));
+		if (!szValue.IsEmpty() && marknum < szValue.GetLength()) {
+			szValue.Delete(marknum, 1);
 			g_plugin.setString(hContact, "LastSessionsMarks", szValue);
 		}
 	}
 	else if (mode == 1) {
-		ptrA szValue(g_plugin.getStringA(hContact, "UserSessionsMarks"));
-		if (szValue) {
-			for (int i = marknum; i < g_ses_limit; i++)
-				szValue[i] = szValue[i + 1];
-
+		CMStringA szValue(g_plugin.getMStringA(hContact, "UserSessionsMarks"));
+		if (!szValue.IsEmpty() && marknum < szValue.GetLength()) {
+			szValue.Delete(marknum, 1);
 			g_plugin.setString(hContact, "UserSessionsMarks", szValue);
 		}
 	}
 }
 
-void SetSessionMark(MCONTACT hContact, int mode, char bit, unsigned int marknum)
+void SetSessionMark(MCONTACT hContact, int mode, char bit, int marknum)
 {
 	if (mode == 0) {
-		ptrA szValue(g_plugin.getStringA(hContact, "LastSessionsMarks"));
-		if (szValue) {
-			szValue[marknum] = bit;
+		CMStringA szValue(g_plugin.getMStringA(hContact, "LastSessionsMarks"));
+		if (!szValue.IsEmpty() && marknum < szValue.GetLength()) {
+			szValue.SetAt(marknum, bit);
 			g_plugin.setString(hContact, "LastSessionsMarks", szValue);
 		}
 	}
 	else if (mode == 1) {
-		ptrA szValue(g_plugin.getStringA(hContact, "UserSessionsMarks"));
-		if (szValue) {
-			szValue[marknum] = bit;
+		CMStringA szValue(g_plugin.getMStringA(hContact, "UserSessionsMarks"));
+		if (!szValue.IsEmpty() && marknum < szValue.GetLength()) {
+			szValue.SetAt(marknum, bit);
 			g_plugin.setString(hContact, "UserSessionsMarks", szValue);
 		}
 	}
@@ -112,13 +73,13 @@ void SetSessionMark(MCONTACT hContact, int mode, char bit, unsigned int marknum)
 
 bool LoadContactsFromMask(MCONTACT hContact, int mode, int count)
 {
-	ptrA szValue;
+	CMStringA szValue;
 	if (mode == 0)
-		szValue = g_plugin.getStringA(hContact, "LastSessionsMarks");
+		szValue = g_plugin.getMStringA(hContact, "LastSessionsMarks");
 	else if (mode == 1)
-		szValue = g_plugin.getStringA(hContact, "UserSessionsMarks");
+		szValue = g_plugin.getMStringA(hContact, "UserSessionsMarks");
 
-	if (szValue == NULL)
+	if (szValue.IsEmpty())
 		return false;
 
 	return szValue[count] == '1';
@@ -126,97 +87,64 @@ bool LoadContactsFromMask(MCONTACT hContact, int mode, int count)
 
 void AddInSessionOrder(MCONTACT hContact, int mode, int ordernum, int writemode)
 {
-	char szFormNumBuf[100];
-	mir_snprintf(szFormNumBuf, "%02u", ordernum);
+	char buf[100];
+	mir_snprintf(buf, "%02u", ordernum);
 
 	if (mode == 0) {
-		ptrA szValue(g_plugin.getStringA(hContact, "LastSessionsMarks"));
-		if (szValue) {
-			int len = (int)mir_strlen(szValue);
-			if (!len)
-				len = 20;
-
-			char *temp2 = (char*)_alloca(len - 1);
-			strncpy(temp2, szValue, len - 2);
-			temp2[len - 2] = '\0';
-
-			char *temp = (char*)_alloca(len + 1);
-			mir_snprintf(temp, len + 1, "%02u%s", ordernum, temp2);
-
-			for (int i = (g_ses_limit * 2); i < 20; i++)
-				temp[i] = '0';
-
-			g_plugin.setString(hContact, "LastSessionsOrder", temp);
-		}
-		else if (writemode == 1) {
-			mir_snprintf(szFormNumBuf, "%02u%s", ordernum, "000000000000000000");
-			g_plugin.setString(hContact, "LastSessionsOrder", szFormNumBuf);
-		}
+		CMStringA szValue(g_plugin.getMStringA(hContact, "LastSessionsOrder"));
+		szValue.Insert(0, buf);
+		szValue.Truncate(g_ses_limit * 2);
+		g_plugin.setString(hContact, "LastSessionsOrder", szValue);
 	}
 	else if (mode == 1) {
-		ptrA szValue(g_plugin.getStringA(hContact, "UserSessionsOrder"));
-		if (szValue) {
-			char *pszBuffer;
-			if (mir_strlen(szValue) < (g_ses_count * 2)) {
-				pszBuffer = (char*)mir_alloc((g_ses_count * 2) + 1);
-				memset(pszBuffer, 0, ((g_ses_count * 2) + 1));
-				mir_strcpy(pszBuffer, szValue);
-			}
-			else pszBuffer = mir_strdup(szValue);
-
-			int len = (int)mir_strlen(pszBuffer);
-			len = (len == 0) ? 20 : len + 2;
-			char *temp = (char*)_alloca(len + 1);
-			mir_snprintf(temp, len + 1, "%02u%s", ordernum, szValue);
-
-			g_plugin.setString(hContact, "UserSessionsOrder", temp);
-			mir_free(pszBuffer);
-		}
-		else if (writemode == 1)
-			g_plugin.setString(hContact, "UserSessionsOrder", szFormNumBuf);
-		else
-			g_plugin.setString(hContact, "UserSessionsOrder", "00");
+		CMStringA szValue(g_plugin.getMStringA(hContact, "UserSessionsOrder"));
+		szValue.Insert(0, buf);
+		szValue.Truncate(g_ses_count * 2);
+		g_plugin.setString(hContact, "UserSessionsOrder", szValue);
 	}
 }
 
 int GetInSessionOrder(MCONTACT hContact, int mode, int count)
 {
-	char szTemp[3];
+	char szTemp[3] = { 0, 0, 0 };
+	count *= 2;
+
 	if (mode == 0) {
-		ptrA szValue(g_plugin.getStringA(hContact, "LastSessionsOrder"));
-		if (szValue) {
-			strncpy_s(szTemp, &szValue[count * 2], 2);
+		CMStringA szValue(g_plugin.getMStringA(hContact, "LastSessionsOrder"));
+		if (!szValue.IsEmpty() && count < szValue.GetLength()) {
+			memcpy(szTemp, szValue.c_str() + count, 2);
 			return atoi(szTemp);
 		}
 	}
 	else if (mode == 1) {
-		ptrA szValue(g_plugin.getStringA(hContact, "UserSessionsOrder"));
-		if (szValue) {
-			strncpy_s(szTemp, &szValue[count * 2], 2);
+		CMStringA szValue(g_plugin.getMStringA(hContact, "UserSessionsOrder"));
+		if (!szValue.IsEmpty() && count < szValue.GetLength()) {
+			memcpy(szTemp, szValue.c_str() + count, 2);
 			return atoi(szTemp);
 		}
 	}
 	return 0;
 }
 
-void SetInSessionOrder(MCONTACT hContact, int mode, int count, unsigned int ordernum)
+void SetInSessionOrder(MCONTACT hContact, int mode, int count, int ordernum)
 {
 	char szTemp[3];
 	mir_snprintf(szTemp, "%02u", ordernum);
+	count *= 2;
 
 	if (mode == 0) {
-		ptrA szValue(g_plugin.getStringA(hContact, "LastSessionsOrder"));
-		if (szValue) {
-			szValue[count * 2] = szTemp[0];
-			szValue[count * 2 + 1] = szTemp[1];
+		CMStringA szValue(g_plugin.getMStringA(hContact, "LastSessionsOrder"));
+		if (!szValue.IsEmpty() && count < szValue.GetLength()) {
+			szValue.SetAt(count, szTemp[0]);
+			szValue.SetAt(count + 1, szTemp[1]);
 			g_plugin.setString(hContact, "LastSessionsOrder", szValue);
 		}
 	}
 	else if (mode == 1) {
-		ptrA szValue(g_plugin.getStringA(hContact, "UserSessionsOrder"));
-		if (szValue) {
-			szValue[count * 2] = szTemp[0];
-			szValue[count * 2 + 1] = szTemp[1];
+		CMStringA szValue(g_plugin.getMStringA(hContact, "UserSessionsOrder"));
+		if (!szValue.IsEmpty() && count < szValue.GetLength()) {
+			szValue.SetAt(count, szTemp[0]);
+			szValue.SetAt(count + 1, szTemp[1]);
 			g_plugin.setString(hContact, "UserSessionsOrder", szValue);
 		}
 	}
