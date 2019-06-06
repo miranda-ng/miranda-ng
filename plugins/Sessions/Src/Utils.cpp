@@ -23,6 +23,9 @@ void AddSessionMark(MCONTACT hContact, int mode, char bit)
 {
 	if (mode == 0) {
 		CMStringA szValue(g_plugin.getMStringA(hContact, "LastSessionsMarks"));
+		if (bit == '0' && szValue.IsEmpty())
+			return;
+
 		szValue.Insert(0, bit);
 		szValue.Truncate(g_ses_limit);
 		g_plugin.setString(hContact, "LastSessionsMarks", szValue);
@@ -92,6 +95,9 @@ void AddInSessionOrder(MCONTACT hContact, int mode, int ordernum, int writemode)
 
 	if (mode == 0) {
 		CMStringA szValue(g_plugin.getMStringA(hContact, "LastSessionsOrder"));
+		if (writemode == 0 && szValue.IsEmpty())
+			return;
+
 		szValue.Insert(0, buf);
 		szValue.Truncate(g_ses_limit * 2);
 		g_plugin.setString(hContact, "LastSessionsOrder", szValue);
