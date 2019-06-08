@@ -65,6 +65,7 @@ struct CDiscordUser : public MZeroedObject
 	SnowFlake parentId;
 	bool      bIsPrivate;
 	bool      bIsGroup;
+	bool      bSynced;
 
 	struct CDiscordGuild *pGuild;
 

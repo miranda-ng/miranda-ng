@@ -17,6 +17,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+class CChatRoomDlg : public CSrmmBaseDialog
+{
+	CChatRoomDlg(); // just to suppress compiler's warnings, never implemented
+};
+
 int compareUsers(const CDiscordUser *p1, const CDiscordUser *p2);
 
 static int compareRoles(const CDiscordRole *p1, const CDiscordRole *p2)
@@ -218,8 +223,10 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 		SnowFlake oldMsgId = getId(pUser->hContact, DB_KEY_LASTMSGID);
 		if (oldMsgId == 0)
 			RetrieveHistory(pUser, MSG_BEFORE, pUser->lastMsgId, 20);
-		else if (pUser->lastMsgId > oldMsgId)
+		else if (!pUser->bSynced && pUser->lastMsgId > oldMsgId) {
+			pUser->bSynced = true;
 			RetrieveHistory(pUser, MSG_AFTER, oldMsgId, 99);
+		}
 
 		setId(pUser->hContact, DB_KEY_ID, channelId);
 		setId(pUser->hContact, DB_KEY_CHANNELID, channelId);
@@ -307,9 +314,18 @@ void CDiscordProto::ParseGuildContents(CDiscordGuild *pGuild, const JSONNode &pR
 		if (it->bIsPrivate)
 			continue;
 
-		SnowFlake oldMsgId = getId(it->hContact, DB_KEY_LASTMSGID);
-		if (oldMsgId != 0 && it->lastMsgId > oldMsgId)
-			RetrieveHistory(it, MSG_AFTER, oldMsgId, 99);
+		if (newMembers.getCount()) {
+			auto *si = g_chatApi.SM_FindSession(it->wszUsername, m_szModuleName);
+			if (si && si->pDlg)
+				si->pDlg->UpdateNickList();
+		}			
+
+		if (!it->bSynced) {
+			it->bSynced = true;
+			SnowFlake oldMsgId = getId(it->hContact, DB_KEY_LASTMSGID);
+			if (oldMsgId != 0 && it->lastMsgId > oldMsgId)
+				RetrieveHistory(it, MSG_AFTER, oldMsgId, 99);
+		}
 	}
 
 	pGuild->bSynced = true;
