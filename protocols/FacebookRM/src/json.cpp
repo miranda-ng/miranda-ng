@@ -226,15 +226,18 @@ int FacebookProto::ParseNotifications(std::string *data, std::map< std::string, 
 		if (!text_ || !state_ || state_.as_string() == "SEEN_AND_READ" || !time_)
 			continue;
 
-		facebook_notification *notification = new facebook_notification();
-
-		notification->id = id_.as_string();
-
 		// Fix notification ID
-		std::string::size_type pos = notification->id.find(":");
+		std::string msgid = id_.as_string();
+		std::string::size_type pos = msgid.find(":");
 		if (pos != std::string::npos)
-			notification->id = notification->id.substr(pos + 1);
+			msgid = msgid.substr(pos + 1);
 
+		// Skip duplicate notifications
+		if (notifications->find(msgid) != notifications->end())
+			continue;
+
+		facebook_notification *notification = new facebook_notification();
+		notification->id = msgid;
 		notification->link = url_.as_string();
 		notification->text = utils::text::html_entities_decode(utils::text::slashu_to_utf8(text_.as_string()));
 		notification->time = utils::time::from_string(time_.as_string());
@@ -242,12 +245,7 @@ int FacebookProto::ParseNotifications(std::string *data, std::map< std::string, 
 
 		// Write notification to chatroom
 		UpdateNotificationsChatRoom(notification);
-
-		// If it's unseen, remember it, otherwise forget it
-		if (notifications->find(notification->id) == notifications->end())
-			notifications->insert(std::make_pair(notification->id, notification));
-		else
-			delete notification;
+		notifications->insert(std::make_pair(notification->id, notification));
 	}
 
 	return EXIT_SUCCESS;

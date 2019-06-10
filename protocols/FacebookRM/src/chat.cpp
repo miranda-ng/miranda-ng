@@ -209,7 +209,7 @@ char *FacebookProto::GetChatUsers(const char *chat_id)
 {
 	ptrW ptszChatID(mir_a2u(chat_id));
 
-	GC_INFO gci = { 0 };
+	GC_INFO gci = {};
 	gci.Flags = GCF_USERS;
 	gci.pszModule = m_szModuleName;
 	gci.pszID = ptszChatID;
@@ -379,7 +379,6 @@ void FacebookProto::UpdateNotificationsChatRoom(facebook_notification *notificat
 	gce.dwFlags = GCEF_UTF8 + GCEF_ADDTOLOG;
 	gce.pszNick.a = TranslateU("Notifications");
 	gce.pszUID.a = FACEBOOK_NOTIFICATIONS_CHATROOM;
-
 	Chat_Event(&gce);
 }
 
