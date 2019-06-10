@@ -89,10 +89,11 @@ bool CCtrlBase::Enabled() const
 
 void CCtrlBase::NotifyChange()
 {
-	if (!m_parentWnd || m_parentWnd->IsInitialized())
-		m_bChanged = true;
+	if (!m_parentWnd || !m_parentWnd->IsInitialized())
+		return;
 
-	if (m_parentWnd && !m_bSilent)
+	m_bChanged = true;
+	if (!m_bSilent)
 		m_parentWnd->NotifyChange();
 
 	OnChange(this);

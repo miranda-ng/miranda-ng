@@ -50,11 +50,23 @@ BOOL CCtrlListView::OnNotify(int, NMHDR *pnmh)
 	case LVN_HOTTRACK:          OnHotTrack(&evt);          return TRUE;
 	case LVN_INSERTITEM:        OnInsertItem(&evt);        return TRUE;
 	case LVN_ITEMACTIVATE:      OnItemActivate(&evt);      return TRUE;
-	case LVN_ITEMCHANGED:       OnItemChanged(&evt);       return TRUE;
 	case LVN_ITEMCHANGING:      OnItemChanging(&evt);      return TRUE;
 	case LVN_KEYDOWN:           OnKeyDown(&evt);           return TRUE;
 	case LVN_MARQUEEBEGIN:      OnMarqueeBegin(&evt);      return TRUE;
 	case LVN_SETDISPINFO:       OnSetDispInfo(&evt);       return TRUE;
+
+	case LVN_ITEMCHANGED:
+		OnItemChanged(&evt);
+
+		// item's state is calculated as 1/2 << 12, so we check it to filter out all non-state changes
+		if (evt.nmlv->uChanged & LVIF_STATE)
+			if ((evt.nmlv->uOldState >> 12) != 0 && (evt.nmlv->uNewState >> 12) != 0)
+				NotifyChange();
+		return TRUE;
+
+	case LVN_ODSTATECHANGED:
+		NotifyChange();
+		return TRUE;
 	}
 
 	return FALSE;
