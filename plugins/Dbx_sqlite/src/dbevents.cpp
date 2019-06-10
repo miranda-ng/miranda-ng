@@ -430,6 +430,8 @@ MEVENT CDbxSQLite::FindFirstEvent(MCONTACT hContact)
 	if (cc->m_first)
 		return cc->m_first;
 
+	evt_cnt_fwd = hContact;
+
 	mir_cslock lock(m_csDbAccess);
 
 	if (evt_cur_fwd)
@@ -441,11 +443,11 @@ MEVENT CDbxSQLite::FindFirstEvent(MCONTACT hContact)
 	sqlite3_bind_int64(evt_cur_fwd, 1, hContact);
 	int rc = sqlite3_step(evt_cur_fwd);
 	assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
-	evt_cnt_fwd = hContact;
-/*	if (rc != SQLITE_ROW) {
+	if (rc != SQLITE_ROW) {
 		sqlite3_reset(evt_cur_fwd);
+		evt_cur_fwd = 0;
 		return 0;
-	} */
+	}
 	cc->m_first = sqlite3_column_int64(evt_cur_fwd, 0);
 	cc->m_firstTimestamp = sqlite3_column_int64(evt_cur_fwd, 1);
 	return cc->m_first;
@@ -517,6 +519,8 @@ MEVENT CDbxSQLite::FindLastEvent(MCONTACT hContact)
 	if (cc->m_last)
 		return cc->m_last;
 
+	evt_cnt_backwd = hContact;
+
 	mir_cslock lock(m_csDbAccess);
 
 	if (evt_cur_backwd)
@@ -528,10 +532,9 @@ MEVENT CDbxSQLite::FindLastEvent(MCONTACT hContact)
 	sqlite3_bind_int64(evt_cur_backwd, 1, hContact);
 	int rc = sqlite3_step(evt_cur_backwd);
 	assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
-	evt_cnt_backwd = hContact;
 	if (rc != SQLITE_ROW) {
-		sqlite3_reset(evt_cur_fwd);
-		evt_cur_fwd = 0;
+		sqlite3_reset(evt_cur_backwd);
+		evt_cur_backwd = 0;
 		return 0;
 	}
 	cc->m_last = sqlite3_column_int64(evt_cur_backwd, 0);
@@ -564,6 +567,7 @@ MEVENT CDbxSQLite::FindNextEvent(MCONTACT hContact, MEVENT hDbEvent)
 		if (rc == SQLITE_DONE)
 		{
 			sqlite3_reset(evt_cur_fwd);
+			evt_cur_fwd = 0;
 			return 0;
 		}
 	}
@@ -589,7 +593,7 @@ MEVENT CDbxSQLite::FindPrevEvent(MCONTACT hContact, MEVENT hDbEvent)
 	if (cc == nullptr)
 		return 0;
 
-	if (!evt_cur_fwd)
+	if (!evt_cur_backwd)
 	{
 		return 0;
 	}
@@ -605,6 +609,7 @@ MEVENT CDbxSQLite::FindPrevEvent(MCONTACT hContact, MEVENT hDbEvent)
 		if (rc == SQLITE_DONE)
 		{
 			sqlite3_reset(evt_cur_backwd);
+			evt_cur_backwd = 0;
 			return 0;
 		}
 	}
@@ -612,8 +617,8 @@ MEVENT CDbxSQLite::FindPrevEvent(MCONTACT hContact, MEVENT hDbEvent)
 	int rc = sqlite3_step(evt_cur_backwd);
 	assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
 	if (rc != SQLITE_ROW) {
-		sqlite3_reset(evt_cur_fwd);
-		evt_cur_fwd = 0;
+		sqlite3_reset(evt_cur_backwd);
+		evt_cur_backwd = 0;
 		return 0;
 	}
 	hDbEvent = sqlite3_column_int64(evt_cur_backwd, 0);
