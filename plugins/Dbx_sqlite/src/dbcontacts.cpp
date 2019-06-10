@@ -153,30 +153,14 @@ void DBCachedContact::AddEvent(MEVENT hDbEvent, uint32_t timestamp, bool unread)
 	m_count = HasCount()
 		? m_count + 1
 		: 1;
-	if (m_firstTimestamp > timestamp) {
-		m_first = hDbEvent;
-		m_firstTimestamp = timestamp;
-	}
 	if (unread && m_unreadTimestamp > timestamp) {
 		m_unread = hDbEvent;
 		m_unreadTimestamp = timestamp;
-	}
-	if (m_lastTimestamp <= timestamp) {
-		m_last = hDbEvent;
-		m_lastTimestamp = timestamp;
 	}
 }
 
 void DBCachedContact::EditEvent(MEVENT hDbEvent, uint32_t timestamp, bool unread)
 {
-	if (m_first = hDbEvent && m_firstTimestamp != timestamp) {
-		m_first = 0;
-		m_firstTimestamp = 0;
-	}
-	else if (m_firstTimestamp > timestamp) {
-		m_first = hDbEvent;
-		m_firstTimestamp = timestamp;
-	}
 	if (m_unread = hDbEvent && (!unread || m_unreadTimestamp != timestamp)) {
 		m_unread = 0;
 		m_unreadTimestamp = 0;
@@ -185,31 +169,15 @@ void DBCachedContact::EditEvent(MEVENT hDbEvent, uint32_t timestamp, bool unread
 		m_unread = hDbEvent;
 		m_unreadTimestamp = timestamp;
 	}
-	if (m_last = hDbEvent && m_lastTimestamp != timestamp) {
-		m_last = 0;
-		m_lastTimestamp = 0;
-	}
-	else if (m_lastTimestamp <= timestamp) {
-		m_last = hDbEvent;
-		m_lastTimestamp = timestamp;
-	}
 }
 
 void DBCachedContact::DeleteEvent(MEVENT hDbEvent)
 {
 	if (m_count > 0)
 		m_count--;
-	if (m_first == hDbEvent) {
-		m_first = 0;
-		m_firstTimestamp = 0;
-	}
 	if (m_unread == hDbEvent) {
 		m_unread = 0;
 		m_unreadTimestamp = 0;
-	}
-	if (m_last == hDbEvent) {
-		m_last = 0;
-		m_lastTimestamp = 0;
 	}
 }
 

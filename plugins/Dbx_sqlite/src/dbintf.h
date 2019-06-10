@@ -7,15 +7,11 @@
 struct DBCachedContact : public DBCachedContactBase
 {
 	uint32_t m_count;
-	MEVENT   m_first;
-	uint32_t m_firstTimestamp;
 	MEVENT   m_unread;
 	uint32_t m_unreadTimestamp;
-	MEVENT   m_last;
-	uint32_t m_lastTimestamp;
 
 	DBCachedContact()
-		: m_count(-1), m_first(0), m_unread(0), m_last(0) { }
+		: m_count(-1), m_unread(0) { }
 
 	bool HasCount() const;
 

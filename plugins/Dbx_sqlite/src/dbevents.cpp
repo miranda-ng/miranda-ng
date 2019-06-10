@@ -32,9 +32,9 @@ static char *evt_stmts[SQL_EVT_STMT_NUM] = {
 	"select flags from events where id = ? limit 1;",
 	"update events set flags = ? where id = ?;",
 	"select contact_id from events where id = ? limit 1;",
-	"select id, timestamp from events_srt where contact_id = ? order by timestamp;",
+	"select id from events_srt where contact_id = ? order by timestamp;",
 	"select id, timestamp from events where contact_id = ? and (flags & ?) = 0 order by timestamp, id limit 1;",
-	"select id, timestamp from events_srt where contact_id = ? order by timestamp desc, id desc;",
+	"select id from events_srt where contact_id = ? order by timestamp desc, id desc;",
 	"select id, timestamp from events where module = ? and server_id = ? limit 1;",
 	"update events set server_id = ? where id = ?;",
 	"insert into events_srt(id, contact_id, timestamp) values (?, ?, ?);",
@@ -427,8 +427,6 @@ MEVENT CDbxSQLite::FindFirstEvent(MCONTACT hContact)
 	if (cc == nullptr)
 		return 0;
 
-	if (cc->m_first)
-		return cc->m_first;
 
 	evt_cnt_fwd = hContact;
 
@@ -441,16 +439,19 @@ MEVENT CDbxSQLite::FindFirstEvent(MCONTACT hContact)
 
 	evt_cur_fwd = evt_stmts_prep[SQL_EVT_STMT_FINDFIRST];
 	sqlite3_bind_int64(evt_cur_fwd, 1, hContact);
+	
 	int rc = sqlite3_step(evt_cur_fwd);
 	assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
 	if (rc != SQLITE_ROW) {
+		//empty response
+		//reset sql cursor
 		sqlite3_reset(evt_cur_fwd);
 		evt_cur_fwd = 0;
+		//reset current contact
+		evt_cnt_fwd = 0;
 		return 0;
 	}
-	cc->m_first = sqlite3_column_int64(evt_cur_fwd, 0);
-	cc->m_firstTimestamp = sqlite3_column_int64(evt_cur_fwd, 1);
-	return cc->m_first;
+	return sqlite3_column_int64(evt_cur_fwd, 0);
 }
 
 MEVENT CDbxSQLite::FindFirstUnreadEvent(MCONTACT hContact)
@@ -516,9 +517,6 @@ MEVENT CDbxSQLite::FindLastEvent(MCONTACT hContact)
 	if (cc == nullptr)
 		return 0;
 
-	if (cc->m_last)
-		return cc->m_last;
-
 	evt_cnt_backwd = hContact;
 
 	mir_cslock lock(m_csDbAccess);
@@ -533,13 +531,15 @@ MEVENT CDbxSQLite::FindLastEvent(MCONTACT hContact)
 	int rc = sqlite3_step(evt_cur_backwd);
 	assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
 	if (rc != SQLITE_ROW) {
+		//empty response
+		//reset sql cursor
 		sqlite3_reset(evt_cur_backwd);
 		evt_cur_backwd = 0;
+		//reset current contact
+		evt_cnt_backwd = 0;
 		return 0;
 	}
-	cc->m_last = sqlite3_column_int64(evt_cur_backwd, 0);
-	cc->m_lastTimestamp = sqlite3_column_int64(evt_cur_backwd, 1);
-	return cc->m_last;
+	return sqlite3_column_int64(evt_cur_backwd, 0);
 }
 
 MEVENT CDbxSQLite::FindNextEvent(MCONTACT hContact, MEVENT hDbEvent)
@@ -566,8 +566,11 @@ MEVENT CDbxSQLite::FindNextEvent(MCONTACT hContact, MEVENT hDbEvent)
 		assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
 		if (rc == SQLITE_DONE)
 		{
+			//reset sql cursor
 			sqlite3_reset(evt_cur_fwd);
 			evt_cur_fwd = 0;
+			//reset current contact
+			evt_cnt_fwd = 0;
 			return 0;
 		}
 	}
@@ -575,8 +578,11 @@ MEVENT CDbxSQLite::FindNextEvent(MCONTACT hContact, MEVENT hDbEvent)
 	int rc = sqlite3_step(evt_cur_fwd);
 	assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
 	if (rc != SQLITE_ROW) {
+		//reset sql cursor
 		sqlite3_reset(evt_cur_fwd);
 		evt_cur_fwd = 0;
+		//reset current contact
+		evt_cnt_fwd = 0;
 		return 0;
 	} 
 	hDbEvent = sqlite3_column_int64(evt_cur_fwd, 0);
@@ -608,8 +614,11 @@ MEVENT CDbxSQLite::FindPrevEvent(MCONTACT hContact, MEVENT hDbEvent)
 		assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
 		if (rc == SQLITE_DONE)
 		{
+			//reset sql cursor
 			sqlite3_reset(evt_cur_backwd);
 			evt_cur_backwd = 0;
+			//reset current contact
+			evt_cnt_backwd = 0;
 			return 0;
 		}
 	}
@@ -617,8 +626,11 @@ MEVENT CDbxSQLite::FindPrevEvent(MCONTACT hContact, MEVENT hDbEvent)
 	int rc = sqlite3_step(evt_cur_backwd);
 	assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
 	if (rc != SQLITE_ROW) {
+		//reset sql cursor
 		sqlite3_reset(evt_cur_backwd);
 		evt_cur_backwd = 0;
+		//reset current contact
+		evt_cnt_backwd = 0;
 		return 0;
 	}
 	hDbEvent = sqlite3_column_int64(evt_cur_backwd, 0);
