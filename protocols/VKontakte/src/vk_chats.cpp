@@ -287,6 +287,10 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &
 	const JSONNode &jnAttachments = jnMsg["attachments"];
 	if (jnAttachments) {
 		CMStringW wszAttachmentDescr = GetAttachmentDescr(jnAttachments, bbcNo);
+
+		if (wszAttachmentDescr == L"== FilterAudioMessages ==")
+			return;
+
 		if (!wszBody.IsEmpty())
 			wszAttachmentDescr = L"\n" + wszAttachmentDescr;
 		wszBody += wszAttachmentDescr;

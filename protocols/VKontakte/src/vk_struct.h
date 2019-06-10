@@ -297,6 +297,7 @@ struct CVKOptions {
 	CMOption<BYTE> bLoadSentAttachments;
 	CMOption<BYTE> bShowVkDeactivateEvents;
 	CMOption<BYTE> bStickerBackground;
+	CMOption<BYTE> bFilterAudioMessages;
 
 	CMOption<BYTE> bShowProtoMenuItem0;
 	CMOption<BYTE> bShowProtoMenuItem1;

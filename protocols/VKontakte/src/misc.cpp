@@ -1118,6 +1118,9 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			if (!jnDoc)
 				continue;
 
+			if (jnDoc["type"].as_int() == 5 && m_vkOptions.bFilterAudioMessages)
+				return L"== FilterAudioMessages ==";
+
 			CMStringW wszTitle(jnDoc["title"].as_mstring());
 			CMStringW wszUrl(jnDoc["url"].as_mstring());
 			res.AppendFormat(L"%s: %s",
@@ -1154,6 +1157,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 						debugLogA("CVkProto::GetAttachmentDescr SubAttachments");
 						CMStringW wszAttachmentDescr = GetAttachmentDescr(jnSubAttachments, iBBC);
 						wszAttachmentDescr.Replace(L"\n", L"\n\t\t");
+						wszAttachmentDescr.Replace(L"== FilterAudioMessages ==", L"");
 						res += L"\n\t\t" + wszAttachmentDescr;
 					}
 				}
@@ -1164,6 +1168,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 				debugLogA("CVkProto::GetAttachmentDescr SubAttachments");
 				CMStringW wszAttachmentDescr = GetAttachmentDescr(jnSubAttachments, iBBC);
 				wszAttachmentDescr.Replace(L"\n", L"\n\t");
+				wszAttachmentDescr.Replace(L"== FilterAudioMessages ==", L"");
 				res += L"\n\t" + wszAttachmentDescr;
 			}
 		}
@@ -1337,9 +1342,12 @@ CMStringW CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &j
 		const JSONNode &jnAttachments = jnMsg["attachments"];
 		if (jnAttachments) {
 			CMStringW wszAttachmentDescr = GetAttachmentDescr(jnAttachments, iBBC == bbcNo ? iBBC : m_vkOptions.BBCForAttachments());
-			if (!wszBody.IsEmpty())
-				wszAttachmentDescr = L"\n" + wszAttachmentDescr;
-			wszBody += wszAttachmentDescr;
+			if (wszAttachmentDescr != L"== FilterAudioMessages ==") {
+				if (!wszBody.IsEmpty())
+					wszAttachmentDescr = L"\n" + wszAttachmentDescr;
+
+				wszBody += wszAttachmentDescr;
+			}
 		}
 
 		wszBody.Replace(L"\n", L"\n\t");

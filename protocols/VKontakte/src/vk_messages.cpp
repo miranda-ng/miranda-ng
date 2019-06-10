@@ -258,6 +258,10 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		const JSONNode &jnAttachments = jnMsg["attachments"];
 		if (jnAttachments) {
 			wszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_vkOptions.BBCForAttachments());
+
+			if (wszAttachmentDescr == L"== FilterAudioMessages ==")
+				continue;
+
 			if (!wszBody.IsEmpty())
 				wszBody += L"\n";
 			wszBody += wszAttachmentDescr;

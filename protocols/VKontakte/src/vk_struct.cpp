@@ -198,6 +198,7 @@ CVKOptions::CVKOptions(PROTO_INTERFACE *proto) :
 	bLoadFullCList(proto, "LoadFullCList", false),
 	bShowVkDeactivateEvents(proto, "ShowVkDeactivateEvents", true),
 	bStickerBackground(proto, "StickerBackground", false),
+	bFilterAudioMessages(proto, "FilterAudioMessages", false),
 
 	bShowProtoMenuItem0(proto, "ShowProtoMenuItem0", true),
 	bShowProtoMenuItem1(proto, "ShowProtoMenuItem1", true),

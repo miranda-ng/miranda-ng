@@ -257,6 +257,12 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		const JSONNode &jnAttachments = jnMsg["attachments"];
 		if (jnAttachments) {
 			CMStringW wszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_vkOptions.BBCForAttachments());
+
+			if (wszAttachmentDescr == L"== FilterAudioMessages ==") {
+				count++;
+				continue;
+			}
+
 			if (!wszBody.IsEmpty())
 				wszAttachmentDescr = L"\n" + wszAttachmentDescr;
 			wszBody += wszAttachmentDescr;
