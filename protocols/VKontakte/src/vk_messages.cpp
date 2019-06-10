@@ -244,33 +244,6 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		int isRead = jnMsg["read_state"].as_int();
 		int uid = jnMsg["user_id"].as_int();
 
-		const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
-		if (jnFwdMessages) {
-			CMStringW wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, m_vkOptions.BBCForAttachments());
-			if (!wszBody.IsEmpty())
-				wszFwdMessages = L"\n" + wszFwdMessages;
-			wszBody += wszFwdMessages;
-		}
-
-		CMStringW wszBodyNoAttachments = wszBody;
-
-		CMStringW wszAttachmentDescr;
-		const JSONNode &jnAttachments = jnMsg["attachments"];
-		if (jnAttachments) {
-			wszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_vkOptions.BBCForAttachments());
-
-			if (wszAttachmentDescr == L"== FilterAudioMessages ==")
-				continue;
-
-			if (!wszBody.IsEmpty())
-				wszBody += L"\n";
-			wszBody += wszAttachmentDescr;
-		}
-
-		if (m_vkOptions.bAddMessageLinkToMesWAtt && (jnAttachments || jnFwdMessages))
-			wszBody += SetBBCString(TranslateT("Message link"), m_vkOptions.BBCForAttachments(), vkbbcUrl,
-				CMStringW(FORMAT, L"https://vk.com/im?sel=%d&msgid=%d", uid, mid));
-
 		MCONTACT hContact = 0;
 		int chat_id = jnMsg["chat_id"].as_int();
 		if (chat_id == 0)
@@ -300,6 +273,37 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			}
 			continue;
 		}
+
+		const JSONNode& jnFwdMessages = jnMsg["fwd_messages"];
+		if (jnFwdMessages) {
+			CMStringW wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, m_vkOptions.BBCForAttachments());
+			if (!wszBody.IsEmpty())
+				wszFwdMessages = L"\n" + wszFwdMessages;
+			wszBody += wszFwdMessages;
+		}
+
+		CMStringW wszBodyNoAttachments = wszBody;
+
+
+		CMStringW wszAttachmentDescr;
+		const JSONNode &jnAttachments = jnMsg["attachments"];
+		if (jnAttachments) {
+			wszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_vkOptions.BBCForAttachments());
+
+			if (wszAttachmentDescr == L"== FilterAudioMessages ==") {
+				if (hContact && (mid > getDword(hContact, "lastmsgid", -1)))
+					setDword(hContact, "lastmsgid", mid);
+				continue;
+			}
+
+			if (!wszBody.IsEmpty())
+				wszBody += L"\n";
+			wszBody += wszAttachmentDescr;
+		}
+
+		if (m_vkOptions.bAddMessageLinkToMesWAtt && (jnAttachments || jnFwdMessages))
+			wszBody += SetBBCString(TranslateT("Message link"), m_vkOptions.BBCForAttachments(), vkbbcUrl,
+				CMStringW(FORMAT, L"https://vk.com/im?sel=%d&msgid=%d", uid, mid));
 
 		time_t update_time = (time_t)jnMsg["update_time"].as_int();
 		bool bEdited = (update_time != 0);
