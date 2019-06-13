@@ -107,6 +107,7 @@ static INT_PTR ServiceMode(WPARAM wParam, LPARAM)
 
 	g_bSendQuit = true;
 
+	g_pBatch = new CImportBatch();
 	RunWizard(new CIntroPageDlg(), false);
 	return SERVICE_ONLYDB;
 }
