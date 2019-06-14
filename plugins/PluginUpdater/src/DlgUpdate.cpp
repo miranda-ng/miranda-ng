@@ -110,7 +110,7 @@ static void ApplyUpdates(void *param)
 				// otherwise it would be replaced by unzip
 				if (_wcsicmp(it->tszOldName, it->tszNewName)) {
 					wchar_t tszSrcPath[MAX_PATH], tszBackFile[MAX_PATH];
-					mir_snwprintf(tszSrcPath, L"%s\\%s", tszMirandaPath, it->tszOldName);
+					mir_snwprintf(tszSrcPath, L"%s\\%s", tszMirandaPath.get(), it->tszOldName);
 					mir_snwprintf(tszBackFile, L"%s\\%s", tszFileBack, it->tszOldName);
 					BackupFile(tszSrcPath, tszBackFile);
 				}
