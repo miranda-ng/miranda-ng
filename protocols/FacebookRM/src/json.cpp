@@ -1192,6 +1192,36 @@ int FacebookProto::ParseMessages(std::string &pData, std::vector<facebook_messag
 	return EXIT_SUCCESS;
 }
 
+
+int FacebookProto::ParseBuddylistUpdate(std::string* data)
+{
+	std::string jsonData = data->substr(9);
+
+	JSONNode root = JSONNode::parse(jsonData.c_str());
+	if (!root)
+		return EXIT_FAILURE;
+
+	const JSONNode &buddylist = root["payload"].at("buddylist");
+	if (!buddylist)
+		return EXIT_FAILURE;
+
+	setAllContactStatuses(ID_STATUS_OFFLINE);
+
+	for (auto &it : buddylist) {
+		const JSONNode &id = it["id"];
+		const JSONNode &status = it["status"];
+
+		// Facebook now sends info also about some nonfriends, so we just ignore status change of contacts we don't have in list
+		MCONTACT hContact = ContactIDToHContact(id.as_string());
+		if (!hContact)
+			continue;
+
+		setWord(hContact, "Status", ID_STATUS_ONLINE);
+	}
+
+	return EXIT_SUCCESS;
+}
+
 int FacebookProto::ParseUnreadThreads(std::string *data, std::vector< std::string >* threads)
 {
 	std::string jsonData = data->substr(9);

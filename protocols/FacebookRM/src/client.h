@@ -207,6 +207,7 @@ public:
 
 	HttpRequest* userInfoRequest(const LIST<char> &userIds);
 	HttpRequest* userInfoAllRequest();
+	HttpRequest* buddylistUpdate();
 
 	// feeds.cpp
 	HttpRequest* newsfeedRequest();

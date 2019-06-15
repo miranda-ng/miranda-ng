@@ -26,6 +26,33 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * Helper function for loading name from database (or use default one specified as parameter), used for title of few notifications.
  */
 
+
+
+void FacebookProto::ProcessBuddylistUpdate(void*)
+{
+	if (isOffline())
+		return;
+
+	facy.handle_entry("buddylist_update");
+
+	// Get friends list
+	http::response resp = facy.sendRequest(facy.buddylistUpdate());
+	if (resp.code != HTTP_CODE_OK) {
+		facy.handle_error("buddylist_update");
+		return;
+	}
+
+	debugLogA("*** Starting processing buddylist update");
+
+	if (ParseBuddylistUpdate(&resp.data) != EXIT_SUCCESS) {
+		debugLogA("*** Error processing buddylist update");
+		return;
+	}
+
+	debugLogA("*** Buddylist update processed");
+}
+
+
 void FacebookProto::ProcessFriendList(void*)
 {
 	if (isOffline())
