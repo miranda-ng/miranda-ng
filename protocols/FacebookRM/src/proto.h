@@ -46,6 +46,7 @@ class FacebookProto : public PROTO<FacebookProto>
 	int ParseThreadMessages(std::string*, std::vector< facebook_message >*, bool unreadOnly);
 	int ParseUnreadThreads(std::string*, std::vector< std::string >*);
 	int ParseUserInfo(std::string* data, facebook_user* fbu);
+	int ParseBuddylistUpdate(std::string* data);
 
 	const char* ParseIcon(const std::string &url);
 
@@ -185,6 +186,7 @@ public:
 
 	// Processing threads
 	void __cdecl ProcessFriendList(void*);
+	void __cdecl ProcessBuddylistUpdate(void*);
 	void __cdecl ProcessUnreadMessages(void*);
 	void __cdecl ProcessUnreadMessage(void*);
 	void __cdecl ProcessFeeds(void*);

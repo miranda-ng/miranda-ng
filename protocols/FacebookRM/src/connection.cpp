@@ -230,9 +230,12 @@ void FacebookProto::UpdateLoop(void *)
 	debugLogA(">>> Entering Facebook::UpdateLoop[%d]", tim);
 
 	for (int i = -1; !isOffline(); i = (i + 1) % 50) {
-		if (i != -1)
+		if (i != -1) {
 			if (getByte(FACEBOOK_KEY_EVENT_FEEDS_ENABLE, DEFAULT_EVENT_FEEDS_ENABLE))
 				ProcessFeeds(nullptr);
+		}
+
+		ProcessBuddylistUpdate(nullptr);
 
 		debugLogA("*** FacebookProto::UpdateLoop[%d] going to sleep...", tim);
 		if (WaitForSingleObjectEx(update_loop_event, GetPollRate() * 1000, true) != WAIT_TIMEOUT)

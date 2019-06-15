@@ -715,3 +715,22 @@ HttpRequest* facebook_client::userInfoAllRequest()
 
 	return p;
 }
+
+HttpRequest* facebook_client::buddylistUpdate()
+{
+	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_MOBILE "/buddylist_update.php");
+    
+	p->Body
+		<< CHAR_PARAM("data_fetch", "true")
+		<< CHAR_PARAM("m_sess", "")
+		<< CHAR_PARAM("fb_dtsg", dtsg_.c_str())
+		<< CHAR_PARAM("jazoest", "21824")
+		<< CHAR_PARAM("__dyn", __dyn())
+		<< CHAR_PARAM("__req", __req())
+		<< CHAR_PARAM("__ajax__", "")
+		<< CHAR_PARAM("__user", self_.user_id.c_str());
+
+	// send_full_data=true sends more data
+
+	return p;
+}
