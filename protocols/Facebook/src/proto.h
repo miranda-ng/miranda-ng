@@ -20,8 +20,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "../../../miranda-private-keys/Facebook/app_secret.h"
+
+class FacebookProto;
+
+struct AsyncHttpRequest : public MTHttpRequest<FacebookProto>
+{
+	void CalcSig();
+};
+
 class FacebookProto : public PROTO<FacebookProto>
 {
+	AsyncHttpRequest* CreateGraphql(const char *szName, const char *szMethod);
+
+	CMStringA szDeviceID;
 
 public:
 	FacebookProto(const char *proto_name, const wchar_t *username);

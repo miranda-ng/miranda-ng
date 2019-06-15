@@ -23,6 +23,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 FacebookProto::FacebookProto(const char *proto_name, const wchar_t *username) :
 	PROTO<FacebookProto>(proto_name, username)
 {
+	szDeviceID = getMStringA(DBKEY_DEVICE_ID);
+	if (szDeviceID.IsEmpty()) {
+		UUID deviceId;
+		UuidCreate(&deviceId);
+		RPC_CSTR szId;
+		UuidToStringA(&deviceId, &szId);
+		szDeviceID = szId;
+		setString(DBKEY_DEVICE_ID, szDeviceID);
+		RpcStringFreeA(&szId);
+	}
 
 }
 
