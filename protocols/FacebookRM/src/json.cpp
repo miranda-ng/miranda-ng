@@ -1205,19 +1205,22 @@ int FacebookProto::ParseBuddylistUpdate(std::string* data)
 	if (!buddylist)
 		return EXIT_FAILURE;
 
-	setAllContactStatuses(ID_STATUS_OFFLINE);
-
+	std::map<MCONTACT, bool> list;
+	
 	for (auto &it : buddylist) {
 		const JSONNode &id = it["id"];
-		const JSONNode &status = it["status"];
 
 		// Facebook now sends info also about some nonfriends, so we just ignore status change of contacts we don't have in list
 		MCONTACT hContact = ContactIDToHContact(id.as_string());
-		if (!hContact)
-			continue;
-
-		setWord(hContact, "Status", ID_STATUS_ONLINE);
+		if (hContact) {
+			setWord(hContact, "Status", ID_STATUS_ONLINE);
+			list.insert(std::pair<MCONTACT, bool>(hContact, true));
+		}
 	}
+
+	for (auto &it : AccContacts())
+		if (list.find(it) == list.end())
+			setWord(it, "Status", ID_STATUS_OFFLINE);
 
 	return EXIT_SUCCESS;
 }
