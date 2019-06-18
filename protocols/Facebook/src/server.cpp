@@ -20,29 +20,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-AsyncHttpRequest* FacebookProto::CreateGraphql(const char *szName, const char *szMethod)
+void FacebookProto::OnLoggedOut()
 {
-	AsyncHttpRequest *pReq = new AsyncHttpRequest();
-	pReq->requestType = REQUEST_POST;
-	pReq->szUrl = "https://graph.facebook.com/graphql";
-	pReq << CHAR_PARAM("api_key", FB_APP_KEY) << CHAR_PARAM("device_id", szDeviceID) << CHAR_PARAM("fb_api_req_friendly_name", szName)
-		<< CHAR_PARAM("format", "json") << CHAR_PARAM("method", szMethod);
-
-	CMStringA szLocale = getMStringA(DBKEY_LOCALE);
-	if (szLocale.IsEmpty())
-		szLocale = "en";
-	pReq << CHAR_PARAM("locale", szLocale);
-
-	unsigned int id;
-	Utils_GetRandom(&id, sizeof(id));
-	id &= ~0x80000000;
-	pReq << INT_PARAM("queryid", id);
-
-	return pReq;
+	m_bOnline = false;
 }
 
-void AsyncHttpRequest::CalcSig()
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void FacebookProto::ServerThread(void *)
 {
-	CMStringA szSrc = m_szParam;
-	szSrc.Append(FB_APP_SECRET);
+	auto *pReq = CreateRequest("authenticate", "auth.login");
+	pReq->m_szUrl = FB_HOST_BAPI "/method/auth.login";
+	pReq << CHAR_PARAM("email", getMStringA("Email")) << CHAR_PARAM("password", getMStringA("Password"));
+	pReq->CalcSig();
+
+	JsonReply reply(ExecuteRequest(pReq));
+	if (reply.error()) {
+FAIL:
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)m_iStatus, m_iDesiredStatus);
+
+		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
+	}
 }

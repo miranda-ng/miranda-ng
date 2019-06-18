@@ -51,6 +51,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_gui.h>
 
 #include "db.h"
+#include "mqtt.h"
 #include "proto.h"
 
 extern bool g_bMessageState;

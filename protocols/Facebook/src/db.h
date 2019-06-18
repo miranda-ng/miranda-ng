@@ -34,6 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DBKEY_NICK            "Nick"
 #define DBKEY_USERNAME        "Username"
 #define DBKEY_PASS            "Password"
+#define DBKEY_CLIENT_ID       "ClientID"
 #define DBKEY_DEVICE_ID       "DeviceID"
 #define DBKEY_AVATAR          "Avatar"
 #define DBKEY_DELETED         "DeletedTS"
