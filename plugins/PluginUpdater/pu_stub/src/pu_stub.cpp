@@ -1,6 +1,7 @@
 
 #include "stdafx.h"
 
+#include "..\..\build\appstub\appstub.cpp"
 #pragma comment(lib, "delayimp.lib")
 
 void log(const wchar_t *tszFormat, ...)
