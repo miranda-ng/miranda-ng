@@ -42,6 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DBKEY_MESSAGE_ID      "LastMessageId"
 #define DBKEY_MESSAGE_READ    "LastMsgReadTime"
 #define DBKEY_MESSAGE_READERS "MessageReaders"
+#define DBKEY_TOKEN           "Token"
 
 // Thread specific DB keys 
 #define DBKEY_CHAT_CAN_REPLY  "CanReply"

@@ -29,17 +29,21 @@ void FacebookProto::OnLoggedOut()
 
 void FacebookProto::ServerThread(void *)
 {
-	auto *pReq = CreateRequest("authenticate", "auth.login");
-	pReq->m_szUrl = FB_HOST_BAPI "/method/auth.login";
-	pReq << CHAR_PARAM("email", getMStringA("Email")) << CHAR_PARAM("password", getMStringA("Password"));
-	pReq->CalcSig();
+	m_szAuthToken = getMStringA(DBKEY_TOKEN);
+	if (m_szAuthToken.IsEmpty()) {
+		auto *pReq = new AsyncHttpRequest();
+		pReq->requestType = REQUEST_GET;
+		pReq->flags = NLHRF_HTTP11 | NLHRF_REDIRECT;
+		pReq->m_szUrl = "https://www.facebook.com/v3.3/dialog/oauth?client_id=478386432928815&redirect_uri=https://oauth.miranda-ng.org/facebook.php&state=qq";
 
-	JsonReply reply(ExecuteRequest(pReq));
-	if (reply.error()) {
+		JsonReply reply(ExecuteRequest(pReq));
+		if (reply.error()) {
 FAIL:
-		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)m_iStatus, m_iDesiredStatus);
+			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)m_iStatus, m_iDesiredStatus);
 
-		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
-		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
+			m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
+			return;
+		}
 	}
 }
