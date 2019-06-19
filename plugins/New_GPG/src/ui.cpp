@@ -1293,6 +1293,7 @@ bool CDlgLoadExistingKey::OnApply()
 
 void CDlgLoadExistingKey::onChange_EXISTING_KEY_LIST(CCtrlListView::TEventInfo * /*ev*/) 
 {
+	EnableWindow(GetDlgItem(m_hwnd, IDOK), TRUE);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
