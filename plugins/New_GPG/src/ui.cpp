@@ -59,14 +59,10 @@ void CDlgEncryptedFileMsgBox::onClick_DECRYPT(CCtrlButton*)
 
 CDlgExportKeysMsgBox::CDlgExportKeysMsgBox() :
 	CDlgBase(g_plugin, IDD_EXPORT_TYPE),
-	btn_OK(this, IDC_OK),
-	btn_CANCEL(this, IDC_CANCEL),
 	chk_PUBLIC(this, IDC_PUBLIC),
 	chk_PRIVATE(this, IDC_PRIVATE),
 	chk_ALL(this, IDC_ALL)
 {
-	btn_OK.OnClick = Callback(this, &CDlgExportKeysMsgBox::onClick_OK);
-	btn_CANCEL.OnClick = Callback(this, &CDlgExportKeysMsgBox::onClick_CANCEL);
 }
 
 bool CDlgExportKeysMsgBox::OnInitDialog()
@@ -75,7 +71,7 @@ bool CDlgExportKeysMsgBox::OnInitDialog()
 	return true;
 }
 
-void CDlgExportKeysMsgBox::onClick_OK(CCtrlButton*)
+bool CDlgExportKeysMsgBox::OnApply()
 {
 	if (chk_PUBLIC.GetState())
 		ExportGpGKeysFunc(0);
@@ -83,31 +79,25 @@ void CDlgExportKeysMsgBox::onClick_OK(CCtrlButton*)
 		ExportGpGKeysFunc(1);
 	else if (chk_ALL.GetState())
 		ExportGpGKeysFunc(2);
-	this->Close();
-}
-void CDlgExportKeysMsgBox::onClick_CANCEL(CCtrlButton*)
-{
-	this->Close();
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CDlgChangePasswdMsgBox::CDlgChangePasswdMsgBox() :
 	CDlgBase(g_plugin, IDD_CHANGE_PASSWD),
-	btn_OK(this, ID_OK),
 	edit_NEW_PASSWD1(this, IDC_NEW_PASSWD1),
 	edit_NEW_PASSWD2(this, IDC_NEW_PASSWD2),
 	edit_OLD_PASSWD(this, IDC_OLD_PASSWD)
 {
-	btn_OK.OnClick = Callback(this, &CDlgChangePasswdMsgBox::onClick_OK);
 }
 
-void CDlgChangePasswdMsgBox::onClick_OK(CCtrlButton*)
+bool CDlgChangePasswdMsgBox::OnApply()
 {
 	//TODO: show some prgress
 	if (mir_wstrcmp(edit_NEW_PASSWD1.GetText(), edit_NEW_PASSWD2.GetText())) {
 		MessageBox(m_hwnd, TranslateT("New passwords do not match"), TranslateT("Error"), MB_OK);
-		return;
+		return false;
 	}
 	std::string old_pass, new_pass;
 	//			wchar_t buf[256] = { 0 };
@@ -133,7 +123,7 @@ void CDlgChangePasswdMsgBox::onClick_OK(CCtrlButton*)
 
 	if (!old_pass_match)
 		if (MessageBox(m_hwnd, TranslateT("Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?"), TranslateT("Error"), MB_YESNO) == IDNO)
-			return;
+			return false;
 
 	string output;
 	DWORD exitcode;
@@ -155,12 +145,10 @@ void CDlgChangePasswdMsgBox::onClick_OK(CCtrlButton*)
 			boost::process::terminate(*(params->child));
 		if (globals.bDebugLog)
 			globals.debuglog << std::string(time_str() + ": GPG execution timed out, aborted");
-		this->Close();
-		return;
+		return true;
 	}
 	
-	if (result != pxNotFound)
-		this->Close();
+	return (result != pxNotFound);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -994,11 +982,8 @@ CDlgKeyGen::CDlgKeyGen() :
 	edit_KEY_EMAIL(this, IDC_KEY_EMAIL),
 	edit_KEY_COMMENT(this, IDC_KEY_COMMENT),
 	edit_KEY_EXPIRE_DATE(this, IDC_KEY_EXPIRE_DATE),
-	lbl_GENERATING_TEXT(this, IDC_GENERATING_TEXT),
-	btn_OK(this, IDOK), btn_CANCEL(this, IDCANCEL)
+	lbl_GENERATING_TEXT(this, IDC_GENERATING_TEXT)
 {
-	btn_OK.OnClick = Callback(this, &CDlgKeyGen::onClick_OK);
-	btn_CANCEL.OnClick = Callback(this, &CDlgKeyGen::onClick_CANCEL);
 }
 
 bool CDlgKeyGen::OnInitDialog()
@@ -1013,163 +998,124 @@ bool CDlgKeyGen::OnInitDialog()
 	return true;
 }
 
-void CDlgKeyGen::onClick_OK(CCtrlButton*)
+bool CDlgKeyGen::OnApply()
 {
-	{
-		wstring path;
-		{ //data sanity checks
-			wchar_t *tmp = mir_wstrdup(combo_KEY_TYPE.GetText());
-			if (!tmp) {
-				MessageBox(nullptr, TranslateT("You must set encryption algorithm first"), TranslateT("Error"), MB_OK);
-				return;
-			}
-			if (mir_wstrlen(tmp) < 3) {
-				mir_free(tmp);
-				tmp = nullptr;
-				MessageBox(nullptr, TranslateT("You must set encryption algorithm first"), TranslateT("Error"), MB_OK);
-				return;
-			}
-			mir_free(tmp);
-			tmp = mir_wstrdup(edit_KEY_LENGTH.GetText());
-			if (!tmp) {
-				MessageBox(nullptr, TranslateT("Key length must be of length from 1024 to 4096 bits"), TranslateT("Error"), MB_OK);
-				return;
-			}
-			int length = _wtoi(tmp);
-			mir_free(tmp);
-			if (length < 1024 || length > 4096) {
-				MessageBox(nullptr, TranslateT("Key length must be of length from 1024 to 4096 bits"), TranslateT("Error"), MB_OK);
-				return;
-			}
-			tmp = mir_wstrdup(edit_KEY_EXPIRE_DATE.GetText());
-			if (!tmp) {
-				MessageBox(nullptr, TranslateT("Invalid date"), TranslateT("Error"), MB_OK);
-				return;
-			}
-			if (mir_wstrlen(tmp) != 10 && tmp[0] != '0') {
-				MessageBox(nullptr, TranslateT("Invalid date"), TranslateT("Error"), MB_OK);
-				mir_free(tmp);
-				return;
-			}
-			mir_free(tmp);
-			tmp = mir_wstrdup(edit_KEY_REAL_NAME.GetText());
-			if (!tmp) {
-				MessageBox(nullptr, TranslateT("Name must contain at least 5 characters"), TranslateT("Error"), MB_OK);
-				return;
-			}
-			if (mir_wstrlen(tmp) < 5) {
-				MessageBox(nullptr, TranslateT("Name must contain at least 5 characters"), TranslateT("Error"), MB_OK);
-				mir_free(tmp);
-				return;
-			}
-			else if (wcschr(tmp, '(') || wcschr(tmp, ')')) {
-				MessageBox(nullptr, TranslateT("Name cannot contain '(' or ')'"), TranslateT("Error"), MB_OK);
-				mir_free(tmp);
-				return;
-			}
-			mir_free(tmp);
-			tmp = mir_wstrdup(edit_KEY_EMAIL.GetText());
-			if (!tmp) {
-				MessageBox(nullptr, TranslateT("Invalid Email"), TranslateT("Error"), MB_OK);
-				return;
-			}
-			if ((mir_wstrlen(tmp)) < 5 || (!wcschr(tmp, '@')) || (!wcschr(tmp, '.'))) {
-				MessageBox(nullptr, TranslateT("Invalid Email"), TranslateT("Error"), MB_OK);
-				mir_free(tmp);
-				return;
-			}
-			mir_free(tmp);
-		}
-		{ //generating key file
-			wchar_t *tmp = db_get_wsa(0, MODULENAME, "szHomePath", L"");
-			char  *tmp2;// = mir_u2a(tmp);
-			path = tmp;
-			mir_free(tmp);
-			//			  mir_free(tmp2);
-			path.append(L"\\new_key");
-			wfstream f(path.c_str(), std::ios::out);
-			if (!f.is_open()) {
-				MessageBox(nullptr, TranslateT("Failed to open file"), TranslateT("Error"), MB_OK);
-				return;
-			}
-			f << "Key-Type: ";
-			tmp2 = mir_u2a(combo_KEY_TYPE.GetText());
-			char *subkeytype = (char*)mir_alloc(6);
-			if (strstr(tmp2, "RSA"))
-				mir_strcpy(subkeytype, "RSA");
-			else if (strstr(tmp2, "DSA")) //this is useless check for now, but it will be required if someone add another key types support
-				mir_strcpy(subkeytype, "ELG-E");
-			f << tmp2;
-			mir_free(tmp2);
-			f << "\n";
-			f << "Key-Length: ";
-			f << _wtoi(edit_KEY_LENGTH.GetText());
-			f << "\n";
-			f << "Subkey-Length: ";
-			f << _wtoi(edit_KEY_LENGTH.GetText());
-			f << "\n";
-			f << "Subkey-Type: ";
-			f << subkeytype;
-			mir_free(subkeytype);
-			f << "\n";
-			if (edit_KEY_PASSWD.GetText()[0]) {
-				f << "Passphrase: ";
-				f << toUTF8(edit_KEY_PASSWD.GetText()).c_str();
-				f << "\n";
-			}
-			f << "Name-Real: ";
-			f << toUTF8(edit_KEY_REAL_NAME.GetText()).c_str();
-			f << "\n";
-			if (edit_KEY_COMMENT.GetText()[0]) {
-				f << "Name-Comment: ";
-				f << toUTF8(edit_KEY_COMMENT.GetText()).c_str();
-				f << "\n";
-			}
-			f << "Name-Email: ";
-			f << toUTF8(edit_KEY_EMAIL.GetText()).c_str();
-			f << "\n";
-			f << "Expire-Date: ";
-			f << toUTF8(edit_KEY_EXPIRE_DATE.GetText()).c_str();
-			f << "\n";
-			f.close();
-		}
-		{ //gpg execution
-			DWORD code;
-			string out;
-			std::vector<wstring> cmd;
-			cmd.push_back(L"--batch");
-			cmd.push_back(L"--yes");
-			cmd.push_back(L"--gen-key");
-			cmd.push_back(path);
-			gpg_execution_params params(cmd);
-			pxResult result;
-			params.out = &out;
-			params.code = &code;
-			params.result = &result;
-			lbl_GENERATING_TEXT.SendMsg(WM_SETFONT, (WPARAM)globals.bold_font, TRUE);
-			lbl_GENERATING_TEXT.SetText(TranslateT("Generating new key, please wait..."));
-			btn_CANCEL.Disable();
-			btn_OK.Disable();
-			combo_KEY_TYPE.Disable();
-			edit_KEY_LENGTH.Disable();
-			edit_KEY_PASSWD.Disable();
-			edit_KEY_REAL_NAME.Disable();
-			edit_KEY_EMAIL.Disable();
-			edit_KEY_COMMENT.Disable();
-			edit_KEY_EXPIRE_DATE.Disable();
-			if (!gpg_launcher(params, boost::posix_time::minutes(10)))
-				return;
-			if (result == pxNotFound)
-				return;
-		}
-		boost::filesystem::remove(path);
+	// data sanity checks
+	ptrW tmp(combo_KEY_TYPE.GetText());
+	if (mir_wstrlen(tmp) < 3) {
+		MessageBox(nullptr, TranslateT("You must set encryption algorithm first"), TranslateT("Error"), MB_OK);
+		return false;
 	}
-	this->Close();
-}
 
-void CDlgKeyGen::onClick_CANCEL(CCtrlButton*)
-{
-	this->Close();
+	tmp = edit_KEY_LENGTH.GetText();
+	int length = _wtoi(tmp);
+	if (length < 1024 || length > 4096) {
+		MessageBox(nullptr, TranslateT("Key length must be of length from 1024 to 4096 bits"), TranslateT("Error"), MB_OK);
+		return false;
+	}
+
+	tmp = edit_KEY_EXPIRE_DATE.GetText();
+	if (mir_wstrlen(tmp) != 10 && tmp[0] != '0') {
+		MessageBox(nullptr, TranslateT("Invalid date"), TranslateT("Error"), MB_OK);
+		return false;
+	}
+
+	tmp = edit_KEY_REAL_NAME.GetText();
+	if (mir_wstrlen(tmp) < 5) {
+		MessageBox(nullptr, TranslateT("Name must contain at least 5 characters"), TranslateT("Error"), MB_OK);
+		return false;
+	}
+	if (wcschr(tmp, '(') || wcschr(tmp, ')')) {
+		MessageBox(nullptr, TranslateT("Name cannot contain '(' or ')'"), TranslateT("Error"), MB_OK);
+		return false;
+	}
+
+	tmp = edit_KEY_EMAIL.GetText();
+	if ((mir_wstrlen(tmp)) < 5 || (!wcschr(tmp, '@')) || (!wcschr(tmp, '.'))) {
+		MessageBox(nullptr, TranslateT("Invalid Email"), TranslateT("Error"), MB_OK);
+		return false;
+	}
+
+	// generating key file
+	wstring path = ptrW(db_get_wsa(0, MODULENAME, "szHomePath", L""));
+
+	path.append(L"\\new_key");
+	wfstream f(path.c_str(), std::ios::out);
+	if (!f.is_open()) {
+		MessageBox(nullptr, TranslateT("Failed to open file"), TranslateT("Error"), MB_OK);
+		return false;
+	}
+
+	f << "Key-Type: ";
+	char *tmp2 = mir_u2a(combo_KEY_TYPE.GetText());
+	char *subkeytype = (char*)mir_alloc(6);
+	if (strstr(tmp2, "RSA"))
+		mir_strcpy(subkeytype, "RSA");
+	else if (strstr(tmp2, "DSA")) //this is useless check for now, but it will be required if someone add another key types support
+		mir_strcpy(subkeytype, "ELG-E");
+	f << tmp2;
+	mir_free(tmp2);
+	f << "\n";
+	f << "Key-Length: ";
+	f << _wtoi(edit_KEY_LENGTH.GetText());
+	f << "\n";
+	f << "Subkey-Length: ";
+	f << _wtoi(edit_KEY_LENGTH.GetText());
+	f << "\n";
+	f << "Subkey-Type: ";
+	f << subkeytype;
+	mir_free(subkeytype);
+	f << "\n";
+	if (edit_KEY_PASSWD.GetText()[0]) {
+		f << "Passphrase: ";
+		f << toUTF8(edit_KEY_PASSWD.GetText()).c_str();
+		f << "\n";
+	}
+	f << "Name-Real: ";
+	f << toUTF8(edit_KEY_REAL_NAME.GetText()).c_str();
+	f << "\n";
+	if (edit_KEY_COMMENT.GetText()[0]) {
+		f << "Name-Comment: ";
+		f << toUTF8(edit_KEY_COMMENT.GetText()).c_str();
+		f << "\n";
+	}
+	f << "Name-Email: ";
+	f << toUTF8(edit_KEY_EMAIL.GetText()).c_str();
+	f << "\n";
+	f << "Expire-Date: ";
+	f << toUTF8(edit_KEY_EXPIRE_DATE.GetText()).c_str();
+	f << "\n";
+	f.close();
+
+	// gpg execution
+	DWORD code;
+	string out;
+	std::vector<wstring> cmd;
+	cmd.push_back(L"--batch");
+	cmd.push_back(L"--yes");
+	cmd.push_back(L"--gen-key");
+	cmd.push_back(path);
+	gpg_execution_params params(cmd);
+	pxResult result;
+	params.out = &out;
+	params.code = &code;
+	params.result = &result;
+	lbl_GENERATING_TEXT.SendMsg(WM_SETFONT, (WPARAM)globals.bold_font, TRUE);
+	lbl_GENERATING_TEXT.SetText(TranslateT("Generating new key, please wait..."));
+	combo_KEY_TYPE.Disable();
+	edit_KEY_LENGTH.Disable();
+	edit_KEY_PASSWD.Disable();
+	edit_KEY_REAL_NAME.Disable();
+	edit_KEY_EMAIL.Disable();
+	edit_KEY_COMMENT.Disable();
+	edit_KEY_EXPIRE_DATE.Disable();
+	if (!gpg_launcher(params, boost::posix_time::minutes(10)))
+		return false;
+	if (result == pxNotFound)
+		return false;
+
+	boost::filesystem::remove(path);
+	return true;
 }
 
 void CDlgKeyGen::OnDestroy()
@@ -1183,14 +1129,9 @@ void CDlgKeyGen::OnDestroy()
 
 CDlgLoadExistingKey::CDlgLoadExistingKey() :
 	CDlgBase(g_plugin, IDD_LOAD_EXISTING_KEY),
-	btn_OK(this, IDOK),
-	btn_CANCEL(this, IDCANCEL),
 	list_EXISTING_KEY_LIST(this, IDC_EXISTING_KEY_LIST)
 {
 	id[0] = 0;
-	btn_OK.OnClick = Callback(this, &CDlgLoadExistingKey::onClick_OK);
-	btn_CANCEL.OnClick = Callback(this, &CDlgLoadExistingKey::onClick_CANCEL);
-
 }
 
 bool CDlgLoadExistingKey::OnInitDialog()
@@ -1302,11 +1243,11 @@ void CDlgLoadExistingKey::OnDestroy()
 	g_plugin.setDword("LoadExistingKeyWindowY", globals.load_existing_key_rect.top);
 }
 
-void CDlgLoadExistingKey::onClick_OK(CCtrlButton*)
+bool CDlgLoadExistingKey::OnApply()
 {
 	int i = list_EXISTING_KEY_LIST.GetSelectionMark();
 	if (i == -1)
-		return; //TODO: error message
+		return false; //TODO: error message
 
 	list_EXISTING_KEY_LIST.GetItemText(i, 0, id, _countof(id));
 	extern CCtrlEdit *edit_p_PubKeyEdit;
@@ -1323,9 +1264,9 @@ void CDlgLoadExistingKey::onClick_OK(CCtrlButton*)
 	params.code = &code;
 	params.result = &result;
 	if (!gpg_launcher(params))
-		return;
+		return false;
 	if (result == pxNotFound)
-		return;
+		return false;
 	string::size_type s = 0;
 	while ((s = out.find("\r", s)) != string::npos) {
 		out.erase(s, 1);
@@ -1347,17 +1288,11 @@ void CDlgLoadExistingKey::onClick_OK(CCtrlButton*)
 	}
 	else MessageBox(nullptr, TranslateT("Failed to export public key."), TranslateT("Error"), MB_OK);
 
-	this->Close();
-}
-void CDlgLoadExistingKey::onClick_CANCEL(CCtrlButton*)
-{
-	this->Close();
+	return true;
 }
 
-void CDlgLoadExistingKey::onChange_EXISTING_KEY_LIST(CCtrlListView::TEventInfo * /*ev*/) //TODO: check if this work
+void CDlgLoadExistingKey::onChange_EXISTING_KEY_LIST(CCtrlListView::TEventInfo * /*ev*/) 
 {
-	if (list_EXISTING_KEY_LIST.GetSelectionMark() != -1)
-		btn_OK.Enable();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
