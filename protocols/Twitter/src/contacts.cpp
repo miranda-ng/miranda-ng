@@ -240,6 +240,7 @@ MCONTACT TwitterProto::AddToClientList(const char *name, const char *status)
 	if (hContact) {
 		if (Proto_AddToContact(hContact, m_szModuleName) == 0) {
 			setString(hContact, TWITTER_KEY_UN, name);
+			setString(hContact, "Homepage", "https://twitter.com/" + CMStringA(name));
 			setWord(hContact, "Status", ID_STATUS_ONLINE);
 			db_set_utf(hContact, "CList", "StatusMsg", status);
 

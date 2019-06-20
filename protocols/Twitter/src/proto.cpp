@@ -22,7 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "utility.h"
 #include "theme.h"
 #include "ui.h"
-#include "..\..\..\..\miranda-private-keys\Twitter\oauth.dev.h"
 
 static volatile LONG g_msgid = 1;
 
@@ -85,11 +84,9 @@ TwitterProto::TwitterProto(const char *proto_name, const wchar_t *username) :
 
 	twit_.set_handle(this, m_hNetlibUser);
 
-	// mirandas keys
-	ConsumerKey = OAUTH_CONSUMER_KEY;
-	ConsumerSecret = OAUTH_CONSUMER_SECRET;
-
-	AuthorizeUrl = L"https://api.twitter.com/oauth/authorize?oauth_token=%s";
+	db_set_resident(m_szModuleName, "Homepage");
+	for (auto &it : AccContacts())
+		setString(it, "Homepage", "https://twitter.com/" + getMStringA(it, TWITTER_KEY_UN));
 }
 
 TwitterProto::~TwitterProto()
@@ -230,10 +227,7 @@ INT_PTR TwitterProto::ReplyToTweet(WPARAM wParam, LPARAM)
 
 INT_PTR TwitterProto::VisitHomepage(WPARAM hContact, LPARAM)
 {
-	ptrA szUsername(getStringA(hContact, TWITTER_KEY_UN));
-	if (szUsername)
-		Utils_OpenUrl("https://twitter.com/" + mir_urlEncode(szUsername));
-
+	Utils_OpenUrl(getMStringA(MCONTACT(hContact), "Homepage"));
 	return 0;
 }
 
@@ -396,7 +390,7 @@ void TwitterProto::UpdateSettings()
 std::wstring TwitterProto::GetAvatarFolder()
 {
 	wchar_t path[MAX_PATH];
-	mir_snwprintf(path, L"%s\\%s", VARSW(L"%miranda_avatarcache%"), m_tszUserName);
+	mir_snwprintf(path, L"%s\\%s", VARSW(L"%miranda_avatarcache%").get(), m_tszUserName);
 	return path;
 }
 

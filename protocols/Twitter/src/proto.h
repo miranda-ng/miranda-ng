@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "utility.h"
+#include "..\..\..\..\miranda-private-keys\Twitter\oauth.dev.h"
 
 class TwitterProto : public PROTO<TwitterProto>
 {
@@ -120,13 +121,6 @@ private:
 	bool in_chat_;
 
 	int disconnectionCount;
-
-	//mirandas keys
-	wstring ConsumerKey;
-	wstring ConsumerSecret;
-
-	// various twitter api URLs
-	wstring AuthorizeUrl;
 };
 
 struct CMPlugin : public ACCPROTOPLUGIN<TwitterProto>

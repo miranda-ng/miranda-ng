@@ -130,7 +130,7 @@ bool TwitterProto::NegotiateConnection()
 		debugLogA("**NegotiateConnection - Reset OAuth Keys");
 
 		debugLogA("**NegotiateConnection - Setting Consumer Keys...");
-		twit_.set_credentials("", ConsumerKey, ConsumerSecret, oauthToken, oauthTokenSecret, L"", false);
+		twit_.set_credentials("", OAUTH_CONSUMER_KEY, OAUTH_CONSUMER_SECRET, oauthToken, oauthTokenSecret, L"", false);
 		debugLogA("**NegotiateConnection - Requesting oauthTokens");
 		http::response resp = twit_.request_token();
 
@@ -152,7 +152,7 @@ bool TwitterProto::NegotiateConnection()
 
 		// this looks like bad code.. can someone clean this up please?  or confirm that it's ok
 		wchar_t buf[1024] = {};
-		mir_snwprintf(buf, _countof(buf), AuthorizeUrl.c_str(), oauthToken.c_str());
+		mir_snwprintf(buf, L"https://api.twitter.com/oauth/authorize?oauth_token=%s", oauthToken.c_str());
 
 		debugLogW(L"**NegotiateConnection - Launching %s", buf);
 		ShellExecute(nullptr, L"open", buf, nullptr, nullptr, SW_SHOWNORMAL);
@@ -213,7 +213,7 @@ bool TwitterProto::NegotiateConnection()
 
 		debugLogA("**NegotiateConnection - Setting Consumer Keys and PIN...");
 
-		twit_.set_credentials("", ConsumerKey, ConsumerSecret, oauthToken, oauthTokenSecret, pin, false);
+		twit_.set_credentials("", OAUTH_CONSUMER_KEY, OAUTH_CONSUMER_SECRET, oauthToken, oauthTokenSecret, pin, false);
 
 		debugLogA("**NegotiateConnection - requesting access tokens...");
 		http::response accessResp = twit_.request_access_tokens();
@@ -243,7 +243,7 @@ bool TwitterProto::NegotiateConnection()
 			screenName = WideToUTF8(accessTokenParameters[L"screen_name"]);
 			debugLogA("**NegotiateConnection - screen name is %s", screenName.c_str());
 
-			//save em
+			// save em
 			setWString(TWITTER_KEY_OAUTH_ACCESS_TOK, oauthAccessToken.c_str());
 			setWString(TWITTER_KEY_OAUTH_ACCESS_TOK_SECRET, oauthAccessTokenSecret.c_str());
 			setString(TWITTER_KEY_NICK, screenName.c_str());
@@ -267,7 +267,7 @@ bool TwitterProto::NegotiateConnection()
 	bool success;
 	{
 		mir_cslock s(twitter_lock_);
-		success = twit_.set_credentials(screenName, ConsumerKey, ConsumerSecret, oauthAccessToken, oauthAccessTokenSecret, L"", true);
+		success = twit_.set_credentials(screenName, OAUTH_CONSUMER_KEY, OAUTH_CONSUMER_SECRET, oauthAccessToken, oauthAccessTokenSecret, L"", true);
 	}
 
 	if (!success) {

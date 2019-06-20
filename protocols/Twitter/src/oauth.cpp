@@ -252,7 +252,7 @@ wstring mir_twitter::OAuthNormalizeUrl(const wstring& url)
 	if (Compare(brokenURL[L"scheme"], L"http", false) && !(Compare(brokenURL[L"port"], L"80", false)) ||
 		(Compare(brokenURL[L"scheme"], L"https", false) && !(Compare(brokenURL[L"port"], L"443", false))))
 	{
-		mir_snwprintf(port, _countof(port), L":%s", brokenURL[L"port"].c_str());
+		mir_snwprintf(port, L":%s", brokenURL[L"port"].c_str());
 	}
 
 	// InternetCrackUrl includes ? and # elements in the path, 
@@ -322,7 +322,7 @@ wstring mir_twitter::OAuthCreateTimestamp()
 	_ASSERTE(utcNow != -1);
 
 	wchar_t buf[100] = {};
-	mir_snwprintf(buf, _countof(buf), L"%I64u", utcNow);
+	mir_snwprintf(buf, L"%I64u", utcNow);
 
 	return buf;
 }
@@ -339,7 +339,7 @@ wstring mir_twitter::OAuthCreateSignature(const wstring& signatureBase, const ws
 	BYTE digest[MIR_SHA1_HASH_SIZE];
 	unsigned int len;
 	string data = WideToUTF8(signatureBase);
-	HMAC(EVP_sha1(), keyBytes.c_str(), keyBytes.size(), (PBYTE)data.c_str(), data.size(), digest, &len);
+	HMAC(EVP_sha1(), keyBytes.c_str(), (int)keyBytes.size(), (PBYTE)data.c_str(), data.size(), digest, &len);
 	ptrA encoded(mir_base64_encode(digest, sizeof(digest)));
 	return UrlEncode((wchar_t*)_A2T(encoded));
 }
