@@ -40,7 +40,6 @@
 #ifndef LIBSSH2_PRIV_H
 #define LIBSSH2_PRIV_H 1
 
-#define LIBSSH2_LIBRARY
 #include "libssh2_config.h"
 
 #ifdef HAVE_WINDOWS_H
