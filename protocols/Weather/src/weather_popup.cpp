@@ -366,7 +366,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 
 		case IDC_PD1:
-			// Popup delay setting from Popup plugin
+			// Popup delay setting from popup plugin
 			SetDlgItemText(hdlg, IDC_DELAY, L"0");
 			CheckRadioButton(hdlg, IDC_PD1, IDC_PD3, IDC_PD1);
 			break;

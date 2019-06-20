@@ -22,7 +22,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
     AUTOCHECKBOX    "Set popup colors", IDC_SETCOLOURS, 20, 174, 132, 10, WS_GROUP | BS_PUSHLIKE
     CONTROL         "Custom1", IDC_BGCOLOR, "ColourPicker", 0x50030000, 18, 185, 10, 10
     CONTROL         "Custom1", IDC_FGCOLOR, "ColourPicker", 0x50030000, 78, 185, 10, 9
-    GROUPBOX        "Popup options", IDC_STATIC, 10, 164, 187, 52, WS_GROUP
+    GROUPBOX        "Use default colors", IDC_STATIC, 10, 164, 187, 52, WS_GROUP
     LTEXT           "Background", IDC_STATIC, 34, 186, 43, 8, SS_LEFT
     LTEXT           "Text", IDC_STATIC, 94, 186, 41, 8, SS_LEFT
     EDITTEXT        IDC_INTERVAL1, 60, 195, 21, 12, WS_GROUP | ES_AUTOHSCROLL

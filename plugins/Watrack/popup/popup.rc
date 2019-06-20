@@ -13,9 +13,9 @@ FONT 8, "MS Shell Dlg", 400, 0
  GROUPBOX        "Colors", -1, 4, 18, 144, 74
  CTEXT           "Background", -1, 24, 64, 50, 8
  CTEXT           "Text"      , -1, 84, 64, 50, 8
- AUTORADIOBUTTON "Default colors", IDC_COLORDEF , 12, 28, 88, 10, NOT WS_TABSTOP
- AUTORADIOBUTTON "Windows colors", IDC_COLORWIN , 12, 40, 88, 10, NOT WS_TABSTOP
- AUTORADIOBUTTON "Custom colors" , IDC_COLORCUST, 12, 52, 88, 10, NOT WS_TABSTOP
+ AUTORADIOBUTTON "Use default colors", IDC_COLORDEF , 12, 28, 88, 10, NOT WS_TABSTOP
+ AUTORADIOBUTTON "Use Windows colors", IDC_COLORWIN , 12, 40, 88, 10, NOT WS_TABSTOP
+ AUTORADIOBUTTON "Use custom colors" , IDC_COLORCUST, 12, 52, 88, 10, NOT WS_TABSTOP
  CONTROL         "", IDC_BACK, "ColourPicker", WS_TABSTOP, 24, 75, 50, 14
  CONTROL         "", IDC_FORE, "ColourPicker", WS_TABSTOP, 84, 75, 50, 14
 

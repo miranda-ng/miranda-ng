@@ -88,7 +88,7 @@ BEGIN
     CONTROL         "Text color",IDC_STATIC,"Static",SS_SIMPLE,215,94,75,8
     CONTROL         "",IDC_BGCOLOR,"ColourPicker",WS_TABSTOP,168,111,39,11
     CONTROL         "Background color",IDC_STATIC,"Static",SS_SIMPLE,215,111,75,8
-    CONTROL         "Use default popup colors",IDC_CHECK_DEFAULTCOLORS,
+    CONTROL         "Use default colors",IDC_CHECK_DEFAULTCOLORS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,129,122,10
     CONTROL         "Show proxy status on change",IDC_CHECK_SHOWPROXYSTATUS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,143,123,10

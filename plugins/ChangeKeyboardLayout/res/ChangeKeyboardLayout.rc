@@ -186,9 +186,9 @@ BEGIN
     GROUPBOX        "Colors",IDC_GROUP_COLOURS,2,2,91,72,WS_GROUP
     CONTROL         "Use default colors",IDC_RADIO_COLOURS_POPUP,"Button",
                     BS_AUTORADIOBUTTON,6,12,82,10
-    CONTROL         "Windows colors",IDC_RADIO_COLOURS_WINDOWS,"Button",
+    CONTROL         "Use Windows colors",IDC_RADIO_COLOURS_WINDOWS,"Button",
                     BS_AUTORADIOBUTTON,6,23,82,10
-    CONTROL         "Custom colors",IDC_RADIO_COLOURS_CUSTOM,"Button",
+    CONTROL         "Use custom colors",IDC_RADIO_COLOURS_CUSTOM,"Button",
                     BS_AUTORADIOBUTTON,6,34,82,10
     CTEXT           "Back",IDC_STATIC,8,46,39,8
     CONTROL         "Custom1",IDC_CUSTOM_BACK,"ColourPicker",WS_TABSTOP,12,
@@ -197,7 +197,7 @@ BEGIN
     CONTROL         "Custom1",IDC_CUSTOM_TEXT,"ColourPicker",WS_TABSTOP,56,
                     55,29,14
     GROUPBOX        "Timeout",IDC_GROUP_TIMEOUT,95,2,91,72,WS_GROUP
-    CONTROL         "From popup plugin",IDC_RADIO_TIMEOUT_POPUP,"Button",
+    CONTROL         "Default",IDC_RADIO_TIMEOUT_POPUP,"Button",
                     BS_AUTORADIOBUTTON,99,12,82,10
     CONTROL         "Permanent",IDC_RADIO_TIMEOUT_PERMANENT,"Button",
                     BS_AUTORADIOBUTTON,99,23,82,10

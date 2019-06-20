@@ -236,7 +236,7 @@ BEGIN
     LTEXT           "Text color",IDC_STATIC,59,41,69,8
     CONTROL         "Use Windows colors",IDC_WINCOLORS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,56,113,10
     CONTROL         "Use default colors",IDC_DEFAULTCOLORS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,66,113,10
-    GROUPBOX        "Delay",IDC_STATIC,137,7,122,52
+    GROUPBOX        "Timeout",IDC_STATIC,137,7,122,52
     EDITTEXT        IDC_DELAY,234,30,20,14,ES_AUTOHSCROLL | ES_NUMBER
     GROUPBOX        "On left click",IDC_STATIC,7,84,126,51
     GROUPBOX        "On right click",IDC_STATIC,137,84,122,51,WS_GROUP
@@ -255,7 +255,7 @@ BEGIN
     CONTROL         "Show when reconnection has finished",IDC_PURESULT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,177,239,10
     CONTROL         "Show other messages",IDC_PUOTHER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,189,239,10
-    CONTROL         "From popup plugin",IDC_DELAYFROMPU,"Button",BS_AUTORADIOBUTTON | WS_GROUP,143,19,111,10
+    CONTROL         "Default",IDC_DELAYFROMPU,"Button",BS_AUTORADIOBUTTON | WS_GROUP,143,19,111,10
     CONTROL         "Custom",IDC_DELAYCUSTOM,"Button",BS_AUTORADIOBUTTON,143,32,85,10
     CONTROL         "Permanent",IDC_DELAYPERMANENT,"Button",BS_AUTORADIOBUTTON,143,45,111,10
     CONTROL         "Show additional information in popups",IDC_PUSHOWEXTRA,
