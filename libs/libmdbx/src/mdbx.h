@@ -173,7 +173,7 @@ typedef pthread_t mdbx_tid_t;
 /*--------------------------------------------------------------------------*/
 
 #define MDBX_VERSION_MAJOR 0
-#define MDBX_VERSION_MINOR 2
+#define MDBX_VERSION_MINOR 3
 
 #if defined(LIBMDBX_EXPORTS)
 #define LIBMDBX_API __dll_export
@@ -1671,6 +1671,10 @@ typedef enum {
   MDBX_subpage_dupfixed_leaf
 } MDBX_page_type_t;
 
+#define MDBX_PGWALK_MAIN ((const char *)((ptrdiff_t)0))
+#define MDBX_PGWALK_GC ((const char *)((ptrdiff_t)-1))
+#define MDBX_PGWALK_META ((const char *)((ptrdiff_t)-2))
+
 typedef int MDBX_pgvisitor_func(uint64_t pgno, unsigned number, void *ctx,
                                 int deep, const char *dbi, size_t page_size,
                                 MDBX_page_type_t type, size_t nentries,
@@ -1742,6 +1746,7 @@ LIBMDBX_API int mdbx_estimate_move(const MDBX_cursor *cursor, MDBX_val *key,
  * [out] distance_items   A pointer to store range estimation result.
  *
  * Returns A non-zero error value on failure and 0 on success. */
+#define MDBX_EPSILON ((MDBX_val *)((ptrdiff_t)-1))
 LIBMDBX_API int mdbx_estimate_range(MDBX_txn *txn, MDBX_dbi dbi,
                                     MDBX_val *begin_key, MDBX_val *begin_data,
                                     MDBX_val *end_key, MDBX_val *end_data,

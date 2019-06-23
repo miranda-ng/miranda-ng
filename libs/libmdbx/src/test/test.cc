@@ -35,6 +35,8 @@ const char *testcase2str(const actor_testcase testcase) {
     return "copy";
   case ac_append:
     return "append";
+  case ac_ttl:
+    return "ttl";
   }
 }
 
@@ -322,6 +324,7 @@ bool testcase::setup() {
     return false;
 
   start_timestamp = chrono::now_motonic();
+  nops_completed = 0;
   return true;
 }
 
@@ -429,6 +432,14 @@ void testcase::db_table_drop(MDBX_dbi handle) {
   }
 }
 
+void testcase::db_table_clear(MDBX_dbi handle) {
+  log_trace(">> testcase::db_table_clear, handle %u", handle);
+  int rc = mdbx_drop(txn_guard.get(), handle, false);
+  if (unlikely(rc != MDBX_SUCCESS))
+    failure_perror("mdbx_drop(delete=false)", rc);
+  log_trace("<< testcase::db_table_clear");
+}
+
 void testcase::db_table_close(MDBX_dbi handle) {
   log_trace(">> testcase::db_table_close, handle %u", handle);
   assert(!txn_guard);
@@ -450,8 +461,9 @@ void testcase::checkdata(const char *step, MDBX_dbi handle, MDBX_val key2check,
 
 //-----------------------------------------------------------------------------
 
-bool test_execute(const actor_config &config) {
+bool test_execute(const actor_config &config_const) {
   const mdbx_pid_t pid = osal_getpid();
+  actor_config config = config_const;
 
   if (global::singlemode) {
     logging::setup(format("single_%s", testcase2str(config.testcase)));
@@ -487,23 +499,40 @@ bool test_execute(const actor_config &config) {
     case ac_append:
       test.reset(new testcase_append(config, pid));
       break;
+    case ac_ttl:
+      test.reset(new testcase_ttl(config, pid));
+      break;
     default:
       test.reset(new testcase(config, pid));
       break;
     }
 
-    if (!test->setup())
-      log_notice("test setup failed");
-    else if (!test->run())
-      log_notice("test failed");
-    else if (!test->teardown())
-      log_notice("test teardown failed");
-    else {
-      log_info("test successed");
-      return true;
-    }
+    size_t iter = 0;
+    do {
+      iter++;
+      if (!test->setup()) {
+        log_notice("test setup failed");
+        return false;
+      } else if (!test->run()) {
+        log_notice("test failed");
+        return false;
+      } else if (!test->teardown()) {
+        log_notice("test teardown failed");
+        return false;
+      } else {
+        if (config.params.nrepeat == 1)
+          log_info("test successed");
+        else if (config.params.nrepeat == 1)
+          log_info("test successed (iteration %zi of %zi)", iter,
+                   size_t(config.params.nrepeat));
+        else
+          log_info("test successed (iteration %zi)", iter);
+        config.params.keygen.seed += INT32_C(0xA4F4D37B);
+      }
+    } while (config.params.nrepeat == 0 || iter < config.params.nrepeat);
+    return true;
   } catch (const std::exception &pipets) {
     failure("***** Exception: %s *****", pipets.what());
+    return false;
   }
-  return false;
 }

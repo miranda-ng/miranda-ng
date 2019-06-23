@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2017-2019 Leonid Yuriev <leo@yuriev.ru>
  * and other libmdbx authors: please see AUTHORS file.
  * All rights reserved.
@@ -327,7 +327,60 @@ std::string format(const char *fmt, ...);
 
 uint64_t entropy_ticks(void);
 uint64_t entropy_white(void);
-uint64_t prng64_careless(uint64_t &state);
+static inline uint64_t bleach64(uint64_t v) {
+  // Tommy Ettinger, https://www.blogger.com/profile/04953541827437796598
+  // http://mostlymangling.blogspot.com/2019/01/better-stronger-mixer-and-test-procedure.html
+  v ^= rot64(v, 25) ^ rot64(v, 50);
+  v *= UINT64_C(0xA24BAED4963EE407);
+  v ^= rot64(v, 24) ^ rot64(v, 49);
+  v *= UINT64_C(0x9FB21C651E98DF25);
+  return v ^ v >> 28;
+}
+
+static inline uint32_t bleach32(uint32_t x) {
+  // https://github.com/skeeto/hash-prospector
+  // exact bias: 0.17353355999581582
+  x ^= x >> 16;
+  x *= UINT32_C(0x7feb352d);
+  x ^= 0x3027C563 ^ (x >> 15);
+  x *= UINT32_C(0x846ca68b);
+  x ^= x >> 16;
+  return x;
+}
+
+static inline uint64_t prng64_map1_careless(uint64_t state) {
+  return state * UINT64_C(6364136223846793005) + 1;
+}
+
+static inline uint64_t prng64_map2_careless(uint64_t state) {
+  return (state + UINT64_C(1442695040888963407)) *
+         UINT64_C(6364136223846793005);
+}
+
+static inline uint64_t prng64_map1_white(uint64_t state) {
+  return bleach64(prng64_map1_careless(state));
+}
+
+static inline uint64_t prng64_map2_white(uint64_t state) {
+  return bleach64(prng64_map2_careless(state));
+}
+
+static inline uint64_t prng64_careless(uint64_t &state) {
+  state = prng64_map1_careless(state);
+  return state;
+}
+
+static inline double u64_to_double1(uint64_t v) {
+  union {
+    uint64_t u64;
+    double d;
+  } casting;
+
+  casting.u64 = UINT64_C(0x3ff) << 52 | (v >> 12);
+  assert(casting.d >= 1.0 && casting.d < 2.0);
+  return casting.d - 1.0;
+}
+
 uint64_t prng64_white(uint64_t &state);
 uint32_t prng32(uint64_t &state);
 void prng_fill(uint64_t &state, void *ptr, size_t bytes);

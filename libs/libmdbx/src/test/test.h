@@ -119,6 +119,7 @@ protected:
 
   MDBX_dbi db_table_open(bool create);
   void db_table_drop(MDBX_dbi handle);
+  void db_table_clear(MDBX_dbi handle);
   void db_table_close(MDBX_dbi handle);
 
   bool wait4start();
@@ -151,6 +152,13 @@ public:
   virtual bool run() { return true; }
   virtual bool teardown();
   virtual ~testcase() {}
+};
+
+class testcase_ttl : public testcase {
+public:
+  testcase_ttl(const actor_config &config, const mdbx_pid_t pid)
+      : testcase(config, pid) {}
+  bool run();
 };
 
 class testcase_hill : public testcase {

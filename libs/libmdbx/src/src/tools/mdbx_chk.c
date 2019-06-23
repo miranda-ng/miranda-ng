@@ -154,6 +154,13 @@ static void pagemap_cleanup(void) {
 static walk_dbi_t *pagemap_lookup_dbi(const char *dbi_name, bool silent) {
   static walk_dbi_t *last;
 
+  if (dbi_name == MDBX_PGWALK_MAIN)
+    return &dbi_main;
+  if (dbi_name == MDBX_PGWALK_GC)
+    return &dbi_free;
+  if (dbi_name == MDBX_PGWALK_META)
+    return &dbi_meta;
+
   if (last && strcmp(last->name, dbi_name) == 0)
     return last;
 
@@ -166,7 +173,7 @@ static walk_dbi_t *pagemap_lookup_dbi(const char *dbi_name, bool silent) {
   }
 
   dbi->name = mdbx_strdup(dbi_name);
-  if (verbose > 1 && !silent) {
+  if (verbose > 0 && !silent) {
     print(" - found '%s' area\n", dbi_name);
     fflush(NULL);
   }
@@ -246,35 +253,32 @@ static size_t problems_pop(struct problem *list) {
 }
 
 static int pgvisitor(uint64_t pgno, unsigned pgnumber, void *ctx, int deep,
-                     const char *dbi_name, size_t page_size,
+                     const char *dbi_name_or_tag, size_t page_size,
                      MDBX_page_type_t pagetype, size_t nentries,
                      size_t payload_bytes, size_t header_bytes,
                      size_t unused_bytes) {
   (void)ctx;
+  if (deep > 42) {
+    problem_add("deep", deep, "too large", nullptr);
+    return MDBX_CORRUPTED /* avoid infinite loop/recursion */;
+  }
+
   if (pagetype == MDBX_page_void)
     return MDBX_SUCCESS;
 
-  walk_dbi_t fake, *dbi = &fake;
-  if (deep > 0) {
-    dbi = pagemap_lookup_dbi(dbi_name, false);
-    if (!dbi)
-      return MDBX_ENOMEM;
-  } else if (deep == 0 && strcmp(dbi_name, dbi_main.name) == 0)
-    dbi = &dbi_main;
-  else if (deep == -1 && strcmp(dbi_name, dbi_free.name) == 0)
-    dbi = &dbi_free;
-  else if (deep == -2 && strcmp(dbi_name, dbi_meta.name) == 0)
-    dbi = &dbi_meta;
-  else
-    problem_add("deep", deep, "unknown area", "%s", dbi_name);
+  walk_dbi_t *dbi = pagemap_lookup_dbi(dbi_name_or_tag, false);
+  if (!dbi)
+    return MDBX_ENOMEM;
 
   const size_t page_bytes = payload_bytes + header_bytes + unused_bytes;
   walk.pgcount += pgnumber;
 
   const char *pagetype_caption;
+  bool branch = false;
   switch (pagetype) {
   default:
-    problem_add("page", pgno, "unknown page-type", "%u", (unsigned)pagetype);
+    problem_add("page", pgno, "unknown page-type", "type %u, deep %i",
+                (unsigned)pagetype, deep);
     pagetype_caption = "unknown";
     dbi->pages.other += pgnumber;
     break;
@@ -290,6 +294,7 @@ static int pgvisitor(uint64_t pgno, unsigned pgnumber, void *ctx, int deep,
   case MDBX_page_branch:
     pagetype_caption = "branch";
     dbi->pages.branch += pgnumber;
+    branch = true;
     break;
   case MDBX_page_leaf:
     pagetype_caption = "leaf";
@@ -310,15 +315,38 @@ static int pgvisitor(uint64_t pgno, unsigned pgnumber, void *ctx, int deep,
   }
 
   if (pgnumber) {
-    if (verbose > 3 && (!only_subdb || strcmp(only_subdb, dbi_name) == 0)) {
+    if (verbose > 3 && (!only_subdb || strcmp(only_subdb, dbi->name) == 0)) {
       if (pgnumber == 1)
         print("     %s-page %" PRIu64, pagetype_caption, pgno);
       else
         print("     %s-span %" PRIu64 "[%u]", pagetype_caption, pgno, pgnumber);
       print(" of %s: header %" PRIiPTR ", payload %" PRIiPTR
-            ", unused %" PRIiPTR "\n",
-            dbi_name, header_bytes, payload_bytes, unused_bytes);
+            ", unused %" PRIiPTR ", deep %i\n",
+            dbi->name, header_bytes, payload_bytes, unused_bytes, deep);
     }
+
+    bool already_used = false;
+    do {
+      if (pgno >= lastpgno)
+        problem_add("page", pgno, "wrong page-no",
+                    "%s-page: %" PRIu64 " > %" PRIu64 ", deep %i",
+                    pagetype_caption, pgno, lastpgno, deep);
+      else if (walk.pagemap[pgno]) {
+        walk_dbi_t *coll_dbi = &walk.dbi[walk.pagemap[pgno] - 1];
+        problem_add(
+            "page", pgno, (branch && coll_dbi == dbi) ? "loop" : "already used",
+            "%s-page: by %s, deep %i", pagetype_caption, coll_dbi->name, deep);
+        already_used = true;
+      } else {
+        walk.pagemap[pgno] = (short)(dbi - walk.dbi + 1);
+        dbi->pages.total += 1;
+      }
+      ++pgno;
+    } while (--pgnumber);
+
+    if (already_used)
+      return branch ? MDBX_RESULT_TRUE /* avoid infinite loop/recursion */
+                    : MDBX_SUCCESS;
   }
 
   if (unused_bytes > page_size)
@@ -343,8 +371,9 @@ static int pgvisitor(uint64_t pgno, unsigned pgnumber, void *ctx, int deep,
       } */
     } else {
       problem_add("page", pgno, "empty",
-                  "%s-page: payload %" PRIuPTR " bytes, %" PRIuPTR " entries",
-                  pagetype_caption, payload_bytes, nentries);
+                  "%s-page: payload %" PRIuPTR " bytes, %" PRIuPTR
+                  " entries, deep %i",
+                  pagetype_caption, payload_bytes, nentries, deep);
       dbi->pages.empty += 1;
     }
   }
@@ -353,32 +382,15 @@ static int pgvisitor(uint64_t pgno, unsigned pgnumber, void *ctx, int deep,
     if (page_bytes != page_size) {
       problem_add("page", pgno, "misused",
                   "%s-page: %" PRIuPTR " != %" PRIuPTR " (%" PRIuPTR
-                  "h + %" PRIuPTR "p + %" PRIuPTR "u)",
+                  "h + %" PRIuPTR "p + %" PRIuPTR "u), deep %i",
                   pagetype_caption, page_size, page_bytes, header_bytes,
-                  payload_bytes, unused_bytes);
+                  payload_bytes, unused_bytes, deep);
       if (page_size > page_bytes)
         dbi->lost_bytes += page_size - page_bytes;
     } else {
       dbi->payload_bytes += payload_bytes + header_bytes;
       walk.total_payload_bytes += payload_bytes + header_bytes;
     }
-  }
-
-  if (pgnumber) {
-    do {
-      if (pgno >= lastpgno)
-        problem_add("page", pgno, "wrong page-no",
-                    "%s-page: %" PRIu64 " > %" PRIu64, pagetype_caption, pgno,
-                    lastpgno);
-      else if (walk.pagemap[pgno])
-        problem_add("page", pgno, "already used", "%s-page: by %s",
-                    pagetype_caption, walk.dbi[walk.pagemap[pgno] - 1].name);
-      else {
-        walk.pagemap[pgno] = (short)(dbi - walk.dbi + 1);
-        dbi->pages.total += 1;
-      }
-      ++pgno;
-    } while (--pgnumber);
   }
 
   return user_break ? MDBX_EINTR : MDBX_SUCCESS;
@@ -628,48 +640,56 @@ static int process_db(MDBX_dbi dbi_handle, char *dbi_name, visitor *handler,
       goto bailout;
     }
 
+    bool bad_key = false;
     if (key.iov_len > maxkeysize) {
       problem_add("entry", record_count, "key length exceeds max-key-size",
                   "%" PRIuPTR " > %" PRIuPTR, key.iov_len, maxkeysize);
+      bad_key = true;
     } else if ((flags & MDBX_INTEGERKEY) && key.iov_len != sizeof(uint64_t) &&
                key.iov_len != sizeof(uint32_t)) {
       problem_add("entry", record_count, "wrong key length",
                   "%" PRIuPTR " != 4or8", key.iov_len);
+      bad_key = true;
     }
 
+    bool bad_data = false;
     if ((flags & MDBX_INTEGERDUP) && data.iov_len != sizeof(uint64_t) &&
         data.iov_len != sizeof(uint32_t)) {
       problem_add("entry", record_count, "wrong data length",
                   "%" PRIuPTR " != 4or8", data.iov_len);
+      bad_data = true;
     }
 
-    if (prev_key.iov_base) {
+    if (prev_key.iov_base && !bad_data) {
       if ((flags & MDBX_DUPFIXED) && prev_data.iov_len != data.iov_len) {
         problem_add("entry", record_count, "different data length",
                     "%" PRIuPTR " != %" PRIuPTR, prev_data.iov_len,
                     data.iov_len);
+        bad_data = true;
       }
 
-      int cmp = mdbx_cmp(txn, dbi_handle, &prev_key, &key);
-      if (cmp == 0) {
-        ++dups;
-        if ((flags & MDBX_DUPSORT) == 0) {
-          problem_add("entry", record_count, "duplicated entries", NULL);
-          if (data.iov_len == prev_data.iov_len &&
-              memcmp(data.iov_base, prev_data.iov_base, data.iov_len) == 0) {
-            problem_add("entry", record_count, "complete duplicate", NULL);
+      if (!bad_key) {
+        int cmp = mdbx_cmp(txn, dbi_handle, &prev_key, &key);
+        if (cmp == 0) {
+          ++dups;
+          if ((flags & MDBX_DUPSORT) == 0) {
+            problem_add("entry", record_count, "duplicated entries", NULL);
+            if (data.iov_len == prev_data.iov_len &&
+                memcmp(data.iov_base, prev_data.iov_base, data.iov_len) == 0) {
+              problem_add("entry", record_count, "complete duplicate", NULL);
+            }
+          } else if (!bad_data) {
+            cmp = mdbx_dcmp(txn, dbi_handle, &prev_data, &data);
+            if (cmp == 0) {
+              problem_add("entry", record_count, "complete duplicate", NULL);
+            } else if (cmp > 0 && !ignore_wrong_order) {
+              problem_add("entry", record_count, "wrong order of multi-values",
+                          NULL);
+            }
           }
-        } else {
-          cmp = mdbx_dcmp(txn, dbi_handle, &prev_data, &data);
-          if (cmp == 0) {
-            problem_add("entry", record_count, "complete duplicate", NULL);
-          } else if (cmp > 0 && !ignore_wrong_order) {
-            problem_add("entry", record_count, "wrong order of multi-values",
-                        NULL);
-          }
+        } else if (cmp > 0 && !ignore_wrong_order) {
+          problem_add("entry", record_count, "wrong order of entries", NULL);
         }
-      } else if (cmp > 0 && !ignore_wrong_order) {
-        problem_add("entry", record_count, "wrong order of entries", NULL);
       }
     } else if (verbose) {
       if (flags & MDBX_INTEGERKEY)
@@ -688,8 +708,10 @@ static int process_db(MDBX_dbi dbi_handle, char *dbi_name, visitor *handler,
     key_bytes += key.iov_len;
     data_bytes += data.iov_len;
 
-    prev_key = key;
-    prev_data = data;
+    if (!bad_key)
+      prev_key = key;
+    if (!bad_data)
+      prev_data = data;
     rc = mdbx_cursor_get(mc, &key, &data, MDBX_NEXT);
   }
   if (rc != MDBX_NOTFOUND)
@@ -1177,20 +1199,22 @@ int main(int argc, char *argv[]) {
                   total_page_bytes);
       if (verbose > 2) {
         for (walk_dbi_t *dbi = walk.dbi; dbi < walk.dbi + MAX_DBI && dbi->name;
-             ++dbi) {
-          uint64_t dbi_bytes = dbi->pages.total * envstat.ms_psize;
-          print("     %s: subtotal %" PRIu64 " bytes (%.1f%%),"
-                " payload %" PRIu64 " (%.1f%%), unused %" PRIu64 " (%.1f%%)",
-                dbi->name, dbi_bytes, dbi_bytes * 100.0 / total_page_bytes,
-                dbi->payload_bytes, dbi->payload_bytes * 100.0 / dbi_bytes,
-                dbi_bytes - dbi->payload_bytes,
-                (dbi_bytes - dbi->payload_bytes) * 100.0 / dbi_bytes);
-          if (dbi->pages.empty)
-            print(", %" PRIu64 " empty pages", dbi->pages.empty);
-          if (dbi->lost_bytes)
-            print(", %" PRIu64 " bytes lost", dbi->lost_bytes);
-          print("\n");
-        }
+             ++dbi)
+          if (dbi->pages.total) {
+            uint64_t dbi_bytes = dbi->pages.total * envstat.ms_psize;
+            print("     %s: subtotal %" PRIu64 " bytes (%.1f%%),"
+                  " payload %" PRIu64 " (%.1f%%), unused %" PRIu64 " (%.1f%%)",
+                  dbi->name, dbi_bytes, dbi_bytes * 100.0 / total_page_bytes,
+                  dbi->payload_bytes, dbi->payload_bytes * 100.0 / dbi_bytes,
+                  dbi_bytes - dbi->payload_bytes,
+                  (dbi_bytes - dbi->payload_bytes) * 100.0 / dbi_bytes);
+            if (dbi->pages.empty)
+              print(", %" PRIu64 " empty pages", dbi->pages.empty);
+            if (dbi->lost_bytes)
+              print(", %" PRIu64 " bytes lost", dbi->lost_bytes);
+            print("\n");
+          } else
+            print("     %s: empty\n", dbi->name);
       }
       print(" - summary: average fill %.1f%%",
             walk.total_payload_bytes * 100.0 / total_page_bytes);
