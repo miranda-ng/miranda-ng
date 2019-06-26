@@ -107,6 +107,9 @@ AsyncHttpRequest* FacebookProto::CreateRequest(const char *szName, const char *s
 		szLocale = "en";
 	pReq << CHAR_PARAM("locale", szLocale);
 
+	if (!m_szAuthToken.IsEmpty())
+		pReq->AddHeader("Authorization", "OAuth " + m_szAuthToken);
+
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 
 	unsigned int id;

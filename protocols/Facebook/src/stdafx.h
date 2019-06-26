@@ -50,6 +50,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_messagestate.h>
 #include <m_gui.h>
 
+#include "../../libs/zlib/src/zlib.h"
+
 #include "db.h"
 #include "mqtt.h"
 #include "proto.h"

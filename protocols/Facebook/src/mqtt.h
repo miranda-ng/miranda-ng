@@ -34,21 +34,52 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FB_THRIFT_TYPE_SET    14
 #define FB_THRIFT_TYPE_LIST   15
 
+enum FbMqttMessageType
+{
+	FB_MQTT_MESSAGE_TYPE_CONNECT = 1,
+	FB_MQTT_MESSAGE_TYPE_CONNACK = 2,
+	FB_MQTT_MESSAGE_TYPE_PUBLISH = 3,
+	FB_MQTT_MESSAGE_TYPE_PUBACK = 4,
+	FB_MQTT_MESSAGE_TYPE_PUBREC = 5,
+	FB_MQTT_MESSAGE_TYPE_PUBREL = 6,
+	FB_MQTT_MESSAGE_TYPE_PUBCOMP = 7,
+	FB_MQTT_MESSAGE_TYPE_SUBSCRIBE = 8,
+	FB_MQTT_MESSAGE_TYPE_SUBACK = 9,
+	FB_MQTT_MESSAGE_TYPE_UNSUBSCRIBE = 10,
+	FB_MQTT_MESSAGE_TYPE_UNSUBACK = 11,
+	FB_MQTT_MESSAGE_TYPE_PINGREQ = 12,
+	FB_MQTT_MESSAGE_TYPE_PINGRESP = 13,
+	FB_MQTT_MESSAGE_TYPE_DISCONNECT = 14
+};
+
 class FbThrift
 {
 	MBinBuffer m_buf;
 
 public:
+	__inline void* data() { return m_buf.data(); }
+	__inline size_t size() { return m_buf.length(); }
+
 	FbThrift& operator<<(uint8_t);
 	FbThrift& operator<<(const char *);
 
 	void writeBool(bool value);
 	void writeBuf(const void *pData, size_t cbLen);
-	void writeInt32(__int32 value);
-	void writeInt64(__int64 value);
-	void writeIntV(__int64 value);
-	void writeField(int type, int id);
+	void writeInt16(uint16_t value);
+	void writeInt32(int32_t value);
+	void writeInt64(int64_t value);
+	void writeIntV(uint64_t value);
+	void writeField(int type);
 	void writeField(int type, int id, int lastid);
+	void writeList(int iType, int size);
+};
+
+class MqttMessage : public FbThrift
+{
+public:
+	MqttMessage(FbMqttMessageType type, uint8_t flags, size_t payloadSize);
+
+	void writeStr(const char *str);
 };
 
 #define FB_MQTT_CONNECT_FLAG_CLR  0x0002

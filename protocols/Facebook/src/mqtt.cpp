@@ -59,14 +59,14 @@ FbThrift& FbThrift::operator<<(uint8_t value)
 FbThrift& FbThrift::operator<<(const char *str)
 {
 	size_t len = mir_strlen(str);
-	writeInt32((int)len);
+	writeIntV(len);
 	m_buf.append((void*)str, len);
 	return *this;
 }
 
 void FbThrift::writeBool(bool bValue)
 {
-	uint8_t b = (bValue) ? 1 : 2;
+	uint8_t b = (bValue) ? 0x11 : 0x12;
 	m_buf.append(&b, 1);
 }
 
@@ -75,11 +75,10 @@ void FbThrift::writeBuf(const void *pData, size_t cbLen)
 	m_buf.append((void*)pData, cbLen);
 }
 
-void FbThrift::writeField(int iType, int id)
+void FbThrift::writeField(int iType)
 {
-	uint8_t type = encodeType(iType);
+	uint8_t type = encodeType(iType) + 0x10;
 	m_buf.append(&type, 1);
-	writeInt64(id);
 }
 
 void FbThrift::writeField(int iType, int id, int lastid)
@@ -96,17 +95,33 @@ void FbThrift::writeField(int iType, int id, int lastid)
 	}
 }
 
-void FbThrift::writeInt32(__int32 value)
+void FbThrift::writeList(int iType, int size)
+{
+	uint8_t type = encodeType(iType);
+	if (size > 14) {
+		writeIntV(size);
+		*this << (type | 0xF0);
+	}
+	else *this << (type | (size << 4));
+}
+
+void FbThrift::writeInt16(uint16_t value)
+{
+	value = htons(value);
+	m_buf.append(&value, sizeof(value));
+}
+
+void FbThrift::writeInt32(int32_t value)
 {
 	writeIntV((value << 1) ^ (value >> 31));
 }
 
-void FbThrift::writeInt64(__int64 value)
+void FbThrift::writeInt64(int64_t value)
 {
 	writeIntV((value << 1) ^ (value >> 63));
 }
 
-void FbThrift::writeIntV(__int64 value)
+void FbThrift::writeIntV(uint64_t value)
 {
 	bool bLast;
 	do {
@@ -120,50 +135,129 @@ void FbThrift::writeIntV(__int64 value)
 	} while (!bLast);
 }
 
+MqttMessage::MqttMessage(FbMqttMessageType type, uint8_t flags, size_t payloadSize)
+{
+	uint8_t byte = ((type & 0x0F) << 4) | (flags & 0x0F);
+	*this << byte;
+
+	writeIntV(payloadSize);
+}
+
+void MqttMessage::writeStr(const char *str)
+{
+	size_t len = mir_strlen(str);
+	writeInt16((int)len);
+	writeBuf(str, len);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // MQTT functions
 
+bool FacebookProto::MqttConnect()
+{
+	NETLIBOPENCONNECTION nloc = {};
+	nloc.cbSize = sizeof(nloc);
+	nloc.szHost = "mqtt.facebook.com";
+	nloc.wPort = 443;
+	m_mqttConn = Netlib_OpenConnection(m_hNetlibUser, &nloc);
+	if (m_mqttConn == nullptr) {
+		debugLogA("connection failed, exiting");
+		return false;
+	}
+
+	memset(&zStreamIn, 0, sizeof(zStreamOut));
+	memset(&zStreamOut, 0, sizeof(zStreamOut));
+
+	if (deflateInit(&zStreamOut, Z_BEST_COMPRESSION) == Z_OK)
+		if (inflateInit(&zStreamIn) == Z_OK)
+			m_zlibAvailable = true;
+
+	return true;
+}
+
 void FacebookProto::MqttOpen()
 {
+	Utils_GetRandom(&m_iMqttId, sizeof(m_iMqttId));
+
 	FbThrift thrift;
-	thrift.writeField(FB_THRIFT_TYPE_STRING, 1);  // Client identifier
+	thrift.writeField(FB_THRIFT_TYPE_STRING);  // Client identifier
 	thrift << m_szClientID;
 
 	thrift.writeField(FB_THRIFT_TYPE_STRUCT, 4, 1);
 
-	thrift.writeField(FB_THRIFT_TYPE_I64, 1); // User identifier
+	thrift.writeField(FB_THRIFT_TYPE_I64); // User identifier
 	thrift.writeInt64(m_uid);
 
-	thrift.writeField(FB_THRIFT_TYPE_STRING, 2); // User agent
+	thrift.writeField(FB_THRIFT_TYPE_STRING); // User agent
 	thrift << NETLIB_USER_AGENT;
 
-	thrift.writeField(FB_THRIFT_TYPE_I64, 3);
+	thrift.writeField(FB_THRIFT_TYPE_I64);
 	thrift.writeInt64(23);
-	thrift.writeField(FB_THRIFT_TYPE_I64, 4);
+	thrift.writeField(FB_THRIFT_TYPE_I64);
 	thrift.writeInt64(26);
-	thrift.writeField(FB_THRIFT_TYPE_I32, 5);
+	thrift.writeField(FB_THRIFT_TYPE_I32);
 	thrift.writeInt32(1);
-	thrift.writeField(FB_THRIFT_TYPE_BOOL, 6);
-	thrift.writeBool(true);
-	thrift.writeField(FB_THRIFT_TYPE_BOOL, 7); // visibility
-	thrift.writeBool(m_iStatus != ID_STATUS_INVISIBLE);
 
-	thrift.writeField(FB_THRIFT_TYPE_STRING, 8); // device id
+	thrift.writeBool(true);
+	thrift.writeBool(m_iStatus != ID_STATUS_INVISIBLE); // visibility
+
+	thrift.writeField(FB_THRIFT_TYPE_STRING); // device id
 	thrift << m_szDeviceID;
 
-	thrift.writeField(FB_THRIFT_TYPE_BOOL, 9);
 	thrift.writeBool(true);
-	thrift.writeField(FB_THRIFT_TYPE_I32, 10);
+	thrift.writeField(FB_THRIFT_TYPE_I32);
 	thrift.writeInt32(1);
-	thrift.writeField(FB_THRIFT_TYPE_I32, 11);
+	thrift.writeField(FB_THRIFT_TYPE_I32);
 	thrift.writeInt32(0);
-	thrift.writeField(FB_THRIFT_TYPE_I64, 12);
+	thrift.writeField(FB_THRIFT_TYPE_I64);
 	thrift.writeInt64(m_iMqttId);
 
 	thrift.writeField(FB_THRIFT_TYPE_LIST, 14, 12);
-	thrift.writeField(FB_THRIFT_TYPE_I32, 0);
+	thrift.writeList(FB_THRIFT_TYPE_I32, 0);
 	thrift << (BYTE)0;
 
-	thrift.writeField(FB_THRIFT_TYPE_LIST, 15);
+	thrift.writeField(FB_THRIFT_TYPE_STRING);
 	thrift << m_szAuthToken << (BYTE)0;
+
+	FILE *out = fopen("C:\\qq.out", "wb");
+	fwrite(thrift.data(), 1, thrift.size(), out);
+	fclose(out);
+
+	BYTE *pData;
+	size_t dataSize;
+	if (m_zlibAvailable) {
+		dataSize = thrift.size() + 100;
+		pData = (BYTE *)mir_alloc(dataSize);
+
+		zStreamOut.avail_in = (unsigned)thrift.size();
+		zStreamOut.next_in = (BYTE *)thrift.data();
+		zStreamOut.avail_out = (unsigned)dataSize;
+		zStreamOut.next_out = (BYTE *)pData;
+
+		switch (deflate(&zStreamOut, Z_SYNC_FLUSH)) {
+		case Z_OK:         debugLogA("Deflate: Z_OK");         break;
+		case Z_BUF_ERROR:  debugLogA("Deflate: Z_BUF_ERROR");  break;
+		case Z_DATA_ERROR: debugLogA("Deflate: Z_DATA_ERROR"); break;
+		case Z_MEM_ERROR:  debugLogA("Deflate: Z_MEM_ERROR");  break;
+		}
+
+		dataSize = dataSize - zStreamOut.avail_out;
+	}
+	else {
+		dataSize = thrift.size();
+		pData = (BYTE *)thrift.data();
+	}
+
+	uint8_t protocolVersion = 3;
+	uint8_t flags = FB_MQTT_CONNECT_FLAG_USER | FB_MQTT_CONNECT_FLAG_PASS | FB_MQTT_CONNECT_FLAG_CLR | FB_MQTT_CONNECT_FLAG_QOS1;
+	MqttMessage payload(FB_MQTT_MESSAGE_TYPE_CONNECT, 0, dataSize - 3);
+	payload.writeStr("MQTToT");
+	payload << protocolVersion << flags;
+	payload.writeInt16(60); // timeout
+	payload.writeBuf(pData, dataSize);
+
+	if (pData != thrift.data())
+		mir_free(pData);
+
+	Netlib_Send(m_mqttConn, (char*)payload.data(), (int)payload.size());
 }
