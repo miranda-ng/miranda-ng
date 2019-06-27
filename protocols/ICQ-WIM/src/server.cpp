@@ -26,14 +26,19 @@ void CIcqProto::CheckAvatarChange(MCONTACT hContact, const JSONNode &ev)
 {
 	CMStringW wszIconId(ev["iconId"].as_mstring());
 	CMStringW oldIconID(getMStringW(hContact, "IconId"));
-	if (wszIconId != oldIconID) {
-		setWString(hContact, "IconId", wszIconId);
-
-		CMStringA szUrl(ev["buddyIcon"].as_mstring());
-		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, szUrl, &CIcqProto::OnReceiveAvatar);
-		pReq->hContact = hContact;
-		Push(pReq);
+	if (wszIconId == oldIconID) {
+		wchar_t wszFullName[MAX_PATH];
+		GetAvatarFileName(hContact, wszFullName, _countof(wszFullName));
+		if (_waccess(wszFullName, 0) == 0)
+			return;
 	}
+
+	setWString(hContact, "IconId", wszIconId);
+
+	CMStringA szUrl(ev["buddyIcon"].as_mstring());
+	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, szUrl, &CIcqProto::OnReceiveAvatar);
+	pReq->hContact = hContact;
+	Push(pReq);
 }
 
 void CIcqProto::CheckLastId(MCONTACT hContact, const JSONNode &ev)
