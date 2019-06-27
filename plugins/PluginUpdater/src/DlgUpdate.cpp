@@ -46,10 +46,13 @@ static void ApplyUpdates(void *param)
 	Thread_SetName("PluginUpdater: ApplyUpdates");
 
 	HWND hDlg = (HWND)param;
-	OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
-	if (todo.getCount() == 0) {
+	OBJLIST<FILEINFO> &fileList = *(OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+	if (fileList.getCount() == 0) {
 		return;
 	}
+
+	// make a local copy not to crash if a window was closed
+	OBJLIST<FILEINFO> todo(fileList);
 
 	// 1) If we need to escalate priviledges, launch a stub
 	if (!PrepareEscalation()) {
