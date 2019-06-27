@@ -241,8 +241,6 @@ static INT_PTR PopupChangeW(WPARAM wParam, LPARAM lParam)
 			pd_out.colorBack = pd_in->colorBack & 0xFFFFFF;
 			pd_out.colorText = pd_in->colorText & 0xFFFFFF;
 		}
-		pd_out.colorBack = pd_in->colorBack;
-		pd_out.colorText = pd_in->colorText;
 		pd_out.windowProc = pd_in->PluginWindowProc;
 		pd_out.opaque = pd_in->PluginData;
 		pd_out.timeout = pd_in->iSeconds;
