@@ -26,9 +26,8 @@ HANDLE CSkypeProto::SearchBasic(const wchar_t* id)
 void CSkypeProto::SearchBasicThread(void* id)
 {
 	debugLogA("CSkypeProto::OnSearchBasicThread");
-	if (IsOnline()) {
+	if (IsOnline())
 		SendRequest(new GetSearchRequest(mir_urlEncode(T2Utf((wchar_t*)id)), li), &CSkypeProto::OnSearch);
-	}
 }
 
 void CSkypeProto::OnSearch(const NETLIBHTTPREQUEST *response)
@@ -52,8 +51,8 @@ void CSkypeProto::OnSearch(const NETLIBHTTPREQUEST *response)
 	}
 
 	const JSONNode &items = root["results"].as_array();
-	for (auto it = items.begin(); it != items.end(); ++it) {
-		const JSONNode &item = (*it)["nodeProfileData"];
+	for (auto &it : items) {
+		const JSONNode &item = it["nodeProfileData"];
 
 		std::string skypeId = item["skypeId"].as_string();
 		std::string name = item["name"].as_string();

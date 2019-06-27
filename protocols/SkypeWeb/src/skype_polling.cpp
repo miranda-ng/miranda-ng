@@ -79,8 +79,7 @@ void CSkypeProto::ParsePollData(const char *szData)
 	const JSONNode &node = data["eventMessages"];
 	if (!node) return;
 
-	for (auto it = node.begin(); it != node.end(); ++it) {
-		const JSONNode &message = *it;
+	for (auto &message : node) {
 		const JSONNode &resType = message["resourceType"];
 		const JSONNode &resource = message["resource"];
 

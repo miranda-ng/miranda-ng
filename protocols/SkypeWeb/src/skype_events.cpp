@@ -32,14 +32,12 @@ INT_PTR CSkypeProto::GetEventText(WPARAM pEvent, LPARAM datatype)
 				JSONNode &jOriginalMsg = jMsg["original_message"];
 				szText.AppendFormat(bUseBB ? Translate("[b]Original message:[/b]\n%s\n") : Translate("Original message:\n%s\n"), mir_utf8decodeA(jOriginalMsg["text"].as_string().c_str()));
 				JSONNode &jEdits = jMsg["edits"];
-				for (auto it = jEdits.begin(); it != jEdits.end(); ++it) {
-					const JSONNode &jEdit = *it;
-
-					time_t time = jEdit["time"].as_int();
+				for (auto &it : jEdits) {
+					time_t time = it["time"].as_int();
 					char szTime[MAX_PATH];
 					strftime(szTime, sizeof(szTime), "%X %x", localtime(&time));
 
-					szText.AppendFormat(bUseBB ? Translate("[b]Edited at %s:[/b]\n%s\n") : Translate("Edited at %s:\n%s\n"), szTime, mir_utf8decodeA(jEdit["text"].as_string().c_str()));
+					szText.AppendFormat(bUseBB ? Translate("[b]Edited at %s:[/b]\n%s\n") : Translate("Edited at %s:\n%s\n"), szTime, mir_utf8decodeA(it["text"].as_string().c_str()));
 				}
 			}
 		}

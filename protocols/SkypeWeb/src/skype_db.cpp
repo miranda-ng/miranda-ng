@@ -62,12 +62,10 @@ void CSkypeProto::EditEvent(MCONTACT hContact, MEVENT hEvent, const char *szCont
 	if (jMsg) {
 		JSONNode &jEdits = jMsg["edits"];
 		if (jEdits) {
-			for (auto it = jEdits.begin(); it != jEdits.end(); ++it) {
-				const JSONNode &jEdit = *it;
-
-				if (jEdit["time"].as_int() == edit_time)
+			for (auto &it : jEdits)
+				if (it["time"].as_int() == edit_time)
 					return;
-			}
+
 			JSONNode jEdit;
 			jEdit
 				<< JSONNode("time", (long)edit_time)
