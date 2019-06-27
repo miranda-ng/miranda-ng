@@ -182,7 +182,7 @@ const VERSION_MINOR                = 2;
  * The patch or revision number. Incremented when bugfixes are applied without
  * changing any functionality or API or ABI.
  */
-const VERSION_PATCH                = 9;
+const VERSION_PATCH                = 10;
 
 /**
  * A macro to check at preprocessing time whether the client code is compatible
@@ -1377,7 +1377,7 @@ namespace friend {
      * Write the status message of the friend designated by the given friend number to a byte
      * array.
      *
-     * Call $size to determine the allocation size for the `status_name`
+     * Call $size to determine the allocation size for the `status_message`
      * parameter.
      *
      * The data written to `status_message` is equal to the data received by the last
@@ -2294,7 +2294,10 @@ namespace conference {
 
       /**
        * Copy the name of peer_number who is in conference_number to name.
-       * name must be at least $MAX_NAME_LENGTH long.
+       *
+       * Call $size to determine the allocation size for the `name` parameter.
+       *
+       * @param name A valid memory region large enough to store the peer's name.
        *
        * @return true on success.
        */
@@ -2339,7 +2342,10 @@ namespace conference {
 
       /**
        * Copy the name of offline_peer_number who is in conference_number to name.
-       * name must be at least $MAX_NAME_LENGTH long.
+       *
+       * Call $size to determine the allocation size for the `name` parameter.
+       *
+       * @param name A valid memory region large enough to store the peer's name.
        *
        * @return true on success.
        */
@@ -2367,6 +2373,17 @@ namespace conference {
     }
 
   }
+
+  /**
+   * Set maximum number of offline peers to store, overriding the default.
+   */
+  bool set_max_offline(uint32_t conference_number, uint32_t max_offline_peers) {
+    /**
+     * The conference number passed did not designate a valid conference.
+     */
+    CONFERENCE_NOT_FOUND,
+  }
+
 
   /**
    * Invites a friend to a conference.
@@ -2800,6 +2817,7 @@ typedef TOX_ERR_FILE_SEND_CHUNK Tox_Err_File_Send_Chunk;
 typedef TOX_ERR_CONFERENCE_NEW Tox_Err_Conference_New;
 typedef TOX_ERR_CONFERENCE_DELETE Tox_Err_Conference_Delete;
 typedef TOX_ERR_CONFERENCE_PEER_QUERY Tox_Err_Conference_Peer_Query;
+typedef TOX_ERR_CONFERENCE_SET_MAX_OFFLINE Tox_Err_Conference_Set_Max_Offline;
 typedef TOX_ERR_CONFERENCE_BY_ID Tox_Err_Conference_By_Id;
 typedef TOX_ERR_CONFERENCE_BY_UID Tox_Err_Conference_By_Uid;
 typedef TOX_ERR_CONFERENCE_INVITE Tox_Err_Conference_Invite;
