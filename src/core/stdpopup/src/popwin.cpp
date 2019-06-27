@@ -6,7 +6,8 @@
 DWORD pop_start_x, pop_start_y;
 int global_mouse_in = 0;
 
-void trimW(wchar_t *str) {
+void trimW(wchar_t *str)
+{
 	int len = (int)mir_wstrlen(str), pos;
 	// trim whitespace (e.g. from OTR detection)
 	for (pos = len - 1; pos >= 0; pos--) {
@@ -19,7 +20,8 @@ void trimW(wchar_t *str) {
 		if (str[pos] == L'\t') str[pos] = L' ';
 }
 
-struct HWNDStackNode {
+struct HWNDStackNode
+{
 	HWND hwnd;
 	struct HWNDStackNode *next;
 };
@@ -27,13 +29,13 @@ struct HWNDStackNode {
 HWNDStackNode *hwnd_stack_top = nullptr;
 int stack_size = 0;
 
-void RepositionWindows() {
-	HWNDStackNode *current;	
+void RepositionWindows()
+{
+	HWNDStackNode *current;
 	int x = pop_start_x, y;
 	int height;
 
-	if (options.animate == ANIMATE_HORZ)
-	{
+	if (options.animate == ANIMATE_HORZ) {
 		if (options.location == PL_BOTTOMRIGHT || options.location == PL_TOPRIGHT)
 			x -= options.win_width + 1;
 		if (options.location == PL_BOTTOMLEFT || options.location == PL_TOPLEFT)
@@ -47,9 +49,8 @@ void RepositionWindows() {
 		y = pop_start_y;
 
 	current = hwnd_stack_top;
-	while (current)
-	{
-		SendMessage(current->hwnd, PUM_GETHEIGHT, (WPARAM)&height, 0);
+	while (current) {
+		SendMessage(current->hwnd, PUM_GETHEIGHT, (WPARAM)& height, 0);
 
 		// Если окна размещать у нижнего края, то координата текущего окна меньше на его высоту.
 		if (options.location == PL_BOTTOMLEFT || options.location == PL_BOTTOMRIGHT)
@@ -67,7 +68,8 @@ void RepositionWindows() {
 	}
 }
 
-void AddWindowToStack(HWND hwnd) {
+void AddWindowToStack(HWND hwnd)
+{
 
 	HWNDStackNode *new_node = (HWNDStackNode *)mir_alloc(sizeof(HWNDStackNode));
 	new_node->hwnd = hwnd;
@@ -137,7 +139,7 @@ void AddWindowToStack(HWND hwnd) {
 void RemoveWindowFromStack(HWND hwnd)
 {
 	HWNDStackNode *current = hwnd_stack_top, *prev = nullptr;
-	while(current) {
+	while (current) {
 		if (current->hwnd == hwnd) {
 			if (prev)
 				prev->next = current->next;
@@ -148,8 +150,8 @@ void RemoveWindowFromStack(HWND hwnd)
 			stack_size--;
 			break;
 		}
-		
-		prev = current; 
+
+		prev = current;
 		current = current->next;
 	}
 
@@ -162,7 +164,7 @@ void RemoveWindowFromStack(HWND hwnd)
 void BroadcastMessage(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	HWNDStackNode *current = hwnd_stack_top;
-	while(current) {
+	while (current) {
 		SendMessage(current->hwnd, msg, wParam, lParam);
 		current = current->next;
 	}
@@ -172,7 +174,7 @@ void DeinitWindowStack()
 {
 	HWNDStackNode *current = hwnd_stack_top;
 	hwnd_stack_top = nullptr;
-	while(current) {
+	while (current) {
 		HWNDStackNode *pNext = current->next;
 		DestroyWindow(current->hwnd);
 		current = pNext;
@@ -200,7 +202,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 	PopupData *pd = nullptr;
 	if (pwd) pd = pwd->pd;
 
-	switch(uMsg) {
+	switch (uMsg) {
 	case WM_CREATE:
 		{
 			CREATESTRUCT *cs = (CREATESTRUCT *)lParam;
@@ -209,8 +211,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			pwd->pd = pd;
 			pwd->hNotify = nullptr;
 
-			trimW(pwd->pd->pwzTitle);
-			trimW(pwd->pd->pwzText);
+			trimW(pwd->pd->pwszTitle);
+			trimW(pwd->pd->pwszText);
 
 			pwd->is_round = options.round;
 			pwd->av_is_round = options.av_round;
@@ -232,7 +234,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				pwd->underlineBrush = CreateSolidBrush(colTitleUnderline);
 			}
 
-			if (options.border) pwd->bPen = (HPEN)CreatePen(PS_SOLID, 1, colBorder); 
+			if (options.border) pwd->bPen = (HPEN)CreatePen(PS_SOLID, 1, colBorder);
 			else pwd->bPen = CreatePen(PS_SOLID, 1, pwd->custom_col ? pd->colorBack : colBg);
 
 			SYSTEMTIME st;
@@ -264,7 +266,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 #endif
 
 #ifdef LWA_ALPHA
-		SetLayeredWindowAttributes(hwnd, RGB(0,0,0), (int)(options.opacity / 100.0 * 255), LWA_ALPHA);
+		SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (int)(options.opacity / 100.0 * 255), LWA_ALPHA);
 		if (options.trans_bg) {
 			COLORREF bg;
 			if (pd->colorBack == pd->colorText)
@@ -307,7 +309,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 			return TRUE;
 		}
-		
+
 		if (wParam == ID_MOVETIMER) {
 			RECT r;
 			GetWindowRect(hwnd, &r);
@@ -315,7 +317,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			if (r.left == pwd->new_x && r.top == pwd->new_y) {
 				KillTimer(hwnd, ID_MOVETIMER);
 				return TRUE;
-			} 
+			}
 			int adj_x = (pwd->new_x - r.left) / 4, adj_y = (pwd->new_y - r.top) / 4;
 			if (adj_x == 0) adj_x = (pwd->new_x - r.left);
 			if (adj_y == 0) adj_y = (pwd->new_y - r.top);
@@ -333,9 +335,9 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 	case WM_ERASEBKGND:
 		{
-			HDC hdc = (HDC) wParam; 
+			HDC hdc = (HDC)wParam;
 			RECT r, r_bar;
-			GetClientRect(hwnd, &r); 
+			GetClientRect(hwnd, &r);
 
 			// bg
 			FillRect(hdc, &r, pwd->bkBrush);
@@ -352,10 +354,10 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				int h = 0;
 				if (options.round) {
 					int v;
-					int w=14;
-					h=(r.right-r.left)>(w*2)?w:(r.right-r.left);
-					v=(r.bottom-r.top)>(w*2)?w:(r.bottom-r.top);
-					h=(h<v)?h:v;
+					int w = 14;
+					h = (r.right - r.left) > (w * 2) ? w : (r.right - r.left);
+					v = (r.bottom - r.top) > (w * 2) ? w : (r.bottom - r.top);
+					h = (h < v) ? h : v;
 				}
 				RoundRect(hdc, 0, 0, (r.right - r.left), (r.bottom - r.top), h, h);
 
@@ -445,7 +447,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (pwd->custom_col) SetTextColor(ps.hdc, pd->colorText);
 				else SetTextColor(ps.hdc, colTime);
 				if (hFontTime) SelectObject(hdc, (HGDIOBJ)hFontTime);
-				switch(options.time_layout) {
+				switch (options.time_layout) {
 				case PT_LEFT:
 					ttr.left = textxmin; ttr.right = ttr.left + pwd->time_width;
 					textxmin += pwd->time_width + options.padding;
@@ -468,7 +470,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			if (pwd->custom_col) SetTextColor(ps.hdc, pd->colorText);
 			else SetTextColor(ps.hdc, colFirstLine);
-			wchar_t *title = mir_wstrdup(pd->pwzTitle);
+			wchar_t *title = mir_wstrdup(pd->pwszTitle);
 			DrawText(ps.hdc, title, -1, &tr, DT_VCENTER | DT_LEFT | DT_END_ELLIPSIS | DT_SINGLELINE | DT_NOPREFIX);
 			mir_free(title);
 
@@ -476,12 +478,12 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			RECT tur;
 			tur.left = r.left + options.sb_width + options.padding;
 			tur.right = r.right - options.padding;
-			tur.top = tr.bottom + options.padding/2;
+			tur.top = tr.bottom + options.padding / 2;
 			tur.bottom = tur.top + 1;
 			FillRect(ps.hdc, &tur, pwd->underlineBrush);
 
 			// second line(s)
-			if (pd->pwzText[0]) {
+			if (pd->pwszText[0]) {
 				if (hFontSecondLine) SelectObject(ps.hdc, (HGDIOBJ)hFontSecondLine);
 				if (!pwd->custom_col)
 					SetTextColor(ps.hdc, colSecondLine);
@@ -490,7 +492,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (options.av_layout != PAV_NONE && options.time_layout == PT_WITHAV && pwd->time_height <= pwd->tb_height && !pwd->have_av)
 					GetClientRect(hwnd, &r);
 
-				wchar_t *text = mir_wstrdup(pd->pwzText);
+				wchar_t *text = mir_wstrdup(pd->pwszText);
 				tr.left = r.left + options.padding + options.text_indent; tr.right = r.right - options.padding; tr.top = tr.bottom + options.padding; tr.bottom = r.bottom - options.padding;
 				DrawText(ps.hdc, text, -1, &tr, DT_NOPREFIX | DT_WORDBREAK | DT_EXTERNALLEADING | DT_TOP | DT_LEFT | DT_WORD_ELLIPSIS);
 				mir_free(text);
@@ -500,10 +502,10 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		}
 		return 0;
 
-	case WM_DESTROY: 
+	case WM_DESTROY:
 		if (pwd->mouse_in) global_mouse_in--;
 
-		ShowWindow(hwnd, SW_HIDE);				
+		ShowWindow(hwnd, SW_HIDE);
 
 		DeleteObject(pwd->bkBrush);
 		DeleteObject(pwd->bPen);
@@ -518,8 +520,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		if (pd) {
 			pd->SetIcon(nullptr);
-			mir_free(pd->pwzTitle);
-			mir_free(pd->pwzText);
+			mir_free(pd->pwszTitle);
+			mir_free(pd->pwszText);
 			mir_free(pd);
 		}
 		mir_free(pwd); pwd = nullptr; pd = nullptr;
@@ -533,12 +535,12 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			RECT r;
 
 			int w = 11;
-			GetWindowRect(hwnd,&r);
-			int h = (r.right-r.left) > (w*2)?w:(r.right-r.left);
-			int v = (r.bottom-r.top) > (w*2)?w:(r.bottom-r.top);
-			h=(h<v)?h:v;
-			hRgn1=CreateRoundRectRgn(0,0,(r.right-r.left) + 1,(r.bottom-r.top) + 1,h,h);
-			SetWindowRgn(hwnd,hRgn1,FALSE);
+			GetWindowRect(hwnd, &r);
+			int h = (r.right - r.left) > (w * 2) ? w : (r.right - r.left);
+			int v = (r.bottom - r.top) > (w * 2) ? w : (r.bottom - r.top);
+			h = (h < v) ? h : v;
+			hRgn1 = CreateRoundRectRgn(0, 0, (r.right - r.left) + 1, (r.bottom - r.top) + 1, h, h);
+			SetWindowRgn(hwnd, hRgn1, FALSE);
 		}
 		return TRUE;
 
@@ -551,7 +553,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		}
 		else {
 			SetWindowPos(hwnd, nullptr, (int)wParam, (int)lParam, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE);
-			if (!IsWindowVisible(hwnd)) { 
+			if (!IsWindowVisible(hwnd)) {
 				ShowWindow(hwnd, SW_SHOWNOACTIVATE);
 				UpdateWindow(hwnd);
 			}
@@ -559,14 +561,14 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		return TRUE;
 
 	case PUM_SETTEXT:
-		replaceStrW(pd->ptzText, (wchar_t*)lParam);
+		replaceStrW(pd->pwszText, (wchar_t *)lParam);
 		InvalidateRect(hwnd, nullptr, TRUE);
 		RepositionWindows();
 		return TRUE;
 
 	case PUM_GETCONTACT:
 		{
-			MCONTACT *phContact = (MCONTACT*)wParam;
+			MCONTACT *phContact = (MCONTACT *)wParam;
 			*phContact = pd->hContact;
 			if (lParam)
 				SetEvent((HANDLE)lParam);
@@ -575,7 +577,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 	case PUM_GETHEIGHT:
 		{
-			int *pHeight = (int*)wParam;
+			int *pHeight = (int *)wParam;
 			HDC hdc = GetDC(hwnd);
 			SIZE size;
 			HFONT hOldFont = (HFONT)GetCurrentObject(hdc, OBJ_FONT);
@@ -591,7 +593,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			// titlebar height
 			if (hFontFirstLine) SelectObject(hdc, (HGDIOBJ)hFontFirstLine);
-			wchar_t *title = mir_wstrdup(pd->pwzTitle);
+			wchar_t *title = mir_wstrdup(pd->pwszTitle);
 			GetTextExtentPoint32(hdc, title, (int)mir_wstrlen(title), &size);
 			mir_free(title);
 			pwd->tb_height = size.cy;
@@ -607,29 +609,30 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					if (ace->bmHeight >= ace->bmWidth) {
 						pwd->real_av_height = options.av_size;
 						pwd->real_av_width = options.av_size * ace->bmWidth / ace->bmHeight;
-					} else {
+					}
+					else {
 						pwd->real_av_height = options.av_size * ace->bmHeight / ace->bmWidth;
 						pwd->real_av_width = options.av_size;
 					}
 					pwd->have_av = true;
-					pwd->av_height = pwd->real_av_height; 
+					pwd->av_height = pwd->real_av_height;
 				}
 			}
 
 			// text height
-			if (pd->pwzText[0]) {
+			if (pd->pwszText[0]) {
 				RECT r;
-				r.left = r.top = 0; 
+				r.left = r.top = 0;
 				r.right = options.win_width - 2 * options.padding - options.text_indent;
 				if (pwd->have_av && options.time_layout == PT_WITHAV)
-					r.right -= (max(options.av_size, pwd->time_width) + options.padding); 
+					r.right -= (max(options.av_size, pwd->time_width) + options.padding);
 				else if (pwd->have_av)
-					r.right -= (options.av_size + options.padding); 
+					r.right -= (options.av_size + options.padding);
 				else if (options.av_layout != PAV_NONE && options.time_layout == PT_WITHAV && pwd->time_height >= pwd->tb_height)
 					r.right -= pwd->time_width + options.padding;
 
 				if (hFontSecondLine) SelectObject(hdc, (HGDIOBJ)hFontSecondLine);
-				wchar_t *text = mir_wstrdup(pd->pwzText);
+				wchar_t *text = mir_wstrdup(pd->pwszText);
 				DrawText(hdc, text, -1, &r, DT_CALCRECT | DT_NOPREFIX | DT_WORDBREAK | DT_EXTERNALLEADING | DT_TOP | DT_LEFT | DT_WORD_ELLIPSIS);
 				pwd->text_height = r.bottom;
 				mir_free(text);
@@ -638,9 +641,9 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			SelectObject(hdc, hOldFont);
 			ReleaseDC(hwnd, hdc);
 
-			if (options.time_layout == PT_WITHAV && options.av_layout != PAV_NONE) 
+			if (options.time_layout == PT_WITHAV && options.av_layout != PAV_NONE)
 				*pHeight = max(pwd->tb_height + pwd->text_height + 3 * options.padding, pwd->av_height + pwd->time_height + options.padding + 2 * options.av_padding);
-			else 
+			else
 				*pHeight = max(pwd->tb_height + pwd->text_height + 3 * options.padding, pwd->av_height + 2 * options.av_padding);
 
 			if (*pHeight > options.win_max_height) *pHeight = options.win_max_height;
@@ -667,8 +670,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		{
 			KillTimer(hwnd, ID_CLOSETIMER);
 			if (pd) {
-				mir_free(pd->pwzTitle);
-				mir_free(pd->pwzText);
+				mir_free(pd->pwszTitle);
+				mir_free(pd->pwszText);
 				mir_free(pd);
 			}
 			pwd->pd = pd = (PopupData *)lParam;
@@ -699,12 +702,12 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			pd->hIcon = (HICON)MNotifyGetDWord(pwd->hNotify, NFOPT_ICON, 0);
 
 			const wchar_t *swzName = MNotifyGetWString(pwd->hNotify, NFOPT_TITLEW, nullptr);
-			mir_free(pd->pwzTitle);
-			pd->pwzTitle = mir_wstrdup(swzName);
+			mir_free(pd->pwszTitle);
+			pd->pwszTitle = mir_wstrdup(swzName);
 
 			const wchar_t *swzText = MNotifyGetWString(pwd->hNotify, NFOPT_TEXTW, nullptr);
-			mir_free(pd->pwzText);
-			pd->pwzText = mir_wstrdup(swzText);
+			mir_free(pd->pwszText);
+			pd->pwszText = mir_wstrdup(swzText);
 
 			InvalidateRect(hwnd, nullptr, TRUE);
 			RepositionWindows();
@@ -723,13 +726,13 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 	if (pd && pd->windowProc)
 		return CallWindowProc(pd->windowProc, hwnd, uMsg, wParam, lParam);
-	
+
 	// provide a way to close popups, if no PluginWindowProc is provided
 	if (uMsg == WM_CONTEXTMENU) {
 		SendMessage(hwnd, UM_DESTROYPOPUP, 0, 0);
 		return TRUE;
 	}
-	
+
 	return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 

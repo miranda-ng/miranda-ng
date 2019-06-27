@@ -12,8 +12,8 @@ void StripBBCodesInPlace(wchar_t *text)
 	int read = 0, write = 0;
 	int len = (int)mir_wstrlen(text);
 
-	while(read <= len) { // copy terminating null too
-		while(read <= len && text[read] != L'[') {
+	while (read <= len) { // copy terminating null too
+		while (read <= len && text[read] != L'[') {
 			if (text[read] != text[write]) text[write] = text[read];
 			read++; write++;
 		}
@@ -24,14 +24,16 @@ void StripBBCodesInPlace(wchar_t *text)
 		else if (len - read >= 4 && (_wcsnicmp(text + read, L"[/b]", 4) == 0 || _wcsnicmp(text + read, L"[/i]", 4) == 0))
 			read += 4;
 		else if (len - read >= 6 && (_wcsnicmp(text + read, L"[color", 6) == 0)) {
-			while(read < len && text[read] != L']') read++; 
+			while (read < len && text[read] != L']') read++;
 			read++;// skip the ']'
-		} else if (len - read >= 8 && (_wcsnicmp(text + read, L"[/color]", 8) == 0))
+		}
+		else if (len - read >= 8 && (_wcsnicmp(text + read, L"[/color]", 8) == 0))
 			read += 8;
 		else if (len - read >= 5 && (_wcsnicmp(text + read, L"[size", 5) == 0)) {
-			while(read < len && text[read] != L']') read++; 
+			while (read < len && text[read] != L']') read++;
 			read++;// skip the ']'
-		} else if (len - read >= 7 && (_wcsnicmp(text + read, L"[/size]", 7) == 0))
+		}
+		else if (len - read >= 7 && (_wcsnicmp(text + read, L"[/size]", 7) == 0))
 			read += 7;
 		else {
 			if (text[read] != text[write]) text[write] = text[read];
@@ -46,16 +48,16 @@ static INT_PTR CreatePopup(WPARAM wParam, LPARAM)
 		return -1;
 
 	POPUPDATA *pd_in = (POPUPDATA *)wParam;
-	if ( NotifyEventHooks(hEventNotify, (WPARAM)pd_in->lchContact, (LPARAM)pd_in->PluginWindowProc))
+	if (NotifyEventHooks(hEventNotify, (WPARAM)pd_in->lchContact, (LPARAM)pd_in->PluginWindowProc))
 		return 0;
 
 	PopupData *pd_out = (PopupData *)mir_calloc(sizeof(PopupData));
 	pd_out->cbSize = sizeof(PopupData);
 	pd_out->flags = PDF_UNICODE;
-	pd_out->pwzTitle = mir_a2u(pd_in->lpzContactName);
-	pd_out->pwzText = mir_a2u(pd_in->lpzText);
-	StripBBCodesInPlace(pd_out->pwzTitle);
-	StripBBCodesInPlace(pd_out->pwzText);
+	pd_out->pwszTitle = mir_a2u(pd_in->lpzContactName);
+	pd_out->pwszText = mir_a2u(pd_in->lpzText);
+	StripBBCodesInPlace(pd_out->pwszTitle);
+	StripBBCodesInPlace(pd_out->pwszText);
 
 	pd_out->hContact = pd_in->lchContact;
 	pd_out->SetIcon(pd_in->lchIcon);
@@ -69,10 +71,10 @@ static INT_PTR CreatePopup(WPARAM wParam, LPARAM)
 	pd_out->opaque = pd_in->PluginData;
 	pd_out->timeout = pd_in->iSeconds;
 
-	lstPopupHistory.Add(pd_out->pwzTitle, pd_out->pwzText, time(0));
+	lstPopupHistory.Add(pd_out->pwszTitle, pd_out->pwszText, time(0));
 	if (!Popup_Enabled()) {
-		mir_free(pd_out->pwzTitle);
-		mir_free(pd_out->pwzText);
+		mir_free(pd_out->pwszTitle);
+		mir_free(pd_out->pwszText);
 		mir_free(pd_out);
 		return -1;
 	}
@@ -87,16 +89,16 @@ static INT_PTR CreatePopupW(WPARAM wParam, LPARAM)
 		return -1;
 
 	POPUPDATAW *pd_in = (POPUPDATAW *)wParam;
-	if ( NotifyEventHooks(hEventNotify, (WPARAM)pd_in->lchContact, (LPARAM)pd_in->PluginWindowProc))
+	if (NotifyEventHooks(hEventNotify, (WPARAM)pd_in->lchContact, (LPARAM)pd_in->PluginWindowProc))
 		return 0;
 
 	PopupData *pd_out = (PopupData *)mir_calloc(sizeof(PopupData));
 	pd_out->cbSize = sizeof(PopupData);
 	pd_out->flags = PDF_UNICODE;
-	pd_out->pwzTitle = mir_wstrdup(pd_in->lpwzContactName);
-	pd_out->pwzText = mir_wstrdup(pd_in->lpwzText);
-	StripBBCodesInPlace(pd_out->pwzTitle);
-	StripBBCodesInPlace(pd_out->pwzText);
+	pd_out->pwszTitle = mir_wstrdup(pd_in->lpwzContactName);
+	pd_out->pwszText = mir_wstrdup(pd_in->lpwzText);
+	StripBBCodesInPlace(pd_out->pwszTitle);
+	StripBBCodesInPlace(pd_out->pwszText);
 
 	pd_out->hContact = pd_in->lchContact;
 	pd_out->SetIcon(pd_in->lchIcon);
@@ -110,10 +112,10 @@ static INT_PTR CreatePopupW(WPARAM wParam, LPARAM)
 	pd_out->opaque = pd_in->PluginData;
 	pd_out->timeout = pd_in->iSeconds;
 
-	lstPopupHistory.Add(pd_out->pwzTitle, pd_out->pwzText, time(0));
+	lstPopupHistory.Add(pd_out->pwszTitle, pd_out->pwszText, time(0));
 	if (!Popup_Enabled()) {
-		mir_free(pd_out->pwzTitle);
-		mir_free(pd_out->pwzText);
+		mir_free(pd_out->pwszTitle);
+		mir_free(pd_out->pwszText);
 		mir_free(pd_out);
 		return -1;
 	}
@@ -133,27 +135,20 @@ static INT_PTR ChangeTextW(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-void ShowPopup(PopupData &pd_in) 
+void ShowPopup(PopupData &pd_in)
 {
 	PopupData *pd_out = (PopupData *)mir_alloc(sizeof(PopupData));
 	*pd_out = pd_in;
-	if (pd_in.flags & PDF_UNICODE) {
-		pd_out->pwzTitle = mir_wstrdup(pd_in.pwzTitle);
-		pd_out->pwzText = mir_wstrdup(pd_in.pwzText);
-	}
-	else {
-		pd_out->flags |= PDF_UNICODE;
-		pd_out->pwzTitle = mir_a2u(pd_in.pszTitle);
-		pd_out->pwzText = mir_a2u(pd_in.pszText); 
-	}
-	StripBBCodesInPlace(pd_out->pwzTitle);
-	StripBBCodesInPlace(pd_out->pwzText);
+	pd_out->pwszTitle = mir_wstrdup(pd_in.pwszTitle);
+	pd_out->pwszText = mir_wstrdup(pd_in.pwszText);
+	StripBBCodesInPlace(pd_out->pwszTitle);
+	StripBBCodesInPlace(pd_out->pwszText);
 
-	lstPopupHistory.Add(pd_out->pwzTitle, pd_out->pwzText, time(0));
+	lstPopupHistory.Add(pd_out->pwszTitle, pd_out->pwszText, time(0));
 
 	if (!Popup_Enabled()) {
-		mir_free(pd_out->pwzTitle);
-		mir_free(pd_out->pwzText);
+		mir_free(pd_out->pwszTitle);
+		mir_free(pd_out->pwszText);
 		mir_free(pd_out);
 	}
 	else PostMPMessage(MUM_CREATEPOPUP, 0, (LPARAM)pd_out);
@@ -228,10 +223,10 @@ static INT_PTR PopupChangeW(WPARAM wParam, LPARAM lParam)
 		pd_out.cbSize = sizeof(PopupData);
 		pd_out.flags = PDF_UNICODE;
 
-		pd_out.pwzTitle = mir_wstrdup(pd_in->lpwzContactName);
-		pd_out.pwzText = mir_wstrdup(pd_in->lpwzText);
-		StripBBCodesInPlace(pd_out.pwzTitle);
-		StripBBCodesInPlace(pd_out.pwzText);
+		pd_out.pwszTitle = mir_wstrdup(pd_in->lpwzContactName);
+		pd_out.pwszText = mir_wstrdup(pd_in->lpwzText);
+		StripBBCodesInPlace(pd_out.pwszTitle);
+		StripBBCodesInPlace(pd_out.pwszText);
 
 		pd_out.hContact = pd_in->lchContact;
 		pd_out.SetIcon(pd_in->lchIcon);
@@ -245,9 +240,9 @@ static INT_PTR PopupChangeW(WPARAM wParam, LPARAM lParam)
 		pd_out.opaque = pd_in->PluginData;
 		pd_out.timeout = pd_in->iSeconds;
 
-		lstPopupHistory.Add(pd_out.pwzTitle, pd_out.pwzText, time(0));
 	
 		SendMessage(hwndPop, PUM_CHANGE, 0, (LPARAM)&pd_out);
+		lstPopupHistory.Add(pd_out.pwszTitle, pd_out.pwszText, time(0));
 	}
 	return 0;
 }
@@ -297,7 +292,7 @@ LIST<POPUPCLASS> arClasses(3, PtrKeySortT);
 
 static INT_PTR RegisterPopupClass(WPARAM, LPARAM lParam)
 {
-	POPUPCLASS *pc = (POPUPCLASS*)mir_alloc( sizeof(POPUPCLASS));
+	POPUPCLASS *pc = (POPUPCLASS *)mir_alloc(sizeof(POPUPCLASS));
 	memcpy(pc, (PVOID)lParam, sizeof(POPUPCLASS));
 
 	pc->pszName = mir_strdup(pc->pszName);
@@ -305,7 +300,7 @@ static INT_PTR RegisterPopupClass(WPARAM, LPARAM lParam)
 		pc->pszDescription.w = mir_wstrdup(pc->pszDescription.w);
 	else
 		pc->pszDescription.a = mir_strdup(pc->pszDescription.a);
-	
+
 	char setting[256];
 	mir_snprintf(setting, "%s/Timeout", pc->pszName);
 	pc->iSeconds = g_plugin.getWord(setting, pc->iSeconds);
@@ -328,7 +323,7 @@ static void FreePopupClass(POPUPCLASS *pc)
 
 static INT_PTR UnregisterPopupClass(WPARAM, LPARAM lParam)
 {
-	POPUPCLASS *pc = (POPUPCLASS*)lParam;
+	POPUPCLASS *pc = (POPUPCLASS *)lParam;
 	if (pc == nullptr)
 		return 1;
 	if (arClasses.find(pc) == nullptr)
@@ -360,17 +355,24 @@ static INT_PTR CreateClassPopup(WPARAM wParam, LPARAM lParam)
 			return 0;
 
 		PopupData ppd = { sizeof(PopupData) };
-		if (pc->flags & PCF_UNICODE) ppd.flags |= PDF_UNICODE;
+		ppd.flags |= PDF_UNICODE;
 		ppd.colorBack = pc->colorBack;
 		ppd.colorText = pc->colorText;
 		ppd.SetIcon(pc->hIcon);
 		ppd.timeout = pc->iSeconds;
 		ppd.windowProc = pc->PluginWindowProc;
-
 		ppd.hContact = pdc->hContact;
 		ppd.opaque = pdc->PluginData;
-		ppd.pszTitle = (char *)pdc->szTitle.a;
-		ppd.pszText = (char *)pdc->szText.a;
+
+		ptrW tmpText, tmpTitle;
+		if (pc->flags & PCF_UNICODE) {
+			ppd.pwszTitle = (wchar_t *)pdc->szTitle.w;
+			ppd.pwszText = (wchar_t *)pdc->szText.w;
+		}
+		else {
+			tmpText = mir_a2u(pdc->szText.a); ppd.pwszText = tmpText;
+			tmpTitle = mir_a2u(pdc->szTitle.a); ppd.pwszTitle = tmpTitle;
+		}
 
 		ShowPopup(ppd);
 	}
@@ -384,7 +386,7 @@ INT_PTR Popup_DeletePopup(WPARAM, LPARAM lParam)
 
 //////////////////////////////////////////////////////////////////////////////
 
-void InitServices() 
+void InitServices()
 {
 	hEventNotify = CreateHookableEvent(ME_POPUP_FILTER);
 

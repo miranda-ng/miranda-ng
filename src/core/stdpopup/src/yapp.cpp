@@ -16,8 +16,8 @@ ColourIDW colour_id_bg = {}, colour_id_border = {}, colour_id_sidebar = {}, colo
 
 COLORREF colBg = GetSysColor(COLOR_3DSHADOW);
 HFONT hFontFirstLine = nullptr, hFontSecondLine = nullptr, hFontTime = nullptr;
-COLORREF colFirstLine = RGB(255, 0, 0), colSecondLine = 0, colTime = RGB(0, 0, 255), colBorder = RGB(0, 0, 0), 
-	colSidebar = RGB(128, 128, 128), colTitleUnderline = GetSysColor(COLOR_3DSHADOW);
+COLORREF colFirstLine = RGB(255, 0, 0), colSecondLine = 0, colTime = RGB(0, 0, 255), colBorder = RGB(0, 0, 0),
+colSidebar = RGB(128, 128, 128), colTitleUnderline = GetSysColor(COLOR_3DSHADOW);
 
 // toptoolbar button
 HANDLE hTTButton;
@@ -43,7 +43,8 @@ PLUGININFOEX pluginInfoEx =
 
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
-{}
+{
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -168,7 +169,7 @@ static void InitMenuItems(void)
 
 	SET_UID(mi, 0x92c386ae, 0x6e81, 0x452d, 0xb5, 0x71, 0x87, 0x46, 0xe9, 0x2, 0x66, 0xe9);
 	mi.hIcolibItem = IcoLib_GetIcon(ICO_HISTORY, 0);
-	mi.pszService= MS_POPUP_SHOWHISTORY;
+	mi.pszService = MS_POPUP_SHOWHISTORY;
 	mi.name.w = LPGENW("Popup history");
 	hMenuItemHistory = Menu_AddMainMenuItem(&mi);
 
@@ -189,7 +190,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_FONT_RELOAD, ReloadFont);
 	HookEvent(ME_TTB_MODULELOADED, TTBLoaded);
 
-	LoadModuleDependentOptions(); 
+	LoadModuleDependentOptions();
 
 	if (GetModuleHandle(L"neweventnotify"))
 		ignore_gpd_passed_addy = true;

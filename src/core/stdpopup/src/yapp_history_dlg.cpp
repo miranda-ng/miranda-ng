@@ -123,11 +123,11 @@ int MatchesFilterCS(const wchar_t *filter, const PopupHistoryData *popupItem) //
 	if (mir_wstrlen(filter) <= 0)	{ return 1;	} //if no filter is set then the popup item matches the filter
 	int match = 0;
 	
-	match = (wcsstr(popupItem->messageT, filter)) ? 1 : match; //check message part
+	match = (wcsstr(popupItem->messageW, filter)) ? 1 : match; //check message part
 	
 	if (!match) //check title part of no match has been found
 	{
-		match = (wcsstr(popupItem->titleT, filter)) ? 1 : match;
+		match = (wcsstr(popupItem->titleW, filter)) ? 1 : match;
 	}
 	
 	if (!match) //if no match has been found yet try to match the timestamp
@@ -157,12 +157,12 @@ int MatchesFilterCI(const wchar_t *filterS, const PopupHistoryData *popupItem)
 	
 	ConvertCase(filterI, filterS, BUFFER_SIZE);
 	
-	ConvertCase(buffer, popupItem->messageT, BUFFER_SIZE); //check message part
+	ConvertCase(buffer, popupItem->messageW, BUFFER_SIZE); //check message part
 	match = (wcsstr(buffer, filterI)) ? 1 : match;
 	
 	if (!match) // check title part of no match has been found
 	{
-		ConvertCase(buffer, popupItem->titleT, BUFFER_SIZE);
+		ConvertCase(buffer, popupItem->titleW, BUFFER_SIZE);
 		match = (wcsstr(buffer, filterI)) ? 1 : match;
 	}
 	
@@ -335,8 +335,8 @@ IEVIEWEVENTDATA *CreateAndFillEventData(PopupHistoryData *popupItem)
 		eventData->iType = IEED_EVENT_MESSAGE;
 
 		eventData->dwFlags = IEEDF_UNICODE_NICK | IEEDF_UNICODE_TEXT | IEEDF_UNICODE_TEXT2;
-		eventData->pszNickW = popupItem->titleT;
-		eventData->pszTextW = popupItem->messageT;
+		eventData->pszNickW = popupItem->titleW;
+		eventData->pszTextW = popupItem->messageW;
 
 		eventData->time = (DWORD) popupItem->timestamp;
 		eventData->next = nullptr;
@@ -419,9 +419,9 @@ void AddEventsDefault(HWND hWnd, int, wchar_t *filter, SIG_MATCHESFILTER Matches
 		popupItem = lstPopupHistory.Get(i);
 		if (MatchesFilter(filter, popupItem))
 		{
-			item.pszText = popupItem->titleT;
+			item.pszText = popupItem->titleW;
 			ListView_InsertItem(hHistoryList, &item);
-			ListView_SetItemText(hHistoryList, lIndex, 1, popupItem->messageT);
+			ListView_SetItemText(hHistoryList, lIndex, 1, popupItem->messageW);
 			myTime = localtime(&popupItem->timestamp);
 			wcsftime(buffer, 1024, L"%c", myTime);
 			ListView_SetItemText(hHistoryList, lIndex++, 2, buffer);

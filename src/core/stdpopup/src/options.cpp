@@ -4,7 +4,8 @@ Options options;
 
 HICON hPopupIcon = nullptr;
 
-void LoadModuleDependentOptions() {
+void LoadModuleDependentOptions()
+{
 	if (ServiceExists(MS_AV_DRAWAVATAR))
 		options.av_layout = (PopupAvLayout)g_plugin.getByte("AVLayout", PAV_RIGHT);
 	else
@@ -18,22 +19,22 @@ void LoadModuleDependentOptions() {
 void LoadOptions()
 {
 	options.default_timeout = g_plugin.getDword("DefaultTimeout", 7);
-	options.win_width       = g_plugin.getDword("WinWidth", 220);
-	options.win_max_height  = g_plugin.getDword("WinMaxHeight", 400);
-	options.location        = (PopupLocation)g_plugin.getByte("Location", (BYTE)PL_BOTTOMRIGHT);
-	options.opacity         = g_plugin.getByte("Opacity", 75);
-	options.border          = g_plugin.getByte("Border", 1) == 1;
-	options.round           = g_plugin.getByte("RoundCorners", 1) == 1;
-	options.av_round        = g_plugin.getByte("AvatarRoundCorners", 1) == 1;
-	options.animate         = g_plugin.getByte("Animate", 0);
-	options.trans_bg        = g_plugin.getByte("TransparentBg", 0) == 1;
+	options.win_width = g_plugin.getDword("WinWidth", 220);
+	options.win_max_height = g_plugin.getDword("WinMaxHeight", 400);
+	options.location = (PopupLocation)g_plugin.getByte("Location", (BYTE)PL_BOTTOMRIGHT);
+	options.opacity = g_plugin.getByte("Opacity", 75);
+	options.border = g_plugin.getByte("Border", 1) == 1;
+	options.round = g_plugin.getByte("RoundCorners", 1) == 1;
+	options.av_round = g_plugin.getByte("AvatarRoundCorners", 1) == 1;
+	options.animate = g_plugin.getByte("Animate", 0);
+	options.trans_bg = g_plugin.getByte("TransparentBg", 0) == 1;
 	options.use_mim_monitor = g_plugin.getByte("UseMimMonitor", 1) == 1;
-	options.right_icon      = g_plugin.getByte("RightIcon", 0) == 1;
-	options.av_layout       = PAV_NONE; // corrected in LoadModuleDependentOptions function above
-	options.av_size         = g_plugin.getDword("AVSize", 40); //tweety
-	options.text_indent     = g_plugin.getDword("TextIndent", 22); 
-	options.global_hover    = g_plugin.getByte("GlobalHover", 1) == 1;
-	options.time_layout     = (PopupTimeLayout)g_plugin.getByte("TimeLayout", PT_RIGHT);
+	options.right_icon = g_plugin.getByte("RightIcon", 0) == 1;
+	options.av_layout = PAV_NONE; // corrected in LoadModuleDependentOptions function above
+	options.av_size = g_plugin.getDword("AVSize", 40); //tweety
+	options.text_indent = g_plugin.getDword("TextIndent", 22);
+	options.global_hover = g_plugin.getByte("GlobalHover", 1) == 1;
+	options.time_layout = (PopupTimeLayout)g_plugin.getByte("TimeLayout", PT_RIGHT);
 
 	char buff[128];
 	for (int i = 0; i < 10; i++) {
@@ -83,20 +84,20 @@ void SaveOptions()
 
 void ShowExamplePopups()
 {
-	PopupData pd = {sizeof(PopupData)};
+	PopupData pd = { sizeof(PopupData) };
 	pd.hIcon = hPopupIcon;
-	pd.flags = PDF_TCHAR;
+	pd.flags = PDF_UNICODE;
 
-	pd.ptzTitle = TranslateT("Example");
-	pd.ptzText = TranslateT("The quick brown fox jumped over the lazy dog.");
+	pd.pwszTitle = TranslateT("Example");
+	pd.pwszText = TranslateT("The quick brown fox jumped over the lazy dog.");
 	ShowPopup(pd);
 
-	pd.ptzTitle = TranslateT("Example With a Long Title");
-	pd.ptzText = TranslateT("The quick brown fox jumped over the lazy dog.");
+	pd.pwszTitle = TranslateT("Example With a Long Title");
+	pd.pwszText = TranslateT("The quick brown fox jumped over the lazy dog.");
 	ShowPopup(pd);
 
-	pd.ptzTitle = TranslateT("Example");
-	pd.ptzText = TranslateT("Thequickbrownfoxjumpedoverthelazydog.");
+	pd.pwszTitle = TranslateT("Example");
+	pd.pwszText = TranslateT("Thequickbrownfoxjumpedoverthelazydog.");
 	ShowPopup(pd);
 
 	for (auto &hContact : Contacts()) {
@@ -104,7 +105,7 @@ void ShowExamplePopups()
 			AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
 			if (ace && (ace->dwFlags & AVS_BITMAP_VALID)) {
 				pd.hContact = hContact;
-				pd.ptzText = TranslateT("An avatar.");
+				pd.pwszText = TranslateT("An avatar.");
 				ShowPopup(pd);
 				break;
 			}
@@ -114,9 +115,9 @@ void ShowExamplePopups()
 
 static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch ( msg ) {
+	switch (msg) {
 	case WM_INITDIALOG:
-		TranslateDialogDefault( hwndDlg );
+		TranslateDialogDefault(hwndDlg);
 
 		SendDlgItemMessage(hwndDlg, IDC_CMB_PLACEMENT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Bottom right"));
 		SendDlgItemMessage(hwndDlg, IDC_CMB_PLACEMENT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Bottom left"));
@@ -157,9 +158,9 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			HWND hwndList = GetDlgItem(hwndDlg, IDC_LST_STATUS);
 			ListView_DeleteAllItems(hwndList);
 
-			SendMessage(hwndList,LVM_SETEXTENDEDLISTVIEWSTYLE, 0,LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
+			SendMessage(hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
 
-			LVCOLUMN lvc = {0};
+			LVCOLUMN lvc = { 0 };
 			// Initialize the LVCOLUMN structure.
 			// The mask specifies that the format, width, text, and
 			// subitem members of the structure are valid. 
@@ -167,11 +168,11 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			lvc.fmt = LVCFMT_LEFT;
 
 			lvc.iSubItem = 0;
-			lvc.pszText = TranslateT("Status");	
+			lvc.pszText = TranslateT("Status");
 			lvc.cx = 200;     // width of column in pixels
 			ListView_InsertColumn(hwndList, 0, &lvc);
 
-			LVITEM lvI = {0};
+			LVITEM lvI = { 0 };
 
 			// Some code to create the list-view control.
 			// Initialize LVITEM members that are common to all
@@ -210,17 +211,17 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			CheckDlgButton(hwndDlg, IDC_RAD_TIMEOUT, BST_CHECKED);
 			SetDlgItemInt(hwndDlg, IDC_ED_TIMEOUT, options.default_timeout, FALSE);
 		}
-		
+
 		if (options.right_icon)
 			CheckDlgButton(hwndDlg, IDC_RAD_RIGHTICON, BST_CHECKED);
 		else
 			CheckDlgButton(hwndDlg, IDC_RAD_LEFTICON, BST_CHECKED);
 
 		if (ServiceExists(MS_AV_DRAWAVATAR)) {
-			switch(options.av_layout) {
-				case PAV_NONE: CheckDlgButton(hwndDlg, IDC_RAD_NOAV, BST_CHECKED); break;
-				case PAV_RIGHT: CheckDlgButton(hwndDlg, IDC_RAD_RIGHTAV, BST_CHECKED); break;
-				case PAV_LEFT: CheckDlgButton(hwndDlg, IDC_RAD_LEFTAV, BST_CHECKED); break;
+			switch (options.av_layout) {
+			case PAV_NONE: CheckDlgButton(hwndDlg, IDC_RAD_NOAV, BST_CHECKED); break;
+			case PAV_RIGHT: CheckDlgButton(hwndDlg, IDC_RAD_RIGHTAV, BST_CHECKED); break;
+			case PAV_LEFT: CheckDlgButton(hwndDlg, IDC_RAD_LEFTAV, BST_CHECKED); break;
 			}
 		}
 		else {
@@ -238,11 +239,11 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		SetDlgItemInt(hwndDlg, IDC_ED_SBWIDTH, options.sb_width, FALSE);
 		SetDlgItemInt(hwndDlg, IDC_ED_PADDING, options.padding, FALSE);
 
-		switch(options.location) {
-			case PL_BOTTOMRIGHT: CheckDlgButton(hwndDlg, IDC_RAD_BOTTOMRIGHT, BST_CHECKED); break;
-			case PL_BOTTOMLEFT: CheckDlgButton(hwndDlg, IDC_RAD_BOTTOMLEFT, BST_CHECKED); break;
-			case PL_TOPRIGHT: CheckDlgButton(hwndDlg, IDC_RAD_TOPRIGHT, BST_CHECKED); break;
-			case PL_TOPLEFT: CheckDlgButton(hwndDlg, IDC_RAD_TOPLEFT, BST_CHECKED); break;
+		switch (options.location) {
+		case PL_BOTTOMRIGHT: CheckDlgButton(hwndDlg, IDC_RAD_BOTTOMRIGHT, BST_CHECKED); break;
+		case PL_BOTTOMLEFT: CheckDlgButton(hwndDlg, IDC_RAD_BOTTOMLEFT, BST_CHECKED); break;
+		case PL_TOPRIGHT: CheckDlgButton(hwndDlg, IDC_RAD_TOPRIGHT, BST_CHECKED); break;
+		case PL_TOPLEFT: CheckDlgButton(hwndDlg, IDC_RAD_TOPLEFT, BST_CHECKED); break;
 		}
 
 		SetDlgItemInt(hwndDlg, IDC_ED_TRANS, options.opacity, FALSE);
@@ -259,16 +260,16 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		return FALSE;
 
 	case WM_COMMAND:
-		if ( HIWORD(wParam) == CBN_SELCHANGE)
+		if (HIWORD(wParam) == CBN_SELCHANGE)
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		else if ( HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus())
+		else if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus())
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		else if ( HIWORD(wParam) == BN_CLICKED ) {
+		else if (HIWORD(wParam) == BN_CLICKED) {
 			if (LOWORD(wParam) == IDC_BTN_PREVIEW)
 				ShowExamplePopups();
 			else {
 				HWND hw = GetDlgItem(hwndDlg, IDC_ED_TIMEOUT);
-				switch( LOWORD(wParam)) {
+				switch (LOWORD(wParam)) {
 				case IDC_RAD_NOTIMEOUT:
 					EnableWindow(hw, IsDlgButtonChecked(hwndDlg, IDC_RAD_TIMEOUT));
 					break;
@@ -282,16 +283,16 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_NOTIFY:
-		if (IsWindowVisible(hwndDlg) && ((LPNMHDR) lParam)->hwndFrom == GetDlgItem(hwndDlg, IDC_LST_STATUS)) {
-			switch (((LPNMHDR) lParam)->code) {
+		if (IsWindowVisible(hwndDlg) && ((LPNMHDR)lParam)->hwndFrom == GetDlgItem(hwndDlg, IDC_LST_STATUS)) {
+			switch (((LPNMHDR)lParam)->code) {
 			case LVN_ITEMCHANGED:
 				NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
 				if ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK)
-					SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0);
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			}
 		}
-		else if (((LPNMHDR)lParam)->code == (unsigned)PSN_APPLY ) {
+		else if (((LPNMHDR)lParam)->code == (unsigned)PSN_APPLY) {
 			BOOL trans;
 			int new_val;
 			if (IsDlgButtonChecked(hwndDlg, IDC_RAD_NOTIMEOUT))
@@ -327,8 +328,8 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			new_val = GetDlgItemInt(hwndDlg, IDC_ED_TRANS, &trans, FALSE);
 			if (trans) options.opacity = new_val;
 			options.border = IsDlgButtonChecked(hwndDlg, IDC_CHK_BORDER) && IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHK_BORDER)) ? true : false;
-			options.round = IsDlgButtonChecked(hwndDlg, IDC_CHK_ROUNDCORNERS) && IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHK_ROUNDCORNERS))  ? true : false;
-			options.av_round = IsDlgButtonChecked(hwndDlg, IDC_CHK_ROUNDCORNERSAV) && IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHK_ROUNDCORNERSAV))  ? true : false;
+			options.round = IsDlgButtonChecked(hwndDlg, IDC_CHK_ROUNDCORNERS) && IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHK_ROUNDCORNERS)) ? true : false;
+			options.av_round = IsDlgButtonChecked(hwndDlg, IDC_CHK_ROUNDCORNERSAV) && IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHK_ROUNDCORNERSAV)) ? true : false;
 			options.animate = SendDlgItemMessage(hwndDlg, IDC_CMB_ANIMATE, CB_GETCURSEL, 0, 0);
 			options.trans_bg = IsDlgButtonChecked(hwndDlg, IDC_CHK_TRANSBG) ? true : false;
 			options.global_hover = IsDlgButtonChecked(hwndDlg, IDC_CHK_GLOBALHOVER) ? true : false;
@@ -351,9 +352,9 @@ LIST<POPUPCLASS> arNewClasses(3);
 
 static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch ( msg ) {
+	switch (msg) {
 	case WM_INITDIALOG:
-		TranslateDialogDefault( hwndDlg );
+		TranslateDialogDefault(hwndDlg);
 
 		arNewClasses = arClasses;
 		{
@@ -371,7 +372,7 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 		return FALSE;
 
 	case WM_COMMAND:
-		if ( LOWORD(wParam) == IDC_LST_CLASSES && HIWORD(wParam) == LBN_SELCHANGE) {
+		if (LOWORD(wParam) == IDC_LST_CLASSES && HIWORD(wParam) == LBN_SELCHANGE) {
 			int index = SendDlgItemMessage(hwndDlg, IDC_LST_CLASSES, LB_GETCURSEL, 0, 0);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_PREVIEW), index != -1);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_COL_TEXT), index != -1);
@@ -387,7 +388,7 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ED_TIMEOUT), index != -1 && IsDlgButtonChecked(hwndDlg, IDC_CHK_TIMEOUT));
 			return TRUE;
 		}
-		if ( HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus()) {
+		if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus()) {
 			int index = SendDlgItemMessage(hwndDlg, IDC_LST_CLASSES, LB_GETCURSEL, 0, 0);
 			if (index != -1) {
 				int i = SendDlgItemMessage(hwndDlg, IDC_LST_CLASSES, LB_GETITEMDATA, index, 0);
@@ -402,8 +403,8 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 			int index = SendDlgItemMessage(hwndDlg, IDC_LST_CLASSES, LB_GETCURSEL, 0, 0);
 			if (index != -1) {
 				int i = SendDlgItemMessage(hwndDlg, IDC_LST_CLASSES, LB_GETITEMDATA, index, 0);
-				switch(LOWORD(wParam)) {
-				case IDC_CHK_TIMEOUT: 
+				switch (LOWORD(wParam)) {
+				case IDC_CHK_TIMEOUT:
 					{
 						BOOL isChecked = IsDlgButtonChecked(hwndDlg, IDC_CHK_TIMEOUT);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_ED_TIMEOUT), isChecked);
@@ -411,35 +412,35 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 						else arNewClasses[i]->iSeconds = -1;
 						SetDlgItemInt(hwndDlg, IDC_ED_TIMEOUT, arNewClasses[i]->iSeconds, TRUE);
 					}
-					SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0);
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 					break;
 
 				case IDC_COL_TEXT:
 					arNewClasses[i]->colorText = SendDlgItemMessage(hwndDlg, IDC_COL_TEXT, CPM_GETCOLOUR, 0, 0);
-					SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0);
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 					break;
 
 				case IDC_COL_BG:
 					arNewClasses[i]->colorBack = SendDlgItemMessage(hwndDlg, IDC_COL_BG, CPM_GETCOLOUR, 0, 0);
-					SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0);
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 					break;
 
 				case IDC_BTN_PREVIEW:
 					if (arNewClasses[i]->flags & PCF_UNICODE) {
 						POPUPCLASS pc = *arNewClasses[i];
 						pc.PluginWindowProc = nullptr;
-						POPUPDATACLASS d = {sizeof(d), pc.pszName};
+						POPUPDATACLASS d = { sizeof(d), pc.pszName };
 						d.szTitle.w = L"Preview";
 						d.szText.w = L"The quick brown fox jumps over the lazy dog.";
-						CallService(MS_POPUP_ADDPOPUPCLASS, (WPARAM)&pc, (LPARAM)&d);
+						CallService(MS_POPUP_ADDPOPUPCLASS, (WPARAM)& pc, (LPARAM)& d);
 					}
 					else {
 						POPUPCLASS pc = *arNewClasses[i];
 						pc.PluginWindowProc = nullptr;
-						POPUPDATACLASS d = {sizeof(d), pc.pszName};
+						POPUPDATACLASS d = { sizeof(d), pc.pszName };
 						d.szTitle.a = "Preview";
 						d.szText.a = "The quick brown fox jumps over the lazy dog.";
-						CallService(MS_POPUP_ADDPOPUPCLASS, (WPARAM)&pc, (LPARAM)&d);
+						CallService(MS_POPUP_ADDPOPUPCLASS, (WPARAM)& pc, (LPARAM)& d);
 					}
 					break;
 				}

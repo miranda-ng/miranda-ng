@@ -1,10 +1,12 @@
 #ifndef _OPTIONS_INC
 #define _OPTIONS_INC
 
-typedef enum {PL_BOTTOMRIGHT=0, PL_BOTTOMLEFT=1, PL_TOPRIGHT=2, PL_TOPLEFT=3} PopupLocation;
-typedef enum {PAV_NONE=0, PAV_LEFT=1, PAV_RIGHT=2} PopupAvLayout;
-typedef enum {PT_NONE=0, PT_LEFT=1, PT_RIGHT=2, PT_WITHAV=3} PopupTimeLayout;
-typedef struct {
+typedef enum { PL_BOTTOMRIGHT = 0, PL_BOTTOMLEFT = 1, PL_TOPRIGHT = 2, PL_TOPLEFT = 3 } PopupLocation;
+typedef enum { PAV_NONE = 0, PAV_LEFT = 1, PAV_RIGHT = 2 } PopupAvLayout;
+typedef enum { PT_NONE = 0, PT_LEFT = 1, PT_RIGHT = 2, PT_WITHAV = 3 } PopupTimeLayout;
+
+struct Options
+{
 	int win_width, win_max_height, av_size; //tweety
 	int default_timeout;
 	PopupLocation location;
@@ -24,7 +26,7 @@ typedef struct {
 	bool drop_shadow;
 	int sb_width;
 	int padding, av_padding;
-} Options;
+};
 
 extern Options options;
 

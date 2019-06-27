@@ -17,16 +17,8 @@ struct PopupData
 	int flags; // OR of PDF_* flags below
 	MCONTACT hContact;
 	HICON hIcon;
-	union {
-		char *pszTitle;
-		wchar_t *ptzTitle;
-		wchar_t *pwzTitle;
-	};
-	union {
-		char *pszText;
-		wchar_t *ptzText;
-		wchar_t *pwzText;
-	};
+	wchar_t *pwszTitle;
+	wchar_t *pwszText;
 	COLORREF colorBack;		// if colorBack and colorText are equal, defaults will be used
 	COLORREF colorText;
 	WNDPROC windowProc;		// optional custom window procedure

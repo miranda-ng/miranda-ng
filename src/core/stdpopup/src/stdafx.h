@@ -74,6 +74,4 @@ typedef int (CALLBACK *PFNLVCOMPARE)(LPARAM, LPARAM, LPARAM);
 #define PDF_UNICODE  0x0001
 #define PDF_ICOLIB   0x0002
 
-#define PDF_TCHAR    PDF_UNICODE
-
 void ShowPopup(PopupData &pd_in);

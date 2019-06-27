@@ -18,5 +18,5 @@ static IconItem iconList2[] =
 void InitIcons()
 {
 	g_plugin.registerIcon(SECT_TOLBAR, iconList1);
-	g_plugin.registerIcon(SECT_POPUP,  iconList2);
+	g_plugin.registerIcon(SECT_POPUP, iconList2);
 }

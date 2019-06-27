@@ -34,47 +34,40 @@
 #define RENDER_HISTORYPP 0x00001
 #define RENDER_IEVIEW    0x00002
 
-struct PopupHistoryData{
+struct PopupHistoryData
+{
 	DWORD flags; //PHDF_* flags
-	union{
-		char *message;
-		wchar_t *messageW;
-		wchar_t *messageT;
-	};
-	union{
-		char *title;
-		wchar_t *titleW;
-		wchar_t *titleT;
-	};
+	wchar_t *messageW;
+	wchar_t *titleW;
 	time_t timestamp;
 };
 
-class PopupHistoryList{
-	private:
-		PopupHistoryData *historyData; //historyData[0] - oldest, historyData[size - 1] - newest
-		int count;
-		int size;
-		int renderer;
-		
-		void DeleteData(int index);
-		void AddItem(PopupHistoryData item); //adds a PopupHistoryData item
-		void RemoveItem(int index);
-		
-	public:
-		PopupHistoryList(int renderer = RENDER_DEFAULT);
-		~PopupHistoryList();
-		
-		int GetRenderer() { return renderer; }
-		void SetRenderer(int newRenderer) { renderer = newRenderer; }
-		
-		void Add(char *title, char *message, time_t timestamp);
-		void Add(wchar_t *title, wchar_t *message, time_t timestamp);
-		
-		PopupHistoryData *Get(int index);
-		
-		void Clear();
-		int Count() { return count; }
-		int Size() { return size; }
+class PopupHistoryList
+{
+private:
+	PopupHistoryData *historyData; //historyData[0] - oldest, historyData[size - 1] - newest
+	int count;
+	int size;
+	int renderer;
+
+	void DeleteData(int index);
+	void AddItem(PopupHistoryData item); //adds a PopupHistoryData item
+	void RemoveItem(int index);
+
+public:
+	PopupHistoryList(int renderer = RENDER_DEFAULT);
+	~PopupHistoryList();
+
+	int GetRenderer() { return renderer; }
+	void SetRenderer(int newRenderer) { renderer = newRenderer; }
+
+	void Add(wchar_t *title, wchar_t *message, time_t timestamp);
+
+	PopupHistoryData *Get(int index);
+
+	void Clear();
+	int Count() { return count; }
+	int Size() { return size; }
 };
 
 /*Shows a history with the last popups.

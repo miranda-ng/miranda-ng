@@ -9,7 +9,7 @@ HANDLE hMPEvent;
 
 #define MAX_POPUPS	100
 
-unsigned __stdcall MessagePumpThread(void* param)
+unsigned __stdcall MessagePumpThread(void *param)
 {
 	if (param)
 		SetEvent((HANDLE)param);
@@ -18,7 +18,7 @@ unsigned __stdcall MessagePumpThread(void* param)
 	while (GetMessage(&hwndMsg, nullptr, 0, 0) > 0 && !bShutdown) {
 		if (hwndMsg.hwnd != nullptr && IsDialogMessage(hwndMsg.hwnd, &hwndMsg)) /* Wine fix. */
 			continue;
-		switch(hwndMsg.message) {
+		switch (hwndMsg.message) {
 		case MUM_CREATEPOPUP:
 			{
 				bool enabled = true;
@@ -28,7 +28,7 @@ unsigned __stdcall MessagePumpThread(void* param)
 				if ((options.disable_full_screen && IsFullScreen()) || IsWorkstationLocked())
 					enabled = false;
 
-				PopupData *pd = (PopupData*)hwndMsg.lParam;
+				PopupData *pd = (PopupData *)hwndMsg.lParam;
 				if (enabled && num_popups < MAX_POPUPS) {
 					HWND hwnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, POP_WIN_CLASS, L"Popup", WS_POPUP, 0, 0, 0, 0, nullptr, nullptr, g_plugin.getInst(), (LPVOID)hwndMsg.lParam);
 					num_popups++;
@@ -36,8 +36,8 @@ unsigned __stdcall MessagePumpThread(void* param)
 						SendMessage(hwnd, PUM_SETNOTIFYH, hwndMsg.wParam, 0);
 				}
 				else if (pd) {
-					mir_free(pd->pwzTitle);
-					mir_free(pd->pwzText);
+					mir_free(pd->pwszTitle);
+					mir_free(pd->pwszText);
 					mir_free(pd);
 				}
 			}
@@ -93,7 +93,7 @@ void InitMessagePump()
 	popup_win_class.lpfnWndProc = PopupWindowProc;
 	popup_win_class.hInstance = g_plugin.getInst();
 	popup_win_class.lpszClassName = POP_WIN_CLASS;
-	popup_win_class.hCursor = LoadCursor(nullptr, IDC_ARROW); 
+	popup_win_class.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	RegisterClass(&popup_win_class);
 
 	InitServices();
