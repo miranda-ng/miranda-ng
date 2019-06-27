@@ -150,7 +150,7 @@ wchar_t* getContactInfoT(BYTE type, MCONTACT hContact)
 		return nullptr;
 
 	case CCNF_GROUP:
-		if ((res = db_get_wsa(hContact, "CList", "Group")) != nullptr)
+		if ((res = Clist_GetGroup(hContact)) != nullptr)
 			return res;
 		break;
 

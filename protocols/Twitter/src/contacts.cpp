@@ -245,10 +245,7 @@ MCONTACT TwitterProto::AddToClientList(const char *name, const char *status)
 			db_set_utf(hContact, "CList", "StatusMsg", status);
 
 			Skin_PlaySound("TwitterNewContact");
-			ptrW wszGroup(getWStringA(TWITTER_KEY_GROUP));
-			if (wszGroup)
-				db_set_ws(hContact, "CList", "Group", wszGroup);
-
+			Clist_SetGroup(hContact, getMStringW(TWITTER_KEY_GROUP));
 			return hContact;
 		}
 		db_delete_contact(hContact);

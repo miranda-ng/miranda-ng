@@ -183,7 +183,7 @@ MCONTACT CVkProto::FindUser(LONG dwUserid, bool bCreate)
 	MCONTACT hNewContact = db_add_contact();
 	Proto_AddToContact(hNewContact, m_szModuleName);
 	setDword(hNewContact, "ID", dwUserid);
-	db_set_ws(hNewContact, "CList", "Group", m_vkOptions.pwszDefaultGroup);
+	Clist_SetGroup(hNewContact, m_vkOptions.pwszDefaultGroup);
 	if (dwUserid < 0)
 		setByte(hNewContact, "IsGroup", 1);
 	return hNewContact;

@@ -49,7 +49,7 @@ static HGENMENU
 
 INT_PTR Meta_Convert(WPARAM wParam, LPARAM)
 {
-	ptrW tszGroup(db_get_wsa(wParam, "CList", "Group"));
+	ptrW tszGroup(Clist_GetGroup(wParam));
 
 	// Create a new metacontact
 	MCONTACT hMetaContact = db_add_contact();
@@ -68,7 +68,7 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM)
 	Proto_AddToContact(hMetaContact, META_PROTO);
 
 	if (tszGroup)
-		db_set_ws(hMetaContact, "CList", "Group", tszGroup);
+		Clist_SetGroup(hMetaContact, tszGroup);
 
 	// Assign the contact to the MetaContact just created (and make default).
 	if (!Meta_Assign(wParam, hMetaContact, TRUE)) {

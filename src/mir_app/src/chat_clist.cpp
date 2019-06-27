@@ -37,9 +37,9 @@ MCONTACT AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *p
 	MCONTACT hContact = g_chatApi.FindRoom(pszModule, pszRoom);
 	if (hContact) { // contact exist, make sure it is in the right group
 		if (mir_wstrlen(wszGroup)) {
-			ptrW grpName(db_get_wsa(hContact, "CList", "Group"));
+			ptrW grpName(Clist_GetGroup(hContact));
 			if (!mir_wstrcmp(wszGroup, grpName))
-				db_set_ws(hContact, "CList", "Group", wszGroup);
+				Clist_SetGroup(hContact, wszGroup);
 		}
 
 		db_set_w(hContact, pszModule, "Status", ID_STATUS_OFFLINE);
@@ -52,10 +52,8 @@ MCONTACT AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *p
 		return 0;
 
 	Proto_AddToContact(hContact, pszModule);
-	if (mir_wstrlen(wszGroup))
-		db_set_ws(hContact, "CList", "Group", wszGroup);
-	else
-		db_unset(hContact, "CList", "Group");
+	Clist_SetGroup(hContact, wszGroup);
+
 	db_set_ws(hContact, pszModule, "Nick", pszDisplayName);
 	db_set_ws(hContact, pszModule, "ChatRoomID", pszRoom);
 	db_set_b(hContact, pszModule, "ChatRoom", (BYTE)iType);

@@ -355,7 +355,7 @@ MCONTACT CDiscordProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 		setId(hContact, DB_KEY_ID, pUser->id);
 	}
 
-	db_set_ws(hContact, "CList", "Group", m_wszDefaultGroup);
+	Clist_SetGroup(hContact, m_wszDefaultGroup);
 	setWString(hContact, DB_KEY_NICK, pUser->wszUsername);
 	setDword(hContact, DB_KEY_DISCR, pUser->iDiscriminator);
 	arUsers.insert(pUser);

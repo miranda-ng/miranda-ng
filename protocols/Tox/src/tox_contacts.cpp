@@ -92,8 +92,7 @@ MCONTACT CToxProto::AddContact(const char *address, const wchar_t *nick, const w
 		setWString(hContact, TOX_SETTINGS_DNS, dnsId);
 
 	if (!isTemporary) {
-		if (m_defaultGroup)
-			db_set_ws(hContact, "CList", "Group", m_defaultGroup);
+		Clist_SetGroup(hContact, m_defaultGroup);
 
 		setByte(hContact, "Auth", 1);
 		setByte(hContact, "Grant", 1);

@@ -257,7 +257,7 @@ MCONTACT CExImContactBase::toDB()
 		// add group
 		if (_pszGroup) {
 			ptrW ptszGroup(mir_utf8decodeW(_pszGroup));
-			db_set_ws(_hContact, MOD_CLIST, "Group", ptszGroup);
+			Clist_SetGroup(_hContact, ptszGroup);
 			Clist_GroupCreate(NULL, ptszGroup);
 		}
 	}

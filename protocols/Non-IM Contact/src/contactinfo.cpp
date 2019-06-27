@@ -135,10 +135,9 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			for (int i = 1; (szGroup = Clist_GroupGetName(i, nullptr)) != nullptr; i++)
 				SendDlgItemMessage(hwnd, IDC_GROUP, CB_INSERTSTRING, 0, LPARAM(szGroup));
 
-			if (!db_get_ws(hContact, "CList", "Group", &dbv)) {
-				SetDlgItemText(hwnd, IDC_GROUP, dbv.pwszVal);
-				db_free(&dbv);
-			}
+			ptrW wszGroup(Clist_GetGroup(hContact));
+			if (wszGroup)
+				SetDlgItemTextW(hwnd, IDC_GROUP, wszGroup);
 
 			/* icons */
 			CheckRadioButton(hwnd, 40072, 40077, g_plugin.getWord(hContact, "Icon", ID_STATUS_ONLINE));
@@ -237,9 +236,9 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 					wchar_t text[512];
 					GetDlgItemText(hwnd, IDC_GROUP, text, _countof(text));
 					Clist_GroupCreate(NULL, text);
-					db_set_ws(hContact, "CList", "Group", text);
+					Clist_SetGroup(hContact, text);
 				}
-				else db_unset(hContact, "CList", "Group");
+				else Clist_SetGroup(hContact, nullptr);
 
 				for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_MAX; i++)
 					if (IsDlgButtonChecked(hwnd, i))

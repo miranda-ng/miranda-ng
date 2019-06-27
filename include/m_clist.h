@@ -460,6 +460,17 @@ EXTERN_C MIR_APP_DLL(int) Clist_GroupMoveBefore(MGROUP hGroup, MGROUP hGroupBefo
 EXTERN_C MIR_APP_DLL(HMENU) Clist_GroupBuildMenu(void);
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// gets group name for a contact
+// might return NULL if a group isn't set
+
+EXTERN_C MIR_APP_DLL(wchar_t*) Clist_GetGroup(MCONTACT hContact);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// sets group name for a contact
+
+EXTERN_C MIR_APP_DLL(void) Clist_SetGroup(MCONTACT hContact, const wchar_t *pwszName);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // end a rebuild of the contact list
 
 EXTERN_C MIR_APP_DLL(void) Clist_EndRebuild(void);

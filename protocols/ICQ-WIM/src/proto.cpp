@@ -169,9 +169,10 @@ INT_PTR CIcqProto::UploadGroups(WPARAM, LPARAM)
 		if (isChatRoom(it))
 			continue;
 
-		CMStringW wszIcqGroup(getMStringW(it, "IcqGroup")), wszMirGroup(db_get_wsm(it, "CList", "Group"));
-		if (wszMirGroup.IsEmpty())
-			wszMirGroup = L"General";
+		CMStringW wszIcqGroup(getMStringW(it, "IcqGroup"));
+		ptrW wszMirGroup(Clist_GetGroup(it));
+		if (!wszMirGroup)
+			wszMirGroup = mir_wstrdup(L"General");
 		if (wszIcqGroup != wszMirGroup)
 			MoveContactToGroup(it, wszIcqGroup, wszMirGroup);
 	}

@@ -682,3 +682,5 @@ Srmm_SetIconFlags @767
 ?addImgListIcon@CMPluginBase@@QEAAHPEAU_IMAGELIST@@H@Z @772 NONAME
 ImageList_AddProtoIcon @773
 ImageList_AddSkinIcon @774
+Clist_GetGroup @775
+Clist_SetGroup @776

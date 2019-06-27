@@ -30,9 +30,9 @@ void ShowChangePopup(MCONTACT hContact, HICON hIcon, WORD newStatus, const wchar
 
 	// add group name to popup title
 	if (opt.ShowGroup) {
-		ptrW tszGroup(db_get_wsa(hContact, "CList", "Group"));
+		ptrW tszGroup(Clist_GetGroup(hContact));
 		if (tszGroup)
-			buf.AppendFormat(L" (%s)", tszGroup);
+			buf.AppendFormat(L" (%s)", tszGroup.get());
 	}
 	wcsncpy_s(ppd.lpwzContactName, buf, _TRUNCATE);
 	wcsncpy_s(ppd.lpwzText, stzText, _TRUNCATE);

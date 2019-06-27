@@ -25,7 +25,7 @@ INT_PTR RemoveTempContacts(WPARAM, LPARAM lParam)
 {
 	for (MCONTACT hContact = db_find_first(); hContact;) {
 		MCONTACT hNext = db_find_next(hContact);
-		ptrW szGroup(db_get_wsa(hContact, "CList", "Group"));
+		ptrW szGroup(Clist_GetGroup(hContact));
 
 		if (db_get_b(hContact, "CList", "NotOnList", 0) || (szGroup != NULL && (wcsstr(szGroup, L"Not In List") || wcsstr(szGroup, TranslateT("Not In List"))))) {
 			char *szProto = GetContactProto(hContact);

@@ -228,7 +228,7 @@ void GaduProto::parsecontacts(char *contacts)
 			if (hContact && strGroup) {
 				ptrW tszGrpName(mir_a2u(strGroup));
 				Clist_GroupCreate(0, tszGrpName);
-				db_set_ws(hContact, "CList", "Group", tszGrpName);
+				Clist_SetGroup(hContact, tszGrpName);
 			}
 
 			// Write misc data

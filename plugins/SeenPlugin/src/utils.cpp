@@ -272,11 +272,13 @@ wchar_t* ParseString(wchar_t *szstring, MCONTACT hcontact)
 			goto LBL_noData;
 
 		case 'G':
-			if (!db_get_ws(hcontact, "CList", "Group", &dbv)) {
-				wcsncpy(szdbsetting, dbv.pwszVal, _countof(szdbsetting));
-				db_free(&dbv);
-				charPtr = szdbsetting;
-				goto LBL_charPtr;
+			{
+				ptrW wszGroup(Clist_GetGroup(hcontact));
+				if (wszGroup) {
+					wcsncpy_s(szdbsetting, wszGroup, _TRUNCATE);
+					charPtr = szdbsetting;
+					goto LBL_charPtr;
+				}
 			}
 			break;
 

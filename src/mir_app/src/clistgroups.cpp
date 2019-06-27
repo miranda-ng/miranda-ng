@@ -216,17 +216,15 @@ MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup)
 	}
 
 	for (auto &hContact : Contacts()) {
-		ptrW tszGroupName(db_get_wsa(hContact, "CList", "Group"));
+		ptrW tszGroupName(Clist_GetGroup(hContact));
 		if (!tszGroupName || !isParentOf(wszOldName, tszGroupName))
 			continue;
 
-		CLISTGROUPCHANGE grpChg = { wszOldName, 0 };
-		if (!wszNewParent.IsEmpty()) {
-			db_set_ws(hContact, "CList", "Group", wszNewParent);
-			grpChg.pszNewName = wszNewParent;
-		}
-		else db_unset(hContact, "CList", "Group");
+		Clist_SetGroup(hContact, wszNewParent);
 
+		CLISTGROUPCHANGE grpChg = { wszOldName, 0 };
+		if (!wszNewParent.IsEmpty())
+			grpChg.pszNewName = wszNewParent;
 		NotifyEventHooks(hGroupChangeEvent, hContact, (LPARAM)&grpChg);
 	}
 	
@@ -350,7 +348,7 @@ static int RenameGroupWithMove(int groupId, const wchar_t *szName, int move)
 	for (auto &hContact : Contacts()) {
 		ClcCacheEntry *cache = Clist_GetCacheEntry(hContact);
 		if (!mir_wstrcmp(cache->tszGroup, oldName)) {
-			db_set_ws(hContact, "CList", "Group", szName);
+			Clist_SetGroup(hContact, szName);
 			replaceStrW(cache->tszGroup, szName);
 		}
 	}
@@ -428,6 +426,22 @@ MIR_APP_DLL(int) Clist_GroupSetFlags(MGROUP hGroup, LPARAM iNewFlags)
 	if ((oldval & GROUPF_HIDEOFFLINE) != (pGroup->groupName[0] & GROUPF_HIDEOFFLINE))
 		Clist_LoadContactTree();
 	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(wchar_t*) Clist_GetGroup(MCONTACT hContact)
+{
+	ptrW wszName(db_get_wsa(hContact, "CList", "Group"));
+	return (mir_wstrlen(wszName)) ? wszName.detach() : nullptr;
+}
+
+MIR_APP_DLL(void) Clist_SetGroup(MCONTACT hContact, const wchar_t *pwszName)
+{
+	if (mir_wstrlen(pwszName))
+		db_set_ws(hContact, "CList", "Group", pwszName);
+	else
+		db_unset(hContact, "CList", "Group");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

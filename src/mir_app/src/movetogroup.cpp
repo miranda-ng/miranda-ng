@@ -92,7 +92,7 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 		Menu_RemoveItem((HGENMENU)p);
 	lphGroupsItems.destroy();
 
-	ptrW szContactGroup(db_get_wsa(wParam, "CList", "Group"));
+	ptrW szContactGroup(Clist_GetGroup(wParam));
 
 	int pos = 1000;
 

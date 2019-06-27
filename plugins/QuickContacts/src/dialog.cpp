@@ -190,13 +190,9 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 		c_struct *contact = new c_struct();
 
 		if (opts.group_append) {
-			DBVARIANT dbv;
-			if (db_get_ws(hMeta == NULL ? hContact : hMeta, "CList", "Group", &dbv) == 0) {
-				if (dbv.pwszVal != nullptr)
-					mir_wstrncpy(contact->szgroup, dbv.pwszVal, _countof(contact->szgroup));
-
-				db_free(&dbv);
-			}
+			ptrW wszGroup(Clist_GetGroup(hMeta == NULL ? hContact : hMeta));
+			if (wszGroup)
+				wcsncpy_s(contact->szgroup, wszGroup, _TRUNCATE);
 		}
 
 		// Make contact name

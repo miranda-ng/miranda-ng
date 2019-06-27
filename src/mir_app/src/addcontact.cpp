@@ -74,7 +74,7 @@ public:
 			SetCaption(TranslateT("Add contact"));
 
 		int groupSel = 0;
-		ptrW tszGroup(db_get_wsa(m_hContact, "CList", "Group"));
+		ptrW tszGroup(Clist_GetGroup(m_hContact));
 		wchar_t *grpName;
 		for (int groupId = 1; (grpName = Clist_GroupGetName(groupId, nullptr)) != nullptr; groupId++) {
 			int id = m_group.AddString(grpName, groupId);

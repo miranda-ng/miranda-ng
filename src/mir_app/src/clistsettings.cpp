@@ -63,7 +63,7 @@ ClcCacheEntry* fnCreateCacheItem(MCONTACT hContact)
 void fnCheckCacheItem(ClcCacheEntry *p)
 {
 	if (p->tszGroup == nullptr)
-		p->tszGroup = db_get_wsa(p->hContact, "CList", "Group", L"");
+		p->tszGroup = Clist_GetGroup(p->hContact);
 
 	if (p->szProto == nullptr)
 		p->szProto = GetContactProto(p->hContact);

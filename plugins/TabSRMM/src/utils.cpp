@@ -294,7 +294,7 @@ bool CTabBaseDlg::FormatTitleBar(const wchar_t *szFormat, CMStringW &dest)
 
 		case 'g':
 			{
-				ptrW tszGroup(db_get_wsa(m_hContact, "CList", "Group"));
+				ptrW tszGroup(Clist_GetGroup(m_hContact));
 				if (tszGroup != nullptr)
 					dest.Append(tszGroup);
 			}

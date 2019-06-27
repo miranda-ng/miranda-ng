@@ -229,7 +229,7 @@ void CExportFeed::OnOk(CCtrlBase*)
 			*title = g_plugin.getWStringA(hContact, "Nick"),
 			*url = g_plugin.getWStringA(hContact, "URL"),
 			*siteurl = g_plugin.getWStringA(hContact, "Homepage"),
-			*group = db_get_wsa(hContact, "CList", "Group");
+			*group = Clist_GetGroup(hContact);
 
 		TiXmlElement *elem = xmlBody;
 		if (group) {
@@ -579,8 +579,8 @@ void CImportFeed::OnOk(CCtrlBase*)
 				}
 
 				if (!wszGroup.IsEmpty()) {
-					db_set_ws(hContact, "CList", "Group", wszGroup);
 					Clist_GroupCreate(0, wszGroup);
+					Clist_SetGroup(hContact, wszGroup);
 				}
 			}
 			mir_free(text);

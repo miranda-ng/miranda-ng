@@ -224,7 +224,7 @@ void fnAddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTo
 	int i;
 	DWORD groupFlags;
 	ClcGroup *group;
-	ptrW tszGroup(db_get_wsa(hContact, "CList", "Group"));
+	ptrW tszGroup(Clist_GetGroup(hContact));
 	if (tszGroup == nullptr)
 		group = &dat->list;
 	else {
@@ -315,7 +315,7 @@ MIR_APP_DLL(void) Clist_DeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 	if (!IsHContactContact(hItem))
 		return;
 		
-	ptrW wszGroup(db_get_wsa(hItem, "CList", "Group"));
+	ptrW wszGroup(Clist_GetGroup(hItem));
 	if (wszGroup == nullptr)
 		return;
 
@@ -369,7 +369,7 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 				continue;
 
 			ClcGroup *group;
-			ptrW tszGroupName(db_get_wsa(hContact, "CList", "Group"));
+			ptrW tszGroupName(Clist_GetGroup(hContact));
 			if (tszGroupName == nullptr)
 				group = &dat->list;
 			else {

@@ -75,14 +75,14 @@ void CDiscordProto::ProcessRole(CDiscordGuild *guild, const JSONNode &role)
 
 static void sttSetGroupName(MCONTACT hContact, const wchar_t *pwszGroupName)
 {
-	ptrW wszOldName(db_get_wsa(hContact, "CList", "Group"));
+	ptrW wszOldName(Clist_GetGroup(hContact));
 	if (wszOldName != nullptr) {
 		ptrW wszChatGroup(Chat_GetGroup());
 		if (mir_wstrcmpi(wszOldName, wszChatGroup))
 			return; // custom group, don't touch it
 	}
 
-	db_set_ws(hContact, "CList", "Group", pwszGroupName);
+	Clist_SetGroup(hContact, pwszGroupName);
 }
 
 void CDiscordProto::BatchChatCreate(void *param)

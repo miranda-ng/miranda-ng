@@ -165,7 +165,7 @@ CDiscordUser* CDiscordProto::PrepareUser(const JSONNode &user)
 		MCONTACT hContact = db_add_contact();
 		Proto_AddToContact(hContact, m_szModuleName);
 
-		db_set_ws(hContact, "CList", "Group", m_wszDefaultGroup);
+		Clist_SetGroup(hContact, m_wszDefaultGroup);
 		setId(hContact, DB_KEY_ID, id);
 		setWString(hContact, DB_KEY_NICK, username);
 		setDword(hContact, DB_KEY_DISCR, iDiscriminator);

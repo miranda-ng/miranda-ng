@@ -441,15 +441,8 @@ tstring CAppletManager::GetContactDisplayname(MCONTACT hContact, bool bShortened
 //************************************************************************
 tstring CAppletManager::GetContactGroup(MCONTACT hContact)
 {
-	DBVARIANT dbv;
-	int res = db_get_ws(hContact, "CList", "Group", &dbv);
-
-	tstring strGroup = L"";
-	if (!res)
-		strGroup = dbv.pwszVal;
-
-	db_free(&dbv);
-	return strGroup;
+	ptrW wszGroup(Clist_GetGroup(hContact));
+	return (wszGroup) ? wszGroup : L"";
 }
 
 //************************************************************************
@@ -1654,11 +1647,10 @@ int CAppletManager::HookSettingChanged(WPARAM hContact, LPARAM lParam)
 		}
 		else if (!strcmp(dbcws->szSetting, "Group")) {
 			Event.eType = EVENT_CONTACT_GROUP;
-			DBVARIANT dbv;
-			int res = db_get_ws(hContact, "CList", "Group", &dbv);
-			if (!res)
-				Event.strValue = dbv.pwszVal;
-			db_free(&dbv);
+
+			ptrW wszGroup(Clist_GetGroup(hContact));
+			if (wszGroup)
+				Event.strValue = wszGroup;
 		}
 		else return 0;
 	}

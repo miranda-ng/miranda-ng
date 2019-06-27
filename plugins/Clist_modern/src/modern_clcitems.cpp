@@ -446,10 +446,10 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat)
 		}
 
 		if (g_CluiData.bFilterEffective & CLVM_FILTER_GROUPS) {
-			ptrW tszGroup(g_plugin.getWStringA(hContact, "Group"));
+			ptrW tszGroup(Clist_GetGroup(hContact));
 			if (tszGroup != nullptr) {
 				wchar_t szGroupMask[256];
-				mir_snwprintf(szGroupMask, L"%s|", tszGroup);
+				mir_snwprintf(szGroupMask, L"%s|", tszGroup.get());
 				filterResult = (g_CluiData.filterFlags & CLVM_PROTOGROUP_OP) ? (filterResult | (wcsstr(g_CluiData.groupFilter, szGroupMask) ? 1 : 0)) : (filterResult & (wcsstr(g_CluiData.groupFilter, szGroupMask) ? 1 : 0));
 			}
 			else if (g_CluiData.filterFlags & CLVM_INCLUDED_UNGROUPED)

@@ -46,7 +46,7 @@ int OnDbEventAdded(WPARAM hContact, LPARAM hDbEvent)
 				if (gbHideContacts)
 					db_set_b(hcntct, "CList", "Hidden", 1);
 				if (gbSpecialGroup)
-					db_set_ws(hcntct, "CList", "Group", gbSpammersGroup.c_str());
+					Clist_SetGroup(hcntct, gbSpammersGroup.c_str());
 				BYTE msg = 1;
 				if (gbIgnoreURL) {
 					wchar_t* EventText = ReqGetText(&dbei); //else return NULL
@@ -183,7 +183,7 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 					CallProtoService(dbei->szModule, "/GrantAuth", hContact, 0);
 				// add contact to server list and local group
 				if (gbAutoAddToServerList) {
-					db_set_ws(hContact, "CList", "Group", gbAutoAuthGroup.c_str());
+					Clist_SetGroup(hContact, gbAutoAuthGroup.c_str());
 					db_unset(hContact, "CList", "NotOnList");
 				}
 				
@@ -272,7 +272,7 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 	if (gbHideContacts)
 		db_set_b(hContact, "CList", "Hidden", 1);
 	if (gbSpecialGroup)
-		db_set_ws(hContact, "CList", "Group", gbSpammersGroup.c_str());
+		Clist_SetGroup(hContact, gbSpammersGroup.c_str());
 	db_set_b(hContact, "CList", "NotOnList", 1);
 
 	// save first message from contact

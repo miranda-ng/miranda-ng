@@ -141,7 +141,7 @@ void __cdecl CJabberProto::OnAddContactForever(MCONTACT hContact)
 	if (nick == nullptr)
 		return;
 
-	AddContactToRoster(jid, nick, ptrA(db_get_utfa(hContact, "CList", "Group")));
+	AddContactToRoster(jid, nick, T2Utf(ptrW(Clist_GetGroup(hContact))));
 
 	XmlNode xPresence("presence"); xPresence << XATTR("to", jid) << XATTR("type", "subscribe");
 	ptrA myNick(getUStringA(0, "Nick"));

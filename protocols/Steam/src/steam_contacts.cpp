@@ -362,8 +362,7 @@ MCONTACT CSteamProto::AddContact(const char *steamId, const wchar_t *nick, bool 
 	//setByte(hContact, "Grant", 1);
 
 	// move to default group
-	if (m_defaultGroup)
-		db_set_ws(hContact, "CList", "Group", m_defaultGroup);
+	Clist_SetGroup(hContact, m_defaultGroup);
 
 	return hContact;
 }
