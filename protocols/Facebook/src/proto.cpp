@@ -70,8 +70,6 @@ FacebookProto::FacebookProto(const char *proto_name, const wchar_t *username) :
 
 FacebookProto::~FacebookProto()
 {
-	deflateEnd(&zStreamOut);
-	inflateEnd(&zStreamIn);
 }
 
 void FacebookProto::OnModulesLoaded()

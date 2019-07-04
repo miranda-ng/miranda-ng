@@ -20,6 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#define FACEBOOK_ORCA_AGENT "[FBAN/Orca-Android;FBAV/192.0.0.31.101;FBPN/com.facebook.orca;FBLC/en_US;FBBV/52182662]"
+
 #define FB_THRIFT_TYPE_STOP   0
 #define FB_THRIFT_TYPE_VOID   1
 #define FB_THRIFT_TYPE_BOOL   2

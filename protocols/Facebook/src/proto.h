@@ -72,7 +72,6 @@ class FacebookProto : public PROTO<FacebookProto>
 	void MqttOpen();
 
 	HNETLIBCONN m_mqttConn;
-	z_stream zStreamIn, zStreamOut;
 
 	// internal data
 	CMStringA m_szDeviceID; // stored, GUID that identifies this miranda's account
@@ -82,7 +81,6 @@ class FacebookProto : public PROTO<FacebookProto>
 	
 	bool      m_invisible;
 	bool      m_bOnline;
-	bool      m_zlibAvailable;
 
 	CMStringA m_szAuthToken; // calculated 
 

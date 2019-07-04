@@ -165,13 +165,6 @@ bool FacebookProto::MqttConnect()
 		return false;
 	}
 
-	memset(&zStreamIn, 0, sizeof(zStreamOut));
-	memset(&zStreamOut, 0, sizeof(zStreamOut));
-
-	if (deflateInit(&zStreamOut, Z_BEST_COMPRESSION) == Z_OK)
-		if (inflateInit(&zStreamIn) == Z_OK)
-			m_zlibAvailable = true;
-
 	return true;
 }
 
@@ -189,7 +182,7 @@ void FacebookProto::MqttOpen()
 	thrift.writeInt64(m_uid);
 
 	thrift.writeField(FB_THRIFT_TYPE_STRING); // User agent
-	thrift << NETLIB_USER_AGENT;
+	thrift << FACEBOOK_ORCA_AGENT;
 
 	thrift.writeField(FB_THRIFT_TYPE_I64);
 	thrift.writeInt64(23);
@@ -223,30 +216,25 @@ void FacebookProto::MqttOpen()
 	fwrite(thrift.data(), 1, thrift.size(), out);
 	fclose(out);
 
-	BYTE *pData;
-	size_t dataSize;
-	if (m_zlibAvailable) {
-		dataSize = thrift.size() + 100;
-		pData = (BYTE *)mir_alloc(dataSize);
+	size_t dataSize = thrift.size() + 100;
+	BYTE *pData = (BYTE *)mir_alloc(dataSize);
 
-		zStreamOut.avail_in = (unsigned)thrift.size();
-		zStreamOut.next_in = (BYTE *)thrift.data();
-		zStreamOut.avail_out = (unsigned)dataSize;
-		zStreamOut.next_out = (BYTE *)pData;
+	z_stream zStreamOut = {};
+	deflateInit(&zStreamOut, Z_BEST_COMPRESSION);
+	zStreamOut.avail_in = (unsigned)thrift.size();
+	zStreamOut.next_in = (BYTE *)thrift.data();
+	zStreamOut.avail_out = (unsigned)dataSize;
+	zStreamOut.next_out = (BYTE *)pData;
 
-		switch (deflate(&zStreamOut, Z_SYNC_FLUSH)) {
-		case Z_OK:         debugLogA("Deflate: Z_OK");         break;
-		case Z_BUF_ERROR:  debugLogA("Deflate: Z_BUF_ERROR");  break;
-		case Z_DATA_ERROR: debugLogA("Deflate: Z_DATA_ERROR"); break;
-		case Z_MEM_ERROR:  debugLogA("Deflate: Z_MEM_ERROR");  break;
-		}
-
-		dataSize = dataSize - zStreamOut.avail_out;
+	switch (deflate(&zStreamOut, Z_SYNC_FLUSH)) {
+	case Z_OK:         debugLogA("Deflate: Z_OK");         break;
+	case Z_BUF_ERROR:  debugLogA("Deflate: Z_BUF_ERROR");  break;
+	case Z_DATA_ERROR: debugLogA("Deflate: Z_DATA_ERROR"); break;
+	case Z_MEM_ERROR:  debugLogA("Deflate: Z_MEM_ERROR");  break;
 	}
-	else {
-		dataSize = thrift.size();
-		pData = (BYTE *)thrift.data();
-	}
+
+	deflateEnd(&zStreamOut);
+	dataSize = dataSize - zStreamOut.avail_out;
 
 	uint8_t protocolVersion = 3;
 	uint8_t flags = FB_MQTT_CONNECT_FLAG_USER | FB_MQTT_CONNECT_FLAG_PASS | FB_MQTT_CONNECT_FLAG_CLR | FB_MQTT_CONNECT_FLAG_QOS1;
