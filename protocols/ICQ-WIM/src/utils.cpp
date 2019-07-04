@@ -311,6 +311,15 @@ void CIcqProto::setId(MCONTACT hContact, const char *szSetting, __int64 iValue)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void parseGroup(CMStringW &wszGroup)
+{
+	wszGroup.Replace(L">", L"\\");
+	if (wszGroup[0] == '\\')
+		wszGroup.Delete(0, 1);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 char* time2text(time_t time)
 {
 	if (time == 0)
@@ -318,9 +327,10 @@ char* time2text(time_t time)
 
 	tm *local = localtime(&time);
 	if (local) {
-		char *str = asctime(local);
-		str[24] = '\0'; // remove new line
-		return str;
+		if (char *str = asctime(local)) {
+			str[24] = '\0'; // remove new line
+			return str;
+		}
 	}
 
 	return "<invalid>";

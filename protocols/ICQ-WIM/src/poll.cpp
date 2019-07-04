@@ -27,7 +27,7 @@ void CIcqProto::ProcessBuddyList(const JSONNode &ev)
 
 	for (auto &it : ev["groups"]) {
 		CMStringW szGroup = it["name"].as_mstring();
-		szGroup.Replace(L">", L"\\");
+		parseGroup(szGroup);
 		bool bCreated = false;
 
 		for (auto &buddy : it["buddies"]) {
@@ -71,7 +71,7 @@ void CIcqProto::ProcessDiff(const JSONNode &ev)
 
 		for (auto &it : block["data"]) {
 			CMStringW szGroup = it["name"].as_mstring();
-			szGroup.Replace(L">", L"\\");
+			parseGroup(szGroup);
 			bool bCreated = false;
 
 			for (auto &buddy : it["buddies"]) {
