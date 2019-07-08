@@ -2412,9 +2412,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (lParam == 1) {
 			GetSendFormat();
 			SetDialogToType();
-		}
-
-		if (lParam == 1) {
 			DM_RecalcPictureSize();
 			Resize();
 			DM_ScrollToBottom(0, 1);

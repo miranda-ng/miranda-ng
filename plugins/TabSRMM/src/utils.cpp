@@ -441,9 +441,6 @@ LRESULT CALLBACK Utils::PopupDlgProcError(HWND hWnd, UINT message, WPARAM wParam
 
 	switch (message) {
 	case WM_COMMAND:
-		PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_HANDLECLISTEVENT, hContact, 0);
-		PUDeletePopup(hWnd);
-		break;
 	case WM_CONTEXTMENU:
 		PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_HANDLECLISTEVENT, hContact, 0);
 		PUDeletePopup(hWnd);
