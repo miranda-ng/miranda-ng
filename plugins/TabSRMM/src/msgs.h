@@ -555,6 +555,8 @@ public:
 	void onClick_Filter(CCtrlButton*);
 	void onClick_ShowNickList(CCtrlButton*);
 
+	void onDblClick_List(CCtrlListBox*);
+
 	void onChange_Message(CCtrlEdit*);
 
 	void UpdateWindowState(UINT msg);

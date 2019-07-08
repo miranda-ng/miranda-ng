@@ -398,13 +398,13 @@ LBL_SkipEnd:
 		end++;
 
 	if (pszText[start] == '#')
-		isRoom = TRUE;
+		isRoom = true;
 	else {
 		int topicStart = start;
 		while (topicStart > 0 && (pszText[topicStart - 1] == ' ' || pszText[topicStart - 1] == 13 || pszText[topicStart - 1] == VK_TAB))
 			topicStart--;
 		if (topicStart > 5 && wcsstr(&pszText[topicStart - 6], L"/topic") == &pszText[topicStart - 6])
-			isTopic = TRUE;
+			isTopic = true;
 	}
 	if (m_wszSearchQuery == nullptr) {
 		m_wszSearchQuery = mir_wstrndup(pszText + start, end - start);
@@ -469,7 +469,9 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si)
 	m_btnOk.OnClick = Callback(this, &CChatRoomDlg::onClick_OK);
 	m_btnFilter.OnClick = Callback(this, &CChatRoomDlg::onClick_Filter);
 	m_btnNickList.OnClick = Callback(this, &CChatRoomDlg::onClick_ShowNickList);
-	
+
+	m_nickList.OnDblClick = Callback(this, &CChatRoomDlg::onDblClick_List);
+
 	m_message.OnChange = Callback(this, &CChatRoomDlg::onChange_Message);
 }
 
@@ -714,6 +716,33 @@ void CChatRoomDlg::onChange_Message(CCtrlEdit*)
 				DM_NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
 		}
 	}
+}
+
+void CChatRoomDlg::onDblClick_List(CCtrlListBox *pList)
+{
+	TVHITTESTINFO hti;
+	hti.pt.x = (short)LOWORD(GetMessagePos());
+	hti.pt.y = (short)HIWORD(GetMessagePos());
+	ScreenToClient(pList->GetHwnd(), &hti.pt);
+
+	int item = LOWORD(pList->SendMsg(LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y)));
+	USERINFO *ui = g_chatApi.UM_FindUserFromIndex(m_si, item);
+	if (ui == nullptr)
+		return;
+
+	bool bShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
+	if (g_Settings.bDoubleClick4Privat ? bShift : !bShift) {
+		int selStart = LOWORD(m_message.SendMsg(EM_GETSEL, 0, 0));
+		CMStringW tszName(ui->pszNick);
+		if (selStart == 0)
+			tszName.AppendChar(g_Settings.bUseCommaAsColon ? ',' : ':');
+		tszName.AppendChar(' ');
+
+		m_message.SendMsg(EM_REPLACESEL, FALSE, (LPARAM)tszName.GetString());
+		PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
+		SetFocus(m_message.GetHwnd());
+	}
+	else Chat_DoEventHook(m_si, GC_USER_PRIVMESS, ui, nullptr, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
