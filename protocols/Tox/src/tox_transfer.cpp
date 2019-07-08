@@ -350,9 +350,11 @@ int CToxProto::CancelTransfer(MCONTACT, HANDLE hTransfer)
 {
 	FileTransferParam *transfer = (FileTransferParam*)hTransfer;
 	debugLogA(__FUNCTION__": transfer (%d) is canceled", transfer->fileNumber);
-	tox_file_control(m_tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, nullptr);
-	transfers.Remove(transfer);
 
+	if (IsOnline())
+		tox_file_control(m_tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, nullptr);
+
+	transfers.Remove(transfer);
 	return 0;
 }
 
