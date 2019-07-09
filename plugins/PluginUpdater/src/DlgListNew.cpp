@@ -392,7 +392,7 @@ static void GetList(void *)
 
 	for (auto &it : hashes) {
 		wchar_t tszPath[MAX_PATH];
-		mir_snwprintf(tszPath, L"%s\\%s", dirname, it->m_name);
+		mir_snwprintf(tszPath, L"%s\\%s", dirname.get(), it->m_name);
 
 		if (GetFileAttributes(tszPath) == INVALID_FILE_ATTRIBUTES) {
 			FILEINFO *FileInfo = ServerEntryToFileInfo(*it, baseUrl, tszPath);
@@ -474,7 +474,7 @@ static INT_PTR ParseUriService(WPARAM, LPARAM lParam)
 
 	VARSW dirName(L"%miranda_path%");
 	wchar_t tszPath[MAX_PATH];
-	mir_snwprintf(tszPath, L"%s\\%s", dirName, hash->m_name);
+	mir_snwprintf(tszPath, L"%s\\%s", dirName.get(), hash->m_name);
 	FILEINFO *fileInfo = ServerEntryToFileInfo(*hash, baseUrl, tszPath);
 
 	FILELIST *fileList = new FILELIST(1);
