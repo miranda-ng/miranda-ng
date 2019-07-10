@@ -142,8 +142,6 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 	else if (isPluginOnWhiteList(fd->cFileName)) {
 		if (!dat->bRequiresRestart)
 			dat->bWasChecked = true;
-		if (hInst)
-			pCtrl->SetItemState(dat->iRow, 0x2000, LVIS_STATEIMAGEMASK);
 	}
 
 	if (dat->iRow != -1) {
@@ -310,15 +308,20 @@ public:
 
 		m_plugList.SetExtendedListViewStyleEx(0, LVS_EX_SUBITEMIMAGES | LVS_EX_CHECKBOXES | LVS_EX_LABELTIP | LVS_EX_FULLROWSELECT);
 
-		// scan the plugin dir for plugins, cos
+		// scan the plugin dir for plugins
 		arPluginList.destroy();
 		m_szFilter.Empty();
 		enumPlugins(dialogListPlugins, (WPARAM)m_hwnd, (LPARAM)&m_plugList);
 
+		// some plugins could be just loaded by Plugin Updater, load them first
 		for (auto &it : arPluginList)
 			if (!it->bWasLoaded && it->bWasChecked && !it->hInst)
-				if (LoadPluginDynamically(it))
-					m_plugList.SetItemState(it->iRow, 0x2000, LVIS_STATEIMAGEMASK);
+				LoadPluginDynamically(it);
+
+		// set checkboxes for all loaded plugins
+		for (auto &it : arPluginList)
+			if (isPluginOnWhiteList(it->fileName) && it->hInst)
+				m_plugList.SetItemState(it->iRow, 0x2000, LVIS_STATEIMAGEMASK);
 
 		// sort out the headers
 		m_plugList.SetColumnWidth(0, LVSCW_AUTOSIZE); // dll name
