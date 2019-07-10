@@ -58,9 +58,6 @@ extern MUUID miid_last;
 
 int PluginOptionsInit(WPARAM, LPARAM);
 
-void LoadPluginOptions();
-void UnloadPluginOptions();
-
 int isPluginOnWhiteList(const wchar_t *pluginname);
 void SetPluginOnWhiteList(const wchar_t *pluginname, int allow);
 

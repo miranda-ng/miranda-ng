@@ -33,6 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 bool g_bReadyToInitClist = false;
 
 void LoadExtraIconsModule();
+void freePluginInstance(HINSTANCE hInst);
 
 static int sttComparePluginsByName(const pluginEntry *p1, const pluginEntry *p2)
 {
@@ -52,9 +53,10 @@ MUUID miid_last = MIID_LAST;
 
 #define MAX_MIR_VER ULONG_MAX
 
-static BOOL bModuleInitialized = FALSE;
+static bool bModuleInitialized = FALSE;
+HANDLE hevLoadModule, hevUnloadModule;
 
-wchar_t  mirandabootini[MAX_PATH];
+wchar_t mirandabootini[MAX_PATH];
 static int askAboutIgnoredPlugins;
 
 pluginEntry *plugin_crshdmp, *plugin_service, *plugin_ssl, *plugin_clist;
@@ -283,6 +285,8 @@ bool Plugin_UnloadDyn(pluginEntry *p)
 			KillModuleEventHooks(hInst);
 			KillModuleServices(hInst);
 		}
+
+		freePluginInstance(ppb->getInst());
 
 		NotifyFastHook(hevUnloadModule, (WPARAM)&ppb->getInfo(), (LPARAM)ppb->getInst());
 	}
@@ -747,10 +751,11 @@ static BOOL scanPluginsDir(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM)
 
 int LoadNewPluginsModuleInfos(void)
 {
-	bModuleInitialized = TRUE;
+	bModuleInitialized = true;
 	DeleteFile(L"mir_core.dll");
 
-	LoadPluginOptions();
+	hevLoadModule = CreateHookableEvent(ME_SYSTEM_MODULELOAD);
+	hevUnloadModule = CreateHookableEvent(ME_SYSTEM_MODULEUNLOAD);
 
 	// remember where the mirandaboot.ini lays
 	PathToAbsoluteW(L"mirandaboot.ini", mirandabootini);
@@ -787,7 +792,8 @@ void UnloadNewPluginsModule(void)
 	if (!bModuleInitialized)
 		return;
 
-	UnloadPluginOptions();
+	DestroyHookableEvent(hevLoadModule);
+	DestroyHookableEvent(hevUnloadModule);
 
 	// unload everything but the DB
 	for (auto &it : pluginList.rev_iter())

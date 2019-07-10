@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "chat.h"
 #include "plugins.h"
 
-HANDLE hevLoadModule, hevUnloadModule;
+extern HANDLE hevLoadModule;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //   Plugins options page dialog
@@ -54,7 +54,25 @@ struct PluginListItemData
 	}
 };
 
-static wchar_t* sttUtf8auto(const char *src)
+static int sttSortPlugins(const PluginListItemData *p1, const PluginListItemData *p2)
+{
+	return mir_wstrcmp(p1->fileName, p2->fileName);
+}
+
+static LIST<PluginListItemData> arPluginList(10, sttSortPlugins);
+
+void freePluginInstance(HINSTANCE hInst)
+{
+	for (auto &it : arPluginList)
+		if (it->hInst == hInst) {
+			it->hInst = nullptr;
+			break;
+		}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static wchar_t *sttUtf8auto(const char *src)
 {
 	if (src == nullptr)
 		return mir_wstrdup(L"");
@@ -63,13 +81,6 @@ static wchar_t* sttUtf8auto(const char *src)
 	wchar_t *pwszRes;
 	return (mir_utf8decode(p, &pwszRes) != nullptr) ? pwszRes : mir_a2u_cp(src, 1250);
 }
-
-static int sttSortPlugins(const PluginListItemData *p1, const PluginListItemData *p2)
-{
-	return mir_wstrcmp(p1->fileName, p2->fileName);
-}
-
-static LIST<PluginListItemData> arPluginList(10, sttSortPlugins);
 
 static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM lParam)
 {
@@ -540,16 +551,4 @@ int PluginOptionsInit(WPARAM wParam, LPARAM)
 	odp.flags = ODPF_BOLDGROUPS;
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
-}
-
-void LoadPluginOptions()
-{
-	hevLoadModule = CreateHookableEvent(ME_SYSTEM_MODULELOAD);
-	hevUnloadModule = CreateHookableEvent(ME_SYSTEM_MODULEUNLOAD);
-}
-
-void UnloadPluginOptions()
-{
-	DestroyHookableEvent(hevLoadModule);
-	DestroyHookableEvent(hevUnloadModule);
 }
