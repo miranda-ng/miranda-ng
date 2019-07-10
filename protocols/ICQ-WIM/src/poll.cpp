@@ -38,7 +38,7 @@ void CIcqProto::ProcessBuddyList(const JSONNode &ev)
 			setWString(hContact, "IcqGroup", szGroup);
 
 			ptrW mirGroup(Clist_GetGroup(hContact));
-			if (mirGroup != szGroup)
+			if (mir_wstrcmp(mirGroup, szGroup))
 				bEnableMenu = true;
 
 			if (mirGroup) {
