@@ -67,6 +67,7 @@ void CContactCache::initPhaseTwo()
 
 	m_isValid = (cc->szProto != nullptr && m_szAccount != nullptr) ? true : false;
 	if (m_isValid) {
+		m_iStatus = db_get_w(m_hContact, cc->szProto, "Status", ID_STATUS_OFFLINE);
 		m_isMeta = db_mc_isMeta(cc->contactID) != 0; // don't use cc->IsMeta() here
 		if (m_isMeta)
 			updateMeta();
