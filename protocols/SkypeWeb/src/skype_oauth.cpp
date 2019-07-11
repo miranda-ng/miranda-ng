@@ -30,7 +30,7 @@ void CSkypeProto::OnOAuthStart(const NETLIBHTTPREQUEST *response)
 	std::map<std::string, std::string> scookies;
 	std::string content = response->pData;
 
-	regex = "<input type=\"hidden\" name=\"PPFT\" id=\"i0327\" value=\"(.+?)\"/>";
+	regex = "<input.+?type=\"hidden\".+?name=\"PPFT\".+?id=\"i0327\".+?value=\"(.+?)\".*?/>";
 
 	if (!std::regex_search(content, match, regex)) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
@@ -66,8 +66,8 @@ void CSkypeProto::OnOAuthAuthorize(const NETLIBHTTPREQUEST *response)
 
 	std::string content = response->pData;
 	std::smatch match;
-	if (!std::regex_search(content, match, std::regex("<input type=\"hidden\" name=\"t\" id=\"t\" value=\"(.+?)\">"))) {
-		if (!std::regex_search(content, match, std::regex("<input type=\"hidden\" name=\"ipt\" id=\"ipt\" value=\"(.+?)\">"))) {
+	if (!std::regex_search(content, match, std::regex("<input.+?type=\"hidden\".+?name=\"t\".+?id=\"t\".+?value=\"(.+?)\".*?>"))) {
+		if (!std::regex_search(content, match, std::regex("<input.+?type=\"hidden\".+?name=\"ipt\".+?id=\"ipt\".+?value=\"(.+?)\".*?>"))) {
 			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 			SetStatus(ID_STATUS_OFFLINE);
 			return;
@@ -90,7 +90,7 @@ void CSkypeProto::OnOAuthEnd(const NETLIBHTTPREQUEST *response)
 	std::smatch match;
 	std::string content = response->pData;
 
-	regex = "<input type=\"hidden\" name=\"skypetoken\" value=\"(.+?)\"/>";
+	regex = "<input.+?type=\"hidden\".+?name=\"skypetoken\".+?value=\"(.+?)\".*?/>";
 	if (!std::regex_search(content, match, regex)) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
@@ -98,7 +98,7 @@ void CSkypeProto::OnOAuthEnd(const NETLIBHTTPREQUEST *response)
 	}
 	std::string token = match[1];
 	setString("TokenSecret", token.c_str());
-	regex = "<input type=\"hidden\" name=\"expires_in\" value=\"(.+?)\"/>";
+	regex = "<input.+?type=\"hidden\".+?name=\"expires_in\".+?value=\"(.+?)\".*?/>";
 
 	if (std::regex_search(content, match, regex)) {
 		std::string expiresIn = match[1];
