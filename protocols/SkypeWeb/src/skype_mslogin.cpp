@@ -30,7 +30,7 @@ void CSkypeProto::OnMSLoginFirst(const NETLIBHTTPREQUEST *response)
 	std::map<std::string, std::string> scookies;
 	std::string content = response->pData;
 
-	regex = "<input type=\"hidden\" name=\"PPFT\" id=\"i0327\" value=\"(.+?)\"/>";
+	regex = "<input.+?type=\"hidden\".+?name=\"PPFT\".+?id=\"i0327\".+?value=\"(.+?)\".*?/>";
 
 	if (!std::regex_search(content, match, regex)) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
@@ -67,7 +67,7 @@ void CSkypeProto::OnMSLoginSecond(const NETLIBHTTPREQUEST *response)
 	std::string content = response->pData;
 	ptrA szContent(response->pData);
 
-	regex = "<meta name=\"PageID\" content=\"(.+?)\"/>";
+	regex = "<meta.+?name=\"PageID\".+?content=\"(.+?)\".*?/>";
 	if (std::regex_search(content, match, regex)) {
 		if (match[1] == "i5600") {
 			CMStringA szCookies;
@@ -93,7 +93,7 @@ void CSkypeProto::OnMSLoginSecond(const NETLIBHTTPREQUEST *response)
 		}
 	}
 
-	regex = "<input type=\"hidden\" name=\"t\" id=\"t\" value=\"(.+?)\">";
+	regex = "<input.+?type=\"hidden\".+?name=\"t\".+?id=\"t\".+?value=\"(.+?)\".*?>";
 	if (!std::regex_search(content, match, regex)) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
@@ -116,7 +116,7 @@ void CSkypeProto::OnMSLoginThird(const NETLIBHTTPREQUEST *response)
 	std::smatch match;
 	std::string content = response->pData;
 
-	regex = "<input type=\"hidden\" name=\"t\" value=\"(.+?)\"/>";
+	regex = "<input.+?type=\"hidden\".+?name=\"t\".+?value=\"(.+?)\".*?/>";
 
 	if (!std::regex_search(content, match, regex)) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
@@ -140,7 +140,7 @@ void CSkypeProto::OnMSLoginEnd(const NETLIBHTTPREQUEST *response)
 	std::smatch match;
 	std::string content = response->pData;
 
-	regex = "<input type=\"hidden\" name=\"skypetoken\" value=\"(.+?)\"/>";
+	regex = "<input.+?type=\"hidden\".+?name=\"skypetoken\".+?value=\"(.+?)\".*?/>";
 	if (!std::regex_search(content, match, regex)) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
@@ -148,7 +148,7 @@ void CSkypeProto::OnMSLoginEnd(const NETLIBHTTPREQUEST *response)
 	}
 	std::string token = match[1];
 	setString("TokenSecret", token.c_str());
-	regex = "<input type=\"hidden\" name=\"expires_in\" value=\"(.+?)\"/>";
+	regex = "<input.+?type=\"hidden\".+?name=\"expires_in\".+?value=\"(.+?)\".*?/>";
 
 	if (std::regex_search(content, match, regex)) {
 		std::string expiresIn = match[1];
