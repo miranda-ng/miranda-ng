@@ -308,13 +308,13 @@ MIR_APP_DLL(void) ExtraIcon_SetAll(MCONTACT hContact)
 ///////////////////////////////////////////////////////////////////////////////
 // external functions
 
-static void EI_PostCreate(BaseExtraIcon *extra, const char *name, int flags)
+static void EI_PostCreate(BaseExtraIcon *extra, int flags)
 {
 	char setting[512];
-	mir_snprintf(setting, "Position_%s", name);
+	mir_snprintf(setting, "Position_%s", extra->getName());
 	extra->setPosition(db_get_w(0, EI_MODULE_NAME, setting, 1000));
 
-	mir_snprintf(setting, "Slot_%s", name);
+	mir_snprintf(setting, "Slot_%s", extra->getName());
 	int slot = db_get_w(0, EI_MODULE_NAME, setting, -100);
 	if (slot == EMPTY_EXTRA_ICON)
 		slot = -1;
@@ -368,7 +368,7 @@ EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterCallback(const char *name, const 
 
 	BaseExtraIcon *extra = new CallbackExtraIcon(name, tszDesc, descIcon, RebuildIcons, ApplyIcon, OnClick, onClickParam);
 	extra->m_pPlugin = &GetPluginByInstance(GetInstByAddress(RebuildIcons));
-	EI_PostCreate(extra, name, flags);
+	EI_PostCreate(extra, flags);
 	return extra;
 }
 
@@ -401,7 +401,7 @@ EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterIcolib(const char *name, const ch
 	else {
 		extra = new IcolibExtraIcon(name, tszDesc, descIcon, OnClick, onClickParam);
 		extra->m_pPlugin = &GetPluginByInstance(GetInstByAddress((void*)name));
-		EI_PostCreate(extra, name, flags);
+		EI_PostCreate(extra, flags);
 	}
 	
 	return extra;
