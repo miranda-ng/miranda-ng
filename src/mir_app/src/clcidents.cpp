@@ -221,9 +221,11 @@ MIR_APP_DLL(HANDLE) Clist_ContactToItemHandle(ClcContact *cc, DWORD *nmFlags)
 
 MIR_APP_DLL(int) Clist_GetRealStatus(ClcContact *cc, int iDefaultValue)
 {
-	PROTOACCOUNT *pa = Proto_GetAccount(cc->pce->szProto);
-	if (pa)
-		return pa->iRealStatus;
+	if (cc->pce) {
+		PROTOACCOUNT *pa = Proto_GetAccount(cc->pce->szProto);
+		if (pa)
+			return pa->iRealStatus;
+	}
 
 	return iDefaultValue;
 }
