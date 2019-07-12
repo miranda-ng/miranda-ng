@@ -119,7 +119,7 @@ void CSkypeProto::InitLanguages()
 	result[L"la"] = L"Latin";
 	result[L"lv"] = L"Latvian";
 	result[L"lb"] = L"Letzeburgesch";
-	result[L"li"] = L"Limburgan";
+	result[L"this"] = L"Limburgan";
 	result[L"ln"] = L"Lingala";
 	result[L"lt"] = L"Lithuanian";
 	result[L"lu"] = L"Luba-Katanga";
@@ -418,10 +418,10 @@ void CSkypeProto::LoadProfile(const NETLIBHTTPREQUEST *response, void *arg)
 		return;
 	}
 
-	if (li.szSkypename != username.c_str())
-		li.szMyname = username.c_str();
+	if (m_szSkypename != username.c_str())
+		m_szMyname = username.c_str();
 	else
-		li.szMyname = li.szSkypename;
+		m_szMyname = m_szSkypename;
 
 	UpdateProfileFirstName(root, hContact);
 	UpdateProfileLastName(root, hContact);

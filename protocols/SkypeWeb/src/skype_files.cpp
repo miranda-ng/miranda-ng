@@ -26,7 +26,7 @@ void CSkypeProto::SendFileThread(void *p)
 
 	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, (HANDLE)fup);
 	T2Utf uszFileName(fup->tszFileName);
-	SendRequest(new ASMObjectCreateRequest(li, CMStringA(FORMAT, "%d:%s", isChatRoom(fup->hContact) ? 19 : 8, Contacts[fup->hContact]), strrchr((const char*)uszFileName + 1, '\\')), &CSkypeProto::OnASMObjectCreated, fup);
+	SendRequest(new ASMObjectCreateRequest(this, CMStringA(FORMAT, "%d:%s", isChatRoom(fup->hContact) ? 19 : 8, Contacts[fup->hContact]), strrchr((const char*)uszFileName + 1, '\\')), &CSkypeProto::OnASMObjectCreated, fup);
 }
 
 void CSkypeProto::OnASMObjectCreated(const NETLIBHTTPREQUEST *response, void *arg)
@@ -59,7 +59,7 @@ void CSkypeProto::OnASMObjectCreated(const NETLIBHTTPREQUEST *response, void *ar
 		}
 		fup->size = lBytes;
 		ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)fup);
-		SendRequest(new ASMObjectUploadRequest(li, strObjectId.c_str(), pData, lBytes), &CSkypeProto::OnASMObjectUploaded, fup);
+		SendRequest(new ASMObjectUploadRequest(this, strObjectId.c_str(), pData, lBytes), &CSkypeProto::OnASMObjectUploaded, fup);
 		fclose(pFile);
 	}
 }
@@ -94,7 +94,7 @@ void CSkypeProto::OnASMObjectUploaded(const NETLIBHTTPREQUEST *response, void *a
 
 	tinyxml2::XMLPrinter printer(0, true);
 	doc.Print(&printer);
-	SendRequest(new SendMessageRequest(Contacts[fup->hContact], time(NULL), printer.CStr(), li, "RichText/Media_GenericFile"));
+	SendRequest(new SendMessageRequest(Contacts[fup->hContact], time(NULL), printer.CStr(), this, "RichText/Media_GenericFile"));
 
 	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (HANDLE)fup);
 	delete fup;

@@ -44,7 +44,7 @@ LBL_Error:
 	TRouter.socketIo = socketio.as_string();
 	TRouter.url = url.as_string();
 
-	SendRequest(new CreateTrouterPoliciesRequest(li, TRouter.connId.c_str()), &CSkypeProto::OnTrouterPoliciesCreated);
+	SendRequest(new CreateTrouterPoliciesRequest(this, TRouter.connId.c_str()), &CSkypeProto::OnTrouterPoliciesCreated);
 }
 
 void CSkypeProto::OnTrouterPoliciesCreated(const NETLIBHTTPREQUEST *response)
@@ -96,7 +96,7 @@ void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response)
 	m_hTrouterHealthEvent.Set();
 
 	if ((time(0) - TRouter.lastRegistrationTime) >= 3600) {
-		SendRequest(new RegisterTrouterRequest(li, TRouter.url.c_str(), TRouter.sessId.c_str()));
+		SendRequest(new RegisterTrouterRequest(this, TRouter.url.c_str(), TRouter.sessId.c_str()));
 		TRouter.lastRegistrationTime = time(0);
 	}
 }

@@ -30,13 +30,13 @@ public:
 class CreateTrouterPoliciesRequest : public HttpRequest
 {
 public:
-	CreateTrouterPoliciesRequest(LoginInfo &li, const char *sr) :
+	CreateTrouterPoliciesRequest(CSkypeProto *ppro, const char *sr) :
 		HttpRequest(REQUEST_POST, FORMAT, "prod.tpc.skype.com/v1/policies")
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
-			<< CHAR_VALUE("X-Skypetoken", li.api.szToken);
+			<< CHAR_VALUE("X-Skypetoken", ppro->m_szApiToken);
 
 		JSONNode node;
 		node << JSONNode("sr", sr);
@@ -48,12 +48,12 @@ public:
 class RegisterTrouterRequest : public HttpRequest
 {
 public:
-	RegisterTrouterRequest(LoginInfo &li, const char *trouterUrl, const char *id) :
+	RegisterTrouterRequest(CSkypeProto *ppro, const char *trouterUrl, const char *id) :
 		HttpRequest(REQUEST_POST, "prod.registrar.skype.com/v2/registrations")
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript, text/html,application/xhtml+xml, application/xml")
-			<< CHAR_VALUE("X-Skypetoken", li.api.szToken);
+			<< CHAR_VALUE("X-Skypetoken", ppro->m_szApiToken);
 
 		JSONNode clientDescription; clientDescription.set_name("clientDescription");
 		clientDescription 

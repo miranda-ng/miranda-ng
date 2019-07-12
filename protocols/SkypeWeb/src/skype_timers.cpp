@@ -23,7 +23,7 @@ mir_cs CSkypeProto::accountsLock;
 void CSkypeProto::ProcessTimer()
 {
 	if (IsOnline()) {
-		PushRequest(new GetContactListRequest(li, nullptr), &CSkypeProto::LoadContactList);
+		PushRequest(new GetContactListRequest(this, nullptr), &CSkypeProto::LoadContactList);
 		SendPresence(false);
 	}
 }

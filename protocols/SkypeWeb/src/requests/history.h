@@ -20,8 +20,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 class SyncHistoryFirstRequest : public HttpRequest
 {
 public:
-	SyncHistoryFirstRequest(int pageSize, LoginInfo &li) :
-	  HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations", li.endpoint.szServer)
+	SyncHistoryFirstRequest(int pageSize, CSkypeProto *ppro) :
+	  HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations", ppro->m_szServer)
 	{
 		Url
 			<< INT_VALUE("startTime", 0)
@@ -31,17 +31,17 @@ public:
 
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", li.endpoint.szToken)
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset = UTF-8");
 	}
 
-	SyncHistoryFirstRequest(const char *url, LoginInfo &li) :
+	SyncHistoryFirstRequest(const char *url, CSkypeProto *ppro) :
 		HttpRequest(REQUEST_GET, url)
 	{
 
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", li.endpoint.szToken)
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset = UTF-8");
 	}
 };
@@ -49,8 +49,8 @@ public:
 class GetHistoryRequest : public HttpRequest
 {
 public:
-	GetHistoryRequest(const char *username, int pageSize, bool isChat, LONGLONG timestamp, LoginInfo &li) :
-	  HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations/%d:%s/messages", li.endpoint.szServer, isChat ? 19 : 8, mir_urlEncode(username).c_str())
+	GetHistoryRequest(const char *username, int pageSize, bool isChat, LONGLONG timestamp, CSkypeProto *ppro) :
+	  HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations/%d:%s/messages", ppro->m_szServer, isChat ? 19 : 8, mir_urlEncode(username).c_str())
 	{
 		Url
 			<< LONG_VALUE("startTime", timestamp)
@@ -60,7 +60,7 @@ public:
 
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", li.endpoint.szToken)
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset = UTF-8");
 	}
 };
@@ -68,12 +68,12 @@ public:
 class GetHistoryOnUrlRequest : public HttpRequest
 {
 public:
-	GetHistoryOnUrlRequest(const char *url, LoginInfo &li) :
+	GetHistoryOnUrlRequest(const char *url, CSkypeProto *ppro) :
 		HttpRequest(REQUEST_GET, url)
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", li.endpoint.szToken)
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset = UTF-8");
 	}
 };

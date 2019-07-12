@@ -21,13 +21,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 class SendCapabilitiesRequest : public HttpRequest
 {
 public:
-	SendCapabilitiesRequest(const char *hostname, LoginInfo &li) :
-	  HttpRequest(REQUEST_PUT, FORMAT, "%s/v1/users/ME/endpoints/%s/presenceDocs/messagingService", li.endpoint.szServer, mir_urlEncode(li.endpoint.szId).c_str())
+	SendCapabilitiesRequest(const char *hostname, CSkypeProto *ppro) :
+	  HttpRequest(REQUEST_PUT, FORMAT, "%s/v1/users/ME/endpoints/%s/presenceDocs/messagingService", ppro->m_szServer, mir_urlEncode(ppro->m_szId).c_str())
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", li.endpoint.szToken);
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken);
 
 		JSONNode privateInfo; privateInfo.set_name("privateInfo");
 		privateInfo << JSONNode("epname", hostname);

@@ -30,11 +30,11 @@ public:
 class SetAvatarRequest : public HttpRequest
 {
 public:
-	SetAvatarRequest(const PBYTE data, size_t dataSize, const char *szMime, LoginInfo &li) :
-		HttpRequest(REQUEST_PUT, FORMAT, "api.skype.com/users/%s/profile/avatar", li.szSkypename.MakeLower().c_str())
+	SetAvatarRequest(const PBYTE data, size_t dataSize, const char *szMime, CSkypeProto *ppro) :
+		HttpRequest(REQUEST_PUT, FORMAT, "api.skype.com/users/%s/profile/avatar", ppro->m_szSkypename.MakeLower().c_str())
 	{
 		Headers
-			<< CHAR_VALUE("X-Skypetoken", li.api.szToken)
+			<< CHAR_VALUE("X-Skypetoken", ppro->m_szApiToken)
 			<< CHAR_VALUE("Content-Type", szMime);
 
 		pData = (char*)mir_alloc(dataSize);

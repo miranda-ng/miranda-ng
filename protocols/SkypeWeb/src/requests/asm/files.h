@@ -3,12 +3,12 @@
 class ASMObjectCreateRequest : public HttpRequest
 {
 public:
-	ASMObjectCreateRequest(LoginInfo &li, const char *szContact, const char *szFileName) :
+	ASMObjectCreateRequest(CSkypeProto *ppro, const char *szContact, const char *szFileName) :
 		HttpRequest(REQUEST_POST, "api.asm.skype.com/v1/objects")
 	{
 		flags &= (~NLHRF_DUMPASTEXT);
 		Headers
-			<< FORMAT_VALUE("Authorization", "skype_token %s", li.api.szToken)
+			<< FORMAT_VALUE("Authorization", "skype_token %s", ppro->m_szApiToken)
 			<< CHAR_VALUE("Content-Type", "text/json");
 
 		JSONNode node, jPermissions, jPermission(JSON_ARRAY);
@@ -26,11 +26,11 @@ public:
 class ASMObjectUploadRequest : public HttpRequest
 {
 public:
-	ASMObjectUploadRequest(LoginInfo &li, const char *szObject, const PBYTE data, const size_t size) :
+	ASMObjectUploadRequest(CSkypeProto *ppro, const char *szObject, const PBYTE data, const size_t size) :
 		HttpRequest(REQUEST_PUT, FORMAT, "api.asm.skype.com/v1/objects/%s/content/original", szObject)
 	{
 		Headers
-			<< FORMAT_VALUE("Authorization", "skype_token %s", li.api.szToken)
+			<< FORMAT_VALUE("Authorization", "skype_token %s", ppro->m_szApiToken)
 			<< CHAR_VALUE("Content-Type", "application/octet-stream");
 
 		pData = (char*)mir_alloc(size);

@@ -88,7 +88,8 @@ void CSkypeGCCreateDlg::btnOk_OnOk(CCtrlButton*)
 			}
 		}
 	}
-	m_ContactsList.insert(m_proto->li.szSkypename.GetBuffer());
+	
+	m_ContactsList.insert(m_proto->m_szSkypename.GetBuffer());
 	EndDialog(m_hwnd, m_ContactsList.getCount());
 }
 

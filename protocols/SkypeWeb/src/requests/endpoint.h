@@ -21,13 +21,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 class CreateEndpointRequest : public HttpRequest
 {
 public:
-	CreateEndpointRequest(LoginInfo &li) :
-		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/endpoints", li.endpoint.szServer)
+	CreateEndpointRequest(CSkypeProto *ppro) :
+		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/endpoints", ppro->m_szServer)
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
-			<< FORMAT_VALUE("Authentication", "skypetoken=%s", li.api.szToken);
+			<< FORMAT_VALUE("Authentication", "skypetoken=%s", ppro->m_szApiToken);
 
 		Body << VALUE("{}");
 	}
@@ -36,12 +36,12 @@ public:
 class DeleteEndpointRequest : public HttpRequest
 {
 public:
-	DeleteEndpointRequest(LoginInfo &li) :
-	  HttpRequest(REQUEST_DELETE, FORMAT, "%s/v1/users/ME/endpoints/%s", li.endpoint.szServer, mir_urlEncode(li.endpoint.szId).c_str())
+	DeleteEndpointRequest(CSkypeProto *ppro) :
+	  HttpRequest(REQUEST_DELETE, FORMAT, "%s/v1/users/ME/endpoints/%s", ppro->m_szServer, mir_urlEncode(ppro->m_szId).c_str())
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", li.endpoint.szToken);
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken);
 	}
 };
 

@@ -63,35 +63,17 @@ extern HANDLE g_hCallEvent;
 
 #define SKYPE_ENDPOINTS_HOST "client-s.gateway.messenger.live.com"
 
-struct LoginInfo
-{
-	struct
-	{
-		ptrA szToken;
-	} api;
-
-	struct
-	{
-		ptrA szToken;
-		ptrA szId;
-		ptrA szServer;
-	} endpoint;
-
-	CMStringA szSkypename, szMyname;
-};
-
-
 struct TRInfo
 {
 	std::string socketIo,
-	connId,
-	st,
-	se,
-	instance,
-	ccid,
-	sessId,
-	sig,
-	url;
+		connId,
+		st,
+		se,
+		instance,
+		ccid,
+		sessId,
+		sig,
+		url;
 	time_t lastRegistrationTime;
 };
 
@@ -102,7 +84,6 @@ struct MessageId
 };
 
 
-//#include "websocket.h"
 #include "version.h"
 #include "resource.h"
 #include "skype_menus.h"
@@ -112,6 +93,7 @@ struct MessageId
 #include "skype_utils.h"
 #include "skype_db.h"
 #include "http_request.h"
+#include "skype_proto.h"
 #include "requests/login.h"
 #include "requests/profile.h"
 #include "requests/contacts.h"
@@ -130,7 +112,6 @@ struct MessageId
 #include "requests/oauth.h"
 #include "requests/asm/files.h"
 #include "request_queue.h"
-#include "skype_proto.h"
 
 void SkypeHttpResponse(const NETLIBHTTPREQUEST *response, void *arg);
 

@@ -28,7 +28,7 @@ void CSkypeProto::PollingThread(void*)
 
 		int nErrors = 0;
 
-		PollRequest *request = new PollRequest(li);
+		PollRequest *request = new PollRequest(this);
 
 		while ((nErrors < POLLING_ERRORS_LIMIT) && m_iStatus != ID_STATUS_OFFLINE) {
 			request->nlc = m_pollingConnection;

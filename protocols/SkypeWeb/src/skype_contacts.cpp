@@ -254,13 +254,13 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 			LIST<char> users(1);
 			for (; i < skypenames.getCount() && users.getCount() <= 50; i++)
 				users.insert(skypenames[i]);
-			PushRequest(new GetContactsInfoRequest(li, users), &CSkypeProto::LoadContactsInfo);
+			PushRequest(new GetContactsInfoRequest(this, users), &CSkypeProto::LoadContactsInfo);
 		} while (i < skypenames.getCount());
 
 		FreeList(skypenames);
 		skypenames.destroy();
 	}
-	PushRequest(new GetContactsAuthRequest(li), &CSkypeProto::LoadContactsAuth);
+	PushRequest(new GetContactsAuthRequest(this), &CSkypeProto::LoadContactsAuth);
 }
 
 INT_PTR CSkypeProto::OnRequestAuth(WPARAM hContact, LPARAM)
@@ -268,7 +268,7 @@ INT_PTR CSkypeProto::OnRequestAuth(WPARAM hContact, LPARAM)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	PushRequest(new AddContactRequest(li, Contacts[hContact]));
+	PushRequest(new AddContactRequest(this, Contacts[hContact]));
 	return 0;
 }
 
@@ -277,7 +277,7 @@ INT_PTR CSkypeProto::OnGrantAuth(WPARAM hContact, LPARAM)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	PushRequest(new AuthAcceptRequest(li, Contacts[hContact]));
+	PushRequest(new AuthAcceptRequest(this, Contacts[hContact]));
 	return 0;
 }
 
@@ -285,7 +285,7 @@ void CSkypeProto::OnContactDeleted(MCONTACT hContact)
 {
 	if (IsOnline())
 		if (hContact && !isChatRoom(hContact))
-			PushRequest(new DeleteContactRequest(li, Contacts[hContact]));
+			PushRequest(new DeleteContactRequest(this, Contacts[hContact]));
 }
 
 INT_PTR CSkypeProto::BlockContact(WPARAM hContact, LPARAM)
@@ -293,7 +293,7 @@ INT_PTR CSkypeProto::BlockContact(WPARAM hContact, LPARAM)
 	if (!IsOnline()) return 1;
 
 	if (IDYES == MessageBox(NULL, TranslateT("Are you sure?"), TranslateT("Warning"), MB_YESNO | MB_ICONQUESTION))
-		SendRequest(new BlockContactRequest(li, Contacts[hContact]), &CSkypeProto::OnBlockContact, (void *)hContact);
+		SendRequest(new BlockContactRequest(this, Contacts[hContact]), &CSkypeProto::OnBlockContact, (void *)hContact);
 	return 0;
 }
 
@@ -308,7 +308,7 @@ void CSkypeProto::OnBlockContact(const NETLIBHTTPREQUEST *response, void *p)
 
 INT_PTR CSkypeProto::UnblockContact(WPARAM hContact, LPARAM)
 {
-	SendRequest(new UnblockContactRequest(li, Contacts[hContact]), &CSkypeProto::OnUnblockContact, (void *)hContact);
+	SendRequest(new UnblockContactRequest(this, Contacts[hContact]), &CSkypeProto::OnUnblockContact, (void *)hContact);
 	return 0;
 }
 

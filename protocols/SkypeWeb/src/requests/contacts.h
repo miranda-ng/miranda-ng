@@ -21,8 +21,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 class GetContactListRequest : public HttpRequest
 {
 public:
-	GetContactListRequest(LoginInfo &li, const char *filter) :
-	  HttpRequest(REQUEST_GET, FORMAT, "contacts.skype.com/contacts/v1/users/%s/contacts", li.szSkypename.MakeLower().GetBuffer())
+	GetContactListRequest(CSkypeProto *ppro, const char *filter) :
+	  HttpRequest(REQUEST_GET, FORMAT, "contacts.skype.com/contacts/v1/users/%s/contacts", ppro->m_szSkypename.MakeLower().GetBuffer())
 	{
 		if (filter != NULL)
 		{
@@ -31,18 +31,18 @@ public:
 		}
 
 		Headers 
-			<< CHAR_VALUE("X-SkypeToken", li.api.szToken);
+			<< CHAR_VALUE("X-SkypeToken", ppro->m_szApiToken);
 	}
 };
 
 class GetContactsInfoRequest : public HttpRequest
 {
 public:
-	GetContactsInfoRequest(LoginInfo &li, const LIST<char> &skypenames, const char *skypename = "self") :
+	GetContactsInfoRequest(CSkypeProto *ppro, const LIST<char> &skypenames, const char *skypename = "self") :
 		HttpRequest(REQUEST_POST, FORMAT, "api.skype.com/users/%s/contacts/profiles", skypename)
 	{
 		Headers
-			<< CHAR_VALUE("X-Skypetoken", li.api.szToken)
+			<< CHAR_VALUE("X-Skypetoken", ppro->m_szApiToken)
 			<< CHAR_VALUE("Accept", "application/json");
 
 		for (auto &it : skypenames)
@@ -53,11 +53,11 @@ public:
 class GetContactsAuthRequest : public HttpRequest
 {
 public:
-	GetContactsAuthRequest(LoginInfo &li) :
+	GetContactsAuthRequest(CSkypeProto *ppro) :
 		HttpRequest(REQUEST_GET, FORMAT, "contacts.skype.com/contacts/v2/users/SELF/invites")
 	{
 		Headers
-			<< CHAR_VALUE("X-Skypetoken", li.api.szToken)
+			<< CHAR_VALUE("X-Skypetoken", ppro->m_szApiToken)
 			<< CHAR_VALUE("Accept", "application/json");
 	}
 };
@@ -65,11 +65,11 @@ public:
 class AddContactRequest : public HttpRequest
 {
 public:
-	AddContactRequest(LoginInfo &li, const char *who, const char *greeting = "") :
+	AddContactRequest(CSkypeProto *ppro, const char *who, const char *greeting = "") :
 		HttpRequest(REQUEST_PUT, "contacts.skype.com/contacts/v2/users/SELF/contacts")
 	{
 		Headers
-			<< CHAR_VALUE("X-Skypetoken", li.api.szToken)
+			<< CHAR_VALUE("X-Skypetoken", ppro->m_szApiToken)
 			<< CHAR_VALUE("Accept", "application/json")
 			<< CHAR_VALUE("Content-type", "application/x-www-form-urlencoded");
 
@@ -85,11 +85,11 @@ public:
 class DeleteContactRequest : public HttpRequest
 {
 public:
-	DeleteContactRequest(LoginInfo &li, const char *who) :
+	DeleteContactRequest(CSkypeProto *ppro, const char *who) :
 		HttpRequest(REQUEST_DELETE, FORMAT, "contacts.skype.com/contacts/v2/users/SELF/contacts/8:%s", who)
 	{
 		Headers
-			<< CHAR_VALUE("X-Skypetoken", li.api.szToken)
+			<< CHAR_VALUE("X-Skypetoken", ppro->m_szApiToken)
 			<< CHAR_VALUE("Accept", "application/json")
 			<< CHAR_VALUE("Content-type", "application/x-www-form-urlencoded");
 	}
@@ -98,11 +98,11 @@ public:
 class AuthAcceptRequest : public HttpRequest
 {
 public:
-	AuthAcceptRequest(LoginInfo &li, const char *who) :
+	AuthAcceptRequest(CSkypeProto *ppro, const char *who) :
 		HttpRequest(REQUEST_PUT, FORMAT, "contacts.skype.com/contacts/v2/users/SELF/invites/8:%s/accept", who)
 	{
 		Headers
-			<< CHAR_VALUE("X-Skypetoken", li.api.szToken)
+			<< CHAR_VALUE("X-Skypetoken", ppro->m_szApiToken)
 			<< CHAR_VALUE("Accept", "application/json");
 	}
 };
@@ -110,11 +110,11 @@ public:
 class AuthDeclineRequest : public HttpRequest
 {
 public:
-	AuthDeclineRequest(LoginInfo &li, const char *who) :
+	AuthDeclineRequest(CSkypeProto *ppro, const char *who) :
 		HttpRequest(REQUEST_PUT, FORMAT, "contacts.skype.com/contacts/v2/users/SELF/invites/8:%s/decline", who)
 	{
 		Headers
-			<< CHAR_VALUE("X-Skypetoken", li.api.szToken)
+			<< CHAR_VALUE("X-Skypetoken", ppro->m_szApiToken)
 			<< CHAR_VALUE("Accept", "application/json");
 	}
 };
@@ -122,11 +122,11 @@ public:
 class BlockContactRequest : public HttpRequest
 {
 public:
-	BlockContactRequest(LoginInfo &li, const char *who) :
+	BlockContactRequest(CSkypeProto *ppro, const char *who) :
 		HttpRequest(REQUEST_PUT, FORMAT, "contacts.skype.com/contacts/v2/users/SELF/contacts/blocklist/8:%s", who)
 	{
 		Headers
-			<< CHAR_VALUE("X-Skypetoken", li.api.szToken)
+			<< CHAR_VALUE("X-Skypetoken", ppro->m_szApiToken)
 			<< CHAR_VALUE("Accept", "application/json")
 			<< CHAR_VALUE("Content-type", "application/x-www-form-urlencoded");
 
@@ -137,11 +137,11 @@ public:
 class UnblockContactRequest : public HttpRequest
 {
 public:
-	UnblockContactRequest(LoginInfo &li, const char *who) :
+	UnblockContactRequest(CSkypeProto *ppro, const char *who) :
 		HttpRequest(REQUEST_DELETE, FORMAT, "contacts.skype.com/contacts/v2/users/SELF/contacts/blocklist/8:%s", who)
 	{
 		Headers
-			<< CHAR_VALUE("X-Skypetoken", li.api.szToken)
+			<< CHAR_VALUE("X-Skypetoken", ppro->m_szApiToken)
 			<< CHAR_VALUE("Accept", "application/json")
 			<< CHAR_VALUE("Content-type", "application/x-www-form-urlencoded");
 

@@ -27,7 +27,8 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 	m_TrouterConnection(nullptr),
 	m_pollingConnection(nullptr),
 	m_opts(this),
-	Contacts(this)
+	Contacts(this),
+	m_szServer(mir_strdup(SKYPE_ENDPOINTS_HOST))
 {
 	InitNetwork();
 
@@ -126,13 +127,13 @@ INT_PTR CSkypeProto::GetCaps(int type, MCONTACT)
 
 int CSkypeProto::SetAwayMsg(int, const wchar_t *msg)
 {
-	PushRequest(new SetStatusMsgRequest(msg ? T2Utf(msg) : "", li));
+	PushRequest(new SetStatusMsgRequest(msg ? T2Utf(msg) : "", this));
 	return 0;
 }
 
 HANDLE CSkypeProto::GetAwayMsg(MCONTACT hContact)
 {
-	PushRequest(new GetProfileRequest(li, Contacts[hContact]), [this, hContact](const NETLIBHTTPREQUEST *response) {
+	PushRequest(new GetProfileRequest(this, Contacts[hContact]), [this, hContact](const NETLIBHTTPREQUEST *response) {
 		if (!response || !response->pData)
 			return;
 
@@ -192,7 +193,7 @@ int CSkypeProto::Authorize(MEVENT hDbEvent)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	PushRequest(new AuthAcceptRequest(li, Contacts[hContact]));
+	PushRequest(new AuthAcceptRequest(this, Contacts[hContact]));
 	return 0;
 }
 
@@ -202,7 +203,7 @@ int CSkypeProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	PushRequest(new AuthDeclineRequest(li, Contacts[hContact]));
+	PushRequest(new AuthDeclineRequest(this, Contacts[hContact]));
 	return 0;
 }
 
@@ -216,7 +217,7 @@ int CSkypeProto::AuthRequest(MCONTACT hContact, const wchar_t *szMessage)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	PushRequest(new AddContactRequest(li, Contacts[hContact], T2Utf(szMessage)));
+	PushRequest(new AddContactRequest(this, Contacts[hContact], T2Utf(szMessage)));
 	return 0;
 }
 
@@ -225,7 +226,7 @@ int CSkypeProto::GetInfo(MCONTACT hContact, int)
 	if (isChatRoom(hContact))
 		return 1;
 
-	PushRequest(new GetProfileRequest(li, Contacts[hContact]), &CSkypeProto::LoadProfile, (void*)hContact);
+	PushRequest(new GetProfileRequest(this, Contacts[hContact]), &CSkypeProto::LoadProfile, (void*)hContact);
 	return 0;
 }
 
@@ -258,7 +259,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 
 	if (iNewStatus == ID_STATUS_OFFLINE) {
 		if (m_iStatus > ID_STATUS_CONNECTING + 1) {
-			SendRequest(new DeleteEndpointRequest(li));
+			SendRequest(new DeleteEndpointRequest(this));
 		}
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		// logout
@@ -279,7 +280,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 			Login();
 		}
 		else {
-			SendRequest(new SetStatusRequest(MirandaToSkypeStatus(m_iDesiredStatus), li), &CSkypeProto::OnStatusChanged);
+			SendRequest(new SetStatusRequest(MirandaToSkypeStatus(m_iDesiredStatus), this), &CSkypeProto::OnStatusChanged);
 		}
 	}
 
@@ -289,7 +290,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 
 int CSkypeProto::UserIsTyping(MCONTACT hContact, int type)
 {
-	SendRequest(new SendTypingRequest(Contacts[hContact], type, li));
+	SendRequest(new SendTypingRequest(Contacts[hContact], type, this));
 	return 0;
 }
 

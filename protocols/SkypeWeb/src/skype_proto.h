@@ -85,10 +85,10 @@ public:
 
 	CSkypeOptions m_opts;
 
+	ptrA m_szApiToken, m_szToken, m_szId, m_szServer;
+	CMStringA m_szSkypename, m_szMyname;
+
 private:
-
-	LoginInfo li;
-
 	struct contacts_list
 	{
 		CSkypeProto *m_proto;
@@ -121,7 +121,7 @@ private:
 
 	static UINT_PTR m_timer;
 
-	RequestQueue *requestQueue;
+	class RequestQueue *requestQueue;
 
 	bool m_bHistorySynced;
 
@@ -135,6 +135,7 @@ private:
 
 	LIST<void> m_PopupClasses;
 	LIST<void> m_OutMessages;
+
 	// dialogs
 	LIST<CSkypeInviteDlg> m_InviteDialogs;
 	LIST<CSkypeGCCreateDlg> m_GCCreateDialogs;
@@ -280,7 +281,6 @@ private:
 	void OnUnblockContact(const NETLIBHTTPREQUEST *response, void *p);
 
 	// messages
-
 	std::map<ULONGLONG, HANDLE> m_mpOutMessagesIds;
 
 	MEVENT GetMessageFromDb(const char *messageId);
@@ -301,8 +301,7 @@ private:
 	void OnGetServerHistory(const NETLIBHTTPREQUEST *response);
 	void OnSyncHistory(const NETLIBHTTPREQUEST *response);
 
-	//chats
-
+	// chats
 	void InitGroupChatModule();
 
 	MCONTACT FindChatRoom(const char *chatname);
@@ -328,7 +327,7 @@ private:
 
 	void SetChatStatus(MCONTACT hContact, int iStatus);
 
-	//polling
+	// polling
 	void __cdecl PollingThread     (void*);
 	void __cdecl ParsePollData     (const char*);
 	void ProcessEndpointPresence   (const JSONNode &node);
@@ -350,7 +349,7 @@ private:
 	}
 
 	__forceinline bool IsMe(const char *str)
-	{	return (!mir_strcmpi(str, li.szMyname) || !mir_strcmp(str, ptrA(getStringA("SelfEndpointName"))));
+	{	return (!mir_strcmpi(str, m_szMyname) || !mir_strcmp(str, ptrA(getStringA("SelfEndpointName"))));
 	}
 
 	MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);
