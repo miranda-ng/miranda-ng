@@ -379,7 +379,7 @@ static int db_ModulesIterator(lua_State *L)
 	LIST<char> &param = *(LIST<char>*)lua_touserdata(L, lua_upvalueindex(2));
 
 	if (i < param.getCount()) {
-		lua_pushinteger(L, (i + 1));
+		lua_pushinteger(L, i + 1);
 		lua_replace(L, lua_upvalueindex(1));
 		lua_pushstring(L, ptrA(mir_utf8encode(param[i])));
 		mir_free(param[i]);

@@ -37,7 +37,6 @@ static int lua_MessageBox(lua_State *L)
 /***********************************************/
 
 static int lua_ShellExecute(lua_State *L)
-{
 	ptrW command(mir_utf8decodeW(lua_tostring(L, 1)));
 	ptrW file(mir_utf8decodeW(lua_tostring(L, 2)));
 	ptrW args(mir_utf8decodeW(lua_tostring(L, 3)));

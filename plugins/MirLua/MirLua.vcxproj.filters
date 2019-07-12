@@ -13,13 +13,13 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Modules\*.h">
-      <Filter>Header Files\Services</Filter>
+      <Filter>Header Files\Modules</Filter>
     </ClInclude>
     <ClCompile Include="src\*.cpp;src\*.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Modules\*.cpp">
-      <Filter>Source Files\Services</Filter>
+      <Filter>Source Files\Modules</Filter>
     </ClCompile>
     <ResourceCompile Include="res\*.rc">
        <Filter>Resource Files</Filter>
