@@ -501,6 +501,14 @@ public:
 template<class P>
 OBJLIST<P> ACCPROTOPLUGIN<P>::g_arInstances(1, PtrKeySortT);
 
+#ifndef __NO_CMPLUGIN_NEEDED
+#ifdef _DEBUG
+#pragma comment(lib, "cmstubd.lib")
+#else
+#pragma comment(lib, "cmstub.lib")
+#endif
+#endif
+
 EXTERN_C MIR_APP_DLL(HINSTANCE) GetInstByAddress(void* codePtr);
 EXTERN_C MIR_APP_DLL(CMPluginBase&) GetPluginByInstance(HINSTANCE hInst);
 
