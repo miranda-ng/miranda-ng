@@ -589,7 +589,6 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			{
 				char *szProto = GetContactProto(hContact);
 				db_unset(hContact, szProto, "AvatarHash");
-				db_unset(hContact, szProto, "AvatarSaved");
 				DeleteAvatarFromCache(hContact, FALSE);
 
 				QueueAdd(hContact);
@@ -833,7 +832,6 @@ static INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wPa
 			{
 				char *szProto = GetContactProto(hContact);
 				db_unset(hContact, szProto, "AvatarHash");
-				db_unset(hContact, szProto, "AvatarSaved");
 				DeleteAvatarFromCache(hContact, FALSE);
 
 				QueueAdd(hContact);
