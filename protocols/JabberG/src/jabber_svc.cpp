@@ -139,21 +139,16 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		if (tszJid != nullptr) {
 			JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, tszJid);
 			if (item != nullptr) {
-				BOOL isXVcard = getByte(pai->hContact, "AvatarXVcard", 0);
-
 				CMStringA szJid;
-				if (item->arResources.getCount() != 0 && !isXVcard)
+				if (item->arResources.getCount() != 0)
 					if (char *bestResName = ListGetBestClientResourceNamePtr(tszJid))
 						szJid = MakeJid(tszJid, bestResName);
 
 				if (szJid.IsEmpty())
 					szJid = tszJid;
 
-				debugLogA("Rereading %s for %s", isXVcard ? JABBER_FEAT_VCARD_TEMP : JABBER_FEAT_AVATAR, szJid.c_str());
-
-				m_ThreadInfo->send((isXVcard) ?
-					XmlNodeIq(AddIQ(&CJabberProto::OnIqResultGetVCardAvatar, JABBER_IQ_TYPE_GET, szJid)) << XCHILDNS("vCard", JABBER_FEAT_VCARD_TEMP) :
-					XmlNodeIq(AddIQ(&CJabberProto::OnIqResultGetClientAvatar, JABBER_IQ_TYPE_GET, szJid)) << XQUERY(JABBER_FEAT_AVATAR));
+				debugLogA("Rereading %s for %s", JABBER_FEAT_VCARD_TEMP, szJid.c_str());
+				m_ThreadInfo->send(XmlNodeIq(AddIQ(&CJabberProto::OnIqResultGetVCardAvatar, JABBER_IQ_TYPE_GET, szJid)) << XCHILDNS("vCard", JABBER_FEAT_VCARD_TEMP));
 				return GAIR_WAITFOR;
 			}
 		}

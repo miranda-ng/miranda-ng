@@ -50,7 +50,6 @@ const JabberFeatCapPair g_JabberFeatCapPairs[] =
 	{ JABBER_FEAT_DATA_FORMS,              JABBER_CAPS_DATA_FORMS,              LPGEN("Supports data forms") },
 	{ JABBER_FEAT_MESSAGE_EVENTS,          JABBER_CAPS_MESSAGE_EVENTS,          LPGEN("Can request and respond to events relating to the delivery, display, and composition of messages") },
 	{ JABBER_FEAT_VCARD_TEMP,              JABBER_CAPS_VCARD_TEMP,              LPGEN("Supports vCard") },
-	{ JABBER_FEAT_AVATAR,                  JABBER_CAPS_AVATAR,                  LPGEN("Supports iq-based avatars") },
 	{ JABBER_FEAT_XHTML,                   JABBER_CAPS_XHTML,                   LPGEN("Supports XHTML formatting of chat messages") },
 	{ JABBER_FEAT_AGENTS,                  JABBER_CAPS_AGENTS,                  LPGEN("Supports Jabber Browsing") },
 	{ JABBER_FEAT_BROWSE,                  JABBER_CAPS_BROWSE,                  LPGEN("Supports Jabber Browsing") },

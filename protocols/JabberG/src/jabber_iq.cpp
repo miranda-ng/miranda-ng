@@ -99,9 +99,6 @@ void CJabberIqManager::FillPermanentHandlers()
 	// entity time (XEP-0090)
 	AddPermanentHandler(&CJabberProto::OnIqProcessIqOldTime, JABBER_IQ_TYPE_GET, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_ID_STR, JABBER_FEAT_ENTITY_TIME_OLD, FALSE, "query");
 
-	// old avatars support (deprecated XEP-0008)
-	AddPermanentHandler(&CJabberProto::OnIqRequestAvatar, JABBER_IQ_TYPE_GET, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_ID_STR, JABBER_FEAT_AVATAR, FALSE, "query");
-
 	// privacy lists (XEP-0016)
 	AddPermanentHandler(&CJabberProto::OnIqRequestPrivacyLists, JABBER_IQ_TYPE_SET, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_ID_STR, JABBER_FEAT_PRIVACY_LISTS, FALSE, "query");
 

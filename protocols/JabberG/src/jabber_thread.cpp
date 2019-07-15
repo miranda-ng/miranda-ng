@@ -1637,27 +1637,10 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 
 			debugLogA("Avatar enabled");
 			for (auto *xNode : TiXmlFilter(node, "x")) {
-				if (!bHasAvatar && !mir_strcmp(XmlGetAttr(xNode, "xmlns"), "jabber:x:avatar")) {
-					auto *szHash = XmlGetChildText(xNode, "hash");
-					if (szHash != nullptr) {
-						delSetting(hContact, "AvatarXVcard");
-						debugLogA("AvatarXVcard deleted");
-						setString(hContact, "AvatarHash", szHash);
-						bHasAvatar = true;
-						ptrA saved(getStringA(hContact, "AvatarSaved"));
-						if (saved == nullptr || mir_strcmp(saved, szHash)) {
-							debugLogA("Avatar was changed");
-							ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, nullptr, 0);
-						}
-					}
-					else bRemovedAvatar = true;
-				}
-				else if (!mir_strcmp(XmlGetAttr(xNode, "xmlns"), "vcard-temp:x:update")) {
+				if (!mir_strcmp(XmlGetAttr(xNode, "xmlns"), "vcard-temp:x:update")) {
 					auto *szPhoto = XmlGetChildText(xNode, "photo");
 					if (szPhoto && !bHasAvatar) {
 						if (mir_strlen(szPhoto)) {
-							setByte(hContact, "AvatarXVcard", 1);
-							debugLogA("AvatarXVcard set");
 							setString(hContact, "AvatarHash", szPhoto);
 							bHasAvatar = true;
 							ptrA saved(getStringA(hContact, "AvatarSaved"));

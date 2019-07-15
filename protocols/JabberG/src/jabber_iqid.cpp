@@ -1255,50 +1255,8 @@ void CJabberProto::OnIqResultGetVCardAvatar(const TiXmlElement *iqNode, CJabberI
 		return;
 	}
 
-	if (auto *pszText = XmlGetChildText(vCard, "BINVAL")) {
-		setByte(hContact, "AvatarXVcard", 1);
+	if (auto *pszText = XmlGetChildText(vCard, "BINVAL"))
 		OnIqResultGotAvatar(hContact, pszText, XmlGetChildText(vCard, "TYPE"));
-	}
-}
-
-void CJabberProto::OnIqResultGetClientAvatar(const TiXmlElement *iqNode, CJabberIqInfo*)
-{
-	const char *type;
-
-	debugLogA("<iq/> iqIdResultGetClientAvatar");
-
-	const char *from = XmlGetAttr(iqNode, "from");
-	if (from == nullptr)
-		return;
-	MCONTACT hContact = HContactFromJID(from);
-	if (hContact == 0)
-		return;
-
-	const TiXmlElement *n = nullptr;
-	if ((type = XmlGetAttr(iqNode, "type")) != nullptr && !mir_strcmp(type, "result")) {
-		auto *queryNode = XmlFirstChild(iqNode, "query");
-		if (queryNode != nullptr) {
-			const char *xmlns = XmlGetAttr(queryNode, "xmlns");
-			if (!mir_strcmp(xmlns, JABBER_FEAT_AVATAR))
-				n = XmlFirstChild(queryNode, "data");
-		}
-	}
-
-	if (n != nullptr) {
-		OnIqResultGotAvatar(hContact, n->GetText(), XmlGetAttr(n, "mimetype"));
-		return;
-	}
-
-	char szJid[JABBER_MAX_JID_LEN];
-	mir_strncpy(szJid, from, _countof(szJid));
-	char *res = strchr(szJid, '/');
-	if (res != nullptr)
-		*res = 0;
-
-	// Try server stored avatar
-	XmlNodeIq iq(AddIQ(&CJabberProto::OnIqResultGetServerAvatar, JABBER_IQ_TYPE_GET, szJid));
-	iq << XQUERY(JABBER_FEAT_SERVER_AVATAR);
-	m_ThreadInfo->send(iq);
 }
 
 void CJabberProto::OnIqResultGetServerAvatar(const TiXmlElement *iqNode, CJabberIqInfo*)

@@ -83,9 +83,6 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_CAPS_MESSAGE_EVENTS              ((JabberCapsBits)1<<17)
 #define JABBER_FEAT_VCARD_TEMP                  "vcard-temp"
 #define JABBER_CAPS_VCARD_TEMP                  ((JabberCapsBits)1<<18)
-#define JABBER_FEAT_AVATAR                      "jabber:iq:avatar"
-#define JABBER_FEAT_SERVER_AVATAR               "storage:client:avatar"
-#define JABBER_CAPS_AVATAR                      ((JabberCapsBits)1<<19)
 #define JABBER_FEAT_XHTML                       "http://jabber.org/protocol/xhtml-im"
 #define JABBER_CAPS_XHTML                       ((JabberCapsBits)1<<20)
 #define JABBER_FEAT_AGENTS                      "jabber:iq:agents"
@@ -125,6 +122,7 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_FEAT_PRIVATE_STORAGE             "jabber:iq:private"
 #define JABBER_CAPS_PRIVATE_STORAGE             ((JabberCapsBits)1<<33)
 
+#define JABBER_FEAT_SERVER_AVATAR               "storage:client:avatar"
 #define JABBER_FEAT_ARCHIVE                     "urn:xmpp:archive"
 #define JABBER_FEAT_ARCHIVE_AUTO                "urn:xmpp:archive:auto"
 #define JABBER_CAPS_ARCHIVE_AUTO                ((JabberCapsBits)1<<34)

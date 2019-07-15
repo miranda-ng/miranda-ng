@@ -146,41 +146,6 @@ BOOL CJabberProto::OnIqProcessIqOldTime(const TiXmlElement*, CJabberIqInfo *pInf
 	return TRUE;
 }
 
-BOOL CJabberProto::OnIqRequestAvatar(const TiXmlElement*, CJabberIqInfo *pInfo)
-{
-	if (!m_bEnableAvatars)
-		return TRUE;
-
-	int pictureType = m_bAvatarType;
-	if (pictureType == PA_FORMAT_UNKNOWN)
-		return TRUE;
-
-	const char *szMimeType = ProtoGetAvatarMimeType(pictureType);
-	if (szMimeType == nullptr)
-		return TRUE;
-
-	wchar_t szFileName[MAX_PATH];
-	GetAvatarFileName(0, szFileName, _countof(szFileName));
-
-	FILE* in = _wfopen(szFileName, L"rb");
-	if (in == nullptr)
-		return TRUE;
-
-	long bytes = _filelength(_fileno(in));
-	ptrA buffer((char*)mir_alloc(bytes * 4 / 3 + bytes + 1000));
-	if (buffer == nullptr) {
-		fclose(in);
-		return TRUE;
-	}
-
-	fread(buffer, bytes, 1, in);
-	fclose(in);
-
-	ptrA str(mir_base64_encode(buffer, bytes));
-	m_ThreadInfo->send(XmlNodeIq("result", pInfo) << XQUERY(JABBER_FEAT_AVATAR) << XCHILD("query", str) << XATTR("mimetype", szMimeType));
-	return TRUE;
-}
-
 BOOL CJabberProto::OnSiRequest(const TiXmlElement *node, CJabberIqInfo *pInfo)
 {
 	const char *szProfile = XmlGetAttr(pInfo->GetChildNode(), "profile");

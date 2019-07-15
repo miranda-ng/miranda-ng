@@ -504,7 +504,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   OnIqResultExtSearch(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultGetAuth(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultGetVCardAvatar(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
-	void   OnIqResultGetClientAvatar(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultGetServerAvatar(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultGotAvatar(MCONTACT hContact, const char *pszText, const char *mimeType);
 	void   OnIqResultGetMuc(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
@@ -537,7 +536,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	BOOL   OnIqRequestPing(const TiXmlElement *node, CJabberIqInfo *pInfo);
 	BOOL   OnIqRequestTime(const TiXmlElement *node, CJabberIqInfo *pInfo);
 	BOOL   OnIqProcessIqOldTime(const TiXmlElement *node, CJabberIqInfo *pInfo);
-	BOOL   OnIqRequestAvatar(const TiXmlElement *node, CJabberIqInfo *pInfo);
 	BOOL   OnSiRequest(const TiXmlElement *node, CJabberIqInfo *pInfo);
 	BOOL   OnRosterPushRequest(const TiXmlElement *node, CJabberIqInfo *pInfo);
 	BOOL   OnIqRequestOOB(const TiXmlElement *node, CJabberIqInfo *pInfo);
