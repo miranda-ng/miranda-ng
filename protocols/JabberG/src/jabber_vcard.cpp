@@ -564,7 +564,7 @@ static INT_PTR CALLBACK EditEmailDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			if (email != nullptr)
 				SetDlgItemTextA(hwndDlg, IDC_EMAIL, email);
 
-			mir_snprintf(idstr, "e-mailFlag%d", lParam);
+			mir_snprintf(idstr, "e-mailFlag%d", (int)lParam);
 			WORD nFlag = dat->ppro->getWord(idstr, 0);
 			if (nFlag & JABBER_VCEMAIL_HOME) CheckDlgButton(hwndDlg, IDC_HOME, BST_CHECKED);
 			if (nFlag & JABBER_VCEMAIL_WORK) CheckDlgButton(hwndDlg, IDC_WORK, BST_CHECKED);
