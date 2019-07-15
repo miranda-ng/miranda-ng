@@ -94,7 +94,7 @@ LBL_Error:
 	if (ai.hContact)
 		ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai);
 	else
-		CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
+		ReportSelfAvatarChanged();
 }
 
 bool CDiscordProto::RetrieveAvatar(MCONTACT hContact)

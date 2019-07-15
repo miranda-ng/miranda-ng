@@ -185,6 +185,8 @@ public:
 
 	void setAllContactStatuses(int iStatus, bool bSkipChats = true);
 
+	void ReportSelfAvatarChanged();
+
 	void WindowSubscribe(HWND hwnd);
 	void WindowUnsubscribe(HWND hwnd);
 

@@ -76,7 +76,7 @@ void FacebookProto::CheckAvatarChange(MCONTACT hContact, const std::string &imag
 	if (!hContact) {
 		PROTO_AVATAR_INFORMATION ai = { 0 };
 		if (GetAvatarInfo(update_required ? GAIF_FORCE : 0, (LPARAM)&ai) != GAIR_WAITFOR)
-			CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName);
+			ReportSelfAvatarChanged();
 	}
 	else if (update_required) {
 		db_set_b(hContact, "ContactPhoto", "NeedUpdate", 1);
@@ -109,7 +109,7 @@ void FacebookProto::UpdateAvatarWorker(void *)
 			if (ai.hContact)
 				ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, success ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)&ai);
 			else if (success)
-				CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName);
+				ReportSelfAvatarChanged();
 		}
 
 		mir_cslock s(avatar_lock_);

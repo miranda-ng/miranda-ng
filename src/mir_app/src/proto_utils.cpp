@@ -268,6 +268,11 @@ void PROTO_INTERFACE::WindowUnsubscribe(HWND hwnd)
 /////////////////////////////////////////////////////////////////////////////////////////
 // avatar support
 
+void PROTO_INTERFACE::ReportSelfAvatarChanged()
+{
+	CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName);
+}
+
 MIR_APP_DLL(LPCTSTR) ProtoGetAvatarExtension(int format)
 {
 	if (format == PA_FORMAT_PNG)

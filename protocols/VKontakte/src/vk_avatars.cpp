@@ -68,7 +68,7 @@ INT_PTR CVkProto::SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam)
 void CVkProto::ReloadAvatarInfo(MCONTACT hContact)
 {
 	if (!hContact) {
-		CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName);
+		ReportSelfAvatarChanged();
 		return;
 	}
 

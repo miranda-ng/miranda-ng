@@ -867,7 +867,7 @@ LBL_Error:
 		ProtoBroadcastAck(pReq->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, HANDLE(&ai), 0);
 		debugLogW(L"Broadcast new avatar: %s", ai.filename);
 	}
-	else CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
+	else ReportSelfAvatarChanged();
 }
 
 void CIcqProto::OnSearchResults(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)

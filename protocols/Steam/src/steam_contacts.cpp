@@ -548,7 +548,7 @@ void CSteamProto::OnGotAvatar(const HttpResponse &response, void *arg)
 		if (ai.hContact)
 			ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, 0);
 		else
-			CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
+			ReportSelfAvatarChanged();
 	}
 }
 

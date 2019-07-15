@@ -684,3 +684,4 @@ ImageList_AddProtoIcon @773
 ImageList_AddSkinIcon @774
 Clist_GetGroup @775
 Clist_SetGroup @776
+?ReportSelfAvatarChanged@PROTO_INTERFACE@@QAEXXZ @777 NONAME

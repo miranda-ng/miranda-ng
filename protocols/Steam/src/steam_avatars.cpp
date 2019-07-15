@@ -46,7 +46,7 @@ void CSteamProto::CheckAvatarChange(MCONTACT hContact, std::string avatarUrl)
 	{
 		PROTO_AVATAR_INFORMATION ai = { 0 };
 		if (GetAvatarInfo(update_required ? GAIF_FORCE : 0, (LPARAM)&ai) != GAIR_WAITFOR)
-			CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
+			ReportSelfAvatarChanged();
 	}
 	else if (update_required)
 	{

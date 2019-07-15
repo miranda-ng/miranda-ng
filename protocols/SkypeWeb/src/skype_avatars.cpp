@@ -44,7 +44,7 @@ INT_PTR CSkypeProto::SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam)
 void CSkypeProto::ReloadAvatarInfo(MCONTACT hContact)
 {
 	if (hContact == NULL) {
-		CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
+		ReportSelfAvatarChanged();
 		return;
 	}
 	PROTO_AVATAR_INFORMATION ai = { 0 };

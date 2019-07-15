@@ -279,7 +279,7 @@ void __cdecl GaduProto::avatarrequestthread(void*)
 			ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, result ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)&ai, 0);
 
 			if (!ai.hContact)
-				CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
+				ReportSelfAvatarChanged();
 
 			mir_free(data);
 		}
