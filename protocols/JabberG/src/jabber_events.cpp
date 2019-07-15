@@ -149,7 +149,7 @@ void __cdecl CJabberProto::OnAddContactForever(MCONTACT hContact)
 		xPresence << XCHILD("nick", myNick) << XATTR("xmlns", JABBER_FEAT_NICK);
 	m_ThreadInfo->send(xPresence);
 
-	SendGetVcard(jid);
+	SendGetVcard(hContact);
 
 	db_unset(hContact, "CList", "Hidden");
 }

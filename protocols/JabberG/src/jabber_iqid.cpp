@@ -207,12 +207,12 @@ void CJabberProto::OnLoggedIn()
 	ptrA szServerName(getStringA("LastLoggedServer"));
 	if (szServerName == nullptr || mir_strcmp(m_ThreadInfo->conn.server, szServerName)) {
 		setString("LastLoggedServer", m_ThreadInfo->conn.server);
-		SendGetVcard();
+		SendGetVcard(0);
 	}
 	else {
 		time_t lastReadVcard(getDword("LastGetVcard"));
 		if (time(0) - lastReadVcard > 84600) // read vcard on login once a day
-			SendGetVcard();
+			SendGetVcard(0);
 	}
 
 	m_pepServices.ResetPublishAll();

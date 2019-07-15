@@ -1659,7 +1659,7 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 						if (saved == nullptr || mir_strcmp(saved, txt)) {
 							debugLogA("Vcard was changed, let's read it");
 							setString(hContact, "VCardHash", txt);
-							SendGetVcard(from);
+							SendGetVcard(hContact);
 						}
 					}
 				}

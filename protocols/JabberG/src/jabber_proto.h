@@ -818,7 +818,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	wchar_t  m_szPhotoFileName[MAX_PATH];
 	void   OnUserInfoInit_VCard(WPARAM, LPARAM);
 
-	int    SendGetVcard(const char *jid = nullptr);
+	int    SendGetVcard(MCONTACT hContact);
 	void   AppendVcardFromDB(TiXmlElement *n, char* tag, char* key);
 	void   SetServerVcard(BOOL bPhotoChanged, wchar_t* szPhotoFileName);
 	void   SaveVcardToDB(HWND hwndPage, int iPage);

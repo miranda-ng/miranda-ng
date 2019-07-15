@@ -31,17 +31,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CJabberProto::SendGetVcard(const char *jid)
+int CJabberProto::SendGetVcard(MCONTACT hContact)
 {
 	if (!m_bJabberOnline) return 0;
 
-	if (jid == nullptr) {
+	CMStringA jid;
+	if (hContact == 0) {
 		jid = m_szJabberJID;
 		setDword("LastGetVcard", time(0));
 	}
 	else {
-		char szBareJid[JABBER_MAX_JID_LEN];
-		jid = JabberStripJid(jid, szBareJid, sizeof(szBareJid));
+		jid = getMStringA(hContact, "jid");
+		if (jid.IsEmpty())
+			return -1;
 	}
 
 	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultGetVcard, JABBER_IQ_TYPE_GET, jid);
@@ -1217,5 +1219,5 @@ void CJabberProto::OnUserInfoInit_VCard(WPARAM wParam, LPARAM)
 	odp.szTab.w = LPGENW("Note");
 	g_plugin.addUserInfo(wParam, &odp);
 
-	SendGetVcard();
+	SendGetVcard(0);
 }

@@ -88,7 +88,7 @@ MCONTACT CJabberProto::DBCreateContact(const char *jid, const char *nick, bool t
 	if (temporary)
 		db_set_b(hNewContact, "CList", "NotOnList", 1);
 	else
-		SendGetVcard(szJid);
+		SendGetVcard(hNewContact);
 	
 	if (JABBER_LIST_ITEM *pItem = ListAdd(LIST_ROSTER, jid, hNewContact))
 		pItem->bUseResource = strchr(szJid, '/') != nullptr;
@@ -192,7 +192,7 @@ void CJabberProto::ResolveTransportNicks(const char *jid)
 		*p = 0;
 		if (!mir_strcmp(jid, p + 1) && !mir_strcmp(dbJid, dbNick)) {
 			*p = '@';
-			m_ThreadInfo->resolveID = SendGetVcard(dbJid);
+			m_ThreadInfo->resolveID = SendGetVcard(hContact);
 			m_ThreadInfo->resolveContact = hContact;
 			return;
 		}

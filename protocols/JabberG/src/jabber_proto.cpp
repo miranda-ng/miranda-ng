@@ -660,7 +660,7 @@ int CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 		}
 	}
 
-	SendGetVcard(jid);
+	SendGetVcard(hContact);
 	return 0;
 }
 
