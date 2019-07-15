@@ -28,6 +28,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void XmlAddAttrID(TiXmlElement*, int id);
 
+class XmlNodeHash : public tinyxml2::XMLVisitor
+{
+	mir_md5_state_t state;
+
+	void add(const char *);
+
+public:
+	XmlNodeHash();
+
+	CMStringA getResult();
+
+	virtual bool VisitEnter(const TiXmlElement &, const tinyxml2::XMLAttribute *);
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 class XmlNode : public TiXmlDocument, private MNonCopyable
 {
 protected:

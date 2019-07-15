@@ -35,6 +35,15 @@ int CJabberProto::SendGetVcard(const char *jid)
 {
 	if (!m_bJabberOnline) return 0;
 
+	if (jid == nullptr) {
+		jid = m_szJabberJID;
+		setDword("LastGetVcard", time(0));
+	}
+	else {
+		char szBareJid[JABBER_MAX_JID_LEN];
+		jid = JabberStripJid(jid, szBareJid, sizeof(szBareJid));
+	}
+
 	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultGetVcard, JABBER_IQ_TYPE_GET, jid);
 	m_ThreadInfo->send(XmlNodeIq(pInfo) << XCHILDNS("vCard", JABBER_FEAT_VCARD_TEMP)
 		<< XATTR("prodid", "-//HandGen//NONSGML vGen v1.0//EN") << XATTR("version", "2.0"));
@@ -44,7 +53,7 @@ int CJabberProto::SendGetVcard(const char *jid)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void SetDialogField(CJabberProto *ppro, HWND hwndDlg, int nDlgItem, char* key, bool bTranslate = false)
+static void SetDialogField(CJabberProto *ppro, HWND hwndDlg, int nDlgItem, char *key, bool bTranslate = false)
 {
 	ptrW tszValue(ppro->getWStringA(key));
 	if (tszValue != nullptr)
@@ -148,8 +157,7 @@ static INT_PTR CALLBACK HomeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 	case WM_COMMAND:
 		if (((HWND)lParam == GetFocus() && HIWORD(wParam) == EN_CHANGE) ||
-			((HWND)lParam == GetDlgItem(hwndDlg, IDC_COUNTRY) && (HIWORD(wParam) == CBN_EDITCHANGE || HIWORD(wParam) == CBN_SELCHANGE)))
-		{
+			((HWND)lParam == GetDlgItem(hwndDlg, IDC_COUNTRY) && (HIWORD(wParam) == CBN_EDITCHANGE || HIWORD(wParam) == CBN_SELCHANGE))) {
 			ppro->m_vCardUpdates |= (1UL << iPageId);
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		}
@@ -215,8 +223,7 @@ static INT_PTR CALLBACK WorkDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 	case WM_COMMAND:
 		if (((HWND)lParam == GetFocus() && HIWORD(wParam) == EN_CHANGE) ||
-			((HWND)lParam == GetDlgItem(hwndDlg, IDC_COUNTRY) && (HIWORD(wParam) == CBN_EDITCHANGE || HIWORD(wParam) == CBN_SELCHANGE)))
-		{
+			((HWND)lParam == GetDlgItem(hwndDlg, IDC_COUNTRY) && (HIWORD(wParam) == CBN_EDITCHANGE || HIWORD(wParam) == CBN_SELCHANGE))) {
 			ppro->m_vCardUpdates |= (1UL << iPageId);
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		}
@@ -258,7 +265,7 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	const unsigned long iPageId = 3;
 
 	wchar_t szAvatarFileName[MAX_PATH], szTempPath[MAX_PATH], szTempFileName[MAX_PATH];
-	PhotoDlgProcData* dat = (PhotoDlgProcData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	PhotoDlgProcData *dat = (PhotoDlgProcData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -410,12 +417,12 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			else {
 				if (((float)(ptSize.x - rect.right)) / ptSize.x > ((float)(ptSize.y - rect.bottom)) / ptSize.y) {
 					ptFitSize.x = rect.right;
-					ptFitSize.y = (ptSize.y*rect.right) / ptSize.x;
+					ptFitSize.y = (ptSize.y * rect.right) / ptSize.x;
 					pt.x = 0;
 					pt.y = (rect.bottom - ptFitSize.y) / 2;
 				}
 				else {
-					ptFitSize.x = (ptSize.x*rect.bottom) / ptSize.y;
+					ptFitSize.x = (ptSize.x * rect.bottom) / ptSize.y;
 					ptFitSize.y = rect.bottom;
 					pt.x = (rect.right - ptFitSize.x) / 2;
 					pt.y = 0;
@@ -512,7 +519,7 @@ static INT_PTR CALLBACK NoteDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				SendMessage(hwndDlg, WM_INITDIALOG, 0, ((PSHNOTIFY*)lParam)->lParam);
 				break;
 			case PSN_APPLY:
-				ppro->m_vCardUpdates &= ~(1UL<<iPageId);
+				ppro->m_vCardUpdates &= ~(1UL << iPageId);
 				ppro->SaveVcardToDB(hwndDlg, iPageId);
 				if (!ppro->m_vCardUpdates)
 					ppro->SetServerVcard(ppro->m_bPhotoChanged, ppro->m_szPhotoFileName);
@@ -601,7 +608,7 @@ static INT_PTR CALLBACK EditEmailDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 static INT_PTR CALLBACK EditPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	EditDlgParam* dat = (EditDlgParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	EditDlgParam *dat = (EditDlgParam *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -729,10 +736,10 @@ static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lP
 			lvi.iItem = 0;
 			for (i=0;;i++) {
 				mir_snprintf(idstr, "e-mail%d", i);
-				ptrW email( ppro->getWStringA(idstr));
+				ptrW email(ppro->getWStringA(idstr));
 				if (email == nullptr) break;
 
-				mir_snwprintf(number, L"%d", i+1);
+				mir_snwprintf(number, L"%d", i + 1);
 				lvi.pszText = number;
 				lvi.lParam = (LPARAM)i;
 				ListView_InsertItem(GetDlgItem(hwndDlg, IDC_EMAILS), &lvi);
@@ -750,10 +757,10 @@ static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lP
 			lvi.iItem = 0;
 			for (i=0;;i++) {
 				mir_snprintf(idstr, "Phone%d", i);
-				ptrW phone( ppro->getWStringA(idstr));
+				ptrW phone(ppro->getWStringA(idstr));
 				if (phone == nullptr) break;
 
-				mir_snwprintf(number, L"%d", i+1);
+				mir_snwprintf(number, L"%d", i + 1);
 				lvi.pszText = number;
 				lvi.lParam = (LPARAM)i;
 				ListView_InsertItem(GetDlgItem(hwndDlg, IDC_PHONES), &lvi);
@@ -820,8 +827,8 @@ static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lP
 				if (nm->iSubItem < 2)
 					break;
 
-				const char* szIdTemplate = (nm->hdr.idFrom == IDC_PHONES) ? "Phone%d" : "e-mail%d";
-				const char* szFlagTemplate = (nm->hdr.idFrom == IDC_PHONES) ? "PhoneFlag%d" : "e-mailFlag%d";
+				const char *szIdTemplate = (nm->hdr.idFrom == IDC_PHONES) ? "Phone%d" : "e-mail%d";
+				const char *szFlagTemplate = (nm->hdr.idFrom == IDC_PHONES) ? "PhoneFlag%d" : "e-mailFlag%d";
 
 				LVHITTESTINFO hti;
 				hti.pt.x = (short)LOWORD(GetMessagePos());
@@ -932,18 +939,17 @@ void CJabberProto::SaveVcardToDB(HWND hwndPage, int iPage)
 		GetDlgItemText(hwndPage, IDC_BIRTH, text, _countof(text));
 		setWString("BirthDate", text);
 		switch (SendDlgItemMessage(hwndPage, IDC_GENDER, CB_GETCURSEL, 0, 0)) {
-			case 0:	setString("GenderString", "Male");   break;
-			case 1:	setString("GenderString", "Female"); break;
-			default: setString("GenderString", "");       break;
+		case 0:	setString("GenderString", "Male");   break;
+		case 1:	setString("GenderString", "Female"); break;
+		default: setString("GenderString", "");       break;
 		}
 		GetDlgItemText(hwndPage, IDC_OCCUPATION, text, _countof(text));
 		setWString("Role", text);
 		GetDlgItemText(hwndPage, IDC_HOMEPAGE, text, _countof(text));
 		setWString("Homepage", text);
 		break;
-
-	// Page 1: Home
-	case 1:
+		
+	case 1: // Page 1: Home
 		GetDlgItemText(hwndPage, IDC_ADDRESS1, text, _countof(text));
 		setWString("Street", text);
 		GetDlgItemText(hwndPage, IDC_ADDRESS2, text, _countof(text));
@@ -961,9 +967,8 @@ void CJabberProto::SaveVcardToDB(HWND hwndPage, int iPage)
 			mir_free(country);
 		}
 		break;
-
-	// Page 2: Work
-	case 2:
+		
+	case 2: // Page 2: Work
 		GetDlgItemText(hwndPage, IDC_COMPANY, text, _countof(text));
 		setWString("Company", text);
 		GetDlgItemText(hwndPage, IDC_DEPARTMENT, text, _countof(text));
@@ -988,11 +993,10 @@ void CJabberProto::SaveVcardToDB(HWND hwndPage, int iPage)
 		}
 		break;
 
-	// Page 3: Photo
-	// not needed to be saved into db
+		// Page 3: Photo
+		// not needed to be saved into db
 
-	// Page 4: Note
-	case 4:
+	case 4: // Page 4: Note
 		GetDlgItemText(hwndPage, IDC_DESC, text, _countof(text));
 		setWString("About", text);
 		break;
@@ -1008,7 +1012,7 @@ void CJabberProto::AppendVcardFromDB(TiXmlElement *n, char *tag, char *key)
 	n << XCHILD(tag, tszValue);
 }
 
-void CJabberProto::SetServerVcard(BOOL bPhotoChanged, wchar_t* szPhotoFileName)
+void CJabberProto::SetServerVcard(BOOL bPhotoChanged, wchar_t *szPhotoFileName)
 {
 	if (!m_bJabberOnline) return;
 
@@ -1114,7 +1118,6 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, wchar_t* szPhotoFileName)
 	if (szFileName == nullptr || szFileName[0] == 0) {
 		v << XCHILD("PHOTO");
 		DeleteFile(szAvatarName);
-		delSetting("AvatarSaved");
 		delSetting("AvatarHash");
 	}
 	else {
@@ -1156,7 +1159,6 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, wchar_t* szPhotoFileName)
 							}
 
 							setString("AvatarHash", buf);
-							setString("AvatarSaved", buf);
 						}
 					}
 				}
@@ -1164,6 +1166,10 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, wchar_t* szPhotoFileName)
 			}
 		}
 	}
+
+	XmlNodeHash hasher;
+	v->Accept(&hasher);
+	setString("VCardHash", hasher.getResult());
 
 	m_ThreadInfo->send(iq);
 }
@@ -1211,5 +1217,5 @@ void CJabberProto::OnUserInfoInit_VCard(WPARAM wParam, LPARAM)
 	odp.szTab.w = LPGENW("Note");
 	g_plugin.addUserInfo(wParam, &odp);
 
-	SendGetVcard(m_szJabberJID);
+	SendGetVcard();
 }

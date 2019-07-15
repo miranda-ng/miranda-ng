@@ -29,6 +29,44 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define ATTR_MAX_LEN 8192
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// XmlNodeHash class members
+
+XmlNodeHash::XmlNodeHash()
+{
+	mir_md5_init(&state);
+}
+
+bool XmlNodeHash::VisitEnter(const TiXmlElement &pNode, const tinyxml2::XMLAttribute *attr)
+{
+	add(pNode.Name());
+	add(pNode.GetText());
+
+	for (auto *p = attr; p != nullptr; p = p->Next()) {
+		add(p->Name());
+		add(p->Value());
+	}
+
+	return true;
+}
+
+void XmlNodeHash::add(const char *str)
+{
+	if (str)
+		mir_md5_append(&state, (const BYTE *)str, strlen(str));
+}
+
+CMStringA XmlNodeHash::getResult()
+{
+	BYTE digest[16];
+	mir_md5_finish(&state, digest);
+
+	CMStringA res;
+	res.Truncate(33);
+	bin2hex(digest, sizeof(digest), res.GetBuffer());
+	return res;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // XmlNodeIq class members
 
 XmlNodeIq::XmlNodeIq(const char *type, int id, const char *to) :

@@ -127,11 +127,8 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	pai->format = (pai->hContact == 0) ? PA_FORMAT_PNG : getByte(pai->hContact, "AvatarType", 0);
 
 	if (::_waccess(pai->filename, 0) == 0) {
-		ptrA szSavedHash(getStringA(pai->hContact, "AvatarSaved"));
-		if (szSavedHash != nullptr && !mir_strcmp(szSavedHash, szHashValue)) {
-			debugLogA("Avatar is Ok: %s == %s", szSavedHash, szHashValue);
-			return GAIR_SUCCESS;
-		}
+		debugLogA("Avatar is Ok");
+		return GAIR_SUCCESS;
 	}
 
 	if ((wParam & GAIF_FORCE) != 0 && pai->hContact != 0 && m_bJabberOnline) {
@@ -236,7 +233,6 @@ INT_PTR __cdecl CJabberProto::JabberSetAvatar(WPARAM, LPARAM lParam)
 		GetAvatarFileName(0, tFileName, MAX_PATH);
 		DeleteFile(tFileName);
 
-		delSetting("AvatarSaved");
 		delSetting("AvatarHash");
 	}
 	else {
@@ -280,7 +276,7 @@ INT_PTR __cdecl CJabberProto::JabberSetAvatar(WPARAM, LPARAM lParam)
 		}
 		delete[] pResult;
 
-		setString("AvatarSaved", buf);
+		setString("AvatarHash", buf);
 	}
 
 	return 0;

@@ -795,7 +795,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	MCONTACT ChatRoomHContactFromJID(const char *jid);
 	void   SendVisibleInvisiblePresence(bool invisible);
 	void   SendPresenceTo(int status, const char* to, const TiXmlElement *extra = nullptr, const char *msg = nullptr);
-	void   SendPresence(int m_iStatus, bool bSendToAll);
+	void   SendPresence(int iStatus, bool bSendToAll);
 
 	void   RebuildInfoFrame(void);
 	void   InitInfoFrame(void);
@@ -818,7 +818,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	wchar_t  m_szPhotoFileName[MAX_PATH];
 	void   OnUserInfoInit_VCard(WPARAM, LPARAM);
 
-	int    SendGetVcard(const char *jid);
+	int    SendGetVcard(const char *jid = nullptr);
 	void   AppendVcardFromDB(TiXmlElement *n, char* tag, char* key);
 	void   SetServerVcard(BOOL bPhotoChanged, wchar_t* szPhotoFileName);
 	void   SaveVcardToDB(HWND hwndPage, int iPage);

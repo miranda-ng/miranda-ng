@@ -912,7 +912,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 					mir_sha1_finish(&sha, digest);
 					bin2hex(digest, sizeof(digest), buffer);
 
-					ptrA cmpsha(getStringA(ai.hContact, "AvatarSaved"));
+					ptrA cmpsha(getStringA(ai.hContact, "AvatarHash"));
 					if (cmpsha == nullptr || strnicmp(cmpsha, buffer, sizeof(buffer))) {
 						wchar_t tszFileName[MAX_PATH];
 						GetAvatarFileName(ai.hContact, tszFileName, _countof(tszFileName));
@@ -921,7 +921,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 						if (out != nullptr) {
 							fwrite(res->pData, res->dataLength, 1, out);
 							fclose(out);
-							setString(ai.hContact, "AvatarSaved", buffer);
+							setString(ai.hContact, "AvatarHash", buffer);
 							ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai, 0);
 							debugLogW(L"Broadcast new avatar: %s", ai.filename);
 						}

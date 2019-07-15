@@ -1641,12 +1641,13 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 					auto *szPhoto = XmlGetChildText(xNode, "photo");
 					if (szPhoto && !bHasAvatar) {
 						if (mir_strlen(szPhoto)) {
-							setString(hContact, "AvatarHash", szPhoto);
 							bHasAvatar = true;
-							ptrA saved(getStringA(hContact, "AvatarSaved"));
+							ptrA saved(getStringA(hContact, "AvatarHash"));
 							if (saved == nullptr || mir_strcmp(saved, szPhoto)) {
-								debugLogA("Avatar was changed. Using vcard-temp:x:update");
+								debugLogA("Avatar was changed, reloading");
+								setString(hContact, "AvatarHash", szPhoto);
 								ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, nullptr, 0);
+								continue;
 							}
 						}
 						else bRemovedAvatar = true;
@@ -1666,12 +1667,8 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 
 			if (!bHasAvatar && bRemovedAvatar) {
 				debugLogA("Has no avatar");
-				delSetting(hContact, "AvatarHash");
-
-				if (ptrW(getWStringA(hContact, "AvatarSaved")) != nullptr) {
-					delSetting(hContact, "AvatarSaved");
+				if (!delSetting(hContact, "AvatarHash"))
 					ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, nullptr, 0);
-				}
 			}
 		}
 		return;

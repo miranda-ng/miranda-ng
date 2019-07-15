@@ -205,10 +205,16 @@ void CJabberProto::OnLoggedIn()
 	QueryPrivacyLists(m_ThreadInfo);
 
 	ptrA szServerName(getStringA("LastLoggedServer"));
-	if (szServerName == nullptr || mir_strcmp(m_ThreadInfo->conn.server, szServerName))
-		SendGetVcard(m_szJabberJID);
+	if (szServerName == nullptr || mir_strcmp(m_ThreadInfo->conn.server, szServerName)) {
+		setString("LastLoggedServer", m_ThreadInfo->conn.server);
+		SendGetVcard();
+	}
+	else {
+		time_t lastReadVcard(getDword("LastGetVcard"));
+		if (time(0) - lastReadVcard > 84600) // read vcard on login once a day
+			SendGetVcard();
+	}
 
-	setString("LastLoggedServer", m_ThreadInfo->conn.server);
 	m_pepServices.ResetPublishAll();
 	if (m_bEnableStreamMgmt)
 		m_StrmMgmt.CheckState();
@@ -564,6 +570,21 @@ void CJabberProto::OnIqResultGetVcardPhoto(const TiXmlElement *n, MCONTACT hCont
 	if (szPicType == nullptr)
 		return;
 
+	BYTE digest[MIR_SHA1_HASH_SIZE];
+	mir_sha1_ctx sha1ctx;
+	mir_sha1_init(&sha1ctx);
+	mir_sha1_append(&sha1ctx, (BYTE *)buffer.get(), bufferLen);
+	mir_sha1_finish(&sha1ctx, digest);
+
+	char digestHex[MIR_SHA1_HASH_SIZE*2 + 1];
+	bin2hex(digest, sizeof(digest), digestHex);
+	CMStringA oldHash(getMStringA(hContact, "AvatarHash"));
+	if (oldHash == digestHex) {
+		hasPhoto = true;
+		debugLogA("same avatar hash, skipping");
+		return;
+	}
+
 	wchar_t szAvatarFileName[MAX_PATH];
 	GetAvatarFileName(hContact, szAvatarFileName, _countof(szAvatarFileName));
 
@@ -580,11 +601,13 @@ void CJabberProto::OnIqResultGetVcardPhoto(const TiXmlElement *n, MCONTACT hCont
 		return;
 
 	debugLogA("%d bytes written", nWritten);
+
+	setString(hContact, "AvatarHash", digestHex);
+
 	if (hContact == 0) {
 		hasPhoto = true;
-		CallService(MS_AV_SETMYAVATARW, (WPARAM)m_szModuleName, (LPARAM)szAvatarFileName);
-
 		debugLogW(L"My picture saved to %s", szAvatarFileName);
+		ReportSelfAvatarChanged();
 	}
 	else {
 		ptrA jid(getUStringA(hContact, "jid"));
@@ -613,12 +636,9 @@ void CJabberProto::OnIqResultGetVcardPhoto(const TiXmlElement *n, MCONTACT hCont
 
 void CJabberProto::OnIqResultGetVcard(const TiXmlElement *iqNode, CJabberIqInfo*)
 {
-	const TiXmlElement *vCardNode;
-	const char *type, *jid;
-	MCONTACT hContact;
-	DBVARIANT dbv;
-
 	debugLogA("<iq/> iqIdGetVcard");
+
+	const char *type, *jid;
 	if ((type = XmlGetAttr(iqNode, "type")) == nullptr) return;
 	if ((jid = XmlGetAttr(iqNode, "from")) == nullptr) return;
 	int id = JabberGetPacketID(iqNode);
@@ -626,7 +646,7 @@ void CJabberProto::OnIqResultGetVcard(const TiXmlElement *iqNode, CJabberIqInfo*
 	if (id == m_nJabberSearchID) {
 		m_nJabberSearchID = -1;
 
-		if ((vCardNode = XmlFirstChild(iqNode, "vCard")) != nullptr) {
+		if (auto *vCardNode = XmlFirstChild(iqNode, "vCard")) {
 			if (!mir_strcmp(type, "result")) {
 				PROTOSEARCHRESULT  psr = { 0 };
 				psr.cbSize = sizeof(psr);
@@ -645,6 +665,7 @@ void CJabberProto::OnIqResultGetVcard(const TiXmlElement *iqNode, CJabberIqInfo*
 		return;
 	}
 
+	MCONTACT hContact;
 	size_t len = mir_strlen(m_szJabberJID);
 	if (!strnicmp(jid, m_szJabberJID, len) && (jid[len] == '/' || jid[len] == '\0')) {
 		hContact = 0;
@@ -674,7 +695,14 @@ void CJabberProto::OnIqResultGetVcard(const TiXmlElement *iqNode, CJabberIqInfo*
 		hasOrgname = false, hasOrgunit = false, hasRole = false, hasTitle = false, hasDesc = false, hasPhoto = false;
 	int nEmail = 0, nPhone = 0, nYear, nMonth, nDay;
 
-	if ((vCardNode = XmlFirstChild(iqNode, "vCard")) != nullptr) {
+	CMStringA szNodeHash;
+	if (auto *vCardNode = XmlFirstChild(iqNode, "vCard")) {
+		if (hContact == 0) {
+			XmlNodeHash hasher;
+			vCardNode->Accept(&hasher);
+			szNodeHash = hasher.getResult();
+		}
+
 		for (auto *n : TiXmlEnum(vCardNode)) {
 			if (n->Name() == nullptr)
 				continue;
@@ -986,8 +1014,7 @@ void CJabberProto::OnIqResultGetVcard(const TiXmlElement *iqNode, CJabberIqInfo*
 			else {
 				char text[100];
 				mir_snprintf(text, "e-mail%d", nEmail - 1);
-				if (db_get_s(hContact, m_szModuleName, text, &dbv)) break;
-				db_free(&dbv);
+				if (!ptrA(getStringA(hContact, text))) break;
 				delSetting(hContact, text);
 			}
 			nEmail++;
@@ -997,9 +1024,8 @@ void CJabberProto::OnIqResultGetVcard(const TiXmlElement *iqNode, CJabberIqInfo*
 		while (true) {
 			char text[100];
 			mir_snprintf(text, "e-mail%d", nEmail);
-			if (getString(text, &dbv)) break;
-			db_free(&dbv);
-			delSetting(text);
+			if (delSetting(text))
+				break;
 			mir_snprintf(text, "e-mailFlag%d", nEmail);
 			delSetting(text);
 			nEmail++;
@@ -1031,9 +1057,8 @@ void CJabberProto::OnIqResultGetVcard(const TiXmlElement *iqNode, CJabberIqInfo*
 		while (true) {
 			char text[100];
 			mir_snprintf(text, "Phone%d", nPhone);
-			if (getString(text, &dbv)) break;
-			db_free(&dbv);
-			delSetting(text);
+			if (delSetting(text))
+				break;
 			mir_snprintf(text, "PhoneFlag%d", nPhone);
 			delSetting(text);
 			nPhone++;
@@ -1078,12 +1103,8 @@ void CJabberProto::OnIqResultGetVcard(const TiXmlElement *iqNode, CJabberIqInfo*
 		delSetting(hContact, "About");
 	if (!hasPhoto) {
 		debugLogA("Has no avatar");
-		delSetting(hContact, "AvatarHash");
-
-		if (ptrW(getWStringA(hContact, "AvatarSaved")) != nullptr) {
-			delSetting(hContact, "AvatarSaved");
+		if (!delSetting(hContact, "AvatarHash"))
 			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, nullptr, 0);
-		}
 	}
 	
 	if (id == m_ThreadInfo->resolveID) {
@@ -1091,8 +1112,15 @@ void CJabberProto::OnIqResultGetVcard(const TiXmlElement *iqNode, CJabberIqInfo*
 		ResolveTransportNicks((p != nullptr) ? p + 1 : jid);
 	}
 	else {
-		if ((hContact = HContactFromJID(jid)) != 0)
+		if (hContact != 0)
 			ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1);
+		else {
+			CMStringA oldHash(getMStringA("VCardHash"));
+			if (oldHash != szNodeHash) {
+				setString("VCardHash", szNodeHash);
+				SendPresence(m_iStatus, false);
+			}
+		}
 		WindowList_Broadcast(m_hWindowList, WM_JABBER_REFRESH_VCARD, 0, 0);
 	}
 }
@@ -1100,8 +1128,10 @@ void CJabberProto::OnIqResultGetVcard(const TiXmlElement *iqNode, CJabberIqInfo*
 void CJabberProto::OnIqResultSetVcard(const TiXmlElement *iqNode, CJabberIqInfo*)
 {
 	debugLogA("<iq/> iqIdSetVcard");
-	if (XmlGetAttr(iqNode, "type"))
+	if (XmlGetAttr(iqNode, "type")) {
 		WindowList_Broadcast(m_hWindowList, WM_JABBER_REFRESH_VCARD, 0, 0);
+		SendPresence(m_iStatus, false);
+	}
 }
 
 void CJabberProto::OnIqResultSetSearch(const TiXmlElement *iqNode, CJabberIqInfo*)
@@ -1247,11 +1277,8 @@ void CJabberProto::OnIqResultGetVCardAvatar(const TiXmlElement *iqNode, CJabberI
 	if (vCard == nullptr) return;
 
 	if (vCard->NoChildren()) {
-		delSetting(hContact, "AvatarHash");
-		if (ptrW(getWStringA(hContact, "AvatarSaved")) != nullptr) {
-			delSetting(hContact, "AvatarSaved");
+		if (!delSetting(hContact, "AvatarHash"))
 			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, nullptr, 0);
-		}
 		return;
 	}
 
@@ -1343,7 +1370,7 @@ void CJabberProto::OnIqResultGotAvatar(MCONTACT hContact, const char *pszText, c
 		fclose(out);
 
 		char buffer[41];
-		setString(hContact, "AvatarSaved", bin2hex(digest, sizeof(digest), buffer));
+		setString(hContact, "AvatarHash", bin2hex(digest, sizeof(digest), buffer));
 		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, HANDLE(&ai), 0);
 		debugLogW(L"Broadcast new avatar: %s", ai.filename);
 	}
