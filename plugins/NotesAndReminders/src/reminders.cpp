@@ -1274,7 +1274,6 @@ public:
 				FileTimeToTzLocalST((FILETIME*)&li2, &tm3);
 				if (tm2.wHour != tm3.wHour || tm2.wMinute != tm3.wMinute) {
 					// boundary crossed
-
 					// do a quick and dirty sanity check that times not more than 2 hours apart
 					if (abs((int)(tm3.wHour * 60 + tm3.wMinute) - (int)(tm2.wHour * 60 + tm2.wMinute)) <= 120) {
 						// adjust TT so that same HH:MM is set
@@ -1284,21 +1283,6 @@ public:
 						TT = (li2 - li) / FILETIME_TICKS_PER_SEC;
 					}
 				}
-			}
-			else {
-				// parse user input
-				wchar_t s[32];
-				cmbRemindAgainIn.GetText(s, _countof(s));
-
-				int h = 0, m = 0;
-				ParseTime(s, &h, &m, TRUE, TRUE);
-				m += h * 60;
-				if (!m) {
-					MessageBox(m_hwnd, TranslateT("The specified time offset is invalid."), _A2W(SECTIONNAME), MB_OK | MB_ICONWARNING);
-					return;
-				}
-
-				TT = m * 60;
 			}
 
 			// reset When from the current time
