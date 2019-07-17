@@ -250,7 +250,8 @@ class CIcqProto : public PROTO<CIcqProto>
 	CMStringA m_szMailBox;
 
 	bool      m_bIgnoreListEmpty = true;
-	bool      m_bRememberPwd = false; // store password in a database
+	bool      m_bRememberPwd; // store password in a database
+	bool      m_bDlgActive;
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// group chats

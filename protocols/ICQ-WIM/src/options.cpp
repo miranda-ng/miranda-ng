@@ -35,7 +35,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		chkSave.SetState(m_proto->m_bRememberPwd);
+		chkSave.SetState(m_proto->getBool("RememberPass"));
 		Window_SetIcon_IcoLib(m_hwnd, m_proto->m_hProtoIcon);
 		return true;
 	}
@@ -64,7 +64,13 @@ bool CIcqProto::RetrievePassword()
 		return true;
 	}
 
-	return CIcqEnterLoginDlg(this).DoModal() == IDOK;
+	if (m_bDlgActive)
+		return false;
+
+	m_bDlgActive = true;
+	bool bRet = CIcqEnterLoginDlg(this).DoModal() == IDOK;
+	m_bDlgActive = false;
+	return bRet;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
