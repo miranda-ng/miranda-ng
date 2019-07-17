@@ -127,7 +127,7 @@
             this.LangpackNameEdit.Name = "LangpackNameEdit";
             this.LangpackNameEdit.Size = new System.Drawing.Size(160, 20);
             this.LangpackNameEdit.TabIndex = 1;
-            this.LangpackNameEdit.Text = "Langpack_";
+            this.LangpackNameEdit.Text = "langpack_";
             // 
             // label1
             // 
@@ -286,7 +286,7 @@
             this.SVNURLEditBox.Name = "SVNURLEditBox";
             this.SVNURLEditBox.Size = new System.Drawing.Size(317, 20);
             this.SVNURLEditBox.TabIndex = 5;
-            this.SVNURLEditBox.Text = "https://svn.miranda-ng.org/main/trunk/langpacks/english";
+            this.SVNURLEditBox.Text = "https://github.com/miranda-ng/miranda-ng/tree/master/langpacks/english";
             // 
             // InfMessageLinkBox
             // 
