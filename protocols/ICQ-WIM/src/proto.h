@@ -157,6 +157,8 @@ class CIcqProto : public PROTO<CIcqProto>
 	friend struct CIcqRegistrationDlg;
 	friend class CGroupchatInviteDlg;
 	friend class CEditIgnoreListDlg;
+	friend class CIcqEnterLoginDlg;
+	friend class CIcqOptionsDlg;
 
 	friend AsyncHttpRequest* operator <<(AsyncHttpRequest*, const AIMSID&);
 
@@ -170,6 +172,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      GetPermitDeny();
 	wchar_t*  GetUIN(MCONTACT hContact);
 	void      MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup);
+	bool      RetrievePassword();
 	void      RetrieveUserHistory(MCONTACT, __int64 startMsgId, __int64 endMsgId = -1);
 	void      RetrieveUserInfo(MCONTACT = INVALID_CONTACT_ID);
 	void      SetServerStatus(int iNewStatus);
@@ -228,6 +231,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      ProcessTyping(const JSONNode&);
 
 	IcqConn   m_ConnPool[CONN_LAST];
+	CMStringA m_szPassword;
 	CMStringA m_szSessionKey;
 	CMStringA m_szAToken;
 	CMStringA m_szRToken;
@@ -246,6 +250,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	CMStringA m_szMailBox;
 
 	bool      m_bIgnoreListEmpty = true;
+	bool      m_bRememberPwd = false; // store password in a database
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// group chats
@@ -349,7 +354,6 @@ public:
 	~CIcqProto();
 
 	CMOption<wchar_t*> m_szOwnId;      // our own aim id
-	CMOption<wchar_t*> m_szPassword;   // password, if present
 	CMOption<BYTE>  m_bHideGroupchats; // don't pop up group chat windows on startup
 	CMOption<BYTE>  m_bUseTrayIcon;    // use tray icon notifications
 	CMOption<BYTE>  m_bErrorPopups;    // display popups with errors

@@ -91,7 +91,7 @@ void CIcqProto::CheckPassword()
 	if (m_szAToken.IsEmpty() || m_szSessionKey.IsEmpty()) {
 		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, "https://api.login.icq.net/auth/clientLogin", &CIcqProto::OnCheckPassword);
 		pReq << CHAR_PARAM("clientName", "Miranda NG") << CHAR_PARAM("clientVersion", mirVer) << CHAR_PARAM("devId", ICQ_APP_ID)
-			<< CHAR_PARAM("f", "json") << CHAR_PARAM("tokenType", "longTerm") << WCHAR_PARAM("s", m_szOwnId) << WCHAR_PARAM("pwd", m_szPassword);
+			<< CHAR_PARAM("f", "json") << CHAR_PARAM("tokenType", "longTerm") << WCHAR_PARAM("s", m_szOwnId) << CHAR_PARAM("pwd", m_szPassword);
 		pReq->flags |= NLHRF_NODUMPSEND;
 		Push(pReq);
 	}

@@ -38,7 +38,7 @@ static int CompareCache(const IcqCacheItem *p1, const IcqCacheItem *p2)
 	return mir_wstrcmp(p1->m_aimid, p2->m_aimid);
 }
 
-CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
+CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 	PROTO<CIcqProto>(aProtoName, aUserName),
 	m_arHttpQueue(10),
 	m_arOwnIds(1, PtrKeySortT),
@@ -50,7 +50,6 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	m_iStatus2(this, "Status2", ID_STATUS_NA),
 	m_iTimeDiff1(this, "TimeDiff1", 0),
 	m_iTimeDiff2(this, "TimeDiff2", 0),
-	m_szPassword(this, "Password"),
 	m_bHideGroupchats(this, "HideChats", true),
 	m_bUseTrayIcon(this, "UseTrayIcon", false),
 	m_bErrorPopups(this, "ShowErrorPopups", true),
@@ -450,7 +449,7 @@ int CIcqProto::SetStatus(int iNewStatus)
 			return 0;
 		}
 
-		if (!getByte(DB_KEY_PHONEREG) && mir_wstrlen(m_szPassword) == 0) {
+		if (!RetrievePassword()) {
 			debugLogA("Thread ended, password is not configured");
 			ConnectionFailed(LOGINERR_BADUSERID);
 			return 0;

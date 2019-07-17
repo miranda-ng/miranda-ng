@@ -20,6 +20,55 @@
 
 #include "stdafx.h"
 
+class CIcqEnterLoginDlg : public CProtoDlgBase<CIcqProto>
+{
+	CCtrlEdit edtPass;
+	CCtrlCheck chkSave;
+
+public:
+	CIcqEnterLoginDlg(CIcqProto *ppro) :
+		CProtoDlgBase<CIcqProto>(ppro, IDD_LOGINPW),
+		edtPass(this, IDC_PASSWORD),
+		chkSave(this, IDC_SAVEPASS)
+	{
+	}
+
+	bool OnInitDialog() override
+	{
+		chkSave.SetState(m_proto->m_bRememberPwd);
+		Window_SetIcon_IcoLib(m_hwnd, m_proto->m_hProtoIcon);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		m_proto->setByte("RememberPass", m_proto->m_bRememberPwd = chkSave.GetState());
+		m_proto->m_szPassword = ptrA(edtPass.GetTextU());
+		EndModal(true);
+		return true;
+	}
+};
+
+bool CIcqProto::RetrievePassword()
+{
+	// if we registered via phone (i.e., server holds the password), we don't need to enter it
+	if (getByte(DB_KEY_PHONEREG))
+		return true;
+
+	if (!m_szPassword.IsEmpty() && m_bRememberPwd)
+		return true;
+		
+	m_szPassword = getMStringA("Password");
+	if (!m_szPassword.IsEmpty()) {
+		m_bRememberPwd = true;
+		return true;
+	}
+
+	return CIcqEnterLoginDlg(this).DoModal() == IDOK;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 struct CIcqRegistrationDlg : public CProtoDlgBase<CIcqProto>
 {
 	CMStringA szTrans, szMsisdn;
@@ -160,7 +209,7 @@ class CIcqOptionsDlg : public CProtoDlgBase<CIcqProto>
 	CCtrlEdit edtUin, edtPassword;
 	CCtrlCheck chkHideChats, chkTrayIcon, chkLaunchMailbox, chkShowErrorPopups;
 	CCtrlButton btnCreate;
-	CMStringW wszOldPass;
+	CMStringA wszOldPass;
 
 public:
 	CIcqOptionsDlg(CIcqProto *ppro, int iDlgID, bool bFullDlg) :
@@ -176,7 +225,6 @@ public:
 		btnCreate.OnClick = Callback(this, &CIcqOptionsDlg::onClick_Register);
 
 		CreateLink(edtUin, ppro->m_szOwnId);
-		CreateLink(edtPassword, ppro->m_szPassword);
 		if (bFullDlg) {
 			CreateLink(chkHideChats, ppro->m_bHideGroupchats);
 			CreateLink(chkTrayIcon, ppro->m_bUseTrayIcon);
@@ -186,6 +234,7 @@ public:
 			chkTrayIcon.OnChange = Callback(this, &CIcqOptionsDlg::onChange_Tray);
 		}
 
+		edtPassword.SetText(Utf2T(ppro->m_szPassword));
 		wszOldPass = ppro->m_szPassword;
 	}
 
@@ -197,11 +246,19 @@ public:
 
 	bool OnApply() override
 	{
-		if (wszOldPass != ptrW(edtPassword.GetText())) {
+		ptrW wszPass(edtPassword.GetText());
+		if (wszOldPass != wszPass) {
 			m_proto->delSetting(DB_KEY_ATOKEN);
 			m_proto->delSetting(DB_KEY_SESSIONKEY);
 			m_proto->delSetting(DB_KEY_PHONEREG);
 		}
+
+		if (mir_wstrlen(wszPass)) {
+			m_proto->m_szPassword = T2Utf(wszPass).get();
+			m_proto->m_bRememberPwd = true;
+		}
+		else m_proto->m_bRememberPwd = m_proto->getByte("RememberPass");
+
 		return true;
 	}
 

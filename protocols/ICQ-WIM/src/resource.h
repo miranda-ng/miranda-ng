@@ -11,6 +11,7 @@
 #define IDI_INBOX                       107
 #define IDI_MAIL_NOTIFY                 108
 #define IDD_OPTIONS_ADV                 109
+#define IDD_LOGINPW                     110
 #define IDC_PASSWORD                    1001
 #define IDC_UIN                         1002
 #define IDC_UIN2                        1003
@@ -25,6 +26,7 @@
 #define IDC_NICK                        1012
 #define IDC_MEMBERSINCE                 1013
 #define IDC_LASTSEEN                    1014
+#define IDC_SAVEPASS                    1015
 #define IDC_LIST                        1016
 #define IDC_DIFF1                       1017
 #define IDC_SPIN1                       1018
