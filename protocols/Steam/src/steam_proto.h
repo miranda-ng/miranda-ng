@@ -36,11 +36,17 @@ struct RequestQueueItem
 	void *param;
 
 	RequestQueueItem(HttpRequest *request)
-		: request(request), httpCallback(nullptr), jsonCallback(nullptr), param(nullptr) {}
+		: request(request), httpCallback(nullptr), jsonCallback(nullptr), param(nullptr)
+	{
+	}
 	RequestQueueItem(HttpRequest *request, HttpCallback callback, void *param)
-		: request(request), httpCallback(callback), jsonCallback(nullptr), param(param) {}
+		: request(request), httpCallback(callback), jsonCallback(nullptr), param(param)
+	{
+	}
 	RequestQueueItem(HttpRequest *request, JsonCallback callback, void *param)
-		: request(request), httpCallback(nullptr), jsonCallback(callback), param(param) {}
+		: request(request), httpCallback(nullptr), jsonCallback(callback), param(param)
+	{
+	}
 };
 
 class CSteamProto : public PROTO<CSteamProto>
@@ -126,7 +132,7 @@ protected:
 	// login
 	bool IsOnline();
 	bool IsMe(const char *steamId);
-	
+
 	void Login();
 	void Logout();
 
@@ -183,7 +189,7 @@ protected:
 	void OnSearchByNameStarted(const HttpResponse &response, void *arg);
 
 	// messages
-	int OnSendMessage(MCONTACT hContact, const char* message);
+	int OnSendMessage(MCONTACT hContact, const char *message);
 	void OnMessageSent(const HttpResponse &response, void *arg);
 	int __cdecl OnPreCreateMessage(WPARAM, LPARAM lParam);
 
@@ -244,7 +250,8 @@ protected:
 	INT_PTR __cdecl OnGetEventTextChatStates(WPARAM wParam, LPARAM lParam);
 
 	// helpers
-	inline int IdleSeconds() {
+	inline int IdleSeconds()
+	{
 		// Based on idle time we report Steam server will mark us as online/away/snooze
 		switch (m_iStatus) {
 		case ID_STATUS_AWAY:

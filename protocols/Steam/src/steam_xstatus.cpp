@@ -29,7 +29,7 @@ INT_PTR CSteamProto::OnGetXStatusEx(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = (MCONTACT)wParam;
 
-	CUSTOM_STATUS *pData = (CUSTOM_STATUS*)lParam;
+	CUSTOM_STATUS *pData = (CUSTOM_STATUS *)lParam;
 	if (pData->cbSize < sizeof(CUSTOM_STATUS))
 		return 1;
 
@@ -38,8 +38,7 @@ INT_PTR CSteamProto::OnGetXStatusEx(WPARAM wParam, LPARAM lParam)
 		*pData->status = GetContactXStatus(hContact);
 
 	// fill status name member
-	if (pData->flags & CSSF_MASK_NAME)
-	{
+	if (pData->flags & CSSF_MASK_NAME) {
 		int status = (pData->wParam == nullptr) ? GetContactXStatus(hContact) : *pData->wParam;
 		if (status < 1)
 			return 1;
@@ -59,7 +58,7 @@ INT_PTR CSteamProto::OnGetXStatusEx(WPARAM wParam, LPARAM lParam)
 	// fill status message member
 	if (pData->flags & CSSF_MASK_MESSAGE) {
 		ptrW message(getWStringA(hContact, "XStatusMsg"));
-		
+
 		if (pData->flags & CSSF_UNICODE)
 			mir_wstrncpy(pData->ptszMessage, message, STATUS_DESC_MAX);
 		else
@@ -83,8 +82,10 @@ INT_PTR CSteamProto::OnGetXStatusEx(WPARAM wParam, LPARAM lParam)
 
 	// data sizes
 	if (pData->flags & CSSF_STR_SIZES) {
-		if (pData->wParam) *pData->wParam = STATUS_TITLE_MAX;
-		if (pData->lParam) *pData->lParam = STATUS_DESC_MAX;
+		if (pData->wParam)
+			*pData->wParam = STATUS_TITLE_MAX;
+		if (pData->lParam)
+			*pData->lParam = STATUS_DESC_MAX;
 	}
 
 	return 0;
@@ -116,14 +117,11 @@ INT_PTR CSteamProto::OnGetXStatusIcon(WPARAM wParam, LPARAM lParam)
 INT_PTR CSteamProto::OnRequestAdvStatusIconIdx(WPARAM wParam, LPARAM)
 {
 	int status = GetContactXStatus(wParam);
-	if (status)
-	{
-		if (std::find(xstatusIconsValid.begin(), xstatusIconsValid.end(), status) == xstatusIconsValid.end())
-		{
+	if (status) {
+		if (std::find(xstatusIconsValid.begin(), xstatusIconsValid.end(), status) == xstatusIconsValid.end()) {
 			// adding/updating icon
 			HIMAGELIST clistImageList = Clist_GetImageList();
-			if (clistImageList)
-			{
+			if (clistImageList) {
 				HICON hXStatusIcon = GetXStatusIcon(status, LR_SHARED);
 
 				std::map<int, int>::iterator it = xstatusIcons.find(status);
@@ -139,11 +137,10 @@ INT_PTR CSteamProto::OnRequestAdvStatusIconIdx(WPARAM wParam, LPARAM)
 			}
 		}
 
-		if (std::find(xstatusIconsValid.begin(), xstatusIconsValid.end(), status) != xstatusIconsValid.end())
-		{
+		if (std::find(xstatusIconsValid.begin(), xstatusIconsValid.end(), status) != xstatusIconsValid.end()) {
 			std::map<int, int>::iterator it = xstatusIcons.find(status);
 			if (it != xstatusIcons.end())
-				return ((INT_PTR) it->second & 0xFFFF) << 16;
+				return ((INT_PTR)it->second & 0xFFFF) << 16;
 		}
 	}
 

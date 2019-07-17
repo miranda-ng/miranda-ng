@@ -4,16 +4,46 @@ void CSteamProto::ParsePollData(const JSONNode &data)
 {
 	std::string steamIds;
 
-	for (const JSONNode &item : data) {
+	for (auto &item : data) {
 		json_string steamId = item["steamid_from"].as_string();
+		json_string type = item["type"].as_string();
 		time_t timestamp = _wtol(item["utc_timestamp"].as_mstring());
 
-		MCONTACT hContact = NULL;
-		if (!IsMe(steamId.c_str()) && !(hContact = GetContact(steamId.c_str())))
-			// probably this is info about random player playing on same server, so we ignore it
+		bool bIsMe = IsMe(steamId.c_str());
+		MCONTACT hContact = (bIsMe) ? 0 : GetContact(steamId.c_str());
+
+		if (type == "personarelationship") {
+			PersonaRelationshipAction state = (PersonaRelationshipAction)item["persona_state"].as_int();
+			switch (state) {
+			case PersonaRelationshipAction::Remove:
+				if (hContact)
+					ContactIsRemoved(hContact);
+				break;
+
+			case PersonaRelationshipAction::Ignore:
+				if (hContact)
+					ContactIsBlocked(hContact);
+				break;
+
+			case PersonaRelationshipAction::AuthRequest:
+				hContact = AddContact(steamId.c_str());
+				if (hContact)
+					ContactIsAskingAuth(hContact);
+				break;
+
+			case PersonaRelationshipAction::AuthRequested:
+				if (hContact)
+					ContactIsFriend(hContact);
+				break;
+			}
+
+			continue;
+		}
+
+		// probably this is a packet from random player playing on the same server, so we ignore it
+		if (!bIsMe && !hContact)
 			continue;
 
-		json_string type = item["type"].as_string();
 		if (type == "my_saytext" || type =="my_emote") {
 			json_string text = item["text"].as_string();
 
@@ -55,8 +85,8 @@ void CSteamProto::ParsePollData(const JSONNode &data)
 		if (type == "personastate") {
 			if (!IsMe(steamId.c_str())) {
 				// there no sense to change own status
-				JSONNode node = item["persona_state"];
-				if (!node.isnull()) {
+				const JSONNode &node = item["persona_state"];
+				if (node) {
 					int status = SteamToMirandaStatus((PersonaState)node.as_int());
 					SetContactStatus(hContact, status);
 				}
@@ -66,44 +96,6 @@ void CSteamProto::ParsePollData(const JSONNode &data)
 			continue;
 		}
 
-		if (type == "personarelationship") {
-			PersonaRelationshipAction state = (PersonaRelationshipAction)item["persona_state"].as_int();
-			switch (state) {
-			case PersonaRelationshipAction::Remove:
-				hContact = GetContact(steamId.c_str());
-				if (hContact)
-					ContactIsRemoved(hContact);
-				break;
-
-			case PersonaRelationshipAction::Ignore:
-				hContact = GetContact(steamId.c_str());
-				if (hContact)
-					ContactIsBlocked(hContact);
-				break;
-
-			case PersonaRelationshipAction::AuthRequest:
-				hContact = AddContact(steamId.c_str());
-				if (hContact)
-					ContactIsAskingAuth(hContact);
-				else {
-					// load info about this user from server
-					ptrA token(getStringA("TokenSecret"));
-					PushRequest(
-						new GetUserSummariesRequest(token, steamId.c_str()),
-						&CSteamProto::OnAuthRequested);
-				}
-				break;
-
-			case PersonaRelationshipAction::AuthRequested:
-				hContact = GetContact(steamId.c_str());
-				if (hContact)
-					ContactIsFriend(hContact);
-				break;
-			}
-
-			continue;
-		}
-		
 		if (type == "leftconversation") {
 			if (!getBool("ShowChatEvents", true))
 				continue;
@@ -176,7 +168,7 @@ void CSteamProto::OnGotPoll(const HttpResponse &response, void *arg)
 	}
 
 	JSONNode root = JSONNode::parse(response.Content);
-	if (root.isnull()) {
+	if (!root) {
 		debugLogA(__FUNCTION__ ": could not recognize a response");
 		param->errors++;
 		return;
@@ -205,8 +197,7 @@ void CSteamProto::OnGotPoll(const HttpResponse &response, void *arg)
 		long messageId = root["messagelast"].as_int();
 		setDword("MessageID", messageId);
 
-		JSONNode data = root["messages"].as_array();
-		ParsePollData(data);
+		ParsePollData(root["messages"]);
 
 		// Reset error counter only when we've got OK
 		param->errors = 0;
@@ -223,9 +214,7 @@ void CSteamProto::OnGotPoll(const HttpResponse &response, void *arg)
 		// try to reconnect only when we're actually online (during normal logout we will still got this error anyway, but in that case our status is already offline)
 		if (IsOnline()) {
 			ptrA token(getStringA("TokenSecret"));
-			SendRequest(
-				new LogonRequest(token),
-				&CSteamProto::OnReLogin);
+			SendRequest(new LogonRequest(token), &CSteamProto::OnReLogin);
 		}
 		return;
 	}
@@ -250,10 +239,7 @@ void CSteamProto::PollingThread(void*)
 		// request->nlc = m_pollingConnection;
 		ptrA umqId(getStringA("UMQID"));
 		UINT32 messageId = getDword("MessageID", 0);
-		SendRequest(
-			new PollRequest(token, umqId, messageId, IdleSeconds()),
-			&CSteamProto::OnGotPoll,
-			(void*)&param);
+		SendRequest(new PollRequest(token, umqId, messageId, IdleSeconds()), &CSteamProto::OnGotPoll, &param);
 	}
 
 	if (IsOnline()) {

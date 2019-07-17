@@ -4,7 +4,7 @@
 class GetFriendListRequest : public HttpRequest
 {
 public:
-	GetFriendListRequest(const char *token, const char *steamId, const char *relationship = "friend,ignoredfriend,requestrecipient") :
+	GetFriendListRequest(const char *token, const char *steamId, const char *relationship) :
 		HttpRequest(HttpGet, STEAM_API_URL "/ISteamUserOAuth/GetFriendList/v0001")
 	{
 		Uri

@@ -71,7 +71,7 @@ bool CSteamOptionsBlockList::OnInitDialog()
 	return true;
 }
 
-void CSteamOptionsBlockList::OnBlock(CCtrlButton*)
+void CSteamOptionsBlockList::OnBlock(CCtrlButton *)
 {
 }
 

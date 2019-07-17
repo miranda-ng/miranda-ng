@@ -170,8 +170,7 @@ protected:
 
 	virtual ~HttpContent()
 	{
-		if (m_request)
-		{
+		if (m_request) {
 			m_request->pData = nullptr;
 			m_request->dataLength = 0;
 		}
@@ -210,11 +209,11 @@ public:
 
 class FormUrlEncodedContent : public HttpContent
 {
-	friend FormUrlEncodedContent* operator<<(FormUrlEncodedContent*, const PARAM&);
-	friend FormUrlEncodedContent* operator<<(FormUrlEncodedContent*, const BOOL_PARAM&);
-	friend FormUrlEncodedContent* operator<<(FormUrlEncodedContent*, const INT_PARAM&);
-	friend FormUrlEncodedContent* operator<<(FormUrlEncodedContent*, const INT64_PARAM&);
-	friend FormUrlEncodedContent* operator<<(FormUrlEncodedContent*, const CHAR_PARAM&);
+	friend FormUrlEncodedContent *operator<<(FormUrlEncodedContent *, const PARAM &);
+	friend FormUrlEncodedContent *operator<<(FormUrlEncodedContent *, const BOOL_PARAM &);
+	friend FormUrlEncodedContent *operator<<(FormUrlEncodedContent *, const INT_PARAM &);
+	friend FormUrlEncodedContent *operator<<(FormUrlEncodedContent *, const INT64_PARAM &);
+	friend FormUrlEncodedContent *operator<<(FormUrlEncodedContent *, const CHAR_PARAM &);
 
 private:
 	CMStringA m_content;
@@ -228,8 +227,7 @@ private:
 		m_content.AppendFormatV(fmt, args);
 		va_end(args);
 
-		if (m_request)
-		{
+		if (m_request) {
 			m_request->pData = m_content.GetBuffer();
 			m_request->dataLength = m_content.GetLength();
 		}
@@ -291,8 +289,8 @@ public:
 	HttpHeaders Headers;
 	HttpContent Content;
 
-	HttpResponse(HttpRequest *request, NETLIBHTTPREQUEST *response)
-		: Request(request),
+	HttpResponse(HttpRequest *request, NETLIBHTTPREQUEST *response) :
+		Request(request),
 		m_response(response),
 		Headers(response),
 		Content(response)
@@ -372,8 +370,7 @@ public:
 
 	~HttpRequest()
 	{
-		if (Content != nullptr)
-		{
+		if (Content != nullptr) {
 			delete Content;
 			Content = nullptr;
 		}

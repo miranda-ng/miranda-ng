@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-CSteamProto::CSteamProto(const char* protoName, const wchar_t* userName)
+CSteamProto::CSteamProto(const char *protoName, const wchar_t *userName)
 	: PROTO<CSteamProto>(protoName, userName),
 	m_requestQueue(1), hAuthProcess(1), hMessageProcess(1)
 {
@@ -95,11 +95,10 @@ CSteamProto::~CSteamProto()
 
 MCONTACT CSteamProto::AddToList(int, PROTOSEARCHRESULT *psr)
 {
-	_T2A steamId(psr->id.w);
-	MCONTACT hContact = AddContact(steamId, psr->nick.w, true);
+	MCONTACT hContact = AddContact(_T2A(psr->id.w), psr->nick.w, true);
 
 	if (psr->cbSize == sizeof(STEAM_SEARCH_RESULT)) {
-		STEAM_SEARCH_RESULT *ssr = (STEAM_SEARCH_RESULT*)psr;
+		STEAM_SEARCH_RESULT *ssr = (STEAM_SEARCH_RESULT *)psr;
 		UpdateContactDetails(hContact, *ssr->data);
 	}
 
@@ -218,7 +217,7 @@ HANDLE CSteamProto::SearchBasic(const wchar_t* id)
 	return (HANDLE)STEAM_SEARCH_BYID;
 }
 
-HANDLE CSteamProto::SearchByName(const wchar_t* nick, const wchar_t* firstName, const wchar_t* lastName)
+HANDLE CSteamProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName)
 {
 	if (!IsOnline())
 		return nullptr;
@@ -316,14 +315,14 @@ void CSteamProto::GetAwayMsgThread(void *arg)
 
 	MCONTACT hContact = (UINT_PTR)arg;
 	CMStringW message(db_get_wsm(hContact, "CList", "StatusMsg"));
-	
+
 	// if contact has no status message, get xstatus message
 	if (message.IsEmpty()) {
 		ptrW xStatusName(getWStringA(hContact, "XStatusName"));
 		ptrW xStatusMsg(getWStringA(hContact, "XStatusMsg"));
 
 		if (xStatusName)
-			message.AppendFormat(L"%s: %s", xStatusName, xStatusMsg);
+			message.AppendFormat(L"%s: %s", xStatusName.get(), xStatusMsg.get());
 		else
 			message.Append(xStatusMsg);
 	}

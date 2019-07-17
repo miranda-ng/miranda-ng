@@ -42,14 +42,12 @@ void CSteamProto::CheckAvatarChange(MCONTACT hContact, std::string avatarUrl)
 	if (update_required)
 		setString(hContact, "AvatarUrl", avatarUrl.c_str());
 
-	if (!hContact)
-	{
+	if (!hContact) {
 		PROTO_AVATAR_INFORMATION ai = { 0 };
-		if (GetAvatarInfo(update_required ? GAIF_FORCE : 0, (LPARAM)&ai) != GAIR_WAITFOR)
+		if (GetAvatarInfo(update_required ? GAIF_FORCE : 0, (LPARAM)& ai) != GAIR_WAITFOR)
 			ReportSelfAvatarChanged();
 	}
-	else if (update_required)
-	{
+	else if (update_required) {
 		db_set_b(hContact, "ContactPhoto", "NeedUpdate", 1);
 		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, nullptr, 0);
 	}
@@ -60,14 +58,13 @@ INT_PTR CSteamProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	if (!lParam)
 		return GAIR_NOAVATAR;
 
-	PROTO_AVATAR_INFORMATION* pai = (PROTO_AVATAR_INFORMATION*)lParam;
+	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION *)lParam;
 
 	ptrA avatarUrl(getStringA(pai->hContact, "AvatarUrl"));
 	if (!avatarUrl)
 		return GAIR_NOAVATAR;
 
-	if (GetDbAvatarInfo(*pai))
-	{
+	if (GetDbAvatarInfo(*pai)) {
 		bool fileExist = _waccess(pai->filename, 0) == 0;
 
 		bool needLoad;
@@ -76,37 +73,30 @@ INT_PTR CSteamProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		else
 			needLoad = (wParam & GAIF_FORCE) || !fileExist;
 
-		if (needLoad)
-		{
-			PushRequest(
-				new GetAvatarRequest(avatarUrl),
-				&CSteamProto::OnGotAvatar,
-				(void*)pai->hContact);
-
+		if (needLoad) {
+			PushRequest(new GetAvatarRequest(avatarUrl), &CSteamProto::OnGotAvatar, (void *)pai->hContact);
 			return GAIR_WAITFOR;
 		}
-		else if (fileExist)
+		if (fileExist)
 			return GAIR_SUCCESS;
-
 	}
+
 	return GAIR_NOAVATAR;
 }
 
 INT_PTR CSteamProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 {
-	switch (wParam)
-	{
+	switch (wParam) {
 	case AF_MAXSIZE:
-	{
-		POINT *size = (POINT*)lParam;
-		if (size)
 		{
-			size->x = 184;
-			size->y = 184;
+			POINT *size = (POINT *)lParam;
+			if (size) {
+				size->x = 184;
+				size->y = 184;
+			}
 		}
-	}
-	break;
-	
+		break;
+
 	case AF_PROPORTION:
 		return PIP_SQUARE;
 
@@ -115,7 +105,7 @@ INT_PTR CSteamProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 
 	case AF_ENABLED:
 		return 1;
-	
+
 	case AF_DELAYAFTERFAIL:
 		// request avatar again in one hour if server gave an error
 		return 60 * 60 * 1000;
@@ -134,11 +124,11 @@ INT_PTR CSteamProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 	if (!wParam || !lParam)
 		return -3;
 
-	wchar_t* buf = (wchar_t*)wParam;
+	wchar_t *buf = (wchar_t *)wParam;
 	int  size = (int)lParam;
 
 	PROTO_AVATAR_INFORMATION ai = { 0 };
-	switch (GetAvatarInfo(0, (LPARAM)&ai)) {
+	switch (GetAvatarInfo(0, (LPARAM)& ai)) {
 	case GAIR_SUCCESS:
 		wcsncpy(buf, ai.filename, size);
 		buf[size - 1] = 0;

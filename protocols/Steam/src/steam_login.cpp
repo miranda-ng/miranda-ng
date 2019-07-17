@@ -16,21 +16,15 @@ void CSteamProto::Login()
 	ptrA token(getStringA("TokenSecret"));
 	ptrA sessionId(getStringA("SessionID"));
 	if (mir_strlen(token) > 0 && mir_strlen(sessionId) > 0) {
-		PushRequest(
-			new LogonRequest(token),
-			&CSteamProto::OnLoggedOn);
-		return;
-	}
-	
-	T2Utf username(getWStringA("Username"));
-	if (username == NULL) {
-		SetStatus(ID_STATUS_OFFLINE);
+		PushRequest(new LogonRequest(token), &CSteamProto::OnLoggedOn);
 		return;
 	}
 
-	PushRequest(
-		new GetRsaKeyRequest(username),
-		&CSteamProto::OnGotRsaKey);
+	T2Utf username(getWStringA("Username"));
+	if (username == NULL)
+		SetStatus(ID_STATUS_OFFLINE);
+	else
+		PushRequest(new GetRsaKeyRequest(username), &CSteamProto::OnGotRsaKey);
 }
 
 void CSteamProto::Logout()
@@ -46,7 +40,7 @@ void CSteamProto::Logout()
 	}
 }
 
-void CSteamProto::OnGotRsaKey(const JSONNode &root, void*)
+void CSteamProto::OnGotRsaKey(const JSONNode &root, void *)
 {
 	if (root.isnull()) {
 		SetStatus(ID_STATUS_OFFLINE);
@@ -77,7 +71,7 @@ void CSteamProto::OnGotRsaKey(const JSONNode &root, void*)
 		return;
 	}
 
-	BYTE *encryptedPassword = (BYTE*)mir_calloc(encryptedSize);
+	BYTE *encryptedPassword = (BYTE *)mir_calloc(encryptedSize);
 	if ((error = RsaEncrypt(modulus.c_str(), exponent, szPassword, encryptedPassword, encryptedSize)) != 0) {
 		debugLogA(__FUNCTION__ ": encryption error (%lu)", error);
 		SetStatus(ID_STATUS_OFFLINE);
@@ -109,14 +103,13 @@ void CSteamProto::OnGotRsaKey(const JSONNode &root, void*)
 		captchaText = mir_strdup("");
 
 	PushRequest(
-		new AuthorizationRequest(username, base64RsaEncryptedPassword, timestamp.c_str(), twoFactorCode,
-			guardCode, guardId, captchaId, captchaText),
+		new AuthorizationRequest(username, base64RsaEncryptedPassword, timestamp.c_str(), twoFactorCode, guardCode, guardId, captchaId, captchaText),
 		&CSteamProto::OnAuthorization);
 }
 
 void CSteamProto::OnGotCaptcha(const HttpResponse &response, void *arg)
 {
-	ptrA captchaId((char*)arg);
+	ptrA captchaId((char *)arg);
 
 	if (!response.IsSuccess()) {
 		debugLogA(__FUNCTION__ ": failed to get captcha");
@@ -134,12 +127,10 @@ void CSteamProto::OnGotCaptcha(const HttpResponse &response, void *arg)
 	setString("CaptchaText", captchaDialog.GetCaptchaText());
 
 	T2Utf username(getWStringA("Username"));
-	PushRequest(
-		new GetRsaKeyRequest(username),
-		&CSteamProto::OnGotRsaKey);
+	PushRequest(new GetRsaKeyRequest(username), &CSteamProto::OnGotRsaKey);
 }
 
-void CSteamProto::OnAuthorization(const HttpResponse &response, void*)
+void CSteamProto::OnAuthorization(const HttpResponse &response, void *)
 {
 	if (!response) {
 		SetStatus(ID_STATUS_OFFLINE);
@@ -206,9 +197,7 @@ void CSteamProto::OnAuthorizationError(const JSONNode &root)
 
 		setString("TwoFactorCode", twoFactorDialog.GetTwoFactorCode());
 
-		PushRequest(
-			new GetRsaKeyRequest(username),
-			&CSteamProto::OnGotRsaKey);
+		PushRequest(new GetRsaKeyRequest(username), &CSteamProto::OnGotRsaKey);
 		return;
 	}
 
@@ -238,9 +227,7 @@ void CSteamProto::OnAuthorizationError(const JSONNode &root)
 		setString("GuardId", guardId.c_str());
 		setString("GuardCode", guardDialog.GetGuardCode());
 
-		PushRequest(
-			new GetRsaKeyRequest(username),
-			&CSteamProto::OnGotRsaKey);
+		PushRequest(new GetRsaKeyRequest(username), &CSteamProto::OnGotRsaKey);
 		return;
 	}
 
@@ -249,10 +236,7 @@ void CSteamProto::OnAuthorizationError(const JSONNode &root)
 		delSetting("CaptchaId");
 		delSetting("CaptchaText");
 		json_string captchaId = root["captcha_gid"].as_string();
-		PushRequest(
-			new GetCaptchaRequest(captchaId.c_str()),
-			&CSteamProto::OnGotCaptcha,
-			mir_strdup(captchaId.c_str()));
+		PushRequest(new GetCaptchaRequest(captchaId.c_str()), &CSteamProto::OnGotCaptcha, mir_strdup(captchaId.c_str()));
 		return;
 	}
 
@@ -284,16 +268,12 @@ void CSteamProto::OnAuthorizationSuccess(const JSONNode &root)
 	json_string token = node["oauth_token"].as_string();
 	setString("TokenSecret", token.c_str());
 
-	SendRequest(
-		new GetSessionRequest2(token.c_str(), steamId.c_str()),
-		&CSteamProto::OnGotSession);
+	SendRequest(new GetSessionRequest2(token.c_str(), steamId.c_str()), &CSteamProto::OnGotSession);
 
-	PushRequest(
-		new LogonRequest(token.c_str()),
-		&CSteamProto::OnLoggedOn);
+	PushRequest(new LogonRequest(token.c_str()), &CSteamProto::OnLoggedOn);
 }
 
-void CSteamProto::OnGotSession(const HttpResponse &response, void*)
+void CSteamProto::OnGotSession(const HttpResponse &response, void *)
 {
 	if (!response) {
 		debugLogA(__FUNCTION__ ": failed to get session id");
@@ -335,7 +315,7 @@ void CSteamProto::HandleTokenExpired()
 	return;
 }
 
-void CSteamProto::OnLoggedOn(const HttpResponse &response, void*)
+void CSteamProto::OnLoggedOn(const HttpResponse &response, void *)
 {
 	if (!response.IsSuccess()) {
 		// Probably timeout or no connection, we can do nothing here
@@ -363,7 +343,7 @@ void CSteamProto::OnLoggedOn(const HttpResponse &response, void*)
 
 	long messageId = root["umqid"].as_int();
 	setDword("MessageID", messageId);
-	
+
 	if (m_lastMessageTS <= 0) {
 		time_t timestamp = _wtoi64(root["utc_timestamp"].as_mstring());
 		setDword("LastMessageTS", timestamp);
@@ -373,14 +353,10 @@ void CSteamProto::OnLoggedOn(const HttpResponse &response, void*)
 	ptrA token(getStringA("TokenSecret"));
 	ptrA steamId(getStringA("SteamID"));
 
-	SendRequest(
-		new GetSessionRequest2(token, steamId),
-		&CSteamProto::OnGotSession);
+	SendRequest(new GetSessionRequest2(token, steamId), &CSteamProto::OnGotSession);
 
 	// send this request immediately, so we can start polling thread with already loaded all contacts
-	SendRequest(
-		new GetFriendListRequest(token, steamId),
-		&CSteamProto::OnGotFriendList);
+	SendRequest(new GetFriendListRequest(token, steamId, "friend,ignoredfriend,requestrecipient"), &CSteamProto::OnGotFriendList);
 
 	// go to online now
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus = m_iDesiredStatus);

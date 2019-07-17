@@ -2,8 +2,7 @@
 
 WORD CSteamProto::SteamToMirandaStatus(PersonaState state)
 {
-	switch (state)
-	{
+	switch (state) {
 	case PersonaState::Offline:
 		return ID_STATUS_OFFLINE;
 	case PersonaState::Online:
@@ -24,8 +23,7 @@ WORD CSteamProto::SteamToMirandaStatus(PersonaState state)
 
 PersonaState CSteamProto::MirandaToSteamState(int status)
 {
-	switch (status)
-	{
+	switch (status) {
 	case ID_STATUS_OFFLINE:
 		return PersonaState::Offline;
 	case ID_STATUS_ONLINE:
@@ -71,8 +69,8 @@ INT_PTR CSteamProto::OnGetEventTextChatStates(WPARAM pEvent, LPARAM datatype)
 	DBEVENTINFO *dbei = (DBEVENTINFO *)pEvent;
 	if (dbei->cbBlob > 0 && dbei->pBlob[0] == STEAM_DB_EVENT_CHATSTATES_GONE)
 		return (datatype == DBVT_WCHAR)
-			? (INT_PTR)mir_wstrdup(TranslateT("closed chat session"))
-			: (INT_PTR)mir_strdup(Translate("closed chat session"));
+		? (INT_PTR)mir_wstrdup(TranslateT("closed chat session"))
+		: (INT_PTR)mir_strdup(Translate("closed chat session"));
 
 	return NULL;
 }

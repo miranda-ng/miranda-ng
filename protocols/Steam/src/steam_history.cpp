@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-void CSteamProto::OnGotConversations(const JSONNode &root, void*)
+void CSteamProto::OnGotConversations(const JSONNode &root, void *)
 {
 	// Don't load any messages when we don't have lastMessageTS, as it may cause duplicates
 	if (m_lastMessageTS <= 0)
@@ -9,13 +9,8 @@ void CSteamProto::OnGotConversations(const JSONNode &root, void*)
 	if (root.isnull())
 		return;
 
-	JSONNode response = root["response"];
-	JSONNode sessions = response["message_sessions"].as_array();
-	if (sessions.isnull())
-		return;
-
-	for (const JSONNode &session : sessions)
-	{
+	const JSONNode &response = root["response"];
+	for (auto &session : response["message_sessions"]) {
 		long long accountId = _wtoi64(session["accountid_friend"].as_mstring());
 		const char *who = AccountIdToSteamId(accountId);
 
@@ -27,22 +22,17 @@ void CSteamProto::OnGotConversations(const JSONNode &root, void*)
 		node = json_get(session, "unread_message_count");
 		long unread_count = json_as_int(node);*/
 
-		if (lastMessageTS > m_lastMessageTS)
-		{
+		if (lastMessageTS > m_lastMessageTS) {
 			ptrA token(getStringA("TokenSecret"));
 			ptrA steamId(getStringA("SteamID"));
-
-			PushRequest(
-				new GetHistoryMessagesRequest(token, steamId, who, m_lastMessageTS),
-				&CSteamProto::OnGotHistoryMessages,
-				mir_strdup(who));
+			PushRequest(new GetHistoryMessagesRequest(token, steamId, who, m_lastMessageTS), &CSteamProto::OnGotHistoryMessages, mir_strdup(who));
 		}
 	}
 }
 
 void CSteamProto::OnGotHistoryMessages(const JSONNode &root, void *arg)
 {
-	ptrA cSteamId((char*)arg);
+	ptrA cSteamId((char *)arg);
 
 	MCONTACT hContact = GetContact(cSteamId);
 	if (!hContact)
@@ -51,10 +41,10 @@ void CSteamProto::OnGotHistoryMessages(const JSONNode &root, void *arg)
 	if (root.isnull())
 		return;
 
-	JSONNode response = root["response"];
-	JSONNode messages = response["messages"].as_array();
+	const JSONNode &response = root["response"];
+	const JSONNode &messages = response["messages"];
 	for (size_t i = messages.size(); i > 0; i--) {
-		JSONNode message = messages[i - 1];
+		const JSONNode &message = messages[i - 1];
 
 		long long accountId = _wtoi64(message["accountid"].as_mstring());
 		const char *steamId = AccountIdToSteamId(accountId);
@@ -69,7 +59,7 @@ void CSteamProto::OnGotHistoryMessages(const JSONNode &root, void *arg)
 
 		PROTORECVEVENT recv = { 0 };
 		recv.timestamp = timestamp;
-		recv.szMessage = (char*)text.c_str();
+		recv.szMessage = (char *)text.c_str();
 
 		if (IsMe(steamId))
 			recv.flags = PREF_SENT;
