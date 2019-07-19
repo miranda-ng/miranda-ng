@@ -71,6 +71,10 @@ static PLUGININFOEX pluginInfoEx = {
 CMPlugin::CMPlugin() :
 	ACCPROTOPLUGIN<CJabberProto>("JABBER", pluginInfoEx)
 {
+	char tmp[8];
+	Utils_GetRandom(tmp, sizeof(tmp));
+	bin2hex(tmp, sizeof(tmp), szRandom);
+
 	SetUniqueId("jid");
 }
 
@@ -155,10 +159,6 @@ int CMPlugin::Load()
 	#else
 	bPlatform = 0;
 	#endif
-
-	char tmp[8];
-	Utils_GetRandom(tmp, sizeof(tmp));
-	bin2hex(tmp, sizeof(tmp), szRandom);
 
 	Miranda_GetVersionText(szCoreVersion, _countof(szCoreVersion));
 
