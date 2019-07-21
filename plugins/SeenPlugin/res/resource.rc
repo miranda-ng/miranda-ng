@@ -87,7 +87,7 @@ BEGIN
     EDITTEXT        IDC_POPUPSTAMP,49,20,224,12,ES_AUTOHSCROLL | WS_GROUP
     RTEXT           "Text",IDC_LABTTITLE,19,37,25,10
     EDITTEXT        IDC_POPUPSTAMPTEXT,49,35,224,12,ES_AUTOHSCROLL | WS_GROUP
-    GROUPBOX        "Popup Colors",IDC_STATIC,0,70,280,136,WS_GROUP
+    GROUPBOX        "Popup Colors",IDC_STATIC,0,70,280,116,WS_GROUP
     RTEXT           "Online",IDC_STATIC,10,83,60,10
     CONTROL         "",ID_STATUS_ONLINE,"ColourPicker",WS_TABSTOP,80,80,20,14
     CONTROL         "",40092,"ColourPicker",WS_TABSTOP,105,80,20,14
@@ -100,19 +100,19 @@ BEGIN
     RTEXT           "Occupied",IDC_STATIC,10,143,60,10
     CONTROL         "",ID_STATUS_OCCUPIED,"ColourPicker",WS_TABSTOP,80,140,20,14
     CONTROL         "",40096,"ColourPicker",WS_TABSTOP,105,140,20,14
-    RTEXT           "Do not disturb",IDC_STATIC,10,163,60,10
-    CONTROL         "",ID_STATUS_DND,"ColourPicker",WS_TABSTOP,80,160,20,14
-    CONTROL         "",40094,"ColourPicker",WS_TABSTOP,105,160,20,14
-    RTEXT           "Free for chat",IDC_STATIC,140,123,60,10
-    CONTROL         "",ID_STATUS_FREECHAT,"ColourPicker",WS_TABSTOP,210,120,20,14
-    CONTROL         "",40097,"ColourPicker",WS_TABSTOP,235,120,20,14
-    RTEXT           "Invisible",IDC_STATIC,140,143,60,10
-    CONTROL         "",ID_STATUS_INVISIBLE,"ColourPicker",WS_TABSTOP,210,140,20,14
-    CONTROL         "",40098,"ColourPicker",WS_TABSTOP,235,140,20,14
-    RTEXT           "Offline",IDC_STATIC,140,163,60,10
-    CONTROL         "",ID_STATUS_OFFLINE,"ColourPicker",WS_TABSTOP,210,160,20,14
-    CONTROL         "",40091,"ColourPicker",WS_TABSTOP,235,160,20,14
-    PUSHBUTTON      "Reset colors",IDC_DEFAULTCOL,115,185,50,13
+    RTEXT           "Do not disturb",IDC_STATIC,140,83,60,10
+    CONTROL         "",ID_STATUS_DND,"ColourPicker",WS_TABSTOP,210,80,20,14
+    CONTROL         "",40094,"ColourPicker",WS_TABSTOP,235,80,20,14
+    RTEXT           "Free for chat",IDC_STATIC,140,103,60,10
+    CONTROL         "",ID_STATUS_FREECHAT,"ColourPicker",WS_TABSTOP,210,100,20,14
+    CONTROL         "",40097,"ColourPicker",WS_TABSTOP,235,100,20,14
+    RTEXT           "Invisible",IDC_STATIC,140,123,60,10
+    CONTROL         "",ID_STATUS_INVISIBLE,"ColourPicker",WS_TABSTOP,210,120,20,14
+    CONTROL         "",40098,"ColourPicker",WS_TABSTOP,235,120,20,14
+    RTEXT           "Offline",IDC_STATIC,140,143,60,10
+    CONTROL         "",ID_STATUS_OFFLINE,"ColourPicker",WS_TABSTOP,210,140,20,14
+    CONTROL         "",40091,"ColourPicker",WS_TABSTOP,235,140,20,14
+    PUSHBUTTON      "Reset colors",IDC_DEFAULTCOL,115,165,50,13
 END
 
 IDD_USERINFO DIALOGEX 0, 0, 222, 132
