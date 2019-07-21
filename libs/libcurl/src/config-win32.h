@@ -246,10 +246,6 @@
 /* Define if you have the socket function. */
 #define HAVE_SOCKET 1
 
-/* Define if libSSH2 is in use */
-#define USE_LIBSSH2 1
-#define HAVE_LIBSSH2_H 1
-
 /* Define if you have the strcasecmp function. */
 /* #define HAVE_STRCASECMP 1 */
 
