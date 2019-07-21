@@ -844,6 +844,7 @@ void CJabberProto::GroupchatProcessPresence(const TiXmlElement *node)
 			if (!mir_strcmp(pszStatus, "away")) status = ID_STATUS_AWAY;
 			else if (!mir_strcmp(pszStatus, "xa")) status = ID_STATUS_NA;
 			else if (!mir_strcmp(pszStatus, "dnd")) status = ID_STATUS_DND;
+			else if (!mir_strcmp(pszStatus, "chat")) status = ID_STATUS_FREECHAT;
 		}
 
 		// process custom nick change

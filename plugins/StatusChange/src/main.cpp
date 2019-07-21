@@ -42,6 +42,7 @@ void LoadOptions()
 	Options.IfNA = (BOOL)g_plugin.getByte("IfNA", TRUE);
 	Options.IfOccupied = (BOOL)g_plugin.getByte("IfOccupied", FALSE);
 	Options.IfDND = (BOOL)g_plugin.getByte("IfDND", FALSE);
+	Options.IfFreeforchat = (BOOL)g_plugin.getByte("IfFreeforchat", FALSE);
 	Options.IfInvisible = (BOOL)g_plugin.getByte("IfInvisible", FALSE);
 }
 
@@ -66,6 +67,7 @@ static int StatusChangeGetMessage(WPARAM, LPARAM hDbEvent)
 	case ID_STATUS_NA: change_status = Options.IfNA; break;
 	case ID_STATUS_OCCUPIED: change_status = Options.IfOccupied; break;
 	case ID_STATUS_DND: change_status = Options.IfDND; break;
+	case ID_STATUS_FREECHAT: change_status = Options.IfFreeforchat; break;
 	case ID_STATUS_INVISIBLE: change_status = Options.IfInvisible; break;
 	default: change_status = FALSE; break;
 	}
@@ -127,6 +129,7 @@ static INT_PTR CALLBACK DlgProcStatusChangeOpts(HWND hwndDlg, UINT msg, WPARAM w
 		case ID_STATUS_DND: CheckDlgButton(hwndDlg, IDC_RAD_DND, BST_CHECKED); break;
 		case ID_STATUS_NA: CheckDlgButton(hwndDlg, IDC_RAD_NA, BST_CHECKED); break;
 		case ID_STATUS_OCCUPIED: CheckDlgButton(hwndDlg, IDC_RAD_OCCUPIED, BST_CHECKED); break;
+		case ID_STATUS_FREECHAT: CheckDlgButton(hwndDlg, IDC_RAD_FREECHAT, BST_CHECKED); break;
 		case ID_STATUS_INVISIBLE: CheckDlgButton(hwndDlg, IDC_RAD_INVISIBLE, BST_CHECKED); break;
 		}
 
@@ -136,6 +139,7 @@ static INT_PTR CALLBACK DlgProcStatusChangeOpts(HWND hwndDlg, UINT msg, WPARAM w
 		CheckDlgButton(hwndDlg, IDC_CHK_DND, Options.IfDND ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_CHK_NA, Options.IfNA ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_CHK_OCCUPIED, Options.IfOccupied ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_FREECHAT, Options.IfFreeforchat ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_CHK_INVISIBLE, Options.IfInvisible ? BST_CHECKED : BST_UNCHECKED);
 		return TRUE;
 
@@ -182,6 +186,10 @@ static INT_PTR CALLBACK DlgProcStatusChangeOpts(HWND hwndDlg, UINT msg, WPARAM w
 			Options.ChangeTo = ID_STATUS_OCCUPIED;
 			PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
+		case IDC_RAD_FREECHAT:
+			Options.ChangeTo = ID_STATUS_FREECHAT;
+			PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
 		case IDC_RAD_INVISIBLE:
 			Options.ChangeTo = ID_STATUS_INVISIBLE;
 			PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -211,6 +219,10 @@ static INT_PTR CALLBACK DlgProcStatusChangeOpts(HWND hwndDlg, UINT msg, WPARAM w
 			Options.IfOccupied = !Options.IfOccupied;
 			PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
+		case IDC_CHK_FREECHAT:
+			Options.IfFreeforchat = !Options.IfFreeforchat;
+			PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
 		case IDC_CHK_INVISIBLE:
 			Options.IfInvisible = !Options.IfInvisible;
 			PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -238,6 +250,7 @@ static INT_PTR CALLBACK DlgProcStatusChangeOpts(HWND hwndDlg, UINT msg, WPARAM w
 				g_plugin.setByte("IfNA", (BYTE)Options.IfNA);
 				g_plugin.setByte("IfDND", (BYTE)Options.IfDND);
 				g_plugin.setByte("IfOccupied", (BYTE)Options.IfOccupied);
+				g_plugin.setByte("IfFreeforchat", (BYTE)Options.IfFreeforchat);
 				g_plugin.setByte("IfInvisible", (BYTE)Options.IfInvisible);
 				return TRUE;
 			}

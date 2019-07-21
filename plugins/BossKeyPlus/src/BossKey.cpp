@@ -207,7 +207,7 @@ static int ChangeAllProtoStatuses(unsigned statusMode, wchar_t *msg)
 		unsigned status = Proto_GetStatus(proto[i]->szModuleName);
 		if (
 			(g_wMask & OPT_ONLINEONLY) ? // check "Change only if current status is Online" option
-			((status == ID_STATUS_ONLINE)) // process only "online"
+			((status == ID_STATUS_ONLINE) || (status == ID_STATUS_FREECHAT)) // process only "online" and "free for chat"
 			: ((status > ID_STATUS_OFFLINE) && (status < ID_STATUS_IDLE) && (status != ID_STATUS_INVISIBLE))) // process all existing statuses except for "invisible" & "offline"
 		{
 			if (g_wMask & OPT_SETONLINEBACK) { // need to save old statuses & status messages

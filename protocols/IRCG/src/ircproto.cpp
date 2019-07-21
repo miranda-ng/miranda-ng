@@ -721,12 +721,12 @@ int CIrcProto::SetStatusInternal(int iNewStatus, bool bIsInternal)
 	if (!bIsInternal)
 		m_iDesiredStatus = iNewStatus;
 
-	if ((iNewStatus == ID_STATUS_ONLINE || iNewStatus == ID_STATUS_AWAY) && !IsConnected()) //go from offline to online
+	if ((iNewStatus == ID_STATUS_ONLINE || iNewStatus == ID_STATUS_AWAY || iNewStatus == ID_STATUS_FREECHAT) && !IsConnected()) //go from offline to online
 	{
 		if (!m_bConnectThreadRunning)
 			ConnectToServer();
 	}
-	else if (iNewStatus == ID_STATUS_ONLINE && IsConnected() && m_iStatus == ID_STATUS_AWAY) //go to online while connected
+	else if ((iNewStatus == ID_STATUS_ONLINE || iNewStatus == ID_STATUS_FREECHAT) && IsConnected() && m_iStatus == ID_STATUS_AWAY) //go to online while connected
 	{
 		m_statusMessage = L"";
 		PostIrcMessage(L"/AWAY");
@@ -784,7 +784,7 @@ HANDLE CIrcProto::GetAwayMsg(MCONTACT hContact)
 int CIrcProto::SetAwayMsg(int status, const wchar_t* msg)
 {
 	switch (status) {
-	case ID_STATUS_ONLINE:     case ID_STATUS_INVISIBLE:
+	case ID_STATUS_ONLINE:     case ID_STATUS_INVISIBLE:   case ID_STATUS_FREECHAT:
 	case ID_STATUS_CONNECTING: case ID_STATUS_OFFLINE:
 		break;
 

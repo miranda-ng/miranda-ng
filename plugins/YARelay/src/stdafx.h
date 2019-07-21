@@ -41,7 +41,8 @@ Features:
 #define STATUS_NA        0x8
 #define STATUS_OCCUPIED  0x10
 #define STATUS_DND       0x20
-#define STATUS_INVISIBLE 0x40
+#define STATUS_FREECHAT  0x40
+#define STATUS_INVISIBLE 0x80
 
 #define MAXTEMPLATESIZE  1024
 

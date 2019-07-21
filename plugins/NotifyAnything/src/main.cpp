@@ -166,6 +166,7 @@ HICON getIcon(const std::wstring &name)
 		icons[L"away"] = Skin_LoadIcon(SKINICON_STATUS_AWAY);
 		icons[L"na"] = Skin_LoadIcon(SKINICON_STATUS_NA);
 		icons[L"occupied"] = Skin_LoadIcon(SKINICON_STATUS_OCCUPIED);
+		icons[L"free4chat"] = Skin_LoadIcon(SKINICON_STATUS_FREE4CHAT);
 		icons[L"dnd"] = Skin_LoadIcon(SKINICON_STATUS_DND);
 		icons[L"invisible"] = Skin_LoadIcon(SKINICON_STATUS_INVISIBLE);
 

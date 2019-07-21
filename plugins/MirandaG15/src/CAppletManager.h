@@ -181,7 +181,7 @@ private:
 
 	bool m_bScreensaver = false;
 
-	HBITMAP m_ahStatusBitmaps[7];
+	HBITMAP m_ahStatusBitmaps[8];
 	HBITMAP m_ahEventBitmaps[4];
 	HBITMAP m_ahLargeEventBitmaps[4];
 };

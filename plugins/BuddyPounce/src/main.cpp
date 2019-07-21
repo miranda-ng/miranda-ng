@@ -97,6 +97,8 @@ int statusCheck(int statusFlag, int status)
 		return (statusFlag & OCCUPIED);
 	case ID_STATUS_DND:
 		return (statusFlag & DND);
+	case ID_STATUS_FREECHAT:
+		return (statusFlag & FFC);
 	case ID_STATUS_INVISIBLE:
 		return (statusFlag & INVISIBLE);
 	}

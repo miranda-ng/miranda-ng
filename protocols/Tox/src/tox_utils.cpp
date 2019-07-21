@@ -3,6 +3,10 @@
 int CToxProto::MapStatus(int status)
 {
 	switch (status) {
+	case ID_STATUS_FREECHAT:
+		status = ID_STATUS_ONLINE;
+		break;
+
 	case ID_STATUS_NA:
 		status = ID_STATUS_AWAY;
 		break;

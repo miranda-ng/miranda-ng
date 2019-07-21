@@ -23,13 +23,13 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			for (INT c = ID_STATUS_ONLINE; c < ID_STATUS_IDLE; c++) {
 				mir_snprintf(tszStatus, "%d", c);
 				wchar_t *pszStatus = Clist_GetStatusModeDescription(c, 0);
-				if (c == ID_STATUS_ONLINE || c == ID_STATUS_INVISIBLE)
+				if (c == ID_STATUS_ONLINE || c == ID_STATUS_FREECHAT || c == ID_STATUS_INVISIBLE)
 					continue;
 				else {
 					SendDlgItemMessage(hwndDlg, IDC_STATUSMODE, CB_ADDSTRING, 0, (LPARAM)pszStatus);
 
 					if (!g_plugin.getWString(tszStatus, &dbv)) {
-						if (c < ID_STATUS_OCCUPIED)
+						if (c < ID_STATUS_FREECHAT)
 							ptszMessage[c - ID_STATUS_ONLINE - 1] = wcsdup(dbv.pwszVal);
 						else if (c > ID_STATUS_INVISIBLE)
 							ptszMessage[c - ID_STATUS_ONLINE - 3] = wcsdup(dbv.pwszVal);
@@ -99,13 +99,13 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			GetDlgItemText(hwndDlg, IDC_MESSAGE, ptszMessage[lastIndex], size);
 
 			for (int c = ID_STATUS_ONLINE; c < ID_STATUS_IDLE; c++) {
-				if (c == ID_STATUS_ONLINE || c == ID_STATUS_INVISIBLE)
+				if (c == ID_STATUS_ONLINE || c == ID_STATUS_FREECHAT || c == ID_STATUS_INVISIBLE)
 					continue;
 				else {
 					char szStatus[6] = { 0 };
 					mir_snprintf(szStatus, "%d", c);
 
-					if (c < ID_STATUS_OCCUPIED && ptszMessage[c - ID_STATUS_ONLINE - 1])
+					if (c < ID_STATUS_FREECHAT && ptszMessage[c - ID_STATUS_ONLINE - 1])
 						g_plugin.setWString(szStatus, ptszMessage[c - ID_STATUS_ONLINE - 1]);
 					else if (c > ID_STATUS_INVISIBLE && ptszMessage[c - ID_STATUS_ONLINE - 3])
 						g_plugin.setWString(szStatus, ptszMessage[c - ID_STATUS_ONLINE - 3]);
@@ -119,10 +119,10 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 	case WM_DESTROY:
 		for (int c = ID_STATUS_ONLINE; c < ID_STATUS_IDLE; c++) {
-			if (c == ID_STATUS_ONLINE || c == ID_STATUS_INVISIBLE)
+			if (c == ID_STATUS_ONLINE || c == ID_STATUS_FREECHAT || c == ID_STATUS_INVISIBLE)
 				continue;
 
-			if (c < ID_STATUS_OCCUPIED)
+			if (c < ID_STATUS_FREECHAT)
 				ptszMessage[c - ID_STATUS_ONLINE - 1] = nullptr;
 			else if (c > ID_STATUS_INVISIBLE)
 				ptszMessage[c - ID_STATUS_ONLINE - 3] = nullptr;

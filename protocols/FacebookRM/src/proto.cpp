@@ -176,6 +176,9 @@ int FacebookProto::SetStatus(int new_status)
 	case ID_STATUS_NA:
 		m_iDesiredStatus = ID_STATUS_AWAY;
 		break;
+	case ID_STATUS_FREECHAT:
+		m_iDesiredStatus = ID_STATUS_ONLINE;
+		break;
 	default:
 		m_iDesiredStatus = getByte(FACEBOOK_KEY_MAP_STATUSES, DEFAULT_MAP_STATUSES) ? ID_STATUS_INVISIBLE : ID_STATUS_AWAY;
 		break;

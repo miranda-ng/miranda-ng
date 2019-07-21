@@ -58,6 +58,7 @@ IDI_ICON4               ICON                    "Invisible.ico"
 IDI_ICON5               ICON                    "NA.ico"
 IDI_ICON6               ICON                    "DND.ico"
 IDI_ICON7               ICON                    "Occupied.ico"
+IDI_ICON8               ICON                    "FFC.ico"
 
 #endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////

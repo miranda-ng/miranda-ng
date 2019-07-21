@@ -54,6 +54,8 @@ static int IsValidStatusDesc(char* statusDesc)
 		return ID_STATUS_DND;
 	if (!strncmp("occupied", statusDesc, 8))
 		return ID_STATUS_OCCUPIED;
+	if (!strncmp("freechat", statusDesc, 8))
+		return ID_STATUS_FREECHAT;
 	if (!strncmp("online", statusDesc, 6))
 		return ID_STATUS_ONLINE;
 	if (!strncmp("offline", statusDesc, 7))

@@ -644,6 +644,7 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 		CheckDlgButton(hwndDlg, IDC_NA, wStatusMap & MAP_NA ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_OCCUPIED, wStatusMap & MAP_OCCUPIED ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_DND, wStatusMap & MAP_DND ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_FREECHAT, wStatusMap & MAP_FREECHAT ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_INVISIBLE, wStatusMap & MAP_INVISIBLE ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_OFFLINE, wStatusMap & MAP_OFFLINE ? BST_CHECKED : BST_UNCHECKED);
 
@@ -686,6 +687,7 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 		case IDC_NA:
 		case IDC_OCCUPIED:
 		case IDC_DND:
+		case IDC_FREECHAT:
 		case IDC_INVISIBLE:
 		case IDC_OFFLINE:
 			EnableWindow(GetDlgItem(hwndDlg, IDC_IFNOTTOP), IsDlgButtonChecked(hwndDlg, IDC_IFOPEN) == BST_CHECKED);
@@ -779,6 +781,8 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 					statusMap |= MAP_OCCUPIED;
 				if (IsDlgButtonChecked(hwndDlg, IDC_DND) == BST_CHECKED)
 					statusMap |= MAP_DND;
+				if (IsDlgButtonChecked(hwndDlg, IDC_FREECHAT) == BST_CHECKED)
+					statusMap |= MAP_FREECHAT;
 				if (IsDlgButtonChecked(hwndDlg, IDC_INVISIBLE) == BST_CHECKED)
 					statusMap |= MAP_INVISIBLE;
 				if (IsDlgButtonChecked(hwndDlg, IDC_OFFLINE) == BST_CHECKED)

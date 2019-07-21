@@ -1614,6 +1614,7 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 			if (!mir_strcmp(show, "away")) status = ID_STATUS_AWAY;
 			else if (!mir_strcmp(show, "xa")) status = ID_STATUS_NA;
 			else if (!mir_strcmp(show, "dnd")) status = ID_STATUS_DND;
+			else if (!mir_strcmp(show, "chat")) status = ID_STATUS_FREECHAT;
 		}
 
 		int priority = XmlGetChildInt(node, "priority");

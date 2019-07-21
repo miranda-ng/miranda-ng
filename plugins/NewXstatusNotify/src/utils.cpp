@@ -66,6 +66,7 @@ BOOL StatusHasAwayMessage(char *szProto, int status)
 	case ID_STATUS_NA:
 	case ID_STATUS_OCCUPIED:
 	case ID_STATUS_DND:
+	case ID_STATUS_FREECHAT:
 		return TRUE;
 
 	default:

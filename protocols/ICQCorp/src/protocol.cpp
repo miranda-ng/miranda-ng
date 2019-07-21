@@ -32,6 +32,7 @@ unsigned short toIcqStatus(unsigned short status)
 	case ID_STATUS_DND: return ICQ_STATUS_DND;
 	case ID_STATUS_NA: return ICQ_STATUS_NA;
 	case ID_STATUS_OCCUPIED: return ICQ_STATUS_OCCUPIED;
+	case ID_STATUS_FREECHAT: return ICQ_STATUS_FREECHAT;
 	case ID_STATUS_INVISIBLE: return ICQ_STATUS_PRIVATE;
 	}
 	return ICQ_STATUS_ONLINE;
@@ -48,6 +49,7 @@ unsigned short toIdStatus(unsigned short status)
 	case ICQ_STATUS_DND: return ID_STATUS_DND;
 	case ICQ_STATUS_NA: return ID_STATUS_NA;
 	case ICQ_STATUS_OCCUPIED: return ID_STATUS_OCCUPIED;
+	case ICQ_STATUS_FREECHAT: return ID_STATUS_FREECHAT;
 	case ICQ_STATUS_PRIVATE: return ID_STATUS_INVISIBLE;
 	}
 	return ID_STATUS_ONLINE;
@@ -1401,6 +1403,7 @@ ICQEvent *ICQ::sendTCP(ICQUser *u, unsigned short cmd, char *cmdStr, char *m)
 	unsigned int status;
 	switch (statusVal) {
 	case ID_STATUS_ONLINE: status = 0x00100000; break;
+	case ID_STATUS_FREECHAT: status = 0x00000000; break;  // ??
 	case ID_STATUS_AWAY: status = 0x01100000; break;
 	case ID_STATUS_NA: status = 0x00100000; break;
 	case ID_STATUS_DND: status = 0x00100000; break;
@@ -1526,6 +1529,7 @@ ICQEvent *ICQ::sendReadAwayMsg(ICQUser *u)
 	case ID_STATUS_DND: cmd = ICQ_CMDxTCP_READxDNDxMSG; break;
 	case ID_STATUS_NA: cmd = ICQ_CMDxTCP_READxNAxMSG; break;
 	case ID_STATUS_OCCUPIED: cmd = ICQ_CMDxTCP_READxOCCUPIEDxMSG; break;
+	case ID_STATUS_FREECHAT: cmd = ICQ_CMDxTCP_READxFREECHATxMSG; break;
 	default: return nullptr;
 	}
 
@@ -1566,6 +1570,7 @@ ICQTransfer *ICQ::sendFile(ICQUser *u, char *description, char *filename, unsign
 	unsigned int status;
 	switch (statusVal) {
 	case ID_STATUS_ONLINE: status = 0x00100000; break;
+	case ID_STATUS_FREECHAT: status = 0x00000000; break;  // ??
 	case ID_STATUS_AWAY: status = 0x01100000; break;
 	case ID_STATUS_NA: status = 0x00100000; break;
 	case ID_STATUS_DND: status = 0x00100000; break;
@@ -1612,6 +1617,7 @@ void ICQ::acceptFile(ICQUser *u, unsigned long hTransfer, char*)
 	unsigned long status;
 	switch (statusVal) {
 	case ID_STATUS_ONLINE: status = 0x00100000; break;
+	case ID_STATUS_FREECHAT: status = 0x00000000; break;  // ??
 	case ID_STATUS_AWAY: status = 0x01100000; break;
 	case ID_STATUS_NA: status = 0x00100000; break;
 	case ID_STATUS_DND: status = 0x00100000; break;
@@ -1656,6 +1662,7 @@ void ICQ::refuseFile(ICQUser *u, unsigned long hTransfer, char *reason)
 	unsigned int status;
 	switch (statusVal) {
 	case ID_STATUS_ONLINE: status = 0x00100000; break;
+	case ID_STATUS_FREECHAT: status = 0x00000000; break;  // ??
 	case ID_STATUS_AWAY: status = 0x01100000; break;
 	case ID_STATUS_NA: status = 0x00100000; break;
 	case ID_STATUS_DND: status = 0x00100000; break;
@@ -1798,6 +1805,7 @@ void ICQ::processTcpPacket(Packet &packet, unsigned int hSocket)
 		case ICQ_CMDxTCP_READxOCCUPIEDxMSG:
 		case ICQ_CMDxTCP_READxNAxMSG:
 		case ICQ_CMDxTCP_READxDNDxMSG:
+		case ICQ_CMDxTCP_READxFREECHATxMSG:
 			Netlib_Logf(hNetlibUser, "[tcp] %d requested read of away message.\n", checkUin);
 
 			packet >> theTCPSequence;
@@ -1871,6 +1879,7 @@ void ICQ::processTcpPacket(Packet &packet, unsigned int hSocket)
 		case ICQ_CMDxTCP_READxOCCUPIEDxMSG:
 		case ICQ_CMDxTCP_READxNAxMSG:
 		case ICQ_CMDxTCP_READxDNDxMSG:
+		case ICQ_CMDxTCP_READxFREECHATxMSG:
 			packet >> theTCPSequence;
 			addAwayMsg(u, message, theTCPSequence, time(0));
 			break;
@@ -1919,6 +1928,7 @@ void ICQ::ackTCP(Packet &packet, ICQUser *u, unsigned short newCommand, unsigned
 
 	switch (statusVal) {
 	case ID_STATUS_ONLINE: status = 0x00100000; break;
+	case ID_STATUS_FREECHAT: status = 0x00000000; break;	// ??
 	case ID_STATUS_AWAY: status = 0x01100000; break;
 	case ID_STATUS_NA: status = 0x00100000; break;
 	case ID_STATUS_DND: status = 0x00100000; break;

@@ -62,6 +62,7 @@ static const struct CheckBoxValues_t greyoutValues[] = {
 	{ PF2_LONGAWAY,   LPGENW("Not available") },
 	{ PF2_LIGHTDND,   LPGENW("Occupied")      },
 	{ PF2_HEAVYDND,   LPGENW("Do not disturb")},
+	{ PF2_FREECHAT,   LPGENW("Free for chat") },
 	{ PF2_INVISIBLE,  LPGENW("Invisible")     },
 };
 
@@ -72,6 +73,7 @@ static const struct CheckBoxValues_t offlineValues[] = {
 	{ PF2_LONGAWAY,   LPGENW("Not available") },
 	{ PF2_LIGHTDND,   LPGENW("Occupied")      },
 	{ PF2_HEAVYDND,   LPGENW("Do not disturb")},
+	{ PF2_FREECHAT,   LPGENW("Free for chat") },
 	{ PF2_INVISIBLE,  LPGENW("Invisible")     },
 };
 

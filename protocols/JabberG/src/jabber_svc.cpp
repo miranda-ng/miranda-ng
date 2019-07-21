@@ -54,6 +54,9 @@ INT_PTR __cdecl CJabberProto::GetMyAwayMsg(WPARAM wParam, LPARAM lParam)
 	case ID_STATUS_OCCUPIED:
 		szStatus = m_modeMsgs.szDnd;
 		break;
+	case ID_STATUS_FREECHAT:
+		szStatus = m_modeMsgs.szFreechat;
+		break;
 	default: // Should not reach here
 		break;
 	}

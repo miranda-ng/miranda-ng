@@ -82,6 +82,7 @@ static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
 	WORD currstat = 1;
 	switch (CallService(MS_CLIST_GETSTATUSMODE, 0, 0)) {
 	case ID_STATUS_INVISIBLE:    currstat <<= 1;
+	case ID_STATUS_FREECHAT:     currstat <<= 1;
 	case ID_STATUS_DND:          currstat <<= 1;
 	case ID_STATUS_OCCUPIED:     currstat <<= 1;
 	case ID_STATUS_NA:           currstat <<= 1;
@@ -159,7 +160,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 		CheckDlgButton(hwndDlg, IDC_PREVIEW, EnPreview ? BST_CHECKED : BST_UNCHECKED);
 
-		for (int i = IDC_CHECKBOX1; i <= IDC_CHECKBOX7; i++)
+		for (int i = IDC_CHECKBOX1; i <= IDC_CHECKBOX8; i++)
 			if (StatMask & (1 << (i - IDC_CHECKBOX1)))
 				CheckDlgButton(hwndDlg, i, BST_CHECKED);
 
@@ -176,7 +177,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			EnableWindow(GetDlgItem(hwndDlg, IDC_QUIETTIME), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_PREVIEW), FALSE);
 
-			for (int i = IDC_CHECKBOX1; i <= IDC_CHECKBOX7; i++)
+			for (int i = IDC_CHECKBOX1; i <= IDC_CHECKBOX8; i++)
 				EnableWindow(GetDlgItem(hwndDlg, i), FALSE);
 		}
 		else {
@@ -243,7 +244,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				g_plugin.setByte(OPT_PREVIEW, EnPreview);
 
 				StatMask = 0;
-				for (int i = IDC_CHECKBOX7; i >= IDC_CHECKBOX1; i--) {
+				for (int i = IDC_CHECKBOX8; i >= IDC_CHECKBOX1; i--) {
 					StatMask <<= 1;
 					if (IsDlgButtonChecked(hwndDlg, i) == BST_CHECKED)
 						StatMask |= 1;
@@ -287,6 +288,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		case IDC_CHECKBOX5:
 		case IDC_CHECKBOX6:
 		case IDC_CHECKBOX7:
+		case IDC_CHECKBOX8:
 		case IDC_PREVIEW:
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;

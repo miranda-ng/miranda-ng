@@ -103,7 +103,8 @@ const
   SKINICON_STATUS_NA         = 3;
   SKINICON_STATUS_OCCUPIED   = 4;
   SKINICON_STATUS_DND        = 5;
-  SKINICON_STATUS_INVISIBLE  = 6;
+  SKINICON_STATUS_FREE4CHAT  = 6;
+  SKINICON_STATUS_INVISIBLE  = 7;
 
 function Skin_LoadProtoIcon(protoName:PAnsiChar; iconId:int; big:byte) : HICON; stdcall;
                  external AppDLL name 'Skin_LoadProtoIcon';

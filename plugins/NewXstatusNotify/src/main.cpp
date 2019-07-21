@@ -880,6 +880,18 @@ void InitStatusList()
 	mir_wstrncpy(StatusList[index].lpzSkinSoundFile, L"invisible.wav", MAX_PATH);
 	StatusList[index].colorBack = g_plugin.getDword("40078bg", COLOR_BG_AVAILDEFAULT);
 	StatusList[index].colorText = g_plugin.getDword("40078tx", COLOR_TX_DEFAULT);
+	
+	//Free for chat
+	index = Index(ID_STATUS_FREECHAT);
+	mir_wstrncpy(StatusList[index].lpzMStatusText, TranslateT("(M) feels talkative!"), MAX_STATUSTEXT);
+	mir_wstrncpy(StatusList[index].lpzFStatusText, TranslateT("(F) feels talkative!"), MAX_STATUSTEXT);
+	mir_wstrncpy(StatusList[index].lpzUStatusText, TranslateT("(U) feels talkative!"), MAX_STATUSTEXT);
+	mir_wstrncpy(StatusList[index].lpzStandardText, TranslateT("Free for chat"), MAX_STANDARDTEXT);
+	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserFreeForChat", MAX_SKINSOUNDNAME);
+	mir_wstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Free for chat"), MAX_SKINSOUNDDESC);
+	mir_wstrncpy(StatusList[index].lpzSkinSoundFile, L"free4chat.wav", MAX_PATH);
+	StatusList[index].colorBack = g_plugin.getDword("40077bg", COLOR_BG_AVAILDEFAULT);
+	StatusList[index].colorText = g_plugin.getDword("40077tx", COLOR_TX_DEFAULT);
 
 	//Away
 	index = Index(ID_STATUS_AWAY);

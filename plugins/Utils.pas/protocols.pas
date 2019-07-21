@@ -41,6 +41,7 @@ const
   psf_longaway   = $0008;
   psf_lightdnd   = $0010;
   psf_heavydnd   = $0020;
+  psf_freechat   = $0040;
   psf_enabled    = $0800;
   psf_all        = $08FF;
   // protocol properties
@@ -64,10 +65,11 @@ const
     ID_STATUS_AWAY,
     ID_STATUS_NA,
     ID_STATUS_OCCUPIED,
-    ID_STATUS_DND);
+    ID_STATUS_DND,
+    ID_STATUS_FREECHAT);
 const
   StatNames:array [0..MAX_STATUS_COUNT-1] of PWideChar=(
-    'Default'{'Offline'},'Online','Invisible','Away','Not available','Occupied','Do not disturb'
+    'Default'{'Offline'},'Online','Invisible','Away','Not available','Occupied','Do not disturb,'Free for chat'
   );
 
 type
@@ -325,6 +327,7 @@ begin
     if (status and psf_longaway  )<>0 then AddString(4,(enabled and psf_longaway  )<>0);
     if (status and psf_lightdnd  )<>0 then AddString(5,(enabled and psf_lightdnd  )<>0);
     if (status and psf_heavydnd  )<>0 then AddString(6,(enabled and psf_heavydnd  )<>0);
+    if (status and psf_freechat  )<>0 then AddString(7,(enabled and psf_freechat  )<>0);
   end;
   ListView_SetColumnWidth(list,0,LVSCW_AUTOSIZE);
 end;
@@ -342,6 +345,7 @@ procedure CheckStatusList(list:HWND;ProtoNum:uint_ptr);
       ID_STATUS_NA:         i:=psf_longaway;
       ID_STATUS_OCCUPIED:   i:=psf_lightdnd;
       ID_STATUS_DND:        i:=psf_heavydnd;
+	  ID_STATUS_FREECHAT:   i:=psf_freechat;
     else
       exit;
     end;
@@ -421,6 +425,7 @@ begin
       if (flag and PF2_LONGAWAY)  <>0 then status:=status or psf_longaway;
       if (flag and PF2_LIGHTDND)  <>0 then status:=status or psf_lightdnd;
       if (flag and PF2_HEAVYDND)  <>0 then status:=status or psf_heavydnd;
+      if (flag and PF2_FREECHAT)  <>0 then status:=status or psf_freechat;
 
       flag:=CallProtoService(name,PS_GETCAPS,PFLAGNUM_1,0);
       if ((flag and PF1_CHAT)<>0) or

@@ -48,6 +48,7 @@
 #define IDC_CHECKST4                    1023
 #define IDC_CHECKST5                    1024
 #define IDC_CHECKST6                    1025
+#define IDC_CHECKST7                    1026
 #define IDC_POPUPTEXTCOLOR              1027
 #define IDC_BGCOLOUR                    1030
 #define IDC_PROTOLIST                   1031

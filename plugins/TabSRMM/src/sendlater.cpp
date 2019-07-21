@@ -384,7 +384,7 @@ int CSendLater::sendIt(CSendLaterJob *job)
 		return 0;
 	}
 	if (job->szId[0] == 'S') {
-		if (wMyStatus != ID_STATUS_ONLINE) {
+		if (wMyStatus != ID_STATUS_ONLINE || wMyStatus != ID_STATUS_FREECHAT) {
 			job->bCode = CSendLaterJob::JOB_MYSTATUS;
 			return 0;
 		}

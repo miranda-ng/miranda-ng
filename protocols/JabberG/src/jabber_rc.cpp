@@ -238,6 +238,7 @@ static char *StatusModeToDbSetting(int status, const char *suffix)
 	case ID_STATUS_NA:         prefix = "Na";	    break;
 	case ID_STATUS_DND:        prefix = "Dnd";      break;
 	case ID_STATUS_OCCUPIED:   prefix = "Occupied"; break;
+	case ID_STATUS_FREECHAT:   prefix = "FreeChat"; break;
 	case ID_STATUS_ONLINE:     prefix = "On";       break;
 	case ID_STATUS_OFFLINE:    prefix = "Off";      break;
 	case ID_STATUS_INVISIBLE:  prefix = "Inv";      break;
@@ -285,6 +286,9 @@ int CJabberProto::AdhocSetStatusHandler(const TiXmlElement*, CJabberIqInfo *pInf
 		case ID_STATUS_DND:
 		case ID_STATUS_OCCUPIED:
 			fieldNode << XCHILD("value", "dnd");
+			break;
+		case ID_STATUS_FREECHAT:
+			fieldNode << XCHILD("value", "chat");
 			break;
 		case ID_STATUS_ONLINE:
 		default:
@@ -342,6 +346,7 @@ int CJabberProto::AdhocSetStatusHandler(const TiXmlElement*, CJabberIqInfo *pInf
 		if (!mir_strcmp(pszValue, "away")) status = ID_STATUS_AWAY;
 		else if (!mir_strcmp(pszValue, "xa")) status = ID_STATUS_NA;
 		else if (!mir_strcmp(pszValue, "dnd")) status = ID_STATUS_DND;
+		else if (!mir_strcmp(pszValue, "chat")) status = ID_STATUS_FREECHAT;
 		else if (!mir_strcmp(pszValue, "online")) status = ID_STATUS_ONLINE;
 		else if (!mir_strcmp(pszValue, "invisible")) status = ID_STATUS_INVISIBLE;
 		else if (!mir_strcmp(pszValue, "offline")) status = ID_STATUS_OFFLINE;

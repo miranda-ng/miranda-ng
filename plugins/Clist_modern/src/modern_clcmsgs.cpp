@@ -87,6 +87,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 			dat->fontModernInfo[FONTID_DND].colour = lParam;
 			dat->fontModernInfo[FONTID_NA].colour = lParam;
 			dat->fontModernInfo[FONTID_OCCUPIED].colour = lParam;
+			dat->fontModernInfo[FONTID_CHAT].colour = lParam;
 			dat->fontModernInfo[FONTID_INVISIBLE].colour = lParam;
 			dat->fontModernInfo[FONTID_CONTACT_TIME].colour = lParam;
 			break;

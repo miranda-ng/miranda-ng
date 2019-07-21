@@ -426,7 +426,8 @@ DWORD StatusColors15bits[] = {
 	0x295C0000, // 0x005050E0, 0x00000000, DND - DarkRed
 	0x5EFD0000, // 0x00B8B8E8, 0x00000000, Not available - LightRed
 	0x295C0000, // 0x005050E0, 0x00000000, Occupied
-	0x76AF0000  // 0x00E8A878, 0x00000000, Invisible
+	0x43900000, // 0x0080E080, 0x00000000, Free for chat - LightGreen
+	0x76AF0000, // 0x00E8A878, 0x00000000, Invisible
 };
 
 DWORD GetDWordFromColors(COLORREF First, COLORREF Second)
@@ -498,7 +499,7 @@ void myPlaySound(MCONTACT hcontact, WORD newStatus, WORD oldStatus)
 	if (CallService(MS_IGNORE_ISIGNORED, (WPARAM)hcontact, IGNOREEVENT_USERONLINE)) return;
 	//oldStatus and hcontact are not used yet
 	char *soundname = nullptr;
-	if (newStatus == ID_STATUS_ONLINE) soundname = "LastSeenTrackedStatusOnline";
+	if ((newStatus == ID_STATUS_ONLINE) || (newStatus == ID_STATUS_FREECHAT)) soundname = "LastSeenTrackedStatusOnline";
 	else if (newStatus == ID_STATUS_OFFLINE) soundname = "LastSeenTrackedStatusOffline";
 	else if (oldStatus == ID_STATUS_OFFLINE) soundname = "LastSeenTrackedStatusFromOffline";
 	else soundname = "LastSeenTrackedStatusChange";

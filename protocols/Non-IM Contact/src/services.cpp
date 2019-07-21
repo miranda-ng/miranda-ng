@@ -9,7 +9,7 @@ INT_PTR GetLCCaps(WPARAM wParam, LPARAM)
 	if (wParam == PFLAGNUM_1)
 		return 0;
 	if (wParam == PFLAGNUM_2)
-		return PF2_ONLINE | PF2_LONGAWAY | PF2_SHORTAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_INVISIBLE; // add the possible statuses here.
+		return PF2_ONLINE | PF2_LONGAWAY | PF2_SHORTAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_FREECHAT | PF2_INVISIBLE; // add the possible statuses here.
 	if (wParam == PFLAGNUM_3)
 		return 0;
 	return 0;

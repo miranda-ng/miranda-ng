@@ -49,7 +49,8 @@ __forceinline bool IsStatusConnecting(int iStatus)
 #define ID_STATUS_DND             40074
 #define ID_STATUS_NA              40075
 #define ID_STATUS_OCCUPIED        40076
-#define ID_STATUS_INVISIBLE       40077
+#define ID_STATUS_FREECHAT        40077
+#define ID_STATUS_INVISIBLE       40078
 #define ID_STATUS_IDLE            40081 /* do not use as a status */
 
 #define ID_STATUS_MIN	          ID_STATUS_OFFLINE

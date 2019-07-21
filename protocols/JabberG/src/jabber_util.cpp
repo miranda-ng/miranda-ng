@@ -197,6 +197,7 @@ void JabberHttpUrlDecode(wchar_t *str)
 int JabberCombineStatus(int status1, int status2)
 {
 	// Combine according to the following priority (high to low)
+	// ID_STATUS_FREECHAT
 	// ID_STATUS_ONLINE
 	// ID_STATUS_DND
 	// ID_STATUS_AWAY
@@ -204,6 +205,8 @@ int JabberCombineStatus(int status1, int status2)
 	// ID_STATUS_INVISIBLE (valid only for TLEN_PLUGIN)
 	// ID_STATUS_OFFLINE
 	// other ID_STATUS in random order (actually return status1)
+	if (status1 == ID_STATUS_FREECHAT || status2 == ID_STATUS_FREECHAT)
+		return ID_STATUS_FREECHAT;
 	if (status1 == ID_STATUS_ONLINE || status2 == ID_STATUS_ONLINE)
 		return ID_STATUS_ONLINE;
 	if (status1 == ID_STATUS_DND || status2 == ID_STATUS_DND)
@@ -474,6 +477,10 @@ void CJabberProto::SendPresenceTo(int status, const char *to, const TiXmlElement
 		case ID_STATUS_OCCUPIED:
 			p << XCHILD("show", "dnd");
 			if (!msg) msg = m_modeMsgs.szDnd;
+			break;
+		case ID_STATUS_FREECHAT:
+			p << XCHILD("show", "chat");
+			if (!msg) msg = m_modeMsgs.szFreechat;
 			break;
 		default: // Should not reach here
 			break;

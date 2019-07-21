@@ -17,12 +17,14 @@
 #define CHK_NA                          1006
 #define CHK_OCCUPIED                    1007
 #define CHK_DND                         1008
+#define CHK_FFC                         1009
 #define CHK_ANYSTATUS                   1012
 #define CHK_ONLINE2                     1013
 #define CHK_AWAY2                       1014
 #define CHK_NA2                         1015
 #define CHK_OCCUPIED2                   1016
 #define CHK_DND2                        1017
+#define CHK_FFC2                        1018
 #define CHK_REUSE                       1028
 #define IDC_REUSETIMES                  1029
 #define CHK_GIVEUP                      1030
@@ -56,6 +58,7 @@
 #define IDC_CHECK5                      1085
 #define IDC_CHECK6                      1086
 #define IDC_CHECK7                      1087
+#define IDC_CHECK8                      1088
 #define IDC_SETTINGMSG2                 1095
 #define IDC_USEADVANCED                 1096
 #define IDC_SHOWDELIVERYMSGS            1097

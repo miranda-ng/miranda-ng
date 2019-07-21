@@ -29,7 +29,8 @@ StatusModeMap statusModes[MAX_STATUS_COUNT] =
 	{ ID_STATUS_NA,         PF2_LONGAWAY },
 	{ ID_STATUS_OCCUPIED,   PF2_LIGHTDND },
 	{ ID_STATUS_DND,        PF2_HEAVYDND },
-	{ ID_STATUS_INVISIBLE,  PF2_INVISIBLE },
+	{ ID_STATUS_FREECHAT,   PF2_FREECHAT },
+	{ ID_STATUS_INVISIBLE,  PF2_INVISIBLE }
 };
 
 // handles for hooks and other Miranda thingies
@@ -87,6 +88,7 @@ char* StatusModeToDbSetting(int status, const char *suffix)
 	case ID_STATUS_NA: prefix = "Na";	break;
 	case ID_STATUS_DND: prefix = "Dnd"; break;
 	case ID_STATUS_OCCUPIED: prefix = "Occupied"; break;
+	case ID_STATUS_FREECHAT: prefix = "FreeChat"; break;
 	case ID_STATUS_ONLINE: prefix = "On"; break;
 	case ID_STATUS_OFFLINE: prefix = "Off"; break;
 	case ID_STATUS_INVISIBLE: prefix = "Inv"; break;
@@ -107,6 +109,7 @@ DWORD StatusModeToProtoFlag(int status)
 	case ID_STATUS_NA: return PF2_LONGAWAY;
 	case ID_STATUS_OCCUPIED: return PF2_LIGHTDND;
 	case ID_STATUS_DND: return PF2_HEAVYDND;
+	case ID_STATUS_FREECHAT: return PF2_FREECHAT;
 	}
 	return 0;
 }

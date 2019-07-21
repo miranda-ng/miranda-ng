@@ -439,7 +439,7 @@ int LoadAutoAwaySetting(SMProto &autoAwaySetting, char *protoName)
 	mir_snprintf(setting, "%s_NATime", protoName);
 	autoAwaySetting.naTime = AAAPlugin.getWord(setting, SETTING_NATIME_DEFAULT);
 	mir_snprintf(setting, "%s_StatusFlags", protoName);
-	autoAwaySetting.statusFlags = AAAPlugin.getWord(setting, StatusModeToProtoFlag(ID_STATUS_ONLINE));
+	autoAwaySetting.statusFlags = AAAPlugin.getWord(setting, StatusModeToProtoFlag(ID_STATUS_ONLINE) | StatusModeToProtoFlag(ID_STATUS_FREECHAT));
 
 	int flags;
 	if (g_bAAASettingSame)

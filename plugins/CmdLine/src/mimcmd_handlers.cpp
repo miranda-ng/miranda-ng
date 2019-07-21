@@ -166,6 +166,8 @@ int ParseStatusParam(const wchar_t *status)
 		return ID_STATUS_NA;
 	if (!mir_wstrcmp(lower, L"occupied"))
 		return ID_STATUS_OCCUPIED;
+	if (!mir_wstrcmp(lower, L"freechat"))
+		return ID_STATUS_FREECHAT;
 	if (!mir_wstrcmp(lower, L"invisible"))
 		return ID_STATUS_INVISIBLE;
 	return 0;

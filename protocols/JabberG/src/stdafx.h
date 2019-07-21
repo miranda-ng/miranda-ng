@@ -401,6 +401,7 @@ struct JABBER_MODEMSGS
 	char *szAway;
 	char *szNa;
 	char *szDnd;
+	char *szFreechat;
 };
 
 typedef enum { FT_SI, FT_OOB, FT_BYTESTREAM, FT_IBB } JABBER_FT_TYPE;

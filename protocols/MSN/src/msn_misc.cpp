@@ -62,6 +62,7 @@ char** CMsnProto::GetStatusMsgLoc(int status)
 		ID_STATUS_DND,
 		ID_STATUS_NA,
 		ID_STATUS_OCCUPIED,
+		ID_STATUS_FREECHAT,
 		ID_STATUS_INVISIBLE,
 	};
 

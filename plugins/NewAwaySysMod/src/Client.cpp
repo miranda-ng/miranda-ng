@@ -110,6 +110,7 @@ void ChangeProtoMessages(char* szProto, int iMode, const TCString &Msg)
 		ID_STATUS_NA, "Na",
 		ID_STATUS_DND, "Dnd",
 		ID_STATUS_OCCUPIED, "Occupied",
+		ID_STATUS_FREECHAT, "FreeChat",
 		ID_STATUS_INVISIBLE, "Inv",
 		ID_STATUS_IDLE, "Idl"
 	};

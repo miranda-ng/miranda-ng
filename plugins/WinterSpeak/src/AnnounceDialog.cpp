@@ -60,6 +60,7 @@ void AnnounceDialog::command(HWND window, int control)
 	  case IDC_STATUS_DND:
 	  case IDC_STATUS_NA:
 	  case IDC_STATUS_OCCUPIED:
+	  case IDC_STATUS_FREEFORCHAT:
 	  case IDC_STATUS_INVISIBLE:
 	  case IDC_SPEAK_STATUS_MSG:
 	  case IDC_SUPPRESS_CONNECT:
@@ -96,6 +97,7 @@ AnnounceDialog::load(HWND window)
 	CheckDlgButton(window, IDC_STATUS_DND, m_db.getStatusFlag(AnnounceDatabase::StatusFlag_Dnd) ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(window, IDC_STATUS_NA, m_db.getStatusFlag(AnnounceDatabase::StatusFlag_Na) ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(window, IDC_STATUS_OCCUPIED, m_db.getStatusFlag(AnnounceDatabase::StatusFlag_Occupied) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(window, IDC_STATUS_FREEFORCHAT, m_db.getStatusFlag(AnnounceDatabase::StatusFlag_FreeForChat) ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(window, IDC_STATUS_INVISIBLE, m_db.getStatusFlag(AnnounceDatabase::StatusFlag_Invisible) ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(window, IDC_SPEAK_STATUS_MSG, m_db.getStatusFlag(AnnounceDatabase::StatusFlag_SpeakStatusMsg) ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(window, IDC_SUPPRESS_CONNECT, m_db.getStatusFlag(AnnounceDatabase::StatusFlag_SuppressConnect) ? BST_CHECKED : BST_UNCHECKED);
@@ -123,6 +125,7 @@ AnnounceDialog::save(HWND window)
 	m_db.setStatusFlag(AnnounceDatabase::StatusFlag_Dnd,		(IsDlgButtonChecked(window, IDC_STATUS_DND) != 0));
 	m_db.setStatusFlag(AnnounceDatabase::StatusFlag_Na,		(IsDlgButtonChecked(window, IDC_STATUS_NA) != 0));
 	m_db.setStatusFlag(AnnounceDatabase::StatusFlag_Occupied,		(IsDlgButtonChecked(window, IDC_STATUS_OCCUPIED) != 0));
+	m_db.setStatusFlag(AnnounceDatabase::StatusFlag_FreeForChat,		(IsDlgButtonChecked(window, IDC_STATUS_FREEFORCHAT) != 0));
 	m_db.setStatusFlag(AnnounceDatabase::StatusFlag_Invisible,		(IsDlgButtonChecked(window, IDC_STATUS_INVISIBLE) != 0));
 	m_db.setStatusFlag(AnnounceDatabase::StatusFlag_SpeakStatusMsg,		(IsDlgButtonChecked(window, IDC_SPEAK_STATUS_MSG) != 0));
 	m_db.setStatusFlag(AnnounceDatabase::StatusFlag_SuppressConnect,		(IsDlgButtonChecked(window, IDC_SUPPRESS_CONNECT) != 0));

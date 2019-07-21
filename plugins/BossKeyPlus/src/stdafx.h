@@ -86,7 +86,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 #define MS_BOSSKEY_HIDE				"BossKey/HideMiranda"
 #define MS_BOSSKEY_ISMIRANDAHIDDEN	"BossKey/IsMirandaHidden"
 
-const unsigned STATUS_ARR_TO_ID[] = { ID_STATUS_OFFLINE, ID_STATUS_ONLINE, ID_STATUS_AWAY, ID_STATUS_NA, ID_STATUS_OCCUPIED, ID_STATUS_DND, ID_STATUS_INVISIBLE };
+const unsigned STATUS_ARR_TO_ID[] = { ID_STATUS_OFFLINE, ID_STATUS_ONLINE, ID_STATUS_AWAY, ID_STATUS_NA, ID_STATUS_OCCUPIED, ID_STATUS_DND, ID_STATUS_FREECHAT, ID_STATUS_INVISIBLE };
 extern bool g_fOptionsOpen; // options dialog is open. be sure not to hide anything while we're there.
 extern WORD g_wMask, g_wMaskAdv;
 extern bool g_bWindowHidden;

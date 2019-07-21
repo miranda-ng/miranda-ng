@@ -239,6 +239,7 @@ struct GaduProto : public PROTO<GaduProto>
 		wchar_t *online;
 		wchar_t *away;
 		wchar_t *dnd;
+		wchar_t *freechat;
 		wchar_t *invisible;
 		wchar_t *offline;
 	};

@@ -249,6 +249,7 @@ int CSametimeProto::SetSessionStatus(int status)
 	//us.time = 0;
 
 	switch (status) {
+	case ID_STATUS_FREECHAT:
 	case ID_STATUS_ONLINE:
 		us.desc = AwayMessages.szOnline; us.status = mwStatus_ACTIVE;
 		break;

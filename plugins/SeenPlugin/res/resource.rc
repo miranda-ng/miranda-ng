@@ -103,6 +103,9 @@ BEGIN
     RTEXT           "Do not disturb",IDC_STATIC,10,163,60,10
     CONTROL         "",ID_STATUS_DND,"ColourPicker",WS_TABSTOP,80,160,20,14
     CONTROL         "",40094,"ColourPicker",WS_TABSTOP,105,160,20,14
+    RTEXT           "Free for chat",IDC_STATIC,140,123,60,10
+    CONTROL         "",ID_STATUS_FREECHAT,"ColourPicker",WS_TABSTOP,210,120,20,14
+    CONTROL         "",40097,"ColourPicker",WS_TABSTOP,235,120,20,14
     RTEXT           "Invisible",IDC_STATIC,140,143,60,10
     CONTROL         "",ID_STATUS_INVISIBLE,"ColourPicker",WS_TABSTOP,210,140,20,14
     CONTROL         "",40098,"ColourPicker",WS_TABSTOP,235,140,20,14

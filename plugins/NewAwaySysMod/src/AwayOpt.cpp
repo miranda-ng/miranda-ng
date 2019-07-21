@@ -104,6 +104,7 @@ static Dlg1DefMsgDlgItems[] = {
 	{ IDC_MESSAGEDLG_DEF_NA, ID_STATUS_NA, ILI_PROTO_NA },
 	{ IDC_MESSAGEDLG_DEF_OCC, ID_STATUS_OCCUPIED, ILI_PROTO_OCC },
 	{ IDC_MESSAGEDLG_DEF_DND, ID_STATUS_DND, ILI_PROTO_DND },
+	{ IDC_MESSAGEDLG_DEF_FFC, ID_STATUS_FREECHAT, ILI_PROTO_FFC },
 	{ IDC_MESSAGEDLG_DEF_INV, ID_STATUS_INVISIBLE, ILI_PROTO_INV }
 };
 
@@ -262,6 +263,7 @@ static INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			case IDC_MESSAGEDLG_DEF_NA:
 			case IDC_MESSAGEDLG_DEF_OCC:
 			case IDC_MESSAGEDLG_DEF_DND:
+			case IDC_MESSAGEDLG_DEF_FFC:
 			case IDC_MESSAGEDLG_DEF_INV:
 				for (int i = 0; i < _countof(Dlg1DefMsgDlgItems); i++) {
 					if (LOWORD(wParam) == Dlg1DefMsgDlgItems[i].DlgItem) {
@@ -344,6 +346,7 @@ static Dlg2StatusButtons[] = {
 	{ IDC_MOREOPTDLG_DONTPOPDLG_NA, ID_STATUS_NA, ILI_PROTO_NA },
 	{ IDC_MOREOPTDLG_DONTPOPDLG_OCC, ID_STATUS_OCCUPIED, ILI_PROTO_OCC },
 	{ IDC_MOREOPTDLG_DONTPOPDLG_DND, ID_STATUS_DND, ILI_PROTO_DND },
+	{ IDC_MOREOPTDLG_DONTPOPDLG_FFC, ID_STATUS_FREECHAT, ILI_PROTO_FFC },
 	{ IDC_MOREOPTDLG_DONTPOPDLG_INV, ID_STATUS_INVISIBLE, ILI_PROTO_INV }
 };
 
@@ -410,6 +413,7 @@ static INT_PTR CALLBACK MoreOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			case IDC_MOREOPTDLG_DONTPOPDLG_NA:
 			case IDC_MOREOPTDLG_DONTPOPDLG_OCC:
 			case IDC_MOREOPTDLG_DONTPOPDLG_DND:
+			case IDC_MOREOPTDLG_DONTPOPDLG_FFC:
 			case IDC_MOREOPTDLG_DONTPOPDLG_INV:
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 				return 0;
@@ -464,6 +468,7 @@ Dlg3StatusButtons[] = {
 	{ IDC_REPLYDLG_DISABLE_NA, ID_STATUS_NA, ILI_PROTO_NA },
 	{ IDC_REPLYDLG_DISABLE_OCC, ID_STATUS_OCCUPIED, ILI_PROTO_OCC },
 	{ IDC_REPLYDLG_DISABLE_DND, ID_STATUS_DND, ILI_PROTO_DND },
+	{ IDC_REPLYDLG_DISABLE_FFC, ID_STATUS_FREECHAT, ILI_PROTO_FFC },
 	{ IDC_REPLYDLG_DISABLE_INV, ID_STATUS_INVISIBLE, ILI_PROTO_INV },
 };
 
@@ -588,6 +593,7 @@ INT_PTR CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			case IDC_REPLYDLG_DISABLE_NA:
 			case IDC_REPLYDLG_DISABLE_OCC:
 			case IDC_REPLYDLG_DISABLE_DND:
+			case IDC_REPLYDLG_DISABLE_FFC:
 			case IDC_REPLYDLG_DISABLE_INV:
 				if (!ChangeLock)
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
@@ -636,6 +642,7 @@ Dlg4DefMsgDlgItems[] = {
 	{ IDC_MESSAGEDLG_DEF_NA, ID_STATUS_NA, ILI_PROTO_NA },
 	{ IDC_MESSAGEDLG_DEF_OCC, ID_STATUS_OCCUPIED, ILI_PROTO_OCC },
 	{ IDC_MESSAGEDLG_DEF_DND, ID_STATUS_DND, ILI_PROTO_DND },
+	{ IDC_MESSAGEDLG_DEF_FFC, ID_STATUS_FREECHAT, ILI_PROTO_FFC },
 	{ IDC_MESSAGEDLG_DEF_INV, ID_STATUS_INVISIBLE, ILI_PROTO_INV }
 };
 
@@ -1034,6 +1041,7 @@ void InitOptions()
 	g_MessagesOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MESSAGEDLG_DEF_NA, nullptr, DBVT_BYTE, 0, 0, IDC_MESSAGEDLG_MSGTREE));
 	g_MessagesOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MESSAGEDLG_DEF_OCC, nullptr, DBVT_BYTE, 0, 0, IDC_MESSAGEDLG_MSGTREE));
 	g_MessagesOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MESSAGEDLG_DEF_DND, nullptr, DBVT_BYTE, 0, 0, IDC_MESSAGEDLG_MSGTREE));
+	g_MessagesOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MESSAGEDLG_DEF_FFC, nullptr, DBVT_BYTE, 0, 0, IDC_MESSAGEDLG_MSGTREE));
 	g_MessagesOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MESSAGEDLG_DEF_INV, nullptr, DBVT_BYTE, 0, 0, IDC_MESSAGEDLG_MSGTREE));
 
 	TreeItemArray DefMsgTree;
@@ -1055,6 +1063,8 @@ void InitOptions()
 	DefMsgTree.AddElem(CTreeItem(TranslateT("Occupied"), ParentID1, ID++, 0, TranslateT("Not right now.")));
 	g_MsgTreePage.Items.AddElem(new COptItem_IntDBSetting(IDS_MESSAGEDLG_DEF_DND, StatusToDBSetting(ID_STATUS_DND, MESSAGES_DB_MSGTREEDEF), DBVT_WORD, false, ID));
 	DefMsgTree.AddElem(CTreeItem(TranslateT("Do not disturb"), ParentID1, ID++, 0, TranslateT("Give a guy some peace, would ya?")));
+	g_MsgTreePage.Items.AddElem(new COptItem_IntDBSetting(IDS_MESSAGEDLG_DEF_FFC, StatusToDBSetting(ID_STATUS_FREECHAT, MESSAGES_DB_MSGTREEDEF), DBVT_WORD, false, ID));
+	DefMsgTree.AddElem(CTreeItem(TranslateT("Free for chat"), ParentID1, ID++, 0, TranslateT("I'm a chatbot!")));
 	g_MsgTreePage.Items.AddElem(new COptItem_IntDBSetting(IDS_MESSAGEDLG_DEF_INV, StatusToDBSetting(ID_STATUS_INVISIBLE, MESSAGES_DB_MSGTREEDEF), DBVT_WORD, false, ID));
 	DefMsgTree.AddElem(CTreeItem(TranslateT("Invisible"), ParentID1, ID++, 0, TranslateT("I'm hiding from the mafia.")));
 	g_MsgTreePage.Items.AddElem(new COptItem_TreeCtrl(IDV_MSGTREE, "MsgTree", DefMsgTree, RootItems, 0, "Text"));
@@ -1084,6 +1094,7 @@ void InitOptions()
 	g_MoreOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MOREOPTDLG_DONTPOPDLG_NA, "DontPopDlg", DBVT_WORD, MOREOPTDLG_DEF_DONTPOPDLG, SF_NA));
 	g_MoreOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MOREOPTDLG_DONTPOPDLG_OCC, "DontPopDlg", DBVT_WORD, MOREOPTDLG_DEF_DONTPOPDLG, SF_OCC));
 	g_MoreOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MOREOPTDLG_DONTPOPDLG_DND, "DontPopDlg", DBVT_WORD, MOREOPTDLG_DEF_DONTPOPDLG, SF_DND));
+	g_MoreOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MOREOPTDLG_DONTPOPDLG_FFC, "DontPopDlg", DBVT_WORD, MOREOPTDLG_DEF_DONTPOPDLG, SF_FFC));
 	g_MoreOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MOREOPTDLG_DONTPOPDLG_INV, "DontPopDlg", DBVT_WORD, MOREOPTDLG_DEF_DONTPOPDLG, SF_INV));
 
 	g_AutoreplyOptPage.Items.AddElem(new COptItem_Checkbox(IDC_REPLYDLG_ENABLEREPLY, DB_ENABLEREPLY, DBVT_BYTE, AUTOREPLY_DEF_REPLY));
@@ -1105,6 +1116,7 @@ void InitOptions()
 	g_AutoreplyOptPage.Items.AddElem(new COptItem_Checkbox(IDC_REPLYDLG_DISABLE_NA, "DisableReply", DBVT_WORD, AUTOREPLY_DEF_DISABLEREPLY, SF_NA, IDC_REPLYDLG_ENABLEREPLY));
 	g_AutoreplyOptPage.Items.AddElem(new COptItem_Checkbox(IDC_REPLYDLG_DISABLE_OCC, "DisableReply", DBVT_WORD, AUTOREPLY_DEF_DISABLEREPLY, SF_OCC, IDC_REPLYDLG_ENABLEREPLY));
 	g_AutoreplyOptPage.Items.AddElem(new COptItem_Checkbox(IDC_REPLYDLG_DISABLE_DND, "DisableReply", DBVT_WORD, AUTOREPLY_DEF_DISABLEREPLY, SF_DND, IDC_REPLYDLG_ENABLEREPLY));
+	g_AutoreplyOptPage.Items.AddElem(new COptItem_Checkbox(IDC_REPLYDLG_DISABLE_FFC, "DisableReply", DBVT_WORD, AUTOREPLY_DEF_DISABLEREPLY, SF_FFC, IDC_REPLYDLG_ENABLEREPLY));
 	g_AutoreplyOptPage.Items.AddElem(new COptItem_Checkbox(IDC_REPLYDLG_DISABLE_INV, "DisableReply", DBVT_WORD, AUTOREPLY_DEF_DISABLEREPLY, SF_INV, IDC_REPLYDLG_ENABLEREPLY));
 	g_AutoreplyOptPage.Items.AddElem(new COptItem_Generic(IDC_REPLYDLG_STATIC_FORMAT, IDC_REPLYDLG_ENABLEREPLY));
 	g_AutoreplyOptPage.Items.AddElem(new COptItem_Edit(IDC_REPLYDLG_PREFIX, "ReplyPrefix", AWAY_MSGDATA_MAX, AUTOREPLY_DEF_PREFIX, IDC_REPLYDLG_ENABLEREPLY));

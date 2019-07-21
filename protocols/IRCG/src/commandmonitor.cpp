@@ -2349,6 +2349,7 @@ bool CIrcProto::DoOnConnect(const CIrcMessage*)
 		if (IsConnected()) {
 			DoPerform(_T2A(m_info.sNetwork));
 			switch (Temp) {
+				case ID_STATUS_FREECHAT:   DoPerform("Event: Free for chat");   break;
 				case ID_STATUS_ONLINE:     DoPerform("Event: Available");       break;
 			}
 		}

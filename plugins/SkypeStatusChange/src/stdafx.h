@@ -33,6 +33,7 @@ class COptions
 		cssLongAway = 0x00000010,
 		cssLightDND = 0x00000020,
 		cssHeavyDND = 0x00000040,
+		cssFreeChat = 0x00000080,
 		cssIdle = 0x00000400,
 		cssAll = 0x80000000
 	};
@@ -47,6 +48,7 @@ class COptions
 		case ID_STATUS_NA: return cssLongAway;
 		case ID_STATUS_OCCUPIED: return cssLightDND;
 		case ID_STATUS_DND: return cssHeavyDND;
+		case ID_STATUS_FREECHAT: return cssFreeChat;
 		case ID_STATUS_IDLE: return cssIdle;
 		}
 		return 0;

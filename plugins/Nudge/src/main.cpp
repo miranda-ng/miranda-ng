@@ -121,7 +121,8 @@ static int NudgeReceived(WPARAM hContact, LPARAM lParam)
 						((p->statusFlags & NUDGE_ACC_ST3) && (Status == ID_STATUS_DND)) ||
 						((p->statusFlags & NUDGE_ACC_ST4) && (Status == ID_STATUS_NA)) ||
 						((p->statusFlags & NUDGE_ACC_ST5) && (Status == ID_STATUS_OCCUPIED)) ||
-						((p->statusFlags & NUDGE_ACC_ST6) && (Status == ID_STATUS_INVISIBLE)))
+						((p->statusFlags & NUDGE_ACC_ST6) && (Status == ID_STATUS_FREECHAT)) ||
+						((p->statusFlags & NUDGE_ACC_ST7) && (Status == ID_STATUS_INVISIBLE)))
 					{
 						if (diff >= GlobalNudge.recvTimeSec) {
 							if (p->showPopup)
@@ -161,6 +162,7 @@ static int NudgeReceived(WPARAM hContact, LPARAM lParam)
 				((DefaultNudge.statusFlags & NUDGE_ACC_ST3) && (Status == ID_STATUS_DND)) ||
 				((DefaultNudge.statusFlags & NUDGE_ACC_ST4) && (Status == ID_STATUS_NA)) ||
 				((DefaultNudge.statusFlags & NUDGE_ACC_ST5) && (Status == ID_STATUS_OCCUPIED)) ||
+				((DefaultNudge.statusFlags & NUDGE_ACC_ST6) && (Status == ID_STATUS_FREECHAT)) ||
 				((DefaultNudge.statusFlags & NUDGE_ACC_ST6) && (Status == ID_STATUS_INVISIBLE)))
 			{
 				if (diff >= GlobalNudge.recvTimeSec) {

@@ -139,7 +139,8 @@ statusValues[] =
 	{ PF2_LONGAWAY, LPGENW("Not available") },
 	{ PF2_LIGHTDND, LPGENW("Occupied") },
 	{ PF2_HEAVYDND, LPGENW("Do not disturb") },
-	{ PF2_INVISIBLE, LPGENW("Invisible") },
+	{ PF2_FREECHAT, LPGENW("Free for chat") },
+	{ PF2_INVISIBLE, LPGENW("Invisible") }
 };
 
 class COptionMainDlg : public CDlgBase

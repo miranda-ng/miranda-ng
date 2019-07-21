@@ -54,6 +54,7 @@ const char* CLCPaint::HASHTEXT[hi_LastItem] = {
 	"DND",
 	"NA",
 	"OCCUPIED",
+	"FREECHAT",
 	"INVISIBLE",
 	"IDLE",
 	"OFFLINE",
@@ -170,6 +171,7 @@ int CLCPaint::GetBasicFontID(ClcContact *contact)
 		case ID_STATUS_DND: return FONTID_DND;
 		case ID_STATUS_NA: return FONTID_NA;
 		case ID_STATUS_OCCUPIED: return FONTID_OCCUPIED;
+		case ID_STATUS_FREECHAT: return FONTID_CHAT;
 		case ID_STATUS_INVISIBLE: return FONTID_INVISIBLE;
 		}
 
@@ -521,6 +523,7 @@ MODERNMASK* CLCPaint::_GetCLCContactRowBackModernMask(ClcGroup *group, ClcContac
 			case ID_STATUS_DND:         _AddParamShort(mpModernMask, hi_Status, hi_DND);       break;
 			case ID_STATUS_NA:          _AddParamShort(mpModernMask, hi_Status, hi_NA);        break;
 			case ID_STATUS_OCCUPIED:    _AddParamShort(mpModernMask, hi_Status, hi_OCCUPIED);  break;
+			case ID_STATUS_FREECHAT:    _AddParamShort(mpModernMask, hi_Status, hi_FREECHAT);  break;
 			case ID_STATUS_INVISIBLE:   _AddParamShort(mpModernMask, hi_Status, hi_INVISIBLE); break;
 			case ID_STATUS_IDLE:        _AddParamShort(mpModernMask, hi_Status, hi_IDLE);      break;
 			default:                    _AddParamShort(mpModernMask, hi_Status, hi_OFFLINE);

@@ -492,7 +492,8 @@ int CheckProtoSettings(const char *szProto, int iInitialStatus)
 		case 2: return ID_STATUS_AWAY;
 		case 3: return ID_STATUS_NA;
 		case 4: return ID_STATUS_DND;
-		case 5: return ID_STATUS_INVISIBLE;
+		case 5: return ID_STATUS_FREECHAT;
+		case 6: return ID_STATUS_INVISIBLE;
 		default: return iInitialStatus;
 		}
 	}
@@ -1352,7 +1353,7 @@ static int OnIdleChanged(WPARAM, LPARAM lParam)
 
 		// we're entering idle
 		if (lParam & IDF_ISIDLE) {
-			if (!db_get_b(0, "AutoAway", pa->szModuleName, 0) && iCurrentStatus != ID_STATUS_ONLINE)
+			if (!db_get_b(0, "AutoAway", pa->szModuleName, 0) && iCurrentStatus != ID_STATUS_ONLINE && iCurrentStatus != ID_STATUS_FREECHAT)
 				return 0;
 		}
 		else {

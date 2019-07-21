@@ -39,6 +39,7 @@
 #define IDC_NA                          1024
 #define IDC_OCCUPIED                    1025
 #define IDC_DND                         1026
+#define IDC_FREECHAT                    1027
 #define IDC_INVISIBLE                   1028
 #define IDC_OFFLINE                     1031
 #define IDC_REMCHECK                    1032

@@ -75,7 +75,7 @@ static int AutoAwayEvent(WPARAM, LPARAM lParam)
 				status = ID_STATUS_AWAY;
 
 		if (lParam & IDF_ISIDLE) {
-			if (pa->iRealStatus != ID_STATUS_ONLINE) {
+			if (pa->iRealStatus != ID_STATUS_ONLINE && pa->iRealStatus != ID_STATUS_FREECHAT) {
 				Netlib_Logf(0, "%s: '%s' isn't online (%d), skipping", MODULENAME, pa->szModuleName, pa->iRealStatus);
 				continue;
 			}
@@ -87,7 +87,7 @@ static int AutoAwayEvent(WPARAM, LPARAM lParam)
 		}
 		else {
 			int oldstatus = g_plugin.getWord(pa->szModuleName, 0);
-			if (oldstatus != ID_STATUS_ONLINE) {
+			if (oldstatus != ID_STATUS_ONLINE && oldstatus != ID_STATUS_FREECHAT) {
 				Netlib_Logf(0, "%s: '%s' wasn't online (%d), skipping", MODULENAME, pa->szModuleName, oldstatus);
 				continue;
 			}

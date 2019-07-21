@@ -1062,7 +1062,7 @@ int FacebookProto::ParseMessages(std::string &pData, std::vector<facebook_messag
 				// const JSONNode &ol_ = itNodes["ol"]; // possible values: -1 (when goes to offline), 0 (when goes back online) (something more?)
 				// const JSONNode &p_ = itNodes["p"]; // class with fbAppStatus, messengerStatus, otherStatus, status, webStatus
 
-				int status = ID_STATUS_INVISIBLE; // INVISIBLE to easily spot some problem, as we expect it will always be p==0 or p==2 below
+				int status = ID_STATUS_FREECHAT; // FREECHAT to easily spot some problem, as we expect it will always be p==0 or p==2 below
 
 				if (a_) {
 					int a = a_.as_int();

@@ -62,6 +62,7 @@ private:
 		hi_DND,
 		hi_NA,
 		hi_OCCUPIED,
+		hi_FREECHAT,
 		hi_INVISIBLE,
 		hi_IDLE,
 		hi_OFFLINE,

@@ -53,6 +53,8 @@ IDI_AVATAR_OVERLAY_DND  ICON                    "DND.ico"
 
 IDI_AVATAR_OVERLAY_INVISIBLE ICON                    "invisible.ico"
 
+IDI_AVATAR_OVERLAY_CHAT ICON                    "chat.ico"
+
 IDI_STATUS_OVERLAY_NA   ICON                    "MicroNA.ico"
 
 IDI_STATUS_OVERLAY_OCCUPIED ICON                    "Microoccupied.ico"
@@ -64,6 +66,8 @@ IDI_STATUS_OVERLAY_AWAY ICON                    "MicroAway.ico"
 IDI_STATUS_OVERLAY_DND  ICON                    "MicroDND.ico"
 
 IDI_STATUS_OVERLAY_INVISIBLE ICON                    "Microinvisible.ico"
+
+IDI_STATUS_OVERLAY_CHAT ICON                    "Microchat.ico"
 
 IDI_ICQC1               ICON                    "1.ico"
 

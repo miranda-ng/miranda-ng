@@ -30,6 +30,7 @@ begin
   else if status=ID_STATUS_NA         then mask:=psf_longaway
   else if status=ID_STATUS_DND        then mask:=psf_heavydnd
   else if status=ID_STATUS_OCCUPIED   then mask:=psf_lightdnd
+  else if status=ID_STATUS_FREECHAT   then mask:=psf_freechat
   else mask:=0;
   result:=(protomask and mask)<>0;
 end;

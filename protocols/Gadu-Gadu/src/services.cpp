@@ -32,6 +32,7 @@ char *gg_status2db(int status, const char *suffix)
 	case ID_STATUS_NA:         prefix = "Na"; break;
 	case ID_STATUS_DND:        prefix = "Dnd"; break;
 	case ID_STATUS_OCCUPIED:   prefix = "Occupied"; break;
+	case ID_STATUS_FREECHAT:   prefix = "FreeChat"; break;
 	case ID_STATUS_ONLINE:     prefix = "On"; break;
 	case ID_STATUS_OFFLINE:    prefix = "Off"; break;
 	case ID_STATUS_INVISIBLE:  prefix = "Inv"; break;
@@ -55,6 +56,9 @@ wchar_t* GaduProto::getstatusmsg(int status)
 		break;
 	case ID_STATUS_DND:
 		return modemsg.dnd;
+		break;
+	case ID_STATUS_FREECHAT:
+		return modemsg.freechat;
 		break;
 	case ID_STATUS_INVISIBLE:
 		return modemsg.invisible;
@@ -128,6 +132,7 @@ int gg_normalizestatus(int status)
 	switch (status) {
 	case ID_STATUS_ONLINE:    return ID_STATUS_ONLINE;
 	case ID_STATUS_DND:       return ID_STATUS_DND;
+	case ID_STATUS_FREECHAT:  return ID_STATUS_FREECHAT;
 	case ID_STATUS_OFFLINE:   return ID_STATUS_OFFLINE;
 	case ID_STATUS_INVISIBLE: return ID_STATUS_INVISIBLE;
 	}

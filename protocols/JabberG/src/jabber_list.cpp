@@ -394,19 +394,23 @@ char* CJabberProto::ListGetBestClientResourceNamePtr(const char *jid)
 	for (auto &it : LI->arResources) {
 		bool foundBetter = false;
 		switch (it->m_iStatus) {
-		case ID_STATUS_ONLINE:
+		case ID_STATUS_FREECHAT:
 			foundBetter = true;
 			break;
+		case ID_STATUS_ONLINE:
+			if (status != ID_STATUS_FREECHAT)
+				foundBetter = true;
+			break;
 		case ID_STATUS_DND:
-			if (status != ID_STATUS_ONLINE)
+			if (status != ID_STATUS_FREECHAT && status != ID_STATUS_ONLINE)
 				foundBetter = true;
 			break;
 		case ID_STATUS_AWAY:
-			if (status != ID_STATUS_ONLINE && status != ID_STATUS_DND)
+			if (status != ID_STATUS_FREECHAT && status != ID_STATUS_ONLINE && status != ID_STATUS_DND)
 				foundBetter = true;
 			break;
 		case ID_STATUS_NA:
-			if (status != ID_STATUS_ONLINE && status != ID_STATUS_DND && status != ID_STATUS_AWAY)
+			if (status != ID_STATUS_FREECHAT && status != ID_STATUS_ONLINE && status != ID_STATUS_DND && status != ID_STATUS_AWAY)
 				foundBetter = true;
 			break;
 		}

@@ -16,6 +16,7 @@
 #define IDC_CHECK5                      1008
 #define IDC_CHECK6                      1009
 #define IDC_CHECK7                      1010
+#define IDC_CHECK8                      1011
 #define IDC_EDIT_TEMPLATE               1012
 #define IDC_CHECK_SPLIT                 1013
 #define IDC_EDIT_MAXSIZE                1014

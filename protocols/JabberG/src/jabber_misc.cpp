@@ -215,6 +215,7 @@ void CJabberProto::SetServerStatus(int iNewStatus)
 	switch (iNewStatus) {
 	case ID_STATUS_ONLINE:
 	case ID_STATUS_NA:
+	case ID_STATUS_FREECHAT:
 	case ID_STATUS_INVISIBLE:
 		m_iStatus = iNewStatus;
 		break;

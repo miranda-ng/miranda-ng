@@ -240,6 +240,7 @@ CJabberProto::~CJabberProto()
 	mir_free(m_modeMsgs.szAway);
 	mir_free(m_modeMsgs.szNa);
 	mir_free(m_modeMsgs.szDnd);
+	mir_free(m_modeMsgs.szFreechat);
 
 	mir_free(m_transportProtoTableStartIndex);
 
@@ -579,9 +580,9 @@ INT_PTR CJabberProto::GetCaps(int type, MCONTACT hContact)
 	case PFLAGNUM_1:
 		return PF1_IM | PF1_AUTHREQ | PF1_CHAT | PF1_SERVERCLIST | PF1_MODEMSG | PF1_BASICSEARCH | PF1_EXTSEARCH | PF1_FILE | PF1_CONTACT;
 	case PFLAGNUM_2:
-		return PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_HEAVYDND;
+		return PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_HEAVYDND | PF2_FREECHAT;
 	case PFLAGNUM_3:
-		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_HEAVYDND;
+		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_HEAVYDND | PF2_FREECHAT;
 	case PFLAGNUM_4:
 		return PF4_FORCEAUTH | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_AVATARS;
 	case PFLAG_UNIQUEIDTEXT:
@@ -1197,6 +1198,10 @@ int CJabberProto::SetAwayMsg(int status, const wchar_t *msg)
 	case ID_STATUS_OCCUPIED:
 		szMsg = &m_modeMsgs.szDnd;
 		status = ID_STATUS_DND;
+		break;
+		
+	case ID_STATUS_FREECHAT:
+		szMsg = &m_modeMsgs.szFreechat;
 		break;
 
 	default:

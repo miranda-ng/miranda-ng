@@ -29,6 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define IDI_ONLINE                      104
 #define IDI_OFFLINE                     105
 #define IDI_AWAY                        128
+#define IDI_FREE4CHAT                   129
 #define IDI_INVISIBLE                   130
 #define IDI_NA                          131
 #define IDI_DND                         158
@@ -72,7 +73,7 @@ static CTransportProtoTableItem TransportProtoTable[] =
 	{ "meinvz*",         "MeinVZ" },
 };
 
-static int skinIconStatusToResourceId[] = { IDI_OFFLINE, IDI_ONLINE, IDI_AWAY, IDI_DND, IDI_NA, IDI_NA, IDI_OCCUPIED, IDI_INVISIBLE };
+static int skinIconStatusToResourceId[] = { IDI_OFFLINE, IDI_ONLINE, IDI_AWAY, IDI_DND, IDI_NA, IDI_NA, IDI_OCCUPIED, IDI_FREE4CHAT, IDI_INVISIBLE };
 
 ///////////////////////////////////////////////////////////////////////////////
 // CIconPool class

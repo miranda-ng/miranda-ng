@@ -23,6 +23,7 @@
 #define IDC_ACTIVE_DND                  1011
 #define IDC_ACTIVE_NA                   1012
 #define IDC_ACTIVE_OCCUPIED             1013
+#define IDC_ACTIVE_FREEFORCHAT          1014
 #define IDC_ACTIVE_INVISIBLE            1015
 #define IDC_BUTTON_TEST                 1016
 #define IDC_STATUS_OFFLINE              1100
@@ -31,6 +32,7 @@
 #define IDC_STATUS_DND                  1103
 #define IDC_STATUS_NA                   1104
 #define IDC_STATUS_OCCUPIED             1105
+#define IDC_STATUS_FREEFORCHAT          1106
 #define IDC_STATUS_INVISIBLE            1107
 #define IDC_SPEAK_STATUS_MSG            1108
 #define IDC_EVENT_MESSAGE               1109

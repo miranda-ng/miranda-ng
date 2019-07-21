@@ -1310,7 +1310,8 @@ BEGIN
         MENUITEM "&Not available\tCtrl+3",      ID_STATUS_NA
         MENUITEM "Occ&upied\tCtrl+4",           ID_STATUS_OCCUPIED
         MENUITEM "&Do not disturb\tCtrl+5",     ID_STATUS_DND
-        MENUITEM "&Invisible\tCtrl+6",          ID_STATUS_INVISIBLE
+        MENUITEM "&Free for chat\tCtrl+6",      ID_STATUS_FREECHAT
+        MENUITEM "&Invisible\tCtrl+7",          ID_STATUS_INVISIBLE
     END
 END
 

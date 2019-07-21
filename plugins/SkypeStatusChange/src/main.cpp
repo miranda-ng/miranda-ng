@@ -58,9 +58,10 @@ const CMirandaStatus2SkypeStatus g_aStatusCode[MAX_STATUS_COUNT] =
 	{ID_STATUS_NA, "AWAY",L"Not available"}, // removed in Skype 5
 	{ID_STATUS_DND, "DND",L"Do not disturb"},
 	{ID_STATUS_ONLINE, "ONLINE",L"Online"},
+	{ID_STATUS_FREECHAT, "ONLINE",L"Free for chat"},	// SKYPEME status doesn't work in Skype 4!
 	{ID_STATUS_OFFLINE, "OFFLINE",L"Offline"},
 	{ID_STATUS_INVISIBLE, "INVISIBLE",L"Invisible"},
-	{ID_STATUS_OCCUPIED,"DND",L"Occupied"},
+	{ID_STATUS_OCCUPIED,"DND",L"Occupied"}
 };
 
 enum { INVALID_INDEX = 0xFFFFFFFF };

@@ -76,7 +76,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define CLOUDY    ID_STATUS_NA
 #define RAIN      ID_STATUS_OCCUPIED
 #define FOG       ID_STATUS_DND
-#define SNOW      ID_STATUS_INVISIBLE
+#define SNOW      ID_STATUS_FREECHAT
+#define LIGHT     ID_STATUS_INVISIBLE
+#define THUNDER   ID_STATUS_INVISIBLE
 #define UNAVAIL   40081
 
 // status

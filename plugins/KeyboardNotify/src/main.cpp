@@ -156,6 +156,7 @@ BOOL isStatusEnabled(int status)
 		case ID_STATUS_NA:         return wStatusMap & MAP_NA;
 		case ID_STATUS_OCCUPIED:   return wStatusMap & MAP_OCCUPIED;
 		case ID_STATUS_DND:        return wStatusMap & MAP_DND;
+		case ID_STATUS_FREECHAT:   return wStatusMap & MAP_FREECHAT;
 		case ID_STATUS_INVISIBLE:  return wStatusMap & MAP_INVISIBLE;
 	}
 	return FALSE;

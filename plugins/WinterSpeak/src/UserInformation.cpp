@@ -11,6 +11,7 @@ UserInformation::UserInformation() : m_status_info(), m_status_strings() {
 	m_status_strings[ID_STATUS_NA]        = LPGENW("%u is not available");
 	m_status_strings[ID_STATUS_DND]       = LPGENW("%u does not want to be disturbed");
 	m_status_strings[ID_STATUS_OCCUPIED]  = LPGENW("%u is occupied");
+	m_status_strings[ID_STATUS_FREECHAT]  = LPGENW("%u is free for chat");
 }
 
 //------------------------------------------------------------------------------

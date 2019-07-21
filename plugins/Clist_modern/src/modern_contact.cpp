@@ -36,7 +36,8 @@ static statusModeOrder[] =
 	{ ID_STATUS_DND, 110 },
 	{ ID_STATUS_NA, 450 },
 	{ ID_STATUS_OCCUPIED, 100 },
-	{ ID_STATUS_INVISIBLE, 20 },
+	{ ID_STATUS_FREECHAT, 0 },
+	{ ID_STATUS_INVISIBLE, 20 }
 };
 
 static int LocaleId = -1;

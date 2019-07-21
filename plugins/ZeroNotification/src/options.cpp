@@ -29,7 +29,8 @@ static const statusValues[] =
 	{ PF2_LONGAWAY, TEXT("Not available") },
 	{ PF2_LIGHTDND, TEXT("Occupied") },
 	{ PF2_HEAVYDND, TEXT("Do not disturb") },
-	{ PF2_INVISIBLE, TEXT("Invisible") },
+	{ PF2_FREECHAT, TEXT("Free for chat") },
+	{ PF2_INVISIBLE, TEXT("Invisible") }
 };
 
 static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *values, int nValues, DWORD style)

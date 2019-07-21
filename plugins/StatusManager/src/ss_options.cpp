@@ -36,6 +36,7 @@ static char* GetStatusDesc(int status)
 	case ID_STATUS_NA:         return "na";
 	case ID_STATUS_DND:        return "dnd";
 	case ID_STATUS_OCCUPIED:   return "occupied";
+	case ID_STATUS_FREECHAT:   return "freechat";
 	case ID_STATUS_ONLINE:     return "online";
 	case ID_STATUS_OFFLINE:    return "offline";
 	case ID_STATUS_INVISIBLE:  return "invisible";

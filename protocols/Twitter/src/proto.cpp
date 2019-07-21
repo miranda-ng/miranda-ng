@@ -169,8 +169,8 @@ int TwitterProto::SetStatus(int new_status)
 		return 0;
 
 	m_iDesiredStatus = new_status;
-	// 40072 - 40077 are the "online" statuses, basically every status except offline.  see statusmodes.h
-	if (new_status >= 40072 && new_status <= 40077) {
+	// 40072 - 40078 are the "online" statuses, basically every status except offline.  see statusmodes.h
+	if (new_status >= 40072 && new_status <= 40078) {
 
 		m_iDesiredStatus = ID_STATUS_ONLINE; //i think i have to set this so it forces the twitter proto to be online (and not away, DND, etc)
 
@@ -179,7 +179,7 @@ int TwitterProto::SetStatus(int new_status)
 			return 0;
 
 		// if we're already connected, and we change to another connected status, don't try and reconnect!
-		if (old_status >= 40072 && old_status <= 40077)
+		if (old_status >= 40072 && old_status <= 40078)
 			return 0;
 
 		// i think here we tell the proto interface struct that we're connecting, just so it knows

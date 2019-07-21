@@ -112,6 +112,7 @@ GaduProto::~GaduProto()
 	if (modemsg.online)    mir_free(modemsg.online);
 	if (modemsg.away)      mir_free(modemsg.away);
 	if (modemsg.dnd)       mir_free(modemsg.dnd);
+	if (modemsg.freechat)  mir_free(modemsg.freechat);
 	if (modemsg.invisible) mir_free(modemsg.invisible);
 	if (modemsg.offline)   mir_free(modemsg.offline);
 }
@@ -145,10 +146,10 @@ INT_PTR GaduProto::GetCaps(int type, MCONTACT)
 		return PF1_IM | PF1_BASICSEARCH | PF1_EXTSEARCH | PF1_EXTSEARCHUI | PF1_SEARCHBYNAME |
 			PF1_MODEMSG | PF1_NUMERICUSERID | PF1_VISLIST | PF1_FILE;
 	case PFLAGNUM_2:
-		return PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_INVISIBLE |
+		return PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_FREECHAT | PF2_INVISIBLE |
 			PF2_LONGAWAY;
 	case PFLAGNUM_3:
-		return PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_INVISIBLE;
+		return PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_FREECHAT | PF2_INVISIBLE;
 	case PFLAGNUM_4:
 		return PF4_NOCUSTOMAUTH | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_IMSENDOFFLINE;
 	case PFLAGNUM_5:
@@ -630,6 +631,9 @@ int GaduProto::SetAwayMsg(int iStatus, const wchar_t *newMsg)
 		break;
 	case ID_STATUS_DND:
 		msgPtr = &modemsg.dnd;
+		break;
+	case ID_STATUS_FREECHAT:
+		msgPtr = &modemsg.freechat;
 		break;
 	case ID_STATUS_INVISIBLE:
 		msgPtr = &modemsg.invisible;

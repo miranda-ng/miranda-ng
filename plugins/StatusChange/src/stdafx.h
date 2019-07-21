@@ -38,5 +38,6 @@ struct TOPTIONS
 	BOOL IfNA;
 	BOOL IfOccupied;
 	BOOL IfDND;
+	BOOL IfFreeforchat;
 	BOOL IfInvisible;
 };

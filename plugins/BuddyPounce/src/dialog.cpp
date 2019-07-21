@@ -97,7 +97,8 @@ INT_PTR CALLBACK StatusModesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				| (IsDlgButtonChecked(hwnd, IDC_CHECK4) << 3)
 				| (IsDlgButtonChecked(hwnd, IDC_CHECK5) << 4)
 				| (IsDlgButtonChecked(hwnd, IDC_CHECK6) << 5)
-				| (IsDlgButtonChecked(hwnd, IDC_CHECK7) << 6);
+				| (IsDlgButtonChecked(hwnd, IDC_CHECK7) << 6)
+				| (IsDlgButtonChecked(hwnd, IDC_CHECK8) << 7);
 
 			if (!mir_wstrcmp(type, L"Any")) {
 				if (LOWORD(wParam) == IDOK)
@@ -135,7 +136,8 @@ void statusModes(windowInfo *wi, int myStatusMode) // myStatusMode=1 sendIfMySta
 			SetDlgItemText(hwnd, IDC_CHECK4, TranslateT("Not available"));
 			SetDlgItemText(hwnd, IDC_CHECK5, TranslateT("Occupied"));
 			SetDlgItemText(hwnd, IDC_CHECK6, TranslateT("Do not disturb"));
-			SetDlgItemText(hwnd, IDC_CHECK7, TranslateT("Invisible"));
+			SetDlgItemText(hwnd, IDC_CHECK7, TranslateT("Free for chat"));
+			SetDlgItemText(hwnd, IDC_CHECK8, TranslateT("Invisible"));
 		}
 	}
 	else {
@@ -153,7 +155,8 @@ void statusModes(windowInfo *wi, int myStatusMode) // myStatusMode=1 sendIfMySta
 			SetDlgItemText(hwnd, IDC_CHECK4, TranslateT("To Not available"));
 			SetDlgItemText(hwnd, IDC_CHECK5, TranslateT("To Occupied"));
 			SetDlgItemText(hwnd, IDC_CHECK6, TranslateT("To Do not disturb"));
-			SetDlgItemText(hwnd, IDC_CHECK7, TranslateT("To Invisible"));
+			SetDlgItemText(hwnd, IDC_CHECK7, TranslateT("To Free for chat"));
+			SetDlgItemText(hwnd, IDC_CHECK8, TranslateT("To Invisible"));
 		}
 	}
 	CheckDlgButton(hwnd, IDC_CHECK1, (statusFlag & ANY) ? BST_CHECKED : BST_UNCHECKED);
@@ -162,7 +165,8 @@ void statusModes(windowInfo *wi, int myStatusMode) // myStatusMode=1 sendIfMySta
 	CheckDlgButton(hwnd, IDC_CHECK4, (statusFlag & NA) >> 3 ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hwnd, IDC_CHECK5, (statusFlag & OCCUPIED) >> 4 ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hwnd, IDC_CHECK6, (statusFlag & DND) >> 5 ? BST_CHECKED : BST_UNCHECKED);
-	CheckDlgButton(hwnd, IDC_CHECK7, (statusFlag & INVISIBLE) >> 6 ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwnd, IDC_CHECK7, (statusFlag & FFC) >> 6 ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwnd, IDC_CHECK8, (statusFlag & INVISIBLE) >> 7 ? BST_CHECKED : BST_UNCHECKED);
 }
 
 void deletePounce(MCONTACT hContact)

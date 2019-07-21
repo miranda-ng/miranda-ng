@@ -11,7 +11,8 @@ const int aiStatusPriority[] =
 	1,	// ID_STATUS_DND                   40074
 	7,	// ID_STATUS_NA                    40075
 	6,	// ID_STATUS_OCCUPIED              40076
-	9	// ID_STATUS_INVISIBLE             40077
+	10,	// ID_STATUS_FREECHAT              40077
+	9	// ID_STATUS_INVISIBLE             40078
 };
 
 //************************************************************************

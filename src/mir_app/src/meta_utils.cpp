@@ -209,11 +209,12 @@ MCONTACT Meta_GetMostOnline(DBCachedContact *cc)
 static int GetStatusPriority(int status)
 {
 	switch (status) {
-		case ID_STATUS_AWAY:       return 1;
-		case ID_STATUS_OCCUPIED:   return 2;
-		case ID_STATUS_NA:         return 3;
-		case ID_STATUS_DND:        return 4;
-		case ID_STATUS_OFFLINE:    return 5;
+		case ID_STATUS_FREECHAT:   return 1;
+		case ID_STATUS_AWAY:       return 2;
+		case ID_STATUS_OCCUPIED:   return 3;
+		case ID_STATUS_NA:         return 4;
+		case ID_STATUS_DND:        return 5;
+		case ID_STATUS_OFFLINE:    return 6;
 	}
 
 	return 0;
