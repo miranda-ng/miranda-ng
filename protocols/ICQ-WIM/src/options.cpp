@@ -253,6 +253,11 @@ public:
 	bool OnApply() override
 	{
 		ptrW wszPass(edtPassword.GetText());
+		if (wszPass)
+			m_proto->setWString("Password", wszPass);
+		else
+			m_proto->delSetting("Password");
+
 		if (wszOldPass != wszPass) {
 			m_proto->delSetting(DB_KEY_ATOKEN);
 			m_proto->delSetting(DB_KEY_SESSIONKEY);
