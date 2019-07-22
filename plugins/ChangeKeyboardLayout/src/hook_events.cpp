@@ -8,13 +8,13 @@ INT_PTR APIChangeLayout(WPARAM wParam, LPARAM)
 
 INT_PTR APIGetLayoutOfText(WPARAM, LPARAM lParam)
 {
-	LPTSTR ptszInText = (wchar_t*)lParam;
+	wchar_t *ptszInText = (wchar_t*)lParam;
 	return (INT_PTR)GetLayoutOfText(ptszInText);
 }
 
 INT_PTR APIChangeTextLayout(WPARAM wParam, LPARAM lParam)
 {
-	LPTSTR ptszInText = (wchar_t*)wParam;
+	wchar_t *ptszInText = (wchar_t*)wParam;
 	CKLLayouts *ckllFromToLay = (CKLLayouts*)lParam;
 
 	return (INT_PTR)ChangeTextLayout(ptszInText, ckllFromToLay->hklFrom, ckllFromToLay->hklTo, ckllFromToLay->bTwoWay);
@@ -97,7 +97,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 	// Заполняем конфигурационные строки из базы. Если их там нет - генерируем.
 	for (int i = 0; i < bLayNum; i++) {
-		LPTSTR ptszCurrLayout = GenerateLayoutString(hklLayouts[i]);
+		wchar_t *ptszCurrLayout = GenerateLayoutString(hklLayouts[i]);
 		LPSTR ptszTemp = GetNameOfLayout(hklLayouts[i]);
 		ptrW tszValue(g_plugin.getWStringA(ptszTemp));
 		if (tszValue == 0)
@@ -187,7 +187,7 @@ LRESULT CALLBACK Keyboard_Hook(int code, WPARAM wParam, LPARAM lParam)
 
 int CALLBACK CKLPopupDlgProc(HWND hWnd, UINT uiMessage, WPARAM wParam, LPARAM lParam)
 {
-	LPTSTR ptszPopupText = (LPTSTR)PUGetPluginData(hWnd);
+	wchar_t *ptszPopupText = (LPTSTR)PUGetPluginData(hWnd);
 
 	switch (uiMessage) {
 	case WM_COMMAND:

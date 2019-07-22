@@ -1,14 +1,14 @@
 #include "stdafx.h"
 
 CMPlugin g_plugin;
-LPTSTR ptszLayStrings[20];
+wchar_t *ptszLayStrings[20];
 HANDLE hChangeLayout, hGetLayoutOfText, hChangeTextLayout;
 HICON hPopupIcon, hCopyIcon;
 HKL hklLayouts[20];
 BYTE bLayNum;
 HHOOK kbHook_All;
 MainOptions moOptions;
-PopupOptions poOptions, poOptionsTemp;
+PopupOptions poOptions;
 
 LPCTSTR ptszKeybEng = L"`1234567890- = \\qwertyuiop[]asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+|QWERTYUIOP{}ASDFGHJKL:\"ZXCVBNM<>?";
 HKL hklEng = (HKL)0x04090409;

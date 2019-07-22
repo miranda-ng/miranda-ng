@@ -3,43 +3,40 @@
 INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LPARAM lParam)
 {
 	static BOOL MainDialogLock = FALSE;
-	LPTSTR ptszGenLay, ptszMemLay, ptszFormLay, ptszShortNameLay;
-	LPSTR pszNameLay;
-	BYTE i;
 
 	switch (uiMessage) {
 	case WM_INITDIALOG:
 		MainDialogLock = TRUE;
 		TranslateDialogDefault(hWnd);
-			
-		//Горячие клавиши
+
+		// Горячие клавиши
 		// Запрещаем вводить в контролы все, кроме обычных кнопок
 		SendDlgItemMessage(hWnd, IDC_HOTKEY_LAYOUT, HKM_SETRULES, 0xFF, 0);
 		SendDlgItemMessage(hWnd, IDC_HOTKEY_LAYOUT2, HKM_SETRULES, 0xFF, 0);
 		SendDlgItemMessage(hWnd, IDC_HOTKEY_CASE, HKM_SETRULES, 0xFF, 0);
-			
-		//Отображаем управляющие клавиши
-		CheckDlgButton(hWnd, IDC_CHECK_LAYOUT_SHIFT, (moOptions.dwHotkey_Layout&0x00000100) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hWnd, IDC_CHECK_LAYOUT_CTRL, (moOptions.dwHotkey_Layout&0x00000200) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hWnd, IDC_CHECK_LAYOUT_ALT, (moOptions.dwHotkey_Layout&0x00000400) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hWnd, IDC_CHECK_LAYOUT_WIN, (moOptions.dwHotkey_Layout&0x00000800) ? BST_CHECKED : BST_UNCHECKED);
 
-		CheckDlgButton(hWnd, IDC_CHECK_LAYOUT2_SHIFT, (moOptions.dwHotkey_Layout2&0x00000100) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hWnd, IDC_CHECK_LAYOUT2_CTRL, (moOptions.dwHotkey_Layout2&0x00000200) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hWnd, IDC_CHECK_LAYOUT2_ALT, (moOptions.dwHotkey_Layout2&0x00000400) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hWnd, IDC_CHECK_LAYOUT2_WIN, (moOptions.dwHotkey_Layout2&0x00000800) ? BST_CHECKED : BST_UNCHECKED);
+		// Отображаем управляющие клавиши
+		CheckDlgButton(hWnd, IDC_CHECK_LAYOUT_SHIFT, (moOptions.dwHotkey_Layout & 0x00000100) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWnd, IDC_CHECK_LAYOUT_CTRL, (moOptions.dwHotkey_Layout & 0x00000200) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWnd, IDC_CHECK_LAYOUT_ALT, (moOptions.dwHotkey_Layout & 0x00000400) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWnd, IDC_CHECK_LAYOUT_WIN, (moOptions.dwHotkey_Layout & 0x00000800) ? BST_CHECKED : BST_UNCHECKED);
 
-		CheckDlgButton(hWnd, IDC_CHECK_CASE_SHIFT, (moOptions.dwHotkey_Case&0x00000100) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hWnd, IDC_CHECK_CASE_CTRL, (moOptions.dwHotkey_Case&0x00000200) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hWnd, IDC_CHECK_CASE_ALT, (moOptions.dwHotkey_Case&0x00000400) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hWnd, IDC_CHECK_CASE_WIN, (moOptions.dwHotkey_Case&0x00000800) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWnd, IDC_CHECK_LAYOUT2_SHIFT, (moOptions.dwHotkey_Layout2 & 0x00000100) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWnd, IDC_CHECK_LAYOUT2_CTRL, (moOptions.dwHotkey_Layout2 & 0x00000200) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWnd, IDC_CHECK_LAYOUT2_ALT, (moOptions.dwHotkey_Layout2 & 0x00000400) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWnd, IDC_CHECK_LAYOUT2_WIN, (moOptions.dwHotkey_Layout2 & 0x00000800) ? BST_CHECKED : BST_UNCHECKED);
 
-		//Показываем символ из хоткея
-		SendDlgItemMessage(hWnd, IDC_HOTKEY_LAYOUT, HKM_SETHOTKEY, moOptions.dwHotkey_Layout&0x000000FF, 0);
-		SendDlgItemMessage(hWnd, IDC_HOTKEY_LAYOUT2, HKM_SETHOTKEY, moOptions.dwHotkey_Layout2&0x000000FF, 0);
-		SendDlgItemMessage(hWnd, IDC_HOTKEY_CASE, HKM_SETHOTKEY, moOptions.dwHotkey_Case&0x000000FF, 0);
-			
-		//Остальные опции
+		CheckDlgButton(hWnd, IDC_CHECK_CASE_SHIFT, (moOptions.dwHotkey_Case & 0x00000100) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWnd, IDC_CHECK_CASE_CTRL, (moOptions.dwHotkey_Case & 0x00000200) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWnd, IDC_CHECK_CASE_ALT, (moOptions.dwHotkey_Case & 0x00000400) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWnd, IDC_CHECK_CASE_WIN, (moOptions.dwHotkey_Case & 0x00000800) ? BST_CHECKED : BST_UNCHECKED);
+
+		// Показываем символ из хоткея
+		SendDlgItemMessage(hWnd, IDC_HOTKEY_LAYOUT, HKM_SETHOTKEY, moOptions.dwHotkey_Layout & 0x000000FF, 0);
+		SendDlgItemMessage(hWnd, IDC_HOTKEY_LAYOUT2, HKM_SETHOTKEY, moOptions.dwHotkey_Layout2 & 0x000000FF, 0);
+		SendDlgItemMessage(hWnd, IDC_HOTKEY_CASE, HKM_SETHOTKEY, moOptions.dwHotkey_Case & 0x000000FF, 0);
+
+		// Остальные опции
 		CheckDlgButton(hWnd, IDC_CHECK_LAYOUT_MODE, moOptions.CurrentWordLayout ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hWnd, IDC_CHECK_LAYOUT_MODE2, moOptions.CurrentWordLayout2 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hWnd, IDC_CHECK_CASE_MODE, moOptions.CurrentWordCase ? BST_CHECKED : BST_UNCHECKED);
@@ -48,7 +45,7 @@ INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LP
 		CheckDlgButton(hWnd, IDC_CHECK_CLIPBOARD, moOptions.CopyToClipboard ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hWnd, IDC_CHECK_POPUP, moOptions.ShowPopup ? BST_CHECKED : BST_UNCHECKED);
 
-		//Смена состояния CapsLock
+		// Смена состояния CapsLock
 		switch (moOptions.bCaseOperations) {
 		case 1:
 			CheckDlgButton(hWnd, IDC_RADIO_OFFCAPS, BST_CHECKED);
@@ -62,24 +59,19 @@ INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LP
 		}
 
 		// Отображаем пример конфиг.строки
-		ptszMemLay = ptszLayStrings[0];
-		SetDlgItemText(hWnd, IDC_EDIT_EXAMPLE, ptszMemLay);
-		ptszShortNameLay = GetShortNameOfLayout(hklLayouts[0]);
-		SetDlgItemText(hWnd, IDC_STATIC_EXAMPLE, ptszShortNameLay);
-		mir_free(ptszShortNameLay);
+		SetDlgItemTextW(hWnd, IDC_EDIT_EXAMPLE, ptszLayStrings[0]);
+		SetDlgItemTextW(hWnd, IDC_STATIC_EXAMPLE, ptrW(GetShortNameOfLayout(hklLayouts[0])));
 
 		// Заполняем комбобокс с текущими раскладками
-		for(i = 0; i < bLayNum; i++) {
-			ptszShortNameLay = GetShortNameOfLayout(hklLayouts[i]);				
-			SendDlgItemMessage(hWnd, IDC_COMBO_LANG, CB_ADDSTRING, 0, (LPARAM)ptszShortNameLay);
-			mir_free(ptszShortNameLay);
-		}
-		//Отображаем первую раскладку в списке
+		for (int i = 0; i < bLayNum; i++)
+			SendDlgItemMessage(hWnd, IDC_COMBO_LANG, CB_ADDSTRING, 0, ptrW(GetShortNameOfLayout(hklLayouts[i])));
+
+		// Отображаем первую раскладку в списке
 		SendDlgItemMessage(hWnd, IDC_COMBO_LANG, CB_SETCURSEL, 0, 0);
-		ptszMemLay = ptszLayStrings[0];
-		SetDlgItemText(hWnd, IDC_EDIT_SET, ptszMemLay);
-			
-		if (bLayNum != 2) EnableWindow(GetDlgItem(hWnd, IDC_CHECK_TWOWAY), FALSE);		
+		SetDlgItemText(hWnd, IDC_EDIT_SET, ptszLayStrings[0]);
+
+		if (bLayNum != 2)
+			EnableWindow(GetDlgItem(hWnd, IDC_CHECK_TWOWAY), FALSE);
 		MainDialogLock = FALSE;
 		return TRUE;
 
@@ -87,7 +79,7 @@ INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LP
 		switch (LOWORD(wParam)) {
 		case IDC_HOTKEY_LAYOUT:
 		case IDC_HOTKEY_LAYOUT2:
-		case IDC_HOTKEY_CASE:			
+		case IDC_HOTKEY_CASE:
 			if ((HIWORD(wParam) == EN_CHANGE))
 				SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
 			break;
@@ -122,7 +114,7 @@ INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LP
 		case IDC_COMBO_LANG:
 			if ((HIWORD(wParam) == CBN_SELCHANGE)) {
 				MainDialogLock = TRUE;
-				ptszMemLay = ptszLayStrings[SendDlgItemMessage(hWnd, IDC_COMBO_LANG, CB_GETCURSEL, 0, 0)];
+				wchar_t *ptszMemLay = ptszLayStrings[SendDlgItemMessage(hWnd, IDC_COMBO_LANG, CB_GETCURSEL, 0, 0)];
 				SetDlgItemText(hWnd, IDC_EDIT_SET, ptszMemLay);
 				MainDialogLock = FALSE;
 			}
@@ -134,52 +126,52 @@ INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LP
 			break;
 
 		case IDC_BUTTON_DEFAULT:
-			if ((HIWORD(wParam) == BN_CLICKED )) {
-				ptszGenLay = GenerateLayoutString(hklLayouts[SendDlgItemMessage(hWnd, IDC_COMBO_LANG, CB_GETCURSEL, 0, 0)]);
+			if ((HIWORD(wParam) == BN_CLICKED)) {
+				wchar_t *ptszGenLay = GenerateLayoutString(hklLayouts[SendDlgItemMessage(hWnd, IDC_COMBO_LANG, CB_GETCURSEL, 0, 0)]);
 				SetDlgItemText(hWnd, IDC_EDIT_SET, ptszGenLay);
 				mir_free(ptszGenLay);
 				SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
 			}
 			break;
 		}
-		break;	
+		break;
 
 	case WM_NOTIFY:
-		switch(((LPNMHDR)lParam)->idFrom) {
-		case 0: 
+		switch (((LPNMHDR)lParam)->idFrom) {
+		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				// Прочитаем хоткеи
 				moOptions.dwHotkey_Layout = SendDlgItemMessage(hWnd, IDC_HOTKEY_LAYOUT, HKM_GETHOTKEY, 0, 0);
 				moOptions.dwHotkey_Layout2 = SendDlgItemMessage(hWnd, IDC_HOTKEY_LAYOUT2, HKM_GETHOTKEY, 0, 0);
-				moOptions.dwHotkey_Case = SendDlgItemMessage(hWnd, IDC_HOTKEY_CASE, HKM_GETHOTKEY, 0, 0);							
+				moOptions.dwHotkey_Case = SendDlgItemMessage(hWnd, IDC_HOTKEY_CASE, HKM_GETHOTKEY, 0, 0);
 
 				//Допишем к символам управляющие клавиши
-				if (IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT_SHIFT)) 
+				if (IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT_SHIFT))
 					moOptions.dwHotkey_Layout |= 0x00000100;
-				if (IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT_CTRL)) 
+				if (IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT_CTRL))
 					moOptions.dwHotkey_Layout |= 0x00000200;
-				if (IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT_ALT)) 
+				if (IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT_ALT))
 					moOptions.dwHotkey_Layout |= 0x00000400;
-				if (IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT_WIN)) 
+				if (IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT_WIN))
 					moOptions.dwHotkey_Layout |= 0x00000800;
 
-				if (IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT2_SHIFT)) 
+				if (IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT2_SHIFT))
 					moOptions.dwHotkey_Layout2 |= 0x00000100;
-				if (IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT2_CTRL)) 
+				if (IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT2_CTRL))
 					moOptions.dwHotkey_Layout2 |= 0x00000200;
-				if (IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT2_ALT)) 
+				if (IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT2_ALT))
 					moOptions.dwHotkey_Layout2 |= 0x00000400;
-				if (IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT2_WIN)) 
+				if (IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT2_WIN))
 					moOptions.dwHotkey_Layout2 |= 0x00000800;
 
-				if (IsDlgButtonChecked(hWnd, IDC_CHECK_CASE_SHIFT)) 
+				if (IsDlgButtonChecked(hWnd, IDC_CHECK_CASE_SHIFT))
 					moOptions.dwHotkey_Case |= 0x00000100;
-				if (IsDlgButtonChecked(hWnd, IDC_CHECK_CASE_CTRL)) 
+				if (IsDlgButtonChecked(hWnd, IDC_CHECK_CASE_CTRL))
 					moOptions.dwHotkey_Case |= 0x00000200;
-				if (IsDlgButtonChecked(hWnd, IDC_CHECK_CASE_ALT)) 
+				if (IsDlgButtonChecked(hWnd, IDC_CHECK_CASE_ALT))
 					moOptions.dwHotkey_Case |= 0x00000400;
-				if (IsDlgButtonChecked(hWnd, IDC_CHECK_CASE_WIN)) 
+				if (IsDlgButtonChecked(hWnd, IDC_CHECK_CASE_WIN))
 					moOptions.dwHotkey_Case |= 0x00000800;
 
 
@@ -197,18 +189,18 @@ INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LP
 					moOptions.bCaseOperations = 1;
 				else if (IsDlgButtonChecked(hWnd, IDC_RADIO_IGNORECAPS) == BST_CHECKED)
 					moOptions.bCaseOperations = 2;
-				else moOptions.bCaseOperations = 0;								
+				else moOptions.bCaseOperations = 0;
 
 				WriteMainOptions();
 
-				ptszFormLay = (LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t));
+				wchar_t *ptszFormLay = (LPTSTR)mir_alloc(MaxTextSize * sizeof(wchar_t));
 				GetDlgItemText(hWnd, IDC_EDIT_SET, ptszFormLay, MaxTextSize);
-				i = SendDlgItemMessage(hWnd, IDC_COMBO_LANG, CB_GETCURSEL, 0, 0);
-				ptszMemLay = ptszLayStrings[i];
+				int i = SendDlgItemMessage(hWnd, IDC_COMBO_LANG, CB_GETCURSEL, 0, 0);
+				wchar_t *ptszMemLay = ptszLayStrings[i];
 				if (mir_wstrcmp(ptszMemLay, ptszFormLay) != 0) {
 					mir_wstrcpy(ptszMemLay, ptszFormLay);
-					ptszGenLay = GenerateLayoutString(hklLayouts[i]);
-					pszNameLay = GetNameOfLayout(hklLayouts[i]);
+					wchar_t *ptszGenLay = GenerateLayoutString(hklLayouts[i]);
+					char *pszNameLay = GetNameOfLayout(hklLayouts[i]);
 
 					if (mir_wstrcmp(ptszMemLay, ptszGenLay) != 0)
 						g_plugin.setWString(pszNameLay, ptszMemLay);
@@ -218,7 +210,7 @@ INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LP
 					mir_free(pszNameLay);
 					mir_free(ptszGenLay);
 				}
-				mir_free(ptszFormLay);							
+				mir_free(ptszFormLay);
 
 				ptszMemLay = ptszLayStrings[0];
 				SetDlgItemText(hWnd, IDC_EDIT_EXAMPLE, ptszMemLay);
@@ -232,10 +224,13 @@ INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LP
 	return FALSE;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static PopupOptions poOptionsTemp;
+
 INT_PTR CALLBACK DlgPopupsProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LPARAM lParam)
 {
 	static BOOL PopupDialogLock = FALSE;
-	LPTSTR ptszPopupPreviewText;
 	DWORD dwTimeOut;
 
 	switch (uiMessage) {
@@ -244,7 +239,7 @@ INT_PTR CALLBACK DlgPopupsProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, 
 		TranslateDialogDefault(hWnd);
 		poOptionsTemp = poOptions;
 
-		//Цвета
+		// Цвета
 		SendDlgItemMessage(hWnd, IDC_CUSTOM_BACK, CPM_SETCOLOUR, 0, poOptionsTemp.crBackColour);
 		SendDlgItemMessage(hWnd, IDC_CUSTOM_TEXT, CPM_SETCOLOUR, 0, poOptionsTemp.crTextColour);
 		CheckDlgButton(hWnd, IDC_RADIO_COLOURS_POPUP, poOptionsTemp.bColourType == PPC_POPUP ? BST_CHECKED : BST_UNCHECKED);
@@ -256,13 +251,14 @@ INT_PTR CALLBACK DlgPopupsProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, 
 		// Таймаут
 		CheckDlgButton(hWnd, IDC_RADIO_TIMEOUT_POPUP, poOptionsTemp.bTimeoutType == PPT_POPUP ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hWnd, IDC_RADIO_TIMEOUT_PERMANENT, poOptionsTemp.bTimeoutType == PPT_PERMANENT ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hWnd, IDC_RADIO_TIMEOUT_CUSTOM, poOptionsTemp.bTimeoutType == PPT_CUSTOM ? BST_CHECKED : BST_UNCHECKED);			
+		CheckDlgButton(hWnd, IDC_RADIO_TIMEOUT_CUSTOM, poOptionsTemp.bTimeoutType == PPT_CUSTOM ? BST_CHECKED : BST_UNCHECKED);
 		SetDlgItemInt(hWnd, IDC_EDIT_TIMEOUT, poOptionsTemp.bTimeout, FALSE);
 		EnableWindow(GetDlgItem(hWnd, IDC_EDIT_TIMEOUT), poOptionsTemp.bTimeoutType == PPT_CUSTOM);
 
 		// Клик левой
 		CheckDlgButton(hWnd, IDC_RADIO_LEFT_CLIPBOARD, poOptionsTemp.bLeftClick == 0 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hWnd, IDC_RADIO_LEFT_DISMISS, poOptionsTemp.bLeftClick == 1 ? BST_CHECKED : BST_UNCHECKED);
+
 		// Клик правой
 		CheckDlgButton(hWnd, IDC_RADIO_RIGHT_CLIPBOARD, poOptionsTemp.bRightClick == 0 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hWnd, IDC_RADIO_RIGHT_DISMISS, poOptionsTemp.bRightClick == 1 ? BST_CHECKED : BST_UNCHECKED);
@@ -271,7 +267,7 @@ INT_PTR CALLBACK DlgPopupsProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, 
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-		case IDC_RADIO_COLOURS_POPUP:	
+		case IDC_RADIO_COLOURS_POPUP:
 		case IDC_RADIO_COLOURS_WINDOWS:
 		case IDC_RADIO_COLOURS_CUSTOM:
 			if ((HIWORD(wParam) == BN_CLICKED)) {
@@ -331,16 +327,16 @@ INT_PTR CALLBACK DlgPopupsProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, 
 			if (HIWORD(wParam) == CBN_SELCHANGE) {
 				poOptionsTemp.crBackColour = SendDlgItemMessage(hWnd, IDC_CUSTOM_BACK, CPM_GETCOLOUR, 0, 0);
 				poOptionsTemp.crTextColour = SendDlgItemMessage(hWnd, IDC_CUSTOM_TEXT, CPM_GETCOLOUR, 0, 0);
-				SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);							
+				SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
 			}
 			break;
 
 		case IDC_EDIT_TIMEOUT:
 			if (HIWORD(wParam) == EN_CHANGE) {
 				dwTimeOut = GetDlgItemInt(hWnd, IDC_EDIT_TIMEOUT, nullptr, FALSE);
-				if (dwTimeOut>255)
+				if (dwTimeOut > 255)
 					poOptionsTemp.bTimeout = 255;
-				else 
+				else
 					poOptionsTemp.bTimeout = dwTimeOut;
 
 				if (!PopupDialogLock)
@@ -349,14 +345,12 @@ INT_PTR CALLBACK DlgPopupsProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, 
 			break;
 
 		case IDC_BUTTON_PREVIEW:
-			if ((HIWORD(wParam) == BN_CLICKED )) {
-				ptszPopupPreviewText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t));
-
+			if ((HIWORD(wParam) == BN_CLICKED)) {
 				POPUPDATAW ppd;
 				wcsncpy(ppd.lpwzContactName, TranslateT(MODULENAME), MAX_CONTACTNAME);
 				wcsncpy(ppd.lpwzText, L"Ghbdtn? rfr ltkf&", MAX_SECONDLINE);
 
-				switch(poOptionsTemp.bColourType) {
+				switch (poOptionsTemp.bColourType) {
 				case PPC_POPUP:
 					ppd.colorBack = ppd.colorText = 0;
 					break;
@@ -368,9 +362,9 @@ INT_PTR CALLBACK DlgPopupsProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, 
 					ppd.colorBack = poOptionsTemp.crBackColour;
 					ppd.colorText = poOptionsTemp.crTextColour;
 					break;
-				}						
-				
-				switch(poOptionsTemp.bTimeoutType) {
+				}
+
+				switch (poOptionsTemp.bTimeoutType) {
 				case PPT_POPUP:
 					ppd.iSeconds = 0;
 					break;
@@ -381,22 +375,21 @@ INT_PTR CALLBACK DlgPopupsProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, 
 					ppd.iSeconds = poOptionsTemp.bTimeout;
 					break;
 				}
-				mir_wstrcpy(ptszPopupPreviewText, ppd.lpwzText);
-				ppd.PluginData = ptszPopupPreviewText;
+
+				ppd.PluginData = mir_wstrdup(ppd.lpwzText);
 				ppd.lchIcon = hPopupIcon;
 				poOptions.paActions[0].lchIcon = hCopyIcon;
 				ppd.lpActions = poOptions.paActions;
 				ppd.actionCount = 1;
 				ppd.PluginWindowProc = (WNDPROC)CKLPopupDlgProc;
-				if (PUAddPopupW(&ppd) < 0)
-					mir_free(ptszPopupPreviewText);
+				PUAddPopupW(&ppd);
 			}
 			break;
 		}
 		break;
 
 	case WM_NOTIFY:
-		switch(((LPNMHDR)lParam)->idFrom) {
+		switch (((LPNMHDR)lParam)->idFrom) {
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:

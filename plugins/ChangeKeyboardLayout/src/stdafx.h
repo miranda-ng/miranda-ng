@@ -103,14 +103,14 @@ extern HKL hklEng;
 
 extern BYTE bLayNum;
 extern HKL hklLayouts[20];
-extern LPTSTR ptszLayStrings[20];
+extern wchar_t *ptszLayStrings[20];
 
 extern LPCTSTR ptszSeparators;
 
 extern HHOOK kbHook_All;
 
 extern MainOptions moOptions;
-extern PopupOptions poOptions, poOptionsTemp;
+extern PopupOptions poOptions;
 
 LRESULT CALLBACK Keyboard_Hook(int code, WPARAM wParam, LPARAM lParam);
 int OnIconsChanged(WPARAM wParam, LPARAM lParam);

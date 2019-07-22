@@ -3,14 +3,14 @@
 
 #include "stdafx.h"
 
-BOOL CopyTextToClipboard(LPTSTR ptszText);
+BOOL CopyTextToClipboard(wchar_t *ptszText);
 LPSTR GetNameOfLayout(HKL hklLayout);
-LPTSTR GetShortNameOfLayout(HKL hklLayout);
-LPTSTR GenerateLayoutString(HKL hklLayout);
-LPTSTR GetLayoutString(HKL hklLayout);
+wchar_t *GetShortNameOfLayout(HKL hklLayout);
+wchar_t *GenerateLayoutString(HKL hklLayout);
+wchar_t *GetLayoutString(HKL hklLayout);
 HKL GetLayoutOfText(LPCTSTR ptzsInText);
-LPTSTR ChangeTextCase(LPCTSTR ptszInText);
-LPTSTR ChangeTextLayout(LPCTSTR ptzsInText, HKL hklCurLay, HKL hklToLay, BOOL TwoWay);
+wchar_t *ChangeTextCase(LPCTSTR ptszInText);
+wchar_t *ChangeTextLayout(LPCTSTR ptzsInText, HKL hklCurLay, HKL hklToLay, BOOL TwoWay);
 int ChangeLayout(HWND hTextWnd, BYTE bTextOperation, BOOL CurrentWord);
 
 #endif
