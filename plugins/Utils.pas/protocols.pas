@@ -69,7 +69,7 @@ const
     ID_STATUS_FREECHAT);
 const
   StatNames:array [0..MAX_STATUS_COUNT-1] of PWideChar=(
-    'Default'{'Offline'},'Online','Invisible','Away','Not available','Occupied','Do not disturb,'Free for chat'
+    'Default'{'Offline'},'Online','Invisible','Away','Not available','Occupied','Do not disturb','Free for chat'
   );
 
 type
