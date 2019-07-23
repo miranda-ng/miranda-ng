@@ -231,14 +231,14 @@ public:
 		wchar_t name[128] = L"";
 		int off = 0;
 		if (firstT[0] && lastT[0])
-			off = mir_snwprintf(name, L"%s %s", firstT, lastT);
+			off = mir_snwprintf(name, L"%s %s", firstT.get(), lastT.get());
 		else if (firstT[0])
-			off = mir_snwprintf(name, L"%s", firstT);
+			off = mir_snwprintf(name, L"%s", firstT.get());
 		else if (lastT[0])
-			off = mir_snwprintf(name, L"%s", lastT);
+			off = mir_snwprintf(name, L"%s", lastT.get());
 		if (nickT[0]) {
 			if (off)
-				mir_snwprintf(name + off, _countof(name) - off, L" (%s)", nickT);
+				mir_snwprintf(name + off, _countof(name) - off, L" (%s)", nickT.get());
 			else
 				wcsncpy_s(name, nickT, _TRUNCATE);
 		}

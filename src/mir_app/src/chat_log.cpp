@@ -318,7 +318,7 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 
 		// Insert icon
 		if ((lin->iType & g_Settings->dwIconFlags) || lin->bIsHighlighted && (g_Settings->dwIconFlags & GC_EVENT_HIGHLIGHT)) {
-			int iIndex = (lin->bIsHighlighted && g_Settings->dwIconFlags & GC_EVENT_HIGHLIGHT) ? ICON_HIGHLIGHT : EventToIcon(lin);
+			int iIndex = (lin->bIsHighlighted && (g_Settings->dwIconFlags & GC_EVENT_HIGHLIGHT)) ? ICON_HIGHLIGHT : EventToIcon(lin);
 			buf.Append("\\f0\\fs14");
 			buf.Append(pLogIconBmpBits[iIndex]);
 		}

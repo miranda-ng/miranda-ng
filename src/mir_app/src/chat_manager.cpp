@@ -796,8 +796,7 @@ BOOL UM_SetStatusEx(SESSION_INFO *si, const wchar_t* pszText, int flags)
 	}
 
 	for (auto &ui : si->getUserList()) {
-		if (!bOnlyMe)
-			ui->iStatusEx = 0;
+		ui->iStatusEx = 0;
 
 		if (pszText != nullptr) {
 			wchar_t *s = (wchar_t *)wcsstr(pszText, ui->pszUID);
@@ -806,7 +805,7 @@ BOOL UM_SetStatusEx(SESSION_INFO *si, const wchar_t* pszText, int flags)
 				if (s == pszText || s[-1] == cDelimiter) {
 					size_t len = mir_wstrlen(ui->pszUID);
 					if (s[len] == cDelimiter || s[len] == '\0')
-						ui->iStatusEx = (!bOnlyMe || bSetStatus) ? 1 : 0;
+						ui->iStatusEx = bSetStatus ? 1 : 0;
 				}
 			}
 		}
