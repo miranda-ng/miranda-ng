@@ -3,7 +3,7 @@
 #define _INC_FILTER
 
 HANDLE startFilterThread();
-BOOL checkFilter(struct CONNECTION *head, struct CONNECTION *conn);
+BOOL checkFilter(CONNECTION *head, CONNECTION *conn);
 
 #define WM_ADD_FILTER	(WM_APP + 1)
 #endif

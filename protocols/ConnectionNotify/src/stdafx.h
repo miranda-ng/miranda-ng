@@ -28,7 +28,6 @@
 
 #define MAX_SETTING_STR 512
 #define MAX_LENGTH 512
-#define STATUS_COUNT 9
 
 // Note: could also use malloc() and free()
 #define MALLOC(x) HeapAlloc(GetProcessHeap(), 0, (x))
@@ -39,6 +38,16 @@
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
+	bool     bSetColours;
+	COLORREF BgColor, FgColor;
+	int      iInterval;
+	int      iInterval1;
+	bool     bResolveIp;
+	int      iStatus[MAX_STATUS_COUNT];
+	int      iFiltersCount;
+	int      iDefaultAction = TRUE;
+	WORD     iStatusMask;
+
 	CMPlugin();
 
 	int Load() override;
@@ -47,5 +56,13 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 void showMsg(wchar_t *pName,DWORD pid,wchar_t *intIp,wchar_t *extIp,int intPort,int extPort,int state);
 static unsigned __stdcall checkthread(void *dummy);
-struct CONNECTION * LoadSettingsConnections();
-void saveSettingsConnections(struct CONNECTION *connHead);
+CONNECTION * LoadSettingsConnections();
+void saveSettingsConnections(CONNECTION *connHead);
+void LoadSettings();
+
+extern CONNECTION *connExceptions;
+extern HANDLE hFilterOptionsThread;
+extern DWORD FilterOptionsThreadId;
+extern CONNECTION *connCurrentEdit;
+extern HANDLE hExceptionsMutex;
+extern BOOL bOptionsOpen;

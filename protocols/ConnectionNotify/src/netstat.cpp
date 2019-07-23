@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-struct CONNECTION *GetConnectionsTable()
+CONNECTION *GetConnectionsTable()
 {
 	// Declare and initialize variables
 	MIB_TCPTABLE_OWNER_PID *pTcpTable = (MIB_TCPTABLE_OWNER_PID *)MALLOC(sizeof(MIB_TCPTABLE_OWNER_PID));
@@ -32,10 +32,10 @@ struct CONNECTION *GetConnectionsTable()
 	//printf("\tLocal Addr\tLocal Port\tRemote Addr\tRemote Port\n");
 	//printf("Number of entries: %d\n", (int) pTcpTable->dwNumEntries);
 	struct in_addr IpAddr;
-	struct CONNECTION *connHead = nullptr;
+	CONNECTION *connHead = nullptr;
 	for (DWORD i = 0; i < pTcpTable->dwNumEntries; i++) {
-		struct CONNECTION *newConn = (struct CONNECTION*)mir_alloc(sizeof(struct CONNECTION));
-		memset(newConn, 0, sizeof(struct CONNECTION));
+		CONNECTION *newConn = (CONNECTION*)mir_alloc(sizeof(CONNECTION));
+		memset(newConn, 0, sizeof(CONNECTION));
 		//pid2name(pTcpTable->table[i].dwOwningPid,&newConn->Pname);
 
 		if (pTcpTable->table[i].dwLocalAddr) {
@@ -110,9 +110,9 @@ struct CONNECTION *GetConnectionsTable()
 	return connHead;
 }
 
-void deleteConnectionsTable(struct CONNECTION *head)
+void deleteConnectionsTable(CONNECTION *head)
 {
-	struct CONNECTION *cur = head, *del;
+	CONNECTION *cur = head, *del;
 
 	while (cur != nullptr) {
 		del = cur;
@@ -123,9 +123,9 @@ void deleteConnectionsTable(struct CONNECTION *head)
 	head = nullptr;
 }
 
-struct CONNECTION *searchConnection(struct CONNECTION *head, wchar_t *intIp, wchar_t *extIp, int intPort, int extPort, int state)
+CONNECTION *searchConnection(CONNECTION *head, wchar_t *intIp, wchar_t *extIp, int intPort, int extPort, int state)
 {
-	for (struct CONNECTION *cur = head; cur != nullptr; cur = cur->next) {
+	for (CONNECTION *cur = head; cur != nullptr; cur = cur->next) {
 		if (mir_wstrcmp(cur->strIntIp, intIp) == 0 &&
 			mir_wstrcmp(cur->strExtIp, extIp) == 0 &&
 			cur->intExtPort == extPort &&

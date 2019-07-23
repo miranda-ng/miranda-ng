@@ -1,13 +1,7 @@
 #include "stdafx.h"
 
 HWND filterAddDlg = nullptr;
-extern struct CONNECTION *connExceptions;
-extern HANDLE hFilterOptionsThread;
-extern DWORD FilterOptionsThreadId;
-extern struct CONNECTION *connCurrentEdit;
-extern BOOL settingDefaultAction;
-extern HANDLE hExceptionsMutex;
-extern BOOL bOptionsOpen;
+
 static unsigned __stdcall filterQueue(void *dummy);
 static INT_PTR CALLBACK ConnectionFilterEditProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
@@ -25,7 +19,7 @@ static unsigned __stdcall filterQueue(void *)
 	{
 		if (msg.message == WM_ADD_FILTER)
 		{
-			struct CONNECTION *conn = (struct CONNECTION *)msg.lParam;
+			CONNECTION *conn = (CONNECTION *)msg.lParam;
 			filterAddDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILTER_DIALOG), nullptr, ConnectionFilterEditProc, (LPARAM)conn);
 			ShowWindow(filterAddDlg, SW_SHOW);
 
@@ -45,7 +39,7 @@ static INT_PTR CALLBACK ConnectionFilterEditProc(HWND hWnd, UINT message, WPARAM
 	{
 	case WM_INITDIALOG:
 	{
-		struct CONNECTION *conn = (struct CONNECTION*)lParam;
+		CONNECTION *conn = (CONNECTION*)lParam;
 		TranslateDialogDefault(hWnd);
 
 		SetDlgItemText(hWnd, ID_TEXT_NAME, conn->PName);
@@ -80,7 +74,7 @@ static INT_PTR CALLBACK ConnectionFilterEditProc(HWND hWnd, UINT message, WPARAM
 			{
 				if (connCurrentEdit == nullptr)
 				{
-					connCurrentEdit = (struct CONNECTION*)mir_alloc(sizeof(struct CONNECTION));
+					connCurrentEdit = (CONNECTION*)mir_alloc(sizeof(CONNECTION));
 					connCurrentEdit->next = connExceptions;
 					connExceptions = connCurrentEdit;
 				}
@@ -129,13 +123,13 @@ static INT_PTR CALLBACK ConnectionFilterEditProc(HWND hWnd, UINT message, WPARAM
 	return FALSE;
 }
 
-BOOL checkFilter(struct CONNECTION *head, struct CONNECTION *conn)
+BOOL checkFilter(CONNECTION *head, CONNECTION *conn)
 {
-	for (struct CONNECTION *cur = head; cur != nullptr; cur = cur->next)
+	for (CONNECTION *cur = head; cur != nullptr; cur = cur->next)
 		if (wildcmpw(conn->PName, cur->PName) && wildcmpw(conn->strIntIp, cur->strIntIp) && wildcmpw(conn->strExtIp, cur->strExtIp)
 			&& (cur->intIntPort == -1 || cur->intIntPort == conn->intIntPort) && (cur->intExtPort == -1 || cur->intExtPort == conn->intExtPort))
 			return cur->Pid;
 
-	return settingDefaultAction;
+	return g_plugin.iDefaultAction;
 }
 

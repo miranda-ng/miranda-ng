@@ -9,10 +9,10 @@ struct CONNECTION
 	int state;
 	DWORD Pid;
 	wchar_t PName[260];
-	struct CONNECTION *next;
+	CONNECTION *next;
 };
 
-struct CONNECTION* GetConnectionsTable();
-void deleteConnectionsTable(struct CONNECTION* head);
-struct CONNECTION* searchConnection(struct CONNECTION* head, wchar_t *intIp, wchar_t *extIp, int intPort, int extPort, int state);
+CONNECTION* GetConnectionsTable();
+void deleteConnectionsTable(CONNECTION* head);
+CONNECTION* searchConnection(CONNECTION* head, wchar_t *intIp, wchar_t *extIp, int intPort, int extPort, int state);
 void getDnsName(wchar_t *strIp, wchar_t *strHostName, size_t len);

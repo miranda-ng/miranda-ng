@@ -13,25 +13,14 @@ HANDLE hExceptionsMutex = nullptr;
 
 DWORD FilterOptionsThreadId;
 DWORD ConnectionCheckThreadId;
-BYTE settingSetColours = 0;
-COLORREF settingBgColor;
-COLORREF settingFgColor;
-int settingInterval = 0;
-int settingInterval1 = 0;
-BYTE settingResolveIp = 0;
-BOOL settingStatus[STATUS_COUNT];
-int settingFiltersCount = 0;
-BOOL settingDefaultAction = TRUE;
-WORD settingStatusMask = 0;
 
-struct CONNECTION *first = nullptr;
-struct CONNECTION *connExceptions = nullptr;
-struct CONNECTION *connCurrentEdit;
-struct CONNECTION *connExceptionsTmp = nullptr;
-struct CONNECTION *connCurrentEditModal = nullptr;
+CONNECTION *first = nullptr;
+CONNECTION *connExceptions = nullptr;
+CONNECTION *connCurrentEdit;
 int currentStatus = ID_STATUS_OFFLINE, diffstat = 0;
-BOOL bOptionsOpen = FALSE;
 wchar_t *tcpStates[] = { L"CLOSED", L"LISTEN", L"SYN_SENT", L"SYN_RCVD", L"ESTAB", L"FIN_WAIT1", L"FIN_WAIT2", L"CLOSE_WAIT", L"CLOSING", L"LAST_ACK", L"TIME_WAIT", L"DELETE_TCB" };
+
+int ConnectionNotifyOptInit(WPARAM wParam, LPARAM);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -83,11 +72,11 @@ BOOL strrep(wchar_t *src, wchar_t *needle, wchar_t *newstring)
 	return TRUE;
 }
 
-void saveSettingsConnections(struct CONNECTION *connHead)
+void saveSettingsConnections(CONNECTION *connHead)
 {
 	char buff[128];
 	int i = 0;
-	struct CONNECTION *tmp = connHead;
+	CONNECTION *tmp = connHead;
 	while (tmp != nullptr) {
 
 		mir_snprintf(buff, "%dFilterIntIp", i);
@@ -105,20 +94,20 @@ void saveSettingsConnections(struct CONNECTION *connHead)
 		i++;
 		tmp = tmp->next;
 	}
-	settingFiltersCount = i;
-	g_plugin.setDword("FiltersCount", settingFiltersCount);
+	g_plugin.iFiltersCount = i;
+	g_plugin.setDword("g_plugin.iFiltersCount", g_plugin.iFiltersCount);
 
 }
 
 //load filters from db
-struct CONNECTION* LoadSettingsConnections()
+CONNECTION* LoadSettingsConnections()
 {
-	struct CONNECTION *connHead = nullptr;
+	CONNECTION *connHead = nullptr;
 	DBVARIANT dbv;
 	char buff[128];
 	int i = 0;
-	for (i = settingFiltersCount - 1; i >= 0; i--) {
-		struct CONNECTION *conn = (struct CONNECTION*)mir_alloc(sizeof(struct CONNECTION));
+	for (i = g_plugin.iFiltersCount - 1; i >= 0; i--) {
+		CONNECTION *conn = (CONNECTION*)mir_alloc(sizeof(CONNECTION));
 		mir_snprintf(buff, "%dFilterIntIp", i);
 		if (!g_plugin.getWString(buff, &dbv))
 			wcsncpy(conn->strIntIp, dbv.pwszVal, _countof(conn->strIntIp));
@@ -149,446 +138,24 @@ struct CONNECTION* LoadSettingsConnections()
 //called to load settings from database
 void LoadSettings()
 {
-	settingInterval = g_plugin.getDword("Interval", 500);
-	settingInterval1 = g_plugin.getDword("PopupInterval", 0);
-	settingResolveIp = g_plugin.getByte("ResolveIp", TRUE);
-	settingDefaultAction = g_plugin.getByte("FilterDefaultAction", TRUE);
+	g_plugin.iInterval = g_plugin.getDword("Interval", 500);
+	g_plugin.iInterval1 = g_plugin.getDword("PopupInterval", 0);
+	g_plugin.bResolveIp = g_plugin.getByte("ResolveIp", TRUE);
+	g_plugin.iDefaultAction = g_plugin.getByte("FilterDefaultAction", TRUE);
 
-	settingSetColours = g_plugin.getByte("PopupSetColours", 0);
-	settingBgColor = g_plugin.getDword("PopupBgColor", (DWORD)0xFFFFFF);
-	settingFgColor = g_plugin.getDword("PopupFgColor", (DWORD)0x000000);
-	settingFiltersCount = g_plugin.getDword("FiltersCount", 0);
-	settingStatusMask = g_plugin.getWord("StatusMask", 16);
-	for (int i = 0; i < STATUS_COUNT; i++) {
+	g_plugin.bSetColours = g_plugin.getByte("PopupSetColours", 0);
+	g_plugin.BgColor = g_plugin.getDword("PopupBgColor", (DWORD)0xFFFFFF);
+	g_plugin.FgColor = g_plugin.getDword("PopupFgColor", (DWORD)0x000000);
+	g_plugin.iFiltersCount = g_plugin.getDword("g_plugin.iFiltersCount", 0);
+	g_plugin.iStatusMask = g_plugin.getWord("StatusMask", 16);
+	for (int i = 0; i < MAX_STATUS_COUNT; i++) {
 		char buff[128];
 		mir_snprintf(buff, "Status%d", i);
-		settingStatus[i] = (g_plugin.getByte(buff, 0) == 1);
+		g_plugin.iStatus[i] = (g_plugin.getByte(buff, 0) == 1);
 	}
 }
 
-void fillExceptionsListView(HWND hwndDlg)
-{
-	LVITEM lvI = { 0 };
-
-	int i = 0;
-	struct CONNECTION *tmp = connExceptionsTmp;
-	HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS);
-	ListView_DeleteAllItems(hwndList);
-
-	// Some code to create the list-view control.
-	// Initialize LVITEM members that are common to all
-	// items. 
-	lvI.mask = LVIF_TEXT;
-	while (tmp) {
-		wchar_t tmpAddress[25];
-		lvI.iItem = i++;
-		lvI.iSubItem = 0;
-		lvI.pszText = tmp->PName;
-		ListView_InsertItem(hwndList, &lvI);
-		lvI.iSubItem = 1;
-		if (tmp->intIntPort == -1)
-			mir_snwprintf(tmpAddress, L"%s:*", tmp->strIntIp);
-		else
-			mir_snwprintf(tmpAddress, L"%s:%d", tmp->strIntIp, tmp->intIntPort);
-		lvI.pszText = tmpAddress;
-		ListView_SetItem(hwndList, &lvI);
-		lvI.iSubItem = 2;
-		if (tmp->intExtPort == -1)
-			mir_snwprintf(tmpAddress, L"%s:*", tmp->strExtIp);
-		else
-			mir_snwprintf(tmpAddress, L"%s:%d", tmp->strExtIp, tmp->intExtPort);
-		lvI.pszText = tmpAddress;
-		ListView_SetItem(hwndList, &lvI);
-		lvI.iSubItem = 3;
-		lvI.pszText = tmp->Pid ? LPGENW("Show") : LPGENW("Hide");
-		ListView_SetItem(hwndList, &lvI);
-
-		tmp = tmp->next;
-	}
-
-}
-//filter editor dialog box procedure opened modally from options dialog
-static INT_PTR CALLBACK FilterEditProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	switch (message) {
-	case WM_INITDIALOG:
-		{
-			struct CONNECTION *conn = (struct CONNECTION*)lParam;
-			TranslateDialogDefault(hWnd);
-			connCurrentEditModal = conn;
-			SetDlgItemText(hWnd, ID_TEXT_NAME, conn->PName);
-			SetDlgItemText(hWnd, ID_TXT_LOCAL_IP, conn->strIntIp);
-			SetDlgItemText(hWnd, ID_TXT_REMOTE_IP, conn->strExtIp);
-
-			if (conn->intIntPort == -1)
-				SetDlgItemText(hWnd, ID_TXT_LOCAL_PORT, L"*");
-			else
-				SetDlgItemInt(hWnd, ID_TXT_LOCAL_PORT, conn->intIntPort, FALSE);
-
-			if (conn->intExtPort == -1)
-				SetDlgItemText(hWnd, ID_TXT_REMOTE_PORT, L"*");
-			else
-				SetDlgItemInt(hWnd, ID_TXT_REMOTE_PORT, conn->intExtPort, FALSE);
-
-			SendDlgItemMessage(hWnd, ID_CBO_ACTION, CB_ADDSTRING, 0, (LPARAM)TranslateT("Always show popup"));
-			SendDlgItemMessage(hWnd, ID_CBO_ACTION, CB_ADDSTRING, 0, (LPARAM)TranslateT("Never show popup"));
-			SendDlgItemMessage(hWnd, ID_CBO_ACTION, CB_SETCURSEL, conn->Pid == 0 ? 1 : 0, 0);
-			return TRUE;
-		}
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case ID_OK:
-			{
-				wchar_t tmpPort[6];
-				GetDlgItemText(hWnd, ID_TXT_LOCAL_PORT, tmpPort, _countof(tmpPort));
-				if (tmpPort[0] == '*')
-					connCurrentEditModal->intIntPort = -1;
-				else
-					connCurrentEditModal->intIntPort = GetDlgItemInt(hWnd, ID_TXT_LOCAL_PORT, nullptr, FALSE);
-				GetDlgItemText(hWnd, ID_TXT_REMOTE_PORT, tmpPort, _countof(tmpPort));
-				if (tmpPort[0] == '*')
-					connCurrentEditModal->intExtPort = -1;
-				else
-					connCurrentEditModal->intExtPort = GetDlgItemInt(hWnd, ID_TXT_REMOTE_PORT, nullptr, FALSE);
-
-				GetDlgItemText(hWnd, ID_TXT_LOCAL_IP, connCurrentEditModal->strIntIp, _countof(connCurrentEditModal->strIntIp));
-				GetDlgItemText(hWnd, ID_TXT_REMOTE_IP, connCurrentEditModal->strExtIp, _countof(connCurrentEditModal->strExtIp));
-				GetDlgItemText(hWnd, ID_TEXT_NAME, connCurrentEditModal->PName, _countof(connCurrentEditModal->PName));
-
-				connCurrentEditModal->Pid = !(BOOL)SendDlgItemMessage(hWnd, ID_CBO_ACTION, CB_GETCURSEL, 0, 0);
-
-				connCurrentEditModal = nullptr;
-				EndDialog(hWnd, IDOK);
-				return TRUE;
-			}
-		case ID_CANCEL:
-			connCurrentEditModal = nullptr;
-			EndDialog(hWnd, IDCANCEL);
-			return TRUE;
-		}
-		return FALSE;
-		break;
-	case WM_CLOSE:
-		{
-			connCurrentEditModal = nullptr;
-			EndDialog(hWnd, IDCANCEL);
-			break;
-		}
-	}
-	return FALSE;
-}
-
-//options page on miranda called
-INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	HWND hwndList;
-	switch (msg) {
-	case WM_INITDIALOG://initialize dialog, so set properties from db.
-		{
-			LVCOLUMN lvc = { 0 };
-			LVITEM lvI = { 0 };
-			wchar_t buff[256];
-			bOptionsOpen = TRUE;
-			TranslateDialogDefault(hwndDlg);//translate miranda function
-			#ifdef _WIN64
-			mir_snwprintf(buff, L"%d.%d.%d.%d/64", HIBYTE(HIWORD(pluginInfoEx.version)), LOBYTE(HIWORD(pluginInfoEx.version)), HIBYTE(LOWORD(pluginInfoEx.version)), LOBYTE(LOWORD(pluginInfoEx.version)));
-			#else
-			mir_snwprintf(buff, L"%d.%d.%d.%d/32", HIBYTE(HIWORD(pluginInfoEx.version)), LOBYTE(HIWORD(pluginInfoEx.version)), HIBYTE(LOWORD(pluginInfoEx.version)), LOBYTE(LOWORD(pluginInfoEx.version)));
-			#endif
-			SetDlgItemText(hwndDlg, IDC_VERSION, buff);
-			LoadSettings();
-			//connExceptionsTmp=LoadSettingsConnections();
-			SetDlgItemInt(hwndDlg, IDC_INTERVAL, settingInterval, FALSE);
-			SetDlgItemInt(hwndDlg, IDC_INTERVAL1, settingInterval1, TRUE);
-			CheckDlgButton(hwndDlg, IDC_SETCOLOURS, settingSetColours ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_RESOLVEIP, settingResolveIp ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, ID_CHK_DEFAULTACTION, settingDefaultAction ? BST_CHECKED : BST_UNCHECKED);
-
-			SendDlgItemMessage(hwndDlg, IDC_BGCOLOR, CPM_SETCOLOUR, 0, (LPARAM)settingBgColor);
-			SendDlgItemMessage(hwndDlg, IDC_FGCOLOR, CPM_SETCOLOUR, 0, (LPARAM)settingFgColor);
-			if (!settingSetColours) {
-				HWND hwnd = GetDlgItem(hwndDlg, IDC_BGCOLOR);
-				CheckDlgButton(hwndDlg, IDC_SETCOLOURS, BST_UNCHECKED);
-				EnableWindow(hwnd, FALSE);
-				hwnd = GetDlgItem(hwndDlg, IDC_FGCOLOR);
-				EnableWindow(hwnd, FALSE);
-			}
-			SendDlgItemMessage(hwndDlg, ID_ADD, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_ICON6), IMAGE_ICON, 16, 16, 0));
-			SendDlgItemMessage(hwndDlg, ID_DELETE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_ICON3), IMAGE_ICON, 16, 16, 0));
-			SendDlgItemMessage(hwndDlg, ID_DOWN, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_ICON4), IMAGE_ICON, 16, 16, 0));
-			SendDlgItemMessage(hwndDlg, ID_UP, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_ICON5), IMAGE_ICON, 16, 16, 0));
-			// initialise and fill listbox
-			hwndList = GetDlgItem(hwndDlg, IDC_STATUS);
-			ListView_DeleteAllItems(hwndList);
-			SendMessage(hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
-			// Initialize the LVCOLUMN structure.
-			// The mask specifies that the format, width, text, and
-			// subitem members of the structure are valid. 
-			lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
-			lvc.fmt = LVCFMT_LEFT;
-			lvc.iSubItem = 0;
-			lvc.pszText = TranslateT("Status");
-			lvc.cx = 120;     // width of column in pixels
-			ListView_InsertColumn(hwndList, 0, &lvc);
-			// Some code to create the list-view control.
-			// Initialize LVITEM members that are common to all
-			// items. 
-			lvI.mask = LVIF_TEXT;
-			for (int i = 0; i < STATUS_COUNT; i++) {
-				lvI.pszText = Clist_GetStatusModeDescription(ID_STATUS_ONLINE + i, 0);
-				lvI.iItem = i;
-				ListView_InsertItem(hwndList, &lvI);
-				ListView_SetCheckState(hwndList, i, settingStatus[i]);
-			}
-
-			connExceptionsTmp = LoadSettingsConnections();
-			hwndList = GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS);
-			SendMessage(hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT);
-
-			lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
-			lvc.fmt = LVCFMT_LEFT;
-			lvc.iSubItem = 0;
-			lvc.cx = 120;     // width of column in pixels
-			lvc.pszText = TranslateT("Application");
-			ListView_InsertColumn(hwndList, 1, &lvc);
-			lvc.pszText = TranslateT("Internal socket");
-			ListView_InsertColumn(hwndList, 2, &lvc);
-			lvc.pszText = TranslateT("External socket");
-			ListView_InsertColumn(hwndList, 3, &lvc);
-			lvc.pszText = TranslateT("Action");
-			lvc.cx = 50;
-			ListView_InsertColumn(hwndList, 4, &lvc);
-
-			//fill exceptions list
-			fillExceptionsListView(hwndDlg);
-		}
-		break;
-
-	case WM_COMMAND://user changed something, so get changes to variables
-		PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		switch (LOWORD(wParam)) {
-		case IDC_INTERVAL: settingInterval = GetDlgItemInt(hwndDlg, IDC_INTERVAL, nullptr, FALSE); break;
-		case IDC_INTERVAL1: settingInterval1 = GetDlgItemInt(hwndDlg, IDC_INTERVAL1, nullptr, TRUE); break;
-		case IDC_RESOLVEIP: settingResolveIp = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_RESOLVEIP); break;
-		case ID_CHK_DEFAULTACTION: settingDefaultAction = (BYTE)IsDlgButtonChecked(hwndDlg, ID_CHK_DEFAULTACTION); break;
-		case ID_ADD:
-			{
-				struct CONNECTION *cur = (struct CONNECTION *)mir_alloc(sizeof(struct CONNECTION));
-				memset(cur, 0, sizeof(struct CONNECTION));
-				cur->intExtPort = -1;
-				cur->intIntPort = -1;
-				cur->Pid = 0;
-				cur->PName[0] = '*';
-				cur->strExtIp[0] = '*';
-				cur->strIntIp[0] = '*';
-
-				if (DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILTER_DIALOG), hwndDlg, FilterEditProc, (LPARAM)cur) == IDCANCEL) {
-					mir_free(cur);
-					cur = nullptr;
-				}
-				else {
-					cur->next = connExceptionsTmp;
-					connExceptionsTmp = cur;
-				}
-
-				fillExceptionsListView(hwndDlg);
-				ListView_SetItemState(GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS), 0, LVNI_FOCUSED | LVIS_SELECTED, LVNI_FOCUSED | LVIS_SELECTED);
-				SetFocus(GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS));
-			}
-			break;
-
-		case ID_DELETE:
-			{
-				int pos, pos1;
-				struct CONNECTION *cur = connExceptionsTmp, *pre = nullptr;
-
-				pos = (int)ListView_GetNextItem(GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS), -1, LVNI_FOCUSED);
-				if (pos == -1)break;
-				pos1 = pos;
-				while (pos--) {
-					pre = cur;
-					cur = cur->next;
-				}
-				if (pre == nullptr)
-					connExceptionsTmp = connExceptionsTmp->next;
-				else
-					(pre)->next = cur->next;
-				mir_free(cur);
-				fillExceptionsListView(hwndDlg);
-				ListView_SetItemState(GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS), pos1, LVNI_FOCUSED | LVIS_SELECTED, LVNI_FOCUSED | LVIS_SELECTED);
-				SetFocus(GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS));
-				break;
-			}
-		case ID_UP:
-			{
-				int pos, pos1;
-				struct CONNECTION *cur = nullptr, *pre = nullptr, *prepre = nullptr;
-
-				cur = connExceptionsTmp;
-
-				pos = (int)ListView_GetNextItem(GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS), -1, LVNI_FOCUSED);
-				if (pos == -1)break;
-				pos1 = pos;
-				while (pos--) {
-					prepre = pre;
-					pre = cur;
-					cur = cur->next;
-				}
-				if (prepre != nullptr) {
-					pre->next = cur->next;
-					cur->next = pre;
-					prepre->next = cur;
-				}
-				else if (pre != nullptr) {
-					pre->next = cur->next;
-					cur->next = pre;
-					connExceptionsTmp = cur;
-				}
-				fillExceptionsListView(hwndDlg);
-				ListView_SetItemState(GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS), pos1 - 1, LVNI_FOCUSED | LVIS_SELECTED, LVNI_FOCUSED | LVIS_SELECTED);
-				SetFocus(GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS));
-				break;
-			}
-		case ID_DOWN:
-			{
-				int pos, pos1;
-				struct CONNECTION *cur = nullptr, *pre = nullptr;
-
-				cur = connExceptionsTmp;
-
-				pos = (int)ListView_GetNextItem(GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS), -1, LVNI_FOCUSED);
-				if (pos == -1)break;
-				pos1 = pos;
-				while (pos--) {
-					pre = cur;
-					cur = cur->next;
-				}
-				if (cur == connExceptionsTmp&&cur->next != nullptr) {
-					connExceptionsTmp = cur->next;
-					cur->next = cur->next->next;
-					connExceptionsTmp->next = cur;
-				}
-				else if (cur->next != nullptr) {
-					struct CONNECTION *tmp = cur->next->next;
-					pre->next = cur->next;
-					cur->next->next = cur;
-					cur->next = tmp;
-				}
-				fillExceptionsListView(hwndDlg);
-				ListView_SetItemState(GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS), pos1 + 1, LVNI_FOCUSED | LVIS_SELECTED, LVNI_FOCUSED | LVIS_SELECTED);
-				SetFocus(GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS));
-				break;
-			}
-		case IDC_SETCOLOURS:
-			{
-				HWND hwnd = GetDlgItem(hwndDlg, IDC_BGCOLOR);
-				settingSetColours = IsDlgButtonChecked(hwndDlg, IDC_SETCOLOURS);
-				EnableWindow(hwnd, settingSetColours);
-				hwnd = GetDlgItem(hwndDlg, IDC_FGCOLOR);
-				EnableWindow(hwnd, settingSetColours);
-				break;
-			}
-		case IDC_BGCOLOR: settingBgColor = (COLORREF)SendDlgItemMessage(hwndDlg, IDC_BGCOLOR, CPM_GETCOLOUR, 0, 0); break;
-		case IDC_FGCOLOR: settingFgColor = (COLORREF)SendDlgItemMessage(hwndDlg, IDC_FGCOLOR, CPM_GETCOLOUR, 0, 0); break;
-
-		}
-		break;
-
-	case WM_NOTIFY://apply changes so write it to db
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_RESET:
-				LoadSettings();
-				deleteConnectionsTable(connExceptionsTmp);
-				connExceptionsTmp = LoadSettingsConnections();
-				return TRUE;
-
-			case PSN_APPLY:
-				g_plugin.setDword("Interval", settingInterval);
-				g_plugin.setDword("PopupInterval", settingInterval1);
-				g_plugin.setByte("PopupSetColours", settingSetColours);
-				g_plugin.setDword("PopupBgColor", settingBgColor);
-				g_plugin.setDword("PopupFgColor", settingFgColor);
-				g_plugin.setByte("ResolveIp", settingResolveIp);
-				g_plugin.setByte("FilterDefaultAction", settingDefaultAction);
-
-				for (int i = 0; i < STATUS_COUNT; i++) {
-					char buff[128];
-					mir_snprintf(buff, "Status%d", i);
-					settingStatus[i] = (ListView_GetCheckState(GetDlgItem(hwndDlg, IDC_STATUS), i) ? TRUE : FALSE);
-					g_plugin.setByte(buff, settingStatus[i] ? 1 : 0);
-				}
-				if (WAIT_OBJECT_0 == WaitForSingleObject(hExceptionsMutex, 100)) {
-					deleteConnectionsTable(connExceptions);
-					saveSettingsConnections(connExceptionsTmp);
-					connExceptions = connExceptionsTmp;
-					connExceptionsTmp = LoadSettingsConnections();
-					ReleaseMutex(hExceptionsMutex);
-				}
-				return TRUE;
-			}
-			break;
-		}
-
-		if (GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS) == ((LPNMHDR)lParam)->hwndFrom) {
-			switch (((LPNMHDR)lParam)->code) {
-			case NM_DBLCLK:
-				{
-					int pos, pos1;
-					struct CONNECTION *cur = nullptr;
-
-					cur = connExceptionsTmp;
-
-					pos = (int)ListView_GetNextItem(GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS), -1, LVNI_FOCUSED);
-					if (pos == -1)break;
-					pos1 = pos;
-					while (pos--) {
-						cur = cur->next;
-					}
-					DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILTER_DIALOG), hwndDlg, FilterEditProc, (LPARAM)cur);
-					fillExceptionsListView(hwndDlg);
-					ListView_SetItemState(GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS), pos1, LVNI_FOCUSED | LVIS_SELECTED, LVNI_FOCUSED | LVIS_SELECTED);
-					SetFocus(GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS));
-					break;
-				}
-			}
-		}
-
-		if (GetDlgItem(hwndDlg, IDC_STATUS) == ((LPNMHDR)lParam)->hwndFrom) {
-			switch (((LPNMHDR)lParam)->code) {
-			case LVN_ITEMCHANGED:
-				NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
-				if ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK)
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-			}
-		}
-		break;
-
-	case WM_DESTROY:
-		bOptionsOpen = FALSE;
-		deleteConnectionsTable(connExceptionsTmp);
-		connExceptionsTmp = nullptr;
-		return TRUE;
-	}
-	return 0;
-}
-
-//options page on miranda called
-int ConnectionNotifyOptInit(WPARAM wParam, LPARAM)
-{
-	OPTIONSDIALOGPAGE odp = {};
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DIALOG);
-	odp.szTitle.w = _A2W(PLUGINNAME);
-	odp.szGroup.w = LPGENW("Plugins");
-	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
-	odp.pfnDlgProc = DlgProcConnectionNotifyOpts;//callback function name
-	g_plugin.addOptions(wParam, &odp);
-	return 0;
-}
-
-//gives protocol avainable statuses
+// gives protocol avainable statuses
 INT_PTR GetCaps(WPARAM wParam, LPARAM)
 {
 	if (wParam == PFLAGNUM_1)
@@ -600,14 +167,14 @@ INT_PTR GetCaps(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-//gives  name to protocol module
+// gives  name to protocol module
 INT_PTR GetName(WPARAM wParam, LPARAM lParam)
 {
 	mir_strncpy((char*)lParam, PLUGINNAME, wParam);
 	return 0;
 }
 
-//gives icon for proto module
+// gives icon for proto module
 INT_PTR TMLoadIcon(WPARAM wParam, LPARAM)
 {
 	UINT id;
@@ -641,7 +208,7 @@ INT_PTR SetStatus(WPARAM wParam, LPARAM lParam)
 	else {
 		int retv = 0;
 
-		if (settingStatus[wParam - ID_STATUS_ONLINE])
+		if (g_plugin.iStatus[wParam - ID_STATUS_ONLINE])
 			retv = SetStatus(ID_STATUS_OFFLINE, lParam);
 		else
 			retv = SetStatus(ID_STATUS_ONLINE, lParam);
@@ -676,7 +243,7 @@ static unsigned __stdcall checkthread(void *)
 	_OutputDebugString(L"check thread started");
 	#endif
 	while (1) {
-		struct CONNECTION* conn = nullptr, *connOld = first, *cur = nullptr;
+		CONNECTION* conn = nullptr, *connOld = first, *cur = nullptr;
 		#ifdef _DEBUG
 		_OutputDebugString(L"checking connections table...");
 		#endif
@@ -688,7 +255,7 @@ static unsigned __stdcall checkthread(void *)
 		conn = GetConnectionsTable();
 		cur = conn;
 		while (cur != nullptr) {
-			if (searchConnection(first, cur->strIntIp, cur->strExtIp, cur->intIntPort, cur->intExtPort, cur->state) == nullptr && (settingStatusMask & (1 << (cur->state - 1)))) {
+			if (searchConnection(first, cur->strIntIp, cur->strExtIp, cur->intIntPort, cur->intExtPort, cur->state) == nullptr && (g_plugin.iStatusMask & (1 << (cur->state - 1)))) {
 
 				#ifdef _DEBUG
 				wchar_t msg[1024];
@@ -709,7 +276,7 @@ static unsigned __stdcall checkthread(void *)
 
 		first = conn;
 		deleteConnectionsTable(connOld);
-		Sleep(settingInterval);
+		Sleep(g_plugin.iInterval);
 	}
 	hConnectionCheckThread = nullptr;
 	return 1;
@@ -722,10 +289,10 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	case WM_COMMAND:
 		if (HIWORD(wParam) == STN_CLICKED)//client clicked on popup with left mouse button
 		{
-			struct CONNECTION *conn = (struct CONNECTION*)mir_alloc(sizeof(struct CONNECTION));
-			struct CONNECTION *mpd = (struct CONNECTION*) PUGetPluginData(hWnd);
+			CONNECTION *conn = (CONNECTION*)mir_alloc(sizeof(CONNECTION));
+			CONNECTION *mpd = (CONNECTION*) PUGetPluginData(hWnd);
 
-			memcpy(conn, mpd, sizeof(struct CONNECTION));
+			memcpy(conn, mpd, sizeof(CONNECTION));
 			PUDeletePopup(hWnd);
 			PostThreadMessage(FilterOptionsThreadId, WM_ADD_FILTER, 0, (LPARAM)conn);
 		}
@@ -737,13 +304,13 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 
 	case UM_INITPOPUP:
 		//struct CONNECTON *conn=NULL;
-		//conn = (struct CONNECTION*)PUGetPluginData(hWnd,(LPARAM)conn);
+		//conn = (CONNECTION*)PUGetPluginData(hWnd,(LPARAM)conn);
 		//MessageBox(NULL,conn->extIp);
 		//PUDeletePopUp(hWnd);
 		break;
 
 	case UM_FREEPLUGINDATA:
-		struct CONNECTION *mpd = (struct CONNECTION*)PUGetPluginData(hWnd);
+		CONNECTION *mpd = (CONNECTION*)PUGetPluginData(hWnd);
 		if (mpd > 0) mir_free(mpd);
 		return TRUE; //TRUE or FALSE is the same, it gets ignored.
 	}
@@ -753,12 +320,12 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 //show popup
 void showMsg(wchar_t *pName, DWORD pid, wchar_t *intIp, wchar_t *extIp, int intPort, int extPort, int state)
 {
-	struct CONNECTION *mpd = (struct CONNECTION*)mir_alloc(sizeof(struct CONNECTION));
+	CONNECTION *mpd = (CONNECTION*)mir_alloc(sizeof(CONNECTION));
 
 	POPUPDATAW ppd;
 	ppd.lchContact = NULL;//(HANDLE)hContact; //Be sure to use a GOOD handle, since this will not be checked.
 	ppd.lchIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_ICON1));
-	if (settingResolveIp) {
+	if (g_plugin.bResolveIp) {
 		wchar_t hostName[128];
 		getDnsName(extIp, hostName, _countof(hostName));
 		mir_snwprintf(ppd.lpwzText, L"%s:%d\n%s:%d", hostName, extPort, intIp, intPort);
@@ -767,13 +334,13 @@ void showMsg(wchar_t *pName, DWORD pid, wchar_t *intIp, wchar_t *extIp, int intP
 
 	mir_snwprintf(ppd.lpwzContactName, L"%s (%s)", pName, tcpStates[state - 1]);
 
-	if (settingSetColours) {
-		ppd.colorBack = settingBgColor;
-		ppd.colorText = settingFgColor;
+	if (g_plugin.bSetColours) {
+		ppd.colorBack = g_plugin.BgColor;
+		ppd.colorText = g_plugin.FgColor;
 	}
 	ppd.PluginWindowProc = PopupDlgProc;
 
-	ppd.iSeconds = settingInterval1;
+	ppd.iSeconds = g_plugin.iInterval1;
 	//Now the "additional" data.
 	wcsncpy_s(mpd->strIntIp, intIp, _TRUNCATE);
 	wcsncpy_s(mpd->strExtIp, extIp, _TRUNCATE);
@@ -813,7 +380,6 @@ static int preshutdown(WPARAM, LPARAM)
 {
 	deleteConnectionsTable(first);
 	deleteConnectionsTable(connExceptions);
-	deleteConnectionsTable(connExceptionsTmp);
 
 	PostThreadMessage(ConnectionCheckThreadId, WM_QUIT, 0, 0);
 	PostThreadMessage(FilterOptionsThreadId, WM_QUIT, 0, 0);
