@@ -500,14 +500,6 @@ LRESULT CSrmmBaseDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam
 	RECT rc;
 
 	switch (msg) {
-	case WM_RBUTTONDOWN:
-		m_nickList.SendMsg(WM_LBUTTONDOWN, wParam, lParam);
-		break;
-
-	case WM_RBUTTONUP:
-		m_nickList.SendMsg(WM_LBUTTONUP, wParam, lParam);
-		break;
-
 	case WM_MEASUREITEM:
 		{
 			MEASUREITEMSTRUCT *mis = (MEASUREITEMSTRUCT *)lParam;

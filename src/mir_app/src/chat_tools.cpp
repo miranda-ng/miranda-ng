@@ -785,7 +785,7 @@ MIR_APP_DLL(UINT) Chat_CreateGCMenu(HWND hwnd, HMENU hMenu, POINT pt, SESSION_IN
 
 	NotifyEventHooks(hevBuildMenuEvent, 0, (WPARAM)&gcmi);
 
-	return TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, nullptr);
+	return TrackPopupMenu(hMenu, TPM_RETURNCMD | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwnd, nullptr);
 }
 
 MIR_APP_DLL(void) Chat_DestroyGCMenu(HMENU hMenu, int iIndex)
