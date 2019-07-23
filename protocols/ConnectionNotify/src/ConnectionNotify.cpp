@@ -95,7 +95,7 @@ void saveSettingsConnections(CONNECTION *connHead)
 		tmp = tmp->next;
 	}
 	g_plugin.iFiltersCount = i;
-	g_plugin.setDword("g_plugin.iFiltersCount", g_plugin.iFiltersCount);
+	g_plugin.setDword("FiltersCount", g_plugin.iFiltersCount);
 
 }
 
@@ -139,14 +139,14 @@ CONNECTION* LoadSettingsConnections()
 void LoadSettings()
 {
 	g_plugin.iInterval = g_plugin.getDword("Interval", 500);
-	g_plugin.iInterval1 = g_plugin.getDword("PopupInterval", 0);
-	g_plugin.bResolveIp = g_plugin.getByte("ResolveIp", TRUE);
+	g_plugin.iInterval1 = g_plugin.getDword("PopupInterval");
+	g_plugin.bResolveIp = g_plugin.getBool("ResolveIp", true);
 	g_plugin.iDefaultAction = g_plugin.getByte("FilterDefaultAction", TRUE);
 
-	g_plugin.bSetColours = g_plugin.getByte("PopupSetColours", 0);
+	g_plugin.bSetColours = g_plugin.getBool("PopupSetColours");
 	g_plugin.BgColor = g_plugin.getDword("PopupBgColor", (DWORD)0xFFFFFF);
 	g_plugin.FgColor = g_plugin.getDword("PopupFgColor", (DWORD)0x000000);
-	g_plugin.iFiltersCount = g_plugin.getDword("g_plugin.iFiltersCount", 0);
+	g_plugin.iFiltersCount = g_plugin.getDword("FiltersCount");
 	g_plugin.iStatusMask = g_plugin.getWord("StatusMask", 16);
 	for (int i = 0; i < MAX_STATUS_COUNT; i++) {
 		char buff[128];

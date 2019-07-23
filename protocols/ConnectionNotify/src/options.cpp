@@ -205,7 +205,7 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 		switch (LOWORD(wParam)) {
 		case IDC_INTERVAL: g_plugin.iInterval = GetDlgItemInt(hwndDlg, IDC_INTERVAL, nullptr, FALSE); break;
 		case IDC_INTERVAL1: g_plugin.iInterval1 = GetDlgItemInt(hwndDlg, IDC_INTERVAL1, nullptr, TRUE); break;
-		case IDC_RESOLVEIP: g_plugin.bResolveIp = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_RESOLVEIP); break;
+		case IDC_RESOLVEIP: g_plugin.bResolveIp = 0 != IsDlgButtonChecked(hwndDlg, IDC_RESOLVEIP); break;
 		case ID_CHK_DEFAULTACTION: g_plugin.iDefaultAction = (BYTE)IsDlgButtonChecked(hwndDlg, ID_CHK_DEFAULTACTION); break;
 		case ID_ADD:
 			{
@@ -319,13 +319,9 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			break;
 
 		case IDC_SETCOLOURS:
-			{
-				HWND hwnd = GetDlgItem(hwndDlg, IDC_BGCOLOR);
-				g_plugin.bSetColours = IsDlgButtonChecked(hwndDlg, IDC_SETCOLOURS);
-				EnableWindow(hwnd, g_plugin.bSetColours);
-				hwnd = GetDlgItem(hwndDlg, IDC_FGCOLOR);
-				EnableWindow(hwnd, g_plugin.bSetColours);
-			}
+			g_plugin.bSetColours = 0 != IsDlgButtonChecked(hwndDlg, IDC_SETCOLOURS);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_BGCOLOR), g_plugin.bSetColours);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_FGCOLOR), g_plugin.bSetColours);
 			break;
 
 		case IDC_BGCOLOR:
