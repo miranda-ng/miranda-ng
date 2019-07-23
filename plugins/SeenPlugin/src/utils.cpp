@@ -155,35 +155,19 @@ wchar_t *wdays_short[] = { LPGENW("Sun."), LPGENW("Mon."), LPGENW("Tue."), LPGEN
 wchar_t *monthnames[] = { LPGENW("January"), LPGENW("February"), LPGENW("March"), LPGENW("April"), LPGENW("May"), LPGENW("June"), LPGENW("July"), LPGENW("August"), LPGENW("September"), LPGENW("October"), LPGENW("November"), LPGENW("December") };
 wchar_t *mnames_short[] = { LPGENW("Jan."), LPGENW("Feb."), LPGENW("Mar."), LPGENW("Apr."), LPGENW("May"), LPGENW("Jun."), LPGENW("Jul."), LPGENW("Aug."), LPGENW("Sep."), LPGENW("Oct."), LPGENW("Nov."), LPGENW("Dec.") };
 
-wchar_t* ParseString(wchar_t *szstring, MCONTACT hcontact)
+CMStringW ParseString(const wchar_t *pwszFormat, MCONTACT hcontact)
 {
-#define MAXSIZE 1024
-	static wchar_t sztemp[MAXSIZE + 1];
-	wchar_t szdbsetting[128];
-	wchar_t *charPtr;
-	int isetting = 0;
-	DWORD dwsetting = 0;
-	struct in_addr ia;
-	DBVARIANT dbv;
-
-	sztemp[0] = '\0';
-
 	SYSTEMTIME st;
-	if (!isSeen(hcontact, &st)) {
-		mir_wstrcat(sztemp, TranslateT("<never seen>"));
-		return sztemp;
-	}
+	if (!isSeen(hcontact, &st))
+		return TranslateT("<never seen>");
 
 	char *szProto = hcontact ? GetContactProto(hcontact) : courProtoName;
 	ptrW info;
 
-	wchar_t *d = sztemp;
-	for (wchar_t *p = szstring; *p; p++) {
-		if (d >= sztemp + MAXSIZE)
-			break;
-
+	CMStringW res;
+	for (const wchar_t *p = pwszFormat; *p; p++) {
 		if (*p != '%' && *p != '#') {
-			*d++ = *p;
+			res.AppendChar(*p);
 			continue;
 		}
 
@@ -191,133 +175,129 @@ wchar_t* ParseString(wchar_t *szstring, MCONTACT hcontact)
 		switch (*++p) {
 		case 'Y':
 			if (!st.wYear) goto LBL_noData;
-			d += swprintf(d, L"%04i", st.wYear); //!!!!!!!!!!!!
+			res.AppendFormat(L"%04i", st.wYear);
 			break;
 
 		case 'y':
 			if (!st.wYear) goto LBL_noData;
-			d += swprintf(d, L"%02i", st.wYear % 100); //!!!!!!!!!!!!
+			res.AppendFormat(L"%02i", st.wYear % 100);
 			break;
 
 		case 'm':
-			if (!(isetting = st.wMonth)) goto LBL_noData;
-		LBL_2DigNum:
-			d += swprintf(d, L"%02i", isetting); //!!!!!!!!!!!!
+			if (!st.wMonth) goto LBL_noData;
+			res.AppendFormat(L"%02i", st.wMonth);
 			break;
 
 		case 'd':
-			if (isetting = st.wDay) goto LBL_2DigNum;
-			else goto LBL_noData;
-
-		case 'W':
-			isetting = st.wDayOfWeek;
-			if (isetting == -1) {
-			LBL_noData:
-				charPtr = wantempty ? L"" : TranslateT("<unknown>");
-				goto LBL_charPtr;
-			}
-			charPtr = TranslateW(weekdays[isetting]);
-		LBL_charPtr:
-			d += mir_snwprintf(d, MAXSIZE - (d - sztemp), L"%s", charPtr);
+			if (!st.wDay) goto LBL_noData;
+			res.AppendFormat(L"%02i", st.wDay);
 			break;
 
+		case 'W':
+			if (st.wDayOfWeek != -1) {
+				res.Append(TranslateW(weekdays[st.wDayOfWeek]));
+				break;
+			}
+
+LBL_noData:
+			res.Append(wantempty ? L"" : TranslateT("<unknown>"));
+			break;
+			
 		case 'w':
-			isetting = st.wDayOfWeek;
-			if (isetting == -1) goto LBL_noData;
-			charPtr = TranslateW(wdays_short[isetting]);
-			goto LBL_charPtr;
+			if (st.wDayOfWeek == -1) goto LBL_noData;
+			res.Append(TranslateW(wdays_short[st.wDayOfWeek]));
+			break;
 
 		case 'E':
-			if (!(isetting = st.wMonth)) goto LBL_noData;
-			charPtr = TranslateW(monthnames[isetting - 1]);
-			goto LBL_charPtr;
+			if (!st.wMonth) goto LBL_noData;
+			res.Append(TranslateW(monthnames[st.wMonth - 1]));
+			break;
 
 		case 'e':
-			if (!(isetting = st.wMonth)) goto LBL_noData;
-			charPtr = TranslateW(mnames_short[isetting - 1]);
-			goto LBL_charPtr;
+			if (!st.wMonth) goto LBL_noData;
+			res.Append(TranslateW(mnames_short[st.wMonth - 1]));
+			break;
 
 		case 'H':
-			if ((isetting = st.wHour) == -1) goto LBL_noData;
-			goto LBL_2DigNum;
+			if (st.wHour == -1) goto LBL_noData;
+			res.AppendFormat(L"%02i", st.wHour);
+			break;
 
 		case 'h':
-			if ((isetting = st.wHour) == -1) goto LBL_noData;
-			if (!isetting) isetting = 12;
-			isetting = isetting - ((isetting > 12) ? 12 : 0);
-			goto LBL_2DigNum;
+			if (st.wHour == -1) goto LBL_noData;
+			if (!st.wHour) st.wHour = 12;
+			st.wHour = st.wHour - ((st.wHour > 12) ? 12 : 0);
+			res.AppendFormat(L"%02i", st.wHour);
+			break;
 
 		case 'p':
-			if ((isetting = st.wHour) == -1) goto LBL_noData;
-			charPtr = (isetting >= 12) ? L"PM" : L"AM";
-			goto LBL_charPtr;
+			if (st.wHour == -1) goto LBL_noData;
+			res.Append((st.wHour >= 12) ? L"PM" : L"AM");
+			break;
 
 		case 'M':
-			if ((isetting = st.wMinute) == -1) goto LBL_noData;
-			goto LBL_2DigNum;
+			if (st.wMinute == -1) goto LBL_noData;
+			res.AppendFormat(L"%02i", st.wMinute);
+			break;
 
 		case 'S':
-			if ((isetting = st.wHour) == -1) goto LBL_noData;
-			goto LBL_2DigNum;
+			if (st.wSecond == -1) goto LBL_noData;
+			res.AppendFormat(L"%02i", st.wSecond);
+			break;
 
 		case 'n':
-			charPtr = hcontact ? Clist_GetContactDisplayName(hcontact) : (wantempty ? L"" : L"---");
-			goto LBL_charPtr;
+			res.Append(hcontact ? Clist_GetContactDisplayName(hcontact) : (wantempty ? L"" : L"---"));
+			break;
 
 		case 'N':
 			if (info = Contact_GetInfo(CNF_NICK, hcontact, szProto)) {
-				charPtr = info;
-				goto LBL_charPtr;
+				res.Append(info);
+				break;
 			}
 			goto LBL_noData;
 
 		case 'G':
 			{
 				ptrW wszGroup(Clist_GetGroup(hcontact));
-				if (wszGroup) {
-					wcsncpy_s(szdbsetting, wszGroup, _TRUNCATE);
-					charPtr = szdbsetting;
-					goto LBL_charPtr;
-				}
+				if (wszGroup)
+					res.Append(wszGroup);
 			}
 			break;
 
 		case 'u':
 			if (info = Contact_GetInfo(CNF_UNIQUEID, hcontact, szProto)) {
-				charPtr = info;
-				goto LBL_charPtr;
+				res.Append(info);
+				break;
 			}
 			goto LBL_noData;
 
 		case 's':
-			if (isetting = g_plugin.getWord(hcontact, hcontact ? "StatusTriger" : courProtoName, 0)) {
-				wcsncpy(szdbsetting, Clist_GetStatusModeDescription(isetting | 0x8000, 0), _countof(szdbsetting));
-				if (!(isetting & 0x8000)) {
-					mir_wstrncat(szdbsetting, L"/", _countof(szdbsetting) - mir_wstrlen(szdbsetting));
-					mir_wstrncat(szdbsetting, TranslateT("Idle"), _countof(szdbsetting) - mir_wstrlen(szdbsetting));
+			if (int iStatus = g_plugin.getWord(hcontact, hcontact ? "StatusTriger" : courProtoName, 0)) {
+				res.Append(Clist_GetStatusModeDescription(iStatus | 0x8000, 0));
+				if (!(iStatus & 0x8000)) {
+					res.AppendChar('/');
+					res.Append(TranslateT("Idle"));
 				}
-				charPtr = szdbsetting;
-				goto LBL_charPtr;
+				break;
 			}
 			goto LBL_noData;
 
 		case 'T':
-			if (db_get_ws(hcontact, "CList", "StatusMsg", &dbv))
-				goto LBL_noData;
+			if (info = db_get_wsa(hcontact, "CList", "StatusMsg")) {
+				res.Append(info);
+				break;
+			}
 
-			d += mir_snwprintf(d, MAXSIZE - (d - sztemp), L"%s", dbv.pwszVal);
-			db_free(&dbv);
-			break;
+			goto LBL_noData;
 
 		case 'o':
-			if (isetting = g_plugin.getWord(hcontact, hcontact ? "OldStatus" : courProtoName, 0)) {
-				wcsncpy(szdbsetting, Clist_GetStatusModeDescription(isetting, 0), _countof(szdbsetting));
+			if (int iStatus = g_plugin.getWord(hcontact, hcontact ? "OldStatus" : courProtoName, 0)) {
+				res.Append(Clist_GetStatusModeDescription(iStatus, 0));
 				if (includeIdle && hcontact && g_plugin.getByte(hcontact, "OldIdle")) {
-					mir_wstrncat(szdbsetting, L"/", _countof(szdbsetting) - mir_wstrlen(szdbsetting));
-					mir_wstrncat(szdbsetting, TranslateT("Idle"), _countof(szdbsetting) - mir_wstrlen(szdbsetting));
+					res.Append(L"/");
+					res.Append(TranslateT("Idle"));
 				}
-				charPtr = szdbsetting;
-				goto LBL_charPtr;
+				break;
 			}
 			goto LBL_noData;
 
@@ -325,61 +305,55 @@ wchar_t* ParseString(wchar_t *szstring, MCONTACT hcontact)
 		case 'r':
 			if (isJabber(szProto)) {
 				if (info = db_get_wsa(hcontact, szProto, *p == 'i' ? "Resource" : "System")) {
-					charPtr = info;
-					goto LBL_charPtr;
+					res.Append(info);
+					break;
 				}
 				goto LBL_noData;
 			}
 			else {
-				dwsetting = db_get_dw(hcontact, szProto, *p == 'i' ? "IP" : "RealIP", 0);
+				int dwsetting = db_get_dw(hcontact, szProto, *p == 'i' ? "IP" : "RealIP", 0);
 				if (!dwsetting)
 					goto LBL_noData;
 
+				struct in_addr ia;
 				ia.S_un.S_addr = htonl(dwsetting);
-				wcsncpy(szdbsetting, _A2T(inet_ntoa(ia)), _countof(szdbsetting));
-				charPtr = szdbsetting;
+				res.Append(_A2T(inet_ntoa(ia)));
 			}
-			goto LBL_charPtr;
+			break;
 
 		case 'P':
-			wcsncpy(szdbsetting, szProto ? _A2T(szProto) : (wantempty ? L"" : L"ProtoUnknown"), _countof(szdbsetting));
-			charPtr = szdbsetting;
-			goto LBL_charPtr;
+			res.Append(szProto ? _A2T(szProto) : (wantempty ? L"" : L"ProtoUnknown"));
+			break;
 
 		case 'b':
-			charPtr = L"\x0D\x0A";
-			goto LBL_charPtr;
+			res.Append(L"\x0D\x0A");
+			break;
 
 		case 'C': // Get Client Info
 			if (info = db_get_wsa(hcontact, szProto, "MirVer")) {
-				charPtr = info;
-				goto LBL_charPtr;
+				res.Append(info);
+				break;
 			}
 			goto LBL_noData;
 
 		case 't':
-			charPtr = L"\t";
-			goto LBL_charPtr;
+			res.Append(L"\t");
+			break;
 
 		case 'A':
-			{
-				PROTOACCOUNT *pa = Proto_GetAccount(szProto);
-				if (!pa)
-					goto LBL_noData;
-				
-				wcsncpy(szdbsetting, pa->tszAccountName, _countof(szdbsetting));
-				charPtr = szdbsetting;
+			if (PROTOACCOUNT *pa = Proto_GetAccount(szProto)) {
+				res.Append(pa->tszAccountName);
+				break;
 			}
-			goto LBL_charPtr;
+			goto LBL_noData;
 
 		default:
-			*d++ = p[-1];
-			*d++ = *p;
+			res.AppendChar(p[-1]);
+			res.AppendChar(*p);
 		}
 	}
 
-	*d = 0;
-	return sztemp;
+	return res;
 }
 
 void DBWriteTimeTS(DWORD t, MCONTACT hcontact)

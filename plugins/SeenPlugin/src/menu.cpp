@@ -42,16 +42,12 @@ int BuildContactMenu(WPARAM hContact, LPARAM)
 		return 0;
 	}
 
-	LPCTSTR ptszName;
 	ptrW tszStamp(g_plugin.getWStringA("MenuStamp"));
-	if (tszStamp != NULL)
-		ptszName = ParseString(tszStamp , hContact);
-	else
-		ptszName = ParseString(DEFAULT_MENUSTAMP, hContact);
+	CMStringW wszName(ParseString(tszStamp ? tszStamp : DEFAULT_MENUSTAMP, hContact));
 
 	int flags = 0;
 	HANDLE hIcon = nullptr;
-	if (!mir_wstrcmp(ptszName, TranslateT("<unknown>"))) {
+	if (wszName == TranslateT("<unknown>")) {
 		if (IsWatchedProtocol(szProto))
 			flags |= CMIF_GRAYED;
 		else
@@ -61,7 +57,7 @@ int BuildContactMenu(WPARAM hContact, LPARAM)
 		int isetting = g_plugin.getWord(hContact, "StatusTriger", -1);
 		hIcon = Skin_GetProtoIcon(szProto, isetting | 0x8000);
 	}
-	Menu_ModifyItem(hmenuitem, ptszName, hIcon, flags);
+	Menu_ModifyItem(hmenuitem, wszName, hIcon, flags);
 	return 0;
 }
 
