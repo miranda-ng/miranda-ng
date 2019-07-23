@@ -511,6 +511,9 @@ void Cache_GetFirstLineText(ClcData *dat, ClcContact *contact)
 
 void Cache_GetNthLineText(ClcData *dat, ClcCacheEntry *pdnce, int n)
 {
+	if (pdnce == nullptr)
+		return;
+
 	wchar_t Text[240 - EXTRA_ICON_COUNT]; Text[0] = 0;
 	ClcLineInfo &line = (n == 2) ? g_plugin.secondLine : g_plugin.thirdLine;
 	wchar_t* &szText = (n == 2) ? pdnce->szSecondLineText : pdnce->szThirdLineText;
