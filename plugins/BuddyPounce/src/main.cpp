@@ -130,7 +130,7 @@ int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 		int newStatus = cws->value.wVal;
 		int oldStatus = db_get_w(hContact, "UserOnline", "OldStatus", ID_STATUS_OFFLINE);
 
-		if (newStatus != oldStatus && hContact != NULL && newStatus != ID_STATUS_OFFLINE) {
+		if (newStatus != oldStatus && newStatus != ID_STATUS_OFFLINE) {
 			DBVARIANT dbv;
 			if (!g_plugin.getWString(hContact, "PounceMsg", &dbv) && (dbv.pwszVal[0] != '\0')) {
 				// check my status

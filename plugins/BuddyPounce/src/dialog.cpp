@@ -16,7 +16,7 @@ void populateContacts(MCONTACT BPhContact, HWND hwnd2CB)
 		char *szProto = GetContactProto(hContact);
 		if (szProto && (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM)) {
 			wchar_t name[300];
-			mir_snwprintf(name, L"%s (%s)", Clist_GetContactDisplayName(hContact), _A2T(szProto));
+			mir_snwprintf(name, L"%s (%S)", Clist_GetContactDisplayName(hContact), szProto);
 			int index = SendMessage(hwnd2CB, CB_ADDSTRING, 0, (LPARAM)name);
 			SendMessage(hwnd2CB, CB_SETITEMDATA, index, hContact);
 			if (BPhContact == hContact)
@@ -240,10 +240,6 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwnd);
 		wi = (windowInfo *)mir_alloc(sizeof(windowInfo));
-		if (!wi) {
-			msg(TranslateT("error......"), TranslateT("Buddy Pounce"));
-			DestroyWindow(hwnd);
-		}
 		wi->hContact = lParam;
 		wi->SendIfMy = nullptr;
 		wi->SendWhenThey = nullptr;
@@ -495,9 +491,6 @@ INT_PTR CALLBACK SendPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwnd);
 		spdps = (SendPounceDlgProcStruct*)lParam;
-		if (!spdps)
-			DestroyWindow(hwnd);
-
 		spdps->timer = g_plugin.getWord(spdps->hContact, "ConfirmTimeout");
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)spdps);
 		{
