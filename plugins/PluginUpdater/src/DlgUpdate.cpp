@@ -159,9 +159,9 @@ static void ApplyUpdates(void *param)
 			wchar_t mirstartpath[MAX_PATH];
 
 #ifdef _WIN64
-			mir_snwprintf(mirstartpath, L"%s\\miranda32.exe", tszMirandaPath);
+			mir_snwprintf(mirstartpath, L"%s\\miranda32.exe", tszMirandaPath.get());
 #else
-			mir_snwprintf(mirstartpath, L"%s\\miranda64.exe", tszMirandaPath);
+			mir_snwprintf(mirstartpath, L"%s\\miranda64.exe", tszMirandaPath.get());
 #endif
 			CallServiceSync(MS_SYSTEM_RESTART, bRestartCurrentProfile, (LPARAM)mirstartpath);
 		}
@@ -443,7 +443,7 @@ static void DlgUpdateSilent(void *param)
 				// otherwise it would be replaced by unzip
 				if (_wcsicmp(it->tszOldName, it->tszNewName)) {
 					wchar_t tszSrcPath[MAX_PATH], tszBackFile[MAX_PATH];
-					mir_snwprintf(tszSrcPath, L"%s\\%s", tszMirandaPath, it->tszOldName);
+					mir_snwprintf(tszSrcPath, L"%s\\%s", tszMirandaPath.get(), it->tszOldName);
 					mir_snwprintf(tszBackFile, L"%s\\%s", tszFileBack, it->tszOldName);
 					BackupFile(tszSrcPath, tszBackFile);
 				}
