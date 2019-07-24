@@ -82,7 +82,6 @@ struct CacheNode : public AVATARCACHEENTRY, public MZeroedObject
 	~CacheNode();
 
 	BOOL   loaded;
-	DWORD  dwFlags;
 	int    pa_format;
 
 	void   wipeInfo();
