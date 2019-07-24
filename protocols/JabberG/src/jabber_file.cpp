@@ -240,7 +240,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 	ft->type = FT_OOB;
 
 	NETLIBBIND nlb = {};
-	nlb.pfnNewConnectionV2 = JabberFileServerConnection;
+	nlb.pfnNewConnection = JabberFileServerConnection;
 	nlb.pExtra = this;
 	nlb.wPort = 0;	// Use user-specified incoming port ranges, if available
 	

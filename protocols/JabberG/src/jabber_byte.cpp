@@ -197,7 +197,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 				localAddr = getStringA("BsDirectAddr");
 
 			NETLIBBIND nlb = {};
-			nlb.pfnNewConnectionV2 = JabberByteSendConnection;
+			nlb.pfnNewConnection = JabberByteSendConnection;
 			nlb.pExtra = this;
 			nlb.wPort = 0;	// Use user-specified incoming port ranges, if available
 

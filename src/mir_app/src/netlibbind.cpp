@@ -172,8 +172,8 @@ static void __cdecl NetlibBindAcceptThread(NetlibBoundPort *nlbp)
 		nlc->nlu = nlbp->nlu;
 		nlc->s = s;
 
-		if (nlbp->pfnNewConnectionV2)
-			nlbp->pfnNewConnectionV2(nlc, ntohl(sin.sin_addr.S_un.S_addr), nlbp->pExtra);
+		if (nlbp->pfnNewConnection)
+			nlbp->pfnNewConnection(nlc, ntohl(sin.sin_addr.S_un.S_addr), nlbp->pExtra);
 	}
 
 	NetlibUPnPDeletePortMapping(nlbp->wExPort, "TCP");
@@ -310,7 +310,7 @@ NetlibBoundPort::NetlibBoundPort(HNETLIBUSER _nlu, NETLIBBIND *nlb)
 	: handleType(NLH_BOUNDPORT),
 	nlu(_nlu)
 {
-	pfnNewConnectionV2 = nlb->pfnNewConnectionV2;
+	pfnNewConnection = nlb->pfnNewConnection;
 	pExtra = nlb->pExtra;
 
 	s = socket(PF_INET, SOCK_STREAM, 0);

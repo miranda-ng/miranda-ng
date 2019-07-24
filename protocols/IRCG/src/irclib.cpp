@@ -342,7 +342,7 @@ void CIrcProto::InsertIncomingEvent(wchar_t* pszRaw)
 
 void CIrcProto::createMessageFromPchar(const char* p)
 {
-	wchar_t* ptszMsg;
+	wchar_t *ptszMsg;
 	if (codepage != CP_UTF8 && m_utfAutodetect) {
 		if (mir_utf8decodecp(NEWSTR_ALLOCA(p), codepage, &ptszMsg) == nullptr)
 			ptszMsg = mir_a2u_cp(p, codepage);
@@ -360,7 +360,7 @@ void CIrcProto::DoReceive()
 
 	if (m_info.bIdentServer && m_info.iIdentServerPort != NULL) {
 		NETLIBBIND nb = {};
-		nb.pfnNewConnectionV2 = DoIdent;
+		nb.pfnNewConnection = DoIdent;
 		nb.pExtra = this;
 		nb.wPort = m_info.iIdentServerPort;
 		
@@ -866,7 +866,7 @@ int CDccSession::SetupConnection()
 	// create a listening socket for outgoing chat/send requests. The remote computer connects to this computer. Used for both chat and filetransfer.
 	if (di->bSender && !di->bReverse) {
 		NETLIBBIND nb = {};
-		nb.pfnNewConnectionV2 = DoIncomingDcc; // this is the (helper) function to be called once an incoming connection is made. The 'real' function that is called is IncomingConnection()
+		nb.pfnNewConnection = DoIncomingDcc; // this is the (helper) function to be called once an incoming connection is made. The 'real' function that is called is IncomingConnection()
 		nb.pExtra = this;
 		
 		hBindPort = Netlib_BindPort(m_proto->hNetlibDCC, &nb);
@@ -942,7 +942,7 @@ int CDccSession::SetupConnection()
 		// hack for passive filetransfers
 		if (di->iType == DCC_SEND && !di->bSender && di->bReverse) {
 			NETLIBBIND nb = {};
-			nb.pfnNewConnectionV2 = DoIncomingDcc; // this is the (helper) function to be called once an incoming connection is made. The 'real' function that is called is IncomingConnection()
+			nb.pfnNewConnection = DoIncomingDcc; // this is the (helper) function to be called once an incoming connection is made. The 'real' function that is called is IncomingConnection()
 			nb.pExtra = this;
 
 			hBindPort = Netlib_BindPort(m_proto->hNetlibDCC, &nb);

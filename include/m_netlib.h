@@ -262,23 +262,18 @@ EXTERN_C MIR_APP_DLL(int) Netlib_CloseHandle(HANDLE h);
 /* pExtra was added during 0.3.4+, prior its just two args, since we use the cdecl convention
 it shouldnt matter */
 
-typedef void (*NETLIBNEWCONNECTIONPROC_V2)(HNETLIBCONN hNewConnection, DWORD dwRemoteIP, void *pExtra);
-typedef void (*NETLIBNEWCONNECTIONPROC)(HNETLIBCONN hNewConnection, DWORD dwRemoteIP);
+typedef void (*NETLIBNEWCONNECTIONPROC)(HNETLIBCONN hNewConnection, DWORD dwRemoteIP, void *pExtra);
 
 struct NETLIBBIND
 {
-	union { // new code should use V2
-		NETLIBNEWCONNECTIONPROC pfnNewConnection;
-		NETLIBNEWCONNECTIONPROC_V2 pfnNewConnectionV2;
-	};
-	     
+	NETLIBNEWCONNECTIONPROC pfnNewConnection;
+
 	// function to call when there's a new connection. Params are: the
 	// new connection, IP of remote machine (host byte order)
 	DWORD dwInternalIP;   // set on return, host byte order
-	WORD  wPort;          // set on return, host byte order
-	void *pExtra;         // argument is sent to callback
 	DWORD dwExternalIP;   // set on return, host byte order
-	WORD  wExPort;        // set on return, host byte order
+	WORD  wPort, wExPort; // set on return, host byte order
+	void *pExtra;         // argument is sent to callback
 };
 
 EXTERN_C MIR_APP_DLL(HNETLIBBIND) Netlib_BindPort(HNETLIBUSER nlu, NETLIBBIND *nlb);

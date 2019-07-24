@@ -119,7 +119,7 @@ struct NetlibBoundPort : public MZeroedObject
 	WORD wPort;
 	WORD wExPort;
 	NetlibUser *nlu;
-	NETLIBNEWCONNECTIONPROC_V2 pfnNewConnectionV2;
+	NETLIBNEWCONNECTIONPROC pfnNewConnection;
 	HANDLE hThread;
 	void *pExtra;
 };

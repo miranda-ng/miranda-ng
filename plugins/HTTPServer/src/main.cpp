@@ -566,7 +566,7 @@ void __cdecl HandleNewConnection(CLHttpUser *pclUser)
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-void ConnectionOpen(HNETLIBCONN hNewConnection, DWORD dwRemoteIP)
+void ConnectionOpen(HNETLIBCONN hNewConnection, DWORD dwRemoteIP, void*)
 {
 	in_addr stAddr;
 	stAddr.S_un.S_addr = htonl(dwRemoteIP);
