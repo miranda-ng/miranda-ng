@@ -343,10 +343,10 @@ EXTERN_C MIR_APP_DLL(HNETLIBCONN) Netlib_OpenConnection(HNETLIBUSER nlu, const N
 struct NETLIBHTTPPROXYINFO
 {
 	DWORD flags;
-	char *szHttpPostUrl;
-	char *szHttpGetUrl;
 	int firstGetSequence, firstPostSequence;
 	int combinePackets;
+	char *szHttpPostUrl;
+	char *szHttpGetUrl;
 };
 
 EXTERN_C MIR_APP_DLL(int) Netlib_SetHttpProxyInfo(HNETLIBCONN hConnection, const NETLIBHTTPPROXYINFO *nlhpi);

@@ -429,7 +429,8 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 					if (arNewClasses[i]->flags & PCF_UNICODE) {
 						POPUPCLASS pc = *arNewClasses[i];
 						pc.PluginWindowProc = nullptr;
-						POPUPDATACLASS d = { sizeof(d), pc.pszName };
+						POPUPDATACLASS d = { sizeof(d) };
+						d.pszClassName = pc.pszName;
 						d.szTitle.w = L"Preview";
 						d.szText.w = L"The quick brown fox jumps over the lazy dog.";
 						CallService(MS_POPUP_ADDPOPUPCLASS, (WPARAM)& pc, (LPARAM)& d);
@@ -437,7 +438,8 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 					else {
 						POPUPCLASS pc = *arNewClasses[i];
 						pc.PluginWindowProc = nullptr;
-						POPUPDATACLASS d = { sizeof(d), pc.pszName };
+						POPUPDATACLASS d = { sizeof(d) };
+						d.pszClassName = pc.pszName;
 						d.szTitle.a = "Preview";
 						d.szText.a = "The quick brown fox jumps over the lazy dog.";
 						CallService(MS_POPUP_ADDPOPUPCLASS, (WPARAM)& pc, (LPARAM)& d);

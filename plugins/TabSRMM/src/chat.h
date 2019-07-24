@@ -61,7 +61,6 @@ struct LOGSTREAMDATA : public GCLogStreamDataBase
 struct TMUCSettings : public GlobalLogSettingsBase
 {
 	HICON    hIconOverlay;
-	DWORD    dwIconFlags;
 	LONG     iNickListFontHeight;
 
 	HFONT    UserListFonts[CHAT_STATUS_MAX];
@@ -70,13 +69,12 @@ struct TMUCSettings : public GlobalLogSettingsBase
 	COLORREF nickColors[8];
 	HBRUSH   SelectionBGBrush;
 	bool     bOpenInDefault, bBBCodeInPopups;
-	bool     bShowContactStatus, bContactStatusFirst;
 
 	bool     bLogClassicIndicators, bAlternativeSorting, bAnnoyingHighlight, bCreateWindowOnHighlight;
 	bool     bLogSymbols, bClassicIndicators, bClickableNicks, bColorizeNicks, bColorizeNicksInLog;
 	bool     bScaleIcons, bUseCommaAsColon, bNewLineAfterNames;
 
-	CMUCHighlight* Highlight;
+	CMUCHighlight *Highlight;
 };
 
 struct FLASH_PARAMS

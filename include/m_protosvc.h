@@ -325,12 +325,12 @@ static __inline unsigned long Proto_Status2Flag(int status)
 struct PROTOSEARCHRESULT
 {
 	int cbSize;
+	int flags;
 	MAllStrings nick;
 	MAllStrings firstName;
 	MAllStrings lastName;
 	MAllStrings email;
 	MAllStrings id;
-	int flags;
 };
 
 #define PS_BASICSEARCH  "/BasicSearch"

@@ -56,15 +56,15 @@ private:
 	void tokenize(wchar_t *tszString, wchar_t** &patterns, UINT &nr);
 
 	DWORD     m_dwFlags = 0;
-	bool      m_fInitialized = false;
-	wchar_t **m_NickPatterns = nullptr;
-	wchar_t **m_TextPatterns = nullptr;
 	UINT      m_iNickPatterns = 0;
 	UINT      m_iTextPatterns = 0;
-	wchar_t  *m_NickPatternString = nullptr;
-	wchar_t  *m_TextPatternString = nullptr;
+	bool      m_fInitialized = false;
 	bool      m_Valid = true;
 	bool      m_fHighlightMe;
+	wchar_t **m_NickPatterns = nullptr;
+	wchar_t **m_TextPatterns = nullptr;
+	wchar_t  *m_NickPatternString = nullptr;
+	wchar_t  *m_TextPatternString = nullptr;
 };
 
 struct THighLightEdit

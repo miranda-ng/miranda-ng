@@ -399,17 +399,12 @@ struct POPUPCLASS
 {
 	int cbSize;
 	int flags;      // PCF_* constants
+	int iSeconds;
+	COLORREF colorBack, colorText;
 	char *pszName;
 	MAllStrings pszDescription;
-
 	HICON hIcon;
-
-	COLORREF colorBack;
-	COLORREF colorText;
-
 	WNDPROC PluginWindowProc;
-
-	int iSeconds;
 	LPARAM lParam; //APF_RETURN_HWND, APF_CUSTOM_POPUP  ... as above
 };
 
@@ -422,11 +417,11 @@ EXTERN_C MIR_APP_DLL(void) Popup_UnregisterClass(HANDLE ppc);
 struct POPUPDATACLASS 
 {
 	int cbSize;
+	MCONTACT hContact;
 	const char *pszClassName;
 	MAllCStrings szTitle;
 	MAllCStrings szText;
 	void *PluginData;
-	MCONTACT hContact;
 };
 
 EXTERN_C MIR_APP_DLL(HWND) Popup_AddClass(POPUPDATACLASS*);

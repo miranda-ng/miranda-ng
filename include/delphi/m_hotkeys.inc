@@ -35,8 +35,8 @@ type
     pszSection    :TChar;      // section name used to group sounds (NULL is acceptable)
     pszService    :PAnsiChar;  // Service to call when HotKey Pressed
     DefHotKey     :word;       // default hot key for action
-    lParam        :LPARAM;     // lParam to pass to service
     dwFlags       :dword;      // Miranda ver >=9.0
+    lParam        :LPARAM;     // lParam to pass to service
   end;
 
 

@@ -140,7 +140,8 @@ MIR_APP_DLL(HWND) Popup_AddClass(POPUPDATACLASS *pData)
 
 MIR_APP_DLL(HWND) ShowClassPopup(const char *name, const char *title, const char *text)
 {
-	POPUPDATACLASS d = { sizeof(d), name };
+	POPUPDATACLASS d = { sizeof(d) };
+	d.pszClassName = name;
 	d.szTitle.a = title;
 	d.szText.a = text;
 	return (HWND)CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&d);
@@ -148,7 +149,8 @@ MIR_APP_DLL(HWND) ShowClassPopup(const char *name, const char *title, const char
 
 MIR_APP_DLL(HWND) ShowClassPopupW(const char *name, const wchar_t *title, const wchar_t *text)
 {
-	POPUPDATACLASS d = { sizeof(d), name };
+	POPUPDATACLASS d = { sizeof(d) };
+	d.pszClassName = name;
 	d.szTitle.w = title;
 	d.szText.w = text;
 	return (HWND)CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&d);

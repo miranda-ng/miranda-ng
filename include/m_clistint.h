@@ -297,9 +297,9 @@ EXTERN_C MIR_APP_DLL(int) Clist_GetAccountIndex(int iPos);
 struct ClcCacheEntryBase
 {
 	MCONTACT hContact;
+	int      bIsHidden;
 	wchar_t* tszName;
 	wchar_t* tszGroup;
-	int      bIsHidden;
 	char*    szProto;
 };
 

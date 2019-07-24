@@ -159,8 +159,8 @@ public:
 		HBRUSH brush, BYTE alpha, LONG inner_height, LONG inner_width, LONG height, LONG width)
 	{
 		m_bBottom = bottom;
-		m_bLeft = left,
-			m_bTop = top;
+		m_bLeft = left;
+		m_bTop = top;
 		m_bRight = right;
 		m_hdc = hdc;
 		m_hbm = hbm;
