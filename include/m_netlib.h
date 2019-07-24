@@ -510,23 +510,22 @@ protected:
 	NETLIBHTTPREQUEST *_p;
 
 public:
-	__inline explicit NLHR_PTR(NETLIBHTTPREQUEST *p) : _p(p) {}
-	__inline explicit NLHR_PTR(INT_PTR i_p) : _p((NETLIBHTTPREQUEST*)i_p) {}
+	__forceinline explicit NLHR_PTR(NETLIBHTTPREQUEST *p) : _p(p) {}
 	
-	__inline NETLIBHTTPREQUEST* operator=(INT_PTR i_p)
+	__forceinline NETLIBHTTPREQUEST* operator=(INT_PTR i_p)
 	{
 		return operator=((NETLIBHTTPREQUEST*)i_p);
 	}
-	__inline NETLIBHTTPREQUEST* operator=(NETLIBHTTPREQUEST *p)
+	__forceinline NETLIBHTTPREQUEST* operator=(NETLIBHTTPREQUEST *p)
 	{
 		if (_p)
 			Netlib_FreeHttpRequest(_p);
 		_p = p;
 		return _p;
 	}
-	__inline operator NETLIBHTTPREQUEST*() const { return _p; }
-	__inline NETLIBHTTPREQUEST* operator->() const { return _p; }
-	__inline ~NLHR_PTR()
+	__forceinline operator NETLIBHTTPREQUEST*() const { return _p; }
+	__forceinline NETLIBHTTPREQUEST* operator->() const { return _p; }
+	__forceinline ~NLHR_PTR()
 	{
 		Netlib_FreeHttpRequest(_p);
 	}
@@ -548,7 +547,7 @@ template <class T>
 class MTHttpRequest : public MHttpRequest
 {
 public:
-	__inline MTHttpRequest()
+	__forceinline MTHttpRequest()
 	{}
 
 	typedef void (T::*MTHttpRequestHandler)(NETLIBHTTPREQUEST*, struct AsyncHttpRequest*);

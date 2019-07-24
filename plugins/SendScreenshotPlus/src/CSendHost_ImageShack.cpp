@@ -75,7 +75,7 @@ int CSendHost_ImageShack::Send()
 void CSendHost_ImageShack::SendThread()
 {
 	// send DATA and wait for m_nlreply
-	NETLIBHTTPREQUEST* reply = Netlib_HttpTransaction(g_hNetlibUser, &m_nlhr);
+	NLHR_PTR reply(Netlib_HttpTransaction(g_hNetlibUser, &m_nlhr));
 	HTTPFormDestroy(&m_nlhr);
 	if (reply) {
 		if (reply->resultCode >= 200 && reply->resultCode < 300 && reply->dataLength) {
@@ -92,7 +92,6 @@ void CSendHost_ImageShack::SendThread()
 					m_URLthumb.Empty();
 
 				svcSendMsgExit(url);
-				Netlib_FreeHttpRequest(reply);
 				return;
 			}
 
@@ -107,8 +106,6 @@ void CSendHost_ImageShack::SendThread()
 			mir_free(err);
 		}
 		else Error(SS_ERR_RESPONSE, m_pszSendTyp, reply->resultCode);
-
-		Netlib_FreeHttpRequest(reply);
 	}
 	else Error(SS_ERR_NORESPONSE, m_pszSendTyp, m_nlhr.resultCode);
 

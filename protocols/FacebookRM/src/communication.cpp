@@ -79,7 +79,7 @@ http::response facebook_client::sendRequest(HttpRequest *request)
 	parent->debugLogA("@@@ Sending request to '%s'", request->m_szUrl.c_str());
 
 	// Send the request	
-	NETLIBHTTPREQUEST *pnlhr = request->Send(handle_);
+	NLHR_PTR pnlhr(request->Send(handle_));
 
 	// Remember the persistent connection handle (or not)
 	switch (request->Persistent) {
@@ -103,8 +103,6 @@ http::response facebook_client::sendRequest(HttpRequest *request)
 		store_headers(&resp, pnlhr->headers, pnlhr->headersCount);
 		resp.code = pnlhr->resultCode;
 		resp.data = pnlhr->pData ? pnlhr->pData : "";
-
-		Netlib_FreeHttpRequest(pnlhr);
 	}
 	else {
 		parent->debugLogA("!!! No response from server (time-out)");
@@ -1114,7 +1112,7 @@ bool facebook_client::save_url(const std::string &url, const std::wstring &filen
 	req.nlc = nlc;
 
 	bool ret = false;
-	NETLIBHTTPREQUEST *resp = Netlib_HttpTransaction(handle_, &req);
+	NLHR_PTR resp(Netlib_HttpTransaction(handle_, &req));
 	if (resp) {
 		nlc = resp->nlc;
 		parent->debugLogA("@@@ Saving URL %s to file %s", url.c_str(), _T2A(filename.c_str()));
@@ -1132,8 +1130,6 @@ bool facebook_client::save_url(const std::string &url, const std::wstring &filen
 
 			ret = _waccess(filename.c_str(), 0) == 0;
 		}
-
-		Netlib_FreeHttpRequest(resp);
 	}
 	else nlc = nullptr;
 

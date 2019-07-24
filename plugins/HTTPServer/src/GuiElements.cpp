@@ -151,7 +151,7 @@ unsigned long GetExternIP(const char *szURL, const char *szPattern)
 	IN_ADDR externIP;
 	externIP.s_addr = 0;
 
-	NETLIBHTTPREQUEST *nlreply = Netlib_HttpTransaction(hNetlibUser, &nlhr);
+	NLHR_PTR nlreply(Netlib_HttpTransaction(hNetlibUser, &nlhr));
 	if (nlreply) {
 		if (nlreply->resultCode >= 200 && nlreply->resultCode < 300) {
 			nlreply->pData[nlreply->dataLength] = 0;// make sure its null terminated
@@ -171,7 +171,6 @@ unsigned long GetExternIP(const char *szURL, const char *szPattern)
 			if ((externIP.s_addr = inet_addr(pszIp)) == INADDR_NONE)
 				externIP.s_addr = 0;
 		}
-		Netlib_FreeHttpRequest(nlreply);
 	}
 	::SetCursor(hPrevCursor);
 	return ntohl(externIP.s_addr);

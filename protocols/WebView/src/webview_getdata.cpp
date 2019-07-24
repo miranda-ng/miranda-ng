@@ -134,7 +134,7 @@ void GetData(void *param)
 		db_set_ws(hContact, "CList", "StatusMsg", TranslateT("Updating..."));
 		g_plugin.setWord(hContact, "Status", ID_STATUS_DND); // download 
 
-		NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(hNetlibUser, &nlhr);
+		NLHR_PTR nlhrReply(Netlib_HttpTransaction(hNetlibUser, &nlhr));
 		if (nlhrReply) {
 			if (nlhrReply->resultCode < 200 || nlhrReply->resultCode >= 300) {
 				g_plugin.setWord(hContact, "Status", ID_STATUS_AWAY);
@@ -168,8 +168,6 @@ void GetData(void *param)
 			DownloadSuccess = 0;
 		else if (nlhrReply)
 			DownloadSuccess = 1;
-
-		Netlib_FreeHttpRequest(nlhrReply);
 
 		if (DownloadSuccess)
 			SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Download successful; about to process data..."));

@@ -392,7 +392,7 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 			nlbhHeaders[0].szName = "User-Agent";		nlbhHeaders[0].szValue = (LPSTR)MSN_USER_AGENT;
 			nlbhHeaders[1].szName = "Authorization";	nlbhHeaders[1].szValue = (char*)pszSkypeToken;
 
-			NETLIBHTTPREQUEST nlhr = { 0 }, *nlhrReply;
+			NETLIBHTTPREQUEST nlhr = {};
 			nlhr.cbSize = sizeof(nlhr);
 			nlhr.requestType = REQUEST_GET;
 			nlhr.flags = NLHRF_PERSISTENT;
@@ -402,7 +402,7 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 			nlhr.nlc = hHttpsConnection;
 
 			mHttpsTS = clock();
-			nlhrReply = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
+			NLHR_PTR nlhrReply(Netlib_HttpTransaction(m_hNetlibUser, &nlhr));
 			mHttpsTS = clock();
 			if (nlhrReply) {
 				hHttpsConnection = nlhrReply->nlc;
@@ -416,8 +416,6 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 						fileSize = _atoi64(pLength);
 					}
 				}
-
-				Netlib_FreeHttpRequest(nlhrReply);
 			}
 			else hHttpsConnection = nullptr;
 

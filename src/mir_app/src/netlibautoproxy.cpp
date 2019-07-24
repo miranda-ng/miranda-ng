@@ -59,7 +59,7 @@ static void GetFile(char *szUrl, AUTO_PROXY_SCRIPT_BUFFER &buf)
 	nlhr.szUrl = szUrl;
 
 	// download the page
-	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(&nlu, &nlhr);
+	NLHR_PTR nlhrReply(Netlib_HttpTransaction(&nlu, &nlhr));
 	if (nlhrReply) {
 		if (nlhrReply->resultCode == 200) {
 			buf.lpszScriptBuffer = nlhrReply->pData;
@@ -68,7 +68,6 @@ static void GetFile(char *szUrl, AUTO_PROXY_SCRIPT_BUFFER &buf)
 			nlhrReply->dataLength = 0;
 			nlhrReply->pData = nullptr;
 		}
-		Netlib_FreeHttpRequest(nlhrReply);
 	}
 }
 

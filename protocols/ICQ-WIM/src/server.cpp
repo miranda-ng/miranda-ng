@@ -417,7 +417,7 @@ bool CIcqProto::RefreshRobustToken()
 	CMStringA szAgent(FORMAT, "%S Mail.ru Windows ICQ (version 10.0.1999)", (wchar_t*)m_szOwnId);
 	tmp->AddHeader("User-Agent", szAgent);
 
-	NETLIBHTTPREQUEST *reply = Netlib_HttpTransaction(m_hNetlibUser, tmp);
+	NLHR_PTR reply(Netlib_HttpTransaction(m_hNetlibUser, tmp));
 	if (reply != nullptr) {
 		m_ConnPool[CONN_RAPI].s = reply->nlc;
 
@@ -434,8 +434,6 @@ bool CIcqProto::RefreshRobustToken()
 			add->pUserInfo = &bRet;
 			ExecuteRequest(add);
 		}
-
-		Netlib_FreeHttpRequest(reply);
 	}
 	else m_ConnPool[CONN_RAPI].s = nullptr;
 

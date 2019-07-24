@@ -68,7 +68,7 @@ bool GaduProto::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 	req.szUrl = szUrl;
 	req.flags = NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_REDIRECT;
 
-	NETLIBHTTPREQUEST *resp = Netlib_HttpTransaction(m_hNetlibUser, &req);
+	NLHR_PTR resp(Netlib_HttpTransaction(m_hNetlibUser, &req));
 	if (resp == nullptr) {
 		debugLogA("getAvatarFileInfo(): No response from HTTP request");
 		return false;
@@ -76,7 +76,6 @@ bool GaduProto::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 
 	if (resp->resultCode != 200 || !resp->dataLength || !resp->pData) {
 		debugLogA("getAvatarFileInfo(): Invalid response code from HTTP request");
-		Netlib_FreeHttpRequest(resp);
 		return false;
 	}
 
@@ -116,11 +115,9 @@ bool GaduProto::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 	}
 	else {
 		debugLogA("getAvatarFileInfo(): Invalid response code from HTTP request, unknown format");
-		Netlib_FreeHttpRequest(resp);
 		return false;
 	}
 
-	Netlib_FreeHttpRequest(resp);
 	return true;
 }
 
@@ -245,7 +242,7 @@ void __cdecl GaduProto::avatarrequestthread(void*)
 			req.szUrl = data->szAvatarURL;
 			req.flags = NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_REDIRECT;
 
-			NETLIBHTTPREQUEST *resp = Netlib_HttpTransaction(m_hNetlibUser, &req);
+			NLHR_PTR resp(Netlib_HttpTransaction(m_hNetlibUser, &req));
 			if (resp) {
 				if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
 					int file_fd;
@@ -272,7 +269,6 @@ void __cdecl GaduProto::avatarrequestthread(void*)
 					}
 				}
 				else debugLogA("avatarrequestthread(): Invalid response code from HTTP request");
-				Netlib_FreeHttpRequest(resp);
 			}
 			else debugLogA("avatarrequestthread(): No response from HTTP request");
 
@@ -428,10 +424,10 @@ void __cdecl GaduProto::setavatarthread(void *param)
 	req.pData = data;
 	req.dataLength = int(dataLen);
 
-	//send request
+	// send request
 	int resultSuccess = 0;
 	int needRepeat = 0;
-	NETLIBHTTPREQUEST* resp = Netlib_HttpTransaction(m_hNetlibUser, &req);
+	NLHR_PTR resp(Netlib_HttpTransaction(m_hNetlibUser, &req));
 	if (resp) {
 		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
 			debugLogA("setavatarthread(): 1 resp.data= %s", resp->pData);
@@ -443,13 +439,12 @@ void __cdecl GaduProto::setavatarthread(void *param)
 				needRepeat = 1;
 			}
 		}
-		Netlib_FreeHttpRequest(resp);
 	}
 	else {
 		debugLogA("setavatarthread(): No response from HTTP request");
 	}
 
-	//check if we should repeat request
+	// check if we should repeat request
 	if (needRepeat) {
 		// Access Token expired - force obtain new
 		oauth_checktoken(1);
@@ -468,15 +463,13 @@ void __cdecl GaduProto::setavatarthread(void *param)
 		req.pData = data;
 		req.dataLength = int(dataLen);
 
-		resp = Netlib_HttpTransaction(m_hNetlibUser, &req);
+		NLHR_PTR resp(Netlib_HttpTransaction(m_hNetlibUser, &req));
 		if (resp) {
 			if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
 				debugLogA("setavatarthread(): 2 resp.data= %s", resp->pData);
 				resultSuccess = 1;
 			}
 			else debugLogA("setavatarthread(): Invalid response code from HTTP request [%d]", resp->resultCode);
-
-			Netlib_FreeHttpRequest(resp);
 		}
 		else debugLogA("setavatarthread(): No response from HTTP request");
 	}

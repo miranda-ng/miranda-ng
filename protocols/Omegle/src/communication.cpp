@@ -79,7 +79,7 @@ http::response Omegle_client::flap(const int request_type, std::string *post_dat
 	parent->debugLogA("@@@@@ Sending request to '%s'", nlhr.szUrl);
 
 	// Send the request	
-	NETLIBHTTPREQUEST *pnlhr = Netlib_HttpTransaction(handle_, &nlhr);
+	NLHR_PTR pnlhr(Netlib_HttpTransaction(handle_, &nlhr));
 
 	mir_free(nlhr.headers);
 
@@ -113,8 +113,6 @@ http::response Omegle_client::flap(const int request_type, std::string *post_dat
 		}
 
 		parent->debugLogA("&&&&& Got response: %s", resp.data.c_str());
-
-		Netlib_FreeHttpRequest(pnlhr);
 	}
 	else {
 		parent->debugLogA("!!!!! No response from server (time-out)");

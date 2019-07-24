@@ -715,7 +715,7 @@ private:
 		request.flags = NLHRF_REDIRECT | NLHRF_HTTP11;
 		request.szUrl = JABBER_SERVER_URL;
 
-		NETLIBHTTPREQUEST *result = Netlib_HttpTransaction(wnd->GetProto()->m_hNetlibUser, &request);
+		NLHR_PTR result(Netlib_HttpTransaction(wnd->GetProto()->m_hNetlibUser, &request));
 		if (result) {
 			if (result->resultCode == 200 && result->dataLength && result->pData) {
 				TiXmlDocument doc;
@@ -725,7 +725,6 @@ private:
 					bIsError = false;
 				}
 			}
-			Netlib_FreeHttpRequest(result);
 		}
 
 		if (bIsError)
@@ -1600,7 +1599,7 @@ private:
 		request.flags = NLHRF_HTTP11;
 		request.szUrl = JABBER_SERVER_URL;
 
-		NETLIBHTTPREQUEST *result = Netlib_HttpTransaction(wnd->GetProto()->m_hNetlibUser, &request);
+		NLHR_PTR result(Netlib_HttpTransaction(wnd->GetProto()->m_hNetlibUser, &request));
 		if (result && IsWindow(hwnd)) {
 			if ((result->resultCode == 200) && result->dataLength && result->pData) {
 				TiXmlDocument doc;
@@ -1614,8 +1613,6 @@ private:
 			}
 		}
 
-		if (result)
-			Netlib_FreeHttpRequest(result);
 		if (bIsError)
 			SendMessage(hwnd, WM_JABBER_REFRESH, 0, 0);
 	}

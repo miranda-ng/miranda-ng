@@ -26,7 +26,7 @@ bool CHTTPSession::OpenURL(const tstring &rsURL)
 	return true;
 }
 
-bool CHTTPSession::ReadResponce(tstring& rsResponce)
+bool CHTTPSession::ReadResponce(tstring &rsResponce)
 {
 	if (m_szUrl.IsEmpty())
 		return false;
@@ -48,7 +48,7 @@ bool CHTTPSession::ReadResponce(tstring& rsResponce)
 	nlhr.headers = headers;
 
 	bool bResult = false;
-	NETLIBHTTPREQUEST *pReply = nullptr;
+	NLHR_PTR pReply(0);
 	{
 		mir_cslock lck(m_mx);
 		pReply = Netlib_HttpTransaction(g_hNetLib, &nlhr);
@@ -65,8 +65,6 @@ bool CHTTPSession::ReadResponce(tstring& rsResponce)
 
 			bResult = true;
 		}
-
-		Netlib_FreeHttpRequest(pReply);
 	}
 	return bResult;
 }

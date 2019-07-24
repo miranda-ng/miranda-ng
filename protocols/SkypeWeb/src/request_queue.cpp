@@ -75,10 +75,9 @@ void RequestQueue::Send(HttpRequest *request, HttpResponseCallback response, voi
 
 void RequestQueue::Execute(RequestQueueItem *item)
 {
-	NETLIBHTTPREQUEST *response = item->request->Send(nlu);
+	NLHR_PTR response(item->request->Send(nlu));
 	if (item->responseCallback != nullptr)
 		item->responseCallback(response, item->arg);
-	Netlib_FreeHttpRequest(response);
 	requests.remove(item);
 	delete item;
 }

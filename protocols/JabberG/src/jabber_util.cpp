@@ -893,7 +893,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 		nlhr.szUrl = it->Url;
 		nlhr.nlc = hHttpCon;
 
-		NETLIBHTTPREQUEST *res = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
+		NLHR_PTR res(Netlib_HttpTransaction(m_hNetlibUser, &nlhr));
 		if (res) {
 			hHttpCon = res->nlc;
 			if (res->resultCode == 200 && res->dataLength) {
@@ -936,7 +936,6 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 					}
 				}
 			}
-			Netlib_FreeHttpRequest(res);
 		}
 		else hHttpCon = nullptr;
 	}

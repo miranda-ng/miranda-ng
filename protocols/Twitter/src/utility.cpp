@@ -110,16 +110,12 @@ http::response mir_twitter::slurp(const std::string &url, http::method meth, OAu
 	req.flags = NLHRF_HTTP11 | NLHRF_PERSISTENT | NLHRF_REDIRECT;
 	req.nlc = httpPOST_;
 	http::response resp_data;
-	ppro_->debugLogA("**SLURP - just before calling HTTPTRANSACTION");
-	NETLIBHTTPREQUEST *resp = Netlib_HttpTransaction(handle_, &req);
-	ppro_->debugLogA("**SLURP - HTTPTRANSACTION complete.");
+	NLHR_PTR resp(Netlib_HttpTransaction(handle_, &req));
 	if (resp) {
 		ppro_->debugLogA("**SLURP - the server has responded!");
 		httpPOST_ = resp->nlc;
 		resp_data.code = resp->resultCode;
 		resp_data.data = resp->pData ? resp->pData : "";
-
-		Netlib_FreeHttpRequest(resp);
 	}
 	else {
 		httpPOST_ = nullptr;
@@ -136,7 +132,7 @@ bool save_url(HNETLIBUSER hNetlib, const std::string &url, const std::wstring &f
 	req.flags = NLHRF_HTTP11 | NLHRF_REDIRECT;
 	req.szUrl = const_cast<char*>(url.c_str());
 
-	NETLIBHTTPREQUEST *resp = Netlib_HttpTransaction(hNetlib, &req);
+	NLHR_PTR resp(Netlib_HttpTransaction(hNetlib, &req));
 	if (resp) {
 		bool success = (resp->resultCode == 200);
 		if (success) {
@@ -150,8 +146,6 @@ bool save_url(HNETLIBUSER hNetlib, const std::string &url, const std::wstring &f
 			fwrite(resp->pData, 1, resp->dataLength, f);
 			fclose(f);
 		}
-
-		Netlib_FreeHttpRequest(resp);
 		return success;
 	}
 

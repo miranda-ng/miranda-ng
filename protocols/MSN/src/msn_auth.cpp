@@ -287,10 +287,9 @@ bool SkypeToken::Refresh(bool bForce)
 	nlhr.pData = szPOST.GetBuffer();
 
 	m_proto->mHttpsTS = clock();
-	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(m_proto->m_hNetlibUser, &nlhr);
+	NLHR_PTR nlhrReply(Netlib_HttpTransaction(m_proto->m_hNetlibUser, &nlhr));
 	m_proto->mHttpsTS = clock();
 
-	bool bRet = false;
 	if (nlhrReply) {
 		m_proto->hHttpsConnection = nlhrReply->nlc;
 
@@ -303,14 +302,13 @@ bool SkypeToken::Refresh(bool bForce)
 					if (tExpires == 0)
 						tExpires = 86400;
 					SetToken("skype_token " + szToken, time(0) + tExpires);
-					bRet = true;
+					return true;
 				}
 			}
 		}
-		Netlib_FreeHttpRequest(nlhrReply);
 	}
 	else m_proto->hHttpsConnection = nullptr;
-	return bRet;
+	return false;
 }
 
 const char* SkypeToken::XSkypetoken()
@@ -698,7 +696,7 @@ bool CMsnProto::RefreshOAuth(const char *pszRefreshToken, const char *pszService
 
 	// Query
 	mHttpsTS = clock();
-	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
+	NLHR_PTR nlhrReply(Netlib_HttpTransaction(m_hNetlibUser, &nlhr));
 	mHttpsTS = clock();
 	if (nlhrReply) {
 		hHttpsConnection = nlhrReply->nlc;
@@ -728,7 +726,6 @@ bool CMsnProto::RefreshOAuth(const char *pszRefreshToken, const char *pszService
 				}
 			}
 		}
-		Netlib_FreeHttpRequest(nlhrReply);
 	}
 	else hHttpsConnection = nullptr;
 	return bRet;

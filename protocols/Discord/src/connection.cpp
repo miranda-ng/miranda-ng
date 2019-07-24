@@ -41,15 +41,13 @@ void CDiscordProto::ExecuteRequest(AsyncHttpRequest *pReq)
 	}
 
 	debugLogA("Executing request #%d:\n%s", pReq->m_iReqNum, pReq->szUrl);
-	NETLIBHTTPREQUEST *reply = Netlib_HttpTransaction(m_hNetlibUser, pReq);
+	NLHR_PTR reply(Netlib_HttpTransaction(m_hNetlibUser, pReq));
 	if (reply != nullptr) {
 		if (pReq->m_pFunc != nullptr)
 			(this->*(pReq->m_pFunc))(reply, pReq);
 
 		if (pReq->m_bMainSite)
 			m_hAPIConnection = reply->nlc;
-
-		Netlib_FreeHttpRequest(reply);
 	}
 	else {
 		debugLogA("Request %d failed", pReq->m_iReqNum);

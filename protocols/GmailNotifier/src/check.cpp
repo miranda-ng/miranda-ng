@@ -80,18 +80,14 @@ void CheckMailInbox(Account *curAcc)
 		nlr.dataLength = szBody.GetLength();
 		nlr.pData = szBody.GetBuffer();
 
-		NETLIBHTTPREQUEST *nlu = Netlib_HttpTransaction(hNetlibUser, &nlr);
+		NLHR_PTR nlu(Netlib_HttpTransaction(hNetlibUser, &nlr));
 		if (nlu == nullptr || nlu->resultCode != 200) {
 			mir_strcpy(curAcc->results.content, Translate("Can't send account data!"));
 
-			Netlib_FreeHttpRequest(nlu);
 			curAcc->results_num = -1;
 			mir_strcat(curAcc->results.content, "]");
 			curAcc->IsChecking = false;
-			return;
 		}
-
-		Netlib_FreeHttpRequest(nlu);
 	}
 
 	// go!
@@ -115,11 +111,10 @@ void CheckMailInbox(Account *curAcc)
 	nlr.headers = headers;
 	nlr.headersCount = _countof(headers);
 
-	NETLIBHTTPREQUEST *nlu = Netlib_HttpTransaction(hNetlibUser, &nlr);
+	NLHR_PTR nlu(Netlib_HttpTransaction(hNetlibUser, &nlr));
 	if (nlu == nullptr) {
 		mir_snprintf(curAcc->results.content, "%s [%s]", szNick.get(), 
 			(nlr.resultCode == 401) ? Translate("Wrong name or password!") : Translate("Can't get RSS feed!"));
-		Netlib_FreeHttpRequest(nlu);
 
 		curAcc->results_num = -1;
 		curAcc->IsChecking = false;

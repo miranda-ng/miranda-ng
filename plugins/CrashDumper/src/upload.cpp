@@ -122,10 +122,8 @@ bool InternetDownloadFile(const char *szUrl, VerTrnsfr* szReq)
 
 	while (result == 0xBADBAD) {
 		// download the page
-		NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(hNetlibUser, &nlhr);
+		NLHR_PTR nlhrReply(Netlib_HttpTransaction(hNetlibUser, &nlhr));
 		if (nlhrReply) {
-			int i;
-
 			// if the recieved code is 200 OK
 			switch (nlhrReply->resultCode) {
 			case 200:
@@ -156,7 +154,7 @@ bool InternetDownloadFile(const char *szUrl, VerTrnsfr* szReq)
 			case 307:
 				// get the url for the new location and save it to szInfo
 				// look for the reply header "Location"
-				for (i = 0; i < nlhrReply->headersCount; i++) {
+				for (int i = 0; i < nlhrReply->headersCount; i++) {
 					if (!mir_strcmp(nlhrReply->headers[i].szName, "Location")) {
 						size_t rlen = 0;
 						if (nlhrReply->headers[i].szValue[0] == '/') {
@@ -188,8 +186,6 @@ bool InternetDownloadFile(const char *szUrl, VerTrnsfr* szReq)
 			result = 1;
 			ShowMessage(0, TranslateT("Cannot upload Version Info. Host unreachable."));
 		}
-
-		Netlib_FreeHttpRequest(nlhrReply);
 	}
 
 	mir_free(szRedirUrl);

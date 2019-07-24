@@ -62,7 +62,7 @@ bool InternetDownloadFile(const char *szUrl, char *szDest, HNETLIBCONN &hHttpDwn
 
 	while (result == 0xBADBAD) {
 		// download the page
-		NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(hNetlibUser, &nlhr);
+		NLHR_PTR nlhrReply(Netlib_HttpTransaction(hNetlibUser, &nlhr));
 		if (nlhrReply) {
 			hHttpDwnl = nlhrReply->nlc;
 			// if the recieved code is 200 OK
@@ -113,8 +113,6 @@ bool InternetDownloadFile(const char *szUrl, char *szDest, HNETLIBCONN &hHttpDwn
 			hHttpDwnl = nullptr;
 			result = 1;
 		}
-
-		Netlib_FreeHttpRequest(nlhrReply);
 	}
 
 	mir_free(szRedirUrl);

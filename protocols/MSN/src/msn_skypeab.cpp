@@ -68,7 +68,7 @@ bool CMsnProto::MSN_SKYABRefreshClist(void)
 
 	// Query addressbook
 	mHttpsTS = clock();
-	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
+	NLHR_PTR nlhrReply(Netlib_HttpTransaction(m_hNetlibUser, &nlhr));
 	mHttpsTS = clock();
 	if (nlhrReply) {
 		hHttpsConnection = nlhrReply->nlc;
@@ -107,9 +107,7 @@ bool CMsnProto::MSN_SKYABRefreshClist(void)
 				}
 			}
 			bRet = true;
-			//MSN_SKYABGetProfiles((const char*)post);
 		}
-		Netlib_FreeHttpRequest(nlhrReply);
 	}
 	else hHttpsConnection = nullptr;
 	return bRet;
@@ -130,7 +128,7 @@ bool CMsnProto::MSN_SKYABGetProfiles(const char *pszPOST)
 	nlhr.pData = (char*)pszPOST;
 
 	mHttpsTS = clock();
-	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
+	NLHR_PTR nlhrReply(Netlib_HttpTransaction(m_hNetlibUser, &nlhr));
 	mHttpsTS = clock();
 	if (nlhrReply) {
 		hHttpsConnection = nlhrReply->nlc;
@@ -163,7 +161,6 @@ bool CMsnProto::MSN_SKYABGetProfiles(const char *pszPOST)
 			json_delete(items);
 			bRet = true;
 		}
-		Netlib_FreeHttpRequest(nlhrReply);
 	}
 	else hHttpsConnection = nullptr;
 	return bRet;
@@ -183,7 +180,7 @@ bool CMsnProto::MSN_SKYABGetProfile(const char *wlid)
 	nlhr.szUrl = szURL;
 
 	mHttpsTS = clock();
-	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
+	NLHR_PTR nlhrReply(Netlib_HttpTransaction(m_hNetlibUser, &nlhr));
 	mHttpsTS = clock();
 	if (nlhrReply) {
 		hHttpsConnection = nlhrReply->nlc;
@@ -235,7 +232,6 @@ bool CMsnProto::MSN_SKYABGetProfile(const char *wlid)
 			}
 			bRet = true;
 		}
-		Netlib_FreeHttpRequest(nlhrReply);
 	}
 	else hHttpsConnection = nullptr;
 	return bRet;
@@ -246,13 +242,14 @@ bool CMsnProto::MSN_SKYABBlockContact(const char *wlid, const char *pszAction)
 {
 	NETLIBHTTPREQUEST nlhr = { 0 };
 	NETLIBHTTPHEADER headers[4];
-	bool bRet = false;
-	char szURL[256], szPOST[128];
-
 	// initialize the netlib request
-	if (!APISkypeComRequest(&nlhr, headers)) return false;
-	nlhr.requestType = REQUEST_PUT;
+	if (!APISkypeComRequest(&nlhr, headers))
+		return false;
+	
+	char szURL[256], szPOST[128];
 	mir_snprintf(szURL, sizeof(szURL), "https://api.skype.com/users/self/contacts/%s/%s", wlid, pszAction);
+
+	nlhr.requestType = REQUEST_PUT;
 	nlhr.szUrl = szURL;
 	nlhr.headers[3].szName = "Content-type";
 	nlhr.headers[3].szValue = "application/x-www-form-urlencoded";
@@ -261,69 +258,68 @@ bool CMsnProto::MSN_SKYABBlockContact(const char *wlid, const char *pszAction)
 	nlhr.pData = szPOST;
 
 	mHttpsTS = clock();
-	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
+	NLHR_PTR nlhrReply(Netlib_HttpTransaction(m_hNetlibUser, &nlhr));
 	mHttpsTS = clock();
-	if (nlhrReply) {
-		hHttpsConnection = nlhrReply->nlc;
-		Netlib_FreeHttpRequest(nlhrReply);
-		bRet = true;
+	if (!nlhrReply) {
+		hHttpsConnection = nullptr;
+		return false;
 	}
-	else hHttpsConnection = nullptr;
-	return bRet;
+	
+	hHttpsConnection = nlhrReply->nlc;
+	return true;
 }
 
 bool CMsnProto::MSN_SKYABDeleteContact(const char *wlid)
 {
+	// initialize the netlib request
 	NETLIBHTTPREQUEST nlhr = { 0 };
 	NETLIBHTTPHEADER headers[4];
-	bool bRet = false;
-	char szURL[256];
+	if (!APISkypeComRequest(&nlhr, headers))
+		return false;
 
-	// initialize the netlib request
-	if (!APISkypeComRequest(&nlhr, headers)) return false;
-	nlhr.requestType = REQUEST_DELETE;
+	char szURL[256];
 	mir_snprintf(szURL, sizeof(szURL), "https://contacts.skype.com/contacts/v2/users/SELF/contacts/%s", wlid);
+	nlhr.requestType = REQUEST_DELETE;
 	nlhr.szUrl = szURL;
 	nlhr.headers[3].szName = "Content-type";
 	nlhr.headers[3].szValue = "application/x-www-form-urlencoded";
 	nlhr.headersCount++;
 
 	mHttpsTS = clock();
-	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
+	NLHR_PTR nlhrReply(Netlib_HttpTransaction(m_hNetlibUser, &nlhr));
 	mHttpsTS = clock();
-	if (nlhrReply) {
-		hHttpsConnection = nlhrReply->nlc;
-		Netlib_FreeHttpRequest(nlhrReply);
-		bRet = true;
+	if (!nlhrReply) {
+		hHttpsConnection = nullptr;
+		return false;
 	}
-	else hHttpsConnection = nullptr;
-	return bRet;
+
+	hHttpsConnection = nlhrReply->nlc;
+	return true;
 }
 
 // pszAction: "accept" or "decline"
 bool CMsnProto::MSN_SKYABAuthRsp(const char *wlid, const char *pszAction)
 {
+	// initialize the netlib request
 	NETLIBHTTPREQUEST nlhr = { 0 };
 	NETLIBHTTPHEADER headers[3];
-	bool bRet = false;
-	char szURL[256];
+	if (!APISkypeComRequest(&nlhr, headers))
+		return false;
 
-	// initialize the netlib request
-	if (!APISkypeComRequest(&nlhr, headers)) return false;
+	char szURL[256];
+	mir_snprintf(szURL, sizeof(szURL), "https://contacts.skype.com/contacts/v2/users/SELF/invites/%s/%s", wlid, pszAction);
 	nlhr.requestType = REQUEST_PUT;
-	mir_snprintf(szURL, sizeof(szURL),  "https://contacts.skype.com/contacts/v2/users/SELF/invites/%s/%s", wlid, pszAction);
 	nlhr.szUrl = szURL;
 
 	mHttpsTS = clock();
-	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
+	NLHR_PTR nlhrReply(Netlib_HttpTransaction(m_hNetlibUser, &nlhr));
 	mHttpsTS = clock();
-	if (nlhrReply) {
-		hHttpsConnection = nlhrReply->nlc;
-		Netlib_FreeHttpRequest(nlhrReply);
-		bRet = true;
+	if (!nlhrReply) {
+		hHttpsConnection = nullptr;
+		return false;
 	}
-	else hHttpsConnection = nullptr;
-	return bRet;
+	hHttpsConnection = nlhrReply->nlc;
+	return true;
 }
 
 bool CMsnProto::MSN_SKYABAuthRq(const char *wlid, const char *pszGreeting)
@@ -349,11 +345,10 @@ bool CMsnProto::MSN_SKYABAuthRq(const char *wlid, const char *pszGreeting)
 	nlhr.pData = (char*)(const char*)post;
 
 	mHttpsTS = clock();
-	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
+	NLHR_PTR nlhrReply(Netlib_HttpTransaction(m_hNetlibUser, &nlhr));
 	mHttpsTS = clock();
 	if (nlhrReply) {
 		hHttpsConnection = nlhrReply->nlc;
-		Netlib_FreeHttpRequest(nlhrReply);
 		return true;
 	}
 	
@@ -383,7 +378,7 @@ bool CMsnProto::MSN_SKYABSearch(const char *keyWord, HANDLE hSearch)
 	nlhr.headersCount++;
 
 	mHttpsTS = clock();
-	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
+	NLHR_PTR nlhrReply(Netlib_HttpTransaction(m_hNetlibUser, &nlhr));
 	mHttpsTS = clock();
 	if (nlhrReply) {
 		hHttpsConnection = nlhrReply->nlc;
@@ -413,7 +408,6 @@ bool CMsnProto::MSN_SKYABSearch(const char *keyWord, HANDLE hSearch)
 			ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, hSearch);
 			bRet = true;
 		}
-		Netlib_FreeHttpRequest(nlhrReply);
 	}
 	else hHttpsConnection = nullptr;
 	return bRet;

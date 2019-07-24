@@ -249,7 +249,7 @@ int CVkProto::PollServer()
 
 	debugLogA("CVkProto::PollServer (online)");
 	int iPollConnRetry = MAX_RETRIES;
-	NETLIBHTTPREQUEST *reply;
+
 	CMStringA szReqUrl(FORMAT, "https://%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s&mode=%d&version=%d", m_pollingServer, m_pollingKey, m_pollingTs, m_szAccessToken, 106, 2);
 	// see mode parametr description on https://vk.com/dev/using_longpoll (Russian version)
 	NETLIBHTTPREQUEST req = {};
@@ -265,6 +265,7 @@ int CVkProto::PollServer()
 		tLocalPoolThreadTimer = m_tPoolThreadTimer = time(0);
 	}
 
+	NLHR_PTR reply(0);
 	while ((reply = Netlib_HttpTransaction(m_hNetlibUser, &req)) == nullptr) {
 		{
 			mir_cslock lck(m_csPoolThreadTimer);
@@ -310,14 +311,12 @@ int CVkProto::PollServer()
 		|| (reply->resultCode >= 500 && reply->resultCode <= 509)) {
 		debugLogA("CVkProto::PollServer is dead. Error code - %d", reply->resultCode);
 		ClosePollingConnection();
-		Netlib_FreeHttpRequest(reply);
 		ShutdownSession();
 		return 0;
 	}
 
 	m_pollingConn = reply->nlc;
 
-	Netlib_FreeHttpRequest(reply);
 	debugLogA("CVkProto::PollServer return %d", retVal);
 	return retVal;
 }

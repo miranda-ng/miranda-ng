@@ -298,7 +298,7 @@ int GaduProto::oauth_receivetoken()
 	req.headersCount = 3;
 	req.headers = httpHeaders;
 
-	NETLIBHTTPREQUEST *resp = Netlib_HttpTransaction(m_hNetlibUser, &req);
+	NLHR_PTR resp(Netlib_HttpTransaction(m_hNetlibUser, &req));
 	if (resp) {
 		nlc = resp->nlc;
 		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
@@ -313,8 +313,6 @@ int GaduProto::oauth_receivetoken()
 			}
 		}
 		else debugLogA("oauth_receivetoken(): Invalid response code from HTTP request");
-
-		Netlib_FreeHttpRequest(resp);
 	}
 	else debugLogA("oauth_receivetoken(): No response from HTTP request");
 
@@ -342,9 +340,7 @@ int GaduProto::oauth_receivetoken()
 	req.dataLength = (int)mir_strlen(str);
 
 	resp = Netlib_HttpTransaction(m_hNetlibUser, &req);
-	if (resp)
-		Netlib_FreeHttpRequest(resp);
-	else
+	if (!resp)
 		debugLogA("oauth_receivetoken(): No response from HTTP request");
 
 	// 3. Obtaining an Access Token
@@ -384,7 +380,6 @@ int GaduProto::oauth_receivetoken()
 		else debugLogA("oauth_receivetoken(): Invalid response code from HTTP request");
 
 		Netlib_CloseHandle(resp->nlc);
-		Netlib_FreeHttpRequest(resp);
 	}
 	else debugLogA("oauth_receivetoken(): No response from HTTP request");
 

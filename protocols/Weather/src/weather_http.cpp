@@ -73,7 +73,7 @@ int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, wchar_t **s
 		--nlhr.headersCount;
 
 	// download the page
-	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(hNetlibUser, &nlhr);
+	NLHR_PTR nlhrReply(Netlib_HttpTransaction(hNetlibUser, &nlhr));
 	if (nlhrReply == nullptr) {
 		// if the data does not downloaded successfully (ie. disconnected), then return 1000 as error code
 		*szData = (wchar_t*)mir_alloc(512);
@@ -140,7 +140,6 @@ int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, wchar_t **s
 	}
 
 	// make a copy of the retrieved data, then free the memory of the http reply
-	Netlib_FreeHttpRequest(nlhrReply);
 	return result;
 }
 

@@ -796,22 +796,14 @@ int CMsnProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 			ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, seq, errMsg, this));
 		}
 		else {
-			// MSNP24 doesn't have a switchboard anymore
-			bool isOffline = true;
-			ThreadData *thread = nullptr;
-
-			if (thread == nullptr) {
-				if (isOffline) {
-					if (netId != NETID_LCS) {
-						seq = msnNsThread->sendMessage('1', tEmail, netId, msg, rtlFlag | MSG_OFFLINE);
-						ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, seq, nullptr, this));
-					}
-					else {
-						seq = 999993;
-						errMsg = Translate("Offline messaging is not allowed for LCS contacts");
-						ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, seq, errMsg, this));
-					}
-				}
+			if (netId != NETID_LCS) {
+				seq = msnNsThread->sendMessage('1', tEmail, netId, msg, rtlFlag | MSG_OFFLINE);
+				ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, seq, nullptr, this));
+			}
+			else {
+				seq = 999993;
+				errMsg = Translate("Offline messaging is not allowed for LCS contacts");
+				ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, seq, errMsg, this));
 			}
 		}
 		break;

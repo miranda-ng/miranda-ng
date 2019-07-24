@@ -59,7 +59,7 @@ void CSendHost_Imgur::SendThread(void* obj)
 {
 	CSendHost_Imgur *self = (CSendHost_Imgur*)obj;
 	// send DATA and wait for m_nlreply
-	NETLIBHTTPREQUEST *reply = Netlib_HttpTransaction(g_hNetlibUser, &self->m_nlhr);
+	NLHR_PTR reply(Netlib_HttpTransaction(g_hNetlibUser, &self->m_nlhr));
 	self->HTTPFormDestroy(&self->m_nlhr);
 	if (reply) {
 		if (reply->dataLength) {
@@ -72,7 +72,6 @@ void CSendHost_Imgur::SendThread(void* obj)
 						self->m_URLthumb = self->m_URL;
 						self->m_URLthumb.Insert(idx, 'm');
 					}
-					Netlib_FreeHttpRequest(reply);
 					self->svcSendMsgExit(self->m_URL); return;
 				}
 				else self->Error(SS_ERR_RESPONSE, self->m_pszSendTyp, (*root)["status"].as_int(), 0);
@@ -80,8 +79,6 @@ void CSendHost_Imgur::SendThread(void* obj)
 			else self->Error(SS_ERR_RESPONSE, self->m_pszSendTyp, reply->resultCode);
 		}
 		else self->Error(SS_ERR_RESPONSE, self->m_pszSendTyp, reply->resultCode);
-
-		Netlib_FreeHttpRequest(reply);
 	}
 	else self->Error(SS_ERR_NORESPONSE, self->m_pszSendTyp, self->m_nlhr.resultCode);
 

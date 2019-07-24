@@ -61,20 +61,17 @@ bool CMsnProto::loadHttpAvatar(AvatarQueueEntry *p)
 	nlhr.headers = (NETLIBHTTPHEADER*)&nlbhHeaders;
 	nlhr.headersCount = 1;
 
-	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
+	NLHR_PTR nlhrReply(Netlib_HttpTransaction(m_hNetlibUser, &nlhr));
 	if (nlhrReply == nullptr)
 		return false;
 
-	if (nlhrReply->resultCode != 200 || nlhrReply->dataLength == 0) {
-LBL_Error:
-		Netlib_FreeHttpRequest(nlhrReply);
+	if (nlhrReply->resultCode != 200 || nlhrReply->dataLength == 0)
 		return false;
-	}
 
 	const wchar_t *szExt;
 	int fmt = ProtoGetBufferFormat(nlhrReply->pData, &szExt);
 	if (fmt == PA_FORMAT_UNKNOWN)
-		goto LBL_Error;
+		return false;
 
 	PROTO_AVATAR_INFORMATION ai = { 0 };
 	ai.format = fmt;
@@ -84,13 +81,12 @@ LBL_Error:
 
 	int fileId = _wopen(ai.filename, _O_CREAT | _O_TRUNC | _O_WRONLY | O_BINARY, _S_IREAD | _S_IWRITE);
 	if (fileId == -1)
-		goto LBL_Error;
+		return false;
 
 	_write(fileId, nlhrReply->pData, (unsigned)nlhrReply->dataLength);
 	_close(fileId);
 
 	ProtoBroadcastAck(p->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);
-	Netlib_FreeHttpRequest(nlhrReply);
 	return true;
 }
 

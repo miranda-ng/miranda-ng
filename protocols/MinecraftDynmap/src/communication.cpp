@@ -81,13 +81,12 @@ http::response MinecraftDynmapProto::sendRequest(const int request_type, std::st
 	debugLogA("@@@@@ Sending request to '%s'", nlhr.szUrl);
 
 	// Send the request	
-	NETLIBHTTPREQUEST *pnlhr = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
+	NLHR_PTR pnlhr(Netlib_HttpTransaction(m_hNetlibUser, &nlhr));
 
 	mir_free(nlhr.headers);
 
 	// Remember the persistent connection handle (or not)
-	switch (request_type)
-	{
+	switch (request_type) {
 	case MINECRAFTDYNMAP_REQUEST_HOME:
 		break;
 
@@ -110,8 +109,6 @@ http::response MinecraftDynmapProto::sendRequest(const int request_type, std::st
 		resp.data = pnlhr->pData ? pnlhr->pData : "";
 
 		// debugLogA("&&&&& Got response: %s", resp.data.c_str());
-
-		Netlib_FreeHttpRequest(pnlhr);
 	} else {
 		debugLogA("!!!!! No response from server (time-out)");
 		resp.code = HTTP_CODE_FAKE_DISCONNECTED;

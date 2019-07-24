@@ -456,14 +456,12 @@ char* PasteToWeb::SendToWeb(char* url, std::map<std::string, std::string>& heade
 
 	char *resCont = nullptr;
 	nlhr.headersCount = nHeaders;
-	NETLIBHTTPREQUEST* nlhrReply = Netlib_HttpTransaction(g_hNetlibUser, &nlhr);
+	NLHR_PTR nlhrReply(Netlib_HttpTransaction(g_hNetlibUser, &nlhr));
 	if (nlhrReply != nullptr) {
 		if (nlhrReply->resultCode == 200) {
 			resCont = nlhrReply->pData;
 			nlhrReply->pData = 0;
 		}
-
-		Netlib_FreeHttpRequest(nlhrReply);
 	}
 
 	delete[] httpHeaders;

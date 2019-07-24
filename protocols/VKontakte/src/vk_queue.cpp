@@ -64,8 +64,7 @@ bool CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		}
 
 		debugLogA("CVkProto::ExecuteRequest \n====\n%s\n====\n", pReq->szUrl);
-		NETLIBHTTPREQUEST *reply = Netlib_HttpTransaction(m_hNetlibUser, pReq);
-
+		NLHR_PTR reply(Netlib_HttpTransaction(m_hNetlibUser, pReq));
 		{
 			mir_cslock lck(m_csWorkThreadTimer);
 			if (tLocalWorkThreadTimer != m_tWorkThreadTimer) {
@@ -81,8 +80,6 @@ bool CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 
 			if (pReq->m_bApiReq)
 				m_hAPIConnection = reply->nlc;
-
-			Netlib_FreeHttpRequest(reply);
 		}
 		else if (pReq->bIsMainConn) {
 			if (IsStatusConnecting(m_iStatus))

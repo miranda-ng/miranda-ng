@@ -81,7 +81,7 @@ void GetNewsData(wchar_t *tszUrl, char **szData, MCONTACT hContact, CFeedEditor 
 	}
 
 	// download the page
-	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(hNetlibUser, &nlhr);
+	NLHR_PTR nlhrReply(Netlib_HttpTransaction(hNetlibUser, &nlhr));
 	if (nlhrReply) {
 		// if the recieved code is 200 OK
 		if (nlhrReply->resultCode == 200 && nlhrReply->dataLength > 0) {
@@ -98,8 +98,6 @@ void GetNewsData(wchar_t *tszUrl, char **szData, MCONTACT hContact, CFeedEditor 
 				GetNewsData(tszUrl, szData, hContact, pEditDlg);
 		}
 		else Netlib_LogfW(hNetlibUser, L"Code %d: Failed getting feed data %s.", nlhrReply->resultCode, tszUrl);
-		
-		Netlib_FreeHttpRequest(nlhrReply);
 	}
 	else Netlib_LogfW(hNetlibUser, L"Failed getting feed data %s, no response.", tszUrl);
 
@@ -242,7 +240,7 @@ bool DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 	nlhr.headers[3].szValue = "no-cache";
 
 	bool ret = false;
-	NETLIBHTTPREQUEST *pReply = Netlib_HttpTransaction(hNetlibUser, &nlhr);
+	NLHR_PTR pReply(Netlib_HttpTransaction(hNetlibUser, &nlhr));
 	if (pReply) {
 		if ((200 == pReply->resultCode) && (pReply->dataLength > 0)) {
 			char *date = nullptr, *size = nullptr;
@@ -294,7 +292,6 @@ bool DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 					CloseHandle(hFile);
 			}
 		}
-		Netlib_FreeHttpRequest(pReply);
 	}
 
 	mir_free(szUrl);

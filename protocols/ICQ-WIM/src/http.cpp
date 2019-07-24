@@ -172,7 +172,7 @@ bool CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 	}
 
 	bool bRet;
-	NETLIBHTTPREQUEST *reply = Netlib_HttpTransaction(m_hNetlibUser, pReq);
+	NLHR_PTR reply(Netlib_HttpTransaction(m_hNetlibUser, pReq));
 	if (reply != nullptr) {
 		if (pReq->m_conn != CONN_NONE) {
 			auto &conn = m_ConnPool[pReq->m_conn];
@@ -207,7 +207,6 @@ bool CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		if (pReq->m_pFunc != nullptr)
 			(this->*(pReq->m_pFunc))(reply, pReq);
 
-		Netlib_FreeHttpRequest(reply);
 		bRet = true;
 	}
 	else {

@@ -125,8 +125,7 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 	nlhr.headers[3].szValue = "no-cache";
 
 	bool ret = false;
-	NETLIBHTTPREQUEST *pReply = Netlib_HttpTransaction(hNetlibUser, &nlhr);
-
+	NLHR_PTR pReply(Netlib_HttpTransaction(hNetlibUser, &nlhr));
 	if (pReply) {
 		if (200 == pReply->resultCode && pReply->dataLength > 0) {
 			HANDLE hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
@@ -136,7 +135,6 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 			if (hFile)
 				CloseHandle(hFile);
 		}
-		Netlib_FreeHttpRequest(pReply);
 	}
 
 	mir_free(szUrl);

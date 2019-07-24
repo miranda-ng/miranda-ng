@@ -48,7 +48,7 @@ int InternetDownloadFile(char *szUrl)
 	nlhr.headers[nlhr.headersCount - 1].szValue = NETLIB_USER_AGENT;
 
 	// download the page
-	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(hNetlibUser, &nlhr);
+	NLHR_PTR nlhrReply(Netlib_HttpTransaction(hNetlibUser, &nlhr));
 	if (nlhrReply) {
 		// return error code if the recieved code is neither 200 OK or 302 Moved
 		if (nlhrReply->resultCode != 200 && nlhrReply->resultCode != 302)
@@ -81,7 +81,6 @@ int InternetDownloadFile(char *szUrl)
 
 	// make a copy of the retrieved data, then free the memory of the http reply
 	szInfo = szData;
-	Netlib_FreeHttpRequest(nlhrReply);
 
 	// the recieved data is empty, data was not recieved, so return an error code of 1
 	if (!mir_strcmp(szInfo, ""))  return 1;
