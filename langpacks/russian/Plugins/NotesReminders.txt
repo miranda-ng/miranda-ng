@@ -287,8 +287,6 @@ Miranda не смогла загрузить плагин Notes & Reminders из
 Дней
 [Week]
 Неделя
-[The specified time offset is invalid.]
-Указанное смещение времени неверно.
 [&Update Reminder]
 &Обновить напоминание
 [Every]

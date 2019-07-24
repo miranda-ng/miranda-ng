@@ -42,10 +42,6 @@
 Готов болтать
 [Invisible]
 Невидимый
-[On the phone]
-На телефоне
-[Out to lunch]
-Обедаю
 [Preview]
 Тест
 ;file \plugins\BASS_interface\src\Main.cpp

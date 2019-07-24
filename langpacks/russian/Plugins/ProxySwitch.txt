@@ -34,8 +34,8 @@
 Цвет текста
 [Background color]
 Цвет фона
-[Use default popup colors]
-Цвета Popup
+[Use default colors]
+Цвета по умолчанию
 [Show proxy status on change]
 Показать состояние прокси при изменении
 [Restart of Miranda NG is required.]

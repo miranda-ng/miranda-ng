@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.95.11.4
+;  Version: 0.95.11.5
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -54,6 +54,12 @@ UIN/почта:
 Участник с:
 [Last seen:]
 Последнее появление:
+[Enter ICQ Password]
+Введите пароль ICQ
+[Enter a password:]
+Введите пароль
+[Remember this session password]
+Запомнить пароль на время сеанса
 ;file \protocols\ICQ-WIM\src\groupchats.cpp
 [&Invite a user]
 &Пригласить пользователя

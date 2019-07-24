@@ -132,6 +132,8 @@ Live ID
 [&Deop user]
 &Снять с пользователя админ права
 ;file \protocols\MSN\src\msn_commands.cpp
+[%I64u bytes]
+%I64u байт(а)
 [MSN Alert]
 MSN уведомление
 ;file \protocols\MSN\src\msn_errors.cpp

@@ -158,8 +158,6 @@ Cтатус-профиль
 Цвета Windows
 [Use default colors]
 Цвета по умолчанию
-[Delay]
-Задержка
 [On left click]
 Левый щелчок
 [On right click]
@@ -184,8 +182,8 @@ Cтатус-профиль
 Успешное подключение
 [Show other messages]
 Другие
-[From popup plugin]
-Из плагина вспл. окон
+[Default]
+По умолчанию
 [Custom]
 Настроить
 [Permanent]

@@ -667,10 +667,6 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Контакт "готов болтать"
 [Invisible contacts]
 Контакт "невидимый"
-[On the phone contacts]
-Контакт "на телефоне"
-[Out to lunch contacts]
-Контакт "обедает"
 [Offline contacts]
 Отключённые контакты
 [Online contacts to whom you have a different visibility]
@@ -729,6 +725,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Занят
 [Do not disturb]
 Не беспокоить
+[Free for chat]
+Готов болтать
 [Invisible]
 Невидимый
 [Name]

@@ -181,6 +181,8 @@ URL:
 Занят
 [Do not disturb]
 Не беспокоить
+[Free for chat]
+Готов болтать
 [Invisible]
 Невидимый
 [Group: %name% %count% [%mode%]]

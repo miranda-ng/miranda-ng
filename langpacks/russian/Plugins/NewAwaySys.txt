@@ -40,6 +40,8 @@
 &Занят
 [&Do not disturb]
 Не &беспокоить
+[&Free for chat]
+&Готов болтать
 [&Invisible]
 &Невидимый
 [Autoreply format:]
@@ -213,6 +215,10 @@
 Не &беспокоить
 [Give a guy some peace, would ya?]
 Прошу не тревожить...
+[Free for chat]
+Готов болтать
+[I'm a chatbot!]
+Свободен.
 [Invisible]
 Невидимый
 [I'm hiding from the mafia.]

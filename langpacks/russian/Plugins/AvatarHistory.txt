@@ -44,10 +44,10 @@
 Цвета Windows
 [Use default colors]
 Цвета по умолчанию
-[Delay]
+[Timeout]
 Задержка
-[From popup plugin]
-Из плагина вспл. окон
+[Default]
+По умолчанию
 [Custom]
 Настроить
 [Permanent]

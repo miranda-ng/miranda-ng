@@ -104,10 +104,6 @@
 Готов болтать
 [Invisible]
 Невидимый
-[On the phone]
-На телефоне
-[Out to lunch]
-Обедаю
 [YAMN General Options]
 Основные настройки
 [TopToolBar button "Check mail"]

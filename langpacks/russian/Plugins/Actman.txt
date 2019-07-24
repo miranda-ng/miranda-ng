@@ -563,10 +563,6 @@ JUMP
 Готов болтать
 [Invisible]
 Невидимый
-[On the phone]
-На телефоне
-[Out to lunch]
-Обедаю
 [Set global status]
 Устанавливает глобальный статус
 [Switch contact list status]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.4.2.1
+;  Version: 0.4.2.4
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -142,14 +142,14 @@ URL:
 Удалить беседу
 [This will permanently delete the conversation history]
 История беседы будет необратимо удалена
+[Former]
+Бывший
 [Myself]
 Я
 [Friend]
 Друг
 [User]
 Пользователь
-[Former]
-Бывший
 [Notifications]
 Уведомления
 [%s and more (%d)]

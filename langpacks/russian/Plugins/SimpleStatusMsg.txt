@@ -259,6 +259,8 @@
 Не сейчас.
 [Give a guy some peace, would ya?]
 Прошу не тревожить...
+[I'm a chatbot!]
+Свободен.
 [Yep, I'm here.]
 Да, я здесь.
 [Nope, not here.]

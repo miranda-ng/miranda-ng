@@ -40,6 +40,8 @@
 Недоступен
 [Occupied]
 Занят
+[Free for chat]
+Готов болтать
 [Invisible]
 Невидимый
 [Occurring Events]
@@ -123,3 +125,5 @@
 %u не хочет, чтобы его беспокоили.
 [%u is occupied]
 %u занят.
+[%u is free for chat]
+%u готов болтать.

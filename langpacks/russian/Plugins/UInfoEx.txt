@@ -134,10 +134,10 @@
 Цвета Windows
 [Use default colors]
 Цвета по умолчанию
-[Delay]
+[Timeout]
 Задержка
-[From popup plugin]
-Из плагина вспл. окон
+[Default]
+По умолчанию
 [Custom]
 Настроить
 [Permanent]
@@ -502,8 +502,6 @@
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [Main]
 Главный
-[Default]
-По умолчанию
 [IM naming]
 Имя в IM
 [Timezone]

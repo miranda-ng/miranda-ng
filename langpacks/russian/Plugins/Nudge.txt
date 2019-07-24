@@ -64,10 +64,6 @@
 Готов болтать
 [Invisible]
 Невидимый
-[On the phone]
-На телефоне
-[Out to lunch]
-Обедаю
 [Shaking contact list options]
 Настройки встряски списка контактов
 [Number of moves]

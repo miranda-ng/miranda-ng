@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ConnectionNotify.dll
 ;  Plugin: Connection Notify
-;  Version: 0.1.0.5
+;  Version: 0.1.0.6
 ;  Authors: MaKaR
 ;============================================================
 [Notify with popup if some connection established]
@@ -24,8 +24,6 @@
 Настройки
 [try resolve addresses]
 преобразовывать IP-адреса в имена
-[Version:]
-Версия:
 [Show notification if no filter defined]
 Показывать уведомление, если не фильтры не определены
 [Attempt interval (ms)]
@@ -57,14 +55,20 @@
 [Remote IP:Port]
 Удалённый IP:Порт
 ;file \protocols\ConnectionNotify\src\ConnectionNotify.cpp
-[Show]
-Показать
-[Hide]
-Скрыть
+[New Connection Notification]
+уведомление о новом подключении
+;file \protocols\ConnectionNotify\src\filter.cpp
 [Always show popup]
 Всегда показывать вспл. окна
 [Never show popup]
 Никогда не показывать вспл. окна
+[First close options window]
+Сначала надо закрыть окно настроек
+;file \protocols\ConnectionNotify\src\options.cpp
+[Show]
+Показать
+[Hide]
+Скрыть
 [Status]
 Статус
 [Application]
@@ -77,8 +81,3 @@
 Действие
 [Plugins]
 Плагины
-[New Connection Notification]
-уведомление о новом подключении
-;file \protocols\ConnectionNotify\src\filter.cpp
-[First close options window]
-Сначала надо закрыть окно настроек

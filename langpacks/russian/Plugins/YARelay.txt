@@ -28,6 +28,8 @@
 Занят
 [Do not disturb]
 Не беспокоить
+[Free for chat]
+Готов болтать
 [Invisible]
 Невидимый
 [Forward messages to...]

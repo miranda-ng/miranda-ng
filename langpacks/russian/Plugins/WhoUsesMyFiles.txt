@@ -12,8 +12,8 @@
 WUMF: Текущие соединения
 [Popup delay settings]
 Настройки показа Popup
-[Popup Delay (seconds)]
-Окно видимо (секунд)
+[Timeout (seconds)]
+Задержка (секунд)
 [Background color]
 Цвет фона
 [Text color]
@@ -22,18 +22,18 @@ WUMF: Текущие соединения
 &Тест
 [Show infinitely]
 Постоянно
-[Default Popup delay]
-Как в Popup
-[Choose delay time]
-Настроить самому
+[Default]
+По умолчанию
+[Custom]
+Настроить
 [Popup color settings]
 Настройки цвета Popup
-[Use windows colors]
+[Use Windows colors]
 Цвета Windows
-[Use default Popup colors]
-Цвета Popup
-[Choose colors]
-Выбрать цвет
+[Use default colors]
+Цвета по умолчанию
+[Use custom colors]
+Настроить цвета
 [File access filter && logging settings]
 Настройки фильтров журнала
 [Log into text file]

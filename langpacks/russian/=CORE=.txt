@@ -1226,7 +1226,9 @@ Google Карты
 &Занят\tCtrl+4
 [&Do not disturb\tCtrl+5]
 Не &беспокоить\tCtrl+5
-[&Invisible\tCtrl+6]
+[&Free for chat\tCtrl+6]
+&Готов болтать\tCtrl+6
+[&Invisible\tCtrl+7]
 &Невидимый\tCtrl+6
 ;file \src\core\stdautoaway\src\options.cpp
 [Status]
@@ -1247,6 +1249,8 @@ Google Карты
 Не сейчас.
 [Give a guy some peace, would ya?]
 Прошу не тревожить...
+[I'm a chatbot!]
+Свободен.
 [Yep, I'm here.]
 Да, я здесь.
 [Nope, not here.]
@@ -1291,6 +1295,8 @@ Google Карты
 Занят
 [Do not disturb]
 Не беспокоить
+[Free for chat]
+Готов болтать
 [Invisible]
 Невидимый
 [List background]

@@ -340,6 +340,8 @@ History++ для истории окон
 Занят
 [Do not disturb]
 Не беспокоить
+[Free for chat]
+Готов болтать
 [Width]
 Ширина
 [Upper left corner]

@@ -520,10 +520,6 @@ DCC-запрос на передачу файла послан %s [%s]
 Событие: Не беспокоить
 [Event: Free for chat]
 Событие: Готов болтать
-[Event: On the phone]
-Событие: На телефоне
-[Event: Out for lunch]
-Событие: Обедаю
 [Event: Disconnect]
 Событие: Отключён
 [ALL NETWORKS]

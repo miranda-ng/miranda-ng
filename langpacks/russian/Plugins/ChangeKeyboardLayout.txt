@@ -46,18 +46,16 @@
 Цвета
 [Use default colors]
 Цвета по умолчанию
-[Windows colors]
+[Use Windows colors]
 Цвета Windows
-[Custom colors]
+[Use custom colors]
 Настроить цвета
 [Back]
 Фон
 [Text]
 Текст
 [Timeout]
-Таймаут
-[From popup plugin]
-Из плагина вспл. окон
+Задержка
 [Permanent]
 Постоянно
 [Custom]

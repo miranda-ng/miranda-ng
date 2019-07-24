@@ -81,10 +81,6 @@
 Готов болтать
 [Invisible]
 Невидимый
-[On the phone]
-На телефоне
-[Out to lunch]
-Обедаю
 [Send If Their Status changes]
 Отправлять, если они изменяют статус
 [From Offline]
@@ -103,14 +99,8 @@
 -> Готов болтать
 [To Invisible]
 -> Невидимый
-[To On the phone]
--> На телефоне
-[To Out to lunch]
--> Обедаю
 [The Message    (%d Characters)]
 Сообщение      (%d символов)
-[error......]
-ошибка......
 [Couldn't allocate enough memory]
 Не удалось выделить достаточное количество памяти
 [The Message    (0 Characters)]

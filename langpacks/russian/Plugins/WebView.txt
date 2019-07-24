@@ -132,12 +132,12 @@ URL:
 Добавить содержимое в файл
 [Save as raw data]
 
-[Popup delay]
+[Popup timeout]
 Задержка окна
 [Delay]
 Задержка
-[From popup plugin]
-Из плагина вспл. окон
+[Default]
+По умолчанию
 [Permanent]
 Постоянно
 [Preview]

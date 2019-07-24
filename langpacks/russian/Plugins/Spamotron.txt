@@ -106,9 +106,9 @@
 Контакт подтверждён
 [Challenge sent]
 Отправлен вопрос
-[Default colors]
+[Use default colors]
 Цвета по умолчанию
-[Windows colors]
+[Use Windows colors]
 Цвета Windows
 [Default timeout]
 Время по умолчанию

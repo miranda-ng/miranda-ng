@@ -38,8 +38,8 @@
 Фон
 [Text]
 Текст
-[Use Popups colors]
-Цвета Popup
+[Use default colors]
+Цвета по умолчанию
 [Use Windows colors]
 Цвета Windows
 [Delay]

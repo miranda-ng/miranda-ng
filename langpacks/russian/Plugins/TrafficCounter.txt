@@ -32,8 +32,8 @@
 Сброс на умолчания
 [Popup timeout]
 Длительность окна
-[From popup plugin]
-Из плагина вспл. окон
+[Default]
+По умолчанию
 [Custom]
 Настроить
 [Test]

@@ -575,12 +575,12 @@ VBR или нет
 Левый щелчок
 [Right click]
 Правый щелчок
-[Default colors]
-По умолчанию
-[Windows colors]
+[Use default colors]
+Цвета по умолчанию
+[Use Windows colors]
 Цвета Windows
-[Custom colors]
-Задать цвета
+[Use custom colors]
+Настроить цвета
 [artist]
 исполнитель
 [album]
