@@ -53,6 +53,7 @@ wchar_t* RemoveFormatting(const wchar_t *pszWord)
 			switch (pszWord[i+1]) {
 			case '%':
 				*d++ = '%';
+				__fallthrough;
 
 			case 'b':
 			case 'u':
@@ -184,7 +185,7 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char *pszProtoNa
 		pd.lchIcon = LoadIconEx("window", FALSE);
 
 	PROTOACCOUNT *pa = Proto_GetAccount(pszProtoName);
-	mir_snwprintf(pd.lpwzContactName, L"%s - %s", (pa == nullptr) ? _A2T(pszProtoName) : pa->tszAccountName, Clist_GetContactDisplayName(hContact));
+	mir_snwprintf(pd.lpwzContactName, L"%s - %s", (pa == nullptr) ? _A2T(pszProtoName).get() : pa->tszAccountName, Clist_GetContactDisplayName(hContact));
 	mir_wstrncpy(pd.lpwzText, TranslateW(szBuf), _countof(pd.lpwzText));
 	pd.iSeconds = g_Settings->iPopupTimeout;
 
@@ -345,7 +346,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 	return TRUE;
 }
 
-const wchar_t* my_strstri(const wchar_t* s1, const wchar_t* s2)
+const wchar_t* my_strstri(const wchar_t *s1, const wchar_t *s2)
 {
 	int i, j, k;
 	for (i = 0; s1[i]; i++)
@@ -402,10 +403,7 @@ bool IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
 
 BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 {
-	wchar_t szBuffer[4096];
-	wchar_t szLine[4096];
 	wchar_t p = '\0';
-	szBuffer[0] = '\0';
 
 	GetChatLogsFilename(si, gce->time);
 	BOOL bFileJustCreated = !PathFileExists(si->pszLogFileName);
@@ -416,17 +414,14 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 	if (!PathIsDirectory(tszFolder))
 		CreateDirectoryTreeW(tszFolder);
 
-	wchar_t szTime[100];
-	mir_wstrncpy(szTime, g_chatApi.MakeTimeStamp(g_Settings->pszTimeStampLog, gce->time), 99);
-
 	FILE *hFile = _wfopen(si->pszLogFileName, L"ab+");
 	if (hFile == nullptr)
 		return FALSE;
 
 	wchar_t szTemp[512], szTemp2[512];
-	wchar_t* pszNick = nullptr;
+	wchar_t *pszNick = nullptr;
 	if (bFileJustCreated)
-		fputws((const wchar_t*)"\377\376", hFile);		//UTF-16 LE BOM == FF FE
+		fwrite("\377\376", 1, 2, hFile); // UTF-16 LE BOM == FF FE
 	if (gce->pszNick.w) {
 		if (g_Settings->bLogLimitNames && mir_wstrlen(gce->pszNick.w) > 20) {
 			mir_wstrncpy(szTemp2, gce->pszNick.w, 20);
@@ -441,77 +436,80 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 		pszNick = szTemp;
 	}
 
+	CMStringW buf;
 	switch (gce->iType) {
 	case GC_EVENT_MESSAGE:
 	case GC_EVENT_MESSAGE | GC_EVENT_HIGHLIGHT:
 		p = '*';
-		mir_snwprintf(szBuffer, L"%s: %s", gce->pszNick.w, g_chatApi.RemoveFormatting(gce->pszText.w));
+		buf.AppendFormat(L"%s: %s", gce->pszNick.w, g_chatApi.RemoveFormatting(gce->pszText.w));
 		break;
 	case GC_EVENT_ACTION:
 	case GC_EVENT_ACTION | GC_EVENT_HIGHLIGHT:
 		p = '*';
-		mir_snwprintf(szBuffer, L"%s %s", gce->pszNick.w, g_chatApi.RemoveFormatting(gce->pszText.w));
+		buf.AppendFormat(L"%s %s", gce->pszNick.w, g_chatApi.RemoveFormatting(gce->pszText.w));
 		break;
 	case GC_EVENT_JOIN:
 		p = '>';
-		mir_snwprintf(szBuffer, TranslateT("%s has joined"), pszNick);
+		buf.AppendFormat(TranslateT("%s has joined"), pszNick);
 		break;
 	case GC_EVENT_PART:
 		p = '<';
 		if (!gce->pszText.w)
-			mir_snwprintf(szBuffer, TranslateT("%s has left"), pszNick);
+			buf.AppendFormat(TranslateT("%s has left"), pszNick);
 		else
-			mir_snwprintf(szBuffer, TranslateT("%s has left (%s)"), pszNick, g_chatApi.RemoveFormatting(gce->pszText.w));
+			buf.AppendFormat(TranslateT("%s has left (%s)"), pszNick, g_chatApi.RemoveFormatting(gce->pszText.w));
 		break;
 	case GC_EVENT_QUIT:
 		p = '<';
 		if (!gce->pszText.w)
-			mir_snwprintf(szBuffer, TranslateT("%s has disconnected"), pszNick);
+			buf.AppendFormat(TranslateT("%s has disconnected"), pszNick);
 		else
-			mir_snwprintf(szBuffer, TranslateT("%s has disconnected (%s)"), pszNick, g_chatApi.RemoveFormatting(gce->pszText.w));
+			buf.AppendFormat(TranslateT("%s has disconnected (%s)"), pszNick, g_chatApi.RemoveFormatting(gce->pszText.w));
 		break;
 	case GC_EVENT_NICK:
 		p = '^';
-		mir_snwprintf(szBuffer, TranslateT("%s is now known as %s"), gce->pszNick.w, gce->pszText.w);
+		buf.AppendFormat(TranslateT("%s is now known as %s"), gce->pszNick.w, gce->pszText.w);
 		break;
 	case GC_EVENT_KICK:
 		p = '~';
 		if (!gce->pszText.w)
-			mir_snwprintf(szBuffer, TranslateT("%s kicked %s"), gce->pszStatus.w, gce->pszNick.w);
+			buf.AppendFormat(TranslateT("%s kicked %s"), gce->pszStatus.w, gce->pszNick.w);
 		else
-			mir_snwprintf(szBuffer, TranslateT("%s kicked %s (%s)"), gce->pszStatus.w, gce->pszNick.w, g_chatApi.RemoveFormatting(gce->pszText.w));
+			buf.AppendFormat(TranslateT("%s kicked %s (%s)"), gce->pszStatus.w, gce->pszNick.w, g_chatApi.RemoveFormatting(gce->pszText.w));
 		break;
 	case GC_EVENT_NOTICE:
 		p = 'o';
-		mir_snwprintf(szBuffer, TranslateT("Notice from %s: %s"), gce->pszNick.w, g_chatApi.RemoveFormatting(gce->pszText.w));
+		buf.AppendFormat(TranslateT("Notice from %s: %s"), gce->pszNick.w, g_chatApi.RemoveFormatting(gce->pszText.w));
 		break;
 	case GC_EVENT_TOPIC:
 		p = '#';
 		if (!gce->pszNick.w)
-			mir_snwprintf(szBuffer, TranslateT("The topic is '%s'"), g_chatApi.RemoveFormatting(gce->pszText.w));
+			buf.AppendFormat(TranslateT("The topic is '%s'"), g_chatApi.RemoveFormatting(gce->pszText.w));
 		else
-			mir_snwprintf(szBuffer, TranslateT("The topic is '%s' (set by %s)"), g_chatApi.RemoveFormatting(gce->pszText.w), gce->pszNick.w);
+			buf.AppendFormat(TranslateT("The topic is '%s' (set by %s)"), g_chatApi.RemoveFormatting(gce->pszText.w), gce->pszNick.w);
 		break;
 	case GC_EVENT_INFORMATION:
 		p = '!';
-		wcsncpy_s(szBuffer, g_chatApi.RemoveFormatting(gce->pszText.w), _TRUNCATE);
+		buf = g_chatApi.RemoveFormatting(gce->pszText.w);
 		break;
 	case GC_EVENT_ADDSTATUS:
 		p = '+';
-		mir_snwprintf(szBuffer, TranslateT("%s enables '%s' status for %s"), gce->pszText.w, gce->pszStatus.w, gce->pszNick.w);
+		buf.AppendFormat(TranslateT("%s enables '%s' status for %s"), gce->pszText.w, gce->pszStatus.w, gce->pszNick.w);
 		break;
 	case GC_EVENT_REMOVESTATUS:
 		p = '-';
-		mir_snwprintf(szBuffer, TranslateT("%s disables '%s' status for %s"), gce->pszText.w, gce->pszStatus.w, gce->pszNick.w);
+		buf.AppendFormat(TranslateT("%s disables '%s' status for %s"), gce->pszText.w, gce->pszStatus.w, gce->pszNick.w);
 		break;
 	}
 
 	// formatting strings don't need to be translatable - changing them via language pack would
 	// only screw up the log format.
+	wchar_t *szTime = g_chatApi.MakeTimeStamp(g_Settings->pszTimeStampLog, gce->time);
+	CMStringW szLine;
 	if (p)
-		mir_snwprintf(szLine, L"%s %c %s\r\n", szTime, p, szBuffer);
+		szLine.Format(L"%s %c %s\r\n", szTime, p, buf.c_str());
 	else
-		mir_snwprintf(szLine, L"%s %s\r\n", szTime, szBuffer);
+		szLine.Format(L"%s %s\r\n", szTime, buf.c_str());
 
 	if (szLine[0]) {
 		fputws(szLine, hFile);
@@ -555,7 +553,7 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 	return TRUE;
 }
 
-MIR_APP_DLL(BOOL) Chat_DoEventHook(SESSION_INFO *si, int iType, const USERINFO *pUser, const wchar_t* pszText, INT_PTR dwItem)
+MIR_APP_DLL(BOOL) Chat_DoEventHook(SESSION_INFO *si, int iType, const USERINFO *pUser, const wchar_t *pszText, INT_PTR dwItem)
 {
 	if (si == nullptr)
 		return FALSE;

@@ -247,11 +247,11 @@ public:
 
 		wchar_t hdr[256];
 		if (uin && emailT[0])
-			mir_snwprintf(hdr, TranslateT("%s added you to the contact list\n%u (%s) on %s"), name, uin, emailT, acc->tszAccountName);
+			mir_snwprintf(hdr, TranslateT("%s added you to the contact list\n%u (%s) on %s"), name, uin, emailT.get(), acc->tszAccountName);
 		else if (uin)
 			mir_snwprintf(hdr, TranslateT("%s added you to the contact list\n%u on %s"), name, uin, acc->tszAccountName);
 		else
-			mir_snwprintf(hdr, TranslateT("%s added you to the contact list\n%s on %s"), name, emailT[0] ? emailT : TranslateT("(Unknown)"), acc->tszAccountName);
+			mir_snwprintf(hdr, TranslateT("%s added you to the contact list\n%s on %s"), name, emailT[0] ? emailT.get() : TranslateT("(Unknown)"), acc->tszAccountName);
 		SetDlgItemText(m_hwnd, IDC_HEADERBAR, hdr);
 
 		if (m_hContact == INVALID_CONTACT_ID || !db_get_b(m_hContact, "CList", "NotOnList", 0))
@@ -325,7 +325,7 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 	if (dbei.eventType == EVENTTYPE_AUTHREQUEST) {
 		Skin_PlaySound("AuthRequest");
 		if (szUid)
-			mir_snwprintf(szTooltip, TranslateT("%s requests authorization"), szUid);
+			mir_snwprintf(szTooltip, TranslateT("%s requests authorization"), szUid.get());
 		else
 			mir_snwprintf(szTooltip, TranslateT("%u requests authorization"), *(PDWORD)dbei.pBlob);
 
@@ -336,7 +336,7 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 	else if (dbei.eventType == EVENTTYPE_ADDED) {
 		Skin_PlaySound("AddedEvent");
 		if (szUid)
-			mir_snwprintf(szTooltip, TranslateT("%s added you to their contact list"), szUid);
+			mir_snwprintf(szTooltip, TranslateT("%s added you to their contact list"), szUid.get());
 		else
 			mir_snwprintf(szTooltip, TranslateT("%u added you to their contact list"), *(PDWORD)dbei.pBlob);
 
