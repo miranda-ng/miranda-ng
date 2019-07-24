@@ -15,7 +15,7 @@ set PROJECT=mRadio
 if not exist %OUTDIR% mkdir %OUTDIR%
 md tmp
 
-rem brcc32.exe mradio.rc -fomradio.res
+brcc32.exe mradio.rc -fomradio.res
 
 rc version.rc
 
