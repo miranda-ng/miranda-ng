@@ -199,26 +199,6 @@ EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddTrayMenuItem(TMO_MenuItem *pmi);
 #define ME_CLIST_PREBUILDTRAYMENU "CList/PreBuildTrayMenu"
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// sets the service to call when a contact is double-clicked
-// contactType is one or more of the constants below
-// pszService is called with wParam = hContact, lParam = 0
-// pszService will only be called if there is no outstanding event on the
-// selected contact
-// returns 0 on success, nonzero on failure
-// in case of conflicts, the first module to have registered will get the
-// double click, no others will. This service will return success even for
-// duplicates.
-
-typedef struct {
-	int cbSize;
-	char *pszContactOwner;	//name of protocol owning contact, or NULL for all
-	DWORD flags;			//any of the CMIF_NOT... flags above
-	char *pszService;		//service to call on double click
-} CLISTDOUBLECLICKACTION;
-
-#define MS_CLIST_SETDOUBLECLICKACTION   "CList/SetDoubleClickAction"
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // wParam = (WPARAM)hContact
 // lParam = 0
 // 

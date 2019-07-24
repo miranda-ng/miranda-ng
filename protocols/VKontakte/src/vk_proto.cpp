@@ -454,7 +454,7 @@ void CVkProto::MsgPopup(const wchar_t *wszMsg, const wchar_t *wszTitle, bool err
 void  CVkProto::InitDBCustomEvents()
 {
 	// custom event
-	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
+	DBEVENTTYPEDESCR dbEventType = {};
 	dbEventType.module = m_szModuleName;
 	dbEventType.flags = DETF_HISTORY | DETF_MSGWINDOW;
 

@@ -8,7 +8,7 @@ void CSteamProto::OnModulesLoaded()
 	HookProtoEvent(ME_MSG_PRECREATEEVENT, &CSteamProto::OnPreCreateMessage);
 
 	// Register custom db event
-	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
+	DBEVENTTYPEDESCR dbEventType = {};
 	dbEventType.module = m_szModuleName;
 	dbEventType.eventType = EVENTTYPE_STEAM_CHATSTATES;
 	dbEventType.descr = "Chat state notifications";

@@ -289,7 +289,7 @@ void CJabberProto::OnModulesLoaded()
 	HookProtoEvent(ME_MSG_ICONPRESSED, &CJabberProto::OnProcessSrmmIconClick);
 	HookProtoEvent(ME_MSG_WINDOWEVENT, &CJabberProto::OnProcessSrmmEvent);
 
-	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
+	DBEVENTTYPEDESCR dbEventType = {};
 	dbEventType.module = m_szModuleName;
 	dbEventType.eventType = EVENTTYPE_JABBER_CHATSTATES;
 	dbEventType.descr = "Chat state notifications";

@@ -291,7 +291,7 @@ void TwitterProto::OnModulesLoaded()
 	gcr.iMaxText = 159;
 	Chat_Register(&gcr);
 
-	DBEVENTTYPEDESCR evt = { sizeof(evt) };
+	DBEVENTTYPEDESCR evt = {};
 	evt.eventType = TWITTER_DB_EVENT_TYPE_TWEET;
 	evt.module = m_szModuleName;
 	evt.descr = "Tweet";

@@ -100,7 +100,7 @@ FacebookProto::FacebookProto(const char* proto_name, const wchar_t* username) :
 	// register special type of event
 	// there's no need to declare the special service for getting text
 	// because a blob contains only text
-	DBEVENTTYPEDESCR evtype = { sizeof(evtype) };
+	DBEVENTTYPEDESCR evtype = {};
 	evtype.module = m_szModuleName;
 	evtype.eventType = FACEBOOK_EVENTTYPE_CALL;
 	evtype.descr = LPGEN("Video call");

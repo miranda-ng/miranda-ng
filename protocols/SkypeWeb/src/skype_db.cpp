@@ -117,7 +117,7 @@ void CSkypeProto::InitDBEvents()
 	db_set_resident(m_szModuleName, "LastAuthRequestTime");
 
 	// custom event
-	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
+	DBEVENTTYPEDESCR dbEventType = {};
 	dbEventType.module = m_szModuleName;
 	dbEventType.flags = DETF_HISTORY | DETF_MSGWINDOW;
 	dbEventType.iconService = MODULE "/GetEventIcon";

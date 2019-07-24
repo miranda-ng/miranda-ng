@@ -51,14 +51,13 @@ void UnloadEventsModule()
 
 MIR_APP_DLL(int) DbEvent_RegisterType(DBEVENTTYPEDESCR *et)
 {
-	if (et == nullptr || et->cbSize != sizeof(DBEVENTTYPEDESCR))
+	if (et == nullptr)
 		return -1;
 
 	if (eventTypes.getIndex(et) != -1)
 		return -1;
 
 	DBEVENTTYPEDESCR *p = (DBEVENTTYPEDESCR*)mir_calloc(sizeof(DBEVENTTYPEDESCR));
-	p->cbSize = sizeof(DBEVENTTYPEDESCR);
 	p->module = mir_strdup(et->module);
 	p->eventType = et->eventType;
 	p->descr = mir_strdup(et->descr);

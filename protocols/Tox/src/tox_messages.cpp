@@ -2,7 +2,7 @@
 
 void CToxProto::InitCustomDbEvents()
 {
-	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
+	DBEVENTTYPEDESCR dbEventType = {};
 	dbEventType.module = m_szModuleName;
 	dbEventType.flags = DETF_HISTORY | DETF_MSGWINDOW;
 
