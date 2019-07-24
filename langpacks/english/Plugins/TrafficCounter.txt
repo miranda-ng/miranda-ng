@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TrafficCounter.dll
 ;  Plugin: Traffic counter
-;  Version: 0.1.1.8
+;  Version: 0.1.1.9
 ;  Authors: Ghost, Mironych
 ;============================================================
 [Adding traffic and time counters.]
@@ -19,7 +19,7 @@
 [Text color:]
 [Reset to default]
 [Popup timeout]
-[From popup plugin]
+[Default]
 [Custom]
 [Test]
 [Show now]
@@ -71,11 +71,11 @@
 [Couldn't read statistics file]
 [Traffic Counter]
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp
-[Font]
-[Show/Hide frame]
-[Hide traffic window]
-[Clear the current (Now:) value]
 [Toggle traffic counter]
 [Traffic counter notification]
 [%d kilobytes sent]
 [%d kilobytes received]
+[Font]
+[Show/Hide frame]
+[Hide traffic window]
+[Clear the current (Now:) value]

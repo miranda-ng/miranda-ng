@@ -621,8 +621,6 @@
 [&Do not disturb\tCtrl+5]
 [&Free for chat\tCtrl+6]
 [&Invisible\tCtrl+7]
-[On the &phone\tCtrl+8]
-[Out to &lunch\tCtrl+9]
 ;file \src\core\stdautoaway\src\options.cpp
 [Status]
 [Idle]
@@ -638,8 +636,6 @@
 [Yep, I'm here.]
 [Nope, not here.]
 [I'm hiding from the mafia.]
-[That'll be the phone.]
-[Mmm... food.]
 [idleeeeeeee]
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
@@ -662,8 +658,6 @@
 [Do not disturb]
 [Free for chat]
 [Invisible]
-[Out to lunch]
-[On the phone]
 [List background]
 ;file \src\core\stdclist\src\clistopts.cpp
 [Global]
@@ -1441,6 +1435,7 @@
 [Move to group]
 [On]
 [Off]
+[Password]
 [Unused]
 [Frames]
 [Add group]

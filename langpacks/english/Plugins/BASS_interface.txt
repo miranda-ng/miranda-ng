@@ -24,8 +24,6 @@
 [Do not disturb]
 [Free for chat]
 [Invisible]
-[On the phone]
-[Out to lunch]
 [Preview]
 ;file \plugins\BASS_interface\src\Main.cpp
 [Un4seen's BASS version: %d.%d.%d.%d]

@@ -42,7 +42,6 @@
 [Attempt to create database '%s' failed with error code %d]
 ;file \plugins\Db3x_mmap\src\ui.cpp
 [Logo]
-[Password]
 [Too many errors!]
 [Password is not correct!]
 [Please type in your password]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.13
+;  Version: 3.5.0.14
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -87,7 +87,7 @@
 [Background]
 [Timeout (seconds, 0 = default, -1 = no timeout)]
 [Message]
-[Default colors]
+[Use default colors]
 [Others]
 [Preview]
 [Group chats]
@@ -212,21 +212,20 @@
 [Windows Aero settings]
 [Use Aero UI elements (only when not using a custom skin)]
 [Use Windows 7 task bar enhancements (restart required)]
-[Popups]
+[Colors]
 [...is &typing]
 [...stopped t&yping]
-[Back]
-[U&se Popup colors]
-[&Use Windows colors]
+[Use &default colors]
+[Use &Windows colors]
 [Only &one popup for each contact]
 [Show &entry in the main menu]
 [...is typing]
-[From popup plugin]
+[Default]
 [From protocol]
 [Permanent]
 [Custom]
 [...stopped typing]
-[Popups timeout]
+[Timeout]
 [Templates]
 [Edit template]
 [Double click a template to edit it. Select a template from the list box and click "Update preview" to show a preview message.]
@@ -318,7 +317,6 @@
 [Container options...]
 [Close container]
 [Show contact picture]
-[Default]
 [Hidden for this contact]
 [Visible for this contact]
 [Contact picture settings...]
@@ -646,6 +644,7 @@
 [New messages: ]
 [Unknown module or contact]
 [Event notifications]
+[Popups]
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Rich Edit file]
 [No status message]
@@ -816,6 +815,7 @@
 [Normal - close tab, if last tab is closed also close the window]
 [Minimize the window to the task bar]
 [Close or hide window, depends on the close button setting above]
+[Do nothing (ignore Esc key)]
 [Choose status modes]
 [General]
 [Tabs and layout]

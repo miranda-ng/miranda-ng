@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.4.2.1
+;  Version: 0.4.2.4
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -199,7 +199,6 @@
 [Friendship details]
 [Conversation]
 [Message read]
-[Captcha form icon]
 [Angry]
 [Haha]
 [Like]

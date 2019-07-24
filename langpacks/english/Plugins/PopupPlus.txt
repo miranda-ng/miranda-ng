@@ -179,8 +179,6 @@
 [Occupied]
 [Do not disturb]
 [Free for chat]
-[Out to lunch]
-[On the phone]
 [Width]
 [Upper left corner]
 [Lower left corner]

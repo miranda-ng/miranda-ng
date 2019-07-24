@@ -50,8 +50,6 @@
 [&Do not disturb]
 [&Free for chat]
 [&Invisible]
-[On the &phone]
-[Out to &lunch]
 [Set my avatar...]
 [Set my nickname...]
 [Set my status message...]

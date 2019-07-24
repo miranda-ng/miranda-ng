@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.0.3
+;  Version: 0.2.1.0
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates.]
@@ -32,14 +32,14 @@
 [Convert]
 [Info provided by <a href="http://www.google.com">Google</a>]
 [Close]
-[Popup Window Settings]
+[Popup settings]
 [Colors]
 [Use default colors]
-[Use user-defined colors]
+[Use custom colors]
 [Background color]
 [Text color]
-[Delay]
-[From popup plugin]
+[Timeout]
+[Default]
 [Custom]
 [Permanent]
 [Do not add to popup's history]

@@ -266,8 +266,6 @@
 [Event: Occupied]
 [Event: Do not disturb]
 [Event: Free for chat]
-[Event: On the phone]
-[Event: Out for lunch]
 [Event: Disconnect]
 [ALL NETWORKS]
 [Click to set commands that will be performed for this event]

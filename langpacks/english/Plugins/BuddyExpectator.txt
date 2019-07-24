@@ -22,7 +22,7 @@
 [Colors]
 [Background]
 [Text]
-[Use Popups colors]
+[Use default colors]
 [Use Windows colors]
 [Delay]
 [Default]

@@ -36,8 +36,6 @@
 [Do not disturb]
 [Free for chat]
 [Invisible]
-[On the phone]
-[Out to lunch]
 [Pending Events]
 [Remind me every]
 [minutes]

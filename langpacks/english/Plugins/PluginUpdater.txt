@@ -86,15 +86,14 @@
 ;file \plugins\PluginUpdater\src\Events.cpp
 [Plugin updater URI scheme]
 ;file \plugins\PluginUpdater\src\Notifications.cpp
-;file \plugins\PluginUpdater\src\Notifications.h
-[Close popup]
-[Do nothing]
 ;file \plugins\PluginUpdater\src\Options.cpp
 [Backup database before update]
 [Stable version (incompatible with current development version)]
 [hours]
 [days]
 [Change platform to 64-bit]
+[Close popup]
+[Do nothing]
 [Test]
 [Services]
 ;file \plugins\PluginUpdater\src\PluginUpdater.cpp

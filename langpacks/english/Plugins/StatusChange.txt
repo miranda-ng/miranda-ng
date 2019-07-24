@@ -15,8 +15,6 @@
 [Do not disturb]
 [Free for chat]
 [Invisible]
-[On the phone]
-[Out to lunch]
 [On events...]
 [Send]
 [Receive]

@@ -35,8 +35,6 @@
 [Do not disturb]
 [Free for chat]
 [Invisible]
-[On the phone]
-[Out to lunch]
 [Shaking contact list options]
 [Number of moves]
 [Width of move]

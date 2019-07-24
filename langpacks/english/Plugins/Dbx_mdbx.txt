@@ -24,6 +24,10 @@
 [Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
 [Set password]
+;file \plugins\Dbx_mdbx\src\dbcrypt.cpp
+[Too many errors!]
+[Password is not correct!]
+[Please type in your password]
 ;file \plugins\Dbx_mdbx\src\dbintf.h
 [Change/remove password]
 ;file \plugins\Dbx_mdbx\src\ui.cpp
@@ -31,10 +35,5 @@
 [Password is too short!]
 [Passwords do not match!]
 [Database]
-[Compact]
-;file \plugins\Dbx_mdbx\src\ui.h
 [Logo]
-[Password]
-[Too many errors!]
-[Password is not correct!]
-[Please type in your password]
+[Compact]

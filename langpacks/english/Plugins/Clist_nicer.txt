@@ -217,8 +217,6 @@
 [Do not disturb]
 [Free for chat]
 [Invisible]
-[Out to lunch]
-[On the phone]
 [Always left]
 [Always right]
 [Automatic (RTL)]

@@ -359,8 +359,6 @@
 [Do not disturb]
 [Free for chat]
 [Invisible]
-[Out to lunch]
-[On the phone]
 [Enter]
 [Double 'Enter']
 [Ctrl+Enter]

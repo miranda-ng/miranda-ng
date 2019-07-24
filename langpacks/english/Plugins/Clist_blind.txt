@@ -96,8 +96,6 @@
 [Do not disturb]
 [Free for chat]
 [Invisible]
-[Out to lunch]
-[On the phone]
 [Group: %name% %count% [%mode%]]
 [Divider: %s]
 [Info: %s]

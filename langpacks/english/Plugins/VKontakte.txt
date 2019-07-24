@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.9.1
+;  Version: 0.1.9.2
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -105,7 +105,6 @@
 [URL:]
 [Only for friends]
 ;file \protocols\VKontakte\src\misc.cpp
-[Captcha form icon]
 [Notification icon]
 [Read message icon]
 [Visit profile icon]
@@ -160,6 +159,7 @@
 [Audio]
 [Video]
 [Link]
+[Audio message]
 [Document]
 [Wall post]
 [Product]
@@ -189,10 +189,13 @@
 [chat action not supported]
 [Unknown]
 [Enter new chat title]
+[Adding bots to MUC is not supported]
+[Not supported]
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
 [Warning]
 [You've been kicked by ]
 [Chat]
+[Kick bots is not supported]
 [&Invite a user]
 [View/change &title]
 [&Destroy room]

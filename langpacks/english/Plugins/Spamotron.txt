@@ -56,8 +56,8 @@
 [Contact blocked]
 [Contact approved]
 [Challenge sent]
-[Default colors]
-[Windows colors]
+[Use default colors]
+[Use Windows colors]
 [Default timeout]
 [Preview]
 ;file \plugins\Spamotron\src\bayes.cpp
