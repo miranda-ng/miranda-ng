@@ -477,18 +477,16 @@ typedef struct {
 //
 // Returns -1 on error (e.g., event type already registred), 0 on success
 
-typedef struct
+struct DBEVENTTYPEDESCR
 {
-	int    cbSize;      // structure size in bytes
 	LPSTR  module;      // event module name
+	DWORD  flags;       // flags, combination of the DETF_*
 	int    eventType;   // event id, unique for this module
 	LPSTR  descr;       // event type description (i.e. "File Transfer")
 	LPSTR  textService; // service name for MS_DB_EVENT_GETTEXT (0.8+, default Module+'/GetEventText'+EvtID)
 	LPSTR  iconService; // service name for MS_DB_EVENT_GETICON (0.8+, default Module+'/GetEventIcon'+EvtID)
 	HANDLE eventIcon;  // icolib handle to eventicon (0.8+, default 'eventicon_'+Module+EvtID)
-	DWORD  flags;       // flags, combination of the DETF_*
-}
-	DBEVENTTYPEDESCR;
+};
 
 // constants for default event behaviour
 #define DETF_HISTORY    1   // show event in history

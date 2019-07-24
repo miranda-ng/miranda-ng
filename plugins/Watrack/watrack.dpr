@@ -526,7 +526,6 @@ begin
   IsMultiThread:=true;
 
   // Register WATrack events
-  dbetd.cbSize     :=SizeOf(TDBEVENTTYPEDESCR);
   dbetd.module     :=PluginShort;
   dbetd.textService:=nil;
   dbetd.iconService:=nil;

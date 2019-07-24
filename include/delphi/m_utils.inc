@@ -57,13 +57,6 @@ type
 
   TDIALOGRESIZERPROC = function(hwndDlg: THANDLE; lParam: LPARAM; urc: PUTILRESIZECONTROL): int; cdecl;
 
-  PCountryListEntry = ^TCountryListEntry;
-  TCountryListEntry = record
-    id     : int;
-    szName : PAnsiChar;
-    ISOcode: array [0..2] of AnsiChar;
-  end;
-
   {
     Affect : Open a URL in the user's default web browser, see notes
     Notes  : bOpenInWindow should be zero to open the URL in the browoser window
@@ -89,48 +82,6 @@ procedure Utils_OpenUrlW(const url:PWideChar; bOpenInWindow:BYTE=1); stdcall;
 
 function Utils_ResizeDialog(hwndDlg:THANDLE; hInst:HINST; pTemplate:PAnsiChar; pFunc:TDIALOGRESIZERPROC; lParam:LPARAM=0) : int; stdcall;
                  external CoreDLL name 'Utils_ResizeDialog';
-
-  {
-    wParam : countryID
-    lParam : 0
-    Affect : Get the name of a country given it's number, e.g. 44 = UK
-    Returns: Returns a pointer to a string containing the country name on success
-             NULL(0) on failure
-    Version: v0.1.2.0+
-  }
-const
-  MS_UTILS_GETCOUNTRYBYNUMBER:PAnsiChar = 'Utils/GetCountryByNumber';
-
-  {
-    Gets the name of a country given its ISO code	v0.1.2.0+
-    wParam = (char*)ISOcode
-    lParam = 0
-    Returns a pointer to the string containing the country name on success,
-    or NULL on failure
-  }
-  MS_UTILS_GETCOUNTRYBYISOCODE:PAnsiChar = 'Utils/GetCountryByISOCode';
-
-  {
-    wParam : Pointer to an int to be filled with count  -- !TODO! test.
-    lParam : Pointer to an PCountryListEntry, see notes
-    Affect : Get the full list of country IDs, see notes
-    Returns: 0 always
-    Notes  : the list is sorted alphabetically by name, on the assumption
-             it's quicker to search numbers that are out of outer, than strings
-             that are out of order. a NULL(0) entry terminates
-             -
-             Neither wParam or lParam can be NULL(0)
-             -
-             lParam is filled with the first entry, it can be accessed as a pointer,
-             to get the next entry, increment the pointer by sizeof(Pointer) NOT
-             sizeof(TCountryList), only increment the pointer as many times as
-             given by iCount.
-             -
-             this data can NOT be copied if an array of TCountryListEntry's is passed
-             so don't try it.
-    Version: v0.1.2.0+
-  }
-  MS_UTILS_GETCOUNTRYLIST:PAnsiChar = 'Utils/GetCountryList';
 
 //******************************* Window lists *******************************
 

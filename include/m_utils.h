@@ -107,11 +107,14 @@ Neither wParam nor lParam can be NULL.
 The list is sorted alphabetically by country name, on the assumption that it's
 quicker to search numbers out of order than it is to search names out of order
 */
-struct CountryListEntry {
+
+struct CountryListEntry
+{
 	int id;
-	const char *szName;
 	char ISOcode[3];
+	const char *szName;
 };
+
 #define MS_UTILS_GETCOUNTRYLIST "Utils/GetCountryList"
 
 /////////////////////////////////////////////////////////////////////////////////////////

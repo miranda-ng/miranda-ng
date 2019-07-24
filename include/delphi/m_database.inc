@@ -275,14 +275,13 @@ Returns -1 on error (e.g., event type already registred), 0 on success
 type
   PDBEVENTTYPEDESCR = ^TDBEVENTTYPEDESCR;
   TDBEVENTTYPEDESCR = record
-    cbSize     :int;       // structure size in bytes
     module     :PAnsiChar; // event module name
+    flags      :dword;     // flags, combination of the DETF_*
     eventType  :int;       // event id, unique for this module (actually, word size)
     descr      :PAnsiChar; // event type description (i.e. "File Transfer")
     textService:PAnsiChar; // service name for MS_DB_EVENT_GETTEXT (0.8+, default Module+'/GetEventText'+EvtID)
     iconService:PAnsiChar; // service name for MS_DB_EVENT_GETICON (0.8+, default Module+'/GetEventIcon'+EvtID)
     eventIcon  :THANDLE;   // icolib handle to eventicon           (0.8+, default 'eventicon_'+Module+EvtID)
-    flags      :dword;     // flags, combination of the DETF_*
   end;
 
 const
