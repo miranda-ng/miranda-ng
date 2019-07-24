@@ -441,10 +441,10 @@ void CJabberProto::ByteSendViaProxy(JABBER_BYTE_TRANSFER *jbt)
 	WORD port = (WORD)atoi(szPort);
 	replaceStr(jbt->streamhostJID, jbt->szProxyJid);
 
-	NETLIBOPENCONNECTION nloc = { 0 };
-	nloc.cbSize = sizeof(nloc);
+	NETLIBOPENCONNECTION nloc = {};
 	nloc.szHost = szHost;
 	nloc.wPort = port;
+
 	HNETLIBCONN hConn = Netlib_OpenConnection(m_hNetlibUser, &nloc);
 	mir_free((void*)nloc.szHost);
 
@@ -608,9 +608,9 @@ void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 
 					debugLogA("bytestream_recv connecting to %s:%d", szHost, port);
 					NETLIBOPENCONNECTION nloc = { 0 };
-					nloc.cbSize = sizeof(nloc);
 					nloc.szHost = mir_strdup(szHost);
 					nloc.wPort = port;
+
 					HNETLIBCONN hConn = Netlib_OpenConnection(m_hNetlibUser, &nloc);
 					mir_free((void*)nloc.szHost);
 

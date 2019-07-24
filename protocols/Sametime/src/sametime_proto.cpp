@@ -100,7 +100,7 @@ int CSametimeProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t*
 	return 0;
 }
 
-INT_PTR CSametimeProto::GetCaps(int type, MCONTACT hContact)
+INT_PTR CSametimeProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
@@ -233,7 +233,7 @@ int CSametimeProto::SetStatus(int iNewStatus)
 	m_iDesiredStatus = iNewStatus;
 	if (iNewStatus != ID_STATUS_OFFLINE) {
 		if (m_iStatus == ID_STATUS_OFFLINE)
-			LogIn(iNewStatus, m_hNetlibUser);
+			LogIn(iNewStatus);
 		else
 			SetSessionStatus(iNewStatus);
 	}

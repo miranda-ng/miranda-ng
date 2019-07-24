@@ -321,7 +321,6 @@ EXTERN_C MIR_APP_DLL(HNETLIBBIND) Netlib_BindPort(HNETLIBUSER nlu, NETLIBBIND *n
 
 struct NETLIBOPENCONNECTION
 {
-	int cbSize;
 	const char *szHost;	  // can contain the string representation of an IP
 	WORD wPort;			  // host byte order
 	DWORD flags;

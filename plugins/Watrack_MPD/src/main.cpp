@@ -24,7 +24,7 @@ SONGINFO SongInfo = {};
 
 void Start(void*)
 {
-	NETLIBOPENCONNECTION nloc = { sizeof(nloc) };
+	NETLIBOPENCONNECTION nloc = {};
 	char *tmp = (char*)mir_u2a(gbHost);
 	nloc.szHost = tmp;
 	nloc.timeout = 5;

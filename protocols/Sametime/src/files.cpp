@@ -257,7 +257,7 @@ void mwFileTransfer_handle_ack(mwFileTransfer* ft)
 }
 
 /** optional. called from mwService_free */
-void mwFileTransfer_clear(mwServiceFileTransfer* srvc)
+void mwFileTransfer_clear(mwServiceFileTransfer*)
 {
 }
 
@@ -280,7 +280,7 @@ HANDLE CSametimeProto::SendFilesToUser(MCONTACT hContact, wchar_t** files, const
 		idb.user = id_block.user;
 		idb.community = id_block.community;
 
-		FileTransferClientData *ftcd, *prev_ftcd = nullptr, *first_ftcd = nullptr;
+		FileTransferClientData *ftcd, *prev_ftcd = nullptr;
 		mwFileTransfer *ft, *first_ft = nullptr;
 
 		for (int i = 0; files[i]; i++) {
@@ -346,7 +346,6 @@ HANDLE CSametimeProto::AcceptFileTransfer(MCONTACT hContact, HANDLE hFt, char* s
 {
 
 	mwFileTransfer* ft = (mwFileTransfer*)hFt;
-	CSametimeProto* proto = getProtoFromMwFileTransfer(ft);
 	debugLogW(L"CSametimeProto::AcceptFileTransfer() start");
 
 	FileTransferClientData* ftcd = new FileTransferClientData;
@@ -392,7 +391,6 @@ HANDLE CSametimeProto::AcceptFileTransfer(MCONTACT hContact, HANDLE hFt, char* s
 void CSametimeProto::RejectFileTransfer(HANDLE hFt)
 {
 	mwFileTransfer* ft = (mwFileTransfer*)hFt;
-	CSametimeProto* proto = getProtoFromMwFileTransfer(ft);
 	debugLogW(L"CSametimeProto::RejectFileTransfer() start");
 
 	mwFileTransfer_reject(ft);
@@ -401,7 +399,6 @@ void CSametimeProto::RejectFileTransfer(HANDLE hFt)
 void CSametimeProto::CancelFileTransfer(HANDLE hFt)
 {
 	mwFileTransfer* ft = (mwFileTransfer*)hFt;
-	CSametimeProto* proto = getProtoFromMwFileTransfer(ft);
 	debugLogW(L"CSametimeProto::CancelFileTransfer() start");
 
 	FileTransferClientData* ftcd = (FileTransferClientData*)mwFileTransfer_getClientData(ft);

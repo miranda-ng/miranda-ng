@@ -126,7 +126,6 @@ void __cdecl CMsnProto::MSNServerThread(void* arg)
 		mir_strcpy(info->mServer, MSN_DEFAULT_LOGIN_SERVER);
 
 	NETLIBOPENCONNECTION tConn = { 0 };
-	tConn.cbSize = sizeof(tConn);
 	tConn.flags = NLOCF_V2;
 	tConn.timeout = 5;
 	tConn.flags = NLOCF_SSL;

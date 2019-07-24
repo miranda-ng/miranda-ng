@@ -167,7 +167,7 @@ int CMPluginBase::Unload()
 void CMPluginBase::tryOpenLog()
 {
 	wchar_t path[MAX_PATH];
-	mir_snwprintf(path, L"%s\\%S.txt", VARSW(L"%miranda_logpath%"), m_szModuleName);
+	mir_snwprintf(path, L"%s\\%S.txt", VARSW(L"%miranda_logpath%").get(), m_szModuleName);
 	m_hLogger = mir_createLog(m_szModuleName, nullptr, path, 0);
 }
 

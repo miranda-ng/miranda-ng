@@ -52,20 +52,6 @@ const
   PROXYTYPE_HTTPS  = 4;
   PROXYTYPE_IE     = 5;
 
-  // for TNETLIBOPENCONNECTION.flags
-
-  { this connection will be useed for HTTP communications,
-  if configured for an HTTP(S) proxy the connection is opened as if there
-  was no proxy }
-  NLOCF_HTTP          = $0001;
-  { this connection should send the sticky headers associated with NetLib
-   user apart of any HTTP request}
-  NLOCF_STICKYHEADERS = $0002;
-  { this connection understands the newer structure, newer cbSize isnt enough}
-  NLOCF_V2            = $0004;
-  NLOCF_UDP           = $0008; // this connection is UDP
-  NLOCF_SSL           = $0010; // this connection is SSL
-
   // for TNETLIBHTTPPROXYINFO.flags
 
   NLHPIF_USEGETSEQUENCE      = $0001; // append sequence numbers to GET requests
@@ -114,30 +100,6 @@ const
 // done in the same type block in D2 (don't know about later versions)
 
   FD_SETSIZE = 65;
-
-type
-  twaitcallback = function(timeout:dword):integer; cdecl;
-
-  PNETLIBOPENCONNECTION = ^TNETLIBOPENCONNECTION;
-  TNETLIBOPENCONNECTION = record
-    cbSize : int;
-    szHost : PAnsiChar; // can be an IP in string form
-    wPort  : word;
-    flags  : dword; // see NLOCF_* flags
-    timeout: uint;
-    // optional, called in the context of the thread that issued the attempt,
-    // if it returns 0 the connection attempt is stopped, the remaining
-    // timeout value can also be adjusted
-    waitcallback:twaitcallback;
-  end;
-
-const
-  {$IFNDEF WIN64}
-  NETLIBOPENCONNECTION_V1_SIZE = 16;
-  {$ELSE}
-  NETLIBOPENCONNECTION_V1_SIZE = sizeof(TNETLIBOPENCONNECTION);
-  {$ENDIF}
-  // old sizeof() is 14 bytes, but there is padding of 2 bytes
 
 type
   PNETLIBHTTPHEADER = ^TNETLIBHTTPHEADER;

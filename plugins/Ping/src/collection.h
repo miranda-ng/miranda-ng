@@ -155,19 +155,16 @@ public:
 
 	virtual const bool pop(T &val)
 	{
-		if (!head) return false;
+		if (!head)
+			return false;
 
 		ListNode<T> *n = head;
-		if (head) {
-			head = head->next;
-			if (n == tail) tail = nullptr;
-			val = n->val;
-			delete n;
-			Collection<T>::count--;
-			return true;
-		}
-		else
-			return false;
+		head = head->next;
+		if (n == tail) tail = nullptr;
+		val = n->val;
+		delete n;
+		Collection<T>::count--;
+		return true;
 	}
 };
 

@@ -142,7 +142,7 @@ void __cdecl SessionAdmin(struct mwSession* session, const char* text)
 	mir_free(tt);
 }
 
-void __cdecl SessionAnnounce(struct mwSession* session, struct mwLoginInfo* from, gboolean may_reply, const char* text)
+void __cdecl SessionAnnounce(struct mwSession* session, struct mwLoginInfo* from, gboolean, const char* text)
 {
 	CSametimeProto* proto = (CSametimeProto*)mwSession_getProperty(session, "PROTO_STRUCT_PTR");
 	proto->debugLogW(L"SessionAnnounce()");
@@ -275,7 +275,7 @@ int CSametimeProto::SetSessionStatus(int status)
 	return 0;
 }
 
-VOID CALLBACK IdleTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+VOID CALLBACK IdleTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 {
 	CSametimeProto* proto = (CSametimeProto*)idEvent;
 
@@ -358,7 +358,7 @@ void __cdecl CSametimeProto::KeepAliveThread(void*)
 	return;
 }
 
-int waitcallback(unsigned int* timeout)
+int waitcallback(unsigned int*)
 {
 	return continue_connect ? 1 : 0;
 }
@@ -373,7 +373,6 @@ void __cdecl CSametimeProto::SessionThread(LPVOID)
 
 	// setup
 	NETLIBOPENCONNECTION conn_data = { 0 };
-	conn_data.cbSize = sizeof(NETLIBOPENCONNECTION);
 	conn_data.flags = NLOCF_V2;
 	conn_data.szHost = options.server_name;
 	conn_data.wPort = options.port;
@@ -470,7 +469,7 @@ WORD CSametimeProto::GetServerVersion()
 	return retval;
 }
 
-int CSametimeProto::LogIn(int ls, HANDLE hNetlibUser)
+int CSametimeProto::LogIn(int ls)
 {
 	debugLogW(L"LogIn() start");
 
@@ -483,7 +482,6 @@ int CSametimeProto::LogIn(int ls, HANDLE hNetlibUser)
 	login_status = ls;
 
 	ForkThread(&CSametimeProto::SessionThread);
-
 	return 0;
 }
 
@@ -515,7 +513,7 @@ int CSametimeProto::OnLogInRedirect(char* newHost)
 	mir_strcpy(options.server_name, newHost);
 	LogOut();
 	Sleep(50);  //wait for SessionThread end
-	LogIn(login_status, m_hNetlibUser);
+	LogIn(login_status);
 	return 0;
 
 }
@@ -543,7 +541,7 @@ void SendAnnouncement(SendAnnouncementFunc_arg* arg)
 		mwSession_sendAnnounce(proto->session, false, T2Utf(arg->msg), arg->recipients);
 }
 
-INT_PTR CSametimeProto::SessionAnnounce(WPARAM wParam, LPARAM lParam)
+INT_PTR CSametimeProto::SessionAnnounce(WPARAM, LPARAM)
 {
 	debugLogW(L"CSametimeProto::SessionAnnounce() start");
 	SessionAnnounceDialogProc_arg* sadpArg = (SessionAnnounceDialogProc_arg*)mir_calloc(sizeof(SessionAnnounceDialogProc_arg));

@@ -3,40 +3,40 @@
 
 /* Stubs, NOT IMPLEMENTED NOW */
 
-void mwServicePlace_opened(struct mwPlace* place)
+void mwServicePlace_opened(struct mwPlace*)
 {
 }
 
-void mwServicePlace_closed(struct mwPlace* place, guint32 code)
+void mwServicePlace_closed(struct mwPlace*, guint32)
 {
 }
 
-void mwServicePlace_peerJoined(struct mwPlace* place, const struct mwIdBlock* peer)
-{
-}
-
-
-void mwServicePlace_peerParted(struct mwPlace* place, const struct mwIdBlock* peer)
+void mwServicePlace_peerJoined(struct mwPlace*, const struct mwIdBlock*)
 {
 }
 
 
-void mwServicePlace_peerSetAttribute(struct mwPlace* place, const struct mwIdBlock* peer, guint32 attr, struct mwOpaque* o)
+void mwServicePlace_peerParted(struct mwPlace*, const struct mwIdBlock*)
 {
 }
 
 
-void mwServicePlace_peerUnsetAttribute(struct mwPlace* place, const struct mwIdBlock* peer, guint32 attr)
+void mwServicePlace_peerSetAttribute(struct mwPlace*, const struct mwIdBlock*, guint32, struct mwOpaque*)
 {
 }
 
 
-void mwServicePlace_message(struct mwPlace* place, const struct mwIdBlock* who, const char* msg)
+void mwServicePlace_peerUnsetAttribute(struct mwPlace*, const struct mwIdBlock*, guint32)
 {
 }
 
 
-void mwServicePlace_clear(struct mwServicePlace* srvc)
+void mwServicePlace_message(struct mwPlace*, const struct mwIdBlock*, const char*)
+{
+}
+
+
+void mwServicePlace_clear(struct mwServicePlace*)
 {
 }
 
@@ -52,16 +52,16 @@ mwPlaceHandler mwPlace_handler = {
 	mwServicePlace_clear
 };
 
-void CSametimeProto::InitPlaces(mwSession* session)
+void CSametimeProto::InitPlaces(mwSession* pSession)
 {
 	debugLogW(L"CSametimeProto::InitPlaces()");
-	mwSession_addService(session, (mwService*)(service_places = mwServicePlace_new(session, &mwPlace_handler)));
+	mwSession_addService(pSession, (mwService*)(service_places = mwServicePlace_new(pSession, &mwPlace_handler)));
 }
 
-void CSametimeProto::DeinitPlaces(mwSession* session)
+void CSametimeProto::DeinitPlaces(mwSession* pSession)
 {
 	debugLogW(L"CSametimeProto::DeinitPlaces()");
-	mwSession_removeService(session, mwService_PLACE);
+	mwSession_removeService(pSession, mwService_PLACE);
 	mwService_free((mwService*)service_places);
 	service_places = nullptr;
 }

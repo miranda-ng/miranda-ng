@@ -88,7 +88,7 @@ void mwIm_conversation_recv(mwConversation* conv, mwImSendType type, gconstpoint
 	ProtoChainRecvMsg(hContact, &pre);
 }
 
-void mwIm_place_invite(struct mwConversation* conv, const char* message, const char* title, const char* name)
+void mwIm_place_invite(struct mwConversation* conv, const char* message, const char*, const char*)
 {
 	CSametimeProto* proto = getProtoFromMwConversation(conv);
 	proto->debugLogW(L"mwIm_place_invite() start");

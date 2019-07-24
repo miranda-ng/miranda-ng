@@ -151,7 +151,6 @@ void NetlibConnFromUrl(const char *szUrl, bool secur, NETLIBOPENCONNECTION &nloc
 	if (ppath) *ppath = '\0';
 
 	memset(&nloc, 0, sizeof(nloc));
-	nloc.cbSize = sizeof(nloc);
 	nloc.szHost = szHost;
 
 	char* pcolon = strrchr(szHost, ':');

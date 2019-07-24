@@ -16,15 +16,7 @@ LRESULT CALLBACK NullWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-static INT_PTR CALLBACK sttMainThreadCallback(void *dwParam)
-{
-	POPUPDATAW* ppd = (POPUPDATAW*)dwParam;
-	PUAddPopupW(ppd);
-	free(ppd);
-	return 0;
-}
-
-void __stdcall	ShowPopup(wchar_t *line1, wchar_t *line2, int flags)
+void __stdcall	ShowPopup(wchar_t *line1, wchar_t *line2, int)
 {
 	if (Miranda_IsTerminated())
 		return;
@@ -63,8 +55,7 @@ INT_PTR PluginPing(WPARAM, LPARAM lParam)
 		clock_t start_tcp = clock();
 
 		//GetLocalTime(&systime);
-		NETLIBOPENCONNECTION conn = { 0 };
-		conn.cbSize = sizeof(NETLIBOPENCONNECTION);
+		NETLIBOPENCONNECTION conn = {};
 		conn.szHost = mir_u2a(pa->pszName);
 		conn.wPort = pa->port;
 		conn.timeout = options.ping_timeout;

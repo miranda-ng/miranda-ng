@@ -146,7 +146,7 @@ void mwServiceConf_conf_opened(mwConference* conf, GList* members)
 
 /** triggered when a conference is closed. This is typically when
   we've left it */
-void mwServiceConf_conf_closed(mwConference* conf, guint32 reason)
+void mwServiceConf_conf_closed(mwConference* conf, guint32)
 {
 	CSametimeProto* proto = getProtoFromMwConference(conf);
 	proto->debugLogW(L"mwServiceConf_conf_closed() start");
@@ -240,7 +240,7 @@ void mwServiceConf_on_text(mwConference* conf, mwLoginInfo* user, const char* wh
 }
 
 /** typing notification */
-void mwServiceConf_on_typing(mwConference* conf, mwLoginInfo* who, gboolean typing)
+void mwServiceConf_on_typing(mwConference* conf, mwLoginInfo*, gboolean)
 {
 	CSametimeProto* proto = getProtoFromMwConference(conf);
 	proto->debugLogW(L"mwServiceConf_on_typing() start");
@@ -248,7 +248,7 @@ void mwServiceConf_on_typing(mwConference* conf, mwLoginInfo* who, gboolean typi
 }
 
 /** optional. called from mwService_free */
-void mwServiceConf_clear(mwServiceConference* srvc)
+void mwServiceConf_clear(mwServiceConference*)
 {
 }
 
@@ -277,7 +277,7 @@ void CSametimeProto::TerminateConference(char* name)
 }
 
 
-int CSametimeProto::GcEventHook(WPARAM wParam, LPARAM lParam) {
+int CSametimeProto::GcEventHook(WPARAM, LPARAM lParam) {
 
 	GCHOOK* gch = (GCHOOK*)lParam;
 
@@ -333,7 +333,7 @@ int CSametimeProto::ChatDeleted(MCONTACT hContact) {
 }
 
 
-INT_PTR CSametimeProto::onMenuLeaveChat(WPARAM wParam, LPARAM lParam)
+INT_PTR CSametimeProto::onMenuLeaveChat(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = (MCONTACT)wParam;
 	debugLogW(L"CSametimeProto::onMenuLeaveChat() hContact=[%x]", hContact);
@@ -342,7 +342,7 @@ INT_PTR CSametimeProto::onMenuLeaveChat(WPARAM wParam, LPARAM lParam)
 }
 
 
-INT_PTR CSametimeProto::onMenuCreateChat(WPARAM wParam, LPARAM lParam)
+INT_PTR CSametimeProto::onMenuCreateChat(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = (MCONTACT)wParam;
 	debugLogW(L"CSametimeProto::onMenuCreateChat() hContact=[%x]", hContact);
@@ -375,7 +375,7 @@ INT_PTR CSametimeProto::onMenuCreateChat(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int CSametimeProto::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
+int CSametimeProto::PrebuildContactMenu(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = (MCONTACT)wParam;
 	debugLogW(L"CSametimeProto::PrebuildContactMenu() hContact=[%x]", hContact);

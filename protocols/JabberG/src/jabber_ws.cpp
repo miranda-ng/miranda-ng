@@ -42,7 +42,6 @@ BOOL CJabberProto::WsInit(void)
 HNETLIBCONN CJabberProto::WsConnect(char* host, WORD port)
 {
 	NETLIBOPENCONNECTION nloc = {};
-	nloc.cbSize = sizeof(nloc);
 	nloc.szHost = host;
 	nloc.wPort = port;
 	nloc.timeout = 6;

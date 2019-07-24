@@ -41,15 +41,14 @@ DWORD DnsLookup(NetlibUser *nlu, const char *szHost)
 	if (ip != INADDR_NONE)
 		return ip;
 
-	__try
-	{
+	__try {
 		host = gethostbyname(szHost);
 		if (host)
 			return *(u_long*)host->h_addr_list[0];
 
 		Netlib_Logf(nlu, "%s %d: %s() for host %s failed (%u)", __FILE__, __LINE__, "gethostbyname", szHost, WSAGetLastError());
 	}
-	__except(EXCEPTION_EXECUTE_HANDLER) {}
+	__except (EXCEPTION_EXECUTE_HANDLER) {}
 
 	return 0;
 }
@@ -83,7 +82,7 @@ int WaitUntilWritable(SOCKET s, DWORD dwTimeout)
 	FD_ZERO(&writefd);
 	FD_SET(s, &writefd);
 
-	switch(select(0, nullptr, &writefd, nullptr, &tv)) {
+	switch (select(0, nullptr, &writefd, nullptr, &tv)) {
 	case 0:
 		SetLastError(ERROR_TIMEOUT);
 	case SOCKET_ERROR:
@@ -164,7 +163,7 @@ static int NetlibInitSocks5Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 
 	buf[0] = 5;  //yep, socks5
 	buf[1] = 1;  //one auth method
-	buf[2] = nlu->settings.useProxyAuth?2:0;
+	buf[2] = nlu->settings.useProxyAuth ? 2 : 0;
 	if (Netlib_Send(nlc, (char*)buf, 3, MSG_DUMPPROXY) == SOCKET_ERROR) {
 		Netlib_Logf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "Netlib_Send", GetLastError());
 		return 0;
@@ -352,7 +351,7 @@ static bool my_connectIPv4(NetlibConnection *nlc, NETLIBOPENCONNECTION *nloc)
 	NetlibUser *nlu = nlc->nlu;
 
 	// if dwTimeout is zero then its an old style connection or new with a 0 timeout, select() will error quicker anyway
-	unsigned int dwTimeout = (nloc && (nloc->cbSize == sizeof(NETLIBOPENCONNECTION)) && (nloc->flags & NLOCF_V2) && (nloc->timeout>0)) ? nloc->timeout : 30;
+	unsigned int dwTimeout = (nloc && (nloc->flags & NLOCF_V2) && (nloc->timeout > 0)) ? nloc->timeout : 30;
 
 	// this is for XP SP2 where there is a default connection attempt limit of 10/second
 	if (connectionTimeout) {
@@ -460,7 +459,7 @@ retry:
 				lasterr = ERROR_TIMEOUT;
 				break;
 			}
-			else if (nloc->cbSize == sizeof(NETLIBOPENCONNECTION) && nloc->flags & NLOCF_V2 && nloc->waitcallback != nullptr && nloc->waitcallback(&dwTimeout) == 0) {
+			else if (nloc->flags & NLOCF_V2 && nloc->waitcallback != nullptr && nloc->waitcallback(&dwTimeout) == 0) {
 				rc = SOCKET_ERROR;
 				lasterr = ERROR_TIMEOUT;
 				break;
@@ -494,7 +493,7 @@ static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION *nloc)
 	u_long notblocking = 1;
 	DWORD lasterr = 0;
 	static const TIMEVAL tv = { 1, 0 };
-	unsigned int dwTimeout = (nloc->cbSize == sizeof(NETLIBOPENCONNECTION) && nloc->flags & NLOCF_V2) ? nloc->timeout : 0;
+	unsigned int dwTimeout = (nloc->flags & NLOCF_V2) ? nloc->timeout : 0;
 	// if dwTimeout is zero then its an old style connection or new with a 0 timeout, select() will error quicker anyway
 	if (dwTimeout == 0) dwTimeout = 30;
 
@@ -624,7 +623,7 @@ retry:
 				lasterr = ERROR_TIMEOUT;
 				break;
 			}
-			else if (nloc->cbSize == sizeof(NETLIBOPENCONNECTION) && nloc->flags & NLOCF_V2 && nloc->waitcallback != nullptr && nloc->waitcallback(&dwTimeout) == 0) {
+			else if (nloc->flags & NLOCF_V2 && nloc->waitcallback != nullptr && nloc->waitcallback(&dwTimeout) == 0) {
 				rc = SOCKET_ERROR;
 				lasterr = ERROR_TIMEOUT;
 				break;
@@ -807,7 +806,7 @@ bool NetlibReconnect(NetlibConnection *nlc)
 
 MIR_APP_DLL(HNETLIBCONN) Netlib_OpenConnection(NetlibUser *nlu, const NETLIBOPENCONNECTION *nloc)
 {
-	if (nloc == nullptr || nloc->cbSize != sizeof(NETLIBOPENCONNECTION) || nloc->szHost == nullptr || nloc->wPort == 0) {
+	if (nloc == nullptr || nloc->szHost == nullptr || nloc->wPort == 0) {
 
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return nullptr;

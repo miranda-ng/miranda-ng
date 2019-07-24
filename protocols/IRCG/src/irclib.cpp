@@ -194,8 +194,7 @@ bool CIrcProto::Connect(const CIrcSessionInfo& info)
 {
 	codepage = m_codepage;
 
-	NETLIBOPENCONNECTION ncon = { 0 };
-	ncon.cbSize = sizeof(ncon);
+	NETLIBOPENCONNECTION ncon = {};
 	ncon.szHost = info.sServer.c_str();
 	ncon.wPort = info.iPort;
 	con = Netlib_OpenConnection(m_hNetlibUser, &ncon);
@@ -883,8 +882,7 @@ int CDccSession::SetupConnection()
 	// If a remote computer initiates a chat session this is used to connect to the remote computer (user already accepted at this point). 
 	// also used for connecting to a remote computer for remote file transfers
 	if (di->iType == DCC_CHAT && !di->bSender || di->iType == DCC_SEND && di->bSender && di->bReverse) {
-		NETLIBOPENCONNECTION ncon = { 0 };
-		ncon.cbSize = sizeof(ncon);
+		NETLIBOPENCONNECTION ncon = {};
 		ncon.szHost = ConvertIntegerToIP(di->dwAdr);
 		ncon.wPort = (WORD)di->iPort;
 		con = Netlib_OpenConnection(m_proto->hNetlibDCC, &ncon);
@@ -978,8 +976,7 @@ int CDccSession::SetupConnection()
 		}
 
 		// connect to the remote computer from which you are receiving the file (now all actions to take (resume/overwrite etc) have been decided
-		NETLIBOPENCONNECTION ncon = { 0 };
-		ncon.cbSize = sizeof(ncon);
+		NETLIBOPENCONNECTION ncon = {};
 		ncon.szHost = ConvertIntegerToIP(di->dwAdr);
 		ncon.wPort = (WORD)di->iPort;
 

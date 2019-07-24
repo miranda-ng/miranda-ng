@@ -140,8 +140,7 @@ bool CDiscordProto::GatewayThreadWorker()
 	if (!mir_strncmp(m_szGateway, "wss://", 6))
 		m_szGateway.Delete(0, 6);
 
-	NETLIBOPENCONNECTION conn = { 0 };
-	conn.cbSize = sizeof(conn);
+	NETLIBOPENCONNECTION conn = {};
 	conn.szHost = m_szGateway;
 	conn.flags = NLOCF_V2 | NLOCF_SSL;
 	conn.timeout = 5;

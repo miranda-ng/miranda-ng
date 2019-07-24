@@ -36,8 +36,7 @@ void __cdecl CJabberProto::FileReceiveThread(filetransfer *ft)
 
 	ft->type = FT_OOB;
 
-	NETLIBOPENCONNECTION nloc = { 0 };
-	nloc.cbSize = sizeof(nloc);
+	NETLIBOPENCONNECTION nloc = {};
 	nloc.szHost = ft->httpHostName;
 	nloc.wPort = ft->httpPort;
 	info.s = Netlib_OpenConnection(m_hNetlibUser, &nloc);
