@@ -24,7 +24,6 @@
 #define IDC_BGCOLOR                             1011
 #define IDC_FGCOLOR                             1012
 #define IDC_STATUS                              1016
-#define IDC_VERSION                             1017
 #define ID_TXT_LOCAL_IP                         1070
 #define ID_TXT_REMOTE_IP                        1071
 #define ID_CBO_ACTION                           1074
