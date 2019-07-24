@@ -70,7 +70,7 @@
 [Append data to file]
 [Save as raw data]
 [Popup timeout]
-[Delay]
+[Timeout]
 [Default]
 [Permanent]
 [Preview]

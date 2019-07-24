@@ -19,7 +19,7 @@
 [Click action]
 [On left click]
 [On right click]
-[Delay]
+[Timeout]
 [Sec]
 [0 = Default]
 [-1 = Infinite]
