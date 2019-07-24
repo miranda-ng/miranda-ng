@@ -258,12 +258,12 @@ void HistoryHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 			else
 				str.Append(" ");
 
-			str.AppendFormat("<span class=\"%s\">%s:</span>", isSent ? "nameOut" : "nameIn", szName);
+			str.AppendFormat("<span class=\"%s\">%s:</span>", isSent ? "nameOut" : "nameIn", szName.get());
 			str.AppendFormat("<span class=\"%s\">%s</span><br>", isSent ? "timeOut" : "timeIn", timestampToString(eventData->time));
 			if (eventData->iType == IEED_EVENT_FILE)
-				str.AppendFormat("%s:<br> %s", isSent ? Translate("Outgoing File Transfer") : Translate("Incoming File Transfer"), szText);
+				str.AppendFormat("%s:<br> %s", isSent ? Translate("Outgoing File Transfer") : Translate("Incoming File Transfer"), szText.get());
 			else
-				str.AppendFormat("%s", szText);
+				str.Append(szText);
 
 			str.Append("</div>\n");
 			setLastEventType(MAKELONG(eventData->dwFlags, eventData->iType));

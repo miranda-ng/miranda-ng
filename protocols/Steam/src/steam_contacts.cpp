@@ -278,7 +278,7 @@ void CSteamProto::ContactIsRemoved(MCONTACT hContact)
 
 		ptrW nick(getWStringA(hContact, "Nick"));
 		wchar_t message[MAX_PATH];
-		mir_snwprintf(message, MAX_PATH, TranslateT("%s has been removed from your contact list"), nick);
+		mir_snwprintf(message, MAX_PATH, TranslateT("%s has been removed from your contact list"), nick.get());
 
 		ShowNotification(message);
 	}
@@ -311,7 +311,7 @@ void CSteamProto::ContactIsAskingAuth(MCONTACT hContact)
 		lastName = mir_strdup("");
 
 	char reason[MAX_PATH];
-	mir_snprintf(reason, Translate("%s has added you to contact list"), nickName);
+	mir_snprintf(reason, Translate("%s has added you to contact list"), nickName.get());
 
 	DB_AUTH_BLOB blob(hContact, nickName, firstName, lastName, steamId, reason);
 
@@ -486,7 +486,7 @@ void CSteamProto::OnGotAvatar(const HttpResponse &response, void *arg)
 
 	if (!response.IsSuccess()) {
 		ptrA steamId(getStringA(ai.hContact, "SteamID"));
-		debugLogA(__FUNCTION__ ": failed to get avatar %s", steamId);
+		debugLogA(__FUNCTION__ ": failed to get avatar %s", steamId.get());
 
 		if (ai.hContact)
 			ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)& ai, 0);
@@ -517,7 +517,7 @@ void CSteamProto::OnFriendAdded(const HttpResponse &response, void *arg)
 			who = mir_wstrdup(steamId);
 
 		wchar_t message[MAX_PATH];
-		mir_snwprintf(message, L"Error adding friend %s", who);
+		mir_snwprintf(message, L"Error adding friend %s", who.get());
 
 		JSONNode root = JSONNode::parse(response.Content);
 		if (root) {
@@ -531,19 +531,19 @@ void CSteamProto::OnFriendAdded(const HttpResponse &response, void *arg)
 						int errorCode = errors[first].as_int();
 						switch (errorCode) {
 						case 11:
-							mir_snwprintf(message, L"All communication with %s is blocked. Communication is only possible if you have lifted the blocking. To do this, visit the user's Steam Community page.", who);
+							mir_snwprintf(message, L"All communication with %s is blocked. Communication is only possible if you have lifted the blocking. To do this, visit the user's Steam Community page.", who.get());
 							break;
 						case 15:
-							mir_snwprintf(message, L"Request to %s can not be sent. His/her friends list is full.", who);
+							mir_snwprintf(message, L"Request to %s can not be sent. His/her friends list is full.", who.get());
 							break;
 						case 24:
 							mir_wstrcpy(message, L"Your account does not meet the requirements to use this feature. Visit Steam Support to get more information.");
 							break;
 						case 25:
-							mir_snwprintf(message, L"Request to %s can not be sent. Your friends list is full.", who);
+							mir_snwprintf(message, L"Request to %s can not be sent. Your friends list is full.", who.get());
 							break;
 						case 40:
-							mir_snwprintf(message, L"Error adding friend %s. The communication between you and the other Steam member is blocked.", who);
+							mir_snwprintf(message, L"Error adding friend %s. The communication between you and the other Steam member is blocked.", who.get());
 							break;
 						case 84:
 							mir_wstrcpy(message, L"You've been sending too many invitations lately. Please try again in a day or two.");
@@ -634,7 +634,7 @@ void CSteamProto::OnPendingApproved(const JSONNode &root, void *arg)
 	int success = root["success"].as_int();
 	if (success == 0) {
 		json_string error = root["error_text"].as_string();
-		debugLogA(__FUNCTION__ ": failed to approve pending from %s (%s)", steamId, ptrA(mir_utf8decodeA(error.c_str())));
+		debugLogA(__FUNCTION__ ": failed to approve pending from %s (%s)", steamId.get(), ptrA(mir_utf8decodeA(error.c_str())).get());
 	}
 }
 
@@ -648,7 +648,7 @@ void CSteamProto::OnPendingIgnoreded(const JSONNode &root, void *arg)
 	int success = root["success"].as_int();
 	if (success == 0) {
 		json_string error = root["error_text"].as_string();
-		debugLogA(__FUNCTION__ ": failed to ignore pending from %s (%s)", steamId, ptrA(mir_utf8decodeA(error.c_str())));
+		debugLogA(__FUNCTION__ ": failed to ignore pending from %s (%s)", steamId.get(), ptrA(mir_utf8decodeA(error.c_str())).get());
 	}
 }
 

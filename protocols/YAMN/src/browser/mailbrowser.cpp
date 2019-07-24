@@ -634,7 +634,7 @@ void DoMailActions(HWND hDlg, CAccount *ActualAccount, struct CMailNumbers *MN, 
 
 	if ((nflags & YAMN_ACC_CONT) && (MN->Real.PopupRun + MN->Virtual.PopupRun)) {
 		wchar_t tszMsg[250];
-		mir_snwprintf(tszMsg, TranslateT("%s : %d new mail message(s), %d total"), _A2T(ActualAccount->Name), MN->Real.PopupNC + MN->Virtual.PopupNC, MN->Real.PopupTC + MN->Virtual.PopupTC);
+		mir_snwprintf(tszMsg, TranslateT("%s : %d new mail message(s), %d total"), _A2T(ActualAccount->Name).get(), MN->Real.PopupNC + MN->Virtual.PopupNC, MN->Real.PopupTC + MN->Virtual.PopupTC);
 
 		if (!(nflags & YAMN_ACC_CONTNOEVENT)) {
 			CLISTEVENT evt = {};

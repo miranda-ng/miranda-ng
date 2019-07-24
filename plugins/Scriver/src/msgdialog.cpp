@@ -960,7 +960,7 @@ LRESULT CSrmmWindow::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 		ptrW pszWord(GetRichTextWord(m_log.GetHwnd(), &ptl));
 		if (pszWord && pszWord[0]) {
 			wchar_t szMenuText[4096];
-			mir_snwprintf(szMenuText, TranslateT("Look up '%s':"), pszWord);
+			mir_snwprintf(szMenuText, TranslateT("Look up '%s':"), pszWord.get());
 			ModifyMenu(hSubMenu, 5, MF_STRING | MF_BYPOSITION, 5, szMenuText);
 			SetSearchEngineIcons(hMenu, g_dat.hSearchEngineIconList);
 		}

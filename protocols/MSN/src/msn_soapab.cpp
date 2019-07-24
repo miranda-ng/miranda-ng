@@ -814,7 +814,7 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 				char *szCircleTicket = ezxml_txt(ezxml_get(body, "CircleResult", 0, "CircleTicket", -1));
 				ptrA szCircleTicketEnc(mir_base64_encode(szCircleTicket, mir_strlen(szCircleTicket)));
 				if (szCircleTicketEnc)
-					msnNsThread->sendPacket("USR", "SHA A %s", szCircleTicketEnc);
+					msnNsThread->sendPacket("USR", "SHA A %s", szCircleTicketEnc.get());
 			}
 
 		}

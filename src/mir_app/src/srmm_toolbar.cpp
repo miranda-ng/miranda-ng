@@ -124,7 +124,7 @@ MIR_APP_DLL(HANDLE) Srmm_AddButton(const BBButton *bbdi, HPLUGIN _hLang)
 
 	// download database settings
 	char SettingName[1024];
-	mir_snprintf(SettingName, "%s_%d", cbd->m_pszModuleName, cbd->m_dwButtonID);
+	mir_snprintf(SettingName, "%s_%d", cbd->m_pszModuleName.get(), cbd->m_dwButtonID);
 
 	DBVARIANT dbv = { 0 };
 	if (!db_get_s(0, BB_MODULE_NAME, SettingName, &dbv)) {
@@ -448,7 +448,7 @@ static void CB_WriteButtonSettings(MCONTACT hContact, CustomButtonData *cbd)
 
 	//modulename_buttonID, position_inIM_inCHAT_isLSide_isRSide_CanBeHidden
 
-	mir_snprintf(SettingName, "%s_%d", cbd->m_pszModuleName, cbd->m_dwButtonID);
+	mir_snprintf(SettingName, "%s_%d", cbd->m_pszModuleName.get(), cbd->m_dwButtonID);
 	mir_snprintf(SettingParameter, "%d_%u_%u_%u_%u_%u", cbd->m_dwPosition, cbd->m_bIMButton, cbd->m_bChatButton, 0, cbd->m_bRSided, cbd->m_bCanBeHidden);
 	if (!(cbd->m_opFlags & BBSF_NTBDESTRUCT))
 		db_set_s(hContact, BB_MODULE_NAME, SettingName, SettingParameter);

@@ -830,7 +830,8 @@ int CMsnProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONTACT *hCo
 	msg.Append("<contacts alt=\"[Contacts enclosed. Please upgrade to latest Skype version to receive contacts.]\">");
 	for (int i = 0; i < nContacts; i++) {
 		ptrA wlid(getStringA(hContactsList[i], "wlid"));
-		if (wlid != NULL) msg.AppendFormat("<c t=\"s\" s=\"%s\"/>", wlid);
+		if (wlid != NULL)
+			msg.AppendFormat("<c t=\"s\" s=\"%s\"/>", wlid.get());
 	}
 	msg.Append("</contacts>");
 	seq = msnNsThread->sendMessage('1', tEmail, netId, msg, MSG_CONTACT);

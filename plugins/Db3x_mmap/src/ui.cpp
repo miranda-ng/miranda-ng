@@ -333,7 +333,7 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 
 	SET_UID(mi, 0x50321866, 0xba1, 0x46dd, 0xb3, 0xa6, 0xc3, 0xcc, 0x55, 0xf2, 0x42, 0x9e);
 	mi.flags = CMIF_UNICODE;
-	mi.hIcolibItem = iconList[1].hIcolib;
+	mi.hIcolibItem = iconList[0].hIcolib;
 	mi.name.w = db->GetMenuTitle();
 	mi.pszService = MS_DB_CHANGEPASSWORD;
 	hSetPwdMenu = Menu_AddMainMenuItem(&mi);

@@ -376,7 +376,7 @@ IHTMLDocument2* IEEmbed::getDocument()
 
 void IEEmbed::navigate(const wchar_t *url)
 {
-	pWebBrowser->Navigate((WCHAR *)url, nullptr, nullptr, nullptr, nullptr);
+	pWebBrowser->Navigate((BSTR)url, nullptr, nullptr, nullptr, nullptr);
 }
 
 void IEEmbed::navigate(char *url)

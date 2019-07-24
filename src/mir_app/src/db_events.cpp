@@ -120,7 +120,7 @@ static INT_PTR DbEventGetTextWorker(DBEVENTINFO *dbei, int codepage, int datatyp
 
 		CMStringW nick, text;
 		if (tszFirst || tszLast) {
-			nick.AppendFormat(L"%s %s", tszFirst, tszLast);
+			nick.AppendFormat(L"%s %s", tszFirst.get(), tszLast.get());
 			nick.Trim();
 		}
 		if (tszEmail) {
@@ -139,10 +139,10 @@ static INT_PTR DbEventGetTextWorker(DBEVENTINFO *dbei, int codepage, int datatyp
 		if (dbei->eventType == EVENTTYPE_AUTHREQUEST) {
 			ptrW tszReason(dbei->getString(blob.get_reason()));
 			text.Format(TranslateT("Authorization request from %s%s: %s"), 
-				(tszNick == nullptr) ? Clist_GetContactDisplayName(blob.get_contact()) : tszNick, nick.c_str(), tszReason);
+				(tszNick == nullptr) ? Clist_GetContactDisplayName(blob.get_contact()) : tszNick.get(), nick.c_str(), tszReason.get());
 		}
 		else text.Format(TranslateT("You were added by %s%s"),
-			(tszNick == nullptr) ? Clist_GetContactDisplayName(blob.get_contact()) : tszNick, nick.c_str());
+			(tszNick == nullptr) ? Clist_GetContactDisplayName(blob.get_contact()) : tszNick.get(), nick.c_str());
 		return (datatype == DBVT_WCHAR) ? (INT_PTR)mir_wstrdup(text) : (INT_PTR)mir_u2a(text);
 	}
 
@@ -154,9 +154,9 @@ static INT_PTR DbEventGetTextWorker(DBEVENTINFO *dbei, int codepage, int datatyp
 			ptrW tszUin(getEventString(dbei, buf));
 			ptrW tszNick(getEventString(dbei, buf));
 			if (tszNick && *tszNick)
-				text.AppendFormat(L"\"%s\" ", tszNick);
+				text.AppendFormat(L"\"%s\" ", tszNick.get());
 			if (tszUin && *tszUin)
-				text.AppendFormat(L"<%s>; ", tszUin);
+				text.AppendFormat(L"<%s>; ", tszUin.get());
 		}
 		return (datatype == DBVT_WCHAR) ? (INT_PTR)mir_wstrdup(text) : (INT_PTR)mir_u2a(text);
 	}
@@ -305,11 +305,11 @@ PBYTE DB_AUTH_BLOB::makeBlob()
 	pCurBlob += sizeof(DWORD);
 
 	mir_snprintf((char*)pCurBlob, m_size - 8, "%s%c%s%c%s%c%s%c%s%c",
-		(m_szNick) ? m_szNick : "", 0,
-		(m_szFirstName) ? m_szFirstName : "", 0,
-		(m_szLastName) ? m_szLastName : "", 0,
-		(m_szEmail) ? m_szEmail : "", 0,
-		(m_szReason) ? m_szReason : "", 0);
+		(m_szNick) ? m_szNick.get() : "", 0,
+		(m_szFirstName) ? m_szFirstName.get() : "", 0,
+		(m_szLastName) ? m_szLastName.get() : "", 0,
+		(m_szEmail) ? m_szEmail.get() : "", 0,
+		(m_szReason) ? m_szReason.get() : "", 0);
 
 	return pBlob;
 }

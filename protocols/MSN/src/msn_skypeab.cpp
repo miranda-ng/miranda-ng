@@ -146,7 +146,7 @@ bool CMsnProto::MSN_SKYABGetProfiles(const char *pszPOST)
 				ptrA skypename(mir_u2a(ptrW(json_as_string(node))));
 				ptrW value;
 				char szWLId[128];
-				mir_snprintf(szWLId, sizeof(szWLId), "%d:%s", NETID_SKYPE, skypename);
+				mir_snprintf(szWLId, sizeof(szWLId), "%d:%s", NETID_SKYPE, skypename.get());
 				MCONTACT hContact = MSN_HContactFromEmail(szWLId, skypename, false, false);
 
 				if (hContact) {
@@ -192,7 +192,7 @@ bool CMsnProto::MSN_SKYABGetProfile(const char *wlid)
 			ptrA skypename(mir_u2a(ptrW(json_as_string(json_get(item, "username")))));
 			ptrW value;
 			char szWLId[128];
-			mir_snprintf(szWLId, sizeof(szWLId), "%d:%s", NETID_SKYPE, skypename);
+			mir_snprintf(szWLId, sizeof(szWLId), "%d:%s", NETID_SKYPE, skypename.get());
 			MCONTACT hContact = MSN_HContactFromEmail(szWLId, skypename, false, false);
 
 			if (hContact) {
@@ -202,12 +202,13 @@ bool CMsnProto::MSN_SKYABGetProfile(const char *wlid)
 				if (value = get_json_str(item, "gender")) setByte(hContact, "Gender", (BYTE)(_wtoi(value) == 1 ? 'M' : 'F'));
 				if (value = get_json_str(item, "birthday")) {
 					int d, m, y;
-					swscanf(value, L"%d-%d-%d", &y, &m, &d);
-					setWord(hContact, "BirthYear", y);
-					setByte(hContact, "BirthDay", d);
-					setByte(hContact, "BirthMonth", m);
+					if (swscanf(value, L"%d-%d-%d", &y, &m, &d) == 3) {
+						setWord(hContact, "BirthYear", y);
+						setByte(hContact, "BirthDay", d);
+						setByte(hContact, "BirthMonth", m);
+					}
 				}
-				if (value = get_json_str(item, "country")) setString(hContact, "Country", (char*)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)(char*)_T2A(value), 0));
+				if (value = get_json_str(item, "country")) setString(hContact, "Country", (char*)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, _T2A(value), 0));
 				if (value = get_json_str(item, "province")) setWString(hContact, "State", value);
 				if (value = get_json_str(item, "city")) setWString(hContact, "City", value);
 				if (value = get_json_str(item, "homepage")) setWString(hContact, "Homepage", value);

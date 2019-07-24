@@ -83,7 +83,7 @@ void CSrmmWindow::RefreshInfobar()
 	wchar_t szText[2048];
 	SETTEXTEX st;
 	if (szXStatusMsg && *szXStatusMsg)
-		mir_snwprintf(szText, L"%s (%s)", TranslateW(szXStatusName), szXStatusMsg);
+		mir_snwprintf(szText, L"%s (%s)", TranslateW(szXStatusName), szXStatusMsg.get());
 	else if (szXStatusName && *szXStatusName)
 		wcsncpy_s(szText, TranslateW(szXStatusName), _TRUNCATE);
 	else

@@ -273,7 +273,7 @@ static void SearchReturnResults(CJabberProto *ppro, HANDLE id, LIST<UNIQUE_MAP> 
 			Utf2T wszNick(nick);
 			wchar_t buff[200];
 			if (mir_wstrcmpi(wszNick, Results.psr.id.w))
-				mir_snwprintf(buff, L"%s (%s)", wszNick, Results.psr.id.w);
+				mir_snwprintf(buff, L"%s (%s)", wszNick.get(), Results.psr.id.w);
 			else
 				wcsncpy_s(buff, wszNick, _TRUNCATE);
 

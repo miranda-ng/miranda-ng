@@ -10,7 +10,7 @@ int deleteModule(MCONTACT hContact, const char *module, int confirm)
 
 	if (confirm && g_plugin.getByte("WarnOnDelete", 1)) {
 		wchar_t text[MSG_SIZE];
-		mir_snwprintf(text, TranslateT("Are you sure you want to delete module \"%s\"?"), _A2T(module));
+		mir_snwprintf(text, TranslateT("Are you sure you want to delete module \"%s\"?"), _A2T(module).get());
 		if (dlg(text, MB_YESNO | MB_ICONEXCLAMATION) == IDNO)
 			return 0;
 	}

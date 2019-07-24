@@ -342,7 +342,7 @@ MIR_CORE_DLL(BOOL) GetOSDisplayString(wchar_t *buf, size_t bufSize)
 	HMODULE hNtDll = GetModuleHandleA("ntdll.dll");
 	if (WGV wine_get_version = (WGV)GetProcAddress(hNtDll, "wine_get_version"))
 	{
-		ret.AppendFormat(L" (Wine %s)", _A2T(wine_get_version()));
+		ret.AppendFormat(L" (Wine %S)", wine_get_version());
 	}
 
 	mir_wstrncpy(buf, ret, bufSize);

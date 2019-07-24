@@ -294,14 +294,13 @@ int CSendLater::addJob(const char *szSetting, void *lParam)
 		else
 			return 0;
 	}
-	else if (szSetting[0] == 'M') {
+	else {
 		char *szSep = strchr(const_cast<char *>(szSetting), '|');
 		if (!szSep)
 			return 0;
 		*szSep = 0;
 		szOrig_Utf = szSep + 1;
 	}
-	else return 0;
 
 	CSendLaterJob *job = new CSendLaterJob;
 

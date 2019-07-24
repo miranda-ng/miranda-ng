@@ -27,7 +27,7 @@ public:
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken);
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken.get());
 
 		JSONNode privateInfo; privateInfo.set_name("privateInfo");
 		privateInfo << JSONNode("epname", hostname);

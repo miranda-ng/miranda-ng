@@ -210,7 +210,7 @@ MCONTACT getContactFromString(const wchar_t *tszContact, DWORD dwFlags, int nMat
 		if ((dwFlags & CI_PROTOID) && !bMatch) {
 			ptrW cInfo(getContactInfoT(CNF_UNIQUEID, hContact));
 			if (cInfo) {
-				tmp.Format(L"<%S:%s>", szProto, cInfo);
+				tmp.Format(L"<%S:%s>", szProto, cInfo.get());
 				if (tmp == tszContact)
 					bMatch = true;
 			}

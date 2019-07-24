@@ -143,7 +143,7 @@ bool ParseHashes(const wchar_t *ptszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 
 	// Download version info
 	FILEURL pFileUrl;
-	mir_snwprintf(pFileUrl.tszDownloadURL, L"%s/hashes.zip", baseUrl);
+	mir_snwprintf(pFileUrl.tszDownloadURL, L"%s/hashes.zip", baseUrl.get());
 	mir_snwprintf(pFileUrl.tszDiskPath, L"%s\\hashes.zip", g_tszTempPath);
 	pFileUrl.CRCsum = 0;
 
@@ -152,19 +152,19 @@ bool ParseHashes(const wchar_t *ptszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 	Netlib_CloseHandle(nlc);
 
 	if (!ret) {
-		Netlib_LogfW(hNetlibUser,L"Downloading list of available updates from %s failed",baseUrl);
+		Netlib_LogfW(hNetlibUser, L"Downloading list of available updates from %s failed", baseUrl.get());
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking for new updates."), POPUP_TYPE_ERROR);
 		Skin_PlaySound("updatefailed");
 		return false;
 	}
 
-	if(!unzip(pFileUrl.tszDiskPath, g_tszTempPath, nullptr,true)) {
-		Netlib_LogfW(hNetlibUser,L"Unzipping list of available updates from %s failed",baseUrl);
+	if (!unzip(pFileUrl.tszDiskPath, g_tszTempPath, nullptr, true)) {
+		Netlib_LogfW(hNetlibUser, L"Unzipping list of available updates from %s failed", baseUrl.get());
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking for new updates."), POPUP_TYPE_ERROR);
 		Skin_PlaySound("updatefailed");
 		return false;
 	}
-	
+
 	DeleteFile(pFileUrl.tszDiskPath);
 
 	wchar_t tszTmpIni[MAX_PATH] = {0};

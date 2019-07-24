@@ -691,18 +691,16 @@ const CSideBarButton* CSideBar::setActiveItem(const CTabBaseDlg *dat)
  * Layout() with the parameter set to false is required to perform the
  * position update.
  */
-void CSideBar::Layout(const RECT *rc, bool fOnlyCalc)
+void CSideBar::Layout()
 {
 	if (!m_isVisible)
 		return;
 
-	RECT	rcWnd;
-
-	rc = &rcWnd;
+	RECT rcWnd;
 	::GetClientRect(m_hwndScrollWnd, &rcWnd);
 
 	if (m_currentLayout->pfnLayout) {
-		m_currentLayout->pfnLayout(this, const_cast<RECT *>(rc));
+		m_currentLayout->pfnLayout(this, &rcWnd);
 		return;
 	}
 
@@ -711,8 +709,8 @@ void CSideBar::Layout(const RECT *rc, bool fOnlyCalc)
 	BOOL 	topEnabled = FALSE, bottomEnabled = FALSE;
 	HWND 	hwnd;
 	LONG 	spaceUsed = 0;
-	DWORD 	dwFlags = SWP_NOZORDER | SWP_NOACTIVATE;
-	LONG	iSpaceAvail = rc->bottom;
+	DWORD dwFlags = SWP_NOZORDER | SWP_NOACTIVATE;
+	LONG	iSpaceAvail = rcWnd.bottom;
 
 	m_firstVisibleOffset = max(0, m_firstVisibleOffset);
 
@@ -734,14 +732,14 @@ void CSideBar::Layout(const RECT *rc, bool fOnlyCalc)
 
 		if (p->isTopAligned()) {
 			if (m_totalItemHeight <= m_firstVisibleOffset) {				// partially visible
-				if (!fOnlyCalc && nullptr != hwnd) /* Wine fix. */
+				if (nullptr != hwnd) /* Wine fix. */
 					hdwp = ::DeferWindowPos(hdwp, hwnd, nullptr, 2, -(m_firstVisibleOffset - m_totalItemHeight),
 						m_elementWidth, height, SWP_SHOWWINDOW | dwFlags);
 				spaceUsed += ((height + 1) - (m_firstVisibleOffset - m_totalItemHeight));
 				m_totalItemHeight += (height + 1);
 			}
 			else {
-				if (!fOnlyCalc && nullptr != hwnd) /* Wine fix. */
+				if (nullptr != hwnd) /* Wine fix. */
 					hdwp = ::DeferWindowPos(hdwp, hwnd, nullptr, 2, spaceUsed, m_elementWidth, height, SWP_SHOWWINDOW | dwFlags);
 				spaceUsed += (height + 1);
 				m_totalItemHeight += (height + 1);
@@ -749,30 +747,28 @@ void CSideBar::Layout(const RECT *rc, bool fOnlyCalc)
 		}
 	}
 	topEnabled = m_firstVisibleOffset > 0;
-	bottomEnabled = (m_totalItemHeight - m_firstVisibleOffset > rc->bottom);
+	bottomEnabled = (m_totalItemHeight - m_firstVisibleOffset > rcWnd.bottom);
 	::EndDeferWindowPos(hdwp);
 
-	if (!fOnlyCalc) {
-		RECT	rcContainer;
-		::GetClientRect(m_pContainer->m_hwnd, &rcContainer);
+	RECT	rcContainer;
+	::GetClientRect(m_pContainer->m_hwnd, &rcContainer);
 
-		LONG dx = m_dwFlags & SIDEBARORIENTATION_LEFT ? m_pContainer->m_tBorder_outer_left :
-			rcContainer.right - m_pContainer->m_tBorder_outer_right - (m_elementWidth + 4);
+	LONG dx = m_dwFlags & SIDEBARORIENTATION_LEFT ? m_pContainer->m_tBorder_outer_left :
+		rcContainer.right - m_pContainer->m_tBorder_outer_right - (m_elementWidth + 4);
 
-		::SetWindowPos(m_up->getHwnd(), nullptr, dx, m_pContainer->m_tBorder_outer_top + m_pContainer->m_pMenuBar->getHeight(),
-			m_elementWidth + 4, 14, dwFlags | SWP_SHOWWINDOW);
-		::SetWindowPos(m_down->getHwnd(), nullptr, dx, (rcContainer.bottom - 14 - m_pContainer->m_statusBarHeight - 1),
-			m_elementWidth + 4, 14, dwFlags | SWP_SHOWWINDOW);
-		::EnableWindow(m_up->getHwnd(), topEnabled);
-		::EnableWindow(m_down->getHwnd(), bottomEnabled);
-		::InvalidateRect(m_up->getHwnd(), nullptr, FALSE);
-		::InvalidateRect(m_down->getHwnd(), nullptr, FALSE);
-	}
+	::SetWindowPos(m_up->getHwnd(), nullptr, dx, m_pContainer->m_tBorder_outer_top + m_pContainer->m_pMenuBar->getHeight(),
+		m_elementWidth + 4, 14, dwFlags | SWP_SHOWWINDOW);
+	::SetWindowPos(m_down->getHwnd(), nullptr, dx, (rcContainer.bottom - 14 - m_pContainer->m_statusBarHeight - 1),
+		m_elementWidth + 4, 14, dwFlags | SWP_SHOWWINDOW);
+	::EnableWindow(m_up->getHwnd(), topEnabled);
+	::EnableWindow(m_down->getHwnd(), bottomEnabled);
+	::InvalidateRect(m_up->getHwnd(), nullptr, FALSE);
+	::InvalidateRect(m_down->getHwnd(), nullptr, FALSE);
 }
 
 inline void CSideBar::Invalidate()
 {
-	Layout(nullptr);
+	Layout();
 }
 
 void CSideBar::showAll(int showCmd)
@@ -836,7 +832,7 @@ void CSideBar::processScrollerButtons(UINT commandID)
 	else if (commandID == IDC_SIDEBARUP && ::IsWindowEnabled(m_up->getHwnd()))
 		m_firstVisibleOffset = max(0, m_firstVisibleOffset - 10);
 
-	Layout(nullptr);
+	Layout();
 }
 
 void CSideBar::resizeScrollWnd(LONG x, LONG y, LONG, LONG height) const

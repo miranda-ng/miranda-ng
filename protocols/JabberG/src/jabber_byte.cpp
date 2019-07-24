@@ -502,7 +502,7 @@ int CJabberProto::ByteSendProxyParse(HNETLIBCONN hConn, JABBER_BYTE_TRANSFER *jb
 			data[4] = 40;
 
 			char szAuthString[256];
-			mir_snprintf(szAuthString, "%s%s%s", jbt->sid, ptrA(JabberPrepareJid(jbt->srcJID)), ptrA(JabberPrepareJid(jbt->dstJID)));
+			mir_snprintf(szAuthString, "%s%s%s", jbt->sid, ptrA(JabberPrepareJid(jbt->srcJID)).get(), ptrA(JabberPrepareJid(jbt->dstJID)).get());
 			debugLogA("Auth: '%s'", szAuthString);
 
 			JabberShaStrBuf buf;

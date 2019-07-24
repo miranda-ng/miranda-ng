@@ -44,7 +44,7 @@ void CSteamProto::OnMessageSent(const HttpResponse &response, void *arg)
 	}
 
 	if (mir_strcmpi(error.c_str(), "OK") != 0) {
-		debugLogA(__FUNCTION__ ": failed to send message for %s (%s)", steamId, error.c_str());
+		debugLogA(__FUNCTION__ ": failed to send message for %s (%s)", steamId.get(), error.c_str());
 		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, param->hMessage, _A2T(error.c_str()));
 	}
 	else {

@@ -1541,7 +1541,7 @@ void CJabberProto::UpdateJidDbSettings(const char *jid)
 	item->getTemp()->m_iStatus = status;
 	if (nSelectedResource != -1) {
 		pResourceStatus r(item->arResources[nSelectedResource]);
-		debugLogA("JabberUpdateJidDbSettings: updating jid %s to rc %s", item->jid, r->m_szResourceName);
+		debugLogA("JabberUpdateJidDbSettings: updating jid %s to rc %s", item->jid, r->m_szResourceName.get());
 		if (r->m_szStatusMessage)
 			db_set_utf(hContact, "CList", "StatusMsg", r->m_szStatusMessage);
 		else
@@ -1631,7 +1631,7 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 		if (strchr(from, '@') == nullptr) {
 			UI_SAFE_NOTIFY(m_pDlgServiceDiscovery, WM_JABBER_TRANSPORT_REFRESH);
 		}
-		debugLogA("%s (%s) online, set contact status to %s", nick, from, T2Utf(Clist_GetStatusModeDescription(status, 0)));
+		debugLogA("%s (%s) online, set contact status to %s", nick.get(), from, T2Utf(Clist_GetStatusModeDescription(status, 0)).get());
 
 		if (m_bEnableAvatars) {
 			bool bHasAvatar = false, bRemovedAvatar = false;
@@ -1739,7 +1739,7 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 			RebuildInfoFrame();
 		}
 		else {
-			debugLogA("%s (%s) requests authorization", szNick, from);
+			debugLogA("%s (%s) requests authorization", szNick.get(), from);
 			DBAddAuthRequest(from, szNick);
 		}
 		return;

@@ -202,7 +202,7 @@ void MUCCHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 				str.AppendFormat("<span class=\"%s\">%s </span>", isSent ? "timestamp" : "timestamp", timestampToString(dwData, eventData->time));
 
 			if (dwData & IEEDD_MUCC_SHOW_NICK)
-				str.AppendFormat("<span class=\"%s\">%s: </span>", isSent ? "nameOut" : "nameIn", szName);
+				str.AppendFormat("<span class=\"%s\">%s: </span>", isSent ? "nameOut" : "nameIn", szName.get());
 
 			if (dwData & IEEDD_MUCC_MSG_ON_NEW_LINE)
 				str.Append("<br>");
@@ -222,7 +222,7 @@ void MUCCHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 				style.AppendFormat("font-style: %s;", eventData->fontStyle & IE_FONT_ITALIC ? "italic" : "normal");
 				style.AppendFormat("text-decoration: %s;", eventData->fontStyle & IE_FONT_UNDERLINE ? "underline" : "none");
 			}
-			str.AppendFormat("<span class=\"%s\"><span style=\"%s\">%s</span></span>", className, style.c_str(), szText);
+			str.AppendFormat("<span class=\"%s\"><span style=\"%s\">%s</span></span>", className, style.c_str(), szText.get());
 			str.Append("</div>\n");
 		}
 		else if (eventData->iType == IEED_MUCC_EVENT_JOINED || eventData->iType == IEED_MUCC_EVENT_LEFT || eventData->iType == IEED_MUCC_EVENT_TOPIC) {
@@ -250,7 +250,7 @@ void MUCCHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 				str.AppendFormat("<span class=\"%s\">%s </span>", "timestamp", timestampToString(dwData, eventData->time));
 
 			str.AppendFormat("<span class=\"%s\">", className);
-			str.AppendFormat(Translate(eventText), szText);
+			str.AppendFormat(Translate(eventText), szText.get());
 			str.Append("</span>");
 			str.Append("</div>\n");
 		}
@@ -258,7 +258,7 @@ void MUCCHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 			const char *className = "error";
 			szText = encodeUTF8(NULL, event->pszProto, eventData->pszText, ENF_NONE, isSent);
 			str.AppendFormat("<div class=\"%s\">", "divError");
-			str.AppendFormat("<span class=\"%s\"> %s: %s</span>", className, Translate("Error"), szText);
+			str.AppendFormat("<span class=\"%s\"> %s: %s</span>", className, Translate("Error"), szText.get());
 			str.Append("</div>\n");
 		}
 

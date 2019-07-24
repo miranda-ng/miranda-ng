@@ -121,7 +121,7 @@ void __cdecl CJabberProto::OnRenameContact(DBCONTACTWRITESETTING *cws, MCONTACT 
 
 	ptrA newNick(sttSettingToTchar(cws));
 	if (newNick && mir_strcmp(item->nick, newNick)) {
-		debugLogA("Renaming contact %s: %s -> %s", item->jid, item->nick, newNick);
+		debugLogA("Renaming contact %s: %s -> %s", item->jid, item->nick, newNick.get());
 		AddContactToRoster(item->jid, newNick, item->group);
 	}
 }
@@ -132,7 +132,7 @@ void __cdecl CJabberProto::OnAddContactForever(MCONTACT hContact)
 	if (jid == nullptr)
 		return;
 
-	debugLogA("Add %s permanently to list", jid);
+	debugLogA("Add %s permanently to list", jid.get());
 	ptrA nick(db_get_utfa(hContact, "CList", "MyHandle"));
 	if (nick == nullptr)
 		nick = getUStringA(hContact, "Nick");

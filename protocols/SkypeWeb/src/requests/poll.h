@@ -28,7 +28,7 @@ public:
 		flags |= NLHRF_PERSISTENT;
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken);
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken.get());
 	}
 };
 #endif //_SKYPE_POLL_H_

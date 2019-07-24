@@ -583,21 +583,21 @@ int SendQueue::doSendLater(int iJobIndex, CTabBaseDlg *dat, MCONTACT hContact, b
 		time_t now = time(0);
 		wchar_t tszTimestamp[30];
 		wcsftime(tszTimestamp, _countof(tszTimestamp), L"%Y.%m.%d - %H:%M", _localtime32((__time32_t *)&now));
-		mir_snprintf(szKeyName, "S%d", now);
+		mir_snprintf(szKeyName, "S%d", (int)now);
 		mir_snwprintf(tszHeader, TranslateT("\n(Sent delayed. Original timestamp %s)"), tszTimestamp);
 	}
-	else mir_snwprintf(tszHeader, L"M%d|", time(0));
+	else mir_snwprintf(tszHeader, L"M%d|", (int)time(0));
 
 	T2Utf utf_header(tszHeader);
 	size_t required = mir_strlen(utf_header) + mir_strlen(job->szSendBuffer) + 10;
 	char *tszMsg = reinterpret_cast<char *>(mir_alloc(required));
 
 	if (fIsSendLater) {
-		mir_snprintf(tszMsg, required, "%s%s", job->szSendBuffer, utf_header);
+		mir_snprintf(tszMsg, required, "%s%s", job->szSendBuffer, utf_header.get());
 		db_set_s(hContact ? hContact : job->hContact, "SendLater", szKeyName, tszMsg);
 	}
 	else {
-		mir_snprintf(tszMsg, required, "%s%s", utf_header, job->szSendBuffer);
+		mir_snprintf(tszMsg, required, "%s%s", utf_header.get(), job->szSendBuffer);
 		sendLater->addJob(tszMsg, (void*)hContact);
 	}
 	mir_free(tszMsg);

@@ -497,7 +497,7 @@ void CInfoPanel::RenderIPUIN(const HDC hdc, RECT& rcItem)
 			wchar_t	temp[256];
 			ptrW szVersion(db_get_wsa(m_dat->m_cache->getActiveContact(), m_dat->m_cache->getActiveProto(), "MirVer"));
 			if (szVersion)
-				mir_snwprintf(temp, TranslateT("  Client: %s"), szVersion);
+				mir_snwprintf(temp, TranslateT("  Client: %s"), szVersion.get());
 			else
 				mir_snwprintf(temp, TranslateT("  Client not cached yet"));
 			wcscat_s(szBuf, 256, temp);

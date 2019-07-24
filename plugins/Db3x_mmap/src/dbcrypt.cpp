@@ -43,12 +43,14 @@ struct VarDescr
 {
 	VarDescr(LPCSTR var, LPCSTR value) :
 		szVar(mir_strdup(var)),
-		szValue(mir_strdup(value))
+		szValue(mir_strdup(value)),
+		iLen(0)
 	{}
 
 	VarDescr(LPCSTR var, LPSTR value) :
 		szVar(mir_strdup(var)),
-		szValue(value)
+		szValue(value),
+		iLen(0)
 	{}
 
 	VarDescr(LPCSTR var, PBYTE value, int len) :
@@ -58,7 +60,7 @@ struct VarDescr
 	{}
 
 	ptrA szVar, szValue;
-	int  iLen;
+	int iLen;
 };
 
 struct SettingUgraderParam

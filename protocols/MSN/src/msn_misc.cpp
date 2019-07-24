@@ -145,7 +145,7 @@ char* MSN_GetAvatarHash(char* szContext, char** pszUrl)
 // MSN_GetAvatarFileName - gets a file name for an contact's avatar
 void CMsnProto::MSN_GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t cbLen, const wchar_t *ext)
 {
-	size_t tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%S", VARSW(L"%miranda_avatarcache%"), m_szModuleName);
+	size_t tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%S", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName);
 
 	if (_waccess(pszDest, 0))
 		CreateDirectoryTreeW(pszDest);
@@ -637,7 +637,7 @@ void CMsnProto::MSN_SetServerStatus(int newStatus)
 			szStatusName,
 			MyOptions.szMachineGuid, myFlags, myFlagsEx, myFlagsExEx,
 			MyOptions.szMachineGuid, szPlace,
-			msgptr?ptrA(HtmlEncode(*msgptr)):"", GetMyUsername(NETID_SKYPE),
+			msgptr ? ptrA(HtmlEncode(*msgptr)).get() : "", GetMyUsername(NETID_SKYPE),
 			MyOptions.szMachineGuid,
 			MyOptions.szMachineGuid);
 		msnNsThread->sendPacketPayload("PUT", "MSGR\\PRESENCE", 

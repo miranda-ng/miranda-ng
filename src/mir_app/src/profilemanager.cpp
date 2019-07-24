@@ -216,7 +216,7 @@ public:
 			return false;
 
 		// profile placed in "profile_name" subfolder
-		mir_snwprintf(m_pd->ptszProfile, MAX_PATH, L"%s\\%s\\%s.dat", m_pd->ptszProfileDir, szName, szName);
+		mir_snwprintf(m_pd->ptszProfile, MAX_PATH, L"%s\\%s\\%s.dat", m_pd->ptszProfileDir, szName.get(), szName.get());
 		m_pd->newProfile = 1;
 		m_pd->dblink = (DATABASELINK *)m_driverList.GetItemData(curSel);
 

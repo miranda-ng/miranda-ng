@@ -55,9 +55,10 @@ void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	if (!m_hPollingThread) {
 		debugLogA("CVkProto::OnReceivePollingInfo m_hPollingThread is nullptr");
 		debugLogA("CVkProto::OnReceivePollingInfo m_pollingTs = '%s' m_pollingKey = '%s' m_pollingServer = '%s'",
-			m_pollingTs ? m_pollingTs : "<nullptr>",
-			m_pollingKey ? m_pollingKey : "<nullptr>",
-			m_pollingServer ? m_pollingServer : "<nullptr>");
+			m_pollingTs ? m_pollingTs.get() : "<nullptr>",
+			m_pollingKey ? m_pollingKey.get() : "<nullptr>",
+			m_pollingServer ? m_pollingServer.get() : "<nullptr>");
+		
 		if (m_pollingTs != nullptr && m_pollingKey != nullptr && m_pollingServer != nullptr) {
 			debugLogA("CVkProto::OnReceivePollingInfo PollingThread starting...");
 			m_hPollingThread = ForkThreadEx(&CVkProto::PollingThread, nullptr, nullptr);

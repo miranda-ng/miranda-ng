@@ -510,7 +510,7 @@ bool Omegle_client::events()
 				// We got info about count of connected people there
 				ptrW count(json_as_string(json_get(data, "count")));
 				wchar_t strT[255];
-				mir_snwprintf(strT, TranslateT("On whole Omegle are %s strangers online now."), count);
+				mir_snwprintf(strT, TranslateT("On whole Omegle are %s strangers online now."), count.get());
 
 				parent->UpdateChat(nullptr, strT);
 			}

@@ -363,7 +363,7 @@ void __cdecl GaduProto::mainthread(void *)
 				showpopup(m_tszUserName, error.c_str(), GG_POPUP_WARNING | GG_POPUP_ALLOW_MSGBOX);
 			}
 			else
-				debugLogA("mainthread() (%x): Loading forwarding host %s and port %d.", pHost, p.external_port, this);
+				debugLogA("mainthread() (%x): Loading forwarding host %s and port %d.", pHost.get(), p.external_port, this);
 
 			if (p.external_addr)
 				p.external_port = m_gaduOptions.forwardPort;
@@ -960,7 +960,7 @@ retry:
 
 				mir_snwprintf(szMsg, L"%s (%s)", szText,
 					*e->event.multilogon_info.sessions[i].name != '\0' ?
-					_A2T(e->event.multilogon_info.sessions[i].name) : TranslateT("Unknown client"));
+					_A2T(e->event.multilogon_info.sessions[i].name).get() : TranslateT("Unknown client"));
 				showpopup(m_tszUserName, szMsg, GG_POPUP_MULTILOGON);
 			}
 			mir_free(iIndexes);
@@ -1217,7 +1217,7 @@ void GaduProto::OnContactDeleted(MCONTACT hContact)
 	if (isChatRoom(hContact) && wszRoomId != NULL && gc_enabled)
 	{
 		GGGC *chat = gc_lookup(wszRoomId);
-		debugLogA("contactdeleted(): Terminating chat %x, id %s from contact list...", chat, wszRoomId);
+		debugLogA("contactdeleted(): Terminating chat %x, id %s from contact list...", chat, wszRoomId.get());
 		if (chat)
 		{
 			// Destroy chat entry

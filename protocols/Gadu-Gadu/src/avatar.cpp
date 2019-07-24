@@ -28,7 +28,7 @@
 //
 void GaduProto::getAvatarFilename(MCONTACT hContact, wchar_t *pszDest, int cbLen)
 {
-	int tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%S", VARSW(L"%miranda_avatarcache%"), m_szModuleName);
+	int tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%S", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName);
 
 	if (_waccess(pszDest, 0)) {
 		int ret = CreateDirectoryTreeW(pszDest);

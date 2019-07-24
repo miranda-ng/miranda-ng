@@ -100,7 +100,7 @@ int CJabberProto::FileReceiveParse(filetransfer *ft, char* buffer, int datalen)
 				break;
 			}
 
-			debugLogA("FT Got: %s", str);
+			debugLogA("FT Got: %s", str.get());
 			if (ft->state == FT_CONNECTING) {
 				// looking for "HTTP/1.1 200 OK"
 				if (sscanf(str, "HTTP/%*d.%*d %d %*s", &code) == 1 && code == 200) {
@@ -292,7 +292,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 				}
 
 				char szAddr[256];
-				mir_snprintf(szAddr, "http://%s:%d/%s", myAddr, nlb.wPort, pFileName.c_str());
+				mir_snprintf(szAddr, "http://%s:%d/%s", myAddr.get(), nlb.wPort, pFileName.c_str());
 
 				XmlNodeIq iq("set", ft->szId, MakeJid(ft->jid, ptszResource));
 				TiXmlElement *query = iq << XQUERY(JABBER_FEAT_OOB);

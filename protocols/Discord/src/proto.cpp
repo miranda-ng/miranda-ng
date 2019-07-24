@@ -559,7 +559,7 @@ void CDiscordProto::SendFileThread(void *param)
 		pFileName = p->wszFileName.GetBuffer();
 
 	szBody.Append(szBoundary + "\r\n");
-	szBody.AppendFormat("Content-Disposition: form-data; name=\"file\"; filename=\"%s\"\r\n", ptrA(mir_utf8encodeW(pFileName)));
+	szBody.AppendFormat("Content-Disposition: form-data; name=\"file\"; filename=\"%s\"\r\n", ptrA(mir_utf8encodeW(pFileName)).get());
 	szBody.AppendFormat("Content-Type: %S\r\n", ProtoGetAvatarMimeType(ProtoGetAvatarFileFormat(p->wszFileName)));
 	szBody.Append("\r\n");
 

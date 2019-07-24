@@ -354,9 +354,9 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 			if ((dwFlags & SMF_LOG_SHOWNICK && eventData->iType == IEED_EVENT_MESSAGE && isGroupBreak) || eventData->iType == IEED_EVENT_STATUSCHANGE) {
 				if (eventData->iType == IEED_EVENT_MESSAGE) {
 					if (showColon)
-						str.AppendFormat("<span class=\"%s\"> %s</span>", isSent ? "nameOut" : "nameIn", szName);
+						str.AppendFormat("<span class=\"%s\"> %s</span>", isSent ? "nameOut" : "nameIn", szName.get());
 					else
-						str.AppendFormat("<span class=\"%s\">%s</span>", isSent ? "nameOut" : "nameIn", szName);
+						str.AppendFormat("<span class=\"%s\">%s</span>", isSent ? "nameOut" : "nameIn", szName.get());
 
 					showColon = true;
 					if (dwFlags & SMF_LOG_GROUPMESSAGES) {
@@ -364,7 +364,7 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 						showColon = false;
 					}
 				}
-				else str.AppendFormat("<span class=\"notices\">%s </span>", szName);
+				else str.AppendFormat("<span class=\"notices\">%s </span>", szName.get());
 			}
 			if (dwFlags & SMF_LOG_SHOWTIME && dwFlags & SMF_LOG_GROUPMESSAGES && dwFlags & SMF_LOG_MARKFOLLOWUPS
 				&& eventData->iType == IEED_EVENT_MESSAGE && isGroupBreak) {
@@ -384,9 +384,9 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 
 			if (eventData->iType == IEED_EVENT_FILE) {
 				str.AppendFormat("<span class=\"%s\">%s: %s</span>", className, 
-					(isSent) ? Translate("File sent") : Translate("File received"), szText);
+					(isSent) ? Translate("File sent") : Translate("File received"), szText.get());
 			}
-			else str.AppendFormat("<span class=\"%s\">%s</span>", className, szText);
+			else str.AppendFormat("<span class=\"%s\">%s</span>", className, szText.get());
 
 			str.Append("</div>\n");
 			setLastEventType(MAKELONG(eventData->dwFlags, eventData->iType));

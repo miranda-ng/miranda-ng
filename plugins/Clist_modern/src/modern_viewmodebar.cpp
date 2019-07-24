@@ -500,23 +500,23 @@ static void UpdateFilters()
 		mir_snwprintf(szTemp, TranslateT("Configuring view mode: %s"), szTempBuf);
 		SetDlgItemText(clvmHwnd, IDC_CURVIEWMODE2, szTemp);
 	}
-	mir_snprintf(szSetting, "%c%s_PF", 246, szBuf);
+	mir_snprintf(szSetting, "%c%s_PF", 246, szBuf.get());
 	ptrA szPF(db_get_sa(0, CLVM_MODULE, szSetting));
 	if (szPF == nullptr)
 		return;
 
-	mir_snprintf(szSetting, "%c%s_GF", 246, szBuf);
+	mir_snprintf(szSetting, "%c%s_GF", 246, szBuf.get());
 	ptrW szGF(db_get_wsa(0, CLVM_MODULE, szSetting));
 	if (szGF == nullptr)
 		return;
 
-	mir_snprintf(szSetting, "%c%s_OPT", 246, szBuf);
+	mir_snprintf(szSetting, "%c%s_OPT", 246, szBuf.get());
 	if ((opt = db_get_dw(0, CLVM_MODULE, szSetting, -1)) != -1)
 		SendDlgItemMessage(clvmHwnd, IDC_AUTOCLEARSPIN, UDM_SETPOS, 0, MAKELONG(LOWORD(opt), 0));
 
-	mir_snprintf(szSetting, "%c%s_SM", 246, szBuf);
+	mir_snprintf(szSetting, "%c%s_SM", 246, szBuf.get());
 	DWORD statusMask = db_get_dw(0, CLVM_MODULE, szSetting, 0);
-	mir_snprintf(szSetting, "%c%s_SSM", 246, szBuf);
+	mir_snprintf(szSetting, "%c%s_SSM", 246, szBuf.get());
 	stickyStatusMask = db_get_dw(0, CLVM_MODULE, szSetting, -1);
 	dwFlags = db_get_dw(0, CLVM_MODULE, szBuf, 0);
 	{
@@ -589,7 +589,7 @@ static void UpdateFilters()
 		EnableWindow(GetDlgItem(clvmHwnd, IDC_LASTMSGVALUE), useLastMsg);
 		EnableWindow(GetDlgItem(clvmHwnd, IDC_LASTMESSAGEUNIT), useLastMsg);
 
-		mir_snprintf(szSetting, "%c%s_LM", 246, szBuf);
+		mir_snprintf(szSetting, "%c%s_LM", 246, szBuf.get());
 		DWORD lmdat = db_get_dw(0, CLVM_MODULE, szSetting, 0);
 
 		SetDlgItemInt(clvmHwnd, IDC_LASTMSGVALUE, LOWORD(lmdat), FALSE);

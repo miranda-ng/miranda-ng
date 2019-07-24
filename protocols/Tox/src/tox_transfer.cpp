@@ -23,7 +23,7 @@ void CToxProto::OnFriendFile(Tox *tox, uint32_t friendNumber, uint32_t fileNumbe
 
 			ptrW address(proto->getWStringA(hContact, TOX_SETTINGS_ID));
 			wchar_t avatarName[MAX_PATH];
-			mir_snwprintf(avatarName, MAX_PATH, L"%s.png", address);
+			mir_snwprintf(avatarName, MAX_PATH, L"%s.png", address.get());
 
 			AvatarTransferParam *transfer = new AvatarTransferParam(friendNumber, fileNumber, avatarName, fileSize);
 			transfer->pfts.flags |= PFTS_RECEIVING;

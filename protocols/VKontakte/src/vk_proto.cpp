@@ -643,7 +643,7 @@ int CVkProto::GetInfo(MCONTACT hContact, int)
 void CVkProto::OnContactDeleted(MCONTACT hContact)
 {
 	ptrW pwszNick(db_get_wsa(hContact, m_szModuleName, "Nick"));
-	debugLogW(L"CVkProto::OnContactDeleted %s", pwszNick);
+	debugLogW(L"CVkProto::OnContactDeleted %s", pwszNick.get());
 
 	if (db_get_b(hContact, "CList", "NotOnList") || getBool(hContact, "SilentDelete") || isChatRoom((MCONTACT)hContact))
 		return;
@@ -656,7 +656,7 @@ void CVkProto::OnContactDeleted(MCONTACT hContact)
 	CVkContactDeleteForm dlg(this, param);
 	dlg.DoModal();
 
-	debugLogW(L"CVkProto::OnContactDeleted %s DeleteDialog=%d DeleteFromFriendlist=%d", pwszNick, param->bDeleteDialog,  param->bDeleteFromFriendlist);
+	debugLogW(L"CVkProto::OnContactDeleted %s DeleteDialog=%d DeleteFromFriendlist=%d", pwszNick.get(), param->bDeleteDialog,  param->bDeleteFromFriendlist);
 	if (!(param->bDeleteDialog || param->bDeleteFromFriendlist))
 		return;
 

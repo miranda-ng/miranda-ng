@@ -233,7 +233,7 @@ void CSkypeProto::UpdateProfileDisplayName(const JSONNode &root, MCONTACT hConta
 	if (firstname) {
 		CMStringW nick(firstname);
 		if (lastname)
-			nick.AppendFormat(L" %s", lastname);
+			nick.AppendFormat(L" %s", lastname.get());
 		setWString(hContact, "Nick", nick);
 	}
 	else if (lastname)

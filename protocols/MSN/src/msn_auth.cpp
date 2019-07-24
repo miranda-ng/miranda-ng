@@ -971,7 +971,7 @@ void CMsnProto::MSN_SendATH(ThreadData *info)
 				"<user><ssl-compact-ticket>t=%s</ssl-compact-ticket>"
 				"<uic>%s</uic>"
 				"<id>%s</id><alias>%s</alias></user>\r\n",
-				(const char*)authSSLToken ? ptrA(HtmlEncode(authSSLToken)) : "",
+				(const char*)authSSLToken ? ptrA(HtmlEncode(authSSLToken)).get() : "",
 				authUIC,
 				GetMyUsername(NETID_MSN), GetMyUsername(NETID_SKYPE));
 			break;
@@ -982,7 +982,7 @@ void CMsnProto::MSN_SendATH(ThreadData *info)
 				"<uic>%s</uic>"
 				"<ssl-site-name>chatservice.live.com</ssl-site-name>"
 				"</user>\r\n",
-				(const char*)authStrToken ? ptrA(HtmlEncode(authStrToken)) : "",
+				(const char*)authStrToken ? ptrA(HtmlEncode(authStrToken)).get() : "",
 				authUIC);
 			break;
 		}

@@ -246,7 +246,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 		p->bIsDimmed = 0;
 		if (g_CluiData.bFilterEffective & CLVM_FILTER_PROTOS) {
 			char szTemp[2048];
-			mir_snprintf(szTemp, "%s|", p->szAccountName);
+			mir_snprintf(szTemp, "%s|", p->szAccountName.get());
 			p->bIsDimmed = strstr(g_CluiData.protoFilter, szTemp) ? 0 : 1;
 		}
 

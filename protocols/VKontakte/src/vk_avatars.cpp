@@ -104,7 +104,7 @@ INT_PTR CVkProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 		pReq->m_bApiReq = false;
 		Push(pReq);
 
-		debugLogA("Requested to read an avatar from '%s'", szUrl);
+		debugLogA("Requested to read an avatar from '%s'", szUrl.get());
 		return GAIR_WAITFOR;
 	}
 
@@ -130,7 +130,7 @@ INT_PTR CVkProto::SvcGetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 void CVkProto::GetAvatarFileName(MCONTACT hContact, wchar_t *pwszDest, size_t cbLen)
 {
-	int tPathLen = mir_snwprintf(pwszDest, cbLen, L"%s\\%S", VARSW(L"%miranda_avatarcache%"), m_szModuleName);
+	int tPathLen = mir_snwprintf(pwszDest, cbLen, L"%s\\%S", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName);
 
 	DWORD dwAttributes = GetFileAttributes(pwszDest);
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)

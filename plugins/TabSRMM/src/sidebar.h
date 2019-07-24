@@ -135,7 +135,7 @@ public:
 	void                  updateSession(CTabBaseDlg *dat);
 
 	void                  processScrollerButtons(UINT cmd);
-	void                  Layout(const RECT *rc = nullptr, bool fOnlyCalc = false);
+	void                  Layout();
 	void                  setVisible(bool fNewVisibility);
 	void                  showAll(int showCmd);
 

@@ -26,7 +26,7 @@ public:
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken)
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken.get())
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 
 		JSONNode node;
@@ -48,7 +48,7 @@ public:
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken)
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken.get())
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 
 		CMStringA content;
@@ -74,7 +74,7 @@ public:
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken)
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken.get())
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 
 		const char *state = (iState == PROTOTYPE_SELFTYPING_ON) ? "Control/Typing" : "Control/ClearTyping";
@@ -98,7 +98,7 @@ public:
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken)
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken.get())
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 
 		//"lastReadMessageTimestamp;modificationTime;lastReadMessageId"

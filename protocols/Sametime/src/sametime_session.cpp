@@ -501,7 +501,7 @@ int CSametimeProto::LogOut()
 
 int CSametimeProto::OnLogInRedirect(char* newHost)
 {
-	debugLogW(L"OnLogInRedirect() mwSession_LOGIN_REDIR  newHost=[%s]", newHost ? _A2T(newHost) : "(null)");
+	debugLogA("OnLogInRedirect() mwSession_LOGIN_REDIR  newHost=[%s]", newHost ? newHost : "(null)");
 
 	if (!newHost || !mir_strcmp(newHost, options.server_name) || db_get_b(0, m_szModuleName, "ForceLogin", 0) == 1) {
 		debugLogW(L"OnLogInRedirect() forceLogin");

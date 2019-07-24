@@ -160,7 +160,7 @@ private:
 	UINT  m_uId;
 	HFONT m_hFontCaption;
 	DWORD m_dwFlags;
-	HWND  m_hwnd;
+	HWND  m_hwnd = nullptr;
 	bool  m_fIsModal;
 
 	INT_PTR CALLBACK dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);

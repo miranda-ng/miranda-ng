@@ -351,7 +351,8 @@ void popupWatchedVar(MCONTACT hContact, const char *module, const char *setting)
 
 	// 2nd line
 	int type = GetValue(hContact, module, setting, value, _countof(value));
-	mir_snwprintf(text, TranslateT("Database Setting Changed: \nModule: \"%s\", Setting: \"%s\"\nNew Value (%s): \"%s\""), _A2T(module), _A2T(setting), DBVType(type), value);
+	mir_snwprintf(text, TranslateT("Database Setting Changed: \nModule: \"%s\", Setting: \"%s\"\nNew Value (%s): \"%s\""), 
+		_A2T(module).get(), _A2T(setting).get(), DBVType(type), value);
 
 	POPUPDATAW ppd;
 	ppd.lchContact = (MCONTACT)hContact;

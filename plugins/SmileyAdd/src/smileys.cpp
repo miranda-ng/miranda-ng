@@ -237,7 +237,7 @@ void SmileyType::CallSmileyService(MCONTACT hContact)
 	}
 
 	char str[MAXMODULELABELLENGTH];
-	mir_snprintf(str, "%s%s", proto, _T2A(name.c_str()));
+	mir_snprintf(str, "%s%S", proto, name.c_str());
 	CallService(str,
 		ConvertServiceParam(hContact, par1.c_str()),
 		ConvertServiceParam(hContact, par2.c_str()));

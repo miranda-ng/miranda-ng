@@ -441,7 +441,7 @@ bool CVkProto::AutoFillForm(char *pBody, CMStringA &szAction, CMStringA& szResul
 					pPhonePref = strstr(pPhonePref + 1, "<span class=\"field_prefix\">&nbsp;");
 					if (pPhonePref && sscanf(pPhonePref, "<span class=\"field_prefix\">&nbsp;%[^<]", szSufixTel) == 1) {
 						wszTitle.Format(TranslateT("Enter the missing digits between %s and %s of the phone number linked to your account"),
-							ptrW(mir_a2u(szPrefixTel)), ptrW(mir_a2u(szSufixTel)));
+							ptrW(mir_a2u(szPrefixTel)).get(), ptrW(mir_a2u(szSufixTel)).get());
 						MessageBoxW(nullptr, wszTitle, TranslateT("Attention!"), MB_ICONWARNING | MB_OK);
 					}
 				}

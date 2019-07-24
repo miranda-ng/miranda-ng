@@ -141,7 +141,7 @@ void CMsnProto::MSN_Kickuser(GCHOOK *gch)
 	GCThreadData *thread = MSN_GetThreadByChatId(gch->ptszID);
 	msnNsThread->sendPacketPayload("DEL", "MSGR\\THREAD", 
 		"<thread><id>%d:%s</id><members><member><mri>%s</mri></member></members></thread>",
-		thread->netId, thread->szEmail, _T2A(gch->ptszUID));
+		thread->netId, thread->szEmail, _T2A(gch->ptszUID).get());
 }
 
 void CMsnProto::MSN_Promoteuser(GCHOOK *gch, const char *pszRole)
@@ -149,7 +149,7 @@ void CMsnProto::MSN_Promoteuser(GCHOOK *gch, const char *pszRole)
 	GCThreadData *thread = MSN_GetThreadByChatId(gch->ptszID);
 	msnNsThread->sendPacketPayload("PUT", "MSGR\\THREAD", 
 		"<thread><id>%d:%s</id><members><member><mri>%s</mri><role>%s</role></member></members></thread>",
-		thread->netId, thread->szEmail, _T2A(gch->ptszUID), pszRole);
+		thread->netId, thread->szEmail, _T2A(gch->ptszUID).get(), pszRole);
 }
 
 const wchar_t *CMsnProto::MSN_GCGetRole(GCThreadData* thread, const char *pszWLID) 

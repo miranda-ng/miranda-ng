@@ -239,7 +239,7 @@ void ChatHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 			str.AppendFormat("<span class=\"timestamp\">%s </span>", timestampToString(eventData->time));
 
 		if ((dwData & IEEDD_GC_SHOW_NICK) && eventData->iType == IEED_GC_EVENT_MESSAGE)
-			str.AppendFormat("<span class=\"%s\">%s: </span>", isSent ? "nameOut" : "nameIn", szName);
+			str.AppendFormat("<span class=\"%s\">%s: </span>", isSent ? "nameOut" : "nameIn", szName.get());
 
 		if (dwData & IEEDD_GC_MSG_ON_NEW_LINE)
 			str.Append("<br>");

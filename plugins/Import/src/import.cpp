@@ -674,7 +674,7 @@ void CImportBatch::ImportMeta(DBCachedContact *ccSrc)
 
 		if (tszNick && *tszNick) {
 			db_set_ws(hDest, "CList", "MyHandle", tszNick);
-			AddMessage(LPGENW("Added metacontact '%s'"), tszNick);
+			AddMessage(LPGENW("Added metacontact '%s'"), tszNick.get());
 		}
 		else AddMessage(LPGENW("Added metacontact"));
 	}
@@ -803,7 +803,7 @@ MCONTACT CImportBatch::ImportContact(MCONTACT hSrc)
 
 	if (tszNick && *tszNick) {
 		db_set_ws(hDst, "CList", "MyHandle", tszNick);
-		AddMessage(LPGENW("Added %S contact %s, '%s'"), szDstModuleName, pszUniqueID, tszNick);
+		AddMessage(LPGENW("Added %S contact %s, '%s'"), szDstModuleName, pszUniqueID, tszNick.get());
 	}
 	else AddMessage(LPGENW("Added %S contact %s"), szDstModuleName, pszUniqueID);
 

@@ -8,7 +8,7 @@ public:
 	{
 		flags &= (~NLHRF_DUMPASTEXT);
 		Headers
-			<< FORMAT_VALUE("Authorization", "skype_token %s", ppro->m_szApiToken)
+			<< FORMAT_VALUE("Authorization", "skype_token %s", ppro->m_szApiToken.get())
 			<< CHAR_VALUE("Content-Type", "text/json");
 
 		JSONNode node, jPermissions, jPermission(JSON_ARRAY);
@@ -30,7 +30,7 @@ public:
 		HttpRequest(REQUEST_PUT, FORMAT, "api.asm.skype.com/v1/objects/%s/content/original", szObject)
 	{
 		Headers
-			<< FORMAT_VALUE("Authorization", "skype_token %s", ppro->m_szApiToken)
+			<< FORMAT_VALUE("Authorization", "skype_token %s", ppro->m_szApiToken.get())
 			<< CHAR_VALUE("Content-Type", "application/octet-stream");
 
 		pData = (char*)mir_alloc(size);

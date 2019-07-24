@@ -411,7 +411,7 @@ class COptionsDlg : public CDlgBase
 
 	void GetTreeSettingName(int idx, char *buf, size_t bufSize)
 	{
-		mir_snprintf(buf, bufSize, "%s%S", OPTSTATE_PREFIX, (idx < 0) ? m_arOpd[-idx]->ptszGroup : m_arOpd[idx]->ptszTitle);
+		mir_snprintf(buf, bufSize, "%s%S", OPTSTATE_PREFIX, (idx < 0) ? m_arOpd[-idx]->ptszGroup.get() : m_arOpd[idx]->ptszTitle.get());
 	}
 
 	void SaveOptionsTreeState()

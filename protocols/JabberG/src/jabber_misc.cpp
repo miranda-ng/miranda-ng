@@ -135,7 +135,7 @@ BOOL CJabberProto::AddDbPresenceEvent(MCONTACT hContact, BYTE btEventType)
 
 void CJabberProto::GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t cbLen)
 {
-	int tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%S", VARSW(L"%miranda_avatarcache%"), m_szModuleName);
+	int tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%S", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName);
 
 	DWORD dwAttributes = GetFileAttributes(pszDest);
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
@@ -290,14 +290,14 @@ void CJabberProto::FormatMirVer(const pResourceStatus &resource, CMStringA &res)
 
 	// no caps info? set MirVer = resource name
 	if (resource->m_pCaps == nullptr) {
-		debugLogA("JabberUpdateMirVer: for rc %s: %s", resource->m_szResourceName, resource->m_szResourceName);
+		debugLogA("JabberUpdateMirVer: for rc %s: %s", resource->m_szResourceName.get(), resource->m_szResourceName.get());
 		if (resource->m_szResourceName)
 			res = resource->m_szResourceName;
 	}
 	// XEP-0115 caps mode
 	else {
 		CJabberClientPartialCaps *pCaps = resource->m_pCaps;
-		debugLogA("JabberUpdateMirVer: for rc %s: %s#%s", resource->m_szResourceName, pCaps->GetNode(), pCaps->GetHash());
+		debugLogA("JabberUpdateMirVer: for rc %s: %s#%s", resource->m_szResourceName.get(), pCaps->GetNode(), pCaps->GetHash());
 
 		// unknown software
 		const char *szDefaultName = GetSoftName(pCaps->GetNode());
@@ -331,7 +331,7 @@ void CJabberProto::FormatMirVer(const pResourceStatus &resource, CMStringA &res)
 
 	if (resource->m_szResourceName && !strstr(res, resource->m_szResourceName))
 		if (strstr(res, "Miranda IM") || strstr(res, "Miranda NG") || m_bShowForeignResourceInMirVer)
-			res.AppendFormat(" [%s]", resource->m_szResourceName);
+			res.AppendFormat(" [%s]", resource->m_szResourceName.get());
 }
 
 void CJabberProto::UpdateMirVer(MCONTACT hContact, const pResourceStatus &r)

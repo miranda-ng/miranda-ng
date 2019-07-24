@@ -352,9 +352,9 @@ void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 				else
 					className = isSent ? "hNameOut" : "hNameIn";
 				if (dwFlags & MWF_LOG_UNDERLINE)
-					str.AppendFormat("<span class=\"%s\"><u>%s%s</span>", className, szName, (dwFlags & MWF_LOG_SHOWTIME) ? " </u>" : "</u>: ");
+					str.AppendFormat("<span class=\"%s\"><u>%s%s</span>", className, szName.get(), (dwFlags & MWF_LOG_SHOWTIME) ? " </u>" : "</u>: ");
 				else
-					str.AppendFormat("<span class=\"%s\">%s%s</span>", className, szName, (dwFlags & MWF_LOG_SHOWTIME) ? " " : ": ");
+					str.AppendFormat("<span class=\"%s\">%s%s</span>", className, szName.get(), (dwFlags & MWF_LOG_SHOWTIME) ? " " : ": ");
 			}
 			if (dwFlags & MWF_LOG_SHOWTIME && (isGroupBreak || dwFlags2 & MWF_SHOW_MARKFOLLOWUPTS)) {
 				const char *className;
@@ -371,7 +371,7 @@ void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 			}
 			if ((eventData->iType == IEED_EVENT_STATUSCHANGE) || ((dwFlags & MWF_LOG_SHOWNICK) && !(dwFlags & MWF_LOG_SWAPNICK) && isGroupBreak)) {
 				if (eventData->iType == IEED_EVENT_STATUSCHANGE)
-					str.AppendFormat("<span class=\"statusChange\">%s </span>", szName);
+					str.AppendFormat("<span class=\"statusChange\">%s </span>", szName.get());
 				else {
 					const char *className = "";
 					if (!isHistory)
@@ -379,9 +379,9 @@ void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 					else
 						className = isSent ? "hNameOut" : "hNameIn";
 					if (dwFlags & MWF_LOG_UNDERLINE)
-						str.AppendFormat("<span class=\"%s\"><u>%s</u>: </span>", className, szName);
+						str.AppendFormat("<span class=\"%s\"><u>%s</u>: </span>", className, szName.get());
 					else
-						str.AppendFormat("<span class=\"%s\">%s: </span>", className, szName);
+						str.AppendFormat("<span class=\"%s\">%s: </span>", className, szName.get());
 				}
 			}
 			if (dwFlags & MWF_LOG_NEWLINE && eventData->iType != IEED_EVENT_STATUSCHANGE && eventData->iType != IEED_EVENT_ERRMSG && isGroupBreak)
@@ -397,7 +397,7 @@ void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 			else if (eventData->iType == IEED_EVENT_STATUSCHANGE)
 				className = "statusChange";
 
-			str.AppendFormat("<span class=\"%s\">%s</span>", className, szText);
+			str.AppendFormat("<span class=\"%s\">%s</span>", className, szText.get());
 			str.Append("</div>\n");
 			setLastEventType(MAKELONG(eventData->dwFlags, eventData->iType));
 			setLastEventTime(eventData->time);

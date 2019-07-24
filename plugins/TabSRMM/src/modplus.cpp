@@ -100,7 +100,7 @@ static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 			int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, cbcd->pt.x, cbcd->pt.y, 0, cbcd->hwndFrom, nullptr);
 			if (res != 0) {
 				bufSize = textlenght + mir_wstrlen(arMenuLines[res-1]) + 2;
-				pwszFormatedText.Format(arMenuLines[res-1], pszText);
+				pwszFormatedText.Format(arMenuLines[res-1], pszText.get());
 			}
 
 			for (auto &it : arMenuLines)
@@ -110,7 +110,7 @@ static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 	else if (textlenght) {
 		SendDlgItemMessage(cbcd->hwndFrom, IDC_SRMM_MESSAGE, EM_GETSELTEXT, 0, (LPARAM)pszText);
 
-		pwszFormatedText.Format(L"[img]%s[/img]", pszText);
+		pwszFormatedText.Format(L"[img]%s[/img]", pszText.get());
 
 		bbd.pwszTooltip = nullptr;
 		bbd.hIcon = nullptr;

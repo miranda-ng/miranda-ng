@@ -393,7 +393,7 @@ static wchar_t* parseSpecialContact(ARGUMENTSINFO *ai)
 	if (szUniqueID == NULL)
 		return nullptr;
 
-	return CMStringW(FORMAT, L"<%S:%s>", szProto, szUniqueID).Detach();
+	return CMStringW(FORMAT, L"<%S:%s>", szProto, szUniqueID.get()).Detach();
 }
 
 static BOOL isValidDbEvent(DBEVENTINFO *dbe, int flags)

@@ -704,9 +704,9 @@ BOOL CAccountListCtrl::OnDrawItem(DRAWITEMSTRUCT *lps)
 			ptrW tszIdName(szIdName ? mir_a2u(szIdName) : mir_wstrdup(TranslateT("Account ID")));
 			ptrW tszUniqueID(Contact_GetInfo(CNF_UNIQUEID, 0, acc->szModuleName));
 			if (tszUniqueID != nullptr)
-				text.Format(L"%s: %s", tszIdName, tszUniqueID);
+				text.Format(L"%s: %s", tszIdName.get(), tszUniqueID.get());
 			else
-				text.Format(L"%s: %s", tszIdName, TranslateT("<unknown>"));
+				text.Format(L"%s: %s", tszIdName.get(), TranslateT("<unknown>"));
 		}
 		else text.Format(TranslateT("Protocol is not loaded."));
 
@@ -873,7 +873,7 @@ bool CAccountFormDlg::OnApply()
 	if (m_action == PRAC_UPGRADED) {
 		BOOL oldProto = m_pa->bOldProto;
 		wchar_t szPlugin[MAX_PATH];
-		mir_snwprintf(szPlugin, L"%s.dll", _A2T(m_pa->szProtoName));
+		mir_snwprintf(szPlugin, L"%S.dll", m_pa->szProtoName);
 		int idx = accounts.getIndex(m_pa);
 		UnloadAccount(m_pa, 0);
 		accounts.remove(idx);

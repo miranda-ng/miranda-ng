@@ -197,7 +197,7 @@ char* TMD5Auth::getChallenge(const char *challenge)
 	int cbLen = mir_snprintf(buf, 8000,
 		"username=\"%s\",realm=\"%s\",nonce=\"%s\",cnonce=\"%s\",nc=%08d,"
 		"qop=auth,digest-uri=\"xmpp/%s\",charset=utf-8,response=%08x%08x%08x%08x",
-		info->conn.username, realm, nonce, cnonce, iCallCount, serv,
+		info->conn.username, realm, nonce, cnonce, iCallCount, serv.get(),
 		htonl(digest[0]), htonl(digest[1]), htonl(digest[2]), htonl(digest[3]));
 
 	return mir_base64_encode(buf, cbLen);
@@ -276,7 +276,7 @@ char* TScramAuth::getChallenge(const char *challenge)
 	mir_sha1_finish(&ctx, storedKey);
 
 	char authmsg[4096];
-	int authmsgLen = mir_snprintf(authmsg, "%s,%s,c=biws,r=%s", msg1, chl, snonce);
+	int authmsgLen = mir_snprintf(authmsg, "%s,%s,c=biws,r=%s", msg1, chl.get(), snonce.get());
 
 	BYTE clientSig[MIR_SHA1_HASH_SIZE];
 	HMAC(EVP_sha1(), storedKey, sizeof(storedKey), (BYTE*)authmsg, authmsgLen, clientSig, &len);
@@ -295,7 +295,7 @@ char* TScramAuth::getChallenge(const char *challenge)
 
 	char buf[4096];
 	ptrA encproof(mir_base64_encode(clientProof, sizeof(clientProof)));
-	int cbLen = mir_snprintf(buf, "c=biws,r=%s,p=%s", snonce, encproof);
+	int cbLen = mir_snprintf(buf, "c=biws,r=%s,p=%s", snonce.get(), encproof.get());
 	return mir_base64_encode(buf, cbLen);
 }
 

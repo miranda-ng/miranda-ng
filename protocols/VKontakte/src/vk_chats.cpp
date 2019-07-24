@@ -306,7 +306,7 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &
 
 		if (wszAction == L"chat_create") {
 			CMStringW wszActionText = jnMsg["action_text"].as_mstring();
-			wszBody.AppendFormat(L"%s \"%s\"", TranslateT("create chat"), wszActionText.IsEmpty() ? L" " : wszActionText);
+			wszBody.AppendFormat(L"%s \"%s\"", TranslateT("create chat"), wszActionText.IsEmpty() ? L" " : wszActionText.c_str());
 		}
 		else if (wszAction == L"chat_kick_user") {
 			CMStringW wszActionMid = jnMsg["action_mid"].as_mstring();
@@ -327,10 +327,9 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &
 						if (cu == nullptr)
 							wszBody.AppendFormat(L"%s (%s)", TranslateT("kick user"), UserProfileUrl(a_uid).c_str());
 						else
-							wszBody.AppendFormat(L"%s %s (%s)", TranslateT("kick user"), cu->m_wszNick, UserProfileUrl(a_uid).c_str());
+							wszBody.AppendFormat(L"%s %s (%s)", TranslateT("kick user"), cu->m_wszNick.get(), UserProfileUrl(a_uid).c_str());
 					}
-					else
-						wszBody = TranslateT("kick user");
+					else wszBody = TranslateT("kick user");
 				}
 			}
 		}
@@ -350,16 +349,15 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &
 						if (cu == nullptr)
 							wszBody.AppendFormat(L"%s (%s)", TranslateT("invite user"), UserProfileUrl(a_uid).c_str());
 						else
-							wszBody.AppendFormat(L"%s %s (%s)", TranslateT("invite user"), cu->m_wszNick, UserProfileUrl(a_uid).c_str());
+							wszBody.AppendFormat(L"%s %s (%s)", TranslateT("invite user"), cu->m_wszNick.get(), UserProfileUrl(a_uid).c_str());
 					}
-					else
-						wszBody = TranslateT("invite user");
+					else wszBody = TranslateT("invite user");
 				}
 			}
 		}
 		else if (wszAction == L"chat_title_update") {
 			CMStringW wszTitle = jnMsg["action_text"].as_mstring();
-			wszBody.AppendFormat(L"%s \"%s\"", TranslateT("change chat title to"), wszTitle.IsEmpty() ? L" " : wszTitle);
+			wszBody.AppendFormat(L"%s \"%s\"", TranslateT("change chat title to"), wszTitle.IsEmpty() ? L" " : wszTitle.c_str());
 
 			if (!bIsHistory)
 				SetChatTitle(cc, wszTitle);
@@ -852,7 +850,7 @@ void CVkProto::ChatContactTypingThread(void *p)
 			m_ChatsTyping.remove(cp);
 		m_ChatsTyping.insert(param);
 
-		Srmm_SetStatusText(hChatContact, CMStringW(FORMAT, TranslateT("%s is typing a message..."), cu->m_wszNick));
+		Srmm_SetStatusText(hChatContact, CMStringW(FORMAT, TranslateT("%s is typing a message..."), cu->m_wszNick.get()));
 	}
 
 	Sleep(9500);

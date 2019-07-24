@@ -406,19 +406,19 @@ int GetWeatherData(MCONTACT hContact)
 		// generate update URL
 		switch (i) {
 		case 0:
-			mir_snprintf(loc, Data->UpdateURL, _T2A(id));
+			mir_snprintf(loc, Data->UpdateURL, _T2A(id).get());
 			break;
 
 		case 1:
-			mir_snprintf(loc, Data->UpdateURL2, _T2A(id));
+			mir_snprintf(loc, Data->UpdateURL2, _T2A(id).get());
 			break;
 
 		case 2:
-			mir_snprintf(loc, Data->UpdateURL3, _T2A(id));
+			mir_snprintf(loc, Data->UpdateURL3, _T2A(id).get());
 			break;
 
 		case 3:
-			mir_snprintf(loc, Data->UpdateURL4, _T2A(id));
+			mir_snprintf(loc, Data->UpdateURL4, _T2A(id).get());
 			break;
 
 		default:

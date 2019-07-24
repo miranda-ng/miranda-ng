@@ -178,16 +178,16 @@ void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus 
 	switch (type) {
 	case INFO_BAN:
 		if (m_bGcLogBans)
-			buf.Format(TranslateU("User %s is now banned."), user->m_szResourceName);
+			buf.Format(TranslateU("User %s is now banned."), user->m_szResourceName.get());
 		break;
 
 	case INFO_STATUS:
 		if (m_bGcLogStatuses) {
 			wchar_t *ptszDescr = Clist_GetStatusModeDescription(user->m_iStatus, 0);
 			if (user->m_szStatusMessage)
-				buf.Format(TranslateU("User %s changed status to %s with message: %s"), user->m_szResourceName, ptszDescr, user->m_szStatusMessage);
+				buf.Format(TranslateU("User %s changed status to %s with message: %s"), user->m_szResourceName.get(), ptszDescr, user->m_szStatusMessage.get());
 			else
-				buf.Format(TranslateU("User %s changed status to %s"), user->m_szResourceName, ptszDescr);
+				buf.Format(TranslateU("User %s changed status to %s"), user->m_szResourceName.get(), ptszDescr);
 		}
 		break;
 
@@ -207,7 +207,7 @@ void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus 
 			case AFFILIATION_OUTCAST:	name = TranslateU("Outcast"); break;
 			}
 			if (name)
-				buf.Format(TranslateU("Affiliation of %s was changed to '%s'."), user->m_szResourceName, name);
+				buf.Format(TranslateU("Affiliation of %s was changed to '%s'."), user->m_szResourceName.get(), name);
 		}
 		break;
 
@@ -222,7 +222,7 @@ void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus 
 			}
 
 			if (name)
-				buf.Format(TranslateU("Role of %s was changed to '%s'."), user->m_szResourceName, name);
+				buf.Format(TranslateU("Role of %s was changed to '%s'."), user->m_szResourceName.get(), name);
 		}
 		break;
 	}
@@ -839,7 +839,7 @@ static INT_PTR CALLBACK sttUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		SendDlgItemMessage(hwndDlg, IDC_ICO_STATUS, STM_SETICON, (WPARAM)Skin_LoadProtoIcon(dat->ppro->m_szModuleName, dat->him->m_iStatus), 0);
 
 		char buf[256];
-		mir_snprintf(buf, TranslateU("%s from\n%s"), dat->him->m_szResourceName, dat->item->jid);
+		mir_snprintf(buf, TranslateU("%s from\n%s"), dat->him->m_szResourceName.get(), dat->item->jid);
 		SetDlgItemTextUtf(hwndDlg, IDC_HEADERBAR, buf);
 
 		SetDlgItemTextUtf(hwndDlg, IDC_TXT_NICK, dat->him->m_szResourceName);
@@ -998,7 +998,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 			// do not use snprintf to avoid possible problems with % symbol
 			if (char *p = strstr(szMessage, "%s")) {
 				*p = 0;
-				buf.Format("%s%s%s", szMessage, him->m_szResourceName, p + 2);
+				buf.Format("%s%s%s", szMessage.get(), him->m_szResourceName.get(), p + 2);
 			}
 			else buf = szMessage;
 			buf.Replace("%%", "%");

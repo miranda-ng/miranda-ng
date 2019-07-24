@@ -107,7 +107,7 @@ INT_PTR CSkypeProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 
 	if (IsOnline()) {
 		PushRequest(new GetAvatarRequest(szUrl), &CSkypeProto::OnReceiveAvatar, (void*)pai->hContact);
-		debugLogA("Requested to read an avatar from '%s'", szUrl);
+		debugLogA("Requested to read an avatar from '%s'", szUrl.get());
 		return GAIR_WAITFOR;
 	}
 
@@ -125,7 +125,7 @@ INT_PTR CSkypeProto::SvcGetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 void CSkypeProto::GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t cbLen)
 {
-	int tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%s", VARSW(L"%miranda_avatarcache%"), m_tszUserName);
+	int tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%s", VARSW(L"%miranda_avatarcache%").get(), m_tszUserName);
 
 	DWORD dwAttributes = GetFileAttributes(pszDest);
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)

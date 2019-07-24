@@ -112,7 +112,7 @@ MIR_APP_DLL(wchar_t*) Clist_TrayIconMakeTooltip(const wchar_t *szPrefix, const c
 				if (ProtoXStatus != nullptr) {
 					if (!tszTip.IsEmpty())
 						tszTip.AppendChar('\n');
-					tszTip.AppendFormat(L"%-24.24s\n", ProtoXStatus);
+					tszTip.AppendFormat(L"%-24.24s\n", ProtoXStatus.get());
 				}
 			}
 			else tszTip.AppendFormat(L"%s %s", pa->tszAccountName, szStatus);
@@ -129,7 +129,7 @@ MIR_APP_DLL(wchar_t*) Clist_TrayIconMakeTooltip(const wchar_t *szPrefix, const c
 				if (db_get_b(0, "CList", "AlwaysStatus", SETTING_ALWAYSSTATUS_DEFAULT)) {
 					if (hasTips()) {
 						if (ProtoXStatus != nullptr)
-							mir_snwprintf(g_clistApi.szTip, MAX_TIP_SIZE, L"%s%s<b>%-12.12s</b>\t%s%s%-24.24s", szPrefix, szSeparator, pa->tszAccountName, szStatus, szSeparator, ProtoXStatus);
+							mir_snwprintf(g_clistApi.szTip, MAX_TIP_SIZE, L"%s%s<b>%-12.12s</b>\t%s%s%-24.24s", szPrefix, szSeparator, pa->tszAccountName, szStatus, szSeparator, ProtoXStatus.get());
 						else
 							mir_snwprintf(g_clistApi.szTip, MAX_TIP_SIZE, L"%s%s<b>%-12.12s</b>\t%s", szPrefix, szSeparator, pa->tszAccountName, szStatus);
 					}
@@ -140,7 +140,7 @@ MIR_APP_DLL(wchar_t*) Clist_TrayIconMakeTooltip(const wchar_t *szPrefix, const c
 			else {
 				if (hasTips()) {
 					if (ProtoXStatus != nullptr)
-						mir_snwprintf(g_clistApi.szTip, MAX_TIP_SIZE, L"<b>%-12.12s</b>\t%s\n%-24.24s", pa->tszAccountName, szStatus, ProtoXStatus);
+						mir_snwprintf(g_clistApi.szTip, MAX_TIP_SIZE, L"<b>%-12.12s</b>\t%s\n%-24.24s", pa->tszAccountName, szStatus, ProtoXStatus.get());
 					else
 						mir_snwprintf(g_clistApi.szTip, MAX_TIP_SIZE, L"<b>%-12.12s</b>\t%s", pa->tszAccountName, szStatus);
 				}

@@ -283,13 +283,13 @@ static wchar_t* GetPreviewT(WORD eventType, DBEVENTINFO *dbe)
 				if (szDescr && Utils::safe_strlen(szDescr, dbe->cbBlob - sizeof(DWORD) - namelength - 1) > 0) {
 					ptrW tszDescr(DbEvent_GetString(dbe, szDescr));
 					if (tszFileName && tszDescr) {
-						mir_snwprintf(buf, L"%s: %s (%s)", TranslateT("Incoming file"), tszFileName, tszDescr);
+						mir_snwprintf(buf, L"%s: %s (%s)", TranslateT("Incoming file"), tszFileName.get(), tszDescr.get());
 						return mir_wstrdup(buf);
 					}
 				}
 
 				if (tszFileName) {
-					mir_snwprintf(buf, L"%s: %s (%s)", TranslateT("Incoming file"), tszFileName, TranslateT("No description given"));
+					mir_snwprintf(buf, L"%s: %s (%s)", TranslateT("Incoming file"), tszFileName.get(), TranslateT("No description given"));
 					return mir_wstrdup(buf);
 				}
 			}
@@ -441,13 +441,8 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, MCONTACT hContact, MEVENT hEve
 	pdata->eventData[0].tszText[MAX_SECONDLINE - 1] = 0;
 	pdata->nrEventsAlloced = NR_MERGED;
 	pdata->nrMerged = 1;
-
-	// fix for broken popups -- process failures
-	if (PUAddPopupW(&pud) < 0) {
-		mir_free(pdata->eventData);
-		mir_free(pdata);
-	}
-	else arPopupList.insert(pdata);
+	PUAddPopupW(&pud);
+	arPopupList.insert(pdata);
 
 	if (dbe.pBlob)
 		mir_free(dbe.pBlob);

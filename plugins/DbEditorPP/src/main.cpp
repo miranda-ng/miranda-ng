@@ -478,9 +478,9 @@ int GetContactName(MCONTACT hContact, const char *proto, wchar_t *value, int max
 
 	if (szProto && szProto[0]) {
 		if (g_Order)
-			mir_snwprintf(value, maxlen, L"(%s) %s", _A2T(szProto), name);
+			mir_snwprintf(value, maxlen, L"(%S) %s", szProto, name);
 		else
-			mir_snwprintf(value, maxlen, L"%s (%s)", name, _A2T(szProto));
+			mir_snwprintf(value, maxlen, L"%s (%S)", name, szProto);
 	}
 	else mir_wstrncpy(value, name, maxlen);
 

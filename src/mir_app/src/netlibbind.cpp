@@ -166,7 +166,7 @@ static void __cdecl NetlibBindAcceptThread(NetlibBoundPort *nlbp)
 		}
 		else s = 0;
 
-		Netlib_Logf(nlbp->nlu, "New incoming connection on port %u from %s (%p)", nlbp->wPort, ptrA(Netlib_AddressToString(&sin)), (void*)s);
+		Netlib_Logf(nlbp->nlu, "New incoming connection on port %u from %s (%p)", nlbp->wPort, ptrA(Netlib_AddressToString(&sin)).get(), (void*)s);
 		
 		NetlibConnection *nlc = new NetlibConnection();
 		nlc->nlu = nlbp->nlu;

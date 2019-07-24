@@ -168,7 +168,7 @@ void GaduProto::cleanuplastplugin(DWORD version)
 		debugLogA("cleanuplastplugin() 1: version=%d Cleaning junk avatar files from < 0.11.0.2", version);
 
 		wchar_t avatarsPath[MAX_PATH];
-		mir_snwprintf(avatarsPath, L"%s\\%s", VARSW(L"%miranda_avatarcache%"), m_tszUserName);
+		mir_snwprintf(avatarsPath, L"%s\\%s", VARSW(L"%miranda_avatarcache%").get(), m_tszUserName);
 
 		debugLogW(L"cleanuplastplugin() 1: miranda_avatarcache = %s", avatarsPath);
 

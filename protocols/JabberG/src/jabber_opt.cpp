@@ -326,7 +326,7 @@ CCtrlEditJid::CCtrlEditJid(CDlgBase* dlg, int ctrlId):
 
 static void sttStoreJidFromUI(CJabberProto *ppro, CCtrlEdit &txtUsername, CCtrlCombo &cbServer)
 {
-	ppro->setWString("jid", CMStringW(FORMAT, L"%s@%s", ptrW(txtUsername.GetText()), ptrW(cbServer.GetText())));
+	ppro->setWString("jid", CMStringW(FORMAT, L"%s@%s", ptrW(txtUsername.GetText()).get(), ptrW(cbServer.GetText()).get()));
 }
 
 class CDlgOptAccount : public CJabberDlgBase

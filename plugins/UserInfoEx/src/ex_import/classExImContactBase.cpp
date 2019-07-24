@@ -294,9 +294,9 @@ void CExImContactBase::toIni(FILE* file, int modCount)
 			ptrW pszCI(Contact_GetInfo(CNF_DISPLAY, _hContact, _pszProto));
 			ptrA pszUID(uid2String(FALSE));
 			if (_pszUIDKey && pszUID)
-				mir_snprintf(name, "%S *(%s)*<%s>*{%s}*", pszCI, _pszProto, _pszUIDKey, pszUID);
+				mir_snprintf(name, "%S *(%s)*<%s>*{%s}*", pszCI.get(), _pszProto, _pszUIDKey, pszUID.get());
 			else 
-				mir_snprintf(name, "%S (%s)", pszCI, _pszProto);
+				mir_snprintf(name, "%S (%s)", pszCI.get(), _pszProto);
 		}
 
 		// it is not the best solution (but still works if only basic modules export) - need rework

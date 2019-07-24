@@ -404,7 +404,7 @@ LBL_Status:
 			ptrW tszXStatusMsg(db_get_wsa(pdnce->hContact, pdnce->szProto, "XStatusMsg"));
 			if (tszXStatusMsg != nullptr && tszXStatusMsg[0] != 0) {
 				wchar_t *tmp = NEWWSTR_ALLOCA(text);
-				mir_snwprintf(text, text_size, L"%s: %s", tmp, tszXStatusMsg);
+				mir_snwprintf(text, text_size, L"%s: %s", tmp, tszXStatusMsg.get());
 				CopySkipUnprintableChars(text, text, text_size - 1);
 			}
 		}
@@ -426,7 +426,7 @@ LBL_Status:
 			ptrW tszXStatusName(db_get_wsa(pdnce->hContact, pdnce->szProto, "XStatusName"));
 			if (tszXStatusName != nullptr && tszXStatusName[0] != 0) {
 				wchar_t *tmp = NEWWSTR_ALLOCA(text);
-				mir_snwprintf(text, text_size, L"%s: %s", tszXStatusName, tmp);
+				mir_snwprintf(text, text_size, L"%s: %s", tszXStatusName.get(), tmp);
 				CopySkipUnprintableChars(text, text, text_size - 1);
 			}
 		}

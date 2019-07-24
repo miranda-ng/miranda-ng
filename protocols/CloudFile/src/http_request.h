@@ -64,11 +64,7 @@ protected:
 
 		length = mir_strlen(ePair) + 7;
 		char *value = (char*)mir_calloc(length + 1);
-		mir_snprintf(
-			value,
-			length,
-			"Basic %s",
-			ePair);
+		mir_snprintf(value, length, "Basic %s", ePair.get());
 
 		headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount + 1));
 		headers[headersCount].szName = mir_strdup("Authorization");

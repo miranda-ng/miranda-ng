@@ -222,7 +222,7 @@ INT_PTR GaduProto::getavatarinfo(WPARAM wParam, LPARAM lParam)
 		if (AvatarName)
 		{
 			char AvatarNameWithTS[128];
-			mir_snprintf(AvatarNameWithTS, "%s%s", ++AvatarName, AvatarTs);
+			mir_snprintf(AvatarNameWithTS, "%s%s", ++AvatarName, AvatarTs.get());
 			AvatarHash = gg_avatarhash(AvatarNameWithTS);
 		}
 	}

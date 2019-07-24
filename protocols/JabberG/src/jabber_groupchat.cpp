@@ -457,7 +457,7 @@ public:
 				break;
 
 			char jid[JABBER_MAX_JID_LEN];
-			mir_snprintf(jid, "%s@%s (%s)", info.m_room, info.m_server, info.m_nick ? info.m_nick : TranslateU("<no nick>"));
+			mir_snprintf(jid, "%s@%s (%s)", info.m_room.get(), info.m_server.get(), info.m_nick ? info.m_nick.get() : TranslateU("<no nick>"));
 			SetDlgItemTextUtf(m_hwnd, IDC_RECENT1 + i, jid);
 		}
 		sttJoinDlgShowRecentItems(m_hwnd, i);
@@ -737,7 +737,7 @@ static VOID CALLBACK JabberGroupchatChangeNickname(void* arg)
 	JABBER_LIST_ITEM *item = param->ppro->ListGetItemPtr(LIST_CHATROOM, param->jid);
 	if (item != nullptr) {
 		CMStringW szBuffer, szTitle;
-		szTitle.Format(TranslateT("Change nickname in <%s>"), item->name ? item->name : Utf2T(item->jid));
+		szTitle.Format(TranslateT("Change nickname in <%s>"), item->name ? item->name : Utf2T(item->jid).get());
 		if (item->nick)
 			szBuffer = Utf2T(item->nick);
 

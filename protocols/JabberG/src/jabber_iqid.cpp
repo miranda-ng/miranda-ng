@@ -238,7 +238,7 @@ void CJabberProto::OnIqResultGetAuth(const TiXmlElement *iqNode, CJabberIqInfo*)
 		if (XmlFirstChild(queryNode, "digest") != nullptr && m_ThreadInfo->szStreamId) {
 			JabberShaStrBuf buf;
 			char text[200];
-			mir_snprintf(text, "%s%s", m_ThreadInfo->szStreamId, m_ThreadInfo->conn.password);
+			mir_snprintf(text, "%s%s", m_ThreadInfo->szStreamId.get(), m_ThreadInfo->conn.password);
 			query << XCHILD("digest", JabberSha1(text, buf));
 		}
 		else if (XmlFirstChild(queryNode, "password") != nullptr)

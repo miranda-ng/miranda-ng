@@ -24,7 +24,7 @@ CSametimeProto::CSametimeProto(const char* pszProtoName, const wchar_t* tszUserN
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	RegisterGLibLogger();
-	debugLogW(L"CSametimeProto::CSametimeProto() start  m_szModuleName=[%s], m_tszUserName=[%s]", _A2T(m_szModuleName), m_tszUserName);
+	debugLogW(L"CSametimeProto::CSametimeProto() start  m_szModuleName=[%S], m_tszUserName=[%s]", m_szModuleName, m_tszUserName);
 
 	SametimeInitIcons();
 

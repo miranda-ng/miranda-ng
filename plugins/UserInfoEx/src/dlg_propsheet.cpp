@@ -120,7 +120,7 @@ private:
 		// check if icq is online
 		if (!IsProtoOnline((*_pPd)->szModuleName))
 			MsgBox(_pPs->hDlg, MB_ICON_WARNING, TranslateT("Upload details"),
-				CMStringW(FORMAT, TranslateT("Protocol '%s' is offline"), _A2T((*_pPd)->szModuleName)),
+				CMStringW(FORMAT, TranslateT("Protocol '%s' is offline"), _A2T((*_pPd)->szModuleName).get()),
 				TranslateT("You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only."));
 
 		// start uploading process
