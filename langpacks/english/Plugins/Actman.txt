@@ -284,8 +284,6 @@
 [Occupied]
 [Free for chat]
 [Invisible]
-[On the phone]
-[Out to lunch]
 [Set global status]
 [Switch contact list status]
 [Closes Miranda]
