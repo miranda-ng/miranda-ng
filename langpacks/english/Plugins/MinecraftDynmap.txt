@@ -10,6 +10,7 @@
 [Server:]
 [Visible name:]
 ;file \protocols\MinecraftDynmap\src\chat.cpp
+[Server]
 [Admin]
 [Normal]
 [You]
