@@ -522,11 +522,6 @@ struct ThreadData
 #define MSN_TYPEID_BKGNDIMG			5
 #define MSN_TYPEID_WINK				8
 
-
-
-inline bool IsChatHandle(MCONTACT hContact) { return (INT_PTR)hContact < 0; }
-
-
 /////////////////////////////////////////////////////////////////////////////////////////
 //	Message queue
 

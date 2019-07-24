@@ -156,7 +156,6 @@ void MqttMessage::writeStr(const char *str)
 bool FacebookProto::MqttConnect()
 {
 	NETLIBOPENCONNECTION nloc = {};
-	nloc.cbSize = sizeof(nloc);
 	nloc.szHost = "mqtt.facebook.com";
 	nloc.wPort = 443;
 	m_mqttConn = Netlib_OpenConnection(m_hNetlibUser, &nloc);
