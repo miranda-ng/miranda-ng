@@ -377,7 +377,7 @@ static int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam)
 
 static int TabsrmmButtonInit(WPARAM, LPARAM)
 {
-	HOTKEYDESC hkd = { "srmm_nudge", LPGEN("Send nudge"), BB_HK_SECTION, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'N'), LPARAM(g_plugin.getInst()) };
+	HOTKEYDESC hkd = { "srmm_nudge", LPGEN("Send nudge"), BB_HK_SECTION, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'N'), 0, LPARAM(g_plugin.getInst()) };
 	g_plugin.addHotkey(&hkd);
 
 	BBButton bbd = {};
