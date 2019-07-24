@@ -126,30 +126,6 @@ const
 
   PFLAG_UNIQUEIDTEXT         = 100; // returns a static buffer of text describing the unique field by which this protocol identifies users (already translated), or NULL
   PFLAG_MAXCONTACTSPERPACKET = 200; // v0.1.2.2+: returns the maximum number of contacts which can be sent in a single PSS_CONTACTS. lParam=(LPARAM)hContact.
-  PFLAG_MAXLENOFMESSAGE      = 400; // v0.3.2+: return the maximum length of an instant message, lParam=(LPARAM)hContact
-  {
-    A protocol might not support this cap, it allows a protocol to say that PFLAGNUM_2 is for
-    statuses contacts supports, and that PFLAGNUM_5 is for statuses a protocol can SET TO ITSELF,
-    if this is not replied to, then PFLAGNUM_2 is alone in telling you which statuses a protocol
-    can set to and what statuses a contact can set to as well.
-
-    E.g. A protocol might report 'wireless' users but a login of the protocol from Miranda can
-    not set itself to 'wireless' so PFLAGNUM_2 would return PF2_ONTHEPHONE and PFLAGNUM_5 would
-    return PF2_ONTHEPHONE as well, this means "I will get contacts who are on the phone but you can
-    not set on the phone" and so on.
-
-    Do note that the reply here is a NEGATION of bitflags reported for PFLAGNUM_2, e.g. returning
-    PF2_ONTHEPHONE for PFLAGNUM_2 and returning the same for PFLAGNUM_5 says that you DO NOT SUPPORT
-    PF2_ONTHEPHONE for the user to PS_SETSTATUS to, but you will expect other contacts to have
-    that status, e.g. you can get onthephone for users but can't go online with onthephone.
-
-    The same PF2_  status flags are used in the reply.
-
-    Added during 0.3.4 (2004/09/14)
-  }
-
-  PFLAGNUM_5 = 5;
-
   // for PS_SETSTATUS
 
   LOGINERR_WRONGPASSWORD = 1;
@@ -177,13 +153,6 @@ const
   PREF_RTL        =  4; // 0.5+ addition: support for right-to-left messages
   PREF_SENT       = 16; // message will be created with the DBEF_SENT flag
 
-  // for PS_FILERESUME
-
-  FILERESUME_OVERWRITE = 1;
-  FILERESUME_RESUME    = 2;
-  FILERESUME_RENAME    = 3;
-  FILERESUME_SKIP      = 4;
-
 const
   PSR_UNICODE = 1;
 
@@ -191,12 +160,12 @@ type
   PPROTOSEARCHRESULT = ^TPROTOSEARCHRESULT;
   TPROTOSEARCHRESULT = record
     cbSize   : int;
+    flags    : int;
     nick     : TFNAMECHAR;
     firstName: TFNAMECHAR;
     lastName : TFNAMECHAR;
     email    : TFNAMECHAR;
     id       : TFNAMECHAR;
-    flags    : int;
     reserved : array [0..(8*SizeOf(THANDLE) div SizeOf(dword))-1] of byte;
     // Protocols may extend this structure with extra members at will and supply
     // a larger cbSize to reflect the new information, but they must not change
@@ -207,34 +176,12 @@ type
     // they put there will be retained by anyone trying to save this structure.
   end;
 
-  PPROTOSEARCHBYNAME = ^TPROTOSEARCHBYNAME;
-  TPROTOSEARCHBYNAME = record
-    pszNick     : TChar;
-    pszFirstName: TChar;
-    pszLastName : TChar;
-  end;
-
   PPROTORECVEVENT = ^TPROTORECVEVENT;
   TPROTORECVEVENT = record
     flags           : dword;
     timestamp       : dword;
     szMessage       : TChar;
     lParam          : LPARAM;
-  end;
-
-  PPROTORECVFILE = ^TPROTORECVFILE;
-  TPROTORECVFILE = record
-    flags        : dword;
-    timestamp    : dword;   // unix time
-    szDescription: PAnsiChar;
-    pFiles       : ^PAnsiChar;     // pointer to an array of PAnsiChar's
-    lParam       : LPARAM;
-  end;
-
-  PPROTOFILERESUME = ^TPROTOFILERESUME;
-  TPROTOFILERESUME = record
-    action    : int;        // FILERESUME_* flag
-    szFilename: TFNAMECHAR; // full path, only valid if action=FILERESUME_RENAME
   end;
 
 const
@@ -257,16 +204,6 @@ const
              has the size of the buffer, example strings: "ICQ", "AIM"
   }
   PS_GETNAME = '/GetName';
-
-  {
-    wParam : whichIcon
-    lParam : 0
-    Affect : Loads one of the protocol-sspecific icons
-    Returns: the HICON or NULL on failure, the returned icon
-             must be DestroyIcon()ed, the UI should overlay
-             the online icon with further UI-specified icon to
-             repressent the exact status mode.
-  }
 
   PLI_PROTOCOL = $1;     // An icon representing the protocol (eg the multicoloured flower for ICQ)
 
@@ -335,47 +272,6 @@ const
   PS_GETSTATUS = '/GetStatus';
 
   {
-    wParam : TMEVENT
-    lParam : 0
-    Affect : allow 'somebody' to add the user to their contact list, see notes
-    Returns: 0 on success, [non zero] on failure
-    Notes  : Auth request come in the form of an event added to the database
-             for the NULL(0) user, the form is:
-             -
-             protocolSpecific: dword;
-             nick, firstname, lastName, e-mail, requestReason: ASCIIZ;
-             -
-             TMEVENT musts be the handle of such an event, one or more
-             fields may be empty if the protocol doesn't support them
-  }
-  PS_AUTHALLOW = '/Authorize';
-
-  {
-    wParam : TMEVENT
-    lParam : TChar - Reason
-    Affect : Deny an authorisation request
-    Returns: 0 on success, [non zero] on failure
-    Notes  : Protocol modules must be able to cope with lParam=NULL(0)
-  }
-  PS_AUTHDENY  = '/AuthDeny';
-
-  {
-    Send a "You were added" event
-    wParam=lParam=0
-    Returns 0 on success, nonzero on failure
-  }
-  PSS_ADDED = '/YouWereAdded';
-
-{ Create account manager UI form
-  wParam=0
-  lParam=(LPARAM)(HWND)hwndAccMgr
-  Returns handle on newly created form.
-  Size for best fit is 186x134 DLUs, please avoid groupboxes
-  paddind and advanced options. This should provide minimal setup
-  for initial connect.
-}
-  PS_CREATEACCMGRUI = '/CreateAccMgrUI';
-  {
     wParam : 0
     lParam : Pointer to a null terminated string containing an ID to search for
     Affect : Send a basic search request, see notes
@@ -400,31 +296,6 @@ const
 
   }
   PS_BASICSEARCH  = '/BasicSearch';
-
-  {
-    wParam : 0
-    lParam : Pointer to a NULL terminated string containing the e-mail to search for
-    Affect : Search for user(s) by e-mail address, see notes
-    Returns: A HANDLE to the search, or NULL(0) on failure
-    Notes  : Results are returned as for PS_BASICSEARCH, this service
-             is only available if the PF1_USERIDISEMAIL flag is set for caps --
-             -
-             This service with the above service should be mapped to the same
-             function if the aforementioned flag is set.
-    Version: v0.1.2.1+
-  }
-  PS_SEARCHBYEMAIL  = '/SearchByEmail';
-
-  {
-    wParam : 0
-    lParam : Pointer to a TPROTOSEARCHBYNAME structure
-    Affect : Search for users by name, see notes
-    Returns: Handle to the search, NULL(0) on failure
-    Notes  : this service is only available, if PF1_SEARCHBYNAME capability is set.
-             Results are returned in the same manner as PS_BASICSEEARCH
-    Version: v0.1.2.1+
-  }
-  PS_SEARCHBYNAME  = '/SearchByName';
 
   {
     wParam : 0
@@ -484,199 +355,6 @@ const
   PS_ADDTOLIST = '/AddToList';
 
   {
-    wParam : MAKEWPARAM(flags, iContact)
-    lParam : TMEVENT
-    Affects: Add a contact to the contact list given an auth/added/contacts events, see notes
-    Returns: A TMCONTACT or NULL(0) on failure
-    Notes  : TMEVENT must be either EVENTTYPE_AUTHREQ or EVENTTYPE_ADDED
-             flags are the same as PS_ADDTOLIST,
-             -
-             iContacts is only used for contacts vents, it is 0-based index
-             of the contacts in the event to add, there's no way to add two or more
-             contacts at once, you should just call this as many times as needed.
-  }
-  PS_ADDTOLISTBYEVENT = '/AddToListByEvent';
-
-  {
-    wParam : HFILETRANSFER
-    lParam : Pointer to a initalised TPROTOFILERESUME
-    Affect : Informs the protocol of the user's chosen resume behaviour, see notes
-    Returns: 0 on success, [non zero] on failure
-    Notes  : If the protocol supports file resume (caps: PF1_FILERESUME) then before
-             each file receive begins it will broadcast an ack with :
-
-             type=ACKTYPE_FILE, result=ACKRESULT_RESUME, hProcess=hFileTransfer,
-             lParam = TPROTOFILETRANSFERSTATUS.
-
-             If the UI processes this ack it must return a [non zero] valuee from it's
-             hook, it all the hooks complete without returning [non zero] then the
-             protocol will assume that no resume UI was available and will continue
-             to receive the file with a default behaviour (default: overwrite)
-             -
-             If a hook does return [non zero] then that UI MUST call this service,
-             PS_FILERESUME at some point.
-             When the protocol module receives this call it will proceed wit the
-             file recieve usingg the given information.
-             -
-             Having sasid that, PS_FILERESUME MUST be called, it is also
-             acceptable to completely abort the transfer instead, i.e. the file
-             exists locally and the user doesn't want to overwrite or resume or
-             reget.
-    Version: v0.1.2.2+
-  }
-  PS_FILERESUME  = '/FileResume';
-
-{
-  Asks a protocol to join the chatroom from contact  v0.8.0+
-  wParam=(WPARAM)(HANDLE)hContact
-  lParam=(LPARAM)0
-  Returns 0 on success, nonzero on failure
-}
-  PS_JOINCHAT = '/JoinChat';
-
-{
-  Asks a protocol to leave the chatroom from contact  v0.8.0+
-  wParam=(WPARAM)(HANDLE)hContact
-  lParam=(LPARAM)0
-  Returns 0 on success, nonzero on failure
-}
-  PS_LEAVECHAT = '/LeaveChat';
-
-{
-  Asks a protocol to read contact information and translate them (for a lookup fields)  v0.8.0+
-  wParam=(WPARAM)(HANDLE)hContact
-  lParam=(LPARAM)(DBCONTACTGETSETTING*)&dbcgs
-  The flag PF4_INFOSETTINGSVC indicates that a protocol supports this. Basically it should
-  do the same as MS_DB_CONTACT_GETSETTING_STR, except that for a lookup settings (e.g. Language)
-  it returns string instead of an ID stored in the database.
-  Caller is responsible for free()ing dbcgs.pValue->pszVal and pbVal if they are
-  returned. You must **NOT** do this from your version of free() you have to use Miranda's free()
-  you can get a function pointer to Miranda's free() via MS_SYSTEM_GET_MMI, see m_system.h
-  Returns 0 on success or nonzero if the setting name was not found or hContact
-  was invalid
-}
-  PS_GETINFOSETTING = '/GetInfoSetting';
-
-{
- Asks protocol for the status message for a status
- wParam=(word) 0 for current status or a status id
- lParam=SGMA_xxx
- Returns status msg or NULL if there is none.  The protocol have to handle only the current
- status. Handling messages for other statuses is optional.
- Remember to mir_free the return value
-}
-  SGMA_UNICODE = 1;        // return Unicode status
-
-  PS_GETMYAWAYMSG = '/GetMyAwayMsg';
-
-{
-  Set nickname for the user
-  wParam=(WPARAM)SMNN_xxx
-  lParam=(LPARAM)(char *) The new nickname for the user
-  return=0 for success
-}
-  SMNN_UNICODE = 1;        // return Unicode status
-
-  PS_SETMYNICKNAME = '/SetNickname';
-
-{
-  Get the max allowed length for the user nickname
-  Optional, default value is 1024
-  wParam=(WPARAM)0
-  lParam=(LPARAM)0
-  return= <=0 for error, >0 the max length of the nick
-}
-  PS_GETMYNICKNAMEMAXLENGTH = '/GetMyNicknameMaxLength';
-
-// WAYD = What are you doing
-  WAYD_UNICODE = 1;        // return Unicode texts
-
-{
-  Get the WAYD message for the user
-  wParam=(WPARAM)WAYD_xxx
-  lParam=(LPARAM)0
-  Returns the text or NULL if there is none. Remember to mir_free the return value.
-}
-  PS_GETMYWAYD = '/GetMyWAYD';
-
-{
-  Sets the WAYD message for the user
-  wParam=(WPARAM)WAYD_xxx
-  lParam=(LPARAM)(WCHAR * or char *)The message
-  Returns 0 on success, nonzero on failure
-}
-  PS_SETMYWAYD = '/SetMyWAYD';
-
-{
-  Get the max allowed length that a WAYD message can have
-  Optional, default value is 1024
-  wParam=(WPARAM)0
-  lParam=(LPARAM)0
-  Returns the max length
-}
-  PS_GETMYWAYDMAXLENGTH = '/GetMyWAYDMaxLength';
-
-{
-  Get the unread email message count, optional
-  wParam = (WPARAM)0
-  lParam = (LPARAM)0
-  Returns the number of unread emails
-}
-  PS_GETUNREADEMAILCOUNT = '/GetUnreadEmailCount';
-
-// these should be called with ProtoChainSend()
-
-{<</
-    !IMPORTANT!
-    wParam, lParam data expected declarations should be treated with
-    one level of indirection, where it says (CCSDATA: Yes)
-    should be :
-
-    What you *actually* get in the service:
-
-    wParam = 0
-    lParam = pCCSDATA
-
-    CCSDATA contains the ..wParam, ..lParam, hContact data declared with each service,
-    so the wParam, lParam passed does not contain the data itself, but lParam
-    contains a pointer to a structure which contains the data.
-
-/>>}
-
-  {
-    CCSDATA: Yes
-    wParam : flags
-    Param : 0
-
-    Affect : Updates a contact's details from the server, see notes
-    Returns: 0 on success, [non zero] on failure
-    Notes  :
-
-             flags which may have SGIF_MINIMAL set to only get
-             "basic" information, such as nickname, email address.
-
-             PCCSDATA(lParam)^.hContact has the TMCONTACT handle to get user
-             information for.
-
-             Will update all the information in the database and then
-             send acks with :
-
-             type=ACKTYPE_GETINFO, result=ACKRESULT_SUCCESS, hProcess=nReplies, lParam=thisReply
-             -
-             Since some protocol do not allow the module to tell when it has
-             got all the information so it can send a final ack, one
-             ack will be sent after each chunk of data has been received,
-             -
-             nReplies contains the number of distinct acks
-             that will be sent to get all the information, 'thisReply'
-             is the zero based index of this ack.
-             When thisReply=0 the minimal information has just been received,
-             all other numbering is arbitrary.
-
-  }
-  PSS_GETINFO = '/GetInfo';
-
-  {
     CCSDATA: Yes
     wParam : flags
     lParam : Pointer to a null terminated string
@@ -697,27 +375,6 @@ const
 
   {
     CCSDATA: Yes
-    wParam : MAKEWPARAM(flags)
-    lParam : Pointer to hContactsList
-    Affect : Send a set of contacts, see notes
-    Returns: A hProcess which will be ack, NULL(0) on failure
-    Notes  : hContactsList is an array of nContacts handles to contacts,
-             if this array includes one or more contains that can not be transferred
-             using this protocol the function will fail.
-             -
-             Will send an ack when the contacts actually get sent:
-
-             type=ACKTYPE_CONTACTS, result=ACKRESULT_SUCCESS/FAILURE,
-             lParam=ansi error message or NIL
-             -
-             No flags have ben defined yet,
-             -
-             The event will *not* be added to the database automatically
-  }
-  PSS_CONTACTS = '/SendContacts';
-
-  {
-    CCSDATA: Yes
     wParam : 0
     lParam : 0
     Affect : Send a request to retrieve TMCONTACT's mode message, see notes
@@ -729,182 +386,12 @@ const
   }
   PSS_GETAWAYMSG = '/GetAwayMsg';
 
-  {
-    CCSDATA: Yes
-    wParam : status_mode
-    lParam : 0
-    Affect : Set the status mode the user will appear in to a user, see notes
-    Returns: 0 on success, [non zero] on failure
-    Notes  : If status_mode = 0 then revert to normal state for the user,
-             ID_STATUS_ONLINE is possible if PF1_VISLIST
-             ID_STATUS_ONLINE is possible if PF1_INDIVSTATUS
-  }
-  PSS_SETAPPARENTMODE = '/SetApparentMode';
-
-  // only valid if caps support IM xfers
-  {
-    CCSDATA: Yes
-    wParam : HTRANSFER
-    lParam : null terminated string containing the path
-    Affect : Allow a file transfer to begin, see notes
-    Returns: A handle to the transfer to be used from now on.
-    Notes  : If the path does not point to a directory then:
-             if a single file is being transfered and the protocol supports
-             file renaming (PF1_CANRENAMEFILE) then the file is given
-             this name, othewise the file is removed and file(s) are placed
-             into the resulting directory.
-             -
-             File transfers are marked by a EVENTTYPE_FILE added to the database.
-             The format is :
-             hTransfer: dword
-             filename(s), description: ASCIIZ
-  }
-  PSS_FILEALLOW  = '/FileAllow';
-
-  {
-    CCSDATA: Yes
-    wParam : HTRANSFER
-    lparam : Pointer to a buffer to be filled with reason
-    Affect : Refuses a file transfer request
-    Returns: 0 on success, [non zero] on failure
-  }
-  PSS_FILEDENY  = '/FileDeny';
-
-  {
-    CCSDATA: Yes
-    wParam : HTRANSFER
-    lParam : 0
-    Affect : Cancel an in-progress file transfer
-    Returns: 0 on success, [non zero] on failure
-  }
-  PSS_FILECANCEL = '/FileCancel';
-
-  {
-    CCSDATA: Yes
-    wParam : null terminated string containing description
-    lParam : pointer to an array of PAnsiChar's containing file paths/directories
-    Affect : Start a file(s) send, see notes
-    Returns: A HTRANSFER handle on success, NULL(0) on failur
-    Notes  : All notifications are done thru acks :
-             -
-             type=ACKTYPE_FILE, if result=ACKRESULT_FAILED then
-             lParam=null terminated string containing reason
-  }
-  PSS_FILE  = '/SendFile';
-
-  {
-    Send an auth request
-    wParam=0
-    lParam=TChar szMessage
-    Returns 0 on success, nonzero on failure
-  }
-  PSS_AUTHREQUEST  = '/AuthRequest';
-
-  {
-    Send "User is Typing" (user is typing a message to the user) v0.3.3+
-    wParam=(WPARAM)(HANDLE)hContact
-    lParam=(LPARAM)(int)typing type - see PROTOTYPE_SELFTYPING_X defines in m_protocols.h
-  }
-  PSS_USERISTYPING = '/UserIsTyping';
-
-// Receiving Services
-{>>/
-  Receiving Services:
-  Before a message is sent to /RecvMessage it goes through a MS_PROTO_CHAINRECV
-  which allows any other module to change data (for decryption, etc),
-  this then reaches /RecvMessage.
-
-  This does not have to be the same structure/memory contained within that
-  structure that started the chain call.
-
-  /RecvMessage adds the event to the database, any other modules who
-  are interested in what message the user will see should hook at this point.
-/>>}
-
-  {
-    CCSDATA: Yes
-    wParam : 0
-    lParam : Pointer to a TPROTORECVEVENT
-    Affect : An instant message has beeen received, see notes
-    Returns: 0 - success, other failure
-    // handle to the newly added event, or NULL on failure
-    Notes  : lParam^.lParam^.szMessage has the message, see structure above
-             stored as DB event EVENTTYPE_MESSAGE, blob contains message
-             string without null termination.
-  }
-
 { Proto/RecvMessage
-Copies a message from a PROTORECVEVENT event into the database
+  Copies a message from a PROTORECVEVENT event into the database
   wParam = 0 (unused)
   lParam = CCSDATA*
-Returns the result of MS_DB_EVENT_ADD
+  Returns the result of MS_DB_EVENT_ADD
 }
   PSR_MESSAGE  = '/RecvMessage';
-//  PSR_MESSAGEW = '/RecvMessageW';
-
-  MS_PROTO_RECVMSG = 'Proto/RecvMessage';
-
-
-{ Proto/AuthRecv
-Copies the EVENTTYPE_AUTHREQUEST event from PROTORECVEVENT into DBEVENTINFO and adds it
-  wParam = char* : protocol name
-  lParam = PROTORECVEVENT*
-Returns the result of MS_DB_EVENT_ADD
-}
-  PSR_AUTH = '/RecvAuth';
-
-//File(s) have been received
-//wParam = 0
-//lParam = (LPARAM)(PROTORECVFILET*)&prf
-
-type
-  TPROTORECVFILET = record
-    flags:dword;
-    timestamp:dword;    // unix time
-    szDescription:TChar;
-    fileCount:int;
-    ptszFiles:^TChar;
-    lParam:LPARAM;     // extra space for the network level protocol module
-  end;
-
-const
-  PSR_FILE = '/RecvFile';
-
-  MS_PROTO_RECVFILET = 'Proto/RecvFileT';
-
-  {
-    CCSDATA: Yes
-    wParam : 0
-    lParam : Pointer to a TPROTORECVEVENT
-    Affect : Contacts have been received, see notes
-    Notes  : pre.szMessage is actually a PROTOSEARCHRESULT list
-             pre.lParam is the number of contains in that list.
-             pre.flags can contain PREF_UTF defining the strings as utf-8 encoded (0.7.0+)
-             -
-             PS_ADDTOLIST can be used to add contacts to the list
-             -
-             repeat [
-                ASCIIZ userNick
-                ASCIIZ userId
-             ]
-             userNick should be a human-readable description of the user. It need not
-             be the nick, or even confined to displaying just one type of
-             information. The dbe.flags can contain DBEF_UTF defining userNick as
-             utf-8 encoded.
-             userId should be a machine-readable representation of the unique
-             protocol identifying field of the user. Because of the need to be
-             zero-terminated, binary data should be converted to text.
-             Use PS_ADDTOLISTBYEVENT to add the contacts from one of these to the list.
-  }
-  PSR_CONTACTS = '/RecvContacts';
-
-  {
-    CCSDATA: Yes
-    wParam : status_mode
-    lParam : Pointer to a TPROTORECVEVENT structure
-    Affect : An away message reply has been received
-  }
-  PSR_AWAYMSG = '/RecvAwayMsg';
-
 
 {$ENDIF}

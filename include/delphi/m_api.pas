@@ -205,11 +205,9 @@ var
   {$include m_protocols.inc}
 
   {$include m_acc.inc}
-  {$include m_addcontact.inc}
   {$include m_avatars.inc}
   {$include m_awaymsg.inc}
   {$include m_button.inc}
-  {$include m_button_int.inc}
   {$include m_clc.inc}
   {$include m_clistint.inc}
   {$include m_cluiframes.inc}

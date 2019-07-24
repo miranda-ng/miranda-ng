@@ -52,13 +52,6 @@ const
   PROXYTYPE_HTTPS  = 4;
   PROXYTYPE_IE     = 5;
 
-  // for TNETLIBHTTPPROXYINFO.flags
-
-  NLHPIF_USEGETSEQUENCE      = $0001; // append sequence numbers to GET requests
-  NLHPIF_USEPOSTSEQUENCE     = $0002; // append sequence numbers to POST requests
-  NLHPIF_GETPOSTSAMESEQUENCE = $0004; // GET and POST use the same sequence
-  NLHPIF_HTTP11              = $0008;  // HTTP 1.1 proxy
-
   // for TNETLIBHTTPREQUEST.flags, .requestType
 
   { used by MS_NETLIB_RECVHTTPHEADERS returned structure }
@@ -161,18 +154,6 @@ type
     szOutgoingPorts     :PAnsiChar; // 0.3.3a+
     enableUPnP          :int;   // 0.6.1+ only for NUF_INCOMING
     validateSSL         :int;
-  end;
-
-type
-  PNETLIBHTTPPROXYINFO = ^TNETLIBHTTPPROXYINFO;
-  TNETLIBHTTPPROXYINFO = record
-    cbSize           : int;
-    flags            : dword; // see NLHPIF_* above
-    szHttpPostUrl    : PAnsiChar;
-    szHttpGetUrl     : PAnsiChar;
-    firstGetSequence : int;
-    firstPostSequence: int;
-    combinePackets   : int; // MIRANDA_VER >= 0x0900
   end;
 
   {
