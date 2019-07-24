@@ -41,16 +41,16 @@ static void __cdecl OpenURLThread(TOpenUrlInfo *hUrlInfo)
 	// wack a protocol on it
 	CMStringW tszUrl;
 	if ((isalpha(hUrlInfo->szUrl[0]) && hUrlInfo->szUrl[1] == ':') || hUrlInfo->szUrl[0] == '\\')
-		tszUrl.Format(L"file:///%s", hUrlInfo->szUrl);
+		tszUrl.Format(L"file:///%s", hUrlInfo->szUrl.get());
 	else {
 		int i;
 		for (i = 0; iswalpha(hUrlInfo->szUrl[i]); i++);
 		if (hUrlInfo->szUrl[i] == ':')
 			tszUrl = hUrlInfo->szUrl;
 		else if (!wcsnicmp(hUrlInfo->szUrl, L"ftp.", 4))
-			tszUrl.Format(L"ftp://%s", hUrlInfo->szUrl);
+			tszUrl.Format(L"ftp://%s", hUrlInfo->szUrl.get());
 		else
-			tszUrl.Format(L"http://%s", hUrlInfo->szUrl);
+			tszUrl.Format(L"http://%s", hUrlInfo->szUrl.get());
 	}
 
 	// check user defined browser for opening urls

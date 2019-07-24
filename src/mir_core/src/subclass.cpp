@@ -80,7 +80,11 @@ MIR_CORE_DLL(void) mir_subclassWindow(HWND hWnd, WNDPROC wndProc)
 			if (p->m_hooks[i] == wndProc)
 				return;
 
-		p->m_hooks = (WNDPROC*)realloc(p->m_hooks, (p->m_iHooks+1)*sizeof(WNDPROC));
+		void *tmp = realloc(p->m_hooks, (p->m_iHooks+1)*sizeof(WNDPROC));
+		if (tmp == nullptr)
+			return;
+
+		p->m_hooks = (WNDPROC *)tmp;
 	}
 
 	p->m_hooks[p->m_iHooks++] = wndProc;
@@ -104,7 +108,11 @@ MIR_CORE_DLL(void) mir_subclassWindowFull(HWND hWnd, WNDPROC wndProc, WNDPROC ol
 			if (p->m_hooks[i] == wndProc)
 				return;
 
-		p->m_hooks = (WNDPROC*)realloc(p->m_hooks, (p->m_iHooks+1)*sizeof(WNDPROC));
+		void *tmp = realloc(p->m_hooks, (p->m_iHooks+1)*sizeof(WNDPROC));
+		if (tmp == nullptr)
+			return;
+
+		p->m_hooks = (WNDPROC *)tmp;
 	}
 
 	p->m_hooks[p->m_iHooks++] = wndProc;

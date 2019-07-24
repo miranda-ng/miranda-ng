@@ -407,9 +407,9 @@ struct ENTER_STRING
 
 #define MS_UTILS_ENTERSTRING "Utils/EnterString"
 
-__forceinline BOOL EnterString(ENTER_STRING *pForm)
+__forceinline INT_PTR EnterString(ENTER_STRING *pForm)
 {
-	return (BOOL)CallService(MS_UTILS_ENTERSTRING, 0, (LPARAM)pForm);
+	return CallService(MS_UTILS_ENTERSTRING, 0, (LPARAM)pForm);
 }
 
 #endif // M_UTILS_H__
