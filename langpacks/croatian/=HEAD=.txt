@@ -1,6 +1,0 @@
-Miranda Language Pack Version 1
-Language: Hrvatski
-Locale: 041A
-Authors: Zvonimir Stanecic (Zvonimirek222)
-Author-email: zvonimirek222@yandex.com
-Last-Modified-Using: Miranda NG 0.95.11

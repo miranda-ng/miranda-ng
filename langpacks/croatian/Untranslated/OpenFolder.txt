@@ -1,3 +1,0 @@
-[Adds a menu/toolbar item which opens the main Miranda NG folder.]
-[Open Folder]
-[Main]
