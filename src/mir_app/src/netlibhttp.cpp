@@ -448,7 +448,7 @@ MIR_APP_DLL(int) Netlib_SendHttpRequest(HNETLIBCONN nlc, NETLIBHTTPREQUEST *nlhr
 
 				if (usingProxy && phost && !nlc->dnsThroughProxy) {
 					char *tszHost = mir_strdup(phost);
-					if (ppath && phost)
+					if (ppath)
 						tszHost[ppath - phost] = 0;
 					char *cln = strchr(tszHost, ':'); if (cln) *cln = 0;
 

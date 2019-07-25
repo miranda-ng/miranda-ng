@@ -375,7 +375,7 @@ void PROTO_INTERFACE::debugLogW(const wchar_t *wszFormat, ...)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(int) Netlib_Logf(HNETLIBUSER hUser, const char *fmt, ...)
+MIR_APP_DLL(int) Netlib_Logf(HNETLIBUSER hUser, _Printf_format_string_ const char *fmt, ...)
 {
 	va_list va;
 	va_start(va, fmt);
@@ -385,7 +385,7 @@ MIR_APP_DLL(int) Netlib_Logf(HNETLIBUSER hUser, const char *fmt, ...)
 	return NetlibLog_Worker(hUser, szText, 0);
 }
 
-MIR_APP_DLL(int) Netlib_LogfW(HNETLIBUSER hUser, const wchar_t *fmt, ...)
+MIR_APP_DLL(int) Netlib_LogfW(HNETLIBUSER hUser, _Printf_format_string_ const wchar_t *fmt, ...)
 {
 	va_list va;
 	va_start(va, fmt);
@@ -434,7 +434,7 @@ void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int fla
 	NetlibUser *nlu = nlc ? nlc->nlu : nullptr;
 
 	if (!(flags & MSG_NOTITLE))
-		str.Format("(%p:%u) Data %s%s\r\n", nlc, nlc ? nlc->s : 0, sent ? "sent" : "received", flags & MSG_DUMPPROXY ? " (proxy)" : "");
+		str.Format("(%p:%u) Data %s%s\r\n", nlc, nlc ? (int)nlc->s : 0, sent ? "sent" : "received", flags & MSG_DUMPPROXY ? " (proxy)" : "");
 	ReleaseMutex(hConnectionHeaderMutex);
 
 	// check filter settings
@@ -466,20 +466,20 @@ void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int fla
 	}
 	// Binary data
 	else {
-		int line, col, colsInLine;
-
-		for (line = 0;; line += 16) {
-			colsInLine = min(16, len - line);
-			if (colsInLine == 16) {
-				PBYTE p = buf + line;
+		for (int line = 0;; line += 16) {
+			PBYTE p = buf + line;
+			int colsInLine = min(16, len - line);
+			if (colsInLine == 16)
 				str.AppendFormat("%08X: %02X %02X %02X %02X-%02X %02X %02X %02X-%02X %02X %02X %02X-%02X %02X %02X %02X  ",
 					line, p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9], p[10], p[11], p[12], p[13], p[14], p[15]);
-			}
 			else {
 				str.AppendFormat("%08X: ", line);
+				
 				// Dump data as hex
+				int col;
 				for (col = 0; col < colsInLine; col++)
-					str.AppendFormat("%02X%c", buf[line + col], ((col & 3) == 3 && col != 15) ? '-' : ' ');
+					str.AppendFormat("%02X%c", p[col], ((col & 3) == 3) ? '-' : ' ');
+
 				// Fill out last line with blanks
 				for (; col < 16; col++)
 					str.Append("   ");
@@ -487,8 +487,8 @@ void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int fla
 				str.AppendChar(' ');
 			}
 
-			for (col = 0; col < colsInLine; col++)
-				str.AppendChar((buf[line + col] < ' ') ? '.' : (char)buf[line + col]);
+			for (int col = 0; col < colsInLine; col++)
+				str.AppendChar((p[col] < ' ') ? '.' : p[col]);
 
 			if (len - line <= 16)
 				break;
