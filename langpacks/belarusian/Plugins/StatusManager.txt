@@ -158,8 +158,6 @@ Dial-up (эксперыментальна)
 Колеры Windows
 [Use default colors]
 Колеры па змаўчанні
-[Delay]
-Затрымка
 [On left click]
 Левая пстрычка
 [On right click]
@@ -184,8 +182,8 @@ Dial-up (эксперыментальна)
 Паспяховае далучэнне
 [Show other messages]
 Іншыя
-[From popup plugin]
-Па змаўчанні
+[Default]
+Змаўчанні
 [Custom]
 Наладзіць
 [Permanent]

@@ -520,10 +520,6 @@ Latin I
 Събитие: Не безпокойте
 [Event: Free for chat]
 Събитие: Готов за чат
-[Event: On the phone]
-Събитие: На телефона
-[Event: Out for lunch]
-Събитие: На обяд
 [Event: Disconnect]
 Събитие: Изключване от мрежата
 [ALL NETWORKS]

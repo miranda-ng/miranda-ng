@@ -9,5 +9,5 @@
 Text colour
 [Background color]
 Background colour
-[Use default popup colors]
-Use default Popup colours
+[Use default colors]
+Use default colours

@@ -158,8 +158,6 @@
 Кольори Windows
 [Use default colors]
 Кольори за замовчанням
-[Delay]
-Затримка
 [On left click]
 Лівий клік
 [On right click]
@@ -184,8 +182,8 @@
 Успішне підключення
 [Show other messages]
 Інші
-[From popup plugin]
-З плагіна сплив. вікон
+[Default]
+Стандартний
 [Custom]
 Вказати
 [Permanent]

@@ -81,10 +81,6 @@ Nie przeszkadzać
 Porozmawiajmy
 [Invisible]
 Niewidoczny
-[On the phone]
-Pod telefonem
-[Out to lunch]
-Na obiedzie
 [Send If Their Status changes]
 Wysyłaj, gdy ich status zmieni się
 [From Offline]
@@ -103,14 +99,8 @@ Na Nie przeszkadzać
 Na Porozmawiajmy
 [To Invisible]
 Na Niewidoczny
-[To On the phone]
-Na Pod telefonem
-[To Out to lunch]
-Na Na obiedzie
 [The Message    (%d Characters)]
 Wiadomość (%d znaków)
-[error......]
-błąd......
 [Couldn't allocate enough memory]
 Nie udało się przydzielić wystarczającej ilości pamięci
 [The Message    (0 Characters)]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.2.0.2
+;  Version: 0.2.0.4
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Sticky Notes & Reminders Implementation for Miranda NG.]
@@ -287,8 +287,6 @@
 днів
 [Week]
 тиждень
-[The specified time offset is invalid.]
-Вказане зміщення часу неправильне.
 [&Update Reminder]
 &Оновити нагадування
 [Every]
@@ -303,10 +301,10 @@
 Альтернативний 1
 [Alternative 2]
 Альтернативний 2
-[Reminder text]
-Нагадування
 [Date of activation]
 Дата активації
+[Reminder text]
+Нагадування
 [Are you sure you want to delete all reminders?]
 Впевнені, що хочете видалити всі нагадування?!
 [Are you sure you want to delete this reminder?]

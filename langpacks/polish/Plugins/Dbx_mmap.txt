@@ -73,8 +73,6 @@ Aby otworzyć ten profil musisz zainstalować wtyczkę Import. Wciśnij Tak aby 
 ;file \plugins\Db3x_mmap\src\ui.cpp
 [Logo]
 Logo
-[Password]
-Hasło:
 [Too many errors!]
 Zbyt wiele błędów!
 [Password is not correct!]

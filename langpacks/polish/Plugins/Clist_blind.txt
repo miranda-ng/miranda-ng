@@ -185,10 +185,6 @@ Nie przeszkadzać
 Porozmawiajmy
 [Invisible]
 Niewidoczny
-[Out to lunch]
-Na obiedzie
-[On the phone]
-Pod telefonem
 [Group: %name% %count% [%mode%]]
 Grupa: %name% %count% [%mode%]
 [Divider: %s]

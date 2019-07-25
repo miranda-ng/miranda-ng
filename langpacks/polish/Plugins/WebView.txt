@@ -132,12 +132,12 @@ Plik logu:
 Dołączanie danych do pliku
 [Save as raw data]
 Zapisz jako dane nieprzetworzone
-[Popup delay]
+[Popup timeout]
 Wyświetlanie Popup
-[Delay]
+[Timeout]
 Wyświetlaj
-[From popup plugin]
-Z wtyczki popup
+[Default]
+Domyślny
 [Permanent]
 Stałe
 [Preview]

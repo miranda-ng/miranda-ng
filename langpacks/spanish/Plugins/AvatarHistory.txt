@@ -44,10 +44,10 @@ Color de texto
 Usar colores de Windows
 [Use default colors]
 Usar colores predeterminados
-[Delay]
+[Timeout]
 Retardo
-[From popup plugin]
-Desde popup plugin
+[Default]
+Por defecto
 [Custom]
 Personalizado
 [Permanent]

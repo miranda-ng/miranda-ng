@@ -132,6 +132,8 @@ Benutzer &Op geben
 [&Deop user]
 Benutzer Op &entziehen
 ;file \protocols\MSN\src\msn_commands.cpp
+[%I64u bytes]
+
 [MSN Alert]
 MSN Alert
 ;file \protocols\MSN\src\msn_errors.cpp

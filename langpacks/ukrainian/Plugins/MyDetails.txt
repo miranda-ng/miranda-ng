@@ -94,10 +94,6 @@
 &Готовий до чату
 [&Invisible]
 &Невидимий
-[On the &phone]
-&Телефоную
-[Out to &lunch]
-Обід&аю
 [Set my avatar...]
 Змінити мій аватар...
 [Set my nickname...]

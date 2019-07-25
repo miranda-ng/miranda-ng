@@ -106,9 +106,9 @@
 Контакт підтверджено
 [Challenge sent]
 Відправлено питання
-[Default colors]
-Кольори за замовчанням
-[Windows colors]
+[Use default colors]
+Стандартні кольори
+[Use Windows colors]
 Кольори Windows
 [Default timeout]
 Час за замовчанням

@@ -5,7 +5,6 @@
 [<< Simple]
 [Default Settings]
 [These settings are also used when sending a "Simple" pounce]
-[error......]
 [Couldn't allocate enough memory]
 [Retry]
 [&Buddy Pounce]

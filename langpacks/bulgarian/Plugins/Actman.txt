@@ -563,10 +563,6 @@ TopToolBar
 Готов за чат
 [Invisible]
 Невидим
-[On the phone]
-На телефона
-[Out to lunch]
-На обяд
 [Set global status]
 Задаване на глобално състояние
 [Switch contact list status]

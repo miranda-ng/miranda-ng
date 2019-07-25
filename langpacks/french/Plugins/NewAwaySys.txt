@@ -44,10 +44,6 @@
 OK pour un &chat
 [&Invisible]
 In&visible
-[On the &phone]
-Au &téléphone
-[Out to &lunch]
-&Parti manger
 [Autoreply format:]
 
 [V]
@@ -227,14 +223,6 @@ Je suis un robot de discussion !
 Invisible
 [I'm hiding from the mafia.]
 Je me cache de la mafia.
-[On the phone]
-Au téléphone
-[I've been on the phone since %nas_awaysince_time%, give me a sec!]
-
-[Out to lunch]
-Parti manger
-[Been having ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]
-
 ;file \plugins\NewAwaySysMod\src\AwaySys.cpp
 [Toggle Off]
 

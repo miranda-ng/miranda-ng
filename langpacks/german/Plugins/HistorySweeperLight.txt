@@ -28,6 +28,10 @@ Alle Ereignisse behalten
 [Delete all events]
 Alle Ereignisse löschen
 ;file \plugins\HistorySweeperLight\src\options.cpp
+[Default Action]
+Standard-Aktion
+[Delete All]
+Alles löschen
 [Delete older than 1 day]
 Älter als einen Tag löschen
 [Delete older than 3 days]
@@ -56,10 +60,6 @@ Alle Ereignisse löschen
 20 letzte Ereignisse behalten
 [Keep 50 last events]
 50 letzte Ereignisse behalten
-[Default Action]
-Standard-Aktion
-[Delete All]
-Alles löschen
 [*** Default Action ***]
 *** Standard-Aktion ***
 [*** System History ***]

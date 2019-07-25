@@ -575,11 +575,11 @@ VBR чи ні
 Ліве клацання
 [Right click]
 Праве клацання
-[Default colors]
-За замовчанням
-[Windows colors]
+[Use default colors]
+Стандартні кольори
+[Use Windows colors]
 Кольори Windows
-[Custom colors]
+[Use custom colors]
 Вказати кольори
 [artist]
 виконавець

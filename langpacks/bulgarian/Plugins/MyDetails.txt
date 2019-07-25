@@ -94,10 +94,6 @@
 Готов за &чат
 [&Invisible]
 Не&видим
-[On the &phone]
-На &телефона
-[Out to &lunch]
-На обя&д
 [Set my avatar...]
 Задаване на аватар...
 [Set my nickname...]

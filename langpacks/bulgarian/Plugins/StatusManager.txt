@@ -158,8 +158,6 @@ Dial-up (експериментално)
 Цветове от Windows
 [Use default colors]
 Стандартни цветове
-[Delay]
-Закъснение
 [On left click]
 Ляв бутон
 [On right click]
@@ -184,8 +182,8 @@ Dial-up (експериментално)
 Показване след приключване на повторно свързване
 [Show other messages]
 Показване на други съобщения
-[From popup plugin]
-
+[Default]
+Стандарт
 [Custom]
 Избор
 [Permanent]

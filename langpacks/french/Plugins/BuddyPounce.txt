@@ -81,10 +81,6 @@ Ne pas déranger
 OK pour un chat
 [Invisible]
 Invisible
-[On the phone]
-Au téléphone
-[Out to lunch]
-Parti manger
 [Send If Their Status changes]
 Envoi si leur état change vers
 [From Offline]
@@ -103,14 +99,8 @@ Ne pas déranger
 OK pour un chat
 [To Invisible]
 Invisible
-[To On the phone]
-Au téléphone
-[To Out to lunch]
-Parti manger
 [The Message    (%d Characters)]
 Message :    (%d caractères)
-[error......]
-
 [Couldn't allocate enough memory]
 
 [The Message    (0 Characters)]

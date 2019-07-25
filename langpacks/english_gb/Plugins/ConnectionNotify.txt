@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ConnectionNotify.dll
 ;  Plugin: Connection Notify
-;  Version: 0.1.0.5
+;  Version: 0.1.0.6
 ;  Authors: MaKaR
 ;============================================================
 [Set popup colors]

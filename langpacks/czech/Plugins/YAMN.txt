@@ -104,10 +104,6 @@ Nerušit!
 Mám volno
 [Invisible]
 Neviditelný
-[On the phone]
-Na telefonu
-[Out to lunch]
-Na obědě
 [YAMN General Options]
 Obecné možnosti
 [TopToolBar button "Check mail"]
@@ -359,9 +355,9 @@ Vstupní chyba
 
 [Account Test]
 Vyzkoušení účtu
-[Account Test (failed)]
-Vyzkoušení účtu (chyba)
 [You have N new mail messages]
 
+[Account Test (failed)]
+Vyzkoušení účtu (chyba)
 [Connection failed message]
 Chyba připojení k účtu

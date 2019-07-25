@@ -2,13 +2,13 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.13
+;  Version: 3.5.0.14
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [Customize the panel]
 Customise the panel
-[Default colors]
-Default colours
+[Use default colors]
+Use default colours
 [Use the message log color theme for group chat popups]
 Use the message log colour theme for group chat popups
 [Contact is a favorite contact]
@@ -23,10 +23,6 @@ Play sounds when minimised
 Esc key behaviour
 [Use contact list groups for organizing tabs (one window per group)]
 Use contact list groups for organising tabs (one window per group)
-[U&se Popup colors]
-U&se Popup colours
-[&Use Windows colors]
-&Use Windows colours
 [Define up to 5 colors which you can use with some variables]
 Define up to 5 colours which you can use with some variables
 [Load fonts and colors provided by skin]

@@ -11,7 +11,6 @@
 [When a contact is absent for]
 [Hide when no messages for]
 [Enable "Miss you" feature]
-[Use Popups colors]
 [Last seen online:]
 [Last input message:]
 [Custom absence period:]

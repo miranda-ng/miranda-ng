@@ -132,12 +132,12 @@ Webview
 Додавання даних у файл
 [Save as raw data]
 Зберігати "сирі" дані
-[Popup delay]
+[Popup timeout]
 Затримка сплив. вікна
-[Delay]
-Затримка
-[From popup plugin]
-З плагіна сплив. вікон
+[Timeout]
+Затримка 
+[Default]
+Стандартний
 [Permanent]
 Постійно
 [Preview]

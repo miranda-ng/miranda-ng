@@ -162,11 +162,6 @@ Kontrola aktualizací již probíhá!
 [Plugin updater URI scheme]
 Schéma URI pro aktualizátor
 ;file \plugins\PluginUpdater\src\Notifications.cpp
-;file \plugins\PluginUpdater\src\Notifications.h
-[Close popup]
-Zavřít oznámení
-[Do nothing]
-Nedělat nic
 ;file \plugins\PluginUpdater\src\Options.cpp
 [Backup database before update]
 Zálohovat databázi před aktualizací
@@ -178,6 +173,10 @@ hodin
 dnů
 [Change platform to 64-bit]
 Změnit platformu na 64-bit
+[Close popup]
+Zavřít oznámení
+[Do nothing]
+Nedělat nic
 [Test]
 Ověřit
 [Services]

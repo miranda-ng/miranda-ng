@@ -575,11 +575,11 @@ artiste
 Clic gauche
 [Right click]
 Clic droit
-[Default colors]
-
-[Windows colors]
-
-[Custom colors]
+[Use default colors]
+Couleurs par défaut
+[Use Windows colors]
+Utiliser les couleurs Windows
+[Use custom colors]
 Couleurs personnalisées
 [artist]
 artiste

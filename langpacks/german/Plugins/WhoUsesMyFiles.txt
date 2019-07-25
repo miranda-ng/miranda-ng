@@ -12,8 +12,8 @@ Sucht nach Netzwerknutzern Ihrer freigegebenen Dateien und benachrichtigt Sie mi
 WUMF: Aktuelle Verbindungen
 [Popup delay settings]
 Popup Verzögerung
-[Popup Delay (seconds)]
-Popupverzögerung (Sekunden)
+[Timeout (seconds)]
+Timeout (Sekunden)
 [Background color]
 Hintergrundfarbe
 [Text color]
@@ -22,18 +22,18 @@ Textfarbe
 Vorschau
 [Show infinitely]
 Ewig zeigen
-[Default Popup delay]
-Standard-Popupverzögerung
-[Choose delay time]
-Verzögerung wählen
+[Default]
+Standard
+[Custom]
+Benutzerdef.
 [Popup color settings]
 Popup Farbeinstellungen
-[Use windows colors]
+[Use Windows colors]
 Windowsfarben verwenden
-[Use default Popup colors]
-Standard-Popupfarben verwenden
-[Choose colors]
-Farben wählen
+[Use default colors]
+Standardfarben verwenden
+[Use custom colors]
+Benutzerdefinierte Farben
 [File access filter && logging settings]
 Dateizugriff- && Log-Einstellungen
 [Log into text file]

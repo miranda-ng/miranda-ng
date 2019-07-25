@@ -64,10 +64,6 @@ Nerušit!
 Mám volno
 [Invisible]
 Neviditelný
-[On the phone]
-Na telefonu
-[Out to lunch]
-Na obědě
 [Shaking contact list options]
 Možnosti zatřesení seznamem kontaktů
 [Number of moves]

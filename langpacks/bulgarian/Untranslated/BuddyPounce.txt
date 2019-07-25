@@ -29,8 +29,6 @@
 [To Do not disturb]
 [To Free for chat]
 [To Invisible]
-[To On the phone]
-[To Out to lunch]
 [The Message    (%d Characters)]
 [Couldn't allocate enough memory]
 [The Message    (0 Characters)]

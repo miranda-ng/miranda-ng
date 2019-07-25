@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.4
+;  Version: 0.4.0.5
 ;  Authors: Miranda NG team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
@@ -148,14 +148,14 @@ Usar colores de Windows
 
 [Right Click]
 
-[Popup Delay]
+[Popup timeout]
 
-[Delay]
+[Timeout]
 Retardo
 [seconds]
 segundos
-[From popup plugin]
-Desde popup plugin
+[Default]
+Por defecto
 [Permanent]
 Permanente
 [Popup Text]
@@ -164,8 +164,6 @@ Permanente
 
 [Variables]
 Variables
-[Default]
-Por defecto
 [Preview]
 Previsualizar
 [Updates]

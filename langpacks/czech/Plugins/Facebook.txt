@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.4.2.1
+;  Version: 0.4.2.4
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -142,14 +142,14 @@ Zobrazit &historii
 
 [This will permanently delete the conversation history]
 
+[Former]
+Bývalý účastník
 [Myself]
 Já
 [Friend]
 Přítel
 [User]
 Uživatel
-[Former]
-Bývalý účastník
 [Notifications]
 Upozornění
 [%s and more (%d)]
@@ -381,8 +381,6 @@ Podrobnosti o přátelství
 Konverzace
 [Message read]
 Zpráva přečtena
-[Captcha form icon]
-Ikona okna s captcha kódem
 [Angry]
 To mě štve
 [Haha]

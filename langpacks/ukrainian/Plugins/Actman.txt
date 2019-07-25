@@ -563,10 +563,6 @@ UTF16+сигнатури
 Готовий до чату
 [Invisible]
 Невидимий
-[On the phone]
-Телефоную
-[Out to lunch]
-Обідаю
 [Set global status]
 Встановлює глобальний статус
 [Switch contact list status]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TrafficCounter.dll
 ;  Plugin: Traffic counter
-;  Version: 0.1.1.8
+;  Version: 0.1.1.9
 ;  Authors: Ghost, Mironych
 ;============================================================
 [Adding traffic and time counters.]
@@ -32,8 +32,8 @@
 Скинути
 [Popup timeout]
 Тривалість вікна
-[From popup plugin]
-З плагіна сплив. вікон
+[Default]
+Стандартний
 [Custom]
 Налаштувати
 [Test]
@@ -133,14 +133,6 @@
 [Traffic Counter]
 Лічильник трафіку
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp
-[Font]
-Шрифт
-[Show/Hide frame]
-Показати/Сховати фрейм
-[Hide traffic window]
-Сховати вікно трафіку
-[Clear the current (Now:) value]
-Скинути поточне (Now:) значення
 [Toggle traffic counter]
 Перемкнути лічильник трафіку
 [Traffic counter notification]
@@ -149,3 +141,11 @@
 %d Кб відправлено
 [%d kilobytes received]
 %d Кб отримано
+[Font]
+Шрифт
+[Show/Hide frame]
+Показати/Сховати фрейм
+[Hide traffic window]
+Сховати вікно трафіку
+[Clear the current (Now:) value]
+Скинути поточне (Now:) значення

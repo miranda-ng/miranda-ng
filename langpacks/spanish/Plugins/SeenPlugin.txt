@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SeenPlugin.dll
 ;  Plugin: Last seen
-;  Version: 5.0.5.4
+;  Version: 5.0.5.5
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 [Logs when a user was last seen online and which users were online while you were away.]
@@ -52,10 +52,6 @@ No disponible
 Ocupado
 [Do not disturb]
 No molestar
-[On the phone]
-En el teléfono
-[Out to lunch]
-Salí a comer
 [Free for chat]
 Libre para el chat
 [Invisible]

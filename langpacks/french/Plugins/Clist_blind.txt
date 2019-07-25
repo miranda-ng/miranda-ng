@@ -185,10 +185,6 @@ Ne pas déranger
 OK pour un chat
 [Invisible]
 Invisible
-[Out to lunch]
-Parti manger
-[On the phone]
-Au téléphone
 [Group: %name% %count% [%mode%]]
 Groupe : %name% %count% [%mode%]
 [Divider: %s]

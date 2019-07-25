@@ -32,8 +32,8 @@
 Ляв бутон
 [On right click]
 Десен бутон
-[Delay]
-Закъснение
+[Timeout]
+Времетраене
 [Sec]
 сек
 [0 = Default]

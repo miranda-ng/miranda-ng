@@ -42,8 +42,6 @@
 [Contact blocked]
 [Contact approved]
 [Challenge sent]
-[Default colors]
-[Windows colors]
 [Default timeout]
 [Bayes database path]
 [Simple]

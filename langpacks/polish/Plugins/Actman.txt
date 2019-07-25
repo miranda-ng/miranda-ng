@@ -563,10 +563,6 @@ Zajęty
 Porozmawiajmy
 [Invisible]
 Niewidoczny
-[On the phone]
-Pod telefonem
-[Out to lunch]
-Na obiedzie
 [Set global status]
 Ustaw globalny status
 [Switch contact list status]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MinecraftDynmap.dll
 ;  Plugin: Minecraft Dynmap protocol
-;  Version: 0.0.0.2
+;  Version: 0.1.0.1
 ;  Authors: Robert Pösel
 ;============================================================
 [Minecraft Dynmap support for Miranda NG.]
@@ -13,6 +13,8 @@
 [Visible name:]
 
 ;file \protocols\MinecraftDynmap\src\chat.cpp
+[Server]
+Сървър
 [Admin]
 Администратор
 [Normal]

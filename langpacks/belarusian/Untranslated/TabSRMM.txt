@@ -7,6 +7,7 @@
 [will return parsed string %miranda_userdata%\\Logs]
 [Show send menu]
 [Show protocol menu]
+[Do nothing (ignore Esc key)]
 [Sent OK]
 [Suspended]
 [Message In]

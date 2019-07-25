@@ -8,7 +8,6 @@
 [Notify also when just client version changes]
 [Show client version]
 [Don't notify for contacts with disabled status notification]
-[Delay]
 [Use default]
 [Ignore these clients (separated by semicolons):]
 [(you have to install pcre16.mir to use regular expressions here)]

@@ -12,7 +12,7 @@
 
 [Popup delay settings]
 
-[Popup Delay (seconds)]
+[Timeout (seconds)]
 
 [Background color]
 Color de fondo
@@ -22,18 +22,18 @@ Color de texto
 
 [Show infinitely]
 
-[Default Popup delay]
-
-[Choose delay time]
-
+[Default]
+Por defecto
+[Custom]
+Personalizado
 [Popup color settings]
 
-[Use windows colors]
+[Use Windows colors]
 Usar colores de Windows
-[Use default Popup colors]
-
-[Choose colors]
-
+[Use default colors]
+Usar colores predeterminados
+[Use custom colors]
+Usar colores personalizados
 [File access filter && logging settings]
 
 [Log into text file]

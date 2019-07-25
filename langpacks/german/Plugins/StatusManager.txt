@@ -158,8 +158,6 @@ Textfarbe
 Windowsfarben verwenden
 [Use default colors]
 Standardfarben verwenden
-[Delay]
-Verzögerung
 [On left click]
 Bei Linksklick
 [On right click]
@@ -184,8 +182,8 @@ Bei Versuch des Neuverbindens
 Wenn Wiederverbinden beendet
 [Show other messages]
 Andere Meldungen anzeigen
-[From popup plugin]
-Vom Popup-Plugin
+[Default]
+Standard
 [Custom]
 Benutzerdef.
 [Permanent]

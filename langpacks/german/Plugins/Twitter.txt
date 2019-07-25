@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Twitter.dll
 ;  Plugin: Twitter protocol
-;  Version: 1.3.0.2
+;  Version: 1.3.0.3
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
 [Twitter protocol support for Miranda NG.]
@@ -46,18 +46,18 @@ Popupbenachrichtigungen für Tweets aktivieren
 Farben
 [Use Windows colors]
 Windowsfarben verwenden
-[Use Popup colors]
-Popup-Farben verwenden
+[Use default colors]
+Standardfarben verwenden
 [Use custom colors]
 Benutzerdefiniert
 [Back]
 Hgrd.
 [Text]
 Text
-[Timeouts]
-Verzögerungen
-[Use default]
-Standard verw.
+[Timeout]
+Timeout
+[Default]
+Standard
 [Custom]
 Benutzerdef.
 [Permanent]

@@ -575,12 +575,12 @@ Użyj przycisków zdarzeń popup
 LPM
 [Right click]
 PPM
-[Default colors]
-Domyślne kolory
-[Windows colors]
-Kolory Windows
-[Custom colors]
-Niestandardowe kolory
+[Use default colors]
+Użyj domyślnych kolorów
+[Use Windows colors]
+Użyj kolorów Windows
+[Use custom colors]
+Użyj niestandardowych kolorów
 [artist]
 artysta
 [album]

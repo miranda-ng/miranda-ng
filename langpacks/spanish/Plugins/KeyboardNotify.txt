@@ -66,10 +66,6 @@ No molestar
 Libre para el chat
 [Invisible]
 Invisible
-[On the phone]
-En el teléfono
-[Out to lunch]
-Salí a comer
 [Pending Events]
 
 [Remind me every]

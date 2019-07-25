@@ -24,10 +24,6 @@ Ne pas déranger
 OK pour un chat
 [Invisible]
 Invisible
-[On the phone]
-Au téléphone
-[Out to lunch]
-Parti manger
 [On events...]
 
 [Send]

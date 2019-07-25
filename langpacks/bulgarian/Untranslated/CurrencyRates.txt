@@ -1,5 +1,5 @@
 [Shows currency rates.]
-[From popup plugin]
+[Popup settings]
 [&Personal key:]
 [Currency Rate]
 [Tabulation]

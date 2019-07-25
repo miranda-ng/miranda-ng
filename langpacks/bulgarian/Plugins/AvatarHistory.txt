@@ -44,10 +44,10 @@ popup когато контакта промени аватара си
 Цветове от Windows
 [Use default colors]
 Стандартни цветове
-[Delay]
-Закъснение
-[From popup plugin]
-
+[Timeout]
+Времетраене
+[Default]
+Стандарт
 [Custom]
 Избор
 [Permanent]

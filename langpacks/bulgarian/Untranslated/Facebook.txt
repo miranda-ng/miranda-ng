@@ -120,7 +120,6 @@
 [Friendship details]
 [Conversation]
 [Message read]
-[Captcha form icon]
 [Visit friendship details]
 [Visit conversation]
 [Load history]

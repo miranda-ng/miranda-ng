@@ -9,10 +9,10 @@
 Analyse
 [Send challenge on authorization request:]
 Send challenge on authorisation request:
-[Default colors]
-Default colours
-[Windows colors]
-Windows colours
+[Use default colors]
+Use default colours
+[Use Windows colors]
+Use Windows colours
 [Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.]
 Spam-o-tron delayed authorisation request. First reply with "%response%" without quotes.
 [Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]

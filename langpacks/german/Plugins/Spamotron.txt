@@ -106,10 +106,10 @@ Kontakt blockiert
 Kontakt verifiziert
 [Challenge sent]
 Sicherheitsabfrage gesendet
-[Default colors]
-Standardfarben
-[Windows colors]
-Windowsfarben
+[Use default colors]
+Standardfarben verwenden
+[Use Windows colors]
+Windowsfarben verwenden
 [Default timeout]
 Standard-Timeout
 [Preview]

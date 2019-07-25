@@ -9,7 +9,6 @@
 [When a contact is absent for]
 [Hide when no messages for]
 [Enable "Miss you" feature]
-[Use Popups colors]
 [Delay]
 [Permanent]
 [Last seen online:]

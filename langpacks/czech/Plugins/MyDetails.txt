@@ -94,10 +94,6 @@ Ne&rušit!
 &Mám volno
 [&Invisible]
 Nev&iditelný
-[On the &phone]
-Na &telefonu
-[Out to &lunch]
-Na o&bědě
 [Set my avatar...]
 Nastavit avatar...
 [Set my nickname...]

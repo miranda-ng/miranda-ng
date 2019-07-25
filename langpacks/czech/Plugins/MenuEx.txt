@@ -43,6 +43,16 @@ Zkrátit příliš dlouhé ID
 [Hide contact on 'Ignore all']
 Skrýt kontakt při 'Všechno'
 ;file \plugins\MenuItemEx\src\main.cpp
+[Always visible]
+Tento člověk mě vždy uvidí
+[Never visible]
+Tento člověk mě nikdy neuvidí
+[Copy to Account]
+Zkopírovat do účtu
+[Show in list]
+Zobrazit v seznamu
+[Copy xStatus Message]
+Zkopírovat rozšířený stav
 [Status message]
 Zpráva stavu
 [xStatus title]
@@ -55,16 +65,6 @@ Poslech hudby
 Název aktivity
 [Activity text]
 Text aktivity
-[Show in list]
-Zobrazit v seznamu
-[Always visible]
-Tento člověk mě vždy uvidí
-[Never visible]
-Tento člověk mě nikdy neuvidí
-[Copy to Account]
-Zkopírovat do účtu
-[Copy xStatus Message]
-Zkopírovat rozšířený stav
 [All]
 Všechno
 [Messages]

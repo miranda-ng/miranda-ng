@@ -46,18 +46,16 @@
 Цветове
 [Use default colors]
 Стандартни цветове
-[Windows colors]
+[Use Windows colors]
 Цветове от Windows
-[Custom colors]
-Избор на цветове
+[Use custom colors]
+Зададени цветове
 [Back]
 Назад
 [Text]
 Текст
 [Timeout]
 Времетраене
-[From popup plugin]
-
 [Permanent]
 Постоянно
 [Custom]

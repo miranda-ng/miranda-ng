@@ -575,12 +575,12 @@ popup тест
 Ляв бутон
 [Right click]
 Десен бутон
-[Default colors]
+[Use default colors]
 Стандартни цветове
-[Windows colors]
+[Use Windows colors]
 Цветове от Windows
-[Custom colors]
-Избор на цветове
+[Use custom colors]
+Зададени цветове
 [artist]
 Изпълнител
 [album]

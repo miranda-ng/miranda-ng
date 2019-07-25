@@ -132,6 +132,8 @@ Zobrazit &historii
 [&Deop user]
 
 ;file \protocols\MSN\src\msn_commands.cpp
+[%I64u bytes]
+
 [MSN Alert]
 Upozornění MSN
 ;file \protocols\MSN\src\msn_errors.cpp

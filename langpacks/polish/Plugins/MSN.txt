@@ -132,6 +132,8 @@ Czat #
 [&Deop user]
 &zdejmij opa
 ;file \protocols\MSN\src\msn_commands.cpp
+[%I64u bytes]
+
 [MSN Alert]
 Alert MSN
 ;file \protocols\MSN\src\msn_errors.cpp

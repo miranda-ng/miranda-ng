@@ -66,10 +66,6 @@
 Готов за чат
 [Invisible]
 Невидим
-[On the phone]
-На телефона
-[Out to lunch]
-На обяд
 [Pending Events]
 
 [Remind me every]

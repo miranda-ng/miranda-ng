@@ -106,10 +106,10 @@ Tiempo de espera (segundos)
 
 [Challenge sent]
 
-[Default colors]
-
-[Windows colors]
-
+[Use default colors]
+Usar colores predeterminados
+[Use Windows colors]
+Usar colores de Windows
 [Default timeout]
 
 [Preview]

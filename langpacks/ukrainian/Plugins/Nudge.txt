@@ -64,10 +64,6 @@
 Готовий до чату
 [Invisible]
 Невидимий
-[On the phone]
-Телефоную
-[Out to lunch]
-Обідаю
 [Shaking contact list options]
 Тряска списку контактів
 [Number of moves]

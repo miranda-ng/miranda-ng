@@ -12,8 +12,8 @@ Skanuje w poszukiwaniu użytkowników twoich udostępnionych plików i folderów
 WUMF: Aktualne połączenia
 [Popup delay settings]
 Ustawienia opóźnienia Popupa
-[Popup Delay (seconds)]
-Opóźnienie popupa (sekundy)
+[Timeout (seconds)]
+Opóźnienie (sekundy)
 [Background color]
 Kolor tła
 [Text color]
@@ -22,18 +22,18 @@ Kolor tekstu
 Podglą&d
 [Show infinitely]
 Pokazuj w nieskończoność
-[Default Popup delay]
-Domyślne opóźnienie
-[Choose delay time]
-Wybierz czas opóźnienia
+[Default]
+Domyślny
+[Custom]
+Niestandardowe
 [Popup color settings]
 Ustawienia koloru popupa
-[Use windows colors]
+[Use Windows colors]
 Użyj kolorów Windows
-[Use default Popup colors]
-Użyj domyślnych kolorów popup
-[Choose colors]
-Wybierz kolor
+[Use default colors]
+Użyj domyślnych kolorów
+[Use custom colors]
+Użyj niestandardowych kolorów
 [File access filter && logging settings]
 Filtr dostępu do plików i ustawienia logowania
 [Log into text file]

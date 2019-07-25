@@ -2,15 +2,15 @@
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.0.3
+;  Version: 0.2.1.0
 ;  Authors: Dioksin
 ;============================================================
 [Colors]
 Colours
 [Use default colors]
 Use default colours
-[Use user-defined colors]
-Use user-defined colours
+[Use custom colors]
+Use custom colours
 [Background color]
 Background colour
 [Text color]

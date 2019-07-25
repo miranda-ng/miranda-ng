@@ -28,6 +28,10 @@
 [Delete all events]
 
 ;file \plugins\HistorySweeperLight\src\options.cpp
+[Default Action]
+
+[Delete All]
+
 [Delete older than 1 day]
 
 [Delete older than 3 days]
@@ -55,10 +59,6 @@
 [Keep 20 last events]
 
 [Keep 50 last events]
-
-[Default Action]
-
-[Delete All]
 
 [*** Default Action ***]
 

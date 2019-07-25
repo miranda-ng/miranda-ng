@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.4
+;  Version: 0.4.0.5
 ;  Authors: Miranda NG team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
@@ -148,14 +148,14 @@ Akcje Popupu
 LPM
 [Right Click]
 PPM
-[Popup Delay]
+[Popup timeout]
 Wyświetlanie Popup
-[Delay]
+[Timeout]
 Wyświetlaj
 [seconds]
 s
-[From popup plugin]
-Z wtyczki popup
+[Default]
+Domyślny
 [Permanent]
 Stałe
 [Popup Text]
@@ -164,8 +164,6 @@ Tekst popupu
 Tytuł popupu
 [Variables]
 Zmienne
-[Default]
-Domyślny
 [Preview]
 Podgląd
 [Updates]

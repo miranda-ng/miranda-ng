@@ -104,10 +104,6 @@ Nie przeszkadzać
 Porozmawiajmy
 [Invisible]
 Niewidoczny
-[On the phone]
-Pod telefonem
-[Out to lunch]
-Na obiedzie
 [YAMN General Options]
 Ogólne opcje YAMN
 [TopToolBar button "Check mail"]
@@ -359,9 +355,9 @@ Nie można zaalokować pamięci dla nowego konta
 Błąd pamięci
 [Account Test]
 Test konta
-[Account Test (failed)]
-Test konta (nieudany)
 [You have N new mail messages]
 Masz N nowych wiadomości e-mail
+[Account Test (failed)]
+Test konta (nieudany)
 [Connection failed message]
 Wiadomość o nieudanym połączeniu

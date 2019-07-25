@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.0.3
+;  Version: 0.2.1.0
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates.]
@@ -58,22 +58,22 @@ Umrechnen
 Info bereitgestellt durch <a href="http://www.google.com">Google</a>
 [Close]
 Schließen
-[Popup Window Settings]
-Popup-Fenstereinstellungen
+[Popup settings]
+Popup-Einstellungen
 [Colors]
 Farben
 [Use default colors]
 Standardfarben verwenden
-[Use user-defined colors]
-Benutzerdefinierte Farben verwenden
+[Use custom colors]
+Benutzerdefinierte Farben
 [Background color]
 Hintergrundfarbe
 [Text color]
 Textfarbe
-[Delay]
-Verzögerung
-[From popup plugin]
-Vom Popup-Plugin
+[Timeout]
+Timeout
+[Default]
+Standard
 [Custom]
 Benutzerdef.
 [Permanent]

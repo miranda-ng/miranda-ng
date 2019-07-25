@@ -342,10 +342,6 @@ Zajęty
 Nie przeszkadzać
 [Free for chat]
 Porozmawiajmy
-[Out to lunch]
-Na obiedzie
-[On the phone]
-Pod telefonem
 [Width]
 Szerokość
 [Upper left corner]

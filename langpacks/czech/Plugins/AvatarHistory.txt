@@ -44,10 +44,10 @@ Barva textu
 Použít barvy Windows
 [Use default colors]
 Použít výchozí barvy
-[Delay]
-Prodleva
-[From popup plugin]
-Globální nastavení
+[Timeout]
+Doba zobrazení
+[Default]
+Výchozí
 [Custom]
 Vlastní
 [Permanent]

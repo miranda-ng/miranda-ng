@@ -26,10 +26,6 @@ Indisponible
 Occupé
 [Do not disturb]
 Ne pas déranger
-[Out to lunch]
-Parti manger
-[On the phone]
-Au téléphone
 [Always when changing from offline]
 Notifier dés qu'un contact se connecte
 [Notify when contact changes]
@@ -319,22 +315,6 @@ ne veut plus être dérangée!
 ne veut plus être dérangé!
 [User: Do not disturb]
 Contact : Ne pas déranger
-[(M) is eating something]
-est parti manger.
-[(F) is eating something]
-est partie manger.
-[(U) is eating something]
-est parti manger.
-[User: Out to lunch]
-Contact : Parti manger
-[(M) had to answer the phone]
-est au téléphone
-[(F) had to answer the phone]
-est au téléphone
-[(U) had to answer the phone]
-est au téléphone
-[User: On the phone]
-Contact : Au téléphone
 [User: from offline (has priority!)]
 
 [Status message removed]

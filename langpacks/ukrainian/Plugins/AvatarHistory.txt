@@ -44,10 +44,10 @@
 Кольори Windows
 [Use default colors]
 Кольори за замовчанням
-[Delay]
+[Timeout]
 Затримка
-[From popup plugin]
-З плагіна сплив. вікон
+[Default]
+Стандартний
 [Custom]
 Обрані
 [Permanent]

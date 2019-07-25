@@ -32,8 +32,8 @@ Aktion bei Klick
 Bei Linksklick
 [On right click]
 Bei Rechtsklick
-[Delay]
-Verzögerung
+[Timeout]
+Timeout
 [Sec]
 Sek.
 [0 = Default]

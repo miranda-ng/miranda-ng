@@ -147,8 +147,6 @@
 [Occupied contacts]
 [Free for chat contacts]
 [Invisible contacts]
-[On the phone contacts]
-[Out to lunch contacts]
 [Contacts who are 'not on list']
 [Open groups]
 [Open group member counts]

@@ -38,8 +38,8 @@ Colores
 Fondo
 [Text]
 Texto
-[Use Popups colors]
-
+[Use default colors]
+Usar colores predeterminados
 [Use Windows colors]
 Usar colores de Windows
 [Delay]

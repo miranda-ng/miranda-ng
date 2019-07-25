@@ -104,10 +104,6 @@ Ne pas déranger
 OK pour un chat
 [Invisible]
 Invisible
-[On the phone]
-Au téléphone
-[Out to lunch]
-Parti manger
 [YAMN General Options]
 Options de YAMN
 [TopToolBar button "Check mail"]
@@ -359,9 +355,9 @@ Impossible d'allouer de la mémoire pour le nouveau compte
 Erreur de mémoire
 [Account Test]
 Test du compte
-[Account Test (failed)]
-Test du compte (erreur)
 [You have N new mail messages]
 Vous avez N nouveaux e-mail
+[Account Test (failed)]
+Test du compte (erreur)
 [Connection failed message]
 Message, erreur de connexion

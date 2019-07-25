@@ -12,8 +12,8 @@
 
 [Popup delay settings]
 
-[Popup Delay (seconds)]
-
+[Timeout (seconds)]
+Doba zobrazení (v sek.)
 [Background color]
 Barva pozadí
 [Text color]
@@ -22,18 +22,18 @@ Barva textu
 &Náhled
 [Show infinitely]
 
-[Default Popup delay]
-
-[Choose delay time]
-
+[Default]
+Výchozí
+[Custom]
+Vlastní
 [Popup color settings]
 
-[Use windows colors]
+[Use Windows colors]
 Použít barvy Windows
-[Use default Popup colors]
+[Use default colors]
 Použít výchozí barvy
-[Choose colors]
-
+[Use custom colors]
+Použít vlastní barvy
 [File access filter && logging settings]
 
 [Log into text file]

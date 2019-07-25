@@ -81,10 +81,6 @@
 Вольны
 [Invisible]
 Нябачны
-[On the phone]
-На тэлефоне
-[Out to lunch]
-Абедаю
 [Send If Their Status changes]
 Адправіць калі яны змяняюць статус
 [From Offline]
@@ -103,14 +99,8 @@
 На Вольны
 [To Invisible]
 На Нябачны
-[To On the phone]
-На На тэлефоне
-[To Out to lunch]
-На Абедаю
 [The Message    (%d Characters)]
 Паведамленне (%d сімвалаў)
-[error......]
-памылка...
 [Couldn't allocate enough memory]
 Не атрымалася вылучыць дастаткова памяці
 [The Message    (0 Characters)]

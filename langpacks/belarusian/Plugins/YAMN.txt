@@ -104,10 +104,6 @@
 Вольны
 [Invisible]
 Нябачны
-[On the phone]
-На тэлефоне
-[Out to lunch]
-Абедаю
 [YAMN General Options]
 Асноўныя налады
 [TopToolBar button "Check mail"]
@@ -359,9 +355,9 @@ OpenSSL не загружаны
 Памылка памяці
 [Account Test]
 Праверка
-[Account Test (failed)]
-Праверка (памылка)
 [You have N new mail messages]
 У вас Х новых паведамленняў
+[Account Test (failed)]
+Праверка (памылка)
 [Connection failed message]
 Паведамленне пра няўдалае далучэнне

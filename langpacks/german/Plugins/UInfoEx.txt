@@ -134,10 +134,10 @@ Textfarbe
 Windowsfarben verwenden
 [Use default colors]
 Standardfarben verwenden
-[Delay]
-Verzögerung
-[From popup plugin]
-Vom Popup-Plugin
+[Timeout]
+Timeout
+[Default]
+Standard
 [Custom]
 Benutzerdef.
 [Permanent]
@@ -502,12 +502,8 @@ Suche nach Jahrestagen
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [Main]
 Allgemein
-[Default]
-Standard
 [IM naming]
 IM-Benennung
-[Password]
-Passwort
 [Timezone]
 Zeitzone
 [Marital status]

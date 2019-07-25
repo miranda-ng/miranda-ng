@@ -42,6 +42,13 @@ Retirer
 
 [Set password]
 Mot de passe du profil
+;file \plugins\Dbx_mdbx\src\dbcrypt.cpp
+[Too many errors!]
+
+[Password is not correct!]
+Mot de passe incorrect !
+[Please type in your password]
+Veuillez taper un mot de passe
 ;file \plugins\Dbx_mdbx\src\dbintf.h
 [Change/remove password]
 
@@ -54,16 +61,7 @@ Mot de passe du profil
 Mot de passe incorrect !
 [Database]
 
-[Compact]
-
-;file \plugins\Dbx_mdbx\src\ui.h
 [Logo]
 
-[Password]
-Mot de passe
-[Too many errors!]
+[Compact]
 
-[Password is not correct!]
-Mot de passe incorrect !
-[Please type in your password]
-Veuillez taper un mot de passe

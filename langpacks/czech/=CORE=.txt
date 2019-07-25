@@ -1230,10 +1230,6 @@ Ne&rušit!\tCtrl+5
 &Mám volno\tCtrl+6
 [&Invisible\tCtrl+7]
 Nev&iditelný\tCtrl+7
-[On the &phone\tCtrl+8]
-Na &telefonu\tCtrl+8
-[Out to &lunch\tCtrl+9]
-Na o&bědě\tCtrl+9
 ;file \src\core\stdautoaway\src\options.cpp
 [Status]
 Stavy
@@ -1261,10 +1257,6 @@ Jasně, jsem tu.
 Ne, nejsem tady
 [I'm hiding from the mafia.]
 Skrývám se před mafií.
-[That'll be the phone.]
-Právě telefonuji
-[Mmm... food.]
-Mňam... jídlo
 [idleeeeeeee]
 Chrrrrrrrrrrrr
 ;file \src\core\stdclist\src\clcfonts.cpp
@@ -1307,10 +1299,6 @@ Nerušit!
 Mám volno
 [Invisible]
 Neviditelný
-[Out to lunch]
-Na obědě
-[On the phone]
-Na telefonu
 [List background]
 Pozadí seznamu
 ;file \src\core\stdclist\src\clistopts.cpp
@@ -2776,6 +2764,8 @@ Přesunout do skupiny
 Zap
 [Off]
 Vyp
+[Password]
+Heslo
 [Unused]
 
 [Frames]

@@ -13,12 +13,12 @@ Centre vertically
 Colour codes
 [Align text to center]
 Align text to centre
-[Default colors]
-Default colours
-[Windows colors]
-Windows colours
-[Custom colors]
-Custom colours
+[Use default colors]
+Use default colours
+[Use Windows colors]
+Use Windows colours
+[Use custom colors]
+Use custom colours
 [Color]
 Colour
 ;other strings

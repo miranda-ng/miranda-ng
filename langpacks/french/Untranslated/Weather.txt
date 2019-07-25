@@ -24,7 +24,6 @@
 [Change]
 [Popup Options]
 [Enable popups]
-[Delay]
 [Permanent]
 [Popup Title]
 [Variables]

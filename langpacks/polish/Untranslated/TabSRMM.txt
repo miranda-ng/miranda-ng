@@ -1,0 +1,2 @@
+[Colors]
+[Do nothing (ignore Esc key)]

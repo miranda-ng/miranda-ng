@@ -342,10 +342,6 @@ Beschäftigt
 Bitte nicht stören
 [Free for chat]
 Für Chat bereit
-[Out to lunch]
-Zum Essen
-[On the phone]
-Am Telefon
 [Width]
 Breite
 [Upper left corner]

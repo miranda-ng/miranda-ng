@@ -575,12 +575,12 @@ Benutze Popup-Aktionen Schaltfläche
 Linksklick
 [Right click]
 Rechtsklick
-[Default colors]
-Standardfarben
-[Windows colors]
-Windowsfarben
-[Custom colors]
-Eigene Farben
+[Use default colors]
+Standardfarben verwenden
+[Use Windows colors]
+Windowsfarben verwenden
+[Use custom colors]
+Benutzerdefinierte Farben
 [artist]
 Interpret
 [album]

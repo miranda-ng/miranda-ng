@@ -132,12 +132,12 @@ Chercher :
 Ajouter les données au fichier
 [Save as raw data]
 
-[Popup delay]
-Délai des popups
-[Delay]
-
-[From popup plugin]
-Comme le plugin popup
+[Popup timeout]
+Durée du popup
+[Timeout]
+Délai du popup
+[Default]
+Défaut
 [Permanent]
 
 [Preview]

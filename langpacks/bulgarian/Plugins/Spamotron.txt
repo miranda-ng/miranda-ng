@@ -106,9 +106,9 @@ Flood защита
 Потвърден контакт
 [Challenge sent]
 Изпратено запитване
-[Default colors]
+[Use default colors]
 Стандартни цветове
-[Windows colors]
+[Use Windows colors]
 Цветове от Windows
 [Default timeout]
 Стандартно времетраене

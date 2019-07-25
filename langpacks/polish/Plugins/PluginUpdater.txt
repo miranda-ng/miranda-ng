@@ -162,11 +162,6 @@ Sprawdzanie aktualizacji już rozpoczęte!
 [Plugin updater URI scheme]
 Schemat URI Plugin updater'a
 ;file \plugins\PluginUpdater\src\Notifications.cpp
-;file \plugins\PluginUpdater\src\Notifications.h
-[Close popup]
-Zamknij popup
-[Do nothing]
-Nic nie rób
 ;file \plugins\PluginUpdater\src\Options.cpp
 [Backup database before update]
 Rób kopię bazy danych przed aktualizacją
@@ -178,6 +173,10 @@ godziny
 dni
 [Change platform to 64-bit]
 Zmień platformę na 64-bit
+[Close popup]
+Zamknij popup
+[Do nothing]
+Nic nie rób
 [Test]
 Test
 [Services]

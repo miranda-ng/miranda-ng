@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TrafficCounter.dll
 ;  Plugin: Traffic counter
-;  Version: 0.1.1.8
+;  Version: 0.1.1.9
 ;  Authors: Ghost, Mironych
 ;============================================================
 [Adding traffic and time counters.]
@@ -32,8 +32,8 @@ Kolor tekstu:
 Domyślne ustawienia
 [Popup timeout]
 Opóźnienie
-[From popup plugin]
-Z wtyczki popup
+[Default]
+Domyślny
 [Custom]
 Niestandardowe
 [Test]
@@ -133,14 +133,6 @@ Nie udało się odczytać pliku statystyk
 [Traffic Counter]
 Licznik transferu
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp
-[Font]
-Czcionka
-[Show/Hide frame]
-Pokaż/Ukryj ramkę
-[Hide traffic window]
-Ukryj okno licznika
-[Clear the current (Now:) value]
-Wyczyść obecne (Teraz:)
 [Toggle traffic counter]
 Włącz/Wyłącz licznik danych
 [Traffic counter notification]
@@ -149,3 +141,11 @@ Powiadomienia licznika transferu
 %d kb wysłano
 [%d kilobytes received]
 %d kb otrzymano
+[Font]
+Czcionka
+[Show/Hide frame]
+Pokaż/Ukryj ramkę
+[Hide traffic window]
+Ukryj okno licznika
+[Clear the current (Now:) value]
+Wyczyść obecne (Teraz:)

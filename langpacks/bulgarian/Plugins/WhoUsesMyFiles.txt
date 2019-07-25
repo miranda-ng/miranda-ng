@@ -12,8 +12,8 @@
 
 [Popup delay settings]
 
-[Popup Delay (seconds)]
-
+[Timeout (seconds)]
+Времетраене (сек)
 [Background color]
 Цвят на фона
 [Text color]
@@ -22,18 +22,18 @@
 Образец
 [Show infinitely]
 
-[Default Popup delay]
-
-[Choose delay time]
-
+[Default]
+Стандарт
+[Custom]
+Избор
 [Popup color settings]
 
-[Use windows colors]
+[Use Windows colors]
 Цветове от Windows
-[Use default Popup colors]
-
-[Choose colors]
-
+[Use default colors]
+Стандартни цветове
+[Use custom colors]
+Зададени цветове
 [File access filter && logging settings]
 
 [Log into text file]

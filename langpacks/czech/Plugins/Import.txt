@@ -2,16 +2,12 @@
 ;============================================================
 ;  File: Import.dll
 ;  Plugin: Import contacts and messages
-;  Version: 0.95.10.1
+;  Version: 0.95.11.1
 ;  Authors: Miranda team
 ;============================================================
 [Imports contacts and messages from another Miranda profile or from an external program.]
 Importuje kontakty a zprávy z jiného profilu Mirandy nebo externího programu.
 ;file \plugins\Import\res\resource.rc
-[Choose how you would like to import:]
-Vyberte jeden ze způsobů importu dat:
-[From a Miranda NG database.]
-Z databáze klienta Miranda NG
 [This wizard will help you import contacts and message history from another Miranda profile or from an external program.]
 Tento průvodce vám pomůže importovat kontakty a historii zpráv z jiného profilu Mirandy nebo externího programu.
 [Click "Next" to choose the information you wish to import, or click "Cancel" to exit the wizard and continue using Miranda.]
@@ -28,10 +24,12 @@ Nadále již doplněk Import nespouštět
 Import dat dokončen
 [If at a future date you wish to use the wizard again, you can make it load again by going to the Plugins section of the Options dialog box.]
 Pokud byste v budoucnu přece jen chtěli Průvodce importem dat použít, stačí aktivovat příslušný doplněk (Import) v Nastavení, sekci Doplňky.
-[Miranda has found Miranda profiles with the following names. Please select the one you wish to import, or click "Other Profile" if your profile is not listed, or if the list is empty.]
-Průvodce našel níže uvedené profily programu Miranda. Vyberte požadovaný profil nebo klikněte na tlačítko "Jiný profil" a vyberte vlastní.
-[&Other Profile...]
-Jiný pr&ofil...
+[Choose import type:]
+
+[Choose directory]
+
+[Choose file]
+
 [&Filename:]
 &Soubor:
 [Now importing...]
@@ -82,6 +80,8 @@ Přenos souborů
 Ostatní
 [Choose appropriate accounts for import]
 Zvolte požadované účty pro import
+[Choose file type:]
+
 [Enter file name for import:]
 
 [Copy]
@@ -161,15 +161,30 @@ Přeskočeno %d duplicit a %d filtrovaných událostí.
 [&Import...]
 &Importovat...
 ;file \plugins\Import\src\miranda.cpp
+[Miranda NG database]
+Databáze Mirandy NG
 [The given file does not exist. Please check that you have entered the name correctly.]
 Požadovaný soubor neexistuje. Zkontrolujte prosím, zda je zadaný název v pořádku.
 [Miranda Import]
 Miranda - import dat
-[Miranda NG database]
-Databáze Mirandy NG
 [All Files]
 Všechny soubory
 [You cannot import your current profile into itself]
+
+[Importing whole directory]
+
+;file \plugins\Import\src\patterns.cpp
+[Invalid file header]
+
+[Cannot parse file header, skipping file]
+
+[Loading file '%s'...]
+
+[Failed to open file <%s> for import: %d]
+
+[Failed to mmap file <%s> for import: %d]
+
+[Failed to map view of file <%s> for import: %d]
 
 ;file \plugins\Import\src\ui.cpp
 [Import history for %s]

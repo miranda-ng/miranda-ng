@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.13
+;  Version: 3.5.0.14
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -166,7 +166,7 @@ Popup настройки
 Времетраене (сек, 0=стандарт, -1=безкрайно)
 [Message]
 Съобщение
-[Default colors]
+[Use default colors]
 Стандартни цветове
 [Others]
 Други
@@ -416,26 +416,24 @@ Windows Aero - настройки
 Ползване на Aero UI елементи (само когато не се ползва персонален облик)
 [Use Windows 7 task bar enhancements (restart required)]
 Ползване функциите на лентата за задачи в Windwos 7 за табовете (изисква рестарт)
-[Popups]
-Рopups
+[Colors]
+Цветове
 [...is &typing]
 ...пише
 [...stopped t&yping]
 ... спря да пише
-[Back]
-Назад
-[U&se Popup colors]
-Цветове от Popup приставката
-[&Use Windows colors]
-Цветове от Windows
+[Use &default colors]
+Стандартни цветове
+[Use &Windows colors]
+Цветове от Windowsм
 [Only &one popup for each contact]
 По един popup на контакт
 [Show &entry in the main menu]
 Добавяне на елемент в главното меню
 [...is typing]
 ...пише съобщение
-[From popup plugin]
-
+[Default]
+Стандарт
 [From protocol]
 От протокола
 [Permanent]
@@ -444,7 +442,7 @@ Windows Aero - настройки
 Избор
 [...stopped typing]
 ...спря да пише
-[Popups timeout]
+[Timeout]
 Времетраене
 [Templates]
 Шаблони
@@ -628,8 +626,6 @@ Log status changes (само в отворените прозорци)
 Затваряне на контейнера
 [Show contact picture]
 Показване картина на контакта
-[Default]
-Стандарт
 [Hidden for this contact]
 Скрит за контакта
 [Visible for this contact]
@@ -1274,6 +1270,8 @@ TabSRMM предупреждение
 Непознат модул/контакт
 [Event notifications]
 Уведомявания за събития
+[Popups]
+Рopups
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Rich Edit file]
 
@@ -1604,6 +1602,8 @@ Latin I
 Минимизира прозореца в лентата за задачи
 [Close or hide window, depends on the close button setting above]
 Затваря/Скрива прозореца (зависи как е настроен бутона "Затваряне" по-горе)
+[Do nothing (ignore Esc key)]
+
 [Choose status modes]
 Избор на състояния
 [General]

@@ -24,10 +24,6 @@ Nie przeszkadzać
 Porozmawiajmy
 [Invisible]
 Niewidoczny
-[On the phone]
-Pod telefonem
-[Out to lunch]
-Na obiedzie
 [On events...]
 Przy zdarzeniach...
 [Send]

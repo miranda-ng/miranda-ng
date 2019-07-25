@@ -426,10 +426,6 @@
 Вольны
 [Invisible]
 Нябачны
-[Out to lunch]
-Абедаю
-[On the phone]
-На тэлефоне
 [Always left]
 Заўсёды злева
 [Always right]

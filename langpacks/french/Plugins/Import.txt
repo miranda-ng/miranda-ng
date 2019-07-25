@@ -2,16 +2,12 @@
 ;============================================================
 ;  File: Import.dll
 ;  Plugin: Import contacts and messages
-;  Version: 0.95.10.1
+;  Version: 0.95.11.1
 ;  Authors: Miranda team
 ;============================================================
 [Imports contacts and messages from another Miranda profile or from an external program.]
 
 ;file \plugins\Import\res\resource.rc
-[Choose how you would like to import:]
-Choisissez comment vous aimeriez importer :
-[From a Miranda NG database.]
-Depuis une base de données IM Miranda (Profil).
 [This wizard will help you import contacts and message history from another Miranda profile or from an external program.]
 
 [Click "Next" to choose the information you wish to import, or click "Cancel" to exit the wizard and continue using Miranda.]
@@ -28,10 +24,12 @@ Ne plus charger le plugin d'importation au démarrage
 Importation terminée
 [If at a future date you wish to use the wizard again, you can make it load again by going to the Plugins section of the Options dialog box.]
 Si à une future date vous désirez utiliser à nouveau cet assistant, vous pouvez le faire charger en allant dans les Options, puis dans la section des Plugins.
-[Miranda has found Miranda profiles with the following names. Please select the one you wish to import, or click "Other Profile" if your profile is not listed, or if the list is empty.]
-Miranda a trouvé les profils Miranda avec les noms suivants. Veuillez sélectionner celui que vous désirez importer, ou cliquez "Autre profil" si le vôtre n'est pas listé, ou si la liste est vide.
-[&Other Profile...]
-&Autre profil...
+[Choose import type:]
+
+[Choose directory]
+
+[Choose file]
+
 [&Filename:]
 &Fichier :
 [Now importing...]
@@ -81,6 +79,8 @@ Transferts de fichiers
 [Other]
 Autre
 [Choose appropriate accounts for import]
+
+[Choose file type:]
 
 [Enter file name for import:]
 
@@ -161,15 +161,30 @@ Nouveau compte
 [&Import...]
 &Importer...
 ;file \plugins\Import\src\miranda.cpp
+[Miranda NG database]
+Profil Miranda-IM
 [The given file does not exist. Please check that you have entered the name correctly.]
 Le fichier donné n'existe pas. Veuillez vérifier que vous avez entré correctement le nom.
 [Miranda Import]
 
-[Miranda NG database]
-Profil Miranda-IM
 [All Files]
 Tous les fichiers
 [You cannot import your current profile into itself]
+
+[Importing whole directory]
+
+;file \plugins\Import\src\patterns.cpp
+[Invalid file header]
+
+[Cannot parse file header, skipping file]
+
+[Loading file '%s'...]
+
+[Failed to open file <%s> for import: %d]
+
+[Failed to mmap file <%s> for import: %d]
+
+[Failed to map view of file <%s> for import: %d]
 
 ;file \plugins\Import\src\ui.cpp
 [Import history for %s]

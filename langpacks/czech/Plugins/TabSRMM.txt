@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.13
+;  Version: 3.5.0.14
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -166,8 +166,8 @@ Pozadí
 Časový limit (sekundy, 0 = výchozí, -1 = bez limitu)
 [Message]
 Zpráva
-[Default colors]
-Výchozí barvy
+[Use default colors]
+Použít výchozí barvy
 [Others]
 Ostatní
 [Preview]
@@ -416,26 +416,24 @@ Nastavení Windows Aero
 Použít Aero UI elementy (pouze pokud není použito vlastní téma)
 [Use Windows 7 task bar enhancements (restart required)]
 Použít vylepšení lišty úloh z Windows 7 (vyžadován restart)
-[Popups]
-Oznámení
+[Colors]
+Barvy
 [...is &typing]
 ... píše zprá&vu
 [...stopped t&yping]
 ... &dopsal zprávu
-[Back]
-Pozadí
-[U&se Popup colors]
-P&oužít výchozí barvy
-[&Use Windows colors]
-Po&užít barvy Windows
+[Use &default colors]
+
+[Use &Windows colors]
+Použít barvy &Windows
 [Only &one popup for each contact]
 Pouze jedn&o oznámení na kontakt
 [Show &entry in the main menu]
 Zobrazit položku v hlavním m&enu
 [...is typing]
 ... píše zprávu
-[From popup plugin]
-Globální nastavení
+[Default]
+Výchozí
 [From protocol]
 Dle protokolu
 [Permanent]
@@ -444,8 +442,8 @@ Trvale
 Vlastní
 [...stopped typing]
 ... dopsal zprávu
-[Popups timeout]
-Doba zobrazení oznámení
+[Timeout]
+Doba zobrazení
 [Templates]
 Šablony
 [Edit template]
@@ -628,8 +626,6 @@ Možnosti kontejneru...
 Zavřít kontejner
 [Show contact picture]
 Zobrazit obrázek kontaktu
-[Default]
-Výchozí
 [Hidden for this contact]
 Skrytý pro tento kontakt
 [Visible for this contact]
@@ -1274,6 +1270,8 @@ Nové zprávy:\s
 Neznámý modul nebo uživatel
 [Event notifications]
 Oznámení události
+[Popups]
+Oznámení
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Rich Edit file]
 Rich Edit soubor
@@ -1604,6 +1602,8 @@ Normální - zavřít panel, pokud je uzavřen poslední panel, zavřít i okno
 Minimalizovat okno
 [Close or hide window, depends on the close button setting above]
 Zavřít či schovat okno, záleží na nastavení uzavíracího tlačítka
+[Do nothing (ignore Esc key)]
+
 [Choose status modes]
 Vyberte stavy
 [General]

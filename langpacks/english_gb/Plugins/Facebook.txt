@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.4.2.1
+;  Version: 0.4.2.4
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [History synchronization]

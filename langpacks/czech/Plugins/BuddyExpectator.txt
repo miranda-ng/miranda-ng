@@ -38,7 +38,7 @@ Barvy
 Pozadí
 [Text]
 Text
-[Use Popups colors]
+[Use default colors]
 Použít výchozí barvy
 [Use Windows colors]
 Použít barvy Windows

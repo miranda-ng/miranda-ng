@@ -73,8 +73,6 @@ Fehler beim Erstellen der Datenbank '%s', Fehlercode: %d.
 ;file \plugins\Db3x_mmap\src\ui.cpp
 [Logo]
 Logo
-[Password]
-Passwort
 [Too many errors!]
 Zu viele Fehler!
 [Password is not correct!]

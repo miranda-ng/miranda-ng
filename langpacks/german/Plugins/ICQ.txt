@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.95.11.4
+;  Version: 0.95.11.5
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -18,10 +18,12 @@ Anmelden/Registrieren mit Telefon
 Chatfenster bei der Erzeugung nicht öffnen
 [Use tray icon notifications]
 Benachrichtigungen mittels Systemtray-Symbol
-[E-mail]
-E-Mail
 [Launch mailbox in a browser on click]
 Beim anklicken Postfach im Browser öffnen
+[Show error popups]
+
+[Notifications]
+Benachrichtigung
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
 Wenn ein Kontakt Offline geht, stattdessen folgenden Status für folgende Anzahl Sekunden setzen (0 - deaktivieren)
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
@@ -52,23 +54,22 @@ Nick:
 Mitglied seit:
 [Last seen:]
 Zuletzt gesehen:
-[Ignore list editor]
-Ignorierlisteneditor
+[Enter ICQ Password]
+ICQ-Passwort eingeben
+[Enter a password:]
+
+[Remember this session password]
+Dieses Sitzungspasswort merken
 ;file \protocols\ICQ-WIM\src\groupchats.cpp
 [&Invite a user]
 Benutzer e&inladen
 [&Leave/destroy chat]
 Chat ver&lassen/zerstören
-;file \protocols\ICQ-WIM\src\ignore.cpp
-[Do you really want to remove it from ignore list?]
-Möchten Sie ihn wirklich von Ihrer Ignorierliste entfernen?
 ;file \protocols\ICQ-WIM\src\main.cpp
+[E-mail]
+E-Mail
 [E-mail notification]
 E-Mail Benachrichtigung
-[Ignore]
-Ignorieren
-[Remove Ignore]
-Ignorieren entfernen
 ;file \protocols\ICQ-WIM\src\options.cpp
 [Network]
 Netzwerk
@@ -86,13 +87,11 @@ Sie haben %d ungelesene E-Mails
 %s Serververbindung
 [Synchronize server groups]
 Servergruppen synchronisieren
-[Edit ignore list]
-Ignorierliste bearbeiten
 [UIN/e-mail/phone]
 UIN/E-Mail/Telefon
 ;file \protocols\ICQ-WIM\src\server.cpp
-[You have not entered an ICQ number.\nConfigure this in Options -> Network -> ICQ and try again.]
-Sie haben keine ICQ-Nummer angegeben.\nSie können diese unter Einstellungen -> Netzwerk -> ICQ einstellen und nochmals versuchen.
+[You have not entered an ICQ number or password.\nConfigure this in Options -> Network -> ICQ and try again.]
+
 [Connection failed.\nYour ICQ number or password was rejected (%d).]
 Verbindung fehlgeschlagen.\nICQ-Nummer oder Passwort wurden abgelehnt (%d).
 [Connection failed.\nThe server is temporarily unavailable (%d).]

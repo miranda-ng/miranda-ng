@@ -134,10 +134,10 @@
 Колеры Windows
 [Use default colors]
 Колеры па змаўчанні
-[Delay]
+[Timeout]
 Затрымка
-[From popup plugin]
-Па змаўчанні
+[Default]
+Змаўчанні
 [Custom]
 Наладзіць
 [Permanent]
@@ -502,12 +502,8 @@ E-Mail
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [Main]
 Галоўны
-[Default]
-Змаўчанні
 [IM naming]
 Імя ў IM
-[Password]
-Пароль
 [Timezone]
 Гадзінны пояс
 [Marital status]

@@ -1230,10 +1230,6 @@ Bitte nicht st&ören\tStrg+5
 &Für Chat bereit\tStrg+6
 [&Invisible\tCtrl+7]
 Uns&ichtbar\tStrg+7
-[On the &phone\tCtrl+8]
-Am &Telefon\tStrg+8
-[Out to &lunch\tCtrl+9]
-&Beim Essen\tStrg+9
 ;file \src\core\stdautoaway\src\options.cpp
 [Status]
 Status
@@ -1261,10 +1257,6 @@ Ja, ich bin da.
 Nein, ich bin weg.
 [I'm hiding from the mafia.]
 Ich zieh' mir ne Tarnkappe auf!
-[That'll be the phone.]
-Bin gerade am Telefon
-[Mmm... food.]
-Hmm... Essen.
 [idleeeeeeee]
 Langweilig
 ;file \src\core\stdclist\src\clcfonts.cpp
@@ -1307,10 +1299,6 @@ Bitte nicht stören
 Für Chat bereit
 [Invisible]
 Unsichtbar
-[Out to lunch]
-Zum Essen
-[On the phone]
-Am Telefon
 [List background]
 Hintergrund Liste
 ;file \src\core\stdclist\src\clistopts.cpp
@@ -2776,6 +2764,8 @@ In Gruppe verschieben
 Ein
 [Off]
 Aus
+[Password]
+Passwort
 [Unused]
 Ungenutzt
 [Frames]

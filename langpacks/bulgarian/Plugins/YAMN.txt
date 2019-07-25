@@ -104,10 +104,6 @@ Copyright:
 Готов за чат
 [Invisible]
 Невидим
-[On the phone]
-На телефона
-[Out to lunch]
-На обяд
 [YAMN General Options]
 
 [TopToolBar button "Check mail"]
@@ -359,9 +355,9 @@ Copyright:
 
 [Account Test]
 
-[Account Test (failed)]
-
 [You have N new mail messages]
+
+[Account Test (failed)]
 
 [Connection failed message]
 

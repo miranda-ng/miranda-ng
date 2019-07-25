@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.13
+;  Version: 3.5.0.14
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -166,8 +166,8 @@ Hintergrund
 Zeitlimit (Sekunden, 0 = Standard, -1 = Kein Limit)
 [Message]
 Nachricht
-[Default colors]
-Standardfarben
+[Use default colors]
+Standardfarben verwenden
 [Others]
 Sonstiges
 [Preview]
@@ -416,26 +416,24 @@ Windows-Aero-Einstellungen
 Aero-UI-Elemente verwenden (nur wenn kein eigener Skin verwendet wird)
 [Use Windows 7 task bar enhancements (restart required)]
 Windows-7-Taskleisten-Funktionen verwenden (Neustart nötig)
-[Popups]
-Popups
+[Colors]
+Farben
 [...is &typing]
 ...&tippt gerade
 [...stopped t&yping]
 ...ti&ppt nicht mehr
-[Back]
-Hgrd.
-[U&se Popup colors]
-Standardfarben verwenden
-[&Use Windows colors]
-Windowsfarben verwenden
+[Use &default colors]
+&Standardfarben verwenden
+[Use &Windows colors]
+&Windows-Farben verwenden
 [Only &one popup for each contact]
 Nur ein P&opup pro Kontakt
 [Show &entry in the main menu]
 &Eintrag im Hauptmenü anzeigen
 [...is typing]
 ...tippt gerade
-[From popup plugin]
-Vom Popup-Plugin
+[Default]
+Standard
 [From protocol]
 Vom Protokoll
 [Permanent]
@@ -444,8 +442,8 @@ Dauerhaft
 Benutzerdef.
 [...stopped typing]
 ...tippt nicht mehr
-[Popups timeout]
-Popup-Zeitüberschreitung
+[Timeout]
+Timeout
 [Templates]
 Vorlagen
 [Edit template]
@@ -628,8 +626,6 @@ Containereinstellungen...
 Container schließen
 [Show contact picture]
 Kontaktbild zeigen
-[Default]
-Standard
 [Hidden for this contact]
 Für diesen Kontakt verstecken
 [Visible for this contact]
@@ -1274,6 +1270,8 @@ Neue Nachrichten:\s
 Unbekanntes Modul oder Kontakt
 [Event notifications]
 Ereignisbenachrichtigungen
+[Popups]
+Popups
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Rich Edit file]
 Rich-Edit-Datei
@@ -1604,6 +1602,8 @@ Normal - Schließt Tabs; schließt das Fenster, wenn der letzte Tab geschlossen 
 Minimiert das Fenster in die Taskleiste
 [Close or hide window, depends on the close button setting above]
 Schließe oder verstecke Fenster abhängig vom obigen Schließverhalten
+[Do nothing (ignore Esc key)]
+
 [Choose status modes]
 Wähle Statusmodi
 [General]

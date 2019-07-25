@@ -7,7 +7,7 @@
 ;============================================================
 [Colors]
 Colours
-[Use Popups colors]
-Use Popups colours
+[Use default colors]
+Use default colours
 [Use Windows colors]
 Use Windows colours

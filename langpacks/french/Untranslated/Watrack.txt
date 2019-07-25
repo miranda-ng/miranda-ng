@@ -137,8 +137,6 @@
 [Hide when no player]
 [Hide when no music]
 [Use popup action buttons]
-[Default colors]
-[Windows colors]
 [album]
 [genre]
 [Picture transform]

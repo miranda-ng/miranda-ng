@@ -9,6 +9,7 @@
 [Enable tracking for these protocols:]
 [Metacontacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]
 [Show popup when a contact change his avatar]
+[Timeout]
 [On right click:]
 [On left click:]
 [Track]

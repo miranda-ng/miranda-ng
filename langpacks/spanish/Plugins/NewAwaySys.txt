@@ -44,10 +44,6 @@ No &molestar
 &Libre para el chat
 [&Invisible]
 &Invisible
-[On the &phone]
-En el &teléfono
-[Out to &lunch]
-Salí a &comer
 [Autoreply format:]
 
 [V]
@@ -227,14 +223,6 @@ Libre para el chat
 Invisible
 [I'm hiding from the mafia.]
 Me estoy escondiendo de la mafia.
-[On the phone]
-En el teléfono
-[I've been on the phone since %nas_awaysince_time%, give me a sec!]
-
-[Out to lunch]
-Salí a comer
-[Been having ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]
-
 ;file \plugins\NewAwaySysMod\src\AwaySys.cpp
 [Toggle Off]
 

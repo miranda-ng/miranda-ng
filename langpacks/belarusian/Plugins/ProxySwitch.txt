@@ -34,8 +34,8 @@
 Колер тэксту
 [Background color]
 Колер фону
-[Use default popup colors]
-
+[Use default colors]
+Колеры па змаўчанні
 [Show proxy status on change]
 
 [Restart of Miranda NG is required.]

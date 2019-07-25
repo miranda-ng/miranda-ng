@@ -575,12 +575,12 @@ Průhlednost
 Levé tlač.
 [Right click]
 Pravé tlač.
-[Default colors]
-Výchozí barvy
-[Windows colors]
-Barvy Windows
-[Custom colors]
-Vlastní barvy
+[Use default colors]
+Použít výchozí barvy
+[Use Windows colors]
+Použít barvy Windows
+[Use custom colors]
+Použít vlastní barvy
 [artist]
 umělec
 [album]

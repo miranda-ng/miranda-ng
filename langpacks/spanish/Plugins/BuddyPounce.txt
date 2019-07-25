@@ -81,10 +81,6 @@ No molestar
 Libre para el chat
 [Invisible]
 Invisible
-[On the phone]
-En el teléfono
-[Out to lunch]
-Salí a comer
 [Send If Their Status changes]
 
 [From Offline]
@@ -103,13 +99,7 @@ Salí a comer
 
 [To Invisible]
 
-[To On the phone]
-
-[To Out to lunch]
-
 [The Message    (%d Characters)]
-
-[error......]
 
 [Couldn't allocate enough memory]
 

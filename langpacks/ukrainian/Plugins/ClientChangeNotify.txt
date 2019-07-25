@@ -32,7 +32,7 @@
 Лівий клік
 [On right click]
 Правий клік
-[Delay]
+[Timeout]
 Затримка
 [Sec]
 с

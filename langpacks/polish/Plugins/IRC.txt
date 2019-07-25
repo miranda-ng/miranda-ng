@@ -520,10 +520,6 @@ Zdarzenie: Zajęty
 Zdarzenie: Nie przeszkadzać
 [Event: Free for chat]
 Zdarzenie: Porozmawiajmy
-[Event: On the phone]
-Zdarzenie: Pod telefonem
-[Event: Out for lunch]
-Zdarzenie: Na obiedzie
 [Event: Disconnect]
 Zdarzenie: Rozłączony
 [ALL NETWORKS]

@@ -575,12 +575,12 @@ Alfa
 
 [Right click]
 
-[Default colors]
-
-[Windows colors]
-
-[Custom colors]
-
+[Use default colors]
+Usar colores predeterminados
+[Use Windows colors]
+Usar colores de Windows
+[Use custom colors]
+Usar colores personalizados
 [artist]
 
 [album]

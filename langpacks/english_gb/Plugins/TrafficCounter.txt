@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TrafficCounter.dll
 ;  Plugin: Traffic counter
-;  Version: 0.1.1.8
+;  Version: 0.1.1.9
 ;  Authors: Ghost, Mironych
 ;============================================================
 [Background color:]

@@ -43,6 +43,16 @@ Ignorar
 [Hide contact on 'Ignore all']
 
 ;file \plugins\MenuItemEx\src\main.cpp
+[Always visible]
+Siempre visible
+[Never visible]
+
+[Copy to Account]
+
+[Show in list]
+
+[Copy xStatus Message]
+
 [Status message]
 
 [xStatus title]
@@ -54,16 +64,6 @@ Ignorar
 [Activity title]
 
 [Activity text]
-
-[Show in list]
-
-[Always visible]
-Siempre visible
-[Never visible]
-
-[Copy to Account]
-
-[Copy xStatus Message]
 
 [All]
 Todo

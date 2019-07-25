@@ -106,9 +106,9 @@
 Кантакт пацверджаны
 [Challenge sent]
 Адпраўлены пытанне
-[Default colors]
-Па змаўчанні
-[Windows colors]
+[Use default colors]
+Колеры па змаўчанні
+[Use Windows colors]
 Колеры Windows
 [Default timeout]
 Па змаўчанні

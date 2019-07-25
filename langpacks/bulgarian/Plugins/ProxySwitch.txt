@@ -34,8 +34,8 @@ Popup настройки
 Цвят на текста
 [Background color]
 Цвят на фона
-[Use default popup colors]
-
+[Use default colors]
+Стандартни цветове
 [Show proxy status on change]
 
 [Restart of Miranda NG is required.]

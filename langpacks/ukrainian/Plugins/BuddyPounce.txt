@@ -81,10 +81,6 @@
 Готовий до чату
 [Invisible]
 Невидимий
-[On the phone]
-Телефоную
-[Out to lunch]
-Обідаю
 [Send If Their Status changes]
 Надсилати, якщо контакт змінює статус
 [From Offline]
@@ -103,14 +99,8 @@
 -> Готовий до чату
 [To Invisible]
 -> Невидимий
-[To On the phone]
--> Телефоную
-[To Out to lunch]
--> Обідаю
 [The Message    (%d Characters)]
 Повідомлення (%d символів)
-[error......]
-помилка...
 [Couldn't allocate enough memory]
 Не вдалося виділити достатньо пам'яті
 [The Message    (0 Characters)]

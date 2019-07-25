@@ -704,10 +704,6 @@ Ne pas déranger
 OK pour un chat
 [Invisible]
 Invisible
-[Out to lunch]
-Parti manger
-[On the phone]
-Au téléphone
 [Enter]
 
 [Double 'Enter']

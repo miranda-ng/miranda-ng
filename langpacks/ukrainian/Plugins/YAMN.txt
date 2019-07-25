@@ -104,10 +104,6 @@
 Готовий до чату
 [Invisible]
 Невидимий
-[On the phone]
-Телефоную
-[Out to lunch]
-Обідаю
 [YAMN General Options]
 Основні налаштування
 [TopToolBar button "Check mail"]
@@ -359,9 +355,9 @@ OpenSSL не завантажений.
 Помилка пам'яті
 [Account Test]
 Перевірка
-[Account Test (failed)]
-Перевірка (помилка)
 [You have N new mail messages]
 У вас N нових повідомлень
+[Account Test (failed)]
+Перевірка (помилка)
 [Connection failed message]
 Повідомлення про невдале підключення

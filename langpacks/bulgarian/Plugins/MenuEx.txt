@@ -43,6 +43,16 @@
 [Hide contact on 'Ignore all']
 
 ;file \plugins\MenuItemEx\src\main.cpp
+[Always visible]
+Винаги видимо
+[Never visible]
+Никога видимо
+[Copy to Account]
+Копиране в Акаунт
+[Show in list]
+Показване в списъка
+[Copy xStatus Message]
+
 [Status message]
 Текст за състояние
 [xStatus title]
@@ -55,16 +65,6 @@ xСъстояние
 Етикет на дейността
 [Activity text]
 Текст на дейността
-[Show in list]
-Показване в списъка
-[Always visible]
-Винаги видимо
-[Never visible]
-Никога видимо
-[Copy to Account]
-Копиране в Акаунт
-[Copy xStatus Message]
-
 [All]
 Всички
 [Messages]

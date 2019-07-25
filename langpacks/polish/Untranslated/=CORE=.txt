@@ -1,4 +1,5 @@
 [&Open/close chat window]
+[Password]
 [Unused]
 [Unselect all]
 [Message window toolbar]

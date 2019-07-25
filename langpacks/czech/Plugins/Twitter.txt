@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Twitter.dll
 ;  Plugin: Twitter protocol
-;  Version: 1.3.0.2
+;  Version: 1.3.0.3
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
 [Twitter protocol support for Miranda NG.]
@@ -46,7 +46,7 @@ Provedené změny se projeví až při dalším připojení k síti Twitter.
 Barvy
 [Use Windows colors]
 Použít barvy Windows
-[Use Popup colors]
+[Use default colors]
 Použít výchozí barvy
 [Use custom colors]
 Použít vlastní barvy
@@ -54,9 +54,9 @@ Použít vlastní barvy
 Pozadí
 [Text]
 Text
-[Timeouts]
-
-[Use default]
+[Timeout]
+Doba zobrazení
+[Default]
 Výchozí
 [Custom]
 Vlastní

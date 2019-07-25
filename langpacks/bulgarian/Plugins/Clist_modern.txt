@@ -667,10 +667,6 @@ Modern contact list
 Контакти (Готов за чат)
 [Invisible contacts]
 Контакти (Невидим)
-[On the phone contacts]
-Контакти (На телефона)
-[Out to lunch contacts]
-Контакти (На обяд)
 [Offline contacts]
 Контакти (Извън линия)
 [Online contacts to whom you have a different visibility]
@@ -733,10 +729,6 @@ Modern contact list
 Готов за чат
 [Invisible]
 Невидим
-[Out to lunch]
-На обяд
-[On the phone]
-На телефона
 [Name]
 Име
 [Name (use locale settings)]

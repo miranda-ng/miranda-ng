@@ -104,10 +104,6 @@ No molestar
 Libre para el chat
 [Invisible]
 Invisible
-[On the phone]
-En el teléfono
-[Out to lunch]
-Salí a comer
 [YAMN General Options]
 
 [TopToolBar button "Check mail"]
@@ -359,9 +355,9 @@ Todos los archivos
 
 [Account Test]
 
-[Account Test (failed)]
-
 [You have N new mail messages]
+
+[Account Test (failed)]
 
 [Connection failed message]
 

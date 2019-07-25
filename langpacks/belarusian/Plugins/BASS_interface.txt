@@ -42,10 +42,6 @@
 Вольны
 [Invisible]
 Нябачны
-[On the phone]
-На тэлефоне
-[Out to lunch]
-Абедаю
 [Preview]
 Прагляд
 ;file \plugins\BASS_interface\src\Main.cpp

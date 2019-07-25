@@ -44,10 +44,6 @@
 &Вольны
 [&Invisible]
 &Нябачны
-[On the &phone]
-На тэле&фоне
-[Out to &lunch]
-А&бедаю
 [Autoreply format:]
 Фармат аўтаадказу:
 [V]
@@ -227,14 +223,6 @@
 Нябачны
 [I'm hiding from the mafia.]
 Я хаваюся ад мафіі.
-[On the phone]
-На тэлефоне
-[I've been on the phone since %nas_awaysince_time%, give me a sec!]
-Размаўляю па тэлефоне з %nas_awaysince_time%, пачакайце трохі!
-[Out to lunch]
-Абедаю
-[Been having ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]
-Зараз ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,вячэраю,абедаю),снедаю),вячэраю) з %nas_awaysince_time%.
 ;file \plugins\NewAwaySysMod\src\AwaySys.cpp
 [Toggle Off]
 Выключыць

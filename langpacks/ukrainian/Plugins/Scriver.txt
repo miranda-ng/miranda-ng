@@ -704,10 +704,6 @@ ID поточного контакту (якщо визначено). Напри
 Готовий до чату
 [Invisible]
 Невидимий
-[Out to lunch]
-Обідаю
-[On the phone]
-Телефоную
 [Enter]
 Enter
 [Double 'Enter']

@@ -129,6 +129,6 @@
 [Cannot allocate memory space for new account]
 [Memory error]
 [Account Test]
-[Account Test (failed)]
 [You have N new mail messages]
+[Account Test (failed)]
 [Connection failed message]

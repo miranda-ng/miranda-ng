@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.0.3
+;  Version: 0.2.1.0
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates.]
@@ -58,22 +58,22 @@ Nahradit
 Informace poskytuje <a href="http://www.google.com">Google</a>
 [Close]
 Zavřít
-[Popup Window Settings]
+[Popup settings]
 Nastavení oznámení
 [Colors]
 Barvy
 [Use default colors]
 Použít výchozí barvy
-[Use user-defined colors]
+[Use custom colors]
 Použít vlastní barvy
 [Background color]
 Barva pozadí
 [Text color]
 Barva textu
-[Delay]
-Prodleva
-[From popup plugin]
-Globální nastavení
+[Timeout]
+Doba zobrazení
+[Default]
+Výchozí
 [Custom]
 Vlastní
 [Permanent]

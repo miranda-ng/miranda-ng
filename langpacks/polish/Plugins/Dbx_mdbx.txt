@@ -42,6 +42,13 @@ Tylko najważniejsze dane (hasła, tokeny bezpieczeństwa itp.) są zaszyfrowane
 Wszystkie wpisy ustawień oraz zdarzenia w bazie są zaszyfrowane. Sprawia to, że Miranda może działać wolniej oraz stwarza ryzyko utraty wszystkich danych zapisanych w profilu w przypadku utraty hasła. Zalecane tylko obsesyjnym użytkownikom.
 [Set password]
 Ustaw/Zmień hasło
+;file \plugins\Dbx_mdbx\src\dbcrypt.cpp
+[Too many errors!]
+Zbyt wiele błędów!
+[Password is not correct!]
+Nieprawidłowe hasło!
+[Please type in your password]
+Proszę wprowadzić hasło
 ;file \plugins\Dbx_mdbx\src\dbintf.h
 [Change/remove password]
 Zmień/Usuń hasło
@@ -54,16 +61,7 @@ Hasło jest za krótkie!
 Hasła nie pasują!
 [Database]
 Profil
-[Compact]
-Skompaktuj
-;file \plugins\Dbx_mdbx\src\ui.h
 [Logo]
 Logo
-[Password]
-Hasło:
-[Too many errors!]
-Zbyt wiele błędów!
-[Password is not correct!]
-Nieprawidłowe hasło!
-[Please type in your password]
-Proszę wprowadzić hasło
+[Compact]
+Skompaktuj

@@ -94,10 +94,6 @@ Message d'état :
 OK pour un &chat
 [&Invisible]
 In&visible
-[On the &phone]
-Au &téléphone
-[Out to &lunch]
-&Parti manger
 [Set my avatar...]
 Changer mon avatar...
 [Set my nickname...]

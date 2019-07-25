@@ -1230,10 +1230,6 @@ UIN, E-mail і г.д.
 &Вольны\tCtrl+6
 [&Invisible\tCtrl+7]
 &Нябачны\tCtrl+7
-[On the &phone\tCtrl+8]
-На тэле&фоне\tCtrl+8
-[Out to &lunch\tCtrl+9]
-А&бедаю\tCtrl+9
 ;file \src\core\stdautoaway\src\options.cpp
 [Status]
 Статус
@@ -1261,10 +1257,6 @@ UIN, E-mail і г.д.
 Не, я не тут.
 [I'm hiding from the mafia.]
 Я хаваюся ад мафіі.
-[That'll be the phone.]
-Гавару па тэлефоне...
-[Mmm... food.]
-Ммм... е-е-ежа...
 [idleeeeeeee]
 чаканне...
 ;file \src\core\stdclist\src\clcfonts.cpp
@@ -1307,10 +1299,6 @@ UIN, E-mail і г.д.
 Вольны
 [Invisible]
 Нябачны
-[Out to lunch]
-Абедаю
-[On the phone]
-На тэлефоне
 [List background]
 Фон спісу
 ;file \src\core\stdclist\src\clistopts.cpp
@@ -2776,6 +2764,8 @@ ANSI плагін
 Укл.
 [Off]
 Адкл.
+[Password]
+Пароль
 [Unused]
 
 [Frames]

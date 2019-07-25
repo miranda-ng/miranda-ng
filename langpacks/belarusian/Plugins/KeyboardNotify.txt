@@ -66,10 +66,6 @@
 Вольны
 [Invisible]
 Нябачны
-[On the phone]
-На тэлефоне
-[Out to lunch]
-Абедаю
 [Pending Events]
 Чаканыя падзеі
 [Remind me every]

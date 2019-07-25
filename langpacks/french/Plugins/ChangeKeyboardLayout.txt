@@ -46,9 +46,9 @@ Défaut
 Couleurs
 [Use default colors]
 Couleurs par défaut
-[Windows colors]
-
-[Custom colors]
+[Use Windows colors]
+Utiliser les couleurs Windows
+[Use custom colors]
 Couleurs personnalisées
 [Back]
 Fond
@@ -56,8 +56,6 @@ Fond
 Texte
 [Timeout]
 Délai du popup
-[From popup plugin]
-Comme le plugin popup
 [Permanent]
 
 [Custom]

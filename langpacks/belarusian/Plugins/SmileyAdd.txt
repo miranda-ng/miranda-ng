@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.1.1
+;  Version: 0.3.1.2
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -58,12 +58,14 @@
 [Show smiley selection window]
 Акно выбару эмоцый
 ;file \plugins\SmileyAdd\src\download.cpp
-[SmileyAdd]
-Смайлы
-[Smiley cache]
-Кэш смайлаў
 [SmileyAdd HTTP connections]
 HTTP далучэнне SmileyAdd
+[SmileyAdd]
+Смайлы
+[Smiley packs' folder]
+
+[Smiley cache]
+Кэш смайлаў
 ;file \plugins\SmileyAdd\src\main.cpp
 [Button smiley]
 Кнопка смайла

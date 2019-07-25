@@ -132,12 +132,12 @@ Uložit záznam
 
 [Save as raw data]
 
-[Popup delay]
+[Popup timeout]
 Doba zobrazení
-[Delay]
-Prodleva
-[From popup plugin]
-Globální nastavení
+[Timeout]
+Doba zobrazení
+[Default]
+Výchozí
 [Permanent]
 Trvale
 [Preview]

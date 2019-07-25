@@ -667,10 +667,6 @@ Kontakty "Zajęte"
 Kontakty "Chętne do rozmowy"
 [Invisible contacts]
 Kontakty "Niewidoczne"
-[On the phone contacts]
-Kontakty "Pod telefonem"
-[Out to lunch contacts]
-Kontakty "Na obiedzie"
 [Offline contacts]
 Kontakty "Rozłączone"
 [Online contacts to whom you have a different visibility]
@@ -733,10 +729,6 @@ Nie przeszkadzać
 Porozmawiajmy
 [Invisible]
 Niewidoczny
-[Out to lunch]
-Na obiedzie
-[On the phone]
-Pod telefonem
 [Name]
 Nazwa
 [Name (use locale settings)]

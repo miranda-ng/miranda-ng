@@ -94,10 +94,6 @@
 &Вольны
 [&Invisible]
 &Нябачны
-[On the &phone]
-На тэле&фоне
-[Out to &lunch]
-А&бедаю
 [Set my avatar...]
 Змяніць мой аватар...
 [Set my nickname...]

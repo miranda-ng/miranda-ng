@@ -24,10 +24,6 @@
 Готов за чат
 [Invisible]
 Невидим
-[On the phone]
-На телефона
-[Out to lunch]
-На обяд
 [On events...]
 При събития...
 [Send]

@@ -426,10 +426,6 @@ Nerušit!
 Mám volno
 [Invisible]
 Neviditelný
-[Out to lunch]
-Na obědě
-[On the phone]
-Na telefonu
 [Always left]
 Vždy vlevo
 [Always right]

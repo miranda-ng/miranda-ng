@@ -73,8 +73,6 @@ Eliminar
 ;file \plugins\Db3x_mmap\src\ui.cpp
 [Logo]
 
-[Password]
-Contraseña
 [Too many errors!]
 
 [Password is not correct!]

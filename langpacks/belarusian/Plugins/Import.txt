@@ -2,16 +2,12 @@
 ;============================================================
 ;  File: Import.dll
 ;  Plugin: Import contacts and messages
-;  Version: 0.95.10.1
+;  Version: 0.95.11.1
 ;  Authors: Miranda team
 ;============================================================
 [Imports contacts and messages from another Miranda profile or from an external program.]
 Імпарт кантактаў і паведамленняў з іншых профіляў Miranda і іншых праграм.
 ;file \plugins\Import\res\resource.rc
-[Choose how you would like to import:]
-Абярыце, адкуль неабходна вырабіць імпарт дадзеных:
-[From a Miranda NG database.]
-З базы Miranda NG/IM.
 [This wizard will help you import contacts and message history from another Miranda profile or from an external program.]
 Гэты візард дапаможа вам імпартаваць кантакты і гісторыю з Mirabilis ICQ, а таксама з іншых профіляў Miranda.
 [Click "Next" to choose the information you wish to import, or click "Cancel" to exit the wizard and continue using Miranda.]
@@ -28,10 +24,12 @@
 Імпарт завершаны
 [If at a future date you wish to use the wizard again, you can make it load again by going to the Plugins section of the Options dialog box.]
 Калі вам у будучыні спатрэбіцца гэты візард, уключыце плагін Import.dll у наладах (частка "Плагіны").
-[Miranda has found Miranda profiles with the following names. Please select the one you wish to import, or click "Other Profile" if your profile is not listed, or if the list is empty.]
-Miranda знайшла наступныя профілі. Абярыце профіль са спісу, ці націсніце "Іншы профіль", калі Вашага профіля няма ў спісе ці спіс пусты.
-[&Other Profile...]
-&Іншы профіль..
+[Choose import type:]
+
+[Choose directory]
+
+[Choose file]
+
 [&Filename:]
 &Імя файла:
 [Now importing...]
@@ -81,6 +79,8 @@ Miranda знайшла наступныя профілі. Абярыце про�
 [Other]
 Іншае
 [Choose appropriate accounts for import]
+
+[Choose file type:]
 
 [Enter file name for import:]
 
@@ -161,15 +161,30 @@ Miranda знайшла наступныя профілі. Абярыце про�
 [&Import...]
 &Імпарт
 ;file \plugins\Import\src\miranda.cpp
+[Miranda NG database]
+База Miranda NG/IM
 [The given file does not exist. Please check that you have entered the name correctly.]
 Дадзены файл не існуе. Праверце імя файла.
 [Miranda Import]
 Імпарт Miranda
-[Miranda NG database]
-База Miranda NG/IM
 [All Files]
 Усе файлы
 [You cannot import your current profile into itself]
+
+[Importing whole directory]
+
+;file \plugins\Import\src\patterns.cpp
+[Invalid file header]
+
+[Cannot parse file header, skipping file]
+
+[Loading file '%s'...]
+
+[Failed to open file <%s> for import: %d]
+
+[Failed to mmap file <%s> for import: %d]
+
+[Failed to map view of file <%s> for import: %d]
 
 ;file \plugins\Import\src\ui.cpp
 [Import history for %s]

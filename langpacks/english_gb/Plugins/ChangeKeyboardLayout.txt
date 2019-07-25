@@ -9,7 +9,7 @@
 Colours
 [Use default colors]
 Use default colours
-[Windows colors]
-Windows colours
-[Custom colors]
-Custom colours
+[Use Windows colors]
+Use Windows colours
+[Use custom colors]
+Use custom colours

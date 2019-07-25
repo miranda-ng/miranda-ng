@@ -106,10 +106,10 @@ Délai du popup (sec)
 
 [Challenge sent]
 
-[Default colors]
-
-[Windows colors]
-
+[Use default colors]
+Couleurs par défaut
+[Use Windows colors]
+Utiliser les couleurs Windows
 [Default timeout]
 
 [Preview]

@@ -26,10 +26,6 @@
 Зает
 [Do not disturb]
 Не безпокойте
-[Out to lunch]
-На обяд
-[On the phone]
-На телефона
 [Always when changing from offline]
 Винаги при промяна от "Извън линия"
 [Notify when contact changes]
@@ -319,22 +315,6 @@
 (U) не желае да бъде обезпокояван!
 [User: Do not disturb]
 Потребител: "Не безпокойте"
-[(M) is eating something]
-(M) в момента яде нещо
-[(F) is eating something]
-(F) в момента яде нещо
-[(U) is eating something]
-(U) в момента яде нещо
-[User: Out to lunch]
-Потребител: "На обяд"
-[(M) had to answer the phone]
-(M) говори по телефона
-[(F) had to answer the phone]
-(F) говори по телефона
-[(U) had to answer the phone]
-(U) говори по телефона
-[User: On the phone]
-Потребител: "На телефона"
 [User: from offline (has priority!)]
 Потребител: от "Извън линия" (с предимство!)
 [Status message removed]

@@ -10,6 +10,7 @@
 [Don't replace at cursor]
 [Horizontal sorting]
 [SmileyAdd]
+[Smiley packs' folder]
 [Smiley cache]
 [Smileys]
 [Protocol specific]

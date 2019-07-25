@@ -46,18 +46,16 @@ Aktives Tastaturlayout im System ändern
 Farben
 [Use default colors]
 Standardfarben verwenden
-[Windows colors]
-Windowsfarben
-[Custom colors]
-Eigene Farben
+[Use Windows colors]
+Windowsfarben verwenden
+[Use custom colors]
+Benutzerdefinierte Farben
 [Back]
 Hgrd.
 [Text]
 Text
 [Timeout]
 Timeout
-[From popup plugin]
-Vom Popup-Plugin
 [Permanent]
 Dauerhaft
 [Custom]

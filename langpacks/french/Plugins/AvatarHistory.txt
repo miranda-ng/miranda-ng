@@ -44,10 +44,10 @@ Couleur du texte
 Utiliser les couleurs Windows
 [Use default colors]
 Couleurs par défaut
-[Delay]
-
-[From popup plugin]
-Comme le plugin popup
+[Timeout]
+Délai du popup
+[Default]
+Défaut
 [Custom]
 Défini
 [Permanent]

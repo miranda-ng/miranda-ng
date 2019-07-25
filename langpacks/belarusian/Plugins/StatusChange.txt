@@ -24,10 +24,6 @@
 Вольны
 [Invisible]
 Нябачны
-[On the phone]
-На тэлефоне
-[Out to lunch]
-Абедаю
 [On events...]
 Пры падзеях...
 [Send]

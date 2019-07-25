@@ -44,10 +44,10 @@
 Колеры Windows
 [Use default colors]
 Колеры па змаўчанні
-[Delay]
+[Timeout]
 Затрымка
-[From popup plugin]
-Па змаўчанні
+[Default]
+Змаўчанні
 [Custom]
 Наладзіць
 [Permanent]

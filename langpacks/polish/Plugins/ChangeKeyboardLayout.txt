@@ -46,18 +46,16 @@ Zmień aktywny układ klawiatury w systemie
 Kolory
 [Use default colors]
 Użyj domyślnych kolorów
-[Windows colors]
-Windows
-[Custom colors]
-Niestandardowe
+[Use Windows colors]
+Użyj kolorów Windows
+[Use custom colors]
+Użyj niestandardowych kolorów
 [Back]
 Tło
 [Text]
 Tekst
 [Timeout]
 Wyświetlaj
-[From popup plugin]
-Z wtyczki popup
 [Permanent]
 Stałe
 [Custom]

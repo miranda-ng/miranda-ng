@@ -426,10 +426,6 @@ Bitte nicht stören
 Für Chat bereit
 [Invisible]
 Unsichtbar
-[Out to lunch]
-Zum Essen
-[On the phone]
-Am Telefon
 [Always left]
 Immer links
 [Always right]

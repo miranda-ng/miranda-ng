@@ -667,10 +667,6 @@ xСтатус: xПовідомлення
 Контакт "готовий до чату"
 [Invisible contacts]
 Контакт "невидимий"
-[On the phone contacts]
-Контакт "телефоную"
-[Out to lunch contacts]
-Контакт "обідаю"
 [Offline contacts]
 Відключені контакти
 [Online contacts to whom you have a different visibility]
@@ -733,10 +729,6 @@ xСтатус: xПовідомлення
 Готовий до чату
 [Invisible]
 Невидимий
-[Out to lunch]
-Обідаю
-[On the phone]
-Телефоную
 [Name]
 Ім'я
 [Name (use locale settings)]

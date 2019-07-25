@@ -2,16 +2,12 @@
 ;============================================================
 ;  File: Import.dll
 ;  Plugin: Import contacts and messages
-;  Version: 0.95.10.1
+;  Version: 0.95.11.1
 ;  Authors: Miranda team
 ;============================================================
 [Imports contacts and messages from another Miranda profile or from an external program.]
 Importiert Kontakte und Nachrichten aus einem anderen Miranda-Profil oder aus einem externen Programm.
 ;file \plugins\Import\res\resource.rc
-[Choose how you would like to import:]
-Art des Imports auswählen:
-[From a Miranda NG database.]
-Aus einer Miranda-NG-Datenbank.
 [This wizard will help you import contacts and message history from another Miranda profile or from an external program.]
 Dieser Assistent soll helfen Kontakte und Nachrichten aus anderen Miranda-Profilen oder aus externen Programmen zu importieren.
 [Click "Next" to choose the information you wish to import, or click "Cancel" to exit the wizard and continue using Miranda.]
@@ -28,10 +24,12 @@ Importplugin nicht wieder beim Starten laden
 Import vollständig
 [If at a future date you wish to use the wizard again, you can make it load again by going to the Plugins section of the Options dialog box.]
 Zum Reaktivieren des Plugins bitte die Pluginseite nutzen und dort das Plugin 'Import' aktivieren.
-[Miranda has found Miranda profiles with the following names. Please select the one you wish to import, or click "Other Profile" if your profile is not listed, or if the list is empty.]
-Miranda fand Miranda-Profile mit folgenden Namen. Wählen Sie jenes, welches importiert werden soll aus, oder klicken Sie auf "Andere Profile", falls das gewünschte Profil nicht aufgelistet ist.
-[&Other Profile...]
-Anderes &Profil...
+[Choose import type:]
+
+[Choose directory]
+
+[Choose file]
+
 [&Filename:]
 &Dateiname:
 [Now importing...]
@@ -82,6 +80,8 @@ Dateiübertragungen
 Andere
 [Choose appropriate accounts for import]
 Passendes Konto zum Importieren auswählen
+[Choose file type:]
+
 [Enter file name for import:]
 Zu importierende Datei angeben:
 [Copy]
@@ -161,16 +161,31 @@ Import abgeschlossen nach %d Sekunden.
 [&Import...]
 &Importieren...
 ;file \plugins\Import\src\miranda.cpp
+[Miranda NG database]
+Miranda-NG-Datenbank
 [The given file does not exist. Please check that you have entered the name correctly.]
 Die angegebene Datei existiert nicht. Bitte eingegebenen Dateinamen überprüfen.
 [Miranda Import]
 Miranda-Import
-[Miranda NG database]
-Miranda-NG-Datenbank
 [All Files]
 Alle Dateien
 [You cannot import your current profile into itself]
 Sie können ein Profil nicht in sich selbst importieren.
+[Importing whole directory]
+
+;file \plugins\Import\src\patterns.cpp
+[Invalid file header]
+
+[Cannot parse file header, skipping file]
+
+[Loading file '%s'...]
+
+[Failed to open file <%s> for import: %d]
+
+[Failed to mmap file <%s> for import: %d]
+
+[Failed to map view of file <%s> for import: %d]
+
 ;file \plugins\Import\src\ui.cpp
 [Import history for %s]
 Verlauf für %s importieren

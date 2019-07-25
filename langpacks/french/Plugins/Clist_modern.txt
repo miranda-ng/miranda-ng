@@ -667,10 +667,6 @@ Contacts occupés
 Contacts OK pour un chat
 [Invisible contacts]
 Contacts invisibles
-[On the phone contacts]
-Contacts au téléphone
-[Out to lunch contacts]
-Contacts partis manger
 [Offline contacts]
 Contacts Hors ligne
 [Online contacts to whom you have a different visibility]
@@ -733,10 +729,6 @@ Ne pas déranger
 OK pour un chat
 [Invisible]
 Invisible
-[Out to lunch]
-Parti manger
-[On the phone]
-Au téléphone
 [Name]
 Nom
 [Name (use locale settings)]

@@ -73,8 +73,6 @@ Změnit/zrušit heslo
 ;file \plugins\Db3x_mmap\src\ui.cpp
 [Logo]
 Logo
-[Password]
-Heslo
 [Too many errors!]
 Příliš mnoho chybných pokusů!
 [Password is not correct!]

@@ -667,10 +667,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Кантакт "вольны"
 [Invisible contacts]
 Кантакт "нябачны"
-[On the phone contacts]
-Кантакт "на тэлефоне"
-[Out to lunch contacts]
-Кантакт "на абедзе"
 [Offline contacts]
 Адключаныя кантакты
 [Online contacts to whom you have a different visibility]
@@ -733,10 +729,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Вольны
 [Invisible]
 Нябачны
-[Out to lunch]
-Абедаю
-[On the phone]
-На тэлефоне
 [Name]
 Імя
 [Name (use locale settings)]

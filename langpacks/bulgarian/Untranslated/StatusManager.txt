@@ -14,7 +14,6 @@
 [minutes of level 1 mode]
 [Enter idle mode]
 [Allow override]
-[From popup plugin]
 [Specify settings for each account]
 [Use same settings for all accounts]
 [Timers]

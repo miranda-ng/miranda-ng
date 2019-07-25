@@ -134,10 +134,10 @@
 Кольори Windows
 [Use default colors]
 За замовчанням
-[Delay]
+[Timeout]
 Затримка
-[From popup plugin]
-З плагіна сплив. вікон
+[Default]
+За замовчанням
 [Custom]
 Вказати:
 [Permanent]
@@ -502,12 +502,8 @@
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [Main]
 Головний
-[Default]
-За замовчанням
 [IM naming]
 Ім'я в IM
-[Password]
-Пароль
 [Timezone]
 Часовой пояс
 [Marital status]

@@ -132,6 +132,8 @@
 [&Deop user]
 &Забрати права адміністратора
 ;file \protocols\MSN\src\msn_commands.cpp
+[%I64u bytes]
+
 [MSN Alert]
 Сповіщення MSN
 ;file \protocols\MSN\src\msn_errors.cpp

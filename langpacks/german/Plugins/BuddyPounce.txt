@@ -81,10 +81,6 @@ Bitte nicht stören
 Für Chat bereit
 [Invisible]
 Unsichtbar
-[On the phone]
-Am Telefon
-[Out to lunch]
-Zum Essen
 [Send If Their Status changes]
 Senden wenn ihr Status ändert
 [From Offline]
@@ -103,14 +99,8 @@ Zu Bitte nicht Stören
 Zu Zum Chat Bereit
 [To Invisible]
 Zu Unsichtbar
-[To On the phone]
-Zu Am Telefon
-[To Out to lunch]
-Zu Zum Essen
 [The Message    (%d Characters)]
 Die Nachricht   (%d Zeichen)
-[error......]
-fehler...
 [Couldn't allocate enough memory]
 Konnte nicht genig Speicher allokieren.
 [The Message    (0 Characters)]

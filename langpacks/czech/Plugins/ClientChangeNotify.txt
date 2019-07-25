@@ -32,8 +32,8 @@ Při kliknutí myší
 Levé tlačítko
 [On right click]
 Pravé tlačítko
-[Delay]
-Prodleva
+[Timeout]
+Doba zobrazení
 [Sec]
 sek.
 [0 = Default]

@@ -42,6 +42,13 @@ Nur kritische Daten werden verschlüsselt (Passwörter, Sicherheitstoken etc.). 
 Alle Strings sowie alle Ereignisse im Verlauf werden verschlüsselt. Dies macht Miranda aber sehr viel langsamer, und Sie riskieren es, alle Ihre Daten zu verlieren wenn Sie Ihr Passwort vergessen. Nur für paranoide Nutzer empfohlen.
 [Set password]
 Passwort setzen
+;file \plugins\Dbx_mdbx\src\dbcrypt.cpp
+[Too many errors!]
+Zu viele Fehler!
+[Password is not correct!]
+Das Passwort ist inkorrekt!
+[Please type in your password]
+Bitte vergeben Sie ein Passwort!
 ;file \plugins\Dbx_mdbx\src\dbintf.h
 [Change/remove password]
 Passwort ändern/entfernen
@@ -54,16 +61,7 @@ Passwort ist zu kurz!
 Passwörter stimmen nicht überein!
 [Database]
 Datenbank
-[Compact]
-Komprimieren
-;file \plugins\Dbx_mdbx\src\ui.h
 [Logo]
 Logo
-[Password]
-Passwort
-[Too many errors!]
-Zu viele Fehler!
-[Password is not correct!]
-Das Passwort ist inkorrekt!
-[Please type in your password]
-Bitte vergeben Sie ein Passwort!
+[Compact]
+Komprimieren

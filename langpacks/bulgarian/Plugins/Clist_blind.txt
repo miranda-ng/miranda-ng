@@ -185,10 +185,6 @@ URL:
 Готов за чат
 [Invisible]
 Невидим
-[Out to lunch]
-На обяд
-[On the phone]
-На телефона
 [Group: %name% %count% [%mode%]]
 
 [Divider: %s]

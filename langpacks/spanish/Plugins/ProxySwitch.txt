@@ -34,8 +34,8 @@ General
 Color de texto
 [Background color]
 Color de fondo
-[Use default popup colors]
-
+[Use default colors]
+Usar colores predeterminados
 [Show proxy status on change]
 
 [Restart of Miranda NG is required.]

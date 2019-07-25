@@ -162,11 +162,6 @@ Plugin Updater
 [Plugin updater URI scheme]
 
 ;file \plugins\PluginUpdater\src\Notifications.cpp
-;file \plugins\PluginUpdater\src\Notifications.h
-[Close popup]
-Затваря popup
-[Do nothing]
-Нищо
 ;file \plugins\PluginUpdater\src\Options.cpp
 [Backup database before update]
 
@@ -178,6 +173,10 @@ Plugin Updater
 дни
 [Change platform to 64-bit]
 
+[Close popup]
+Затваря popup
+[Do nothing]
+Нищо
 [Test]
 Тест
 [Services]

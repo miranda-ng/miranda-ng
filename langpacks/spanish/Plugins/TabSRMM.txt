@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.13
+;  Version: 3.5.0.14
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -166,8 +166,8 @@ Fondo
 
 [Message]
 Mensaje
-[Default colors]
-
+[Use default colors]
+Usar colores predeterminados
 [Others]
 
 [Preview]
@@ -416,26 +416,24 @@ milisegundos
 
 [Use Windows 7 task bar enhancements (restart required)]
 
-[Popups]
-Ventanas emergentes
+[Colors]
+Colores
 [...is &typing]
 
 [...stopped t&yping]
 
-[Back]
-Atras
-[U&se Popup colors]
-
-[&Use Windows colors]
-
+[Use &default colors]
+Usar colores predeterminados
+[Use &Windows colors]
+Usar colores de Windows
 [Only &one popup for each contact]
 
 [Show &entry in the main menu]
 
 [...is typing]
 
-[From popup plugin]
-Desde popup plugin
+[Default]
+Por defecto
 [From protocol]
 
 [Permanent]
@@ -444,8 +442,8 @@ Permanente
 Personalizado
 [...stopped typing]
 
-[Popups timeout]
-
+[Timeout]
+Retardo
 [Templates]
 Plantillas
 [Edit template]
@@ -628,8 +626,6 @@ Seleccionar todo
 
 [Show contact picture]
 
-[Default]
-Por defecto
 [Hidden for this contact]
 
 [Visible for this contact]
@@ -1274,6 +1270,8 @@ Archivo entrante
 
 [Event notifications]
 Notificaciones de eventos
+[Popups]
+Ventanas emergentes
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Rich Edit file]
 
@@ -1603,6 +1601,8 @@ Escribiendo notificación
 [Minimize the window to the task bar]
 
 [Close or hide window, depends on the close button setting above]
+
+[Do nothing (ignore Esc key)]
 
 [Choose status modes]
 

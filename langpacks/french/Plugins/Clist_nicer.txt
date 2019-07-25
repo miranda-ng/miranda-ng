@@ -426,10 +426,6 @@ Ne pas déranger
 OK pour un chat
 [Invisible]
 Invisible
-[Out to lunch]
-Parti manger
-[On the phone]
-Au téléphone
 [Always left]
 Toujours à gauche
 [Always right]

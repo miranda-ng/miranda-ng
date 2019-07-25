@@ -8,7 +8,6 @@
 [Reconnect if IP address changes]
 [Hide interfaces]
 [Popup options]
-[Use default popup colors]
 [Show proxy status on change]
 [Restart of Miranda NG is required.]
 [Enter semicolon (;) separated list of IP network addresses in any of the formats below:\n\tIP/bits\t(10.0.0.1/24)\t\tIP/mask\t(10.0.0.1/255.255.255.0)\n\tIP1-2\t(10.0.0.1-50)\t\tIP1-IP2\t(10.0.0.1-10.0.2.255)]

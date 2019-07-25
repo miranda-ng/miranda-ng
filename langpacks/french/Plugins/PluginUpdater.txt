@@ -162,11 +162,6 @@ Vérification des mises à jour en cours!
 [Plugin updater URI scheme]
 
 ;file \plugins\PluginUpdater\src\Notifications.cpp
-;file \plugins\PluginUpdater\src\Notifications.h
-[Close popup]
-
-[Do nothing]
-
 ;file \plugins\PluginUpdater\src\Options.cpp
 [Backup database before update]
 
@@ -177,6 +172,10 @@ heures
 [days]
 jours
 [Change platform to 64-bit]
+
+[Close popup]
+
+[Do nothing]
 
 [Test]
 Test

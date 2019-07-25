@@ -132,12 +132,12 @@
 Дадаць змесціва ў файл
 [Save as raw data]
 
-[Popup delay]
-Затрымка вакна
-[Delay]
+[Popup timeout]
+Працягласць вакна
+[Timeout]
 Затрымка
-[From popup plugin]
-Па змаўчанні
+[Default]
+Змаўчанні
 [Permanent]
 Пастаянна
 [Preview]

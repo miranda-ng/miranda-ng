@@ -104,10 +104,6 @@ Bitte nicht stören
 Für Chat bereit
 [Invisible]
 Unsichtbar
-[On the phone]
-Am Telefon
-[Out to lunch]
-Zum Essen
 [YAMN General Options]
 Allgemeine YAMN-Einstellungen
 [TopToolBar button "Check mail"]
@@ -359,9 +355,9 @@ Kein Speicher für neues Konto verfügbar
 Speicherfehler
 [Account Test]
 Kontentest
-[Account Test (failed)]
-Kontentest (fehlgeschlagen)
 [You have N new mail messages]
 Sie haben N neue E-Mail(s)
+[Account Test (failed)]
+Kontentest (fehlgeschlagen)
 [Connection failed message]
 "Verbindung fehlgeschlagen"-Nachricht

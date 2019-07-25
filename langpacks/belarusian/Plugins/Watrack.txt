@@ -575,11 +575,11 @@ VBR ці няма
 Левая пстрычка
 [Right click]
 Правая пстрычка
-[Default colors]
-Па змаўчанні
-[Windows colors]
+[Use default colors]
+Колеры па змаўчанні
+[Use Windows colors]
 Колеры Windows
-[Custom colors]
+[Use custom colors]
 Задаць колеры
 [artist]
 выканаўца

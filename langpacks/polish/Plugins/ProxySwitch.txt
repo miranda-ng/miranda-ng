@@ -34,8 +34,8 @@ Włącz popupy
 Kolor tekstu
 [Background color]
 Kolor tła
-[Use default popup colors]
-Użyj domyślnych kolorów popup
+[Use default colors]
+Użyj domyślnych kolorów
 [Show proxy status on change]
 
 [Restart of Miranda NG is required.]

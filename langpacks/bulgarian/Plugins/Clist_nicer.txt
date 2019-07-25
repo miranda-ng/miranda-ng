@@ -426,10 +426,6 @@ ms
 Готов за чат
 [Invisible]
 Невидим
-[Out to lunch]
-На обяд
-[On the phone]
-На телефона
 [Always left]
 Винаги отляво
 [Always right]

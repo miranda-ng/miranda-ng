@@ -12,7 +12,7 @@
 WUMF: Поточні з'єднання
 [Popup delay settings]
 Показ спливаючих вікон
-[Popup Delay (seconds)]
+[Timeout (seconds)]
 Тривалість (секунди)
 [Background color]
 Колір фону
@@ -22,18 +22,18 @@ WUMF: Поточні з'єднання
 &Тест
 [Show infinitely]
 Постійно
-[Default Popup delay]
-За замовчанням
-[Choose delay time]
-Вказати
+[Default]
+Стандартний
+[Custom]
+Вказане
 [Popup color settings]
 Кольори спливаючих вікон
-[Use windows colors]
+[Use Windows colors]
 Кольори Windows
-[Use default Popup colors]
-За замовчанням
-[Choose colors]
-Вказати
+[Use default colors]
+Стандартні кольори
+[Use custom colors]
+Вказати кольори
 [File access filter && logging settings]
 Фільтри журналу та сповіщень
 [Log into text file]

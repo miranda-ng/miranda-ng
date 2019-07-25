@@ -162,11 +162,6 @@ Die Prüfung auf Aktualisierungen wurde bereits gestartet!
 [Plugin updater URI scheme]
 PluginUpdater URI-Schema
 ;file \plugins\PluginUpdater\src\Notifications.cpp
-;file \plugins\PluginUpdater\src\Notifications.h
-[Close popup]
-Popup schließen
-[Do nothing]
-Nichts tun
 ;file \plugins\PluginUpdater\src\Options.cpp
 [Backup database before update]
 Datenbank vor Aktualisierung sichern
@@ -178,6 +173,10 @@ Stunden
 Tage
 [Change platform to 64-bit]
 Plattform zu 64-Bit ändern
+[Close popup]
+Popup schließen
+[Do nothing]
+Nichts tun
 [Test]
 Testen
 [Services]

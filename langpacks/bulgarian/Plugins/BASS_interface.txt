@@ -42,10 +42,6 @@
 Готов за чат
 [Invisible]
 Невидим
-[On the phone]
-На телефона
-[Out to lunch]
-На обяд
 [Preview]
 Образец
 ;file \plugins\BASS_interface\src\Main.cpp

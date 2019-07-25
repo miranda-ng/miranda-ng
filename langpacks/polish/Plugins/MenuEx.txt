@@ -43,6 +43,16 @@ Skracaj długie ID
 [Hide contact on 'Ignore all']
 Ukryj gdy "Zablokowany"
 ;file \plugins\MenuItemEx\src\main.cpp
+[Always visible]
+Zawsze widoczny
+[Never visible]
+Zawsze niewidoczny
+[Copy to Account]
+Kopiuj do konta
+[Show in list]
+Pokaż na liście
+[Copy xStatus Message]
+Kopiuj xStatus
 [Status message]
 Opis
 [xStatus title]
@@ -55,16 +65,6 @@ Teraz odtwarzane
 Aktywność
 [Activity text]
 Opis aktywności
-[Show in list]
-Pokaż na liście
-[Always visible]
-Zawsze widoczny
-[Never visible]
-Zawsze niewidoczny
-[Copy to Account]
-Kopiuj do konta
-[Copy xStatus Message]
-Kopiuj xStatus
 [All]
 Wszystko
 [Messages]

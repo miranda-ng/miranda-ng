@@ -12,8 +12,6 @@
 [Event: Occupied]
 [Event: Do not disturb]
 [Event: Free for chat]
-[Event: On the phone]
-[Event: Out for lunch]
 [Event: Disconnect]
 [Please enter your authentication code]
 [Authenticate nick]

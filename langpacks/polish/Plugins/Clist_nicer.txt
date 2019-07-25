@@ -426,10 +426,6 @@ Nie przeszkadzać
 Chętny do rozmowy
 [Invisible]
 Niewidoczny
-[Out to lunch]
-Na obiedzie
-[On the phone]
-Pod telefonem
 [Always left]
 Zawsze po lewej
 [Always right]

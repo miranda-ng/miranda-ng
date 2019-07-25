@@ -32,8 +32,8 @@ Action du clic
 Clic gauche
 [On right click]
 Clic droit
-[Delay]
-
+[Timeout]
+Délai du popup
 [Sec]
 secondes
 [0 = Default]

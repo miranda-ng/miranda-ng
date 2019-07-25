@@ -24,10 +24,6 @@ Nerušit!
 Mám volno
 [Invisible]
 Neviditelný
-[On the phone]
-Na telefonu
-[Out to lunch]
-Na obědě
 [On events...]
 Pro události...
 [Send]

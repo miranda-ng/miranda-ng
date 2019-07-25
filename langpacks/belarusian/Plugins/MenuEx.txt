@@ -43,6 +43,16 @@
 [Hide contact on 'Ignore all']
 Хаваць пры 'Ignore all'
 ;file \plugins\MenuItemEx\src\main.cpp
+[Always visible]
+Заўсёды бачны
+[Never visible]
+Заўсёды нябачны
+[Copy to Account]
+Капіяваць ва ўліковы запіс
+[Show in list]
+Паказваць у спісе
+[Copy xStatus Message]
+Капіяваць паведамленне xСтатусу
 [Status message]
 Паведамленне статусу
 [xStatus title]
@@ -55,16 +65,6 @@
 Актыўная назва
 [Activity text]
 Актыўны тэкст
-[Show in list]
-Паказваць у спісе
-[Always visible]
-Заўсёды бачны
-[Never visible]
-Заўсёды нябачны
-[Copy to Account]
-Капіяваць ва ўліковы запіс
-[Copy xStatus Message]
-Капіяваць паведамленне xСтатусу
 [All]
 Усё
 [Messages]

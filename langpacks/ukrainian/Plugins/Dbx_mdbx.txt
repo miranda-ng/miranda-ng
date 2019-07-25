@@ -42,6 +42,13 @@
 Шифрування всіх налаштувань та подій історії. Уповільнює роботу програми, а також створює ризик втрати всього збереженого в бази в разі втрати пароля. Рекомендується тільки параноїдальним користувачам.
 [Set password]
 Встановити пароль
+;file \plugins\Dbx_mdbx\src\dbcrypt.cpp
+[Too many errors!]
+Дуже багато помилок!
+[Password is not correct!]
+Неправильний пароль!
+[Please type in your password]
+Будь ласка, введіть пароль
 ;file \plugins\Dbx_mdbx\src\dbintf.h
 [Change/remove password]
 Змінити/видалити пароль
@@ -54,16 +61,7 @@
 Паролі не збігаються!
 [Database]
 База даних
-[Compact]
-Стиснути
-;file \plugins\Dbx_mdbx\src\ui.h
 [Logo]
 Профіль
-[Password]
-Пароль
-[Too many errors!]
-Дуже багато помилок!
-[Password is not correct!]
-Неправильний пароль!
-[Please type in your password]
-Будь ласка, введіть пароль
+[Compact]
+Стиснути

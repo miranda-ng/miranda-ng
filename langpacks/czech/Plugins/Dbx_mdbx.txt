@@ -42,6 +42,13 @@ Pouze kritická data jsou šifrována (hesla, bezpečnostní tokeny, atd.). Vše
 
 [Set password]
 Nastavit heslo
+;file \plugins\Dbx_mdbx\src\dbcrypt.cpp
+[Too many errors!]
+Příliš mnoho chybných pokusů!
+[Password is not correct!]
+Zadané heslo není správné!
+[Please type in your password]
+Zadejte prosím své heslo
 ;file \plugins\Dbx_mdbx\src\dbintf.h
 [Change/remove password]
 Změnit/zrušit heslo
@@ -54,16 +61,7 @@ Heslo je příliš krátké!
 Zadaná hesla se neshodují!
 [Database]
 Databáze
-[Compact]
-
-;file \plugins\Dbx_mdbx\src\ui.h
 [Logo]
 Logo
-[Password]
-Heslo
-[Too many errors!]
-Příliš mnoho chybných pokusů!
-[Password is not correct!]
-Zadané heslo není správné!
-[Please type in your password]
-Zadejte prosím své heslo
+[Compact]
+

@@ -158,8 +158,6 @@ Couleur du texte
 Utiliser les couleurs Windows
 [Use default colors]
 Couleurs par défaut
-[Delay]
-
 [On left click]
 Clic gauche
 [On right click]
@@ -184,8 +182,8 @@ Aperçu
 
 [Show other messages]
 
-[From popup plugin]
-Comme le plugin Popup
+[Default]
+Défaut
 [Custom]
 Défini
 [Permanent]

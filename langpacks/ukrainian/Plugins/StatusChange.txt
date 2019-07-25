@@ -24,10 +24,6 @@
 Готовий до чату
 [Invisible]
 Невидимий
-[On the phone]
-Телефоную
-[Out to lunch]
-Обідаю
 [On events...]
 На події...
 [Send]

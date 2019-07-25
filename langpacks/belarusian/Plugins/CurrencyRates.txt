@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.0.3
+;  Version: 0.2.1.0
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates.]
@@ -58,22 +58,22 @@
 Інфармацыя з <a href="http://www.google.com">Google</a>
 [Close]
 Зачыніць
-[Popup Window Settings]
+[Popup settings]
 Налады ўсплывальных вокнаў
 [Colors]
 Колеры
 [Use default colors]
 Колеры па змаўчанні
-[Use user-defined colors]
-Наладзіць колеры
+[Use custom colors]
+Задаць колеры
 [Background color]
 Колер фону
 [Text color]
 Колер тэксту
-[Delay]
+[Timeout]
 Затрымка
-[From popup plugin]
-Па змаўчанні
+[Default]
+Змаўчанні
 [Custom]
 Наладзіць
 [Permanent]

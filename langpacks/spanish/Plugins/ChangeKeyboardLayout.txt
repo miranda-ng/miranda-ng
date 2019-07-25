@@ -46,18 +46,16 @@ Por defecto
 Colores
 [Use default colors]
 Usar colores predeterminados
-[Windows colors]
-
-[Custom colors]
-
+[Use Windows colors]
+Usar colores de Windows
+[Use custom colors]
+Usar colores personalizados
 [Back]
 Atras
 [Text]
 Texto
 [Timeout]
 Tiempo de espera
-[From popup plugin]
-Desde popup plugin
 [Permanent]
 Permanente
 [Custom]

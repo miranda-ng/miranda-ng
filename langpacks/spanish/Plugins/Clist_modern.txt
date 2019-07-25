@@ -667,10 +667,6 @@ Contactos estándar
 
 [Invisible contacts]
 
-[On the phone contacts]
-
-[Out to lunch contacts]
-
 [Offline contacts]
 Contactos fuera de línea
 [Online contacts to whom you have a different visibility]
@@ -733,10 +729,6 @@ No molestar
 Libre para el chat
 [Invisible]
 Invisible
-[Out to lunch]
-Salí a comer
-[On the phone]
-En el teléfono
 [Name]
 Nombre
 [Name (use locale settings)]

@@ -106,10 +106,10 @@ Kontakt zablokován
 Kontakt schválen
 [Challenge sent]
 Výzva odeslána
-[Default colors]
-Výchozí barvy
-[Windows colors]
-Barvy Windows
+[Use default colors]
+Použít výchozí barvy
+[Use Windows colors]
+Použít barvy Windows
 [Default timeout]
 Výchozí doba zobrazení
 [Preview]

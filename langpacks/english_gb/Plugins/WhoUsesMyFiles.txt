@@ -11,9 +11,9 @@ Background colour
 Text colour
 [Popup color settings]
 Popup colour settings
-[Use windows colors]
-Use windows colours
-[Use default Popup colors]
-Use default Popup colours
-[Choose colors]
-Choose colours
+[Use Windows colors]
+Use Windows colours
+[Use default colors]
+Use default colours
+[Use custom colors]
+Use custom colours

@@ -26,10 +26,6 @@
 Заняты
 [Do not disturb]
 Не турбаваць
-[Out to lunch]
-Абедаю
-[On the phone]
-На тэлефоне
 [Always when changing from offline]
 Са статусу "Адключаны"
 [Notify when contact changes]
@@ -319,22 +315,6 @@
 просіць не турбаваць!
 [User: Do not disturb]
 Кантакт: Не турбаваць
-[(M) is eating something]
-нешта есць
-[(F) is eating something]
-нешта есць
-[(U) is eating something]
-нешта есць
-[User: Out to lunch]
-Кантакт: Абедае
-[(M) had to answer the phone]
-тэлефануе
-[(F) had to answer the phone]
-тэлефануе
-[(U) had to answer the phone]
-теэлефануе
-[User: On the phone]
-Кантакт: на тэлефоне
 [User: from offline (has priority!)]
 Кантакт: далучаецца (мае прыярытэт!)
 [Status message removed]

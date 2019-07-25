@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TrafficCounter.dll
 ;  Plugin: Traffic counter
-;  Version: 0.1.1.8
+;  Version: 0.1.1.9
 ;  Authors: Ghost, Mironych
 ;============================================================
 [Adding traffic and time counters.]
@@ -32,8 +32,8 @@
 Стандарт
 [Popup timeout]
 Popup времетраене
-[From popup plugin]
-
+[Default]
+Стандарт
 [Custom]
 Избор
 [Test]
@@ -133,14 +133,6 @@ KB
 [Traffic Counter]
 Брояч на трафика
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp
-[Font]
-Шрифт
-[Show/Hide frame]
-Вкл./Изкл. на рамката
-[Hide traffic window]
-Скриване на трафик прозореца
-[Clear the current (Now:) value]
-Изчистване на текущата стойност
 [Toggle traffic counter]
 Вкл./Изкл. на брояча за трафик
 [Traffic counter notification]
@@ -149,3 +141,11 @@ KB
 %d изпратени килобайта
 [%d kilobytes received]
 %d получени килобайта
+[Font]
+Шрифт
+[Show/Hide frame]
+Вкл./Изкл. на рамката
+[Hide traffic window]
+Скриване на трафик прозореца
+[Clear the current (Now:) value]
+Изчистване на текущата стойност

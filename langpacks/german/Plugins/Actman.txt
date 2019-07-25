@@ -563,10 +563,6 @@ Beschäftigt
 Für Chat bereit
 [Invisible]
 Unsichtbar
-[On the phone]
-Am Telefon
-[Out to lunch]
-Zum Essen
 [Set global status]
 Globalen Status setzen
 [Switch contact list status]

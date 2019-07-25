@@ -667,10 +667,6 @@ Beschäftigte Kontakte
 "Für Chat bereit"-Kontakte
 [Invisible contacts]
 Unsichtbare Kontakte
-[On the phone contacts]
-"Am Telefon"-Kontakte
-[Out to lunch contacts]
-"Zum Essen"-Kontakte
 [Offline contacts]
 Offline-Kontakte
 [Online contacts to whom you have a different visibility]
@@ -733,10 +729,6 @@ Bitte nicht stören
 Für Chat bereit
 [Invisible]
 Unsichtbar
-[Out to lunch]
-Zum Essen
-[On the phone]
-Am Telefon
 [Name]
 Name
 [Name (use locale settings)]

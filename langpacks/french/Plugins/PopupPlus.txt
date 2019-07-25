@@ -342,10 +342,6 @@ Occupé
 Ne pas déranger
 [Free for chat]
 OK pour un chat
-[Out to lunch]
-Parti manger
-[On the phone]
-Au téléphone
 [Width]
 Largeur
 [Upper left corner]

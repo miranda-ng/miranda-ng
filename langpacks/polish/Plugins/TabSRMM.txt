@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.13
+;  Version: 3.5.0.14
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -166,8 +166,8 @@ Tło
 Wyświetlaj (sekund, 0 - domyślnie, -1 - nie chowaj)
 [Message]
 Wiadomość
-[Default colors]
-Domyślne kolory
+[Use default colors]
+Użyj domyślnych kolorów
 [Others]
 Inne
 [Preview]
@@ -416,17 +416,15 @@ Ustawienia Windows Aero
 Użyj elementów UI Aero (tylko, gdy nie jest używana niestandardowa skórka)
 [Use Windows 7 task bar enhancements (restart required)]
 Użyj paska zadań Windows 7 (wymaga restartu)
-[Popups]
-Popupy
+[Colors]
+
 [...is &typing]
 ...&pisze wiadomość
 [...stopped t&yping]
 ...przestał p&isać
-[Back]
-Tło
-[U&se Popup colors]
-&Użyj kolorów Popup
-[&Use Windows colors]
+[Use &default colors]
+&Użyj domyślnych kolorów
+[Use &Windows colors]
 Użyj kolorów &Windows
 [Only &one popup for each contact]
 Tylko &jeden popup dla każdego kontaktu
@@ -434,8 +432,8 @@ Tylko &jeden popup dla każdego kontaktu
 Pokaż &wpis w menu głównym
 [...is typing]
 ...pisze
-[From popup plugin]
-Z wtyczki popup
+[Default]
+Domyślny
 [From protocol]
 Z protokołu
 [Permanent]
@@ -444,8 +442,8 @@ Stałe
 Niestandardowe
 [...stopped typing]
 ...przestał pisać
-[Popups timeout]
-Czas oczekiwania
+[Timeout]
+Wyświetlaj
 [Templates]
 Szablony
 [Edit template]
@@ -628,8 +626,6 @@ Opcje kontenera...
 Zamknij kontener
 [Show contact picture]
 Pokaż zdjęcie kontaktu
-[Default]
-Domyślny
 [Hidden for this contact]
 Ukryte dla tego kontaktu
 [Visible for this contact]
@@ -1274,6 +1270,8 @@ Nowych wiadomości:\s
 Nieznany moduł lub kontakt
 [Event notifications]
 Zdarzenia
+[Popups]
+Popupy
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Rich Edit file]
 Plik pola edycji z formatowaniem
@@ -1604,6 +1602,8 @@ Normalnie - zamknij kartę, jeśli nie ma kart zamknij okno
 Zminimalizuj okno do paska
 [Close or hide window, depends on the close button setting above]
 Zamknij lub ukryj okno, zamykanie kart ma pierwszeństwo
+[Do nothing (ignore Esc key)]
+
 [Choose status modes]
 Wybierz tryby statusu
 [General]

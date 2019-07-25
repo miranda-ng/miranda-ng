@@ -667,10 +667,6 @@ Kontakty ve stavu 'Nemám čas'
 Kontakty ve stavu 'Mám volno'
 [Invisible contacts]
 Kontakty ve stavu 'Neviditelný'
-[On the phone contacts]
-Kontakty ve stavu 'Na telefonu'
-[Out to lunch contacts]
-Kontakty ve stavu 'Na obědě'
 [Offline contacts]
 Kontakty offline
 [Online contacts to whom you have a different visibility]
@@ -733,10 +729,6 @@ Nerušit!
 Mám volno
 [Invisible]
 Neviditelný
-[Out to lunch]
-Na obědě
-[On the phone]
-Na telefonu
 [Name]
 Jméno
 [Name (use locale settings)]

@@ -185,10 +185,6 @@ Bitte nicht stören
 Für Chat bereit
 [Invisible]
 Unsichtbar
-[Out to lunch]
-Zum Essen
-[On the phone]
-Am Telefon
 [Group: %name% %count% [%mode%]]
 Gruppe: %name% %count% [%mode%]
 [Divider: %s]

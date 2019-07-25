@@ -42,6 +42,13 @@ Eliminar
 
 [Set password]
 
+;file \plugins\Dbx_mdbx\src\dbcrypt.cpp
+[Too many errors!]
+
+[Password is not correct!]
+
+[Please type in your password]
+
 ;file \plugins\Dbx_mdbx\src\dbintf.h
 [Change/remove password]
 
@@ -54,16 +61,7 @@ Eliminar
 
 [Database]
 Base de datos
-[Compact]
-
-;file \plugins\Dbx_mdbx\src\ui.h
 [Logo]
 
-[Password]
-Contraseña
-[Too many errors!]
-
-[Password is not correct!]
-
-[Please type in your password]
+[Compact]
 

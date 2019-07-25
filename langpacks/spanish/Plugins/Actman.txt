@@ -563,10 +563,6 @@ Ocupado
 Libre para el chat
 [Invisible]
 Invisible
-[On the phone]
-En el teléfono
-[Out to lunch]
-Salí a comer
 [Set global status]
 
 [Switch contact list status]

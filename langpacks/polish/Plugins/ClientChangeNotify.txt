@@ -32,7 +32,7 @@ Akcje przycisku
 LPM
 [On right click]
 PPM
-[Delay]
+[Timeout]
 Wyświetlaj
 [Sec]
 s

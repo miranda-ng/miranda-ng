@@ -26,10 +26,6 @@
 Зайнятий
 [Do not disturb]
 Не турбувати
-[Out to lunch]
-Обідаю
-[On the phone]
-Телефоную
 [Always when changing from offline]
 Із статусу "Не в мережі"
 [Notify when contact changes]
@@ -319,22 +315,6 @@ xСтатуси
 не хотів би, щоб його турбували!
 [User: Do not disturb]
 Користувач: не турбувати
-[(M) is eating something]
-щось їсть
-[(F) is eating something]
-щось їсть
-[(U) is eating something]
-щось їсть
-[User: Out to lunch]
-Користувач: обідає
-[(M) had to answer the phone]
-говорить по телефону
-[(F) had to answer the phone]
-говорить по телефону
-[(U) had to answer the phone]
-говорить по телефону
-[User: On the phone]
-Користувач: телефонує
 [User: from offline (has priority!)]
 Користувач: з офлайну (має пріоритет!)
 [Status message removed]

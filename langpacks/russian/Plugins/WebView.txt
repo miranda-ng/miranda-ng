@@ -134,7 +134,7 @@ URL:
 
 [Popup timeout]
 Задержка окна
-[Delay]
+[Timeout]
 Задержка
 [Default]
 По умолчанию

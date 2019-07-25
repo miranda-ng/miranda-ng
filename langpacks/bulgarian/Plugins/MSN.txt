@@ -132,6 +132,8 @@ Live ID
 [&Deop user]
 
 ;file \protocols\MSN\src\msn_commands.cpp
+[%I64u bytes]
+
 [MSN Alert]
 MSN уведовяване
 ;file \protocols\MSN\src\msn_errors.cpp

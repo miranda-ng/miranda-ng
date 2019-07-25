@@ -64,10 +64,6 @@ Nie przeszkadzać
 Porozmawiajmy
 [Invisible]
 Niewidoczny
-[On the phone]
-Pod telefonem
-[Out to lunch]
-Na obiedzie
 [Shaking contact list options]
 Opcje potrząsania listą kontaktów
 [Number of moves]

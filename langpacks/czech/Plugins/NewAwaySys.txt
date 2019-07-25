@@ -44,10 +44,6 @@ Ne&rušit!
 &Mám volno
 [&Invisible]
 Nev&iditelný
-[On the &phone]
-Na &telefonu
-[Out to &lunch]
-Na o&bědě
 [Autoreply format:]
 Formát automatické odpovědi:
 [V]
@@ -227,14 +223,6 @@ Kecám, až se mi od klávesnice práší!
 Neviditelný
 [I'm hiding from the mafia.]
 Skrývám se před mafií.
-[On the phone]
-Na telefonu
-[I've been on the phone since %nas_awaysince_time%, give me a sec!]
-Telefonuji od %nas_awaysince_time%, dejte mi vteřinku!
-[Out to lunch]
-Na obědě
-[Been having ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]
-Od %nas_awaysince_time% ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,obědvám,večeřím),snídám),obědvám).
 ;file \plugins\NewAwaySysMod\src\AwaySys.cpp
 [Toggle Off]
 Vypnout

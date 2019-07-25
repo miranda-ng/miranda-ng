@@ -132,12 +132,12 @@ Logdatei:
 Daten zu Datei hinzufügen
 [Save as raw data]
 Als Rohdaten speichern
-[Popup delay]
-Popup-Verzögerung
-[Delay]
-Verzögerung
-[From popup plugin]
-Vom Popup-Plugin
+[Popup timeout]
+Popup Anzeigedauer
+[Timeout]
+Timeout
+[Default]
+Standard
 [Permanent]
 Dauerhaft
 [Preview]

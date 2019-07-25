@@ -1230,10 +1230,6 @@ Google Translate
 OK pour un &chat\tCtrl+6
 [&Invisible\tCtrl+7]
 In&visible\tCtrl+7
-[On the &phone\tCtrl+8]
-Au &téléphone\tCtrl+8
-[Out to &lunch\tCtrl+9]
-&Parti manger\tCtrl+9
 ;file \src\core\stdautoaway\src\options.cpp
 [Status]
 État
@@ -1261,10 +1257,6 @@ Oui, je suis là.
 Non, absent.
 [I'm hiding from the mafia.]
 Je me cache de la mafia.
-[That'll be the phone.]
-Ce sera le téléphone.
-[Mmm... food.]
-Mmm... Manger.
 [idleeeeeeee]
 Occupééééé
 ;file \src\core\stdclist\src\clcfonts.cpp
@@ -1307,10 +1299,6 @@ Ne pas déranger
 OK pour un chat
 [Invisible]
 Invisible
-[Out to lunch]
-Parti manger
-[On the phone]
-Au téléphone
 [List background]
 Arrière-plan
 ;file \src\core\stdclist\src\clistopts.cpp
@@ -2776,6 +2764,8 @@ Déplacer vers le groupe
 
 [Off]
 
+[Password]
+Mot de passe
 [Unused]
 
 [Frames]

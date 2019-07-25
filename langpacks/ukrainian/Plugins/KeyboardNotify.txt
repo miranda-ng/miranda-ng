@@ -66,10 +66,6 @@
 Готовий до чату
 [Invisible]
 Невидимий
-[On the phone]
-Телефоную
-[Out to lunch]
-Обідаю
 [Pending Events]
 Очікувані події
 [Remind me every]

@@ -26,10 +26,6 @@ Außer Haus
 Beschäftigt
 [Do not disturb]
 Bitte nicht stören
-[Out to lunch]
-Zum Essen
-[On the phone]
-Am Telefon
 [Always when changing from offline]
 Immer, wenn er vorher offline war
 [Notify when contact changes]
@@ -319,22 +315,6 @@ Sie möchte nicht gestört werden!
 Kontakt möchte nicht gestört werden!
 [User: Do not disturb]
 Kontakt: Bitte nicht stören
-[(M) is eating something]
-Er isst gerade.
-[(F) is eating something]
-Sie isst gerade.
-[(U) is eating something]
-Kontakt isst gerade.
-[User: Out to lunch]
-Kontakt: Zum Essen
-[(M) had to answer the phone]
-Er telefoniert gerade.
-[(F) had to answer the phone]
-Sie telefoniert gerade.
-[(U) had to answer the phone]
-Kontakt telefoniert gerade.
-[User: On the phone]
-Kontakt: Am Telefon
 [User: from offline (has priority!)]
 Kontakt: war offline (hat Priorität!)
 [Status message removed]

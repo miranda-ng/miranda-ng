@@ -34,8 +34,8 @@ Popups aktivieren
 Textfarbe
 [Background color]
 Hintergrundfarbe
-[Use default popup colors]
-Standardfarben benutzen
+[Use default colors]
+Standardfarben verwenden
 [Show proxy status on change]
 Proxystatus bei Änderungen anzeigen
 [Restart of Miranda NG is required.]

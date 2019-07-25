@@ -64,10 +64,6 @@
 Вольны
 [Invisible]
 Нябачны
-[On the phone]
-На тэлефоне
-[Out to lunch]
-Абедаю
 [Shaking contact list options]
 Трасенне спісу кантактаў
 [Number of moves]

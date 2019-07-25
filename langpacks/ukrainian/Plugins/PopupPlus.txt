@@ -342,10 +342,6 @@ History++ для історії вікон
 Не турбувати
 [Free for chat]
 Готовий до чату
-[Out to lunch]
-Обідаю
-[On the phone]
-Телефоную
 [Width]
 Ширина
 [Upper left corner]

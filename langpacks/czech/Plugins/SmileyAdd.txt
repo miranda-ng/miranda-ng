@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.1.1
+;  Version: 0.3.1.2
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -58,12 +58,14 @@ Horizontální řazení
 [Show smiley selection window]
 Zobrazit okno s výběrem smajlíků
 ;file \plugins\SmileyAdd\src\download.cpp
-[SmileyAdd]
-Smajlíky
-[Smiley cache]
-Cache vlastních smajlíků
 [SmileyAdd HTTP connections]
 SmileyAdd - spojení pomocí protokolu HTTP
+[SmileyAdd]
+Smajlíky
+[Smiley packs' folder]
+
+[Smiley cache]
+Cache vlastních smajlíků
 ;file \plugins\SmileyAdd\src\main.cpp
 [Button smiley]
 Tlačítko smajlíků

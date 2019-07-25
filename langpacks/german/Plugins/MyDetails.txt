@@ -94,10 +94,6 @@ Bitte nicht st&ören
 &Für Chat bereit
 [&Invisible]
 Uns&ichtbar
-[On the &phone]
-Am &Telefon
-[Out to &lunch]
-&Zum Essen
 [Set my avatar...]
 Meinen Avatar setzen...
 [Set my nickname...]

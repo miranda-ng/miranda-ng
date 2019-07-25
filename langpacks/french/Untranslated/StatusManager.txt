@@ -53,7 +53,6 @@
 [Automatically dial on startup]
 [Automatically hang up on exit]
 [Dial-up (experimental)]
-[Delay]
 [Do nothing]
 [Close popup]
 [Cancel reconnecting]

@@ -45,6 +45,7 @@
 [&Kick user]
 [&Op user]
 [&Deop user]
+[%I64u bytes]
 [MSN Alert]
 [User not online]
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]

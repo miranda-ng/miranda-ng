@@ -185,10 +185,6 @@
 Готовий до чату
 [Invisible]
 Невидимий
-[Out to lunch]
-Обідаю
-[On the phone]
-Телефоную
 [Group: %name% %count% [%mode%]]
 Група: %name% %count% [%mode%]
 [Divider: %s]

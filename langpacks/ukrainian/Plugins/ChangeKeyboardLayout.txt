@@ -46,18 +46,16 @@
 Кольори
 [Use default colors]
 За замовчанням
-[Windows colors]
+[Use Windows colors]
 Кольори Windows
-[Custom colors]
-Налаштувати
+[Use custom colors]
+Вказати кольори
 [Back]
 Фон
 [Text]
 Текст
 [Timeout]
 Затримка
-[From popup plugin]
-З плагіна сплив. вікон
 [Permanent]
 Постійно
 [Custom]

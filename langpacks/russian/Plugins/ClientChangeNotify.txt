@@ -32,7 +32,7 @@
 Левый щелчок
 [On right click]
 Правый щелчок
-[Delay]
+[Timeout]
 Задержка
 [Sec]
 сек.

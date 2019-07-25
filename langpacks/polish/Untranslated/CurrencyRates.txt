@@ -1,3 +1,5 @@
+[Popup settings]
+[Timeout]
 [&Personal key:]
 [Rate Info]
 [Currency Rate]

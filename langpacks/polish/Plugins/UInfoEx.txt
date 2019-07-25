@@ -134,10 +134,10 @@ Kolor tekstu
 Użyj kolorów Windows
 [Use default colors]
 Użyj domyślnych kolorów
-[Delay]
+[Timeout]
 Wyświetlaj
-[From popup plugin]
-Z wtyczki popup
+[Default]
+Domyślny
 [Custom]
 Niestandardowe
 [Permanent]
@@ -502,12 +502,8 @@ Sprawdź rocznice
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [Main]
 Ogólne
-[Default]
-Domyślny
 [IM naming]
 Nazewnictwo IM
-[Password]
-Hasło:
 [Timezone]
 Strefa czasowa
 [Marital status]

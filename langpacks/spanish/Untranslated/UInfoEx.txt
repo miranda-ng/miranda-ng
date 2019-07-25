@@ -31,6 +31,7 @@
 [Automatically backup and keep protocol based birthdays up to date]
 [Use ignore list]
 [Birthday popup colors]
+[Timeout]
 [Show reminder messages as popups (if reminder is enabled)]
 [Anniversary popup colors]
 [Replace progress dialogs with popups]

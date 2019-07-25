@@ -704,10 +704,6 @@ Nerušit!
 Mám volno
 [Invisible]
 Neviditelný
-[Out to lunch]
-Na obědě
-[On the phone]
-Na telefonu
 [Enter]
 klávesou Enter
 [Double 'Enter']

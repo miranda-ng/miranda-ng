@@ -158,8 +158,6 @@ Kolor tekstu
 Użyj kolorów Windows
 [Use default colors]
 Użyj domyślnych kolorów
-[Delay]
-Wyświetlaj
 [On left click]
 LPM
 [On right click]
@@ -184,8 +182,8 @@ Pokaż w trakcie próby połączenia
 Pokaż po ponownym połączeniu
 [Show other messages]
 Pokaż inne wiadomości
-[From popup plugin]
-Z wtyczki popup
+[Default]
+Domyślny
 [Custom]
 Niestandardowe
 [Permanent]

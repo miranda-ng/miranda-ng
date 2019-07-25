@@ -342,10 +342,6 @@ Ocupado
 No molestar
 [Free for chat]
 Libre para el chat
-[Out to lunch]
-Salí a comer
-[On the phone]
-En el teléfono
 [Width]
 Ancho
 [Upper left corner]

@@ -94,10 +94,6 @@ Za&jęty
 &Chętny do rozmowy
 [&Invisible]
 N&iewidoczny
-[On the &phone]
-Pod &telefonem
-[Out to &lunch]
-Na &obiedzie
 [Set my avatar...]
 Ustaw awatar...
 [Set my nickname...]

@@ -46,18 +46,16 @@ Změnit aktivní rozvržení klávesnice v systému
 Barvy
 [Use default colors]
 Použít výchozí barvy
-[Windows colors]
-Barvy Windows
-[Custom colors]
-Vlastní barvy
+[Use Windows colors]
+Použít barvy Windows
+[Use custom colors]
+Použít vlastní barvy
 [Back]
 Pozadí
 [Text]
 Text
 [Timeout]
 Doba zobrazení
-[From popup plugin]
-Globální nastavení
 [Permanent]
 Trvale
 [Custom]

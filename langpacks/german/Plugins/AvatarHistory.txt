@@ -44,10 +44,10 @@ Textfarbe
 Windowsfarben verwenden
 [Use default colors]
 Standardfarben verwenden
-[Delay]
-Verzögerung
-[From popup plugin]
-Vom Popup-Plugin
+[Timeout]
+Timeout
+[Default]
+Standard
 [Custom]
 Benutzerdef.
 [Permanent]

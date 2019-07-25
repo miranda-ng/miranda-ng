@@ -42,10 +42,6 @@ Nie przeszkadzać
 Porozmawiajmy
 [Invisible]
 Niewidoczny
-[On the phone]
-Pod telefonem
-[Out to lunch]
-Na obiedzie
 [Preview]
 Podgląd
 ;file \plugins\BASS_interface\src\Main.cpp

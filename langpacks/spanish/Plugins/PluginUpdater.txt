@@ -162,11 +162,6 @@ No se encontraron actualizaciones.
 [Plugin updater URI scheme]
 
 ;file \plugins\PluginUpdater\src\Notifications.cpp
-;file \plugins\PluginUpdater\src\Notifications.h
-[Close popup]
-Cerrar popup
-[Do nothing]
-No hacer nada
 ;file \plugins\PluginUpdater\src\Options.cpp
 [Backup database before update]
 
@@ -178,6 +173,10 @@ horas
 días
 [Change platform to 64-bit]
 
+[Close popup]
+Cerrar popup
+[Do nothing]
+No hacer nada
 [Test]
 Prueba
 [Services]

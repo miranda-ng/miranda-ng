@@ -704,10 +704,6 @@ No molestar
 Libre para el chat
 [Invisible]
 Invisible
-[Out to lunch]
-Salí a comer
-[On the phone]
-En el teléfono
 [Enter]
 Intro
 [Double 'Enter']

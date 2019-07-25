@@ -426,10 +426,6 @@
 Готовий до чату
 [Invisible]
 Невидимий
-[Out to lunch]
-Обідаю
-[On the phone]
-Телефоную
 [Always left]
 Завжди ліворуч
 [Always right]

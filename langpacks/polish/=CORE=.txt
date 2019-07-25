@@ -1230,10 +1230,6 @@ Za&jęty\tCtrl+4
 &Porozmawiajmy\tCtrl+6
 [&Invisible\tCtrl+7]
 N&iewidoczny\tCtrl+7
-[On the &phone\tCtrl+8]
-Pod &telefonem\tCtrl+8
-[Out to &lunch\tCtrl+9]
-Na &obiedzie\tCtrl+9
 ;file \src\core\stdautoaway\src\options.cpp
 [Status]
 Status
@@ -1261,10 +1257,6 @@ Tak, jestem tu.
 Nie, nie tutaj.
 [I'm hiding from the mafia.]
 Jak zrobię tak, to mnie nie widać.
-[That'll be the phone.]
-Muszę odebrać telefon.
-[Mmm... food.]
-Mmm... jedzonko.
 [idleeeeeeee]
 Bezczynnyyyyyyy
 ;file \src\core\stdclist\src\clcfonts.cpp
@@ -1307,10 +1299,6 @@ Nie przeszkadzać
 Porozmawiajmy
 [Invisible]
 Niewidoczny
-[Out to lunch]
-Na obiedzie
-[On the phone]
-Pod telefonem
 [List background]
 Tło listy
 ;file \src\core\stdclist\src\clistopts.cpp
@@ -2776,6 +2764,8 @@ Przenieś do grupy
 Wł.
 [Off]
 Wył.
+[Password]
+Hasło
 [Unused]
 
 [Frames]

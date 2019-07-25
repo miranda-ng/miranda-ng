@@ -49,7 +49,6 @@
 [Log to file]
 [Log file:]
 [Save as raw data]
-[Delay]
 [Permanent]
 [Use same colors as data window]
 [Left click action]

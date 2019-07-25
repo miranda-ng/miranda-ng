@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ConnectionNotify.dll
 ;  Plugin: Connection Notify
-;  Version: 0.1.0.5
+;  Version: 0.1.0.6
 ;  Authors: MaKaR
 ;============================================================
 [Notify with popup if some connection established]
@@ -24,8 +24,6 @@ sek. (0 výchozí, -1 vypnuto)
 Nastavení
 [try resolve addresses]
 pokusit se přeložit adresy
-[Version:]
-Verze:
 [Show notification if no filter defined]
 Zobrazit upozornění pokud není definován žádný filtr
 [Attempt interval (ms)]
@@ -57,14 +55,20 @@ Můžete používat zástupné znaky * a ? (pro port zadejte číslo nebo *)
 [Remote IP:Port]
 Vzdálená IP:port
 ;file \protocols\ConnectionNotify\src\ConnectionNotify.cpp
-[Show]
-Zobrazit
-[Hide]
-Skrýt
+[New Connection Notification]
+Upozornění na nové připojení
+;file \protocols\ConnectionNotify\src\filter.cpp
 [Always show popup]
 Vždy zobrazit oznámení
 [Never show popup]
 Nikdy nezobrazovat oznámení
+[First close options window]
+Nejprve zavřete okno s nastavením
+;file \protocols\ConnectionNotify\src\options.cpp
+[Show]
+Zobrazit
+[Hide]
+Skrýt
 [Status]
 Stavy
 [Application]
@@ -77,8 +81,3 @@ Externí soket
 Akce
 [Plugins]
 Doplňky
-[New Connection Notification]
-Upozornění na nové připojení
-;file \protocols\ConnectionNotify\src\filter.cpp
-[First close options window]
-Nejprve zavřete okno s nastavením

@@ -106,10 +106,10 @@ Kontakt zablokowany
 Kontakt zatwierdzony
 [Challenge sent]
 Zadanie wysłane
-[Default colors]
-Domyślne kolory
-[Windows colors]
-Kolory Windows
+[Use default colors]
+Użyj domyślnych kolorów
+[Use Windows colors]
+Użyj kolorów Windows
 [Default timeout]
 Domyślny czas oczekiwania
 [Preview]

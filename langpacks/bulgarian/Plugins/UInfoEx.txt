@@ -134,10 +134,10 @@ popup за рожден ден
 Цветове от Windows
 [Use default colors]
 Стандартни цветове
-[Delay]
-Закъснение
-[From popup plugin]
-
+[Timeout]
+Времетраене
+[Default]
+Стандарт
 [Custom]
 Избор
 [Permanent]
@@ -502,12 +502,8 @@ popup за годишнина
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [Main]
 Основна
-[Default]
-Стандарт
 [IM naming]
 
-[Password]
-Парола
 [Timezone]
 Часови пояс
 [Marital status]

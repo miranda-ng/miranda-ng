@@ -75,7 +75,6 @@
 [Select Executable]
 [The specified time is invalid due to begin of daylight saving (summer time).]
 [The specified time is invalid.]
-[The specified time offset is invalid.]
 [&Update Reminder]
 [Alternative 1]
 [Alternative 2]

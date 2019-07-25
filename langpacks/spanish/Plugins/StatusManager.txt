@@ -158,8 +158,6 @@ Color de texto
 Usar colores de Windows
 [Use default colors]
 Usar colores predeterminados
-[Delay]
-Retardo
 [On left click]
 En clic izquierdo
 [On right click]
@@ -184,8 +182,8 @@ Mostrar cuando se realiza un intento de conexión
 Mostrar cuando la reconexión ha terminado
 [Show other messages]
 Mostrar otros mensajes
-[From popup plugin]
-Desde popup plugin
+[Default]
+Por defecto
 [Custom]
 Personalizado
 [Permanent]

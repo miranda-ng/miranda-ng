@@ -34,7 +34,7 @@ Povolit oznámení
 Barva textu
 [Background color]
 Barva pozadí
-[Use default popup colors]
+[Use default colors]
 Použít výchozí barvy
 [Show proxy status on change]
 

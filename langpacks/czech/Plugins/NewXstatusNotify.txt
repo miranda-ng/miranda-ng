@@ -26,10 +26,6 @@ Nejsem tady
 Nemám čas
 [Do not disturb]
 Nerušit!
-[Out to lunch]
-Na obědě
-[On the phone]
-Na telefonu
 [Always when changing from offline]
 Vždy při přechodu ze stavu offline
 [Notify when contact changes]
@@ -319,22 +315,6 @@ nechce být vyrušována!
 nechce být vyrušován!
 [User: Do not disturb]
 Stav (nerušit!)
-[(M) is eating something]
-je na obědě
-[(F) is eating something]
-je na obědě
-[(U) is eating something]
-je na obědě
-[User: Out to lunch]
-Stav (na obědě)
-[(M) had to answer the phone]
-telefonuje
-[(F) had to answer the phone]
-telefonuje
-[(U) had to answer the phone]
-telefonuje
-[User: On the phone]
-Stav (na telefonu)
 [User: from offline (has priority!)]
 Uživatel: z offline (má prioritu!)
 [Status message removed]

@@ -185,10 +185,6 @@
 Вольны
 [Invisible]
 Нябачны
-[Out to lunch]
-Абедаю
-[On the phone]
-На тэлефоне
 [Group: %name% %count% [%mode%]]
 Гурт: %name% %count% [%mode%]
 [Divider: %s]

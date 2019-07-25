@@ -42,10 +42,6 @@ Ne pas déranger
 OK pour un chat
 [Invisible]
 Invisible
-[On the phone]
-Au téléphone
-[Out to lunch]
-Parti manger
 [Preview]
 Aperçu
 ;file \plugins\BASS_interface\src\Main.cpp

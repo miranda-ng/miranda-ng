@@ -43,6 +43,16 @@ Zu lange ID kürzen
 [Hide contact on 'Ignore all']
 'Alles ign.' versteckt Kontakt
 ;file \plugins\MenuItemEx\src\main.cpp
+[Always visible]
+Immer sichtbar
+[Never visible]
+Niemals sichtbar
+[Copy to Account]
+In Konto kopieren
+[Show in list]
+In Liste anzeigen
+[Copy xStatus Message]
+xStatus-Nachricht kopieren
 [Status message]
 Statusnachricht
 [xStatus title]
@@ -55,16 +65,6 @@ Höre gerade
 Aktivitätstitel
 [Activity text]
 Aktivitätstext
-[Show in list]
-In Liste anzeigen
-[Always visible]
-Immer sichtbar
-[Never visible]
-Niemals sichtbar
-[Copy to Account]
-In Konto kopieren
-[Copy xStatus Message]
-xStatus-Nachricht kopieren
 [All]
 Alle
 [Messages]

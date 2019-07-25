@@ -66,10 +66,6 @@ Nerušit!
 Mám volno
 [Invisible]
 Neviditelný
-[On the phone]
-Na telefonu
-[Out to lunch]
-Na obědě
 [Pending Events]
 Trvající události
 [Remind me every]

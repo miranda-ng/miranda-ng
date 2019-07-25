@@ -1230,10 +1230,6 @@ Google Translate
 Готов за чат\tCtrl+6
 [&Invisible\tCtrl+7]
 Невидим\tCtrl+7
-[On the &phone\tCtrl+8]
-На &телефона\tCtrl+8
-[Out to &lunch\tCtrl+9]
-На обя&д\tCtrl+9
 ;file \src\core\stdautoaway\src\options.cpp
 [Status]
 Състояние
@@ -1261,10 +1257,6 @@ Google Translate
 Не, не съм тук.
 [I'm hiding from the mafia.]
 Крия се от мафията.
-[That'll be the phone.]
-Това май е телефона.
-[Mmm... food.]
-Ммм... храна.
 [idleeeeeeee]
 бездействаммм
 ;file \src\core\stdclist\src\clcfonts.cpp
@@ -1307,10 +1299,6 @@ Google Translate
 Готов за чат
 [Invisible]
 Невидим
-[Out to lunch]
-На обяд
-[On the phone]
-На телефона
 [List background]
 Фон на списъка
 ;file \src\core\stdclist\src\clistopts.cpp
@@ -2776,6 +2764,8 @@ ANSI приставка
 Включено
 [Off]
 Изкл.
+[Password]
+Парола
 [Unused]
 
 [Frames]

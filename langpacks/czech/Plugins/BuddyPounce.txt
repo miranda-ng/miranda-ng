@@ -81,10 +81,6 @@ Nerušit!
 Mám volno
 [Invisible]
 Neviditelný
-[On the phone]
-Na telefonu
-[Out to lunch]
-Na obědě
 [Send If Their Status changes]
 Odeslat po změně stavu
 [From Offline]
@@ -103,14 +99,8 @@ Do 'Nerušit'
 Do 'Mám volno'
 [To Invisible]
 Do 'Neviditelný'
-[To On the phone]
-Do 'Na telefonu'
-[To Out to lunch]
-Do 'Na obědě'
 [The Message    (%d Characters)]
 Zpráva (počet znaků: %d)
-[error......]
-chyba......
 [Couldn't allocate enough memory]
 Nelze alokovat dostatek paměti
 [The Message    (0 Characters)]

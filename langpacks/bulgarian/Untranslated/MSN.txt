@@ -4,6 +4,7 @@
 [&Kick user]
 [&Op user]
 [&Deop user]
+[%I64u bytes]
 [Open &Hotmail Inbox]
 [Send &Hotmail E-mail]
 [Setup Live &Alerts]

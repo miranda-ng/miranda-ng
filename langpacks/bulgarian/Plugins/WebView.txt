@@ -132,12 +132,12 @@ URL:
 
 [Save as raw data]
 
-[Popup delay]
+[Popup timeout]
 Popup времетраене
-[Delay]
-Закъснение
-[From popup plugin]
-
+[Timeout]
+Времетраене
+[Default]
+Стандарт
 [Permanent]
 Постоянно
 [Preview]

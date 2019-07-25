@@ -42,10 +42,6 @@
 Готовий до чату
 [Invisible]
 Невидимий
-[On the phone]
-Телефоную
-[Out to lunch]
-Обідаю
 [Preview]
 Тест
 ;file \plugins\BASS_interface\src\Main.cpp

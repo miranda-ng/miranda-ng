@@ -28,6 +28,7 @@
 [&Kick user]
 [&Op user]
 [&Deop user]
+[%I64u bytes]
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
 [Unread mail is available: %d in Inbox and %d in other folders.]
 [&Unblock]

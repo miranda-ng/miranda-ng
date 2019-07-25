@@ -26,10 +26,6 @@ Wrócę później
 Zajęty
 [Do not disturb]
 Nie przeszkadzać
-[Out to lunch]
-Na obiedzie
-[On the phone]
-Pod telefonem
 [Always when changing from offline]
 Z rozłączonego
 [Notify when contact changes]
@@ -319,22 +315,6 @@ nie chce żeby jej przeszkadzać!
 nie chce żeby jej/mu przeszkadzać!
 [User: Do not disturb]
 Status: Nie przeszkadzać
-[(M) is eating something]
-coś je
-[(F) is eating something]
-coś je
-[(U) is eating something]
-coś je
-[User: Out to lunch]
-Status: Na obiedzie
-[(M) had to answer the phone]
-musi odebrać telefon
-[(F) had to answer the phone]
-musi odebrać telefon
-[(U) had to answer the phone]
-musi odebrać telefon
-[User: On the phone]
-Status: Pod telefonem
 [User: from offline (has priority!)]
 Status: Z rozłączonego (ma priorytet!)
 [Status message removed]

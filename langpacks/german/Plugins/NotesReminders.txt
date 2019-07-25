@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.2.0.2
+;  Version: 0.2.0.4
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Sticky Notes & Reminders Implementation for Miranda NG.]
@@ -287,8 +287,6 @@ Tag
 Tage
 [Week]
 Woche
-[The specified time offset is invalid.]
-Die angegebene Zeitverschiebung ist ungültig.
 [&Update Reminder]
 Erinnerung akt&ualisieren
 [Every]
@@ -303,10 +301,10 @@ Standard
 Alternative 1
 [Alternative 2]
 Alternative 2
-[Reminder text]
-Erinnerungstext
 [Date of activation]
 Aktivierungsdatum
+[Reminder text]
+Erinnerungstext
 [Are you sure you want to delete all reminders?]
 Sind Sie sich sicher, dass Sie alle Erinnerungen löschen wollen?
 [Are you sure you want to delete this reminder?]

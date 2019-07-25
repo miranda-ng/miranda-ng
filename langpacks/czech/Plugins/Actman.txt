@@ -563,10 +563,6 @@ Nemám čas
 Mám volno
 [Invisible]
 Neviditelný
-[On the phone]
-Na telefonu
-[Out to lunch]
-Na obědě
 [Set global status]
 
 [Switch contact list status]

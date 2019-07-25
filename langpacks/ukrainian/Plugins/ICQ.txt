@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.95.11.4
+;  Version: 0.95.11.5
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -18,10 +18,12 @@ UIN/пошта:
 Не відкривати вікно чату при створенні
 [Use tray icon notifications]
 
-[E-mail]
-Пошта
 [Launch mailbox in a browser on click]
 
+[Show error popups]
+
+[Notifications]
+Сповіщення
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
 
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
@@ -52,22 +54,21 @@ UIN/пошта:
 
 [Last seen:]
 Остання поява:
-[Ignore list editor]
-
+[Enter ICQ Password]
+Введіть пароль ICQ
+[Enter a password:]
+Введіть пароль:
+[Remember this session password]
+Запам'ятати пароль сеансу
 ;file \protocols\ICQ-WIM\src\groupchats.cpp
 [&Invite a user]
 
 [&Leave/destroy chat]
 
-;file \protocols\ICQ-WIM\src\ignore.cpp
-[Do you really want to remove it from ignore list?]
-
 ;file \protocols\ICQ-WIM\src\main.cpp
+[E-mail]
+Пошта
 [E-mail notification]
-
-[Ignore]
-Ігнорувати
-[Remove Ignore]
 
 ;file \protocols\ICQ-WIM\src\options.cpp
 [Network]
@@ -86,12 +87,10 @@ UIN/пошта:
 З'єднання з сервером %s
 [Synchronize server groups]
 
-[Edit ignore list]
-
 [UIN/e-mail/phone]
 UIN/пошта/телефон
 ;file \protocols\ICQ-WIM\src\server.cpp
-[You have not entered an ICQ number.\nConfigure this in Options -> Network -> ICQ and try again.]
+[You have not entered an ICQ number or password.\nConfigure this in Options -> Network -> ICQ and try again.]
 
 [Connection failed.\nYour ICQ number or password was rejected (%d).]
 

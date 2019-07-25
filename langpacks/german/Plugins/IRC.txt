@@ -520,10 +520,6 @@ Ereignis: Beschäftigt
 Ereignis: Bitte nicht stören
 [Event: Free for chat]
 Ereignis: Für Chat bereit
-[Event: On the phone]
-Ereignis: Am Telefon
-[Event: Out for lunch]
-Ereignis: Beim Essen
 [Event: Disconnect]
 Ereignis: Getrennt
 [ALL NETWORKS]

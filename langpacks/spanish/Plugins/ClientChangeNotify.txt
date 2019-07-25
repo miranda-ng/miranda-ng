@@ -32,7 +32,7 @@ Acción de clic
 En clic izquierdo
 [On right click]
 En clic derecho
-[Delay]
+[Timeout]
 Retardo
 [Sec]
 Seg

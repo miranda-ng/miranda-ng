@@ -134,10 +134,10 @@ Couleur du texte
 Utiliser les couleurs Windows
 [Use default colors]
 Couleurs par défaut
-[Delay]
-
-[From popup plugin]
-Comme le plugin popup
+[Timeout]
+Délai du popup
+[Default]
+Défaut
 [Custom]
 Défini
 [Permanent]
@@ -502,12 +502,8 @@ Vérifier les anniversaires
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [Main]
 Principales
-[Default]
-Défaut
 [IM naming]
 Pseudo - nom
-[Password]
-Mot de passe
 [Timezone]
 
 [Marital status]
@@ -1053,9 +1049,9 @@ Maison automatisée
 [University]
 
 [Past Work Place]
-
+Anciens lieux de travail
 [Past Organization]
-
+Anciennes organisations
 [Single]
 
 [Close relationships]

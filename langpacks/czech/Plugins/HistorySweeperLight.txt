@@ -28,6 +28,10 @@ Ponechat všechny události
 [Delete all events]
 Smazat všechny události
 ;file \plugins\HistorySweeperLight\src\options.cpp
+[Default Action]
+Výchozí akce
+[Delete All]
+Smazat vše
 [Delete older than 1 day]
 Smazat starší než 1 den
 [Delete older than 3 days]
@@ -56,10 +60,6 @@ Ponechat 10 posledních událostí
 Ponechat 20 posledních událostí
 [Keep 50 last events]
 Ponechat 50 posledních událostí
-[Default Action]
-Výchozí akce
-[Delete All]
-Smazat vše
 [*** Default Action ***]
 *** výchozí akce ***
 [*** System History ***]

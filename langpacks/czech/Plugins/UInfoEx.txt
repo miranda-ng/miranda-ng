@@ -134,10 +134,10 @@ Barva textu
 Použít barvy Windows
 [Use default colors]
 Použít výchozí barvy
-[Delay]
-Prodleva
-[From popup plugin]
-Globální nastavení
+[Timeout]
+Doba zobrazení
+[Default]
+Výchozí
 [Custom]
 Vlastní
 [Permanent]
@@ -502,12 +502,8 @@ Zkontrolovat výročí
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [Main]
 Hlavní
-[Default]
-Výchozí
 [IM naming]
 Ikona klienta
-[Password]
-Heslo
 [Timezone]
 Časové pásmo
 [Marital status]
@@ -1053,9 +1049,9 @@ Vysoká škola
 [University]
 Univerzita
 [Past Work Place]
-
+Dřívější zaměstnání
 [Past Organization]
-
+Předchozí organizace
 [Single]
 svobodný/á
 [Close relationships]

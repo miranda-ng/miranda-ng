@@ -704,10 +704,6 @@ Latin I
 Готов за чат
 [Invisible]
 Невидим
-[Out to lunch]
-На обяд
-[On the phone]
-На телефона
 [Enter]
 Enter
 [Double 'Enter']

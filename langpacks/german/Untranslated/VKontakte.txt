@@ -1,0 +1,3 @@
+[Audio message]
+[Adding bots to MUC is not supported]
+[Kick bots is not supported]

@@ -563,10 +563,6 @@ UTF16+сігнатура
 Вольны
 [Invisible]
 Нябачны
-[On the phone]
-На тэлефоне
-[Out to lunch]
-Абедаю
 [Set global status]
 
 [Switch contact list status]

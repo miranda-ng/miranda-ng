@@ -73,8 +73,6 @@ Panique dans la Base de données !
 ;file \plugins\Db3x_mmap\src\ui.cpp
 [Logo]
 
-[Password]
-Mot de passe
 [Too many errors!]
 
 [Password is not correct!]

@@ -38,8 +38,8 @@ Couleurs
 Arrière-plan
 [Text]
 Texte
-[Use Popups colors]
-
+[Use default colors]
+Couleurs par défaut
 [Use Windows colors]
 Utiliser les couleurs Windows
 [Delay]

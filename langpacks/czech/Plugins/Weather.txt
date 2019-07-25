@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.4
+;  Version: 0.4.0.5
 ;  Authors: Miranda NG team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
@@ -148,14 +148,14 @@ Akce při oznámení
 Levé tlač.
 [Right Click]
 Pravé tlač.
-[Popup Delay]
+[Popup timeout]
 Doba zobrazení
-[Delay]
-Prodleva
+[Timeout]
+Doba zobrazení
 [seconds]
 sek.
-[From popup plugin]
-Globální nastavení
+[Default]
+Výchozí
 [Permanent]
 Trvale
 [Popup Text]
@@ -164,8 +164,6 @@ Samotný text
 Nadpis
 [Variables]
 Proměnné
-[Default]
-Výchozí
 [Preview]
 Náhled
 [Updates]

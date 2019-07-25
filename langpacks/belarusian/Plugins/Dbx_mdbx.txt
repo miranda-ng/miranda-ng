@@ -42,6 +42,13 @@
 Усе налады і ўсе падзеі ў гісторыі шыфруюцца. Гэта робіць Міранда вельмі марудней і стварае рызыку страты ўсё, што вы захоўваецца ў базе дадзеных ў выпадку згубы пароль. Рэкамендуем толькі для паранаідальных карыстальнікаў
 [Set password]
 Усталяваць пароль
+;file \plugins\Dbx_mdbx\src\dbcrypt.cpp
+[Too many errors!]
+Занадта шмат памылак!
+[Password is not correct!]
+Пароль няслушны!
+[Please type in your password]
+Увядзіце ваш пароль
 ;file \plugins\Dbx_mdbx\src\dbintf.h
 [Change/remove password]
 Змяніць/выдаліць пароль
@@ -54,16 +61,7 @@
 Паролі не супадаюць!
 [Database]
 Профіль
-[Compact]
-
-;file \plugins\Dbx_mdbx\src\ui.h
 [Logo]
 Меню
-[Password]
-Пароль
-[Too many errors!]
-Занадта шмат памылак!
-[Password is not correct!]
-Пароль няслушны!
-[Please type in your password]
-Увядзіце ваш пароль
+[Compact]
+

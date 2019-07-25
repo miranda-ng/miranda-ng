@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.0.3
+;  Version: 0.2.1.0
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates.]
@@ -58,22 +58,22 @@ Popup настройки...
 Източник на информацията Google
 [Close]
 Затваряне
-[Popup Window Settings]
-Настройки на Popup прозореца
+[Popup settings]
+
 [Colors]
 Цветове
 [Use default colors]
 Стандартни цветове
-[Use user-defined colors]
-Избор на цветове
+[Use custom colors]
+Зададени цветове
 [Background color]
 Цвят на фона
 [Text color]
 Цвят на текста
-[Delay]
-Закъснение
-[From popup plugin]
-
+[Timeout]
+Времетраене
+[Default]
+Стандарт
 [Custom]
 Избор
 [Permanent]
