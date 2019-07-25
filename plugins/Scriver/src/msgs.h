@@ -238,7 +238,6 @@ public:
 #define DM_OPTIONSAPPLIED      (WM_USER+14)
 #define DM_APPENDTOLOG         (WM_USER+17)
 #define DM_ERRORDECIDED        (WM_USER+18)
-#define DM_SCROLLLOGTOBOTTOM   (WM_USER+19)
 #define DM_TYPING              (WM_USER+20)
 #define DM_UPDATELASTMESSAGE   (WM_USER+22)
 #define DM_USERNAMETOCLIP      (WM_USER+23)

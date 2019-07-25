@@ -660,7 +660,7 @@ void StreamInTestEvents(HWND hEditWnd, GlobalMessageData *gdat)
 	delete dat;
 }
 
-void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend)
+void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, int bAppend)
 {
 	// IEVIew MOD Begin
 	if (m_hwndIeview != nullptr) {
@@ -672,7 +672,7 @@ void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend)
 		evt.hwnd = m_hwndIeview;
 		evt.hContact = m_hContact;
 		evt.pszProto = m_szProto;
-		if (!fAppend) {
+		if (!bAppend) {
 			evt.iType = IEE_CLEAR_LOG;
 			CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&evt);
 		}
@@ -692,7 +692,7 @@ void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend)
 	// IEVIew MOD End
 
 	CHARRANGE oldSel, sel;
-	m_log.SendMsg(EM_HIDESELECTION, TRUE, 0);
+	m_log.SendMsg(WM_SETREDRAW, FALSE, 0);
 	m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&oldSel);
 
 	LogStreamData streamData = {};
@@ -701,7 +701,7 @@ void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend)
 	streamData.hDbEventLast = m_hDbEventLast;
 	streamData.dlgDat = this;
 	streamData.eventsToInsert = count;
-	streamData.isFirst = fAppend ? m_log.GetRichTextLength() == 0 : 1;
+	streamData.isFirst = bAppend ? m_log.GetRichTextLength() == 0 : 1;
 	streamData.gdat = &g_dat;
 
 	EDITSTREAM stream = {};
@@ -709,8 +709,20 @@ void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend)
 	stream.dwCookie = (DWORD_PTR)& streamData;
 	sel.cpMin = 0;
 
+	POINT scrollPos;
+	bool bottomScroll = (GetFocus() != m_log.GetHwnd());
+	if (bottomScroll && (GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL)) {
+		SCROLLINFO si = {};
+		si.cbSize = sizeof(si);
+		si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;
+		GetScrollInfo(m_log.GetHwnd(), SB_VERT, &si);
+		bottomScroll = (si.nPos + (int)si.nPage) >= si.nMax;
+	}
+	if (!bottomScroll)
+		m_log.SendMsg(EM_GETSCROLLPOS, 0, (LPARAM)&scrollPos);
+
 	FINDTEXTEXA fi;
-	if (fAppend) {
+	if (bAppend) {
 		GETTEXTLENGTHEX gtxl = { 0 };
 		gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMCHARS;
 		gtxl.codepage = 1200;
@@ -728,10 +740,16 @@ void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend)
 		m_isMixed = 0;
 	}
 
-	m_log.SendMsg(EM_STREAMIN, fAppend ? SFF_SELECTION | SF_RTF : SFF_SELECTION | SF_RTF, (LPARAM)&stream);
-	m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&oldSel);
-	m_log.SendMsg(EM_HIDESELECTION, FALSE, 0);
-	
+	m_log.SendMsg(EM_STREAMIN, bAppend ? SFF_SELECTION | SF_RTF : SFF_SELECTION | SF_RTF, (LPARAM)&stream);
+	if (bottomScroll) {
+		sel.cpMin = sel.cpMax = -1;
+		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+	}
+	else {
+		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&oldSel);
+		m_log.SendMsg(EM_SETSCROLLPOS, 0, (LPARAM)&scrollPos);
+	}
+
 	if (g_dat.smileyAddInstalled) {
 		SMADD_RICHEDIT3 smre;
 		smre.cbSize = sizeof(SMADD_RICHEDIT3);
@@ -753,14 +771,13 @@ void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend)
 		CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&smre);
 	}
 
-	int len = m_log.GetRichTextLength();
-	m_log.SendMsg(EM_SETSEL, len - 1, len - 1);
-
-	if (!fAppend)
-		m_log.SendMsg(WM_SETREDRAW, TRUE, 0);
+	m_log.SendMsg(WM_SETREDRAW, TRUE, 0);
+	if (bottomScroll) {
+		ScrollToBottom();
+		RedrawWindow(m_log.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
+	}
 
 	m_hDbEventLast = streamData.hDbEventLast;
-	PostMessage(m_hwnd, DM_SCROLLLOGTOBOTTOM, 0, 0);
 }
 
 #define RTFPICTHEADERMAXSIZE   78
