@@ -411,10 +411,6 @@ MIR_APP_DLL(int) Netlib_LogW(HNETLIBUSER hUser, const wchar_t *pwszStr)
 
 void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int flags)
 {
-	char szTitleLine[128];
-	char *szBuf;
-	bool useStack = false;
-
 	// This section checks a number of conditions and aborts
 	// the dump if the data should not be written to the log
 
@@ -432,13 +428,13 @@ void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int fla
 	if ((flags & MSG_DUMPSSL) && !logOptions.dumpSsl)
 		return;
 
+	CMStringA str;
+
 	WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
 	NetlibUser *nlu = nlc ? nlc->nlu : nullptr;
-	int titleLineLen;
-	if (flags & MSG_NOTITLE)
-		titleLineLen = 0;
-	else
-		titleLineLen = mir_snprintf(szTitleLine, "(%p:%u) Data %s%s\r\n", nlc, nlc ? nlc->s : 0, sent ? "sent" : "received", flags & MSG_DUMPPROXY ? " (proxy)" : "");
+
+	if (!(flags & MSG_NOTITLE))
+		str.Format("(%p:%u) Data %s%s\r\n", nlc, nlc ? nlc->s : 0, sent ? "sent" : "received", flags & MSG_DUMPPROXY ? " (proxy)" : "");
 	ReleaseMutex(hConnectionHeaderMutex);
 
 	// check filter settings
@@ -466,59 +462,43 @@ void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int fla
 
 	// Text data
 	if (isText) {
-		int sz = titleLineLen + len + 1;
-		useStack = sz <= 8192;
-		szBuf = (char*)(useStack ? alloca(sz) : mir_alloc(sz));
-		memcpy(szBuf, szTitleLine, titleLineLen);
-		memcpy(szBuf + titleLineLen, (const char*)buf, len);
-		szBuf[titleLineLen + len] = '\0';
+		str.Append((const char*)buf, len);
 	}
 	// Binary data
 	else {
 		int line, col, colsInLine;
-		int sz = titleLineLen + ((len + 16) >> 4) * 78 + 1;
-		useStack = sz <= 8192;
 
-		szBuf = (char*)(useStack ? alloca(sz) : mir_alloc(sz));
-		memcpy(szBuf, szTitleLine, titleLineLen);
-		char *pszBuf = szBuf + titleLineLen;
 		for (line = 0;; line += 16) {
 			colsInLine = min(16, len - line);
-
 			if (colsInLine == 16) {
 				PBYTE p = buf + line;
-				pszBuf += wsprintfA(
-					pszBuf, "%08X: %02X %02X %02X %02X-%02X %02X %02X %02X-%02X %02X %02X %02X-%02X %02X %02X %02X  ",
-					line, p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9], p[10], p[11], p[12], p[13], p[14], p[15]); //!!!!!!!!!!
+				str.AppendFormat("%08X: %02X %02X %02X %02X-%02X %02X %02X %02X-%02X %02X %02X %02X-%02X %02X %02X %02X  ",
+					line, p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9], p[10], p[11], p[12], p[13], p[14], p[15]);
 			}
 			else {
-				pszBuf += wsprintfA(pszBuf, "%08X: ", line); //!!!!!!!!!!
+				str.AppendFormat("%08X: ", line);
 				// Dump data as hex
 				for (col = 0; col < colsInLine; col++)
-					pszBuf += wsprintfA(pszBuf, "%02X%c", buf[line + col], ((col & 3) == 3 && col != 15) ? '-' : ' '); //!!!!!!!!!!
+					str.AppendFormat("%02X%c", buf[line + col], ((col & 3) == 3 && col != 15) ? '-' : ' ');
 				// Fill out last line with blanks
-				for (; col < 16; col++) {
-					mir_strcpy(pszBuf, "   ");
-					pszBuf += 3;
-				}
-				*pszBuf++ = ' ';
+				for (; col < 16; col++)
+					str.Append("   ");
+
+				str.AppendChar(' ');
 			}
 
 			for (col = 0; col < colsInLine; col++)
-				*pszBuf++ = (buf[line + col] < ' ') ? '.' : (char)buf[line + col];
+				str.AppendChar((buf[line + col] < ' ') ? '.' : (char)buf[line + col]);
 
 			if (len - line <= 16)
 				break;
 
-			*pszBuf++ = '\r'; // End each line with a break
-			*pszBuf++ = '\n'; // End each line with a break
+			str.AppendChar('\r'); // End each line with a break
+			str.AppendChar('\n'); // End each line with a break
 		}
-		*pszBuf = '\0';
 	}
 
-	NetlibLog_Worker(nlu, szBuf, flags);
-	if (!useStack)
-		mir_free(szBuf);
+	NetlibLog_Worker(nlu, str, flags);
 }
 
 void NetlibLogInit(void)

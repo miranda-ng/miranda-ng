@@ -771,13 +771,13 @@ MIR_APP_DLL(NETLIBHTTPREQUEST*) Netlib_RecvHttpHeaders(HNETLIBCONN hConnection, 
 		}
 	}
 
-	// Receive headers
 	if (bytesPeeked <= 0) {
 		NetlibLeaveNestedCS(&nlc->ncsRecv);
 		Netlib_FreeHttpRequest(nlhr);
 		return nullptr;
 	}
 
+	// Receive headers
 	nlhr->headersCount = headersCount;
 	nlhr->headers = (NETLIBHTTPHEADER*)mir_calloc(sizeof(NETLIBHTTPHEADER) * headersCount);
 
@@ -802,10 +802,8 @@ MIR_APP_DLL(NETLIBHTTPREQUEST*) Netlib_RecvHttpHeaders(HNETLIBCONN hConnection, 
 	}
 
 	// remove processed data
-	if (bytesPeeked > 0) {
-		buf.remove(bytesPeeked);
-		nlc->foreBuf.appendBefore(buf.data(), buf.length());
-	}
+	buf.remove(bytesPeeked);
+	nlc->foreBuf.appendBefore(buf.data(), buf.length());
 
 	NetlibLeaveNestedCS(&nlc->ncsRecv);
 	return nlhr;
