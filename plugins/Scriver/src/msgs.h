@@ -277,7 +277,6 @@ class CErrorDlg : public CDlgBase
 	ptrW m_wszText;
 	CMStringW m_wszName, m_wszDescr;
 	MessageSendQueueItem *m_queueItem;
-	HWND m_hwndParent;
 
 	CCtrlButton m_btnOk, m_btnCancel;
 

@@ -97,14 +97,12 @@ int DbEventIsShown(DBEVENTINFO &dbei)
 {
 	switch (dbei.eventType) {
 	case EVENTTYPE_MESSAGE:
+	case EVENTTYPE_FILE:
 		return 1;
 
 	case EVENTTYPE_JABBER_CHATSTATES:
 	case EVENTTYPE_JABBER_PRESENCE:
 		return 0;
-
-	case EVENTTYPE_FILE:
-		return 1;
 	}
 
 	return DbEventIsCustomForMsgWindow(&dbei);
@@ -388,7 +386,7 @@ static void AppendWithCustomLinks(EventData *evt, int style, CMStringA &buf)
 
 	BOOL isAnsii = (evt->dwFlags & IEEDF_UNICODE_TEXT) == 0;
 	WCHAR *wText;
-	size_t len, laststart = 0;
+	size_t len;
 	if (isAnsii) {
 		len = mir_strlen(evt->pszText);
 		wText = mir_a2u(evt->pszText);
@@ -398,9 +396,9 @@ static void AppendWithCustomLinks(EventData *evt, int style, CMStringA &buf)
 		len = (int)mir_wstrlen(evt->pszTextW);
 	}
 
-	if (len - laststart > 0) {
+	if (len > 0) {
 		buf.AppendFormat("%s ", SetToStyle(style));
-		AppendUnicodeOrAnsiiToBufferL(buf, wText + laststart, len - laststart, isAnsii);
+		AppendUnicodeOrAnsiiToBufferL(buf, wText, len, isAnsii);
 	}
 
 	if (isAnsii)

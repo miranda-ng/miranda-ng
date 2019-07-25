@@ -21,8 +21,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 struct TCmdList
 {
 	MCONTACT hContact;
-	char *szCmd;
 	BOOL temporary;
+	char *szCmd;
 	TCmdList *next, *prev;
 };
 

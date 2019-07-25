@@ -27,12 +27,13 @@ CErrorDlg::CErrorDlg(const wchar_t *pwszDescr, HWND hWnd, MessageSendQueueItem *
 	: CDlgBase(g_plugin, IDD_MSGSENDERROR),
 	m_wszText(mir_utf8decodeW(pItem->sendBuffer)),
 	m_wszDescr(pwszDescr != nullptr ? pwszDescr : TranslateT("An unknown error has occurred.")),
-	m_hwndParent(hWnd),
 	m_queueItem(pItem),
 
 	m_btnOk(this, IDOK),
 	m_btnCancel(this, IDCANCEL)
 {
+	SetParent(hWnd);
+
 	const wchar_t *pwszName = Clist_GetContactDisplayName(pItem->hContact);
 	if (pwszName)
 		m_wszName.Format(L"%s - %s", TranslateT("Send error"), pwszName);
