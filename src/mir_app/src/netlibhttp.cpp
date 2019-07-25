@@ -428,9 +428,6 @@ MIR_APP_DLL(int) Netlib_SendHttpRequest(HNETLIBCONN nlc, NETLIBHTTPREQUEST *nlhr
 			if (!(nlhr->flags & NLHRF_MANUALHOST)) {
 				bool usingProxy = nlc->proxyType == PROXYTYPE_HTTP && !(nlhr->flags & NLHRF_SSL);
 
-				mir_free(szHost);
-				szHost = nullptr;
-
 				const char *ppath, *phost;
 				phost = strstr(pszUrl, "://");
 				if (phost == nullptr) phost = pszUrl;
@@ -439,7 +436,7 @@ MIR_APP_DLL(int) Netlib_SendHttpRequest(HNETLIBCONN nlc, NETLIBHTTPREQUEST *nlhr
 				if (ppath == phost)
 					phost = nullptr;
 
-				szHost = mir_strdup(phost);
+				replaceStr(szHost, phost);
 				if (ppath && phost)
 					szHost[ppath - phost] = 0;
 
@@ -453,12 +450,11 @@ MIR_APP_DLL(int) Netlib_SendHttpRequest(HNETLIBCONN nlc, NETLIBHTTPREQUEST *nlhr
 					char *cln = strchr(tszHost, ':'); if (cln) *cln = 0;
 
 					if (inet_addr(tszHost) == INADDR_NONE) {
-						DWORD ip = DnsLookup(nlu, tszHost);
-						if (ip && szHost) {
+						in_addr ip;
+						if (ip.S_un.S_addr = DnsLookup(nlu, tszHost)) {
 							mir_free(szHost);
-							szHost = (char*)mir_alloc(64);
 							if (cln) *cln = ':';
-							mir_snprintf(szHost, 64, "%s%s", inet_ntoa(*(PIN_ADDR)&ip), cln ? cln : "");
+							szHost = CMStringA(FORMAT, "%s%s", inet_ntoa(ip), cln ? cln : "").Detach();
 						}
 					}
 					mir_free(tszHost);
