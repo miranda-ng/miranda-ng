@@ -7,8 +7,6 @@ void PostMPMessage(UINT msg, WPARAM, LPARAM);
 #define MUM_CREATEPOPUP					(WM_USER + 0x011)
 #define MUM_DELETEPOPUP					(WM_USER + 0x012)
 
-#define MUM_NMUPDATE					(WM_USER + 0x013)
-#define MUM_NMREMOVE					(WM_USER + 0x014)
 #define MUM_NMAVATAR					(WM_USER + 0x015)
 
 struct PopupData

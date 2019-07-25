@@ -30,10 +30,8 @@ unsigned __stdcall MessagePumpThread(void *param)
 
 				PopupData *pd = (PopupData *)hwndMsg.lParam;
 				if (enabled && num_popups < MAX_POPUPS) {
-					HWND hwnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, POP_WIN_CLASS, L"Popup", WS_POPUP, 0, 0, 0, 0, nullptr, nullptr, g_plugin.getInst(), (LPVOID)hwndMsg.lParam);
+					CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, POP_WIN_CLASS, L"Popup", WS_POPUP, 0, 0, 0, 0, nullptr, nullptr, g_plugin.getInst(), (LPVOID)hwndMsg.lParam);
 					num_popups++;
-					if (hwndMsg.wParam) // set notifyer handle
-						SendMessage(hwnd, PUM_SETNOTIFYH, hwndMsg.wParam, 0);
 				}
 				else if (pd) {
 					mir_free(pd->pwszTitle);
@@ -51,14 +49,6 @@ unsigned __stdcall MessagePumpThread(void *param)
 					num_popups--;
 				}
 			}
-			break;
-
-		case MUM_NMUPDATE:
-			BroadcastMessage(PUM_UPDATENOTIFY, hwndMsg.wParam, 0);
-			break;
-
-		case MUM_NMREMOVE:
-			BroadcastMessage(PUM_KILLNOTIFY, hwndMsg.wParam, 0);
 			break;
 
 		case MUM_NMAVATAR:

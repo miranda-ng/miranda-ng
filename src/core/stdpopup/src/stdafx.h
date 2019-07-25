@@ -26,15 +26,12 @@
 #include <m_toptoolbar.h>
 #include <win2k.h>
 
-#include <m_notify.h>
-#include <m_yapp.h>
 #include <m_ieview.h> //need this for special renderers
 
 #include "version.h"
 #include "message_pump.h"
 #include "options.h"
 #include "popwin.h"
-#include "notify.h"
 #include "services.h"
 #include "resource.h"
 #include "yapp_history.h"
@@ -54,8 +51,6 @@ extern bool bShutdown;
 
 extern HFONT hFontFirstLine, hFontSecondLine, hFontTime;
 extern COLORREF colFirstLine, colSecondLine, colBg, colTime, colBorder, colSidebar, colTitleUnderline;
-
-extern MNOTIFYLINK *notifyLink;
 
 // work around a bug in neweventnotify, possibly httpserver
 // ignore the address passed to the 'get plugin data' service

@@ -11,10 +11,6 @@
 #define PUM_GETHEIGHT        (WM_USER + 0x025)
 #define PUM_UPDATERGN        (WM_USER + 0x026)
 
-#define PUM_SETNOTIFYH       (WM_USER + 0x030)
-#define PUM_KILLNOTIFY       (WM_USER + 0x031)
-#define PUM_UPDATENOTIFY     (WM_USER + 0x032)
-
 #define ANIMATE_NO      0
 #define ANIMATE_HORZ    1
 #define ANIMATE_VERT    2

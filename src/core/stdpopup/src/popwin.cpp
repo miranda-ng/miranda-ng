@@ -193,7 +193,6 @@ struct PopupWindowData
 	int tb_height, av_height, text_height, time_height, time_width;
 	int real_av_width, real_av_height;
 	bool have_av;
-	HANDLE hNotify;
 };
 
 LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -209,7 +208,6 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			pwd = (PopupWindowData *)mir_alloc(sizeof(PopupWindowData));
 			pd = (PopupData *)cs->lpCreateParams;
 			pwd->pd = pd;
-			pwd->hNotify = nullptr;
 
 			trimW(pwd->pd->pwszTitle);
 			trimW(pwd->pd->pwszText);
@@ -688,36 +686,6 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			RepositionWindows();
 		}
 		return TRUE;
-
-	case PUM_SETNOTIFYH:
-		pwd->hNotify = (HANDLE)wParam;
-		return TRUE;
-
-	case PUM_UPDATENOTIFY:
-		if (pwd->hNotify == (HANDLE)wParam) {
-			pd->colorBack = MNotifyGetDWord(pwd->hNotify, NFOPT_BACKCOLOR, colBg);
-			pd->colorText = MNotifyGetDWord(pwd->hNotify, NFOPT_TEXTCOLOR, colSecondLine);
-			pd->timeout = MNotifyGetDWord(pwd->hNotify, NFOPT_TIMEOUT, options.default_timeout);
-			pd->hContact = (MCONTACT)MNotifyGetDWord(pwd->hNotify, NFOPT_CONTACT, 0);
-			pd->hIcon = (HICON)MNotifyGetDWord(pwd->hNotify, NFOPT_ICON, 0);
-
-			const wchar_t *swzName = MNotifyGetWString(pwd->hNotify, NFOPT_TITLEW, nullptr);
-			mir_free(pd->pwszTitle);
-			pd->pwszTitle = mir_wstrdup(swzName);
-
-			const wchar_t *swzText = MNotifyGetWString(pwd->hNotify, NFOPT_TEXTW, nullptr);
-			mir_free(pd->pwszText);
-			pd->pwszText = mir_wstrdup(swzText);
-
-			InvalidateRect(hwnd, nullptr, TRUE);
-			RepositionWindows();
-		}
-		return TRUE;
-
-	case PUM_KILLNOTIFY:
-		if (pwd->hNotify != (HANDLE)wParam)
-			return TRUE;
-		// drop through
 
 	case UM_DESTROYPOPUP:
 		PostMPMessage(MUM_DELETEPOPUP, 0, (LPARAM)hwnd);

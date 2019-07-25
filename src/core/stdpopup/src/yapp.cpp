@@ -6,8 +6,6 @@
 CMPlugin g_plugin;
 bool bShutdown = false;
 
-MNOTIFYLINK *notifyLink = nullptr;
-
 // used to work around a bug in neweventnotify and others with the address passed in the GetPluginData function
 bool ignore_gpd_passed_addy = false;
 
@@ -182,8 +180,6 @@ static void InitMenuItems(void)
 
 static int ModulesLoaded(WPARAM, LPARAM)
 {
-	MNotifyGetLink();
-
 	if (ServiceExists(MS_HPP_EG_WINDOW))
 		lstPopupHistory.SetRenderer(RENDER_HISTORYPP);
 
@@ -209,7 +205,6 @@ int CMPlugin::Load()
 {
 	InitMessagePump();
 	InitOptions();
-	InitNotify();
 	InitFonts();
 	InitIcons();
 	InitMenuItems();

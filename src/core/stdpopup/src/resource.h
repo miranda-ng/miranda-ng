@@ -3,7 +3,6 @@
 // Used by D:\Development\Miranda NG\plugins\YAPP\res\yapp.rc
 //
 #define IDD_OPT1                        101
-#define IDD_OPT_NOTIFY                  103
 #define IDD_LST_HISTORY                 104
 #define IDI_POPUP                       105
 #define IDI_NOPOPUP                     106
