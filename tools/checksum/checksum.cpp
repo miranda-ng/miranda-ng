@@ -408,7 +408,7 @@ int _tmain(int argc, wchar_t *argv[])
 
 		for (i = 1; i < argc; i++) {
 			if (!wcscmp(argv[i], L"/stdin") || !wcscmp(argv[i], L"/STDIN")) {
-				while (fgetws(buf, sizeof(buf), stdin) != NULL) {
+				while (fgetws(buf, _countof(buf), stdin) != NULL) {
 					trtrim(buf);
 					res = process(buf);
 					cnt++;

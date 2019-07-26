@@ -8,7 +8,7 @@ int CToxProto::OnAccountRenamed(WPARAM wParam, LPARAM lParam)
 
 		ptrW newPath(GetToxProfilePath());
 		wchar_t oldPath[MAX_PATH];
-		mir_snwprintf(oldPath, MAX_PATH, L"%s\\%s.tox", VARSW(L"%miranda_userdata%").get(), m_accountName);
+		mir_snwprintf(oldPath, MAX_PATH, L"%s\\%s.tox", VARSW(L"%miranda_userdata%").get(), m_accountName.get());
 		_wrename(oldPath, newPath);
 		m_accountName = mir_wstrdup(m_tszUserName);
 	}

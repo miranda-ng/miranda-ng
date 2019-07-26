@@ -67,7 +67,7 @@ struct MIR_APP_EXPORT PROTO_INTERFACE : public MZeroedObject
 {
 
 protected:
-	MWindowList m_hWindowList;     // list of all windows which belong to this protocol's instance
+	MWindowList m_hWindowList = 0; // list of all windows which belong to this protocol's instance
 
 public:
 	int         m_iStatus;         // current protocol status
@@ -76,9 +76,9 @@ public:
 	int         m_iVersion;        // version 2 or higher designate support of Unicode services
 	wchar_t*    m_tszUserName;     // human readable protocol's name
 	char*       m_szModuleName;    // internal protocol name, also its database module name
-	HANDLE      m_hProtoIcon;      // icon to be displayed in the account manager
-	HNETLIBUSER m_hNetlibUser;     // network agent
-	HGENMENU    m_hmiMainMenu;     // if protocol menus are displayed in the main menu, this is the root
+	HANDLE      m_hProtoIcon = 0;  // icon to be displayed in the account manager
+	HNETLIBUSER m_hNetlibUser = 0; // network agent
+	HGENMENU    m_hmiMainMenu = 0; // if protocol menus are displayed in the main menu, this is the root
 	HGENMENU    m_hmiReqAuth;      // a menu item for /RequestAuth service
 	HGENMENU    m_hmiGrantAuth;    // a menu item for /GrantAuth service
 	HGENMENU    m_hmiRevokeAuth;   // a menu item for /RevokeAuth service

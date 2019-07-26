@@ -543,9 +543,11 @@ INT_PTR GetDisplaySvcFunc(WPARAM wParam, LPARAM lParam)
 // pszID = original 2-part id, return the service internal name
 void GetSvc(wchar_t *pszID)
 {
-	wchar_t *chop = wcsstr(pszID, L"/");
-	if (chop != nullptr)	*chop = '\0';
-	else				pszID[0] = 0;
+	wchar_t *chop = wcschr(pszID, '/');
+	if (chop != nullptr)
+		*chop = '\0';
+	else
+		pszID[0] = 0;
 }
 
 // get the id use for update without the service internal name
@@ -553,9 +555,11 @@ void GetSvc(wchar_t *pszID)
 // pszID = original 2-part id, return the single part id
 void GetID(wchar_t *pszID)
 {
-	wchar_t *chop = wcsstr(pszID, L"/");
-	if (chop != nullptr)	mir_wstrcpy(pszID, chop + 1);
-	else				pszID[0] = 0;
+	wchar_t *chop = wcschr(pszID, '/');
+	if (chop != nullptr)
+		mir_wstrcpy(pszID, chop + 1);
+	else
+		pszID[0] = 0;
 }
 
 //============  WEATHER ERROR CODE  ============

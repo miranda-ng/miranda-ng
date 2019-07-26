@@ -1631,7 +1631,6 @@ static LRESULT ThumbTrackHorz(SCROLLBAR *sbar, HWND hwnd, int x, int y)
 	}
 
 	RotateRect0(sbar, &rc2);
-	ReleaseDC(hwnd, hdc);
 
 	//post a SB_TRACKPOS message!!!
 	siMaxMin = si->nMax - si->nMin;
@@ -1649,10 +1648,8 @@ static LRESULT ThumbTrackHorz(SCROLLBAR *sbar, HWND hwnd, int x, int y)
 
 	nLastPos = pos;
 
-//#ifdef CUSTOM_DRAW
 	PostCustomPrePostPaint(hwnd, hdc, sbar, CDDS_POSTPAINT);
-//#endif
-	
+	ReleaseDC(hwnd, hdc);
 	return 0;
 }
 

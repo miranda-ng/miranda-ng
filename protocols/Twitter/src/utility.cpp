@@ -67,7 +67,7 @@ http::response mir_twitter::slurp(const std::string &url, http::method meth, OAu
 		auth = OAuthWebRequestSubmit(url_WSTR, L"GET", nullptr, consumerKey_, consumerSecret_,
 			oauthAccessToken_, oauthAccessTokenSecret_, pin_);
 	}
-	else if (meth == http::post) {
+	else {
 		// OAuthParameters postParams;
 		if (url_WSTR.size() > 0) { ppro_->debugLogW(L"**SLURP::POST - we have a URL: %s", url_WSTR.c_str()); }
 		if (consumerKey_.size() > 0) { ppro_->debugLogA("**SLURP::POST - we have a consumerKey"); }
@@ -82,7 +82,6 @@ http::response mir_twitter::slurp(const std::string &url, http::method meth, OAu
 
 		auth = OAuthWebRequestSubmit(url_WSTR, L"POST", &postParams, consumerKey_, consumerSecret_, oauthAccessToken_, oauthAccessTokenSecret_);
 	}
-	else ppro_->debugLogA("**SLURP - There is something really wrong.. the http method was neither get or post.. WHY??");
 
 	std::string auth_STR = WideToUTF8(auth);
 

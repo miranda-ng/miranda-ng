@@ -153,7 +153,7 @@ class CTabbedWindow : public CDlgBase
 
 public:
 	CCtrlPages m_tab;
-	HWND m_hwndStatus;
+	HWND m_hwndStatus = nullptr;
 	CMsgDialog *m_pEmbed = nullptr;
 
 	CTabbedWindow();

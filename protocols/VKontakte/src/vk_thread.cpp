@@ -193,7 +193,7 @@ void CVkProto::OnLoggedOut()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest*)
 {
 	debugLogA("CVkProto::OnOAuthAuthorize %d", reply->resultCode);
 	GrabCookies(reply);
@@ -275,7 +275,7 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 		m_prevError = true;
 	}
 
-	pReq = new AsyncHttpRequest();
+	AsyncHttpRequest *pReq = new AsyncHttpRequest();
 	pReq->requestType = REQUEST_POST;
 	pReq->flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11;
 	pReq->m_szParam = szBody;

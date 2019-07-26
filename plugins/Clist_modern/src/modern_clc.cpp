@@ -284,9 +284,9 @@ static bool clcItemNotHiddenOffline(ClcGroup *group, ClcContact *contact)
 	return false;
 }
 
-static LRESULT clcOnCreate(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT clcOnCreate(ClcData*, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	dat = new ClcData();
+	ClcData *dat = new ClcData();
 	SetWindowLongPtr(hwnd, 0, (LONG_PTR)dat);
 	dat->hCheckBoxTheme = xpt_AddThemeHandle(hwnd, L"BUTTON");
 	dat->m_paintCouter = 0;
@@ -551,25 +551,27 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 				dat->selection = cliGetRowsPriorTo(&dat->list, group, -1);
 				selMoved = 1;
 			}
-			else {
-				if (contact->type == CLCIT_GROUP) {
-					if (changeGroupExpand == 1) {
-						if (!contact->group->expanded) {
-							dat->selection--;
-							selMoved = 1;
-						}
-						else g_clistApi.pfnSetGroupExpand(hwnd, dat, contact->group, 0);
-					}
-					else if (changeGroupExpand == 2) {
-						g_clistApi.pfnSetGroupExpand(hwnd, dat, contact->group, 1);
-						dat->selection++;
+			else if (contact->type == CLCIT_GROUP) {
+				if (changeGroupExpand == 1) {
+					if (!contact->group->expanded) {
+						dat->selection--;
 						selMoved = 1;
 					}
-					else { SetCapture(hwnd); return 0; }
+					else g_clistApi.pfnSetGroupExpand(hwnd, dat, contact->group, 0);
+				}
+				else if (changeGroupExpand == 2) {
+					g_clistApi.pfnSetGroupExpand(hwnd, dat, contact->group, 1);
+					dat->selection++;
+					selMoved = 1;
+				}
+				else {
+					SetCapture(hwnd);
+					return 0;
 				}
 			}
 		}
 	}
+
 	if (selMoved) {
 		if (dat->selection >= g_clistApi.pfnGetGroupContentsCount(&dat->list, 1))
 			dat->selection = g_clistApi.pfnGetGroupContentsCount(&dat->list, 1) - 1;

@@ -99,8 +99,8 @@ struct protoPicCacheEntry : public AVATARCACHEENTRY, public MZeroedObject
 
 	void clear();
 
-	char*  szProtoname;
-	int    cacheType = 0;
+	char *szProtoname = nullptr;
+	int cacheType = 0;
 	union {
 		PROTOCOLDESCRIPTOR *pd;
 		PROTOACCOUNT *pa;

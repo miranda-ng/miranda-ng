@@ -199,7 +199,7 @@ void MUCCHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 
 			str.AppendFormat("<div class=\"%s\">", isSent ? "divOut" : "divIn");
 			if (dwData & IEEDD_MUCC_SHOW_TIME || dwData & IEEDD_MUCC_SHOW_DATE)
-				str.AppendFormat("<span class=\"%s\">%s </span>", isSent ? "timestamp" : "timestamp", timestampToString(dwData, eventData->time));
+				str.AppendFormat("<span class=\"%s\">%s </span>", "timestamp", timestampToString(dwData, eventData->time));
 
 			if (dwData & IEEDD_MUCC_SHOW_NICK)
 				str.AppendFormat("<span class=\"%s\">%s: </span>", isSent ? "nameOut" : "nameIn", szName.get());

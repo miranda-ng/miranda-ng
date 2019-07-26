@@ -822,7 +822,7 @@ void CJabberProto::GroupchatProcessPresence(const TiXmlElement *node)
 	if (auto *n = XmlGetChildByTag(node, "nick", "xmlns", JABBER_FEAT_NICK))
 		cnick = n->GetText();
 
-	const char *nick = cnick ? cnick : (r && r->m_szNick ? r->m_szNick : resource);
+	const char *nick = cnick ? cnick : (r && r->m_szNick ? r->m_szNick.get() : resource);
 
 	const TiXmlElement *itemNode = nullptr;
 	auto *xNode = XmlGetChildByTag(node, "x", "xmlns", JABBER_FEAT_MUC_USER);
@@ -1087,7 +1087,7 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 
 	if (resource != nullptr) {
 		pResourceStatus r(item->findResource(resource));
-		nick = (r && r->m_szNick) ? r->m_szNick : resource;
+		nick = (r && r->m_szNick) ? r->m_szNick.get() : resource;
 	}
 	else nick = nullptr;
 

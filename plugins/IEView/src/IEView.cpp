@@ -1122,7 +1122,7 @@ void IEView::saveDocument()
 
 	VARIANT vValue;
 	vValue.vt = VT_BOOL;
-	vValue.boolVal = TRUE;
+	vValue.boolVal = VARIANT_TRUE;
 
 	VARIANT_BOOL vb;
 	document->execCommand(BSTR_PTR(L"SaveAs"), VARIANT_FALSE, vValue, &vb);

@@ -205,7 +205,7 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			// check if there are 2 parts in the ID (svc/id) seperated by "/"
 			// if not, don't let user change the setting
 			GetDlgItemText(hwndDlg, IDC_ID, str, _countof(str));
-			chop = wcsstr(str, L"/");
+			chop = wcschr(str, '/');
 			if (chop == nullptr)
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), FALSE);
 			else

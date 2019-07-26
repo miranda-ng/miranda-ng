@@ -739,7 +739,7 @@ HANDLE CJabberProto::SearchByEmail(const wchar_t *email)
 
 	ptrA szServerName(getStringA("Jud"));
 
-	LPCSTR jid = szServerName == 0 ? "users.jabber.org" : szServerName;
+	LPCSTR jid = szServerName == 0 ? "users.jabber.org" : szServerName.get();
 	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultSetSearch, JABBER_IQ_TYPE_SET, jid);
 	m_ThreadInfo->send(XmlNodeIq(pInfo) << XQUERY("jabber:iq:search") << XCHILD("email", T2Utf(email)));
 	return (HANDLE)pInfo->GetIqId();

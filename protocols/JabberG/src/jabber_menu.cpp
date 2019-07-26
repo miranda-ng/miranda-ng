@@ -948,7 +948,7 @@ int CJabberProto::OnProcessSrmmIconClick(WPARAM hContact, LPARAM lParam)
 	wchar_t buf[256];
 
 	mir_snwprintf(buf, TranslateT("Last active (%s)"),
-		LI->m_pLastSeenResource ? Utf2T(LI->m_pLastSeenResource->m_szResourceName.get()) : TranslateT("No activity yet, use server's choice"));
+		LI->m_pLastSeenResource ? Utf2T(LI->m_pLastSeenResource->m_szResourceName).get() : TranslateT("No activity yet, use server's choice"));
 	AppendMenu(hMenu, MF_STRING, MENUITEM_LASTSEEN, buf);
 
 	AppendMenu(hMenu, MF_STRING, MENUITEM_SERVER, TranslateT("Highest priority (server's choice)"));

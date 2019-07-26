@@ -20,7 +20,7 @@ class CPop3Client
 {
 public:
 	CPop3Client(): NetClient(nullptr), Stopped(FALSE) {}
-	~CPop3Client() {if (NetClient != nullptr) delete NetClient;}
+	~CPop3Client() { delete NetClient; }
 
 	char* Connect(const char* servername,const int port=110,BOOL UseSSL=FALSE, BOOL NoTLS=FALSE);
 	char* RecvRest(char* prev,int mode,int size=65536);

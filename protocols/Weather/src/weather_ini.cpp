@@ -371,7 +371,7 @@ static void LoadStationData(wchar_t *pszFile, wchar_t *pszShortFile, WIDATA *Dat
 				}
 			}
 			// ignore comments and all lines without an '='
-			Value = strstr(Line, "=");
+			Value = strchr(Line, '=');
 			if (Value == nullptr)	continue;
 
 			// get the string before '=' (ValName) and after '=' (Value)

@@ -5,6 +5,8 @@ class CNetClient
 {
 public:
 	CNetClient(): Stopped(FALSE) {}
+	virtual ~CNetClient() {}
+
 	virtual void Connect(const char* servername, const int port)=0;
 	virtual void Send(const char *query)=0;
 	virtual char* Recv(char *buf= nullptr, int buflen=65536)=0;

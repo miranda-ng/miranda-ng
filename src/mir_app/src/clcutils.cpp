@@ -422,7 +422,7 @@ MIR_APP_DLL(void) Clist_EndRename(ClcData *dat, int save)
 
 		ClcContact *contact;
 		if (g_clistApi.pfnGetRowByIndex(dat, dat->selection, &contact, nullptr) != -1) {
-			if (mir_wstrcmp(contact->szText, text) && !wcsstr(text, L"\\")) {
+			if (mir_wstrcmp(contact->szText, text) && !wcschr(text, '\\')) {
 				if (contact->type == CLCIT_GROUP) {
 					if (contact->group->parent && contact->group->parent->parent) {
 						wchar_t szFullName[256];

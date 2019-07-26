@@ -307,21 +307,15 @@ void TwitterProto::MessageLoop(void*)
 
 		if (m_iStatus != ID_STATUS_ONLINE)
 			break;
-		//		if(i%10 == 0)
-		//			UpdateFriends();
-
-		if (m_iStatus != ID_STATUS_ONLINE)
-			break;
+	
 		UpdateStatuses(new_account, popups, tweetToMsg);
-
 		if (m_iStatus != ID_STATUS_ONLINE)
 			break;
 
 		if (i % 10 == 0)
 			UpdateMessages(new_account);
 
-		if (new_account) // Not anymore!
-		{
+		if (new_account) { // Not anymore!
 			new_account = false;
 			setByte(TWITTER_KEY_NEW, 0);
 		}

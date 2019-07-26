@@ -141,7 +141,7 @@ void CSkypeProto::TRouterThread(void*)
 				errors = 0;
 
 				if (response->pData) {
-					char *json = strstr(response->pData, "{");
+					char *json = strchr(response->pData, '{');
 					if (json != NULL) {
 						JSONNode root = JSONNode::parse(json);
 						std::string szBody = root["body"].as_string();

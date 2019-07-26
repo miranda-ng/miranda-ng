@@ -23,26 +23,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 TextToken::TextToken(int _type, const char *_text, int _len)
 {
-	next = nullptr;
-	tag = 0;
-	end = false;
 	type = _type;
 	text = mir_strndup(_text, _len);
 	wtext = mir_a2u(text);
-	link = nullptr;
-	wlink = nullptr;
 }
 
 TextToken::TextToken(int _type, const wchar_t *_wtext, int _len)
 {
-	next = nullptr;
-	tag = 0;
-	end = false;
 	type = _type;
 	wtext = mir_wstrndup(_wtext, _len);
 	text = mir_u2a(wtext);
-	link = nullptr;
-	wlink = nullptr;
 }
 
 TextToken::~TextToken()
@@ -520,7 +510,7 @@ void TextToken::toString(CMStringW &str)
 					match = wcsstr(match + 11, L"v=");
 					if (match != nullptr) {
 						match += 2;
-						wchar_t *match2 = wcsstr(match, L"&");
+						wchar_t *match2 = wcschr(match, '&');
 						int len = match2 != nullptr ? match2 - match : (int)mir_wstrlen(match);
 						match = mir_wstrdup(match);
 						match[len] = 0;

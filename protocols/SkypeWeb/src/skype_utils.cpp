@@ -349,7 +349,7 @@ char *CSkypeProto::RemoveHtml(const char *text)
 
 	for (std::string::size_type i = 0; i < data.length(); i++) {
 		if (data.at(i) == '<') {
-			i = data.find(">", i);
+			i = data.find('>', i);
 			if (i == std::string::npos)
 				break;
 
@@ -358,7 +358,7 @@ char *CSkypeProto::RemoveHtml(const char *text)
 
 		if (data.at(i) == '&') {
 			std::string::size_type begin = i;
-			i = data.find(";", i);
+			i = data.find(';', i);
 			if (i == std::string::npos) {
 				i = begin;
 			}

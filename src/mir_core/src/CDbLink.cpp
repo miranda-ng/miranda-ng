@@ -36,7 +36,8 @@ CDbLink::CDbLink(const char *szModule, const char *szSetting, BYTE type, DWORD i
 }
 
 CDbLink::CDbLink(const char *szModule, const char *szSetting, BYTE type, wchar_t *szValue)
-	: CDataLink(type)
+	: CDataLink(type),
+	m_iDefault(0)
 {
 	m_szModule = mir_strdup(szModule);
 	m_szSetting = mir_strdup(szSetting);

@@ -19,8 +19,7 @@ private:
 	{
 		hexSize = size * 2;
 		hexData = (char*)mir_calloc(hexSize + 1);
-		char *p = bin2hex(bin, size, hexData);
-		while (*p++ = toupper(*p));
+		strupr(bin2hex(bin, size, hexData));
 	}
 public:
 	ToxHexAddress(const char *hex, size_t size = TOX_ADDRESS_SIZE * 2) { Init(hex, size); }

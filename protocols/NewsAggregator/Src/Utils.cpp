@@ -87,7 +87,7 @@ void GetNewsData(wchar_t *tszUrl, char **szData, MCONTACT hContact, CFeedEditor 
 		if (nlhrReply->resultCode == 200 && nlhrReply->dataLength > 0) {
 			Netlib_LogfW(hNetlibUser, L"Code 200: Succeeded getting feed data %s.", tszUrl);
 			// allocate memory and save the retrieved data
-			*szData = (char *)mir_alloc((size_t)(nlhrReply->dataLength + 2));
+			*szData = (char *)mir_alloc((size_t)nlhrReply->dataLength + 2);
 			memcpy(*szData, nlhrReply->pData, (size_t)nlhrReply->dataLength);
 			(*szData)[nlhrReply->dataLength] = 0;
 		}
@@ -132,7 +132,7 @@ time_t DateToUnixTime(const char *stamp, bool FeedType)
 		if (strchr(p, ',')) {
 			strtok(p, ",");
 			p = strtok(nullptr, ",");
-			sscanf(p + 1, "%d %3s %d %d:%d:%d %1s%02d%02d", &day, &monthstr, &year, &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
+			sscanf(p + 1, "%d %3s %d %d:%d:%d %1s%02d%02d", &day, monthstr, &year, &hour, &min, &sec, timezonesign, &timezoneh, &timezonem);
 			if (!mir_strcmpi(monthstr, "Jan"))
 				month = 1;
 			if (!mir_strcmpi(monthstr, "Feb"))

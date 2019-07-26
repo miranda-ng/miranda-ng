@@ -1479,7 +1479,7 @@ public:
 
 protected:
 	PROTO_INTERFACE *m_proto_interface;
-	HWND m_hwndStatus;
+	HWND m_hwndStatus = nullptr;
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 

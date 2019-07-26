@@ -49,7 +49,7 @@ class CColorChooserDlg : public CDlgBase
 
 	int  m_xPosition, m_yPosition;
 	int  iCurrentHotTrack, iRows, iColumns;
-	HWND m_hwndTarget, m_hwndChooser, hwndPreviousActiveWindow;
+	HWND m_hwndTarget, m_hwndChooser;
 	BOOL m_bForeground, bChoosing;
 
 	int CalculateCoordinatesToButton(POINT pt)
@@ -103,15 +103,14 @@ public:
 		m_hwndParent = hwndDlg;
 		m_xPosition = rc.left + 3;
 		m_yPosition = IsWindowVisible(hwndChooser) ? rc.top - 1 : rc.top + 20;
+
+		int iSquareRoot = (int)sqrt(static_cast<float>(16));
+		iColumns = iSquareRoot * iSquareRoot == 16 ? iSquareRoot : iSquareRoot + 1;
+		iRows = iSquareRoot;
 	}
 
 	bool OnInitDialog() override
 	{
-		int iSquareRoot = (int)sqrt(static_cast<float>(16));
-
-		iColumns = iSquareRoot * iSquareRoot == 16 ? iSquareRoot : iSquareRoot + 1;
-		iRows = iSquareRoot;
-
 		RECT rc;
 		rc.top = rc.left = 100;
 		rc.right = 100 + iColumns * 25 + 1;
@@ -180,8 +179,6 @@ public:
 		case WM_ACTIVATE:
 			if (wParam == WA_INACTIVE)
 				Close();
-			else if ((wParam == WA_ACTIVE) || (wParam == WA_CLICKACTIVE))
-				hwndPreviousActiveWindow = (HWND)lParam;
 			break;
 
 		case WM_MOUSEMOVE:

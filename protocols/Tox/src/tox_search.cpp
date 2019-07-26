@@ -91,8 +91,6 @@ HWND CToxProto::OnSearchAdvanced(HWND owner)
 
 	const std::string query = T2Utf(text).str();
 	if (std::regex_search(query, match, regex)) {
-		std::string address = match[1];
-
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
 		psr.flags = PSR_UTF8;
 		psr.id.a = mir_strdup(query.c_str());

@@ -538,7 +538,7 @@ struct MIR_APP_EXPORT MHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObj
 
 	CMStringA m_szUrl;
 	CMStringA m_szParam;
-	void *pUserInfo;
+	void *pUserInfo = nullptr;
 
 	void AddHeader(const char *szName, const char *szValue);
 };

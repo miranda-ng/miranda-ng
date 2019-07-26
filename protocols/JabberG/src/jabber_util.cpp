@@ -821,7 +821,7 @@ BOOL CJabberProto::EnterString(CMStringW &result, const wchar_t *caption, int ty
 	param.recentCount = recentCount;
 	param.timeout = timeout;
 	param.ptszInitVal = result;
-	BOOL res = ::EnterString(&param);
+	INT_PTR res = ::EnterString(&param);
 	if (res) {
 		result = param.ptszResult;
 		mir_free(param.ptszResult);

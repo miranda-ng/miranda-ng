@@ -172,7 +172,7 @@ wstring mir_twitter::OAuthConcatenateRequestElements(const wstring& httpMethod, 
 map<wstring, wstring> mir_twitter::CrackURL(wstring url)
 {
 	wstring scheme1, domain1, port1, path1, extraInfo, explicitPort;
-	vector<wstring> urlToks, urlToks2, extraInfoToks;
+	vector<wstring> urlToks, urlToks2;
 
 	Split(url, urlToks, L':', false);
 

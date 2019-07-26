@@ -1488,7 +1488,7 @@ void ExtractList(char *stream, int len, HYAMNMAIL queue)
 		while (!WS(finder)) finder++;			//jump characters
 		while (WS(finder)) finder++;			//jump whitespace
 		finderend = finder + 1;
-		if (1 != sscanf(finder, "%d", &queueptr->MailData->Size))
+		if (1 != sscanf(finder, "%u", &queueptr->MailData->Size))
 			throw (DWORD)EPOP3_LIST;
 #ifdef DEBUG_DECODE
 		DebugLog(DecodeFile,"<Nr>%d</Nr>\n",queueptr->MailData->Size);

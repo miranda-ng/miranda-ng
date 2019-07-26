@@ -270,7 +270,7 @@ void GetDataValue(WIDATAITEM *UpdateData, wchar_t *Data, wchar_t** szData)
 	if (UpdateData->End[0] != 0)
 		end = wcsstr(szInfo, UpdateData->End);
 	else
-		end = wcsstr(szInfo, L" ");
+		end = wcschr(szInfo, ' ');
 
 	if (end != nullptr) {
 		// set the ending location

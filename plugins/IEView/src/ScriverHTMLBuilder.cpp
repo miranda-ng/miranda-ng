@@ -302,15 +302,15 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 			/* Scriver-specific formatting */
 			if ((dwFlags & SMF_LOG_DRAWLINES) && isGroupBreak && getLastEventType() != -1) {
 				if (eventData->iType == IEED_EVENT_MESSAGE)
-					className = isRTL ? isSent ? "divOutGridRTL" : "divInGridRTL" : isSent ? "divOutGrid" : "divInGrid";
+					className = isRTL ? (isSent ? "divOutGridRTL" : "divInGridRTL") : (isSent ? "divOutGrid" : "divInGrid");
 				else
-					className = isRTL ? isSent ? "divNoticeGridRTL" : "divNoticeGridRTL" : isSent ? "divNoticeGrid" : "divNoticeGrid";
+					className = isRTL ? "divNoticeGridRTL" : "divNoticeGrid";
 			}
 			else {
 				if (eventData->iType == IEED_EVENT_MESSAGE)
 					className = isRTL ? (isSent ? "divOutRTL" : "divInRTL") : (isSent ? "divOut" : "divIn");
 				else
-					className = isRTL ? "divNoticeRTL" : (isSent ? "divNotice" : "divNotice");
+					className = isRTL ? "divNoticeRTL" : "divNotice";
 			}
 
 			CMStringA str;

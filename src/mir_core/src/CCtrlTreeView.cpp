@@ -35,7 +35,8 @@ int ImageList_AddIcon_IconLibLoaded(HIMAGELIST hIml, int iconId)
 
 CCtrlTreeView::CCtrlTreeView(CDlgBase *dlg, int ctrlId)
 	: CCtrlBase(dlg, ctrlId),
-	m_dwFlags(0)
+	m_dwFlags(0),
+	m_hDragItem(nullptr)
 {}
 
 void CCtrlTreeView::SetFlags(uint32_t dwFlags)

@@ -1495,10 +1495,10 @@ bool CIrcProto::OnIrc_LIST(const CIrcMessage *pmsg)
 
 	wchar_t* temp = mir_wstrdup(pmsg->parameters[pmsg->parameters.getCount() - 1]);
 	wchar_t* find = wcsstr(temp, L"[+");
-	wchar_t* find2 = wcsstr(temp, L"]");
+	wchar_t* find2 = wcschr(temp, ']');
 	wchar_t* save = temp;
 	if (find == temp && find2 != nullptr && find + 8 >= find2) {
-		temp = wcsstr(temp, L"]");
+		temp = wcschr(temp, ']');
 		if (mir_wstrlen(temp) > 1) {
 			temp++;
 			temp[0] = 0;

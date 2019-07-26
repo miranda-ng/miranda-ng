@@ -458,7 +458,7 @@ void CSteamProto::OnGotBlockList(const JSONNode &root, void *)
 		return;
 
 	for (auto &_friend : root["friends"]) {
-		json_string steamId = _friend["steamid"].as_string();
+		// json_string steamId = _friend["steamid"].as_string();
 
 		json_string relationship = _friend["relationship"].as_string();
 		if (!mir_strcmp(relationship.c_str(), "ignoredfriend")) {

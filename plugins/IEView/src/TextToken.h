@@ -25,15 +25,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 class TextToken {
 private:
 	int  type;
-	bool end;
-	int  tag;
-	DWORD value;
+	bool end = false;
+	int  tag = 0;
+	DWORD value = 0;
 	wchar_t *wtext;
 	char *text;
-	wchar_t *wlink;
-	char *link;
-	TextToken *next;
-	static TextToken* 	tokenizeBBCodes(const wchar_t *text, int len);
+	wchar_t *wlink = nullptr;
+	char *link = nullptr;
+	TextToken *next = nullptr;
+	static TextToken* tokenizeBBCodes(const wchar_t *text, int len);
 public:
 	enum TOKENS {
 		END = 0,

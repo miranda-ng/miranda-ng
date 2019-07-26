@@ -946,9 +946,9 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 					GetWindowRect(hwnd, &rcWin);
 					BitBlt(hdc, 0, 0, rcClient.right, rcClient.bottom, dc, rcWin.left, rcWin.top, SRCCOPY);
+					ReleaseDC(nullptr, dc);
 				}
-				else
-					FillRect(hdc, &rcClient, g_CLUISkinnedBkColor);
+				else FillRect(hdc, &rcClient, g_CLUISkinnedBkColor);
 			}
 
 			if (cfg::dat.bClipBorder != 0 || cfg::dat.dwFlags & CLUI_FRAME_ROUNDEDFRAME) {

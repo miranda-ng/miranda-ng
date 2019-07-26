@@ -4,7 +4,7 @@
 class CNLClient: public CNetClient
 {
 public:
-	CNLClient(): hConnection(nullptr) {}
+	CNLClient() {}
 	void Connect(const char* servername, const int port) throw(DWORD);
 	void Send(const char *query) throw(DWORD);
 	char* Recv(char *buf= nullptr, int buflen = 65536) throw(DWORD);
@@ -14,8 +14,8 @@ public:
 	inline BOOL Connected() {return hConnection != nullptr;}
 
 protected:
-	HNETLIBCONN hConnection;
-	BOOL isTLSed;
+	HNETLIBCONN hConnection = nullptr;
+	BOOL isTLSed = false;
 	int LocalNetlib_Send(HNETLIBCONN hConn, const char *buf, int len, int flags);
 	int LocalNetlib_Recv(HNETLIBCONN hConn, char *buf, int len, int flags);
 };

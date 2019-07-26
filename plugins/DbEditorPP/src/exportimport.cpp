@@ -341,7 +341,7 @@ void importSettings(MCONTACT hContact, char *utf8)
 				deleteModule(hContact, module, 0);
 			}
 		}
-		else if (strstr(&importstring[i], "=") && module[0]) { // get the setting
+		else if (strchr(&importstring[i], '=') && module[0]) { // get the setting
 			if (end = strpbrk(&importstring[i + 1], "=")) {
 				*end = '\0';
 				mir_strcpy(setting, &importstring[i]);

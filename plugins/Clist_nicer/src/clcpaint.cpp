@@ -1223,7 +1223,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint)
 	GetSystemTime(&cfg::dat.st);
 	SystemTimeToFileTime(&cfg::dat.st, &cfg::dat.ft);
 
-	cfg::dat.bUseFastGradients = cfg::dat.bWantFastGradients && (GdiGradientFill != nullptr);
+	cfg::dat.bUseFastGradients = cfg::dat.bWantFastGradients;
 
 	av_left = (cfg::dat.dwFlags & CLUI_FRAME_AVATARSLEFT);
 	av_right = (cfg::dat.dwFlags & CLUI_FRAME_AVATARSRIGHT);
