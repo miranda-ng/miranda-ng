@@ -26,17 +26,17 @@ private:
 	ImageBase  *m_img;
 	SmileyType *m_sml;
 
-	HDC			m_hdcMem;
-	HBRUSH		m_hbr;
+	HDC    m_hdcMem;
+	HBRUSH m_hbr;
 
-	RECT		m_cliprect;
+	RECT m_cliprect;
 
 	unsigned	m_nFramePosition;
-	int			m_offset;
-	int			m_counter;
-	bool		m_running;
-	bool		m_sel;
-	bool		m_clip;
+	int  m_offset;
+	int  m_counter = 0;
+	bool m_running;
+	bool m_sel;
+	bool m_clip;
 
 	void DrawFrame(HDC hdc);
 

@@ -33,7 +33,7 @@ class IEEmbed;
 
 class IEEmbedSink :public  DWebBrowserEvents2 {
 private:
-	int		m_cRef;
+	int		m_cRef = 0;
 	IEEmbed *ieWindow;
 public:
 	IEEmbedSink(IEEmbed *);

@@ -199,7 +199,7 @@ public:
 		_bBBCode = FALSE;
 	}
 
-	~CUpdProgress()
+	virtual ~CUpdProgress()
 	{
 	}
 

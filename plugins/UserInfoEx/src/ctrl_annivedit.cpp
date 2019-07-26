@@ -187,10 +187,8 @@ MAnnivDate* CAnnivEditCtrl::FindDateById(const WORD wId)
  **/
 INT_PTR CAnnivEditCtrl::AddDate(MAnnivDate &mda)
 {
-	MAnnivDate *pmda, **pmd;
-
 	// if a date with wID exists, replace it
-	if ((pmda = FindDateById(mda.Id())) != nullptr) {
+	if (MAnnivDate *pmda = FindDateById(mda.Id())) {
 		BYTE bChanged = pmda->IsChanged(),
 			bRemindChanged = pmda->IsReminderChanged();
 
@@ -209,7 +207,7 @@ INT_PTR CAnnivEditCtrl::AddDate(MAnnivDate &mda)
 	if (mda.Id() == ANID_NONE)
 		mda.Id(_numDates - 1);
 
-	if (pmd = (MAnnivDate **)mir_realloc(_pDates, (_numDates + 1) * sizeof(pmda))) {
+	if (MAnnivDate **pmd = (MAnnivDate **)mir_realloc(_pDates, (_numDates + 1) * sizeof(MAnnivDate *))) {
 		_pDates = pmd;
 		if (_pDates[_numDates] = new MAnnivDate(mda)) {
 			_numDates++;

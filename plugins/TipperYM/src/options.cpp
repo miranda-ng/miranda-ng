@@ -1909,9 +1909,8 @@ INT_PTR CALLBACK DlgProcFavouriteContacts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				}
 				g_plugin.setDword("FavouriteContactsCount", count);
 
-				opt.iFavoriteContFlags = 0;
-				opt.iFavoriteContFlags |= IsDlgButtonChecked(hwndDlg, IDC_CHK_HIDEOFFLINE) ? FAVCONT_HIDE_OFFLINE : 0
-					| IsDlgButtonChecked(hwndDlg, IDC_CHK_APPENDPROTO) ? FAVCONT_APPEND_PROTO : 0;
+				opt.iFavoriteContFlags = (IsDlgButtonChecked(hwndDlg, IDC_CHK_HIDEOFFLINE) ? FAVCONT_HIDE_OFFLINE : 0)
+					| (IsDlgButtonChecked(hwndDlg, IDC_CHK_APPENDPROTO) ? FAVCONT_APPEND_PROTO : 0);
 
 				g_plugin.setDword("FavContFlags", opt.iFavoriteContFlags);
 			}

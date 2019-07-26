@@ -426,7 +426,7 @@ int CPsTreeItem::Create(CPsHdr* pPsh, OPTIONSDIALOGPAGE *odp)
 			// load custom order
 			if (!(pPsh->_dwFlags & PSTVF_SORTTREE)) {
 				_iPosition = (int)g_plugin.getByte(PropertyKey(SET_ITEM_POS), odp->position);
-				if ((_iPosition < 0) && (_iPosition > 0x800000A))
+				if ((_iPosition < 0) || (_iPosition > 0x800000A))
 					_iPosition = 0;
 			}
 			// read visibility state

@@ -175,11 +175,10 @@ void CreateFromBitmaps(bool bServiceTip)
 				rcWidth = skin.iWidth;
 				rcHeight = skin.iHeight;
 			}
-			else if (i == SKIN_ITEM_SIDEBAR) {
+			else { // SKIN_ITEM_SIDEBAR
 				rcWidth = opt.iSidebarWidth;
 				rcHeight = skin.iHeight;
 			}
-			else rcWidth = rcHeight = 0;
 
 			// bitmap size
 			iBmpWidth = FreeImage_GetWidth(fib);
