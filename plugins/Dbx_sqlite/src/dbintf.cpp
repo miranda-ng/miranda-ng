@@ -14,7 +14,11 @@ CDbxSQLite::~CDbxSQLite()
 	UninitSettings();
 
 	if (m_db) {
-		sqlite3_close(m_db);
+		int rc = sqlite3_close(m_db);
+		if (rc != SQLITE_OK)
+		{
+			//TODO:
+		}
 		m_db = nullptr;
 	}
 }
