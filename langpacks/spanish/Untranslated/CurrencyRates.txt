@@ -22,7 +22,6 @@
 [Convert]
 [Info provided by <a href="http://www.google.com">Google</a>]
 [Popup settings]
-[Timeout]
 [Do not add to popup's history]
 [Current Rate:]
 [Rate Fetch Time:]

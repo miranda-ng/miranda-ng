@@ -59,7 +59,6 @@
 [Left Click]
 [Right Click]
 [Popup timeout]
-[Timeout]
 [Popup Text]
 [Popup Title]
 [Updates]

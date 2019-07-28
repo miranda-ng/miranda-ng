@@ -185,7 +185,6 @@
 [&Convert]
 [Compact]
 [Account name must be filled.]
-[Password]
 [Unused]
 [Add group]
 [Unselect all]

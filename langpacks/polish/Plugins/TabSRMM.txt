@@ -417,7 +417,7 @@ Użyj elementów UI Aero (tylko, gdy nie jest używana niestandardowa skórka)
 [Use Windows 7 task bar enhancements (restart required)]
 Użyj paska zadań Windows 7 (wymaga restartu)
 [Colors]
-
+Kolory
 [...is &typing]
 ...&pisze wiadomość
 [...stopped t&yping]

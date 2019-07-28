@@ -51,7 +51,6 @@
 [Log file:]
 [Save as raw data]
 [Popup timeout]
-[Timeout]
 [Use same colors as data window]
 [Left click action]
 [Open data display window]

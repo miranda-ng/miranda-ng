@@ -972,7 +972,7 @@ Jabber Рэсурс
 [From]
 Ад
 [Both]
-у абодва бакі
+У абодва бакі
 [Errors]
 Памылкі
 ;file \protocols\JabberG\src\jabber_notes.cpp
@@ -1806,11 +1806,11 @@ XML для MS Excel (кадзіроўка UTF-8)
 [both]
 у абодва бакі
 [to]
-У
+у
 [from]
-Ад
+ад
 [none]
-Няма
+няма
 [<currently online>]
 
 [Last logoff time]

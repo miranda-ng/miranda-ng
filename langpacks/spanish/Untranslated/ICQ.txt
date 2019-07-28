@@ -5,7 +5,6 @@
 [Use tray icon notifications]
 [Launch mailbox in a browser on click]
 [Show error popups]
-[Notifications]
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
 [Send group chat invitation]

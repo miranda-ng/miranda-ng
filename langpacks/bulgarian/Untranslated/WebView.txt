@@ -46,7 +46,6 @@
 [Log file:]
 [Append data to file]
 [Save as raw data]
-[From popup plugin]
 [Use same colors as data window]
 [Left click action]
 [Open data display window]

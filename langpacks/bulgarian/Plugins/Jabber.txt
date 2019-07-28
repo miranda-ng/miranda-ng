@@ -1804,13 +1804,13 @@ XML за MS Excel (кодиран с UTF-8)
 [Tune]
 
 [both]
-И двамата
+и двамата
 [to]
-За
+за
 [from]
-От
+от
 [none]
-Няма
+няма
 [<currently online>]
 
 [Last logoff time]

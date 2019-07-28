@@ -78,7 +78,6 @@
 [Windows Aero settings]
 [Use Aero UI elements (only when not using a custom skin)]
 [Use Windows 7 task bar enhancements (restart required)]
-[Use &default colors]
 [...is typing]
 [Permanent]
 [...stopped typing]

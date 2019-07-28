@@ -1810,7 +1810,7 @@ an
 [from]
 von
 [none]
-Keine
+keine
 [<currently online>]
 
 [Last logoff time]
