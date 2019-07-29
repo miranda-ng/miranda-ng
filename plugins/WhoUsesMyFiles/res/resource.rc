@@ -34,7 +34,7 @@ BEGIN
     CONTROL         "List1",IDC_CONNLIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SORTASCENDING | WS_TABSTOP,4,4,322,200,WS_EX_CLIENTEDGE
 END
 
-IDD_OPTIONS DIALOGEX 0, 0, 330, 246
+IDD_OPTIONS DIALOGEX 0, 0, 330, 185
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -46,7 +46,7 @@ BEGIN
     LTEXT           "Background color",IDC_STATIC,231,26,76,8,SS_CENTERIMAGE | NOT WS_GROUP
     CONTROL         "",IDC_COLOR_TEXT,"ColourPicker",WS_TABSTOP,187,39,39,12
     LTEXT           "Text color",IDC_STATIC,231,42,76,8,SS_CENTERIMAGE | NOT WS_GROUP
-    PUSHBUTTON      "Previe&w",IDC_PREVIEW,270,231,50,15
+    PUSHBUTTON      "Previe&w",IDC_PREVIEW,270,164,50,15
     CONTROL         "Show infinitely",IDC_DELAY_INF,"Button",BS_AUTORADIOBUTTON | BS_NOTIFY | WS_TABSTOP,17,50,137,10
     CONTROL         "Default",IDC_DELAY_DEF,"Button",BS_AUTORADIOBUTTON | BS_NOTIFY | WS_TABSTOP,17,61,137,10
     CONTROL         "Custom",IDC_DELAY_SET,"Button",BS_AUTORADIOBUTTON | BS_NOTIFY | WS_TABSTOP,17,39,137,10
@@ -54,20 +54,13 @@ BEGIN
     CONTROL         "Use Windows colors",IDC_COLOR_WIN,"Button",BS_AUTORADIOBUTTON | BS_NOTIFY | WS_TABSTOP,187,63,125,10
     CONTROL         "Use default colors",IDC_COLOR_DEF,"Button",BS_AUTORADIOBUTTON | BS_NOTIFY | WS_TABSTOP,187,74,125,10
     CONTROL         "Use custom colors",IDC_COLOR_SET,"Button",BS_AUTORADIOBUTTON | BS_NOTIFY | WS_TABSTOP,187,52,125,10
-    GROUPBOX        "File access filter && logging settings",IDC_STATIC,9,106,311,101
+    GROUPBOX        "File access filter && logging settings",IDC_STATIC,9,106,311,53
     EDITTEXT        IDC_FILE,83,123,210,12,ES_AUTOHSCROLL,WS_EX_ACCEPTFILES
     PUSHBUTTON      "...",IDC_SEL_FILE,299,123,14,12
     CONTROL         "Log into text file",IDC_LOG_INTO_FILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,123,64,12
     CONTROL         "Log folders access",IDC_LOG_FOLDER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,143,140,12
     CONTROL         "Alerts on folders access",IDC_ALERT_FOLDER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,165,143,147,12
-    CONTROL         "Log files and folders in UNC format",IDC_LOG_UNC,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,14,163,140,12
-    CONTROL         "Alert files && folders in UNC format",IDC_ALERT_UNC,
-                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,165,163,147,12
-    CONTROL         "Log computer name with username",IDC_LOG_COMP,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,14,183,140,10
-    CONTROL         "Alert computer name with username",IDC_ALERT_COMP,
-                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,165,183,147,10
-    LTEXT           "Disabled options will be available in the next version",IDC_STATIC,83,194,199,9
-    PUSHBUTTON      "Show current connections",IDC_CONN,162,231,104,15
+    PUSHBUTTON      "Show current connections",IDC_CONN,162,164,104,15
 END
 
 
@@ -94,6 +87,7 @@ BEGIN
         VERTGUIDE, 154
         VERTGUIDE, 187
         VERTGUIDE, 312
+        BOTTOMMARGIN, 179
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -132,7 +126,6 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-
 IDI_DRIVE               ICON                    "drive.ico"
 
 #endif    // English (United States) resources
