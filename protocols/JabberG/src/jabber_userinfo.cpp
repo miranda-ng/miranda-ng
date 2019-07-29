@@ -225,7 +225,7 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 			if (len > 0)
 				buf[len - 1] = 0;
 		}
-		else mir_strncpy(buf, TranslateU("<currenty online>"), _countof(buf));
+		else mir_strncpy(buf, TranslateU("<currently online>"), _countof(buf));
 
 		sttFillInfoLine(hwndTree, htiResource, nullptr, TranslateT("Last activity"), buf, sttInfoLineId(resource, INFOLINE_IDLE));
 	}
