@@ -22,10 +22,6 @@
 #define IDC_LOG_INTO_FILE               1054
 #define IDC_LOG_FOLDER                  1055
 #define IDC_ALERT_FOLDER                1056
-#define IDC_LOG_UNC                     1057
-#define IDC_ALERT_UNC                   1058
-#define IDC_LOG_COMP                    1059
-#define IDC_ALERT_COMP                  1060
 #define IDC_CONNLIST                    1061
 #define IDC_CONN                        1062
 

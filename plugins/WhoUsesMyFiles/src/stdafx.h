@@ -42,10 +42,6 @@
 #define LOG_INTO_FILE  "1054"
 #define LOG_FOLDER     "1055"
 #define ALERT_FOLDER   "1056"
-#define LOG_UNC        "1057"
-#define ALERT_UNC      "1058"
-#define LOG_COMP       "1059"
-#define ALERT_COMP     "1060"
 
 #define IDM_SETUP      0x0402
 #define IDM_ABOUT      0x0403
@@ -66,10 +62,6 @@ struct WUMF_OPTIONS
 	BOOL     LogToFile;
 	BOOL     LogFolders;
 	BOOL     AlertFolders;
-	BOOL     LogUNC;
-	BOOL     AlertUNC;
-	BOOL     LogComp;
-	BOOL     AlertComp;
 
 	COLORREF ColorText;
 	COLORREF ColorBack;

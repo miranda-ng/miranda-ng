@@ -112,9 +112,6 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 		//Logging & alerts
 		CheckDlgButton(hwndDlg, IDC_LOG_FOLDER, WumfOptions.LogFolders ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_ALERT_FOLDER, WumfOptions.AlertFolders ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOG_UNC, WumfOptions.LogUNC ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_ALERT_UNC, WumfOptions.AlertUNC ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOG_COMP, WumfOptions.LogComp ? BST_CHECKED : BST_UNCHECKED);
 
 		if (WumfOptions.LogToFile) {
 			CheckDlgButton(hwndDlg,IDC_LOG_INTO_FILE,BST_CHECKED);
@@ -155,13 +152,6 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 				SendDlgItemMessage(hwndDlg,IDC_COLOR_BACK,CPM_SETCOLOUR,0,WumfOptions.ColorBack);
 				SendDlgItemMessage(hwndDlg,IDC_COLOR_TEXT,CPM_SETCOLOUR,0,WumfOptions.ColorText);
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-				/* not implemented */
-			case IDC_LOG_COMP:
-			case IDC_ALERT_COMP:
-			case IDC_LOG_UNC:
-			case IDC_ALERT_UNC:
-				MessageBox(nullptr, TranslateT("Not implemented yet..."), L"WUMF", MB_OK | MB_ICONINFORMATION);
 				break;
 				/* end */
 			case IDC_LOG_INTO_FILE:
@@ -245,10 +235,6 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 				g_plugin.setByte(LOG_INTO_FILE, (BYTE)WumfOptions.LogToFile);
 				g_plugin.setByte(LOG_FOLDER, (BYTE)WumfOptions.LogFolders);
 				g_plugin.setByte(ALERT_FOLDER, (BYTE)WumfOptions.AlertFolders);
-				g_plugin.setByte(LOG_UNC, (BYTE)WumfOptions.LogUNC);
-				g_plugin.setByte(ALERT_UNC, (BYTE)WumfOptions.AlertUNC);
-				g_plugin.setByte(LOG_COMP, (BYTE)WumfOptions.LogComp);
-				g_plugin.setByte(ALERT_COMP, (BYTE)WumfOptions.AlertComp);
 				GetDlgItemText(hwndDlg, IDC_FILE, WumfOptions.LogFile, _countof(WumfOptions.LogFile));
 				g_plugin.setWString(OPT_FILE, WumfOptions.LogFile);
 			}

@@ -58,10 +58,6 @@ void LoadOptions()
 	WumfOptions.LogToFile = g_plugin.getByte(LOG_INTO_FILE, FALSE);
 	WumfOptions.LogFolders = g_plugin.getByte(LOG_FOLDER, TRUE);
 	WumfOptions.AlertFolders = g_plugin.getByte(ALERT_FOLDER, TRUE);
-	WumfOptions.LogUNC = g_plugin.getByte(LOG_UNC, FALSE);
-	WumfOptions.AlertUNC = g_plugin.getByte(ALERT_UNC, FALSE);
-	WumfOptions.LogComp = g_plugin.getByte(LOG_COMP, FALSE);
-	WumfOptions.AlertComp = g_plugin.getByte(ALERT_COMP, FALSE);
 }
 
 void ExecuteMenu(HWND hWnd)
