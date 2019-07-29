@@ -4,7 +4,6 @@ set SourceDir=%~dp0
 for %%a in (%SourceDir:~0,-1%) do set "SourceDir=%%a"
 set DropDir=%Drive%\Dropbox
 set StableInstDir=%SourceDir%\tools\installer_ng_stable
-set GetIt=%StableInstDir%\Tools\wget.exe
 set Arch=%Drive%\Arch
 set ArchPdb=%Drive%\ArchPdb
 set ArchDistr=%Drive%\ArchDistr
