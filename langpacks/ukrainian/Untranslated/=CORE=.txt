@@ -2,8 +2,6 @@
 [Wikipedia (en)]
 [In a civil union]
 [&Open/close chat window]
-[Chat rooms]
-[Phone/SMS]
 [Browser: Back]
 [Browser: Forward]
 [Browser: Refresh]

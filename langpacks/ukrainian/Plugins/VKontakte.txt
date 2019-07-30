@@ -373,7 +373,7 @@
 [Adding bots to MUC is not supported]
 
 [Not supported]
-
+Не підтримується
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
 Цей чат буде видалено разом з усім його вмістом. Цю дію не можна буде скасувати. Ви впевнені?
 [Warning]

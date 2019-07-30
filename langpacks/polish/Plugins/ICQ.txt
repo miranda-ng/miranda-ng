@@ -51,7 +51,7 @@ Bezczynny od:
 [Nick:]
 Nick:
 [Member since:]
-
+Członek od:
 [Last seen:]
 Ostatnio widziany:
 [Enter ICQ Password]
@@ -93,9 +93,9 @@ Połączenie %s
 [You have not entered an ICQ number or password.\nConfigure this in Options -> Network -> ICQ and try again.]
 
 [Connection failed.\nYour ICQ number or password was rejected (%d).]
-
+Połączenie nieudane.\nTwój numer ICQ lub hasło zostały odrzucone (%d).
 [Connection failed.\nThe server is temporarily unavailable (%d).]
-
+Połączenie nieudane.\nSerwer jest tymczasowo niedostępny (%d).
 [Connection failed.\nUnknown error during sign on: %d]
 
 [admin]

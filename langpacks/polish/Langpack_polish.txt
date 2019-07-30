@@ -13290,6 +13290,8 @@ Dostępny od:
 Bezczynny od:
 [Nick:]
 Nick:
+[Member since:]
+Członek od:
 [Last seen:]
 Ostatnio widziany:
 [Enter ICQ Password]
@@ -13310,10 +13312,14 @@ Ogólne
 Zaawansowane
 [%s server connection]
 Połączenie %s
+[Connection failed.\nYour ICQ number or password was rejected (%d).]
+Połączenie nieudane.\nTwój numer ICQ lub hasło zostały odrzucone (%d).
+[Connection failed.\nThe server is temporarily unavailable (%d).]
+Połączenie nieudane.\nSerwer jest tymczasowo niedostępny (%d).
 [admin]
-Admin
+admin
 [member]
-Członek
+członek
 ;#muuid for ICQCorp not found, please specify manually!
 ;============================================================
 ;  File: ICQCorp.dll
@@ -14949,6 +14955,8 @@ Ramka tekstu
 Aktywność
 [Jabber Mood]
 Nastrój
+[Not supported]
+Nie obsługiwane
 [Done]
 Gotowe
 [Execute]
@@ -16119,6 +16127,8 @@ Nie istnieje żaden kompatybilny mechanizm transferu plików
 Protokół jest Rozłączony lub brak JID
 [No valid OMEMO session exists]
 Nie istnieje żadna ważna sesja OMEMO
+[Set status]
+Ustaw status
 [Lock workstation]
 Zablokuj komputer
 [Status]
@@ -16183,6 +16193,8 @@ Błąd: Nie można połączyć się z serwerem
 Błąd: Utracono połączenie
 [Requesting registration instruction...]
 Żądanie instrukcji rejestracji...
+[Authentication failed for %s@%s.]
+Autoryzacja nieudana dla %s@%s.
 [Sending registration information...]
 Wysyłanie informacji rejestracyjnych...
 [<not specified>]
@@ -32097,6 +32109,8 @@ akcja czatu niewspierana
 Nieznany
 [Enter new chat title]
 Wprowadź nową nazwę czatu
+[Not supported]
+Nie obsługiwane
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
 Ten czat zostanie zniszczony wraz z zawartością. Ta operacja nie będzie mogła zostać cofnięta. Czy jesteś pewien?
 [Warning]

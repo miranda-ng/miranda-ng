@@ -9,7 +9,7 @@
 Заставляет список контактов и окна чата липнуть к краям экрана и друг к другу.
 ;file \plugins\MagneticWindows\res\Options.rc
 [Magnetic Windows]
-
+Липкие окна
 [Snap windows]
 Прилипание
 [%d pix]

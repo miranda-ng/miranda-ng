@@ -59,7 +59,7 @@
 [Account:]
 Обліковий запис:
 [Away mode]
-
+Відсутній
 [Set]
 Вибрати
 [when full-screen mode is active]

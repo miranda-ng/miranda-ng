@@ -2122,7 +2122,7 @@ UIN, E-mail тощо
 [The topic is '%s' (set by %s)]
 Тема %s (встановив %s)
 [Chat rooms]
-
+Чати
 [Look up '%s':]
 Шукати "%s" у
 [No word to look up]
@@ -2231,7 +2231,7 @@ Miranda не може зрозуміти цей профіль
 [Homepage]
 Сайт
 [Phone/SMS]
-
+Телефон/SMS
 [Chat activity]
 Активність у чаті
 ;file \src\mir_app\src\ei_options.cpp

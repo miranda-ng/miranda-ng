@@ -6,7 +6,6 @@
 [pin message]
 [unpin message]
 [Adding bots to MUC is not supported]
-[Not supported]
 [Kick bots is not supported]
 [You delete %s from the contact list.\nWhat needs to be done additionally?]
 [Remove %s from your friend list]

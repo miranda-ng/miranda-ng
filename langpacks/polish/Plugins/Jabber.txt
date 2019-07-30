@@ -399,7 +399,7 @@ Nastrój
 [Select Command]
 
 [Not supported]
-
+Nie obsługiwane
 [Done]
 Gotowe
 [In progress. Please Wait...]
@@ -1643,7 +1643,7 @@ Nie istnieje żadna ważna sesja OMEMO
 [Error occurred during processing command]
 
 [Set status]
-
+Ustaw status
 [Set options]
 
 [Forward unread messages]
@@ -1763,7 +1763,7 @@ Błąd: Utracono połączenie
 [Requesting registration instruction...]
 Żądanie instrukcji rejestracji...
 [Authentication failed for %s@%s.]
-
+Autoryzacja nieudana dla %s@%s.
 [Message redirected from: %s\r\n]
 
 [Registration canceled]

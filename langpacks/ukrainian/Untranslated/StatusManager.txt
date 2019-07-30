@@ -1,6 +1,5 @@
 [Available modules]
 [Advanced auto away]
-[Away mode]
 [when terminal session is disconnected]
 [After away]
 [Enter idle mode]

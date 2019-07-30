@@ -373,7 +373,7 @@ Wprowadź nową nazwę czatu
 [Adding bots to MUC is not supported]
 
 [Not supported]
-
+Nie obsługiwane
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
 Ten czat zostanie zniszczony wraz z zawartością. Ta operacja nie będzie mogła zostać cofnięta. Czy jesteś pewien?
 [Warning]

@@ -11122,9 +11122,9 @@ UIN:
 [%s server connection]
 %s връзка със сървъра
 [admin]
-Администратор
+администратор
 [member]
-Член
+член
 ;#muuid for ICQCorp not found, please specify manually!
 ;============================================================
 ;  File: ICQCorp.dll

@@ -31,7 +31,7 @@ UIN/пошта:
 [Send group chat invitation]
 
 [&Invite]
-
+&Запросити
 [Cancel]
 Скасувати
 [Account registration]
@@ -43,7 +43,7 @@ UIN/пошта:
 [Enter registration code]
 
 [UIN:]
-
+Номер:
 [Online since:]
 В мережі з:
 [Idle since:]
@@ -51,7 +51,7 @@ UIN/пошта:
 [Nick:]
 Нік:
 [Member since:]
-
+Учасник з:
 [Last seen:]
 Остання поява:
 [Enter ICQ Password]
@@ -62,7 +62,7 @@ UIN/пошта:
 Запам'ятати пароль сеансу
 ;file \protocols\ICQ-WIM\src\groupchats.cpp
 [&Invite a user]
-
+&Запросити користувача
 [&Leave/destroy chat]
 
 ;file \protocols\ICQ-WIM\src\main.cpp
@@ -93,15 +93,15 @@ UIN/пошта/телефон
 [You have not entered an ICQ number or password.\nConfigure this in Options -> Network -> ICQ and try again.]
 
 [Connection failed.\nYour ICQ number or password was rejected (%d).]
-
+Невдале з'єднання.\nВаш номер або пароль не прийняті сервером (%d).
 [Connection failed.\nThe server is temporarily unavailable (%d).]
-
+Помилка підключення.\nСервер тимчасово недоступний (%d).
 [Connection failed.\nUnknown error during sign on: %d]
 
 [admin]
-
+адмін
 [member]
-
+користувач
 [Unknown sticker]
 
 [User sent a sticker:]

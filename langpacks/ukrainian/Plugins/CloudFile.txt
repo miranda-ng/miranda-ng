@@ -15,11 +15,11 @@
 [Autosend download link to contact]
 Автоматично надсилати посилання
 [Paste download link into message input area]
-
+Вставляти посилання в поле вводу
 [Copy download link to clipboard]
-
+Копіювати посилання в буфер обміну
 [Download link]
-
+Посилання
 [Do nothing]
 Нічого не робити
 [Try to rename]
@@ -37,7 +37,7 @@
 [To allow Miranda NG access to %s:]
 
 [Go to this link]
-
+Перейдіть на сайт
 [Request access]
 
 [Revoke access]
@@ -68,7 +68,7 @@
 
 ;file \protocols\CloudFile\src\Services\dropbox_service.cpp
 [Server does not respond]
-
+Сервер не відповідає
 ;file \protocols\CloudFile\src\Services\google_service.cpp
 ;file \protocols\CloudFile\src\Services\microsoft_service.cpp
 ;file \protocols\CloudFile\src\Services\yandex_service.cpp

@@ -9,5 +9,4 @@
 [Image upload]
 [HTTPServer transfer]
 [Edit on]
-[BBCode]
 [BBCode link]

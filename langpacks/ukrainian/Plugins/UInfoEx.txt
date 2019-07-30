@@ -1049,9 +1049,9 @@ Web-дизайн
 [University]
 Університет
 [Past Work Place]
-
+Минула робота
 [Past Organization]
-
+Минула організація
 [Single]
 Неодружений/Незаміжня
 [Close relationships]
@@ -1144,7 +1144,7 @@ Web-дизайн
 [Backing up and syncing all birthdays complete!]
 Резервування і синхронізацію всіх днів народження завершено.
 [Reminders]
-
+Нагадування
 [Birthday reminder]
 Нагадування про день народження
 [Birthday reminder: it's coming]

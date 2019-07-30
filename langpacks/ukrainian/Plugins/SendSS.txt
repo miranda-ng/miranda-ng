@@ -191,7 +191,7 @@
 [Edit on]
 
 [BBCode]
-
+BBCode ([b][i][u])
 [BBCode link]
 
 [Down arrow]
