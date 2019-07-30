@@ -76,7 +76,7 @@ mkdir "Weather"
 
 if "%phase%" == "0" (
 	echo Loading strings from old langpack...
-	cscript /nologo translate.js /out:".\" /untranslated:"Untranslated" /outfile:"Langpack_%language%.txt" /path:"..\..\langpacks\%language%\" /langpack:"..\..\langpacks\%language%\%oldLangpackPath%"
+	cscript /nologo translate.js /out:".\" /untranslated:"Untranslated" /outfile:"Langpack_%language%.txt" /path:"..\..\langpacks\%language%\" /langpack:"..\..\langpacks\%language%\%oldLangpackPath%" /dupes:"Langpack_%language%.txt"
 ) else (
 	REM load strings from recently created langpack (also to distribute strings between files) and create final langpack
 	cscript /nologo translate.js /out:".\" /untranslated:"Untranslated" /release:"Langpack_%language%.txt" /sourcelang:"%language%"
