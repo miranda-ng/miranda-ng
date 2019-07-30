@@ -327,7 +327,7 @@ JID:
 [Node:]
 Възел:
 [Filter:]
-
+Филтър:
 [Member Information]
 Информация за потребителя
 [Role:]
@@ -748,11 +748,11 @@ Jabber грешка
 [category]
 
 [type]
-
+тип
 [Category]
 
 [Type]
-
+Тип
 [Supported features]
 
 [Info request error]
@@ -877,7 +877,7 @@ RSS услуга
 [Authentication failed for %s.]
 Неуспешно удостоверяване за %s.
 [Authentication]
-
+Упълномощаване
 [Registration successful]
 Успешно регистриране
 [Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
@@ -1651,7 +1651,7 @@ S.ms
 [Leave group chats]
 
 [Lock workstation]
-
+Заключване на работната станция
 [Quit Miranda NG]
 
 [Change Status]
@@ -1689,7 +1689,7 @@ S.ms
 [%d message(s) to be forwarded]
 
 [Mark messages as read]
-
+Маркиране на съобщенията като прочетени
 [%d message(s) forwarded]
 
 [Workstation successfully locked]

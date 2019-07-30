@@ -29,9 +29,9 @@
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
 
 [Send group chat invitation]
-
+Запрасіць у чат
 [&Invite]
-
+Запрасіць
 [Cancel]
 Скасаваць
 [Account registration]
@@ -43,7 +43,7 @@
 [Enter registration code]
 
 [UIN:]
-
+Нумар:
 [Online since:]
 Далучаны:
 [Idle since:]
@@ -62,7 +62,7 @@
 Запомніць пароль сеансу
 ;file \protocols\ICQ-WIM\src\groupchats.cpp
 [&Invite a user]
-
+Запрасіць кантакт
 [&Leave/destroy chat]
 
 ;file \protocols\ICQ-WIM\src\main.cpp
@@ -99,9 +99,9 @@
 [Connection failed.\nUnknown error during sign on: %d]
 
 [admin]
-
+адмін
 [member]
-
+удзельнік
 [Unknown sticker]
 
 [User sent a sticker:]

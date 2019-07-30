@@ -24,7 +24,6 @@
 [Target Cursor]
 [Target Desktop]
 [Edit on]
-[BBCode]
 [BBCode link]
 [Could not create screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
 [Upload Pie (30m)]

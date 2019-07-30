@@ -191,7 +191,7 @@
 [Edit on]
 
 [BBCode]
-
+СТСТ-коды ([b][i][u])
 [BBCode link]
 
 [Down arrow]

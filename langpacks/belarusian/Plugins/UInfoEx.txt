@@ -1144,7 +1144,7 @@ Web Дызайн
 [Backing up and syncing all birthdays complete!]
 Рэзерваванне і сінхранізацыя ўсіх Дзён нараджэнняў завершаны!
 [Reminders]
-
+Напамінкі
 [Birthday reminder]
 Напамінак пра дзень нараджэння
 [Birthday reminder: it's coming]

@@ -327,7 +327,7 @@ JID:
 [Node:]
 Węzeł:
 [Filter:]
-
+Filtruj:
 [Member Information]
 Informacje o użytkowniku
 [Role:]
@@ -748,11 +748,11 @@ Kopiuj informację węzła
 [category]
 
 [type]
-
+typ
 [Category]
 
 [Type]
-
+Typ
 [Supported features]
 
 [Info request error]
@@ -877,7 +877,7 @@ Prywatność
 [Authentication failed for %s.]
 Autoryzacja nieudana dla %s.
 [Authentication]
-
+Autoryzacja
 [Registration successful]
 Rejestracja zakończona sukcesem.
 [Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
@@ -1651,7 +1651,7 @@ Nie istnieje żadna ważna sesja OMEMO
 [Leave group chats]
 
 [Lock workstation]
-
+Zablokuj komputer
 [Quit Miranda NG]
 
 [Change Status]
@@ -1679,7 +1679,7 @@ Opis
 [Automatically Accept File Transfers]
 
 [Play sounds]
-
+Graj dźwięki
 [Disable remote controlling (check twice what you are doing)]
 
 [There is no messages to forward]
@@ -1689,7 +1689,7 @@ Opis
 [%d message(s) to be forwarded]
 
 [Mark messages as read]
-
+Oznacz wiadomości jako przeczytane
 [%d message(s) forwarded]
 
 [Workstation successfully locked]

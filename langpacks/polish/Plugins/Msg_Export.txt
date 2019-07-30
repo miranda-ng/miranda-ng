@@ -80,7 +80,7 @@ Kopiuj
 [Miranda database contains %d events]
 Baza danych Mirandy zawiera %d zdarzeń
 [Failed to open file]
-
+Błąd otwierania pliku
 [Search string was not found!]
 Szukana fraza nie została znaleziona!
 [Save as RTF]

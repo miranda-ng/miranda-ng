@@ -31,7 +31,7 @@
 [Send group chat invitation]
 
 [&Invite]
-
+Покана
 [Cancel]
 Отказ
 [Account registration]
@@ -43,7 +43,7 @@
 [Enter registration code]
 
 [UIN:]
-
+UIN:
 [Online since:]
 
 [Idle since:]
@@ -62,7 +62,7 @@
 Запомняне на паролата за сесията
 ;file \protocols\ICQ-WIM\src\groupchats.cpp
 [&Invite a user]
-
+Поканване на потребител
 [&Leave/destroy chat]
 
 ;file \protocols\ICQ-WIM\src\main.cpp
@@ -99,9 +99,9 @@
 [Connection failed.\nUnknown error during sign on: %d]
 
 [admin]
-
+администратор
 [member]
-
+член
 [Unknown sticker]
 
 [User sent a sticker:]

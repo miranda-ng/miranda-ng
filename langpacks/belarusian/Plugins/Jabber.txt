@@ -327,7 +327,7 @@ JID:
 [Node:]
 Вузел:
 [Filter:]
-
+Фільтр:
 [Member Information]
 Правы ўдзельніка
 [Role:]
@@ -748,11 +748,11 @@ Jabber памылка
 [category]
 
 [type]
-
+тып
 [Category]
 
 [Type]
-
+Тып
 [Supported features]
 
 [Info request error]
@@ -877,7 +877,7 @@ Jabber памылка
 [Authentication failed for %s.]
 Аутэнтыфікацыя не прайшла для %s.
 [Authentication]
-
+Аўтэнтыфікацыя
 [Registration successful]
 Рэгістрацыя паспяхова пройдзена
 [Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
@@ -1651,7 +1651,7 @@ S.ms
 [Leave group chats]
 
 [Lock workstation]
-
+Заблакаваць кампутар
 [Quit Miranda NG]
 
 [Change Status]
@@ -1679,7 +1679,7 @@ S.ms
 [Automatically Accept File Transfers]
 
 [Play sounds]
-
+Прайграваць гукі
 [Disable remote controlling (check twice what you are doing)]
 
 [There is no messages to forward]
@@ -1689,7 +1689,7 @@ S.ms
 [%d message(s) to be forwarded]
 
 [Mark messages as read]
-
+Пазначыць павеламленні прачытанымі
 [%d message(s) forwarded]
 
 [Workstation successfully locked]

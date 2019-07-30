@@ -27,7 +27,7 @@
 [Hide interfaces]
 
 [Popup options]
-
+Налады ўсплывальных вокнаў
 [Enable popups]
 Уключыць усплывальныя вокны
 [Text color]
@@ -54,7 +54,7 @@
 [Direct]
 
 [disconnected]
-
+адключаны
 ;file \plugins\ProxySwitch\src\main.cpp
 [Current IP address]
 
@@ -76,6 +76,6 @@
 
 ;file \plugins\ProxySwitch\src\opt.cpp
 [Services]
-
+Службы
 [ProxySwitch]
 

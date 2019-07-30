@@ -1144,7 +1144,7 @@ Brak rocznic do przypomnienia
 [Backing up and syncing all birthdays complete!]
 Wykonywanie kopii zapasowych i synchronizacji wszystkich rocznic kompletny!
 [Reminders]
-
+Przypomnienia
 [Birthday reminder]
 Przypominanie o urodzinach
 [Birthday reminder: it's coming]

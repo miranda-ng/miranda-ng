@@ -23,6 +23,10 @@ Play sounds when minimised
 Esc key behaviour
 [Use contact list groups for organizing tabs (one window per group)]
 Use contact list groups for organising tabs (one window per group)
+[Colors]
+Colours
+[Use &Windows colors]
+Use &Windows colours
 [Define up to 5 colors which you can use with some variables]
 Define up to 5 colours which you can use with some variables
 [Load fonts and colors provided by skin]

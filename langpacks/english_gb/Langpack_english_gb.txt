@@ -1,0 +1,1964 @@
+Miranda Language Pack Version 1
+Language: English (British)
+Locale: 0809
+Authors: Boris Kotov
+Author-email: doctor.z01db3rg@gmail.com
+Last-Modified-Using: Miranda NG 0.95.10.3
+
+;============================================================
+;  File: miranda32/64.exe
+;  Module: Miranda Core
+;  Version: 0.95.11
+;============================================================
+[Minimize to tray]
+Minimise to tray
+[Gray out entire list when:]
+Grey out entire list when:
+[Background color]
+Background colour
+[Selection color]
+Selection colour
+[Use Windows colors]
+Use Windows colours
+[Minimize the file transfer window]
+Minimise the file transfer window
+[Minimize the message window on send]
+Minimise the message window on send
+[Use default colors]
+Use default colours
+[Use custom colors]
+Use custom colours
+[Text color:]
+Text colour:
+[Background color:]
+Background colour:
+[Send authorization request]
+Send authorisation request
+[Authorization request]
+Authorisation request
+[Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
+Run program when Miranda NG starts (e.g. tail -f, dbgview, etc.):
+[e.g., Workplace]
+e.g. Workplace
+[Fonts and colors]
+Fonts and colours
+[Color/background]
+Colour/background
+[Text color]
+Text colour
+[Base color:]
+Base colour:
+[Secondary color:]
+Secondary colour:
+[&Authorize]
+&Authorise
+[Add to contact list if authorized]
+Add to contact list if authorised
+[Canceled]
+Cancelled
+[This file transfer has been canceled by the other side]
+This file transfer has been cancelled by the other side
+[Initializing...]
+Initialising...
+[Timestamp has same color as the event]
+Timestamp has same colour as the event
+[Strip colors from messages in the log]
+Strip colours from messages in the log
+[Make the text italicized (Ctrl+I)]
+Make the text italicised (Ctrl+I)
+[&Color]
+&Colour
+[Select a foreground color for the text (Ctrl+K)]
+Select a foreground colour for the text (Ctrl+K)
+[&Background color]
+&Background colour
+[Select a background color for the text (Ctrl+L)]
+Select a background colour for the text (Ctrl+L)
+[Please authorize my request and add me to your contact list.]
+Please authorise my request and add me to your contact list.
+[%s requested authorization\n%u (%s) on %s]
+%s requested authorisation\n%u (%s) on %s
+[%s requested authorization\n%u on %s]
+%s requested authorisation\n%u on %s
+[%s requested authorization\n%s on %s]
+%s requested authorisation\n%s on %s
+[%s requests authorization]
+%s requests authorisation
+[%u requests authorization]
+%u requests authorisation
+[Authorization request from %s%s: %s]
+Authorisation request from %s%s: %s
+[Customize]
+Customise
+[Request authorization]
+Request authorisation
+[Grant authorization]
+Grant authorisation
+[Revoke authorization]
+Revoke authorisation
+#muuid {9584da04-fb4f-40c1-9325-e4f9caafcb5d}
+;============================================================
+;  File: Actman.dll
+;  Plugin: Action manager
+;  Version: 0.3.0.1
+;  Authors: Awkward
+;============================================================
+[Start minimized]
+Start minimised
+[Start maximized]
+Start maximised
+#muuid {6471d451-2fe0-4ee2-850e-9f84f3c0d187}
+;============================================================
+;  File: AddContactPlus.dll
+;  Plugin: Add contact+
+;  Version: 0.9.9.2
+;  Authors: Bartosz 'Dezeath' Białek
+;============================================================
+[Send authorization request]
+Send authorisation request
+[Authorization request]
+Authorisation request
+[Please authorize my request and add me to your contact list.]
+Please authorise my request and add me to your contact list.
+#muuid {4dd7762b-d612-4f84-aa86-068f17859b6d}
+;============================================================
+;  File: Alarms.dll
+;  Plugin: Alarms
+;  Version: 0.4.0.6
+;  Authors: Scott Ellis
+;============================================================
+#muuid {0F6C73B4-2B2B-711D-FBB6-BB267DFD7208}
+;============================================================
+;  File: AsSingleWindow.dll
+;  Plugin: AsSingleWindow
+;  Version: 0.1.2.2
+;  Authors: Aleksey Smyrnov aka Soar
+;============================================================
+[Customize]
+Customise
+#muuid {52685cd7-0ec7-44c1-a1a6-381612418202}
+;============================================================
+;  File: AssocMgr.dll
+;  Plugin: File association manager
+;  Version: 0.2.1.1
+;  Authors: H. Herkenrath
+;============================================================
+#muuid {dace7d41-dfa9-4772-89ae-a59a6153e6b2}
+;============================================================
+;  File: AuthState.dll
+;  Plugin: Authorization state
+;  Version: 0.0.2.1
+;  Authors: Thief, idea by snwbrdr
+;============================================================
+[If a contact didn't authorize you, this plugin puts an icon in front of the contact's name.]
+If a contact didn't authorise you, this plugin puts an icon in front of the contact's name.
+#muuid {eb0465e2-ceee-11db-83ef-c1bf55d89593}
+;============================================================
+;  File: AutoRun.dll
+;  Plugin: AutoRun
+;  Version: 0.1.0.1
+;  Authors: Sergey V. Gershovich a.k.a. Jazzy$ (fixed by Wolfram3D)
+;============================================================
+#muuid {9de24579-5c5c-49aa-80e8-4d38e4344e63}
+;============================================================
+;  File: AutoShutdown.dll
+;  Plugin: Auto shutdown
+;  Version: 1.4.0.2
+;  Authors: H. Herkenrath
+;============================================================
+#muuid {dbe8c990-7aa0-458d-bab7-33eb07238e71}
+;============================================================
+;  File: AvatarHistory.dll
+;  Plugin: Avatar history
+;  Version: 0.1.0.2
+;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
+;============================================================
+[Colors]
+Colours
+[Background color]
+Background colour
+[Text color]
+Text colour
+[Use Windows colors]
+Use Windows colours
+[Use default colors]
+Use default colours
+#muuid {e00f1643-263c-4599-b84b-053e5c511d29}
+;============================================================
+;  File: AVS.dll
+;  Plugin: Avatar service
+;  Version: 0.98.1.1
+;  Authors: Nightwish, Pescuma
+;============================================================
+[Color difference allowed:]
+Colour difference allowed:
+[Make transparency proportional to color diff]
+Make transparency proportional to colour diff
+[Draw avatars grayscale]
+Draw avatars greyscale
+[Color diff:]
+Colour diff:
+#muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
+;============================================================
+;  File: BasicHistory.dll
+;  Plugin: Basic history
+;  Version: 1.0.1.10
+;  Authors: Krzysztof Kral
+;============================================================
+[Fonts and colors]
+Fonts and colours
+[Authorization request]
+Authorisation request
+#muuid {2f07ea05-05b5-4ff0-875d-c590da2ddac1}
+;============================================================
+;  File: BASS_interface.dll
+;  Plugin: BASS Interface
+;  Version: 0.0.0.14
+;  Authors: tico-tico
+;============================================================
+#muuid {488c5c84-56da-434f-96f1-b18900def760}
+;============================================================
+;  File: Boltun.dll
+;  Plugin: Boltun
+;  Version: 0.0.3.1
+;  Authors: Alexander S. Kiselev, Valentin Pavlyuchenko
+;============================================================
+#muuid {4fac353d-0a36-44a4-9064-6759c53ae782}
+;============================================================
+;  File: BossKey.dll
+;  Plugin: BossKey+
+;  Version: 0.5.0.3
+;  Authors: Goblineye Entertainment, Billy_Bons
+;============================================================
+[Go to Options -> Customize -> Hotkeys to change the hotkey]
+Go to Options -> Customise -> Hotkeys to change the hotkey
+#muuid {ddf8aec9-7d37-49af-9d22-bbbc920e6f05}
+;============================================================
+;  File: BuddyExpectator.dll
+;  Plugin: Buddy expectator
+;  Version: 0.1.2.3
+;  Authors: Anar Ibragimoff, sje, Thief
+;============================================================
+[Colors]
+Colours
+[Use default colors]
+Use default colours
+[Use Windows colors]
+Use Windows colours
+#muuid {a9e9c114-84b9-434b-a3d5-89921d39ddff}
+;============================================================
+;  File: BuddyPounce.dll
+;  Plugin: Buddy pounce
+;  Version: 0.3.2.3
+;  Authors: Jonathan Gordon
+;============================================================
+#muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
+;============================================================
+;  File: ChangeKeyboardLayout.dll
+;  Plugin: Change keyboard layout
+;  Version: 0.0.1.6
+;  Authors: Yasnovidyashii
+;============================================================
+[Colors]
+Colours
+[Use default colors]
+Use default colours
+[Use Windows colors]
+Use Windows colours
+[Use custom colors]
+Use custom colours
+#muuid {b68a8906-748b-435d-930e-21cc6e8f3b3f}
+;============================================================
+;  File: ClientChangeNotify.dll
+;  Plugin: Client change notify
+;  Version: 0.1.1.4
+;  Authors: Deathdemon
+;============================================================
+[Colors]
+Colours
+#muuid {53e095a3-2695-490a-9dad-d20479093831}
+;============================================================
+;  File: Clist_blind.dll
+;  Plugin: BClist
+;  Version: 0.8.1.1
+;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
+;============================================================
+[Minimize to tray]
+Minimise to tray
+#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
+;============================================================
+;  File: Clist_modern.dll
+;  Plugin: Modern contact list
+;  Version: 0.9.1.8
+;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
+;============================================================
+[Background color:]
+Background colour:
+[Selection color:]
+Selection colour:
+[Use Windows colors]
+Use Windows colours
+[Hold [Shift] to inverse [Right Click] behavior.]
+Hold [Shift] to inverse [Right Click] behaviour.
+[Behavior]
+Behaviour
+[Minimize to tray]
+Minimise to tray
+[Border color:]
+Border colour:
+[Use old render method (fast, but has artifacts)]
+Use old render method (fast, but has artefacts)
+[Special colors]
+Special colours
+[3rd party frames transparent back color]
+3rd party frames transparent back colour
+[Center group names]
+Centre group names
+[Center]
+Centre
+[Minimize]
+Minimise
+#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+;============================================================
+;  File: Clist_nicer.dll
+;  Plugin: Clist nicer
+;  Version: 0.9.3.2
+;  Authors: Pixel, egoDust, cyreve, Nightwish
+;============================================================
+[Center group names horizontally]
+Centre group names horizontally
+[Centered when possible]
+Centred when possible
+[Gray out entire list when:]
+Grey out entire list when:
+[Use Windows colors]
+Use Windows colours
+[Protocol skins override status text colors]
+Protocol skins override status text colours
+[Minimize contact list]
+Minimise contact list
+#muuid {21948c89-b549-4c9d-8b4f-3f3726ec6b4b}
+;============================================================
+;  File: Cln_skinedit.dll
+;  Plugin: Skin editor for Clist nicer
+;  Version: 0.0.0.4
+;  Authors: Nightwish, Pixel
+;============================================================
+[Item colors]
+Item colours
+[First color]
+First colour
+[Text color]
+Text colour
+[Second color]
+Second colour
+#muuid {e876fe63-0701-4cda-bed5-7c73a379c1d1}
+;============================================================
+;  File: CloudFile.dll
+;  Plugin: CloudFile
+;  Version: 0.11.0.6
+;  Authors: Miranda NG team
+;============================================================
+[Authorization]
+Authorisation
+#muuid {2f1a117c-3c1b-4c01-89ea-6d8fd85a9b4c}
+;============================================================
+;  File: CmdLine.dll
+;  Plugin: Command line
+;  Version: 0.1.0.1
+;  Authors: Cristian Libotean
+;============================================================
+[Timed out while waiting for acknowledgment for contact '%s'.]
+Timed out while waiting for acknowledgement for contact '%s'.
+#muuid {4bb5b4aa-c364-4f23-9746-d5b708a286a5}
+;============================================================
+;  File: ConnectionNotify.dll
+;  Plugin: Connection Notify
+;  Version: 0.1.0.6
+;  Authors: MaKaR
+;============================================================
+[Set popup colors]
+Set popup colours
+#muuid {23d4f302-d513-45b7-9027-445f29557311}
+;============================================================
+;  File: Console.dll
+;  Plugin: Console
+;  Version: 0.0.7.4
+;  Authors: Bio
+;============================================================
+#muuid {0324785E-74CE-4600-B781-851773B3EFC5}
+;============================================================
+;  File: Contacts.dll
+;  Plugin: Send/receive contacts
+;  Version: 1.6.0.0
+;  Authors: Joe Kucera, Todor Totev
+;============================================================
+#muuid {f62c1d7a-ffa4-4065-a251-4c9dd9101cc8}
+;============================================================
+;  File: CrashDumper.dll
+;  Plugin: Crash dumper
+;  Version: 0.1.0.3
+;  Authors: borkra
+;============================================================
+#muuid {3613F2D9-C040-4361-A44F-DF7B5AAACF6E}
+;============================================================
+;  File: CryptoPP.dll
+;  Plugin: Crypto++
+;  Version: 1.0.4.8
+;  Authors: Baloo
+;============================================================
+#muuid {c8cc7414-6507-4af6-925a-83c1d2f7be8c}
+;============================================================
+;  File: CSList.dll
+;  Plugin: Custom status list
+;  Version: 0.1.1.0
+;  Authors: Mataes, jarvis
+;============================================================
+[Favorites]
+Favourites
+[Set/unset current item as favorite]
+Set/unset current item as favourite
+[Favorite]
+Favourite
+#muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
+;============================================================
+;  File: CurrencyRates.dll
+;  Plugin: Currency Rates
+;  Version: 0.2.1.0
+;  Authors: Dioksin
+;============================================================
+[Colors]
+Colours
+[Use default colors]
+Use default colours
+[Use custom colors]
+Use custom colours
+[Background color]
+Background colour
+[Text color]
+Text colour
+#muuid {bcec0bd7-ca59-44b2-9a14-3a14980f524a}
+;============================================================
+;  File: CyrTranslit.dll
+;  Plugin: CyrTranslit
+;  Version: 0.1.2.0
+;  Authors: ValeraVi, Ivan Krechetov
+;============================================================
+#muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
+;============================================================
+;  File: DbEditorPP.dll
+;  Plugin: Database editor++
+;  Version: 4.0.1.2
+;  Authors: Bio, Jonathan Gordon
+;============================================================
+[Background color]
+Background colour
+#muuid {7c3d0a33-2646-4001-9107-f35ea299d292}
+;============================================================
+;  File: Dbx_mdbx.dll
+;  Plugin: Miranda NG MDBX database driver
+;  Version: 0.95.9.1
+;  Authors: Miranda-NG project
+;============================================================
+#muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
+;============================================================
+;  File: Dbx_mmap.dll
+;  Plugin: Miranda NG mmap database driver
+;  Version: 0.95.8.1
+;  Authors: Miranda-NG project
+;============================================================
+#muuid {da223468-5f8e-4513-88b0-e52ce8a8b33b}
+;============================================================
+;  File: Dbx_sqlite.dll
+;  Plugin: Miranda NG SQLite database driver
+;  Version: 0.95.10.2
+;  Authors: Miranda-NG project
+;============================================================
+#muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
+;============================================================
+;  File: Db_autobackups.dll
+;  Plugin: Db autobackuper
+;  Version: 0.1.0.3
+;  Authors: chaos.persei, sje, Kildor, Billy_Bons
+;============================================================
+[Go to the "Options -> Customize -> Folders" to change settings]
+Go to the "Options -> Customise -> Folders" to change settings
+#muuid {88928401-2ce8-4568-aaa7-226141870cbf}
+;============================================================
+;  File: Discord.dll
+;  Plugin: Discord protocol
+;  Version: 0.6.2.1
+;  Authors: George Hazan
+;============================================================
+#muuid {2a1081d1-aee3-4091-b70d-ae46d09f9a7f}
+;============================================================
+;  File: Dummy.dll
+;  Plugin: Dummy protocol
+;  Version: 0.2.0.0
+;  Authors: Robert Pösel
+;============================================================
+#muuid {e08ce7c4-9eeb-4272-b544-0d32e18d90de}
+;============================================================
+;  File: EmLanProto.dll
+;  Plugin: E-mage LAN protocol
+;  Version: 0.1.0.2
+;  Authors: kva
+;============================================================
+#muuid {2fd0df15-7098-41ce-aa92-ff621806e38b}
+;============================================================
+;  File: Exchange.dll
+;  Plugin: Exchange notifier plugin
+;  Version: 0.1.3.4
+;  Authors: Cristian Libotean, Attila Vajda, MaKaR (NG)
+;============================================================
+#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+;============================================================
+;  File: Facebook.dll
+;  Plugin: Facebook
+;  Version: 0.4.2.4
+;  Authors: Michal Zelinka, Robert Pösel
+;============================================================
+[History synchronization]
+History synchronisation
+[Request for friendship was canceled.]
+Request for friendship was cancelled.
+[Error occurred when canceling friendship request.]
+Error occurred when cancelling friendship request.
+[Unable to initialize Netlib for %s.]
+Unable to initialise Netlib for %s.
+#muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
+;============================================================
+;  File: FavContacts.dll
+;  Plugin: Favorite contacts
+;  Version: 0.1.0.3
+;  Authors: Victor Pavlychko
+;============================================================
+[Favorite contacts menu.]
+Favourite contacts menu.
+[Customize]
+Customise
+[Use system colors and fonts]
+Use system colours and fonts
+[Hotkey shows menu centered on screen]
+Hotkey shows menu centred on screen
+[Favorite Contacts]
+Favourite Contacts
+[Configure fonts and colors...]
+Configure fonts and colours...
+[Favorite Contact]
+Favourite Contact
+[Favorites]
+Favourites
+[Selected contact name (color)]
+Selected contact name (colour)
+[Selected second line (color)]
+Selected second line (colour)
+[Show favorite contacts]
+Show favourite contacts
+#muuid {34b5a402-1b79-4246-b041-43d0b590ae2c}
+;============================================================
+;  File: FileAsMessage.dll
+;  Plugin: File as message
+;  Version: 0.1.0.1
+;  Authors: Denis Stanishevskiy
+;============================================================
+[Canceled by remote user]
+Cancelled by remote user
+[Failed on file initialization]
+Failed on file initialisation
+[Synchronizing...]
+Synchronising...
+[Canceled by user]
+Cancelled by user
+#muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
+;============================================================
+;  File: Fingerprint.dll
+;  Plugin: Fingerprint NG
+;  Version: 0.2.0.1
+;  Authors: faith_healer, ghazan, Mataes
+;============================================================
+#muuid {68c36842-3d95-4f4a-ab81-014d6593863b}
+;============================================================
+;  File: Flags.dll
+;  Plugin: Country flags
+;  Version: 0.1.0.4
+;  Authors: H. Herkenrath
+;============================================================
+#muuid {53c715a8-eb01-4136-a73c-441868610074}
+;============================================================
+;  File: FltContacts.dll
+;  Plugin: Floating contacts
+;  Version: 0.7.0.5
+;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
+;============================================================
+[Left-top edge's color:]
+Left-top edge's colour:
+[Right-bottom edge's color:]
+Right-bottom edge's colour:
+[Background color:]
+Background colour:
+#muuid {2f129563-2c7d-4a9a-b948-97dfcc0afdd7}
+;============================================================
+;  File: Folders.dll
+;  Plugin: Custom profile folders
+;  Version: 0.2.0.2
+;  Authors: Cristian Libotean, Miranda NG team
+;============================================================
+[Expands to your Miranda path (e.g., c:\\program files\\miranda ng).]
+Expands to your Miranda path (e.g. c:\\program files\\miranda ng).
+[(e.g., default if your your profile is default.dat).]
+(e.g. default if your your profile is default.dat).
+[program that can use environment variables, i.e., %<env variable>%.]
+program that can use environment variables, i.e. %<env variable>%.
+[Customize]
+Customise
+#muuid {9502e511-7e5d-49a1-8ba5-b1aee70fa5bf}
+;============================================================
+;  File: FTPFile.dll
+;  Plugin: FTP File YM
+;  Version: 0.6.0.5
+;  Authors: yaho
+;============================================================
+[Upload canceled]
+Upload cancelled
+[CANCELED]
+CANCELLED
+[Error occurred when initializing libcurl.\nAborting file upload...]
+Error occurred when initialising libcurl.\nAborting file upload...
+#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+;============================================================
+;  File: GG.dll
+;  Plugin: Gadu-Gadu protocol
+;  Version: 0.95.11.1
+;  Authors: Bartosz Bialek, Adam Strzelecki
+;============================================================
+[Send messages slower, but with full acknowledgment]
+Send messages slower, but with full acknowledgement
+#muuid {243955e0-75d9-4cc3-9b28-6f9c5af4532d}
+;============================================================
+;  File: GmailNotifier.dll
+;  Plugin: Gmail Multiple Notifier
+;  Version: 1.0.1.2
+;  Authors: Mixwind
+;============================================================
+#muuid {b92282ac-686b-4541-a12d-6e9971a253b7}
+;============================================================
+;  File: HistoryPP.dll
+;  Plugin: History++
+;  Version: 1.5.1.5
+;  Authors: theMIROn, Art Fedorov
+;============================================================
+[Customize Filters]
+Customise Filters
+[Customize Toolbar]
+Customise Toolbar
+[&Customize...]
+&Customise...
+[Authorization request by %s (%s%d): %s]
+Authorisation request by %s (%s%d): %s
+[Authorization request granted by %s (%d): %s]
+Authorisation request granted by %s (%d): %s
+[Authorization request denied by %s (%d): %s]
+Authorisation request denied by %s (%d): %s
+[Authorization future request by %s (%d): %s]
+Authorisation future request by %s (%d): %s
+[Authorization Request by %s (%s%s%d): %s]
+Authorisation Request by %s (%s%s%d): %s
+[Authorization Request Sample]
+Authorisation Request Sample
+[Customize %s]
+Customise %s
+[Customize the look of %s Event. Select it's font, font color and background color.]
+Customise the look of %s Event. Select it's font, font colour and background colour.
+[Date Font Color]
+Date Font Colour
+[Nick Font Color]
+Nick Font Colour
+[Authorization request]
+Authorisation request
+#muuid {f184f5a0-c198-4454-a9b4-f6e2fd534133}
+;============================================================
+;  File: HistoryStats.dll
+;  Plugin: HistoryStats
+;  Version: 0.2.1.2
+;  Authors: Martin Afanasjew
+;============================================================
+[Creates detailed, colorful and highly customizable statistics using your message history.]
+Creates detailed, colourful and highly customisable statistics using your message history.
+[Column holding a graphical overview of your chatting behavior (out, in, total, in/out ratio) from the first to the last day of your history. The information is spread along x- and y-axis and the values are encoded as color values. Different chatting behavior measures are available.]
+Column holding a graphical overview of your chatting behaviour (out, in, total, in/out ratio) from the first to the last day of your history. The information is spread along x- and y-axis and the values are encoded as colour values. Different chatting behaviour measures are available.
+[Column holding a graphical overview of your chatting behavior (out, in, total, in/out ratio) from the first to the last day of your history on a daily basis. Multiple days can be grouped. Different chatting behavior measures are available.]
+Column holding a graphical overview of your chatting behaviour (out, in, total, in/out ratio) from the first to the last day of your history on a daily basis. Multiple days can be grouped. Different chatting behaviour measures are available.
+[Column holding the number of (distinct) words used by you, by your contact, or by both of you.]
+Column holding the number of (distinct) words used by you, by your contact or by both of you.
+[Color words according to in/out ratio]
+Colour words according to in/out ratio
+[Column holding a list of a specified number of most/least common words or longest words used by you, by your contact, or by both of you.]
+Column holding a list of a specified number of most/least common words or longest words used by you, by your contact or by both of you.
+[HistoryStats couldn't create a required folder (#{folder}).\r\n\r\nPlease check the output filename and additional output folder you have chosen for correctness. Additionally, please check whether the file, folder, and/or disk is writable.]
+HistoryStats couldn't create a required folder (#{folder}).\r\n\r\nPlease check the output filename and additional output folder you have chosen for correctness. Additionally, please check whether the file, folder and/or disk is writable.
+[HistoryStats couldn't open the output file (#{file}) for write access.\r\n\r\nPlease check the output filename you have chosen for correctness. Additionally, please check whether the file, folder, and/or disk is writable.]
+HistoryStats couldn't open the output file (#{file}) for write access.\r\n\r\nPlease check the output filename you have chosen for correctness. Additionally, please check whether the file, folder and/or disk is writable.
+[Initializing]
+Initialising
+#muuid {1d9bf74a-44a8-4b3f-a6e5-73069d3a8979}
+;============================================================
+;  File: HistorySweeperLight.dll
+;  Plugin: History sweeper light
+;  Version: 0.1.0.1
+;  Authors: Sergey V. Gershovich a.k.a. Jazzy$, Boris Krasnovskiy, tico-tico
+;============================================================
+#muuid {67848b07-83d2-49e9-8844-7e3de268e304}
+;============================================================
+;  File: HTTPServer.dll
+;  Plugin: HTTPServer
+;  Version: 0.1.2.3
+;  Authors: Kennet Nielsen, modified by Vampik, Houdini
+;============================================================
+#muuid {315b3800-8258-44c4-b60e-58c50b9303b6}
+;============================================================
+;  File: HwHotKeys.dll
+;  Plugin: Hardware HotKeys
+;  Version: 1.0.0.6
+;  Authors: Eugene f2065
+;============================================================
+[Customize]
+Customise
+#muuid {EFB2355B-82B3-4759-b7d8-95f8e9506291}
+;============================================================
+;  File: ICQ.dll
+;  Plugin: ICQ-WIM protocol
+;  Version: 0.95.11.5
+;  Authors: George Hazan
+;============================================================
+;#muuid for ICQCorp not found, please specify manually!
+;============================================================
+;  File: ICQCorp.dll
+;  Plugin: ICQ corporate protocol
+;  Version: 0.2.0.3
+;  Authors: Miranda NG team, Eugene Tarasenko
+;============================================================
+#muuid {2f093b88-f389-44f1-9e2a-37c29194203a}
+;============================================================
+;  File: IEHistory.dll
+;  Plugin: IE History
+;  Version: 0.0.1.7
+;  Authors: Cristian Libotean, Miranda NG team
+;============================================================
+#muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
+;============================================================
+;  File: IEView.dll
+;  Plugin: IEView
+;  Version: 1.6.0.2
+;  Authors: Piotr Piastucki, Francois Mean
+;============================================================
+[ requested authorization]
+ requested authorisation
+#muuid {a6872bcd-f2a1-41b8-b2f1-dd7cec055734}
+;============================================================
+;  File: IgnoreState.dll
+;  Plugin: Ignore state
+;  Version: 0.0.3.0
+;  Authors: Kildor
+;============================================================
+[Authorization]
+Authorisation
+#muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
+;============================================================
+;  File: Import.dll
+;  Plugin: Import contacts and messages
+;  Version: 0.95.11.1
+;  Authors: Miranda team
+;============================================================
+[Imports only contacts and history, and a few settings. Ideal for synchronizing.]
+Imports only contacts and history, and a few settings. Ideal for synchronising.
+#muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
+;============================================================
+;  File: IRC.dll
+;  Plugin: IRC protocol
+;  Version: 0.95.10.1
+;  Authors: Miranda team
+;============================================================
+[Strip colors]
+Strip colours
+[Kill unauthorized: off]
+Kill unauthorised: off
+[Kill unauthorized: on]
+Kill unauthorised: on
+[Kill unauthorized: quick]
+Kill unauthorised: quick
+#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
+;============================================================
+;  File: Jabber.dll
+;  Plugin: Jabber protocol
+;  Version: 0.11.0.5
+;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
+;============================================================
+[Favorites]
+Favourites
+[Authorization request]
+Authorisation request
+[If you wish to confirm this request, please click authorize. Otherwise, press deny to reject it.]
+If you wish to confirm this request, please click authorise. Otherwise, press deny to reject it.
+[Authorize]
+Authorise
+[Supports stream initiation (e.g., for filetransfers)]
+Supports stream initiation (e.g. for filetransfers)
+[Can request and respond to events relating to the delivery, display, and composition of messages]
+Can request and respond to events relating to the delivery, display and composition of messages
+[Browse all favorites]
+Browse all favourites
+[Remove all favorites]
+Remove all favourites
+[Add to favorites]
+Add to favourites
+[Send messages slower, but with full acknowledgment]
+Send messages slower, but with full acknowledgement
+[Automatically add contact when accept authorization]
+Automatically add contact when accept authorisation
+[Automatically accept authorization requests]
+Automatically accept authorisation requests
+[Unauthorized]
+Unauthorised
+[Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
+Only JPG, GIF and BMP image files smaller than 40 KB are supported.
+[socializing]
+socialising
+[Traveling]
+Travelling
+#muuid {119d7288-2050-448d-9900-d86ac70426bf}
+;============================================================
+;  File: KeyboardNotify.dll
+;  Plugin: Keyboard notify ext.
+;  Version: 1.5.7.7
+;  Authors: TioDuke
+;============================================================
+#muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
+;============================================================
+;  File: LinkList.dll
+;  Plugin: History linklist plus
+;  Version: 0.0.0.2
+;  Authors: Thomas Wendel, gureedo
+;============================================================
+[Color select]
+Colour select
+[Background color]
+Background colour
+[Text color]
+Text colour
+#muuid {f981f3f5-035a-444f-9892-ca722c195ada}
+;============================================================
+;  File: ListeningTo.dll
+;  Plugin: ListeningTo
+;  Version: 0.4.0.1
+;  Authors: Ricardo Pescuma Domenecci
+;============================================================
+#muuid {23eacc0d-bab0-49c0-8f37-5e259ece527f}
+;============================================================
+;  File: LotusNotify.dll
+;  Plugin: LotusNotify
+;  Version: 0.1.23.0
+;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
+;============================================================
+[Set popup colors]
+Set popup colours
+[Unable to initialize Notes.]
+Unable to initialise Notes.
+#muuid {08c01613-24c8-486f-bdae-2c3ddcaf9347}
+;============================================================
+;  File: MagneticWindows.dll
+;  Plugin: Magnetic Windows
+;  Version: 0.0.3.2
+;  Authors: Michael Kunz
+;============================================================
+[Customize]
+Customise
+#muuid {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
+;============================================================
+;  File: MenuEx.dll
+;  Plugin: Menu item ext
+;  Version: 1.3.2.0
+;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
+;============================================================
+[Authorization]
+Authorisation
+[Customize]
+Customise
+#muuid {31aaef41-1411-487e-86e2-c484f4174283}
+;============================================================
+;  File: MessageState.dll
+;  Plugin: Message state
+;  Version: 0.0.1.0
+;  Authors: MikalaiR
+;============================================================
+;#muuid for MimCmd not found, please specify manually!
+;============================================================
+;  File: MimCmd.exe
+;  Plugin: MimCmd
+;  Version: 0.1.0.1
+;  Authors: Cristian Libotean
+;============================================================
+#muuid {40da5ebd-4f2d-4bea-841c-eab77bee6f4f}
+;============================================================
+;  File: MinecraftDynmap.dll
+;  Plugin: Minecraft Dynmap protocol
+;  Version: 0.1.0.1
+;  Authors: Robert Pösel
+;============================================================
+[Unable to initialize Netlib for %s.]
+Unable to initialise Netlib for %s.
+#muuid {798221e1-e47a-4dc8-9077-1e576f9c4307}
+;============================================================
+;  File: MirandaG15.dll
+;  Plugin: MirandaG15
+;  Version: 0.1.2.1
+;  Authors: Martin Kleinhans
+;============================================================
+[Maximizing]
+Maximising
+[When maximized:]
+When maximised:
+[Maximized scrolling]
+Maximised scrolling
+[Maximized replying]
+Maximised replying
+#muuid {e99a09b2-e05b-4633-aa3a-5c83ef1cbab6}
+;============================================================
+;  File: MirFox.dll
+;  Plugin: MirFox
+;  Version: 0.5.1.0
+;  Authors: Szymon Tokarz
+;============================================================
+#muuid {27d41d81-991f-4dc6-8749-b0321c87e694}
+;============================================================
+;  File: MirLua.dll
+;  Plugin: MirLua
+;  Version: 0.11.9.1
+;  Authors: Miranda NG team
+;============================================================
+#muuid {12d8faad-78ab-4e3c-9854-320e9ea5cc9f}
+;============================================================
+;  File: MirOTR.dll
+;  Plugin: Miranda OTR
+;  Version: 0.14.2.1
+;  Authors: ProgAndy & CHEF-KOCH
+;============================================================
+#muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
+;============================================================
+;  File: MobileState.dll
+;  Plugin: Mobile state
+;  Version: 0.0.1.6
+;  Authors: Robert Pösel
+;============================================================
+#muuid {eebc474c-b0ad-470f-99a8-9dd9210ce233}
+;============================================================
+;  File: mRadio.dll
+;  Plugin: mRadio Mod
+;  Version: 0.0.2.4
+;  Authors: Awkward
+;============================================================
+[Can't initialize device]
+Can't initialise device
+[Equalizer presets]
+Equaliser presets
+[Equalizer]
+Equaliser
+#muuid {cf25d645-4dab-4b0a-b9f1-de1e86231f9b}
+;============================================================
+;  File: MsgPopup.dll
+;  Plugin: Message popup
+;  Version: 0.1.2.2
+;  Authors: StDenis
+;============================================================
+[Background color]
+Background colour
+[Text color]
+Text colour
+#muuid {46102b07-c215-4162-9c83-d377881da7cc}
+;============================================================
+;  File: Msg_Export.dll
+;  Plugin: Message export
+;  Version: 3.1.2.3
+;  Authors: Kennet Nielsen, mod by ring0
+;============================================================
+[Color...]
+Colour...
+[The following user made an authorization request:]
+The following user made an authorisation request:
+#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
+;============================================================
+;  File: MSN.dll
+;  Plugin: MSN protocol
+;  Version: 0.95.11.1
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes, leecher
+;============================================================
+[Send message font color/size info inside messages]
+Send message font colour/size info inside messages
+#muuid {69b9443b-dc58-4876-ad39-e3f418a133c5}
+;============================================================
+;  File: mTextControl.dll
+;  Plugin: Miranda text control
+;  Version: 0.8.0.1
+;  Authors: Merlin_de, Victor Pavlychko
+;============================================================
+#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
+;============================================================
+;  File: MyDetails.dll
+;  Plugin: My details
+;  Version: 0.0.1.12
+;  Authors: Ricardo Pescuma Domenecci, Drugwash
+;============================================================
+#muuid {b2dd9270-ce5e-11df-bd3d-0800200c9a66}
+;============================================================
+;  File: NewAwaySys.dll
+;  Plugin: New Away System Mod
+;  Version: 0.4.0.4
+;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
+;============================================================
+[You can put your frequently used and favorite messages in this category.]
+You can put your frequently used and favourite messages in this category.
+[When this checkbox is ticked, NewAwaySys counts "send times" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, "send times" are counted from last status mode change (i.e., disabled state is more restrictive).]
+When this checkbox is ticked, NewAwaySys counts "send times" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, "send times" are counted from last status mode change (i.e. disabled state is more restrictive).
+#muuid {3503D584-6234-4BEF-A553-6C1B9CD471F2}
+;============================================================
+;  File: NewEventNotify.dll
+;  Plugin: NewEventNotify
+;  Version: 0.2.2.4
+;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
+;============================================================
+[ requested authorization]
+ requested authorisation
+[Requests your authorization]
+Requests your authorisation
+#muuid {56cc3f29-ccbf-4546-a8ba-9856248a412a}
+;============================================================
+;  File: NewsAggregator.dll
+;  Plugin: News aggregator
+;  Version: 0.1.0.5
+;  Authors: Mataes, FREAK_THEMIGHTY
+;============================================================
+[Visualization]
+Visualisation
+#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
+;============================================================
+;  File: NewXstatusNotify.dll
+;  Plugin: xStatus notify
+;  Version: 1.4.0.12
+;  Authors: Luca Santarelli, Vasilich, yaho
+;============================================================
+[Individual sounds are disabled.\n\nTo enable them, go to Options -> Status -> Status Notify, enable\n"Use individual sounds" checkbox, and then reopen this dialog.]
+Individual sounds are disabled.\n\nTo enable them, go to Options -> Status -> Status Notify, enable\n"Use individual sounds" checkbox and then reopen this dialog.
+[Colors]
+Colours
+[Use custom colors]
+Use custom colours
+[Use Windows colors]
+Use Windows colours
+[Use default colors]
+Use default colours
+#muuid {4227c050-8d97-48d2-91ec-6a952b3dab94}
+;============================================================
+;  File: New_GPG.dll
+;  Plugin: GPG
+;  Version: 0.1.0.1
+;  Authors: sss
+;============================================================
+#muuid {2e0d2ae3-e123-4607-8539-d4448d675ddb}
+;============================================================
+;  File: NimContact.dll
+;  Plugin: Non-IM Contact
+;  Version: 0.6.0.3
+;  Authors: Jonathan Gordon
+;============================================================
+#muuid {b25e8c7b-292b-495a-9fb8-a4c3d4eeb04b}
+;============================================================
+;  File: NoHistory.dll
+;  Plugin: NoHistory
+;  Version: 0.2.3.0
+;  Authors: Scott Ellis, NightFox
+;============================================================
+#muuid {842a6668-f9da-4968-bfd7-d2bd9df848ee}
+;============================================================
+;  File: NotesReminders.dll
+;  Plugin: Sticky Notes & Reminders
+;  Version: 0.2.0.4
+;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
+;============================================================
+[Background Color]
+Background Colour
+[Text Color]
+Text Colour
+[Gray]
+Grey
+[Sticky Note Background Color]
+Sticky Note Background Colour
+#muuid {e92874ec-594a-4a2f-bded-c0be8b5a45d1}
+;============================================================
+;  File: NotifyAnything.dll
+;  Plugin: NotifyAnything
+;  Version: 0.0.2.8
+;  Authors: Daniel Wesslen, Korney San
+;============================================================
+#muuid {e47cc215-0d28-462d-a0f6-3ae4443d2926}
+;============================================================
+;  File: Nudge.dll
+;  Plugin: Nudge
+;  Version: 0.2.0.2
+;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
+;============================================================
+#muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
+;============================================================
+;  File: Omegle.dll
+;  Plugin: Omegle protocol
+;  Version: 0.1.3.3
+;  Authors: Robert Pösel
+;============================================================
+[Connecting canceled.]
+Connecting cancelled.
+[Unable to initialize Netlib for %s.]
+Unable to initialise Netlib for %s.
+#muuid {10896143-7249-4b36-a408-6501a6b6035a}
+;============================================================
+;  File: OpenFolder.dll
+;  Plugin: Open Miranda folder
+;  Version: 1.1.0.0
+;  Authors: jarvis, Kreisquadratur
+;============================================================
+#muuid {b649702c-13de-408a-b6c2-fb8fed2a2c90}
+;============================================================
+;  File: OpenSSL.dll
+;  Plugin: OpenSSL SSL API module
+;  Version: 0.1.0.2
+;  Authors: Miranda NG team
+;============================================================
+#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
+;============================================================
+;  File: PackUpdater.dll
+;  Plugin: Pack updater
+;  Version: 0.1.0.1
+;  Authors: Mataes, ZERO_BiT
+;============================================================
+[Go to Options -> Customize -> Hotkeys to change the hotkey]
+Go to Options -> Customise -> Hotkeys to change the hotkey
+[Colors]
+Colours
+[Use cus&tom colors]
+Use cus&tom colours
+[Use &Windows colors]
+Use &Windows colours
+[Use defa&ult colors]
+Use defa&ult colours
+#muuid {1aac15e8-dcec-4050-b66f-2aa0e6120c22}
+;============================================================
+;  File: PasteIt.dll
+;  Plugin: Paste it
+;  Version: 1.0.0.4
+;  Authors: Krzysztof Kral
+;============================================================
+#muuid {760ea901-c0c2-446c-8029-94c3bc47c45e}
+;============================================================
+;  File: Ping.dll
+;  Plugin: Ping
+;  Version: 0.9.1.1
+;  Authors: Scott Ellis
+;============================================================
+#muuid {968def4a-bc60-4266-ac08-754ce721db5f}
+;============================================================
+;  File: PluginUpdater.dll
+;  Plugin: Plugin updater
+;  Version: 0.2.0.3
+;  Authors: Mataes, George Hazan
+;============================================================
+[Go to Options -> Customize -> Hotkeys to change the hotkey]
+Go to Options -> Customise -> Hotkeys to change the hotkey
+[Colors]
+Colours
+[Use cus&tom colors]
+Use cus&tom colours
+[Use &Windows colors]
+Use &Windows colours
+[Use defa&ult colors]
+Use defa&ult colours
+#muuid {7eeeb55e-9d83-4e1a-a12f-8f13f1a124fb}
+;============================================================
+;  File: PManagerEx.dll
+;  Plugin: Miranda NG profile changer
+;  Version: 0.0.0.5
+;  Authors: Roman Gemini
+;============================================================
+#muuid {67716225-21f1-4a03-a69b-5fe12f128a2b}
+;============================================================
+;  File: PopupPlus.dll
+;  Plugin: Popup plus
+;  Version: 2.1.1.15
+;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
+;============================================================
+[Go to Customize -> Fonts and Colors for fonts and colors options]
+Go to Customise -> Fonts and Colours for fonts and colours options
+[Colors can be configured in\r\nCustomize -> Fonts and colors]
+Colours can be configured in\r\nCustomise -> Fonts and colours
+[With "favorite" overlay]
+With "favourite" overlay
+[Favorite contact]
+Favourite contact
+[Use Windows colors]
+Use Windows colours
+[Favorite]
+Favourite
+[Popup Mode: Favorite]
+Popup Mode: Favourite
+#muuid {4df0c267-6efb-4410-b651-385f87158509}
+;============================================================
+;  File: ProxySwitch.dll
+;  Plugin: ProxySwitch
+;  Version: 1.0.0.1
+;  Authors: Petr Smejkal
+;============================================================
+[Text color]
+Text colour
+[Background color]
+Background colour
+[Use default colors]
+Use default colours
+#muuid {f93ba59c-4f48-4f2e-8a91-77a2801527a3}
+;============================================================
+;  File: QuickContacts.dll
+;  Plugin: Quick contacts
+;  Version: 1.0.0.0
+;  Authors: Ricardo Pescuma Domenecci, Heiko Schillinger
+;============================================================
+[recognize all messages sent]
+recognise all messages sent
+[recognize messages sent with hotkey only]
+recognise messages sent with hotkey only
+#muuid {37ed754b-6cf9-40ed-9eb6-0fef8e822475}
+;============================================================
+;  File: QuickMessages.dll
+;  Plugin: Quick messages
+;  Version: 0.0.4.2
+;  Authors: MaD_CLuSTeR
+;============================================================
+#muuid {a6a031b6-d32f-4842-98c6-ec716c576b77}
+;============================================================
+;  File: QuickReplies.dll
+;  Plugin: Quick replies
+;  Version: 0.9.1.2
+;  Authors: Unsane
+;============================================================
+#muuid {e4058506-6494-4d60-9cf4-40bf545f78bd}
+;============================================================
+;  File: QuickSearch.dll
+;  Plugin: Quick Search
+;  Version: 1.4.2.0
+;  Authors: Awkward
+;============================================================
+[Colorize]
+Colourise
+; these lines are not present in the sources, but they are present in compiled plugin
+#muuid {45230488-977b-405b-856d-ea276d7083b7}
+;============================================================
+;  File: Rate.dll
+;  Plugin: Contact`s rate
+;  Version: 0.0.2.1
+;  Authors: Kildor, Thief
+;============================================================
+#muuid {0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3}
+;============================================================
+;  File: RecentContacts.dll
+;  Plugin: Recent contacts
+;  Version: 0.1.0.3
+;  Authors: ValeraVi, Kildor
+;============================================================
+#muuid {60e94b84-a799-4021-9449-5b838fc06a7c}
+;============================================================
+;  File: RemovePersonalSettings.dll
+;  Plugin: Remove Personal Settings
+;  Version: 0.1.0.4
+;  Authors: Ricardo Pescuma Domenecci
+;============================================================
+#muuid {61bedf3a-0cc2-41a3-b980-bb9393368935}
+;============================================================
+;  File: Restart.dll
+;  Plugin: Restart
+;  Version: 0.0.6.0
+;  Authors: eugene.nv
+;============================================================
+#muuid {f1b0ba1b-0c91-4313-85eb-225069d44d01}
+;============================================================
+;  File: Sametime.dll
+;  Plugin: Sametime protocol
+;  Version: 0.7.0.5
+;  Authors: Scott Ellis, Szymon Tokarz
+;============================================================
+[Not authorized]
+Not authorised
+[Already initialized]
+Already initialised
+[Encryption not initialized]
+Encryption not initialised
+[Unauthorized to perform an action or access a resource]
+Unauthorised to perform an action or access a resource
+[Encryption mechanism has not been initialized yet]
+Encryption mechanism has not been initialised yet
+#muuid {84636f78-2057-4302-8a65-23a16d46844c}
+;============================================================
+;  File: Scriver.dll
+;  Plugin: Scriver
+;  Version: 3.0.1.10
+;  Authors: Miranda NG team
+;============================================================
+[Behavior]
+Behaviour
+[and stay minimized]
+and stay minimised
+[Minimize on send]
+Minimise on send
+[Customize fonts and colors]
+Customise fonts and colours
+[Use default colors]
+Use default colours
+[Use custom colors]
+Use custom colours
+[Timestamp has same color as event]
+Timestamp has same colour as event
+[Strip colors from messages]
+Strip colours from messages
+[Text color]
+Text colour
+[Background color]
+Background colour
+[Window: Minimize]
+Window: Minimise
+[Make the text italicized (Ctrl+I)]
+Make the text italicised (Ctrl+I)
+[&Color]
+&Colour
+[Select a foreground color for the text (Ctrl+K)]
+Select a foreground colour for the text (Ctrl+K)
+[&Background color]
+&Background colour
+[Select a background color for the text (Ctrl+L)]
+Select a background colour for the text (Ctrl+L)
+#muuid {1B2A39E5-E2F6-494D-958D-1808FD110DD5}
+;============================================================
+;  File: SecureIM.dll
+;  Plugin: SecureIM
+;  Version: 1.0.12.4
+;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
+;============================================================
+[Key agreement colors]
+Key agreement colours
+[Secure connection colors]
+Secure connection colours
+[Send/Receive encrypted colors]
+Send/Receive encrypted colours
+[SecureIM Popup Colors]
+SecureIM Popup Colours
+#muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
+;============================================================
+;  File: SeenPlugin.dll
+;  Plugin: Last seen
+;  Version: 5.0.5.5
+;  Authors: Heiko Schillinger, YB
+;============================================================
+[Popup Colors]
+Popup Colours
+[Reset colors]
+Reset colours
+#muuid {ed39af7c-becd-404e-9499-4d04f711b9cb}
+;============================================================
+;  File: SendSS.dll
+;  Plugin: Send ScreenShot+
+;  Version: 0.9.0.2
+;  Authors: Merlin
+;============================================================
+[The type of a recipient was not MAPI_TO, MAPI_CC, or MAPI_BCC]
+The type of a recipient was not MAPI_TO, MAPI_CC or MAPI_BCC
+[The user canceled one of the dialog boxes]
+The user cancelled one of the dialog boxes
+#muuid {60558872-2aab-45aa-888d-097691c9b683}
+;============================================================
+;  File: Sessions.dll
+;  Plugin: Sessions
+;  Version: 0.1.4.0
+;  Authors: MaD_CLuSTeR
+;============================================================
+[Favorite Session]
+Favourite Session
+[Not favorite Session]
+Not favourite Session
+[Show Favorite Sessions Menu]
+Show Favourite Sessions Menu
+#muuid {7993ab24-1fda-428c-a89b-be377a10be3a}
+;============================================================
+;  File: ShlExt.dll
+;  Plugin: Shell extension
+;  Version: 2.2.0.4
+;  Authors: Sam Kothari, Miranda NG team
+;============================================================
+#muuid {46bf191f-8dfb-4656-88b2-4c20be4cfa44}
+;============================================================
+;  File: SimpleAR.dll
+;  Plugin: Simple auto replier
+;  Version: 2.0.2.6
+;  Authors: Stark Wong, Mataes, Mikel-Ard-Ri
+;============================================================
+#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
+;============================================================
+;  File: SimpleStatusMsg.dll
+;  Plugin: Simple status message
+;  Version: 1.9.0.8
+;  Authors: Bartosz 'Dezeath' Białek, Harven
+;============================================================
+[Behavior on status change]
+Behaviour on status change
+#muuid {2925520b-6677-4658-8bad-5661d13e4692}
+;============================================================
+;  File: SkypeStatusChange.dll
+;  Plugin: Skype status change
+;  Version: 0.0.0.18
+;  Authors: Dioksin
+;============================================================
+[Synchronize status message]
+Synchronise status message
+[&Check any protocol or any status to exclude it from synchronization:]
+&Check any protocol or any status to exclude it from synchronisation:
+[Synchronize if current status differs from previous one]
+Synchronise if current status differs from previous one
+#muuid {57e90ac6-1067-423b-8ca3-70a39d200d4f}
+;============================================================
+;  File: SkypeWeb.dll
+;  Plugin: Skype protocol (Web)
+;  Version: 0.12.3.4
+;  Authors: Miranda NG team
+;============================================================
+[Automatic messages synchronization]
+Automatic messages synchronisation
+#muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
+;============================================================
+;  File: SmileyAdd.dll
+;  Plugin: SmileyAdd
+;  Version: 0.3.1.2
+;  Authors: Peacow, nightwish, bid, borkra
+;============================================================
+[Background color]
+Background colour
+[Customize]
+Customise
+[Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
+Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customise -> Smileys.
+#muuid {14331048-5a73-4fdb-b909-2d7e1825a012}
+;============================================================
+;  File: Spamotron.dll
+;  Plugin: Spam-o-tron
+;  Version: 0.0.4.7
+;  Authors: vu1tur
+;============================================================
+[Analyze]
+Analyse
+[Send challenge on authorization request:]
+Send challenge on authorisation request:
+[Use default colors]
+Use default colours
+[Use Windows colors]
+Use Windows colours
+[Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.]
+Spam-o-tron delayed authorisation request. First reply with "%response%" without quotes.
+[Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
+Spam-o-tron delayed authorisation request. First reply with a result of expression %mathexpr%.
+#muuid {36753ae3-840b-4797-94a5-fd9f5852b942}
+;============================================================
+;  File: SpellChecker.dll
+;  Plugin: Spell checker
+;  Version: 0.2.6.6
+;  Authors: Ricardo Pescuma Domenecci, Wishmaster
+;============================================================
+#muuid {c64cc8e0-cf03-474a-8b11-8bd4565ccf04}
+;============================================================
+;  File: SplashScreen.dll
+;  Plugin: Splash screen
+;  Version: 0.1.2.3
+;  Authors: nullbie, Thief
+;============================================================
+#muuid {211f6277-6f9b-4b77-a939-84d04b26b38c}
+;============================================================
+;  File: StartPosition.dll
+;  Plugin: Start position
+;  Version: 0.3.0.4
+;  Authors: Felipe Brahm - souFrag
+;============================================================
+[minimized to system tray]
+Minimised to System Tray
+#muuid {7b856b6a-d48f-4f54-b8d6-c8d86d02ffc2}
+;============================================================
+;  File: StartupSilence.dll
+;  Plugin: StartupSilence
+;  Version: 0.2.0.0
+;  Authors: Vladimir Lyubimov
+;============================================================
+#muuid {1acb2ed1-c1ed-43ee-89bd-086686f6ebb5}
+;============================================================
+;  File: StatusChange.dll
+;  Plugin: Status change
+;  Version: 1.3.0.0
+;  Authors: Angelo Luiz Tartari
+;============================================================
+#muuid {fadd4a8a-1fd0-4398-83bd-e378b85ed8f1}
+;============================================================
+;  File: StatusManager.dll
+;  Plugin: Status manager
+;  Version: 1.2.0.5
+;  Authors: P Boon
+;============================================================
+[Background color]
+Background colour
+[Text color]
+Text colour
+[Use Windows colors]
+Use Windows colours
+[Use default colors]
+Use default colours
+[Colors]
+Colours
+[Minimized]
+Minimised
+#muuid {68f5a030-ba32-48ec-9507-5c2fbdea5217}
+;============================================================
+;  File: Steam.dll
+;  Plugin: Steam protocol
+;  Version: 0.11.6.6
+;  Authors: Miranda NG team, Robert Pösel
+;============================================================
+[Show chat state events (i.e., user closed chat session)]
+Show chat state events (i.e. user closed chat session)
+#muuid {553811ee-deb6-48b8-8902-a8a00c1fd679}
+;============================================================
+;  File: StopSpam.dll
+;  Plugin: StopSpam+
+;  Version: 0.1.0.2
+;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
+;============================================================
+#muuid {94ced94c-a94a-4bb1-acbd-5cc6ebb689d4}
+;============================================================
+;  File: StopSpamMod.dll
+;  Plugin: StopSpam mod
+;  Version: 0.0.2.3
+;  Authors: Roman Miklashevsky, sss, Elzor
+;============================================================
+[Automatically grant authorization]
+Automatically grant authorisation
+[Request authorization from contacts which pass StopSpam test]
+Request authorisation from contacts which pass StopSpam test
+#muuid {6ca5f042-7a7f-47cc-a715-fc8c46fbf434}
+;============================================================
+;  File: TabSRMM.dll
+;  Plugin: TabSRMM
+;  Version: 3.5.0.14
+;  Authors: The Miranda developers team and contributors
+;============================================================
+[Customize the panel]
+Customise the panel
+[Use default colors]
+Use default colours
+[Use the message log color theme for group chat popups]
+Use the message log colour theme for group chat popups
+[Contact is a favorite contact]
+Contact is a favourite contact
+[Vertical maximize]
+Vertical maximise
+[Enable popups if minimized]
+Enable popups if minimised
+[Play sounds when minimized]
+Play sounds when minimised
+[Esc key behavior]
+Esc key behaviour
+[Use contact list groups for organizing tabs (one window per group)]
+Use contact list groups for organising tabs (one window per group)
+[Define up to 5 colors which you can use with some variables]
+Define up to 5 colours which you can use with some variables
+[Load fonts and colors provided by skin]
+Load fonts and colours provided by skin
+[You can export and import all your color and font settings here. This allows you to create a Theme file which can be shared between different profiles or with your buddies.]
+You can export and import all your colour and font settings here. This allows you to create a Theme file which can be shared between different profiles or with your buddies.
+[Favorites]
+Favourites
+[Add contact to favorites]
+Add contact to favourites
+[Remove contact from favorites]
+Remove contact from favourites
+[Show popups if window is minimized]
+Show popups if window is minimised
+[Select font color]
+Select font colour
+[Change background color]
+Change background colour
+[Common colors]
+Common colours
+[Window fill color]
+Window fill colour
+[Generic text color (only when fill color is set)]
+Generic text colour (only when fill colour is set)
+[Colorize nicknames in member list]
+Colourise nicknames in member list
+[Timestamp has same color as the event]
+Timestamp has same colour as the event
+[Strip colors from messages in the log]
+Strip colours from messages in the log
+[Colorize user names in message log]
+Colourise user names in message log
+[Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
+Session list.\nClick left for a list of open sessions.\nClick right to access favourites and quickly configure message window behaviour
+[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the 'Event notifications' settings page.]
+One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behaviour, please review the 'Event notifications' settings page.
+[Do not synchronize the panel height with IM windows]
+Do not synchronise the panel height with IM windows
+[Do not synchronize the panel height with group chat windows]
+Do not synchronise the panel height with group chat windows
+[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
+UID: %s (Shift click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favourites.
+[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
+UID: %s (Shift click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favourite status.
+[Minimize the window to the task bar]
+Minimise the window to the task bar
+[Font color]
+Font colour
+[Background color]
+Background colour
+[Semi transparent, custom colors]
+Semi transparent, custom colours
+[Custom (use own gradient colors)]
+Custom (use own gradient colours)
+[Message window behavior]
+Message window behaviour
+[Minimize the message window on send]
+Minimise the message window on send
+[New windows are minimized (the option above MUST be active)]
+New windows are minimised (the option above MUST be active)
+[Activate a minimized window when a new tab is created inside it]
+Activate a minimised window when a new tab is created inside it
+[Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
+Automatically switch existing tabs in minimised windows on incoming messages (ignored when using Aero Peek task bar features)
+[Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
+Loading a theme|Loading a colour and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?
+#muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
+;============================================================
+;  File: Tipper.dll
+;  Plugin: Tipper
+;  Version: 2.1.0.7
+;  Authors: Scott Ellis, yaho
+;============================================================
+[Enable skin coloring]
+Enable skin colouring
+[Load fonts and colors]
+Load fonts and colours
+[Favorite contacts]
+Favourite contacts
+[Center]
+Centre
+[Customize]
+Customise
+[# Solid color fill]
+\# Solid colour fill
+#muuid {1fdbd8f0-3929-41bc-92d1-020779460769}
+;============================================================
+;  File: Toaster.dll
+;  Plugin: Toaster
+;  Version: 0.11.2.0
+;  Authors: Miranda NG team
+;============================================================
+#muuid {5906a545-f31a-4726-b48f-03a09f060318}
+;============================================================
+;  File: TooltipNotify.dll
+;  Plugin: Tooltip notify
+;  Version: 0.7.0.1
+;  Authors: perf
+;============================================================
+[Behavior]
+Behaviour
+#muuid {f593c752-51d8-4d46-ba27-37577953f55c}
+;============================================================
+;  File: TopToolBar.dll
+;  Plugin: TopToolBar
+;  Version: 0.8.0.5
+;  Authors: Bethoven
+;============================================================
+[Minimize contact list]
+Minimise contact list
+#muuid {00272a3e-f5fa-4090-8b67-3e62ac1ee0b4}
+;============================================================
+;  File: Tox.dll
+;  Plugin: Tox protocol
+;  Version: 0.11.3.2
+;  Authors: Miranda NG team
+;============================================================
+[Unable to initialize Tox core]
+Unable to initialise Tox core
+#muuid {82181510-5dfa-49d7-b469-33871e2ae8b5}
+;============================================================
+;  File: TrafficCounter.dll
+;  Plugin: Traffic counter
+;  Version: 0.1.1.9
+;  Authors: Ghost, Mironych
+;============================================================
+[Background color:]
+Background colour:
+[Text color:]
+Text colour:
+#muuid {0286947d-3140-4222-b5ad-2c92315e1c1e}
+;============================================================
+;  File: TranslitSwitcher.dll
+;  Plugin: Switch layout or transliterate
+;  Version: 0.1.0.1
+;  Authors: Mataes, tico-tico, Tim
+;============================================================
+#muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}
+;============================================================
+;  File: Twitter.dll
+;  Plugin: Twitter protocol
+;  Version: 1.3.0.3
+;  Authors: dentist, omniwolf, Thief
+;============================================================
+[Colors]
+Colours
+[Use Windows colors]
+Use Windows colours
+[Use default colors]
+Use default colours
+[Use custom colors]
+Use custom colours
+[OAuth variables are out of sequence, they have been reset. Please reconnect and reauthorize Miranda to Twitter.com (do the PIN stuff again)]
+OAuth variables are out of sequence, they have been reset. Please reconnect and reauthorise Miranda to Twitter.com (do the PIN stuff again)
+[Unable to initialize Netlib for %s.]
+Unable to initialise Netlib for %s.
+#muuid {9c23a24b-e6aa-43c6-b0b8-d6c36d2f7b57}
+;============================================================
+;  File: UInfoEx.dll
+;  Plugin: User info ext
+;  Version: 0.8.5.2
+;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
+;============================================================
+[Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
+Enter your full e-mail address.\n(e.g. john.doe@provider.com)
+[Birthday popup colors]
+Birthday popup colours
+[Background color]
+Background colour
+[Text color]
+Text colour
+[Use Windows colors]
+Use Windows colours
+[Use default colors]
+Use default colours
+[Anniversary popup colors]
+Anniversary popup colours
+[Enable colors to give information about information's status.]
+Enable colours to give information about information's status.
+[Colors]
+Colours
+[No pages have been added. Canceling dialog creation!]
+No pages have been added. Cancelling dialog creation!
+[Non-Government Organization]
+Non-Government Organisation
+[Mail order catalog]
+Mail order catalogue
+#muuid {297ec1e7-41b7-41f9-bb91-efa95028f16c}
+;============================================================
+;  File: UserGuide.dll
+;  Plugin: User guide
+;  Version: 0.0.0.1
+;  Authors: Yasnovidyashii
+;============================================================
+#muuid {59b0036e-5403-422e-883b-c9aaf425682b}
+;============================================================
+;  File: Variables.dll
+;  Plugin: Variables
+;  Version: 0.2.3.11
+;  Authors: P Boon
+;============================================================
+#muuid {32579908-724b-467f-adad-22b6359a749a}
+;============================================================
+;  File: VKontakte.dll
+;  Plugin: VKontakte protocol
+;  Version: 0.1.9.2
+;  Authors: Miranda NG team
+;============================================================
+[Please authorize me to add you to my friend list.]
+Please authorise me to add you to my friend list.
+#muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
+;============================================================
+;  File: Watrack.dll
+;  Plugin: Winamp Track
+;  Version: 0.0.6.12
+;  Authors: Awkward
+;============================================================
+[Center horizontally]
+Centre horizontally
+[Center vertically]
+Centre vertically
+[Color codes]
+Colour codes
+[Align text to center]
+Align text to centre
+[Use default colors]
+Use default colours
+[Use Windows colors]
+Use Windows colours
+[Use custom colors]
+Use custom colours
+[Color]
+Colour
+;other strings
+#muuid {692e87d0-6c71-4cdc-9e36-2b2d69fbdc4c}
+;============================================================
+;  File: Watrack_MPD.dll
+;  Plugin: Watrack MPD
+;  Version: 0.0.0.4
+;  Authors: sss
+;============================================================
+#muuid {fc718bc7-abc8-43cd-aad9-761614617738}
+;============================================================
+;  File: wbOSD.dll
+;  Plugin: WannaBe OSD
+;  Version: 0.2.1.0
+;  Authors: Andrej Krutak
+;============================================================
+[Shadow color]
+Shadow colour
+[Background color]
+Background colour
+[Text color]
+Text colour
+#muuid {6b612a34-dcf2-4e32-85cf-b6fd006b745e}
+;============================================================
+;  File: Weather.dll
+;  Plugin: Weather
+;  Version: 0.4.0.5
+;  Authors: Miranda NG team
+;============================================================
+[Colors]
+Colours
+[Background color]
+Background colour
+[Text color]
+Text colour
+[Use Windows colors]
+Use Windows colours
+[HTTP Error: Unauthorized (401)]
+HTTP Error: Unauthorised (401)
+;============================================================
+;  File: Intellicast.ini
+;  Plugin: Weather
+;============================================================
+;============================================================
+;  File: weatherxml.ini
+;  Plugin: Weather
+;============================================================
+;============================================================
+;  File: wundergrnd_intl.ini
+;  Plugin: Weather
+;============================================================
+;============================================================
+;  File: yweather.ini
+;  Plugin: Weather
+;============================================================
+#muuid {cd5427fb-5320-4f65-b4bf-86b7cf7b5087}
+;============================================================
+;  File: Webview.dll
+;  Plugin: Webview
+;  Version: 0.1.3.2
+;  Authors: Vincent Joyce
+;============================================================
+[Background color:]
+Background colour:
+[Text color:]
+Text colour:
+[Colors]
+Colours
+[Use custom colors]
+Use custom colours
+[Use Windows colors]
+Use Windows colours
+[Use same colors as data window]
+Use same colours as data window
+#muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
+;============================================================
+;  File: WhenWasIt.dll
+;  Plugin: Birthday reminder
+;  Version: 0.3.3.5
+;  Authors: Cristian Libotean
+;============================================================
+#muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
+;============================================================
+;  File: WhoUsesMyFiles.dll
+;  Plugin: Who Use My Files
+;  Version: 0.1.0.3
+;  Authors: Nikolay Redko
+;============================================================
+[Background color]
+Background colour
+[Text color]
+Text colour
+[Popup color settings]
+Popup colour settings
+[Use Windows colors]
+Use Windows colours
+[Use default colors]
+Use default colours
+[Use custom colors]
+Use custom colours
+#muuid {81e189dc-c251-45f6-9edf-a0f3a05c4248}
+;============================================================
+;  File: WinterSpeak.dll
+;  Plugin: WinterSpeak
+;  Version: 0.9.8.3
+;  Authors: Ryan Winter, BlubbFish
+;============================================================
+[Authorization request]
+Authorisation request
+[%u requests your authorization]
+%u requests your authorisation
+#muuid {a01e25f7-a6ef-4b40-8cac-755a2f2e55b5}
+;============================================================
+;  File: XSoundNotify.dll
+;  Plugin: XSoundNotify
+;  Version: 1.0.1.3
+;  Authors: Roman Torsten
+;============================================================
+#muuid {b047a7e5-027a-4cfc-8b18-eda8345d2790}
+;============================================================
+;  File: YAMN.dll
+;  Plugin: Mail Notifier
+;  Version: 0.1.2.6
+;  Authors: y_b, tweety, majvan
+;============================================================
+[Show long localized date]
+Show long localised date
+[Use custom color]
+Use custom colour
+[Background color]
+Background colour
+[Text color]
+Text colour
+[Server does not support APOP authorization.]
+Server does not support APOP authorisation.
+#muuid {01202e6a-c1b3-42e5-838a-3e497b31f38e}
+;============================================================
+;  File: YARelay.dll
+;  Plugin: YARelay
+;  Version: 0.1.0.1
+;  Authors: Anar Ibragimoff
+;============================================================
+#muuid {47d489d3-310d-4ef6-bd05-699fffd5a4aa}
+;============================================================
+;  File: ZeroNotify.dll
+;  Plugin: Zero notifications
+;  Version: 0.1.0.1
+;  Authors: bidyut, Maat
+;============================================================
+#muuid {3f1657b1-69cb-4992-9cfc-226c808a5202}
+;============================================================
+;  File: ZeroSwitch.dll
+;  Plugin: Zero switch
+;  Version: 1.0.0.1
+;  Authors: ZERO_BiT
+;============================================================

@@ -158,7 +158,7 @@ ID навіны.
 [Avatars]
 Аватары
 [Enable/disable auto update]
-
+Уключыць/выключыць аўтаабнаўленне
 ;file \protocols\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connections]
 HTTP далучэнне NewsAggregator

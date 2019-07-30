@@ -748,11 +748,11 @@ Libre para el chat
 [category]
 
 [type]
-
+tipo
 [Category]
 
 [Type]
-
+Tipo
 [Supported features]
 
 [Info request error]
