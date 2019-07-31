@@ -63,7 +63,6 @@ cscript /nologo translate.js /sourcelang:"english_gb" /release:"..\..\%comp%\Rel
 cscript /nologo translate.js /sourcelang:"french" /release:"..\..\%comp%\Release%tp%\Languages\langpack_french.txt"
 cscript /nologo translate.js /sourcelang:"german" /release:"..\..\%comp%\Release%tp%\Languages\langpack_german.txt"
 cscript /nologo translate.js /sourcelang:"polish" /release:"..\..\%comp%\Release%tp%\Languages\langpack_polish.txt"
-cscript /nologo translate.js /sourcelang:"serbian" /release:"..\..\%comp%\Release%tp%\Languages\langpack_serbian.txt"
 cscript /nologo translate.js /sourcelang:"spanish" /release:"..\..\%comp%\Release%tp%\Languages\langpack_spanish.txt"
 del /f /q ..\..\%comp%\Release%tp%\*_nodupes.txt
 popd
