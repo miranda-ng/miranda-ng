@@ -110,7 +110,7 @@ static int MetaChanged(WPARAM hMeta, LPARAM hSubContact)
 
 	// Get the node
 	CacheNode *node = FindAvatarInCache(hSubContact, true);
-	if (node == nullptr || !node->loaded) {
+	if (node == nullptr || !node->bLoaded) {
 		ace = (AVATARCACHEENTRY*)GetProtoDefaultAvatar(hSubContact);
 		QueueAdd(hSubContact);
 	}

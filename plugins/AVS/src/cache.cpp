@@ -81,7 +81,7 @@ CacheNode* FindAvatarInCache(MCONTACT hContact, bool add, bool findAny)
 		cc = arCache.find((CacheNode*)&hContact);
 		if (cc) {
 			cc->t_lastAccess = time(0);
-			return (cc->loaded || findAny) ? cc : nullptr;
+			return (cc->bLoaded || findAny) ? cc : nullptr;
 		}
 
 		// not found
@@ -101,11 +101,11 @@ CacheNode* FindAvatarInCache(MCONTACT hContact, bool add, bool findAny)
 			
 	case 1: // loaded, everything is ok
 		if (cc->hbmPic != nullptr)
-			cc->loaded = true;
+			cc->bLoaded = true;
 		break;
 		
 	default:
-		cc->loaded = false;
+		cc->bLoaded = false;
 		break;
 	}
 
@@ -133,9 +133,10 @@ void NotifyMetaAware(MCONTACT hContact, CacheNode *node, AVATARCACHEENTRY *ace)
 	if (hMasterContact && db_mc_getMostOnline(hMasterContact) == hContact && !db_get_b(hMasterContact, "ContactPhoto", "Locked", 0))
 		NotifyEventHooks(hEventChanged, (WPARAM)hMasterContact, (LPARAM)ace);
 
-	if (node->dwFlags & AVH_MUSTNOTIFY) {
+	if (node->bNotify) {
 		// Fire the event for avatar history
-		node->dwFlags &= ~AVH_MUSTNOTIFY;
+		node->bNotify = false;
+
 		if (node->szFilename[0] != '\0') {
 			CONTACTAVATARCHANGEDNOTIFICATION cacn = {};
 			cacn.hContact = hContact;
@@ -262,7 +263,7 @@ void PicLoader(LPVOID)
 				{
 					mir_cslock l(cachecs);
 					memcpy(node, &ace_temp, sizeof(AVATARCACHEENTRY));
-					node->loaded = TRUE;
+					node->bLoaded = true;
 				}
 				if (oldPic)
 					DeleteObject(oldPic);
@@ -273,7 +274,7 @@ void PicLoader(LPVOID)
 				{
 					mir_cslock l(cachecs);
 					memcpy(node, &ace_temp, sizeof(AVATARCACHEENTRY));
-					node->loaded = FALSE;
+					node->bLoaded = false;
 				}
 				if (oldPic)
 					DeleteObject(oldPic);

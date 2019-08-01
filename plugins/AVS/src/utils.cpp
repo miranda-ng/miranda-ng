@@ -412,7 +412,7 @@ int ChangeAvatar(MCONTACT hContact, bool fLoad, bool fNotifyHist, int pa_format)
 		return 0;
 
 	if (fNotifyHist)
-		node->dwFlags |= AVH_MUSTNOTIFY;
+		node->bNotify = true;
 
 	node->pa_format = pa_format;
 	if (fLoad) {

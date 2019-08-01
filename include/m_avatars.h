@@ -230,15 +230,6 @@ struct CONTACTAVATARCHANGEDNOTIFICATION
 
 #define MS_AV_REPORTMYAVATARCHANGED "SV_Avatars/ReportMyAvatarChanged"
 
-/*
-* flags for internal use ONLY
-*/
-
-#define AVH_MUSTNOTIFY     0x04             // node->dwFlags (loader thread must notify avatar history about change/delete event)
-#define AVS_DELETENODEFOREVER 0x08
-
-
-
 // Protocol services //////////////////////////////////////////////////////////////////////
 
 /*

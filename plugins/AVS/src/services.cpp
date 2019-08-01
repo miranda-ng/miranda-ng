@@ -35,7 +35,7 @@ INT_PTR GetAvatarBitmap(WPARAM hContact, LPARAM)
 
 	// Get the node
 	CacheNode *node = FindAvatarInCache(hContact, true);
-	if (node == nullptr || !node->loaded)
+	if (node == nullptr || !node->bLoaded)
 		return (INT_PTR)GetProtoDefaultAvatar(hContact);
 	return (INT_PTR)node;
 }
