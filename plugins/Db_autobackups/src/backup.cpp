@@ -28,7 +28,7 @@ static LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 
 static void ShowPopup(const wchar_t *ptszText, wchar_t *ptszHeader, wchar_t *ptszPath)
 {
-	if (g_plugin.bTerminated)
+	if (Miranda_IsTerminated())
 		return;
 
 	POPUPDATAW ppd;
@@ -304,22 +304,20 @@ static void BackupThread(void *backup_filename)
 	mir_free(backup_filename);
 }
 
-void BackupStart(wchar_t *backup_filename, bool bInThread)
+int BackupStatus()
 {
-	LONG cur_state = InterlockedCompareExchange(&g_iState, 1, 0);
-	if (cur_state != 0) { // Backup allready in process.
+	return InterlockedCompareExchange(&g_iState, 1, 0);
+}
+
+void BackupStart(wchar_t *backup_filename)
+{
+	if (BackupStatus() != 0) { // Backup allready in process.
 		ShowPopup(TranslateT("Database back up in process..."), TranslateT("Error"), nullptr);
 		return;
 	}
 
-	if (bInThread) {
-		if (mir_forkthread(BackupThread, mir_wstrdup(backup_filename)) == INVALID_HANDLE_VALUE)
-			InterlockedExchange(&g_iState, 0); // Backup done.
-	}
-	else {
-		Backup(backup_filename);
+	if (mir_forkthread(BackupThread, mir_wstrdup(backup_filename)) == INVALID_HANDLE_VALUE)
 		InterlockedExchange(&g_iState, 0); // Backup done.
-	}
 }
 
 VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)

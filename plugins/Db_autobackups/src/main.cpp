@@ -140,12 +140,18 @@ static int ModulesLoad(WPARAM, LPARAM)
 
 // can't do this on unload, since other plugins will be have already been unloaded, but their hooks
 // for setting changed event not cleared. the backup on exit function will write to the db, calling those hooks.
-static int PreShutdown(WPARAM, LPARAM)
-{
-	g_plugin.bTerminated = true;
+static bool bStarted = false;
 
-	if (g_plugin.backup_types & BT_EXIT)
-		BackupStart(nullptr, false);
+static int OkToExit(WPARAM, LPARAM)
+{
+	if (g_plugin.backup_types & BT_EXIT) {
+		if (bStarted)
+			return BackupStatus() ? 1 : 0;
+			
+		bStarted = true;
+		BackupStart(nullptr);
+		return 1;
+	}
 	return 0;
 }
 
@@ -153,7 +159,7 @@ int CMPlugin::Load()
 {
 	Miranda_GetVersionText(g_szMirVer, sizeof(g_szMirVer));
 
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
+	HookEvent(ME_SYSTEM_OKTOEXIT, OkToExit);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoad);
 
 	g_plugin.registerIcon(LPGEN("Database") "/" LPGEN("Database backups"), iconList);

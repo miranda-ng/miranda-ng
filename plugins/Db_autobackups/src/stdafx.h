@@ -34,7 +34,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
-	bool               bTerminated;
 	CMOption<BYTE>	    backup_types;
 	CMOption<WORD>	    period;
 	CMOption<BYTE>	    period_type;
@@ -60,7 +59,8 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 int  SetBackupTimer(void);
 int  OptionsInit(WPARAM wParam, LPARAM lParam);
-void BackupStart(wchar_t *backup_filename, bool bInThread = true);
+void BackupStart(wchar_t *backup_filename);
+int  BackupStatus(void);
 
 struct ZipFile
 {
