@@ -112,6 +112,10 @@ EXTERN_C MIR_APP_DLL(bool) Miranda_IsTerminated(void);
 // if everyone acknowleges OK to exit then returns true, otherwise false
 EXTERN_C MIR_APP_DLL(bool) Miranda_OkToExit(void);
 
+// Used by contact lists inside CloseAction
+// Waits for a permission to exit and destroys contact list
+EXTERN_C MIR_APP_DLL(void) Miranda_Close(void);
+
 /*
 	wParam : 0
 	lParam : (address) void (__cdecl *callback) (void)

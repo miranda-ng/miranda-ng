@@ -129,11 +129,7 @@ void UnloadFavoriteContactMenu()
 static INT_PTR CloseAction(WPARAM, LPARAM)
 {
 	g_CluiData.bSTATE = STATE_PREPARETOEXIT;  // workaround for avatar service and other wich destroys service on OK_TOEXIT
-
-	while (!Miranda_OkToExit())
-		Sleep(100);
-
-	DestroyWindow(g_clistApi.hwndContactList);
+	Miranda_Close();
 	return 0;
 }
 

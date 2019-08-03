@@ -1,6 +1,7 @@
 LIBRARY mir_app.mir
 
 EXPORTS
+Miranda_Close               @1 NONAME
 CallProtoService            @2
 Skin_LoadProtoIcon          @4
 Skin_LoadIcon               @5

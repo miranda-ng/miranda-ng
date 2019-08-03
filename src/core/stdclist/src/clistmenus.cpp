@@ -26,10 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static INT_PTR CloseAction(WPARAM, LPARAM)
 {
-	while (!Miranda_OkToExit())
-		Sleep(100);
-
-	DestroyWindow(g_clistApi.hwndContactList);
+	Miranda_Close();
 	return 0;
 }
 

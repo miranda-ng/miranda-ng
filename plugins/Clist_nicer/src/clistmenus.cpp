@@ -35,11 +35,7 @@ void InitIconLibMenuIcons();
 INT_PTR CloseAction(WPARAM, LPARAM)
 {
 	cfg::shutDown = 1;
-
-	while (!Miranda_OkToExit())
-		Sleep(100);
-	
-	DestroyWindow(g_clistApi.hwndContactList);
+	Miranda_Close();
 	PostQuitMessage(0);
 	return 0;
 }

@@ -427,6 +427,20 @@ MIR_APP_DLL(bool) Miranda_OkToExit()
 	return NotifyEventHooks(hOkToExitEvent, 0, 0) == 0;
 }
 
+MIR_APP_DLL(void) Miranda_Close()
+{
+	while (!Miranda_OkToExit()) {
+		MSG msg;
+		while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+		Sleep(0);
+	}
+
+	DestroyWindow(g_clistApi.hwndContactList);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // version functions
 
