@@ -36,12 +36,11 @@ INT_PTR CloseAction(WPARAM, LPARAM)
 {
 	cfg::shutDown = 1;
 
-	if (Miranda_OkToExit()) {
-		DestroyWindow(g_clistApi.hwndContactList);
-		PostQuitMessage(0);
-		Sleep(0);
-	}
-
+	while (!Miranda_OkToExit())
+		Sleep(100);
+	
+	DestroyWindow(g_clistApi.hwndContactList);
+	PostQuitMessage(0);
 	return 0;
 }
 

@@ -130,14 +130,10 @@ static INT_PTR CloseAction(WPARAM, LPARAM)
 {
 	g_CluiData.bSTATE = STATE_PREPARETOEXIT;  // workaround for avatar service and other wich destroys service on OK_TOEXIT
 
-	bool k;
-	do {
-		k = Miranda_OkToExit();
-	} while (!k);
+	while (!Miranda_OkToExit())
+		Sleep(100);
 
-	if (k)
-		DestroyWindow(g_clistApi.hwndContactList);
-
+	DestroyWindow(g_clistApi.hwndContactList);
 	return 0;
 }
 
