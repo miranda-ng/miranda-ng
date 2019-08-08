@@ -74,7 +74,10 @@ struct IcqGroup
 		id(_p1),
 		wszName(_p2)
 	{
-		level = wszName.SpanIncluding(L"<").GetLength();
+		level = wszName.SpanIncluding(L">").GetLength();
+		if (level != 0)
+			wszName.Delete(level);
+		wszName.Replace(L">", L"\\");
 	}
 
 	int id;

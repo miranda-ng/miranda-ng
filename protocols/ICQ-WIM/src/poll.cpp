@@ -34,7 +34,6 @@ void CIcqProto::ProcessBuddyList(const JSONNode &ev)
 		if (pGroup->level != 0) {
 			for (auto &p : tmpGroups.rev_iter()) {
 				if (p->level == pGroup->level-1) {
-					pGroup->wszName.Delete(pGroup->level);
 					pGroup->wszName = p->wszName + L"\\" + pGroup->wszName;
 					debugLogA("Group name fixed as %S", pGroup->wszName.c_str());
 					break;
