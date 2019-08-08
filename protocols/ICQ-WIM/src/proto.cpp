@@ -43,7 +43,8 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_arHttpQueue(10),
 	m_arOwnIds(1, PtrKeySortT),
 	m_arCache(20, &CompareCache),
-	arMarkReadQueue(10, NumericKeySortT),
+	m_arGroups(10, NumericKeySortT),
+	m_arMarkReadQueue(10, NumericKeySortT),
 	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr)),
 	m_szOwnId(this, DB_KEY_ID),
 	m_iStatus1(this, "Status1", ID_STATUS_AWAY),
@@ -199,9 +200,9 @@ void CIcqProto::MarkReadTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD)
 {
 	CIcqProto *ppro = (CIcqProto*)id;
 
-	mir_cslock lck(ppro->csMarkReadQueue);
-	while (ppro->arMarkReadQueue.getCount()) {
-		IcqCacheItem *pUser = ppro->arMarkReadQueue[0];
+	mir_cslock lck(ppro->m_csMarkReadQueue);
+	while (ppro->m_arMarkReadQueue.getCount()) {
+		IcqCacheItem *pUser = ppro->m_arMarkReadQueue[0];
 
 		auto *pReq = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER);
 		JSONNode request, params; params.set_name("params");
@@ -210,7 +211,7 @@ void CIcqProto::MarkReadTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD)
 		pReq->m_szParam = ptrW(json_write(&request));
 		ppro->Push(pReq);
 
-		ppro->arMarkReadQueue.remove(0);
+		ppro->m_arMarkReadQueue.remove(0);
 	}
 	KillTimer(hwnd, id);
 }
@@ -231,9 +232,9 @@ int CIcqProto::OnDbEventRead(WPARAM, LPARAM hDbEvent)
 		
 		IcqCacheItem *pCache = FindContactByUIN(GetUserId(hContact));
 		if (pCache) {
-			mir_cslock lck(csMarkReadQueue);
-			if (arMarkReadQueue.indexOf(pCache) == -1)
-				arMarkReadQueue.insert(pCache);
+			mir_cslock lck(m_csMarkReadQueue);
+			if (m_arMarkReadQueue.indexOf(pCache) == -1)
+				m_arMarkReadQueue.insert(pCache);
 		}
 	}
 	return 0;

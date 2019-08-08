@@ -311,15 +311,6 @@ void CIcqProto::setId(MCONTACT hContact, const char *szSetting, __int64 iValue)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void parseGroup(CMStringW &wszGroup)
-{
-	wszGroup.Replace(L">", L"\\");
-	if (wszGroup[0] == '\\')
-		wszGroup.Delete(0, 1);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 char* time2text(time_t time)
 {
 	if (time == 0)

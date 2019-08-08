@@ -68,7 +68,21 @@ enum ChatMenuItems
 	IDM_INVITE = 10, IDM_LEAVE
 };
 
-struct IcqCacheItem
+struct IcqGroup
+{
+	IcqGroup(int _p1, const CMStringW &_p2) :
+		id(_p1),
+		wszName(_p2)
+	{
+		level = wszName.SpanIncluding(L"<").GetLength();
+	}
+
+	int id;
+	int level;
+	CMStringW wszName;
+};
+
+struct IcqCacheItem : public MZeroedObject
 {
 	IcqCacheItem(const CMStringW &wszId, MCONTACT _contact) :
 		m_aimid(wszId),
@@ -77,7 +91,7 @@ struct IcqCacheItem
 
 	CMStringW m_aimid;
 	MCONTACT m_hContact;
-	bool m_bInList = false;
+	bool m_bInList;
 	int m_iApparentMode;
 	time_t m_timer1, m_timer2;
 };
@@ -189,8 +203,8 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      OnLoggedIn(void);
 	void      OnLoggedOut(void);
 
-	mir_cs    csMarkReadQueue;
-	LIST<IcqCacheItem> arMarkReadQueue;
+	mir_cs    m_csMarkReadQueue;
+	LIST<IcqCacheItem> m_arMarkReadQueue;
 	static    void CALLBACK MarkReadTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD);
 
 	AsyncHttpRequest* UserInfoRequest(MCONTACT);
@@ -243,6 +257,8 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	mir_cs    m_csOwnIds;
 	OBJLIST<IcqOwnMessage> m_arOwnIds;
+
+	OBJLIST<IcqGroup> m_arGroups;
 
 	CIcqDlgBase *m_pdlgEditIgnore;	
 

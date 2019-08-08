@@ -23,11 +23,27 @@
 
 void CIcqProto::ProcessBuddyList(const JSONNode &ev)
 {
+	m_arGroups.destroy();
+
+	LIST<IcqGroup> tmpGroups(10);
 	bool bEnableMenu = false;
 
 	for (auto &it : ev["groups"]) {
-		CMStringW szGroup = it["name"].as_mstring();
-		parseGroup(szGroup);
+		auto *pGroup = new IcqGroup(it["id"].as_int(), it["name"].as_mstring());
+		debugLogA("new group: id=%d, level=%d, name=%S", pGroup->id, pGroup->level, pGroup->wszName.c_str());
+		if (pGroup->level != 0) {
+			for (auto &p : tmpGroups.rev_iter()) {
+				if (p->level == pGroup->level-1) {
+					pGroup->wszName.Delete(pGroup->level);
+					pGroup->wszName = p->wszName + L"\\" + pGroup->wszName;
+					debugLogA("Group name fixed as %S", pGroup->wszName.c_str());
+					break;
+				}
+			}
+		}
+		tmpGroups.insert(pGroup);
+		m_arGroups.insert(pGroup);
+
 		bool bCreated = false;
 
 		for (auto &buddy : it["buddies"]) {
@@ -35,19 +51,17 @@ void CIcqProto::ProcessBuddyList(const JSONNode &ev)
 			if (hContact == INVALID_CONTACT_ID)
 				continue;
 
-			setWString(hContact, "IcqGroup", szGroup);
-
 			ptrW mirGroup(Clist_GetGroup(hContact));
-			if (mir_wstrcmp(mirGroup, szGroup))
+			if (mir_wstrcmp(mirGroup, pGroup->wszName))
 				bEnableMenu = true;
 
 			if (mirGroup) {
 				if (!bCreated) {
-					Clist_GroupCreate(0, szGroup);
+					Clist_GroupCreate(0, pGroup->wszName);
 					bCreated = true;
 				}
 
-				Clist_SetGroup(hContact, szGroup);
+				Clist_SetGroup(hContact, pGroup->wszName);
 			}
 		}
 	}
@@ -70,8 +84,13 @@ void CIcqProto::ProcessDiff(const JSONNode &ev)
 			continue;
 
 		for (auto &it : block["data"]) {
-			CMStringW szGroup = it["name"].as_mstring();
-			parseGroup(szGroup);
+			int grpId = it["id"].as_int();
+			auto *pGroup = m_arGroups.find((IcqGroup *)&grpId);
+			if (pGroup == nullptr) {
+				debugLogA("Group %d isn't found", grpId);
+				continue;
+			}
+
 			bool bCreated = false;
 
 			for (auto &buddy : it["buddies"]) {
@@ -79,16 +98,16 @@ void CIcqProto::ProcessDiff(const JSONNode &ev)
 				if (hContact == INVALID_CONTACT_ID)
 					continue;
 
-				setWString(hContact, "IcqGroup", szGroup);
+				setWString(hContact, "IcqGroup", pGroup->wszName);
 
 				ptrW wszGroup(Clist_GetGroup(hContact));
 				if (!wszGroup) {
 					if (!bCreated) {
-						Clist_GroupCreate(0, szGroup);
+						Clist_GroupCreate(0, pGroup->wszName);
 						bCreated = true;
 					}
 
-					Clist_SetGroup(hContact, szGroup);
+					Clist_SetGroup(hContact, pGroup->wszName);
 				}
 			}
 		}

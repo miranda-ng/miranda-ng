@@ -100,7 +100,6 @@
 bool IsChat(const CMStringW &aimid);
 
 int StatusFromString(const CMStringW&);
-void parseGroup(CMStringW &wszGroup);
 char* time2text(time_t time);
 
 extern HWND g_hwndHeartbeat;
