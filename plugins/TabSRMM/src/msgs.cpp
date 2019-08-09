@@ -910,12 +910,7 @@ static int TSAPI LoadFromIconLib()
 	PluginConfig.g_buttonBarIconHandles[1] = Skin_GetIconHandle(SKINICON_OTHER_ADDCONTACT);
 	PluginConfig.g_buttonBarIconHandles[20] = Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS);
 
-	PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING] =
-		PluginConfig.g_buttonBarIcons[12] = Skin_LoadIcon(SKINICON_OTHER_TYPING);
-	PluginConfig.g_IconChecked = Skin_LoadIcon(SKINICON_OTHER_TICK);
-	PluginConfig.g_IconUnchecked = Skin_LoadIcon(SKINICON_OTHER_NOTICK);
-	PluginConfig.g_IconGroupOpen = Skin_LoadIcon(SKINICON_OTHER_GROUPOPEN);
-	PluginConfig.g_IconGroupClose = Skin_LoadIcon(SKINICON_OTHER_GROUPSHUT);
+	PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING] = PluginConfig.g_buttonBarIcons[12] = Skin_LoadIcon(SKINICON_OTHER_TYPING);
 
 	PluginConfig.g_iconOverlayEnabled = IcoLib_GetIcon("tabSRMM_overlay_enabled");
 	PluginConfig.g_iconOverlayDisabled = IcoLib_GetIcon("tabSRMM_overlay_disabled");

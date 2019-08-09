@@ -31,16 +31,6 @@
 
 #define DM_GETSTATUSMASK (WM_USER + 10)
 
-HIMAGELIST CreateStateImageList()
-{
-	HIMAGELIST himlStates = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 4, 0);
-	ImageList_AddIcon(himlStates, PluginConfig.g_IconUnchecked); /* IMG_NOCHECK */
-	ImageList_AddIcon(himlStates, PluginConfig.g_IconChecked); /* IMG_CHECK */
-	ImageList_AddIcon(himlStates, PluginConfig.g_IconGroupOpen); /* IMG_GRPOPEN */
-	ImageList_AddIcon(himlStates, PluginConfig.g_IconGroupClose); /* IMG_GRPCLOSED */
-	return himlStates;
-}
-
 void LoadLogfont(int section, int i, LOGFONTA * lf, COLORREF * colour, char *szModule)
 {
 	LOGFONT lfResult;
@@ -71,177 +61,94 @@ void TreeViewInit(HWND hwndTree, UINT id, DWORD dwFlags, BOOL bFromMem)
 	TOptionListGroup *lvGroups = CTranslator::getGroupTree(id);
 	TOptionListItem *lvItems = CTranslator::getTree(id);
 
-	SetWindowLongPtr(hwndTree, GWL_STYLE, GetWindowLongPtr(hwndTree, GWL_STYLE) | (TVS_NOHSCROLL));
-	/* Replace image list, destroy old. */
-	ImageList_Destroy(TreeView_SetImageList(hwndTree, CreateStateImageList(), TVSIL_NORMAL));
+	SetWindowLongPtr(hwndTree, GWL_STYLE, GetWindowLongPtr(hwndTree, GWL_STYLE) | (TVS_HASBUTTONS | TVS_CHECKBOXES | TVS_NOHSCROLL));
 
 	// fill the list box, create groups first, then add items
 	for (int i = 0; lvGroups[i].szName != nullptr; i++) {
 		tvi.hParent = nullptr;
 		tvi.hInsertAfter = TVI_LAST;
-		tvi.item.mask = TVIF_TEXT | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+		tvi.item.mask = TVIF_TEXT | TVIF_STATE;
 		tvi.item.pszText = TranslateW(lvGroups[i].szName);
 		tvi.item.stateMask = TVIS_EXPANDED | TVIS_BOLD;
 		tvi.item.state = TVIS_EXPANDED | TVIS_BOLD;
-		tvi.item.iImage = tvi.item.iSelectedImage = IMG_GRPOPEN;
-		lvGroups[i].handle = (LRESULT)TreeView_InsertItem(hwndTree, &tvi);
+		lvGroups[i].handle = TreeView_InsertItem(hwndTree, &tvi);
+
+		TreeView_SetItemState(hwndTree, lvGroups[i].handle, 0, TVIS_STATEIMAGEMASK);
 	}
 
 	for (int i = 0; lvItems[i].szName != nullptr; i++) {
 		tvi.hParent = (HTREEITEM)lvGroups[lvItems[i].uGroup].handle;
 		tvi.hInsertAfter = TVI_LAST;
 		tvi.item.pszText = TranslateW(lvItems[i].szName);
-		tvi.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+		tvi.item.mask = TVIF_TEXT | TVIF_PARAM;
 		tvi.item.lParam = i;
+		lvItems[i].handle = TreeView_InsertItem(hwndTree, &tvi);
+
+		BOOL bCheck = FALSE;
 		if (bFromMem == FALSE) {
 			switch (lvItems[i].uType) {
 			case LOI_TYPE_FLAG:
-				tvi.item.iImage = tvi.item.iSelectedImage = ((dwFlags & (UINT)lvItems[i].lParam) ? IMG_CHECK : IMG_NOCHECK);
+				bCheck = (dwFlags & (UINT)lvItems[i].lParam) != 0;
 				break;
 			case LOI_TYPE_SETTING:
-				tvi.item.iImage = tvi.item.iSelectedImage = (M.GetByte((char *)lvItems[i].lParam, lvItems[i].id) ? IMG_CHECK : IMG_NOCHECK);
+				bCheck = M.GetByte((char *)lvItems[i].lParam, lvItems[i].id);
 				break;
 			}
 		}
 		else {
 			switch (lvItems[i].uType) {
 			case LOI_TYPE_FLAG:
-				tvi.item.iImage = tvi.item.iSelectedImage = (((*((UINT*)lvItems[i].lParam)) & lvItems[i].id) ? IMG_CHECK : IMG_NOCHECK);
+				bCheck = ((*((UINT *)lvItems[i].lParam)) & lvItems[i].id) != 0;
 				break;
 			case LOI_TYPE_SETTING:
-				tvi.item.iImage = tvi.item.iSelectedImage = ((*((BOOL*)lvItems[i].lParam)) ? IMG_CHECK : IMG_NOCHECK);
+				bCheck = *((BOOL *)lvItems[i].lParam);
 				break;
 			}
 		}
-		lvItems[i].handle = (LRESULT)TreeView_InsertItem(hwndTree, &tvi);
+		TreeView_SetCheckState(hwndTree, lvItems[i].handle, bCheck);
 	}
-
-}
-
-void TreeViewDestroy(HWND hwndTree)
-{
-	ImageList_Destroy(TreeView_GetImageList(hwndTree, TVSIL_NORMAL));
 }
 
 void TreeViewSetFromDB(HWND hwndTree, UINT id, DWORD dwFlags)
 {
-	TVITEM item = { 0 };
 	TOptionListItem *lvItems = CTranslator::getTree(id);
 
 	for (int i = 0; lvItems[i].szName != nullptr; i++) {
-		item.mask = TVIF_HANDLE | TVIF_IMAGE;
-		item.hItem = (HTREEITEM)lvItems[i].handle;
+		BOOL bCheck = FALSE;
 		if (lvItems[i].uType == LOI_TYPE_FLAG)
-			item.iImage = item.iSelectedImage = ((dwFlags & (UINT)lvItems[i].lParam) ? IMG_CHECK : IMG_NOCHECK);
+			bCheck = (dwFlags & (UINT)lvItems[i].lParam) != 0;
 		else if (lvItems[i].uType == LOI_TYPE_SETTING)
-			item.iImage = item.iSelectedImage = (M.GetByte((char *)lvItems[i].lParam, lvItems[i].id) ? IMG_CHECK : IMG_NOCHECK);
-		TreeView_SetItem(hwndTree, &item);
+			bCheck = M.GetByte((char *)lvItems[i].lParam, lvItems[i].id);
+		TreeView_SetCheckState(hwndTree, lvItems[i].handle, bCheck);
 	}
 }
 
 void TreeViewToDB(HWND hwndTree, UINT id, char *DBPath, DWORD *dwFlags)
 {
-	TVITEM item = { 0 };
 	TOptionListItem *lvItems = CTranslator::getTree(id);
 
 	for (int i = 0; lvItems[i].szName != nullptr; i++) {
-		item.mask = TVIF_HANDLE | TVIF_IMAGE;
-		item.hItem = (HTREEITEM)lvItems[i].handle;
-		TreeView_GetItem(hwndTree, &item);
+		UINT iState = TreeView_GetCheckState(hwndTree, lvItems[i].handle);
 
 		switch (lvItems[i].uType) {
 		case LOI_TYPE_FLAG:
 			if (dwFlags != nullptr)
-				(*dwFlags) |= (item.iImage == IMG_CHECK) ? lvItems[i].lParam : 0;
+				(*dwFlags) |= (iState == 1) ? lvItems[i].lParam : 0;
 			if (DBPath == nullptr) {
 				UINT *tm = (UINT*)lvItems[i].lParam;
-				(*tm) = (item.iImage == IMG_CHECK) ? ((*tm) | lvItems[i].id) : ((*tm) & ~lvItems[i].id);
+				(*tm) = (iState == 1) ? ((*tm) | lvItems[i].id) : ((*tm) & ~lvItems[i].id);
 			}
 			break;
 		case LOI_TYPE_SETTING:
 			if (DBPath != nullptr) {
-				db_set_b(0, DBPath, (char *)lvItems[i].lParam, (BYTE)((item.iImage == IMG_CHECK) ? 1 : 0));
+				db_set_b(0, DBPath, (char *)lvItems[i].lParam, iState == 1);
 			}
 			else {
-				(*((BOOL*)lvItems[i].lParam)) = ((item.iImage == IMG_CHECK) ? TRUE : FALSE);
+				(*((BOOL*)lvItems[i].lParam)) = iState == 1;
 			}
 			break;
 		}
 	}
-}
-
-BOOL TreeViewHandleClick(HWND hwndDlg, HWND hwndTree, WPARAM, LPARAM lParam)
-{
-	TVITEM item = { 0 };
-	TVHITTESTINFO hti;
-
-	switch (((LPNMHDR)lParam)->code) {
-	case TVN_KEYDOWN:
-		if (((LPNMTVKEYDOWN)lParam)->wVKey != VK_SPACE)
-			return FALSE;
-		hti.flags = TVHT_ONITEMSTATEICON;
-		item.hItem = TreeView_GetSelection(((LPNMHDR)lParam)->hwndFrom);
-		break;
-	case NM_CLICK:
-		hti.pt.x = (short)LOWORD(GetMessagePos());
-		hti.pt.y = (short)HIWORD(GetMessagePos());
-		ScreenToClient(((LPNMHDR)lParam)->hwndFrom, &hti.pt);
-		if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti) == nullptr)
-			return FALSE;
-		if ((hti.flags & TVHT_ONITEMICON) == 0)
-			return FALSE;
-		item.hItem = (HTREEITEM)hti.hItem;
-		break;
-
-	case TVN_ITEMEXPANDEDW:
-		{
-			LPNMTREEVIEWW lpnmtv = (LPNMTREEVIEWW)lParam;
-
-			item.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-			item.hItem = lpnmtv->itemNew.hItem;
-			item.iImage = item.iSelectedImage =
-				(lpnmtv->itemNew.state & TVIS_EXPANDED) ? IMG_GRPOPEN : IMG_GRPCLOSED;
-			SendMessageW(((LPNMHDR)lParam)->hwndFrom, TVM_SETITEMW, 0, (LPARAM)&item);
-		}
-		return TRUE;
-
-	default:
-		return FALSE;
-	}
-
-	item.mask = TVIF_HANDLE | TVIF_IMAGE;
-	item.stateMask = TVIS_BOLD;
-	SendMessage(hwndTree, TVM_GETITEM, 0, (LPARAM)&item);
-	item.mask |= TVIF_SELECTEDIMAGE;
-	switch (item.iImage) {
-	case IMG_NOCHECK:
-		item.iImage = IMG_CHECK;
-		break;
-	case IMG_CHECK:
-		item.iImage = IMG_NOCHECK;
-		break;
-	case IMG_GRPOPEN:
-		item.mask |= TVIF_STATE;
-		item.stateMask |= TVIS_EXPANDED;
-		item.state = 0;
-		item.iImage = IMG_GRPCLOSED;
-		break;
-	case IMG_GRPCLOSED:
-		item.mask |= TVIF_STATE;
-		item.stateMask |= TVIS_EXPANDED;
-		item.state |= TVIS_EXPANDED;
-		item.iImage = IMG_GRPOPEN;
-		break;
-	}
-	item.iSelectedImage = item.iImage;
-	SendMessage(hwndTree, TVM_SETITEM, 0, (LPARAM)&item);
-	if (item.mask & TVIF_STATE) {
-		RedrawWindow(hwndTree, nullptr, nullptr, RDW_INVALIDATE | RDW_NOFRAME | RDW_ERASENOW | RDW_ALLCHILDREN);
-		InvalidateRect(hwndTree, nullptr, TRUE);
-	}
-	else SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-
-	return TRUE;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -595,6 +502,7 @@ class COptMainDlg : public CDlgBase
 	CCtrlSpin spnAvaSize;
 	CCtrlCheck chkAvaPreserve;
 	CCtrlButton btnReset;
+	CCtrlTreeView treeOpts;
 	CCtrlHyperlink urlHelp;
 
 public:
@@ -602,6 +510,7 @@ public:
 		CDlgBase(g_plugin, IDD_OPT_MSGDLG),
 		urlHelp(this, IDC_HELP_GENERAL, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/General_settings"),
 		btnReset(this, IDC_RESETWARNINGS),
+		treeOpts(this, IDC_WINDOWOPTIONS),
 		spnAvaSize(this, IDC_AVATARSPIN, 150),
 		chkAvaPreserve(this, IDC_PRESERVEAVATARSIZE)
 	{
@@ -610,7 +519,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		TreeViewInit(GetDlgItem(m_hwnd, IDC_WINDOWOPTIONS), CTranslator::TREE_MSG, 0, FALSE);
+		TreeViewInit(treeOpts.GetHwnd(), CTranslator::TREE_MSG, 0, FALSE);
 
 		chkAvaPreserve.SetState(M.GetByte("dontscaleavatars", 0));
 
@@ -624,29 +533,16 @@ public:
 		db_set_b(0, SRMSGMOD_T, "dontscaleavatars", chkAvaPreserve.GetState());
 
 		// scan the tree view and obtain the options...
-		TreeViewToDB(GetDlgItem(m_hwnd, IDC_WINDOWOPTIONS), CTranslator::TREE_MSG, SRMSGMOD_T, nullptr);
+		TreeViewToDB(treeOpts.GetHwnd(), CTranslator::TREE_MSG, SRMSGMOD_T, nullptr);
 		PluginConfig.reloadSettings();
 		Srmm_Broadcast(DM_OPTIONSAPPLIED, 1, 0);
 		return true;
-	}
-
-	void OnDestroy() override
-	{
-		TreeViewDestroy(GetDlgItem(m_hwnd, IDC_WINDOWOPTIONS));
 	}
 
 	void onClick_Reset(CCtrlButton*)
 	{
 		db_set_dw(0, SRMSGMOD_T, "cWarningsL", 0);
 		db_set_dw(0, SRMSGMOD_T, "cWarningsH", 0);
-	}
-
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
-	{
-		if (msg == WM_NOTIFY && ((LPNMHDR)lParam)->idFrom == IDC_WINDOWOPTIONS)
-			return TreeViewHandleClick(m_hwnd, ((LPNMHDR)lParam)->hwndFrom, wParam, lParam);
-
-		return CDlgBase::DlgProc(msg, wParam, lParam);
 	}
 };
 
@@ -660,6 +556,7 @@ class COptLogDlg : public CDlgBase
 	CCtrlCheck chkAlwaysTrim, chkLoadUnread, chkLoadCount, chkLoadTime;
 	CCtrlCombo cmbLogDisplay;
 	CCtrlButton btnModify, btnRtlModify;
+	CCtrlTreeView logOpts;
 
 	bool have_ieview, have_hpp;
 
@@ -672,7 +569,7 @@ class COptLogDlg : public CDlgBase
 	{
 		LRESULT r = cmbLogDisplay.GetCurSel();
 		Utils::showDlgControl(m_hwnd, IDC_EXPLAINMSGLOGSETTINGS, r == 0 ? SW_HIDE : SW_SHOW);
-		Utils::showDlgControl(m_hwnd, IDC_LOGOPTIONS, r == 0 ? SW_SHOW : SW_HIDE);
+		logOpts.Show(r == 0);
 
 		for (auto &it : __ctrls)
 			Utils::enableDlgControl(m_hwnd, it, r == 0);
@@ -681,6 +578,7 @@ class COptLogDlg : public CDlgBase
 public:
 	COptLogDlg() :
 		CDlgBase(g_plugin, IDD_OPT_MSGLOG),
+		logOpts(this, IDC_LOGOPTIONS),
 		btnModify(this, IDC_MODIFY),
 		btnRtlModify(this, IDC_RTLMODIFY),
 		spnTrim(this, IDC_TRIMSPIN, 1000, 5),
@@ -727,7 +625,7 @@ public:
 			break;
 		}
 
-		TreeViewInit(GetDlgItem(m_hwnd, IDC_LOGOPTIONS), CTranslator::TREE_LOG, dwFlags, FALSE);
+		TreeViewInit(logOpts.GetHwnd(), CTranslator::TREE_LOG, dwFlags, FALSE);
 
 		spnLeft.SetPosition(M.GetDword("IndentAmount", 20));
 		spnRight.SetPosition(M.GetDword("RightIndent", 20));
@@ -799,7 +697,7 @@ public:
 		}
 
 		// scan the tree view and obtain the options...
-		TreeViewToDB(GetDlgItem(m_hwnd, IDC_LOGOPTIONS), CTranslator::TREE_LOG, SRMSGMOD_T, &dwFlags);
+		TreeViewToDB(logOpts.GetHwnd(), CTranslator::TREE_LOG, SRMSGMOD_T, &dwFlags);
 		db_set_dw(0, SRMSGMOD_T, "mwflags", dwFlags);
 		if (chkAlwaysTrim.GetState())
 			db_set_dw(0, SRMSGMOD_T, "maxhist", spnTrim.GetPosition());
@@ -808,11 +706,6 @@ public:
 		PluginConfig.reloadSettings();
 		Srmm_Broadcast(DM_OPTIONSAPPLIED, 1, 0);
 		return true;
-	}
-
-	void OnDestroy() override
-	{
-		TreeViewDestroy(GetDlgItem(m_hwnd, IDC_LOGOPTIONS));
 	}
 
 	void onChange_Trim(CCtrlCheck*)
@@ -849,14 +742,6 @@ public:
 	void onChange_Combo(CCtrlCombo*)
 	{
 		ShowHide();
-	}
-
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
-	{
-		if (msg == WM_NOTIFY && ((LPNMHDR)lParam)->idFrom == IDC_LOGOPTIONS)
-			return TreeViewHandleClick(m_hwnd, ((LPNMHDR)lParam)->hwndFrom, wParam, lParam);
-
-		return CDlgBase::DlgProc(msg, wParam, lParam);
 	}
 };
 
@@ -1034,6 +919,7 @@ class COptTabbedDlg : public CDlgBase
 	CCtrlCombo cmbEscMode;
 	CCtrlCheck chkLimit;
 	CCtrlButton btnSetup;
+	CCtrlTreeView tabOptions;
 
 public:
 	COptTabbedDlg() :
@@ -1042,6 +928,7 @@ public:
 		edtLimit(this, IDC_CUT_TITLEMAX),
 		spnLimit(this, IDC_CUT_TITLEMAXSPIN, 20, 5),
 		btnSetup(this, IDC_SETUPAUTOCREATEMODES),
+		tabOptions(this, IDC_TABMSGOPTIONS),
 		cmbEscMode(this, IDC_ESCMODE)
 	{
 		btnSetup.OnClick = Callback(this, &COptTabbedDlg::onClick_Setup);
@@ -1051,7 +938,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		TreeViewInit(GetDlgItem(m_hwnd, IDC_TABMSGOPTIONS), CTranslator::TREE_TAB, 0, FALSE);
+		TreeViewInit(tabOptions.GetHwnd(), CTranslator::TREE_TAB, 0, FALSE);
 
 		chkLimit.SetState(M.GetByte("cuttitle", 0));
 		spnLimit.SetPosition(db_get_w(0, SRMSGMOD_T, "cut_at", 15));
@@ -1071,16 +958,11 @@ public:
 		db_set_b(0, SRMSGMOD_T, "cuttitle", chkLimit.GetState());
 		db_set_b(0, SRMSGMOD_T, "escmode", cmbEscMode.GetCurSel());
 
-		TreeViewToDB(GetDlgItem(m_hwnd, IDC_TABMSGOPTIONS), CTranslator::TREE_TAB, SRMSGMOD_T, nullptr);
+		TreeViewToDB(tabOptions.GetHwnd(), CTranslator::TREE_TAB, SRMSGMOD_T, nullptr);
 
 		PluginConfig.reloadSettings();
 		Srmm_Broadcast(DM_OPTIONSAPPLIED, 0, 0);
 		return true;
-	}
-
-	void OnDestroy() override
-	{
-		TreeViewDestroy(GetDlgItem(m_hwnd, IDC_TABMSGOPTIONS));
 	}
 
 	void onClick_Setup(CCtrlButton*)
@@ -1099,9 +981,6 @@ public:
 	{
 		if (msg == WM_COMMAND && wParam == DM_STATUSMASKSET)
 			db_set_dw(0, SRMSGMOD_T, "autopopupmask", (DWORD)lParam);
-
-		if (msg == WM_NOTIFY && ((LPNMHDR)lParam)->idFrom == IDC_TABMSGOPTIONS)
-			return TreeViewHandleClick(m_hwnd, ((LPNMHDR)lParam)->hwndFrom, wParam, lParam);
 
 		return CDlgBase::DlgProc(msg, wParam, lParam);
 	}
@@ -1205,6 +1084,7 @@ class COptAdvancedDlg : public CDlgBase
 {
 	CCtrlSpin spnTimeout, spnHistSize;
 	CCtrlButton btnRevert;
+	CCtrlTreeView plusOptions;
 	CCtrlHyperlink urlHelp;
 
 public:
@@ -1213,14 +1093,15 @@ public:
 		urlHelp(this, IDC_PLUS_HELP, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Typing_notifications"),
 		btnRevert(this, IDC_PLUS_REVERT),
 		spnTimeout(this, IDC_TIMEOUTSPIN, 300, SRMSGSET_MSGTIMEOUT_MIN / 1000),
-		spnHistSize(this, IDC_HISTORYSIZESPIN, 255, 15)
+		spnHistSize(this, IDC_HISTORYSIZESPIN, 255, 15),
+		plusOptions(this, IDC_PLUS_CHECKTREE)
 	{
 		btnRevert.OnClick = Callback(this, &COptAdvancedDlg::onClick_Revert);
 	}
 
 	bool OnInitDialog() override
 	{
-		TreeViewInit(GetDlgItem(m_hwnd, IDC_PLUS_CHECKTREE), CTranslator::TREE_MODPLUS, 0, FALSE);
+		TreeViewInit(plusOptions.GetHwnd(), CTranslator::TREE_MODPLUS, 0, FALSE);
 
 		spnTimeout.SetPosition(PluginConfig.m_MsgTimeout / 1000);
 		spnHistSize.SetPosition(M.GetByte("historysize", 0));
@@ -1229,7 +1110,7 @@ public:
 
 	bool OnApply() override
 	{
-		TreeViewToDB(GetDlgItem(m_hwnd, IDC_PLUS_CHECKTREE), CTranslator::TREE_MODPLUS, SRMSGMOD_T, nullptr);
+		TreeViewToDB(plusOptions.GetHwnd(), CTranslator::TREE_MODPLUS, SRMSGMOD_T, nullptr);
 
 		int msgTimeout = 1000 * spnTimeout.GetPosition();
 		PluginConfig.m_MsgTimeout = msgTimeout >= SRMSGSET_MSGTIMEOUT_MIN ? msgTimeout : SRMSGSET_MSGTIMEOUT_MIN;
@@ -1238,19 +1119,6 @@ public:
 		db_set_b(0, SRMSGMOD_T, "historysize", spnHistSize.GetPosition());
 		PluginConfig.reloadAdv();
 		return true;
-	}
-
-	void OnDestroy() override
-	{
-		TreeViewDestroy(GetDlgItem(m_hwnd, IDC_PLUS_CHECKTREE));
-	}
-
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
-	{
-		if (msg == WM_NOTIFY && ((LPNMHDR)lParam)->idFrom == IDC_PLUS_CHECKTREE)
-			return TreeViewHandleClick(m_hwnd, ((LPNMHDR)lParam)->hwndFrom, wParam, lParam);
-
-		return CDlgBase::DlgProc(msg, wParam, lParam);
 	}
 
 	void onClick_Revert(CCtrlButton*)

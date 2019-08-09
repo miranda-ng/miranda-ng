@@ -33,8 +33,8 @@ int ImageList_AddIcon_IconLibLoaded(HIMAGELIST hIml, int iconId)
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlTreeView
 
-CCtrlTreeView::CCtrlTreeView(CDlgBase *dlg, int ctrlId)
-	: CCtrlBase(dlg, ctrlId),
+CCtrlTreeView::CCtrlTreeView(CDlgBase *dlg, int ctrlId) :
+	CCtrlBase(dlg, ctrlId),
 	m_dwFlags(0),
 	m_hDragItem(nullptr)
 {}
@@ -58,8 +58,7 @@ void CCtrlTreeView::OnInit()
 {
 	CSuper::OnInit();
 
-	if (m_bDndEnabled)
-		Subclass();
+	Subclass();
 
 	if (m_bCheckBox) {
 		HIMAGELIST himlCheckBoxes = ::ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 2, 2);
@@ -115,6 +114,13 @@ LRESULT CCtrlTreeView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	TVHITTESTINFO hti;
 
 	switch (msg) {
+	case WM_KEYDOWN:
+		if (wParam == VK_SPACE) {
+			if ((GetItemState(this->GetSelection(), TVIS_STATEIMAGEMASK) >> 12) == 0)
+				return TRUE;
+		}
+		break;
+
 	case WM_MOUSEMOVE:
 		if (m_bDragging) {
 			hti.pt.x = (short)LOWORD(lParam);

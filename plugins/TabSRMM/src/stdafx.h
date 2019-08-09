@@ -241,16 +241,9 @@ INT_PTR SendMessageCommand(WPARAM, LPARAM);
 INT_PTR SendMessageCommand_W(WPARAM, LPARAM);
 INT_PTR SetUserPrefs(WPARAM, LPARAM);
 
-#define IMG_NOCHECK	0
-#define IMG_CHECK	1
-#define IMG_GRPOPEN	2
-#define IMG_GRPCLOSED	3
-HIMAGELIST CreateStateImageList();
 void TreeViewInit(HWND hwndTree, UINT id, DWORD dwFlags, BOOL bFromMem);
-void TreeViewDestroy(HWND hwndTree);
 void TreeViewSetFromDB(HWND hwndTree, UINT id, DWORD dwFlags);
 void TreeViewToDB(HWND hwndTree, UINT id, char *DBPath, DWORD *dwFlags);
-BOOL TreeViewHandleClick(HWND hwndDlg, HWND hwndTree, WPARAM wParam, LPARAM lParam);
 
 INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 

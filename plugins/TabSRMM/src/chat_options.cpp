@@ -539,11 +539,10 @@ class CChatSettingsDlg : public CChatBaseOptionDlg
 		TVINSERTSTRUCT tvis;
 		tvis.hParent = nullptr;
 		tvis.hInsertAfter = TVI_LAST;
-		tvis.item.mask = TVIF_TEXT | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+		tvis.item.mask = TVIF_TEXT | TVIF_STATE;
 		tvis.item.pszText = TranslateW(pszDescr);
 		tvis.item.stateMask = TVIS_EXPANDED | TVIS_BOLD;
 		tvis.item.state = (bExpanded ? TVIS_EXPANDED : 0) | TVIS_BOLD;
-		tvis.item.iImage = tvis.item.iSelectedImage = (bExpanded ? IMG_GRPOPEN : IMG_GRPCLOSED);
 		return treeCheck.InsertItem(&tvis);
 	}
 
@@ -557,27 +556,26 @@ class CChatSettingsDlg : public CChatBaseOptionDlg
 		for (size_t i = 0; i < nValues; i++) {
 			tvis.hParent = hParent;
 			tvis.hInsertAfter = TVI_LAST;
-			tvis.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+			tvis.item.mask = TVIF_TEXT;
 			tvis.item.pszText = TranslateW(branch[i].szDescr);
-			if (branch[i].iMode)
-				tvis.item.iImage = tvis.item.iSelectedImage = ((((db_get_dw(0, CHAT_MODULE, branch[i].szDBName, defaultval) & branch[i].iMode) & branch[i].iMode) != 0) ? IMG_CHECK : IMG_NOCHECK);
-			else
-				tvis.item.iImage = tvis.item.iSelectedImage = ((db_get_dw(0, CHAT_MODULE, branch[i].szDBName, branch[i].bDefault) != 0) ? IMG_CHECK : IMG_NOCHECK);
 			branch[i].hItem = treeCheck.InsertItem(&tvis);
+
+			BOOL bCheck;
+			if (branch[i].iMode)
+				bCheck = (db_get_dw(0, CHAT_MODULE, branch[i].szDBName, defaultval) & branch[i].iMode) != 0;
+			else
+				bCheck = db_get_dw(0, CHAT_MODULE, branch[i].szDBName, branch[i].bDefault) != 0;
+			treeCheck.SetCheckState(branch[i].hItem, bCheck);
 		}
 	}
 
 	void SaveBranch(branch_t *branch, int nValues)
 	{
 		TVITEMEX tvi = { 0 };
-		BYTE bChecked;
 		DWORD iState = 0;
 
 		for (int i = 0; i < nValues; i++) {
-			tvi.mask = TVIF_HANDLE | TVIF_IMAGE;
-			tvi.hItem = branch[i].hItem;
-			treeCheck.GetItem(&tvi);
-			bChecked = ((tvi.iImage == IMG_CHECK) ? 1 : 0);
+			BOOL bChecked = treeCheck.GetCheckState(branch[i].hItem);
 			if (branch[i].iMode) {
 				if (bChecked)
 					iState |= branch[i].iMode;
@@ -600,9 +598,6 @@ public:
 	{
 		SetWindowLongPtr(treeCheck.GetHwnd(), GWL_STYLE, GetWindowLongPtr(treeCheck.GetHwnd(), GWL_STYLE) | (TVS_NOHSCROLL));
 		
-		// Replace image list
-		treeCheck.SetImageList(CreateStateImageList(), TVSIL_NORMAL);
-
 		hListHeading1 = InsertBranch(TranslateT("Appearance and functionality of chat room windows"), TRUE);
 		hListHeading2 = InsertBranch(TranslateT("Appearance of the message log"), TRUE);
 
@@ -629,16 +624,6 @@ public:
 
 		b = treeCheck.GetItemState(hListHeading2, TVIS_EXPANDED) & TVIS_EXPANDED ? 1 : 0;
 		db_set_b(0, CHAT_MODULE, "Branch2Exp", b);
-
-		TreeViewDestroy(treeCheck.GetHwnd());
-	}
-
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
-	{
-		if (msg == WM_NOTIFY && ((LPNMHDR)lParam)->idFrom == IDC_CHECKBOXES)
-			return TreeViewHandleClick(m_hwnd, ((LPNMHDR)lParam)->hwndFrom, wParam, lParam);
-
-		return CDlgBase::DlgProc(msg, wParam, lParam);
 	}
 };
 

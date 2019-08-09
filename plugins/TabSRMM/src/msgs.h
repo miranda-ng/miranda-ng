@@ -943,13 +943,13 @@ struct TCpTable {
 
 struct TOptionListGroup
 {
-	LRESULT handle;
+	HTREEITEM handle;
 	wchar_t *szName;
 };
 
 struct TOptionListItem
 {
-	LRESULT handle;
+	HTREEITEM handle;
 	wchar_t *szName;
 	UINT id;
 	UINT uType;
