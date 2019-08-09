@@ -44,8 +44,6 @@ extern HBITMAP g_hBitmap, g_hbmMask;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int ComboBox_SelectItemData(HWND hwndCtl, LPARAM data);
-
 size_t MonitorInfoEnum(MONITORINFOEX* &myMonitors, RECT &virtualScreen);
 
 FIBITMAP* CaptureWindow(HWND hCapture, BOOL bClientArea, BOOL bIndirectCapture);

@@ -127,20 +127,27 @@ INT_PTR CALLBACK TfrmMain::DlgTfrmMain(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 		return 0;
 
 	switch (msg) {
-	case WM_DROPFILES:{ // Drag&Drop of local files
+	case WM_DROPFILES:
+		// Drag&Drop of local files
+		{
 			wchar_t filename[MAX_PATH];
-			if (!DragQueryFile((HDROP)wParam, 0, filename, MAX_PATH)) *filename = '\0';
+			if (!DragQueryFile((HDROP)wParam, 0, filename, MAX_PATH))
+				*filename = '\0';
 			DragFinish((HDROP)wParam);
 			if (wnd->second->m_hwndTabPage)
 				ShowWindow(wnd->second->m_hwndTabPage, SW_HIDE);
-			TAB_INFO itab = { TCIF_PARAM };
+
 			wnd->second->m_opt_tabCapture = 2; // activate file tab
 			TabCtrl_SetCurSel(wnd->second->m_hwndTab, wnd->second->m_opt_tabCapture);
+
+			TAB_INFO itab = { TCIF_PARAM };
 			TabCtrl_GetItem(wnd->second->m_hwndTab, wnd->second->m_opt_tabCapture, &itab);
 			wnd->second->m_hwndTabPage = itab.hwndTabPage;
+
 			ShowWindow(wnd->second->m_hwndTabPage, SW_SHOW);
 			SetDlgItemText(wnd->second->m_hwndTabPage, ID_edtSize, filename);
-			break; }
+		}
+		break;
 	case WM_COMMAND:
 		wnd->second->wmCommand(wParam, lParam);
 		break;
@@ -220,7 +227,7 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 		itab.tcih.iImage = 0;
 		itab.hwndTabPage = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_UMain_CaptureWindow), m_hWnd, DlgProc_CaptureTabPage, IDD_UMain_CaptureWindow);
 		TabCtrl_InsertItem(m_hwndTab, 0, &itab);
-		
+
 		// get tab boundaries (required after 1st tab)
 		GetClientRect(m_hwndTab, &rcTab);
 		MapWindowPoints(m_hwndTab, m_hWnd, (POINT*)&rcTab, 2);
@@ -247,10 +254,10 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 				mir_snwprintf(tszTemp, L"%Iu. %s%s",
 					mon + 1, TranslateT("Monitor"),
 					(m_Monitors[mon].dwFlags & MONITORINFOF_PRIMARY) ? TranslateT(" (primary)") : L""
-					);
+				);
 				ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, tszTemp), mon + 1);
 			}
-			ComboBox_SelectItemData(hCtrl, m_opt_cboxDesktop);	// use Workaround for MS bug ComboBox_SelectItemData
+			ComboBox_SelectItemData(hCtrl, -1, m_opt_cboxDesktop);	// use Workaround for MS bug ComboBox_SelectItemData
 		}
 		PostMessage(m_hWnd, WM_COMMAND, MAKEWPARAM(ID_edtCaption, CBN_SELCHANGE), (LPARAM)hCtrl);
 
@@ -278,7 +285,7 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 		}
 		DragAcceptFiles(m_hWnd, 1);
 	}
-	
+
 	// init Format combo box
 	{
 		hCtrl = GetDlgItem(m_hWnd, ID_cboxFormat);
@@ -288,9 +295,9 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, L"BMP"), 2);
 		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, L"TIF"), 3);
 		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, L"GIF"), 4);
-		ComboBox_SelectItemData(hCtrl, m_opt_cboxFormat);// use Workaround for MS bug ComboBox_SelectItemData
+		ComboBox_SelectItemData(hCtrl, -1, m_opt_cboxFormat);// use Workaround for MS bug ComboBox_SelectItemData
 	}
-	
+
 	// init SendBy combo box
 	{
 		hCtrl = GetDlgItem(m_hWnd, ID_cboxSendBy);
@@ -326,9 +333,16 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Upload Pie (1d)")), new UPLOAD_INFO(SS_UPLOADPIE, (void*)4));
 		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Upload Pie (1w)")), new UPLOAD_INFO(SS_UPLOADPIE, (void*)5));
 		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, L"Imgur"), new UPLOAD_INFO(SS_IMGUR));
-		ComboBox_SelectItemData(hCtrl, m_opt_cboxSendBy); // use Workaround for MS bug ComboBox_SelectItemData
+
+		for (int i = 0; i < ComboBox_GetCount(hCtrl); i++) {
+			UPLOAD_INFO *p = (UPLOAD_INFO*)ComboBox_GetItemData(hCtrl, i);
+			if (p && p->sendBy == m_opt_cboxSendBy) {
+				ComboBox_SetCurSel(hCtrl, i);
+				break;
+			}
+		}
 	}
-	
+
 	// init footer options
 	CheckDlgButton(m_hWnd, ID_chkOpenAgain, m_opt_chkOpenAgain ? BST_CHECKED : BST_UNCHECKED);
 
@@ -498,7 +512,7 @@ void TfrmMain::SetTargetWindow(HWND hwnd)
 	}
 	m_hTargetWindow = hwnd;
 	int len = GetWindowTextLength(m_hTargetWindow) + 1;
-	wchar_t* lpTitle;
+	wchar_t *lpTitle;
 	if (len > 1) {
 		lpTitle = (wchar_t*)mir_alloc(len*sizeof(wchar_t));
 		GetWindowText(m_hTargetWindow, lpTitle, len);
@@ -766,14 +780,14 @@ void TfrmMain::SaveOptions(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void TfrmMain::Init(wchar_t* DestFolder, MCONTACT Contact)
+void TfrmMain::Init(wchar_t *DestFolder, MCONTACT Contact)
 {
 	m_FDestFolder = mir_wstrdup(DestFolder);
 	m_hContact = Contact;
 
 	// create window
 	m_hWnd = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_UMainForm), nullptr, DlgTfrmMain, (LPARAM)this);
-	
+
 	// register object
 	_HandleMapping.insert(CHandleMapping::value_type(m_hWnd, this));
 
@@ -790,7 +804,7 @@ void TfrmMain::btnCaptureClick()
 	else if (m_opt_tabCapture == 2) {
 		wchar_t filename[MAX_PATH];
 		GetDlgItemText(m_hwndTabPage, ID_edtSize, filename, _countof(filename));
-		FILE* fp = _wfopen(filename, L"rb");
+		FILE *fp = _wfopen(filename, L"rb");
 		if (!fp) {
 			wchar_t *err = TranslateT("Select a file");
 			MessageBox(m_hWnd, err, ERROR_TITLE, MB_OK | MB_ICONWARNING);
@@ -938,7 +952,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP *dib)
 	unsigned FileNumber = g_plugin.getDword("FileNumber", 0) + 1;
 	if (FileNumber > 99999)
 		FileNumber = 1;
-	
+
 	CMStringW wszFileName(m_FDestFolder);
 	if (wszFileName.Right(1) != L"\\")
 		wszFileName.Append(L"\\");
@@ -954,7 +968,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP *dib)
 	else {
 		if (m_opt_chkClientArea)
 			wszFileDesc.Format(TranslateT("Screenshot for client area of \"%s\" window"), winText);
-		else 
+		else
 			wszFileDesc.Format(TranslateT("Screenshot of \"%s\" window"), winText);
 	}
 
@@ -998,7 +1012,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP *dib)
 			FIBITMAP *dib32 = FreeImage_Composite(dib_new, FALSE, &m_AlphaColor, nullptr);
 			FIBITMAP *dib24 = FreeImage_ConvertTo24Bits(dib32);
 			FreeImage_Unload(dib32);
-		
+
 			HBITMAP hBmp = FreeImage_CreateHBITMAPFromDIB(dib24);
 			FreeImage_Unload(dib24);
 			SaveTIF(hBmp, wszFileName);
@@ -1022,7 +1036,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP *dib)
 
 	if (!ret)
 		return 1;
-	
+
 	g_plugin.setDword("FileNumber", FileNumber);
 	replaceStrW(m_pszFile, wszFileName);
 
@@ -1078,12 +1092,12 @@ void TfrmMain::FormClose()
 						PostMessage(nullptr, WM_QUIT, 0, 0); // forward for outer message loops
 						break;
 					}
-					
+
 					// process dialog messages (of unknown dialogs)
 					HWND hwndDlgModeless = GetActiveWindow();
 					if (hwndDlgModeless != nullptr && IsDialogMessage(hwndDlgModeless, &msg)) /* Wine fix. */
 						continue;
-					
+
 					// process messages
 					TranslateMessage(&msg);
 					DispatchMessage(&msg);
@@ -1097,7 +1111,7 @@ void TfrmMain::FormClose()
 
 	if (send && m_cSend && m_pszFile) {
 		if (!m_cSend->Send()) // not sent now, class deletes itself later
-			m_cSend = nullptr; 
+			m_cSend = nullptr;
 		cboxSendByChange(nullptr);
 	}
 	else if (!send && bCanDelete)

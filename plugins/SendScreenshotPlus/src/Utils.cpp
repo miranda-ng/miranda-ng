@@ -29,21 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "stdafx.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Workaround for MS bug ComboBox_SelectItemData
-
-int ComboBox_SelectItemData(HWND hwndCtl, LPARAM data)
-{
-	int i = 0;
-	for (i; i < ComboBox_GetCount(hwndCtl); i++) {
-		if (data == ComboBox_GetItemData(hwndCtl, i)) {
-			ComboBox_SetCurSel(hwndCtl, i);
-			return i;
-		}
-	}
-	return CB_ERR;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // MonitorInfoEnum
 
 static BOOL CALLBACK MonitorInfoEnumProc(HMONITOR hMonitor, HDC, LPRECT, LPARAM dwData)
