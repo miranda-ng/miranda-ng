@@ -76,7 +76,7 @@ struct IcqGroup
 	{
 		level = wszName.SpanIncluding(L">").GetLength();
 		if (level != 0)
-			wszName.Delete(level);
+			wszName.Delete(0, level);
 		wszName.Replace(L">", L"\\");
 	}
 
