@@ -126,50 +126,6 @@ static FontOptionsList IP_fontOptionsList[] =
 	{ LPGENW("Window caption (skinned mode)"), RGB(255, 255, 255), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
 };
 
-struct branch_t
-{
-	wchar_t*  szDescr;
-	char*     szDBName;
-	int       iMode;
-	BYTE      bDefault;
-	HTREEITEM hItem;
-};
-static branch_t branch1[] = {
-	{ LPGENW("Open new chat rooms in the default container"), "DefaultContainer", 0, 1, nullptr },
-	{ LPGENW("Flash window when someone speaks"), "FlashWindow", 0, 0, nullptr },
-	{ LPGENW("Flash window when a word is highlighted"), "FlashWindowHighlight", 0, 1, nullptr },
-	{ LPGENW("Create tabs or windows for highlight events"), "CreateWindowOnHighlight", 0, 0, nullptr },
-	{ LPGENW("Activate chat window on highlight"), "AnnoyingHighlight", 0, 0, nullptr },
-	{ LPGENW("Show list of users in the chat room"), "ShowNicklist", 0, 1, nullptr },
-	{ LPGENW("Colorize nicknames in member list"), "ColorizeNicks", 0, 1, nullptr },
-	{ LPGENW("Show button menus when right clicking the buttons"), "RightClickFilter", 0, 1, nullptr },
-	{ LPGENW("Show topic as status message on the contact list"), "TopicOnClist", 0, 1, nullptr },
-	{ LPGENW("Do not pop up the window when joining a chat room"), "PopupOnJoin", 0, 0, nullptr },
-	{ LPGENW("Sync splitter position with standard IM sessions"), "SyncSplitter", 0, 0, nullptr },
-	{ LPGENW("Show contact's status modes if supported by the protocol"), "ShowContactStatus", 0, 1, nullptr },
-	{ LPGENW("Display contact's status icon before user role icon"), "ContactStatusFirst", 0, 0, nullptr },
-	{ LPGENW("Use IRC style status indicators in the nick list"), "ClassicIndicators", 0, 0, nullptr },
-	{ LPGENW("Use alternative sorting method in member list"), "AlternativeSorting", 0, 1, nullptr }
-};
-
-static branch_t branch2[] = {
-	{ LPGENW("Prefix all events with a timestamp"), "ShowTimeStamp", 0, 1, nullptr },
-	{ LPGENW("Timestamp only when event time differs"), "ShowTimeStampIfChanged", 0, 0, nullptr },
-	{ LPGENW("Timestamp has same color as the event"), "TimeStampEventColour", 0, 0, nullptr },
-	{ LPGENW("Indent the second line of a message"), "LogIndentEnabled", 0, 1, nullptr },
-	{ LPGENW("Limit user names in the message log to 20 characters"), "LogLimitNames", 0, 1, nullptr },
-	{ LPGENW("Add a colon (:) to auto-completed user names"), "AddColonToAutoComplete", 0, 1, nullptr },
-	{ LPGENW("Add a comma instead of a colon to auto-completed user names"), "UseCommaAsColon", 0, 0, nullptr },
-	{ LPGENW("Start private conversation on double click in nick list (insert nick if unchecked)"), "DoubleClick4Privat", 0, 0, nullptr },
-	{ LPGENW("Strip colors from messages in the log"), "StripFormatting", 0, 0, nullptr },
-	{ LPGENW("Enable the 'event filter' for new rooms"), "FilterEnabled", 0, 0, nullptr },
-	{ LPGENW("Use IRC style status indicators in the log"), "LogClassicIndicators", 0, 0, nullptr },
-	{ LPGENW("Allow clickable user names in the message log"), "ClickableNicks", 0, 1, nullptr },
-	{ LPGENW("Add new line after names"), "NewlineAfterNames", 0, 0, nullptr },
-	{ LPGENW("Colorize user names in message log"), "ColorizeNicksInLog", 0, 1, nullptr },
-	{ LPGENW("Scale down icons to 10x10 pixels in the chat log"), "ScaleIcons", 0, 1, nullptr }
-};
-
 void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour, char *szMod)
 {
 	char str[32];
@@ -526,6 +482,50 @@ protected:
 /////////////////////////////////////////////////////////////////////////////////////////
 // Group chat - Settings
 
+TOptionListGroup lvGroupsChat[] =
+{
+	{ 0, LPGENW("Appearance and functionality of chat room windows") },
+	{ 0, LPGENW("Appearance of the message log") },
+	{ 0 }
+};
+
+static TOptionListItem lvItemsChat[] =
+{
+	{ 0, LPGENW("Open new chat rooms in the default container"), 1, LOI_TYPE_SETTING, (UINT_PTR)"DefaultContainer", 0 },
+	{ 0, LPGENW("Flash window when someone speaks"), 0, LOI_TYPE_SETTING, (UINT_PTR)"FlashWindow", 0 },
+	{ 0, LPGENW("Flash window when a word is highlighted"), 1, LOI_TYPE_SETTING, (UINT_PTR)"FlashWindowHighlight", 0 },
+	{ 0, LPGENW("Create tabs or windows for highlight events"), 0, LOI_TYPE_SETTING, (UINT_PTR)"CreateWindowOnHighlight", 0 },
+	{ 0, LPGENW("Activate chat window on highlight"), 0, LOI_TYPE_SETTING, (UINT_PTR)"AnnoyingHighlight", 0 },
+	{ 0, LPGENW("Show list of users in the chat room"), 1, LOI_TYPE_SETTING, (UINT_PTR)"ShowNicklist", 0 },
+	{ 0, LPGENW("Colorize nicknames in member list"), 1, LOI_TYPE_SETTING, (UINT_PTR)"ColorizeNicks", 0 },
+	{ 0, LPGENW("Show button menus when right clicking the buttons"), 1, LOI_TYPE_SETTING, (UINT_PTR)"RightClickFilter", 0 },
+	{ 0, LPGENW("Show topic as status message on the contact list"), 1, LOI_TYPE_SETTING, (UINT_PTR)"TopicOnClist", 0 },
+	{ 0, LPGENW("Do not pop up the window when joining a chat room"), 0, LOI_TYPE_SETTING, (UINT_PTR)"PopupOnJoin", 0 },
+	{ 0, LPGENW("Sync splitter position with standard IM sessions"), 0, LOI_TYPE_SETTING, (UINT_PTR)"SyncSplitter", 0 },
+	{ 0, LPGENW("Show contact's status modes if supported by the protocol"), 1, LOI_TYPE_SETTING, (UINT_PTR)"ShowContactStatus", 0 },
+	{ 0, LPGENW("Display contact's status icon before user role icon"), 0, LOI_TYPE_SETTING, (UINT_PTR)"ContactStatusFirst", 0 },
+	{ 0, LPGENW("Use IRC style status indicators in the nick list"), 0, LOI_TYPE_SETTING, (UINT_PTR)"ClassicIndicators", 0 },
+	{ 0, LPGENW("Use alternative sorting method in member list"), 1, LOI_TYPE_SETTING, (UINT_PTR)"AlternativeSorting", 0 },
+
+	{ 0, LPGENW("Prefix all events with a timestamp"), 1, LOI_TYPE_SETTING, (UINT_PTR)"ShowTimeStamp", 1 },
+	{ 0, LPGENW("Timestamp only when event time differs"), 0, LOI_TYPE_SETTING, (UINT_PTR)"ShowTimeStampIfChanged", 1 },
+	{ 0, LPGENW("Timestamp has same color as the event"), 0, LOI_TYPE_SETTING, (UINT_PTR)"TimeStampEventColour", 1 },
+	{ 0, LPGENW("Indent the second line of a message"), 1, LOI_TYPE_SETTING, (UINT_PTR)"LogIndentEnabled", 1 },
+	{ 0, LPGENW("Limit user names in the message log to 20 characters"), 1, LOI_TYPE_SETTING, (UINT_PTR)"LogLimitNames", 1 },
+	{ 0, LPGENW("Add a colon (:) to auto-completed user names"), 1, LOI_TYPE_SETTING, (UINT_PTR)"AddColonToAutoComplete", 1 },
+	{ 0, LPGENW("Add a comma instead of a colon to auto-completed user names"), 0, LOI_TYPE_SETTING, (UINT_PTR)"UseCommaAsColon", 1 },
+	{ 0, LPGENW("Start private conversation on double click in nick list (insert nick if unchecked)"), 0, LOI_TYPE_SETTING, (UINT_PTR)"DoubleClick4Privat", 1 },
+	{ 0, LPGENW("Strip colors from messages in the log"), 0, LOI_TYPE_SETTING, (UINT_PTR)"StripFormatting", 1 },
+	{ 0, LPGENW("Enable the 'event filter' for new rooms"), 0, LOI_TYPE_SETTING, (UINT_PTR)"FilterEnabled", 1 },
+	{ 0, LPGENW("Use IRC style status indicators in the log"), 0, LOI_TYPE_SETTING, (UINT_PTR)"LogClassicIndicators", 1 },
+	{ 0, LPGENW("Allow clickable user names in the message log"), 1, LOI_TYPE_SETTING, (UINT_PTR)"ClickableNicks", 1 },
+	{ 0, LPGENW("Add new line after names"), 0, LOI_TYPE_SETTING, (UINT_PTR)"NewlineAfterNames", 1 },
+	{ 0, LPGENW("Colorize user names in message log"), 1, LOI_TYPE_SETTING, (UINT_PTR)"ColorizeNicksInLog", 1 },
+	{ 0, LPGENW("Scale down icons to 10x10 pixels in the chat log"), 1, LOI_TYPE_SETTING, (UINT_PTR)"ScaleIcons", 1 },
+
+	{ 0, 0, 0, 0, 0, 0 }
+};
+
 class CChatSettingsDlg : public CChatBaseOptionDlg
 {
 	HTREEITEM hListHeading1 = nullptr;
@@ -533,59 +533,6 @@ class CChatSettingsDlg : public CChatBaseOptionDlg
 
 	CCtrlTreeView treeCheck;
 	CCtrlEdit edtGroup;
-
-	HTREEITEM InsertBranch(wchar_t* pszDescr, BOOL bExpanded)
-	{
-		TVINSERTSTRUCT tvis;
-		tvis.hParent = nullptr;
-		tvis.hInsertAfter = TVI_LAST;
-		tvis.item.mask = TVIF_TEXT | TVIF_STATE;
-		tvis.item.pszText = TranslateW(pszDescr);
-		tvis.item.stateMask = TVIS_EXPANDED | TVIS_BOLD;
-		tvis.item.state = (bExpanded ? TVIS_EXPANDED : 0) | TVIS_BOLD;
-		return treeCheck.InsertItem(&tvis);
-	}
-
-	void FillBranch(HTREEITEM hParent, branch_t *branch, size_t nValues, DWORD defaultval)
-	{
-		if (hParent == nullptr)
-			return;
-
-		TVINSERTSTRUCT tvis = {};
-
-		for (size_t i = 0; i < nValues; i++) {
-			tvis.hParent = hParent;
-			tvis.hInsertAfter = TVI_LAST;
-			tvis.item.mask = TVIF_TEXT;
-			tvis.item.pszText = TranslateW(branch[i].szDescr);
-			branch[i].hItem = treeCheck.InsertItem(&tvis);
-
-			BOOL bCheck;
-			if (branch[i].iMode)
-				bCheck = (db_get_dw(0, CHAT_MODULE, branch[i].szDBName, defaultval) & branch[i].iMode) != 0;
-			else
-				bCheck = db_get_dw(0, CHAT_MODULE, branch[i].szDBName, branch[i].bDefault) != 0;
-			treeCheck.SetCheckState(branch[i].hItem, bCheck);
-		}
-	}
-
-	void SaveBranch(branch_t *branch, int nValues)
-	{
-		TVITEMEX tvi = { 0 };
-		DWORD iState = 0;
-
-		for (int i = 0; i < nValues; i++) {
-			BOOL bChecked = treeCheck.GetCheckState(branch[i].hItem);
-			if (branch[i].iMode) {
-				if (bChecked)
-					iState |= branch[i].iMode;
-				if (iState & GC_EVENT_ADDSTATUS)
-					iState |= GC_EVENT_REMOVESTATUS;
-				db_set_dw(0, CHAT_MODULE, branch[i].szDBName, iState);
-			}
-			else db_set_b(0, CHAT_MODULE, branch[i].szDBName, bChecked);
-		}
-	}
 
 public:
 	CChatSettingsDlg() :
@@ -596,13 +543,9 @@ public:
 
 	bool OnInitDialog() override
 	{
-		SetWindowLongPtr(treeCheck.GetHwnd(), GWL_STYLE, GetWindowLongPtr(treeCheck.GetHwnd(), GWL_STYLE) | (TVS_NOHSCROLL));
-		
-		hListHeading1 = InsertBranch(TranslateT("Appearance and functionality of chat room windows"), TRUE);
-		hListHeading2 = InsertBranch(TranslateT("Appearance of the message log"), TRUE);
+		SetWindowLongPtr(treeCheck.GetHwnd(), GWL_STYLE, GetWindowLongPtr(treeCheck.GetHwnd(), GWL_STYLE) | (TVS_HASBUTTONS | TVS_CHECKBOXES | TVS_NOHSCROLL));
 
-		FillBranch(hListHeading1, branch1, _countof(branch1), 0x0000);
-		FillBranch(hListHeading2, branch2, _countof(branch2), 0x0000);
+		TreeViewInit(treeCheck.GetHwnd(), lvGroupsChat, lvItemsChat, CHAT_MODULE);
 
 		edtGroup.SetText(ptrW(Chat_GetGroup()));
 		return true;
@@ -612,8 +555,7 @@ public:
 	{
 		Chat_SetGroup(ptrW(edtGroup.GetText()));
 
-		SaveBranch(branch1, _countof(branch1));
-		SaveBranch(branch2, _countof(branch2));
+		TreeViewToDB(treeCheck.GetHwnd(), lvItemsChat, CHAT_MODULE, nullptr);
 		return true;
 	}
 

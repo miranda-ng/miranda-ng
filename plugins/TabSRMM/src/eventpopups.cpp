@@ -456,13 +456,56 @@ static int TSAPI PopupPreview()
 	return 0;
 }
 
+static TOptionListItem lvItemsNEN[] =
+{
+	{ 0, LPGENW("Show a preview of the event"), IDC_CHKPREVIEW, LOI_TYPE_SETTING, (UINT_PTR)&nen_options.bPreview, 1 },
+	{ 0, LPGENW("Don't announce event when message dialog is open"), IDC_CHKWINDOWCHECK, LOI_TYPE_SETTING, (UINT_PTR)&nen_options.bWindowCheck, 1 },
+	{ 0, LPGENW("Don't announce events from RSS protocols"), IDC_NORSS, LOI_TYPE_SETTING, (UINT_PTR)&nen_options.bNoRSS, 1 },
+	{ 0, LPGENW("Enable the system tray icon"), IDC_ENABLETRAYSUPPORT, LOI_TYPE_SETTING, (UINT_PTR)&nen_options.bTraySupport, 2 },
+	{ 0, LPGENW("Merge new events for the same contact into existing popup"), 1, LOI_TYPE_SETTING, (UINT_PTR)&nen_options.bMergePopup, 6 },
+	{ 0, LPGENW("Show headers"), IDC_CHKSHOWHEADERS, LOI_TYPE_SETTING, (UINT_PTR)&nen_options.bShowHeaders, 6 },
+	{ 0, LPGENW("Dismiss popup"), MASK_DISMISS, LOI_TYPE_FLAG, (UINT_PTR)&nen_options.maskActL, 3 },
+	{ 0, LPGENW("Open event"), MASK_OPEN, LOI_TYPE_FLAG, (UINT_PTR)&nen_options.maskActL, 3 },
+	{ 0, LPGENW("Dismiss event"), MASK_REMOVE, LOI_TYPE_FLAG, (UINT_PTR)&nen_options.maskActL, 3 },
+
+	{ 0, LPGENW("Dismiss popup"), MASK_DISMISS, LOI_TYPE_FLAG, (UINT_PTR)&nen_options.maskActR, 4 },
+	{ 0, LPGENW("Open event"), MASK_OPEN, LOI_TYPE_FLAG, (UINT_PTR)&nen_options.maskActR, 4 },
+	{ 0, LPGENW("Dismiss event"), MASK_REMOVE, LOI_TYPE_FLAG, (UINT_PTR)&nen_options.maskActR, 4 },
+
+	{ 0, LPGENW("Dismiss popup"), MASK_DISMISS, LOI_TYPE_FLAG, (UINT_PTR)&nen_options.maskActTE, 5 },
+	{ 0, LPGENW("Open event"), MASK_OPEN, LOI_TYPE_FLAG, (UINT_PTR)&nen_options.maskActTE, 5 },
+
+	{ 0, LPGENW("Disable event notifications for instant messages"), IDC_CHKWINDOWCHECK, LOI_TYPE_SETTING, (UINT_PTR)&nen_options.iDisable, 0 },
+	{ 0, LPGENW("Disable event notifications for group chats"), IDC_CHKWINDOWCHECK, LOI_TYPE_SETTING, (UINT_PTR)&nen_options.iMUCDisable, 0 },
+	{ 0, LPGENW("Disable notifications for non-message events"), IDC_CHKWINDOWCHECK, LOI_TYPE_SETTING, (UINT_PTR)&nen_options.bDisableNonMessage, 0 },
+
+	{ 0, LPGENW("Remove popups for a contact when the message window is focused"), PU_REMOVE_ON_FOCUS, LOI_TYPE_FLAG, (UINT_PTR)&nen_options.dwRemoveMask, 7 },
+	{ 0, LPGENW("Remove popups for a contact when I start typing a reply"), PU_REMOVE_ON_TYPE, LOI_TYPE_FLAG, (UINT_PTR)&nen_options.dwRemoveMask, 7 },
+	{ 0, LPGENW("Remove popups for a contact when I send a reply"), PU_REMOVE_ON_SEND, LOI_TYPE_FLAG, (UINT_PTR)&nen_options.dwRemoveMask, 7 },
+
+	{ 0, nullptr, 0, 0, 0, 0 }
+};
+
+static TOptionListGroup lvGroupsNEN[] =
+{
+	{ 0, LPGENW("Disable notifications") },
+	{ 0, LPGENW("General options") },
+	{ 0, LPGENW("System tray icon") },
+	{ 0, LPGENW("Left click actions (popups only)") },
+	{ 0, LPGENW("Right click actions (popups only)") },
+	{ 0, LPGENW("Timeout actions (popups only)") },
+	{ 0, LPGENW("Combine notifications for the same contact") },
+	{ 0, LPGENW("Remove popups under following conditions") },
+	{ 0, nullptr }
+};
+
 static INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hWnd);
 		{
-			TreeViewInit(GetDlgItem(hWnd, IDC_EVENTOPTIONS), CTranslator::TREE_NEN, 0, TRUE);
+			TreeViewInit(GetDlgItem(hWnd, IDC_EVENTOPTIONS), lvGroupsNEN, lvItemsNEN, 0, 0, TRUE);
 
 			SendDlgItemMessage(hWnd, IDC_COLBACK_MESSAGE, CPM_SETCOLOUR, 0, nen_options.colBackMsg);
 			SendDlgItemMessage(hWnd, IDC_COLTEXT_MESSAGE, CPM_SETCOLOUR, 0, nen_options.colTextMsg);
@@ -598,7 +641,7 @@ static INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPA
 
 		case PSN_APPLY:
 			// scan the tree view and obtain the options...
-			TreeViewToDB(GetDlgItem(hWnd, IDC_EVENTOPTIONS), CTranslator::TREE_NEN, nullptr, nullptr);
+			TreeViewToDB(GetDlgItem(hWnd, IDC_EVENTOPTIONS), lvItemsNEN, nullptr, nullptr);
 
 			db_set_b(0, CHAT_MODULE, "PopupStyle", (BYTE)g_Settings.iPopupStyle);
 			db_set_w(0, CHAT_MODULE, "PopupTimeout", g_Settings.iPopupTimeout);
@@ -650,7 +693,7 @@ void TSAPI UpdateTrayMenuState(CTabBaseDlg *dat, BOOL bForced)
 		PluginConfig.m_UnreadInTray -= mii.dwItemData;
 	if (mii.dwItemData > 0 || bForced) {
 		wchar_t szMenuEntry[80];
-		mir_snwprintf(szMenuEntry, L"%s: %s (%s) [%d]", tszProto, dat->m_cache->getNick(), dat->m_wszStatus[0] ? dat->m_wszStatus : L"(undef)", mii.dwItemData);
+		mir_snwprintf(szMenuEntry, L"%s: %s (%s) [%d]", tszProto, dat->m_cache->getNick(), dat->m_wszStatus[0] ? dat->m_wszStatus : L"(undef)", (int)mii.dwItemData);
 
 		if (!bForced)
 			mii.dwItemData = 0;
@@ -690,7 +733,7 @@ int TSAPI UpdateTrayMenu(const CTabBaseDlg *dat, WORD wStatus, const char *szPro
 
 	wchar_t szMenuEntry[80];
 	const wchar_t *szNick = (dat != nullptr) ? dat->m_cache->getNick() : Clist_GetContactDisplayName(hContact);
-	mir_snwprintf(szMenuEntry, L"%s: %s (%s) [%d]", tszFinalProto, szNick, szMyStatus, mii.dwItemData);
+	mir_snwprintf(szMenuEntry, L"%s: %s (%s) [%d]", tszFinalProto, szNick, szMyStatus, (int)mii.dwItemData);
 
 	mii.hbmpItem = HBMMENU_CALLBACK;
 	mii.fMask |= MIIM_STRING | MIIM_BITMAP;

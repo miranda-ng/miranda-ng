@@ -119,7 +119,6 @@ typedef struct _DWM_THUMBNAIL_PROPERTIES
 #include "functions.h"
 #include "chat.h"
 #include "contactcache.h"
-#include "translator.h"
 #include "themes.h"
 #include "globals.h"
 #include "mim.h"
@@ -241,9 +240,9 @@ INT_PTR SendMessageCommand(WPARAM, LPARAM);
 INT_PTR SendMessageCommand_W(WPARAM, LPARAM);
 INT_PTR SetUserPrefs(WPARAM, LPARAM);
 
-void TreeViewInit(HWND hwndTree, UINT id, DWORD dwFlags, BOOL bFromMem);
-void TreeViewSetFromDB(HWND hwndTree, UINT id, DWORD dwFlags);
-void TreeViewToDB(HWND hwndTree, UINT id, char *DBPath, DWORD *dwFlags);
+void TreeViewInit(HWND hwndTree, TOptionListGroup *lvGroups, TOptionListItem *lvItems, const char *DBPath, DWORD dwFlags = 0, bool bFromMem = false);
+void TreeViewSetFromDB(HWND hwndTree, TOptionListItem *lvItems, DWORD dwFlags);
+void TreeViewToDB(HWND hwndTree, TOptionListItem *lvItems, const char *DBPath, DWORD *dwFlags);
 
 INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 

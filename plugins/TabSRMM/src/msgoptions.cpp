@@ -55,15 +55,12 @@ void LoadLogfont(int section, int i, LOGFONTA * lf, COLORREF * colour, char *szM
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void TreeViewInit(HWND hwndTree, UINT id, DWORD dwFlags, BOOL bFromMem)
+void TreeViewInit(HWND hwndTree, TOptionListGroup *lvGroups, TOptionListItem *lvItems, const char *DBPath, DWORD dwFlags, bool bFromMem)
 {
-	TVINSERTSTRUCT tvi = {};
-	TOptionListGroup *lvGroups = CTranslator::getGroupTree(id);
-	TOptionListItem *lvItems = CTranslator::getTree(id);
-
 	SetWindowLongPtr(hwndTree, GWL_STYLE, GetWindowLongPtr(hwndTree, GWL_STYLE) | (TVS_HASBUTTONS | TVS_CHECKBOXES | TVS_NOHSCROLL));
 
 	// fill the list box, create groups first, then add items
+	TVINSERTSTRUCT tvi = {};
 	for (int i = 0; lvGroups[i].szName != nullptr; i++) {
 		tvi.hParent = nullptr;
 		tvi.hInsertAfter = TVI_LAST;
@@ -76,75 +73,71 @@ void TreeViewInit(HWND hwndTree, UINT id, DWORD dwFlags, BOOL bFromMem)
 		TreeView_SetItemState(hwndTree, lvGroups[i].handle, 0, TVIS_STATEIMAGEMASK);
 	}
 
-	for (int i = 0; lvItems[i].szName != nullptr; i++) {
-		tvi.hParent = (HTREEITEM)lvGroups[lvItems[i].uGroup].handle;
+	for (auto *p = lvItems; p->szName != nullptr; p++) {
+		tvi.hParent = (HTREEITEM)lvGroups[p->uGroup].handle;
 		tvi.hInsertAfter = TVI_LAST;
-		tvi.item.pszText = TranslateW(lvItems[i].szName);
+		tvi.item.pszText = TranslateW(p->szName);
 		tvi.item.mask = TVIF_TEXT | TVIF_PARAM;
-		tvi.item.lParam = i;
-		lvItems[i].handle = TreeView_InsertItem(hwndTree, &tvi);
+		tvi.item.lParam = p - lvItems;
+		p->handle = TreeView_InsertItem(hwndTree, &tvi);
 
 		BOOL bCheck = FALSE;
 		if (bFromMem == FALSE) {
-			switch (lvItems[i].uType) {
+			switch (p->uType) {
 			case LOI_TYPE_FLAG:
-				bCheck = (dwFlags & (UINT)lvItems[i].lParam) != 0;
+				bCheck = (dwFlags & (UINT)p->lParam) != 0;
 				break;
 			case LOI_TYPE_SETTING:
-				bCheck = M.GetByte((char *)lvItems[i].lParam, lvItems[i].id);
+				bCheck = db_get_b(0, DBPath, (char *)p->lParam, p->id);
 				break;
 			}
 		}
 		else {
-			switch (lvItems[i].uType) {
+			switch (p->uType) {
 			case LOI_TYPE_FLAG:
-				bCheck = ((*((UINT *)lvItems[i].lParam)) & lvItems[i].id) != 0;
+				bCheck = ((*((UINT *)p->lParam)) & p->id) != 0;
 				break;
 			case LOI_TYPE_SETTING:
-				bCheck = *((BOOL *)lvItems[i].lParam);
+				bCheck = *((BOOL *)p->lParam);
 				break;
 			}
 		}
-		TreeView_SetCheckState(hwndTree, lvItems[i].handle, bCheck);
+		TreeView_SetCheckState(hwndTree, p->handle, bCheck);
 	}
 }
 
-void TreeViewSetFromDB(HWND hwndTree, UINT id, DWORD dwFlags)
+void TreeViewSetFromDB(HWND hwndTree, TOptionListItem *lvItems, DWORD dwFlags)
 {
-	TOptionListItem *lvItems = CTranslator::getTree(id);
-
-	for (int i = 0; lvItems[i].szName != nullptr; i++) {
+	for (auto *p = lvItems; p->szName != nullptr; p++) {
 		BOOL bCheck = FALSE;
-		if (lvItems[i].uType == LOI_TYPE_FLAG)
-			bCheck = (dwFlags & (UINT)lvItems[i].lParam) != 0;
-		else if (lvItems[i].uType == LOI_TYPE_SETTING)
-			bCheck = M.GetByte((char *)lvItems[i].lParam, lvItems[i].id);
-		TreeView_SetCheckState(hwndTree, lvItems[i].handle, bCheck);
+		if (p->uType == LOI_TYPE_FLAG)
+			bCheck = (dwFlags & (UINT)p->lParam) != 0;
+		else if (p->uType == LOI_TYPE_SETTING)
+			bCheck = M.GetByte((char *)p->lParam, p->id);
+		TreeView_SetCheckState(hwndTree, p->handle, bCheck);
 	}
 }
 
-void TreeViewToDB(HWND hwndTree, UINT id, char *DBPath, DWORD *dwFlags)
+void TreeViewToDB(HWND hwndTree, TOptionListItem *lvItems, const char *DBPath, DWORD *dwFlags)
 {
-	TOptionListItem *lvItems = CTranslator::getTree(id);
+	for (auto *p = lvItems; p->szName != nullptr; p++) {
+		UINT iState = TreeView_GetCheckState(hwndTree, p->handle);
 
-	for (int i = 0; lvItems[i].szName != nullptr; i++) {
-		UINT iState = TreeView_GetCheckState(hwndTree, lvItems[i].handle);
-
-		switch (lvItems[i].uType) {
+		switch (p->uType) {
 		case LOI_TYPE_FLAG:
 			if (dwFlags != nullptr)
-				(*dwFlags) |= (iState == 1) ? lvItems[i].lParam : 0;
+				(*dwFlags) |= (iState == 1) ? p->lParam : 0;
 			if (DBPath == nullptr) {
-				UINT *tm = (UINT*)lvItems[i].lParam;
-				(*tm) = (iState == 1) ? ((*tm) | lvItems[i].id) : ((*tm) & ~lvItems[i].id);
+				UINT *tm = (UINT*)p->lParam;
+				(*tm) = (iState == 1) ? ((*tm) | p->id) : ((*tm) & ~p->id);
 			}
 			break;
 		case LOI_TYPE_SETTING:
 			if (DBPath != nullptr) {
-				db_set_b(0, DBPath, (char *)lvItems[i].lParam, iState == 1);
+				db_set_b(0, DBPath, (char *)p->lParam, iState == 1);
 			}
 			else {
-				(*((BOOL*)lvItems[i].lParam)) = iState == 1;
+				(*((BOOL*)p->lParam)) = iState == 1;
 			}
 			break;
 		}
@@ -497,6 +490,31 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 // Main options dialog
 
+static TOptionListGroup lvGroupsMsg[] =
+{
+	{ 0, LPGENW("Message window behavior") },
+	{ 0, LPGENW("Sending messages") },
+	{ 0, LPGENW("Other options") },
+	{ 0, nullptr }
+};
+
+static TOptionListItem lvItemsMsg[] =
+{
+	{ 0, LPGENW("Send on Shift+Enter"), 0, LOI_TYPE_SETTING, (UINT_PTR)"sendonshiftenter", 1 },
+	{ 0, LPGENW("Send message on 'Enter'"), SRMSGDEFSET_SENDONENTER, LOI_TYPE_SETTING, (UINT_PTR)SRMSGSET_SENDONENTER, 1 },
+	{ 0, LPGENW("Send message on double 'Enter'"), 0, LOI_TYPE_SETTING, (UINT_PTR)"SendOnDblEnter", 1 },
+	{ 0, LPGENW("Minimize the message window on send"), SRMSGDEFSET_AUTOMIN, LOI_TYPE_SETTING, (UINT_PTR)SRMSGSET_AUTOMIN, 1 },
+	{ 0, LPGENW("Close the message window on send"), 0, LOI_TYPE_SETTING, (UINT_PTR)"AutoClose", 1 },
+	{ 0, LPGENW("Always flash contact list and tray icon for new messages"), 0, LOI_TYPE_SETTING, (UINT_PTR)"flashcl", 0 },
+	{ 0, LPGENW("Delete temporary contacts on close"), 0, LOI_TYPE_SETTING, (UINT_PTR)"deletetemp", 0 },
+	{ 0, LPGENW("Enable \"Paste and send\" feature"), 0, LOI_TYPE_SETTING, (UINT_PTR)"pasteandsend", 1 },
+	{ 0, LPGENW("Allow BBCode formatting in outgoing messages"), 0, LOI_TYPE_SETTING, (UINT_PTR)"sendformat", 1 },
+	{ 0, LPGENW("Automatically split long messages (experimental, use with care)"), 0, LOI_TYPE_SETTING, (UINT_PTR)"autosplit", 2 },
+	{ 0, LPGENW("Log status changes"), 0, LOI_TYPE_SETTING, (UINT_PTR)"logstatuschanges", 2 },
+	{ 0, LPGENW("Automatically copy selected text"), 1, LOI_TYPE_SETTING, (UINT_PTR)"autocopy", 2 },
+	{ 0, nullptr, 0, 0, 0, 0 }
+};
+
 class COptMainDlg : public CDlgBase
 {
 	CCtrlSpin spnAvaSize;
@@ -519,7 +537,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		TreeViewInit(treeOpts.GetHwnd(), CTranslator::TREE_MSG, 0, FALSE);
+		TreeViewInit(treeOpts.GetHwnd(), lvGroupsMsg, lvItemsMsg, SRMSGMOD_T);
 
 		chkAvaPreserve.SetState(M.GetByte("dontscaleavatars", 0));
 
@@ -533,7 +551,7 @@ public:
 		db_set_b(0, SRMSGMOD_T, "dontscaleavatars", chkAvaPreserve.GetState());
 
 		// scan the tree view and obtain the options...
-		TreeViewToDB(treeOpts.GetHwnd(), CTranslator::TREE_MSG, SRMSGMOD_T, nullptr);
+		TreeViewToDB(treeOpts.GetHwnd(), lvItemsMsg, SRMSGMOD_T, nullptr);
 		PluginConfig.reloadSettings();
 		Srmm_Broadcast(DM_OPTIONSAPPLIED, 1, 0);
 		return true;
@@ -549,6 +567,39 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static UINT __ctrls[] = { IDC_INDENTSPIN, IDC_RINDENTSPIN, IDC_INDENTAMOUNT, IDC_RIGHTINDENT, IDC_MODIFY, IDC_RTLMODIFY };
+
+static TOptionListGroup lvGroupsLog[] =
+{
+	{ 0, LPGENW("Message log appearance") },
+	{ 0, LPGENW("Support for external plugins") },
+	{ 0, LPGENW("Timestamp settings (note: timestamps also depend on your templates)") },
+	{ 0, LPGENW("Message log icons") },
+	{ 0, nullptr }
+};
+
+static TOptionListItem lvItemsLog[] =
+{
+	{ 0, LPGENW("Show timestamps"), 1, LOI_TYPE_FLAG, (UINT_PTR)MWF_LOG_SHOWTIME, 2 },
+	{ 0, LPGENW("Show dates in timestamps"), 1, LOI_TYPE_FLAG, (UINT_PTR)MWF_LOG_SHOWDATES, 2 },
+	{ 0, LPGENW("Show seconds in timestamps"), 1, LOI_TYPE_FLAG, (UINT_PTR)MWF_LOG_SHOWSECONDS, 2 },
+	{ 0, LPGENW("Use contacts local time (if timezone info available)"), 0, LOI_TYPE_FLAG, (UINT_PTR)MWF_LOG_LOCALTIME, 2 },
+	{ 0, LPGENW("Draw grid lines"), 1, LOI_TYPE_FLAG, MWF_LOG_GRID, 0 },
+	{ 0, LPGENW("Event type icons in the message log"), 1, LOI_TYPE_FLAG, MWF_LOG_SHOWICONS, 3 },
+	{ 0, LPGENW("Text symbols as event markers"), 0, LOI_TYPE_FLAG, MWF_LOG_SYMBOLS, 3 },
+	{ 0, LPGENW("Use incoming/outgoing icons"), 1, LOI_TYPE_FLAG, MWF_LOG_INOUTICONS, 3 },
+	{ 0, LPGENW("Use message grouping"), 1, LOI_TYPE_FLAG, MWF_LOG_GROUPMODE, 0 },
+	{ 0, LPGENW("Indent message body"), 1, LOI_TYPE_FLAG, MWF_LOG_INDENT, 0 },
+	{ 0, LPGENW("Simple text formatting (*bold*, etc.)"), 0, LOI_TYPE_FLAG, MWF_LOG_TEXTFORMAT, 0 },
+	{ 0, LPGENW("Support BBCode formatting"), 1, LOI_TYPE_FLAG, MWF_LOG_BBCODE, 0 },
+	{ 0, LPGENW("Place a separator in the log after a window lost its foreground status"), 0, LOI_TYPE_SETTING, (UINT_PTR)"usedividers", 0 },
+	{ 0, LPGENW("Only place a separator when an incoming event is announced with a popup"), 0, LOI_TYPE_SETTING, (UINT_PTR)"div_popupconfig", 0 },
+	{ 0, LPGENW("RTL is default text direction"), 0, LOI_TYPE_FLAG, MWF_LOG_RTL, 0 },
+	{ 0, LPGENW("Show events at the new line (IEView Compatibility Mode)"), 1, LOI_TYPE_FLAG, MWF_LOG_NEWLINE, 1 },
+	{ 0, LPGENW("Underline timestamp/nickname (IEView Compatibility Mode)"), 0, LOI_TYPE_FLAG, MWF_LOG_UNDERLINE, 1 },
+	{ 0, LPGENW("Show timestamp after nickname (IEView Compatibility Mode)"), 0, LOI_TYPE_FLAG, MWF_LOG_SWAPNICK, 1 },
+	{ 0, LPGENW("Use normal templates (uncheck to use simple templates if your template set supports them)"), 1, LOI_TYPE_FLAG, MWF_LOG_NORMALTEMPLATES, 0 },
+	{ 0, nullptr, 0, 0, 0, 0 }
+};
 
 class COptLogDlg : public CDlgBase
 {
@@ -625,7 +676,7 @@ public:
 			break;
 		}
 
-		TreeViewInit(logOpts.GetHwnd(), CTranslator::TREE_LOG, dwFlags, FALSE);
+		TreeViewInit(logOpts.GetHwnd(), lvGroupsLog, lvItemsLog, SRMSGMOD_T, dwFlags);
 
 		spnLeft.SetPosition(M.GetDword("IndentAmount", 20));
 		spnRight.SetPosition(M.GetDword("RightIndent", 20));
@@ -697,7 +748,7 @@ public:
 		}
 
 		// scan the tree view and obtain the options...
-		TreeViewToDB(logOpts.GetHwnd(), CTranslator::TREE_LOG, SRMSGMOD_T, &dwFlags);
+		TreeViewToDB(logOpts.GetHwnd(), lvItemsLog, SRMSGMOD_T, &dwFlags);
 		db_set_dw(0, SRMSGMOD_T, "mwflags", dwFlags);
 		if (chkAlwaysTrim.GetState())
 			db_set_dw(0, SRMSGMOD_T, "maxhist", spnTrim.GetPosition());
@@ -912,6 +963,30 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 // options for tabbed messaging got their own page.. finally :)
 
+static TOptionListGroup lvGroupsTab[] =
+{
+	{ 0, LPGENW("Tab options") },
+	{ 0, LPGENW("How to create tabs and windows for incoming messages") },
+	{ 0, LPGENW("Miscellaneous options") },
+	{ 0, nullptr }
+};
+
+static TOptionListItem lvItemsTab[] =
+{
+	{ 0, LPGENW("Show status text on tabs"), 1, LOI_TYPE_SETTING, (UINT_PTR)"tabstatus", 0 },
+	{ 0, LPGENW("Prefer xStatus icons when available"), 1, LOI_TYPE_SETTING, (UINT_PTR)"use_xicons", 0 },
+	{ 0, LPGENW("Detailed tooltip on tabs (requires Tipper plugin)"), 0, LOI_TYPE_SETTING, (UINT_PTR)"d_tooltips", 0 },
+	{ 0, LPGENW("ALWAYS activate new message sessions (has PRIORITY over the options below)"), SRMSGDEFSET_AUTOPOPUP, LOI_TYPE_SETTING, (UINT_PTR)SRMSGSET_AUTOPOPUP, 1 },
+	{ 0, LPGENW("Automatically create new message sessions without activating them"), 1, LOI_TYPE_SETTING, (UINT_PTR)"autotabs", 1 },
+	{ 0, LPGENW("New windows are minimized (the option above MUST be active)"), 1, LOI_TYPE_SETTING, (UINT_PTR)"autocontainer", 1 },
+	{ 0, LPGENW("Activate a minimized window when a new tab is created inside it"), 0, LOI_TYPE_SETTING, (UINT_PTR)"cpopup", 1 },
+	{ 0, LPGENW("Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)"), 1, LOI_TYPE_SETTING, (UINT_PTR)"autoswitchtabs", 1 },
+	{ 0, LPGENW("Close button only hides message windows"), 0, LOI_TYPE_SETTING, (UINT_PTR)"hideonclose", 2 },
+	{ 0, LPGENW("Allow Tab key in typing area (this will disable focus selection by Tab key)"), 0, LOI_TYPE_SETTING, (UINT_PTR)"tabmode", 2 },
+	{ 0, LPGENW("Add offline contacts to multisend list"), 0, LOI_TYPE_SETTING, (UINT_PTR) "AllowOfflineMultisend", 2 },
+	{ 0, nullptr, 0, 0, 0, 0 }
+};
+
 class COptTabbedDlg : public CDlgBase
 {
 	CCtrlEdit edtLimit;
@@ -938,7 +1013,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		TreeViewInit(tabOptions.GetHwnd(), CTranslator::TREE_TAB, 0, FALSE);
+		TreeViewInit(tabOptions.GetHwnd(), lvGroupsTab, lvItemsTab, SRMSGMOD_T);
 
 		chkLimit.SetState(M.GetByte("cuttitle", 0));
 		spnLimit.SetPosition(db_get_w(0, SRMSGMOD_T, "cut_at", 15));
@@ -958,7 +1033,7 @@ public:
 		db_set_b(0, SRMSGMOD_T, "cuttitle", chkLimit.GetState());
 		db_set_b(0, SRMSGMOD_T, "escmode", cmbEscMode.GetCurSel());
 
-		TreeViewToDB(tabOptions.GetHwnd(), CTranslator::TREE_TAB, SRMSGMOD_T, nullptr);
+		TreeViewToDB(tabOptions.GetHwnd(), lvItemsTab, SRMSGMOD_T, nullptr);
 
 		PluginConfig.reloadSettings();
 		Srmm_Broadcast(DM_OPTIONSAPPLIED, 0, 0);
@@ -1080,6 +1155,25 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 // TabModPlus options
 
+TOptionListGroup lvGroupsModPlus[] =
+{
+	{ 0, LPGENW("Message window tweaks") },
+	{ 0, LPGENW("Display metacontact icons") },
+	{ 0, LPGENW("Error feedback") },
+	{ 0, nullptr }
+};
+
+TOptionListItem lvItemsModPlus[] =
+{
+	{ 0, LPGENW("Close current tab on send"), 0, LOI_TYPE_SETTING, (UINT_PTR)"adv_AutoClose_2", 0 },
+	{ 0, LPGENW("Enable unattended send (experimental feature, required for multisend and send later) (*)"), 0, LOI_TYPE_SETTING, (UINT_PTR)"sendLaterAvail", 0 },
+	{ 0, LPGENW("Show client description in info panel"), 1, LOI_TYPE_SETTING, (UINT_PTR)"ShowClientDescription", 0 },
+	{ 0, LPGENW("On tab control"), 1, LOI_TYPE_SETTING, (UINT_PTR)"MetaiconTab", 1 },
+	{ 0, LPGENW("On the button bar"), 0, LOI_TYPE_SETTING, (UINT_PTR)"MetaiconBar", 1 },
+	{ 0, LPGENW("Disable error popups on sending failures"), 0, LOI_TYPE_SETTING, (UINT_PTR)"adv_noErrorPopups", 2 },
+	{ 0, nullptr, 0, 0, 0, 0 }
+};
+
 class COptAdvancedDlg : public CDlgBase
 {
 	CCtrlSpin spnTimeout, spnHistSize;
@@ -1101,7 +1195,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		TreeViewInit(plusOptions.GetHwnd(), CTranslator::TREE_MODPLUS, 0, FALSE);
+		TreeViewInit(plusOptions.GetHwnd(), lvGroupsModPlus, lvItemsModPlus, SRMSGMOD_T);
 
 		spnTimeout.SetPosition(PluginConfig.m_MsgTimeout / 1000);
 		spnHistSize.SetPosition(M.GetByte("historysize", 0));
@@ -1110,7 +1204,7 @@ public:
 
 	bool OnApply() override
 	{
-		TreeViewToDB(plusOptions.GetHwnd(), CTranslator::TREE_MODPLUS, SRMSGMOD_T, nullptr);
+		TreeViewToDB(plusOptions.GetHwnd(), lvItemsModPlus, SRMSGMOD_T, nullptr);
 
 		int msgTimeout = 1000 * spnTimeout.GetPosition();
 		PluginConfig.m_MsgTimeout = msgTimeout >= SRMSGSET_MSGTIMEOUT_MIN ? msgTimeout : SRMSGSET_MSGTIMEOUT_MIN;
@@ -1123,12 +1217,11 @@ public:
 
 	void onClick_Revert(CCtrlButton*)
 	{
-		TOptionListItem *lvItems = CTranslator::getTree(CTranslator::TREE_MODPLUS);
-
-		for (int i = 0; lvItems[i].szName != nullptr; i++)
-			if (lvItems[i].uType == LOI_TYPE_SETTING)
-				db_set_b(0, SRMSGMOD_T, (char *)lvItems[i].lParam, (BYTE)lvItems[i].id);
-		TreeViewSetFromDB(GetDlgItem(m_hwnd, IDC_PLUS_CHECKTREE), CTranslator::TREE_MODPLUS, 0);
+		for (auto &it : lvItemsModPlus)
+			if (it.uType == LOI_TYPE_SETTING)
+				db_set_b(0, SRMSGMOD_T, (char *)it.lParam, it.id);
+		
+		TreeViewSetFromDB(GetDlgItem(m_hwnd, IDC_PLUS_CHECKTREE), lvItemsModPlus, 0);
 	}
 };
 
