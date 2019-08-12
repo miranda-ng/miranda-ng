@@ -380,7 +380,7 @@ wstring GetFilePathFromUser(MCONTACT hContact)
 						if (!MoveFile(sPrevFileName.c_str(), sFilePath.c_str())) {
 							// this might be because the new path isn't created 
 							// so we will try to create it 
-							CreateDirectoryTreeW(sFilePath.c_str());
+							CreatePathToFileW(sFilePath.c_str());
 
 							while (!MoveFile(sPrevFileName.c_str(), sFilePath.c_str())) {
 								mir_snwprintf(szTemp,
