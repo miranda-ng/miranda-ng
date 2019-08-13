@@ -55,9 +55,9 @@ void LoadLogfont(int section, int i, LOGFONTA * lf, COLORREF * colour, char *szM
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void TreeViewInit(HWND hwndTree, TOptionListGroup *lvGroups, TOptionListItem *lvItems, const char *DBPath, DWORD dwFlags, bool bFromMem)
+void TreeViewInit(CCtrlTreeView &ctrl, TOptionListGroup *lvGroups, TOptionListItem *lvItems, const char *DBPath, DWORD dwFlags, bool bFromMem)
 {
-	SetWindowLongPtr(hwndTree, GWL_STYLE, GetWindowLongPtr(hwndTree, GWL_STYLE) | (TVS_HASBUTTONS | TVS_CHECKBOXES | TVS_NOHSCROLL));
+	SetWindowLongPtr(ctrl.GetHwnd(), GWL_STYLE, GetWindowLongPtr(ctrl.GetHwnd(), GWL_STYLE) | (TVS_HASBUTTONS | TVS_CHECKBOXES | TVS_NOHSCROLL));
 
 	// fill the list box, create groups first, then add items
 	TVINSERTSTRUCT tvi = {};
@@ -68,9 +68,9 @@ void TreeViewInit(HWND hwndTree, TOptionListGroup *lvGroups, TOptionListItem *lv
 		tvi.item.pszText = TranslateW(lvGroups[i].szName);
 		tvi.item.stateMask = TVIS_EXPANDED | TVIS_BOLD;
 		tvi.item.state = TVIS_EXPANDED | TVIS_BOLD;
-		lvGroups[i].handle = TreeView_InsertItem(hwndTree, &tvi);
+		lvGroups[i].handle = ctrl.InsertItem(&tvi);
 
-		TreeView_SetItemState(hwndTree, lvGroups[i].handle, 0, TVIS_STATEIMAGEMASK);
+		ctrl.SetItemState(lvGroups[i].handle, 0, TVIS_STATEIMAGEMASK);
 	}
 
 	for (auto *p = lvItems; p->szName != nullptr; p++) {
@@ -79,7 +79,7 @@ void TreeViewInit(HWND hwndTree, TOptionListGroup *lvGroups, TOptionListItem *lv
 		tvi.item.pszText = TranslateW(p->szName);
 		tvi.item.mask = TVIF_TEXT | TVIF_PARAM;
 		tvi.item.lParam = p - lvItems;
-		p->handle = TreeView_InsertItem(hwndTree, &tvi);
+		p->handle = ctrl.InsertItem(&tvi);
 
 		BOOL bCheck = FALSE;
 		if (bFromMem == FALSE) {
@@ -102,11 +102,11 @@ void TreeViewInit(HWND hwndTree, TOptionListGroup *lvGroups, TOptionListItem *lv
 				break;
 			}
 		}
-		TreeView_SetCheckState(hwndTree, p->handle, bCheck);
+		ctrl.SetCheckState(p->handle, bCheck);
 	}
 }
 
-void TreeViewSetFromDB(HWND hwndTree, TOptionListItem *lvItems, DWORD dwFlags)
+void TreeViewSetFromDB(CCtrlTreeView &ctrl, TOptionListItem *lvItems, DWORD dwFlags)
 {
 	for (auto *p = lvItems; p->szName != nullptr; p++) {
 		BOOL bCheck = FALSE;
@@ -114,14 +114,14 @@ void TreeViewSetFromDB(HWND hwndTree, TOptionListItem *lvItems, DWORD dwFlags)
 			bCheck = (dwFlags & (UINT)p->lParam) != 0;
 		else if (p->uType == LOI_TYPE_SETTING)
 			bCheck = M.GetByte((char *)p->lParam, p->id);
-		TreeView_SetCheckState(hwndTree, p->handle, bCheck);
+		ctrl.SetCheckState(p->handle, bCheck);
 	}
 }
 
-void TreeViewToDB(HWND hwndTree, TOptionListItem *lvItems, const char *DBPath, DWORD *dwFlags)
+void TreeViewToDB(CCtrlTreeView &ctrl, TOptionListItem *lvItems, const char *DBPath, DWORD *dwFlags)
 {
 	for (auto *p = lvItems; p->szName != nullptr; p++) {
-		UINT iState = TreeView_GetCheckState(hwndTree, p->handle);
+		UINT iState = ctrl.GetCheckState(p->handle);
 
 		switch (p->uType) {
 		case LOI_TYPE_FLAG:
@@ -537,7 +537,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		TreeViewInit(treeOpts.GetHwnd(), lvGroupsMsg, lvItemsMsg, SRMSGMOD_T);
+		TreeViewInit(treeOpts, lvGroupsMsg, lvItemsMsg, SRMSGMOD_T);
 
 		chkAvaPreserve.SetState(M.GetByte("dontscaleavatars", 0));
 
@@ -551,7 +551,7 @@ public:
 		db_set_b(0, SRMSGMOD_T, "dontscaleavatars", chkAvaPreserve.GetState());
 
 		// scan the tree view and obtain the options...
-		TreeViewToDB(treeOpts.GetHwnd(), lvItemsMsg, SRMSGMOD_T, nullptr);
+		TreeViewToDB(treeOpts, lvItemsMsg, SRMSGMOD_T, nullptr);
 		PluginConfig.reloadSettings();
 		Srmm_Broadcast(DM_OPTIONSAPPLIED, 1, 0);
 		return true;
@@ -676,7 +676,7 @@ public:
 			break;
 		}
 
-		TreeViewInit(logOpts.GetHwnd(), lvGroupsLog, lvItemsLog, SRMSGMOD_T, dwFlags);
+		TreeViewInit(logOpts, lvGroupsLog, lvItemsLog, SRMSGMOD_T, dwFlags);
 
 		spnLeft.SetPosition(M.GetDword("IndentAmount", 20));
 		spnRight.SetPosition(M.GetDword("RightIndent", 20));
@@ -748,7 +748,7 @@ public:
 		}
 
 		// scan the tree view and obtain the options...
-		TreeViewToDB(logOpts.GetHwnd(), lvItemsLog, SRMSGMOD_T, &dwFlags);
+		TreeViewToDB(logOpts, lvItemsLog, SRMSGMOD_T, &dwFlags);
 		db_set_dw(0, SRMSGMOD_T, "mwflags", dwFlags);
 		if (chkAlwaysTrim.GetState())
 			db_set_dw(0, SRMSGMOD_T, "maxhist", spnTrim.GetPosition());
@@ -1013,7 +1013,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		TreeViewInit(tabOptions.GetHwnd(), lvGroupsTab, lvItemsTab, SRMSGMOD_T);
+		TreeViewInit(tabOptions, lvGroupsTab, lvItemsTab, SRMSGMOD_T);
 
 		chkLimit.SetState(M.GetByte("cuttitle", 0));
 		spnLimit.SetPosition(db_get_w(0, SRMSGMOD_T, "cut_at", 15));
@@ -1033,7 +1033,7 @@ public:
 		db_set_b(0, SRMSGMOD_T, "cuttitle", chkLimit.GetState());
 		db_set_b(0, SRMSGMOD_T, "escmode", cmbEscMode.GetCurSel());
 
-		TreeViewToDB(tabOptions.GetHwnd(), lvItemsTab, SRMSGMOD_T, nullptr);
+		TreeViewToDB(tabOptions, lvItemsTab, SRMSGMOD_T, nullptr);
 
 		PluginConfig.reloadSettings();
 		Srmm_Broadcast(DM_OPTIONSAPPLIED, 0, 0);
@@ -1195,7 +1195,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		TreeViewInit(plusOptions.GetHwnd(), lvGroupsModPlus, lvItemsModPlus, SRMSGMOD_T);
+		TreeViewInit(plusOptions, lvGroupsModPlus, lvItemsModPlus, SRMSGMOD_T);
 
 		spnTimeout.SetPosition(PluginConfig.m_MsgTimeout / 1000);
 		spnHistSize.SetPosition(M.GetByte("historysize", 0));
@@ -1204,7 +1204,7 @@ public:
 
 	bool OnApply() override
 	{
-		TreeViewToDB(plusOptions.GetHwnd(), lvItemsModPlus, SRMSGMOD_T, nullptr);
+		TreeViewToDB(plusOptions, lvItemsModPlus, SRMSGMOD_T, nullptr);
 
 		int msgTimeout = 1000 * spnTimeout.GetPosition();
 		PluginConfig.m_MsgTimeout = msgTimeout >= SRMSGSET_MSGTIMEOUT_MIN ? msgTimeout : SRMSGSET_MSGTIMEOUT_MIN;
@@ -1221,7 +1221,7 @@ public:
 			if (it.uType == LOI_TYPE_SETTING)
 				db_set_b(0, SRMSGMOD_T, (char *)it.lParam, it.id);
 		
-		TreeViewSetFromDB(GetDlgItem(m_hwnd, IDC_PLUS_CHECKTREE), lvItemsModPlus, 0);
+		TreeViewSetFromDB(plusOptions, lvItemsModPlus, 0);
 	}
 };
 

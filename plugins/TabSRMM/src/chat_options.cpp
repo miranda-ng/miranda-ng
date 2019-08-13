@@ -545,7 +545,7 @@ public:
 	{
 		SetWindowLongPtr(treeCheck.GetHwnd(), GWL_STYLE, GetWindowLongPtr(treeCheck.GetHwnd(), GWL_STYLE) | (TVS_HASBUTTONS | TVS_CHECKBOXES | TVS_NOHSCROLL));
 
-		TreeViewInit(treeCheck.GetHwnd(), lvGroupsChat, lvItemsChat, CHAT_MODULE);
+		TreeViewInit(treeCheck, lvGroupsChat, lvItemsChat, CHAT_MODULE);
 
 		edtGroup.SetText(ptrW(Chat_GetGroup()));
 		return true;
@@ -555,7 +555,7 @@ public:
 	{
 		Chat_SetGroup(ptrW(edtGroup.GetText()));
 
-		TreeViewToDB(treeCheck.GetHwnd(), lvItemsChat, CHAT_MODULE, nullptr);
+		TreeViewToDB(treeCheck, lvItemsChat, CHAT_MODULE, nullptr);
 		return true;
 	}
 

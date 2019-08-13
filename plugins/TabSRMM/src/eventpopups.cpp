@@ -38,8 +38,6 @@
 
 static LIST<PLUGIN_DATAT> arPopupList(10, NumericKeySortT);
 
-BOOL bWmNotify = TRUE;
-
 static PLUGIN_DATAT* PU_GetByContact(const MCONTACT hContact)
 {
 	return arPopupList.find((PLUGIN_DATAT*)&hContact);
@@ -70,7 +68,6 @@ static void CheckForRemoveMask()
 		db_set_b(0, MODULE, "firsttime", 1);
 	}
 }
-
 
 int TSAPI NEN_ReadOptions(NEN_OPTIONS *options)
 {
@@ -450,12 +447,6 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, MCONTACT hContact, MEVENT hEve
 	return 0;
 }
 
-static int TSAPI PopupPreview()
-{
-	PopupShowT(&nen_options, 0, 0, EVENTTYPE_MESSAGE, nullptr);
-	return 0;
-}
-
 static TOptionListItem lvItemsNEN[] =
 {
 	{ 0, LPGENW("Show a preview of the event"), IDC_CHKPREVIEW, LOI_TYPE_SETTING, (UINT_PTR)&nen_options.bPreview, 1 },
@@ -499,183 +490,180 @@ static TOptionListGroup lvGroupsNEN[] =
 	{ 0, nullptr }
 };
 
-static INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+class CPopupOptionsDlg : public CDlgBase
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hWnd);
-		{
-			TreeViewInit(GetDlgItem(hWnd, IDC_EVENTOPTIONS), lvGroupsNEN, lvItemsNEN, 0, 0, TRUE);
+	CCtrlTreeView eventOptions;
+	CCtrlButton btnPreview, btnModes;
 
-			SendDlgItemMessage(hWnd, IDC_COLBACK_MESSAGE, CPM_SETCOLOUR, 0, nen_options.colBackMsg);
-			SendDlgItemMessage(hWnd, IDC_COLTEXT_MESSAGE, CPM_SETCOLOUR, 0, nen_options.colTextMsg);
-			SendDlgItemMessage(hWnd, IDC_COLBACK_OTHERS, CPM_SETCOLOUR, 0, nen_options.colBackOthers);
-			SendDlgItemMessage(hWnd, IDC_COLTEXT_OTHERS, CPM_SETCOLOUR, 0, nen_options.colTextOthers);
-			SendDlgItemMessage(hWnd, IDC_COLBACK_ERR, CPM_SETCOLOUR, 0, nen_options.colBackErr);
-			SendDlgItemMessage(hWnd, IDC_COLTEXT_ERR, CPM_SETCOLOUR, 0, nen_options.colTextErr);
-			CheckDlgButton(hWnd, IDC_CHKDEFAULTCOL_MESSAGE, nen_options.bDefaultColorMsg ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hWnd, IDC_CHKDEFAULTCOL_OTHERS, nen_options.bDefaultColorOthers ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hWnd, IDC_CHKDEFAULTCOL_ERR, nen_options.bDefaultColorErr ? BST_CHECKED : BST_UNCHECKED);
-
-			SendDlgItemMessage(hWnd, IDC_COLTEXT_MUC, CPM_SETCOLOUR, 0, g_Settings.crPUTextColour);
-			SendDlgItemMessage(hWnd, IDC_COLBACK_MUC, CPM_SETCOLOUR, 0, g_Settings.crPUBkgColour);
-			CheckDlgButton(hWnd, IDC_CHKDEFAULTCOL_MUC, g_Settings.iPopupStyle == 2 ? BST_CHECKED : BST_UNCHECKED);
-
-			SendDlgItemMessage(hWnd, IDC_DELAY_MESSAGE_SPIN, UDM_SETRANGE, 0, MAKELONG(3600, -1));
-			SendDlgItemMessage(hWnd, IDC_DELAY_OTHERS_SPIN, UDM_SETRANGE, 0, MAKELONG(3600, -1));
-			SendDlgItemMessage(hWnd, IDC_DELAY_MESSAGE_MUC_SPIN, UDM_SETRANGE, 0, MAKELONG(3600, -1));
-			SendDlgItemMessage(hWnd, IDC_DELAY_ERR_SPIN, UDM_SETRANGE, 0, MAKELONG(3600, -1));
-
-			SendDlgItemMessage(hWnd, IDC_DELAY_MESSAGE_SPIN, UDM_SETPOS, 0, (LPARAM)nen_options.iDelayMsg);
-			SendDlgItemMessage(hWnd, IDC_DELAY_OTHERS_SPIN, UDM_SETPOS, 0, (LPARAM)nen_options.iDelayOthers);
-			SendDlgItemMessage(hWnd, IDC_DELAY_ERR_SPIN, UDM_SETPOS, 0, (LPARAM)nen_options.iDelayErr);
-			SendDlgItemMessage(hWnd, IDC_DELAY_MESSAGE_MUC_SPIN, UDM_SETPOS, 0, (LPARAM)g_Settings.iPopupTimeout);
-
-			Utils::enableDlgControl(hWnd, IDC_COLBACK_MESSAGE, !nen_options.bDefaultColorMsg);
-			Utils::enableDlgControl(hWnd, IDC_COLTEXT_MESSAGE, !nen_options.bDefaultColorMsg);
-			Utils::enableDlgControl(hWnd, IDC_COLBACK_OTHERS, !nen_options.bDefaultColorOthers);
-			Utils::enableDlgControl(hWnd, IDC_COLTEXT_OTHERS, !nen_options.bDefaultColorOthers);
-			Utils::enableDlgControl(hWnd, IDC_COLBACK_ERR, !nen_options.bDefaultColorErr);
-			Utils::enableDlgControl(hWnd, IDC_COLTEXT_ERR, !nen_options.bDefaultColorErr);
-			Utils::enableDlgControl(hWnd, IDC_COLTEXT_MUC, g_Settings.iPopupStyle == 3);
-			Utils::enableDlgControl(hWnd, IDC_COLBACK_MUC, g_Settings.iPopupStyle == 3);
-
-			CheckDlgButton(hWnd, IDC_MUC_LOGCOLORS, g_Settings.iPopupStyle < 2 ? BST_CHECKED : BST_UNCHECKED);
-			Utils::enableDlgControl(hWnd, IDC_MUC_LOGCOLORS, g_Settings.iPopupStyle != 2);
-
-			SetDlgItemInt(hWnd, IDC_MESSAGEPREVIEWLIMIT, nen_options.iLimitPreview, FALSE);
-			CheckDlgButton(hWnd, IDC_LIMITPREVIEW, (nen_options.iLimitPreview > 0) ? BST_CHECKED : BST_UNCHECKED);
-			SendDlgItemMessage(hWnd, IDC_MESSAGEPREVIEWLIMITSPIN, UDM_SETRANGE, 0, MAKELONG(2048, nen_options.iLimitPreview > 0 ? 50 : 0));
-			SendDlgItemMessage(hWnd, IDC_MESSAGEPREVIEWLIMITSPIN, UDM_SETPOS, 0, (LPARAM)nen_options.iLimitPreview);
-			Utils::enableDlgControl(hWnd, IDC_MESSAGEPREVIEWLIMIT, IsDlgButtonChecked(hWnd, IDC_LIMITPREVIEW) != 0);
-			Utils::enableDlgControl(hWnd, IDC_MESSAGEPREVIEWLIMITSPIN, IsDlgButtonChecked(hWnd, IDC_LIMITPREVIEW) != 0);
-
-			bWmNotify = FALSE;
-		}
-		return TRUE;
-
-	case WM_DESTROY:
-		bWmNotify = TRUE;
-		break;
-
-	case DM_STATUSMASKSET: 
-		// configure the option page - hide most of the settings here when either IEView
-		db_set_dw(0, MODULE, "statusmask", (DWORD)lParam);
-		nen_options.dwStatusMask = (int)lParam;
-		break;
-
-	case WM_COMMAND:
-		if (!bWmNotify) {
-			switch (LOWORD(wParam)) {
-			case IDC_PREVIEW:
-				PopupPreview();
-				break;
-
-			case IDC_POPUPSTATUSMODES:
-				CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CHOOSESTATUSMODES), hWnd, DlgProcSetupStatusModes, db_get_dw(0, MODULE, "statusmask", (DWORD)-1));
-				break;
-
-			default:
-				if (IsDlgButtonChecked(hWnd, IDC_CHKDEFAULTCOL_MUC))
-					g_Settings.iPopupStyle = 2;
-				else if (IsDlgButtonChecked(hWnd, IDC_MUC_LOGCOLORS))
-					g_Settings.iPopupStyle = 1;
-				else
-					g_Settings.iPopupStyle = 3;
-
-				Utils::enableDlgControl(hWnd, IDC_MUC_LOGCOLORS, g_Settings.iPopupStyle != 2);
-
-				nen_options.bDefaultColorMsg = IsDlgButtonChecked(hWnd, IDC_CHKDEFAULTCOL_MESSAGE);
-				nen_options.bDefaultColorOthers = IsDlgButtonChecked(hWnd, IDC_CHKDEFAULTCOL_OTHERS);
-				nen_options.bDefaultColorErr = IsDlgButtonChecked(hWnd, IDC_CHKDEFAULTCOL_ERR);
-
-				nen_options.iDelayMsg = SendDlgItemMessage(hWnd, IDC_DELAY_MESSAGE_SPIN, UDM_GETPOS, 0, 0);
-				nen_options.iDelayOthers = SendDlgItemMessage(hWnd, IDC_DELAY_OTHERS_SPIN, UDM_GETPOS, 0, 0);
-				nen_options.iDelayErr = SendDlgItemMessage(hWnd, IDC_DELAY_ERR_SPIN, UDM_GETPOS, 0, 0);
-
-				g_Settings.iPopupTimeout = SendDlgItemMessage(hWnd, IDC_DELAY_MESSAGE_MUC_SPIN, UDM_GETPOS, 0, 0);
-
-				if (IsDlgButtonChecked(hWnd, IDC_LIMITPREVIEW))
-					nen_options.iLimitPreview = GetDlgItemInt(hWnd, IDC_MESSAGEPREVIEWLIMIT, nullptr, FALSE);
-				else
-					nen_options.iLimitPreview = 0;
-				Utils::enableDlgControl(hWnd, IDC_COLBACK_MESSAGE, !nen_options.bDefaultColorMsg);
-				Utils::enableDlgControl(hWnd, IDC_COLTEXT_MESSAGE, !nen_options.bDefaultColorMsg);
-				Utils::enableDlgControl(hWnd, IDC_COLBACK_OTHERS, !nen_options.bDefaultColorOthers);
-				Utils::enableDlgControl(hWnd, IDC_COLTEXT_OTHERS, !nen_options.bDefaultColorOthers);
-				Utils::enableDlgControl(hWnd, IDC_COLBACK_ERR, !nen_options.bDefaultColorErr);
-				Utils::enableDlgControl(hWnd, IDC_COLTEXT_ERR, !nen_options.bDefaultColorErr);
-				Utils::enableDlgControl(hWnd, IDC_COLTEXT_MUC, g_Settings.iPopupStyle == 3);
-				Utils::enableDlgControl(hWnd, IDC_COLBACK_MUC, g_Settings.iPopupStyle == 3);
-
-				Utils::enableDlgControl(hWnd, IDC_MESSAGEPREVIEWLIMIT, IsDlgButtonChecked(hWnd, IDC_LIMITPREVIEW) != 0);
-				Utils::enableDlgControl(hWnd, IDC_MESSAGEPREVIEWLIMITSPIN, IsDlgButtonChecked(hWnd, IDC_LIMITPREVIEW) != 0);
-		
-				// disable delay textbox when infinite is checked
-				Utils::enableDlgControl(hWnd, IDC_DELAY_MESSAGE, nen_options.iDelayMsg != -1);
-				Utils::enableDlgControl(hWnd, IDC_DELAY_OTHERS, nen_options.iDelayOthers != -1);
-				Utils::enableDlgControl(hWnd, IDC_DELAY_ERR, nen_options.iDelayErr != -1);
-				Utils::enableDlgControl(hWnd, IDC_DELAY_MUC, g_Settings.iPopupTimeout != -1);
-
-				if (HIWORD(wParam) == CPN_COLOURCHANGED) {
-					nen_options.colBackMsg = SendDlgItemMessage(hWnd, IDC_COLBACK_MESSAGE, CPM_GETCOLOUR, 0, 0);
-					nen_options.colTextMsg = SendDlgItemMessage(hWnd, IDC_COLTEXT_MESSAGE, CPM_GETCOLOUR, 0, 0);
-					nen_options.colBackOthers = SendDlgItemMessage(hWnd, IDC_COLBACK_OTHERS, CPM_GETCOLOUR, 0, 0);
-					nen_options.colTextOthers = SendDlgItemMessage(hWnd, IDC_COLTEXT_OTHERS, CPM_GETCOLOUR, 0, 0);
-					nen_options.colBackErr = SendDlgItemMessage(hWnd, IDC_COLBACK_ERR, CPM_GETCOLOUR, 0, 0);
-					nen_options.colTextErr = SendDlgItemMessage(hWnd, IDC_COLTEXT_ERR, CPM_GETCOLOUR, 0, 0);
-					g_Settings.crPUBkgColour = SendDlgItemMessage(hWnd, IDC_COLBACK_MUC, CPM_GETCOLOUR, 0, 0);
-					g_Settings.crPUTextColour = SendDlgItemMessage(hWnd, IDC_COLTEXT_MUC, CPM_GETCOLOUR, 0, 0);
-				}
-				SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
-				break;
-			}
-		}
-		break;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->code) {
-		case PSN_RESET:
-			NEN_ReadOptions(&nen_options);
-			break;
-
-		case PSN_APPLY:
-			// scan the tree view and obtain the options...
-			TreeViewToDB(GetDlgItem(hWnd, IDC_EVENTOPTIONS), lvItemsNEN, nullptr, nullptr);
-
-			db_set_b(0, CHAT_MODULE, "PopupStyle", (BYTE)g_Settings.iPopupStyle);
-			db_set_w(0, CHAT_MODULE, "PopupTimeout", g_Settings.iPopupTimeout);
-
-			g_Settings.crPUBkgColour = SendDlgItemMessage(hWnd, IDC_COLBACK_MUC, CPM_GETCOLOUR, 0, 0);
-			db_set_dw(0, CHAT_MODULE, "PopupColorBG", (DWORD)g_Settings.crPUBkgColour);
-			g_Settings.crPUTextColour = SendDlgItemMessage(hWnd, IDC_COLTEXT_MUC, CPM_GETCOLOUR, 0, 0);
-			db_set_dw(0, CHAT_MODULE, "PopupColorText", (DWORD)g_Settings.crPUTextColour);
-
-			NEN_WriteOptions(&nen_options);
-			CheckForRemoveMask();
-			CreateSystrayIcon(nen_options.bTraySupport);
-			SetEvent(g_hEvent); // wake up the thread which cares about the floater and tray
-		}
-		break;
+public:
+	CPopupOptionsDlg() :
+		CDlgBase(g_plugin, IDD_POPUP_OPT),
+		btnModes(this, IDC_POPUPSTATUSMODES),
+		btnPreview(this, IDC_PREVIEW),
+		eventOptions(this, IDC_EVENTOPTIONS)
+	{
+		btnModes.OnClick = Callback(this, &CPopupOptionsDlg::onClick_Modes);
+		btnPreview.OnClick = Callback(this, &CPopupOptionsDlg::onClick_Preview);
 	}
 
-	return FALSE;
-}
+	bool OnInitDialog() override
+	{
+		TreeViewInit(eventOptions, lvGroupsNEN, lvItemsNEN, 0, 0, TRUE);
+
+		SendDlgItemMessage(m_hwnd, IDC_COLBACK_MESSAGE, CPM_SETCOLOUR, 0, nen_options.colBackMsg);
+		SendDlgItemMessage(m_hwnd, IDC_COLTEXT_MESSAGE, CPM_SETCOLOUR, 0, nen_options.colTextMsg);
+		SendDlgItemMessage(m_hwnd, IDC_COLBACK_OTHERS, CPM_SETCOLOUR, 0, nen_options.colBackOthers);
+		SendDlgItemMessage(m_hwnd, IDC_COLTEXT_OTHERS, CPM_SETCOLOUR, 0, nen_options.colTextOthers);
+		SendDlgItemMessage(m_hwnd, IDC_COLBACK_ERR, CPM_SETCOLOUR, 0, nen_options.colBackErr);
+		SendDlgItemMessage(m_hwnd, IDC_COLTEXT_ERR, CPM_SETCOLOUR, 0, nen_options.colTextErr);
+		CheckDlgButton(m_hwnd, IDC_CHKDEFAULTCOL_MESSAGE, nen_options.bDefaultColorMsg ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_CHKDEFAULTCOL_OTHERS, nen_options.bDefaultColorOthers ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_CHKDEFAULTCOL_ERR, nen_options.bDefaultColorErr ? BST_CHECKED : BST_UNCHECKED);
+
+		SendDlgItemMessage(m_hwnd, IDC_COLTEXT_MUC, CPM_SETCOLOUR, 0, g_Settings.crPUTextColour);
+		SendDlgItemMessage(m_hwnd, IDC_COLBACK_MUC, CPM_SETCOLOUR, 0, g_Settings.crPUBkgColour);
+		CheckDlgButton(m_hwnd, IDC_CHKDEFAULTCOL_MUC, g_Settings.iPopupStyle == 2 ? BST_CHECKED : BST_UNCHECKED);
+
+		SendDlgItemMessage(m_hwnd, IDC_DELAY_MESSAGE_SPIN, UDM_SETRANGE, 0, MAKELONG(3600, -1));
+		SendDlgItemMessage(m_hwnd, IDC_DELAY_OTHERS_SPIN, UDM_SETRANGE, 0, MAKELONG(3600, -1));
+		SendDlgItemMessage(m_hwnd, IDC_DELAY_MESSAGE_MUC_SPIN, UDM_SETRANGE, 0, MAKELONG(3600, -1));
+		SendDlgItemMessage(m_hwnd, IDC_DELAY_ERR_SPIN, UDM_SETRANGE, 0, MAKELONG(3600, -1));
+
+		SendDlgItemMessage(m_hwnd, IDC_DELAY_MESSAGE_SPIN, UDM_SETPOS, 0, (LPARAM)nen_options.iDelayMsg);
+		SendDlgItemMessage(m_hwnd, IDC_DELAY_OTHERS_SPIN, UDM_SETPOS, 0, (LPARAM)nen_options.iDelayOthers);
+		SendDlgItemMessage(m_hwnd, IDC_DELAY_ERR_SPIN, UDM_SETPOS, 0, (LPARAM)nen_options.iDelayErr);
+		SendDlgItemMessage(m_hwnd, IDC_DELAY_MESSAGE_MUC_SPIN, UDM_SETPOS, 0, (LPARAM)g_Settings.iPopupTimeout);
+
+		Utils::enableDlgControl(m_hwnd, IDC_COLBACK_MESSAGE, !nen_options.bDefaultColorMsg);
+		Utils::enableDlgControl(m_hwnd, IDC_COLTEXT_MESSAGE, !nen_options.bDefaultColorMsg);
+		Utils::enableDlgControl(m_hwnd, IDC_COLBACK_OTHERS, !nen_options.bDefaultColorOthers);
+		Utils::enableDlgControl(m_hwnd, IDC_COLTEXT_OTHERS, !nen_options.bDefaultColorOthers);
+		Utils::enableDlgControl(m_hwnd, IDC_COLBACK_ERR, !nen_options.bDefaultColorErr);
+		Utils::enableDlgControl(m_hwnd, IDC_COLTEXT_ERR, !nen_options.bDefaultColorErr);
+		Utils::enableDlgControl(m_hwnd, IDC_COLTEXT_MUC, g_Settings.iPopupStyle == 3);
+		Utils::enableDlgControl(m_hwnd, IDC_COLBACK_MUC, g_Settings.iPopupStyle == 3);
+
+		CheckDlgButton(m_hwnd, IDC_MUC_LOGCOLORS, g_Settings.iPopupStyle < 2 ? BST_CHECKED : BST_UNCHECKED);
+		Utils::enableDlgControl(m_hwnd, IDC_MUC_LOGCOLORS, g_Settings.iPopupStyle != 2);
+
+		SetDlgItemInt(m_hwnd, IDC_MESSAGEPREVIEWLIMIT, nen_options.iLimitPreview, FALSE);
+		CheckDlgButton(m_hwnd, IDC_LIMITPREVIEW, (nen_options.iLimitPreview > 0) ? BST_CHECKED : BST_UNCHECKED);
+		SendDlgItemMessage(m_hwnd, IDC_MESSAGEPREVIEWLIMITSPIN, UDM_SETRANGE, 0, MAKELONG(2048, nen_options.iLimitPreview > 0 ? 50 : 0));
+		SendDlgItemMessage(m_hwnd, IDC_MESSAGEPREVIEWLIMITSPIN, UDM_SETPOS, 0, (LPARAM)nen_options.iLimitPreview);
+		Utils::enableDlgControl(m_hwnd, IDC_MESSAGEPREVIEWLIMIT, IsDlgButtonChecked(m_hwnd, IDC_LIMITPREVIEW) != 0);
+		Utils::enableDlgControl(m_hwnd, IDC_MESSAGEPREVIEWLIMITSPIN, IsDlgButtonChecked(m_hwnd, IDC_LIMITPREVIEW) != 0);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		// scan the tree view and obtain the options...
+		TreeViewToDB(eventOptions, lvItemsNEN, nullptr, nullptr);
+
+		db_set_b(0, CHAT_MODULE, "PopupStyle", (BYTE)g_Settings.iPopupStyle);
+		db_set_w(0, CHAT_MODULE, "PopupTimeout", g_Settings.iPopupTimeout);
+
+		g_Settings.crPUBkgColour = SendDlgItemMessage(m_hwnd, IDC_COLBACK_MUC, CPM_GETCOLOUR, 0, 0);
+		db_set_dw(0, CHAT_MODULE, "PopupColorBG", (DWORD)g_Settings.crPUBkgColour);
+		g_Settings.crPUTextColour = SendDlgItemMessage(m_hwnd, IDC_COLTEXT_MUC, CPM_GETCOLOUR, 0, 0);
+		db_set_dw(0, CHAT_MODULE, "PopupColorText", (DWORD)g_Settings.crPUTextColour);
+
+		NEN_WriteOptions(&nen_options);
+		CheckForRemoveMask();
+		CreateSystrayIcon(nen_options.bTraySupport);
+		SetEvent(g_hEvent); // wake up the thread which cares about the floater and tray
+		return true;
+	}
+
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	{
+		if (msg == WM_COMMAND && wParam == DM_STATUSMASKSET) {
+			db_set_dw(0, MODULE, "statusmask", (DWORD)lParam);
+			nen_options.dwStatusMask = (int)lParam;
+		}
+
+		return CDlgBase::DlgProc(msg, wParam, lParam);
+	}
+
+	void onClick_Preview(CCtrlButton *)
+	{
+		PopupShowT(&nen_options, 0, 0, EVENTTYPE_MESSAGE, nullptr);
+	}
+
+	void onClick_Modes(CCtrlButton *)
+	{
+		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CHOOSESTATUSMODES), m_hwnd, DlgProcSetupStatusModes, db_get_dw(0, MODULE, "statusmask", (DWORD)-1));
+	}
+
+	void OnChange() override
+	{
+		if (IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_MUC))
+			g_Settings.iPopupStyle = 2;
+		else if (IsDlgButtonChecked(m_hwnd, IDC_MUC_LOGCOLORS))
+			g_Settings.iPopupStyle = 1;
+		else
+			g_Settings.iPopupStyle = 3;
+
+		Utils::enableDlgControl(m_hwnd, IDC_MUC_LOGCOLORS, g_Settings.iPopupStyle != 2);
+
+		nen_options.bDefaultColorMsg = IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_MESSAGE);
+		nen_options.bDefaultColorOthers = IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_OTHERS);
+		nen_options.bDefaultColorErr = IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_ERR);
+
+		nen_options.iDelayMsg = SendDlgItemMessage(m_hwnd, IDC_DELAY_MESSAGE_SPIN, UDM_GETPOS, 0, 0);
+		nen_options.iDelayOthers = SendDlgItemMessage(m_hwnd, IDC_DELAY_OTHERS_SPIN, UDM_GETPOS, 0, 0);
+		nen_options.iDelayErr = SendDlgItemMessage(m_hwnd, IDC_DELAY_ERR_SPIN, UDM_GETPOS, 0, 0);
+
+		g_Settings.iPopupTimeout = SendDlgItemMessage(m_hwnd, IDC_DELAY_MESSAGE_MUC_SPIN, UDM_GETPOS, 0, 0);
+
+		if (IsDlgButtonChecked(m_hwnd, IDC_LIMITPREVIEW))
+			nen_options.iLimitPreview = GetDlgItemInt(m_hwnd, IDC_MESSAGEPREVIEWLIMIT, nullptr, FALSE);
+		else
+			nen_options.iLimitPreview = 0;
+		Utils::enableDlgControl(m_hwnd, IDC_COLBACK_MESSAGE, !nen_options.bDefaultColorMsg);
+		Utils::enableDlgControl(m_hwnd, IDC_COLTEXT_MESSAGE, !nen_options.bDefaultColorMsg);
+		Utils::enableDlgControl(m_hwnd, IDC_COLBACK_OTHERS, !nen_options.bDefaultColorOthers);
+		Utils::enableDlgControl(m_hwnd, IDC_COLTEXT_OTHERS, !nen_options.bDefaultColorOthers);
+		Utils::enableDlgControl(m_hwnd, IDC_COLBACK_ERR, !nen_options.bDefaultColorErr);
+		Utils::enableDlgControl(m_hwnd, IDC_COLTEXT_ERR, !nen_options.bDefaultColorErr);
+		Utils::enableDlgControl(m_hwnd, IDC_COLTEXT_MUC, g_Settings.iPopupStyle == 3);
+		Utils::enableDlgControl(m_hwnd, IDC_COLBACK_MUC, g_Settings.iPopupStyle == 3);
+
+		Utils::enableDlgControl(m_hwnd, IDC_MESSAGEPREVIEWLIMIT, IsDlgButtonChecked(m_hwnd, IDC_LIMITPREVIEW) != 0);
+		Utils::enableDlgControl(m_hwnd, IDC_MESSAGEPREVIEWLIMITSPIN, IsDlgButtonChecked(m_hwnd, IDC_LIMITPREVIEW) != 0);
+
+		// disable delay textbox when infinite is checked
+		Utils::enableDlgControl(m_hwnd, IDC_DELAY_MESSAGE, nen_options.iDelayMsg != -1);
+		Utils::enableDlgControl(m_hwnd, IDC_DELAY_OTHERS, nen_options.iDelayOthers != -1);
+		Utils::enableDlgControl(m_hwnd, IDC_DELAY_ERR, nen_options.iDelayErr != -1);
+		Utils::enableDlgControl(m_hwnd, IDC_DELAY_MUC, g_Settings.iPopupTimeout != -1);
+
+		nen_options.colBackMsg = SendDlgItemMessage(m_hwnd, IDC_COLBACK_MESSAGE, CPM_GETCOLOUR, 0, 0);
+		nen_options.colTextMsg = SendDlgItemMessage(m_hwnd, IDC_COLTEXT_MESSAGE, CPM_GETCOLOUR, 0, 0);
+		nen_options.colBackOthers = SendDlgItemMessage(m_hwnd, IDC_COLBACK_OTHERS, CPM_GETCOLOUR, 0, 0);
+		nen_options.colTextOthers = SendDlgItemMessage(m_hwnd, IDC_COLTEXT_OTHERS, CPM_GETCOLOUR, 0, 0);
+		nen_options.colBackErr = SendDlgItemMessage(m_hwnd, IDC_COLBACK_ERR, CPM_GETCOLOUR, 0, 0);
+		nen_options.colTextErr = SendDlgItemMessage(m_hwnd, IDC_COLTEXT_ERR, CPM_GETCOLOUR, 0, 0);
+		g_Settings.crPUBkgColour = SendDlgItemMessage(m_hwnd, IDC_COLBACK_MUC, CPM_GETCOLOUR, 0, 0);
+		g_Settings.crPUTextColour = SendDlgItemMessage(m_hwnd, IDC_COLTEXT_MUC, CPM_GETCOLOUR, 0, 0);
+	}
+};
 
 void Popup_Options(WPARAM wParam)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.position = 910000000;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP_OPT);
+	odp.pDialog = new CPopupOptionsDlg();
 	odp.szTitle.a = LPGEN("Event notifications");
 	odp.szGroup.a = LPGEN("Popups");
-	odp.pfnDlgProc = DlgProcPopupOpts;
 	g_plugin.addOptions(wParam, &odp);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // updates the menu entry...
 // bForced is used to only update the status, nickname etc. and does NOT update the unread count
+
 void TSAPI UpdateTrayMenuState(CTabBaseDlg *dat, BOOL bForced)
 {
 	if (PluginConfig.g_hMenuTrayUnread == nullptr || dat->m_hContact == 0)
