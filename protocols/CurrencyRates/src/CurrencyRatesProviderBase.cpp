@@ -609,22 +609,15 @@ void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRat
 MCONTACT CCurrencyRatesProviderBase::CreateNewContact(const tstring& rsName)
 {
 	MCONTACT hContact = db_add_contact();
-	if (hContact) {
-		if (0 == Proto_AddToContact(hContact, CURRENCYRATES_PROTOCOL_NAME)) {
-			tstring sProvName = GetInfo().m_sName;
-			db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_PROVIDER, sProvName.c_str());
-			db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL, rsName.c_str());
-			db_set_ws(hContact, LIST_MODULE_NAME, CONTACT_LIST_NAME, rsName.c_str());
+	Proto_AddToContact(hContact, CURRENCYRATES_PROTOCOL_NAME);
 
-			mir_cslock lck(m_cs);
-			m_aContacts.push_back(hContact);
-		}
-		else {
-			db_delete_contact(hContact);
-			hContact = NULL;
-		}
-	}
+	tstring sProvName = GetInfo().m_sName;
+	db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_PROVIDER, sProvName.c_str());
+	db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL, rsName.c_str());
+	db_set_ws(hContact, LIST_MODULE_NAME, CONTACT_LIST_NAME, rsName.c_str());
 
+	mir_cslock lck(m_cs);
+	m_aContacts.push_back(hContact);
 	return hContact;
 }
 

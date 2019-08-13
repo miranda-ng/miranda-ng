@@ -65,15 +65,7 @@ MCONTACT CSametimeProto::AddContact(mwSametimeUser* user, bool temporary)
 	bool new_contact = false;
 	if (!hContact) {
 		hContact = db_add_contact();
-		if (!hContact) {
-			debugLogW(L"AddContact(): Failed to create Sametime contact");
-			return NULL; ///TODO error handling
-		}
-		if (Proto_AddToContact(hContact, m_szModuleName) != 0) {
-			db_delete_contact(hContact);
-			debugLogW(L"AddContact(): Failed to register Sametime contact");
-			return NULL; ///TODO error handling
-		}
+		Proto_AddToContact(hContact, m_szModuleName);
 		new_contact = true;
 	}
 	else if (!temporary) {

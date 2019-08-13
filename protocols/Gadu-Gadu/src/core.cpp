@@ -1469,17 +1469,7 @@ MCONTACT GaduProto::getcontact(uin_t uin, int create, int inlist, wchar_t *szNic
 		return NULL;
 
 	MCONTACT hContact = db_add_contact();
-	if (!hContact) {
-		debugLogW(L"getcontact(): Failed to create Gadu-Gadu contact %s", szNick);
-		return NULL;
-	}
-
-	if (Proto_AddToContact(hContact, m_szModuleName) != 0) {
-		// For some reason we failed to register the protocol for this contact
-		db_delete_contact(hContact);
-		debugLogA("getcontact(): Failed to register GG contact %d", uin);
-		return NULL;
-	}
+	Proto_AddToContact(hContact, m_szModuleName);
 
 	debugLogA("getcontact(): Added buddy: %d", uin);
 	if (!inlist)

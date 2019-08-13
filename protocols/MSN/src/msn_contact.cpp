@@ -38,7 +38,8 @@ MCONTACT CMsnProto::MSN_HContactFromEmail(const char* wlid, const char* msnNick,
 		int netId = (msc && msc->netId)?msc->netId:(szNet?atoi(szNet):NETID_MSN);
 		hContact = db_add_contact();
 		Proto_AddToContact(hContact, m_szModuleName);
-		if (netId != NETID_SKYPE) setString(hContact, "e-mail", szEmail);
+		if (netId != NETID_SKYPE)
+			setString(hContact, "e-mail", szEmail);
 		setStringUtf(hContact, "Nick", msnNick ? msnNick : szEmail);
 		setWord(hContact, "netId", netId);
 		setString(hContact, "wlid", szEmail);
