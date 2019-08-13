@@ -307,7 +307,13 @@ void TwitterProto::MessageLoop(void*)
 
 		if (m_iStatus != ID_STATUS_ONLINE)
 			break;
-	
+
+		if (i % 10 == 0)
+			UpdateFriends();
+
+		if (m_iStatus != ID_STATUS_ONLINE)
+			break;
+
 		UpdateStatuses(new_account, popups, tweetToMsg);
 		if (m_iStatus != ID_STATUS_ONLINE)
 			break;
@@ -424,12 +430,13 @@ void TwitterProto::UpdateFriends()
 			friends = twit_.get_friends();
 		}
 
-		for (std::vector<twitter_user>::iterator i = friends.begin(); i != friends.end(); ++i) {
-			if (i->username == twit_.get_username())
+		for (auto &i : friends) {
+			if (i.username == twit_.get_username())
 				continue;
 
-			MCONTACT hContact = AddToClientList(i->username.c_str(), i->status.text.c_str());
-			UpdateAvatar(hContact, i->profile_image_url);
+			MCONTACT hContact = AddToClientList(i.username.c_str(), i.status.text.c_str());
+			setUString(hContact, "Nick", i.real_name.c_str());
+			UpdateAvatar(hContact, i.profile_image_url);
 		}
 		disconnectionCount = 0;
 		debugLogA("***** Friends list updated");
@@ -528,7 +535,7 @@ void TwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)
 				continue;
 
 			MCONTACT hContact = AddToClientList(i->username.c_str(), "");
-			UpdateAvatar(hContact, i->profile_image_url); // as UpdateFriends() doesn't work at the moment, i'm going to update the avatars here
+			UpdateAvatar(hContact, i->profile_image_url);
 
 			// i think we maybe should just do that DBEF_READ line instead of stopping ALL this code.  have to test.
 			if (tweetToMsg) {

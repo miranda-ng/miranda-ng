@@ -211,15 +211,8 @@ MCONTACT TwitterProto::UsernameToHContact(const char *name)
 		if (getByte(hContact, "ChatRoom"))
 			continue;
 
-		DBVARIANT dbv;
-		if (!getString(hContact, TWITTER_KEY_UN, &dbv)) {
-			if (mir_strcmp(name, dbv.pszVal) == 0) {
-				db_free(&dbv);
-				return hContact;
-			}
-			else
-				db_free(&dbv);
-		}
+		if (getMStringA(hContact, TWITTER_KEY_UN) == name)
+			return hContact;
 	}
 
 	return 0;
@@ -237,19 +230,14 @@ MCONTACT TwitterProto::AddToClientList(const char *name, const char *status)
 
 	// If not, make a new contact!
 	hContact = db_add_contact();
-	if (hContact) {
-		if (Proto_AddToContact(hContact, m_szModuleName) == 0) {
-			setString(hContact, TWITTER_KEY_UN, name);
-			setString(hContact, "Homepage", "https://twitter.com/" + CMStringA(name));
-			setWord(hContact, "Status", ID_STATUS_ONLINE);
-			db_set_utf(hContact, "CList", "StatusMsg", status);
+	Proto_AddToContact(hContact, m_szModuleName);
 
-			Skin_PlaySound("TwitterNewContact");
-			Clist_SetGroup(hContact, getMStringW(TWITTER_KEY_GROUP));
-			return hContact;
-		}
-		db_delete_contact(hContact);
-	}
+	setString(hContact, TWITTER_KEY_UN, name);
+	setString(hContact, "Homepage", "https://twitter.com/" + CMStringA(name));
+	setWord(hContact, "Status", ID_STATUS_ONLINE);
+	db_set_utf(hContact, "CList", "StatusMsg", status);
 
-	return 0;
+	Skin_PlaySound("TwitterNewContact");
+	Clist_SetGroup(hContact, getMStringW(TWITTER_KEY_GROUP));
+	return hContact;
 }

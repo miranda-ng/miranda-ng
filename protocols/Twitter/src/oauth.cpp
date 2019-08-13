@@ -122,10 +122,12 @@ wstring mir_twitter::OAuthWebRequestSubmit(
 
 wstring mir_twitter::OAuthWebRequestSubmit(const OAuthParameters &parameters, const wstring&)
 {
-	wstring oauthHeader = L"OAuth ";
+	wstring oauthHeader;
 
 	for (auto &it : parameters) {
-		if (it != *parameters.begin())
+		if (oauthHeader.empty())
+			oauthHeader += L"OAuth ";
+		else
 			oauthHeader += L",";
 
 		wstring pair;
@@ -268,20 +270,18 @@ wstring mir_twitter::OAuthNormalizeUrl(const wstring& url)
 wstring mir_twitter::OAuthNormalizeRequestParameters(const OAuthParameters& requestParameters)
 {
 	list<wstring> sorted;
-	for (OAuthParameters::const_iterator it = requestParameters.begin();
-		it != requestParameters.end();
-		++it) {
-		wstring param = it->first + L"=" + it->second;
+	for (auto &it : requestParameters) {
+		wstring param = it.first + L"=" + it.second;
 		sorted.push_back(param);
 	}
 	sorted.sort();
 
 	wstring params;
-	for (list<wstring>::iterator it = sorted.begin(); it != sorted.end(); ++it) {
+	for (auto &it : sorted) {
 		if (params.size() > 0)
 			params += L"&";
 
-		params += *it;
+		params += it;
 	}
 
 	return params;

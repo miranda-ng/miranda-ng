@@ -69,7 +69,7 @@ const std::string & twitter::get_base_url() const
 std::vector<twitter_user> twitter::get_friends()
 {
 	std::vector<twitter_user> friends;
-	http::response resp = slurp(base_url_ + "1.1/statuses/friends.json", http::get);
+	http::response resp = slurp(base_url_ + "1.1/friends/list.json", http::get);
 
 	if (resp.code != 200)
 		throw bad_response();
@@ -78,8 +78,7 @@ std::vector<twitter_user> twitter::get_friends()
 	if (!root)
 		throw std::exception("unable to parse response");
 
-	for (auto it = root.begin(); it != root.end(); ++it) {
-		const JSONNode &one = *it;
+	for (auto &one : root["users"]) {
 		twitter_user user;
 		user.username = one["screen_name"].as_string();
 		user.real_name = one["name"].as_string();
@@ -218,13 +217,12 @@ std::vector<twitter_user> twitter::get_statuses(int count, twitter_id id)
 	if (!root)
 		throw std::exception("unable to parse response");
 
-	const JSONNode &pNodes = root.as_array();
-	for (auto it = pNodes.begin(); it != pNodes.end(); ++it) {
-		const JSONNode &one = *it,
-			&pUser = one["user"];
+	for (auto &one : root) {
+		const JSONNode &pUser = one["user"];
 
 		twitter_user u;
 		u.username = pUser["screen_name"].as_string();
+		u.real_name = pUser["name"].as_string();
 		u.profile_image_url = pUser["profile_image_url"].as_string();
 
 		// the tweet will be truncated unless we take action.  i hate you twitter API
@@ -282,12 +280,9 @@ std::vector<twitter_user> twitter::get_direct(twitter_id id)
 	if (!root)
 		throw std::exception("unable to parse response");
 
-	const JSONNode &pNodes = root.as_array();
-	for (auto it = pNodes.begin(); it != pNodes.end(); ++it) {
+	for (auto &one : root) {
 		twitter_user u;
-		const JSONNode &one = *it;
 		u.username = one["sender_screen_name"].as_string();
-
 		u.status.text = one["text"].as_string();
 		u.status.id = str2int(one["id"].as_string());
 		std::string timestr = one["created_at"].as_string();
