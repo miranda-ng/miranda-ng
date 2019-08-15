@@ -844,7 +844,8 @@ static BOOL UM_RemoveUser(SESSION_INFO *si, const wchar_t *pszUID)
 		return FALSE;
 
 	auto &arKeys = si->getKeyList();
-	arKeys.remove(pUser);
+	if (arKeys.remove(pUser) == -1)
+		DebugBreak();
 
 	auto &arUsers = si->getUserList();
 	for (auto &ui : arUsers) {
