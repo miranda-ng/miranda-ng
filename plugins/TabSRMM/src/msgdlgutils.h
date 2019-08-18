@@ -38,7 +38,7 @@ void     TSAPI LoadOverrideTheme(TContainerData *pContainer);
 void     TSAPI LoadThemeDefaults(TContainerData *pContainer);
 int      TSAPI CutContactName(const wchar_t *szold, wchar_t *sznew, size_t size);
 LRESULT  TSAPI GetSendButtonState(HWND hwnd);
-void     TSAPI RearrangeTab(HWND hwndDlg, const CTabBaseDlg *dat, int iMode, BOOL fSavePos);
+void     TSAPI RearrangeTab(HWND hwndDlg, const CTabBaseDlg *dat, int iMode, BOOL bSavePos);
 bool     TSAPI IsStatusEvent(int eventType);
 bool     TSAPI IsCustomEvent(int eventType);
 		   

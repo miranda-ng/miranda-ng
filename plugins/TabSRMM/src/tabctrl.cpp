@@ -42,23 +42,21 @@ int TSAPI GetTabItemFromMouse(HWND hwndTab, POINT *pt)
 	tch.pt = (*pt);
 	tch.flags = 0;
 	ScreenToClient(hwndTab, &tch.pt);
-
 	return TabCtrl_HitTest(hwndTab, &tch);
 }
 
 static int TabCtrl_TestForCloseButton(const TabControlData *tabdat, HWND hwnd, POINT *pt)
 {
-	int iTab;
-	RECT rcTab;
 	TCHITTESTINFO tci;
-
 	tci.pt = (*pt);
 	tci.flags = 0;
 	ScreenToClient(hwnd, &tci.pt);
-	iTab = TabCtrl_HitTest(hwnd, &tci);
+	
+	int iTab = TabCtrl_HitTest(hwnd, &tci);
 	if (iTab == -1 || (tci.flags & TCHT_NOWHERE))
 		return -1;
 
+	RECT rcTab;
 	TabCtrl_GetItemRect(hwnd, iTab, &rcTab);
 	if (tabdat->dwStyle & TCS_BUTTONS) {
 		rcTab.right -= 1;
@@ -197,7 +195,7 @@ static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, in
 	}
 
 	if (!dat->m_bCanFlashTab || (dat->m_bCanFlashTab == TRUE && dat->m_bTabFlash) || !(dat->m_pContainer->m_dwFlagsEx & TCF_FLASHICON)) {
-		DWORD ix = rcItem->left + tabdat->m_xpad - 1;
+		DWORD ix = rcItem->left + tabdat->xpad - 1;
 		DWORD iy = (rcItem->bottom + rcItem->top - iSize) / 2;
 		if (dat->m_dwFlagsEx & MWF_SHOW_ISIDLE && PluginConfig.m_bIdleDetect)
 			CSkin::DrawDimmedIcon(dc, ix, iy, iSize, iSize, hIcon, 180);
@@ -205,16 +203,16 @@ static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, in
 			DrawIconEx(dc, ix, iy, hIcon, iSize, iSize, 0, nullptr, DI_NORMAL | DI_COMPAT);
 	}
 
-	rcItem->left += (iSize + 2 + tabdat->m_xpad);
+	rcItem->left += (iSize + 2 + tabdat->xpad);
 
-	if (tabdat->fCloseButton) {
+	if (tabdat->bCloseButton) {
 		if (tabdat->iHoveredCloseIcon != nItem)
 			CSkin::m_default_bf.SourceConstantAlpha = 150;
 
-		GdiAlphaBlend(dc, rcItem->right - 16 - tabdat->m_xpad, (rcItem->bottom + rcItem->top - 16) / 2, 16, 16, CSkin::m_tabCloseHDC,
+		GdiAlphaBlend(dc, rcItem->right - 16 - tabdat->xpad, (rcItem->bottom + rcItem->top - 16) / 2, 16, 16, CSkin::m_tabCloseHDC,
 			0, 0, 16, 16, CSkin::m_default_bf);
 
-		rcItem->right -= (18 + tabdat->m_xpad);
+		rcItem->right -= (18 + tabdat->xpad);
 		CSkin::m_default_bf.SourceConstantAlpha = 255;
 	}
 
@@ -222,7 +220,7 @@ static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, in
 		DWORD dwTextFlags = DT_SINGLELINE | DT_VCENTER;
 		HFONT oldFont = (HFONT)SelectObject(dc, (HFONT)SendMessage(tabdat->hwnd, WM_GETFONT, 0, 0));
 		if (tabdat->dwStyle & TCS_BUTTONS || !(tabdat->dwStyle & TCS_MULTILINE)) {
-			rcItem->right -= tabdat->m_xpad;
+			rcItem->right -= tabdat->xpad;
 			dwTextFlags |= DT_WORD_ELLIPSIS;
 		}
 		CSkin::RenderText(dc, tabdat->dwStyle & TCS_BUTTONS ? tabdat->hThemeButton : tabdat->hTheme, dat->m_wszTitle, rcItem, dwTextFlags, CSkin::m_glowSize, clr);
@@ -249,14 +247,14 @@ static void DrawItemRect(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint
 	// draw "button style" tabs... raised edge for hottracked, sunken edge for active (pushed)
 	// otherwise, they get a normal border
 	if (dwStyle & TCS_BUTTONS) {
-		BOOL bClassicDraw = (tabdat->m_VisualStyles == FALSE);
+		bool bClassicDraw = (tabdat->bVisualStyles == false);
 
 		// draw frame controls for button or bottom tabs
 		if (dwStyle & TCS_BOTTOM)
 			rcItem->top++;
 
 		rcItem->right += 6;
-		if (tabdat->fAeroTabs) {
+		if (tabdat->bAeroTabs) {
 			if (M.isAero()) {
 				InflateRect(rcItem, 2, 0);
 				FillRect(dc, rcItem, CSkin::m_BrushBack);
@@ -400,7 +398,7 @@ static HRESULT DrawThemesPartWithAero(const TabControlData *tabdat, HDC hDC, int
 	HRESULT hResult = 0;
 	bool	bAero = M.isAero();
 
-	if (tabdat->fAeroTabs) {
+	if (tabdat->bAeroTabs) {
 		if (tabdat->dwStyle & TCS_BOTTOM)
 			prcBox->top += (bAero ? 2 : iStateId == PBS_PRESSED ? (M.isVSThemed() ? 1 : -1) : 0);
 		else if (!bAero)
@@ -470,7 +468,7 @@ static void DrawThemesXpTabItem(HDC pDC, RECT *rcItem, UINT uiFlag, TabControlDa
 		}
 		return;
 	}
-	else if (tabdat->fAeroTabs && !bBody) {
+	else if (tabdat->bAeroTabs && !bBody) {
 		int iStateId = bSel ? 3 : (bHot ? 2 : 1); // leftmost item has different part id
 		DrawThemesPartWithAero(tabdat, pDC, rcItem->left < 20 ? 2 : 1, iStateId, rcItem, dat);
 		return;
@@ -602,7 +600,7 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 	int   nCount = TabCtrl_GetItemCount(hwnd), i;
 	DWORD dwStyle = tabdat->dwStyle;
 	bool  isAero = M.isAero();
-	BOOL  bClassicDraw = !isAero && (tabdat->m_VisualStyles == FALSE || CSkin::m_skinEnabled);
+	bool  bClassicDraw = !isAero && (tabdat->bVisualStyles == false || CSkin::m_skinEnabled);
 
 	POINT pt;
 	GetCursorPos(&pt);
@@ -611,21 +609,21 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 		InvalidateRect(hwnd, nullptr, FALSE);
 	tabdat->iHoveredTabIndex = hotItem;
 
-	tabdat->fAeroTabs = (CSkin::m_fAeroSkinsValid && (isAero || PluginConfig.m_fillColor)) ? TRUE : FALSE;
-	tabdat->fCloseButton = (tabdat->pContainer->m_dwFlagsEx & TCF_CLOSEBUTTON ? TRUE : FALSE);
+	tabdat->bAeroTabs = CSkin::m_fAeroSkinsValid && (isAero || PluginConfig.m_fillColor);
+	tabdat->bCloseButton = (tabdat->pContainer->m_dwFlagsEx & TCF_CLOSEBUTTON) != 0;
 	tabdat->helperDat = nullptr;
 
-	if (tabdat->fAeroTabs) {
+	if (tabdat->bAeroTabs) {
 		CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(tabdat->pContainer->m_hwndActive, GWLP_USERDATA);
 		if (dat)
 			tabdat->helperDat = dat;
 		else
-			tabdat->fAeroTabs = FALSE;
+			tabdat->bAeroTabs = false;
 
 		tabdat->helperItem = (dwStyle & TCS_BOTTOM) ? CSkin::m_tabBottom : CSkin::m_tabTop;
 		tabdat->helperGlowItem = (dwStyle & TCS_BOTTOM) ? CSkin::m_tabGlowBottom : CSkin::m_tabGlowTop;
 	}
-	else tabdat->fAeroTabs = FALSE;
+	else tabdat->bAeroTabs = false;
 
 	PAINTSTRUCT ps;
 	HDC hdcreal = BeginPaint(hwnd, &ps);
@@ -658,7 +656,7 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 	else {
 		hpb = nullptr;
 		hdc = CreateCompatibleDC(hdcreal);
-		bmpMem = tabdat->fAeroTabs ? CSkin::CreateAeroCompatibleBitmap(rctPage, hdcreal) : CreateCompatibleBitmap(hdcreal, cx, cy);
+		bmpMem = tabdat->bAeroTabs ? CSkin::CreateAeroCompatibleBitmap(rctPage, hdcreal) : CreateCompatibleBitmap(hdcreal, cx, cy);
 		bmpOld = (HBITMAP)SelectObject(hdc, bmpMem);
 	}
 
@@ -858,7 +856,7 @@ page_done:
 				DrawItem(tabdat, hdc, &rcItem, nHint | (i == hotItem ? HINT_HOTTRACK : 0), i, dat);
 			}
 			else {
-				if (tabdat->fAeroTabs && !CSkin::m_skinEnabled && !(dwStyle & TCS_BUTTONS))
+				if (tabdat->bAeroTabs && !CSkin::m_skinEnabled && !(dwStyle & TCS_BUTTONS))
 					DrawThemesPartWithAero(tabdat, hdc, 0, (i == hotItem ? PBS_HOT : PBS_NORMAL), &rcItem, dat);
 				else
 					DrawItemRect(tabdat, hdc, &rcItem, nHint | (i == hotItem ? HINT_HOTTRACK : 0), dat);
@@ -893,7 +891,7 @@ page_done:
 				}
 				else InflateRect(&rcItem, 2, 0);
 			}
-			if (tabdat->fAeroTabs && !CSkin::m_skinEnabled && !(dwStyle & TCS_BUTTONS)) {
+			if (tabdat->bAeroTabs && !CSkin::m_skinEnabled && !(dwStyle & TCS_BUTTONS)) {
 				if (dwStyle & TCS_BOTTOM)
 					rcItem.bottom += 2;
 				else
@@ -947,7 +945,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			tabdat->hwnd = hwnd;
 			tabdat->cx = GetSystemMetrics(SM_CXSMICON);
 			tabdat->cy = GetSystemMetrics(SM_CYSMICON);
-			tabdat->fTipActive = FALSE;
+			tabdat->bTipActive = false;
 			tabdat->iHoveredTabIndex = -1;
 			tabdat->iHoveredCloseIcon = -1;
 			SendMessage(hwnd, EM_THEMECHANGED, 0, 0);
@@ -955,16 +953,16 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		return TRUE;
 
 	case EM_THEMECHANGED:
-		tabdat->m_xpad = M.GetByte("x-pad", 3);
-		tabdat->m_VisualStyles = FALSE;
+		tabdat->xpad = M.GetByte("x-pad", 3);
+		tabdat->bVisualStyles = false;
 		if (IsThemeActive()) {
-			tabdat->m_VisualStyles = TRUE;
+			tabdat->bVisualStyles = true;
 			if (tabdat->hTheme != nullptr) {
 				CloseThemeData(tabdat->hTheme);
 				CloseThemeData(tabdat->hThemeButton);
 			}
 			if ((tabdat->hTheme = OpenThemeData(hwnd, L"TAB")) == nullptr || (tabdat->hThemeButton = OpenThemeData(hwnd, L"BUTTON")) == nullptr)
-				tabdat->m_VisualStyles = FALSE;
+				tabdat->bVisualStyles = false;
 		}
 		return 0;
 
@@ -981,7 +979,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		return 0;
 
 	case EM_VALIDATEBOTTOM:
-		if ((tabdat->dwStyle & TCS_BOTTOM) && tabdat->m_VisualStyles != 0 && PluginConfig.tabConfig.m_bottomAdjust != 0)
+		if ((tabdat->dwStyle & TCS_BOTTOM) && tabdat->bVisualStyles && PluginConfig.tabConfig.m_bottomAdjust != 0)
 			InvalidateRect(hwnd, nullptr, FALSE);
 		break;
 
@@ -989,9 +987,9 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		if (TabCtrl_GetItemCount(hwnd) > 1)
 			return 0;
 
-		tabdat->bRefreshWithoutClip = TRUE;
+		tabdat->bRefreshWithoutClip = true;
 		RedrawWindow(hwnd, nullptr, nullptr, RDW_UPDATENOW | RDW_NOCHILDREN | RDW_INVALIDATE);
-		tabdat->bRefreshWithoutClip = FALSE;
+		tabdat->bRefreshWithoutClip = false;
 		return 0;
 
 	case TCM_INSERTITEM:
@@ -1039,10 +1037,10 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		if (abs(pt.x - ptMouseT.x) < 4 && abs(pt.y - ptMouseT.y) < 4)
 			return 1;
 		ptMouseT = pt;
-		if (tabdat->fTipActive) {
+		if (tabdat->bTipActive) {
 			KillTimer(hwnd, TIMERID_HOVER_T);
 			CallService("mToolTip/HideTip", 0, 0);
-			tabdat->fTipActive = FALSE;
+			tabdat->bTipActive = false;
 		}
 		KillTimer(hwnd, TIMERID_HOVER_T);
 		if (tabdat->pContainer && (!tabdat->pContainer->m_pSideBar->isActive() && (TabCtrl_GetItemCount(hwnd) > 1 || !(tabdat->pContainer->m_dwFlags & CNT_HIDETABS))))
@@ -1091,13 +1089,13 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 	case WM_RBUTTONDOWN:
 		KillTimer(hwnd, TIMERID_HOVER_T);
 		CallService("mToolTip/HideTip", 0, 0);
-		tabdat->fTipActive = FALSE;
+		tabdat->bTipActive = false;
 		break;
 
 	case WM_LBUTTONDOWN:
 		KillTimer(hwnd, TIMERID_HOVER_T);
 		CallService("mToolTip/HideTip", 0, 0);
-		tabdat->fTipActive = FALSE;
+		tabdat->bTipActive = false;
 
 		if (GetKeyState(VK_CONTROL) & 0x8000) {
 			pt.x = (short)LOWORD(GetMessagePos());
@@ -1108,11 +1106,11 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 					HWND hDlg = GetTabWindow(hwnd, i);
 					CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 					if (dat) {
-						tabdat->bDragging = TRUE;
+						tabdat->bDragging = true;
 						tabdat->iBeginIndex = i;
 						tabdat->hwndDrag = hDlg;
 						tabdat->dragDat = dat;
-						tabdat->fSavePos = TRUE;
+						tabdat->bSavePos = true;
 						tabdat->himlDrag = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 1, 0);
 						ImageList_AddIcon(tabdat->himlDrag, dat->m_hTabIcon);
 						ImageList_BeginDrag(tabdat->himlDrag, 0, 8, 8);
@@ -1133,12 +1131,12 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 					HWND hDlg = GetTabWindow(hwnd, i);
 					CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 					if (dat) {
-						tabdat->bDragging = TRUE;
+						tabdat->bDragging = true;
 						tabdat->iBeginIndex = i;
 						tabdat->hwndDrag = hDlg;
 						tabdat->dragDat = dat;
 						tabdat->himlDrag = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 1, 0);
-						tabdat->fSavePos = FALSE;
+						tabdat->bSavePos = false;
 						ImageList_AddIcon(tabdat->himlDrag, dat->m_hTabIcon);
 						ImageList_BeginDrag(tabdat->himlDrag, 0, 8, 8);
 						ImageList_DragEnter(hwnd, pt.x, pt.y);
@@ -1149,7 +1147,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			}
 		}
 
-		if (tabdat->fCloseButton) {
+		if (tabdat->bCloseButton) {
 			GetCursorPos(&pt);
 			if (TabCtrl_TestForCloseButton(tabdat, hwnd, &pt) != -1)
 				return TRUE;
@@ -1157,7 +1155,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		break;
 
 	case WM_CAPTURECHANGED:
-		tabdat->bDragging = FALSE;
+		tabdat->bDragging = false;
 		ImageList_DragLeave(hwnd);
 		ImageList_EndDrag();
 		if (tabdat->himlDrag) {
@@ -1180,7 +1178,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			tabdat->iHoveredTabIndex = GetTabItemFromMouse(hwnd, &pt);
 			if (tabdat->iHoveredTabIndex != iOld)
 				InvalidateRect(hwnd, nullptr, FALSE);
-			if (tabdat->fCloseButton && tabdat->iHoveredTabIndex != -1) {
+			if (tabdat->bCloseButton && tabdat->iHoveredTabIndex != -1) {
 				iOld = tabdat->iHoveredCloseIcon;
 				tabdat->iHoveredCloseIcon = TabCtrl_TestForCloseButton(tabdat, hwnd, &pt);
 				if (tabdat->iHoveredCloseIcon != iOld)
@@ -1204,13 +1202,13 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			int i;
 			pt.x = (short)LOWORD(GetMessagePos());
 			pt.y = (short)HIWORD(GetMessagePos());
-			tabdat->bDragging = FALSE;
+			tabdat->bDragging = false;
 			ImageList_DragLeave(hwnd);
 			ImageList_EndDrag();
 
 			i = GetTabItemFromMouse(hwnd, &pt);
 			if (i != -1 && i != tabdat->iBeginIndex)
-				RearrangeTab(tabdat->hwndDrag, tabdat->dragDat, MAKELONG(i, 0xffff), tabdat->fSavePos);
+				RearrangeTab(tabdat->hwndDrag, tabdat->dragDat, MAKELONG(i, 0xffff), tabdat->bSavePos);
 			tabdat->hwndDrag = (HWND)-1;
 			tabdat->dragDat = nullptr;
 			if (tabdat->himlDrag) {
@@ -1219,7 +1217,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 				tabdat->himlDrag = nullptr;
 			}
 		}
-		if (tabdat->fCloseButton) {
+		if (tabdat->bCloseButton) {
 			GetCursorPos(&pt);
 			int iItem = TabCtrl_TestForCloseButton(tabdat, hwnd, &pt);
 			if (iItem != -1)
@@ -1255,7 +1253,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 					if (IsWindow(hDlg) && hDlg != 0)
 						dat = (CSrmmWindow*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 					if (dat) {
-						tabdat->fTipActive = TRUE;
+						tabdat->bTipActive = true;
 						ti.isGroup = 0;
 						ti.hItem = (HANDLE)dat->m_hContact;
 						ti.isTreeFocused = 0;
@@ -1278,8 +1276,8 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		break;
 
 	case WM_USER + 100:
-		if (tabdat->fTipActive) {
-			tabdat->fTipActive = FALSE;
+		if (tabdat->bTipActive) {
+			tabdat->bTipActive = false;
 			CallService("mToolTip/HideTip", 0, 0);
 		}
 		break;

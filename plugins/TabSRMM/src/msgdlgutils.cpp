@@ -66,11 +66,11 @@ bool TSAPI IsCustomEvent(int eventType)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// reorder tabs within a container. fSavePos indicates whether the new position should
+// reorder tabs within a container. bSavePos indicates whether the new position should
 // be saved to the contacts db record (if so, the container will try to open the tab
 // at the saved position later)
 
-void TSAPI RearrangeTab(HWND hwndDlg, const CTabBaseDlg *dat, int iMode, BOOL fSavePos)
+void TSAPI RearrangeTab(HWND hwndDlg, const CTabBaseDlg *dat, int iMode, BOOL bSavePos)
 {
 	if (dat == nullptr || !IsWindow(hwndDlg))
 		return;
@@ -91,7 +91,7 @@ void TSAPI RearrangeTab(HWND hwndDlg, const CTabBaseDlg *dat, int iMode, BOOL fS
 		TabCtrl_InsertItem(hwndTab, newIndex, &item);
 		dat->m_pContainer->UpdateTabs();
 		ActivateTabFromHWND(hwndTab, hwndDlg);
-		if (fSavePos)
+		if (bSavePos)
 			db_set_dw(dat->m_hContact, SRMSGMOD_T, "tabindex", newIndex * 100);
 	}
 }

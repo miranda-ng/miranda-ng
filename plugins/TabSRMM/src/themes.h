@@ -450,27 +450,29 @@ private:
 
 struct TabControlData
 {
-	BOOL    m_VisualStyles;
-	HWND    hwnd;
-	DWORD   dwStyle;
-	DWORD   cx, cy;
-	HANDLE  hTheme, hThemeButton, hbp;
-	BYTE    m_xpad;
-	TContainerData *pContainer;
-	BOOL    bDragging;
-	int     iBeginIndex;
-	int	iHoveredTabIndex;
-	int	iHoveredCloseIcon;
-	HWND    hwndDrag;
-	CSrmmWindow *dragDat;
+	HWND   hwnd;
+	DWORD  dwStyle;
+	DWORD  cx, cy;
+	HANDLE hTheme, hThemeButton, hbp;
+	int    xpad;
+	int    iBeginIndex;
+	int    iHoveredTabIndex;
+	int    iHoveredCloseIcon;
+	HWND   hwndDrag;
+
+	bool   bVisualStyles;
+	bool   bDragging;
+	bool   bRefreshWithoutClip;
+	bool   bSavePos;
+	bool   bTipActive;
+	bool   bAeroTabs;
+	bool   bCloseButton;
+	
 	HIMAGELIST himlDrag;
-	BOOL    bRefreshWithoutClip;
-	BOOL    fSavePos;
-	BOOL    fTipActive;
-	BOOL	fAeroTabs;
-	BOOL	fCloseButton;
-	CSrmmWindow* helperDat;				// points to the client data of the active tab
-	CImageItem*			helperItem, *helperGlowItem;				// aero ui, holding the skin image for the tabs
+	TContainerData *pContainer;
+	CSrmmWindow *dragDat;
+	CSrmmWindow *helperDat;  // points to the client data of the active tab
+	CImageItem *helperItem, *helperGlowItem;				// aero ui, holding the skin image for the tabs
 };
 
 extern CSkin *Skin;
