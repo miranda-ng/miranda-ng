@@ -446,15 +446,17 @@ void CJabberProto::SendPresenceTo(int status, const char *to, const TiXmlElement
 	if (m_bEnableAvatars) {
 		TiXmlElement *x = p << XCHILDNS("x", "vcard-temp:x:update");
 
-		ptrA vcardHash(getUStringA("VCardHash"));
-		if (vcardHash != nullptr)
-			x << XATTR("vcard", vcardHash);
-
 		ptrA hashValue(getUStringA("AvatarHash"));
 		if (hashValue != nullptr) // XEP-0153: vCard-Based Avatars
 			x << XCHILD("photo", hashValue);
 		else
 			x << XCHILD("photo");
+
+		ptrA vcardHash(getUStringA("VCardHash"));
+		if (vcardHash != nullptr) {
+			x = p << XCHILDNS("x", "miranda:x:vcard");
+			x->SetText(vcardHash.get());
+		}
 	}
 	{
 		mir_cslock lck(m_csModeMsgMutex);

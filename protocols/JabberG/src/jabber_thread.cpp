@@ -1638,7 +1638,8 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 
 			debugLogA("Avatar enabled");
 			for (auto *xNode : TiXmlFilter(node, "x")) {
-				if (!mir_strcmp(XmlGetAttr(xNode, "xmlns"), "vcard-temp:x:update")) {
+				auto *pszNamespace = XmlGetAttr(xNode, "xmlns");
+				if (!mir_strcmp(pszNamespace, "vcard-temp:x:update")) {
 					auto *szPhoto = XmlGetChildText(xNode, "photo");
 					if (szPhoto && !bHasAvatar) {
 						if (mir_strlen(szPhoto)) {
@@ -1653,8 +1654,9 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 						}
 						else bRemovedAvatar = true;
 					}
-
-					const char *txt = XmlGetAttr(xNode, "vcard");
+				}
+				else if (!mir_strcmp(pszNamespace, "miranda:x:vcard")) {
+					auto *txt = xNode->GetText();
 					if (mir_strlen(txt)) {
 						ptrA saved(getStringA(hContact, "VCardHash"));
 						if (saved == nullptr || mir_strcmp(saved, txt)) {
