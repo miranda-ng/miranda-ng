@@ -19,6 +19,7 @@ ipch/
 # Keep predefined Miranda solutions
 !/bin*/*.sln
 /bin*/my.sln
+/bin*/my_icons.sln
 
 # Miranda files
 include/m_version.h
