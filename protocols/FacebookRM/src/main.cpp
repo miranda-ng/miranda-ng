@@ -76,17 +76,7 @@ int CMPlugin::Load()
 	InitContactMenus();
 
 	// Init native User-Agent
-	MFileVersion v;
-	Miranda_GetFileVersion(&v);
-	std::stringstream agent;
-	agent << "Miranda NG/" << v[0] << "." << v[1] << "." << v[2];
-#ifdef _WIN64
-	agent << " Facebook Protocol RM x64/";
-#else
-	agent << " Facebook Protocol RM/";
-#endif
-	agent << __VERSION_STRING_DOTS;
-	g_strUserAgent = agent.str();
+	g_strUserAgent = "Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
 
 	// Initialize random generator (used only as fallback in utils)
 	srand(::time(0));
