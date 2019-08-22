@@ -150,6 +150,7 @@ class CTabbedWindow : public CDlgBase
 	int iX = 0, iY = 0;
 	int iWidth = 0, iHeight = 0;
 	int m_windowWasCascaded = 0;
+	int m_statusHeight = 0;
 
 public:
 	CCtrlPages m_tab;

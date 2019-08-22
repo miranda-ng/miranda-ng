@@ -153,6 +153,10 @@ bool CTabbedWindow::OnInitDialog()
 	m_hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, nullptr, WS_CHILD | WS_VISIBLE | SBT_TOOLTIPS | SBARS_SIZEGRIP, 0, 0, 0, 0, m_hwnd, nullptr, g_plugin.getInst(), nullptr);
 	SendMessage(m_hwndStatus, SB_SETMINHEIGHT, GetSystemMetrics(SM_CYSMICON), 0);
 
+	RECT rc;
+	GetWindowRect(m_hwndStatus, &rc);
+	m_statusHeight = rc.bottom - rc.top;
+
 	SetWindowPosition();
 
 	if (!g_Settings.bTabsEnable) {
@@ -187,10 +191,8 @@ void CTabbedWindow::OnDestroy()
 int CTabbedWindow::Resizer(UTILRESIZECONTROL *urc)
 {
 	if (urc->wId == IDC_TAB) {
-		RECT rc;
-		GetWindowRect(m_hwndStatus, &rc);
 		urc->rcItem.top = 1;
-		urc->rcItem.bottom = urc->dlgNewSize.cy - (rc.bottom - rc.top) - 1;
+		urc->rcItem.bottom = urc->dlgNewSize.cy - m_statusHeight - 1;
 		return RD_ANCHORX_WIDTH | RD_ANCHORY_CUSTOM;
 	}
 	
@@ -365,22 +367,24 @@ void CTabbedWindow::TabClicked()
 	if (pDlg == nullptr)
 		return;
 
-	SESSION_INFO *s = pDlg->m_si;
-	if (s) {
-		if (s->wState & STATE_TALK) {
-			s->wState &= ~STATE_TALK;
-			db_set_w(s->hContact, s->pszModule, "ApparentMode", 0);
+	SetFocus(pDlg->m_message.GetHwnd());
+
+	SESSION_INFO *si = pDlg->m_si;
+	if (si) {
+		if (si->wState & STATE_TALK) {
+			si->wState &= ~STATE_TALK;
+			db_set_w(si->hContact, si->pszModule, "ApparentMode", 0);
 		}
 
-		if (s->wState & GC_EVENT_HIGHLIGHT) {
-			s->wState &= ~GC_EVENT_HIGHLIGHT;
+		if (si->wState & GC_EVENT_HIGHLIGHT) {
+			si->wState &= ~GC_EVENT_HIGHLIGHT;
 
-			if (g_clistApi.pfnGetEvent(s->hContact, 0))
-				g_clistApi.pfnRemoveEvent(s->hContact, GC_FAKE_EVENT);
+			if (g_clistApi.pfnGetEvent(si->hContact, 0))
+				g_clistApi.pfnRemoveEvent(si->hContact, GC_FAKE_EVENT);
 		}
 
-		if (!s->pDlg) {
-			g_chatApi.ShowRoom(s);
+		if (!si->pDlg) {
+			g_chatApi.ShowRoom(si);
 			SendMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
 		}
 	}
