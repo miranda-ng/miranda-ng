@@ -34,9 +34,9 @@
 #include "m_protoint.h"
 
 #define ICQ_APP_ID "ic1nmMjqg7Yu-0hL"
-#define ICQ_API_SERVER "https://api.icq.net"
+#define ICQ_API_SERVER "https://u.icq.net/wim"
 #define ICQ_FAKE_EVENT_ID 0xBABAEB
-#define ICQ_ROBUST_SERVER "https://rapi.icq.net"
+#define ICQ_ROBUST_SERVER "https://u.icq.net/rapi"
 
 #define PS_DUMMY "/DoNothing"
 #define PS_GOTO_INBOX "/GotoInbox"
@@ -176,6 +176,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	friend class CEditIgnoreListDlg;
 	friend class CIcqEnterLoginDlg;
 	friend class CIcqOptionsDlg;
+	friend class CGroupEditDlg;
 
 	friend AsyncHttpRequest* operator <<(AsyncHttpRequest*, const AIMSID&);
 
@@ -328,6 +329,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	INT_PTR   __cdecl SetAvatar(WPARAM, LPARAM);
 	
 	INT_PTR   __cdecl CreateAccMgrUI(WPARAM, LPARAM);
+	INT_PTR   __cdecl EditGroups(WPARAM, LPARAM);
 	INT_PTR   __cdecl GetEmailCount(WPARAM, LPARAM);
 	INT_PTR   __cdecl GotoInbox(WPARAM, LPARAM);
 	INT_PTR   __cdecl UploadGroups(WPARAM, LPARAM);

@@ -20,14 +20,14 @@
 
 #include "stdafx.h"
 
-class CIcqEnterLoginDlg : public CProtoDlgBase<CIcqProto>
+class CIcqEnterLoginDlg : public CIcqDlgBase
 {
 	CCtrlEdit edtPass;
 	CCtrlCheck chkSave;
 
 public:
 	CIcqEnterLoginDlg(CIcqProto *ppro) :
-		CProtoDlgBase<CIcqProto>(ppro, IDD_LOGINPW),
+		CIcqDlgBase(ppro, IDD_LOGINPW),
 		edtPass(this, IDC_PASSWORD),
 		chkSave(this, IDC_SAVEPASS)
 	{
@@ -75,7 +75,7 @@ bool CIcqProto::RetrievePassword()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct CIcqRegistrationDlg : public CProtoDlgBase<CIcqProto>
+struct CIcqRegistrationDlg : public CIcqDlgBase
 {
 	CMStringA szTrans, szMsisdn;
 	int iErrorCode = 0;
@@ -84,7 +84,7 @@ struct CIcqRegistrationDlg : public CProtoDlgBase<CIcqProto>
 	CCtrlButton btnSendSms;
 
 	CIcqRegistrationDlg(CIcqProto *ppro) :
-		CProtoDlgBase<CIcqProto>(ppro, IDD_REGISTER),
+		CIcqDlgBase(ppro, IDD_REGISTER),
 		edtPhone(this, IDC_PHONE),
 		edtCode(this, IDC_CODE),
 		btnSendSms(this, IDC_SENDSMS)
@@ -210,7 +210,7 @@ void CIcqProto::OnLoginViaPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pRe
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-class CIcqOptionsDlg : public CProtoDlgBase<CIcqProto>
+class CIcqOptionsDlg : public CIcqDlgBase
 {
 	CCtrlEdit edtUin, edtPassword;
 	CCtrlCheck chkHideChats, chkTrayIcon, chkLaunchMailbox, chkShowErrorPopups;
@@ -219,7 +219,7 @@ class CIcqOptionsDlg : public CProtoDlgBase<CIcqProto>
 
 public:
 	CIcqOptionsDlg(CIcqProto *ppro, int iDlgID, bool bFullDlg) :
-		CProtoDlgBase<CIcqProto>(ppro, iDlgID),
+		CIcqDlgBase(ppro, iDlgID),
 		edtUin(this, IDC_UIN),
 		btnCreate(this, IDC_REGISTER),
 		edtPassword(this, IDC_PASSWORD),
@@ -290,7 +290,7 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 // Advanced options
 
-class CIcqOptionsAdv : public CProtoDlgBase<CIcqProto>
+class CIcqOptionsAdv : public CIcqDlgBase
 {
 	CCtrlEdit edtDiff1, edtDiff2;
 	CCtrlSpin spin1, spin2;
@@ -298,7 +298,7 @@ class CIcqOptionsAdv : public CProtoDlgBase<CIcqProto>
 
 public:
 	CIcqOptionsAdv(CIcqProto *ppro) :
-		CProtoDlgBase<CIcqProto>(ppro, IDD_OPTIONS_ADV),
+		CIcqDlgBase(ppro, IDD_OPTIONS_ADV),
 		spin1(this, IDC_SPIN1, 32000),
 		spin2(this, IDC_SPIN2, 32000),
 		edtDiff1(this, IDC_DIFF1),

@@ -160,6 +160,13 @@ void CIcqProto::OnBuildProtoMenu()
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_GROUP);
 	m_hUploadGroups = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
+	mi.pszService = "/EditGroups";
+	CreateProtoService(mi.pszService, &CIcqProto::EditGroups);
+	mi.name.a = LPGEN("Edit server groups");
+	mi.position = 200002;
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_GROUP);
+	Menu_AddProtoMenuItem(&mi, m_szModuleName);
+
 	Menu_ShowItem(m_hUploadGroups, false);
 }
 
@@ -176,6 +183,76 @@ INT_PTR CIcqProto::UploadGroups(WPARAM, LPARAM)
 		if (wszIcqGroup != wszMirGroup)
 			MoveContactToGroup(it, wszIcqGroup, wszMirGroup);
 	}
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+class CGroupEditDlg : public CIcqDlgBase
+{
+	CCtrlListView groups;
+
+	void RefreshGroups()
+	{
+		for (auto &it : m_proto->m_arGroups.rev_iter())
+			groups.AddItem(it->wszName, 0, (LPARAM)it);
+	}
+
+public:
+	CGroupEditDlg(CIcqProto *ppro) :
+		CIcqDlgBase(ppro, IDD_EDITGROUPS),
+		groups(this, IDC_GROUPS)
+	{
+		groups.OnBuildMenu = Callback(this, &CGroupEditDlg::onMenu);
+	}
+
+	bool OnInitDialog() override
+	{
+		groups.AddColumn(0, TranslateT("Name"), 300);
+		RefreshGroups();
+		return true;
+	}
+
+	void onMenu(void *)
+	{
+		int cur = groups.GetSelectionMark();
+		if (cur == -1)
+			return;
+
+		IcqGroup *pGroup = (IcqGroup *)groups.GetItemData(cur);
+
+		HMENU hMenu = CreatePopupMenu();
+		AppendMenu(hMenu, MF_STRING, 1, TranslateT("Rename"));
+		AppendMenu(hMenu, MF_STRING, 2, TranslateT("Delete"));
+
+		POINT pt;
+		GetCursorPos(&pt);
+		int cmd = TrackPopupMenu(hMenu, TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, nullptr);
+		DestroyMenu(hMenu);
+
+		CLISTGROUPCHANGE param = { pGroup->wszName, nullptr };
+
+		if (cmd == 1) { // rename
+			ENTER_STRING es = {};
+			es.cbSize = sizeof(es);
+			es.type = ES_MULTILINE;
+			es.caption = TranslateT("Enter new group name");
+			if (!EnterString(&es))
+				return;
+
+			param.pszNewName = es.ptszResult;
+			m_proto->OnGroupChange(0, (LPARAM)&param);
+			mir_free(es.ptszResult);
+		}
+		else if (cmd == 2) { // delete
+			m_proto->OnGroupChange(0, (LPARAM)&param);
+		}
+	}
+};
+
+INT_PTR CIcqProto::EditGroups(WPARAM, LPARAM)
+{
+	(new CGroupEditDlg(this))->Show();
 	return 0;
 }
 

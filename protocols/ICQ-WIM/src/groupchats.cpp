@@ -83,10 +83,8 @@ void CIcqProto::OnGetChatInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Invitation dialog
 
-class CGroupchatInviteDlg : public CProtoDlgBase<CIcqProto>
+class CGroupchatInviteDlg : public CIcqDlgBase
 {
-	typedef CProtoDlgBase<CIcqProto> CSuper;
-
 	CCtrlClc m_clc;
 	SESSION_INFO *m_si;
 
@@ -115,7 +113,7 @@ class CGroupchatInviteDlg : public CProtoDlgBase<CIcqProto>
 
 public:
 	CGroupchatInviteDlg(CIcqProto *ppro, SESSION_INFO *si) :
-		CSuper(ppro, IDD_GROUPCHAT_INVITE),
+		CIcqDlgBase(ppro, IDD_GROUPCHAT_INVITE),
 		m_si(si),
 		m_clc(this, IDC_CLIST)
 	{
