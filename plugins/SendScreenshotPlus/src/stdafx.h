@@ -164,6 +164,8 @@ extern IconItem ICONS_BTN[ICO_BTN_END_];
 #	define DBGMSG(str,...)
 #endif
 
+void ComboBox_SelectItem(HWND hCombo, LPARAM data);
+
 template<class _Elem>
 std::basic_string<_Elem> replace(const std::basic_string<_Elem> & Origninal, const std::basic_string<_Elem> & What, const std::basic_string<_Elem> & With)
 {

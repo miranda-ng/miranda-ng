@@ -69,7 +69,7 @@ IconItem ICONS_BTN[ICO_BTN_END_] =
 static HANDLE m_hFolderScreenshot = nullptr;
 wchar_t* GetCustomPath()
 {
-	wchar_t* pszPath = Utils_ReplaceVarsW(L"%miranda_userdata%\\Screenshots");
+	wchar_t *pszPath = Utils_ReplaceVarsW(L"%miranda_userdata%\\Screenshots");
 	if (m_hFolderScreenshot) {
 		wchar_t szPath[1024] = { 0 };
 		FoldersGetCustomPathW(m_hFolderScreenshot, szPath, 1024, pszPath);
@@ -98,12 +98,12 @@ wchar_t* GetCustomPath()
 
 INT_PTR service_OpenCaptureDialog(WPARAM wParam, LPARAM lParam)
 {
-	TfrmMain* frmMain = new TfrmMain();
+	TfrmMain *frmMain = new TfrmMain();
 	if (!frmMain) {
 		MessageBox(nullptr, TranslateT("Could not create main dialog."), TranslateT("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
 		return -1;
 	}
-	wchar_t* pszPath = GetCustomPath();
+	wchar_t *pszPath = GetCustomPath();
 	if (!pszPath) {
 		delete frmMain;
 		return -1;
@@ -128,18 +128,18 @@ INT_PTR service_OpenCaptureDialog(WPARAM wParam, LPARAM lParam)
 
 INT_PTR service_SendDesktop(WPARAM wParam, LPARAM)
 {
-	TfrmMain* frmMain = new TfrmMain();
+	TfrmMain *frmMain = new TfrmMain();
 	if (!frmMain) {
 		MessageBox(nullptr, TranslateT("Could not create main dialog."), TranslateT("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
 		return -1;
 	}
-	wchar_t* pszPath = GetCustomPath();
+	wchar_t *pszPath = GetCustomPath();
 	if (!pszPath) {
 		delete frmMain;
 		return -1;
 	}
 	MCONTACT hContact = (MCONTACT)wParam;
-	char*  pszProto = GetContactProto(hContact);
+	char *pszProto = GetContactProto(hContact);
 	bool bChatRoom = db_get_b(hContact, pszProto, "ChatRoom", 0) != 0;
 	frmMain->m_opt_chkTimed = false;
 	frmMain->m_opt_tabCapture = 1;
@@ -153,40 +153,16 @@ INT_PTR service_SendDesktop(WPARAM wParam, LPARAM)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Edit a in-memory bitmap on the edit window
-// wParam = (SENDSSCB) callback function address to call when editing is done
-// lParam = (HBITMAP) bitmap handle, a copy is made so the calling function can free this handle after the service function returns
-// Returns:
-
-INT_PTR service_EditBitmap(WPARAM, LPARAM)
-{
-	/*	TfrmEdit *frmEdit=new TfrmEdit(NULL);
-		if (!frmEdit)
-		return -1;
-
-		Graphics::TBitmap *bitmap=new Graphics::TBitmap();
-		if (!bitmap)
-		return -2;
-
-		bitmap->Handle = (void*)lParam;
-		frmEdit->InitEditor(bitmap); // a copy of the bitmap is made inside this function
-		frmEdit->Show();
-		delete bitmap;
-		*/
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Callback function of service for sending image to imageshack.us
 // wParam = (char*)filename
 // lParam = (HANDLE)contact (can be null)
 
 INT_PTR service_Send2ImageShack(WPARAM wParam, LPARAM lParam)
 {
-	char* result = nullptr;
-	CSendHost_ImageShack* cSend = new CSendHost_ImageShack(nullptr, lParam, false);
+	char *result = nullptr;
+	CSendHost_ImageShack *cSend = new CSendHost_ImageShack(nullptr, lParam, false);
 	cSend->m_bDeleteAfterSend = false;
-	cSend->SetFile((char*)wParam);
+	cSend->SetFile((char *)wParam);
 	if (lParam != NULL) {
 		if (cSend->Send()) delete cSend;
 		return NULL;
@@ -230,17 +206,17 @@ int hook_ModulesLoaded(WPARAM, LPARAM)
 	g_myGlobals.PluginHTTPExist = ServiceExists(MS_HTTP_ACCEPT_CONNECTIONS);
 	g_myGlobals.PluginFTPExist = ServiceExists(MS_FTPFILE_UPLOAD);
 	g_myGlobals.PluginCloudFileExist = ServiceExists(MS_CLOUDFILE_UPLOAD);
-	
+
 	// Netlib register
 	NETLIBUSER nlu = {};
 	nlu.szSettingsModule = __PLUGIN_NAME;
 	nlu.szDescriptiveName.w = TranslateT("SendSS HTTP connections");
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;			//|NUF_NOHTTPSOPTION;
 	g_hNetlibUser = Netlib_RegisterUser(&nlu);
-	
+
 	// load my button class / or use UInfoEx
 	CtrlButtonLoadModule();
-	
+
 	// Folders plugin support
 	m_hFolderScreenshot = FoldersRegisterCustomPathW(LPGEN("SendSS"), LPGEN("Screenshots"),
 		PROFILE_PATHW L"\\" CURRENT_PROFILEW L"\\Screenshots");
@@ -250,10 +226,10 @@ int hook_ModulesLoaded(WPARAM, LPARAM)
 int hook_SystemPreShutdown(WPARAM, LPARAM)
 {
 	TfrmMain::Unload();
-	
+
 	// Netlib unregister
 	Netlib_CloseHandle(g_hNetlibUser);
-	
+
 	// uninitialize classes
 	CtrlButtonUnloadModule();
 	return 0;
@@ -303,12 +279,11 @@ int CMPlugin::Load()
 	// icons
 	g_plugin.registerIcon(MODULENAME, ICONS, MODULENAME);
 	g_plugin.registerIcon(MODULENAME "/" LPGEN("Buttons"), ICONS_BTN, MODULENAME);
-	
+
 	// services
-	#define srv_reg(name) CreateServiceFunction(MODULENAME "/" #name, service_##name);
+#define srv_reg(name) CreateServiceFunction(MODULENAME "/" #name, service_##name);
 	srv_reg(OpenCaptureDialog);
 	srv_reg(SendDesktop);
-	srv_reg(EditBitmap);
 	srv_reg(Send2ImageShack);
 
 	// menu items
@@ -357,6 +332,6 @@ int CMPlugin::Load()
 int CMPlugin::Unload()
 {
 	if (g_clsTargetHighlighter)
-		UnregisterClass((wchar_t*)g_clsTargetHighlighter, g_plugin.getInst()), g_clsTargetHighlighter = 0;
+		UnregisterClass((wchar_t *)g_clsTargetHighlighter, g_plugin.getInst()), g_clsTargetHighlighter = 0;
 	return 0;
 }

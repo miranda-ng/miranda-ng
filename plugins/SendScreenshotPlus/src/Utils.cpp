@@ -28,6 +28,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
+void ComboBox_SelectItem(HWND hCombo, LPARAM data)
+{
+	for (int i = 0;; i++) {
+		LPARAM itemData = ComboBox_GetItemData(hCombo, i);
+		if (itemData == data) {
+			ComboBox_SetCurSel(hCombo, i);
+			return;
+		}
+	}
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // MonitorInfoEnum
 

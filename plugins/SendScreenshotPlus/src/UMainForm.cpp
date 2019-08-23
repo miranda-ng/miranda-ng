@@ -29,12 +29,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "stdafx.h"
 
 #include <list>
+
 void TfrmMain::Unload()
 {
 	std::list<TfrmMain*> lst;
-	for (CHandleMapping::iterator iter = _HandleMapping.begin(); iter != _HandleMapping.end(); ++iter) {
-		lst.push_back(iter->second); // we can't delete inside loop.. not MT compatible
-	}
+	for (auto &it : _HandleMapping)
+		lst.push_back(it.second); // we can't delete inside loop.. not MT compatible
+
 	while (!lst.empty()) {
 		DestroyWindow(lst.front()->m_hWnd); // deletes class
 		lst.pop_front();
@@ -257,7 +258,7 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 				);
 				ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, tszTemp), mon + 1);
 			}
-			ComboBox_SelectItemData(hCtrl, -1, m_opt_cboxDesktop);	// use Workaround for MS bug ComboBox_SelectItemData
+			ComboBox_SelectItem(hCtrl, m_opt_cboxDesktop);
 		}
 		PostMessage(m_hWnd, WM_COMMAND, MAKEWPARAM(ID_edtCaption, CBN_SELCHANGE), (LPARAM)hCtrl);
 
@@ -295,7 +296,7 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, L"BMP"), 2);
 		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, L"TIF"), 3);
 		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, L"GIF"), 4);
-		ComboBox_SelectItemData(hCtrl, -1, m_opt_cboxFormat);// use Workaround for MS bug ComboBox_SelectItemData
+		ComboBox_SelectItem(hCtrl, m_opt_cboxFormat);
 	}
 
 	// init SendBy combo box
