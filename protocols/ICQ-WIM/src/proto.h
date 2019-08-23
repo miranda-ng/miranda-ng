@@ -72,17 +72,23 @@ struct IcqGroup
 {
 	IcqGroup(int _p1, const CMStringW &_p2) :
 		id(_p1),
-		wszName(_p2)
+		wszSrvName(_p2)
 	{
+		SetName(_p2);
+	}
+
+	int id;
+	int level;
+	CMStringW wszName, wszSrvName;
+
+	void SetName(const CMStringW &str)
+	{
+		wszName = str;
 		level = wszName.SpanIncluding(L">").GetLength();
 		if (level != 0)
 			wszName.Delete(0, level);
 		wszName.Replace(L">", L"\\");
 	}
-
-	int id;
-	int level;
-	CMStringW wszName;
 };
 
 struct IcqCacheItem : public MZeroedObject

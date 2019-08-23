@@ -192,13 +192,10 @@ class CGroupEditDlg : public CIcqDlgBase
 {
 	CCtrlListView groups;
 
-	void RefreshGroups()
-	{
-		for (auto &it : m_proto->m_arGroups.rev_iter())
-			groups.AddItem(it->wszName, 0, (LPARAM)it);
-	}
-
 public:
+	
+	static CGroupEditDlg *pDlg;
+
 	CGroupEditDlg(CIcqProto *ppro) :
 		CIcqDlgBase(ppro, IDD_EDITGROUPS),
 		groups(this, IDC_GROUPS)
@@ -206,11 +203,23 @@ public:
 		groups.OnBuildMenu = Callback(this, &CGroupEditDlg::onMenu);
 	}
 
+	void RefreshGroups()
+	{
+		for (auto &it : m_proto->m_arGroups.rev_iter())
+			groups.AddItem(it->wszName, 0, (LPARAM)it);
+	}
+
 	bool OnInitDialog() override
 	{
+		pDlg = this;
 		groups.AddColumn(0, TranslateT("Name"), 300);
 		RefreshGroups();
 		return true;
+	}
+
+	void OnDestroy() override
+	{
+		pDlg = nullptr;
 	}
 
 	void onMenu(void *)
@@ -230,8 +239,6 @@ public:
 		int cmd = TrackPopupMenu(hMenu, TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, nullptr);
 		DestroyMenu(hMenu);
 
-		CLISTGROUPCHANGE param = { pGroup->wszName, nullptr };
-
 		if (cmd == 1) { // rename
 			ENTER_STRING es = {};
 			es.cbSize = sizeof(es);
@@ -240,20 +247,30 @@ public:
 			if (!EnterString(&es))
 				return;
 
-			param.pszNewName = es.ptszResult;
-			m_proto->OnGroupChange(0, (LPARAM)&param);
+			m_proto->Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/renameGroup")
+				<< AIMSID(m_proto) << WCHAR_PARAM("oldGroup", pGroup->wszSrvName) << GROUP_PARAM("newGroup", es.ptszResult));
+
 			mir_free(es.ptszResult);
 		}
 		else if (cmd == 2) { // delete
-			m_proto->OnGroupChange(0, (LPARAM)&param);
+			m_proto->Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/removeGroup")
+				<< AIMSID(m_proto) << WCHAR_PARAM("group", pGroup->wszSrvName));
 		}
 	}
 };
+
+CGroupEditDlg *CGroupEditDlg::pDlg = nullptr;
 
 INT_PTR CIcqProto::EditGroups(WPARAM, LPARAM)
 {
 	(new CGroupEditDlg(this))->Show();
 	return 0;
+}
+
+void RefreshGroups(void)
+{
+	if (CGroupEditDlg::pDlg != nullptr)
+		CGroupEditDlg::pDlg->RefreshGroups();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -324,20 +341,22 @@ int CIcqProto::OnGroupChange(WPARAM hContact, LPARAM lParam)
 
 	CLISTGROUPCHANGE *pParam = (CLISTGROUPCHANGE*)lParam;
 	if (hContact == 0) { // whole group is changed
-		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/") << AIMSID(this);
 		if (pParam->pszOldName == nullptr) {
-			pReq->m_szUrl += "addGroup";
-			pReq << GROUP_PARAM("group", pParam->pszNewName);
+			for (auto &it : m_arGroups)
+				if (it->wszName == pParam->pszNewName)
+					return 0;
+
+			Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/addGroup")
+				<< AIMSID(this) << GROUP_PARAM("group", pParam->pszNewName));
 		}
 		else if (pParam->pszNewName == nullptr) {
-			pReq->m_szUrl += "removeGroup";
-			pReq << GROUP_PARAM("group", pParam->pszOldName);
+			Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/removeGroup") 
+				<< AIMSID(this) << GROUP_PARAM("group", pParam->pszOldName));
 		}
 		else {
-			pReq->m_szUrl += "renameGroup";
-			pReq << GROUP_PARAM("oldGroup", pParam->pszOldName) << GROUP_PARAM("newGroup", pParam->pszNewName);
+			Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/renameGroup") 
+				<< AIMSID(this) << GROUP_PARAM("oldGroup", pParam->pszOldName) << GROUP_PARAM("newGroup", pParam->pszNewName));
 		}
-		Push(pReq);
 	}
 	else MoveContactToGroup(hContact, getMStringW(hContact, "IcqGroup"), pParam->pszNewName);
 	

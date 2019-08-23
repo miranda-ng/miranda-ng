@@ -77,26 +77,50 @@ void CIcqProto::ProcessBuddyList(const JSONNode &ev)
 
 void CIcqProto::ProcessDiff(const JSONNode &ev)
 {
+	std::map<MCONTACT, bool> processed;
+
 	for (auto &block : ev) {
 		CMStringW szType = block["type"].as_mstring();
-		if (szType != "updated" && szType != "created")
+		if (szType != "updated" && szType != "created" && szType != "deleted")
 			continue;
 
 		for (auto &it : block["data"]) {
 			int grpId = it["id"].as_int();
+			CMStringW wszName = it["name"].as_mstring();
+
 			auto *pGroup = m_arGroups.find((IcqGroup *)&grpId);
 			if (pGroup == nullptr) {
-				debugLogA("Group %d isn't found", grpId);
-				continue;
+				if (szType != "created") {
+					debugLogA("Group %d isn't found", grpId);
+					continue;
+				}
+
+				pGroup = new IcqGroup(grpId, wszName);
+				m_arGroups.insert(pGroup);
+			}
+			else {
+				pGroup->wszSrvName = wszName;
+				pGroup->SetName(wszName);
 			}
 
-			bool bCreated = false;
+			bool bCreated = false, bDeleted = (szType == "deleted");
 
 			for (auto &buddy : it["buddies"]) {
 				MCONTACT hContact = ParseBuddyInfo(buddy);
 				if (hContact == INVALID_CONTACT_ID)
 					continue;
 
+				if (bDeleted) {
+					if (processed[hContact])
+						continue;
+
+					// prepare contact for deletion
+					Clist_SetGroup(hContact, nullptr);
+					db_set_b(hContact, "CList", "NotOnList", 1);
+					continue;
+				}
+
+				processed[hContact] = true;
 				setWString(hContact, "IcqGroup", pGroup->wszName);
 
 				ptrW wszGroup(Clist_GetGroup(hContact));
@@ -109,7 +133,12 @@ void CIcqProto::ProcessDiff(const JSONNode &ev)
 					Clist_SetGroup(hContact, pGroup->wszName);
 				}
 			}
+
+			if (bDeleted)
+				m_arGroups.remove(pGroup);
 		}
+
+		RefreshGroups();
 	}
 }
 

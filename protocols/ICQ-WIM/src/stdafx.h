@@ -41,6 +41,8 @@
 #include <fcntl.h>
 #include <process.h>
 
+#include <map>
+
 // Miranda IM SDK includes
 #include <newpluginapi.h> // This must be included first
 #include <m_avatars.h>
@@ -99,6 +101,7 @@
 
 bool IsChat(const CMStringW &aimid);
 
+void RefreshGroups(void);
 int StatusFromString(const CMStringW&);
 char* time2text(time_t time);
 
