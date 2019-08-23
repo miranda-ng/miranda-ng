@@ -25,6 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "clc.h"
 
+static ClcCacheEntry nullpce = {};
+
 // routines for managing adding/removal of items in the list, including sorting
 
 ClcContact* fnAddItemToGroup(ClcGroup *group, int iAboveItem)
@@ -307,7 +309,7 @@ MIR_APP_DLL(void) Clist_DeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 	ClcContact *contact;
 	if (Clist_FindItem(hwnd, dat, hItem, &contact, &group)) {
 		Clist_RemoveItemFromGroup(hwnd, group, contact, 1);
-		contact->pce = nullptr;
+		contact->pce = &nullpce;
 		return;
 	}
 
