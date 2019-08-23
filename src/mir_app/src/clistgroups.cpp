@@ -135,7 +135,7 @@ static INT_PTR CreateGroupInternal(MGROUP hParent, const wchar_t *ptszName)
 
 	Clist_GroupAdded(newId + 1);
 
-	CLISTGROUPCHANGE grpChg = { nullptr, newName };
+	CLISTGROUPCHANGE grpChg = { nullptr, newName+1 };
 	NotifyEventHooks(hGroupChangeEvent, 0, (LPARAM)&grpChg);
 
 	return newId + 1;
