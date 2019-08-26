@@ -26,7 +26,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 CMPlugin g_plugin;
 
-std::string g_strUserAgent;
 DWORD g_mirandaVersion;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -61,26 +60,5 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 int CMPlugin::Load()
 {
 	InitIcons();
-
-	// Init native User-Agent
-	{
-		std::stringstream agent;
-		agent << "Miranda NG/";
-		agent << ((g_mirandaVersion >> 24) & 0xFF);
-		agent << ".";
-		agent << ((g_mirandaVersion >> 16) & 0xFF);
-		agent << ".";
-		agent << ((g_mirandaVersion >> 8) & 0xFF);
-		agent << ".";
-		agent << ((g_mirandaVersion)& 0xFF);
-#ifdef _WIN64
-		agent << " Omegle Protocol x64/";
-#else
-		agent << " Omegle Protocol/";
-#endif
-		agent << __VERSION_STRING_DOTS;
-		g_strUserAgent = agent.str();
-	}
-
 	return 0;
 }

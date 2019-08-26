@@ -31,6 +31,7 @@ HANDLE hConnectionHeaderMutex, hConnectionOpenMutex, hEventConnected = NULL, hEv
 DWORD g_LastConnectionTick;
 int connectionTimeout;
 HANDLE hSendEvent = nullptr, hRecvEvent = nullptr;
+static char szUserAgent[100];
 
 typedef BOOL(WINAPI *tGetProductInfo)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 
@@ -388,6 +389,13 @@ MIR_APP_DLL(HNETLIBUSER) Netlib_GetConnNlu(HANDLE hConn)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+MIR_APP_DLL(char*) Netlib_GetUserAgent()
+{
+	return szUserAgent;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 MIR_APP_DLL(void) Netlib_Shutdown(HNETLIBCONN h)
 {
 	if (h) {
@@ -490,6 +498,11 @@ int LoadNetlibModule(void)
 			}
 		}
 	}
+
+	#define FAKE_VER "68.0.1"
+	char osVer[100];
+	OS_GetShortString(osVer, _countof(osVer));
+	mir_snprintf(szUserAgent, "Mozilla/5.0 (%s; rv:%s) Gecko/20100101 Firefox/%s", osVer, FAKE_VER, FAKE_VER);
 
 	hConnectionOpenMutex = connectionTimeout ? CreateMutex(nullptr, FALSE, nullptr) : nullptr;
 	g_LastConnectionTick = GetTickCount();

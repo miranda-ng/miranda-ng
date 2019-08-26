@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 CMPlugin g_plugin;
 
-std::string g_strUserAgent;
 DWORD g_mirandaVersion;
 bool g_bMessageState;
 HWND g_hwndHeartbeat;
@@ -75,12 +74,8 @@ int CMPlugin::Load()
 	InitIcons();
 	InitContactMenus();
 
-	// Init native User-Agent
-	g_strUserAgent = "Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
-
 	// Initialize random generator (used only as fallback in utils)
 	srand(::time(0));
-
 	return 0;
 }
 

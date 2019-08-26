@@ -228,10 +228,12 @@ bool DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 		*p = 0;
 	rtrim(szMirVer);
 
-	int osVer = LOWORD(GetVersion());
+	char szOsVer[100];
+	OS_GetShortString(szOsVer, _countof(szOsVer));
+
 	CMStringA szUserAgent("Miranda NG/");
 	szUserAgent.Append(szMirVer);
-	szUserAgent.AppendFormat(" (Windows NT %d.%d", LOBYTE(osVer), HIBYTE(osVer));
+	szUserAgent.AppendFormat(" (%s", szOsVer);
 	#ifdef _WIN64
 		szUserAgent.Append("; Win64; x64");
 	#endif

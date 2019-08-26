@@ -273,6 +273,7 @@ Miranda_OkToExit @344
 Miranda_GetVersion @345
 Miranda_GetFileVersion @346
 Miranda_GetVersionText @347
+Netlib_GetUserAgent @348
 Netlib_CloseHandle @349
 Netlib_Recv @350
 Netlib_Send @351

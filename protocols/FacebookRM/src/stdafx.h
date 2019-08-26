@@ -79,7 +79,6 @@ class FacebookProto;
 #include "resource.h"
 #include "version.h"
 
-extern std::string g_strUserAgent;
 extern DWORD g_mirandaVersion;
 extern bool g_bMessageState;
 extern HWND g_hwndHeartbeat;

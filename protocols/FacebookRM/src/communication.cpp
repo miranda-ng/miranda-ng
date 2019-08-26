@@ -47,7 +47,7 @@ http::response facebook_client::sendRequest(HttpRequest *request)
 
 	request->AddHeader("Accept-Language", "en,en-US;q=0.9");
 	request->AddHeader("Accept", "*/*");
-	request->AddHeader("User-Agent", g_strUserAgent.c_str());
+	request->AddHeader("User-Agent", Netlib_GetUserAgent());
 	request->AddHeader("Cookie", ptrA(load_cookies())); // FIXME: Rework load_cookies to not do strdup
 
 	if (request->requestType == REQUEST_POST)

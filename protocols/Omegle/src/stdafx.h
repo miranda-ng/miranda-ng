@@ -74,7 +74,6 @@ class OmegleProto;
 #include "theme.h"
 #include "resource.h"
 
-extern std::string g_strUserAgent;
 extern DWORD g_mirandaVersion;
 
 class ScopedLock

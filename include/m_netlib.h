@@ -374,6 +374,11 @@ EXTERN_C MIR_APP_DLL(UINT_PTR) Netlib_GetSocket(HNETLIBCONN hConnection);
 EXTERN_C MIR_APP_DLL(HNETLIBUSER) Netlib_GetConnNlu(HNETLIBCONN hConn);
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Gets the fake User-Agent header field to make some sites happy
+
+EXTERN_C MIR_APP_DLL(char*) Netlib_GetUserAgent();
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Converts numerical representation of IP in SOCKADDR_INET into string representation with IP and port
 // IPv4 will be supplied in formats address:port or address
 // IPv6 will be supplied in formats [address]:port or [address]

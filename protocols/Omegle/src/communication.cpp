@@ -267,7 +267,7 @@ NETLIBHTTPHEADER* Omegle_client::get_request_headers(int request_type, int* head
 	}
 
 	headers[2].szName = "User-Agent";
-	headers[2].szValue = (char *)g_strUserAgent.c_str();
+	headers[2].szValue = Netlib_GetUserAgent();
 	headers[1].szName = "Accept";
 	headers[1].szValue = "*/*";
 	headers[0].szName = "Accept-Language";
