@@ -112,12 +112,12 @@ void CJabberProto::AddDefaultCaps()
 		if (it.Valid())
 			myCaps |= it.jcbCap;
 
-	wchar_t szOsBuffer[256]; szOsBuffer[0] = 0;
-	GetOSDisplayString(szOsBuffer, _countof(szOsBuffer));
+	char szOsBuffer[256];
+	OS_GetDisplayString(szOsBuffer, _countof(szOsBuffer));
 
 	CJabberClientPartialCaps *pCaps = m_clientCapsManager.SetOwnCaps(JABBER_CAPS_MIRANDA_NODE, __VERSION_STRING_DOTS, myCaps);
 	pCaps->m_szOs = mir_strdup("Microsoft Windows");
-	pCaps->m_szOsVer = mir_utf8encodeW(szOsBuffer);
+	pCaps->m_szOsVer = mir_strdup(szOsBuffer);
 	pCaps->m_szSoft = mir_strdup("Miranda NG Jabber Protocol");
 	pCaps->m_szSoftMir = mir_strdup(szCoreVersion);
 }
@@ -496,9 +496,6 @@ void CJabberClientCapsManager::UpdateFeatHash()
 			feat_buf.Append(it->szFeature);
 			feat_buf.AppendChar('<');
 		}
-
-	wchar_t szOsBuffer[256]; szOsBuffer[0] = 0;
-	GetOSDisplayString(szOsBuffer, _countof(szOsBuffer));
 
 	feat_buf.Append("software_version"); feat_buf.AppendChar('<');
 	feat_buf.Append(__VERSION_STRING_DOTS); feat_buf.AppendChar('<');

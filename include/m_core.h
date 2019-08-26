@@ -533,7 +533,11 @@ MIR_CORE_DLL(BOOL) IsWorkstationLocked();
 MIR_CORE_DLL(BOOL) IsScreenSaverRunning();
 MIR_CORE_DLL(BOOL) IsTerminalDisconnected();
 
-MIR_CORE_DLL(BOOL) GetOSDisplayString(wchar_t *buf, size_t bufSize);
+// returns OS version in version of Windows NT xx.xx
+MIR_CORE_DLL(BOOL) OS_GetShortString(char *buf, size_t bufSize);
+
+// returns full OS version
+MIR_CORE_DLL(BOOL) OS_GetDisplayString(char *buf, size_t bufSize);
 
 ///////////////////////////////////////////////////////////////////////////////
 

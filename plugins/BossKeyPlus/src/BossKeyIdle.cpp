@@ -32,9 +32,8 @@ VOID CALLBACK IdleTimer(HWND hwnd, UINT umsg, UINT idEvent, DWORD dwTime);
 
 static bool IsUserIdle()
 {
-	DWORD dwTick;
 	if (g_wMaskAdv & OPT_HIDEIFMIRIDLE) {
-		CallService(MS_SYSTEM_GETIDLE, 0, (LPARAM)&dwTick);
+		DWORD dwTick = Miranda_GetIdle();
 		return GetTickCount() - dwTick > (minutes * 60 * 1000);
 	}
 

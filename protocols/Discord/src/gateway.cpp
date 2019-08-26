@@ -364,14 +364,14 @@ void CDiscordProto::GatewaySendIdentify()
 		return;
 	}
 
-	wchar_t wszOs[256];
-	GetOSDisplayString(wszOs, _countof(wszOs));
+	char szOs[256];
+	OS_GetDisplayString(szOs, _countof(szOs));
 	
 	char szVersion[256];
 	Miranda_GetVersionText(szVersion, _countof(szVersion));
 
 	JSONNode props; props.set_name("properties");
-	props << WCHAR_PARAM("os", wszOs) << CHAR_PARAM("browser", "Chrome") << CHAR_PARAM("device", szVersion)
+	props << CHAR_PARAM("os", szOs) << CHAR_PARAM("browser", "Chrome") << CHAR_PARAM("device", szVersion)
 		<< CHAR_PARAM("referrer", "https://miranda-ng.org") << CHAR_PARAM("referring_domain", "miranda-ng.org");
 
 	JSONNode payload; payload.set_name("d");

@@ -31,8 +31,7 @@ int IdleOptInit(WPARAM wParam, LPARAM);
 static int IdleObject_IsUserIdle()
 {
 	if (g_plugin.bIdleMethod) {
-		DWORD dwTick;
-		CallService(MS_SYSTEM_GETIDLE, 0, (LPARAM)&dwTick);
+		DWORD dwTick = Miranda_GetIdle();
 		return GetTickCount() - dwTick > (g_plugin.iIdleTime1st * 60 * 1000);
 	}
 

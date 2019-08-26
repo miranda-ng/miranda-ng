@@ -906,6 +906,7 @@ WindowList_Remove @1108
 Utils_AssertInsideScreen @1110
 Utils_RestoreWindowPosition @1111
 Utils_SaveWindowPosition @1112
+OS_GetShortString @1113
 TimeZone_CreateByContact @1114
 TimeZone_CreateByName @1115
 TimeZone_GetDescription @1116
@@ -926,7 +927,7 @@ Utils_ResizeDialog @1130
 Utils_GetRandom @1131
 Utils_OpenUrl @1132
 Utils_OpenUrlW @1133
-GetOSDisplayString @1134
+OS_GetDisplayString @1134
 IsWinVer10Plus @1135
 IsWinVer81Plus @1136
 IsWinVer8Plus @1137

@@ -173,15 +173,11 @@ static void __cdecl compactHeapsThread(void*)
 	}
 }
 
-void(*SetIdleCallback) (void) = nullptr;
+void (*SetIdleCallback)(void) = nullptr;
 
-static INT_PTR SystemSetIdleCallback(WPARAM, LPARAM lParam)
+MIR_APP_DLL(void) Miranda_SetIdleCallback(void(__cdecl *pfnCallback)(void))
 {
-	if (lParam && SetIdleCallback == nullptr) {
-		SetIdleCallback = (void(*)(void))lParam;
-		return 1;
-	}
-	return 0;
+	SetIdleCallback = pfnCallback;
 }
 
 static DWORD dwEventTime = 0;
@@ -195,10 +191,9 @@ void checkIdle(MSG * msg)
 	}
 }
 
-static INT_PTR SystemGetIdle(WPARAM, LPARAM lParam)
+MIR_APP_DLL(DWORD) Miranda_GetIdle()
 {
-	if (lParam) *(DWORD*)lParam = dwEventTime;
-	return 0;
+	return dwEventTime;
 }
 
 static int SystemShutdownProc(WPARAM, LPARAM)
@@ -346,8 +341,6 @@ int WINAPI mir_main(LPTSTR cmdLine)
 		HookEvent(ME_SYSTEM_SHUTDOWN, SystemShutdownProc);
 
 		mir_forkthread(compactHeapsThread);
-		CreateServiceFunction(MS_SYSTEM_SETIDLECALLBACK, SystemSetIdleCallback);
-		CreateServiceFunction(MS_SYSTEM_GETIDLE, SystemGetIdle);
 		dwEventTime = GetTickCount();
 		DWORD myPid = GetCurrentProcessId();
 

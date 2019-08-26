@@ -391,9 +391,9 @@ void PrintVersionInfo(CMStringW& buffer, unsigned flags)
 	GetFreeMemoryString(buffer);
 	buffer.Append(L"\r\n");
 
-	wchar_t tszOsVer[200];
-	GetOSDisplayString(tszOsVer, _countof(tszOsVer));
-	buffer.Append(tszOsVer);
+	char szOsVer[200];
+	OS_GetDisplayString(szOsVer, _countof(szOsVer));
+	buffer.Append(_A2T(szOsVer));
 	buffer.Append(L"\r\n");
 
 	GetInternetExplorerVersion(buffer);

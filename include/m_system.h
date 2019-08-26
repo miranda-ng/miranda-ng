@@ -116,58 +116,13 @@ EXTERN_C MIR_APP_DLL(bool) Miranda_OkToExit(void);
 // Waits for a permission to exit and destroys contact list
 EXTERN_C MIR_APP_DLL(void) Miranda_Close(void);
 
-/*
-	wParam : 0
-	lParam : (address) void (__cdecl *callback) (void)
-	Affect : Setup a function pointer to be called after main loop iterations, it allows for
-		     idle processing, See notes
-	Returns: 1 on success, 0 on failure
+// Sets up a function pointer to be called after main loop iterations, suitable for idle processing
+EXTERN_C MIR_APP_DLL(void) Miranda_SetIdleCallback(void(__cdecl *pfnCallback)(void));
 
-	Notes  : This service will only allow one function to be registered, if one is registered, 0 will be returned
-		     Remember that this uses __cdecl.
-	Version: Added during 0.3.4+
+// returns the last window tick where a monitored event was seen, currently WM_CHAR/WM_MOUSEMOVE
+EXTERN_C MIR_APP_DLL(DWORD) Miranda_GetIdle(void);
 
-*/
-#define MS_SYSTEM_SETIDLECALLBACK	"Miranda/SetIdleCallback"
-
-/*
-	wParam : 0
-	lParam : &tick
-	Affect : return the last window tick where a monitored event was seen, currently WM_CHAR/WM_MOUSEMOVE
-	Returns: Always returns 0
-	Version: Added during 0.3.4+ (2004/09/12)
-*/
-#define MS_SYSTEM_GETIDLE "Miranda/GetIdle"
-
-/*
-	wParam: cchMax (max length of buffer)
-	lParam: pointer to buffer to fill
-	Affect: Returns the build timestamp of the core, as a string of YYYYMMDDhhmmss, this service might
-		not exist and therefore the build is before 2004-09-30
-	Returns: zero on success, non zero on failure
-	Version: 0.3.4a+ (2004/09/30)
-	DEFUNCT: This service was removed on 0.3.4.3+ (2004/11/19) use APILEVEL
-*/
-#define MS_SYSTEM_GETBUILDSTRING "Miranda/GetBuildString"
-
-/* Missing service catcher
-Is being called when one calls the non-existent service.
-All parameters are stored in the special structure
-
-The event handler takes 0 as wParam and TMissingServiceParams* as lParam.
-
-0.4.3+ addition (2006/03/27)
-*/
-
-typedef struct
-{
-	const char* name;
-	WPARAM      wParam;
-	LPARAM      lParam;
-}
-	MISSING_SERVICE_PARAMS;
-
-#define ME_SYSTEM_MISSINGSERVICE "System/MissingService"
+/////////////////////////////////////////////////////////////////////////////////////////
 
 #if defined(__cplusplus)
 	#include <m_system_cpp.h>
