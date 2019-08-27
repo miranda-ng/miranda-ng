@@ -499,7 +499,7 @@ int LoadNetlibModule(void)
 		}
 	}
 
-	#define FAKE_VER "68.0.1"
+	#define FAKE_VER "68.0"
 	char osVer[100];
 	OS_GetShortString(osVer, _countof(osVer));
 	mir_snprintf(szUserAgent, "Mozilla/5.0 (%s; rv:%s) Gecko/20100101 Firefox/%s", osVer, FAKE_VER, FAKE_VER);
