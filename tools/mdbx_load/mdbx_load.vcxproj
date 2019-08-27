@@ -26,7 +26,13 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\app.props" />
   </ImportGroup>
   <ItemGroup>
-    <ClCompile Include="src\*.cc"/>
+    <ClCompile Include="..\..\libs\libmdbx\subtree\src\tools\mdbx_load.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\*.cc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\libs\libmdbx\libmdbx.vcxproj">
@@ -36,8 +42,8 @@
   <ItemDefinitionGroup>
     <Link>
       <SubSystem>Console</SubSystem>
-      <DelayLoadDLLs Condition="'$(Configuration)'=='Debug'">libmdbx.mir;ucrtbased.dll;vcruntime140d.dll</DelayLoadDLLs>
-      <DelayLoadDLLs Condition="'$(Configuration)'=='Release'">libmdbx.mir;ucrtbase.dll;api-ms-win-crt-string-l1-1-0.dll;api-ms-win-crt-heap-l1-1-0.dll;api-ms-win-crt-locale-l1-1-0.dll;api-ms-win-crt-math-l1-1-0.dll;api-ms-win-crt-runtime-l1-1-0.dll;api-ms-win-crt-stdio-l1-1-0.dll;VCRUNTIME140.dll</DelayLoadDLLs>
+      <DelayLoadDLLs Condition="'$(Configuration)'=='Debug'">ucrtbased.dll;vcruntime140d.dll</DelayLoadDLLs>
+      <DelayLoadDLLs Condition="'$(Configuration)'=='Release'">ucrtbase.dll;api-ms-win-crt-string-l1-1-0.dll;api-ms-win-crt-heap-l1-1-0.dll;api-ms-win-crt-locale-l1-1-0.dll;api-ms-win-crt-math-l1-1-0.dll;api-ms-win-crt-runtime-l1-1-0.dll;api-ms-win-crt-stdio-l1-1-0.dll;VCRUNTIME140.dll</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
 </Project>

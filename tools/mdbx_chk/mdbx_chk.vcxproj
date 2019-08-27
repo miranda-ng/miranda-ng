@@ -19,22 +19,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{EE383404-7976-4E87-BD13-A9B7B47C0C10}</ProjectGuid>
-    <ProjectName>mdbx_dump</ProjectName>
+    <ProjectGuid>{15030120-5F7F-48F9-ABE5-DFC814F2A4BE}</ProjectGuid>
+    <ProjectName>mdbx_chk</ProjectName>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\app.props" />
   </ImportGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\libs\libmdbx\subtree\src\tools\mdbx_dump.c">
+    <ClCompile Include="..\..\libs\libmdbx\subtree\src\tools\mdbx_chk.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\*.cc">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
+    <ClCompile Include="src\*.cc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\libs\libmdbx\libmdbx.vcxproj">

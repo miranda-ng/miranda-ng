@@ -8,6 +8,9 @@
     <ClCompile Include="src\*.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\libs\libmdbx\subtree\src\tools\mdbx_load.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\*.h">

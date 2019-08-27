@@ -2,25 +2,43 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(ProjectDir)..\..\build\vc.common\common.filters" />
   <ItemGroup>
+    <ClCompile Include="subtree\src\lck-windows.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="subtree\src\mdbx.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="subtree\src\osal.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="subtree\src\version.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="subtree\src\tools\wingetopt.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\stdafx.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\src\lck-windows.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\src\mdbx.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\src\osal.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\src\version.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\*.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="subtree\mdbx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="subtree\src\bits.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="subtree\src\defs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="subtree\src\osal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="subtree\src\tools\wingetopt.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -52,7 +52,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_gui.h>
 #include <m_skin.h>
 
-#include "../../Libs/libmdbx/src/mdbx.h"
+#define MDBX_CONFIG_MANUAL_TLS_CALLBACK 1
+#include "../../Libs/libmdbx/subtree/mdbx.h"
 
 #ifndef thread_local
 #	define thread_local __declspec(thread)

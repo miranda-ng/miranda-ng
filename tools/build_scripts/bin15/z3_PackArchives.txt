@@ -62,7 +62,6 @@ Core\StdUserOnline.dll
 Libs\freeimage.mir
 Libs\libeay32.mir
 Libs\libjson.mir
-Libs\libmdbx.mir
 Libs\libsignal.mir
 Libs\mir_app.mir
 Libs\mir_core.mir

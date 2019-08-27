@@ -8,7 +8,7 @@
     <ClCompile Include="src\*.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libs\libmdbx\subtree\src\tools\mdbx_dump.c">
+    <ClCompile Include="..\..\libs\libmdbx\subtree\src\tools\mdbx_copy.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

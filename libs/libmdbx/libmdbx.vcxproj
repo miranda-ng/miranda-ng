@@ -20,27 +20,45 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6D19209B-ECE7-4B9C-941C-0AA2B484F199}</ProjectGuid>
-    <ProjectName>libmdbx</ProjectName>
+    <ProjectName>libmdbx.static</ProjectName>
     <TargetName>libmdbx</TargetName>
+    <GenerateManifest>false</GenerateManifest>
+    <EmbedManifest>false</EmbedManifest>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <OutDir Condition="'$(Platform)'=='Win32'">$(SolutionDir)$(Configuration)\Obj\$(ProjectName)\</OutDir>
+    <OutDir Condition="'$(Platform)'=='x64'">$(SolutionDir)$(Configuration)64\Obj\$(ProjectName)\</OutDir>
   </PropertyGroup>
-  <Import Project="$(ProjectDir)..\..\build\vc.common\lib.props" />
+  <Import Project="$(ProjectDir)..\..\build\vc.common\common.props" />
   <ItemDefinitionGroup>
     <ClCompile>
-      <PreprocessorDefinitions>MDBX_CONFIG_MANUAL_TLS_CALLBACK=1;MDBX_DEBUG=1;LIBMDBX_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>MDBX_CONFIG_MANUAL_TLS_CALLBACK=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\src\lck-windows.c">
+    <ClCompile Include="subtree\src\lck-windows.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\src\mdbx.c">
+    <ClCompile Include="subtree\src\mdbx.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\src\osal.c">
+    <ClCompile Include="subtree\src\osal.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\src\version.c">
+    <ClCompile Include="subtree\src\tools\wingetopt.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="subtree\src\version.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="subtree\mdbx.h" />
+    <ClInclude Include="subtree\src\bits.h" />
+    <ClInclude Include="subtree\src\defs.h" />
+    <ClInclude Include="subtree\src\osal.h" />
+    <ClInclude Include="subtree\src\tools\wingetopt.h" />
   </ItemGroup>
 </Project>
