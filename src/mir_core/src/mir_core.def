@@ -1111,7 +1111,7 @@ db_event_edit @1268
 ?CStr@XMLPrinter@tinyxml2@@QBEPBDXZ @1326 NONAME
 ?CStrSize@XMLPrinter@tinyxml2@@QBEHXZ @1327 NONAME
 ?Clear@XMLDocument@tinyxml2@@QAEXXZ @1328 NONAME
-?ClearBuffer@XMLPrinter@tinyxml2@@QAEXXZ @1329 NONAME
+?ClearBuffer@XMLPrinter@tinyxml2@@QAEX_N@Z @1329 NONAME
 ?ClearError@XMLDocument@tinyxml2@@QAEXXZ @1330 NONAME
 ?CloseElement@XMLPrinter@tinyxml2@@UAEX_N@Z @1331 NONAME
 ?ClosingType@XMLElement@tinyxml2@@QBE?AW4ElementClosingType@12@XZ @1332 NONAME
@@ -1435,3 +1435,17 @@ XmlGetChildText @1645
 ?OnNotify@CCtrlDate@@EAEHHPAUtagNMHDR@@@Z @1650 NONAME
 ?SetTime@CCtrlDate@@QAEXPAU_SYSTEMTIME@@@Z @1651 NONAME
 ?SetMinSize@CDlgBase@@QAEXHH@Z @1652 NONAME
+?PushAttribute@XMLPrinter@tinyxml2@@QAEXPBD_K@Z @1653 NONAME
+?PushText@XMLPrinter@tinyxml2@@QAEX_K@Z @1654 NONAME
+?QueryAttribute@XMLElement@tinyxml2@@QBE?AW4XMLError@2@PBDPA_K@Z @1655 NONAME
+?QueryUnsigned64Attribute@XMLElement@tinyxml2@@QBE?AW4XMLError@2@PBDPA_K@Z @1656 NONAME
+?QueryUnsigned64Text@XMLElement@tinyxml2@@QBE?AW4XMLError@2@PA_K@Z @1657 NONAME
+?QueryUnsigned64Value@XMLAttribute@tinyxml2@@QBE?AW4XMLError@2@PA_K@Z @1658 NONAME
+?SetAttribute@XMLAttribute@tinyxml2@@QAEX_K@Z @1659 NONAME
+?SetAttribute@XMLElement@tinyxml2@@QAEXPBD_K@Z @1660 NONAME
+?SetText@XMLElement@tinyxml2@@QAEX_K@Z @1661 NONAME
+?ToStr@XMLUtil@tinyxml2@@SAX_KPADH@Z @1662 NONAME
+?ToUnsigned64@XMLUtil@tinyxml2@@SA_NPBDPA_K@Z @1663 NONAME
+?Unsigned64Attribute@XMLElement@tinyxml2@@QBE_KPBD_K@Z @1664 NONAME
+?Unsigned64Text@XMLElement@tinyxml2@@QBE_K_K@Z @1665 NONAME
+?Unsigned64Value@XMLAttribute@tinyxml2@@QBE_KXZ @1666 NONAME
