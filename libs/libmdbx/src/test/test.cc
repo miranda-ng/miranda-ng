@@ -55,6 +55,8 @@ const char *status2str(actor_status status) {
     return "killed";
   case as_failed:
     return "failed";
+  case as_coredump:
+    return "coredump";
   }
 }
 
@@ -137,6 +139,8 @@ void testcase::db_open() {
 
   if (!db_guard)
     db_prepare();
+
+  jitter_delay(true);
   int rc = mdbx_env_open(db_guard.get(), config.params.pathname_db.c_str(),
                          (unsigned)config.params.mode_flags, 0640);
   if (unlikely(rc != MDBX_SUCCESS))
@@ -170,20 +174,42 @@ void testcase::txn_begin(bool readonly, unsigned flags) {
             flags);
 }
 
+int testcase::breakable_commit() {
+  int rc = MDBX_SUCCESS;
+  log_trace(">> txn_commit");
+  assert(txn_guard);
+
+  MDBX_txn *txn = txn_guard.release();
+  txn_inject_writefault(txn);
+  int err = mdbx_txn_commit(txn);
+  if (unlikely(err != MDBX_SUCCESS)) {
+    if (err == MDBX_MAP_FULL && config.params.ignore_dbfull) {
+      rc = err;
+      err = mdbx_txn_abort(txn);
+      if (unlikely(err != MDBX_SUCCESS && err != MDBX_THREAD_MISMATCH))
+        failure_perror("mdbx_txn_abort()", err);
+    } else
+      failure_perror("mdbx_txn_commit()", err);
+  }
+
+  log_trace("<< txn_commit: %s", rc ? "failed" : "Ok");
+  return rc;
+}
+
 void testcase::txn_end(bool abort) {
   log_trace(">> txn_end(%s)", abort ? "abort" : "commit");
   assert(txn_guard);
 
   MDBX_txn *txn = txn_guard.release();
   if (abort) {
-    int rc = mdbx_txn_abort(txn);
-    if (unlikely(rc != MDBX_SUCCESS))
-      failure_perror("mdbx_txn_abort()", rc);
+    int err = mdbx_txn_abort(txn);
+    if (unlikely(err != MDBX_SUCCESS && err != MDBX_THREAD_MISMATCH))
+      failure_perror("mdbx_txn_abort()", err);
   } else {
     txn_inject_writefault(txn);
-    int rc = mdbx_txn_commit(txn);
-    if (unlikely(rc != MDBX_SUCCESS))
-      failure_perror("mdbx_txn_commit()", rc);
+    int err = mdbx_txn_commit(txn);
+    if (unlikely(err != MDBX_SUCCESS))
+      failure_perror("mdbx_txn_commit()", err);
   }
 
   log_trace("<< txn_end(%s)", abort ? "abort" : "commit");
@@ -209,6 +235,16 @@ void testcase::cursor_close() {
   MDBX_cursor *cursor = cursor_guard.release();
   mdbx_cursor_close(cursor);
   log_trace("<< cursor_close()");
+}
+
+int testcase::breakable_restart() {
+  int rc = MDBX_SUCCESS;
+  if (txn_guard)
+    rc = breakable_commit();
+  if (cursor_guard)
+    cursor_close();
+  txn_begin(false, 0);
+  return rc;
 }
 
 void testcase::txn_restart(bool abort, bool readonly, unsigned flags) {
@@ -394,6 +430,28 @@ void testcase::update_canary(uint64_t increment) {
   log_trace("<< update_canary: sequence = %" PRIu64, canary_now.y);
 }
 
+int testcase::db_open__begin__table_create_open_clean(MDBX_dbi &dbi) {
+  db_open();
+
+  int err, retry_left = 42;
+  for (;;) {
+    txn_begin(false);
+    dbi = db_table_open(true);
+    db_table_clear(dbi);
+    err = breakable_commit();
+    if (likely(err == MDBX_SUCCESS)) {
+      txn_begin(false);
+      return MDBX_SUCCESS;
+    }
+    if (--retry_left == 0)
+      break;
+    jitter_delay(true);
+  }
+  log_notice("db_begin_table_create_open_clean: bailout due '%s'",
+             mdbx_strerror(err));
+  return err;
+}
+
 MDBX_dbi testcase::db_table_open(bool create) {
   log_trace(">> testcase::db_table_create");
 
@@ -513,22 +571,27 @@ bool test_execute(const actor_config &config_const) {
       if (!test->setup()) {
         log_notice("test setup failed");
         return false;
-      } else if (!test->run()) {
+      }
+      if (!test->run()) {
         log_notice("test failed");
         return false;
-      } else if (!test->teardown()) {
+      }
+      if (!test->teardown()) {
         log_notice("test teardown failed");
         return false;
-      } else {
-        if (config.params.nrepeat == 1)
-          log_info("test successed");
-        else if (config.params.nrepeat == 1)
+      }
+
+      if (config.params.nrepeat == 1)
+        log_info("test successed");
+      else {
+        if (config.params.nrepeat)
           log_info("test successed (iteration %zi of %zi)", iter,
                    size_t(config.params.nrepeat));
         else
           log_info("test successed (iteration %zi)", iter);
         config.params.keygen.seed += INT32_C(0xA4F4D37B);
       }
+
     } while (config.params.nrepeat == 0 || iter < config.params.nrepeat);
     return true;
   } catch (const std::exception &pipets) {

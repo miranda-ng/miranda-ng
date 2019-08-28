@@ -26,9 +26,14 @@
 #endif
 
 #if __GNUC_PREREQ(4, 4) || defined(__clang__)
+#ifndef bswap64
 #define bswap64(v) __builtin_bswap64(v)
+#endif
+#ifndef bswap32
 #define bswap32(v) __builtin_bswap32(v)
-#if __GNUC_PREREQ(4, 8) || __has_builtin(__builtin_bswap16)
+#endif
+#if (__GNUC_PREREQ(4, 8) || __has_builtin(__builtin_bswap16)) &&               \
+    !defined(bswap16)
 #define bswap16(v) __builtin_bswap16(v)
 #endif
 
@@ -184,52 +189,9 @@ static __inline uint64_t rot64(uint64_t v, unsigned s) {
 }
 #endif /* rot64 */
 
-#ifndef mul_32x32_64
-static __inline uint64_t mul_32x32_64(uint32_t a, uint32_t b) {
-  return a * (uint64_t)b;
-}
-#endif /* mul_32x32_64 */
-
-#ifndef mul_64x64_128
-
-static __inline unsigned add_with_carry(uint64_t *sum, uint64_t addend) {
-  *sum += addend;
-  return (*sum < addend) ? 1u : 0u;
-}
-
-static __inline uint64_t mul_64x64_128(uint64_t a, uint64_t b, uint64_t *h) {
-#if defined(__SIZEOF_INT128__) ||                                              \
-    (defined(_INTEGRAL_MAX_BITS) && _INTEGRAL_MAX_BITS >= 128)
-  __uint128_t r = (__uint128_t)a * (__uint128_t)b;
-  /* modern GCC could nicely optimize this */
-  *h = r >> 64;
-  return r;
-#elif defined(mul_64x64_high)
-  *h = mul_64x64_high(a, b);
-  return a * b;
-#else
-  /* performs 64x64 to 128 bit multiplication */
-  uint64_t ll = mul_32x32_64((uint32_t)a, (uint32_t)b);
-  uint64_t lh = mul_32x32_64(a >> 32, (uint32_t)b);
-  uint64_t hl = mul_32x32_64((uint32_t)a, b >> 32);
-  *h = mul_32x32_64(a >> 32, b >> 32) + (lh >> 32) + (hl >> 32) +
-       add_with_carry(&ll, lh << 32) + add_with_carry(&ll, hl << 32);
-  return ll;
-#endif
-}
-
-#endif /* mul_64x64_128() */
-
-#ifndef mul_64x64_high
-static __inline uint64_t mul_64x64_high(uint64_t a, uint64_t b) {
-  uint64_t h;
-  mul_64x64_128(a, b, &h);
-  return h;
-}
-#endif /* mul_64x64_high */
-
 static __inline bool is_power2(size_t x) { return (x & (x - 1)) == 0; }
 
+#undef roundup2
 static __inline size_t roundup2(size_t value, size_t granularity) {
   assert(is_power2(granularity));
   return (value + granularity - 1) & ~(granularity - 1);
@@ -285,18 +247,20 @@ struct simple_checksum {
 
   simple_checksum() : value(0) {}
 
-  void push(uint32_t data) {
+  void push(const uint32_t &data) {
     value += data * UINT64_C(9386433910765580089) + 1;
     value ^= value >> 41;
     value *= UINT64_C(0xBD9CACC22C6E9571);
   }
 
-  void push(uint64_t data) {
+  void push(const uint64_t &data) {
     push((uint32_t)data);
     push((uint32_t)(data >> 32));
   }
 
-  void push(bool data) { push(data ? UINT32_C(0x780E) : UINT32_C(0xFA18E)); }
+  void push(const bool data) {
+    push(data ? UINT32_C(0x780E) : UINT32_C(0xFA18E));
+  }
 
   void push(const void *ptr, size_t bytes) {
     const uint8_t *data = (const uint8_t *)ptr;
@@ -309,7 +273,7 @@ struct simple_checksum {
   void push(const std::string &str) { push(str.data(), str.size()); }
 
   void push(unsigned salt, const MDBX_val &val) {
-    push(val.iov_len);
+    push(unsigned(val.iov_len));
     push(salt);
     push(val.iov_base, val.iov_len);
   }

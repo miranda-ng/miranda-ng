@@ -20,6 +20,8 @@
 #pragma warning(disable : 4996) /* The POSIX name is deprecated... */
 #endif                          /* _MSC_VER (warnings) */
 
+/* Avoid reference to mdbx_runtime_flags from assert() */
+#define mdbx_runtime_flags (~0u)
 #include "../bits.h"
 
 typedef struct flagbit {
@@ -73,10 +75,10 @@ typedef struct {
 } walk_dbi_t;
 
 struct {
-  walk_dbi_t dbi[MAX_DBI];
   short *pagemap;
   uint64_t total_payload_bytes;
   uint64_t pgcount;
+  walk_dbi_t dbi[MAX_DBI];
 } walk;
 
 #define dbi_free walk.dbi[FREE_DBI]
@@ -91,7 +93,7 @@ MDBX_txn *txn;
 MDBX_envinfo envinfo;
 MDBX_stat envstat;
 size_t maxkeysize, userdb_count, skipped_subdb;
-uint64_t reclaimable_pages, gc_pages, lastpgno, unused_pages;
+uint64_t reclaimable_pages, gc_pages, alloc_pages, unused_pages, backed_pages;
 unsigned verbose;
 char ignore_wrong_order, quiet;
 const char *only_subdb;
@@ -105,11 +107,7 @@ struct problem {
 struct problem *problems_list;
 uint64_t total_problems;
 
-static void
-#ifdef __GNUC__
-    __attribute__((format(printf, 1, 2)))
-#endif
-    print(const char *msg, ...) {
+static void __printf_args(1, 2) print(const char *msg, ...) {
   if (!quiet) {
     va_list args;
 
@@ -120,11 +118,7 @@ static void
   }
 }
 
-static void
-#ifdef __GNUC__
-    __attribute__((format(printf, 1, 2)))
-#endif
-    error(const char *msg, ...) {
+static void __printf_args(1, 2) error(const char *msg, ...) {
   total_problems++;
 
   if (!quiet) {
@@ -181,10 +175,8 @@ static walk_dbi_t *pagemap_lookup_dbi(const char *dbi_name, bool silent) {
   return last = dbi;
 }
 
-static void
-#ifdef __GNUC__
-    __attribute__((format(printf, 4, 5)))
-#endif
+static void __printf_args(4, 5)
+
     problem_add(const char *object, uint64_t entry_number, const char *msg,
                 const char *extra, ...) {
   total_problems++;
@@ -252,11 +244,12 @@ static size_t problems_pop(struct problem *list) {
   return count;
 }
 
-static int pgvisitor(uint64_t pgno, unsigned pgnumber, void *ctx, int deep,
-                     const char *dbi_name_or_tag, size_t page_size,
-                     MDBX_page_type_t pagetype, size_t nentries,
-                     size_t payload_bytes, size_t header_bytes,
-                     size_t unused_bytes) {
+static int pgvisitor(const uint64_t pgno, const unsigned pgnumber,
+                     void *const ctx, const int deep,
+                     const char *const dbi_name_or_tag, const size_t page_size,
+                     const MDBX_page_type_t pagetype, const size_t nentries,
+                     const size_t payload_bytes, const size_t header_bytes,
+                     const size_t unused_bytes) {
   (void)ctx;
   if (deep > 42) {
     problem_add("deep", deep, "too large", nullptr);
@@ -326,23 +319,24 @@ static int pgvisitor(uint64_t pgno, unsigned pgnumber, void *ctx, int deep,
     }
 
     bool already_used = false;
-    do {
-      if (pgno >= lastpgno)
-        problem_add("page", pgno, "wrong page-no",
+    for (unsigned n = 0; n < pgnumber; ++n) {
+      uint64_t spanpgno = pgno + n;
+      if (spanpgno >= alloc_pages)
+        problem_add("page", spanpgno, "wrong page-no",
                     "%s-page: %" PRIu64 " > %" PRIu64 ", deep %i",
-                    pagetype_caption, pgno, lastpgno, deep);
-      else if (walk.pagemap[pgno]) {
-        walk_dbi_t *coll_dbi = &walk.dbi[walk.pagemap[pgno] - 1];
-        problem_add(
-            "page", pgno, (branch && coll_dbi == dbi) ? "loop" : "already used",
-            "%s-page: by %s, deep %i", pagetype_caption, coll_dbi->name, deep);
+                    pagetype_caption, spanpgno, alloc_pages, deep);
+      else if (walk.pagemap[spanpgno]) {
+        walk_dbi_t *coll_dbi = &walk.dbi[walk.pagemap[spanpgno] - 1];
+        problem_add("page", spanpgno,
+                    (branch && coll_dbi == dbi) ? "loop" : "already used",
+                    "%s-page: by %s, deep %i", pagetype_caption, coll_dbi->name,
+                    deep);
         already_used = true;
       } else {
-        walk.pagemap[pgno] = (short)(dbi - walk.dbi + 1);
+        walk.pagemap[spanpgno] = (short)(dbi - walk.dbi + 1);
         dbi->pages.total += 1;
       }
-      ++pgno;
-    } while (--pgnumber);
+    }
 
     if (already_used)
       return branch ? MDBX_RESULT_TRUE /* avoid infinite loop/recursion */
@@ -443,28 +437,38 @@ static int handle_freedb(const uint64_t record_number, const MDBX_val *key,
     if (envinfo.mi_latter_reader_txnid > txnid)
       reclaimable_pages += number;
 
-    pgno_t prev =
-        MDBX_PNL_ASCENDING ? NUM_METAS - 1 : (pgno_t)envinfo.mi_last_pgno + 1;
+    pgno_t prev = MDBX_PNL_ASCENDING ? NUM_METAS - 1 : txn->mt_next_pgno;
     pgno_t span = 1;
     for (unsigned i = 0; i < number; ++i) {
       const pgno_t pgno = iptr[i];
-      if (pgno < NUM_METAS || pgno > envinfo.mi_last_pgno)
+      if (pgno < NUM_METAS)
         problem_add("entry", txnid, "wrong idl entry",
-                    "%u < %" PRIaPGNO " < %" PRIu64, NUM_METAS, pgno,
-                    envinfo.mi_last_pgno);
+                    "pgno %" PRIaPGNO " < meta-pages %u", pgno, NUM_METAS);
+      else if (pgno >= backed_pages)
+        problem_add("entry", txnid, "wrong idl entry",
+                    "pgno %" PRIaPGNO " > backed-pages %" PRIu64, pgno,
+                    backed_pages);
+      else if (pgno >= alloc_pages)
+        problem_add("entry", txnid, "wrong idl entry",
+                    "pgno %" PRIaPGNO " > alloc-pages %" PRIu64, pgno,
+                    alloc_pages - 1);
       else {
         if (MDBX_PNL_DISORDERED(prev, pgno)) {
           bad = " [bad sequence]";
           problem_add("entry", txnid, "bad sequence",
-                      "%" PRIaPGNO " <> %" PRIaPGNO, prev, pgno);
+                      "%" PRIaPGNO " %c [%u].%" PRIaPGNO, prev,
+                      (prev == pgno) ? '=' : (MDBX_PNL_ASCENDING ? '>' : '<'),
+                      i, pgno);
         }
-        if (walk.pagemap && walk.pagemap[pgno]) {
-          if (walk.pagemap[pgno] > 0)
+        if (walk.pagemap) {
+          int idx = walk.pagemap[pgno];
+          if (idx == 0)
+            walk.pagemap[pgno] = -1;
+          else if (idx > 0)
             problem_add("page", pgno, "already used", "by %s",
-                        walk.dbi[walk.pagemap[pgno] - 1].name);
+                        walk.dbi[idx - 1].name);
           else
             problem_add("page", pgno, "already listed in GC", nullptr);
-          walk.pagemap[pgno] = -1;
         }
       }
       prev = pgno;
@@ -700,7 +704,7 @@ static int process_db(MDBX_dbi dbi_handle, char *dbi_name, visitor *handler,
 
     if (handler) {
       rc = handler(record_count, &key, &data);
-      if (rc)
+      if (MDBX_IS_ERROR(rc))
         goto bailout;
     }
 
@@ -733,7 +737,7 @@ bailout:
   }
 
   mdbx_cursor_close(mc);
-  return rc || problems_count;
+  return (rc || problems_count) ? MDBX_RESULT_TRUE : MDBX_SUCCESS;
 }
 
 static void usage(char *prog) {
@@ -1008,7 +1012,7 @@ int main(int argc, char *argv[]) {
 #if defined(_WIN32) || defined(_WIN64)
        rc == ERROR_LOCK_VIOLATION || rc == ERROR_SHARING_VIOLATION
 #else
-       rc == EBUSY
+       rc == EBUSY || rc == EAGAIN
 #endif
        )) {
     envflags &= ~MDBX_EXCLUSIVE;
@@ -1048,20 +1052,105 @@ int main(int argc, char *argv[]) {
   }
   maxkeysize = rc;
 
-  rc = mdbx_env_info(env, &envinfo, sizeof(envinfo));
+  rc = mdbx_env_info2(env, txn, &envinfo, sizeof(envinfo));
   if (rc) {
     error("mdbx_env_info failed, error %d %s\n", rc, mdbx_strerror(rc));
     goto bailout;
   }
 
-  rc = mdbx_env_stat(env, &envstat, sizeof(envstat));
+  rc = mdbx_env_stat2(env, txn, &envstat, sizeof(envstat));
   if (rc) {
     error("mdbx_env_stat failed, error %d %s\n", rc, mdbx_strerror(rc));
     goto bailout;
   }
 
-  lastpgno = envinfo.mi_last_pgno + 1;
+  mdbx_filehandle_t dxb_fd;
+  rc = mdbx_env_get_fd(env, &dxb_fd);
+  if (rc) {
+    error("mdbx_env_get_fd failed, error %d %s\n", rc, mdbx_strerror(rc));
+    goto bailout;
+  }
+
+  uint64_t dxb_filesize = 0;
+#if defined(_WIN32) || defined(_WIN64)
+  {
+    BY_HANDLE_FILE_INFORMATION info;
+    if (!GetFileInformationByHandle(dxb_fd, &info))
+      rc = GetLastError();
+    else
+      dxb_filesize = info.nFileSizeLow | (uint64_t)info.nFileSizeHigh << 32;
+  }
+#else
+  {
+    struct stat st;
+    STATIC_ASSERT_MSG(sizeof(off_t) <= sizeof(uint64_t),
+                      "libmdbx requires 64-bit file I/O on 64-bit systems");
+    if (fstat(dxb_fd, &st))
+      rc = errno;
+    else
+      dxb_filesize = st.st_size;
+  }
+#endif
+  if (rc) {
+    error("mdbx_filesize failed, error %d %s\n", rc, mdbx_strerror(rc));
+    goto bailout;
+  }
+
   errno = 0;
+  const uint64_t dxbfile_pages = dxb_filesize / envinfo.mi_dxb_pagesize;
+  alloc_pages = txn->mt_next_pgno;
+  backed_pages = envinfo.mi_geo.current / envinfo.mi_dxb_pagesize;
+#if !(defined(_WIN32) || defined(_WIN64))
+  if ((envflags & (MDBX_EXCLUSIVE | MDBX_RDONLY)) != MDBX_RDONLY &&
+      backed_pages != dxbfile_pages) {
+    print(" ! backed-pages %" PRIu64 " != file-pages %" PRIu64 "\n",
+          backed_pages, dxbfile_pages);
+    ++problems_meta;
+  }
+#endif /* !Windows */
+  if (dxbfile_pages < NUM_METAS)
+    print(" ! file-pages %" PRIu64 " < %u\n", dxbfile_pages, NUM_METAS);
+  if (backed_pages < NUM_METAS)
+    print(" ! backed-pages %" PRIu64 " < %u\n", backed_pages, NUM_METAS);
+  if (backed_pages < NUM_METAS || dxbfile_pages < NUM_METAS)
+    goto bailout;
+  if (backed_pages > MAX_PAGENO) {
+    print(" ! backed-pages %" PRIu64 " > max-pages %" PRIaPGNO "\n",
+          backed_pages, MAX_PAGENO);
+    ++problems_meta;
+    backed_pages = MAX_PAGENO;
+  }
+
+  if ((envflags & (MDBX_EXCLUSIVE | MDBX_RDONLY)) != MDBX_RDONLY) {
+    if (backed_pages > dxbfile_pages) {
+      print(" ! backed-pages %" PRIu64 " > file-pages %" PRIu64 "\n",
+            backed_pages, dxbfile_pages);
+      ++problems_meta;
+      backed_pages = dxbfile_pages;
+    }
+    if (alloc_pages > backed_pages) {
+      print(" ! alloc-pages %" PRIu64 " > backed-pages %" PRIu64 "\n",
+            alloc_pages, backed_pages);
+      ++problems_meta;
+      alloc_pages = backed_pages;
+    }
+  } else {
+    /* LY: DB may be shrinked by writer downto the allocated pages. */
+    if (alloc_pages > backed_pages) {
+      print(" ! alloc-pages %" PRIu64 " > backed-pages %" PRIu64 "\n",
+            alloc_pages, backed_pages);
+      ++problems_meta;
+      alloc_pages = backed_pages;
+    }
+    if (alloc_pages > dxbfile_pages) {
+      print(" ! alloc-pages %" PRIu64 " > file-pages %" PRIu64 "\n",
+            alloc_pages, dxbfile_pages);
+      ++problems_meta;
+      alloc_pages = dxbfile_pages;
+    }
+    if (backed_pages > dxbfile_pages)
+      backed_pages = dxbfile_pages;
+  }
 
   if (verbose) {
     print(" - pagesize %u (%u system), max keysize %" PRIuPTR
@@ -1094,17 +1183,17 @@ int main(int argc, char *argv[]) {
     print(" - performs check for meta-pages clashes\n");
   if (meta_eq(envinfo.mi_meta0_txnid, envinfo.mi_meta0_sign,
               envinfo.mi_meta1_txnid, envinfo.mi_meta1_sign)) {
-    print(" - meta-%d and meta-%d are clashed\n", 0, 1);
+    print(" ! meta-%d and meta-%d are clashed\n", 0, 1);
     ++problems_meta;
   }
   if (meta_eq(envinfo.mi_meta1_txnid, envinfo.mi_meta1_sign,
               envinfo.mi_meta2_txnid, envinfo.mi_meta2_sign)) {
-    print(" - meta-%d and meta-%d are clashed\n", 1, 2);
+    print(" ! meta-%d and meta-%d are clashed\n", 1, 2);
     ++problems_meta;
   }
   if (meta_eq(envinfo.mi_meta2_txnid, envinfo.mi_meta2_sign,
               envinfo.mi_meta0_txnid, envinfo.mi_meta0_sign)) {
-    print(" - meta-%d and meta-%d are clashed\n", 2, 0);
+    print(" ! meta-%d and meta-%d are clashed\n", 2, 0);
     ++problems_meta;
   }
 
@@ -1129,7 +1218,7 @@ int main(int argc, char *argv[]) {
 
     print("Traversal b-tree by txn#%" PRIaTXN "...\n", txn->mt_txnid);
     fflush(NULL);
-    walk.pagemap = mdbx_calloc((size_t)lastpgno, sizeof(*walk.pagemap));
+    walk.pagemap = mdbx_calloc((size_t)backed_pages, sizeof(*walk.pagemap));
     if (!walk.pagemap) {
       rc = errno ? errno : MDBX_ENOMEM;
       error("calloc failed, error %d %s\n", rc, mdbx_strerror(rc));
@@ -1150,7 +1239,7 @@ int main(int argc, char *argv[]) {
       goto bailout;
     }
 
-    for (uint64_t n = 0; n < lastpgno; ++n)
+    for (uint64_t n = 0; n < alloc_pages; ++n)
       if (!walk.pagemap[n])
         unused_pages += 1;
 
@@ -1178,7 +1267,9 @@ int main(int argc, char *argv[]) {
           uint64_t all_leaf = dbi->pages.leaf + dbi->pages.leaf_dupfixed;
           if (all_leaf) {
             print(", leaf %" PRIu64, all_leaf);
-            if (verbose > 2)
+            if (verbose > 2 &&
+                (dbi->pages.leaf_dupfixed | dbi->pages.subleaf_dupsort |
+                 dbi->pages.subleaf_dupsort))
               print(" (usual %" PRIu64 ", sub-dupsort %" PRIu64
                     ", dupfixed %" PRIu64 ", sub-dupfixed %" PRIu64 ")",
                     dbi->pages.leaf, dbi->pages.subleaf_dupsort,
@@ -1238,15 +1329,16 @@ int main(int argc, char *argv[]) {
     uint64_t value = envinfo.mi_mapsize / envstat.ms_psize;
     double percent = value / 100.0;
     print(" - space: %" PRIu64 " total pages", value);
-    value = envinfo.mi_geo.current / envinfo.mi_dxb_pagesize;
-    print(", backed %" PRIu64 " (%.1f%%)", value, value / percent);
-    print(", allocated %" PRIu64 " (%.1f%%)", lastpgno, lastpgno / percent);
+    print(", backed %" PRIu64 " (%.1f%%)", backed_pages,
+          backed_pages / percent);
+    print(", allocated %" PRIu64 " (%.1f%%)", alloc_pages,
+          alloc_pages / percent);
 
     if (verbose > 1) {
-      value = envinfo.mi_mapsize / envstat.ms_psize - lastpgno;
+      value = envinfo.mi_mapsize / envstat.ms_psize - alloc_pages;
       print(", remained %" PRIu64 " (%.1f%%)", value, value / percent);
 
-      value = lastpgno - gc_pages;
+      value = alloc_pages - gc_pages;
       print(", used %" PRIu64 " (%.1f%%)", value, value / percent);
 
       print(", gc %" PRIu64 " (%.1f%%)", gc_pages, gc_pages / percent);
@@ -1259,16 +1351,16 @@ int main(int argc, char *argv[]) {
     }
 
     value =
-        envinfo.mi_mapsize / envstat.ms_psize - lastpgno + reclaimable_pages;
+        envinfo.mi_mapsize / envstat.ms_psize - alloc_pages + reclaimable_pages;
     print(", available %" PRIu64 " (%.1f%%)\n", value, value / percent);
   }
 
   if (problems_maindb == 0 && problems_freedb == 0) {
     if (!dont_traversal &&
         (envflags & (MDBX_EXCLUSIVE | MDBX_RDONLY)) != MDBX_RDONLY) {
-      if (walk.pgcount != lastpgno - gc_pages) {
+      if (walk.pgcount != alloc_pages - gc_pages) {
         error("used pages mismatch (%" PRIu64 " != %" PRIu64 ")\n",
-              walk.pgcount, lastpgno - gc_pages);
+              walk.pgcount, alloc_pages - gc_pages);
       }
       if (unused_pages != gc_pages) {
         error("gc pages mismatch (%" PRIu64 " != %" PRIu64 ")\n", unused_pages,

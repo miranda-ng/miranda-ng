@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2015-2019 Leonid Yuriev <leo@yuriev.ru>
  * and other libmdbx authors: please see AUTHORS file.
  * All rights reserved.
@@ -15,28 +15,35 @@
 /* *INDENT-OFF* */
 /* clang-format off */
 
+/* In case the MDBX_DEBUG is undefined set it corresponding to NDEBUG */
 #ifndef MDBX_DEBUG
+#ifdef NDEBUG
 #   define MDBX_DEBUG 0
+#else
+#   define MDBX_DEBUG 1
+#endif
 #endif
 
+/* Undefine the NDEBUG if debugging is enforced by MDBX_DEBUG */
 #if MDBX_DEBUG
 #   undef NDEBUG
+#endif
+
+#define MDBX_OSX_WANNA_DURABILITY 0 /* using fcntl(F_FULLFSYNC) with 5-10 times slowdown */
+#define MDBX_OSX_WANNA_SPEED 1      /* using fsync() with chance of data lost on power failure */
+#ifndef MDBX_OSX_SPEED_INSTEADOF_DURABILITY
+#define MDBX_OSX_SPEED_INSTEADOF_DURABILITY MDBX_OSX_WANNA_DURABILITY
 #endif
 
 /*----------------------------------------------------------------------------*/
 
 /* Should be defined before any includes */
-#ifndef _GNU_SOURCE
-#   define _GNU_SOURCE 1
-#endif
-#ifndef _POSIX_C_SOURCE
-#   define _POSIX_C_SOURCE 200112L
-#endif
-#ifndef _XOPEN_SOURCE
-#   define _XOPEN_SOURCE 500
-#endif
 #ifndef _FILE_OFFSET_BITS
 #   define _FILE_OFFSET_BITS 64
+#endif
+
+#ifdef __APPLE__
+#define _DARWIN_C_SOURCE
 #endif
 
 #ifdef _MSC_VER
@@ -156,7 +163,7 @@
 /* The version number for a database's datafile format. */
 #define MDBX_DATA_VERSION 2
 /* The version number for a database's lockfile format. */
-#define MDBX_LOCK_VERSION 2
+#define MDBX_LOCK_VERSION 3
 
 /* handle for the DB used to track free pages. */
 #define FREE_DBI 0
@@ -197,74 +204,6 @@ typedef uint16_t indx_t;
 /*----------------------------------------------------------------------------*/
 /* Core structures for database and shared memory (i.e. format definition) */
 #pragma pack(push, 1)
-
-/* Reader Lock Table
- *
- * Readers don't acquire any locks for their data access. Instead, they
- * simply record their transaction ID in the reader table. The reader
- * mutex is needed just to find an empty slot in the reader table. The
- * slot's address is saved in thread-specific data so that subsequent
- * read transactions started by the same thread need no further locking to
- * proceed.
- *
- * If MDBX_NOTLS is set, the slot address is not saved in thread-specific data.
- * No reader table is used if the database is on a read-only filesystem.
- *
- * Since the database uses multi-version concurrency control, readers don't
- * actually need any locking. This table is used to keep track of which
- * readers are using data from which old transactions, so that we'll know
- * when a particular old transaction is no longer in use. Old transactions
- * that have discarded any data pages can then have those pages reclaimed
- * for use by a later write transaction.
- *
- * The lock table is constructed such that reader slots are aligned with the
- * processor's cache line size. Any slot is only ever used by one thread.
- * This alignment guarantees that there will be no contention or cache
- * thrashing as threads update their own slot info, and also eliminates
- * any need for locking when accessing a slot.
- *
- * A writer thread will scan every slot in the table to determine the oldest
- * outstanding reader transaction. Any freed pages older than this will be
- * reclaimed by the writer. The writer doesn't use any locks when scanning
- * this table. This means that there's no guarantee that the writer will
- * see the most up-to-date reader info, but that's not required for correct
- * operation - all we need is to know the upper bound on the oldest reader,
- * we don't care at all about the newest reader. So the only consequence of
- * reading stale information here is that old pages might hang around a
- * while longer before being reclaimed. That's actually good anyway, because
- * the longer we delay reclaiming old pages, the more likely it is that a
- * string of contiguous pages can be found after coalescing old pages from
- * many old transactions together. */
-
-/* The actual reader record, with cacheline padding. */
-typedef struct MDBX_reader {
-  /* Current Transaction ID when this transaction began, or (txnid_t)-1.
-   * Multiple readers that start at the same time will probably have the
-   * same ID here. Again, it's not important to exclude them from
-   * anything; all we need to know is which version of the DB they
-   * started from so we can avoid overwriting any data used in that
-   * particular version. */
-  volatile txnid_t mr_txnid;
-
-  /* The information we store in a single slot of the reader table.
-   * In addition to a transaction ID, we also record the process and
-   * thread ID that owns a slot, so that we can detect stale information,
-   * e.g. threads or processes that went away without cleaning up.
-   *
-   * NOTE: We currently don't check for stale records.
-   * We simply re-init the table when we know that we're the only process
-   * opening the lock file. */
-
-  /* The process ID of the process owning this reader txn. */
-  volatile mdbx_pid_t mr_pid;
-  /* The thread ID of the thread owning this txn. */
-  volatile mdbx_tid_t mr_tid;
-
-  /* cache line alignment */
-  uint8_t pad[MDBX_CACHELINE_SIZE -
-              (sizeof(txnid_t) + sizeof(mdbx_pid_t) + sizeof(mdbx_tid_t)) %
-                  MDBX_CACHELINE_SIZE];
-} MDBX_reader;
 
 /* Information about a single database in the environment. */
 typedef struct MDBX_db {
@@ -324,6 +263,12 @@ typedef struct MDBX_meta {
 
   /* txnid that committed this page, the second of a two-phase-update pair */
   volatile txnid_t mm_txnid_b;
+
+  /* Number of non-meta pages which were put in GC after COW. May be 0 in case
+   * DB was previously handled by libmdbx without corresponding feature.
+   * This value in couple with mr_snapshot_pages_retired allows fast estimation
+   * of "how much reader is restraining GC recycling". */
+  uint64_t mm_pages_retired;
 } MDBX_meta;
 
 /* Common header for all page types. The page type depends on mp_flags.
@@ -412,6 +357,84 @@ typedef struct MDBX_page {
 #define MAX_MAPSIZE MAX_MAPSIZE32
 #endif /* MDBX_WORDBITS */
 
+#pragma pack(pop)
+
+/* Reader Lock Table
+ *
+ * Readers don't acquire any locks for their data access. Instead, they
+ * simply record their transaction ID in the reader table. The reader
+ * mutex is needed just to find an empty slot in the reader table. The
+ * slot's address is saved in thread-specific data so that subsequent
+ * read transactions started by the same thread need no further locking to
+ * proceed.
+ *
+ * If MDBX_NOTLS is set, the slot address is not saved in thread-specific data.
+ * No reader table is used if the database is on a read-only filesystem.
+ *
+ * Since the database uses multi-version concurrency control, readers don't
+ * actually need any locking. This table is used to keep track of which
+ * readers are using data from which old transactions, so that we'll know
+ * when a particular old transaction is no longer in use. Old transactions
+ * that have discarded any data pages can then have those pages reclaimed
+ * for use by a later write transaction.
+ *
+ * The lock table is constructed such that reader slots are aligned with the
+ * processor's cache line size. Any slot is only ever used by one thread.
+ * This alignment guarantees that there will be no contention or cache
+ * thrashing as threads update their own slot info, and also eliminates
+ * any need for locking when accessing a slot.
+ *
+ * A writer thread will scan every slot in the table to determine the oldest
+ * outstanding reader transaction. Any freed pages older than this will be
+ * reclaimed by the writer. The writer doesn't use any locks when scanning
+ * this table. This means that there's no guarantee that the writer will
+ * see the most up-to-date reader info, but that's not required for correct
+ * operation - all we need is to know the upper bound on the oldest reader,
+ * we don't care at all about the newest reader. So the only consequence of
+ * reading stale information here is that old pages might hang around a
+ * while longer before being reclaimed. That's actually good anyway, because
+ * the longer we delay reclaiming old pages, the more likely it is that a
+ * string of contiguous pages can be found after coalescing old pages from
+ * many old transactions together. */
+
+/* The actual reader record, with cacheline padding. */
+typedef struct MDBX_reader {
+  /* Current Transaction ID when this transaction began, or (txnid_t)-1.
+   * Multiple readers that start at the same time will probably have the
+   * same ID here. Again, it's not important to exclude them from
+   * anything; all we need to know is which version of the DB they
+   * started from so we can avoid overwriting any data used in that
+   * particular version. */
+  volatile txnid_t mr_txnid;
+
+  /* The information we store in a single slot of the reader table.
+   * In addition to a transaction ID, we also record the process and
+   * thread ID that owns a slot, so that we can detect stale information,
+   * e.g. threads or processes that went away without cleaning up.
+   *
+   * NOTE: We currently don't check for stale records.
+   * We simply re-init the table when we know that we're the only process
+   * opening the lock file. */
+
+  /* The thread ID of the thread owning this txn. */
+  union {
+    volatile mdbx_tid_t mr_tid;
+    volatile uint64_t mr_tid_u64;
+  };
+  /* The process ID of the process owning this reader txn. */
+  union {
+    volatile mdbx_pid_t mr_pid;
+    volatile uint32_t mr_pid_u32;
+  };
+  /* The number of pages used in the reader's MVCC snapshot,
+   * i.e. the value of meta->mm_geo.next and txn->mt_next_pgno */
+  volatile pgno_t mr_snapshot_pages_used;
+  /* Number of retired pages at the time this reader starts transaction. So,
+   * at any time the difference mm_pages_retired - mr_snapshot_pages_retired
+   * will give the number of pages which this reader restraining from reuse. */
+  volatile uint64_t mr_snapshot_pages_retired;
+} MDBX_reader;
+
 /* The header for the reader table (a memory-mapped lock file). */
 typedef struct MDBX_lockinfo {
   /* Stamp identifying this as an MDBX file.
@@ -424,68 +447,62 @@ typedef struct MDBX_lockinfo {
   /* Flags which environment was opened. */
   volatile uint32_t mti_envmode;
 
-#ifdef MDBX_OSAL_LOCK
-  /* Mutex protecting write-txn. */
-  union {
-    MDBX_OSAL_LOCK mti_wmutex;
-    uint8_t pad_mti_wmutex[MDBX_OSAL_LOCK_SIZE % sizeof(size_t)];
-  };
-#endif
-#define MDBX_lockinfo_SIZE_A                                                   \
-  (8 /* mti_magic_and_version */ + 4 /* mti_os_and_format */ +                 \
-   4 /* mti_envmode */ + MDBX_OSAL_LOCK_SIZE /* mti_wmutex */ +                \
-   MDBX_OSAL_LOCK_SIZE % sizeof(size_t) /* pad_mti_wmutex */)
+  /* Threshold of un-synced-with-disk pages for auto-sync feature,
+   * zero means no-threshold, i.e. auto-sync is disabled. */
+  volatile pgno_t mti_autosync_threshold;
+  /* Period for timed auto-sync feature, i.e. at the every steady checkpoint
+   * the mti_unsynced_timeout sets to the current_time + mti_autosync_period.
+   * The time value is represented in a suitable system-dependent form, for
+   * example clock_gettime(CLOCK_BOOTTIME) or clock_gettime(CLOCK_MONOTONIC).
+   * Zero means timed auto-sync is disabled. */
+  volatile uint64_t mti_autosync_period;
 
-  /* cache-line alignment */
-  uint8_t
-      pad_a[MDBX_CACHELINE_SIZE - MDBX_lockinfo_SIZE_A % MDBX_CACHELINE_SIZE];
+  alignas(MDBX_CACHELINE_SIZE) /* cacheline ---------------------------------*/
+#ifdef MDBX_OSAL_LOCK
+      /* Mutex protecting write-txn. */
+      MDBX_OSAL_LOCK mti_wmutex;
+#endif
+
+  volatile txnid_t mti_oldest_reader;
+
+  /* Timestamp for auto-sync feature, i.e. the steady checkpoint should be
+   * created at the first commit that will be not early this timestamp.
+   * The time value is represented in a suitable system-dependent form, for
+   * example clock_gettime(CLOCK_BOOTTIME) or clock_gettime(CLOCK_MONOTONIC).
+   * Zero means timed auto-sync is not pending. */
+  volatile uint64_t mti_unsynced_timeout;
+
+  /* Number un-synced-with-disk pages for auto-sync feature. */
+  volatile pgno_t mti_unsynced_pages;
+
+  alignas(MDBX_CACHELINE_SIZE) /* cacheline ---------------------------------*/
+
+#ifdef MDBX_OSAL_LOCK
+      /* Mutex protecting readers registration access to this table. */
+      MDBX_OSAL_LOCK mti_rmutex;
+#endif
 
   /* The number of slots that have been used in the reader table.
    * This always records the maximum count, it is not decremented
    * when readers release their slots. */
   volatile unsigned mti_numreaders;
+  volatile unsigned mti_readers_refresh_flag;
 
-#ifdef MDBX_OSAL_LOCK
-  /* Mutex protecting readers registration access to this table. */
-  union {
-    MDBX_OSAL_LOCK mti_rmutex;
-    uint8_t pad_mti_rmutex[MDBX_OSAL_LOCK_SIZE % sizeof(size_t)];
-  };
-#endif
-
-  volatile txnid_t mti_oldest;
-  volatile uint32_t mti_readers_refresh_flag;
-
-#define MDBX_lockinfo_SIZE_B                                                   \
-  (sizeof(unsigned) /* mti_numreaders */ +                                     \
-   MDBX_OSAL_LOCK_SIZE /* mti_rmutex */ + sizeof(txnid_t) /* mti_oldest */ +   \
-   sizeof(uint32_t) /* mti_readers_refresh_flag */ +                           \
-   MDBX_OSAL_LOCK_SIZE % sizeof(size_t) /* pad_mti_rmutex */)
-
-  /* cache-line alignment */
-  uint8_t
-      pad_b[MDBX_CACHELINE_SIZE - MDBX_lockinfo_SIZE_B % MDBX_CACHELINE_SIZE];
-
-  MDBX_reader mti_readers[1];
-
+  alignas(MDBX_CACHELINE_SIZE) /* cacheline ---------------------------------*/
+      MDBX_reader mti_readers[1];
 } MDBX_lockinfo;
-
-#pragma pack(pop)
-
-#define MDBX_LOCKINFO_WHOLE_SIZE                                               \
-  ((sizeof(MDBX_lockinfo) + MDBX_CACHELINE_SIZE - 1) &                         \
-   ~((size_t)MDBX_CACHELINE_SIZE - 1))
 
 /* Lockfile format signature: version, features and field layout */
 #define MDBX_LOCK_FORMAT                                                       \
-  ((MDBX_OSAL_LOCK_SIGN << 16) +                                               \
-   (uint16_t)(MDBX_LOCKINFO_WHOLE_SIZE + MDBX_CACHELINE_SIZE - 1))
+  (MDBX_OSAL_LOCK_SIGN * 27733 + (unsigned)sizeof(MDBX_reader) * 13 +          \
+   (unsigned)offsetof(MDBX_reader, mr_snapshot_pages_used) * 251 +             \
+   (unsigned)offsetof(MDBX_lockinfo, mti_oldest_reader) * 83 +                 \
+   (unsigned)offsetof(MDBX_lockinfo, mti_numreaders) * 29)
 
 #define MDBX_DATA_MAGIC ((MDBX_MAGIC << 8) + MDBX_DATA_VERSION)
 #define MDBX_DATA_MAGIC_DEVEL ((MDBX_MAGIC << 8) + 255)
 
 #define MDBX_LOCK_MAGIC ((MDBX_MAGIC << 8) + MDBX_LOCK_VERSION)
-#define MDBX_LOCK_MAGIC_DEVEL ((MDBX_MAGIC << 8) + 255)
 
 #ifndef MDBX_ASSUME_MALLOC_OVERHEAD
 #define MDBX_ASSUME_MALLOC_OVERHEAD (sizeof(void *) * 2u)
@@ -768,8 +785,6 @@ struct MDBX_env {
   unsigned me_psize2log;  /* log2 of DB page size */
   unsigned me_os_psize;   /* OS page size, from mdbx_syspagesize() */
   unsigned me_maxreaders; /* size of the reader table */
-  /* Max MDBX_lockinfo.mti_numreaders of interest to mdbx_env_close() */
-  unsigned me_close_readers;
   mdbx_fastmutex_t me_dbi_lock;
   MDBX_dbi me_numdbs;         /* number of DBs opened */
   MDBX_dbi me_maxdbs;         /* size of the DB table */
@@ -798,14 +813,24 @@ struct MDBX_env {
   unsigned me_maxgc_ov1page;
   /* Max size of a node on a page */
   unsigned me_nodemax;
-  unsigned me_maxkey_limit;   /* max size of a key */
-  mdbx_pid_t me_live_reader;  /* have liveness lock in reader table */
-  void *me_userctx;           /* User-settable context */
-  size_t me_sync_pending;     /* Total dirty/non-sync'ed bytes
-                               * since the last mdbx_env_sync() */
-  size_t me_sync_threshold;   /* Treshold of above to force synchronous flush */
+  unsigned me_maxkey_limit;  /* max size of a key */
+  mdbx_pid_t me_live_reader; /* have liveness lock in reader table */
+  void *me_userctx;          /* User-settable context */
+  volatile uint64_t *me_unsynced_timeout;
+  volatile uint64_t *me_autosync_period;
+  volatile pgno_t *me_unsynced_pages;
+  volatile pgno_t *me_autosync_threshold;
   MDBX_oom_func *me_oom_func; /* Callback for kicking laggard readers */
-  txnid_t me_oldest_stub;
+  struct {
+#ifdef MDBX_OSAL_LOCK
+    MDBX_OSAL_LOCK wmutex;
+#endif
+    txnid_t oldest;
+    uint64_t unsynced_timeout;
+    uint64_t autosync_period;
+    pgno_t autosync_pending;
+    pgno_t autosync_threshold;
+  } me_lckless_stub;
 #if MDBX_DEBUG
   MDBX_assert_func *me_assert_func; /*  Callback for assertion failures */
 #endif
@@ -826,7 +851,6 @@ struct MDBX_env {
   /* Workaround for LockFileEx and WriteFile multithread bug */
   CRITICAL_SECTION me_windowsbug_lock;
 #else
-  mdbx_fastmutex_t me_lckless_wmutex;
   mdbx_fastmutex_t me_remap_guard;
 #endif
 };
@@ -840,22 +864,16 @@ typedef struct MDBX_ntxn {
 /*----------------------------------------------------------------------------*/
 /* Debug and Logging stuff */
 
+#ifndef mdbx_runtime_flags /* avoid override from tools */
 extern int mdbx_runtime_flags;
+#endif
 extern MDBX_debug_func *mdbx_debug_logger;
 extern txnid_t mdbx_debug_edge;
 
 void mdbx_debug_log(int type, const char *function, int line, const char *fmt,
-                    ...)
-#if defined(__GNUC__) || __has_attribute(format)
-    __attribute__((format(printf, 4, 5)))
-#endif
-    ;
+                    ...) __printf_args(4, 5);
 
-void mdbx_panic(const char *fmt, ...)
-#if defined(__GNUC__) || __has_attribute(format)
-    __attribute__((format(printf, 1, 2)))
-#endif
-    ;
+void mdbx_panic(const char *fmt, ...) __printf_args(1, 2);
 
 #if MDBX_DEBUG
 
@@ -1212,10 +1230,23 @@ static __inline pgno_t pgno_sub(pgno_t base, pgno_t subtrahend) {
 }
 
 static __inline void mdbx_jitter4testing(bool tiny) {
-#ifndef NDEBUG
+#if MDBX_DEBUG
   if (MDBX_DBG_JITTER & mdbx_runtime_flags)
     mdbx_osal_jitter(tiny);
 #else
   (void)tiny;
 #endif
 }
+
+/* Controls checking PID against reuse DB environment after the fork() */
+#ifndef MDBX_TXN_CHECKPID
+#if defined(MADV_DONTFORK) || defined(_WIN32) || defined(_WIN64)
+/* PID check could be ommited:
+ *  - on Linux when madvise(MADV_DONTFORK) is available. i.e. after the fork()
+ *    mapped pages will not be available for child process.
+ *  - in Windows where fork() not available. */
+#define MDBX_TXN_CHECKPID 0
+#else
+#define MDBX_TXN_CHECKPID 1
+#endif
+#endif /* MDBX_TXN_CHECKPID */

@@ -12,13 +12,25 @@
  * <http://www.OpenLDAP.org/license.html>.
  */
 
+#if !(defined(__linux__) || defined(__gnu_linux__))
+#error "This implementation of locking only supports Linux,\
+ where is no interaction between the types of lock placed\
+ by flock() and fcntl()."
+#endif
+
 #include "./bits.h"
+#include <sys/utsname.h>
 
 /* Some platforms define the EOWNERDEAD error code
  * even though they don't support Robust Mutexes.
  * Compile with -DMDBX_USE_ROBUST=0. */
 #ifndef MDBX_USE_ROBUST
-#if (defined(EOWNERDEAD) || _POSIX_C_SOURCE >= 200809L) && !defined(__APPLE__)
+/* Howard Chu: Android currently lacks Robust Mutex support */
+#if defined(EOWNERDEAD) &&                                                     \
+    !defined(__ANDROID__) /* LY: glibc before 2.10 has a troubles              \
+                                 with Robust Mutex too. */                     \
+    && (!defined(__GLIBC__) || __GLIBC_PREREQ(2, 10) ||                        \
+        _POSIX_C_SOURCE >= 200809L)
 #define MDBX_USE_ROBUST 1
 #else
 #define MDBX_USE_ROBUST 0
@@ -26,10 +38,30 @@
 #endif /* MDBX_USE_ROBUST */
 
 /*----------------------------------------------------------------------------*/
-/* rthc */
+/* global constructor/destructor */
 
+uint32_t mdbx_linux_kernel_version;
 static __cold __attribute__((__constructor__)) void
 mdbx_global_constructor(void) {
+  struct utsname buffer;
+  if (uname(&buffer) == 0) {
+    int i = 0;
+    char *p = buffer.release;
+    while (*p && i < 4) {
+      if (*p >= '0' && *p <= '9') {
+        long number = strtol(p, &p, 10);
+        if (number > 0) {
+          if (number > 255)
+            number = 255;
+          mdbx_linux_kernel_version += number << (24 - i * 8);
+        }
+        ++i;
+      } else {
+        ++p;
+      }
+    }
+  }
+
   mdbx_rthc_global_init();
 }
 
@@ -41,7 +73,7 @@ mdbx_global_destructor(void) {
 /*----------------------------------------------------------------------------*/
 /* lck */
 
-/* Описание реализации блокировок для POSIX:
+/* Описание реализации блокировок для Linux:
  *
  * lck-файл отображается в память, в нём организуется таблица читателей и
  * размещаются совместно используемые posix-мьютексы (futex). Посредством
@@ -57,35 +89,49 @@ mdbx_global_destructor(void) {
  *  - Проверка присутствие процессов-читателей,
  *    т.е. функции mdbx_rpid_set(), mdbx_rpid_clear() и mdbx_rpid_check().
  *
- * Для блокировки файлов Используется только fcntl(F_SETLK), так как:
- *  - lockf() оперирует только эксклюзивной блокировкой и требует
- *    открытия файла в RW-режиме.
- *  - flock() не гарантирует атомарности при смене блокировок
- *    и оперирует только всем файлом целиком.
+ * Используется два вида файловых блокировок flock() и fcntl(F_SETLK),
+ * как для lck-файла, так и для основного файла БД:
  *  - Для контроля процессов-читателей используются однобайтовые
  *    range-блокировки lck-файла посредством fcntl(F_SETLK). При этом
  *    в качестве позиции используется pid процесса-читателя.
- *  - Для первоначального захвата и shared/exclusive выполняется блокировка
- *    основного файла БД и при успехе lck-файла.
+ *  - Для первоначального захвата и shared/exclusive блокировок используется
+ *    комбинация flock() и fcntl(F_SETLK) блокировки одного байта lck-файла
+ *    в нулевой позиции (нулевая позиция не используется механизмом контроля
+ *    процессов-читателей, так как pid пользовательского процесса в Linux
+ *    всегда больше 0).
+ *  - Кроме этого, flock() блокировка основного файла БД используется при работе
+ *    в режимах без lck-файла, как в в read-only, так и в эксклюзивном.
+ *  - Блокировки flock() и fcntl(F_SETLK) в Linux работают независимо. Поэтому
+ *    их комбинирование позволяет предотвратить совместное использование БД
+ *    через NFS, что позволяет fcntl(F_SETLK), одновременно защитившись
+ *    от проблем не-аторманости flock() при переходе между эксклюзивным
+ *    и атомарным режимами блокировок.
  */
+
+static int op_setlk, op_setlkw, op_getlk;
+static void __cold choice_fcntl() {
+  assert(!op_setlk && !op_setlkw && !op_getlk);
+#if defined(F_OFD_SETLK) && defined(F_OFD_SETLKW) && defined(F_OFD_GETLK)
+  if (mdbx_linux_kernel_version >
+          0x030f0000 /* OFD locks are available since 3.15, but engages here
+          only for 3.16 and larer kernels (LTS) for reliability reasons */
+      && (mdbx_runtime_flags & MDBX_DBG_LEGACY_MULTIOPEN) == 0) {
+    op_setlk = F_OFD_SETLK;
+    op_setlkw = F_OFD_SETLKW;
+    op_getlk = F_OFD_GETLK;
+    return;
+  }
+#endif /* OFD locks */
+  op_setlk = F_SETLK;
+  op_setlkw = F_SETLKW;
+  op_getlk = F_GETLK;
+}
 
 #ifndef OFF_T_MAX
 #define OFF_T_MAX                                                              \
   ((sizeof(off_t) > 4 ? INT64_MAX : INT32_MAX) & ~(size_t)0xffff)
 #endif
-#ifndef PID_T_MAX
-#define PID_T_MAX INT_MAX
-#endif
-
-#if defined(F_OFD_SETLK) && defined(F_OFD_SETLKW) && defined(F_OFD_GETLK)
-#define OP_SETLK F_OFD_SETLK
-#define OP_SETLKW F_OFD_SETLKW
-#define OP_GETLK F_OFD_GETLK
-#else
-#define OP_SETLK F_SETLK
-#define OP_SETLKW F_SETLKW
-#define OP_GETLK F_GETLK
-#endif /* OFD locks */
+#define LCK_WHOLE OFF_T_MAX
 
 static int mdbx_lck_op(mdbx_filehandle_t fd, int cmd, short lck, off_t offset,
                        off_t len) {
@@ -97,7 +143,7 @@ static int mdbx_lck_op(mdbx_filehandle_t fd, int cmd, short lck, off_t offset,
     lock_op.l_start = offset;
     lock_op.l_len = len;
     if (fcntl(fd, cmd, &lock_op) == 0) {
-      if (cmd == OP_GETLK) {
+      if (cmd == op_getlk) {
         /* Checks reader by pid. Returns:
          *   MDBX_RESULT_TRUE   - if pid is live (unable to acquire lock)
          *   MDBX_RESULT_FALSE  - if pid is dead (lock acquired). */
@@ -107,121 +153,57 @@ static int mdbx_lck_op(mdbx_filehandle_t fd, int cmd, short lck, off_t offset,
       return 0;
     }
     int rc = errno;
-    if (rc != EINTR || cmd == F_SETLKW)
+    if (rc != EINTR || cmd == op_setlkw)
       return rc;
   }
 }
 
-int mdbx_rpid_set(MDBX_env *env) {
-  assert(env->me_lfd != INVALID_HANDLE_VALUE);
-  assert(env->me_pid > 0 && env->me_pid <= PID_T_MAX);
-  return mdbx_lck_op(env->me_lfd, OP_SETLK, F_WRLCK, env->me_pid, 1);
-}
-
-int mdbx_rpid_clear(MDBX_env *env) {
-  assert(env->me_lfd != INVALID_HANDLE_VALUE);
-  assert(env->me_pid > 0 && env->me_pid <= PID_T_MAX);
-  return mdbx_lck_op(env->me_lfd, OP_SETLKW, F_UNLCK, env->me_pid, 1);
-}
-
-int mdbx_rpid_check(MDBX_env *env, mdbx_pid_t pid) {
-  assert(env->me_lfd != INVALID_HANDLE_VALUE);
-  assert(pid > 0 && pid <= PID_T_MAX);
-  assert(PID_T_MAX < OFF_T_MAX);
-  return mdbx_lck_op(env->me_lfd, OP_GETLK, F_WRLCK, pid, 1);
-}
-
-int __cold mdbx_lck_seize(MDBX_env *env) {
-  assert(env->me_fd != INVALID_HANDLE_VALUE);
-  assert(env->me_pid > 0 && env->me_pid <= PID_T_MAX);
-
-  if (env->me_lfd == INVALID_HANDLE_VALUE) {
-    /* LY: without-lck mode (e.g. exclusive or on read-only filesystem) */
-    int rc = mdbx_lck_op(env->me_fd, OP_SETLK,
-                         (env->me_flags & MDBX_RDONLY) ? F_RDLCK : F_WRLCK, 0,
-                         OFF_T_MAX);
-    if (rc != 0) {
-      mdbx_error("%s(%s) failed: errcode %u", mdbx_func_, "without-lck", rc);
-      return rc;
+static __inline int mdbx_lck_exclusive(int lfd, bool fallback2shared) {
+  assert(lfd != INVALID_HANDLE_VALUE);
+  if (flock(lfd, LOCK_EX | LOCK_NB))
+    return errno;
+  int rc = mdbx_lck_op(lfd, op_setlk, F_WRLCK, 0, 1);
+  if (rc != 0 && fallback2shared) {
+    while (flock(lfd, LOCK_SH)) {
+      int rc = errno;
+      if (rc != EINTR)
+        return rc;
     }
-    return MDBX_RESULT_TRUE;
   }
-
-  /* try exclusive access */
-  int rc = mdbx_lck_op(env->me_fd, OP_SETLK,
-                       (env->me_flags & MDBX_RDONLY) ? F_RDLCK : F_WRLCK, 0,
-                       OFF_T_MAX);
-  if (rc == 0) {
-  continue_exclusive:
-    /* got dxb-exclusive, continue lck-exclusive */
-    rc = mdbx_lck_op(env->me_lfd, OP_SETLKW, F_WRLCK, 0, OFF_T_MAX);
-    if (rc == 0) {
-      /* got both exclusive */
-      return MDBX_RESULT_TRUE;
-    }
-    mdbx_error("%s(%s) failed: errcode %u", mdbx_func_,
-               "lck-after-dxb-exclusive", rc);
-    assert(MDBX_IS_ERROR(rc));
-    goto bailout;
-  }
-
-  if (rc == EAGAIN || rc == EACCES || rc == EBUSY || rc == EWOULDBLOCK) {
-    rc = mdbx_lck_op(env->me_fd, OP_SETLKW,
-                     (env->me_flags & MDBX_RDONLY) ? F_RDLCK : F_WRLCK,
-                     env->me_pid, 1);
-    if (rc == 0) {
-      /* got dxb-shared, try again dxb-exclusive */
-      rc = mdbx_lck_op(env->me_fd, OP_SETLK,
-                       (env->me_flags & MDBX_RDONLY) ? F_RDLCK : F_WRLCK, 0,
-                       OFF_T_MAX);
-      if (rc == 0)
-        goto continue_exclusive;
-
-      /* continue lck-shared */
-      rc = mdbx_lck_op(env->me_lfd, OP_SETLKW, F_RDLCK, 0, 1);
-      if (rc == 0) {
-        /* got both dxb and lck shared lock */
-        return MDBX_RESULT_FALSE;
-      }
-      mdbx_error("%s(%s) failed: errcode %u", mdbx_func_, "lck-shared", rc);
-    } else {
-      mdbx_error("%s(%s) failed: errcode %u", mdbx_func_, "dxb-shared", rc);
-    }
-    assert(MDBX_IS_ERROR(rc));
-  }
-
-bailout:
-  (void)mdbx_lck_op(env->me_lfd, OP_SETLK, F_UNLCK, 0, OFF_T_MAX);
-  (void)mdbx_lck_op(env->me_fd, OP_SETLK, F_UNLCK, 0, OFF_T_MAX);
-  assert(MDBX_IS_ERROR(rc));
   return rc;
+}
+
+static __inline int mdbx_lck_shared(int lfd) {
+  assert(lfd != INVALID_HANDLE_VALUE);
+  while (flock(lfd, LOCK_SH)) {
+    int rc = errno;
+    if (rc != EINTR)
+      return rc;
+  }
+  return mdbx_lck_op(lfd, op_setlkw, F_RDLCK, 0, 1);
 }
 
 int mdbx_lck_downgrade(MDBX_env *env, bool complete) {
   assert(env->me_lfd != INVALID_HANDLE_VALUE);
-  int rc = mdbx_lck_op(env->me_lfd, OP_SETLK, F_UNLCK, 1, OFF_T_MAX - 1);
-  if (rc == 0)
-    rc = mdbx_lck_op(env->me_lfd, OP_SETLKW, F_RDLCK, 0, 1);
-  if (unlikely(rc != 0)) {
-    mdbx_error("%s(%s) failed: errcode %u", mdbx_func_, "lck", rc);
-    goto bailout;
-  }
-  if (complete) {
-    rc = mdbx_lck_op(env->me_fd, OP_SETLK,
-                     (env->me_flags & MDBX_RDONLY) ? F_RDLCK : F_WRLCK,
-                     env->me_pid, 1);
-    if (unlikely(rc != 0)) {
-      mdbx_error("%s(%s) failed: errcode %u", mdbx_func_, "dxb", rc);
-      goto bailout;
-    }
-  }
-  return MDBX_SUCCESS;
+  return complete ? mdbx_lck_shared(env->me_lfd) : MDBX_SUCCESS;
+}
 
-bailout:
-  (void)mdbx_lck_op(env->me_lfd, OP_SETLK, F_UNLCK, 0, OFF_T_MAX);
-  (void)mdbx_lck_op(env->me_fd, OP_SETLK, F_UNLCK, 0, OFF_T_MAX);
-  assert(MDBX_IS_ERROR(rc));
-  return rc;
+int mdbx_rpid_set(MDBX_env *env) {
+  assert(env->me_lfd != INVALID_HANDLE_VALUE);
+  assert(env->me_pid > 0);
+  return mdbx_lck_op(env->me_lfd, op_setlk, F_WRLCK, env->me_pid, 1);
+}
+
+int mdbx_rpid_clear(MDBX_env *env) {
+  assert(env->me_lfd != INVALID_HANDLE_VALUE);
+  assert(env->me_pid > 0);
+  return mdbx_lck_op(env->me_lfd, op_setlkw, F_UNLCK, env->me_pid, 1);
+}
+
+int mdbx_rpid_check(MDBX_env *env, mdbx_pid_t pid) {
+  assert(env->me_lfd != INVALID_HANDLE_VALUE);
+  assert(pid > 0);
+  return mdbx_lck_op(env->me_lfd, op_getlk, F_WRLCK, pid, 1);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -240,7 +222,12 @@ int __cold mdbx_lck_init(MDBX_env *env) {
     goto bailout;
 
 #if MDBX_USE_ROBUST
+#if defined(__GLIBC__) && !__GLIBC_PREREQ(2, 12) &&                            \
+    !defined(pthread_mutex_consistent) && _POSIX_C_SOURCE < 200809L
+  rc = pthread_mutexattr_setrobust_np(&ma, PTHREAD_MUTEX_ROBUST_NP);
+#else
   rc = pthread_mutexattr_setrobust(&ma, PTHREAD_MUTEX_ROBUST);
+#endif
   if (rc)
     goto bailout;
 #endif /* MDBX_USE_ROBUST */
@@ -268,28 +255,19 @@ bailout:
 }
 
 void __cold mdbx_lck_destroy(MDBX_env *env) {
-  /* File locks would be released (by kernel) while the file-descriptors
-   * will be closed. But to avoid false-positive EDEADLK from the kernel,
-   * locks should be released here explicitly with properly order. */
   if (env->me_lfd != INVALID_HANDLE_VALUE) {
     /* try get exclusive access */
-    if (env->me_lck &&
-        mdbx_lck_op(env->me_fd, OP_SETLK,
-                    (env->me_flags & MDBX_RDONLY) ? F_RDLCK : F_WRLCK, 0,
-                    OFF_T_MAX) == 0 &&
-        mdbx_lck_op(env->me_lfd, OP_SETLK, F_WRLCK, 0, OFF_T_MAX) == 0) {
+    if (env->me_lck && mdbx_lck_exclusive(env->me_lfd, false) == 0) {
       mdbx_info("%s: got exclusive, drown mutexes", mdbx_func_);
       int rc = pthread_mutex_destroy(&env->me_lck->mti_rmutex);
       if (rc == 0)
         rc = pthread_mutex_destroy(&env->me_lck->mti_wmutex);
       assert(rc == 0);
       (void)rc;
-      msync(env->me_lck, env->me_os_psize, MS_ASYNC);
+      /* file locks would be released (by kernel)
+       * while the me_lfd will be closed */
     }
-    (void)mdbx_lck_op(env->me_lfd, OP_SETLK, F_UNLCK, 0, OFF_T_MAX);
   }
-  if (env->me_fd != INVALID_HANDLE_VALUE)
-    (void)mdbx_lck_op(env->me_fd, OP_SETLK, F_UNLCK, 0, OFF_T_MAX);
 }
 
 static int mdbx_robust_lock(MDBX_env *env, pthread_mutex_t *mutex) {
@@ -344,6 +322,62 @@ void mdbx_txn_unlock(MDBX_env *env) {
     mdbx_panic("%s() failed: errcode %d\n", mdbx_func_, rc);
 }
 
+static int __cold internal_seize_lck(int lfd) {
+  assert(lfd != INVALID_HANDLE_VALUE);
+
+  /* try exclusive access */
+  int rc = mdbx_lck_exclusive(lfd, false);
+  if (rc == 0)
+    /* got exclusive */
+    return MDBX_RESULT_TRUE;
+  if (rc == EAGAIN || rc == EACCES || rc == EBUSY || rc == EWOULDBLOCK) {
+    /* get shared access */
+    rc = mdbx_lck_shared(lfd);
+    if (rc == 0) {
+      /* got shared, try exclusive again */
+      rc = mdbx_lck_exclusive(lfd, true);
+      if (rc == 0)
+        /* now got exclusive */
+        return MDBX_RESULT_TRUE;
+      if (rc == EAGAIN || rc == EACCES || rc == EBUSY || rc == EWOULDBLOCK)
+        /* unable exclusive, but stay shared */
+        return MDBX_RESULT_FALSE;
+    }
+  }
+  assert(MDBX_IS_ERROR(rc));
+  return rc;
+}
+
+int __cold mdbx_lck_seize(MDBX_env *env) {
+  assert(env->me_fd != INVALID_HANDLE_VALUE);
+  if (unlikely(op_setlk == 0))
+    choice_fcntl();
+
+  if (env->me_lfd == INVALID_HANDLE_VALUE) {
+    /* LY: without-lck mode (e.g. exclusive or on read-only filesystem) */
+    int rc = mdbx_lck_op(env->me_fd, op_setlk,
+                         (env->me_flags & MDBX_RDONLY) ? F_RDLCK : F_WRLCK, 0,
+                         LCK_WHOLE);
+    if (rc != 0) {
+      mdbx_error("%s(%s) failed: errcode %u", mdbx_func_, "without-lck", rc);
+      return rc;
+    }
+    return MDBX_RESULT_TRUE;
+  }
+
+  if ((env->me_flags & MDBX_RDONLY) == 0) {
+    /* Check that another process don't operates in without-lck mode. */
+    int rc = mdbx_lck_op(env->me_fd, op_setlk, F_WRLCK, env->me_pid, 1);
+    if (rc != 0) {
+      mdbx_error("%s(%s) failed: errcode %u", mdbx_func_,
+                 "lock-against-without-lck", rc);
+      return rc;
+    }
+  }
+
+  return internal_seize_lck(env->me_lfd);
+}
+
 static int __cold mdbx_mutex_failed(MDBX_env *env, pthread_mutex_t *mutex,
                                     const int err) {
   int rc = err;
@@ -367,7 +401,12 @@ static int __cold mdbx_mutex_failed(MDBX_env *env, pthread_mutex_t *mutex,
     int check_rc = mdbx_reader_check0(env, rlocked, NULL);
     check_rc = (check_rc == MDBX_SUCCESS) ? MDBX_RESULT_TRUE : check_rc;
 
+#if defined(__GLIBC__) && !__GLIBC_PREREQ(2, 12) &&                            \
+    !defined(pthread_mutex_consistent) && _POSIX_C_SOURCE < 200809L
+    int mreco_rc = pthread_mutex_consistent_np(mutex);
+#else
     int mreco_rc = pthread_mutex_consistent(mutex);
+#endif
     check_rc = (mreco_rc == 0) ? check_rc : mreco_rc;
 
     if (unlikely(mreco_rc))

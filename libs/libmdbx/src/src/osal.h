@@ -1,4 +1,4 @@
-/* https://en.wikipedia.org/wiki/Operating_system_abstraction_layer */
+﻿/* https://en.wikipedia.org/wiki/Operating_system_abstraction_layer */
 
 /*
  * Copyright 2015-2019 Leonid Yuriev <leo@yuriev.ru>
@@ -41,7 +41,6 @@
 
 /*----------------------------------------------------------------------------*/
 /* C99 includes */
-
 #include <inttypes.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -50,11 +49,32 @@
 #include <assert.h>
 #include <fcntl.h>
 #include <limits.h>
-#include <malloc.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
 
+/* C11 stdalign.h */
+#if __has_include(<stdalign.h>)
+#include <stdalign.h>
+#elif defined(__STDC_VERSION__) && __STDC_VERSION__ >= 201112L
+#define alignas(N) _Alignas(N)
+#elif defined(_MSC_VER)
+#define alignas(N) __declspec(align(N))
+#elif __has_attribute(__aligned__) || defined(__GNUC__)
+#define alignas(N) __attribute__((__aligned__(N)))
+#else
+#error "FIXME: Required _alignas() or equivalent."
+#endif
+
+/*----------------------------------------------------------------------------*/
+/* Systems includes */
+
+#if defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__) ||     \
+    defined(__BSD__) || defined(__NETBSD__) || defined(__bsdi__) ||            \
+    defined(__DragonFly__) || defined(__APPLE__) || defined(__MACH__)
+#include <sys/cdefs.h>
+#else
+#include <malloc.h>
 #ifndef _POSIX_C_SOURCE
 #ifdef _POSIX_SOURCE
 #define _POSIX_C_SOURCE 1
@@ -62,13 +82,11 @@
 #define _POSIX_C_SOURCE 0
 #endif
 #endif
+#endif /* !xBSD */
 
 #ifndef _XOPEN_SOURCE
 #define _XOPEN_SOURCE 0
 #endif
-
-/*----------------------------------------------------------------------------*/
-/* Systems includes */
 
 #if defined(_WIN32) || defined(_WIN64)
 #define WIN32_LEAN_AND_MEAN
@@ -173,6 +191,22 @@ typedef pthread_mutex_t mdbx_fastmutex_t;
 #ifndef SSIZE_MAX
 #define SSIZE_MAX INTPTR_MAX
 #endif
+
+#if !defined(MADV_DODUMP) && defined(MADV_CORE)
+#define MADV_DODUMP MADV_CORE
+#endif /* MADV_CORE -> MADV_DODUMP */
+
+#if !defined(MADV_DONTDUMP) && defined(MADV_NOCORE)
+#define MADV_DONTDUMP MADV_NOCORE
+#endif /* MADV_NOCORE -> MADV_DONTDUMP */
+
+#ifndef MADV_REMOVE_OR_FREE
+#ifdef MADV_REMOVE
+#define MADV_REMOVE_OR_FREE MADV_REMOVE
+#elif defined(MADV_FREE)
+#define MADV_REMOVE_OR_FREE MADV_FREE
+#endif
+#endif /* MADV_REMOVE_OR_FREE */
 
 #if defined(i386) || defined(__386) || defined(__i386) || defined(__i386__) || \
     defined(i486) || defined(__i486) || defined(__i486__) ||                   \
@@ -378,14 +412,14 @@ static __inline void mdbx_memory_barrier(void) {
 /*----------------------------------------------------------------------------*/
 /* Cache coherence and invalidation */
 
-#ifndef MDBX_CACHE_IS_COHERENT
+#ifndef MDBX_CPU_WRITEBACK_IS_COHERENT
 #if defined(__ia32__) || defined(__e2k__) || defined(__hppa) ||                \
     defined(__hppa__)
-#define MDBX_CACHE_IS_COHERENT 1
+#define MDBX_CPU_WRITEBACK_IS_COHERENT 1
 #else
-#define MDBX_CACHE_IS_COHERENT 0
+#define MDBX_CPU_WRITEBACK_IS_COHERENT 0
 #endif
-#endif /* MDBX_CACHE_IS_COHERENT */
+#endif /* MDBX_CPU_WRITEBACK_IS_COHERENT */
 
 #ifndef MDBX_CACHELINE_SIZE
 #if defined(SYSTEM_CACHE_ALIGNMENT_SIZE)
@@ -397,40 +431,54 @@ static __inline void mdbx_memory_barrier(void) {
 #endif
 #endif /* MDBX_CACHELINE_SIZE */
 
-#if MDBX_CACHE_IS_COHERENT
-#define mdbx_coherent_barrier() mdbx_compiler_barrier()
+#if MDBX_CPU_WRITEBACK_IS_COHERENT
+#define mdbx_flush_noncoherent_cpu_writeback() mdbx_compiler_barrier()
 #else
-#define mdbx_coherent_barrier() mdbx_memory_barrier()
+#define mdbx_flush_noncoherent_cpu_writeback() mdbx_memory_barrier()
 #endif
 
-#if defined(__mips) || defined(__mips__) || defined(__mips64) ||               \
-    defined(__mips64) || defined(_M_MRX000) || defined(_MIPS_)
-/* Only MIPS has explicit cache control */
+#if __has_include(<sys/cachectl.h>)
+#include <sys/cachectl.h>
+#elif defined(__mips) || defined(__mips__) || defined(__mips64) ||             \
+    defined(__mips64__) || defined(_M_MRX000) || defined(_MIPS_) ||            \
+    defined(__MWERKS__) || defined(__sgi)
+/* MIPS should have explicit cache control */
 #include <sys/cachectl.h>
 #endif
 
-static __inline void mdbx_invalidate_cache(void *addr, size_t nbytes) {
-  mdbx_coherent_barrier();
+#ifndef MDBX_CPU_CACHE_MMAP_NONCOHERENT
 #if defined(__mips) || defined(__mips__) || defined(__mips64) ||               \
-    defined(__mips64) || defined(_M_MRX000) || defined(_MIPS_)
-#if defined(DCACHE)
+    defined(__mips64__) || defined(_M_MRX000) || defined(_MIPS_) ||            \
+    defined(__MWERKS__) || defined(__sgi)
+/* MIPS has cache coherency issues. */
+#define MDBX_CPU_CACHE_MMAP_NONCOHERENT 1
+#else
+/* LY: assume no relevant mmap/dcache issues. */
+#define MDBX_CPU_CACHE_MMAP_NONCOHERENT 0
+#endif
+#endif /* ndef MDBX_CPU_CACHE_MMAP_NONCOHERENT */
+
+static __inline void mdbx_invalidate_mmap_noncoherent_cache(void *addr,
+                                                            size_t nbytes) {
+#if MDBX_CPU_CACHE_MMAP_NONCOHERENT
+#ifdef DCACHE
   /* MIPS has cache coherency issues.
    * Note: for any nbytes >= on-chip cache size, entire is flushed. */
   cacheflush(addr, nbytes, DCACHE);
 #else
-#error "Sorry, cacheflush() for MIPS not implemented"
-#endif /* __mips__ */
-#else
-  /* LY: assume no relevant mmap/dcache issues. */
+#error "Oops, cacheflush() not available"
+#endif /* DCACHE */
+#else  /* MDBX_CPU_CACHE_MMAP_NONCOHERENT */
   (void)addr;
   (void)nbytes;
-#endif
+#endif /* MDBX_CPU_CACHE_MMAP_NONCOHERENT */
 }
 
 /*----------------------------------------------------------------------------*/
 /* libc compatibility stuff */
 
-#if __GLIBC_PREREQ(2, 1)
+#if (!defined(__GLIBC__) && __GLIBC_PREREQ(2, 1)) &&                           \
+    (defined(_GNU_SOURCE) || defined(_BSD_SOURCE))
 #define mdbx_asprintf asprintf
 #define mdbx_vasprintf vasprintf
 #else
@@ -443,6 +491,10 @@ int mdbx_vasprintf(char **strp, const char *fmt, va_list ap);
 
 /* max bytes to write in one call */
 #define MAX_WRITE UINT32_C(0x3fff0000)
+
+#if defined(__linux__) || defined(__gnu_linux__)
+extern uint32_t mdbx_linux_kernel_version;
+#endif /* Linux */
 
 /* Get the size of a memory page for the system.
  * This is the basic size that the platform's memory manager uses, and is
@@ -494,14 +546,19 @@ int mdbx_pwritev(mdbx_filehandle_t fd, struct iovec *iov, int iovcnt,
 int mdbx_pread(mdbx_filehandle_t fd, void *buf, size_t count, uint64_t offset);
 int mdbx_pwrite(mdbx_filehandle_t fd, const void *buf, size_t count,
                 uint64_t offset);
-int mdbx_write(mdbx_filehandle_t fd, const void *buf, size_t count);
 
 int mdbx_thread_create(mdbx_thread_t *thread,
                        THREAD_RESULT(THREAD_CALL *start_routine)(void *),
                        void *arg);
 int mdbx_thread_join(mdbx_thread_t thread);
 
-int mdbx_filesync(mdbx_filehandle_t fd, bool fullsync);
+enum mdbx_syncmode_bits {
+  MDBX_SYNC_DATA = 1,
+  MDBX_SYNC_SIZE = 2,
+  MDBX_SYNC_IODQ = 4
+};
+
+int mdbx_filesync(mdbx_filehandle_t fd, enum mdbx_syncmode_bits mode_bits);
 int mdbx_filesize_sync(mdbx_filehandle_t fd);
 int mdbx_ftruncate(mdbx_filehandle_t fd, uint64_t length);
 int mdbx_fseek(mdbx_filehandle_t fd, uint64_t pos);
@@ -560,6 +617,8 @@ static __inline mdbx_tid_t mdbx_thread_self(void) {
 }
 
 void mdbx_osal_jitter(bool tiny);
+uint64_t mdbx_osal_monotime(void);
+uint64_t mdbx_osal_16dot16_to_monotime(uint32_t seconds_16dot16);
 
 /*----------------------------------------------------------------------------*/
 /* lck stuff */
@@ -572,26 +631,81 @@ void mdbx_osal_jitter(bool tiny);
 #define MDBX_OSAL_LOCK_SIGN UINT32_C(0x8017)
 #endif /* MDBX_OSAL_LOCK */
 
-#ifdef MDBX_OSAL_LOCK
-#define MDBX_OSAL_LOCK_SIZE sizeof(MDBX_OSAL_LOCK)
-#else
-#define MDBX_OSAL_LOCK_SIZE 0
-#endif /* MDBX_OSAL_LOCK_SIZE */
-
+/// \brief Инициализация объектов синхронизации внутри текущего процесса
+///   связанных с экземпляром MDBX_env.
+/// \return Код ошибки или 0 в случае успеха.
 int mdbx_lck_init(MDBX_env *env);
 
-int mdbx_lck_seize(MDBX_env *env);
-int mdbx_lck_downgrade(MDBX_env *env, bool complete);
+/// \brief Отключение от общих межпроцесных объектов и разрушение объектов
+///   синхронизации внутри текущего процесса связанных с экземпляром MDBX_env.
 void mdbx_lck_destroy(MDBX_env *env);
 
+/// \brief Подключение к общим межпроцесным объектам блокировки с попыткой
+///   захвата блокировки максимального уровня (разделяемой при недоступности
+///   эксклюзивной).
+///   В зависимости от реализации и/или платформы (Windows) может
+///   захватывать блокировку не-операционного супер-уровня (например, для
+///   инициализации разделяемых объектов синхронизации), которая затем будет
+///   понижена до операционно-эксклюзивной или разделяемой посредством
+///   явного вызова mdbx_lck_downgrade().
+/// \return
+///   MDBX_RESULT_TRUE (-1) - если удалось захватить эксклюзивную блокировку и,
+///     следовательно, текущий процесс является первым и единственным
+///     после предыдущего использования БД.
+///   MDBX_RESULT_FALSE (0) - если удалось захватить только разделяемую
+///     блокировку и, следовательно, БД уже открыта и используется другими
+///     процессами.
+///   Иначе (не 0 и не -1) - код ошибки.
+int mdbx_lck_seize(MDBX_env *env);
+
+/// \brief Снижает уровень первоначальной захваченной блокировки до
+///   операционного уровня определяемого аргументом.
+/// \param
+///   complete = TRUE - понижение до разделяемой блокировки.
+///   complete = FALSE - понижение до эксклюзивной операционной блокировки.
+/// \return Код ошибки или 0 в случае успеха.
+int mdbx_lck_downgrade(MDBX_env *env, bool complete);
+
+/// \brief Блокирует lck-файл и/или таблицу читателей для (де)регистрации.
+/// \return Код ошибки или 0 в случае успеха.
 int mdbx_rdt_lock(MDBX_env *env);
+
+/// \brief Разблокирует lck-файл и/или таблицу читателей после (де)регистрации.
 void mdbx_rdt_unlock(MDBX_env *env);
 
+/// \brief Захватывает блокировку для изменения БД (при старте пишущей
+/// транзакции). Транзакции чтения при этом никак не блокируются.
+/// \return Код ошибки или 0 в случае успеха.
 LIBMDBX_API int mdbx_txn_lock(MDBX_env *env, bool dontwait);
+
+/// \brief Освобождает блокировку по окончанию изменения БД (после завершения
+/// пишущей транзакции).
 LIBMDBX_API void mdbx_txn_unlock(MDBX_env *env);
 
+/// \brief Устанавливает alive-флажок присутствия (индицирующую блокировку)
+///   читателя для pid текущего процесса. Функции может выполнить не более
+///   необходимого минимума для корректной работы mdbx_rpid_check() в других
+///   процессах.
+/// \return Код ошибки или 0 в случае успеха.
 int mdbx_rpid_set(MDBX_env *env);
+
+/// \brief Снимает alive-флажок присутствия (индицирующую блокировку)
+///   читателя для pid текущего процесса. Функции может выполнить не более
+///   необходимого минимума для корректной работы mdbx_rpid_check() в других
+///   процессах.
+/// \return Код ошибки или 0 в случае успеха.
 int mdbx_rpid_clear(MDBX_env *env);
+
+/// \brief Проверяет жив ли процесс-читатель с заданным pid
+///   по alive-флажку присутствия (индицирующей блокировку),
+///   либо любым другим способом.
+/// \return
+///   MDBX_RESULT_TRUE (-1) - если процесс-читатель с соответствующим pid жив
+///     и работает с БД (индицирующая блокировка присутствует).
+///   MDBX_RESULT_FALSE (0) - если процесс-читатель с соответствующим pid
+///     отсутствует или не работает с БД (индицирующая блокировка отсутствует).
+///   Иначе (не 0 и не -1) - код ошибки.
+int mdbx_rpid_check(MDBX_env *env, mdbx_pid_t pid);
 
 #if defined(_WIN32) || defined(_WIN64)
 typedef union MDBX_srwlock {
@@ -618,7 +732,6 @@ typedef BOOL(WINAPI *MDBX_GetVolumeInformationByHandleW)(
     _Out_opt_ LPDWORD lpMaximumComponentLength,
     _Out_opt_ LPDWORD lpFileSystemFlags,
     _Out_opt_ LPWSTR lpFileSystemNameBuffer, _In_ DWORD nFileSystemNameSize);
-
 extern MDBX_GetVolumeInformationByHandleW mdbx_GetVolumeInformationByHandleW;
 
 typedef DWORD(WINAPI *MDBX_GetFinalPathNameByHandleW)(_In_ HANDLE hFile,
@@ -630,7 +743,6 @@ extern MDBX_GetFinalPathNameByHandleW mdbx_GetFinalPathNameByHandleW;
 typedef BOOL(WINAPI *MDBX_SetFileInformationByHandle)(
     _In_ HANDLE hFile, _In_ FILE_INFO_BY_HANDLE_CLASS FileInformationClass,
     _Out_ LPVOID lpFileInformation, _In_ DWORD dwBufferSize);
-
 extern MDBX_SetFileInformationByHandle mdbx_SetFileInformationByHandle;
 
 typedef NTSTATUS(NTAPI *MDBX_NtFsControlFile)(
@@ -639,18 +751,21 @@ typedef NTSTATUS(NTAPI *MDBX_NtFsControlFile)(
     OUT PIO_STATUS_BLOCK IoStatusBlock, IN ULONG FsControlCode,
     IN OUT PVOID InputBuffer, IN ULONG InputBufferLength,
     OUT OPTIONAL PVOID OutputBuffer, IN ULONG OutputBufferLength);
-
 extern MDBX_NtFsControlFile mdbx_NtFsControlFile;
 
-#endif /* Windows */
+#if _WIN32_WINNT < _WIN32_WINNT_WIN8 
+typedef struct _WIN32_MEMORY_RANGE_ENTRY {
+  PVOID VirtualAddress;
+  SIZE_T NumberOfBytes;
+} WIN32_MEMORY_RANGE_ENTRY, *PWIN32_MEMORY_RANGE_ENTRY;
+#endif
 
-/* Checks reader by pid.
- *
- * Returns:
- *   MDBX_RESULT_TRUE, if pid is live (unable to acquire lock)
- *   MDBX_RESULT_FALSE, if pid is dead (lock acquired)
- *   or otherwise the errcode. */
-int mdbx_rpid_check(MDBX_env *env, mdbx_pid_t pid);
+typedef BOOL(WINAPI *MDBX_PrefetchVirtualMemory)(
+    HANDLE hProcess, ULONG_PTR NumberOfEntries,
+    PWIN32_MEMORY_RANGE_ENTRY VirtualAddresses, ULONG Flags);
+extern MDBX_PrefetchVirtualMemory mdbx_PrefetchVirtualMemory;
+
+#endif /* Windows */
 
 /*----------------------------------------------------------------------------*/
 /* Atomics */
@@ -755,8 +870,8 @@ static __inline bool mdbx_atomic_compare_and_swap64(volatile uint64_t *p,
 
 /*----------------------------------------------------------------------------*/
 
-#if defined(_MSC_VER) && _MSC_VER >= 1900 && _MSC_VER < 1920
-/* LY: MSVC 2015/2017 has buggy/inconsistent PRIuPTR/PRIxPTR macros
+#if defined(_MSC_VER) && _MSC_VER >= 1900
+/* LY: MSVC 2015/2017/2019 has buggy/inconsistent PRIuPTR/PRIxPTR macros
  * for internal format-args checker. */
 #undef PRIuPTR
 #undef PRIiPTR

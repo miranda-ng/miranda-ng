@@ -1,4 +1,4 @@
-/* https://en.wikipedia.org/wiki/Operating_system_abstraction_layer */
+﻿/* https://en.wikipedia.org/wiki/Operating_system_abstraction_layer */
 
 /*
  * Copyright 2015-2019 Leonid Yuriev <leo@yuriev.ru>
@@ -153,13 +153,52 @@ typedef struct _FILE_PROVIDER_EXTERNAL_INFO_V1 {
 
 /*----------------------------------------------------------------------------*/
 
-#if !defined(_MSC_VER) &&                                                      \
+#if _POSIX_C_SOURCE > 200212 &&                                                \
     /* workaround for avoid musl libc wrong prototype */ (                     \
         defined(__GLIBC__) || defined(__GNU_LIBRARY__))
 /* Prototype should match libc runtime. ISO POSIX (2003) & LSB 1.x-3.x */
-__nothrow __noreturn void __assert_fail(const char *assertion, const char *file,
-                                        unsigned line, const char *function);
-#endif /* _MSC_VER */
+__extern_C void __assert_fail(const char *assertion, const char *file,
+                              unsigned line, const char *function)
+#ifdef __THROW
+    __THROW
+#else
+    __nothrow
+#endif /* __THROW */
+    __noreturn;
+
+#elif defined(__APPLE__) || defined(__MACH__)
+__extern_C void __assert_rtn(const char *function, const char *file, int line,
+                             const char *assertion) /* __nothrow */
+#ifdef __dead2
+    __dead2
+#else
+    __noreturn
+#endif /* __dead2 */
+#ifdef __disable_tail_calls
+    __disable_tail_calls
+#endif /* __disable_tail_calls */
+    ;
+
+#define __assert_fail(assertion, file, line, function)                         \
+  __assert_rtn(function, file, line, assertion)
+#elif defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__) ||   \
+    defined(__BSD__) || defined(__NETBSD__) || defined(__bsdi__) ||            \
+    defined(__DragonFly__)
+__extern_C void __assert(const char *function, const char *file, int line,
+                         const char *assertion) /* __nothrow */
+#ifdef __dead2
+    __dead2
+#else
+    __noreturn
+#endif /* __dead2 */
+#ifdef __disable_tail_calls
+    __disable_tail_calls
+#endif /* __disable_tail_calls */
+    ;
+#define __assert_fail(assertion, file, line, function)                         \
+  __assert(function, file, line, assertion)
+
+#endif /* __assert_fail */
 
 void __cold mdbx_assert_fail(const MDBX_env *env, const char *msg,
                              const char *func, int line) {
@@ -271,12 +310,15 @@ int mdbx_memalign_alloc(size_t alignment, size_t bytes, void **result) {
   (void)alignment;
   *result = VirtualAlloc(NULL, bytes, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
   return *result ? MDBX_SUCCESS : MDBX_ENOMEM /* ERROR_OUTOFMEMORY */;
-#elif __GLIBC_PREREQ(2, 16) || __STDC_VERSION__ >= 201112L
-  *result = memalign(alignment, bytes);
+#elif defined(_ISOC11_SOURCE)
+  *result = aligned_alloc(alignment, bytes);
   return *result ? MDBX_SUCCESS : errno;
 #elif _POSIX_VERSION >= 200112L
   *result = nullptr;
   return posix_memalign(result, alignment, bytes);
+#elif __GLIBC_PREREQ(2, 16) || __STDC_VERSION__ >= 201112L
+  *result = memalign(alignment, bytes);
+  return *result ? MDBX_SUCCESS : errno;
 #else
 #error FIXME
 #endif
@@ -519,16 +561,30 @@ int mdbx_openfile(const char *pathname, int flags, mode_t mode,
   (void)exclusive;
 #ifdef O_CLOEXEC
   flags |= O_CLOEXEC;
-#endif
+#endif /* O_CLOEXEC */
   *fd = open(pathname, flags, mode);
   if (*fd < 0)
     return errno;
-#if defined(FD_CLOEXEC) && defined(F_GETFD)
-  flags = fcntl(*fd, F_GETFD);
-  if (flags >= 0)
-    (void)fcntl(*fd, F_SETFD, flags | FD_CLOEXEC);
+
+#if defined(FD_CLOEXEC) && !defined(O_CLOEXEC)
+  int fd_flags = fcntl(*fd, F_GETFD);
+  if (fd_flags != -1)
+    (void)fcntl(*fd, F_SETFD, fd_flags | FD_CLOEXEC);
+#endif /* FD_CLOEXEC && !O_CLOEXEC */
+
+  if ((flags & (O_RDONLY | O_WRONLY | O_RDWR)) == O_WRONLY) {
+    /* assume for MDBX_env_copy() and friends output */
+#if defined(O_DIRECT)
+    int fd_flags = fcntl(*fd, F_GETFD);
+    if (fd_flags != -1)
+      (void)fcntl(*fd, F_SETFL, fd_flags | O_DIRECT);
+#endif /* O_DIRECT */
+#if defined(F_NOCACHE)
+    (void)fcntl(*fd, F_NOCACHE, 1);
+#endif /* F_NOCACHE */
+  }
 #endif
-#endif
+
   return MDBX_SUCCESS;
 }
 
@@ -544,7 +600,6 @@ int mdbx_pread(mdbx_filehandle_t fd, void *buf, size_t bytes, uint64_t offset) {
   if (bytes > MAX_WRITE)
     return MDBX_EINVAL;
 #if defined(_WIN32) || defined(_WIN64)
-
   OVERLAPPED ov;
   ov.hEvent = 0;
   ov.Offset = (DWORD)offset;
@@ -569,37 +624,43 @@ int mdbx_pread(mdbx_filehandle_t fd, void *buf, size_t bytes, uint64_t offset) {
 
 int mdbx_pwrite(mdbx_filehandle_t fd, const void *buf, size_t bytes,
                 uint64_t offset) {
+  while (true) {
 #if defined(_WIN32) || defined(_WIN64)
-  if (bytes > MAX_WRITE)
-    return ERROR_INVALID_PARAMETER;
+    OVERLAPPED ov;
+    ov.hEvent = 0;
+    ov.Offset = (DWORD)offset;
+    ov.OffsetHigh = HIGH_DWORD(offset);
 
-  OVERLAPPED ov;
-  ov.hEvent = 0;
-  ov.Offset = (DWORD)offset;
-  ov.OffsetHigh = HIGH_DWORD(offset);
-
-  DWORD written;
-  if (likely(WriteFile(fd, buf, (DWORD)bytes, &written, &ov)))
-    return (bytes == written) ? MDBX_SUCCESS : MDBX_EIO /* ERROR_WRITE_FAULT */;
-  return GetLastError();
+    DWORD written;
+    if (unlikely(!WriteFile(fd, buf,
+                            (bytes <= MAX_WRITE) ? (DWORD)bytes : MAX_WRITE,
+                            &written, &ov)))
+      return GetLastError();
+    if (likely(bytes == written))
+      return MDBX_SUCCESS;
 #else
-  int rc;
-  intptr_t written;
-  do {
     STATIC_ASSERT_MSG(sizeof(off_t) >= sizeof(size_t),
                       "libmdbx requires 64-bit file I/O on 64-bit systems");
-    written = pwrite(fd, buf, bytes, offset);
+    const intptr_t written =
+        pwrite(fd, buf, (bytes <= MAX_WRITE) ? bytes : MAX_WRITE, offset);
     if (likely(bytes == (size_t)written))
       return MDBX_SUCCESS;
-    rc = errno;
-  } while (rc == EINTR);
-  return (written < 0) ? rc : MDBX_EIO /* Use which error code (ENOSPC)? */;
+    if (written < 0) {
+      const int rc = errno;
+      if (rc != EINTR)
+        return rc;
+      continue;
+    }
 #endif
+    bytes -= written;
+    offset += written;
+    buf = (char *)buf + written;
+  }
 }
 
 int mdbx_pwritev(mdbx_filehandle_t fd, struct iovec *iov, int iovcnt,
                  uint64_t offset, size_t expected_written) {
-#if defined(_WIN32) || defined(_WIN64)
+#if defined(_WIN32) || defined(_WIN64) || defined(__APPLE__)
   size_t written = 0;
   for (int i = 0; i < iovcnt; ++i) {
     int rc = mdbx_pwrite(fd, iov[i].iov_base, iov[i].iov_len, offset);
@@ -625,57 +686,23 @@ int mdbx_pwritev(mdbx_filehandle_t fd, struct iovec *iov, int iovcnt,
 #endif
 }
 
-int mdbx_write(mdbx_filehandle_t fd, const void *buf, size_t bytes) {
-#ifdef SIGPIPE
-  sigset_t set, old;
-  sigemptyset(&set);
-  sigaddset(&set, SIGPIPE);
-  int rc = pthread_sigmask(SIG_BLOCK, &set, &old);
-  if (rc != 0)
-    return rc;
-#endif
-
-  const char *ptr = buf;
-  for (;;) {
-    size_t chunk = (MAX_WRITE < bytes) ? MAX_WRITE : bytes;
+int mdbx_filesync(mdbx_filehandle_t fd, enum mdbx_syncmode_bits mode_bits) {
 #if defined(_WIN32) || defined(_WIN64)
-    DWORD written;
-    if (unlikely(!WriteFile(fd, ptr, (DWORD)chunk, &written, NULL)))
-      return GetLastError();
+  return ((mode_bits & (MDBX_SYNC_DATA | MDBX_SYNC_IODQ)) == 0 ||
+          FlushFileBuffers(fd))
+             ? MDBX_SUCCESS
+             : GetLastError();
 #else
-    intptr_t written = write(fd, ptr, chunk);
-    if (written < 0) {
-      int rc = errno;
-#ifdef SIGPIPE
-      if (rc == EPIPE) {
-        /* Collect the pending SIGPIPE, otherwise at least OS X
-         * gives it to the process on thread-exit (ITS#8504). */
-        int tmp;
-        sigwait(&set, &tmp);
-        written = 0;
-        continue;
-      }
-      pthread_sigmask(SIG_SETMASK, &old, NULL);
-#endif
-      return rc;
-    }
-#endif
-    if (likely(bytes == (size_t)written)) {
-#ifdef SIGPIPE
-      pthread_sigmask(SIG_SETMASK, &old, NULL);
-#endif
-      return MDBX_SUCCESS;
-    }
-    ptr += written;
-    bytes -= written;
-  }
-}
 
-int mdbx_filesync(mdbx_filehandle_t fd, bool filesize_changed) {
-#if defined(_WIN32) || defined(_WIN64)
-  (void)filesize_changed;
-  return FlushFileBuffers(fd) ? MDBX_SUCCESS : GetLastError();
-#else
+#if defined(__APPLE__) &&                                                      \
+    MDBX_OSX_SPEED_INSTEADOF_DURABILITY == MDBX_OSX_WANNA_DURABILITY
+  if (mode_bits & MDBX_SYNC_IODQ)
+    return likely(fcntl(fd, F_FULLFSYNC) != -1) ? MDBX_SUCCESS : errno;
+#endif /* MacOS */
+#if defined(__linux__) || defined(__gnu_linux__)
+  if (mode_bits == MDBX_SYNC_SIZE && mdbx_linux_kernel_version >= 0x03060000)
+    return MDBX_SUCCESS;
+#endif /* Linux */
   int rc;
   do {
 #if defined(_POSIX_SYNCHRONIZED_IO) && _POSIX_SYNCHRONIZED_IO > 0
@@ -684,34 +711,18 @@ int mdbx_filesync(mdbx_filehandle_t fd, bool filesize_changed) {
      *
      * For more info about of a corresponding fdatasync() bug
      * see http://www.spinics.net/lists/linux-ext4/msg33714.html */
-    if (!filesize_changed) {
+    if ((mode_bits & MDBX_SYNC_SIZE) == 0) {
       if (fdatasync(fd) == 0)
         return MDBX_SUCCESS;
     } else
 #else
-    (void)filesize_changed;
+    (void)mode_bits;
 #endif
         if (fsync(fd) == 0)
       return MDBX_SUCCESS;
     rc = errno;
   } while (rc == EINTR);
   return rc;
-#endif
-}
-
-int mdbx_filesize_sync(mdbx_filehandle_t fd) {
-#if defined(_WIN32) || defined(_WIN64)
-  (void)fd;
-  /* Nothing on Windows (i.e. newer 100% steady) */
-  return MDBX_SUCCESS;
-#else
-  for (;;) {
-    if (fsync(fd) == 0)
-      return MDBX_SUCCESS;
-    int rc = errno;
-    if (rc != EINTR)
-      return rc;
-  }
 #endif
 }
 
@@ -803,8 +814,21 @@ int mdbx_msync(mdbx_mmap_t *map, size_t offset, size_t length, int async) {
     return MDBX_SUCCESS;
   return GetLastError();
 #else
+#ifdef __linux__
+  if (async && mdbx_linux_kernel_version > 0x02061300)
+    /* Since Linux 2.6.19, MS_ASYNC is in fact a no-op,
+       since the kernel properly tracks dirty pages and flushes them to storage
+       as necessary. */
+    return MDBX_SUCCESS;
+#endif /* Linux */
   const int mode = async ? MS_ASYNC : MS_SYNC;
-  return (msync(ptr, length, mode) == 0) ? MDBX_SUCCESS : errno;
+  int rc = (msync(ptr, length, mode) == 0) ? MDBX_SUCCESS : errno;
+#if defined(__APPLE__) &&                                                      \
+    MDBX_OSX_SPEED_INSTEADOF_DURABILITY == MDBX_OSX_WANNA_DURABILITY
+  if (rc == MDBX_SUCCESS && mode == MS_SYNC)
+    rc = likely(fcntl(map->fd, F_FULLFSYNC) != -1) ? MDBX_SUCCESS : errno;
+#endif /* MacOS */
+  return rc;
 #endif
 }
 
@@ -1179,11 +1203,24 @@ retry_mapview:;
   return rc;
 #else
   if (limit != map->length) {
-    void *ptr = mremap(map->address, map->length, limit, MREMAP_MAYMOVE);
-    if (ptr == MAP_FAILED)
-      return errno;
+#if defined(_GNU_SOURCE) &&                                                    \
+    !(defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__) ||   \
+      defined(__BSD__) || defined(__NETBSD__) || defined(__bsdi__) ||          \
+      defined(__DragonFly__) || defined(__APPLE__) || defined(__MACH__))
+    void *ptr = mremap(map->address, map->length, limit,
+                       /* LY: in case changing the mapping size calling code
+                          must guarantees the absence of competing threads, and
+                          a willingness to another base address */
+                       MREMAP_MAYMOVE);
+    if (ptr == MAP_FAILED) {
+      int err = errno;
+      return (err == EAGAIN || err == ENOMEM) ? MDBX_RESULT_TRUE : err;
+    }
     map->address = ptr;
     map->length = limit;
+#else
+    return MDBX_RESULT_TRUE;
+#endif /* mremap() <= _GNU_SOURCE && !__FreeBSD__ */
   }
   return (flags & MDBX_RDONLY) ? MDBX_SUCCESS : mdbx_ftruncate(map->fd, size);
 #endif
@@ -1213,4 +1250,72 @@ __cold void mdbx_osal_jitter(bool tiny) {
       usleep(coin);
 #endif
   }
+}
+
+#if defined(_WIN32) || defined(_WIN64)
+#elif defined(__APPLE__) || defined(__MACH__)
+#include <mach/mach_time.h>
+#elif defined(__linux__) || defined(__gnu_linux__)
+static __cold clockid_t choice_monoclock() {
+  struct timespec probe;
+#if defined(CLOCK_BOOTTIME)
+  if (clock_gettime(CLOCK_BOOTTIME, &probe) == 0)
+    return CLOCK_BOOTTIME;
+#elif defined(CLOCK_MONOTONIC_RAW)
+  if (clock_gettime(CLOCK_MONOTONIC_RAW, &probe) == 0)
+    return CLOCK_MONOTONIC_RAW;
+#elif defined(CLOCK_MONOTONIC_COARSE)
+  if (clock_gettime(CLOCK_MONOTONIC_COARSE, &probe) == 0)
+    return CLOCK_MONOTONIC_COARSE;
+#endif
+  return CLOCK_MONOTONIC;
+}
+#endif
+
+uint64_t mdbx_osal_16dot16_to_monotime(uint32_t seconds_16dot16) {
+#if defined(_WIN32) || defined(_WIN64)
+  static LARGE_INTEGER performance_frequency;
+  if (performance_frequency.QuadPart == 0)
+    QueryPerformanceFrequency(&performance_frequency);
+  const uint64_t ratio = performance_frequency.QuadPart;
+#elif defined(__APPLE__) || defined(__MACH__)
+  static uint64_t ratio;
+  if (!ratio) {
+    mach_timebase_info_data_t ti;
+    mach_timebase_info(&ti);
+    ratio = UINT64_C(1000000000) * ti.denom / ti.numer;
+  }
+#else
+  const uint64_t ratio = UINT64_C(1000000000);
+#endif
+  return (ratio * seconds_16dot16 + 32768) >> 16;
+}
+
+uint64_t mdbx_osal_monotime(void) {
+#if defined(_WIN32) || defined(_WIN64)
+  LARGE_INTEGER counter;
+  counter.QuadPart = 0;
+  QueryPerformanceCounter(&counter);
+  return counter.QuadPart;
+#elif defined(__APPLE__) || defined(__MACH__)
+  return mach_absolute_time();
+#else
+
+#if defined(__linux__) || defined(__gnu_linux__)
+  static clockid_t posix_clockid = -1;
+  if (unlikely(posix_clockid < 0))
+    posix_clockid = choice_monoclock();
+#elif defined(CLOCK_MONOTONIC)
+#define posix_clockid CLOCK_MONOTONIC
+#else
+#define posix_clockid CLOCK_REALTIME
+#endif
+
+  struct timespec ts;
+  if (unlikely(clock_gettime(posix_clockid, &ts) != 0)) {
+    ts.tv_nsec = 0;
+    ts.tv_sec = 0;
+  }
+  return ts.tv_sec * UINT64_C(1000000000) + ts.tv_nsec;
+#endif
 }

@@ -27,6 +27,8 @@ void actor_params::set_defaults(const std::string &tmpdir) {
   loglevel =
 #ifdef NDEBUG
       logging::info;
+#elif defined(_WIN32) || defined(_WIN64)
+      logging::verbose;
 #else
       logging::trace;
 #endif
@@ -70,6 +72,7 @@ void actor_params::set_defaults(const std::string &tmpdir) {
   inject_writefaultn = 0;
 
   drop_table = false;
+  ignore_dbfull = false;
 
   max_readers = 42;
   max_tables = 42;
@@ -179,17 +182,19 @@ int main(int argc, char *const argv[]) {
         params.datalen_max = datalen_max;
       continue;
     }
-    if (config::parse_option(argc, argv, narg, "size-lower", params.size_lower,
-                             mdbx_limits_dbsize_min(params.pagesize),
-                             mdbx_limits_dbsize_max(params.pagesize)))
+    if (config::parse_option_intptr(argc, argv, narg, "size-lower",
+                                    params.size_lower,
+                                    mdbx_limits_dbsize_min(params.pagesize),
+                                    mdbx_limits_dbsize_max(params.pagesize)))
       continue;
-    if (config::parse_option(argc, argv, narg, "size", params.size_now,
-                             mdbx_limits_dbsize_min(params.pagesize),
-                             mdbx_limits_dbsize_max(params.pagesize)))
+    if (config::parse_option_intptr(argc, argv, narg, "size-upper",
+                                    params.size_upper,
+                                    mdbx_limits_dbsize_min(params.pagesize),
+                                    mdbx_limits_dbsize_max(params.pagesize)))
       continue;
-    if (config::parse_option(argc, argv, narg, "size-upper", params.size_upper,
-                             mdbx_limits_dbsize_min(params.pagesize),
-                             mdbx_limits_dbsize_max(params.pagesize)))
+    if (config::parse_option_intptr(argc, argv, narg, "size", params.size_now,
+                                    mdbx_limits_dbsize_min(params.pagesize),
+                                    mdbx_limits_dbsize_max(params.pagesize)))
       continue;
     if (config::parse_option(
             argc, argv, narg, "shrink-threshold", params.shrink_threshold, 0,
@@ -287,6 +292,9 @@ int main(int argc, char *const argv[]) {
                              params.inject_writefaultn, config::decimal))
       continue;
     if (config::parse_option(argc, argv, narg, "drop", params.drop_table))
+      continue;
+    if (config::parse_option(argc, argv, narg, "ignore-dbfull",
+                             params.ignore_dbfull))
       continue;
     if (config::parse_option(argc, argv, narg, "dump-config",
                              global::config::dump_config))

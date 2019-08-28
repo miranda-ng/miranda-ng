@@ -20,7 +20,10 @@
 #pragma warning(disable : 4996) /* The POSIX name is deprecated... */
 #endif                          /* _MSC_VER (warnings) */
 
+/* Avoid reference to mdbx_runtime_flags from assert() */
+#define mdbx_runtime_flags (~0u)
 #include "../bits.h"
+
 #include <ctype.h>
 
 #if defined(_WIN32) || defined(_WIN64)
@@ -263,10 +266,9 @@ static int readline(MDBX_val *out, MDBX_val *buf) {
 
   if (mode & PRINT) {
     while (c2 < end) {
-      if (*c2 == '\\') {
+      if (unlikely(*c2 == '\\')) {
         if (c2[1] == '\\') {
-          c1++;
-          c2 += 2;
+          *c1++ = '\\';
         } else {
           if (c2 + 3 > end || !isxdigit(c2[1]) || !isxdigit(c2[2])) {
             Eof = 1;
@@ -274,8 +276,8 @@ static int readline(MDBX_val *out, MDBX_val *buf) {
             return EOF;
           }
           *c1++ = (char)unhex(++c2);
-          c2 += 2;
         }
+        c2 += 2;
       } else {
         /* copies are redundant when no escapes were used */
         *c1++ = *c2++;

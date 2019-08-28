@@ -21,6 +21,10 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+#ifdef __APPLE__
+#include "darwin/pthread_barrier.c"
+#endif
+
 struct shared_t {
   pthread_barrier_t barrier;
   pthread_mutex_t mutex;
@@ -199,7 +203,9 @@ retry:
     if (WIFEXITED(status))
       childs[pid] =
           (WEXITSTATUS(status) == EXIT_SUCCESS) ? as_successful : as_failed;
-    else if (WIFSIGNALED(status) || WCOREDUMP(status))
+    else if (WCOREDUMP(status))
+      childs[pid] = as_coredump;
+    else if (WIFSIGNALED(status))
       childs[pid] = as_killed;
     else if (WIFSTOPPED(status))
       childs[pid] = as_debuging;
@@ -216,7 +222,7 @@ retry:
     if (ts.tv_sec == 0 && ts.tv_nsec == 0)
       ts.tv_nsec = 1;
     if (nanosleep(&ts, &ts) == 0) {
-      /* timeout and no signal fomr child */
+      /* timeout and no signal from child */
       pid = 0;
       return 0;
     }

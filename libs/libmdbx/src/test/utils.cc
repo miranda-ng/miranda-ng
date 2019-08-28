@@ -17,6 +17,9 @@
 #if defined(HAVE_IEEE754_H) || __has_include(<ieee754.h>)
 #include <ieee754.h>
 #endif
+#if defined(__APPLE__) || defined(__MACH__)
+#include <mach/mach_time.h>
+#endif /* defined(__APPLE__) || defined(__MACH__) */
 
 std::string format(const char *fmt, ...) {
   va_list ap, ones;
@@ -353,7 +356,7 @@ void jitter_delay(bool extra) {
         cpu_relax();
         if (dice > 2) {
           unsigned us = entropy_white() &
-                        (extra ? 0xfffff /* 1.05 s */ : 0x3ff /* 1 ms */);
+                        (extra ? 0xffff /* 656 ms */ : 0x3ff /* 1 ms */);
           log_trace("== jitter.delay: %0.6f", us / 1000000.0);
           osal_udelay(us);
         }

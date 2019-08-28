@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2015-2019 Leonid Yuriev <leo@yuriev.ru>
  * and other libmdbx authors: please see AUTHORS file.
  * All rights reserved.
@@ -102,7 +102,7 @@ static
 #  ifdef _WIN64
      const
 #  endif
-   PIMAGE_TLS_CALLBACK mdbx_tls_anchor __attribute__((section(".CRT$XLB"), used)) = mdbx_dll_callback;
+   PIMAGE_TLS_CALLBACK mdbx_tls_anchor __attribute__((__section__(".CRT$XLB"), used)) = mdbx_dll_callback;
 #else
 #  error FIXME
 #endif
@@ -179,7 +179,7 @@ void mdbx_txn_unlock(MDBX_env *env) {
 #define LCK_LO_OFFSET 0
 #define LCK_LO_LEN offsetof(MDBX_lockinfo, mti_numreaders)
 #define LCK_UP_OFFSET LCK_LO_LEN
-#define LCK_UP_LEN (MDBX_LOCKINFO_WHOLE_SIZE - LCK_UP_OFFSET)
+#define LCK_UP_LEN (sizeof(MDBX_lockinfo) - LCK_UP_OFFSET)
 #define LCK_LOWER LCK_LO_OFFSET, LCK_LO_LEN
 #define LCK_UPPER LCK_UP_OFFSET, LCK_UP_LEN
 
@@ -414,7 +414,9 @@ int mdbx_lck_seize(MDBX_env *env) {
 
   assert(env->me_fd != INVALID_HANDLE_VALUE);
   if (env->me_flags & MDBX_EXCLUSIVE)
-    return MDBX_RESULT_TRUE /* files were must be opened non-shareable */;
+    return MDBX_RESULT_TRUE /* nope since files were must be opened
+                               non-shareable */
+        ;
 
   if (env->me_lfd == INVALID_HANDLE_VALUE) {
     /* LY: without-lck mode (e.g. on read-only filesystem) */
@@ -459,7 +461,8 @@ int mdbx_lck_downgrade(MDBX_env *env, bool complete) {
   assert(env->me_lfd != INVALID_HANDLE_VALUE);
 
   if (env->me_flags & MDBX_EXCLUSIVE)
-    return MDBX_SUCCESS /* files were must be opened non-shareable */;
+    return MDBX_SUCCESS /* nope since files were must be opened non-shareable */
+        ;
 
   /* 1) must be at E-E (exclusive-write) */
   if (!complete) {
@@ -664,6 +667,7 @@ MDBX_GetFileInformationByHandleEx mdbx_GetFileInformationByHandleEx;
 MDBX_GetVolumeInformationByHandleW mdbx_GetVolumeInformationByHandleW;
 MDBX_GetFinalPathNameByHandleW mdbx_GetFinalPathNameByHandleW;
 MDBX_SetFileInformationByHandle mdbx_SetFileInformationByHandle;
+MDBX_PrefetchVirtualMemory mdbx_PrefetchVirtualMemory;
 MDBX_NtFsControlFile mdbx_NtFsControlFile;
 
 static void mdbx_winnt_import(void) {
@@ -688,21 +692,14 @@ static void mdbx_winnt_import(void) {
     mdbx_srwlock_ReleaseExclusive = stub_srwlock_ReleaseExclusive;
   }
 
-  mdbx_GetFileInformationByHandleEx =
-      (MDBX_GetFileInformationByHandleEx)GetProcAddress(
-          hKernel32dll, "GetFileInformationByHandleEx");
+#define GET_KERNEL32_PROC(ENTRY)                                               \
+  mdbx_##ENTRY = (MDBX_##ENTRY)GetProcAddress(hKernel32dll, #ENTRY)
 
-  mdbx_GetVolumeInformationByHandleW =
-      (MDBX_GetVolumeInformationByHandleW)GetProcAddress(
-          hKernel32dll, "GetVolumeInformationByHandleW");
-
-  mdbx_GetFinalPathNameByHandleW =
-      (MDBX_GetFinalPathNameByHandleW)GetProcAddress(
-          hKernel32dll, "GetFinalPathNameByHandleW");
-
-  mdbx_SetFileInformationByHandle =
-      (MDBX_SetFileInformationByHandle)GetProcAddress(
-          hKernel32dll, "SetFileInformationByHandle");
+  GET_KERNEL32_PROC(GetFileInformationByHandleEx);
+  GET_KERNEL32_PROC(GetVolumeInformationByHandleW);
+  GET_KERNEL32_PROC(GetFinalPathNameByHandleW);
+  GET_KERNEL32_PROC(SetFileInformationByHandle);
+  GET_KERNEL32_PROC(PrefetchVirtualMemory);
 
   const HINSTANCE hNtdll = GetModuleHandleA("ntdll.dll");
   mdbx_NtFsControlFile =
