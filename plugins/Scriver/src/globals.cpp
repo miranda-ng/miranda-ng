@@ -370,14 +370,14 @@ void ReloadGlobals()
 		g_dat.flags |= SMF_DRAWLINES;
 	if (g_plugin.getByte(SRMSGSET_HIDENAMES, SRMSGDEFSET_HIDENAMES))
 		g_dat.flags |= SMF_HIDENAMES;
-	if (g_plugin.getByte(SRMSGSET_AUTOPOPUP, SRMSGDEFSET_AUTOPOPUP))
+	if (g_plugin.bAutoPopup)
 		g_dat.flags |= SMF_AUTOPOPUP;
-	if (g_plugin.getByte(SRMSGSET_STAYMINIMIZED, SRMSGDEFSET_STAYMINIMIZED))
+	if (g_plugin.bStayMinimized)
 		g_dat.flags |= SMF_STAYMINIMIZED;
-	if (g_plugin.getByte(SRMSGSET_SAVEDRAFTS, SRMSGDEFSET_SAVEDRAFTS))
+	if (g_plugin.bSaveDrafts)
 		g_dat.flags |= SMF_SAVEDRAFTS;
 
-	if (g_plugin.getByte(SRMSGSET_DELTEMP, SRMSGDEFSET_DELTEMP))
+	if (g_plugin.bDelTemp)
 		g_dat.flags |= SMF_DELTEMP;
 	if (g_plugin.getByte(SRMSGSET_INDENTTEXT, SRMSGDEFSET_INDENTTEXT))
 		g_dat.flags |= SMF_INDENTTEXT;
@@ -405,7 +405,7 @@ void ReloadGlobals()
 		g_dat.flags2 |= SMF2_LIMITTABS;
 	if (g_plugin.getByte(SRMSGSET_LIMITCHATSTABS, SRMSGDEFSET_LIMITCHATSTABS))
 		g_dat.flags2 |= SMF2_LIMITCHATSTABS;
-	if (g_plugin.getByte(SRMSGSET_HIDECONTAINERS, SRMSGDEFSET_HIDECONTAINERS))
+	if (g_plugin.bHideContainer)
 		g_dat.flags2 |= SMF2_HIDECONTAINERS;
 
 	if (g_plugin.getByte(SRMSGSET_SHOWSTATUSBAR, SRMSGDEFSET_SHOWSTATUSBAR))

@@ -221,10 +221,6 @@ static const struct CheckBoxValues_t statusValues[] =
 
 class CMainOptionsDlg : public CBaseOptionDlg
 {
-	CCtrlCheck chkAutoPopup, chkCascade, chkSavePerContact;
-	CCtrlCombo cmbSendMode;
-	CCtrlTreeView m_tree;
-
 	void FillCheckBoxTree(const struct CheckBoxValues_t *values, int nValues, DWORD style)
 	{
 		TVINSERTSTRUCT tvis;
@@ -255,15 +251,33 @@ class CMainOptionsDlg : public CBaseOptionDlg
 		return flags;
 	}
 
+	CCtrlCheck chkAutoMin, chkAutoPopup, chkCascade, chkSavePerContact, chkStayMinimized;
+	CCtrlCheck chkSaveDrafts, chkDelTemp, chkHideContainer;
+	CCtrlCombo cmbSendMode;
+	CCtrlTreeView m_tree;
+
 public:
 	CMainOptionsDlg() :
 		CBaseOptionDlg(IDD_OPT_MSGDLG),
 		m_tree(this, IDC_POPLIST),
+		chkAutoMin(this, IDC_AUTOMIN),
 		chkCascade(this, IDC_CASCADE),
+		chkDelTemp(this, IDC_DELTEMP),
 		cmbSendMode(this, IDC_SENDMODE),
 		chkAutoPopup(this, IDC_AUTOPOPUP),
+		chkSaveDrafts(this, IDC_SAVEDRAFTS),
+		chkHideContainer(this, IDC_HIDECONTAINERS),
+		chkStayMinimized(this, IDC_STAYMINIMIZED),
 		chkSavePerContact(this, IDC_SAVEPERCONTACT)
 	{
+		CreateLink(chkCascade, g_plugin.bCascade);
+		CreateLink(chkAutoMin, g_plugin.bAutoMin);
+		CreateLink(chkAutoPopup, g_plugin.bAutoPopup);
+		CreateLink(chkSaveDrafts, g_plugin.bSaveDrafts);
+		CreateLink(chkHideContainer, g_plugin.bHideContainer);
+		CreateLink(chkStayMinimized, g_plugin.bStayMinimized);
+		CreateLink(chkSavePerContact, g_plugin.bSavePerContact);
+
 		chkCascade.OnChange = Callback(this, &CMainOptionsDlg::onChange_Cascade);
 		chkAutoPopup.OnChange = Callback(this, &CMainOptionsDlg::onChange_AutoPopup);
 		chkSavePerContact.OnChange = Callback(this, &CMainOptionsDlg::onChange_SavePerContact);
@@ -273,19 +287,9 @@ public:
 	{
 		SetWindowLongPtr(m_tree.GetHwnd(), GWL_STYLE, (GetWindowLongPtr(m_tree.GetHwnd(), GWL_STYLE) & ~WS_BORDER) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 		FillCheckBoxTree(statusValues, _countof(statusValues), g_plugin.getDword(SRMSGSET_POPFLAGS, SRMSGDEFSET_POPFLAGS));
-		chkAutoPopup.SetState(g_plugin.getByte(SRMSGSET_AUTOPOPUP, SRMSGDEFSET_AUTOPOPUP));
-
-		CheckDlgButton(m_hwnd, IDC_STAYMINIMIZED, g_plugin.getByte(SRMSGSET_STAYMINIMIZED, SRMSGDEFSET_STAYMINIMIZED) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_AUTOMIN, g_plugin.getByte(SRMSGSET_AUTOMIN, SRMSGDEFSET_AUTOMIN) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_SAVEDRAFTS, g_plugin.getByte(SRMSGSET_SAVEDRAFTS, SRMSGDEFSET_SAVEDRAFTS) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_HIDECONTAINERS, g_plugin.getByte(SRMSGSET_HIDECONTAINERS, SRMSGDEFSET_HIDECONTAINERS) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_DELTEMP, g_plugin.getByte(SRMSGSET_DELTEMP, SRMSGDEFSET_DELTEMP) ? BST_CHECKED : BST_UNCHECKED);
 
 		SendDlgItemMessage(m_hwnd, IDC_SECONDSSPIN, UDM_SETRANGE, 0, MAKELONG(60, 4));
 		SendDlgItemMessage(m_hwnd, IDC_SECONDSSPIN, UDM_SETPOS, 0, g_plugin.getDword(SRMSGSET_MSGTIMEOUT, SRMSGDEFSET_MSGTIMEOUT) / 1000);
-
-		chkCascade.SetState(g_plugin.getByte(SRMSGSET_CASCADE, SRMSGDEFSET_CASCADE));
-		chkSavePerContact.SetState(g_plugin.getByte(SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT));
 
 		cmbSendMode.AddString(TranslateT("Enter"));
 		cmbSendMode.AddString(TranslateT("Double 'Enter'"));
@@ -300,20 +304,10 @@ public:
 	bool OnApply() override
 	{
 		g_plugin.setDword(SRMSGSET_POPFLAGS, MakeCheckBoxTreeFlags());
-		g_plugin.setByte(SRMSGSET_AUTOPOPUP, chkAutoPopup.GetState());
-		g_plugin.setByte(SRMSGSET_STAYMINIMIZED, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_STAYMINIMIZED));
-		g_plugin.setByte(SRMSGSET_AUTOMIN, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_AUTOMIN));
-		g_plugin.setByte(SRMSGSET_SAVEDRAFTS, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SAVEDRAFTS));
 
-		g_plugin.setByte(SRMSGSET_DELTEMP, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_DELTEMP));
 		g_plugin.setDword(SRMSGSET_MSGTIMEOUT, (DWORD)SendDlgItemMessage(m_hwnd, IDC_SECONDSSPIN, UDM_GETPOS, 0, 0) * 1000);
 
 		g_plugin.setByte(SRMSGSET_SENDMODE, cmbSendMode.GetCurSel());
-
-		g_plugin.setByte(SRMSGSET_SAVEPERCONTACT, chkSavePerContact.GetState());
-		g_plugin.setByte(SRMSGSET_CASCADE, chkCascade.GetState());
-
-		g_plugin.setByte(SRMSGSET_HIDECONTAINERS, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_HIDECONTAINERS));
 		return true;
 	}
 

@@ -623,7 +623,7 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 	switch (msg) {
 	case WM_INITDIALOG:
 		{
-			int savePerContact = g_plugin.getByte(SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT);
+			int savePerContact = g_plugin.bSavePerContact;
 			NewMessageWindowLParam *newData = (NewMessageWindowLParam *)lParam;
 			dat = (ParentWindowData *)mir_alloc(sizeof(ParentWindowData));
 			dat->hContact = newData->hContact;
@@ -670,7 +670,7 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 			if (ScriverRestoreWindowPosition(hwndDlg, hSContact, SRMM_MODULE, (newData->isChat && !savePerContact) ? "chat" : "", 0, SW_HIDE))
 				SetWindowPos(hwndDlg, nullptr, 0, 0, 450, 300, SWP_NOZORDER | SWP_NOMOVE | SWP_HIDEWINDOW);
 
-			if (!savePerContact && g_plugin.getByte(SRMSGSET_CASCADE, SRMSGDEFSET_CASCADE))
+			if (!savePerContact && g_plugin.bCascade)
 				WindowList_Broadcast(g_dat.hParentWindowList, DM_CASCADENEWWINDOW, (WPARAM)hwndDlg, (LPARAM)&dat->windowWasCascaded);
 
 			PostMessage(hwndDlg, WM_SIZE, 0, 0);
@@ -1016,7 +1016,7 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		WindowList_Remove(g_dat.hParentWindowList, hwndDlg);
 		{
-			int savePerContact = g_plugin.getByte(SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT);
+			int savePerContact = g_plugin.bSavePerContact;
 			MCONTACT hContact = (savePerContact) ? dat->hContact : 0;
 
 			WINDOWPLACEMENT wp = { sizeof(wp) };

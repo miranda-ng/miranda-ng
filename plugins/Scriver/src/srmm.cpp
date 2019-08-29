@@ -46,8 +46,17 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(SRMM_MODULE, pluginInfoEx)
-{}
+	PLUGIN<CMPlugin>(SRMM_MODULE, pluginInfoEx),
+	bCascade(SRMM_MODULE, "Cascade", 1),
+	bAutoMin(SRMM_MODULE, "AutoMin", 0),
+	bDelTemp(SRMM_MODULE, "DeleteTempCont", 0),
+	bAutoPopup(SRMM_MODULE, "AutoPopupMsg", 0),
+	bSaveDrafts(SRMM_MODULE, "SaveDrafts", 0),
+	bHideContainer(SRMM_MODULE, "HideContainers", 0),
+	bStayMinimized(SRMM_MODULE, "StayMinimized", 0),
+	bSavePerContact(SRMM_MODULE, "SavePerContact", 0)
+{
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

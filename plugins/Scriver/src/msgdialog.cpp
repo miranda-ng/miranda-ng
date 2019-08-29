@@ -468,7 +468,7 @@ void CSrmmWindow::onClick_Ok(CCtrlButton *pButton)
 
 	m_message.SetText(L"");
 	EnableWindow(GetDlgItem(m_hwnd, IDOK), FALSE);
-	if (g_plugin.getByte(SRMSGSET_AUTOMIN, SRMSGDEFSET_AUTOMIN))
+	if (g_plugin.bSaveDrafts)
 		ShowWindow(m_hwndParent, SW_MINIMIZE);
 
 	if (pButton == nullptr)
