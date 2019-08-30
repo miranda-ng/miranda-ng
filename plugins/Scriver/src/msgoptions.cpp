@@ -431,25 +431,33 @@ public:
 
 class CLayoutOptionsDlg : public CBaseOptionDlg
 {
-	CCtrlCheck chkTransparency, chkShowTitlebar;
+	CCtrlCheck chkTransparency, chkShowTitlebar, chkShowStatusBar, chkShowToolbar, chkShowInfobar, chkShowProgress, chkShowAvatar;
 
 public:
 	CLayoutOptionsDlg() : 
 		CBaseOptionDlg(IDD_OPT_LAYOUT),
 		chkTransparency(this, IDC_TRANSPARENCY),
-		chkShowTitlebar(this, IDC_SHOWTITLEBAR)
+		chkShowAvatar(this, IDC_AVATARSUPPORT),
+		chkShowInfobar(this, IDC_SHOWINFOBAR),
+		chkShowToolbar(this, IDC_SHOWTOOLBAR),
+		chkShowTitlebar(this, IDC_SHOWTITLEBAR),
+		chkShowProgress(this, IDC_SHOWPROGRESS),
+		chkShowStatusBar(this, IDC_SHOWSTATUSBAR)
 	{
+		CreateLink(chkShowAvatar, g_plugin.bShowAvatar);
+		CreateLink(chkShowInfobar, g_plugin.bShowInfoBar);
+		CreateLink(chkShowToolbar, g_plugin.bShowToolBar);
+		CreateLink(chkShowTitlebar, g_plugin.bShowTitleBar);
+		CreateLink(chkShowProgress, g_plugin.bShowProgress);
+		CreateLink(chkShowStatusBar, g_plugin.bShowStatusBar);
+
 		chkTransparency.OnChange = Callback(this, &CLayoutOptionsDlg::onChange_Transparency);
 		chkShowTitlebar.OnChange = Callback(this, &CLayoutOptionsDlg::onChange_ShowTitlebar);
 	}
 
 	bool OnInitDialog() override
 	{
-		CheckDlgButton(m_hwnd, IDC_SHOWSTATUSBAR, g_plugin.getByte(SRMSGSET_SHOWSTATUSBAR, SRMSGDEFSET_SHOWSTATUSBAR) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_SHOWTITLEBAR, g_plugin.getByte(SRMSGSET_SHOWTITLEBAR, SRMSGDEFSET_SHOWTITLEBAR) ? BST_CHECKED : BST_UNCHECKED);
 		SetWindowText(GetDlgItem(m_hwnd, IDC_TITLEFORMAT), g_dat.wszTitleFormat);
-		CheckDlgButton(m_hwnd, IDC_SHOWTOOLBAR, g_plugin.getByte(SRMSGSET_SHOWBUTTONLINE, SRMSGDEFSET_SHOWBUTTONLINE) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_SHOWINFOBAR, g_plugin.getByte(SRMSGSET_SHOWINFOBAR, SRMSGDEFSET_SHOWINFOBAR) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_TRANSPARENCY, g_plugin.getByte(SRMSGSET_USETRANSPARENCY, SRMSGDEFSET_USETRANSPARENCY) ? BST_CHECKED : BST_UNCHECKED);
 		SendDlgItemMessage(m_hwnd, IDC_ATRANSPARENCYVALUE, TBM_SETRANGE, FALSE, MAKELONG(0, 255));
 		SendDlgItemMessage(m_hwnd, IDC_ATRANSPARENCYVALUE, TBM_SETPOS, TRUE, g_plugin.getDword(SRMSGSET_ACTIVEALPHA, SRMSGDEFSET_ACTIVEALPHA));
@@ -469,7 +477,6 @@ public:
 		onChange_Transparency(0);
 		onChange_ShowTitlebar(0);
 
-		CheckDlgButton(m_hwnd, IDC_SHOWPROGRESS, g_plugin.getByte(SRMSGSET_SHOWPROGRESS, SRMSGDEFSET_SHOWPROGRESS) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_AVATARSUPPORT, g_dat.flags.bShowAvatar);
 		return true;
 	}
@@ -479,18 +486,9 @@ public:
 		GetWindowText(GetDlgItem(m_hwnd, IDC_TITLEFORMAT), g_dat.wszTitleFormat, _countof(g_dat.wszTitleFormat));
 		g_plugin.setWString(SRMSGSET_WINDOWTITLE, g_dat.wszTitleFormat);
 
-		g_plugin.setByte(SRMSGSET_SHOWSTATUSBAR, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWSTATUSBAR));
-		g_plugin.setByte(SRMSGSET_SHOWTITLEBAR, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWTITLEBAR));
-		g_plugin.setByte(SRMSGSET_SHOWBUTTONLINE, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWTOOLBAR));
-		g_plugin.setByte(SRMSGSET_SHOWINFOBAR, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWINFOBAR));
-
 		g_plugin.setByte(SRMSGSET_USETRANSPARENCY, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_TRANSPARENCY));
 		g_plugin.setDword(SRMSGSET_ACTIVEALPHA, SendDlgItemMessage(m_hwnd, IDC_ATRANSPARENCYVALUE, TBM_GETPOS, 0, 0));
 		g_plugin.setDword(SRMSGSET_INACTIVEALPHA, SendDlgItemMessage(m_hwnd, IDC_ITRANSPARENCYVALUE, TBM_GETPOS, 0, 0));
-
-		g_plugin.setByte(SRMSGSET_SHOWPROGRESS, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWPROGRESS));
-
-		g_plugin.setByte(SRMSGSET_AVATARENABLE, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_AVATARSUPPORT));
 
 		g_plugin.setWord(SRMSGSET_AUTORESIZELINES, (WORD)SendDlgItemMessage(m_hwnd, IDC_INPUTLINESSPIN, UDM_GETPOS, 0, 0));
 		LoadInfobarFonts();
@@ -510,7 +508,7 @@ public:
 
 	void onChange_ShowTitlebar(CCtrlCheck*)
 	{
-		int bChecked = IsDlgButtonChecked(m_hwnd, IDC_SHOWTITLEBAR);
+		bool bChecked = chkShowTitlebar.GetState();
 		EnableWindow(GetDlgItem(m_hwnd, IDC_TITLEFORMAT), bChecked);
 	}
 
@@ -535,7 +533,8 @@ public:
 class CLogOptionsDlg : public CBaseOptionDlg
 {
 	CCtrlCheck chkLoadUnread, chkLoadCount, chkLoadTime;
-	CCtrlCheck chkShowTime, chkShowDate, chkGroupMsg, chkIndentText;
+	CCtrlCheck chkShowIcons, chkShowTime, chkShowSecs, chkShowDate, chkLongDate, chkRelativeDate;
+	CCtrlCheck chkGroupMsg, chkIndentText, chkHideNames, chkMarkFollowups, chkMsgOnNewline, chkDrawLines;
 	CCtrlRichEdit m_log;
 	CCtrlHyperlink m_fonts;
 
@@ -544,18 +543,18 @@ class CLogOptionsDlg : public CBaseOptionDlg
 		m_log.SetText(L"");
 
 		struct GlobalMessageData gdat = {};
-		gdat.flags.bShowIcons = IsDlgButtonChecked(m_hwnd, IDC_SHOWLOGICONS);
-		gdat.flags.bHideNames = !IsDlgButtonChecked(m_hwnd, IDC_SHOWNAMES);
-		gdat.flags.bShowTime = IsDlgButtonChecked(m_hwnd, IDC_SHOWTIMES);
-		gdat.flags.bShowSeconds = IsDlgButtonChecked(m_hwnd, IDC_SHOWSECONDS);
-		gdat.flags.bShowDate = IsDlgButtonChecked(m_hwnd, IDC_SHOWDATES);
-		gdat.flags.bLongDate = IsDlgButtonChecked(m_hwnd, IDC_USELONGDATE);
-		gdat.flags.bRelativeDate = IsDlgButtonChecked(m_hwnd, IDC_USERELATIVEDATE);
-		gdat.flags.bGroupMessages = IsDlgButtonChecked(m_hwnd, IDC_GROUPMESSAGES);
-		gdat.flags.bMarkFollowups = IsDlgButtonChecked(m_hwnd, IDC_MARKFOLLOWUPS);
-		gdat.flags.bMsgOnNewline = IsDlgButtonChecked(m_hwnd, IDC_MESSAGEONNEWLINE);
-		gdat.flags.bDrawLines = IsDlgButtonChecked(m_hwnd, IDC_DRAWLINES);
-		gdat.flags.bIndentText = IsDlgButtonChecked(m_hwnd, IDC_INDENTTEXT);
+		gdat.flags.bShowIcons = chkShowIcons.GetState();
+		gdat.flags.bHideNames = chkHideNames.GetState();
+		gdat.flags.bShowTime = chkShowTime.GetState();
+		gdat.flags.bShowSeconds = chkShowSecs.GetState();
+		gdat.flags.bShowDate = chkShowDate.GetState();
+		gdat.flags.bLongDate = chkLongDate.GetState();
+		gdat.flags.bRelativeDate = chkRelativeDate.GetState();
+		gdat.flags.bGroupMessages = chkGroupMsg.GetState();
+		gdat.flags.bMarkFollowups = chkMarkFollowups.GetState();
+		gdat.flags.bMsgOnNewline = chkMsgOnNewline.GetState();
+		gdat.flags.bDrawLines = chkDrawLines.GetState();
+		gdat.flags.bIndentText = chkIndentText.GetState();
 		gdat.indentSize = (int)SendDlgItemMessage(m_hwnd, IDC_INDENTSPIN, UDM_GETPOS, 0, 0);
 
 		PARAFORMAT2 pf2;
@@ -573,15 +572,36 @@ public:
 		m_log(this, IDC_SRMM_LOG),
 		m_fonts(this, IDC_FONTSCOLORS),
 		chkShowTime(this, IDC_SHOWTIMES),
+		chkShowSecs(this, IDC_SHOWSECONDS),
 		chkShowDate(this, IDC_SHOWDATES),
+		chkLongDate(this, IDC_USELONGDATE),
+		chkRelativeDate(this, IDC_USERELATIVEDATE),
 		chkGroupMsg(this, IDC_GROUPMESSAGES),
+		chkMarkFollowups(this, IDC_MARKFOLLOWUPS),
+		chkDrawLines(this, IDC_DRAWLINES),
+		chkShowIcons(this, IDC_SHOWLOGICONS),
 		chkIndentText(this, IDC_INDENTTEXT),
+		chkHideNames(this, IDC_HIDENAMES),
+		chkMsgOnNewline(this, IDC_MESSAGEONNEWLINE),
 		chkLoadTime(this, IDC_LOADTIME),
 		chkLoadCount(this, IDC_LOADCOUNT),
 		chkLoadUnread(this, IDC_LOADUNREAD)
 	{
 		m_fonts.OnClick = Callback(this, &CLogOptionsDlg::onClick_Fonts);
-		
+
+		CreateLink(chkShowTime, g_plugin.bShowTime);
+		CreateLink(chkShowSecs, g_plugin.bShowSeconds);
+		CreateLink(chkShowDate, g_plugin.bShowDate);
+		CreateLink(chkLongDate, g_plugin.bLongDate);
+		CreateLink(chkGroupMsg, g_plugin.bGroupMessages);
+		CreateLink(chkShowIcons, g_plugin.bShowIcons);
+		CreateLink(chkHideNames, g_plugin.bHideNames);
+		CreateLink(chkDrawLines, g_plugin.bDrawLines);
+		CreateLink(chkIndentText, g_plugin.bIndentText);
+		CreateLink(chkMsgOnNewline, g_plugin.bMsgOnNewline);
+		CreateLink(chkRelativeDate, g_plugin.bRelativeDate);
+		CreateLink(chkMarkFollowups, g_plugin.bMarkFollowups);
+
 		chkLoadTime.OnChange = chkLoadCount.OnChange = chkLoadUnread.OnChange = Callback(this, &CLogOptionsDlg::onChange_Time);
 		chkShowDate.OnChange = Callback(this, &CLogOptionsDlg::onChange_Dates);
 		chkShowTime.OnChange = Callback(this, &CLogOptionsDlg::onChange_Times);
@@ -613,28 +633,11 @@ public:
 		if (!g_dat.ieviewInstalled)
 			EnableWindow(GetDlgItem(m_hwnd, IDC_USEIEVIEW), FALSE);
 
-		CheckDlgButton(m_hwnd, IDC_SHOWLOGICONS, g_plugin.getByte(SRMSGSET_SHOWLOGICONS, SRMSGDEFSET_SHOWLOGICONS) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_SHOWNAMES, !g_plugin.getByte(SRMSGSET_HIDENAMES, SRMSGDEFSET_HIDENAMES) ? BST_CHECKED : BST_UNCHECKED);
-
-		CheckDlgButton(m_hwnd, IDC_SHOWTIMES, g_plugin.getByte(SRMSGSET_SHOWTIME, SRMSGDEFSET_SHOWTIME) ? BST_CHECKED : BST_UNCHECKED);
 		onChange_Times(0);
-
-		CheckDlgButton(m_hwnd, IDC_SHOWSECONDS, g_plugin.getByte(SRMSGSET_SHOWSECONDS, SRMSGDEFSET_SHOWSECONDS) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_SHOWDATES, g_plugin.getByte(SRMSGSET_SHOWDATE, SRMSGDEFSET_SHOWDATE) ? BST_CHECKED : BST_UNCHECKED);
 		onChange_Dates(0);
-		
-		CheckDlgButton(m_hwnd, IDC_USELONGDATE, g_plugin.getByte(SRMSGSET_USELONGDATE, SRMSGDEFSET_USELONGDATE) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_USERELATIVEDATE, g_plugin.getByte(SRMSGSET_USERELATIVEDATE, SRMSGDEFSET_USERELATIVEDATE) ? BST_CHECKED : BST_UNCHECKED);
-
-		CheckDlgButton(m_hwnd, IDC_GROUPMESSAGES, g_plugin.getByte(SRMSGSET_GROUPMESSAGES, SRMSGDEFSET_GROUPMESSAGES) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_MARKFOLLOWUPS, g_plugin.getByte(SRMSGSET_MARKFOLLOWUPS, SRMSGDEFSET_MARKFOLLOWUPS) ? BST_CHECKED : BST_UNCHECKED);
 		onChange_GroupMsg(0);
-
-		CheckDlgButton(m_hwnd, IDC_MESSAGEONNEWLINE, g_plugin.getByte(SRMSGSET_MESSAGEONNEWLINE, SRMSGDEFSET_MESSAGEONNEWLINE) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_DRAWLINES, g_plugin.getByte(SRMSGSET_DRAWLINES, SRMSGDEFSET_DRAWLINES) ? BST_CHECKED : BST_UNCHECKED);
-
-		CheckDlgButton(m_hwnd, IDC_INDENTTEXT, g_plugin.getByte(SRMSGSET_INDENTTEXT, SRMSGDEFSET_INDENTTEXT) ? BST_CHECKED : BST_UNCHECKED);
 		onChange_IndentText(0);
+
 		SendDlgItemMessage(m_hwnd, IDC_INDENTSPIN, UDM_SETRANGE, 0, MAKELONG(999, 0));
 		SendDlgItemMessage(m_hwnd, IDC_INDENTSPIN, UDM_SETPOS, 0, g_plugin.getWord(SRMSGSET_INDENTSIZE, SRMSGDEFSET_INDENTSIZE));
 
@@ -664,19 +667,8 @@ public:
 			g_plugin.setByte(SRMSGSET_LOADHISTORY, LOADHISTORY_UNREAD);
 		g_plugin.setWord(SRMSGSET_LOADCOUNT, (WORD)SendDlgItemMessage(m_hwnd, IDC_LOADCOUNTSPIN, UDM_GETPOS, 0, 0));
 		g_plugin.setWord(SRMSGSET_LOADTIME, (WORD)SendDlgItemMessage(m_hwnd, IDC_LOADTIMESPIN, UDM_GETPOS, 0, 0));
-		g_plugin.setByte(SRMSGSET_SHOWLOGICONS, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWLOGICONS));
-		g_plugin.setByte(SRMSGSET_HIDENAMES, (BYTE)BST_UNCHECKED == IsDlgButtonChecked(m_hwnd, IDC_SHOWNAMES));
-		g_plugin.setByte(SRMSGSET_SHOWTIME, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWTIMES));
-		g_plugin.setByte(SRMSGSET_SHOWSECONDS, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWSECONDS));
-		g_plugin.setByte(SRMSGSET_SHOWDATE, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWDATES));
-		g_plugin.setByte(SRMSGSET_USELONGDATE, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_USELONGDATE));
-		g_plugin.setByte(SRMSGSET_USERELATIVEDATE, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_USERELATIVEDATE));
-		g_plugin.setByte(SRMSGSET_GROUPMESSAGES, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_GROUPMESSAGES));
-		g_plugin.setByte(SRMSGSET_MARKFOLLOWUPS, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_MARKFOLLOWUPS));
-		g_plugin.setByte(SRMSGSET_MESSAGEONNEWLINE, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_MESSAGEONNEWLINE));
-		g_plugin.setByte(SRMSGSET_DRAWLINES, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_DRAWLINES));
+
 		g_plugin.setByte(SRMSGSET_USEIEVIEW, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_USEIEVIEW));
-		g_plugin.setByte(SRMSGSET_INDENTTEXT, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_INDENTTEXT));
 		g_plugin.setWord(SRMSGSET_INDENTSIZE, (WORD)SendDlgItemMessage(m_hwnd, IDC_INDENTSPIN, UDM_GETPOS, 0, 0));
 
 		FreeMsgLogIcons();
@@ -704,28 +696,28 @@ public:
 
 	void onChange_Times(CCtrlCheck*)
 	{
-		int bChecked = IsDlgButtonChecked(m_hwnd, IDC_SHOWTIMES);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_SHOWSECONDS), bChecked);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_SHOWDATES), bChecked);
+		int bChecked = chkShowTime.GetState();
+		chkShowSecs.Enable(bChecked);
+		chkShowDate.Enable(bChecked);
 
 		onChange_Dates(0);
 	}
 
 	void onChange_Dates(CCtrlCheck*)
 	{
-		int bChecked = IsDlgButtonChecked(m_hwnd, IDC_SHOWDATES) && IsDlgButtonChecked(m_hwnd, IDC_SHOWTIMES);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_USELONGDATE), bChecked);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_USERELATIVEDATE), bChecked);
+		int bChecked = chkShowDate.GetState() && chkShowTime.GetState();
+		chkLongDate.Enable(bChecked);
+		chkRelativeDate.Enable(bChecked);
 	}
 
 	void onChange_GroupMsg(CCtrlCheck*)
 	{
-		EnableWindow(GetDlgItem(m_hwnd, IDC_MARKFOLLOWUPS), IsDlgButtonChecked(m_hwnd, IDC_GROUPMESSAGES));
+		chkMarkFollowups.Enable(chkGroupMsg.GetState());
 	}
 
 	void onChange_IndentText(CCtrlCheck*)
 	{
-		int bChecked = IsDlgButtonChecked(m_hwnd, IDC_INDENTTEXT);
+		int bChecked = chkIndentText.GetState();
 		EnableWindow(GetDlgItem(m_hwnd, IDC_INDENTSIZE), bChecked);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_INDENTSPIN), bChecked);
 	}

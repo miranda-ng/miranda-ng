@@ -55,7 +55,27 @@ CMPlugin::CMPlugin() :
 	bHideContainer(SRMM_MODULE, "HideContainers", 0),
 	bStayMinimized(SRMM_MODULE, "StayMinimized", 0),
 	bSavePerContact(SRMM_MODULE, "SavePerContact", 0),
-	
+
+	bShowAvatar(SRMM_MODULE, "AvatarEnable", 1),
+	bShowProgress(SRMM_MODULE, "ShowProgress", 0),
+	bShowIcons(SRMM_MODULE, "ShowLogIcon", 1),
+	bShowTime(SRMM_MODULE, "ShowTime", 1),
+	bShowSeconds(SRMM_MODULE, "ShowSeconds", 1),
+	bShowDate(SRMM_MODULE, "ShowDate", 0),
+	bLongDate(SRMM_MODULE, "UseLongDate", 0),
+	bRelativeDate(SRMM_MODULE, "UseRelativeDate", 0),
+	bGroupMessages(SRMM_MODULE, "GroupMessages", 0),
+	bMarkFollowups(SRMM_MODULE, "MarkFollowUps", 0),
+	bMsgOnNewline(SRMM_MODULE, "MessageOnNewLine", 0),
+	bDrawLines(SRMM_MODULE, "DrawLines", 0),
+	bHideNames(SRMM_MODULE, "HideNames", 1),
+	bIndentText(SRMM_MODULE, "IndentText", 0),
+
+	bShowToolBar(SRMM_MODULE, "ShowButtonLine", 1),
+	bShowInfoBar(SRMM_MODULE, "ShowInfoBar", 1),
+	bShowTitleBar(SRMM_MODULE, "ShowTitleBar", 1),
+	bShowStatusBar(SRMM_MODULE, "ShowStatusBar", 1),
+
 	bUseTabs(SRMM_MODULE, "UseTabs", 1),
 	bLimitTabs(SRMM_MODULE, "LimitTabs", 0),
 	bLimitChatTabs(SRMM_MODULE, "LimitChatsTabs", 0),

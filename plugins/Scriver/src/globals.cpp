@@ -345,20 +345,20 @@ void ReloadGlobals()
 	g_dat.dwFlags = 0;
 	g_dat.dwFlags2 = 0;
 
-	g_dat.flags.bShowAvatar = g_plugin.getBool(SRMSGSET_AVATARENABLE, SRMSGDEFSET_AVATARENABLE);
-	g_dat.flags.bShowProgress = g_plugin.getBool(SRMSGSET_SHOWPROGRESS, SRMSGDEFSET_SHOWPROGRESS);
-	g_dat.flags.bShowIcons = g_plugin.getBool(SRMSGSET_SHOWLOGICONS, SRMSGDEFSET_SHOWLOGICONS);
-	g_dat.flags.bShowTime = g_plugin.getBool(SRMSGSET_SHOWTIME, SRMSGDEFSET_SHOWTIME);
-	g_dat.flags.bShowSeconds = g_plugin.getBool(SRMSGSET_SHOWSECONDS, SRMSGDEFSET_SHOWSECONDS);
-	g_dat.flags.bShowDate = g_plugin.getBool(SRMSGSET_SHOWDATE, SRMSGDEFSET_SHOWDATE);
-	g_dat.flags.bLongDate = g_plugin.getBool(SRMSGSET_USELONGDATE, SRMSGDEFSET_USELONGDATE);
-	g_dat.flags.bRelativeDate = g_plugin.getBool(SRMSGSET_USERELATIVEDATE, SRMSGDEFSET_USERELATIVEDATE);
-	g_dat.flags.bGroupMessages = g_plugin.getBool(SRMSGSET_GROUPMESSAGES, SRMSGDEFSET_GROUPMESSAGES);
-	g_dat.flags.bMarkFollowups = g_plugin.getBool(SRMSGSET_MARKFOLLOWUPS, SRMSGDEFSET_MARKFOLLOWUPS);
-	g_dat.flags.bMsgOnNewline = g_plugin.getBool(SRMSGSET_MESSAGEONNEWLINE, SRMSGDEFSET_MESSAGEONNEWLINE);
-	g_dat.flags.bDrawLines = g_plugin.getBool(SRMSGSET_DRAWLINES, SRMSGDEFSET_DRAWLINES);
-	g_dat.flags.bHideNames = g_plugin.getBool(SRMSGSET_HIDENAMES, SRMSGDEFSET_HIDENAMES);
-	g_dat.flags.bIndentText = g_plugin.getByte(SRMSGSET_INDENTTEXT, SRMSGDEFSET_INDENTTEXT);
+	g_dat.flags.bShowAvatar = g_plugin.bShowAvatar;
+	g_dat.flags.bShowProgress = g_plugin.bShowProgress;
+	g_dat.flags.bShowIcons = g_plugin.bShowIcons;
+	g_dat.flags.bShowTime = g_plugin.bShowTime;
+	g_dat.flags.bShowSeconds = g_plugin.bShowSeconds;
+	g_dat.flags.bShowDate = g_plugin.bShowDate;
+	g_dat.flags.bLongDate = g_plugin.bLongDate;
+	g_dat.flags.bRelativeDate = g_plugin.bRelativeDate;
+	g_dat.flags.bGroupMessages = g_plugin.bGroupMessages;
+	g_dat.flags.bMarkFollowups = g_plugin.bMarkFollowups;
+	g_dat.flags.bMsgOnNewline = g_plugin.bMsgOnNewline;
+	g_dat.flags.bDrawLines = g_plugin.bDrawLines;
+	g_dat.flags.bHideNames = g_plugin.bHideNames;
+	g_dat.flags.bIndentText = g_plugin.bIndentText;
 	
 	g_dat.flags.bAutoPopup = g_plugin.bAutoPopup;
 	g_dat.flags.bStayMinimized = g_plugin.bStayMinimized;
@@ -381,10 +381,10 @@ void ReloadGlobals()
 	g_dat.flags2.bLimitChatTabs = g_plugin.bLimitChatTabs;
 	g_dat.flags2.bHideContainer = g_plugin.bHideContainer;
 	
-	g_dat.flags2.bShowStatusBar = g_plugin.getBool(SRMSGSET_SHOWSTATUSBAR, SRMSGDEFSET_SHOWSTATUSBAR);
-	g_dat.flags2.bShowTitleBar = g_plugin.getBool(SRMSGSET_SHOWTITLEBAR, SRMSGDEFSET_SHOWTITLEBAR);
-	g_dat.flags2.bShowToolBar = g_plugin.getBool(SRMSGSET_SHOWBUTTONLINE, SRMSGDEFSET_SHOWBUTTONLINE);
-	g_dat.flags2.bShowInfoBar = g_plugin.getBool(SRMSGSET_SHOWINFOBAR, SRMSGDEFSET_SHOWINFOBAR);
+	g_dat.flags2.bShowStatusBar = g_plugin.bShowStatusBar;
+	g_dat.flags2.bShowTitleBar = g_plugin.bShowTitleBar;
+	g_dat.flags2.bShowToolBar = g_plugin.bShowToolBar;
+	g_dat.flags2.bShowInfoBar = g_plugin.bShowInfoBar;
 
 	g_dat.flags2.bShowTyping = g_plugin.getBool(SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING);
 	g_dat.flags2.bShowTypingWin = g_plugin.getBool(SRMSGSET_SHOWTYPINGWIN, SRMSGDEFSET_SHOWTYPINGWIN);

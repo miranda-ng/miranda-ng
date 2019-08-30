@@ -477,7 +477,7 @@ static char* CreateRTFFromEvent(CSrmmWindow *dat, EventData *evt, GlobalMessageD
 		wchar_t *timestampString = nullptr;
 		if (gdat->flags.bGroupMessages && evt->eventType == EVENTTYPE_MESSAGE) {
 			if (isGroupBreak) {
-				if (!(gdat->flags.bMarkFollowups))
+				if (!gdat->flags.bMarkFollowups)
 					timestampString = TimestampToString(gdat->flags, evt->time, 0);
 				else if (gdat->flags.bShowDate)
 					timestampString = TimestampToString(gdat->flags, evt->time, 1);

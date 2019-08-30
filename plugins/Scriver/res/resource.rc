@@ -119,7 +119,7 @@ BEGIN
     CONTROL         "Show date",IDC_SHOWDATES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,58,132,10
     CONTROL         "Long date format",IDC_USELONGDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,69,123,10
     CONTROL         "Relative date",IDC_USERELATIVEDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,80,123,10
-    CONTROL         "Show names",IDC_SHOWNAMES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,25,140,10
+    CONTROL         "Hide names",IDC_HIDENAMES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,25,140,10
     CONTROL         "Enable message grouping",IDC_GROUPMESSAGES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,36,140,10
     CONTROL         "Mark follow-up messages with timestamp",IDC_MARKFOLLOWUPS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,47,132,10

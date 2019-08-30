@@ -87,7 +87,7 @@
 #define IDC_LIMITCHATSTABSNUM           1014
 #define IDC_LIMITCHATSTABSNUMSPIN       1015
 #define IDC_SMILEY                      1016
-#define IDC_SHOWNAMES                   1020
+#define IDC_HIDENAMES                   1020
 #define IDC_USETABS                     1022
 #define IDC_SHOWSECONDS                 1023
 #define IDC_USELONGDATE                 1024

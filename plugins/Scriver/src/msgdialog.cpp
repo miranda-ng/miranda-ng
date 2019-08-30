@@ -849,7 +849,7 @@ void CSrmmWindow::MessageDialogResize(int w, int h)
 	if (hSplitterMinBottom < g_dat.minInputAreaHeight)
 		hSplitterMinBottom = g_dat.minInputAreaHeight;
 
-	if (!(pdat->flags2.bShowInfoBar)) {
+	if (!pdat->flags2.bShowInfoBar) {
 		infobarHeight = 0;
 		infobarInnerHeight = 0;
 	}
@@ -866,7 +866,7 @@ void CSrmmWindow::MessageDialogResize(int w, int h)
 	if (hSplitterPos < hSplitterMinBottom)
 		hSplitterPos = hSplitterMinBottom;
 
-	if (!(pdat->flags2.bShowInfoBar)) {
+	if (!pdat->flags2.bShowInfoBar) {
 		if (m_hbmpAvatarPic && g_dat.flags.bShowAvatar) {
 			avatarWidth = BOTTOM_RIGHT_AVATAR_HEIGHT;
 			avatarHeight = toolbarHeight + hSplitterPos - 2;
