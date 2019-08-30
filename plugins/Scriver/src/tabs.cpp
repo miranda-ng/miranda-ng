@@ -590,7 +590,7 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 			dat = (ParentWindowData *)mir_alloc(sizeof(ParentWindowData));
 			dat->hContact = newData->hContact;
 			dat->nFlash = 0;
-			dat->nFlashMax = g_plugin.getByte(SRMSGSET_FLASHCOUNT, SRMSGDEFSET_FLASHCOUNT);
+			dat->nFlashMax = g_plugin.iFlashCount;
 			dat->childrenCount = 0;
 			dat->hwnd = hwndDlg;
 			dat->mouseLBDown = 0;
@@ -628,7 +628,7 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 			SetContainerWindowStyle(dat);
 
 			MCONTACT hSContact = savePerContact ? dat->hContact : 0;
-			dat->bTopmost = g_plugin.getByte(hSContact, SRMSGSET_TOPMOST, SRMSGDEFSET_TOPMOST);
+			dat->bTopmost = g_plugin.bTopmost;
 			if (Utils_RestoreWindowPosition(hwndDlg, hSContact, SRMM_MODULE, (newData->isChat && !savePerContact) ? "chat" : "", RWPF_HIDDEN))
 				SetWindowPos(hwndDlg, nullptr, 0, 0, 450, 300, SWP_NOZORDER | SWP_NOMOVE | SWP_HIDEWINDOW);
 
@@ -950,12 +950,12 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 			if (dat->bTopmost) {
 				CheckMenuItem(hMenu, IDM_TOPMOST, MF_BYCOMMAND | MF_UNCHECKED);
 				SetWindowPos(hwndDlg, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-				dat->bTopmost = FALSE;
+				dat->bTopmost = false;
 			}
 			else {
 				CheckMenuItem(hMenu, IDM_TOPMOST, MF_BYCOMMAND | MF_CHECKED);
 				SetWindowPos(hwndDlg, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-				dat->bTopmost = TRUE;
+				dat->bTopmost = true;
 			}
 		}
 		break;
@@ -979,7 +979,7 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 			int savePerContact = g_plugin.bSavePerContact && !dat->flags2.bUseTabs;
 			MCONTACT hContact = (savePerContact) ? dat->hContact : 0;
 			Utils_SaveWindowPosition(hwndDlg, hContact, SRMM_MODULE, (!savePerContact && dat->isChat) ? "chat" : "");
-			g_plugin.setByte(hContact, SRMSGSET_TOPMOST, (BYTE)dat->bTopmost);
+			g_plugin.bTopmost = dat->bTopmost;
 		}
 
 		if (g_dat.lastParent == dat)

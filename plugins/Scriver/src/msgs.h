@@ -65,8 +65,9 @@ struct ParentWindowData
 	int nFlashMax;
 	int bMinimized;
 	int bVMaximized;
-	int bTopmost;
 	int iSplitterX, iSplitterY;
+
+	bool bTopmost;
 
 	int windowWasCascaded;
 	TabCtrlData *tabCtrlDat;
@@ -319,28 +320,6 @@ extern int fontOptionsListSize;
 
 #define SRMM_MODULE						"SRMM"
 
-#define SRMSGSET_TOPMOST			"Topmost"
-#define SRMSGDEFSET_TOPMOST			0
-#define SRMSGSET_POPFLAGS			"PopupFlags"
-#define SRMSGDEFSET_POPFLAGS		0
-#define SRMSGSET_SHOWINFOLINE		"ShowInfoLine"
-#define SRMSGDEFSET_SHOWINFOLINE	1
-#define SRMSGSET_AUTOCLOSE			"AutoClose"
-#define SRMSGDEFSET_AUTOCLOSE		0
-#define SRMSGSET_SENDBUTTON			"UseSendButton"
-#define SRMSGDEFSET_SENDBUTTON		0
-#define SRMSGSET_CHARCOUNT			"ShowCharCount"
-#define SRMSGDEFSET_CHARCOUNT		0
-#define SRMSGSET_CTRLSUPPORT		"SupportCtrlUpDn"
-#define SRMSGDEFSET_CTRLSUPPORT		1
-#define SRMSGSET_MSGTIMEOUT			"MessageTimeout"
-#define SRMSGDEFSET_MSGTIMEOUT		10000
-#define SRMSGSET_FLASHCOUNT			"FlashMax"
-#define SRMSGDEFSET_FLASHCOUNT		3
-
-#define SRMSGSET_LOADHISTORY		"LoadHistory"
-#define SRMSGDEFSET_LOADHISTORY		LOADHISTORY_UNREAD
-
 #define SRMSGSET_BKGCOLOUR				"BkgColour"
 #define SRMSGDEFSET_BKGCOLOUR			GetSysColor(COLOR_WINDOW)
 #define SRMSGSET_INPUTBKGCOLOUR			"InputBkgColour"
@@ -355,20 +334,8 @@ extern int fontOptionsListSize;
 #define SRMSGDEFSET_LINECOLOUR			GetSysColor(COLOR_WINDOW)
 
 #define SRMSGSET_TYPING				"SupportTyping"
-#define SRMSGSET_TYPINGNEW			"DefaultTyping"
-#define SRMSGDEFSET_TYPINGNEW		1
-#define SRMSGSET_TYPINGUNKNOWN		"UnknownTyping"
-#define SRMSGDEFSET_TYPINGUNKNOWN	0
 
-#define SRMSGSET_ACTIVEALPHA		"ActiveAlpha"
-#define SRMSGDEFSET_ACTIVEALPHA		0
-#define SRMSGSET_INACTIVEALPHA		"InactiveAlpha"
-#define SRMSGDEFSET_INACTIVEALPHA	0
 #define SRMSGSET_WINDOWTITLE		"WindowTitle"
-#define SRMSGSET_BUTTONVISIBILITY	"ButtonVisibility"
-#define SRMSGDEFSET_BUTTONVISIBILITY 0xFFFF
-#define SRMSGSET_CHATBUTTONVISIBILITY "ChatButtonVisibility"
-#define SRMSGDEFSET_CHATBUTTONVISIBILITY 0xFFFF
 
 #define SRMSGSET_SENDMODE "SendMode"
 #define SRMSGDEFSET_SENDMODE 0

@@ -49,10 +49,14 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(SRMM_MODULE, pluginInfoEx),
 	bCascade(SRMM_MODULE, "Cascade", 1),
 	bAutoMin(SRMM_MODULE, "AutoMin", 0),
+	bTopmost(SRMM_MODULE, "Topmost", 0),
 	bDelTemp(SRMM_MODULE, "DeleteTempCont", 0),
+	bTypingNew(SRMM_MODULE, "DefaultTyping", 1),
+	bAutoClose(SRMM_MODULE, "AutoClose", 0),
 	bAutoPopup(SRMM_MODULE, "AutoPopupMsg", 0),
 	bUseIeview(SRMM_MODULE, "UseIEView", 1),
 	bSaveDrafts(SRMM_MODULE, "SaveDrafts", 0),
+	bTypingUnknown(SRMM_MODULE, "UnknownTyping", 0),
 	bHideContainer(SRMM_MODULE, "HideContainers", 0),
 	bStayMinimized(SRMM_MODULE, "StayMinimized", 0),
 	bSavePerContact(SRMM_MODULE, "SavePerContact", 0),
@@ -99,7 +103,13 @@ CMPlugin::CMPlugin() :
 	iLimitChatTabs(SRMM_MODULE, "LimitChatsTabsNum", 10),
 	iLoadCount(SRMM_MODULE, "LoadCount", 10),
 	iLoadTime(SRMM_MODULE, "LoadTime", 10),
+	iPopFlags(SRMM_MODULE, "PopupFlags", 0),
+	iFlashCount(SRMM_MODULE, "FlashMax", 3),
 	iIndentSize(SRMM_MODULE, "IndentSize", 0),
+	iActiveAlpha(SRMM_MODULE, "ActiveAlpha", 0),
+	iInactiveAlpha(SRMM_MODULE, "InactiveAlpha", 0),
+	iMsgTimeout(SRMM_MODULE, "MessageTimeout", 10),
+	iHistoryMode(SRMM_MODULE, "LoadHistory", LOADHISTORY_UNREAD),
 	iAutoResizeLines(SRMM_MODULE, "AutoResizeLines", 2)
 {
 }

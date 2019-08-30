@@ -288,7 +288,7 @@ bool CSrmmWindow::OnInitDialog()
 
 	bool notifyUnread = false;
 	if (m_hContact) {
-		int historyMode = g_plugin.getByte(SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY);
+		int historyMode = g_plugin.iHistoryMode;
 		// This finds the first message to display, it works like shit
 		m_hDbEventFirst = db_event_firstUnread(m_hContact);
 		if (m_hDbEventFirst != 0) {
@@ -620,7 +620,7 @@ bool CSrmmWindow::IsTypingNotificationSupported()
 
 bool CSrmmWindow::IsTypingNotificationEnabled()
 {
-	if (!g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)))
+	if (!g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.bTypingNew))
 		return FALSE;
 
 	DWORD protoStatus = Proto_GetStatus(m_szProto);
@@ -634,8 +634,7 @@ bool CSrmmWindow::IsTypingNotificationEnabled()
 	if (protoCaps & PF1_INVISLIST && protoStatus == ID_STATUS_INVISIBLE && db_get_w(m_hContact, m_szProto, "ApparentMode", 0) != ID_STATUS_ONLINE)
 		return FALSE;
 
-	if (db_get_b(m_hContact, "CList", "NotOnList", 0)
-		&& !g_plugin.getByte(SRMSGSET_TYPINGUNKNOWN, SRMSGDEFSET_TYPINGUNKNOWN))
+	if (db_get_b(m_hContact, "CList", "NotOnList", 0) && !g_plugin.bTypingUnknown)
 		return FALSE;
 	return TRUE;
 }
@@ -772,7 +771,7 @@ void CSrmmWindow::UpdateStatusBar()
 		Srmm_SetIconFlags(m_hContact, SRMM_MODULE, 0, MBF_DISABLED);
 
 		if (IsTypingNotificationSupported() && g_dat.flags2.bShowTypingSwitch) {
-			int mode = g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
+			int mode = g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.bTypingNew);
 			Srmm_SetIconFlags(m_hContact, SRMM_MODULE, 1, mode ? 0 : MBF_DISABLED);
 		}
 		else Srmm_SetIconFlags(m_hContact, SRMM_MODULE, 1, MBF_HIDDEN);
@@ -1269,7 +1268,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case DM_SWITCHTYPING:
 		if (IsTypingNotificationSupported()) {
-			BYTE typingNotify = (g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)));
+			BYTE typingNotify = (g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.bTypingNew));
 			g_plugin.setByte(m_hContact, SRMSGSET_TYPING, (BYTE)!typingNotify);
 			Srmm_SetIconFlags(m_hContact, SRMM_MODULE, 1, typingNotify ? MBF_DISABLED : 0);
 		}

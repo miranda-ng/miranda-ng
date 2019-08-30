@@ -63,17 +63,16 @@ struct
 {
 	const wchar_t *szName;
 	const char *szSettingName;
-	COLORREF defColour;
 	int systemColor;
 }
 static const colourOptionsList[] =
 {
-	{ LPGENW("Background"), SRMSGSET_BKGCOLOUR, 0, COLOR_WINDOW},
-	{ LPGENW("Input area background"), SRMSGSET_INPUTBKGCOLOUR, 0, COLOR_WINDOW},
-	{ LPGENW("Incoming background"), SRMSGSET_INCOMINGBKGCOLOUR, 0, COLOR_WINDOW},
-	{ LPGENW("Outgoing background"), SRMSGSET_OUTGOINGBKGCOLOUR, 0, COLOR_WINDOW},
-	{ LPGENW("Info bar background"), SRMSGSET_INFOBARBKGCOLOUR, 0, COLOR_3DLIGHT},
-	{ LPGENW("Line between messages"), SRMSGSET_LINECOLOUR, 0, COLOR_3DLIGHT},
+	{ LPGENW("Background"), SRMSGSET_BKGCOLOUR, COLOR_WINDOW },
+	{ LPGENW("Input area background"), SRMSGSET_INPUTBKGCOLOUR, COLOR_WINDOW },
+	{ LPGENW("Incoming background"), SRMSGSET_INCOMINGBKGCOLOUR, COLOR_WINDOW },
+	{ LPGENW("Outgoing background"), SRMSGSET_OUTGOINGBKGCOLOUR, COLOR_WINDOW },
+	{ LPGENW("Info bar background"), SRMSGSET_INFOBARBKGCOLOUR, COLOR_3DLIGHT },
+	{ LPGENW("Line between messages"), SRMSGSET_LINECOLOUR, COLOR_3DLIGHT },
 };
 
 int FontServiceFontsChanged(WPARAM, LPARAM)
@@ -114,12 +113,8 @@ void RegisterFontServiceFonts()
 	for (int i = 0; i < _countof(colourOptionsList); i++) {
 		cid.order = i;
 		wcsncpy(cid.name, colourOptionsList[i].szName, _countof(cid.name));
-		if (colourOptionsList[i].systemColor != -1)
-			cid.defcolour = GetSysColor(colourOptionsList[i].systemColor);
-		else
-			cid.defcolour = colourOptionsList[i].defColour;
-
 		strncpy(cid.setting, colourOptionsList[i].szSettingName, _countof(cid.setting));
+		cid.defcolour = GetSysColor(colourOptionsList[i].systemColor);
 		g_plugin.addColor(&cid);
 	}
 }
@@ -251,6 +246,7 @@ class CMainOptionsDlg : public CBaseOptionDlg
 		return flags;
 	}
 
+	CCtrlSpin spinTimeout;
 	CCtrlCheck chkAutoMin, chkAutoPopup, chkCascade, chkSavePerContact, chkStayMinimized;
 	CCtrlCheck chkSaveDrafts, chkDelTemp, chkHideContainer;
 	CCtrlCombo cmbSendMode;
@@ -260,6 +256,7 @@ public:
 	CMainOptionsDlg() :
 		CBaseOptionDlg(IDD_OPT_MSGDLG),
 		m_tree(this, IDC_POPLIST),
+		spinTimeout(this, IDC_SECONDSSPIN, 60, 4),
 		chkAutoMin(this, IDC_AUTOMIN),
 		chkCascade(this, IDC_CASCADE),
 		chkDelTemp(this, IDC_DELTEMP),
@@ -270,6 +267,7 @@ public:
 		chkStayMinimized(this, IDC_STAYMINIMIZED),
 		chkSavePerContact(this, IDC_SAVEPERCONTACT)
 	{
+		CreateLink(spinTimeout, g_plugin.iMsgTimeout);
 		CreateLink(chkCascade, g_plugin.bCascade);
 		CreateLink(chkAutoMin, g_plugin.bAutoMin);
 		CreateLink(chkAutoPopup, g_plugin.bAutoPopup);
@@ -286,10 +284,7 @@ public:
 	bool OnInitDialog() override
 	{
 		SetWindowLongPtr(m_tree.GetHwnd(), GWL_STYLE, (GetWindowLongPtr(m_tree.GetHwnd(), GWL_STYLE) & ~WS_BORDER) | TVS_NOHSCROLL | TVS_CHECKBOXES);
-		FillCheckBoxTree(statusValues, _countof(statusValues), g_plugin.getDword(SRMSGSET_POPFLAGS, SRMSGDEFSET_POPFLAGS));
-
-		SendDlgItemMessage(m_hwnd, IDC_SECONDSSPIN, UDM_SETRANGE, 0, MAKELONG(60, 4));
-		SendDlgItemMessage(m_hwnd, IDC_SECONDSSPIN, UDM_SETPOS, 0, g_plugin.getDword(SRMSGSET_MSGTIMEOUT, SRMSGDEFSET_MSGTIMEOUT) / 1000);
+		FillCheckBoxTree(statusValues, _countof(statusValues), g_plugin.iPopFlags);
 
 		cmbSendMode.AddString(TranslateT("Enter"));
 		cmbSendMode.AddString(TranslateT("Double 'Enter'"));
@@ -303,9 +298,7 @@ public:
 
 	bool OnApply() override
 	{
-		g_plugin.setDword(SRMSGSET_POPFLAGS, MakeCheckBoxTreeFlags());
-
-		g_plugin.setDword(SRMSGSET_MSGTIMEOUT, (DWORD)SendDlgItemMessage(m_hwnd, IDC_SECONDSSPIN, UDM_GETPOS, 0, 0) * 1000);
+		g_plugin.iPopFlags = MakeCheckBoxTreeFlags();
 
 		g_plugin.setByte(SRMSGSET_SENDMODE, cmbSendMode.GetCurSel());
 		return true;
@@ -464,9 +457,9 @@ public:
 		SetWindowText(GetDlgItem(m_hwnd, IDC_TITLEFORMAT), g_dat.wszTitleFormat);
 
 		SendDlgItemMessage(m_hwnd, IDC_ATRANSPARENCYVALUE, TBM_SETRANGE, FALSE, MAKELONG(0, 255));
-		SendDlgItemMessage(m_hwnd, IDC_ATRANSPARENCYVALUE, TBM_SETPOS, TRUE, g_plugin.getDword(SRMSGSET_ACTIVEALPHA, SRMSGDEFSET_ACTIVEALPHA));
+		SendDlgItemMessage(m_hwnd, IDC_ATRANSPARENCYVALUE, TBM_SETPOS, TRUE, g_plugin.iActiveAlpha);
 		SendDlgItemMessage(m_hwnd, IDC_ITRANSPARENCYVALUE, TBM_SETRANGE, FALSE, MAKELONG(0, 255));
-		SendDlgItemMessage(m_hwnd, IDC_ITRANSPARENCYVALUE, TBM_SETPOS, TRUE, g_plugin.getDword(SRMSGSET_INACTIVEALPHA, SRMSGDEFSET_INACTIVEALPHA));
+		SendDlgItemMessage(m_hwnd, IDC_ITRANSPARENCYVALUE, TBM_SETPOS, TRUE, g_plugin.iInactiveAlpha);
 
 		char str[10];
 		mir_snprintf(str, "%d%%", (int)(100 * SendDlgItemMessage(m_hwnd, IDC_ATRANSPARENCYVALUE, TBM_GETPOS, 0, 0) / 255));
@@ -485,8 +478,8 @@ public:
 		GetWindowText(GetDlgItem(m_hwnd, IDC_TITLEFORMAT), g_dat.wszTitleFormat, _countof(g_dat.wszTitleFormat));
 		g_plugin.setWString(SRMSGSET_WINDOWTITLE, g_dat.wszTitleFormat);
 
-		g_plugin.setDword(SRMSGSET_ACTIVEALPHA, SendDlgItemMessage(m_hwnd, IDC_ATRANSPARENCYVALUE, TBM_GETPOS, 0, 0));
-		g_plugin.setDword(SRMSGSET_INACTIVEALPHA, SendDlgItemMessage(m_hwnd, IDC_ITRANSPARENCYVALUE, TBM_GETPOS, 0, 0));
+		g_plugin.iActiveAlpha = SendDlgItemMessage(m_hwnd, IDC_ATRANSPARENCYVALUE, TBM_GETPOS, 0, 0);
+		g_plugin.iInactiveAlpha = SendDlgItemMessage(m_hwnd, IDC_ITRANSPARENCYVALUE, TBM_GETPOS, 0, 0);
 
 		LoadInfobarFonts();
 		return true;
@@ -618,7 +611,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		switch (g_plugin.getByte(SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY)) {
+		switch (g_plugin.iHistoryMode) {
 		case LOADHISTORY_UNREAD:
 			CheckDlgButton(m_hwnd, IDC_LOADUNREAD, BST_CHECKED);
 			break;
@@ -659,11 +652,11 @@ public:
 	bool OnApply() override
 	{
 		if (IsDlgButtonChecked(m_hwnd, IDC_LOADCOUNT))
-			g_plugin.setByte(SRMSGSET_LOADHISTORY, LOADHISTORY_COUNT);
+			g_plugin.iHistoryMode = LOADHISTORY_COUNT;
 		else if (IsDlgButtonChecked(m_hwnd, IDC_LOADTIME))
-			g_plugin.setByte(SRMSGSET_LOADHISTORY, LOADHISTORY_TIME);
+			g_plugin.iHistoryMode = LOADHISTORY_TIME;
 		else
-			g_plugin.setByte(SRMSGSET_LOADHISTORY, LOADHISTORY_UNREAD);
+			g_plugin.iHistoryMode = LOADHISTORY_UNREAD;
 
 		FreeMsgLogIcons();
 		LoadMsgLogIcons();
@@ -730,11 +723,11 @@ static void ResetCList(HWND hwndDlg)
 
 static void RebuildList(HWND hwndDlg, HANDLE hItemNew, HANDLE hItemUnknown)
 {
-	BYTE defType = g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW);
+	BYTE defType = g_plugin.bTypingNew;
 	if (hItemNew && defType)
 		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItemNew, 1);
 
-	if (hItemUnknown && g_plugin.getByte(SRMSGSET_TYPINGUNKNOWN, SRMSGDEFSET_TYPINGUNKNOWN))
+	if (hItemUnknown && g_plugin.bTypingUnknown)
 		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItemUnknown, 1);
 
 	for (auto &hContact : Contacts()) {
@@ -747,10 +740,10 @@ static void RebuildList(HWND hwndDlg, HANDLE hItemNew, HANDLE hItemUnknown)
 static void SaveList(HWND hwndDlg, HANDLE hItemNew, HANDLE hItemUnknown)
 {
 	if (hItemNew)
-		g_plugin.setByte(SRMSGSET_TYPINGNEW, (BYTE)(SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItemNew, 0) ? 1 : 0));
+		g_plugin.bTypingNew = SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItemNew, 0) != 0;
 
 	if (hItemUnknown)
-		g_plugin.setByte(SRMSGSET_TYPINGUNKNOWN, (BYTE)(SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItemUnknown, 0) ? 1 : 0));
+		g_plugin.bTypingUnknown = SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItemUnknown, 0) != 0;
 
 	for (auto &hContact : Contacts()) {
 		HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);

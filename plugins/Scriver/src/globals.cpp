@@ -163,7 +163,7 @@ static int ackevent(WPARAM, LPARAM lParam)
 	if (item->hwndErrorDlg != nullptr)
 		DestroyWindow(item->hwndErrorDlg);
 
-	if (RemoveSendQueueItem(item) && g_plugin.getByte(SRMSGSET_AUTOCLOSE, SRMSGDEFSET_AUTOCLOSE)) {
+	if (RemoveSendQueueItem(item) && g_plugin.bAutoClose) {
 		if (hwndSender != nullptr)
 			DestroyWindow(hwndSender);
 	}
@@ -367,7 +367,7 @@ void ReloadGlobals()
 	g_dat.flags.bUseIeview = g_plugin.bUseIeview;
 
 	g_dat.sendMode = (SendMode)g_plugin.getByte(SRMSGSET_SENDMODE, SRMSGDEFSET_SENDMODE);
-	g_dat.openFlags = g_plugin.getDword(SRMSGSET_POPFLAGS, SRMSGDEFSET_POPFLAGS);
+	g_dat.openFlags = g_plugin.iPopFlags;
 	g_dat.indentSize = g_plugin.iIndentSize;
 	g_dat.logLineColour = g_plugin.getDword(SRMSGSET_LINECOLOUR, SRMSGDEFSET_LINECOLOUR);
 
@@ -394,8 +394,8 @@ void ReloadGlobals()
 	g_dat.flags2.bShowTypingClist = g_plugin.bShowTypingClist;
 	g_dat.flags2.bShowTypingSwitch = g_plugin.bShowTypingSwitch;
 
-	g_dat.activeAlpha = g_plugin.getDword(SRMSGSET_ACTIVEALPHA, SRMSGDEFSET_ACTIVEALPHA);
-	g_dat.inactiveAlpha = g_plugin.getDword(SRMSGSET_INACTIVEALPHA, SRMSGDEFSET_INACTIVEALPHA);
+	g_dat.activeAlpha = g_plugin.iActiveAlpha;
+	g_dat.inactiveAlpha = g_plugin.iInactiveAlpha;
 	
 	g_dat.limitNamesLength = g_plugin.iLimitNames;
 	g_dat.limitTabsNum = g_plugin.iLimitTabs;

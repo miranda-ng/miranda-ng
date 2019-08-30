@@ -73,7 +73,7 @@ bool RemoveSendQueueItem(MessageSendQueueItem *item)
 
 void ReportSendQueueTimeouts(HWND hwndSender)
 {
-	int timeout = g_plugin.getDword(SRMSGSET_MSGTIMEOUT, SRMSGDEFSET_MSGTIMEOUT);
+	int timeout = g_plugin.iMsgTimeout * 1000;
 
 	mir_cslock lock(queueMutex);
 
