@@ -1069,7 +1069,7 @@ void ShowRoom(SESSION_INFO *si)
 	// Do we need to create a window?
 	CChatRoomDlg *pDlg;
 	if (si->pDlg == nullptr) {
-		HWND hParent = GetParentWindow(si->hContact, TRUE);
+		HWND hParent = GetParentWindow(si->hContact, true);
 
 		pDlg = new CChatRoomDlg(si);
 		pDlg->SetParent(hParent);

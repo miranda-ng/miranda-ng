@@ -27,8 +27,6 @@ HCURSOR  hDragCursor;
 HGENMENU hMsgMenuItem;
 HMODULE hMsftEdit;
 
-extern HWND GetParentWindow(MCONTACT hContact, BOOL bChat);
-
 #define SCRIVER_DB_GETEVENTTEXT "Scriver/GetText"
 
 static int SRMMStatusToPf2(int status)
@@ -55,7 +53,7 @@ static int SRMMStatusToPf2(int status)
 }
 
 int IsAutoPopup(MCONTACT hContact) {
-	if (g_dat.flags & SMF_AUTOPOPUP) {
+	if (g_dat.flags.bAutoPopup) {
 		char *szProto = GetContactProto(hContact);
 
 		hContact = db_mc_getSrmmSub(hContact);
@@ -182,7 +180,7 @@ static INT_PTR TypingMessageCommand(WPARAM, LPARAM lParam)
 
 static int TypingMessage(WPARAM hContact, LPARAM lParam)
 {
-	if (!(g_dat.flags2 & SMF2_SHOWTYPING))
+	if (!g_dat.flags2.bShowTyping)
 		return 0;
 
 	hContact = db_mc_tryMeta(hContact);
@@ -192,10 +190,10 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 	HWND hwnd = Srmm_FindWindow(hContact);
 	if (hwnd)
 		SendMessage(hwnd, DM_TYPING, 0, lParam);
-	else if (lParam && (g_dat.flags2 & SMF2_SHOWTYPINGTRAY)) {
+	else if (lParam && g_dat.flags2.bShowTypingTray) {
 		wchar_t szTip[256];
 		mir_snwprintf(szTip, TranslateT("%s is typing a message"), Clist_GetContactDisplayName(hContact));
-		if (g_dat.flags2 & SMF2_SHOWTYPINGCLIST) {
+		if (g_dat.flags2.bShowTypingClist) {
 			g_clistApi.pfnRemoveEvent(hContact, 1);
 
 			CLISTEVENT cle = {};
@@ -354,7 +352,7 @@ void CScriverWindow::Reattach(HWND hwndContainer)
 	hParent = WindowList_Find(g_dat.hParentWindowList, (UINT_PTR)hParent);
 	if ((hParent != nullptr && hParent != hwndContainer) || (hParent == nullptr && m_pParent->childrenCount > 1 && (GetKeyState(VK_CONTROL) & 0x8000))) {
 		if (hParent == nullptr) {
-			hParent = GetParentWindow(hContact, FALSE);
+			hParent = GetParentWindow(hContact, false);
 
 			RECT rc;
 			GetWindowRect(hParent, &rc);

@@ -136,7 +136,7 @@ static INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			GetClientRect(hwnd, &rc);
 			dlgWidth = rc.right - rc.left;
 			dlgHeight = rc.bottom - rc.top;
-			if (idat->m_hbmpAvatarPic && (g_dat.flags & SMF_AVATAR)) {
+			if (idat->m_hbmpAvatarPic && g_dat.flags.bShowAvatar) {
 				BITMAP bminfo;
 				GetObject(idat->m_hbmpAvatarPic, sizeof(bminfo), &bminfo);
 				if (bminfo.bmWidth != 0 && bminfo.bmHeight != 0) {
@@ -218,7 +218,7 @@ static INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				rect.right = itemWidth - 1;
 				rect.bottom = itemHeight - 1;
 				FillRect(hdcMem, &rect, g_dat.hInfobarBrush);
-				if (idat->m_hbmpAvatarPic && (g_dat.flags & SMF_AVATAR)) {
+				if (idat->m_hbmpAvatarPic && g_dat.flags.bShowAvatar) {
 					BITMAP bminfo;
 					GetObject(idat->m_hbmpAvatarPic, sizeof(bminfo), &bminfo);
 					if (bminfo.bmWidth != 0 && bminfo.bmHeight != 0) {

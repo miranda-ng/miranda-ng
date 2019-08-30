@@ -23,51 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef SRMM_GLOBALS_H
 #define SRMM_GLOBALS_H
 
-#define SMF_AUTOPOPUP				0x00000001
-#define SMF_STAYMINIMIZED			0x00000002
-#define SMF_CLOSEONSEND				0x00000004
-#define SMF_MINIMIZEONSEND			0x00000008
-#define SMF_SAVEDRAFTS				0x00000040
-#define SMF_DELTEMP					0x00000080
-#define SMF_SHOWPROGRESS			0x00000400
-#define SMF_AVATAR					0x00000800
-#define SMF_RTL						0x00004000
-#define SMF_USEIEVIEW				0x00010000
-#define SMF_SHOWICONS				0x00020000
-#define SMF_HIDENAMES				0x00040000
-#define SMF_SHOWTIME				0x00080000
-#define SMF_SHOWDATE				0x00100000
-#define SMF_LONGDATE				0x00200000
-#define SMF_RELATIVEDATE			0x00400000
-#define SMF_SHOWSECONDS				0x00800000
-#define SMF_GROUPMESSAGES			0x01000000
-#define SMF_MARKFOLLOWUPS			0x02000000
-#define SMF_MSGONNEWLINE			0x04000000
-#define SMF_DRAWLINES				0x08000000
-#define SMF_INDENTTEXT				0x10000000
-#define SMF_ORIGINALAVATARH			0x20000000
-
-#define SMF2_USETABS					0x00000001
-#define SMF2_HIDEONETAB					0x00000002
-#define SMF2_TABSATBOTTOM				0x00000004
-#define SMF2_LIMITNAMES					0x00000008
-#define SMF2_SWITCHTOACTIVE				0x00000010
-#define SMF2_SEPARATECHATSCONTAINERS	0x00000020
-#define SMF2_TABCLOSEBUTTON				0x00000040
-#define SMF2_LIMITTABS					0x00000080
-#define SMF2_LIMITCHATSTABS				0x00000100
-#define SMF2_HIDECONTAINERS				0x00000200
-#define SMF2_SHOWINFOBAR				0x00000400
-#define SMF2_SHOWSTATUSBAR				0x00010000
-#define SMF2_SHOWTITLEBAR				0x00020000
-#define SMF2_SHOWTOOLBAR				0x00040000
-#define SMF2_USETRANSPARENCY			0x00080000
-#define SMF2_SHOWTYPING					0x01000000
-#define SMF2_SHOWTYPINGWIN				0x02000000
-#define SMF2_SHOWTYPINGTRAY				0x04000000
-#define SMF2_SHOWTYPINGCLIST			0x08000000
-#define SMF2_SHOWTYPINGSWITCH			0x10000000
-
 typedef struct ImageListUsageEntry_tag
 {
 	int index;
@@ -82,10 +37,69 @@ enum SendMode
 	SEND_ON_SHIFT_ENTER
 };
 
+struct WindowFlags
+{
+	bool bAutoPopup : 1;
+	bool bStayMinimized : 1;
+	bool bCloseOnSend : 1;
+	bool bMinimizeOnSend : 1;
+	bool bSaveDrafts : 1;
+	bool bDelTemp : 1;
+	bool bShowProgress : 1;
+	bool bShowAvatar : 1;
+	bool bRtl : 1;
+	bool bUseIeview : 1;
+	bool bShowIcons : 1;
+	bool bHideNames : 1;
+	bool bShowTime : 1;
+	bool bShowDate : 1;
+	bool bLongDate : 1;
+	bool bRelativeDate : 1;
+	bool bShowSeconds : 1;
+	bool bGroupMessages : 1;
+	bool bMarkFollowups : 1;
+	bool bMsgOnNewline : 1;
+	bool bDrawLines : 1;
+	bool bIndentText : 1;
+	bool bOriginalAvatarH : 1;
+};
+
+struct TabFlags
+{
+	bool bUseTabs : 1;
+	bool bHideOneTab : 1;
+	bool bTabsAtBottom : 1;
+	bool bLimitNames : 1;
+	bool bSwitchToActive : 1;
+	bool bSeparateChats : 1;
+	bool bTabCloseButton : 1;
+	bool bLimitTabs : 1;
+	bool bLimitChatTabs : 1;
+	bool bHideContainer : 1;
+	bool bShowInfoBar : 1;
+	bool bShowStatusBar : 1;
+	bool bShowTitleBar : 1;
+	bool bShowToolBar : 1;
+	bool bUseTransparency : 1;
+	bool bShowTyping : 1;
+	bool bShowTypingWin : 1;
+	bool bShowTypingTray : 1;
+	bool bShowTypingClist : 1;
+	bool bShowTypingSwitch : 1;
+};
+
 struct GlobalMessageData
 {
-	unsigned   flags;
-	unsigned   flags2;
+	union {
+		DWORD dwFlags;
+		WindowFlags flags;
+	};
+
+	union {
+		DWORD dwFlags2;
+		TabFlags flags2;
+	};
+
 	DWORD      openFlags;
 	DWORD      limitNamesLength;
 	int        activeAlpha;
@@ -115,8 +129,8 @@ struct GlobalMessageData
 	wchar_t    wszTitleFormat[200];
 
 	MWindowList hParentWindowList;
-	ParentWindowData *lastParent;
-	ParentWindowData *lastChatParent;
+	struct ParentWindowData *lastParent;
+	struct ParentWindowData *lastChatParent;
 	ImageListUsageEntry *tabIconListUsage;
 };
 

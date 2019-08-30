@@ -54,7 +54,21 @@ CMPlugin::CMPlugin() :
 	bSaveDrafts(SRMM_MODULE, "SaveDrafts", 0),
 	bHideContainer(SRMM_MODULE, "HideContainers", 0),
 	bStayMinimized(SRMM_MODULE, "StayMinimized", 0),
-	bSavePerContact(SRMM_MODULE, "SavePerContact", 0)
+	bSavePerContact(SRMM_MODULE, "SavePerContact", 0),
+	
+	bUseTabs(SRMM_MODULE, "UseTabs", 1),
+	bLimitTabs(SRMM_MODULE, "LimitTabs", 0),
+	bLimitChatTabs(SRMM_MODULE, "LimitChatsTabs", 0),
+	bLimitNames(SRMM_MODULE, "LimitNamesOnTabs", 1),
+	bHideOneTab(SRMM_MODULE, "HideOneTab", 1),
+	bTabsAtBottom(SRMM_MODULE, "TabsPosition", 0),
+	bSeparateChats(SRMM_MODULE, "SeparateChatsContainers", 0),
+	bTabCloseButton(SRMM_MODULE, "TabCloseButton", 0),
+	bSwitchToActive(SRMM_MODULE, "SwitchToActiveTab", 0),
+
+	iLimitNames(SRMM_MODULE, "LimitNamesLength", 20),
+	iLimitTabs(SRMM_MODULE, "LimitTabsNum", 10),
+	iLimitChatTabs(SRMM_MODULE, "LimitChatsTabsNum", 10)
 {
 }
 

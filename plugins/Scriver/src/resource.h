@@ -143,7 +143,7 @@
 #define IDC_ATRANSPARENCYPERC           1620
 #define IDC_ITRANSPARENCYVALUE          1621
 #define IDC_ITRANSPARENCYPERC           1622
-#define IDC_ALWAYSSHOWTABS              1623
+#define IDC_HIDEONETAB              1623
 #define IDC_SENDALL                     1624
 #define IDC_TRANSPARENCYTEXT1           1627
 #define IDC_TRANSPARENCYTEXT2           1628

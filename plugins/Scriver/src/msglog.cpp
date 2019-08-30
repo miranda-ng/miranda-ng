@@ -36,8 +36,6 @@ static HIMAGELIST g_hImageList;
 #define STREAMSTAGE_TAIL    2
 #define STREAMSTAGE_STOP    3
 
-#define SMF_AFTERMASK (SMF_SHOWTIME | SMF_GROUPMESSAGES | SMF_MARKFOLLOWUPS)
-
 struct EventData
 {
 	int cbSize;
@@ -321,7 +319,7 @@ static char* SetToStyle(int style)
 }
 
 // mode: 0 - date & time, 1 - date, 2 - time
-wchar_t* TimestampToString(DWORD dwFlags, time_t check, int mode)
+static wchar_t* TimestampToString(WindowFlags flags, time_t check, int mode)
 {
 	static wchar_t szResult[512];
 	wchar_t str[80];
@@ -329,7 +327,7 @@ wchar_t* TimestampToString(DWORD dwFlags, time_t check, int mode)
 
 	szResult[0] = '\0';
 	format[0] = '\0';
-	if ((mode == 0 || mode == 1) && (dwFlags & SMF_SHOWDATE)) {
+	if ((mode == 0 || mode == 1) && flags.bShowDate) {
 		struct tm tm_now, tm_today;
 		time_t now = time(0);
 		time_t today;
@@ -338,28 +336,28 @@ wchar_t* TimestampToString(DWORD dwFlags, time_t check, int mode)
 		tm_today.tm_hour = tm_today.tm_min = tm_today.tm_sec = 0;
 		today = mktime(&tm_today);
 
-		if (dwFlags & SMF_RELATIVEDATE && check >= today) {
+		if (flags.bRelativeDate && check >= today) {
 			mir_wstrcpy(szResult, TranslateT("Today"));
 			if (mode == 0)
 				mir_wstrcat(szResult, L",");
 		}
-		else if (dwFlags & SMF_RELATIVEDATE && check > (today - 86400)) {
+		else if (flags.bRelativeDate && check > (today - 86400)) {
 			mir_wstrcpy(szResult, TranslateT("Yesterday"));
 			if (mode == 0)
 				mir_wstrcat(szResult, L",");
 		}
 		else {
-			if (dwFlags & SMF_LONGDATE)
+			if (flags.bLongDate)
 				mir_wstrcpy(format, L"D");
 			else
 				mir_wstrcpy(format, L"d");
 		}
 	}
 	if (mode == 0 || mode == 2) {
-		if (mode == 0 && (dwFlags & SMF_SHOWDATE))
+		if (mode == 0 && (flags.bShowDate))
 			mir_wstrcat(format, L" ");
 
-		mir_wstrcat(format, (dwFlags & SMF_SHOWSECONDS) ? L"s" : L"t");
+		mir_wstrcat(format, (flags.bShowSeconds) ? L"s" : L"t");
 	}
 	if (format[0] != '\0') {
 		TimeZone_PrintTimeStamp(nullptr, check, format, str, _countof(str), 0);
@@ -412,7 +410,7 @@ static char* CreateRTFFromEvent(CSrmmWindow *dat, EventData *evt, GlobalMessageD
 	int isGroupBreak = TRUE;
 	int highlight = 0;
 
-	if ((gdat->flags & SMF_GROUPMESSAGES) && evt->dwFlags == LOWORD(dat->m_lastEventType) &&
+	if ((gdat->flags.bGroupMessages) && evt->dwFlags == LOWORD(dat->m_lastEventType) &&
 		evt->eventType == EVENTTYPE_MESSAGE && HIWORD(dat->m_lastEventType) == EVENTTYPE_MESSAGE &&
 		(isSameDate(evt->time, dat->m_lastEventTime)) && ((((int)evt->time < dat->m_startTime) == (dat->m_lastEventTime < dat->m_startTime)) || !(evt->dwFlags & IEEDF_READ))) {
 		isGroupBreak = FALSE;
@@ -420,7 +418,7 @@ static char* CreateRTFFromEvent(CSrmmWindow *dat, EventData *evt, GlobalMessageD
 
 	CMStringA buf;
 	if (!streamData->isFirst && !dat->m_isMixed) {
-		if (isGroupBreak || gdat->flags & SMF_MARKFOLLOWUPS)
+		if (isGroupBreak || gdat->flags.bMarkFollowups)
 			buf.Append("\\par");
 		else
 			buf.Append("\\line");
@@ -429,7 +427,7 @@ static char* CreateRTFFromEvent(CSrmmWindow *dat, EventData *evt, GlobalMessageD
 	if (evt->dwFlags & IEEDF_RTL)
 		dat->m_isMixed = 1;
 
-	if (!streamData->isFirst && isGroupBreak && (gdat->flags & SMF_DRAWLINES))
+	if (!streamData->isFirst && isGroupBreak && (gdat->flags.bDrawLines))
 		buf.AppendFormat("\\sl-1\\slmult0\\highlight%d\\cf%d\\fs1  \\par\\sl0", fontOptionsListSize + 4, fontOptionsListSize + 4);
 
 	buf.Append((evt->dwFlags & IEEDF_RTL) ? "\\rtlpar" : "\\ltrpar");
@@ -453,7 +451,7 @@ static char* CreateRTFFromEvent(CSrmmWindow *dat, EventData *evt, GlobalMessageD
 		else
 			buf.Append("\\rtlch\\ltrch");
 	}
-	if ((gdat->flags & SMF_SHOWICONS) && isGroupBreak) {
+	if ((gdat->flags.bShowIcons) && isGroupBreak) {
 		int i = LOGICON_MSG_NOTICE;
 
 		switch (evt->eventType) {
@@ -474,17 +472,17 @@ static char* CreateRTFFromEvent(CSrmmWindow *dat, EventData *evt, GlobalMessageD
 		buf.AppendChar(' ');
 	}
 
-	if (gdat->flags & SMF_SHOWTIME && (evt->eventType != EVENTTYPE_MESSAGE ||
-		(gdat->flags & SMF_MARKFOLLOWUPS || isGroupBreak || !(gdat->flags & SMF_GROUPMESSAGES)))) {
+	if (gdat->flags.bShowTime && (evt->eventType != EVENTTYPE_MESSAGE ||
+		(gdat->flags.bMarkFollowups || isGroupBreak || !(gdat->flags.bGroupMessages)))) {
 		wchar_t *timestampString = nullptr;
-		if (gdat->flags & SMF_GROUPMESSAGES && evt->eventType == EVENTTYPE_MESSAGE) {
+		if (gdat->flags.bGroupMessages && evt->eventType == EVENTTYPE_MESSAGE) {
 			if (isGroupBreak) {
-				if (!(gdat->flags & SMF_MARKFOLLOWUPS))
+				if (!(gdat->flags.bMarkFollowups))
 					timestampString = TimestampToString(gdat->flags, evt->time, 0);
-				else if (gdat->flags & SMF_SHOWDATE)
+				else if (gdat->flags.bShowDate)
 					timestampString = TimestampToString(gdat->flags, evt->time, 1);
 			}
-			else if (gdat->flags & SMF_MARKFOLLOWUPS)
+			else if (gdat->flags.bMarkFollowups)
 				timestampString = TimestampToString(gdat->flags, evt->time, 2);
 		}
 		else timestampString = TimestampToString(gdat->flags, evt->time, 0);
@@ -497,7 +495,7 @@ static char* CreateRTFFromEvent(CSrmmWindow *dat, EventData *evt, GlobalMessageD
 			buf.AppendFormat("%s: ", SetToStyle(evt->dwFlags & IEEDF_SENT ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON));
 		showColon = 1;
 	}
-	if ((!(gdat->flags & SMF_HIDENAMES) && evt->eventType == EVENTTYPE_MESSAGE && isGroupBreak) || evt->eventType == EVENTTYPE_JABBER_CHATSTATES || evt->eventType == EVENTTYPE_JABBER_PRESENCE) {
+	if ((!(gdat->flags.bHideNames) && evt->eventType == EVENTTYPE_MESSAGE && isGroupBreak) || evt->eventType == EVENTTYPE_JABBER_CHATSTATES || evt->eventType == EVENTTYPE_JABBER_PRESENCE) {
 		if (evt->eventType == EVENTTYPE_MESSAGE) {
 			if (showColon)
 				buf.AppendFormat(" %s ", SetToStyle(evt->dwFlags & IEEDF_SENT ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME));
@@ -512,8 +510,8 @@ static char* CreateRTFFromEvent(CSrmmWindow *dat, EventData *evt, GlobalMessageD
 			AppendAnsiToBuffer(buf, evt->pszNick);
 
 		showColon = 1;
-		if (evt->eventType == EVENTTYPE_MESSAGE && gdat->flags & SMF_GROUPMESSAGES) {
-			if (gdat->flags & SMF_MARKFOLLOWUPS)
+		if (evt->eventType == EVENTTYPE_MESSAGE && gdat->flags.bGroupMessages) {
+			if (gdat->flags.bMarkFollowups)
 				buf.Append("\\par");
 			else
 				buf.Append("\\line");
@@ -521,7 +519,7 @@ static char* CreateRTFFromEvent(CSrmmWindow *dat, EventData *evt, GlobalMessageD
 		}
 	}
 
-	if ((gdat->flags & SMF_AFTERMASK) == SMF_AFTERMASK && evt->eventType == EVENTTYPE_MESSAGE && isGroupBreak) {
+	if (gdat->flags.bShowTime && gdat->flags.bGroupMessages && gdat->flags.bMarkFollowups && evt->eventType == EVENTTYPE_MESSAGE && isGroupBreak) {
 		buf.AppendFormat(" %s ", SetToStyle(evt->dwFlags & IEEDF_SENT ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
 		AppendUnicodeToBuffer(buf, TimestampToString(gdat->flags, evt->time, 2));
 		showColon = 1;
@@ -564,7 +562,7 @@ static char* CreateRTFFromEvent(CSrmmWindow *dat, EventData *evt, GlobalMessageD
 		}
 		break;
 	default:
-		if (gdat->flags & SMF_MSGONNEWLINE && showColon)
+		if (gdat->flags.bMsgOnNewline && showColon)
 			buf.Append("\\line");
 
 		style = evt->dwFlags & IEEDF_SENT ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG;

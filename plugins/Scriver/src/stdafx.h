@@ -71,6 +71,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMOption<BYTE> bSavePerContact, bCascade, bStayMinimized, bAutoMin, bSaveDrafts, bDelTemp, bHideContainer, bAutoPopup;
+	CMOption<BYTE> bUseTabs, bLimitTabs, bLimitChatTabs, bLimitNames, bSeparateChats, bTabCloseButton, bHideOneTab, bTabsAtBottom, bSwitchToActive;
+	CMOption<WORD> iLimitNames, iLimitTabs, iLimitChatTabs;
 
 	CMPlugin();
 
@@ -117,8 +119,8 @@ int StatusIconPressed(WPARAM wParam, LPARAM lParam);
 
 #include "cmdlist.h"
 #include "sendqueue.h"
-#include "msgs.h"
 #include "globals.h"
+#include "msgs.h"
 #include "tabs.h"
 #include "utils.h"
 #include "input.h"

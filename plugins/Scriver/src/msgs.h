@@ -57,7 +57,7 @@ struct ParentWindowData
 	HWND hwndActive;
 	HWND hwndStatus;
 	HWND hwndTabs;
-	DWORD flags2;
+	TabFlags flags2;
 	RECT childRect;
 	POINT mouseLBDownPos;
 	int mouseLBDown;
@@ -319,29 +319,6 @@ extern int fontOptionsListSize;
 
 #define SRMM_MODULE						"SRMM"
 
-#define SRMSGSET_USETABS			"UseTabs"
-#define SRMSGDEFSET_USETABS			1
-#define SRMSGSET_TABSATBOTTOM		"TabsPosition"
-#define SRMSGDEFSET_TABSATBOTTOM	0
-#define SRMSGSET_TABCLOSEBUTTON		"TabCloseButton"
-#define SRMSGDEFSET_TABCLOSEBUTTON	0
-#define SRMSGSET_LIMITNAMES			"LimitNamesOnTabs"
-#define SRMSGDEFSET_LIMITNAMES		1
-#define SRMSGSET_LIMITNAMESLEN		"LimitNamesLength"
-#define SRMSGDEFSET_LIMITNAMESLEN	20
-#define SRMSGSET_HIDEONETAB			"HideOneTab"
-#define SRMSGDEFSET_HIDEONETAB		1
-#define SRMSGSET_SEPARATECHATSCONTAINERS "SeparateChatsContainers"
-#define SRMSGDEFSET_SEPARATECHATSCONTAINERS 0
-#define SRMSGSET_LIMITTABS			"LimitTabs"
-#define SRMSGDEFSET_LIMITTABS		0
-#define SRMSGSET_LIMITTABSNUM		"LimitTabsNum"
-#define SRMSGDEFSET_LIMITTABSNUM	10
-#define SRMSGSET_LIMITCHATSTABS		"LimitChatsTabs"
-#define SRMSGDEFSET_LIMITCHATSTABS	0
-#define SRMSGSET_LIMITCHATSTABSNUM	"LimitChatsTabsNum"
-#define SRMSGDEFSET_LIMITCHATSTABSNUM 10
-
 #define SRMSGSET_SHOWTITLEBAR		"ShowTitleBar"
 #define SRMSGDEFSET_SHOWTITLEBAR	1
 #define SRMSGSET_SHOWSTATUSBAR		"ShowStatusBar"
@@ -358,8 +335,6 @@ extern int fontOptionsListSize;
 #define SRMSGDEFSET_SHOWINFOLINE	1
 #define SRMSGSET_SHOWPROGRESS		"ShowProgress"
 #define SRMSGDEFSET_SHOWPROGRESS	0
-#define SRMSGSET_SWITCHTOACTIVE		"SwitchToActiveTab"
-#define SRMSGDEFSET_SWITCHTOACTIVE	0
 #define SRMSGSET_AUTOCLOSE			"AutoClose"
 #define SRMSGDEFSET_AUTOCLOSE		0
 #define SRMSGSET_SENDBUTTON			"UseSendButton"

@@ -334,6 +334,8 @@ public:
 class CTabsOptionsDlg : public CBaseOptionDlg
 {
 	CCtrlCheck chkUseTabs, chkLimitTabs, chkLimitChatTabs, chkLimitNames, chkSeparateChats;
+	CCtrlCheck chkTabCloseButton, chkHideOneTab, chkTabsAtBottom, chkSwitchToActive;
+	CCtrlSpin  spinNames, spinTabs, spinChatTabs;
 
 public:
 	CTabsOptionsDlg() :
@@ -342,8 +344,29 @@ public:
 		chkLimitTabs(this, IDC_LIMITTABS),
 		chkLimitNames(this, IDC_LIMITNAMES),
 		chkLimitChatTabs(this, IDC_LIMITCHATSTABS),
-		chkSeparateChats(this, IDC_SEPARATECHATSCONTAINERS)
+		chkHideOneTab(this, IDC_HIDEONETAB),
+		chkSeparateChats(this, IDC_SEPARATECHATSCONTAINERS),
+		chkTabsAtBottom(this, IDC_TABSATBOTTOM),
+		chkSwitchToActive(this, IDC_SWITCHTOACTIVE),
+		chkTabCloseButton(this, IDC_TABCLOSEBUTTON),
+		spinNames(this, IDC_LIMITNAMESLENSPIN, 100),
+		spinTabs(this, IDC_LIMITTABSNUMSPIN, 100, 1),
+		spinChatTabs(this, IDC_LIMITCHATSTABSNUMSPIN, 100, 1)
 	{
+		CreateLink(chkUseTabs, g_plugin.bUseTabs);
+		CreateLink(chkLimitTabs, g_plugin.bLimitTabs);
+		CreateLink(chkLimitNames, g_plugin.bLimitNames);
+		CreateLink(chkLimitChatTabs, g_plugin.bLimitChatTabs);
+		CreateLink(chkHideOneTab, g_plugin.bHideOneTab);
+		CreateLink(chkSeparateChats, g_plugin.bSeparateChats);
+		CreateLink(chkTabsAtBottom, g_plugin.bTabsAtBottom);
+		CreateLink(chkSwitchToActive, g_plugin.bSwitchToActive);
+		CreateLink(chkTabCloseButton, g_plugin.bTabCloseButton);
+		
+		CreateLink(spinNames, g_plugin.iLimitNames);
+		CreateLink(spinTabs, g_plugin.iLimitTabs);
+		CreateLink(spinChatTabs, g_plugin.iLimitChatTabs);
+
 		chkUseTabs.OnChange = Callback(this, &CTabsOptionsDlg::onChange_UseTabs);
 		chkLimitTabs.OnChange = Callback(this, &CTabsOptionsDlg::onChange_LimitTabs);
 		chkLimitNames.OnChange = Callback(this, &CTabsOptionsDlg::onChange_LimitNames);
@@ -353,58 +376,20 @@ public:
 
 	bool OnInitDialog() override
 	{
-		CheckDlgButton(m_hwnd, IDC_USETABS, g_plugin.getByte(SRMSGSET_USETABS, SRMSGDEFSET_USETABS) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_ALWAYSSHOWTABS, !g_plugin.getByte(SRMSGSET_HIDEONETAB, SRMSGDEFSET_HIDEONETAB) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_TABSATBOTTOM, g_plugin.getByte(SRMSGSET_TABSATBOTTOM, SRMSGDEFSET_TABSATBOTTOM));
-		CheckDlgButton(m_hwnd, IDC_SWITCHTOACTIVE, g_plugin.getByte(SRMSGSET_SWITCHTOACTIVE, SRMSGDEFSET_SWITCHTOACTIVE) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_TABCLOSEBUTTON, g_plugin.getByte(SRMSGSET_TABCLOSEBUTTON, SRMSGDEFSET_TABCLOSEBUTTON) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_LIMITNAMES, g_plugin.getByte(SRMSGSET_LIMITNAMES, SRMSGDEFSET_LIMITNAMES) ? BST_CHECKED : BST_UNCHECKED);
-		SendDlgItemMessage(m_hwnd, IDC_LIMITNAMESLENSPIN, UDM_SETRANGE, 0, MAKELONG(100, 0));
-		SendDlgItemMessage(m_hwnd, IDC_LIMITNAMESLENSPIN, UDM_SETPOS, 0, g_plugin.getWord(SRMSGSET_LIMITNAMESLEN, SRMSGDEFSET_LIMITNAMESLEN));
-
-		CheckDlgButton(m_hwnd, IDC_LIMITTABS, g_plugin.getByte(SRMSGSET_LIMITTABS, SRMSGDEFSET_LIMITTABS) ? BST_CHECKED : BST_UNCHECKED);
-		SendDlgItemMessage(m_hwnd, IDC_LIMITTABSNUMSPIN, UDM_SETRANGE, 0, MAKELONG(100, 1));
-		SendDlgItemMessage(m_hwnd, IDC_LIMITTABSNUMSPIN, UDM_SETPOS, 0, g_plugin.getWord(SRMSGSET_LIMITTABSNUM, SRMSGDEFSET_LIMITTABSNUM));
-
-		CheckDlgButton(m_hwnd, IDC_LIMITCHATSTABS, g_plugin.getByte(SRMSGSET_LIMITCHATSTABS, SRMSGDEFSET_LIMITCHATSTABS) ? BST_CHECKED : BST_UNCHECKED);
-		SendDlgItemMessage(m_hwnd, IDC_LIMITCHATSTABSNUMSPIN, UDM_SETRANGE, 0, MAKELONG(100, 1));
-		SendDlgItemMessage(m_hwnd, IDC_LIMITCHATSTABSNUMSPIN, UDM_SETPOS, 0, g_plugin.getWord(SRMSGSET_LIMITCHATSTABSNUM, SRMSGDEFSET_LIMITCHATSTABSNUM));
-
-		CheckDlgButton(m_hwnd, IDC_SEPARATECHATSCONTAINERS, g_plugin.getByte(SRMSGSET_SEPARATECHATSCONTAINERS, SRMSGDEFSET_SEPARATECHATSCONTAINERS) ? BST_CHECKED : BST_UNCHECKED);
-
 		onChange_UseTabs(0);
-		return true;
-	}
-
-	bool OnApply() override
-	{
-		g_plugin.setByte(SRMSGSET_USETABS, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_USETABS));
-		g_plugin.setByte(SRMSGSET_TABSATBOTTOM, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_TABSATBOTTOM));
-		g_plugin.setByte(SRMSGSET_LIMITNAMES, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_LIMITNAMES));
-		g_plugin.setWord(SRMSGSET_LIMITNAMESLEN, (WORD)SendDlgItemMessage(m_hwnd, IDC_LIMITNAMESLENSPIN, UDM_GETPOS, 0, 0));
-
-		g_plugin.setByte(SRMSGSET_LIMITTABS, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_LIMITTABS));
-		g_plugin.setWord(SRMSGSET_LIMITTABSNUM, (WORD)SendDlgItemMessage(m_hwnd, IDC_LIMITTABSNUMSPIN, UDM_GETPOS, 0, 0));
-		g_plugin.setByte(SRMSGSET_LIMITCHATSTABS, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_LIMITCHATSTABS));
-		g_plugin.setWord(SRMSGSET_LIMITCHATSTABSNUM, (WORD)SendDlgItemMessage(m_hwnd, IDC_LIMITCHATSTABSNUMSPIN, UDM_GETPOS, 0, 0));
-
-		g_plugin.setByte(SRMSGSET_HIDEONETAB, (BYTE)BST_UNCHECKED == IsDlgButtonChecked(m_hwnd, IDC_ALWAYSSHOWTABS));
-		g_plugin.setByte(SRMSGSET_SWITCHTOACTIVE, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SWITCHTOACTIVE));
-		g_plugin.setByte(SRMSGSET_TABCLOSEBUTTON, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_TABCLOSEBUTTON));
-		g_plugin.setByte(SRMSGSET_SEPARATECHATSCONTAINERS, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SEPARATECHATSCONTAINERS));
 		return true;
 	}
 
 	void onChange_UseTabs(CCtrlCheck*)
 	{
 		int bChecked = chkUseTabs.GetState();
-		EnableWindow(GetDlgItem(m_hwnd, IDC_ALWAYSSHOWTABS), bChecked);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_TABSATBOTTOM), bChecked);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_SWITCHTOACTIVE), bChecked);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_TABCLOSEBUTTON), bChecked);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_LIMITNAMES), bChecked);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_SEPARATECHATSCONTAINERS), bChecked);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_LIMITTABS), bChecked);
+		chkHideOneTab.Enable(bChecked);
+		chkTabsAtBottom.Enable(bChecked);
+		chkSwitchToActive.Enable(bChecked);
+		chkTabCloseButton.Enable(bChecked);
+		chkLimitNames.Enable(bChecked);
+		chkSeparateChats.Enable(bChecked);
+		chkLimitTabs.Enable(bChecked);
 
 		onChange_LimitTabs(0);
 		onChange_LimitNames(0);
@@ -415,29 +400,29 @@ public:
 	{
 		int bChecked = chkUseTabs.GetState() && chkLimitTabs.GetState();
 		EnableWindow(GetDlgItem(m_hwnd, IDC_LIMITTABSNUM), bChecked);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_LIMITTABSNUMSPIN), bChecked);
+		spinTabs.Enable(bChecked);
 	}
 
 	void onChange_SeparateChats(CCtrlCheck*)
 	{
 		int bChecked = chkUseTabs.GetState() && chkSeparateChats.GetState();
-		EnableWindow(GetDlgItem(m_hwnd, IDC_LIMITCHATSTABS), bChecked);
+		chkLimitChatTabs.Enable(bChecked);
 
 		onChange_LimitChatTabs(0);
 	}
 
 	void onChange_LimitChatTabs(CCtrlCheck*)
 	{
-		int bChecked = chkUseTabs.GetState() && IsDlgButtonChecked(m_hwnd, IDC_SEPARATECHATSCONTAINERS) && chkLimitChatTabs.GetState();
+		int bChecked = chkUseTabs.GetState() && chkSeparateChats.GetState() && chkLimitChatTabs.GetState();
 		EnableWindow(GetDlgItem(m_hwnd, IDC_LIMITCHATSTABSNUM), bChecked);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_LIMITCHATSTABSNUMSPIN), bChecked);
+		spinChatTabs.Enable(bChecked);
 	}
 
 	void onChange_LimitNames(CCtrlCheck*)
 	{
 		int bChecked = chkUseTabs.GetState() && chkLimitNames.GetState();
 		EnableWindow(GetDlgItem(m_hwnd, IDC_LIMITNAMESLEN), bChecked);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_LIMITNAMESLENSPIN), bChecked);
+		spinNames.Enable(bChecked);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CHARS), bChecked);
 	}
 };
@@ -485,7 +470,7 @@ public:
 		onChange_ShowTitlebar(0);
 
 		CheckDlgButton(m_hwnd, IDC_SHOWPROGRESS, g_plugin.getByte(SRMSGSET_SHOWPROGRESS, SRMSGDEFSET_SHOWPROGRESS) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_AVATARSUPPORT, g_dat.flags & SMF_AVATAR);
+		CheckDlgButton(m_hwnd, IDC_AVATARSUPPORT, g_dat.flags.bShowAvatar);
 		return true;
 	}
 
@@ -558,25 +543,25 @@ class CLogOptionsDlg : public CBaseOptionDlg
 	{
 		m_log.SetText(L"");
 
-		struct GlobalMessageData gdat = { 0 };
-		gdat.flags |= IsDlgButtonChecked(m_hwnd, IDC_SHOWLOGICONS) ? SMF_SHOWICONS : 0;
-		gdat.flags |= IsDlgButtonChecked(m_hwnd, IDC_SHOWNAMES) ? 0 : SMF_HIDENAMES;
-		gdat.flags |= IsDlgButtonChecked(m_hwnd, IDC_SHOWTIMES) ? SMF_SHOWTIME : 0;
-		gdat.flags |= IsDlgButtonChecked(m_hwnd, IDC_SHOWSECONDS) ? SMF_SHOWSECONDS : 0;
-		gdat.flags |= IsDlgButtonChecked(m_hwnd, IDC_SHOWDATES) ? SMF_SHOWDATE : 0;
-		gdat.flags |= IsDlgButtonChecked(m_hwnd, IDC_USELONGDATE) ? SMF_LONGDATE : 0;
-		gdat.flags |= IsDlgButtonChecked(m_hwnd, IDC_USERELATIVEDATE) ? SMF_RELATIVEDATE : 0;
-		gdat.flags |= IsDlgButtonChecked(m_hwnd, IDC_GROUPMESSAGES) ? SMF_GROUPMESSAGES : 0;
-		gdat.flags |= IsDlgButtonChecked(m_hwnd, IDC_MARKFOLLOWUPS) ? SMF_MARKFOLLOWUPS : 0;
-		gdat.flags |= IsDlgButtonChecked(m_hwnd, IDC_MESSAGEONNEWLINE) ? SMF_MSGONNEWLINE : 0;
-		gdat.flags |= IsDlgButtonChecked(m_hwnd, IDC_DRAWLINES) ? SMF_DRAWLINES : 0;
-		gdat.flags |= IsDlgButtonChecked(m_hwnd, IDC_INDENTTEXT) ? SMF_INDENTTEXT : 0;
+		struct GlobalMessageData gdat = {};
+		gdat.flags.bShowIcons = IsDlgButtonChecked(m_hwnd, IDC_SHOWLOGICONS);
+		gdat.flags.bHideNames = !IsDlgButtonChecked(m_hwnd, IDC_SHOWNAMES);
+		gdat.flags.bShowTime = IsDlgButtonChecked(m_hwnd, IDC_SHOWTIMES);
+		gdat.flags.bShowSeconds = IsDlgButtonChecked(m_hwnd, IDC_SHOWSECONDS);
+		gdat.flags.bShowDate = IsDlgButtonChecked(m_hwnd, IDC_SHOWDATES);
+		gdat.flags.bLongDate = IsDlgButtonChecked(m_hwnd, IDC_USELONGDATE);
+		gdat.flags.bRelativeDate = IsDlgButtonChecked(m_hwnd, IDC_USERELATIVEDATE);
+		gdat.flags.bGroupMessages = IsDlgButtonChecked(m_hwnd, IDC_GROUPMESSAGES);
+		gdat.flags.bMarkFollowups = IsDlgButtonChecked(m_hwnd, IDC_MARKFOLLOWUPS);
+		gdat.flags.bMsgOnNewline = IsDlgButtonChecked(m_hwnd, IDC_MESSAGEONNEWLINE);
+		gdat.flags.bDrawLines = IsDlgButtonChecked(m_hwnd, IDC_DRAWLINES);
+		gdat.flags.bIndentText = IsDlgButtonChecked(m_hwnd, IDC_INDENTTEXT);
 		gdat.indentSize = (int)SendDlgItemMessage(m_hwnd, IDC_INDENTSPIN, UDM_GETPOS, 0, 0);
 
 		PARAFORMAT2 pf2;
 		pf2.cbSize = sizeof(pf2);
 		pf2.dwMask = PFM_OFFSET;
-		pf2.dxOffset = (gdat.flags & SMF_INDENTTEXT) ? gdat.indentSize * 1440 / g_dat.logPixelSX : 0;
+		pf2.dxOffset = (gdat.flags.bIndentText) ? gdat.indentSize * 1440 / g_dat.logPixelSX : 0;
 		m_log.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 
 		StreamInTestEvents(m_log.GetHwnd(), &gdat);

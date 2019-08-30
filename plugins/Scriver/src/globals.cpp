@@ -342,103 +342,66 @@ void FreeGlobals()
 
 void ReloadGlobals()
 {
-	g_dat.flags = 0;
-	g_dat.flags2 = 0;
-	if (g_plugin.getByte(SRMSGSET_AVATARENABLE, SRMSGDEFSET_AVATARENABLE))
-		g_dat.flags |= SMF_AVATAR;
-	if (g_plugin.getByte(SRMSGSET_SHOWPROGRESS, SRMSGDEFSET_SHOWPROGRESS))
-		g_dat.flags |= SMF_SHOWPROGRESS;
-	if (g_plugin.getByte(SRMSGSET_SHOWLOGICONS, SRMSGDEFSET_SHOWLOGICONS))
-		g_dat.flags |= SMF_SHOWICONS;
-	if (g_plugin.getByte(SRMSGSET_SHOWTIME, SRMSGDEFSET_SHOWTIME))
-		g_dat.flags |= SMF_SHOWTIME;
-	if (g_plugin.getByte(SRMSGSET_SHOWSECONDS, SRMSGDEFSET_SHOWSECONDS))
-		g_dat.flags |= SMF_SHOWSECONDS;
-	if (g_plugin.getByte(SRMSGSET_SHOWDATE, SRMSGDEFSET_SHOWDATE))
-		g_dat.flags |= SMF_SHOWDATE;
-	if (g_plugin.getByte(SRMSGSET_USELONGDATE, SRMSGDEFSET_USELONGDATE))
-		g_dat.flags |= SMF_LONGDATE;
-	if (g_plugin.getByte(SRMSGSET_USERELATIVEDATE, SRMSGDEFSET_USERELATIVEDATE))
-		g_dat.flags |= SMF_RELATIVEDATE;
-	if (g_plugin.getByte(SRMSGSET_GROUPMESSAGES, SRMSGDEFSET_GROUPMESSAGES))
-		g_dat.flags |= SMF_GROUPMESSAGES;
-	if (g_plugin.getByte(SRMSGSET_MARKFOLLOWUPS, SRMSGDEFSET_MARKFOLLOWUPS))
-		g_dat.flags |= SMF_MARKFOLLOWUPS;
-	if (g_plugin.getByte(SRMSGSET_MESSAGEONNEWLINE, SRMSGDEFSET_MESSAGEONNEWLINE))
-		g_dat.flags |= SMF_MSGONNEWLINE;
-	if (g_plugin.getByte(SRMSGSET_DRAWLINES, SRMSGDEFSET_DRAWLINES))
-		g_dat.flags |= SMF_DRAWLINES;
-	if (g_plugin.getByte(SRMSGSET_HIDENAMES, SRMSGDEFSET_HIDENAMES))
-		g_dat.flags |= SMF_HIDENAMES;
-	if (g_plugin.bAutoPopup)
-		g_dat.flags |= SMF_AUTOPOPUP;
-	if (g_plugin.bStayMinimized)
-		g_dat.flags |= SMF_STAYMINIMIZED;
-	if (g_plugin.bSaveDrafts)
-		g_dat.flags |= SMF_SAVEDRAFTS;
+	g_dat.dwFlags = 0;
+	g_dat.dwFlags2 = 0;
 
-	if (g_plugin.bDelTemp)
-		g_dat.flags |= SMF_DELTEMP;
-	if (g_plugin.getByte(SRMSGSET_INDENTTEXT, SRMSGDEFSET_INDENTTEXT))
-		g_dat.flags |= SMF_INDENTTEXT;
+	g_dat.flags.bShowAvatar = g_plugin.getBool(SRMSGSET_AVATARENABLE, SRMSGDEFSET_AVATARENABLE);
+	g_dat.flags.bShowProgress = g_plugin.getBool(SRMSGSET_SHOWPROGRESS, SRMSGDEFSET_SHOWPROGRESS);
+	g_dat.flags.bShowIcons = g_plugin.getBool(SRMSGSET_SHOWLOGICONS, SRMSGDEFSET_SHOWLOGICONS);
+	g_dat.flags.bShowTime = g_plugin.getBool(SRMSGSET_SHOWTIME, SRMSGDEFSET_SHOWTIME);
+	g_dat.flags.bShowSeconds = g_plugin.getBool(SRMSGSET_SHOWSECONDS, SRMSGDEFSET_SHOWSECONDS);
+	g_dat.flags.bShowDate = g_plugin.getBool(SRMSGSET_SHOWDATE, SRMSGDEFSET_SHOWDATE);
+	g_dat.flags.bLongDate = g_plugin.getBool(SRMSGSET_USELONGDATE, SRMSGDEFSET_USELONGDATE);
+	g_dat.flags.bRelativeDate = g_plugin.getBool(SRMSGSET_USERELATIVEDATE, SRMSGDEFSET_USERELATIVEDATE);
+	g_dat.flags.bGroupMessages = g_plugin.getBool(SRMSGSET_GROUPMESSAGES, SRMSGDEFSET_GROUPMESSAGES);
+	g_dat.flags.bMarkFollowups = g_plugin.getBool(SRMSGSET_MARKFOLLOWUPS, SRMSGDEFSET_MARKFOLLOWUPS);
+	g_dat.flags.bMsgOnNewline = g_plugin.getBool(SRMSGSET_MESSAGEONNEWLINE, SRMSGDEFSET_MESSAGEONNEWLINE);
+	g_dat.flags.bDrawLines = g_plugin.getBool(SRMSGSET_DRAWLINES, SRMSGDEFSET_DRAWLINES);
+	g_dat.flags.bHideNames = g_plugin.getBool(SRMSGSET_HIDENAMES, SRMSGDEFSET_HIDENAMES);
+	g_dat.flags.bIndentText = g_plugin.getByte(SRMSGSET_INDENTTEXT, SRMSGDEFSET_INDENTTEXT);
+	
+	g_dat.flags.bAutoPopup = g_plugin.bAutoPopup;
+	g_dat.flags.bStayMinimized = g_plugin.bStayMinimized;
+	g_dat.flags.bSaveDrafts = g_plugin.bSaveDrafts;
+	g_dat.flags.bDelTemp = g_plugin.bDelTemp;
 
 	g_dat.sendMode = (SendMode)g_plugin.getByte(SRMSGSET_SENDMODE, SRMSGDEFSET_SENDMODE);
 	g_dat.openFlags = g_plugin.getDword(SRMSGSET_POPFLAGS, SRMSGDEFSET_POPFLAGS);
 	g_dat.indentSize = g_plugin.getWord(SRMSGSET_INDENTSIZE, SRMSGDEFSET_INDENTSIZE);
 	g_dat.logLineColour = g_plugin.getDword(SRMSGSET_LINECOLOUR, SRMSGDEFSET_LINECOLOUR);
 
-	if (g_plugin.getByte(SRMSGSET_USETABS, SRMSGDEFSET_USETABS))
-		g_dat.flags2 |= SMF2_USETABS;
-	if (g_plugin.getByte(SRMSGSET_TABSATBOTTOM, SRMSGDEFSET_TABSATBOTTOM))
-		g_dat.flags2 |= SMF2_TABSATBOTTOM;
-	if (g_plugin.getByte(SRMSGSET_SWITCHTOACTIVE, SRMSGDEFSET_SWITCHTOACTIVE))
-		g_dat.flags2 |= SMF2_SWITCHTOACTIVE;
-	if (g_plugin.getByte(SRMSGSET_LIMITNAMES, SRMSGDEFSET_LIMITNAMES))
-		g_dat.flags2 |= SMF2_LIMITNAMES;
-	if (g_plugin.getByte(SRMSGSET_HIDEONETAB, SRMSGDEFSET_HIDEONETAB))
-		g_dat.flags2 |= SMF2_HIDEONETAB;
-	if (g_plugin.getByte(SRMSGSET_SEPARATECHATSCONTAINERS, SRMSGDEFSET_SEPARATECHATSCONTAINERS))
-		g_dat.flags2 |= SMF2_SEPARATECHATSCONTAINERS;
-	if (g_plugin.getByte(SRMSGSET_TABCLOSEBUTTON, SRMSGDEFSET_TABCLOSEBUTTON))
-		g_dat.flags2 |= SMF2_TABCLOSEBUTTON;
-	if (g_plugin.getByte(SRMSGSET_LIMITTABS, SRMSGDEFSET_LIMITTABS))
-		g_dat.flags2 |= SMF2_LIMITTABS;
-	if (g_plugin.getByte(SRMSGSET_LIMITCHATSTABS, SRMSGDEFSET_LIMITCHATSTABS))
-		g_dat.flags2 |= SMF2_LIMITCHATSTABS;
-	if (g_plugin.bHideContainer)
-		g_dat.flags2 |= SMF2_HIDECONTAINERS;
+	g_dat.flags2.bUseTabs = g_plugin.bUseTabs;
+	g_dat.flags2.bTabsAtBottom = g_plugin.bTabsAtBottom;
+	g_dat.flags2.bSwitchToActive = g_plugin.bSwitchToActive;
+	g_dat.flags2.bLimitNames = g_plugin.bLimitNames;
+	g_dat.flags2.bHideOneTab = g_plugin.bHideOneTab;
+	g_dat.flags2.bSeparateChats = g_plugin.bSeparateChats;
+	g_dat.flags2.bTabCloseButton = g_plugin.bTabCloseButton;
+	g_dat.flags2.bLimitTabs = g_plugin.bLimitTabs;
+	g_dat.flags2.bLimitChatTabs = g_plugin.bLimitChatTabs;
+	g_dat.flags2.bHideContainer = g_plugin.bHideContainer;
+	
+	g_dat.flags2.bShowStatusBar = g_plugin.getBool(SRMSGSET_SHOWSTATUSBAR, SRMSGDEFSET_SHOWSTATUSBAR);
+	g_dat.flags2.bShowTitleBar = g_plugin.getBool(SRMSGSET_SHOWTITLEBAR, SRMSGDEFSET_SHOWTITLEBAR);
+	g_dat.flags2.bShowToolBar = g_plugin.getBool(SRMSGSET_SHOWBUTTONLINE, SRMSGDEFSET_SHOWBUTTONLINE);
+	g_dat.flags2.bShowInfoBar = g_plugin.getBool(SRMSGSET_SHOWINFOBAR, SRMSGDEFSET_SHOWINFOBAR);
 
-	if (g_plugin.getByte(SRMSGSET_SHOWSTATUSBAR, SRMSGDEFSET_SHOWSTATUSBAR))
-		g_dat.flags2 |= SMF2_SHOWSTATUSBAR;
-	if (g_plugin.getByte(SRMSGSET_SHOWTITLEBAR, SRMSGDEFSET_SHOWTITLEBAR))
-		g_dat.flags2 |= SMF2_SHOWTITLEBAR;
-	if (g_plugin.getByte(SRMSGSET_SHOWBUTTONLINE, SRMSGDEFSET_SHOWBUTTONLINE))
-		g_dat.flags2 |= SMF2_SHOWTOOLBAR;
-	if (g_plugin.getByte(SRMSGSET_SHOWINFOBAR, SRMSGDEFSET_SHOWINFOBAR))
-		g_dat.flags2 |= SMF2_SHOWINFOBAR;
-
-	if (g_plugin.getByte(SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING))
-		g_dat.flags2 |= SMF2_SHOWTYPING;
-	if (g_plugin.getByte(SRMSGSET_SHOWTYPINGWIN, SRMSGDEFSET_SHOWTYPINGWIN))
-		g_dat.flags2 |= SMF2_SHOWTYPINGWIN;
-	if (g_plugin.getByte(SRMSGSET_SHOWTYPINGNOWIN, SRMSGDEFSET_SHOWTYPINGNOWIN))
-		g_dat.flags2 |= SMF2_SHOWTYPINGTRAY;
-	if (g_plugin.getByte(SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST))
-		g_dat.flags2 |= SMF2_SHOWTYPINGCLIST;
-	if (g_plugin.getByte(SRMSGSET_SHOWTYPINGSWITCH, SRMSGDEFSET_SHOWTYPINGSWITCH))
-		g_dat.flags2 |= SMF2_SHOWTYPINGSWITCH;
-	if (g_plugin.getByte(SRMSGSET_USETRANSPARENCY, SRMSGDEFSET_USETRANSPARENCY))
-		g_dat.flags2 |= SMF2_USETRANSPARENCY;
+	g_dat.flags2.bShowTyping = g_plugin.getBool(SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING);
+	g_dat.flags2.bShowTypingWin = g_plugin.getBool(SRMSGSET_SHOWTYPINGWIN, SRMSGDEFSET_SHOWTYPINGWIN);
+	g_dat.flags2.bShowTypingTray = g_plugin.getBool(SRMSGSET_SHOWTYPINGNOWIN, SRMSGDEFSET_SHOWTYPINGNOWIN);
+	g_dat.flags2.bShowTypingClist = g_plugin.getBool(SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST);
+	g_dat.flags2.bShowTypingSwitch = g_plugin.getBool(SRMSGSET_SHOWTYPINGSWITCH, SRMSGDEFSET_SHOWTYPINGSWITCH);
+	g_dat.flags2.bUseTransparency = g_plugin.getBool(SRMSGSET_USETRANSPARENCY, SRMSGDEFSET_USETRANSPARENCY);
 
 	g_dat.activeAlpha = g_plugin.getDword(SRMSGSET_ACTIVEALPHA, SRMSGDEFSET_ACTIVEALPHA);
 	g_dat.inactiveAlpha = g_plugin.getDword(SRMSGSET_INACTIVEALPHA, SRMSGDEFSET_INACTIVEALPHA);
 
-	if (g_plugin.getByte(SRMSGSET_USEIEVIEW, SRMSGDEFSET_USEIEVIEW))
-		g_dat.flags |= SMF_USEIEVIEW;
+	if (g_plugin.getBool(SRMSGSET_USEIEVIEW, SRMSGDEFSET_USEIEVIEW))
+		g_dat.flags.bUseIeview;
 
-	g_dat.limitNamesLength = g_plugin.getDword(SRMSGSET_LIMITNAMESLEN, SRMSGDEFSET_LIMITNAMESLEN);
-	g_dat.limitTabsNum = g_plugin.getDword(SRMSGSET_LIMITTABSNUM, SRMSGDEFSET_LIMITTABSNUM);
-	g_dat.limitChatsTabsNum = g_plugin.getDword(SRMSGSET_LIMITCHATSTABSNUM, SRMSGDEFSET_LIMITCHATSTABSNUM);
+	g_dat.limitNamesLength = g_plugin.iLimitNames;
+	g_dat.limitTabsNum = g_plugin.iLimitTabs;
+	g_dat.limitChatsTabsNum = g_plugin.iLimitChatTabs;
 
 	ptrW wszTitleFormat(g_plugin.getWStringA(SRMSGSET_WINDOWTITLE));
 	if (wszTitleFormat == nullptr)

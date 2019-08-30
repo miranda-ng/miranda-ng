@@ -84,6 +84,6 @@ struct TabControlData
 	HICON hIcon;
 };
 
-HWND GetParentWindow(MCONTACT hContact, BOOL bChat);
+HWND GetParentWindow(MCONTACT hContact, bool bChat);
 
 #endif
