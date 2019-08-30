@@ -70,12 +70,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMOption<BYTE> bSavePerContact, bCascade, bStayMinimized, bAutoMin, bSaveDrafts, bDelTemp, bHideContainer, bAutoPopup;
+	CMOption<BYTE> bSavePerContact, bCascade, bStayMinimized, bAutoMin, bSaveDrafts, bDelTemp, bHideContainer, bAutoPopup, bUseIeview, bUseTransparency;
 	CMOption<BYTE> bShowTitleBar, bShowStatusBar, bShowToolBar, bShowInfoBar;
 	CMOption<BYTE> bShowAvatar, bShowProgress, bShowIcons, bShowTime, bShowSeconds, bShowDate, bLongDate, bRelativeDate;
 	CMOption<BYTE>	bGroupMessages, bMarkFollowups, bMsgOnNewline, bDrawLines, bHideNames, bIndentText;
 	CMOption<BYTE> bUseTabs, bLimitTabs, bLimitChatTabs, bLimitNames, bSeparateChats, bTabCloseButton, bHideOneTab, bTabsAtBottom, bSwitchToActive;
-	CMOption<WORD> iLimitNames, iLimitTabs, iLimitChatTabs;
+	CMOption<BYTE> bShowTyping, bShowTypingWin, bShowTypingTray, bShowTypingClist, bShowTypingSwitch;
+	CMOption<WORD> iLimitNames, iLimitTabs, iLimitChatTabs, iLoadCount, iLoadTime, iIndentSize, iAutoResizeLines;
 
 	CMPlugin();
 

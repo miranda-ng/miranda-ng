@@ -302,7 +302,7 @@ bool CSrmmWindow::OnInitDialog()
 		MEVENT hPrevEvent;
 		switch (historyMode) {
 		case LOADHISTORY_COUNT:
-			for (int i = g_plugin.getWord(SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT); i > 0; i--) {
+			for (int i = g_plugin.iLoadCount; i > 0; i--) {
 				if (m_hDbEventFirst == 0)
 					hPrevEvent = db_event_last(m_hContact);
 				else
@@ -326,7 +326,8 @@ bool CSrmmWindow::OnInitDialog()
 				db_event_get(m_hDbEventFirst, &dbei);
 				hPrevEvent = db_event_prev(m_hContact, m_hDbEventFirst);
 			}
-			DWORD firstTime = dbei.timestamp - 60 * g_plugin.getWord(SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME);
+			
+			DWORD firstTime = dbei.timestamp - 60 * g_plugin.iLoadTime;
 			for (;;) {
 				if (hPrevEvent == 0)
 					break;

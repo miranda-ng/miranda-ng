@@ -51,6 +51,7 @@ CMPlugin::CMPlugin() :
 	bAutoMin(SRMM_MODULE, "AutoMin", 0),
 	bDelTemp(SRMM_MODULE, "DeleteTempCont", 0),
 	bAutoPopup(SRMM_MODULE, "AutoPopupMsg", 0),
+	bUseIeview(SRMM_MODULE, "UseIEView", 1),
 	bSaveDrafts(SRMM_MODULE, "SaveDrafts", 0),
 	bHideContainer(SRMM_MODULE, "HideContainers", 0),
 	bStayMinimized(SRMM_MODULE, "StayMinimized", 0),
@@ -64,12 +65,13 @@ CMPlugin::CMPlugin() :
 	bShowDate(SRMM_MODULE, "ShowDate", 0),
 	bLongDate(SRMM_MODULE, "UseLongDate", 0),
 	bRelativeDate(SRMM_MODULE, "UseRelativeDate", 0),
-	bGroupMessages(SRMM_MODULE, "GroupMessages", 0),
-	bMarkFollowups(SRMM_MODULE, "MarkFollowUps", 0),
-	bMsgOnNewline(SRMM_MODULE, "MessageOnNewLine", 0),
 	bDrawLines(SRMM_MODULE, "DrawLines", 0),
 	bHideNames(SRMM_MODULE, "HideNames", 1),
 	bIndentText(SRMM_MODULE, "IndentText", 0),
+	bGroupMessages(SRMM_MODULE, "GroupMessages", 0),
+	bMarkFollowups(SRMM_MODULE, "MarkFollowUps", 0),
+	bMsgOnNewline(SRMM_MODULE, "MessageOnNewLine", 0),
+	bUseTransparency(SRMM_MODULE, "UseTransparency", 0),
 
 	bShowToolBar(SRMM_MODULE, "ShowButtonLine", 1),
 	bShowInfoBar(SRMM_MODULE, "ShowInfoBar", 1),
@@ -86,9 +88,19 @@ CMPlugin::CMPlugin() :
 	bTabCloseButton(SRMM_MODULE, "TabCloseButton", 0),
 	bSwitchToActive(SRMM_MODULE, "SwitchToActiveTab", 0),
 
+	bShowTyping(SRMM_MODULE, "ShowTyping", 1),
+	bShowTypingWin(SRMM_MODULE, "ShowTypingWin", 1),
+	bShowTypingTray(SRMM_MODULE, "ShowTypingTray", 0),
+	bShowTypingClist(SRMM_MODULE, "ShowTypingClist", 1),
+	bShowTypingSwitch(SRMM_MODULE, "ShowTypingSwitch", 1),
+
 	iLimitNames(SRMM_MODULE, "LimitNamesLength", 20),
 	iLimitTabs(SRMM_MODULE, "LimitTabsNum", 10),
-	iLimitChatTabs(SRMM_MODULE, "LimitChatsTabsNum", 10)
+	iLimitChatTabs(SRMM_MODULE, "LimitChatsTabsNum", 10),
+	iLoadCount(SRMM_MODULE, "LoadCount", 10),
+	iLoadTime(SRMM_MODULE, "LoadTime", 10),
+	iIndentSize(SRMM_MODULE, "IndentSize", 0),
+	iAutoResizeLines(SRMM_MODULE, "AutoResizeLines", 2)
 {
 }
 

@@ -271,7 +271,7 @@ void LoadInfobarFonts()
 {
 	LOGFONT lf;
 	LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, nullptr);
-	g_dat.minInputAreaHeight = g_plugin.getDword(SRMSGSET_AUTORESIZELINES, SRMSGDEFSET_AUTORESIZELINES) * abs(lf.lfHeight) * g_dat.logPixelSY / 72;
+	g_dat.minInputAreaHeight = g_plugin.iAutoResizeLines * abs(lf.lfHeight) * g_dat.logPixelSY / 72;
 	
 	if (g_dat.hInfobarBrush != nullptr)
 		DeleteObject(g_dat.hInfobarBrush);
@@ -364,10 +364,11 @@ void ReloadGlobals()
 	g_dat.flags.bStayMinimized = g_plugin.bStayMinimized;
 	g_dat.flags.bSaveDrafts = g_plugin.bSaveDrafts;
 	g_dat.flags.bDelTemp = g_plugin.bDelTemp;
+	g_dat.flags.bUseIeview = g_plugin.bUseIeview;
 
 	g_dat.sendMode = (SendMode)g_plugin.getByte(SRMSGSET_SENDMODE, SRMSGDEFSET_SENDMODE);
 	g_dat.openFlags = g_plugin.getDword(SRMSGSET_POPFLAGS, SRMSGDEFSET_POPFLAGS);
-	g_dat.indentSize = g_plugin.getWord(SRMSGSET_INDENTSIZE, SRMSGDEFSET_INDENTSIZE);
+	g_dat.indentSize = g_plugin.iIndentSize;
 	g_dat.logLineColour = g_plugin.getDword(SRMSGSET_LINECOLOUR, SRMSGDEFSET_LINECOLOUR);
 
 	g_dat.flags2.bUseTabs = g_plugin.bUseTabs;
@@ -380,25 +381,22 @@ void ReloadGlobals()
 	g_dat.flags2.bLimitTabs = g_plugin.bLimitTabs;
 	g_dat.flags2.bLimitChatTabs = g_plugin.bLimitChatTabs;
 	g_dat.flags2.bHideContainer = g_plugin.bHideContainer;
-	
+	g_dat.flags2.bUseTransparency = g_plugin.bUseTransparency;
+
 	g_dat.flags2.bShowStatusBar = g_plugin.bShowStatusBar;
 	g_dat.flags2.bShowTitleBar = g_plugin.bShowTitleBar;
 	g_dat.flags2.bShowToolBar = g_plugin.bShowToolBar;
 	g_dat.flags2.bShowInfoBar = g_plugin.bShowInfoBar;
 
-	g_dat.flags2.bShowTyping = g_plugin.getBool(SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING);
-	g_dat.flags2.bShowTypingWin = g_plugin.getBool(SRMSGSET_SHOWTYPINGWIN, SRMSGDEFSET_SHOWTYPINGWIN);
-	g_dat.flags2.bShowTypingTray = g_plugin.getBool(SRMSGSET_SHOWTYPINGNOWIN, SRMSGDEFSET_SHOWTYPINGNOWIN);
-	g_dat.flags2.bShowTypingClist = g_plugin.getBool(SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST);
-	g_dat.flags2.bShowTypingSwitch = g_plugin.getBool(SRMSGSET_SHOWTYPINGSWITCH, SRMSGDEFSET_SHOWTYPINGSWITCH);
-	g_dat.flags2.bUseTransparency = g_plugin.getBool(SRMSGSET_USETRANSPARENCY, SRMSGDEFSET_USETRANSPARENCY);
+	g_dat.flags2.bShowTyping = g_plugin.bShowTyping;
+	g_dat.flags2.bShowTypingWin = g_plugin.bShowTypingWin;
+	g_dat.flags2.bShowTypingTray = g_plugin.bShowTypingTray;
+	g_dat.flags2.bShowTypingClist = g_plugin.bShowTypingClist;
+	g_dat.flags2.bShowTypingSwitch = g_plugin.bShowTypingSwitch;
 
 	g_dat.activeAlpha = g_plugin.getDword(SRMSGSET_ACTIVEALPHA, SRMSGDEFSET_ACTIVEALPHA);
 	g_dat.inactiveAlpha = g_plugin.getDword(SRMSGSET_INACTIVEALPHA, SRMSGDEFSET_INACTIVEALPHA);
-
-	if (g_plugin.getBool(SRMSGSET_USEIEVIEW, SRMSGDEFSET_USEIEVIEW))
-		g_dat.flags.bUseIeview;
-
+	
 	g_dat.limitNamesLength = g_plugin.iLimitNames;
 	g_dat.limitTabsNum = g_plugin.iLimitTabs;
 	g_dat.limitChatsTabsNum = g_plugin.iLimitChatTabs;
