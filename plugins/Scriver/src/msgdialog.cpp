@@ -23,8 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-#define VALID_AVATAR(x)      (x==PA_FORMAT_PNG||x==PA_FORMAT_JPEG||x==PA_FORMAT_ICON||x==PA_FORMAT_BMP||x==PA_FORMAT_GIF)
-
 static wchar_t* GetQuotedTextW(wchar_t *text)
 {
 	size_t i, j, l = mir_wstrlen(text);
@@ -469,7 +467,7 @@ void CSrmmWindow::onClick_Ok(CCtrlButton *pButton)
 
 	m_message.SetText(L"");
 	EnableWindow(GetDlgItem(m_hwnd, IDOK), FALSE);
-	if (g_plugin.bSaveDrafts)
+	if (g_plugin.bAutoMin)
 		ShowWindow(m_hwndParent, SW_MINIMIZE);
 
 	if (pButton == nullptr)
