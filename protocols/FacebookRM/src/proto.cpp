@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-FacebookProto::FacebookProto(const char* proto_name, const wchar_t* username) :
+FacebookProto::FacebookProto(const char *proto_name, const wchar_t *username) :
 	PROTO<FacebookProto>(proto_name, username),
 	m_tszDefaultGroup(getWStringA(FACEBOOK_KEY_DEF_GROUP))
 {

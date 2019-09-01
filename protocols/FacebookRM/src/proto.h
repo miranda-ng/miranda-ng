@@ -200,9 +200,7 @@ public:
 	void __cdecl ProcessMemories(void*);
 
 	// Worker threads
-	void __cdecl SignOn(void*);
 	void __cdecl ChangeStatus(void*);
-	void __cdecl SignOff(void*);
 	void __cdecl SetAwayMsgWorker(void*);
 	void __cdecl UpdateAvatarWorker(void*);
 	void __cdecl SendMsgWorker(void*);

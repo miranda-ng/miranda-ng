@@ -856,7 +856,6 @@ LRESULT CChatRoomDlg::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 
 INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static HMENU hToolbarMenu;
 	RECT rc;
 	POINT pt;
 	HICON hIcon;
