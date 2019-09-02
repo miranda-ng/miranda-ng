@@ -41,21 +41,24 @@ void FacebookProto::ChangeStatus(void*)
 		debugLogA("### Beginning SignOff process");
 		m_signingOut = true;
 
-		SetEvent(update_loop_event);
+		::KillTimer(g_hwndHeartbeat, LPARAM(this));
+		::SetEvent(update_loop_event);
 
 		// Shutdown and close channel handle
 		Netlib_Shutdown(facy.hChannelCon);
-		if (facy.hChannelCon)
+		if (facy.hChannelCon) {
 			Netlib_CloseHandle(facy.hChannelCon);
-		facy.hChannelCon = nullptr;
+			facy.hChannelCon = nullptr;
+		}
 
 		// Shutdown and close messages handle
 		Netlib_Shutdown(facy.hMessagesCon);
-		if (facy.hMessagesCon)
+		if (facy.hMessagesCon) {
 			Netlib_CloseHandle(facy.hMessagesCon);
-		facy.hMessagesCon = nullptr;
+			facy.hMessagesCon = nullptr;
+		}
 
-		// Turn off chat on Facebook
+		// Turn off chat on Facebook								  
 		if (getByte(FACEBOOK_KEY_DISCONNECT_CHAT, DEFAULT_DISCONNECT_CHAT))
 			facy.chat_state(false);
 
@@ -139,7 +142,7 @@ void FacebookProto::ChangeStatus(void*)
 			if (getByte(FACEBOOK_KEY_SET_MIRANDA_STATUS, DEFAULT_SET_MIRANDA_STATUS))
 				ForkThread(&FacebookProto::SetAwayMsgWorker, nullptr);
 
-			SetTimer(g_hwndHeartbeat, LPARAM(this), 60000, timerApcFunc);
+			::SetTimer(g_hwndHeartbeat, LPARAM(this), 60000, timerApcFunc);
 		}
 		else {
 			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)old_status, m_iStatus);
