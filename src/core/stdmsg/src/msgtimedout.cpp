@@ -22,64 +22,52 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "msgs.h"
 
-struct ErrorDlgParam
+class CErrorDlg : public CDlgBase
 {
-	const wchar_t *szMsg;
-	TMsgQueue *item;
-};
+	TMsgQueue *m_item;
+	CMStringW  m_wszErr;
 
-INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	TMsgQueue *item = (TMsgQueue*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+public:
+	CErrorDlg(TMsgQueue *item, const wchar_t *err, HWND hwndParent) :
+		CDlgBase(g_plugin, IDD_MSGSENDERROR),
+		m_item(item)
+	{
+		if (err)
+			m_wszErr = err;
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		{
-			ErrorDlgParam *param = (ErrorDlgParam *)lParam;
-			item = param->item;
-
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)item);
-
-			if (!param->szMsg || !param->szMsg[0])
-				SetDlgItemText(hwndDlg, IDC_ERRORTEXT, TranslateT("An unknown error has occurred."));
-			else
-				SetDlgItemText(hwndDlg, IDC_ERRORTEXT, param->szMsg);
-
-			SetDlgItemText(hwndDlg, IDC_MSGTEXT, ptrW(mir_utf8decodeW(item->szMsg)));
-
-			HWND hwndParent = GetParent(hwndDlg);
-			if (hwndParent != nullptr) {
-				RECT rc, rcParent;
-				if (GetWindowRect(hwndDlg, &rc))
-					if (GetWindowRect(hwndParent, &rcParent))
-						SetWindowPos(hwndDlg, nullptr, (rcParent.left + rcParent.right - (rc.right - rc.left)) / 2,
-							(rcParent.top + rcParent.bottom - (rc.bottom - rc.top)) / 2,
-							0, 0, SWP_NOZORDER | SWP_NOSIZE);
-			}
-		}
-		return TRUE;
-
-	case WM_DESTROY:
-		mir_free(item->szMsg);
-		mir_free(item);
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDOK:
-			SendMessageDirect(ptrW(mir_utf8decodeW(item->szMsg)), item->hContact);
-			DestroyWindow(hwndDlg);
-			break;
-
-		case IDCANCEL:
-			DestroyWindow(hwndDlg);
-			break;
-		}
-		break;
+		SetParent(hwndParent);
 	}
-	return FALSE;
-}
+
+	bool OnInitDialog() override
+	{
+		if (m_wszErr.IsEmpty())
+			SetCaption(TranslateT("An unknown error has occurred."));
+		else
+			SetCaption(m_wszErr);
+
+		SetDlgItemText(m_hwnd, IDC_MSGTEXT, ptrW(mir_utf8decodeW(m_item->szMsg)));
+
+		if (m_hwndParent != nullptr) {
+			RECT rc, rcParent;
+			if (GetWindowRect(m_hwnd, &rc))
+				if (GetWindowRect(m_hwndParent, &rcParent))
+					SetWindowPos(m_hwnd, nullptr, (rcParent.left + rcParent.right - (rc.right - rc.left)) / 2, (rcParent.top + rcParent.bottom - (rc.bottom - rc.top)) / 2, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+		}
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		SendMessageDirect(ptrW(mir_utf8decodeW(m_item->szMsg)), m_item->hContact);
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		mir_free(m_item->szMsg);
+		mir_free(m_item);
+	}
+};
 
 void MessageFailureProcess(TMsgQueue *item, const wchar_t *err)
 {
@@ -95,6 +83,6 @@ void MessageFailureProcess(TMsgQueue *item, const wchar_t *err)
 
 	Skin_PlaySound("SendError");
 
-	ErrorDlgParam param = { err, item };
-	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_MSGSENDERROR), hwnd, ErrorDlgProc, (LPARAM)&param);
+	auto *pDlg = new CErrorDlg(item, err, hwnd);
+	pDlg->Show();
 }
