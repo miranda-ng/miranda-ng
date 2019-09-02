@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef SRMM_MSGS_H
 #define SRMM_MSGS_H
 
-#define DM_REMAKELOG         (WM_USER+11)
 #define HM_DBEVENTADDED      (WM_USER+12)
 #define DM_CASCADENEWWINDOW  (WM_USER+13)
 #define DM_OPTIONSAPPLIED    (WM_USER+14)
@@ -51,7 +50,7 @@ protected:
 	CCtrlButton m_btnOk;
 	CTabbedWindow *m_pOwner;
 	DWORD m_nFlash = 0;
-	char *m_szProto;
+	char *m_szProto = nullptr;
 
 	CMsgDialog(CTabbedWindow *pOwner, int idDialog, SESSION_INFO *si = nullptr);
 
@@ -59,10 +58,17 @@ protected:
 
 	virtual void OnActivate() PURE;
 
+	void OnDestroy() override;
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 public:
+	virtual void RemakeLog() {}
+
 	int GetImageId() const;
+
+	void __forceinline FixTabIcons()
+	{	m_pOwner->FixTabIcons(this);
+	}
 
 	void CloseTab() override;
 	bool IsActive() const override;
@@ -134,6 +140,7 @@ public:
 	virtual int GetStatus() const { return m_wStatus; }
 
 	void LoadSettings() override {}
+	void RemakeLog() override;
 	void SetStatusText(const wchar_t*, HICON) override;
 	void UpdateTitle() override;
 
@@ -150,12 +157,9 @@ public:
 	}
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////
+extern LIST<CMsgDialog> g_arDialogs;
 
-#define GC_ADDTAB		  (WM_USER+200)
-#define GC_REMOVETAB   (WM_USER+201)
-#define GC_DROPPEDTAB  (WM_USER+202)
-#define GC_RENAMETAB   (WM_USER+203)
+/////////////////////////////////////////////////////////////////////////////////////////
 
 class CChatRoomDlg : public CMsgDialog
 {
@@ -205,7 +209,6 @@ public:
 	void onSplitterY(CSplitter*);
 };
 
-INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 int  DbEventIsForMsgWindow(DBEVENTINFO *dbei);
 int  DbEventIsShown(DBEVENTINFO *dbei);
 int  SendMessageDirect(const wchar_t *szMsg, MCONTACT hContact);

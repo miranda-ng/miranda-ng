@@ -79,7 +79,10 @@ void MessageFailureProcess(TMsgQueue *item, const wchar_t *err)
 		SendMessageCmd(item->hContact, nullptr);
 		hwnd = Srmm_FindWindow(hContact);
 	}
-	else SendMessage(hwnd, DM_REMAKELOG, 0, 0);
+	else {
+		auto *pDlg = (CMsgDialog *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+		pDlg->RemakeLog();
+	}
 
 	Skin_PlaySound("SendError");
 

@@ -471,8 +471,10 @@ static int IconsChanged(WPARAM, LPARAM)
 	LoadMsgLogIcons();
 
 	// change all the icons
-	Srmm_Broadcast(DM_REMAKELOG, 0, 0);
-	Srmm_Broadcast(DM_UPDATEWINICON, 0, 0);
+	for (auto &it : g_arDialogs) {
+		it->RemakeLog();
+		it->FixTabIcons();
+	}
 	return 0;
 }
 

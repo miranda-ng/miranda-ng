@@ -33,6 +33,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define ENTERCLICKTIME   1000   //max time in ms during which a double-tap on enter will cause a send
 
+static int CompareDialogs(const CMsgDialog *p1, const CMsgDialog *p2)
+{
+	if (p1->GetHwnd() == p2->GetHwnd())
+		return 0;
+
+	return (p1->GetHwnd() < p2->GetHwnd()) ? -1 : 1;
+}
+
+LIST<CMsgDialog> g_arDialogs(10, CompareDialogs);
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static void AddToFileList(wchar_t ***pppFiles, int *totalCount, const wchar_t *szFilename)
@@ -72,12 +82,21 @@ CMsgDialog::CMsgDialog(CTabbedWindow *pOwner, int iDialogId, SESSION_INFO *si) :
 {
 	m_autoClose = 0;
 	m_forceResizable = true;
+
+	g_arDialogs.insert(this);
+}
+
+void CMsgDialog::OnDestroy()
+{
+	g_arDialogs.remove(this);
+
+	CSuper::OnDestroy();
 }
 
 void CMsgDialog::CloseTab()
 {
 	if (g_Settings.bTabsEnable) {
-		SendMessage(GetParent(m_hwndParent), GC_REMOVETAB, 0, (LPARAM)this);
+		m_pOwner->RemoveTab(this);
 		Close();
 	}
 	else SendMessage(m_hwndParent, WM_CLOSE, 0, 0);
@@ -99,7 +118,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_TIMER:
 		if (wParam == TIMERID_FLASHWND) {
-			m_pOwner->FixTabIcons(this);
+			FixTabIcons();
 			if (!g_dat.nFlashMax || m_nFlash < 2 * g_dat.nFlashMax)
 				FlashWindow(m_pOwner->GetHwnd(), TRUE);
 			m_nFlash++;
@@ -153,7 +172,7 @@ void CMsgDialog::StopFlash()
 		::FlashWindow(m_pOwner->GetHwnd(), FALSE);
 
 		m_nFlash = 0;
-		m_pOwner->FixTabIcons(this);
+		FixTabIcons();
 	}
 }
 
@@ -389,7 +408,7 @@ void CSrmmWindow::OnActivate()
 	UpdateTitle();
 	UpdateLastMessage();
 	StopFlash();
-	SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
+	FixTabIcons();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -504,8 +523,8 @@ void CSrmmWindow::OnOptionsApplied(bool bUpdateAvatar)
 	m_log.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 	m_log.SendMsg(EM_SETLANGOPTIONS, 0, m_log.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
 
-	SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
-	SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
+	RemakeLog();
+	FixTabIcons();
 }
 
 void CSrmmWindow::OnSplitterMoved(CSplitter *pSplitter)
@@ -564,6 +583,11 @@ void CSrmmWindow::NotifyTyping(int mode)
 	// End user check
 	m_nTypeMode = mode;
 	CallService(MS_PROTO_SELFISTYPING, m_hContact, m_nTypeMode);
+}
+
+void CSrmmWindow::RemakeLog()
+{
+	StreamInEvents(m_hDbEventFirst, -1, 0);
 }
 
 void CSrmmWindow::ProcessFileDrop(HDROP hDrop)
@@ -675,7 +699,7 @@ void CSrmmWindow::UpdateIcon(WPARAM wParam)
 		}
 
 		if (g_dat.bUseStatusWinIcon)
-			SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
+			FixTabIcons();
 	}
 }
 
@@ -1113,10 +1137,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		m_nTypeSecs = (INT_PTR)lParam > 0 ? (int)lParam : 0;
 		break;
 
-	case DM_UPDATEWINICON:
-		m_pOwner->FixTabIcons(this);
-		break;
-
 	case DM_USERNAMETOCLIP:
 		if (m_hContact) {
 			ptrW id(Contact_GetInfo(CNF_UNIQUEID, m_hContact, m_szProto));
@@ -1190,10 +1210,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		return TRUE;
 
-	case DM_REMAKELOG:
-		StreamInEvents(m_hDbEventFirst, -1, 0);
-		break;
-
 	case HM_DBEVENTADDED:
 		if (wParam == m_hContact) {
 			MEVENT hDbEvent = lParam;
@@ -1220,7 +1236,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				if (hDbEvent != m_hDbEventFirst && db_event_next(m_hContact, hDbEvent) == 0)
 					StreamInEvents(hDbEvent, 1, 1);
 				else
-					SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
+					RemakeLog();
 
 				// Flash window *only* for messages, not for custom events
 				if (isMessage && !isSent) {
@@ -1242,7 +1258,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_TIMECHANGE:
 		PostMessage(m_hwnd, DM_NEWTIMEZONE, 0, 0);
-		PostMessage(m_hwnd, DM_REMAKELOG, 0, 0);
+		RemakeLog();
 		break;
 
 	case WM_TIMER:
@@ -1255,12 +1271,12 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				if (m_nTypeSecs) {
 					m_nTypeSecs--;
 					if (GetForegroundWindow() == m_pOwner->GetHwnd())
-						SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
+						FixTabIcons();
 				}
 				else {
 					UpdateLastMessage();
 					if (g_dat.bShowTypingWin)
-						SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
+						FixTabIcons();
 					m_bShowTyping = false;
 				}
 			}
