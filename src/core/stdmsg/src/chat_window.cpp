@@ -656,30 +656,6 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				return TRUE;
 			}
 
-			if (wParam == VK_TAB && isCtrl && !isShift) { // CTRL-TAB (switch tab/window)
-				if (g_Settings.bTabsEnable)
-					SendMessage(GetParent(GetParent(m_hwnd)), GC_SWITCHNEXTTAB, 0, 0);
-				else
-					g_chatApi.ShowRoom(SM_GetNextWindow(m_si));
-				return TRUE;
-			}
-
-			if (wParam == VK_TAB && isCtrl && isShift) { // CTRL_SHIFT-TAB (switch tab/window)
-				if (g_Settings.bTabsEnable)
-					SendMessage(GetParent(GetParent(m_hwnd)), GC_SWITCHPREVTAB, 0, 0);
-				else
-					g_chatApi.ShowRoom(SM_GetPrevWindow(m_si));
-				return TRUE;
-			}
-
-			if (wParam <= '9' && wParam >= '1' && isCtrl && !isAlt) // CTRL + 1 -> 9 (switch tab)
-				if (g_Settings.bTabsEnable)
-					SendMessage(m_hwnd, GC_SWITCHTAB, 0, (int)wParam - (int)'1');
-
-			if (wParam <= VK_NUMPAD9 && wParam >= VK_NUMPAD1 && isCtrl && !isAlt) // CTRL + 1 -> 9 (switch tab)
-				if (g_Settings.bTabsEnable)
-					SendMessage(m_hwnd, GC_SWITCHTAB, 0, (int)wParam - (int)VK_NUMPAD1);
-
 			if (wParam == VK_TAB && !isCtrl && !isShift) { // tab-autocomplete
 				LRESULT lResult = (LRESULT)m_message.SendMsg(EM_GETSEL, 0, 0);
 

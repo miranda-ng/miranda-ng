@@ -61,6 +61,8 @@ protected:
 	void OnDestroy() override;
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
+	LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
+
 public:
 	virtual void RemakeLog() {}
 

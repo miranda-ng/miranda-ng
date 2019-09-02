@@ -129,6 +129,41 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	return CSuper::DlgProc(uMsg, wParam, lParam);
 }
 
+LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	if (msg == WM_KEYDOWN) {
+		bool isShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
+		bool isCtrl = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
+		bool isAlt = (GetKeyState(VK_MENU) & 0x8000) != 0;
+
+		if (wParam <= '9' && wParam >= '1' && isCtrl && !isAlt) // CTRL + 1 -> 9 (switch tab)
+			if (g_Settings.bTabsEnable) {
+				m_pOwner->SwitchTab(wParam - '1');
+				return TRUE;
+			}
+
+		if (wParam <= VK_NUMPAD9 && wParam >= VK_NUMPAD1 && isCtrl && !isAlt) // CTRL + 1 -> 9 (switch tab)
+			if (g_Settings.bTabsEnable) {
+				m_pOwner->SwitchTab(wParam - VK_NUMPAD1);
+				return TRUE;
+			}
+
+		if (wParam == VK_TAB && isCtrl && !isShift) // CTRL-TAB (switch tab/window)
+			if (g_Settings.bTabsEnable) {
+				m_pOwner->SwitchNextTab();
+				return TRUE;
+			}
+
+		if (wParam == VK_TAB && isCtrl && isShift) // CTRL_SHIFT-TAB (switch tab/window)
+			if (g_Settings.bTabsEnable) {
+				m_pOwner->SwitchPrevTab();
+				return TRUE;
+			}
+	}
+
+	return CSuper::WndProc_Message(msg, wParam, lParam);
+}
+
 int CMsgDialog::GetImageId() const
 {
 	if (m_nFlash & 1)
@@ -899,21 +934,6 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 		if (ProcessHotkeys(wParam, isShift, isCtrl, isAlt))
 			return FALSE;
-
-		if (wParam == VK_TAB && isCtrl && !isShift) { // CTRL-TAB (switch tab/window)
-			if (g_Settings.bTabsEnable) {
-				SendMessage(GetParent(GetParent(m_hwnd)), GC_SWITCHNEXTTAB, 0, 0);
-				return TRUE;
-			}
-		}
-
-		if (wParam == VK_TAB && isCtrl && isShift) { // CTRL_SHIFT-TAB (switch tab/window)
-			if (g_Settings.bTabsEnable) {
-				SendMessage(GetParent(GetParent(m_hwnd)), GC_SWITCHPREVTAB, 0, 0);
-				return TRUE;
-			}
-		}
-
 		break;
 
 	case WM_LBUTTONDOWN:

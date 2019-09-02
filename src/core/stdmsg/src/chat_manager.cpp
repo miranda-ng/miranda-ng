@@ -46,9 +46,11 @@ SESSION_INFO* SM_GetNextWindow(SESSION_INFO *si)
 	if (i == -1)
 		return nullptr;
 
-	for (auto &p : g_chatApi.arSessions)
+	for (i++; i < g_chatApi.arSessions.getCount(); i++) {
+		SESSION_INFO *p = g_chatApi.arSessions[i];
 		if (p->pDlg)
 			return p;
+	}
 
 	return nullptr;
 }

@@ -107,6 +107,9 @@ public:
 	void RemoveTab(CMsgDialog*);
 	void SetMessageHighlight(CMsgDialog*);
 	void SetTabHighlight(CMsgDialog*);
+	void SwitchNextTab(void);
+	void SwitchPrevTab(void);
+	void SwitchTab(int iNewTab);
 	void TabClicked(void);
 
 	bool OnInitDialog() override;
@@ -133,10 +136,6 @@ struct LOGSTREAMDATA : public GCLogStreamDataBase {};
 #include "version.h"
 
 #define EM_ACTIVATE   (WM_USER+0x102)
-
-#define GC_SWITCHNEXTTAB (WM_USER+0x103)
-#define GC_SWITCHPREVTAB (WM_USER+0x104)
-#define GC_SWITCHTAB     (WM_USER+0x106)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

@@ -403,6 +403,44 @@ void CTabbedWindow::SetWindowPosition()
 		Srmm_Broadcast(DM_CASCADENEWWINDOW, (WPARAM)m_hwnd, (LPARAM)&m_windowWasCascaded);
 }
 
+void CTabbedWindow::SwitchNextTab()
+{
+	int total = m_tab.GetCount();
+	int i = TabCtrl_GetCurSel(m_tab.GetHwnd());
+	if (i != -1 && total > 1) {
+		if (i < total - 1)
+			i++;
+		else
+			i = 0;
+		m_tab.ActivatePage(i);
+		TabClicked();
+	}
+}
+
+void CTabbedWindow::SwitchPrevTab()
+{
+	int total = m_tab.GetCount();
+	int i = TabCtrl_GetCurSel(m_tab.GetHwnd());
+	if (i != -1 && total >= 1) {
+		if (i > 0)
+			i--;
+		else
+			i = total - 1;
+		m_tab.ActivatePage(i);
+		TabClicked();
+	}
+}
+
+void CTabbedWindow::SwitchTab(int iNewTab)
+{
+	int total = m_tab.GetCount();
+	int i = TabCtrl_GetCurSel(m_tab.GetHwnd());
+	if (i != -1 && total != -1 && total != 1 && i != iNewTab && total > iNewTab) {
+		m_tab.ActivatePage(iNewTab);
+		TabClicked();
+	}
+}
+
 void CTabbedWindow::TabClicked()
 {
 	CChatRoomDlg *pDlg = (CChatRoomDlg*)m_tab.GetActivePage();
@@ -442,47 +480,6 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	int idx;
 
 	switch (msg) {
-	case GC_SWITCHNEXTTAB:
-		{
-			int total = m_tab.GetCount();
-			int i = TabCtrl_GetCurSel(m_tab.GetHwnd());
-			if (i != -1 && total > 1) {
-				if (i < total - 1)
-					i++;
-				else
-					i = 0;
-				m_tab.ActivatePage(i);
-				TabClicked();
-			}
-		}
-		break;
-
-	case GC_SWITCHPREVTAB:
-		{
-			int total = m_tab.GetCount();
-			int i = TabCtrl_GetCurSel(m_tab.GetHwnd());
-			if (i != -1 && total >= 1) {
-				if (i > 0)
-					i--;
-				else
-					i = total - 1;
-				m_tab.ActivatePage(i);
-				TabClicked();
-			}
-		}
-		break;
-
-	case GC_SWITCHTAB:
-		{
-			int total = m_tab.GetCount();
-			int i = TabCtrl_GetCurSel(m_tab.GetHwnd());
-			if (i != -1 && total != -1 && total != 1 && i != lParam && total > lParam) {
-				m_tab.ActivatePage(i);
-				TabClicked();
-			}
-		}
-		break;
-
 	case WM_MOVE:
 		SaveWindowPosition(false);
 		break;
