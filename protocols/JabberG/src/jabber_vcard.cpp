@@ -35,18 +35,20 @@ int CJabberProto::SendGetVcard(MCONTACT hContact)
 {
 	if (!m_bJabberOnline) return 0;
 
-	CMStringA jid;
+	CJabberIqInfo *pInfo;
+
 	if (hContact == 0) {
-		jid = m_szJabberJID;
 		setDword("LastGetVcard", time(0));
+		pInfo = AddIQ(&CJabberProto::OnIqResultGetVcard, JABBER_IQ_TYPE_GET, m_szJabberJID);
 	}
 	else {
-		jid = getMStringA(hContact, "jid");
-		if (jid.IsEmpty())
+		ptrA jid(getUStringA(hContact, "jid"));
+		if (jid == nullptr)
 			return -1;
+
+		pInfo = AddIQ(&CJabberProto::OnIqResultGetVcard, JABBER_IQ_TYPE_GET, jid);
 	}
 
-	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultGetVcard, JABBER_IQ_TYPE_GET, jid);
 	m_ThreadInfo->send(XmlNodeIq(pInfo) << XCHILDNS("vCard", JABBER_FEAT_VCARD_TEMP)
 		<< XATTR("prodid", "-//HandGen//NONSGML vGen v1.0//EN") << XATTR("version", "2.0"));
 
