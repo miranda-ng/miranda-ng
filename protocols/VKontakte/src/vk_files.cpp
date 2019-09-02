@@ -144,7 +144,8 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	JSONNode jnRoot;
 	const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
 	if (!jnResponse || pReq->m_iErrorCode) {
-		SendFileFiled(fup, pReq->m_iErrorCode);
+		if (!pReq->bNeedsRestart)
+			SendFileFiled(fup, pReq->m_iErrorCode);
 		return;
 	}
 
@@ -315,7 +316,8 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 	JSONNode jnRoot;
 	const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
 	if (!jnResponse || pReq->m_iErrorCode) {
-		SendFileFiled(fup, pReq->m_iErrorCode);
+		if (!pReq->bNeedsRestart)
+			SendFileFiled(fup, pReq->m_iErrorCode);
 		return;
 	}
 
