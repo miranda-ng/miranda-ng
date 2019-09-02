@@ -22,83 +22,33 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "statusicon.h"
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-CMsgDialog::CMsgDialog(CTabbedWindow *pOwner, int iDialogId, SESSION_INFO *si) :
-	CSuper(g_plugin, iDialogId, si),
-	m_btnOk(this, IDOK),
-	m_pOwner(pOwner)
-{
-	m_autoClose = 0;
-	m_forceResizable = true;
-}
-
-void CMsgDialog::CloseTab()
-{
-	if (g_Settings.bTabsEnable) {
-		SendMessage(GetParent(m_hwndParent), GC_REMOVETAB, 0, (LPARAM)this);
-		Close();
-	}
-	else SendMessage(m_hwndParent, WM_CLOSE, 0, 0);
-}
-
-INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-	switch (uMsg) {
-	case WM_ACTIVATE:
-		if (LOWORD(wParam) != WA_ACTIVE)
-			break;
-
-		SetFocus(m_message.GetHwnd());
-		__fallthrough;
-
-	case WM_MOUSEACTIVATE:
-		OnActivate();
-		break;
-
-	case WM_TIMER:
-		if (wParam == TIMERID_FLASHWND) {
-			m_pOwner->FixTabIcons(this);
-			if (!g_dat.nFlashMax || m_nFlash < 2 * g_dat.nFlashMax)
-				FlashWindow(m_pOwner->GetHwnd(), TRUE);
-			m_nFlash++;
-		}
-		break;
-	}
-
-	return CSuper::DlgProc(uMsg, wParam, lParam);
-}
-
-bool CMsgDialog::IsActive() const
-{
-	bool bRes = m_pOwner->IsActive();
-	if (g_Settings.bTabsEnable && bRes)
-		bRes &= m_pOwner->m_tab.GetActivePage() == this;
-
-	return bRes;
-}
-
-void CMsgDialog::StartFlash()
-{
-	::SetTimer(m_hwnd, TIMERID_FLASHWND, 900, nullptr);
-}
-
-void CMsgDialog::StopFlash()
-{
-	if (::KillTimer(m_hwnd, TIMERID_FLASHWND)) {
-		::FlashWindow(m_pOwner->GetHwnd(), FALSE);
-
-		m_nFlash = 0;
-		m_pOwner->FixTabIcons(this);
-	}
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
+static HGENMENU hMsgMenuItem;
+static HMODULE hMsftEdit;
 
 int OnCheckPlugins(WPARAM, LPARAM);
 
-HGENMENU hMsgMenuItem;
-HMODULE hMsftEdit;
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int SendMessageDirect(const wchar_t *szMsg, MCONTACT hContact)
+{
+	if (hContact == 0)
+		return 0;
+
+	int flags = 0;
+	if (Utils_IsRtl(szMsg))
+		flags |= PREF_RTL;
+
+	T2Utf sendBuffer(szMsg);
+	if (!mir_strlen(sendBuffer))
+		return 0;
+
+	if (db_mc_isMeta(hContact))
+		hContact = db_mc_getSrmmSub(hContact);
+
+	int sendId = ProtoChainSend(hContact, PSS_MESSAGE, flags, (LPARAM)sendBuffer);
+	msgQueue_add(hContact, sendId, sendBuffer.detach(), flags);
+	return sendId;
+}
 
 static int SRMMStatusToPf2(int status)
 {

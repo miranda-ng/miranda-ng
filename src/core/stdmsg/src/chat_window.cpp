@@ -35,6 +35,8 @@ CChatRoomDlg::CChatRoomDlg(CTabbedWindow *pOwner, SESSION_INFO *si) :
 	m_splitterX(this, IDC_SPLITTERX),
 	m_splitterY(this, IDC_SPLITTERY)
 {
+	m_szProto = si->pszModule;
+
 	m_btnOk.OnClick = Callback(this, &CChatRoomDlg::onClick_Ok);
 
 	m_btnFilter.OnClick = Callback(this, &CChatRoomDlg::onClick_Filter);
@@ -192,14 +194,6 @@ void CChatRoomDlg::onSplitterY(CSplitter *pSplitter)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CChatRoomDlg::GetImageId() const
-{
-	if ((m_si->wState & GC_EVENT_HIGHLIGHT) && (m_nFlash & 1))
-		return 0;
-
-	return (m_si->wStatus == ID_STATUS_ONLINE) ? m_si->pMI->OnlineIconIndex : m_si->pMI->OfflineIconIndex;
-}
-
 void CChatRoomDlg::LoadSettings()
 {
 	m_clrInputBG = db_get_dw(0, CHAT_MODULE, "ColorMessageBG", GetSysColor(COLOR_WINDOW));
@@ -240,16 +234,6 @@ void CChatRoomDlg::RedrawLog()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CChatRoomDlg::ScrollToBottom()
-{
-	if (GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL) {
-		int len = GetWindowTextLength(m_log.GetHwnd()) - 1;
-		m_log.SendMsg(EM_SETSEL, len, len);
-
-		PostMessage(m_log.GetHwnd(), WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
-	}
-}
-
 void CChatRoomDlg::ShowFilterMenu()
 {
 	HWND hwnd = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILTER), m_hwnd, FilterWndProc, (LPARAM)this);
@@ -283,13 +267,9 @@ void CChatRoomDlg::UpdateOptions()
 	if (m_si->iType == GCW_CHATROOM)
 		EnableWindow(m_btnChannelMgr.GetHwnd(), mi->bChanMgr);
 
-	HICON hIcon = (m_si->wStatus == ID_STATUS_ONLINE) ? mi->hOnlineIcon : mi->hOfflineIcon;
-	if (!hIcon) {
-		g_chatApi.MM_IconsChanged();
-		hIcon = (m_si->wStatus == ID_STATUS_ONLINE) ? mi->hOnlineIcon : mi->hOfflineIcon;
-	}
-
+	HICON hIcon = ImageList_GetIcon(Clist_GetImageList(), GetImageId(), ILD_TRANSPARENT);
 	SendMessage(m_pOwner->m_hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
+	DestroyIcon(hIcon);
 
 	Window_SetIcon_IcoLib(m_pOwner->GetHwnd(), g_plugin.getIconHandle(IDI_CHANMGR));
 
@@ -332,14 +312,10 @@ void CChatRoomDlg::UpdateStatusBar()
 	int iStatusbarParts[2] = { x, -1 };
 	SendMessage(m_pOwner->m_hwndStatus, SB_SETPARTS, 2, (LPARAM)&iStatusbarParts);
 
-	// stupid hack to make icons show. I dunno why this is needed currently
-	HICON hIcon = m_si->wStatus == ID_STATUS_ONLINE ? m_si->pMI->hOnlineIcon : m_si->pMI->hOfflineIcon;
-	if (!hIcon) {
-		g_chatApi.MM_IconsChanged();
-		hIcon = m_si->wStatus == ID_STATUS_ONLINE ? m_si->pMI->hOnlineIcon : m_si->pMI->hOfflineIcon;
-	}
-
+	HICON hIcon = ImageList_GetIcon(Clist_GetImageList(), GetImageId(), ILD_TRANSPARENT);
 	SendMessage(m_pOwner->m_hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
+	DestroyIcon(hIcon);
+
 	SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)ptszDispName);
 	SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, 1, (LPARAM)(m_si->ptszStatusbarText ? m_si->ptszStatusbarText : L""));
 	SendMessage(m_pOwner->m_hwndStatus, SB_SETTIPTEXT, 1, (LPARAM)(m_si->ptszStatusbarText ? m_si->ptszStatusbarText : L""));

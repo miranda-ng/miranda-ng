@@ -280,7 +280,7 @@ void CTabbedWindow::FixTabIcons(CMsgDialog *pDlg)
 	if (pDlg == CurrPage()) {
 		Window_FreeIcon_IcoLib(m_hwnd);
 		if (g_dat.bUseStatusWinIcon)
-			Window_SetProtoIcon_IcoLib(m_hwnd, pDlg->GetProto(), pDlg->GetStatus());
+			Window_SetProtoIcon_IcoLib(m_hwnd, pDlg->m_szProto, pDlg->GetStatus());
 		else if (pDlg->isChat())
 			Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_CHANMGR));
 		else

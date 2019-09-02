@@ -33,30 +33,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define ENTERCLICKTIME   1000   //max time in ms during which a double-tap on enter will cause a send
 
-int SendMessageDirect(const wchar_t *szMsg, MCONTACT hContact)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static void AddToFileList(wchar_t ***pppFiles, int *totalCount, const wchar_t *szFilename)
 {
-	if (hContact == 0)
-		return 0;
-
-	int flags = 0;
-	if (Utils_IsRtl(szMsg))
-		flags |= PREF_RTL;
-
-	T2Utf sendBuffer(szMsg);
-	if (!mir_strlen(sendBuffer))
-		return 0;
-
-	if (db_mc_isMeta(hContact))
-		hContact = db_mc_getSrmmSub(hContact);
-
-	int sendId = ProtoChainSend(hContact, PSS_MESSAGE, flags, (LPARAM)sendBuffer);
-	msgQueue_add(hContact, sendId, sendBuffer.detach(), flags);
-	return sendId;
-}
-
-static void AddToFileList(wchar_t ***pppFiles, int *totalCount, const wchar_t* szFilename)
-{
-	*pppFiles = (wchar_t**)mir_realloc(*pppFiles, (++*totalCount + 1)*sizeof(wchar_t*));
+	*pppFiles = (wchar_t **)mir_realloc(*pppFiles, (++ * totalCount + 1) * sizeof(wchar_t *));
 	(*pppFiles)[*totalCount] = nullptr;
 	(*pppFiles)[*totalCount - 1] = mir_wstrdup(szFilename);
 
@@ -76,10 +57,104 @@ static void AddToFileList(wchar_t ***pppFiles, int *totalCount, const wchar_t* s
 	}
 }
 
-static void SetEditorText(HWND hwnd, const wchar_t* txt)
+static void SetEditorText(HWND hwnd, const wchar_t *txt)
 {
 	SetWindowText(hwnd, txt);
 	SendMessage(hwnd, EM_SETSEL, -1, -1);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CMsgDialog::CMsgDialog(CTabbedWindow *pOwner, int iDialogId, SESSION_INFO *si) :
+	CSuper(g_plugin, iDialogId, si),
+	m_btnOk(this, IDOK),
+	m_pOwner(pOwner)
+{
+	m_autoClose = 0;
+	m_forceResizable = true;
+}
+
+void CMsgDialog::CloseTab()
+{
+	if (g_Settings.bTabsEnable) {
+		SendMessage(GetParent(m_hwndParent), GC_REMOVETAB, 0, (LPARAM)this);
+		Close();
+	}
+	else SendMessage(m_hwndParent, WM_CLOSE, 0, 0);
+}
+
+INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	switch (uMsg) {
+	case WM_ACTIVATE:
+		if (LOWORD(wParam) != WA_ACTIVE)
+			break;
+
+		SetFocus(m_message.GetHwnd());
+		__fallthrough;
+
+	case WM_MOUSEACTIVATE:
+		OnActivate();
+		break;
+
+	case WM_TIMER:
+		if (wParam == TIMERID_FLASHWND) {
+			m_pOwner->FixTabIcons(this);
+			if (!g_dat.nFlashMax || m_nFlash < 2 * g_dat.nFlashMax)
+				FlashWindow(m_pOwner->GetHwnd(), TRUE);
+			m_nFlash++;
+		}
+		break;
+	}
+
+	return CSuper::DlgProc(uMsg, wParam, lParam);
+}
+
+int CMsgDialog::GetImageId() const
+{
+	if (m_nFlash & 1)
+		return 0;
+
+	return g_clistApi.pfnIconFromStatusMode(m_szProto, GetStatus(), m_hContact);
+}
+
+bool CMsgDialog::IsActive() const
+{
+	bool bRes = m_pOwner->IsActive();
+	if (g_Settings.bTabsEnable && bRes)
+		bRes &= m_pOwner->m_tab.GetActivePage() == this;
+
+	return bRes;
+}
+
+void CMsgDialog::ScrollToBottom()
+{
+	if (GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL) {
+		SCROLLINFO si = {};
+		si.cbSize = sizeof(si);
+		si.fMask = SIF_PAGE | SIF_RANGE;
+		GetScrollInfo(m_log.GetHwnd(), SB_VERT, &si);
+
+		si.fMask = SIF_POS;
+		si.nPos = si.nMax - si.nPage;
+		SetScrollInfo(m_log.GetHwnd(), SB_VERT, &si, TRUE);
+		m_log.SendMsg(WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
+	}
+}
+
+void CMsgDialog::StartFlash()
+{
+	::SetTimer(m_hwnd, TIMERID_FLASHWND, 900, nullptr);
+}
+
+void CMsgDialog::StopFlash()
+{
+	if (::KillTimer(m_hwnd, TIMERID_FLASHWND)) {
+		::FlashWindow(m_pOwner->GetHwnd(), FALSE);
+
+		m_nFlash = 0;
+		m_pOwner->FixTabIcons(this);
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -451,14 +526,6 @@ void CSrmmWindow::OnSplitterMoved(CSplitter *pSplitter)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CSrmmWindow::GetImageId() const
-{
-	if (m_nFlash & 1)
-		return 0;
-
-	return (WORD)g_clistApi.pfnIconFromStatusMode(m_szProto, m_wStatus, m_hContact);
-}
-
 void CSrmmWindow::NotifyTyping(int mode)
 {
 	if (!m_hContact)
@@ -506,32 +573,19 @@ void CSrmmWindow::ProcessFileDrop(HDROP hDrop)
 	if (m_wStatus == ID_STATUS_OFFLINE) return;
 	if (m_hContact != 0) {
 		wchar_t szFilename[MAX_PATH];
-		int fileCount = DragQueryFile(hDrop, -1, nullptr, 0), totalCount = 0, i;
+		int fileCount = DragQueryFile(hDrop, -1, nullptr, 0), totalCount = 0;
 		wchar_t **ppFiles = nullptr;
-		for (i = 0; i < fileCount; i++) {
+		for (int i = 0; i < fileCount; i++) {
 			DragQueryFile(hDrop, i, szFilename, _countof(szFilename));
 			AddToFileList(&ppFiles, &totalCount, szFilename);
 		}
 		CallServiceSync(MS_FILE_SENDSPECIFICFILEST, m_hContact, (LPARAM)ppFiles);
-		for (i = 0; ppFiles[i]; i++)
-			mir_free(ppFiles[i]);
-		mir_free(ppFiles);
+		if (ppFiles) {
+			for (int i = 0; ppFiles[i]; i++)
+				mir_free(ppFiles[i]);
+			mir_free(ppFiles);
+		}
 	}
-}
-
-void CSrmmWindow::ScrollToBottom()
-{
-	if (!(GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL))
-		return;
-
-	SCROLLINFO si = {};
-	si.cbSize = sizeof(si);
-	si.fMask = SIF_PAGE | SIF_RANGE;
-	GetScrollInfo(m_log.GetHwnd(), SB_VERT, &si);
-	si.fMask = SIF_POS;
-	si.nPos = si.nMax - si.nPage;
-	SetScrollInfo(m_log.GetHwnd(), SB_VERT, &si, TRUE);
-	m_log.SendMsg(WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
 }
 
 void CSrmmWindow::ShowAvatar()

@@ -72,12 +72,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct MODULEINFO : public GCModuleInfoBase
-{
-	HICON hOnlineIcon, hOfflineIcon;
-	int OnlineIconIndex, OfflineIconIndex;
-};
-
+struct MODULEINFO : public GCModuleInfoBase {};
 struct SESSION_INFO : public GCSessionInfoBase {};
 struct LOGSTREAMDATA : public GCLogStreamDataBase {};
 
