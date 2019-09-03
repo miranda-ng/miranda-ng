@@ -203,7 +203,7 @@ int CTabbedWindow::Resizer(UTILRESIZECONTROL *urc)
 
 CTabbedWindow* CTabbedWindow::AddPage(MCONTACT hContact, wchar_t *pwszText, int iNoActivate)
 {
-	CSrmmWindow *pDlg = new CSrmmWindow(this, hContact);
+	CMsgDialog *pDlg = new CMsgDialog(this, hContact);
 	pDlg->m_wszInitialText = pwszText;
 	if (iNoActivate != -1)
 		pDlg->m_bNoActivate = iNoActivate != 0;
@@ -239,7 +239,7 @@ void CTabbedWindow::AddPage(SESSION_INFO *si, int insertAt)
 		if (!IsWindowVisible(m_hwnd))
 			Show(SW_SHOW);
 
-		CChatRoomDlg *pDlg = new CChatRoomDlg(this, si);
+		CMsgDialog *pDlg = new CMsgDialog(this, si);
 		pDlg->SetParent(m_hwnd);
 		m_tab.AddPage(szTemp, nullptr, pDlg);
 		m_tab.ActivatePage(m_tab.GetCount() - 1);
@@ -261,7 +261,7 @@ void CTabbedWindow::DropTab(int begin, int end)
 
 	m_tab.SwapPages(begin, end);
 
-	CChatRoomDlg *pDlg = (CChatRoomDlg *)m_tab.GetNthPage(end);
+	CMsgDialog *pDlg = (CMsgDialog *)m_tab.GetNthPage(end);
 	if (pDlg) {
 		FixTabIcons(pDlg);
 		m_tab.ActivatePage(end);
@@ -270,7 +270,7 @@ void CTabbedWindow::DropTab(int begin, int end)
 	// fix the "fixed" positions
 	int tabCount = m_tab.GetCount();
 	for (int i = 0; i < tabCount; i++) {
-		pDlg = (CChatRoomDlg *)m_tab.GetNthPage(i);
+		pDlg = (CMsgDialog *)m_tab.GetNthPage(i);
 		if (pDlg == nullptr)
 			continue;
 
@@ -306,7 +306,7 @@ void CTabbedWindow::FixTabIcons(CMsgDialog *pDlg)
 	if (pDlg == CurrPage()) {
 		Window_FreeIcon_IcoLib(m_hwnd);
 		if (g_dat.bUseStatusWinIcon)
-			Window_SetProtoIcon_IcoLib(m_hwnd, pDlg->m_szProto, pDlg->GetStatus());
+			Window_SetProtoIcon_IcoLib(m_hwnd, pDlg->m_szProto, pDlg->m_wStatus);
 		else if (pDlg->isChat())
 			Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_CHANMGR));
 		else
@@ -463,7 +463,7 @@ void CTabbedWindow::SwitchTab(int iNewTab)
 
 void CTabbedWindow::TabClicked()
 {
-	CChatRoomDlg *pDlg = (CChatRoomDlg*)m_tab.GetActivePage();
+	CMsgDialog *pDlg = (CMsgDialog*)m_tab.GetActivePage();
 	if (pDlg == nullptr)
 		return;
 

@@ -2,7 +2,6 @@
 // Microsoft Visual C++ generated include file.
 // Used by resource.rc
 //
-#define IDD_CHANNEL                     101
 #define IDD_MSGSENDERROR                102
 #define IDD_OPTIONS2                    103
 #define IDD_OPTIONS1                    104

@@ -42,7 +42,7 @@ struct LogStreamData
 	CMStringA buf;
 	int eventsToInsert;
 	bool isEmpty;
-	CSrmmWindow *dlgDat;
+	CMsgDialog *dlgDat;
 };
 
 static int logPixelSY;
@@ -393,7 +393,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 	return 0;
 }
 
-void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, bool bAppend)
+void CMsgDialog::StreamInEvents(MEVENT hDbEventFirst, int count, bool bAppend)
 {
 	CHARRANGE oldSel, sel;
 	BOOL bottomScroll = TRUE;
