@@ -73,8 +73,10 @@ CMsgDialog::CMsgDialog(CTabbedWindow *pOwner, int iDialogId, SESSION_INFO *si) :
 	m_avatar(this, IDC_AVATAR),
 	m_splitterX(this, IDC_SPLITTERX),
 	m_splitterY(this, IDC_SPLITTERY),
+	m_cmdList(20),
 	m_pOwner(pOwner)
 {
+	m_szTabSave[0] = 0;
 	m_autoClose = 0;
 	m_forceResizable = true;
 
@@ -132,6 +134,19 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	return CSuper::DlgProc(uMsg, wParam, lParam);
 }
 
+LRESULT CMsgDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	if (msg == WM_KEYDOWN) {
+		bool isShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
+		bool isCtrl = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
+		bool isAlt = (GetKeyState(VK_MENU) & 0x8000) != 0;
+		if (ProcessHotkeys(wParam, isShift, isCtrl, isAlt))
+			return FALSE;
+	}
+
+	return CSuper::WndProc_Log(msg, wParam, lParam);
+}
+
 LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_KEYDOWN) {
@@ -139,29 +154,54 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		bool isCtrl = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
 		bool isAlt = (GetKeyState(VK_MENU) & 0x8000) != 0;
 
-		if (wParam <= '9' && wParam >= '1' && isCtrl && !isAlt) // CTRL + 1 -> 9 (switch tab)
-			if (g_Settings.bTabsEnable) {
+		if (g_Settings.bTabsEnable) {
+			if (wParam <= '9' && wParam >= '1' && isCtrl && !isAlt) { // CTRL + 1 -> 9 (switch tab)
 				m_pOwner->SwitchTab(wParam - '1');
 				return TRUE;
 			}
 
-		if (wParam <= VK_NUMPAD9 && wParam >= VK_NUMPAD1 && isCtrl && !isAlt) // CTRL + 1 -> 9 (switch tab)
-			if (g_Settings.bTabsEnable) {
+			if (wParam <= VK_NUMPAD9 && wParam >= VK_NUMPAD1 && isCtrl && !isAlt) { // CTRL + 1 -> 9 (switch tab)
 				m_pOwner->SwitchTab(wParam - VK_NUMPAD1);
 				return TRUE;
 			}
 
-		if (wParam == VK_TAB && isCtrl && !isShift) // CTRL-TAB (switch tab/window)
-			if (g_Settings.bTabsEnable) {
+			if (wParam == VK_TAB && isCtrl && !isShift) { // CTRL-TAB (switch tab/window)
 				m_pOwner->SwitchNextTab();
 				return TRUE;
 			}
 
-		if (wParam == VK_TAB && isCtrl && isShift) // CTRL_SHIFT-TAB (switch tab/window)
-			if (g_Settings.bTabsEnable) {
+			if (wParam == VK_TAB && isCtrl && isShift) { // CTRL_SHIFT-TAB (switch tab/window)
 				m_pOwner->SwitchPrevTab();
 				return TRUE;
 			}
+
+			if (wParam == 0x57 && isCtrl && !isAlt) { // ctrl-w (close window)
+				CloseTab();
+				return TRUE;
+			}
+		}
+
+		if (isChat()) {
+			if (wParam == 0x46 && isCtrl && !isAlt) { // ctrl-f (toggle filter)
+				m_btnFilter.Click();
+				return TRUE;
+			}
+
+			if (wParam == 0x4e && isCtrl && !isAlt) { // ctrl-n (nicklist)
+				m_btnNickList.Click();
+				return TRUE;
+			}
+
+			if (wParam == 0x4f && isCtrl && !isAlt) { // ctrl-o (options)
+				m_btnChannelMgr.Click();
+				return TRUE;
+			}
+
+			if ((wParam == 45 && isShift || wParam == 0x56 && isCtrl) && !isAlt) { // ctrl-v (paste clean text)
+				m_message.SendMsg(EM_PASTESPECIAL, CF_TEXT, 0);
+				return TRUE;
+			}
+		}
 	}
 
 	return CSuper::WndProc_Message(msg, wParam, lParam);
@@ -216,11 +256,64 @@ void CMsgDialog::StopFlash()
 	}
 }
 
+void CMsgDialog::TabAutoComplete()
+{
+	LRESULT lResult = (LRESULT)m_message.SendMsg(EM_GETSEL, 0, 0);
+
+	m_message.SendMsg(WM_SETREDRAW, FALSE, 0);
+	m_iTabStart = LOWORD(lResult);
+	int end = HIWORD(lResult);
+	m_message.SendMsg(EM_SETSEL, end, end);
+
+	GETTEXTLENGTHEX gtl = {};
+	gtl.flags = GTL_PRECISE;
+	gtl.codepage = CP_ACP;
+	int iLen = m_message.SendMsg(EM_GETTEXTLENGTHEX, (WPARAM)& gtl, 0);
+	if (iLen > 0) {
+		wchar_t *pszText = (wchar_t *)mir_alloc(sizeof(wchar_t) * (iLen + 100));
+
+		GETTEXTEX gt = {};
+		gt.cb = iLen + 99;
+		gt.flags = GT_DEFAULT;
+		gt.codepage = 1200;
+		m_message.SendMsg(EM_GETTEXTEX, (WPARAM)& gt, (LPARAM)pszText);
+
+		while (m_iTabStart > 0 && pszText[m_iTabStart - 1] != ' ' && pszText[m_iTabStart - 1] != 13 && pszText[m_iTabStart - 1] != VK_TAB)
+			m_iTabStart--;
+		while (end < iLen && pszText[end] != ' ' && pszText[end] != 13 && pszText[end - 1] != VK_TAB)
+			end++;
+
+		if (m_szTabSave[0] == '\0')
+			mir_wstrncpy(m_szTabSave, pszText + m_iTabStart, end - m_iTabStart + 1);
+
+		wchar_t *pszSelName = (wchar_t *)mir_alloc(sizeof(wchar_t) * (end - m_iTabStart + 1));
+		mir_wstrncpy(pszSelName, pszText + m_iTabStart, end - m_iTabStart + 1);
+
+		wchar_t *pszName = g_chatApi.UM_FindUserAutoComplete(m_si, m_szTabSave, pszSelName);
+		if (pszName == nullptr) {
+			pszName = m_szTabSave;
+			m_message.SendMsg(EM_SETSEL, m_iTabStart, end);
+			if (end != m_iTabStart)
+				m_message.SendMsg(EM_REPLACESEL, FALSE, (LPARAM)pszName);
+			m_szTabSave[0] = '\0';
+		}
+		else {
+			m_message.SendMsg(EM_SETSEL, m_iTabStart, end);
+			if (end != m_iTabStart)
+				m_message.SendMsg(EM_REPLACESEL, FALSE, (LPARAM)pszName);
+		}
+		mir_free(pszText);
+		mir_free(pszSelName);
+	}
+
+	m_message.SendMsg(WM_SETREDRAW, TRUE, 0);
+	RedrawWindow(m_message.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CSrmmWindow::CSrmmWindow(CTabbedWindow *pOwner, MCONTACT hContact) :
 	CSuper(pOwner, IDD_MSG),
-	m_cmdList(20),
 	m_bNoActivate(g_dat.bDoNotStealFocus)
 {
 	m_hContact = hContact;
@@ -863,19 +956,6 @@ int CSrmmWindow::Resizer(UTILRESIZECONTROL *urc)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-LRESULT CSrmmWindow::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	if (msg == WM_KEYDOWN) {
-		bool isShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
-		bool isCtrl = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
-		bool isAlt = (GetKeyState(VK_MENU) & 0x8000) != 0;
-		if (ProcessHotkeys(wParam, isShift, isCtrl, isAlt))
-			return FALSE;
-	}
-	
-	return CSuper::WndProc_Log(msg, wParam, lParam);
-}
-
 LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	bool isShift, isCtrl, isAlt;
@@ -891,11 +971,6 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 		if (wParam == 1 && GetKeyState(VK_CONTROL) & 0x8000) { //ctrl-a
 			m_message.SendMsg(EM_SETSEL, 0, -1);
-			return 0;
-		}
-
-		if (wParam == 23 && GetKeyState(VK_CONTROL) & 0x8000) { // ctrl-w
-			CloseTab();
 			return 0;
 		}
 		break;

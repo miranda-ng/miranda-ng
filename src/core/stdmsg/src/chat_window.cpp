@@ -604,7 +604,7 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 			if (wParam == '\n' || wParam == '\r') {
 				if ((isCtrl && g_dat.bSendOnCtrlEnter) || (!isCtrl && g_dat.bSendOnEnter)) {
-					m_btnOk.OnClick(&m_btnOk);
+					m_btnOk.Click();
 					return 0;
 				}
 				if (g_dat.bSendOnDblEnter) {
@@ -613,7 +613,7 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 					else {
 						m_message.SendMsg(WM_KEYDOWN, VK_BACK, 0);
 						m_message.SendMsg(WM_KEYUP, VK_BACK, 0);
-						m_btnOk.OnClick(&m_btnOk);
+						m_btnOk.Click();
 						return 0;
 					}
 				}
@@ -629,12 +629,11 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_KEYDOWN:
 		{
-			static int start, end;
 			bool isShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
 			bool isCtrl = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
 			bool isAlt = (GetKeyState(VK_MENU) & 0x8000) != 0;
 			if (wParam == VK_RETURN) {
-				szTabSave[0] = '\0';
+				m_szTabSave[0] = '\0';
 				if ((isCtrl && g_dat.bSendOnCtrlEnter) || (!isCtrl && g_dat.bSendOnEnter))
 					return 0;
 
@@ -651,93 +650,19 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 
 			if (wParam == VK_TAB && !isCtrl && !isShift) { // tab-autocomplete
-				LRESULT lResult = (LRESULT)m_message.SendMsg(EM_GETSEL, 0, 0);
-
-				m_message.SendMsg(WM_SETREDRAW, FALSE, 0);
-				start = LOWORD(lResult);
-				end = HIWORD(lResult);
-				m_message.SendMsg(EM_SETSEL, end, end);
-
-				GETTEXTLENGTHEX gtl = {};
-				gtl.flags = GTL_PRECISE;
-				gtl.codepage = CP_ACP;
-				int iLen = m_message.SendMsg(EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
-				if (iLen > 0) {
-					wchar_t *pszText = (wchar_t *)mir_alloc(sizeof(wchar_t)*(iLen + 100));
-
-					GETTEXTEX gt = {};
-					gt.cb = iLen + 99;
-					gt.flags = GT_DEFAULT;
-					gt.codepage = 1200;
-					m_message.SendMsg(EM_GETTEXTEX, (WPARAM)&gt, (LPARAM)pszText);
-
-					while (start > 0 && pszText[start - 1] != ' ' && pszText[start - 1] != 13 && pszText[start - 1] != VK_TAB)
-						start--;
-					while (end < iLen && pszText[end] != ' ' && pszText[end] != 13 && pszText[end - 1] != VK_TAB)
-						end++;
-
-					if (szTabSave[0] == '\0')
-						mir_wstrncpy(szTabSave, pszText + start, end - start + 1);
-
-					wchar_t *pszSelName = (wchar_t *)mir_alloc(sizeof(wchar_t)*(end - start + 1));
-					mir_wstrncpy(pszSelName, pszText + start, end - start + 1);
-
-					wchar_t *pszName = g_chatApi.UM_FindUserAutoComplete(m_si, szTabSave, pszSelName);
-					if (pszName == nullptr) {
-						pszName = szTabSave;
-						m_message.SendMsg(EM_SETSEL, start, end);
-						if (end != start)
-							m_message.SendMsg(EM_REPLACESEL, FALSE, (LPARAM)pszName);
-						szTabSave[0] = '\0';
-					}
-					else {
-						m_message.SendMsg(EM_SETSEL, start, end);
-						if (end != start)
-							m_message.SendMsg(EM_REPLACESEL, FALSE, (LPARAM)pszName);
-					}
-					mir_free(pszText);
-					mir_free(pszSelName);
-				}
-
-				m_message.SendMsg(WM_SETREDRAW, TRUE, 0);
-				RedrawWindow(m_message.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
+				TabAutoComplete();
 				return 0;
 			}
 
-			if (szTabSave[0] != '\0' && wParam != VK_RIGHT && wParam != VK_LEFT && wParam != VK_SPACE && wParam != VK_RETURN && wParam != VK_BACK && wParam != VK_DELETE) {
-				if (g_Settings.bAddColonToAutoComplete && start == 0)
+			if (m_szTabSave[0] != '\0' && wParam != VK_RIGHT && wParam != VK_LEFT && wParam != VK_SPACE && wParam != VK_RETURN && wParam != VK_BACK && wParam != VK_DELETE) {
+				if (g_Settings.bAddColonToAutoComplete && m_iTabStart == 0)
 					SendMessageA(m_message.GetHwnd(), EM_REPLACESEL, FALSE, (LPARAM) ": ");
 
-				szTabSave[0] = '\0';
+				m_szTabSave[0] = '\0';
 			}
 
 			if (ProcessHotkeys(wParam, isShift, isCtrl, isAlt))
 				return TRUE;
-
-			if (wParam == 0x46 && isCtrl && !isAlt) { // ctrl-f (toggle filter)
-				onClick_Filter(&m_btnFilter);
-				return TRUE;
-			}
-
-			if (wParam == 0x4e && isCtrl && !isAlt) { // ctrl-n (nicklist)
-				onClick_NickList(&m_btnNickList);
-				return TRUE;
-			}
-
-			if (wParam == 0x4f && isCtrl && !isAlt) { // ctrl-o (options)
-				onClick_ChanMgr(&m_btnChannelMgr);
-				return TRUE;
-			}
-
-			if ((wParam == 45 && isShift || wParam == 0x56 && isCtrl) && !isAlt) { // ctrl-v (paste clean text)
-				m_message.SendMsg(EM_PASTESPECIAL, CF_TEXT, 0);
-				return TRUE;
-			}
-
-			if (wParam == 0x57 && isCtrl && !isAlt) { // ctrl-w (close window)
-				CloseTab();
-				return TRUE;
-			}
 
 			if (wParam == VK_NEXT || wParam == VK_PRIOR) {
 				m_log.SendMsg(msg, wParam, lParam);

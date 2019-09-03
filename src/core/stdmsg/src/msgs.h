@@ -40,11 +40,25 @@ class CMsgDialog : public CSrmmBaseDialog
 protected:
 	CCtrlBase m_avatar;
 	CCtrlButton m_btnOk;
-	CSplitter m_splitterX, m_splitterY;
 
 	CTabbedWindow *m_pOwner;
 	DWORD m_nFlash = 0;
 	char *m_szProto = nullptr;
+
+	// splitters
+	CSplitter m_splitterX, m_splitterY;
+	int  m_iSplitterX, m_iSplitterY;
+	SIZE m_minEditBoxSize;
+	RECT m_minEditInit;
+
+	// tab autocomplete
+	int m_iTabStart = 0;
+	wchar_t m_szTabSave[20];
+	void TabAutoComplete();
+
+	// entered messages
+	int m_cmdListInd = 0;
+	LIST<wchar_t> m_cmdList;
 
 	CMsgDialog(CTabbedWindow *pOwner, int idDialog, SESSION_INFO *si = nullptr);
 
@@ -56,6 +70,7 @@ protected:
 	void OnDestroy() override;
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
+	LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 public:
@@ -81,7 +96,6 @@ class CSrmmWindow : public CMsgDialog
 {
 	typedef CMsgDialog CSuper;
 	
-	LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	void NotifyTyping(int mode);
@@ -95,9 +109,6 @@ class CSrmmWindow : public CMsgDialog
 	void UpdateSizeBar(void);
 
 	HFONT m_hFont = nullptr;
-
-	SIZE m_minEditBoxSize;
-	RECT m_minEditInit;
 
 	int m_windowWasCascaded;
 	int m_nTypeSecs, m_nTypeMode;
@@ -114,10 +125,6 @@ public:
 	MEVENT m_hDbEventFirst, m_hDbEventLast;
 
 	int m_avatarWidth, m_avatarHeight;
-	int m_iSplitterY;
-
-	int m_cmdListInd;
-	LIST<wchar_t> m_cmdList;
 
 	HBITMAP m_avatarPic;
 	wchar_t *m_wszInitialText;
@@ -168,10 +175,6 @@ class CChatRoomDlg : public CMsgDialog
 	LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	LRESULT WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam) override;
-
-	wchar_t szTabSave[20];
-
-	int m_iSplitterX, m_iSplitterY;
 
 public:
 	CChatRoomDlg(CTabbedWindow*, SESSION_INFO*);
