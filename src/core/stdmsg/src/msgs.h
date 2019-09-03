@@ -38,6 +38,7 @@ class CMsgDialog : public CSrmmBaseDialog
 	friend class CTabbedWindow;
 
 protected:
+	CCtrlBase m_avatar;
 	CCtrlButton m_btnOk;
 	CSplitter m_splitterX, m_splitterY;
 
@@ -83,8 +84,6 @@ class CSrmmWindow : public CMsgDialog
 	LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
-	CCtrlBase m_avatar;
-
 	void NotifyTyping(int mode);
 	void ProcessFileDrop(HDROP hDrop);
 	void ShowAvatar(void);
@@ -95,9 +94,7 @@ class CSrmmWindow : public CMsgDialog
 	void UpdateLastMessage(void);
 	void UpdateSizeBar(void);
 
-	HICON m_hStatusIcon = nullptr;
 	HFONT m_hFont = nullptr;
-	HBRUSH m_hBkgBrush = nullptr;
 
 	SIZE m_minEditBoxSize;
 	RECT m_minEditInit;

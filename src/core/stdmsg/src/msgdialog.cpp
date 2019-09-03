@@ -70,6 +70,7 @@ static void SetEditorText(HWND hwnd, const wchar_t *txt)
 CMsgDialog::CMsgDialog(CTabbedWindow *pOwner, int iDialogId, SESSION_INFO *si) :
 	CSuper(g_plugin, iDialogId, si),
 	m_btnOk(this, IDOK),
+	m_avatar(this, IDC_AVATAR),
 	m_splitterX(this, IDC_SPLITTERX),
 	m_splitterY(this, IDC_SPLITTERY),
 	m_pOwner(pOwner)
@@ -219,7 +220,6 @@ void CMsgDialog::StopFlash()
 
 CSrmmWindow::CSrmmWindow(CTabbedWindow *pOwner, MCONTACT hContact) :
 	CSuper(pOwner, IDD_MSG),
-	m_avatar(this, IDC_AVATAR),
 	m_cmdList(20),
 	m_bNoActivate(g_dat.bDoNotStealFocus)
 {
@@ -400,11 +400,6 @@ void CSrmmWindow::OnDestroy()
 	if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON)
 		NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
 
-	if (m_hBkgBrush)
-		DeleteObject(m_hBkgBrush);
-	if (m_hStatusIcon)
-		IcoLib_ReleaseIcon(m_hStatusIcon);
-
 	for (auto &it : m_cmdList)
 		mir_free(it);
 	m_cmdList.destroy();
@@ -515,11 +510,7 @@ void CSrmmWindow::OnOptionsApplied(bool bUpdateAvatar)
 	UpdateTitle();
 	Resize();
 
-	if (m_hBkgBrush)
-		DeleteObject(m_hBkgBrush);
-
 	COLORREF colour = g_plugin.getDword(SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR);
-	m_hBkgBrush = CreateSolidBrush(colour);
 	m_log.SendMsg(EM_SETBKGNDCOLOR, 0, colour);
 	m_message.SendMsg(EM_SETBKGNDCOLOR, 0, colour);
 
@@ -736,17 +727,9 @@ void CSrmmWindow::UpdateIcon(WPARAM wParam)
 		m_wStatus = cws->value.wVal;
 	}
 
-	if (!cws || bIsStatus) {
-		HICON hIcon = Skin_LoadProtoIcon(m_szProto, m_wStatus);
-		if (hIcon) {
-			if (m_hStatusIcon)
-				IcoLib_ReleaseIcon(m_hStatusIcon);
-			m_hStatusIcon = hIcon;
-		}
-
+	if (!cws || bIsStatus)
 		if (g_dat.bUseStatusWinIcon)
 			FixTabIcons();
-	}
 }
 
 void CSrmmWindow::UpdateLastMessage()
