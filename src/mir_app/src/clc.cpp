@@ -1025,8 +1025,6 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			case DROPTARGET_ONCONTACT:
 				break;
 			case DROPTARGET_ONGROUP:
-				hNewCursor = LoadCursor(g_clistApi.hInst, MAKEINTRESOURCE(IDC_DROPUSER));
-				break;
 			case DROPTARGET_INSERTION:
 				hNewCursor = LoadCursor(g_clistApi.hInst, MAKEINTRESOURCE(IDC_DROPUSER));
 				break;
