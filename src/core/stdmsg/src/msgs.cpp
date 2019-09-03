@@ -29,6 +29,14 @@ int OnCheckPlugins(WPARAM, LPARAM);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+CMsgDialog* Srmm_FindDialog(MCONTACT hContact)
+{
+	HWND hwnd = Srmm_FindWindow(hContact);
+	return (hwnd) ? (CMsgDialog *)GetWindowLongPtr(hwnd, GWLP_USERDATA) : nullptr;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int SendMessageDirect(const wchar_t *szMsg, MCONTACT hContact)
 {
 	if (hContact == 0)
@@ -175,9 +183,9 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 
 	Skin_PlaySound((lParam) ? "TNStart" : "TNStop");
 
-	HWND hwnd = Srmm_FindWindow(hContact);
-	if (hwnd)
-		SendMessage(hwnd, DM_TYPING, 0, lParam);
+	auto *pDlg = Srmm_FindDialog(hContact);
+	if (pDlg)
+		pDlg->UserTyping(lParam);
 	else if (lParam && g_dat.bShowTypingTray) {
 		wchar_t szTip[256];
 		mir_snwprintf(szTip, TranslateT("%s is typing a message"), Clist_GetContactDisplayName(hContact));
@@ -224,9 +232,9 @@ static int MessageSettingChanged(WPARAM hContact, LPARAM lParam)
 // If a contact gets deleted, close its message window if there is any
 static int ContactDeleted(WPARAM wParam, LPARAM)
 {
-	HWND hwnd = Srmm_FindWindow(wParam);
-	if (hwnd)
-		SendMessage(hwnd, DM_CLOSETAB, 0, 0);
+	auto *pDlg = Srmm_FindDialog(wParam);
+	if (pDlg)
+		pDlg->CloseTab();
 
 	return 0;
 }
@@ -459,9 +467,10 @@ static int SplitmsgModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-int PreshutdownSendRecv(WPARAM, LPARAM)
+static int Preshutdown(WPARAM, LPARAM)
 {
-	Srmm_Broadcast(DM_CLOSETAB, 0, 0);
+	for (auto &it : g_arDialogs.rev_iter())
+		it->CloseTab();
 	return 0;
 }
 
@@ -515,7 +524,7 @@ int LoadSendRecvMessageModule(void)
 	HookEvent(ME_PROTO_CONTACTISTYPING, TypingMessage);
 	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
 	HookEvent(ME_SYSTEM_MODULESLOADED, SplitmsgModulesLoaded);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreshutdownSendRecv);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, Preshutdown);
 
 	CreateServiceFunction(MS_MSG_SENDMESSAGE, SendMessageCommand);
 	CreateServiceFunction(MS_MSG_SENDMESSAGEW, SendMessageCommand_W);

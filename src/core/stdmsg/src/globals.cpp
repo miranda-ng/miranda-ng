@@ -53,9 +53,9 @@ static int OnShutdown(WPARAM, LPARAM)
 static int OnMetaChanged(WPARAM hMeta, LPARAM)
 {
 	if (hMeta) {
-		HWND hwnd = Srmm_FindWindow(hMeta);
-		if (hwnd != nullptr)
-			SendMessage(hwnd, DM_GETAVATAR, 0, 0);
+		auto *pDlg = Srmm_FindDialog(hMeta);
+		if (pDlg != nullptr)
+			pDlg->UpdateAvatar();
 	}
 	return 0;
 }

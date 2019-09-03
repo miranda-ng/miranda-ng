@@ -23,18 +23,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SRMM_MSGS_H
 
 #define HM_DBEVENTADDED      (WM_USER+12)
-#define DM_CASCADENEWWINDOW  (WM_USER+13)
 #define DM_OPTIONSAPPLIED    (WM_USER+14)
-#define DM_CLOSETAB          (WM_USER+15)
 #define DM_UPDATETITLE       (WM_USER+16)
 #define DM_NEWTIMEZONE       (WM_USER+18)
-#define DM_TYPING            (WM_USER+20)
-#define DM_UPDATEWINICON     (WM_USER+21)
-#define DM_USERNAMETOCLIP    (WM_USER+23)
-#define DM_AVATARSIZECHANGE  (WM_USER+24)
-#define DM_AVATARCALCSIZE    (WM_USER+25)
-#define DM_GETAVATAR         (WM_USER+26)
-#define DM_UPDATESIZEBAR     (WM_USER+27)
 #define HM_AVATARACK         (WM_USER+28)
 #define DM_STATUSICONCHANGE  (WM_USER+31)
 
@@ -48,6 +39,8 @@ class CMsgDialog : public CSrmmBaseDialog
 
 protected:
 	CCtrlButton m_btnOk;
+	CSplitter m_splitterX, m_splitterY;
+
 	CTabbedWindow *m_pOwner;
 	DWORD m_nFlash = 0;
 	char *m_szProto = nullptr;
@@ -58,6 +51,7 @@ protected:
 
 	virtual void OnActivate() PURE;
 
+	bool OnInitDialog() override;
 	void OnDestroy() override;
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
@@ -65,6 +59,8 @@ protected:
 
 public:
 	virtual void RemakeLog() {}
+	virtual void UpdateAvatar() {}
+	virtual void UserTyping(int) {}
 
 	int GetImageId() const;
 
@@ -88,7 +84,6 @@ class CSrmmWindow : public CMsgDialog
 	LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	CCtrlBase m_avatar;
-	CSplitter m_splitter;
 
 	void NotifyTyping(int mode);
 	void ProcessFileDrop(HDROP hDrop);
@@ -98,6 +93,7 @@ class CSrmmWindow : public CMsgDialog
 	void StreamInEvents(MEVENT hDbEventFirst, int count, bool bAppend);
 	void UpdateIcon(WPARAM wParam);
 	void UpdateLastMessage(void);
+	void UpdateSizeBar(void);
 
 	HICON m_hStatusIcon = nullptr;
 	HFONT m_hFont = nullptr;
@@ -144,7 +140,9 @@ public:
 	void LoadSettings() override {}
 	void RemakeLog() override;
 	void SetStatusText(const wchar_t*, HICON) override;
+	void UpdateAvatar() override;
 	void UpdateTitle() override;
+	void UserTyping(int nSecs) override;
 
 	void OnSplitterMoved(CSplitter*);
 
@@ -175,9 +173,6 @@ class CChatRoomDlg : public CMsgDialog
 	LRESULT WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	wchar_t szTabSave[20];
-
-	CCtrlButton m_btnOk;
-	CSplitter m_splitterX, m_splitterY;
 
 	int m_iSplitterX, m_iSplitterY;
 

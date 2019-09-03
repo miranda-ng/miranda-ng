@@ -29,14 +29,8 @@ static wchar_t szTrimString[] = L":;,.!?\'\"><()[]- \r\n";
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CChatRoomDlg::CChatRoomDlg(CTabbedWindow *pOwner, SESSION_INFO *si) :
-	CSuper(pOwner, IDD_CHANNEL, si),
-	m_btnOk(this, IDOK),
-	
-	m_splitterX(this, IDC_SPLITTERX),
-	m_splitterY(this, IDC_SPLITTERY)
+	CSuper(pOwner, IDD_CHANNEL, si)
 {
-	m_szProto = si->pszModule;
-
 	m_btnOk.OnClick = Callback(this, &CChatRoomDlg::onClick_Ok);
 
 	m_btnFilter.OnClick = Callback(this, &CChatRoomDlg::onClick_Filter);
@@ -1057,26 +1051,6 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
 				return TRUE;
 			}
-			break;
-
-		case TTN_NEEDTEXT:
-			if (((LPNMHDR)lParam)->idFrom == (UINT_PTR)m_nickList.GetHwnd()) {
-				LPNMTTDISPINFO lpttd = (LPNMTTDISPINFO)lParam;
-				SESSION_INFO* parentdat = (SESSION_INFO*)GetWindowLongPtr(m_hwnd, GWLP_USERDATA);
-				POINT p;
-				GetCursorPos(&p);
-				ScreenToClient(m_nickList.GetHwnd(), &p);
-				int item = LOWORD(m_nickList.SendMsg(LB_ITEMFROMPOINT, 0, MAKELPARAM(p.x, p.y)));
-				USERINFO *ui = g_chatApi.SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, item);
-				if (ui != nullptr) {
-					static wchar_t ptszBuf[1024];
-					mir_snwprintf(ptszBuf, L"%s: %s\r\n%s: %s\r\n%s: %s",
-						TranslateT("Nickname"), ui->pszNick,
-						TranslateT("Unique ID"), ui->pszUID,
-						TranslateT("Status"), g_chatApi.TM_WordToString(parentdat->pStatuses, ui->Status));
-					lpttd->lpszText = ptszBuf;
-				}
-			}
 		}
 		break;
 
@@ -1097,23 +1071,6 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			UpdateTitle();
 		break;
 	
-	case DM_CLOSETAB:
-		CloseTab();
-		break;
-
-	case DM_CASCADENEWWINDOW:
-		if ((HWND)wParam != m_pOwner->GetHwnd()) {
-			RECT rcThis, rcNew;
-			GetWindowRect(m_pOwner->GetHwnd(), &rcThis);
-			GetWindowRect((HWND)wParam, &rcNew);
-			if (abs(rcThis.left - rcNew.left) < 3 && abs(rcThis.top - rcNew.top) < 3) {
-				int offset = GetSystemMetrics(SM_CYCAPTION) + GetSystemMetrics(SM_CYFRAME);
-				SetWindowPos((HWND)wParam, nullptr, rcNew.left + offset, rcNew.top + offset, 0, 0, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSIZE);
-				*(int *)lParam = 1;
-			}
-		}
-		break;
-
 	case WM_LBUTTONDBLCLK:
 		if (LOWORD(lParam) < 30)
 			ScrollToBottom();

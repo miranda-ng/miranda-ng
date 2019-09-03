@@ -399,8 +399,28 @@ void CTabbedWindow::SetWindowPosition()
 		else SetWindowPos(m_hwnd, nullptr, 0, 0, 550, 400, SWP_NOZORDER | SWP_NOMOVE | SWP_SHOWWINDOW);
 	}
 
-	if (!g_dat.bSavePerContact && g_dat.bCascade)
-		Srmm_Broadcast(DM_CASCADENEWWINDOW, (WPARAM)m_hwnd, (LPARAM)&m_windowWasCascaded);
+	if (!g_dat.bSavePerContact && g_dat.bCascade) {
+		RECT rc, rcMax = {};
+		CTabbedWindow *pMaxTab = nullptr;
+
+		for (auto &it : g_arDialogs) {
+			auto *pTab = it->m_pOwner;
+			if (pTab == this)
+				continue;
+
+			GetWindowRect(pTab->GetHwnd(), &rc);
+			if (rc.left > rcMax.left && rc.top > rcMax.top) {
+				pMaxTab = pTab;
+				rcMax = rc;
+			}
+		}
+
+		if (pMaxTab) {
+			m_windowWasCascaded = 1;
+			int offset = GetSystemMetrics(SM_CYCAPTION) + GetSystemMetrics(SM_CYFRAME);
+			SetWindowPos(m_hwnd, nullptr, rcMax.left + offset, rcMax.top + offset, 0, 0, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSIZE);
+		}
+	}
 }
 
 void CTabbedWindow::SwitchNextTab()

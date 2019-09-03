@@ -180,6 +180,7 @@ SESSION_INFO* SM_GetNextWindow(SESSION_INFO *si);
 void AddIcons(void);
 
 // tools.cpp
+CMsgDialog* Srmm_FindDialog(MCONTACT hContact);
 void SetButtonsPos(HWND hwndDlg, bool bIsChat);
 
 #pragma comment(lib,"comctl32.lib")

@@ -33,23 +33,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define ENTERCLICKTIME   1000   //max time in ms during which a double-tap on enter will cause a send
 
-static int CompareDialogs(const CMsgDialog *p1, const CMsgDialog *p2)
-{
-	if (p1->GetHwnd() == p2->GetHwnd())
-		return 0;
-
-	return (p1->GetHwnd() < p2->GetHwnd()) ? -1 : 1;
-}
-
-LIST<CMsgDialog> g_arDialogs(10, CompareDialogs);
+LIST<CMsgDialog> g_arDialogs(10, PtrKeySortT);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void AddToFileList(wchar_t ***pppFiles, int *totalCount, const wchar_t *szFilename)
+static void AddToFileList(wchar_t ***pppFiles, int &totalCount, const wchar_t *szFilename)
 {
-	*pppFiles = (wchar_t **)mir_realloc(*pppFiles, (++ * totalCount + 1) * sizeof(wchar_t *));
-	(*pppFiles)[*totalCount] = nullptr;
-	(*pppFiles)[*totalCount - 1] = mir_wstrdup(szFilename);
+	*pppFiles = (wchar_t **)mir_realloc(*pppFiles, (++totalCount + 1) * sizeof(wchar_t *));
+	(*pppFiles)[totalCount] = nullptr;
+	(*pppFiles)[totalCount - 1] = mir_wstrdup(szFilename);
 
 	if (GetFileAttributes(szFilename) & FILE_ATTRIBUTE_DIRECTORY) {
 		WIN32_FIND_DATA fd;
@@ -78,6 +70,8 @@ static void SetEditorText(HWND hwnd, const wchar_t *txt)
 CMsgDialog::CMsgDialog(CTabbedWindow *pOwner, int iDialogId, SESSION_INFO *si) :
 	CSuper(g_plugin, iDialogId, si),
 	m_btnOk(this, IDOK),
+	m_splitterX(this, IDC_SPLITTERX),
+	m_splitterY(this, IDC_SPLITTERY),
 	m_pOwner(pOwner)
 {
 	m_autoClose = 0;
@@ -86,9 +80,17 @@ CMsgDialog::CMsgDialog(CTabbedWindow *pOwner, int iDialogId, SESSION_INFO *si) :
 	g_arDialogs.insert(this);
 }
 
+bool CMsgDialog::OnInitDialog()
+{
+	m_szProto = GetContactProto(m_hContact);
+
+	return CSuper::OnInitDialog();
+}
+
 void CMsgDialog::OnDestroy()
 {
-	g_arDialogs.remove(this);
+	if (g_arDialogs.remove(this) == -1)
+		DebugBreak();
 
 	CSuper::OnDestroy();
 }
@@ -164,6 +166,8 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 	return CSuper::WndProc_Message(msg, wParam, lParam);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int CMsgDialog::GetImageId() const
 {
 	if (m_nFlash & 1)
@@ -215,7 +219,6 @@ void CMsgDialog::StopFlash()
 
 CSrmmWindow::CSrmmWindow(CTabbedWindow *pOwner, MCONTACT hContact) :
 	CSuper(pOwner, IDD_MSG),
-	m_splitter(this, IDC_SPLITTERY),
 	m_avatar(this, IDC_AVATAR),
 	m_cmdList(20),
 	m_bNoActivate(g_dat.bDoNotStealFocus)
@@ -223,7 +226,7 @@ CSrmmWindow::CSrmmWindow(CTabbedWindow *pOwner, MCONTACT hContact) :
 	m_hContact = hContact;
 
 	m_btnOk.OnClick = Callback(this, &CSrmmWindow::onClick_Ok);
-	m_splitter.OnChange = Callback(this, &CSrmmWindow::OnSplitterMoved);
+	m_splitterY.OnChange = Callback(this, &CSrmmWindow::OnSplitterMoved);
 }
 
 bool CSrmmWindow::OnInitDialog()
@@ -243,8 +246,6 @@ bool CSrmmWindow::OnInitDialog()
 		mir_free(m_wszInitialText);
 	}
 
-	m_szProto = GetContactProto(m_hContact);
-
 	// avatar stuff
 	m_limitAvatarH = g_dat.bLimitAvatarHeight ? g_dat.iAvatarHeight : 0;
 
@@ -259,7 +260,7 @@ bool CSrmmWindow::OnInitDialog()
 
 	GetWindowRect(m_message.GetHwnd(), &m_minEditInit);
 	m_iSplitterY = g_plugin.getDword(g_dat.bSavePerContact ? m_hContact : 0, "splitterPos", m_minEditInit.bottom - m_minEditInit.top);
-	SendMessage(m_hwnd, DM_UPDATESIZEBAR, 0, 0);
+	UpdateSizeBar();
 
 	m_avatar.Enable(false);
 
@@ -378,7 +379,7 @@ bool CSrmmWindow::OnInitDialog()
 		SetFocus(m_message.GetHwnd());
 	}
 
-	SendMessage(m_hwnd, DM_GETAVATAR, 0, 0);
+	UpdateAvatar();
 	NotifyEvent(MSG_WINDOW_EVT_OPEN);
 	return true;
 }
@@ -502,7 +503,7 @@ void CSrmmWindow::OnOptionsApplied(bool bUpdateAvatar)
 	}
 
 	ShowWindow(GetDlgItem(m_hwnd, IDCANCEL), SW_HIDE);
-	m_splitter.Show();
+	m_splitterY.Show();
 	
 	m_btnOk.Show(g_dat.bSendButton);
 	m_btnOk.Enable(GetWindowTextLength(m_message.GetHwnd()) != 0);
@@ -529,7 +530,7 @@ void CSrmmWindow::OnOptionsApplied(bool bUpdateAvatar)
 		m_limitAvatarH = g_dat.bLimitAvatarHeight ? g_dat.iAvatarHeight : 0;
 
 	if (bUpdateAvatar)
-		SendMessage(m_hwnd, DM_GETAVATAR, 0, 0);
+		UpdateAvatar();
 
 	InvalidateRect(m_message.GetHwnd(), nullptr, FALSE);
 
@@ -636,7 +637,7 @@ void CSrmmWindow::ProcessFileDrop(HDROP hDrop)
 		wchar_t **ppFiles = nullptr;
 		for (int i = 0; i < fileCount; i++) {
 			DragQueryFile(hDrop, i, szFilename, _countof(szFilename));
-			AddToFileList(&ppFiles, &totalCount, szFilename);
+			AddToFileList(&ppFiles, totalCount, szFilename);
 		}
 		CallServiceSync(MS_FILE_SENDSPECIFICFILEST, m_hContact, (LPARAM)ppFiles);
 		if (ppFiles) {
@@ -658,8 +659,8 @@ void CSrmmWindow::ShowAvatar()
 	}
 	else m_avatarPic = nullptr;
 
-	SendMessage(m_hwnd, DM_UPDATESIZEBAR, 0, 0);
-	SendMessage(m_hwnd, DM_AVATARSIZECHANGE, 0, 0);
+	UpdateSizeBar();
+	Resize();
 }
 
 void CSrmmWindow::ShowTime(bool bForce)
@@ -713,6 +714,16 @@ void CSrmmWindow::SetStatusText(const wchar_t *wszText, HICON hIcon)
 	SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)(wszText == nullptr ? L"" : wszText));
 }
 
+void CSrmmWindow::UpdateAvatar()
+{
+	PROTO_AVATAR_INFORMATION ai = {};
+	ai.hContact = m_hContact;
+	CallProtoService(m_szProto, PS_GETAVATARINFO, GAIF_FORCE, (LPARAM)&ai);
+
+	ShowAvatar();
+	SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, 1);
+}
+
 void CSrmmWindow::UpdateIcon(WPARAM wParam)
 {
 	if (!m_hContact || !m_szProto)
@@ -764,6 +775,39 @@ void CSrmmWindow::UpdateReadChars()
 	}
 }
 
+void CSrmmWindow::UpdateSizeBar()
+{
+	m_minEditBoxSize.cx = m_minEditInit.right - m_minEditInit.left;
+	m_minEditBoxSize.cy = m_minEditInit.bottom - m_minEditInit.top;
+	if (g_dat.bShowAvatar) {
+		if (m_avatarPic == nullptr || !g_dat.bShowAvatar) {
+			m_avatarWidth = 50;
+			m_avatarHeight = 50;
+			m_avatar.Hide();
+			return;
+		}
+		else {
+			BITMAP bminfo;
+			GetObject(m_avatarPic, sizeof(bminfo), &bminfo);
+			m_avatarWidth = bminfo.bmWidth + 2;
+			m_avatarHeight = bminfo.bmHeight + 2;
+			if (m_limitAvatarH && m_avatarHeight > m_limitAvatarH) {
+				m_avatarWidth = bminfo.bmWidth * m_limitAvatarH / bminfo.bmHeight + 2;
+				m_avatarHeight = m_limitAvatarH + 2;
+			}
+			m_avatar.Show();
+		}
+
+		if (m_avatarPic && m_minEditBoxSize.cy <= m_avatarHeight) {
+			m_minEditBoxSize.cy = m_avatarHeight + 8;
+			if (m_iSplitterY < m_minEditBoxSize.cy) {
+				m_iSplitterY = m_minEditBoxSize.cy;
+				Resize();
+			}
+		}
+	}
+}
+
 void CSrmmWindow::UpdateTitle()
 {
 	wchar_t newtitle[256];
@@ -788,6 +832,11 @@ void CSrmmWindow::UpdateTitle()
 		if (mir_wstrcmp(newtitle, oldtitle)) //swt() flickers even if the title hasn't actually changed
 			SetWindowText(m_pOwner->GetHwnd(), newtitle);
 	}
+}
+
+void CSrmmWindow::UserTyping(int nSecs)
+{
+	m_nTypeSecs = (nSecs > 0) ? nSecs : 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1102,75 +1151,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		ShowAvatar();
 		break;
 
-	case DM_AVATARCALCSIZE:
-		if (m_avatarPic == nullptr || !g_dat.bShowAvatar) {
-			m_avatarWidth = 50;
-			m_avatarHeight = 50;
-			m_avatar.Hide();
-			return 0;
-		}
-		else {
-			BITMAP bminfo;
-			GetObject(m_avatarPic, sizeof(bminfo), &bminfo);
-			m_avatarWidth = bminfo.bmWidth + 2;
-			m_avatarHeight = bminfo.bmHeight + 2;
-			if (m_limitAvatarH && m_avatarHeight > m_limitAvatarH) {
-				m_avatarWidth = bminfo.bmWidth * m_limitAvatarH / bminfo.bmHeight + 2;
-				m_avatarHeight = m_limitAvatarH + 2;
-			}
-			m_avatar.Show();
-		}
-		break;
-
-	case DM_UPDATESIZEBAR:
-		m_minEditBoxSize.cx = m_minEditInit.right - m_minEditInit.left;
-		m_minEditBoxSize.cy = m_minEditInit.bottom - m_minEditInit.top;
-		if (g_dat.bShowAvatar) {
-			SendMessage(m_hwnd, DM_AVATARCALCSIZE, 0, 0);
-			if (m_avatarPic && m_minEditBoxSize.cy <= m_avatarHeight) {
-				m_minEditBoxSize.cy = m_avatarHeight + 8;
-				if (m_iSplitterY < m_minEditBoxSize.cy) {
-					m_iSplitterY = m_minEditBoxSize.cy;
-					Resize();
-				}
-			}
-		}
-		break;
-
-	case DM_AVATARSIZECHANGE:
-		GetWindowRect(m_message.GetHwnd(), &rc);
-		Resize();
-		break;
-
-	case DM_GETAVATAR:
-		{
-			PROTO_AVATAR_INFORMATION ai = {};
-			ai.hContact = m_hContact;
-			CallProtoService(m_szProto, PS_GETAVATARINFO, GAIF_FORCE, (LPARAM)&ai);
-
-			ShowAvatar();
-			SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, 1);
-		}
-		break;
-
-	case DM_TYPING:
-		m_nTypeSecs = (INT_PTR)lParam > 0 ? (int)lParam : 0;
-		break;
-
-	case DM_USERNAMETOCLIP:
-		if (m_hContact) {
-			ptrW id(Contact_GetInfo(CNF_UNIQUEID, m_hContact, m_szProto));
-			if (id != nullptr && OpenClipboard(m_hwnd)) {
-				EmptyClipboard();
-				HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, mir_wstrlen(id) * sizeof(wchar_t) + 1);
-				mir_wstrcpy((wchar_t*)GlobalLock(hData), id);
-				GlobalUnlock(hData);
-				SetClipboardData(CF_UNICODETEXT, hData);
-				CloseClipboard();
-			}
-		}
-		break;
-
 	case DM_OPTIONSAPPLIED:
 		OnOptionsApplied(wParam != 0);
 		break;
@@ -1179,19 +1159,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		m_hTimeZone = TimeZone_CreateByContact(m_hContact, nullptr, TZF_KNOWNONLY);
 		m_wMinute = 61;
 		Resize();
-		break;
-
-	case DM_CASCADENEWWINDOW:
-		if ((HWND)wParam != m_hwnd) {
-			RECT rcThis, rcNew;
-			GetWindowRect(m_pOwner->GetHwnd(), &rcThis);
-			GetWindowRect((HWND)wParam, &rcNew);
-			if (abs(rcThis.left - rcNew.left) < 3 && abs(rcThis.top - rcNew.top) < 3) {
-				int offset = GetSystemMetrics(SM_CYCAPTION) + GetSystemMetrics(SM_CYFRAME);
-				SetWindowPos((HWND)wParam, nullptr, rcNew.left + offset, rcNew.top + offset, 0, 0, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSIZE);
-				*(int *)lParam = 1;
-			}
-		}
 		break;
 
 	case WM_CBD_LOADICONS:
@@ -1363,8 +1330,19 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_USERMENU:
-			if (GetKeyState(VK_SHIFT) & 0x8000)    // copy user name
-				SendMessage(m_hwnd, DM_USERNAMETOCLIP, 0, 0);
+			if (GetKeyState(VK_SHIFT) & 0x8000) {    // copy user name
+				ptrW id(Contact_GetInfo(CNF_UNIQUEID, m_hContact, m_szProto));
+				if (id != nullptr && OpenClipboard(m_hwnd)) {
+					HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, mir_wstrlen(id) * sizeof(wchar_t) + 1);
+					if (hData) {
+						EmptyClipboard();
+						mir_wstrcpy((wchar_t*)GlobalLock(hData), id);
+						GlobalUnlock(hData);
+						SetClipboardData(CF_UNICODETEXT, hData);
+						CloseClipboard();
+					}
+				}
+			}
 			else {
 				HMENU hMenu = Menu_BuildContactMenu(m_hContact);
 				GetWindowRect(GetDlgItem(m_hwnd, LOWORD(wParam)), &rc);
@@ -1484,10 +1462,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		UpdateIcon(wParam);
 		UpdateTitle();
-		break;
-
-	case DM_CLOSETAB:
-		CloseTab();
 		break;
 
 	case DM_STATUSICONCHANGE:
