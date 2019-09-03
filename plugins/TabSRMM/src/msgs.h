@@ -507,7 +507,7 @@ public:
 	void DM_OptionsApplied(WPARAM wParam, LPARAM lParam);
 };
 
-class CChatRoomDlg : public CTabBaseDlg
+class CMsgDialog : public CTabBaseDlg
 {
 	typedef CTabBaseDlg CSuper;
 
@@ -532,7 +532,7 @@ class CChatRoomDlg : public CTabBaseDlg
 	SESSION_INFO *m_pLastSession;
 
 public:
-	CChatRoomDlg(SESSION_INFO*);
+	CMsgDialog(SESSION_INFO*);
 
 	bool OnInitDialog() override;
 	void OnDestroy() override;

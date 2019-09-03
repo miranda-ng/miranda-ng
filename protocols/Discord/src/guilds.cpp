@@ -17,9 +17,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-class CChatRoomDlg : public CSrmmBaseDialog
+class CMsgDialog : public CSrmmBaseDialog
 {
-	CChatRoomDlg(); // just to suppress compiler's warnings, never implemented
+	CMsgDialog(); // just to suppress compiler's warnings, never implemented
 };
 
 int compareUsers(const CDiscordUser *p1, const CDiscordUser *p2);

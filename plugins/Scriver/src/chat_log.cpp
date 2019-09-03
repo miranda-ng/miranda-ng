@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define EM_GETSCROLLPOS	(WM_USER+221)
 #endif
 
-void CChatRoomDlg::StreamInEvents(LOGINFO* lin, bool bRedraw)
+void CMsgDialog::StreamInEvents(LOGINFO* lin, bool bRedraw)
 {
 	if (m_hwnd == nullptr || lin == nullptr || m_si == nullptr)
 		return;

@@ -136,7 +136,7 @@ bool IsStringValidLink(wchar_t *pszText)
 // called whenever a group chat tab becomes active(either by switching tabs or activating a
 // container window
 
-void CChatRoomDlg::UpdateWindowState(UINT msg)
+void CMsgDialog::UpdateWindowState(UINT msg)
 {
 	if (m_si == nullptr)
 		return;
@@ -233,7 +233,7 @@ void CChatRoomDlg::UpdateWindowState(UINT msg)
 // resizer callback for the group chat session window.Called from Mirandas dialog
 // resizing service
 
-int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
+int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 {
 	bool bToolbar = !(m_pContainer->m_dwFlags & CNT_HIDETOOLBAR);
 	bool bBottomToolbar = (m_pContainer->m_dwFlags & CNT_BOTTOMTOOLBAR) != 0;
@@ -358,7 +358,7 @@ int CChatRoomDlg::Resizer(UTILRESIZECONTROL *urc)
 	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 }
 
-bool CChatRoomDlg::TabAutoComplete()
+bool CMsgDialog::TabAutoComplete()
 {
 	LRESULT lResult = m_message.SendMsg(EM_GETSEL, 0, 0);
 	int start = LOWORD(lResult), end = HIWORD(lResult);
@@ -459,28 +459,28 @@ static void __cdecl phase2(SESSION_INFO *si)
 // the actual group chat session window procedure.Handles the entire chat session window
 // which is usually a (tabbed) child of a container class window.
 
-CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si)
+CMsgDialog::CMsgDialog(SESSION_INFO *si)
 	: CTabBaseDlg(IDD_CHANNEL, si),
 	m_btnOk(this, IDOK)
 {
 	m_szProto = GetContactProto(m_hContact);
 	m_bFilterEnabled = db_get_b(m_hContact, CHAT_MODULE, "FilterEnabled", m_bFilterEnabled) != 0;
 
-	m_btnOk.OnClick = Callback(this, &CChatRoomDlg::onClick_OK);
-	m_btnFilter.OnClick = Callback(this, &CChatRoomDlg::onClick_Filter);
-	m_btnNickList.OnClick = Callback(this, &CChatRoomDlg::onClick_ShowNickList);
+	m_btnOk.OnClick = Callback(this, &CMsgDialog::onClick_OK);
+	m_btnFilter.OnClick = Callback(this, &CMsgDialog::onClick_Filter);
+	m_btnNickList.OnClick = Callback(this, &CMsgDialog::onClick_ShowNickList);
 
-	m_nickList.OnDblClick = Callback(this, &CChatRoomDlg::onDblClick_List);
+	m_nickList.OnDblClick = Callback(this, &CMsgDialog::onDblClick_List);
 
-	m_message.OnChange = Callback(this, &CChatRoomDlg::onChange_Message);
+	m_message.OnChange = Callback(this, &CMsgDialog::onChange_Message);
 }
 
-CThumbBase* CChatRoomDlg::tabCreateThumb(CProxyWindow *pProxy) const
+CThumbBase* CMsgDialog::tabCreateThumb(CProxyWindow *pProxy) const
 {
 	return new CThumbMUC(pProxy, m_si);
 }
 
-void CChatRoomDlg::tabClearLog()
+void CMsgDialog::tabClearLog()
 {
 	SESSION_INFO *s = g_chatApi.SM_FindSession(m_si->ptszID, m_si->pszModule);
 	if (s) {
@@ -496,7 +496,7 @@ void CChatRoomDlg::tabClearLog()
 	}
 }
 
-bool CChatRoomDlg::OnInitDialog()
+bool CMsgDialog::OnInitDialog()
 {
 	CTabBaseDlg::OnInitDialog();
 
@@ -568,7 +568,7 @@ bool CChatRoomDlg::OnInitDialog()
 	return true;
 }
 
-void CChatRoomDlg::OnDestroy()
+void CMsgDialog::OnDestroy()
 {
 	// Typing support for GCW_PRIVMESS sessions
 	if (m_si->iType == GCW_PRIVMESS)
@@ -617,7 +617,7 @@ void CChatRoomDlg::OnDestroy()
 	CSuper::OnDestroy();
 }
 
-void CChatRoomDlg::onClick_OK(CCtrlButton*)
+void CMsgDialog::onClick_OK(CCtrlButton*)
 {
 	if (GetSendButtonState(m_hwnd) == PBS_DISABLED)
 		return;
@@ -658,7 +658,7 @@ void CChatRoomDlg::onClick_OK(CCtrlButton*)
 	SetFocus(m_message.GetHwnd());
 }
 
-void CChatRoomDlg::onClick_Filter(CCtrlButton *pButton)
+void CMsgDialog::onClick_Filter(CCtrlButton *pButton)
 {
 	if (!pButton->Enabled())
 		return;
@@ -680,7 +680,7 @@ void CChatRoomDlg::onClick_Filter(CCtrlButton *pButton)
 	db_set_b(m_si->hContact, CHAT_MODULE, "FilterEnabled", m_bFilterEnabled);
 }
 
-void CChatRoomDlg::onClick_ShowNickList(CCtrlButton *pButton)
+void CMsgDialog::onClick_ShowNickList(CCtrlButton *pButton)
 {
 	if (!pButton->Enabled() || m_si->iType == GCW_SERVER)
 		return;
@@ -693,7 +693,7 @@ void CChatRoomDlg::onClick_ShowNickList(CCtrlButton *pButton)
 	ScrollToBottom();
 }
 
-void CChatRoomDlg::onChange_Message(CCtrlEdit*)
+void CMsgDialog::onChange_Message(CCtrlEdit*)
 {
 	if (m_pContainer->m_hwndActive == m_hwnd)
 		UpdateReadChars();
@@ -718,7 +718,7 @@ void CChatRoomDlg::onChange_Message(CCtrlEdit*)
 	}
 }
 
-void CChatRoomDlg::onDblClick_List(CCtrlListBox *pList)
+void CMsgDialog::onDblClick_List(CCtrlListBox *pList)
 {
 	TVHITTESTINFO hti;
 	hti.pt.x = (short)LOWORD(GetMessagePos());
@@ -747,7 +747,7 @@ void CChatRoomDlg::onDblClick_List(CCtrlListBox *pList)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CChatRoomDlg::AddLog()
+void CMsgDialog::AddLog()
 {
 	if (PluginConfig.m_bUseDividers) {
 		if (PluginConfig.m_bDividersUsePopupConfig) {
@@ -766,7 +766,7 @@ void CChatRoomDlg::AddLog()
 	CSrmmBaseDialog::AddLog();
 }
 
-void CChatRoomDlg::RedrawLog()
+void CMsgDialog::RedrawLog()
 {
 	m_si->LastTime = 0;
 	if (m_si->pLog) {
@@ -788,12 +788,12 @@ void CChatRoomDlg::RedrawLog()
 	else ClearLog();
 }
 
-void CChatRoomDlg::ScrollToBottom()
+void CMsgDialog::ScrollToBottom()
 {
 	DM_ScrollToBottom(0, 0);
 }
 
-void CChatRoomDlg::ShowFilterMenu()
+void CMsgDialog::ShowFilterMenu()
 {
 	m_hwndFilter = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILTER), m_pContainer->m_hwnd, FilterWndProc, (LPARAM)this);
 	TranslateDialogDefault(m_hwndFilter);
@@ -809,7 +809,7 @@ void CChatRoomDlg::ShowFilterMenu()
 	SetWindowPos(m_hwndFilter, HWND_TOP, pt.x - rcFilter.right, pt.y - rcFilter.bottom, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 }
 
-void CChatRoomDlg::UpdateNickList()
+void CMsgDialog::UpdateNickList()
 {
 	int i = m_nickList.SendMsg(LB_GETTOPINDEX, 0, 0);
 	m_nickList.SendMsg(LB_SETCOUNT, m_si->getUserList().getCount(), 0);
@@ -818,7 +818,7 @@ void CChatRoomDlg::UpdateNickList()
 	m_hTabIcon = m_hTabStatusIcon;
 }
 
-void CChatRoomDlg::UpdateOptions()
+void CMsgDialog::UpdateOptions()
 {
 	MODULEINFO *pInfo = m_si ? m_si->pMI : nullptr;
 	if (pInfo) {
@@ -843,7 +843,7 @@ void CChatRoomDlg::UpdateOptions()
 	RedrawLog2();
 }
 
-void CChatRoomDlg::UpdateStatusBar()
+void CMsgDialog::UpdateStatusBar()
 {
 	if (m_pContainer->m_hwndActive != m_hwnd || m_pContainer->m_hwndStatus == nullptr || CMimAPI::m_shutDown || m_wszStatusBar[0])
 		return;
@@ -891,7 +891,7 @@ void CChatRoomDlg::UpdateStatusBar()
 		m_pWnd->Invalidate();
 }
 
-void CChatRoomDlg::UpdateTitle()
+void CMsgDialog::UpdateTitle()
 {
 	m_wStatus = m_si->wStatus;
 
@@ -955,7 +955,7 @@ void CChatRoomDlg::UpdateTitle()
 /////////////////////////////////////////////////////////////////////////////////////////
 // subclassing for the message history display(rich edit control in which the chat history appears)
 
-LRESULT CChatRoomDlg::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CMsgDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_NCCALCSIZE:
@@ -1049,7 +1049,7 @@ LRESULT CChatRoomDlg::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // subclassing for the message input control(a richedit text control)
 
-LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (m_bkeyProcessed && (msg == WM_KEYUP)) {
 		GetKeyboardState(kstate);
@@ -1387,7 +1387,7 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // subclassing for the nickname list control.It is an ownerdrawn listbox
 
-LRESULT CChatRoomDlg::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CMsgDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_NCCALCSIZE:
@@ -1524,12 +1524,12 @@ static UINT _eventorder[] =
 	GC_EVENT_NOTICE
 };
 
-INT_PTR CALLBACK CChatRoomDlg::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK CMsgDialog::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	CChatRoomDlg *pDlg = (CChatRoomDlg*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	CMsgDialog *pDlg = (CMsgDialog*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	switch (uMsg) {
 	case WM_INITDIALOG:
-		pDlg = (CChatRoomDlg*)lParam;
+		pDlg = (CMsgDialog*)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		{
 			DWORD dwMask = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "FilterMask", 0);
@@ -1643,7 +1643,7 @@ INT_PTR CALLBACK CChatRoomDlg::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	POINT pt, tmp, cur;
 	RECT rc;
@@ -2444,7 +2444,7 @@ void ShowRoom(TContainerData *pContainer, SESSION_INFO *si)
 	TabCtrl_SetCurSel(hwndTab, iTabId);
 	pContainer->m_iChilds++;
 
-	CChatRoomDlg *pDlg = new CChatRoomDlg(si);
+	CMsgDialog *pDlg = new CMsgDialog(si);
 	pDlg->m_iTabID = iTabId;
 	pDlg->m_pContainer = pContainer;
 	pDlg->SetParent(hwndTab);

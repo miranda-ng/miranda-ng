@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-void CChatRoomDlg::TabAutoComplete()
+void CMsgDialog::TabAutoComplete()
 {
 	LRESULT lResult = (LRESULT)m_message.SendMsg(EM_GETSEL, 0, 0);
 	int start = LOWORD(lResult), end = HIWORD(lResult);
@@ -111,7 +111,7 @@ LBL_SkipEnd:
 	}
 }
 
-void CChatRoomDlg::FixTabIcons()
+void CMsgDialog::FixTabIcons()
 {
 	HICON hIcon;
 	if (!(m_si->wState & GC_EVENT_HIGHLIGHT)) {
@@ -130,7 +130,7 @@ void CChatRoomDlg::FixTabIcons()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CChatRoomDlg::MessageDialogResize(int w, int h)
+void CMsgDialog::MessageDialogResize(int w, int h)
 {
 	bool bNick = m_si->iType != GCW_SERVER && m_bNicklistEnabled;
 	bool bToolbar = SendMessage(m_hwndParent, CM_GETTOOLBARSTATUS, 0, 0) != 0;
@@ -191,23 +191,23 @@ void CChatRoomDlg::MessageDialogResize(int w, int h)
 	RedrawWindow(m_message.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 }
 
-CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si)
+CMsgDialog::CMsgDialog(SESSION_INFO *si)
 	: CScriverWindow(IDD_CHANNEL, si),
 	m_splitterX(this, IDC_SPLITTERX),
 	m_splitterY(this, IDC_SPLITTERY),
 	m_btnOk(this, IDOK)
 {
-	m_btnOk.OnClick = Callback(this, &CChatRoomDlg::onClick_Ok);
-	m_btnFilter.OnClick = Callback(this, &CChatRoomDlg::onClick_Filter);
-	m_btnNickList.OnClick = Callback(this, &CChatRoomDlg::onClick_ShowList);
+	m_btnOk.OnClick = Callback(this, &CMsgDialog::onClick_Ok);
+	m_btnFilter.OnClick = Callback(this, &CMsgDialog::onClick_Filter);
+	m_btnNickList.OnClick = Callback(this, &CMsgDialog::onClick_ShowList);
 
-	m_message.OnChange = Callback(this, &CChatRoomDlg::onChange_Message);
+	m_message.OnChange = Callback(this, &CMsgDialog::onChange_Message);
 	
-	m_splitterX.OnChange = Callback(this, &CChatRoomDlg::OnSplitterX);
-	m_splitterY.OnChange = Callback(this, &CChatRoomDlg::OnSplitterY);
+	m_splitterX.OnChange = Callback(this, &CMsgDialog::OnSplitterX);
+	m_splitterY.OnChange = Callback(this, &CMsgDialog::OnSplitterY);
 }
 
-bool CChatRoomDlg::OnInitDialog()
+bool CMsgDialog::OnInitDialog()
 {
 	CSuper::OnInitDialog();
 	m_si->pDlg = this;
@@ -268,7 +268,7 @@ bool CChatRoomDlg::OnInitDialog()
 	return true;
 }
 
-void CChatRoomDlg::OnDestroy()
+void CMsgDialog::OnDestroy()
 {
 	NotifyEvent(MSG_WINDOW_EVT_CLOSING);
 
@@ -288,7 +288,7 @@ void CChatRoomDlg::OnDestroy()
 	CSuper::OnDestroy();
 }
 
-void CChatRoomDlg::OnSplitterX(CSplitter *pSplitter)
+void CMsgDialog::OnSplitterX(CSplitter *pSplitter)
 {
 	RECT rc;
 	GetClientRect(m_hwnd, &rc);
@@ -300,14 +300,14 @@ void CChatRoomDlg::OnSplitterX(CSplitter *pSplitter)
 		m_pParent->iSplitterX = rc.right - rc.left - 35;
 }
 
-void CChatRoomDlg::OnSplitterY(CSplitter *pSplitter)
+void CMsgDialog::OnSplitterY(CSplitter *pSplitter)
 {
 	RECT rc;
 	GetClientRect(m_hwnd, &rc);
 	m_pParent->iSplitterY = rc.bottom - pSplitter->GetPos();
 }
 
-void CChatRoomDlg::onClick_Ok(CCtrlButton *pButton)
+void CMsgDialog::onClick_Ok(CCtrlButton *pButton)
 {
 	if (!pButton->Enabled())
 		return;
@@ -342,7 +342,7 @@ void CChatRoomDlg::onClick_Ok(CCtrlButton *pButton)
 	SetFocus(m_message.GetHwnd());
 }
 
-void CChatRoomDlg::onClick_ShowList(CCtrlButton *pButton)
+void CMsgDialog::onClick_ShowList(CCtrlButton *pButton)
 {
 	if (!pButton->Enabled() || m_si->iType == GCW_SERVER)
 		return;
@@ -353,7 +353,7 @@ void CChatRoomDlg::onClick_ShowList(CCtrlButton *pButton)
 	Resize();
 }
 
-void CChatRoomDlg::onClick_Filter(CCtrlButton *pButton)
+void CMsgDialog::onClick_Filter(CCtrlButton *pButton)
 {
 	if (!pButton->Enabled())
 		return;
@@ -366,7 +366,7 @@ void CChatRoomDlg::onClick_Filter(CCtrlButton *pButton)
 		RedrawLog();
 }
 
-void CChatRoomDlg::onChange_Message(CCtrlEdit*)
+void CMsgDialog::onChange_Message(CCtrlEdit*)
 {
 	cmdListCurrent = nullptr;
 	m_btnOk.Enable(m_message.GetRichTextLength() != 0);
@@ -383,7 +383,7 @@ static void __cdecl phase2(SESSION_INFO *si)
 		si->pDlg->RedrawLog2();
 }
 
-void CChatRoomDlg::RedrawLog()
+void CMsgDialog::RedrawLog()
 {
 	m_si->LastTime = 0;
 	if (m_si->pLog) {
@@ -406,7 +406,7 @@ void CChatRoomDlg::RedrawLog()
 	else ClearLog();
 }
 
-void CChatRoomDlg::ScrollToBottom()
+void CMsgDialog::ScrollToBottom()
 {
 	if (GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL) {
 		SCROLLINFO si = { sizeof(si) };
@@ -421,7 +421,7 @@ void CChatRoomDlg::ScrollToBottom()
 	}
 }
 
-void CChatRoomDlg::ShowFilterMenu()
+void CMsgDialog::ShowFilterMenu()
 {
 	HWND hwnd = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILTER), m_hwnd, FilterWndProc, (LPARAM)this);
 	TranslateDialogDefault(hwnd);
@@ -431,7 +431,7 @@ void CChatRoomDlg::ShowFilterMenu()
 	SetWindowPos(hwnd, HWND_TOP, rc.left - 85, (IsWindowVisible(m_btnFilter.GetHwnd()) || IsWindowVisible(m_btnBold.GetHwnd())) ? rc.top - 206 : rc.top - 186, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 }
 
-void CChatRoomDlg::UpdateNickList()
+void CMsgDialog::UpdateNickList()
 {
 	m_nickList.SendMsg(WM_SETREDRAW, FALSE, 0);
 	m_nickList.SendMsg(LB_RESETCONTENT, 0, 0);
@@ -450,7 +450,7 @@ void CChatRoomDlg::UpdateNickList()
 	UpdateTitle();
 }
 
-void CChatRoomDlg::UpdateOptions()
+void CMsgDialog::UpdateOptions()
 {
 	m_btnNickList.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bNicklistEnabled ? IDI_NICKLIST : IDI_NICKLIST2));
 	m_btnFilter.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bFilterEnabled ? IDI_FILTER : IDI_FILTER2));
@@ -500,7 +500,7 @@ void CChatRoomDlg::UpdateOptions()
 	RedrawLog2();
 }
 
-void CChatRoomDlg::UpdateStatusBar()
+void CMsgDialog::UpdateStatusBar()
 {
 	wchar_t szTemp[512];
 	mir_snwprintf(szTemp, L"%s : %s", m_si->pMI->ptszModDispName, m_si->ptszStatusbarText ? m_si->ptszStatusbarText : L"");
@@ -520,7 +520,7 @@ void CChatRoomDlg::UpdateStatusBar()
 	Srmm_SetIconFlags(m_hContact, SRMM_MODULE, 0, 0);
 }
 
-void CChatRoomDlg::UpdateTitle()
+void CMsgDialog::UpdateTitle()
 {
 	TitleBarData tbd = {};
 	tbd.hIcon = (m_si->wStatus == ID_STATUS_ONLINE) ? m_si->pMI->hOnlineIcon : m_si->pMI->hOfflineIcon;
@@ -553,12 +553,12 @@ void CChatRoomDlg::UpdateTitle()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR CALLBACK CChatRoomDlg::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK CMsgDialog::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static CChatRoomDlg *pDlg = nullptr;
+	static CMsgDialog *pDlg = nullptr;
 	switch (uMsg) {
 	case WM_INITDIALOG:
-		pDlg = (CChatRoomDlg*)lParam;
+		pDlg = (CMsgDialog*)lParam;
 		CheckDlgButton(hwndDlg, IDC_CHAT_1, pDlg->m_iLogFilterFlags & GC_EVENT_ACTION ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_CHAT_2, pDlg->m_iLogFilterFlags & GC_EVENT_MESSAGE ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_CHAT_3, pDlg->m_iLogFilterFlags & GC_EVENT_NICK ? BST_CHECKED : BST_UNCHECKED);
@@ -625,7 +625,7 @@ INT_PTR CALLBACK CChatRoomDlg::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	bool isShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
 	bool isCtrl = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
@@ -736,7 +736,7 @@ LRESULT CChatRoomDlg::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-LRESULT CChatRoomDlg::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CMsgDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	int result = InputAreaShortcuts(m_log.GetHwnd(), msg, wParam, lParam);
 	if (result != -1)
@@ -768,7 +768,7 @@ LRESULT CChatRoomDlg::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-LRESULT CChatRoomDlg::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CMsgDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	int result = InputAreaShortcuts(m_nickList.GetHwnd(), msg, wParam, lParam);
 	if (result != -1)
@@ -854,7 +854,7 @@ LRESULT CChatRoomDlg::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	RECT rc;
 	POINT pt;
@@ -1066,11 +1066,11 @@ void ShowRoom(SESSION_INFO *si)
 		return;
 
 	// Do we need to create a window?
-	CChatRoomDlg *pDlg;
+	CMsgDialog *pDlg;
 	if (si->pDlg == nullptr) {
 		HWND hParent = GetParentWindow(si->hContact, true);
 
-		pDlg = new CChatRoomDlg(si);
+		pDlg = new CMsgDialog(si);
 		pDlg->SetParent(hParent);
 		pDlg->Show();
 		

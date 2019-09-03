@@ -55,7 +55,7 @@ struct SESSION_INFO : public GCSessionInfoBase
 struct LOGSTREAMDATA : public GCLogStreamDataBase
 {
 	int crCount;
-	CChatRoomDlg *dat;
+	CMsgDialog *dat;
 };
 
 struct TMUCSettings : public GlobalLogSettingsBase

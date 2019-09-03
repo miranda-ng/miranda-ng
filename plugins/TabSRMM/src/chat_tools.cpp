@@ -491,7 +491,7 @@ void Chat_SetFilters(SESSION_INFO *si)
 	DWORD dwFlags_local = db_get_dw(si->hContact, CHAT_MODULE, "FilterFlags", GC_EVENT_ALL);
 	DWORD dwMask = db_get_dw(si->hContact, CHAT_MODULE, "FilterMask", 0);
 
-	CChatRoomDlg *pDlg = si->pDlg;
+	CMsgDialog *pDlg = si->pDlg;
 	if (pDlg) {
 		pDlg->m_iLogFilterFlags = dwFlags_default;
 		for (int i = 0; i < 32; i++) {

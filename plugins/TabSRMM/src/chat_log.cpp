@@ -829,7 +829,7 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 	return str.Detach();
 }
 
-void CChatRoomDlg::StreamInEvents(LOGINFO *lin, bool bRedraw)
+void CMsgDialog::StreamInEvents(LOGINFO *lin, bool bRedraw)
 {
 	if (m_hwnd == nullptr || lin == nullptr || m_si == nullptr)
 		return;

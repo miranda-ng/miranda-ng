@@ -61,7 +61,7 @@ CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, SESSION_IN
 	m_btnHistory.OnClick = Callback(this, &CSrmmBaseDialog::onClick_History);
 	m_btnChannelMgr.OnClick = Callback(this, &CSrmmBaseDialog::onClick_ChanMgr);
 
-	m_nickList.OnDblClick = Callback(this, &CChatRoomDlg::onDblClick_List);
+	m_nickList.OnDblClick = Callback(this, &CMsgDialog::onDblClick_List);
 
 	if (si) {
 		m_hContact = si->hContact;
@@ -633,8 +633,10 @@ bool CSrmmBaseDialog::OnInitDialog()
 	SetWindowLongPtr(m_message.GetHwnd(), GWLP_USERDATA, LPARAM(this));
 	mir_subclassWindow(m_message.GetHwnd(), stubMessageProc);
 
-	SetWindowLongPtr(m_nickList.GetHwnd(), GWLP_USERDATA, LPARAM(this));
-	mir_subclassWindow(m_nickList.GetHwnd(), stubNicklistProc);
+	if (isChat()) {
+		SetWindowLongPtr(m_nickList.GetHwnd(), GWLP_USERDATA, LPARAM(this));
+		mir_subclassWindow(m_nickList.GetHwnd(), stubNicklistProc);
+	}
 
 	// three buttons below are initiated inside this call, so button creation must precede subclassing
 	Srmm_CreateToolbarIcons(m_hwnd, isChat() ? BBBF_ISCHATBUTTON : BBBF_ISIMBUTTON);

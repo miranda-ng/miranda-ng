@@ -81,7 +81,7 @@ struct SESSION_INFO;
 struct MODULEINFO;
 struct LOGSTREAMDATA;
 
-class CChatRoomDlg;
+class CMsgDialog;
 
 struct USERINFO : public MZeroedObject, public MNonCopyable
 {
@@ -172,7 +172,7 @@ struct MIR_APP_EXPORT GCSessionInfoBase : public MZeroedObject, public MNonCopya
 
 	int         currentHovered;
 
-	CChatRoomDlg *pDlg;
+	CMsgDialog *pDlg;
 	COMMANDINFO *lpCommands, *lpCurrentCommand;
 	LOGINFO *pLog, *pLogEnd;
 	USERINFO *pMe;

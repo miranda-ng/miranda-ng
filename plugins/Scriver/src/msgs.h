@@ -184,7 +184,7 @@ public:
 	void onChanged_Splitter(CSplitter*);
 };
 
-class CChatRoomDlg : public CScriverWindow
+class CMsgDialog : public CScriverWindow
 {
 	typedef CScriverWindow CSuper;
 
@@ -205,7 +205,7 @@ class CChatRoomDlg : public CScriverWindow
 	SESSION_INFO *m_pLastSession;
 
 public:
-	CChatRoomDlg(SESSION_INFO *si);
+	CMsgDialog(SESSION_INFO *si);
 
 	bool OnInitDialog() override;
 	void OnDestroy() override;

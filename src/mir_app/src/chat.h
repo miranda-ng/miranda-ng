@@ -28,9 +28,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 void Srmm_CreateToolbarIcons(HWND hwndDlg, int flags);
 void Srmm_ProcessToolbarHotkey(MCONTACT hContact, INT_PTR iButtonFrom, HWND hwndDlg);
 
-class CChatRoomDlg : public CSrmmBaseDialog
+class CMsgDialog : public CSrmmBaseDialog
 {
-	CChatRoomDlg(); // just to suppress compiler's warnings, never implemented
+	CMsgDialog(); // just to suppress compiler's warnings, never implemented
 };
 
 extern HGENMENU hJoinMenuItem, hLeaveMenuItem;
