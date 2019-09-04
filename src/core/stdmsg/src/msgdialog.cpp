@@ -541,8 +541,6 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 
 INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	ENLINK *pLink;
-	CHARRANGE sel;
 	RECT rc;
 
 	switch (uMsg) {
@@ -926,37 +924,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					break;
 
 				case WM_RBUTTONUP:
-					CHARRANGE all = { 0, -1 };
-					HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
-					HMENU hSubMenu = GetSubMenu(hMenu, 0);
-					TranslateMenu(hSubMenu);
-					SendMessage(((NMHDR *)lParam)->hwndFrom, EM_EXGETSEL, 0, (LPARAM)& sel);
-					if (sel.cpMin == sel.cpMax)
-						EnableMenuItem(hSubMenu, IDM_COPY, MF_BYCOMMAND | MF_GRAYED);
-
-					pLink = (ENLINK *)lParam;
-					POINT pt = { GET_X_LPARAM(pLink->lParam), GET_Y_LPARAM(pLink->lParam) };
-					ClientToScreen(pLink->nmhdr.hwndFrom, &pt);
-
-					switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, nullptr)) {
-					case IDM_COPY:
-						SendMessage(pLink->nmhdr.hwndFrom, WM_COPY, 0, 0);
-						break;
-					case IDM_COPYALL:
-						SendMessage(pLink->nmhdr.hwndFrom, EM_EXSETSEL, 0, (LPARAM)& all);
-						SendMessage(pLink->nmhdr.hwndFrom, WM_COPY, 0, 0);
-						SendMessage(pLink->nmhdr.hwndFrom, EM_EXSETSEL, 0, (LPARAM)& sel);
-						break;
-					case IDM_SELECTALL:
-						SendMessage(pLink->nmhdr.hwndFrom, EM_EXSETSEL, 0, (LPARAM)& all);
-						break;
-					case IDM_CLEAR:
-						ClearLog();
-						m_hDbEventFirst = 0;
-						break;
-					}
-					DestroyMenu(hSubMenu);
-					DestroyMenu(hMenu);
 					SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
 					return TRUE;
 				}
@@ -1027,9 +994,48 @@ static const CHARRANGE rangeAll = { 0, -1 };
 
 LRESULT CMsgDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	CHARRANGE sel;
+
 	switch(msg) {
+	case WM_CONTEXTMENU:
+		// we display context menu here only for private chats, group chats are processed by the core
+		if (!isChat()) {
+			POINT pt;
+			GetCursorPos(&pt);
+
+			HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
+			HMENU hSubMenu = GetSubMenu(hMenu, 0);
+			TranslateMenu(hSubMenu);
+
+			CHARRANGE all = { 0, -1 };
+			m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
+			if (sel.cpMin == sel.cpMax)
+				EnableMenuItem(hSubMenu, IDM_COPY, MF_BYCOMMAND | MF_GRAYED);
+
+			switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, nullptr)) {
+			case IDM_COPY:
+				m_log.SendMsg(WM_COPY, 0, 0);
+				break;
+			case IDM_COPYALL:
+				m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&all);
+				m_log.SendMsg(WM_COPY, 0, 0);
+				m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+				break;
+			case IDM_SELECTALL:
+				m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&all);
+				break;
+			case IDM_CLEAR:
+				ClearLog();
+				m_hDbEventFirst = 0;
+				break;
+			}
+			DestroyMenu(hSubMenu);
+			DestroyMenu(hMenu);
+			return TRUE;
+		}
+		break;
+
 	case WM_LBUTTONUP:
-		CHARRANGE sel;
 		m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
 		if (sel.cpMin != sel.cpMax) {
 			m_log.SendMsg(WM_COPY, 0, 0);
