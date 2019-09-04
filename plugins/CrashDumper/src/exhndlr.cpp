@@ -54,7 +54,7 @@ void myfilterWorker(PEXCEPTION_POINTERS exc_ptr, bool notify)
 	CreateDirectoryTreeW(CrashLogFolder);
 
 	__try {
-		if (dtsubfldr) {
+		if (g_plugin.bUseSubFolder) {
 			mir_snwprintf(path, L"%s\\%02d.%02d.%02d", CrashLogFolder, st.wYear, st.wMonth, st.wDay);
 			CreateDirectory(path, nullptr);
 			mir_snwprintf(path, L"%s\\%02d.%02d.%02d\\crash%02d%02d%02d%02d%02d%02d.mdmp", CrashLogFolder,
@@ -80,7 +80,7 @@ void myfilterWorker(PEXCEPTION_POINTERS exc_ptr, bool notify)
 		DeleteFile(path);
 
 	__try {
-		if (dtsubfldr) {
+		if (g_plugin.bUseSubFolder) {
 			mir_snwprintf(path, L"%s\\%02d.%02d.%02d", CrashLogFolder, st.wYear, st.wMonth, st.wDay);
 			CreateDirectory(path, nullptr);
 			mir_snwprintf(path, L"%s\\%02d.%02d.%02d\\crash%02d%02d%02d%02d%02d%02d.txt", CrashLogFolder,

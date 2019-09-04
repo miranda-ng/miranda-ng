@@ -80,6 +80,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
+	CMOption<BYTE> bCatchCrashes, bClassicDates, bUploadChanged, bUseSubFolder, bSuccessPopups;
+
+	bool bNeedRestart = false, bServiceMode = false;
+
 	CMPlugin();
 
 	int Load() override;
@@ -98,7 +102,6 @@ struct VerTrnsfr
 };
 
 extern LCID packlcid;
-extern bool servicemode, clsdates, dtsubfldr, catchcrashes, needrestart;
 
 extern wchar_t CrashLogFolder[MAX_PATH];
 extern wchar_t VersionInfoFolder[MAX_PATH];

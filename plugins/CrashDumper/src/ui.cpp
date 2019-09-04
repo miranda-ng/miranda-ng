@@ -73,7 +73,7 @@ public:
 		Utils_SaveWindowPosition(m_hwnd, NULL, MODULENAME, "ViewInfo_");
 		if (pViewDialog == this)
 			pViewDialog = nullptr;
-		if (servicemode)
+		if (g_plugin.bServiceMode)
 			PostQuitMessage(0);
 		return true;
 	}
@@ -171,14 +171,14 @@ INT_PTR ViewVersionInfo(WPARAM wParam, LPARAM)
 class COptDialog : public CDlgBase
 {
 	CCtrlEdit m_edtUserName, m_edtPass;
-	CCtrlCheck m_chkAutoUpload, m_chkClassicDates, m_chkRepSubfolder, m_chkCatchCrashes;
+	CCtrlCheck m_chkAutoUpload, m_chkClassicDates, m_chkRepSubfolder, m_chkCatchCrashes, m_chkSuccessPopups;
 	CCtrlLabel m_lblRestart;
 
 	void COptDialog::OnCatchCrashesChange(CCtrlCheck*)
 	{
 		m_chkRepSubfolder.Enable(m_chkCatchCrashes.GetState());
 		m_lblRestart.Show();
-		needrestart = 1;
+		g_plugin.bNeedRestart = true;
 	}
 
 public:
@@ -190,15 +190,21 @@ public:
 		m_chkClassicDates(this, IDC_CLASSICDATES),
 		m_chkRepSubfolder(this, IDC_DATESUBFOLDER),
 		m_chkCatchCrashes(this, IDC_CATCHCRASHES),
+		m_chkSuccessPopups(this, IDC_SUCCESSPOPUPS),
 		m_lblRestart(this, IDC_RESTARTNOTE)
 	{
-		CreateLink(m_chkAutoUpload, "UploadChanged", DBVT_BYTE, 0);
+		CreateLink(m_chkAutoUpload, g_plugin.bUploadChanged);
+		CreateLink(m_chkClassicDates, g_plugin.bClassicDates);
+		CreateLink(m_chkRepSubfolder, g_plugin.bUseSubFolder);
+		CreateLink(m_chkSuccessPopups, g_plugin.bSuccessPopups);
+
 		m_chkCatchCrashes.OnChange = Callback(this, &COptDialog::OnCatchCrashesChange);
 	}
 
 	bool COptDialog::OnInitDialog()
 	{
 		CDlgBase::OnInitDialog();
+
 		DBVARIANT dbv;
 		if (g_plugin.getString("Username", &dbv) == 0) {
 			m_edtUserName.SetTextA(dbv.pszVal);
@@ -208,12 +214,10 @@ public:
 			m_edtPass.SetTextA(dbv.pszVal);
 			db_free(&dbv);
 		}
-		m_chkClassicDates.SetState(clsdates);
-		m_chkRepSubfolder.SetState(dtsubfldr);
-		m_chkCatchCrashes.SetState(catchcrashes);
-		if (!catchcrashes)
+
+		if (!g_plugin.bCatchCrashes)
 			m_chkRepSubfolder.Disable();
-		if (needrestart)
+		if (g_plugin.bNeedRestart)
 			m_lblRestart.Show();
 		return true;
 	}
@@ -226,23 +230,6 @@ public:
 
 		m_edtPass.GetTextA(szSetting, _countof(szSetting));
 		g_plugin.setString("Password", szSetting);
-
-		clsdates = m_chkClassicDates.GetState();
-		if (clsdates)
-			g_plugin.setByte("ClassicDates", 1);
-		else
-			g_plugin.setByte("ClassicDates", 0);
-		dtsubfldr = m_chkRepSubfolder.GetState();
-		if (dtsubfldr)
-			g_plugin.setByte("SubFolders", 1);
-		else
-			g_plugin.setByte("SubFolders", 0);
-		catchcrashes = m_chkCatchCrashes.GetState();
-		if (catchcrashes)
-			g_plugin.setByte("CatchCrashes", 1);
-		else
-			g_plugin.setByte("CatchCrashes", 0);
-
 		return true;
 	}
 };
@@ -298,6 +285,13 @@ LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 void ShowMessage(int type, const wchar_t *format, ...)
 {
+	switch(type) {
+	case 1:
+	case 3:
+		if (!g_plugin.bSuccessPopups)
+			return;
+	}
+
 	POPUPDATAW ppd;
 
 	va_list va;

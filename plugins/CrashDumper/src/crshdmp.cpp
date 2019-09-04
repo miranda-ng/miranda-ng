@@ -30,8 +30,6 @@ wchar_t* profpath;
 
 wchar_t CrashLogFolder[MAX_PATH], VersionInfoFolder[MAX_PATH];
 
-bool servicemode, clsdates, dtsubfldr, catchcrashes, needrestart = 0;
-
 CDlgBase *pViewDialog = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -50,8 +48,14 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
-{}
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
+	bCatchCrashes(MODULENAME, "CatchCrashes", 1),
+	bClassicDates(MODULENAME, "ClassicDates", 1),
+	bUseSubFolder(MODULENAME, "SubFolders", 1),
+	bSuccessPopups(MODULENAME, "SuccessPopups", 1),
+	bUploadChanged(MODULENAME, "UploadChanged", 0)
+{
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // MirandaInterfaces - returns the protocol interface to the core
@@ -160,7 +164,7 @@ INT_PTR CopyLinkToClipboard(WPARAM, LPARAM)
 
 INT_PTR ServiceModeLaunch(WPARAM, LPARAM)
 {
-	servicemode = true;
+	g_plugin.bServiceMode = true;
 	ViewVersionInfo(1, 0);
 	return SERVICE_ONLYDB;
 }
@@ -261,7 +265,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mi.pszService = MS_CRASHDUMPER_URLTOCLIP;
 	Menu_AddMainMenuItem(&mi);
 
-	if (catchcrashes && !needrestart) {
+	if (g_plugin.bCatchCrashes && !g_plugin.bNeedRestart) {
 		SET_UID(mi, 0xecae52f2, 0xd601, 0x4f85, 0x87, 0x9, 0xec, 0x8e, 0x84, 0xfe, 0x1b, 0x3c);
 		mi.position = 2000099990;
 		mi.name.a = LPGEN("Open crash report directory");
@@ -292,14 +296,14 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	UploadInit();
 
-	if (catchcrashes && !needrestart)
+	if (g_plugin.bCatchCrashes && !g_plugin.bNeedRestart)
 		SetExceptionHandler();
 
 	HookEvent(ME_TTB_MODULELOADED, ToolbarModulesLoaded);
 
-	if (servicemode)
+	if (g_plugin.bServiceMode)
 		ViewVersionInfo(0, 0);
-	else if (g_plugin.getByte("UploadChanged", 0) && !ProcessVIHash(false))
+	else if (g_plugin.bUploadChanged && !ProcessVIHash(false))
 		UploadVersionInfo(0, 0xa1);
 
 	return 0;
@@ -317,13 +321,9 @@ int CMPlugin::Load()
 	if (hMsftedit == nullptr)
 		return 1;
 
-	clsdates = g_plugin.getByte("ClassicDates", 1) != 0;
-	dtsubfldr = g_plugin.getByte("SubFolders", 1) != 0;
-	catchcrashes = g_plugin.getByte("CatchCrashes", 1) != 0;
-
 	profname = Utils_ReplaceVarsW(L"%miranda_profilename%.dat");
 	profpath = Utils_ReplaceVarsW(L"%miranda_userdata%");
-	if (catchcrashes && !needrestart)
+	if (g_plugin.bCatchCrashes && !g_plugin.bNeedRestart)
 		mir_snwprintf(CrashLogFolder, L"%s\\CrashLog", profpath);
 	wcsncpy_s(VersionInfoFolder, profpath, _TRUNCATE);
 
@@ -335,7 +335,7 @@ int CMPlugin::Load()
 
 	InitIcons();
 
-	if (catchcrashes && !needrestart)
+	if (g_plugin.bCatchCrashes && !g_plugin.bNeedRestart)
 		InitExceptionHandler();
 
 	CreateServiceFunction(MS_CRASHDUMPER_STORETOFILE, StoreVersionInfoToFile);
@@ -353,7 +353,7 @@ int CMPlugin::Load()
 
 int CMPlugin::Unload()
 {
-	if ((catchcrashes && !needrestart) || (!catchcrashes && needrestart))
+	if ((g_plugin.bCatchCrashes && !g_plugin.bNeedRestart) || (!g_plugin.bCatchCrashes && g_plugin.bNeedRestart))
 		DestroyExceptionHandler();
 
 	mir_free(profpath);

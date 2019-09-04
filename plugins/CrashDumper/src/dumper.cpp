@@ -140,7 +140,7 @@ static int CompareDlls(const wchar_t *p1, const wchar_t *p2)
 
 static void GetPluginsString(CMStringW &buffer, unsigned &flags)
 {
-	buffer.AppendFormat(L"Service Mode: %s\r\n", servicemode ? L"Yes" : L"No");
+	buffer.AppendFormat(L"Service Mode: %s\r\n", g_plugin.bServiceMode ? L"Yes" : L"No");
 
 	wchar_t path[MAX_PATH];
 	GetModuleFileName(nullptr, path, MAX_PATH);
@@ -163,7 +163,7 @@ static void GetPluginsString(CMStringW &buffer, unsigned &flags)
 		bool loaded = false;
 		mir_snwprintf(fname, MAX_PATH - (fname - path), L"\\plugins\\%s", FindFileData.cFileName);
 		HMODULE hModule = GetModuleHandle(path);
-		if (hModule == nullptr && servicemode) {
+		if (hModule == nullptr && g_plugin.bServiceMode) {
 			hModule = LoadLibrary(path);
 			loaded = true;
 		}
@@ -449,7 +449,7 @@ void PrintVersionInfo(CMStringW& buffer, unsigned flags)
 		GetWeatherStrings(buffer, flags);
 	}
 
-	if (flags & VI_FLAG_PRNVAR && !servicemode) {
+	if (flags & VI_FLAG_PRNVAR && !g_plugin.bServiceMode) {
 		buffer.AppendFormat(L"\r\n%sProtocols and Accounts:%s\r\n-------------------------------------------------------------------------------\r\n",
 			(flags & VI_FLAG_FORMAT) ? L"[b]" : L"",
 			(flags & VI_FLAG_FORMAT) ? L"[/b]" : L"");

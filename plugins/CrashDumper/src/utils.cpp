@@ -50,7 +50,7 @@ void GetISO8061Time(SYSTEMTIME *stLocal, LPTSTR lpszString, DWORD dwSize)
 		GetLocalTime(stLocal);
 	}
 
-	if (clsdates) {
+	if (g_plugin.bClassicDates) {
 		GetDateFormat(LOCALE_INVARIANT, 0, stLocal, L"d MMM yyyy", lpszString, dwSize);
 		int dlen = (int)mir_wstrlen(lpszString);
 		GetTimeFormat(LOCALE_INVARIANT, 0, stLocal, L" H:mm:ss", lpszString + dlen, dwSize - dlen);

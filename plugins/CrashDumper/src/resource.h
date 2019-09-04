@@ -21,6 +21,7 @@
 #define IDC_DATESUBFOLDER               1010
 #define IDC_CATCHCRASHES                1011
 #define IDC_RESTARTNOTE                 1012
+#define IDC_SUCCESSPOPUPS               1013
 #define IDM_COPY                        40002
 #define IDM_COPYALL                     40003
 #define IDM_SELECTALL                   40004
@@ -29,9 +30,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        110
+#define _APS_NEXT_RESOURCE_VALUE        111
 #define _APS_NEXT_COMMAND_VALUE         40005
-#define _APS_NEXT_CONTROL_VALUE         1013
+#define _APS_NEXT_CONTROL_VALUE         1014
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

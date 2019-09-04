@@ -127,7 +127,7 @@ bool InternetDownloadFile(const char *szUrl, VerTrnsfr* szReq)
 			// if the recieved code is 200 OK
 			switch (nlhrReply->resultCode) {
 			case 200:
-				if (g_plugin.getByte("UploadChanged", 0))
+				if (g_plugin.bUploadChanged)
 					ProcessVIHash(true);
 
 				ShowMessage(1, TranslateT("Version Info upload successful."));
