@@ -913,44 +913,45 @@ bool CSrmmBaseDialog::ProcessHotkeys(int key, bool isShift, bool isCtrl, bool is
 	if (isCtrl && !isAlt) {
 		switch (key) {
 		case VK_SPACE: // ctrl-space (paste clean text)
-			m_btnBold.Push(false); onClick_BIU(&m_btnBold);
-			m_btnItalic.Push(false); onClick_BIU(&m_btnItalic);
-			m_btnUnderline.Push(false); onClick_BIU(&m_btnUnderline);
+			m_btnBold.Push(false); m_btnBold.Click();
+			m_btnItalic.Push(false); m_btnItalic.Click();
+			m_btnUnderline.Push(false); m_btnUnderline.Click();
 
-			m_btnColor.Push(false); onClick_Color(&m_btnColor);
-			m_btnBkColor.Push(false); onClick_BkColor(&m_btnBkColor);
+			m_btnColor.Push(false); m_btnColor.Click();
+			m_btnBkColor.Push(false); m_btnBkColor.Click();
 			return true;
 
 		case 0x42: // ctrl-b (bold)
 			m_btnBold.Push(!m_btnBold.IsPushed());
-			onClick_BIU(&m_btnBold);
+			m_btnBold.Click();
 			return true;
 
 		case 0x48: // ctrl-h (history)
-			onClick_History(&m_btnHistory);
+			m_btnHistory.Click();
 			return true;
 
 		case 0x49: // ctrl-i (italics)
 			m_btnItalic.Push(!m_btnItalic.IsPushed());
-			onClick_BIU(&m_btnItalic);
+			m_btnItalic.Click();
 			return true;
 
 		case 0x4b: // ctrl-k (paste clean text)
 			m_btnColor.Push(!m_btnColor.IsPushed());
-			onClick_Color(&m_btnColor);
+			m_btnColor.Click();
 			return true;
 
 		case 0x4c: // ctrl-l (back color)
 			m_btnBkColor.Push(!m_btnBkColor.IsPushed());
-			onClick_BkColor(&m_btnBkColor);
+			m_btnBkColor.Click();
 			return true;
 
 		case 0x55: // ctrl-u (underlining)
 			m_btnUnderline.Push(!m_btnUnderline.IsPushed());
-			onClick_BIU(&m_btnUnderline);
+			m_btnUnderline.Click();
 			return true;
 
-		case VK_F4: // ctrl-F4 (close tab)
+		case 0x57: // ctrl-w (close tab)
+		case VK_F4: // ctrl-F4 
 			CloseTab();
 			return true;
 		}
