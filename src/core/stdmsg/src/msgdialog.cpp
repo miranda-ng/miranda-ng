@@ -945,20 +945,19 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case DM_UPDATETITLE:
-		if (isChat()) {
-			if (lParam == 0 || lParam == (LPARAM)m_hContact)
-				UpdateTitle();
-		}
-		else {
-			if (lParam != 0) {
+		if (lParam != 0) {
+			if (isChat()) {
+				if (lParam != m_hContact)
+					break;
+			}
+			else {
 				bool bIsMe = (lParam == m_hContact) || (m_bIsMeta && db_mc_getMeta(lParam) == m_hContact);
 				if (!bIsMe)
 					break;
 			}
-
-			UpdateIcon(wParam);
-			UpdateTitle();
 		}
+		UpdateIcon(wParam);
+		UpdateTitle();
 		break;
 
 	case DM_STATUSICONCHANGE:
