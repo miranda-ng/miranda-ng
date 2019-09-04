@@ -997,6 +997,8 @@ LRESULT CMsgDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 			POINT pt;
 			GetCursorPos(&pt);
 
+			SetFocus(m_log.GetHwnd());
+
 			HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
 			HMENU hSubMenu = GetSubMenu(hMenu, 0);
 			TranslateMenu(hSubMenu);
@@ -1030,19 +1032,27 @@ LRESULT CMsgDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_LBUTTONUP:
-		m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
-		if (sel.cpMin != sel.cpMax) {
-			m_log.SendMsg(WM_COPY, 0, 0);
-			sel.cpMin = sel.cpMax;
-			m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+		if (isChat()) {
+			m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)& sel);
+			if (sel.cpMin != sel.cpMax) {
+				m_log.SendMsg(WM_COPY, 0, 0);
+				sel.cpMin = sel.cpMax;
+				m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)& sel);
+			}
+			SetFocus(m_message.GetHwnd());
 		}
-		SetFocus(m_message.GetHwnd());
 		break;
 
 	case WM_KEYDOWN:
 		bool isShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
 		bool isCtrl = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
 		bool isAlt = (GetKeyState(VK_MENU) & 0x8000) != 0;
+
+		if (wParam == 0x57 && isCtrl && !isAlt) { // ctrl-w (close window)
+			CloseTab();
+			return TRUE;
+		}
+
 		if (ProcessHotkeys(wParam, isShift, isCtrl, isAlt))
 			return FALSE;
 	}
