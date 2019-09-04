@@ -37,6 +37,7 @@ class CMsgDialog : public CSrmmBaseDialog
 	typedef CSrmmBaseDialog CSuper;
 	friend class CTabbedWindow;
 
+	void Init(void);
 	void NotifyTyping(int mode);
 	void ProcessFileDrop(HDROP hDrop);
 	void ShowAvatar(void);
@@ -103,6 +104,8 @@ public:
 
 	void onSplitterX(CSplitter *);
 	void onSplitterY(CSplitter *);
+
+	void onChange_Text(CCtrlEdit *);
 
 	void onClick_Ok(CCtrlButton *);
 	void onClick_Filter(CCtrlButton *);

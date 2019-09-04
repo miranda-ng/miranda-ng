@@ -74,18 +74,10 @@ CMsgDialog::CMsgDialog(CTabbedWindow *pOwner, MCONTACT hContact) :
 	m_splitterX(this, IDC_SPLITTERX),
 	m_splitterY(this, IDC_SPLITTERY),
 	m_cmdList(20),
-	m_bNoActivate(g_dat.bDoNotStealFocus),
 	m_pOwner(pOwner)
 {
-	m_szTabSave[0] = 0;
-	m_autoClose = 0;
-	m_forceResizable = true;
 	m_hContact = hContact;
-
-	g_arDialogs.insert(this);
-
-	m_btnOk.OnClick = Callback(this, &CMsgDialog::onClick_Ok);
-	m_splitterY.OnChange = Callback(this, &CMsgDialog::onSplitterY);
+	Init();
 }
 
 CMsgDialog::CMsgDialog(CTabbedWindow *pOwner, SESSION_INFO *si) :
@@ -95,15 +87,9 @@ CMsgDialog::CMsgDialog(CTabbedWindow *pOwner, SESSION_INFO *si) :
 	m_splitterX(this, IDC_SPLITTERX),
 	m_splitterY(this, IDC_SPLITTERY),
 	m_cmdList(20),
-	m_bNoActivate(g_dat.bDoNotStealFocus),
 	m_pOwner(pOwner)
 {
-	m_szTabSave[0] = 0;
-	m_autoClose = 0;
-	m_forceResizable = true;
 	m_si->pDlg = this;
-
-	g_arDialogs.insert(this);
 
 	m_iSplitterX = g_Settings.iSplitterX;
 	m_iSplitterY = g_Settings.iSplitterY;
@@ -114,6 +100,23 @@ CMsgDialog::CMsgDialog(CTabbedWindow *pOwner, SESSION_INFO *si) :
 	m_btnNickList.OnClick = Callback(this, &CMsgDialog::onClick_NickList);
 
 	m_splitterX.OnChange = Callback(this, &CMsgDialog::onSplitterX);
+
+	Init();
+}
+
+void CMsgDialog::Init()
+{
+	m_szTabSave[0] = 0;
+	m_autoClose = 0;
+	m_forceResizable = true;
+	m_bNoActivate = g_dat.bDoNotStealFocus;
+
+	g_arDialogs.insert(this);
+
+	m_btnOk.OnClick = Callback(this, &CMsgDialog::onClick_Ok);
+
+	m_message.OnChange = Callback(this, &CMsgDialog::onChange_Text);
+
 	m_splitterY.OnChange = Callback(this, &CMsgDialog::onSplitterY);
 }
 
@@ -162,6 +165,8 @@ bool CMsgDialog::OnInitDialog()
 
 	m_log.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_LINK | ENM_SCROLL);
 	m_log.SendMsg(EM_AUTOURLDETECT, TRUE, 0);
+
+	m_message.SendMsg(EM_SETEVENTMASK, 0, ENM_CHANGE);
 
 	if (isChat()) {
 		m_avatar.Hide();
@@ -257,7 +262,6 @@ bool CMsgDialog::OnInitDialog()
 				db_free(&dbv);
 			}
 		}
-		m_message.SendMsg(EM_SETEVENTMASK, 0, ENM_CHANGE);
 
 		int flag = m_bNoActivate ? RWPF_HIDDEN : 0;
 		if (Utils_RestoreWindowPosition(m_hwnd, g_dat.bSavePerContact ? m_hContact : 0, SRMMMOD, "", flag)) {
@@ -409,16 +413,12 @@ void CMsgDialog::onClick_Ok(CCtrlButton *pButton)
 		ptszText.Replace(L"%", L"%%");
 
 		if (m_si->pMI->bAckMsg) {
-			EnableWindow(m_message.GetHwnd(), FALSE);
+			m_message.Disable();
 			m_message.SendMsg(EM_SETREADONLY, TRUE, 0);
 		}
 		else m_message.SetText(L"");
 
-		m_btnOk.Disable();
-
 		Chat_DoEventHook(m_si, GC_USER_MESSAGE, nullptr, ptszText, 0);
-
-		SetFocus(m_message.GetHwnd());
 	}
 	else {
 		ptrW temp(mir_utf8decodeW(msgText));
@@ -433,9 +433,6 @@ void CMsgDialog::onClick_Ok(CCtrlButton *pButton)
 			if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON)
 				NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
 
-			m_btnOk.Enable(false);
-			SetFocus(m_message.GetHwnd());
-
 			m_message.SetText(L"");
 
 			if (!g_Settings.bTabsEnable) {
@@ -445,6 +442,25 @@ void CMsgDialog::onClick_Ok(CCtrlButton *pButton)
 					::ShowWindow(m_hwndParent, SW_MINIMIZE);
 			}
 		}
+	}
+
+	m_btnOk.Disable();
+	SetFocus(m_message.GetHwnd());
+}
+
+void CMsgDialog::onChange_Text(CCtrlEdit*)
+{
+	int len = GetWindowTextLength(m_message.GetHwnd());
+	UpdateReadChars();
+	m_btnOk.Enable(len != 0);
+	if (!(GetKeyState(VK_CONTROL) & 0x8000) && !(GetKeyState(VK_SHIFT) & 0x8000)) {
+		m_nLastTyping = GetTickCount();
+		if (len) {
+			if (m_nTypeMode == PROTOTYPE_SELFTYPING_OFF)
+				NotifyTyping(PROTOTYPE_SELFTYPING_ON);
+		}
+		else if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON)
+			NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
 	}
 }
 
@@ -456,7 +472,7 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 		bool bControl = db_get_b(0, CHAT_MODULE, "ShowTopButtons", 1) != 0;
 		bool bFormat = db_get_b(0, CHAT_MODULE, "ShowFormatButtons", 1) != 0;
 		bool bToolbar = bFormat || bControl;
-		bool bSend = db_get_b(0, CHAT_MODULE, "ShowSend", 0) != 0;
+		bool bSend = g_dat.bSendButton;
 		bool bNick = m_si->iType != GCW_SERVER && m_bNicklistEnabled;
 
 		switch (urc->wId) {
@@ -600,7 +616,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			if (isChat()) {
 				bottomScroll = false;
-				bool bSend = db_get_b(0, CHAT_MODULE, "ShowSend", 0) != 0;
+				bool bSend = g_dat.bSendButton;
 				bool bFormat = db_get_b(0, CHAT_MODULE, "ShowFormatButtons", 1) != 0;
 				bool bControl = db_get_b(0, CHAT_MODULE, "ShowTopButtons", 1) != 0;
 				bool bNick = m_si->iType != GCW_SERVER && m_bNicklistEnabled;
@@ -883,23 +899,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			if (!db_get_b(m_hContact, "CList", "NotOnList", 0))
 				ShowWindow(GetDlgItem(m_hwnd, IDC_ADD), FALSE);
-			break;
-
-		case IDC_SRMM_MESSAGE:
-			if (HIWORD(wParam) == EN_CHANGE) {
-				int len = GetWindowTextLength(m_message.GetHwnd());
-				UpdateReadChars();
-				m_btnOk.Enable(len != 0);
-				if (!(GetKeyState(VK_CONTROL) & 0x8000) && !(GetKeyState(VK_SHIFT) & 0x8000)) {
-					m_nLastTyping = GetTickCount();
-					if (len) {
-						if (m_nTypeMode == PROTOTYPE_SELFTYPING_OFF)
-							NotifyTyping(PROTOTYPE_SELFTYPING_ON);
-					}
-					else if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON)
-						NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
-				}
-			}
 			break;
 		}
 		break;
