@@ -404,6 +404,10 @@ void CMsgDialog::onClick_Ok(CCtrlButton *pButton)
 		CMStringW ptszText(ptrW(mir_utf8decodeW(msgText)));
 		g_chatApi.DoRtfToTags(ptszText, 0, nullptr);
 		ptszText.Trim();
+
+		m_cmdList.insert(mir_wstrdup(ptszText));
+		m_cmdListInd = -1;
+
 		ptszText.Replace(L"%", L"%%");
 
 		if (m_si->pMI->bAckMsg) {
@@ -426,8 +430,8 @@ void CMsgDialog::onClick_Ok(CCtrlButton *pButton)
 		int sendId = SendMessageDirect(rtrimw(temp), m_hContact);
 		if (sendId) {
 			m_cmdList.insert(temp.detach());
-
 			m_cmdListInd = -1;
+
 			if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON)
 				NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
 
