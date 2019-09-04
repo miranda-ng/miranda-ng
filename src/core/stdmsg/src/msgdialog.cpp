@@ -399,8 +399,6 @@ void CMsgDialog::onClick_Ok(CCtrlButton *pButton)
 		return;
 
 	if (isChat()) {
-		g_chatApi.SM_AddCommand(m_si->ptszID, m_si->pszModule, msgText);
-
 		CMStringW ptszText(ptrW(mir_utf8decodeW(msgText)));
 		g_chatApi.DoRtfToTags(ptszText, 0, nullptr);
 		ptszText.Trim();

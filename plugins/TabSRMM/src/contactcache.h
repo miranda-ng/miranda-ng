@@ -32,12 +32,6 @@
 #define C_INVALID_ACCOUNT L"<account error>"
 #define HISTORY_INITIAL_ALLOCSIZE 300
 
-struct TInputHistory
-{
-	wchar_t*	szText;
-	size_t	lLen;
-};
-
 struct TSessionStats : public MZeroedObject
 {
 	enum {
@@ -70,15 +64,15 @@ class CContactCache : public MZeroedObject
 	bool     m_isMeta;
 	bool     m_isValid;
 	int      m_nMax;
-	int      m_iHistoryCurrent, m_iHistoryTop, m_iHistorySize;
 
-	CSrmmWindow *m_dat;
+	CTabBaseDlg *m_dat;
 	TSessionStats *m_stats;
-	TInputHistory *m_history;
 	DBCachedContact *cc;
 
+	LIST<char> m_history;
+	int m_iHistoryCurrent;
+
 	void initPhaseTwo();
-	void allocHistory();
 	void releaseAlloced();
 
 public:
@@ -112,7 +106,7 @@ public:
 	__forceinline DWORD    getSessionStart() const { return m_stats->started; }
 	__forceinline int      getSessionMsgCount() const { return (int)m_stats->messageCount; }
 
-	__forceinline CSrmmWindow* getDat() const { return m_dat; }
+	__forceinline CTabBaseDlg* getDat() const { return m_dat; }
 
 	size_t getMaxMessageLength();
 	void   updateStats(int iType, size_t value = 0);
@@ -124,7 +118,7 @@ public:
 	void     updateMeta();
 	bool     updateUIN();
 	void     updateStatusMsg(const char *szKey = nullptr);
-	void     setWindowData(CSrmmWindow *dat = nullptr);
+	void     setWindowData(CTabBaseDlg *dat = nullptr);
 	void     resetMeta();
 	void     closeWindow();
 	void     deletedHandler();
@@ -133,7 +127,7 @@ public:
 	HICON    getIcon(int& iSize) const;
 
 	// input history
-	void     saveHistory(int iHistorySize = 0);
+	void     saveHistory();
 	void     inputHistoryEvent(WPARAM wParam);
 
 	static CContactCache* getContactCache(MCONTACT hContact);

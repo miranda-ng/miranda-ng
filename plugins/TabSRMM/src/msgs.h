@@ -35,13 +35,14 @@
 #define MSGERROR_RETRY	    1
 #define MSGERROR_SENDLATER  2
 
+#define EVENT_QUEUE_SIZE 10
+
 #define CONTAINER_NAMELEN 25
 #define TITLE_FORMATLEN 30
 
 #define MWF_SAVEBTN_SAV 2
 
 #define MWF_DEFERREDSCROLL 4
-#define MWF_NEEDHISTORYSAVE 8
 #define MWF_WASBACKGROUNDCREATE 16
 //#define MWF_MOUSEDOWN 32
 #define MWF_ERRORSTATE 128
@@ -244,122 +245,121 @@ class CTabBaseDlg : public CSrmmBaseDialog
 	friend class CInfoPanel;
 
 protected:
-	void    CloseTab() override;
-	void    LoadSettings() override;
-	void    SetStatusText(const wchar_t*, HICON) override;
+	void      CloseTab() override;
+	void      LoadSettings() override;
+	void      SetStatusText(const wchar_t*, HICON) override;
+			   
+	void      DM_AddDivider();
+	void      DM_DismissTip(const POINT& pt);
+	void      DM_ErrorDetected(int type, int flag);
+	bool      DM_GenericHotkeysCheck(MSG *message);
+	int       DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam);
+	void      DM_UpdateLastMessage() const;
+			    
+	void      DetermineMinHeight();
+	void      FindFirstEvent();
+	int       FindRTLLocale();
+	void      GetSendFormat();
+	bool      IsAutoSplitEnabled() const;
+	void      ReplaceIcons(LONG startAt, int fAppend, BOOL isSent);
+	void      ResizeIeView();
+	void      ShowPopupMenu(const CCtrlBase&, POINT pt);
+	void      VerifyProxy();
+	LRESULT   WMCopyHandler(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-	void    DM_AddDivider();
-	void    DM_DismissTip(const POINT& pt);
-	void    DM_ErrorDetected(int type, int flag);
-	bool    DM_GenericHotkeysCheck(MSG *message);
-	int     DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam);
-	void    DM_UpdateLastMessage() const;
-			  
-	void    DetermineMinHeight();
-	void    FindFirstEvent();
-	int     FindRTLLocale();
-	void    GetSendFormat();
-	bool    IsAutoSplitEnabled() const;
-	void    ReplaceIcons(LONG startAt, int fAppend, BOOL isSent);
-	void    ResizeIeView();
-	void    ShowPopupMenu(const CCtrlBase&, POINT pt);
-	void    VerifyProxy();
-	LRESULT WMCopyHandler(UINT uMsg, WPARAM wParam, LPARAM lParam);
-
-	WORD     m_wStatus, m_wOldStatus;
-	size_t   m_iSendBufferSize;
-	int      m_iSendLength;				// message length in utf-8 octets
-	HICON    m_hSmileyIcon;
-	HWND     m_hwndContactPic, m_hwndPanelPic, m_hwndPanelPicParent;
-	UINT     m_bbLSideWidth, m_bbRSideWidth;
-	BYTE     kstate[256];
-
-	RECT     m_rcNick, m_rcUIN, m_rcStatus, m_rcPic;
-	int      m_originalSplitterY;
-	SIZE     m_minEditBoxSize;
-	int      m_nTypeMode;
-	DWORD    m_nLastTyping;
-	DWORD    m_lastMessage;
-	DWORD    m_dwTickLastEvent;
-	HBITMAP  m_hOwnPic;
-	SIZE     m_pic;
+	WORD      m_wStatus, m_wOldStatus;
+	size_t    m_iSendBufferSize;
+	int       m_iSendLength;				// message length in utf-8 octets
+	HICON     m_hSmileyIcon;
+	HWND      m_hwndContactPic, m_hwndPanelPic, m_hwndPanelPicParent;
+	UINT      m_bbLSideWidth, m_bbRSideWidth;
+	BYTE      kstate[256];
+			   
+	RECT      m_rcNick, m_rcUIN, m_rcStatus, m_rcPic;
+	int       m_originalSplitterY;
+	SIZE      m_minEditBoxSize;
+	int       m_nTypeMode;
+	DWORD     m_nLastTyping;
+	DWORD     m_lastMessage;
+	DWORD     m_dwTickLastEvent;
+	HBITMAP   m_hOwnPic;
+	SIZE      m_pic;
 
 	CMStringW m_szStatusText;
 	HICON     m_szStatusIcon;
 	bool      m_bStatusSet;
 
-	bool     m_bShowInfoAvatar, m_bShowUIElements;
-	bool     m_bUseOffset;
-	bool     m_bkeyProcessed;
-	bool     m_fLimitedUpdate;
-	bool     m_bClrAdded;
-	bool     m_bInsertMode;
+	bool      m_bShowInfoAvatar, m_bShowUIElements;
+	bool      m_bUseOffset;
+	bool      m_bkeyProcessed;
+	bool      m_fLimitedUpdate;
+	bool      m_bClrAdded;
+	bool      m_bInsertMode;
 
-	int      m_iRealAvatarHeight;
-	int      m_iButtonBarReallyNeeds;
-	DWORD    m_dwLastActivity;
-	MEVENT   m_hFlashingEvent;
-	int      m_SendFormat;
-	MEVENT  *m_hQueuedEvents;
-	int      m_iNextQueuedEvent;
-#define EVENT_QUEUE_SIZE 10
-	int      m_iEventQueueSize;
-	LCID     m_lcid;
-	wchar_t  m_lcID[10];
-	int      m_iPanelAvatarX, m_iPanelAvatarY;
-	HWND     m_hwndTip;
-	TOOLINFO ti;
-	DWORD    m_panelStatusCX;
-	int      m_textLen;         // current text len
-	LONG     m_ipFieldHeight;
-	WPARAM   m_wParam;          // used for "delayed" actions like moved splitters in minimized windows
-	LPARAM   m_lParam;
-	int      m_iHaveRTLLang;
+	MEVENT   *m_hQueuedEvents;
+	int       m_iNextQueuedEvent;
+	int       m_iEventQueueSize;
 
-	DWORD    m_iSplitterSaved;
-	POINT    m_ptTipActivation;
-	char    *m_enteredText; // Used for history in chats.
+	int       m_iRealAvatarHeight;
+	int       m_iButtonBarReallyNeeds;
+	DWORD     m_dwLastActivity;
+	MEVENT    m_hFlashingEvent;
+	int       m_SendFormat;
+	LCID      m_lcid;
+	wchar_t   m_lcID[10];
+	int       m_iPanelAvatarX, m_iPanelAvatarY;
+	HWND      m_hwndTip;
+	TOOLINFO  ti;
+	DWORD     m_panelStatusCX;
+	int       m_textLen;         // current text len
+	LONG      m_ipFieldHeight;
+	WPARAM    m_wParam;          // used for "delayed" actions like moved splitters in minimized windows
+	LPARAM    m_lParam;
+	int       m_iHaveRTLLang;
+			   
+	DWORD     m_iSplitterSaved;
+	POINT     m_ptTipActivation;
 
 public:
-	char    *m_szProto;
-	int      m_iTabID;
-	BYTE     m_bShowTyping;
-	bool     m_bIsHistory, m_bNotOnList;
-	bool     m_bActualHistory;
-	bool     m_bIsAutosizingInput;
-	bool     m_bCanFlashTab, m_bTabFlash;
-	bool     m_bEditNotesActive;
-	bool     m_bShowAvatar;
-	int      m_sendMode;
-	HKL      m_hkl;                                    // keyboard layout identifier
-	DWORD    m_isAutoRTL;
-	DWORD    m_idle;
-	DWORD    m_dwFlags, m_dwFlagsEx;
-	DWORD    m_dwUnread;
-	HANDLE   m_hTheme, m_hThemeIP, m_hThemeToolbar;
-	HWND     m_hwndIEView, m_hwndIWebBrowserControl, m_hwndHPP;
-	HICON    m_hXStatusIcon, m_hTabStatusIcon, m_hTabIcon, m_iFlashIcon, m_hTaskbarIcon, m_hClientIcon;
-	MEVENT   m_hDbEventFirst, m_hDbEventLast;
-	HANDLE   m_hTimeZone;
-	MEVENT  *m_hHistoryEvents;
-	time_t   m_lastEventTime;
-	int      m_iLastEventType;
-	int      m_nTypeSecs;
-	int      m_iOpenJobs;
-	int      m_iInputAreaHeight;
-	int      m_maxHistory, m_curHistory;
-	int      m_iCurrentQueueError;
-	int      m_iSplitterY, m_dynaSplitter;
-	int      m_savedSplitterY, m_savedDynaSplit;
-	char    *m_sendBuffer;
-	int      m_nMax;            // max message size
+	char     *m_szProto;
+	int       m_iTabID;
+	BYTE      m_bShowTyping;
+	bool      m_bIsHistory, m_bNotOnList;
+	bool      m_bActualHistory;
+	bool      m_bIsAutosizingInput;
+	bool      m_bCanFlashTab, m_bTabFlash;
+	bool      m_bEditNotesActive;
+	bool      m_bShowAvatar;
+	int       m_sendMode;
+	HKL       m_hkl;                                    // keyboard layout identifier
+	DWORD     m_isAutoRTL;
+	DWORD     m_idle;
+	DWORD     m_dwFlags, m_dwFlagsEx;
+	DWORD     m_dwUnread;
+	HANDLE    m_hTheme, m_hThemeIP, m_hThemeToolbar;
+	HWND      m_hwndIEView, m_hwndIWebBrowserControl, m_hwndHPP;
+	HICON     m_hXStatusIcon, m_hTabStatusIcon, m_hTabIcon, m_iFlashIcon, m_hTaskbarIcon, m_hClientIcon;
+	MEVENT    m_hDbEventFirst, m_hDbEventLast;
+	HANDLE    m_hTimeZone;
+	MEVENT   *m_hHistoryEvents;
+	time_t    m_lastEventTime;
+	int       m_iLastEventType;
+	int       m_nTypeSecs;
+	int       m_iOpenJobs;
+	int       m_iInputAreaHeight;
+	int       m_maxHistory, m_curHistory;
+	int       m_iCurrentQueueError;
+	int       m_iSplitterY, m_dynaSplitter;
+	int       m_savedSplitterY, m_savedDynaSplit;
+	char     *m_sendBuffer;
+	int       m_nMax;            // max message size
 
-	wchar_t  m_wszMyNickname[130];
-	wchar_t  m_wszStatus[50];
-	wchar_t  m_wszTitle[130];        // tab title...
-	wchar_t  m_myUin[80];
-	wchar_t  m_wszStatusBar[100];
-	char     m_szMicroLf[128];
+	wchar_t   m_wszMyNickname[130];
+	wchar_t   m_wszStatus[50];
+	wchar_t   m_wszTitle[130];        // tab title...
+	wchar_t   m_myUin[80];
+	wchar_t   m_wszStatusBar[100];
+	char      m_szMicroLf[128];
 
 	CInfoPanel m_pPanel;
 	CContactCache *m_cache;
@@ -373,6 +373,7 @@ public:
 	virtual ~CTabBaseDlg();
 
 	bool OnInitDialog() override;
+	void OnDestroy() override;
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	virtual CThumbBase* tabCreateThumb(CProxyWindow*) const = 0;

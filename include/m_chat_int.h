@@ -108,12 +108,6 @@ struct MIR_APP_EXPORT GCModuleInfoBase : public MZeroedObject, public MNonCopyab
 	int      iMaxText;
 };
 
-struct COMMANDINFO
-{
-	char *lpCommand;
-	COMMANDINFO *last, *next;
-};
-
 struct FONTINFO
 {
 	LOGFONT  lf;
@@ -173,7 +167,6 @@ struct MIR_APP_EXPORT GCSessionInfoBase : public MZeroedObject, public MNonCopya
 	int         currentHovered;
 
 	CMsgDialog *pDlg;
-	COMMANDINFO *lpCommands, *lpCurrentCommand;
 	LOGINFO *pLog, *pLogEnd;
 	USERINFO *pMe;
 	STATUSINFO *pStatuses;
@@ -293,9 +286,6 @@ struct CHAT_MANAGER
 	SESSION_INFO* (*SM_FindSession)(const wchar_t *pszID, const char *pszModule);
 	HICON         (*SM_GetStatusIcon)(SESSION_INFO *si, USERINFO * ui);
 	BOOL          (*SM_BroadcastMessage)(const char *pszModule, UINT msg, WPARAM wParam, LPARAM lParam, BOOL bAsync);
-	void          (*SM_AddCommand)(const wchar_t *pszID, const char *pszModule, const char* lpNewCommand);
-	char*         (*SM_GetPrevCommand)(const wchar_t *pszID, const char *pszModule);
-	char*         (*SM_GetNextCommand)(const wchar_t *pszID, const char *pszModule);
 	int           (*SM_GetCount)(const char *pszModule);
 	SESSION_INFO* (*SM_FindSessionByIndex)(const char *pszModule, int iItem);
 	USERINFO*     (*SM_GetUserFromIndex)(const wchar_t *pszID, const char *pszModule, int index);

@@ -154,9 +154,17 @@ bool CTabBaseDlg::OnInitDialog()
 	m_cache = CContactCache::getContactCache(m_hContact);
 	m_cache->updateNick();
 	m_cache->updateUIN();
+	m_cache->setWindowData(this);
 
 	m_bIsAutosizingInput = IsAutoSplitEnabled();
 	return true;
+}
+
+void CTabBaseDlg::OnDestroy()
+{
+	m_cache->setWindowData();
+
+	CSuper::OnDestroy();
 }
 
 INT_PTR CTabBaseDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)

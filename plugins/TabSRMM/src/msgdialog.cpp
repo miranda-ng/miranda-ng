@@ -563,7 +563,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CSrmmWindow::CSrmmWindow()
-	: CTabBaseDlg(IDD_MSGSPLITNEW),
+	: CSuper(IDD_MSGSPLITNEW),
 	m_btnOk(this, IDOK),
 	m_btnAdd(this, IDC_ADD),
 	m_btnQuote(this, IDC_QUOTE),
@@ -605,9 +605,7 @@ CThumbBase* CSrmmWindow::tabCreateThumb(CProxyWindow *pProxy) const
 
 bool CSrmmWindow::OnInitDialog()
 {
-	CTabBaseDlg::OnInitDialog();
-
-	m_cache->setWindowData(this);
+	CSuper::OnInitDialog();
 
 	m_szProto = const_cast<char *>(m_cache->getProto());
 	m_bIsMeta = m_cache->isMeta();
@@ -858,7 +856,7 @@ void CSrmmWindow::OnDestroy()
 	PostMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 1);
 	if (m_pContainer->m_dwFlags & CNT_SIDEBAR)
 		m_pContainer->m_pSideBar->removeSession(this);
-	m_cache->setWindowData();
+
 	if (m_hContact && M.GetByte("deletetemp", 0))
 		if (db_get_b(m_hContact, "CList", "NotOnList", 0))
 			db_delete_contact(m_hContact);
@@ -1268,7 +1266,7 @@ void CSrmmWindow::onChange_Message(CCtrlEdit*)
 {
 	if (m_pContainer->m_hwndActive == m_hwnd)
 		UpdateReadChars();
-	m_dwFlags |= MWF_NEEDHISTORYSAVE;
+
 	m_dwLastActivity = GetTickCount();
 	m_pContainer->m_dwLastActivity = m_dwLastActivity;
 	UpdateSaveAndSendButton();
@@ -2270,7 +2268,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			GetClientRect(m_hwnd, &rc);
 
-			CTabBaseDlg::DlgProc(uMsg, 0, 0); // call basic window resizer
+			CSuper::DlgProc(uMsg, 0, 0); // call basic window resizer
 
 			BB_SetButtonsPos();
 
@@ -2986,5 +2984,5 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 	
-	return CTabBaseDlg::DlgProc(uMsg, wParam, lParam);
+	return CSuper::DlgProc(uMsg, wParam, lParam);
 }

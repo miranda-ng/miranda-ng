@@ -35,7 +35,8 @@ static OBJLIST<CContactCache> arContacts(50, NumericKeySortT);
 
 static DBCachedContact ccInvalid;
 
-CContactCache::CContactCache(MCONTACT hContact)
+CContactCache::CContactCache(MCONTACT hContact) :
+	m_history(10)
 {
 	m_hContact = hContact;
 
@@ -199,13 +200,11 @@ void CContactCache::updateStats(int iType, size_t value)
 //
 // @param dat: CSrmmWindow* - window data structure
 
-void CContactCache::setWindowData(CSrmmWindow *dat)
+void CContactCache::setWindowData(CTabBaseDlg *dat)
 {
 	m_dat = dat;
 	
 	if (dat) {
-		if (m_history == nullptr)
-			allocHistory();
 		updateStatusMsg();
 	}
 	else {
@@ -220,55 +219,17 @@ void CContactCache::setWindowData(CSrmmWindow *dat)
 // saves message to the input history.
 // it's using streamout in UTF8 format - no unicode "issues" and all RTF formatting is saved to the history.
 
-void CContactCache::saveHistory(int iHistorySize)
+void CContactCache::saveHistory()
 {
 	if (m_dat == nullptr)
 		return;
 
-	int oldTop = 0;
-	if (iHistorySize) {
-		oldTop = m_iHistoryTop;
-		m_iHistoryTop = iHistorySize;
-	}
-
 	CCtrlRichEdit &pEntry = m_dat->GetEntry();
 	ptrA szFromStream(pEntry.GetRichTextRtf());
 	if (szFromStream != nullptr) {
-		size_t iLength, iStreamLength;
-		iLength = iStreamLength = mir_strlen(szFromStream) + 1;
-
-		if (iLength > 0 && m_history != nullptr) { // XXX: iLength > 1 ?
-			if (m_iHistoryTop == m_iHistorySize && oldTop == 0) {         // shift the stack down...
-				TInputHistory ihTemp = m_history[0];
-				m_iHistoryTop--;
-				::memmove((void*)&m_history[0], (void*)&m_history[1], (m_iHistorySize - 1) * sizeof(TInputHistory));
-				m_history[m_iHistoryTop] = ihTemp;
-			}
-			if (iLength > m_history[m_iHistoryTop].lLen) {
-				if (m_history[m_iHistoryTop].szText == nullptr) {
-					if (iLength < HISTORY_INITIAL_ALLOCSIZE)
-						iLength = HISTORY_INITIAL_ALLOCSIZE;
-					m_history[m_iHistoryTop].szText = (wchar_t*)mir_alloc(iLength);
-					m_history[m_iHistoryTop].lLen = iLength;
-				}
-				else {
-					if (iLength > m_history[m_iHistoryTop].lLen) {
-						m_history[m_iHistoryTop].szText = (wchar_t*)mir_realloc(m_history[m_iHistoryTop].szText, iLength);
-						m_history[m_iHistoryTop].lLen = iLength;
-					}
-				}
-			}
-			::memcpy(m_history[m_iHistoryTop].szText, szFromStream, iStreamLength);
-			if (!oldTop) {
-				if (m_iHistoryTop < m_iHistorySize) {
-					m_iHistoryTop++;
-					m_iHistoryCurrent = m_iHistoryTop;
-				}
-			}
-		}
+		m_iHistoryCurrent = -1;
+		m_history.insert(szFromStream.detach());
 	}
-	if (oldTop)
-		m_iHistoryTop = oldTop;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -280,67 +241,39 @@ void CContactCache::inputHistoryEvent(WPARAM wParam)
 	if (m_dat == nullptr)
 		return;
 
-	if (m_history != nullptr && m_history[0].szText != nullptr) {     // at least one entry needs to be alloced, otherwise we get a nice infinite loop ;)
-		CCtrlRichEdit &pEntry = m_dat->GetEntry();
-
-		SETTEXTEX stx = { ST_DEFAULT, CP_UTF8 };
-
-		if (m_dat->m_dwFlags & MWF_NEEDHISTORYSAVE) {
-			m_iHistoryCurrent = m_iHistoryTop;
-			if (::GetWindowTextLength(pEntry.GetHwnd()) > 0)
-				saveHistory(m_iHistorySize);
-			else
-				m_history[m_iHistorySize].szText[0] = (wchar_t)'\0';
-		}
+	CCtrlRichEdit &pEntry = m_dat->GetEntry();
+	if (m_history.getCount() > 0) {
+		char *pszText;
 		if (wParam == VK_UP) {
 			if (m_iHistoryCurrent == 0)
 				return;
-			m_iHistoryCurrent--;
+
+			if (m_iHistoryCurrent < 0)
+				m_iHistoryCurrent = m_history.getCount()-1;
+			else
+				m_iHistoryCurrent--;
+			pszText = m_history[m_iHistoryCurrent];
 		}
 		else {
-			m_iHistoryCurrent++;
-			if (m_iHistoryCurrent > m_iHistoryTop)
-				m_iHistoryCurrent = m_iHistoryTop;
-		}
-		if (m_iHistoryCurrent == m_iHistoryTop) {
-			if (m_history[m_iHistorySize].szText != nullptr) {           // replace the temp buffer
-				pEntry.SetText(L"");
-				pEntry.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)m_history[m_iHistorySize].szText);
-				pEntry.SendMsg(EM_SETSEL, -1, -1);
+			if (m_iHistoryCurrent == -1)
+				return;
+
+			if (m_iHistoryCurrent == m_history.getCount() - 1) {
+				m_iHistoryCurrent = -1;
+				pszText = "";
+			}
+			else {
+				m_iHistoryCurrent++;
+				pszText = m_history[m_iHistoryCurrent];
 			}
 		}
-		else {
-			pEntry.SetText(L"");
-			if (m_history[m_iHistoryCurrent].szText != nullptr) {
-				pEntry.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)m_history[m_iHistoryCurrent].szText);
-				pEntry.SendMsg(EM_SETSEL, -1, -1);
-			}
-		}
-		pEntry.OnChange(&pEntry);
-		m_dat->m_dwFlags &= ~MWF_NEEDHISTORYSAVE;
+
+		SETTEXTEX stx = { ST_DEFAULT, CP_UTF8 };
+		pEntry.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)pszText);
+		pEntry.SendMsg(EM_SETSEL, -1, -1);
 	}
-}
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// allocate the input history(on - demand, when it is requested by
-// opening a message window for this contact).
-//
-// note: it allocs historysize + 1 elements, because the + 1 is used
-// for the temporary buffer which saves the current input line when
-// using input history scrolling.
-
-void CContactCache::allocHistory()
-{
-	m_iHistorySize = M.GetByte("historysize", 15);
-	if (m_iHistorySize < 10)
-		m_iHistorySize = 10;
-	m_history = (TInputHistory *)mir_alloc(sizeof(TInputHistory) * (m_iHistorySize + 1));
-	m_iHistoryCurrent = 0;
-	m_iHistoryTop = 0;
-	if (m_history)
-		memset(m_history, 0, (sizeof(TInputHistory) * m_iHistorySize));
-	m_history[m_iHistorySize].szText = (wchar_t*)mir_alloc((HISTORY_INITIAL_ALLOCSIZE + 1) * sizeof(wchar_t));
-	m_history[m_iHistorySize].lLen = HISTORY_INITIAL_ALLOCSIZE;
+	pEntry.OnChange(&pEntry);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -353,13 +286,9 @@ void CContactCache::releaseAlloced()
 		m_stats = nullptr;
 	}
 
-	if (m_history) {
-		for (int i = 0; i <= m_iHistorySize; i++)
-			mir_free(m_history[i].szText);
-
-		mir_free(m_history);
-		m_history = nullptr;
-	}
+	for (auto &it : m_history)
+		mir_free(it);
+	m_history.destroy();
 
 	mir_free(m_szStatusMsg);
 	m_szStatusMsg = nullptr;

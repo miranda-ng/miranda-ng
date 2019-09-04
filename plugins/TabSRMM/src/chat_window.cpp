@@ -460,7 +460,7 @@ static void __cdecl phase2(SESSION_INFO *si)
 // which is usually a (tabbed) child of a container class window.
 
 CMsgDialog::CMsgDialog(SESSION_INFO *si)
-	: CTabBaseDlg(IDD_CHANNEL, si),
+	: CSuper(IDD_CHANNEL, si),
 	m_btnOk(this, IDOK)
 {
 	m_szProto = GetContactProto(m_hContact);
@@ -498,7 +498,7 @@ void CMsgDialog::tabClearLog()
 
 bool CMsgDialog::OnInitDialog()
 {
-	CTabBaseDlg::OnInitDialog();
+	CSuper::OnInitDialog();
 
 	m_si->pDlg = this;
 
@@ -612,7 +612,6 @@ void CMsgDialog::OnDestroy()
 
 	if (m_pContainer->m_dwFlags & CNT_SIDEBAR)
 		m_pContainer->m_pSideBar->removeSession(this);
-	mir_free(m_enteredText);
 
 	CSuper::OnDestroy();
 }
@@ -623,12 +622,14 @@ void CMsgDialog::onClick_OK(CCtrlButton*)
 		return;
 
 	ptrA pszRtf(m_message.GetRichTextRtf());
-	g_chatApi.SM_AddCommand(m_si->ptszID, m_si->pszModule, pszRtf);
+	if (pszRtf == nullptr)
+		return;
 
 	CMStringW ptszText(ptrW(mir_utf8decodeW(pszRtf)));
 	if (ptszText.IsEmpty())
 		return;
 
+	m_cache->saveHistory();
 	DoRtfToTags(ptszText);
 	ptszText.Trim();
 
@@ -1296,72 +1297,13 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			return 0;
 		}
 
-		if (wParam == VK_UP && isCtrl && !isAlt) {
-			char *lpPrevCmd = g_chatApi.SM_GetPrevCommand(m_si->ptszID, m_si->pszModule);
-
-			if (!m_si->lpCurrentCommand || !m_si->lpCurrentCommand->last) {
-				// Next command is not defined. It means currently entered text is not saved in the history and it
-				// need to be saved in the window context.
-				char *enteredText = m_message.GetRichTextRtf();
-				if (m_enteredText)
-					mir_free(m_enteredText);
-
-				m_enteredText = enteredText;
-			}
-
-			m_message.SendMsg(WM_SETREDRAW, FALSE, 0);
-
-			LOGFONTA lf;
-			LoadLogfont(FONTSECTION_IM, MSGFONTID_MESSAGEAREA, &lf, nullptr, FONTMODULE);
-
-			SETTEXTEX ste;
-			ste.flags = ST_DEFAULT;
-			ste.codepage = CP_ACP;
-			if (lpPrevCmd)
-				m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&ste, (LPARAM)lpPrevCmd);
-			else
-				m_message.SetText(L"");
-
-			GETTEXTLENGTHEX gtl = { 0 };
-			gtl.flags = GTL_PRECISE;
-			gtl.codepage = CP_ACP;
-			int iLen = m_message.SendMsg(EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
-			m_message.SendMsg(EM_SCROLLCARET, 0, 0);
-			m_message.SendMsg(WM_SETREDRAW, TRUE, 0);
-			RedrawWindow(m_message.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
-			m_message.SendMsg(EM_SETSEL, iLen, iLen);
+		// input history scrolling (ctrl-up / down)
+		if (isCtrl && !isAlt && !isShift && (wParam == VK_UP || wParam == VK_DOWN)) { 
 			m_iLastEnterTime = 0;
+			m_cache->inputHistoryEvent(wParam);
 			return 0;
 		}
 
-		if (wParam == VK_DOWN && isCtrl && !isAlt) {
-			m_message.SendMsg(WM_SETREDRAW, FALSE, 0);
-
-			SETTEXTEX ste;
-			ste.flags = ST_DEFAULT;
-			ste.codepage = CP_ACP;
-
-			char *lpPrevCmd = g_chatApi.SM_GetNextCommand(m_si->ptszID, m_si->pszModule);
-			if (lpPrevCmd)
-				m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&ste, (LPARAM)lpPrevCmd);
-			else if (m_enteredText) {
-				// If we cannot load the message from history, load the last edited text.
-				m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&ste, (LPARAM)m_enteredText);
-				mir_free(m_enteredText);
-				m_enteredText = nullptr;
-			}
-
-			GETTEXTLENGTHEX gtl = { 0 };
-			gtl.flags = GTL_PRECISE;
-			gtl.codepage = CP_ACP;
-			int iLen = m_message.SendMsg(EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
-			m_message.SendMsg(EM_SCROLLCARET, 0, 0);
-			m_message.SendMsg(WM_SETREDRAW, TRUE, 0);
-			RedrawWindow(m_message.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
-			m_message.SendMsg(EM_SETSEL, iLen, iLen);
-			m_iLastEnterTime = 0;
-			return 0;
-		}
 		__fallthrough;
 
 	case WM_LBUTTONDOWN:
@@ -1678,7 +1620,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			GetClientRect(m_hwnd, &rc);
 			int cx = rc.right;
 
-			CTabBaseDlg::DlgProc(uMsg, 0, 0); // call basic window resizer
+			CSuper::DlgProc(uMsg, 0, 0); // call basic window resizer
 
 			BB_SetButtonsPos();
 
@@ -2357,7 +2299,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		VerifyProxy();
 		break;
 	}
-	return CTabBaseDlg::DlgProc(uMsg, wParam, lParam);
+	return CSuper::DlgProc(uMsg, wParam, lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

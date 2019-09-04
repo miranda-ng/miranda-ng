@@ -530,7 +530,7 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 	if (c == nullptr)
 		return;
 
-	CSrmmWindow *dat = c->getDat();
+	CTabBaseDlg *dat = c->getDat();
 	if (dat == nullptr || !c->isValid())
 		return;
 
