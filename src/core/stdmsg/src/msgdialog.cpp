@@ -463,9 +463,7 @@ void CMsgDialog::onChange_Text(CCtrlEdit*)
 int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 {
 	if (isChat()) {
-		bool bControl = db_get_b(0, CHAT_MODULE, "ShowTopButtons", 1) != 0;
-		bool bFormat = db_get_b(0, CHAT_MODULE, "ShowFormatButtons", 1) != 0;
-		bool bToolbar = bFormat || bControl;
+		bool bToolbar = g_dat.bShowButtons;
 		bool bSend = g_dat.bSendButton;
 		bool bNick = m_si->iType != GCW_SERVER && m_bNicklistEnabled;
 
@@ -611,20 +609,8 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (isChat()) {
 				bottomScroll = false;
 				bool bSend = g_dat.bSendButton;
-				bool bFormat = db_get_b(0, CHAT_MODULE, "ShowFormatButtons", 1) != 0;
-				bool bControl = db_get_b(0, CHAT_MODULE, "ShowTopButtons", 1) != 0;
 				bool bNick = m_si->iType != GCW_SERVER && m_bNicklistEnabled;
 
-				m_btnBold.Show(bFormat);
-				m_btnItalic.Show(bFormat);
-				m_btnUnderline.Show(bFormat);
-
-				m_btnColor.Show(bFormat);
-				m_btnBkColor.Show(bFormat);
-				m_btnHistory.Show(bControl);
-				m_btnNickList.Show(bControl);
-				m_btnFilter.Show(bControl);
-				m_btnChannelMgr.Show(bControl);
 				m_btnOk.Show(bSend);
 				m_splitterX.Show(bNick);
 				if (m_si->iType != GCW_SERVER)
