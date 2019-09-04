@@ -59,12 +59,6 @@ static void AddToFileList(wchar_t ***pppFiles, int &totalCount, const wchar_t *s
 	}
 }
 
-static void SetEditorText(HWND hwnd, const wchar_t *txt)
-{
-	SetWindowText(hwnd, txt);
-	SendMessage(hwnd, EM_SETSEL, -1, -1);
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CMsgDialog::CMsgDialog(CTabbedWindow *pOwner, MCONTACT hContact) :
@@ -1330,31 +1324,34 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			return 0;
 		}
 
-		if (isCtrl && g_dat.bCtrlSupport && !g_dat.bAutoClose) {
-			if (wParam == VK_UP) {
-				if (m_cmdList.getCount()) {
-					if (m_cmdListInd < 0) {
-						m_cmdListInd = m_cmdList.getCount() - 1;
-						SetEditorText(m_message.GetHwnd(), m_cmdList[m_cmdListInd]);
-					}
-					else if (m_cmdListInd > 0) {
-						SetEditorText(m_message.GetHwnd(), m_cmdList[--m_cmdListInd]);
-					}
-				}
+		if (isCtrl && g_dat.bCtrlSupport && m_cmdList.getCount()) {
+			if (wParam == VK_UP && m_cmdListInd != 0) {
+				if (m_cmdListInd < 0)
+					m_cmdListInd = m_cmdList.getCount() - 1;
+				else
+					m_cmdListInd--;
+
+				m_message.SetText(m_cmdList[m_cmdListInd]);
+				m_message.SendMsg(EM_SETSEL, -1, -1);
+
 				m_btnOk.Enable(GetWindowTextLength(m_message.GetHwnd()) != 0);
 				UpdateReadChars();
 				return 0;
 			}
 
-			if (wParam == VK_DOWN) {
-				if (m_cmdList.getCount() && m_cmdListInd >= 0) {
-					if (m_cmdListInd < m_cmdList.getCount() - 1)
-						SetEditorText(m_message.GetHwnd(), m_cmdList[++m_cmdListInd]);
-					else {
-						m_cmdListInd = -1;
-						SetEditorText(m_message.GetHwnd(), m_cmdList[m_cmdList.getCount() - 1]);
-					}
+			if (wParam == VK_DOWN && m_cmdListInd != -1) {
+				const wchar_t *pwszText;
+				if (m_cmdListInd == m_cmdList.getCount() - 1) {
+					m_cmdListInd = -1;
+					pwszText = L"";
 				}
+				else {
+					m_cmdListInd++;
+					pwszText = m_cmdList[m_cmdListInd];
+				}
+
+				m_message.SetText(pwszText);
+				m_message.SendMsg(EM_SETSEL, -1, -1);
 
 				m_btnOk.Enable(GetWindowTextLength(m_message.GetHwnd()) != 0);
 				UpdateReadChars();
