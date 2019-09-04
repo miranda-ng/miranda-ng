@@ -950,7 +950,6 @@ bool CSrmmBaseDialog::ProcessHotkeys(int key, bool isShift, bool isCtrl, bool is
 			m_btnUnderline.Click();
 			return true;
 
-		case 0x57: // ctrl-w (close tab)
 		case VK_F4: // ctrl-F4 
 			CloseTab();
 			return true;
