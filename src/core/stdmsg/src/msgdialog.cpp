@@ -161,6 +161,7 @@ bool CMsgDialog::OnInitDialog()
 	m_log.SendMsg(EM_AUTOURLDETECT, TRUE, 0);
 
 	m_message.SendMsg(EM_SETEVENTMASK, 0, ENM_CHANGE);
+	OnOptionsApplied(false);
 
 	if (isChat()) {
 		m_avatar.Hide();
@@ -240,8 +241,6 @@ bool CMsgDialog::OnInitDialog()
 			if (bUpdate)
 				UpdateLastMessage();
 		}
-
-		OnOptionsApplied(false);
 
 		// restore saved msg if any...
 		if (m_hContact) {
