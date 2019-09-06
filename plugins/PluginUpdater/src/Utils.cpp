@@ -70,59 +70,6 @@ void UnloadNetlib()
 	hNetlibUser = nullptr;
 }
 
-ULONG crc32_table[256];
-ULONG ulPolynomial = 0x04c11db7;
-
-//////////////////////////////////////////////////////////////
-// Reflection is a requirement for the official CRC-32 standard.
-// You can create CRCs without it, but they won't conform to the standard.
-//////////////////////////////////////////////////////////////////////////
-
-ULONG Reflect(ULONG ref, char ch)
-{
-	// Used only by Init_CRC32_Table()
-	ULONG value(0);
-
-	// Swap bit 0 for bit 7
-	// bit 1 for bit 6, etc.
-	for(int i = 1; i < (ch + 1); i++)
-	{
-		if(ref & 1)
-			value |= 1 << (ch - i);
-		ref >>= 1;
-	}
-	return value;
-}
-
-void InitCrcTable()
-{
-	// 256 values representing ASCII character codes.
-	for(int i = 0; i <= 0xFF; i++)
-	{
-		crc32_table[i] = Reflect(i, 8) << 24;
-		for (int j = 0; j < 8; j++)
-			crc32_table[i] = (crc32_table[i] << 1) ^ (crc32_table[i] & (1 << 31) ? ulPolynomial : 0);
-		crc32_table[i] = Reflect(crc32_table[i], 32);
-	}
-}
-
-int Get_CRC(unsigned char* buffer, ULONG bufsize)
-{
-	ULONG  crc(0xffffffff);
-	int len;
-	len = bufsize;
-	// Save the text in the buffer.
-
-	// Perform the algorithm on each character
-	// in the string, using the lookup table values.
-
-	for(int i = 0; i < len; i++)
-		crc = (crc >> 8) ^ crc32_table[(crc & 0xFF) ^ buffer[i]];
-
-	// Exclusive OR the result with the beginning value.
-	return crc^0xffffffff;
-}
-
 int CompareHashes(const ServListEntry *p1, const ServListEntry *p2)
 {
 	return _wcsicmp(p1->m_name, p2->m_name);
@@ -266,8 +213,7 @@ bool DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 			if ((200 == pReply->resultCode) && (pReply->dataLength > 0)) {
 				// Check CRC sum
 				if (pFileURL->CRCsum) {
-					InitCrcTable();
-					int crc = Get_CRC((unsigned char*)pReply->pData, pReply->dataLength);
+					int crc = crc32(0, (unsigned char*)pReply->pData, pReply->dataLength);
 					if (crc != pFileURL->CRCsum) {
 						// crc check failed, try again
 						Netlib_LogfW(hNetlibUser,L"crc check failed for file %s",pFileURL->tszDiskPath);

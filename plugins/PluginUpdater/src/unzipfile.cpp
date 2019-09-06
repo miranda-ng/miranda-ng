@@ -19,13 +19,6 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-extern "C"
-{
-	#include "../../libs/zlib/src/unzip.h"
-
-	void fill_fopen64_filefunc(zlib_filefunc64_def *pzlib_filefunc_def);
-}
-
 static void PrepareFileName(wchar_t *dest, size_t destSize, const wchar_t *ptszPath, const wchar_t *ptszFileName)
 {
 	mir_snwprintf(dest, destSize, L"%s\\%s", ptszPath, ptszFileName);

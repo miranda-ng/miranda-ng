@@ -44,6 +44,13 @@ Boston, MA 02111-1307, USA.
 
 #include <m_folders.h>
 
+extern "C"
+{
+	#include "../../libs/zlib/src/unzip.h"
+
+	void fill_fopen64_filefunc(zlib_filefunc64_def *pzlib_filefunc_def);
+}
+
 #include "version.h"
 #include "resource.h"
 
