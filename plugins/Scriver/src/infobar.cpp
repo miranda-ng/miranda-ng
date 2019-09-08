@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-void CSrmmWindow::SetupInfobar()
+void CMsgDialog::SetupInfobar()
 {
 	DWORD colour = g_plugin.getDword(SRMSGSET_INFOBARBKGCOLOUR, SRMSGDEFSET_INFOBARBKGCOLOUR);
 
@@ -65,21 +65,17 @@ void CSrmmWindow::SetupInfobar()
 	RefreshInfobar();
 }
 
-static HICON GetExtraStatusIcon(CSrmmWindow *pDlg)
-{
-	BYTE bXStatus = db_get_b(pDlg->m_hContact, pDlg->m_szProto, "XStatusId", 0);
-	if (bXStatus > 0)
-		return (HICON)CallProtoService(pDlg->m_szProto, PS_GETCUSTOMSTATUSICON, bXStatus, 0);
-
-	return nullptr;
-}
-
-void CSrmmWindow::RefreshInfobar()
+void CMsgDialog::RefreshInfobar()
 {
 	ptrW szContactStatusMsg(db_get_wsa(m_hContact, "CList", "StatusMsg"));
 	ptrW szXStatusName(db_get_wsa(m_hContact, m_szProto, "XStatusName"));
 	ptrW szXStatusMsg(db_get_wsa(m_hContact, m_szProto, "XStatusMsg"));
-	HICON hIcon = GetExtraStatusIcon(this);
+
+	HICON hIcon = nullptr;
+	BYTE bXStatus = db_get_b(m_hContact, m_szProto, "XStatusId", 0);
+	if (bXStatus > 0)
+		hIcon = (HICON)CallProtoService(m_szProto, PS_GETCUSTOMSTATUSICON, bXStatus, 0);
+
 	wchar_t szText[2048];
 	SETTEXTEX st;
 	if (szXStatusMsg && *szXStatusMsg)
@@ -102,17 +98,17 @@ void CSrmmWindow::RefreshInfobar()
 	RedrawWindow(GetDlgItem(m_hwndInfo, IDC_AVATAR), nullptr, nullptr, RDW_INVALIDATE);
 }
 
-static INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static BOOL bWasCopy;
-	CSrmmWindow *idat = (CSrmmWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	CMsgDialog *idat = (CMsgDialog*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	if (!idat && msg != WM_INITDIALOG)
 		return FALSE;
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		bWasCopy = FALSE;
-		idat = (CSrmmWindow *)lParam;
+		idat = (CMsgDialog *)lParam;
 		idat->m_hwndInfo = hwnd;
 		{
 			RECT rect = { 0 };
@@ -265,7 +261,7 @@ static INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 	return FALSE;
 }
 
-void CSrmmWindow::CreateInfobar()
+void CMsgDialog::CreateInfobar()
 {
 	m_hwndInfo = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_INFOBAR), m_hwnd, InfobarWndProc, (LPARAM)this);
 	SetWindowPos(m_hwndInfo, HWND_TOP, 0, 0, 0, 0, SWP_HIDEWINDOW | SWP_NOSIZE | SWP_NOREPOSITION);

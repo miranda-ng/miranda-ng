@@ -35,7 +35,6 @@
 #define IDI_FOODNETWORK                 147
 #define IDI_LASTICON                    148
 #define IDR_CONTEXT                     180
-#define IDD_CHANNEL                     401
 #define IDD_OPTIONS1                    402
 #define IDD_OPTIONS2                    403
 #define IDD_FILTER                      405

@@ -277,7 +277,7 @@ void SetSearchEngineIcons(HMENU hMenu, HIMAGELIST hImageList)
 	}
 }
 
-void CSrmmWindow::GetContactUniqueId(char *buf, int maxlen)
+void CMsgDialog::GetContactUniqueId(char *buf, int maxlen)
 {
 	ptrW id(Contact_GetInfo(CNF_UNIQUEID, m_hContact, m_szProto));
 	if (id != nullptr)

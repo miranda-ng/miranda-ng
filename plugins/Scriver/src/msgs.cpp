@@ -73,7 +73,7 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 
 	HWND hwndExisting = Srmm_FindWindow(hContact);
 	if (hwndExisting == nullptr)
-		(new CSrmmWindow(hContact, false))->Show();
+		(new CMsgDialog(hContact, false))->Show();
 	else
 		SendMessage(GetParent(hwndExisting), CM_POPUPWINDOW, 0, (LPARAM)hwndExisting);
 	return 0;
@@ -105,7 +105,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 		/* new message */
 		Skin_PlaySound("AlertMsg");
 		if (IsAutoPopup(hContact)) {
-			(new CSrmmWindow(hContact, true))->Show();
+			(new CMsgDialog(hContact, true))->Show();
 			return 0;
 		}
 	}
@@ -150,7 +150,7 @@ static INT_PTR SendMessageCommandWorker(MCONTACT hContact, wchar_t *pszMsg)
 		SendMessage(GetParent(hwnd), CM_POPUPWINDOW, 0, (LPARAM)hwnd);
 	}
 	else {
-		CSrmmWindow *pDlg = new CSrmmWindow(hContact, false);
+		CMsgDialog *pDlg = new CMsgDialog(hContact, false);
 		pDlg->m_wszInitialText = pszMsg;
 		pDlg->Show();
 	}
@@ -259,7 +259,7 @@ static void RestoreUnreadMessageAlerts(void)
 				continue;
 
 			if (IsAutoPopup(hContact) && !windowAlreadyExists)
-				(new CSrmmWindow(hContact, true))->Show();
+				(new CMsgDialog(hContact, true))->Show();
 			else
 				arEvents.insert(new MSavedEvent(hContact, hDbEvent));
 		}
@@ -281,7 +281,7 @@ static void RestoreUnreadMessageAlerts(void)
 	}
 }
 
-void CScriverWindow::SetStatusText(const wchar_t *wszText, HICON hIcon)
+void CMsgDialog::SetStatusText(const wchar_t *wszText, HICON hIcon)
 {
 	ParentWindowData *pDat = m_pParent;
 	if (pDat != nullptr) {
@@ -317,76 +317,6 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 		SendMessage(hwnd, DM_AVATARCHANGED, wParam, lParam);
 	}
 	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// CScriverWindow
-
-CScriverWindow::CScriverWindow(int iDialog, SESSION_INFO *si)
-	: CSrmmBaseDialog(g_plugin, iDialog, si)
-{
-	m_autoClose = CLOSE_ON_CANCEL;
-}
-
-void CScriverWindow::CloseTab()
-{
-	Close();
-}
-
-void CScriverWindow::LoadSettings()
-{
-	m_clrInputBG = g_plugin.getDword(SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
-	LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, nullptr, &m_clrInputFG);
-}
-
-void CScriverWindow::Reattach(HWND hwndContainer)
-{
-	MCONTACT hContact = m_hContact;
-
-	POINT pt;
-	GetCursorPos(&pt);
-	HWND hParent = WindowFromPoint(pt);
-	while (GetParent(hParent) != nullptr)
-		hParent = GetParent(hParent);
-
-	hParent = WindowList_Find(g_dat.hParentWindowList, (UINT_PTR)hParent);
-	if ((hParent != nullptr && hParent != hwndContainer) || (hParent == nullptr && m_pParent->childrenCount > 1 && (GetKeyState(VK_CONTROL) & 0x8000))) {
-		if (hParent == nullptr) {
-			hParent = GetParentWindow(hContact, false);
-
-			RECT rc;
-			GetWindowRect(hParent, &rc);
-
-			rc.right = (rc.right - rc.left);
-			rc.bottom = (rc.bottom - rc.top);
-			rc.left = pt.x - rc.right / 2;
-			rc.top = pt.y - rc.bottom / 2;
-			HMONITOR hMonitor = MonitorFromRect(&rc, MONITOR_DEFAULTTONEAREST);
-
-			MONITORINFO mi;
-			mi.cbSize = sizeof(mi);
-			GetMonitorInfo(hMonitor, &mi);
-
-			RECT rcDesktop = mi.rcWork;
-			if (rc.left < rcDesktop.left)
-				rc.left = rcDesktop.left;
-			if (rc.top < rcDesktop.top)
-				rc.top = rcDesktop.top;
-			MoveWindow(hParent, rc.left, rc.top, rc.right, rc.bottom, FALSE);
-		}
-		NotifyEvent(MSG_WINDOW_EVT_CLOSING);
-		NotifyEvent(MSG_WINDOW_EVT_CLOSE);
-		SetParent(hParent);
-		SendMessage(hwndContainer, CM_REMOVECHILD, 0, (LPARAM)m_hwnd);
-		SendMessage(m_hwnd, DM_SETPARENT, 0, (LPARAM)hParent);
-		SendMessage(hParent, CM_ADDCHILD, (WPARAM)this, 0);
-		SendMessage(m_hwnd, DM_UPDATETABCONTROL, 0, 0);
-		SendMessage(hParent, CM_ACTIVATECHILD, 0, (LPARAM)m_hwnd);
-		NotifyEvent(MSG_WINDOW_EVT_OPENING);
-		NotifyEvent(MSG_WINDOW_EVT_OPEN);
-		ShowWindow(hParent, SW_SHOWNA);
-		EnableWindow(hParent, TRUE);
-	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -27,6 +27,24 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MSGERROR_RETRY	1
 #define MSGERROR_DONE	2
 
+struct EventData
+{
+	int cbSize;
+	int iType;
+	DWORD	dwFlags;
+	const char *fontName;
+	int fontSize;
+	int fontStyle;
+	COLORREF	color;
+	MAllStrings szNick;     // Nick, usage depends on type of event
+	MAllStrings szText;     // Text, usage depends on type of event
+	MAllStrings szText2;    // Text, usage depends on type of event
+	DWORD	time;
+	DWORD	eventType;
+	BOOL  custom;
+	EventData *next;
+};
+
 struct ToolbarButton
 {
 	wchar_t *name;
@@ -77,48 +95,35 @@ struct ParentWindowData
 
 #define NMWLP_INCOMING 1
 
-class CScriverWindow : public CSrmmBaseDialog
+class CMsgDialog : public CSrmmBaseDialog
 {
 	typedef CSrmmBaseDialog CSuper;
 
-protected:
-	CScriverWindow(int iDialog, SESSION_INFO* = nullptr);
+	friend INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-	bool CheckSend();
-	int  InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	bool   CheckSend(void);
+	void   GetContactUniqueId(char *buf, int maxlen);
+	HICON  GetTabIcon(void);
+	void   GetTitlebarIcon(struct TitleBarData *tbd);
+	void   Init(void);
+	int    InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	void   MessageDialogResize(int w, int h);
+	void   ShowAvatar(void);
+	void   SetDialogToType(void);
+	void   SetStatusIcon(void);
+	void   StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend);
+	void   UpdateReadChars(void);
 
-public:
-	void CloseTab() override;
-	void LoadSettings() override;
-	void SetStatusText(const wchar_t*, HICON) override;
+	bool   IsTypingNotificationEnabled(void);
+	bool   IsTypingNotificationSupported(void);
+	void   NotifyTyping(int mode);
 
-	bool IsActive() const
-	{
-		return GetActiveWindow() == m_hwndParent && GetForegroundWindow() == m_hwndParent && m_pParent->hwndActive == m_hwnd;
-	}
+	static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-	void Reattach(HWND hwndContainer);
+	bool   m_bIncoming, m_bShowTyping, m_bWindowCascaded;
 
-	ParentWindowData *m_pParent;
-	int m_minLogBoxHeight, m_minEditBoxHeight;
-	HWND m_hwndIeview;
-	TCmdList *cmdList, *cmdListCurrent;
-};
-
-class CSrmmWindow : public CScriverWindow
-{
-	typedef CScriverWindow CSuper;
-
-	CCtrlButton m_btnOk, m_btnAdd, m_btnUserMenu, m_btnQuote, m_btnDetails;
-	CSplitter m_splitter;
-
-	LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam);
-	LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam);
-
-	bool   m_bIncoming, m_bShowTyping;
-	
 	MEVENT m_hDbEventFirst, m_hDbEventLast, m_hDbUnreadEventFirst;
-	int    m_iWindowWasCascaded;
+	int    m_minLogBoxHeight, m_minEditBoxHeight;
 	int    m_nTypeSecs, m_nTypeMode, m_nLastTyping;
 	int    m_iShowUnread;
 	WORD   m_wStatus;
@@ -127,21 +132,20 @@ class CSrmmWindow : public CScriverWindow
 	int    m_iSendAllConfirm;
 	HICON  m_hStatusIcon, m_hStatusIconBig, m_hStatusIconOverlay;
 
-	void   GetContactUniqueId(char *buf, int maxlen);
-	HICON  GetTabIcon();
-	void   GetTitlebarIcon(struct TitleBarData *tbd);
-	void   MessageDialogResize(int w, int h);
-	void   ShowAvatar();
-	void   SetDialogToType();
-	void   SetStatusIcon();
-	void   StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend);
-	void   UpdateReadChars();
+	char  *m_szProto;
+	time_t m_startTime, m_lastEventTime;
+	int    m_lastEventType;
+	int    m_isMixed;
+	bool   m_bUseRtl, m_bUseIEView;
 
-	bool   IsTypingNotificationEnabled();
-	bool   IsTypingNotificationSupported();
-	void   NotifyTyping(int mode);
+	HBITMAP m_hbmpAvatarPic;
+	AVATARCACHEENTRY *m_ace;
 
-public:  // info bar support
+	TCmdList *cmdList, *cmdListCurrent;
+	ParentWindowData *m_pParent;
+	HWND m_hwndIeview;
+
+	// info bar support
 	HWND   m_hwndInfo;
 	HWND   m_hXStatusTip;
 
@@ -149,88 +153,67 @@ public:  // info bar support
 	void   SetupInfobar();
 	void   RefreshInfobar();
 
-public:
-	char *m_szProto;
-	time_t m_startTime, m_lastEventTime;
-	int m_lastEventType;
-	int m_isMixed;
-	bool m_bUseRtl, m_bUseIEView;
-
-	wchar_t *m_wszInitialText;
-	HBITMAP m_hbmpAvatarPic;
-	AVATARCACHEENTRY *m_ace;
-
-public:
-	CSrmmWindow(MCONTACT hContact, bool bIncoming);
-
-	bool OnInitDialog() override;
-	void OnDestroy() override;
-
-	void ScrollToBottom() override;
-	void UpdateStatusBar() override;
-	void UpdateTitle() override;
-
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
-
-	void onClick_Ok(CCtrlButton*);
-	void onClick_Add(CCtrlButton*);
-	void onClick_Quote(CCtrlButton*);
-	void onClick_Details(CCtrlButton*);
-	void onClick_History(CCtrlButton*);
-	void onClick_UserMenu(CCtrlButton*);
-
-	void onChange_Message(CCtrlEdit*);
-
-	void onChanged_Splitter(CSplitter*);
-};
-
-class CMsgDialog : public CScriverWindow
-{
-	typedef CScriverWindow CSuper;
-
-	CCtrlButton m_btnOk;
-	CSplitter m_splitterX, m_splitterY;
-
-	void MessageDialogResize(int w, int h);
-	void TabAutoComplete(void);
-
-	LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam) override;
-	LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
-	LRESULT WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam) override;
-
-	static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
+	// autocomplete
+	void   TabAutoComplete(void);
 	wchar_t m_wszSearch[255];
 	wchar_t *m_wszSearchQuery, *m_wszSearchResult;
 	SESSION_INFO *m_pLastSession;
 
+	CCtrlButton m_btnOk, m_btnAdd, m_btnUserMenu, m_btnQuote, m_btnDetails;
+	CSplitter m_splitterX, m_splitterY;
+
 public:
-	CMsgDialog(SESSION_INFO *si);
+	CMsgDialog(MCONTACT hContact, bool bIncoming);
+	CMsgDialog(SESSION_INFO *);
 
 	bool OnInitDialog() override;
 	void OnDestroy() override;
 
-	INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override;
-	
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+
+	void onClick_Ok(CCtrlButton *);
+	void onClick_Add(CCtrlButton *);
+	void onClick_Filter(CCtrlButton *);
+	void onClick_Details(CCtrlButton *);
+	void onClick_History(CCtrlButton *);
+	void onClick_Quote(CCtrlButton *);
+	void onClick_UserMenu(CCtrlButton *);
+	void onClick_ShowList(CCtrlButton *);
+
+	void onChange_Message(CCtrlEdit *);
+
+	void onChange_SplitterX(CSplitter *);
+	void onChange_SplitterY(CSplitter *);
+
+	void CloseTab() override;
+	void LoadSettings() override;
 	void RedrawLog() override;
 	void ScrollToBottom() override;
+	void SetStatusText(const wchar_t *, HICON) override;
 	void ShowFilterMenu() override;
-	void StreamInEvents(LOGINFO* lin, bool bRedraw) override;
+	void StreamInEvents(LOGINFO *lin, bool bRedraw) override;
 	void UpdateNickList() override;
 	void UpdateOptions() override;
 	void UpdateStatusBar() override;
 	void UpdateTitle() override;
 
-	void onChange_Message(CCtrlEdit*);
-
-	void onClick_Ok(CCtrlButton*);
-	void onClick_Filter(CCtrlButton*);
-	void onClick_ShowList(CCtrlButton*);
-
-	void OnSplitterX(CSplitter*);
-	void OnSplitterY(CSplitter*);
-
 	void FixTabIcons();
+
+	LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	LRESULT WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam) override;
+
+	bool IsActive() const
+	{
+		return GetActiveWindow() == m_hwndParent && GetForegroundWindow() == m_hwndParent && m_pParent->hwndActive == m_hwnd;
+	}
+
+	wchar_t *m_wszInitialText;
+
+	char* CreateRTFFromEvent(EventData *evt, GlobalMessageData *gdat, struct LogStreamData *streamData);
+	EventData *GetEventFromDB(MCONTACT hContact, MEVENT hDbEvent);
+
+	void Reattach(HWND hwndContainer);
 };
 
 #define HM_DBEVENTADDED        (WM_USER+10)

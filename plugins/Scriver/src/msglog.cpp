@@ -36,36 +36,6 @@ static HIMAGELIST g_hImageList;
 #define STREAMSTAGE_TAIL    2
 #define STREAMSTAGE_STOP    3
 
-struct EventData
-{
-	int cbSize;
-	int iType;
-	DWORD	dwFlags;
-	const char *fontName;
-	int fontSize;
-	int fontStyle;
-	COLORREF	color;
-	union {
-		char *pszNick;     // Nick, usage depends on type of event
-		wchar_t *pszNickT;
-		wchar_t *pszNickW; // Nick - Unicode
-	};
-	union {
-		char *pszText;     // Text, usage depends on type of event
-		wchar_t *pszTextT;
-		wchar_t *pszTextW; // Text - Unicode
-	};
-	union {
-		char *pszText2;     // Text, usage depends on type of event
-		wchar_t *pszText2T;
-		wchar_t *pszText2W; // Text - Unicode
-	};
-	DWORD	time;
-	DWORD	eventType;
-	BOOL  custom;
-	EventData *next;
-};
-
 struct LogStreamData
 {
 	int      stage;
@@ -75,7 +45,7 @@ struct LogStreamData
 	size_t   bufferOffset, bufferLen;
 	int      eventsToInsert;
 	int      isFirst;
-	CSrmmWindow *dlgDat;
+	CMsgDialog *dlgDat;
 	GlobalMessageData *gdat;
 	EventData *events;
 };
@@ -106,7 +76,7 @@ int DbEventIsShown(DBEVENTINFO &dbei)
 	return DbEventIsCustomForMsgWindow(&dbei);
 }
 
-EventData* getEventFromDB(CSrmmWindow *dat, MCONTACT hContact, MEVENT hDbEvent)
+EventData* CMsgDialog::GetEventFromDB(MCONTACT hContact, MEVENT hDbEvent)
 {
 	DBEVENTINFO dbei = {};
 	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
@@ -133,26 +103,26 @@ EventData* getEventFromDB(CSrmmWindow *dat, MCONTACT hContact, MEVENT hDbEvent)
 	evt->dwFlags = (dbei.flags & DBEF_READ ? IEEDF_READ : 0) | (dbei.flags & DBEF_SENT ? IEEDF_SENT : 0) | (dbei.flags & DBEF_RTL ? IEEDF_RTL : 0);
 	evt->dwFlags |= IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK | IEEDF_UNICODE_TEXT2;
 
-	if (dat->m_bUseRtl)
+	if (m_bUseRtl)
 		evt->dwFlags |= IEEDF_RTL;
 
 	evt->time = dbei.timestamp;
-	evt->pszNick = nullptr;
+	evt->szNick.w = nullptr;
 	if (evt->dwFlags & IEEDF_SENT)
-		evt->pszNickT = Contact_GetInfo(CNF_DISPLAY, 0, dat->m_szProto);
+		evt->szNick.w = Contact_GetInfo(CNF_DISPLAY, 0, m_szProto);
 	else
-		evt->pszNickT = mir_wstrdup(Clist_GetContactDisplayName(hContact));
+		evt->szNick.w = mir_wstrdup(Clist_GetContactDisplayName(hContact));
 
 	if (evt->eventType == EVENTTYPE_FILE) {
 		char *filename = ((char*)dbei.pBlob) + sizeof(DWORD);
 		char *descr = filename + mir_strlen(filename) + 1;
-		evt->pszTextT = DbEvent_GetString(&dbei, filename);
+		evt->szText.w = DbEvent_GetString(&dbei, filename);
 		if (*descr != 0)
-			evt->pszText2T = DbEvent_GetString(&dbei, descr);
+			evt->szText2.w = DbEvent_GetString(&dbei, descr);
 	}
-	else evt->pszTextT = DbEvent_GetTextW(&dbei, CP_UTF8);
+	else evt->szText.w = DbEvent_GetTextW(&dbei, CP_UTF8);
 
-	if (!dat->m_bUseRtl && Utils_IsRtl(evt->pszTextT))
+	if (!m_bUseRtl && Utils_IsRtl(evt->szText.w))
 		evt->dwFlags |= IEEDF_RTL;
 
 	mir_free(dbei.pBlob);
@@ -173,24 +143,24 @@ static EventData* GetTestEvents()
 {
 	EventData *evt, *firstEvent, *prevEvent;
 	firstEvent = prevEvent = evt = GetTestEvent(IEEDF_SENT);
-	evt->pszNickT = mir_wstrdup(TranslateT("Me"));
-	evt->pszTextT = mir_wstrdup(TranslateT("O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies"));
+	evt->szNick.w = mir_wstrdup(TranslateT("Me"));
+	evt->szText.w = mir_wstrdup(TranslateT("O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies"));
 
 	evt = GetTestEvent(IEEDF_SENT);
-	evt->pszNickT = mir_wstrdup(TranslateT("Me"));
-	evt->pszTextT = mir_wstrdup(TranslateT("to tiny bits, in Thy mercy"));
+	evt->szNick.w = mir_wstrdup(TranslateT("Me"));
+	evt->szText.w = mir_wstrdup(TranslateT("to tiny bits, in Thy mercy"));
 	prevEvent->next = evt;
 	prevEvent = evt;
 
 	evt = GetTestEvent(0);
-	evt->pszNickT = mir_wstrdup(TranslateT("My contact"));
-	evt->pszTextT = mir_wstrdup(TranslateT("Lorem ipsum dolor sit amet,"));
+	evt->szNick.w = mir_wstrdup(TranslateT("My contact"));
+	evt->szText.w = mir_wstrdup(TranslateT("Lorem ipsum dolor sit amet,"));
 	prevEvent->next = evt;
 	prevEvent = evt;
 
 	evt = GetTestEvent(0);
-	evt->pszNickT = mir_wstrdup(TranslateT("My contact"));
-	evt->pszTextT = mir_wstrdup(TranslateT("consectetur adipisicing elit"));
+	evt->szNick.w = mir_wstrdup(TranslateT("My contact"));
+	evt->szText.w = mir_wstrdup(TranslateT("consectetur adipisicing elit"));
 	prevEvent->next = evt;
 	prevEvent = evt;
 	return firstEvent;
@@ -198,9 +168,9 @@ static EventData* GetTestEvents()
 
 static void freeEvent(EventData *evt)
 {
-	mir_free(evt->pszNickT);
-	mir_free(evt->pszTextT);
-	mir_free(evt->pszText2T);
+	mir_free(evt->szNick.w);
+	mir_free(evt->szText.w);
+	mir_free(evt->szText2.w);
 	mir_free(evt);
 }
 
@@ -379,19 +349,19 @@ int isSameDate(time_t time1, time_t time2)
 
 static void AppendWithCustomLinks(EventData *evt, int style, CMStringA &buf)
 {
-	if (evt->pszText == nullptr)
+	if (evt->szText.w == nullptr)
 		return;
 
 	BOOL isAnsii = (evt->dwFlags & IEEDF_UNICODE_TEXT) == 0;
 	WCHAR *wText;
 	size_t len;
 	if (isAnsii) {
-		len = mir_strlen(evt->pszText);
-		wText = mir_a2u(evt->pszText);
+		len = mir_strlen(evt->szText.a);
+		wText = mir_a2u(evt->szText.a);
 	}
 	else {
-		wText = evt->pszTextW;
-		len = (int)mir_wstrlen(evt->pszTextW);
+		wText = evt->szText.w;
+		len = (int)mir_wstrlen(evt->szText.w);
 	}
 
 	if (len > 0) {
@@ -404,20 +374,20 @@ static void AppendWithCustomLinks(EventData *evt, int style, CMStringA &buf)
 }
 
 // mir_free() the return value
-static char* CreateRTFFromEvent(CSrmmWindow *dat, EventData *evt, GlobalMessageData *gdat, LogStreamData *streamData)
+char* CMsgDialog::CreateRTFFromEvent(EventData *evt, GlobalMessageData *gdat, LogStreamData *streamData)
 {
 	int style, showColon = 0;
 	int isGroupBreak = TRUE;
 	int highlight = 0;
 
-	if ((gdat->flags.bGroupMessages) && evt->dwFlags == LOWORD(dat->m_lastEventType) &&
-		evt->eventType == EVENTTYPE_MESSAGE && HIWORD(dat->m_lastEventType) == EVENTTYPE_MESSAGE &&
-		(isSameDate(evt->time, dat->m_lastEventTime)) && ((((int)evt->time < dat->m_startTime) == (dat->m_lastEventTime < dat->m_startTime)) || !(evt->dwFlags & IEEDF_READ))) {
+	if ((gdat->flags.bGroupMessages) && evt->dwFlags == LOWORD(m_lastEventType) &&
+		evt->eventType == EVENTTYPE_MESSAGE && HIWORD(m_lastEventType) == EVENTTYPE_MESSAGE &&
+		(isSameDate(evt->time, m_lastEventTime)) && ((((int)evt->time < m_startTime) == (m_lastEventTime < m_startTime)) || !(evt->dwFlags & IEEDF_READ))) {
 		isGroupBreak = FALSE;
 	}
 
 	CMStringA buf;
-	if (!streamData->isFirst && !dat->m_isMixed) {
+	if (!streamData->isFirst && !m_isMixed) {
 		if (isGroupBreak || gdat->flags.bMarkFollowups)
 			buf.Append("\\par");
 		else
@@ -425,7 +395,7 @@ static char* CreateRTFFromEvent(CSrmmWindow *dat, EventData *evt, GlobalMessageD
 	}
 
 	if (evt->dwFlags & IEEDF_RTL)
-		dat->m_isMixed = 1;
+		m_isMixed = 1;
 
 	if (!streamData->isFirst && isGroupBreak && (gdat->flags.bDrawLines))
 		buf.AppendFormat("\\sl-1\\slmult0\\highlight%d\\cf%d\\fs1  \\par\\sl0", fontOptionsListSize + 4, fontOptionsListSize + 4);
@@ -438,14 +408,14 @@ static char* CreateRTFFromEvent(CSrmmWindow *dat, EventData *evt, GlobalMessageD
 		highlight = fontOptionsListSize + 1;
 
 	buf.AppendFormat("\\highlight%d\\cf%d", highlight, highlight);
-	if (!streamData->isFirst && dat->m_isMixed) {
+	if (!streamData->isFirst && m_isMixed) {
 		if (isGroupBreak)
 			buf.Append("\\sl-1 \\par\\sl0");
 		else
 			buf.Append("\\sl-1 \\line\\sl0");
 	}
 	streamData->isFirst = FALSE;
-	if (dat->m_isMixed) {
+	if (m_isMixed) {
 		if (evt->dwFlags & IEEDF_RTL)
 			buf.Append("\\ltrch\\rtlch");
 		else
@@ -505,9 +475,9 @@ static char* CreateRTFFromEvent(CSrmmWindow *dat, EventData *evt, GlobalMessageD
 		else buf.AppendFormat("%s ", SetToStyle(MSGFONTID_NOTICE));
 
 		if (evt->dwFlags & IEEDF_UNICODE_NICK)
-			AppendUnicodeToBuffer(buf, evt->pszNickW);
+			AppendUnicodeToBuffer(buf, evt->szNick.w);
 		else
-			AppendAnsiToBuffer(buf, evt->pszNick);
+			AppendAnsiToBuffer(buf, evt->szNick.a);
 
 		showColon = 1;
 		if (evt->eventType == EVENTTYPE_MESSAGE && gdat->flags.bGroupMessages) {
@@ -545,19 +515,19 @@ static char* CreateRTFFromEvent(CSrmmWindow *dat, EventData *evt, GlobalMessageD
 		}
 		AppendUnicodeToBuffer(buf, L" ");
 
-		if (evt->pszTextW != nullptr) {
+		if (evt->szText.w != nullptr) {
 			if (evt->dwFlags & IEEDF_UNICODE_TEXT)
-				AppendUnicodeToBuffer(buf, evt->pszTextW);
+				AppendUnicodeToBuffer(buf, evt->szText.w);
 			else
-				AppendAnsiToBuffer(buf, evt->pszText);
+				AppendAnsiToBuffer(buf, evt->szText.a);
 		}
 
-		if (evt->pszText2W != nullptr) {
+		if (evt->szText2.w != nullptr) {
 			AppendUnicodeToBuffer(buf, L" (");
 			if (evt->dwFlags & IEEDF_UNICODE_TEXT2)
-				AppendUnicodeToBuffer(buf, evt->pszText2W);
+				AppendUnicodeToBuffer(buf, evt->szText2.w);
 			else
-				AppendAnsiToBuffer(buf, evt->pszText2);
+				AppendAnsiToBuffer(buf, evt->szText2.a);
 			AppendUnicodeToBuffer(buf, L")");
 		}
 		break;
@@ -569,11 +539,11 @@ static char* CreateRTFFromEvent(CSrmmWindow *dat, EventData *evt, GlobalMessageD
 		AppendWithCustomLinks(evt, style, buf);
 		break;
 	}
-	if (dat->m_isMixed)
+	if (m_isMixed)
 		buf.Append("\\par");
 
-	dat->m_lastEventTime = evt->time;
-	dat->m_lastEventType = MAKELONG(evt->dwFlags, evt->eventType);
+	m_lastEventTime = evt->time;
+	m_lastEventType = MAKELONG(evt->dwFlags, evt->eventType);
 	return buf.Detach();
 }
 
@@ -592,16 +562,16 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 			if (dat->events != nullptr) {
 				EventData *evt = dat->events;
 				dat->buffer = nullptr;
-				dat->buffer = CreateRTFFromEvent(dat->dlgDat, evt, dat->gdat, dat);
+				dat->buffer = dat->dlgDat->CreateRTFFromEvent(evt, dat->gdat, dat);
 				dat->events = evt->next;
 				freeEvent(evt);
 			}
 			else if (dat->eventsToInsert) {
 				do {
-					EventData *evt = getEventFromDB(dat->dlgDat, dat->hContact, dat->hDbEvent);
+					EventData *evt = dat->dlgDat->GetEventFromDB(dat->hContact, dat->hDbEvent);
 					dat->buffer = nullptr;
 					if (evt != nullptr) {
-						dat->buffer = CreateRTFFromEvent(dat->dlgDat, evt, dat->gdat, dat);
+						dat->buffer = dat->dlgDat->CreateRTFFromEvent(evt, dat->gdat, dat);
 						freeEvent(evt);
 					}
 					if (dat->buffer)
@@ -639,7 +609,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 
 void StreamInTestEvents(HWND hEditWnd, GlobalMessageData *gdat)
 {
-	CSrmmWindow *dat = new CSrmmWindow(0, false);
+	CMsgDialog *dat = new CMsgDialog(0, false);
 
 	LogStreamData streamData = { 0 };
 	streamData.isFirst = TRUE;
@@ -656,7 +626,7 @@ void StreamInTestEvents(HWND hEditWnd, GlobalMessageData *gdat)
 	delete dat;
 }
 
-void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, int bAppend)
+void CMsgDialog::StreamInEvents(MEVENT hDbEventFirst, int count, int bAppend)
 {
 	// IEVIew MOD Begin
 	if (m_hwndIeview != nullptr) {
