@@ -155,25 +155,25 @@ int CMsgDialog::InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 	switch (action) {
 	case KB_PREV_TAB:
-		SendMessage(m_pParent->hwnd, CM_ACTIVATEPREV, 0, (LPARAM)m_hwnd);
+		m_pParent->ActivatePrevChild(m_hwnd);
 		return FALSE;
 	case KB_NEXT_TAB:
-		SendMessage(m_pParent->hwnd, CM_ACTIVATENEXT, 0, (LPARAM)m_hwnd);
+		m_pParent->ActivateNextChild(m_hwnd);
 		return FALSE;
 	case KB_SWITCHSTATUSBAR:
-		SendMessage(m_pParent->hwnd, DM_SWITCHSTATUSBAR, 0, 0);
+		SendMessage(m_pParent->m_hwnd, DM_SWITCHSTATUSBAR, 0, 0);
 		return FALSE;
 	case KB_SWITCHTITLEBAR:
-		SendMessage(m_pParent->hwnd, DM_SWITCHTITLEBAR, 0, 0);
+		SendMessage(m_pParent->m_hwnd, DM_SWITCHTITLEBAR, 0, 0);
 		return FALSE;
 	case KB_SWITCHINFOBAR:
-		SendMessage(m_pParent->hwnd, DM_SWITCHINFOBAR, 0, 0);
+		SendMessage(m_pParent->m_hwnd, DM_SWITCHINFOBAR, 0, 0);
 		return FALSE;
 	case KB_SWITCHTOOLBAR:
-		SendMessage(m_pParent->hwnd, DM_SWITCHTOOLBAR, 0, 0);
+		SendMessage(m_pParent->m_hwnd, DM_SWITCHTOOLBAR, 0, 0);
 		return FALSE;
 	case KB_MINIMIZE:
-		ShowWindow(m_pParent->hwnd, SW_MINIMIZE);
+		ShowWindow(m_pParent->m_hwnd, SW_MINIMIZE);
 		return FALSE;
 	case KB_CLOSE:
 		SendMessage(m_hwnd, WM_CLOSE, 0, 0);
@@ -190,7 +190,7 @@ int CMsgDialog::InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	case KB_TAB7:
 	case KB_TAB8:
 	case KB_TAB9:
-		SendMessage(m_pParent->hwnd, CM_ACTIVATEBYINDEX, 0, action - KB_TAB1);
+		m_pParent->ActivateChildByIndex(action - KB_TAB1);
 		return FALSE;
 	case KB_SEND_ALL:
 		PostMessage(m_hwnd, WM_COMMAND, IDC_SENDALL, 0);
@@ -209,7 +209,7 @@ int CMsgDialog::InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	switch (msg) {
 	case WM_KEYDOWN:
 		if (wParam >= '1' && wParam <= '9' && isCtrl) {
-			SendMessage(m_pParent->hwnd, CM_ACTIVATEBYINDEX, 0, wParam - '1');
+			m_pParent->ActivateChildByIndex(wParam - '1');
 			return 0;
 		}
 
@@ -270,11 +270,11 @@ int CMsgDialog::InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 	case WM_SYSKEYDOWN:
 		if ((wParam == VK_LEFT) && isAlt) {
-			SendMessage(m_pParent->hwnd, CM_ACTIVATEPREV, 0, (LPARAM)m_hwnd);
+			m_pParent->ActivatePrevChild(m_hwnd);
 			return 0;
 		}
 		if ((wParam == VK_RIGHT) && isAlt) {
-			SendMessage(m_pParent->hwnd, CM_ACTIVATENEXT, 0, (LPARAM)m_hwnd);
+			m_pParent->ActivateNextChild(m_hwnd);
 			return 0;
 		}
 		break;

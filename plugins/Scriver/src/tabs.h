@@ -23,22 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef MSGWINDOW_H
 #define MSGWINDOW_H
 
-/* container services */
-#define CM_ADDCHILD         (WM_USER+0x180)
-#define CM_REMOVECHILD      (WM_USER+0x181)
-#define CM_ACTIVATECHILD    (WM_USER+0x182)
-#define CM_ACTIVATEPREV     (WM_USER+0x183)
-#define CM_ACTIVATENEXT     (WM_USER+0x184)
-#define CM_ACTIVATEBYINDEX	 (WM_USER+0x185)
-
-#define CM_GETCHILDCOUNT    (WM_USER+0x188)
-
-#define CM_UPDATETITLEBAR   (WM_USER+0x190)
-#define CM_UPDATESTATUSBAR  (WM_USER+0x191)
-#define CM_UPDATETABCONTROL (WM_USER+0x192)
-#define CM_STARTFLASHING    (WM_USER+0x1A0)
-#define CM_POPUPWINDOW      (WM_USER+0x1A1)
-
 /* child window services */
 #define DM_UPDATETABCONTROL (WM_USER+0x1B2)
 #define DM_SETPARENT        (WM_USER+0x1B3)
@@ -46,17 +30,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define DM_GETCONTEXTMENU   (WM_USER+0x1B7)
 #define DM_SETFOCUS         (WM_USER+0x1BA)
 #define DM_CLISTSETTINGSCHANGED   (WM_USER+0x1BB)
-
-#define SBDF_TEXT  1
-#define SBDF_ICON  2
-
-struct StatusBarData
-{
-	int iItem;
-	int iFlags;
-	wchar_t *pszText;
-	HICON hIcon;
-};
 
 #define TBDF_TEXT 1
 #define TBDF_ICON 2
@@ -78,6 +51,74 @@ struct TabControlData
 	int iFlags;
 	wchar_t *pszText;
 	HICON hIcon;
+};
+
+#define SBDF_TEXT  1
+#define SBDF_ICON  2
+
+struct StatusBarData
+{
+	int iItem;
+	int iFlags;
+	wchar_t *pszText;
+	HICON hIcon;
+};
+
+struct TabCtrlData
+{
+	int lastClickTime;
+	WPARAM clickWParam;
+	LPARAM clickLParam;
+	POINT mouseLBDownPos;
+	HIMAGELIST hDragImageList;
+	int bDragging;
+	int bDragged;
+	int destTab;
+	int srcTab;
+};
+
+struct ParentWindowData
+{
+	HWND m_hwnd;
+	MCONTACT m_hContact;
+	int m_iChildrenCount;
+	HWND m_hwndActive;
+	HWND m_hwndStatus;
+	HWND m_hwndTabs;
+	TabFlags flags2;
+	RECT childRect;
+	POINT mouseLBDownPos;
+	int mouseLBDown;
+	int nFlash;
+	int nFlashMax;
+	int bMinimized;
+	int bVMaximized;
+	int iSplitterX, iSplitterY;
+
+	bool bTopmost;
+
+	void ActivateChild(HWND child);
+	void ActivateChildByIndex(int index);
+	void ActivateNextChild(HWND child);
+	void ActivatePrevChild(HWND child);
+	void AddChild(CMsgDialog *pDlg);
+	void CloseOtherChilden(CMsgDialog *pDlg);
+	int  GetChildCount();
+	void GetChildWindowRect(RECT *rcChild);
+	int  GetTabFromHWND(HWND child);
+	CMsgDialog *GetChildFromHWND(HWND hwnd);
+	void PopupWindow(HWND hwnd, bool bIncoming);
+	void RemoveChild(HWND child);
+	void SetContainerWindowStyle();
+	void StartFlashing();
+	void UpdateStatusBar(const StatusBarData &sbd, HWND);
+	void UpdateTabControl(const TabControlData &tbd, HWND);
+	void UpdateTitleBar(const TitleBarData &tbd, HWND);
+
+	int windowWasCascaded;
+	TabCtrlData *tabCtrlDat;
+	BOOL isChat;
+	ParentWindowData *prev, *next;
 };
 
 HWND GetParentWindow(MCONTACT hContact, bool bChat);

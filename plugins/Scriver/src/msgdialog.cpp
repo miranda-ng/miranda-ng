@@ -319,6 +319,8 @@ bool CMsgDialog::OnInitDialog()
 			m_bUseIEView = false;
 	}
 
+	m_pParent->AddChild(this);
+
 	if (isChat()) {
 		UpdateOptions();
 		UpdateStatusBar();
@@ -398,16 +400,15 @@ bool CMsgDialog::OnInitDialog()
 			} while ((hdbEvent = db_event_prev(m_hContact, hdbEvent)));
 		}
 
-		SendMessage(m_hwndParent, CM_POPUPWINDOW, m_bIncoming, (LPARAM)m_hwnd);
 		SendMessage(m_hwnd, DM_OPTIONSAPPLIED, 0, 0);
 
 		if (notifyUnread) {
-			if (GetForegroundWindow() != m_hwndParent || m_pParent->hwndActive != m_hwnd) {
+			if (GetForegroundWindow() != m_hwndParent || m_pParent->m_hwndActive != m_hwnd) {
 				m_iShowUnread = 1;
 				SendMessage(m_hwnd, DM_UPDATEICON, 0, 0);
 				SetTimer(m_hwnd, TIMERID_UNREAD, TIMEOUT_UNREAD, nullptr);
 			}
-			SendMessage(m_hwndParent, CM_STARTFLASHING, 0, 0);
+			StartFlashing();
 		}
 
 		m_iMessagesInProgress = ReattachSendQueueItems(m_hwnd, m_hContact);
@@ -415,8 +416,7 @@ bool CMsgDialog::OnInitDialog()
 			SendMessage(m_hwnd, DM_SHOWMESSAGESENDING, 0, 0);
 	}
 
-	SendMessage(m_hwndParent, CM_ADDCHILD, (WPARAM)this, 0);
-
+	PopupWindow(m_bIncoming);
 	NotifyEvent(MSG_WINDOW_EVT_OPEN);
 	return true;
 }
@@ -466,7 +466,7 @@ void CMsgDialog::OnDestroy()
 	if (m_si)
 		m_si->pDlg = nullptr;
 
-	SendMessage(m_hwndParent, CM_REMOVECHILD, 0, (LPARAM)m_hwnd);
+	m_pParent->RemoveChild(m_hwnd);
 	if (m_hwndIeview != nullptr) {
 		IEVIEWWINDOW ieWindow = { sizeof(ieWindow) };
 		ieWindow.iType = IEW_DESTROY;
@@ -791,7 +791,7 @@ void CMsgDialog::Reattach(HWND hwndContainer)
 		hParent = GetParent(hParent);
 
 	hParent = WindowList_Find(g_dat.hParentWindowList, (UINT_PTR)hParent);
-	if ((hParent != nullptr && hParent != hwndContainer) || (hParent == nullptr && m_pParent->childrenCount > 1 && (GetKeyState(VK_CONTROL) & 0x8000))) {
+	if ((hParent != nullptr && hParent != hwndContainer) || (hParent == nullptr && m_pParent->m_iChildrenCount > 1 && (GetKeyState(VK_CONTROL) & 0x8000))) {
 		if (hParent == nullptr) {
 			hParent = GetParentWindow(hContact, false);
 
@@ -818,11 +818,11 @@ void CMsgDialog::Reattach(HWND hwndContainer)
 		NotifyEvent(MSG_WINDOW_EVT_CLOSING);
 		NotifyEvent(MSG_WINDOW_EVT_CLOSE);
 		SetParent(hParent);
-		SendMessage(hwndContainer, CM_REMOVECHILD, 0, (LPARAM)m_hwnd);
+		m_pParent->RemoveChild(m_hwnd);
 		SendMessage(m_hwnd, DM_SETPARENT, 0, (LPARAM)hParent);
-		SendMessage(hParent, CM_ADDCHILD, (WPARAM)this, 0);
+		m_pParent->AddChild(this);
 		SendMessage(m_hwnd, DM_UPDATETABCONTROL, 0, 0);
-		SendMessage(hParent, CM_ACTIVATECHILD, 0, (LPARAM)m_hwnd);
+		m_pParent->ActivateChild(m_hwnd);
 		NotifyEvent(MSG_WINDOW_EVT_OPENING);
 		NotifyEvent(MSG_WINDOW_EVT_OPEN);
 		ShowWindow(hParent, SW_SHOWNA);
@@ -911,7 +911,7 @@ void CMsgDialog::ShowAvatar()
 
 void CMsgDialog::UpdateStatusBar()
 {
-	if (m_pParent->hwndActive != m_hwnd)
+	if (m_pParent->m_hwndActive != m_hwnd)
 		return;
 
 	if (isChat()) {
@@ -923,12 +923,12 @@ void CMsgDialog::UpdateStatusBar()
 		sbd.iFlags = SBDF_TEXT | SBDF_ICON;
 		sbd.hIcon = m_si->wStatus == ID_STATUS_ONLINE ? m_si->pMI->hOnlineIcon : m_si->pMI->hOfflineIcon;
 		sbd.pszText = szTemp;
-		SendMessage(m_hwndParent, CM_UPDATESTATUSBAR, (WPARAM)& sbd, (LPARAM)m_hwnd);
+		m_pParent->UpdateStatusBar(sbd, m_hwnd);
 
 		sbd.iItem = 1;
 		sbd.hIcon = nullptr;
 		sbd.pszText = L"";
-		SendMessage(m_hwndParent, CM_UPDATESTATUSBAR, (WPARAM)& sbd, (LPARAM)m_hwnd);
+		m_pParent->UpdateStatusBar(sbd, m_hwnd);
 
 		Srmm_SetIconFlags(m_hContact, SRMM_MODULE, 0, 0);
 	}
@@ -955,8 +955,8 @@ void CMsgDialog::UpdateStatusBar()
 			sbd.pszText = szText;
 		}
 		else sbd.pszText = L"";
+		m_pParent->UpdateStatusBar(sbd, m_hwnd);
 
-		SendMessage(m_hwndParent, CM_UPDATESTATUSBAR, (WPARAM)&sbd, (LPARAM)m_hwnd);
 		UpdateReadChars();
 
 		Srmm_SetIconFlags(m_hContact, SRMM_MODULE, 0, MBF_DISABLED);
@@ -971,7 +971,7 @@ void CMsgDialog::UpdateStatusBar()
 
 void CMsgDialog::UpdateReadChars()
 {
-	if (m_pParent->hwndActive == m_hwnd) {
+	if (m_pParent->m_hwndActive == m_hwnd) {
 		wchar_t szText[256];
 		int len = m_message.GetRichTextLength(1200);
 
@@ -981,7 +981,7 @@ void CMsgDialog::UpdateReadChars()
 		sbd.hIcon = nullptr;
 		sbd.pszText = szText;
 		mir_snwprintf(szText, L"%d", len);
-		SendMessage(m_hwndParent, CM_UPDATESTATUSBAR, (WPARAM)&sbd, (LPARAM)m_hwnd);
+		m_pParent->UpdateStatusBar(sbd, m_hwnd);
 	}
 }
 
@@ -1042,7 +1042,7 @@ void CMsgDialog::UpdateTitle()
 	}
 
 	tbd.pszText = wszTitle.GetBuffer();
-	SendMessage(m_hwndParent, CM_UPDATETITLEBAR, (WPARAM)&tbd, (LPARAM)m_hwnd);
+	m_pParent->UpdateTitleBar(tbd, m_hwnd);
 
 	if (isChat())
 		SendMessage(m_hwnd, DM_UPDATETABCONTROL, 0, 0);
@@ -1568,12 +1568,13 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			TitleBarData tbd = { 0 };
 			tbd.iFlags = TBDF_ICON;
 			GetTitlebarIcon(&tbd);
-			SendMessage(m_hwndParent, CM_UPDATETITLEBAR, (WPARAM)&tbd, (LPARAM)m_hwnd);
+			m_pParent->UpdateTitleBar(tbd, m_hwnd);
 
 			TabControlData tcd;
 			tcd.iFlags = TCDF_ICON;
 			tcd.hIcon = GetTabIcon();
-			SendMessage(m_hwndParent, CM_UPDATETABCONTROL, (WPARAM)&tcd, (LPARAM)m_hwnd);
+			m_pParent->UpdateTabControl(tcd, m_hwnd);
+
 			SendDlgItemMessage(m_hwnd, IDC_USERMENU, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_hStatusIcon);
 		}
 		break;
@@ -1583,7 +1584,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		tcd.iFlags = TCDF_TEXT | TCDF_ICON;
 		tcd.hIcon = GetTabIcon();
 		tcd.pszText = Clist_GetContactDisplayName(m_hContact);
-		SendMessage(m_hwndParent, CM_UPDATETABCONTROL, (WPARAM)&tcd, (LPARAM)m_hwnd);
+		m_pParent->UpdateTabControl(tcd, m_hwnd);
 		break;
 
 	case DM_CLISTSETTINGSCHANGED:
@@ -1815,7 +1816,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_SETFOCUS:
-		SendMessage(m_hwndParent, CM_ACTIVATECHILD, 0, (LPARAM)m_hwnd);
+		m_pParent->ActivateChild(m_hwnd);
 		g_dat.hFocusWnd = m_hwnd;
 		PostMessage(m_hwnd, DM_SETFOCUS, 0, 0);
 		return TRUE;
@@ -1865,9 +1866,9 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					else
 						Skin_PlaySound("RecvMsgInactive");
 					if (g_dat.flags2.bSwitchToActive && (IsIconic(m_hwndParent) || GetActiveWindow() != m_hwndParent) && IsWindowVisible(m_hwndParent))
-						SendMessage(m_hwndParent, CM_ACTIVATECHILD, 0, (LPARAM)m_hwnd);
+						m_pParent->ActivateChild(m_hwnd);
 					if (IsAutoPopup(m_hContact))
-						SendMessage(m_hwndParent, CM_POPUPWINDOW, 1, (LPARAM)m_hwnd);
+						PopupWindow(true);
 				}
 
 				if (hDbEvent != m_hDbEventFirst && db_event_next(m_hContact, hDbEvent) == 0)
@@ -1881,7 +1882,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 						SendMessage(m_hwnd, DM_UPDATEICON, 0, 0);
 						SetTimer(m_hwnd, TIMERID_UNREAD, TIMEOUT_UNREAD, nullptr);
 					}
-					SendMessage(m_hwndParent, CM_STARTFLASHING, 0, 0);
+					StartFlashing();
 				}
 			}
 		}
@@ -1932,7 +1933,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (!m_bShowTyping) {
 				m_iShowUnread++;
 				tcd.hIcon = (m_iShowUnread & 1) ? m_hStatusIconOverlay : m_hStatusIcon;
-				SendMessage(m_hwndParent, CM_UPDATETABCONTROL, (WPARAM)&tcd, (LPARAM)m_hwnd);
+				m_pParent->UpdateTabControl(tcd, m_hwnd);
 			}
 		}
 		break;

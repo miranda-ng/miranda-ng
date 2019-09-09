@@ -125,7 +125,7 @@ void CMsgDialog::FixTabIcons()
 	TabControlData tcd = {};
 	tcd.iFlags = TCDF_ICON;
 	tcd.hIcon = hIcon;
-	SendMessage(m_hwndParent, CM_UPDATETABCONTROL, (WPARAM)&tcd, (LPARAM)m_hwnd);
+	m_pParent->UpdateTabControl(tcd, m_hwnd);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -331,8 +331,7 @@ void ShowRoom(SESSION_INFO *si)
 	else pDlg = si->pDlg;
 	
 	SendMessage(pDlg->GetHwnd(), DM_UPDATETABCONTROL, -1, (LPARAM)si);
-	SendMessage(GetParent(pDlg->GetHwnd()), CM_ACTIVATECHILD, 0, (LPARAM)pDlg->GetHwnd());
-	SendMessage(GetParent(pDlg->GetHwnd()), CM_POPUPWINDOW, 0, (LPARAM)pDlg->GetHwnd());
+	pDlg->PopupWindow();
 	SendMessage(pDlg->GetHwnd(), WM_MOUSEACTIVATE, 0, 0);
 	SetFocus(GetDlgItem(pDlg->GetHwnd(), IDC_SRMM_MESSAGE));
 }

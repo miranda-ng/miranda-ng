@@ -54,45 +54,6 @@ struct ToolbarButton
 	int width;
 };
 
-struct TabCtrlData
-{
-	int lastClickTime;
-	WPARAM clickWParam;
-	LPARAM clickLParam;
-	POINT mouseLBDownPos;
-	HIMAGELIST hDragImageList;
-	int bDragging;
-	int bDragged;
-	int destTab;
-	int srcTab;
-};
-
-struct ParentWindowData
-{
-	HWND hwnd;
-	MCONTACT hContact;
-	int childrenCount;
-	HWND hwndActive;
-	HWND hwndStatus;
-	HWND hwndTabs;
-	TabFlags flags2;
-	RECT childRect;
-	POINT mouseLBDownPos;
-	int mouseLBDown;
-	int nFlash;
-	int nFlashMax;
-	int bMinimized;
-	int bVMaximized;
-	int iSplitterX, iSplitterY;
-
-	bool bTopmost;
-
-	int windowWasCascaded;
-	TabCtrlData *tabCtrlDat;
-	BOOL isChat;
-	ParentWindowData *prev, *next;
-};
-
 #define NMWLP_INCOMING 1
 
 class CMsgDialog : public CSrmmBaseDialog
@@ -203,9 +164,16 @@ public:
 	LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	LRESULT WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
-	bool IsActive() const
-	{
-		return GetActiveWindow() == m_hwndParent && GetForegroundWindow() == m_hwndParent && m_pParent->hwndActive == m_hwnd;
+	__forceinline bool IsActive() const
+	{	return GetActiveWindow() == m_hwndParent && GetForegroundWindow() == m_hwndParent && m_pParent->m_hwndActive == m_hwnd;
+	}
+
+	__forceinline void PopupWindow(bool bIncoming = false) const
+	{	m_pParent->PopupWindow(m_hwnd, bIncoming);
+	}
+
+	__forceinline void StartFlashing() const
+	{	m_pParent->StartFlashing();
 	}
 
 	wchar_t *m_wszInitialText;

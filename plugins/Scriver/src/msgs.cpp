@@ -71,11 +71,11 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 	CLISTEVENT *pcle = (CLISTEVENT*)lParam;
 	MCONTACT hContact = db_mc_tryMeta(pcle->hContact);
 
-	HWND hwndExisting = Srmm_FindWindow(hContact);
-	if (hwndExisting == nullptr)
+	auto *pDlg = Srmm_FindDialog(hContact);
+	if (pDlg == nullptr)
 		(new CMsgDialog(hContact, false))->Show();
 	else
-		SendMessage(GetParent(hwndExisting), CM_POPUPWINDOW, 0, (LPARAM)hwndExisting);
+		pDlg->PopupWindow();
 	return 0;
 }
 
@@ -139,18 +139,18 @@ static INT_PTR SendMessageCommandWorker(MCONTACT hContact, wchar_t *pszMsg)
 	if (!(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND))
 		return 1;
 
-	HWND hwnd = Srmm_FindWindow(hContact);
-	if (hwnd != nullptr) {
+	auto *pDlg = Srmm_FindDialog(hContact);
+	if (pDlg != nullptr) {
 		if (pszMsg) {
-			HWND hEdit = GetDlgItem(hwnd, IDC_SRMM_MESSAGE);
+			HWND hEdit = GetDlgItem(pDlg->GetHwnd(), IDC_SRMM_MESSAGE);
 			SendMessage(hEdit, EM_SETSEL, -1, GetWindowTextLength(hEdit));
 			SendMessage(hEdit, EM_REPLACESEL, FALSE, (LPARAM)pszMsg);
 			mir_free(pszMsg);
 		}
-		SendMessage(GetParent(hwnd), CM_POPUPWINDOW, 0, (LPARAM)hwnd);
+		pDlg->PopupWindow();
 	}
 	else {
-		CMsgDialog *pDlg = new CMsgDialog(hContact, false);
+		pDlg = new CMsgDialog(hContact, false);
 		pDlg->m_wszInitialText = pszMsg;
 		pDlg->Show();
 	}
@@ -285,8 +285,8 @@ void CMsgDialog::SetStatusText(const wchar_t *wszText, HICON hIcon)
 {
 	ParentWindowData *pDat = m_pParent;
 	if (pDat != nullptr) {
-		SendMessage(pDat->hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
-		SendMessage(pDat->hwndStatus, SB_SETTEXT, 0, (LPARAM)(wszText == nullptr ? L"" : wszText));
+		SendMessage(pDat->m_hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
+		SendMessage(pDat->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)(wszText == nullptr ? L"" : wszText));
 	}
 }
 
