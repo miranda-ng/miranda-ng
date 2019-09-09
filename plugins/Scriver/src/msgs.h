@@ -156,6 +156,7 @@ public:
 	void UpdateNickList() override;
 	void UpdateOptions() override;
 	void UpdateStatusBar() override;
+	void UpdateTabControl();
 	void UpdateTitle() override;
 
 	void FixTabIcons();

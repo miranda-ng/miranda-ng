@@ -193,37 +193,81 @@ void CMsgDialog::UpdateNickList()
 
 void CMsgDialog::UpdateOptions()
 {
-	m_btnNickList.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bNicklistEnabled ? IDI_NICKLIST : IDI_NICKLIST2));
-	m_btnFilter.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bFilterEnabled ? IDI_FILTER : IDI_FILTER2));
+	m_bUseRtl = g_plugin.getByte(m_hContact, "UseRTL", 0) != 0;
+	m_bUseIEView = (g_dat.ieviewInstalled && g_dat.flags.bUseIeview && !isChat());
 
-	m_btnBold.Enable(m_si->pMI->bBold);
-	m_btnItalic.Enable(m_si->pMI->bItalics);
-	m_btnUnderline.Enable(m_si->pMI->bUnderline);
-	m_btnColor.Enable(m_si->pMI->bColor);
-	m_btnBkColor.Enable(m_si->pMI->bBkgColor);
-	if (m_si->iType == GCW_CHATROOM)
-		m_btnChannelMgr.Enable(m_si->pMI->bChanMgr);
+	if (m_bUseIEView && m_hwndIeview == nullptr) {
+		IEVIEWWINDOW ieWindow = { sizeof(ieWindow) };
+		ieWindow.iType = IEW_CREATE;
+		ieWindow.dwMode = IEWM_SCRIVER;
+		ieWindow.parent = m_hwnd;
+		ieWindow.cx = 200;
+		ieWindow.cy = 300;
+		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)& ieWindow);
+		m_hwndIeview = ieWindow.hwnd;
+		if (m_hwndIeview == nullptr)
+			m_bUseIEView = false;
+	}
+	else if (!m_bUseIEView && m_hwndIeview != nullptr) {
+		if (m_hwndIeview != nullptr) {
+			IEVIEWWINDOW ieWindow = { sizeof(ieWindow) };
+			ieWindow.iType = IEW_DESTROY;
+			ieWindow.hwnd = m_hwndIeview;
+			CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)& ieWindow);
+		}
+		m_hwndIeview = nullptr;
+	}
 
-	UpdateStatusBar();
-	UpdateTitle();
-	FixTabIcons();
+	SendMessage(m_hwnd, DM_GETAVATAR, 0, 0);
+	SetDialogToType();
 
-	m_log.SendMsg(EM_SETBKGNDCOLOR, 0, g_Settings.crLogBackground);
+	COLORREF colour = g_plugin.getDword(SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR);
+	m_log.SendMsg(EM_SETBKGNDCOLOR, 0, colour);
+	colour = g_plugin.getDword(SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
+	m_message.SendMsg(EM_SETBKGNDCOLOR, 0, colour);
+	InvalidateRect(m_message.GetHwnd(), nullptr, FALSE);
 
-	// messagebox
-	COLORREF crFore;
-	LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, nullptr, &crFore);
+	LOGFONT lf;
+	LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, &colour);
 
-	CHARFORMAT2 cf;
-	cf.cbSize = sizeof(CHARFORMAT2);
-	cf.dwMask = CFM_COLOR | CFM_BOLD | CFM_UNDERLINE | CFM_BACKCOLOR;
-	cf.dwEffects = 0;
-	cf.crTextColor = crFore;
-	cf.crBackColor = g_plugin.getDword(SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
-	m_message.SendMsg(EM_SETBKGNDCOLOR, 0, g_plugin.getDword(SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR));
-	m_message.SendMsg(WM_SETFONT, (WPARAM)g_Settings.MessageBoxFont, MAKELPARAM(TRUE, 0));
-	m_message.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
-	{
+	CHARFORMAT2 cf2;
+	memset(&cf2, 0, sizeof(cf2));
+	cf2.cbSize = sizeof(cf2);
+	cf2.dwMask = CFM_COLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_BOLD | CFM_ITALIC;
+	cf2.crTextColor = colour;
+	cf2.bCharSet = lf.lfCharSet;
+	wcsncpy(cf2.szFaceName, lf.lfFaceName, LF_FACESIZE);
+	cf2.dwEffects = ((lf.lfWeight >= FW_BOLD) ? CFE_BOLD : 0) | (lf.lfItalic ? CFE_ITALIC : 0);
+	cf2.wWeight = (WORD)lf.lfWeight;
+	cf2.bPitchAndFamily = lf.lfPitchAndFamily;
+	cf2.yHeight = abs(lf.lfHeight) * 1440 / g_dat.logPixelSY;
+	m_message.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)& cf2);
+	m_message.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)m_message.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
+
+	PARAFORMAT2 pf2;
+	memset(&pf2, 0, sizeof(pf2));
+	pf2.cbSize = sizeof(pf2);
+	pf2.dwMask = PFM_OFFSET;
+	pf2.dxOffset = (g_dat.flags.bIndentText) ? g_dat.indentSize * 1440 / g_dat.logPixelSX : 0;
+
+	ClearLog();
+	m_log.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)& pf2);
+	m_log.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)m_log.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~(IMF_AUTOKEYBOARD | IMF_AUTOFONTSIZEADJUST));
+
+	if (isChat()) {
+		m_btnNickList.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bNicklistEnabled ? IDI_NICKLIST : IDI_NICKLIST2));
+		m_btnFilter.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bFilterEnabled ? IDI_FILTER : IDI_FILTER2));
+
+		m_btnBold.Enable(m_si->pMI->bBold);
+		m_btnItalic.Enable(m_si->pMI->bItalics);
+		m_btnUnderline.Enable(m_si->pMI->bUnderline);
+		m_btnColor.Enable(m_si->pMI->bColor);
+		m_btnBkColor.Enable(m_si->pMI->bBkgColor);
+		if (m_si->iType == GCW_CHATROOM)
+			m_btnChannelMgr.Enable(m_si->pMI->bChanMgr);
+
+		FixTabIcons();
+
 		// nicklist
 		int ih = Chat_GetTextPixelSize(L"AQG_glo'", g_Settings.UserListFont, false);
 		int ih2 = Chat_GetTextPixelSize(L"AQG_glo'", g_Settings.UserListHeadingsFont, false);
@@ -235,10 +279,19 @@ void CMsgDialog::UpdateOptions()
 
 		m_nickList.SendMsg(LB_SETITEMHEIGHT, 0, height > font ? height : font);
 		InvalidateRect(m_nickList.GetHwnd(), nullptr, TRUE);
+
+		RedrawLog2();
 	}
+	else {
+		UpdateTabControl();
+		SetupInfobar();
+	}
+
+	UpdateTitle();
+	UpdateStatusBar();
+
 	m_message.SendMsg(EM_REQUESTRESIZE, 0, 0);
 	Resize();
-	RedrawLog2();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -330,7 +383,7 @@ void ShowRoom(SESSION_INFO *si)
 	}
 	else pDlg = si->pDlg;
 	
-	SendMessage(pDlg->GetHwnd(), DM_UPDATETABCONTROL, -1, (LPARAM)si);
+	pDlg->UpdateTabControl();
 	pDlg->PopupWindow();
 	SendMessage(pDlg->GetHwnd(), WM_MOUSEACTIVATE, 0, 0);
 	SetFocus(GetDlgItem(pDlg->GetHwnd(), IDC_SRMM_MESSAGE));

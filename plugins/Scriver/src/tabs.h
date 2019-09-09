@@ -24,7 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MSGWINDOW_H
 
 /* child window services */
-#define DM_UPDATETABCONTROL (WM_USER+0x1B2)
 #define DM_SETPARENT        (WM_USER+0x1B3)
 #define DM_ACTIVATE         (WM_USER+0x1B6)
 #define DM_GETCONTEXTMENU   (WM_USER+0x1B7)

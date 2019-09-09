@@ -135,5 +135,6 @@ int StatusIconPressed(WPARAM wParam, LPARAM lParam);
 #include "chat.h"
 
 extern GlobalMessageData g_dat;
+extern LIST<CMsgDialog> g_arDialogs;
 
 #endif

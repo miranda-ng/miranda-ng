@@ -79,7 +79,8 @@ int FontServiceFontsChanged(WPARAM, LPARAM)
 {
 	LoadMsgLogIcons();
 	LoadInfobarFonts();
-	Srmm_Broadcast(DM_OPTIONSAPPLIED, 0, 0);
+	for (auto &it : g_arDialogs)
+		it->UpdateOptions();
 	return 0;
 }
 
@@ -182,7 +183,8 @@ class CBaseOptionDlg : public CDlgBase
 	{
 		ReloadGlobals();
 		WindowList_Broadcast(g_dat.hParentWindowList, DM_OPTIONSAPPLIED, 0, 0);
-		Srmm_Broadcast(DM_OPTIONSAPPLIED, 0, 0);
+		for (auto &it : g_arDialogs)
+			it->UpdateOptions();
 		Chat_UpdateOptions();
 	}
 
@@ -839,7 +841,8 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 				g_plugin.bShowTypingClist = IsDlgButtonChecked(hwndDlg, IDC_NOTIFYTRAY);
 				g_plugin.bShowTypingSwitch = IsDlgButtonChecked(hwndDlg, IDC_TYPINGSWITCH);
 				ReloadGlobals();
-				Srmm_Broadcast(DM_OPTIONSAPPLIED, 0, 0);
+				for (auto &it : g_arDialogs)
+					it->UpdateOptions();
 			}
 			break;
 		}
