@@ -89,6 +89,12 @@ MIR_APP_DLL(HWND) Srmm_FindWindow(MCONTACT hContact)
 	return WindowList_Find(g_hWindowList, hContact);
 }
 
+MIR_APP_DLL(CMsgDialog*) Srmm_FindDialog(MCONTACT hContact)
+{
+	HWND hwnd = Srmm_FindWindow(hContact);
+	return (hwnd) ? (CMsgDialog *)GetWindowLongPtr(hwnd, GWLP_USERDATA) : nullptr;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // serializes all thread-unsafe operation to the first thread
 

@@ -389,6 +389,7 @@ EXTERN_C MIR_APP_DLL(void) Srmm_Broadcast(UINT, WPARAM, LPARAM);
 
 // finds a SRMM window using hContact
 EXTERN_C MIR_APP_DLL(HWND) Srmm_FindWindow(MCONTACT hContact);
+EXTERN_C MIR_APP_DLL(CMsgDialog*) Srmm_FindDialog(MCONTACT hContact);
 
 // updates options for all windows
 EXTERN_C MIR_APP_DLL(void) Chat_UpdateOptions();

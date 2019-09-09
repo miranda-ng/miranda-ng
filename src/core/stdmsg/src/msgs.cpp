@@ -29,14 +29,6 @@ int OnCheckPlugins(WPARAM, LPARAM);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CMsgDialog* Srmm_FindDialog(MCONTACT hContact)
-{
-	HWND hwnd = Srmm_FindWindow(hContact);
-	return (hwnd) ? (CMsgDialog *)GetWindowLongPtr(hwnd, GWLP_USERDATA) : nullptr;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 int SendMessageDirect(const wchar_t *szMsg, MCONTACT hContact)
 {
 	if (hContact == 0)
