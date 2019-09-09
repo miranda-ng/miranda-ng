@@ -1209,14 +1209,6 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		else m_message.SendMsg(EM_PASTESPECIAL, CF_TEXT, 0);
 		return 0;
 
-	case WM_KEYUP:
-	case WM_LBUTTONUP:
-	case WM_RBUTTONUP:
-	case WM_MBUTTONUP:
-		if (isChat())
-			RefreshButtonStatus();
-		break;
-
 	case WM_KEYDOWN:
 		bool isShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
 		bool isCtrl = (GetKeyState(VK_CONTROL) & 0x8000) != 0;

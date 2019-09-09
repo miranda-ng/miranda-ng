@@ -359,6 +359,13 @@ LRESULT CSrmmBaseDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_GETDLGCODE:
 		return res & ~DLGC_HASSETSEL;
 
+	case WM_KEYUP:
+	case WM_LBUTTONUP:
+	case WM_RBUTTONUP:
+	case WM_MBUTTONUP:
+		RefreshButtonStatus();
+		break;
+
 	case WM_KEYDOWN:
 	case WM_SYSKEYDOWN:
 		if (!(GetKeyState(VK_RMENU) & 0x8000)) {
@@ -959,8 +966,11 @@ bool CSrmmBaseDialog::ProcessHotkeys(int key, bool isShift, bool isCtrl, bool is
 	return false;
 }
 
-void CSrmmBaseDialog::RefreshButtonStatus(void)
+void CSrmmBaseDialog::RefreshButtonStatus()
 {
+	if (m_si == nullptr)
+		return;
+
 	CHARFORMAT2 cf;
 	cf.cbSize = sizeof(CHARFORMAT2);
 	cf.dwMask = CFM_BOLD | CFM_ITALIC | CFM_UNDERLINE | CFM_BACKCOLOR | CFM_COLOR;

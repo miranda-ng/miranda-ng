@@ -1312,13 +1312,6 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		m_iLastEnterTime = 0;
 		break;
 
-	case WM_KEYUP:
-	case WM_LBUTTONUP:
-	case WM_RBUTTONUP:
-	case WM_MBUTTONUP:
-		RefreshButtonStatus();
-		break;
-
 	case WM_ERASEBKGND:
 		return !CSkin::m_skinEnabled;
 	}

@@ -326,6 +326,9 @@ bool CMsgDialog::OnInitDialog()
 		UpdateNickList();
 	}
 	else {
+		m_nickList.Hide();
+		m_splitterX.Hide();
+
 		bool notifyUnread = false;
 		if (m_hContact) {
 			int historyMode = g_plugin.iHistoryMode;
@@ -639,6 +642,34 @@ void CMsgDialog::onChange_Message(CCtrlEdit*)
 			NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
 	}
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CMsgDialog::onClick_ShowList(CCtrlButton *pButton)
+{
+	if (!pButton->Enabled() || m_si->iType == GCW_SERVER)
+		return;
+
+	m_bNicklistEnabled = !m_bNicklistEnabled;
+	pButton->SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bNicklistEnabled ? IDI_NICKLIST : IDI_NICKLIST2));
+	ScrollToBottom();
+	Resize();
+}
+
+void CMsgDialog::onClick_Filter(CCtrlButton *pButton)
+{
+	if (!pButton->Enabled())
+		return;
+
+	m_bFilterEnabled = !m_bFilterEnabled;
+	pButton->SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bFilterEnabled ? IDI_FILTER : IDI_FILTER2));
+	if (m_bFilterEnabled && db_get_b(0, CHAT_MODULE, "RightClickFilter", 0) == 0)
+		ShowFilterMenu();
+	else
+		RedrawLog();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CMsgDialog::onChange_SplitterX(CSplitter *pSplitter)
 {
@@ -1342,13 +1373,6 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		m_iLastEnterTime = 0;
 		break;
 
-	case WM_KEYUP:
-	case WM_LBUTTONUP:
-	case WM_RBUTTONUP:
-	case WM_MBUTTONUP:
-		RefreshButtonStatus();
-		break;
-
 	case WM_SYSCHAR:
 		m_iLastEnterTime = 0;
 		if ((wParam == 's' || wParam == 'S') && (GetKeyState(VK_MENU) & 0x8000)) {
@@ -1379,6 +1403,92 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		return TRUE;
 	}
 	return CSuper::WndProc_Message(msg, wParam, lParam);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+LRESULT CMsgDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	int result = InputAreaShortcuts(m_nickList.GetHwnd(), msg, wParam, lParam);
+	if (result != -1)
+		return result;
+
+	switch (msg) {
+	case WM_GETDLGCODE:
+		{
+			BOOL isAlt = GetKeyState(VK_MENU) & 0x8000;
+			BOOL isCtrl = (GetKeyState(VK_CONTROL) & 0x8000) && !isAlt;
+
+			LPMSG lpmsg;
+			if ((lpmsg = (LPMSG)lParam) != nullptr) {
+				if (lpmsg->message == WM_KEYDOWN
+					&& (lpmsg->wParam == VK_RETURN || lpmsg->wParam == VK_ESCAPE || (lpmsg->wParam == VK_TAB && (isAlt || isCtrl))))
+					return DLGC_WANTALLKEYS;
+			}
+		}
+		break;
+
+	case WM_KEYDOWN:
+		if (wParam == VK_RETURN) {
+			int index = m_nickList.SendMsg(LB_GETCURSEL, 0, 0);
+			if (index != LB_ERR) {
+				USERINFO *ui = g_chatApi.SM_GetUserFromIndex(m_si->ptszID, m_si->pszModule, index);
+				Chat_DoEventHook(m_si, GC_USER_PRIVMESS, ui, nullptr, 0);
+			}
+			break;
+		}
+
+		if (wParam == VK_ESCAPE || wParam == VK_UP || wParam == VK_DOWN || wParam == VK_NEXT || wParam == VK_PRIOR || wParam == VK_TAB || wParam == VK_HOME || wParam == VK_END)
+			m_wszSearch[0] = 0;
+		break;
+
+	case WM_CHAR:
+	case WM_UNICHAR:
+		/*
+		* simple incremental search for the user (nick) - list control
+		* typing esc or movement keys will clear the current search string
+		*/
+		if (wParam == 27 && m_wszSearch[0]) {						// escape - reset everything
+			m_wszSearch[0] = 0;
+			break;
+		}
+		else if (wParam == '\b' && m_wszSearch[0])					// backspace
+			m_wszSearch[mir_wstrlen(m_wszSearch) - 1] = '\0';
+		else if (wParam < ' ')
+			break;
+		else {
+			wchar_t szNew[2];
+			szNew[0] = (wchar_t)wParam;
+			szNew[1] = '\0';
+			if (mir_wstrlen(m_wszSearch) >= _countof(m_wszSearch) - 2) {
+				MessageBeep(MB_OK);
+				break;
+			}
+			mir_wstrcat(m_wszSearch, szNew);
+		}
+		if (m_wszSearch[0]) {
+			// iterate over the (sorted) list of nicknames and search for the
+			// string we have
+			int iItems = m_nickList.SendMsg(LB_GETCOUNT, 0, 0);
+			for (int i = 0; i < iItems; i++) {
+				USERINFO *ui = g_chatApi.UM_FindUserFromIndex(m_si, i);
+				if (ui) {
+					if (!wcsnicmp(ui->pszNick, m_wszSearch, mir_wstrlen(m_wszSearch))) {
+						m_nickList.SendMsg(LB_SETCURSEL, i, 0);
+						InvalidateRect(m_nickList.GetHwnd(), nullptr, FALSE);
+						return 0;
+					}
+				}
+			}
+
+			MessageBeep(MB_OK);
+			m_wszSearch[mir_wstrlen(m_wszSearch) - 1] = '\0';
+			return 0;
+		}
+		break;
+	}
+
+	return CSuper::WndProc_Nicklist(msg, wParam, lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
