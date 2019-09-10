@@ -795,7 +795,6 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 			MoveWindow(dat->m_hwndActive, dat->childRect.left, dat->childRect.top, dat->childRect.right - dat->childRect.left, dat->childRect.bottom - dat->childRect.top, TRUE);
 		else {
 			RECT rcStatus, rcChild, rcWindow, rc;
-			SIZE size;
 			dat->bMinimized = 0;
 			GetClientRect(hwndDlg, &rc);
 			GetWindowRect(hwndDlg, &rcWindow);
@@ -806,18 +805,20 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 			}
 			MoveWindow(dat->m_hwndTabs, 0, 2, (rc.right - rc.left), (rc.bottom - rc.top) - (rcStatus.bottom - rcStatus.top) - 2, FALSE);
 			RedrawWindow(dat->m_hwndTabs, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_ERASE);
+
+			SIZE size;
 			GetMinimunWindowSize(dat, &size);
 			if ((rcWindow.bottom - rcWindow.top) < size.cy || (rcWindow.right - rcWindow.left) < size.cx) {
-				if ((rcWindow.bottom - rcWindow.top) < size.cy)
-					rcWindow.bottom = rcWindow.top + size.cy;
-				if ((rcWindow.right - rcWindow.left) < size.cx)
-					rcWindow.right = rcWindow.left + size.cx;
-				MoveWindow(hwndDlg, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, TRUE);
+				SetTimer(hwndDlg, TIMERID_RESIZE, 50, nullptr);
+				break;
 			}
+
 			dat->GetChildWindowRect(&rcChild);
 			dat->childRect = rcChild;
-			MoveWindow(dat->m_hwndActive, rcChild.left, rcChild.top, rcChild.right - rcChild.left, rcChild.bottom - rcChild.top, TRUE);
-			RedrawWindow(GetDlgItem(dat->m_hwndActive, IDC_SRMM_LOG), nullptr, nullptr, RDW_INVALIDATE);
+			if (dat->m_hwndActive) {
+				MoveWindow(dat->m_hwndActive, rcChild.left, rcChild.top, rcChild.right - rcChild.left, rcChild.bottom - rcChild.top, TRUE);
+				RedrawWindow(GetDlgItem(dat->m_hwndActive, IDC_SRMM_LOG), nullptr, nullptr, RDW_INVALIDATE);
+			}
 			if (dat->flags2.bShowStatusBar) {
 				SendMessage(dat->m_hwndStatus, WM_SIZE, 0, 0);
 				RedrawWindow(dat->m_hwndStatus, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ERASE);
@@ -948,6 +949,22 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 			else {
 				KillTimer(hwndDlg, TIMERID_FLASHWND);
 				FlashWindow(hwndDlg, FALSE);
+			}
+		}
+		if (wParam == TIMERID_RESIZE) {
+			KillTimer(hwndDlg, TIMERID_RESIZE);
+
+			RECT rcWindow;
+			GetWindowRect(hwndDlg, &rcWindow);
+
+			SIZE size;
+			GetMinimunWindowSize(dat, &size);
+			if ((rcWindow.bottom - rcWindow.top) < size.cy || (rcWindow.right - rcWindow.left) < size.cx) {
+				if ((rcWindow.bottom - rcWindow.top) < size.cy)
+					rcWindow.bottom = rcWindow.top + size.cy;
+				if ((rcWindow.right - rcWindow.left) < size.cx)
+					rcWindow.right = rcWindow.left + size.cx;
+				MoveWindow(hwndDlg, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, TRUE);
 			}
 		}
 		break;
