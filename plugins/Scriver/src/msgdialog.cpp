@@ -229,8 +229,8 @@ bool CMsgDialog::OnInitDialog()
 	m_lastEventTime = time(0);
 	m_startTime = time(0);
 
-	m_pParent->AddChild(this);
-	UpdateOptions();
+	m_bUseRtl = g_plugin.getByte(m_hContact, "UseRTL", 0) != 0;
+	m_bUseIEView = g_dat.ieviewInstalled ? g_dat.flags.bUseIeview : false;
 
 	PARAFORMAT2 pf2;
 	memset(&pf2, 0, sizeof(pf2));
@@ -307,17 +307,36 @@ bool CMsgDialog::OnInitDialog()
 			m_message.SendMsg(EM_EXLIMITTEXT, 0, nMax);
 	}
 
+	// get around a lame bug in the Windows template resource code where richedits are limited to 0x7FFF
+	m_log.SendMsg(EM_LIMITTEXT, sizeof(wchar_t) * 0x7FFFFFFF, 0);
+	::DragAcceptFiles(m_message.GetHwnd(), TRUE);
+	CreateInfobar();
+	
+	if (m_bUseIEView) {
+		IEVIEWWINDOW ieWindow = { sizeof(IEVIEWWINDOW) };
+		ieWindow.iType = IEW_CREATE;
+		ieWindow.dwMode = IEWM_SCRIVER;
+		ieWindow.parent = m_hwnd;
+		ieWindow.cx = 200;
+		ieWindow.cy = 300;
+		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
+		m_hwndIeview = ieWindow.hwnd;
+		if (m_hwndIeview == nullptr)
+			m_bUseIEView = false;
+	}
+
 	if (isChat()) {
+		UpdateOptions();
 		UpdateStatusBar();
 		UpdateTitle();
 		UpdateNickList();
+
+		m_pParent->AddChild(this);
+		m_pParent->PopupWindow(m_hwnd, false);
 	}
 	else {
 		m_nickList.Hide();
 		m_splitterX.Hide();
-
-		::DragAcceptFiles(m_message.GetHwnd(), TRUE);
-		CreateInfobar();
 
 		bool notifyUnread = false;
 		if (m_hContact) {
@@ -376,6 +395,8 @@ bool CMsgDialog::OnInitDialog()
 			}
 		}
 
+		m_pParent->AddChild(this);
+
 		MEVENT hdbEvent = db_event_last(m_hContact);
 		if (hdbEvent) {
 			DBEVENTINFO dbei = {};
@@ -388,7 +409,8 @@ bool CMsgDialog::OnInitDialog()
 			} while ((hdbEvent = db_event_prev(m_hContact, hdbEvent)));
 		}
 
-		SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
+		SendMessage(m_hwnd, DM_OPTIONSAPPLIED, 0, 0);
+		m_pParent->PopupWindow(m_hwnd, m_bIncoming);
 
 		if (notifyUnread) {
 			if (GetForegroundWindow() != m_hwndParent || m_pParent->m_hwndActive != m_hwnd) {
@@ -404,7 +426,6 @@ bool CMsgDialog::OnInitDialog()
 			SendMessage(m_hwnd, DM_SHOWMESSAGESENDING, 0, 0);
 	}
 
-	PopupWindow(m_bIncoming);
 	NotifyEvent(MSG_WINDOW_EVT_OPEN);
 	return true;
 }
@@ -860,10 +881,7 @@ void CMsgDialog::SetDialogToType()
 	}
 
 	m_message.Show();
-
-	bool bLogEnabled = (m_hwndIeview == nullptr);
-	m_log.Show(bLogEnabled);
-	m_log.Enable(bLogEnabled);
+	m_log.Show(m_hwndIeview == nullptr);
 
 	m_splitterY.Show();
 	m_btnOk.Enable(m_message.GetRichTextLength() != 0);
@@ -907,44 +925,47 @@ void CMsgDialog::UpdateStatusBar()
 	if (m_pParent->m_hwndActive != m_hwnd)
 		return;
 
-	wchar_t szTemp[512];
-
-	StatusBarData sbd = {};
-	sbd.iFlags = SBDF_TEXT | SBDF_ICON;
-	sbd.pszText = szTemp;
-
 	if (isChat()) {
+		wchar_t szTemp[512];
 		mir_snwprintf(szTemp, L"%s : %s", m_si->pMI->ptszModDispName, m_si->ptszStatusbarText ? m_si->ptszStatusbarText : L"");
 
+		StatusBarData sbd;
 		sbd.iItem = 0;
 		sbd.iFlags = SBDF_TEXT | SBDF_ICON;
 		sbd.hIcon = m_si->wStatus == ID_STATUS_ONLINE ? m_si->pMI->hOnlineIcon : m_si->pMI->hOfflineIcon;
+		sbd.pszText = szTemp;
 		m_pParent->UpdateStatusBar(sbd, m_hwnd);
 
 		sbd.iItem = 1;
 		sbd.hIcon = nullptr;
-		szTemp[0] = 0;
+		sbd.pszText = L"";
 		m_pParent->UpdateStatusBar(sbd, m_hwnd);
 
 		Srmm_SetIconFlags(m_hContact, SRMM_MODULE, 0, 0);
 	}
 	else {
+		wchar_t szText[256];
+		StatusBarData sbd = { 0 };
+		sbd.iFlags = SBDF_TEXT | SBDF_ICON;
 		if (m_iMessagesInProgress && g_dat.flags.bShowProgress) {
 			sbd.hIcon = g_plugin.getIcon(IDI_TIMESTAMP);
-			mir_snwprintf(szTemp, TranslateT("Sending in progress: %d message(s) left..."), m_iMessagesInProgress);
+			sbd.pszText = szText;
+			mir_snwprintf(szText, TranslateT("Sending in progress: %d message(s) left..."), m_iMessagesInProgress);
 		}
 		else if (m_nTypeSecs) {
 			sbd.hIcon = g_plugin.getIcon(IDI_TYPING);
-			mir_snwprintf(szTemp, TranslateT("%s is typing a message..."), Clist_GetContactDisplayName(m_hContact));
+			sbd.pszText = szText;
+			mir_snwprintf(szText, TranslateT("%s is typing a message..."), Clist_GetContactDisplayName(m_hContact));
 			m_nTypeSecs--;
 		}
 		else if (m_lastMessage) {
 			wchar_t date[64], time[64];
 			TimeZone_PrintTimeStamp(nullptr, m_lastMessage, L"d", date, _countof(date), 0);
 			TimeZone_PrintTimeStamp(nullptr, m_lastMessage, L"t", time, _countof(time), 0);
-			mir_snwprintf(szTemp, TranslateT("Last message received on %s at %s."), date, time);
+			mir_snwprintf(szText, TranslateT("Last message received on %s at %s."), date, time);
+			sbd.pszText = szText;
 		}
-		else szTemp[0] = 0;
+		else sbd.pszText = L"";
 		m_pParent->UpdateStatusBar(sbd, m_hwnd);
 
 		UpdateReadChars();
@@ -1043,7 +1064,8 @@ void CMsgDialog::UpdateTitle()
 	tbd.pszText = wszTitle.GetBuffer();
 	m_pParent->UpdateTitleBar(tbd, m_hwnd);
 
-	UpdateTabControl();
+	if (isChat())
+		UpdateTabControl();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1596,6 +1618,74 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
+	case DM_OPTIONSAPPLIED:
+		m_bUseIEView = g_dat.ieviewInstalled ? g_dat.flags.bUseIeview : false;
+		if (m_bUseIEView && m_hwndIeview == nullptr) {
+			IEVIEWWINDOW ieWindow = { sizeof(ieWindow) };
+			ieWindow.iType = IEW_CREATE;
+			ieWindow.dwMode = IEWM_SCRIVER;
+			ieWindow.parent = m_hwnd;
+			ieWindow.cx = 200;
+			ieWindow.cy = 300;
+			CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
+			m_hwndIeview = ieWindow.hwnd;
+			if (m_hwndIeview == nullptr)
+				m_bUseIEView = false;
+		}
+		else if (!m_bUseIEView && m_hwndIeview != nullptr) {
+			if (m_hwndIeview != nullptr) {
+				IEVIEWWINDOW ieWindow = { sizeof(ieWindow) };
+				ieWindow.iType = IEW_DESTROY;
+				ieWindow.hwnd = m_hwndIeview;
+				CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
+			}
+			m_hwndIeview = nullptr;
+		}
+
+		SendMessage(m_hwnd, DM_GETAVATAR, 0, 0);
+		SetDialogToType();
+		{
+			COLORREF colour = g_plugin.getDword(SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR);
+			m_log.SendMsg(EM_SETBKGNDCOLOR, 0, colour);
+			colour = g_plugin.getDword(SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
+			m_message.SendMsg(EM_SETBKGNDCOLOR, 0, colour);
+			InvalidateRect(m_message.GetHwnd(), nullptr, FALSE);
+
+			LOGFONT lf;
+			LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, &colour);
+
+			CHARFORMAT2 cf2;
+			memset(&cf2, 0, sizeof(cf2));
+			cf2.cbSize = sizeof(cf2);
+			cf2.dwMask = CFM_COLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_BOLD | CFM_ITALIC;
+			cf2.crTextColor = colour;
+			cf2.bCharSet = lf.lfCharSet;
+			wcsncpy(cf2.szFaceName, lf.lfFaceName, LF_FACESIZE);
+			cf2.dwEffects = ((lf.lfWeight >= FW_BOLD) ? CFE_BOLD : 0) | (lf.lfItalic ? CFE_ITALIC : 0);
+			cf2.wWeight = (WORD)lf.lfWeight;
+			cf2.bPitchAndFamily = lf.lfPitchAndFamily;
+			cf2.yHeight = abs(lf.lfHeight) * 1440 / g_dat.logPixelSY;
+			m_message.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf2);
+			m_message.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)m_message.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
+		}
+
+		memset(&pf2, 0, sizeof(pf2));
+		pf2.cbSize = sizeof(pf2);
+		pf2.dwMask = PFM_OFFSET;
+		pf2.dxOffset = (g_dat.flags.bIndentText) ? g_dat.indentSize * 1440 / g_dat.logPixelSX : 0;
+
+		ClearLog();
+		m_log.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
+		m_log.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)m_log.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~(IMF_AUTOKEYBOARD | IMF_AUTOFONTSIZEADJUST));
+
+		SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
+		UpdateTitle();
+		UpdateTabControl();
+		UpdateStatusBar();
+		m_message.SendMsg(EM_REQUESTRESIZE, 0, 0);
+		SetupInfobar();
+		break;
+
 	case DM_USERNAMETOCLIP:
 		if (m_hContact) {
 			char buf[128];
@@ -1790,7 +1880,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					if (g_dat.flags2.bSwitchToActive && (IsIconic(m_hwndParent) || GetActiveWindow() != m_hwndParent) && IsWindowVisible(m_hwndParent))
 						m_pParent->ActivateChild(m_hwnd);
 					if (IsAutoPopup(m_hContact))
-						PopupWindow(true);
+						m_pParent->PopupWindow(m_hwnd, true);
 				}
 
 				if (hDbEvent != m_hDbEventFirst && db_event_next(m_hContact, hDbEvent) == 0)
