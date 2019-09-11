@@ -714,485 +714,6 @@ void CMsgDialog::onChange_SplitterY(CSplitter *pSplitter)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CMsgDialog::ClearLog()
-{
-	if (m_hwndIeview != nullptr) {
-		IEVIEWEVENT evt = { sizeof(evt) };
-		evt.iType = IEE_CLEAR_LOG;
-		evt.dwFlags = (m_bUseRtl) ? IEEF_RTL : 0;
-		evt.hwnd = m_hwndIeview;
-		evt.hContact = m_hContact;
-		evt.pszProto = m_szProto;
-		CallService(MS_IEVIEW_EVENT, 0, (LPARAM)& evt);
-	}
-	else CSuper::ClearLog();
-
-	m_hDbEventFirst = 0;
-	m_lastEventType = -1;
-}
-
-void CMsgDialog::CloseTab()
-{
-	Close();
-}
-
-void CMsgDialog::GetAvatar()
-{
-	PROTO_AVATAR_INFORMATION ai = {};
-	ai.hContact = m_hContact;
-	CallProtoService(m_szProto, PS_GETAVATARINFO, GAIF_FORCE, (LPARAM)&ai);
-	ShowAvatar();
-}
-
-HICON CMsgDialog::GetTabIcon()
-{
-	if (m_bShowTyping)
-		return g_plugin.getIcon(IDI_TYPING);
-
-	if (m_iShowUnread != 0)
-		return m_hStatusIconOverlay;
-
-	return m_hStatusIcon;
-}
-
-void CMsgDialog::GetTitlebarIcon(TitleBarData *tbd)
-{
-	if (m_bShowTyping && g_dat.flags2.bShowTypingWin)
-		tbd->hIconNot = tbd->hIcon = g_plugin.getIcon(IDI_TYPING);
-	else if (m_iShowUnread && (GetActiveWindow() != m_hwndParent || GetForegroundWindow() != m_hwndParent)) {
-		tbd->hIcon = m_hStatusIcon;
-		tbd->hIconNot = g_dat.hMsgIcon;
-	}
-	else {
-		tbd->hIcon = m_hStatusIcon;
-		tbd->hIconNot = nullptr;
-	}
-	tbd->hIconBig = m_hStatusIconBig;
-}
-
-bool CMsgDialog::IsTypingNotificationSupported()
-{
-	if (!m_hContact || !m_szProto)
-		return false;
-
-	DWORD typeCaps = CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_4, 0);
-	if (!(typeCaps & PF4_SUPPORTTYPING))
-		return false;
-	return true;
-}
-
-bool CMsgDialog::IsTypingNotificationEnabled()
-{
-	if (!g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.bTypingNew))
-		return FALSE;
-
-	DWORD protoStatus = Proto_GetStatus(m_szProto);
-	if (protoStatus < ID_STATUS_ONLINE)
-		return FALSE;
-
-	DWORD protoCaps = CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_1, 0);
-	if (protoCaps & PF1_VISLIST && db_get_w(m_hContact, m_szProto, "ApparentMode", 0) == ID_STATUS_OFFLINE)
-		return FALSE;
-
-	if (protoCaps & PF1_INVISLIST && protoStatus == ID_STATUS_INVISIBLE && db_get_w(m_hContact, m_szProto, "ApparentMode", 0) != ID_STATUS_ONLINE)
-		return FALSE;
-
-	if (db_get_b(m_hContact, "CList", "NotOnList", 0) && !g_plugin.bTypingUnknown)
-		return FALSE;
-	return TRUE;
-}
-
-void CMsgDialog::LoadSettings()
-{
-	m_clrInputBG = g_plugin.getDword(SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
-	LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, nullptr, &m_clrInputFG);
-}
-
-void CMsgDialog::MessageSend(const MessageSendQueueItem &msi)
-{
-	StartMessageSending();
-
-	MessageSendQueueItem *item = CreateSendQueueItem(this);
-	item->hContact = m_hContact;
-	item->proto = mir_strdup(m_szProto);
-	item->flags = msi.flags;
-	item->sendBufferSize = msi.sendBufferSize;
-	item->sendBuffer = mir_strndup(msi.sendBuffer, msi.sendBufferSize);
-	SendSendQueueItem(item);
-}
-
-// Don't send to protocols who don't support typing
-// Don't send to users who are unchecked in the typing notification options
-// Don't send to protocols that are offline
-// Don't send to users who are not visible and
-// Don't send to users who are not on the visible list when you are in invisible mode.
-
-void CMsgDialog::NotifyTyping(int mode)
-{
-	if (!IsTypingNotificationSupported())
-		return;
-
-	if (!IsTypingNotificationEnabled())
-		return;
-
-	// End user check
-	m_nTypeMode = mode;
-	CallService(MS_PROTO_SELFISTYPING, m_hContact, m_nTypeMode);
-}
-
-void CMsgDialog::Reattach(HWND hwndContainer)
-{
-	MCONTACT hContact = m_hContact;
-
-	POINT pt;
-	GetCursorPos(&pt);
-	HWND hParent = WindowFromPoint(pt);
-	while (GetParent(hParent) != nullptr)
-		hParent = GetParent(hParent);
-
-	hParent = WindowList_Find(g_dat.hParentWindowList, (UINT_PTR)hParent);
-	if ((hParent != nullptr && hParent != hwndContainer) || (hParent == nullptr && m_pParent->m_iChildrenCount > 1 && (GetKeyState(VK_CONTROL) & 0x8000))) {
-		if (hParent == nullptr) {
-			hParent = GetParentWindow(hContact, false);
-
-			RECT rc;
-			GetWindowRect(hParent, &rc);
-
-			rc.right = (rc.right - rc.left);
-			rc.bottom = (rc.bottom - rc.top);
-			rc.left = pt.x - rc.right / 2;
-			rc.top = pt.y - rc.bottom / 2;
-			HMONITOR hMonitor = MonitorFromRect(&rc, MONITOR_DEFAULTTONEAREST);
-
-			MONITORINFO mi;
-			mi.cbSize = sizeof(mi);
-			GetMonitorInfo(hMonitor, &mi);
-
-			RECT rcDesktop = mi.rcWork;
-			if (rc.left < rcDesktop.left)
-				rc.left = rcDesktop.left;
-			if (rc.top < rcDesktop.top)
-				rc.top = rcDesktop.top;
-			MoveWindow(hParent, rc.left, rc.top, rc.right, rc.bottom, FALSE);
-		}
-		NotifyEvent(MSG_WINDOW_EVT_CLOSING);
-		NotifyEvent(MSG_WINDOW_EVT_CLOSE);
-		SetParent(hParent);
-		m_pParent->RemoveChild(m_hwnd);
-		SendMessage(m_hwnd, DM_SETPARENT, 0, (LPARAM)hParent);
-		m_pParent->AddChild(this);
-		UpdateTabControl();
-		m_pParent->ActivateChild(this);
-		NotifyEvent(MSG_WINDOW_EVT_OPENING);
-		NotifyEvent(MSG_WINDOW_EVT_OPEN);
-		ShowWindow(hParent, SW_SHOWNA);
-		EnableWindow(hParent, TRUE);
-	}
-}
-
-void CMsgDialog::ScrollToBottom()
-{
-	if (m_hwndIeview != nullptr) {
-		IEVIEWWINDOW ieWindow;
-		ieWindow.cbSize = sizeof(IEVIEWWINDOW);
-		ieWindow.iType = IEW_SCROLLBOTTOM;
-		ieWindow.hwnd = m_hwndIeview;
-		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
-		return;
-	}
-
-	if (GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL) {
-		SCROLLINFO si = { sizeof(si) };
-		si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;
-		if (GetScrollInfo(m_log.GetHwnd(), SB_VERT, &si)) {
-			if (m_log.GetHwnd() != GetFocus()) {
-				si.fMask = SIF_POS;
-				si.nPos = si.nMax - si.nPage + 1;
-				SetScrollInfo(m_log.GetHwnd(), SB_VERT, &si, TRUE);
-
-				PostMessage(m_log.GetHwnd(), WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
-			}
-		}
-	}
-}
-
-void CMsgDialog::SetDialogToType()
-{
-	if (!isChat()) {
-		ParentWindowData *pdat = m_pParent;
-		if (pdat->flags2.bShowInfoBar)
-			ShowWindow(m_hwndInfo, SW_SHOW);
-		else
-			ShowWindow(m_hwndInfo, SW_HIDE);
-
-		SendMessage(m_hwnd, DM_CLISTSETTINGSCHANGED, 0, 0);
-		UpdateReadChars();
-	}
-
-	m_message.Show();
-	m_log.Show(m_hwndIeview == nullptr);
-
-	m_splitterY.Show();
-	m_btnOk.Enable(m_message.GetRichTextLength() != 0);
-	Resize();
-}
-
-void CMsgDialog::SetStatusIcon()
-{
-	if (m_szProto == nullptr)
-		return;
-
-	MCONTACT hContact = db_mc_getSrmmSub(m_hContact);
-	if (hContact == 0)
-		hContact = m_hContact;
-
-	char *szProto = GetContactProto(hContact);
-	m_hStatusIcon = Skin_LoadProtoIcon(szProto, m_wStatus, false);
-	m_hStatusIconBig = Skin_LoadProtoIcon(szProto, m_wStatus, true);
-
-	if (m_hStatusIconOverlay != nullptr)
-		DestroyIcon(m_hStatusIconOverlay);
-
-	int index = ImageList_ReplaceIcon(g_dat.hHelperIconList, 0, m_hStatusIcon);
-	m_hStatusIconOverlay = ImageList_GetIcon(g_dat.hHelperIconList, index, ILD_TRANSPARENT | INDEXTOOVERLAYMASK(1));
-}
-
-void CMsgDialog::ShowAvatar()
-{
-	INT_PTR res = CallService(MS_AV_GETAVATARBITMAP, m_hContact, 0);
-	m_ace = res != CALLSERVICE_NOTFOUND ? (AVATARCACHEENTRY*)res : nullptr;
-	m_hbmpAvatarPic = (m_ace != nullptr && (m_ace->dwFlags & AVS_HIDEONCLIST) == 0) ? m_ace->hbmPic : nullptr;
-	Resize();
-
-	RefreshInfobar();
-
-	RedrawWindow(GetDlgItem(m_hwnd, IDC_AVATAR), nullptr, nullptr, RDW_INVALIDATE);
-}
-
-void CMsgDialog::ShowMessageSending()
-{
-	SetTimer(m_hwnd, TIMERID_MSGSEND, 1000, nullptr);
-	if (g_dat.flags.bShowProgress)
-		UpdateStatusBar();
-}
-
-void CMsgDialog::StartMessageSending()
-{
-	m_iMessagesInProgress++;
-	ShowMessageSending();
-}
-
-void CMsgDialog::StopMessageSending()
-{
-	if (m_iMessagesInProgress > 0) {
-		m_iMessagesInProgress--;
-		if (g_dat.flags.bShowProgress)
-			UpdateStatusBar();
-	}
-	if (m_iMessagesInProgress == 0)
-		KillTimer(m_hwnd, TIMERID_MSGSEND);
-}
-
-void CMsgDialog::SwitchTyping()
-{
-	if (IsTypingNotificationSupported()) {
-		BYTE typingNotify = (g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.bTypingNew));
-		g_plugin.setByte(m_hContact, SRMSGSET_TYPING, (BYTE)!typingNotify);
-		Srmm_SetIconFlags(m_hContact, SRMM_MODULE, 1, typingNotify ? MBF_DISABLED : 0);
-	}
-}
-
-void CMsgDialog::ToggleRtl()
-{
-	PARAFORMAT2 pf2;
-	memset(&pf2, 0, sizeof(pf2));
-	pf2.cbSize = sizeof(pf2);
-	pf2.dwMask = PFM_RTLPARA;
-	m_bUseRtl = !m_bUseRtl;
-	if (m_bUseRtl) {
-		pf2.wEffects = PFE_RTLPARA;
-		SetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE) | WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR);
-		SetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE) | WS_EX_LEFTSCROLLBAR);
-	}
-	else {
-		pf2.wEffects = 0;
-		SetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE) & ~(WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR));
-		SetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE) & ~(WS_EX_LEFTSCROLLBAR));
-	}
-	m_message.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
-	SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
-}
-
-void CMsgDialog::UpdateIcon()
-{
-	TitleBarData tbd = {};
-	tbd.iFlags = TBDF_ICON;
-	GetTitlebarIcon(&tbd);
-	m_pParent->UpdateTitleBar(tbd, m_hwnd);
-
-	TabControlData tcd;
-	tcd.iFlags = TCDF_ICON;
-	tcd.hIcon = GetTabIcon();
-	m_pParent->UpdateTabControl(tcd, m_hwnd);
-
-	SendDlgItemMessage(m_hwnd, IDC_USERMENU, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_hStatusIcon);
-}
-
-void CMsgDialog::UpdateStatusBar()
-{
-	if (m_pParent->m_hwndActive != m_hwnd)
-		return;
-
-	if (isChat()) {
-		wchar_t szTemp[512];
-		mir_snwprintf(szTemp, L"%s : %s", m_si->pMI->ptszModDispName, m_si->ptszStatusbarText ? m_si->ptszStatusbarText : L"");
-
-		StatusBarData sbd;
-		sbd.iItem = 0;
-		sbd.iFlags = SBDF_TEXT | SBDF_ICON;
-		sbd.hIcon = m_si->wStatus == ID_STATUS_ONLINE ? m_si->pMI->hOnlineIcon : m_si->pMI->hOfflineIcon;
-		sbd.pszText = szTemp;
-		m_pParent->UpdateStatusBar(sbd, m_hwnd);
-
-		sbd.iItem = 1;
-		sbd.hIcon = nullptr;
-		sbd.pszText = L"";
-		m_pParent->UpdateStatusBar(sbd, m_hwnd);
-
-		Srmm_SetIconFlags(m_hContact, SRMM_MODULE, 0, 0);
-	}
-	else {
-		wchar_t szText[256];
-		StatusBarData sbd = { 0 };
-		sbd.iFlags = SBDF_TEXT | SBDF_ICON;
-		if (m_iMessagesInProgress && g_dat.flags.bShowProgress) {
-			sbd.hIcon = g_plugin.getIcon(IDI_TIMESTAMP);
-			sbd.pszText = szText;
-			mir_snwprintf(szText, TranslateT("Sending in progress: %d message(s) left..."), m_iMessagesInProgress);
-		}
-		else if (m_nTypeSecs) {
-			sbd.hIcon = g_plugin.getIcon(IDI_TYPING);
-			sbd.pszText = szText;
-			mir_snwprintf(szText, TranslateT("%s is typing a message..."), Clist_GetContactDisplayName(m_hContact));
-			m_nTypeSecs--;
-		}
-		else if (m_lastMessage) {
-			wchar_t date[64], time[64];
-			TimeZone_PrintTimeStamp(nullptr, m_lastMessage, L"d", date, _countof(date), 0);
-			TimeZone_PrintTimeStamp(nullptr, m_lastMessage, L"t", time, _countof(time), 0);
-			mir_snwprintf(szText, TranslateT("Last message received on %s at %s."), date, time);
-			sbd.pszText = szText;
-		}
-		else sbd.pszText = L"";
-		m_pParent->UpdateStatusBar(sbd, m_hwnd);
-
-		UpdateReadChars();
-
-		Srmm_SetIconFlags(m_hContact, SRMM_MODULE, 0, MBF_DISABLED);
-
-		if (IsTypingNotificationSupported() && g_dat.flags2.bShowTypingSwitch) {
-			int mode = g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.bTypingNew);
-			Srmm_SetIconFlags(m_hContact, SRMM_MODULE, 1, mode ? 0 : MBF_DISABLED);
-		}
-		else Srmm_SetIconFlags(m_hContact, SRMM_MODULE, 1, MBF_HIDDEN);
-	}
-}
-
-void CMsgDialog::UpdateReadChars()
-{
-	if (m_pParent->m_hwndActive == m_hwnd) {
-		wchar_t szText[256];
-		int len = m_message.GetRichTextLength(1200);
-
-		StatusBarData sbd;
-		sbd.iItem = 1;
-		sbd.iFlags = SBDF_TEXT | SBDF_ICON;
-		sbd.hIcon = nullptr;
-		sbd.pszText = szText;
-		mir_snwprintf(szText, L"%d", len);
-		m_pParent->UpdateStatusBar(sbd, m_hwnd);
-	}
-}
-
-void CMsgDialog::UpdateTabControl()
-{
-	TabControlData tcd;
-	tcd.iFlags = TCDF_TEXT | TCDF_ICON;
-	tcd.hIcon = GetTabIcon();
-	tcd.pszText = Clist_GetContactDisplayName(m_hContact);
-	m_pParent->UpdateTabControl(tcd, m_hwnd);
-}
-
-void CMsgDialog::UserIsTyping(int iState)
-{
-	m_nTypeSecs = (iState > 0) ? iState : 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-static const wchar_t *titleTokenNames[] = { L"%name%", L"%status%", L"%statusmsg%", L"%account%" };
-
-void CMsgDialog::UpdateTitle()
-{
-	TitleBarData tbd = {};
-	tbd.iFlags = TBDF_TEXT | TBDF_ICON;
-
-	CMStringW wszTitle;
-	if (isChat()) {
-		tbd.hIcon = (m_si->wStatus == ID_STATUS_ONLINE) ? m_si->pMI->hOnlineIcon : m_si->pMI->hOfflineIcon;
-		tbd.hIconBig = (m_si->wStatus == ID_STATUS_ONLINE) ? m_si->pMI->hOnlineIconBig : m_si->pMI->hOfflineIconBig;
-		tbd.hIconNot = (m_si->wState & (GC_EVENT_HIGHLIGHT | STATE_TALK)) ? g_plugin.getIcon(IDI_OVERLAY) : nullptr;
-
-		int nUsers = m_si->getUserList().getCount();
-		switch (m_si->iType) {
-		case GCW_CHATROOM:
-			wszTitle.Format((nUsers == 1) ? TranslateT("%s: chat room (%u user)") : TranslateT("%s: chat room (%u users)"), m_si->ptszName, nUsers);
-			break;
-		case GCW_PRIVMESS:
-			wszTitle.Format((nUsers == 1) ? TranslateT("%s: message session") : TranslateT("%s: message session (%u users)"), m_si->ptszName, nUsers);
-			break;
-		case GCW_SERVER:
-			wszTitle.Format(L"%s: Server", m_si->ptszName);
-			break;
-		}
-	}
-	else {
-		if (g_dat.wszTitleFormat[0])
-			wszTitle = g_dat.wszTitleFormat;
-		else
-			wszTitle = L"%name% - ";
-
-		if (m_hContact && m_szProto) {
-			wszTitle.Replace(L"%name%", Clist_GetContactDisplayName(m_hContact));
-			wszTitle.Replace(L"%status%", Clist_GetStatusModeDescription(db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE), 0));
-
-			CMStringW tszStatus = ptrW(db_get_wsa(m_hContact, "CList", "StatusMsg"));
-			tszStatus.Replace(L"\r\n", L" ");
-			wszTitle.Replace(L"%statusmsg%", tszStatus);
-
-			char *accModule = Proto_GetBaseAccountName(m_hContact);
-			if (accModule != nullptr) {
-				PROTOACCOUNT *proto = Proto_GetAccount(accModule);
-				if (proto != nullptr)
-					wszTitle.Replace(L"%account%", proto->tszAccountName);
-			}
-		}
-
-		if (g_dat.wszTitleFormat[0] == 0)
-			wszTitle.Append(TranslateT("Message session"));
-
-		GetTitlebarIcon(&tbd);
-	}
-
-	tbd.pszText = wszTitle.GetBuffer();
-	m_pParent->UpdateTitleBar(tbd, m_hwnd);
-
-	if (isChat())
-		UpdateTabControl();
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 void CMsgDialog::MessageDialogResize(int w, int h)
 {
 	ParentWindowData *pdat = m_pParent;
@@ -1326,6 +847,78 @@ void CMsgDialog::MessageDialogResize(int w, int h)
 	else RedrawWindow(m_log.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 
 	RedrawWindow(m_message.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+INT_PTR CALLBACK CMsgDialog::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	static CMsgDialog *pDlg = nullptr;
+	switch (uMsg) {
+	case WM_INITDIALOG:
+		pDlg = (CMsgDialog *)lParam;
+		CheckDlgButton(hwndDlg, IDC_CHAT_1, pDlg->m_iLogFilterFlags & GC_EVENT_ACTION ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_2, pDlg->m_iLogFilterFlags & GC_EVENT_MESSAGE ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_3, pDlg->m_iLogFilterFlags & GC_EVENT_NICK ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_4, pDlg->m_iLogFilterFlags & GC_EVENT_JOIN ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_5, pDlg->m_iLogFilterFlags & GC_EVENT_PART ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_6, pDlg->m_iLogFilterFlags & GC_EVENT_TOPIC ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_7, pDlg->m_iLogFilterFlags & GC_EVENT_ADDSTATUS ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_8, pDlg->m_iLogFilterFlags & GC_EVENT_INFORMATION ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_9, pDlg->m_iLogFilterFlags & GC_EVENT_QUIT ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_10, pDlg->m_iLogFilterFlags & GC_EVENT_KICK ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_11, pDlg->m_iLogFilterFlags & GC_EVENT_NOTICE ? BST_CHECKED : BST_UNCHECKED);
+		break;
+
+	case WM_CTLCOLOREDIT:
+	case WM_CTLCOLORSTATIC:
+		SetTextColor((HDC)wParam, RGB(60, 60, 150));
+		SetBkColor((HDC)wParam, GetSysColor(COLOR_WINDOW));
+		return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);
+
+	case WM_ACTIVATE:
+		if (LOWORD(wParam) == WA_INACTIVE) {
+			int iFlags = 0;
+
+			if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_1) == BST_CHECKED)
+				iFlags |= GC_EVENT_ACTION;
+			if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_2) == BST_CHECKED)
+				iFlags |= GC_EVENT_MESSAGE;
+			if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_3) == BST_CHECKED)
+				iFlags |= GC_EVENT_NICK;
+			if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_4) == BST_CHECKED)
+				iFlags |= GC_EVENT_JOIN;
+			if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_5) == BST_CHECKED)
+				iFlags |= GC_EVENT_PART;
+			if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_6) == BST_CHECKED)
+				iFlags |= GC_EVENT_TOPIC;
+			if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_7) == BST_CHECKED)
+				iFlags |= GC_EVENT_ADDSTATUS;
+			if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_8) == BST_CHECKED)
+				iFlags |= GC_EVENT_INFORMATION;
+			if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_9) == BST_CHECKED)
+				iFlags |= GC_EVENT_QUIT;
+			if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_10) == BST_CHECKED)
+				iFlags |= GC_EVENT_KICK;
+			if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_11) == BST_CHECKED)
+				iFlags |= GC_EVENT_NOTICE;
+
+			if (iFlags & GC_EVENT_ADDSTATUS)
+				iFlags |= GC_EVENT_REMOVESTATUS;
+
+			pDlg->m_iLogFilterFlags = iFlags;
+			if (pDlg->m_bFilterEnabled)
+				pDlg->RedrawLog();
+			PostMessage(hwndDlg, WM_CLOSE, 0, 0);
+		}
+		break;
+
+	case WM_CLOSE:
+		DestroyWindow(hwndDlg);
+		break;
+	}
+
+	return FALSE;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1796,7 +1389,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 			FixTabIcons();
 			if (!m_si->pDlg) {
-				ShowRoom(m_si);
+				g_chatApi.ShowRoom(m_si);
 				SendMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
 			}
 			break;

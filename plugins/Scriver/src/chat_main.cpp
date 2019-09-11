@@ -121,6 +121,26 @@ static void OnLoadSettings()
 	g_Settings.MessageBoxFont = CreateFontIndirect(&lf);
 }
 
+static void ShowRoom(SESSION_INFO *si)
+{
+	if (si == nullptr)
+		return;
+
+	// Do we need to create a window?
+	CMsgDialog *pDlg;
+	if (si->pDlg == nullptr) {
+		pDlg = new CMsgDialog(si);
+		pDlg->Show();
+
+		si->pDlg = pDlg;
+	}
+	else pDlg = si->pDlg;
+
+	pDlg->UpdateTabControl();
+	SendMessage(pDlg->GetHwnd(), WM_MOUSEACTIVATE, 0, 0);
+	SetFocus(GetDlgItem(pDlg->GetHwnd(), IDC_SRMM_MESSAGE));
+}
+
 int Chat_Load()
 {
 	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENW("Messaging") L"/" LPGENW("Group chats"), FONTMODE_SKIP, &g_plugin };
