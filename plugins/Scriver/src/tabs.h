@@ -96,7 +96,7 @@ struct ParentWindowData
 
 	bool bTopmost;
 
-	void ActivateChild(HWND child);
+	void ActivateChild(CMsgDialog *pDlg);
 	void ActivateChildByIndex(int index);
 	void ActivateNextChild(HWND child);
 	void ActivatePrevChild(HWND child);
@@ -106,10 +106,15 @@ struct ParentWindowData
 	void GetChildWindowRect(RECT *rcChild);
 	int  GetTabFromHWND(HWND child);
 	CMsgDialog *GetChildFromHWND(HWND hwnd);
-	void PopupWindow(HWND hwnd, bool bIncoming);
+	void PopupWindow(CMsgDialog *pDlg, bool bIncoming);
 	void RemoveChild(HWND child);
+	void MessageSend(const MessageSendQueueItem &msg);
 	void SetContainerWindowStyle();
 	void StartFlashing();
+	void ToggleInfoBar();
+	void ToggleStatusBar();
+	void ToggleTitleBar();
+	void ToggleToolBar();
 	void UpdateStatusBar(const StatusBarData &sbd, HWND);
 	void UpdateTabControl(const TabControlData &tbd, HWND);
 	void UpdateTitleBar(const TitleBarData &tbd, HWND);

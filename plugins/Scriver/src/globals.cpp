@@ -125,17 +125,15 @@ static int ackevent(WPARAM, LPARAM lParam)
 	if (item == nullptr)
 		return 0;
 
-	HWND hwndSender = item->hwndSender;
+	auto *pSender = item->pDlg;
 	if (pAck->result == ACKRESULT_FAILED) {
 		if (item->hwndErrorDlg != nullptr)
-			item = FindOldestPendingSendQueueItem(hwndSender, hContact);
+			item = FindOldestPendingSendQueueItem(pSender, hContact);
 
 		if (item != nullptr && item->hwndErrorDlg == nullptr) {
-			if (hwndSender != nullptr) {
-				SendMessage(hwndSender, DM_STOPMESSAGESENDING, 0, 0);
-
-				CErrorDlg *pDlg = new CErrorDlg((wchar_t*)pAck->lParam, hwndSender, item);
-				SendMessage(hwndSender, DM_SHOWERRORMESSAGE, 0, (LPARAM)pDlg);
+			if (pSender != nullptr) {
+				pSender->StopMessageSending();
+				(new CErrorDlg((wchar_t *)pAck->lParam, pSender, item))->Create();
 			}
 			else RemoveSendQueueItem(item);
 		}
@@ -164,11 +162,11 @@ static int ackevent(WPARAM, LPARAM lParam)
 		DestroyWindow(item->hwndErrorDlg);
 
 	if (RemoveSendQueueItem(item) && g_plugin.bAutoClose) {
-		if (hwndSender != nullptr)
-			DestroyWindow(hwndSender);
+		if (pSender != nullptr)
+			pSender->Close();
 	}
-	else if (hwndSender != nullptr) {
-		SendMessage(hwndSender, DM_STOPMESSAGESENDING, 0, 0);
+	else if (pSender != nullptr) {
+		pSender->StopMessageSending();
 		Skin_PlaySound("SendMsg");
 	}
 

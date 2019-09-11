@@ -161,16 +161,16 @@ int CMsgDialog::InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		m_pParent->ActivateNextChild(m_hwnd);
 		return FALSE;
 	case KB_SWITCHSTATUSBAR:
-		SendMessage(m_pParent->m_hwnd, DM_SWITCHSTATUSBAR, 0, 0);
+		m_pParent->ToggleStatusBar();
 		return FALSE;
 	case KB_SWITCHTITLEBAR:
-		SendMessage(m_pParent->m_hwnd, DM_SWITCHTITLEBAR, 0, 0);
+		m_pParent->ToggleTitleBar();
 		return FALSE;
 	case KB_SWITCHINFOBAR:
-		SendMessage(m_pParent->m_hwnd, DM_SWITCHINFOBAR, 0, 0);
+		m_pParent->ToggleInfoBar();
 		return FALSE;
 	case KB_SWITCHTOOLBAR:
-		SendMessage(m_pParent->m_hwnd, DM_SWITCHTOOLBAR, 0, 0);
+		m_pParent->ToggleToolBar();
 		return FALSE;
 	case KB_MINIMIZE:
 		ShowWindow(m_pParent->m_hwnd, SW_MINIMIZE);
@@ -179,7 +179,7 @@ int CMsgDialog::InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		SendMessage(m_hwnd, WM_CLOSE, 0, 0);
 		return FALSE;
 	case KB_CLEAR_LOG:
-		SendMessage(m_hwnd, DM_CLEARLOG, 0, 0);
+		ClearLog();
 		return FALSE;
 	case KB_TAB1:
 	case KB_TAB2:
@@ -219,8 +219,8 @@ int CMsgDialog::InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		if (wParam == VK_SPACE && isCtrl) // ctrl-space (paste clean text)
 			return FALSE;
 
-		if (wParam == 'R' && isCtrl && isShift) {     // ctrl-shift-r
-			SendMessage(m_hwnd, DM_SWITCHRTL, 0, 0);
+		if (wParam == 'R' && isCtrl && isShift) { // ctrl-shift-r
+			ToggleRtl();
 			return FALSE;
 		}
 

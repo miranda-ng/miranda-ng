@@ -60,19 +60,24 @@ class CMsgDialog : public CSrmmBaseDialog
 {
 	typedef CSrmmBaseDialog CSuper;
 
+	friend struct ParentWindowData;
 	friend INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	bool   CheckSend(void);
+	void   ClearLog(void);
 	void   GetContactUniqueId(char *buf, int maxlen);
 	HICON  GetTabIcon(void);
 	void   GetTitlebarIcon(struct TitleBarData *tbd);
 	void   Init(void);
 	int    InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	void   MessageDialogResize(int w, int h);
+	void   MessageSend(const MessageSendQueueItem &msg);
 	void   ShowAvatar(void);
 	void   SetDialogToType(void);
 	void   SetStatusIcon(void);
 	void   StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend);
+	void   ToggleRtl();
+	void   UpdateIcon(void);
 	void   UpdateReadChars(void);
 
 	bool   IsTypingNotificationEnabled(void);
@@ -156,11 +161,18 @@ public:
 	void UpdateNickList() override;
 	void UpdateOptions() override;
 	void UpdateStatusBar() override;
-	void UpdateTabControl();
 	void UpdateTitle() override;
 
 	void FixTabIcons();
+	void GetAvatar();
+	void SwitchTyping(void);
+	void UpdateTabControl(void);
+	void UserIsTyping(int iState);
 
+	void StartMessageSending(void);
+	void StopMessageSending(void);
+	void ShowMessageSending(void);
+	
 	LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	LRESULT WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam) override;
@@ -169,8 +181,8 @@ public:
 	{	return GetActiveWindow() == m_hwndParent && GetForegroundWindow() == m_hwndParent && m_pParent->m_hwndActive == m_hwnd;
 	}
 
-	__forceinline void PopupWindow(bool bIncoming = false) const
-	{	m_pParent->PopupWindow(m_hwnd, bIncoming);
+	__forceinline void PopupWindow(bool bIncoming = false)
+	{	m_pParent->PopupWindow(this, bIncoming);
 	}
 
 	__forceinline void StartFlashing() const
@@ -186,37 +198,16 @@ public:
 };
 
 #define HM_DBEVENTADDED        (WM_USER+10)
-#define DM_REMAKELOG           (WM_USER+11)
+#define HM_ACKEVENT            (WM_USER+11)
+
+#define DM_REMAKELOG           (WM_USER+12)
 #define DM_CASCADENEWWINDOW    (WM_USER+13)
 #define DM_OPTIONSAPPLIED      (WM_USER+14)
-#define DM_APPENDTOLOG         (WM_USER+17)
 #define DM_ERRORDECIDED        (WM_USER+18)
-#define DM_TYPING              (WM_USER+20)
-#define DM_UPDATELASTMESSAGE   (WM_USER+22)
-#define DM_USERNAMETOCLIP      (WM_USER+23)
 #define DM_CHANGEICONS         (WM_USER+24)
-#define DM_UPDATEICON          (WM_USER+25)
-#define DM_GETAVATAR           (WM_USER+27)
-#define HM_ACKEVENT            (WM_USER+29)
 
-#define DM_SENDMESSAGE         (WM_USER+30)
-#define DM_STARTMESSAGESENDING (WM_USER+31)
-#define DM_SHOWMESSAGESENDING  (WM_USER+32)
-#define DM_STOPMESSAGESENDING  (WM_USER+33)
-#define DM_SHOWERRORMESSAGE    (WM_USER+34)
-
-#define DM_CLEARLOG            (WM_USER+46)
-#define DM_SWITCHSTATUSBAR     (WM_USER+47)
-#define DM_SWITCHTOOLBAR       (WM_USER+48)
-#define DM_SWITCHTITLEBAR      (WM_USER+49)
-#define DM_SWITCHINFOBAR       (WM_USER+50)
-#define DM_SWITCHRTL           (WM_USER+51)
-#define DM_SWITCHTYPING        (WM_USER+53)
-#define DM_MESSAGESENDING      (WM_USER+54)
 #define DM_STATUSICONCHANGE    (WM_USER+56)
 
-#define DM_MYAVATARCHANGED     (WM_USER+62)
-#define DM_PROTOAVATARCHANGED  (WM_USER+63)
 #define DM_AVATARCHANGED       (WM_USER+64)
 
 #define EM_SUBCLASSED          (WM_USER+0x101)
@@ -237,7 +228,7 @@ protected:
 	bool OnInitDialog() override;
 
 public:
-	CErrorDlg(const wchar_t *pwszDescr, HWND, MessageSendQueueItem*);
+	CErrorDlg(const wchar_t *pwszDescr, CMsgDialog *pDlg, MessageSendQueueItem*);
 
 	void onOk(CCtrlButton*);
 	void onCancel(CCtrlButton*);

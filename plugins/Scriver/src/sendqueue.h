@@ -32,7 +32,7 @@ struct MessageSendQueueItem : public MZeroedObject
 		mir_free(sendBuffer);
 	}
 
-	HWND	hwndSender;
+	CMsgDialog *pDlg;
 	MCONTACT hContact;
 	char  *proto;
 	int    hSendId;
@@ -44,14 +44,14 @@ struct MessageSendQueueItem : public MZeroedObject
 	HWND   hwndErrorDlg;
 };
 
-MessageSendQueueItem* CreateSendQueueItem(HWND hwndSender);
-MessageSendQueueItem* FindOldestPendingSendQueueItem(HWND hwndSender, MCONTACT hContact);
+MessageSendQueueItem* CreateSendQueueItem(CMsgDialog *pDlg);
+MessageSendQueueItem* FindOldestPendingSendQueueItem(CMsgDialog *pDlg, MCONTACT hContact);
 MessageSendQueueItem* FindSendQueueItem(MCONTACT hContact, HANDLE hSendId);
 
 bool RemoveSendQueueItem(MessageSendQueueItem* item);
-void ReportSendQueueTimeouts(HWND hwndSender);
-void ReleaseSendQueueItems(HWND hwndSender);
-int  ReattachSendQueueItems(HWND hwndSender, MCONTACT hContact);
+void ReportSendQueueTimeouts(CMsgDialog *pDlg);
+void ReleaseSendQueueItems(CMsgDialog *pDlg);
+int  ReattachSendQueueItems(CMsgDialog *pDlg, MCONTACT hContact);
 void RemoveAllSendQueueItems();
 void SendSendQueueItem(MessageSendQueueItem* item);
 

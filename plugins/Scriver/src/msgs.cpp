@@ -187,9 +187,9 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 
 	Skin_PlaySound((lParam) ? "TNStart" : "TNStop");
 
-	HWND hwnd = Srmm_FindWindow(hContact);
-	if (hwnd)
-		SendMessage(hwnd, DM_TYPING, 0, lParam);
+	auto *pDlg = Srmm_FindDialog(hContact);
+	if (pDlg != nullptr)
+		pDlg->UserIsTyping(lParam);
 	else if (lParam && g_dat.flags2.bShowTypingTray) {
 		wchar_t szTip[256];
 		mir_snwprintf(szTip, TranslateT("%s is typing a message"), Clist_GetContactDisplayName(hContact));
@@ -339,9 +339,9 @@ int StatusIconPressed(WPARAM wParam, LPARAM lParam)
 	if (mir_strcmp(SRMM_MODULE, sicd->szModule))
 		return 0;
 
-	HWND hwnd = Srmm_FindWindow(wParam);
-	if (hwnd != nullptr)
-		SendMessage(hwnd, DM_SWITCHTYPING, 0, 0);
+	auto *pDlg = Srmm_FindDialog(wParam);
+	if (pDlg != nullptr)
+		pDlg->SwitchTyping();
 	return 0;
 }
 
@@ -471,9 +471,9 @@ static int ModuleLoad(WPARAM, LPARAM)
 static int MetaContactChanged(WPARAM hMeta, LPARAM)
 {
 	if (hMeta) {
-		HWND hwnd = Srmm_FindWindow(hMeta);
-		if (hwnd != nullptr)
-			SendMessage(hwnd, DM_GETAVATAR, 0, 0);
+		auto *pDlg = Srmm_FindDialog(hMeta);
+		if (pDlg != nullptr)
+			pDlg->GetAvatar();
 	}
 	return 0;
 }

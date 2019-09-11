@@ -26,21 +26,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static OBJLIST<MessageSendQueueItem> arQueue(1, PtrKeySortT);
 static mir_cs queueMutex;
 
-MessageSendQueueItem* CreateSendQueueItem(HWND hwndSender)
+MessageSendQueueItem* CreateSendQueueItem(CMsgDialog *pDlg)
 {
 	MessageSendQueueItem *item = new MessageSendQueueItem();
-	item->hwndSender = hwndSender;
+	item->pDlg = pDlg;
 
 	mir_cslock lck(queueMutex);
 	arQueue.insert(item);
 	return item;
 }
 
-MessageSendQueueItem* FindOldestPendingSendQueueItem(HWND hwndSender, MCONTACT hContact)
+MessageSendQueueItem* FindOldestPendingSendQueueItem(CMsgDialog *pDlg, MCONTACT hContact)
 {
 	mir_cslock lck(queueMutex);
 	for (auto &it : arQueue)
-		if (it->hwndSender == hwndSender && it->hContact == hContact && it->hwndErrorDlg == nullptr)
+		if (it->pDlg == pDlg && it->hContact == hContact && it->hwndErrorDlg == nullptr)
 			return it;
 
 	return nullptr;
@@ -58,20 +58,20 @@ MessageSendQueueItem* FindSendQueueItem(MCONTACT hContact, HANDLE hSendId)
 
 bool RemoveSendQueueItem(MessageSendQueueItem *item)
 {
-	HWND hwndSender = item->hwndSender;
+	auto *pDlg = item->pDlg;
 	{
 		mir_cslock lock(queueMutex);
 		arQueue.remove(item);
 	}
 
 	for (auto &it : arQueue)
-		if (it->hwndSender == hwndSender)
+		if (it->pDlg == pDlg)
 			return false;
 
 	return true;
 }
 
-void ReportSendQueueTimeouts(HWND hwndSender)
+void ReportSendQueueTimeouts(CMsgDialog *pDlg)
 {
 	int timeout = g_plugin.iMsgTimeout * 1000;
 
@@ -82,41 +82,42 @@ void ReportSendQueueTimeouts(HWND hwndSender)
 			continue;
 			
 		it->timeout += 1000;
-		if (it->timeout < timeout || it->hwndSender != hwndSender || it->hwndErrorDlg != nullptr)
+		if (it->timeout < timeout || it->pDlg != pDlg || it->hwndErrorDlg != nullptr)
 			continue;
 
-		if (hwndSender != nullptr) {
-			CErrorDlg *pDlg = new CErrorDlg(TranslateT("The message send timed out."), hwndSender, it);
-			PostMessage(hwndSender, DM_SHOWERRORMESSAGE, 0, (LPARAM)pDlg);
+		if (pDlg != nullptr) {
+			pDlg->StopMessageSending();
+			(new CErrorDlg(TranslateT("The message send timed out."), pDlg, it))->Create();
 		}
 		else arQueue.remove(arQueue.indexOf(&it));
 	}
 }
 
-void ReleaseSendQueueItems(HWND hwndSender)
+void ReleaseSendQueueItems(CMsgDialog *pDlg)
 {
 	mir_cslock lock(queueMutex);
 
 	for (auto &it : arQueue) {
-		if (it->hwndSender == hwndSender) {
-			it->hwndSender = nullptr;
+		if (it->pDlg != pDlg)
+			continue;
 
-			if (it->hwndErrorDlg != nullptr)
-				DestroyWindow(it->hwndErrorDlg);
-			it->hwndErrorDlg = nullptr;
-		}
+		it->pDlg = nullptr;
+
+		if (it->hwndErrorDlg != nullptr)
+			DestroyWindow(it->hwndErrorDlg);
+		it->hwndErrorDlg = nullptr;
 	}
 }
 
-int ReattachSendQueueItems(HWND hwndSender, MCONTACT hContact)
+int ReattachSendQueueItems(CMsgDialog *pDlg, MCONTACT hContact)
 {
 	int count = 0;
 
 	mir_cslock lock(queueMutex);
 
 	for (auto &it : arQueue) {
-		if (it->hContact == hContact && it->hwndSender == nullptr) {
-			it->hwndSender = hwndSender;
+		if (it->hContact == hContact && it->pDlg == nullptr) {
+			it->pDlg = pDlg;
 			it->timeout = 0;
 			count++;
 		}

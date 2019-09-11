@@ -698,7 +698,7 @@ void CMsgDialog::StreamInEvents(MEVENT hDbEventFirst, int count, int bAppend)
 	}
 	else {
 		m_log.SendMsg(WM_SETREDRAW, FALSE, 0);
-		ClearLog();
+		m_log.SetTextA("");
 		sel.cpMin = 0;
 		sel.cpMax = m_log.GetRichTextLength();
 		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);

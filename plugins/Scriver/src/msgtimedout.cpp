@@ -23,8 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-CErrorDlg::CErrorDlg(const wchar_t *pwszDescr, HWND hWnd, MessageSendQueueItem *pItem)
-	: CDlgBase(g_plugin, IDD_MSGSENDERROR),
+CErrorDlg::CErrorDlg(const wchar_t *pwszDescr, CMsgDialog *pDlg, MessageSendQueueItem *pItem) :
+	CDlgBase(g_plugin, IDD_MSGSENDERROR),
 	m_wszText(mir_utf8decodeW(pItem->sendBuffer)),
 	m_wszDescr(pwszDescr != nullptr ? pwszDescr : TranslateT("An unknown error has occurred.")),
 	m_queueItem(pItem),
@@ -32,7 +32,7 @@ CErrorDlg::CErrorDlg(const wchar_t *pwszDescr, HWND hWnd, MessageSendQueueItem *
 	m_btnOk(this, IDOK),
 	m_btnCancel(this, IDCANCEL)
 {
-	SetParent(hWnd);
+	SetParent(pDlg->GetHwnd());
 
 	const wchar_t *pwszName = Clist_GetContactDisplayName(pItem->hContact);
 	if (pwszName)

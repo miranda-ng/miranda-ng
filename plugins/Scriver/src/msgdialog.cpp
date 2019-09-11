@@ -332,7 +332,7 @@ bool CMsgDialog::OnInitDialog()
 		UpdateNickList();
 
 		m_pParent->AddChild(this);
-		m_pParent->PopupWindow(m_hwnd, false);
+		PopupWindow(false);
 	}
 	else {
 		m_nickList.Hide();
@@ -410,20 +410,20 @@ bool CMsgDialog::OnInitDialog()
 		}
 
 		SendMessage(m_hwnd, DM_OPTIONSAPPLIED, 0, 0);
-		m_pParent->PopupWindow(m_hwnd, m_bIncoming);
+		PopupWindow(m_bIncoming);
 
 		if (notifyUnread) {
 			if (GetForegroundWindow() != m_hwndParent || m_pParent->m_hwndActive != m_hwnd) {
 				m_iShowUnread = 1;
-				SendMessage(m_hwnd, DM_UPDATEICON, 0, 0);
+				UpdateIcon();
 				SetTimer(m_hwnd, TIMERID_UNREAD, TIMEOUT_UNREAD, nullptr);
 			}
 			StartFlashing();
 		}
 
-		m_iMessagesInProgress = ReattachSendQueueItems(m_hwnd, m_hContact);
+		m_iMessagesInProgress = ReattachSendQueueItems(this, m_hContact);
 		if (m_iMessagesInProgress > 0)
-			SendMessage(m_hwnd, DM_SHOWMESSAGESENDING, 0, 0);
+			ShowMessageSending();
 	}
 
 	NotifyEvent(MSG_WINDOW_EVT_OPEN);
@@ -451,7 +451,7 @@ void CMsgDialog::OnDestroy()
 		m_hStatusIconOverlay = nullptr;
 	}	
 
-	ReleaseSendQueueItems(m_hwnd);
+	ReleaseSendQueueItems(this);
 	if (g_dat.flags.bSaveDrafts) {
 		ptrA szText(m_message.GetRichTextRtf(true));
 		if (szText)
@@ -552,16 +552,27 @@ void CMsgDialog::onClick_Ok(CCtrlButton *pButton)
 	}
 	else {
 		if (pButton == nullptr)
-			SendMessage(m_hwndParent, DM_SENDMESSAGE, 0, (LPARAM)& msi);
+			m_pParent->MessageSend(msi);
 		else
-			SendMessage(m_hwnd, DM_SENDMESSAGE, 0, (LPARAM)& msi);
+			MessageSend(msi);
 	}
 }
 
 void CMsgDialog::onClick_UserMenu(CCtrlButton *pButton)
 {
-	if (GetKeyState(VK_SHIFT) & 0x8000) // copy user name
-		SendMessage(m_hwnd, DM_USERNAMETOCLIP, 0, 0);
+	if (GetKeyState(VK_SHIFT) & 0x8000) { // copy user name
+		char buf[128];
+		GetContactUniqueId(buf, sizeof(buf));
+		if (!OpenClipboard(m_hwnd) || !mir_strlen(buf))
+			return;
+
+		EmptyClipboard();
+		HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, mir_strlen(buf) + 1);
+		mir_strcpy((LPSTR)GlobalLock(hData), buf);
+		GlobalUnlock(hData);
+		SetClipboardData(CF_TEXT, hData);
+		CloseClipboard();
+	}
 	else {
 		RECT rc;
 		HMENU hMenu = Menu_BuildContactMenu(m_hContact);
@@ -703,9 +714,34 @@ void CMsgDialog::onChange_SplitterY(CSplitter *pSplitter)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CMsgDialog::ClearLog()
+{
+	if (m_hwndIeview != nullptr) {
+		IEVIEWEVENT evt = { sizeof(evt) };
+		evt.iType = IEE_CLEAR_LOG;
+		evt.dwFlags = (m_bUseRtl) ? IEEF_RTL : 0;
+		evt.hwnd = m_hwndIeview;
+		evt.hContact = m_hContact;
+		evt.pszProto = m_szProto;
+		CallService(MS_IEVIEW_EVENT, 0, (LPARAM)& evt);
+	}
+	else CSuper::ClearLog();
+
+	m_hDbEventFirst = 0;
+	m_lastEventType = -1;
+}
+
 void CMsgDialog::CloseTab()
 {
 	Close();
+}
+
+void CMsgDialog::GetAvatar()
+{
+	PROTO_AVATAR_INFORMATION ai = {};
+	ai.hContact = m_hContact;
+	CallProtoService(m_szProto, PS_GETAVATARINFO, GAIF_FORCE, (LPARAM)&ai);
+	ShowAvatar();
 }
 
 HICON CMsgDialog::GetTabIcon()
@@ -772,6 +808,19 @@ void CMsgDialog::LoadSettings()
 	LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, nullptr, &m_clrInputFG);
 }
 
+void CMsgDialog::MessageSend(const MessageSendQueueItem &msi)
+{
+	StartMessageSending();
+
+	MessageSendQueueItem *item = CreateSendQueueItem(this);
+	item->hContact = m_hContact;
+	item->proto = mir_strdup(m_szProto);
+	item->flags = msi.flags;
+	item->sendBufferSize = msi.sendBufferSize;
+	item->sendBuffer = mir_strndup(msi.sendBuffer, msi.sendBufferSize);
+	SendSendQueueItem(item);
+}
+
 // Don't send to protocols who don't support typing
 // Don't send to users who are unchecked in the typing notification options
 // Don't send to protocols that are offline
@@ -833,7 +882,7 @@ void CMsgDialog::Reattach(HWND hwndContainer)
 		SendMessage(m_hwnd, DM_SETPARENT, 0, (LPARAM)hParent);
 		m_pParent->AddChild(this);
 		UpdateTabControl();
-		m_pParent->ActivateChild(m_hwnd);
+		m_pParent->ActivateChild(this);
 		NotifyEvent(MSG_WINDOW_EVT_OPENING);
 		NotifyEvent(MSG_WINDOW_EVT_OPEN);
 		ShowWindow(hParent, SW_SHOWNA);
@@ -920,6 +969,75 @@ void CMsgDialog::ShowAvatar()
 	RedrawWindow(GetDlgItem(m_hwnd, IDC_AVATAR), nullptr, nullptr, RDW_INVALIDATE);
 }
 
+void CMsgDialog::ShowMessageSending()
+{
+	SetTimer(m_hwnd, TIMERID_MSGSEND, 1000, nullptr);
+	if (g_dat.flags.bShowProgress)
+		UpdateStatusBar();
+}
+
+void CMsgDialog::StartMessageSending()
+{
+	m_iMessagesInProgress++;
+	ShowMessageSending();
+}
+
+void CMsgDialog::StopMessageSending()
+{
+	if (m_iMessagesInProgress > 0) {
+		m_iMessagesInProgress--;
+		if (g_dat.flags.bShowProgress)
+			UpdateStatusBar();
+	}
+	if (m_iMessagesInProgress == 0)
+		KillTimer(m_hwnd, TIMERID_MSGSEND);
+}
+
+void CMsgDialog::SwitchTyping()
+{
+	if (IsTypingNotificationSupported()) {
+		BYTE typingNotify = (g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.bTypingNew));
+		g_plugin.setByte(m_hContact, SRMSGSET_TYPING, (BYTE)!typingNotify);
+		Srmm_SetIconFlags(m_hContact, SRMM_MODULE, 1, typingNotify ? MBF_DISABLED : 0);
+	}
+}
+
+void CMsgDialog::ToggleRtl()
+{
+	PARAFORMAT2 pf2;
+	memset(&pf2, 0, sizeof(pf2));
+	pf2.cbSize = sizeof(pf2);
+	pf2.dwMask = PFM_RTLPARA;
+	m_bUseRtl = !m_bUseRtl;
+	if (m_bUseRtl) {
+		pf2.wEffects = PFE_RTLPARA;
+		SetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE) | WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR);
+		SetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE) | WS_EX_LEFTSCROLLBAR);
+	}
+	else {
+		pf2.wEffects = 0;
+		SetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE) & ~(WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR));
+		SetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE) & ~(WS_EX_LEFTSCROLLBAR));
+	}
+	m_message.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
+	SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
+}
+
+void CMsgDialog::UpdateIcon()
+{
+	TitleBarData tbd = {};
+	tbd.iFlags = TBDF_ICON;
+	GetTitlebarIcon(&tbd);
+	m_pParent->UpdateTitleBar(tbd, m_hwnd);
+
+	TabControlData tcd;
+	tcd.iFlags = TCDF_ICON;
+	tcd.hIcon = GetTabIcon();
+	m_pParent->UpdateTabControl(tcd, m_hwnd);
+
+	SendDlgItemMessage(m_hwnd, IDC_USERMENU, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_hStatusIcon);
+}
+
 void CMsgDialog::UpdateStatusBar()
 {
 	if (m_pParent->m_hwndActive != m_hwnd)
@@ -1003,6 +1121,11 @@ void CMsgDialog::UpdateTabControl()
 	tcd.hIcon = GetTabIcon();
 	tcd.pszText = Clist_GetContactDisplayName(m_hContact);
 	m_pParent->UpdateTabControl(tcd, m_hwnd);
+}
+
+void CMsgDialog::UserIsTyping(int iState)
+{
+	m_nTypeSecs = (iState > 0) ? iState : 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1285,7 +1408,7 @@ LRESULT CMsgDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 		
 		case IDM_CLEAR:
-			SendMessage(m_hwnd, DM_CLEARLOG, 0, 0);
+			ClearLog();
 			break;
 		
 		case IDM_SEARCH_GOOGLE:
@@ -1515,7 +1638,6 @@ LRESULT CMsgDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 
 INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	PARAFORMAT2 pf2;
 	LPNMHDR pNmhdr;
 
 	switch (msg) {
@@ -1566,38 +1688,10 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		ShowAvatar();
 		break;
 
-	case DM_GETAVATAR:
-		{
-			PROTO_AVATAR_INFORMATION ai = { 0 };
-			ai.hContact = m_hContact;
-			CallProtoService(m_szProto, PS_GETAVATARINFO, GAIF_FORCE, (LPARAM)&ai);
-			ShowAvatar();
-		}
-		break;
-
-	case DM_TYPING:
-		m_nTypeSecs = (int)lParam > 0 ? (int)lParam : 0;
-		break;
-
 	case DM_CHANGEICONS:
 		UpdateStatusBar();
 		SetStatusIcon();
-
-	case DM_UPDATEICON:
-		{
-			TitleBarData tbd = { 0 };
-			tbd.iFlags = TBDF_ICON;
-			GetTitlebarIcon(&tbd);
-			m_pParent->UpdateTitleBar(tbd, m_hwnd);
-
-			TabControlData tcd;
-			tcd.iFlags = TCDF_ICON;
-			tcd.hIcon = GetTabIcon();
-			m_pParent->UpdateTabControl(tcd, m_hwnd);
-
-			SendDlgItemMessage(m_hwnd, IDC_USERMENU, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_hStatusIcon);
-		}
-		break;
+		__fallthrough;
 
 	case DM_CLISTSETTINGSCHANGED:
 		if (wParam == m_hContact && m_hContact && m_szProto) {
@@ -1611,7 +1705,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				m_wStatus = cws->value.wVal;
 
 			SetStatusIcon();
-			SendMessage(m_hwnd, DM_UPDATEICON, 0, 0);
+			UpdateIcon();
 			UpdateTitle();
 			UpdateTabControl();
 			ShowAvatar();
@@ -1642,7 +1736,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			m_hwndIeview = nullptr;
 		}
 
-		SendMessage(m_hwnd, DM_GETAVATAR, 0, 0);
+		GetAvatar();
 		SetDialogToType();
 		{
 			COLORREF colour = g_plugin.getDword(SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR);
@@ -1669,14 +1763,14 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			m_message.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)m_message.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
 		}
 
+		PARAFORMAT2 pf2;
 		memset(&pf2, 0, sizeof(pf2));
 		pf2.cbSize = sizeof(pf2);
 		pf2.dwMask = PFM_OFFSET;
 		pf2.dxOffset = (g_dat.flags.bIndentText) ? g_dat.indentSize * 1440 / g_dat.logPixelSX : 0;
-
-		ClearLog();
 		m_log.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 		m_log.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)m_log.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~(IMF_AUTOKEYBOARD | IMF_AUTOFONTSIZEADJUST));
+		m_log.SetTextA("");
 
 		SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
 		UpdateTitle();
@@ -1684,57 +1778,6 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		UpdateStatusBar();
 		m_message.SendMsg(EM_REQUESTRESIZE, 0, 0);
 		SetupInfobar();
-		break;
-
-	case DM_USERNAMETOCLIP:
-		if (m_hContact) {
-			char buf[128];
-			GetContactUniqueId(buf, sizeof(buf));
-			if (!OpenClipboard(m_hwnd) || !mir_strlen(buf))
-				break;
-
-			EmptyClipboard();
-			HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, mir_strlen(buf) + 1);
-			mir_strcpy((LPSTR)GlobalLock(hData), buf);
-			GlobalUnlock(hData);
-			SetClipboardData(CF_TEXT, hData);
-			CloseClipboard();
-		}
-		break;
-
-	case DM_SWITCHINFOBAR:
-	case DM_SWITCHTOOLBAR:
-		if (isChat())
-			Resize();
-		else
-			SetDialogToType();
-		break;
-
-	case DM_SWITCHTYPING:
-		if (IsTypingNotificationSupported()) {
-			BYTE typingNotify = (g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.bTypingNew));
-			g_plugin.setByte(m_hContact, SRMSGSET_TYPING, (BYTE)!typingNotify);
-			Srmm_SetIconFlags(m_hContact, SRMM_MODULE, 1, typingNotify ? MBF_DISABLED : 0);
-		}
-		break;
-
-	case DM_SWITCHRTL:
-		memset(&pf2, 0, sizeof(pf2));
-		pf2.cbSize = sizeof(pf2);
-		pf2.dwMask = PFM_RTLPARA;
-		m_bUseRtl = !m_bUseRtl;
-		if (m_bUseRtl) {
-			pf2.wEffects = PFE_RTLPARA;
-			SetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE) | WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR);
-			SetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE) | WS_EX_LEFTSCROLLBAR);
-		}
-		else {
-			pf2.wEffects = 0;
-			SetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE) &~(WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR));
-			SetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE) &~(WS_EX_LEFTSCROLLBAR));
-		}
-		m_message.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
-		SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
 		break;
 
 	case DM_ACTIVATE:
@@ -1791,7 +1834,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (m_iShowUnread) {
 				m_iShowUnread = 0;
 				KillTimer(m_hwnd, TIMERID_UNREAD);
-				SendMessage(m_hwnd, DM_UPDATEICON, 0, 0);
+				UpdateIcon();
 			}
 		}
 		break;
@@ -1828,7 +1871,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_SETFOCUS:
-		m_pParent->ActivateChild(m_hwnd);
+		m_pParent->ActivateChild(this);
 		g_dat.hFocusWnd = m_hwnd;
 		PostMessage(m_hwnd, DM_SETFOCUS, 0, 0);
 		return TRUE;
@@ -1878,9 +1921,9 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					else
 						Skin_PlaySound("RecvMsgInactive");
 					if (g_dat.flags2.bSwitchToActive && (IsIconic(m_hwndParent) || GetActiveWindow() != m_hwndParent) && IsWindowVisible(m_hwndParent))
-						m_pParent->ActivateChild(m_hwnd);
+						m_pParent->ActivateChild(this);
 					if (IsAutoPopup(m_hContact))
-						m_pParent->PopupWindow(m_hwnd, true);
+						PopupWindow(true);
 				}
 
 				if (hDbEvent != m_hDbEventFirst && db_event_next(m_hContact, hDbEvent) == 0)
@@ -1891,7 +1934,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				if (!(dbei.flags & DBEF_SENT) && !DbEventIsCustomForMsgWindow(&dbei)) {
 					if (!bIsActive) {
 						m_iShowUnread = 1;
-						SendMessage(m_hwnd, DM_UPDATEICON, 0, 0);
+						UpdateIcon();
 						SetTimer(m_hwnd, TIMERID_UNREAD, TIMEOUT_UNREAD, nullptr);
 					}
 					StartFlashing();
@@ -1900,25 +1943,9 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
-	case DM_CLEARLOG:
-		if (m_hwndIeview != nullptr) {
-			IEVIEWEVENT evt = { sizeof(evt) };
-			evt.iType = IEE_CLEAR_LOG;
-			evt.dwFlags = (m_bUseRtl) ? IEEF_RTL : 0;
-			evt.hwnd = m_hwndIeview;
-			evt.hContact = m_hContact;
-			evt.pszProto = m_szProto;
-			CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&evt);
-		}
-
-		ClearLog();
-		m_hDbEventFirst = 0;
-		m_lastEventType = -1;
-		break;
-
 	case WM_TIMER:
 		if (wParam == TIMERID_MSGSEND)
-			ReportSendQueueTimeouts(m_hwnd);
+			ReportSendQueueTimeouts(this);
 		else if (wParam == TIMERID_TYPE) {
 			if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON && GetTickCount() - m_nLastTyping > TIMEOUT_TYPEOFF)
 				NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
@@ -1929,14 +1956,14 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				else {
 					m_bShowTyping = false;
 					UpdateStatusBar();
-					SendMessage(m_hwnd, DM_UPDATEICON, 0, 0);
+					UpdateIcon();
 				}
 			}
 			else {
 				if (m_nTypeSecs) {
 					m_bShowTyping = true;
 					UpdateStatusBar();
-					SendMessage(m_hwnd, DM_UPDATEICON, 0, 0);
+					UpdateIcon();
 				}
 			}
 		}
@@ -1951,47 +1978,6 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
-	case DM_SENDMESSAGE:
-		if (lParam) {
-			MessageSendQueueItem *msi = (MessageSendQueueItem *)lParam;
-			SendMessage(m_hwnd, DM_STARTMESSAGESENDING, 0, 0);
-
-			MessageSendQueueItem *item = CreateSendQueueItem(m_hwnd);
-			item->hContact = m_hContact;
-			item->proto = mir_strdup(m_szProto);
-			item->flags = msi->flags;
-			item->sendBufferSize = msi->sendBufferSize;
-			item->sendBuffer = mir_strndup(msi->sendBuffer, msi->sendBufferSize);
-			SendSendQueueItem(item);
-		}
-		break;
-
-	case DM_STARTMESSAGESENDING:
-		m_iMessagesInProgress++;
-	case DM_SHOWMESSAGESENDING:
-		SetTimer(m_hwnd, TIMERID_MSGSEND, 1000, nullptr);
-		if (g_dat.flags.bShowProgress)
-			UpdateStatusBar();
-		break;
-
-	case DM_STOPMESSAGESENDING:
-		if (m_iMessagesInProgress > 0) {
-			m_iMessagesInProgress--;
-			if (g_dat.flags.bShowProgress)
-				UpdateStatusBar();
-		}
-		if (m_iMessagesInProgress == 0)
-			KillTimer(m_hwnd, TIMERID_MSGSEND);
-		break;
-
-	case DM_SHOWERRORMESSAGE:
-		if (lParam) {
-			SendMessage(m_hwnd, DM_STOPMESSAGESENDING, 0, 0);
-			CErrorDlg *pDlg = (CErrorDlg*)lParam;
-			pDlg->Create();
-		}
-		break;
-
 	case DM_ERRORDECIDED:
 		{
 			MessageSendQueueItem *item = (MessageSendQueueItem *)lParam;
@@ -2002,7 +1988,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				SetFocus(m_message.GetHwnd());
 				break;
 			case MSGERROR_RETRY:
-				SendMessage(m_hwnd, DM_STARTMESSAGESENDING, 0, 0);
+				StartMessageSending();
 				SendSendQueueItem(item);
 				break;
 			}
