@@ -747,16 +747,16 @@ void CMsgDialog::MessageDialogResize(int w, int h)
 			if (m_si->iType == GCW_CHATROOM)
 				m_btnChannelMgr.Enable(m_si->pMI->bChanMgr);
 		}
-
-		logY = h - pdat->iSplitterY;
+		
+		logY = 0;
+		logH = h - pdat->iSplitterY;
 		if (bToolbar)
-			logY -= toolbarHeight;
-		logH = logY;
+			logH -= toolbarHeight;
 
 		HDWP hdwp = BeginDeferWindowPos(5);
 		hdwp = DeferWindowPos(hdwp, m_log.GetHwnd(), nullptr, 1, 0, bNick ? w - pdat->iSplitterX - 1 : w - 2, logH, SWP_NOZORDER);
-		hdwp = DeferWindowPos(hdwp, m_nickList.GetHwnd(), nullptr, w - pdat->iSplitterX + 2, 0, pdat->iSplitterX - 3, logY, SWP_NOZORDER);
-		hdwp = DeferWindowPos(hdwp, m_splitterX.GetHwnd(), nullptr, w - pdat->iSplitterX, 1, 2, logY - 1, SWP_NOZORDER);
+		hdwp = DeferWindowPos(hdwp, m_nickList.GetHwnd(), nullptr, w - pdat->iSplitterX + 2, 0, pdat->iSplitterX - 3, logH, SWP_NOZORDER);
+		hdwp = DeferWindowPos(hdwp, m_splitterX.GetHwnd(), nullptr, w - pdat->iSplitterX, 1, 2, logH, SWP_NOZORDER);
 		hdwp = DeferWindowPos(hdwp, m_splitterY.GetHwnd(), nullptr, 0, h - pdat->iSplitterY, w, SPLITTER_HEIGHT, SWP_NOZORDER);
 		hdwp = DeferWindowPos(hdwp, m_message.GetHwnd(), nullptr, 1, h - pdat->iSplitterY + SPLITTER_HEIGHT, w - 2, pdat->iSplitterY - SPLITTER_HEIGHT - 1, SWP_NOZORDER);
 		EndDeferWindowPos(hdwp);
@@ -842,7 +842,7 @@ void CMsgDialog::MessageDialogResize(int w, int h)
 		ieWindow.y = logY;
 		ieWindow.cx = w;
 		ieWindow.cy = logH;
-		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)& ieWindow);
+		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
 	}
 	else RedrawWindow(m_log.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 
