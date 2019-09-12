@@ -57,7 +57,7 @@ void TContainerData::InitRedraw()
 	::SetTimer(m_hwnd, (UINT_PTR)this, 100, nullptr);
 }
 
-void TContainerData::SetIcon(CTabBaseDlg *pDlg, HICON hIcon)
+void TContainerData::SetIcon(CMsgDialog *pDlg, HICON hIcon)
 {
 	HICON hIconMsg = PluginConfig.g_IconMsgEvent;
 	HICON hIconBig = (pDlg && pDlg->m_cache) ? Skin_LoadProtoIcon(pDlg->m_cache->getProto(), pDlg->m_cache->getStatus(), true) : nullptr;
@@ -130,13 +130,13 @@ void TContainerData::UpdateTabs()
 		if (!hDlg)
 			continue;
 
-		CTabBaseDlg *dat = (CTabBaseDlg*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+		CMsgDialog *dat = (CMsgDialog*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 		if (dat)
 			dat->m_iTabID = i;
 	}
 }
 
-void TContainerData::UpdateTitle(MCONTACT hContact, CTabBaseDlg *pDlg)
+void TContainerData::UpdateTitle(MCONTACT hContact, CMsgDialog *pDlg)
 {
 	// pDlg != 0 means sent by a chat window
 	if (pDlg) {
@@ -151,12 +151,12 @@ void TContainerData::UpdateTitle(MCONTACT hContact, CTabBaseDlg *pDlg)
 	// no hContact given - obtain the hContact for the active tab
 	if (hContact == 0) {
 		if (m_hwndActive && IsWindow(m_hwndActive))
-			pDlg = (CTabBaseDlg*)GetWindowLongPtr(m_hwndActive, GWLP_USERDATA);
+			pDlg = (CMsgDialog*)GetWindowLongPtr(m_hwndActive, GWLP_USERDATA);
 	}
 	else {
 		HWND hwnd = Srmm_FindWindow(hContact);
 		if (hwnd != nullptr)
-			pDlg = (CTabBaseDlg*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+			pDlg = (CMsgDialog*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	}
 
 	if (pDlg) {
@@ -181,7 +181,7 @@ void TSAPI SetAeroMargins(TContainerData *pContainer)
 		return;
 	}
 
-	CTabBaseDlg *dat = (CTabBaseDlg*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
+	CMsgDialog *dat = (CMsgDialog*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
 	if (!dat)
 		return;
 
@@ -573,7 +573,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	RECT rc;
 	POINT pt;
 	MCONTACT hContact;
-	CTabBaseDlg *dat;
+	CMsgDialog *dat;
 
 	TContainerData *pContainer = (TContainerData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	BOOL bSkinned = CSkin::m_skinEnabled ? TRUE : FALSE;
@@ -738,7 +738,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			pContainer->m_pMenuBar->getClientRect();
 
 			if (pContainer->m_hwndStatus) {
-				dat = (CTabBaseDlg*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
+				dat = (CMsgDialog*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
 				SendMessage(pContainer->m_hwndStatus, WM_USER + 101, 0, (LPARAM)dat);
 
 				RECT rcs;
@@ -788,7 +788,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					SetWindowPos(hDlg, nullptr, rcClient.left, rcClient.top, (rcClient.right - rcClient.left), (rcClient.bottom - rcClient.top),
 						SWP_NOSENDCHANGING | SWP_NOACTIVATE/*|SWP_NOCOPYBITS*/);
 					if (!pContainer->m_bSizingLoop && sizeChanged) {
-						dat = (CTabBaseDlg*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
+						dat = (CMsgDialog*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
 						if (dat)
 							dat->DM_ScrollToBottom(0, 1);
 					}
@@ -853,7 +853,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				else nPanel = nm->dwItemSpec;
 panel_found:
 				if (nPanel == 2) {
-					dat = (CTabBaseDlg*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
+					dat = (CMsgDialog*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
 					SendMessage(pContainer->m_hwndStatus, SB_GETRECT, nPanel, (LPARAM)&rc);
 					if (dat)
 						dat->CheckStatusIconClick(nm->pt, rc, 2, ((LPNMHDR)lParam)->code);
@@ -904,7 +904,7 @@ panel_found:
 			if (((LPNMHDR)lParam)->idFrom == IDC_MSGTABS) {
 				hDlg = GetTabWindow(hwndTab, GetTabItemFromMouse(hwndTab, &pt));
 				if (hDlg && IsWindow(hDlg))
-					dat = (CTabBaseDlg*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+					dat = (CMsgDialog*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 			}
 			// sent from a sidebar button (RMB click) instead of the tab control
 			else if (((LPNMHDR)lParam)->idFrom == 5000) {
@@ -978,7 +978,7 @@ panel_found:
 			bool fProcessMainMenu = pContainer->m_pMenuBar->isMainMenu();
 			pContainer->m_pMenuBar->Cancel();
 
-			dat = (CTabBaseDlg*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
+			dat = (CMsgDialog*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
 			DWORD dwOldFlags = pContainer->m_dwFlags;
 
 			if (dat) {
@@ -1181,7 +1181,7 @@ panel_found:
 	case WM_EXITSIZEMOVE:
 		GetClientRect(hwndTab, &rc);
 		if (!((rc.right - rc.left) == pContainer->m_oldSize.cx && (rc.bottom - rc.top) == pContainer->m_oldSize.cy)) {
-			dat = (CTabBaseDlg*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
+			dat = (CMsgDialog*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
 			if (dat)
 				dat->DM_ScrollToBottom(0, 0);
 			SendMessage(pContainer->m_hwndActive, WM_SIZE, 0, 0);
@@ -1261,7 +1261,7 @@ panel_found:
 					PostMessage(hwndDlg, WM_CLOSE, 1, 0);
 			}
 
-			dat = (CTabBaseDlg*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
+			dat = (CMsgDialog*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
 			if (dat && !dat->isChat()) {
 				if (dat->m_idle && pContainer->m_hwndActive && IsWindow(pContainer->m_hwndActive))
 					dat->m_pPanel.Invalidate(TRUE);
@@ -1299,7 +1299,7 @@ panel_found:
 			pContainer->ClearMargins();
 			break;
 		case SC_MINIMIZE:
-			dat = (CTabBaseDlg*)(GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA));
+			dat = (CMsgDialog*)(GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA));
 			if (dat) {
 				GetWindowRect(pContainer->m_hwndActive, &pContainer->m_rcLogSaved);
 				pContainer->m_ptLogSaved.x = pContainer->m_rcLogSaved.left;
@@ -1594,7 +1594,7 @@ panel_found:
 					SetWindowPos(hwndDlg, nullptr, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, SWP_NOACTIVATE | SWP_FRAMECHANGED | SWP_NOCOPYBITS);
 					RedrawWindow(hwndDlg, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
 					if (pContainer->m_hwndActive != nullptr) {
-						dat = (CTabBaseDlg*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
+						dat = (CMsgDialog*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
 						dat->DM_ScrollToBottom(0, 0);
 					}
 				}
@@ -1694,7 +1694,7 @@ panel_found:
 		{
 			DRAWITEMSTRUCT *dis = (DRAWITEMSTRUCT *)lParam;
 			if (dis->hwndItem == pContainer->m_hwndStatus && !(pContainer->m_dwFlags & CNT_NOSTATUSBAR)) {
-				dat = (CTabBaseDlg*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
+				dat = (CMsgDialog*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
 				if (dat)
 					dat->DrawStatusIcons(dis->hDC, dis->rcItem, 2);
 				return TRUE;
@@ -1964,7 +1964,7 @@ int TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd)
 }
 
 // enumerates tabs and closes all of them, but the one in dat
-void TSAPI CloseOtherTabs(HWND hwndTab, CTabBaseDlg &dat)
+void TSAPI CloseOtherTabs(HWND hwndTab, CMsgDialog &dat)
 {
 	for (int idxt = 0; idxt < dat.m_pContainer->m_iChilds;) {
 		HWND otherTab = GetTabWindow(hwndTab, idxt);

@@ -248,6 +248,6 @@ INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 int TSAPI TBStateConvert2Flat(int state);
 int TSAPI RBStateConvert2Flat(int state);
-void TSAPI FillTabBackground(const HDC hdc, int iStateId, const CTabBaseDlg *dat, RECT* rc);
+void TSAPI FillTabBackground(const HDC hdc, int iStateId, const CMsgDialog *dat, RECT* rc);
 
 #define IS_EXTKEY(a) (a & (1 << 24))

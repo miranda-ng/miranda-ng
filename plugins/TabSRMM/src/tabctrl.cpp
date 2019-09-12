@@ -139,7 +139,7 @@ static void TSAPI DrawCustomTabPage(HDC hdc, RECT& rcClient)
 	::DeleteObject(hPen);
 }
 
-void TSAPI FillTabBackground(const HDC hdc, int iStateId, const CTabBaseDlg *dat, RECT* rc)
+void TSAPI FillTabBackground(const HDC hdc, int iStateId, const CMsgDialog *dat, RECT* rc)
 {
 	unsigned clrIndex;
 
@@ -160,7 +160,7 @@ void TSAPI FillTabBackground(const HDC hdc, int iStateId, const CTabBaseDlg *dat
 // no image list is used and necessary, the message window dialog procedure has to provide a valid
 // icon handle in dat->hTabIcon
 
-static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, int nItem, CSrmmWindow *dat)
+static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, int nItem, CMsgDialog *dat)
 {
 	if (dat == nullptr)
 		return;
@@ -235,7 +235,7 @@ static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, in
 
 static RECT rcTabPage = { 0 };
 
-static void DrawItemRect(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, const CSrmmWindow *dat)
+static void DrawItemRect(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, const CMsgDialog *dat)
 {
 	POINT pt;
 	DWORD dwStyle = tabdat->dwStyle;
@@ -393,7 +393,7 @@ static int DWordAlign(int n)
 	return n;
 }
 
-static HRESULT DrawThemesPartWithAero(const TabControlData *tabdat, HDC hDC, int iPartId, int iStateId, LPRECT prcBox, CSrmmWindow *dat)
+static HRESULT DrawThemesPartWithAero(const TabControlData *tabdat, HDC hDC, int iPartId, int iStateId, LPRECT prcBox, CMsgDialog *dat)
 {
 	HRESULT hResult = 0;
 	bool	bAero = M.isAero();
@@ -440,7 +440,7 @@ static HRESULT DrawThemesPart(const TabControlData *tabdat, HDC hDC, int iPartId
 // draw a themed tab item. either a tab or the body pane
 // handles image mirroring for tabs at the bottom
 
-static void DrawThemesXpTabItem(HDC pDC, RECT *rcItem, UINT uiFlag, TabControlData *tabdat, CSrmmWindow *dat)
+static void DrawThemesXpTabItem(HDC pDC, RECT *rcItem, UINT uiFlag, TabControlData *tabdat, CMsgDialog *dat)
 {
 	BOOL bBody = (uiFlag & 1) ? TRUE : FALSE;
 	BOOL bSel = (uiFlag & 2) ? TRUE : FALSE;
@@ -614,7 +614,7 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 	tabdat->helperDat = nullptr;
 
 	if (tabdat->bAeroTabs) {
-		CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(tabdat->pContainer->m_hwndActive, GWLP_USERDATA);
+		CMsgDialog *dat = (CMsgDialog*)GetWindowLongPtr(tabdat->pContainer->m_hwndActive, GWLP_USERDATA);
 		if (dat)
 			tabdat->helperDat = dat;
 		else
@@ -841,9 +841,9 @@ page_done:
 		if (i == iActive)
 			continue;
 
-		CSrmmWindow *dat = nullptr;
+		CMsgDialog *dat = nullptr;
 		if (HWND hDlg = GetTabWindow(hwnd, i))
-			dat = (CSrmmWindow*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+			dat = (CMsgDialog*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 		TabCtrl_GetItemRect(hwnd, i, &rcItem);
 		if (!bClassicDraw && uiBottom) {
 			rcItem.top -= PluginConfig.tabConfig.m_bottomAdjust;
@@ -871,12 +871,12 @@ page_done:
 		rctActive.bottom -= PluginConfig.tabConfig.m_bottomAdjust;
 	}
 	if (rctActive.left >= 0) {
-		CSrmmWindow *dat = nullptr;
+		CMsgDialog *dat = nullptr;
 		int nHint = 0;
 
 		rcItem = rctActive;
 		if (HWND hDlg = GetTabWindow(hwnd, iActive))
-			dat = (CSrmmWindow*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+			dat = (CMsgDialog*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 
 		if (!bClassicDraw && !(dwStyle & TCS_BUTTONS)) {
 			InflateRect(&rcItem, 2, 2);
@@ -1104,7 +1104,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 				int i = GetTabItemFromMouse(hwnd, &pt);
 				if (i != -1) {
 					HWND hDlg = GetTabWindow(hwnd, i);
-					CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+					CMsgDialog *dat = (CMsgDialog*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 					if (dat) {
 						tabdat->bDragging = true;
 						tabdat->iBeginIndex = i;
@@ -1129,7 +1129,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 				int i = GetTabItemFromMouse(hwnd, &pt);
 				if (i != -1) {
 					HWND hDlg = GetTabWindow(hwnd, i);
-					CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+					CMsgDialog *dat = (CMsgDialog*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 					if (dat) {
 						tabdat->bDragging = true;
 						tabdat->iBeginIndex = i;
@@ -1249,9 +1249,9 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 				if (nItem >= 0 && nItem < TabCtrl_GetItemCount(hwnd)) {
 					// get the message window data for the session to which this tab item belongs
 					HWND hDlg = GetTabWindow(hwnd, nItem);
-					CSrmmWindow *dat = nullptr;
+					CMsgDialog *dat = nullptr;
 					if (IsWindow(hDlg) && hDlg != 0)
-						dat = (CSrmmWindow*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+						dat = (CMsgDialog*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 					if (dat) {
 						tabdat->bTipActive = true;
 						ti.isGroup = 0;
@@ -1351,7 +1351,7 @@ int TSAPI RegisterTabCtrlClass(void)
 	RegisterClassEx(&wc);
 
 	wc.lpszClassName = L"TSStatusBarClass";
-	wc.lpfnWndProc = &CTabBaseDlg::StatusBarSubclassProc;
+	wc.lpfnWndProc = &CMsgDialog::StatusBarSubclassProc;
 	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wc.cbWndExtra = sizeof(void*);
 	wc.style = CS_GLOBALCLASS | CS_DBLCLKS | CS_PARENTDC;

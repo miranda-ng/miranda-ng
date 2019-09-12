@@ -1911,7 +1911,7 @@ void CSkin::DrawDimmedIcon(HDC hdc, LONG left, LONG top, LONG dx, LONG dy, HICON
 	DeleteDC(dcMem);
 }
 
-UINT CSkin::NcCalcRichEditFrame(HWND hwnd, const CTabBaseDlg *mwdat, UINT skinID, UINT msg, WPARAM wParam, LPARAM lParam, WNDPROC MyWndProc)
+UINT CSkin::NcCalcRichEditFrame(HWND hwnd, const CMsgDialog *mwdat, UINT skinID, UINT msg, WPARAM wParam, LPARAM lParam, WNDPROC MyWndProc)
 {
 	NCCALCSIZE_PARAMS *nccp = (NCCALCSIZE_PARAMS *)lParam;
 	BOOL bReturn = FALSE;
@@ -1956,7 +1956,7 @@ UINT CSkin::NcCalcRichEditFrame(HWND hwnd, const CTabBaseDlg *mwdat, UINT skinID
 // process WM_NCPAINT for the rich edit control. Draws a visual style border and avoid
 // classic static edge / client edge may also draw a colorized border around the control
 
-UINT CSkin::DrawRichEditFrame(HWND hwnd, const CTabBaseDlg *mwdat, UINT skinID, UINT msg, WPARAM wParam, LPARAM lParam, WNDPROC OldWndProc)
+UINT CSkin::DrawRichEditFrame(HWND hwnd, const CMsgDialog *mwdat, UINT skinID, UINT msg, WPARAM wParam, LPARAM lParam, WNDPROC OldWndProc)
 {
 	// do default processing (otherwise, NO scrollbar as it is painted in NC_PAINT)
 	LRESULT result = (OldWndProc == nullptr) ? 0 : mir_callNextSubclass(hwnd, OldWndProc, msg, wParam, lParam);
@@ -2142,7 +2142,7 @@ void CSkin::MapClientToParent(HWND hwndClient, HWND hwndParent, RECT &rc)
 // @param hdc      HDC: handle to the device context in which painting should occur.
 // @param rcWindow RECT &: The window rectangle of the message dialog window
 
-void CTabBaseDlg::RenderToolbarBG(HDC hdc, const RECT &rcWindow) const
+void CMsgDialog::RenderToolbarBG(HDC hdc, const RECT &rcWindow) const
 {
 	if (m_pContainer->m_dwFlags & CNT_HIDETOOLBAR)
 		return;
@@ -2401,7 +2401,7 @@ void CSkin::extractSkinsAndLogo(bool fForceOverwrite) const
 /////////////////////////////////////////////////////////////////////////////////////////
 // redraw the splitter area between the message input and message log area only
 
-void CTabBaseDlg::UpdateToolbarBG()
+void CMsgDialog::UpdateToolbarBG()
 {
 	RECT rcUpdate, rcTmp;
 	::GetWindowRect(m_log.GetHwnd(), &rcTmp);

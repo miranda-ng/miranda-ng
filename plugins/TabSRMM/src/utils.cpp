@@ -49,7 +49,7 @@ static wchar_t *formatting_strings_end[] = { L"b0 ", L"i0 ", L"u0 ", L"s0 ",
 // flags: loword = words only for simple  * /_ formatting
 //        hiword = bbcode support (strip bbcodes if 0)
 
-void CTabBaseDlg::FormatRaw(CMStringW &msg, int flags, bool isSent)
+void CMsgDialog::FormatRaw(CMStringW &msg, int flags, bool isSent)
 {
 	bool clr_was_added = false, was_added;
 	int beginmark = 0, endmark = 0, tempmark = 0, index;
@@ -221,7 +221,7 @@ static wchar_t* Trunc500(wchar_t *str)
 	return str;
 }
 
-bool CTabBaseDlg::FormatTitleBar(const wchar_t *szFormat, CMStringW &dest)
+bool CMsgDialog::FormatTitleBar(const wchar_t *szFormat, CMStringW &dest)
 {
 	for (const wchar_t *src = szFormat; *src; src++) {
 		if (*src != '%') {
@@ -388,7 +388,7 @@ wchar_t* Utils::GetPreviewWithEllipsis(wchar_t *szText, size_t iMaxLen)
 // returns != 0 when one of the installed keyboard layouts belongs to an rtl language
 // used to find out whether we need to configure the message input box for bidirectional mode
 
-int CTabBaseDlg::FindRTLLocale()
+int CMsgDialog::FindRTLLocale()
 {
 	HKL layouts[20];
 	int i, result = 0;
@@ -639,7 +639,7 @@ void Utils::scaleAvatarHeightLimited(const HBITMAP hBm, double& dNewWidth, doubl
 // @param dat: _MessageWindowData* pointer to the window data
 // @return HICON: the icon handle
 
-HICON CTabBaseDlg::IconFromAvatar() const
+HICON CMsgDialog::IconFromAvatar() const
 {
 	if (!ServiceExists(MS_AV_GETAVATARBITMAP))
 		return nullptr;
@@ -741,7 +741,7 @@ void Utils::addMenuItem(const HMENU& m, MENUITEMINFO &mii, HICON hIcon, const wc
 // return != 0 when the sound effect must be played for the given
 // session. Uses container sound settings
 
-int CTabBaseDlg::MustPlaySound() const
+int CMsgDialog::MustPlaySound() const
 {
 	if (m_pContainer->m_bHidden)		// hidden container is treated as closed, so play the sound
 		return 1;

@@ -139,7 +139,7 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	return 0;
 }
 
-void CTabBaseDlg::BB_InitDlgButtons()
+void CMsgDialog::BB_InitDlgButtons()
 {
 	BYTE gap = DPISCALEX_S(g_plugin.getByte("ButtonsBarGap", 1));
 
@@ -182,7 +182,7 @@ void CTabBaseDlg::BB_InitDlgButtons()
 	}
 }
 
-void CTabBaseDlg::BB_RedrawButtons()
+void CMsgDialog::BB_RedrawButtons()
 {
 	Srmm_RedrawToolbarIcons(m_hwnd);
 
@@ -191,14 +191,14 @@ void CTabBaseDlg::BB_RedrawButtons()
 		InvalidateRect(hwndToggleSideBar, nullptr, TRUE);
 }
 
-void CTabBaseDlg::BB_RefreshTheme()
+void CMsgDialog::BB_RefreshTheme()
 {
 	CustomButtonData *cbd;
 	for (int i = 0; cbd = Srmm_GetNthButton(i); i++)
 		SendDlgItemMessage(m_hwnd, cbd->m_dwButtonCID, WM_THEMECHANGED, 0, 0);
 }
 
-BOOL CTabBaseDlg::BB_SetButtonsPos()
+BOOL CMsgDialog::BB_SetButtonsPos()
 {
 	if (!m_hwnd || !IsWindowVisible(m_hwnd))
 		return 0;
@@ -333,7 +333,7 @@ BOOL CTabBaseDlg::BB_SetButtonsPos()
 	return EndDeferWindowPos(hdwp);
 }
 
-void CTabBaseDlg::CB_DestroyAllButtons()
+void CMsgDialog::CB_DestroyAllButtons()
 {
 	CustomButtonData *cbd;
 	for (int i = 0; cbd = Srmm_GetNthButton(i); i++) {
@@ -343,7 +343,7 @@ void CTabBaseDlg::CB_DestroyAllButtons()
 	}
 }
 
-void CTabBaseDlg::CB_DestroyButton(DWORD dwButtonCID, DWORD dwFlags)
+void CMsgDialog::CB_DestroyButton(DWORD dwButtonCID, DWORD dwFlags)
 {
 	HWND hwndButton = GetDlgItem(m_hwnd, dwButtonCID);
 	if (hwndButton == nullptr)
@@ -360,7 +360,7 @@ void CTabBaseDlg::CB_DestroyButton(DWORD dwButtonCID, DWORD dwFlags)
 	BB_SetButtonsPos();
 }
 
-void CTabBaseDlg::CB_ChangeButton(CustomButtonData *cbd)
+void CMsgDialog::CB_ChangeButton(CustomButtonData *cbd)
 {
 	HWND hwndButton = GetDlgItem(m_hwnd, cbd->m_dwButtonCID);
 	if (hwndButton == nullptr)

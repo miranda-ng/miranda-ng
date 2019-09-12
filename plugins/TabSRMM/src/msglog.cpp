@@ -93,7 +93,7 @@ struct LogStreamData {
 	int eventsToInsert;
 	int isEmpty;
 	int isAppend;
-	CTabBaseDlg *dlgDat;
+	CMsgDialog *dlgDat;
 	DBEVENTINFO *dbei;
 };
 
@@ -306,7 +306,7 @@ static int AppendUnicodeToBuffer(CMStringA &str, const wchar_t *line, int mode)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void Build_RTF_Header(CMStringA &str, CTabBaseDlg *dat)
+static void Build_RTF_Header(CMStringA &str, CMsgDialog *dat)
 {
 	int i;
 	LOGFONTA *logFonts = dat->m_pContainer->m_theme.logFonts;
@@ -364,14 +364,14 @@ static void Build_RTF_Header(CMStringA &str, CTabBaseDlg *dat)
 }
 
 // mir_free() the return value
-static char* CreateRTFHeader(CTabBaseDlg *dat)
+static char* CreateRTFHeader(CMsgDialog *dat)
 {
 	CMStringA str;
 	Build_RTF_Header(str, dat);
 	return str.Detach();
 }
 
-static void AppendTimeStamp(wchar_t *szFinalTimestamp, int isSent, CMStringA &str, int skipFont, CTabBaseDlg *dat, int iFontIDOffset)
+static void AppendTimeStamp(wchar_t *szFinalTimestamp, int isSent, CMStringA &str, int skipFont, CMsgDialog *dat, int iFontIDOffset)
 {
 	if (skipFont)
 		AppendUnicodeToBuffer(str, szFinalTimestamp, MAKELONG(isSent, dat->m_bIsHistory));
@@ -426,7 +426,7 @@ int DbEventIsForMsgWindow(DBEVENTINFO *dbei)
 	return et && (et->flags & DETF_MSGWINDOW);
 }
 
-static char* Template_CreateRTFFromDbEvent(CTabBaseDlg *dat, MCONTACT hContact, MEVENT hDbEvent, LogStreamData *streamData)
+static char* Template_CreateRTFFromDbEvent(CMsgDialog *dat, MCONTACT hContact, MEVENT hDbEvent, LogStreamData *streamData)
 {
 	HANDLE hTimeZone = nullptr;
 	BOOL skipToNext = FALSE, skipFont = FALSE;
@@ -1054,7 +1054,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 	return 0;
 }
 
-void CTabBaseDlg::ReplaceIcons(LONG startAt, int fAppend, BOOL isSent)
+void CMsgDialog::ReplaceIcons(LONG startAt, int fAppend, BOOL isSent)
 {
 	wchar_t trbuffer[40];
 	TEXTRANGE tr;
@@ -1176,7 +1176,7 @@ void CTabBaseDlg::ReplaceIcons(LONG startAt, int fAppend, BOOL isSent)
 	}
 }
 
-void CTabBaseDlg::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, DBEVENTINFO *dbei_s)
+void CMsgDialog::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, DBEVENTINFO *dbei_s)
 {
 	CHARRANGE oldSel, sel;
 

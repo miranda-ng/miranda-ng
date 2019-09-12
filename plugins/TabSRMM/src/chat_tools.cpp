@@ -133,7 +133,7 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 	if (si == nullptr || !(iEvent & si->iLogPopupFlags))
 		return true;
 
-	CTabBaseDlg *dat = si->pDlg;
+	CMsgDialog *dat = si->pDlg;
 	TContainerData *pContainer = dat ? dat->m_pContainer : nullptr;
 
 	wchar_t *bbStart, *bbEnd;
@@ -206,7 +206,7 @@ void DoFlashAndSoundWorker(FLASH_PARAMS *p)
 	if (si == nullptr)
 		return;
 
-	CTabBaseDlg *dat = nullptr;
+	CMsgDialog *dat = nullptr;
 	if (si->pDlg) {
 		dat = si->pDlg;
 		if (dat) {
@@ -290,7 +290,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 	if (gce == nullptr || si == nullptr || gce->bIsMe || si->iType == GCW_SERVER)
 		return FALSE;
 
-	CTabBaseDlg *dat = nullptr;
+	CMsgDialog *dat = nullptr;
 	FLASH_PARAMS *params = (FLASH_PARAMS*)mir_calloc(sizeof(FLASH_PARAMS));
 	params->hContact = si->hContact;
 	params->bInactive = TRUE;

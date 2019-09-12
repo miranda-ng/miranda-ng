@@ -176,7 +176,7 @@ int TSAPI CheckThemeVersion(const wchar_t *szIniFilename)
 	return 0;
 }
 
-void TSAPI WriteThemeToINI(const wchar_t *szIniFilenameT, CSrmmWindow *dat)
+void TSAPI WriteThemeToINI(const wchar_t *szIniFilenameT, CMsgDialog *dat)
 {
 	int i, n = 0;
 	DBVARIANT dbv;

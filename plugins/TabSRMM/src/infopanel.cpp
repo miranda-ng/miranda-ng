@@ -42,7 +42,7 @@ TInfoPanelConfig CInfoPanel::m_ipConfig = {};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CInfoPanel::CInfoPanel(CTabBaseDlg *dat)
+CInfoPanel::CInfoPanel(CMsgDialog *dat)
 {
 	if (dat) {
 		m_dat = dat;
@@ -962,7 +962,7 @@ LRESULT CALLBACK CInfoPanel::avatarParentSubclass(HWND hwnd, UINT msg, WPARAM wP
 	case WM_ERASEBKGND:
 		// parent window of the infopanel ACC control
 		RECT rc, rcItem;
-		CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
+		CMsgDialog *dat = (CMsgDialog*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
 		if (dat == nullptr)
 			break;
 

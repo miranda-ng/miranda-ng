@@ -85,17 +85,17 @@ public:
 	SendJob *getJobByIndex(const int index) { return(&m_jobs[index]); }
 
 	void   clearJob(const int index);
-	int    findNextFailed(const CTabBaseDlg *dat) const;
-	void   handleError(CTabBaseDlg *dat, const int iEntry) const;
-	int    addTo(CTabBaseDlg *dat, size_t iLen, int dwFlags);
-	int    sendQueued(CTabBaseDlg *dat, const int iEntry);
+	int    findNextFailed(const CMsgDialog *dat) const;
+	void   handleError(CMsgDialog *dat, const int iEntry) const;
+	int    addTo(CMsgDialog *dat, size_t iLen, int dwFlags);
+	int    sendQueued(CMsgDialog *dat, const int iEntry);
 	size_t getSendLength(const int iEntry);
-	void   checkQueue(const CTabBaseDlg *dat) const;
-	void   logError(CTabBaseDlg *dat, int iSendJobIndex, const wchar_t *szErrMsg) const;
-	void   recallFailed(CTabBaseDlg *dat, int iEntry) const;
-	void   showErrorControls(CTabBaseDlg *dat, const int showCmd) const;
-	int    ackMessage(CTabBaseDlg *dat, WPARAM wParam, LPARAM lParam);
-	int    doSendLater(int iIndex, CTabBaseDlg *dat, MCONTACT hContact = 0, bool fIsSendLater = true);
+	void   checkQueue(const CMsgDialog *dat) const;
+	void   logError(CMsgDialog *dat, int iSendJobIndex, const wchar_t *szErrMsg) const;
+	void   recallFailed(CMsgDialog *dat, int iEntry) const;
+	void   showErrorControls(CMsgDialog *dat, const int showCmd) const;
+	int    ackMessage(CMsgDialog *dat, WPARAM wParam, LPARAM lParam);
+	int    doSendLater(int iIndex, CMsgDialog *dat, MCONTACT hContact = 0, bool fIsSendLater = true);
 
 	// static members
 	static LRESULT TSAPI WarnPendingJobs(unsigned int uNrMessages);
@@ -108,6 +108,6 @@ private:
 extern SendQueue *sendQueue;
 
 int  TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild);
-void TSAPI HandleIconFeedback(CTabBaseDlg *dat, HICON iIcon);
+void TSAPI HandleIconFeedback(CMsgDialog *dat, HICON iIcon);
 
 #endif /* __SENDQUEUE_H */

@@ -132,14 +132,14 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			break;
 
 		case WM_USER + 100:
-			CSrmmWindow *dat = nullptr;
+			CMsgDialog *dat = nullptr;
 			DWORD	*pdwActionToTake = (DWORD *)lParam;
 			unsigned int iOldIEView = 0;
 			HWND	hWnd = Srmm_FindWindow(hContact);
 			BYTE	bOldInfoPanel = M.GetByte(hContact, "infopanel", 0);
 
 			if (hWnd) {
-				dat = (CSrmmWindow*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+				dat = (CMsgDialog*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 				if (dat)
 					iOldIEView = GetIEViewMode(dat->m_hContact);
 			}
@@ -274,7 +274,7 @@ checkboxes[] = {
 	0, 0
 };
 
-int CTabBaseDlg::LoadLocalFlags()
+int CMsgDialog::LoadLocalFlags()
 {
 	DWORD	dwMask = M.GetDword(m_hContact, "mwmask", 0);
 	DWORD	dwLocal = M.GetDword(m_hContact, "mwflags", 0);
@@ -343,9 +343,9 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
 			HWND	hwnd = Srmm_FindWindow(hContact);
 			DWORD	*dwActionToTake = (DWORD *)lParam, dwMask = 0, dwFlags = 0, maskval;
 
-			CSrmmWindow *dat = nullptr;
+			CMsgDialog *dat = nullptr;
 			if (hwnd)
-				dat = (CSrmmWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+				dat = (CMsgDialog*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 			while (checkboxes[i].uId) {
 				maskval = checkboxes[i].uFlag;
@@ -469,7 +469,7 @@ static INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wPa
 				SendMessage(GetTabWindow(hwndTab, i), WM_COMMAND, WM_USER + 100, (LPARAM)&dwActionToTake);
 
 			if (hwnd) {
-				CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+				CMsgDialog *dat = (CMsgDialog*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 				if (dat) {
 					DWORD dwOldFlags = (dat->m_dwFlags & MWF_LOG_ALL);
 					dat->SetDialogToType();

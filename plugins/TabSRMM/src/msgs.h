@@ -226,9 +226,9 @@ struct TContainerData
 	CSideBar *m_pSideBar;
 
 	void InitRedraw();
-	void SetIcon(CTabBaseDlg *pDlg, HICON hIcon);
+	void SetIcon(CMsgDialog *pDlg, HICON hIcon);
 	void UpdateTabs();
-	void UpdateTitle(MCONTACT, class CTabBaseDlg* = nullptr);
+	void UpdateTitle(MCONTACT, class CMsgDialog* = nullptr);
 
 	void ClearMargins()
 	{	memset(&m_mOld, 0xfe, sizeof(m_mOld));
@@ -239,30 +239,30 @@ struct TContainerData
 	}
 };
 
-class CTabBaseDlg : public CSrmmBaseDialog
+class CMsgDialog : public CSrmmBaseDialog
 {
 	typedef CSrmmBaseDialog CSuper;
 	friend class CInfoPanel;
 
-protected:
-	void      CloseTab() override;
-	void      LoadSettings() override;
-	void      SetStatusText(const wchar_t*, HICON) override;
-			   
 	void      DM_AddDivider();
 	void      DM_DismissTip(const POINT& pt);
 	void      DM_ErrorDetected(int type, int flag);
 	bool      DM_GenericHotkeysCheck(MSG *message);
 	int       DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam);
 	void      DM_UpdateLastMessage() const;
-			    
+
 	void      DetermineMinHeight();
 	void      FindFirstEvent();
 	int       FindRTLLocale();
 	void      GetSendFormat();
 	bool      IsAutoSplitEnabled() const;
+	void      LoadContactAvatar();
+	void      LoadOwnAvatar();
+	void      MsgWindowUpdateState(UINT msg);
 	void      ReplaceIcons(LONG startAt, int fAppend, BOOL isSent);
+	void      ReplayQueue();
 	void      ResizeIeView();
+	void      SaveAvatarToFile(HBITMAP hbm, int isOwnPic);
 	void      ShowPopupMenu(const CCtrlBase&, POINT pt);
 	void      VerifyProxy();
 	LRESULT   WMCopyHandler(UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -346,7 +346,7 @@ public:
 	int       m_iLastEventType;
 	int       m_nTypeSecs;
 	int       m_iOpenJobs;
-	int       m_iInputAreaHeight;
+	int       m_iInputAreaHeight = -1;
 	int       m_maxHistory, m_curHistory;
 	int       m_iCurrentQueueError;
 	int       m_iSplitterY, m_dynaSplitter;
@@ -361,23 +361,72 @@ public:
 	wchar_t   m_wszStatusBar[100];
 	char      m_szMicroLf[128];
 
+	int       m_iMultiSplit;
+	int       msgTop, rcLogBottom;
+	wchar_t  *wszInitialText;
+	bool      m_bActivate, m_bWantPopup, m_bIsMeta;
+
 	CInfoPanel m_pPanel;
+	CProxyWindow *m_pWnd;	// proxy window object (win7+, for taskbar support).
 	CContactCache *m_cache;
 	TContainerData *m_pContainer;		// parent container description structure
 	AVATARCACHEENTRY *m_ace, *m_ownAce;
-	CProxyWindow  *m_pWnd;	// proxy window object (win7+, for taskbar support).
-									// ALWAYS check this pointer before using it, it is not guaranteed to exist.
+
+	static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+	bool TabAutoComplete();
+
+	HWND m_hwndFilter;
+	int m_iSearchItem;
+	BOOL m_iSavedSpaces;
+	wchar_t m_wszSearch[255];
+	wchar_t *m_wszSearchQuery, *m_wszSearchResult;
+	SESSION_INFO *m_pLastSession;
+
+	CCtrlButton m_btnOk, m_btnAdd, m_btnQuote, m_btnCancelAdd;
 
 public:
-	CTabBaseDlg(int iDialogId, SESSION_INFO* = nullptr);
-	virtual ~CTabBaseDlg();
+	CMsgDialog(int dlgId, SESSION_INFO* = nullptr);
+	~CMsgDialog();
+
+	void onClick_Ok(CCtrlButton *);
+	void onClick_Add(CCtrlButton *);
+	void onClick_Quote(CCtrlButton *);
+	void onClick_Filter(CCtrlButton *);
+	void onClick_CancelAdd(CCtrlButton *);
+	void onClick_ShowNickList(CCtrlButton *);
+
+	void onChange_Message(CCtrlEdit *);
+
+	void onDblClick_List(CCtrlListBox *);
+
+	int OnFilter(MSGFILTER *);
 
 	bool OnInitDialog() override;
 	void OnDestroy() override;
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	int Resizer(UTILRESIZECONTROL *urc) override;
 
-	virtual CThumbBase* tabCreateThumb(CProxyWindow*) const = 0;
-	virtual void tabClearLog() = 0;
+	void UpdateWindowState(UINT msg);
+
+	LRESULT DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	LRESULT WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam) override;
+
+	void AddLog() override;
+	void CloseTab() override;
+	void LoadSettings() override;
+	void RedrawLog() override;
+	void ScrollToBottom() override;
+	void SetStatusText(const wchar_t *, HICON) override;
+	void ShowFilterMenu() override;
+	void StreamInEvents(LOGINFO *lin, bool bRedraw) override;
+	void UpdateNickList() override;
+	void UpdateOptions() override;
+	void UpdateStatusBar() override;
+	void UpdateTitle() override;
+
+	CThumbBase* tabCreateThumb(CProxyWindow*) const;
+	void tabClearLog();
 	void tabUpdateStatusBar() const;
 
 	static LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -394,6 +443,7 @@ public:
 	void  DM_InitRichEdit();
 	void  DM_InitTip();
 	void  DM_NotifyTyping(int mode);
+	void  DM_OptionsApplied(WPARAM wParam, LPARAM lParam);
 	void  DM_RecalcPictureSize();
 	void  DM_SaveLogAsRTF() const;
 	void  DM_ScrollToBottom(WPARAM wParam, LPARAM lParam);
@@ -461,111 +511,9 @@ public:
 	void  UpdateToolbarBG();
 };
 
-class CSrmmWindow : public CTabBaseDlg
+class CTemplateEditDlg : public CMsgDialog
 {
-	typedef CTabBaseDlg CSuper;
-
-	virtual CThumbBase* tabCreateThumb(CProxyWindow *pProxy) const override;
-	virtual void tabClearLog() override;
-
-	CCtrlButton m_btnOk, m_btnAdd, m_btnQuote, m_btnCancelAdd;
-
-	virtual LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam) override;
-	virtual LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
-
-	void LoadContactAvatar();
-	void LoadOwnAvatar();
-	void MsgWindowUpdateState(UINT msg);
-	void ReplayQueue();
-
-public:
-	int m_iMultiSplit;
-	int msgTop, rcLogBottom;
-	wchar_t *wszInitialText;
-	bool m_bActivate, m_bWantPopup, m_bIsMeta;
-
-public:
-	CSrmmWindow();
-
-	bool OnInitDialog() override;
-	void OnDestroy() override;
-
-	int Resizer(UTILRESIZECONTROL *urc) override;
-	
-	void UpdateTitle() override;
-
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
-
-	void onClick_Ok(CCtrlButton*);
-	void onClick_Add(CCtrlButton*);
-	void onClick_Quote(CCtrlButton*);
-	void onClick_CancelAdd(CCtrlButton*);
-
-	void onChange_Message(CCtrlEdit*);
-
-	int OnFilter(MSGFILTER*);
-
-	void DM_OptionsApplied(WPARAM wParam, LPARAM lParam);
-};
-
-class CMsgDialog : public CTabBaseDlg
-{
-	typedef CTabBaseDlg CSuper;
-
-	HWND m_hwndFilter;
-	CCtrlButton m_btnOk;
-
-	virtual LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam) override;
-	virtual LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
-	virtual LRESULT WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam) override;
-
-	static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
-	virtual CThumbBase* tabCreateThumb(CProxyWindow *pProxy) const override;
-	virtual void tabClearLog() override;
-
-	bool TabAutoComplete();
-
-	int m_iSearchItem;
-	BOOL m_iSavedSpaces;
-	wchar_t m_wszSearch[255];
-	wchar_t *m_wszSearchQuery, *m_wszSearchResult;
-	SESSION_INFO *m_pLastSession;
-
-public:
-	CMsgDialog(SESSION_INFO*);
-
-	bool OnInitDialog() override;
-	void OnDestroy() override;
-
-	int Resizer(UTILRESIZECONTROL *urc) override;
-	
-	void AddLog() override;
-	void RedrawLog() override;
-	void ScrollToBottom() override;
-	void ShowFilterMenu() override;
-	void StreamInEvents(LOGINFO* lin, bool bRedraw) override;
-	void UpdateNickList() override;
-	void UpdateOptions() override;
-	void UpdateStatusBar() override;
-	void UpdateTitle() override;
-
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
-
-	void onClick_OK(CCtrlButton*);
-	void onClick_Filter(CCtrlButton*);
-	void onClick_ShowNickList(CCtrlButton*);
-
-	void onDblClick_List(CCtrlListBox*);
-
-	void onChange_Message(CCtrlEdit*);
-
-	void UpdateWindowState(UINT msg);
-};
-
-class CTemplateEditDlg : public CTabBaseDlg
-{
-	typedef CTabBaseDlg CSuper;
+	typedef CMsgDialog CSuper;
 
 	BOOL rtl;
 	BOOL changed;           // template in edit field is changed
@@ -579,10 +527,6 @@ class CTemplateEditDlg : public CTabBaseDlg
 	CCtrlButton btnResetAll, btnSave, btnForget, btnRevert, btnPreview;
 	CCtrlListBox listTemplates;
 	CCtrlHyperlink urlHelp;
-
-	virtual CThumbBase* tabCreateThumb(CProxyWindow*) const override { return nullptr; }
-	virtual void tabClearLog() override {}
-	virtual void UpdateTitle() override {};
 
 public:
 	CTemplateEditDlg(BOOL rtl, HWND hwndParent);
@@ -977,14 +921,15 @@ struct TOptionListItem
 #define IDC_SBAR_TOGGLEFORMAT      1117
 #define IDC_SBAR_CANCEL            1118
 
-struct SIDEBARITEM {
+struct SIDEBARITEM
+{
 	UINT    uId;
 	DWORD   dwFlags;
-	HICON   *hIcon, *hIconPressed, *hIconHover;
-	wchar_t   *szName;
-	void(*pfnAction)(ButtonItem *item, HWND hwndDlg, CSrmmWindow *dat, HWND hwndItem);
-	void(*pfnCallback)(ButtonItem *item, HWND hwndDlg, CSrmmWindow *dat, HWND hwndItem);
-	wchar_t   *tszTip;
+	HICON *hIcon, *hIconPressed, *hIconHover;
+	wchar_t *szName;
+	void (*pfnAction)(ButtonItem *item, HWND hwndDlg, CMsgDialog *dat, HWND hwndItem);
+	void (*pfnCallback)(ButtonItem *item, HWND hwndDlg, CMsgDialog *dat, HWND hwndItem);
+	wchar_t *tszTip;
 };
 
 #define FONTF_BOLD       1

@@ -33,7 +33,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 // Save message log for given session as RTF document
 
-void CTabBaseDlg::DM_SaveLogAsRTF() const
+void CMsgDialog::DM_SaveLogAsRTF() const
 {
 	if (m_hwndIEView != nullptr) {
 		IEVIEWEVENT event = { sizeof(event) };
@@ -75,7 +75,7 @@ void CTabBaseDlg::DM_SaveLogAsRTF() const
 /////////////////////////////////////////////////////////////////////////////////////////
 // checks if the balloon tooltip can be dismissed (usually called by WM_MOUSEMOVE events)
 
-void CTabBaseDlg::DM_DismissTip(const POINT& pt)
+void CMsgDialog::DM_DismissTip(const POINT& pt)
 {
 	if (!IsWindowVisible(m_hwndTip))
 		return;
@@ -94,7 +94,7 @@ void CTabBaseDlg::DM_DismissTip(const POINT& pt)
 /////////////////////////////////////////////////////////////////////////////////////////
 // initialize the balloon tooltip for message window notifications
 
-void CTabBaseDlg::DM_InitTip()
+void CMsgDialog::DM_InitTip()
 {
 	m_hwndTip = CreateWindowEx(0, TOOLTIPS_CLASS, nullptr, WS_POPUP | TTS_NOPREFIX | TTS_BALLOON, CW_USEDEFAULT, CW_USEDEFAULT,
 		CW_USEDEFAULT, CW_USEDEFAULT, m_hwnd, nullptr, g_plugin.getInst(), (LPVOID)nullptr);
@@ -116,7 +116,7 @@ void CTabBaseDlg::DM_InitTip()
 //
 // returns 1 for handled hotkeys, 0 otherwise.
 
-bool CTabBaseDlg::DM_GenericHotkeysCheck(MSG *message)
+bool CMsgDialog::DM_GenericHotkeysCheck(MSG *message)
 {
 	LRESULT mim_hotkey_check = Hotkey_Check(message, TABSRMM_HK_SECTION_GENERIC);
 
@@ -166,7 +166,7 @@ bool CTabBaseDlg::DM_GenericHotkeysCheck(MSG *message)
 	return false;
 }
 
-LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lParam)
+LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lParam)
 {
 	RECT  rc;
 	int   iSelection;
@@ -499,14 +499,16 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 		break;
 
 	case IDC_SELFTYPING:
-		if (m_hContact) {
-			int iCurrentTypingMode = g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
+		if (m_si == nullptr || m_si->iType == GCW_PRIVMESS) {
+			if (m_hContact) {
+				int iCurrentTypingMode = g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
 
-			if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON && iCurrentTypingMode) {
-				DM_NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
-				m_nTypeMode = PROTOTYPE_SELFTYPING_OFF;
+				if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON && iCurrentTypingMode) {
+					DM_NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
+					m_nTypeMode = PROTOTYPE_SELFTYPING_OFF;
+				}
+				g_plugin.setByte(m_hContact, SRMSGSET_TYPING, (BYTE)!iCurrentTypingMode);
 			}
-			g_plugin.setByte(m_hContact, SRMSGSET_TYPING, (BYTE)!iCurrentTypingMode);
 		}
 		break;
 
@@ -520,7 +522,7 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 // initialize rich edit control (log and edit control) for both MUC and
 // standard IM session windows.
 
-void CTabBaseDlg::DM_InitRichEdit()
+void CMsgDialog::DM_InitRichEdit()
 {
 	bool fIsChat = isChat();
 
@@ -623,7 +625,7 @@ void CTabBaseDlg::DM_InitRichEdit()
 /////////////////////////////////////////////////////////////////////////////////////////
 // set the states of defined database action buttons(only if button is a toggle)
 
-void CTabBaseDlg::DM_SetDBButtonStates()
+void CMsgDialog::DM_SetDBButtonStates()
 {
 	ButtonItem *buttonItem = m_pContainer->m_buttonItems;
 	MCONTACT hFinalContact = 0;
@@ -676,7 +678,7 @@ void CTabBaseDlg::DM_SetDBButtonStates()
 	}
 }
 
-void CTabBaseDlg::DM_ScrollToBottom(WPARAM wParam, LPARAM lParam)
+void CMsgDialog::DM_ScrollToBottom(WPARAM wParam, LPARAM lParam)
 {
 	if (m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED)
 		return;
@@ -710,7 +712,7 @@ void CTabBaseDlg::DM_ScrollToBottom(WPARAM wParam, LPARAM lParam)
 		InvalidateRect(m_log.GetHwnd(), nullptr, FALSE);
 }
 
-void CTabBaseDlg::DM_RecalcPictureSize()
+void CMsgDialog::DM_RecalcPictureSize()
 {
 	HBITMAP hbm = ((m_pPanel.isActive()) && m_pContainer->m_avatarMode != 3) ? m_hOwnPic : (m_ace ? m_ace->hbmPic : PluginConfig.g_hbmUnknown);
 	if (hbm) {
@@ -722,7 +724,7 @@ void CTabBaseDlg::DM_RecalcPictureSize()
 	else m_pic.cy = m_pic.cx = 60;
 }
 
-void CTabBaseDlg::DM_UpdateLastMessage() const
+void CMsgDialog::DM_UpdateLastMessage() const
 {
 	if (m_pContainer->m_hwndStatus == nullptr || m_pContainer->m_hwndActive != m_hwnd)
 		return;
@@ -759,7 +761,7 @@ void CTabBaseDlg::DM_UpdateLastMessage() const
 /////////////////////////////////////////////////////////////////////////////////////////
 // create embedded contact list control
 
-HWND CTabBaseDlg::DM_CreateClist()
+HWND CMsgDialog::DM_CreateClist()
 {
 	if (!sendLater->isAvail()) {
 		CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK | MB_ICONINFORMATION);
@@ -789,7 +791,7 @@ HWND CTabBaseDlg::DM_CreateClist()
 	return hwndClist;
 }
 
-LRESULT CTabBaseDlg::DM_MouseWheelHandler(WPARAM wParam, LPARAM lParam)
+LRESULT CMsgDialog::DM_MouseWheelHandler(WPARAM wParam, LPARAM lParam)
 {
 	POINT pt;
 	GetCursorPos(&pt);
@@ -848,7 +850,7 @@ LRESULT CTabBaseDlg::DM_MouseWheelHandler(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-void CTabBaseDlg::DM_FreeTheme()
+void CMsgDialog::DM_FreeTheme()
 {
 	if (m_hTheme) {
 		CloseThemeData(m_hTheme);
@@ -864,7 +866,7 @@ void CTabBaseDlg::DM_FreeTheme()
 	}
 }
 
-void CTabBaseDlg::DM_ThemeChanged()
+void CMsgDialog::DM_ThemeChanged()
 {
 	CSkinItem *item_log = &SkinItems[ID_EXTBKHISTORY];
 	CSkinItem *item_msg = &SkinItems[ID_EXTBKINPUTAREA];
@@ -888,7 +890,7 @@ void CTabBaseDlg::DM_ThemeChanged()
 // send out message typing notifications (MTN) when the
 // user is typing/editing text in the message input area.
 
-void CTabBaseDlg::DM_NotifyTyping(int mode)
+void CMsgDialog::DM_NotifyTyping(int mode)
 {
 	if (!m_hContact)
 		return;
@@ -937,7 +939,7 @@ void CTabBaseDlg::DM_NotifyTyping(int mode)
 	CallService(MS_PROTO_SELFISTYPING, hContact, m_nTypeMode);
 }
 
-void CSrmmWindow::DM_OptionsApplied(WPARAM, LPARAM lParam)
+void CMsgDialog::DM_OptionsApplied(WPARAM, LPARAM lParam)
 {
 	m_szMicroLf[0] = 0;
 	if (!(m_pContainer->m_theme.isPrivate)) {
@@ -978,7 +980,7 @@ void CSrmmWindow::DM_OptionsApplied(WPARAM, LPARAM lParam)
 	SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
 }
 	
-void CTabBaseDlg::DM_Typing(bool fForceOff)
+void CMsgDialog::DM_Typing(bool fForceOff)
 {
 	HWND hwndContainer = m_pContainer->m_hwnd;
 	HWND hwndStatus = m_pContainer->m_hwndStatus;
@@ -1003,7 +1005,7 @@ void CTabBaseDlg::DM_Typing(bool fForceOff)
 			}
 			SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
 			HandleIconFeedback(this, (HICON)-1);
-			CTabBaseDlg *dat_active = (CTabBaseDlg*)GetWindowLongPtr(m_pContainer->m_hwndActive, GWLP_USERDATA);
+			CMsgDialog *dat_active = (CMsgDialog*)GetWindowLongPtr(m_pContainer->m_hwndActive, GWLP_USERDATA);
 			if (dat_active && !dat_active->isChat())
 				m_pContainer->UpdateTitle(0);
 			else
@@ -1059,9 +1061,9 @@ void CTabBaseDlg::DM_Typing(bool fForceOff)
 // This cares about private / per container / MUC <> IM splitter syncing and everything.
 // called from IM and MUC windows via DM_SPLITTERGLOBALEVENT
 
-int CTabBaseDlg::DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam)
+int CMsgDialog::DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam)
 {
-	CTabBaseDlg *srcDat = PluginConfig.lastSPlitterPos.pSrcDat;
+	CMsgDialog *srcDat = PluginConfig.lastSPlitterPos.pSrcDat;
 	TContainerData *srcCnt = PluginConfig.lastSPlitterPos.pSrcContainer;
 	bool fCntGlobal = (!m_pContainer->m_pSettings->fPrivate ? true : false);
 
@@ -1118,7 +1120,7 @@ int CTabBaseDlg::DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-void CTabBaseDlg::DM_AddDivider()
+void CMsgDialog::DM_AddDivider()
 {
 	if (!(m_dwFlags & MWF_DIVIDERSET) && PluginConfig.m_bUseDividers) {
 		if (GetWindowTextLength(m_log.GetHwnd()) > 0)
@@ -1129,7 +1131,7 @@ void CTabBaseDlg::DM_AddDivider()
 /////////////////////////////////////////////////////////////////////////////////////////
 // incoming event handler
 
-void CTabBaseDlg::DM_EventAdded(WPARAM hContact, LPARAM lParam)
+void CMsgDialog::DM_EventAdded(WPARAM hContact, LPARAM lParam)
 {
 	MEVENT hDbEvent = (MEVENT)lParam;
 
@@ -1251,7 +1253,7 @@ void CTabBaseDlg::DM_EventAdded(WPARAM hContact, LPARAM lParam)
 		m_pWnd->Invalidate();
 }
 
-void CTabBaseDlg::DM_HandleAutoSizeRequest(REQRESIZE* rr)
+void CMsgDialog::DM_HandleAutoSizeRequest(REQRESIZE* rr)
 {
 	if (rr == nullptr || GetForegroundWindow() != m_pContainer->m_hwnd)
 		return;
@@ -1307,7 +1309,7 @@ static int OnSrmmIconChanged(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-void CTabBaseDlg::DrawStatusIcons(HDC hDC, const RECT &rc, int gap)
+void CMsgDialog::DrawStatusIcons(HDC hDC, const RECT &rc, int gap)
 {
 	int x = rc.left;
 	int y = (rc.top + rc.bottom - PluginConfig.m_smcxicon) >> 1;
@@ -1355,7 +1357,7 @@ void CTabBaseDlg::DrawStatusIcons(HDC hDC, const RECT &rc, int gap)
 	}
 }
 
-void CTabBaseDlg::CheckStatusIconClick(POINT pt, const RECT &rc, int gap, int code)
+void CMsgDialog::CheckStatusIconClick(POINT pt, const RECT &rc, int gap, int code)
 {
 	if (code == NM_CLICK || code == NM_RCLICK) {
 		POINT	ptScreen;
@@ -1405,7 +1407,7 @@ void CTabBaseDlg::CheckStatusIconClick(POINT pt, const RECT &rc, int gap, int co
 	}
 }
 
-void CTabBaseDlg::DM_ErrorDetected(int type, int flag)
+void CMsgDialog::DM_ErrorDetected(int type, int flag)
 {
 	switch (type) {
 	case MSGERROR_CANCEL:

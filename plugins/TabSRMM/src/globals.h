@@ -32,7 +32,7 @@
 
 struct TSplitterBroadCast {
 	TContainerData *pSrcContainer;
-	CTabBaseDlg *pSrcDat;
+	CMsgDialog *pSrcDat;
 	LONG pos, pos_chat;
 	LONG off_chat, off_im;
 	LPARAM lParam;

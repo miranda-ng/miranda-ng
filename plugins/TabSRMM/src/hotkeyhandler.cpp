@@ -183,9 +183,9 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					hWnd = si ? si->pDlg->GetHwnd() : nullptr;
 				}
 
-				CSrmmWindow *dat = nullptr;
+				CMsgDialog *dat = nullptr;
 				if (hWnd)
-					dat = (CSrmmWindow*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+					dat = (CMsgDialog*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 
 				{
 					HICON hIcon;

@@ -32,7 +32,7 @@
 struct TSideBarNotify
 {
 	NMHDR nmHdr;
-	CTabBaseDlg *dat;
+	CMsgDialog *dat;
 };
 /* layout description structure */
 
@@ -61,7 +61,7 @@ class CSideBarButton
 {
 public:
 	CSideBarButton(const UINT id, CSideBar *sideBar);
-	CSideBarButton(CTabBaseDlg *dat, CSideBar *sideBar);
+	CSideBarButton(CMsgDialog *dat, CSideBar *sideBar);
 	~CSideBarButton();
 
 	LONG                  getHeight() const { return(m_sz.cy); }
@@ -71,7 +71,7 @@ public:
 	const HWND            getHwnd() const { return(m_hwnd); }
 	const UINT            getID() const { return(m_id); }
 	const MCONTACT        getContactHandle() const { return(m_dat->m_hContact); }
-	const CTabBaseDlg*    getDat() const { return(m_dat); }
+	const CMsgDialog*    getDat() const { return(m_dat); }
 	const TSideBarLayout* getLayout() const { return(m_sideBarLayout); }
 
 	void                  RenderThis(const HDC hdc) const;
@@ -91,7 +91,7 @@ private:
 private:
 	const TSideBarLayout* m_sideBarLayout;
 	HWND                  m_hwnd;           // window handle for the TSButton object
-	CTabBaseDlg          *m_dat;            // session data
+	CMsgDialog          *m_dat;            // session data
 	UINT                  m_id;             // control id
 	bool                  m_isTopAligned;
 	SIZE                  m_sz;
@@ -130,9 +130,9 @@ public:
 	~CSideBar();
 
 	void                  Init();
-	void                  addSession(CTabBaseDlg *dat, int position);
-	HRESULT               removeSession(CTabBaseDlg *dat);
-	void                  updateSession(CTabBaseDlg *dat);
+	void                  addSession(CMsgDialog *dat, int position);
+	HRESULT               removeSession(CMsgDialog *dat);
+	void                  updateSession(CMsgDialog *dat);
 
 	void                  processScrollerButtons(UINT cmd);
 	void                  Layout();
@@ -149,7 +149,7 @@ public:
 	const CSideBarButton* getScrollDown() const { return(m_down); }
 	bool                  isSkinnedContainer() const { return(CSkin::m_skinEnabled ? true : false); }
 	const UINT            getLayoutId() const { return(m_uLayout); }
-	void                  invalidateButton(CTabBaseDlg *dat);
+	void                  invalidateButton(CMsgDialog *dat);
 
 	const CSideBarButton* setActiveItem(const CSideBarButton *newItem)
 	{
@@ -171,7 +171,7 @@ public:
 	}
 	HWND                  getScrollWnd() const { return(m_hwndScrollWnd); }
 	const CSideBarButton* getHoveredClose() const { return(m_hoveredClose); }
-	const CSideBarButton* setActiveItem(const CTabBaseDlg *dat);
+	const CSideBarButton* setActiveItem(const CMsgDialog *dat);
 
 	static LRESULT CALLBACK wndProcStub(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -189,7 +189,7 @@ private:
 	void                  populateAll();
 	void                  removeAll();
 	void                  Invalidate();
-	CSideBarButton*       findSession(const CTabBaseDlg *dat);
+	CSideBarButton*       findSession(const CMsgDialog *dat);
 	CSideBarButton*       findSession(const MCONTACT hContact);
 
 	LRESULT CALLBACK      wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);

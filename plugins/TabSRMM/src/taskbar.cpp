@@ -179,7 +179,7 @@ void CTaskbarInteract::SetTabActive(const HWND hwndTab, const HWND hwndGroup) co
  *
  * static member function
  */
-void CTabBaseDlg::VerifyProxy()
+void CMsgDialog::VerifyProxy()
 {
 	if (IsWinVer7Plus() && PluginConfig.m_useAeroPeek) {
 		if (nullptr == m_pWnd) {
@@ -207,7 +207,7 @@ void CTabBaseDlg::VerifyProxy()
  * and previews for a message session.
  * each tab has one invisible proxy window
  */
-CProxyWindow::CProxyWindow(CTabBaseDlg *dat) :
+CProxyWindow::CProxyWindow(CMsgDialog *dat) :
 	m_dat(dat)
 {
 	m_hwndProxy = ::CreateWindowEx(/*WS_EX_TOOLWINDOW | */WS_EX_NOACTIVATE, PROXYCLASSNAME, L"",
@@ -288,7 +288,7 @@ void CProxyWindow::sendPreview()
 	if (m_dat->m_pContainer == nullptr)
 		return;
 
-	CSrmmWindow *dat_active = reinterpret_cast<CSrmmWindow *>(::GetWindowLongPtr(m_dat->m_pContainer->m_hwndActive, GWLP_USERDATA));
+	CMsgDialog *dat_active = reinterpret_cast<CMsgDialog *>(::GetWindowLongPtr(m_dat->m_pContainer->m_hwndActive, GWLP_USERDATA));
 	if (!m_thumb || !dat_active)
 		return;
 

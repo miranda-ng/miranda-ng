@@ -97,7 +97,7 @@ static void PaintWorker(TSButtonCtrl *ctl, HDC hdcPaint)
 	if (ctl == nullptr || hdcPaint == nullptr)
 		return;
 
-	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(GetParent(ctl->hwnd), GWLP_USERDATA);
+	CMsgDialog *dat = (CMsgDialog*)GetWindowLongPtr(GetParent(ctl->hwnd), GWLP_USERDATA);
 	if (dat == nullptr)
 		return;
 

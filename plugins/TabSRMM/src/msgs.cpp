@@ -62,232 +62,7 @@ int SmileyAddOptionsChanged(WPARAM, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // basic window class
 
-CTabBaseDlg::CTabBaseDlg(int iResource, SESSION_INFO *si)
-	: CSrmmBaseDialog(g_plugin, iResource, si),
-	m_pPanel(this),
-	m_dwFlags(MWF_INITMODE),
-	m_iInputAreaHeight(-1)
-{
-	m_autoClose = CLOSE_ON_CANCEL;
-	m_forceResizable = true;
-}
-
-CTabBaseDlg::~CTabBaseDlg()
-{
-	delete m_pWnd;
-
-	mir_free(m_sendBuffer);
-	mir_free(m_hHistoryEvents);
-	mir_free(m_hQueuedEvents);
-
-	if (m_hClientIcon) DestroyIcon(m_hClientIcon);
-	if (m_hSmileyIcon) DestroyIcon(m_hSmileyIcon);
-	if (m_hXStatusIcon) DestroyIcon(m_hXStatusIcon);
-	if (m_hTaskbarIcon) DestroyIcon(m_hTaskbarIcon);
-}
-
-void CTabBaseDlg::CloseTab()
-{
-	int iTabs = TabCtrl_GetItemCount(m_hwndParent);
-	if (iTabs == 1) {
-		SendMessage(m_pContainer->m_hwnd, WM_CLOSE, 0, 1);
-		return;
-	}
-
-	m_pContainer->m_iChilds--;
-	int i = GetTabIndexFromHWND(m_hwndParent, m_hwnd);
-
-	// after closing a tab, we need to activate the tab to the left side of
-	// the previously open tab.
-	// normally, this tab has the same index after the deletion of the formerly active tab
-	// unless, of course, we closed the last (rightmost) tab.
-	if (!m_pContainer->m_bDontSmartClose && iTabs > 1) {
-		if (i == iTabs - 1)
-			i--;
-		else
-			i++;
-		TabCtrl_SetCurSel(m_hwndParent, i);
-
-		m_pContainer->m_hwndActive = GetTabWindow(m_hwndParent, i);
-
-		RECT rc;
-		SendMessage(m_pContainer->m_hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)& rc);
-		SetWindowPos(m_pContainer->m_hwndActive, HWND_TOP, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), SWP_SHOWWINDOW);
-		ShowWindow(m_pContainer->m_hwndActive, SW_SHOW);
-		SetForegroundWindow(m_pContainer->m_hwndActive);
-		SetFocus(m_pContainer->m_hwndActive);
-	}
-
-	SendMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 0);
-	DestroyWindow(m_hwnd);
-}
-
-void CTabBaseDlg::LoadSettings()
-{
-	m_clrInputBG = m_pContainer->m_theme.inputbg;
-	LoadLogfont(FONTSECTION_IM, MSGFONTID_MESSAGEAREA, nullptr, &m_clrInputFG, FONTMODULE);
-}
-
-bool CTabBaseDlg::OnInitDialog()
-{
-	CSrmmBaseDialog::OnInitDialog();
-
-	// m_hwnd is valid, pass it to the tab control
-	TCITEM tci;
-	tci.mask = TCIF_PARAM;
-	tci.lParam = (LPARAM)m_hwnd;
-	TabCtrl_SetItem(m_hwndParent, m_iTabID, &tci);
-
-	// update another tab ids
-	m_pContainer->UpdateTabs();
-	
-	// add this window to window list & proxy
-	if (IsWinVer7Plus() && PluginConfig.m_useAeroPeek)
-		m_pWnd = new CProxyWindow(this);
-	else
-		m_pWnd = nullptr;
-
-	// set up Windows themes
-	DM_ThemeChanged();
-
-	// refresh cache data for this contact
-	m_cache = CContactCache::getContactCache(m_hContact);
-	m_cache->updateNick();
-	m_cache->updateUIN();
-	m_cache->setWindowData(this);
-
-	m_bIsAutosizingInput = IsAutoSplitEnabled();
-	return true;
-}
-
-void CTabBaseDlg::OnDestroy()
-{
-	m_cache->setWindowData();
-
-	CSuper::OnDestroy();
-}
-
-INT_PTR CTabBaseDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-	case DM_SETINFOPANEL: // broadcasted when global info panel setting changes
-		if (wParam == 0 && lParam == 0) {
-			m_pPanel.getVisibility();
-			m_pPanel.loadHeight();
-			m_pPanel.showHide();
-		}
-		else {
-			CTabBaseDlg *srcDat = (CTabBaseDlg*)wParam;
-			if (lParam == 0)
-				m_pPanel.loadHeight();
-			else {
-				if (srcDat && lParam && this != srcDat && !m_pPanel.isPrivateHeight()) {
-					if (srcDat->isChat() != isChat() && M.GetByte("syncAllPanels", 0) == 0)
-						return 0;
-
-					if (m_pContainer->m_pSettings->fPrivate && srcDat->m_pContainer != m_pContainer)
-						return 0;
-
-					m_pPanel.setHeight((LONG)lParam);
-				}
-			}
-			Resize();
-		}
-		return 0;
-
-	case DM_STATUSICONCHANGE:
-		m_pContainer->InitRedraw();
-		return 0;
-
-	case DM_ACTIVATEME: // the child window will activate itself
-		ActivateExistingTab(m_pContainer, m_hwnd);
-		return 0;
-
-	case DM_QUERYCONTAINER: // container API support functions
-		if (lParam)
-			*(TContainerData**)lParam = m_pContainer;
-		return 0;
-
-	case DM_QUERYHCONTACT:
-		if (lParam)
-			*(MCONTACT*)lParam = m_hContact;
-		return 0;
-
-	case DM_CHECKSIZE:
-		m_dwFlags |= MWF_NEEDCHECKSIZE;
-		return 0;
-		
-	case DM_CONTAINERSELECTED:
-		// sent by the select container dialog box when a container was selected...
-		// lParam = (wchar_t*)selected name...
-		{
-			wchar_t *szNewName = (wchar_t*)lParam;
-			if (!mir_wstrcmp(szNewName, TranslateT("Default container")))
-				szNewName = CGlobals::m_default_container_name;
-
-			int iOldItems = TabCtrl_GetItemCount(m_hwndParent);
-			if (!wcsncmp(m_pContainer->m_wszName, szNewName, CONTAINER_NAMELEN))
-				break;
-
-			TContainerData *pNewContainer = FindContainerByName(szNewName);
-			if (pNewContainer == nullptr)
-				if ((pNewContainer = CreateContainer(szNewName, FALSE, m_hContact)) == nullptr)
-					break;
-
-			db_set_ws(m_hContact, SRMSGMOD_T, "containerW", szNewName);
-			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_DOCREATETAB, (WPARAM)pNewContainer, m_hContact);
-			if (iOldItems > 1)                // there were more than 1 tab, container is still valid
-				SendMessage(m_pContainer->m_hwndActive, WM_SIZE, 0, 0);
-			SetForegroundWindow(pNewContainer->m_hwnd);
-			SetActiveWindow(pNewContainer->m_hwnd);
-		}
-		return 0;
-
-	case DM_ACTIVATETOOLTIP:
-		// show the balloon tooltip control.
-		// wParam == id of the "anchor" element, defaults to the panel status field (for away msg retrieval)
-		// lParam == new text to show
-		if (!IsIconic(m_pContainer->m_hwnd) && m_pContainer->m_hwndActive == m_hwnd)
-			m_pPanel.showTip(wParam, lParam);
-		return 0;
-
-	case DM_STATUSBARCHANGED:
-		tabUpdateStatusBar();
-		break;
-
-	case DM_CHECKAUTOHIDE:
-		// This is broadcasted by the container to all child windows to check if the
-		// container can be autohidden or -closed.
-		//
-		// wParam is the autohide timeout (in seconds)
-		// lParam points to a BOOL and a session which wants to prevent auto-hiding
-		// the container must set it to FALSE.
-		//
-		// If no session in the container disagrees, the container will be hidden.
-
-		if (lParam) {
-			BOOL *fResult = (BOOL*)lParam;
-			// text entered in the input area -> prevent autohide/cose
-			if (GetWindowTextLength(m_message.GetHwnd()) > 0)
-				*fResult = FALSE;
-			// unread events, do not hide or close the container
-			else if (m_dwUnread)
-				*fResult = FALSE;
-			// time since last activity did not yet reach the threshold.
-			else if (((GetTickCount() - m_dwLastActivity) / 1000) <= wParam)
-				*fResult = FALSE;
-		}
-		return 0;
-
-	case DM_SPLITTERGLOBALEVENT:
-		DM_SplitterGlobalEvent(wParam, lParam);
-		return 0;
-	}
-
-	return CSrmmBaseDialog::DlgProc(msg, wParam, lParam);
-}
-
-void CTabBaseDlg::NotifyDeliveryFailure() const
+void CMsgDialog::NotifyDeliveryFailure() const
 {
 	if (M.GetByte("adv_noErrorPopups", 0))
 		return;
@@ -316,7 +91,7 @@ void CTabBaseDlg::NotifyDeliveryFailure() const
 /////////////////////////////////////////////////////////////////////////////////////////
 // Sets a status bar text for a contact
 
-void CTabBaseDlg::SetStatusText(const wchar_t *wszText, HICON hIcon)
+void CMsgDialog::SetStatusText(const wchar_t *wszText, HICON hIcon)
 {
 	if (wszText != nullptr) {
 		m_bStatusSet = true;
@@ -538,7 +313,7 @@ int MyAvatarChanged(WPARAM wParam, LPARAM lParam)
 
 int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 {
-	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwndChild, GWLP_USERDATA);	// needed to obtain the hContact for the message window
+	CMsgDialog *dat = (CMsgDialog*)GetWindowLongPtr(hwndChild, GWLP_USERDATA);	// needed to obtain the hContact for the message window
 	if (!dat || !pContainer)
 		return FALSE;
 
@@ -634,7 +409,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	if (iCount > 0) {
 		for (int i = iCount - 1; i >= 0; i--) {
 			HWND hwnd = GetTabWindow(hwndTab, i);
-			CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+			CMsgDialog *dat = (CMsgDialog*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 			if (dat) {
 				int relPos = M.GetDword(dat->m_hContact, "tabindex", i * 100);
 				if (iTabIndex_wanted <= relPos)
@@ -654,7 +429,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	if (bActivateTab)
 		TabCtrl_SetCurSel(hwndTab, iTabId);
 	
-	CSrmmWindow *pWindow = new CSrmmWindow();
+	CMsgDialog *pWindow = new CMsgDialog(IDD_MSGSPLITNEW);
 	pWindow->m_hContact = hContact;
 	pWindow->m_iTabID = iTabId;
 	pWindow->m_pContainer = pContainer;

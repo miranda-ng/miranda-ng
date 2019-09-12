@@ -71,7 +71,7 @@ TSideBarLayout CSideBar::m_layouts[CSideBar::NR_LAYOUTS] = {
 	}
 };
 
-CSideBarButton::CSideBarButton(CTabBaseDlg *dat, CSideBar *sideBar)
+CSideBarButton::CSideBarButton(CMsgDialog *dat, CSideBar *sideBar)
 {
 	m_dat = dat;
 	m_id = UINT(dat->m_hContact);  // set the control id
@@ -503,7 +503,7 @@ void CSideBar::populateAll()
 		if (hDlg == 0 || !IsWindow(hDlg))
 			continue;
 
-		CSrmmWindow *dat = (CSrmmWindow*)::GetWindowLongPtr(hDlg, GWLP_USERDATA);
+		CMsgDialog *dat = (CMsgDialog*)::GetWindowLongPtr(hDlg, GWLP_USERDATA);
 		if (dat == nullptr)
 			continue;
 
@@ -528,7 +528,7 @@ void CSideBar::populateAll()
  *    (that is, it can only be used after WM_INITIALOG completed).
  *position: -1 = append, otherwise insert it at the given position
  */
-void CSideBar::addSession(CTabBaseDlg *dat, int position)
+void CSideBar::addSession(CMsgDialog *dat, int position)
 {
 	if (!m_isActive)
 		return;
@@ -561,7 +561,7 @@ void CSideBar::addSession(CTabBaseDlg *dat, int position)
  *
  * @param dat    _MessageWindowData *: session data for a client session.
  */
-HRESULT CSideBar::removeSession(CTabBaseDlg *dat)
+HRESULT CSideBar::removeSession(CMsgDialog *dat)
 {
 	if (dat) {
 		CSideBarButton *item = findSession(dat);
@@ -638,7 +638,7 @@ void CSideBar::scrollIntoView(const CSideBarButton *item)
  *
  * @param dat    _MessageWindowData*: Session data
  */
-void CSideBar::updateSession(CTabBaseDlg *dat)
+void CSideBar::updateSession(CMsgDialog *dat)
 {
 	if (!m_isVisible || !m_isActive)
 		return;
@@ -670,7 +670,7 @@ void CSideBar::updateSession(CTabBaseDlg *dat)
  *
  * @return The previously active item (that can be zero)
  */
-const CSideBarButton* CSideBar::setActiveItem(const CTabBaseDlg *dat)
+const CSideBarButton* CSideBar::setActiveItem(const CMsgDialog *dat)
 {
 	CSideBarButton *item = findSession(dat);
 	if (item != nullptr)
@@ -789,7 +789,7 @@ void CSideBar::showAll(int showCmd)
  * @return CSideBarButtonItem*: pointer to the found item. Zero, if none was found
  */
 
-CSideBarButton* CSideBar::findSession(const CTabBaseDlg *dat)
+CSideBarButton* CSideBar::findSession(const CMsgDialog *dat)
 {
 	if (dat == nullptr)
 		return nullptr;
@@ -845,7 +845,7 @@ void CSideBar::resizeScrollWnd(LONG x, LONG y, LONG, LONG height) const
 		SWP_NOCOPYBITS | SWP_NOZORDER | SWP_SHOWWINDOW | SWP_NOSENDCHANGING | SWP_DEFERERASE | SWP_ASYNCWINDOWPOS);
 }
 
-void CSideBar::invalidateButton(CTabBaseDlg *dat)
+void CSideBar::invalidateButton(CMsgDialog *dat)
 {
 	if (m_isActive && m_isVisible) {
 		CSideBarButton *item = findSession(dat);
@@ -1041,7 +1041,7 @@ void __fastcall CSideBar::m_DefaultContentRenderer(const HDC hdc, const RECT *rc
 void __fastcall CSideBar::m_AdvancedContentRenderer(const HDC hdc, const RECT *rcBox,
 	const CSideBarButton *item)
 {
-	const CTabBaseDlg *dat = item->getDat();
+	const CMsgDialog *dat = item->getDat();
 	UINT id = item->getID();
 
 	LONG	cx = rcBox->right - rcBox->left;
@@ -1119,7 +1119,7 @@ const SIZE& __fastcall CSideBar::m_measureAdvancedVertical(CSideBarButton* item)
 {
 	SIZE sz = { 0 };
 
-	const CTabBaseDlg *dat = item->getDat();
+	const CMsgDialog *dat = item->getDat();
 	if (dat) {
 		SIZE szFirstLine, szSecondLine;
 

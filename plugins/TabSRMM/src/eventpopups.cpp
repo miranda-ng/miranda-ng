@@ -664,7 +664,7 @@ void Popup_Options(WPARAM wParam)
 // updates the menu entry...
 // bForced is used to only update the status, nickname etc. and does NOT update the unread count
 
-void TSAPI UpdateTrayMenuState(CTabBaseDlg *dat, BOOL bForced)
+void TSAPI UpdateTrayMenuState(CMsgDialog *dat, BOOL bForced)
 {
 	if (PluginConfig.g_hMenuTrayUnread == nullptr || dat->m_hContact == 0)
 		return;
@@ -694,7 +694,7 @@ void TSAPI UpdateTrayMenuState(CTabBaseDlg *dat, BOOL bForced)
 }
 
 // if we want tray support, add the contact to the list of unread sessions in the tray menu
-int TSAPI UpdateTrayMenu(const CTabBaseDlg *dat, WORD wStatus, const char *szProto, const wchar_t *szStatus, MCONTACT hContact, DWORD fromEvent)
+int TSAPI UpdateTrayMenu(const CMsgDialog *dat, WORD wStatus, const char *szProto, const wchar_t *szStatus, MCONTACT hContact, DWORD fromEvent)
 {
 	if (!PluginConfig.g_hMenuTrayUnread || hContact == 0 || szProto == nullptr)
 		return 0;

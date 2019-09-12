@@ -49,7 +49,7 @@ public:
 	virtual void  update() = 0;
 
 protected:
-	const CTabBaseDlg *m_dat;
+	const CMsgDialog *m_dat;
 	const CProxyWindow *m_pWnd;
 
 	HBITMAP m_hbmThumb, m_hbmOld;
@@ -98,7 +98,7 @@ private:
 class CProxyWindow
 {
 public:
-	CProxyWindow(CTabBaseDlg *dat);
+	CProxyWindow(CMsgDialog *dat);
 	~CProxyWindow();
 
 	void updateIcon(const HICON hIcon) const;
@@ -109,7 +109,7 @@ public:
 	void Invalidate() const;
 	void verifyDwmState();
 
-	__inline const CTabBaseDlg* getDat() const { return m_dat; }
+	__inline const CMsgDialog* getDat() const { return m_dat; }
 	__inline const LONG getWidth() const { return m_width; }
 	__inline const LONG getHeight() const { return m_height; }
 	__inline const HWND getHwnd() const { return m_hwndProxy; }
@@ -119,7 +119,7 @@ public:
 	static LRESULT CALLBACK stubWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 private:
-	CTabBaseDlg *m_dat;
+	CMsgDialog *m_dat;
 
 	HWND m_hwndProxy = nullptr;
 	LONG m_width, m_height;

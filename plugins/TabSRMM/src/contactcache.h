@@ -65,7 +65,7 @@ class CContactCache : public MZeroedObject
 	bool     m_isValid;
 	int      m_nMax;
 
-	CTabBaseDlg *m_dat;
+	CMsgDialog *m_dat;
 	TSessionStats *m_stats;
 	DBCachedContact *cc;
 
@@ -106,7 +106,7 @@ public:
 	__forceinline DWORD    getSessionStart() const { return m_stats->started; }
 	__forceinline int      getSessionMsgCount() const { return (int)m_stats->messageCount; }
 
-	__forceinline CTabBaseDlg* getDat() const { return m_dat; }
+	__forceinline CMsgDialog* getDat() const { return m_dat; }
 
 	size_t getMaxMessageLength();
 	void   updateStats(int iType, size_t value = 0);
@@ -118,7 +118,7 @@ public:
 	void     updateMeta();
 	bool     updateUIN();
 	void     updateStatusMsg(const char *szKey = nullptr);
-	void     setWindowData(CTabBaseDlg *dat = nullptr);
+	void     setWindowData(CMsgDialog *dat = nullptr);
 	void     resetMeta();
 	void     closeWindow();
 	void     deletedHandler();

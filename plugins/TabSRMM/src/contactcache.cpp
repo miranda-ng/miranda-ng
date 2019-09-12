@@ -198,9 +198,9 @@ void CContactCache::updateStats(int iType, size_t value)
 // dialog will use this in WM_INITDIALOG and WM_DESTROY to tell the cache
 // that a message window is open for this contact.
 //
-// @param dat: CSrmmWindow* - window data structure
+// @param dat: CMsgDialog* - window data structure
 
-void CContactCache::setWindowData(CTabBaseDlg *dat)
+void CContactCache::setWindowData(CMsgDialog *dat)
 {
 	m_dat = dat;
 	

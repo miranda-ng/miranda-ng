@@ -384,7 +384,7 @@ void CMenuBar::invoke(const int id)
 
 	m_isContactMenu = m_isMainMenu = false;
 
-	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(m_pContainer->m_hwndActive, GWLP_USERDATA);
+	CMsgDialog *dat = (CMsgDialog*)GetWindowLongPtr(m_pContainer->m_hwndActive, GWLP_USERDATA);
 
 	MCONTACT hContact = dat ? dat->m_hContact : 0;
 
@@ -438,7 +438,7 @@ void CMenuBar::Cancel(void)
 
 void CMenuBar::updateState(const HMENU hMenu) const
 {
-	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(m_pContainer->m_hwndActive, GWLP_USERDATA);
+	CMsgDialog *dat = (CMsgDialog*)GetWindowLongPtr(m_pContainer->m_hwndActive, GWLP_USERDATA);
 	if (dat) {
 		::CheckMenuItem(hMenu, ID_VIEW_SHOWMENUBAR, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_NOMENUBAR ? MF_UNCHECKED : MF_CHECKED);
 		::CheckMenuItem(hMenu, ID_VIEW_SHOWSTATUSBAR, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_NOSTATUSBAR ? MF_UNCHECKED : MF_CHECKED);
@@ -477,7 +477,7 @@ void CMenuBar::updateState(const HMENU hMenu) const
 
 void CMenuBar::configureMenu() const
 {
-	CSrmmWindow *dat = (CSrmmWindow*)::GetWindowLongPtr(m_pContainer->m_hwndActive, GWLP_USERDATA);
+	CMsgDialog *dat = (CMsgDialog*)::GetWindowLongPtr(m_pContainer->m_hwndActive, GWLP_USERDATA);
 	if (dat) {
 		bool fChat = dat->isChat();
 
@@ -663,10 +663,10 @@ static int   tooltip_active = FALSE;
 static POINT ptMouse = { 0 };
 RECT   rcLastStatusBarClick;		// remembers click (down event) point for status bar clicks
 
-LONG_PTR CALLBACK CTabBaseDlg::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LONG_PTR CALLBACK CMsgDialog::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	TContainerData *pContainer = (TContainerData*)GetWindowLongPtr(GetParent(hWnd), GWLP_USERDATA);
-	CTabBaseDlg *dat = nullptr;
+	CMsgDialog *dat = nullptr;
 	POINT pt;
 
 	if (OldStatusBarproc == nullptr) {
@@ -725,7 +725,7 @@ LONG_PTR CALLBACK CTabBaseDlg::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM
 			HANDLE hTheme = bAero ? OpenThemeData(hWnd, L"ButtonStyle") : nullptr;
 
 			if (pContainer)
-				dat = (CTabBaseDlg*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
+				dat = (CMsgDialog*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
 
 			RECT rcClient;
 			GetClientRect(hWnd, &rcClient);
@@ -830,7 +830,7 @@ LONG_PTR CALLBACK CTabBaseDlg::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM
 				wchar_t szText[1024]; szText[0] = 0;
 				LRESULT result = SendMessage(hWnd, SB_GETTEXT, i, (LPARAM)szText);
 				if (i == 2 && pContainer) {
-					CSrmmWindow *pDat = (CSrmmWindow*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
+					CMsgDialog *pDat = (CMsgDialog*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
 					if (pDat)
 						pDat->DrawStatusIcons(hdcMem, itemRect, 2);
 				}
@@ -878,7 +878,7 @@ LONG_PTR CALLBACK CTabBaseDlg::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM
 		// needed when an icon is added to or removed from the icon area
 		{
 			int list_icons = 0;
-			dat = (CTabBaseDlg*)lParam;
+			dat = (CMsgDialog*)lParam;
 			if (dat)
 				while (Srmm_GetNthIcon(dat->m_hContact, list_icons))
 					list_icons++;
@@ -941,7 +941,7 @@ LONG_PTR CALLBACK CTabBaseDlg::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM
 		GetCursorPos(&pt);
 		if (pt.x != ptMouse.x || pt.y != ptMouse.y)
 			break;
-		dat = (CTabBaseDlg*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
+		dat = (CMsgDialog*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
 		if (dat != nullptr) {
 			RECT rc;
 			SIZE size;

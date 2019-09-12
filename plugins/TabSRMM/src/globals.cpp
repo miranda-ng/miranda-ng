@@ -380,12 +380,12 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 	}
 
 	if (hwnd != nullptr) {
-		CTabBaseDlg *dat = c->getDat();
+		CMsgDialog *dat = c->getDat();
 		if (!strcmp(setting, "MirVer"))
 			PostMessage(hwnd, DM_CLIENTCHANGED, 0, 0);
 
 		if (dat && !strcmp(setting, "NotOnList") && (cws->value.type == DBVT_DELETED || cws->value.bVal == 0))
-			((CSrmmWindow*)dat)->onClick_CancelAdd(0);
+			((CMsgDialog*)dat)->onClick_CancelAdd(0);
 		
 		if (dat && (fChanged || fExtendedStatusChange))
 			dat->UpdateTitle();
@@ -429,7 +429,7 @@ int CGlobals::MetaContactEvent(WPARAM hContact, LPARAM)
 	if (hContact) {
 		CContactCache *c = CContactCache::getContactCache(hContact);
 		c->updateMeta();
-		CTabBaseDlg *pDlg = c->getDat();
+		CMsgDialog *pDlg = c->getDat();
 		if (pDlg) {
 			pDlg->UpdateTitle();
 			pDlg->GetClientIcon();
@@ -530,7 +530,7 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 	if (c == nullptr)
 		return;
 
-	CTabBaseDlg *dat = c->getDat();
+	CMsgDialog *dat = c->getDat();
 	if (dat == nullptr || !c->isValid())
 		return;
 

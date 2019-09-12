@@ -30,7 +30,7 @@
 #define __INFOPANEL_H
 
 class CInfoPanel;
-class CTabBaseDlg;
+class CMsgDialog;
 struct CSkinItem;
 
 /*
@@ -129,14 +129,14 @@ public:
 		HTNIRVANA = 0
 	};
 
-	CInfoPanel(CTabBaseDlg *dat);
+	CInfoPanel(CMsgDialog *dat);
 	~CInfoPanel();
 
 	__forceinline const LONG getHeight() const { return m_height; }
 	__forceinline bool isActive() const { return m_active; }
 	__forceinline bool isPrivateHeight() const { return m_fPrivateHeight; }
 	__forceinline DWORD isHovered() const { return m_active ? m_hoverFlags : 0; }
-	__forceinline const CTabBaseDlg* getDat() const { return m_dat; }
+	__forceinline const CMsgDialog* getDat() const { return m_dat; }
 
 	void setHeight(LONG newHeight, bool fBroadcast = false);
 	void setActive(const int newActive);
@@ -180,7 +180,7 @@ private:
 	bool  m_active;             // panel active and visible
 	bool  m_fPrivateHeight;
 	bool  m_fDialogCreated;
-	CTabBaseDlg *m_dat;         // this one OWNS us...
+	CMsgDialog *m_dat;         // this one OWNS us...
 	LONG  m_height;             // height (determined by position of IDC_PANELSPLITTER)
 	LONG  m_defaultHeight,
 		m_defaultMUCHeight;   // global values for the info bar height
