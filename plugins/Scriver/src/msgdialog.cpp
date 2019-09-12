@@ -230,7 +230,7 @@ bool CMsgDialog::OnInitDialog()
 	m_startTime = time(0);
 
 	m_bUseRtl = g_plugin.getByte(m_hContact, "UseRTL", 0) != 0;
-	m_bUseIEView = g_dat.ieviewInstalled ? g_dat.flags.bUseIeview : false;
+	m_bUseIEView = (g_dat.ieviewInstalled) ? g_dat.flags.bUseIeview && !m_si : false;
 
 	PARAFORMAT2 pf2;
 	memset(&pf2, 0, sizeof(pf2));
@@ -1306,7 +1306,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case DM_OPTIONSAPPLIED:
-		m_bUseIEView = g_dat.ieviewInstalled ? g_dat.flags.bUseIeview : false;
+		m_bUseIEView = (g_dat.ieviewInstalled) ? g_dat.flags.bUseIeview && !m_si : false;
 		if (m_bUseIEView && m_hwndIeview == nullptr) {
 			IEVIEWWINDOW ieWindow = { sizeof(ieWindow) };
 			ieWindow.iType = IEW_CREATE;
