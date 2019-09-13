@@ -28,6 +28,8 @@
 
 #include "stdafx.h"
 
+char szIndicators[] = { 0, '+', '%', '@', '!', '*' };
+
 static void __stdcall ShowRoomFromPopup(void *pi)
 {
 	SESSION_INFO *si = (SESSION_INFO*)pi;

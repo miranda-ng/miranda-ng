@@ -1361,6 +1361,19 @@ void CMsgDialog::RedrawLog()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CMsgDialog::ReplayQueue()
+{
+	for (int i = 0; i < m_iNextQueuedEvent; i++)
+		if (m_hQueuedEvents[i] != 0)
+			StreamInEvents(m_hQueuedEvents[i], 1, 1, nullptr);
+
+	m_iNextQueuedEvent = 0;
+	SetDlgItemText(m_hwnd, IDC_LOGFROZENTEXT, m_bNotOnList ? TranslateT("Contact not on list. You may add it...") :
+		TranslateT("Auto scrolling is disabled (press F12 to enable it)"));
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CMsgDialog::ResizeIeView()
 {
 	RECT rcRichEdit;
@@ -1468,6 +1481,13 @@ void CMsgDialog::SaveSplitter()
 		else
 			db_set_dw(0, SRMSGMOD_T, "splitsplity", m_iSplitterY);
 	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CMsgDialog::ScrollToBottom()
+{
+	DM_ScrollToBottom(0, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1638,6 +1658,24 @@ void CMsgDialog::SetStatusText(const wchar_t *wszText, HICON hIcon)
 	}
 
 	tabUpdateStatusBar();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CMsgDialog::ShowFilterMenu()
+{
+	m_hwndFilter = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILTER), m_pContainer->m_hwnd, FilterWndProc, (LPARAM)this);
+	TranslateDialogDefault(m_hwndFilter);
+
+	RECT rcFilter, rcLog;
+	GetClientRect(m_hwndFilter, &rcFilter);
+	GetWindowRect(m_log.GetHwnd(), &rcLog);
+
+	POINT pt;
+	pt.x = rcLog.right; pt.y = rcLog.bottom;
+	ScreenToClient(m_pContainer->m_hwnd, &pt);
+
+	SetWindowPos(m_hwndFilter, HWND_TOP, pt.x - rcFilter.right, pt.y - rcFilter.bottom, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1942,6 +1980,44 @@ void CMsgDialog::tabUpdateStatusBar() const
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+void CMsgDialog::UpdateNickList()
+{
+	int i = m_nickList.SendMsg(LB_GETTOPINDEX, 0, 0);
+	m_nickList.SendMsg(LB_SETCOUNT, m_si->getUserList().getCount(), 0);
+	m_nickList.SendMsg(LB_SETTOPINDEX, i, 0);
+	UpdateTitle();
+	m_hTabIcon = m_hTabStatusIcon;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CMsgDialog::UpdateOptions()
+{
+	MODULEINFO *pInfo = m_si ? m_si->pMI : nullptr;
+	if (pInfo) {
+		m_btnBold.Enable(pInfo->bBold);
+		m_btnItalic.Enable(pInfo->bItalics);
+		m_btnUnderline.Enable(pInfo->bUnderline);
+		m_btnColor.Enable(pInfo->bColor);
+		m_btnBkColor.Enable(pInfo->bBkgColor);
+		if (m_si->iType == GCW_CHATROOM)
+			m_btnChannelMgr.Enable(pInfo->bChanMgr);
+	}
+	m_log.SendMsg(EM_SETBKGNDCOLOR, 0, db_get_dw(0, FONTMODULE, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR));
+
+	DM_InitRichEdit();
+	m_btnOk.SendMsg(BUTTONSETASNORMAL, TRUE, 0);
+
+	m_nickList.SetItemHeight(0, g_Settings.iNickListFontHeight);
+	InvalidateRect(m_nickList.GetHwnd(), nullptr, TRUE);
+
+	m_btnFilter.SendMsg(BUTTONSETOVERLAYICON, (LPARAM)(m_bFilterEnabled ? PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled), 0);
+	Resize();
+	RedrawLog2();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // update the status bar field which displays the number of characters in the input area
 // and various indicators (caps lock, num lock, insert mode).
 
@@ -2009,6 +2085,314 @@ void CMsgDialog::UpdateSaveAndSendButton()
 		m_dwFlags &= ~MWF_SAVEBTN_SAV;
 	}
 	m_textLen = len;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CMsgDialog::UpdateStatusBar()
+{
+	if (m_pContainer->m_hwndActive != m_hwnd || m_pContainer->m_hwndStatus == nullptr || CMimAPI::m_shutDown || m_wszStatusBar[0])
+		return;
+
+	if (m_si->pszModule == nullptr)
+		return;
+
+	//Mad: strange rare crash here...
+	MODULEINFO *mi = m_si->pMI;
+	if (!mi->ptszModDispName)
+		return;
+
+	int x = 12;
+	x += Chat_GetTextPixelSize(mi->ptszModDispName, (HFONT)SendMessage(m_pContainer->m_hwndStatus, WM_GETFONT, 0, 0), true);
+	x += GetSystemMetrics(SM_CXSMICON);
+
+	wchar_t szFinalStatusBarText[512];
+	if (m_pPanel.isActive()) {
+		time_t now = time(0);
+		DWORD diff = (now - mi->idleTimeStamp) / 60;
+		if (diff >= 1) {
+			if (diff > 59) {
+				DWORD hours = diff / 60;
+				DWORD minutes = diff % 60;
+				mir_snwprintf(mi->tszIdleMsg, TranslateT(", %d %s, %d %s idle"),
+					hours, hours > 1 ? TranslateT("hours") : TranslateT("hour"),
+					minutes, minutes > 1 ? TranslateT("minutes") : TranslateT("minute"));
+			}
+			else mir_snwprintf(mi->tszIdleMsg, TranslateT(", %d %s idle"), diff, diff > 1 ? TranslateT("minutes") : TranslateT("minute"));
+		}
+		else mi->tszIdleMsg[0] = 0;
+
+		mir_snwprintf(szFinalStatusBarText, TranslateT("%s on %s%s"), m_wszMyNickname, mi->ptszModDispName, mi->tszIdleMsg);
+	}
+	else {
+		if (m_si->ptszStatusbarText)
+			mir_snwprintf(szFinalStatusBarText, L"%s %s", mi->ptszModDispName, m_si->ptszStatusbarText);
+		else
+			wcsncpy_s(szFinalStatusBarText, mi->ptszModDispName, _TRUNCATE);
+	}
+	SendMessage(m_pContainer->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)szFinalStatusBarText);
+	tabUpdateStatusBar();
+	m_pPanel.Invalidate();
+	if (m_pWnd)
+		m_pWnd->Invalidate();
+}
+
+void CMsgDialog::UpdateTitle()
+{
+	if (isChat()) {
+		m_wStatus = m_si->wStatus;
+
+		const wchar_t *szNick = m_cache->getNick();
+		if (mir_wstrlen(szNick) > 0) {
+			if (M.GetByte("cuttitle", 0))
+				CutContactName(szNick, m_wszTitle, _countof(m_wszTitle));
+			else
+				wcsncpy_s(m_wszTitle, szNick, _TRUNCATE);
+		}
+
+		CMStringW wszTitle;
+		HICON hIcon = nullptr;
+		int nUsers = m_si->getUserList().getCount();
+
+		switch (m_si->iType) {
+		case GCW_CHATROOM:
+			hIcon = Skin_LoadProtoIcon(m_si->pszModule, (m_wStatus <= ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : m_wStatus);
+			wszTitle.Format((nUsers == 1) ? TranslateT("%s: chat room (%u user%s)") : TranslateT("%s: chat room (%u users%s)"),
+				szNick, nUsers, m_bFilterEnabled ? TranslateT(", event filter active") : L"");
+			break;
+
+		case GCW_PRIVMESS:
+			hIcon = Skin_LoadProtoIcon(m_si->pszModule, (m_wStatus <= ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : m_wStatus);
+			if (nUsers == 1)
+				wszTitle.Format(TranslateT("%s: message session"), szNick);
+			else
+				wszTitle.Format(TranslateT("%s: message session (%u users)"), szNick, nUsers);
+			break;
+
+		case GCW_SERVER:
+			wszTitle.Format(L"%s: Server", szNick);
+			hIcon = LoadIconEx("window");
+			break;
+
+		default:
+			return;
+		}
+
+		if (m_pWnd) {
+			m_pWnd->updateTitle(m_wszTitle);
+			m_pWnd->updateIcon(hIcon);
+		}
+		m_hTabStatusIcon = hIcon;
+
+		if (m_cache->getStatus() != m_cache->getOldStatus()) {
+			wcsncpy_s(m_wszStatus, Clist_GetStatusModeDescription(m_wStatus, 0), _TRUNCATE);
+
+			TCITEM item = {};
+			item.mask = TCIF_TEXT;
+			item.pszText = m_wszTitle;
+			TabCtrl_SetItem(m_hwndParent, m_iTabID, &item);
+		}
+		SetWindowText(m_hwnd, wszTitle);
+		if (m_pContainer->m_hwndActive == m_hwnd) {
+			m_pContainer->UpdateTitle(0, this);
+			UpdateStatusBar();
+		}
+	}
+	else {
+		DWORD dwOldIdle = m_idle;
+		const char *szActProto = nullptr;
+
+		m_wszStatus[0] = 0;
+
+		if (m_iTabID == -1)
+			return;
+
+		TCITEM item = {};
+
+		bool bChanged = false;
+		wchar_t newtitle[128];
+		if (m_hContact) {
+			if (m_szProto) {
+				szActProto = m_cache->getProto();
+
+				bool bHasName = (m_cache->getUIN()[0] != 0);
+				m_idle = m_cache->getIdleTS();
+				m_dwFlagsEx = m_idle ? m_dwFlagsEx | MWF_SHOW_ISIDLE : m_dwFlagsEx & ~MWF_SHOW_ISIDLE;
+
+				m_wStatus = m_cache->getStatus();
+				wcsncpy_s(m_wszStatus, Clist_GetStatusModeDescription(m_szProto == nullptr ? ID_STATUS_OFFLINE : m_wStatus, 0), _TRUNCATE);
+
+				wchar_t newcontactname[128]; newcontactname[0] = 0;
+				if (PluginConfig.m_bCutContactNameOnTabs)
+					CutContactName(m_cache->getNick(), newcontactname, _countof(newcontactname));
+				else
+					wcsncpy_s(newcontactname, m_cache->getNick(), _TRUNCATE);
+
+				Utils::DoubleAmpersands(newcontactname, _countof(newcontactname));
+
+				if (newcontactname[0] != 0) {
+					if (PluginConfig.m_bStatusOnTabs)
+						mir_snwprintf(newtitle, L"%s (%s)", newcontactname, m_wszStatus);
+					else
+						wcsncpy_s(newtitle, newcontactname, _TRUNCATE);
+				}
+				else wcsncpy_s(newtitle, L"Forward", _TRUNCATE);
+
+				if (mir_wstrcmp(newtitle, m_wszTitle))
+					bChanged = true;
+				else if (m_wStatus != m_wOldStatus)
+					bChanged = true;
+
+				SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
+
+				wchar_t fulluin[256];
+				if (m_bIsMeta)
+					mir_snwprintf(fulluin,
+					TranslateT("UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites."),
+					bHasName ? m_cache->getUIN() : TranslateT("No UID"));
+				else
+					mir_snwprintf(fulluin,
+					TranslateT("UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status."),
+					bHasName ? m_cache->getUIN() : TranslateT("No UID"));
+
+				SendDlgItemMessage(m_hwnd, IDC_NAME, BUTTONADDTOOLTIP, (WPARAM)fulluin, BATF_UNICODE);
+			}
+		}
+		else wcsncpy_s(newtitle, L"Message Session", _TRUNCATE);
+
+		m_wOldStatus = m_wStatus;
+		if (m_idle != dwOldIdle || bChanged) {
+			if (bChanged) {
+				item.mask |= TCIF_TEXT;
+				item.pszText = m_wszTitle;
+				wcsncpy_s(m_wszTitle, newtitle, _TRUNCATE);
+				if (m_pWnd)
+					m_pWnd->updateTitle(m_cache->getNick());
+			}
+			if (m_iTabID >= 0) {
+				TabCtrl_SetItem(m_hwndParent, m_iTabID, &item);
+				if (m_pContainer->m_dwFlags & CNT_SIDEBAR)
+					m_pContainer->m_pSideBar->updateSession(this);
+			}
+			if (m_pContainer->m_hwndActive == m_hwnd && bChanged)
+				m_pContainer->UpdateTitle(m_hContact);
+
+			UpdateTrayMenuState(this, TRUE);
+			if (M.IsFavorite(m_hContact))
+				AddContactToFavorites(m_hContact, m_cache->getNick(), szActProto, m_wszStatus, m_wStatus, Skin_LoadProtoIcon(m_cache->getProto(), m_cache->getStatus()), 0, PluginConfig.g_hMenuFavorites);
+
+			if (M.IsRecent(m_hContact))
+				AddContactToFavorites(m_hContact, m_cache->getNick(), szActProto, m_wszStatus, m_wStatus, Skin_LoadProtoIcon(m_cache->getProto(), m_cache->getStatus()), 0, PluginConfig.g_hMenuRecent);
+
+			m_pPanel.Invalidate();
+			if (m_pWnd)
+				m_pWnd->Invalidate();
+		}
+
+		// care about MetaContacts and update the statusbar icon with the currently "most online" contact...
+		if (m_bIsMeta) {
+			PostMessage(m_hwnd, DM_OWNNICKCHANGED, 0, 0);
+			if (m_pContainer->m_dwFlags & CNT_UINSTATUSBAR)
+				DM_UpdateLastMessage();
+		}
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// called whenever a group chat tab becomes active(either by switching tabs or activating a
+// container window
+
+void CMsgDialog::UpdateWindowState(UINT msg)
+{
+	if (m_si == nullptr)
+		return;
+
+	if (msg == WM_ACTIVATE) {
+		if (m_pContainer->m_dwFlags & CNT_TRANSPARENCY) {
+			DWORD trans = LOWORD(m_pContainer->m_pSettings->dwTransparency);
+			SetLayeredWindowAttributes(m_pContainer->m_hwnd, CSkin::m_ContainerColorKey, (BYTE)trans, (m_pContainer->m_dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
+		}
+	}
+
+	if (m_hwndFilter) {
+		POINT pt;
+		GetCursorPos(&pt);
+
+		RECT rcFilter;
+		GetWindowRect(m_hwndFilter, &rcFilter);
+		if (!PtInRect(&rcFilter, pt)) {
+			SendMessage(m_hwndFilter, WM_CLOSE, 1, 1);
+			m_hwndFilter = nullptr;
+		}
+	}
+
+	if (m_bIsAutosizingInput && m_iInputAreaHeight == -1) {
+		m_iInputAreaHeight = 0;
+		m_message.SendMsg(EM_REQUESTRESIZE, 0, 0);
+	}
+
+	m_pPanel.dismissConfig();
+	m_dwUnread = 0;
+	if (m_pWnd) {
+		m_pWnd->activateTab();
+		m_pWnd->setOverlayIcon(nullptr, true);
+	}
+
+	if (m_pContainer->m_hwndSaved == m_hwnd)
+		return;
+
+	m_pContainer->m_hwndSaved = m_hwnd;
+
+	g_chatApi.SetActiveSession(m_si);
+	m_hTabIcon = m_hTabStatusIcon;
+
+	if (m_iTabID >= 0) {
+		if (db_get_w(m_si->hContact, m_si->pszModule, "ApparentMode", 0) != 0)
+			db_set_w(m_si->hContact, m_si->pszModule, "ApparentMode", 0);
+		if (g_clistApi.pfnGetEvent(m_si->hContact, 0))
+			g_clistApi.pfnRemoveEvent(m_si->hContact, GC_FAKE_EVENT);
+
+		UpdateTitle();
+		m_hTabIcon = m_hTabStatusIcon;
+		m_dwTickLastEvent = 0;
+		m_dwFlags &= ~MWF_DIVIDERSET;
+		if (KillTimer(m_hwnd, TIMERID_FLASHWND) || m_iFlashIcon) {
+			FlashTab(false);
+			m_bCanFlashTab = FALSE;
+			m_iFlashIcon = nullptr;
+		}
+		if (m_pContainer->m_dwFlashingStarted != 0) {
+			FlashContainer(m_pContainer, 0, 0);
+			m_pContainer->m_dwFlashingStarted = 0;
+		}
+		m_pContainer->m_dwFlags &= ~CNT_NEED_UPDATETITLE;
+
+		if (m_dwFlags & MWF_NEEDCHECKSIZE)
+			PostMessage(m_hwnd, DM_SAVESIZE, 0, 0);
+
+		SetFocus(m_message.GetHwnd());
+		m_dwLastActivity = GetTickCount();
+		m_pContainer->m_dwLastActivity = m_dwLastActivity;
+		m_pContainer->m_pMenuBar->configureMenu();
+		UpdateTrayMenuState(this, FALSE);
+		DM_SetDBButtonStates();
+
+		if (m_dwFlagsEx & MWF_EX_DELAYEDSPLITTER) {
+			m_dwFlagsEx &= ~MWF_EX_DELAYEDSPLITTER;
+			ShowWindow(m_pContainer->m_hwnd, SW_RESTORE);
+			PostMessage(m_hwnd, DM_SPLITTERGLOBALEVENT, m_wParam, m_lParam);
+			PostMessage(m_hwnd, WM_SIZE, 0, 0);
+			m_wParam = m_lParam = 0;
+		}
+	}
+	BB_SetButtonsPos();
+	if (M.isAero())
+		InvalidateRect(m_hwndParent, nullptr, FALSE);
+	if (m_pContainer->m_dwFlags & CNT_SIDEBAR)
+		m_pContainer->m_pSideBar->setActiveItem(this);
+
+	if (m_pWnd)
+		m_pWnd->Invalidate();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

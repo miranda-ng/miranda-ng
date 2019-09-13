@@ -69,6 +69,8 @@ bool TSAPI IsCustomEvent(int eventType)
 // checking if theres's protected text at the point
 // emulates EN_LINK WM_NOTIFY to parent to process links
 
+const CLSID IID_ITextDocument = { 0x8CC497C0, 0xA1DF, 0x11CE, { 0x80, 0x98, 0x00, 0xAA, 0x00, 0x47, 0xBE, 0x5D } };
+
 BOOL TSAPI CheckCustomLink(HWND hwndRich, POINT *ptClient, UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL bUrlNeeded)
 {
 	long res = 0, cnt = 0;
@@ -343,6 +345,22 @@ UINT TSAPI GetIEViewMode(MCONTACT hContact)
 	iWantHPP = (M.GetByte(hContact, "hpplog", 0) == (BYTE)-1) ? 0 : iWantHPP;
 
 	return iWantHPP ? WANT_HPP_LOG : (iWantIEView ? WANT_IEVIEW_LOG : 0);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+bool IsStringValidLink(wchar_t *pszText)
+{
+	if (pszText == nullptr)
+		return false;
+
+	if (mir_wstrlen(pszText) < 5 || wcschr(pszText, '"'))
+		return false;
+
+	if (towlower(pszText[0]) == 'w' && towlower(pszText[1]) == 'w' && towlower(pszText[2]) == 'w' && pszText[3] == '.' && iswalnum(pszText[4]))
+		return true;
+
+	return wcsstr(pszText, L"://") != nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

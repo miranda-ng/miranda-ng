@@ -32,6 +32,9 @@
 
 bool IsStringValidLink(wchar_t *pszText);
 
+static int g_cLinesPerPage = 0;
+static int g_iWheelCarryover = 0;
+
 static const UINT sendControls[] = { IDC_SRMM_MESSAGE, IDC_SRMM_LOG };
 static const UINT formatControls[] = { IDC_SRMM_BOLD, IDC_SRMM_ITALICS, IDC_SRMM_UNDERLINE, IDC_FONTSTRIKEOUT };
 static const UINT addControls[] = { IDC_ADD, IDC_CANCELADD };
@@ -813,177 +816,8 @@ void CMsgDialog::OnDestroy()
 	CSuper::OnDestroy();
 }
 
-void CMsgDialog::ReplayQueue()
-{
-	for (int i = 0; i < m_iNextQueuedEvent; i++)
-		if (m_hQueuedEvents[i] != 0)
-			StreamInEvents(m_hQueuedEvents[i], 1, 1, nullptr);
-
-	m_iNextQueuedEvent = 0;
-	SetDlgItemText(m_hwnd, IDC_LOGFROZENTEXT, m_bNotOnList ? TranslateT("Contact not on list. You may add it...") :
-		TranslateT("Auto scrolling is disabled (press F12 to enable it)"));
-}
-
-void CMsgDialog::UpdateTitle()
-{
-	if (isChat()) {
-		m_wStatus = m_si->wStatus;
-
-		const wchar_t *szNick = m_cache->getNick();
-		if (mir_wstrlen(szNick) > 0) {
-			if (M.GetByte("cuttitle", 0))
-				CutContactName(szNick, m_wszTitle, _countof(m_wszTitle));
-			else
-				wcsncpy_s(m_wszTitle, szNick, _TRUNCATE);
-		}
-
-		CMStringW wszTitle;
-		HICON hIcon = nullptr;
-		int nUsers = m_si->getUserList().getCount();
-
-		switch (m_si->iType) {
-		case GCW_CHATROOM:
-			hIcon = Skin_LoadProtoIcon(m_si->pszModule, (m_wStatus <= ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : m_wStatus);
-			wszTitle.Format((nUsers == 1) ? TranslateT("%s: chat room (%u user%s)") : TranslateT("%s: chat room (%u users%s)"),
-				szNick, nUsers, m_bFilterEnabled ? TranslateT(", event filter active") : L"");
-			break;
-
-		case GCW_PRIVMESS:
-			hIcon = Skin_LoadProtoIcon(m_si->pszModule, (m_wStatus <= ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : m_wStatus);
-			if (nUsers == 1)
-				wszTitle.Format(TranslateT("%s: message session"), szNick);
-			else
-				wszTitle.Format(TranslateT("%s: message session (%u users)"), szNick, nUsers);
-			break;
-
-		case GCW_SERVER:
-			wszTitle.Format(L"%s: Server", szNick);
-			hIcon = LoadIconEx("window");
-			break;
-
-		default:
-			return;
-		}
-
-		if (m_pWnd) {
-			m_pWnd->updateTitle(m_wszTitle);
-			m_pWnd->updateIcon(hIcon);
-		}
-		m_hTabStatusIcon = hIcon;
-
-		if (m_cache->getStatus() != m_cache->getOldStatus()) {
-			wcsncpy_s(m_wszStatus, Clist_GetStatusModeDescription(m_wStatus, 0), _TRUNCATE);
-
-			TCITEM item = {};
-			item.mask = TCIF_TEXT;
-			item.pszText = m_wszTitle;
-			TabCtrl_SetItem(m_hwndParent, m_iTabID, &item);
-		}
-		SetWindowText(m_hwnd, wszTitle);
-		if (m_pContainer->m_hwndActive == m_hwnd) {
-			m_pContainer->UpdateTitle(0, this);
-			UpdateStatusBar();
-		}
-	}
-	else {
-		DWORD dwOldIdle = m_idle;
-		const char *szActProto = nullptr;
-
-		m_wszStatus[0] = 0;
-
-		if (m_iTabID == -1)
-			return;
-
-		TCITEM item = {};
-
-		bool bChanged = false;
-		wchar_t newtitle[128];
-		if (m_hContact) {
-			if (m_szProto) {
-				szActProto = m_cache->getProto();
-
-				bool bHasName = (m_cache->getUIN()[0] != 0);
-				m_idle = m_cache->getIdleTS();
-				m_dwFlagsEx = m_idle ? m_dwFlagsEx | MWF_SHOW_ISIDLE : m_dwFlagsEx & ~MWF_SHOW_ISIDLE;
-
-				m_wStatus = m_cache->getStatus();
-				wcsncpy_s(m_wszStatus, Clist_GetStatusModeDescription(m_szProto == nullptr ? ID_STATUS_OFFLINE : m_wStatus, 0), _TRUNCATE);
-
-				wchar_t newcontactname[128]; newcontactname[0] = 0;
-				if (PluginConfig.m_bCutContactNameOnTabs)
-					CutContactName(m_cache->getNick(), newcontactname, _countof(newcontactname));
-				else
-					wcsncpy_s(newcontactname, m_cache->getNick(), _TRUNCATE);
-
-				Utils::DoubleAmpersands(newcontactname, _countof(newcontactname));
-
-				if (newcontactname[0] != 0) {
-					if (PluginConfig.m_bStatusOnTabs)
-						mir_snwprintf(newtitle, L"%s (%s)", newcontactname, m_wszStatus);
-					else
-						wcsncpy_s(newtitle, newcontactname, _TRUNCATE);
-				}
-				else wcsncpy_s(newtitle, L"Forward", _TRUNCATE);
-
-				if (mir_wstrcmp(newtitle, m_wszTitle))
-					bChanged = true;
-				else if (m_wStatus != m_wOldStatus)
-					bChanged = true;
-
-				SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
-
-				wchar_t fulluin[256];
-				if (m_bIsMeta)
-					mir_snwprintf(fulluin,
-					TranslateT("UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites."),
-					bHasName ? m_cache->getUIN() : TranslateT("No UID"));
-				else
-					mir_snwprintf(fulluin,
-					TranslateT("UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status."),
-					bHasName ? m_cache->getUIN() : TranslateT("No UID"));
-
-				SendDlgItemMessage(m_hwnd, IDC_NAME, BUTTONADDTOOLTIP, (WPARAM)fulluin, BATF_UNICODE);
-			}
-		}
-		else wcsncpy_s(newtitle, L"Message Session", _TRUNCATE);
-
-		m_wOldStatus = m_wStatus;
-		if (m_idle != dwOldIdle || bChanged) {
-			if (bChanged) {
-				item.mask |= TCIF_TEXT;
-				item.pszText = m_wszTitle;
-				wcsncpy_s(m_wszTitle, newtitle, _TRUNCATE);
-				if (m_pWnd)
-					m_pWnd->updateTitle(m_cache->getNick());
-			}
-			if (m_iTabID >= 0) {
-				TabCtrl_SetItem(m_hwndParent, m_iTabID, &item);
-				if (m_pContainer->m_dwFlags & CNT_SIDEBAR)
-					m_pContainer->m_pSideBar->updateSession(this);
-			}
-			if (m_pContainer->m_hwndActive == m_hwnd && bChanged)
-				m_pContainer->UpdateTitle(m_hContact);
-
-			UpdateTrayMenuState(this, TRUE);
-			if (M.IsFavorite(m_hContact))
-				AddContactToFavorites(m_hContact, m_cache->getNick(), szActProto, m_wszStatus, m_wStatus, Skin_LoadProtoIcon(m_cache->getProto(), m_cache->getStatus()), 0, PluginConfig.g_hMenuFavorites);
-
-			if (M.IsRecent(m_hContact))
-				AddContactToFavorites(m_hContact, m_cache->getNick(), szActProto, m_wszStatus, m_wStatus, Skin_LoadProtoIcon(m_cache->getProto(), m_cache->getStatus()), 0, PluginConfig.g_hMenuRecent);
-
-			m_pPanel.Invalidate();
-			if (m_pWnd)
-				m_pWnd->Invalidate();
-		}
-
-		// care about MetaContacts and update the statusbar icon with the currently "most online" contact...
-		if (m_bIsMeta) {
-			PostMessage(m_hwnd, DM_OWNNICKCHANGED, 0, 0);
-			if (m_pContainer->m_dwFlags & CNT_UINSTATUSBAR)
-				DM_UpdateLastMessage();
-		}
-	}
-}
+/////////////////////////////////////////////////////////////////////////////////////////
+// Send button handler
 
 void CMsgDialog::onClick_Ok(CCtrlButton *)
 {
@@ -1591,8 +1425,6 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 
 int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 {
-	RECT rc;
-	POINT pt;
 	DWORD msg = pFilter->msg;
 	WPARAM wp = pFilter->wParam;
 	LPARAM lp = pFilter->lParam;
@@ -1832,7 +1664,9 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 	}
 
 	if (msg == WM_MOUSEWHEEL && (pFilter->nmhdr.idFrom == IDC_SRMM_LOG || pFilter->nmhdr.idFrom == IDC_SRMM_MESSAGE)) {
+		POINT pt;
 		GetCursorPos(&pt);
+		RECT rc;
 		GetWindowRect(m_log.GetHwnd(), &rc);
 		if (PtInRect(&rc, pt)) {
 			short wDirection = (short)HIWORD(wp);
@@ -1940,6 +1774,7 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 		return _dlgReturn(m_hwnd, 1);
 
 	case WM_MOUSEMOVE:
+		POINT pt;
 		GetCursorPos(&pt);
 		DM_DismissTip(pt);
 		m_pPanel.trackMouse(pt);
@@ -1950,6 +1785,142 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 		break;
 	}
 	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// subclassing for the message filter dialog (set and configure event filters for the 
+// current session
+
+static UINT _eventorder[] =
+{
+	GC_EVENT_ACTION,
+	GC_EVENT_MESSAGE,
+	GC_EVENT_NICK,
+	GC_EVENT_JOIN,
+	GC_EVENT_PART,
+	GC_EVENT_TOPIC,
+	GC_EVENT_ADDSTATUS,
+	GC_EVENT_INFORMATION,
+	GC_EVENT_QUIT,
+	GC_EVENT_KICK,
+	GC_EVENT_NOTICE
+};
+
+INT_PTR CALLBACK CMsgDialog::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	CMsgDialog *pDlg = (CMsgDialog *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	switch (uMsg) {
+	case WM_INITDIALOG:
+		pDlg = (CMsgDialog *)lParam;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+		{
+			DWORD dwMask = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "FilterMask", 0);
+			DWORD dwFlags = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "FilterFlags", 0);
+
+			DWORD dwPopupMask = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "PopupMask", 0);
+			DWORD dwPopupFlags = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "PopupFlags", 0);
+
+			DWORD dwTrayMask = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "TrayIconMask", 0);
+			DWORD dwTrayFlags = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "TrayIconFlags", 0);
+
+			for (int i = 0; i < _countof(_eventorder); i++) {
+				CheckDlgButton(hwndDlg, IDC_1 + i, dwMask & _eventorder[i] ? (dwFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED) : BST_INDETERMINATE);
+				CheckDlgButton(hwndDlg, IDC_P1 + i, dwPopupMask & _eventorder[i] ? (dwPopupFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED) : BST_INDETERMINATE);
+				CheckDlgButton(hwndDlg, IDC_T1 + i, dwTrayMask & _eventorder[i] ? (dwTrayFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED) : BST_INDETERMINATE);
+			}
+		}
+		return FALSE;
+
+	case WM_CTLCOLOREDIT:
+	case WM_CTLCOLORSTATIC:
+		SetTextColor((HDC)wParam, RGB(60, 60, 150));
+		SetBkColor((HDC)wParam, GetSysColor(COLOR_WINDOW));
+		return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);
+
+	case WM_CLOSE:
+		if (wParam == 1 && lParam == 1) {
+			int iFlags = 0;
+			DWORD dwMask = 0;
+
+			for (int i = 0; i < _countof(_eventorder); i++) {
+				int result = IsDlgButtonChecked(hwndDlg, IDC_1 + i);
+				dwMask |= (result != BST_INDETERMINATE ? _eventorder[i] : 0);
+				iFlags |= (result == BST_CHECKED ? _eventorder[i] : 0);
+			}
+
+			if (iFlags & GC_EVENT_ADDSTATUS)
+				iFlags |= GC_EVENT_REMOVESTATUS;
+
+			if (pDlg) {
+				if (dwMask == 0) {
+					db_unset(pDlg->m_hContact, CHAT_MODULE, "FilterFlags");
+					db_unset(pDlg->m_hContact, CHAT_MODULE, "FilterMask");
+				}
+				else {
+					db_set_dw(pDlg->m_hContact, CHAT_MODULE, "FilterFlags", iFlags);
+					db_set_dw(pDlg->m_hContact, CHAT_MODULE, "FilterMask", dwMask);
+				}
+			}
+
+			dwMask = iFlags = 0;
+
+			for (int i = 0; i < _countof(_eventorder); i++) {
+				int result = IsDlgButtonChecked(hwndDlg, IDC_P1 + i);
+				dwMask |= (result != BST_INDETERMINATE ? _eventorder[i] : 0);
+				iFlags |= (result == BST_CHECKED ? _eventorder[i] : 0);
+			}
+
+			if (iFlags & GC_EVENT_ADDSTATUS)
+				iFlags |= GC_EVENT_REMOVESTATUS;
+
+			if (pDlg) {
+				if (dwMask == 0) {
+					db_unset(pDlg->m_hContact, CHAT_MODULE, "PopupFlags");
+					db_unset(pDlg->m_hContact, CHAT_MODULE, "PopupMask");
+				}
+				else {
+					db_set_dw(pDlg->m_hContact, CHAT_MODULE, "PopupFlags", iFlags);
+					db_set_dw(pDlg->m_hContact, CHAT_MODULE, "PopupMask", dwMask);
+				}
+			}
+
+			dwMask = iFlags = 0;
+
+			for (int i = 0; i < _countof(_eventorder); i++) {
+				int result = IsDlgButtonChecked(hwndDlg, IDC_T1 + i);
+				dwMask |= (result != BST_INDETERMINATE ? _eventorder[i] : 0);
+				iFlags |= (result == BST_CHECKED ? _eventorder[i] : 0);
+			}
+			if (iFlags & GC_EVENT_ADDSTATUS)
+				iFlags |= GC_EVENT_REMOVESTATUS;
+
+			if (pDlg) {
+				if (dwMask == 0) {
+					db_unset(pDlg->m_hContact, CHAT_MODULE, "TrayIconFlags");
+					db_unset(pDlg->m_hContact, CHAT_MODULE, "TrayIconMask");
+				}
+				else {
+					db_set_dw(pDlg->m_hContact, CHAT_MODULE, "TrayIconFlags", iFlags);
+					db_set_dw(pDlg->m_hContact, CHAT_MODULE, "TrayIconMask", dwMask);
+				}
+				Chat_SetFilters(pDlg->m_si);
+
+				if (pDlg->m_bFilterEnabled) {
+					if (pDlg->m_iLogFilterFlags == 0)
+						pDlg->onClick_Filter(&pDlg->m_btnFilter);
+					pDlg->RedrawLog();
+					db_set_b(pDlg->m_hContact, CHAT_MODULE, "FilterEnabled", pDlg->m_bFilterEnabled);
+				}
+			}
+		}
+		DestroyWindow(hwndDlg);
+		break;
+
+	case WM_DESTROY:
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
+		break;
+	}
+	return FALSE;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -2381,6 +2352,127 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 
 	return CSuper::WndProc_Message(msg, wParam, lParam);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// subclassing for the nickname list control.It is an ownerdrawn listbox
+
+LRESULT CMsgDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg) {
+	case WM_NCCALCSIZE:
+		if (CSkin::m_DisableScrollbars) {
+			RECT lpRect;
+			GetClientRect(m_nickList.GetHwnd(), &lpRect);
+			LONG itemHeight = m_nickList.SendMsg(LB_GETITEMHEIGHT, 0, 0);
+			g_cLinesPerPage = (lpRect.bottom - lpRect.top) / itemHeight;
+		}
+		return CSkin::NcCalcRichEditFrame(m_nickList.GetHwnd(), this, ID_EXTBKUSERLIST, msg, wParam, lParam, stubNicklistProc);
+
+	case WM_NCPAINT:
+		return CSkin::DrawRichEditFrame(m_nickList.GetHwnd(), this, ID_EXTBKUSERLIST, msg, wParam, lParam, stubNicklistProc);
+
+	case WM_MOUSEWHEEL:
+		if (CSkin::m_DisableScrollbars) {
+			UINT uScroll;
+			short zDelta = (short)HIWORD(wParam);
+			if (!SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, &uScroll, 0))
+				uScroll = 3;    /* default value */
+
+			if (uScroll == WHEEL_PAGESCROLL)
+				uScroll = g_cLinesPerPage;
+			if (uScroll == 0)
+				return 0;
+
+			zDelta += g_iWheelCarryover;    /* Accumulate wheel motion */
+
+			int dLines = zDelta * (int)uScroll / WHEEL_DELTA;
+
+			//Record the unused portion as the next carryover.
+			g_iWheelCarryover = zDelta - dLines * WHEEL_DELTA / (int)uScroll;
+
+			// scrolling.
+			while (abs(dLines)) {
+				if (dLines > 0) {
+					m_nickList.SendMsg(WM_VSCROLL, SB_LINEUP, 0);
+					dLines--;
+				}
+				else {
+					m_nickList.SendMsg(WM_VSCROLL, SB_LINEDOWN, 0);
+					dLines++;
+				}
+			}
+			return 0;
+		}
+		break;
+
+	case WM_KEYDOWN:
+		if (wParam == 0x57 && GetKeyState(VK_CONTROL) & 0x8000) { // ctrl-w (close window)
+			PostMessage(m_hwnd, WM_CLOSE, 0, 1);
+			return TRUE;
+		}
+
+		if (wParam == VK_ESCAPE || wParam == VK_UP || wParam == VK_DOWN || wParam == VK_NEXT || wParam == VK_PRIOR || wParam == VK_TAB || wParam == VK_HOME || wParam == VK_END) {
+			m_wszSearch[0] = 0;
+			m_iSearchItem = -1;
+		}
+		break;
+
+	case WM_SETFOCUS:
+	case WM_KILLFOCUS:
+		m_wszSearch[0] = 0;
+		m_iSearchItem = -1;
+		break;
+
+	case WM_CHAR:
+	case WM_UNICHAR:
+		// simple incremental search for the user (nick) - list control
+		// typing esc or movement keys will clear the current search string
+		if (wParam == 27 && m_wszSearch[0]) { // escape - reset everything
+			m_wszSearch[0] = 0;
+			m_iSearchItem = -1;
+			break;
+		}
+		if (wParam == '\b' && m_wszSearch[0])					// backspace
+			m_wszSearch[mir_wstrlen(m_wszSearch) - 1] = '\0';
+		else if (wParam < ' ')
+			break;
+		else {
+			if (mir_wstrlen(m_wszSearch) >= _countof(m_wszSearch) - 2) {
+				MessageBeep(MB_OK);
+				break;
+			}
+			wchar_t szNew[2];
+			szNew[0] = (wchar_t)wParam;
+			szNew[1] = '\0';
+			mir_wstrcat(m_wszSearch, szNew);
+		}
+		if (m_wszSearch[0]) {
+			// iterate over the (sorted) list of nicknames and search for the
+			// string we have
+			int i, iItems = m_nickList.SendMsg(LB_GETCOUNT, 0, 0);
+			for (i = 0; i < iItems; i++) {
+				USERINFO *ui = g_chatApi.UM_FindUserFromIndex(m_si, i);
+				if (ui) {
+					if (!wcsnicmp(ui->pszNick, m_wszSearch, mir_wstrlen(m_wszSearch))) {
+						m_nickList.SendMsg(LB_SETSEL, FALSE, -1);
+						m_nickList.SendMsg(LB_SETSEL, TRUE, i);
+						m_iSearchItem = i;
+						InvalidateRect(m_nickList.GetHwnd(), nullptr, FALSE);
+						return 0;
+					}
+				}
+			}
+			if (i == iItems) {
+				MessageBeep(MB_OK);
+				m_wszSearch[mir_wstrlen(m_wszSearch) - 1] = '\0';
+				return 0;
+			}
+		}
+		break;
+	}
+
+	return CSuper::WndProc_Nicklist(msg, wParam, lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
