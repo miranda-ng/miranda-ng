@@ -55,7 +55,6 @@ int IEViewOptionsChanged(WPARAM, LPARAM)
 int SmileyAddOptionsChanged(WPARAM, LPARAM)
 {
 	Srmm_Broadcast(DM_SMILEYOPTIONSCHANGED, 0, 0);
-	g_chatApi.SM_BroadcastMessage(nullptr, DM_SMILEYOPTIONSCHANGED, 0, 0, FALSE);
 	return 0;
 }
 

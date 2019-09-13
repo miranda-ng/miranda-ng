@@ -310,22 +310,6 @@ BOOL SM_TakeStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *p
 	return TRUE;
 }
 
-static BOOL SM_BroadcastMessage(const char *pszModule, UINT msg, WPARAM wParam, LPARAM lParam, BOOL bAsync)
-{
-	for (auto &si : g_arSessions) {
-		if (pszModule && _strcmpi(si->pszModule, pszModule))
-			continue;
-
-		if (si->pDlg) {
-			if (bAsync)
-				PostMessage(si->pDlg->GetHwnd(), msg, wParam, lParam);
-			else
-				SendMessage(si->pDlg->GetHwnd(), msg, wParam, lParam);
-		}
-	}
-	return TRUE;
-}
-
 BOOL SM_SetStatus(const char *pszModule, SESSION_INFO *si, int wStatus)
 {
 	if (si == nullptr) {
@@ -869,7 +853,6 @@ static void ResetApi()
 	g_chatApi.SM_CreateSession = ::SM_CreateSession;
 	g_chatApi.SM_FindSession = ::SM_FindSession;
 	g_chatApi.SM_GetStatusIcon = ::SM_GetStatusIcon;
-	g_chatApi.SM_BroadcastMessage = ::SM_BroadcastMessage;
 	g_chatApi.SM_GetCount = ::SM_GetCount;
 	g_chatApi.SM_FindSessionByIndex = ::SM_FindSessionByIndex;
 	g_chatApi.SM_GetUserFromIndex = ::SM_GetUserFromIndex;
