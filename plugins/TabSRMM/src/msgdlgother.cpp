@@ -1287,6 +1287,34 @@ int CMsgDialog::MsgWindowMenuHandler(int selection, int menuId)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CMsgDialog::NotifyDeliveryFailure() const
+{
+	if (M.GetByte("adv_noErrorPopups", 0))
+		return;
+
+	if (!Popup_Enabled())
+		return;
+
+	POPUPDATAW ppd;
+	ppd.lchContact = m_hContact;
+	wcsncpy_s(ppd.lpwzContactName, m_cache->getNick(), _TRUNCATE);
+	wcsncpy_s(ppd.lpwzText, TranslateT("A message delivery has failed.\nClick to open the message window."), _TRUNCATE);
+
+	if (!(BOOL)db_get_b(0, MODULE, OPT_COLDEFAULT_ERR, TRUE)) {
+		ppd.colorText = (COLORREF)db_get_dw(0, MODULE, OPT_COLTEXT_ERR, DEFAULT_COLTEXT);
+		ppd.colorBack = (COLORREF)db_get_dw(0, MODULE, OPT_COLBACK_ERR, DEFAULT_COLBACK);
+	}
+	else ppd.colorText = ppd.colorBack = 0;
+
+	ppd.PluginWindowProc = Utils::PopupDlgProcError;
+	ppd.lchIcon = PluginConfig.g_iconErr;
+	ppd.PluginData = nullptr;
+	ppd.iSeconds = (int)db_get_dw(0, MODULE, OPT_DELAY_ERR, (DWORD)DEFAULT_DELAY);
+	PUAddPopupW(&ppd);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CMsgDialog::PlayIncomingSound() const
 {
 	int iPlay = MustPlaySound();
@@ -1591,6 +1619,25 @@ void CMsgDialog::SetMessageLog()
 		m_log.Hide();
 		m_log.Enable(false);
 	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Sets a status bar text for a contact
+
+void CMsgDialog::SetStatusText(const wchar_t *wszText, HICON hIcon)
+{
+	if (wszText != nullptr) {
+		m_bStatusSet = true;
+		m_szStatusText = wszText;
+		m_szStatusIcon = hIcon;
+	}
+	else {
+		m_bStatusSet = false;
+		m_szStatusText.Empty();
+		m_szStatusIcon = nullptr;
+	}
+
+	tabUpdateStatusBar();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

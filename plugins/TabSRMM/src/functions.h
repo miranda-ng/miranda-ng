@@ -73,7 +73,7 @@ void  TSAPI HandleMenuEntryFromhContact(MCONTACT iSelection);
 HWND  TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact, bool bActivateTAb, bool bPopupContainer, bool bWantPopup, MEVENT hdbEvent = 0, bool bIsWchar = false, const char *pszInitialText = nullptr);
 int   TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd);
 void  TSAPI FlashContainer(TContainerData *pContainer, int iMode, int iNum);
-void  TSAPI CreateImageList(BOOL bInitial);
+void  TSAPI CreateImageList(bool bInitial);
 
 TContainerData* TSAPI FindMatchingContainer(const wchar_t *szName);
 TContainerData* TSAPI CreateContainer(const wchar_t *name, int iTemp, MCONTACT hContactFrom);

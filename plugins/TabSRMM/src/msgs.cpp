@@ -60,54 +60,6 @@ int SmileyAddOptionsChanged(WPARAM, LPARAM)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// basic window class
-
-void CMsgDialog::NotifyDeliveryFailure() const
-{
-	if (M.GetByte("adv_noErrorPopups", 0))
-		return;
-
-	if (!Popup_Enabled())
-		return;
-
-	POPUPDATAW ppd;
-	ppd.lchContact = m_hContact;
-	wcsncpy_s(ppd.lpwzContactName, m_cache->getNick(), _TRUNCATE);
-	wcsncpy_s(ppd.lpwzText, TranslateT("A message delivery has failed.\nClick to open the message window."), _TRUNCATE);
-
-	if (!(BOOL)db_get_b(0, MODULE, OPT_COLDEFAULT_ERR, TRUE)) {
-		ppd.colorText = (COLORREF)db_get_dw(0, MODULE, OPT_COLTEXT_ERR, DEFAULT_COLTEXT);
-		ppd.colorBack = (COLORREF)db_get_dw(0, MODULE, OPT_COLBACK_ERR, DEFAULT_COLBACK);
-	}
-	else ppd.colorText = ppd.colorBack = 0;
-
-	ppd.PluginWindowProc = Utils::PopupDlgProcError;
-	ppd.lchIcon = PluginConfig.g_iconErr;
-	ppd.PluginData = nullptr;
-	ppd.iSeconds = (int)db_get_dw(0, MODULE, OPT_DELAY_ERR, (DWORD)DEFAULT_DELAY);
-	PUAddPopupW(&ppd);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Sets a status bar text for a contact
-
-void CMsgDialog::SetStatusText(const wchar_t *wszText, HICON hIcon)
-{
-	if (wszText != nullptr) {
-		m_bStatusSet = true;
-		m_szStatusText = wszText;
-		m_szStatusIcon = hIcon;
-	}
-	else {
-		m_bStatusSet = false;
-		m_szStatusText.Empty();
-		m_szStatusIcon = nullptr;
-	}
-
-	tabUpdateStatusBar();
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // service function - open the tray menu from the TTB button
 
 static INT_PTR Service_OpenTrayMenu(WPARAM, LPARAM lParam)
@@ -527,7 +479,7 @@ TContainerData* TSAPI FindMatchingContainer(const wchar_t *szName)
 /////////////////////////////////////////////////////////////////////////////////////////
 // load some global icons.
 
-void TSAPI CreateImageList(BOOL bInitial)
+void TSAPI CreateImageList(bool bInitial)
 {
 	// the imagelist is now a fake. It is still needed to provide the tab control with a
 	// image list handle. This will make sure that the tab control will reserve space for
@@ -745,7 +697,7 @@ int IcoLibIconsChanged(WPARAM, LPARAM)
 
 int IconsChanged(WPARAM, LPARAM)
 {
-	CreateImageList(FALSE);
+	CreateImageList(false);
 	CacheMsgLogIcons();
 	Srmm_Broadcast(DM_OPTIONSAPPLIED, 0, 0);
 	Srmm_Broadcast(DM_UPDATEWINICON, 0, 0);

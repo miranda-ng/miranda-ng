@@ -1466,15 +1466,16 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 
 	case IDC_SPLITTERY:
 		urc->rcItem.right = urc->dlgNewSize.cx;
-		urc->rcItem.bottom = urc->rcItem.top + DPISCALEY_S(2);
 		if (isChat()) {
 			urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + DPISCALEY_S(23);
+			urc->rcItem.bottom = urc->rcItem.top + DPISCALEY_S(2);
 			urc->rcItem.left = 0;
 			urc->rcItem.bottom++;
 			urc->rcItem.top++;
 			return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 		}
 		urc->rcItem.top -= m_iSplitterY - m_originalSplitterY;
+		urc->rcItem.bottom = urc->rcItem.top + DPISCALEY_S(2);
 		OffsetRect(&urc->rcItem, 0, 1);
 		urc->rcItem.left = 0;
 
@@ -1898,8 +1899,7 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 		{
 			HCURSOR hCur = GetCursor();
 			m_pContainer->m_pMenuBar->Cancel();
-			if (hCur == LoadCursor(nullptr, IDC_SIZENS) || hCur == LoadCursor(nullptr, IDC_SIZEWE)
-				|| hCur == LoadCursor(nullptr, IDC_SIZENESW) || hCur == LoadCursor(nullptr, IDC_SIZENWSE)) {
+			if (hCur == PluginConfig.hCurSplitNS || hCur == PluginConfig.hCurSplitWE || hCur == PluginConfig.hCurSplitSW || hCur == PluginConfig.hCurSplitWSE) {
 				SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
 				return TRUE;
 			}
@@ -1945,7 +1945,7 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 		m_pPanel.trackMouse(pt);
 
 		HCURSOR hCur = GetCursor();
-		if (hCur == LoadCursor(nullptr, IDC_SIZENS) || hCur == LoadCursor(nullptr, IDC_SIZEWE) || hCur == LoadCursor(nullptr, IDC_SIZENESW) || hCur == LoadCursor(nullptr, IDC_SIZENWSE))
+		if (hCur == PluginConfig.hCurSplitNS || hCur == PluginConfig.hCurSplitWE || hCur == PluginConfig.hCurSplitSW || hCur == PluginConfig.hCurSplitWSE)
 			SetCursor(LoadCursor(nullptr, IDC_ARROW));
 		break;
 	}

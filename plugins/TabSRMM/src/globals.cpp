@@ -70,6 +70,8 @@ void CGlobals::reloadSystemStartup()
 
 	hCurSplitNS = LoadCursor(nullptr, IDC_SIZENS);
 	hCurSplitWE = LoadCursor(nullptr, IDC_SIZEWE);
+	hCurSplitSW = LoadCursor(nullptr, IDC_SIZENESW);
+	hCurSplitWSE = LoadCursor(nullptr, IDC_SIZENWSE);
 
 	HDC hScrnDC = GetDC(nullptr);
 	m_DPIscaleX = GetDeviceCaps(hScrnDC, LOGPIXELSX) / 96.0;
@@ -266,7 +268,7 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 	for (int i = 0; i < NR_BUTTONBARICONS; i++)
 		PluginConfig.g_buttonBarIcons[i] = nullptr;
 	::LoadIconTheme();
-	::CreateImageList(TRUE);
+	::CreateImageList(true);
 	::CB_InitCustomButtons();
 
 	PluginConfig.reloadSystemModulesChanged();

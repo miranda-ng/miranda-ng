@@ -66,7 +66,7 @@ public:
 	HWND        g_hwndHotkeyHandler;
 	HICON       g_iconIn, g_iconOut, g_iconErr, g_iconContainer, g_iconStatus;
 	HICON       g_iconOverlayDisabled, g_iconOverlayEnabled, g_iconClock;
-	HCURSOR     hCurSplitNS, hCurSplitWE;
+	HCURSOR     hCurSplitNS, hCurSplitWE, hCurSplitSW, hCurSplitWSE;
 	HBITMAP     g_hbmUnknown;
 	bool        g_SmileyAddAvail, g_WantIEView, g_WantHPP;
 	HIMAGELIST  g_hImageList;
