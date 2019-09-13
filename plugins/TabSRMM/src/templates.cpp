@@ -114,7 +114,7 @@ void LoadDefaultTemplates()
 }
 
 CTemplateEditDlg::CTemplateEditDlg(BOOL _rtl, HWND hwndParent) :
-	CSuper(IDD_TEMPLATEEDIT),
+	CSuper(IDD_TEMPLATEEDIT, 0),
 	rtl(_rtl),
 	edtText(this, IDC_EDITTEMPLATE),
 	urlHelp(this, IDC_VARIABLESHELP, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Templates"),

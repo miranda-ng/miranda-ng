@@ -244,27 +244,28 @@ class CMsgDialog : public CSrmmBaseDialog
 	typedef CSrmmBaseDialog CSuper;
 	friend class CInfoPanel;
 
-	void      DM_AddDivider();
+	void      DM_AddDivider(void);
 	void      DM_DismissTip(const POINT& pt);
 	void      DM_ErrorDetected(int type, int flag);
 	bool      DM_GenericHotkeysCheck(MSG *message);
 	int       DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam);
-	void      DM_UpdateLastMessage() const;
+	void      DM_UpdateLastMessage(void) const;
 
-	void      DetermineMinHeight();
-	void      FindFirstEvent();
-	int       FindRTLLocale();
-	void      GetSendFormat();
-	bool      IsAutoSplitEnabled() const;
-	void      LoadContactAvatar();
-	void      LoadOwnAvatar();
+	void      DetermineMinHeight(void);
+	void      FindFirstEvent(void);
+	int       FindRTLLocale(void);
+	void      GetSendFormat(void);
+	void      Init(void);
+	bool      IsAutoSplitEnabled(void) const;
+	void      LoadContactAvatar(void);
+	void      LoadOwnAvatar(void);
 	void      MsgWindowUpdateState(UINT msg);
 	void      ReplaceIcons(LONG startAt, int fAppend, BOOL isSent);
-	void      ReplayQueue();
-	void      ResizeIeView();
+	void      ReplayQueue(void);
+	void      ResizeIeView(void);
 	void      SaveAvatarToFile(HBITMAP hbm, int isOwnPic);
 	void      ShowPopupMenu(const CCtrlBase&, POINT pt);
-	void      VerifyProxy();
+	void      VerifyProxy(void);
 	LRESULT   WMCopyHandler(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	WORD      m_wStatus, m_wOldStatus;
@@ -334,7 +335,7 @@ public:
 	HKL       m_hkl;                                    // keyboard layout identifier
 	DWORD     m_isAutoRTL;
 	DWORD     m_idle;
-	DWORD     m_dwFlags, m_dwFlagsEx;
+	DWORD     m_dwFlags = MWF_INITMODE, m_dwFlagsEx;
 	DWORD     m_dwUnread;
 	HANDLE    m_hTheme, m_hThemeIP, m_hThemeToolbar;
 	HWND      m_hwndIEView, m_hwndIWebBrowserControl, m_hwndHPP;
@@ -385,7 +386,8 @@ public:
 	CCtrlButton m_btnOk, m_btnAdd, m_btnQuote, m_btnCancelAdd;
 
 public:
-	CMsgDialog(int dlgId, SESSION_INFO* = nullptr);
+	CMsgDialog(int dlgId, MCONTACT hContact);
+	CMsgDialog(SESSION_INFO *si);
 	~CMsgDialog();
 
 	void onClick_Ok(CCtrlButton *);

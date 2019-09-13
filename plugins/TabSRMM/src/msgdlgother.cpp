@@ -867,8 +867,8 @@ void CMsgDialog::LoadSplitter()
 
 int CMsgDialog::MsgWindowDrawHandler(DRAWITEMSTRUCT *dis)
 {
-	HBITMAP hbmAvatar = m_ace ? m_ace->hbmPic : PluginConfig.g_hbmUnknown;
 	if ((dis->hwndItem == GetDlgItem(m_hwnd, IDC_CONTACTPIC) && m_bShowAvatar) || (dis->hwndItem == m_hwnd && m_pPanel.isActive())) {
+		HBITMAP hbmAvatar = m_ace ? m_ace->hbmPic : PluginConfig.g_hbmUnknown;
 		if (hbmAvatar == nullptr)
 			return TRUE;
 

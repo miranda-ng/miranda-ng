@@ -429,8 +429,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	if (bActivateTab)
 		TabCtrl_SetCurSel(hwndTab, iTabId);
 	
-	CMsgDialog *pWindow = new CMsgDialog(IDD_MSGSPLITNEW);
-	pWindow->m_hContact = hContact;
+	CMsgDialog *pWindow = new CMsgDialog(IDD_MSGSPLITNEW, hContact);
 	pWindow->m_iTabID = iTabId;
 	pWindow->m_pContainer = pContainer;
 	pContainer->m_iChilds++;

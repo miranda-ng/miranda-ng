@@ -325,29 +325,48 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CMsgDialog::CMsgDialog(int iDlgId, SESSION_INFO *si) :
-	CSuper(g_plugin, iDlgId, si),
+CMsgDialog::CMsgDialog(int iDlgId, MCONTACT hContact) :
+	CSuper(g_plugin, iDlgId),
 	m_pPanel(this),
-	m_dwFlags(MWF_INITMODE),
 	m_btnOk(this, IDOK),
 	m_btnAdd(this, IDC_ADD),
 	m_btnQuote(this, IDC_QUOTE),
 	m_btnCancelAdd(this, IDC_CANCELADD)
 {
-	m_autoClose = CLOSE_ON_CANCEL;
-	m_forceResizable = true;
+	m_hContact = hContact;
 
-	m_szProto = GetContactProto(m_hContact);
-	m_bFilterEnabled = db_get_b(m_hContact, CHAT_MODULE, "FilterEnabled", m_bFilterEnabled) != 0;
-
-	m_btnOk.OnClick = Callback(this, &CMsgDialog::onClick_Ok);
 	m_btnAdd.OnClick = Callback(this, &CMsgDialog::onClick_Add);
+	m_btnQuote.OnClick = Callback(this, &CMsgDialog::onClick_Quote);
+	m_btnCancelAdd.OnClick = Callback(this, &CMsgDialog::onClick_CancelAdd);
+
+	Init();
+}
+
+CMsgDialog::CMsgDialog(SESSION_INFO *si) :
+	CSuper(g_plugin, IDD_CHANNEL, si),
+	m_pPanel(this),
+	m_btnOk(this, IDOK),
+	m_btnAdd(this, IDC_ADD),
+	m_btnQuote(this, IDC_QUOTE),
+	m_btnCancelAdd(this, IDC_CANCELADD)
+{
 	m_btnQuote.OnClick = Callback(this, &CMsgDialog::onClick_Quote);
 	m_btnFilter.OnClick = Callback(this, &CMsgDialog::onClick_Filter);
 	m_btnNickList.OnClick = Callback(this, &CMsgDialog::onClick_ShowNickList);
-	m_btnCancelAdd.OnClick = Callback(this, &CMsgDialog::onClick_CancelAdd);
 
 	m_nickList.OnDblClick = Callback(this, &CMsgDialog::onDblClick_List);
+
+	Init();
+}
+
+void CMsgDialog::Init()
+{
+	m_szProto = GetContactProto(m_hContact);
+	m_autoClose = CLOSE_ON_CANCEL;
+	m_forceResizable = true;
+	m_bFilterEnabled = db_get_b(m_hContact, CHAT_MODULE, "FilterEnabled", m_bFilterEnabled) != 0;
+
+	m_btnOk.OnClick = Callback(this, &CMsgDialog::onClick_Ok);
 
 	m_message.OnChange = Callback(this, &CMsgDialog::onChange_Message);
 }
@@ -2041,21 +2060,22 @@ LRESULT CMsgDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 		return CSkin::DrawRichEditFrame(m_log.GetHwnd(), this, ID_EXTBKHISTORY, msg, wParam, lParam, stubLogProc);
 
 	case WM_CONTEXTMENU:
-		POINT pt;
+		if (!isChat()) {
+			POINT pt;
+			if (lParam == 0xFFFFFFFF) {
+				CHARRANGE sel;
+				m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)& sel);
+				m_log.SendMsg(EM_POSFROMCHAR, (WPARAM)& pt, (LPARAM)sel.cpMax);
+				ClientToScreen(m_log.GetHwnd(), &pt);
+			}
+			else {
+				pt.x = GET_X_LPARAM(lParam);
+				pt.y = GET_Y_LPARAM(lParam);
+			}
 
-		if (lParam == 0xFFFFFFFF) {
-			CHARRANGE sel;
-			m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
-			m_log.SendMsg(EM_POSFROMCHAR, (WPARAM)&pt, (LPARAM)sel.cpMax);
-			ClientToScreen(m_log.GetHwnd(), &pt);
+			ShowPopupMenu(m_log, pt);
+			return TRUE;
 		}
-		else {
-			pt.x = GET_X_LPARAM(lParam);
-			pt.y = GET_Y_LPARAM(lParam);
-		}
-
-		ShowPopupMenu(m_log, pt);
-		return TRUE;
 	}
 
 	return CSuper::WndProc_Log(msg, wParam, lParam);
@@ -3221,7 +3241,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				return TRUE;
 			}
 		}
-		break;
+		return MsgWindowDrawHandler((DRAWITEMSTRUCT *)lParam);
 
 	case WM_NCHITTEST:
 		SendMessage(m_pContainer->m_hwnd, WM_NCHITTEST, wParam, lParam);

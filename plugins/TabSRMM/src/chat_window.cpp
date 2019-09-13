@@ -597,7 +597,7 @@ void ShowRoom(TContainerData *pContainer, SESSION_INFO *si)
 	TabCtrl_SetCurSel(hwndTab, iTabId);
 	pContainer->m_iChilds++;
 
-	CMsgDialog *pDlg = new CMsgDialog(IDD_CHANNEL, si);
+	CMsgDialog *pDlg = new CMsgDialog(si);
 	pDlg->m_iTabID = iTabId;
 	pDlg->m_pContainer = pContainer;
 	pDlg->SetParent(hwndTab);
