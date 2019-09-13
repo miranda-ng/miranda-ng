@@ -409,7 +409,7 @@ public:
 
 	void UpdateWindowState(UINT msg);
 
-	LRESULT DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	LRESULT WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam) override;
