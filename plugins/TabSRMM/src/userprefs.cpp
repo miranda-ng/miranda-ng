@@ -481,7 +481,7 @@ static INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wPa
 						else
 							ShowWindow(dat->m_pContainer->m_hwnd, SW_HIDE);
 						dat->DM_OptionsApplied(0, 0);
-						SendMessage(hwnd, DM_DEFERREDREMAKELOG, (WPARAM)hwnd, 0);
+						dat->RemakeLog();
 						if (fShouldHide)
 							ShowWindow(dat->m_pContainer->m_hwnd, SW_SHOWNORMAL);
 					}

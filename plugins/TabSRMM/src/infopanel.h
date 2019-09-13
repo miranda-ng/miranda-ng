@@ -152,7 +152,7 @@ public:
 	void trackMouse(POINT& pt);
 	int  hitTest(POINT  pt);
 	void handleClick(const POINT& pt);
-	void showTip(UINT ctrlId, const LPARAM lParam);
+	void showTip(UINT ctrlId, const wchar_t *pwszTip);
 	void hideTip(const HWND hWndNew);
 	int  invokeConfigDialog(const POINT& pt);
 	void dismissConfig(bool fForced = false);

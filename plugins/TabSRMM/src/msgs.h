@@ -220,12 +220,16 @@ struct TContainerData
 	WORD	   m_avatarMode, m_ownAvatarMode;
 	BYTE	   m_bTBRenderingMode;
 	TLogTheme m_theme;
-	TContainerSettings* m_pSettings;
-	CTaskbarInteract*	m_pTaskBar;
 	CMenuBar *m_pMenuBar;
 	CSideBar *m_pSideBar;
+	CTaskbarInteract *m_pTaskBar;
+	TContainerSettings *m_pSettings;
 
 	void InitRedraw();
+	void CloseTabByMouse(POINT *);
+	void QueryPending(int iCommand);
+	void RestoreWindowPos();
+	void SelectTab(int iCommand, int idx = 0);
 	void SetIcon(CMsgDialog *pDlg, HICON hIcon);
 	void UpdateTabs();
 	void UpdateTitle(MCONTACT, class CMsgDialog* = nullptr);
@@ -469,6 +473,7 @@ public:
 	void  CB_DestroyButton(DWORD dwButtonCID, DWORD dwFlags);
 	void  CB_ChangeButton(CustomButtonData *cbd);
 
+	void  ActivateTooltip(int iCtrlId, const wchar_t *pwszMessage);
 	void  AdjustBottomAvatarDisplay();
 	void  CalcDynamicAvatarSize(BITMAP *bminfo);
 	void  CheckStatusIconClick(POINT pt, const RECT &rc, int gap, int code);
@@ -496,11 +501,13 @@ public:
 	int   MustPlaySound() const;
 	void  NotifyDeliveryFailure() const;
 	void  PlayIncomingSound() const;
+	void  RemakeLog();
 	void 	SendHBitmapAsFile(HBITMAP hbmp) const;
 	void  SaveSplitter();
 	void  SetDialogToType();
 	void  SetMessageLog();
 	void  ShowPicture(bool showNewPic);
+	void  SplitterMoved(int x, HWND hwnd);
 	void  StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, DBEVENTINFO *dbei_s);
 	void  UpdateReadChars() const;
 	void  UpdateSaveAndSendButton();
@@ -688,21 +695,16 @@ struct TIconDescW
 #define EM_REFRESHWITHOUTCLIP    (TM_USER+0x106)
 
 #define HM_EVENTSENT             (TM_USER+10)
-#define DM_REMAKELOG             (TM_USER+11)
 #define HM_DBEVENTADDED          (TM_USER+12)
 #define DM_SETINFOPANEL          (TM_USER+13)
 #define DM_OPTIONSAPPLIED        (TM_USER+14)
-#define DM_SPLITTERMOVED         (TM_USER+15)
 #define DM_SPLITSENDACK          (TM_USER+19)
 #define DM_TYPING                (TM_USER+20)
 #define DM_UPDATEWINICON         (TM_USER+21)
 #define DM_UPDATELASTMESSAGE     (TM_USER+22)
 
-#define DM_SELECTTAB             (TM_USER+23)
-#define DM_CLOSETABATMOUSE       (TM_USER+24)
 #define DM_STATUSICONCHANGE      (TM_USER+25)
 #define DM_QUERYLASTUNREAD       (TM_USER+28)
-#define DM_QUERYPENDING          (TM_USER+29)
 #define DM_UPDATEPICLAYOUT       (TM_USER+30)
 #define DM_QUERYCONTAINER        (TM_USER+31)
 #define DM_MUCFLASHWORKER        (TM_USER+32)
@@ -714,8 +716,6 @@ struct TIconDescW
 #define DM_CONTAINERSELECTED     (TM_USER+39)
 #define DM_CONFIGURECONTAINER    (TM_USER+40)
 #define DM_QUERYHCONTACT         (TM_USER+41)
-#define DM_DEFERREDREMAKELOG     (TM_USER+42)
-#define DM_RESTOREWINDOWPOS      (TM_USER+43)
 #define DM_QUERYCLIENTAREA       (TM_USER+45)
 #define DM_QUERYRECENT           (TM_USER+47)
 #define DM_ACTIVATEME            (TM_USER+46)
@@ -723,8 +723,6 @@ struct TIconDescW
 #define DM_UPDATESTATUSMSG       (TM_USER+53)
 #define DM_OWNNICKCHANGED        (TM_USER+55)
 #define DM_CONFIGURETOOLBAR      (TM_USER+56)
-#define DM_ACTIVATETOOLTIP       (TM_USER+58)
-#define DM_UINTOCLIPBOARD        (TM_USER+59)
 #define DM_FORCEDREMAKELOG       (TM_USER+62)
 #define DM_STATUSBARCHANGED      (TM_USER+64)
 #define DM_CHECKQUEUEFORCLOSE    (TM_USER+70)

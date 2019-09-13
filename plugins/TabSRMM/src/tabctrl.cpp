@@ -1027,7 +1027,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 	case WM_MBUTTONDOWN:
 		GetCursorPos(&pt);
-		SendMessage(GetParent(hwnd), DM_CLOSETABATMOUSE, 0, (LPARAM)&pt);
+		tabdat->pContainer->CloseTabByMouse(&pt);
 		return 1;
 
 	case WM_SETCURSOR:
@@ -1082,7 +1082,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 	case WM_LBUTTONDBLCLK:
 		if (!(tabdat->pContainer->m_pSettings->dwFlagsEx & TCF_CLOSEBUTTON)) {
 			GetCursorPos(&pt);
-			SendMessage(GetParent(hwnd), DM_CLOSETABATMOUSE, 0, (LPARAM)&pt);
+			tabdat->pContainer->CloseTabByMouse(&pt);
 		}
 		break;
 
@@ -1221,7 +1221,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			GetCursorPos(&pt);
 			int iItem = TabCtrl_TestForCloseButton(tabdat, hwnd, &pt);
 			if (iItem != -1)
-				SendMessage(GetParent(hwnd), DM_CLOSETABATMOUSE, 0, (LPARAM)&pt);
+				tabdat->pContainer->CloseTabByMouse(&pt);
 		}
 		break;
 
@@ -1268,9 +1268,9 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		if (lParam == -1) {
 			short amount = short(HIWORD(wParam));
 			if (amount > 0)
-				SendMessage(GetParent(hwnd), DM_SELECTTAB, DM_SELECT_PREV, 0);
+				tabdat->pContainer->SelectTab(DM_SELECT_PREV);
 			else if (amount < 0)
-				SendMessage(GetParent(hwnd), DM_SELECTTAB, DM_SELECT_NEXT, 0);
+				tabdat->pContainer->SelectTab(DM_SELECT_NEXT);
 			InvalidateRect(hwnd, nullptr, FALSE);
 		}
 		break;

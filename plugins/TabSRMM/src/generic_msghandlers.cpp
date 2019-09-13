@@ -232,7 +232,7 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 
 	case IDC_NAME:
 		if (GetKeyState(VK_SHIFT) & 0x8000)   // copy UIN
-			SendMessage(m_hwnd, DM_UINTOCLIPBOARD, 0, 0);
+			Utils::CopyToClipBoard(m_cache->getUIN(), m_hwnd);
 		else
 			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)(m_cache->getActiveContact()), 0);
 		break;
@@ -433,7 +433,7 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 		if (m_bEditNotesActive) {
 			int iLen = GetWindowTextLength(m_message.GetHwnd());
 			if (iLen != 0) {
-				SendMessage(m_hwnd, DM_ACTIVATETOOLTIP, IDC_SRMM_MESSAGE, (LPARAM)TranslateT("You cannot edit user notes when there are unsent messages"));
+				ActivateTooltip(IDC_SRMM_MESSAGE, TranslateT("You cannot edit user notes when there are unsent messages"));
 				m_bEditNotesActive = false;
 				break;
 			}
@@ -971,7 +971,7 @@ void CMsgDialog::DM_OptionsApplied(WPARAM, LPARAM lParam)
 		if (IsIconic(m_pContainer->m_hwnd))
 			m_dwFlags |= MWF_DEFERREDREMAKELOG;
 		else
-			SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
+			RemakeLog();
 	}
 
 	ShowWindow(m_hwndPanelPicParent, SW_SHOW);
@@ -1195,7 +1195,7 @@ void CMsgDialog::DM_EventAdded(WPARAM hContact, LPARAM lParam)
 			RedrawWindow(GetDlgItem(m_hwnd, IDC_LOGFROZENTEXT), nullptr, nullptr, RDW_INVALIDATE);
 		}
 	}
-	else SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
+	else RemakeLog();
 
 	// handle tab flashing
 	if (!bDisableNotify && !bIsStatusChangeEvent)

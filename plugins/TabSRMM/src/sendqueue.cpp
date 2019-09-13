@@ -214,9 +214,9 @@ int SendQueue::sendQueued(CMsgDialog *dat, const int iEntry)
 		}
 
 		if (iSendLength >= iMinLength) {
-			wchar_t	tszError[256];
+			wchar_t tszError[256];
 			mir_snwprintf(tszError, TranslateT("The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes"), iMinLength);
-			::SendMessage(dat->GetHwnd(), DM_ACTIVATETOOLTIP, IDC_SRMM_MESSAGE, LPARAM(tszError));
+			dat->ActivateTooltip(IDC_SRMM_MESSAGE, tszError);
 			sendQueue->clearJob(iEntry);
 			return 0;
 		}
@@ -271,7 +271,7 @@ int SendQueue::sendQueued(CMsgDialog *dat, const int iEntry)
 			size_t iSendLength = getSendLength(iEntry);
 			if ((int)iSendLength >= dat->m_nMax) {
 				mir_snwprintf(tszError, TranslateT("The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes"), dat->m_nMax);
-				SendMessage(dat->GetHwnd(), DM_ACTIVATETOOLTIP, IDC_SRMM_MESSAGE, LPARAM(tszError));
+				dat->ActivateTooltip(IDC_SRMM_MESSAGE, tszError);
 				clearJob(iEntry);
 				return 0;
 			}
@@ -559,7 +559,7 @@ int SendQueue::doSendLater(int iJobIndex, CMsgDialog *dat, MCONTACT hContact, bo
 		dbei.pBlob = (PBYTE)(char*)utfText;
 		dat->StreamInEvents(0, 1, 1, &dbei);
 		if (dat->m_hDbEventFirst == 0)
-			SendMessage(dat->GetHwnd(), DM_REMAKELOG, 0, 0);
+			dat->RemakeLog();
 		dat->m_cache->saveHistory();
 		dat->EnableSendButton(false);
 		if (dat->m_pContainer->m_hwndActive == dat->GetHwnd())

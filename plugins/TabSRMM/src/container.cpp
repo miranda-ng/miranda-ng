@@ -51,10 +51,116 @@ HWND TSAPI GetTabWindow(HWND hwndTab, int i)
 	return (TabCtrl_GetItem(hwndTab, i, &tci)) ? (HWND)tci.lParam: nullptr;
 }
 
+void TContainerData::CloseTabByMouse(POINT *pt)
+{
+	HWND hwndTab = GetDlgItem(m_hwnd, IDC_MSGTABS);
+	if (HWND hDlg = GetTabWindow(hwndTab, GetTabItemFromMouse(hwndTab, pt))) {
+		if (hDlg != m_hwndActive) {
+			m_bDontSmartClose = true;
+			SendMessage(hDlg, WM_CLOSE, 0, 1);
+			RedrawWindow(m_hwnd, nullptr, nullptr, RDW_INVALIDATE);
+			m_bDontSmartClose = false;
+		}
+		else SendMessage(hDlg, WM_CLOSE, 0, 1);
+	}
+}
+
 void TContainerData::InitRedraw()
 {
 	::KillTimer(m_hwnd, (UINT_PTR)this);
 	::SetTimer(m_hwnd, (UINT_PTR)this, 100, nullptr);
+}
+
+// search tab with either next or most recent unread message and select it
+void TContainerData::QueryPending(int iCommand)
+{
+	RECENTINFO ri;
+
+	SendMessage(m_hwnd, DM_QUERYRECENT, 0, (LPARAM)&ri);
+
+	NMHDR nmhdr;
+	nmhdr.code = TCN_SELCHANGE;
+
+	HWND hwndTab = GetDlgItem(m_hwnd, IDC_MSGTABS);
+	if (iCommand == DM_QUERY_NEXT && ri.iFirstIndex != -1) {
+		TabCtrl_SetCurSel(hwndTab, ri.iFirstIndex);
+		SendMessage(m_hwnd, WM_NOTIFY, 0, (LPARAM)&nmhdr);
+	}
+	if (iCommand == DM_QUERY_MOSTRECENT && ri.iMostRecent != -1) {
+		TabCtrl_SetCurSel(hwndTab, ri.iMostRecent);
+		SendMessage(m_hwnd, WM_NOTIFY, 0, (LPARAM)&nmhdr);
+	}
+}
+
+// retrieve the container window geometry information from the database.
+void TContainerData::RestoreWindowPos()
+{
+	if (m_isCloned && m_hContactFrom != 0 && !(m_dwFlags & CNT_GLOBALSIZE)) {
+		if (Utils_RestoreWindowPosition(m_hwnd, m_hContactFrom, SRMSGMOD_T, "split")) {
+			if (Utils_RestoreWindowPositionNoMove(m_hwnd, m_hContactFrom, SRMSGMOD_T, "split"))
+				if (Utils_RestoreWindowPosition(m_hwnd, 0, SRMSGMOD_T, "split"))
+					if (Utils_RestoreWindowPositionNoMove(m_hwnd, 0, SRMSGMOD_T, "split"))
+						SetWindowPos(m_hwnd, nullptr, 50, 50, 450, 300, SWP_NOZORDER | SWP_NOACTIVATE);
+		}
+	}
+	else {
+		if (m_dwFlags & CNT_GLOBALSIZE) {
+			if (Utils_RestoreWindowPosition(m_hwnd, 0, SRMSGMOD_T, "split"))
+				if (Utils_RestoreWindowPositionNoMove(m_hwnd, 0, SRMSGMOD_T, "split"))
+					SetWindowPos(m_hwnd, nullptr, 50, 50, 450, 300, SWP_NOZORDER | SWP_NOACTIVATE);
+		}
+		else {
+			char szCName[CONTAINER_NAMELEN + 20];
+			mir_snprintf(szCName, "%s%d", CONTAINER_PREFIX, m_iContainerIndex);
+			if (Utils_RestoreWindowPosition(m_hwnd, 0, SRMSGMOD_T, szCName)) {
+				if (Utils_RestoreWindowPositionNoMove(m_hwnd, 0, SRMSGMOD_T, szCName))
+					if (Utils_RestoreWindowPosition(m_hwnd, 0, SRMSGMOD_T, "split"))
+						if (Utils_RestoreWindowPositionNoMove(m_hwnd, 0, SRMSGMOD_T, "split"))
+							SetWindowPos(m_hwnd, nullptr, 50, 50, 450, 300, SWP_NOZORDER | SWP_NOACTIVATE);
+			}
+		}
+	}
+}
+
+void TContainerData::SelectTab(int iCommand, int idx)
+{
+	HWND hwndTab = GetDlgItem(m_hwnd, IDC_MSGTABS);
+
+	switch (iCommand) {
+	case DM_SELECT_BY_HWND:
+		ActivateTabFromHWND(hwndTab, (HWND)idx);
+		break;
+
+	case DM_SELECT_NEXT:
+	case DM_SELECT_PREV:
+	case DM_SELECT_BY_INDEX:
+		int iItems = TabCtrl_GetItemCount(hwndTab);
+		if (iItems == 1)
+			break;
+
+		int iCurrent = TabCtrl_GetCurSel(hwndTab), iNewTab;
+
+		if (iCommand == DM_SELECT_PREV)
+			iNewTab = iCurrent ? iCurrent - 1 : iItems - 1;     // cycle if current is already the leftmost tab..
+		else if (iCommand == DM_SELECT_NEXT)
+			iNewTab = (iCurrent == (iItems - 1)) ? 0 : iCurrent + 1;
+		else {
+			if (idx > iItems)
+				break;
+			iNewTab = idx - 1;
+		}
+
+		if (iNewTab != iCurrent) {
+			if (HWND hDlg = GetTabWindow(hwndTab, iNewTab)) {
+				TabCtrl_SetCurSel(hwndTab, iNewTab);
+				ShowWindow(m_hwndActive, SW_HIDE);
+				m_hwndActive = hDlg;
+				ShowWindow(hDlg, SW_SHOW);
+				SetFocus(m_hwndActive);
+			}
+		}
+		break;
+	}
 }
 
 void TContainerData::SetIcon(CMsgDialog *pDlg, HICON hIcon)
@@ -673,21 +779,21 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			else pContainer->m_hwndTip = nullptr;
 
 			if (pContainer->m_dwFlags & CNT_CREATE_MINIMIZED) {
-				WINDOWPLACEMENT wp = { 0 };
-				wp.length = sizeof(wp);
-
 				SetWindowLongPtr(hwndDlg, GWL_STYLE, GetWindowLongPtr(hwndDlg, GWL_STYLE) & ~WS_VISIBLE);
 				ShowWindow(hwndDlg, SW_SHOWMINNOACTIVE);
-				SendMessage(hwndDlg, DM_RESTOREWINDOWPOS, 0, 0);
+				pContainer->RestoreWindowPos();
 				//GetClientRect(hwndDlg, &pContainer->m_rcSaved);
 				ShowWindow(hwndDlg, SW_SHOWMINNOACTIVE);
+
+				WINDOWPLACEMENT wp = {};
+				wp.length = sizeof(wp);
 				GetWindowPlacement(hwndDlg, &wp);
 				pContainer->m_rcSaved.left = pContainer->m_rcSaved.top = 0;
 				pContainer->m_rcSaved.right = wp.rcNormalPosition.right - wp.rcNormalPosition.left;
 				pContainer->m_rcSaved.bottom = wp.rcNormalPosition.bottom - wp.rcNormalPosition.top;
 			}
 			else {
-				SendMessage(hwndDlg, DM_RESTOREWINDOWPOS, 0, 0);
+				pContainer->RestoreWindowPos();
 				ShowWindow(hwndDlg, SW_SHOWNORMAL);
 			}
 		}
@@ -698,35 +804,6 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			CMimAPI::m_pfnDwmExtendFrameIntoClientArea(hwndDlg, &m);
 		}
 		return TRUE;
-
-	case DM_RESTOREWINDOWPOS:
-		// retrieve the container window geometry information from the database.
-		if (pContainer->m_isCloned && pContainer->m_hContactFrom != 0 && !(pContainer->m_dwFlags & CNT_GLOBALSIZE)) {
-			if (Utils_RestoreWindowPosition(hwndDlg, pContainer->m_hContactFrom, SRMSGMOD_T, "split")) {
-				if (Utils_RestoreWindowPositionNoMove(hwndDlg, pContainer->m_hContactFrom, SRMSGMOD_T, "split"))
-					if (Utils_RestoreWindowPosition(hwndDlg, 0, SRMSGMOD_T, "split"))
-						if (Utils_RestoreWindowPositionNoMove(hwndDlg, 0, SRMSGMOD_T, "split"))
-							SetWindowPos(hwndDlg, nullptr, 50, 50, 450, 300, SWP_NOZORDER | SWP_NOACTIVATE);
-			}
-		}
-		else {
-			if (pContainer->m_dwFlags & CNT_GLOBALSIZE) {
-				if (Utils_RestoreWindowPosition(hwndDlg, 0, SRMSGMOD_T, "split"))
-					if (Utils_RestoreWindowPositionNoMove(hwndDlg, 0, SRMSGMOD_T, "split"))
-						SetWindowPos(hwndDlg, nullptr, 50, 50, 450, 300, SWP_NOZORDER | SWP_NOACTIVATE);
-			}
-			else {
-				char szCName[CONTAINER_NAMELEN + 20];
-				mir_snprintf(szCName, "%s%d", CONTAINER_PREFIX, pContainer->m_iContainerIndex);
-				if (Utils_RestoreWindowPosition(hwndDlg, 0, SRMSGMOD_T, szCName)) {
-					if (Utils_RestoreWindowPositionNoMove(hwndDlg, 0, SRMSGMOD_T, szCName))
-						if (Utils_RestoreWindowPosition(hwndDlg, 0, SRMSGMOD_T, "split"))
-							if (Utils_RestoreWindowPositionNoMove(hwndDlg, 0, SRMSGMOD_T, "split"))
-								SetWindowPos(hwndDlg, nullptr, 50, 50, 450, 300, SWP_NOZORDER | SWP_NOACTIVATE);
-				}
-			}
-		}
-		return 0;
 
 	case WM_SIZE:
 		if (IsIconic(hwndDlg))
@@ -933,7 +1010,7 @@ panel_found:
 				if (fFromSidebar && dat)
 					SendMessage(dat->GetHwnd(), WM_CLOSE, 1, 0);
 				else
-					SendMessage(hwndDlg, DM_CLOSETABATMOUSE, 0, (LPARAM)&pt);
+					pContainer->CloseTabByMouse(&pt);
 				break;
 			case ID_TABMENU_CLOSEOTHERTABS:
 				if (dat)
@@ -1309,44 +1386,6 @@ panel_found:
 		}
 		break;
 
-	case DM_SELECTTAB:
-		switch (wParam) {
-		case DM_SELECT_BY_HWND:
-			ActivateTabFromHWND(hwndTab, (HWND)lParam);
-			break;
-
-		case DM_SELECT_NEXT:
-		case DM_SELECT_PREV:
-		case DM_SELECT_BY_INDEX:
-			int iItems = TabCtrl_GetItemCount(hwndTab);
-			if (iItems == 1)
-				break;
-
-			int iCurrent = TabCtrl_GetCurSel(hwndTab), iNewTab;
-
-			if (wParam == DM_SELECT_PREV)
-				iNewTab = iCurrent ? iCurrent - 1 : iItems - 1;     // cycle if current is already the leftmost tab..
-			else if (wParam == DM_SELECT_NEXT)
-				iNewTab = (iCurrent == (iItems - 1)) ? 0 : iCurrent + 1;
-			else {
-				if ((int)lParam > iItems)
-					break;
-				iNewTab = lParam - 1;
-			}
-
-			if (iNewTab != iCurrent) {
-				if (HWND hDlg = GetTabWindow(hwndTab, iNewTab)) {
-					TabCtrl_SetCurSel(hwndTab, iNewTab);
-					ShowWindow(pContainer->m_hwndActive, SW_HIDE);
-					pContainer->m_hwndActive = hDlg;
-					ShowWindow(hDlg, SW_SHOW);
-					SetFocus(pContainer->m_hwndActive);
-				}
-			}
-			break;
-		}
-		break;
-
 	case WM_INITMENUPOPUP:
 		pContainer->m_pMenuBar->setActive(reinterpret_cast<HMENU>(wParam));
 		break;
@@ -1443,18 +1482,6 @@ panel_found:
 		GetCursorPos(&pt);
 		ScreenToClient(hwndTab, &pt);
 		SendMessage(hwndTab, WM_MOUSEMOVE, wParam, (LPARAM)&pt);
-		break;
-
-	case DM_CLOSETABATMOUSE:
-		if (HWND hDlg = GetTabWindow(hwndTab, GetTabItemFromMouse(hwndTab, (POINT*)lParam))) {
-			if (hDlg != pContainer->m_hwndActive) {
-				pContainer->m_bDontSmartClose = TRUE;
-				SendMessage(hDlg, WM_CLOSE, 0, 1);
-				RedrawWindow(hwndDlg, nullptr, nullptr, RDW_INVALIDATE);
-				pContainer->m_bDontSmartClose = FALSE;
-			}
-			else SendMessage(hDlg, WM_CLOSE, 0, 1);
-		}
 		break;
 
 	case WM_PAINT:
@@ -1666,26 +1693,6 @@ panel_found:
 						ri->hwndFirst = hDlg;
 					}
 				}
-			}
-		}
-		return 0;
-
-		// search tab with either next or most recent unread message and select it
-	case DM_QUERYPENDING:
-		RECENTINFO ri;
-		{
-			SendMessage(hwndDlg, DM_QUERYRECENT, 0, (LPARAM)&ri);
-
-			NMHDR nmhdr;
-			nmhdr.code = TCN_SELCHANGE;
-
-			if (wParam == DM_QUERY_NEXT && ri.iFirstIndex != -1) {
-				TabCtrl_SetCurSel(hwndTab, ri.iFirstIndex);
-				SendMessage(hwndDlg, WM_NOTIFY, 0, (LPARAM)&nmhdr);
-			}
-			if (wParam == DM_QUERY_MOSTRECENT && ri.iMostRecent != -1) {
-				TabCtrl_SetCurSel(hwndTab, ri.iMostRecent);
-				SendMessage(hwndDlg, WM_NOTIFY, 0, (LPARAM)&nmhdr);
 			}
 		}
 		return 0;

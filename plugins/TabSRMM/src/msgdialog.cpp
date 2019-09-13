@@ -221,7 +221,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	case WM_MOUSEMOVE:
 		if (GetCapture() == hwnd) {
 			GetClientRect(hwnd, &rc);
-			SendMessage(hwndParent, DM_SPLITTERMOVED, rc.right > rc.bottom ? (short)HIWORD(GetMessagePos()) + rc.bottom / 2 : (short)LOWORD(GetMessagePos()) + rc.right / 2, (LPARAM)hwnd);
+			dat->SplitterMoved(rc.right > rc.bottom ? (short)HIWORD(GetMessagePos()) + rc.bottom / 2 : (short)LOWORD(GetMessagePos()) + rc.right / 2, hwnd);
 		}
 		return 0;
 
@@ -822,7 +822,7 @@ void CMsgDialog::OnDestroy()
 void CMsgDialog::onClick_Ok(CCtrlButton *)
 {
 	if (m_bEditNotesActive) {
-		SendMessage(m_hwnd, DM_ACTIVATETOOLTIP, IDC_PIC, (LPARAM)TranslateT("You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode"));
+		ActivateTooltip(IDC_PIC, TranslateT("You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode"));
 		return;
 	}
 
@@ -1518,7 +1518,7 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 					db_unset(m_hContact, SRMSGMOD_T, "mwflags");
 				}
 				DM_OptionsApplied(0, 0);
-				SendMessage(m_hwnd, DM_DEFERREDREMAKELOG, (WPARAM)m_hwnd, 0);
+				RemakeLog();
 			}
 			return _dlgReturn(m_hwnd, 1);
 
@@ -1572,14 +1572,14 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 		}
 		if (isCtrl && isShift) {
 			if (wp == 0x9) {            // ctrl-shift tab
-				SendMessage(m_hwnd, DM_SELECTTAB, DM_SELECT_PREV, 0);
+				m_pContainer->SelectTab(DM_SELECT_PREV);
 				_clrMsgFilter(pFilter);
 				return _dlgReturn(m_hwnd, 1);
 			}
 		}
 		if (isCtrl && !isShift && !isAlt) {
 			if (wp == VK_TAB) {
-				SendMessage(m_hwnd, DM_SELECTTAB, DM_SELECT_NEXT, 0);
+				m_pContainer->SelectTab(DM_SELECT_NEXT);
 				_clrMsgFilter(pFilter);
 				return _dlgReturn(m_hwnd, 1);
 			}
@@ -1588,18 +1588,18 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 				return _dlgReturn(m_hwnd, 1);
 			}
 			if (wp == VK_PRIOR) {
-				SendMessage(m_hwnd, DM_SELECTTAB, DM_SELECT_PREV, 0);
+				m_pContainer->SelectTab(DM_SELECT_PREV);
 				return _dlgReturn(m_hwnd, 1);
 			}
 			if (wp == VK_NEXT) {
-				SendMessage(m_hwnd, DM_SELECTTAB, DM_SELECT_NEXT, 0);
+				m_pContainer->SelectTab(DM_SELECT_NEXT);
 				return _dlgReturn(m_hwnd, 1);
 			}
 		}
 	}
 	if (msg == WM_SYSKEYDOWN && isAlt) {
 		if (wp == 0x52) {
-			SendMessage(m_hwnd, DM_QUERYPENDING, DM_QUERY_MOSTRECENT, 0);
+			m_pContainer->QueryPending(DM_QUERY_MOSTRECENT);
 			return _dlgReturn(m_hwnd, 1);
 		}
 		if (wp == VK_MULTIPLY) {
@@ -1611,11 +1611,11 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 			return _dlgReturn(m_hwnd, 1);
 		}
 		if (wp == VK_ADD) {
-			SendMessage(m_pContainer->m_hwnd, DM_SELECTTAB, DM_SELECT_NEXT, 0);
+			m_pContainer->SelectTab(DM_SELECT_NEXT);
 			return _dlgReturn(m_hwnd, 1);
 		}
 		if (wp == VK_SUBTRACT) {
-			SendMessage(m_pContainer->m_hwnd, DM_SELECTTAB, DM_SELECT_PREV, 0);
+			m_pContainer->SelectTab(DM_SELECT_PREV);
 			return _dlgReturn(m_hwnd, 1);
 		}
 	}
@@ -2125,7 +2125,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 						mir_snwprintf(szBuffer, TranslateT("WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters"), m_nMax - 10);
 					else
 						mir_snwprintf(szBuffer, TranslateT("The message you are trying to paste exceeds the message size limit for the active protocol. Only the first %d characters will be sent."), m_nMax);
-					SendMessage(m_hwnd, DM_ACTIVATETOOLTIP, IDC_SRMM_MESSAGE, (LPARAM)szBuffer);
+					ActivateTooltip(IDC_SRMM_MESSAGE, szBuffer);
 				}
 			}
 			else if (hClip = GetClipboardData(CF_BITMAP))
@@ -2256,13 +2256,13 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		KbdState(isShift, isCtrl, isAlt);
 		if ((wParam >= '0' && wParam <= '9') && isAlt) {      // ALT-1 -> ALT-0 direct tab selection
 			BYTE bChar = (BYTE)wParam;
-			int iIndex;
 
+			int iIndex;
 			if (bChar == '0')
 				iIndex = 10;
 			else
 				iIndex = bChar - (BYTE)'0';
-			SendMessage(m_pContainer->m_hwnd, DM_SELECTTAB, DM_SELECT_BY_INDEX, (LPARAM)iIndex);
+			m_pContainer->SelectTab(DM_SELECT_BY_INDEX, iIndex);
 			return 0;
 		}
 		break;
@@ -2914,120 +2914,16 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		return 0;
 
-	case DM_SPLITTERMOVED:
-		if ((HWND)lParam == GetDlgItem(m_hwnd, IDC_MULTISPLITTER)) {
-			GetClientRect(m_hwnd, &rc);
-			pt.x = wParam;
-			pt.y = 0;
-			ScreenToClient(m_hwnd, &pt);
-			int oldSplitterX = m_iMultiSplit;
-			m_iMultiSplit = rc.right - pt.x;
-			if (m_iMultiSplit < 25)
-				m_iMultiSplit = 25;
-
-			if (m_iMultiSplit > ((rc.right - rc.left) - 80))
-				m_iMultiSplit = oldSplitterX;
-			Resize();
-		}
-		else if ((HWND)lParam == GetDlgItem(m_hwnd, IDC_SPLITTERX)) {
-			GetClientRect(m_hwnd, &rc);
-			pt.x = wParam, pt.y = 0;
-			ScreenToClient(m_hwnd, &pt);
-
-			int iSplitterX = rc.right - pt.x + 1;
-			if (iSplitterX < 35)
-				iSplitterX = 35;
-			if (iSplitterX > rc.right - rc.left - 35)
-				iSplitterX = rc.right - rc.left - 35;
-			m_pContainer->m_pSettings->iSplitterX = iSplitterX;
-			Resize();
-		}
-		else if ((HWND)lParam == GetDlgItem(m_hwnd, IDC_SPLITTERY) || lParam == -1) {
-			GetClientRect(m_hwnd, &rc);
-			rc.top += (m_pPanel.isActive() ? m_pPanel.getHeight() + 40 : 30);
-			pt.x = 0;
-			pt.y = wParam;
-			ScreenToClient(m_hwnd, &pt);
-
-			int oldSplitterY = m_iSplitterY;
-			int oldDynaSplitter = m_dynaSplitter;
-
-			m_iSplitterY = rc.bottom - pt.y + DPISCALEY_S(23);
-
-			// attempt to fix splitter troubles..
-			// hardcoded limits... better solution is possible, but this works for now
-			int bottomtoolbarH = 0;
-			if (m_pContainer->m_dwFlags & CNT_BOTTOMTOOLBAR)
-				bottomtoolbarH = 22;
-
-			if (m_iSplitterY < (DPISCALEY_S(MINSPLITTERY) + 5 + bottomtoolbarH)) {	// min splitter size
-				m_iSplitterY = (DPISCALEY_S(MINSPLITTERY) + 5 + bottomtoolbarH);
-				m_dynaSplitter = m_iSplitterY - DPISCALEY_S(34);
-				DM_RecalcPictureSize();
-			}
-			else if (m_iSplitterY >(rc.bottom - rc.top)) {
-				m_iSplitterY = oldSplitterY;
-				m_dynaSplitter = oldDynaSplitter;
-				DM_RecalcPictureSize();
-			}
-			else {
-				m_dynaSplitter = (rc.bottom - pt.y) - DPISCALEY_S(11);
-				DM_RecalcPictureSize();
-			}
-			UpdateToolbarBG();
-			Resize();
-		}
-		else if ((HWND)lParam == GetDlgItem(m_hwnd, IDC_PANELSPLITTER)) {
-			GetClientRect(m_log.GetHwnd(), &rc);
-
-			POINT	pnt = { 0, (int)wParam };
-			ScreenToClient(m_hwnd, &pnt);
-			if ((pnt.y + 2 >= MIN_PANELHEIGHT + 2) && (pnt.y + 2 < 100) && (pnt.y + 2 < rc.bottom - 30))
-				m_pPanel.setHeight(pnt.y + 2, true);
-
-			RedrawWindow(m_hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ERASE);
-			if (M.isAero())
-				InvalidateRect(GetParent(m_hwnd), nullptr, FALSE);
-		}
-		break;
-
-	case DM_DEFERREDREMAKELOG:
-		// queue a dm_remakelog
-		// wParam = hwnd of the sender, so we can directly do a DM_REMAKELOG if the msg came
-		// from ourself. otherwise, the dm_remakelog will be deferred until next window
-		// activation (focus)
-		if ((HWND)wParam == m_hwnd)
-			SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
-		else {
-			if (M.GetByte(m_hContact, "mwoverride", 0) == 0) {
-				m_dwFlags &= ~(MWF_LOG_ALL);
-				m_dwFlags |= (lParam & MWF_LOG_ALL);
-				m_dwFlags |= MWF_DEFERREDREMAKELOG;
-			}
-		}
-		return 0;
-
 	case DM_FORCEDREMAKELOG:
-		if ((HWND)wParam == m_hwnd)
-			SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
-		else {
-			m_dwFlags &= ~(MWF_LOG_ALL);
-			m_dwFlags |= (lParam & MWF_LOG_ALL);
-			m_dwFlags |= MWF_DEFERREDREMAKELOG;
-		}
-		return 0;
-
-	case DM_REMAKELOG:
-		m_szMicroLf[0] = 0;
-		m_lastEventTime = 0;
-		m_iLastEventType = -1;
-		StreamInEvents(m_hDbEventFirst, -1, 0, nullptr);
+		m_dwFlags &= ~(MWF_LOG_ALL);
+		m_dwFlags |= (lParam & MWF_LOG_ALL);
+		m_dwFlags |= MWF_DEFERREDREMAKELOG;
 		return 0;
 
 	case DM_APPENDMCEVENT:
 		if (m_hContact == db_mc_getMeta(wParam) && m_hDbEventFirst == 0) {
 			m_hDbEventFirst = lParam;
-			SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
+			RemakeLog();
 		}
 		else if (m_hContact == wParam && db_mc_isSub(wParam) && db_event_getContact(lParam) != wParam)
 			StreamInEvents(lParam, 1, 1, nullptr);
@@ -3062,7 +2958,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			GetCursorPos(&pt);
 
 			if (wParam == TIMERID_AWAYMSG && m_pPanel.hitTest(pt) != CInfoPanel::HTNIRVANA)
-				SendMessage(m_hwnd, DM_ACTIVATETOOLTIP, 0, 0);
+				ActivateTooltip(0, 0);
 			else
 				m_dwFlagsEx &= ~MWF_SHOW_AWAYMSGTIMER;
 			break;
@@ -3096,14 +2992,10 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
-	case DM_SELECTTAB:
-		SendMessage(m_pContainer->m_hwnd, DM_SELECTTAB, wParam, lParam);       // pass the msg to our container
-		return 0;
-
+	case DM_QUERYLASTUNREAD:
 		// return timestamp (in ticks) of last recent message which has not been read yet.
 		// 0 if there is none
 		// lParam = pointer to a dword receiving the value.
-	case DM_QUERYLASTUNREAD:
 		{
 			DWORD *pdw = (DWORD *)lParam;
 			if (pdw)
@@ -3143,10 +3035,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (lParam == 0)
 				DM_ScrollToBottom(0, 1);
 		}
-		return 0;
-
-	case DM_QUERYPENDING: // sent by the message input area hotkeys. just pass it to our container
-		SendMessage(m_pContainer->m_hwnd, DM_QUERYPENDING, wParam, lParam);
 		return 0;
 
 	case WM_LBUTTONDOWN:
@@ -3343,7 +3231,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		{
 			DWORD cmd = GET_APPCOMMAND_LPARAM(lParam);
 			if (cmd == APPCOMMAND_BROWSER_BACKWARD || cmd == APPCOMMAND_BROWSER_FORWARD) {
-				SendMessage(m_pContainer->m_hwnd, DM_SELECTTAB, cmd == APPCOMMAND_BROWSER_BACKWARD ? DM_SELECT_PREV : DM_SELECT_NEXT, 0);
+				m_pContainer->SelectTab(cmd == APPCOMMAND_BROWSER_BACKWARD ? DM_SELECT_PREV : DM_SELECT_NEXT);
 				return 1;
 			}
 		}
@@ -3375,10 +3263,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		sendQueue->ackMessage(this, wParam, lParam);
 		return 0;
 
-	case DM_UINTOCLIPBOARD:
-		Utils::CopyToClipBoard(m_cache->getUIN(), m_hwnd);
-		return 0;
-
 	case WM_NEXTDLGCTL:
 		if (m_dwFlags & MWF_WASBACKGROUNDCREATE)
 			return 1;
@@ -3386,14 +3270,14 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case DM_IEVIEWOPTIONSCHANGED:
 		if (m_hwndIEView)
-			SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
+			RemakeLog();
 		break;
 
 	case DM_SMILEYOPTIONSCHANGED:
 		if (isChat())
 			RedrawLog();
 		else
-			SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
+			RemakeLog();
 		break;
 
 	case DM_MYAVATARCHANGED:
@@ -3452,7 +3336,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				if (m_wStatus == ID_STATUS_OFFLINE) {
 					pcaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 					if (!(pcaps & PF4_OFFLINEFILES)) {
-						SendMessage(m_hwnd, DM_ACTIVATETOOLTIP, IDC_SRMM_MESSAGE, (LPARAM)TranslateT("Contact is offline and this protocol does not support sending files to offline users."));
+						ActivateTooltip(IDC_SRMM_MESSAGE, TranslateT("Contact is offline and this protocol does not support sending files to offline users."));
 						break;
 					}
 				}
@@ -3628,14 +3512,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			SetForegroundWindow(pNewContainer->m_hwnd);
 			SetActiveWindow(pNewContainer->m_hwnd);
 		}
-		return 0;
-
-	case DM_ACTIVATETOOLTIP:
-		// show the balloon tooltip control.
-		// wParam == id of the "anchor" element, defaults to the panel status field (for away msg retrieval)
-		// lParam == new text to show
-		if (!IsIconic(m_pContainer->m_hwnd) && m_pContainer->m_hwndActive == m_hwnd)
-			m_pPanel.showTip(wParam, lParam);
 		return 0;
 
 	case DM_STATUSBARCHANGED:

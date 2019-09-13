@@ -31,6 +31,15 @@
 UINT_PTR CALLBACK OpenFileSubclass(HWND hwnd, UINT msg, WPARAM, LPARAM lParam);
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// show the balloon tooltip control.
+
+void CMsgDialog::ActivateTooltip(int iCtrlId, const wchar_t *pwszMessage)
+{
+	if (!IsIconic(m_pContainer->m_hwnd) && m_pContainer->m_hwndActive == m_hwnd)
+		m_pPanel.showTip(iCtrlId, pwszMessage);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CMsgDialog::AddLog()
 {
@@ -744,7 +753,7 @@ void CMsgDialog::HandlePasteAndSend()
 {
 	// is feature disabled?
 	if (!PluginConfig.m_PasteAndSend) {
-		SendMessage(m_hwnd, DM_ACTIVATETOOLTIP, IDC_SRMM_MESSAGE, (LPARAM)TranslateT("The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section"));
+		ActivateTooltip(IDC_SRMM_MESSAGE, TranslateT("The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section"));
 		return;
 	}
 
@@ -1119,7 +1128,7 @@ void CMsgDialog::MsgWindowUpdateState(UINT msg)
 	m_pContainer->m_dwFlags &= ~CNT_NEED_UPDATETITLE;
 
 	if ((m_dwFlags & MWF_DEFERREDREMAKELOG) && !IsIconic(m_pContainer->m_hwnd)) {
-		SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
+		RemakeLog();
 		m_dwFlags &= ~MWF_DEFERREDREMAKELOG;
 	}
 
@@ -1324,6 +1333,14 @@ void CMsgDialog::PlayIncomingSound() const
 		else
 			Skin_PlaySound("RecvMsgInactive");
 	}
+}
+
+void CMsgDialog::RemakeLog()
+{
+	m_szMicroLf[0] = 0;
+	m_lastEventTime = 0;
+	m_iLastEventType = -1;
+	StreamInEvents(m_hDbEventFirst, -1, 0, nullptr);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1704,7 +1721,7 @@ void CMsgDialog::ShowPicture(bool showNewPic)
 	RECT rc;
 	GetWindowRect(GetDlgItem(m_hwnd, IDC_CONTACTPIC), &rc);
 	if (m_minEditBoxSize.cy + DPISCALEY_S(3) > m_iSplitterY)
-		SendMessage(m_hwnd, DM_SPLITTERMOVED, (WPARAM)rc.bottom - m_minEditBoxSize.cy, (LPARAM)GetDlgItem(m_hwnd, IDC_SPLITTERY));
+		SplitterMoved(rc.bottom - m_minEditBoxSize.cy, GetDlgItem(m_hwnd, IDC_SPLITTERY));
 	if (!showNewPic)
 		SetDialogToType();
 	else
@@ -1805,6 +1822,96 @@ void CMsgDialog::ShowPopupMenu(const CCtrlBase &pCtrl, POINT pt)
 	if (pCtrl.GetCtrlId() == IDC_SRMM_LOG)
 		RemoveMenu(hSubMenu, 7, MF_BYPOSITION);
 	DestroyMenu(hMenu);
+}
+
+void CMsgDialog::SplitterMoved(int coord, HWND hwnd)
+{
+	POINT pt;
+	RECT rc;
+
+	switch (GetDlgCtrlID(hwnd)) {
+	case IDC_MULTISPLITTER:
+		GetClientRect(m_hwnd, &rc);
+		pt.x = coord;
+		pt.y = 0;
+		ScreenToClient(m_hwnd, &pt);
+		{
+			int oldSplitterX = m_iMultiSplit;
+			m_iMultiSplit = rc.right - pt.x;
+			if (m_iMultiSplit < 25)
+				m_iMultiSplit = 25;
+
+			if (m_iMultiSplit > ((rc.right - rc.left) - 80))
+				m_iMultiSplit = oldSplitterX;
+		}
+		Resize();
+		break;
+
+	case IDC_SPLITTERX:
+		GetClientRect(m_hwnd, &rc);
+		pt.x = coord, pt.y = 0;
+		ScreenToClient(m_hwnd, &pt);
+		{
+			int iSplitterX = rc.right - pt.x + 1;
+			if (iSplitterX < 35)
+				iSplitterX = 35;
+			if (iSplitterX > rc.right - rc.left - 35)
+				iSplitterX = rc.right - rc.left - 35;
+			m_pContainer->m_pSettings->iSplitterX = iSplitterX;
+		}
+		Resize();
+		break;
+
+	case IDC_SPLITTERY:
+		GetClientRect(m_hwnd, &rc);
+		rc.top += (m_pPanel.isActive() ? m_pPanel.getHeight() + 40 : 30);
+		pt.x = 0;
+		pt.y = coord;
+		ScreenToClient(m_hwnd, &pt);
+		{
+			int oldSplitterY = m_iSplitterY;
+			int oldDynaSplitter = m_dynaSplitter;
+
+			m_iSplitterY = rc.bottom - pt.y + DPISCALEY_S(23);
+
+			// attempt to fix splitter troubles..
+			// hardcoded limits... better solution is possible, but this works for now
+			int bottomtoolbarH = 0;
+			if (m_pContainer->m_dwFlags & CNT_BOTTOMTOOLBAR)
+				bottomtoolbarH = 22;
+
+			if (m_iSplitterY < (DPISCALEY_S(MINSPLITTERY) + 5 + bottomtoolbarH)) {	// min splitter size
+				m_iSplitterY = (DPISCALEY_S(MINSPLITTERY) + 5 + bottomtoolbarH);
+				m_dynaSplitter = m_iSplitterY - DPISCALEY_S(34);
+				DM_RecalcPictureSize();
+			}
+			else if (m_iSplitterY > (rc.bottom - rc.top)) {
+				m_iSplitterY = oldSplitterY;
+				m_dynaSplitter = oldDynaSplitter;
+				DM_RecalcPictureSize();
+			}
+			else {
+				m_dynaSplitter = (rc.bottom - pt.y) - DPISCALEY_S(11);
+				DM_RecalcPictureSize();
+			}
+		}
+		UpdateToolbarBG();
+		Resize();
+		break;
+
+	case IDC_PANELSPLITTER:
+		GetClientRect(m_log.GetHwnd(), &rc);
+
+		POINT	pnt = { 0, coord };
+		ScreenToClient(m_hwnd, &pnt);
+		if ((pnt.y + 2 >= MIN_PANELHEIGHT + 2) && (pnt.y + 2 < 100) && (pnt.y + 2 < rc.bottom - 30))
+			m_pPanel.setHeight(pnt.y + 2, true);
+
+		RedrawWindow(m_hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ERASE);
+		if (M.isAero())
+			InvalidateRect(GetParent(m_hwnd), nullptr, FALSE);
+		break;
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
