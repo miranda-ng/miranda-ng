@@ -1398,15 +1398,19 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 		key += line;
 		key += '\n';
 		if (strstr(line, "-----END PGP PUBLIC KEY BLOCK-----")) {
-			std::string::size_type p1 = 0, p2 = 0;
-			p1 = key.find("Comment: login ");
+			std::string::size_type p1 = key.rfind("Comment: login "), p2 = 0;
+			if (p1 == std::string::npos)
+			{
+				key.clear();
+				continue; //TODO: warning about malformed file
+			}
 			p1 += mir_strlen("Comment: login ");
-			p2 = key.find(" contact_id ");
+			p2 = key.rfind(" contact_id ");
 			login = key.substr(p1, p2 - p1);
 			p2 += mir_strlen(" contact_id ");
 			p1 = key.find("\n", p2);
 			contact_id = key.substr(p2, p1 - p2);
-			p1 = key.find("Comment: login ");
+			p1 = key.rfind("Comment: login ");
 			p2 = key.find("\n", p1);
 			p2++;
 			key.erase(p1, p2 - p1);
@@ -1648,7 +1652,7 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 			}
 			key.clear();
 		}
-		if (strstr(line, "-----END PGP PRIVATE KEY BLOCK-----")) {
+		else if (strstr(line, "-----END PGP PRIVATE KEY BLOCK-----")) {
 			std::vector<wstring> cmd;
 			wchar_t tmp2[MAX_PATH] = { 0 };
 			wchar_t *ptmp;
