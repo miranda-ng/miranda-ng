@@ -51,6 +51,14 @@ HWND TSAPI GetTabWindow(HWND hwndTab, int i)
 	return (TabCtrl_GetItem(hwndTab, i, &tci)) ? (HWND)tci.lParam: nullptr;
 }
 
+TContainerData::~TContainerData()
+{
+	delete m_pMenuBar;
+	delete m_pSideBar;
+	if (m_pSettings != &PluginConfig.globalContainerSettings)
+		mir_free(m_pSettings);
+}
+
 void TContainerData::CloseTabByMouse(POINT *pt)
 {
 	HWND hwndTab = GetDlgItem(m_hwnd, IDC_MSGTABS);
@@ -69,6 +77,73 @@ void TContainerData::InitRedraw()
 {
 	::KillTimer(m_hwnd, (UINT_PTR)this);
 	::SetTimer(m_hwnd, (UINT_PTR)this, 100, nullptr);
+}
+
+void TContainerData::LoadOverrideTheme()
+{
+	memset(&m_theme, 0, sizeof(TLogTheme));
+	if (mir_wstrlen(m_szAbsThemeFile) > 1) {
+		if (PathFileExists(m_szAbsThemeFile)) {
+			if (CheckThemeVersion(m_szAbsThemeFile) == 0) {
+				LoadThemeDefaults();
+				return;
+			}
+			if (m_ltr_templates == nullptr) {
+				m_ltr_templates = (TTemplateSet *)mir_alloc(sizeof(TTemplateSet));
+				memcpy(m_ltr_templates, &LTR_Active, sizeof(TTemplateSet));
+			}
+			if (m_rtl_templates == nullptr) {
+				m_rtl_templates = (TTemplateSet *)mir_alloc(sizeof(TTemplateSet));
+				memcpy(m_rtl_templates, &RTL_Active, sizeof(TTemplateSet));
+			}
+
+			m_theme.logFonts = (LOGFONTA *)mir_alloc(sizeof(LOGFONTA) * (MSGDLGFONTCOUNT + 2));
+			m_theme.fontColors = (COLORREF *)mir_alloc(sizeof(COLORREF) * (MSGDLGFONTCOUNT + 2));
+			m_theme.rtfFonts = (char *)mir_alloc((MSGDLGFONTCOUNT + 2) * RTFCACHELINESIZE);
+
+			ReadThemeFromINI(m_szAbsThemeFile, this, 0, THEME_READ_ALL);
+			m_theme.left_indent *= 15;
+			m_theme.right_indent *= 15;
+			m_theme.isPrivate = true;
+			if (CSkin::m_skinEnabled)
+				m_theme.bg = SkinItems[ID_EXTBKCONTAINER].COLOR;
+			else
+				m_theme.bg = PluginConfig.m_fillColor ? PluginConfig.m_fillColor : GetSysColor(COLOR_WINDOW);
+			return;
+		}
+	}
+	LoadThemeDefaults();
+}
+
+void TContainerData::LoadThemeDefaults()
+{
+	memset(&m_theme, 0, sizeof(TLogTheme));
+	m_theme.bg = db_get_dw(0, FONTMODULE, SRMSGSET_BKGCOLOUR, GetSysColor(COLOR_WINDOW));
+	m_theme.statbg = PluginConfig.crStatus;
+	m_theme.oldinbg = PluginConfig.crOldIncoming;
+	m_theme.oldoutbg = PluginConfig.crOldOutgoing;
+	m_theme.inbg = PluginConfig.crIncoming;
+	m_theme.outbg = PluginConfig.crOutgoing;
+	m_theme.hgrid = db_get_dw(0, FONTMODULE, "hgrid", RGB(224, 224, 224));
+	m_theme.left_indent = M.GetDword("IndentAmount", 20) * 15;
+	m_theme.right_indent = M.GetDword("RightIndent", 20) * 15;
+	m_theme.inputbg = db_get_dw(0, FONTMODULE, "inputbg", SRMSGDEFSET_BKGCOLOUR);
+
+	for (int i = 1; i <= 5; i++) {
+		char szTemp[40];
+		mir_snprintf(szTemp, "cc%d", i);
+		COLORREF	colour = M.GetDword(szTemp, RGB(224, 224, 224));
+		if (colour == 0)
+			colour = RGB(1, 1, 1);
+		m_theme.custom_colors[i - 1] = colour;
+	}
+	m_theme.logFonts = logfonts;
+	m_theme.fontColors = fontcolors;
+	m_theme.rtfFonts = nullptr;
+	m_ltr_templates = &LTR_Active;
+	m_rtl_templates = &RTL_Active;
+	m_theme.dwFlags = (M.GetDword("mwflags", MWF_LOG_DEFAULT) & MWF_LOG_ALL);
+	m_theme.isPrivate = false;
 }
 
 // search tab with either next or most recent unread message and select it
@@ -703,7 +778,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			SendMessage(hwndDlg, DM_OPTIONSAPPLIED, 0, 0);          // set options...
 			pContainer->m_dwFlags |= dwCreateFlags;
 
-			LoadOverrideTheme(pContainer);
+			pContainer->LoadOverrideTheme();
 			DWORD ws = GetWindowLongPtr(hwndTab, GWL_STYLE);
 			if (pContainer->m_dwFlagsEx & TCF_FLAT)
 				ws |= TCS_BUTTONS;
@@ -1756,13 +1831,7 @@ panel_found:
 		return 0;
 
 	case WM_NCDESTROY:
-		if (pContainer) {
-			delete pContainer->m_pMenuBar;
-			delete pContainer->m_pSideBar;
-			if (pContainer->m_pSettings != &PluginConfig.globalContainerSettings)
-				mir_free(pContainer->m_pSettings);
-			mir_free(pContainer);
-		}
+		delete pContainer;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		break;
 
@@ -1879,9 +1948,7 @@ TContainerData* TSAPI CreateContainer(const wchar_t *name, int iTemp, MCONTACT h
 	if (CMimAPI::m_shutDown)
 		return nullptr;
 
-	TContainerData *pContainer = (TContainerData*)mir_calloc(sizeof(TContainerData));
-	if (pContainer == nullptr)
-		return nullptr;
+	TContainerData *pContainer = new TContainerData();
 	wcsncpy(pContainer->m_wszName, name, CONTAINER_NAMELEN + 1);
 	AppendToContainerList(pContainer);
 

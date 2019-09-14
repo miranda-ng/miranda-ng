@@ -37,6 +37,7 @@ HMODULE g_hMsftedit;
 
 static void UnloadIcons();
 
+void LoadDefaultTemplates();
 int OptInitialise(WPARAM wParam, LPARAM lParam);
 void Chat_AddIcons(HINSTANCE);
 

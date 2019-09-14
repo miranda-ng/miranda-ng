@@ -943,7 +943,7 @@ void CMsgDialog::DM_OptionsApplied(WPARAM, LPARAM lParam)
 {
 	m_szMicroLf[0] = 0;
 	if (!(m_pContainer->m_theme.isPrivate)) {
-		LoadThemeDefaults(m_pContainer);
+		m_pContainer->LoadThemeDefaults();
 		m_dwFlags = m_pContainer->m_theme.dwFlags;
 	}
 

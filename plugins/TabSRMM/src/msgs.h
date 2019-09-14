@@ -169,8 +169,11 @@ struct TContainerSettings
 
 struct ButtonItem;
 
-struct TContainerData
+struct TContainerData : public MZeroedObject
 {
+	TContainerData() {}
+	~TContainerData();
+
 	TContainerData *pNext;
 
 	wchar_t  m_wszName[CONTAINER_NAMELEN + 4];		// container name
@@ -198,7 +201,6 @@ struct TContainerData
 	HWND     m_hWndOptions;
 	BOOL     m_bSizingLoop;
 	wchar_t  m_szRelThemeFile[MAX_PATH], m_szAbsThemeFile[MAX_PATH];
-	TTemplateSet *m_ltr_templates, *m_rtl_templates;
 	HDC      m_cachedDC;
 	HBITMAP  m_cachedHBM, m_oldHBM;
 	SIZE     m_oldDCSize;
@@ -207,13 +209,12 @@ struct TContainerData
 	TitleBtn m_oldbuttons[3];
 	int      m_ncActive;
 	HWND     m_hwndSaved;
-	ButtonItem *m_buttonItems;
 	RECT     m_rcSaved, m_rcLogSaved;
 	POINT	   m_ptLogSaved;
 	DWORD    m_exFlags;
 	BOOL	   m_fPrivateThemeChanged;
 	MARGINS  m_mOld;
-	HDC		m_cachedToolbarDC;
+	HDC      m_cachedToolbarDC;
 	HBITMAP  m_hbmToolbarBG, m_oldhbmToolbarBG;
 	SIZE	   m_szOldToolbarSize;
 	SIZE     m_oldSize, m_preSIZE;
@@ -222,16 +223,20 @@ struct TContainerData
 	TLogTheme m_theme;
 	CMenuBar *m_pMenuBar;
 	CSideBar *m_pSideBar;
+	ButtonItem *m_buttonItems;
+	TTemplateSet *m_ltr_templates, *m_rtl_templates;
 	CTaskbarInteract *m_pTaskBar;
 	TContainerSettings *m_pSettings;
 
-	void InitRedraw();
+	void InitRedraw(void);
 	void CloseTabByMouse(POINT *);
+	void LoadOverrideTheme(void);
+	void LoadThemeDefaults(void);
 	void QueryPending(int iCommand);
-	void RestoreWindowPos();
+	void RestoreWindowPos(void);
 	void SelectTab(int iCommand, int idx = 0);
 	void SetIcon(CMsgDialog *pDlg, HICON hIcon);
-	void UpdateTabs();
+	void UpdateTabs(void);
 	void UpdateTitle(MCONTACT, class CMsgDialog* = nullptr);
 
 	void ClearMargins()
@@ -973,8 +978,6 @@ struct SIDEBARITEM
 #define THEME_READ_ALL (THEME_READ_FONTS | THEME_READ_TEMPLATES)
 
 #define IDC_TBFIRSTUID 10000            // first uId for custom buttons
-
-#include "templates.h"
 
 // callback for the user menu entry
 

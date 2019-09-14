@@ -35,8 +35,6 @@ BOOL     TSAPI CheckCustomLink(HWND hwndRich, POINT *ptClient, UINT uMsg, WPARAM
 int      TSAPI CheckValidSmileyPack(const char *szProto, MCONTACT hContact);
 wchar_t* TSAPI QuoteText(const wchar_t *text);
 UINT     TSAPI GetIEViewMode(MCONTACT hContact);
-void     TSAPI LoadOverrideTheme(TContainerData *pContainer);
-void     TSAPI LoadThemeDefaults(TContainerData *pContainer);
 int      TSAPI CutContactName(const wchar_t *szold, wchar_t *sznew, size_t size);
 LRESULT  TSAPI GetSendButtonState(HWND hwnd);
 void     TSAPI RearrangeTab(HWND hwndDlg, const CMsgDialog *dat, int iMode, BOOL bSavePos);
