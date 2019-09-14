@@ -232,7 +232,7 @@ struct TContainerData : public MZeroedObject
 	void CloseTabByMouse(POINT *);
 	void LoadOverrideTheme(void);
 	void LoadThemeDefaults(void);
-	void QueryPending(int iCommand);
+	void QueryPending();
 	void RestoreWindowPos(void);
 	void SelectTab(int iCommand, int idx = 0);
 	void SetIcon(CMsgDialog *pDlg, HICON hIcon);
@@ -564,13 +564,6 @@ public:
 
 #define MESSAGE_WINDOW_DATA_SIZE offsetof(_MessageWindowData, hdbEventFirst);
 
-struct RECENTINFO
-{
-	DWORD dwFirst, dwMostRecent;        // timestamps
-	int   iFirstIndex, iMostRecent;     // tab indices
-	HWND  hwndFirst, hwndMostRecent;    // client window handles
-};
-
 /*
  * configuration data for custom tab ctrl
  */
@@ -722,7 +715,6 @@ struct TIconDescW
 #define DM_CONFIGURECONTAINER    (TM_USER+40)
 #define DM_QUERYHCONTACT         (TM_USER+41)
 #define DM_QUERYCLIENTAREA       (TM_USER+45)
-#define DM_QUERYRECENT           (TM_USER+47)
 #define DM_ACTIVATEME            (TM_USER+46)
 #define DM_STATUSMASKSET         (TM_USER+51)
 #define DM_UPDATESTATUSMSG       (TM_USER+53)

@@ -1599,7 +1599,7 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 	}
 	if (msg == WM_SYSKEYDOWN && isAlt) {
 		if (wp == 0x52) {
-			m_pContainer->QueryPending(DM_QUERY_MOSTRECENT);
+			m_pContainer->QueryPending();
 			return _dlgReturn(m_hwnd, 1);
 		}
 		if (wp == VK_MULTIPLY) {

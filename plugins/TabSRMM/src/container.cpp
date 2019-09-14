@@ -147,22 +147,30 @@ void TContainerData::LoadThemeDefaults()
 }
 
 // search tab with either next or most recent unread message and select it
-void TContainerData::QueryPending(int iCommand)
+void TContainerData::QueryPending()
 {
-	RECENTINFO ri;
-
-	SendMessage(m_hwnd, DM_QUERYRECENT, 0, (LPARAM)&ri);
-
-	NMHDR nmhdr;
-	nmhdr.code = TCN_SELCHANGE;
+	int   iMostRecent = -1;
+	DWORD dwMostRecent = 0;
+	HWND  hwndMostRecent = nullptr;
 
 	HWND hwndTab = GetDlgItem(m_hwnd, IDC_MSGTABS);
-	if (iCommand == DM_QUERY_NEXT && ri.iFirstIndex != -1) {
-		TabCtrl_SetCurSel(hwndTab, ri.iFirstIndex);
-		SendMessage(m_hwnd, WM_NOTIFY, 0, (LPARAM)&nmhdr);
+	int iItems = TabCtrl_GetItemCount(hwndTab);
+	for (int i = 0; i < iItems; i++) {
+		HWND hDlg = GetTabWindow(hwndTab, i);
+		DWORD dwTimestamp;
+		SendMessage(hDlg, DM_QUERYLASTUNREAD, 0, (LPARAM)&dwTimestamp);
+		if (dwTimestamp > dwMostRecent) {
+			dwMostRecent = dwTimestamp;
+			iMostRecent = i;
+			hwndMostRecent = hDlg;
+		}
 	}
-	if (iCommand == DM_QUERY_MOSTRECENT && ri.iMostRecent != -1) {
-		TabCtrl_SetCurSel(hwndTab, ri.iMostRecent);
+
+	if (iMostRecent != -1) {
+		TabCtrl_SetCurSel(hwndTab, iMostRecent);
+
+		NMHDR nmhdr;
+		nmhdr.code = TCN_SELCHANGE;
 		SendMessage(m_hwnd, WM_NOTIFY, 0, (LPARAM)&nmhdr);
 	}
 }
@@ -1739,36 +1747,6 @@ panel_found:
 			}
 			SendMessage(hwndDlg, WM_SIZE, 0, 1);
 			BroadCastContainer(pContainer, DM_CONFIGURETOOLBAR, 0, 1);
-		}
-		return 0;
-
-	// search the first and most recent unread events in all client tabs...
-	// return all information via a RECENTINFO structure (tab indices,
-	// window handles and timestamps).
-	case DM_QUERYRECENT:
-		DWORD dwTimestamp;
-		{
-			int iItems = TabCtrl_GetItemCount(hwndTab);
-
-			RECENTINFO *ri = (RECENTINFO *)lParam;
-			ri->iFirstIndex = ri->iMostRecent = -1;
-			ri->dwFirst = ri->dwMostRecent = 0;
-			ri->hwndFirst = ri->hwndMostRecent = nullptr;
-
-			for (int i = 0; i < iItems; i++) {
-				HWND hDlg = GetTabWindow(hwndTab, i);
-				SendMessage(hDlg, DM_QUERYLASTUNREAD, 0, (LPARAM)&dwTimestamp);
-				if (dwTimestamp > ri->dwMostRecent) {
-					ri->dwMostRecent = dwTimestamp;
-					ri->iMostRecent = i;
-					ri->hwndMostRecent = hDlg;
-					if (ri->iFirstIndex == -1) {
-						ri->iFirstIndex = i;
-						ri->dwFirst = dwTimestamp;
-						ri->hwndFirst = hDlg;
-					}
-				}
-			}
 		}
 		return 0;
 
