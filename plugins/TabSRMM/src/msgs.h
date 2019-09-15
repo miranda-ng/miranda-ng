@@ -253,131 +253,166 @@ class CMsgDialog : public CSrmmBaseDialog
 	typedef CSrmmBaseDialog CSuper;
 	friend class CInfoPanel;
 
-	void      DM_AddDivider(void);
-	void      DM_DismissTip(const POINT& pt);
-	void      DM_ErrorDetected(int type, int flag);
-	bool      DM_GenericHotkeysCheck(MSG *message);
-	int       DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam);
-	void      DM_UpdateLastMessage(void) const;
+	void    BB_InitDlgButtons(void);
+	void    BB_RefreshTheme(void);
+	BOOL    BB_SetButtonsPos(void);
+	void    BB_RedrawButtons(void);
 
-	void      DetermineMinHeight(void);
-	void      FindFirstEvent(void);
-	int       FindRTLLocale(void);
-	void      GetSendFormat(void);
-	void      Init(void);
-	bool      IsAutoSplitEnabled(void) const;
-	void      LoadContactAvatar(void);
-	void      LoadOwnAvatar(void);
-	void      MsgWindowUpdateState(UINT msg);
-	void      ReplaceIcons(LONG startAt, int fAppend, BOOL isSent);
-	void      ReplayQueue(void);
-	void      ResizeIeView(void);
-	void      SaveAvatarToFile(HBITMAP hbm, int isOwnPic);
-	void      ShowPopupMenu(const CCtrlBase&, POINT pt);
-	void      UpdateWindowIcon(void);
-	void      UpdateWindowState(UINT msg);
-	void      VerifyProxy(void);
-	LRESULT   WMCopyHandler(UINT uMsg, WPARAM wParam, LPARAM lParam);
+	void    CB_DestroyAllButtons(void);
+	void    CB_DestroyButton(DWORD dwButtonCID, DWORD dwFlags);
+	void    CB_ChangeButton(CustomButtonData *cbd);
 
-	WORD      m_wStatus, m_wOldStatus;
-	size_t    m_iSendBufferSize;
-	int       m_iSendLength;				// message length in utf-8 octets
-	HICON     m_hSmileyIcon;
-	HWND      m_hwndContactPic, m_hwndPanelPic, m_hwndPanelPicParent;
-	UINT      m_bbLSideWidth, m_bbRSideWidth;
-	BYTE      kstate[256];
-			   
-	RECT      m_rcNick, m_rcUIN, m_rcStatus, m_rcPic;
-	int       m_originalSplitterY;
-	SIZE      m_minEditBoxSize;
-	int       m_nTypeMode;
-	DWORD     m_nLastTyping;
-	DWORD     m_lastMessage;
-	DWORD     m_dwTickLastEvent;
-	HBITMAP   m_hOwnPic;
-	SIZE      m_pic;
+	void    DM_AddDivider(void);
+	HWND    DM_CreateClist(void);
+	void    DM_DismissTip(const POINT& pt);
+	void    DM_ErrorDetected(int type, int flag);
+	void    DM_EventAdded(WPARAM wParam, LPARAM lParam);
+	void    DM_FreeTheme(void);
+	bool    DM_GenericHotkeysCheck(MSG *message);
+	void    DM_HandleAutoSizeRequest(REQRESIZE *rr);
+	void    DM_InitRichEdit(void);
+	void    DM_InitTip(void);
+	LRESULT DM_MouseWheelHandler(WPARAM wParam, LPARAM lParam);
+	LRESULT DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lParam);
+	void    DM_NotifyTyping(int mode);
+	void    DM_SetDBButtonStates();
+	int     DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam);
+	void    DM_ThemeChanged(void);
+	void    DM_Typing(bool fForceOff);
+	void    DM_UpdateLastMessage(void) const;
+
+	void    AdjustBottomAvatarDisplay(void);
+	void    CalcDynamicAvatarSize(BITMAP *bminfo);
+	void    DetermineMinHeight(void);
+	BOOL    DoRtfToTags(CMStringW &pszText) const;
+	void    FindFirstEvent(void);
+	int     FindRTLLocale(void);
+	void    FlashOnClist(MEVENT hEvent, DBEVENTINFO *dbei);
+	void    FlashTab(bool bInvertMode);
+	void    GetSendFormat(void);
+	HICON   GetXStatusIcon() const;
+	void    HandlePasteAndSend(void);
+	void    Init(void);
+	bool    IsAutoSplitEnabled(void) const;
+	void    LoadContactAvatar(void);
+	void    LoadOwnAvatar(void);
+	void    LoadSplitter(void);
+	void    MsgWindowUpdateState(UINT msg);
+	void    PlayIncomingSound(void) const;
+	void    ReplaceIcons(LONG startAt, int fAppend, BOOL isSent);
+	void    ReplayQueue(void);
+	void    ResizeIeView(void);
+	void    SaveAvatarToFile(HBITMAP hbm, int isOwnPic);
+	void 	  SendHBitmapAsFile(HBITMAP hbmp) const;
+	void    SetMessageLog(void);
+	void    ShowPopupMenu(const CCtrlBase&, POINT pt);
+	void    UpdateWindowIcon(void);
+	void    UpdateWindowState(UINT msg);
+	void    VerifyProxy(void);
+	LRESULT WMCopyHandler(UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+	WORD    m_wStatus, m_wOldStatus;
+	size_t  m_iSendBufferSize;
+	int     m_iSendLength;				// message length in utf-8 octets
+	HICON   m_hSmileyIcon;
+	HWND    m_hwndContactPic, m_hwndPanelPic, m_hwndPanelPicParent;
+	UINT    m_bbLSideWidth, m_bbRSideWidth;
+	BYTE    kstate[256];
+			  
+	RECT    m_rcNick, m_rcUIN, m_rcStatus, m_rcPic;
+	int     m_originalSplitterY;
+	SIZE    m_minEditBoxSize;
+	int     m_nTypeMode;
+	DWORD   m_nLastTyping;
+	DWORD   m_lastMessage;
+	DWORD   m_dwTickLastEvent;
+	HBITMAP m_hOwnPic;
+	SIZE    m_pic;
 
 	CMStringW m_szStatusText;
-	HICON     m_szStatusIcon;
-	bool      m_bStatusSet;
+	HICON   m_szStatusIcon;
+	bool    m_bStatusSet;
+			  
+	bool    m_bShowInfoAvatar, m_bShowUIElements;
+	bool    m_bUseOffset;
+	bool    m_bkeyProcessed;
+	bool    m_fLimitedUpdate;
+	bool    m_bClrAdded;
+	bool    m_bInsertMode;
 
-	bool      m_bShowInfoAvatar, m_bShowUIElements;
-	bool      m_bUseOffset;
-	bool      m_bkeyProcessed;
-	bool      m_fLimitedUpdate;
-	bool      m_bClrAdded;
-	bool      m_bInsertMode;
+	MEVENT *m_hQueuedEvents;
+	int     m_iNextQueuedEvent;
+	int     m_iEventQueueSize;
 
-	MEVENT   *m_hQueuedEvents;
-	int       m_iNextQueuedEvent;
-	int       m_iEventQueueSize;
+	int     m_iRealAvatarHeight;
+	int     m_iButtonBarReallyNeeds;
+	DWORD   m_dwLastActivity;
+	MEVENT  m_hFlashingEvent;
+	int     m_SendFormat;
+	LCID    m_lcid;
+	wchar_t m_lcID[10];
+	int     m_iPanelAvatarX, m_iPanelAvatarY;
+	HWND    m_hwndTip;
+	DWORD   m_panelStatusCX;
+	int     m_textLen;         // current text len
+	LONG    m_ipFieldHeight;
+	WPARAM  m_wParam;          // used for "delayed" actions like moved splitters in minimized windows
+	LPARAM  m_lParam;
+	int     m_iHaveRTLLang;
+			  
+	DWORD   m_iSplitterSaved;
+	POINT   m_ptTipActivation;
 
-	int       m_iRealAvatarHeight;
-	int       m_iButtonBarReallyNeeds;
-	DWORD     m_dwLastActivity;
-	MEVENT    m_hFlashingEvent;
-	int       m_SendFormat;
-	LCID      m_lcid;
-	wchar_t   m_lcID[10];
-	int       m_iPanelAvatarX, m_iPanelAvatarY;
-	HWND      m_hwndTip;
-	TOOLINFO  ti;
-	DWORD     m_panelStatusCX;
-	int       m_textLen;         // current text len
-	LONG      m_ipFieldHeight;
-	WPARAM    m_wParam;          // used for "delayed" actions like moved splitters in minimized windows
-	LPARAM    m_lParam;
-	int       m_iHaveRTLLang;
-			   
-	DWORD     m_iSplitterSaved;
-	POINT     m_ptTipActivation;
+protected:
+	void    GetMYUIN();
 
 public:
-	char     *m_szProto;
-	int       m_iTabID;
-	BYTE      m_bShowTyping;
-	bool      m_bIsHistory, m_bNotOnList;
-	bool      m_bActualHistory;
-	bool      m_bIsAutosizingInput;
-	bool      m_bCanFlashTab, m_bTabFlash;
-	bool      m_bEditNotesActive;
-	bool      m_bShowAvatar;
-	int       m_sendMode;
-	HKL       m_hkl;                                    // keyboard layout identifier
-	DWORD     m_isAutoRTL;
-	DWORD     m_idle;
-	DWORD     m_dwFlags = MWF_INITMODE, m_dwFlagsEx;
-	DWORD     m_dwUnread;
-	HANDLE    m_hTheme, m_hThemeIP, m_hThemeToolbar;
-	HWND      m_hwndIEView, m_hwndIWebBrowserControl, m_hwndHPP;
-	HICON     m_hXStatusIcon, m_hTabStatusIcon, m_hTabIcon, m_iFlashIcon, m_hTaskbarIcon, m_hClientIcon;
-	MEVENT    m_hDbEventFirst, m_hDbEventLast;
-	HANDLE    m_hTimeZone;
-	MEVENT   *m_hHistoryEvents;
-	time_t    m_lastEventTime;
-	int       m_iLastEventType;
-	int       m_nTypeSecs;
-	int       m_iOpenJobs;
-	int       m_iInputAreaHeight = -1;
-	int       m_maxHistory, m_curHistory;
-	int       m_iCurrentQueueError;
-	int       m_iSplitterY, m_dynaSplitter;
-	int       m_savedSplitterY, m_savedDynaSplit;
-	char     *m_sendBuffer;
-	int       m_nMax;            // max message size
+	char   *m_szProto;
+	int     m_iTabID;
+	BYTE    m_bShowTyping;
+	bool    m_bIsHistory, m_bNotOnList;
+	bool    m_bActualHistory;
+	bool    m_bIsAutosizingInput;
+	bool    m_bCanFlashTab, m_bTabFlash;
+	bool    m_bEditNotesActive;
+	bool    m_bShowAvatar;
+	int     m_sendMode;
+	HKL     m_hkl;                                    // keyboard layout identifier
+	DWORD   m_isAutoRTL;
+	DWORD   m_idle;
+	DWORD   m_dwFlags = MWF_INITMODE, m_dwFlagsEx;
+	DWORD   m_dwUnread;
+	HANDLE  m_hTheme, m_hThemeIP, m_hThemeToolbar;
+	HWND    m_hwndIEView, m_hwndIWebBrowserControl, m_hwndHPP;
+	HICON   m_hXStatusIcon, m_hTabStatusIcon, m_hTabIcon, m_iFlashIcon, m_hTaskbarIcon, m_hClientIcon;
+	MEVENT  m_hDbEventFirst, m_hDbEventLast;
+	HANDLE  m_hTimeZone;
+	MEVENT *m_hHistoryEvents;
+	time_t  m_lastEventTime;
+	int     m_iLastEventType;
+	int     m_nTypeSecs;
+	int     m_iOpenJobs;
+	int     m_iInputAreaHeight = -1;
+	int     m_maxHistory, m_curHistory;
+	int     m_iCurrentQueueError;
+	int     m_iSplitterY, m_dynaSplitter;
+	int     m_savedSplitterY, m_savedDynaSplit;
+	char   *m_sendBuffer;
+	int     m_nMax;            // max message size
 
-	wchar_t   m_wszMyNickname[130];
-	wchar_t   m_wszStatus[50];
-	wchar_t   m_wszTitle[130];        // tab title...
-	wchar_t   m_myUin[80];
-	wchar_t   m_wszStatusBar[100];
-	char      m_szMicroLf[128];
+	wchar_t m_wszMyNickname[130];
+	wchar_t m_wszStatus[50];
+	wchar_t m_wszTitle[130];        // tab title...
+	wchar_t m_myUin[80];
+	wchar_t m_wszStatusBar[100];
+	char    m_szMicroLf[128];
 
-	int       m_iMultiSplit;
-	int       msgTop, rcLogBottom;
-	wchar_t  *wszInitialText;
-	bool      m_bActivate, m_bWantPopup, m_bIsMeta;
+	int     m_iMultiSplit;
+	int     msgTop, rcLogBottom;
+	bool    m_bActivate, m_bWantPopup, m_bIsMeta;
 
+	wchar_t *wszInitialText;
+	TOOLINFO ti;
 	CInfoPanel m_pPanel;
 	CProxyWindow *m_pWnd;	// proxy window object (win7+, for taskbar support).
 	CContactCache *m_cache;
@@ -449,80 +484,43 @@ public:
 		return m_pContainer->IsActive() && m_pContainer->m_hwndActive == m_hwnd;
 	}
 
-	HWND  DM_CreateClist();
-	void  DM_EventAdded(WPARAM wParam, LPARAM lParam);
-	void  DM_InitRichEdit();
-	void  DM_InitTip();
-	void  DM_NotifyTyping(int mode);
 	void  DM_OptionsApplied(WPARAM wParam, LPARAM lParam);
-	void  DM_RecalcPictureSize();
-	void  DM_SaveLogAsRTF() const;
+	void  DM_RecalcPictureSize(void);
+	void  DM_SaveLogAsRTF(void) const;
 	void  DM_ScrollToBottom(WPARAM wParam, LPARAM lParam);
-	void  DM_Typing(bool fForceOff);
-	
-	LRESULT DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lParam);
-	LRESULT DM_MouseWheelHandler(WPARAM wParam, LPARAM lParam);
-
-	void  DM_HandleAutoSizeRequest(REQRESIZE* rr);
-
-	void  DM_FreeTheme();
-	void  DM_ThemeChanged();
-		   
-	void  BB_InitDlgButtons();
-	void  BB_RefreshTheme();
-	BOOL  BB_SetButtonsPos();
-	void  BB_RedrawButtons();
-	void  DM_SetDBButtonStates();
-		   
-	void  CB_DestroyAllButtons();
-	void  CB_DestroyButton(DWORD dwButtonCID, DWORD dwFlags);
-	void  CB_ChangeButton(CustomButtonData *cbd);
 
 	void  ActivateTooltip(int iCtrlId, const wchar_t *pwszMessage);
-	void  AdjustBottomAvatarDisplay();
-	void  CalcDynamicAvatarSize(BITMAP *bminfo);
 	void  CheckStatusIconClick(POINT pt, const RECT &rc, int gap, int code);
-	BOOL  DoRtfToTags(CMStringW &pszText) const;
 	void  DrawStatusIcons(HDC hDC, const RECT &rc, int gap);
 	void  EnableSendButton(bool bMode) const;
 	void  EnableSending(bool bMode) const;
-	void  FlashOnClist(MEVENT hEvent, DBEVENTINFO *dbei);
-	void  FlashTab(bool bInvertMode);
 	void  FormatRaw(CMStringW&, int flags, bool isSent);
 	bool  FormatTitleBar(const wchar_t *szFormat, CMStringW &dest);
-	bool  GetAvatarVisibility();
-	void  GetClientIcon();
-	LONG  GetDefaultMinimumInputHeight() const;
+	bool  GetAvatarVisibility(void);
+	void  GetClientIcon(void);
 	HICON GetMyContactIcon(LPCSTR szSetting);
-	void  GetMYUIN();
-	void  GetMyNick();
-	HICON GetXStatusIcon() const;
-	void  HandlePasteAndSend();
-	HICON IconFromAvatar() const;
+	void  GetMyNick(void);
+	HICON IconFromAvatar(void) const;
 	void  KbdState(bool &isShift, bool &isControl, bool &isAlt);
 	void  LimitMessageText(int iLen);
-	int   LoadLocalFlags();
-	void  LoadSplitter();
-	int   MustPlaySound() const;
-	void  NotifyDeliveryFailure() const;
-	void  PlayIncomingSound() const;
-	void  RemakeLog();
-	void 	SendHBitmapAsFile(HBITMAP hbmp) const;
-	void  SaveSplitter();
-	void  SetDialogToType();
-	void  SetMessageLog();
+	int   LoadLocalFlags(void);
+	int   MustPlaySound(void) const;
+	void  NotifyDeliveryFailure(void) const;
+	void  RemakeLog(void);
+	void  SaveSplitter(void);
+	void  SetDialogToType(void);
 	void  ShowPicture(bool showNewPic);
 	void  SplitterMoved(int x, HWND hwnd);
 	void  StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, DBEVENTINFO *dbei_s);
-	void  UpdateReadChars() const;
-	void  UpdateSaveAndSendButton();
+	void  UpdateReadChars(void) const;
+	void  UpdateSaveAndSendButton(void);
 
 	int   MsgWindowDrawHandler(DRAWITEMSTRUCT *dis);
 	int   MsgWindowMenuHandler(int selection, int menuId);
 	int   MsgWindowUpdateMenu(HMENU submenu, int menuID);
 
 	void  RenderToolbarBG(HDC hdc, const RECT &rcWindow) const;
-	void  UpdateToolbarBG();
+	void  UpdateToolbarBG(void);
 };
 
 class CTemplateEditDlg : public CMsgDialog
@@ -589,11 +587,11 @@ struct TIconDesc
 
 struct TIconDescW
 {
-	wchar_t  *szName;
-	wchar_t  *szDesc;
-	HICON  *phIcon;       // where the handle is saved...
-	INT_PTR uId;           // icon ID
-	BOOL    bForceSmall;   // true: force 16x16
+	wchar_t *szName;
+	wchar_t *szDesc;
+	HICON   *phIcon;       // where the handle is saved...
+	INT_PTR  uId;           // icon ID
+	BOOL     bForceSmall;   // true: force 16x16
 };
 
 // menu IDS

@@ -670,18 +670,6 @@ void CMsgDialog::GetClientIcon()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-LONG CMsgDialog::GetDefaultMinimumInputHeight() const
-{
-	LONG height = (m_pContainer->m_dwFlags & CNT_BOTTOMTOOLBAR) ? DPISCALEY_S(46 + 22) : DPISCALEY_S(46);
-
-	if (CSkin::m_skinEnabled && !SkinItems[ID_EXTBKINPUTAREA].IGNORED)
-		height += (SkinItems[ID_EXTBKINPUTAREA].MARGIN_BOTTOM + SkinItems[ID_EXTBKINPUTAREA].MARGIN_TOP - 2);
-
-	return height;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 HICON CMsgDialog::GetMyContactIcon(LPCSTR szSetting)
 {
 	int bUseMeta = (szSetting == nullptr) ? false : M.GetByte(szSetting, mir_strcmp(szSetting, "MetaiconTab") == 0);
@@ -854,7 +842,10 @@ void CMsgDialog::LoadSettings()
 void CMsgDialog::LoadSplitter()
 {
 	if (m_bIsAutosizingInput) {
-		m_iSplitterY = GetDefaultMinimumInputHeight();
+		m_iSplitterY = (m_pContainer->m_dwFlags & CNT_BOTTOMTOOLBAR) ? DPISCALEY_S(46 + 22) : DPISCALEY_S(46);
+
+		if (CSkin::m_skinEnabled && !SkinItems[ID_EXTBKINPUTAREA].IGNORED)
+			m_iSplitterY += (SkinItems[ID_EXTBKINPUTAREA].MARGIN_BOTTOM + SkinItems[ID_EXTBKINPUTAREA].MARGIN_TOP - 2);
 		return;
 	}
 
