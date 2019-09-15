@@ -1,11 +1,11 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by D:\Miranda NG Git_orig_commit\miranda-ng\plugins\PluginUpdater\res\Resource.rc
+// Used by w:\miranda-ng\plugins\PluginUpdater\res\Resource.rc
 //
 #define IDD_UPDATE                      101
 #define IDD_OPT_UPDATENOTIFY            102
 #define IDD_POPUP                       103
-#define IDD_LIST                        105
+#define IDD_MISSINGPLUGINS              105
 #define IDI_MENU                        201
 #define IDI_OK                          202
 #define IDI_CANCEL                      203
@@ -52,6 +52,7 @@
 #define IDC_BACKUP                      1049
 #define IDC_STABLE_SYMBOLS              1050
 #define IDC_CHANGE_PLATFORM             1052
+#define IDC_SEARCH                      1053
 #define IDC_MSG_BOXES                   40071
 #define IDC_ERRORS                      40072
 #define IDC_INFO_MESSAGES               40073
@@ -69,9 +70,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        118
+#define _APS_NEXT_RESOURCE_VALUE        119
 #define _APS_NEXT_COMMAND_VALUE         40075
-#define _APS_NEXT_CONTROL_VALUE         1053
+#define _APS_NEXT_CONTROL_VALUE         1054
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
