@@ -487,7 +487,7 @@ bool CMsgDialog::OnInitDialog()
 		m_hHistoryEvents = nullptr;
 
 	if (!m_bIsMeta)
-		SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
+		UpdateWindowIcon();
 
 	GetMyNick();
 
@@ -660,7 +660,8 @@ bool CMsgDialog::OnInitDialog()
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		FlashOnClist(m_hDbEventFirst, &dbei);
 
-		m_pContainer->SetIcon(this, Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
+		if (!isChat())
+			m_pContainer->SetIcon(this, Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
 		m_pContainer->m_dwFlags |= CNT_NEED_UPDATETITLE;
 		m_dwFlags |= MWF_NEEDCHECKSIZE | MWF_WASBACKGROUNDCREATE | MWF_DEFERREDSCROLL;
 	}
@@ -2819,25 +2820,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return TRUE;
 
 	case DM_UPDATEWINICON:
-		if (m_hXStatusIcon) {
-			DestroyIcon(m_hXStatusIcon);
-			m_hXStatusIcon = nullptr;
-		}
-
-		if (LPCSTR szProto = m_cache->getProto()) {
-			m_hTabIcon = m_hTabStatusIcon = GetMyContactIcon("MetaiconTab");
-			if (M.GetByte("use_xicons", 1))
-				m_hXStatusIcon = GetXStatusIcon();
-
-			SendDlgItemMessage(m_hwnd, IDC_PROTOCOL, BUTTONSETASDIMMED, (m_dwFlagsEx & MWF_SHOW_ISIDLE) != 0, 0);
-			SendDlgItemMessage(m_hwnd, IDC_PROTOCOL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(m_hXStatusIcon ? m_hXStatusIcon : GetMyContactIcon("MetaiconBar")));
-
-			if (m_pContainer->m_hwndActive == m_hwnd)
-				m_pContainer->SetIcon(this, m_hXStatusIcon ? m_hXStatusIcon : m_hTabIcon);
-
-			if (m_pWnd)
-				m_pWnd->updateIcon(m_hXStatusIcon ? m_hXStatusIcon : m_hTabIcon);
-		}
+		UpdateWindowIcon();
 		return 0;
 
 	case DM_CONFIGURETOOLBAR:
@@ -2863,7 +2846,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 
 		Srmm_UpdateToolbarIcons(m_hwnd);
-		SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
+		UpdateWindowIcon();
 		return 0;
 
 	case DM_OPTIONSAPPLIED:

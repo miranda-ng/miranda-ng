@@ -274,6 +274,8 @@ class CMsgDialog : public CSrmmBaseDialog
 	void      ResizeIeView(void);
 	void      SaveAvatarToFile(HBITMAP hbm, int isOwnPic);
 	void      ShowPopupMenu(const CCtrlBase&, POINT pt);
+	void      UpdateWindowIcon(void);
+	void      UpdateWindowState(UINT msg);
 	void      VerifyProxy(void);
 	LRESULT   WMCopyHandler(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -415,8 +417,6 @@ public:
 	bool OnInitDialog() override;
 	void OnDestroy() override;
 	int Resizer(UTILRESIZECONTROL *urc) override;
-
-	void UpdateWindowState(UINT msg);
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam) override;

@@ -2350,7 +2350,7 @@ void CMsgDialog::UpdateTitle()
 				else if (m_wStatus != m_wOldStatus)
 					bChanged = true;
 
-				SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
+				UpdateWindowIcon();
 
 				wchar_t fulluin[256];
 				if (m_bIsMeta)
@@ -2402,6 +2402,31 @@ void CMsgDialog::UpdateTitle()
 			if (m_pContainer->m_dwFlags & CNT_UINSTATUSBAR)
 				DM_UpdateLastMessage();
 		}
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CMsgDialog::UpdateWindowIcon()
+{
+	if (m_hXStatusIcon) {
+		DestroyIcon(m_hXStatusIcon);
+		m_hXStatusIcon = nullptr;
+	}
+
+	if (LPCSTR szProto = m_cache->getProto()) {
+		m_hTabIcon = m_hTabStatusIcon = GetMyContactIcon("MetaiconTab");
+		if (M.GetByte("use_xicons", 1))
+			m_hXStatusIcon = GetXStatusIcon();
+
+		SendDlgItemMessage(m_hwnd, IDC_PROTOCOL, BUTTONSETASDIMMED, (m_dwFlagsEx & MWF_SHOW_ISIDLE) != 0, 0);
+		SendDlgItemMessage(m_hwnd, IDC_PROTOCOL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(m_hXStatusIcon ? m_hXStatusIcon : GetMyContactIcon("MetaiconBar")));
+
+		if (m_pContainer->m_hwndActive == m_hwnd)
+			m_pContainer->SetIcon(this, m_hXStatusIcon ? m_hXStatusIcon : m_hTabIcon);
+
+		if (m_pWnd)
+			m_pWnd->updateIcon(m_hXStatusIcon ? m_hXStatusIcon : m_hTabIcon);
 	}
 }
 

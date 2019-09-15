@@ -977,7 +977,7 @@ void CMsgDialog::DM_OptionsApplied(WPARAM, LPARAM lParam)
 	ShowWindow(m_hwndPanelPicParent, SW_SHOW);
 	EnableWindow(m_hwndPanelPicParent, TRUE);
 
-	SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
+	UpdateWindowIcon();
 }
 	
 void CMsgDialog::DM_Typing(bool fForceOff)
@@ -992,7 +992,7 @@ void CMsgDialog::DM_Typing(bool fForceOff)
 		if (m_nTypeSecs > 0) {
 			m_nTypeSecs--;
 			if (GetForegroundWindow() == hwndContainer)
-				SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
+				UpdateWindowIcon();
 		}
 		else {
 			if (!fForceOff) {
@@ -1003,7 +1003,7 @@ void CMsgDialog::DM_Typing(bool fForceOff)
 				if (hwndStatus && m_pContainer->m_hwndActive == m_hwnd)
 					SendMessage(hwndStatus, SB_SETTEXT, 0, (LPARAM)m_wszStatusBar);
 			}
-			SendMessage(m_hwnd, DM_UPDATEWINICON, 0, 0);
+			UpdateWindowIcon();
 			HandleIconFeedback(this, (HICON)-1);
 			CMsgDialog *dat_active = (CMsgDialog*)GetWindowLongPtr(m_pContainer->m_hwndActive, GWLP_USERDATA);
 			if (dat_active && !dat_active->isChat())
