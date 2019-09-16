@@ -485,6 +485,8 @@ struct GCHOOK
 	LPTSTR  ptszUID;     // unique identifier, usage depends on type of event
 	LPTSTR  ptszNick;    // user nick, as displayed in a nicklist
 	INT_PTR dwData;      // user defined data, usage depends on type of event
+
+	class CSrmmBaseDialog *pDlg; // dialog from which this event was called
 };
 
 /*

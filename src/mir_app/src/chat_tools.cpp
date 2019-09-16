@@ -567,6 +567,7 @@ MIR_APP_DLL(BOOL) Chat_DoEventHook(SESSION_INFO *si, int iType, const USERINFO *
 
 	gch.ptszText = (LPTSTR)pszText;
 	gch.dwData = dwItem;
+	gch.pDlg = si->pDlg;
 	NotifyEventHooks(hevSendEvent, 0, (WPARAM)&gch);
 	return TRUE;
 }

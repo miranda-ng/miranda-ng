@@ -382,7 +382,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   GcQuit(JABBER_LIST_ITEM* jid, int code, const TiXmlElement *reason);
 
 	void   AdminSet(const char *to, const char *ns, const char *szItem, const char *itemVal, const char *var, const char *varVal);
-	void   AdminGet(const char *to, const char *ns, const char *var, const char *varVal, JABBER_IQ_HANDLER foo);
+	void   AdminGet(const char *to, const char *ns, const char *var, const char *varVal, JABBER_IQ_HANDLER foo, void *pInfo = nullptr);
 	void   AdminSetReason(const char *to, const char *ns, const char *szItem, const char *itemVal, const char *var, const char *varVal, const char *rsn);
 	void   AddMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, const char *str);
 	void   AddMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, const char *str, const char *reason);
@@ -569,7 +569,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	void   SetMucConfig(CJabberFormDlg *pDlg, void *from);
 	void   MucShutdown(void);
-	void   OnIqResultMucGetJidList(const TiXmlElement *iqNode, JABBER_MUC_JIDLIST_TYPE listType);
+	void   OnIqResultMucGetJidList(const TiXmlElement *iqNode, JABBER_MUC_JIDLIST_TYPE listType, CJabberIqInfo*);
 
 	//---- jabber_message_handlers.cpp ---------------------------------------------------
 

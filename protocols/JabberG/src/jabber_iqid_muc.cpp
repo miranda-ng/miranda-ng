@@ -358,8 +358,8 @@ static void CALLBACK JabberMucJidListCreateDialogApcProc(void* param)
 	if (queryNode == nullptr)
 		return;
 
-	CJabberProto *ppro = jidListInfo->ppro;
-	CJabberMucJidListDlg *&pHwndJidList = ppro->GetMucDlg(jidListInfo->type);
+	auto *ppro = jidListInfo->ppro;
+	auto *&pHwndJidList = ppro->GetMucDlg(jidListInfo->type);
 
 	if (pHwndJidList != nullptr) {
 		SetForegroundWindow(pHwndJidList->GetHwnd());
@@ -367,11 +367,14 @@ static void CALLBACK JabberMucJidListCreateDialogApcProc(void* param)
 	}
 	else {
 		pHwndJidList = new CJabberMucJidListDlg(ppro, jidListInfo);
+		auto *pDlg = (CSrmmBaseDialog *)jidListInfo->pUserData;
+		if (pDlg)
+			pHwndJidList->SetParent(pDlg->GetHwnd());
 		pHwndJidList->Show();
 	}
 }
 
-void CJabberProto::OnIqResultMucGetJidList(const TiXmlElement *iqNode, JABBER_MUC_JIDLIST_TYPE listType)
+void CJabberProto::OnIqResultMucGetJidList(const TiXmlElement *iqNode, JABBER_MUC_JIDLIST_TYPE listType, CJabberIqInfo *pInfo)
 {
 	const char *type = XmlGetAttr(iqNode, "type");
 	if (type == nullptr)
@@ -383,6 +386,7 @@ void CJabberProto::OnIqResultMucGetJidList(const TiXmlElement *iqNode, JABBER_MU
 			jidListInfo->type = listType;
 			jidListInfo->ppro = this;
 			jidListInfo->roomJid = nullptr;	// Set in the dialog procedure
+			jidListInfo->pUserData = pInfo->GetUserData();
 			if ((jidListInfo->iqNode = iqNode->DeepClone(&jidListInfo->doc)->ToElement()) != nullptr)
 				CallFunctionAsync(JabberMucJidListCreateDialogApcProc, jidListInfo);
 			else
@@ -414,51 +418,47 @@ CJabberMucJidListDlg*& CJabberProto::GetMucDlg(JABBER_MUC_JIDLIST_TYPE type)
 		return m_pDlgMucBanList;
 	case MUC_ADMINLIST:
 		return m_pDlgMucAdminList;
-	case MUC_OWNERLIST:
+	default: // MUC_OWNERLIST
 		return m_pDlgMucOwnerList;
 	}
-
-	// never happens. just to make compiler happy
-	static CJabberMucJidListDlg *pStub = nullptr;
-	return pStub;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CJabberProto::OnIqResultMucGetVoiceList(const TiXmlElement *iqNode, CJabberIqInfo *)
+void CJabberProto::OnIqResultMucGetVoiceList(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
 	debugLogA("<iq/> iqResultMucGetVoiceList");
-	OnIqResultMucGetJidList(iqNode, MUC_VOICELIST);
+	OnIqResultMucGetJidList(iqNode, MUC_VOICELIST, pInfo);
 }
 
-void CJabberProto::OnIqResultMucGetMemberList(const TiXmlElement *iqNode, CJabberIqInfo *)
+void CJabberProto::OnIqResultMucGetMemberList(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
 	debugLogA("<iq/> iqResultMucGetMemberList");
-	OnIqResultMucGetJidList(iqNode, MUC_MEMBERLIST);
+	OnIqResultMucGetJidList(iqNode, MUC_MEMBERLIST, pInfo);
 }
 
-void CJabberProto::OnIqResultMucGetModeratorList(const TiXmlElement *iqNode, CJabberIqInfo *)
+void CJabberProto::OnIqResultMucGetModeratorList(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
 	debugLogA("<iq/> iqResultMucGetModeratorList");
-	OnIqResultMucGetJidList(iqNode, MUC_MODERATORLIST);
+	OnIqResultMucGetJidList(iqNode, MUC_MODERATORLIST, pInfo);
 }
 
-void CJabberProto::OnIqResultMucGetBanList(const TiXmlElement *iqNode, CJabberIqInfo *)
+void CJabberProto::OnIqResultMucGetBanList(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
 	debugLogA("<iq/> iqResultMucGetBanList");
-	OnIqResultMucGetJidList(iqNode, MUC_BANLIST);
+	OnIqResultMucGetJidList(iqNode, MUC_BANLIST, pInfo);
 }
 
-void CJabberProto::OnIqResultMucGetAdminList(const TiXmlElement *iqNode, CJabberIqInfo *)
+void CJabberProto::OnIqResultMucGetAdminList(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
 	debugLogA("<iq/> iqResultMucGetAdminList");
-	OnIqResultMucGetJidList(iqNode, MUC_ADMINLIST);
+	OnIqResultMucGetJidList(iqNode, MUC_ADMINLIST, pInfo);
 }
 
-void CJabberProto::OnIqResultMucGetOwnerList(const TiXmlElement *iqNode, CJabberIqInfo *)
+void CJabberProto::OnIqResultMucGetOwnerList(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
 	debugLogA("<iq/> iqResultMucGetOwnerList");
-	OnIqResultMucGetJidList(iqNode, MUC_OWNERLIST);
+	OnIqResultMucGetJidList(iqNode, MUC_OWNERLIST, pInfo);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

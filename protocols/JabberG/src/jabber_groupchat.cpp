@@ -1138,7 +1138,7 @@ public:
 		CSuper::OnInitDialog();
 
 		wchar_t buf[256];
-		mir_snwprintf(buf, TranslateT("Group chat invitation to\n%s"), m_roomJid.c_str());
+		mir_snwprintf(buf, TranslateT("Group chat invitation to\n%s"), Utf2T(m_roomJid).get());
 		SetDlgItemText(m_hwnd, IDC_HEADERBAR, buf);
 
 		SetDlgItemTextUtf(m_hwnd, IDC_FROM, m_from);

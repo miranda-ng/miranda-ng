@@ -481,6 +481,7 @@ struct JABBER_MUC_JIDLIST_INFO : public MZeroedObject
 	TiXmlDocument doc;
 	TiXmlElement *iqNode;
 	CJabberProto *ppro;
+	void *pUserData;
 
 	wchar_t* type2str(void) const;
 };
