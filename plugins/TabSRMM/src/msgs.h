@@ -297,7 +297,6 @@ class CMsgDialog : public CSrmmBaseDialog
 	void    LoadContactAvatar(void);
 	void    LoadOwnAvatar(void);
 	void    LoadSplitter(void);
-	void    MsgWindowUpdateState(UINT msg);
 	void    PlayIncomingSound(void) const;
 	void    ReplaceIcons(LONG startAt, int fAppend, BOOL isSent);
 	void    ReplayQueue(void);

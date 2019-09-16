@@ -1074,118 +1074,6 @@ int CMsgDialog::MsgWindowUpdateMenu(HMENU submenu, int menuID)
 // it protects itself from being called more than once per session activation and is valid for
 // normal IM sessions *only*. Group chat sessions have their own activation handler (see chat/window.c)
 
-void CMsgDialog::MsgWindowUpdateState(UINT msg)
-{
-	if (m_iTabID < 0)
-		return;
-
-	if (msg == WM_ACTIVATE) {
-		if (m_pContainer->m_dwFlags & CNT_TRANSPARENCY) {
-			DWORD trans = LOWORD(m_pContainer->m_pSettings->dwTransparency);
-			SetLayeredWindowAttributes(m_pContainer->m_hwnd, 0, (BYTE)trans, (m_pContainer->m_dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
-		}
-	}
-
-	if (m_bIsAutosizingInput && m_iInputAreaHeight == -1) {
-		m_iInputAreaHeight = 0;
-		m_message.SendMsg(EM_REQUESTRESIZE, 0, 0);
-	}
-
-	if (m_pWnd)
-		m_pWnd->activateTab();
-	m_pPanel.dismissConfig();
-	m_dwUnread = 0;
-	if (m_pContainer->m_hwndSaved == m_hwnd)
-		return;
-
-	m_pContainer->m_hwndSaved = m_hwnd;
-
-	m_dwTickLastEvent = 0;
-	m_dwFlags &= ~MWF_DIVIDERSET;
-	if (KillTimer(m_hwnd, TIMERID_FLASHWND)) {
-		FlashTab(false);
-		m_bCanFlashTab = false;
-	}
-	if (m_pContainer->m_dwFlashingStarted != 0) {
-		FlashContainer(m_pContainer, 0, 0);
-		m_pContainer->m_dwFlashingStarted = 0;
-	}
-	if (m_dwFlagsEx & MWF_SHOW_FLASHCLIST) {
-		m_dwFlagsEx &= ~MWF_SHOW_FLASHCLIST;
-		if (m_hFlashingEvent != 0)
-			g_clistApi.pfnRemoveEvent(m_hContact, m_hFlashingEvent);
-		m_hFlashingEvent = 0;
-	}
-	m_pContainer->m_dwFlags &= ~CNT_NEED_UPDATETITLE;
-
-	if ((m_dwFlags & MWF_DEFERREDREMAKELOG) && !IsIconic(m_pContainer->m_hwnd)) {
-		RemakeLog();
-		m_dwFlags &= ~MWF_DEFERREDREMAKELOG;
-	}
-
-	if (m_dwFlags & MWF_NEEDCHECKSIZE)
-		PostMessage(m_hwnd, DM_SAVESIZE, 0, 0);
-
-	m_pContainer->m_hIconTaskbarOverlay = nullptr;
-	m_pContainer->UpdateTitle(m_hContact);
-
-	tabUpdateStatusBar();
-	m_dwLastActivity = GetTickCount();
-	m_pContainer->m_dwLastActivity = m_dwLastActivity;
-
-	m_pContainer->m_pMenuBar->configureMenu();
-	UpdateTrayMenuState(this, FALSE);
-
-	if (m_pContainer->m_hwndActive == m_hwnd)
-		DeletePopupsForContact(m_hContact, PU_REMOVE_ON_FOCUS);
-
-	m_pPanel.Invalidate();
-
-	if (m_dwFlags & MWF_DEFERREDSCROLL && m_hwndIEView == nullptr && m_hwndHPP == nullptr) {
-		m_dwFlags &= ~MWF_DEFERREDSCROLL;
-		DM_ScrollToBottom(0, 1);
-	}
-
-	DM_SetDBButtonStates();
-
-	if (m_hwndIEView) {
-		RECT rcRTF;
-		POINT pt;
-
-		GetWindowRect(m_log.GetHwnd(), &rcRTF);
-		rcRTF.left += 20;
-		rcRTF.top += 20;
-		pt.x = rcRTF.left;
-		pt.y = rcRTF.top;
-		if (m_hwndIEView) {
-			if (M.GetByte("subclassIEView", 0)) {
-				mir_subclassWindow(m_hwndIEView, IEViewSubclassProc);
-				SetWindowPos(m_hwndIEView, nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_DRAWFRAME);
-				RedrawWindow(m_hwndIEView, nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW);
-			}
-		}
-		m_hwndIWebBrowserControl = WindowFromPoint(pt);
-	}
-
-	if (m_dwFlagsEx & MWF_EX_DELAYEDSPLITTER) {
-		m_dwFlagsEx &= ~MWF_EX_DELAYEDSPLITTER;
-		ShowWindow(m_pContainer->m_hwnd, SW_RESTORE);
-		PostMessage(m_hwnd, DM_SPLITTERGLOBALEVENT, m_wParam, m_lParam);
-		m_wParam = m_lParam = 0;
-	}
-	if (m_dwFlagsEx & MWF_EX_AVATARCHANGED) {
-		m_dwFlagsEx &= ~MWF_EX_AVATARCHANGED;
-		PostMessage(m_hwnd, DM_UPDATEPICLAYOUT, 0, 0);
-	}
-	BB_SetButtonsPos();
-	if (M.isAero())
-		InvalidateRect(m_hwndParent, nullptr, FALSE);
-	if (m_pContainer->m_dwFlags & CNT_SIDEBAR)
-		m_pContainer->m_pSideBar->setActiveItem(this);
-
-	if (m_pWnd)
-		m_pWnd->Invalidate();
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -2427,7 +2315,7 @@ void CMsgDialog::UpdateWindowIcon()
 
 void CMsgDialog::UpdateWindowState(UINT msg)
 {
-	if (m_si == nullptr)
+	if (m_iTabID < 0)
 		return;
 
 	if (msg == WM_ACTIVATE) {
@@ -2465,11 +2353,18 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 		return;
 
 	m_pContainer->m_hwndSaved = m_hwnd;
+	m_dwTickLastEvent = 0;
+	m_dwFlags &= ~MWF_DIVIDERSET;
 
-	g_chatApi.SetActiveSession(m_si);
-	m_hTabIcon = m_hTabStatusIcon;
+	if (m_pContainer->m_dwFlashingStarted != 0) {
+		FlashContainer(m_pContainer, 0, 0);
+		m_pContainer->m_dwFlashingStarted = 0;
+	}
 
-	if (m_iTabID >= 0) {
+	if (m_si) {
+		g_chatApi.SetActiveSession(m_si);
+		m_hTabIcon = m_hTabStatusIcon;
+
 		if (db_get_w(m_si->hContact, m_si->pszModule, "ApparentMode", 0) != 0)
 			db_set_w(m_si->hContact, m_si->pszModule, "ApparentMode", 0);
 		if (g_clistApi.pfnGetEvent(m_si->hContact, 0))
@@ -2477,17 +2372,12 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 
 		UpdateTitle();
 		m_hTabIcon = m_hTabStatusIcon;
-		m_dwTickLastEvent = 0;
-		m_dwFlags &= ~MWF_DIVIDERSET;
 		if (KillTimer(m_hwnd, TIMERID_FLASHWND) || m_iFlashIcon) {
 			FlashTab(false);
 			m_bCanFlashTab = FALSE;
 			m_iFlashIcon = nullptr;
 		}
-		if (m_pContainer->m_dwFlashingStarted != 0) {
-			FlashContainer(m_pContainer, 0, 0);
-			m_pContainer->m_dwFlashingStarted = 0;
-		}
+
 		m_pContainer->m_dwFlags &= ~CNT_NEED_UPDATETITLE;
 
 		if (m_dwFlags & MWF_NEEDCHECKSIZE)
@@ -2498,16 +2388,84 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 		m_pContainer->m_dwLastActivity = m_dwLastActivity;
 		m_pContainer->m_pMenuBar->configureMenu();
 		UpdateTrayMenuState(this, FALSE);
-		DM_SetDBButtonStates();
+	}
+	else {
+		if (KillTimer(m_hwnd, TIMERID_FLASHWND)) {
+			FlashTab(false);
+			m_bCanFlashTab = false;
+		}
 
-		if (m_dwFlagsEx & MWF_EX_DELAYEDSPLITTER) {
-			m_dwFlagsEx &= ~MWF_EX_DELAYEDSPLITTER;
-			ShowWindow(m_pContainer->m_hwnd, SW_RESTORE);
-			PostMessage(m_hwnd, DM_SPLITTERGLOBALEVENT, m_wParam, m_lParam);
-			PostMessage(m_hwnd, WM_SIZE, 0, 0);
-			m_wParam = m_lParam = 0;
+		if (m_dwFlagsEx & MWF_SHOW_FLASHCLIST) {
+			m_dwFlagsEx &= ~MWF_SHOW_FLASHCLIST;
+			if (m_hFlashingEvent != 0)
+				g_clistApi.pfnRemoveEvent(m_hContact, m_hFlashingEvent);
+			m_hFlashingEvent = 0;
+		}
+		m_pContainer->m_dwFlags &= ~CNT_NEED_UPDATETITLE;
+
+		if ((m_dwFlags & MWF_DEFERREDREMAKELOG) && !IsIconic(m_pContainer->m_hwnd)) {
+			RemakeLog();
+			m_dwFlags &= ~MWF_DEFERREDREMAKELOG;
+		}
+
+		if (m_dwFlags & MWF_NEEDCHECKSIZE)
+			PostMessage(m_hwnd, DM_SAVESIZE, 0, 0);
+
+		m_pContainer->m_hIconTaskbarOverlay = nullptr;
+		m_pContainer->UpdateTitle(m_hContact);
+
+		tabUpdateStatusBar();
+		m_dwLastActivity = GetTickCount();
+		m_pContainer->m_dwLastActivity = m_dwLastActivity;
+
+		m_pContainer->m_pMenuBar->configureMenu();
+		UpdateTrayMenuState(this, FALSE);
+
+		if (m_pContainer->m_hwndActive == m_hwnd)
+			DeletePopupsForContact(m_hContact, PU_REMOVE_ON_FOCUS);
+
+		m_pPanel.Invalidate();
+
+		if (m_dwFlags & MWF_DEFERREDSCROLL && m_hwndIEView == nullptr && m_hwndHPP == nullptr) {
+			m_dwFlags &= ~MWF_DEFERREDSCROLL;
+			DM_ScrollToBottom(0, 1);
+		}
+
+		if (m_hwndIEView) {
+			RECT rcRTF;
+			POINT pt;
+
+			GetWindowRect(m_log.GetHwnd(), &rcRTF);
+			rcRTF.left += 20;
+			rcRTF.top += 20;
+			pt.x = rcRTF.left;
+			pt.y = rcRTF.top;
+			if (m_hwndIEView) {
+				if (M.GetByte("subclassIEView", 0)) {
+					mir_subclassWindow(m_hwndIEView, IEViewSubclassProc);
+					SetWindowPos(m_hwndIEView, nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_DRAWFRAME);
+					RedrawWindow(m_hwndIEView, nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW);
+				}
+			}
+			m_hwndIWebBrowserControl = WindowFromPoint(pt);
+		}
+
+		if (m_dwFlagsEx & MWF_EX_AVATARCHANGED) {
+			m_dwFlagsEx &= ~MWF_EX_AVATARCHANGED;
+			PostMessage(m_hwnd, DM_UPDATEPICLAYOUT, 0, 0);
 		}
 	}
+
+	DM_SetDBButtonStates();
+
+	if (m_dwFlagsEx & MWF_EX_DELAYEDSPLITTER) {
+		m_dwFlagsEx &= ~MWF_EX_DELAYEDSPLITTER;
+		ShowWindow(m_pContainer->m_hwnd, SW_RESTORE);
+		PostMessage(m_hwnd, DM_SPLITTERGLOBALEVENT, m_wParam, m_lParam);
+		PostMessage(m_hwnd, WM_SIZE, 0, 0);
+		m_wParam = m_lParam = 0;
+	}
+
 	BB_SetButtonsPos();
 	if (M.isAero())
 		InvalidateRect(m_hwndParent, nullptr, FALSE);

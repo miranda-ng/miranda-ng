@@ -2869,10 +2869,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (CMimAPI::m_shutDown)
 			break;
 
-		if (isChat())
-			UpdateWindowState(WM_SETFOCUS);
-		else
-			MsgWindowUpdateState(WM_SETFOCUS);
+		UpdateWindowState(WM_SETFOCUS);
 		SetFocus(m_message.GetHwnd());
 		return 1;
 
@@ -2884,10 +2881,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		__fallthrough;
 
 	case WM_MOUSEACTIVATE:
-		if (isChat())
-			UpdateWindowState(WM_ACTIVATE);
-		else
-			MsgWindowUpdateState(WM_ACTIVATE);
+		UpdateWindowState(WM_ACTIVATE);
 		return 1;
 
 	case DM_UPDATEPICLAYOUT:
