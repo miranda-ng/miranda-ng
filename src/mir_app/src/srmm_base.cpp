@@ -205,21 +205,19 @@ LRESULT CSrmmBaseDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 			wchar_t *pszWord = (wchar_t*)_alloca(8192);
 			pszWord[0] = '\0';
 
-			int iCharIndex = m_log.SendMsg(EM_CHARFROMPOS, 0, (LPARAM)&ptl);
-			if (iCharIndex < 0)
-				break;
+			if (sel.cpMin == sel.cpMax) { // get a word under cursor
+				int iCharIndex = m_log.SendMsg(EM_CHARFROMPOS, 0, (LPARAM)& ptl);
+				if (iCharIndex < 0)
+					break;
 
-			int start = m_log.SendMsg(EM_FINDWORDBREAK, WB_LEFT, iCharIndex);
-			int end = m_log.SendMsg(EM_FINDWORDBREAK, WB_RIGHT, iCharIndex);
+				sel.cpMin = m_log.SendMsg(EM_FINDWORDBREAK, WB_LEFT, iCharIndex);
+				sel.cpMax = m_log.SendMsg(EM_FINDWORDBREAK, WB_RIGHT, iCharIndex);
+			}
 
-			if (end - start > 0) {
-				CHARRANGE cr;
-				cr.cpMin = start;
-				cr.cpMax = end;
-
+			if (sel.cpMax > sel.cpMin) {
 				TEXTRANGE tr = { 0 };
-				tr.chrg = cr;
-				tr.lpstrText = (wchar_t*)pszWord;
+				tr.chrg = sel;
+				tr.lpstrText = pszWord;
 				int iRes = m_log.SendMsg(EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 				if (iRes > 0) {
 					wchar_t *p = wcschr(pszWord, '\r');
