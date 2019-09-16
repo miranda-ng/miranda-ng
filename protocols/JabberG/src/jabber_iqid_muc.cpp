@@ -120,17 +120,19 @@ class CJabberMucJidListDlg : public CJabberDlgBase
 						if (jid == nullptr)
 							continue;
 
-						lvi.pszText = (wchar_t*)jid;
+						Utf2T wszJid(jid);
+						lvi.pszText = wszJid;
+
 						if (m_info->type == MUC_BANLIST) {
 							if (auto *reason = XmlGetChildText(itemNode, "reason")) {
-								mir_snwprintf(tszItemText, L"%s (%s)", Utf2T(jid).get(), Utf2T(reason).get());
+								mir_snwprintf(tszItemText, L"%s (%s)", wszJid.get(), Utf2T(reason).get());
 								lvi.pszText = tszItemText;
 							}
 						}
 						else if (m_info->type == MUC_VOICELIST || m_info->type == MUC_MODERATORLIST) {
 							const char *nick = XmlGetAttr(itemNode, "nick");
 							if (nick != nullptr) {
-								mir_snwprintf(tszItemText, L"%s (%s)", Utf2T(nick).get(), Utf2T(jid).get());
+								mir_snwprintf(tszItemText, L"%s (%s)", Utf2T(nick).get(), wszJid.get());
 								lvi.pszText = tszItemText;
 							}
 						}
