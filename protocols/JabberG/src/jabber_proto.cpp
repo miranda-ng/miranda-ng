@@ -1118,8 +1118,11 @@ int CJabberProto::SetStatus(int iNewStatus)
 	}
 	else if (m_bJabberOnline)
 		SetServerStatus(iNewStatus);
-	else
-		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+	else {
+		// race condition: old thread is dying, but we're already offline. report failure
+		m_iDesiredStatus = oldStatus;
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)oldStatus, m_iStatus);
+	}
 
 	return 0;
 }

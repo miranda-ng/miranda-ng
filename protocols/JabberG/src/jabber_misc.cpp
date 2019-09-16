@@ -207,8 +207,10 @@ void CJabberProto::ResolveTransportNicks(const char *jid)
 
 void CJabberProto::SetServerStatus(int iNewStatus)
 {
-	if (!m_bJabberOnline)
+	if (!m_bJabberOnline) {
+		m_iDesiredStatus = m_iStatus;
 		return;
+	}
 
 	// change status
 	int oldStatus = m_iStatus;
@@ -230,8 +232,10 @@ void CJabberProto::SetServerStatus(int iNewStatus)
 		return;
 	}
 
-	if (m_iStatus == oldStatus)
+	if (m_iStatus == oldStatus) {
+		m_iDesiredStatus = m_iStatus;
 		return;
+	}
 
 	// send presence update
 	SendPresence(m_iStatus, true);
