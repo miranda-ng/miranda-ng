@@ -2380,6 +2380,13 @@ bool CIrcProto::DoOnConnect(const CIrcMessage*)
 	return 0;
 }
 
+void __cdecl CIrcProto::DoPerformThread(void *param)
+{
+	wchar_t *pwszPerform = (wchar_t *)param;
+	PostIrcMessageWnd(nullptr, NULL, pwszPerform);
+	mir_free(pwszPerform);
+}
+
 static void __cdecl AwayWarningThread(LPVOID)
 {
 	Thread_SetName("IRC: AwayWarningThread");
@@ -2391,16 +2398,17 @@ int CIrcProto::DoPerform(const char* event)
 	CMStringA sSetting = CMStringA("PERFORM:") + event;
 	sSetting.MakeUpper();
 
-	DBVARIANT dbv;
-	if (!getWString(sSetting, &dbv)) {
-		if (!my_strstri(dbv.pwszVal, L"/away"))
-			PostIrcMessageWnd(nullptr, NULL, dbv.pwszVal);
-		else
-			mir_forkthread(AwayWarningThread);
-		db_free(&dbv);
-		return 1;
+	wchar_t *pwszPerform = getWStringA(sSetting);
+	if (pwszPerform == nullptr)
+		return 0;
+
+	if (my_strstri(pwszPerform, L"/away")) {
+		mir_free(pwszPerform);
+		mir_forkthread(AwayWarningThread);
 	}
-	return 0;
+	else ForkThread(&CIrcProto::DoPerformThread, pwszPerform);
+
+	return 1;
 }
 
 int CIrcProto::IsIgnored(const CMStringW& nick, const CMStringW& address, const CMStringW& host, char type)

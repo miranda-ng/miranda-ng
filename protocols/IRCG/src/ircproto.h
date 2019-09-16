@@ -210,6 +210,7 @@ struct CIrcProto : public PROTO<CIrcProto>
 	int  AddOutgoingMessageToDB(MCONTACT hContact, const wchar_t *msg);
 	bool DoOnConnect(const CIrcMessage *pmsg);
 	int  DoPerform(const char *event);
+	void __cdecl DoPerformThread(void *di);
 	void __cdecl ResolveIPThread(void *di);
 
 	bool AddIgnore(const wchar_t *mask, const wchar_t *mode, const wchar_t *network);
