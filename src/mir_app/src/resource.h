@@ -31,8 +31,9 @@
 #define IDI_INVISIBLE                   130
 #define IDI_NA                          131
 #define IDI_LOAD                        132
-#define IDR_SRMM                        133
+#define IDR_USERMENU                    133
 #define IDD_OPT_SOUND                   134
+#define IDR_LOGMENU                     135
 #define IDI_RECVMSG                     136
 #define IDI_URL                         138
 #define IDI_MCMENUOFF                   144

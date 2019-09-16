@@ -748,7 +748,7 @@ MIR_APP_DLL(void) Chat_AddMenuItems(HMENU hMenu, int nItems, const gc_item *Item
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(UINT) Chat_CreateGCMenu(HWND hwnd, HMENU hMenu, POINT pt, SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszWordText)
+UINT CreateGCMenu(HWND hwnd, HMENU hMenu, POINT pt, SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszWordText)
 {
 	GCMENUITEMS gcmi = {};
 	gcmi.pszID = si->ptszID;
@@ -785,18 +785,6 @@ MIR_APP_DLL(UINT) Chat_CreateGCMenu(HWND hwnd, HMENU hMenu, POINT pt, SESSION_IN
 	NotifyEventHooks(hevBuildMenuEvent, 0, (WPARAM)&gcmi);
 
 	return TrackPopupMenu(hMenu, TPM_RETURNCMD | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwnd, nullptr);
-}
-
-MIR_APP_DLL(void) Chat_DestroyGCMenu(HMENU hMenu, int iIndex)
-{
-	MENUITEMINFO mii = { 0 };
-	mii.cbSize = sizeof(mii);
-	mii.fMask = MIIM_SUBMENU;
-	while (GetMenuItemInfo(hMenu, iIndex, TRUE, &mii)) {
-		if (mii.hSubMenu != nullptr)
-			DestroyMenu(mii.hSubMenu);
-		RemoveMenu(hMenu, iIndex, MF_BYPOSITION);
-	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

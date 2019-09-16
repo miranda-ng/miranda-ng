@@ -1267,12 +1267,16 @@ BEGIN
     END
 END
 
-IDR_SRMM MENU
+IDR_USERMENU MENU
 BEGIN
     POPUP "List"
     BEGIN
         MENUITEM "&Message",                    IDM_SENDMESSAGE
     END
+END
+
+IDR_LOGMENU MENU
+BEGIN
     POPUP "Log"
     BEGIN
         MENUITEM "Clear lo&g",                  IDM_CLEAR

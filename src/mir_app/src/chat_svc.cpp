@@ -28,7 +28,6 @@ INT_PTR SvcGetChatManager(WPARAM, LPARAM);
 #include "resource.h"
 
 mir_cs csChat;
-HMENU g_hMenu = nullptr;
 HGENMENU hJoinMenuItem, hLeaveMenuItem;
 MWindowList g_hWindowList;
 HANDLE hevSendEvent, hevBuildMenuEvent;
@@ -774,9 +773,6 @@ int LoadChatModule(void)
 	g_chatApi.hevPreCreate = CreateHookableEvent(ME_MSG_PRECREATEEVENT);
 	g_chatApi.hevWinPopup = CreateHookableEvent(ME_MSG_WINDOWPOPUP);
 
-	g_hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_SRMM));
-	TranslateMenu(g_hMenu);
-
 	g_plugin.addSound("ChatMessage", LPGENW("Group chats"), LPGENW("Incoming message"));
 	g_plugin.addSound("ChatHighlight", LPGENW("Group chats"), LPGENW("Message is highlighted"));
 	g_plugin.addSound("ChatAction", LPGENW("Group chats"), LPGENW("User has performed an action"));
@@ -812,6 +808,4 @@ void UnloadChatModule(void)
 
 	DestroyHookableEvent(g_chatApi.hevPreCreate);
 	DestroyHookableEvent(g_chatApi.hevWinPopup);
-
-	DestroyMenu(g_hMenu);
 }

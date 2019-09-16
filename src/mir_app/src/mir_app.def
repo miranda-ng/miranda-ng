@@ -365,8 +365,6 @@ Chat_UpdateOptions @418 NONAME
 ?onDblClick_List@CSrmmBaseDialog@@IAEXPAVCCtrlListBox@@@Z @440 NONAME
 ?OnDestroy@CSrmmBaseDialog@@MAEXXZ @441 NONAME
 Chat_AddMenuItems @442 NONAME
-Chat_DestroyGCMenu @443 NONAME
-Chat_CreateGCMenu @444 NONAME
 Chat_DoEventHook @445 NONAME
 _stubLogProc@16 @446 NONAME
 _stubMessageProc@16 @447 NONAME

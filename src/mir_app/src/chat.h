@@ -40,7 +40,6 @@ extern int g_cbSession, g_cbModuleInfo, g_iFontMode;
 extern wchar_t *g_szFontGroup;
 extern mir_cs csChat;
 
-extern HMENU g_hMenu;
 extern HCURSOR g_hCurHyperlinkHand;
 extern char* pLogIconBmpBits[14];
 extern LIST<SESSION_INFO> g_arSessions;
@@ -112,6 +111,7 @@ int           LoadChatModule(void);
 void          UnloadChatModule(void);
 
 // tools.c
+UINT          CreateGCMenu(HWND hwnd, HMENU hMenu, POINT pt, SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszWordText);
 int           DoRtfToTags(CMStringW &pszText, int iNumColors, COLORREF *pColors);
 wchar_t*      RemoveFormatting(const wchar_t* pszText);
 BOOL          DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix);

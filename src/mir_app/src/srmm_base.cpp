@@ -79,10 +79,13 @@ CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, SESSION_IN
 
 void CSrmmBaseDialog::RunUserMenu(HWND hwndOwner, USERINFO *ui, const POINT &pt)
 {
+	HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_USERMENU));
+	HMENU hSubMenu = GetSubMenu(hMenu, 0);
+	TranslateMenu(hSubMenu);
+
 	USERINFO uinew;
 	memcpy(&uinew, ui, sizeof(USERINFO));
-	HMENU hMenu = GetSubMenu(g_hMenu, 0);
-	UINT uID = Chat_CreateGCMenu(hwndOwner, hMenu, pt, m_si, uinew.pszUID, uinew.pszNick);
+	UINT uID = CreateGCMenu(hwndOwner, hSubMenu, pt, m_si, uinew.pszUID, uinew.pszNick);
 	switch (uID) {
 	case 0:
 		break;
@@ -95,7 +98,7 @@ void CSrmmBaseDialog::RunUserMenu(HWND hwndOwner, USERINFO *ui, const POINT &pt)
 		Chat_DoEventHook(m_si, GC_USER_NICKLISTMENU, ui, nullptr, uID);
 		break;
 	}
-	Chat_DestroyGCMenu(hMenu, 1);
+	DestroyMenu(hMenu);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -232,9 +235,11 @@ LRESULT CSrmmBaseDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 
 			CHARRANGE all = { 0, -1 };
-			HMENU hMenu = GetSubMenu(g_hMenu, 1);
+			HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_LOGMENU));
+			HMENU hSubMenu = GetSubMenu(hMenu, 0);
+			TranslateMenu(hSubMenu);
 			m_bInMenu = true;
-			UINT uID = Chat_CreateGCMenu(m_log.GetHwnd(), hMenu, pt, m_si, nullptr, pszWord);
+			UINT uID = CreateGCMenu(m_log.GetHwnd(), hSubMenu, pt, m_si, nullptr, pszWord);
 			m_bInMenu = false;
 			switch (uID) {
 			case 0:
@@ -303,7 +308,7 @@ LRESULT CSrmmBaseDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 				Chat_DoEventHook(m_si, GC_USER_LOGMENU, nullptr, nullptr, uID);
 				break;
 			}
-			Chat_DestroyGCMenu(hMenu, 5);
+			DestroyMenu(hMenu);
 		}
 		break;
 	}
