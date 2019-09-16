@@ -2149,6 +2149,21 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (wParam == VK_CAPITAL || wParam == VK_NUMLOCK)
 			m_message.OnChange(&m_message);
 
+		// tab-autocomplete
+		if (isChat() && wParam == VK_TAB && !isCtrl && !isShift) {
+			m_message.SendMsg(WM_SETREDRAW, FALSE, 0);
+			bool fCompleted = TabAutoComplete();
+			m_message.SendMsg(WM_SETREDRAW, TRUE, 0);
+			RedrawWindow(m_message.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
+			if (!fCompleted && !PluginConfig.m_bAllowTab) {
+				if ((GetSendButtonState(GetHwnd()) != PBS_DISABLED))
+					SetFocus(m_btnOk.GetHwnd());
+				else
+					SetFocus(m_log.GetHwnd());
+			}
+			return 0;
+		}
+
 		if (wParam != VK_RIGHT && wParam != VK_LEFT) {
 			replaceStrW(m_wszSearchQuery, nullptr);
 			replaceStrW(m_wszSearchResult, nullptr);
