@@ -1320,12 +1320,10 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				m_bUseIEView = false;
 		}
 		else if (!m_bUseIEView && m_hwndIeview != nullptr) {
-			if (m_hwndIeview != nullptr) {
-				IEVIEWWINDOW ieWindow = { sizeof(ieWindow) };
-				ieWindow.iType = IEW_DESTROY;
-				ieWindow.hwnd = m_hwndIeview;
-				CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
-			}
+			IEVIEWWINDOW ieWindow = { sizeof(ieWindow) };
+			ieWindow.iType = IEW_DESTROY;
+			ieWindow.hwnd = m_hwndIeview;
+			CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
 			m_hwndIeview = nullptr;
 		}
 
