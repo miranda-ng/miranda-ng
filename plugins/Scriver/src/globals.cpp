@@ -222,7 +222,6 @@ void LoadGlobalIcons()
 	ImageList_RemoveAll(g_dat.hButtonIconList);
 	ImageList_RemoveAll(g_dat.hChatButtonIconList);
 	ImageList_RemoveAll(g_dat.hHelperIconList);
-	ImageList_RemoveAll(g_dat.hSearchEngineIconList);
 	
 	for (auto &it : buttonIcons) {
 		if (it == 0)
@@ -238,12 +237,6 @@ void LoadGlobalIcons()
 
 	int overlayIcon = g_plugin.addImgListIcon(g_dat.hHelperIconList, IDI_OVERLAY);
 	ImageList_SetOverlayImage(g_dat.hHelperIconList, overlayIcon, 1);
-
-	for (int i = IDI_GOOGLE; i < IDI_LASTICON; i++) {
-		HICON hIcon = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(i), IMAGE_ICON, 0, 0, 0);
-		ImageList_AddIcon(g_dat.hSearchEngineIconList, hIcon);
-		DestroyIcon(hIcon);
-	}
 }
 
 static struct { UINT cpId; const wchar_t *cpName; } cpTable[] =
@@ -310,7 +303,6 @@ void InitGlobals()
 	g_dat.hChatButtonIconList = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 0, 0);
 	g_dat.hTabIconList = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 0, 0);
 	g_dat.hHelperIconList = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 0, 0);
-	g_dat.hSearchEngineIconList = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 0, 0);
 	g_dat.logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
 	g_dat.logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 	LoadInfobarFonts();
@@ -329,8 +321,6 @@ void FreeGlobals()
 		ImageList_Destroy(g_dat.hChatButtonIconList);
 	if (g_dat.hHelperIconList)
 		ImageList_Destroy(g_dat.hHelperIconList);
-	if (g_dat.hSearchEngineIconList)
-		ImageList_Destroy(g_dat.hSearchEngineIconList);
 	mir_free(g_dat.tabIconListUsage);
 
 	WindowList_Destroy(g_dat.hParentWindowList);

@@ -229,14 +229,6 @@
 #define IDM_CLOSETAB                    40020
 #define IDM_CLOSEOTHERTABS              40021
 #define IDM_TOPMOST                     40040
-#define IDM_SEARCH_GOOGLE               40080
-#define IDM_SEARCH_BING                 40081
-#define IDM_SEARCH_YANDEX               40082
-#define IDM_SEARCH_WIKIPEDIA            40083
-#define IDM_SEARCH_GOOGLE_MAPS          40084
-#define IDM_SEARCH_GOOGLE_TRANSLATE     40085
-#define IDM_SEARCH_YAHOO                40086
-#define IDM_SEARCH_FOODNETWORK          40087
 #define ID_MESS                         50001
 #define ID_COPYALL                      50006
 #define ID_Menu                         50026

@@ -33,7 +33,7 @@ void InputAreaContextMenu(HWND hwnd, WPARAM, LPARAM lParam, MCONTACT hContact)
 	CHARRANGE sel, all = { 0, -1 };
 
 	HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
-	HMENU hSubMenu = GetSubMenu(hMenu, 2);
+	HMENU hSubMenu = GetSubMenu(hMenu, 0);
 	TranslateMenu(hSubMenu);
 	SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
 	if (sel.cpMin == sel.cpMax) {

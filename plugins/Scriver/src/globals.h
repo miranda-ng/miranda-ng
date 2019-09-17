@@ -115,7 +115,6 @@ struct GlobalMessageData
 	HIMAGELIST hButtonIconList;
 	HIMAGELIST hChatButtonIconList;
 	HIMAGELIST hHelperIconList;
-	HIMAGELIST hSearchEngineIconList;
 	HBRUSH     hInfobarBrush;
 	int        toolbarPosition;
 	HWND       hFocusWnd;

@@ -948,7 +948,7 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 					if (tabId != -1) {
 						CMsgDialog *pDlg = GetChildFromTab(dat->m_hwndTabs, tabId);
 						HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
-						HMENU hSubMenu = GetSubMenu(hMenu, 3);
+						HMENU hSubMenu = GetSubMenu(hMenu, 1);
 						TranslateMenu(hSubMenu);
 						HMENU hUserMenu = (HMENU)SendMessage(pDlg->GetHwnd(), DM_GETCONTEXTMENU, 0, 0);
 						if (hUserMenu != nullptr) {

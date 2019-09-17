@@ -189,9 +189,6 @@ LRESULT CSrmmBaseDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_CONTEXTMENU:
-		if (m_si == nullptr)
-			break;
-
 		POINT pt, ptl;
 		m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
 		if (lParam == 0xFFFFFFFF) {
@@ -208,8 +205,9 @@ LRESULT CSrmmBaseDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 			wchar_t *pszWord = (wchar_t*)_alloca(8192);
 			pszWord[0] = '\0';
 
-			if (sel.cpMin == sel.cpMax) { // get a word under cursor
-				int iCharIndex = m_log.SendMsg(EM_CHARFROMPOS, 0, (LPARAM)& ptl);
+			// get a word under cursor
+			if (sel.cpMin == sel.cpMax) {
+				int iCharIndex = m_log.SendMsg(EM_CHARFROMPOS, 0, (LPARAM)&ptl);
 				if (iCharIndex < 0)
 					break;
 
@@ -256,9 +254,11 @@ LRESULT CSrmmBaseDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 
 			case IDM_CLEAR:
 				m_log.SetText(L"");
-				g_chatApi.LM_RemoveAll(&m_si->pLog, &m_si->pLogEnd);
-				m_si->iEventCount = 0;
-				m_si->LastTime = 0;
+				if (m_si) {
+					g_chatApi.LM_RemoveAll(&m_si->pLog, &m_si->pLogEnd);
+					m_si->iEventCount = 0;
+					m_si->LastTime = 0;
+				}
 				PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
 				break;
 

@@ -499,34 +499,6 @@ IDC_DRAGCURSOR          CURSOR                  "dragcopy.cur"
 
 IDR_CONTEXT MENU
 BEGIN
-    POPUP "Log"
-    BEGIN
-        MENUITEM "&Copy",                       IDM_COPY
-        MENUITEM "Co&py all",                   IDM_COPYALL
-        MENUITEM SEPARATOR
-        MENUITEM "Select &all",                 IDM_SELECTALL
-        MENUITEM SEPARATOR
-        POPUP "Word lookup", GRAYED
-        BEGIN
-            MENUITEM "Google",                      IDM_SEARCH_GOOGLE
-            MENUITEM "Bing",                        IDM_SEARCH_BING
-            MENUITEM "Yandex",                      IDM_SEARCH_YANDEX
-            MENUITEM "Wikipedia (en)",              IDM_SEARCH_WIKIPEDIA
-            MENUITEM SEPARATOR
-            MENUITEM "Google Maps",                 IDM_SEARCH_GOOGLE_MAPS
-            MENUITEM "Google Translate",            IDM_SEARCH_GOOGLE_TRANSLATE
-            MENUITEM SEPARATOR
-            MENUITEM "Yahoo",                       IDM_SEARCH_YAHOO
-            MENUITEM "Foodnetwork",                 IDM_SEARCH_FOODNETWORK
-        END
-        MENUITEM SEPARATOR
-        MENUITEM "C&lear log",                  IDM_CLEAR
-    END
-    POPUP "LogLink"
-    BEGIN
-        MENUITEM "&Open link",                  IDM_OPENLINK
-        MENUITEM "&Copy link",                  IDM_COPYLINK
-    END
     POPUP "Message"
     BEGIN
         MENUITEM "Undo",                        IDM_UNDO

@@ -37,11 +37,9 @@ enum SEARCHENGINES {
 wchar_t *limitText(wchar_t *text, int limit);
 void logInfo(const char *fmt, ...);
 wchar_t *GetRichEditSelection(HWND hwnd);
-wchar_t *GetRichTextWord(HWND hwnd, POINT *pt);
 void SearchWord(wchar_t * word, int engine);
 int MeasureMenuItem(WPARAM wParam, LPARAM lParam);
 int DrawMenuItem(WPARAM wParam, LPARAM lParam);
-void SetSearchEngineIcons(HMENU hMenu, HIMAGELIST hImageList);
 HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle, RECT *rect);
 void SetToolTipText(HWND hwndParent, HWND hwndTT, LPTSTR ptszText, LPTSTR ptszTitle);
 void SetToolTipRect(HWND hwndParent, HWND hwndTT, RECT* rect);

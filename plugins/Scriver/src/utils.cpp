@@ -72,38 +72,6 @@ wchar_t* limitText(wchar_t *text, int limit)
 	return text;
 }
 
-wchar_t* GetRichTextWord(HWND hwnd, POINT *ptl)
-{
-	long iCharIndex, start, end, iRes;
-	wchar_t *pszWord = GetRichEditSelection(hwnd);
-	if (pszWord == nullptr) {
-		iCharIndex = SendMessage(hwnd, EM_CHARFROMPOS, 0, (LPARAM)ptl);
-		if (iCharIndex >= 0) {
-			start = SendMessage(hwnd, EM_FINDWORDBREAK, WB_LEFT, iCharIndex); //-iChars;
-			end = SendMessage(hwnd, EM_FINDWORDBREAK, WB_RIGHT, iCharIndex); //-iChars;
-			if (end - start > 0) {
-				TEXTRANGE tr;
-				CHARRANGE cr;
-				memset(&tr, 0, sizeof(TEXTRANGE));
-				pszWord = (wchar_t*)mir_alloc(sizeof(wchar_t) * (end - start + 1));
-				cr.cpMin = start;
-				cr.cpMax = end;
-				tr.chrg = cr;
-				tr.lpstrText = pszWord;
-				iRes = SendMessage(hwnd, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
-				if (iRes <= 0) {
-					mir_free(pszWord);
-					pszWord = nullptr;
-				}
-			}
-		}
-	}
-	if (pszWord != nullptr)
-		rtrimText(pszWord);
-
-	return pszWord;
-}
-
 static DWORD CALLBACK StreamOutCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
 {
 	MessageSendQueueItem *msi = (MessageSendQueueItem *)dwCookie;
@@ -137,7 +105,7 @@ wchar_t *GetRichEditSelection(HWND hwnd)
 int MeasureMenuItem(WPARAM, LPARAM lParam)
 {
 	LPMEASUREITEMSTRUCT mis = (LPMEASUREITEMSTRUCT)lParam;
-	if (mis->itemData != (ULONG_PTR)g_dat.hButtonIconList && mis->itemData != (ULONG_PTR)g_dat.hSearchEngineIconList && mis->itemData != (ULONG_PTR)g_dat.hChatButtonIconList)
+	if (mis->itemData != (ULONG_PTR)g_dat.hButtonIconList && mis->itemData != (ULONG_PTR)g_dat.hChatButtonIconList)
 		return FALSE;
 
 	mis->itemWidth = max(0, GetSystemMetrics(SM_CXSMICON) - GetSystemMetrics(SM_CXMENUCHECK) + 4);
@@ -147,17 +115,11 @@ int MeasureMenuItem(WPARAM, LPARAM lParam)
 
 int DrawMenuItem(WPARAM, LPARAM lParam)
 {
-	int y;
-	int id;
 	LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
-	if (dis->itemData != (ULONG_PTR)g_dat.hButtonIconList && dis->itemData != (ULONG_PTR)g_dat.hSearchEngineIconList && dis->itemData != (ULONG_PTR)g_dat.hChatButtonIconList) {
+	if (dis->itemData != (ULONG_PTR)g_dat.hButtonIconList && dis->itemData != (ULONG_PTR)g_dat.hChatButtonIconList)
 		return FALSE;
-	}
-	id = dis->itemID;
-	if (id >= IDM_SEARCH_GOOGLE) {
-		id -= IDM_SEARCH_GOOGLE;
-	}
-	y = (dis->rcItem.bottom - dis->rcItem.top - GetSystemMetrics(SM_CYSMICON)) / 2 + 1;
+
+	int y = (dis->rcItem.bottom - dis->rcItem.top - GetSystemMetrics(SM_CYSMICON)) / 2 + 1;
 	if (dis->itemState & ODS_SELECTED) {
 		if (dis->itemState & ODS_CHECKED) {
 			RECT rc;
@@ -166,10 +128,10 @@ int DrawMenuItem(WPARAM, LPARAM lParam)
 			rc.top = y;
 			rc.bottom = rc.top + GetSystemMetrics(SM_CYSMICON) + 2;
 			FillRect(dis->hDC, &rc, GetSysColorBrush(COLOR_HIGHLIGHT));
-			ImageList_DrawEx((HIMAGELIST)dis->itemData, id, dis->hDC, 2, y, 0, 0, CLR_NONE, CLR_DEFAULT, ILD_SELECTED);
+			ImageList_DrawEx((HIMAGELIST)dis->itemData, dis->itemID, dis->hDC, 2, y, 0, 0, CLR_NONE, CLR_DEFAULT, ILD_SELECTED);
 		}
 		else
-			ImageList_DrawEx((HIMAGELIST)dis->itemData, id, dis->hDC, 2, y, 0, 0, CLR_NONE, CLR_DEFAULT, ILD_FOCUS);
+			ImageList_DrawEx((HIMAGELIST)dis->itemData, dis->itemID, dis->hDC, 2, y, 0, 0, CLR_NONE, CLR_DEFAULT, ILD_FOCUS);
 	}
 	else {
 		if (dis->itemState & ODS_CHECKED) {
@@ -189,10 +151,10 @@ int DrawMenuItem(WPARAM, LPARAM lParam)
 					(GetBValue(menuCol) + GetBValue(hiliteCol)) / 2));
 			FillRect(dis->hDC, &rc, hBrush);
 			DeleteObject(hBrush);
-			ImageList_DrawEx((HIMAGELIST)dis->itemData, id, dis->hDC, 2, y, 0, 0, CLR_NONE, GetSysColor(COLOR_MENU), ILD_BLEND25);
+			ImageList_DrawEx((HIMAGELIST)dis->itemData, dis->itemID, dis->hDC, 2, y, 0, 0, CLR_NONE, GetSysColor(COLOR_MENU), ILD_BLEND25);
 		}
 		else
-			ImageList_DrawEx((HIMAGELIST)dis->itemData, id, dis->hDC, 2, y, 0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
+			ImageList_DrawEx((HIMAGELIST)dis->itemData, dis->itemID, dis->hDC, 2, y, 0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
 	}
 	return TRUE;
 }
@@ -262,18 +224,6 @@ void SearchWord(wchar_t *word, int engine)
 		}
 
 		Utils_OpenUrl(szURL);
-	}
-}
-
-void SetSearchEngineIcons(HMENU hMenu, HIMAGELIST hImageList)
-{
-	for (int i = 0; i < IDI_LASTICON - IDI_GOOGLE; i++) {
-		MENUITEMINFO mii = { 0 };
-		mii.cbSize = sizeof(mii);
-		mii.fMask = MIIM_BITMAP | MIIM_DATA;
-		mii.hbmpItem = HBMMENU_CALLBACK;
-		mii.dwItemData = (ULONG_PTR)hImageList;
-		SetMenuItemInfo(hMenu, IDM_SEARCH_GOOGLE + i, FALSE, &mii);
 	}
 }
 
