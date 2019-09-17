@@ -775,11 +775,58 @@ void CSrmmBaseDialog::ClearLog()
 	m_log.SetText(L"");
 }
 
-void CSrmmBaseDialog::RedrawLog2()
+void CSrmmBaseDialog::UpdateOptions()
+{
+	MODULEINFO *mi = m_si->pMI;
+	EnableWindow(m_btnBold.GetHwnd(), mi->bBold);
+	EnableWindow(m_btnItalic.GetHwnd(), mi->bItalics);
+	EnableWindow(m_btnUnderline.GetHwnd(), mi->bUnderline);
+	EnableWindow(m_btnColor.GetHwnd(), mi->bColor);
+	EnableWindow(m_btnBkColor.GetHwnd(), mi->bBkgColor);
+	if (m_si->iType == GCW_CHATROOM)
+		EnableWindow(m_btnChannelMgr.GetHwnd(), mi->bChanMgr);
+
+	Resize();
+	RedrawLog2(m_si);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void RedrawLog2(SESSION_INFO *si)
+{
+	si->LastTime = 0;
+	if (si->pLog)
+		si->pDlg->StreamInEvents(si->pLogEnd, TRUE);
+}
+
+static void __cdecl phase2(SESSION_INFO *si)
+{
+	Sleep(30);
+	if (si && si->pDlg)
+		RedrawLog2(si);
+}
+
+void CSrmmBaseDialog::RedrawLog()
 {
 	m_si->LastTime = 0;
-	if (m_si->pLog)
-		StreamInEvents(m_si->pLogEnd, TRUE);
+	if (m_si->pLog) {
+		LOGINFO *pLog = m_si->pLog;
+		if (m_si->iEventCount > 60) {
+			int index = 0;
+			while (index < 59) {
+				if (pLog->next == nullptr)
+					break;
+
+				pLog = pLog->next;
+				if (m_si->iType != GCW_CHATROOM || !m_bFilterEnabled || (m_iLogFilterFlags & pLog->iType) != 0)
+					index++;
+			}
+			StreamInEvents(pLog, true);
+			mir_forkThread<SESSION_INFO>(phase2, m_si);
+		}
+		else StreamInEvents(m_si->pLogEnd, true);
+	}
+	else ClearLog();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -342,14 +342,13 @@ Srmm_LogStreamCallback @412
 ?CloseTab@CSrmmBaseDialog@@UAEXXZ @416 NONAME
 ?UpdateStatusBar@CSrmmBaseDialog@@UAEXXZ @417 NONAME
 Chat_UpdateOptions @418 NONAME
-?RedrawLog@CSrmmBaseDialog@@UAEXXZ @419 NONAME
+?RedrawLog@CSrmmBaseDialog@@QAEXXZ @419 NONAME
 ?UpdateOptions@CSrmmBaseDialog@@UAEXXZ @420 NONAME
 ?ShowColorChooser@CSrmmBaseDialog@@QAEXH@Z @421 NONAME
 ?ShowFilterMenu@CSrmmBaseDialog@@UAEXXZ @422 NONAME
 ?OnInitDialog@CSrmmBaseDialog@@MAE_NXZ @423 NONAME
 ?StreamInEvents@CSrmmBaseDialog@@UAEXPAULOGINFO@@_N@Z @424 NONAME
 ?AddLog@CSrmmBaseDialog@@UAEXXZ @425 NONAME
-?RedrawLog2@CSrmmBaseDialog@@QAEXXZ @426 NONAME
 ?ScrollToBottom@CSrmmBaseDialog@@UAEXXZ @427 NONAME
 ?UpdateNickList@CSrmmBaseDialog@@UAEXXZ @428 NONAME
 ?onClick_BIU@CSrmmBaseDialog@@IAEXPAVCCtrlButton@@@Z @430 NONAME

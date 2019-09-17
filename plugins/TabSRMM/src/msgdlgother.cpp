@@ -1224,39 +1224,6 @@ void CMsgDialog::RemakeLog()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void __cdecl phase2(SESSION_INFO *si)
-{
-	Thread_SetName("TabSRMM: phase2");
-
-	Sleep(30);
-	if (si && si->pDlg)
-		si->pDlg->RedrawLog2();
-}
-
-void CMsgDialog::RedrawLog()
-{
-	m_si->LastTime = 0;
-	if (m_si->pLog) {
-		LOGINFO *pLog = m_si->pLog;
-		if (m_si->iEventCount > 60) {
-			int index = 0;
-			while (index < 59) {
-				if (pLog->next == nullptr)
-					break;
-				pLog = pLog->next;
-				if ((m_si->iType != GCW_CHATROOM && m_si->iType != GCW_PRIVMESS) || !m_bFilterEnabled || (m_iLogFilterFlags & pLog->iType) != 0)
-					index++;
-			}
-			StreamInEvents(pLog, TRUE);
-			mir_forkThread<SESSION_INFO>(phase2, m_si);
-		}
-		else StreamInEvents(m_si->pLogEnd, TRUE);
-	}
-	else ClearLog();
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 void CMsgDialog::ReplayQueue()
 {
 	for (int i = 0; i < m_iNextQueuedEvent; i++)
@@ -1980,16 +1947,6 @@ void CMsgDialog::UpdateNickList()
 
 void CMsgDialog::UpdateOptions()
 {
-	MODULEINFO *pInfo = m_si ? m_si->pMI : nullptr;
-	if (pInfo) {
-		m_btnBold.Enable(pInfo->bBold);
-		m_btnItalic.Enable(pInfo->bItalics);
-		m_btnUnderline.Enable(pInfo->bUnderline);
-		m_btnColor.Enable(pInfo->bColor);
-		m_btnBkColor.Enable(pInfo->bBkgColor);
-		if (m_si->iType == GCW_CHATROOM)
-			m_btnChannelMgr.Enable(pInfo->bChanMgr);
-	}
 	m_log.SendMsg(EM_SETBKGNDCOLOR, 0, db_get_dw(0, FONTMODULE, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR));
 
 	DM_InitRichEdit();
@@ -1999,8 +1956,8 @@ void CMsgDialog::UpdateOptions()
 	InvalidateRect(m_nickList.GetHwnd(), nullptr, TRUE);
 
 	m_btnFilter.SendMsg(BUTTONSETOVERLAYICON, (LPARAM)(m_bFilterEnabled ? PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled), 0);
-	Resize();
-	RedrawLog2();
+
+	CSuper::UpdateOptions();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

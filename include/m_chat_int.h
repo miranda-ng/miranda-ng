@@ -455,20 +455,19 @@ public:
 	COLORREF m_iFG, m_iBG;
 
 	void ClearLog();
-	void RedrawLog2();
+	void RedrawLog();
 	void ShowColorChooser(int iCtrlId);
 
 	virtual void AddLog();
 	virtual void CloseTab() {}
 	virtual bool IsActive() const PURE;
 	virtual void LoadSettings() PURE;
-	virtual void RedrawLog() {}
 	virtual void ScrollToBottom() {}
 	virtual void SetStatusText(const wchar_t*, HICON) {}
 	virtual void ShowFilterMenu() {}
 	virtual void StreamInEvents(LOGINFO*, bool) {}
 	virtual void UpdateNickList() {}
-	virtual void UpdateOptions() {}
+	virtual void UpdateOptions();
 	virtual void UpdateStatusBar() {}
 	virtual void UpdateTitle() PURE;
 

@@ -405,7 +405,7 @@ static BOOL AddEventToAllMatchingUID(GCEVENT *gce)
 			if (SM_AddEvent(si->ptszID, si->pszModule, gce, FALSE))
 				si->pDlg->AddLog();
 			else
-				si->pDlg->RedrawLog2();
+				RedrawLog2(si);
 		}
 
 		if (!(gce->dwFlags & GCEF_NOTNOTIFY))
@@ -550,7 +550,7 @@ static INT_PTR CALLBACK sttEventStub(void *_param)
 				if (isOk)
 					si->pDlg->AddLog();
 				else
-					si->pDlg->RedrawLog2();
+					RedrawLog2(si);
 			}
 
 			if (!(gce.dwFlags & GCEF_NOTNOTIFY))

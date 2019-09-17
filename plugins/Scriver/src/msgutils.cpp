@@ -218,40 +218,6 @@ void CMsgDialog::Reattach(HWND hwndContainer)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void __cdecl phase2(SESSION_INFO *si)
-{
-	Thread_SetName("Scriver: phase2");
-
-	Sleep(30);
-	if (si && si->pDlg)
-		si->pDlg->RedrawLog2();
-}
-
-void CMsgDialog::RedrawLog()
-{
-	m_si->LastTime = 0;
-	if (m_si->pLog) {
-		LOGINFO *pLog = m_si->pLog;
-		if (m_si->iEventCount > 60) {
-			int index = 0;
-			while (index < 59) {
-				if (pLog->next == nullptr)
-					break;
-
-				pLog = pLog->next;
-				if ((m_si->iType != GCW_CHATROOM && m_si->iType != GCW_PRIVMESS) || !m_bFilterEnabled || (m_iLogFilterFlags & pLog->iType) != 0)
-					index++;
-			}
-			StreamInEvents(pLog, true);
-			mir_forkThread<SESSION_INFO>(phase2, m_si);
-		}
-		else StreamInEvents(m_si->pLogEnd, true);
-	}
-	else ClearLog();
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 void CMsgDialog::ScrollToBottom()
 {
 	if (m_hwndIeview != nullptr) {
@@ -524,14 +490,6 @@ void CMsgDialog::UpdateOptions()
 	m_btnNickList.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bNicklistEnabled ? IDI_NICKLIST : IDI_NICKLIST2));
 	m_btnFilter.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bFilterEnabled ? IDI_FILTER : IDI_FILTER2));
 
-	m_btnBold.Enable(m_si->pMI->bBold);
-	m_btnItalic.Enable(m_si->pMI->bItalics);
-	m_btnUnderline.Enable(m_si->pMI->bUnderline);
-	m_btnColor.Enable(m_si->pMI->bColor);
-	m_btnBkColor.Enable(m_si->pMI->bBkgColor);
-	if (m_si->iType == GCW_CHATROOM)
-		m_btnChannelMgr.Enable(m_si->pMI->bChanMgr);
-
 	UpdateStatusBar();
 	UpdateTitle();
 	FixTabIcons();
@@ -565,8 +523,8 @@ void CMsgDialog::UpdateOptions()
 		InvalidateRect(m_nickList.GetHwnd(), nullptr, TRUE);
 	}
 	m_message.SendMsg(EM_REQUESTRESIZE, 0, 0);
-	Resize();
-	RedrawLog2();
+
+	CSuper::UpdateOptions();
 }
 
 void CMsgDialog::UpdateStatusBar()

@@ -153,7 +153,6 @@ public:
 
 	void CloseTab() override;
 	void LoadSettings() override;
-	void RedrawLog() override;
 	void ScrollToBottom() override;
 	void SetStatusText(const wchar_t *, HICON) override;
 	void ShowFilterMenu() override;

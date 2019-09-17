@@ -49,6 +49,7 @@ extern HANDLE hevSendEvent, hevBuildMenuEvent;
 // log.c
 void          LoadMsgLogBitmaps(void);
 void          FreeMsgLogBitmaps(void);
+void          RedrawLog2(SESSION_INFO *si);
 void          ValidateFilename (wchar_t *filename);
 wchar_t*      MakeTimeStamp(wchar_t *pszStamp, time_t time);
 wchar_t*      GetChatLogsFilename(SESSION_INFO *si, time_t tTime);
