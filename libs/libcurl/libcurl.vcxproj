@@ -29,6 +29,9 @@
     <ClCompile Include="src\vauth\*.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\vssh\*.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\vtls\*.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
