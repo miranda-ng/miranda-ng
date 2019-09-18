@@ -31,15 +31,15 @@ uses
 type
   TExternalGrids = class(TObject)
   private
-    FGrids: array[TExGridMode] of TList;
+    FGrids: TList;
     procedure SetGroupLinked(Value: Boolean);
   public
     constructor Create;
     destructor Destroy; override;
-    procedure Add(const ExtGrid: TExternalGrid; GridMode: TExGridMode);
-    function Find(Handle: HWND; GridMode: TExGridMode): TExternalGrid;
-    function Delete(Handle: HWND; GridMode: TExGridMode): Boolean;
-    function Clear(GridMode: TExGridMode): Boolean;
+    procedure Add(const ExtGrid: TExternalGrid);
+    function Find(Handle: HWND): TExternalGrid;
+    function Delete(Handle: HWND): Boolean;
+    function Clear(): Boolean;
     procedure Perform(Msg: Cardinal; wParam: WPARAM; lParam: LPARAM);
     property GroupLinked: Boolean write SetGroupLinked;
   end;
@@ -52,7 +52,6 @@ const
   ME_HPP_EG_OPTIONSCHANGED = 'History++/ExtGrid/OptionsChanged';
 
 var
-  ImitateIEView: boolean;
   ExternalGrids: TExternalGrids;
 
 procedure RegisterExtGridServices;
@@ -66,9 +65,9 @@ uses
 {$include m_ieview.inc}
 
 var
-  hExtOptChangedIE, hExtOptChanged: THandle;
+  hExtOptChanged: THandle;
 
-function _ExtWindow(wParam:WPARAM; lParam: LPARAM; GridMode: TExGridMode): uint_ptr;
+function _ExtWindow(wParam:WPARAM; lParam: LPARAM): uint_ptr;
 var
   par: PIEVIEWWINDOW;
   ExtGrid: TExternalGrid;
@@ -102,20 +101,20 @@ begin
             ExtGrid.GroupLinked := False;
         end;
         ExtGrid.SetPosition(par.x,par.y,par.cx,par.cy);
-        ExternalGrids.Add(ExtGrid,GridMode);
+        ExternalGrids.Add(ExtGrid);
         par.Hwnd := ExtGrid.GridHandle;
       end;
       IEW_DESTROY: begin
         {$IFDEF DEBUG}
         OutputDebugString('IEW_DESTROY');
         {$ENDIF}
-        ExternalGrids.Delete(par.Hwnd,GridMode);
+        ExternalGrids.Delete(par.Hwnd);
       end;
       IEW_SETPOS: begin
         {$IFDEF DEBUG}
         OutputDebugString('IEW_SETPOS');
         {$ENDIF}
-        ExtGrid := ExternalGrids.Find(par.Hwnd,GridMode);
+        ExtGrid := ExternalGrids.Find(par.Hwnd);
         if ExtGrid <> nil then
           ExtGrid.SetPosition(par.x,par.y,par.cx,par.cy);
       end;
@@ -123,7 +122,7 @@ begin
         {$IFDEF DEBUG}
         OutputDebugString('IEW_SCROLLBOTTOM');
         {$ENDIF}
-        ExtGrid := ExternalGrids.Find(par.Hwnd,GridMode);
+        ExtGrid := ExternalGrids.Find(par.Hwnd);
         if ExtGrid <> nil then
           ExtGrid.ScrollToBottom;
       end;
@@ -134,15 +133,10 @@ end;
 
 function ExtWindowNative(wParam:WPARAM; lParam: LPARAM): uint_ptr; cdecl;
 begin
-  Result := _ExtWindow(wParam,lParam,gmNative);
+  Result := _ExtWindow(wParam,lParam);
 end;
 
-function ExtWindowIEView(wParam:WPARAM; lParam: LPARAM): uint_ptr; cdecl;
-begin
-  Result := _ExtWindow(wParam,lParam,gmIEView);
-end;
-
-function _ExtEvent(wParam:WPARAM; lParam: LPARAM; GridMode: TExGridMode): uint_ptr; cdecl;
+function _ExtEvent(wParam:WPARAM; lParam: LPARAM): uint_ptr; cdecl;
 var
   event: PIEVIEWEVENT;
   customEvent: PIEVIEWEVENTDATA;
@@ -159,7 +153,7 @@ begin
     {$ENDIF}
     event := PIEVIEWEVENT(lParam);
     Assert(event <> nil, 'Empty IEVIEWEVENT structure');
-    ExtGrid := ExternalGrids.Find(event.Hwnd,GridMode);
+    ExtGrid := ExternalGrids.Find(event.Hwnd);
     if ExtGrid = nil then exit;
     case event.iType of
       IEE_LOG_DB_EVENTS: begin
@@ -221,13 +215,9 @@ end;
 
 function ExtEventNative(wParam:WPARAM; lParam: LPARAM): uint_ptr; cdecl;
 begin
-  Result := _ExtEvent(wParam,lParam,gmNative);
+  Result := _ExtEvent(wParam,lParam);
 end;
 
-function ExtEventIEView(wParam:WPARAM; lParam: LPARAM): uint_ptr; cdecl;
-begin
-  Result := _ExtEvent(wParam,lParam,gmIEView);
-end;
 
 function ExtNavigate(wParam:WPARAM; lParam: LPARAM): uint_ptr; cdecl;
 begin
@@ -243,14 +233,6 @@ end;
 procedure RegisterExtGridServices;
 begin
   ExternalGrids := TExternalGrids.Create;
-  ImitateIEView := GetDBBool(hppDBName,'IEViewAPI',false);
-  if ImitateIEView then
-  begin
-    CreateServiceFunction(MS_IEVIEW_WINDOW,@ExtWindowIEView);
-    CreateServiceFunction(MS_IEVIEW_EVENT,@ExtEventIEView);
-    CreateServiceFunction(MS_IEVIEW_NAVIGATE,@ExtNavigate);
-    hExtOptChangedIE := CreateHookableEvent(ME_IEVIEW_OPTIONSCHANGED);
-  end;
   CreateServiceFunction(MS_HPP_EG_WINDOW,@ExtWindowNative);
   CreateServiceFunction(MS_HPP_EG_EVENT,@ExtEventNative);
   CreateServiceFunction(MS_HPP_EG_NAVIGATE,@ExtNavigate);
@@ -259,47 +241,36 @@ end;
 
 procedure UnregisterExtGridServices;
 begin
-  if ImitateIEView then
-  begin
-    DestroyHookableEvent(hExtOptChangedIE);
-  end;
   DestroyHookableEvent(hExtOptChanged);
   ExternalGrids.Destroy;
 end;
 
 constructor TExternalGrids.Create;
-var
-  GridMode: TExGridMode;
 begin
-  for GridMode := Low(TExGridMode) to High(TExGridMode) do
-    FGrids[GridMode] := TList.Create;
+  FGrids := TList.Create;
 end;
 
 destructor TExternalGrids.Destroy;
-var
-  GridMode: TExGridMode;
 begin
-  for GridMode := Low(TExGridMode) to High(TExGridMode) do begin
-    Clear(GridMode);
-    FGrids[GridMode].Free;
-  end;
+  Clear;
+  FGrids.Free;
   inherited;
 end;
 
-procedure TExternalGrids.Add(const ExtGrid: TExternalGrid; GridMode: TExGridMode);
+procedure TExternalGrids.Add(const ExtGrid: TExternalGrid);
 begin
-  FGrids[GridMode].Add(ExtGrid);
+  FGrids.Add(ExtGrid);
 end;
 
-function TExternalGrids.Find(Handle: HWND; GridMode: TExGridMode): TExternalGrid;
+function TExternalGrids.Find(Handle: HWND): TExternalGrid;
 var
   i: Integer;
   ExtGrid: TExternalGrid;
 begin
   Result := nil;
-  for i := 0 to FGrids[GridMode].Count-1 do
+  for i := 0 to FGrids.Count-1 do
   begin
-    ExtGrid := TExternalGrid(FGrids[GridMode].Items[i]);
+    ExtGrid := TExternalGrid(FGrids.Items[i]);
     if ExtGrid.GridHandle = Handle then
     begin
       Result := ExtGrid;
@@ -308,15 +279,15 @@ begin
   end;
 end;
 
-function TExternalGrids.Delete(Handle: HWND; GridMode: TExGridMode): Boolean;
+function TExternalGrids.Delete(Handle: HWND): Boolean;
 var
   i: Integer;
   ExtGrid: TExternalGrid;
 begin
   Result := True;
-  for i := 0 to FGrids[GridMode].Count-1 do
+  for i := 0 to FGrids.Count-1 do
   begin
-    ExtGrid := TExternalGrid(FGrids[GridMode].Items[i]);
+    ExtGrid := TExternalGrid(FGrids.Items[i]);
     if ExtGrid.GridHandle = Handle then
     begin
       try
@@ -324,48 +295,44 @@ begin
       except
         Result := False;
       end;
-      FGrids[GridMode].Delete(i);
+      FGrids.Delete(i);
       break;
     end;
   end;
 end;
 
-function TExternalGrids.Clear(GridMode: TExGridMode): Boolean;
+function TExternalGrids.Clear: Boolean;
 var
   i: Integer;
   ExtGrid: TExternalGrid;
 begin
   Result := True;
-  for i := 0 to FGrids[GridMode].Count-1 do
+  for i := 0 to FGrids.Count-1 do
   begin
-    ExtGrid := TExternalGrid(FGrids[GridMode].Items[i]);
+    ExtGrid := TExternalGrid(FGrids.Items[i]);
     try
       ExtGrid.Free;
     except
       Result := False;
     end;
   end;
-  FGrids[GridMode].Clear;
+  FGrids.Clear;
 end;
 
 procedure TExternalGrids.Perform(Msg: Cardinal; wParam: WPARAM; lParam: LPARAM);
 var
   i: Integer;
-  GridMode: TExGridMode;
 begin
-  for GridMode := Low(TExGridMode) to High(TExGridMode) do
-    for i := FGrids[GridMode].Count-1 downto 0 do
-      TExternalGrid(FGrids[GridMode].Items[i]).Perform(Msg,wParam,lParam);
+  for i := FGrids.Count-1 downto 0 do
+    TExternalGrid(FGrids.Items[i]).Perform(Msg,wParam,lParam);
 end;
 
 procedure TExternalGrids.SetGroupLinked(Value: Boolean);
 var
   i: Integer;
-  GridMode: TExGridMode;
 begin
-  for GridMode := Low(TExGridMode) to High(TExGridMode) do
-    for i := FGrids[GridMode].Count-1 downto 0 do
-      TExternalGrid(FGrids[GridMode].Items[i]).GroupLinked := Value;
+  for i := FGrids.Count-1 downto 0 do
+    TExternalGrid(FGrids.Items[i]).GroupLinked := Value;
 end;
 
 end.
