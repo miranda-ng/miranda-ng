@@ -651,7 +651,7 @@ public:
 		chkLoadTime.OnChange = chkLoadCount.OnChange = chkLoadUnread.OnChange = Callback(this, &COptLogDlg::onChange_Load);
 
 		have_ieview = ServiceExists(MS_IEVIEW_WINDOW) != 0;
-		have_hpp = ServiceExists("History++/ExtGrid/NewWindow") != 0;
+		have_hpp = ServiceExists(MS_HPP_GETVERSION) != 0;
 	}
 
 	bool OnInitDialog() override

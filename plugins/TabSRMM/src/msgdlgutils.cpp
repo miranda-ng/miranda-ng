@@ -333,7 +333,7 @@ UINT TSAPI GetIEViewMode(MCONTACT hContact)
 		g_IEViewAvail = ServiceExists(MS_IEVIEW_WINDOW);
 
 	if (g_HPPAvail == -1)
-		g_HPPAvail = ServiceExists("History++/ExtGrid/NewWindow");
+		g_HPPAvail = ServiceExists(MS_HPP_GETVERSION);
 
 	PluginConfig.g_WantIEView = g_IEViewAvail && M.GetByte("default_ieview", 0);
 	PluginConfig.g_WantHPP = g_HPPAvail && M.GetByte("default_hpp", 0);

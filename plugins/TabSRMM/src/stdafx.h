@@ -84,6 +84,7 @@
 #include <m_nudge.h>
 #include <m_folders.h>
 #include <m_smileyadd.h>
+#include <m_hpp.h>
 
 #define TSAPI __stdcall
 #define FASTCALL __fastcall

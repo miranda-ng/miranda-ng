@@ -989,16 +989,10 @@ struct SIDEBARITEM
 // custom tabSRMM events
 #define tabMSG_WINDOW_EVT_CUSTOM_BEFORESEND 1
 
-// temporary HPP API for emulating message log 
-#define MS_HPP_EG_WINDOW "History++/ExtGrid/NewWindow"
-#define MS_HPP_EG_EVENT  "History++/ExtGrid/Event"
-#define MS_HPP_EG_UTILS  "History++/ExtGrid/Utils"
-#define MS_HPP_EG_OPTIONSCHANGED "History++/ExtGrid/OptionsChanged"
-#define MS_HPP_EG_NOTIFICATION   "History++/ExtGrid/Notification"
+#define SB_CHAR_WIDTH                45               // default width for status bar panel #2
 
-#define SB_CHAR_WIDTH			45					// default width for status bar panel #2
-#define DEFAULT_CONTAINER_POS 	0x00400040			// default container position and size
-#define DEFAULT_CONTAINER_SIZE 	0x019001f4
+#define DEFAULT_CONTAINER_POS        0x00400040       // default container position and size
+#define DEFAULT_CONTAINER_SIZE       0x019001f4
 
 // core hotkey service ids
 #define TABSRMM_HK_LASTUNREAD        2

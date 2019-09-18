@@ -55,7 +55,7 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			BYTE bAvatarVisible = M.GetByte(hContact, "hideavatar", -1);
 
 			have_ieview = ServiceExists(MS_IEVIEW_WINDOW);
-			have_hpp = ServiceExists("History++/ExtGrid/NewWindow");
+			have_hpp = ServiceExists(MS_HPP_GETVERSION);
 
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 
