@@ -102,7 +102,6 @@ class CProxyWindow : public MZeroedObject
 	HWND m_hwndProxy;
 	LONG m_width, m_height;
 	HICON m_hBigIcon, m_hOverlayIcon;
-	HANDLE m_hBreakPoint;
 
 	LRESULT CALLBACK wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 

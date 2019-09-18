@@ -191,8 +191,6 @@ void CMsgDialog::VerifyProxy()
 CProxyWindow::CProxyWindow(CMsgDialog *dat) :
 	m_dat(dat)
 {
-	m_hBreakPoint = ::SetHardwareBreakpoint(GetCurrentThread(), HWBRK_TYPE_WRITE, HWBRK_SIZE_4, &m_dat);
-
 	m_hwndProxy = ::CreateWindowEx(/*WS_EX_TOOLWINDOW | */WS_EX_NOACTIVATE, PROXYCLASSNAME, L"",
 		WS_POPUP | WS_BORDER | WS_SYSMENU | WS_CAPTION, -32000, -32000, 10, 10, nullptr, nullptr, g_plugin.getInst(), (LPVOID)this);
 
@@ -210,7 +208,6 @@ CProxyWindow::~CProxyWindow()
 {
 	Win7Taskbar->unRegisterTab(m_hwndProxy);
 	::DestroyWindow(m_hwndProxy);
-	::RemoveHardwareBreakpoint(m_hBreakPoint);
 
 	delete m_thumb;
 }
@@ -485,11 +482,13 @@ LRESULT CALLBACK CProxyWindow::wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 {
 	switch (msg) {
 	case WM_CLOSE:
-		SendMessage(m_dat->GetHwnd(), WM_CLOSE, 1, 2);
 		{
-			TContainerData *pC = m_dat->m_pContainer;
-			if (!IsIconic(pC->m_hwnd))
-				SetForegroundWindow(pC->m_hwnd);
+			HWND hwndCont = m_dat->m_pContainer->m_hwnd;
+
+			SendMessage(m_dat->GetHwnd(), WM_CLOSE, 1, 2);
+
+			if (!IsIconic(hwndCont))
+				SetForegroundWindow(hwndCont);
 		}
 		return 0;
 
