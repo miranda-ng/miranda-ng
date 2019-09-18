@@ -43,7 +43,4 @@ bool     TSAPI IsCustomEvent(int eventType);
 
 void	   TSAPI CleanTempFiles();
 
-extern INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-extern INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-
 #endif
