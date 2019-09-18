@@ -376,8 +376,6 @@ void CMsgDialog::Init()
 
 CMsgDialog::~CMsgDialog()
 {
-	delete m_pWnd;
-
 	mir_free(m_sendBuffer);
 	mir_free(m_hHistoryEvents);
 	mir_free(m_hQueuedEvents);

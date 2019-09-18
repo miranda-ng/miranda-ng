@@ -95,7 +95,7 @@ private:
 	virtual void renderContent() override;
 };
 
-class CProxyWindow
+class CProxyWindow : public MZeroedObject
 {
 public:
 	CProxyWindow(CMsgDialog *dat);
@@ -121,15 +121,15 @@ public:
 private:
 	CMsgDialog *m_dat;
 
-	HWND m_hwndProxy = nullptr;
+	HWND m_hwndProxy;
 	LONG m_width, m_height;
-	HICON m_hBigIcon = nullptr, m_hOverlayIcon = nullptr;
+	HICON m_hBigIcon, m_hOverlayIcon;
 
 	LRESULT CALLBACK wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	void sendThumb(LONG width, LONG height);
 	void sendPreview();
-	CThumbBase *m_thumb = nullptr;
+	CThumbBase *m_thumb;
 };
 
 class CTaskbarInteract
