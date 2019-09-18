@@ -153,9 +153,6 @@ begin
   HookModulesLoad := HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoad);
   HookOptInit := HookEvent(ME_OPT_INITIALISE, OnOptInit);
   hppRegisterServices;
-{$IFNDEF NO_EXTERNALGRID}
-  RegisterExtGridServices;
-{$ENDIF}
   hppRegisterMainWindow;
  Result := 0;
 end;
@@ -186,9 +183,6 @@ begin
   try
     // destroy hidden main window
     hppUnregisterMainWindow;
-    {$IFNDEF NO_EXTERNALGRID}
-    UnregisterExtGridServices;
-    {$ENDIF}
     // unregistering events
     hppUnregisterServices;
     // unregister bookmarks

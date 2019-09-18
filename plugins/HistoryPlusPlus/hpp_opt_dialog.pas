@@ -119,11 +119,9 @@ begin
   if GetChecked(IDC_RECENTONTOP) <> GetDBBool(hppDBName,'SortOrder',false) then exit;
   if GetChecked(IDC_GROUPHISTITEMS) <> GetDBBool(hppDBName,'GroupHistoryItems',false) then exit;
 
-  {$IFNDEF NO_EXTERNALGRID}
   if GetChecked(IDC_GROUPLOGITEMS) <> GetDBBool(hppDBName,'GroupLogItems',false) then exit;
   if GetChecked(IDC_DISABLEBORDER) <> GetDBBool(hppDBName,'NoLogBorder',false) then exit;
   if GetChecked(IDC_DISABLESCROLL) <> GetDBBool(hppDBName,'NoLogScrollBar',false) then exit;
-  {$ENDIF}
 
   Result := False;
 end;
