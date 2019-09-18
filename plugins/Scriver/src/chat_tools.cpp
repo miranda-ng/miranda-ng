@@ -21,12 +21,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-wchar_t* my_strstri(const wchar_t* s1, const wchar_t* s2)
+const wchar_t* my_strstri(const wchar_t *s1, const wchar_t *s2)
 {
 	for (int i = 0; s1[i]; i++)
 		for (int j = i, k = 0; towlower(s1[j]) == towlower(s2[k]); j++, k++)
 			if (!s2[k + 1])
-				return (wchar_t*)(s1 + i);
+				return s1 + i;
 
 	return nullptr;
 }
