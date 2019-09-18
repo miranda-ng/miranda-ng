@@ -47,6 +47,7 @@
 
 #include <msapi/vsstyle.h>
 #include <msapi/comptr.h>
+#include <msapi/hwbrk.h>
 
 #include <m_avatars.h>
 #include <m_message.h>

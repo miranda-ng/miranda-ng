@@ -97,6 +97,19 @@ private:
 
 class CProxyWindow : public MZeroedObject
 {
+	CMsgDialog *m_dat;
+
+	HWND m_hwndProxy;
+	LONG m_width, m_height;
+	HICON m_hBigIcon, m_hOverlayIcon;
+	HANDLE m_hBreakPoint;
+
+	LRESULT CALLBACK wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+	void sendThumb(LONG width, LONG height);
+	void sendPreview();
+	CThumbBase *m_thumb;
+
 public:
 	CProxyWindow(CMsgDialog *dat);
 	~CProxyWindow();
@@ -117,19 +130,6 @@ public:
 	__inline const HICON getOverlayIcon() const { return m_hOverlayIcon; }
 
 	static LRESULT CALLBACK stubWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
-private:
-	CMsgDialog *m_dat;
-
-	HWND m_hwndProxy;
-	LONG m_width, m_height;
-	HICON m_hBigIcon, m_hOverlayIcon;
-
-	LRESULT CALLBACK wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
-	void sendThumb(LONG width, LONG height);
-	void sendPreview();
-	CThumbBase *m_thumb;
 };
 
 class CTaskbarInteract
