@@ -223,7 +223,7 @@ static INT CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM p
 
 #define OPT_FIXHEADINGS (WM_USER+1)
 
-INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	static HTREEITEM hListHeading1 = nullptr;
 	static HTREEITEM hListHeading4 = nullptr;
@@ -329,7 +329,7 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 	return FALSE;
 }
 
-INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	static HTREEITEM hListHeading2 = nullptr;
 	static HTREEITEM hListHeading3 = nullptr;
@@ -621,7 +621,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 	return FALSE;
 }
 
-INT_PTR CALLBACK DlgProcOptionsPopup(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcOptionsPopup(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg) {
 	case WM_INITDIALOG:
@@ -715,4 +715,31 @@ INT_PTR CALLBACK DlgProcOptionsPopup(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
 		break;
 	}
 	return FALSE;
+}
+
+void ChatOptInitialize(WPARAM wParam)
+{
+	OPTIONSDIALOGPAGE odp = {};
+	odp.position = 910000000;
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.szGroup.a = LPGEN("Message sessions");
+	odp.szTitle.a = LPGEN("Group chats");
+
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS1);
+	odp.pfnDlgProc = DlgProcOptions1;
+	odp.szTab.a = LPGEN("General");
+	g_plugin.addOptions(wParam, &odp);
+
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS2);
+	odp.pfnDlgProc = DlgProcOptions2;
+	odp.szTab.a = LPGEN("Event log");
+	g_plugin.addOptions(wParam, &odp);
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	odp.position = 910000002;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSPOPUP);
+	odp.szGroup.a = LPGEN("Popups");
+	odp.szTitle.a = LPGEN("Messaging");
+	odp.pfnDlgProc = DlgProcOptionsPopup;
+	g_plugin.addOptions(wParam, &odp);
 }

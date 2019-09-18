@@ -23,10 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK DlgProcOptionsPopup(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
 #define FONTF_BOLD   1
 #define FONTF_ITALIC 2
 
@@ -712,143 +708,117 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void ResetCList(HWND hwndDlg)
+class CTypeOptionsDlg : public CDlgBase
 {
-	if (!db_get_b(0, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT))
-		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, FALSE, 0);
-	else
-		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETHIDEEMPTYGROUPS, 1, 0);
-}
+	HANDLE hItemNew, hItemUnknown;
 
-static void RebuildList(HWND hwndDlg, HANDLE hItemNew, HANDLE hItemUnknown)
-{
-	BYTE defType = g_plugin.bTypingNew;
-	if (hItemNew && defType)
-		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItemNew, 1);
+	CCtrlClc m_list;
+	CCtrlCheck chkTyping, chkTypingWin, chkTypingTray, chkTypingBalloon, chkTypingClist, chkTypingSwitch;
 
-	if (hItemUnknown && g_plugin.bTypingUnknown)
-		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItemUnknown, 1);
+public:
+	CTypeOptionsDlg() :
+		CDlgBase(g_plugin, IDD_OPT_MSGTYPE),
+		m_list(this, IDC_CLIST),
+		chkTyping(this, IDC_SHOWNOTIFY),
+		chkTypingWin(this, IDC_TYPEWIN),
+		chkTypingTray(this, IDC_TYPETRAY),
+		chkTypingClist(this, IDC_NOTIFYTRAY),
+		chkTypingSwitch(this, IDC_TYPINGSWITCH),
+		chkTypingBalloon(this, IDC_NOTIFYBALLOON)
+	{
+		CreateLink(chkTyping, g_plugin.bShowTyping);
+		CreateLink(chkTypingWin, g_plugin.bShowTypingWin);
+		CreateLink(chkTypingTray, g_plugin.bShowTypingTray);
+		CreateLink(chkTypingClist, g_plugin.bShowTypingClist);
+		CreateLink(chkTypingSwitch, g_plugin.bShowTypingSwitch);
 
-	for (auto &hContact : Contacts()) {
-		HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
-		if (hItem && g_plugin.getByte(hContact, SRMSGSET_TYPING, defType))
-			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, 1);
+		m_list.OnListRebuilt = Callback(this, &CTypeOptionsDlg::onRebuildClist);
+		m_list.OnOptionsChanged = Callback(this, &CTypeOptionsDlg::onResetClist);
+
+		chkTyping.OnChange = Callback(this, &CTypeOptionsDlg::onChange_Notify);
+		chkTypingTray.OnChange = Callback(this, &CTypeOptionsDlg::onChange_Tray);
 	}
-}
 
-static void SaveList(HWND hwndDlg, HANDLE hItemNew, HANDLE hItemUnknown)
-{
-	if (hItemNew)
-		g_plugin.bTypingNew = SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItemNew, 0) != 0;
+	bool OnInitDialog() override
+	{
+		CLCINFOITEM cii = { sizeof(cii) };
+		cii.flags = CLCIIF_GROUPFONT | CLCIIF_CHECKBOX;
+		cii.pszText = TranslateT("** New contacts **");
+		hItemNew = m_list.AddInfoItem(&cii);
+		cii.pszText = TranslateT("** Unknown contacts **");
+		hItemUnknown = m_list.AddInfoItem(&cii);
 
-	if (hItemUnknown)
-		g_plugin.bTypingUnknown = SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItemUnknown, 0) != 0;
+		SetWindowLongPtr(m_list.GetHwnd(), GWL_STYLE, GetWindowLongPtr(m_list.GetHwnd(), GWL_STYLE) | CLS_SHOWHIDDEN | CLS_NOHIDEOFFLINE);
+		onResetClist(0);
 
-	for (auto &hContact : Contacts()) {
-		HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
-		if (hItem)
-			g_plugin.setByte(hContact, SRMSGSET_TYPING, (BYTE)(SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0) ? 1 : 0));
+		chkTypingBalloon.SetState(!g_plugin.bShowTypingClist);
+
+		onChange_Notify(0);
+		onChange_Tray(0);
+		return true;
 	}
-}
 
-static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	static HANDLE hItemNew, hItemUnknown;
+	bool OnApply() override
+	{
+		if (hItemNew)
+			g_plugin.bTypingNew = m_list.GetCheck(hItemNew);
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		{
-			CLCINFOITEM cii = { sizeof(cii) };
-			cii.flags = CLCIIF_GROUPFONT | CLCIIF_CHECKBOX;
-			cii.pszText = (wchar_t*)TranslateT("** New contacts **");
-			hItemNew = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
-			cii.pszText = (wchar_t*)TranslateT("** Unknown contacts **");
-			hItemUnknown = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
+		if (hItemUnknown)
+			g_plugin.bTypingUnknown = m_list.GetCheck(hItemUnknown);
+
+		for (auto &hContact : Contacts()) {
+			HANDLE hItem = m_list.FindContact(hContact);
+			if (hItem)
+				g_plugin.setByte(hContact, SRMSGSET_TYPING, m_list.GetCheck(hItem));
 		}
 
-		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST), GWL_STYLE) | CLS_SHOWHIDDEN | CLS_NOHIDEOFFLINE);
-		ResetCList(hwndDlg);
-
-		CheckDlgButton(hwndDlg, IDC_SHOWNOTIFY, g_plugin.bShowTyping ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_TYPEWIN, g_plugin.bShowTypingWin ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_TYPETRAY, g_plugin.bShowTypingTray ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_NOTIFYTRAY, g_plugin.bShowTypingClist ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_NOTIFYBALLOON, !g_plugin.bShowTypingClist ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_TYPINGSWITCH, g_plugin.bShowTypingSwitch ? BST_CHECKED : BST_UNCHECKED);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_TYPEWIN), IsDlgButtonChecked(hwndDlg, IDC_SHOWNOTIFY));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_TYPETRAY), IsDlgButtonChecked(hwndDlg, IDC_SHOWNOTIFY));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_NOTIFYTRAY), IsDlgButtonChecked(hwndDlg, IDC_TYPETRAY));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_NOTIFYBALLOON), IsDlgButtonChecked(hwndDlg, IDC_TYPETRAY));
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_TYPETRAY:
-			if (IsDlgButtonChecked(hwndDlg, IDC_TYPETRAY)) {
-				EnableWindow(GetDlgItem(hwndDlg, IDC_NOTIFYTRAY), TRUE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_NOTIFYBALLOON), TRUE);
-			}
-			else {
-				EnableWindow(GetDlgItem(hwndDlg, IDC_NOTIFYTRAY), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_NOTIFYBALLOON), FALSE);
-			}
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			break;
-
-		case IDC_SHOWNOTIFY:
-			EnableWindow(GetDlgItem(hwndDlg, IDC_TYPEWIN), IsDlgButtonChecked(hwndDlg, IDC_SHOWNOTIFY));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_TYPETRAY), IsDlgButtonChecked(hwndDlg, IDC_SHOWNOTIFY));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_NOTIFYTRAY), IsDlgButtonChecked(hwndDlg, IDC_SHOWNOTIFY));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_NOTIFYBALLOON), IsDlgButtonChecked(hwndDlg, IDC_SHOWNOTIFY));
-			__fallthrough;
-
-		case IDC_TYPEWIN:
-		case IDC_NOTIFYTRAY:
-		case IDC_NOTIFYBALLOON:
-		case IDC_TYPINGSWITCH:
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			break;
-		}
-		break;
-	
-	case WM_NOTIFY:
-		switch (((NMHDR *)lParam)->idFrom) {
-		case IDC_CLIST:
-			switch (((NMHDR *)lParam)->code) {
-			case CLN_OPTIONSCHANGED:
-				ResetCList(hwndDlg);
-				break;
-			case CLN_CHECKCHANGED:
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-			case CLN_LISTREBUILT:
-				RebuildList(hwndDlg, hItemNew, hItemUnknown);
-				break;
-			}
-			break;
-		
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY:
-				SaveList(hwndDlg, hItemNew, hItemUnknown);
-				g_plugin.bShowTyping = IsDlgButtonChecked(hwndDlg, IDC_SHOWNOTIFY);
-				g_plugin.bShowTypingWin = IsDlgButtonChecked(hwndDlg, IDC_TYPEWIN);
-				g_plugin.bShowTypingTray = IsDlgButtonChecked(hwndDlg, IDC_TYPETRAY);
-				g_plugin.bShowTypingClist = IsDlgButtonChecked(hwndDlg, IDC_NOTIFYTRAY);
-				g_plugin.bShowTypingSwitch = IsDlgButtonChecked(hwndDlg, IDC_TYPINGSWITCH);
-				ReloadGlobals();
-				Srmm_Broadcast(DM_OPTIONSAPPLIED, 0, 0);
-			}
-			break;
-		}
-		break;
+		ReloadGlobals();
+		Srmm_Broadcast(DM_OPTIONSAPPLIED, 0, 0);
+		return true;
 	}
-	return FALSE;
-}
+
+	void onChange_Notify(CCtrlCheck *)
+	{
+		bool bChecked = chkTyping.GetState();
+		chkTypingWin.Enable(bChecked);
+		chkTypingTray.Enable(bChecked);
+		chkTypingClist.Enable(bChecked);
+		chkTypingBalloon.Enable(bChecked);
+	}
+
+	void onChange_Tray(CCtrlCheck *)
+	{
+		bool bChecked = chkTypingTray.GetState();
+		chkTypingClist.Enable(bChecked);
+		chkTypingBalloon.Enable(bChecked);
+	}
+
+	void onRebuildClist(CCtrlClc *)
+	{
+		BYTE defType = g_plugin.bTypingNew;
+		if (hItemNew && defType)
+			m_list.SetCheck(hItemNew, 1);
+
+		if (hItemUnknown && g_plugin.bTypingUnknown)
+			m_list.SetCheck(hItemUnknown, 1);
+
+		for (auto &hContact : Contacts()) {
+			HANDLE hItem = m_list.FindContact(hContact);
+			if (hItem && g_plugin.getByte(hContact, SRMSGSET_TYPING, defType))
+				m_list.SetCheck(hItem, 1);
+		}
+	}
+
+	void onResetClist(CCtrlClc *)
+	{
+		m_list.SetUseGroups(db_get_b(0, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT));
+		m_list.SetHideEmptyGroups(true);
+	}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+void ChatOptInitialize(WPARAM);
 
 int OptInitialise(WPARAM wParam, LPARAM)
 {
@@ -874,33 +844,12 @@ int OptInitialise(WPARAM wParam, LPARAM)
 	g_plugin.addOptions(wParam, &odp);
 
 	////////////////////////////////////////////////////////////////////////////////////////
-	odp.pDialog = nullptr;
 	odp.szGroup.a = LPGEN("Message sessions");
-	odp.szTitle.a = LPGEN("Group chats");
-
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS1);
-	odp.pfnDlgProc = DlgProcOptions1;
-	odp.szTab.a = LPGEN("General");
-	g_plugin.addOptions(wParam, &odp);
-
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS2);
-	odp.pfnDlgProc = DlgProcOptions2;
-	odp.szTab.a = LPGEN("Event log");
-	g_plugin.addOptions(wParam, &odp);
-
-	////////////////////////////////////////////////////////////////////////////////////////
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGTYPE);
 	odp.szTitle.a = LPGEN("Typing notify");
-	odp.pfnDlgProc = DlgProcTypeOptions;
-	odp.szTab.a = nullptr;
+	odp.pDialog = new CTypeOptionsDlg();
 	g_plugin.addOptions(wParam, &odp);
 
 	////////////////////////////////////////////////////////////////////////////////////////
-	odp.position = 910000002;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSPOPUP);
-	odp.szGroup.a = LPGEN("Popups");
-	odp.szTitle.a = LPGEN("Messaging");
-	odp.pfnDlgProc = DlgProcOptionsPopup;
-	g_plugin.addOptions(wParam, &odp);
+	ChatOptInitialize(wParam);
 	return 0;
 }
