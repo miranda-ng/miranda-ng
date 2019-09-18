@@ -1870,8 +1870,7 @@ void CMsgDialog::tabClearLog()
 	}
 	else {
 		if (m_hwndIEView || m_hwndHPP) {
-			IEVIEWEVENT event;
-			event.cbSize = sizeof(IEVIEWEVENT);
+			IEVIEWEVENT event = {};
 			event.iType = IEE_CLEAR_LOG;
 			event.dwFlags = (m_dwFlags & MWF_LOG_RTL) ? IEEF_RTL : 0;
 			event.hContact = m_hContact;

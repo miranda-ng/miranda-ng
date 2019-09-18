@@ -234,8 +234,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 		return 0;
 
 	//--------------Определяем тип окна-----------------
-	IEVIEWEVENT ieEvent = { 0 };
-	ieEvent.cbSize = sizeof(IEVIEWEVENT);
+	IEVIEWEVENT ieEvent = {};
 	ieEvent.iType = IEE_GET_SELECTION;
 
 	if (ServiceExists(MS_HPP_EG_EVENT)) {

@@ -631,9 +631,7 @@ void CMsgDialog::StreamInEvents(MEVENT hDbEventFirst, int count, int bAppend)
 	// IEVIew MOD Begin
 	if (m_hwndIeview != nullptr) {
 		IEVIEWEVENT evt;
-		IEVIEWWINDOW ieWindow;
-		memset(&evt, 0, sizeof(evt));
-		evt.cbSize = sizeof(evt);
+		IEVIEWWINDOW ieWindow = {};
 		evt.dwFlags = (m_bUseRtl) ? IEEF_RTL : 0;
 		evt.hwnd = m_hwndIeview;
 		evt.hContact = m_hContact;

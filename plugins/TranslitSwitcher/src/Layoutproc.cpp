@@ -381,12 +381,8 @@ void SwitchLayout(bool lastword)
 	if ((mir_wstrcmp(szClassName, L"THppRichEdit.UnicodeClass") == 0 || mir_wstrcmp(szClassName, L"THistoryGrid.UnicodeClass") == 0 || mir_wstrcmp(szClassName, L"TExtHistoryGrid.UnicodeClass") == 0 || mir_wstrcmp(szClassName, L"Internet Explorer_Server") == 0)) {
 		wchar_t buf[2048];
 		if (mir_wstrcmp(szClassName, L"Internet Explorer_Server") == 0) {
-			IEVIEWEVENT event;
 			HWND hwnd3 = GetParent(GetParent(hwnd2));
-			memset(&event, 0, sizeof(event));
-			event.cbSize = sizeof(IEVIEWEVENT);
-			event.hContact = 0;
-			event.dwFlags = 0;
+			IEVIEWEVENT event = {};
 			event.iType = IEE_GET_SELECTION;
 			event.hwnd = hwnd3;
 			wchar_t *selected = (wchar_t *)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&event);

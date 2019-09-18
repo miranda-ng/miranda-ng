@@ -25,7 +25,6 @@ int HTMLBuilder::mimFlags = 0;
 
 HTMLBuilder::HTMLBuilder()
 {
-	lastIEViewEvent.cbSize = sizeof(IEVIEWEVENT);
 	lastIEViewEvent.iType = IEE_LOG_MEM_EVENTS;
 	lastIEViewEvent.codepage = CP_ACP;
 	lastIEViewEvent.pszProto = nullptr;
@@ -228,7 +227,7 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 	event->hDbEventFirst = NULL;
 
 	ptrA szProto;
-	if (event->cbSize >= IEVIEWEVENT_SIZE_V3 && event->pszProto != nullptr)
+	if (event->pszProto != nullptr)
 		szProto = mir_strdup(event->pszProto);
 	else
 		szProto = getProto(event->hContact);
@@ -236,8 +235,7 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 	IEVIEWEVENT newEvent = { sizeof(IEVIEWEVENT) };
 	newEvent.iType = IEE_LOG_MEM_EVENTS;
 	newEvent.codepage = CP_ACP;
-	if (event->cbSize >= IEVIEWEVENT_SIZE_V2)
-		newEvent.codepage = event->codepage;
+	newEvent.codepage = event->codepage;
 	newEvent.pszProto = szProto;
 	newEvent.count = 0;
 	newEvent.dwFlags = event->dwFlags;
@@ -263,55 +261,53 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 			hDbEvent = db_event_next(event->hContact, hDbEvent);
 			continue;
 		}
+	
 		IEVIEWEVENTDATA *eventData = new IEVIEWEVENTDATA;
-		eventData->cbSize = sizeof(IEVIEWEVENTDATA);
 		eventData->dwFlags = IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK | IEEDF_UNICODE_TEXT2 |
 			(dbei.flags & DBEF_READ ? IEEDF_READ : 0) | (dbei.flags & DBEF_SENT ? IEEDF_SENT : 0) | (dbei.flags & DBEF_RTL ? IEEDF_RTL : 0);
 		if (event->dwFlags & IEEF_RTL)
 			eventData->dwFlags |= IEEDF_RTL;
 
 		eventData->time = dbei.timestamp;
-		eventData->pszNickW = nullptr;
-		eventData->pszTextW = nullptr;
-		eventData->pszText2W = nullptr;
+		eventData->szNick.a = eventData->szText.a = eventData->szText2.a = nullptr;
 		if (dbei.flags & DBEF_SENT) {
-			eventData->pszNickW = getContactName(NULL, szProto);
+			eventData->szNick.w = getContactName(NULL, szProto);
 			eventData->bIsMe = TRUE;
 		}
 		else {
-			eventData->pszNickW = getContactName(event->hContact, szProto);
+			eventData->szNick.w = getContactName(event->hContact, szProto);
 			eventData->bIsMe = FALSE;
 		}
 		if (dbei.eventType == EVENTTYPE_MESSAGE || Utils::DbEventIsForMsgWindow(&dbei)) {
-			eventData->pszTextW = DbEvent_GetTextW(&dbei, newEvent.codepage);
+			eventData->szText.w = DbEvent_GetTextW(&dbei, newEvent.codepage);
 			if (dbei.eventType == EVENTTYPE_MESSAGE)
 				eventData->iType = IEED_EVENT_MESSAGE;
 			else
 				eventData->iType = IEED_EVENT_STATUSCHANGE;
 		}
 		else if (dbei.eventType == EVENTTYPE_FILE) {
-			//blob is: sequenceid(DWORD),filename(ASCIIZ),description(ASCIIZ)
+			// blob is: sequenceid(DWORD),filename(ASCIIZ),description(ASCIIZ)
 			char* filename = ((char *)dbei.pBlob) + sizeof(DWORD);
 			char* descr = filename + mir_strlen(filename) + 1;
-			eventData->ptszText = DbEvent_GetString(&dbei, filename);
+			eventData->szText.w = DbEvent_GetString(&dbei, filename);
 			if (*descr != '\0')
-				eventData->ptszText2 = DbEvent_GetString(&dbei, descr);
+				eventData->szText.w = DbEvent_GetString(&dbei, descr);
 			eventData->iType = IEED_EVENT_FILE;
 		}
 		else if (dbei.eventType == EVENTTYPE_AUTHREQUEST) {
-			//blob is: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
-			eventData->ptszText = mir_wstrdup(TranslateT(" requested authorization"));
-			eventData->ptszNick = DbEvent_GetString(&dbei, (char *)dbei.pBlob + 8);
+			// blob is: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
+			eventData->szText.w = mir_wstrdup(TranslateT(" requested authorization"));
+			eventData->szNick.w = DbEvent_GetString(&dbei, (char *)dbei.pBlob + 8);
 			eventData->iType = IEED_EVENT_SYSTEM;
 		}
 		else if (dbei.eventType == EVENTTYPE_ADDED) {
 			//blob is: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
-			eventData->ptszText = mir_wstrdup(TranslateT(" was added."));
-			eventData->ptszNick = DbEvent_GetString(&dbei, (char *)dbei.pBlob + 8);
+			eventData->szText.w = mir_wstrdup(TranslateT(" was added."));
+			eventData->szNick.w = DbEvent_GetString(&dbei, (char *)dbei.pBlob + 8);
 			eventData->iType = IEED_EVENT_SYSTEM;
 		}
 		else { // custom event
-			eventData->pszTextW = DbEvent_GetTextW(&dbei, newEvent.codepage);
+			eventData->szText.w = DbEvent_GetTextW(&dbei, newEvent.codepage);
 			eventData->iType = IEED_EVENT_MESSAGE;
 		}
 		free(dbei.pBlob);
@@ -329,9 +325,9 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 	appendEventNew(view, &newEvent);
 	for (IEVIEWEVENTDATA* eventData2 = newEvent.eventData; eventData2 != nullptr;) {
 		IEVIEWEVENTDATA *eventData = eventData2->next;
-		mir_free((void*)eventData2->pszTextW);
-		mir_free((void*)eventData2->pszText2W);
-		mir_free((void*)eventData2->pszNickW);
+		mir_free((void*)eventData2->szText.w);
+		mir_free((void*)eventData2->szText2.w);
+		mir_free((void*)eventData2->szNick.w);
 		delete eventData2;
 		eventData2 = eventData;
 	}
@@ -384,12 +380,9 @@ ProtocolSettings* HTMLBuilder::getChatProtocolSettings(MCONTACT hContact)
 
 void HTMLBuilder::setLastIEViewEvent(IEVIEWEVENT *event)
 {
-	lastIEViewEvent.cbSize = sizeof(IEVIEWEVENT);
 	lastIEViewEvent.iType = event->iType;
 	lastIEViewEvent.codepage = CP_ACP;
-	if (event->cbSize >= IEVIEWEVENT_SIZE_V2)
-		lastIEViewEvent.codepage = event->codepage;
-
+	lastIEViewEvent.codepage = event->codepage;
 	lastIEViewEvent.count = 0;
 	lastIEViewEvent.dwFlags = event->dwFlags;
 	lastIEViewEvent.hContact = event->hContact;
@@ -398,7 +391,7 @@ void HTMLBuilder::setLastIEViewEvent(IEVIEWEVENT *event)
 	if (lastIEViewEvent.pszProto != nullptr)
 		mir_free((void*)lastIEViewEvent.pszProto);
 
-	if (event->cbSize >= IEVIEWEVENT_SIZE_V3 && event->pszProto != nullptr)
+	if (event->pszProto != nullptr)
 		lastIEViewEvent.pszProto = mir_strdup(event->pszProto);
 	else
 		lastIEViewEvent.pszProto = getProto(event->hContact);

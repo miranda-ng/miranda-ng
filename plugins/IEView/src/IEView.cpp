@@ -979,11 +979,7 @@ void* IEView::getSelection(IEVIEWEVENT *event)
 		return nullptr;
 
 	if (event->dwFlags & IEEF_NO_UNICODE) {
-		int cp = CP_ACP;
-		if (event->cbSize >= IEVIEWEVENT_SIZE_V2)
-			cp = event->codepage;
-
-		char *str = mir_u2a_cp(selectedText, cp);
+		char *str = mir_u2a_cp(selectedText, event->codepage);
 		mir_free(selectedText);
 		selectedText = (BSTR)str;
 	}
@@ -1131,7 +1127,7 @@ void IEView::saveDocument()
 void IEView::navigate(IEVIEWNAVIGATE *nav)
 {
 	if (nav->dwFlags & IENF_UNICODE)
-		navigate(nav->urlW);
+		navigate(nav->url.w);
 	else
-		navigate(nav->url);
+		navigate(nav->url.a);
 }

@@ -1193,8 +1193,7 @@ void CMsgDialog::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, DB
 
 	if (m_hwndIEView != nullptr || m_hwndHPP != nullptr) {
 		const char *pszService;
-		IEVIEWEVENT event = { 0 };
-		event.cbSize = sizeof(IEVIEWEVENT);
+		IEVIEWEVENT event = {};
 		event.hContact = m_hContact;
 		if (m_hwndIEView != nullptr) {
 			event.pszProto = m_szProto;
@@ -1216,7 +1215,6 @@ void CMsgDialog::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, DB
 
 		IEVIEWEVENTDATA evData = { 0 };
 		if (dbei_s != nullptr && hDbEventFirst == 0) {
-			evData.cbSize = sizeof(evData);
 			event.iType = IEE_LOG_MEM_EVENTS;
 			if (dbei_s->flags & DBEF_SENT) {
 				evData.dwFlags = IEEDF_SENT;
@@ -1224,7 +1222,7 @@ void CMsgDialog::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, DB
 			}
 			else {
 				evData.dwFlags = IEEDF_UNICODE_NICK;
-				evData.ptszNick = Clist_GetContactDisplayName(m_hContact);
+				evData.szNick.w = Clist_GetContactDisplayName(m_hContact);
 			}
 			switch (dbei_s->eventType) {
 				case EVENTTYPE_STATUSCHANGE: evData.iType = IEED_EVENT_STATUSCHANGE; break;
@@ -1232,7 +1230,7 @@ void CMsgDialog::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, DB
 				case EVENTTYPE_ERRMSG: evData.iType = IEED_EVENT_ERRMSG; break;
 				default: evData.iType = IEED_EVENT_MESSAGE; break;
 			}
-			evData.pszText = (char*)dbei_s->pBlob;
+			evData.szText.a = (char*)dbei_s->pBlob;
 			evData.time = dbei_s->timestamp;
 			event.eventData = &evData;
 			event.codepage = CP_UTF8;

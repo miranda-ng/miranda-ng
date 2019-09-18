@@ -293,33 +293,23 @@ void UnloadRenderer(HWND hWnd, int renderer)
 
 void DeleteOldEvents(HWND hWnd, int renderer)
 {
-	switch (renderer)
-	{
-		case RENDER_HISTORYPP:
-		case RENDER_IEVIEW:
-		{
-			PopupHistoryWindowData *data = (PopupHistoryWindowData *) GetWindowLongPtr(hWnd, GWLP_USERDATA);
-			if (data)
-			{
-				IEVIEWEVENT ieEvent = {0};
-				ieEvent.cbSize = sizeof(IEVIEWEVENT);
-				ieEvent.hwnd = data->hIEView;
-				ieEvent.iType = IEE_CLEAR_LOG;
-				
-				CallService((renderer == RENDER_HISTORYPP) ? MS_HPP_EG_EVENT : MS_IEVIEW_EVENT, 0, (LPARAM) &ieEvent);
-			}
-			
-			break;
+	PopupHistoryWindowData *data = (PopupHistoryWindowData *)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+
+	switch (renderer) {
+	case RENDER_HISTORYPP:
+	case RENDER_IEVIEW:
+		if (data) {
+			IEVIEWEVENT ieEvent = {};
+			ieEvent.hwnd = data->hIEView;
+			ieEvent.iType = IEE_CLEAR_LOG;
+			CallService((renderer == RENDER_HISTORYPP) ? MS_HPP_EG_EVENT : MS_IEVIEW_EVENT, 0, (LPARAM)&ieEvent);
 		}
+		break;
 		
-		case RENDER_DEFAULT:
-		default:
-		{
-			ListView_DeleteAllItems(GetDlgItem(hWnd, IDC_LST_HISTORY));
-			
-			break;
-		}
-		
+	case RENDER_DEFAULT:
+	default:
+		ListView_DeleteAllItems(GetDlgItem(hWnd, IDC_LST_HISTORY));
+		break;
 	}
 }
 
@@ -328,34 +318,27 @@ typedef void (*SIG_ADDEVENTS)(HWND hWnd, int renderer, wchar_t *filter, SIG_MATC
 
 IEVIEWEVENTDATA *CreateAndFillEventData(PopupHistoryData *popupItem)
 {
-	IEVIEWEVENTDATA *eventData = (IEVIEWEVENTDATA *) mir_calloc(sizeof(IEVIEWEVENTDATA));
-	if (eventData)
-	{
-		eventData->cbSize = sizeof(IEVIEWEVENTDATA);
+	IEVIEWEVENTDATA *eventData = (IEVIEWEVENTDATA *)mir_calloc(sizeof(IEVIEWEVENTDATA));
+	if (eventData) {
 		eventData->iType = IEED_EVENT_MESSAGE;
-
 		eventData->dwFlags = IEEDF_UNICODE_NICK | IEEDF_UNICODE_TEXT | IEEDF_UNICODE_TEXT2;
-		eventData->pszNickW = popupItem->titleW;
-		eventData->pszTextW = popupItem->messageW;
+		eventData->szNick.w = popupItem->titleW;
+		eventData->szText.w = popupItem->messageW;
 
-		eventData->time = (DWORD) popupItem->timestamp;
+		eventData->time = (DWORD)popupItem->timestamp;
 		eventData->next = nullptr;
 	}
-	
+
 	return eventData;
 }
 
 void AddEventsCustomControl(HWND hWnd, int renderer, wchar_t *filter, SIG_MATCHESFILTER MatchesFilter)
 {
-	PopupHistoryWindowData *pwData = (PopupHistoryWindowData *) GetWindowLongPtr(hWnd, GWLP_USERDATA);
-	if (pwData)
-	{
-		IEVIEWEVENT ieEvent = {0};
-		ieEvent.cbSize = sizeof(IEVIEWEVENT);
+	PopupHistoryWindowData *pwData = (PopupHistoryWindowData *)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+	if (pwData) {
+		IEVIEWEVENT ieEvent = {};
 		ieEvent.hwnd = pwData->hIEView;
-		ieEvent.codepage = CP_ACP;
 		ieEvent.iType = IEE_LOG_MEM_EVENTS;
-		ieEvent.hContact = NULL;
 		
 		IEVIEWEVENTDATA *eventData = nullptr;
 		IEVIEWEVENTDATA *cED = nullptr;
@@ -366,34 +349,27 @@ void AddEventsCustomControl(HWND hWnd, int renderer, wchar_t *filter, SIG_MATCHE
 		int size = lstPopupHistory.Count();
 		PopupHistoryData *popupItem;
 		
-		for (i = 0; i < size; i++)
-		{
+		for (i = 0; i < size; i++) {
 			popupItem = lstPopupHistory.Get(i);
-			if (MatchesFilter(filter, popupItem))
-			{
+			if (MatchesFilter(filter, popupItem)) {
 				cED = CreateAndFillEventData(popupItem);
-				if (cED)
-				{
+				if (cED) {
 					count++;
 					if (!eventData)
-					{
 						eventData = cED;
-					}
-					else{
+					else
 						prevED->next = cED;
-					}
-					
+
 					prevED = cED;
 				}
 			}
 		}
+
 		ieEvent.count = count;
 		ieEvent.eventData = eventData;
-		
 		CallService((renderer == RENDER_HISTORYPP) ? MS_HPP_EG_EVENT : MS_IEVIEW_EVENT, 0, (LPARAM) &ieEvent);
 		
-		while (eventData)
-		{
+		while (eventData) {
 			cED = eventData;
 			eventData = eventData->next;
 			mir_free(cED);
@@ -406,15 +382,14 @@ void AddEventsDefault(HWND hWnd, int, wchar_t *filter, SIG_MATCHESFILTER Matches
 	HWND hHistoryList = GetDlgItem(hWnd, IDC_LST_HISTORY);
 	wchar_t buffer[1024];
 	struct tm *myTime;
-	
-	LVITEM item = {0};
+
+	LVITEM item = { 0 };
 	item.mask = LVIF_TEXT;
 
 	int i, lIndex;
 	lIndex = 0;
 	PopupHistoryData *popupItem;
-	for (i = 0; i < lstPopupHistory.Count(); i++)
-	{
+	for (i = 0; i < lstPopupHistory.Count(); i++) {
 		item.iItem = lIndex;
 		popupItem = lstPopupHistory.Get(i);
 		if (MatchesFilter(filter, popupItem))
@@ -431,7 +406,9 @@ void AddEventsDefault(HWND hWnd, int, wchar_t *filter, SIG_MATCHESFILTER Matches
 
 void RefreshPopupHistory(HWND hWnd, int renderer)
 {
-	if (!hWnd) { return; }
+	if (!hWnd)
+		return;
+
 	const int MAX_FILTER_SIZE = 1024;
 	SIG_MATCHESFILTER MatchesFilter = (IsDlgButtonChecked(hWnd, IDC_HISTORY_FILTER_CASESENSITIVE)) ? MatchesFilterCS : MatchesFilterCI; //case sensitive compare or not ?
 	
@@ -439,33 +416,29 @@ void RefreshPopupHistory(HWND hWnd, int renderer)
 
 	wchar_t filter[MAX_FILTER_SIZE];
 	DeleteOldEvents(hWnd, renderer); //delete events
-		
+
 	GetDlgItemText(hWnd, IDC_HISTORY_FILTER, filter, _countof(filter)); //get filter text
-	
+
 	AddEvents(hWnd, renderer, filter, MatchesFilter);
-	
-	if (renderer == RENDER_DEFAULT)
-	{
+
+	if (renderer == RENDER_DEFAULT) {
 		HWND hHistoryList = GetDlgItem(hWnd, IDC_LST_HISTORY);
 		SortParams params = {};
 		params.hList = hHistoryList;
 		params.column = lastColumn;
-		
+
 		ListView_SortItemsEx(hHistoryList, PopupsCompare, &params);
 	}
 }
 
 void CopyPopupDataToClipboard(HWND hList, int selection)
 {
-	if (!selection)
-	{
+	if (!selection) {
 		return;
 	}
-	
-	if (!GetOpenClipboardWindow())
-	{
-		if (OpenClipboard(hList))
-		{
+
+	if (!GetOpenClipboardWindow()) {
+		if (OpenClipboard(hList)) {
 			wchar_t buffer[2048];
 			buffer[0] = '\0';
 			wchar_t *clipboard;
@@ -476,38 +449,34 @@ void CopyPopupDataToClipboard(HWND hList, int selection)
 
 			textType = CF_UNICODETEXT;
 
-			
-			for (i = 0; i < count; i++)
-			{
-				if (ListView_GetItemState(hList, i, LVIS_SELECTED))
-				{
+
+			for (i = 0; i < count; i++) {
+				if (ListView_GetItemState(hList, i, LVIS_SELECTED)) {
 					ListView_GetItemText(hList, i, selection - 100, buffer, _countof(buffer));
 					found = 1;
 					break;
 				}
 			}
-			if (found)
-			{
+			if (found) {
 				EmptyClipboard();
 				int len = (int)mir_wstrlen(buffer);
-				
+
 				HANDLE hData = GlobalAlloc(GMEM_MOVEABLE, (len + 2) * sizeof(wchar_t));
-				clipboard = (wchar_t *) GlobalLock(hData);
+				clipboard = (wchar_t *)GlobalLock(hData);
 				wcsncpy(clipboard, buffer, len);
 				clipboard[len] = '\0';
 				GlobalUnlock(hData);
-				if (!SetClipboardData(textType, hData))
-				{
+				if (!SetClipboardData(textType, hData)) {
 					PUShowMessage("Could not set clipboard data", SM_WARNING);
 				}
 			}
 			CloseClipboard();
 		}
-		else{
+		else {
 			PUShowMessage("Could not open clipboard", SM_WARNING);
 		}
 	}
-	else{
+	else {
 		PUShowMessage("The clipboard is not available", SM_WARNING);
 	}
 }
@@ -519,7 +488,7 @@ static LRESULT CALLBACK PopupsListSubclassProc(HWND hWnd, UINT msg, WPARAM wPara
 	case WM_CONTEXTMENU:
 		{
 			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
-			int selection;		
+			int selection;
 
 			HMENU hMenu = CreatePopupMenu();
 			AppendMenu(hMenu, MF_STRING, POPUPMENU_TITLE, TranslateT("Copy title to clipboard"));
@@ -527,8 +496,7 @@ static LRESULT CALLBACK PopupsListSubclassProc(HWND hWnd, UINT msg, WPARAM wPara
 			AppendMenu(hMenu, MF_STRING, POPUPMENU_TIMESTAMP, TranslateT("Copy timestamp to clipboard"));
 			selection = TrackPopupMenu(hMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hWnd, nullptr);
 			DestroyMenu(hMenu);
-			if (selection)
-			{
+			if (selection) {
 				CopyPopupDataToClipboard(hWnd, selection);
 			}
 
@@ -563,16 +531,15 @@ void LoadHistoryColumns(HWND hHistoryList)
 	LVCOLUMN col;
 	col.mask = LVCF_TEXT | LVCF_WIDTH;
 	int i;
-	
-	for (i  = 0; i < cHistoryColumns; i++)
-	{
+
+	for (i = 0; i < cHistoryColumns; i++) {
 		col.pszText = TranslateW(szHistoryColumns[i]);
 		col.cx = cxHistoryColumns[i];
 		ListView_InsertColumn(hHistoryList, i, &col);
 	}
 }
 
-//this is the history list window handler
+// this is the history list window handler
 INT_PTR CALLBACK DlgProcHistLst(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static int bInitializing;
@@ -610,7 +577,7 @@ INT_PTR CALLBACK DlgProcHistLst(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 	case WM_WINDOWPOSCHANGING:
 		{
-			WINDOWPOS *wndPos = (WINDOWPOS *) lParam;
+			WINDOWPOS *wndPos = (WINDOWPOS *)lParam;
 
 			if (wndPos->cx < MIN_HISTORY_WIDTH)
 				wndPos->cx = MIN_HISTORY_WIDTH;
@@ -650,22 +617,20 @@ INT_PTR CALLBACK DlgProcHistLst(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 		break;
 
 	case WM_NOTIFY:
-		switch(((LPNMHDR)lParam)->idFrom) {
+		switch (((LPNMHDR)lParam)->idFrom) {
 		case IDC_LST_HISTORY:
 			switch (((LPNMHDR)lParam)->code) {
 			case LVN_COLUMNCLICK:
-				{
-					LPNMLISTVIEW lv = (LPNMLISTVIEW) lParam;
-					int column = lv->iSubItem;
-					SortParams params = {};
-					params.hList = GetDlgItem(hWnd, IDC_LST_HISTORY);
-					params.column = column;
+				LPNMLISTVIEW lv = (LPNMLISTVIEW)lParam;
+				int column = lv->iSubItem;
+				SortParams params = {};
+				params.hList = GetDlgItem(hWnd, IDC_LST_HISTORY);
+				params.column = column;
 
-					ListView_SortItemsEx(params.hList, PopupsCompare, (LPARAM) &params);
-					lastColumn = (params.column == lastColumn) ? -1 : params.column;
+				ListView_SortItemsEx(params.hList, PopupsCompare, (LPARAM)&params);
+				lastColumn = (params.column == lastColumn) ? -1 : params.column;
 
-					break;
-				}
+				break;
 			}
 		}
 		break;

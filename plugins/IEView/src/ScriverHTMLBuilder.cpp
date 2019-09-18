@@ -290,14 +290,14 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 			}
 			ptrA szName, szText;
 			if (eventData->dwFlags & IEEDF_UNICODE_NICK)
-				szName = encodeUTF8(event->hContact, szRealProto, eventData->pszNickW, ENF_NAMESMILEYS, true);
+				szName = encodeUTF8(event->hContact, szRealProto, eventData->szNick.w, ENF_NAMESMILEYS, true);
 			else
-				szName = encodeUTF8(event->hContact, szRealProto, eventData->pszNick, ENF_NAMESMILEYS, true);
+				szName = encodeUTF8(event->hContact, szRealProto, eventData->szNick.a, ENF_NAMESMILEYS, true);
 
 			if (eventData->dwFlags & IEEDF_UNICODE_TEXT)
-				szText = encodeUTF8(event->hContact, szRealProto, eventData->pszTextW, ENF_ALL, isSent);
+				szText = encodeUTF8(event->hContact, szRealProto, eventData->szText.w, ENF_ALL, isSent);
 			else
-				szText = encodeUTF8(event->hContact, szRealProto, eventData->pszText, event->codepage, ENF_ALL, isSent);
+				szText = encodeUTF8(event->hContact, szRealProto, eventData->szText.a, event->codepage, ENF_ALL, isSent);
 
 			/* Scriver-specific formatting */
 			if ((dwFlags & SMF_LOG_DRAWLINES) && isGroupBreak && getLastEventType() != -1) {
