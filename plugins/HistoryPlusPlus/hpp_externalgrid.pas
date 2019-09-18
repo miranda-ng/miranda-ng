@@ -29,6 +29,8 @@ uses
   hpp_global, HistoryGrid, RichEdit, Menus, ShellAPI;
 
 type
+  TExGridMode = (gmNative, gmIEView);
+
   PExtCustomItem = ^TExtCustomItem;
 
   TExtCustomItem = record
@@ -83,6 +85,7 @@ type
     pmLink: TPopupMenu;
     miEventsFilter: TMenuItem;
     WasKeyPressed: Boolean;
+    FGridMode: TExGridMode;
     FUseHistoryRTLMode: Boolean;
     FExternalRTLMode: TRTLMode;
     FUseHistoryCodepage: Boolean;
@@ -150,6 +153,7 @@ type
     procedure Clear;
     property ParentWindow: HWND read FParentWindow;
     property GridHandle: HWND read GetGridHandle;
+    property GridMode: TExGridMode read FGridMode write FGridMode;
     property UseHistoryRTLMode: Boolean read FUseHistoryRTLMode write SetUseHistoryRTLMode;
     property UseHistoryCodepage: Boolean read FUseHistoryCodepage write SetUseHistoryCodepage;
     function Perform(Msg: Cardinal; WParam:WPARAM; LParam: LPARAM): LRESULT;
@@ -346,6 +350,7 @@ constructor TExternalGrid.Create(AParentWindow: HWND; ControlID: Cardinal = 0);
 begin
   FParentWindow := AParentWindow;
   WasKeyPressed := False;
+  FGridMode := gmNative;
   FUseHistoryRTLMode := False;
   FExternalRTLMode := hppRTLDefault;
   FUseHistoryCodepage := False;

@@ -94,8 +94,7 @@ int MoveIeView(HWND hWnd)
 {
 	HistoryWindowData *data = (HistoryWindowData *)GetWindowLongPtr(hWnd, DWLP_USER);
 	if (data) {
-		IEVIEWWINDOW ieWnd = { 0 };
-		ieWnd.cbSize = sizeof(ieWnd);
+		IEVIEWWINDOW ieWnd = {};
 		ieWnd.parent = hWnd;
 		ieWnd.hwnd = data->hIEView;
 		ieWnd.iType = IEW_SETPOS;
@@ -108,8 +107,7 @@ int MoveIeView(HWND hWnd)
 int DestroyIEView(HWND hWnd)
 {
 	HistoryWindowData *data = (HistoryWindowData *)GetWindowLongPtr(hWnd, DWLP_USER);
-	IEVIEWWINDOW ieWnd = { 0 };
-	ieWnd.cbSize = sizeof(ieWnd);
+	IEVIEWWINDOW ieWnd = {};
 	ieWnd.parent = hWnd;
 	ieWnd.hwnd = data->hIEView;
 	ieWnd.iType = IEW_DESTROY;
@@ -319,8 +317,7 @@ int LoadNext(HWND hWnd)
 int ScrollToBottom(HWND hWnd)
 {
 	HistoryWindowData *data = (HistoryWindowData *)GetWindowLongPtr(hWnd, DWLP_USER);
-	IEVIEWWINDOW ieWnd = { 0 };
-	ieWnd.cbSize = sizeof(ieWnd);
+	IEVIEWWINDOW ieWnd = {};
 	ieWnd.iType = IEW_SCROLLBOTTOM;
 	ieWnd.hwnd = data->hIEView;
 	ieWnd.parent = hWnd;

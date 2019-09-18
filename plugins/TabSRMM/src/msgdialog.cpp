@@ -798,15 +798,13 @@ void CMsgDialog::OnDestroy()
 
 	// clean up IEView and H++ log windows
 	if (m_hwndIEView != nullptr) {
-		IEVIEWWINDOW ieWindow;
-		ieWindow.cbSize = sizeof(IEVIEWWINDOW);
+		IEVIEWWINDOW ieWindow = {};
 		ieWindow.iType = IEW_DESTROY;
 		ieWindow.hwnd = m_hwndIEView;
 		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
 	}
 	if (m_hwndHPP) {
-		IEVIEWWINDOW ieWindow;
-		ieWindow.cbSize = sizeof(IEVIEWWINDOW);
+		IEVIEWWINDOW ieWindow = {};
 		ieWindow.iType = IEW_DESTROY;
 		ieWindow.hwnd = m_hwndHPP;
 		CallService(MS_HPP_EG_WINDOW, 0, (LPARAM)&ieWindow);

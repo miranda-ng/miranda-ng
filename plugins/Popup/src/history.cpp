@@ -138,14 +138,10 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 				logType = LOG_HPP;
 				ShowWindow(GetDlgItem(hwnd, IDC_POPUP_LIST), SW_HIDE);
 
-				IEVIEWWINDOW ieWindow;
-				ieWindow.cbSize = sizeof(IEVIEWWINDOW);
+				IEVIEWWINDOW ieWindow = {};
 				ieWindow.iType = IEW_CREATE;
-				ieWindow.dwFlags = 0;
 				ieWindow.dwMode = IEWM_MUCC;
 				ieWindow.parent = hwnd;
-				ieWindow.x = 0;
-				ieWindow.y = 0;
 				ieWindow.cx = 100;
 				ieWindow.cy = 100;
 				CallService(MS_HPP_EG_WINDOW, 0, (LPARAM)&ieWindow);
@@ -158,7 +154,6 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 				pt.y = rcLst.top;
 				ScreenToClient(hwnd, &pt);
 
-				ieWindow.cbSize = sizeof(IEVIEWWINDOW);
 				ieWindow.iType = IEW_SETPOS;
 				ieWindow.parent = hwnd;
 				ieWindow.hwnd = hwndLog;
@@ -295,8 +290,7 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 					rcLst.left, rcLst.top, rcLst.right - rcLst.left, rcLst.bottom - rcLst.top,
 					SWP_NOZORDER | SWP_DEFERERASE | SWP_SHOWWINDOW);
 
-				IEVIEWWINDOW ieWindow;
-				ieWindow.cbSize = sizeof(IEVIEWWINDOW);
+				IEVIEWWINDOW ieWindow = {};
 				ieWindow.iType = IEW_SETPOS;
 				ieWindow.parent = hwnd;
 				ieWindow.hwnd = hwndLog;
@@ -382,10 +376,8 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 
 	case WM_DESTROY:
 		if (logType == LOG_HPP) {
-			IEVIEWWINDOW ieWindow;
-			ieWindow.cbSize = sizeof(IEVIEWWINDOW);
+			IEVIEWWINDOW ieWindow = {};
 			ieWindow.iType = IEW_DESTROY;
-			ieWindow.dwFlags = 0;
 			ieWindow.dwMode = IEWM_TABSRMM;
 			ieWindow.parent = hwnd;
 			ieWindow.hwnd = hwndLog;

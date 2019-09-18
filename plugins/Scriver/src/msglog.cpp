@@ -631,7 +631,6 @@ void CMsgDialog::StreamInEvents(MEVENT hDbEventFirst, int count, int bAppend)
 	// IEVIew MOD Begin
 	if (m_hwndIeview != nullptr) {
 		IEVIEWEVENT evt;
-		IEVIEWWINDOW ieWindow = {};
 		evt.dwFlags = (m_bUseRtl) ? IEEF_RTL : 0;
 		evt.hwnd = m_hwndIeview;
 		evt.hContact = m_hContact;
@@ -646,8 +645,7 @@ void CMsgDialog::StreamInEvents(MEVENT hDbEventFirst, int count, int bAppend)
 		CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&evt);
 		m_hDbEventLast = evt.hDbEventFirst != 0 ? evt.hDbEventFirst : m_hDbEventLast;
 
-		memset(&ieWindow, 0, sizeof(ieWindow));
-		ieWindow.cbSize = sizeof(ieWindow);
+		IEVIEWWINDOW ieWindow = {};
 		ieWindow.iType = IEW_SCROLLBOTTOM;
 		ieWindow.hwnd = m_hwndIeview;
 		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);

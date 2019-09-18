@@ -44,7 +44,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct IEVIEWWINDOW
 {
-	int    cbSize;          // size of the strusture
 	int    iType;           // one of IEW_* values
 	DWORD  dwMode;          // compatibility mode - one of IEWM_* values
 	DWORD  dwFlags;         // flags, one of IEWF_* values
@@ -165,7 +164,6 @@ struct IEVIEWEVENT
 
 struct IEVIEWNAVIGATE
 {
-	int cbSize;                     // size of the strusture
 	int iType;                      // one of IEN_* values
 	DWORD dwFlags;                  // one of IEEF_* values
 	HWND hwnd;                      // HWND returned by IEW_CREATE

@@ -221,8 +221,7 @@ void CMsgDialog::Reattach(HWND hwndContainer)
 void CMsgDialog::ScrollToBottom()
 {
 	if (m_hwndIeview != nullptr) {
-		IEVIEWWINDOW ieWindow;
-		ieWindow.cbSize = sizeof(IEVIEWWINDOW);
+		IEVIEWWINDOW ieWindow = {};
 		ieWindow.iType = IEW_SCROLLBOTTOM;
 		ieWindow.hwnd = m_hwndIeview;
 		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);

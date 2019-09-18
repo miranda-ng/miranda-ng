@@ -60,6 +60,7 @@ uses
   hpp_mescatcher in 'hpp_mescatcher.pas',
   CustomizeFiltersForm in 'CustomizeFiltersForm.pas' {fmCustomizeFilters},
   CustomizeToolbar in 'CustomizeToolbar.pas' {fmCustomizeToolbar},
+  hpp_external in 'hpp_external.pas',
   hpp_externalgrid in 'hpp_externalgrid.pas',
   hpp_richedit in 'hpp_richedit.pas',
   hpp_olesmileys in 'hpp_olesmileys.pas',
@@ -153,6 +154,9 @@ begin
   HookModulesLoad := HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoad);
   HookOptInit := HookEvent(ME_OPT_INITIALISE, OnOptInit);
   hppRegisterServices;
+{$IFNDEF NO_EXTERNALGRID}
+  RegisterExtGridServices;
+{$ENDIF}
   hppRegisterMainWindow;
  Result := 0;
 end;
@@ -183,6 +187,9 @@ begin
   try
     // destroy hidden main window
     hppUnregisterMainWindow;
+    {$IFNDEF NO_EXTERNALGRID}
+    UnregisterExtGridServices;
+    {$ENDIF}
     // unregistering events
     hppUnregisterServices;
     // unregister bookmarks

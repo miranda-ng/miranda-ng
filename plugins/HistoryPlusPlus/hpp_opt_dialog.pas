@@ -39,7 +39,8 @@ implementation
 uses
   Messages, CommCtrl,
   m_api,
-  hpp_global, hpp_options, hpp_services, hpp_database,
+  hpp_global, hpp_options, hpp_services, hpp_database
+  {$IFNDEF NO_EXTERNALGRID}, hpp_external{$ENDIF},
   HistoryForm, GlobalSearch;
 
 const
@@ -119,9 +120,11 @@ begin
   if GetChecked(IDC_RECENTONTOP) <> GetDBBool(hppDBName,'SortOrder',false) then exit;
   if GetChecked(IDC_GROUPHISTITEMS) <> GetDBBool(hppDBName,'GroupHistoryItems',false) then exit;
 
+  {$IFNDEF NO_EXTERNALGRID}
   if GetChecked(IDC_GROUPLOGITEMS) <> GetDBBool(hppDBName,'GroupLogItems',false) then exit;
   if GetChecked(IDC_DISABLEBORDER) <> GetDBBool(hppDBName,'NoLogBorder',false) then exit;
   if GetChecked(IDC_DISABLESCROLL) <> GetDBBool(hppDBName,'NoLogScrollBar',false) then exit;
+  {$ENDIF}
 
   Result := False;
 end;
@@ -175,6 +178,25 @@ begin
     for i := 0 to HstWindowList.Count - 1 do
       THistoryFrm(HstWindowList[i]).hg.GroupLinked := Checked;
   end;
+
+  {$IFNDEF NO_EXTERNALGRID}
+  Checked := GetChecked(IDC_GROUPLOGITEMS);
+  if Checked <> GetDBBool(hppDBName,'GroupLogItems',false) then
+  begin
+    WriteDBBool(hppDBName,'GroupLogItems',Checked);
+    ExternalGrids.GroupLinked := Checked;
+  end;
+
+  Checked := GetChecked(IDC_DISABLEBORDER);
+  if Checked <> GetDBBool(hppDBName,'NoLogBorder',false) then
+    WriteDBBool(hppDBName,'NoLogBorder',Checked);
+  //ShowRestart := ShowRestart or (Checked <> DisableLogBorder);
+
+  Checked := GetChecked(IDC_DISABLESCROLL);
+  if Checked <> GetDBBool(hppDBName,'NoLogScrollBar',false) then
+    WriteDBBool(hppDBName,'NoLogScrollBar',Checked);
+  //ShowRestart := ShowRestart or (Checked <> DisableLogScrollbar);
+  {$ENDIF}
 
   if ShowRestart then
     ShowWindow(GetDlgItem(hDlg,ID_NEED_RESTART),SW_SHOW)

@@ -1,6 +1,7 @@
 {$include m_actman.inc}
 {$include m_fingerprint.inc}
 {$include m_folders.inc}
+{$include m_ieview.inc}
 {$include m_msg_buttonsbar.inc}
 {$include m_proto_listeningto.inc}
 {$include m_radio.inc}

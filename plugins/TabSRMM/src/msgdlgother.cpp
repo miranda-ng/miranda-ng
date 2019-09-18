@@ -1478,7 +1478,6 @@ void CMsgDialog::SetMessageLog()
 
 	if (iLogMode == WANT_IEVIEW_LOG && m_hwndIEView == nullptr) {
 		IEVIEWWINDOW ieWindow = {};
-		ieWindow.cbSize = sizeof(IEVIEWWINDOW);
 		ieWindow.iType = IEW_CREATE;
 		ieWindow.dwMode = IEWM_TABSRMM;
 		ieWindow.parent = m_hwnd;
@@ -1491,7 +1490,6 @@ void CMsgDialog::SetMessageLog()
 	}
 	else if (iLogMode == WANT_HPP_LOG && m_hwndHPP == nullptr) {
 		IEVIEWWINDOW ieWindow = {};
-		ieWindow.cbSize = sizeof(IEVIEWWINDOW);
 		ieWindow.iType = IEW_CREATE;
 		ieWindow.dwMode = IEWM_TABSRMM;
 		ieWindow.parent = m_hwnd;

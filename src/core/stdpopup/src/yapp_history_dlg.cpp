@@ -212,82 +212,63 @@ int CalcCustomControlPos(IEVIEWWINDOW *ieWnd, HWND hMainWindow)
 
 void MoveCustomControl(HWND hWnd, int renderer)
 {
-	switch (renderer)
-	{
-		case RENDER_HISTORYPP:
-		case RENDER_IEVIEW:
-		{
-			PopupHistoryWindowData *data = (PopupHistoryWindowData *) GetWindowLongPtr(hWnd, GWLP_USERDATA);
-			if (data)
-			{
-					IEVIEWWINDOW ieWnd = {0};
-					ieWnd.cbSize = sizeof(ieWnd);
-					ieWnd.parent = hWnd;
-					ieWnd.hwnd = data->hIEView;
-					ieWnd.iType = IEW_SETPOS;
-					CalcCustomControlPos(&ieWnd, hWnd);
-					
-					CallService((renderer == RENDER_HISTORYPP) ? MS_HPP_EG_WINDOW : MS_IEVIEW_WINDOW, 0, (LPARAM) &ieWnd);
-			}
-			
-			break;
+	switch (renderer) {
+	case RENDER_HISTORYPP:
+	case RENDER_IEVIEW:
+		PopupHistoryWindowData *data = (PopupHistoryWindowData *)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+		if (data) {
+			IEVIEWWINDOW ieWnd = {};
+			ieWnd.parent = hWnd;
+			ieWnd.hwnd = data->hIEView;
+			ieWnd.iType = IEW_SETPOS;
+			CalcCustomControlPos(&ieWnd, hWnd);
+
+			CallService((renderer == RENDER_HISTORYPP) ? MS_HPP_EG_WINDOW : MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWnd);
 		}
+
+		break;
 	}
 }
 
 void LoadRenderer(HWND hWnd, int renderer)
 {
-	switch (renderer)
-	{
-		case RENDER_HISTORYPP:
-		case RENDER_IEVIEW:
-		{
-			IEVIEWWINDOW ieWnd = {0};
-			
-			ieWnd.cbSize = sizeof(ieWnd);
-			ieWnd.iType = IEW_CREATE;
-			ieWnd.dwMode = IEWM_HISTORY;
-			ieWnd.dwFlags = 0;
-			ieWnd.parent = hWnd;
-			CalcCustomControlPos(&ieWnd, hWnd);
-			
-			CallService((renderer == RENDER_HISTORYPP) ? MS_HPP_EG_WINDOW : MS_IEVIEW_WINDOW, 0, (LPARAM) &ieWnd); //create the IeView or H++ control.
-			
-			PopupHistoryWindowData *data = (PopupHistoryWindowData *) mir_alloc(sizeof(PopupHistoryWindowData)); //create custom control data
-			data->hIEView = ieWnd.hwnd;
-			ShowWindow(data->hIEView, SW_SHOW);
-			SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR) data); //set it as the window's user data
-			ShowWindow(GetDlgItem(hWnd, IDC_LST_HISTORY), SW_HIDE);
-			//SetWindowPos(GetDlgItem(hWnd, IDC_LST_HISTORY), HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-			
-			break;
-		}
+	switch (renderer) {
+	case RENDER_HISTORYPP:
+	case RENDER_IEVIEW:
+		IEVIEWWINDOW ieWnd = {};
+		ieWnd.iType = IEW_CREATE;
+		ieWnd.dwMode = IEWM_HISTORY;
+		ieWnd.parent = hWnd;
+		CalcCustomControlPos(&ieWnd, hWnd);
+
+		CallService((renderer == RENDER_HISTORYPP) ? MS_HPP_EG_WINDOW : MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWnd); //create the IeView or H++ control.
+
+		PopupHistoryWindowData *data = (PopupHistoryWindowData *)mir_alloc(sizeof(PopupHistoryWindowData)); //create custom control data
+		data->hIEView = ieWnd.hwnd;
+		ShowWindow(data->hIEView, SW_SHOW);
+		SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)data); //set it as the window's user data
+		ShowWindow(GetDlgItem(hWnd, IDC_LST_HISTORY), SW_HIDE);
+		break;
 	}
 }
 
 void UnloadRenderer(HWND hWnd, int renderer)
 {
-	switch (renderer)
-	{
-		case RENDER_HISTORYPP:
-		case RENDER_IEVIEW:
-		{
-			PopupHistoryWindowData *data = (PopupHistoryWindowData *) GetWindowLongPtr(hWnd, GWLP_USERDATA);
-			
-			if (data)
-			{
-				IEVIEWWINDOW ieWnd = {0};
-				ieWnd.cbSize = sizeof(ieWnd);
-				ieWnd.parent = hWnd;
-				ieWnd.hwnd = data->hIEView;
-				ieWnd.iType = IEW_DESTROY;
-				CallService((renderer == RENDER_HISTORYPP) ? MS_HPP_EG_WINDOW : MS_IEVIEW_WINDOW, 0, (LPARAM) &ieWnd);		
-				
-				mir_free(data);
-			}
-			
-			break;
+	switch (renderer) {
+	case RENDER_HISTORYPP:
+	case RENDER_IEVIEW:
+		PopupHistoryWindowData *data = (PopupHistoryWindowData *)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+		if (data) {
+			IEVIEWWINDOW ieWnd = {};
+			ieWnd.parent = hWnd;
+			ieWnd.hwnd = data->hIEView;
+			ieWnd.iType = IEW_DESTROY;
+			CallService((renderer == RENDER_HISTORYPP) ? MS_HPP_EG_WINDOW : MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWnd);
+
+			mir_free(data);
 		}
+
+		break;
 	}
 }
 
