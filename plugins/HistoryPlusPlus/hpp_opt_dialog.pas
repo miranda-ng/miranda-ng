@@ -39,8 +39,7 @@ implementation
 uses
   Messages, CommCtrl,
   m_api,
-  hpp_global, hpp_options, hpp_services, hpp_database
-  {$IFNDEF NO_EXTERNALGRID}, hpp_external{$ENDIF},
+  hpp_global, hpp_options, hpp_services, hpp_database,
   HistoryForm, GlobalSearch;
 
 const
@@ -58,7 +57,6 @@ const
   IDC_AVATARSHISTORY   = 205; // "Display chanage avatars" checkbox
 
   ID_MESSAGELOG_GROUP  = 300; // "Message log options" group
-  IDC_IEVIEWAPI        = 301; // "Imitate IEView API" checkbox
   IDC_GROUPLOGITEMS    = 302; // "Group messages" checkbox
   IDC_DISABLEBORDER    = 303; // "Disable border" checkbox
   IDC_DISABLESCROLL    = 304; // "Disable scrollbar" checkbox
@@ -122,7 +120,6 @@ begin
   if GetChecked(IDC_GROUPHISTITEMS) <> GetDBBool(hppDBName,'GroupHistoryItems',false) then exit;
 
   {$IFNDEF NO_EXTERNALGRID}
-  if GetChecked(IDC_IEVIEWAPI)     <> GetDBBool(hppDBName,'IEViewAPI',false) then exit;
   if GetChecked(IDC_GROUPLOGITEMS) <> GetDBBool(hppDBName,'GroupLogItems',false) then exit;
   if GetChecked(IDC_DISABLEBORDER) <> GetDBBool(hppDBName,'NoLogBorder',false) then exit;
   if GetChecked(IDC_DISABLESCROLL) <> GetDBBool(hppDBName,'NoLogScrollBar',false) then exit;
@@ -181,30 +178,6 @@ begin
       THistoryFrm(HstWindowList[i]).hg.GroupLinked := Checked;
   end;
 
-  {$IFNDEF NO_EXTERNALGRID}
-  Checked := GetChecked(IDC_IEVIEWAPI);
-  if Checked <> GetDBBool(hppDBName,'IEViewAPI',false) then
-    WriteDBBool(hppDBName,'IEViewAPI',Checked);
-  ShowRestart := ShowRestart or (Checked <> ImitateIEView);
-
-  Checked := GetChecked(IDC_GROUPLOGITEMS);
-  if Checked <> GetDBBool(hppDBName,'GroupLogItems',false) then
-  begin
-    WriteDBBool(hppDBName,'GroupLogItems',Checked);
-    ExternalGrids.GroupLinked := Checked;
-  end;
-
-  Checked := GetChecked(IDC_DISABLEBORDER);
-  if Checked <> GetDBBool(hppDBName,'NoLogBorder',false) then
-    WriteDBBool(hppDBName,'NoLogBorder',Checked);
-  //ShowRestart := ShowRestart or (Checked <> DisableLogBorder);
-
-  Checked := GetChecked(IDC_DISABLESCROLL);
-  if Checked <> GetDBBool(hppDBName,'NoLogScrollBar',false) then
-    WriteDBBool(hppDBName,'NoLogScrollBar',Checked);
-  //ShowRestart := ShowRestart or (Checked <> DisableLogScrollbar);
-  {$ENDIF}
-
   if ShowRestart then
     ShowWindow(GetDlgItem(hDlg,ID_NEED_RESTART),SW_SHOW)
   else
@@ -235,7 +208,6 @@ begin
       SetChecked(IDC_RECENTONTOP,GetDBBool(hppDBName,'SortOrder',false));
       SetChecked(IDC_GROUPHISTITEMS,GetDBBool(hppDBName,'GroupHistoryItems',false));
 
-      SetChecked(IDC_IEVIEWAPI    ,GetDBBool(hppDBName,'IEViewAPI',false));
       SetChecked(IDC_GROUPLOGITEMS,GetDBBool(hppDBName,'GroupLogItems',false));
       SetChecked(IDC_DISABLEBORDER,GetDBBool(hppDBName,'NoLogBorder',false));
       SetChecked(IDC_DISABLESCROLL,GetDBBool(hppDBName,'NoLogScrollBar',false));

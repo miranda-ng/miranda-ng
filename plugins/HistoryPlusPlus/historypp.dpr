@@ -60,7 +60,6 @@ uses
   hpp_mescatcher in 'hpp_mescatcher.pas',
   CustomizeFiltersForm in 'CustomizeFiltersForm.pas' {fmCustomizeFilters},
   CustomizeToolbar in 'CustomizeToolbar.pas' {fmCustomizeToolbar},
-  hpp_external in 'hpp_external.pas',
   hpp_externalgrid in 'hpp_externalgrid.pas',
   hpp_richedit in 'hpp_richedit.pas',
   hpp_olesmileys in 'hpp_olesmileys.pas',

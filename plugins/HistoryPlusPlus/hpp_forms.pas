@@ -59,7 +59,6 @@ implementation
 uses
   hpp_services, hpp_opt_dialog, hpp_database, hpp_mescatcher,
   HistoryForm, GlobalSearch, m_api,
-  {$IFNDEF NO_EXTERNALGRID}hpp_external,{$ENDIF}
   CustomizeFiltersForm, CustomizeToolbar;
 
 {procedure AddMenu(M: TMenuItem; FromM,ToM: TPopupMenu; Index: integer);
@@ -215,11 +214,6 @@ begin
 
   // we are going backwards here because history forms way want to
   // close themselves on the message, so we would have AVs if go from 0 to Count
-
-  {$IFNDEF NO_EXTERNALGRID}
-  ExternalGrids.Perform(Msg,wParam,lParam);
-  {$ENDIF}
-
   for i := HstWindowList.Count - 1 downto 0 do
   begin
     if Assigned(THistoryFrm(HstWindowList[i]).EventDetailForm) then
