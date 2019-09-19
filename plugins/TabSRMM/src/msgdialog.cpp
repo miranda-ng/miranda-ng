@@ -592,6 +592,7 @@ bool CMsgDialog::OnInitDialog()
 
 	// load old messages from history (if wanted...)
 
+	m_cache->getMaxMessageLength();
 	m_cache->updateStats(TSessionStats::INIT_TIMER);
 
 	LoadContactAvatar();
@@ -606,10 +607,9 @@ bool CMsgDialog::OnInitDialog()
 		UpdateNickList();
 	}
 	else {
-		if (m_hContact) {
+		if (m_hContact)
 			FindFirstEvent();
-			m_nMax = (int)m_cache->getMaxMessageLength();
-		}
+
 		DM_OptionsApplied(0, 0);
 
 		// restore saved msg if any...
@@ -2116,12 +2116,13 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (OpenClipboard(m_message.GetHwnd())) {
 			HANDLE hClip = GetClipboardData(CF_TEXT);
 			if (hClip) {
-				if ((int)mir_strlen((char*)hClip) > m_nMax) {
+				size_t iMaxSize = m_cache->getMaxMessageLength();
+				if (mir_strlen((char*)hClip) > iMaxSize) {
 					wchar_t szBuffer[512];
 					if (M.GetByte("autosplit", 0))
-						mir_snwprintf(szBuffer, TranslateT("WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters"), m_nMax - 10);
+						mir_snwprintf(szBuffer, TranslateT("WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters"), iMaxSize - 10);
 					else
-						mir_snwprintf(szBuffer, TranslateT("The message you are trying to paste exceeds the message size limit for the active protocol. Only the first %d characters will be sent."), m_nMax);
+						mir_snwprintf(szBuffer, TranslateT("The message you are trying to paste exceeds the message size limit for the active protocol. Only the first %d characters will be sent."), iMaxSize);
 					ActivateTooltip(IDC_SRMM_MESSAGE, szBuffer);
 				}
 			}

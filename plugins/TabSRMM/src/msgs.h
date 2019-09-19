@@ -397,7 +397,6 @@ public:
 	int     m_iSplitterY, m_dynaSplitter;
 	int     m_savedSplitterY, m_savedDynaSplit;
 	char   *m_sendBuffer;
-	int     m_nMax;            // max message size
 
 	wchar_t m_wszMyNickname[130];
 	wchar_t m_wszStatus[50];

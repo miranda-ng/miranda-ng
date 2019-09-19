@@ -238,12 +238,12 @@ int SendQueue::sendQueued(CMsgDialog *dat, const int iEntry)
 	if (dat->m_hContact == 0)
 		return 0;  //never happens
 
-	dat->m_nMax = (int)dat->m_cache->getMaxMessageLength(); // refresh length info
+	size_t iMaxSize = dat->m_cache->getMaxMessageLength();
 
 	if (M.GetByte("autosplit", 0) && !(dat->m_sendMode & SMODE_SENDLATER)) {
 		// determine send buffer length
 		BOOL fSplit = FALSE;
-		if ((int)getSendLength(iEntry) >= dat->m_nMax)
+		if (getSendLength(iEntry) >= iMaxSize)
 			fSplit = true;
 
 		if (!fSplit)
@@ -253,7 +253,7 @@ int SendQueue::sendQueued(CMsgDialog *dat, const int iEntry)
 		m_jobs[iEntry].hOwnerWnd = hwndDlg;
 		m_jobs[iEntry].iStatus = SQ_INPROGRESS;
 		m_jobs[iEntry].iAcksNeeded = 1;
-		m_jobs[iEntry].chunkSize = dat->m_nMax;
+		m_jobs[iEntry].chunkSize = (int)iMaxSize;
 
 		DWORD dwOldFlags = m_jobs[iEntry].dwFlags;
 		mir_forkthread(DoSplitSendA, (LPVOID)iEntry);
@@ -269,8 +269,8 @@ int SendQueue::sendQueued(CMsgDialog *dat, const int iEntry)
 			wchar_t	tszError[256];
 
 			size_t iSendLength = getSendLength(iEntry);
-			if ((int)iSendLength >= dat->m_nMax) {
-				mir_snwprintf(tszError, TranslateT("The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes"), dat->m_nMax);
+			if (iSendLength >= iMaxSize) {
+				mir_snwprintf(tszError, TranslateT("The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes"), iMaxSize);
 				dat->ActivateTooltip(IDC_SRMM_MESSAGE, tszError);
 				clearJob(iEntry);
 				return 0;

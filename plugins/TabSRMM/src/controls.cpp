@@ -790,8 +790,9 @@ LONG_PTR CALLBACK CMsgDialog::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM 
 						rc.top = rc.bottom - 3;
 						rc.left = 0;
 
+						int iMaxSize = (int)dat->m_cache->getMaxMessageLength();
 						if (!PluginConfig.m_autoSplit) {
-							float fMax = (float)dat->m_nMax;
+							float fMax = (float)iMaxSize;
 							float uPercent = (float)dat->m_textLen / ((fMax / (float)100.0) ? (fMax / (float)100.0) : (float)75.0);
 							float fx = ((float)rc.right / (float)100.0) * uPercent;
 
@@ -799,17 +800,17 @@ LONG_PTR CALLBACK CMsgDialog::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM 
 							FillRect(hdcMem, &rc, br);
 						}
 						else {
-							float baselen = (dat->m_textLen <= dat->m_nMax) ? (float)dat->m_textLen : (float)dat->m_nMax;
-							float fMax = (float)dat->m_nMax;
+							float baselen = (dat->m_textLen <= iMaxSize) ? (float)dat->m_textLen : (float)iMaxSize;
+							float fMax = (float)iMaxSize;
 							float uPercent = baselen / ((fMax / (float)100.0) ? (fMax / (float)100.0) : (float)75.0);
 							float fx;
 							LONG  width = rc.right - rc.left;
-							if (dat->m_textLen >= dat->m_nMax)
+							if (dat->m_textLen >= iMaxSize)
 								rc.right = rc.right / 3;
 							fx = ((float)rc.right / (float)100.0) * uPercent;
 							rc.right = (LONG)fx;
 							FillRect(hdcMem, &rc, br);
-							if (dat->m_textLen >= dat->m_nMax) {
+							if (dat->m_textLen >= iMaxSize) {
 								SelectObject(hdcMem, brOld);
 								DeleteObject(br);
 								br = CreateSolidBrush(RGB(255, 0, 0));
@@ -988,7 +989,7 @@ LONG_PTR CALLBACK CMsgDialog::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM 
 
 				mir_snwprintf(wBuf, 
 					TranslateT("There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery"),
-					dat->m_iOpenJobs, dat->m_message.GetRichTextLength(CP_UTF8), dat->m_nMax ? dat->m_nMax : 20000, iQueued);
+					dat->m_iOpenJobs, dat->m_message.GetRichTextLength(CP_UTF8), dat->m_cache->getMaxMessageLength(), iQueued);
 				CallService("mToolTip/ShowTipW", (WPARAM)wBuf, (LPARAM)&ti);
 			}
 
