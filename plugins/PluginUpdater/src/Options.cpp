@@ -359,7 +359,7 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				}
 
 				// if user tried to change the channel, run the update dialog immediately
-				if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHANGE_PLATFORM)))
+				if (g_plugin.bForceRedownload)
 					CallService(MS_PU_CHECKUPDATES, 0, 0);
 			}
 		}
