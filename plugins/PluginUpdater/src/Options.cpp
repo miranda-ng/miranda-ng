@@ -333,8 +333,7 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 					GetDlgItemText(hwndDlg, IDC_CUSTOMURL, tszUrl, _countof(tszUrl));
 					g_plugin.setWString(DB_SETTING_UPDATE_URL, tszUrl);
 					g_plugin.setByte(DB_SETTING_UPDATE_MODE, UPDATE_MODE_CUSTOM);
-					g_plugin.bForceRedownload = true;
-					g_plugin.delSetting(DB_SETTING_REDOWNLOAD);
+					g_plugin.setByte(DB_SETTING_REDOWNLOAD, g_plugin.bForceRedownload = 1);
 				}
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_CHANGE_PLATFORM)) {
