@@ -36,6 +36,7 @@ void LoadOptions()
 	g_plugin.bUpdateOnPeriod = g_plugin.getBool("UpdateOnPeriod", false);
 	g_plugin.bForceRedownload = g_plugin.getBool(DB_SETTING_REDOWNLOAD, false);
 	g_plugin.bSilentMode = g_plugin.getBool("SilentMode", false);
+	g_plugin.bUseHttps = g_plugin.getBool("UseHttps", true);
 	g_plugin.bBackup = g_plugin.getBool("Backup", false);
 	g_plugin.bChangePlatform = g_plugin.getBool(DB_SETTING_CHANGEPLATFORM, false);
 
