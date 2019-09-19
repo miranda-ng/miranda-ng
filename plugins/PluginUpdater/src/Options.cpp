@@ -297,47 +297,41 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 
 				InitTimer((void*)1);
 
+				int iNewMode;
 				bool bNoSymbols = false;
 				if (IsDlgButtonChecked(hwndDlg, IDC_STABLE)) {
-					g_plugin.setByte(DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE);
-					if (!g_plugin.bChangePlatform)
-						g_plugin.bForceRedownload = 0;
-					g_plugin.delSetting(DB_SETTING_REDOWNLOAD);
+					iNewMode = UPDATE_MODE_STABLE;
 					bNoSymbols = true;
 				}
 				else if (IsDlgButtonChecked(hwndDlg, IDC_STABLE_SYMBOLS)) {
-					// Only set ForceRedownload if the previous UpdateMode was different
-					// to redownload all plugin with pdb files
-					if (g_plugin.getByte(DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE) != UPDATE_MODE_STABLE_SYMBOLS) {
-						g_plugin.setByte(DB_SETTING_REDOWNLOAD, g_plugin.bForceRedownload = 1);
-						g_plugin.setByte(DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE_SYMBOLS);
-					}
+					iNewMode = UPDATE_MODE_STABLE_SYMBOLS;
 				}
 				else if (IsDlgButtonChecked(hwndDlg, IDC_TRUNK)) {
-					g_plugin.setByte(DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK);
-					if (!g_plugin.bChangePlatform)
-						g_plugin.bForceRedownload = 0;
-					g_plugin.delSetting(DB_SETTING_REDOWNLOAD);
+					iNewMode = UPDATE_MODE_TRUNK;
 					bNoSymbols = true;
 				}
 				else if (IsDlgButtonChecked(hwndDlg, IDC_TRUNK_SYMBOLS)) {
-					// Only set ForceRedownload if the previous UpdateMode was different
-					// to redownload all plugin with pdb files
-					if (g_plugin.getByte(DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE) != UPDATE_MODE_TRUNK_SYMBOLS) {
-						g_plugin.setByte(DB_SETTING_REDOWNLOAD, g_plugin.bForceRedownload = 1);
-						g_plugin.setByte(DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK_SYMBOLS);
-					}
+					iNewMode = UPDATE_MODE_TRUNK_SYMBOLS;
 				}
 				else {
 					wchar_t tszUrl[100];
 					GetDlgItemText(hwndDlg, IDC_CUSTOMURL, tszUrl, _countof(tszUrl));
 					g_plugin.setWString(DB_SETTING_UPDATE_URL, tszUrl);
-					g_plugin.setByte(DB_SETTING_UPDATE_MODE, UPDATE_MODE_CUSTOM);
-					g_plugin.setByte(DB_SETTING_REDOWNLOAD, g_plugin.bForceRedownload = 1);
+					iNewMode = UPDATE_MODE_CUSTOM;
+				}
+
+				bool bStartUpdate = false;
+
+				// Repository was changed, force recheck
+				if (g_plugin.getByte(DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE) != iNewMode) {
+					g_plugin.setByte(DB_SETTING_UPDATE_MODE, iNewMode);
+					if (!bNoSymbols)
+						g_plugin.bForceRedownload = true;
+					bStartUpdate = true;
 				}
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_CHANGE_PLATFORM)) {
-					g_plugin.setByte(DB_SETTING_REDOWNLOAD, g_plugin.bForceRedownload = 1);
+					g_plugin.bForceRedownload = bStartUpdate = true;
 					g_plugin.setByte(DB_SETTING_CHANGEPLATFORM, g_plugin.bChangePlatform = 1);
 				}
 				else g_plugin.setByte(DB_SETTING_CHANGEPLATFORM, g_plugin.bChangePlatform = 0);
@@ -359,7 +353,7 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				}
 
 				// if user tried to change the channel, run the update dialog immediately
-				if (g_plugin.bForceRedownload)
+				if (bStartUpdate)
 					CallService(MS_PU_CHECKUPDATES, 0, 0);
 			}
 		}

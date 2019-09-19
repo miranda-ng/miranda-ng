@@ -129,7 +129,6 @@ enum
 
 #define DB_SETTING_UPDATE_MODE           "UpdateMode"
 #define DB_SETTING_UPDATE_URL            "UpdateURL"
-#define DB_SETTING_REDOWNLOAD            "ForceRedownload"
 #define DB_SETTING_NEED_RESTART          "NeedRestart"
 #define DB_SETTING_RESTART_COUNT         "RestartCount"
 #define DB_SETTING_LAST_UPDATE           "LastUpdate"
@@ -162,7 +161,8 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	int Unload() override;
 
 	// common options
-	bool bUpdateOnStartup, bUpdateOnPeriod, bOnlyOnceADay, bForceRedownload, bSilentMode, bBackup, bChangePlatform, bSilent, bUseHttps;
+	bool bUpdateOnStartup, bUpdateOnPeriod, bOnlyOnceADay, bSilentMode, bBackup, bChangePlatform, bSilent, bUseHttps;
+	bool bForceRedownload = false; // not a db option
 	int  iPeriod, iPeriodMeasure;
 
 	// popup options

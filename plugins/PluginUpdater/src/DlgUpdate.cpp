@@ -145,11 +145,6 @@ static void ApplyUpdates(void *param)
 		}
 	}
 
-	if (g_plugin.bForceRedownload) {
-		g_plugin.bForceRedownload = 0;
-		g_plugin.delSetting(DB_SETTING_REDOWNLOAD);
-	}
-
 	// 5) Prepare Restart
 	int rc = MessageBox(hDlg, TranslateT("Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit."), TranslateT("Plugin Updater"), MB_YESNO | MB_ICONQUESTION);
 	PostMessage(hDlg, WM_CLOSE, 0, 0);
@@ -458,8 +453,6 @@ static void DlgUpdateSilent(void *param)
 	Skin_PlaySound("updatecompleted");
 
 	g_plugin.bForceRedownload = false;
-	g_plugin.delSetting(DB_SETTING_REDOWNLOAD);
-
 	g_plugin.bChangePlatform = false;
 	g_plugin.delSetting(DB_SETTING_CHANGEPLATFORM);
 
