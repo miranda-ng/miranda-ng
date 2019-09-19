@@ -22,12 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_IEVIEW_INCLUDED
 #define M_IEVIEW_INCLUDED
 
-#define MS_IEVIEW_WINDOW   "IEVIEW/NewWindow"
-#define MS_IEVIEW_EVENT    "IEVIEW/Event"
-#define MS_IEVIEW_NAVIGATE "IEVIEW/Navigate"
-
-#define ME_IEVIEW_OPTIONSCHANGED  "IEVIEW/OptionsChanged"
-
 /* IEView window commands */
 #define IEW_CREATE  1               // create new window (control)
 #define IEW_DESTROY 2               // destroy control
@@ -53,8 +47,12 @@ struct IEVIEWWINDOW
 	int    y;               // IE control vertical position
 	int    cx;              // IE control horizontal size
 	int    cy;              // IE control vertical size
-
 };
+
+#define MS_IEVIEW_WINDOW   "IEVIEW/NewWindow"
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// IEView events
 
 #define IEEDF_UNICODE        0x00000001  // if set pszText is a pointer to wchar_t string instead of char string
 #define IEEDF_UNICODE_TEXT   0x00000001  // if set pszText is a pointer to wchar_t string instead of char string
@@ -159,6 +157,10 @@ struct IEVIEWEVENT
 	const char *pszProto;           // Name of the protocol
 };
 
+#define MS_IEVIEW_EVENT    "IEVIEW/Event"
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 #define IEN_NAVIGATE 1             // navigate to the given destination
 #define IENF_UNICODE	1             // if set urlW is used instead of urlW
 
@@ -169,6 +171,12 @@ struct IEVIEWNAVIGATE
 	HWND hwnd;                      // HWND returned by IEW_CREATE
 	MAllCStrings url;               // Text, usage depends on type of event
 };
+
+#define MS_IEVIEW_NAVIGATE "IEVIEW/Navigate"
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+#define ME_IEVIEW_OPTIONSCHANGED  "IEVIEW/OptionsChanged"
 
 #endif
 
