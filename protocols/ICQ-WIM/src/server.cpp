@@ -24,7 +24,10 @@
 
 void CIcqProto::CheckAvatarChange(MCONTACT hContact, const JSONNode &ev)
 {
-	CMStringW wszIconId(ev["iconId"].as_mstring());
+	CMStringW wszIconId(ev["bigIconId"].as_mstring());
+	if (wszIconId.IsEmpty())
+		wszIconId = ev["iconId"].as_mstring();
+	
 	if (!wszIconId.IsEmpty()) {
 		CMStringW oldIconID(getMStringW(hContact, "IconId"));
 		if (wszIconId == oldIconID) {
@@ -38,7 +41,9 @@ void CIcqProto::CheckAvatarChange(MCONTACT hContact, const JSONNode &ev)
 	}
 	else delSetting(hContact, "IconId");
 
-	CMStringA szUrl(ev["buddyIcon"].as_mstring());
+	CMStringA szUrl(ev["bigBuddyIcon"].as_mstring());
+	if (szUrl.IsEmpty())
+		szUrl = ev["buddyIcon"].as_mstring();
 	if (!szUrl.IsEmpty()) {
 		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, szUrl, &CIcqProto::OnReceiveAvatar);
 		pReq->hContact = hContact;
