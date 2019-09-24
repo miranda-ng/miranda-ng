@@ -46,11 +46,15 @@ void CIcqProto::ProcessPermissions(const JSONNode &ev)
 
 	m_bIgnoreListEmpty = true;
 	for (auto &it : ev["ignores"]) {
-		auto *p = FindContactByUIN(it.as_mstring());
-		if (p) {
-			p->m_iApparentMode = ID_STATUS_OFFLINE;
-			m_bIgnoreListEmpty = false;
+		CMStringW wszId(it.as_mstring());
+		auto *p = FindContactByUIN(wszId);
+		if (p == nullptr) {
+			auto hContact = CreateContact(wszId, false);
+			db_set_b(hContact, "CList", "Hidden", 1);
+			p = FindContactByUIN(wszId);
 		}
+		p->m_iApparentMode = ID_STATUS_OFFLINE;
+		m_bIgnoreListEmpty = false;
 	}
 
 	for (auto &it: m_arCache) {
