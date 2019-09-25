@@ -119,14 +119,14 @@ int CDiscordProto::OnMenuPrebuild(WPARAM hContact, LPARAM)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Protocol menu items
 
-void CDiscordProto::InitMenus()
+void CDiscordProto::OnBuildProtoMenu()
 {
 	CMenuItem mi(&g_plugin);
 	mi.root = Menu_GetProtocolRoot(this);
 	mi.flags = CMIF_UNMOVABLE;
 
-	// Protocol menu items
 	mi.pszService = "/JoinGuild";
 	CreateProtoService(mi.pszService, &CDiscordProto::OnMenuJoinGuild);
 	mi.name.a = LPGEN("Join guild");
@@ -140,47 +140,52 @@ void CDiscordProto::InitMenus()
 	mi.position = 200002;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERONLINE);
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
+}
 
-	// Contact menu items
-	CMenuItem mi2(&g_plugin);
-	mi2.pszService = "/LeaveGuild";
-	CreateProtoService(mi2.pszService, &CDiscordProto::OnMenuLeaveGuild);
-	SET_UID(mi2, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x8C);
-	mi2.name.a = LPGEN("Leave guild");
-	mi2.position = -200001000;
-	mi2.hIcolibItem = Skin_GetIconHandle(SKINICON_CHAT_LEAVE);
-	m_hMenuLeaveGuild = Menu_AddContactMenuItem(&mi2, m_szModuleName);
+/////////////////////////////////////////////////////////////////////////////////////////
+// Contact menu items
 
-	mi2.pszService = "/CreateChannel";
-	CreateProtoService(mi2.pszService, &CDiscordProto::OnMenuCreateChannel);
-	SET_UID(mi2, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x8D);
-	mi2.name.a = LPGEN("Create new channel");
-	mi2.position = -200001001;
-	mi2.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_ADDCONTACT);
-	m_hMenuCreateChannel = Menu_AddContactMenuItem(&mi2, m_szModuleName);
+void CDiscordProto::InitMenus()
+{
+	CMenuItem mi(&g_plugin);
+	mi.pszService = "/LeaveGuild";
+	CreateProtoService(mi.pszService, &CDiscordProto::OnMenuLeaveGuild);
+	SET_UID(mi, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x8C);
+	mi.name.a = LPGEN("Leave guild");
+	mi.position = -200001000;
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_CHAT_LEAVE);
+	m_hMenuLeaveGuild = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
-	SET_UID(mi2, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x8E);
-	mi2.pszService = "/CopyId";
-	mi2.name.a = LPGEN("Copy Discord ID");
-	mi2.position = -200001002;
-	mi2.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERONLINE);
-	Menu_AddContactMenuItem(&mi2, m_szModuleName);
+	mi.pszService = "/CreateChannel";
+	CreateProtoService(mi.pszService, &CDiscordProto::OnMenuCreateChannel);
+	SET_UID(mi, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x8D);
+	mi.name.a = LPGEN("Create new channel");
+	mi.position = -200001001;
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_ADDCONTACT);
+	m_hMenuCreateChannel = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
-	mi2.pszService = "/ToggleSync";
-	CreateProtoService(mi2.pszService, &CDiscordProto::OnMenuToggleSync);
-	SET_UID(mi2, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x8F);
-	mi2.name.a = LPGEN("Enable guild sync");
-	mi2.position = -200001003;
-	mi2.hIcolibItem = Skin_GetIconHandle(SKINICON_CHAT_JOIN);
-	m_hMenuToggleSync = Menu_AddContactMenuItem(&mi2, m_szModuleName);
+	SET_UID(mi, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x8E);
+	mi.pszService = "/CopyId";
+	mi.name.a = LPGEN("Copy Discord ID");
+	mi.position = -200001002;
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERONLINE);
+	Menu_AddContactMenuItem(&mi, m_szModuleName);
 
-	mi2.pszService = "/LoadHistory";
-	CreateProtoService(mi2.pszService, &CDiscordProto::OnMenuLoadHistory);
-	SET_UID(mi2, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x90);
-	mi2.name.a = LPGEN("Load server history");
-	mi2.position = -200001004;
-	mi2.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
-	Menu_AddContactMenuItem(&mi2, m_szModuleName);
+	mi.pszService = "/ToggleSync";
+	CreateProtoService(mi.pszService, &CDiscordProto::OnMenuToggleSync);
+	SET_UID(mi, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x8F);
+	mi.name.a = LPGEN("Enable guild sync");
+	mi.position = -200001003;
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_CHAT_JOIN);
+	m_hMenuToggleSync = Menu_AddContactMenuItem(&mi, m_szModuleName);
+
+	mi.pszService = "/LoadHistory";
+	CreateProtoService(mi.pszService, &CDiscordProto::OnMenuLoadHistory);
+	SET_UID(mi, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x90);
+	mi.name.a = LPGEN("Load server history");
+	mi.position = -200001004;
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
+	Menu_AddContactMenuItem(&mi, m_szModuleName);
 
 	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CDiscordProto::OnMenuPrebuild);
 }

@@ -66,6 +66,7 @@ struct CVkProto : public PROTO<CVkProto>
 	int      SetStatus(int iNewStatus) override;
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
+	void     OnBuildProtoMenu() override;
 	void     OnContactDeleted(MCONTACT) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;

@@ -115,34 +115,10 @@ void CVkProto::OnModulesLoaded()
 /////////////////////////////////////////////////////////////////////////////////////////
 // Menu support
 
-void CVkProto::InitMenus()
+void CVkProto::OnBuildProtoMenu()
 {
-	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CVkProto::OnPreBuildContactMenu);
-
-	//Contact Menu Services
-	CreateProtoService(PS_GETSERVERHISTORYLAST1DAY, &CVkProto::SvcGetServerHistoryLastNDay<1>);
-	CreateProtoService(PS_GETSERVERHISTORYLAST3DAY, &CVkProto::SvcGetServerHistoryLastNDay<3>);
-	CreateProtoService(PS_GETSERVERHISTORYLAST7DAY, &CVkProto::SvcGetServerHistoryLastNDay<7>);
-	CreateProtoService(PS_GETSERVERHISTORYLAST30DAY, &CVkProto::SvcGetServerHistoryLastNDay<30>);
-	CreateProtoService(PS_GETSERVERHISTORYLAST90DAY, &CVkProto::SvcGetServerHistoryLastNDay<90>);
-	CreateProtoService(PS_GETALLSERVERHISTORYFORCONTACT, &CVkProto::SvcGetAllServerHistoryForContact);
-	CreateProtoService(PS_GETALLSERVERHISTORY, &CVkProto::SvcGetAllServerHistory);
-	CreateProtoService(PS_VISITPROFILE, &CVkProto::SvcVisitProfile);
-	CreateProtoService(PS_CREATECHAT, &CVkProto::SvcCreateChat);
-	CreateProtoService(PS_ADDASFRIEND, &CVkProto::SvcAddAsFriend);
-	CreateProtoService(PS_DELETEFRIEND, &CVkProto::SvcDeleteFriend);
-	CreateProtoService(PS_BANUSER, &CVkProto::SvcBanUser);
-	CreateProtoService(PS_REPORTABUSE, &CVkProto::SvcReportAbuse);
-	CreateProtoService(PS_DESTROYKICKCHAT, &CVkProto::SvcDestroyKickChat);
-	CreateProtoService(PS_OPENBROADCAST, &CVkProto::SvcOpenBroadcast);
-	CreateProtoService(PS_LOADVKNEWS, &CVkProto::SvcLoadVKNews);
-	CreateProtoService(PS_WIPENONFRIENDS, &CVkProto::SvcWipeNonFriendContacts);
-	CreateProtoService(PS_SETSTATUSMSG, &CVkProto::SvcSetStatusMsg);
-	CreateProtoService(PS_WALLPOST, &CVkProto::SvcWallPost);
-	CreateProtoService(PS_MARKMESSAGESASREAD, &CVkProto::SvcMarkMessagesAsRead);
-
-	for (int i = 0; i < PMI_COUNT; i++)
-		m_hProtoMenuItems[i] = nullptr;
+	for (auto &it : m_hProtoMenuItems)
+		it = nullptr;
 
 	CMenuItem mi(&g_plugin);
 	mi.root = Menu_GetProtocolRoot(this);
@@ -210,9 +186,37 @@ void CVkProto::InitMenus()
 		SET_UID(mi, 0x9550515e, 0x2a45, 0x4913, 0x95, 0x1a, 0x1e, 0xfa, 0x7, 0xc6, 0x2d, 0x60);
 		m_hProtoMenuItems[PMI_VISITPROFILE] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 	}
+}
+
+void CVkProto::InitMenus()
+{
+	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CVkProto::OnPreBuildContactMenu);
+
+	//Contact Menu Services
+	CreateProtoService(PS_GETSERVERHISTORYLAST1DAY, &CVkProto::SvcGetServerHistoryLastNDay<1>);
+	CreateProtoService(PS_GETSERVERHISTORYLAST3DAY, &CVkProto::SvcGetServerHistoryLastNDay<3>);
+	CreateProtoService(PS_GETSERVERHISTORYLAST7DAY, &CVkProto::SvcGetServerHistoryLastNDay<7>);
+	CreateProtoService(PS_GETSERVERHISTORYLAST30DAY, &CVkProto::SvcGetServerHistoryLastNDay<30>);
+	CreateProtoService(PS_GETSERVERHISTORYLAST90DAY, &CVkProto::SvcGetServerHistoryLastNDay<90>);
+	CreateProtoService(PS_GETALLSERVERHISTORYFORCONTACT, &CVkProto::SvcGetAllServerHistoryForContact);
+	CreateProtoService(PS_GETALLSERVERHISTORY, &CVkProto::SvcGetAllServerHistory);
+	CreateProtoService(PS_VISITPROFILE, &CVkProto::SvcVisitProfile);
+	CreateProtoService(PS_CREATECHAT, &CVkProto::SvcCreateChat);
+	CreateProtoService(PS_ADDASFRIEND, &CVkProto::SvcAddAsFriend);
+	CreateProtoService(PS_DELETEFRIEND, &CVkProto::SvcDeleteFriend);
+	CreateProtoService(PS_BANUSER, &CVkProto::SvcBanUser);
+	CreateProtoService(PS_REPORTABUSE, &CVkProto::SvcReportAbuse);
+	CreateProtoService(PS_DESTROYKICKCHAT, &CVkProto::SvcDestroyKickChat);
+	CreateProtoService(PS_OPENBROADCAST, &CVkProto::SvcOpenBroadcast);
+	CreateProtoService(PS_LOADVKNEWS, &CVkProto::SvcLoadVKNews);
+	CreateProtoService(PS_WIPENONFRIENDS, &CVkProto::SvcWipeNonFriendContacts);
+	CreateProtoService(PS_SETSTATUSMSG, &CVkProto::SvcSetStatusMsg);
+	CreateProtoService(PS_WALLPOST, &CVkProto::SvcWallPost);
+	CreateProtoService(PS_MARKMESSAGESASREAD, &CVkProto::SvcMarkMessagesAsRead);
+
 
 	// Contact Menu Items
-	mi.root = nullptr;
+	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNICODE;
 
 	mi.pszService = PS_VISITPROFILE;
