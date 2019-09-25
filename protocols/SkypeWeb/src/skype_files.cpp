@@ -38,7 +38,7 @@ LBL_Error:
 		return;
 	}
 
-	if (response->resultCode != 200) {
+	if (response->resultCode != 200 && response->resultCode != 201) {
 		debugLogA("Object creation failed with error code %d", response->resultCode);
 		goto LBL_Error;
 	}

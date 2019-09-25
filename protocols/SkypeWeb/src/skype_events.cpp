@@ -99,6 +99,7 @@ INT_PTR CSkypeProto::GetEventText(WPARAM pEvent, LPARAM datatype)
 			if (0 != doc.Parse((char*)dbei->pBlob))
 				break;
 
+			szText.Empty();
 			if (auto *pRoot = doc.FirstChildElement("URIObject"))
 				if (auto *xmlA = pRoot->FirstChildElement("a"))
 					szText += xmlA->Attribute("href");
